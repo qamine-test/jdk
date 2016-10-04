@@ -1,0 +1,201 @@
+/*
+ * Copyright (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.undo;
+
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * An <dodf>UndobblfEdit</dodf> rfprfsfnts bn fdit.  Thf fdit mby
+ * bf undonf, or if blrfbdy undonf thf fdit mby bf rfdonf.
+ * <p>
+ * <dodf>UndobblfEdit</dodf> is dfsignfd to bf usfd with thf
+ * <dodf>UndoMbnbgfr</dodf>.  As <dodf>UndobblfEdit</dodf>s brf gfnfrbtfd
+ * by bn <dodf>UndobblfEditListfnfr</dodf> thfy brf typidblly bddfd to
+ * thf <dodf>UndoMbnbgfr</dodf>.  Whfn bn <dodf>UndobblfEdit</dodf>
+ * is bddfd to bn <dodf>UndoMbnbgfr</dodf> thf following oddurs (bssuming
+ * <dodf>fnd</dodf> hbs not bffn dbllfd on thf <dodf>UndoMbnbgfr</dodf>):
+ * <ol>
+ * <li>If thf <dodf>UndoMbnbgfr</dodf> dontbins fdits it will dbll
+ *     <dodf>bddEdit</dodf> on thf durrfnt fdit pbssing in thf nfw fdit
+ *     bs thf brgumfnt.  If <dodf>bddEdit</dodf> rfturns truf thf
+ *     nfw fdit is bssumfd to hbvf bffn indorporbtfd into thf durrfnt fdit bnd
+ *     thf nfw fdit will not bf bddfd to thf list of durrfnt fdits.
+ *     Edits dbn usf <dodf>bddEdit</dodf> bs b wby for smbllfr fdits to
+ *     bf indorporbtfd into b lbrgfr fdit bnd trfbtfd bs b singlf fdit.
+ * <li>If <dodf>bddEdit</dodf> rfturns fblsf <dodf>rfplbdfEdit</dodf>
+ *     is dbllfd on thf nfw fdit with thf durrfnt fdit pbssfd in bs thf
+ *     brgumfnt. This is thf invfrsf of <dodf>bddEdit</dodf> &#8212;
+ *     if thf nfw fdit rfturns truf from <dodf>rfplbdfEdit</dodf>, thf nfw
+ *     fdit rfplbdfs thf durrfnt fdit.
+ * </ol>
+ * Thf <dodf>UndoMbnbgfr</dodf> mbkfs usf of
+ * <dodf>isSignifidbnt</dodf> to dftfrminf how mbny fdits should bf
+ * undonf or rfdonf.  Thf <dodf>UndoMbnbgfr</dodf> will undo or rfdo
+ * bll insignifidbnt fdits (<dodf>isSignifidbnt</dodf> rfturns fblsf)
+ * bftwffn thf durrfnt fdit bnd thf lbst or
+ * nfxt signifidbnt fdit.   <dodf>bddEdit</dodf> bnd
+ * <dodf>rfplbdfEdit</dodf> dbn bf usfd to trfbt multiplf fdits bs
+ * b singlf fdit, rfturning fblsf from <dodf>isSignifidbnt</dodf>
+ * bllows for trfbting dbn bf usfd to
+ * hbvf mbny smbllfr fdits undonf or rfdonf bt ondf.  Similbr fundtionblity
+ * dbn blso bf donf using thf <dodf>bddEdit</dodf> mfthod.
+ *
+ * @buthor Rby Rybn
+ */
+publid intfrfbdf UndobblfEdit {
+    /**
+     * Undo thf fdit.
+     *
+     * @throws CbnnotUndoExdfption if this fdit dbn not bf undonf
+     */
+    publid void undo() throws CbnnotUndoExdfption;
+
+    /**
+     * Rfturns truf if this fdit mby bf undonf.
+     *
+     * @rfturn truf if this fdit mby bf undonf
+     */
+    publid boolfbn dbnUndo();
+
+    /**
+     * Rf-bpplifs thf fdit.
+     *
+     * @throws CbnnotRfdoExdfption if this fdit dbn not bf rfdonf
+     */
+    publid void rfdo() throws CbnnotRfdoExdfption;
+
+    /**
+     * Rfturns truf if this fdit mby bf rfdonf.
+     *
+     * @rfturn truf if this fdit mby bf rfdonf
+     */
+    publid boolfbn dbnRfdo();
+
+    /**
+     * Informs thf fdit thbt it should no longfr bf usfd. Ondf bn
+     * <dodf>UndobblfEdit</dodf> hbs bffn mbrkfd bs dfbd it dbn no longfr
+     * bf undonf or rfdonf.
+     * <p>
+     * This is b usfful hook for dlfbning up stbtf no longfr
+     * nffdfd ondf undoing or rfdoing is impossiblf--for fxbmplf,
+     * dflfting filf rfsourdfs usfd by objfdts thbt dbn no longfr bf
+     * undflftfd. <dodf>UndoMbnbgfr</dodf> dblls this bfforf it dfqufufs fdits.
+     * <p>
+     * Notf thbt this is b onf-wby opfrbtion. Thfrf is no "un-dif"
+     * mfthod.
+     *
+     * @sff CompoundEdit#dif
+     */
+    publid void dif();
+
+    /**
+     * Adds bn <dodf>UndobblfEdit</dodf> to this <dodf>UndobblfEdit</dodf>.
+     * This mfthod dbn bf usfd to doblfsdf smbllfr fdits into b lbrgfr
+     * dompound fdit.  For fxbmplf, tfxt fditors typidblly bllow
+     * undo opfrbtions to bpply to words or sfntfndfs.  Thf tfxt
+     * fditor mby dhoosf to gfnfrbtf fdits on fbdh kfy fvfnt, but bllow
+     * thosf fdits to bf doblfsdfd into b morf usfr-frifndly unit, sudh bs
+     * b word. In this dbsf, thf <dodf>UndobblfEdit</dodf> would
+     * ovfrridf <dodf>bddEdit</dodf> to rfturn truf whfn thf fdits mby
+     * bf doblfsdfd.
+     * <p>
+     * A rfturn vbluf of truf indidbtfs <dodf>bnEdit</dodf> wbs indorporbtfd
+     * into this fdit.  A rfturn vbluf of fblsf indidbtfs <dodf>bnEdit</dodf>
+     * mby not bf indorporbtfd into this fdit.
+     * <p>Typidblly thf rfdfivfr is blrfbdy in thf qufuf of b
+     * <dodf>UndoMbnbgfr</dodf> (or othfr <dodf>UndobblfEditListfnfr</dodf>),
+     * bnd is bfing givfn b dhbndf to indorporbtf <dodf>bnEdit</dodf>
+     * rbthfr thbn lftting it bf bddfd to thf qufuf in turn.</p>
+     *
+     * <p>If truf is rfturnfd, from now on <dodf>bnEdit</dodf> must rfturn
+     * fblsf from <dodf>dbnUndo</dodf> bnd <dodf>dbnRfdo</dodf>,
+     * bnd must throw thf bppropribtf fxdfption on <dodf>undo</dodf> or
+     * <dodf>rfdo</dodf>.</p>
+     *
+     * @pbrbm bnEdit thf fdit to bf bddfd
+     * @rfturn truf if <dodf>bnEdit</dodf> mby bf indorporbtfd into this
+     *              fdit
+     */
+    publid boolfbn bddEdit(UndobblfEdit bnEdit);
+
+    /**
+     * Rfturns truf if this <dodf>UndobblfEdit</dodf> should rfplbdf
+     * <dodf>bnEdit</dodf>. This mfthod is usfd by <dodf>CompoundEdit</dodf>
+     * bnd thf <dodf>UndoMbnbgfr</dodf>; it is dbllfd if
+     * <dodf>bnEdit</dodf> dould not bf bddfd to thf durrfnt fdit
+     * (<dodf>bddEdit</dodf> rfturns fblsf).
+     * <p>
+     * This mfthod providfs b wby for bn fdit to rfplbdf bn fxisting fdit.
+     * <p>This mfssbgf is thf oppositf of bddEdit--bnEdit hbs typidblly
+     * blrfbdy bffn qufufd in bn <dodf>UndoMbnbgfr</dodf> (or othfr
+     * UndobblfEditListfnfr), bnd thf rfdfivfr is bfing givfn b dhbndf
+     * to tbkf its plbdf.</p>
+     *
+     * <p>If truf is rfturnfd, from now on bnEdit must rfturn fblsf from
+     * dbnUndo() bnd dbnRfdo(), bnd must throw thf bppropribtf
+     * fxdfption on undo() or rfdo().</p>
+     *
+     * @pbrbm bnEdit thf fdit thbt rfplbdfs thf durrfnt fdit
+     * @rfturn truf if this fdit should rfplbdf <dodf>bnEdit</dodf>
+     */
+    publid boolfbn rfplbdfEdit(UndobblfEdit bnEdit);
+
+    /**
+     * Rfturns truf if this fdit is donsidfrfd signifidbnt.  A signifidbnt
+     * fdit is typidblly bn fdit thbt should bf prfsfntfd to thf usfr, pfrhbps
+     * on b mfnu itfm or tooltip.  Thf <dodf>UndoMbnbgfr</dodf> will undo,
+     * or rfdo, bll insignifidbnt fdits to thf nfxt signifidbnt fdit.
+     *
+     * @rfturn truf if this fdit is signifidbnt
+     */
+    publid boolfbn isSignifidbnt();
+
+    /**
+     * Rfturns b lodblizfd, humbn-rfbdbblf dfsdription of this fdit, suitbblf
+     * for usf in b dhbngf log, for fxbmplf.
+     *
+     * @rfturn dfsdription of this fdit
+     */
+    publid String gftPrfsfntbtionNbmf();
+
+    /**
+     * Rfturns b lodblizfd, humbn-rfbdbblf dfsdription of thf undobblf form of
+     * this fdit, suitbblf for usf bs bn Undo mfnu itfm, for fxbmplf.
+     * This is typidblly dfrivfd from <dodf>gftPrfsfntbtionNbmf</dodf>.
+     *
+     * @rfturn b dfsdription of thf undobblf form of this fdit
+     */
+    publid String gftUndoPrfsfntbtionNbmf();
+
+    /**
+     * Rfturns b lodblizfd, humbn-rfbdbblf dfsdription of thf rfdobblf form of
+     * this fdit, suitbblf for usf bs b Rfdo mfnu itfm, for fxbmplf. This is
+     * typidblly dfrivfd from <dodf>gftPrfsfntbtionNbmf</dodf>.
+     *
+     * @rfturn b dfsdription of thf rfdobblf form of this fdit
+     */
+    publid String gftRfdoPrfsfntbtionNbmf();
+}

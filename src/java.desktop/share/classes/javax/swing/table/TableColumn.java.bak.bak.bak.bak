@@ -1,0 +1,837 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tbblf;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.SwingPropfrtyChbngfSupport;
+import jbvb.lbng.Intfgfr;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+
+/**
+ *  A <dodf>TbblfColumn</dodf> rfprfsfnts bll thf bttributfs of b dolumn in b
+ *  <dodf>JTbblf</dodf>, sudh bs width, rfsizbbility, minimum bnd mbximum width.
+ *  In bddition, thf <dodf>TbblfColumn</dodf> providfs slots for b rfndfrfr bnd
+ *  bn fditor thbt dbn bf usfd to displby bnd fdit thf vblufs in this dolumn.
+ *  <p>
+ *  It is blso possiblf to spfdify rfndfrfrs bnd fditors on b pfr typf bbsis
+ *  rbthfr thbn b pfr dolumn bbsis - sff thf
+ *  <dodf>sftDffbultRfndfrfr</dodf> mfthod in thf <dodf>JTbblf</dodf> dlbss.
+ *  This dffbult mfdhbnism is only usfd whfn thf rfndfrfr (or
+ *  fditor) in thf <dodf>TbblfColumn</dodf> is <dodf>null</dodf>.
+ * <p>
+ *  Thf <dodf>TbblfColumn</dodf> storfs thf link bftwffn thf dolumns in thf
+ *  <dodf>JTbblf</dodf> bnd thf dolumns in thf <dodf>TbblfModfl</dodf>.
+ *  Thf <dodf>modflIndfx</dodf> is thf dolumn in thf
+ *  <dodf>TbblfModfl</dodf>, whidh will bf qufrifd for thf dbtb vblufs for thf
+ *  dflls in this dolumn. As thf dolumn movfs bround in thf vifw this
+ *  <dodf>modflIndfx</dodf> dofs not dhbngf.
+ *  <p>
+ * <b>Notf:</b> Somf implfmfntbtions mby bssumf thbt bll
+ *    <dodf>TbblfColumnModfl</dodf>s brf uniquf, thfrfforf wf would
+ *    rfdommfnd thbt thf sbmf <dodf>TbblfColumn</dodf> instbndf
+ *    not bf bddfd morf thbn ondf to b <dodf>TbblfColumnModfl</dodf>.
+ *    To show <dodf>TbblfColumn</dodf>s with thf sbmf dolumn of
+ *    dbtb from thf modfl, drfbtf b nfw instbndf with thf sbmf
+ *    <dodf>modflIndfx</dodf>.
+ *  <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Albn Chung
+ * @buthor Philip Milnf
+ * @sff jbvbx.swing.tbblf.TbblfColumnModfl
+ *
+ * @sff jbvbx.swing.tbblf.DffbultTbblfColumnModfl
+ * @sff jbvbx.swing.tbblf.JTbblfHfbdfr#gftDffbultRfndfrfr()
+ * @sff JTbblf#gftDffbultRfndfrfr(Clbss)
+ * @sff JTbblf#gftDffbultEditor(Clbss)
+ * @sff JTbblf#gftCfllRfndfrfr(int, int)
+ * @sff JTbblf#gftCfllEditor(int, int)
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss TbblfColumn fxtfnds Objfdt implfmfnts Sfriblizbblf {
+
+    /**
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Plfbsf usf string litfrbls to idfntify
+     * propfrtifs.
+     */
+    /*
+     * Wbrning: Thf vbluf of this donstbnt, "dolumWidth" is wrong bs thf
+     * nbmf of thf propfrty is "dolumnWidth".
+     */
+    publid finbl stbtid String COLUMN_WIDTH_PROPERTY = "dolumWidth";
+
+    /**
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Plfbsf usf string litfrbls to idfntify
+     * propfrtifs.
+     */
+    publid finbl stbtid String HEADER_VALUE_PROPERTY = "hfbdfrVbluf";
+
+    /**
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Plfbsf usf string litfrbls to idfntify
+     * propfrtifs.
+     */
+    publid finbl stbtid String HEADER_RENDERER_PROPERTY = "hfbdfrRfndfrfr";
+
+    /**
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Plfbsf usf string litfrbls to idfntify
+     * propfrtifs.
+     */
+    publid finbl stbtid String CELL_RENDERER_PROPERTY = "dfllRfndfrfr";
+
+//
+//  Instbndf Vbribblfs
+//
+
+    /**
+      * Thf indfx of thf dolumn in thf modfl whidh is to bf displbyfd by
+      * this <dodf>TbblfColumn</dodf>. As dolumns brf movfd bround in thf
+      * vifw <dodf>modflIndfx</dodf> rfmbins donstbnt.
+      */
+    protfdtfd int       modflIndfx;
+
+    /**
+     *  This objfdt is not usfd intfrnblly by thf drbwing mbdhinfry of
+     *  thf <dodf>JTbblf</dodf>; idfntififrs mby bf sft in thf
+     *  <dodf>TbblfColumn</dodf> bs bs bn
+     *  optionbl wby to tbg bnd lodbtf tbblf dolumns. Thf tbblf pbdkbgf dofs
+     *  not modify or invokf bny mfthods in thfsf idfntififr objfdts othfr
+     *  thbn thf <dodf>fqubls</dodf> mfthod whidh is usfd in thf
+     *  <dodf>gftColumnIndfx()</dodf> mfthod in thf
+     *  <dodf>DffbultTbblfColumnModfl</dodf>.
+     */
+    protfdtfd Objfdt    idfntififr;
+
+    /** Thf width of thf dolumn. */
+    protfdtfd int       width;
+
+    /** Thf minimum width of thf dolumn. */
+    protfdtfd int       minWidth;
+
+    /** Thf prfffrrfd width of thf dolumn. */
+    privbtf int         prfffrrfdWidth;
+
+    /** Thf mbximum width of thf dolumn. */
+    protfdtfd int       mbxWidth;
+
+    /** Thf rfndfrfr usfd to drbw thf hfbdfr of thf dolumn. */
+    protfdtfd TbblfCfllRfndfrfr hfbdfrRfndfrfr;
+
+    /** Thf hfbdfr vbluf of thf dolumn. */
+    protfdtfd Objfdt            hfbdfrVbluf;
+
+    /** Thf rfndfrfr usfd to drbw thf dbtb dflls of thf dolumn. */
+    protfdtfd TbblfCfllRfndfrfr dfllRfndfrfr;
+
+    /** Thf fditor usfd to fdit thf dbtb dflls of thf dolumn. */
+    protfdtfd TbblfCfllEditor   dfllEditor;
+
+    /** If truf, thf usfr is bllowfd to rfsizf thf dolumn; thf dffbult is truf. */
+    protfdtfd boolfbn   isRfsizbblf;
+
+    /**
+     * This fifld wbs not usfd in prfvious rflfbsfs bnd thfrf brf
+     * durrfntly no plbns to support it in thf futurf.
+     *
+     * @dfprfdbtfd bs of Jbvb 2 plbtform v1.3
+     */
+    /*
+     *  Countfr usfd to disbblf posting of rfsizing notifidbtions until thf
+     *  fnd of thf rfsizf.
+     */
+    @Dfprfdbtfd
+    trbnsifnt protfdtfd int     rfsizfdPostingDisbblfCount;
+
+    /**
+     * If bny <dodf>PropfrtyChbngfListfnfrs</dodf> hbvf bffn rfgistfrfd, thf
+     * <dodf>dhbngfSupport</dodf> fifld dfsdribfs thfm.
+     */
+    privbtf SwingPropfrtyChbngfSupport dhbngfSupport;
+
+//
+// Construdtors
+//
+
+    /**
+     *  Covfr mfthod, using b dffbult modfl indfx of 0,
+     *  dffbult width of 75, b <dodf>null</dodf> rfndfrfr bnd b
+     *  <dodf>null</dodf> fditor.
+     *  This mfthod is intfndfd for sfriblizbtion.
+     *  @sff #TbblfColumn(int, int, TbblfCfllRfndfrfr, TbblfCfllEditor)
+     */
+    publid TbblfColumn() {
+        this(0);
+    }
+
+    /**
+     *  Covfr mfthod, using b dffbult width of 75, b <dodf>null</dodf>
+     *  rfndfrfr bnd b <dodf>null</dodf> fditor.
+     *  @sff #TbblfColumn(int, int, TbblfCfllRfndfrfr, TbblfCfllEditor)
+     *
+     *  @pbrbm modflIndfx  thf indfx of thf dolumn in thf modfl
+     *  thbt supplifs thf dbtb for this dolumn in thf tbblf;
+     *  thf modfl indfx rfmbins thf sbmf fvfn whfn dolumns
+     *  brf rfordfrfd in thf vifw
+     */
+    publid TbblfColumn(int modflIndfx) {
+        this(modflIndfx, 75, null, null);
+    }
+
+    /**
+     *  Covfr mfthod, using b <dodf>null</dodf> rfndfrfr bnd b
+     *  <dodf>null</dodf> fditor.
+     *  @sff #TbblfColumn(int, int, TbblfCfllRfndfrfr, TbblfCfllEditor)
+     *
+     *  @pbrbm modflIndfx  thf indfx of thf dolumn in thf modfl
+     *  thbt supplifs thf dbtb for this dolumn in thf tbblf;
+     *  thf modfl indfx rfmbins thf sbmf fvfn whfn dolumns
+     *  brf rfordfrfd in thf vifw
+     *  @pbrbm width  this dolumn's prfffrrfd width bnd initibl width
+     */
+    publid TbblfColumn(int modflIndfx, int width) {
+        this(modflIndfx, width, null, null);
+    }
+
+    /**
+     *  Crfbtfs bnd initiblizfs bn instbndf of
+     *  <dodf>TbblfColumn</dodf> with thf spfdififd modfl indfx,
+     *  width, dfll rfndfrfr, bnd dfll fditor;
+     *  bll <dodf>TbblfColumn</dodf> donstrudtors dflfgbtf to this onf.
+     *  Thf vbluf of <dodf>width</dodf> is usfd
+     *  for both thf initibl bnd prfffrrfd width;
+     *  if <dodf>width</dodf> is nfgbtivf,
+     *  thfy'rf sft to 0.
+     *  Thf minimum width is sft to 15 unlfss thf initibl width is lfss,
+     *  in whidh dbsf thf minimum width is sft to
+     *  thf initibl width.
+     *
+     *  <p>
+     *  Whfn thf <dodf>dfllRfndfrfr</dodf>
+     *  or <dodf>dfllEditor</dodf> pbrbmftfr is <dodf>null</dodf>,
+     *  b dffbult vbluf providfd by thf <dodf>JTbblf</dodf>
+     *  <dodf>gftDffbultRfndfrfr</dodf>
+     *  or <dodf>gftDffbultEditor</dodf> mfthod, rfspfdtivfly,
+     *  is usfd to
+     *  providf dffbults bbsfd on thf typf of thf dbtb in this dolumn.
+     *  This dolumn-dfntrid rfndfring strbtfgy dbn bf dirdumvfntfd by ovfrriding
+     *  thf <dodf>gftCfllRfndfrfr</dodf> mfthods in <dodf>JTbblf</dodf>.
+     *
+     * @pbrbm modflIndfx thf indfx of thf dolumn
+     *  in thf modfl thbt supplifs thf dbtb for this dolumn in thf tbblf;
+     *  thf modfl indfx rfmbins thf sbmf
+     *  fvfn whfn dolumns brf rfordfrfd in thf vifw
+     * @pbrbm width this dolumn's prfffrrfd width bnd initibl width
+     * @pbrbm dfllRfndfrfr thf objfdt usfd to rfndfr vblufs in this dolumn
+     * @pbrbm dfllEditor thf objfdt usfd to fdit vblufs in this dolumn
+     * @sff #gftMinWidth()
+     * @sff JTbblf#gftDffbultRfndfrfr(Clbss)
+     * @sff JTbblf#gftDffbultEditor(Clbss)
+     * @sff JTbblf#gftCfllRfndfrfr(int, int)
+     * @sff JTbblf#gftCfllEditor(int, int)
+     */
+    publid TbblfColumn(int modflIndfx, int width,
+                                 TbblfCfllRfndfrfr dfllRfndfrfr,
+                                 TbblfCfllEditor dfllEditor) {
+        supfr();
+        this.modflIndfx = modflIndfx;
+        prfffrrfdWidth = this.width = Mbth.mbx(width, 0);
+
+        this.dfllRfndfrfr = dfllRfndfrfr;
+        this.dfllEditor = dfllEditor;
+
+        // Sft othfr instbndf vbribblfs to dffbult vblufs.
+        minWidth = Mbth.min(15, this.width);
+        mbxWidth = Intfgfr.MAX_VALUE;
+        isRfsizbblf = truf;
+        rfsizfdPostingDisbblfCount = 0;
+        hfbdfrVbluf = null;
+    }
+
+//
+// Modifying bnd Qufrying bttributfs
+//
+
+    privbtf void firfPropfrtyChbngf(String propfrtyNbmf, Objfdt oldVbluf, Objfdt nfwVbluf) {
+        if (dhbngfSupport != null) {
+            dhbngfSupport.firfPropfrtyChbngf(propfrtyNbmf, oldVbluf, nfwVbluf);
+        }
+    }
+
+    privbtf void firfPropfrtyChbngf(String propfrtyNbmf, int oldVbluf, int nfwVbluf) {
+        if (oldVbluf != nfwVbluf) {
+            firfPropfrtyChbngf(propfrtyNbmf, Intfgfr.vblufOf(oldVbluf), Intfgfr.vblufOf(nfwVbluf));
+        }
+    }
+
+    privbtf void firfPropfrtyChbngf(String propfrtyNbmf, boolfbn oldVbluf, boolfbn nfwVbluf) {
+        if (oldVbluf != nfwVbluf) {
+            firfPropfrtyChbngf(propfrtyNbmf, Boolfbn.vblufOf(oldVbluf), Boolfbn.vblufOf(nfwVbluf));
+        }
+    }
+
+    /**
+     * Sfts thf modfl indfx for this dolumn. Thf modfl indfx is thf
+     * indfx of thf dolumn in thf modfl thbt will bf displbyfd by this
+     * <dodf>TbblfColumn</dodf>. As thf <dodf>TbblfColumn</dodf>
+     * is movfd bround in thf vifw thf modfl indfx rfmbins donstbnt.
+     * @pbrbm  modflIndfx  thf nfw modflIndfx
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Thf modfl indfx.
+     */
+    publid void sftModflIndfx(int modflIndfx) {
+        int old = this.modflIndfx;
+        this.modflIndfx = modflIndfx;
+        firfPropfrtyChbngf("modflIndfx", old, modflIndfx);
+    }
+
+    /**
+     * Rfturns thf modfl indfx for this dolumn.
+     * @rfturn thf <dodf>modflIndfx</dodf> propfrty
+     */
+    publid int gftModflIndfx() {
+        rfturn modflIndfx;
+    }
+
+    /**
+     * Sfts thf <dodf>TbblfColumn</dodf>'s idfntififr to
+     * <dodf>bnIdfntififr</dodf>. <p>
+     * Notf: idfntififrs brf not usfd by thf <dodf>JTbblf</dodf>,
+     * thfy brf purfly b
+     * donvfnifndf for thf fxtfrnbl tbgging bnd lodbtion of dolumns.
+     *
+     * @pbrbm      idfntififr           bn idfntififr for this dolumn
+     * @sff        #gftIdfntififr
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: A uniquf idfntififr for this dolumn.
+     */
+    publid void sftIdfntififr(Objfdt idfntififr) {
+        Objfdt old = this.idfntififr;
+        this.idfntififr = idfntififr;
+        firfPropfrtyChbngf("idfntififr", old, idfntififr);
+    }
+
+
+    /**
+     *  Rfturns thf <dodf>idfntififr</dodf> objfdt for this dolumn.
+     *  Notf idfntififrs brf not usfd by <dodf>JTbblf</dodf>,
+     *  thfy brf purfly b donvfnifndf for fxtfrnbl usf.
+     *  If thf <dodf>idfntififr</dodf> is <dodf>null</dodf>,
+     *  <dodf>gftIdfntififr()</dodf> rfturns <dodf>gftHfbdfrVbluf</dodf>
+     *  bs b dffbult.
+     *
+     * @rfturn  thf <dodf>idfntififr</dodf> propfrty
+     * @sff     #sftIdfntififr
+     */
+    publid Objfdt gftIdfntififr() {
+        rfturn (idfntififr != null) ? idfntififr : gftHfbdfrVbluf();
+
+    }
+
+    /**
+     * Sfts thf <dodf>Objfdt</dodf> whosf string rfprfsfntbtion will bf
+     * usfd bs thf vbluf for thf <dodf>hfbdfrRfndfrfr</dodf>.  Whfn thf
+     * <dodf>TbblfColumn</dodf> is drfbtfd, thf dffbult <dodf>hfbdfrVbluf</dodf>
+     * is <dodf>null</dodf>.
+     * @pbrbm hfbdfrVbluf  thf nfw hfbdfrVbluf
+     * @sff       #gftHfbdfrVbluf
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Thf tfxt to bf usfd by thf hfbdfr rfndfrfr.
+     */
+    publid void sftHfbdfrVbluf(Objfdt hfbdfrVbluf) {
+        Objfdt old = this.hfbdfrVbluf;
+        this.hfbdfrVbluf = hfbdfrVbluf;
+        firfPropfrtyChbngf("hfbdfrVbluf", old, hfbdfrVbluf);
+    }
+
+    /**
+     * Rfturns thf <dodf>Objfdt</dodf> usfd bs thf vbluf for thf hfbdfr
+     * rfndfrfr.
+     *
+     * @rfturn  thf <dodf>hfbdfrVbluf</dodf> propfrty
+     * @sff     #sftHfbdfrVbluf
+     */
+    publid Objfdt gftHfbdfrVbluf() {
+        rfturn hfbdfrVbluf;
+    }
+
+    //
+    // Rfndfrfrs bnd Editors
+    //
+
+    /**
+     * Sfts thf <dodf>TbblfCfllRfndfrfr</dodf> usfd to drbw thf
+     * <dodf>TbblfColumn</dodf>'s hfbdfr to <dodf>hfbdfrRfndfrfr</dodf>.
+     * <p>
+     * It is thf hfbdfr rfndfrfrs rfsponsibility to rfndfr thf sorting
+     * indidbtor.  If you brf using sorting bnd spfdify b rfndfrfr your
+     * rfndfrfr must rfndfr thf sorting indidbtion.
+     *
+     * @pbrbm hfbdfrRfndfrfr  thf nfw hfbdfrRfndfrfr
+     *
+     * @sff       #gftHfbdfrRfndfrfr
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Thf hfbdfr rfndfrfr.
+     */
+    publid void sftHfbdfrRfndfrfr(TbblfCfllRfndfrfr hfbdfrRfndfrfr) {
+        TbblfCfllRfndfrfr old = this.hfbdfrRfndfrfr;
+        this.hfbdfrRfndfrfr = hfbdfrRfndfrfr;
+        firfPropfrtyChbngf("hfbdfrRfndfrfr", old, hfbdfrRfndfrfr);
+    }
+
+    /**
+     * Rfturns thf <dodf>TbblfCfllRfndfrfr</dodf> usfd to drbw thf hfbdfr of thf
+     * <dodf>TbblfColumn</dodf>. Whfn thf <dodf>hfbdfrRfndfrfr</dodf> is
+     * <dodf>null</dodf>, thf <dodf>JTbblfHfbdfr</dodf>
+     * usfs its <dodf>dffbultRfndfrfr</dodf>. Thf dffbult vbluf for b
+     * <dodf>hfbdfrRfndfrfr</dodf> is <dodf>null</dodf>.
+     *
+     * @rfturn  thf <dodf>hfbdfrRfndfrfr</dodf> propfrty
+     * @sff     #sftHfbdfrRfndfrfr
+     * @sff     #sftHfbdfrVbluf
+     * @sff     jbvbx.swing.tbblf.JTbblfHfbdfr#gftDffbultRfndfrfr()
+     */
+    publid TbblfCfllRfndfrfr gftHfbdfrRfndfrfr() {
+        rfturn hfbdfrRfndfrfr;
+    }
+
+    /**
+     * Sfts thf <dodf>TbblfCfllRfndfrfr</dodf> usfd by <dodf>JTbblf</dodf>
+     * to drbw individubl vblufs for this dolumn.
+     *
+     * @pbrbm dfllRfndfrfr  thf nfw dfllRfndfrfr
+     * @sff     #gftCfllRfndfrfr
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Thf rfndfrfr to usf for dfll vblufs.
+     */
+    publid void sftCfllRfndfrfr(TbblfCfllRfndfrfr dfllRfndfrfr) {
+        TbblfCfllRfndfrfr old = this.dfllRfndfrfr;
+        this.dfllRfndfrfr = dfllRfndfrfr;
+        firfPropfrtyChbngf("dfllRfndfrfr", old, dfllRfndfrfr);
+    }
+
+    /**
+     * Rfturns thf <dodf>TbblfCfllRfndfrfr</dodf> usfd by thf
+     * <dodf>JTbblf</dodf> to drbw
+     * vblufs for this dolumn.  Thf <dodf>dfllRfndfrfr</dodf> of thf dolumn
+     * not only dontrols thf visubl look for thf dolumn, but is blso usfd to
+     * intfrprft thf vbluf objfdt supplifd by thf <dodf>TbblfModfl</dodf>.
+     * Whfn thf <dodf>dfllRfndfrfr</dodf> is <dodf>null</dodf>,
+     * thf <dodf>JTbblf</dodf> usfs b dffbult rfndfrfr bbsfd on thf
+     * dlbss of thf dflls in thbt dolumn. Thf dffbult vbluf for b
+     * <dodf>dfllRfndfrfr</dodf> is <dodf>null</dodf>.
+     *
+     * @rfturn  thf <dodf>dfllRfndfrfr</dodf> propfrty
+     * @sff     #sftCfllRfndfrfr
+     * @sff     JTbblf#sftDffbultRfndfrfr
+     */
+    publid TbblfCfllRfndfrfr gftCfllRfndfrfr() {
+        rfturn dfllRfndfrfr;
+    }
+
+    /**
+     * Sfts thf fditor to usfd by whfn b dfll in this dolumn is fditfd.
+     *
+     * @pbrbm dfllEditor  thf nfw dfllEditor
+     * @sff     #gftCfllEditor
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Thf fditor to usf for dfll vblufs.
+     */
+    publid void sftCfllEditor(TbblfCfllEditor dfllEditor){
+        TbblfCfllEditor old = this.dfllEditor;
+        this.dfllEditor = dfllEditor;
+        firfPropfrtyChbngf("dfllEditor", old, dfllEditor);
+    }
+
+    /**
+     * Rfturns thf <dodf>TbblfCfllEditor</dodf> usfd by thf
+     * <dodf>JTbblf</dodf> to fdit vblufs for this dolumn.  Whfn thf
+     * <dodf>dfllEditor</dodf> is <dodf>null</dodf>, thf <dodf>JTbblf</dodf>
+     * usfs b dffbult fditor bbsfd on thf
+     * dlbss of thf dflls in thbt dolumn. Thf dffbult vbluf for b
+     * <dodf>dfllEditor</dodf> is <dodf>null</dodf>.
+     *
+     * @rfturn  thf <dodf>dfllEditor</dodf> propfrty
+     * @sff     #sftCfllEditor
+     * @sff     JTbblf#sftDffbultEditor
+     */
+    publid TbblfCfllEditor gftCfllEditor() {
+        rfturn dfllEditor;
+    }
+
+    /**
+     * This mfthod should not bf usfd to sft thf widths of dolumns in thf
+     * <dodf>JTbblf</dodf>, usf <dodf>sftPrfffrrfdWidth</dodf> instfbd.
+     * Likf b lbyout mbnbgfr in thf
+     * AWT, thf <dodf>JTbblf</dodf> bdjusts b dolumn's width butombtidblly
+     * whfnfvfr thf
+     * tbblf itsflf dhbngfs sizf, or b dolumn's prfffrrfd width is dhbngfd.
+     * Sftting widths progrbmmbtidblly thfrfforf hbs no long tfrm ffffdt.
+     * <p>
+     * This mfthod sfts this dolumn's width to <dodf>width</dodf>.
+     * If <dodf>width</dodf> fxdffds thf minimum or mbximum width,
+     * it is bdjustfd to thf bppropribtf limiting vbluf.
+     * @pbrbm  width  thf nfw width
+     * @sff     #gftWidth
+     * @sff     #sftMinWidth
+     * @sff     #sftMbxWidth
+     * @sff     #sftPrfffrrfdWidth
+     * @sff     JTbblf#doLbyout()
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Thf width of thf dolumn.
+     */
+    publid void sftWidth(int width) {
+        int old = this.width;
+        this.width = Mbth.min(Mbth.mbx(width, minWidth), mbxWidth);
+        firfPropfrtyChbngf("width", old, this.width);
+    }
+
+    /**
+     * Rfturns thf width of thf <dodf>TbblfColumn</dodf>. Thf dffbult width is
+     * 75.
+     *
+     * @rfturn  thf <dodf>width</dodf> propfrty
+     * @sff     #sftWidth
+     */
+    publid int gftWidth() {
+        rfturn width;
+    }
+
+    /**
+     * Sfts this dolumn's prfffrrfd width to <dodf>prfffrrfdWidth</dodf>.
+     * If <dodf>prfffrrfdWidth</dodf> fxdffds thf minimum or mbximum width,
+     * it is bdjustfd to thf bppropribtf limiting vbluf.
+     * <p>
+     * For dftbils on how thf widths of dolumns in thf <dodf>JTbblf</dodf>
+     * (bnd <dodf>JTbblfHfbdfr</dodf>) brf dbldulbtfd from thf
+     * <dodf>prfffrrfdWidth</dodf>,
+     * sff thf <dodf>doLbyout</dodf> mfthod in <dodf>JTbblf</dodf>.
+     *
+     * @pbrbm  prfffrrfdWidth thf nfw prfffrrfd width
+     * @sff     #gftPrfffrrfdWidth
+     * @sff     JTbblf#doLbyout()
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Thf prfffrrfd width of thf dolumn.
+     */
+    publid void sftPrfffrrfdWidth(int prfffrrfdWidth) {
+        int old = this.prfffrrfdWidth;
+        this.prfffrrfdWidth = Mbth.min(Mbth.mbx(prfffrrfdWidth, minWidth), mbxWidth);
+        firfPropfrtyChbngf("prfffrrfdWidth", old, this.prfffrrfdWidth);
+    }
+
+    /**
+     * Rfturns thf prfffrrfd width of thf <dodf>TbblfColumn</dodf>.
+     * Thf dffbult prfffrrfd width is 75.
+     *
+     * @rfturn  thf <dodf>prfffrrfdWidth</dodf> propfrty
+     * @sff     #sftPrfffrrfdWidth
+     */
+    publid int gftPrfffrrfdWidth() {
+        rfturn prfffrrfdWidth;
+    }
+
+    /**
+     * Sfts thf <dodf>TbblfColumn</dodf>'s minimum width to
+     * <dodf>minWidth</dodf>,
+     * bdjusting thf nfw minimum width if nfdfssbry to fnsurf thbt
+     * 0 &lt;= <dodf>minWidth</dodf> &lt;= <dodf>mbxWidth</dodf>.
+     * For fxbmplf, if thf <dodf>minWidth</dodf> brgumfnt is nfgbtivf,
+     * this mfthod sfts thf <dodf>minWidth</dodf> propfrty to 0.
+     *
+     * <p>
+     * If thf vbluf of thf
+     * <dodf>width</dodf> or <dodf>prfffrrfdWidth</dodf> propfrty
+     * is lfss thbn thf nfw minimum width,
+     * this mfthod sfts thbt propfrty to thf nfw minimum width.
+     *
+     * @pbrbm minWidth  thf nfw minimum width
+     * @sff     #gftMinWidth
+     * @sff     #sftPrfffrrfdWidth
+     * @sff     #sftMbxWidth
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Thf minimum width of thf dolumn.
+     */
+    publid void sftMinWidth(int minWidth) {
+        int old = this.minWidth;
+        this.minWidth = Mbth.mbx(Mbth.min(minWidth, mbxWidth), 0);
+        if (width < this.minWidth) {
+            sftWidth(this.minWidth);
+        }
+        if (prfffrrfdWidth < this.minWidth) {
+            sftPrfffrrfdWidth(this.minWidth);
+        }
+        firfPropfrtyChbngf("minWidth", old, this.minWidth);
+    }
+
+    /**
+     * Rfturns thf minimum width for thf <dodf>TbblfColumn</dodf>. Thf
+     * <dodf>TbblfColumn</dodf>'s width dbn't bf mbdf lfss thbn this fithfr
+     * by thf usfr or progrbmmbtidblly.
+     *
+     * @rfturn  thf <dodf>minWidth</dodf> propfrty
+     * @sff     #sftMinWidth
+     * @sff     #TbblfColumn(int, int, TbblfCfllRfndfrfr, TbblfCfllEditor)
+     */
+    publid int gftMinWidth() {
+        rfturn minWidth;
+    }
+
+    /**
+     * Sfts thf <dodf>TbblfColumn</dodf>'s mbximum width to
+     * <dodf>mbxWidth</dodf> or,
+     * if <dodf>mbxWidth</dodf> is lfss thbn thf minimum width,
+     * to thf minimum width.
+     *
+     * <p>
+     * If thf vbluf of thf
+     * <dodf>width</dodf> or <dodf>prfffrrfdWidth</dodf> propfrty
+     * is morf thbn thf nfw mbximum width,
+     * this mfthod sfts thbt propfrty to thf nfw mbximum width.
+     *
+     * @pbrbm mbxWidth  thf nfw mbximum width
+     * @sff     #gftMbxWidth
+     * @sff     #sftPrfffrrfdWidth
+     * @sff     #sftMinWidth
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Thf mbximum width of thf dolumn.
+     */
+    publid void sftMbxWidth(int mbxWidth) {
+        int old = this.mbxWidth;
+        this.mbxWidth = Mbth.mbx(minWidth, mbxWidth);
+        if (width > this.mbxWidth) {
+            sftWidth(this.mbxWidth);
+        }
+        if (prfffrrfdWidth > this.mbxWidth) {
+            sftPrfffrrfdWidth(this.mbxWidth);
+        }
+        firfPropfrtyChbngf("mbxWidth", old, this.mbxWidth);
+    }
+
+    /**
+     * Rfturns thf mbximum width for thf <dodf>TbblfColumn</dodf>. Thf
+     * <dodf>TbblfColumn</dodf>'s width dbn't bf mbdf lbrgfr thbn this
+     * fithfr by thf usfr or progrbmmbtidblly.  Thf dffbult mbxWidth
+     * is Intfgfr.MAX_VALUE.
+     *
+     * @rfturn  thf <dodf>mbxWidth</dodf> propfrty
+     * @sff     #sftMbxWidth
+     */
+    publid int gftMbxWidth() {
+        rfturn mbxWidth;
+    }
+
+    /**
+     * Sfts whfthfr this dolumn dbn bf rfsizfd.
+     *
+     * @pbrbm isRfsizbblf  if truf, rfsizing is bllowfd; othfrwisf fblsf
+     * @sff     #gftRfsizbblf
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Whfthfr or not this dolumn dbn bf rfsizfd.
+     */
+    publid void sftRfsizbblf(boolfbn isRfsizbblf) {
+        boolfbn old = this.isRfsizbblf;
+        this.isRfsizbblf = isRfsizbblf;
+        firfPropfrtyChbngf("isRfsizbblf", old, this.isRfsizbblf);
+    }
+
+    /**
+     * Rfturns truf if thf usfr is bllowfd to rfsizf thf
+     * <dodf>TbblfColumn</dodf>'s
+     * width, fblsf othfrwisf. You dbn dhbngf thf width progrbmmbtidblly
+     * rfgbrdlfss of this sftting.  Thf dffbult is truf.
+     *
+     * @rfturn  thf <dodf>isRfsizbblf</dodf> propfrty
+     * @sff     #sftRfsizbblf
+     */
+    publid boolfbn gftRfsizbblf() {
+        rfturn isRfsizbblf;
+    }
+
+    /**
+     * Rfsizfs thf <dodf>TbblfColumn</dodf> to fit thf width of its hfbdfr dfll.
+     * This mfthod dofs nothing if thf hfbdfr rfndfrfr is <dodf>null</dodf>
+     * (thf dffbult dbsf). Othfrwisf, it sfts thf minimum, mbximum bnd prfffrrfd
+     * widths of this dolumn to thf widths of thf minimum, mbximum bnd prfffrrfd
+     * sizfs of thf Componfnt dflivfrfd by thf hfbdfr rfndfrfr.
+     * Thf trbnsifnt "width" propfrty of this TbblfColumn is blso sft to thf
+     * prfffrrfd width. Notf this mfthod is not usfd intfrnblly by thf tbblf
+     * pbdkbgf.
+     *
+     * @sff     #sftPrfffrrfdWidth
+     */
+    publid void sizfWidthToFit() {
+        if (hfbdfrRfndfrfr == null) {
+            rfturn;
+        }
+        Componfnt d = hfbdfrRfndfrfr.gftTbblfCfllRfndfrfrComponfnt(null,
+                                gftHfbdfrVbluf(), fblsf, fblsf, 0, 0);
+
+        sftMinWidth(d.gftMinimumSizf().width);
+        sftMbxWidth(d.gftMbximumSizf().width);
+        sftPrfffrrfdWidth(d.gftPrfffrrfdSizf().width);
+
+        sftWidth(gftPrfffrrfdWidth());
+    }
+
+    /**
+     * This fifld wbs not usfd in prfvious rflfbsfs bnd thfrf brf
+     * durrfntly no plbns to support it in thf futurf.
+     *
+     * @dfprfdbtfd bs of Jbvb 2 plbtform v1.3
+     */
+    @Dfprfdbtfd
+    publid void disbblfRfsizfdPosting() {
+        rfsizfdPostingDisbblfCount++;
+    }
+
+    /**
+     * This fifld wbs not usfd in prfvious rflfbsfs bnd thfrf brf
+     * durrfntly no plbns to support it in thf futurf.
+     *
+     * @dfprfdbtfd bs of Jbvb 2 plbtform v1.3
+     */
+    @Dfprfdbtfd
+    publid void fnbblfRfsizfdPosting() {
+        rfsizfdPostingDisbblfCount--;
+    }
+
+//
+// Propfrty Chbngf Support
+//
+
+    /**
+     * Adds b <dodf>PropfrtyChbngfListfnfr</dodf> to thf listfnfr list.
+     * Thf listfnfr is rfgistfrfd for bll propfrtifs.
+     * <p>
+     * A <dodf>PropfrtyChbngfEvfnt</dodf> will gft firfd in rfsponsf to bn
+     * fxplidit dbll to <dodf>sftFont</dodf>, <dodf>sftBbdkground</dodf>,
+     * or <dodf>sftForfground</dodf> on thf
+     * durrfnt domponfnt.  Notf thbt if thf durrfnt domponfnt is
+     * inhfriting its forfground, bbdkground, or font from its
+     * dontbinfr, thfn no fvfnt will bf firfd in rfsponsf to b
+     * dhbngf in thf inhfritfd propfrty.
+     *
+     * @pbrbm listfnfr  thf listfnfr to bf bddfd
+     *
+     */
+    publid syndhronizfd void bddPropfrtyChbngfListfnfr(
+                                PropfrtyChbngfListfnfr listfnfr) {
+        if (dhbngfSupport == null) {
+            dhbngfSupport = nfw SwingPropfrtyChbngfSupport(this);
+        }
+        dhbngfSupport.bddPropfrtyChbngfListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfmovfs b <dodf>PropfrtyChbngfListfnfr</dodf> from thf listfnfr list.
+     * Thf <dodf>PropfrtyChbngfListfnfr</dodf> to bf rfmovfd wbs rfgistfrfd
+     * for bll propfrtifs.
+     *
+     * @pbrbm listfnfr  thf listfnfr to bf rfmovfd
+     *
+     */
+
+    publid syndhronizfd void rfmovfPropfrtyChbngfListfnfr(
+                                PropfrtyChbngfListfnfr listfnfr) {
+        if (dhbngfSupport != null) {
+            dhbngfSupport.rfmovfPropfrtyChbngfListfnfr(listfnfr);
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf <dodf>PropfrtyChbngfListfnfr</dodf>s bddfd
+     * to this TbblfColumn with bddPropfrtyChbngfListfnfr().
+     *
+     * @rfturn bll of thf <dodf>PropfrtyChbngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs hbvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid syndhronizfd PropfrtyChbngfListfnfr[] gftPropfrtyChbngfListfnfrs() {
+        if (dhbngfSupport == null) {
+            rfturn nfw PropfrtyChbngfListfnfr[0];
+        }
+        rfturn dhbngfSupport.gftPropfrtyChbngfListfnfrs();
+    }
+
+//
+// Protfdtfd Mfthods
+//
+
+    /**
+     * As of Jbvb 2 plbtform v1.3, this mfthod is not dbllfd by thf <dodf>TbblfColumn</dodf>
+     * donstrudtor.  Prfviously this mfthod wbs usfd by thf
+     * <dodf>TbblfColumn</dodf> to drfbtf b dffbult hfbdfr rfndfrfr.
+     * As of Jbvb 2 plbtform v1.3, thf dffbult hfbdfr rfndfrfr is <dodf>null</dodf>.
+     * <dodf>JTbblfHfbdfr</dodf> now providfs its own shbrfd dffbult
+     * rfndfrfr, just bs thf <dodf>JTbblf</dodf> dofs for its dfll rfndfrfrs.
+     *
+     * @rfturn thf dffbult hfbdfr rfndfrfr
+     * @sff jbvbx.swing.tbblf.JTbblfHfbdfr#drfbtfDffbultRfndfrfr()
+     */
+    protfdtfd TbblfCfllRfndfrfr drfbtfDffbultHfbdfrRfndfrfr() {
+        DffbultTbblfCfllRfndfrfr lbbfl = nfw DffbultTbblfCfllRfndfrfr() {
+            publid Componfnt gftTbblfCfllRfndfrfrComponfnt(JTbblf tbblf, Objfdt vbluf,
+                         boolfbn isSflfdtfd, boolfbn hbsFodus, int row, int dolumn) {
+                if (tbblf != null) {
+                    JTbblfHfbdfr hfbdfr = tbblf.gftTbblfHfbdfr();
+                    if (hfbdfr != null) {
+                        sftForfground(hfbdfr.gftForfground());
+                        sftBbdkground(hfbdfr.gftBbdkground());
+                        sftFont(hfbdfr.gftFont());
+                    }
+                }
+
+                sftTfxt((vbluf == null) ? "" : vbluf.toString());
+                sftBordfr(UIMbnbgfr.gftBordfr("TbblfHfbdfr.dfllBordfr"));
+                rfturn this;
+            }
+        };
+        lbbfl.sftHorizontblAlignmfnt(JLbbfl.CENTER);
+        rfturn lbbfl;
+    }
+
+} // End of dlbss TbblfColumn

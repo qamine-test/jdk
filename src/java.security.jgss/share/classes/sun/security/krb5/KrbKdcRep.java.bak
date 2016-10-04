@@ -1,126 +1,126 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
+import sun.sfdurity.krb5.intfrnbl.*;
 
-abstract class KrbKdcRep {
+bbstrbdt dlbss KrbKddRfp {
 
-    static void check(
-                      boolean isAsReq,
-                      KDCReq req,
-                      KDCRep rep
-                      ) throws KrbApErrException {
+    stbtid void difdk(
+                      boolfbn isAsRfq,
+                      KDCRfq rfq,
+                      KDCRfp rfp
+                      ) tirows KrbApErrExdfption {
 
-        if (isAsReq && !req.reqBody.cname.equals(rep.cname)) {
-            rep.encKDCRepPart.key.destroy();
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+        if (isAsRfq && !rfq.rfqBody.dnbmf.fqubls(rfp.dnbmf)) {
+            rfp.fndKDCRfpPbrt.kfy.dfstroy();
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
         }
 
-        if (!req.reqBody.sname.equals(rep.encKDCRepPart.sname)) {
-            rep.encKDCRepPart.key.destroy();
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+        if (!rfq.rfqBody.snbmf.fqubls(rfp.fndKDCRfpPbrt.snbmf)) {
+            rfp.fndKDCRfpPbrt.kfy.dfstroy();
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
         }
 
-        if (req.reqBody.getNonce() != rep.encKDCRepPart.nonce) {
-            rep.encKDCRepPart.key.destroy();
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+        if (rfq.rfqBody.gftNondf() != rfp.fndKDCRfpPbrt.nondf) {
+            rfp.fndKDCRfpPbrt.kfy.dfstroy();
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
         }
 
         if (
-            ((req.reqBody.addresses != null && rep.encKDCRepPart.caddr != null) &&
-             !req.reqBody.addresses.equals(rep.encKDCRepPart.caddr))) {
-            rep.encKDCRepPart.key.destroy();
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+            ((rfq.rfqBody.bddrfssfs != null && rfp.fndKDCRfpPbrt.dbddr != null) &&
+             !rfq.rfqBody.bddrfssfs.fqubls(rfp.fndKDCRfpPbrt.dbddr))) {
+            rfp.fndKDCRfpPbrt.kfy.dfstroy();
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
         }
 
         for (int i = 1; i < 6; i++) {
-            if (req.reqBody.kdcOptions.get(i) !=
-                   rep.encKDCRepPart.flags.get(i)) {
+            if (rfq.rfqBody.kddOptions.gft(i) !=
+                   rfp.fndKDCRfpPbrt.flbgs.gft(i)) {
                 if (Krb5.DEBUG) {
-                    System.out.println("> KrbKdcRep.check: at #" + i
-                            + ". request for " + req.reqBody.kdcOptions.get(i)
-                            + ", received " + rep.encKDCRepPart.flags.get(i));
+                    Systfm.out.println("> KrbKddRfp.difdk: bt #" + i
+                            + ". rfqufst for " + rfq.rfqBody.kddOptions.gft(i)
+                            + ", rfdfivfd " + rfp.fndKDCRfpPbrt.flbgs.gft(i));
                 }
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
             }
         }
 
-        // XXX Can renew a ticket but not ask for a renewable renewed ticket
-        // See impl of Credentials.renew().
-        if (req.reqBody.kdcOptions.get(KDCOptions.RENEWABLE) !=
-            rep.encKDCRepPart.flags.get(KDCOptions.RENEWABLE)) {
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+        // XXX Cbn rfnfw b tidkft but not bsk for b rfnfwbblf rfnfwfd tidkft
+        // Sff impl of Crfdfntibls.rfnfw().
+        if (rfq.rfqBody.kddOptions.gft(KDCOptions.RENEWABLE) !=
+            rfp.fndKDCRfpPbrt.flbgs.gft(KDCOptions.RENEWABLE)) {
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
         }
-        if ((req.reqBody.from == null) || req.reqBody.from.isZero())
-            // verify this is allowed
-            if ((rep.encKDCRepPart.starttime != null) &&
-                !rep.encKDCRepPart.starttime.inClockSkew()) {
-                rep.encKDCRepPart.key.destroy();
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_SKEW);
+        if ((rfq.rfqBody.from == null) || rfq.rfqBody.from.isZfro())
+            // vfrify tiis is bllowfd
+            if ((rfp.fndKDCRfpPbrt.stbrttimf != null) &&
+                !rfp.fndKDCRfpPbrt.stbrttimf.inClodkSkfw()) {
+                rfp.fndKDCRfpPbrt.kfy.dfstroy();
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_SKEW);
             }
 
-        if ((req.reqBody.from != null) && !req.reqBody.from.isZero())
-            // verify this is allowed
-            if ((rep.encKDCRepPart.starttime != null) &&
-                !req.reqBody.from.equals(rep.encKDCRepPart.starttime)) {
-                rep.encKDCRepPart.key.destroy();
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+        if ((rfq.rfqBody.from != null) && !rfq.rfqBody.from.isZfro())
+            // vfrify tiis is bllowfd
+            if ((rfp.fndKDCRfpPbrt.stbrttimf != null) &&
+                !rfq.rfqBody.from.fqubls(rfp.fndKDCRfpPbrt.stbrttimf)) {
+                rfp.fndKDCRfpPbrt.kfy.dfstroy();
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
             }
 
-        if (!req.reqBody.till.isZero() &&
-            rep.encKDCRepPart.endtime.greaterThan(req.reqBody.till)) {
-            rep.encKDCRepPart.key.destroy();
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+        if (!rfq.rfqBody.till.isZfro() &&
+            rfp.fndKDCRfpPbrt.fndtimf.grfbtfrTibn(rfq.rfqBody.till)) {
+            rfp.fndKDCRfpPbrt.kfy.dfstroy();
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
         }
 
-        if (req.reqBody.kdcOptions.get(KDCOptions.RENEWABLE))
-            if (req.reqBody.rtime != null && !req.reqBody.rtime.isZero())
-                                // verify this is required
-                if ((rep.encKDCRepPart.renewTill == null) ||
-                    rep.encKDCRepPart.renewTill.greaterThan(req.reqBody.rtime)
+        if (rfq.rfqBody.kddOptions.gft(KDCOptions.RENEWABLE))
+            if (rfq.rfqBody.rtimf != null && !rfq.rfqBody.rtimf.isZfro())
+                                // vfrify tiis is rfquirfd
+                if ((rfp.fndKDCRfpPbrt.rfnfwTill == null) ||
+                    rfp.fndKDCRfpPbrt.rfnfwTill.grfbtfrTibn(rfq.rfqBody.rtimf)
                     ) {
-                    rep.encKDCRepPart.key.destroy();
-                    throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+                    rfp.fndKDCRfpPbrt.kfy.dfstroy();
+                    tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
                 }
 
-        if (req.reqBody.kdcOptions.get(KDCOptions.RENEWABLE_OK) &&
-            rep.encKDCRepPart.flags.get(KDCOptions.RENEWABLE))
-            if (!req.reqBody.till.isZero())
-                                // verify this is required
-                if ((rep.encKDCRepPart.renewTill == null) ||
-                    rep.encKDCRepPart.renewTill.greaterThan(req.reqBody.till)
+        if (rfq.rfqBody.kddOptions.gft(KDCOptions.RENEWABLE_OK) &&
+            rfp.fndKDCRfpPbrt.flbgs.gft(KDCOptions.RENEWABLE))
+            if (!rfq.rfqBody.till.isZfro())
+                                // vfrify tiis is rfquirfd
+                if ((rfp.fndKDCRfpPbrt.rfnfwTill == null) ||
+                    rfp.fndKDCRfpPbrt.rfnfwTill.grfbtfrTibn(rfq.rfqBody.till)
                     ) {
-                    rep.encKDCRepPart.key.destroy();
-                    throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+                    rfp.fndKDCRfpPbrt.kfy.dfstroy();
+                    tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
                 }
     }
 

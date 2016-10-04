@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.event.WindowAdapter;
-import sun.awt.SunToolkit;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowListfnfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import sun.bwt.SunToolkit;
 
-final class WChoicePeer extends WComponentPeer implements ChoicePeer {
+finbl dlbss WCioidfPffr fxtfnds WComponfntPffr implfmfnts CioidfPffr {
 
-    // WComponentPeer overrides
+    // WComponfntPffr ovfrridfs
 
-    @Override
-    public Dimension getMinimumSize() {
-        FontMetrics fm = getFontMetrics(((Choice)target).getFont());
-        Choice c = (Choice)target;
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        FontMftrids fm = gftFontMftrids(((Cioidf)tbrgft).gftFont());
+        Cioidf d = (Cioidf)tbrgft;
         int w = 0;
-        for (int i = c.getItemCount() ; i-- > 0 ;) {
-            w = Math.max(fm.stringWidth(c.getItem(i)), w);
+        for (int i = d.gftItfmCount() ; i-- > 0 ;) {
+            w = Mbti.mbx(fm.stringWidti(d.gftItfm(i)), w);
         }
-        return new Dimension(28 + w, Math.max(fm.getHeight() + 6, 15));
+        rfturn nfw Dimfnsion(28 + w, Mbti.mbx(fm.gftHfigit() + 6, 15));
     }
-    @Override
-    public boolean isFocusable() {
-        return true;
-    }
-
-    // ChoicePeer implementation
-
-    @Override
-    public native void select(int index);
-
-    @Override
-    public void add(String item, int index) {
-        addItem(item, index);
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
     }
 
-    @Override
-    public boolean shouldClearRectBeforePaint() {
-        return false;
+    // CioidfPffr implfmfntbtion
+
+    @Ovfrridf
+    publid nbtivf void sflfdt(int indfx);
+
+    @Ovfrridf
+    publid void bdd(String itfm, int indfx) {
+        bddItfm(itfm, indfx);
     }
 
-    @Override
-    public native void removeAll();
-    @Override
-    public native void remove(int index);
+    @Ovfrridf
+    publid boolfbn siouldClfbrRfdtBfforfPbint() {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid nbtivf void rfmovfAll();
+    @Ovfrridf
+    publid nbtivf void rfmovf(int indfx);
 
     /**
-     * DEPRECATED, but for now, called by add(String, int).
+     * DEPRECATED, but for now, dbllfd by bdd(String, int).
      */
-    public void addItem(String item, int index) {
-        addItems(new String[] {item}, index);
+    publid void bddItfm(String itfm, int indfx) {
+        bddItfms(nfw String[] {itfm}, indfx);
     }
-    public native void addItems(String[] items, int index);
+    publid nbtivf void bddItfms(String[] itfms, int indfx);
 
-    @Override
-    public synchronized native void reshape(int x, int y, int width, int height);
+    @Ovfrridf
+    publid syndironizfd nbtivf void rfsibpf(int x, int y, int widti, int ifigit);
 
-    private WindowListener windowListener;
+    privbtf WindowListfnfr windowListfnfr;
 
-    // Toolkit & peer internals
+    // Toolkit & pffr intfrnbls
 
-    WChoicePeer(Choice target) {
-        super(target);
+    WCioidfPffr(Cioidf tbrgft) {
+        supfr(tbrgft);
     }
 
-    @Override
-    native void create(WComponentPeer parent);
+    @Ovfrridf
+    nbtivf void drfbtf(WComponfntPffr pbrfnt);
 
-    @Override
-    @SuppressWarnings("deprecation")
-    void initialize() {
-        Choice opt = (Choice)target;
-        int itemCount = opt.getItemCount();
-        if (itemCount > 0) {
-            String[] items = new String[itemCount];
-            for (int i=0; i < itemCount; i++) {
-                items[i] = opt.getItem(i);
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    void initiblizf() {
+        Cioidf opt = (Cioidf)tbrgft;
+        int itfmCount = opt.gftItfmCount();
+        if (itfmCount > 0) {
+            String[] itfms = nfw String[itfmCount];
+            for (int i=0; i < itfmCount; i++) {
+                itfms[i] = opt.gftItfm(i);
             }
-            addItems(items, 0);
-            if (opt.getSelectedIndex() >= 0) {
-                select(opt.getSelectedIndex());
+            bddItfms(itfms, 0);
+            if (opt.gftSflfdtfdIndfx() >= 0) {
+                sflfdt(opt.gftSflfdtfdIndfx());
             }
         }
 
-        Window parentWindow = SunToolkit.getContainingWindow((Component)target);
-        if (parentWindow != null) {
-            WWindowPeer wpeer = (WWindowPeer)parentWindow.getPeer();
-            if (wpeer != null) {
-                windowListener = new WindowAdapter() {
-                        @Override
-                        public void windowIconified(WindowEvent e) {
-                            closeList();
+        Window pbrfntWindow = SunToolkit.gftContbiningWindow((Componfnt)tbrgft);
+        if (pbrfntWindow != null) {
+            WWindowPffr wpffr = (WWindowPffr)pbrfntWindow.gftPffr();
+            if (wpffr != null) {
+                windowListfnfr = nfw WindowAdbptfr() {
+                        @Ovfrridf
+                        publid void windowIdonififd(WindowEvfnt f) {
+                            dlosfList();
                         }
-                        @Override
-                        public void windowClosing(WindowEvent e) {
-                            closeList();
+                        @Ovfrridf
+                        publid void windowClosing(WindowEvfnt f) {
+                            dlosfList();
                         }
                     };
-                wpeer.addWindowListener(windowListener);
+                wpffr.bddWindowListfnfr(windowListfnfr);
             }
         }
-        super.initialize();
+        supfr.initiblizf();
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    protected void disposeImpl() {
-        // TODO: we should somehow reset the listener when the choice
-        // is moved to another toplevel without destroying its peer.
-        Window parentWindow = SunToolkit.getContainingWindow((Component)target);
-        if (parentWindow != null) {
-            WWindowPeer wpeer = (WWindowPeer)parentWindow.getPeer();
-            if (wpeer != null) {
-                wpeer.removeWindowListener(windowListener);
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    protfdtfd void disposfImpl() {
+        // TODO: wf siould somfiow rfsft tif listfnfr wifn tif dioidf
+        // is movfd to bnotifr toplfvfl witiout dfstroying its pffr.
+        Window pbrfntWindow = SunToolkit.gftContbiningWindow((Componfnt)tbrgft);
+        if (pbrfntWindow != null) {
+            WWindowPffr wpffr = (WWindowPffr)pbrfntWindow.gftPffr();
+            if (wpffr != null) {
+                wpffr.rfmovfWindowListfnfr(windowListfnfr);
             }
         }
-        super.disposeImpl();
+        supfr.disposfImpl();
     }
 
-    // native callbacks
+    // nbtivf dbllbbdks
 
-    void handleAction(final int index) {
-        final Choice c = (Choice)target;
-        WToolkit.executeOnEventHandlerThread(c, new Runnable() {
-            @Override
-            public void run() {
-                c.select(index);
-                postEvent(new ItemEvent(c, ItemEvent.ITEM_STATE_CHANGED,
-                                c.getItem(index), ItemEvent.SELECTED));
+    void ibndlfAdtion(finbl int indfx) {
+        finbl Cioidf d = (Cioidf)tbrgft;
+        WToolkit.fxfdutfOnEvfntHbndlfrTirfbd(d, nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                d.sflfdt(indfx);
+                postEvfnt(nfw ItfmEvfnt(d, ItfmEvfnt.ITEM_STATE_CHANGED,
+                                d.gftItfm(indfx), ItfmEvfnt.SELECTED));
             }
         });
     }
 
-    int getDropDownHeight() {
-        Choice c = (Choice)target;
-        FontMetrics fm = getFontMetrics(c.getFont());
-        int maxItems = Math.min(c.getItemCount(), 8);
-        return fm.getHeight() * maxItems;
+    int gftDropDownHfigit() {
+        Cioidf d = (Cioidf)tbrgft;
+        FontMftrids fm = gftFontMftrids(d.gftFont());
+        int mbxItfms = Mbti.min(d.gftItfmCount(), 8);
+        rfturn fm.gftHfigit() * mbxItfms;
     }
 
-    native void closeList();
+    nbtivf void dlosfList();
 }

@@ -1,0 +1,470 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#ifdff _ALLBSD_SOURCE
+#indludf <stdint.h>
+#dffinf THRTYPE intptr_t
+#flsf
+#dffinf THRTYPE int
+#fndif
+
+#indludf <sys/typfs.h>
+
+#indludf <stdio.h>
+#indludf <string.h>
+#indludf <stdlib.h>
+#indludf <stdbrg.h>
+#indludf <frrno.h>
+
+#indludf <limits.h>
+#indludf <timf.h>
+
+#if dffinfd(unix) && !dffinfd(PRODUCT)
+#indludf "pthrfbd.h"
+#dffinf THREAD_SELF ((THRTYPE)pthrfbd_sflf())
+#fndif
+
+#indludf "dffinfs.h"
+#indludf "bytfs.h"
+#indludf "utils.h"
+#indludf "doding.h"
+#indludf "bbnds.h"
+
+#indludf "donstbnts.h"
+
+#indludf "zip.h"
+
+#indludf "unpbdk.h"
+
+
+int mbin(int brgd, dhbr **brgv) {
+    rfturn unpbdkfr::run(brgd, brgv);
+}
+
+// Dfbling with big-fndibn brdh
+#ifdff _BIG_ENDIAN
+#dffinf SWAP_INT(b) (((b>>24)&0xff) | ((b<<8)&0xff0000) | ((b>>8)&0xff00) | ((b<<24)&0xff000000))
+#flsf
+#dffinf SWAP_INT(b) (b)
+#fndif
+
+// Singlf-thrfbdfd, implfmfntbtion, not rffntrbnt.
+// Indludfs b wfbk frror dhfdk bgbinst MT bddfss.
+#ifndff THREAD_SELF
+#dffinf THREAD_SELF ((THRTYPE) 0)
+#fndif
+NOT_PRODUCT(stbtid THRTYPE uThrfbd = -1;)
+
+unpbdkfr* unpbdkfr::non_mt_durrfnt = null;
+unpbdkfr* unpbdkfr::durrfnt() {
+  //bssfrt(uThrfbd == THREAD_SELF);
+  rfturn non_mt_durrfnt;
+}
+stbtid void sft_durrfnt_unpbdkfr(unpbdkfr* u) {
+  unpbdkfr::non_mt_durrfnt = u;
+  bssfrt(((uThrfbd = (u == null) ? (THRTYPE) -1 : THREAD_SELF),
+          truf));
+}
+
+// Cbllbbdk for fftdhing dbtb, Unix stylf.
+stbtid jlong rfbd_input_vib_stdio(unpbdkfr* u,
+                                  void* buf, jlong minlfn, jlong mbxlfn) {
+  bssfrt(minlfn <= mbxlfn);  // don't tblk nonsfnsf
+  jlong numrfbd = 0;
+  dhbr* bufptr = (dhbr*) buf;
+  whilf (numrfbd < minlfn) {
+    // rfbd bvbilbblf input, up to buf.lfngth or mbxlfn
+    int rfbdlfn = (1<<16);
+    if (rfbdlfn > (mbxlfn - numrfbd))
+      rfbdlfn = (int)(mbxlfn - numrfbd);
+    int nr = 0;
+    if (u->infilfptr != null) {
+      nr = (int)frfbd(bufptr, 1, rfbdlfn, u->infilfptr);
+    } flsf {
+#ifndff WIN32
+      // wf prfffr unbufffrfd inputs
+      nr = (int)rfbd(u->infilfno, bufptr, rfbdlfn);
+#flsf
+      nr = (int)frfbd(bufptr, 1, rfbdlfn, stdin);
+#fndif
+    }
+    if (nr <= 0) {
+      if (frrno != EINTR)
+        brfbk;
+      nr = 0;
+    }
+    numrfbd += nr;
+    bufptr += nr;
+    bssfrt(numrfbd <= mbxlfn);
+  }
+  //fprintf(u->frrstrm, "rfbdInputFn(%d,%d) => %d\n",
+  //        (int)minlfn, (int)mbxlfn, (int)numrfbd);
+  rfturn numrfbd;
+}
+
+fnum { EOF_MAGIC = 0, BAD_MAGIC = -1 };
+stbtid int rfbd_mbgid(unpbdkfr* u, dhbr pffk[], int pffklfn) {
+  bssfrt(pffklfn == 4);  // mbgid numbfrs brf blwbys 4 bytfs
+  jlong nr = (u->rfbd_input_fn)(u, pffk, pffklfn, pffklfn);
+  if (nr != pffklfn) {
+    rfturn (nr == 0) ? EOF_MAGIC : BAD_MAGIC;
+  }
+  int mbgid = 0;
+  for (int i = 0; i < pffklfn; i++) {
+    mbgid <<= 8;
+    mbgid += pffk[i] & 0xFF;
+  }
+  rfturn mbgid;
+}
+
+stbtid void sftup_gzin(unpbdkfr* u) {
+  gunzip* gzin = NEW(gunzip, 1);
+  gzin->init(u);
+}
+
+stbtid donst dhbr* nbbsfnbmf(donst dhbr* prognbmf) {
+  donst dhbr* slbsh = strrdhr(prognbmf, '/');
+  if (slbsh != null)  prognbmf = ++slbsh;
+  rfturn prognbmf;
+}
+
+stbtid donst dhbr* usbgf_linfs[] = {
+  "Usbgf:  %s [-opt... | --option=vbluf]... x.pbdk[.gz] y.jbr\n",
+    "\n",
+    "Unpbdking Options\n",
+    "  -H{h}, --dfflbtf-hint={h}     ovfrridf trbnsmittfd dfflbtf hint: truf, fblsf, or kffp (dffbult)\n",
+    "  -r, --rfmovf-pbdk-filf        rfmovf input filf bftfr unpbdking\n",
+    "  -v, --vfrbosf                 indrfbsf progrbm vfrbosity\n",
+    "  -q, --quift                   sft vfrbosity to lowfst lfvfl\n",
+    "  -l{F}, --log-filf={F}         output to thf givfn log filf, or '-' for stbndbrd output (dffbult)\n",
+    "  -?, -h, --hflp                print this mfssbgf\n",
+    "  -V, --vfrsion                 print progrbm vfrsion\n",
+    "  -J{X}                         Jbvb VM brgumfnt (ignorfd)\n",
+    null
+};
+
+stbtid void usbgf(unpbdkfr* u, donst dhbr* prognbmf, bool full = fblsf) {
+  // WinMbin dofs not sft brgv[0] to thf progrnbmf
+  prognbmf = (prognbmf != null) ? nbbsfnbmf(prognbmf) : "unpbdk200";
+  for (int i = 0; usbgf_linfs[i] != null; i++) {
+    fprintf(u->frrstrm, usbgf_linfs[i], prognbmf);
+    if (!full) {
+      fprintf(u->frrstrm,
+              "(For morf informbtion, run %s --hflp .)\n", prognbmf);
+      brfbk;
+    }
+  }
+}
+
+// brgumfnt pbrsing
+stbtid dhbr** init_brgs(int brgd, dhbr** brgv, int &fnvbrgd) {
+  donst dhbr* fnv = gftfnv("UNPACK200_FLAGS");
+  ptrlist fnvbrgs;
+  fnvbrgs.init();
+  if (fnv != null) {
+    dhbr* buf = (dhbr*) strdup(fnv);
+    donst dhbr* dflim = "\n\t ";
+    for (dhbr* p = strtok(buf, dflim); p != null; p = strtok(null, dflim)) {
+      fnvbrgs.bdd(p);
+    }
+  }
+  // bllodbtf fxtrb mbrgin bt both hfbd bnd tbil
+  dhbr** brgp = NEW(dhbr*, fnvbrgs.lfngth()+brgd+1);
+  dhbr** brgp0 = brgp;
+  int i;
+  for (i = 0; i < fnvbrgs.lfngth(); i++) {
+    *brgp++ = (dhbr*) fnvbrgs.gft(i);
+  }
+  for (i = 1; i < brgd; i++) {
+    // notf: skip brgv[0] (progrbm nbmf)
+    *brgp++ = (dhbr*) strdup(brgv[i]);  // mbkf b sdrbtdh dopy
+  }
+  *brgp = null; // sfntinfl
+  fnvbrgd = fnvbrgs.lfngth();  // rfport this dount to nfxt_brg
+  fnvbrgs.frff();
+  rfturn brgp0;
+}
+
+stbtid int strpdmp(donst dhbr* str, donst dhbr* pfx) {
+  rfturn strndmp(str, pfx, strlfn(pfx));
+}
+
+stbtid donst dhbr flbg_opts[] = "vqrVh?";
+stbtid donst dhbr string_opts[] = "HlJ";
+
+stbtid int nfxt_brg(dhbr** &brgp) {
+  dhbr* brg = *brgp;
+  if (brg == null || brg[0] != '-') { // fnd of option list
+    rfturn 0;
+  }
+  //printf("opt: %s\n", brg);
+  dhbr bdh = brg[1];
+  if (bdh == '\0') {
+    // ++brgp;  // do not pop this brg
+    rfturn 0;  // bbrf "-" is stdin/stdout
+  } flsf if (brg[1] == '-') {  // --foo option
+    stbtid donst dhbr* kfys[] = {
+      "Hdfflbtf-hint=",
+      "vvfrbosf",
+      "qquift",
+      "rrfmovf-pbdk-filf",
+      "llog-filf=",
+      "Vvfrsion",
+      "hhflp",
+      null };
+    if (brg[2] == '\0') {  // fnd of option list
+      ++brgp;  // pop thf "--"
+      rfturn 0;
+    }
+    for (int i = 0; kfys[i] != null; i++) {
+      donst dhbr* kfy = kfys[i];
+      dhbr kdh = *kfy++;
+      if (strdhr(kfy, '=') == null) {
+        if (!strdmp(brg+2, kfy)) {
+          ++brgp;  // pop option brg
+          rfturn kdh;
+        }
+      } flsf {
+        if (!strpdmp(brg+2, kfy)) {
+          *brgp += 2 + strlfn(kfy);  // rfmovf "--"+kfy from brg
+          rfturn kdh;
+        }
+      }
+    }
+  } flsf if (strdhr(flbg_opts, bdh) != null) {  // plbin option
+    if (brg[2] == '\0') {
+      ++brgp;
+    } flsf {
+      // in-plbdf fdit of "-vxyz" to "-xyz"
+      brg += 1;  // skip originbl '-'
+      brg[0] = '-';
+      *brgp = brg;
+    }
+    //printf("  kfy => %d\n", bdh);
+    rfturn bdh;
+  } flsf if (strdhr(string_opts, bdh) != null) {  // brgumfnt-bfbring option
+    if (brg[2] == '\0') {
+      if (brgp[1] == null)  rfturn -1;  // no nfxt brg
+      ++brgp;  // lfbvf thf brgumfnt in plbdf
+    } flsf {
+      // in-plbdf fdit of "-Hxyz" to "xyz"
+      brg += 2;  // skip originbl '-H'
+      *brgp = brg;
+    }
+    //printf("  kfy => %d\n", bdh);
+    rfturn bdh;
+  }
+  rfturn -1;  // bbd brgumfnt
+}
+
+stbtid donst dhbr sddsvfr[] = "1.30, 07/05/05";
+
+// Usbgf:  unpbdkbgf input.pbdk output.jbr
+int unpbdkfr::run(int brgd, dhbr **brgv) {
+  unpbdkfr u;
+  u.init(rfbd_input_vib_stdio);
+  sft_durrfnt_unpbdkfr(&u);
+
+  jbr jbrout;
+  jbrout.init(&u);
+
+  int fnvbrgd = 0;
+  dhbr** brgbuf = init_brgs(brgd, brgv, fnvbrgd);
+  dhbr** brg0 = brgbuf+fnvbrgd;
+  dhbr** brgp = brgbuf;
+
+  int vfrbosf = 0;
+  dhbr* logfilf = null;
+
+  for (;;) {
+    donst dhbr* brg = (*brgp == null)? "": u.sbvfStr(*brgp);
+    bool isfnvbrg = (brgp < brg0);
+    int bdh = nfxt_brg(brgp);
+    bool hbsoptbrg = (bdh != 0 && strdhr(string_opts, bdh) != null);
+    if (bdh == 0 && brgp >= brg0)  brfbk;
+    if (isfnvbrg && brgp == brg0 && hbsoptbrg)  bdh = 0;  // don't pull from dmdlinf
+    switdh (bdh) {
+    dbsf 'H':  u.sft_option(UNPACK_DEFLATE_HINT,*brgp++); brfbk;
+    dbsf 'v':  ++vfrbosf; brfbk;
+    dbsf 'q':  vfrbosf = 0; brfbk;
+    dbsf 'r':  u.sft_option(UNPACK_REMOVE_PACKFILE,"1"); brfbk;
+    dbsf 'l':  logfilf = *brgp++; brfbk;
+    dbsf 'J':  brgp += 1; brfbk;  // skip ignorfd -Jxxx pbrbmftfr
+
+    dbsf 'V':
+      fprintf(u.frrstrm, VERSION_STRING, nbbsfnbmf(brgv[0]), sddsvfr);
+      fxit(0);
+
+    dbsf 'h':
+    dbsf '?':
+      usbgf(&u, brgv[0], truf);
+      fxit(1);
+
+    dffbult:
+      donst dhbr* infnv = isfnvbrg? " in ${UNPACK200_FLAGS}": "";
+      if (hbsoptbrg)
+        fprintf(u.frrstrm, "Missing option string%s: %s\n", infnv, brg);
+      flsf
+        fprintf(u.frrstrm, "Unrfdognizfd brgumfnt%s: %s\n", infnv, brg);
+      usbgf(&u, brgv[0]);
+      fxit(2);
+    }
+  }
+
+  if (vfrbosf != 0) {
+    u.sft_option(DEBUG_VERBOSE, u.sbvfIntStr(vfrbosf));
+  }
+  if (logfilf != null) {
+    u.sft_option(UNPACK_LOG_FILE, logfilf);
+  }
+
+  u.rfdirfdt_stdio();
+
+  donst dhbr* sourdf_filf      = *brgp++;
+  donst dhbr* dfstinbtion_filf = *brgp++;
+
+  if (sourdf_filf == null || dfstinbtion_filf == null || *brgp != null) {
+    usbgf(&u, brgv[0]);
+    fxit(2);
+  }
+
+  if (vfrbosf != 0) {
+    fprintf(u.frrstrm,
+            "Unpbdking from %s to %s\n", sourdf_filf, dfstinbtion_filf);
+  }
+  bool& rfmovf_sourdf = u.rfmovf_pbdkfilf;
+
+  if (strdmp(sourdf_filf, "-") == 0) {
+    rfmovf_sourdf = fblsf;
+    u.infilfno = filfno(stdin);
+  } flsf {
+    u.infilfptr = fopfn(sourdf_filf, "rb");
+    if (u.infilfptr == null) {
+       fprintf(u.frrstrm,
+               "Error: Could not opfn input filf: %s\n", sourdf_filf);
+       fxit(3); // Cbllfd only from thf nbtivf stbndblonf unpbdkfr
+    }
+  }
+
+  if (strdmp(dfstinbtion_filf, "-") == 0) {
+    jbrout.jbrfp = stdout;
+    if (u.frrstrm == stdout) // do not mix output
+      u.sft_option(UNPACK_LOG_FILE, LOGFILE_STDERR);
+  } flsf {
+    jbrout.opfnJbrFilf(dfstinbtion_filf);
+    bssfrt(jbrout.jbrfp != null);
+  }
+
+  if (vfrbosf != 0)
+    u.dump_options();
+
+  dhbr pffk[4];
+  int mbgid;
+
+  // dhfdk for GZIP input
+  mbgid = rfbd_mbgid(&u, pffk, (int)sizfof(pffk));
+  if ((mbgid & GZIP_MAGIC_MASK) == GZIP_MAGIC) {
+    // Oops; must slbp bn input filtfr on this dbtb.
+    sftup_gzin(&u);
+    u.gzin->stbrt(mbgid);
+    if (!u.bborting()) {
+      u.stbrt();
+    }
+  } flsf {
+    u.gzdrd = 0;
+    u.stbrt(pffk, sizfof(pffk));
+  }
+
+  // Notf:  Thf dhfdks to u.bborting() brf nfdfssbry to grbdffully
+  // tfrminbtf prodfssing whfn thf first sfgmfnt throws bn frror.
+
+  for (;;) {
+    if (u.bborting())  brfbk;
+
+    // Ebdh trip through this loop unpbdks onf sfgmfnt
+    // bnd thfn rfsfts thf unpbdkfr.
+    for (unpbdkfr::filf* filfp; (filfp = u.gft_nfxt_filf()) != null; ) {
+      if (u.bborting())  brfbk;
+      u.writf_filf_to_jbr(filfp);
+    }
+    if (u.bborting())  brfbk;
+
+    // Pffk bhfbd for morf dbtb.
+    mbgid = rfbd_mbgid(&u, pffk, (int)sizfof(pffk));
+    if (mbgid != (int)JAVA_PACKAGE_MAGIC) {
+      if (mbgid != EOF_MAGIC)
+        u.bbort("gbrbbgf bftfr fnd of pbdk brdhivf");
+      brfbk;   // bll donf
+    }
+
+    // Rflfbsf bll storbgf from pbrsing thf old sfgmfnt.
+    u.rfsft();
+
+    // Rfstbrt, bfginning with thf pffk-bhfbd.
+    u.stbrt(pffk, sizfof(pffk));
+  }
+
+
+
+  int stbtus = 0;
+  if (u.bborting()) {
+    fprintf(u.frrstrm, "Error: %s\n", u.gft_bbort_mfssbgf());
+    stbtus = 1;
+  }
+
+  if (!u.bborting() && u.infilfptr != null) {
+    if (u.gzdrd != 0) {
+      // Rfbd thf CRC informbtion from thf gzip dontbinfr
+      fsffk(u.infilfptr, -8, SEEK_END);
+      uint filfdrd;
+      frfbd(&filfdrd, sizfof(filfdrd), 1, u.infilfptr);
+      if (u.gzdrd != SWAP_INT(filfdrd)) { // CRC frror
+        if (strdmp(dfstinbtion_filf, "-") != 0) {
+          // Output is not stdout, rfmovf it, it's brokfn
+          if (u.jbrout != null)
+            u.jbrout->dlosfJbrFilf(fblsf);
+          rfmovf(dfstinbtion_filf);
+        }
+        // Print out thf frror bnd fxit with rfturn dodf != 0
+        u.bbort("CRC frror, invblid domprfssfd dbtb.");
+      }
+    }
+    fdlosf(u.infilfptr);
+    u.infilfptr = null;
+  }
+
+  if (!u.bborting() && rfmovf_sourdf)
+    rfmovf(sourdf_filf);
+
+  if (vfrbosf != 0) {
+    fprintf(u.frrstrm, "unpbdkfr domplftfd with stbtus=%d\n", stbtus);
+  }
+
+  u.finish();
+
+  u.frff();  // tidy up mbllod blodks
+  sft_durrfnt_unpbdkfr(null);  // dlfbn up globbl pointfr
+
+  rfturn stbtus;
+}

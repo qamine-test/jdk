@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
 
-final class WButtonPeer extends WComponentPeer implements ButtonPeer {
+finbl dlbss WButtonPffr fxtfnds WComponfntPffr implfmfnts ButtonPffr {
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    // ComponentPeer overrides
+    // ComponfntPffr ovfrridfs
 
-    @Override
-    public Dimension getMinimumSize() {
-        FontMetrics fm = getFontMetrics(((Button)target).getFont());
-        String label = ((Button)target).getLabel();
-        if ( label == null ) {
-            label = "";
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        FontMftrids fm = gftFontMftrids(((Button)tbrgft).gftFont());
+        String lbbfl = ((Button)tbrgft).gftLbbfl();
+        if ( lbbfl == null ) {
+            lbbfl = "";
         }
-        return new Dimension(fm.stringWidth(label) + 14,
-                             fm.getHeight() + 8);
+        rfturn nfw Dimfnsion(fm.stringWidti(lbbfl) + 14,
+                             fm.gftHfigit() + 8);
     }
-    @Override
-    public boolean isFocusable() {
-        return true;
-    }
-
-    // ButtonPeer implementation
-
-    @Override
-    public native void setLabel(String label);
-
-    // Toolkit & peer internals
-
-    WButtonPeer(Button target) {
-        super(target);
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
     }
 
-    @Override
-    native void create(WComponentPeer peer);
+    // ButtonPffr implfmfntbtion
 
-    // native callbacks
+    @Ovfrridf
+    publid nbtivf void sftLbbfl(String lbbfl);
 
-    // NOTE: This is called on the privileged toolkit thread. Do not
-    //       call directly into user code using this thread!
-    public void handleAction(final long when, final int modifiers) {
-        // Fixed 5064013: the InvocationEvent time should be equals
-        // the time of the ActionEvent
-        WToolkit.executeOnEventHandlerThread(target, new Runnable() {
-            @Override
-            public void run() {
-                postEvent(new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
-                                          ((Button)target).getActionCommand(),
-                                          when, modifiers));
+    // Toolkit & pffr intfrnbls
+
+    WButtonPffr(Button tbrgft) {
+        supfr(tbrgft);
+    }
+
+    @Ovfrridf
+    nbtivf void drfbtf(WComponfntPffr pffr);
+
+    // nbtivf dbllbbdks
+
+    // NOTE: Tiis is dbllfd on tif privilfgfd toolkit tirfbd. Do not
+    //       dbll dirfdtly into usfr dodf using tiis tirfbd!
+    publid void ibndlfAdtion(finbl long wifn, finbl int modififrs) {
+        // Fixfd 5064013: tif InvodbtionEvfnt timf siould bf fqubls
+        // tif timf of tif AdtionEvfnt
+        WToolkit.fxfdutfOnEvfntHbndlfrTirfbd(tbrgft, nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                postEvfnt(nfw AdtionEvfnt(tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                          ((Button)tbrgft).gftAdtionCommbnd(),
+                                          wifn, modififrs));
             }
-        }, when);
+        }, wifn);
     }
 
 
-    @Override
-    public boolean shouldClearRectBeforePaint() {
-        return false;
+    @Ovfrridf
+    publid boolfbn siouldClfbrRfdtBfforfPbint() {
+        rfturn fblsf;
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    @Override
-    public boolean handleJavaKeyEvent(KeyEvent e) {
-         switch (e.getID()) {
-            case KeyEvent.KEY_RELEASED:
-                if (e.getKeyCode() == KeyEvent.VK_SPACE){
-                    handleAction(e.getWhen(), e.getModifiers());
+    @Ovfrridf
+    publid boolfbn ibndlfJbvbKfyEvfnt(KfyEvfnt f) {
+         switdi (f.gftID()) {
+            dbsf KfyEvfnt.KEY_RELEASED:
+                if (f.gftKfyCodf() == KfyEvfnt.VK_SPACE){
+                    ibndlfAdtion(f.gftWifn(), f.gftModififrs());
                 }
-            break;
+            brfbk;
          }
-         return false;
+         rfturn fblsf;
     }
 }

@@ -1,369 +1,369 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
-import java.util.Vector;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
 
 /**
- * <P>Class AccessibleRelation describes a relation between the
- * object that implements the AccessibleRelation and one or more other
- * objects.  The actual relations that an object has with other
- * objects are defined as an AccessibleRelationSet, which is a composed
- * set of AccessibleRelations.
- * <p>The toDisplayString method allows you to obtain the localized string
- * for a locale independent key from a predefined ResourceBundle for the
- * keys defined in this class.
- * <p>The constants in this class present a strongly typed enumeration
- * of common object roles. If the constants in this class are not sufficient
- * to describe the role of an object, a subclass should be generated
- * from this class and it should provide constants in a similar manner.
+ * <P>Clbss AddfssiblfRflbtion dfsdribfs b rflbtion bftwffn tif
+ * objfdt tibt implfmfnts tif AddfssiblfRflbtion bnd onf or morf otifr
+ * objfdts.  Tif bdtubl rflbtions tibt bn objfdt ibs witi otifr
+ * objfdts brf dffinfd bs bn AddfssiblfRflbtionSft, wiidi is b domposfd
+ * sft of AddfssiblfRflbtions.
+ * <p>Tif toDisplbyString mftiod bllows you to obtbin tif lodblizfd string
+ * for b lodblf indfpfndfnt kfy from b prfdffinfd RfsourdfBundlf for tif
+ * kfys dffinfd in tiis dlbss.
+ * <p>Tif donstbnts in tiis dlbss prfsfnt b strongly typfd fnumfrbtion
+ * of dommon objfdt rolfs. If tif donstbnts in tiis dlbss brf not suffidifnt
+ * to dfsdribf tif rolf of bn objfdt, b subdlbss siould bf gfnfrbtfd
+ * from tiis dlbss bnd it siould providf donstbnts in b similbr mbnnfr.
  *
- * @author      Lynn Monsanto
- * @since 1.3
+ * @butior      Lynn Monsbnto
+ * @sindf 1.3
  */
-public class AccessibleRelation extends AccessibleBundle {
+publid dlbss AddfssiblfRflbtion fxtfnds AddfssiblfBundlf {
 
     /*
-     * The group of objects that participate in the relation.
-     * The relation may be one-to-one or one-to-many.  For
-     * example, in the case of a LABEL_FOR relation, the target
-     * vector would contain a list of objects labeled by the object
-     * that implements this AccessibleRelation.  In the case of a
-     * MEMBER_OF relation, the target vector would contain all
-     * of the components that are members of the same group as the
-     * object that implements this AccessibleRelation.
+     * Tif group of objfdts tibt pbrtidipbtf in tif rflbtion.
+     * Tif rflbtion mby bf onf-to-onf or onf-to-mbny.  For
+     * fxbmplf, in tif dbsf of b LABEL_FOR rflbtion, tif tbrgft
+     * vfdtor would dontbin b list of objfdts lbbflfd by tif objfdt
+     * tibt implfmfnts tiis AddfssiblfRflbtion.  In tif dbsf of b
+     * MEMBER_OF rflbtion, tif tbrgft vfdtor would dontbin bll
+     * of tif domponfnts tibt brf mfmbfrs of tif sbmf group bs tif
+     * objfdt tibt implfmfnts tiis AddfssiblfRflbtion.
      */
-    private Object [] target = new Object[0];
+    privbtf Objfdt [] tbrgft = nfw Objfdt[0];
 
     /**
-     * Indicates an object is a label for one or more target objects.
+     * Indidbtfs bn objfdt is b lbbfl for onf or morf tbrgft objfdts.
      *
-     * @see #getTarget
-     * @see #CONTROLLER_FOR
-     * @see #CONTROLLED_BY
-     * @see #LABELED_BY
-     * @see #MEMBER_OF
+     * @sff #gftTbrgft
+     * @sff #CONTROLLER_FOR
+     * @sff #CONTROLLED_BY
+     * @sff #LABELED_BY
+     * @sff #MEMBER_OF
      */
-    public static final String LABEL_FOR = new String("labelFor");
+    publid stbtid finbl String LABEL_FOR = nfw String("lbbflFor");
 
     /**
-     * Indicates an object is labeled by one or more target objects.
+     * Indidbtfs bn objfdt is lbbflfd by onf or morf tbrgft objfdts.
      *
-     * @see #getTarget
-     * @see #CONTROLLER_FOR
-     * @see #CONTROLLED_BY
-     * @see #LABEL_FOR
-     * @see #MEMBER_OF
+     * @sff #gftTbrgft
+     * @sff #CONTROLLER_FOR
+     * @sff #CONTROLLED_BY
+     * @sff #LABEL_FOR
+     * @sff #MEMBER_OF
      */
-    public static final String LABELED_BY = new String("labeledBy");
+    publid stbtid finbl String LABELED_BY = nfw String("lbbflfdBy");
 
     /**
-     * Indicates an object is a member of a group of one or more
-     * target objects.
+     * Indidbtfs bn objfdt is b mfmbfr of b group of onf or morf
+     * tbrgft objfdts.
      *
-     * @see #getTarget
-     * @see #CONTROLLER_FOR
-     * @see #CONTROLLED_BY
-     * @see #LABEL_FOR
-     * @see #LABELED_BY
+     * @sff #gftTbrgft
+     * @sff #CONTROLLER_FOR
+     * @sff #CONTROLLED_BY
+     * @sff #LABEL_FOR
+     * @sff #LABELED_BY
      */
-    public static final String MEMBER_OF = new String("memberOf");
+    publid stbtid finbl String MEMBER_OF = nfw String("mfmbfrOf");
 
     /**
-     * Indicates an object is a controller for one or more target
-     * objects.
+     * Indidbtfs bn objfdt is b dontrollfr for onf or morf tbrgft
+     * objfdts.
      *
-     * @see #getTarget
-     * @see #CONTROLLED_BY
-     * @see #LABEL_FOR
-     * @see #LABELED_BY
-     * @see #MEMBER_OF
+     * @sff #gftTbrgft
+     * @sff #CONTROLLED_BY
+     * @sff #LABEL_FOR
+     * @sff #LABELED_BY
+     * @sff #MEMBER_OF
      */
-    public static final String CONTROLLER_FOR = new String("controllerFor");
+    publid stbtid finbl String CONTROLLER_FOR = nfw String("dontrollfrFor");
 
     /**
-     * Indicates an object is controlled by one or more target
-     * objects.
+     * Indidbtfs bn objfdt is dontrollfd by onf or morf tbrgft
+     * objfdts.
      *
-     * @see #getTarget
-     * @see #CONTROLLER_FOR
-     * @see #LABEL_FOR
-     * @see #LABELED_BY
-     * @see #MEMBER_OF
+     * @sff #gftTbrgft
+     * @sff #CONTROLLER_FOR
+     * @sff #LABEL_FOR
+     * @sff #LABELED_BY
+     * @sff #MEMBER_OF
      */
-    public static final String CONTROLLED_BY = new String("controlledBy");
+    publid stbtid finbl String CONTROLLED_BY = nfw String("dontrollfdBy");
 
     /**
-     * Indicates an object is logically contiguous with a second
-     * object where the second object occurs after the object.
-     * An example is a paragraph of text that runs to the end of
-     * a page and continues on the next page with an intervening
-     * text footer and/or text header.  The two parts of
-     * the paragraph are separate text elements but are related
-     * in that the second element is a continuation
-     * of the first
-     * element.  In other words, the first element "flows to"
-     * the second element.
+     * Indidbtfs bn objfdt is logidblly dontiguous witi b sfdond
+     * objfdt wifrf tif sfdond objfdt oddurs bftfr tif objfdt.
+     * An fxbmplf is b pbrbgrbpi of tfxt tibt runs to tif fnd of
+     * b pbgf bnd dontinufs on tif nfxt pbgf witi bn intfrvfning
+     * tfxt footfr bnd/or tfxt ifbdfr.  Tif two pbrts of
+     * tif pbrbgrbpi brf sfpbrbtf tfxt flfmfnts but brf rflbtfd
+     * in tibt tif sfdond flfmfnt is b dontinubtion
+     * of tif first
+     * flfmfnt.  In otifr words, tif first flfmfnt "flows to"
+     * tif sfdond flfmfnt.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String FLOWS_TO = "flowsTo";
+    publid stbtid finbl String FLOWS_TO = "flowsTo";
 
     /**
-     * Indicates an object is logically contiguous with a second
-     * object where the second object occurs before the object.
-     * An example is a paragraph of text that runs to the end of
-     * a page and continues on the next page with an intervening
-     * text footer and/or text header.  The two parts of
-     * the paragraph are separate text elements but are related
-     * in that the second element is a continuation of the first
-     * element.  In other words, the second element "flows from"
-     * the second element.
+     * Indidbtfs bn objfdt is logidblly dontiguous witi b sfdond
+     * objfdt wifrf tif sfdond objfdt oddurs bfforf tif objfdt.
+     * An fxbmplf is b pbrbgrbpi of tfxt tibt runs to tif fnd of
+     * b pbgf bnd dontinufs on tif nfxt pbgf witi bn intfrvfning
+     * tfxt footfr bnd/or tfxt ifbdfr.  Tif two pbrts of
+     * tif pbrbgrbpi brf sfpbrbtf tfxt flfmfnts but brf rflbtfd
+     * in tibt tif sfdond flfmfnt is b dontinubtion of tif first
+     * flfmfnt.  In otifr words, tif sfdond flfmfnt "flows from"
+     * tif sfdond flfmfnt.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String FLOWS_FROM = "flowsFrom";
+    publid stbtid finbl String FLOWS_FROM = "flowsFrom";
 
     /**
-     * Indicates that an object is a subwindow of one or more
-     * objects.
+     * Indidbtfs tibt bn objfdt is b subwindow of onf or morf
+     * objfdts.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String SUBWINDOW_OF = "subwindowOf";
+    publid stbtid finbl String SUBWINDOW_OF = "subwindowOf";
 
     /**
-     * Indicates that an object is a parent window of one or more
-     * objects.
+     * Indidbtfs tibt bn objfdt is b pbrfnt window of onf or morf
+     * objfdts.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String PARENT_WINDOW_OF = "parentWindowOf";
+    publid stbtid finbl String PARENT_WINDOW_OF = "pbrfntWindowOf";
 
     /**
-     * Indicates that an object has one or more objects
-     * embedded in it.
+     * Indidbtfs tibt bn objfdt ibs onf or morf objfdts
+     * fmbfddfd in it.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String EMBEDS = "embeds";
+    publid stbtid finbl String EMBEDS = "fmbfds";
 
     /**
-     * Indicates that an object is embedded in one or more
-     * objects.
+     * Indidbtfs tibt bn objfdt is fmbfddfd in onf or morf
+     * objfdts.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String EMBEDDED_BY = "embeddedBy";
+    publid stbtid finbl String EMBEDDED_BY = "fmbfddfdBy";
 
     /**
-     * Indicates that an object is a child node of one
-     * or more objects.
+     * Indidbtfs tibt bn objfdt is b diild nodf of onf
+     * or morf objfdts.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String CHILD_NODE_OF = "childNodeOf";
+    publid stbtid finbl String CHILD_NODE_OF = "diildNodfOf";
 
     /**
-     * Identifies that the target group for a label has changed
+     * Idfntififs tibt tif tbrgft group for b lbbfl ibs dibngfd
      */
-    public static final String LABEL_FOR_PROPERTY = "labelForProperty";
+    publid stbtid finbl String LABEL_FOR_PROPERTY = "lbbflForPropfrty";
 
     /**
-     * Identifies that the objects that are doing the labeling have changed
+     * Idfntififs tibt tif objfdts tibt brf doing tif lbbfling ibvf dibngfd
      */
-    public static final String LABELED_BY_PROPERTY = "labeledByProperty";
+    publid stbtid finbl String LABELED_BY_PROPERTY = "lbbflfdByPropfrty";
 
     /**
-     * Identifies that group membership has changed.
+     * Idfntififs tibt group mfmbfrsiip ibs dibngfd.
      */
-    public static final String MEMBER_OF_PROPERTY = "memberOfProperty";
+    publid stbtid finbl String MEMBER_OF_PROPERTY = "mfmbfrOfPropfrty";
 
     /**
-     * Identifies that the controller for the target object has changed
+     * Idfntififs tibt tif dontrollfr for tif tbrgft objfdt ibs dibngfd
      */
-    public static final String CONTROLLER_FOR_PROPERTY = "controllerForProperty";
+    publid stbtid finbl String CONTROLLER_FOR_PROPERTY = "dontrollfrForPropfrty";
 
     /**
-     * Identifies that the target object that is doing the controlling has
-     * changed
+     * Idfntififs tibt tif tbrgft objfdt tibt is doing tif dontrolling ibs
+     * dibngfd
      */
-    public static final String CONTROLLED_BY_PROPERTY = "controlledByProperty";
+    publid stbtid finbl String CONTROLLED_BY_PROPERTY = "dontrollfdByPropfrty";
 
     /**
-     * Indicates the FLOWS_TO relation between two objects
-     * has changed.
+     * Indidbtfs tif FLOWS_TO rflbtion bftwffn two objfdts
+     * ibs dibngfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String FLOWS_TO_PROPERTY = "flowsToProperty";
+    publid stbtid finbl String FLOWS_TO_PROPERTY = "flowsToPropfrty";
 
     /**
-     * Indicates the FLOWS_FROM relation between two objects
-     * has changed.
+     * Indidbtfs tif FLOWS_FROM rflbtion bftwffn two objfdts
+     * ibs dibngfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String FLOWS_FROM_PROPERTY = "flowsFromProperty";
+    publid stbtid finbl String FLOWS_FROM_PROPERTY = "flowsFromPropfrty";
 
     /**
-     * Indicates the SUBWINDOW_OF relation between two or more objects
-     * has changed.
+     * Indidbtfs tif SUBWINDOW_OF rflbtion bftwffn two or morf objfdts
+     * ibs dibngfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String SUBWINDOW_OF_PROPERTY = "subwindowOfProperty";
+    publid stbtid finbl String SUBWINDOW_OF_PROPERTY = "subwindowOfPropfrty";
 
     /**
-     * Indicates the PARENT_WINDOW_OF relation between two or more objects
-     * has changed.
+     * Indidbtfs tif PARENT_WINDOW_OF rflbtion bftwffn two or morf objfdts
+     * ibs dibngfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String PARENT_WINDOW_OF_PROPERTY = "parentWindowOfProperty";
+    publid stbtid finbl String PARENT_WINDOW_OF_PROPERTY = "pbrfntWindowOfPropfrty";
 
     /**
-     * Indicates the EMBEDS relation between two or more objects
-     * has changed.
+     * Indidbtfs tif EMBEDS rflbtion bftwffn two or morf objfdts
+     * ibs dibngfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String EMBEDS_PROPERTY = "embedsProperty";
+    publid stbtid finbl String EMBEDS_PROPERTY = "fmbfdsPropfrty";
 
     /**
-     * Indicates the EMBEDDED_BY relation between two or more objects
-     * has changed.
+     * Indidbtfs tif EMBEDDED_BY rflbtion bftwffn two or morf objfdts
+     * ibs dibngfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String EMBEDDED_BY_PROPERTY = "embeddedByProperty";
+    publid stbtid finbl String EMBEDDED_BY_PROPERTY = "fmbfddfdByPropfrty";
 
     /**
-     * Indicates the CHILD_NODE_OF relation between two or more objects
-     * has changed.
+     * Indidbtfs tif CHILD_NODE_OF rflbtion bftwffn two or morf objfdts
+     * ibs dibngfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String CHILD_NODE_OF_PROPERTY = "childNodeOfProperty";
+    publid stbtid finbl String CHILD_NODE_OF_PROPERTY = "diildNodfOfPropfrty";
 
     /**
-     * Create a new AccessibleRelation using the given locale independent key.
-     * The key String should be a locale independent key for the relation.
-     * It is not intended to be used as the actual String to display
-     * to the user.  To get the localized string, use toDisplayString.
+     * Crfbtf b nfw AddfssiblfRflbtion using tif givfn lodblf indfpfndfnt kfy.
+     * Tif kfy String siould bf b lodblf indfpfndfnt kfy for tif rflbtion.
+     * It is not intfndfd to bf usfd bs tif bdtubl String to displby
+     * to tif usfr.  To gft tif lodblizfd string, usf toDisplbyString.
      *
-     * @param key the locale independent name of the relation.
-     * @see AccessibleBundle#toDisplayString
+     * @pbrbm kfy tif lodblf indfpfndfnt nbmf of tif rflbtion.
+     * @sff AddfssiblfBundlf#toDisplbyString
      */
-    public AccessibleRelation(String key) {
-        this.key = key;
-        this.target = null;
+    publid AddfssiblfRflbtion(String kfy) {
+        tiis.kfy = kfy;
+        tiis.tbrgft = null;
     }
 
     /**
-     * Creates a new AccessibleRelation using the given locale independent key.
-     * The key String should be a locale independent key for the relation.
-     * It is not intended to be used as the actual String to display
-     * to the user.  To get the localized string, use toDisplayString.
+     * Crfbtfs b nfw AddfssiblfRflbtion using tif givfn lodblf indfpfndfnt kfy.
+     * Tif kfy String siould bf b lodblf indfpfndfnt kfy for tif rflbtion.
+     * It is not intfndfd to bf usfd bs tif bdtubl String to displby
+     * to tif usfr.  To gft tif lodblizfd string, usf toDisplbyString.
      *
-     * @param key the locale independent name of the relation.
-     * @param target the target object for this relation
-     * @see AccessibleBundle#toDisplayString
+     * @pbrbm kfy tif lodblf indfpfndfnt nbmf of tif rflbtion.
+     * @pbrbm tbrgft tif tbrgft objfdt for tiis rflbtion
+     * @sff AddfssiblfBundlf#toDisplbyString
      */
-    public AccessibleRelation(String key, Object target) {
-        this.key = key;
-        this.target = new Object[1];
-        this.target[0] = target;
+    publid AddfssiblfRflbtion(String kfy, Objfdt tbrgft) {
+        tiis.kfy = kfy;
+        tiis.tbrgft = nfw Objfdt[1];
+        tiis.tbrgft[0] = tbrgft;
     }
 
     /**
-     * Creates a new AccessibleRelation using the given locale independent key.
-     * The key String should be a locale independent key for the relation.
-     * It is not intended to be used as the actual String to display
-     * to the user.  To get the localized string, use toDisplayString.
+     * Crfbtfs b nfw AddfssiblfRflbtion using tif givfn lodblf indfpfndfnt kfy.
+     * Tif kfy String siould bf b lodblf indfpfndfnt kfy for tif rflbtion.
+     * It is not intfndfd to bf usfd bs tif bdtubl String to displby
+     * to tif usfr.  To gft tif lodblizfd string, usf toDisplbyString.
      *
-     * @param key the locale independent name of the relation.
-     * @param target the target object(s) for this relation
-     * @see AccessibleBundle#toDisplayString
+     * @pbrbm kfy tif lodblf indfpfndfnt nbmf of tif rflbtion.
+     * @pbrbm tbrgft tif tbrgft objfdt(s) for tiis rflbtion
+     * @sff AddfssiblfBundlf#toDisplbyString
      */
-    public AccessibleRelation(String key, Object [] target) {
-        this.key = key;
-        this.target = target;
+    publid AddfssiblfRflbtion(String kfy, Objfdt [] tbrgft) {
+        tiis.kfy = kfy;
+        tiis.tbrgft = tbrgft;
     }
 
     /**
-     * Returns the key for this relation
+     * Rfturns tif kfy for tiis rflbtion
      *
-     * @return the key for this relation
+     * @rfturn tif kfy for tiis rflbtion
      *
-     * @see #CONTROLLER_FOR
-     * @see #CONTROLLED_BY
-     * @see #LABEL_FOR
-     * @see #LABELED_BY
-     * @see #MEMBER_OF
+     * @sff #CONTROLLER_FOR
+     * @sff #CONTROLLED_BY
+     * @sff #LABEL_FOR
+     * @sff #LABELED_BY
+     * @sff #MEMBER_OF
      */
-    public String getKey() {
-        return this.key;
+    publid String gftKfy() {
+        rfturn tiis.kfy;
     }
 
     /**
-     * Returns the target objects for this relation
+     * Rfturns tif tbrgft objfdts for tiis rflbtion
      *
-     * @return an array containing the target objects for this relation
+     * @rfturn bn brrby dontbining tif tbrgft objfdts for tiis rflbtion
      */
-    public Object [] getTarget() {
-        if (target == null) {
-            target = new Object[0];
+    publid Objfdt [] gftTbrgft() {
+        if (tbrgft == null) {
+            tbrgft = nfw Objfdt[0];
         }
-        Object [] retval = new Object[target.length];
-        for (int i = 0; i < target.length; i++) {
-            retval[i] = target[i];
+        Objfdt [] rftvbl = nfw Objfdt[tbrgft.lfngti];
+        for (int i = 0; i < tbrgft.lfngti; i++) {
+            rftvbl[i] = tbrgft[i];
         }
-        return retval;
+        rfturn rftvbl;
     }
 
     /**
-     * Sets the target object for this relation
+     * Sfts tif tbrgft objfdt for tiis rflbtion
      *
-     * @param target the target object for this relation
+     * @pbrbm tbrgft tif tbrgft objfdt for tiis rflbtion
      */
-    public void setTarget(Object target) {
-        this.target = new Object[1];
-        this.target[0] = target;
+    publid void sftTbrgft(Objfdt tbrgft) {
+        tiis.tbrgft = nfw Objfdt[1];
+        tiis.tbrgft[0] = tbrgft;
     }
 
     /**
-     * Sets the target objects for this relation
+     * Sfts tif tbrgft objfdts for tiis rflbtion
      *
-     * @param target an array containing the target objects for this relation
+     * @pbrbm tbrgft bn brrby dontbining tif tbrgft objfdts for tiis rflbtion
      */
-    public void setTarget(Object [] target) {
-        this.target = target;
+    publid void sftTbrgft(Objfdt [] tbrgft) {
+        tiis.tbrgft = tbrgft;
     }
 }

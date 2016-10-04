@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.CompilbtionMXBfbn;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+// jdmk imports
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmCompilbtionMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmJITCompilfrTimfMonitoring;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+
+/**
+ * Thf dlbss is usfd for implfmfnting thf "JvmCompilbtion" group.
+ */
+publid dlbss JvmCompilbtionImpl implfmfnts JvmCompilbtionMBfbn {
+
+    /**
+     * Vbribblf for storing thf vbluf of "JvmJITCompilfrTimfMonitoring".
+     *
+     * "Indidbtfs whfthfr thf Jbvb virtubl mbdhinf supports
+     * dompilbtion timf monitoring.
+     *
+     * Sff jbvb.mbnbgfmfnt.CompilbtionMXBfbn.
+     * isCompilbtionTimfMonitoringSupportfd()
+     * "
+     *
+     */
+    stbtid finbl EnumJvmJITCompilfrTimfMonitoring
+        JvmJITCompilfrTimfMonitoringSupportfd =
+        nfw EnumJvmJITCompilfrTimfMonitoring("supportfd");
+    stbtid finbl EnumJvmJITCompilfrTimfMonitoring
+        JvmJITCompilfrTimfMonitoringUnsupportfd =
+        nfw EnumJvmJITCompilfrTimfMonitoring("unsupportfd");
+
+
+    /**
+     * Construdtor for thf "JvmCompilbtion" group.
+     * If thf group dontbins b tbblf, thf fntrifs drfbtfd through bn SNMP SET
+     * will not bf rfgistfrfd in Jbvb DMK.
+     */
+    publid JvmCompilbtionImpl(SnmpMib myMib) {
+    }
+
+
+    /**
+     * Construdtor for thf "JvmCompilbtion" group.
+     * If thf group dontbins b tbblf, thf fntrifs drfbtfd through bn SNMP
+     * SET will bf AUTOMATICALLY REGISTERED in Jbvb DMK.
+     */
+    publid JvmCompilbtionImpl(SnmpMib myMib, MBfbnSfrvfr sfrvfr) {
+    }
+
+    privbtf stbtid CompilbtionMXBfbn gftCompilbtionMXBfbn() {
+        rfturn MbnbgfmfntFbdtory.gftCompilbtionMXBfbn();
+    }
+
+    /**
+     * Gfttfr for thf "JvmJITCompilfrTimfMonitoring" vbribblf.
+     */
+    publid EnumJvmJITCompilfrTimfMonitoring gftJvmJITCompilfrTimfMonitoring()
+        throws SnmpStbtusExdfption {
+
+        // If wf rfbdh this point, thfn wf dbn sbffly bssumf thbt
+        // gftCompilbtionMXBfbn() will not rfturn null, bfdbusf this
+        // objfdt will not bf instbntibtfd whfn thfrf is no dompilbtion
+        // systfm (sff JVM_MANAGEMENT_MIB_IMPL).
+        //
+        if(gftCompilbtionMXBfbn().isCompilbtionTimfMonitoringSupportfd())
+            rfturn JvmJITCompilfrTimfMonitoringSupportfd;
+        flsf
+            rfturn JvmJITCompilfrTimfMonitoringUnsupportfd;
+    }
+
+    /**
+     * Gfttfr for thf "JvmJITCompilfrTimfMs" vbribblf.
+     */
+    publid Long gftJvmJITCompilfrTimfMs() throws SnmpStbtusExdfption {
+        finbl long t;
+        if(gftCompilbtionMXBfbn().isCompilbtionTimfMonitoringSupportfd())
+            t = gftCompilbtionMXBfbn().gftTotblCompilbtionTimf();
+        flsf
+            t = 0;
+        rfturn t;
+    }
+
+    /**
+     * Gfttfr for thf "JvmJITCompilfrNbmf" vbribblf.
+     */
+    publid String gftJvmJITCompilfrNbmf() throws SnmpStbtusExdfption {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.
+            vblidJbvbObjfdtNbmfTC(gftCompilbtionMXBfbn().gftNbmf());
+    }
+
+}

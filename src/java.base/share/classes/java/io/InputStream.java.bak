@@ -1,367 +1,367 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * This abstract class is the superclass of all classes representing
- * an input stream of bytes.
+ * Tiis bbstrbdt dlbss is tif supfrdlbss of bll dlbssfs rfprfsfnting
+ * bn input strfbm of bytfs.
  *
- * <p> Applications that need to define a subclass of <code>InputStream</code>
- * must always provide a method that returns the next byte of input.
+ * <p> Applidbtions tibt nffd to dffinf b subdlbss of <dodf>InputStrfbm</dodf>
+ * must blwbys providf b mftiod tibt rfturns tif nfxt bytf of input.
  *
- * @author  Arthur van Hoff
- * @see     java.io.BufferedInputStream
- * @see     java.io.ByteArrayInputStream
- * @see     java.io.DataInputStream
- * @see     java.io.FilterInputStream
- * @see     java.io.InputStream#read()
- * @see     java.io.OutputStream
- * @see     java.io.PushbackInputStream
- * @since   1.0
+ * @butior  Artiur vbn Hoff
+ * @sff     jbvb.io.BufffrfdInputStrfbm
+ * @sff     jbvb.io.BytfArrbyInputStrfbm
+ * @sff     jbvb.io.DbtbInputStrfbm
+ * @sff     jbvb.io.FiltfrInputStrfbm
+ * @sff     jbvb.io.InputStrfbm#rfbd()
+ * @sff     jbvb.io.OutputStrfbm
+ * @sff     jbvb.io.PusibbdkInputStrfbm
+ * @sindf   1.0
  */
-public abstract class InputStream implements Closeable {
+publid bbstrbdt dlbss InputStrfbm implfmfnts Closfbblf {
 
-    // MAX_SKIP_BUFFER_SIZE is used to determine the maximum buffer size to
-    // use when skipping.
-    private static final int MAX_SKIP_BUFFER_SIZE = 2048;
-
-    /**
-     * Reads the next byte of data from the input stream. The value byte is
-     * returned as an <code>int</code> in the range <code>0</code> to
-     * <code>255</code>. If no byte is available because the end of the stream
-     * has been reached, the value <code>-1</code> is returned. This method
-     * blocks until input data is available, the end of the stream is detected,
-     * or an exception is thrown.
-     *
-     * <p> A subclass must provide an implementation of this method.
-     *
-     * @return     the next byte of data, or <code>-1</code> if the end of the
-     *             stream is reached.
-     * @exception  IOException  if an I/O error occurs.
-     */
-    public abstract int read() throws IOException;
+    // MAX_SKIP_BUFFER_SIZE is usfd to dftfrminf tif mbximum bufffr sizf to
+    // usf wifn skipping.
+    privbtf stbtid finbl int MAX_SKIP_BUFFER_SIZE = 2048;
 
     /**
-     * Reads some number of bytes from the input stream and stores them into
-     * the buffer array <code>b</code>. The number of bytes actually read is
-     * returned as an integer.  This method blocks until input data is
-     * available, end of file is detected, or an exception is thrown.
+     * Rfbds tif nfxt bytf of dbtb from tif input strfbm. Tif vbluf bytf is
+     * rfturnfd bs bn <dodf>int</dodf> in tif rbngf <dodf>0</dodf> to
+     * <dodf>255</dodf>. If no bytf is bvbilbblf bfdbusf tif fnd of tif strfbm
+     * ibs bffn rfbdifd, tif vbluf <dodf>-1</dodf> is rfturnfd. Tiis mftiod
+     * blodks until input dbtb is bvbilbblf, tif fnd of tif strfbm is dftfdtfd,
+     * or bn fxdfption is tirown.
      *
-     * <p> If the length of <code>b</code> is zero, then no bytes are read and
-     * <code>0</code> is returned; otherwise, there is an attempt to read at
-     * least one byte. If no byte is available because the stream is at the
-     * end of the file, the value <code>-1</code> is returned; otherwise, at
-     * least one byte is read and stored into <code>b</code>.
+     * <p> A subdlbss must providf bn implfmfntbtion of tiis mftiod.
      *
-     * <p> The first byte read is stored into element <code>b[0]</code>, the
-     * next one into <code>b[1]</code>, and so on. The number of bytes read is,
-     * at most, equal to the length of <code>b</code>. Let <i>k</i> be the
-     * number of bytes actually read; these bytes will be stored in elements
-     * <code>b[0]</code> through <code>b[</code><i>k</i><code>-1]</code>,
-     * leaving elements <code>b[</code><i>k</i><code>]</code> through
-     * <code>b[b.length-1]</code> unaffected.
-     *
-     * <p> The <code>read(b)</code> method for class <code>InputStream</code>
-     * has the same effect as: <pre><code> read(b, 0, b.length) </code></pre>
-     *
-     * @param      b   the buffer into which the data is read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end of
-     *             the stream has been reached.
-     * @exception  IOException  If the first byte cannot be read for any reason
-     * other than the end of the file, if the input stream has been closed, or
-     * if some other I/O error occurs.
-     * @exception  NullPointerException  if <code>b</code> is <code>null</code>.
-     * @see        java.io.InputStream#read(byte[], int, int)
+     * @rfturn     tif nfxt bytf of dbtb, or <dodf>-1</dodf> if tif fnd of tif
+     *             strfbm is rfbdifd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public int read(byte b[]) throws IOException {
-        return read(b, 0, b.length);
+    publid bbstrbdt int rfbd() tirows IOExdfption;
+
+    /**
+     * Rfbds somf numbfr of bytfs from tif input strfbm bnd storfs tifm into
+     * tif bufffr brrby <dodf>b</dodf>. Tif numbfr of bytfs bdtublly rfbd is
+     * rfturnfd bs bn intfgfr.  Tiis mftiod blodks until input dbtb is
+     * bvbilbblf, fnd of filf is dftfdtfd, or bn fxdfption is tirown.
+     *
+     * <p> If tif lfngti of <dodf>b</dodf> is zfro, tifn no bytfs brf rfbd bnd
+     * <dodf>0</dodf> is rfturnfd; otifrwisf, tifrf is bn bttfmpt to rfbd bt
+     * lfbst onf bytf. If no bytf is bvbilbblf bfdbusf tif strfbm is bt tif
+     * fnd of tif filf, tif vbluf <dodf>-1</dodf> is rfturnfd; otifrwisf, bt
+     * lfbst onf bytf is rfbd bnd storfd into <dodf>b</dodf>.
+     *
+     * <p> Tif first bytf rfbd is storfd into flfmfnt <dodf>b[0]</dodf>, tif
+     * nfxt onf into <dodf>b[1]</dodf>, bnd so on. Tif numbfr of bytfs rfbd is,
+     * bt most, fqubl to tif lfngti of <dodf>b</dodf>. Lft <i>k</i> bf tif
+     * numbfr of bytfs bdtublly rfbd; tifsf bytfs will bf storfd in flfmfnts
+     * <dodf>b[0]</dodf> tirougi <dodf>b[</dodf><i>k</i><dodf>-1]</dodf>,
+     * lfbving flfmfnts <dodf>b[</dodf><i>k</i><dodf>]</dodf> tirougi
+     * <dodf>b[b.lfngti-1]</dodf> unbfffdtfd.
+     *
+     * <p> Tif <dodf>rfbd(b)</dodf> mftiod for dlbss <dodf>InputStrfbm</dodf>
+     * ibs tif sbmf ffffdt bs: <prf><dodf> rfbd(b, 0, b.lfngti) </dodf></prf>
+     *
+     * @pbrbm      b   tif bufffr into wiidi tif dbtb is rfbd.
+     * @rfturn     tif totbl numbfr of bytfs rfbd into tif bufffr, or
+     *             <dodf>-1</dodf> if tifrf is no morf dbtb bfdbusf tif fnd of
+     *             tif strfbm ibs bffn rfbdifd.
+     * @fxdfption  IOExdfption  If tif first bytf dbnnot bf rfbd for bny rfbson
+     * otifr tibn tif fnd of tif filf, if tif input strfbm ibs bffn dlosfd, or
+     * if somf otifr I/O frror oddurs.
+     * @fxdfption  NullPointfrExdfption  if <dodf>b</dodf> is <dodf>null</dodf>.
+     * @sff        jbvb.io.InputStrfbm#rfbd(bytf[], int, int)
+     */
+    publid int rfbd(bytf b[]) tirows IOExdfption {
+        rfturn rfbd(b, 0, b.lfngti);
     }
 
     /**
-     * Reads up to <code>len</code> bytes of data from the input stream into
-     * an array of bytes.  An attempt is made to read as many as
-     * <code>len</code> bytes, but a smaller number may be read.
-     * The number of bytes actually read is returned as an integer.
+     * Rfbds up to <dodf>lfn</dodf> bytfs of dbtb from tif input strfbm into
+     * bn brrby of bytfs.  An bttfmpt is mbdf to rfbd bs mbny bs
+     * <dodf>lfn</dodf> bytfs, but b smbllfr numbfr mby bf rfbd.
+     * Tif numbfr of bytfs bdtublly rfbd is rfturnfd bs bn intfgfr.
      *
-     * <p> This method blocks until input data is available, end of file is
-     * detected, or an exception is thrown.
+     * <p> Tiis mftiod blodks until input dbtb is bvbilbblf, fnd of filf is
+     * dftfdtfd, or bn fxdfption is tirown.
      *
-     * <p> If <code>len</code> is zero, then no bytes are read and
-     * <code>0</code> is returned; otherwise, there is an attempt to read at
-     * least one byte. If no byte is available because the stream is at end of
-     * file, the value <code>-1</code> is returned; otherwise, at least one
-     * byte is read and stored into <code>b</code>.
+     * <p> If <dodf>lfn</dodf> is zfro, tifn no bytfs brf rfbd bnd
+     * <dodf>0</dodf> is rfturnfd; otifrwisf, tifrf is bn bttfmpt to rfbd bt
+     * lfbst onf bytf. If no bytf is bvbilbblf bfdbusf tif strfbm is bt fnd of
+     * filf, tif vbluf <dodf>-1</dodf> is rfturnfd; otifrwisf, bt lfbst onf
+     * bytf is rfbd bnd storfd into <dodf>b</dodf>.
      *
-     * <p> The first byte read is stored into element <code>b[off]</code>, the
-     * next one into <code>b[off+1]</code>, and so on. The number of bytes read
-     * is, at most, equal to <code>len</code>. Let <i>k</i> be the number of
-     * bytes actually read; these bytes will be stored in elements
-     * <code>b[off]</code> through <code>b[off+</code><i>k</i><code>-1]</code>,
-     * leaving elements <code>b[off+</code><i>k</i><code>]</code> through
-     * <code>b[off+len-1]</code> unaffected.
+     * <p> Tif first bytf rfbd is storfd into flfmfnt <dodf>b[off]</dodf>, tif
+     * nfxt onf into <dodf>b[off+1]</dodf>, bnd so on. Tif numbfr of bytfs rfbd
+     * is, bt most, fqubl to <dodf>lfn</dodf>. Lft <i>k</i> bf tif numbfr of
+     * bytfs bdtublly rfbd; tifsf bytfs will bf storfd in flfmfnts
+     * <dodf>b[off]</dodf> tirougi <dodf>b[off+</dodf><i>k</i><dodf>-1]</dodf>,
+     * lfbving flfmfnts <dodf>b[off+</dodf><i>k</i><dodf>]</dodf> tirougi
+     * <dodf>b[off+lfn-1]</dodf> unbfffdtfd.
      *
-     * <p> In every case, elements <code>b[0]</code> through
-     * <code>b[off]</code> and elements <code>b[off+len]</code> through
-     * <code>b[b.length-1]</code> are unaffected.
+     * <p> In fvfry dbsf, flfmfnts <dodf>b[0]</dodf> tirougi
+     * <dodf>b[off]</dodf> bnd flfmfnts <dodf>b[off+lfn]</dodf> tirougi
+     * <dodf>b[b.lfngti-1]</dodf> brf unbfffdtfd.
      *
-     * <p> The <code>read(b,</code> <code>off,</code> <code>len)</code> method
-     * for class <code>InputStream</code> simply calls the method
-     * <code>read()</code> repeatedly. If the first such call results in an
-     * <code>IOException</code>, that exception is returned from the call to
-     * the <code>read(b,</code> <code>off,</code> <code>len)</code> method.  If
-     * any subsequent call to <code>read()</code> results in a
-     * <code>IOException</code>, the exception is caught and treated as if it
-     * were end of file; the bytes read up to that point are stored into
-     * <code>b</code> and the number of bytes read before the exception
-     * occurred is returned. The default implementation of this method blocks
-     * until the requested amount of input data <code>len</code> has been read,
-     * end of file is detected, or an exception is thrown. Subclasses are encouraged
-     * to provide a more efficient implementation of this method.
+     * <p> Tif <dodf>rfbd(b,</dodf> <dodf>off,</dodf> <dodf>lfn)</dodf> mftiod
+     * for dlbss <dodf>InputStrfbm</dodf> simply dblls tif mftiod
+     * <dodf>rfbd()</dodf> rfpfbtfdly. If tif first sudi dbll rfsults in bn
+     * <dodf>IOExdfption</dodf>, tibt fxdfption is rfturnfd from tif dbll to
+     * tif <dodf>rfbd(b,</dodf> <dodf>off,</dodf> <dodf>lfn)</dodf> mftiod.  If
+     * bny subsfqufnt dbll to <dodf>rfbd()</dodf> rfsults in b
+     * <dodf>IOExdfption</dodf>, tif fxdfption is dbugit bnd trfbtfd bs if it
+     * wfrf fnd of filf; tif bytfs rfbd up to tibt point brf storfd into
+     * <dodf>b</dodf> bnd tif numbfr of bytfs rfbd bfforf tif fxdfption
+     * oddurrfd is rfturnfd. Tif dffbult implfmfntbtion of tiis mftiod blodks
+     * until tif rfqufstfd bmount of input dbtb <dodf>lfn</dodf> ibs bffn rfbd,
+     * fnd of filf is dftfdtfd, or bn fxdfption is tirown. Subdlbssfs brf fndourbgfd
+     * to providf b morf fffidifnt implfmfntbtion of tiis mftiod.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset in array <code>b</code>
-     *                   at which the data is written.
-     * @param      len   the maximum number of bytes to read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end of
-     *             the stream has been reached.
-     * @exception  IOException If the first byte cannot be read for any reason
-     * other than end of file, or if the input stream has been closed, or if
-     * some other I/O error occurs.
-     * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
-     * <code>b.length - off</code>
-     * @see        java.io.InputStream#read()
+     * @pbrbm      b     tif bufffr into wiidi tif dbtb is rfbd.
+     * @pbrbm      off   tif stbrt offsft in brrby <dodf>b</dodf>
+     *                   bt wiidi tif dbtb is writtfn.
+     * @pbrbm      lfn   tif mbximum numbfr of bytfs to rfbd.
+     * @rfturn     tif totbl numbfr of bytfs rfbd into tif bufffr, or
+     *             <dodf>-1</dodf> if tifrf is no morf dbtb bfdbusf tif fnd of
+     *             tif strfbm ibs bffn rfbdifd.
+     * @fxdfption  IOExdfption If tif first bytf dbnnot bf rfbd for bny rfbson
+     * otifr tibn fnd of filf, or if tif input strfbm ibs bffn dlosfd, or if
+     * somf otifr I/O frror oddurs.
+     * @fxdfption  NullPointfrExdfption If <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr tibn
+     * <dodf>b.lfngti - off</dodf>
+     * @sff        jbvb.io.InputStrfbm#rfbd()
      */
-    public int read(byte b[], int off, int len) throws IOException {
+    publid int rfbd(bytf b[], int off, int lfn) tirows IOExdfption {
         if (b == null) {
-            throw new NullPointerException();
-        } else if (off < 0 || len < 0 || len > b.length - off) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return 0;
+            tirow nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngti - off) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn 0;
         }
 
-        int c = read();
-        if (c == -1) {
-            return -1;
+        int d = rfbd();
+        if (d == -1) {
+            rfturn -1;
         }
-        b[off] = (byte)c;
+        b[off] = (bytf)d;
 
         int i = 1;
         try {
-            for (; i < len ; i++) {
-                c = read();
-                if (c == -1) {
-                    break;
+            for (; i < lfn ; i++) {
+                d = rfbd();
+                if (d == -1) {
+                    brfbk;
                 }
-                b[off + i] = (byte)c;
+                b[off + i] = (bytf)d;
             }
-        } catch (IOException ee) {
+        } dbtdi (IOExdfption ff) {
         }
-        return i;
+        rfturn i;
     }
 
     /**
-     * Skips over and discards <code>n</code> bytes of data from this input
-     * stream. The <code>skip</code> method may, for a variety of reasons, end
-     * up skipping over some smaller number of bytes, possibly <code>0</code>.
-     * This may result from any of a number of conditions; reaching end of file
-     * before <code>n</code> bytes have been skipped is only one possibility.
-     * The actual number of bytes skipped is returned. If {@code n} is
-     * negative, the {@code skip} method for class {@code InputStream} always
-     * returns 0, and no bytes are skipped. Subclasses may handle the negative
-     * value differently.
+     * Skips ovfr bnd disdbrds <dodf>n</dodf> bytfs of dbtb from tiis input
+     * strfbm. Tif <dodf>skip</dodf> mftiod mby, for b vbrifty of rfbsons, fnd
+     * up skipping ovfr somf smbllfr numbfr of bytfs, possibly <dodf>0</dodf>.
+     * Tiis mby rfsult from bny of b numbfr of donditions; rfbdiing fnd of filf
+     * bfforf <dodf>n</dodf> bytfs ibvf bffn skippfd is only onf possibility.
+     * Tif bdtubl numbfr of bytfs skippfd is rfturnfd. If {@dodf n} is
+     * nfgbtivf, tif {@dodf skip} mftiod for dlbss {@dodf InputStrfbm} blwbys
+     * rfturns 0, bnd no bytfs brf skippfd. Subdlbssfs mby ibndlf tif nfgbtivf
+     * vbluf difffrfntly.
      *
-     * <p> The <code>skip</code> method of this class creates a
-     * byte array and then repeatedly reads into it until <code>n</code> bytes
-     * have been read or the end of the stream has been reached. Subclasses are
-     * encouraged to provide a more efficient implementation of this method.
-     * For instance, the implementation may depend on the ability to seek.
+     * <p> Tif <dodf>skip</dodf> mftiod of tiis dlbss drfbtfs b
+     * bytf brrby bnd tifn rfpfbtfdly rfbds into it until <dodf>n</dodf> bytfs
+     * ibvf bffn rfbd or tif fnd of tif strfbm ibs bffn rfbdifd. Subdlbssfs brf
+     * fndourbgfd to providf b morf fffidifnt implfmfntbtion of tiis mftiod.
+     * For instbndf, tif implfmfntbtion mby dfpfnd on tif bbility to sffk.
      *
-     * @param      n   the number of bytes to be skipped.
-     * @return     the actual number of bytes skipped.
-     * @exception  IOException  if the stream does not support seek,
-     *                          or if some other I/O error occurs.
+     * @pbrbm      n   tif numbfr of bytfs to bf skippfd.
+     * @rfturn     tif bdtubl numbfr of bytfs skippfd.
+     * @fxdfption  IOExdfption  if tif strfbm dofs not support sffk,
+     *                          or if somf otifr I/O frror oddurs.
      */
-    public long skip(long n) throws IOException {
+    publid long skip(long n) tirows IOExdfption {
 
-        long remaining = n;
+        long rfmbining = n;
         int nr;
 
         if (n <= 0) {
-            return 0;
+            rfturn 0;
         }
 
-        int size = (int)Math.min(MAX_SKIP_BUFFER_SIZE, remaining);
-        byte[] skipBuffer = new byte[size];
-        while (remaining > 0) {
-            nr = read(skipBuffer, 0, (int)Math.min(size, remaining));
+        int sizf = (int)Mbti.min(MAX_SKIP_BUFFER_SIZE, rfmbining);
+        bytf[] skipBufffr = nfw bytf[sizf];
+        wiilf (rfmbining > 0) {
+            nr = rfbd(skipBufffr, 0, (int)Mbti.min(sizf, rfmbining));
             if (nr < 0) {
-                break;
+                brfbk;
             }
-            remaining -= nr;
+            rfmbining -= nr;
         }
 
-        return n - remaining;
+        rfturn n - rfmbining;
     }
 
     /**
-     * Returns an estimate of the number of bytes that can be read (or
-     * skipped over) from this input stream without blocking by the next
-     * invocation of a method for this input stream. The next invocation
-     * might be the same thread or another thread.  A single read or skip of this
-     * many bytes will not block, but may read or skip fewer bytes.
+     * Rfturns bn fstimbtf of tif numbfr of bytfs tibt dbn bf rfbd (or
+     * skippfd ovfr) from tiis input strfbm witiout blodking by tif nfxt
+     * invodbtion of b mftiod for tiis input strfbm. Tif nfxt invodbtion
+     * migit bf tif sbmf tirfbd or bnotifr tirfbd.  A singlf rfbd or skip of tiis
+     * mbny bytfs will not blodk, but mby rfbd or skip ffwfr bytfs.
      *
-     * <p> Note that while some implementations of {@code InputStream} will return
-     * the total number of bytes in the stream, many will not.  It is
-     * never correct to use the return value of this method to allocate
-     * a buffer intended to hold all data in this stream.
+     * <p> Notf tibt wiilf somf implfmfntbtions of {@dodf InputStrfbm} will rfturn
+     * tif totbl numbfr of bytfs in tif strfbm, mbny will not.  It is
+     * nfvfr dorrfdt to usf tif rfturn vbluf of tiis mftiod to bllodbtf
+     * b bufffr intfndfd to iold bll dbtb in tiis strfbm.
      *
-     * <p> A subclass' implementation of this method may choose to throw an
-     * {@link IOException} if this input stream has been closed by
-     * invoking the {@link #close()} method.
+     * <p> A subdlbss' implfmfntbtion of tiis mftiod mby dioosf to tirow bn
+     * {@link IOExdfption} if tiis input strfbm ibs bffn dlosfd by
+     * invoking tif {@link #dlosf()} mftiod.
      *
-     * <p> The {@code available} method for class {@code InputStream} always
-     * returns {@code 0}.
+     * <p> Tif {@dodf bvbilbblf} mftiod for dlbss {@dodf InputStrfbm} blwbys
+     * rfturns {@dodf 0}.
      *
-     * <p> This method should be overridden by subclasses.
+     * <p> Tiis mftiod siould bf ovfrriddfn by subdlbssfs.
      *
-     * @return     an estimate of the number of bytes that can be read (or skipped
-     *             over) from this input stream without blocking or {@code 0} when
-     *             it reaches the end of the input stream.
-     * @exception  IOException if an I/O error occurs.
+     * @rfturn     bn fstimbtf of tif numbfr of bytfs tibt dbn bf rfbd (or skippfd
+     *             ovfr) from tiis input strfbm witiout blodking or {@dodf 0} wifn
+     *             it rfbdifs tif fnd of tif input strfbm.
+     * @fxdfption  IOExdfption if bn I/O frror oddurs.
      */
-    public int available() throws IOException {
-        return 0;
+    publid int bvbilbblf() tirows IOExdfption {
+        rfturn 0;
     }
 
     /**
-     * Closes this input stream and releases any system resources associated
-     * with the stream.
+     * Closfs tiis input strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd
+     * witi tif strfbm.
      *
-     * <p> The <code>close</code> method of <code>InputStream</code> does
-     * nothing.
+     * <p> Tif <dodf>dlosf</dodf> mftiod of <dodf>InputStrfbm</dodf> dofs
+     * notiing.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void close() throws IOException {}
+    publid void dlosf() tirows IOExdfption {}
 
     /**
-     * Marks the current position in this input stream. A subsequent call to
-     * the <code>reset</code> method repositions this stream at the last marked
-     * position so that subsequent reads re-read the same bytes.
+     * Mbrks tif durrfnt position in tiis input strfbm. A subsfqufnt dbll to
+     * tif <dodf>rfsft</dodf> mftiod rfpositions tiis strfbm bt tif lbst mbrkfd
+     * position so tibt subsfqufnt rfbds rf-rfbd tif sbmf bytfs.
      *
-     * <p> The <code>readlimit</code> arguments tells this input stream to
-     * allow that many bytes to be read before the mark position gets
-     * invalidated.
+     * <p> Tif <dodf>rfbdlimit</dodf> brgumfnts tflls tiis input strfbm to
+     * bllow tibt mbny bytfs to bf rfbd bfforf tif mbrk position gfts
+     * invblidbtfd.
      *
-     * <p> The general contract of <code>mark</code> is that, if the method
-     * <code>markSupported</code> returns <code>true</code>, the stream somehow
-     * remembers all the bytes read after the call to <code>mark</code> and
-     * stands ready to supply those same bytes again if and whenever the method
-     * <code>reset</code> is called.  However, the stream is not required to
-     * remember any data at all if more than <code>readlimit</code> bytes are
-     * read from the stream before <code>reset</code> is called.
+     * <p> Tif gfnfrbl dontrbdt of <dodf>mbrk</dodf> is tibt, if tif mftiod
+     * <dodf>mbrkSupportfd</dodf> rfturns <dodf>truf</dodf>, tif strfbm somfiow
+     * rfmfmbfrs bll tif bytfs rfbd bftfr tif dbll to <dodf>mbrk</dodf> bnd
+     * stbnds rfbdy to supply tiosf sbmf bytfs bgbin if bnd wifnfvfr tif mftiod
+     * <dodf>rfsft</dodf> is dbllfd.  Howfvfr, tif strfbm is not rfquirfd to
+     * rfmfmbfr bny dbtb bt bll if morf tibn <dodf>rfbdlimit</dodf> bytfs brf
+     * rfbd from tif strfbm bfforf <dodf>rfsft</dodf> is dbllfd.
      *
-     * <p> Marking a closed stream should not have any effect on the stream.
+     * <p> Mbrking b dlosfd strfbm siould not ibvf bny ffffdt on tif strfbm.
      *
-     * <p> The <code>mark</code> method of <code>InputStream</code> does
-     * nothing.
+     * <p> Tif <dodf>mbrk</dodf> mftiod of <dodf>InputStrfbm</dodf> dofs
+     * notiing.
      *
-     * @param   readlimit   the maximum limit of bytes that can be read before
-     *                      the mark position becomes invalid.
-     * @see     java.io.InputStream#reset()
+     * @pbrbm   rfbdlimit   tif mbximum limit of bytfs tibt dbn bf rfbd bfforf
+     *                      tif mbrk position bfdomfs invblid.
+     * @sff     jbvb.io.InputStrfbm#rfsft()
      */
-    public synchronized void mark(int readlimit) {}
+    publid syndironizfd void mbrk(int rfbdlimit) {}
 
     /**
-     * Repositions this stream to the position at the time the
-     * <code>mark</code> method was last called on this input stream.
+     * Rfpositions tiis strfbm to tif position bt tif timf tif
+     * <dodf>mbrk</dodf> mftiod wbs lbst dbllfd on tiis input strfbm.
      *
-     * <p> The general contract of <code>reset</code> is:
+     * <p> Tif gfnfrbl dontrbdt of <dodf>rfsft</dodf> is:
      *
      * <ul>
-     * <li> If the method <code>markSupported</code> returns
-     * <code>true</code>, then:
+     * <li> If tif mftiod <dodf>mbrkSupportfd</dodf> rfturns
+     * <dodf>truf</dodf>, tifn:
      *
-     *     <ul><li> If the method <code>mark</code> has not been called since
-     *     the stream was created, or the number of bytes read from the stream
-     *     since <code>mark</code> was last called is larger than the argument
-     *     to <code>mark</code> at that last call, then an
-     *     <code>IOException</code> might be thrown.
+     *     <ul><li> If tif mftiod <dodf>mbrk</dodf> ibs not bffn dbllfd sindf
+     *     tif strfbm wbs drfbtfd, or tif numbfr of bytfs rfbd from tif strfbm
+     *     sindf <dodf>mbrk</dodf> wbs lbst dbllfd is lbrgfr tibn tif brgumfnt
+     *     to <dodf>mbrk</dodf> bt tibt lbst dbll, tifn bn
+     *     <dodf>IOExdfption</dodf> migit bf tirown.
      *
-     *     <li> If such an <code>IOException</code> is not thrown, then the
-     *     stream is reset to a state such that all the bytes read since the
-     *     most recent call to <code>mark</code> (or since the start of the
-     *     file, if <code>mark</code> has not been called) will be resupplied
-     *     to subsequent callers of the <code>read</code> method, followed by
-     *     any bytes that otherwise would have been the next input data as of
-     *     the time of the call to <code>reset</code>. </ul>
+     *     <li> If sudi bn <dodf>IOExdfption</dodf> is not tirown, tifn tif
+     *     strfbm is rfsft to b stbtf sudi tibt bll tif bytfs rfbd sindf tif
+     *     most rfdfnt dbll to <dodf>mbrk</dodf> (or sindf tif stbrt of tif
+     *     filf, if <dodf>mbrk</dodf> ibs not bffn dbllfd) will bf rfsupplifd
+     *     to subsfqufnt dbllfrs of tif <dodf>rfbd</dodf> mftiod, followfd by
+     *     bny bytfs tibt otifrwisf would ibvf bffn tif nfxt input dbtb bs of
+     *     tif timf of tif dbll to <dodf>rfsft</dodf>. </ul>
      *
-     * <li> If the method <code>markSupported</code> returns
-     * <code>false</code>, then:
+     * <li> If tif mftiod <dodf>mbrkSupportfd</dodf> rfturns
+     * <dodf>fblsf</dodf>, tifn:
      *
-     *     <ul><li> The call to <code>reset</code> may throw an
-     *     <code>IOException</code>.
+     *     <ul><li> Tif dbll to <dodf>rfsft</dodf> mby tirow bn
+     *     <dodf>IOExdfption</dodf>.
      *
-     *     <li> If an <code>IOException</code> is not thrown, then the stream
-     *     is reset to a fixed state that depends on the particular type of the
-     *     input stream and how it was created. The bytes that will be supplied
-     *     to subsequent callers of the <code>read</code> method depend on the
-     *     particular type of the input stream. </ul></ul>
+     *     <li> If bn <dodf>IOExdfption</dodf> is not tirown, tifn tif strfbm
+     *     is rfsft to b fixfd stbtf tibt dfpfnds on tif pbrtidulbr typf of tif
+     *     input strfbm bnd iow it wbs drfbtfd. Tif bytfs tibt will bf supplifd
+     *     to subsfqufnt dbllfrs of tif <dodf>rfbd</dodf> mftiod dfpfnd on tif
+     *     pbrtidulbr typf of tif input strfbm. </ul></ul>
      *
-     * <p>The method <code>reset</code> for class <code>InputStream</code>
-     * does nothing except throw an <code>IOException</code>.
+     * <p>Tif mftiod <dodf>rfsft</dodf> for dlbss <dodf>InputStrfbm</dodf>
+     * dofs notiing fxdfpt tirow bn <dodf>IOExdfption</dodf>.
      *
-     * @exception  IOException  if this stream has not been marked or if the
-     *               mark has been invalidated.
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.IOException
+     * @fxdfption  IOExdfption  if tiis strfbm ibs not bffn mbrkfd or if tif
+     *               mbrk ibs bffn invblidbtfd.
+     * @sff     jbvb.io.InputStrfbm#mbrk(int)
+     * @sff     jbvb.io.IOExdfption
      */
-    public synchronized void reset() throws IOException {
-        throw new IOException("mark/reset not supported");
+    publid syndironizfd void rfsft() tirows IOExdfption {
+        tirow nfw IOExdfption("mbrk/rfsft not supportfd");
     }
 
     /**
-     * Tests if this input stream supports the <code>mark</code> and
-     * <code>reset</code> methods. Whether or not <code>mark</code> and
-     * <code>reset</code> are supported is an invariant property of a
-     * particular input stream instance. The <code>markSupported</code> method
-     * of <code>InputStream</code> returns <code>false</code>.
+     * Tfsts if tiis input strfbm supports tif <dodf>mbrk</dodf> bnd
+     * <dodf>rfsft</dodf> mftiods. Wiftifr or not <dodf>mbrk</dodf> bnd
+     * <dodf>rfsft</dodf> brf supportfd is bn invbribnt propfrty of b
+     * pbrtidulbr input strfbm instbndf. Tif <dodf>mbrkSupportfd</dodf> mftiod
+     * of <dodf>InputStrfbm</dodf> rfturns <dodf>fblsf</dodf>.
      *
-     * @return  <code>true</code> if this stream instance supports the mark
-     *          and reset methods; <code>false</code> otherwise.
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.InputStream#reset()
+     * @rfturn  <dodf>truf</dodf> if tiis strfbm instbndf supports tif mbrk
+     *          bnd rfsft mftiods; <dodf>fblsf</dodf> otifrwisf.
+     * @sff     jbvb.io.InputStrfbm#mbrk(int)
+     * @sff     jbvb.io.InputStrfbm#rfsft()
      */
-    public boolean markSupported() {
-        return false;
+    publid boolfbn mbrkSupportfd() {
+        rfturn fblsf;
     }
 
 }

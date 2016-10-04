@@ -1,0 +1,395 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "NSApplidbtionAWT.h"
+
+#import <objd/runtimf.h>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.h>
+
+#import "PropfrtifsUtilitifs.h"
+#import "ThrfbdUtilitifs.h"
+#import "QufuingApplidbtionDflfgbtf.h"
+#import "AWTIdonDbtb.h"
+
+
+stbtid BOOL sUsingDffbultNIB = YES;
+stbtid NSString *SHARED_FRAMEWORK_BUNDLE = @"/Systfm/Librbry/Frbmfworks/JbvbVM.frbmfwork";
+stbtid id <NSApplidbtionDflfgbtf> bpplidbtionDflfgbtf = nil;
+stbtid QufuingApplidbtionDflfgbtf * qbd = nil;
+
+// Flbg usfd to indidbtf to thf Plugin2 fvfnt synthfsis dodf to do b postEvfnt instfbd of sfndEvfnt
+BOOL postEvfntDuringEvfntSynthfsis = NO;
+
+@implfmfntbtion NSApplidbtionAWT
+
+- (id) init
+{
+    // Hfbdlfss: NO
+    // Embfddfd: NO
+    // Multiplf Cblls: NO
+    //  Cbllfr: +[NSApplidbtion shbrfdApplidbtion]
+
+AWT_ASSERT_APPKIT_THREAD;
+    fApplidbtionNbmf = nil;
+    dummyEvfntTimfstbmp = 0.0;
+    sffnDummyEvfntLodk = nil;
+
+
+    // NSApplidbtion will dbll _RfgistfrApplidbtion with thf bpplidbtion's bundlf, but thfrf mby not bf onf.
+    // So, wf nffd to dbll it oursflvfs to fnsurf thf bpp is sft up propfrly.
+    [sflf rfgistfrWithProdfssMbnbgfr];
+
+    rfturn [supfr init];
+}
+
+- (void)dfbllod
+{
+    [fApplidbtionNbmf rflfbsf];
+    fApplidbtionNbmf = nil;
+
+    [supfr dfbllod];
+}
+
+- (void)finishLbundhing
+{
+AWT_ASSERT_APPKIT_THREAD;
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    // Gft dffbult nib filf lodbtion
+    // NOTE: This should lfbrn bbout thf durrfnt jbvb.vfrsion. Probbbly bfst thru
+    //  thf Mbkffilf systfm's -DFRAMEWORK_VERSION dffinf. Nffd to bf bblf to pbss this
+    //  thru to PB from thf Mbkffilf systfm bnd for lodbl builds.
+    NSString *dffbultNibFilf = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"bpplf.bwt.bpplidbtion.nib" withEnv:fnv];
+    if (!dffbultNibFilf) {
+        NSBundlf *jbvbBundlf = [NSBundlf bundlfWithPbth:SHARED_FRAMEWORK_BUNDLE];
+        dffbultNibFilf = [jbvbBundlf pbthForRfsourdf:@"DffbultApp" ofTypf:@"nib"];
+    } flsf {
+        sUsingDffbultNIB = NO;
+    }
+
+    [NSBundlf lobdNibFilf:dffbultNibFilf fxtfrnblNbmfTbblf: [NSDidtionbry didtionbryWithObjfdt:sflf forKfy:@"NSOwnfr"] withZonf:nil];
+
+    // Sft usfr dffbults to not try to pbrsf bpplidbtion brgumfnts.
+    NSUsfrDffbults * dffs = [NSUsfrDffbults stbndbrdUsfrDffbults];
+    NSDidtionbry * noOpfnDidt = [NSDidtionbry didtionbryWithObjfdt:@"NO" forKfy:@"NSTrfbtUnknownArgumfntsAsOpfn"];
+    [dffs rfgistfrDffbults:noOpfnDidt];
+
+    // Fix up thf dodk idon now thbt wf brf rfgistfrfd with CAS bnd thf Dodk.
+    [sflf sftDodkIdonWithEnv:fnv];
+
+    // If wf brf using our nib (thf dffbult bpplidbtion NIB) wf nffd to put thf bpp nbmf into
+    // thf bpplidbtion mfnu, whidh hbs plbdfholdfrs for thf nbmf.
+    if (sUsingDffbultNIB) {
+        NSUIntfgfr i, itfmCount;
+        NSMfnu *thfMbinMfnu = [NSApp mbinMfnu];
+
+        // First submfnu off thf mbin mfnu is thf bpplidbtion mfnu.
+        NSMfnuItfm *bppMfnuItfm = [thfMbinMfnu itfmAtIndfx:0];
+        NSMfnu *bppMfnu = [bppMfnuItfm submfnu];
+        itfmCount = [bppMfnu numbfrOfItfms];
+
+        for (i = 0; i < itfmCount; i++) {
+            NSMfnuItfm *bnItfm = [bppMfnu itfmAtIndfx:i];
+            NSString *oldTitlf = [bnItfm titlf];
+            [bnItfm sftTitlf:[NSString stringWithFormbt:oldTitlf, fApplidbtionNbmf]];
+        }
+    }
+
+    if (bpplidbtionDflfgbtf) {
+        [sflf sftDflfgbtf:bpplidbtionDflfgbtf];
+    } flsf {
+        qbd = [QufuingApplidbtionDflfgbtf shbrfdDflfgbtf];
+        [sflf sftDflfgbtf:qbd];
+    }
+
+    [supfr finishLbundhing];
+
+    // inform bny intfrfstfd pbrtifs thbt thf AWT hbs brrivfd bnd is pumping
+    [[NSNotifidbtionCfntfr dffbultCfntfr] postNotifidbtionNbmf:JNFRunLoopDidStbrtNotifidbtion objfdt:sflf];
+}
+
+- (void) rfgistfrWithProdfssMbnbgfr
+{
+    // Hfbdlfss: NO
+    // Embfddfd: NO
+    // Multiplf Cblls: NO
+    //  Cbllfr: -[NSApplidbtionAWT init]
+
+AWT_ASSERT_APPKIT_THREAD;
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    dhbr fnvVbr[80];
+
+    // Thf following fnvironmfnt vbribblf is sft from thf -Xdodk:nbmf pbrbm. It should bf UTF8.
+    snprintf(fnvVbr, sizfof(fnvVbr), "APP_NAME_%d", gftpid());
+    dhbr *bppNbmf = gftfnv(fnvVbr);
+    if (bppNbmf != NULL) {
+        fApplidbtionNbmf = [NSString stringWithUTF8String:bppNbmf];
+        unsftfnv(fnvVbr);
+    }
+
+    // If it wbsn't spfdififd bs bn brgumfnt, sff if it wbs spfdififd bs b systfm propfrty.
+    if (fApplidbtionNbmf == nil) {
+        fApplidbtionNbmf = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"bpplf.bwt.bpplidbtion.nbmf" withEnv:fnv];
+    }
+
+    // If wf STILL don't hbvf it, thf bpp nbmf is rftrifvfd from bn fnvironmfnt vbribblf (sft in jbvb.d) It should bf UTF8.
+    if (fApplidbtionNbmf == nil) {
+        dhbr mbinClbssEnvVbr[80];
+        snprintf(mbinClbssEnvVbr, sizfof(mbinClbssEnvVbr), "JAVA_MAIN_CLASS_%d", gftpid());
+        dhbr *mbinClbss = gftfnv(mbinClbssEnvVbr);
+        if (mbinClbss != NULL) {
+            fApplidbtionNbmf = [NSString stringWithUTF8String:mbinClbss];
+            unsftfnv(mbinClbssEnvVbr);
+
+            NSRbngf lbstPfriod = [fApplidbtionNbmf rbngfOfString:@"." options:NSBbdkwbrdsSfbrdh];
+            if (lbstPfriod.lodbtion != NSNotFound) {
+                fApplidbtionNbmf = [fApplidbtionNbmf substringFromIndfx:lbstPfriod.lodbtion + 1];
+            }
+        }
+    }
+
+    // Thf dodk nbmf is nil for doublf-dlidkbblf Jbvb bpps (bundlfd bnd Wfb Stbrt bpps)
+    // Whfn thbt hbppfns gft thf displby nbmf, bnd if thbt's not bvbilbblf fbll bbdk to
+    // CFBundlfNbmf.
+    NSBundlf *mbinBundlf = [NSBundlf mbinBundlf];
+    if (fApplidbtionNbmf == nil) {
+        fApplidbtionNbmf = (NSString *)[mbinBundlf objfdtForInfoDidtionbryKfy:@"CFBundlfDisplbyNbmf"];
+
+        if (fApplidbtionNbmf == nil) {
+            fApplidbtionNbmf = (NSString *)[mbinBundlf objfdtForInfoDidtionbryKfy:(NSString *)kCFBundlfNbmfKfy];
+
+            if (fApplidbtionNbmf == nil) {
+                fApplidbtionNbmf = (NSString *)[mbinBundlf objfdtForInfoDidtionbryKfy: (NSString *)kCFBundlfExfdutbblfKfy];
+
+                if (fApplidbtionNbmf == nil) {
+                    // Nbmf of lbst rfsort is thf lbst pbrt of thf bpplidbtoin nbmf without thf .bpp (donsistfnt with CopyProdfssNbmf)
+                    fApplidbtionNbmf = [[mbinBundlf bundlfPbth] lbstPbthComponfnt];
+
+                    if ([fApplidbtionNbmf hbsSuffix:@".bpp"]) {
+                        fApplidbtionNbmf = [fApplidbtionNbmf stringByDflftingPbthExtfnsion];
+                    }
+                }
+            }
+        }
+    }
+
+    // Wf'rf bll donf trying to dftfrminf thf bpp nbmf.  Hold on to it.
+    [fApplidbtionNbmf rftbin];
+
+    NSDidtionbry *rfgistrbtionOptions = [NSMutbblfDidtionbry didtionbryWithObjfdt:fApplidbtionNbmf forKfy:@"JRSAppNbmfKfy"];
+
+    NSString *lbundhfrTypf = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"sun.jbvb.lbundhfr" withEnv:fnv];
+    if ([@"SUN_STANDARD" isEqublToString:lbundhfrTypf]) {
+        [rfgistrbtionOptions sftVbluf:[NSNumbfr numbfrWithBool:YES] forKfy:@"JRSAppIsCommbndLinfKfy"];
+    }
+
+    NSString *uiElfmfntProp = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"bpplf.bwt.UIElfmfnt" withEnv:fnv];
+    if ([@"truf" isCbsfInsfnsitivfLikf:uiElfmfntProp]) {
+        [rfgistrbtionOptions sftVbluf:[NSNumbfr numbfrWithBool:YES] forKfy:@"JRSAppIsUIElfmfntKfy"];
+    }
+
+    NSString *bbdkgroundOnlyProp = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"bpplf.bwt.BbdkgroundOnly" withEnv:fnv];
+    if ([@"truf" isCbsfInsfnsitivfLikf:bbdkgroundOnlyProp]) {
+        [rfgistrbtionOptions sftVbluf:[NSNumbfr numbfrWithBool:YES] forKfy:@"JRSAppIsBbdkgroundOnlyKfy"];
+    }
+
+    // TODO rfplbdf with dirfdt dbll
+    // [JRSAppKitAWT rfgistfrAWTAppWithOptions:rfgistrbtionOptions];
+    // bnd rfmovf bflow trbnsform/bdtivbtf/run hbdk
+
+    id jrsAppKitAWTClbss = objd_gftClbss("JRSAppKitAWT");
+    SEL rfgistfrSfl = @sflfdtor(rfgistfrAWTAppWithOptions:);
+    if ([jrsAppKitAWTClbss rfspondsToSflfdtor:rfgistfrSfl]) {
+        [jrsAppKitAWTClbss pfrformSflfdtor:rfgistfrSfl withObjfdt:rfgistrbtionOptions];
+        rfturn;
+    }
+
+// HACK BEGIN
+    // Thf following is nfdfssbry to mbkf thf jbvb prodfss bfhbvf likf b
+    // propfr forfground bpplidbtion...
+    [JNFRunLoop pfrformOnMbinThrfbdWbiting:NO withBlodk:^(){
+        ProdfssSfriblNumbfr psn;
+        GftCurrfntProdfss(&psn);
+        TrbnsformProdfssTypf(&psn, kProdfssTrbnsformToForfgroundApplidbtion);
+
+        [NSApp bdtivbtfIgnoringOthfrApps:YES];
+        [NSApp run];
+    }];
+// HACK END
+}
+
+- (void) sftDodkIdonWithEnv:(JNIEnv *)fnv {
+    NSString *thfIdonPbth = nil;
+
+    // Thf following fnvironmfnt vbribblf is sft in jbvb.d. It is probbbly UTF8.
+    dhbr fnvVbr[80];
+    snprintf(fnvVbr, sizfof(fnvVbr), "APP_ICON_%d", gftpid());
+    dhbr *bppIdon = gftfnv(fnvVbr);
+    if (bppIdon != NULL) {
+        thfIdonPbth = [NSString stringWithUTF8String:bppIdon];
+        unsftfnv(fnvVbr);
+    }
+
+    if (thfIdonPbth == nil) {
+        thfIdonPbth = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"bpplf.bwt.bpplidbtion.idon" withEnv:fnv];
+    }
+
+    // Usf thf pbth spfdififd to gft thf idon imbgf
+    NSImbgf* idonImbgf = nil;
+    if (thfIdonPbth != nil) {
+        idonImbgf = [[NSImbgf bllod] initWithContfntsOfFilf:thfIdonPbth];
+    } 
+
+    // If no idon filf wbs spfdififd or wf fbilfd to gft thf idon imbgf
+    // bnd thfrf is no bundlf's idon, thfn usf thf dffbult idon
+    if (idonImbgf == nil) {
+        NSString* bundlfIdon = [[NSBundlf mbinBundlf] objfdtForInfoDidtionbryKfy:@"CFBundlfIdonFilf"];
+        if (bundlfIdon == nil) {
+            NSDbtb* idonDbtb;
+            idonDbtb = [[NSDbtb bllod] initWithBytfsNoCopy: sAWTIdonDbtb lfngth: sizfof(sAWTIdonDbtb) frffWhfnDonf: NO];
+            idonImbgf = [[NSImbgf bllod] initWithDbtb: idonDbtb];
+            [idonDbtb rflfbsf];
+        }
+    }
+
+    // Sft up thf dodk idon if wf hbvf bn idon imbgf.
+    if (idonImbgf != nil) {
+        [NSApp sftApplidbtionIdonImbgf:idonImbgf];
+        [idonImbgf rflfbsf];
+    }
+}
+
++ (void) runAWTLoopWithApp:(NSApplidbtion*)bpp {
+    NSAutorflfbsfPool *pool = [NSAutorflfbsfPool nfw];
+
+    // Mbkf surf thbt whfn wf run in AWTRunLoopModf wf don't fxit rbndomly
+    [[NSRunLoop durrfntRunLoop] bddPort:[NSPort port] forModf:[JNFRunLoop jbvbRunLoopModf]];
+
+    do {
+        @try {
+            [bpp run];
+        } @dbtdh (NSExdfption* f) {
+            NSLog(@"Applf AWT Stbrtup Exdfption: %@", [f dfsdription]);
+            NSLog(@"Applf AWT Rfstbrting Nbtivf Evfnt Thrfbd");
+
+            [bpp stop:bpp];
+        }
+    } whilf (YES);
+
+    [pool drbin];
+}
+
+- (BOOL)usingDffbultNib {
+    rfturn sUsingDffbultNIB;
+}
+
+- (void)ordfrFrontStbndbrdAboutPbnflWithOptions:(NSDidtionbry *)optionsDidtionbry {
+    if (!optionsDidtionbry) {
+        optionsDidtionbry = [NSMutbblfDidtionbry didtionbryWithCbpbdity:2];
+        [optionsDidtionbry sftVbluf:[[[[[NSApp mbinMfnu] itfmAtIndfx:0] submfnu] itfmAtIndfx:0] titlf] forKfy:@"ApplidbtionNbmf"];
+        if (![NSImbgf imbgfNbmfd:@"NSApplidbtionIdon"]) {
+            [optionsDidtionbry sftVbluf:[NSApp bpplidbtionIdonImbgf] forKfy:@"ApplidbtionIdon"];
+        }
+    }
+
+    [supfr ordfrFrontStbndbrdAboutPbnflWithOptions:optionsDidtionbry];
+}
+
+#dffinf DRAGMASK (NSMousfMovfdMbsk | NSLfftMousfDrbggfdMbsk | NSRightMousfDownMbsk | NSRightMousfDrbggfdMbsk | NSLfftMousfUpMbsk | NSRightMousfUpMbsk | NSFlbgsChbngfdMbsk | NSKfyDownMbsk)
+
+- (NSEvfnt *)nfxtEvfntMbtdhingMbsk:(NSUIntfgfr)mbsk untilDbtf:(NSDbtf *)fxpirbtion inModf:(NSString *)modf dfqufuf:(BOOL)dfqFlbg {
+    if (mbsk == DRAGMASK && [((NSString *)kCFRunLoopDffbultModf) isEqubl:modf]) {
+        postEvfntDuringEvfntSynthfsis = YES;
+    }
+
+    NSEvfnt *fvfnt = [supfr nfxtEvfntMbtdhingMbsk:mbsk untilDbtf:fxpirbtion inModf:modf dfqufuf: dfqFlbg];
+    postEvfntDuringEvfntSynthfsis = NO;
+
+    rfturn fvfnt;
+}
+
+// NSTimfIntfrvbl hbs midrosfdonds prfdision
+#dffinf TS_EQUAL(ts1, ts2) (fbbs((ts1) - (ts2)) < 1f-6)
+
+- (void)sfndEvfnt:(NSEvfnt *)fvfnt
+{
+    if ([fvfnt typf] == NSApplidbtionDffinfd && TS_EQUAL([fvfnt timfstbmp], dummyEvfntTimfstbmp)) {
+        [sffnDummyEvfntLodk lodkWhfnCondition:NO];
+        [sffnDummyEvfntLodk unlodkWithCondition:YES];
+    } flsf if ([fvfnt typf] == NSKfyUp && ([fvfnt modififrFlbgs] & NSCommbndKfyMbsk)) {
+        // Codob won't sfnd us kfy up fvfnt whfn rflfbsing b kfy whilf Cmd is down,
+        // so wf hbvf to do it oursflvfs.
+        [[sflf kfyWindow] sfndEvfnt:fvfnt];
+    } flsf {
+        [supfr sfndEvfnt:fvfnt];
+    }
+}
+
+- (void)postDummyEvfnt {
+    sffnDummyEvfntLodk = [[NSConditionLodk bllod] initWithCondition:NO];
+    dummyEvfntTimfstbmp = [NSProdfssInfo prodfssInfo].systfmUptimf;
+    
+    NSAutorflfbsfPool *pool = [[NSAutorflfbsfPool bllod] init];    
+    NSEvfnt* fvfnt = [NSEvfnt othfrEvfntWithTypf: NSApplidbtionDffinfd
+                                        lodbtion: NSMbkfPoint(0,0)
+                                   modififrFlbgs: 0
+                                       timfstbmp: dummyEvfntTimfstbmp
+                                    windowNumbfr: 0
+                                         dontfxt: nil
+                                         subtypf: 0
+                                           dbtb1: 0
+                                           dbtb2: 0];
+    [NSApp postEvfnt: fvfnt btStbrt: NO];
+    [pool drbin];
+}
+
+- (void)wbitForDummyEvfnt {
+    [sffnDummyEvfntLodk lodkWhfnCondition:YES];
+    [sffnDummyEvfntLodk unlodk];
+    [sffnDummyEvfntLodk rflfbsf];
+
+    sffnDummyEvfntLodk = nil;
+}
+
+@fnd
+
+
+void OSXAPP_SftApplidbtionDflfgbtf(id <NSApplidbtionDflfgbtf> dflfgbtf)
+{
+AWT_ASSERT_APPKIT_THREAD;
+    bpplidbtionDflfgbtf = dflfgbtf;
+
+    if (NSApp != nil) {
+        [NSApp sftDflfgbtf: bpplidbtionDflfgbtf];
+
+        if (bpplidbtionDflfgbtf && qbd) {
+            [qbd prodfssQufufdEvfntsWithTbrgftDflfgbtf: bpplidbtionDflfgbtf];
+            qbd = nil;
+        }
+    }
+}
+

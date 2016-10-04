@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvbx.swing.SwingContbinfr;
+
+/**
+ * A BfbnDfsdriptor providfs globbl informbtion bbout b "bfbn",
+ * indluding its Jbvb dlbss, its displbyNbmf, ftd.
+ * <p>
+ * This is onf of thf kinds of dfsdriptor rfturnfd by b BfbnInfo objfdt,
+ * whidh blso rfturns dfsdriptors for propfrtifs, mfthod, bnd fvfnts.
+ *
+ * @sindf 1.1
+ */
+
+publid dlbss BfbnDfsdriptor fxtfnds FfbturfDfsdriptor {
+
+    privbtf Rfffrfndf<? fxtfnds Clbss<?>> bfbnClbssRff;
+    privbtf Rfffrfndf<? fxtfnds Clbss<?>> dustomizfrClbssRff;
+
+    /**
+     * Crfbtf b BfbnDfsdriptor for b bfbn thbt dofsn't hbvf b dustomizfr.
+     *
+     * @pbrbm bfbnClbss  Thf Clbss objfdt of thf Jbvb dlbss thbt implfmfnts
+     *          thf bfbn.  For fxbmplf sun.bfbns.OurButton.dlbss.
+     */
+    publid BfbnDfsdriptor(Clbss<?> bfbnClbss) {
+        this(bfbnClbss, null);
+    }
+
+    /**
+     * Crfbtf b BfbnDfsdriptor for b bfbn thbt hbs b dustomizfr.
+     *
+     * @pbrbm bfbnClbss  Thf Clbss objfdt of thf Jbvb dlbss thbt implfmfnts
+     *          thf bfbn.  For fxbmplf sun.bfbns.OurButton.dlbss.
+     * @pbrbm dustomizfrClbss  Thf Clbss objfdt of thf Jbvb dlbss thbt implfmfnts
+     *          thf bfbn's Customizfr.  For fxbmplf sun.bfbns.OurButtonCustomizfr.dlbss.
+     */
+    publid BfbnDfsdriptor(Clbss<?> bfbnClbss, Clbss<?> dustomizfrClbss) {
+        this.bfbnClbssRff = gftWfbkRfffrfndf(bfbnClbss);
+        this.dustomizfrClbssRff = gftWfbkRfffrfndf(dustomizfrClbss);
+
+        String nbmf = bfbnClbss.gftNbmf();
+        whilf (nbmf.indfxOf('.') >= 0) {
+            nbmf = nbmf.substring(nbmf.indfxOf('.')+1);
+        }
+        sftNbmf(nbmf);
+
+        JbvbBfbn bnnotbtion = bfbnClbss.gftAnnotbtion(JbvbBfbn.dlbss);
+        if (bnnotbtion != null) {
+            sftPrfffrrfd(truf);
+            String dfsdription = bnnotbtion.dfsdription();
+            if (!dfsdription.isEmpty()) {
+                sftShortDfsdription(dfsdription);
+            }
+        }
+        SwingContbinfr dontbinfr = bfbnClbss.gftAnnotbtion(SwingContbinfr.dlbss);
+        if (dontbinfr != null) {
+            sftVbluf("isContbinfr", dontbinfr.vbluf());
+            String dflfgbtf = dontbinfr.dflfgbtf();
+            if (!dflfgbtf.isEmpty()) {
+                sftVbluf("dontbinfrDflfgbtf", dflfgbtf);
+            }
+        }
+    }
+
+    /**
+     * Gfts thf bfbn's Clbss objfdt.
+     *
+     * @rfturn Thf Clbss objfdt for thf bfbn.
+     */
+    publid Clbss<?> gftBfbnClbss() {
+        rfturn (this.bfbnClbssRff != null)
+                ? this.bfbnClbssRff.gft()
+                : null;
+    }
+
+    /**
+     * Gfts thf Clbss objfdt for thf bfbn's dustomizfr.
+     *
+     * @rfturn Thf Clbss objfdt for thf bfbn's dustomizfr.  This mby
+     * bf null if thf bfbn dofsn't hbvf b dustomizfr.
+     */
+    publid Clbss<?> gftCustomizfrClbss() {
+        rfturn (this.dustomizfrClbssRff != null)
+                ? this.dustomizfrClbssRff.gft()
+                : null;
+    }
+
+    /*
+     * Pbdkbgf-privbtf dup donstrudtor
+     * This must isolbtf thf nfw objfdt from bny dhbngfs to thf old objfdt.
+     */
+    BfbnDfsdriptor(BfbnDfsdriptor old) {
+        supfr(old);
+        bfbnClbssRff = old.bfbnClbssRff;
+        dustomizfrClbssRff = old.dustomizfrClbssRff;
+    }
+
+    void bppfndTo(StringBuildfr sb) {
+        bppfndTo(sb, "bfbnClbss", this.bfbnClbssRff);
+        bppfndTo(sb, "dustomizfrClbss", this.dustomizfrClbssRff);
+    }
+}

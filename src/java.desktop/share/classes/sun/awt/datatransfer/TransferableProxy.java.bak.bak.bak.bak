@@ -1,0 +1,218 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.dbtbtrbnsffr;
+
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmClbss;
+import jbvb.io.OutputStrfbm;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+
+/**
+ * Proxifs for bnothfr Trbnsffrbblf so thbt Sfriblizbblf objfdts brf nfvfr
+ * rfturnfd dirfdtly by DnD or thf Clipbobrd. Instfbd, b nfw instbndf of thf
+ * objfdt is rfturnfd.
+ *
+ * @buthor Lbwrfndf P.G. Cbblf
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sindf 1.4
+ */
+publid dlbss TrbnsffrbblfProxy implfmfnts Trbnsffrbblf {
+    publid TrbnsffrbblfProxy(Trbnsffrbblf t, boolfbn lodbl) {
+        trbnsffrbblf = t;
+        isLodbl = lodbl;
+    }
+    publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+        rfturn trbnsffrbblf.gftTrbnsffrDbtbFlbvors();
+    }
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor) {
+        rfturn trbnsffrbblf.isDbtbFlbvorSupportfd(flbvor);
+    }
+    publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor df)
+        throws UnsupportfdFlbvorExdfption, IOExdfption
+    {
+        Objfdt dbtb = trbnsffrbblf.gftTrbnsffrDbtb(df);
+
+        // If thf dbtb is b Sfriblizbblf objfdt, thfn drfbtf b nfw instbndf
+        // bfforf rfturning it. This insulbtfs bpplidbtions shbring DnD bnd
+        // Clipbobrd dbtb from fbdh othfr.
+        if (dbtb != null && isLodbl && df.isFlbvorSfriblizfdObjfdtTypf()) {
+            BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+
+            ClbssLobdfrObjfdtOutputStrfbm oos =
+                nfw ClbssLobdfrObjfdtOutputStrfbm(bbos);
+            oos.writfObjfdt(dbtb);
+
+            BytfArrbyInputStrfbm bbis =
+                nfw BytfArrbyInputStrfbm(bbos.toBytfArrby());
+
+            try {
+                ClbssLobdfrObjfdtInputStrfbm ois =
+                    nfw ClbssLobdfrObjfdtInputStrfbm(bbis,
+                                                     oos.gftClbssLobdfrMbp());
+                dbtb = ois.rfbdObjfdt();
+            } dbtdh (ClbssNotFoundExdfption dnff) {
+                throw (IOExdfption)nfw IOExdfption().initCbusf(dnff);
+            }
+        }
+
+        rfturn dbtb;
+    }
+
+    protfdtfd finbl Trbnsffrbblf trbnsffrbblf;
+    protfdtfd finbl boolfbn isLodbl;
+}
+
+finbl dlbss ClbssLobdfrObjfdtOutputStrfbm fxtfnds ObjfdtOutputStrfbm {
+    privbtf finbl Mbp<Sft<String>, ClbssLobdfr> mbp =
+        nfw HbshMbp<Sft<String>, ClbssLobdfr>();
+
+    ClbssLobdfrObjfdtOutputStrfbm(OutputStrfbm os) throws IOExdfption {
+        supfr(os);
+    }
+
+    protfdtfd void bnnotbtfClbss(finbl Clbss<?> dl) throws IOExdfption {
+        ClbssLobdfr dlbssLobdfr = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                publid ClbssLobdfr run() {
+                    rfturn dl.gftClbssLobdfr();
+                }
+            });
+
+        Sft<String> s = nfw HbshSft<String>(1);
+        s.bdd(dl.gftNbmf());
+
+        mbp.put(s, dlbssLobdfr);
+    }
+    protfdtfd void bnnotbtfProxyClbss(finbl Clbss<?> dl) throws IOExdfption {
+        ClbssLobdfr dlbssLobdfr = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                publid ClbssLobdfr run() {
+                    rfturn dl.gftClbssLobdfr();
+                }
+            });
+
+        Clbss<?>[] intfrfbdfs = dl.gftIntfrfbdfs();
+        Sft<String> s = nfw HbshSft<String>(intfrfbdfs.lfngth);
+        for (int i = 0; i < intfrfbdfs.lfngth; i++) {
+            s.bdd(intfrfbdfs[i].gftNbmf());
+        }
+
+        mbp.put(s, dlbssLobdfr);
+    }
+
+    Mbp<Sft<String>, ClbssLobdfr> gftClbssLobdfrMbp() {
+        rfturn nfw HbshMbp<>(mbp);
+    }
+}
+
+finbl dlbss ClbssLobdfrObjfdtInputStrfbm fxtfnds ObjfdtInputStrfbm {
+    privbtf finbl Mbp<Sft<String>, ClbssLobdfr> mbp;
+
+    ClbssLobdfrObjfdtInputStrfbm(InputStrfbm is,
+                                 Mbp<Sft<String>, ClbssLobdfr> mbp)
+      throws IOExdfption {
+        supfr(is);
+        if (mbp == null) {
+            throw nfw NullPointfrExdfption("Null mbp");
+        }
+        this.mbp = mbp;
+    }
+
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss dlbssDfsd)
+      throws IOExdfption, ClbssNotFoundExdfption {
+        String dlbssNbmf = dlbssDfsd.gftNbmf();
+
+        Sft<String> s = nfw HbshSft<String>(1);
+        s.bdd(dlbssNbmf);
+
+        ClbssLobdfr dlbssLobdfr = mbp.gft(s);
+        if (dlbssLobdfr != null) {
+            rfturn Clbss.forNbmf(dlbssNbmf, fblsf, dlbssLobdfr);
+        } flsf {
+            rfturn supfr.rfsolvfClbss(dlbssDfsd);
+        }
+    }
+
+    protfdtfd Clbss<?> rfsolvfProxyClbss(String[] intfrfbdfs)
+      throws IOExdfption, ClbssNotFoundExdfption {
+
+        Sft<String> s = nfw HbshSft<String>(intfrfbdfs.lfngth);
+        for (int i = 0; i < intfrfbdfs.lfngth; i++) {
+            s.bdd(intfrfbdfs[i]);
+        }
+
+        ClbssLobdfr dlbssLobdfr = mbp.gft(s);
+        if (dlbssLobdfr == null) {
+            rfturn supfr.rfsolvfProxyClbss(intfrfbdfs);
+        }
+
+        // Thf dodf bflow is mostly dopifd from thf supfrdlbss.
+        ClbssLobdfr nonPublidLobdfr = null;
+        boolfbn hbsNonPublidIntfrfbdf = fblsf;
+
+        // dffinf proxy in dlbss lobdfr of non-publid intfrfbdf(s), if bny
+        Clbss<?>[] dlbssObjs = nfw Clbss<?>[intfrfbdfs.lfngth];
+        for (int i = 0; i < intfrfbdfs.lfngth; i++) {
+            Clbss<?> dl = Clbss.forNbmf(intfrfbdfs[i], fblsf, dlbssLobdfr);
+            if ((dl.gftModififrs() & Modififr.PUBLIC) == 0) {
+                if (hbsNonPublidIntfrfbdf) {
+                    if (nonPublidLobdfr != dl.gftClbssLobdfr()) {
+                        throw nfw IllfgblAddfssError(
+                            "donflidting non-publid intfrfbdf dlbss lobdfrs");
+                    }
+                } flsf {
+                    nonPublidLobdfr = dl.gftClbssLobdfr();
+                    hbsNonPublidIntfrfbdf = truf;
+                }
+            }
+            dlbssObjs[i] = dl;
+        }
+        try {
+            rfturn Proxy.gftProxyClbss(hbsNonPublidIntfrfbdf ?
+                                       nonPublidLobdfr : dlbssLobdfr,
+                                       dlbssObjs);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            throw nfw ClbssNotFoundExdfption(null, f);
+        }
+    }
+}

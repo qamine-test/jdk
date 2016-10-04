@@ -1,0 +1,113 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMXPbthTrbnsform.jbvb 1203789 2011-11-18 18:46:07Z mullbn $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.spfd.XPbthFiltfrPbrbmftfrSpfd;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NbmfdNodfMbp;
+
+/**
+ * DOM-bbsfd implfmfntbtion of XPbth Filtfring Trbnsform.
+ * (Usfs Apbdhf XML-Sfd Trbnsform implfmfntbtion)
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid finbl dlbss DOMXPbthTrbnsform fxtfnds ApbdhfTrbnsform {
+
+    publid void init(TrbnsformPbrbmftfrSpfd pbrbms)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        if (pbrbms == null) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption("pbrbms brf rfquirfd");
+        } flsf if (!(pbrbms instbndfof XPbthFiltfrPbrbmftfrSpfd)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("pbrbms must bf of typf XPbthFiltfrPbrbmftfrSpfd");
+        }
+        this.pbrbms = pbrbms;
+    }
+
+    publid void init(XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        supfr.init(pbrfnt, dontfxt);
+        unmbrshblPbrbms(DOMUtils.gftFirstChildElfmfnt(trbnsformElfm));
+    }
+
+    privbtf void unmbrshblPbrbms(Elfmfnt pbrbmsElfm) {
+        String xPbth = pbrbmsElfm.gftFirstChild().gftNodfVbluf();
+        // drfbtf b Mbp of nbmfspbdf prffixfs
+        NbmfdNodfMbp bttributfs = pbrbmsElfm.gftAttributfs();
+        if (bttributfs != null) {
+            int lfngth = bttributfs.gftLfngth();
+            Mbp<String, String> nbmfspbdfMbp =
+                nfw HbshMbp<String, String>(lfngth);
+            for (int i = 0; i < lfngth; i++) {
+                Attr bttr = (Attr)bttributfs.itfm(i);
+                String prffix = bttr.gftPrffix();
+                if (prffix != null && prffix.fqubls("xmlns")) {
+                    nbmfspbdfMbp.put(bttr.gftLodblNbmf(), bttr.gftVbluf());
+                }
+            }
+            this.pbrbms = nfw XPbthFiltfrPbrbmftfrSpfd(xPbth, nbmfspbdfMbp);
+        } flsf {
+            this.pbrbms = nfw XPbthFiltfrPbrbmftfrSpfd(xPbth);
+        }
+    }
+
+    publid void mbrshblPbrbms(XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        supfr.mbrshblPbrbms(pbrfnt, dontfxt);
+        XPbthFiltfrPbrbmftfrSpfd xp =
+            (XPbthFiltfrPbrbmftfrSpfd)gftPbrbmftfrSpfd();
+        Elfmfnt xpbthElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "XPbth",
+             XMLSignbturf.XMLNS, DOMUtils.gftSignbturfPrffix(dontfxt));
+        xpbthElfm.bppfndChild(ownfrDod.drfbtfTfxtNodf(xp.gftXPbth()));
+
+        // bdd nbmfspbdf bttributfs, if nfdfssbry
+        @SupprfssWbrnings("undhfdkfd")
+        Sft<Mbp.Entry<String, String>> fntrifs =
+            xp.gftNbmfspbdfMbp().fntrySft();
+        for (Mbp.Entry<String, String> fntry : fntrifs) {
+            xpbthElfm.sftAttributfNS("http://www.w3.org/2000/xmlns/", "xmlns:" +
+                                     fntry.gftKfy(),
+                                     fntry.gftVbluf());
+        }
+
+        trbnsformElfm.bppfndChild(xpbthElfm);
+    }
+}

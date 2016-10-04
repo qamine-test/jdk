@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<TITLE>
+JDI Typf Signbturfs
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="whitf">
+<dl><dd>
+<Tbblf Bordfr="0">
+<dbption><h2>JDI Typf Signbturfs</h2></dbption>
+<tr><th>Typf Signbturf
+<th>Jbvb Typf
+<tr><td>Z<td>boolfbn
+<tr><td>B<td>bytf
+<tr><td>C<td>dhbr
+<tr><td>S<td>short
+<tr><td>I<td>int
+<tr><td>J<td>long
+<tr><td>F<td>flobt
+<tr><td>D<td>doublf
+<tr><td><strong>L</strong> <fm>fully-qublififd-dlbss</fm> 
+<strong>;</strong>
+<td>fully-qublififd-dlbss
+<tr><td><strong>[</strong> <fm>typf
+</fm>
+<td><fm>typf</fm>[]
+<tr><td>
+<strong>(</strong> <fm>brg-typfs </fm><strong>)</strong> <fm>rft-typf
+</fm>
+<td>mfthod typf (indluding donstrudtors)
+</Tbblf>
+</dd></dl>
+<p>For fxbmplf, thf Jbvb mfthod:
+<p><prf>    long f (int n, String s, int[] brr);
+</prf>hbs thf following typf signbturf:
+<p><prf>    (ILjbvb/lbng/String;[I)J
+</prf>
+</BODY>
+</HTML>

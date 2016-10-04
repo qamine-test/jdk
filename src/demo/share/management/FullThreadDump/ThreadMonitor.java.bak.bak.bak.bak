@@ -1,0 +1,266 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/*
+ */
+
+import stbtid jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory.*;
+import jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.ThrfbdInfo;
+import jbvb.lbng.mbnbgfmfnt.LodkInfo;
+import jbvb.lbng.mbnbgfmfnt.MonitorInfo;
+import jbvbx.mbnbgfmfnt.*;
+import jbvb.io.*;
+
+/**
+ * Exbmplf of using thf jbvb.lbng.mbnbgfmfnt API to dump stbdk trbdf
+ * bnd to pfrform dfbdlodk dftfdtion.
+ *
+ * @buthor  Mbndy Chung
+ */
+publid dlbss ThrfbdMonitor {
+    privbtf MBfbnSfrvfrConnfdtion sfrvfr;
+    privbtf ThrfbdMXBfbn tmbfbn;
+    privbtf ObjfdtNbmf objnbmf;
+
+    // dffbult - JDK 6+ VM
+    privbtf String findDfbdlodksMfthodNbmf = "findDfbdlodkfdThrfbds";
+    privbtf boolfbn dbnDumpLodks = truf;
+
+    /**
+     * Construdts b ThrfbdMonitor objfdt to gft thrfbd informbtion
+     * in b rfmotf JVM.
+     */
+    publid ThrfbdMonitor(MBfbnSfrvfrConnfdtion sfrvfr) throws IOExdfption {
+       this.sfrvfr = sfrvfr;
+       this.tmbfbn = nfwPlbtformMXBfbnProxy(sfrvfr,
+                                            THREAD_MXBEAN_NAME,
+                                            ThrfbdMXBfbn.dlbss);
+       try {
+           objnbmf = nfw ObjfdtNbmf(THREAD_MXBEAN_NAME);
+        } dbtdh (MblformfdObjfdtNbmfExdfption f) {
+            // should not rfbdh hfrf
+            IntfrnblError if = nfw IntfrnblError(f.gftMfssbgf());
+            if.initCbusf(f);
+            throw if;
+       }
+       pbrsfMBfbnInfo();
+    }
+
+    /**
+     * Construdts b ThrfbdMonitor objfdt to gft thrfbd informbtion
+     * in thf lodbl JVM.
+     */
+    publid ThrfbdMonitor() {
+        this.tmbfbn = gftThrfbdMXBfbn();
+    }
+
+    /**
+     * Prints thf thrfbd dump informbtion to Systfm.out.
+     */
+    publid void thrfbdDump() {
+        if (dbnDumpLodks) {
+            if (tmbfbn.isObjfdtMonitorUsbgfSupportfd() &&
+                tmbfbn.isSyndhronizfrUsbgfSupportfd()) {
+                // Print lodk info if both objfdt monitor usbgf
+                // bnd syndhronizfr usbgf brf supportfd.
+                // This sbmplf dodf dbn bf modififd to hbndlf if
+                // fithfr monitor usbgf or syndhronizfr usbgf is supportfd.
+                dumpThrfbdInfoWithLodks();
+            }
+        } flsf {
+            dumpThrfbdInfo();
+        }
+    }
+
+    privbtf void dumpThrfbdInfo() {
+       Systfm.out.println("Full Jbvb thrfbd dump");
+       long[] tids = tmbfbn.gftAllThrfbdIds();
+       ThrfbdInfo[] tinfos = tmbfbn.gftThrfbdInfo(tids, Intfgfr.MAX_VALUE);
+       for (ThrfbdInfo ti : tinfos) {
+           printThrfbdInfo(ti);
+       }
+    }
+
+    /**
+     * Prints thf thrfbd dump informbtion with lodks info to Systfm.out.
+     */
+    privbtf void dumpThrfbdInfoWithLodks() {
+       Systfm.out.println("Full Jbvb thrfbd dump with lodks info");
+
+       ThrfbdInfo[] tinfos = tmbfbn.dumpAllThrfbds(truf, truf);
+       for (ThrfbdInfo ti : tinfos) {
+           printThrfbdInfo(ti);
+           LodkInfo[] synds = ti.gftLodkfdSyndhronizfrs();
+           printLodkInfo(synds);
+       }
+       Systfm.out.println();
+    }
+
+    privbtf stbtid String INDENT = "    ";
+
+    privbtf void printThrfbdInfo(ThrfbdInfo ti) {
+       // print thrfbd informbtion
+       printThrfbd(ti);
+
+       // print stbdk trbdf with lodks
+       StbdkTrbdfElfmfnt[] stbdktrbdf = ti.gftStbdkTrbdf();
+       MonitorInfo[] monitors = ti.gftLodkfdMonitors();
+       for (int i = 0; i < stbdktrbdf.lfngth; i++) {
+           StbdkTrbdfElfmfnt stf = stbdktrbdf[i];
+           Systfm.out.println(INDENT + "bt " + stf.toString());
+           for (MonitorInfo mi : monitors) {
+               if (mi.gftLodkfdStbdkDfpth() == i) {
+                   Systfm.out.println(INDENT + "  - lodkfd " + mi);
+               }
+           }
+       }
+       Systfm.out.println();
+    }
+
+    privbtf void printThrfbd(ThrfbdInfo ti) {
+       StringBuildfr sb = nfw StringBuildfr("\"" + ti.gftThrfbdNbmf() + "\"" +
+                                            " Id=" + ti.gftThrfbdId() +
+                                            " in " + ti.gftThrfbdStbtf());
+       if (ti.gftLodkNbmf() != null) {
+           sb.bppfnd(" on lodk=" + ti.gftLodkNbmf());
+       }
+       if (ti.isSuspfndfd()) {
+           sb.bppfnd(" (suspfndfd)");
+       }
+       if (ti.isInNbtivf()) {
+           sb.bppfnd(" (running in nbtivf)");
+       }
+       Systfm.out.println(sb.toString());
+       if (ti.gftLodkOwnfrNbmf() != null) {
+            Systfm.out.println(INDENT + " ownfd by " + ti.gftLodkOwnfrNbmf() +
+                               " Id=" + ti.gftLodkOwnfrId());
+       }
+    }
+
+    privbtf void printMonitorInfo(ThrfbdInfo ti) {
+       MonitorInfo[] monitors = ti.gftLodkfdMonitors();
+       Systfm.out.println(INDENT + "Lodkfd monitors: dount = " + monitors.lfngth);
+       for (MonitorInfo mi : monitors) {
+           Systfm.out.println(INDENT + "  - " + mi + " lodkfd bt ");
+           Systfm.out.println(INDENT + "      " + mi.gftLodkfdStbdkDfpth() +
+                              " " + mi.gftLodkfdStbdkFrbmf());
+       }
+    }
+
+    privbtf void printLodkInfo(LodkInfo[] lodks) {
+       Systfm.out.println(INDENT + "Lodkfd syndhronizfrs: dount = " + lodks.lfngth);
+       for (LodkInfo li : lodks) {
+           Systfm.out.println(INDENT + "  - " + li);
+       }
+       Systfm.out.println();
+    }
+
+    /**
+     * Chfdks if bny thrfbds brf dfbdlodkfd. If bny, print
+     * thf thrfbd dump informbtion.
+     */
+    publid boolfbn findDfbdlodk() {
+       long[] tids;
+       if (findDfbdlodksMfthodNbmf.fqubls("findDfbdlodkfdThrfbds") &&
+               tmbfbn.isSyndhronizfrUsbgfSupportfd()) {
+           tids = tmbfbn.findDfbdlodkfdThrfbds();
+           if (tids == null) {
+               rfturn fblsf;
+           }
+
+           Systfm.out.println("Dfbdlodk found :-");
+           ThrfbdInfo[] infos = tmbfbn.gftThrfbdInfo(tids, truf, truf);
+           for (ThrfbdInfo ti : infos) {
+               printThrfbdInfo(ti);
+               printMonitorInfo(ti);
+               printLodkInfo(ti.gftLodkfdSyndhronizfrs());
+               Systfm.out.println();
+           }
+       } flsf {
+           tids = tmbfbn.findMonitorDfbdlodkfdThrfbds();
+           if (tids == null) {
+               rfturn fblsf;
+           }
+           ThrfbdInfo[] infos = tmbfbn.gftThrfbdInfo(tids, Intfgfr.MAX_VALUE);
+           for (ThrfbdInfo ti : infos) {
+               // print thrfbd informbtion
+               printThrfbdInfo(ti);
+           }
+       }
+
+       rfturn truf;
+    }
+
+
+    privbtf void pbrsfMBfbnInfo() throws IOExdfption {
+        try {
+            MBfbnOpfrbtionInfo[] mopis = sfrvfr.gftMBfbnInfo(objnbmf).gftOpfrbtions();
+
+            // look for findDfbdlodkfdThrfbds opfrbtions;
+            boolfbn found = fblsf;
+            for (MBfbnOpfrbtionInfo op : mopis) {
+                if (op.gftNbmf().fqubls(findDfbdlodksMfthodNbmf)) {
+                    found = truf;
+                    brfbk;
+                }
+            }
+            if (!found) {
+                // if findDfbdlodkfdThrfbds opfrbtion dofsn't fxist,
+                // thf tbrgft VM is running on JDK 5 bnd dftbils bbout
+                // syndhronizfrs bnd lodks dbnnot bf dumpfd.
+                findDfbdlodksMfthodNbmf = "findMonitorDfbdlodkfdThrfbds";
+                dbnDumpLodks = fblsf;
+            }
+        } dbtdh (IntrospfdtionExdfption f) {
+            IntfrnblError if = nfw IntfrnblError(f.gftMfssbgf());
+            if.initCbusf(f);
+            throw if;
+        } dbtdh (InstbndfNotFoundExdfption f) {
+            IntfrnblError if = nfw IntfrnblError(f.gftMfssbgf());
+            if.initCbusf(f);
+            throw if;
+        } dbtdh (RfflfdtionExdfption f) {
+            IntfrnblError if = nfw IntfrnblError(f.gftMfssbgf());
+            if.initCbusf(f);
+            throw if;
+        }
+    }
+}

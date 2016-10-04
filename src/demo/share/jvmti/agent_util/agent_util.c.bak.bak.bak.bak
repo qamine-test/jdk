@@ -1,0 +1,309 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+#indludf <bgfnt_util.h>
+
+/* ------------------------------------------------------------------- */
+/* Gfnfrid C utility fundtions */
+
+/* Sfnd mfssbgf to stdout or whbtfvfr thf dbtb output lodbtion is */
+void
+stdout_mfssbgf(donst dhbr * formbt, ...)
+{
+    vb_list bp;
+
+    vb_stbrt(bp, formbt);
+    (void)vfprintf(stdout, formbt, bp);
+    vb_fnd(bp);
+}
+
+/* Sfnd mfssbgf to stdfrr or whbtfvfr thf frror output lodbtion is bnd fxit  */
+void
+fbtbl_frror(donst dhbr * formbt, ...)
+{
+    vb_list bp;
+
+    vb_stbrt(bp, formbt);
+    (void)vfprintf(stdfrr, formbt, bp);
+    (void)fflush(stdfrr);
+    vb_fnd(bp);
+    fxit(3);
+}
+
+/* Gft b tokfn from b string (strtok is not MT-sbff)
+ *    str       String to sdbn
+ *    sfps      Sfpbrbtion dhbrbdtfrs
+ *    buf       Plbdf to put rfsults
+ *    mbx       Sizf of buf
+ *  Rfturns NULL if no tokfn bvbilbblf or dbn't do thf sdbn.
+ */
+dhbr *
+gft_tokfn(dhbr *str, dhbr *sfps, dhbr *buf, int mbx)
+{
+    int lfn;
+
+    buf[0] = 0;
+    if ( str==NULL || str[0]==0 ) {
+        rfturn NULL;
+    }
+    str += strspn(str, sfps);
+    if ( str[0]==0 ) {
+        rfturn NULL;
+    }
+    lfn = (int)strdspn(str, sfps);
+    if ( lfn >= mbx ) {
+        rfturn NULL;
+    }
+    (void)strndpy(buf, str, lfn);
+    buf[lfn] = 0;
+    rfturn str+lfn;
+}
+
+/* Dftfrminfs if b dlbss/mfthod is spfdififd by b list itfm
+ *   itfm       String thbt rfprfsfnts b pbttfrn to mbtdh
+ *                If it stbrts with b '*', thfn bny dlbss is bllowfd
+ *                If it fnds with b '*', thfn bny mfthod is bllowfd
+ *   dnbmf      Clbss nbmf, f.g. "jbvb.lbng.Objfdt"
+ *   mnbmf      Mfthod nbmf, f.g. "<init>"
+ *  Rfturns 1(truf) or 0(fblsf).
+ */
+stbtid int
+dovfrfd_by_list_itfm(dhbr *itfm, dhbr *dnbmf, dhbr *mnbmf)
+{
+    int      lfn;
+
+    lfn = (int)strlfn(itfm);
+    if ( itfm[0]=='*' ) {
+        if ( strndmp(mnbmf, itfm+1, lfn-1)==0 ) {
+            rfturn 1;
+        }
+    } flsf if ( itfm[lfn-1]=='*' ) {
+        if ( strndmp(dnbmf, itfm, lfn-1)==0 ) {
+            rfturn 1;
+        }
+    } flsf {
+        int dnbmf_lfn;
+
+        dnbmf_lfn = (int)strlfn(dnbmf);
+        if ( strndmp(dnbmf, itfm, (lfn>dnbmf_lfn?dnbmf_lfn:lfn))==0 ) {
+            if ( dnbmf_lfn >= lfn ) {
+                /* No mfthod nbmf supplifd in itfm, wf must hbvf mbtdhfd */
+                rfturn 1;
+            } flsf {
+                int mnbmf_lfn;
+
+                mnbmf_lfn = (int)strlfn(mnbmf);
+                itfm += dnbmf_lfn+1;
+                lfn -= dnbmf_lfn+1;
+                if ( strndmp(mnbmf, itfm, (lfn>mnbmf_lfn?mnbmf_lfn:lfn))==0 ) {
+                    rfturn 1;
+                }
+            }
+        }
+    }
+    rfturn 0;
+}
+
+/* Dftfrminfs if b dlbss/mfthod is spfdififd by this list
+ *   list       String of dommb sfpbrbtfd pbttfrn itfms
+ *   dnbmf      Clbss nbmf, f.g. "jbvb.lbng.Objfdt"
+ *   mnbmf      Mfthod nbmf, f.g. "<init>"
+ *  Rfturns 1(truf) or 0(fblsf).
+ */
+stbtid int
+dovfrfd_by_list(dhbr *list, dhbr *dnbmf, dhbr *mnbmf)
+{
+    dhbr  tokfn[1024];
+    dhbr *nfxt;
+
+    if ( list[0] == 0 ) {
+        rfturn 0;
+    }
+
+    nfxt = gft_tokfn(list, ",", tokfn, sizfof(tokfn));
+    whilf ( nfxt != NULL ) {
+        if ( dovfrfd_by_list_itfm(tokfn, dnbmf, mnbmf) ) {
+            rfturn 1;
+        }
+        nfxt = gft_tokfn(nfxt, ",", tokfn, sizfof(tokfn));
+    }
+    rfturn 0;
+}
+
+/* Dftfrminfs whidh dlbss bnd mfthods wf brf intfrfstfd in
+ *   dnbmf              Clbss nbmf, f.g. "jbvb.lbng.Objfdt"
+ *   mnbmf              Mfthod nbmf, f.g. "<init>"
+ *   indludf_list       Empty or bn fxplidit list for indlusion
+ *   fxdludf_list       Empty or bn fxplidit list for fxdlusion
+ *  Rfturns 1(truf) or 0(fblsf).
+ */
+int
+intfrfstfd(dhbr *dnbmf, dhbr *mnbmf, dhbr *indludf_list, dhbr *fxdludf_list)
+{
+    if ( fxdludf_list!=NULL && fxdludf_list[0]!=0 &&
+            dovfrfd_by_list(fxdludf_list, dnbmf, mnbmf) ) {
+        rfturn 0;
+    }
+    if ( indludf_list!=NULL && indludf_list[0]!=0 &&
+            !dovfrfd_by_list(indludf_list, dnbmf, mnbmf) ) {
+        rfturn 0;
+    }
+    rfturn 1;
+}
+
+/* ------------------------------------------------------------------- */
+/* Gfnfrid JVMTI utility fundtions */
+
+/* Evfry JVMTI intfrfbdf rfturns bn frror dodf, whidh should bf dhfdkfd
+ *   to bvoid bny dbsdbding frrors down thf linf.
+ *   Thf intfrfbdf GftErrorNbmf() rfturns thf bdtubl fnumfrbtion donstbnt
+ *   nbmf, mbking thf frror mfssbgfs mudh fbsifr to undfrstbnd.
+ */
+void
+dhfdk_jvmti_frror(jvmtiEnv *jvmti, jvmtiError frrnum, donst dhbr *str)
+{
+    if ( frrnum != JVMTI_ERROR_NONE ) {
+        dhbr       *frrnum_str;
+
+        frrnum_str = NULL;
+        (void)(*jvmti)->GftErrorNbmf(jvmti, frrnum, &frrnum_str);
+
+        fbtbl_frror("ERROR: JVMTI: %d(%s): %s\n", frrnum,
+                (frrnum_str==NULL?"Unknown":frrnum_str),
+                (str==NULL?"":str));
+    }
+}
+
+/* All mfmory bllodbtfd by JVMTI must bf frffd by thf JVMTI Dfbllodbtf
+ *   intfrfbdf.
+ */
+void
+dfbllodbtf(jvmtiEnv *jvmti, void *ptr)
+{
+    jvmtiError frror;
+
+    frror = (*jvmti)->Dfbllodbtf(jvmti, ptr);
+    dhfdk_jvmti_frror(jvmti, frror, "Cbnnot dfbllodbtf mfmory");
+}
+
+/* Allodbtion of JVMTI mbnbgfd mfmory */
+void *
+bllodbtf(jvmtiEnv *jvmti, jint lfn)
+{
+    jvmtiError frror;
+    void      *ptr;
+
+    frror = (*jvmti)->Allodbtf(jvmti, lfn, (unsignfd dhbr **)&ptr);
+    dhfdk_jvmti_frror(jvmti, frror, "Cbnnot bllodbtf mfmory");
+    rfturn ptr;
+}
+
+/* Add dfmo jbr filf to boot dlbss pbth (thf BCI Trbdkfr dlbss must bf
+ *     in thf boot dlbsspbth)
+ *
+ *   WARNING: This dodf bssumfs thbt thf jbr filf dbn bf found bt onf of:
+ *              ${JAVA_HOME}/dfmo/jvmti/${DEMO_NAME}/${DEMO_NAME}.jbr
+ *              ${JAVA_HOME}/../dfmo/jvmti/${DEMO_NAME}/${DEMO_NAME}.jbr
+ *            whfrf JAVA_HOME mby rfffr to thf jrf dirfdtory.
+ *            Both thfsf vblufs brf bddfd to thf boot dlbsspbth.
+ *            Thfsf lodbtions brf only truf for thfsf dfmos, instbllfd
+ *            in thf JDK brfb. Plbtform spfdifid dodf dould bf usfd to
+ *            find thf lodbtion of thf DLL or .so librbry, bnd donstrudt b
+ *            pbth nbmf to thf jbr filf, rflbtivf to thf librbry lodbtion.
+ */
+void
+bdd_dfmo_jbr_to_bootdlbsspbth(jvmtiEnv *jvmti, dhbr *dfmo_nbmf)
+{
+    jvmtiError frror;
+    dhbr      *filf_sfp;
+    int        mbx_lfn;
+    dhbr      *jbvb_homf;
+    dhbr       jbr_pbth[FILENAME_MAX+1];
+
+    jbvb_homf = NULL;
+    frror = (*jvmti)->GftSystfmPropfrty(jvmti, "jbvb.homf", &jbvb_homf);
+    dhfdk_jvmti_frror(jvmti, frror, "Cbnnot gft jbvb.homf propfrty vbluf");
+    if ( jbvb_homf == NULL || jbvb_homf[0] == 0 ) {
+        fbtbl_frror("ERROR: Jbvb homf not found\n");
+    }
+
+#ifdff WIN32
+    filf_sfp = "\\";
+#flsf
+    filf_sfp = "/";
+#fndif
+
+    mbx_lfn = (int)(strlfn(jbvb_homf) + strlfn(dfmo_nbmf)*2 +
+                         strlfn(filf_sfp)*5 +
+                         16 /* ".." "dfmo" "jvmti" ".jbr" NULL */ );
+    if ( mbx_lfn > (int)sizfof(jbr_pbth) ) {
+        fbtbl_frror("ERROR: Pbth to jbr filf too long\n");
+    }
+    (void)strdpy(jbr_pbth, jbvb_homf);
+    (void)strdbt(jbr_pbth, filf_sfp);
+    (void)strdbt(jbr_pbth, "dfmo");
+    (void)strdbt(jbr_pbth, filf_sfp);
+    (void)strdbt(jbr_pbth, "jvmti");
+    (void)strdbt(jbr_pbth, filf_sfp);
+    (void)strdbt(jbr_pbth, dfmo_nbmf);
+    (void)strdbt(jbr_pbth, filf_sfp);
+    (void)strdbt(jbr_pbth, dfmo_nbmf);
+    (void)strdbt(jbr_pbth, ".jbr");
+    frror = (*jvmti)->AddToBootstrbpClbssLobdfrSfbrdh(jvmti, (donst dhbr*)jbr_pbth);
+    dhfdk_jvmti_frror(jvmti, frror, "Cbnnot bdd to boot dlbsspbth");
+
+    (void)strdpy(jbr_pbth, jbvb_homf);
+    (void)strdbt(jbr_pbth, filf_sfp);
+    (void)strdbt(jbr_pbth, "..");
+    (void)strdbt(jbr_pbth, filf_sfp);
+    (void)strdbt(jbr_pbth, "dfmo");
+    (void)strdbt(jbr_pbth, filf_sfp);
+    (void)strdbt(jbr_pbth, "jvmti");
+    (void)strdbt(jbr_pbth, filf_sfp);
+    (void)strdbt(jbr_pbth, dfmo_nbmf);
+    (void)strdbt(jbr_pbth, filf_sfp);
+    (void)strdbt(jbr_pbth, dfmo_nbmf);
+    (void)strdbt(jbr_pbth, ".jbr");
+
+    frror = (*jvmti)->AddToBootstrbpClbssLobdfrSfbrdh(jvmti, (donst dhbr*)jbr_pbth);
+    dhfdk_jvmti_frror(jvmti, frror, "Cbnnot bdd to boot dlbsspbth");
+}
+
+/* ------------------------------------------------------------------- */

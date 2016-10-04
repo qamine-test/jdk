@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.util.logging;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+
+/**
+ * Simplf nftwork logging <tt>Hbndlfr</tt>.
+ * <p>
+ * <tt>LogRfdords</tt> brf publishfd to b nftwork strfbm donnfdtion.  By dffbult
+ * thf <tt>XMLFormbttfr</tt> dlbss is usfd for formbtting.
+ * <p>
+ * <b>Configurbtion:</b>
+ * By dffbult fbdh <tt>SodkftHbndlfr</tt> is initiblizfd using thf following
+ * <tt>LogMbnbgfr</tt> donfigurbtion propfrtifs whfrf <tt>&lt;hbndlfr-nbmf&gt;</tt>
+ * rfffrs to thf fully-qublififd dlbss nbmf of thf hbndlfr.
+ * If propfrtifs brf not dffinfd
+ * (or hbvf invblid vblufs) thfn thf spfdififd dffbult vblufs brf usfd.
+ * <ul>
+ * <li>   &lt;hbndlfr-nbmf&gt;.lfvfl
+ *        spfdififs thf dffbult lfvfl for thf <tt>Hbndlfr</tt>
+ *        (dffbults to <tt>Lfvfl.ALL</tt>). </li>
+ * <li>   &lt;hbndlfr-nbmf&gt;.filtfr
+ *        spfdififs thf nbmf of b <tt>Filtfr</tt> dlbss to usf
+ *        (dffbults to no <tt>Filtfr</tt>). </li>
+ * <li>   &lt;hbndlfr-nbmf&gt;.formbttfr
+ *        spfdififs thf nbmf of b <tt>Formbttfr</tt> dlbss to usf
+ *        (dffbults to <tt>jbvb.util.logging.XMLFormbttfr</tt>). </li>
+ * <li>   &lt;hbndlfr-nbmf&gt;.fndoding
+ *        thf nbmf of thf dhbrbdtfr sft fndoding to usf (dffbults to
+ *        thf dffbult plbtform fndoding). </li>
+ * <li>   &lt;hbndlfr-nbmf&gt;.host
+ *        spfdififs thf tbrgft host nbmf to donnfdt to (no dffbult). </li>
+ * <li>   &lt;hbndlfr-nbmf&gt;.port
+ *        spfdififs thf tbrgft TCP port to usf (no dffbult). </li>
+ * </ul>
+ * <p>
+ * For fxbmplf, thf propfrtifs for {@dodf SodkftHbndlfr} would bf:
+ * <ul>
+ * <li>   jbvb.util.logging.SodkftHbndlfr.lfvfl=INFO </li>
+ * <li>   jbvb.util.logging.SodkftHbndlfr.formbttfr=jbvb.util.logging.SimplfFormbttfr </li>
+ * </ul>
+ * <p>
+ * For b dustom hbndlfr, f.g. dom.foo.MyHbndlfr, thf propfrtifs would bf:
+ * <ul>
+ * <li>   dom.foo.MyHbndlfr.lfvfl=INFO </li>
+ * <li>   dom.foo.MyHbndlfr.formbttfr=jbvb.util.logging.SimplfFormbttfr </li>
+ * </ul>
+ * <p>
+ * Thf output IO strfbm is bufffrfd, but is flushfd bftfr fbdh
+ * <tt>LogRfdord</tt> is writtfn.
+ *
+ * @sindf 1.4
+ */
+
+publid dlbss SodkftHbndlfr fxtfnds StrfbmHbndlfr {
+    privbtf Sodkft sodk;
+    privbtf String host;
+    privbtf int port;
+
+    /**
+     * Crfbtf b <tt>SodkftHbndlfr</tt>, using only <tt>LogMbnbgfr</tt> propfrtifs
+     * (or thfir dffbults).
+     * @throws IllfgblArgumfntExdfption if thf host or port brf invblid or
+     *          brf not spfdififd bs LogMbnbgfr propfrtifs.
+     * @throws IOExdfption if wf brf unbblf to donnfdt to thf tbrgft
+     *         host bnd port.
+     */
+    publid SodkftHbndlfr() throws IOExdfption {
+        // donfigurf with spfdifid dffbults for SodkftHbndlfr
+        supfr(Lfvfl.ALL, nfw XMLFormbttfr(), null);
+
+        LogMbnbgfr mbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
+        String dnbmf = gftClbss().gftNbmf();
+        port = mbnbgfr.gftIntPropfrty(dnbmf + ".port", 0);
+        host = mbnbgfr.gftStringPropfrty(dnbmf + ".host", null);
+
+        try {
+            donnfdt();
+        } dbtdh (IOExdfption ix) {
+            Systfm.frr.println("SodkftHbndlfr: donnfdt fbilfd to " + host + ":" + port);
+            throw ix;
+        }
+    }
+
+    /**
+     * Construdt b <tt>SodkftHbndlfr</tt> using b spfdififd host bnd port.
+     *
+     * Thf <tt>SodkftHbndlfr</tt> is donfigurfd bbsfd on <tt>LogMbnbgfr</tt>
+     * propfrtifs (or thfir dffbult vblufs) fxdfpt thbt thf givfn tbrgft host
+     * bnd port brgumfnts brf usfd. If thf host brgumfnt is fmpty, but not
+     * null String thfn thf lodblhost is usfd.
+     *
+     * @pbrbm host tbrgft host.
+     * @pbrbm port tbrgft port.
+     *
+     * @throws IllfgblArgumfntExdfption if thf host or port brf invblid.
+     * @throws IOExdfption if wf brf unbblf to donnfdt to thf tbrgft
+     *         host bnd port.
+     */
+    publid SodkftHbndlfr(String host, int port) throws IOExdfption {
+        // donfigurf with spfdifid dffbults for SodkftHbndlfr
+        supfr(Lfvfl.ALL, nfw XMLFormbttfr(), null);
+
+        this.port = port;
+        this.host = host;
+
+        donnfdt();
+    }
+
+    privbtf void donnfdt() throws IOExdfption {
+        // Chfdk thf brgumfnts brf vblid.
+        if (port == 0) {
+            throw nfw IllfgblArgumfntExdfption("Bbd port: " + port);
+        }
+        if (host == null) {
+            throw nfw IllfgblArgumfntExdfption("Null host nbmf: " + host);
+        }
+
+        // Try to opfn b nfw sodkft.
+        sodk = nfw Sodkft(host, port);
+        OutputStrfbm out = sodk.gftOutputStrfbm();
+        BufffrfdOutputStrfbm bout = nfw BufffrfdOutputStrfbm(out);
+        sftOutputStrfbmPrivilfgfd(bout);
+    }
+
+    /**
+     * Closf this output strfbm.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf <tt>LoggingPfrmission("dontrol")</tt>.
+     */
+    @Ovfrridf
+    publid syndhronizfd void dlosf() throws SfdurityExdfption {
+        supfr.dlosf();
+        if (sodk != null) {
+            try {
+                sodk.dlosf();
+            } dbtdh (IOExdfption ix) {
+                // drop through.
+            }
+        }
+        sodk = null;
+    }
+
+    /**
+     * Formbt bnd publish b <tt>LogRfdord</tt>.
+     *
+     * @pbrbm  rfdord  dfsdription of thf log fvfnt. A null rfdord is
+     *                 silfntly ignorfd bnd is not publishfd
+     */
+    @Ovfrridf
+    publid syndhronizfd void publish(LogRfdord rfdord) {
+        if (!isLoggbblf(rfdord)) {
+            rfturn;
+        }
+        supfr.publish(rfdord);
+        flush();
+    }
+}

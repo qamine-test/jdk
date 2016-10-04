@@ -1,943 +1,943 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.net.ftp;
+pbdkbgf sun.nft.ftp;
 
-import java.net.*;
-import java.io.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Iterator;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
 
 /**
- * A class that implements the FTP protocol according to
- * RFCs <A href="http://www.ietf.org/rfc/rfc0959.txt">959</A>,
- * <A href="http://www.ietf.org/rfc/rfc2228.txt">2228</A>,
- * <A href="http://www.ietf.org/rfc/rfc2389.txt">2389</A>,
- * <A href="http://www.ietf.org/rfc/rfc2428.txt">2428</A>,
- * <A href="http://www.ietf.org/rfc/rfc3659.txt">3659</A>,
- * <A href="http://www.ietf.org/rfc/rfc4217.txt">4217</A>.
- * Which includes support for FTP over SSL/TLS (aka ftps).
+ * A dlbss tibt implfmfnts tif FTP protodol bddording to
+ * RFCs <A irff="ittp://www.iftf.org/rfd/rfd0959.txt">959</A>,
+ * <A irff="ittp://www.iftf.org/rfd/rfd2228.txt">2228</A>,
+ * <A irff="ittp://www.iftf.org/rfd/rfd2389.txt">2389</A>,
+ * <A irff="ittp://www.iftf.org/rfd/rfd2428.txt">2428</A>,
+ * <A irff="ittp://www.iftf.org/rfd/rfd3659.txt">3659</A>,
+ * <A irff="ittp://www.iftf.org/rfd/rfd4217.txt">4217</A>.
+ * Wiidi indludfs support for FTP ovfr SSL/TLS (bkb ftps).
  *
- * {@code FtpClient} provides all the functionalities of a typical FTP
- * client, like storing or retrieving files, listing or creating directories.
- * A typical usage would consist of connecting the client to the server,
- * log in, issue a few commands then logout.
- * Here is a code example:
- * <pre>
- * FtpClient cl = FtpClient.create();
- * cl.connect("ftp.gnu.org").login("anonymous", "john.doe@mydomain.com".toCharArray())).changeDirectory("pub/gnu");
- * Iterator&lt;FtpDirEntry&gt; dir = cl.listFiles();
- *     while (dir.hasNext()) {
- *         FtpDirEntry f = dir.next();
- *         System.err.println(f.getName());
+ * {@dodf FtpClifnt} providfs bll tif fundtionblitifs of b typidbl FTP
+ * dlifnt, likf storing or rftrifving filfs, listing or drfbting dirfdtorifs.
+ * A typidbl usbgf would donsist of donnfdting tif dlifnt to tif sfrvfr,
+ * log in, issuf b ffw dommbnds tifn logout.
+ * Hfrf is b dodf fxbmplf:
+ * <prf>
+ * FtpClifnt dl = FtpClifnt.drfbtf();
+ * dl.donnfdt("ftp.gnu.org").login("bnonymous", "join.dof@mydombin.dom".toCibrArrby())).dibngfDirfdtory("pub/gnu");
+ * Itfrbtor&lt;FtpDirEntry&gt; dir = dl.listFilfs();
+ *     wiilf (dir.ibsNfxt()) {
+ *         FtpDirEntry f = dir.nfxt();
+ *         Systfm.frr.println(f.gftNbmf());
  *     }
- *     cl.close();
+ *     dl.dlosf();
  * }
- * </pre>
- * <p><b>Error reporting:</b> There are, mostly, two families of errors that
- * can occur during an FTP session. The first kind are the network related issues
- * like a connection reset, and they are usually fatal to the session, meaning,
- * in all likelyhood the connection to the server has been lost and the session
- * should be restarted from scratch. These errors are reported by throwing an
- * {@link IOException}. The second kind are the errors reported by the FTP server,
- * like when trying to download a non-existing file for example. These errors
- * are usually non fatal to the session, meaning more commands can be sent to the
- * server. In these cases, a {@link FtpProtocolException} is thrown.</p>
+ * </prf>
+ * <p><b>Error rfporting:</b> Tifrf brf, mostly, two fbmilifs of frrors tibt
+ * dbn oddur during bn FTP sfssion. Tif first kind brf tif nftwork rflbtfd issufs
+ * likf b donnfdtion rfsft, bnd tify brf usublly fbtbl to tif sfssion, mfbning,
+ * in bll likflyiood tif donnfdtion to tif sfrvfr ibs bffn lost bnd tif sfssion
+ * siould bf rfstbrtfd from sdrbtdi. Tifsf frrors brf rfportfd by tirowing bn
+ * {@link IOExdfption}. Tif sfdond kind brf tif frrors rfportfd by tif FTP sfrvfr,
+ * likf wifn trying to downlobd b non-fxisting filf for fxbmplf. Tifsf frrors
+ * brf usublly non fbtbl to tif sfssion, mfbning morf dommbnds dbn bf sfnt to tif
+ * sfrvfr. In tifsf dbsfs, b {@link FtpProtodolExdfption} is tirown.</p>
  * <p>
- * It should be noted that this is not a thread-safe API, as it wouldn't make
- * too much sense, due to the very sequential nature of FTP, to provide a
- * client able to be manipulated from multiple threads.
+ * It siould bf notfd tibt tiis is not b tirfbd-sbff API, bs it wouldn't mbkf
+ * too mudi sfnsf, duf to tif vfry sfqufntibl nbturf of FTP, to providf b
+ * dlifnt bblf to bf mbnipulbtfd from multiplf tirfbds.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public abstract class FtpClient implements java.io.Closeable {
+publid bbstrbdt dlbss FtpClifnt implfmfnts jbvb.io.Closfbblf {
 
-    private static final int FTP_PORT = 21;
+    privbtf stbtid finbl int FTP_PORT = 21;
 
-    public static enum TransferType {
+    publid stbtid fnum TrbnsffrTypf {
 
         ASCII, BINARY, EBCDIC
     };
 
     /**
-     * Returns the default FTP port number.
+     * Rfturns tif dffbult FTP port numbfr.
      *
-     * @return the port number.
+     * @rfturn tif port numbfr.
      */
-    public static final int defaultPort() {
-        return FTP_PORT;
+    publid stbtid finbl int dffbultPort() {
+        rfturn FTP_PORT;
     }
 
     /**
-     * Creates an instance of FtpClient. The client is not connected to any
-     * server yet.
+     * Crfbtfs bn instbndf of FtpClifnt. Tif dlifnt is not donnfdtfd to bny
+     * sfrvfr yft.
      *
      */
-    protected FtpClient() {
+    protfdtfd FtpClifnt() {
     }
 
     /**
-     * Creates an instance of {@code FtpClient}. The client is not connected to any
-     * server yet.
+     * Crfbtfs bn instbndf of {@dodf FtpClifnt}. Tif dlifnt is not donnfdtfd to bny
+     * sfrvfr yft.
      *
-     * @return the created {@code FtpClient}
+     * @rfturn tif drfbtfd {@dodf FtpClifnt}
      */
-    public static FtpClient create() {
-        FtpClientProvider provider = FtpClientProvider.provider();
-        return provider.createFtpClient();
+    publid stbtid FtpClifnt drfbtf() {
+        FtpClifntProvidfr providfr = FtpClifntProvidfr.providfr();
+        rfturn providfr.drfbtfFtpClifnt();
     }
 
     /**
-     * Creates an instance of FtpClient and connects it to the specified
-     * address.
+     * Crfbtfs bn instbndf of FtpClifnt bnd donnfdts it to tif spfdififd
+     * bddrfss.
      *
-     * @param dest the {@code InetSocketAddress} to connect to.
-     * @return The created {@code FtpClient}
-     * @throws IOException if the connection fails
-     * @see #connect(java.net.SocketAddress)
+     * @pbrbm dfst tif {@dodf InftSodkftAddrfss} to donnfdt to.
+     * @rfturn Tif drfbtfd {@dodf FtpClifnt}
+     * @tirows IOExdfption if tif donnfdtion fbils
+     * @sff #donnfdt(jbvb.nft.SodkftAddrfss)
      */
-    public static FtpClient create(InetSocketAddress dest) throws FtpProtocolException, IOException {
-        FtpClient client = create();
-        if (dest != null) {
-            client.connect(dest);
+    publid stbtid FtpClifnt drfbtf(InftSodkftAddrfss dfst) tirows FtpProtodolExdfption, IOExdfption {
+        FtpClifnt dlifnt = drfbtf();
+        if (dfst != null) {
+            dlifnt.donnfdt(dfst);
         }
-        return client;
+        rfturn dlifnt;
     }
 
     /**
-     * Creates an instance of {@code FtpClient} and connects it to the
-     * specified host on the default FTP port.
+     * Crfbtfs bn instbndf of {@dodf FtpClifnt} bnd donnfdts it to tif
+     * spfdififd iost on tif dffbult FTP port.
      *
-     * @param dest the {@code String} containing the name of the host
-     *        to connect to.
-     * @return The created {@code FtpClient}
-     * @throws IOException if the connection fails.
-     * @throws FtpProtocolException if the server rejected the connection
+     * @pbrbm dfst tif {@dodf String} dontbining tif nbmf of tif iost
+     *        to donnfdt to.
+     * @rfturn Tif drfbtfd {@dodf FtpClifnt}
+     * @tirows IOExdfption if tif donnfdtion fbils.
+     * @tirows FtpProtodolExdfption if tif sfrvfr rfjfdtfd tif donnfdtion
      */
-    public static FtpClient create(String dest) throws FtpProtocolException, IOException {
-        return create(new InetSocketAddress(dest, FTP_PORT));
+    publid stbtid FtpClifnt drfbtf(String dfst) tirows FtpProtodolExdfption, IOExdfption {
+        rfturn drfbtf(nfw InftSodkftAddrfss(dfst, FTP_PORT));
     }
 
     /**
-     * Enables, or disables, the use of the <I>passive</I> mode. In that mode,
-     * data connections are established by having the client connect to the server.
-     * This is the recommended default mode as it will work best through
-     * firewalls and NATs. If set to {@code false} the mode is said to be
-     * <I>active</I> which means the server will connect back to the client
-     * after a PORT command to establish a data connection.
+     * Enbblfs, or disbblfs, tif usf of tif <I>pbssivf</I> modf. In tibt modf,
+     * dbtb donnfdtions brf fstbblisifd by ibving tif dlifnt donnfdt to tif sfrvfr.
+     * Tiis is tif rfdommfndfd dffbult modf bs it will work bfst tirougi
+     * firfwblls bnd NATs. If sft to {@dodf fblsf} tif modf is sbid to bf
+     * <I>bdtivf</I> wiidi mfbns tif sfrvfr will donnfdt bbdk to tif dlifnt
+     * bftfr b PORT dommbnd to fstbblisi b dbtb donnfdtion.
      *
-     * <p><b>Note:</b> Since the passive mode might not be supported by all
-     * FTP servers, enabling it means the client will try to use it. If the
-     * server rejects it, then the client will attempt to fall back to using
-     * the <I>active</I> mode by issuing a {@code PORT} command instead.</p>
+     * <p><b>Notf:</b> Sindf tif pbssivf modf migit not bf supportfd by bll
+     * FTP sfrvfrs, fnbbling it mfbns tif dlifnt will try to usf it. If tif
+     * sfrvfr rfjfdts it, tifn tif dlifnt will bttfmpt to fbll bbdk to using
+     * tif <I>bdtivf</I> modf by issuing b {@dodf PORT} dommbnd instfbd.</p>
      *
-     * @param passive {@code true} to force passive mode.
-     * @return This FtpClient
-     * @see #isPassiveModeEnabled()
+     * @pbrbm pbssivf {@dodf truf} to fordf pbssivf modf.
+     * @rfturn Tiis FtpClifnt
+     * @sff #isPbssivfModfEnbblfd()
      */
-    public abstract FtpClient enablePassiveMode(boolean passive);
+    publid bbstrbdt FtpClifnt fnbblfPbssivfModf(boolfbn pbssivf);
 
     /**
-     * Tests whether passive mode is enabled.
+     * Tfsts wiftifr pbssivf modf is fnbblfd.
      *
-     * @return {@code true} if the passive mode has been enabled.
-     * @see #enablePassiveMode(boolean)
+     * @rfturn {@dodf truf} if tif pbssivf modf ibs bffn fnbblfd.
+     * @sff #fnbblfPbssivfModf(boolfbn)
      */
-    public abstract boolean isPassiveModeEnabled();
+    publid bbstrbdt boolfbn isPbssivfModfEnbblfd();
 
     /**
-     * Sets the default timeout value to use when connecting to the server,
+     * Sfts tif dffbult timfout vbluf to usf wifn donnfdting to tif sfrvfr,
      *
-     * @param timeout the timeout value, in milliseconds, to use for the connect
-     *        operation. A value of zero or less, means use the default timeout.
+     * @pbrbm timfout tif timfout vbluf, in millisfdonds, to usf for tif donnfdt
+     *        opfrbtion. A vbluf of zfro or lfss, mfbns usf tif dffbult timfout.
      *
-     * @return This FtpClient
+     * @rfturn Tiis FtpClifnt
      */
-    public abstract FtpClient setConnectTimeout(int timeout);
+    publid bbstrbdt FtpClifnt sftConnfdtTimfout(int timfout);
 
     /**
-     * Returns the current default connection timeout value.
+     * Rfturns tif durrfnt dffbult donnfdtion timfout vbluf.
      *
-     * @return the value, in milliseconds, of the current connect timeout.
-     * @see #setConnectTimeout(int)
+     * @rfturn tif vbluf, in millisfdonds, of tif durrfnt donnfdt timfout.
+     * @sff #sftConnfdtTimfout(int)
      */
-    public abstract int getConnectTimeout();
+    publid bbstrbdt int gftConnfdtTimfout();
 
     /**
-     * Sets the timeout value to use when reading from the server,
+     * Sfts tif timfout vbluf to usf wifn rfbding from tif sfrvfr,
      *
-     * @param timeout the timeout value, in milliseconds, to use for the read
-     *        operation. A value of zero or less, means use the default timeout.
-     * @return This FtpClient
+     * @pbrbm timfout tif timfout vbluf, in millisfdonds, to usf for tif rfbd
+     *        opfrbtion. A vbluf of zfro or lfss, mfbns usf tif dffbult timfout.
+     * @rfturn Tiis FtpClifnt
      */
-    public abstract FtpClient setReadTimeout(int timeout);
+    publid bbstrbdt FtpClifnt sftRfbdTimfout(int timfout);
 
     /**
-     * Returns the current read timeout value.
+     * Rfturns tif durrfnt rfbd timfout vbluf.
      *
-     * @return the value, in milliseconds, of the current read timeout.
-     * @see #setReadTimeout(int)
+     * @rfturn tif vbluf, in millisfdonds, of tif durrfnt rfbd timfout.
+     * @sff #sftRfbdTimfout(int)
      */
-    public abstract int getReadTimeout();
+    publid bbstrbdt int gftRfbdTimfout();
 
     /**
-     * Set the {@code Proxy} to be used for the next connection.
-     * If the client is already connected, it doesn't affect the current
-     * connection. However it is not recommended to change this during a session.
+     * Sft tif {@dodf Proxy} to bf usfd for tif nfxt donnfdtion.
+     * If tif dlifnt is blrfbdy donnfdtfd, it dofsn't bfffdt tif durrfnt
+     * donnfdtion. Howfvfr it is not rfdommfndfd to dibngf tiis during b sfssion.
      *
-     * @param p the {@code Proxy} to use, or {@code null} for no proxy.
-     * @return This FtpClient
+     * @pbrbm p tif {@dodf Proxy} to usf, or {@dodf null} for no proxy.
+     * @rfturn Tiis FtpClifnt
      */
-    public abstract FtpClient setProxy(Proxy p);
+    publid bbstrbdt FtpClifnt sftProxy(Proxy p);
 
     /**
-     * Get the proxy of this FtpClient
+     * Gft tif proxy of tiis FtpClifnt
      *
-     * @return the {@code Proxy}, this client is using, or {@code null}
-     * if none is used.
-     * @see #setProxy(Proxy)
+     * @rfturn tif {@dodf Proxy}, tiis dlifnt is using, or {@dodf null}
+     * if nonf is usfd.
+     * @sff #sftProxy(Proxy)
      */
-    public abstract Proxy getProxy();
+    publid bbstrbdt Proxy gftProxy();
 
     /**
-     * Tests whether this client is connected or not to a server.
+     * Tfsts wiftifr tiis dlifnt is donnfdtfd or not to b sfrvfr.
      *
-     * @return {@code true} if the client is connected.
+     * @rfturn {@dodf truf} if tif dlifnt is donnfdtfd.
      */
-    public abstract boolean isConnected();
+    publid bbstrbdt boolfbn isConnfdtfd();
 
     /**
-     * Connects the {@code FtpClient} to the specified destination server.
+     * Connfdts tif {@dodf FtpClifnt} to tif spfdififd dfstinbtion sfrvfr.
      *
-     * @param dest the address of the destination server
-     * @return this FtpClient
-     * @throws IOException if connection failed.
-     * @throws SecurityException if there is a SecurityManager installed and it
-     * denied the authorization to connect to the destination.
-     * @throws FtpProtocolException
+     * @pbrbm dfst tif bddrfss of tif dfstinbtion sfrvfr
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if donnfdtion fbilfd.
+     * @tirows SfdurityExdfption if tifrf is b SfdurityMbnbgfr instbllfd bnd it
+     * dfnifd tif butiorizbtion to donnfdt to tif dfstinbtion.
+     * @tirows FtpProtodolExdfption
      */
-    public abstract FtpClient connect(SocketAddress dest) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt donnfdt(SodkftAddrfss dfst) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Connects the FtpClient to the specified destination server.
+     * Connfdts tif FtpClifnt to tif spfdififd dfstinbtion sfrvfr.
      *
-     * @param dest the address of the destination server
-     * @param timeout the value, in milliseconds, to use as a connection timeout
-     * @return this FtpClient
-     * @throws IOException if connection failed.
-     * @throws SecurityException if there is a SecurityManager installed and it
-     * denied the authorization to connect to the destination.
-     * @throws FtpProtocolException
+     * @pbrbm dfst tif bddrfss of tif dfstinbtion sfrvfr
+     * @pbrbm timfout tif vbluf, in millisfdonds, to usf bs b donnfdtion timfout
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if donnfdtion fbilfd.
+     * @tirows SfdurityExdfption if tifrf is b SfdurityMbnbgfr instbllfd bnd it
+     * dfnifd tif butiorizbtion to donnfdt to tif dfstinbtion.
+     * @tirows FtpProtodolExdfption
      */
-    public abstract FtpClient connect(SocketAddress dest, int timeout) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt donnfdt(SodkftAddrfss dfst, int timfout) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Retrieves the address of the FTP server this client is connected to.
+     * Rftrifvfs tif bddrfss of tif FTP sfrvfr tiis dlifnt is donnfdtfd to.
      *
-     * @return the {@link SocketAddress} of the server, or {@code null} if this
-     * client is not connected yet.
+     * @rfturn tif {@link SodkftAddrfss} of tif sfrvfr, or {@dodf null} if tiis
+     * dlifnt is not donnfdtfd yft.
      */
-    public abstract SocketAddress getServerAddress();
+    publid bbstrbdt SodkftAddrfss gftSfrvfrAddrfss();
 
     /**
-     * Attempts to log on the server with the specified user name and password.
+     * Attfmpts to log on tif sfrvfr witi tif spfdififd usfr nbmf bnd pbssword.
      *
-     * @param user The user name
-     * @param password The password for that user
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission
-     * @throws FtpProtocolException if the login was refused by the server
+     * @pbrbm usfr Tif usfr nbmf
+     * @pbrbm pbssword Tif pbssword for tibt usfr
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission
+     * @tirows FtpProtodolExdfption if tif login wbs rffusfd by tif sfrvfr
      */
-    public abstract FtpClient login(String user, char[] password) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt login(String usfr, dibr[] pbssword) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Attempts to log on the server with the specified user name, password and
-     * account name.
+     * Attfmpts to log on tif sfrvfr witi tif spfdififd usfr nbmf, pbssword bnd
+     * bddount nbmf.
      *
-     * @param user The user name
-     * @param password The password for that user.
-     * @param account The account name for that user.
-     * @return this FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the login was refused by the server
+     * @pbrbm usfr Tif usfr nbmf
+     * @pbrbm pbssword Tif pbssword for tibt usfr.
+     * @pbrbm bddount Tif bddount nbmf for tibt usfr.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif login wbs rffusfd by tif sfrvfr
      */
-    public abstract FtpClient login(String user, char[] password, String account) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt login(String usfr, dibr[] pbssword, String bddount) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Closes the current connection. Logs out the current user, if any, by
-     * issuing the QUIT command to the server.
-     * This is in effect terminates the current
-     * session and the connection to the server will be closed.
-     * <p>After a close, the client can then be connected to another server
-     * to start an entirely different session.</P>
+     * Closfs tif durrfnt donnfdtion. Logs out tif durrfnt usfr, if bny, by
+     * issuing tif QUIT dommbnd to tif sfrvfr.
+     * Tiis is in ffffdt tfrminbtfs tif durrfnt
+     * sfssion bnd tif donnfdtion to tif sfrvfr will bf dlosfd.
+     * <p>Aftfr b dlosf, tif dlifnt dbn tifn bf donnfdtfd to bnotifr sfrvfr
+     * to stbrt bn fntirfly difffrfnt sfssion.</P>
      *
-     * @throws IOException if an error occurs during transmission
+     * @tirows IOExdfption if bn frror oddurs during trbnsmission
      */
-    public abstract void close() throws IOException;
+    publid bbstrbdt void dlosf() tirows IOExdfption;
 
     /**
-     * Checks whether the client is logged in to the server or not.
+     * Cifdks wiftifr tif dlifnt is loggfd in to tif sfrvfr or not.
      *
-     * @return {@code true} if the client has already completed a login.
+     * @rfturn {@dodf truf} if tif dlifnt ibs blrfbdy domplftfd b login.
      */
-    public abstract boolean isLoggedIn();
+    publid bbstrbdt boolfbn isLoggfdIn();
 
     /**
-     * Changes to a specific directory on a remote FTP server
+     * Cibngfs to b spfdifid dirfdtory on b rfmotf FTP sfrvfr
      *
-     * @param  remoteDirectory path of the directory to CD to.
-     * @return this FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was refused by the server
+     * @pbrbm  rfmotfDirfdtory pbti of tif dirfdtory to CD to.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rffusfd by tif sfrvfr
      */
-    public abstract FtpClient changeDirectory(String remoteDirectory) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt dibngfDirfdtory(String rfmotfDirfdtory) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Changes to the parent directory, sending the CDUP command to the server.
+     * Cibngfs to tif pbrfnt dirfdtory, sfnding tif CDUP dommbnd to tif sfrvfr.
      *
-     * @return this FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was refused by the server
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rffusfd by tif sfrvfr
      */
-    public abstract FtpClient changeToParentDirectory() throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt dibngfToPbrfntDirfdtory() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Retrieve the server current working directory using the PWD command.
+     * Rftrifvf tif sfrvfr durrfnt working dirfdtory using tif PWD dommbnd.
      *
-     * @return a {@code String} containing the current working directory
-     * @throws IOException if an error occurs during transmission
-     * @throws FtpProtocolException if the command was refused by the server,
+     * @rfturn b {@dodf String} dontbining tif durrfnt working dirfdtory
+     * @tirows IOExdfption if bn frror oddurs during trbnsmission
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rffusfd by tif sfrvfr,
      */
-    public abstract String getWorkingDirectory() throws FtpProtocolException, IOException;
+    publid bbstrbdt String gftWorkingDirfdtory() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sets the restart offset to the specified value.  That value will be
-     * sent through a {@code REST} command to server before the next file
-     * transfer and has the effect of resuming a file transfer from the
-     * specified point. After the transfer the restart offset is set back to
-     * zero.
+     * Sfts tif rfstbrt offsft to tif spfdififd vbluf.  Tibt vbluf will bf
+     * sfnt tirougi b {@dodf REST} dommbnd to sfrvfr bfforf tif nfxt filf
+     * trbnsffr bnd ibs tif ffffdt of rfsuming b filf trbnsffr from tif
+     * spfdififd point. Aftfr tif trbnsffr tif rfstbrt offsft is sft bbdk to
+     * zfro.
      *
-     * @param offset the offset in the remote file at which to start the next
-     *        transfer. This must be a value greater than or equal to zero.
-     * @return this FtpClient
-     * @throws IllegalArgumentException if the offset is negative.
+     * @pbrbm offsft tif offsft in tif rfmotf filf bt wiidi to stbrt tif nfxt
+     *        trbnsffr. Tiis must bf b vbluf grfbtfr tibn or fqubl to zfro.
+     * @rfturn tiis FtpClifnt
+     * @tirows IllfgblArgumfntExdfption if tif offsft is nfgbtivf.
      */
-    public abstract FtpClient setRestartOffset(long offset);
+    publid bbstrbdt FtpClifnt sftRfstbrtOffsft(long offsft);
 
     /**
-     * Retrieves a file from the ftp server and writes its content to the specified
-     * {@code OutputStream}.
-     * <p>If the restart offset was set, then a {@code REST} command will be
-     * sent before the {@code RETR} in order to restart the tranfer from the specified
-     * offset.</p>
-     * <p>The {@code OutputStream} is not closed by this method at the end
-     * of the transfer. </p>
-     * <p>This method will block until the transfer is complete or an exception
-     * is thrown.</p>
+     * Rftrifvfs b filf from tif ftp sfrvfr bnd writfs its dontfnt to tif spfdififd
+     * {@dodf OutputStrfbm}.
+     * <p>If tif rfstbrt offsft wbs sft, tifn b {@dodf REST} dommbnd will bf
+     * sfnt bfforf tif {@dodf RETR} in ordfr to rfstbrt tif trbnffr from tif spfdififd
+     * offsft.</p>
+     * <p>Tif {@dodf OutputStrfbm} is not dlosfd by tiis mftiod bt tif fnd
+     * of tif trbnsffr. </p>
+     * <p>Tiis mftiod will blodk until tif trbnsffr is domplftf or bn fxdfption
+     * is tirown.</p>
      *
-     * @param name a {@code String} containing the name of the file to
-     *        retreive from the server.
-     * @param local the {@code OutputStream} the file should be written to.
-     * @return this FtpClient
-     * @throws IOException if the transfer fails.
-     * @throws FtpProtocolException if the command was refused by the server
-     * @see #setRestartOffset(long)
+     * @pbrbm nbmf b {@dodf String} dontbining tif nbmf of tif filf to
+     *        rftrfivf from tif sfrvfr.
+     * @pbrbm lodbl tif {@dodf OutputStrfbm} tif filf siould bf writtfn to.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if tif trbnsffr fbils.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rffusfd by tif sfrvfr
+     * @sff #sftRfstbrtOffsft(long)
      */
-    public abstract FtpClient getFile(String name, OutputStream local) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt gftFilf(String nbmf, OutputStrfbm lodbl) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Retrieves a file from the ftp server, using the {@code RETR} command, and
-     * returns the InputStream from the established data connection.
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is done reading from the returned stream.
-     * <p>If the restart offset was set, then a {@code REST} command will be
-     * sent before the {@code RETR} in order to restart the tranfer from the specified
-     * offset.</p>
+     * Rftrifvfs b filf from tif ftp sfrvfr, using tif {@dodf RETR} dommbnd, bnd
+     * rfturns tif InputStrfbm from tif fstbblisifd dbtb donnfdtion.
+     * {@link #domplftfPfnding()} <b>ibs</b> to bf dbllfd ondf tif bpplidbtion
+     * is donf rfbding from tif rfturnfd strfbm.
+     * <p>If tif rfstbrt offsft wbs sft, tifn b {@dodf REST} dommbnd will bf
+     * sfnt bfforf tif {@dodf RETR} in ordfr to rfstbrt tif trbnffr from tif spfdififd
+     * offsft.</p>
      *
-     * @param name the name of the remote file
-     * @return the {@link java.io.InputStream} from the data connection
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was refused by the server
-     * @see #setRestartOffset(long)
+     * @pbrbm nbmf tif nbmf of tif rfmotf filf
+     * @rfturn tif {@link jbvb.io.InputStrfbm} from tif dbtb donnfdtion
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rffusfd by tif sfrvfr
+     * @sff #sftRfstbrtOffsft(long)
      */
-    public abstract InputStream getFileStream(String name) throws FtpProtocolException, IOException;
+    publid bbstrbdt InputStrfbm gftFilfStrfbm(String nbmf) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Transfers a file from the client to the server (aka a <I>put</I>)
-     * by sending the STOR command, and returns the {@code OutputStream}
-     * from the established data connection.
+     * Trbnsffrs b filf from tif dlifnt to tif sfrvfr (bkb b <I>put</I>)
+     * by sfnding tif STOR dommbnd, bnd rfturns tif {@dodf OutputStrfbm}
+     * from tif fstbblisifd dbtb donnfdtion.
      *
-     * A new file is created at the server site if the file specified does
-     * not already exist.
+     * A nfw filf is drfbtfd bt tif sfrvfr sitf if tif filf spfdififd dofs
+     * not blrfbdy fxist.
      *
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is finished writing to the returned stream.
+     * {@link #domplftfPfnding()} <b>ibs</b> to bf dbllfd ondf tif bpplidbtion
+     * is finisifd writing to tif rfturnfd strfbm.
      *
-     * @param name the name of the remote file to write.
-     * @return the {@link java.io.OutputStream} from the data connection or
-     *         {@code null} if the command was unsuccessful.
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm nbmf tif nbmf of tif rfmotf filf to writf.
+     * @rfturn tif {@link jbvb.io.OutputStrfbm} from tif dbtb donnfdtion or
+     *         {@dodf null} if tif dommbnd wbs unsuddfssful.
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public OutputStream putFileStream(String name) throws FtpProtocolException, IOException {
-        return putFileStream(name, false);
+    publid OutputStrfbm putFilfStrfbm(String nbmf) tirows FtpProtodolExdfption, IOExdfption {
+        rfturn putFilfStrfbm(nbmf, fblsf);
     }
 
     /**
-     * Transfers a file from the client to the server (aka a <I>put</I>)
-     * by sending the STOR or STOU command, depending on the
-     * {@code unique} argument, and returns the {@code OutputStream}
-     * from the established data connection.
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is finished writing to the stream.
+     * Trbnsffrs b filf from tif dlifnt to tif sfrvfr (bkb b <I>put</I>)
+     * by sfnding tif STOR or STOU dommbnd, dfpfnding on tif
+     * {@dodf uniquf} brgumfnt, bnd rfturns tif {@dodf OutputStrfbm}
+     * from tif fstbblisifd dbtb donnfdtion.
+     * {@link #domplftfPfnding()} <b>ibs</b> to bf dbllfd ondf tif bpplidbtion
+     * is finisifd writing to tif strfbm.
      *
-     * A new file is created at the server site if the file specified does
-     * not already exist.
+     * A nfw filf is drfbtfd bt tif sfrvfr sitf if tif filf spfdififd dofs
+     * not blrfbdy fxist.
      *
-     * If {@code unique} is set to {@code true}, the resultant file
-     * is to be created under a name unique to that directory, meaning
-     * it will not overwrite an existing file, instead the server will
-     * generate a new, unique, file name.
-     * The name of the remote file can be retrieved, after completion of the
-     * transfer, by calling {@link #getLastFileName()}.
+     * If {@dodf uniquf} is sft to {@dodf truf}, tif rfsultbnt filf
+     * is to bf drfbtfd undfr b nbmf uniquf to tibt dirfdtory, mfbning
+     * it will not ovfrwritf bn fxisting filf, instfbd tif sfrvfr will
+     * gfnfrbtf b nfw, uniquf, filf nbmf.
+     * Tif nbmf of tif rfmotf filf dbn bf rftrifvfd, bftfr domplftion of tif
+     * trbnsffr, by dblling {@link #gftLbstFilfNbmf()}.
      *
-     * @param name the name of the remote file to write.
-     * @param unique {@code true} if the remote files should be unique,
-     *        in which case the STOU command will be used.
-     * @return the {@link java.io.OutputStream} from the data connection.
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm nbmf tif nbmf of tif rfmotf filf to writf.
+     * @pbrbm uniquf {@dodf truf} if tif rfmotf filfs siould bf uniquf,
+     *        in wiidi dbsf tif STOU dommbnd will bf usfd.
+     * @rfturn tif {@link jbvb.io.OutputStrfbm} from tif dbtb donnfdtion.
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract OutputStream putFileStream(String name, boolean unique) throws FtpProtocolException, IOException;
+    publid bbstrbdt OutputStrfbm putFilfStrfbm(String nbmf, boolfbn uniquf) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Transfers a file from the client to the server (aka a <I>put</I>)
-     * by sending the STOR or STOU command, depending on the
-     * {@code unique} argument. The content of the {@code InputStream}
-     * passed in argument is written into the remote file, overwriting any
-     * existing data.
+     * Trbnsffrs b filf from tif dlifnt to tif sfrvfr (bkb b <I>put</I>)
+     * by sfnding tif STOR or STOU dommbnd, dfpfnding on tif
+     * {@dodf uniquf} brgumfnt. Tif dontfnt of tif {@dodf InputStrfbm}
+     * pbssfd in brgumfnt is writtfn into tif rfmotf filf, ovfrwriting bny
+     * fxisting dbtb.
      *
-     * A new file is created at the server site if the file specified does
-     * not already exist.
+     * A nfw filf is drfbtfd bt tif sfrvfr sitf if tif filf spfdififd dofs
+     * not blrfbdy fxist.
      *
-     * If {@code unique} is set to {@code true}, the resultant file
-     * is to be created under a name unique to that directory, meaning
-     * it will not overwrite an existing file, instead the server will
-     * generate a new, unique, file name.
-     * The name of the remote file can be retrieved, after completion of the
-     * transfer, by calling {@link #getLastFileName()}.
+     * If {@dodf uniquf} is sft to {@dodf truf}, tif rfsultbnt filf
+     * is to bf drfbtfd undfr b nbmf uniquf to tibt dirfdtory, mfbning
+     * it will not ovfrwritf bn fxisting filf, instfbd tif sfrvfr will
+     * gfnfrbtf b nfw, uniquf, filf nbmf.
+     * Tif nbmf of tif rfmotf filf dbn bf rftrifvfd, bftfr domplftion of tif
+     * trbnsffr, by dblling {@link #gftLbstFilfNbmf()}.
      *
-     * <p>This method will block until the transfer is complete or an exception
-     * is thrown.</p>
+     * <p>Tiis mftiod will blodk until tif trbnsffr is domplftf or bn fxdfption
+     * is tirown.</p>
      *
-     * @param name the name of the remote file to write.
-     * @param local the {@code InputStream} that points to the data to
-     *        transfer.
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm nbmf tif nbmf of tif rfmotf filf to writf.
+     * @pbrbm lodbl tif {@dodf InputStrfbm} tibt points to tif dbtb to
+     *        trbnsffr.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public FtpClient putFile(String name, InputStream local) throws FtpProtocolException, IOException {
-        return putFile(name, local, false);
+    publid FtpClifnt putFilf(String nbmf, InputStrfbm lodbl) tirows FtpProtodolExdfption, IOExdfption {
+        rfturn putFilf(nbmf, lodbl, fblsf);
     }
 
     /**
-     * Transfers a file from the client to the server (aka a <I>put</I>)
-     * by sending the STOR command. The content of the {@code InputStream}
-     * passed in argument is written into the remote file, overwriting any
-     * existing data.
+     * Trbnsffrs b filf from tif dlifnt to tif sfrvfr (bkb b <I>put</I>)
+     * by sfnding tif STOR dommbnd. Tif dontfnt of tif {@dodf InputStrfbm}
+     * pbssfd in brgumfnt is writtfn into tif rfmotf filf, ovfrwriting bny
+     * fxisting dbtb.
      *
-     * A new file is created at the server site if the file specified does
-     * not already exist.
+     * A nfw filf is drfbtfd bt tif sfrvfr sitf if tif filf spfdififd dofs
+     * not blrfbdy fxist.
      *
-     * <p>This method will block until the transfer is complete or an exception
-     * is thrown.</p>
+     * <p>Tiis mftiod will blodk until tif trbnsffr is domplftf or bn fxdfption
+     * is tirown.</p>
      *
-     * @param name the name of the remote file to write.
-     * @param local the {@code InputStream} that points to the data to
-     *        transfer.
-     * @param unique {@code true} if the remote file should be unique
-     *        (i.e. not already existing), {@code false} otherwise.
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #getLastFileName()
+     * @pbrbm nbmf tif nbmf of tif rfmotf filf to writf.
+     * @pbrbm lodbl tif {@dodf InputStrfbm} tibt points to tif dbtb to
+     *        trbnsffr.
+     * @pbrbm uniquf {@dodf truf} if tif rfmotf filf siould bf uniquf
+     *        (i.f. not blrfbdy fxisting), {@dodf fblsf} otifrwisf.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
+     * @sff #gftLbstFilfNbmf()
      */
-    public abstract FtpClient putFile(String name, InputStream local, boolean unique) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt putFilf(String nbmf, InputStrfbm lodbl, boolfbn uniquf) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends the APPE command to the server in order to transfer a data stream
-     * passed in argument and append it to the content of the specified remote
-     * file.
+     * Sfnds tif APPE dommbnd to tif sfrvfr in ordfr to trbnsffr b dbtb strfbm
+     * pbssfd in brgumfnt bnd bppfnd it to tif dontfnt of tif spfdififd rfmotf
+     * filf.
      *
-     * <p>This method will block until the transfer is complete or an exception
-     * is thrown.</p>
+     * <p>Tiis mftiod will blodk until tif trbnsffr is domplftf or bn fxdfption
+     * is tirown.</p>
      *
-     * @param name A {@code String} containing the name of the remote file
-     *        to append to.
-     * @param local The {@code InputStream} providing access to the data
-     *        to be appended.
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm nbmf A {@dodf String} dontbining tif nbmf of tif rfmotf filf
+     *        to bppfnd to.
+     * @pbrbm lodbl Tif {@dodf InputStrfbm} providing bddfss to tif dbtb
+     *        to bf bppfndfd.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient appendFile(String name, InputStream local) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt bppfndFilf(String nbmf, InputStrfbm lodbl) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Renames a file on the server.
+     * Rfnbmfs b filf on tif sfrvfr.
      *
-     * @param from the name of the file being renamed
-     * @param to the new name for the file
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm from tif nbmf of tif filf bfing rfnbmfd
+     * @pbrbm to tif nfw nbmf for tif filf
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient rename(String from, String to) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt rfnbmf(String from, String to) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Deletes a file on the server.
+     * Dflftfs b filf on tif sfrvfr.
      *
-     * @param name a {@code String} containing the name of the file
-     *        to delete.
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the exchange
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm nbmf b {@dodf String} dontbining tif nbmf of tif filf
+     *        to dflftf.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif fxdibngf
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient deleteFile(String name) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt dflftfFilf(String nbmf) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Creates a new directory on the server.
+     * Crfbtfs b nfw dirfdtory on tif sfrvfr.
      *
-     * @param name a {@code String} containing the name of the directory
-     *        to create.
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the exchange
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm nbmf b {@dodf String} dontbining tif nbmf of tif dirfdtory
+     *        to drfbtf.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif fxdibngf
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient makeDirectory(String name) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt mbkfDirfdtory(String nbmf) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Removes a directory on the server.
+     * Rfmovfs b dirfdtory on tif sfrvfr.
      *
-     * @param name a {@code String} containing the name of the directory
-     *        to remove.
+     * @pbrbm nbmf b {@dodf String} dontbining tif nbmf of tif dirfdtory
+     *        to rfmovf.
      *
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the exchange.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif fxdibngf.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient removeDirectory(String name) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt rfmovfDirfdtory(String nbmf) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends a No-operation command. It's useful for testing the connection
-     * status or as a <I>keep alive</I> mechanism.
+     * Sfnds b No-opfrbtion dommbnd. It's usfful for tfsting tif donnfdtion
+     * stbtus or bs b <I>kffp blivf</I> mfdibnism.
      *
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient noop() throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt noop() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends the {@code STAT} command to the server.
-     * This can be used while a data connection is open to get a status
-     * on the current transfer, in that case the parameter should be
-     * {@code null}.
-     * If used between file transfers, it may have a pathname as argument
-     * in which case it will work as the LIST command except no data
-     * connection will be created.
+     * Sfnds tif {@dodf STAT} dommbnd to tif sfrvfr.
+     * Tiis dbn bf usfd wiilf b dbtb donnfdtion is opfn to gft b stbtus
+     * on tif durrfnt trbnsffr, in tibt dbsf tif pbrbmftfr siould bf
+     * {@dodf null}.
+     * If usfd bftwffn filf trbnsffrs, it mby ibvf b pbtinbmf bs brgumfnt
+     * in wiidi dbsf it will work bs tif LIST dommbnd fxdfpt no dbtb
+     * donnfdtion will bf drfbtfd.
      *
-     * @param name an optional {@code String} containing the pathname
-     *        the STAT command should apply to.
-     * @return the response from the server
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm nbmf bn optionbl {@dodf String} dontbining tif pbtinbmf
+     *        tif STAT dommbnd siould bpply to.
+     * @rfturn tif rfsponsf from tif sfrvfr
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract String getStatus(String name) throws FtpProtocolException, IOException;
+    publid bbstrbdt String gftStbtus(String nbmf) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends the {@code FEAT} command to the server and returns the list of supported
-     * features in the form of strings.
+     * Sfnds tif {@dodf FEAT} dommbnd to tif sfrvfr bnd rfturns tif list of supportfd
+     * ffbturfs in tif form of strings.
      *
-     * The features are the supported commands, like AUTH TLS, PROT or PASV.
-     * See the RFCs for a complete list.
+     * Tif ffbturfs brf tif supportfd dommbnds, likf AUTH TLS, PROT or PASV.
+     * Sff tif RFCs for b domplftf list.
      *
-     * Note that not all FTP servers support that command, in which case
-     * a {@link FtpProtocolException} will be thrown.
+     * Notf tibt not bll FTP sfrvfrs support tibt dommbnd, in wiidi dbsf
+     * b {@link FtpProtodolExdfption} will bf tirown.
      *
-     * @return a {@code List} of {@code Strings} describing the
-     *         supported additional features
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command is rejected by the server
+     * @rfturn b {@dodf List} of {@dodf Strings} dfsdribing tif
+     *         supportfd bdditionbl ffbturfs
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd is rfjfdtfd by tif sfrvfr
      */
-    public abstract List<String> getFeatures() throws FtpProtocolException, IOException;
+    publid bbstrbdt List<String> gftFfbturfs() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends the {@code ABOR} command to the server.
-     * <p>It tells the server to stop the previous command or transfer. No action
-     * will be taken if the previous command has already been completed.</p>
-     * <p>This doesn't abort the current session, more commands can be issued
-     * after an abort.</p>
+     * Sfnds tif {@dodf ABOR} dommbnd to tif sfrvfr.
+     * <p>It tflls tif sfrvfr to stop tif prfvious dommbnd or trbnsffr. No bdtion
+     * will bf tbkfn if tif prfvious dommbnd ibs blrfbdy bffn domplftfd.</p>
+     * <p>Tiis dofsn't bbort tif durrfnt sfssion, morf dommbnds dbn bf issufd
+     * bftfr bn bbort.</p>
      *
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient abort() throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt bbort() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Some methods do not wait until completion before returning, so this
-     * method can be called to wait until completion. This is typically the case
-     * with commands that trigger a transfer like {@link #getFileStream(String)}.
-     * So this method should be called before accessing information related to
-     * such a command.
-     * <p>This method will actually block reading on the command channel for a
-     * notification from the server that the command is finished. Such a
-     * notification often carries extra information concerning the completion
-     * of the pending action (e.g. number of bytes transfered).</p>
-     * <p>Note that this will return immediately if no command or action
-     * is pending</p>
-     * <p>It should be also noted that most methods issuing commands to the ftp
-     * server will call this method if a previous command is pending.
-     * <p>Example of use:
-     * <pre>
-     * InputStream in = cl.getFileStream("file");
+     * Somf mftiods do not wbit until domplftion bfforf rfturning, so tiis
+     * mftiod dbn bf dbllfd to wbit until domplftion. Tiis is typidblly tif dbsf
+     * witi dommbnds tibt triggfr b trbnsffr likf {@link #gftFilfStrfbm(String)}.
+     * So tiis mftiod siould bf dbllfd bfforf bddfssing informbtion rflbtfd to
+     * sudi b dommbnd.
+     * <p>Tiis mftiod will bdtublly blodk rfbding on tif dommbnd dibnnfl for b
+     * notifidbtion from tif sfrvfr tibt tif dommbnd is finisifd. Sudi b
+     * notifidbtion oftfn dbrrifs fxtrb informbtion dondfrning tif domplftion
+     * of tif pfnding bdtion (f.g. numbfr of bytfs trbnsffrfd).</p>
+     * <p>Notf tibt tiis will rfturn immfdibtfly if no dommbnd or bdtion
+     * is pfnding</p>
+     * <p>It siould bf blso notfd tibt most mftiods issuing dommbnds to tif ftp
+     * sfrvfr will dbll tiis mftiod if b prfvious dommbnd is pfnding.
+     * <p>Exbmplf of usf:
+     * <prf>
+     * InputStrfbm in = dl.gftFilfStrfbm("filf");
      * ...
-     * cl.completePending();
-     * long size = cl.getLastTransferSize();
-     * </pre>
-     * On the other hand, it's not necessary in a case like:
-     * <pre>
-     * InputStream in = cl.getFileStream("file");
-     * // read content
+     * dl.domplftfPfnding();
+     * long sizf = dl.gftLbstTrbnsffrSizf();
+     * </prf>
+     * On tif otifr ibnd, it's not nfdfssbry in b dbsf likf:
+     * <prf>
+     * InputStrfbm in = dl.gftFilfStrfbm("filf");
+     * // rfbd dontfnt
      * ...
-     * cl.close();
-     * </pre>
-     * <p>Since {@link #close()} will call completePending() if necessary.</p>
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the transfer
-     * @throws FtpProtocolException if the command didn't complete successfully
+     * dl.dlosf();
+     * </prf>
+     * <p>Sindf {@link #dlosf()} will dbll domplftfPfnding() if nfdfssbry.</p>
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsffr
+     * @tirows FtpProtodolExdfption if tif dommbnd didn't domplftf suddfssfully
      */
-    public abstract FtpClient completePending() throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt domplftfPfnding() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Reinitializes the USER parameters on the FTP server
+     * Rfinitiblizfs tif USER pbrbmftfrs on tif FTP sfrvfr
      *
-     * @return this FtpClient
-     * @throws IOException if an error occurs during transmission
-     * @throws FtpProtocolException if the command fails
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurs during trbnsmission
+     * @tirows FtpProtodolExdfption if tif dommbnd fbils
      */
-    public abstract FtpClient reInit() throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt rfInit() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Changes the transfer type (binary, ascii, ebcdic) and issue the
-     * proper command (e.g. TYPE A) to the server.
+     * Cibngfs tif trbnsffr typf (binbry, bsdii, fbddid) bnd issuf tif
+     * propfr dommbnd (f.g. TYPE A) to tif sfrvfr.
      *
-     * @param type the {@code TransferType} to use.
-     * @return This FtpClient
-     * @throws IOException if an error occurs during transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm typf tif {@dodf TrbnsffrTypf} to usf.
+     * @rfturn Tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurs during trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient setType(TransferType type) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt sftTypf(TrbnsffrTypf typf) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Changes the current transfer type to binary.
-     * This is a convenience method that is equivalent to
-     * {@code setType(TransferType.BINARY)}
+     * Cibngfs tif durrfnt trbnsffr typf to binbry.
+     * Tiis is b donvfnifndf mftiod tibt is fquivblfnt to
+     * {@dodf sftTypf(TrbnsffrTypf.BINARY)}
      *
-     * @return This FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #setType(TransferType)
+     * @rfturn Tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
+     * @sff #sftTypf(TrbnsffrTypf)
      */
-    public FtpClient setBinaryType() throws FtpProtocolException, IOException {
-        setType(TransferType.BINARY);
-        return this;
+    publid FtpClifnt sftBinbryTypf() tirows FtpProtodolExdfption, IOExdfption {
+        sftTypf(TrbnsffrTypf.BINARY);
+        rfturn tiis;
     }
 
     /**
-     * Changes the current transfer type to ascii.
-     * This is a convenience method that is equivalent to
-     * {@code setType(TransferType.ASCII)}
+     * Cibngfs tif durrfnt trbnsffr typf to bsdii.
+     * Tiis is b donvfnifndf mftiod tibt is fquivblfnt to
+     * {@dodf sftTypf(TrbnsffrTypf.ASCII)}
      *
-     * @return This FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #setType(TransferType)
+     * @rfturn Tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
+     * @sff #sftTypf(TrbnsffrTypf)
      */
-    public FtpClient setAsciiType() throws FtpProtocolException, IOException {
-        setType(TransferType.ASCII);
-        return this;
+    publid FtpClifnt sftAsdiiTypf() tirows FtpProtodolExdfption, IOExdfption {
+        sftTypf(TrbnsffrTypf.ASCII);
+        rfturn tiis;
     }
 
     /**
-     * Issues a {@code LIST} command to the server to get the current directory
-     * listing, and returns the InputStream from the data connection.
+     * Issufs b {@dodf LIST} dommbnd to tif sfrvfr to gft tif durrfnt dirfdtory
+     * listing, bnd rfturns tif InputStrfbm from tif dbtb donnfdtion.
      *
-     * <p>{@link #completePending()} <b>has</b> to be called once the application
-     * is finished reading from the stream.</p>
+     * <p>{@link #domplftfPfnding()} <b>ibs</b> to bf dbllfd ondf tif bpplidbtion
+     * is finisifd rfbding from tif strfbm.</p>
      *
-     * @param path the pathname of the directory to list, or {@code null}
-     *        for the current working directory.
-     * @return the {@code InputStream} from the resulting data connection
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #changeDirectory(String)
-     * @see #listFiles(String)
+     * @pbrbm pbti tif pbtinbmf of tif dirfdtory to list, or {@dodf null}
+     *        for tif durrfnt working dirfdtory.
+     * @rfturn tif {@dodf InputStrfbm} from tif rfsulting dbtb donnfdtion
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
+     * @sff #dibngfDirfdtory(String)
+     * @sff #listFilfs(String)
      */
-    public abstract InputStream list(String path) throws FtpProtocolException, IOException;
+    publid bbstrbdt InputStrfbm list(String pbti) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Issues a {@code NLST path} command to server to get the specified directory
-     * content. It differs from {@link #list(String)} method by the fact that
-     * it will only list the file names which would make the parsing of the
-     * somewhat easier.
+     * Issufs b {@dodf NLST pbti} dommbnd to sfrvfr to gft tif spfdififd dirfdtory
+     * dontfnt. It difffrs from {@link #list(String)} mftiod by tif fbdt tibt
+     * it will only list tif filf nbmfs wiidi would mbkf tif pbrsing of tif
+     * somfwibt fbsifr.
      *
-     * <p>{@link #completePending()} <b>has</b> to be called once the application
-     * is finished reading from the stream.</p>
+     * <p>{@link #domplftfPfnding()} <b>ibs</b> to bf dbllfd ondf tif bpplidbtion
+     * is finisifd rfbding from tif strfbm.</p>
      *
-     * @param path a {@code String} containing the pathname of the
-     *        directory to list or {@code null} for the current working directory.
-     * @return the {@code InputStream} from the resulting data connection
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm pbti b {@dodf String} dontbining tif pbtinbmf of tif
+     *        dirfdtory to list or {@dodf null} for tif durrfnt working dirfdtory.
+     * @rfturn tif {@dodf InputStrfbm} from tif rfsulting dbtb donnfdtion
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract InputStream nameList(String path) throws FtpProtocolException, IOException;
+    publid bbstrbdt InputStrfbm nbmfList(String pbti) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Issues the {@code SIZE [path]} command to the server to get the size of a
-     * specific file on the server.
-     * Note that this command may not be supported by the server. In which
-     * case -1 will be returned.
+     * Issufs tif {@dodf SIZE [pbti]} dommbnd to tif sfrvfr to gft tif sizf of b
+     * spfdifid filf on tif sfrvfr.
+     * Notf tibt tiis dommbnd mby not bf supportfd by tif sfrvfr. In wiidi
+     * dbsf -1 will bf rfturnfd.
      *
-     * @param path a {@code String} containing the pathname of the
-     *        file.
-     * @return a {@code long} containing the size of the file or -1 if
-     *         the server returned an error, which can be checked with
-     *         {@link #getLastReplyCode()}.
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm pbti b {@dodf String} dontbining tif pbtinbmf of tif
+     *        filf.
+     * @rfturn b {@dodf long} dontbining tif sizf of tif filf or -1 if
+     *         tif sfrvfr rfturnfd bn frror, wiidi dbn bf difdkfd witi
+     *         {@link #gftLbstRfplyCodf()}.
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract long getSize(String path) throws FtpProtocolException, IOException;
+    publid bbstrbdt long gftSizf(String pbti) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Issues the {@code MDTM [path]} command to the server to get the modification
-     * time of a specific file on the server.
-     * Note that this command may not be supported by the server, in which
-     * case {@code null} will be returned.
+     * Issufs tif {@dodf MDTM [pbti]} dommbnd to tif sfrvfr to gft tif modifidbtion
+     * timf of b spfdifid filf on tif sfrvfr.
+     * Notf tibt tiis dommbnd mby not bf supportfd by tif sfrvfr, in wiidi
+     * dbsf {@dodf null} will bf rfturnfd.
      *
-     * @param path a {@code String} containing the pathname of the file.
-     * @return a {@code Date} representing the last modification time
-     *         or {@code null} if the server returned an error, which
-     *         can be checked with {@link #getLastReplyCode()}.
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm pbti b {@dodf String} dontbining tif pbtinbmf of tif filf.
+     * @rfturn b {@dodf Dbtf} rfprfsfnting tif lbst modifidbtion timf
+     *         or {@dodf null} if tif sfrvfr rfturnfd bn frror, wiidi
+     *         dbn bf difdkfd witi {@link #gftLbstRfplyCodf()}.
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract Date getLastModified(String path) throws FtpProtocolException, IOException;
+    publid bbstrbdt Dbtf gftLbstModififd(String pbti) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sets the parser used to handle the directory output to the specified
-     * one. By default the parser is set to one that can handle most FTP
-     * servers output (Unix base mostly). However it may be necessary for
-     * and application to provide its own parser due to some uncommon
-     * output format.
+     * Sfts tif pbrsfr usfd to ibndlf tif dirfdtory output to tif spfdififd
+     * onf. By dffbult tif pbrsfr is sft to onf tibt dbn ibndlf most FTP
+     * sfrvfrs output (Unix bbsf mostly). Howfvfr it mby bf nfdfssbry for
+     * bnd bpplidbtion to providf its own pbrsfr duf to somf undommon
+     * output formbt.
      *
-     * @param p The {@code FtpDirParser} to use.
-     * @return this FtpClient
-     * @see #listFiles(String)
+     * @pbrbm p Tif {@dodf FtpDirPbrsfr} to usf.
+     * @rfturn tiis FtpClifnt
+     * @sff #listFilfs(String)
      */
-    public abstract FtpClient setDirParser(FtpDirParser p);
+    publid bbstrbdt FtpClifnt sftDirPbrsfr(FtpDirPbrsfr p);
 
     /**
-     * Issues a {@code MLSD} command to the server to get the specified directory
-     * listing and applies the internal parser to create an Iterator of
-     * {@link java.net.FtpDirEntry}. Note that the Iterator returned is also a
-     * {@link java.io.Closeable}.
-     * <p>If the server doesn't support the MLSD command, the LIST command is used
-     * instead and the parser set by {@link #setDirParser(java.net.FtpDirParser) }
-     * is used instead.</p>
+     * Issufs b {@dodf MLSD} dommbnd to tif sfrvfr to gft tif spfdififd dirfdtory
+     * listing bnd bpplifs tif intfrnbl pbrsfr to drfbtf bn Itfrbtor of
+     * {@link jbvb.nft.FtpDirEntry}. Notf tibt tif Itfrbtor rfturnfd is blso b
+     * {@link jbvb.io.Closfbblf}.
+     * <p>If tif sfrvfr dofsn't support tif MLSD dommbnd, tif LIST dommbnd is usfd
+     * instfbd bnd tif pbrsfr sft by {@link #sftDirPbrsfr(jbvb.nft.FtpDirPbrsfr) }
+     * is usfd instfbd.</p>
      *
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is finished iterating through the files.
+     * {@link #domplftfPfnding()} <b>ibs</b> to bf dbllfd ondf tif bpplidbtion
+     * is finisifd itfrbting tirougi tif filfs.
      *
-     * @param path the pathname of the directory to list or {@code null}
-     *        for the current working directoty.
-     * @return a {@code Iterator} of files or {@code null} if the
-     *         command failed.
-     * @throws IOException if an error occurred during the transmission
-     * @see #setDirParser(FtpDirParser)
-     * @see #changeDirectory(String)
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm pbti tif pbtinbmf of tif dirfdtory to list or {@dodf null}
+     *        for tif durrfnt working dirfdtoty.
+     * @rfturn b {@dodf Itfrbtor} of filfs or {@dodf null} if tif
+     *         dommbnd fbilfd.
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission
+     * @sff #sftDirPbrsfr(FtpDirPbrsfr)
+     * @sff #dibngfDirfdtory(String)
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract Iterator<FtpDirEntry> listFiles(String path) throws FtpProtocolException, IOException;
+    publid bbstrbdt Itfrbtor<FtpDirEntry> listFilfs(String pbti) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Attempts to use Kerberos GSSAPI as an authentication mechanism with the
-     * ftp server. This will issue an {@code AUTH GSSAPI} command, and if
-     * it is accepted by the server, will followup with {@code ADAT}
-     * command to exchange the various tokens until authentication is
-     * successful. This conforms to Appendix I of RFC 2228.
+     * Attfmpts to usf Kfrbfros GSSAPI bs bn butifntidbtion mfdibnism witi tif
+     * ftp sfrvfr. Tiis will issuf bn {@dodf AUTH GSSAPI} dommbnd, bnd if
+     * it is bddfptfd by tif sfrvfr, will followup witi {@dodf ADAT}
+     * dommbnd to fxdibngf tif vbrious tokfns until butifntidbtion is
+     * suddfssful. Tiis donforms to Appfndix I of RFC 2228.
      *
-     * @return this FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurs during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient useKerberos() throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt usfKfrbfros() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Returns the Welcome string the server sent during initial connection.
+     * Rfturns tif Wfldomf string tif sfrvfr sfnt during initibl donnfdtion.
      *
-     * @return a {@code String} containing the message the server
-     *         returned during connection or {@code null}.
+     * @rfturn b {@dodf String} dontbining tif mfssbgf tif sfrvfr
+     *         rfturnfd during donnfdtion or {@dodf null}.
      */
-    public abstract String getWelcomeMsg();
+    publid bbstrbdt String gftWfldomfMsg();
 
     /**
-     * Returns the last reply code sent by the server.
+     * Rfturns tif lbst rfply dodf sfnt by tif sfrvfr.
      *
-     * @return the lastReplyCode or {@code null} if none were received yet.
+     * @rfturn tif lbstRfplyCodf or {@dodf null} if nonf wfrf rfdfivfd yft.
      */
-    public abstract FtpReplyCode getLastReplyCode();
+    publid bbstrbdt FtpRfplyCodf gftLbstRfplyCodf();
 
     /**
-     * Returns the last response string sent by the server.
+     * Rfturns tif lbst rfsponsf string sfnt by tif sfrvfr.
      *
-     * @return the message string, which can be quite long, last returned
-     *         by the server, or {@code null} if no response were received yet.
+     * @rfturn tif mfssbgf string, wiidi dbn bf quitf long, lbst rfturnfd
+     *         by tif sfrvfr, or {@dodf null} if no rfsponsf wfrf rfdfivfd yft.
      */
-    public abstract String getLastResponseString();
+    publid bbstrbdt String gftLbstRfsponsfString();
 
     /**
-     * Returns, when available, the size of the latest started transfer.
-     * This is retreived by parsing the response string received as an initial
-     * response to a {@code RETR} or similar request.
+     * Rfturns, wifn bvbilbblf, tif sizf of tif lbtfst stbrtfd trbnsffr.
+     * Tiis is rftrfivfd by pbrsing tif rfsponsf string rfdfivfd bs bn initibl
+     * rfsponsf to b {@dodf RETR} or similbr rfqufst.
      *
-     * @return the size of the latest transfer or -1 if either there was no
-     *         transfer or the information was unavailable.
+     * @rfturn tif sizf of tif lbtfst trbnsffr or -1 if fitifr tifrf wbs no
+     *         trbnsffr or tif informbtion wbs unbvbilbblf.
      */
-    public abstract long getLastTransferSize();
+    publid bbstrbdt long gftLbstTrbnsffrSizf();
 
     /**
-     * Returns, when available, the remote name of the last transfered file.
-     * This is mainly useful for "put" operation when the unique flag was
-     * set since it allows to recover the unique file name created on the
-     * server which may be different from the one submitted with the command.
+     * Rfturns, wifn bvbilbblf, tif rfmotf nbmf of tif lbst trbnsffrfd filf.
+     * Tiis is mbinly usfful for "put" opfrbtion wifn tif uniquf flbg wbs
+     * sft sindf it bllows to rfdovfr tif uniquf filf nbmf drfbtfd on tif
+     * sfrvfr wiidi mby bf difffrfnt from tif onf submittfd witi tif dommbnd.
      *
-     * @return the name the latest transfered file remote name, or
-     *         {@code null} if that information is unavailable.
+     * @rfturn tif nbmf tif lbtfst trbnsffrfd filf rfmotf nbmf, or
+     *         {@dodf null} if tibt informbtion is unbvbilbblf.
      */
-    public abstract String getLastFileName();
+    publid bbstrbdt String gftLbstFilfNbmf();
 
     /**
-     * Attempts to switch to a secure, encrypted connection. This is done by
-     * sending the {@code AUTH TLS} command.
-     * <p>See <a href="http://www.ietf.org/rfc/rfc4217.txt">RFC 4217</a></p>
-     * If successful this will establish a secure command channel with the
-     * server, it will also make it so that all other transfers (e.g. a RETR
-     * command) will be done over an encrypted channel as well unless a
-     * {@link #reInit()} command or a {@link #endSecureSession()} command is issued.
-     * <p>This method should be called after a successful {@link #connect(java.net.InetSocketAddress) }
-     * but before calling {@link #login(java.lang.String, char[]) }.</p>
+     * Attfmpts to switdi to b sfdurf, fndryptfd donnfdtion. Tiis is donf by
+     * sfnding tif {@dodf AUTH TLS} dommbnd.
+     * <p>Sff <b irff="ittp://www.iftf.org/rfd/rfd4217.txt">RFC 4217</b></p>
+     * If suddfssful tiis will fstbblisi b sfdurf dommbnd dibnnfl witi tif
+     * sfrvfr, it will blso mbkf it so tibt bll otifr trbnsffrs (f.g. b RETR
+     * dommbnd) will bf donf ovfr bn fndryptfd dibnnfl bs wfll unlfss b
+     * {@link #rfInit()} dommbnd or b {@link #fndSfdurfSfssion()} dommbnd is issufd.
+     * <p>Tiis mftiod siould bf dbllfd bftfr b suddfssful {@link #donnfdt(jbvb.nft.InftSodkftAddrfss) }
+     * but bfforf dblling {@link #login(jbvb.lbng.String, dibr[]) }.</p>
      *
-     * @return this FtpCLient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #endSecureSession()
+     * @rfturn tiis FtpCLifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
+     * @sff #fndSfdurfSfssion()
      */
-    public abstract FtpClient startSecureSession() throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt stbrtSfdurfSfssion() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends a {@code CCC} command followed by a {@code PROT C}
-     * command to the server terminating an encrypted session and reverting
-     * back to a non encrypted transmission.
+     * Sfnds b {@dodf CCC} dommbnd followfd by b {@dodf PROT C}
+     * dommbnd to tif sfrvfr tfrminbting bn fndryptfd sfssion bnd rfvfrting
+     * bbdk to b non fndryptfd trbnsmission.
      *
-     * @return this FtpClient
-     * @throws IOException if an error occurred during transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #startSecureSession()
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
+     * @sff #stbrtSfdurfSfssion()
      */
-    public abstract FtpClient endSecureSession() throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt fndSfdurfSfssion() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends the "Allocate" ({@code ALLO}) command to the server telling it to
-     * pre-allocate the specified number of bytes for the next transfer.
+     * Sfnds tif "Allodbtf" ({@dodf ALLO}) dommbnd to tif sfrvfr tflling it to
+     * prf-bllodbtf tif spfdififd numbfr of bytfs for tif nfxt trbnsffr.
      *
-     * @param size The number of bytes to allocate.
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm sizf Tif numbfr of bytfs to bllodbtf.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient allocate(long size) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt bllodbtf(long sizf) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends the "Structure Mount" ({@code SMNT}) command to the server. This let the
-     * user mount a different file system data structure without altering his
-     * login or accounting information.
+     * Sfnds tif "Strudturf Mount" ({@dodf SMNT}) dommbnd to tif sfrvfr. Tiis lft tif
+     * usfr mount b difffrfnt filf systfm dbtb strudturf witiout bltfring iis
+     * login or bddounting informbtion.
      *
-     * @param struct a {@code String} containing the name of the
-     *        structure to mount.
-     * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm strudt b {@dodf String} dontbining tif nbmf of tif
+     *        strudturf to mount.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient structureMount(String struct) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt strudturfMount(String strudt) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends a System ({@code SYST}) command to the server and returns the String
-     * sent back by the server describing the operating system at the
-     * server.
+     * Sfnds b Systfm ({@dodf SYST}) dommbnd to tif sfrvfr bnd rfturns tif String
+     * sfnt bbdk by tif sfrvfr dfsdribing tif opfrbting systfm bt tif
+     * sfrvfr.
      *
-     * @return a {@code String} describing the OS, or {@code null}
-     *         if the operation was not successful.
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @rfturn b {@dodf String} dfsdribing tif OS, or {@dodf null}
+     *         if tif opfrbtion wbs not suddfssful.
+     * @tirows IOExdfption if bn frror oddurrfd during tif trbnsmission.
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract String getSystem() throws FtpProtocolException, IOException;
+    publid bbstrbdt String gftSystfm() tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends the {@code HELP} command to the server, with an optional command, like
-     * SITE, and returns the text sent back by the server.
+     * Sfnds tif {@dodf HELP} dommbnd to tif sfrvfr, witi bn optionbl dommbnd, likf
+     * SITE, bnd rfturns tif tfxt sfnt bbdk by tif sfrvfr.
      *
-     * @param cmd the command for which the help is requested or
-     *        {@code null} for the general help
-     * @return a {@code String} containing the text sent back by the
-     *         server, or {@code null} if the command failed.
-     * @throws IOException if an error occurred during transmission
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm dmd tif dommbnd for wiidi tif iflp is rfqufstfd or
+     *        {@dodf null} for tif gfnfrbl iflp
+     * @rfturn b {@dodf String} dontbining tif tfxt sfnt bbdk by tif
+     *         sfrvfr, or {@dodf null} if tif dommbnd fbilfd.
+     * @tirows IOExdfption if bn frror oddurrfd during trbnsmission
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract String getHelp(String cmd) throws FtpProtocolException, IOException;
+    publid bbstrbdt String gftHflp(String dmd) tirows FtpProtodolExdfption, IOExdfption;
 
     /**
-     * Sends the {@code SITE} command to the server. This is used by the server
-     * to provide services specific to his system that are essential
-     * to file transfer.
+     * Sfnds tif {@dodf SITE} dommbnd to tif sfrvfr. Tiis is usfd by tif sfrvfr
+     * to providf sfrvidfs spfdifid to iis systfm tibt brf fssfntibl
+     * to filf trbnsffr.
      *
-     * @param cmd the command to be sent.
-     * @return this FtpClient
-     * @throws IOException if an error occurred during transmission
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm dmd tif dommbnd to bf sfnt.
+     * @rfturn tiis FtpClifnt
+     * @tirows IOExdfption if bn frror oddurrfd during trbnsmission
+     * @tirows FtpProtodolExdfption if tif dommbnd wbs rfjfdtfd by tif sfrvfr
      */
-    public abstract FtpClient siteCmd(String cmd) throws FtpProtocolException, IOException;
+    publid bbstrbdt FtpClifnt sitfCmd(String dmd) tirows FtpProtodolExdfption, IOExdfption;
 }

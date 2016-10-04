@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+
+
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * Prindipbl rfprfsfnts b host.
+ *
+ */
+
+dlbss PrindipblImpl implfmfnts jbvb.sfdurity.Prindipbl, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -7910027842878976761L;
+
+    privbtf InftAddrfss[] bdd = null;
+
+    /**
+     * Construdts b prindipbl with thf lodbl host.
+     */
+    publid PrindipblImpl () throws UnknownHostExdfption {
+        bdd = nfw InftAddrfss[1];
+        bdd[0] = jbvb.nft.InftAddrfss.gftLodblHost();
+    }
+
+    /**
+     * Construdt b prindipbl using thf spfdififd host.
+     * <P>
+     * Thf host dbn bf fithfr:
+     * <UL>
+     * <LI> b host nbmf
+     * <LI> bn IP bddrfss
+     * </UL>
+     *
+     * @pbrbm hostNbmf thf host usfd to mbkf thf prindipbl.
+     */
+    publid PrindipblImpl(String hostNbmf) throws UnknownHostExdfption {
+        if ((hostNbmf.fqubls("lodblhost")) || (hostNbmf.fqubls("127.0.0.1"))) {
+            bdd = nfw InftAddrfss[1];
+            bdd[0] = jbvb.nft.InftAddrfss.gftByNbmf(hostNbmf);
+        }
+        flsf
+            bdd = jbvb.nft.InftAddrfss.gftAllByNbmf( hostNbmf );
+    }
+
+    /**
+     * Construdts b prindipbl using bn Intfrnft Protodol (IP) bddrfss.
+     *
+     * @pbrbm bddrfss thf Intfrnft Protodol (IP) bddrfss.
+     */
+    publid PrindipblImpl(InftAddrfss bddrfss) {
+        bdd = nfw InftAddrfss[1];
+        bdd[0] = bddrfss;
+    }
+
+    /**
+     * Rfturns thf nbmf of this prindipbl.
+     *
+     * @rfturn thf nbmf of this prindipbl.
+     */
+    publid String gftNbmf() {
+        rfturn bdd[0].toString();
+    }
+
+    /**
+     * Compbrfs this prindipbl to thf spfdififd objfdt. Rfturns truf if thf
+     * objfdt pbssfd in mbtdhfs thf prindipbl
+     * rfprfsfntfd by thf implfmfntbtion of this intfrfbdf.
+     *
+     * @pbrbm b thf prindipbl to dompbrf with.
+     * @rfturn truf if thf prindipbl pbssfd in is thf sbmf bs thbt fndbpsulbtfd by this prindipbl, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt b) {
+        if (b instbndfof PrindipblImpl){
+            for(int i = 0; i < bdd.lfngth; i++) {
+                if(bdd[i].fqubls (((PrindipblImpl) b).gftAddrfss()))
+                    rfturn truf;
+            }
+            rfturn fblsf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b hbshdodf for this prindipbl.
+     *
+     * @rfturn b hbshdodf for this prindipbl.
+     */
+    publid int hbshCodf(){
+        rfturn bdd[0].hbshCodf();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this prindipbl. In dbsf of multiplf bddrfss, thf first onf is rfturnfd.
+     *
+     * @rfturn b string rfprfsfntbtion of this prindipbl.
+     */
+    publid String toString() {
+        rfturn ("PrindipblImpl :"+bdd[0].toString());
+    }
+
+    /**
+     * Rfturns thf Intfrnft Protodol (IP) bddrfss for this prindipbl. In dbsf of multiplf bddrfss, thf first onf is rfturnfd.
+     *
+     * @rfturn thf Intfrnft Protodol (IP) bddrfss for this prindipbl.
+     */
+    publid InftAddrfss gftAddrfss(){
+        rfturn bdd[0];
+    }
+
+    /**
+     * Rfturns thf Intfrnft Protodol (IP) bddrfss for this prindipbl. In dbsf of multiplf bddrfss, thf first onf is rfturnfd.
+     *
+     * @rfturn thf brrby of Intfrnft Protodol (IP) bddrfssfs for this prindipbl.
+     */
+    publid InftAddrfss[] gftAddrfssfs(){
+        rfturn bdd;
+    }
+}

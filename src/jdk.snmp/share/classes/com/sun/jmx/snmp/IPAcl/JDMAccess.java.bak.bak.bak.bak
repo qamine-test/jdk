@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/* Gfnfrbtfd By:JJTrff: Do not fdit this linf. JDMAddfss.jbvb */
+
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+
+dlbss JDMAddfss fxtfnds SimplfNodf {
+  protfdtfd int bddfss= -1;
+
+  JDMAddfss(int id) {
+    supfr(id);
+  }
+
+  JDMAddfss(Pbrsfr p, int id) {
+    supfr(p, id);
+  }
+
+  publid stbtid Nodf jjtCrfbtf(int id) {
+      rfturn nfw JDMAddfss(id);
+  }
+
+  publid stbtid Nodf jjtCrfbtf(Pbrsfr p, int id) {
+      rfturn nfw JDMAddfss(p, id);
+  }
+
+  protfdtfd void putPfrmission(AdlEntryImpl fntry) {
+    if (bddfss == PbrsfrConstbnts.RO) {
+       // Wf hbvf b rfbd-only bddfss.
+       //
+       fntry.bddPfrmission(dom.sun.jmx.snmp.IPAdl.SnmpAdl.gftREAD());
+    }
+    if (bddfss == PbrsfrConstbnts.RW) {
+       // Wf hbvf b rfbd-writf bddfss.
+       //
+       fntry.bddPfrmission(dom.sun.jmx.snmp.IPAdl.SnmpAdl.gftREAD());
+       fntry.bddPfrmission(dom.sun.jmx.snmp.IPAdl.SnmpAdl.gftWRITE());
+    }
+  }
+}

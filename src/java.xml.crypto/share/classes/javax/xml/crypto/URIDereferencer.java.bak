@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  * ===========================================================================
  *
- * (C) Copyright IBM Corp. 2003 All Rights Reserved.
+ * (C) Copyrigit IBM Corp. 2003 All Rigits Rfsfrvfd.
  *
  * ===========================================================================
  */
 /*
- * $Id: URIDereferencer.java,v 1.5 2005/05/10 15:47:42 mullan Exp $
+ * $Id: URIDfrfffrfndfr.jbvb,v 1.5 2005/05/10 15:47:42 mullbn Exp $
  */
-package javax.xml.crypto;
+pbdkbgf jbvbx.xml.drypto;
 
 /**
- * A dereferencer of {@link URIReference}s.
+ * A dfrfffrfndfr of {@link URIRfffrfndf}s.
  * <p>
- * The result of dereferencing a <code>URIReference</code> is either an
- * instance of {@link OctetStreamData} or {@link NodeSetData}. Unless the
- * <code>URIReference</code> is a <i>same-document reference</i> as defined
- * in section 4.2 of the W3C Recommendation for XML-Signature Syntax and
- * Processing, the result of dereferencing the <code>URIReference</code>
- * MUST be an <code>OctetStreamData</code>.
+ * Tif rfsult of dfrfffrfnding b <dodf>URIRfffrfndf</dodf> is fitifr bn
+ * instbndf of {@link OdtftStrfbmDbtb} or {@link NodfSftDbtb}. Unlfss tif
+ * <dodf>URIRfffrfndf</dodf> is b <i>sbmf-dodumfnt rfffrfndf</i> bs dffinfd
+ * in sfdtion 4.2 of tif W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd
+ * Prodfssing, tif rfsult of dfrfffrfnding tif <dodf>URIRfffrfndf</dodf>
+ * MUST bf bn <dodf>OdtftStrfbmDbtb</dodf>.
  *
- * @author Sean Mullan
- * @author Joyce Leung
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see XMLCryptoContext#setURIDereferencer(URIDereferencer)
- * @see XMLCryptoContext#getURIDereferencer
+ * @butior Sfbn Mullbn
+ * @butior Joydf Lfung
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLCryptoContfxt#sftURIDfrfffrfndfr(URIDfrfffrfndfr)
+ * @sff XMLCryptoContfxt#gftURIDfrfffrfndfr
  */
-public interface URIDereferencer {
+publid intfrfbdf URIDfrfffrfndfr {
 
     /**
-     * Dereferences the specified <code>URIReference</code> and returns the
-     * dereferenced data.
+     * Dfrfffrfndfs tif spfdififd <dodf>URIRfffrfndf</dodf> bnd rfturns tif
+     * dfrfffrfndfd dbtb.
      *
-     * @param uriReference the <code>URIReference</code>
-     * @param context an <code>XMLCryptoContext</code> that may
-     *    contain additional useful information for dereferencing the URI. This
-     *    implementation should dereference the specified
-     *    <code>URIReference</code> against the context's <code>baseURI</code>
-     *    parameter, if specified.
-     * @return the dereferenced data
-     * @throws NullPointerException if <code>uriReference</code> or
-     *    <code>context</code> are <code>null</code>
-     * @throws URIReferenceException if an exception occurs while
-     *    dereferencing the specified <code>uriReference</code>
+     * @pbrbm uriRfffrfndf tif <dodf>URIRfffrfndf</dodf>
+     * @pbrbm dontfxt bn <dodf>XMLCryptoContfxt</dodf> tibt mby
+     *    dontbin bdditionbl usfful informbtion for dfrfffrfnding tif URI. Tiis
+     *    implfmfntbtion siould dfrfffrfndf tif spfdififd
+     *    <dodf>URIRfffrfndf</dodf> bgbinst tif dontfxt's <dodf>bbsfURI</dodf>
+     *    pbrbmftfr, if spfdififd.
+     * @rfturn tif dfrfffrfndfd dbtb
+     * @tirows NullPointfrExdfption if <dodf>uriRfffrfndf</dodf> or
+     *    <dodf>dontfxt</dodf> brf <dodf>null</dodf>
+     * @tirows URIRfffrfndfExdfption if bn fxdfption oddurs wiilf
+     *    dfrfffrfnding tif spfdififd <dodf>uriRfffrfndf</dodf>
      */
-    Data dereference(URIReference uriReference, XMLCryptoContext context)
-        throws URIReferenceException;
+    Dbtb dfrfffrfndf(URIRfffrfndf uriRfffrfndf, XMLCryptoContfxt dontfxt)
+        tirows URIRfffrfndfExdfption;
 }

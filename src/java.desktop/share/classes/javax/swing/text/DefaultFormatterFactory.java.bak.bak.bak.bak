@@ -1,0 +1,314 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.tfxt.PbrsfExdfption;
+import jbvbx.swing.JFormbttfdTfxtFifld;
+
+/**
+ * An implfmfntbtion of
+ * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfrFbdtory</dodf>.
+ * <dodf>DffbultFormbttfrFbdtory</dodf> bllows spfdifying b numbfr of
+ * difffrfnt <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf>s thbt brf to
+ * bf usfd.
+ * Thf most importbnt onf is thf dffbult onf
+ * (<dodf>sftDffbultFormbttfr</dodf>). Thf dffbult formbttfr will bf usfd
+ * if b morf spfdifid formbttfr dould not bf found. Thf following prodfss
+ * is usfd to dftfrminf thf bppropribtf formbttfr to usf.
+ * <ol>
+ *   <li>Is thf pbssfd in vbluf null? Usf thf null formbttfr.
+ *   <li>Dofs thf <dodf>JFormbttfdTfxtFifld</dodf> hbvf fodus? Usf thf fdit
+ *       formbttfr.
+ *   <li>Othfrwisf, usf thf displby formbttfr.
+ *   <li>If b non-null <dodf>AbstrbdtFormbttfr</dodf> hbs not bffn found, usf
+ *       thf dffbult formbttfr.
+ * </ol>
+ * <p>
+ * Thf following dodf shows how to donfigurf b
+ * <dodf>JFormbttfdTfxtFifld</dodf> with two
+ * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf>s, onf for displby bnd
+ * onf for fditing.
+ * <prf>
+ * JFormbttfdTfxtFifld.AbstrbdtFormbttfr fditFormbttfr = ...;
+ * JFormbttfdTfxtFifld.AbstrbdtFormbttfr displbyFormbttfr = ...;
+ * DffbultFormbttfrFbdtory fbdtory = nfw DffbultFormbttfrFbdtory(
+ *                 displbyFormbttfr, displbyFormbttfr, fditFormbttfr);
+ * JFormbttfdTfxtFifld tf = nfw JFormbttfdTfxtFifld(fbdtory);
+ * </prf>
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff jbvbx.swing.JFormbttfdTfxtFifld
+ *
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultFormbttfrFbdtory fxtfnds JFormbttfdTfxtFifld.AbstrbdtFormbttfrFbdtory implfmfnts Sfriblizbblf {
+    /**
+     * Dffbult <dodf>AbstrbdtFormbttfr</dodf> to usf if b morf spfdifid onf hbs
+     * not bffn spfdififd.
+     */
+    privbtf JFormbttfdTfxtFifld.AbstrbdtFormbttfr dffbultFormbt;
+
+    /**
+     * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> to usf for displby.
+     */
+    privbtf JFormbttfdTfxtFifld.AbstrbdtFormbttfr displbyFormbt;
+
+    /**
+     * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> to usf for fditing.
+     */
+    privbtf JFormbttfdTfxtFifld.AbstrbdtFormbttfr fditFormbt;
+
+    /**
+     * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> to usf if thf vbluf
+     * is null.
+     */
+    privbtf JFormbttfdTfxtFifld.AbstrbdtFormbttfr nullFormbt;
+
+
+    publid DffbultFormbttfrFbdtory() {
+    }
+
+    /**
+     * Crfbtfs b <dodf>DffbultFormbttfrFbdtory</dodf> with thf spfdififd
+     * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf>.
+     *
+     * @pbrbm dffbultFormbt JFormbttfdTfxtFifld.AbstrbdtFormbttfr to bf usfd
+     *                      if b morf spfdifid
+     *                      JFormbttfdTfxtFifld.AbstrbdtFormbttfr dbn not bf
+     *                      found.
+     */
+    publid DffbultFormbttfrFbdtory(JFormbttfdTfxtFifld.
+                                       AbstrbdtFormbttfr dffbultFormbt) {
+        this(dffbultFormbt, null);
+    }
+
+    /**
+     * Crfbtfs b <dodf>DffbultFormbttfrFbdtory</dodf> with thf spfdififd
+     * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf>s.
+     *
+     * @pbrbm dffbultFormbt JFormbttfdTfxtFifld.AbstrbdtFormbttfr to bf usfd
+     *                      if b morf spfdifid
+     *                      JFormbttfdTfxtFifld.AbstrbdtFormbttfr dbn not bf
+     *                      found.
+     * @pbrbm displbyFormbt JFormbttfdTfxtFifld.AbstrbdtFormbttfr to bf usfd
+     *                      whfn thf JFormbttfdTfxtFifld dofs not hbvf fodus.
+     */
+    publid DffbultFormbttfrFbdtory(
+                     JFormbttfdTfxtFifld.AbstrbdtFormbttfr dffbultFormbt,
+                     JFormbttfdTfxtFifld.AbstrbdtFormbttfr displbyFormbt) {
+        this(dffbultFormbt, displbyFormbt, null);
+    }
+
+    /**
+     * Crfbtfs b DffbultFormbttfrFbdtory with thf spfdififd
+     * JFormbttfdTfxtFifld.AbstrbdtFormbttfrs.
+     *
+     * @pbrbm dffbultFormbt JFormbttfdTfxtFifld.AbstrbdtFormbttfr to bf usfd
+     *                      if b morf spfdifid
+     *                      JFormbttfdTfxtFifld.AbstrbdtFormbttfr dbn not bf
+     *                      found.
+     * @pbrbm displbyFormbt JFormbttfdTfxtFifld.AbstrbdtFormbttfr to bf usfd
+     *                      whfn thf JFormbttfdTfxtFifld dofs not hbvf fodus.
+     * @pbrbm fditFormbt    JFormbttfdTfxtFifld.AbstrbdtFormbttfr to bf usfd
+     *                      whfn thf JFormbttfdTfxtFifld hbs fodus.
+     */
+    publid DffbultFormbttfrFbdtory(
+                   JFormbttfdTfxtFifld.AbstrbdtFormbttfr dffbultFormbt,
+                   JFormbttfdTfxtFifld.AbstrbdtFormbttfr displbyFormbt,
+                   JFormbttfdTfxtFifld.AbstrbdtFormbttfr fditFormbt) {
+        this(dffbultFormbt, displbyFormbt, fditFormbt, null);
+    }
+
+    /**
+     * Crfbtfs b DffbultFormbttfrFbdtory with thf spfdififd
+     * JFormbttfdTfxtFifld.AbstrbdtFormbttfrs.
+     *
+     * @pbrbm dffbultFormbt JFormbttfdTfxtFifld.AbstrbdtFormbttfr to bf usfd
+     *                      if b morf spfdifid
+     *                      JFormbttfdTfxtFifld.AbstrbdtFormbttfr dbn not bf
+     *                      found.
+     * @pbrbm displbyFormbt JFormbttfdTfxtFifld.AbstrbdtFormbttfr to bf usfd
+     *                      whfn thf JFormbttfdTfxtFifld dofs not hbvf fodus.
+     * @pbrbm fditFormbt    JFormbttfdTfxtFifld.AbstrbdtFormbttfr to bf usfd
+     *                      whfn thf JFormbttfdTfxtFifld hbs fodus.
+     * @pbrbm nullFormbt    JFormbttfdTfxtFifld.AbstrbdtFormbttfr to bf usfd
+     *                      whfn thf JFormbttfdTfxtFifld hbs b null vbluf.
+     */
+    publid DffbultFormbttfrFbdtory(
+                  JFormbttfdTfxtFifld.AbstrbdtFormbttfr dffbultFormbt,
+                  JFormbttfdTfxtFifld.AbstrbdtFormbttfr displbyFormbt,
+                  JFormbttfdTfxtFifld.AbstrbdtFormbttfr fditFormbt,
+                  JFormbttfdTfxtFifld.AbstrbdtFormbttfr nullFormbt) {
+        this.dffbultFormbt = dffbultFormbt;
+        this.displbyFormbt = displbyFormbt;
+        this.fditFormbt = fditFormbt;
+        this.nullFormbt = nullFormbt;
+    }
+
+    /**
+     * Sfts thf <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> to usf bs
+     * b lbst rfsort, fg in dbsf b displby, fdit or null
+     * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> hbs not bffn
+     * spfdififd.
+     *
+     * @pbrbm btf JFormbttfdTfxtFifld.AbstrbdtFormbttfr usfd if b morf
+     *            spfdifid is not spfdififd
+     */
+    publid void sftDffbultFormbttfr(JFormbttfdTfxtFifld.AbstrbdtFormbttfr btf){
+        dffbultFormbt = btf;
+    }
+
+    /**
+     * Rfturns thf <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> to usf
+     * bs b lbst rfsort, fg in dbsf b displby, fdit or null
+     * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf>
+     * hbs not bffn spfdififd.
+     *
+     * @rfturn JFormbttfdTfxtFifld.AbstrbdtFormbttfr usfd if b morf spfdifid
+     *         onf is not spfdififd.
+     */
+    publid JFormbttfdTfxtFifld.AbstrbdtFormbttfr gftDffbultFormbttfr() {
+        rfturn dffbultFormbt;
+    }
+
+    /**
+     * Sfts thf <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> to usf if
+     * thf <dodf>JFormbttfdTfxtFifld</dodf> is not bfing fditfd bnd fithfr
+     * thf vbluf is not-null, or thf vbluf is null bnd b null formbttfr hbs
+     * hbs not bffn spfdififd.
+     *
+     * @pbrbm btf JFormbttfdTfxtFifld.AbstrbdtFormbttfr to usf whfn thf
+     *            JFormbttfdTfxtFifld dofs not hbvf fodus
+     */
+    publid void sftDisplbyFormbttfr(JFormbttfdTfxtFifld.AbstrbdtFormbttfr btf){
+        displbyFormbt = btf;
+    }
+
+    /**
+     * Rfturns thf <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> to usf
+     * if thf <dodf>JFormbttfdTfxtFifld</dodf> is not bfing fditfd bnd fithfr
+     * thf vbluf is not-null, or thf vbluf is null bnd b null formbttfr hbs
+     * hbs not bffn spfdififd.
+     *
+     * @rfturn JFormbttfdTfxtFifld.AbstrbdtFormbttfr to usf whfn thf
+     *         JFormbttfdTfxtFifld dofs not hbvf fodus
+     */
+    publid JFormbttfdTfxtFifld.AbstrbdtFormbttfr gftDisplbyFormbttfr() {
+        rfturn displbyFormbt;
+    }
+
+    /**
+     * Sfts thf <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> to usf if
+     * thf <dodf>JFormbttfdTfxtFifld</dodf> is bfing fditfd bnd fithfr
+     * thf vbluf is not-null, or thf vbluf is null bnd b null formbttfr hbs
+     * hbs not bffn spfdififd.
+     *
+     * @pbrbm btf JFormbttfdTfxtFifld.AbstrbdtFormbttfr to usf whfn thf
+     *            domponfnt hbs fodus
+     */
+    publid void sftEditFormbttfr(JFormbttfdTfxtFifld.AbstrbdtFormbttfr btf) {
+        fditFormbt = btf;
+    }
+
+    /**
+     * Rfturns thf <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> to usf
+     * if thf <dodf>JFormbttfdTfxtFifld</dodf> is bfing fditfd bnd fithfr
+     * thf vbluf is not-null, or thf vbluf is null bnd b null formbttfr hbs
+     * hbs not bffn spfdififd.
+     *
+     * @rfturn JFormbttfdTfxtFifld.AbstrbdtFormbttfr to usf whfn thf
+     *         domponfnt hbs fodus
+     */
+    publid JFormbttfdTfxtFifld.AbstrbdtFormbttfr gftEditFormbttfr() {
+        rfturn fditFormbt;
+    }
+
+    /**
+     * Sfts thf formbttfr to usf if thf vbluf of thf JFormbttfdTfxtFifld is
+     * null.
+     *
+     * @pbrbm btf JFormbttfdTfxtFifld.AbstrbdtFormbttfr to usf whfn
+     * thf vbluf of thf JFormbttfdTfxtFifld is null.
+     */
+    publid void sftNullFormbttfr(JFormbttfdTfxtFifld.AbstrbdtFormbttfr btf) {
+        nullFormbt = btf;
+    }
+
+    /**
+     * Rfturns thf formbttfr to usf if thf vbluf is null.
+     *
+     * @rfturn JFormbttfdTfxtFifld.AbstrbdtFormbttfr to usf whfn thf vbluf is
+     *         null
+     */
+    publid JFormbttfdTfxtFifld.AbstrbdtFormbttfr gftNullFormbttfr() {
+        rfturn nullFormbt;
+    }
+
+    /**
+     * Rfturns fithfr thf dffbult formbttfr, displby formbttfr, fditor
+     * formbttfr or null formbttfr bbsfd on thf stbtf of thf
+     * JFormbttfdTfxtFifld.
+     *
+     * @pbrbm sourdf JFormbttfdTfxtFifld rfqufsting
+     *               JFormbttfdTfxtFifld.AbstrbdtFormbttfr
+     * @rfturn JFormbttfdTfxtFifld.AbstrbdtFormbttfr to hbndlf
+     *         formbtting dutifs.
+     */
+    publid JFormbttfdTfxtFifld.AbstrbdtFormbttfr gftFormbttfr(
+                     JFormbttfdTfxtFifld sourdf) {
+        JFormbttfdTfxtFifld.AbstrbdtFormbttfr formbt = null;
+
+        if (sourdf == null) {
+            rfturn null;
+        }
+        Objfdt vbluf = sourdf.gftVbluf();
+
+        if (vbluf == null) {
+            formbt = gftNullFormbttfr();
+        }
+        if (formbt == null) {
+            if (sourdf.hbsFodus()) {
+                formbt = gftEditFormbttfr();
+            }
+            flsf {
+                formbt = gftDisplbyFormbttfr();
+            }
+            if (formbt == null) {
+                formbt = gftDffbultFormbttfr();
+            }
+        }
+        rfturn formbt;
+    }
+}

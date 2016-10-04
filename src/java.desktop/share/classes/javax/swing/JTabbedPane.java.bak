@@ -1,2428 +1,2428 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.Transient;
-import java.util.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
-import sun.swing.SwingUtilities2;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.Trbnsifnt;
+import jbvb.util.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+import sun.swing.SwingUtilitifs2;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * A component that lets the user switch between a group of components by
- * clicking on a tab with a given title and/or icon.
- * For examples and information on using tabbed panes see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html">How to Use Tabbed Panes</a>,
- * a section in <em>The Java Tutorial</em>.
+ * A domponfnt tibt lfts tif usfr switdi bftwffn b group of domponfnts by
+ * dlidking on b tbb witi b givfn titlf bnd/or idon.
+ * For fxbmplfs bnd informbtion on using tbbbfd pbnfs sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/tbbbfdpbnf.itml">How to Usf Tbbbfd Pbnfs</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  * <p>
- * Tabs/components are added to a <code>TabbedPane</code> object by using the
- * <code>addTab</code> and <code>insertTab</code> methods.
- * A tab is represented by an index corresponding
- * to the position it was added in, where the first tab has an index equal to 0
- * and the last tab has an index equal to the tab count minus 1.
+ * Tbbs/domponfnts brf bddfd to b <dodf>TbbbfdPbnf</dodf> objfdt by using tif
+ * <dodf>bddTbb</dodf> bnd <dodf>insfrtTbb</dodf> mftiods.
+ * A tbb is rfprfsfntfd by bn indfx dorrfsponding
+ * to tif position it wbs bddfd in, wifrf tif first tbb ibs bn indfx fqubl to 0
+ * bnd tif lbst tbb ibs bn indfx fqubl to tif tbb dount minus 1.
  * <p>
- * The <code>TabbedPane</code> uses a <code>SingleSelectionModel</code>
- * to represent the set
- * of tab indices and the currently selected index.  If the tab count
- * is greater than 0, then there will always be a selected index, which
- * by default will be initialized to the first tab.  If the tab count is
- * 0, then the selected index will be -1.
+ * Tif <dodf>TbbbfdPbnf</dodf> usfs b <dodf>SinglfSflfdtionModfl</dodf>
+ * to rfprfsfnt tif sft
+ * of tbb indidfs bnd tif durrfntly sflfdtfd indfx.  If tif tbb dount
+ * is grfbtfr tibn 0, tifn tifrf will blwbys bf b sflfdtfd indfx, wiidi
+ * by dffbult will bf initiblizfd to tif first tbb.  If tif tbb dount is
+ * 0, tifn tif sflfdtfd indfx will bf -1.
  * <p>
- * The tab title can be rendered by a <code>Component</code>.
- * For example, the following produce similar results:
- * <pre>
- * // In this case the look and feel renders the title for the tab.
- * tabbedPane.addTab("Tab", myComponent);
- * // In this case the custom component is responsible for rendering the
- * // title of the tab.
- * tabbedPane.addTab(null, myComponent);
- * tabbedPane.setTabComponentAt(0, new JLabel("Tab"));
- * </pre>
- * The latter is typically used when you want a more complex user interaction
- * that requires custom components on the tab.  For example, you could
- * provide a custom component that animates or one that has widgets for
- * closing the tab.
+ * Tif tbb titlf dbn bf rfndfrfd by b <dodf>Componfnt</dodf>.
+ * For fxbmplf, tif following produdf similbr rfsults:
+ * <prf>
+ * // In tiis dbsf tif look bnd fffl rfndfrs tif titlf for tif tbb.
+ * tbbbfdPbnf.bddTbb("Tbb", myComponfnt);
+ * // In tiis dbsf tif dustom domponfnt is rfsponsiblf for rfndfring tif
+ * // titlf of tif tbb.
+ * tbbbfdPbnf.bddTbb(null, myComponfnt);
+ * tbbbfdPbnf.sftTbbComponfntAt(0, nfw JLbbfl("Tbb"));
+ * </prf>
+ * Tif lbttfr is typidblly usfd wifn you wbnt b morf domplfx usfr intfrbdtion
+ * tibt rfquirfs dustom domponfnts on tif tbb.  For fxbmplf, you dould
+ * providf b dustom domponfnt tibt bnimbtfs or onf tibt ibs widgfts for
+ * dlosing tif tbb.
  * <p>
- * If you specify a component for a tab, the <code>JTabbedPane</code>
- * will not render any text or icon you have specified for the tab.
+ * If you spfdify b domponfnt for b tbb, tif <dodf>JTbbbfdPbnf</dodf>
+ * will not rfndfr bny tfxt or idon you ibvf spfdififd for tif tbb.
  * <p>
- * <strong>Note:</strong>
- * Do not use <code>setVisible</code> directly on a tab component to make it visible,
- * use <code>setSelectedComponent</code> or <code>setSelectedIndex</code> methods instead.
+ * <strong>Notf:</strong>
+ * Do not usf <dodf>sftVisiblf</dodf> dirfdtly on b tbb domponfnt to mbkf it visiblf,
+ * usf <dodf>sftSflfdtfdComponfnt</dodf> or <dodf>sftSflfdtfdIndfx</dodf> mftiods instfbd.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @beaninfo
- *      attribute: isContainer true
- *    description: A component which provides a tab folder metaphor for
- *                 displaying one component from a set of components.
+ * @bfbninfo
+ *      bttributf: isContbinfr truf
+ *    dfsdription: A domponfnt wiidi providfs b tbb foldfr mftbpior for
+ *                 displbying onf domponfnt from b sft of domponfnts.
  *
- * @author Dave Moore
- * @author Philip Milne
- * @author Amy Fowler
+ * @butior Dbvf Moorf
+ * @butior Piilip Milnf
+ * @butior Amy Fowlfr
  *
- * @see SingleSelectionModel
- * @since 1.2
+ * @sff SinglfSflfdtionModfl
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JTabbedPane extends JComponent
-       implements Serializable, Accessible, SwingConstants {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JTbbbfdPbnf fxtfnds JComponfnt
+       implfmfnts Sfriblizbblf, Addfssiblf, SwingConstbnts {
 
    /**
-    * The tab layout policy for wrapping tabs in multiple runs when all
-    * tabs will not fit within a single run.
+    * Tif tbb lbyout polidy for wrbpping tbbs in multiplf runs wifn bll
+    * tbbs will not fit witiin b singlf run.
     */
-    public static final int WRAP_TAB_LAYOUT = 0;
+    publid stbtid finbl int WRAP_TAB_LAYOUT = 0;
 
    /**
-    * Tab layout policy for providing a subset of available tabs when all
-    * the tabs will not fit within a single run.  If all the tabs do
-    * not fit within a single run the look and feel will provide a way
-    * to navigate to hidden tabs.
+    * Tbb lbyout polidy for providing b subsft of bvbilbblf tbbs wifn bll
+    * tif tbbs will not fit witiin b singlf run.  If bll tif tbbs do
+    * not fit witiin b singlf run tif look bnd fffl will providf b wby
+    * to nbvigbtf to iiddfn tbbs.
     */
-    public static final int SCROLL_TAB_LAYOUT = 1;
+    publid stbtid finbl int SCROLL_TAB_LAYOUT = 1;
 
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "TabbedPaneUI";
+    privbtf stbtid finbl String uiClbssID = "TbbbfdPbnfUI";
 
     /**
-     * Where the tabs are placed.
-     * @see #setTabPlacement
+     * Wifrf tif tbbs brf plbdfd.
+     * @sff #sftTbbPlbdfmfnt
      */
-    protected int tabPlacement = TOP;
+    protfdtfd int tbbPlbdfmfnt = TOP;
 
-    private int tabLayoutPolicy;
+    privbtf int tbbLbyoutPolidy;
 
-    /** The default selection model */
-    protected SingleSelectionModel model;
+    /** Tif dffbult sflfdtion modfl */
+    protfdtfd SinglfSflfdtionModfl modfl;
 
-    private boolean haveRegistered;
+    privbtf boolfbn ibvfRfgistfrfd;
 
     /**
-     * The <code>changeListener</code> is the listener we add to the
-     * model.
+     * Tif <dodf>dibngfListfnfr</dodf> is tif listfnfr wf bdd to tif
+     * modfl.
      */
-    protected ChangeListener changeListener = null;
+    protfdtfd CibngfListfnfr dibngfListfnfr = null;
 
-    private final java.util.List<Page> pages;
+    privbtf finbl jbvb.util.List<Pbgf> pbgfs;
 
-    /* The component that is currently visible */
-    private Component visComp = null;
+    /* Tif domponfnt tibt is durrfntly visiblf */
+    privbtf Componfnt visComp = null;
 
     /**
-     * Only one <code>ChangeEvent</code> is needed per <code>TabPane</code>
-     * instance since the
-     * event's only (read-only) state is the source property.  The source
-     * of events generated here is always "this".
+     * Only onf <dodf>CibngfEvfnt</dodf> is nffdfd pfr <dodf>TbbPbnf</dodf>
+     * instbndf sindf tif
+     * fvfnt's only (rfbd-only) stbtf is tif sourdf propfrty.  Tif sourdf
+     * of fvfnts gfnfrbtfd ifrf is blwbys "tiis".
      */
-    protected transient ChangeEvent changeEvent = null;
+    protfdtfd trbnsifnt CibngfEvfnt dibngfEvfnt = null;
 
     /**
-     * Creates an empty <code>TabbedPane</code> with a default
-     * tab placement of <code>JTabbedPane.TOP</code>.
-     * @see #addTab
+     * Crfbtfs bn fmpty <dodf>TbbbfdPbnf</dodf> witi b dffbult
+     * tbb plbdfmfnt of <dodf>JTbbbfdPbnf.TOP</dodf>.
+     * @sff #bddTbb
      */
-    public JTabbedPane() {
-        this(TOP, WRAP_TAB_LAYOUT);
+    publid JTbbbfdPbnf() {
+        tiis(TOP, WRAP_TAB_LAYOUT);
     }
 
     /**
-     * Creates an empty <code>TabbedPane</code> with the specified tab placement
-     * of either: <code>JTabbedPane.TOP</code>, <code>JTabbedPane.BOTTOM</code>,
-     * <code>JTabbedPane.LEFT</code>, or <code>JTabbedPane.RIGHT</code>.
+     * Crfbtfs bn fmpty <dodf>TbbbfdPbnf</dodf> witi tif spfdififd tbb plbdfmfnt
+     * of fitifr: <dodf>JTbbbfdPbnf.TOP</dodf>, <dodf>JTbbbfdPbnf.BOTTOM</dodf>,
+     * <dodf>JTbbbfdPbnf.LEFT</dodf>, or <dodf>JTbbbfdPbnf.RIGHT</dodf>.
      *
-     * @param tabPlacement the placement for the tabs relative to the content
-     * @see #addTab
+     * @pbrbm tbbPlbdfmfnt tif plbdfmfnt for tif tbbs rflbtivf to tif dontfnt
+     * @sff #bddTbb
      */
-    public JTabbedPane(int tabPlacement) {
-        this(tabPlacement, WRAP_TAB_LAYOUT);
+    publid JTbbbfdPbnf(int tbbPlbdfmfnt) {
+        tiis(tbbPlbdfmfnt, WRAP_TAB_LAYOUT);
     }
 
     /**
-     * Creates an empty <code>TabbedPane</code> with the specified tab placement
-     * and tab layout policy.  Tab placement may be either:
-     * <code>JTabbedPane.TOP</code>, <code>JTabbedPane.BOTTOM</code>,
-     * <code>JTabbedPane.LEFT</code>, or <code>JTabbedPane.RIGHT</code>.
-     * Tab layout policy may be either: <code>JTabbedPane.WRAP_TAB_LAYOUT</code>
-     * or <code>JTabbedPane.SCROLL_TAB_LAYOUT</code>.
+     * Crfbtfs bn fmpty <dodf>TbbbfdPbnf</dodf> witi tif spfdififd tbb plbdfmfnt
+     * bnd tbb lbyout polidy.  Tbb plbdfmfnt mby bf fitifr:
+     * <dodf>JTbbbfdPbnf.TOP</dodf>, <dodf>JTbbbfdPbnf.BOTTOM</dodf>,
+     * <dodf>JTbbbfdPbnf.LEFT</dodf>, or <dodf>JTbbbfdPbnf.RIGHT</dodf>.
+     * Tbb lbyout polidy mby bf fitifr: <dodf>JTbbbfdPbnf.WRAP_TAB_LAYOUT</dodf>
+     * or <dodf>JTbbbfdPbnf.SCROLL_TAB_LAYOUT</dodf>.
      *
-     * @param tabPlacement the placement for the tabs relative to the content
-     * @param tabLayoutPolicy the policy for laying out tabs when all tabs will not fit on one run
-     * @exception IllegalArgumentException if tab placement or tab layout policy are not
-     *            one of the above supported values
-     * @see #addTab
-     * @since 1.4
+     * @pbrbm tbbPlbdfmfnt tif plbdfmfnt for tif tbbs rflbtivf to tif dontfnt
+     * @pbrbm tbbLbyoutPolidy tif polidy for lbying out tbbs wifn bll tbbs will not fit on onf run
+     * @fxdfption IllfgblArgumfntExdfption if tbb plbdfmfnt or tbb lbyout polidy brf not
+     *            onf of tif bbovf supportfd vblufs
+     * @sff #bddTbb
+     * @sindf 1.4
      */
-    public JTabbedPane(int tabPlacement, int tabLayoutPolicy) {
-        setTabPlacement(tabPlacement);
-        setTabLayoutPolicy(tabLayoutPolicy);
-        pages = new ArrayList<Page>(1);
-        setModel(new DefaultSingleSelectionModel());
-        updateUI();
+    publid JTbbbfdPbnf(int tbbPlbdfmfnt, int tbbLbyoutPolidy) {
+        sftTbbPlbdfmfnt(tbbPlbdfmfnt);
+        sftTbbLbyoutPolidy(tbbLbyoutPolidy);
+        pbgfs = nfw ArrbyList<Pbgf>(1);
+        sftModfl(nfw DffbultSinglfSflfdtionModfl());
+        updbtfUI();
     }
 
     /**
-     * Returns the UI object which implements the L&amp;F for this component.
+     * Rfturns tif UI objfdt wiidi implfmfnts tif L&bmp;F for tiis domponfnt.
      *
-     * @return a <code>TabbedPaneUI</code> object
-     * @see #setUI
+     * @rfturn b <dodf>TbbbfdPbnfUI</dodf> objfdt
+     * @sff #sftUI
      */
-    public TabbedPaneUI getUI() {
-        return (TabbedPaneUI)ui;
+    publid TbbbfdPbnfUI gftUI() {
+        rfturn (TbbbfdPbnfUI)ui;
     }
 
     /**
-     * Sets the UI object which implements the L&amp;F for this component.
+     * Sfts tif UI objfdt wiidi implfmfnts tif L&bmp;F for tiis domponfnt.
      *
-     * @param ui the new UI object
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the tabbedpane's LookAndFeel
+     * @pbrbm ui tif nfw UI objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif tbbbfdpbnf's LookAndFffl
      */
-    public void setUI(TabbedPaneUI ui) {
-        super.setUI(ui);
-        // disabled icons are generated by LF so they should be unset here
-        for (int i = 0; i < getTabCount(); i++) {
-            Icon icon = pages.get(i).disabledIcon;
-            if (icon instanceof UIResource) {
-                setDisabledIconAt(i, null);
+    publid void sftUI(TbbbfdPbnfUI ui) {
+        supfr.sftUI(ui);
+        // disbblfd idons brf gfnfrbtfd by LF so tify siould bf unsft ifrf
+        for (int i = 0; i < gftTbbCount(); i++) {
+            Idon idon = pbgfs.gft(i).disbblfdIdon;
+            if (idon instbndfof UIRfsourdf) {
+                sftDisbblfdIdonAt(i, null);
             }
         }
     }
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Rfsfts tif UI propfrty to b vbluf from tif durrfnt look bnd fffl.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((TabbedPaneUI)UIManager.getUI(this));
+    publid void updbtfUI() {
+        sftUI((TbbbfdPbnfUI)UIMbnbgfr.gftUI(tiis));
     }
 
 
     /**
-     * Returns the name of the UI class that implements the
-     * L&amp;F for this component.
+     * Rfturns tif nbmf of tif UI dlbss tibt implfmfnts tif
+     * L&bmp;F for tiis domponfnt.
      *
-     * @return the string "TabbedPaneUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn tif string "TbbbfdPbnfUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
     /**
-     * We pass <code>ModelChanged</code> events along to the listeners with
-     * the tabbedpane (instead of the model itself) as the event source.
+     * Wf pbss <dodf>ModflCibngfd</dodf> fvfnts blong to tif listfnfrs witi
+     * tif tbbbfdpbnf (instfbd of tif modfl itsflf) bs tif fvfnt sourdf.
      */
-    protected class ModelListener implements ChangeListener, Serializable {
-        public void stateChanged(ChangeEvent e) {
-            fireStateChanged();
+    protfdtfd dlbss ModflListfnfr implfmfnts CibngfListfnfr, Sfriblizbblf {
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            firfStbtfCibngfd();
         }
     }
 
     /**
-     * Subclasses that want to handle <code>ChangeEvents</code> differently
-     * can override this to return a subclass of <code>ModelListener</code> or
-     * another <code>ChangeListener</code> implementation.
+     * Subdlbssfs tibt wbnt to ibndlf <dodf>CibngfEvfnts</dodf> difffrfntly
+     * dbn ovfrridf tiis to rfturn b subdlbss of <dodf>ModflListfnfr</dodf> or
+     * bnotifr <dodf>CibngfListfnfr</dodf> implfmfntbtion.
      *
-     * @return a {@code ChangeListener}
-     * @see #fireStateChanged
+     * @rfturn b {@dodf CibngfListfnfr}
+     * @sff #firfStbtfCibngfd
      */
-    protected ChangeListener createChangeListener() {
-        return new ModelListener();
+    protfdtfd CibngfListfnfr drfbtfCibngfListfnfr() {
+        rfturn nfw ModflListfnfr();
     }
 
     /**
-     * Adds a <code>ChangeListener</code> to this tabbedpane.
+     * Adds b <dodf>CibngfListfnfr</dodf> to tiis tbbbfdpbnf.
      *
-     * @param l the <code>ChangeListener</code> to add
-     * @see #fireStateChanged
-     * @see #removeChangeListener
+     * @pbrbm l tif <dodf>CibngfListfnfr</dodf> to bdd
+     * @sff #firfStbtfCibngfd
+     * @sff #rfmovfCibngfListfnfr
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.bdd(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a <code>ChangeListener</code> from this tabbedpane.
+     * Rfmovfs b <dodf>CibngfListfnfr</dodf> from tiis tbbbfdpbnf.
      *
-     * @param l the <code>ChangeListener</code> to remove
-     * @see #fireStateChanged
-     * @see #addChangeListener
+     * @pbrbm l tif <dodf>CibngfListfnfr</dodf> to rfmovf
+     * @sff #firfStbtfCibngfd
+     * @sff #bddCibngfListfnfr
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.rfmovf(CibngfListfnfr.dlbss, l);
     }
 
    /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this <code>JTabbedPane</code> with <code>addChangeListener</code>.
+     * Rfturns bn brrby of bll tif <dodf>CibngfListfnfr</dodf>s bddfd
+     * to tiis <dodf>JTbbbfdPbnf</dodf> witi <dodf>bddCibngfListfnfr</dodf>.
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>CibngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    publid CibngfListfnfr[] gftCibngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(CibngfListfnfr.dlbss);
     }
 
     /**
-     * Sends a {@code ChangeEvent}, with this {@code JTabbedPane} as the source,
-     * to each registered listener. This method is called each time there is
-     * a change to either the selected index or the selected tab in the
-     * {@code JTabbedPane}. Usually, the selected index and selected tab change
-     * together. However, there are some cases, such as tab addition, where the
-     * selected index changes and the same tab remains selected. There are other
-     * cases, such as deleting the selected tab, where the index remains the
-     * same, but a new tab moves to that index. Events are fired for all of
-     * these cases.
+     * Sfnds b {@dodf CibngfEvfnt}, witi tiis {@dodf JTbbbfdPbnf} bs tif sourdf,
+     * to fbdi rfgistfrfd listfnfr. Tiis mftiod is dbllfd fbdi timf tifrf is
+     * b dibngf to fitifr tif sflfdtfd indfx or tif sflfdtfd tbb in tif
+     * {@dodf JTbbbfdPbnf}. Usublly, tif sflfdtfd indfx bnd sflfdtfd tbb dibngf
+     * togftifr. Howfvfr, tifrf brf somf dbsfs, sudi bs tbb bddition, wifrf tif
+     * sflfdtfd indfx dibngfs bnd tif sbmf tbb rfmbins sflfdtfd. Tifrf brf otifr
+     * dbsfs, sudi bs dflfting tif sflfdtfd tbb, wifrf tif indfx rfmbins tif
+     * sbmf, but b nfw tbb movfs to tibt indfx. Evfnts brf firfd for bll of
+     * tifsf dbsfs.
      *
-     * @see #addChangeListener
-     * @see EventListenerList
+     * @sff #bddCibngfListfnfr
+     * @sff EvfntListfnfrList
      */
-    protected void fireStateChanged() {
-        /* --- Begin code to deal with visibility --- */
+    protfdtfd void firfStbtfCibngfd() {
+        /* --- Bfgin dodf to dfbl witi visibility --- */
 
-        /* This code deals with changing the visibility of components to
-         * hide and show the contents for the selected tab. It duplicates
-         * logic already present in BasicTabbedPaneUI, logic that is
-         * processed during the layout pass. This code exists to allow
-         * developers to do things that are quite difficult to accomplish
-         * with the previous model of waiting for the layout pass to process
-         * visibility changes; such as requesting focus on the new visible
-         * component.
+        /* Tiis dodf dfbls witi dibnging tif visibility of domponfnts to
+         * iidf bnd siow tif dontfnts for tif sflfdtfd tbb. It duplidbtfs
+         * logid blrfbdy prfsfnt in BbsidTbbbfdPbnfUI, logid tibt is
+         * prodfssfd during tif lbyout pbss. Tiis dodf fxists to bllow
+         * dfvflopfrs to do tiings tibt brf quitf diffidult to bddomplisi
+         * witi tif prfvious modfl of wbiting for tif lbyout pbss to prodfss
+         * visibility dibngfs; sudi bs rfqufsting fodus on tif nfw visiblf
+         * domponfnt.
          *
-         * For the average code, using the typical JTabbedPane methods,
-         * all visibility changes will now be processed here. However,
-         * the code in BasicTabbedPaneUI still exists, for the purposes
-         * of backward compatibility. Therefore, when making changes to
-         * this code, ensure that the BasicTabbedPaneUI code is kept in
-         * synch.
+         * For tif bvfrbgf dodf, using tif typidbl JTbbbfdPbnf mftiods,
+         * bll visibility dibngfs will now bf prodfssfd ifrf. Howfvfr,
+         * tif dodf in BbsidTbbbfdPbnfUI still fxists, for tif purposfs
+         * of bbdkwbrd dompbtibility. Tifrfforf, wifn mbking dibngfs to
+         * tiis dodf, fnsurf tibt tif BbsidTbbbfdPbnfUI dodf is kfpt in
+         * syndi.
          */
 
-        int selIndex = getSelectedIndex();
+        int sflIndfx = gftSflfdtfdIndfx();
 
-        /* if the selection is now nothing */
-        if (selIndex < 0) {
-            /* if there was a previous visible component */
-            if (visComp != null && visComp.isVisible()) {
-                /* make it invisible */
-                visComp.setVisible(false);
+        /* if tif sflfdtion is now notiing */
+        if (sflIndfx < 0) {
+            /* if tifrf wbs b prfvious visiblf domponfnt */
+            if (visComp != null && visComp.isVisiblf()) {
+                /* mbkf it invisiblf */
+                visComp.sftVisiblf(fblsf);
             }
 
-            /* now there's no visible component */
+            /* now tifrf's no visiblf domponfnt */
             visComp = null;
 
-        /* else - the selection is now something */
-        } else {
-            /* Fetch the component for the new selection */
-            Component newComp = getComponentAt(selIndex);
+        /* flsf - tif sflfdtion is now somftiing */
+        } flsf {
+            /* Fftdi tif domponfnt for tif nfw sflfdtion */
+            Componfnt nfwComp = gftComponfntAt(sflIndfx);
 
-            /* if the new component is non-null and different */
-            if (newComp != null && newComp != visComp) {
-                boolean shouldChangeFocus = false;
+            /* if tif nfw domponfnt is non-null bnd difffrfnt */
+            if (nfwComp != null && nfwComp != visComp) {
+                boolfbn siouldCibngfFodus = fblsf;
 
-                /* Note: the following (clearing of the old visible component)
-                 * is inside this if-statement for good reason: Tabbed pane
-                 * should continue to show the previously visible component
-                 * if there is no component for the chosen tab.
+                /* Notf: tif following (dlfbring of tif old visiblf domponfnt)
+                 * is insidf tiis if-stbtfmfnt for good rfbson: Tbbbfd pbnf
+                 * siould dontinuf to siow tif prfviously visiblf domponfnt
+                 * if tifrf is no domponfnt for tif diosfn tbb.
                  */
 
-                /* if there was a previous visible component */
+                /* if tifrf wbs b prfvious visiblf domponfnt */
                 if (visComp != null) {
-                    shouldChangeFocus =
-                        (SwingUtilities.findFocusOwner(visComp) != null);
+                    siouldCibngfFodus =
+                        (SwingUtilitifs.findFodusOwnfr(visComp) != null);
 
-                    /* if it's still visible */
-                    if (visComp.isVisible()) {
-                        /* make it invisible */
-                        visComp.setVisible(false);
+                    /* if it's still visiblf */
+                    if (visComp.isVisiblf()) {
+                        /* mbkf it invisiblf */
+                        visComp.sftVisiblf(fblsf);
                     }
                 }
 
-                if (!newComp.isVisible()) {
-                    newComp.setVisible(true);
+                if (!nfwComp.isVisiblf()) {
+                    nfwComp.sftVisiblf(truf);
                 }
 
-                if (shouldChangeFocus) {
-                    SwingUtilities2.tabbedPaneChangeFocusTo(newComp);
+                if (siouldCibngfFodus) {
+                    SwingUtilitifs2.tbbbfdPbnfCibngfFodusTo(nfwComp);
                 }
 
-                visComp = newComp;
-            } /* else - the visible component shouldn't changed */
+                visComp = nfwComp;
+            } /* flsf - tif visiblf domponfnt siouldn't dibngfd */
         }
 
-        /* --- End code to deal with visibility --- */
+        /* --- End dodf to dfbl witi visibility --- */
 
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ChangeListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==CibngfListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (dibngfEvfnt == null)
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((CibngfListfnfr)listfnfrs[i+1]).stbtfCibngfd(dibngfEvfnt);
             }
         }
     }
 
     /**
-     * Returns the model associated with this tabbedpane.
+     * Rfturns tif modfl bssodibtfd witi tiis tbbbfdpbnf.
      *
-     * @return the {@code SingleSelectionModel} associated with this tabbedpane
-     * @see #setModel
+     * @rfturn tif {@dodf SinglfSflfdtionModfl} bssodibtfd witi tiis tbbbfdpbnf
+     * @sff #sftModfl
      */
-    public SingleSelectionModel getModel() {
-        return model;
+    publid SinglfSflfdtionModfl gftModfl() {
+        rfturn modfl;
     }
 
     /**
-     * Sets the model to be used with this tabbedpane.
+     * Sfts tif modfl to bf usfd witi tiis tbbbfdpbnf.
      *
-     * @param model the model to be used
-     * @see #getModel
-     * @beaninfo
-     *       bound: true
-     * description: The tabbedpane's SingleSelectionModel.
+     * @pbrbm modfl tif modfl to bf usfd
+     * @sff #gftModfl
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Tif tbbbfdpbnf's SinglfSflfdtionModfl.
      */
-    public void setModel(SingleSelectionModel model) {
-        SingleSelectionModel oldModel = getModel();
+    publid void sftModfl(SinglfSflfdtionModfl modfl) {
+        SinglfSflfdtionModfl oldModfl = gftModfl();
 
-        if (oldModel != null) {
-            oldModel.removeChangeListener(changeListener);
-            changeListener = null;
+        if (oldModfl != null) {
+            oldModfl.rfmovfCibngfListfnfr(dibngfListfnfr);
+            dibngfListfnfr = null;
         }
 
-        this.model = model;
+        tiis.modfl = modfl;
 
-        if (model != null) {
-            changeListener = createChangeListener();
-            model.addChangeListener(changeListener);
+        if (modfl != null) {
+            dibngfListfnfr = drfbtfCibngfListfnfr();
+            modfl.bddCibngfListfnfr(dibngfListfnfr);
         }
 
-        firePropertyChange("model", oldModel, model);
-        repaint();
+        firfPropfrtyCibngf("modfl", oldModfl, modfl);
+        rfpbint();
     }
 
     /**
-     * Returns the placement of the tabs for this tabbedpane.
+     * Rfturns tif plbdfmfnt of tif tbbs for tiis tbbbfdpbnf.
      *
-     * @return an {@code int} specifying the placement for the tabs
-     * @see #setTabPlacement
+     * @rfturn bn {@dodf int} spfdifying tif plbdfmfnt for tif tbbs
+     * @sff #sftTbbPlbdfmfnt
      */
-    public int getTabPlacement() {
-        return tabPlacement;
+    publid int gftTbbPlbdfmfnt() {
+        rfturn tbbPlbdfmfnt;
     }
 
     /**
-     * Sets the tab placement for this tabbedpane.
-     * Possible values are:<ul>
-     * <li><code>JTabbedPane.TOP</code>
-     * <li><code>JTabbedPane.BOTTOM</code>
-     * <li><code>JTabbedPane.LEFT</code>
-     * <li><code>JTabbedPane.RIGHT</code>
+     * Sfts tif tbb plbdfmfnt for tiis tbbbfdpbnf.
+     * Possiblf vblufs brf:<ul>
+     * <li><dodf>JTbbbfdPbnf.TOP</dodf>
+     * <li><dodf>JTbbbfdPbnf.BOTTOM</dodf>
+     * <li><dodf>JTbbbfdPbnf.LEFT</dodf>
+     * <li><dodf>JTbbbfdPbnf.RIGHT</dodf>
      * </ul>
-     * The default value, if not set, is <code>SwingConstants.TOP</code>.
+     * Tif dffbult vbluf, if not sft, is <dodf>SwingConstbnts.TOP</dodf>.
      *
-     * @param tabPlacement the placement for the tabs relative to the content
-     * @exception IllegalArgumentException if tab placement value isn't one
-     *                          of the above valid values
+     * @pbrbm tbbPlbdfmfnt tif plbdfmfnt for tif tbbs rflbtivf to tif dontfnt
+     * @fxdfption IllfgblArgumfntExdfption if tbb plbdfmfnt vbluf isn't onf
+     *                          of tif bbovf vblid vblufs
      *
-     * @beaninfo
-     *    preferred: true
-     *        bound: true
-     *    attribute: visualUpdate true
-     *         enum: TOP JTabbedPane.TOP
-     *               LEFT JTabbedPane.LEFT
-     *               BOTTOM JTabbedPane.BOTTOM
-     *               RIGHT JTabbedPane.RIGHT
-     *  description: The tabbedpane's tab placement.
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *         fnum: TOP JTbbbfdPbnf.TOP
+     *               LEFT JTbbbfdPbnf.LEFT
+     *               BOTTOM JTbbbfdPbnf.BOTTOM
+     *               RIGHT JTbbbfdPbnf.RIGHT
+     *  dfsdription: Tif tbbbfdpbnf's tbb plbdfmfnt.
      *
      */
-    public void setTabPlacement(int tabPlacement) {
-        if (tabPlacement != TOP && tabPlacement != LEFT &&
-            tabPlacement != BOTTOM && tabPlacement != RIGHT) {
-            throw new IllegalArgumentException("illegal tab placement: must be TOP, BOTTOM, LEFT, or RIGHT");
+    publid void sftTbbPlbdfmfnt(int tbbPlbdfmfnt) {
+        if (tbbPlbdfmfnt != TOP && tbbPlbdfmfnt != LEFT &&
+            tbbPlbdfmfnt != BOTTOM && tbbPlbdfmfnt != RIGHT) {
+            tirow nfw IllfgblArgumfntExdfption("illfgbl tbb plbdfmfnt: must bf TOP, BOTTOM, LEFT, or RIGHT");
         }
-        if (this.tabPlacement != tabPlacement) {
-            int oldValue = this.tabPlacement;
-            this.tabPlacement = tabPlacement;
-            firePropertyChange("tabPlacement", oldValue, tabPlacement);
-            revalidate();
-            repaint();
+        if (tiis.tbbPlbdfmfnt != tbbPlbdfmfnt) {
+            int oldVbluf = tiis.tbbPlbdfmfnt;
+            tiis.tbbPlbdfmfnt = tbbPlbdfmfnt;
+            firfPropfrtyCibngf("tbbPlbdfmfnt", oldVbluf, tbbPlbdfmfnt);
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
     /**
-     * Returns the policy used by the tabbedpane to layout the tabs when all the
-     * tabs will not fit within a single run.
+     * Rfturns tif polidy usfd by tif tbbbfdpbnf to lbyout tif tbbs wifn bll tif
+     * tbbs will not fit witiin b singlf run.
      *
-     * @return an {@code int} specifying the policy used to layout the tabs
-     * @see #setTabLayoutPolicy
-     * @since 1.4
+     * @rfturn bn {@dodf int} spfdifying tif polidy usfd to lbyout tif tbbs
+     * @sff #sftTbbLbyoutPolidy
+     * @sindf 1.4
      */
-    public int getTabLayoutPolicy() {
-        return tabLayoutPolicy;
+    publid int gftTbbLbyoutPolidy() {
+        rfturn tbbLbyoutPolidy;
     }
 
    /**
-     * Sets the policy which the tabbedpane will use in laying out the tabs
-     * when all the tabs will not fit within a single run.
-     * Possible values are:
+     * Sfts tif polidy wiidi tif tbbbfdpbnf will usf in lbying out tif tbbs
+     * wifn bll tif tbbs will not fit witiin b singlf run.
+     * Possiblf vblufs brf:
      * <ul>
-     * <li><code>JTabbedPane.WRAP_TAB_LAYOUT</code>
-     * <li><code>JTabbedPane.SCROLL_TAB_LAYOUT</code>
+     * <li><dodf>JTbbbfdPbnf.WRAP_TAB_LAYOUT</dodf>
+     * <li><dodf>JTbbbfdPbnf.SCROLL_TAB_LAYOUT</dodf>
      * </ul>
      *
-     * The default value, if not set by the UI, is <code>JTabbedPane.WRAP_TAB_LAYOUT</code>.
+     * Tif dffbult vbluf, if not sft by tif UI, is <dodf>JTbbbfdPbnf.WRAP_TAB_LAYOUT</dodf>.
      * <p>
-     * Some look and feels might only support a subset of the possible
-     * layout policies, in which case the value of this property may be
-     * ignored.
+     * Somf look bnd fffls migit only support b subsft of tif possiblf
+     * lbyout polidifs, in wiidi dbsf tif vbluf of tiis propfrty mby bf
+     * ignorfd.
      *
-     * @param tabLayoutPolicy the policy used to layout the tabs
-     * @exception IllegalArgumentException if layoutPolicy value isn't one
-     *                          of the above valid values
-     * @see #getTabLayoutPolicy
-     * @since 1.4
+     * @pbrbm tbbLbyoutPolidy tif polidy usfd to lbyout tif tbbs
+     * @fxdfption IllfgblArgumfntExdfption if lbyoutPolidy vbluf isn't onf
+     *                          of tif bbovf vblid vblufs
+     * @sff #gftTbbLbyoutPolidy
+     * @sindf 1.4
      *
-     * @beaninfo
-     *    preferred: true
-     *        bound: true
-     *    attribute: visualUpdate true
-     *         enum: WRAP_TAB_LAYOUT JTabbedPane.WRAP_TAB_LAYOUT
-     *               SCROLL_TAB_LAYOUT JTabbedPane.SCROLL_TAB_LAYOUT
-     *  description: The tabbedpane's policy for laying out the tabs
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *         fnum: WRAP_TAB_LAYOUT JTbbbfdPbnf.WRAP_TAB_LAYOUT
+     *               SCROLL_TAB_LAYOUT JTbbbfdPbnf.SCROLL_TAB_LAYOUT
+     *  dfsdription: Tif tbbbfdpbnf's polidy for lbying out tif tbbs
      *
      */
-    public void setTabLayoutPolicy(int tabLayoutPolicy) {
-        if (tabLayoutPolicy != WRAP_TAB_LAYOUT && tabLayoutPolicy != SCROLL_TAB_LAYOUT) {
-            throw new IllegalArgumentException("illegal tab layout policy: must be WRAP_TAB_LAYOUT or SCROLL_TAB_LAYOUT");
+    publid void sftTbbLbyoutPolidy(int tbbLbyoutPolidy) {
+        if (tbbLbyoutPolidy != WRAP_TAB_LAYOUT && tbbLbyoutPolidy != SCROLL_TAB_LAYOUT) {
+            tirow nfw IllfgblArgumfntExdfption("illfgbl tbb lbyout polidy: must bf WRAP_TAB_LAYOUT or SCROLL_TAB_LAYOUT");
         }
-        if (this.tabLayoutPolicy != tabLayoutPolicy) {
-            int oldValue = this.tabLayoutPolicy;
-            this.tabLayoutPolicy = tabLayoutPolicy;
-            firePropertyChange("tabLayoutPolicy", oldValue, tabLayoutPolicy);
-            revalidate();
-            repaint();
+        if (tiis.tbbLbyoutPolidy != tbbLbyoutPolidy) {
+            int oldVbluf = tiis.tbbLbyoutPolidy;
+            tiis.tbbLbyoutPolidy = tbbLbyoutPolidy;
+            firfPropfrtyCibngf("tbbLbyoutPolidy", oldVbluf, tbbLbyoutPolidy);
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
     /**
-     * Returns the currently selected index for this tabbedpane.
-     * Returns -1 if there is no currently selected tab.
+     * Rfturns tif durrfntly sflfdtfd indfx for tiis tbbbfdpbnf.
+     * Rfturns -1 if tifrf is no durrfntly sflfdtfd tbb.
      *
-     * @return the index of the selected tab
-     * @see #setSelectedIndex
+     * @rfturn tif indfx of tif sflfdtfd tbb
+     * @sff #sftSflfdtfdIndfx
      */
-    @Transient
-    public int getSelectedIndex() {
-        return model.getSelectedIndex();
+    @Trbnsifnt
+    publid int gftSflfdtfdIndfx() {
+        rfturn modfl.gftSflfdtfdIndfx();
     }
 
     /**
-     * Sets the selected index for this tabbedpane. The index must be
-     * a valid tab index or -1, which indicates that no tab should be selected
-     * (can also be used when there are no tabs in the tabbedpane).  If a -1
-     * value is specified when the tabbedpane contains one or more tabs, then
-     * the results will be implementation defined.
+     * Sfts tif sflfdtfd indfx for tiis tbbbfdpbnf. Tif indfx must bf
+     * b vblid tbb indfx or -1, wiidi indidbtfs tibt no tbb siould bf sflfdtfd
+     * (dbn blso bf usfd wifn tifrf brf no tbbs in tif tbbbfdpbnf).  If b -1
+     * vbluf is spfdififd wifn tif tbbbfdpbnf dontbins onf or morf tbbs, tifn
+     * tif rfsults will bf implfmfntbtion dffinfd.
      *
-     * @param index  the index to be selected
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < -1 || index >= tab count)}
+     * @pbrbm indfx  tif indfx to bf sflfdtfd
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < -1 || indfx >= tbb dount)}
      *
-     * @see #getSelectedIndex
-     * @see SingleSelectionModel#setSelectedIndex
-     * @beaninfo
-     *   preferred: true
-     * description: The tabbedpane's selected tab index.
+     * @sff #gftSflfdtfdIndfx
+     * @sff SinglfSflfdtionModfl#sftSflfdtfdIndfx
+     * @bfbninfo
+     *   prfffrrfd: truf
+     * dfsdription: Tif tbbbfdpbnf's sflfdtfd tbb indfx.
      */
-    public void setSelectedIndex(int index) {
-        if (index != -1) {
-            checkIndex(index);
+    publid void sftSflfdtfdIndfx(int indfx) {
+        if (indfx != -1) {
+            difdkIndfx(indfx);
         }
-        setSelectedIndexImpl(index, true);
+        sftSflfdtfdIndfxImpl(indfx, truf);
     }
 
 
-    private void setSelectedIndexImpl(int index, boolean doAccessibleChanges) {
-        int oldIndex = model.getSelectedIndex();
-        Page oldPage = null, newPage = null;
-        String oldName = null;
+    privbtf void sftSflfdtfdIndfxImpl(int indfx, boolfbn doAddfssiblfCibngfs) {
+        int oldIndfx = modfl.gftSflfdtfdIndfx();
+        Pbgf oldPbgf = null, nfwPbgf = null;
+        String oldNbmf = null;
 
-        doAccessibleChanges = doAccessibleChanges && (oldIndex != index);
+        doAddfssiblfCibngfs = doAddfssiblfCibngfs && (oldIndfx != indfx);
 
-        if (doAccessibleChanges) {
-            if (accessibleContext != null) {
-                oldName = accessibleContext.getAccessibleName();
+        if (doAddfssiblfCibngfs) {
+            if (bddfssiblfContfxt != null) {
+                oldNbmf = bddfssiblfContfxt.gftAddfssiblfNbmf();
             }
 
-            if (oldIndex >= 0) {
-                oldPage = pages.get(oldIndex);
+            if (oldIndfx >= 0) {
+                oldPbgf = pbgfs.gft(oldIndfx);
             }
 
-            if (index >= 0) {
-                newPage = pages.get(index);
-            }
-        }
-
-        model.setSelectedIndex(index);
-
-        if (doAccessibleChanges) {
-            changeAccessibleSelection(oldPage, oldName, newPage);
-        }
-    }
-
-    private void changeAccessibleSelection(Page oldPage, String oldName, Page newPage) {
-        if (accessibleContext == null) {
-            return;
-        }
-
-        if (oldPage != null) {
-            oldPage.firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                                       AccessibleState.SELECTED, null);
-        }
-
-        if (newPage != null) {
-            newPage.firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                                       null, AccessibleState.SELECTED);
-        }
-
-        accessibleContext.firePropertyChange(
-            AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
-            oldName,
-            accessibleContext.getAccessibleName());
-    }
-
-    /**
-     * Returns the currently selected component for this tabbedpane.
-     * Returns <code>null</code> if there is no currently selected tab.
-     *
-     * @return the component corresponding to the selected tab
-     * @see #setSelectedComponent
-     */
-    @Transient
-    public Component getSelectedComponent() {
-        int index = getSelectedIndex();
-        if (index == -1) {
-            return null;
-        }
-        return getComponentAt(index);
-    }
-
-    /**
-     * Sets the selected component for this tabbedpane.  This
-     * will automatically set the <code>selectedIndex</code> to the index
-     * corresponding to the specified component.
-     *
-     * @param c the selected {@code Component} for this {@code TabbedPane}
-     * @exception IllegalArgumentException if component not found in tabbed
-     *          pane
-     * @see #getSelectedComponent
-     * @beaninfo
-     *   preferred: true
-     * description: The tabbedpane's selected component.
-     */
-    public void setSelectedComponent(Component c) {
-        int index = indexOfComponent(c);
-        if (index != -1) {
-            setSelectedIndex(index);
-        } else {
-            throw new IllegalArgumentException("component not found in tabbed pane");
-        }
-    }
-
-    /**
-     * Inserts a new tab for the given component, at the given index,
-     * represented by the given title and/or icon, either of which may
-     * be {@code null}.
-     *
-     * @param title the title to be displayed on the tab
-     * @param icon the icon to be displayed on the tab
-     * @param component the component to be displayed when this tab is clicked.
-     * @param tip the tooltip to be displayed for this tab
-     * @param index the position to insert this new tab
-     *       ({@code > 0 and <= getTabCount()})
-     *
-     * @throws IndexOutOfBoundsException if the index is out of range
-     *         ({@code < 0 or > getTabCount()})
-     *
-     * @see #addTab
-     * @see #removeTabAt
-     */
-    public void insertTab(String title, Icon icon, Component component, String tip, int index) {
-        int newIndex = index;
-
-        // If component already exists, remove corresponding
-        // tab so that new tab gets added correctly
-        // Note: we are allowing component=null because of compatibility,
-        // but we really should throw an exception because much of the
-        // rest of the JTabbedPane implementation isn't designed to deal
-        // with null components for tabs.
-        int removeIndex = indexOfComponent(component);
-        if (component != null && removeIndex != -1) {
-            removeTabAt(removeIndex);
-            if (newIndex > removeIndex) {
-                newIndex--;
+            if (indfx >= 0) {
+                nfwPbgf = pbgfs.gft(indfx);
             }
         }
 
-        int selectedIndex = getSelectedIndex();
+        modfl.sftSflfdtfdIndfx(indfx);
 
-        pages.add(
-            newIndex,
-            new Page(this, title != null? title : "", icon, null, component, tip));
+        if (doAddfssiblfCibngfs) {
+            dibngfAddfssiblfSflfdtion(oldPbgf, oldNbmf, nfwPbgf);
+        }
+    }
 
-
-        if (component != null) {
-            addImpl(component, null, -1);
-            component.setVisible(false);
-        } else {
-            firePropertyChange("indexForNullComponent", -1, index);
+    privbtf void dibngfAddfssiblfSflfdtion(Pbgf oldPbgf, String oldNbmf, Pbgf nfwPbgf) {
+        if (bddfssiblfContfxt == null) {
+            rfturn;
         }
 
-        if (pages.size() == 1) {
-            setSelectedIndex(0);
+        if (oldPbgf != null) {
+            oldPbgf.firfPropfrtyCibngf(AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                                       AddfssiblfStbtf.SELECTED, null);
         }
 
-        if (selectedIndex >= newIndex) {
-            setSelectedIndexImpl(selectedIndex + 1, false);
+        if (nfwPbgf != null) {
+            nfwPbgf.firfPropfrtyCibngf(AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                                       null, AddfssiblfStbtf.SELECTED);
         }
 
-        if (!haveRegistered && tip != null) {
-            ToolTipManager.sharedInstance().registerComponent(this);
-            haveRegistered = true;
-        }
-
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                    null, component);
-        }
-        revalidate();
-        repaint();
+        bddfssiblfContfxt.firfPropfrtyCibngf(
+            AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY,
+            oldNbmf,
+            bddfssiblfContfxt.gftAddfssiblfNbmf());
     }
 
     /**
-     * Adds a <code>component</code> and <code>tip</code>
-     * represented by a <code>title</code> and/or <code>icon</code>,
-     * either of which can be <code>null</code>.
-     * Cover method for <code>insertTab</code>.
+     * Rfturns tif durrfntly sflfdtfd domponfnt for tiis tbbbfdpbnf.
+     * Rfturns <dodf>null</dodf> if tifrf is no durrfntly sflfdtfd tbb.
      *
-     * @param title the title to be displayed in this tab
-     * @param icon the icon to be displayed in this tab
-     * @param component the component to be displayed when this tab is clicked
-     * @param tip the tooltip to be displayed for this tab
-     *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @rfturn tif domponfnt dorrfsponding to tif sflfdtfd tbb
+     * @sff #sftSflfdtfdComponfnt
      */
-    public void addTab(String title, Icon icon, Component component, String tip) {
-        insertTab(title, icon, component, tip, pages.size());
-    }
-
-    /**
-     * Adds a <code>component</code> represented by a <code>title</code>
-     * and/or <code>icon</code>, either of which can be <code>null</code>.
-     * Cover method for <code>insertTab</code>.
-     *
-     * @param title the title to be displayed in this tab
-     * @param icon the icon to be displayed in this tab
-     * @param component the component to be displayed when this tab is clicked
-     *
-     * @see #insertTab
-     * @see #removeTabAt
-     */
-    public void addTab(String title, Icon icon, Component component) {
-        insertTab(title, icon, component, null, pages.size());
-    }
-
-    /**
-     * Adds a <code>component</code> represented by a <code>title</code>
-     * and no icon.
-     * Cover method for <code>insertTab</code>.
-     *
-     * @param title the title to be displayed in this tab
-     * @param component the component to be displayed when this tab is clicked
-     *
-     * @see #insertTab
-     * @see #removeTabAt
-     */
-    public void addTab(String title, Component component) {
-        insertTab(title, null, component, null, pages.size());
-    }
-
-    /**
-     * Adds a <code>component</code> with a tab title defaulting to
-     * the name of the component which is the result of calling
-     * <code>component.getName</code>.
-     * Cover method for <code>insertTab</code>.
-     *
-     * @param component the component to be displayed when this tab is clicked
-     * @return the component
-     *
-     * @see #insertTab
-     * @see #removeTabAt
-     */
-    public Component add(Component component) {
-        if (!(component instanceof UIResource)) {
-            addTab(component.getName(), component);
-        } else {
-            super.add(component);
+    @Trbnsifnt
+    publid Componfnt gftSflfdtfdComponfnt() {
+        int indfx = gftSflfdtfdIndfx();
+        if (indfx == -1) {
+            rfturn null;
         }
-        return component;
+        rfturn gftComponfntAt(indfx);
     }
 
     /**
-     * Adds a <code>component</code> with the specified tab title.
-     * Cover method for <code>insertTab</code>.
+     * Sfts tif sflfdtfd domponfnt for tiis tbbbfdpbnf.  Tiis
+     * will butombtidblly sft tif <dodf>sflfdtfdIndfx</dodf> to tif indfx
+     * dorrfsponding to tif spfdififd domponfnt.
      *
-     * @param title the title to be displayed in this tab
-     * @param component the component to be displayed when this tab is clicked
-     * @return the component
-     *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @pbrbm d tif sflfdtfd {@dodf Componfnt} for tiis {@dodf TbbbfdPbnf}
+     * @fxdfption IllfgblArgumfntExdfption if domponfnt not found in tbbbfd
+     *          pbnf
+     * @sff #gftSflfdtfdComponfnt
+     * @bfbninfo
+     *   prfffrrfd: truf
+     * dfsdription: Tif tbbbfdpbnf's sflfdtfd domponfnt.
      */
-    public Component add(String title, Component component) {
-        if (!(component instanceof UIResource)) {
-            addTab(title, component);
-        } else {
-            super.add(title, component);
+    publid void sftSflfdtfdComponfnt(Componfnt d) {
+        int indfx = indfxOfComponfnt(d);
+        if (indfx != -1) {
+            sftSflfdtfdIndfx(indfx);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("domponfnt not found in tbbbfd pbnf");
         }
-        return component;
     }
 
     /**
-     * Adds a <code>component</code> at the specified tab index with a tab
-     * title defaulting to the name of the component.
-     * Cover method for <code>insertTab</code>.
+     * Insfrts b nfw tbb for tif givfn domponfnt, bt tif givfn indfx,
+     * rfprfsfntfd by tif givfn titlf bnd/or idon, fitifr of wiidi mby
+     * bf {@dodf null}.
      *
-     * @param component the component to be displayed when this tab is clicked
-     * @param index the position to insert this new tab
-     * @return the component
+     * @pbrbm titlf tif titlf to bf displbyfd on tif tbb
+     * @pbrbm idon tif idon to bf displbyfd on tif tbb
+     * @pbrbm domponfnt tif domponfnt to bf displbyfd wifn tiis tbb is dlidkfd.
+     * @pbrbm tip tif tooltip to bf displbyfd for tiis tbb
+     * @pbrbm indfx tif position to insfrt tiis nfw tbb
+     *       ({@dodf > 0 bnd <= gftTbbCount()})
      *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @tirows IndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     *         ({@dodf < 0 or > gftTbbCount()})
+     *
+     * @sff #bddTbb
+     * @sff #rfmovfTbbAt
      */
-    public Component add(Component component, int index) {
-        if (!(component instanceof UIResource)) {
-            // Container.add() interprets -1 as "append", so convert
-            // the index appropriately to be handled by the vector
-            insertTab(component.getName(), null, component, null,
-                      index == -1? getTabCount() : index);
-        } else {
-            super.add(component, index);
-        }
-        return component;
-    }
+    publid void insfrtTbb(String titlf, Idon idon, Componfnt domponfnt, String tip, int indfx) {
+        int nfwIndfx = indfx;
 
-    /**
-     * Adds a <code>component</code> to the tabbed pane.
-     * If <code>constraints</code> is a <code>String</code> or an
-     * <code>Icon</code>, it will be used for the tab title,
-     * otherwise the component's name will be used as the tab title.
-     * Cover method for <code>insertTab</code>.
-     *
-     * @param component the component to be displayed when this tab is clicked
-     * @param constraints the object to be displayed in the tab
-     *
-     * @see #insertTab
-     * @see #removeTabAt
-     */
-    public void add(Component component, Object constraints) {
-        if (!(component instanceof UIResource)) {
-            if (constraints instanceof String) {
-                addTab((String)constraints, component);
-            } else if (constraints instanceof Icon) {
-                addTab(null, (Icon)constraints, component);
-            } else {
-                add(component);
+        // If domponfnt blrfbdy fxists, rfmovf dorrfsponding
+        // tbb so tibt nfw tbb gfts bddfd dorrfdtly
+        // Notf: wf brf bllowing domponfnt=null bfdbusf of dompbtibility,
+        // but wf rfblly siould tirow bn fxdfption bfdbusf mudi of tif
+        // rfst of tif JTbbbfdPbnf implfmfntbtion isn't dfsignfd to dfbl
+        // witi null domponfnts for tbbs.
+        int rfmovfIndfx = indfxOfComponfnt(domponfnt);
+        if (domponfnt != null && rfmovfIndfx != -1) {
+            rfmovfTbbAt(rfmovfIndfx);
+            if (nfwIndfx > rfmovfIndfx) {
+                nfwIndfx--;
             }
-        } else {
-            super.add(component, constraints);
+        }
+
+        int sflfdtfdIndfx = gftSflfdtfdIndfx();
+
+        pbgfs.bdd(
+            nfwIndfx,
+            nfw Pbgf(tiis, titlf != null? titlf : "", idon, null, domponfnt, tip));
+
+
+        if (domponfnt != null) {
+            bddImpl(domponfnt, null, -1);
+            domponfnt.sftVisiblf(fblsf);
+        } flsf {
+            firfPropfrtyCibngf("indfxForNullComponfnt", -1, indfx);
+        }
+
+        if (pbgfs.sizf() == 1) {
+            sftSflfdtfdIndfx(0);
+        }
+
+        if (sflfdtfdIndfx >= nfwIndfx) {
+            sftSflfdtfdIndfxImpl(sflfdtfdIndfx + 1, fblsf);
+        }
+
+        if (!ibvfRfgistfrfd && tip != null) {
+            ToolTipMbnbgfr.sibrfdInstbndf().rfgistfrComponfnt(tiis);
+            ibvfRfgistfrfd = truf;
+        }
+
+        if (bddfssiblfContfxt != null) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                    null, domponfnt);
+        }
+        rfvblidbtf();
+        rfpbint();
+    }
+
+    /**
+     * Adds b <dodf>domponfnt</dodf> bnd <dodf>tip</dodf>
+     * rfprfsfntfd by b <dodf>titlf</dodf> bnd/or <dodf>idon</dodf>,
+     * fitifr of wiidi dbn bf <dodf>null</dodf>.
+     * Covfr mftiod for <dodf>insfrtTbb</dodf>.
+     *
+     * @pbrbm titlf tif titlf to bf displbyfd in tiis tbb
+     * @pbrbm idon tif idon to bf displbyfd in tiis tbb
+     * @pbrbm domponfnt tif domponfnt to bf displbyfd wifn tiis tbb is dlidkfd
+     * @pbrbm tip tif tooltip to bf displbyfd for tiis tbb
+     *
+     * @sff #insfrtTbb
+     * @sff #rfmovfTbbAt
+     */
+    publid void bddTbb(String titlf, Idon idon, Componfnt domponfnt, String tip) {
+        insfrtTbb(titlf, idon, domponfnt, tip, pbgfs.sizf());
+    }
+
+    /**
+     * Adds b <dodf>domponfnt</dodf> rfprfsfntfd by b <dodf>titlf</dodf>
+     * bnd/or <dodf>idon</dodf>, fitifr of wiidi dbn bf <dodf>null</dodf>.
+     * Covfr mftiod for <dodf>insfrtTbb</dodf>.
+     *
+     * @pbrbm titlf tif titlf to bf displbyfd in tiis tbb
+     * @pbrbm idon tif idon to bf displbyfd in tiis tbb
+     * @pbrbm domponfnt tif domponfnt to bf displbyfd wifn tiis tbb is dlidkfd
+     *
+     * @sff #insfrtTbb
+     * @sff #rfmovfTbbAt
+     */
+    publid void bddTbb(String titlf, Idon idon, Componfnt domponfnt) {
+        insfrtTbb(titlf, idon, domponfnt, null, pbgfs.sizf());
+    }
+
+    /**
+     * Adds b <dodf>domponfnt</dodf> rfprfsfntfd by b <dodf>titlf</dodf>
+     * bnd no idon.
+     * Covfr mftiod for <dodf>insfrtTbb</dodf>.
+     *
+     * @pbrbm titlf tif titlf to bf displbyfd in tiis tbb
+     * @pbrbm domponfnt tif domponfnt to bf displbyfd wifn tiis tbb is dlidkfd
+     *
+     * @sff #insfrtTbb
+     * @sff #rfmovfTbbAt
+     */
+    publid void bddTbb(String titlf, Componfnt domponfnt) {
+        insfrtTbb(titlf, null, domponfnt, null, pbgfs.sizf());
+    }
+
+    /**
+     * Adds b <dodf>domponfnt</dodf> witi b tbb titlf dffbulting to
+     * tif nbmf of tif domponfnt wiidi is tif rfsult of dblling
+     * <dodf>domponfnt.gftNbmf</dodf>.
+     * Covfr mftiod for <dodf>insfrtTbb</dodf>.
+     *
+     * @pbrbm domponfnt tif domponfnt to bf displbyfd wifn tiis tbb is dlidkfd
+     * @rfturn tif domponfnt
+     *
+     * @sff #insfrtTbb
+     * @sff #rfmovfTbbAt
+     */
+    publid Componfnt bdd(Componfnt domponfnt) {
+        if (!(domponfnt instbndfof UIRfsourdf)) {
+            bddTbb(domponfnt.gftNbmf(), domponfnt);
+        } flsf {
+            supfr.bdd(domponfnt);
+        }
+        rfturn domponfnt;
+    }
+
+    /**
+     * Adds b <dodf>domponfnt</dodf> witi tif spfdififd tbb titlf.
+     * Covfr mftiod for <dodf>insfrtTbb</dodf>.
+     *
+     * @pbrbm titlf tif titlf to bf displbyfd in tiis tbb
+     * @pbrbm domponfnt tif domponfnt to bf displbyfd wifn tiis tbb is dlidkfd
+     * @rfturn tif domponfnt
+     *
+     * @sff #insfrtTbb
+     * @sff #rfmovfTbbAt
+     */
+    publid Componfnt bdd(String titlf, Componfnt domponfnt) {
+        if (!(domponfnt instbndfof UIRfsourdf)) {
+            bddTbb(titlf, domponfnt);
+        } flsf {
+            supfr.bdd(titlf, domponfnt);
+        }
+        rfturn domponfnt;
+    }
+
+    /**
+     * Adds b <dodf>domponfnt</dodf> bt tif spfdififd tbb indfx witi b tbb
+     * titlf dffbulting to tif nbmf of tif domponfnt.
+     * Covfr mftiod for <dodf>insfrtTbb</dodf>.
+     *
+     * @pbrbm domponfnt tif domponfnt to bf displbyfd wifn tiis tbb is dlidkfd
+     * @pbrbm indfx tif position to insfrt tiis nfw tbb
+     * @rfturn tif domponfnt
+     *
+     * @sff #insfrtTbb
+     * @sff #rfmovfTbbAt
+     */
+    publid Componfnt bdd(Componfnt domponfnt, int indfx) {
+        if (!(domponfnt instbndfof UIRfsourdf)) {
+            // Contbinfr.bdd() intfrprfts -1 bs "bppfnd", so donvfrt
+            // tif indfx bppropribtfly to bf ibndlfd by tif vfdtor
+            insfrtTbb(domponfnt.gftNbmf(), null, domponfnt, null,
+                      indfx == -1? gftTbbCount() : indfx);
+        } flsf {
+            supfr.bdd(domponfnt, indfx);
+        }
+        rfturn domponfnt;
+    }
+
+    /**
+     * Adds b <dodf>domponfnt</dodf> to tif tbbbfd pbnf.
+     * If <dodf>donstrbints</dodf> is b <dodf>String</dodf> or bn
+     * <dodf>Idon</dodf>, it will bf usfd for tif tbb titlf,
+     * otifrwisf tif domponfnt's nbmf will bf usfd bs tif tbb titlf.
+     * Covfr mftiod for <dodf>insfrtTbb</dodf>.
+     *
+     * @pbrbm domponfnt tif domponfnt to bf displbyfd wifn tiis tbb is dlidkfd
+     * @pbrbm donstrbints tif objfdt to bf displbyfd in tif tbb
+     *
+     * @sff #insfrtTbb
+     * @sff #rfmovfTbbAt
+     */
+    publid void bdd(Componfnt domponfnt, Objfdt donstrbints) {
+        if (!(domponfnt instbndfof UIRfsourdf)) {
+            if (donstrbints instbndfof String) {
+                bddTbb((String)donstrbints, domponfnt);
+            } flsf if (donstrbints instbndfof Idon) {
+                bddTbb(null, (Idon)donstrbints, domponfnt);
+            } flsf {
+                bdd(domponfnt);
+            }
+        } flsf {
+            supfr.bdd(domponfnt, donstrbints);
         }
     }
 
     /**
-     * Adds a <code>component</code> at the specified tab index.
-     * If <code>constraints</code> is a <code>String</code> or an
-     * <code>Icon</code>, it will be used for the tab title,
-     * otherwise the component's name will be used as the tab title.
-     * Cover method for <code>insertTab</code>.
+     * Adds b <dodf>domponfnt</dodf> bt tif spfdififd tbb indfx.
+     * If <dodf>donstrbints</dodf> is b <dodf>String</dodf> or bn
+     * <dodf>Idon</dodf>, it will bf usfd for tif tbb titlf,
+     * otifrwisf tif domponfnt's nbmf will bf usfd bs tif tbb titlf.
+     * Covfr mftiod for <dodf>insfrtTbb</dodf>.
      *
-     * @param component the component to be displayed when this tab is clicked
-     * @param constraints the object to be displayed in the tab
-     * @param index the position to insert this new tab
+     * @pbrbm domponfnt tif domponfnt to bf displbyfd wifn tiis tbb is dlidkfd
+     * @pbrbm donstrbints tif objfdt to bf displbyfd in tif tbb
+     * @pbrbm indfx tif position to insfrt tiis nfw tbb
      *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @sff #insfrtTbb
+     * @sff #rfmovfTbbAt
      */
-    public void add(Component component, Object constraints, int index) {
-        if (!(component instanceof UIResource)) {
+    publid void bdd(Componfnt domponfnt, Objfdt donstrbints, int indfx) {
+        if (!(domponfnt instbndfof UIRfsourdf)) {
 
-            Icon icon = constraints instanceof Icon? (Icon)constraints : null;
-            String title = constraints instanceof String? (String)constraints : null;
-            // Container.add() interprets -1 as "append", so convert
-            // the index appropriately to be handled by the vector
-            insertTab(title, icon, component, null, index == -1? getTabCount() : index);
-        } else {
-            super.add(component, constraints, index);
+            Idon idon = donstrbints instbndfof Idon? (Idon)donstrbints : null;
+            String titlf = donstrbints instbndfof String? (String)donstrbints : null;
+            // Contbinfr.bdd() intfrprfts -1 bs "bppfnd", so donvfrt
+            // tif indfx bppropribtfly to bf ibndlfd by tif vfdtor
+            insfrtTbb(titlf, idon, domponfnt, null, indfx == -1? gftTbbCount() : indfx);
+        } flsf {
+            supfr.bdd(domponfnt, donstrbints, indfx);
         }
     }
 
     /**
-     * Removes the tab at <code>index</code>.
-     * After the component associated with <code>index</code> is removed,
-     * its visibility is reset to true to ensure it will be visible
-     * if added to other containers.
-     * @param index the index of the tab to be removed
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * Rfmovfs tif tbb bt <dodf>indfx</dodf>.
+     * Aftfr tif domponfnt bssodibtfd witi <dodf>indfx</dodf> is rfmovfd,
+     * its visibility is rfsft to truf to fnsurf it will bf visiblf
+     * if bddfd to otifr dontbinfrs.
+     * @pbrbm indfx tif indfx of tif tbb to bf rfmovfd
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #addTab
-     * @see #insertTab
+     * @sff #bddTbb
+     * @sff #insfrtTbb
      */
-    public void removeTabAt(int index) {
-        checkIndex(index);
+    publid void rfmovfTbbAt(int indfx) {
+        difdkIndfx(indfx);
 
-        Component component = getComponentAt(index);
-        boolean shouldChangeFocus = false;
-        int selected = getSelectedIndex();
-        String oldName = null;
+        Componfnt domponfnt = gftComponfntAt(indfx);
+        boolfbn siouldCibngfFodus = fblsf;
+        int sflfdtfd = gftSflfdtfdIndfx();
+        String oldNbmf = null;
 
-        /* if we're about to remove the visible component */
-        if (component == visComp) {
-            shouldChangeFocus = (SwingUtilities.findFocusOwner(visComp) != null);
+        /* if wf'rf bbout to rfmovf tif visiblf domponfnt */
+        if (domponfnt == visComp) {
+            siouldCibngfFodus = (SwingUtilitifs.findFodusOwnfr(visComp) != null);
             visComp = null;
         }
 
-        if (accessibleContext != null) {
-            /* if we're removing the selected page */
-            if (index == selected) {
-                /* fire an accessible notification that it's unselected */
-                pages.get(index).firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    AccessibleState.SELECTED, null);
+        if (bddfssiblfContfxt != null) {
+            /* if wf'rf rfmoving tif sflfdtfd pbgf */
+            if (indfx == sflfdtfd) {
+                /* firf bn bddfssiblf notifidbtion tibt it's unsflfdtfd */
+                pbgfs.gft(indfx).firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                    AddfssiblfStbtf.SELECTED, null);
 
-                oldName = accessibleContext.getAccessibleName();
+                oldNbmf = bddfssiblfContfxt.gftAddfssiblfNbmf();
             }
 
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                    component, null);
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                    domponfnt, null);
         }
 
-        // Force the tabComponent to be cleaned up.
-        setTabComponentAt(index, null);
-        pages.remove(index);
+        // Fordf tif tbbComponfnt to bf dlfbnfd up.
+        sftTbbComponfntAt(indfx, null);
+        pbgfs.rfmovf(indfx);
 
-        // NOTE 4/15/2002 (joutwate):
-        // This fix is implemented using client properties since there is
-        // currently no IndexPropertyChangeEvent.  Once
-        // IndexPropertyChangeEvents have been added this code should be
-        // modified to use it.
-        putClientProperty("__index_to_remove__", Integer.valueOf(index));
+        // NOTE 4/15/2002 (joutwbtf):
+        // Tiis fix is implfmfntfd using dlifnt propfrtifs sindf tifrf is
+        // durrfntly no IndfxPropfrtyCibngfEvfnt.  Ondf
+        // IndfxPropfrtyCibngfEvfnts ibvf bffn bddfd tiis dodf siould bf
+        // modififd to usf it.
+        putClifntPropfrty("__indfx_to_rfmovf__", Intfgfr.vblufOf(indfx));
 
-        /* if the selected tab is after the removal */
-        if (selected > index) {
-            setSelectedIndexImpl(selected - 1, false);
+        /* if tif sflfdtfd tbb is bftfr tif rfmovbl */
+        if (sflfdtfd > indfx) {
+            sftSflfdtfdIndfxImpl(sflfdtfd - 1, fblsf);
 
-        /* if the selected tab is the last tab */
-        } else if (selected >= getTabCount()) {
-            setSelectedIndexImpl(selected - 1, false);
-            Page newSelected = (selected != 0)
-                ? pages.get(selected - 1)
+        /* if tif sflfdtfd tbb is tif lbst tbb */
+        } flsf if (sflfdtfd >= gftTbbCount()) {
+            sftSflfdtfdIndfxImpl(sflfdtfd - 1, fblsf);
+            Pbgf nfwSflfdtfd = (sflfdtfd != 0)
+                ? pbgfs.gft(sflfdtfd - 1)
                 : null;
 
-            changeAccessibleSelection(null, oldName, newSelected);
+            dibngfAddfssiblfSflfdtion(null, oldNbmf, nfwSflfdtfd);
 
-        /* selected index hasn't changed, but the associated tab has */
-        } else if (index == selected) {
-            fireStateChanged();
-            changeAccessibleSelection(null, oldName, pages.get(index));
+        /* sflfdtfd indfx ibsn't dibngfd, but tif bssodibtfd tbb ibs */
+        } flsf if (indfx == sflfdtfd) {
+            firfStbtfCibngfd();
+            dibngfAddfssiblfSflfdtion(null, oldNbmf, pbgfs.gft(indfx));
         }
 
-        // We can't assume the tab indices correspond to the
-        // container's children array indices, so make sure we
-        // remove the correct child!
-        if (component != null) {
-            Component components[] = getComponents();
-            for (int i = components.length; --i >= 0; ) {
-                if (components[i] == component) {
-                    super.remove(i);
-                    component.setVisible(true);
-                    break;
+        // Wf dbn't bssumf tif tbb indidfs dorrfspond to tif
+        // dontbinfr's diildrfn brrby indidfs, so mbkf surf wf
+        // rfmovf tif dorrfdt diild!
+        if (domponfnt != null) {
+            Componfnt domponfnts[] = gftComponfnts();
+            for (int i = domponfnts.lfngti; --i >= 0; ) {
+                if (domponfnts[i] == domponfnt) {
+                    supfr.rfmovf(i);
+                    domponfnt.sftVisiblf(truf);
+                    brfbk;
                 }
             }
         }
 
-        if (shouldChangeFocus) {
-            SwingUtilities2.tabbedPaneChangeFocusTo(getSelectedComponent());
+        if (siouldCibngfFodus) {
+            SwingUtilitifs2.tbbbfdPbnfCibngfFodusTo(gftSflfdtfdComponfnt());
         }
 
-        revalidate();
-        repaint();
+        rfvblidbtf();
+        rfpbint();
     }
 
     /**
-     * Removes the specified <code>Component</code> from the
-     * <code>JTabbedPane</code>. The method does nothing
-     * if the <code>component</code> is null.
+     * Rfmovfs tif spfdififd <dodf>Componfnt</dodf> from tif
+     * <dodf>JTbbbfdPbnf</dodf>. Tif mftiod dofs notiing
+     * if tif <dodf>domponfnt</dodf> is null.
      *
-     * @param component the component to remove from the tabbedpane
-     * @see #addTab
-     * @see #removeTabAt
+     * @pbrbm domponfnt tif domponfnt to rfmovf from tif tbbbfdpbnf
+     * @sff #bddTbb
+     * @sff #rfmovfTbbAt
      */
-    public void remove(Component component) {
-        int index = indexOfComponent(component);
-        if (index != -1) {
-            removeTabAt(index);
-        } else {
-            // Container#remove(comp) invokes Container#remove(int)
-            // so make sure JTabbedPane#remove(int) isn't called here
-            Component children[] = getComponents();
-            for (int i=0; i < children.length; i++) {
-                if (component == children[i]) {
-                    super.remove(i);
-                    break;
+    publid void rfmovf(Componfnt domponfnt) {
+        int indfx = indfxOfComponfnt(domponfnt);
+        if (indfx != -1) {
+            rfmovfTbbAt(indfx);
+        } flsf {
+            // Contbinfr#rfmovf(domp) invokfs Contbinfr#rfmovf(int)
+            // so mbkf surf JTbbbfdPbnf#rfmovf(int) isn't dbllfd ifrf
+            Componfnt diildrfn[] = gftComponfnts();
+            for (int i=0; i < diildrfn.lfngti; i++) {
+                if (domponfnt == diildrfn[i]) {
+                    supfr.rfmovf(i);
+                    brfbk;
                 }
             }
         }
     }
 
     /**
-     * Removes the tab and component which corresponds to the specified index.
+     * Rfmovfs tif tbb bnd domponfnt wiidi dorrfsponds to tif spfdififd indfx.
      *
-     * @param index the index of the component to remove from the
-     *          <code>tabbedpane</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
-     * @see #addTab
-     * @see #removeTabAt
+     * @pbrbm indfx tif indfx of tif domponfnt to rfmovf from tif
+     *          <dodf>tbbbfdpbnf</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
+     * @sff #bddTbb
+     * @sff #rfmovfTbbAt
      */
-    public void remove(int index) {
-        removeTabAt(index);
+    publid void rfmovf(int indfx) {
+        rfmovfTbbAt(indfx);
     }
 
     /**
-     * Removes all the tabs and their corresponding components
-     * from the <code>tabbedpane</code>.
+     * Rfmovfs bll tif tbbs bnd tifir dorrfsponding domponfnts
+     * from tif <dodf>tbbbfdpbnf</dodf>.
      *
-     * @see #addTab
-     * @see #removeTabAt
+     * @sff #bddTbb
+     * @sff #rfmovfTbbAt
      */
-    public void removeAll() {
-        setSelectedIndexImpl(-1, true);
+    publid void rfmovfAll() {
+        sftSflfdtfdIndfxImpl(-1, truf);
 
-        int tabCount = getTabCount();
-        // We invoke removeTabAt for each tab, otherwise we may end up
-        // removing Components added by the UI.
-        while (tabCount-- > 0) {
-            removeTabAt(tabCount);
+        int tbbCount = gftTbbCount();
+        // Wf invokf rfmovfTbbAt for fbdi tbb, otifrwisf wf mby fnd up
+        // rfmoving Componfnts bddfd by tif UI.
+        wiilf (tbbCount-- > 0) {
+            rfmovfTbbAt(tbbCount);
         }
     }
 
     /**
-     * Returns the number of tabs in this <code>tabbedpane</code>.
+     * Rfturns tif numbfr of tbbs in tiis <dodf>tbbbfdpbnf</dodf>.
      *
-     * @return an integer specifying the number of tabbed pages
+     * @rfturn bn intfgfr spfdifying tif numbfr of tbbbfd pbgfs
      */
-    public int getTabCount() {
-        return pages.size();
+    publid int gftTbbCount() {
+        rfturn pbgfs.sizf();
     }
 
     /**
-     * Returns the number of tab runs currently used to display
-     * the tabs.
-     * @return an integer giving the number of rows if the
-     *          <code>tabPlacement</code>
-     *          is <code>TOP</code> or <code>BOTTOM</code>
-     *          and the number of columns if
-     *          <code>tabPlacement</code>
-     *          is <code>LEFT</code> or <code>RIGHT</code>,
-     *          or 0 if there is no UI set on this <code>tabbedpane</code>
+     * Rfturns tif numbfr of tbb runs durrfntly usfd to displby
+     * tif tbbs.
+     * @rfturn bn intfgfr giving tif numbfr of rows if tif
+     *          <dodf>tbbPlbdfmfnt</dodf>
+     *          is <dodf>TOP</dodf> or <dodf>BOTTOM</dodf>
+     *          bnd tif numbfr of dolumns if
+     *          <dodf>tbbPlbdfmfnt</dodf>
+     *          is <dodf>LEFT</dodf> or <dodf>RIGHT</dodf>,
+     *          or 0 if tifrf is no UI sft on tiis <dodf>tbbbfdpbnf</dodf>
      */
-    public int getTabRunCount() {
+    publid int gftTbbRunCount() {
         if (ui != null) {
-            return ((TabbedPaneUI)ui).getTabRunCount(this);
+            rfturn ((TbbbfdPbnfUI)ui).gftTbbRunCount(tiis);
         }
-        return 0;
+        rfturn 0;
     }
 
 
-// Getters for the Pages
+// Gfttfrs for tif Pbgfs
 
     /**
-     * Returns the tab title at <code>index</code>.
+     * Rfturns tif tbb titlf bt <dodf>indfx</dodf>.
      *
-     * @param index  the index of the item being queried
-     * @return the title at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
-     * @see #setTitleAt
+     * @pbrbm indfx  tif indfx of tif itfm bfing qufrifd
+     * @rfturn tif titlf bt <dodf>indfx</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
+     * @sff #sftTitlfAt
      */
-    public String getTitleAt(int index) {
-        return pages.get(index).title;
+    publid String gftTitlfAt(int indfx) {
+        rfturn pbgfs.gft(indfx).titlf;
     }
 
     /**
-     * Returns the tab icon at <code>index</code>.
+     * Rfturns tif tbb idon bt <dodf>indfx</dodf>.
      *
-     * @param index  the index of the item being queried
-     * @return the icon at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx  tif indfx of tif itfm bfing qufrifd
+     * @rfturn tif idon bt <dodf>indfx</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #setIconAt
+     * @sff #sftIdonAt
      */
-    public Icon getIconAt(int index) {
-        return pages.get(index).icon;
+    publid Idon gftIdonAt(int indfx) {
+        rfturn pbgfs.gft(indfx).idon;
     }
 
     /**
-     * Returns the tab disabled icon at <code>index</code>.
-     * If the tab disabled icon doesn't exist at <code>index</code>
-     * this will forward the call to the look and feel to construct
-     * an appropriate disabled Icon from the corresponding enabled
-     * Icon. Some look and feels might not render the disabled Icon,
-     * in which case it won't be created.
+     * Rfturns tif tbb disbblfd idon bt <dodf>indfx</dodf>.
+     * If tif tbb disbblfd idon dofsn't fxist bt <dodf>indfx</dodf>
+     * tiis will forwbrd tif dbll to tif look bnd fffl to donstrudt
+     * bn bppropribtf disbblfd Idon from tif dorrfsponding fnbblfd
+     * Idon. Somf look bnd fffls migit not rfndfr tif disbblfd Idon,
+     * in wiidi dbsf it won't bf drfbtfd.
      *
-     * @param index  the index of the item being queried
-     * @return the icon at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx  tif indfx of tif itfm bfing qufrifd
+     * @rfturn tif idon bt <dodf>indfx</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #setDisabledIconAt
+     * @sff #sftDisbblfdIdonAt
      */
-    public Icon getDisabledIconAt(int index) {
-        Page page = pages.get(index);
-        if (page.disabledIcon == null) {
-            page.disabledIcon = UIManager.getLookAndFeel().getDisabledIcon(this, page.icon);
+    publid Idon gftDisbblfdIdonAt(int indfx) {
+        Pbgf pbgf = pbgfs.gft(indfx);
+        if (pbgf.disbblfdIdon == null) {
+            pbgf.disbblfdIdon = UIMbnbgfr.gftLookAndFffl().gftDisbblfdIdon(tiis, pbgf.idon);
         }
-        return page.disabledIcon;
+        rfturn pbgf.disbblfdIdon;
     }
 
     /**
-     * Returns the tab tooltip text at <code>index</code>.
+     * Rfturns tif tbb tooltip tfxt bt <dodf>indfx</dodf>.
      *
-     * @param index  the index of the item being queried
-     * @return a string containing the tool tip text at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx  tif indfx of tif itfm bfing qufrifd
+     * @rfturn b string dontbining tif tool tip tfxt bt <dodf>indfx</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #setToolTipTextAt
-     * @since 1.3
+     * @sff #sftToolTipTfxtAt
+     * @sindf 1.3
      */
-    public String getToolTipTextAt(int index) {
-        return pages.get(index).tip;
+    publid String gftToolTipTfxtAt(int indfx) {
+        rfturn pbgfs.gft(indfx).tip;
     }
 
     /**
-     * Returns the tab background color at <code>index</code>.
+     * Rfturns tif tbb bbdkground dolor bt <dodf>indfx</dodf>.
      *
-     * @param index  the index of the item being queried
-     * @return the <code>Color</code> of the tab background at
-     *          <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx  tif indfx of tif itfm bfing qufrifd
+     * @rfturn tif <dodf>Color</dodf> of tif tbb bbdkground bt
+     *          <dodf>indfx</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #setBackgroundAt
+     * @sff #sftBbdkgroundAt
      */
-    public Color getBackgroundAt(int index) {
-        return pages.get(index).getBackground();
+    publid Color gftBbdkgroundAt(int indfx) {
+        rfturn pbgfs.gft(indfx).gftBbdkground();
     }
 
     /**
-     * Returns the tab foreground color at <code>index</code>.
+     * Rfturns tif tbb forfground dolor bt <dodf>indfx</dodf>.
      *
-     * @param index  the index of the item being queried
-     * @return the <code>Color</code> of the tab foreground at
-     *          <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx  tif indfx of tif itfm bfing qufrifd
+     * @rfturn tif <dodf>Color</dodf> of tif tbb forfground bt
+     *          <dodf>indfx</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #setForegroundAt
+     * @sff #sftForfgroundAt
      */
-    public Color getForegroundAt(int index) {
-        return pages.get(index).getForeground();
+    publid Color gftForfgroundAt(int indfx) {
+        rfturn pbgfs.gft(indfx).gftForfground();
     }
 
     /**
-     * Returns whether or not the tab at <code>index</code> is
-     * currently enabled.
+     * Rfturns wiftifr or not tif tbb bt <dodf>indfx</dodf> is
+     * durrfntly fnbblfd.
      *
-     * @param index  the index of the item being queried
-     * @return true if the tab at <code>index</code> is enabled;
-     *          false otherwise
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx  tif indfx of tif itfm bfing qufrifd
+     * @rfturn truf if tif tbb bt <dodf>indfx</dodf> is fnbblfd;
+     *          fblsf otifrwisf
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #setEnabledAt
+     * @sff #sftEnbblfdAt
      */
-    public boolean isEnabledAt(int index) {
-        return pages.get(index).isEnabled();
+    publid boolfbn isEnbblfdAt(int indfx) {
+        rfturn pbgfs.gft(indfx).isEnbblfd();
     }
 
     /**
-     * Returns the component at <code>index</code>.
+     * Rfturns tif domponfnt bt <dodf>indfx</dodf>.
      *
-     * @param index  the index of the item being queried
-     * @return the <code>Component</code> at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx  tif indfx of tif itfm bfing qufrifd
+     * @rfturn tif <dodf>Componfnt</dodf> bt <dodf>indfx</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #setComponentAt
+     * @sff #sftComponfntAt
      */
-    public Component getComponentAt(int index) {
-        return pages.get(index).component;
+    publid Componfnt gftComponfntAt(int indfx) {
+        rfturn pbgfs.gft(indfx).domponfnt;
     }
 
     /**
-     * Returns the keyboard mnemonic for accessing the specified tab.
-     * The mnemonic is the key which when combined with the look and feel's
-     * mouseless modifier (usually Alt) will activate the specified
-     * tab.
+     * Rfturns tif kfybobrd mnfmonid for bddfssing tif spfdififd tbb.
+     * Tif mnfmonid is tif kfy wiidi wifn dombinfd witi tif look bnd fffl's
+     * mousflfss modififr (usublly Alt) will bdtivbtf tif spfdififd
+     * tbb.
      *
-     * @since 1.4
-     * @param tabIndex the index of the tab that the mnemonic refers to
-     * @return the key code which represents the mnemonic;
-     *         -1 if a mnemonic is not specified for the tab
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            (<code>tabIndex</code> &lt; 0 ||
-     *              <code>tabIndex</code> &gt;= tab count)
-     * @see #setDisplayedMnemonicIndexAt(int,int)
-     * @see #setMnemonicAt(int,int)
+     * @sindf 1.4
+     * @pbrbm tbbIndfx tif indfx of tif tbb tibt tif mnfmonid rfffrs to
+     * @rfturn tif kfy dodf wiidi rfprfsfnts tif mnfmonid;
+     *         -1 if b mnfmonid is not spfdififd for tif tbb
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            (<dodf>tbbIndfx</dodf> &lt; 0 ||
+     *              <dodf>tbbIndfx</dodf> &gt;= tbb dount)
+     * @sff #sftDisplbyfdMnfmonidIndfxAt(int,int)
+     * @sff #sftMnfmonidAt(int,int)
      */
-    public int getMnemonicAt(int tabIndex) {
-        checkIndex(tabIndex);
+    publid int gftMnfmonidAt(int tbbIndfx) {
+        difdkIndfx(tbbIndfx);
 
-        Page page = pages.get(tabIndex);
-        return page.getMnemonic();
+        Pbgf pbgf = pbgfs.gft(tbbIndfx);
+        rfturn pbgf.gftMnfmonid();
     }
 
     /**
-     * Returns the character, as an index, that the look and feel should
-     * provide decoration for as representing the mnemonic character.
+     * Rfturns tif dibrbdtfr, bs bn indfx, tibt tif look bnd fffl siould
+     * providf dfdorbtion for bs rfprfsfnting tif mnfmonid dibrbdtfr.
      *
-     * @since 1.4
-     * @param tabIndex the index of the tab that the mnemonic refers to
-     * @return index representing mnemonic character if one exists;
-     *    otherwise returns -1
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            (<code>tabIndex</code> &lt; 0 ||
-     *              <code>tabIndex</code> &gt;= tab count)
-     * @see #setDisplayedMnemonicIndexAt(int,int)
-     * @see #setMnemonicAt(int,int)
+     * @sindf 1.4
+     * @pbrbm tbbIndfx tif indfx of tif tbb tibt tif mnfmonid rfffrs to
+     * @rfturn indfx rfprfsfnting mnfmonid dibrbdtfr if onf fxists;
+     *    otifrwisf rfturns -1
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            (<dodf>tbbIndfx</dodf> &lt; 0 ||
+     *              <dodf>tbbIndfx</dodf> &gt;= tbb dount)
+     * @sff #sftDisplbyfdMnfmonidIndfxAt(int,int)
+     * @sff #sftMnfmonidAt(int,int)
      */
-    public int getDisplayedMnemonicIndexAt(int tabIndex) {
-        checkIndex(tabIndex);
+    publid int gftDisplbyfdMnfmonidIndfxAt(int tbbIndfx) {
+        difdkIndfx(tbbIndfx);
 
-        Page page = pages.get(tabIndex);
-        return page.getDisplayedMnemonicIndex();
+        Pbgf pbgf = pbgfs.gft(tbbIndfx);
+        rfturn pbgf.gftDisplbyfdMnfmonidIndfx();
     }
 
     /**
-     * Returns the tab bounds at <code>index</code>.  If the tab at
-     * this index is not currently visible in the UI, then returns
-     * <code>null</code>.
-     * If there is no UI set on this <code>tabbedpane</code>,
-     * then returns <code>null</code>.
+     * Rfturns tif tbb bounds bt <dodf>indfx</dodf>.  If tif tbb bt
+     * tiis indfx is not durrfntly visiblf in tif UI, tifn rfturns
+     * <dodf>null</dodf>.
+     * If tifrf is no UI sft on tiis <dodf>tbbbfdpbnf</dodf>,
+     * tifn rfturns <dodf>null</dodf>.
      *
-     * @param index the index to be queried
-     * @return a <code>Rectangle</code> containing the tab bounds at
-     *          <code>index</code>, or <code>null</code> if tab at
-     *          <code>index</code> is not currently visible in the UI,
-     *          or if there is no UI set on this <code>tabbedpane</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx tif indfx to bf qufrifd
+     * @rfturn b <dodf>Rfdtbnglf</dodf> dontbining tif tbb bounds bt
+     *          <dodf>indfx</dodf>, or <dodf>null</dodf> if tbb bt
+     *          <dodf>indfx</dodf> is not durrfntly visiblf in tif UI,
+     *          or if tifrf is no UI sft on tiis <dodf>tbbbfdpbnf</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      */
-    public Rectangle getBoundsAt(int index) {
-        checkIndex(index);
+    publid Rfdtbnglf gftBoundsAt(int indfx) {
+        difdkIndfx(indfx);
         if (ui != null) {
-            return ((TabbedPaneUI)ui).getTabBounds(this, index);
+            rfturn ((TbbbfdPbnfUI)ui).gftTbbBounds(tiis, indfx);
         }
-        return null;
+        rfturn null;
     }
 
 
-// Setters for the Pages
+// Sfttfrs for tif Pbgfs
 
     /**
-     * Sets the title at <code>index</code> to <code>title</code> which
-     * can be <code>null</code>.
-     * The title is not shown if a tab component for this tab was specified.
-     * An internal exception is raised if there is no tab at that index.
+     * Sfts tif titlf bt <dodf>indfx</dodf> to <dodf>titlf</dodf> wiidi
+     * dbn bf <dodf>null</dodf>.
+     * Tif titlf is not siown if b tbb domponfnt for tiis tbb wbs spfdififd.
+     * An intfrnbl fxdfption is rbisfd if tifrf is no tbb bt tibt indfx.
      *
-     * @param index the tab index where the title should be set
-     * @param title the title to be displayed in the tab
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx tif tbb indfx wifrf tif titlf siould bf sft
+     * @pbrbm titlf tif titlf to bf displbyfd in tif tbb
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #getTitleAt
-     * @see #setTabComponentAt
-     * @beaninfo
-     *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: The title at the specified tab index.
+     * @sff #gftTitlfAt
+     * @sff #sftTbbComponfntAt
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif titlf bt tif spfdififd tbb indfx.
      */
-    public void setTitleAt(int index, String title) {
-        Page page = pages.get(index);
-        String oldTitle =page.title;
-        page.title = title;
+    publid void sftTitlfAt(int indfx, String titlf) {
+        Pbgf pbgf = pbgfs.gft(indfx);
+        String oldTitlf =pbgf.titlf;
+        pbgf.titlf = titlf;
 
-        if (oldTitle != title) {
-            firePropertyChange("indexForTitle", -1, index);
+        if (oldTitlf != titlf) {
+            firfPropfrtyCibngf("indfxForTitlf", -1, indfx);
         }
-        page.updateDisplayedMnemonicIndex();
-        if ((oldTitle != title) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                    oldTitle, title);
+        pbgf.updbtfDisplbyfdMnfmonidIndfx();
+        if ((oldTitlf != titlf) && (bddfssiblfContfxt != null)) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                    oldTitlf, titlf);
         }
-        if (title == null || oldTitle == null ||
-            !title.equals(oldTitle)) {
-            revalidate();
-            repaint();
+        if (titlf == null || oldTitlf == null ||
+            !titlf.fqubls(oldTitlf)) {
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
     /**
-     * Sets the icon at <code>index</code> to <code>icon</code> which can be
-     * <code>null</code>. This does not set disabled icon at <code>icon</code>.
-     * If the new Icon is different than the current Icon and disabled icon
-     * is not explicitly set, the LookAndFeel will be asked to generate a disabled
-     * Icon. To explicitly set disabled icon, use <code>setDisableIconAt()</code>.
-     * The icon is not shown if a tab component for this tab was specified.
-     * An internal exception is raised if there is no tab at that index.
+     * Sfts tif idon bt <dodf>indfx</dodf> to <dodf>idon</dodf> wiidi dbn bf
+     * <dodf>null</dodf>. Tiis dofs not sft disbblfd idon bt <dodf>idon</dodf>.
+     * If tif nfw Idon is difffrfnt tibn tif durrfnt Idon bnd disbblfd idon
+     * is not fxpliditly sft, tif LookAndFffl will bf bskfd to gfnfrbtf b disbblfd
+     * Idon. To fxpliditly sft disbblfd idon, usf <dodf>sftDisbblfIdonAt()</dodf>.
+     * Tif idon is not siown if b tbb domponfnt for tiis tbb wbs spfdififd.
+     * An intfrnbl fxdfption is rbisfd if tifrf is no tbb bt tibt indfx.
      *
-     * @param index the tab index where the icon should be set
-     * @param icon the icon to be displayed in the tab
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx tif tbb indfx wifrf tif idon siould bf sft
+     * @pbrbm idon tif idon to bf displbyfd in tif tbb
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #setDisabledIconAt
-     * @see #getIconAt
-     * @see #getDisabledIconAt
-     * @see #setTabComponentAt
-     * @beaninfo
-     *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: The icon at the specified tab index.
+     * @sff #sftDisbblfdIdonAt
+     * @sff #gftIdonAt
+     * @sff #gftDisbblfdIdonAt
+     * @sff #sftTbbComponfntAt
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif idon bt tif spfdififd tbb indfx.
      */
-    public void setIconAt(int index, Icon icon) {
-        Page page = pages.get(index);
-        Icon oldIcon = page.icon;
-        if (icon != oldIcon) {
-            page.icon = icon;
+    publid void sftIdonAt(int indfx, Idon idon) {
+        Pbgf pbgf = pbgfs.gft(indfx);
+        Idon oldIdon = pbgf.idon;
+        if (idon != oldIdon) {
+            pbgf.idon = idon;
 
-            /* If the default icon has really changed and we had
-             * generated the disabled icon for this page, then
-             * clear the disabledIcon field of the page.
+            /* If tif dffbult idon ibs rfblly dibngfd bnd wf ibd
+             * gfnfrbtfd tif disbblfd idon for tiis pbgf, tifn
+             * dlfbr tif disbblfdIdon fifld of tif pbgf.
              */
-            if (page.disabledIcon instanceof UIResource) {
-                page.disabledIcon = null;
+            if (pbgf.disbblfdIdon instbndfof UIRfsourdf) {
+                pbgf.disbblfdIdon = null;
             }
 
-            // Fire the accessibility Visible data change
-            if (accessibleContext != null) {
-                accessibleContext.firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                        oldIcon, icon);
+            // Firf tif bddfssibility Visiblf dbtb dibngf
+            if (bddfssiblfContfxt != null) {
+                bddfssiblfContfxt.firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                        oldIdon, idon);
             }
-            revalidate();
-            repaint();
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
     /**
-     * Sets the disabled icon at <code>index</code> to <code>icon</code>
-     * which can be <code>null</code>.
-     * An internal exception is raised if there is no tab at that index.
+     * Sfts tif disbblfd idon bt <dodf>indfx</dodf> to <dodf>idon</dodf>
+     * wiidi dbn bf <dodf>null</dodf>.
+     * An intfrnbl fxdfption is rbisfd if tifrf is no tbb bt tibt indfx.
      *
-     * @param index the tab index where the disabled icon should be set
-     * @param disabledIcon the icon to be displayed in the tab when disabled
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx tif tbb indfx wifrf tif disbblfd idon siould bf sft
+     * @pbrbm disbblfdIdon tif idon to bf displbyfd in tif tbb wifn disbblfd
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #getDisabledIconAt
-     * @beaninfo
-     *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: The disabled icon at the specified tab index.
+     * @sff #gftDisbblfdIdonAt
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif disbblfd idon bt tif spfdififd tbb indfx.
      */
-    public void setDisabledIconAt(int index, Icon disabledIcon) {
-        Icon oldIcon = pages.get(index).disabledIcon;
-        pages.get(index).disabledIcon = disabledIcon;
-        if (disabledIcon != oldIcon && !isEnabledAt(index)) {
-            revalidate();
-            repaint();
+    publid void sftDisbblfdIdonAt(int indfx, Idon disbblfdIdon) {
+        Idon oldIdon = pbgfs.gft(indfx).disbblfdIdon;
+        pbgfs.gft(indfx).disbblfdIdon = disbblfdIdon;
+        if (disbblfdIdon != oldIdon && !isEnbblfdAt(indfx)) {
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
     /**
-     * Sets the tooltip text at <code>index</code> to <code>toolTipText</code>
-     * which can be <code>null</code>.
-     * An internal exception is raised if there is no tab at that index.
+     * Sfts tif tooltip tfxt bt <dodf>indfx</dodf> to <dodf>toolTipTfxt</dodf>
+     * wiidi dbn bf <dodf>null</dodf>.
+     * An intfrnbl fxdfption is rbisfd if tifrf is no tbb bt tibt indfx.
      *
-     * @param index the tab index where the tooltip text should be set
-     * @param toolTipText the tooltip text to be displayed for the tab
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx tif tbb indfx wifrf tif tooltip tfxt siould bf sft
+     * @pbrbm toolTipTfxt tif tooltip tfxt to bf displbyfd for tif tbb
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #getToolTipTextAt
-     * @beaninfo
-     *    preferred: true
-     *  description: The tooltip text at the specified tab index.
-     * @since 1.3
+     * @sff #gftToolTipTfxtAt
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *  dfsdription: Tif tooltip tfxt bt tif spfdififd tbb indfx.
+     * @sindf 1.3
      */
-    public void setToolTipTextAt(int index, String toolTipText) {
-        String oldToolTipText = pages.get(index).tip;
-        pages.get(index).tip = toolTipText;
+    publid void sftToolTipTfxtAt(int indfx, String toolTipTfxt) {
+        String oldToolTipTfxt = pbgfs.gft(indfx).tip;
+        pbgfs.gft(indfx).tip = toolTipTfxt;
 
-        if ((oldToolTipText != toolTipText) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                    oldToolTipText, toolTipText);
+        if ((oldToolTipTfxt != toolTipTfxt) && (bddfssiblfContfxt != null)) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                    oldToolTipTfxt, toolTipTfxt);
         }
-        if (!haveRegistered && toolTipText != null) {
-            ToolTipManager.sharedInstance().registerComponent(this);
-            haveRegistered = true;
+        if (!ibvfRfgistfrfd && toolTipTfxt != null) {
+            ToolTipMbnbgfr.sibrfdInstbndf().rfgistfrComponfnt(tiis);
+            ibvfRfgistfrfd = truf;
         }
     }
 
     /**
-     * Sets the background color at <code>index</code> to
-     * <code>background</code>
-     * which can be <code>null</code>, in which case the tab's background color
-     * will default to the background color of the <code>tabbedpane</code>.
-     * An internal exception is raised if there is no tab at that index.
+     * Sfts tif bbdkground dolor bt <dodf>indfx</dodf> to
+     * <dodf>bbdkground</dodf>
+     * wiidi dbn bf <dodf>null</dodf>, in wiidi dbsf tif tbb's bbdkground dolor
+     * will dffbult to tif bbdkground dolor of tif <dodf>tbbbfdpbnf</dodf>.
+     * An intfrnbl fxdfption is rbisfd if tifrf is no tbb bt tibt indfx.
      * <p>
-     * It is up to the look and feel to honor this property, some may
-     * choose to ignore it.
+     * It is up to tif look bnd fffl to ionor tiis propfrty, somf mby
+     * dioosf to ignorf it.
      *
-     * @param index the tab index where the background should be set
-     * @param background the color to be displayed in the tab's background
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx tif tbb indfx wifrf tif bbdkground siould bf sft
+     * @pbrbm bbdkground tif dolor to bf displbyfd in tif tbb's bbdkground
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #getBackgroundAt
-     * @beaninfo
-     *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: The background color at the specified tab index.
+     * @sff #gftBbdkgroundAt
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif bbdkground dolor bt tif spfdififd tbb indfx.
      */
-    public void setBackgroundAt(int index, Color background) {
-        Color oldBg = pages.get(index).background;
-        pages.get(index).setBackground(background);
-        if (background == null || oldBg == null ||
-            !background.equals(oldBg)) {
-            Rectangle tabBounds = getBoundsAt(index);
-            if (tabBounds != null) {
-                repaint(tabBounds);
+    publid void sftBbdkgroundAt(int indfx, Color bbdkground) {
+        Color oldBg = pbgfs.gft(indfx).bbdkground;
+        pbgfs.gft(indfx).sftBbdkground(bbdkground);
+        if (bbdkground == null || oldBg == null ||
+            !bbdkground.fqubls(oldBg)) {
+            Rfdtbnglf tbbBounds = gftBoundsAt(indfx);
+            if (tbbBounds != null) {
+                rfpbint(tbbBounds);
             }
         }
     }
 
     /**
-     * Sets the foreground color at <code>index</code> to
-     * <code>foreground</code> which can be
-     * <code>null</code>, in which case the tab's foreground color
-     * will default to the foreground color of this <code>tabbedpane</code>.
-     * An internal exception is raised if there is no tab at that index.
+     * Sfts tif forfground dolor bt <dodf>indfx</dodf> to
+     * <dodf>forfground</dodf> wiidi dbn bf
+     * <dodf>null</dodf>, in wiidi dbsf tif tbb's forfground dolor
+     * will dffbult to tif forfground dolor of tiis <dodf>tbbbfdpbnf</dodf>.
+     * An intfrnbl fxdfption is rbisfd if tifrf is no tbb bt tibt indfx.
      * <p>
-     * It is up to the look and feel to honor this property, some may
-     * choose to ignore it.
+     * It is up to tif look bnd fffl to ionor tiis propfrty, somf mby
+     * dioosf to ignorf it.
      *
-     * @param index the tab index where the foreground should be set
-     * @param foreground the color to be displayed as the tab's foreground
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx tif tbb indfx wifrf tif forfground siould bf sft
+     * @pbrbm forfground tif dolor to bf displbyfd bs tif tbb's forfground
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #getForegroundAt
-     * @beaninfo
-     *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: The foreground color at the specified tab index.
+     * @sff #gftForfgroundAt
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif forfground dolor bt tif spfdififd tbb indfx.
      */
-    public void setForegroundAt(int index, Color foreground) {
-        Color oldFg = pages.get(index).foreground;
-        pages.get(index).setForeground(foreground);
-        if (foreground == null || oldFg == null ||
-            !foreground.equals(oldFg)) {
-            Rectangle tabBounds = getBoundsAt(index);
-            if (tabBounds != null) {
-                repaint(tabBounds);
+    publid void sftForfgroundAt(int indfx, Color forfground) {
+        Color oldFg = pbgfs.gft(indfx).forfground;
+        pbgfs.gft(indfx).sftForfground(forfground);
+        if (forfground == null || oldFg == null ||
+            !forfground.fqubls(oldFg)) {
+            Rfdtbnglf tbbBounds = gftBoundsAt(indfx);
+            if (tbbBounds != null) {
+                rfpbint(tbbBounds);
             }
         }
     }
 
     /**
-     * Sets whether or not the tab at <code>index</code> is enabled.
-     * An internal exception is raised if there is no tab at that index.
+     * Sfts wiftifr or not tif tbb bt <dodf>indfx</dodf> is fnbblfd.
+     * An intfrnbl fxdfption is rbisfd if tifrf is no tbb bt tibt indfx.
      *
-     * @param index the tab index which should be enabled/disabled
-     * @param enabled whether or not the tab should be enabled
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx tif tbb indfx wiidi siould bf fnbblfd/disbblfd
+     * @pbrbm fnbblfd wiftifr or not tif tbb siould bf fnbblfd
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #isEnabledAt
+     * @sff #isEnbblfdAt
      */
-    public void setEnabledAt(int index, boolean enabled) {
-        boolean oldEnabled = pages.get(index).isEnabled();
-        pages.get(index).setEnabled(enabled);
-        if (enabled != oldEnabled) {
-            revalidate();
-            repaint();
+    publid void sftEnbblfdAt(int indfx, boolfbn fnbblfd) {
+        boolfbn oldEnbblfd = pbgfs.gft(indfx).isEnbblfd();
+        pbgfs.gft(indfx).sftEnbblfd(fnbblfd);
+        if (fnbblfd != oldEnbblfd) {
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
     /**
-     * Sets the component at <code>index</code> to <code>component</code>.
-     * An internal exception is raised if there is no tab at that index.
+     * Sfts tif domponfnt bt <dodf>indfx</dodf> to <dodf>domponfnt</dodf>.
+     * An intfrnbl fxdfption is rbisfd if tifrf is no tbb bt tibt indfx.
      *
-     * @param index the tab index where this component is being placed
-     * @param component the component for the tab
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx tif tbb indfx wifrf tiis domponfnt is bfing plbdfd
+     * @pbrbm domponfnt tif domponfnt for tif tbb
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #getComponentAt
-     * @beaninfo
-     *    attribute: visualUpdate true
-     *  description: The component at the specified tab index.
+     * @sff #gftComponfntAt
+     * @bfbninfo
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif domponfnt bt tif spfdififd tbb indfx.
      */
-    public void setComponentAt(int index, Component component) {
-        Page page = pages.get(index);
-        if (component != page.component) {
-            boolean shouldChangeFocus = false;
+    publid void sftComponfntAt(int indfx, Componfnt domponfnt) {
+        Pbgf pbgf = pbgfs.gft(indfx);
+        if (domponfnt != pbgf.domponfnt) {
+            boolfbn siouldCibngfFodus = fblsf;
 
-            if (page.component != null) {
-                shouldChangeFocus =
-                    (SwingUtilities.findFocusOwner(page.component) != null);
+            if (pbgf.domponfnt != null) {
+                siouldCibngfFodus =
+                    (SwingUtilitifs.findFodusOwnfr(pbgf.domponfnt) != null);
 
-                // REMIND(aim): this is really silly;
-                // why not if (page.component.getParent() == this) remove(component)
-                synchronized(getTreeLock()) {
-                    int count = getComponentCount();
-                    Component children[] = getComponents();
-                    for (int i = 0; i < count; i++) {
-                        if (children[i] == page.component) {
-                            super.remove(i);
+                // REMIND(bim): tiis is rfblly silly;
+                // wiy not if (pbgf.domponfnt.gftPbrfnt() == tiis) rfmovf(domponfnt)
+                syndironizfd(gftTrffLodk()) {
+                    int dount = gftComponfntCount();
+                    Componfnt diildrfn[] = gftComponfnts();
+                    for (int i = 0; i < dount; i++) {
+                        if (diildrfn[i] == pbgf.domponfnt) {
+                            supfr.rfmovf(i);
                         }
                     }
                 }
             }
 
-            page.component = component;
-            boolean selectedPage = (getSelectedIndex() == index);
+            pbgf.domponfnt = domponfnt;
+            boolfbn sflfdtfdPbgf = (gftSflfdtfdIndfx() == indfx);
 
-            if (selectedPage) {
-                this.visComp = component;
+            if (sflfdtfdPbgf) {
+                tiis.visComp = domponfnt;
             }
 
-            if (component != null) {
-                component.setVisible(selectedPage);
-                addImpl(component, null, -1);
+            if (domponfnt != null) {
+                domponfnt.sftVisiblf(sflfdtfdPbgf);
+                bddImpl(domponfnt, null, -1);
 
-                if (shouldChangeFocus) {
-                    SwingUtilities2.tabbedPaneChangeFocusTo(component);
+                if (siouldCibngfFodus) {
+                    SwingUtilitifs2.tbbbfdPbnfCibngfFodusTo(domponfnt);
                 }
-            } else {
-                repaint();
+            } flsf {
+                rfpbint();
             }
 
-            revalidate();
+            rfvblidbtf();
         }
     }
 
     /**
-     * Provides a hint to the look and feel as to which character in the
-     * text should be decorated to represent the mnemonic. Not all look and
-     * feels may support this. A value of -1 indicates either there is
-     * no mnemonic for this tab, or you do not wish the mnemonic to be
-     * displayed for this tab.
+     * Providfs b iint to tif look bnd fffl bs to wiidi dibrbdtfr in tif
+     * tfxt siould bf dfdorbtfd to rfprfsfnt tif mnfmonid. Not bll look bnd
+     * fffls mby support tiis. A vbluf of -1 indidbtfs fitifr tifrf is
+     * no mnfmonid for tiis tbb, or you do not wisi tif mnfmonid to bf
+     * displbyfd for tiis tbb.
      * <p>
-     * The value of this is updated as the properties relating to the
-     * mnemonic change (such as the mnemonic itself, the text...).
-     * You should only ever have to call this if
-     * you do not wish the default character to be underlined. For example, if
-     * the text at tab index 3 was 'Apple Price', with a mnemonic of 'p',
-     * and you wanted the 'P'
-     * to be decorated, as 'Apple <u>P</u>rice', you would have to invoke
-     * <code>setDisplayedMnemonicIndex(3, 6)</code> after invoking
-     * <code>setMnemonicAt(3, KeyEvent.VK_P)</code>.
-     * <p>Note that it is the programmer's responsibility to ensure
-     * that each tab has a unique mnemonic or unpredictable results may
-     * occur.
+     * Tif vbluf of tiis is updbtfd bs tif propfrtifs rflbting to tif
+     * mnfmonid dibngf (sudi bs tif mnfmonid itsflf, tif tfxt...).
+     * You siould only fvfr ibvf to dbll tiis if
+     * you do not wisi tif dffbult dibrbdtfr to bf undfrlinfd. For fxbmplf, if
+     * tif tfxt bt tbb indfx 3 wbs 'Applf Pridf', witi b mnfmonid of 'p',
+     * bnd you wbntfd tif 'P'
+     * to bf dfdorbtfd, bs 'Applf <u>P</u>ridf', you would ibvf to invokf
+     * <dodf>sftDisplbyfdMnfmonidIndfx(3, 6)</dodf> bftfr invoking
+     * <dodf>sftMnfmonidAt(3, KfyEvfnt.VK_P)</dodf>.
+     * <p>Notf tibt it is tif progrbmmfr's rfsponsibility to fnsurf
+     * tibt fbdi tbb ibs b uniquf mnfmonid or unprfdidtbblf rfsults mby
+     * oddur.
      *
-     * @since 1.4
-     * @param tabIndex the index of the tab that the mnemonic refers to
-     * @param mnemonicIndex index into the <code>String</code> to underline
-     * @exception IndexOutOfBoundsException if <code>tabIndex</code> is
-     *            out of range ({@code tabIndex < 0 || tabIndex >= tab
-     *            count})
-     * @exception IllegalArgumentException will be thrown if
-     *            <code>mnemonicIndex</code> is &gt;= length of the tab
-     *            title , or &lt; -1
-     * @see #setMnemonicAt(int,int)
-     * @see #getDisplayedMnemonicIndexAt(int)
+     * @sindf 1.4
+     * @pbrbm tbbIndfx tif indfx of tif tbb tibt tif mnfmonid rfffrs to
+     * @pbrbm mnfmonidIndfx indfx into tif <dodf>String</dodf> to undfrlinf
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>tbbIndfx</dodf> is
+     *            out of rbngf ({@dodf tbbIndfx < 0 || tbbIndfx >= tbb
+     *            dount})
+     * @fxdfption IllfgblArgumfntExdfption will bf tirown if
+     *            <dodf>mnfmonidIndfx</dodf> is &gt;= lfngti of tif tbb
+     *            titlf , or &lt; -1
+     * @sff #sftMnfmonidAt(int,int)
+     * @sff #gftDisplbyfdMnfmonidIndfxAt(int)
      *
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: the index into the String to draw the keyboard character
-     *               mnemonic at
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: tif indfx into tif String to drbw tif kfybobrd dibrbdtfr
+     *               mnfmonid bt
      */
-    public void setDisplayedMnemonicIndexAt(int tabIndex, int mnemonicIndex) {
-        checkIndex(tabIndex);
+    publid void sftDisplbyfdMnfmonidIndfxAt(int tbbIndfx, int mnfmonidIndfx) {
+        difdkIndfx(tbbIndfx);
 
-        Page page = pages.get(tabIndex);
+        Pbgf pbgf = pbgfs.gft(tbbIndfx);
 
-        page.setDisplayedMnemonicIndex(mnemonicIndex);
+        pbgf.sftDisplbyfdMnfmonidIndfx(mnfmonidIndfx);
     }
 
     /**
-     * Sets the keyboard mnemonic for accessing the specified tab.
-     * The mnemonic is the key which when combined with the look and feel's
-     * mouseless modifier (usually Alt) will activate the specified
-     * tab.
+     * Sfts tif kfybobrd mnfmonid for bddfssing tif spfdififd tbb.
+     * Tif mnfmonid is tif kfy wiidi wifn dombinfd witi tif look bnd fffl's
+     * mousflfss modififr (usublly Alt) will bdtivbtf tif spfdififd
+     * tbb.
      * <p>
-     * A mnemonic must correspond to a single key on the keyboard
-     * and should be specified using one of the <code>VK_XXX</code>
-     * keycodes defined in <code>java.awt.event.KeyEvent</code>
-     * or one of the extended keycodes obtained through
-     * <code>java.awt.event.KeyEvent.getExtendedKeyCodeForChar</code>.
-     * Mnemonics are case-insensitive, therefore a key event
-     * with the corresponding keycode would cause the button to be
-     * activated whether or not the Shift modifier was pressed.
+     * A mnfmonid must dorrfspond to b singlf kfy on tif kfybobrd
+     * bnd siould bf spfdififd using onf of tif <dodf>VK_XXX</dodf>
+     * kfydodfs dffinfd in <dodf>jbvb.bwt.fvfnt.KfyEvfnt</dodf>
+     * or onf of tif fxtfndfd kfydodfs obtbinfd tirougi
+     * <dodf>jbvb.bwt.fvfnt.KfyEvfnt.gftExtfndfdKfyCodfForCibr</dodf>.
+     * Mnfmonids brf dbsf-insfnsitivf, tifrfforf b kfy fvfnt
+     * witi tif dorrfsponding kfydodf would dbusf tif button to bf
+     * bdtivbtfd wiftifr or not tif Siift modififr wbs prfssfd.
      * <p>
-     * This will update the displayed mnemonic property for the specified
-     * tab.
+     * Tiis will updbtf tif displbyfd mnfmonid propfrty for tif spfdififd
+     * tbb.
      *
-     * @since 1.4
-     * @param tabIndex the index of the tab that the mnemonic refers to
-     * @param mnemonic the key code which represents the mnemonic
-     * @exception IndexOutOfBoundsException if <code>tabIndex</code> is out
-     *            of range ({@code tabIndex < 0 || tabIndex >= tab count})
-     * @see #getMnemonicAt(int)
-     * @see #setDisplayedMnemonicIndexAt(int,int)
+     * @sindf 1.4
+     * @pbrbm tbbIndfx tif indfx of tif tbb tibt tif mnfmonid rfffrs to
+     * @pbrbm mnfmonid tif kfy dodf wiidi rfprfsfnts tif mnfmonid
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>tbbIndfx</dodf> is out
+     *            of rbngf ({@dodf tbbIndfx < 0 || tbbIndfx >= tbb dount})
+     * @sff #gftMnfmonidAt(int)
+     * @sff #sftDisplbyfdMnfmonidIndfxAt(int,int)
      *
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: The keyboard mnenmonic, as a KeyEvent VK constant,
-     *               for the specified tab
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif kfybobrd mnfnmonid, bs b KfyEvfnt VK donstbnt,
+     *               for tif spfdififd tbb
      */
-    public void setMnemonicAt(int tabIndex, int mnemonic) {
-        checkIndex(tabIndex);
+    publid void sftMnfmonidAt(int tbbIndfx, int mnfmonid) {
+        difdkIndfx(tbbIndfx);
 
-        Page page = pages.get(tabIndex);
-        page.setMnemonic(mnemonic);
+        Pbgf pbgf = pbgfs.gft(tbbIndfx);
+        pbgf.sftMnfmonid(mnfmonid);
 
-        firePropertyChange("mnemonicAt", null, null);
+        firfPropfrtyCibngf("mnfmonidAt", null, null);
     }
 
-// end of Page setters
+// fnd of Pbgf sfttfrs
 
     /**
-     * Returns the first tab index with a given <code>title</code>,  or
-     * -1 if no tab has this title.
+     * Rfturns tif first tbb indfx witi b givfn <dodf>titlf</dodf>,  or
+     * -1 if no tbb ibs tiis titlf.
      *
-     * @param title the title for the tab
-     * @return the first tab index which matches <code>title</code>, or
-     *          -1 if no tab has this title
+     * @pbrbm titlf tif titlf for tif tbb
+     * @rfturn tif first tbb indfx wiidi mbtdifs <dodf>titlf</dodf>, or
+     *          -1 if no tbb ibs tiis titlf
      */
-    public int indexOfTab(String title) {
-        for(int i = 0; i < getTabCount(); i++) {
-            if (getTitleAt(i).equals(title == null? "" : title)) {
-                return i;
+    publid int indfxOfTbb(String titlf) {
+        for(int i = 0; i < gftTbbCount(); i++) {
+            if (gftTitlfAt(i).fqubls(titlf == null? "" : titlf)) {
+                rfturn i;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the first tab index with a given <code>icon</code>,
-     * or -1 if no tab has this icon.
+     * Rfturns tif first tbb indfx witi b givfn <dodf>idon</dodf>,
+     * or -1 if no tbb ibs tiis idon.
      *
-     * @param icon the icon for the tab
-     * @return the first tab index which matches <code>icon</code>,
-     *          or -1 if no tab has this icon
+     * @pbrbm idon tif idon for tif tbb
+     * @rfturn tif first tbb indfx wiidi mbtdifs <dodf>idon</dodf>,
+     *          or -1 if no tbb ibs tiis idon
      */
-    public int indexOfTab(Icon icon) {
-        for(int i = 0; i < getTabCount(); i++) {
-            Icon tabIcon = getIconAt(i);
-            if ((tabIcon != null && tabIcon.equals(icon)) ||
-                (tabIcon == null && tabIcon == icon)) {
-                return i;
+    publid int indfxOfTbb(Idon idon) {
+        for(int i = 0; i < gftTbbCount(); i++) {
+            Idon tbbIdon = gftIdonAt(i);
+            if ((tbbIdon != null && tbbIdon.fqubls(idon)) ||
+                (tbbIdon == null && tbbIdon == idon)) {
+                rfturn i;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the index of the tab for the specified component.
-     * Returns -1 if there is no tab for this component.
+     * Rfturns tif indfx of tif tbb for tif spfdififd domponfnt.
+     * Rfturns -1 if tifrf is no tbb for tiis domponfnt.
      *
-     * @param component the component for the tab
-     * @return the first tab which matches this component, or -1
-     *          if there is no tab for this component
+     * @pbrbm domponfnt tif domponfnt for tif tbb
+     * @rfturn tif first tbb wiidi mbtdifs tiis domponfnt, or -1
+     *          if tifrf is no tbb for tiis domponfnt
      */
-    public int indexOfComponent(Component component) {
-        for(int i = 0; i < getTabCount(); i++) {
-            Component c = getComponentAt(i);
-            if ((c != null && c.equals(component)) ||
-                (c == null && c == component)) {
-                return i;
+    publid int indfxOfComponfnt(Componfnt domponfnt) {
+        for(int i = 0; i < gftTbbCount(); i++) {
+            Componfnt d = gftComponfntAt(i);
+            if ((d != null && d.fqubls(domponfnt)) ||
+                (d == null && d == domponfnt)) {
+                rfturn i;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the tab index corresponding to the tab whose bounds
-     * intersect the specified location.  Returns -1 if no tab
-     * intersects the location.
+     * Rfturns tif tbb indfx dorrfsponding to tif tbb wiosf bounds
+     * intfrsfdt tif spfdififd lodbtion.  Rfturns -1 if no tbb
+     * intfrsfdts tif lodbtion.
      *
-     * @param x the x location relative to this tabbedpane
-     * @param y the y location relative to this tabbedpane
-     * @return the tab index which intersects the location, or
-     *         -1 if no tab intersects the location
-     * @since 1.4
+     * @pbrbm x tif x lodbtion rflbtivf to tiis tbbbfdpbnf
+     * @pbrbm y tif y lodbtion rflbtivf to tiis tbbbfdpbnf
+     * @rfturn tif tbb indfx wiidi intfrsfdts tif lodbtion, or
+     *         -1 if no tbb intfrsfdts tif lodbtion
+     * @sindf 1.4
      */
-    public int indexAtLocation(int x, int y) {
+    publid int indfxAtLodbtion(int x, int y) {
         if (ui != null) {
-            return ((TabbedPaneUI)ui).tabForCoordinate(this, x, y);
+            rfturn ((TbbbfdPbnfUI)ui).tbbForCoordinbtf(tiis, x, y);
         }
-        return -1;
+        rfturn -1;
     }
 
 
     /**
-     * Returns the tooltip text for the component determined by the
-     * mouse event location.
+     * Rfturns tif tooltip tfxt for tif domponfnt dftfrminfd by tif
+     * mousf fvfnt lodbtion.
      *
-     * @param event  the <code>MouseEvent</code> that tells where the
-     *          cursor is lingering
-     * @return the <code>String</code> containing the tooltip text
+     * @pbrbm fvfnt  tif <dodf>MousfEvfnt</dodf> tibt tflls wifrf tif
+     *          dursor is lingfring
+     * @rfturn tif <dodf>String</dodf> dontbining tif tooltip tfxt
      */
-    public String getToolTipText(MouseEvent event) {
+    publid String gftToolTipTfxt(MousfEvfnt fvfnt) {
         if (ui != null) {
-            int index = ((TabbedPaneUI)ui).tabForCoordinate(this, event.getX(), event.getY());
+            int indfx = ((TbbbfdPbnfUI)ui).tbbForCoordinbtf(tiis, fvfnt.gftX(), fvfnt.gftY());
 
-            if (index != -1) {
-                return pages.get(index).tip;
+            if (indfx != -1) {
+                rfturn pbgfs.gft(indfx).tip;
             }
         }
-        return super.getToolTipText(event);
+        rfturn supfr.gftToolTipTfxt(fvfnt);
     }
 
-    private void checkIndex(int index) {
-        if (index < 0 || index >= pages.size()) {
-            throw new IndexOutOfBoundsException("Index: "+index+", Tab count: "+pages.size());
+    privbtf void difdkIndfx(int indfx) {
+        if (indfx < 0 || indfx >= pbgfs.sizf()) {
+            tirow nfw IndfxOutOfBoundsExdfption("Indfx: "+indfx+", Tbb dount: "+pbgfs.sizf());
         }
     }
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
-    /* Called from the <code>JComponent</code>'s
-     * <code>EnableSerializationFocusListener</code> to
-     * do any Swing-specific pre-serialization configuration.
+    /* Cbllfd from tif <dodf>JComponfnt</dodf>'s
+     * <dodf>EnbblfSfriblizbtionFodusListfnfr</dodf> to
+     * do bny Swing-spfdifid prf-sfriblizbtion donfigurbtion.
      */
-    void compWriteObjectNotify() {
-        super.compWriteObjectNotify();
-        // If ToolTipText != null, then the tooltip has already been
-        // unregistered by JComponent.compWriteObjectNotify()
-        if (getToolTipText() == null && haveRegistered) {
-            ToolTipManager.sharedInstance().unregisterComponent(this);
+    void dompWritfObjfdtNotify() {
+        supfr.dompWritfObjfdtNotify();
+        // If ToolTipTfxt != null, tifn tif tooltip ibs blrfbdy bffn
+        // unrfgistfrfd by JComponfnt.dompWritfObjfdtNotify()
+        if (gftToolTipTfxt() == null && ibvfRfgistfrfd) {
+            ToolTipMbnbgfr.sibrfdInstbndf().unrfgistfrComponfnt(tiis);
         }
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        s.defaultReadObject();
-        if ((ui != null) && (getUIClassID().equals(uiClassID))) {
-            ui.installUI(this);
+        s.dffbultRfbdObjfdt();
+        if ((ui != null) && (gftUIClbssID().fqubls(uiClbssID))) {
+            ui.instbllUI(tiis);
         }
-        // If ToolTipText != null, then the tooltip has already been
-        // registered by JComponent.readObject()
-        if (getToolTipText() == null && haveRegistered) {
-            ToolTipManager.sharedInstance().registerComponent(this);
+        // If ToolTipTfxt != null, tifn tif tooltip ibs blrfbdy bffn
+        // rfgistfrfd by JComponfnt.rfbdObjfdt()
+        if (gftToolTipTfxt() == null && ibvfRfgistfrfd) {
+            ToolTipMbnbgfr.sibrfdInstbndf().rfgistfrComponfnt(tiis);
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JTabbedPane</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JTbbbfdPbnf</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this JTabbedPane.
+     * @rfturn  b string rfprfsfntbtion of tiis JTbbbfdPbnf.
      */
-    protected String paramString() {
-        String tabPlacementString;
-        if (tabPlacement == TOP) {
-            tabPlacementString = "TOP";
-        } else if (tabPlacement == BOTTOM) {
-            tabPlacementString = "BOTTOM";
-        } else if (tabPlacement == LEFT) {
-            tabPlacementString = "LEFT";
-        } else if (tabPlacement == RIGHT) {
-            tabPlacementString = "RIGHT";
-        } else tabPlacementString = "";
-        String haveRegisteredString = (haveRegistered ?
-                                       "true" : "false");
+    protfdtfd String pbrbmString() {
+        String tbbPlbdfmfntString;
+        if (tbbPlbdfmfnt == TOP) {
+            tbbPlbdfmfntString = "TOP";
+        } flsf if (tbbPlbdfmfnt == BOTTOM) {
+            tbbPlbdfmfntString = "BOTTOM";
+        } flsf if (tbbPlbdfmfnt == LEFT) {
+            tbbPlbdfmfntString = "LEFT";
+        } flsf if (tbbPlbdfmfnt == RIGHT) {
+            tbbPlbdfmfntString = "RIGHT";
+        } flsf tbbPlbdfmfntString = "";
+        String ibvfRfgistfrfdString = (ibvfRfgistfrfd ?
+                                       "truf" : "fblsf");
 
-        return super.paramString() +
-        ",haveRegistered=" + haveRegisteredString +
-        ",tabPlacement=" + tabPlacementString;
+        rfturn supfr.pbrbmString() +
+        ",ibvfRfgistfrfd=" + ibvfRfgistfrfdString +
+        ",tbbPlbdfmfnt=" + tbbPlbdfmfntString;
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JTabbedPane.
-     * For tabbed panes, the AccessibleContext takes the form of an
-     * AccessibleJTabbedPane.
-     * A new AccessibleJTabbedPane instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JTbbbfdPbnf.
+     * For tbbbfd pbnfs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJTbbbfdPbnf.
+     * A nfw AddfssiblfJTbbbfdPbnf instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJTabbedPane that serves as the
-     *         AccessibleContext of this JTabbedPane
+     * @rfturn bn AddfssiblfJTbbbfdPbnf tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JTbbbfdPbnf
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJTabbedPane();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJTbbbfdPbnf();
 
-            // initialize AccessibleContext for the existing pages
-            int count = getTabCount();
-            for (int i = 0; i < count; i++) {
-                pages.get(i).initAccessibleContext();
+            // initiblizf AddfssiblfContfxt for tif fxisting pbgfs
+            int dount = gftTbbCount();
+            for (int i = 0; i < dount; i++) {
+                pbgfs.gft(i).initAddfssiblfContfxt();
             }
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JTabbedPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to tabbed pane user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JTbbbfdPbnf</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to tbbbfd pbnf usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJTabbedPane extends AccessibleJComponent
-        implements AccessibleSelection, ChangeListener {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJTbbbfdPbnf fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfSflfdtion, CibngfListfnfr {
 
         /**
-         * Returns the accessible name of this object, or {@code null} if
-         * there is no accessible name.
+         * Rfturns tif bddfssiblf nbmf of tiis objfdt, or {@dodf null} if
+         * tifrf is no bddfssiblf nbmf.
          *
-         * @return the accessible name of this object, nor {@code null}.
-         * @since 1.6
+         * @rfturn tif bddfssiblf nbmf of tiis objfdt, nor {@dodf null}.
+         * @sindf 1.6
          */
-        public String getAccessibleName() {
-            if (accessibleName != null) {
-                return accessibleName;
+        publid String gftAddfssiblfNbmf() {
+            if (bddfssiblfNbmf != null) {
+                rfturn bddfssiblfNbmf;
             }
 
-            String cp = (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
+            String dp = (String)gftClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY);
 
-            if (cp != null) {
-                return cp;
+            if (dp != null) {
+                rfturn dp;
             }
 
-            int index = getSelectedIndex();
+            int indfx = gftSflfdtfdIndfx();
 
-            if (index >= 0) {
-                return pages.get(index).getAccessibleName();
+            if (indfx >= 0) {
+                rfturn pbgfs.gft(indfx).gftAddfssiblfNbmf();
             }
 
-            return super.getAccessibleName();
+            rfturn supfr.gftAddfssiblfNbmf();
         }
 
         /**
-         *  Constructs an AccessibleJTabbedPane
+         *  Construdts bn AddfssiblfJTbbbfdPbnf
          */
-        public AccessibleJTabbedPane() {
-            super();
-            JTabbedPane.this.model.addChangeListener(this);
+        publid AddfssiblfJTbbbfdPbnf() {
+            supfr();
+            JTbbbfdPbnf.tiis.modfl.bddCibngfListfnfr(tiis);
         }
 
-        public void stateChanged(ChangeEvent e) {
-            Object o = e.getSource();
-            firePropertyChange(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            Objfdt o = f.gftSourdf();
+            firfPropfrtyCibngf(AddfssiblfContfxt.ACCESSIBLE_SELECTION_PROPERTY,
                                null, o);
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of
-         *          the object
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of
+         *          tif objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.PAGE_TAB_LIST;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PAGE_TAB_LIST;
         }
 
         /**
-         * Returns the number of accessible children in the object.
+         * Rfturns tif numbfr of bddfssiblf diildrfn in tif objfdt.
          *
-         * @return the number of accessible children in the object.
+         * @rfturn tif numbfr of bddfssiblf diildrfn in tif objfdt.
          */
-        public int getAccessibleChildrenCount() {
-            return getTabCount();
+        publid int gftAddfssiblfCiildrfnCount() {
+            rfturn gftTbbCount();
         }
 
         /**
-         * Return the specified Accessible child of the object.
+         * Rfturn tif spfdififd Addfssiblf diild of tif objfdt.
          *
-         * @param i zero-based index of child
-         * @return the Accessible child of the object
-         * @exception IllegalArgumentException if index is out of bounds
+         * @pbrbm i zfro-bbsfd indfx of diild
+         * @rfturn tif Addfssiblf diild of tif objfdt
+         * @fxdfption IllfgblArgumfntExdfption if indfx is out of bounds
          */
-        public Accessible getAccessibleChild(int i) {
-            if (i < 0 || i >= getTabCount()) {
-                return null;
+        publid Addfssiblf gftAddfssiblfCiild(int i) {
+            if (i < 0 || i >= gftTbbCount()) {
+                rfturn null;
             }
-            return pages.get(i);
+            rfturn pbgfs.gft(i);
         }
 
         /**
-         * Gets the <code>AccessibleSelection</code> associated with
-         * this object.  In the implementation of the Java
-         * Accessibility API for this class,
-         * returns this object, which is responsible for implementing the
-         * <code>AccessibleSelection</code> interface on behalf of itself.
+         * Gfts tif <dodf>AddfssiblfSflfdtion</dodf> bssodibtfd witi
+         * tiis objfdt.  In tif implfmfntbtion of tif Jbvb
+         * Addfssibility API for tiis dlbss,
+         * rfturns tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * <dodf>AddfssiblfSflfdtion</dodf> intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleSelection getAccessibleSelection() {
-           return this;
+        publid AddfssiblfSflfdtion gftAddfssiblfSflfdtion() {
+           rfturn tiis;
         }
 
         /**
-         * Returns the <code>Accessible</code> child contained at
-         * the local coordinate <code>Point</code>, if one exists.
-         * Otherwise returns the currently selected tab.
+         * Rfturns tif <dodf>Addfssiblf</dodf> diild dontbinfd bt
+         * tif lodbl doordinbtf <dodf>Point</dodf>, if onf fxists.
+         * Otifrwisf rfturns tif durrfntly sflfdtfd tbb.
          *
-         * @return the <code>Accessible</code> at the specified
-         *    location, if it exists
+         * @rfturn tif <dodf>Addfssiblf</dodf> bt tif spfdififd
+         *    lodbtion, if it fxists
          */
-        public Accessible getAccessibleAt(Point p) {
-            int tab = ((TabbedPaneUI) ui).tabForCoordinate(JTabbedPane.this,
+        publid Addfssiblf gftAddfssiblfAt(Point p) {
+            int tbb = ((TbbbfdPbnfUI) ui).tbbForCoordinbtf(JTbbbfdPbnf.tiis,
                                                            p.x, p.y);
-            if (tab == -1) {
-                tab = getSelectedIndex();
+            if (tbb == -1) {
+                tbb = gftSflfdtfdIndfx();
             }
-            return getAccessibleChild(tab);
+            rfturn gftAddfssiblfCiild(tbb);
         }
 
-        public int getAccessibleSelectionCount() {
-            return 1;
+        publid int gftAddfssiblfSflfdtionCount() {
+            rfturn 1;
         }
 
-        public Accessible getAccessibleSelection(int i) {
-            int index = getSelectedIndex();
-            if (index == -1) {
-                return null;
+        publid Addfssiblf gftAddfssiblfSflfdtion(int i) {
+            int indfx = gftSflfdtfdIndfx();
+            if (indfx == -1) {
+                rfturn null;
             }
-            return pages.get(index);
+            rfturn pbgfs.gft(indfx);
         }
 
-        public boolean isAccessibleChildSelected(int i) {
-            return (i == getSelectedIndex());
+        publid boolfbn isAddfssiblfCiildSflfdtfd(int i) {
+            rfturn (i == gftSflfdtfdIndfx());
         }
 
-        public void addAccessibleSelection(int i) {
-           setSelectedIndex(i);
+        publid void bddAddfssiblfSflfdtion(int i) {
+           sftSflfdtfdIndfx(i);
         }
 
-        public void removeAccessibleSelection(int i) {
-           // can't do
+        publid void rfmovfAddfssiblfSflfdtion(int i) {
+           // dbn't do
         }
 
-        public void clearAccessibleSelection() {
-           // can't do
+        publid void dlfbrAddfssiblfSflfdtion() {
+           // dbn't do
         }
 
-        public void selectAllAccessibleSelection() {
-           // can't do
+        publid void sflfdtAllAddfssiblfSflfdtion() {
+           // dbn't do
         }
     }
 
-    private class Page extends AccessibleContext
-        implements Serializable, Accessible, AccessibleComponent {
-        String title;
-        Color background;
-        Color foreground;
-        Icon icon;
-        Icon disabledIcon;
-        JTabbedPane parent;
-        Component component;
+    privbtf dlbss Pbgf fxtfnds AddfssiblfContfxt
+        implfmfnts Sfriblizbblf, Addfssiblf, AddfssiblfComponfnt {
+        String titlf;
+        Color bbdkground;
+        Color forfground;
+        Idon idon;
+        Idon disbblfdIdon;
+        JTbbbfdPbnf pbrfnt;
+        Componfnt domponfnt;
         String tip;
-        boolean enabled = true;
-        boolean needsUIUpdate;
-        int mnemonic = -1;
-        int mnemonicIndex = -1;
-        Component tabComponent;
+        boolfbn fnbblfd = truf;
+        boolfbn nffdsUIUpdbtf;
+        int mnfmonid = -1;
+        int mnfmonidIndfx = -1;
+        Componfnt tbbComponfnt;
 
-        Page(JTabbedPane parent,
-             String title, Icon icon, Icon disabledIcon, Component component, String tip) {
-            this.title = title;
-            this.icon = icon;
-            this.disabledIcon = disabledIcon;
-            this.parent = parent;
-            this.setAccessibleParent(parent);
-            this.component = component;
-            this.tip = tip;
+        Pbgf(JTbbbfdPbnf pbrfnt,
+             String titlf, Idon idon, Idon disbblfdIdon, Componfnt domponfnt, String tip) {
+            tiis.titlf = titlf;
+            tiis.idon = idon;
+            tiis.disbblfdIdon = disbblfdIdon;
+            tiis.pbrfnt = pbrfnt;
+            tiis.sftAddfssiblfPbrfnt(pbrfnt);
+            tiis.domponfnt = domponfnt;
+            tiis.tip = tip;
 
-            initAccessibleContext();
+            initAddfssiblfContfxt();
         }
 
         /*
-         * initializes the AccessibleContext for the page
+         * initiblizfs tif AddfssiblfContfxt for tif pbgf
          */
-        void initAccessibleContext() {
-            if (JTabbedPane.this.accessibleContext != null &&
-                component instanceof Accessible) {
+        void initAddfssiblfContfxt() {
+            if (JTbbbfdPbnf.tiis.bddfssiblfContfxt != null &&
+                domponfnt instbndfof Addfssiblf) {
                 /*
-                 * Do initialization if the AccessibleJTabbedPane
-                 * has been instantiated. We do not want to load
-                 * Accessibility classes unnecessarily.
+                 * Do initiblizbtion if tif AddfssiblfJTbbbfdPbnf
+                 * ibs bffn instbntibtfd. Wf do not wbnt to lobd
+                 * Addfssibility dlbssfs unnfdfssbrily.
                  */
-                AccessibleContext ac;
-                ac = component.getAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleParent(this);
+                AddfssiblfContfxt bd;
+                bd = domponfnt.gftAddfssiblfContfxt();
+                if (bd != null) {
+                    bd.sftAddfssiblfPbrfnt(tiis);
                 }
             }
         }
 
-        void setMnemonic(int mnemonic) {
-            this.mnemonic = mnemonic;
-            updateDisplayedMnemonicIndex();
+        void sftMnfmonid(int mnfmonid) {
+            tiis.mnfmonid = mnfmonid;
+            updbtfDisplbyfdMnfmonidIndfx();
         }
 
-        int getMnemonic() {
-            return mnemonic;
+        int gftMnfmonid() {
+            rfturn mnfmonid;
         }
 
         /*
-         * Sets the page displayed mnemonic index
+         * Sfts tif pbgf displbyfd mnfmonid indfx
          */
-        void setDisplayedMnemonicIndex(int mnemonicIndex) {
-            if (this.mnemonicIndex != mnemonicIndex) {
-                if (mnemonicIndex != -1 && (title == null ||
-                        mnemonicIndex < 0 ||
-                        mnemonicIndex >= title.length())) {
-                    throw new IllegalArgumentException(
-                                "Invalid mnemonic index: " + mnemonicIndex);
+        void sftDisplbyfdMnfmonidIndfx(int mnfmonidIndfx) {
+            if (tiis.mnfmonidIndfx != mnfmonidIndfx) {
+                if (mnfmonidIndfx != -1 && (titlf == null ||
+                        mnfmonidIndfx < 0 ||
+                        mnfmonidIndfx >= titlf.lfngti())) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                                "Invblid mnfmonid indfx: " + mnfmonidIndfx);
                 }
-                this.mnemonicIndex = mnemonicIndex;
-                JTabbedPane.this.firePropertyChange("displayedMnemonicIndexAt",
+                tiis.mnfmonidIndfx = mnfmonidIndfx;
+                JTbbbfdPbnf.tiis.firfPropfrtyCibngf("displbyfdMnfmonidIndfxAt",
                                                     null, null);
             }
         }
 
         /*
-         * Returns the page displayed mnemonic index
+         * Rfturns tif pbgf displbyfd mnfmonid indfx
          */
-        int getDisplayedMnemonicIndex() {
-            return this.mnemonicIndex;
+        int gftDisplbyfdMnfmonidIndfx() {
+            rfturn tiis.mnfmonidIndfx;
         }
 
-        void updateDisplayedMnemonicIndex() {
-            setDisplayedMnemonicIndex(
-                SwingUtilities.findDisplayedMnemonicIndex(title, mnemonic));
+        void updbtfDisplbyfdMnfmonidIndfx() {
+            sftDisplbyfdMnfmonidIndfx(
+                SwingUtilitifs.findDisplbyfdMnfmonidIndfx(titlf, mnfmonid));
         }
 
         /////////////////
-        // Accessibility support
+        // Addfssibility support
         ////////////////
 
-        public AccessibleContext getAccessibleContext() {
-            return this;
+        publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+            rfturn tiis;
         }
 
 
-        // AccessibleContext methods
+        // AddfssiblfContfxt mftiods
 
-        public String getAccessibleName() {
-            if (accessibleName != null) {
-                return accessibleName;
-            } else if (title != null) {
-                return title;
+        publid String gftAddfssiblfNbmf() {
+            if (bddfssiblfNbmf != null) {
+                rfturn bddfssiblfNbmf;
+            } flsf if (titlf != null) {
+                rfturn titlf;
             }
-            return null;
+            rfturn null;
         }
 
-        public String getAccessibleDescription() {
-            if (accessibleDescription != null) {
-                return accessibleDescription;
-            } else if (tip != null) {
-                return tip;
+        publid String gftAddfssiblfDfsdription() {
+            if (bddfssiblfDfsdription != null) {
+                rfturn bddfssiblfDfsdription;
+            } flsf if (tip != null) {
+                rfturn tip;
             }
-            return null;
+            rfturn null;
         }
 
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.PAGE_TAB;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PAGE_TAB;
         }
 
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states;
-            states = parent.getAccessibleContext().getAccessibleStateSet();
-            states.add(AccessibleState.SELECTABLE);
-            int i = parent.indexOfTab(title);
-            if (i == parent.getSelectedIndex()) {
-                states.add(AccessibleState.SELECTED);
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs;
+            stbtfs = pbrfnt.gftAddfssiblfContfxt().gftAddfssiblfStbtfSft();
+            stbtfs.bdd(AddfssiblfStbtf.SELECTABLE);
+            int i = pbrfnt.indfxOfTbb(titlf);
+            if (i == pbrfnt.gftSflfdtfdIndfx()) {
+                stbtfs.bdd(AddfssiblfStbtf.SELECTED);
             }
-            return states;
+            rfturn stbtfs;
         }
 
-        public int getAccessibleIndexInParent() {
-            return parent.indexOfTab(title);
+        publid int gftAddfssiblfIndfxInPbrfnt() {
+            rfturn pbrfnt.indfxOfTbb(titlf);
         }
 
-        public int getAccessibleChildrenCount() {
-            if (component instanceof Accessible) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-
-        public Accessible getAccessibleChild(int i) {
-            if (component instanceof Accessible) {
-                return (Accessible) component;
-            } else {
-                return null;
+        publid int gftAddfssiblfCiildrfnCount() {
+            if (domponfnt instbndfof Addfssiblf) {
+                rfturn 1;
+            } flsf {
+                rfturn 0;
             }
         }
 
-        public Locale getLocale() {
-            return parent.getLocale();
-        }
-
-        public AccessibleComponent getAccessibleComponent() {
-            return this;
-        }
-
-
-        // AccessibleComponent methods
-
-        public Color getBackground() {
-            return background != null? background : parent.getBackground();
-        }
-
-        public void setBackground(Color c) {
-            background = c;
-        }
-
-        public Color getForeground() {
-            return foreground != null? foreground : parent.getForeground();
-        }
-
-        public void setForeground(Color c) {
-            foreground = c;
-        }
-
-        public Cursor getCursor() {
-            return parent.getCursor();
-        }
-
-        public void setCursor(Cursor c) {
-            parent.setCursor(c);
-        }
-
-        public Font getFont() {
-            return parent.getFont();
-        }
-
-        public void setFont(Font f) {
-            parent.setFont(f);
-        }
-
-        public FontMetrics getFontMetrics(Font f) {
-            return parent.getFontMetrics(f);
-        }
-
-        public boolean isEnabled() {
-            return enabled;
-        }
-
-        public void setEnabled(boolean b) {
-            enabled = b;
-        }
-
-        public boolean isVisible() {
-            return parent.isVisible();
-        }
-
-        public void setVisible(boolean b) {
-            parent.setVisible(b);
-        }
-
-        public boolean isShowing() {
-            return parent.isShowing();
-        }
-
-        public boolean contains(Point p) {
-            Rectangle r = getBounds();
-            return r.contains(p);
-        }
-
-        public Point getLocationOnScreen() {
-             Point parentLocation = parent.getLocationOnScreen();
-             Point componentLocation = getLocation();
-             componentLocation.translate(parentLocation.x, parentLocation.y);
-             return componentLocation;
-        }
-
-        public Point getLocation() {
-             Rectangle r = getBounds();
-             return new Point(r.x, r.y);
-        }
-
-        public void setLocation(Point p) {
-            // do nothing
-        }
-
-        public Rectangle getBounds() {
-            return parent.getUI().getTabBounds(parent,
-                                               parent.indexOfTab(title));
-        }
-
-        public void setBounds(Rectangle r) {
-            // do nothing
-        }
-
-        public Dimension getSize() {
-            Rectangle r = getBounds();
-            return new Dimension(r.width, r.height);
-        }
-
-        public void setSize(Dimension d) {
-            // do nothing
-        }
-
-        public Accessible getAccessibleAt(Point p) {
-            if (component instanceof Accessible) {
-                return (Accessible) component;
-            } else {
-                return null;
+        publid Addfssiblf gftAddfssiblfCiild(int i) {
+            if (domponfnt instbndfof Addfssiblf) {
+                rfturn (Addfssiblf) domponfnt;
+            } flsf {
+                rfturn null;
             }
         }
 
-        public boolean isFocusTraversable() {
-            return false;
+        publid Lodblf gftLodblf() {
+            rfturn pbrfnt.gftLodblf();
         }
 
-        public void requestFocus() {
-            // do nothing
+        publid AddfssiblfComponfnt gftAddfssiblfComponfnt() {
+            rfturn tiis;
         }
 
-        public void addFocusListener(FocusListener l) {
-            // do nothing
+
+        // AddfssiblfComponfnt mftiods
+
+        publid Color gftBbdkground() {
+            rfturn bbdkground != null? bbdkground : pbrfnt.gftBbdkground();
         }
 
-        public void removeFocusListener(FocusListener l) {
-            // do nothing
+        publid void sftBbdkground(Color d) {
+            bbdkground = d;
+        }
+
+        publid Color gftForfground() {
+            rfturn forfground != null? forfground : pbrfnt.gftForfground();
+        }
+
+        publid void sftForfground(Color d) {
+            forfground = d;
+        }
+
+        publid Cursor gftCursor() {
+            rfturn pbrfnt.gftCursor();
+        }
+
+        publid void sftCursor(Cursor d) {
+            pbrfnt.sftCursor(d);
+        }
+
+        publid Font gftFont() {
+            rfturn pbrfnt.gftFont();
+        }
+
+        publid void sftFont(Font f) {
+            pbrfnt.sftFont(f);
+        }
+
+        publid FontMftrids gftFontMftrids(Font f) {
+            rfturn pbrfnt.gftFontMftrids(f);
+        }
+
+        publid boolfbn isEnbblfd() {
+            rfturn fnbblfd;
+        }
+
+        publid void sftEnbblfd(boolfbn b) {
+            fnbblfd = b;
+        }
+
+        publid boolfbn isVisiblf() {
+            rfturn pbrfnt.isVisiblf();
+        }
+
+        publid void sftVisiblf(boolfbn b) {
+            pbrfnt.sftVisiblf(b);
+        }
+
+        publid boolfbn isSiowing() {
+            rfturn pbrfnt.isSiowing();
+        }
+
+        publid boolfbn dontbins(Point p) {
+            Rfdtbnglf r = gftBounds();
+            rfturn r.dontbins(p);
+        }
+
+        publid Point gftLodbtionOnSdrffn() {
+             Point pbrfntLodbtion = pbrfnt.gftLodbtionOnSdrffn();
+             Point domponfntLodbtion = gftLodbtion();
+             domponfntLodbtion.trbnslbtf(pbrfntLodbtion.x, pbrfntLodbtion.y);
+             rfturn domponfntLodbtion;
+        }
+
+        publid Point gftLodbtion() {
+             Rfdtbnglf r = gftBounds();
+             rfturn nfw Point(r.x, r.y);
+        }
+
+        publid void sftLodbtion(Point p) {
+            // do notiing
+        }
+
+        publid Rfdtbnglf gftBounds() {
+            rfturn pbrfnt.gftUI().gftTbbBounds(pbrfnt,
+                                               pbrfnt.indfxOfTbb(titlf));
+        }
+
+        publid void sftBounds(Rfdtbnglf r) {
+            // do notiing
+        }
+
+        publid Dimfnsion gftSizf() {
+            Rfdtbnglf r = gftBounds();
+            rfturn nfw Dimfnsion(r.widti, r.ifigit);
+        }
+
+        publid void sftSizf(Dimfnsion d) {
+            // do notiing
+        }
+
+        publid Addfssiblf gftAddfssiblfAt(Point p) {
+            if (domponfnt instbndfof Addfssiblf) {
+                rfturn (Addfssiblf) domponfnt;
+            } flsf {
+                rfturn null;
+            }
+        }
+
+        publid boolfbn isFodusTrbvfrsbblf() {
+            rfturn fblsf;
+        }
+
+        publid void rfqufstFodus() {
+            // do notiing
+        }
+
+        publid void bddFodusListfnfr(FodusListfnfr l) {
+            // do notiing
+        }
+
+        publid void rfmovfFodusListfnfr(FodusListfnfr l) {
+            // do notiing
         }
 
         // TIGER - 4732339
         /**
-         * Returns an AccessibleIcon
+         * Rfturns bn AddfssiblfIdon
          *
-         * @return the enabled icon if one exists and the page
-         * is enabled. Otherwise, returns the disabled icon if
-         * one exists and the page is disabled.  Otherwise, null
-         * is returned.
+         * @rfturn tif fnbblfd idon if onf fxists bnd tif pbgf
+         * is fnbblfd. Otifrwisf, rfturns tif disbblfd idon if
+         * onf fxists bnd tif pbgf is disbblfd.  Otifrwisf, null
+         * is rfturnfd.
          */
-        public AccessibleIcon [] getAccessibleIcon() {
-            AccessibleIcon accessibleIcon = null;
-            if (enabled && icon instanceof ImageIcon) {
-                AccessibleContext ac =
-                    ((ImageIcon)icon).getAccessibleContext();
-                accessibleIcon = (AccessibleIcon)ac;
-            } else if (!enabled && disabledIcon instanceof ImageIcon) {
-                AccessibleContext ac =
-                    ((ImageIcon)disabledIcon).getAccessibleContext();
-                accessibleIcon = (AccessibleIcon)ac;
+        publid AddfssiblfIdon [] gftAddfssiblfIdon() {
+            AddfssiblfIdon bddfssiblfIdon = null;
+            if (fnbblfd && idon instbndfof ImbgfIdon) {
+                AddfssiblfContfxt bd =
+                    ((ImbgfIdon)idon).gftAddfssiblfContfxt();
+                bddfssiblfIdon = (AddfssiblfIdon)bd;
+            } flsf if (!fnbblfd && disbblfdIdon instbndfof ImbgfIdon) {
+                AddfssiblfContfxt bd =
+                    ((ImbgfIdon)disbblfdIdon).gftAddfssiblfContfxt();
+                bddfssiblfIdon = (AddfssiblfIdon)bd;
             }
-            if (accessibleIcon != null) {
-                AccessibleIcon [] returnIcons = new AccessibleIcon[1];
-                returnIcons[0] = accessibleIcon;
-                return returnIcons;
-            } else {
-                return null;
+            if (bddfssiblfIdon != null) {
+                AddfssiblfIdon [] rfturnIdons = nfw AddfssiblfIdon[1];
+                rfturnIdons[0] = bddfssiblfIdon;
+                rfturn rfturnIdons;
+            } flsf {
+                rfturn null;
             }
         }
     }
 
     /**
-    * Sets the component that is responsible for rendering the
-    * title for the specified tab.  A null value means
-    * <code>JTabbedPane</code> will render the title and/or icon for
-    * the specified tab.  A non-null value means the component will
-    * render the title and <code>JTabbedPane</code> will not render
-    * the title and/or icon.
+    * Sfts tif domponfnt tibt is rfsponsiblf for rfndfring tif
+    * titlf for tif spfdififd tbb.  A null vbluf mfbns
+    * <dodf>JTbbbfdPbnf</dodf> will rfndfr tif titlf bnd/or idon for
+    * tif spfdififd tbb.  A non-null vbluf mfbns tif domponfnt will
+    * rfndfr tif titlf bnd <dodf>JTbbbfdPbnf</dodf> will not rfndfr
+    * tif titlf bnd/or idon.
     * <p>
-    * Note: The component must not be one that the developer has
-    *       already added to the tabbed pane.
+    * Notf: Tif domponfnt must not bf onf tibt tif dfvflopfr ibs
+    *       blrfbdy bddfd to tif tbbbfd pbnf.
     *
-    * @param index the tab index where the component should be set
-    * @param component the component to render the title for the
-    *                  specified tab
-    * @exception IndexOutOfBoundsException if index is out of range
-    *            {@code (index < 0 || index >= tab count)}
-    * @exception IllegalArgumentException if component has already been
-    *            added to this <code>JTabbedPane</code>
+    * @pbrbm indfx tif tbb indfx wifrf tif domponfnt siould bf sft
+    * @pbrbm domponfnt tif domponfnt to rfndfr tif titlf for tif
+    *                  spfdififd tbb
+    * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+    *            {@dodf (indfx < 0 || indfx >= tbb dount)}
+    * @fxdfption IllfgblArgumfntExdfption if domponfnt ibs blrfbdy bffn
+    *            bddfd to tiis <dodf>JTbbbfdPbnf</dodf>
     *
-    * @see #getTabComponentAt
-    * @beaninfo
-    *    preferred: true
-    *    attribute: visualUpdate true
-    *  description: The tab component at the specified tab index.
-    * @since 1.6
+    * @sff #gftTbbComponfntAt
+    * @bfbninfo
+    *    prfffrrfd: truf
+    *    bttributf: visublUpdbtf truf
+    *  dfsdription: Tif tbb domponfnt bt tif spfdififd tbb indfx.
+    * @sindf 1.6
     */
-    public void setTabComponentAt(int index, Component component) {
-        if (component != null && indexOfComponent(component) != -1) {
-            throw new IllegalArgumentException("Component is already added to this JTabbedPane");
+    publid void sftTbbComponfntAt(int indfx, Componfnt domponfnt) {
+        if (domponfnt != null && indfxOfComponfnt(domponfnt) != -1) {
+            tirow nfw IllfgblArgumfntExdfption("Componfnt is blrfbdy bddfd to tiis JTbbbfdPbnf");
         }
-        Component oldValue = getTabComponentAt(index);
-        if (component != oldValue) {
-            int tabComponentIndex = indexOfTabComponent(component);
-            if (tabComponentIndex != -1) {
-                setTabComponentAt(tabComponentIndex, null);
+        Componfnt oldVbluf = gftTbbComponfntAt(indfx);
+        if (domponfnt != oldVbluf) {
+            int tbbComponfntIndfx = indfxOfTbbComponfnt(domponfnt);
+            if (tbbComponfntIndfx != -1) {
+                sftTbbComponfntAt(tbbComponfntIndfx, null);
             }
-            pages.get(index).tabComponent = component;
-            firePropertyChange("indexForTabComponent", -1, index);
+            pbgfs.gft(indfx).tbbComponfnt = domponfnt;
+            firfPropfrtyCibngf("indfxForTbbComponfnt", -1, indfx);
         }
     }
 
     /**
-     * Returns the tab component at <code>index</code>.
+     * Rfturns tif tbb domponfnt bt <dodf>indfx</dodf>.
      *
-     * @param index  the index of the item being queried
-     * @return the tab component at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm indfx  tif indfx of tif itfm bfing qufrifd
+     * @rfturn tif tbb domponfnt bt <dodf>indfx</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if indfx is out of rbngf
+     *            {@dodf (indfx < 0 || indfx >= tbb dount)}
      *
-     * @see #setTabComponentAt
-     * @since 1.6
+     * @sff #sftTbbComponfntAt
+     * @sindf 1.6
      */
-    public Component getTabComponentAt(int index) {
-        return pages.get(index).tabComponent;
+    publid Componfnt gftTbbComponfntAt(int indfx) {
+        rfturn pbgfs.gft(indfx).tbbComponfnt;
     }
 
     /**
-     * Returns the index of the tab for the specified tab component.
-     * Returns -1 if there is no tab for this tab component.
+     * Rfturns tif indfx of tif tbb for tif spfdififd tbb domponfnt.
+     * Rfturns -1 if tifrf is no tbb for tiis tbb domponfnt.
      *
-     * @param tabComponent the tab component for the tab
-     * @return the first tab which matches this tab component, or -1
-     *          if there is no tab for this tab component
-     * @see #setTabComponentAt
-     * @see #getTabComponentAt
-     * @since 1.6
+     * @pbrbm tbbComponfnt tif tbb domponfnt for tif tbb
+     * @rfturn tif first tbb wiidi mbtdifs tiis tbb domponfnt, or -1
+     *          if tifrf is no tbb for tiis tbb domponfnt
+     * @sff #sftTbbComponfntAt
+     * @sff #gftTbbComponfntAt
+     * @sindf 1.6
      */
-     public int indexOfTabComponent(Component tabComponent) {
-        for(int i = 0; i < getTabCount(); i++) {
-            Component c = getTabComponentAt(i);
-            if (c == tabComponent) {
-                return i;
+     publid int indfxOfTbbComponfnt(Componfnt tbbComponfnt) {
+        for(int i = 0; i < gftTbbCount(); i++) {
+            Componfnt d = gftTbbComponfntAt(i);
+            if (d == tbbComponfnt) {
+                rfturn i;
             }
         }
-        return -1;
+        rfturn -1;
     }
 }

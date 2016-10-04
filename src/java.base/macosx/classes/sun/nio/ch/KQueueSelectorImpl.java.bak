@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * KQueueSelectorImpl.java
- * Implementation of Selector using FreeBSD / Mac OS X kqueues
- * Derived from Sun's DevPollSelectorImpl
+ * KQufufSflfdtorImpl.jbvb
+ * Implfmfntbtion of Sflfdtor using FrffBSD / Mbd OS X kqufufs
+ * Dfrivfd from Sun's DfvPollSflfdtorImpl
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.*;
-import sun.misc.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
+import jbvb.util.*;
+import sun.misd.*;
 
-class KQueueSelectorImpl
-    extends SelectorImpl
+dlbss KQufufSflfdtorImpl
+    fxtfnds SflfdtorImpl
 {
-    // File descriptors used for interrupt
-    protected int fd0;
-    protected int fd1;
+    // Filf dfsdriptors usfd for intfrrupt
+    protfdtfd int fd0;
+    protfdtfd int fd1;
 
-    // The kqueue manipulator
-    KQueueArrayWrapper kqueueWrapper;
+    // Tif kqufuf mbnipulbtor
+    KQufufArrbyWrbppfr kqufufWrbppfr;
 
-    // Count of registered descriptors (including interrupt)
-    private int totalChannels;
+    // Count of rfgistfrfd dfsdriptors (indluding intfrrupt)
+    privbtf int totblCibnnfls;
 
-    // Map from a file descriptor to an entry containing the selection key
-    private HashMap<Integer,MapEntry> fdMap;
+    // Mbp from b filf dfsdriptor to bn fntry dontbining tif sflfdtion kfy
+    privbtf HbsiMbp<Intfgfr,MbpEntry> fdMbp;
 
-    // True if this Selector has been closed
-    private boolean closed = false;
+    // Truf if tiis Sflfdtor ibs bffn dlosfd
+    privbtf boolfbn dlosfd = fblsf;
 
-    // Lock for interrupt triggering and clearing
-    private Object interruptLock = new Object();
-    private boolean interruptTriggered = false;
+    // Lodk for intfrrupt triggfring bnd dlfbring
+    privbtf Objfdt intfrruptLodk = nfw Objfdt();
+    privbtf boolfbn intfrruptTriggfrfd = fblsf;
 
-    // used by updateSelectedKeys to handle cases where the same file
-    // descriptor is polled by more than one filter
-    private long updateCount;
+    // usfd by updbtfSflfdtfdKfys to ibndlf dbsfs wifrf tif sbmf filf
+    // dfsdriptor is pollfd by morf tibn onf filtfr
+    privbtf long updbtfCount;
 
-    // Used to map file descriptors to a selection key and "update count"
-    // (see updateSelectedKeys for usage).
-    private static class MapEntry {
-        SelectionKeyImpl ski;
-        long updateCount;
-        MapEntry(SelectionKeyImpl ski) {
-            this.ski = ski;
+    // Usfd to mbp filf dfsdriptors to b sflfdtion kfy bnd "updbtf dount"
+    // (sff updbtfSflfdtfdKfys for usbgf).
+    privbtf stbtid dlbss MbpEntry {
+        SflfdtionKfyImpl ski;
+        long updbtfCount;
+        MbpEntry(SflfdtionKfyImpl ski) {
+            tiis.ski = ski;
         }
     }
 
     /**
-     * Package private constructor called by factory method in
-     * the abstract superclass Selector.
+     * Pbdkbgf privbtf donstrudtor dbllfd by fbdtory mftiod in
+     * tif bbstrbdt supfrdlbss Sflfdtor.
      */
-    KQueueSelectorImpl(SelectorProvider sp) {
-        super(sp);
-        long fds = IOUtil.makePipe(false);
+    KQufufSflfdtorImpl(SflfdtorProvidfr sp) {
+        supfr(sp);
+        long fds = IOUtil.mbkfPipf(fblsf);
         fd0 = (int)(fds >>> 32);
         fd1 = (int)fds;
-        kqueueWrapper = new KQueueArrayWrapper();
-        kqueueWrapper.initInterrupt(fd0, fd1);
-        fdMap = new HashMap<>();
-        totalChannels = 1;
+        kqufufWrbppfr = nfw KQufufArrbyWrbppfr();
+        kqufufWrbppfr.initIntfrrupt(fd0, fd1);
+        fdMbp = nfw HbsiMbp<>();
+        totblCibnnfls = 1;
     }
 
 
-    protected int doSelect(long timeout)
-        throws IOException
+    protfdtfd int doSflfdt(long timfout)
+        tirows IOExdfption
     {
-        int entries = 0;
-        if (closed)
-            throw new ClosedSelectorException();
-        processDeregisterQueue();
+        int fntrifs = 0;
+        if (dlosfd)
+            tirow nfw ClosfdSflfdtorExdfption();
+        prodfssDfrfgistfrQufuf();
         try {
-            begin();
-            entries = kqueueWrapper.poll(timeout);
-        } finally {
-            end();
+            bfgin();
+            fntrifs = kqufufWrbppfr.poll(timfout);
+        } finblly {
+            fnd();
         }
-        processDeregisterQueue();
-        return updateSelectedKeys(entries);
+        prodfssDfrfgistfrQufuf();
+        rfturn updbtfSflfdtfdKfys(fntrifs);
     }
 
     /**
-     * Update the keys whose fd's have been selected by kqueue.
-     * Add the ready keys to the selected key set.
-     * If the interrupt fd has been selected, drain it and clear the interrupt.
+     * Updbtf tif kfys wiosf fd's ibvf bffn sflfdtfd by kqufuf.
+     * Add tif rfbdy kfys to tif sflfdtfd kfy sft.
+     * If tif intfrrupt fd ibs bffn sflfdtfd, drbin it bnd dlfbr tif intfrrupt.
      */
-    private int updateSelectedKeys(int entries)
-        throws IOException
+    privbtf int updbtfSflfdtfdKfys(int fntrifs)
+        tirows IOExdfption
     {
-        int numKeysUpdated = 0;
-        boolean interrupted = false;
+        int numKfysUpdbtfd = 0;
+        boolfbn intfrruptfd = fblsf;
 
-        // A file descriptor may be registered with kqueue with more than one
-        // filter and so there may be more than one event for a fd. The update
-        // count in the MapEntry tracks when the fd was last updated and this
-        // ensures that the ready ops are updated rather than replaced by a
-        // second or subsequent event.
-        updateCount++;
+        // A filf dfsdriptor mby bf rfgistfrfd witi kqufuf witi morf tibn onf
+        // filtfr bnd so tifrf mby bf morf tibn onf fvfnt for b fd. Tif updbtf
+        // dount in tif MbpEntry trbdks wifn tif fd wbs lbst updbtfd bnd tiis
+        // fnsurfs tibt tif rfbdy ops brf updbtfd rbtifr tibn rfplbdfd by b
+        // sfdond or subsfqufnt fvfnt.
+        updbtfCount++;
 
-        for (int i = 0; i < entries; i++) {
-            int nextFD = kqueueWrapper.getDescriptor(i);
-            if (nextFD == fd0) {
-                interrupted = true;
-            } else {
-                MapEntry me = fdMap.get(Integer.valueOf(nextFD));
+        for (int i = 0; i < fntrifs; i++) {
+            int nfxtFD = kqufufWrbppfr.gftDfsdriptor(i);
+            if (nfxtFD == fd0) {
+                intfrruptfd = truf;
+            } flsf {
+                MbpEntry mf = fdMbp.gft(Intfgfr.vblufOf(nfxtFD));
 
-                // entry is null in the case of an interrupt
-                if (me != null) {
-                    int rOps = kqueueWrapper.getReventOps(i);
-                    SelectionKeyImpl ski = me.ski;
-                    if (selectedKeys.contains(ski)) {
-                        // first time this file descriptor has been encountered on this
-                        // update?
-                        if (me.updateCount != updateCount) {
-                            if (ski.channel.translateAndSetReadyOps(rOps, ski)) {
-                                numKeysUpdated++;
-                                me.updateCount = updateCount;
+                // fntry is null in tif dbsf of bn intfrrupt
+                if (mf != null) {
+                    int rOps = kqufufWrbppfr.gftRfvfntOps(i);
+                    SflfdtionKfyImpl ski = mf.ski;
+                    if (sflfdtfdKfys.dontbins(ski)) {
+                        // first timf tiis filf dfsdriptor ibs bffn fndountfrfd on tiis
+                        // updbtf?
+                        if (mf.updbtfCount != updbtfCount) {
+                            if (ski.dibnnfl.trbnslbtfAndSftRfbdyOps(rOps, ski)) {
+                                numKfysUpdbtfd++;
+                                mf.updbtfCount = updbtfCount;
                             }
-                        } else {
-                            // ready ops have already been set on this update
-                            ski.channel.translateAndUpdateReadyOps(rOps, ski);
+                        } flsf {
+                            // rfbdy ops ibvf blrfbdy bffn sft on tiis updbtf
+                            ski.dibnnfl.trbnslbtfAndUpdbtfRfbdyOps(rOps, ski);
                         }
-                    } else {
-                        ski.channel.translateAndSetReadyOps(rOps, ski);
-                        if ((ski.nioReadyOps() & ski.nioInterestOps()) != 0) {
-                            selectedKeys.add(ski);
-                            numKeysUpdated++;
-                            me.updateCount = updateCount;
+                    } flsf {
+                        ski.dibnnfl.trbnslbtfAndSftRfbdyOps(rOps, ski);
+                        if ((ski.nioRfbdyOps() & ski.nioIntfrfstOps()) != 0) {
+                            sflfdtfdKfys.bdd(ski);
+                            numKfysUpdbtfd++;
+                            mf.updbtfCount = updbtfCount;
                         }
                     }
                 }
             }
         }
 
-        if (interrupted) {
-            // Clear the wakeup pipe
-            synchronized (interruptLock) {
-                IOUtil.drain(fd0);
-                interruptTriggered = false;
+        if (intfrruptfd) {
+            // Clfbr tif wbkfup pipf
+            syndironizfd (intfrruptLodk) {
+                IOUtil.drbin(fd0);
+                intfrruptTriggfrfd = fblsf;
             }
         }
-        return numKeysUpdated;
+        rfturn numKfysUpdbtfd;
     }
 
 
-    protected void implClose() throws IOException {
-        if (!closed) {
-            closed = true;
+    protfdtfd void implClosf() tirows IOExdfption {
+        if (!dlosfd) {
+            dlosfd = truf;
 
-            // prevent further wakeup
-            synchronized (interruptLock) {
-                interruptTriggered = true;
+            // prfvfnt furtifr wbkfup
+            syndironizfd (intfrruptLodk) {
+                intfrruptTriggfrfd = truf;
             }
 
-            FileDispatcherImpl.closeIntFD(fd0);
-            FileDispatcherImpl.closeIntFD(fd1);
-            if (kqueueWrapper != null) {
-                kqueueWrapper.close();
-                kqueueWrapper = null;
-                selectedKeys = null;
+            FilfDispbtdifrImpl.dlosfIntFD(fd0);
+            FilfDispbtdifrImpl.dlosfIntFD(fd1);
+            if (kqufufWrbppfr != null) {
+                kqufufWrbppfr.dlosf();
+                kqufufWrbppfr = null;
+                sflfdtfdKfys = null;
 
-                // Deregister channels
-                Iterator<SelectionKey> i = keys.iterator();
-                while (i.hasNext()) {
-                    SelectionKeyImpl ski = (SelectionKeyImpl)i.next();
-                    deregister(ski);
-                    SelectableChannel selch = ski.channel();
-                    if (!selch.isOpen() && !selch.isRegistered())
-                        ((SelChImpl)selch).kill();
-                    i.remove();
+                // Dfrfgistfr dibnnfls
+                Itfrbtor<SflfdtionKfy> i = kfys.itfrbtor();
+                wiilf (i.ibsNfxt()) {
+                    SflfdtionKfyImpl ski = (SflfdtionKfyImpl)i.nfxt();
+                    dfrfgistfr(ski);
+                    SflfdtbblfCibnnfl sfldi = ski.dibnnfl();
+                    if (!sfldi.isOpfn() && !sfldi.isRfgistfrfd())
+                        ((SflCiImpl)sfldi).kill();
+                    i.rfmovf();
                 }
-                totalChannels = 0;
+                totblCibnnfls = 0;
             }
             fd0 = -1;
             fd1 = -1;
@@ -206,44 +206,44 @@ class KQueueSelectorImpl
     }
 
 
-    protected void implRegister(SelectionKeyImpl ski) {
-        if (closed)
-            throw new ClosedSelectorException();
-        int fd = IOUtil.fdVal(ski.channel.getFD());
-        fdMap.put(Integer.valueOf(fd), new MapEntry(ski));
-        totalChannels++;
-        keys.add(ski);
+    protfdtfd void implRfgistfr(SflfdtionKfyImpl ski) {
+        if (dlosfd)
+            tirow nfw ClosfdSflfdtorExdfption();
+        int fd = IOUtil.fdVbl(ski.dibnnfl.gftFD());
+        fdMbp.put(Intfgfr.vblufOf(fd), nfw MbpEntry(ski));
+        totblCibnnfls++;
+        kfys.bdd(ski);
     }
 
 
-    protected void implDereg(SelectionKeyImpl ski) throws IOException {
-        int fd = ski.channel.getFDVal();
-        fdMap.remove(Integer.valueOf(fd));
-        kqueueWrapper.release(ski.channel);
-        totalChannels--;
-        keys.remove(ski);
-        selectedKeys.remove(ski);
-        deregister((AbstractSelectionKey)ski);
-        SelectableChannel selch = ski.channel();
-        if (!selch.isOpen() && !selch.isRegistered())
-            ((SelChImpl)selch).kill();
+    protfdtfd void implDfrfg(SflfdtionKfyImpl ski) tirows IOExdfption {
+        int fd = ski.dibnnfl.gftFDVbl();
+        fdMbp.rfmovf(Intfgfr.vblufOf(fd));
+        kqufufWrbppfr.rflfbsf(ski.dibnnfl);
+        totblCibnnfls--;
+        kfys.rfmovf(ski);
+        sflfdtfdKfys.rfmovf(ski);
+        dfrfgistfr((AbstrbdtSflfdtionKfy)ski);
+        SflfdtbblfCibnnfl sfldi = ski.dibnnfl();
+        if (!sfldi.isOpfn() && !sfldi.isRfgistfrfd())
+            ((SflCiImpl)sfldi).kill();
     }
 
 
-    public void putEventOps(SelectionKeyImpl ski, int ops) {
-        if (closed)
-            throw new ClosedSelectorException();
-        kqueueWrapper.setInterest(ski.channel, ops);
+    publid void putEvfntOps(SflfdtionKfyImpl ski, int ops) {
+        if (dlosfd)
+            tirow nfw ClosfdSflfdtorExdfption();
+        kqufufWrbppfr.sftIntfrfst(ski.dibnnfl, ops);
     }
 
 
-    public Selector wakeup() {
-        synchronized (interruptLock) {
-            if (!interruptTriggered) {
-                kqueueWrapper.interrupt();
-                interruptTriggered = true;
+    publid Sflfdtor wbkfup() {
+        syndironizfd (intfrruptLodk) {
+            if (!intfrruptTriggfrfd) {
+                kqufufWrbppfr.intfrrupt();
+                intfrruptTriggfrfd = truf;
             }
         }
-        return this;
+        rfturn tiis;
     }
 }

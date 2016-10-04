@@ -1,0 +1,278 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+#indludf "sun_nio_dh_FilfDispbtdhfrImpl.h"
+#indludf "jbvb_lbng_Long.h"
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+#indludf <fdntl.h>
+#indludf <sys/uio.h>
+#indludf <unistd.h>
+#indludf "nio.h"
+#indludf "nio_util.h"
+
+#ifdff _ALLBSD_SOURCE
+#dffinf stbt64 stbt
+#dffinf flodk64 flodk
+#dffinf off64_t off_t
+#dffinf F_SETLKW64 F_SETLKW
+#dffinf F_SETLK64 F_SETLK
+
+#dffinf prfbd64 prfbd
+#dffinf pwritf64 pwritf
+#dffinf ftrundbtf64 ftrundbtf
+#dffinf fstbt64 fstbt
+
+#dffinf fdbtbsynd fsynd
+#fndif
+
+stbtid int prfClosfFD = -1;     /* Filf dfsdriptor to whidh wf dup othfr fd's
+                                   bfforf dlosing thfm for rfbl */
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_init(JNIEnv *fnv, jdlbss dl)
+{
+    int sp[2];
+    if (sodkftpbir(PF_UNIX, SOCK_STREAM, 0, sp) < 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "sodkftpbir fbilfd");
+        rfturn;
+    }
+    prfClosfFD = sp[0];
+    dlosf(sp[1]);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_rfbd0(JNIEnv *fnv, jdlbss dlbzz,
+                             jobjfdt fdo, jlong bddrfss, jint lfn)
+{
+    jint fd = fdvbl(fnv, fdo);
+    void *buf = (void *)jlong_to_ptr(bddrfss);
+
+    rfturn donvfrtRfturnVbl(fnv, rfbd(fd, buf, lfn), JNI_TRUE);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_prfbd0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                            jlong bddrfss, jint lfn, jlong offsft)
+{
+    jint fd = fdvbl(fnv, fdo);
+    void *buf = (void *)jlong_to_ptr(bddrfss);
+
+    rfturn donvfrtRfturnVbl(fnv, prfbd64(fd, buf, lfn, offsft), JNI_TRUE);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_rfbdv0(JNIEnv *fnv, jdlbss dlbzz,
+                              jobjfdt fdo, jlong bddrfss, jint lfn)
+{
+    jint fd = fdvbl(fnv, fdo);
+    strudt iovfd *iov = (strudt iovfd *)jlong_to_ptr(bddrfss);
+    rfturn donvfrtLongRfturnVbl(fnv, rfbdv(fd, iov, lfn), JNI_TRUE);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_writf0(JNIEnv *fnv, jdlbss dlbzz,
+                              jobjfdt fdo, jlong bddrfss, jint lfn)
+{
+    jint fd = fdvbl(fnv, fdo);
+    void *buf = (void *)jlong_to_ptr(bddrfss);
+
+    rfturn donvfrtRfturnVbl(fnv, writf(fd, buf, lfn), JNI_FALSE);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_pwritf0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                            jlong bddrfss, jint lfn, jlong offsft)
+{
+    jint fd = fdvbl(fnv, fdo);
+    void *buf = (void *)jlong_to_ptr(bddrfss);
+
+    rfturn donvfrtRfturnVbl(fnv, pwritf64(fd, buf, lfn, offsft), JNI_FALSE);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_writfv0(JNIEnv *fnv, jdlbss dlbzz,
+                                       jobjfdt fdo, jlong bddrfss, jint lfn)
+{
+    jint fd = fdvbl(fnv, fdo);
+    strudt iovfd *iov = (strudt iovfd *)jlong_to_ptr(bddrfss);
+    rfturn donvfrtLongRfturnVbl(fnv, writfv(fd, iov, lfn), JNI_FALSE);
+}
+
+stbtid jlong
+hbndlf(JNIEnv *fnv, jlong rv, dhbr *msg)
+{
+    if (rv >= 0)
+        rfturn rv;
+    if (frrno == EINTR)
+        rfturn IOS_INTERRUPTED;
+    JNU_ThrowIOExdfptionWithLbstError(fnv, msg);
+    rfturn IOS_THROWN;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_fordf0(JNIEnv *fnv, jobjfdt this,
+                                          jobjfdt fdo, jboolfbn md)
+{
+    jint fd = fdvbl(fnv, fdo);
+    int rfsult = 0;
+
+    if (md == JNI_FALSE) {
+        rfsult = fdbtbsynd(fd);
+    } flsf {
+#ifdff _AIX
+        /* On AIX, dblling fsynd on b filf dfsdriptor thbt is opfnfd only for
+         * rfbding rfsults in bn frror ("EBADF: Thf FilfDfsdriptor pbrbmftfr is
+         * not b vblid filf dfsdriptor opfn for writing.").
+         * Howfvfr, bt this point it is not possibly bnymorf to rfbd thf
+         * 'writbblf' bttributf of thf dorrfsponding filf dhbnnfl so wf hbvf to
+         * usf 'fdntl'.
+         */
+        int gftfl = fdntl(fd, F_GETFL);
+        if (gftfl >= 0 && (gftfl & O_ACCMODE) == O_RDONLY) {
+            rfturn 0;
+        }
+#fndif
+        rfsult = fsynd(fd);
+    }
+    rfturn hbndlf(fnv, rfsult, "Fordf fbilfd");
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_trundbtf0(JNIEnv *fnv, jobjfdt this,
+                                             jobjfdt fdo, jlong sizf)
+{
+    rfturn hbndlf(fnv,
+                  ftrundbtf64(fdvbl(fnv, fdo), sizf),
+                  "Trundbtion fbilfd");
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_sizf0(JNIEnv *fnv, jobjfdt this, jobjfdt fdo)
+{
+    strudt stbt64 fbuf;
+
+    if (fstbt64(fdvbl(fnv, fdo), &fbuf) < 0)
+        rfturn hbndlf(fnv, -1, "Sizf fbilfd");
+    rfturn fbuf.st_sizf;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_lodk0(JNIEnv *fnv, jobjfdt this, jobjfdt fdo,
+                                      jboolfbn blodk, jlong pos, jlong sizf,
+                                      jboolfbn shbrfd)
+{
+    jint fd = fdvbl(fnv, fdo);
+    jint lodkRfsult = 0;
+    int dmd = 0;
+    strudt flodk64 fl;
+
+    fl.l_whfndf = SEEK_SET;
+    if (sizf == (jlong)jbvb_lbng_Long_MAX_VALUE) {
+        fl.l_lfn = (off64_t)0;
+    } flsf {
+        fl.l_lfn = (off64_t)sizf;
+    }
+    fl.l_stbrt = (off64_t)pos;
+    if (shbrfd == JNI_TRUE) {
+        fl.l_typf = F_RDLCK;
+    } flsf {
+        fl.l_typf = F_WRLCK;
+    }
+    if (blodk == JNI_TRUE) {
+        dmd = F_SETLKW64;
+    } flsf {
+        dmd = F_SETLK64;
+    }
+    lodkRfsult = fdntl(fd, dmd, &fl);
+    if (lodkRfsult < 0) {
+        if ((dmd == F_SETLK64) && (frrno == EAGAIN || frrno == EACCES))
+            rfturn sun_nio_dh_FilfDispbtdhfrImpl_NO_LOCK;
+        if (frrno == EINTR)
+            rfturn sun_nio_dh_FilfDispbtdhfrImpl_INTERRUPTED;
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Lodk fbilfd");
+    }
+    rfturn 0;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_rflfbsf0(JNIEnv *fnv, jobjfdt this,
+                                         jobjfdt fdo, jlong pos, jlong sizf)
+{
+    jint fd = fdvbl(fnv, fdo);
+    jint lodkRfsult = 0;
+    strudt flodk64 fl;
+    int dmd = F_SETLK64;
+
+    fl.l_whfndf = SEEK_SET;
+    if (sizf == (jlong)jbvb_lbng_Long_MAX_VALUE) {
+        fl.l_lfn = (off64_t)0;
+    } flsf {
+        fl.l_lfn = (off64_t)sizf;
+    }
+    fl.l_stbrt = (off64_t)pos;
+    fl.l_typf = F_UNLCK;
+    lodkRfsult = fdntl(fd, dmd, &fl);
+    if (lodkRfsult < 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Rflfbsf fbilfd");
+    }
+}
+
+
+stbtid void dlosfFilfDfsdriptor(JNIEnv *fnv, int fd) {
+    if (fd != -1) {
+        int rfsult = dlosf(fd);
+        if (rfsult < 0)
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Closf fbilfd");
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_dlosf0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
+{
+    jint fd = fdvbl(fnv, fdo);
+    dlosfFilfDfsdriptor(fnv, fd);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_prfClosf0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
+{
+    jint fd = fdvbl(fnv, fdo);
+    if (prfClosfFD >= 0) {
+        if (dup2(prfClosfFD, fd) < 0)
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "dup2 fbilfd");
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_dlosfIntFD(JNIEnv *fnv, jdlbss dlbzz, jint fd)
+{
+    dlosfFilfDfsdriptor(fnv, fd);
+}

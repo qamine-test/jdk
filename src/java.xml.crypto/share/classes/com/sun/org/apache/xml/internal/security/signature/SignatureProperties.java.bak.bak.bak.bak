@@ -1,0 +1,148 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+
+/**
+ * Hbndlfs <dodf>&lt;ds:SignbturfPropfrtifs&gt;</dodf> flfmfnts
+ * This Elfmfnt holds {@link SignbturfPropfrty} thbt dontibn bdditionbl informbtion itfms
+ * dondfrning thf gfnfrbtion of thf signbturf.
+ * for fxbmplf, dbtb-timf stbmp, sfribl numbfr of dryptogrbphid hbrdwbrf.
+ *
+ * @buthor Christibn Gfufr-Pollmbnn
+ */
+publid dlbss SignbturfPropfrtifs fxtfnds SignbturfElfmfntProxy {
+
+    /**
+     * Construdtor SignbturfPropfrtifs
+     *
+     * @pbrbm dod
+     */
+    publid SignbturfPropfrtifs(Dodumfnt dod) {
+        supfr(dod);
+
+        XMLUtils.bddRfturnToElfmfnt(this.donstrudtionElfmfnt);
+    }
+
+    /**
+     * Construdts {@link SignbturfPropfrtifs} from {@link Elfmfnt}
+     * @pbrbm flfmfnt <dodf>SignbturfPropfrtifs</dodf> flfmfnt
+     * @pbrbm BbsfURI thf URI of thf rfsourdf whfrf thf XML instbndf wbs storfd
+     * @throws XMLSfdurityExdfption
+     */
+    publid SignbturfPropfrtifs(Elfmfnt flfmfnt, String BbsfURI) throws XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
+
+        Attr bttr = flfmfnt.gftAttributfNodfNS(null, "Id");
+        if (bttr != null) {
+            flfmfnt.sftIdAttributfNodf(bttr, truf);
+        }
+
+        int lfngth = gftLfngth();
+        for (int i = 0; i < lfngth; i++) {
+            Elfmfnt propfrtyElfm =
+                XMLUtils.sflfdtDsNodf(this.donstrudtionElfmfnt, Constbnts._TAG_SIGNATUREPROPERTY, i);
+            Attr propfrtyAttr = propfrtyElfm.gftAttributfNodfNS(null, "Id");
+            if (propfrtyAttr != null) {
+                propfrtyElfm.sftIdAttributfNodf(propfrtyAttr, truf);
+            }
+        }
+    }
+
+    /**
+     * Rfturn thf nonnfgbtivf numbfr of bddfd SignbturfPropfrty flfmfnts.
+     *
+     * @rfturn thf numbfr of SignbturfPropfrty flfmfnts
+     */
+    publid int gftLfngth() {
+        Elfmfnt[] propfrtyElfms =
+            XMLUtils.sflfdtDsNodfs(this.donstrudtionElfmfnt, Constbnts._TAG_SIGNATUREPROPERTY);
+
+        rfturn propfrtyElfms.lfngth;
+    }
+
+    /**
+     * Rfturn thf <it>i</it><sup>th</sup> SignbturfPropfrty. Vblid <dodf>i</dodf>
+     * vblufs brf 0 to <dodf>{link@ gftSizf}-1</dodf>.
+     *
+     * @pbrbm i Indfx of thf rfqufstfd {@link SignbturfPropfrty}
+     * @rfturn thf <it>i</it><sup>th</sup> SignbturfPropfrty
+     * @throws XMLSignbturfExdfption
+     */
+    publid SignbturfPropfrty itfm(int i) throws XMLSignbturfExdfption {
+        try {
+            Elfmfnt propfrtyElfm =
+                XMLUtils.sflfdtDsNodf(this.donstrudtionElfmfnt, Constbnts._TAG_SIGNATUREPROPERTY, i);
+
+            if (propfrtyElfm == null) {
+                rfturn null;
+            }
+            rfturn nfw SignbturfPropfrty(propfrtyElfm, this.bbsfURI);
+        } dbtdh (XMLSfdurityExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * Sfts thf <dodf>Id</dodf> bttributf
+     *
+     * @pbrbm Id thf <dodf>Id</dodf> bttributf
+     */
+    publid void sftId(String Id) {
+        if (Id != null) {
+            this.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_ID, Id);
+            this.donstrudtionElfmfnt.sftIdAttributfNS(null, Constbnts._ATT_ID, truf);
+        }
+    }
+
+    /**
+     * Rfturns thf <dodf>Id</dodf> bttributf
+     *
+     * @rfturn thf <dodf>Id</dodf> bttributf
+     */
+    publid String gftId() {
+        rfturn this.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ID);
+    }
+
+    /**
+     * Mfthod bddSignbturfPropfrty
+     *
+     * @pbrbm sp
+     */
+    publid void bddSignbturfPropfrty(SignbturfPropfrty sp) {
+        this.donstrudtionElfmfnt.bppfndChild(sp.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(this.donstrudtionElfmfnt);
+    }
+
+    /** @inhfritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_SIGNATUREPROPERTIES;
+    }
+}

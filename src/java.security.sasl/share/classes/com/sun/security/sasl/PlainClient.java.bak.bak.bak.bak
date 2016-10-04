@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl;
+
+import jbvbx.sfdurity.sbsl.*;
+
+/**
+  * Implfmfnts thf PLAIN SASL dlifnt mfdhbnism.
+  * (<A
+  * HREF="http://ftp.isi.fdu/in-notfs/rfd2595.txt">RFC 2595</A>)
+  *
+  * @buthor Rosbnnb Lff
+  */
+finbl dlbss PlbinClifnt implfmfnts SbslClifnt {
+    privbtf boolfbn domplftfd = fblsf;
+    privbtf bytf[] pw;
+    privbtf String buthorizbtionID;
+    privbtf String buthfntidbtionID;
+    privbtf stbtid bytf SEP = 0; // US-ASCII <NUL>
+
+    /**
+     * Crfbtfs b SASL mfdhbnism with dlifnt drfdfntibls thbt it nffds
+     * to pbrtidipbtf in Plbin buthfntidbtion fxdhbngf with thf sfrvfr.
+     *
+     * @pbrbm buthorizbtionID A possibly null string rfprfsfnting thf prindipbl
+     *  for whidh buthorizbtion is bfing grbntfd; if null, sbmf bs
+     *  buthfntidbtionID
+     * @pbrbm buthfntidbtionID A non-null string rfprfsfnting thf prindipbl
+     * bfing buthfntidbtfd. pw is bssodibtfd with with this prindipbl.
+     * @pbrbm pw A non-null bytf[] dontbining thf pbssword.
+     */
+    PlbinClifnt(String buthorizbtionID, String buthfntidbtionID, bytf[] pw)
+    throws SbslExdfption {
+        if (buthfntidbtionID == null || pw == null) {
+            throw nfw SbslExdfption(
+                "PLAIN: buthorizbtion ID bnd pbssword must bf spfdififd");
+        }
+
+        this.buthorizbtionID = buthorizbtionID;
+        this.buthfntidbtionID = buthfntidbtionID;
+        this.pw = pw;  // dbllfr should hbvf blrfbdy dlonfd
+    }
+
+    /**
+     * Rftrifvfs this mfdhbnism's nbmf for to initibtf thf PLAIN protodol
+     * fxdhbngf.
+     *
+     * @rfturn  Thf string "PLAIN".
+     */
+    publid String gftMfdhbnismNbmf() {
+        rfturn "PLAIN";
+    }
+
+    publid boolfbn hbsInitiblRfsponsf() {
+        rfturn truf;
+    }
+
+    publid void disposf() throws SbslExdfption {
+        dlfbrPbssword();
+    }
+
+    /**
+     * Rftrifvfs thf initibl rfsponsf for thf SASL dommbnd, whidh for
+     * PLAIN is thf dondbtfnbtion of buthorizbtion ID, buthfntidbtion ID
+     * bnd pbssword, with fbdh domponfnt sfpbrbtfd by thf US-ASCII <NUL> bytf.
+     *
+     * @pbrbm dhbllfngfDbtb Ignorfd
+     * @rfturn A non-null bytf brrby dontbining thf rfsponsf to bf sfnt to thf sfrvfr.
+     * @throws SbslExdfption If dbnnot fndodf ids in UTF-8
+     * @throw IllfgblStbtfExdfption if buthfntidbtion blrfbdy domplftfd
+     */
+    publid bytf[] fvblubtfChbllfngf(bytf[] dhbllfngfDbtb) throws SbslExdfption {
+        if (domplftfd) {
+            throw nfw IllfgblStbtfExdfption(
+                "PLAIN buthfntidbtion blrfbdy domplftfd");
+        }
+        domplftfd = truf;
+
+        try {
+            bytf[] buthz = (buthorizbtionID != null)?
+                buthorizbtionID.gftBytfs("UTF8") :
+                null;
+            bytf[] buth = buthfntidbtionID.gftBytfs("UTF8");
+
+            bytf[] bnswfr = nfw bytf[pw.lfngth + buth.lfngth + 2 +
+                (buthz == null ? 0 : buthz.lfngth)];
+
+            int pos = 0;
+            if (buthz != null) {
+                Systfm.brrbydopy(buthz, 0, bnswfr, 0, buthz.lfngth);
+                pos = buthz.lfngth;
+            }
+            bnswfr[pos++] = SEP;
+            Systfm.brrbydopy(buth, 0, bnswfr, pos, buth.lfngth);
+
+            pos += buth.lfngth;
+            bnswfr[pos++] = SEP;
+
+            Systfm.brrbydopy(pw, 0, bnswfr, pos, pw.lfngth);
+
+            dlfbrPbssword();
+            rfturn bnswfr;
+        } dbtdh (jbvb.io.UnsupportfdEndodingExdfption f) {
+            throw nfw SbslExdfption("Cbnnot gft UTF-8 fndoding of ids", f);
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr this mfdhbnism hbs domplftfd.
+     * Plbin domplftfs bftfr rfturning onf rfsponsf.
+     *
+     * @rfturn truf if hbs domplftfd; fblsf othfrwisf;
+     */
+    publid boolfbn isComplftf() {
+        rfturn domplftfd;
+    }
+
+    /**
+      * Unwrbps thf indoming bufffr.
+      *
+      * @throws SbslExdfption Not bpplidbblf to this mfdhbnism.
+      */
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+        throws SbslExdfption {
+        if (domplftfd) {
+            throw nfw SbslExdfption(
+                "PLAIN supports nfithfr intfgrity nor privbdy");
+        } flsf {
+            throw nfw IllfgblStbtfExdfption("PLAIN buthfntidbtion not domplftfd");
+        }
+    }
+
+    /**
+      * Wrbps thf outgoing bufffr.
+      *
+      * @throws SbslExdfption Not bpplidbblf to this mfdhbnism.
+      */
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn) throws SbslExdfption {
+        if (domplftfd) {
+            throw nfw SbslExdfption(
+                "PLAIN supports nfithfr intfgrity nor privbdy");
+        } flsf {
+            throw nfw IllfgblStbtfExdfption("PLAIN buthfntidbtion not domplftfd");
+        }
+    }
+
+    /**
+     * Rftrifvfs thf nfgotibtfd propfrty.
+     * This mfthod dbn bf dbllfd only bftfr thf buthfntidbtion fxdhbngf hbs
+     * domplftfd (i.f., whfn <tt>isComplftf()</tt> rfturns truf); othfrwisf, b
+     * <tt>SbslExdfption</tt> is thrown.
+     *
+     * @rfturn vbluf of propfrty; only QOP is bpplidbblf to PLAIN.
+     * @fxdfption IllfgblStbtfExdfption if this buthfntidbtion fxdhbngf
+     *     hbs not domplftfd
+     */
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (domplftfd) {
+            if (propNbmf.fqubls(Sbsl.QOP)) {
+                rfturn "buth";
+            } flsf {
+                rfturn null;
+            }
+        } flsf {
+            throw nfw IllfgblStbtfExdfption("PLAIN buthfntidbtion not domplftfd");
+        }
+    }
+
+    privbtf void dlfbrPbssword() {
+        if (pw != null) {
+            // zfro out pbssword
+            for (int i = 0; i < pw.lfngth; i++) {
+                pw[i] = (bytf)0;
+            }
+            pw = null;
+        }
+    }
+
+    protfdtfd void finblizf() {
+        dlfbrPbssword();
+    }
+}

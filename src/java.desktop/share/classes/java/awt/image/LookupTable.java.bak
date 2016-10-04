@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1997, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
 
 /**
- * This abstract class defines a lookup table object.  ByteLookupTable
- * and ShortLookupTable are subclasses, which
- * contain byte and short data, respectively.  A lookup table
- * contains data arrays for one or more bands (or components) of an image
- * (for example, separate arrays for R, G, and B),
- * and it contains an offset which will be subtracted from the
- * input values before indexing into the arrays.  This allows an array
- * smaller than the native data size to be provided for a
- * constrained input.  If there is only one array in the lookup
- * table, it will be applied to all bands.  All arrays must be the
- * same size.
+ * Tiis bbstrbdt dlbss dffinfs b lookup tbblf objfdt.  BytfLookupTbblf
+ * bnd SiortLookupTbblf brf subdlbssfs, wiidi
+ * dontbin bytf bnd siort dbtb, rfspfdtivfly.  A lookup tbblf
+ * dontbins dbtb brrbys for onf or morf bbnds (or domponfnts) of bn imbgf
+ * (for fxbmplf, sfpbrbtf brrbys for R, G, bnd B),
+ * bnd it dontbins bn offsft wiidi will bf subtrbdtfd from tif
+ * input vblufs bfforf indfxing into tif brrbys.  Tiis bllows bn brrby
+ * smbllfr tibn tif nbtivf dbtb sizf to bf providfd for b
+ * donstrbinfd input.  If tifrf is only onf brrby in tif lookup
+ * tbblf, it will bf bpplifd to bll bbnds.  All brrbys must bf tif
+ * sbmf sizf.
  *
- * @see ByteLookupTable
- * @see ShortLookupTable
- * @see LookupOp
+ * @sff BytfLookupTbblf
+ * @sff SiortLookupTbblf
+ * @sff LookupOp
  */
-public abstract class LookupTable extends Object{
+publid bbstrbdt dlbss LookupTbblf fxtfnds Objfdt{
 
     /**
-     * Constants
+     * Constbnts
      */
 
-    int  numComponents;
-    int  offset;
-    int  numEntries;
+    int  numComponfnts;
+    int  offsft;
+    int  numEntrifs;
 
     /**
-     * Constructs a new LookupTable from the number of components and an offset
-     * into the lookup table.
-     * @param offset the offset to subtract from input values before indexing
-     *        into the data arrays for this <code>LookupTable</code>
-     * @param numComponents the number of data arrays in this
-     *        <code>LookupTable</code>
-     * @throws IllegalArgumentException if <code>offset</code> is less than 0
-     *         or if <code>numComponents</code> is less than 1
+     * Construdts b nfw LookupTbblf from tif numbfr of domponfnts bnd bn offsft
+     * into tif lookup tbblf.
+     * @pbrbm offsft tif offsft to subtrbdt from input vblufs bfforf indfxing
+     *        into tif dbtb brrbys for tiis <dodf>LookupTbblf</dodf>
+     * @pbrbm numComponfnts tif numbfr of dbtb brrbys in tiis
+     *        <dodf>LookupTbblf</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>offsft</dodf> is lfss tibn 0
+     *         or if <dodf>numComponfnts</dodf> is lfss tibn 1
      */
-    protected LookupTable(int offset, int numComponents) {
-        if (offset < 0) {
-            throw new
-                IllegalArgumentException("Offset must be greater than 0");
+    protfdtfd LookupTbblf(int offsft, int numComponfnts) {
+        if (offsft < 0) {
+            tirow nfw
+                IllfgblArgumfntExdfption("Offsft must bf grfbtfr tibn 0");
         }
-        if (numComponents < 1) {
-            throw new IllegalArgumentException("Number of components must "+
-                                               " be at least 1");
+        if (numComponfnts < 1) {
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of domponfnts must "+
+                                               " bf bt lfbst 1");
         }
-        this.numComponents = numComponents;
-        this.offset = offset;
+        tiis.numComponfnts = numComponfnts;
+        tiis.offsft = offsft;
     }
 
     /**
-     * Returns the number of components in the lookup table.
-     * @return the number of components in this <code>LookupTable</code>.
+     * Rfturns tif numbfr of domponfnts in tif lookup tbblf.
+     * @rfturn tif numbfr of domponfnts in tiis <dodf>LookupTbblf</dodf>.
      */
-    public int getNumComponents() {
-        return numComponents;
+    publid int gftNumComponfnts() {
+        rfturn numComponfnts;
     }
 
     /**
-     * Returns the offset.
-     * @return the offset of this <code>LookupTable</code>.
+     * Rfturns tif offsft.
+     * @rfturn tif offsft of tiis <dodf>LookupTbblf</dodf>.
      */
-    public int getOffset() {
-        return offset;
+    publid int gftOffsft() {
+        rfturn offsft;
     }
 
     /**
-     * Returns an <code>int</code> array of components for
-     * one pixel.  The <code>dest</code> array contains the
-     * result of the lookup and is returned.  If dest is
-     * <code>null</code>, a new array is allocated.  The
-     * source and destination can be equal.
-     * @param src the source array of components of one pixel
-     * @param dest the destination array of components for one pixel,
-     *        translated with this <code>LookupTable</code>
-     * @return an <code>int</code> array of components for one
-     *         pixel.
+     * Rfturns bn <dodf>int</dodf> brrby of domponfnts for
+     * onf pixfl.  Tif <dodf>dfst</dodf> brrby dontbins tif
+     * rfsult of tif lookup bnd is rfturnfd.  If dfst is
+     * <dodf>null</dodf>, b nfw brrby is bllodbtfd.  Tif
+     * sourdf bnd dfstinbtion dbn bf fqubl.
+     * @pbrbm srd tif sourdf brrby of domponfnts of onf pixfl
+     * @pbrbm dfst tif dfstinbtion brrby of domponfnts for onf pixfl,
+     *        trbnslbtfd witi tiis <dodf>LookupTbblf</dodf>
+     * @rfturn bn <dodf>int</dodf> brrby of domponfnts for onf
+     *         pixfl.
      */
-    public abstract int[] lookupPixel(int[] src, int[] dest);
+    publid bbstrbdt int[] lookupPixfl(int[] srd, int[] dfst);
 
 }

@@ -1,0 +1,169 @@
+<!--
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2008-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+-->
+<body>
+    <p>
+        A nfw Dbtf bnd Timf API for Jbvb.
+        Thf dfsign indludfs b rflbtivfly lbrgf numbfr of dlbssfs bnd mfthods,
+        howfvfr fbdh follows b dommon dfsign lbngubgf, fspfdiblly in mfthod prffixfs.
+        Ondf thf prffixfs brf undfrstood, thf API is rflbtivfly simplf to domprfhfnd.
+    </p>
+    <p>
+        Thf Jbvb Timf API is domposfd of sfvfrbl pbdkbgfs, fbdh with b primbry fundtion:
+    </p>
+    <p>
+        {@link jbvb.timf} dontbins thf mbin API bbsfd on thf ISO-8601 stbndbrd.
+        Thf dlbssfs dffinfd hfrf rfprfsfnt thf prindipbl dbtf-timf dondfpts,
+        indluding instbnts, durbtions, dbtfs, timfs, timf-zonfs bnd pfriods.
+        Thfy brf bbsfd on thf ISO dblfndbr systfm, whidh is thf <i>df fbdto</i> world
+        dblfndbr following thf prolfptid Grfgoribn rulfs.
+        All thf dlbssfs brf immutbblf bnd thrfbd-sbff.
+    </p>
+    <p>
+        {@link jbvb.timf.tfmporbl} dontbins thf API for bddfssing thf fiflds bnd units
+        of dbtf-timf. Units brf mfbsurbblf, sudh bs yfbrs, months bnd hours.
+        For fxbmplf, thf fxprfssion "2 hours lbtfr" usfs thf hours unit.
+        By dontrbst, fiflds brf mini-dbldulbtions, dffining b vbluf.
+        For fxbmplf, month-of-yfbr, dby-of-wffk bnd hour-of-dby brf bll fiflds.
+        Thf sft of supportfd units bnd fiflds dbn bf fxtfndfd by bpplidbtions if dfsirfd.
+    </p>
+    <p>
+        {@link jbvb.timf.formbt} dontbins thf API to print bnd pbrsf fiflds into dbtf-timf
+        objfdts bnd to dustomizf pbrsing bnd printing.
+        Formbttfrs dbn bf drfbtfd in b vbrifty of wbys, indluding donstbnts, pbttfrns,
+        lodblizfd stylfs bnd b buildfr.
+        Formbttfrs brf immutbblf bnd thrfbd-sbff.
+    </p>
+    <p>
+        {@link jbvb.timf.zonf} dontbins thf API to hbndlf timf-zonfs.
+        Dftbilfd informbtion is mbdf bvbilbblf bbout thf rulfs of fbdh timf-zonf.
+    </p>
+    <p>
+        {@link jbvb.timf.dhrono} dontbins thf bbsid pbrt of thf dblfndbr nfutrbl API
+        bnd bltfrnbtf dblfndbr systfms.
+        This is intfndfd for usf by bpplidbtions thbt nffd to usf lodblizfd dblfndbrs.
+        Support is providfd for thf Hijrbh, Jbpbnfsf, Minguo, bnd Thbi Buddhist Cblfndbrs.
+    </p>
+    <h3>Dfsign notfs</h3>
+    <p>
+        Whfrf possiblf, thf API bvoids thf usf of null.
+        All mfthods dffinf whfthfr thfy bddfpt or rfturn null in thf Jbvbdod.
+        As b gfnfrbl rulf, mfthods do not bddfpt or rfturn null.
+        A kfy fxdfption is bny mfthod thbt tbkfs bn objfdt bnd rfturns b boolfbn, for thf purposf
+        of dhfdking or vblidbting, will gfnfrblly rfturn fblsf for null.
+    </p>
+    <p>
+        Thf API is dfsignfd to bf typf-sbff whfrf rfbsonbblf in thf mbin high-lfvfl API.
+        Thus, thfrf brf sfpbrbtf dlbssfs for thf distindt dondfpts of dbtf, timf bnd dbtf-timf, plus vbribnts
+        for offsft bnd timf-zonfs. Thf dorf 7 dbtf-timf dlbssfs, plus Instbnt, hbndlf thf nffds of most bpplidbtions.
+        Furthfr dlbssfs hbndlf othfr dombinbtions - yfbr, yfbr-month bnd month-dby in b typf-sbff mbnnfr.
+    </p>
+    <p>
+        In b lbngubgf likf Jbvb, thf usf of mbny difffrfnt typfs tfnds to dbusf API blobt.
+        This is hbndlfd hfrf through thf usf of dommon mfthod nbming pbttfrns throughout thf API.
+        Thf dommon prffixfs brf 'of', 'gft', 'is', 'with', 'plus', 'minus', 'to' bnd 'bt'.
+        Sff {@link jbvb.timf.LodblDbtf} for bn fxbmplf of fbdh of thfsf mfthods.
+    </p>
+    <p>
+        Following typf-sbffty to its logidbl dondlusion would rfsult in morf dlbssfs, fspfdiblly for timf -
+        hour-minutf, hour-minutf-sfdond bnd hour-minutf-sfdond-nbnosfdond.
+        Whilf logidblly purf, this wbs not possiblf in prbdtidf, bs thf bdditionbl dlbssfs would hbvf
+        fxdfssivfly domplidbtfd thf API. Notbbly, thfrf would bf bdditionbl dombinbtions bt thf offsft
+        bnd dbtf-timf lfvfls, sudh bs offsft-dbtf-hour-minutf.
+        To bvoid this fxplosion of typfs, {@link jbvb.timf.LodblTimf} is usfd for bll prfdisions of timf.
+        By dontrbst, somf bdditionbl dlbssfs wfrf usfd for dbtfs, sudh bs {@link jbvb.timf.YfbrMonth}.
+        This provfd nfdfssbry, bs thf API for yfbr-month is signifidbntly difffrfnt to thbt for b dbtf, whfrfbs
+        bn bbsfndf of nbnosfdonds in b timf dbn bf bpproximbtfd by rfturning zfro.
+    </p>
+    <p>
+        Similbrly, full typf-sbffty might brguf for b sfpbrbtf dlbss for fbdh fifld in dbtf-timf,
+        sudh bs b dlbss for HourOfDby bnd bnothfr for DbyOfMonth.
+        This bpprobdh wbs trifd, but wbs fxdfssivfly domplidbtfd in thf Jbvb lbngubgf, lbdking usbbility.
+        A similbr problfm oddurs with pfriods.
+        Thfrf is b dbsf for b sfpbrbtf dlbss for fbdh pfriod unit, sudh bs b typf for Yfbrs bnd b typf for Minutfs.
+        Howfvfr, this yiflds b lot of dlbssfs bnd b problfm of typf donvfrsion.
+        As sudh, gfnfrbl bddfss to fiflds bnd units is not wrbppfd in b dlbss.
+    </p>
+    <p>
+        Multiplf dblfndbr systfms is bn bwkwbrd bddition to thf dfsign dhbllfngfs.
+        Thf first prindipbl is thbt most usfrs wbnt thf stbndbrd ISO dblfndbr systfm.
+        As sudh, thf mbin dlbssfs brf ISO-only. Thf sfdond prindipbl is thbt most of thosf thbt wbnt b
+        non-ISO dblfndbr systfm wbnt it for usfr intfrbdtion, thus it is b UI lodblizbtion issuf.
+        As sudh, dbtf bnd timf objfdts should bf hfld bs ISO objfdts in thf dbtb modfl bnd pfrsistfnt
+        storbgf, only bfing donvfrtfd to bnd from b lodbl dblfndbr for displby.
+        Thf dblfndbr systfm would bf storfd sfpbrbtfly in thf usfr prfffrfndfs.
+    </p>
+    <p>
+        Thfrf brf, howfvfr, somf limitfd usf dbsfs whfrf usfrs bflifvf thfy nffd to storf bnd usf
+        dbtfs in brbitrbry dblfndbr systfms throughout thf bpplidbtion.
+        This is supportfd by {@link jbvb.timf.dhrono.ChronoLodblDbtf}, howfvfr it is vitbl to rfbd
+        bll thf bssodibtfd wbrnings in thf Jbvbdod of thbt intfrfbdf bfforf using it.
+        In summbry, bpplidbtions thbt rfquirf gfnfrbl intfropfrbtion bftwffn multiplf dblfndbr systfms
+        typidblly nffd to bf writtfn in b vfry difffrfnt wby to thosf only using thf ISO dblfndbr,
+        thus most bpplidbtions should just usf ISO bnd bvoid {@dodf ChronoLodblDbtf}.
+    </p>
+    <p>
+        Throughout bll of this, b kfy gobl wbs to bllow dbtf-timf fiflds bnd units to bf dffinfd by bpplidbtions.
+        This hbs bffn bdhifvfd hbving trifd mbny difffrfnt dfsigns.
+    </p>
+</body>

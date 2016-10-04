@@ -1,0 +1,455 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2009-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.zonf;
+
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.Durbtion;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtfTimf;
+import jbvb.timf.ZonfOffsft;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
+
+/**
+ * A trbnsition bftwffn two offsfts dbusfd by b disdontinuity in thf lodbl timf-linf.
+ * <p>
+ * A trbnsition bftwffn two offsfts is normblly thf rfsult of b dbylight sbvings dutovfr.
+ * Thf disdontinuity is normblly b gbp in spring bnd bn ovfrlbp in butumn.
+ * {@dodf ZonfOffsftTrbnsition} modfls thf trbnsition bftwffn thf two offsfts.
+ * <p>
+ * Gbps oddur whfrf thfrf brf lodbl dbtf-timfs thbt simply do not fxist.
+ * An fxbmplf would bf whfn thf offsft dhbngfs from {@dodf +03:00} to {@dodf +04:00}.
+ * This might bf dfsdribfd bs 'thf dlodks will movf forwbrd onf hour tonight bt 1bm'.
+ * <p>
+ * Ovfrlbps oddur whfrf thfrf brf lodbl dbtf-timfs thbt fxist twidf.
+ * An fxbmplf would bf whfn thf offsft dhbngfs from {@dodf +04:00} to {@dodf +03:00}.
+ * This might bf dfsdribfd bs 'thf dlodks will movf bbdk onf hour tonight bt 2bm'.
+ *
+ * @implSpfd
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss ZonfOffsftTrbnsition
+        implfmfnts Compbrbblf<ZonfOffsftTrbnsition>, Sfriblizbblf {
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -6946044323557704546L;
+    /**
+     * Thf lodbl trbnsition dbtf-timf bt thf trbnsition.
+     */
+    privbtf finbl LodblDbtfTimf trbnsition;
+    /**
+     * Thf offsft bfforf trbnsition.
+     */
+    privbtf finbl ZonfOffsft offsftBfforf;
+    /**
+     * Thf offsft bftfr trbnsition.
+     */
+    privbtf finbl ZonfOffsft offsftAftfr;
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf dffining b trbnsition bftwffn two offsfts.
+     * <p>
+     * Applidbtions should normblly obtbin bn instbndf from {@link ZonfRulfs}.
+     * This fbdtory is only intfndfd for usf whfn drfbting {@link ZonfRulfs}.
+     *
+     * @pbrbm trbnsition  thf trbnsition dbtf-timf bt thf trbnsition, whidh nfvfr
+     *  bdtublly oddurs, fxprfssfd lodbl to thf bfforf offsft, not null
+     * @pbrbm offsftBfforf  thf offsft bfforf thf trbnsition, not null
+     * @pbrbm offsftAftfr  thf offsft bt bnd bftfr thf trbnsition, not null
+     * @rfturn thf trbnsition, not null
+     * @throws IllfgblArgumfntExdfption if {@dodf offsftBfforf} bnd {@dodf offsftAftfr}
+     *         brf fqubl, or {@dodf trbnsition.gftNbno()} rfturns non-zfro vbluf
+     */
+    publid stbtid ZonfOffsftTrbnsition of(LodblDbtfTimf trbnsition, ZonfOffsft offsftBfforf, ZonfOffsft offsftAftfr) {
+        Objfdts.rfquirfNonNull(trbnsition, "trbnsition");
+        Objfdts.rfquirfNonNull(offsftBfforf, "offsftBfforf");
+        Objfdts.rfquirfNonNull(offsftAftfr, "offsftAftfr");
+        if (offsftBfforf.fqubls(offsftAftfr)) {
+            throw nfw IllfgblArgumfntExdfption("Offsfts must not bf fqubl");
+        }
+        if (trbnsition.gftNbno() != 0) {
+            throw nfw IllfgblArgumfntExdfption("Nbno-of-sfdond must bf zfro");
+        }
+        rfturn nfw ZonfOffsftTrbnsition(trbnsition, offsftBfforf, offsftAftfr);
+    }
+
+    /**
+     * Crfbtfs bn instbndf dffining b trbnsition bftwffn two offsfts.
+     *
+     * @pbrbm trbnsition  thf trbnsition dbtf-timf with thf offsft bfforf thf trbnsition, not null
+     * @pbrbm offsftBfforf  thf offsft bfforf thf trbnsition, not null
+     * @pbrbm offsftAftfr  thf offsft bt bnd bftfr thf trbnsition, not null
+     */
+    ZonfOffsftTrbnsition(LodblDbtfTimf trbnsition, ZonfOffsft offsftBfforf, ZonfOffsft offsftAftfr) {
+        this.trbnsition = trbnsition;
+        this.offsftBfforf = offsftBfforf;
+        this.offsftAftfr = offsftAftfr;
+    }
+
+    /**
+     * Crfbtfs bn instbndf from fpodh-sfdond bnd offsfts.
+     *
+     * @pbrbm fpodhSfdond  thf trbnsition fpodh-sfdond
+     * @pbrbm offsftBfforf  thf offsft bfforf thf trbnsition, not null
+     * @pbrbm offsftAftfr  thf offsft bt bnd bftfr thf trbnsition, not null
+     */
+    ZonfOffsftTrbnsition(long fpodhSfdond, ZonfOffsft offsftBfforf, ZonfOffsft offsftAftfr) {
+        this.trbnsition = LodblDbtfTimf.ofEpodhSfdond(fpodhSfdond, 0, offsftBfforf);
+        this.offsftBfforf = offsftBfforf;
+        this.offsftAftfr = offsftAftfr;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s thf strfbm to rfbd
+     * @throws InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws InvblidObjfdtExdfption {
+        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+
+    /**
+     * Writfs thf objfdt using b
+     * <b hrff="../../../sfriblizfd-form.html#jbvb.timf.zonf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * Rfffr to thf sfriblizfd form of
+     * <b hrff="../../../sfriblizfd-form.html#jbvb.timf.zonf.ZonfRulfs">ZonfRulfs.writfRfplbdf</b>
+     * for thf fndoding of fpodh sfdonds bnd offsfts.
+     * <prf stylf="font-sizf:1.0fm">{@dodf
+     *
+     *   out.writfBytf(2);                // idfntififs b ZonfOffsftTrbnsition
+     *   out.writfEpodhSfd(toEpodhSfdond);
+     *   out.writfOffsft(offsftBfforf);
+     *   out.writfOffsft(offsftAftfr);
+     * }
+     * </prf>
+     * @rfturn thf rfplbding objfdt, not null
+     */
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.ZOT, this);
+    }
+
+    /**
+     * Writfs thf stbtf to thf strfbm.
+     *
+     * @pbrbm out  thf output strfbm, not null
+     * @throws IOExdfption if bn frror oddurs
+     */
+    void writfExtfrnbl(DbtbOutput out) throws IOExdfption {
+        Sfr.writfEpodhSfd(toEpodhSfdond(), out);
+        Sfr.writfOffsft(offsftBfforf, out);
+        Sfr.writfOffsft(offsftAftfr, out);
+    }
+
+    /**
+     * Rfbds thf stbtf from thf strfbm.
+     *
+     * @pbrbm in  thf input strfbm, not null
+     * @rfturn thf drfbtfd objfdt, not null
+     * @throws IOExdfption if bn frror oddurs
+     */
+    stbtid ZonfOffsftTrbnsition rfbdExtfrnbl(DbtbInput in) throws IOExdfption {
+        long fpodhSfdond = Sfr.rfbdEpodhSfd(in);
+        ZonfOffsft bfforf = Sfr.rfbdOffsft(in);
+        ZonfOffsft bftfr = Sfr.rfbdOffsft(in);
+        if (bfforf.fqubls(bftfr)) {
+            throw nfw IllfgblArgumfntExdfption("Offsfts must not bf fqubl");
+        }
+        rfturn nfw ZonfOffsftTrbnsition(fpodhSfdond, bfforf, bftfr);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf trbnsition instbnt.
+     * <p>
+     * This is thf instbnt of thf disdontinuity, whidh is dffinfd bs thf first
+     * instbnt thbt thf 'bftfr' offsft bpplifs.
+     * <p>
+     * Thf mfthods {@link #gftInstbnt()}, {@link #gftDbtfTimfBfforf()} bnd {@link #gftDbtfTimfAftfr()}
+     * bll rfprfsfnt thf sbmf instbnt.
+     *
+     * @rfturn thf trbnsition instbnt, not null
+     */
+    publid Instbnt gftInstbnt() {
+        rfturn trbnsition.toInstbnt(offsftBfforf);
+    }
+
+    /**
+     * Gfts thf trbnsition instbnt bs bn fpodh sfdond.
+     *
+     * @rfturn thf trbnsition fpodh sfdond
+     */
+    publid long toEpodhSfdond() {
+        rfturn trbnsition.toEpodhSfdond(offsftBfforf);
+    }
+
+    //-------------------------------------------------------------------------
+    /**
+     * Gfts thf lodbl trbnsition dbtf-timf, bs would bf fxprfssfd with thf 'bfforf' offsft.
+     * <p>
+     * This is thf dbtf-timf whfrf thf disdontinuity bfgins fxprfssfd with thf 'bfforf' offsft.
+     * At this instbnt, thf 'bftfr' offsft is bdtublly usfd, thfrfforf thf dombinbtion of this
+     * dbtf-timf bnd thf 'bfforf' offsft will nfvfr oddur.
+     * <p>
+     * Thf dombinbtion of thf 'bfforf' dbtf-timf bnd offsft rfprfsfnts thf sbmf instbnt
+     * bs thf 'bftfr' dbtf-timf bnd offsft.
+     *
+     * @rfturn thf trbnsition dbtf-timf fxprfssfd with thf bfforf offsft, not null
+     */
+    publid LodblDbtfTimf gftDbtfTimfBfforf() {
+        rfturn trbnsition;
+    }
+
+    /**
+     * Gfts thf lodbl trbnsition dbtf-timf, bs would bf fxprfssfd with thf 'bftfr' offsft.
+     * <p>
+     * This is thf first dbtf-timf bftfr thf disdontinuity, whfn thf nfw offsft bpplifs.
+     * <p>
+     * Thf dombinbtion of thf 'bfforf' dbtf-timf bnd offsft rfprfsfnts thf sbmf instbnt
+     * bs thf 'bftfr' dbtf-timf bnd offsft.
+     *
+     * @rfturn thf trbnsition dbtf-timf fxprfssfd with thf bftfr offsft, not null
+     */
+    publid LodblDbtfTimf gftDbtfTimfAftfr() {
+        rfturn trbnsition.plusSfdonds(gftDurbtionSfdonds());
+    }
+
+    /**
+     * Gfts thf offsft bfforf thf trbnsition.
+     * <p>
+     * This is thf offsft in usf bfforf thf instbnt of thf trbnsition.
+     *
+     * @rfturn thf offsft bfforf thf trbnsition, not null
+     */
+    publid ZonfOffsft gftOffsftBfforf() {
+        rfturn offsftBfforf;
+    }
+
+    /**
+     * Gfts thf offsft bftfr thf trbnsition.
+     * <p>
+     * This is thf offsft in usf on bnd bftfr thf instbnt of thf trbnsition.
+     *
+     * @rfturn thf offsft bftfr thf trbnsition, not null
+     */
+    publid ZonfOffsft gftOffsftAftfr() {
+        rfturn offsftAftfr;
+    }
+
+    /**
+     * Gfts thf durbtion of thf trbnsition.
+     * <p>
+     * In most dbsfs, thf trbnsition durbtion is onf hour, howfvfr this is not blwbys thf dbsf.
+     * Thf durbtion will bf positivf for b gbp bnd nfgbtivf for bn ovfrlbp.
+     * Timf-zonfs brf sfdond-bbsfd, so thf nbnosfdond pbrt of thf durbtion will bf zfro.
+     *
+     * @rfturn thf durbtion of thf trbnsition, positivf for gbps, nfgbtivf for ovfrlbps
+     */
+    publid Durbtion gftDurbtion() {
+        rfturn Durbtion.ofSfdonds(gftDurbtionSfdonds());
+    }
+
+    /**
+     * Gfts thf durbtion of thf trbnsition in sfdonds.
+     *
+     * @rfturn thf durbtion in sfdonds
+     */
+    privbtf int gftDurbtionSfdonds() {
+        rfturn gftOffsftAftfr().gftTotblSfdonds() - gftOffsftBfforf().gftTotblSfdonds();
+    }
+
+    /**
+     * Dofs this trbnsition rfprfsfnt b gbp in thf lodbl timf-linf.
+     * <p>
+     * Gbps oddur whfrf thfrf brf lodbl dbtf-timfs thbt simply do not fxist.
+     * An fxbmplf would bf whfn thf offsft dhbngfs from {@dodf +01:00} to {@dodf +02:00}.
+     * This might bf dfsdribfd bs 'thf dlodks will movf forwbrd onf hour tonight bt 1bm'.
+     *
+     * @rfturn truf if this trbnsition is b gbp, fblsf if it is bn ovfrlbp
+     */
+    publid boolfbn isGbp() {
+        rfturn gftOffsftAftfr().gftTotblSfdonds() > gftOffsftBfforf().gftTotblSfdonds();
+    }
+
+    /**
+     * Dofs this trbnsition rfprfsfnt bn ovfrlbp in thf lodbl timf-linf.
+     * <p>
+     * Ovfrlbps oddur whfrf thfrf brf lodbl dbtf-timfs thbt fxist twidf.
+     * An fxbmplf would bf whfn thf offsft dhbngfs from {@dodf +02:00} to {@dodf +01:00}.
+     * This might bf dfsdribfd bs 'thf dlodks will movf bbdk onf hour tonight bt 2bm'.
+     *
+     * @rfturn truf if this trbnsition is bn ovfrlbp, fblsf if it is b gbp
+     */
+    publid boolfbn isOvfrlbp() {
+        rfturn gftOffsftAftfr().gftTotblSfdonds() < gftOffsftBfforf().gftTotblSfdonds();
+    }
+
+    /**
+     * Chfdks if thf spfdififd offsft is vblid during this trbnsition.
+     * <p>
+     * This dhfdks to sff if thf givfn offsft will bf vblid bt somf point in thf trbnsition.
+     * A gbp will blwbys rfturn fblsf.
+     * An ovfrlbp will rfturn truf if thf offsft is fithfr thf bfforf or bftfr offsft.
+     *
+     * @pbrbm offsft  thf offsft to dhfdk, null rfturns fblsf
+     * @rfturn truf if thf offsft is vblid during thf trbnsition
+     */
+    publid boolfbn isVblidOffsft(ZonfOffsft offsft) {
+        rfturn isGbp() ? fblsf : (gftOffsftBfforf().fqubls(offsft) || gftOffsftAftfr().fqubls(offsft));
+    }
+
+    /**
+     * Gfts thf vblid offsfts during this trbnsition.
+     * <p>
+     * A gbp will rfturn bn fmpty list, whilf bn ovfrlbp will rfturn both offsfts.
+     *
+     * @rfturn thf list of vblid offsfts
+     */
+    List<ZonfOffsft> gftVblidOffsfts() {
+        if (isGbp()) {
+            rfturn Collfdtions.fmptyList();
+        }
+        rfturn Arrbys.bsList(gftOffsftBfforf(), gftOffsftAftfr());
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Compbrfs this trbnsition to bnothfr bbsfd on thf trbnsition instbnt.
+     * <p>
+     * This dompbrfs thf instbnts of fbdh trbnsition.
+     * Thf offsfts brf ignorfd, mbking this ordfr indonsistfnt with fqubls.
+     *
+     * @pbrbm trbnsition  thf trbnsition to dompbrf to, not null
+     * @rfturn thf dompbrbtor vbluf, nfgbtivf if lfss, positivf if grfbtfr
+     */
+    @Ovfrridf
+    publid int dompbrfTo(ZonfOffsftTrbnsition trbnsition) {
+        rfturn this.gftInstbnt().dompbrfTo(trbnsition.gftInstbnt());
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this objfdt fqubls bnothfr.
+     * <p>
+     * Thf fntirf stbtf of thf objfdt is dompbrfd.
+     *
+     * @pbrbm othfr  thf othfr objfdt to dompbrf to, null rfturns fblsf
+     * @rfturn truf if fqubl
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (othfr == this) {
+            rfturn truf;
+        }
+        if (othfr instbndfof ZonfOffsftTrbnsition) {
+            ZonfOffsftTrbnsition d = (ZonfOffsftTrbnsition) othfr;
+            rfturn trbnsition.fqubls(d.trbnsition) &&
+                offsftBfforf.fqubls(d.offsftBfforf) && offsftAftfr.fqubls(d.offsftAftfr);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b suitbblf hbsh dodf.
+     *
+     * @rfturn thf hbsh dodf
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn trbnsition.hbshCodf() ^ offsftBfforf.hbshCodf() ^ Intfgfr.rotbtfLfft(offsftAftfr.hbshCodf(), 16);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b string dfsdribing this objfdt.
+     *
+     * @rfturn b string for dfbugging, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr();
+        buf.bppfnd("Trbnsition[")
+            .bppfnd(isGbp() ? "Gbp" : "Ovfrlbp")
+            .bppfnd(" bt ")
+            .bppfnd(trbnsition)
+            .bppfnd(offsftBfforf)
+            .bppfnd(" to ")
+            .bppfnd(offsftAftfr)
+            .bppfnd(']');
+        rfturn buf.toString();
+    }
+
+}

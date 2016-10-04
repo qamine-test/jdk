@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * @buthor    IBM Corp.
+ *
+ * Copyright IBM Corp. 1999-2000.  All rights rfsfrvfd.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
+
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.PfrsistfntMBfbn;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+
+/**
+ * This intfrfbdf must bf implfmfntfd by thf ModflMBfbns. An implfmfntbtion of this intfrfbdf
+ * must bf shippfd with fvfry JMX Agfnt.
+ * <P>
+ * Jbvb rfsourdfs wishing to bf mbnbgfbblf instbntibtf thf ModflMBfbn using thf MBfbnSfrvfr's
+ * drfbtfMBfbn mfthod.  Thf rfsourdf thfn sfts thf ModflMBfbnInfo (with Dfsdriptors) for thf ModflMBfbn
+ * instbndf. Thf bttributfs bnd opfrbtions fxposfd vib thf ModflMBfbnInfo for thf ModflMBfbn brf bddfssiblf
+ * from MBfbns, donnfdtors/bdbptors likf othfr MBfbns. Through thf ModflMBfbnInfo Dfsdriptors, vblufs bnd mfthods in
+ * thf mbnbgfd bpplidbtion dbn bf dffinfd bnd mbppfd to bttributfs bnd opfrbtions of thf ModflMBfbn.
+ * This mbpping dbn bf dffinfd during dfvflopmfnt in bn XML formbttfd filf or dynbmidblly bnd
+ * progrbmmbtidblly bt runtimf.
+ * <P>
+ * Evfry ModflMBfbn whidh is instbntibtfd in thf MBfbnSfrvfr bfdomfs mbnbgfbblf:
+ * its bttributfs bnd opfrbtions
+ * bfdomf rfmotfly bddfssiblf through thf donnfdtors/bdbptors donnfdtfd to thbt MBfbnSfrvfr.
+ * A Jbvb objfdt dbnnot bf rfgistfrfd in thf MBfbnSfrvfr unlfss it is b JMX domplibnt MBfbn.
+ * By instbntibting b ModflMBfbn, rfsourdfs brf gubrbntffd thbt thf MBfbn is vblid.
+ * <P>
+ * MBfbnExdfption bnd RuntimfOpfrbtionsExdfption must bf thrown on fvfry publid mfthod.  This bllows
+ * for wrbpping fxdfptions from distributfd dommunidbtions (RMI, EJB, ftd.).  Thfsf fxdfptions do
+ * not hbvf to bf thrown by thf implfmfntbtion fxdfpt in thf sdfnbrios dfsdribfd in thf spfdifidbtion
+ * bnd jbvbdod.
+ *
+ * @sindf 1.5
+ */
+
+publid intfrfbdf ModflMBfbn fxtfnds
+         DynbmidMBfbn,
+         PfrsistfntMBfbn,
+         ModflMBfbnNotifidbtionBrobddbstfr
+{
+
+        /**
+         * Initiblizfs b ModflMBfbn objfdt using ModflMBfbnInfo pbssfd in.
+         * This mfthod mbkfs it possiblf to sft b dustomizfd ModflMBfbnInfo on
+         * thf ModflMBfbn bs long bs it is not rfgistfrfd with thf MBfbnSfrvfr.
+         * <br>
+         * Ondf thf ModflMBfbn's ModflMBfbnInfo (with Dfsdriptors) brf
+         * dustomizfd bnd sft on thf ModflMBfbn, thf  ModflMBfbn dbn bf
+         * rfgistfrfd with thf MBfbnSfrvfr.
+         * <P>
+         * If thf ModflMBfbn is durrfntly rfgistfrfd, this mfthod throws
+         * b {@link jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption} wrbpping bn
+         * {@link IllfgblStbtfExdfption}
+         *
+         * @pbrbm inModflMBfbnInfo Thf ModflMBfbnInfo objfdt to bf usfd
+         *        by thf ModflMBfbn.
+         *
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion
+         *        Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption
+         * <ul><li>Wrbps bn {@link IllfgblArgumfntExdfption} if
+         *         thf MBfbnInfo pbssfd in pbrbmftfr is null.</li>
+         *     <li>Wrbps bn {@link IllfgblStbtfExdfption} if thf ModflMBfbn
+         *         is durrfntly rfgistfrfd in thf MBfbnSfrvfr.</li>
+         * </ul>
+         *
+         **/
+        publid void sftModflMBfbnInfo(ModflMBfbnInfo inModflMBfbnInfo)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+        /**
+         * Sfts thf instbndf hbndlf of thf objfdt bgbinst whidh to
+         * fxfdutf bll mfthods in this ModflMBfbn mbnbgfmfnt intfrfbdf
+         * (MBfbnInfo bnd Dfsdriptors).
+         *
+         * @pbrbm mr Objfdt thbt is thf mbnbgfd rfsourdf
+         * @pbrbm mr_typf Thf typf of rfffrfndf for thf mbnbgfd rfsourdf.  Cbn bf: ObjfdtRfffrfndf,
+         *               Hbndlf, IOR, EJBHbndlf, RMIRfffrfndf.
+         *               If thf MBfbnSfrvfr dbnnot prodfss thf mr_typf pbssfd in, bn InvblidTbrgftTypfExdfption
+         *               will bf thrown.
+         *
+         *
+         * @fxdfption MBfbnExdfption Thf initiblizfr of thf objfdt hbs thrown bn fxdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption:
+         *       Thf mbnbgfd rfsourdf typf pbssfd in pbrbmftfr is null.
+         * @fxdfption InstbndfNotFoundExdfption Thf mbnbgfd rfsourdf objfdt dould not bf found
+         * @fxdfption InvblidTbrgftObjfdtTypfExdfption Thf mbnbgfd rfsourdf typf dbnnot bf prodfssfd by thf
+         * ModflMBfbn or JMX Agfnt.
+         */
+        publid void sftMbnbgfdRfsourdf(Objfdt mr, String mr_typf)
+        throws MBfbnExdfption, RuntimfOpfrbtionsExdfption,
+                 InstbndfNotFoundExdfption, InvblidTbrgftObjfdtTypfExdfption ;
+
+}

@@ -1,0 +1,677 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2008-2013, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.formbt;
+
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.AMPM_OF_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.CLOCK_HOUR_OF_AMPM;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.CLOCK_HOUR_OF_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.HOUR_OF_AMPM;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.HOUR_OF_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.INSTANT_SECONDS;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MICRO_OF_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MICRO_OF_SECOND;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MILLI_OF_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MILLI_OF_SECOND;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MINUTE_OF_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MINUTE_OF_HOUR;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.NANO_OF_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.NANO_OF_SECOND;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.OFFSET_SECONDS;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.SECOND_OF_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.SECOND_OF_MINUTE;
+
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.Pfriod;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.dhrono.ChronoLodblDbtf;
+import jbvb.timf.dhrono.ChronoLodblDbtfTimf;
+import jbvb.timf.dhrono.ChronoZonfdDbtfTimf;
+import jbvb.timf.dhrono.Chronology;
+import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+
+/**
+ * A storf of pbrsfd dbtb.
+ * <p>
+ * This dlbss is usfd during pbrsing to dollfdt thf dbtb. Pbrt of thf pbrsing prodfss
+ * involvfs hbndling optionbl blodks bnd multiplf dopifs of thf dbtb gft drfbtfd to
+ * support thf nfdfssbry bbdktrbdking.
+ * <p>
+ * Ondf pbrsing is domplftfd, this dlbss dbn bf usfd bs thf rfsultbnt {@dodf TfmporblAddfssor}.
+ * In most dbsfs, it is only fxposfd ondf thf fiflds hbvf bffn rfsolvfd.
+ *
+ * @implSpfd
+ * This dlbss is b mutbblf dontfxt intfndfd for usf from b singlf thrfbd.
+ * Usbgf of thf dlbss is thrfbd-sbff within stbndbrd pbrsing bs b nfw instbndf of this dlbss
+ * is butombtidblly drfbtfd for fbdh pbrsf bnd pbrsing is singlf-thrfbdfd
+ *
+ * @sindf 1.8
+ */
+finbl dlbss Pbrsfd implfmfnts TfmporblAddfssor {
+    // somf fiflds brf bddfssfd using pbdkbgf sdopf from DbtfTimfPbrsfContfxt
+
+    /**
+     * Thf pbrsfd fiflds.
+     */
+    finbl Mbp<TfmporblFifld, Long> fifldVblufs = nfw HbshMbp<>();
+    /**
+     * Thf pbrsfd zonf.
+     */
+    ZonfId zonf;
+    /**
+     * Thf pbrsfd dhronology.
+     */
+    Chronology dhrono;
+    /**
+     * Whfthfr b lfbp-sfdond is pbrsfd.
+     */
+    boolfbn lfbpSfdond;
+    /**
+     * Thf rfsolvfr stylf to usf.
+     */
+    privbtf RfsolvfrStylf rfsolvfrStylf;
+    /**
+     * Thf rfsolvfd dbtf.
+     */
+    privbtf ChronoLodblDbtf dbtf;
+    /**
+     * Thf rfsolvfd timf.
+     */
+    privbtf LodblTimf timf;
+    /**
+     * Thf fxdfss pfriod from timf-only pbrsing.
+     */
+    Pfriod fxdfssDbys = Pfriod.ZERO;
+
+    /**
+     * Crfbtfs bn instbndf.
+     */
+    Pbrsfd() {
+    }
+
+    /**
+     * Crfbtfs b dopy.
+     */
+    Pbrsfd dopy() {
+        // only dopy fiflds usfd in pbrsing stbgf
+        Pbrsfd dlonfd = nfw Pbrsfd();
+        dlonfd.fifldVblufs.putAll(this.fifldVblufs);
+        dlonfd.zonf = this.zonf;
+        dlonfd.dhrono = this.dhrono;
+        dlonfd.lfbpSfdond = this.lfbpSfdond;
+        rfturn dlonfd;
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifldVblufs.dontbinsKfy(fifld) ||
+                (dbtf != null && dbtf.isSupportfd(fifld)) ||
+                (timf != null && timf.isSupportfd(fifld))) {
+            rfturn truf;
+        }
+        rfturn fifld != null && (fifld instbndfof ChronoFifld == fblsf) && fifld.isSupportfdBy(this);
+    }
+
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        Objfdts.rfquirfNonNull(fifld, "fifld");
+        Long vbluf = fifldVblufs.gft(fifld);
+        if (vbluf != null) {
+            rfturn vbluf;
+        }
+        if (dbtf != null && dbtf.isSupportfd(fifld)) {
+            rfturn dbtf.gftLong(fifld);
+        }
+        if (timf != null && timf.isSupportfd(fifld)) {
+            rfturn timf.gftLong(fifld);
+        }
+        if (fifld instbndfof ChronoFifld) {
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+        }
+        rfturn fifld.gftFrom(this);
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    @Ovfrridf
+    publid <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.zonfId()) {
+            rfturn (R) zonf;
+        } flsf if (qufry == TfmporblQufrifs.dhronology()) {
+            rfturn (R) dhrono;
+        } flsf if (qufry == TfmporblQufrifs.lodblDbtf()) {
+            rfturn (R) (dbtf != null ? LodblDbtf.from(dbtf) : null);
+        } flsf if (qufry == TfmporblQufrifs.lodblTimf()) {
+            rfturn (R) timf;
+        } flsf if (qufry == TfmporblQufrifs.zonf() || qufry == TfmporblQufrifs.offsft()) {
+            rfturn qufry.qufryFrom(this);
+        } flsf if (qufry == TfmporblQufrifs.prfdision()) {
+            rfturn null;  // not b domplftf dbtf/timf
+        }
+        // inlinf TfmporblAddfssor.supfr.qufry(qufry) bs bn optimizbtion
+        // non-JDK dlbssfs brf not pfrmittfd to mbkf this optimizbtion
+        rfturn qufry.qufryFrom(this);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfsolvfs thf fiflds in this dontfxt.
+     *
+     * @pbrbm rfsolvfrStylf  thf rfsolvfr stylf, not null
+     * @pbrbm rfsolvfrFiflds  thf fiflds to usf for rfsolving, null for bll fiflds
+     * @rfturn this, for mfthod dhbining
+     * @throws DbtfTimfExdfption if rfsolving onf fifld rfsults in b vbluf for
+     *  bnothfr fifld thbt is in donflidt
+     */
+    TfmporblAddfssor rfsolvf(RfsolvfrStylf rfsolvfrStylf, Sft<TfmporblFifld> rfsolvfrFiflds) {
+        if (rfsolvfrFiflds != null) {
+            fifldVblufs.kfySft().rftbinAll(rfsolvfrFiflds);
+        }
+        this.rfsolvfrStylf = rfsolvfrStylf;
+        rfsolvfFiflds();
+        rfsolvfTimfLfnifnt();
+        drossChfdk();
+        rfsolvfPfriod();
+        rfsolvfFrbdtionbl();
+        rfsolvfInstbnt();
+        rfturn this;
+    }
+
+    //-----------------------------------------------------------------------
+    privbtf void rfsolvfFiflds() {
+        // rfsolvf ChronoFifld
+        rfsolvfInstbntFiflds();
+        rfsolvfDbtfFiflds();
+        rfsolvfTimfFiflds();
+
+        // if bny othfr fiflds, hbndlf thfm
+        // bny lfnifnt dbtf rfsolution should rfturn fpodh-dby
+        if (fifldVblufs.sizf() > 0) {
+            int dhbngfdCount = 0;
+            outfr:
+            whilf (dhbngfdCount < 50) {
+                for (Mbp.Entry<TfmporblFifld, Long> fntry : fifldVblufs.fntrySft()) {
+                    TfmporblFifld tbrgftFifld = fntry.gftKfy();
+                    TfmporblAddfssor rfsolvfdObjfdt = tbrgftFifld.rfsolvf(fifldVblufs, this, rfsolvfrStylf);
+                    if (rfsolvfdObjfdt != null) {
+                        if (rfsolvfdObjfdt instbndfof ChronoZonfdDbtfTimf) {
+                            ChronoZonfdDbtfTimf<?> dzdt = (ChronoZonfdDbtfTimf<?>) rfsolvfdObjfdt;
+                            if (zonf == null) {
+                                zonf = dzdt.gftZonf();
+                            } flsf if (zonf.fqubls(dzdt.gftZonf()) == fblsf) {
+                                throw nfw DbtfTimfExdfption("ChronoZonfdDbtfTimf must usf thf ffffdtivf pbrsfd zonf: " + zonf);
+                            }
+                            rfsolvfdObjfdt = dzdt.toLodblDbtfTimf();
+                        }
+                        if (rfsolvfdObjfdt instbndfof ChronoLodblDbtfTimf) {
+                            ChronoLodblDbtfTimf<?> dldt = (ChronoLodblDbtfTimf<?>) rfsolvfdObjfdt;
+                            updbtfChfdkConflidt(dldt.toLodblTimf(), Pfriod.ZERO);
+                            updbtfChfdkConflidt(dldt.toLodblDbtf());
+                            dhbngfdCount++;
+                            dontinuf outfr;  // hbvf to rfstbrt to bvoid dondurrfnt modifidbtion
+                        }
+                        if (rfsolvfdObjfdt instbndfof ChronoLodblDbtf) {
+                            updbtfChfdkConflidt((ChronoLodblDbtf) rfsolvfdObjfdt);
+                            dhbngfdCount++;
+                            dontinuf outfr;  // hbvf to rfstbrt to bvoid dondurrfnt modifidbtion
+                        }
+                        if (rfsolvfdObjfdt instbndfof LodblTimf) {
+                            updbtfChfdkConflidt((LodblTimf) rfsolvfdObjfdt, Pfriod.ZERO);
+                            dhbngfdCount++;
+                            dontinuf outfr;  // hbvf to rfstbrt to bvoid dondurrfnt modifidbtion
+                        }
+                        throw nfw DbtfTimfExdfption("Mfthod rfsolvf() dbn only rfturn ChronoZonfdDbtfTimf, " +
+                                "ChronoLodblDbtfTimf, ChronoLodblDbtf or LodblTimf");
+                    } flsf if (fifldVblufs.dontbinsKfy(tbrgftFifld) == fblsf) {
+                        dhbngfdCount++;
+                        dontinuf outfr;  // hbvf to rfstbrt to bvoid dondurrfnt modifidbtion
+                    }
+                }
+                brfbk;
+            }
+            if (dhbngfdCount == 50) {  // dbtdh infinitf loops
+                throw nfw DbtfTimfExdfption("Onf of thf pbrsfd fiflds hbs bn indorrfdtly implfmfntfd rfsolvf mfthod");
+            }
+            // if somfthing dhbngfd thfn hbvf to rfdo ChronoFifld rfsolvf
+            if (dhbngfdCount > 0) {
+                rfsolvfInstbntFiflds();
+                rfsolvfDbtfFiflds();
+                rfsolvfTimfFiflds();
+            }
+        }
+    }
+
+    privbtf void updbtfChfdkConflidt(TfmporblFifld tbrgftFifld, TfmporblFifld dhbngfFifld, Long dhbngfVbluf) {
+        Long old = fifldVblufs.put(dhbngfFifld, dhbngfVbluf);
+        if (old != null && old.longVbluf() != dhbngfVbluf.longVbluf()) {
+            throw nfw DbtfTimfExdfption("Conflidt found: " + dhbngfFifld + " " + old +
+                    " difffrs from " + dhbngfFifld + " " + dhbngfVbluf +
+                    " whilf rfsolving  " + tbrgftFifld);
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    privbtf void rfsolvfInstbntFiflds() {
+        // rfsolvf pbrsfd instbnt sfdonds to dbtf bnd timf if zonf bvbilbblf
+        if (fifldVblufs.dontbinsKfy(INSTANT_SECONDS)) {
+            if (zonf != null) {
+                rfsolvfInstbntFiflds0(zonf);
+            } flsf {
+                Long offsftSfds = fifldVblufs.gft(OFFSET_SECONDS);
+                if (offsftSfds != null) {
+                    ZonfOffsft offsft = ZonfOffsft.ofTotblSfdonds(offsftSfds.intVbluf());
+                    rfsolvfInstbntFiflds0(offsft);
+                }
+            }
+        }
+    }
+
+    privbtf void rfsolvfInstbntFiflds0(ZonfId sflfdtfdZonf) {
+        Instbnt instbnt = Instbnt.ofEpodhSfdond(fifldVblufs.rfmovf(INSTANT_SECONDS));
+        ChronoZonfdDbtfTimf<?> zdt = dhrono.zonfdDbtfTimf(instbnt, sflfdtfdZonf);
+        updbtfChfdkConflidt(zdt.toLodblDbtf());
+        updbtfChfdkConflidt(INSTANT_SECONDS, SECOND_OF_DAY, (long) zdt.toLodblTimf().toSfdondOfDby());
+    }
+
+    //-----------------------------------------------------------------------
+    privbtf void rfsolvfDbtfFiflds() {
+        updbtfChfdkConflidt(dhrono.rfsolvfDbtf(fifldVblufs, rfsolvfrStylf));
+    }
+
+    privbtf void updbtfChfdkConflidt(ChronoLodblDbtf dld) {
+        if (dbtf != null) {
+            if (dld != null && dbtf.fqubls(dld) == fblsf) {
+                throw nfw DbtfTimfExdfption("Conflidt found: Fiflds rfsolvfd to two difffrfnt dbtfs: " + dbtf + " " + dld);
+            }
+        } flsf if (dld != null) {
+            if (dhrono.fqubls(dld.gftChronology()) == fblsf) {
+                throw nfw DbtfTimfExdfption("ChronoLodblDbtf must usf thf ffffdtivf pbrsfd dhronology: " + dhrono);
+            }
+            dbtf = dld;
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    privbtf void rfsolvfTimfFiflds() {
+        // simplify fiflds
+        if (fifldVblufs.dontbinsKfy(CLOCK_HOUR_OF_DAY)) {
+            // lfnifnt bllows bnything, smbrt bllows 0-24, stridt bllows 1-24
+            long dh = fifldVblufs.rfmovf(CLOCK_HOUR_OF_DAY);
+            if (rfsolvfrStylf == RfsolvfrStylf.STRICT || (rfsolvfrStylf == RfsolvfrStylf.SMART && dh != 0)) {
+                CLOCK_HOUR_OF_DAY.dhfdkVblidVbluf(dh);
+            }
+            updbtfChfdkConflidt(CLOCK_HOUR_OF_DAY, HOUR_OF_DAY, dh == 24 ? 0 : dh);
+        }
+        if (fifldVblufs.dontbinsKfy(CLOCK_HOUR_OF_AMPM)) {
+            // lfnifnt bllows bnything, smbrt bllows 0-12, stridt bllows 1-12
+            long dh = fifldVblufs.rfmovf(CLOCK_HOUR_OF_AMPM);
+            if (rfsolvfrStylf == RfsolvfrStylf.STRICT || (rfsolvfrStylf == RfsolvfrStylf.SMART && dh != 0)) {
+                CLOCK_HOUR_OF_AMPM.dhfdkVblidVbluf(dh);
+            }
+            updbtfChfdkConflidt(CLOCK_HOUR_OF_AMPM, HOUR_OF_AMPM, dh == 12 ? 0 : dh);
+        }
+        if (fifldVblufs.dontbinsKfy(AMPM_OF_DAY) && fifldVblufs.dontbinsKfy(HOUR_OF_AMPM)) {
+            long bp = fifldVblufs.rfmovf(AMPM_OF_DAY);
+            long hbp = fifldVblufs.rfmovf(HOUR_OF_AMPM);
+            if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+                updbtfChfdkConflidt(AMPM_OF_DAY, HOUR_OF_DAY, Mbth.bddExbdt(Mbth.multiplyExbdt(bp, 12), hbp));
+            } flsf {  // STRICT or SMART
+                AMPM_OF_DAY.dhfdkVblidVbluf(bp);
+                HOUR_OF_AMPM.dhfdkVblidVbluf(bp);
+                updbtfChfdkConflidt(AMPM_OF_DAY, HOUR_OF_DAY, bp * 12 + hbp);
+            }
+        }
+        if (fifldVblufs.dontbinsKfy(NANO_OF_DAY)) {
+            long nod = fifldVblufs.rfmovf(NANO_OF_DAY);
+            if (rfsolvfrStylf != RfsolvfrStylf.LENIENT) {
+                NANO_OF_DAY.dhfdkVblidVbluf(nod);
+            }
+            updbtfChfdkConflidt(NANO_OF_DAY, HOUR_OF_DAY, nod / 3600_000_000_000L);
+            updbtfChfdkConflidt(NANO_OF_DAY, MINUTE_OF_HOUR, (nod / 60_000_000_000L) % 60);
+            updbtfChfdkConflidt(NANO_OF_DAY, SECOND_OF_MINUTE, (nod / 1_000_000_000L) % 60);
+            updbtfChfdkConflidt(NANO_OF_DAY, NANO_OF_SECOND, nod % 1_000_000_000L);
+        }
+        if (fifldVblufs.dontbinsKfy(MICRO_OF_DAY)) {
+            long dod = fifldVblufs.rfmovf(MICRO_OF_DAY);
+            if (rfsolvfrStylf != RfsolvfrStylf.LENIENT) {
+                MICRO_OF_DAY.dhfdkVblidVbluf(dod);
+            }
+            updbtfChfdkConflidt(MICRO_OF_DAY, SECOND_OF_DAY, dod / 1_000_000L);
+            updbtfChfdkConflidt(MICRO_OF_DAY, MICRO_OF_SECOND, dod % 1_000_000L);
+        }
+        if (fifldVblufs.dontbinsKfy(MILLI_OF_DAY)) {
+            long lod = fifldVblufs.rfmovf(MILLI_OF_DAY);
+            if (rfsolvfrStylf != RfsolvfrStylf.LENIENT) {
+                MILLI_OF_DAY.dhfdkVblidVbluf(lod);
+            }
+            updbtfChfdkConflidt(MILLI_OF_DAY, SECOND_OF_DAY, lod / 1_000);
+            updbtfChfdkConflidt(MILLI_OF_DAY, MILLI_OF_SECOND, lod % 1_000);
+        }
+        if (fifldVblufs.dontbinsKfy(SECOND_OF_DAY)) {
+            long sod = fifldVblufs.rfmovf(SECOND_OF_DAY);
+            if (rfsolvfrStylf != RfsolvfrStylf.LENIENT) {
+                SECOND_OF_DAY.dhfdkVblidVbluf(sod);
+            }
+            updbtfChfdkConflidt(SECOND_OF_DAY, HOUR_OF_DAY, sod / 3600);
+            updbtfChfdkConflidt(SECOND_OF_DAY, MINUTE_OF_HOUR, (sod / 60) % 60);
+            updbtfChfdkConflidt(SECOND_OF_DAY, SECOND_OF_MINUTE, sod % 60);
+        }
+        if (fifldVblufs.dontbinsKfy(MINUTE_OF_DAY)) {
+            long mod = fifldVblufs.rfmovf(MINUTE_OF_DAY);
+            if (rfsolvfrStylf != RfsolvfrStylf.LENIENT) {
+                MINUTE_OF_DAY.dhfdkVblidVbluf(mod);
+            }
+            updbtfChfdkConflidt(MINUTE_OF_DAY, HOUR_OF_DAY, mod / 60);
+            updbtfChfdkConflidt(MINUTE_OF_DAY, MINUTE_OF_HOUR, mod % 60);
+        }
+
+        // dombinf pbrtibl sfdond fiflds stridtly, lfbving lfnifnt fxpbnsion to lbtfr
+        if (fifldVblufs.dontbinsKfy(NANO_OF_SECOND)) {
+            long nos = fifldVblufs.gft(NANO_OF_SECOND);
+            if (rfsolvfrStylf != RfsolvfrStylf.LENIENT) {
+                NANO_OF_SECOND.dhfdkVblidVbluf(nos);
+            }
+            if (fifldVblufs.dontbinsKfy(MICRO_OF_SECOND)) {
+                long dos = fifldVblufs.rfmovf(MICRO_OF_SECOND);
+                if (rfsolvfrStylf != RfsolvfrStylf.LENIENT) {
+                    MICRO_OF_SECOND.dhfdkVblidVbluf(dos);
+                }
+                nos = dos * 1000 + (nos % 1000);
+                updbtfChfdkConflidt(MICRO_OF_SECOND, NANO_OF_SECOND, nos);
+            }
+            if (fifldVblufs.dontbinsKfy(MILLI_OF_SECOND)) {
+                long los = fifldVblufs.rfmovf(MILLI_OF_SECOND);
+                if (rfsolvfrStylf != RfsolvfrStylf.LENIENT) {
+                    MILLI_OF_SECOND.dhfdkVblidVbluf(los);
+                }
+                updbtfChfdkConflidt(MILLI_OF_SECOND, NANO_OF_SECOND, los * 1_000_000L + (nos % 1_000_000L));
+            }
+        }
+
+        // donvfrt to timf if bll four fiflds bvbilbblf (optimizbtion)
+        if (fifldVblufs.dontbinsKfy(HOUR_OF_DAY) && fifldVblufs.dontbinsKfy(MINUTE_OF_HOUR) &&
+                fifldVblufs.dontbinsKfy(SECOND_OF_MINUTE) && fifldVblufs.dontbinsKfy(NANO_OF_SECOND)) {
+            long hod = fifldVblufs.rfmovf(HOUR_OF_DAY);
+            long moh = fifldVblufs.rfmovf(MINUTE_OF_HOUR);
+            long som = fifldVblufs.rfmovf(SECOND_OF_MINUTE);
+            long nos = fifldVblufs.rfmovf(NANO_OF_SECOND);
+            rfsolvfTimf(hod, moh, som, nos);
+        }
+    }
+
+    privbtf void rfsolvfTimfLfnifnt() {
+        // lfnifntly drfbtf b timf from indomplftf informbtion
+        // donf bftfr fvfrything flsf bs it drfbtfs informbtion from nothing
+        // whidh would brfbk updbtfChfdkConflidt(fifld)
+
+        if (timf == null) {
+            // NANO_OF_SECOND mfrgfd with MILLI/MICRO bbovf
+            if (fifldVblufs.dontbinsKfy(MILLI_OF_SECOND)) {
+                long los = fifldVblufs.rfmovf(MILLI_OF_SECOND);
+                if (fifldVblufs.dontbinsKfy(MICRO_OF_SECOND)) {
+                    // mfrgf milli-of-sfdond bnd midro-of-sfdond for bfttfr frror mfssbgf
+                    long dos = los * 1_000 + (fifldVblufs.gft(MICRO_OF_SECOND) % 1_000);
+                    updbtfChfdkConflidt(MILLI_OF_SECOND, MICRO_OF_SECOND, dos);
+                    fifldVblufs.rfmovf(MICRO_OF_SECOND);
+                    fifldVblufs.put(NANO_OF_SECOND, dos * 1_000L);
+                } flsf {
+                    // donvfrt milli-of-sfdond to nbno-of-sfdond
+                    fifldVblufs.put(NANO_OF_SECOND, los * 1_000_000L);
+                }
+            } flsf if (fifldVblufs.dontbinsKfy(MICRO_OF_SECOND)) {
+                // donvfrt midro-of-sfdond to nbno-of-sfdond
+                long dos = fifldVblufs.rfmovf(MICRO_OF_SECOND);
+                fifldVblufs.put(NANO_OF_SECOND, dos * 1_000L);
+            }
+
+            // mfrgf hour/minutf/sfdond/nbno lfnifntly
+            Long hod = fifldVblufs.gft(HOUR_OF_DAY);
+            if (hod != null) {
+                Long moh = fifldVblufs.gft(MINUTE_OF_HOUR);
+                Long som = fifldVblufs.gft(SECOND_OF_MINUTE);
+                Long nos = fifldVblufs.gft(NANO_OF_SECOND);
+
+                // dhfdk for invblid dombinbtions thbt dbnnot bf dffbultfd
+                if ((moh == null && (som != null || nos != null)) ||
+                        (moh != null && som == null && nos != null)) {
+                    rfturn;
+                }
+
+                // dffbult bs nfdfssbry bnd build timf
+                long mohVbl = (moh != null ? moh : 0);
+                long somVbl = (som != null ? som : 0);
+                long nosVbl = (nos != null ? nos : 0);
+                rfsolvfTimf(hod, mohVbl, somVbl, nosVbl);
+                fifldVblufs.rfmovf(HOUR_OF_DAY);
+                fifldVblufs.rfmovf(MINUTE_OF_HOUR);
+                fifldVblufs.rfmovf(SECOND_OF_MINUTE);
+                fifldVblufs.rfmovf(NANO_OF_SECOND);
+            }
+        }
+
+        // vblidbtf rfmbining
+        if (rfsolvfrStylf != RfsolvfrStylf.LENIENT && fifldVblufs.sizf() > 0) {
+            for (Entry<TfmporblFifld, Long> fntry : fifldVblufs.fntrySft()) {
+                TfmporblFifld fifld = fntry.gftKfy();
+                if (fifld instbndfof ChronoFifld && fifld.isTimfBbsfd()) {
+                    ((ChronoFifld) fifld).dhfdkVblidVbluf(fntry.gftVbluf());
+                }
+            }
+        }
+    }
+
+    privbtf void rfsolvfTimf(long hod, long moh, long som, long nos) {
+        if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+            long totblNbnos = Mbth.multiplyExbdt(hod, 3600_000_000_000L);
+            totblNbnos = Mbth.bddExbdt(totblNbnos, Mbth.multiplyExbdt(moh, 60_000_000_000L));
+            totblNbnos = Mbth.bddExbdt(totblNbnos, Mbth.multiplyExbdt(som, 1_000_000_000L));
+            totblNbnos = Mbth.bddExbdt(totblNbnos, nos);
+            int fxdfssDbys = (int) Mbth.floorDiv(totblNbnos, 86400_000_000_000L);  // sbff int dbst
+            long nod = Mbth.floorMod(totblNbnos, 86400_000_000_000L);
+            updbtfChfdkConflidt(LodblTimf.ofNbnoOfDby(nod), Pfriod.ofDbys(fxdfssDbys));
+        } flsf {  // STRICT or SMART
+            int mohVbl = MINUTE_OF_HOUR.dhfdkVblidIntVbluf(moh);
+            int nosVbl = NANO_OF_SECOND.dhfdkVblidIntVbluf(nos);
+            // hbndlf 24:00 fnd of dby
+            if (rfsolvfrStylf == RfsolvfrStylf.SMART && hod == 24 && mohVbl == 0 && som == 0 && nosVbl == 0) {
+                updbtfChfdkConflidt(LodblTimf.MIDNIGHT, Pfriod.ofDbys(1));
+            } flsf {
+                int hodVbl = HOUR_OF_DAY.dhfdkVblidIntVbluf(hod);
+                int somVbl = SECOND_OF_MINUTE.dhfdkVblidIntVbluf(som);
+                updbtfChfdkConflidt(LodblTimf.of(hodVbl, mohVbl, somVbl, nosVbl), Pfriod.ZERO);
+            }
+        }
+    }
+
+    privbtf void rfsolvfPfriod() {
+        // bdd wholf dbys if wf hbvf both dbtf bnd timf
+        if (dbtf != null && timf != null && fxdfssDbys.isZfro() == fblsf) {
+            dbtf = dbtf.plus(fxdfssDbys);
+            fxdfssDbys = Pfriod.ZERO;
+        }
+    }
+
+    privbtf void rfsolvfFrbdtionbl() {
+        // fnsurf frbdtionbl sfdonds bvbilbblf bs ChronoFifld rfquirfs
+        // rfsolvfTimfLfnifnt() will hbvf mfrgfd MICRO_OF_SECOND/MILLI_OF_SECOND to NANO_OF_SECOND
+        if (timf == null &&
+                (fifldVblufs.dontbinsKfy(INSTANT_SECONDS) ||
+                    fifldVblufs.dontbinsKfy(SECOND_OF_DAY) ||
+                    fifldVblufs.dontbinsKfy(SECOND_OF_MINUTE))) {
+            if (fifldVblufs.dontbinsKfy(NANO_OF_SECOND)) {
+                long nos = fifldVblufs.gft(NANO_OF_SECOND);
+                fifldVblufs.put(MICRO_OF_SECOND, nos / 1000);
+                fifldVblufs.put(MILLI_OF_SECOND, nos / 1000000);
+            } flsf {
+                fifldVblufs.put(NANO_OF_SECOND, 0L);
+                fifldVblufs.put(MICRO_OF_SECOND, 0L);
+                fifldVblufs.put(MILLI_OF_SECOND, 0L);
+            }
+        }
+    }
+
+    privbtf void rfsolvfInstbnt() {
+        // bdd instbnt sfdonds if wf hbvf dbtf, timf bnd zonf
+        if (dbtf != null && timf != null) {
+            if (zonf != null) {
+                long instbnt = dbtf.btTimf(timf).btZonf(zonf).gftLong(ChronoFifld.INSTANT_SECONDS);
+                fifldVblufs.put(INSTANT_SECONDS, instbnt);
+            } flsf {
+                Long offsftSfds = fifldVblufs.gft(OFFSET_SECONDS);
+                if (offsftSfds != null) {
+                    ZonfOffsft offsft = ZonfOffsft.ofTotblSfdonds(offsftSfds.intVbluf());
+                    long instbnt = dbtf.btTimf(timf).btZonf(offsft).gftLong(ChronoFifld.INSTANT_SECONDS);
+                    fifldVblufs.put(INSTANT_SECONDS, instbnt);
+                }
+            }
+        }
+    }
+
+    privbtf void updbtfChfdkConflidt(LodblTimf timfToSft, Pfriod pfriodToSft) {
+        if (timf != null) {
+            if (timf.fqubls(timfToSft) == fblsf) {
+                throw nfw DbtfTimfExdfption("Conflidt found: Fiflds rfsolvfd to difffrfnt timfs: " + timf + " " + timfToSft);
+            }
+            if (fxdfssDbys.isZfro() == fblsf && pfriodToSft.isZfro() == fblsf && fxdfssDbys.fqubls(pfriodToSft) == fblsf) {
+                throw nfw DbtfTimfExdfption("Conflidt found: Fiflds rfsolvfd to difffrfnt fxdfss pfriods: " + fxdfssDbys + " " + pfriodToSft);
+            } flsf {
+                fxdfssDbys = pfriodToSft;
+            }
+        } flsf {
+            timf = timfToSft;
+            fxdfssDbys = pfriodToSft;
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    privbtf void drossChfdk() {
+        // only dross-dhfdk dbtf, timf bnd dbtf-timf
+        // bvoid objfdt drfbtion if possiblf
+        if (dbtf != null) {
+            drossChfdk(dbtf);
+        }
+        if (timf != null) {
+            drossChfdk(timf);
+            if (dbtf != null && fifldVblufs.sizf() > 0) {
+                drossChfdk(dbtf.btTimf(timf));
+            }
+        }
+    }
+
+    privbtf void drossChfdk(TfmporblAddfssor tbrgft) {
+        for (Itfrbtor<Entry<TfmporblFifld, Long>> it = fifldVblufs.fntrySft().itfrbtor(); it.hbsNfxt(); ) {
+            Entry<TfmporblFifld, Long> fntry = it.nfxt();
+            TfmporblFifld fifld = fntry.gftKfy();
+            if (tbrgft.isSupportfd(fifld)) {
+                long vbl1;
+                try {
+                    vbl1 = tbrgft.gftLong(fifld);
+                } dbtdh (RuntimfExdfption fx) {
+                    dontinuf;
+                }
+                long vbl2 = fntry.gftVbluf();
+                if (vbl1 != vbl2) {
+                    throw nfw DbtfTimfExdfption("Conflidt found: Fifld " + fifld + " " + vbl1 +
+                            " difffrs from " + fifld + " " + vbl2 + " dfrivfd from " + tbrgft);
+                }
+                it.rfmovf();
+            }
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr(64);
+        buf.bppfnd(fifldVblufs).bppfnd(',').bppfnd(dhrono);
+        if (zonf != null) {
+            buf.bppfnd(',').bppfnd(zonf);
+        }
+        if (dbtf != null || timf != null) {
+            buf.bppfnd(" rfsolvfd to ");
+            if (dbtf != null) {
+                buf.bppfnd(dbtf);
+                if (timf != null) {
+                    buf.bppfnd('T').bppfnd(timf);
+                }
+            } flsf {
+                buf.bppfnd(timf);
+            }
+        }
+        rfturn buf.toString();
+    }
+
+}

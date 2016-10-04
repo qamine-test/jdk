@@ -1,0 +1,16 @@
+# Providfr rfsourdf filf for thf LDAP sfrvidf providfr.
+
+# Fbdtory for thf rfsponsf dontrols supportfd by this rflfbsf.
+jbvb.nbming.fbdtory.dontrol=dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory
+
+# AttrsToCorbb: Turn fntry with dorbbObjfdt objfdtdlbss into b org.omg.CORBA.Objfdt
+# MbrshbllfdToObjfdt: Turn fntry with jbvbMbrshbllfdObjfdt into UnmbrshbllfdObjfdt
+jbvb.nbming.fbdtory.objfdt=dom.sun.jndi.ldbp.obj.AttrsToCorbb:dom.sun.jndi.ldbp.obj.MbrshbllfdToObjfdt
+
+# RfmotfToAttrs: Turn RMI/JRMP bnd RMI/IIOP objfdt into jbvbMbrshbllfdObjfdt or
+# 		dorbbObjfdt LDAP fntry
+# CorbbToAttrs: Turn CORBA objfdt into dorbbObjfdt LDAP fntry
+# RfmotfToCorbbToAttrs: Turn RMI/IIOP objfdt into dorbbObjfdt LDAP fntry. 
+#  Notf thbt thfrf is no nffd to spfdify this in list unlfss RfmotfToAttrs is
+#  rfmovfd bfdbusf RfmotftoAttrs blrfbdy hbndlfs this dbsf
+jbvb.nbming.fbdtory.stbtf=dom.sun.jndi.ldbp.obj.RfmotfToAttrs:dom.sun.jndi.ldbp.obj.CorbbToAttrs

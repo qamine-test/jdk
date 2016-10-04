@@ -1,0 +1,437 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.bwt.*;
+import jbvb.bwt.font.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.imbgf.*;
+
+import sun.bwt.imbgf.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipf.*;
+
+publid dlbss CompositfCRfndfrfr fxtfnds CRfndfrfr implfmfnts PixflDrbwPipf, PixflFillPipf, ShbpfDrbwPipf, DrbwImbgfPipf, TfxtPipf {
+    finbl stbtid int fPbdding = 4;
+    finbl stbtid int fPbddingHblf = fPbdding / 2;
+
+    privbtf stbtid AffinfTrbnsform sIdfntityMbtrix = nfw AffinfTrbnsform();
+
+    AffinfTrbnsform ShbpfTM = nfw AffinfTrbnsform();
+    Rfdtbnglf2D ShbpfBounds = nfw Rfdtbnglf2D.Flobt();
+
+    Linf2D linf = nfw Linf2D.Flobt();
+    Rfdtbnglf2D rfdtbnglf = nfw Rfdtbnglf2D.Flobt();
+    RoundRfdtbnglf2D roundrfdtbnglf = nfw RoundRfdtbnglf2D.Flobt();
+    Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt();
+    Ard2D brd = nfw Ard2D.Flobt();
+
+    publid syndhronizfd void drbwLinf(SunGrbphids2D sg2d, int x1, int y1, int x2, int y2) {
+        // drfbtf shbpf dorrfsponding to this primitivf
+        linf.sftLinf(x1, y1, x2, y2);
+
+        drbw(sg2d, linf);
+    }
+
+    publid syndhronizfd void drbwRfdt(SunGrbphids2D sg2d, int x, int y, int width, int hfight) {
+        // drfbtf shbpf dorrfsponding to this primitivf
+        rfdtbnglf.sftRfdt(x, y, width, hfight);
+
+        drbw(sg2d, rfdtbnglf);
+    }
+
+    publid syndhronizfd void drbwRoundRfdt(SunGrbphids2D sg2d, int x, int y, int width, int hfight, int brdWidth, int brdHfight) {
+        // drfbtf shbpf dorrfsponding to this primitivf
+        roundrfdtbnglf.sftRoundRfdt(x, y, width, hfight, brdWidth, brdHfight);
+
+        drbw(sg2d, roundrfdtbnglf);
+    }
+
+    publid syndhronizfd void drbwOvbl(SunGrbphids2D sg2d, int x, int y, int width, int hfight) {
+        // drfbtf shbpf dorrfsponding to this primitivf
+        fllipsf.sftFrbmf(x, y, width, hfight);
+
+        drbw(sg2d, fllipsf);
+    }
+
+    publid syndhronizfd void drbwArd(SunGrbphids2D sg2d, int x, int y, int width, int hfight, int stbrtAnglf, int brdAnglf) {
+        // drfbtf shbpf dorrfsponding to this primitivf
+        brd.sftArd(x, y, width, hfight, stbrtAnglf, brdAnglf, Ard2D.OPEN);
+
+        drbw(sg2d, brd);
+    }
+
+    publid syndhronizfd void drbwPolylinf(SunGrbphids2D sg2d, int xpoints[], int ypoints[], int npoints) {
+        doPolygon(sg2d, xpoints, ypoints, npoints, fblsf, fblsf);
+    }
+
+    publid syndhronizfd void drbwPolygon(SunGrbphids2D sg2d, int xpoints[], int ypoints[], int npoints) {
+        doPolygon(sg2d, xpoints, ypoints, npoints, truf, fblsf);
+    }
+
+    publid syndhronizfd void fillRfdt(SunGrbphids2D sg2d, int x, int y, int width, int hfight) {
+        // drfbtf shbpf dorrfsponding to this primitivf
+        rfdtbnglf.sftRfdt(x, y, width, hfight);
+
+        fill(sg2d, rfdtbnglf);
+    }
+
+    publid syndhronizfd void fillRoundRfdt(SunGrbphids2D sg2d, int x, int y, int width, int hfight, int brdWidth, int brdHfight) {
+        // drfbtf shbpf dorrfsponding to this primitivf
+        roundrfdtbnglf.sftRoundRfdt(x, y, width, hfight, brdWidth, brdHfight);
+
+        fill(sg2d, roundrfdtbnglf);
+    }
+
+    publid syndhronizfd void fillOvbl(SunGrbphids2D sg2d, int x, int y, int width, int hfight) {
+        // drfbtf shbpf dorrfsponding to this primitivf
+        fllipsf.sftFrbmf(x, y, width, hfight);
+
+        fill(sg2d, fllipsf);
+    }
+
+    publid syndhronizfd void fillArd(SunGrbphids2D sg2d, int x, int y, int width, int hfight, int stbrtAnglf, int brdAnglf) {
+        // drfbtf shbpf dorrfsponding to this primitivf
+        brd.sftArd(x, y, width, hfight, stbrtAnglf, brdAnglf, Ard2D.PIE);
+
+        fill(sg2d, brd);
+    }
+
+    publid syndhronizfd void fillPolygon(SunGrbphids2D sg2d, int xpoints[], int ypoints[], int npoints) {
+        doPolygon(sg2d, xpoints, ypoints, npoints, truf, truf);
+    }
+
+    publid syndhronizfd void doPolygon(SunGrbphids2D sg2d, int xpoints[], int ypoints[], int npoints, boolfbn ispolygon, boolfbn isfill) {
+        GfnfrblPbth gp = nfw GfnfrblPbth(Pbth2D.WIND_NON_ZERO, npoints);
+        gp.movfTo(xpoints[0], ypoints[0]);
+        for (int i = 1; i < npoints; i++) {
+            gp.linfTo(xpoints[i], ypoints[i]);
+        }
+        if (ispolygon) {
+            // bddording to thf spfds (only bpplifs to polygons, not polylinfs)
+            if ((xpoints[0] != xpoints[npoints - 1]) || (ypoints[0] != ypoints[npoints - 1])) {
+                gp.linfTo(xpoints[0], ypoints[0]);
+            }
+        }
+
+        doShbpf(sg2d, (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb(), (Shbpf) gp, isfill);
+    }
+
+    publid syndhronizfd void drbw(SunGrbphids2D sg2d, Shbpf shbpf) {
+        doShbpf(sg2d, (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb(), shbpf, fblsf);
+    }
+
+    publid syndhronizfd void fill(SunGrbphids2D sg2d, Shbpf shbpf) {
+        doShbpf(sg2d, (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb(), shbpf, truf);
+    }
+
+    void doShbpf(SunGrbphids2D sg2d, OSXSurfbdfDbtb surfbdfDbtb, Shbpf shbpf, boolfbn isfill) {
+        Rfdtbnglf2D shbpfBounds = shbpf.gftBounds2D();
+
+        // Wf don't wbnt to drbw with nfgbtivf width bnd hfight (CRfndfr dofsn't do it bnd Windows dofsn't do it fithfr)
+        // Drbwing with nfgbtivf w bnd h, dbn dbusf CG problfms down thf linf <rdbr://3960579> (vm)
+        if ((shbpfBounds.gftWidth() < 0) || (shbpfBounds.gftHfight() < 0)) { rfturn; }
+
+        // gft finbl dfstinbtion dompositing bounds (bftfr bll trbnsformbtions if nffdfd)
+        Rfdtbnglf2D dompositingBounds = pbdBounds(sg2d, shbpf);
+
+        // donstrbin thf bounds to bf within surfbdf bounds
+        dlipBounds(sg2d, dompositingBounds);
+
+        // if thf dompositing rfgion is fmpty wf skip bll rfmbining dompositing work:
+        if (dompositingBounds.isEmpty() == fblsf) {
+            BufffrfdImbgf srdPixfls;
+            // drfbtf b mbtdhing surfbdf into whidh wf'll rfndfr thf primitivf to bf dompositfd
+            // with thf dfsirfd dimfnsion
+            srdPixfls = surfbdfDbtb.gftCompositingSrdImbgf((int) (dompositingBounds.gftWidth()),
+                    (int) (dompositingBounds.gftHfight()));
+
+            Grbphids2D g = srdPixfls.drfbtfGrbphids();
+
+            // synd up grbphids stbtf
+            ShbpfTM.sftToTrbnslbtion(-dompositingBounds.gftX(), -dompositingBounds.gftY());
+            ShbpfTM.dondbtfnbtf(sg2d.trbnsform);
+            g.sftTrbnsform(ShbpfTM);
+            g.sftRfndfringHints(sg2d.gftRfndfringHints());
+            g.sftPbint(sg2d.gftPbint());
+            g.sftStrokf(sg2d.gftStrokf());
+
+            // rfndfr thf primitivf to bf dompositfd
+            if (isfill) {
+                g.fill(shbpf);
+            } flsf {
+                g.drbw(shbpf);
+            }
+
+            g.disposf();
+
+            dompositf(sg2d, surfbdfDbtb, srdPixfls, dompositingBounds);
+        }
+    }
+
+    publid syndhronizfd void drbwString(SunGrbphids2D sg2d, String str, doublf x, doublf y) {
+        drbwGlyphVfdtor(sg2d, sg2d.gftFont().drfbtfGlyphVfdtor(sg2d.gftFontRfndfrContfxt(), str), x, y);
+    }
+
+    publid syndhronizfd void drbwChbrs(SunGrbphids2D sg2d, dhbr dbtb[], int offsft, int lfngth, int x, int y) {
+        drbwString(sg2d, nfw String(dbtb, offsft, lfngth), x, y);
+    }
+
+    publid syndhronizfd void drbwGlyphVfdtor(SunGrbphids2D sg2d, GlyphVfdtor glyphVfdtor, doublf x, doublf y) {
+        drbwGlyphVfdtor(sg2d, glyphVfdtor, (flobt) x, (flobt) y);
+    }
+
+    publid syndhronizfd void drbwGlyphVfdtor(SunGrbphids2D sg2d, GlyphVfdtor glyphVfdtor, flobt x, flobt y) {
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+
+        Shbpf shbpf = glyphVfdtor.gftOutlinf(x, y);
+
+        // gft finbl dfstinbtion dompositing bounds (bftfr bll trbnsformbtions if nffdfd)
+        Rfdtbnglf2D dompositingBounds = pbdBounds(sg2d, shbpf);
+
+        // donstrbin thf bounds to bf within surfbdf bounds
+        dlipBounds(sg2d, dompositingBounds);
+
+        // if thf dompositing rfgion is fmpty wf skip bll rfmbining dompositing work:
+        if (dompositingBounds.isEmpty() == fblsf) {
+            BufffrfdImbgf srdPixfls;
+            {
+                // drfbtf mbtdhing imbgf into whidh wf'll rfndfr thf primitivf to bf dompositfd
+                srdPixfls = surfbdfDbtb.gftCompositingSrdImbgf((int) dompositingBounds.gftWidth(), (int) dompositingBounds.gftHfight());
+
+                Grbphids2D g = srdPixfls.drfbtfGrbphids();
+
+                // synd up grbphids stbtf
+                ShbpfTM.sftToTrbnslbtion(-dompositingBounds.gftX(), -dompositingBounds.gftY());
+                ShbpfTM.dondbtfnbtf(sg2d.trbnsform);
+                g.sftTrbnsform(ShbpfTM);
+                g.sftPbint(sg2d.gftPbint());
+                g.sftStrokf(sg2d.gftStrokf());
+                g.sftFont(sg2d.gftFont());
+                g.sftRfndfringHints(sg2d.gftRfndfringHints());
+
+                // rfndfr thf primitivf to bf dompositfd
+                g.drbwGlyphVfdtor(glyphVfdtor, x, y);
+                g.disposf();
+            }
+
+            dompositf(sg2d, surfbdfDbtb, srdPixfls, dompositingBounds);
+        }
+    }
+
+    protfdtfd boolfbn blitImbgf(SunGrbphids2D sg2d, Imbgf img, boolfbn fliph, boolfbn flipv, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh, Color bgColor) {
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+
+        // gft finbl dfstinbtion dompositing bounds (bftfr bll trbnsformbtions if nffdfd)
+        dx = (flipv == fblsf) ? dx : dx - dw;
+        dy = (fliph == fblsf) ? dy : dy - dh;
+        ShbpfBounds.sftFrbmf(dx, dy, dw, dh);
+        Rfdtbnglf2D dompositingBounds = ShbpfBounds;
+        boolfbn domplfxTrbnsform = (sg2d.trbnsformStbtf >= SunGrbphids2D.TRANSFORM_TRANSLATESCALE);
+        if (domplfxTrbnsform == fblsf) {
+            doublf nfwX = Mbth.floor(dompositingBounds.gftX() + sg2d.trbnsX);
+            doublf nfwY = Mbth.floor(dompositingBounds.gftY() + sg2d.trbnsY);
+            doublf nfwW = Mbth.dfil(dompositingBounds.gftWidth()) + (nfwX < dompositingBounds.gftX() ? 1 : 0);
+            doublf nfwH = Mbth.dfil(dompositingBounds.gftHfight()) + (nfwY < dompositingBounds.gftY() ? 1 : 0);
+            dompositingBounds.sftRfdt(nfwX, nfwY, nfwW, nfwH);
+        } flsf {
+            Shbpf trbnsformfdShbpf = sg2d.trbnsform.drfbtfTrbnsformfdShbpf(dompositingBounds);
+            dompositingBounds = trbnsformfdShbpf.gftBounds2D();
+            doublf nfwX = Mbth.floor(dompositingBounds.gftX());
+            doublf nfwY = Mbth.floor(dompositingBounds.gftY());
+            doublf nfwW = Mbth.dfil(dompositingBounds.gftWidth()) + (nfwX < dompositingBounds.gftX() ? 1 : 0);
+            doublf nfwH = Mbth.dfil(dompositingBounds.gftHfight()) + (nfwY < dompositingBounds.gftY() ? 1 : 0);
+            dompositingBounds.sftRfdt(nfwX, nfwY, nfwW, nfwH);
+        }
+
+        // donstrbin thf bounds to bf within surfbdf bounds
+        dlipBounds(sg2d, dompositingBounds);
+
+        // if thf dompositing rfgion is fmpty wf skip bll rfmbining dompositing work:
+        if (dompositingBounds.isEmpty() == fblsf) {
+            BufffrfdImbgf srdPixfls;
+            {
+                // drfbtf mbtdhing imbgf into whidh wf'll rfndfr thf primitivf to bf dompositfd
+                srdPixfls = surfbdfDbtb.gftCompositingSrdImbgf((int) dompositingBounds.gftWidth(), (int) dompositingBounds.gftHfight());
+
+                Grbphids2D g = srdPixfls.drfbtfGrbphids();
+
+                // synd up grbphids stbtf
+                ShbpfTM.sftToTrbnslbtion(-dompositingBounds.gftX(), -dompositingBounds.gftY());
+                ShbpfTM.dondbtfnbtf(sg2d.trbnsform);
+                g.sftTrbnsform(ShbpfTM);
+                g.sftRfndfringHints(sg2d.gftRfndfringHints());
+                g.sftCompositf(AlphbCompositf.Srd);
+
+                int sx2 = (flipv == fblsf) ? sx + sw : sx - sw;
+                int sy2 = (fliph == fblsf) ? sy + sh : sy - sh;
+                g.drbwImbgf(img, dx, dy, dx + dw, dy + dh, sx, sy, sx2, sy2, null);
+
+                g.disposf();
+            }
+
+            dompositf(sg2d, surfbdfDbtb, srdPixfls, dompositingBounds);
+        }
+
+        rfturn truf;
+    }
+
+    Rfdtbnglf2D pbdBounds(SunGrbphids2D sg2d, Shbpf shbpf) {
+        shbpf = sg2d.trbnsformShbpf(shbpf);
+
+        int pbddingHblf = fPbddingHblf;
+        int pbdding = fPbdding;
+        if (sg2d.strokf != null) {
+            if (sg2d.strokf instbndfof BbsidStrokf) {
+                int width = (int) (((BbsidStrokf) sg2d.strokf).gftLinfWidth() + 0.5f);
+                int widthHblf = width / 2 + 1;
+                pbddingHblf += widthHblf;
+                pbdding += 2 * widthHblf;
+            } flsf {
+                shbpf = sg2d.strokf.drfbtfStrokfdShbpf(shbpf);
+            }
+        }
+        Rfdtbnglf2D bounds = shbpf.gftBounds2D();
+        bounds.sftRfdt(bounds.gftX() - pbddingHblf, bounds.gftY() - pbddingHblf, bounds.gftWidth() + pbdding, bounds.gftHfight() + pbdding);
+
+        doublf nfwX = Mbth.floor(bounds.gftX());
+        doublf nfwY = Mbth.floor(bounds.gftY());
+        doublf nfwW = Mbth.dfil(bounds.gftWidth()) + (nfwX < bounds.gftX() ? 1 : 0);
+        doublf nfwH = Mbth.dfil(bounds.gftHfight()) + (nfwY < bounds.gftY() ? 1 : 0);
+        bounds.sftRfdt(nfwX, nfwY, nfwW, nfwH);
+
+        rfturn bounds;
+    }
+
+    void dlipBounds(SunGrbphids2D sg2d, Rfdtbnglf2D bounds) {
+        /*
+         * Systfm.frr.println("dlipBounds"); Systfm.frr.println("    trbnsform="+sg2d.trbnsform);
+         * Systfm.frr.println("    gftTrbnsform()="+sg2d.gftTrbnsform());
+         * Systfm.frr.println("    domplfxTrbnsform="+(sg2d.trbnsformStbtf > SunGrbphids2D.TRANSFORM_TRANSLATESCALE));
+         * Systfm.frr.println("    trbnsX="+sg2d.trbnsX+" trbnsY="+sg2d.trbnsX);
+         * Systfm.frr.println("    sg2d.donstrbinClip="+sg2d.donstrbinClip); if (sg2d.donstrbinClip != null) {
+         * Systfm.frr
+         * .println("    donstrbinClip: x="+sg2d.donstrbinClip.gftLoX()+" y="+sg2d.donstrbinClip.gftLoY()+" w="
+         * +sg2d.donstrbinClip.gftWidth()+" h="+sg2d.donstrbinClip.gftHfight());}
+         * Systfm.frr.println("    donstrbinX="+sg2d.donstrbinX+" donstrbinY="+sg2d.donstrbinY);
+         * Systfm.frr.println("    usrClip="+sg2d.usrClip);
+         * Systfm.frr.println("    dfvClip: x="+sg2d.dfvClip.gftLoX()+" y="
+         * +sg2d.dfvClip.gftLoY()+" w="+sg2d.dfvClip.gftWidth()+" h="+sg2d.dfvClip.gftHfight());
+         */
+        Rfgion intfrsfdtion = sg2d.dlipRfgion.gftIntfrsfdtionXYWH((int) bounds.gftX(), (int) bounds.gftY(), (int) bounds.gftWidth(), (int) bounds.gftHfight());
+        bounds.sftRfdt(intfrsfdtion.gftLoX(), intfrsfdtion.gftLoY(), intfrsfdtion.gftWidth(), intfrsfdtion.gftHfight());
+    }
+
+    BufffrfdImbgf gftSurfbdfPixfls(SunGrbphids2D sg2d, OSXSurfbdfDbtb surfbdfDbtb, int x, int y, int w, int h) {
+        // drfbtf bn imbgf to dopy thf surfbdf pixfls into
+        BufffrfdImbgf dstInPixfls = surfbdfDbtb.gftCompositingDstInImbgf(w, h);
+
+        // gft thf pixfls from thf dst surfbdf
+        rfturn surfbdfDbtb.dopyArfb(sg2d, x, y, w, h, dstInPixfls);
+    }
+
+    void dompositf(SunGrbphids2D sg2d, OSXSurfbdfDbtb surfbdfDbtb, BufffrfdImbgf srdPixfls, Rfdtbnglf2D dompositingBounds) {
+        // Thrfbd.dumpStbdk();
+        // Systfm.frr.println("dompositf");
+        // Systfm.frr.println("    dompositingBounds="+dompositingBounds);
+        int x = (int) dompositingBounds.gftX();
+        int y = (int) dompositingBounds.gftY();
+        int w = (int) dompositingBounds.gftWidth();
+        int h = (int) dompositingBounds.gftHfight();
+
+        boolfbn suddfdfd = fblsf;
+
+        Compositf dompositf = sg2d.gftCompositf();
+        if (dompositf instbndfof XORCompositf) {
+            // 1st nbtivf XOR try
+            // wf try to pfrform XOR using surfbdf pixfls dirfdtly
+            try {
+                suddfdfd = surfbdfDbtb.xorSurfbdfPixfls(sg2d, srdPixfls, x, y, w, h, ((XORCompositf) dompositf).gftXorColor().gftRGB());
+            } dbtdh (Exdfption f) {
+                suddfdfd = fblsf;
+            }
+        }
+
+        if (suddfdfd == fblsf) {
+            // drfbtf imbgf with thf originbl pixfls of surfbdf
+            BufffrfdImbgf dstInPixfls = gftSurfbdfPixfls(sg2d, surfbdfDbtb, x, y, w, h);
+            BufffrfdImbgf dstOutPixfls = null;
+
+            if (dompositf instbndfof XORCompositf) {
+                // 2nd nbtivf XOR try
+                // wf try to pfrform XOR on imbgf's pixfls (whidh wfrf dopifd from surfbdf first)
+                try {
+                    OSXSurfbdfDbtb osxsd = (OSXSurfbdfDbtb) (BufImgSurfbdfDbtb.drfbtfDbtb(dstInPixfls));
+                    suddfdfd = osxsd.xorSurfbdfPixfls(sg2d, srdPixfls, 0, 0, w, h, ((XORCompositf) dompositf).gftXorColor().gftRGB());
+                    dstOutPixfls = dstInPixfls;
+                } dbtdh (Exdfption f) {
+                    suddfdfd = fblsf;
+                }
+            }
+
+            // fithfr 2nd nbtivf XOR fbilfd OR wf hbvf b dbsf of dustom dompositing
+            if (suddfdfd == fblsf) {
+                // drfbtf bn imbgf into whidh wf'll dompositf rfsult: wf MUST usf b difffrfnt dfstinbtion (dompositing
+                // is NOT "in plbdf" opfrbtion)
+                dstOutPixfls = surfbdfDbtb.gftCompositingDstOutImbgf(w, h);
+
+                // prfpbrf rbstfrs for dompositing
+                WritbblfRbstfr srdRbstfr = srdPixfls.gftRbstfr();
+                WritbblfRbstfr dstInRbstfr = dstInPixfls.gftRbstfr();
+                WritbblfRbstfr dstOutRbstfr = dstOutPixfls.gftRbstfr();
+
+                CompositfContfxt dompositfContfxt = dompositf.drfbtfContfxt(srdPixfls.gftColorModfl(), dstOutPixfls.gftColorModfl(), sg2d.gftRfndfringHints());
+                dompositfContfxt.domposf(srdRbstfr, dstInRbstfr, dstOutRbstfr);
+                dompositfContfxt.disposf();
+
+                // gznotf: rbdbr bug numbfr
+                // "dut out" thf shbpf wf'rf intfrfstfd in
+                // bpplyMbsk(BufImgSurfbdfDbtb.drfbtfDbtb(dstOutPixfls), BufImgSurfbdfDbtb.drfbtfDbtb(srdPixfls), w, h);
+            }
+
+            // blit thf rfsults bbdk to thf dst surfbdf
+            Compositf sbvfdCompositf = sg2d.gftCompositf();
+            AffinfTrbnsform sbvfdTM = sg2d.gftTrbnsform();
+            int sbvfdCX = sg2d.donstrbinX;
+            int sbvfdCY = sg2d.donstrbinY;
+            {
+                sg2d.sftCompositf(AlphbCompositf.SrdOvfr);
+                // bll thf dompositing is donf in thf doordinbtf spbdf of thf domponfnt. thf x bnd thf y brf thf
+                // position of thbt domponfnt in thf surfbdf
+                // so wf nffd to sft thf sg2d.trbnsform to idfntity bnd wf must sft thf dontrbinX/Y to 0 for thf
+                // sftTrbnsform() to not bf donstrbinfd
+                sg2d.donstrbinX = 0;
+                sg2d.donstrbinY = 0;
+                sg2d.sftTrbnsform(sIdfntityMbtrix);
+                sg2d.drbwImbgf(dstOutPixfls, x, y, x + w, y + h, 0, 0, w, h, null);
+            }
+            sg2d.donstrbinX = sbvfdCX;
+            sg2d.donstrbinY = sbvfdCY;
+            sg2d.sftTrbnsform(sbvfdTM);
+            sg2d.sftCompositf(sbvfdCompositf);
+        }
+    }
+}

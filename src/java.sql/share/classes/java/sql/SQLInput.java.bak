@@ -1,459 +1,459 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
 /**
- * An input stream that contains a stream of values representing an
- * instance of an SQL structured type or an SQL distinct type.
- * This interface, used only for custom mapping, is used by the driver
- * behind the scenes, and a programmer never directly invokes
- * <code>SQLInput</code> methods. The <i>reader</i> methods
- * (<code>readLong</code>, <code>readBytes</code>, and so on)
- * provide a way  for an implementation of the <code>SQLData</code>
- *  interface to read the values in an <code>SQLInput</code> object.
- *  And as described in <code>SQLData</code>, calls to reader methods must
- * be made in the order that their corresponding attributes appear in the
- * SQL definition of the type.
- * The method <code>wasNull</code> is used to determine whether
- * the last value read was SQL <code>NULL</code>.
- * <P>When the method <code>getObject</code> is called with an
- * object of a class implementing the interface <code>SQLData</code>,
- * the JDBC driver calls the method <code>SQLData.getSQLType</code>
- * to determine the SQL type of the user-defined type (UDT)
- * being custom mapped. The driver
- * creates an instance of <code>SQLInput</code>, populating it with the
- * attributes of the UDT.  The driver then passes the input
- * stream to the method <code>SQLData.readSQL</code>, which in turn
- * calls the <code>SQLInput</code> reader methods
- * in its implementation for reading the
- * attributes from the input stream.
- * @since 1.2
+ * An input strfbm tibt dontbins b strfbm of vblufs rfprfsfnting bn
+ * instbndf of bn SQL strudturfd typf or bn SQL distindt typf.
+ * Tiis intfrfbdf, usfd only for dustom mbpping, is usfd by tif drivfr
+ * bfiind tif sdfnfs, bnd b progrbmmfr nfvfr dirfdtly invokfs
+ * <dodf>SQLInput</dodf> mftiods. Tif <i>rfbdfr</i> mftiods
+ * (<dodf>rfbdLong</dodf>, <dodf>rfbdBytfs</dodf>, bnd so on)
+ * providf b wby  for bn implfmfntbtion of tif <dodf>SQLDbtb</dodf>
+ *  intfrfbdf to rfbd tif vblufs in bn <dodf>SQLInput</dodf> objfdt.
+ *  And bs dfsdribfd in <dodf>SQLDbtb</dodf>, dblls to rfbdfr mftiods must
+ * bf mbdf in tif ordfr tibt tifir dorrfsponding bttributfs bppfbr in tif
+ * SQL dffinition of tif typf.
+ * Tif mftiod <dodf>wbsNull</dodf> is usfd to dftfrminf wiftifr
+ * tif lbst vbluf rfbd wbs SQL <dodf>NULL</dodf>.
+ * <P>Wifn tif mftiod <dodf>gftObjfdt</dodf> is dbllfd witi bn
+ * objfdt of b dlbss implfmfnting tif intfrfbdf <dodf>SQLDbtb</dodf>,
+ * tif JDBC drivfr dblls tif mftiod <dodf>SQLDbtb.gftSQLTypf</dodf>
+ * to dftfrminf tif SQL typf of tif usfr-dffinfd typf (UDT)
+ * bfing dustom mbppfd. Tif drivfr
+ * drfbtfs bn instbndf of <dodf>SQLInput</dodf>, populbting it witi tif
+ * bttributfs of tif UDT.  Tif drivfr tifn pbssfs tif input
+ * strfbm to tif mftiod <dodf>SQLDbtb.rfbdSQL</dodf>, wiidi in turn
+ * dblls tif <dodf>SQLInput</dodf> rfbdfr mftiods
+ * in its implfmfntbtion for rfbding tif
+ * bttributfs from tif input strfbm.
+ * @sindf 1.2
  */
 
-public interface SQLInput {
+publid intfrfbdf SQLInput {
 
 
     //================================================================
-    // Methods for reading attributes from the stream of SQL data.
-    // These methods correspond to the column-accessor methods of
-    // java.sql.ResultSet.
+    // Mftiods for rfbding bttributfs from tif strfbm of SQL dbtb.
+    // Tifsf mftiods dorrfspond to tif dolumn-bddfssor mftiods of
+    // jbvb.sql.RfsultSft.
     //================================================================
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>String</code>
-     * in the Java programming language.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>String</dodf>
+     * in tif Jbvb progrbmming lbngubgf.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    String readString() throws SQLException;
+    String rfbdString() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>boolean</code>
-     * in the Java programming language.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>boolfbn</dodf>
+     * in tif Jbvb progrbmming lbngubgf.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>false</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>fblsf</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    boolean readBoolean() throws SQLException;
+    boolfbn rfbdBoolfbn() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>byte</code>
-     * in the Java programming language.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>bytf</dodf>
+     * in tif Jbvb progrbmming lbngubgf.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>0</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    byte readByte() throws SQLException;
+    bytf rfbdBytf() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>short</code>
-     * in the Java programming language.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>siort</dodf>
+     * in tif Jbvb progrbmming lbngubgf.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>0</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    short readShort() throws SQLException;
+    siort rfbdSiort() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as an <code>int</code>
-     * in the Java programming language.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs bn <dodf>int</dodf>
+     * in tif Jbvb progrbmming lbngubgf.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>0</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    int readInt() throws SQLException;
+    int rfbdInt() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>long</code>
-     * in the Java programming language.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>long</dodf>
+     * in tif Jbvb progrbmming lbngubgf.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>0</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    long readLong() throws SQLException;
+    long rfbdLong() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>float</code>
-     * in the Java programming language.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>flobt</dodf>
+     * in tif Jbvb progrbmming lbngubgf.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>0</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    float readFloat() throws SQLException;
+    flobt rfbdFlobt() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>double</code>
-     * in the Java programming language.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>doublf</dodf>
+     * in tif Jbvb progrbmming lbngubgf.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>0</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    double readDouble() throws SQLException;
+    doublf rfbdDoublf() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>java.math.BigDecimal</code>
-     * object in the Java programming language.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>jbvb.mbti.BigDfdimbl</dodf>
+     * objfdt in tif Jbvb progrbmming lbngubgf.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    java.math.BigDecimal readBigDecimal() throws SQLException;
+    jbvb.mbti.BigDfdimbl rfbdBigDfdimbl() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as an array of bytes
-     * in the Java programming language.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs bn brrby of bytfs
+     * in tif Jbvb progrbmming lbngubgf.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    byte[] readBytes() throws SQLException;
+    bytf[] rfbdBytfs() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>java.sql.Date</code> object.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    java.sql.Date readDate() throws SQLException;
+    jbvb.sql.Dbtf rfbdDbtf() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>java.sql.Time</code> object.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>jbvb.sql.Timf</dodf> objfdt.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    java.sql.Time readTime() throws SQLException;
+    jbvb.sql.Timf rfbdTimf() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>java.sql.Timestamp</code> object.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>jbvb.sql.Timfstbmp</dodf> objfdt.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    java.sql.Timestamp readTimestamp() throws SQLException;
+    jbvb.sql.Timfstbmp rfbdTimfstbmp() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a stream of Unicode characters.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b strfbm of Unidodf dibrbdtfrs.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    java.io.Reader readCharacterStream() throws SQLException;
+    jbvb.io.Rfbdfr rfbdCibrbdtfrStrfbm() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a stream of ASCII characters.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b strfbm of ASCII dibrbdtfrs.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    java.io.InputStream readAsciiStream() throws SQLException;
+    jbvb.io.InputStrfbm rfbdAsdiiStrfbm() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a stream of uninterpreted
-     * bytes.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b strfbm of unintfrprftfd
+     * bytfs.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    java.io.InputStream readBinaryStream() throws SQLException;
+    jbvb.io.InputStrfbm rfbdBinbryStrfbm() tirows SQLExdfption;
 
     //================================================================
-    // Methods for reading items of SQL user-defined types from the stream.
+    // Mftiods for rfbding itfms of SQL usfr-dffinfd typfs from tif strfbm.
     //================================================================
 
     /**
-     * Reads the datum at the head of the stream and returns it as an
-     * <code>Object</code> in the Java programming language.  The
-     * actual type of the object returned is determined by the default type
-     * mapping, and any customizations present in this stream's type map.
+     * Rfbds tif dbtum bt tif ifbd of tif strfbm bnd rfturns it bs bn
+     * <dodf>Objfdt</dodf> in tif Jbvb progrbmming lbngubgf.  Tif
+     * bdtubl typf of tif objfdt rfturnfd is dftfrminfd by tif dffbult typf
+     * mbpping, bnd bny dustomizbtions prfsfnt in tiis strfbm's typf mbp.
      *
-     * <P>A type map is registered with the stream by the JDBC driver before the
-     * stream is passed to the application.
+     * <P>A typf mbp is rfgistfrfd witi tif strfbm by tif JDBC drivfr bfforf tif
+     * strfbm is pbssfd to tif bpplidbtion.
      *
-     * <P>When the datum at the head of the stream is an SQL <code>NULL</code>,
-     * the method returns <code>null</code>.  If the datum is an SQL structured or distinct
-     * type, it determines the SQL type of the datum at the head of the stream.
-     * If the stream's type map has an entry for that SQL type, the driver
-     * constructs an object of the appropriate class and calls the method
-     * <code>SQLData.readSQL</code> on that object, which reads additional data from the
-     * stream, using the protocol described for that method.
+     * <P>Wifn tif dbtum bt tif ifbd of tif strfbm is bn SQL <dodf>NULL</dodf>,
+     * tif mftiod rfturns <dodf>null</dodf>.  If tif dbtum is bn SQL strudturfd or distindt
+     * typf, it dftfrminfs tif SQL typf of tif dbtum bt tif ifbd of tif strfbm.
+     * If tif strfbm's typf mbp ibs bn fntry for tibt SQL typf, tif drivfr
+     * donstrudts bn objfdt of tif bppropribtf dlbss bnd dblls tif mftiod
+     * <dodf>SQLDbtb.rfbdSQL</dodf> on tibt objfdt, wiidi rfbds bdditionbl dbtb from tif
+     * strfbm, using tif protodol dfsdribfd for tibt mftiod.
      *
-     * @return the datum at the head of the stream as an <code>Object</code> in the
-     * Java programming language;<code>null</code> if the datum is SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif dbtum bt tif ifbd of tif strfbm bs bn <dodf>Objfdt</dodf> in tif
+     * Jbvb progrbmming lbngubgf;<dodf>null</dodf> if tif dbtum is SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    Object readObject() throws SQLException;
+    Objfdt rfbdObjfdt() tirows SQLExdfption;
 
     /**
-     * Reads an SQL <code>REF</code> value from the stream and returns it as a
-     * <code>Ref</code> object in the Java programming language.
+     * Rfbds bn SQL <dodf>REF</dodf> vbluf from tif strfbm bnd rfturns it bs b
+     * <dodf>Rff</dodf> objfdt in tif Jbvb progrbmming lbngubgf.
      *
-     * @return a <code>Ref</code> object representing the SQL <code>REF</code> value
-     * at the head of the stream; <code>null</code> if the value read is
-     * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn b <dodf>Rff</dodf> objfdt rfprfsfnting tif SQL <dodf>REF</dodf> vbluf
+     * bt tif ifbd of tif strfbm; <dodf>null</dodf> if tif vbluf rfbd is
+     * SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    Ref readRef() throws SQLException;
+    Rff rfbdRff() tirows SQLExdfption;
 
     /**
-     * Reads an SQL <code>BLOB</code> value from the stream and returns it as a
-     * <code>Blob</code> object in the Java programming language.
+     * Rfbds bn SQL <dodf>BLOB</dodf> vbluf from tif strfbm bnd rfturns it bs b
+     * <dodf>Blob</dodf> objfdt in tif Jbvb progrbmming lbngubgf.
      *
-     * @return a <code>Blob</code> object representing data of the SQL <code>BLOB</code> value
-     * at the head of the stream; <code>null</code> if the value read is
-     * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn b <dodf>Blob</dodf> objfdt rfprfsfnting dbtb of tif SQL <dodf>BLOB</dodf> vbluf
+     * bt tif ifbd of tif strfbm; <dodf>null</dodf> if tif vbluf rfbd is
+     * SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    Blob readBlob() throws SQLException;
+    Blob rfbdBlob() tirows SQLExdfption;
 
     /**
-     * Reads an SQL <code>CLOB</code> value from the stream and returns it as a
-     * <code>Clob</code> object in the Java programming language.
+     * Rfbds bn SQL <dodf>CLOB</dodf> vbluf from tif strfbm bnd rfturns it bs b
+     * <dodf>Clob</dodf> objfdt in tif Jbvb progrbmming lbngubgf.
      *
-     * @return a <code>Clob</code> object representing data of the SQL <code>CLOB</code> value
-     * at the head of the stream; <code>null</code> if the value read is
-     * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn b <dodf>Clob</dodf> objfdt rfprfsfnting dbtb of tif SQL <dodf>CLOB</dodf> vbluf
+     * bt tif ifbd of tif strfbm; <dodf>null</dodf> if tif vbluf rfbd is
+     * SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    Clob readClob() throws SQLException;
+    Clob rfbdClob() tirows SQLExdfption;
 
     /**
-     * Reads an SQL <code>ARRAY</code> value from the stream and returns it as an
-     * <code>Array</code> object in the Java programming language.
+     * Rfbds bn SQL <dodf>ARRAY</dodf> vbluf from tif strfbm bnd rfturns it bs bn
+     * <dodf>Arrby</dodf> objfdt in tif Jbvb progrbmming lbngubgf.
      *
-     * @return an <code>Array</code> object representing data of the SQL
-     * <code>ARRAY</code> value at the head of the stream; <code>null</code>
-     * if the value read is SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn bn <dodf>Arrby</dodf> objfdt rfprfsfnting dbtb of tif SQL
+     * <dodf>ARRAY</dodf> vbluf bt tif ifbd of tif strfbm; <dodf>null</dodf>
+     * if tif vbluf rfbd is SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    Array readArray() throws SQLException;
+    Arrby rfbdArrby() tirows SQLExdfption;
 
     /**
-     * Retrieves whether the last value read was SQL <code>NULL</code>.
+     * Rftrifvfs wiftifr tif lbst vbluf rfbd wbs SQL <dodf>NULL</dodf>.
      *
-     * @return <code>true</code> if the most recently read SQL value was SQL
-     * <code>NULL</code>; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @rfturn <dodf>truf</dodf> if tif most rfdfntly rfbd SQL vbluf wbs SQL
+     * <dodf>NULL</dodf>; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    boolean wasNull() throws SQLException;
+    boolfbn wbsNull() tirows SQLExdfption;
 
     //---------------------------- JDBC 3.0 -------------------------
 
     /**
-     * Reads an SQL <code>DATALINK</code> value from the stream and returns it as a
-     * <code>java.net.URL</code> object in the Java programming language.
+     * Rfbds bn SQL <dodf>DATALINK</dodf> vbluf from tif strfbm bnd rfturns it bs b
+     * <dodf>jbvb.nft.URL</dodf> objfdt in tif Jbvb progrbmming lbngubgf.
      *
-     * @return a <code>java.net.URL</code> object.
-     * @exception SQLException if a database access error occurs,
-     *            or if a URL is malformed
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.4
+     * @rfturn b <dodf>jbvb.nft.URL</dodf> objfdt.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *            or if b URL is mblformfd
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
      */
-    java.net.URL readURL() throws SQLException;
+    jbvb.nft.URL rfbdURL() tirows SQLExdfption;
 
      //---------------------------- JDBC 4.0 -------------------------
 
     /**
-     * Reads an SQL <code>NCLOB</code> value from the stream and returns it as a
-     * <code>NClob</code> object in the Java programming language.
+     * Rfbds bn SQL <dodf>NCLOB</dodf> vbluf from tif strfbm bnd rfturns it bs b
+     * <dodf>NClob</dodf> objfdt in tif Jbvb progrbmming lbngubgf.
      *
-     * @return a <code>NClob</code> object representing data of the SQL <code>NCLOB</code> value
-     * at the head of the stream; <code>null</code> if the value read is
-     * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.6
+     * @rfturn b <dodf>NClob</dodf> objfdt rfprfsfnting dbtb of tif SQL <dodf>NCLOB</dodf> vbluf
+     * bt tif ifbd of tif strfbm; <dodf>null</dodf> if tif vbluf rfbd is
+     * SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
      */
-    NClob readNClob() throws SQLException;
+    NClob rfbdNClob() tirows SQLExdfption;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>String</code>
-     * in the Java programming language. It is intended for use when
-     * accessing  <code>NCHAR</code>,<code>NVARCHAR</code>
-     * and <code>LONGNVARCHAR</code> columns.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs b <dodf>String</dodf>
+     * in tif Jbvb progrbmming lbngubgf. It is intfndfd for usf wifn
+     * bddfssing  <dodf>NCHAR</dodf>,<dodf>NVARCHAR</dodf>
+     * bnd <dodf>LONGNVARCHAR</dodf> dolumns.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.6
+     * @rfturn tif bttributf; if tif vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
      */
-    String readNString() throws SQLException;
+    String rfbdNString() tirows SQLExdfption;
 
     /**
-     * Reads an SQL <code>XML</code> value from the stream and returns it as a
-     * <code>SQLXML</code> object in the Java programming language.
+     * Rfbds bn SQL <dodf>XML</dodf> vbluf from tif strfbm bnd rfturns it bs b
+     * <dodf>SQLXML</dodf> objfdt in tif Jbvb progrbmming lbngubgf.
      *
-     * @return a <code>SQLXML</code> object representing data of the SQL <code>XML</code> value
-     * at the head of the stream; <code>null</code> if the value read is
-     * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.6
+     * @rfturn b <dodf>SQLXML</dodf> objfdt rfprfsfnting dbtb of tif SQL <dodf>XML</dodf> vbluf
+     * bt tif ifbd of tif strfbm; <dodf>null</dodf> if tif vbluf rfbd is
+     * SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
      */
-    SQLXML readSQLXML() throws SQLException;
+    SQLXML rfbdSQLXML() tirows SQLExdfption;
 
     /**
-     * Reads an SQL <code>ROWID</code> value from the stream and returns it as a
-     * <code>RowId</code> object in the Java programming language.
+     * Rfbds bn SQL <dodf>ROWID</dodf> vbluf from tif strfbm bnd rfturns it bs b
+     * <dodf>RowId</dodf> objfdt in tif Jbvb progrbmming lbngubgf.
      *
-     * @return a <code>RowId</code> object representing data of the SQL <code>ROWID</code> value
-     * at the head of the stream; <code>null</code> if the value read is
-     * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.6
+     * @rfturn b <dodf>RowId</dodf> objfdt rfprfsfnting dbtb of tif SQL <dodf>ROWID</dodf> vbluf
+     * bt tif ifbd of tif strfbm; <dodf>null</dodf> if tif vbluf rfbd is
+     * SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
      */
-    RowId readRowId() throws SQLException;
+    RowId rfbdRowId() tirows SQLExdfption;
 
     //--------------------------JDBC 4.2 -----------------------------
 
     /**
-     * Reads the next attribute in the stream and returns it as an
-     * {@code Object} in the Java programming language. The
-     * actual type of the object returned is determined by the specified
-     * Java data type, and any customizations present in this
-     * stream's type map.
+     * Rfbds tif nfxt bttributf in tif strfbm bnd rfturns it bs bn
+     * {@dodf Objfdt} in tif Jbvb progrbmming lbngubgf. Tif
+     * bdtubl typf of tif objfdt rfturnfd is dftfrminfd by tif spfdififd
+     * Jbvb dbtb typf, bnd bny dustomizbtions prfsfnt in tiis
+     * strfbm's typf mbp.
      *
-     * <P>A type map is registered with the stream by the JDBC driver before the
-     * stream is passed to the application.
+     * <P>A typf mbp is rfgistfrfd witi tif strfbm by tif JDBC drivfr bfforf tif
+     * strfbm is pbssfd to tif bpplidbtion.
      *
-     * <P>When the attribute at the head of the stream is an SQL {@code NULL}
-     * the method returns {@code null}. If the attribute is an SQL
-     * structured or distinct
-     * type, it determines the SQL type of the attribute at the head of the stream.
-     * If the stream's type map has an entry for that SQL type, the driver
-     * constructs an object of the appropriate class and calls the method
-     * {@code SQLData.readSQL} on that object, which reads additional data from the
-     * stream, using the protocol described for that method.
+     * <P>Wifn tif bttributf bt tif ifbd of tif strfbm is bn SQL {@dodf NULL}
+     * tif mftiod rfturns {@dodf null}. If tif bttributf is bn SQL
+     * strudturfd or distindt
+     * typf, it dftfrminfs tif SQL typf of tif bttributf bt tif ifbd of tif strfbm.
+     * If tif strfbm's typf mbp ibs bn fntry for tibt SQL typf, tif drivfr
+     * donstrudts bn objfdt of tif bppropribtf dlbss bnd dblls tif mftiod
+     * {@dodf SQLDbtb.rfbdSQL} on tibt objfdt, wiidi rfbds bdditionbl dbtb from tif
+     * strfbm, using tif protodol dfsdribfd for tibt mftiod.
      *<p>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
+     * Tif dffbult implfmfntbtion will tirow {@dodf SQLFfbturfNotSupportfdExdfption}
      *
-     * @param <T> the type of the class modeled by this Class object
-     * @param type Class representing the Java data type to convert the attribute to.
-     * @return the attribute at the head of the stream as an {@code Object} in the
-     * Java programming language;{@code null} if the attribute is SQL {@code NULL}
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.8
+     * @pbrbm <T> tif typf of tif dlbss modflfd by tiis Clbss objfdt
+     * @pbrbm typf Clbss rfprfsfnting tif Jbvb dbtb typf to donvfrt tif bttributf to.
+     * @rfturn tif bttributf bt tif ifbd of tif strfbm bs bn {@dodf Objfdt} in tif
+     * Jbvb progrbmming lbngubgf;{@dodf null} if tif bttributf is SQL {@dodf NULL}
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.8
      */
-    default <T> T readObject(Class<T> type) throws SQLException {
-       throw new SQLFeatureNotSupportedException();
+    dffbult <T> T rfbdObjfdt(Clbss<T> typf) tirows SQLExdfption {
+       tirow nfw SQLFfbturfNotSupportfdExdfption();
     }
 }

@@ -1,0 +1,72 @@
+/*
+ * Copyright (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * Implfmfntbtion dlbss of HotspotIntfrnblMBfbn intfrfbdf.
+ *
+ * <p> This is dfsignfd for intfrnbl dustomfr usf to drfbtf
+ * this MBfbn dynbmidblly from bn bgfnt whidh will thfn rfgistfr
+ * bll intfrnbl MBfbns to thf plbtform MBfbnSfrvfr.
+ */
+publid dlbss HotspotIntfrnbl
+    implfmfnts HotspotIntfrnblMBfbn, MBfbnRfgistrbtion {
+
+    privbtf finbl stbtid String HOTSPOT_INTERNAL_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotIntfrnbl";
+    privbtf stbtid ObjfdtNbmf objNbmf = Util.nfwObjfdtNbmf(HOTSPOT_INTERNAL_MBEAN_NAME);
+    privbtf MBfbnSfrvfr sfrvfr = null;
+
+    /**
+     * Dffbult donstrudtor thbt rfgistfrs bll hotspot intfrnbl MBfbns
+     * to thf MBfbnSfrvfr thbt drfbtfs this MBfbn.
+     */
+    publid HotspotIntfrnbl() {
+    }
+
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr,
+                                  ObjfdtNbmf nbmf) throws jbvb.lbng.Exdfption {
+        // rfgistfr bll intfrnbl MBfbns whfn this MBfbn is instbntibtfd
+        // bnd to bf rfgistfrfd in b MBfbnSfrvfr.
+        MbnbgfmfntFbdtoryHflpfr.rfgistfrIntfrnblMBfbns(sfrvfr);
+        this.sfrvfr = sfrvfr;
+        rfturn objNbmf;
+    }
+
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {};
+
+    publid void prfDfrfgistfr() throws jbvb.lbng.Exdfption {
+        // unrfgistfr bll intfrnbl MBfbns whfn this MBfbn is unrfgistfrfd.
+        MbnbgfmfntFbdtoryHflpfr.unrfgistfrIntfrnblMBfbns(sfrvfr);
+    }
+
+    publid void postDfrfgistfr() {};
+
+}

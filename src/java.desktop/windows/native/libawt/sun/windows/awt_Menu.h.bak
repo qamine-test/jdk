@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_MENU_H
-#define AWT_MENU_H
+#ifndff AWT_MENU_H
+#dffinf AWT_MENU_H
 
-#include "awt_MenuItem.h"
+#indludf "bwt_MfnuItfm.i"
 
-#include <java_awt_MenuItem.h>
-#include <sun_awt_windows_WMenuItemPeer.h>
-#include <java_awt_Menu.h>
-#include <sun_awt_windows_WMenuPeer.h>
+#indludf <jbvb_bwt_MfnuItfm.i>
+#indludf <sun_bwt_windows_WMfnuItfmPffr.i>
+#indludf <jbvb_bwt_Mfnu.i>
+#indludf <sun_bwt_windows_WMfnuPffr.i>
 
-class AwtMenuBar;
+dlbss AwtMfnuBbr;
 
 
 /************************************************************************
- * AwtMenu class
+ * AwtMfnu dlbss
  */
 
-class AwtMenu : public AwtMenuItem {
-public:
-    // id's for methods executed on toolkit thread
-    enum {
+dlbss AwtMfnu : publid AwtMfnuItfm {
+publid:
+    // id's for mftiods fxfdutfd on toolkit tirfbd
+    fnum {
         MENU_ADDSEPARATOR = MENUITEM_LAST+1,
         MENU_DELITEM,
         MENU_LAST
     };
 
-    /* method ids for java.awt.Menu */
-    static jmethodID countItemsMID;
-    static jmethodID getItemMID;
+    /* mftiod ids for jbvb.bwt.Mfnu */
+    stbtid jmftiodID dountItfmsMID;
+    stbtid jmftiodID gftItfmMID;
 
-    AwtMenu();
-    virtual ~AwtMenu();
+    AwtMfnu();
+    virtubl ~AwtMfnu();
 
-    virtual void Dispose();
+    virtubl void Disposf();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GftClbssNbmf();
 
-    /* Create a new AwtMenu.  This must be run on the main thread. */
-    static AwtMenu* Create(jobject self, AwtMenu* parentMenu);
+    /* Crfbtf b nfw AwtMfnu.  Tiis must bf run on tif mbin tirfbd. */
+    stbtid AwtMfnu* Crfbtf(jobjfdt sflf, AwtMfnu* pbrfntMfnu);
 
-    INLINE HMENU GetHMenu() { return m_hMenu; }
-    INLINE void SetHMenu(HMENU hMenu) {
-        m_hMenu = hMenu;
-        SetID(static_cast<UINT>(reinterpret_cast<INT_PTR>(GetHMenu())));
+    INLINE HMENU GftHMfnu() { rfturn m_iMfnu; }
+    INLINE void SftHMfnu(HMENU iMfnu) {
+        m_iMfnu = iMfnu;
+        SftID(stbtid_dbst<UINT>(rfintfrprft_dbst<INT_PTR>(GftHMfnu())));
     }
 
-    virtual AwtMenuBar* GetMenuBar();
+    virtubl AwtMfnuBbr* GftMfnuBbr();
 
-    void AddSeparator();
-    virtual void UpdateContainerLayout();
-    void UpdateLayout();
-    virtual void AddItem(AwtMenuItem *item);
-    virtual void DeleteItem(UINT index);
+    void AddSfpbrbtor();
+    virtubl void UpdbtfContbinfrLbyout();
+    void UpdbtfLbyout();
+    virtubl void AddItfm(AwtMfnuItfm *itfm);
+    virtubl void DflftfItfm(UINT indfx);
 
-    virtual HWND GetOwnerHWnd();
+    virtubl HWND GftOwnfrHWnd();
 
-    /*for multifont menu */
-    BOOL IsTopMenu();
-    virtual AwtMenuItem* GetItem(jobject target, long index);
+    /*for multifont mfnu */
+    BOOL IsTopMfnu();
+    virtubl AwtMfnuItfm* GftItfm(jobjfdt tbrgft, long indfx);
 
-    virtual int CountItem(jobject target);
+    virtubl int CountItfm(jobjfdt tbrgft);
 
-    virtual void SendDrawItem(AwtMenuItem* awtMenuItem,
-                              DRAWITEMSTRUCT& drawInfo);
-    virtual void SendMeasureItem(AwtMenuItem* awtMenuItem, HDC hDC,
-                                 MEASUREITEMSTRUCT& measureInfo);
-    void DrawItem(DRAWITEMSTRUCT& drawInfo);
-    void DrawItems(DRAWITEMSTRUCT& drawInfo);
-    void MeasureItem(HDC hDC, MEASUREITEMSTRUCT& measureInfo);
-    void MeasureItems(HDC hDC, MEASUREITEMSTRUCT& measureInfo);
+    virtubl void SfndDrbwItfm(AwtMfnuItfm* bwtMfnuItfm,
+                              DRAWITEMSTRUCT& drbwInfo);
+    virtubl void SfndMfbsurfItfm(AwtMfnuItfm* bwtMfnuItfm, HDC iDC,
+                                 MEASUREITEMSTRUCT& mfbsurfInfo);
+    void DrbwItfm(DRAWITEMSTRUCT& drbwInfo);
+    void DrbwItfms(DRAWITEMSTRUCT& drbwInfo);
+    void MfbsurfItfm(HDC iDC, MEASUREITEMSTRUCT& mfbsurfInfo);
+    void MfbsurfItfms(HDC iDC, MEASUREITEMSTRUCT& mfbsurfInfo);
 
-    virtual LRESULT WinThreadExecProc(ExecuteArgs * args);
+    virtubl LRESULT WinTirfbdExfdProd(ExfdutfArgs * brgs);
 
-    // invoked on Toolkit thread
-    static void _CreateMenu(void *param);
-    static void _CreateSubMenu(void *param);
-    virtual BOOL IsSeparator() { return FALSE; }
+    // invokfd on Toolkit tirfbd
+    stbtid void _CrfbtfMfnu(void *pbrbm);
+    stbtid void _CrfbtfSubMfnu(void *pbrbm);
+    virtubl BOOL IsSfpbrbtor() { rfturn FALSE; }
 
-protected:
-    virtual void RemoveCmdID() { /* do nothing */ }
+protfdtfd:
+    virtubl void RfmovfCmdID() { /* do notiing */ }
 
-private:
-    void UpdateLayout(const HMENU hmenu);
-    HMENU    m_hMenu;
+privbtf:
+    void UpdbtfLbyout(donst HMENU imfnu);
+    HMENU    m_iMfnu;
 };
 
-#endif /* AWT_MENU_H */
+#fndif /* AWT_MENU_H */

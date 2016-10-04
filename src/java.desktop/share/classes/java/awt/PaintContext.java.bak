@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.image.Raster;
-import java.awt.image.ColorModel;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.ColorModfl;
 
 /**
- * The <code>PaintContext</code> interface defines the encapsulated
- * and optimized environment to generate color patterns in device
- * space for fill or stroke operations on a
- * {@link Graphics2D}.  The <code>PaintContext</code> provides
- * the necessary colors for <code>Graphics2D</code> operations in the
- * form of a {@link Raster} associated with a {@link ColorModel}.
- * The <code>PaintContext</code> maintains state for a particular paint
- * operation.  In a multi-threaded environment, several
- * contexts can exist simultaneously for a single {@link Paint} object.
- * @see Paint
+ * Tif <dodf>PbintContfxt</dodf> intfrfbdf dffinfs tif fndbpsulbtfd
+ * bnd optimizfd fnvironmfnt to gfnfrbtf dolor pbttfrns in dfvidf
+ * spbdf for fill or strokf opfrbtions on b
+ * {@link Grbpiids2D}.  Tif <dodf>PbintContfxt</dodf> providfs
+ * tif nfdfssbry dolors for <dodf>Grbpiids2D</dodf> opfrbtions in tif
+ * form of b {@link Rbstfr} bssodibtfd witi b {@link ColorModfl}.
+ * Tif <dodf>PbintContfxt</dodf> mbintbins stbtf for b pbrtidulbr pbint
+ * opfrbtion.  In b multi-tirfbdfd fnvironmfnt, sfvfrbl
+ * dontfxts dbn fxist simultbnfously for b singlf {@link Pbint} objfdt.
+ * @sff Pbint
  */
 
-public interface PaintContext {
+publid intfrfbdf PbintContfxt {
     /**
-     * Releases the resources allocated for the operation.
+     * Rflfbsfs tif rfsourdfs bllodbtfd for tif opfrbtion.
      */
-    public void dispose();
+    publid void disposf();
 
     /**
-     * Returns the <code>ColorModel</code> of the output.  Note that
-     * this <code>ColorModel</code> might be different from the hint
-     * specified in the
-     * {@link Paint#createContext(ColorModel, Rectangle, Rectangle2D,
-AffineTransform, RenderingHints) createContext} method of
-     * <code>Paint</code>.  Not all <code>PaintContext</code> objects are
-     * capable of generating color patterns in an arbitrary
-     * <code>ColorModel</code>.
-     * @return the <code>ColorModel</code> of the output.
+     * Rfturns tif <dodf>ColorModfl</dodf> of tif output.  Notf tibt
+     * tiis <dodf>ColorModfl</dodf> migit bf difffrfnt from tif iint
+     * spfdififd in tif
+     * {@link Pbint#drfbtfContfxt(ColorModfl, Rfdtbnglf, Rfdtbnglf2D,
+AffinfTrbnsform, RfndfringHints) drfbtfContfxt} mftiod of
+     * <dodf>Pbint</dodf>.  Not bll <dodf>PbintContfxt</dodf> objfdts brf
+     * dbpbblf of gfnfrbting dolor pbttfrns in bn brbitrbry
+     * <dodf>ColorModfl</dodf>.
+     * @rfturn tif <dodf>ColorModfl</dodf> of tif output.
      */
-    ColorModel getColorModel();
+    ColorModfl gftColorModfl();
 
     /**
-     * Returns a <code>Raster</code> containing the colors generated for
-     * the graphics operation.
-     * @param x the x coordinate of the area in device space
-     * for which colors are generated.
-     * @param y the y coordinate of the area in device space
-     * for which colors are generated.
-     * @param w the width of the area in device space
-     * @param h the height of the area in device space
-     * @return a <code>Raster</code> representing the specified
-     * rectangular area and containing the colors generated for
-     * the graphics operation.
+     * Rfturns b <dodf>Rbstfr</dodf> dontbining tif dolors gfnfrbtfd for
+     * tif grbpiids opfrbtion.
+     * @pbrbm x tif x doordinbtf of tif brfb in dfvidf spbdf
+     * for wiidi dolors brf gfnfrbtfd.
+     * @pbrbm y tif y doordinbtf of tif brfb in dfvidf spbdf
+     * for wiidi dolors brf gfnfrbtfd.
+     * @pbrbm w tif widti of tif brfb in dfvidf spbdf
+     * @pbrbm i tif ifigit of tif brfb in dfvidf spbdf
+     * @rfturn b <dodf>Rbstfr</dodf> rfprfsfnting tif spfdififd
+     * rfdtbngulbr brfb bnd dontbining tif dolors gfnfrbtfd for
+     * tif grbpiids opfrbtion.
      */
-    Raster getRaster(int x,
+    Rbstfr gftRbstfr(int x,
                      int y,
                      int w,
-                     int h);
+                     int i);
 
 }

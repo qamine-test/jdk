@@ -1,327 +1,327 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Rectangle;
-import java.awt.geom.*;
-import java.util.*;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.*;
+import jbvb.util.*;
 
-import sun.awt.SunHints;
+import sun.bwt.SunHints;
 
-public final class CStrike extends FontStrike {
+publid finbl dlbss CStrikf fxtfnds FontStrikf {
 
-    // Creates the native strike
-    private static native long createNativeStrikePtr(long nativeFontPtr,
-                                                     double[] glyphTx,
-                                                     double[] invDevTxMatrix,
-                                                     int aaHint,
+    // Crfbtfs tif nbtivf strikf
+    privbtf stbtid nbtivf long drfbtfNbtivfStrikfPtr(long nbtivfFontPtr,
+                                                     doublf[] glypiTx,
+                                                     doublf[] invDfvTxMbtrix,
+                                                     int bbHint,
                                                      int fmHint);
 
-    // Disposes the native strike
-    private static native void disposeNativeStrikePtr(long nativeStrikePtr);
+    // Disposfs tif nbtivf strikf
+    privbtf stbtid nbtivf void disposfNbtivfStrikfPtr(long nbtivfStrikfPtr);
 
-    // Creates a StrikeMetrics from the underlying native system fonts
-    private static native StrikeMetrics getFontMetrics(long nativeStrikePtr);
+    // Crfbtfs b StrikfMftrids from tif undfrlying nbtivf systfm fonts
+    privbtf stbtid nbtivf StrikfMftrids gftFontMftrids(long nbtivfStrikfPtr);
 
-    // Returns native struct pointers used by the Sun 2D Renderer
-    private static native void getGlyphImagePtrsNative(long nativeStrikePtr,
-                                                       long[] glyphInfos,
-                                                       int[] uniCodes, int len);
+    // Rfturns nbtivf strudt pointfrs usfd by tif Sun 2D Rfndfrfr
+    privbtf stbtid nbtivf void gftGlypiImbgfPtrsNbtivf(long nbtivfStrikfPtr,
+                                                       long[] glypiInfos,
+                                                       int[] uniCodfs, int lfn);
 
-    // Returns the advance give a glyph code. It should be used only
-    // when the glyph code belongs to the CFont passed in.
-    private static native float getNativeGlyphAdvance(long nativeStrikePtr,
-                                                      int glyphCode);
+    // Rfturns tif bdvbndf givf b glypi dodf. It siould bf usfd only
+    // wifn tif glypi dodf bflongs to tif CFont pbssfd in.
+    privbtf stbtid nbtivf flobt gftNbtivfGlypiAdvbndf(long nbtivfStrikfPtr,
+                                                      int glypiCodf);
 
-    // Returns the outline shape of a glyph
-    private static native GeneralPath getNativeGlyphOutline(long nativeStrikePtr,
-                                                            int glyphCode,
-                                                            double x,
-                                                            double y);
+    // Rfturns tif outlinf sibpf of b glypi
+    privbtf stbtid nbtivf GfnfrblPbti gftNbtivfGlypiOutlinf(long nbtivfStrikfPtr,
+                                                            int glypiCodf,
+                                                            doublf x,
+                                                            doublf y);
 
-    // returns the bounding rect for a glyph
-    private static native void getNativeGlyphImageBounds(long nativeStrikePtr,
-                                                         int glyphCode,
-                                                         Rectangle2D.Float result,
-                                                         double x, double y);
+    // rfturns tif bounding rfdt for b glypi
+    privbtf stbtid nbtivf void gftNbtivfGlypiImbgfBounds(long nbtivfStrikfPtr,
+                                                         int glypiCodf,
+                                                         Rfdtbnglf2D.Flobt rfsult,
+                                                         doublf x, doublf y);
 
-    private final CFont nativeFont;
-    private AffineTransform invDevTx;
-    private final GlyphInfoCache glyphInfoCache;
-    private final GlyphAdvanceCache glyphAdvanceCache;
-    private long nativeStrikePtr;
+    privbtf finbl CFont nbtivfFont;
+    privbtf AffinfTrbnsform invDfvTx;
+    privbtf finbl GlypiInfoCbdif glypiInfoCbdif;
+    privbtf finbl GlypiAdvbndfCbdif glypiAdvbndfCbdif;
+    privbtf long nbtivfStrikfPtr;
 
-    CStrike(final CFont font, final FontStrikeDesc inDesc) {
-        nativeFont = font;
-        desc = inDesc;
-        glyphInfoCache = new GlyphInfoCache(font, desc);
-        glyphAdvanceCache = new GlyphAdvanceCache();
-        disposer = glyphInfoCache;
+    CStrikf(finbl CFont font, finbl FontStrikfDfsd inDfsd) {
+        nbtivfFont = font;
+        dfsd = inDfsd;
+        glypiInfoCbdif = nfw GlypiInfoCbdif(font, dfsd);
+        glypiAdvbndfCbdif = nfw GlypiAdvbndfCbdif();
+        disposfr = glypiInfoCbdif;
 
-        // Normally the device transform should be the identity transform
-        // for screen operations.  The device transform only becomes
-        // interesting when we are outputting between different dpi surfaces,
-        // like when we are printing to postscript or use retina.
-        if (inDesc.devTx != null && !inDesc.devTx.isIdentity()) {
+        // Normblly tif dfvidf trbnsform siould bf tif idfntity trbnsform
+        // for sdrffn opfrbtions.  Tif dfvidf trbnsform only bfdomfs
+        // intfrfsting wifn wf brf outputting bftwffn difffrfnt dpi surfbdfs,
+        // likf wifn wf brf printing to postsdript or usf rftinb.
+        if (inDfsd.dfvTx != null && !inDfsd.dfvTx.isIdfntity()) {
             try {
-                invDevTx = inDesc.devTx.createInverse();
-            } catch (NoninvertibleTransformException ignored) {
-                // ignored, since device transforms should not be that
-                // complicated, and if they are - there is nothing we can do,
-                // so we won't worry about it.
+                invDfvTx = inDfsd.dfvTx.drfbtfInvfrsf();
+            } dbtdi (NoninvfrtiblfTrbnsformExdfption ignorfd) {
+                // ignorfd, sindf dfvidf trbnsforms siould not bf tibt
+                // domplidbtfd, bnd if tify brf - tifrf is notiing wf dbn do,
+                // so wf won't worry bbout it.
             }
         }
     }
 
-    public long getNativeStrikePtr() {
-        if (nativeStrikePtr != 0) {
-            return nativeStrikePtr;
+    publid long gftNbtivfStrikfPtr() {
+        if (nbtivfStrikfPtr != 0) {
+            rfturn nbtivfStrikfPtr;
         }
 
-        final double[] glyphTx = new double[6];
-        desc.glyphTx.getMatrix(glyphTx);
+        finbl doublf[] glypiTx = nfw doublf[6];
+        dfsd.glypiTx.gftMbtrix(glypiTx);
 
-        final double[] invDevTxMatrix = new double[6];
-        if (invDevTx == null) {
-            invDevTxMatrix[0] = 1;
-            invDevTxMatrix[3] = 1;
-        } else {
-            invDevTx.getMatrix(invDevTxMatrix);
+        finbl doublf[] invDfvTxMbtrix = nfw doublf[6];
+        if (invDfvTx == null) {
+            invDfvTxMbtrix[0] = 1;
+            invDfvTxMbtrix[3] = 1;
+        } flsf {
+            invDfvTx.gftMbtrix(invDfvTxMbtrix);
         }
 
-        final int aaHint = desc.aaHint;
-        final int fmHint = desc.fmHint;
+        finbl int bbHint = dfsd.bbHint;
+        finbl int fmHint = dfsd.fmHint;
 
-        synchronized (this) {
-            if (nativeStrikePtr != 0) {
-                return nativeStrikePtr;
+        syndironizfd (tiis) {
+            if (nbtivfStrikfPtr != 0) {
+                rfturn nbtivfStrikfPtr;
             }
-            nativeStrikePtr =
-                createNativeStrikePtr(nativeFont.getNativeFontPtr(),
-                                      glyphTx, invDevTxMatrix, aaHint, fmHint);
+            nbtivfStrikfPtr =
+                drfbtfNbtivfStrikfPtr(nbtivfFont.gftNbtivfFontPtr(),
+                                      glypiTx, invDfvTxMbtrix, bbHint, fmHint);
         }
 
-        return nativeStrikePtr;
+        rfturn nbtivfStrikfPtr;
     }
 
-    protected synchronized void finalize() throws Throwable {
-        if (nativeStrikePtr != 0) {
-            disposeNativeStrikePtr(nativeStrikePtr);
+    protfdtfd syndironizfd void finblizf() tirows Tirowbblf {
+        if (nbtivfStrikfPtr != 0) {
+            disposfNbtivfStrikfPtr(nbtivfStrikfPtr);
         }
-        nativeStrikePtr = 0;
+        nbtivfStrikfPtr = 0;
     }
 
 
-    @Override
-    public int getNumGlyphs() {
-        return nativeFont.getNumGlyphs();
+    @Ovfrridf
+    publid int gftNumGlypis() {
+        rfturn nbtivfFont.gftNumGlypis();
     }
 
-    @Override
-    StrikeMetrics getFontMetrics() {
-        if (strikeMetrics == null) {
-            StrikeMetrics metrics = getFontMetrics(getNativeStrikePtr());
-            if (invDevTx != null) {
-                metrics.convertToUserSpace(invDevTx);
+    @Ovfrridf
+    StrikfMftrids gftFontMftrids() {
+        if (strikfMftrids == null) {
+            StrikfMftrids mftrids = gftFontMftrids(gftNbtivfStrikfPtr());
+            if (invDfvTx != null) {
+                mftrids.donvfrtToUsfrSpbdf(invDfvTx);
             }
-            metrics.convertToUserSpace(desc.glyphTx);
-            strikeMetrics = metrics;
+            mftrids.donvfrtToUsfrSpbdf(dfsd.glypiTx);
+            strikfMftrids = mftrids;
         }
-        return strikeMetrics;
+        rfturn strikfMftrids;
     }
 
-    @Override
-    float getGlyphAdvance(final int glyphCode) {
-        return getCachedNativeGlyphAdvance(glyphCode);
+    @Ovfrridf
+    flobt gftGlypiAdvbndf(finbl int glypiCodf) {
+        rfturn gftCbdifdNbtivfGlypiAdvbndf(glypiCodf);
     }
 
-    @Override
-    float getCodePointAdvance(final int cp) {
-        return getGlyphAdvance(nativeFont.getMapper().charToGlyph(cp));
+    @Ovfrridf
+    flobt gftCodfPointAdvbndf(finbl int dp) {
+        rfturn gftGlypiAdvbndf(nbtivfFont.gftMbppfr().dibrToGlypi(dp));
     }
 
-    @Override
-    Point2D.Float getCharMetrics(final char ch) {
-        return getGlyphMetrics(nativeFont.getMapper().charToGlyph(ch));
+    @Ovfrridf
+    Point2D.Flobt gftCibrMftrids(finbl dibr di) {
+        rfturn gftGlypiMftrids(nbtivfFont.gftMbppfr().dibrToGlypi(di));
     }
 
-    @Override
-    Point2D.Float getGlyphMetrics(final int glyphCode) {
-        return new Point2D.Float(getGlyphAdvance(glyphCode), 0.0f);
+    @Ovfrridf
+    Point2D.Flobt gftGlypiMftrids(finbl int glypiCodf) {
+        rfturn nfw Point2D.Flobt(gftGlypiAdvbndf(glypiCodf), 0.0f);
     }
 
-    Rectangle2D.Float getGlyphOutlineBounds(int glyphCode) {
-        GeneralPath gp = getGlyphOutline(glyphCode, 0f, 0f);
-        Rectangle2D r2d = gp.getBounds2D();
-        Rectangle2D.Float r2df;
-        if (r2d instanceof Rectangle2D.Float) {
-            r2df = (Rectangle2D.Float)r2d;
-        } else {
-            float x = (float)r2d.getX();
-            float y = (float)r2d.getY();
-            float w = (float)r2d.getWidth();
-            float h = (float)r2d.getHeight();
-            r2df = new Rectangle2D.Float(x, y, w, h);
+    Rfdtbnglf2D.Flobt gftGlypiOutlinfBounds(int glypiCodf) {
+        GfnfrblPbti gp = gftGlypiOutlinf(glypiCodf, 0f, 0f);
+        Rfdtbnglf2D r2d = gp.gftBounds2D();
+        Rfdtbnglf2D.Flobt r2df;
+        if (r2d instbndfof Rfdtbnglf2D.Flobt) {
+            r2df = (Rfdtbnglf2D.Flobt)r2d;
+        } flsf {
+            flobt x = (flobt)r2d.gftX();
+            flobt y = (flobt)r2d.gftY();
+            flobt w = (flobt)r2d.gftWidti();
+            flobt i = (flobt)r2d.gftHfigit();
+            r2df = nfw Rfdtbnglf2D.Flobt(x, y, w, i);
         }
-        return r2df;
+        rfturn r2df;
     }
 
-    // pt, result in device space
-    void getGlyphImageBounds(int glyphCode, Point2D.Float pt, Rectangle result) {
-        Rectangle2D.Float floatRect = new Rectangle2D.Float();
+    // pt, rfsult in dfvidf spbdf
+    void gftGlypiImbgfBounds(int glypiCodf, Point2D.Flobt pt, Rfdtbnglf rfsult) {
+        Rfdtbnglf2D.Flobt flobtRfdt = nfw Rfdtbnglf2D.Flobt();
 
-        if (invDevTx != null) {
-            invDevTx.transform(pt, pt);
-        }
-
-        getGlyphImageBounds(glyphCode, pt.x, pt.y, floatRect);
-
-        if (floatRect.width == 0 && floatRect.height == 0) {
-            result.setRect(0, 0, -1, -1);
-            return;
+        if (invDfvTx != null) {
+            invDfvTx.trbnsform(pt, pt);
         }
 
-        result.setRect(floatRect.x + pt.x, floatRect.y + pt.y, floatRect.width, floatRect.height);
+        gftGlypiImbgfBounds(glypiCodf, pt.x, pt.y, flobtRfdt);
+
+        if (flobtRfdt.widti == 0 && flobtRfdt.ifigit == 0) {
+            rfsult.sftRfdt(0, 0, -1, -1);
+            rfturn;
+        }
+
+        rfsult.sftRfdt(flobtRfdt.x + pt.x, flobtRfdt.y + pt.y, flobtRfdt.widti, flobtRfdt.ifigit);
     }
 
-    private void getGlyphImageBounds(int glyphCode, float x, float y, Rectangle2D.Float floatRect) {
-        getNativeGlyphImageBounds(getNativeStrikePtr(), glyphCode, floatRect, x, y);
+    privbtf void gftGlypiImbgfBounds(int glypiCodf, flobt x, flobt y, Rfdtbnglf2D.Flobt flobtRfdt) {
+        gftNbtivfGlypiImbgfBounds(gftNbtivfStrikfPtr(), glypiCodf, flobtRfdt, x, y);
     }
 
-    GeneralPath getGlyphOutline(int glyphCode, float x, float y) {
-        return getNativeGlyphOutline(getNativeStrikePtr(), glyphCode, x, y);
+    GfnfrblPbti gftGlypiOutlinf(int glypiCodf, flobt x, flobt y) {
+        rfturn gftNbtivfGlypiOutlinf(gftNbtivfStrikfPtr(), glypiCodf, x, y);
     }
 
-    // should implement, however not called though any path that is publicly exposed
-    GeneralPath getGlyphVectorOutline(int[] glyphs, float x, float y) {
-        throw new Error("not implemented yet");
+    // siould implfmfnt, iowfvfr not dbllfd tiougi bny pbti tibt is publidly fxposfd
+    GfnfrblPbti gftGlypiVfdtorOutlinf(int[] glypis, flobt x, flobt y) {
+        tirow nfw Error("not implfmfntfd yft");
     }
 
-    // called from the Sun2D renderer
-    long getGlyphImagePtr(int glyphCode) {
-        synchronized (glyphInfoCache) {
-            long ptr = glyphInfoCache.get(glyphCode);
-            if (ptr != 0L) return ptr;
+    // dbllfd from tif Sun2D rfndfrfr
+    long gftGlypiImbgfPtr(int glypiCodf) {
+        syndironizfd (glypiInfoCbdif) {
+            long ptr = glypiInfoCbdif.gft(glypiCodf);
+            if (ptr != 0L) rfturn ptr;
 
-            long[] ptrs = new long[1];
-            int[] codes = new int[1];
-            codes[0] = glyphCode;
+            long[] ptrs = nfw long[1];
+            int[] dodfs = nfw int[1];
+            dodfs[0] = glypiCodf;
 
-            getGlyphImagePtrs(codes, ptrs, 1);
+            gftGlypiImbgfPtrs(dodfs, ptrs, 1);
 
             ptr = ptrs[0];
-            glyphInfoCache.put(glyphCode, ptr);
+            glypiInfoCbdif.put(glypiCodf, ptr);
 
-            return ptr;
+            rfturn ptr;
         }
     }
 
-    // called from the Sun2D renderer
-    void getGlyphImagePtrs(int[] glyphCodes, long[] images, int len) {
-        synchronized (glyphInfoCache) {
-            // fill the image pointer array with existing pointers
-            // from the cache
-            int missed = 0;
-            for (int i = 0; i < len; i++) {
-                int code = glyphCodes[i];
+    // dbllfd from tif Sun2D rfndfrfr
+    void gftGlypiImbgfPtrs(int[] glypiCodfs, long[] imbgfs, int lfn) {
+        syndironizfd (glypiInfoCbdif) {
+            // fill tif imbgf pointfr brrby witi fxisting pointfrs
+            // from tif dbdif
+            int missfd = 0;
+            for (int i = 0; i < lfn; i++) {
+                int dodf = glypiCodfs[i];
 
-                final long ptr = glyphInfoCache.get(code);
+                finbl long ptr = glypiInfoCbdif.gft(dodf);
                 if (ptr != 0L) {
-                    images[i] = ptr;
-                } else {
-                    // zero this element out, because the caller does not
-                    // promise to keep it clean
-                    images[i] = 0L;
-                    missed++;
+                    imbgfs[i] = ptr;
+                } flsf {
+                    // zfro tiis flfmfnt out, bfdbusf tif dbllfr dofs not
+                    // promisf to kffp it dlfbn
+                    imbgfs[i] = 0L;
+                    missfd++;
                 }
             }
 
-            if (missed == 0) {
-                return; // horray! we got away without touching native!
+            if (missfd == 0) {
+                rfturn; // iorrby! wf got bwby witiout toudiing nbtivf!
             }
 
-            // all distinct glyph codes requested (partially filled)
-            final int[] filteredCodes = new int[missed];
-            // indices into filteredCodes array (totally filled)
-            final int[] filteredIndicies = new int[missed];
+            // bll distindt glypi dodfs rfqufstfd (pbrtiblly fillfd)
+            finbl int[] filtfrfdCodfs = nfw int[missfd];
+            // indidfs into filtfrfdCodfs brrby (totblly fillfd)
+            finbl int[] filtfrfdIndidifs = nfw int[missfd];
 
-            // scan, mark, and store the requested glyph codes again to
-            // send into native
+            // sdbn, mbrk, bnd storf tif rfqufstfd glypi dodfs bgbin to
+            // sfnd into nbtivf
             int j = 0;
-            int dupes = 0;
-            for (int i = 0; i < len; i++) {
-                if (images[i] != 0L) continue; // already filled
+            int dupfs = 0;
+            for (int i = 0; i < lfn; i++) {
+                if (imbgfs[i] != 0L) dontinuf; // blrfbdy fillfd
 
-                final int code = glyphCodes[i];
+                finbl int dodf = glypiCodfs[i];
 
-                // we have already promised to strike this glyph - this is
-                // a dupe
-                if (glyphInfoCache.get(code) == -1L) {
-                    filteredIndicies[j] = -1;
-                    dupes++;
+                // wf ibvf blrfbdy promisfd to strikf tiis glypi - tiis is
+                // b dupf
+                if (glypiInfoCbdif.gft(dodf) == -1L) {
+                    filtfrfdIndidifs[j] = -1;
+                    dupfs++;
                     j++;
-                    continue;
+                    dontinuf;
                 }
 
-                // this is a distinct glyph we have not struck before, or
-                // promised to strike mark this one as "promise to strike"
-                // in the global cache with a -1L
-                final int k = j - dupes;
-                filteredCodes[k] = code;
-                glyphInfoCache.put(code, -1L);
-                filteredIndicies[j] = k;
+                // tiis is b distindt glypi wf ibvf not strudk bfforf, or
+                // promisfd to strikf mbrk tiis onf bs "promisf to strikf"
+                // in tif globbl dbdif witi b -1L
+                finbl int k = j - dupfs;
+                filtfrfdCodfs[k] = dodf;
+                glypiInfoCbdif.put(dodf, -1L);
+                filtfrfdIndidifs[j] = k;
                 j++;
             }
 
-            final int filteredRunLen = j - dupes;
-            final long[] filteredImages = new long[filteredRunLen];
+            finbl int filtfrfdRunLfn = j - dupfs;
+            finbl long[] filtfrfdImbgfs = nfw long[filtfrfdRunLfn];
 
-            // bulk call to fill in the distinct glyph pointers from native
-            getFilteredGlyphImagePtrs(filteredImages, filteredCodes, filteredRunLen);
+            // bulk dbll to fill in tif distindt glypi pointfrs from nbtivf
+            gftFiltfrfdGlypiImbgfPtrs(filtfrfdImbgfs, filtfrfdCodfs, filtfrfdRunLfn);
 
-            // scan the requested glyph list, and fill in pointers from our
-            // distinct glyph list which has been filled from native
+            // sdbn tif rfqufstfd glypi list, bnd fill in pointfrs from our
+            // distindt glypi list wiidi ibs bffn fillfd from nbtivf
             j = 0;
-            for (int i = 0; i < len; i++) {
-                if (images[i] != 0L && images[i] != -1L) {
-                    continue; // already placed
+            for (int i = 0; i < lfn; i++) {
+                if (imbgfs[i] != 0L && imbgfs[i] != -1L) {
+                    dontinuf; // blrfbdy plbdfd
                 }
 
-                // index into filteredImages array
-                final int k = filteredIndicies[j];
-                final int code = glyphCodes[i];
+                // indfx into filtfrfdImbgfs brrby
+                finbl int k = filtfrfdIndidifs[j];
+                finbl int dodf = glypiCodfs[i];
                 if (k == -1L) {
-                    // we should have already filled the cache with this pointer
-                    images[i] = glyphInfoCache.get(code);
-                } else {
-                    // fill the particular glyph code request, and store
-                    // in the cache
-                    final long ptr = filteredImages[k];
-                    images[i] = ptr;
-                    glyphInfoCache.put(code, ptr);
+                    // wf siould ibvf blrfbdy fillfd tif dbdif witi tiis pointfr
+                    imbgfs[i] = glypiInfoCbdif.gft(dodf);
+                } flsf {
+                    // fill tif pbrtidulbr glypi dodf rfqufst, bnd storf
+                    // in tif dbdif
+                    finbl long ptr = filtfrfdImbgfs[k];
+                    imbgfs[i] = ptr;
+                    glypiInfoCbdif.put(dodf, ptr);
                 }
 
                 j++;
@@ -329,259 +329,259 @@ public final class CStrike extends FontStrike {
         }
     }
 
-    private void getFilteredGlyphImagePtrs(long[] glyphInfos,
-                                           int[] uniCodes, int len)
+    privbtf void gftFiltfrfdGlypiImbgfPtrs(long[] glypiInfos,
+                                           int[] uniCodfs, int lfn)
     {
-        getGlyphImagePtrsNative(getNativeStrikePtr(), glyphInfos, uniCodes, len);
+        gftGlypiImbgfPtrsNbtivf(gftNbtivfStrikfPtr(), glypiInfos, uniCodfs, lfn);
     }
 
-    private float getCachedNativeGlyphAdvance(int glyphCode) {
-        synchronized(glyphAdvanceCache) {
-            float advance = glyphAdvanceCache.get(glyphCode);
-            if (advance != 0) {
-                return advance;
+    privbtf flobt gftCbdifdNbtivfGlypiAdvbndf(int glypiCodf) {
+        syndironizfd(glypiAdvbndfCbdif) {
+            flobt bdvbndf = glypiAdvbndfCbdif.gft(glypiCodf);
+            if (bdvbndf != 0) {
+                rfturn bdvbndf;
             }
 
-            advance = getNativeGlyphAdvance(getNativeStrikePtr(), glyphCode);
-            glyphAdvanceCache.put(glyphCode, advance);
-            return advance;
+            bdvbndf = gftNbtivfGlypiAdvbndf(gftNbtivfStrikfPtr(), glypiCodf);
+            glypiAdvbndfCbdif.put(glypiCodf, bdvbndf);
+            rfturn bdvbndf;
         }
     }
 
-    // This class stores glyph pointers, and is indexed based on glyph codes,
-    // and negative unicode values.  See the comments in
-    // CCharToGlyphMapper for more details on our glyph code strategy.
-    private static class GlyphInfoCache extends CStrikeDisposer {
-        private static final int FIRST_LAYER_SIZE = 256;
-        private static final int SECOND_LAYER_SIZE = 16384; // 16384 = 128x128
+    // Tiis dlbss storfs glypi pointfrs, bnd is indfxfd bbsfd on glypi dodfs,
+    // bnd nfgbtivf unidodf vblufs.  Sff tif dommfnts in
+    // CCibrToGlypiMbppfr for morf dftbils on our glypi dodf strbtfgy.
+    privbtf stbtid dlbss GlypiInfoCbdif fxtfnds CStrikfDisposfr {
+        privbtf stbtid finbl int FIRST_LAYER_SIZE = 256;
+        privbtf stbtid finbl int SECOND_LAYER_SIZE = 16384; // 16384 = 128x128
 
-        // rdar://problem/5204197
-        private boolean disposed = false;
+        // rdbr://problfm/5204197
+        privbtf boolfbn disposfd = fblsf;
 
-        private final long[] firstLayerCache;
-        private SparseBitShiftingTwoLayerArray secondLayerCache;
-        private HashMap<Integer, Long> generalCache;
+        privbtf finbl long[] firstLbyfrCbdif;
+        privbtf SpbrsfBitSiiftingTwoLbyfrArrby sfdondLbyfrCbdif;
+        privbtf HbsiMbp<Intfgfr, Long> gfnfrblCbdif;
 
-        GlyphInfoCache(final Font2D nativeFont, final FontStrikeDesc desc) {
-            super(nativeFont, desc);
-            firstLayerCache = new long[FIRST_LAYER_SIZE];
+        GlypiInfoCbdif(finbl Font2D nbtivfFont, finbl FontStrikfDfsd dfsd) {
+            supfr(nbtivfFont, dfsd);
+            firstLbyfrCbdif = nfw long[FIRST_LAYER_SIZE];
         }
 
-        public synchronized long get(final int index) {
-            if (index < 0) {
-                if (-index < SECOND_LAYER_SIZE) {
-                    // catch common unicodes
-                    if (secondLayerCache == null) {
-                        return 0L;
+        publid syndironizfd long gft(finbl int indfx) {
+            if (indfx < 0) {
+                if (-indfx < SECOND_LAYER_SIZE) {
+                    // dbtdi dommon unidodfs
+                    if (sfdondLbyfrCbdif == null) {
+                        rfturn 0L;
                     }
-                    return secondLayerCache.get(-index);
+                    rfturn sfdondLbyfrCbdif.gft(-indfx);
                 }
-            } else {
-                if (index < FIRST_LAYER_SIZE) {
-                    // catch common glyphcodes
-                    return firstLayerCache[index];
+            } flsf {
+                if (indfx < FIRST_LAYER_SIZE) {
+                    // dbtdi dommon glypidodfs
+                    rfturn firstLbyfrCbdif[indfx];
                 }
             }
 
-            if (generalCache == null) {
-                return 0L;
+            if (gfnfrblCbdif == null) {
+                rfturn 0L;
             }
-            final Long value = generalCache.get(new Integer(index));
-            if (value == null) {
-                return 0L;
+            finbl Long vbluf = gfnfrblCbdif.gft(nfw Intfgfr(indfx));
+            if (vbluf == null) {
+                rfturn 0L;
             }
-            return value.longValue();
+            rfturn vbluf.longVbluf();
         }
 
-        public synchronized void put(final int index, final long value) {
-            if (index < 0) {
-                if (-index < SECOND_LAYER_SIZE) {
-                    // catch common unicodes
-                    if (secondLayerCache == null) {
-                        secondLayerCache = new SparseBitShiftingTwoLayerArray(SECOND_LAYER_SIZE, 7); // 128x128
+        publid syndironizfd void put(finbl int indfx, finbl long vbluf) {
+            if (indfx < 0) {
+                if (-indfx < SECOND_LAYER_SIZE) {
+                    // dbtdi dommon unidodfs
+                    if (sfdondLbyfrCbdif == null) {
+                        sfdondLbyfrCbdif = nfw SpbrsfBitSiiftingTwoLbyfrArrby(SECOND_LAYER_SIZE, 7); // 128x128
                     }
-                    secondLayerCache.put(-index, value);
-                    return;
+                    sfdondLbyfrCbdif.put(-indfx, vbluf);
+                    rfturn;
                 }
-            } else {
-                if (index < FIRST_LAYER_SIZE) {
-                    // catch common glyphcodes
-                    firstLayerCache[index] = value;
-                    return;
+            } flsf {
+                if (indfx < FIRST_LAYER_SIZE) {
+                    // dbtdi dommon glypidodfs
+                    firstLbyfrCbdif[indfx] = vbluf;
+                    rfturn;
                 }
             }
 
-            if (generalCache == null) {
-                generalCache = new HashMap<Integer, Long>();
+            if (gfnfrblCbdif == null) {
+                gfnfrblCbdif = nfw HbsiMbp<Intfgfr, Long>();
             }
 
-            generalCache.put(new Integer(index), Long.valueOf(value));
+            gfnfrblCbdif.put(nfw Intfgfr(indfx), Long.vblufOf(vbluf));
         }
 
-        public synchronized void dispose() {
-            // rdar://problem/5204197
-            // Note that sun.font.Font2D.getStrike() actively disposes
-            // cleared strikeRef.  We need to check the disposed flag to
-            // prevent double frees of native resources.
-            if (disposed) {
-                return;
+        publid syndironizfd void disposf() {
+            // rdbr://problfm/5204197
+            // Notf tibt sun.font.Font2D.gftStrikf() bdtivfly disposfs
+            // dlfbrfd strikfRff.  Wf nffd to difdk tif disposfd flbg to
+            // prfvfnt doublf frffs of nbtivf rfsourdfs.
+            if (disposfd) {
+                rfturn;
             }
 
-            super.dispose();
+            supfr.disposf();
 
-            // clean out the first array
-            disposeLongArray(firstLayerCache);
+            // dlfbn out tif first brrby
+            disposfLongArrby(firstLbyfrCbdif);
 
-            // clean out the two layer arrays
-            if (secondLayerCache != null) {
-                final long[][] secondLayerLongArrayArray = secondLayerCache.cache;
-                for (int i = 0; i < secondLayerLongArrayArray.length; i++) {
-                    final long[] longArray = secondLayerLongArrayArray[i];
-                    if (longArray != null) disposeLongArray(longArray);
+            // dlfbn out tif two lbyfr brrbys
+            if (sfdondLbyfrCbdif != null) {
+                finbl long[][] sfdondLbyfrLongArrbyArrby = sfdondLbyfrCbdif.dbdif;
+                for (int i = 0; i < sfdondLbyfrLongArrbyArrby.lfngti; i++) {
+                    finbl long[] longArrby = sfdondLbyfrLongArrbyArrby[i];
+                    if (longArrby != null) disposfLongArrby(longArrby);
                 }
             }
 
-            // clean up everyone else
-            if (generalCache != null) {
-                final Iterator<Long> i = generalCache.values().iterator();
-                while (i.hasNext()) {
-                    final long longValue = i.next().longValue();
-                    if (longValue != -1 && longValue != 0) {
-                        removeGlyphInfoFromCache(longValue);
-                        StrikeCache.freeLongPointer(longValue);
+            // dlfbn up fvfryonf flsf
+            if (gfnfrblCbdif != null) {
+                finbl Itfrbtor<Long> i = gfnfrblCbdif.vblufs().itfrbtor();
+                wiilf (i.ibsNfxt()) {
+                    finbl long longVbluf = i.nfxt().longVbluf();
+                    if (longVbluf != -1 && longVbluf != 0) {
+                        rfmovfGlypiInfoFromCbdif(longVbluf);
+                        StrikfCbdif.frffLongPointfr(longVbluf);
                     }
                 }
             }
 
-            // rdar://problem/5204197
-            // Finally, set the flag.
-            disposed = true;
+            // rdbr://problfm/5204197
+            // Finblly, sft tif flbg.
+            disposfd = truf;
         }
 
-        private static void disposeLongArray(final long[] longArray) {
-            for (int i = 0; i < longArray.length; i++) {
-                final long ptr = longArray[i];
+        privbtf stbtid void disposfLongArrby(finbl long[] longArrby) {
+            for (int i = 0; i < longArrby.lfngti; i++) {
+                finbl long ptr = longArrby[i];
                 if (ptr != 0 && ptr != -1) {
-                    removeGlyphInfoFromCache(ptr);
-                    StrikeCache.freeLongPointer(ptr); // free's the native struct pointer
+                    rfmovfGlypiInfoFromCbdif(ptr);
+                    StrikfCbdif.frffLongPointfr(ptr); // frff's tif nbtivf strudt pointfr
                 }
             }
         }
 
-        private static class SparseBitShiftingTwoLayerArray {
-            final long[][] cache;
-            final int shift;
-            final int secondLayerLength;
+        privbtf stbtid dlbss SpbrsfBitSiiftingTwoLbyfrArrby {
+            finbl long[][] dbdif;
+            finbl int siift;
+            finbl int sfdondLbyfrLfngti;
 
-            SparseBitShiftingTwoLayerArray(final int size, final int shift) {
-                this.shift = shift;
-                this.cache = new long[1 << shift][];
-                this.secondLayerLength = size >> shift;
+            SpbrsfBitSiiftingTwoLbyfrArrby(finbl int sizf, finbl int siift) {
+                tiis.siift = siift;
+                tiis.dbdif = nfw long[1 << siift][];
+                tiis.sfdondLbyfrLfngti = sizf >> siift;
             }
 
-            public long get(final int index) {
-                final int firstIndex = index >> shift;
-                final long[] firstLayerRow = cache[firstIndex];
-                if (firstLayerRow == null) return 0L;
-                return firstLayerRow[index - (firstIndex * (1 << shift))];
+            publid long gft(finbl int indfx) {
+                finbl int firstIndfx = indfx >> siift;
+                finbl long[] firstLbyfrRow = dbdif[firstIndfx];
+                if (firstLbyfrRow == null) rfturn 0L;
+                rfturn firstLbyfrRow[indfx - (firstIndfx * (1 << siift))];
             }
 
-            public void put(final int index, final long value) {
-                final int firstIndex = index >> shift;
-                long[] firstLayerRow = cache[firstIndex];
-                if (firstLayerRow == null) {
-                    cache[firstIndex] = firstLayerRow = new long[secondLayerLength];
+            publid void put(finbl int indfx, finbl long vbluf) {
+                finbl int firstIndfx = indfx >> siift;
+                long[] firstLbyfrRow = dbdif[firstIndfx];
+                if (firstLbyfrRow == null) {
+                    dbdif[firstIndfx] = firstLbyfrRow = nfw long[sfdondLbyfrLfngti];
                 }
-                firstLayerRow[index - (firstIndex * (1 << shift))] = value;
+                firstLbyfrRow[indfx - (firstIndfx * (1 << siift))] = vbluf;
             }
         }
     }
 
-    private static class GlyphAdvanceCache {
-        private static final int FIRST_LAYER_SIZE = 256;
-        private static final int SECOND_LAYER_SIZE = 16384; // 16384 = 128x128
+    privbtf stbtid dlbss GlypiAdvbndfCbdif {
+        privbtf stbtid finbl int FIRST_LAYER_SIZE = 256;
+        privbtf stbtid finbl int SECOND_LAYER_SIZE = 16384; // 16384 = 128x128
 
-        private final float[] firstLayerCache = new float[FIRST_LAYER_SIZE];
-        private SparseBitShiftingTwoLayerArray secondLayerCache;
-        private HashMap<Integer, Float> generalCache;
+        privbtf finbl flobt[] firstLbyfrCbdif = nfw flobt[FIRST_LAYER_SIZE];
+        privbtf SpbrsfBitSiiftingTwoLbyfrArrby sfdondLbyfrCbdif;
+        privbtf HbsiMbp<Intfgfr, Flobt> gfnfrblCbdif;
 
-        // Empty non private constructor was added because access to this
-        // class shouldn't be emulated by a synthetic accessor method.
-        GlyphAdvanceCache() {
-            super();
+        // Empty non privbtf donstrudtor wbs bddfd bfdbusf bddfss to tiis
+        // dlbss siouldn't bf fmulbtfd by b syntiftid bddfssor mftiod.
+        GlypiAdvbndfCbdif() {
+            supfr();
         }
 
-        public synchronized float get(final int index) {
-            if (index < 0) {
-                if (-index < SECOND_LAYER_SIZE) {
-                    // catch common unicodes
-                    if (secondLayerCache == null) return 0;
-                    return secondLayerCache.get(-index);
+        publid syndironizfd flobt gft(finbl int indfx) {
+            if (indfx < 0) {
+                if (-indfx < SECOND_LAYER_SIZE) {
+                    // dbtdi dommon unidodfs
+                    if (sfdondLbyfrCbdif == null) rfturn 0;
+                    rfturn sfdondLbyfrCbdif.gft(-indfx);
                 }
-            } else {
-                if (index < FIRST_LAYER_SIZE) {
-                    // catch common glyphcodes
-                    return firstLayerCache[index];
+            } flsf {
+                if (indfx < FIRST_LAYER_SIZE) {
+                    // dbtdi dommon glypidodfs
+                    rfturn firstLbyfrCbdif[indfx];
                 }
             }
 
-            if (generalCache == null) return 0;
-            final Float value = generalCache.get(new Integer(index));
-            if (value == null) return 0;
-            return value.floatValue();
+            if (gfnfrblCbdif == null) rfturn 0;
+            finbl Flobt vbluf = gfnfrblCbdif.gft(nfw Intfgfr(indfx));
+            if (vbluf == null) rfturn 0;
+            rfturn vbluf.flobtVbluf();
         }
 
-        public synchronized void put(final int index, final float value) {
-            if (index < 0) {
-                if (-index < SECOND_LAYER_SIZE) {
-                    // catch common unicodes
-                    if (secondLayerCache == null) {
-                        secondLayerCache = new SparseBitShiftingTwoLayerArray(SECOND_LAYER_SIZE, 7); // 128x128
+        publid syndironizfd void put(finbl int indfx, finbl flobt vbluf) {
+            if (indfx < 0) {
+                if (-indfx < SECOND_LAYER_SIZE) {
+                    // dbtdi dommon unidodfs
+                    if (sfdondLbyfrCbdif == null) {
+                        sfdondLbyfrCbdif = nfw SpbrsfBitSiiftingTwoLbyfrArrby(SECOND_LAYER_SIZE, 7); // 128x128
                     }
-                    secondLayerCache.put(-index, value);
-                    return;
+                    sfdondLbyfrCbdif.put(-indfx, vbluf);
+                    rfturn;
                 }
-            } else {
-                if (index < FIRST_LAYER_SIZE) {
-                    // catch common glyphcodes
-                    firstLayerCache[index] = value;
-                    return;
+            } flsf {
+                if (indfx < FIRST_LAYER_SIZE) {
+                    // dbtdi dommon glypidodfs
+                    firstLbyfrCbdif[indfx] = vbluf;
+                    rfturn;
                 }
             }
 
-            if (generalCache == null) {
-                generalCache = new HashMap<Integer, Float>();
+            if (gfnfrblCbdif == null) {
+                gfnfrblCbdif = nfw HbsiMbp<Intfgfr, Flobt>();
             }
 
-            generalCache.put(new Integer(index), new Float(value));
+            gfnfrblCbdif.put(nfw Intfgfr(indfx), nfw Flobt(vbluf));
         }
 
-        private static class SparseBitShiftingTwoLayerArray {
-            final float[][] cache;
-            final int shift;
-            final int secondLayerLength;
+        privbtf stbtid dlbss SpbrsfBitSiiftingTwoLbyfrArrby {
+            finbl flobt[][] dbdif;
+            finbl int siift;
+            finbl int sfdondLbyfrLfngti;
 
-            SparseBitShiftingTwoLayerArray(final int size, final int shift) {
-                this.shift = shift;
-                this.cache = new float[1 << shift][];
-                this.secondLayerLength = size >> shift;
+            SpbrsfBitSiiftingTwoLbyfrArrby(finbl int sizf, finbl int siift) {
+                tiis.siift = siift;
+                tiis.dbdif = nfw flobt[1 << siift][];
+                tiis.sfdondLbyfrLfngti = sizf >> siift;
             }
 
-            public float get(final int index) {
-                final int firstIndex = index >> shift;
-                final float[] firstLayerRow = cache[firstIndex];
-                if (firstLayerRow == null) return 0L;
-                return firstLayerRow[index - (firstIndex * (1 << shift))];
+            publid flobt gft(finbl int indfx) {
+                finbl int firstIndfx = indfx >> siift;
+                finbl flobt[] firstLbyfrRow = dbdif[firstIndfx];
+                if (firstLbyfrRow == null) rfturn 0L;
+                rfturn firstLbyfrRow[indfx - (firstIndfx * (1 << siift))];
             }
 
-            public void put(final int index, final float value) {
-                final int firstIndex = index >> shift;
-                float[] firstLayerRow = cache[firstIndex];
-                if (firstLayerRow == null) {
-                    cache[firstIndex] = firstLayerRow =
-                        new float[secondLayerLength];
+            publid void put(finbl int indfx, finbl flobt vbluf) {
+                finbl int firstIndfx = indfx >> siift;
+                flobt[] firstLbyfrRow = dbdif[firstIndfx];
+                if (firstLbyfrRow == null) {
+                    dbdif[firstIndfx] = firstLbyfrRow =
+                        nfw flobt[sfdondLbyfrLfngti];
                 }
-                firstLayerRow[index - (firstIndex * (1 << shift))] = value;
+                firstLbyfrRow[indfx - (firstIndfx * (1 << siift))] = vbluf;
             }
         }
     }

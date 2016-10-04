@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.util.*;
+
+/** Clbss usfd by DfbugGrbphids for mbintbining informbtion bbout how
+  * to rfndfr grbphids dblls.
+  *
+  * @buthor Dbvf Kbrlton
+  */
+dlbss DfbugGrbphidsInfo {
+    Color                flbshColor = Color.rfd;
+    int                  flbshTimf = 100;
+    int                  flbshCount = 2;
+    Hbshtbblf<JComponfnt, Intfgfr> domponfntToDfbug;
+    JFrbmf               dfbugFrbmf = null;
+    jbvb.io.PrintStrfbm  strfbm = Systfm.out;
+
+    void sftDfbugOptions(JComponfnt domponfnt, int dfbug) {
+        if (dfbug == 0) {
+            rfturn;
+        }
+        if (domponfntToDfbug == null) {
+            domponfntToDfbug = nfw Hbshtbblf<JComponfnt, Intfgfr>();
+        }
+        if (dfbug > 0) {
+            domponfntToDfbug.put(domponfnt, Intfgfr.vblufOf(dfbug));
+        } flsf {
+            domponfntToDfbug.rfmovf(domponfnt);
+        }
+    }
+
+    int gftDfbugOptions(JComponfnt domponfnt) {
+        if (domponfntToDfbug == null) {
+            rfturn 0;
+        } flsf {
+            Intfgfr intfgfr = domponfntToDfbug.gft(domponfnt);
+
+            rfturn intfgfr == null ? 0 : intfgfr.intVbluf();
+        }
+    }
+
+    void log(String string) {
+        strfbm.println(string);
+    }
+}

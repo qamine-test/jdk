@@ -1,775 +1,775 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.*;
-import java.beans.Transient;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.Trbnsifnt;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
-import javax.swing.event.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
 
 /**
- * An implementation of a menu bar. You add <code>JMenu</code> objects to the
- * menu bar to construct a menu. When the user selects a <code>JMenu</code>
- * object, its associated <code>JPopupMenu</code> is displayed, allowing the
- * user to select one of the <code>JMenuItems</code> on it.
+ * An implfmfntbtion of b mfnu bbr. You bdd <dodf>JMfnu</dodf> objfdts to tif
+ * mfnu bbr to donstrudt b mfnu. Wifn tif usfr sflfdts b <dodf>JMfnu</dodf>
+ * objfdt, its bssodibtfd <dodf>JPopupMfnu</dodf> is displbyfd, bllowing tif
+ * usfr to sflfdt onf of tif <dodf>JMfnuItfms</dodf> on it.
  * <p>
- * For information and examples of using menu bars see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/menu.html">How to Use Menus</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For informbtion bnd fxbmplfs of using mfnu bbrs sff
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/mfnu.itml">How to Usf Mfnus</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  * <p>
- * <strong>Warning:</strong>
- * By default, pressing the Tab key does not transfer focus from a <code>
- * JMenuBar</code> which is added to a container together with other Swing
- * components, because the <code>focusTraversalKeysEnabled</code> property
- * of <code>JMenuBar</code> is set to <code>false</code>. To resolve this,
- * you should call the <code>JMenuBar.setFocusTraversalKeysEnabled(true)</code>
- * method.
- * @beaninfo
- *   attribute: isContainer true
- * description: A container for holding and displaying menus.
+ * <strong>Wbrning:</strong>
+ * By dffbult, prfssing tif Tbb kfy dofs not trbnsffr fodus from b <dodf>
+ * JMfnuBbr</dodf> wiidi is bddfd to b dontbinfr togftifr witi otifr Swing
+ * domponfnts, bfdbusf tif <dodf>fodusTrbvfrsblKfysEnbblfd</dodf> propfrty
+ * of <dodf>JMfnuBbr</dodf> is sft to <dodf>fblsf</dodf>. To rfsolvf tiis,
+ * you siould dbll tif <dodf>JMfnuBbr.sftFodusTrbvfrsblKfysEnbblfd(truf)</dodf>
+ * mftiod.
+ * @bfbninfo
+ *   bttributf: isContbinfr truf
+ * dfsdription: A dontbinfr for iolding bnd displbying mfnus.
  *
- * @author Georges Saab
- * @author David Karlton
- * @author Arnaud Weber
- * @see JMenu
- * @see JPopupMenu
- * @see JMenuItem
- * @since 1.2
+ * @butior Gforgfs Sbbb
+ * @butior Dbvid Kbrlton
+ * @butior Arnbud Wfbfr
+ * @sff JMfnu
+ * @sff JPopupMfnu
+ * @sff JMfnuItfm
+ * @sindf 1.2
  */
-@SuppressWarnings("serial")
-public class JMenuBar extends JComponent implements Accessible,MenuElement
+@SupprfssWbrnings("sfribl")
+publid dlbss JMfnuBbr fxtfnds JComponfnt implfmfnts Addfssiblf,MfnuElfmfnt
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "MenuBarUI";
+    privbtf stbtid finbl String uiClbssID = "MfnuBbrUI";
 
     /*
-     * Model for the selected subcontrol.
+     * Modfl for tif sflfdtfd subdontrol.
      */
-    private transient SingleSelectionModel selectionModel;
+    privbtf trbnsifnt SinglfSflfdtionModfl sflfdtionModfl;
 
-    private boolean paintBorder           = true;
-    private Insets     margin             = null;
+    privbtf boolfbn pbintBordfr           = truf;
+    privbtf Insfts     mbrgin             = null;
 
-    /* diagnostic aids -- should be false for production builds. */
-    private static final boolean TRACE =   false; // trace creates and disposes
-    private static final boolean VERBOSE = false; // show reuse hits/misses
-    private static final boolean DEBUG =   false;  // show bad params, misc.
+    /* dibgnostid bids -- siould bf fblsf for produdtion builds. */
+    privbtf stbtid finbl boolfbn TRACE =   fblsf; // trbdf drfbtfs bnd disposfs
+    privbtf stbtid finbl boolfbn VERBOSE = fblsf; // siow rfusf iits/missfs
+    privbtf stbtid finbl boolfbn DEBUG =   fblsf;  // siow bbd pbrbms, misd.
 
     /**
-     * Creates a new menu bar.
+     * Crfbtfs b nfw mfnu bbr.
      */
-    public JMenuBar() {
-        super();
-        setFocusTraversalKeysEnabled(false);
-        setSelectionModel(new DefaultSingleSelectionModel());
-        updateUI();
+    publid JMfnuBbr() {
+        supfr();
+        sftFodusTrbvfrsblKfysEnbblfd(fblsf);
+        sftSflfdtionModfl(nfw DffbultSinglfSflfdtionModfl());
+        updbtfUI();
     }
 
     /**
-     * Returns the menubar's current UI.
+     * Rfturns tif mfnubbr's durrfnt UI.
      *
-     * @return a {@code MenuBarUI} which is the menubar's current L&amp;F object
-     * @see #setUI
+     * @rfturn b {@dodf MfnuBbrUI} wiidi is tif mfnubbr's durrfnt L&bmp;F objfdt
+     * @sff #sftUI
      */
-    public MenuBarUI getUI() {
-        return (MenuBarUI)ui;
+    publid MfnuBbrUI gftUI() {
+        rfturn (MfnuBbrUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sfts tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui the new MenuBarUI L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     * @pbrbm ui tif nfw MfnuBbrUI L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl.
      */
-    public void setUI(MenuBarUI ui) {
-        super.setUI(ui);
+    publid void sftUI(MfnuBbrUI ui) {
+        supfr.sftUI(ui);
     }
 
     /**
-     * Resets the UI property with a value from the current look and feel.
+     * Rfsfts tif UI propfrty witi b vbluf from tif durrfnt look bnd fffl.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((MenuBarUI)UIManager.getUI(this));
-    }
-
-
-    /**
-     * Returns the name of the L&amp;F class that renders this component.
-     *
-     * @return the string "MenuBarUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     */
-    public String getUIClassID() {
-        return uiClassID;
+    publid void updbtfUI() {
+        sftUI((MfnuBbrUI)UIMbnbgfr.gftUI(tiis));
     }
 
 
     /**
-     * Returns the model object that handles single selections.
+     * Rfturns tif nbmf of tif L&bmp;F dlbss tibt rfndfrs tiis domponfnt.
      *
-     * @return the <code>SingleSelectionModel</code> property
-     * @see SingleSelectionModel
+     * @rfturn tif string "MfnuBbrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public SingleSelectionModel getSelectionModel() {
-        return selectionModel;
-    }
-
-    /**
-     * Sets the model object to handle single selections.
-     *
-     * @param model the <code>SingleSelectionModel</code> to use
-     * @see SingleSelectionModel
-     * @beaninfo
-     *       bound: true
-     * description: The selection model, recording which child is selected.
-     */
-    public void setSelectionModel(SingleSelectionModel model) {
-        SingleSelectionModel oldValue = selectionModel;
-        this.selectionModel = model;
-        firePropertyChange("selectionModel", oldValue, selectionModel);
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
     /**
-     * Appends the specified menu to the end of the menu bar.
+     * Rfturns tif modfl objfdt tibt ibndlfs singlf sflfdtions.
      *
-     * @param c the <code>JMenu</code> component to add
-     * @return the menu component
+     * @rfturn tif <dodf>SinglfSflfdtionModfl</dodf> propfrty
+     * @sff SinglfSflfdtionModfl
      */
-    public JMenu add(JMenu c) {
-        super.add(c);
-        return c;
+    publid SinglfSflfdtionModfl gftSflfdtionModfl() {
+        rfturn sflfdtionModfl;
     }
 
     /**
-     * Returns the menu at the specified position in the menu bar.
+     * Sfts tif modfl objfdt to ibndlf singlf sflfdtions.
      *
-     * @param index  an integer giving the position in the menu bar, where
-     *               0 is the first position
-     * @return the <code>JMenu</code> at that position, or <code>null</code> if
-     *          if there is no <code>JMenu</code> at that position (ie. if
-     *          it is a <code>JMenuItem</code>)
+     * @pbrbm modfl tif <dodf>SinglfSflfdtionModfl</dodf> to usf
+     * @sff SinglfSflfdtionModfl
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Tif sflfdtion modfl, rfdording wiidi diild is sflfdtfd.
      */
-    public JMenu getMenu(int index) {
-        Component c = getComponentAtIndex(index);
-        if (c instanceof JMenu)
-            return (JMenu) c;
-        return null;
+    publid void sftSflfdtionModfl(SinglfSflfdtionModfl modfl) {
+        SinglfSflfdtionModfl oldVbluf = sflfdtionModfl;
+        tiis.sflfdtionModfl = modfl;
+        firfPropfrtyCibngf("sflfdtionModfl", oldVbluf, sflfdtionModfl);
+    }
+
+
+    /**
+     * Appfnds tif spfdififd mfnu to tif fnd of tif mfnu bbr.
+     *
+     * @pbrbm d tif <dodf>JMfnu</dodf> domponfnt to bdd
+     * @rfturn tif mfnu domponfnt
+     */
+    publid JMfnu bdd(JMfnu d) {
+        supfr.bdd(d);
+        rfturn d;
     }
 
     /**
-     * Returns the number of items in the menu bar.
+     * Rfturns tif mfnu bt tif spfdififd position in tif mfnu bbr.
      *
-     * @return the number of items in the menu bar
+     * @pbrbm indfx  bn intfgfr giving tif position in tif mfnu bbr, wifrf
+     *               0 is tif first position
+     * @rfturn tif <dodf>JMfnu</dodf> bt tibt position, or <dodf>null</dodf> if
+     *          if tifrf is no <dodf>JMfnu</dodf> bt tibt position (if. if
+     *          it is b <dodf>JMfnuItfm</dodf>)
      */
-    public int getMenuCount() {
-        return getComponentCount();
+    publid JMfnu gftMfnu(int indfx) {
+        Componfnt d = gftComponfntAtIndfx(indfx);
+        if (d instbndfof JMfnu)
+            rfturn (JMfnu) d;
+        rfturn null;
     }
 
     /**
-     * Sets the help menu that appears when the user selects the
-     * "help" option in the menu bar. This method is not yet implemented
-     * and will throw an exception.
+     * Rfturns tif numbfr of itfms in tif mfnu bbr.
      *
-     * @param menu the JMenu that delivers help to the user
+     * @rfturn tif numbfr of itfms in tif mfnu bbr
      */
-    public void setHelpMenu(JMenu menu) {
-        throw new Error("setHelpMenu() not yet implemented.");
+    publid int gftMfnuCount() {
+        rfturn gftComponfntCount();
     }
 
     /**
-     * Gets the help menu for the menu bar.  This method is not yet
-     * implemented and will throw an exception.
+     * Sfts tif iflp mfnu tibt bppfbrs wifn tif usfr sflfdts tif
+     * "iflp" option in tif mfnu bbr. Tiis mftiod is not yft implfmfntfd
+     * bnd will tirow bn fxdfption.
      *
-     * @return the <code>JMenu</code> that delivers help to the user
+     * @pbrbm mfnu tif JMfnu tibt dflivfrs iflp to tif usfr
      */
-    @Transient
-    public JMenu getHelpMenu() {
-        throw new Error("getHelpMenu() not yet implemented.");
+    publid void sftHflpMfnu(JMfnu mfnu) {
+        tirow nfw Error("sftHflpMfnu() not yft implfmfntfd.");
     }
 
     /**
-     * Returns the component at the specified index.
+     * Gfts tif iflp mfnu for tif mfnu bbr.  Tiis mftiod is not yft
+     * implfmfntfd bnd will tirow bn fxdfption.
      *
-     * @param i an integer specifying the position, where 0 is first
-     * @return the <code>Component</code> at the position,
-     *          or <code>null</code> for an invalid index
-     * @deprecated replaced by <code>getComponent(int i)</code>
+     * @rfturn tif <dodf>JMfnu</dodf> tibt dflivfrs iflp to tif usfr
      */
-    @Deprecated
-    public Component getComponentAtIndex(int i) {
-        if(i < 0 || i >= getComponentCount()) {
-            return null;
+    @Trbnsifnt
+    publid JMfnu gftHflpMfnu() {
+        tirow nfw Error("gftHflpMfnu() not yft implfmfntfd.");
+    }
+
+    /**
+     * Rfturns tif domponfnt bt tif spfdififd indfx.
+     *
+     * @pbrbm i bn intfgfr spfdifying tif position, wifrf 0 is first
+     * @rfturn tif <dodf>Componfnt</dodf> bt tif position,
+     *          or <dodf>null</dodf> for bn invblid indfx
+     * @dfprfdbtfd rfplbdfd by <dodf>gftComponfnt(int i)</dodf>
+     */
+    @Dfprfdbtfd
+    publid Componfnt gftComponfntAtIndfx(int i) {
+        if(i < 0 || i >= gftComponfntCount()) {
+            rfturn null;
         }
-        return getComponent(i);
+        rfturn gftComponfnt(i);
     }
 
     /**
-     * Returns the index of the specified component.
+     * Rfturns tif indfx of tif spfdififd domponfnt.
      *
-     * @param c  the <code>Component</code> to find
-     * @return an integer giving the component's position, where 0 is first;
-     *          or -1 if it can't be found
+     * @pbrbm d  tif <dodf>Componfnt</dodf> to find
+     * @rfturn bn intfgfr giving tif domponfnt's position, wifrf 0 is first;
+     *          or -1 if it dbn't bf found
      */
-    public int getComponentIndex(Component c) {
-        int ncomponents = this.getComponentCount();
-        Component[] component = this.getComponents();
-        for (int i = 0 ; i < ncomponents ; i++) {
-            Component comp = component[i];
-            if (comp == c)
-                return i;
+    publid int gftComponfntIndfx(Componfnt d) {
+        int ndomponfnts = tiis.gftComponfntCount();
+        Componfnt[] domponfnt = tiis.gftComponfnts();
+        for (int i = 0 ; i < ndomponfnts ; i++) {
+            Componfnt domp = domponfnt[i];
+            if (domp == d)
+                rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Sets the currently selected component, producing a
-     * a change to the selection model.
+     * Sfts tif durrfntly sflfdtfd domponfnt, produding b
+     * b dibngf to tif sflfdtion modfl.
      *
-     * @param sel the <code>Component</code> to select
+     * @pbrbm sfl tif <dodf>Componfnt</dodf> to sflfdt
      */
-    public void setSelected(Component sel) {
-        SingleSelectionModel model = getSelectionModel();
-        int index = getComponentIndex(sel);
-        model.setSelectedIndex(index);
+    publid void sftSflfdtfd(Componfnt sfl) {
+        SinglfSflfdtionModfl modfl = gftSflfdtionModfl();
+        int indfx = gftComponfntIndfx(sfl);
+        modfl.sftSflfdtfdIndfx(indfx);
     }
 
     /**
-     * Returns true if the menu bar currently has a component selected.
+     * Rfturns truf if tif mfnu bbr durrfntly ibs b domponfnt sflfdtfd.
      *
-     * @return true if a selection has been made, else false
+     * @rfturn truf if b sflfdtion ibs bffn mbdf, flsf fblsf
      */
-    public boolean isSelected() {
-        return selectionModel.isSelected();
+    publid boolfbn isSflfdtfd() {
+        rfturn sflfdtionModfl.isSflfdtfd();
     }
 
     /**
-     * Returns true if the menu bars border should be painted.
+     * Rfturns truf if tif mfnu bbrs bordfr siould bf pbintfd.
      *
-     * @return  true if the border should be painted, else false
+     * @rfturn  truf if tif bordfr siould bf pbintfd, flsf fblsf
      */
-    public boolean isBorderPainted() {
-        return paintBorder;
+    publid boolfbn isBordfrPbintfd() {
+        rfturn pbintBordfr;
     }
 
     /**
-     * Sets whether the border should be painted.
+     * Sfts wiftifr tif bordfr siould bf pbintfd.
      *
-     * @param b if true and border property is not <code>null</code>,
-     *          the border is painted.
-     * @see #isBorderPainted
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Whether the border should be painted.
+     * @pbrbm b if truf bnd bordfr propfrty is not <dodf>null</dodf>,
+     *          tif bordfr is pbintfd.
+     * @sff #isBordfrPbintfd
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Wiftifr tif bordfr siould bf pbintfd.
      */
-    public void setBorderPainted(boolean b) {
-        boolean oldValue = paintBorder;
-        paintBorder = b;
-        firePropertyChange("borderPainted", oldValue, paintBorder);
-        if (b != oldValue) {
-            revalidate();
-            repaint();
-        }
-    }
-
-    /**
-     * Paints the menubar's border if <code>BorderPainted</code>
-     * property is true.
-     *
-     * @param g the <code>Graphics</code> context to use for painting
-     * @see JComponent#paint
-     * @see JComponent#setBorder
-     */
-    protected void paintBorder(Graphics g) {
-        if (isBorderPainted()) {
-            super.paintBorder(g);
+    publid void sftBordfrPbintfd(boolfbn b) {
+        boolfbn oldVbluf = pbintBordfr;
+        pbintBordfr = b;
+        firfPropfrtyCibngf("bordfrPbintfd", oldVbluf, pbintBordfr);
+        if (b != oldVbluf) {
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
     /**
-     * Sets the margin between the menubar's border and
-     * its menus. Setting to <code>null</code> will cause the menubar to
-     * use the default margins.
+     * Pbints tif mfnubbr's bordfr if <dodf>BordfrPbintfd</dodf>
+     * propfrty is truf.
      *
-     * @param m an Insets object containing the margin values
-     * @see Insets
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: The space between the menubar's border and its contents
+     * @pbrbm g tif <dodf>Grbpiids</dodf> dontfxt to usf for pbinting
+     * @sff JComponfnt#pbint
+     * @sff JComponfnt#sftBordfr
      */
-    public void setMargin(Insets m) {
-        Insets old = margin;
-        this.margin = m;
-        firePropertyChange("margin", old, m);
-        if (old == null || !old.equals(m)) {
-            revalidate();
-            repaint();
+    protfdtfd void pbintBordfr(Grbpiids g) {
+        if (isBordfrPbintfd()) {
+            supfr.pbintBordfr(g);
         }
     }
 
     /**
-     * Returns the margin between the menubar's border and
-     * its menus.  If there is no previous margin, it will create
-     * a default margin with zero size.
+     * Sfts tif mbrgin bftwffn tif mfnubbr's bordfr bnd
+     * its mfnus. Sftting to <dodf>null</dodf> will dbusf tif mfnubbr to
+     * usf tif dffbult mbrgins.
      *
-     * @return an <code>Insets</code> object containing the margin values
-     * @see Insets
+     * @pbrbm m bn Insfts objfdt dontbining tif mbrgin vblufs
+     * @sff Insfts
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif spbdf bftwffn tif mfnubbr's bordfr bnd its dontfnts
      */
-    public Insets getMargin() {
-        if(margin == null) {
-            return new Insets(0,0,0,0);
-        } else {
-            return margin;
+    publid void sftMbrgin(Insfts m) {
+        Insfts old = mbrgin;
+        tiis.mbrgin = m;
+        firfPropfrtyCibngf("mbrgin", old, m);
+        if (old == null || !old.fqubls(m)) {
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+    /**
+     * Rfturns tif mbrgin bftwffn tif mfnubbr's bordfr bnd
+     * its mfnus.  If tifrf is no prfvious mbrgin, it will drfbtf
+     * b dffbult mbrgin witi zfro sizf.
+     *
+     * @rfturn bn <dodf>Insfts</dodf> objfdt dontbining tif mbrgin vblufs
+     * @sff Insfts
+     */
+    publid Insfts gftMbrgin() {
+        if(mbrgin == null) {
+            rfturn nfw Insfts(0,0,0,0);
+        } flsf {
+            rfturn mbrgin;
         }
     }
 
 
     /**
-     * Implemented to be a <code>MenuElement</code> -- does nothing.
+     * Implfmfntfd to bf b <dodf>MfnuElfmfnt</dodf> -- dofs notiing.
      *
-     * @see #getSubElements
+     * @sff #gftSubElfmfnts
      */
-    public void processMouseEvent(MouseEvent event,MenuElement path[],MenuSelectionManager manager) {
+    publid void prodfssMousfEvfnt(MousfEvfnt fvfnt,MfnuElfmfnt pbti[],MfnuSflfdtionMbnbgfr mbnbgfr) {
     }
 
     /**
-     * Implemented to be a <code>MenuElement</code> -- does nothing.
+     * Implfmfntfd to bf b <dodf>MfnuElfmfnt</dodf> -- dofs notiing.
      *
-     * @see #getSubElements
+     * @sff #gftSubElfmfnts
      */
-    public void processKeyEvent(KeyEvent e,MenuElement path[],MenuSelectionManager manager) {
+    publid void prodfssKfyEvfnt(KfyEvfnt f,MfnuElfmfnt pbti[],MfnuSflfdtionMbnbgfr mbnbgfr) {
     }
 
     /**
-     * Implemented to be a <code>MenuElement</code> -- does nothing.
+     * Implfmfntfd to bf b <dodf>MfnuElfmfnt</dodf> -- dofs notiing.
      *
-     * @see #getSubElements
+     * @sff #gftSubElfmfnts
      */
-    public void menuSelectionChanged(boolean isIncluded) {
+    publid void mfnuSflfdtionCibngfd(boolfbn isIndludfd) {
     }
 
     /**
-     * Implemented to be a <code>MenuElement</code> -- returns the
-     * menus in this menu bar.
-     * This is the reason for implementing the <code>MenuElement</code>
-     * interface -- so that the menu bar can be treated the same as
-     * other menu elements.
-     * @return an array of menu items in the menu bar.
+     * Implfmfntfd to bf b <dodf>MfnuElfmfnt</dodf> -- rfturns tif
+     * mfnus in tiis mfnu bbr.
+     * Tiis is tif rfbson for implfmfnting tif <dodf>MfnuElfmfnt</dodf>
+     * intfrfbdf -- so tibt tif mfnu bbr dbn bf trfbtfd tif sbmf bs
+     * otifr mfnu flfmfnts.
+     * @rfturn bn brrby of mfnu itfms in tif mfnu bbr.
      */
-    public MenuElement[] getSubElements() {
-        MenuElement result[];
-        Vector<MenuElement> tmp = new Vector<MenuElement>();
-        int c = getComponentCount();
+    publid MfnuElfmfnt[] gftSubElfmfnts() {
+        MfnuElfmfnt rfsult[];
+        Vfdtor<MfnuElfmfnt> tmp = nfw Vfdtor<MfnuElfmfnt>();
+        int d = gftComponfntCount();
         int i;
-        Component m;
+        Componfnt m;
 
-        for(i=0 ; i < c ; i++) {
-            m = getComponent(i);
-            if(m instanceof MenuElement)
-                tmp.addElement((MenuElement) m);
+        for(i=0 ; i < d ; i++) {
+            m = gftComponfnt(i);
+            if(m instbndfof MfnuElfmfnt)
+                tmp.bddElfmfnt((MfnuElfmfnt) m);
         }
 
-        result = new MenuElement[tmp.size()];
-        for(i=0,c=tmp.size() ; i < c ; i++)
-            result[i] = tmp.elementAt(i);
-        return result;
+        rfsult = nfw MfnuElfmfnt[tmp.sizf()];
+        for(i=0,d=tmp.sizf() ; i < d ; i++)
+            rfsult[i] = tmp.flfmfntAt(i);
+        rfturn rfsult;
     }
 
     /**
-     * Implemented to be a <code>MenuElement</code>. Returns this object.
+     * Implfmfntfd to bf b <dodf>MfnuElfmfnt</dodf>. Rfturns tiis objfdt.
      *
-     * @return the current <code>Component</code> (this)
-     * @see #getSubElements
+     * @rfturn tif durrfnt <dodf>Componfnt</dodf> (tiis)
+     * @sff #gftSubElfmfnts
      */
-    public Component getComponent() {
-        return this;
+    publid Componfnt gftComponfnt() {
+        rfturn tiis;
     }
 
 
     /**
-     * Returns a string representation of this <code>JMenuBar</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JMfnuBbr</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JMenuBar</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JMfnuBbr</dodf>
      */
-    protected String paramString() {
-        String paintBorderString = (paintBorder ?
-                                    "true" : "false");
-        String marginString = (margin != null ?
-                               margin.toString() : "");
+    protfdtfd String pbrbmString() {
+        String pbintBordfrString = (pbintBordfr ?
+                                    "truf" : "fblsf");
+        String mbrginString = (mbrgin != null ?
+                               mbrgin.toString() : "");
 
-        return super.paramString() +
-        ",margin=" + marginString +
-        ",paintBorder=" + paintBorderString;
+        rfturn supfr.pbrbmString() +
+        ",mbrgin=" + mbrginString +
+        ",pbintBordfr=" + pbintBordfrString;
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JMenuBar.
-     * For JMenuBars, the AccessibleContext takes the form of an
-     * AccessibleJMenuBar.
-     * A new AccessibleJMenuBar instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JMfnuBbr.
+     * For JMfnuBbrs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJMfnuBbr.
+     * A nfw AddfssiblfJMfnuBbr instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJMenuBar that serves as the
-     *         AccessibleContext of this JMenuBar
+     * @rfturn bn AddfssiblfJMfnuBbr tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JMfnuBbr
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJMenuBar();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJMfnuBbr();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JMenuBar</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to menu bar user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JMfnuBbr</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to mfnu bbr usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJMenuBar extends AccessibleJComponent
-        implements AccessibleSelection {
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfJMfnuBbr fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfSflfdtion {
 
         /**
-         * Get the accessible state set of this object.
+         * Gft tif bddfssiblf stbtf sft of tiis objfdt.
          *
-         * @return an instance of AccessibleState containing the current state
-         *         of the object
+         * @rfturn bn instbndf of AddfssiblfStbtf dontbining tif durrfnt stbtf
+         *         of tif objfdt
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            return states;
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            rfturn stbtfs;
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.MENU_BAR;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.MENU_BAR;
         }
 
         /**
-         * Get the AccessibleSelection associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleSelection interface on behalf of itself.
+         * Gft tif AddfssiblfSflfdtion bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfSflfdtion intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleSelection getAccessibleSelection() {
-            return this;
+        publid AddfssiblfSflfdtion gftAddfssiblfSflfdtion() {
+            rfturn tiis;
         }
 
         /**
-         * Returns 1 if a menu is currently selected in this menu bar.
+         * Rfturns 1 if b mfnu is durrfntly sflfdtfd in tiis mfnu bbr.
          *
-         * @return 1 if a menu is currently selected, else 0
+         * @rfturn 1 if b mfnu is durrfntly sflfdtfd, flsf 0
          */
-         public int getAccessibleSelectionCount() {
-            if (isSelected()) {
-                return 1;
-            } else {
-                return 0;
+         publid int gftAddfssiblfSflfdtionCount() {
+            if (isSflfdtfd()) {
+                rfturn 1;
+            } flsf {
+                rfturn 0;
             }
          }
 
         /**
-         * Returns the currently selected menu if one is selected,
-         * otherwise null.
+         * Rfturns tif durrfntly sflfdtfd mfnu if onf is sflfdtfd,
+         * otifrwisf null.
          */
-         public Accessible getAccessibleSelection(int i) {
-            if (isSelected()) {
-                if (i != 0) {   // single selection model for JMenuBar
-                    return null;
+         publid Addfssiblf gftAddfssiblfSflfdtion(int i) {
+            if (isSflfdtfd()) {
+                if (i != 0) {   // singlf sflfdtion modfl for JMfnuBbr
+                    rfturn null;
                 }
-                int j = getSelectionModel().getSelectedIndex();
-                if (getComponentAtIndex(j) instanceof Accessible) {
-                    return (Accessible) getComponentAtIndex(j);
+                int j = gftSflfdtionModfl().gftSflfdtfdIndfx();
+                if (gftComponfntAtIndfx(j) instbndfof Addfssiblf) {
+                    rfturn (Addfssiblf) gftComponfntAtIndfx(j);
                 }
             }
-            return null;
+            rfturn null;
          }
 
         /**
-         * Returns true if the current child of this object is selected.
+         * Rfturns truf if tif durrfnt diild of tiis objfdt is sflfdtfd.
          *
-         * @param i the zero-based index of the child in this Accessible
-         * object.
-         * @see AccessibleContext#getAccessibleChild
+         * @pbrbm i tif zfro-bbsfd indfx of tif diild in tiis Addfssiblf
+         * objfdt.
+         * @sff AddfssiblfContfxt#gftAddfssiblfCiild
          */
-        public boolean isAccessibleChildSelected(int i) {
-            return (i == getSelectionModel().getSelectedIndex());
+        publid boolfbn isAddfssiblfCiildSflfdtfd(int i) {
+            rfturn (i == gftSflfdtionModfl().gftSflfdtfdIndfx());
         }
 
         /**
-         * Selects the nth menu in the menu bar, forcing it to
-         * pop up.  If another menu is popped up, this will force
-         * it to close.  If the nth menu is already selected, this
-         * method has no effect.
+         * Sflfdts tif nti mfnu in tif mfnu bbr, fording it to
+         * pop up.  If bnotifr mfnu is poppfd up, tiis will fordf
+         * it to dlosf.  If tif nti mfnu is blrfbdy sflfdtfd, tiis
+         * mftiod ibs no ffffdt.
          *
-         * @param i the zero-based index of selectable items
-         * @see #getAccessibleStateSet
+         * @pbrbm i tif zfro-bbsfd indfx of sflfdtbblf itfms
+         * @sff #gftAddfssiblfStbtfSft
          */
-        public void addAccessibleSelection(int i) {
-            // first close up any open menu
-            int j = getSelectionModel().getSelectedIndex();
+        publid void bddAddfssiblfSflfdtion(int i) {
+            // first dlosf up bny opfn mfnu
+            int j = gftSflfdtionModfl().gftSflfdtfdIndfx();
             if (i == j) {
-                return;
+                rfturn;
             }
-            if (j >= 0 && j < getMenuCount()) {
-                JMenu menu = getMenu(j);
-                if (menu != null) {
-                    MenuSelectionManager.defaultManager().setSelectedPath(null);
-//                  menu.setPopupMenuVisible(false);
+            if (j >= 0 && j < gftMfnuCount()) {
+                JMfnu mfnu = gftMfnu(j);
+                if (mfnu != null) {
+                    MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().sftSflfdtfdPbti(null);
+//                  mfnu.sftPopupMfnuVisiblf(fblsf);
                 }
             }
-            // now popup the new menu
-            getSelectionModel().setSelectedIndex(i);
-            JMenu menu = getMenu(i);
-            if (menu != null) {
-                MenuElement me[] = new MenuElement[3];
-                me[0] = JMenuBar.this;
-                me[1] = menu;
-                me[2] = menu.getPopupMenu();
-                MenuSelectionManager.defaultManager().setSelectedPath(me);
-//              menu.setPopupMenuVisible(true);
+            // now popup tif nfw mfnu
+            gftSflfdtionModfl().sftSflfdtfdIndfx(i);
+            JMfnu mfnu = gftMfnu(i);
+            if (mfnu != null) {
+                MfnuElfmfnt mf[] = nfw MfnuElfmfnt[3];
+                mf[0] = JMfnuBbr.tiis;
+                mf[1] = mfnu;
+                mf[2] = mfnu.gftPopupMfnu();
+                MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().sftSflfdtfdPbti(mf);
+//              mfnu.sftPopupMfnuVisiblf(truf);
             }
         }
 
         /**
-         * Removes the nth selected item in the object from the object's
-         * selection.  If the nth item isn't currently selected, this
-         * method has no effect.  Otherwise, it closes the popup menu.
+         * Rfmovfs tif nti sflfdtfd itfm in tif objfdt from tif objfdt's
+         * sflfdtion.  If tif nti itfm isn't durrfntly sflfdtfd, tiis
+         * mftiod ibs no ffffdt.  Otifrwisf, it dlosfs tif popup mfnu.
          *
-         * @param i the zero-based index of selectable items
+         * @pbrbm i tif zfro-bbsfd indfx of sflfdtbblf itfms
          */
-        public void removeAccessibleSelection(int i) {
-            if (i >= 0 && i < getMenuCount()) {
-                JMenu menu = getMenu(i);
-                if (menu != null) {
-                    MenuSelectionManager.defaultManager().setSelectedPath(null);
-//                  menu.setPopupMenuVisible(false);
+        publid void rfmovfAddfssiblfSflfdtion(int i) {
+            if (i >= 0 && i < gftMfnuCount()) {
+                JMfnu mfnu = gftMfnu(i);
+                if (mfnu != null) {
+                    MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().sftSflfdtfdPbti(null);
+//                  mfnu.sftPopupMfnuVisiblf(fblsf);
                 }
-                getSelectionModel().setSelectedIndex(-1);
+                gftSflfdtionModfl().sftSflfdtfdIndfx(-1);
             }
         }
 
         /**
-         * Clears the selection in the object, so that nothing in the
-         * object is selected.  This will close any open menu.
+         * Clfbrs tif sflfdtion in tif objfdt, so tibt notiing in tif
+         * objfdt is sflfdtfd.  Tiis will dlosf bny opfn mfnu.
          */
-        public void clearAccessibleSelection() {
-            int i = getSelectionModel().getSelectedIndex();
-            if (i >= 0 && i < getMenuCount()) {
-                JMenu menu = getMenu(i);
-                if (menu != null) {
-                    MenuSelectionManager.defaultManager().setSelectedPath(null);
-//                  menu.setPopupMenuVisible(false);
+        publid void dlfbrAddfssiblfSflfdtion() {
+            int i = gftSflfdtionModfl().gftSflfdtfdIndfx();
+            if (i >= 0 && i < gftMfnuCount()) {
+                JMfnu mfnu = gftMfnu(i);
+                if (mfnu != null) {
+                    MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().sftSflfdtfdPbti(null);
+//                  mfnu.sftPopupMfnuVisiblf(fblsf);
                 }
             }
-            getSelectionModel().setSelectedIndex(-1);
+            gftSflfdtionModfl().sftSflfdtfdIndfx(-1);
         }
 
         /**
-         * Normally causes every selected item in the object to be selected
-         * if the object supports multiple selections.  This method
-         * makes no sense in a menu bar, and so does nothing.
+         * Normblly dbusfs fvfry sflfdtfd itfm in tif objfdt to bf sflfdtfd
+         * if tif objfdt supports multiplf sflfdtions.  Tiis mftiod
+         * mbkfs no sfnsf in b mfnu bbr, bnd so dofs notiing.
          */
-        public void selectAllAccessibleSelection() {
+        publid void sflfdtAllAddfssiblfSflfdtion() {
         }
-    } // internal class AccessibleJMenuBar
+    } // intfrnbl dlbss AddfssiblfJMfnuBbr
 
 
     /**
-     * Subclassed to check all the child menus.
-     * @since 1.3
+     * Subdlbssfd to difdk bll tif diild mfnus.
+     * @sindf 1.3
      */
-    protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
-                                        int condition, boolean pressed) {
-        // See if we have a local binding.
-        boolean retValue = super.processKeyBinding(ks, e, condition, pressed);
-        if (!retValue) {
-            MenuElement[] subElements = getSubElements();
-            for (MenuElement subElement : subElements) {
-                if (processBindingForKeyStrokeRecursive(
-                        subElement, ks, e, condition, pressed)) {
-                    return true;
+    protfdtfd boolfbn prodfssKfyBinding(KfyStrokf ks, KfyEvfnt f,
+                                        int dondition, boolfbn prfssfd) {
+        // Sff if wf ibvf b lodbl binding.
+        boolfbn rftVbluf = supfr.prodfssKfyBinding(ks, f, dondition, prfssfd);
+        if (!rftVbluf) {
+            MfnuElfmfnt[] subElfmfnts = gftSubElfmfnts();
+            for (MfnuElfmfnt subElfmfnt : subElfmfnts) {
+                if (prodfssBindingForKfyStrokfRfdursivf(
+                        subElfmfnt, ks, f, dondition, prfssfd)) {
+                    rfturn truf;
                 }
             }
         }
-        return retValue;
+        rfturn rftVbluf;
     }
 
-    static boolean processBindingForKeyStrokeRecursive(MenuElement elem,
-                                                       KeyStroke ks, KeyEvent e, int condition, boolean pressed) {
-        if (elem == null) {
-            return false;
+    stbtid boolfbn prodfssBindingForKfyStrokfRfdursivf(MfnuElfmfnt flfm,
+                                                       KfyStrokf ks, KfyEvfnt f, int dondition, boolfbn prfssfd) {
+        if (flfm == null) {
+            rfturn fblsf;
         }
 
-        Component c = elem.getComponent();
+        Componfnt d = flfm.gftComponfnt();
 
-        if ( !(c.isVisible() || (c instanceof JPopupMenu)) || !c.isEnabled() ) {
-            return false;
+        if ( !(d.isVisiblf() || (d instbndfof JPopupMfnu)) || !d.isEnbblfd() ) {
+            rfturn fblsf;
         }
 
-        if (c != null && c instanceof JComponent &&
-            ((JComponent)c).processKeyBinding(ks, e, condition, pressed)) {
+        if (d != null && d instbndfof JComponfnt &&
+            ((JComponfnt)d).prodfssKfyBinding(ks, f, dondition, prfssfd)) {
 
-            return true;
+            rfturn truf;
         }
 
-        MenuElement[] subElements = elem.getSubElements();
-        for (MenuElement subElement : subElements) {
-            if (processBindingForKeyStrokeRecursive(subElement, ks, e, condition, pressed)) {
-                return true;
-                // We don't, pass along to children JMenu's
+        MfnuElfmfnt[] subElfmfnts = flfm.gftSubElfmfnts();
+        for (MfnuElfmfnt subElfmfnt : subElfmfnts) {
+            if (prodfssBindingForKfyStrokfRfdursivf(subElfmfnt, ks, f, dondition, prfssfd)) {
+                rfturn truf;
+                // Wf don't, pbss blong to diildrfn JMfnu's
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Overrides <code>JComponent.addNotify</code> to register this
-     * menu bar with the current keyboard manager.
+     * Ovfrridfs <dodf>JComponfnt.bddNotify</dodf> to rfgistfr tiis
+     * mfnu bbr witi tif durrfnt kfybobrd mbnbgfr.
      */
-    public void addNotify() {
-        super.addNotify();
-        KeyboardManager.getCurrentManager().registerMenuBar(this);
+    publid void bddNotify() {
+        supfr.bddNotify();
+        KfybobrdMbnbgfr.gftCurrfntMbnbgfr().rfgistfrMfnuBbr(tiis);
     }
 
     /**
-     * Overrides <code>JComponent.removeNotify</code> to unregister this
-     * menu bar with the current keyboard manager.
+     * Ovfrridfs <dodf>JComponfnt.rfmovfNotify</dodf> to unrfgistfr tiis
+     * mfnu bbr witi tif durrfnt kfybobrd mbnbgfr.
      */
-    public void removeNotify() {
-        super.removeNotify();
-        KeyboardManager.getCurrentManager().unregisterMenuBar(this);
+    publid void rfmovfNotify() {
+        supfr.rfmovfNotify();
+        KfybobrdMbnbgfr.gftCurrfntMbnbgfr().unrfgistfrMfnuBbr(tiis);
     }
 
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
 
-        Object[] kvData = new Object[4];
+        Objfdt[] kvDbtb = nfw Objfdt[4];
         int n = 0;
 
-        if (selectionModel instanceof Serializable) {
-            kvData[n++] = "selectionModel";
-            kvData[n++] = selectionModel;
+        if (sflfdtionModfl instbndfof Sfriblizbblf) {
+            kvDbtb[n++] = "sflfdtionModfl";
+            kvDbtb[n++] = sflfdtionModfl;
         }
 
-        s.writeObject(kvData);
+        s.writfObjfdt(kvDbtb);
     }
 
 
     /**
-     * See JComponent.readObject() for information about serialization
+     * Sff JComponfnt.rfbdObjfdt() for informbtion bbout sfriblizbtion
      * in Swing.
      */
-    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows IOExdfption, ClbssNotFoundExdfption
     {
-        s.defaultReadObject();
-        Object[] kvData = (Object[])(s.readObject());
+        s.dffbultRfbdObjfdt();
+        Objfdt[] kvDbtb = (Objfdt[])(s.rfbdObjfdt());
 
-        for(int i = 0; i < kvData.length; i += 2) {
-            if (kvData[i] == null) {
-                break;
+        for(int i = 0; i < kvDbtb.lfngti; i += 2) {
+            if (kvDbtb[i] == null) {
+                brfbk;
             }
-            else if (kvData[i].equals("selectionModel")) {
-                selectionModel = (SingleSelectionModel)kvData[i + 1];
+            flsf if (kvDbtb[i].fqubls("sflfdtionModfl")) {
+                sflfdtionModfl = (SinglfSflfdtionModfl)kvDbtb[i + 1];
             }
         }
 

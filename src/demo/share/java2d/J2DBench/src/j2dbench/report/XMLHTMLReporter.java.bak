@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,1410 +30,1410 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /**
- * XMLHTMLReporter.java
+ * XMLHTMLRfportfr.jbvb
  *
- * Generates HTML reports from XML results
+ * Gfnfrbtfs HTML rfports from XML rfsults
  *
- * @author Rakesh Menon
+ * @butior Rbkfsi Mfnon
  */
 
-package j2dbench.report;
+pbdkbgf j2dbfndi.rfport;
 
-import java.io.*;
-import java.util.*;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.tfxt.DfdimblFormbt;
+import jbvb.tfxt.SimplfDbtfFormbt;
 
-public class XMLHTMLReporter {
-
-    /**
-     * Flag to indicate - Generate new report or append to existing report
-     */
-    private static final int HTMLGEN_FILE_NEW = 1;
-    private static final int HTMLGEN_FILE_UPDATE = 2;
+publid dlbss XMLHTMLRfportfr {
 
     /**
-     * Path to results directory where all results are stored
+     * Flbg to indidbtf - Gfnfrbtf nfw rfport or bppfnd to fxisting rfport
      */
-    public static String resultsDir = ".";
+    privbtf stbtid finbl int HTMLGEN_FILE_NEW = 1;
+    privbtf stbtid finbl int HTMLGEN_FILE_UPDATE = 2;
 
     /**
-     * Holds the groups and corresponding group-display-names
+     * Pbti to rfsults dirfdtory wifrf bll rfsults brf storfd
      */
-    public static List groups = new ArrayList();
-    public static Map groupNames = new HashMap();
+    publid stbtid String rfsultsDir = ".";
 
     /**
-     * Level at which tests are grouped to be displayed in summary
+     * Holds tif groups bnd dorrfsponding group-displby-nbmfs
      */
-    public static int LEVEL = 2;
+    publid stbtid List groups = nfw ArrbyList();
+    publid stbtid Mbp groupNbmfs = nfw HbsiMbp();
 
     /**
-     * Color -> Better, Same, Worse
+     * Lfvfl bt wiidi tfsts brf groupfd to bf displbyfd in summbry
      */
-    private static final String[] color = {"#99FF99", "#CCFFFF", "#FFCC00"};
+    publid stbtid int LEVEL = 2;
 
     /**
-     * String for holding base-build and target-build version
+     * Color -> Bfttfr, Sbmf, Worsf
      */
-    private static String baseBuild = "";
-    private static String targetBuild = "";
+    privbtf stbtid finbl String[] dolor = {"#99FF99", "#CCFFFF", "#FFCC00"};
 
-    private static final DecimalFormat decimalFormat =
-        new DecimalFormat("0.##");
-    private static final SimpleDateFormat dateFormat =
-        new SimpleDateFormat("EEE, MMM d, yyyy G 'at' HH:mm:ss z");
+    /**
+     * String for iolding bbsf-build bnd tbrgft-build vfrsion
+     */
+    privbtf stbtid String bbsfBuild = "";
+    privbtf stbtid String tbrgftBuild = "";
 
-    public static void setGroupLevel(int level) {
-        XMLHTMLReporter.LEVEL = level;
+    privbtf stbtid finbl DfdimblFormbt dfdimblFormbt =
+        nfw DfdimblFormbt("0.##");
+    privbtf stbtid finbl SimplfDbtfFormbt dbtfFormbt =
+        nfw SimplfDbtfFormbt("EEE, MMM d, yyyy G 'bt' HH:mm:ss z");
+
+    publid stbtid void sftGroupLfvfl(int lfvfl) {
+        XMLHTMLRfportfr.LEVEL = lfvfl;
     }
 
     /**
-     * Add Test Group to the list
+     * Add Tfst Group to tif list
      */
-    private static void addGroup(String testName) {
+    privbtf stbtid void bddGroup(String tfstNbmf) {
 
-        String testNameSplit[] = testName.replace('.', '_').split("_");
-        String group = testNameSplit[0];
+        String tfstNbmfSplit[] = tfstNbmf.rfplbdf('.', '_').split("_");
+        String group = tfstNbmfSplit[0];
         for(int i=1; i<LEVEL; i++) {
-            group = group + "." + testNameSplit[i];
+            group = group + "." + tfstNbmfSplit[i];
         }
 
-        if( ! groups.contains(group)) {
-            groups.add(group);
-            groupNames.put(group, getDisplayGroupName(group));
+        if( ! groups.dontbins(group)) {
+            groups.bdd(group);
+            groupNbmfs.put(group, gftDisplbyGroupNbmf(group));
         }
     }
 
     /**
-     * Generate a Display Name for this group
+     * Gfnfrbtf b Displby Nbmf for tiis group
      */
-    private static String getDisplayGroupName(String group) {
+    privbtf stbtid String gftDisplbyGroupNbmf(String group) {
 
-        String groupSplit[] = group.replace('.', '_').split("_");
+        String groupSplit[] = group.rfplbdf('.', '_').split("_");
 
-        StringBuffer groupName = new StringBuffer();
-        String tempName = null;
+        StringBufffr groupNbmf = nfw StringBufffr();
+        String tfmpNbmf = null;
 
-        for(int i=0; i<groupSplit.length; i++) {
-            tempName = groupSplit[i].substring(0, 1).toUpperCase() +
+        for(int i=0; i<groupSplit.lfngti; i++) {
+            tfmpNbmf = groupSplit[i].substring(0, 1).toUppfrCbsf() +
                 groupSplit[i].substring(1);
             if(i == 0) {
-                groupName.append(tempName);
-            } else {
-                groupName.append(" " + tempName);
+                groupNbmf.bppfnd(tfmpNbmf);
+            } flsf {
+                groupNbmf.bppfnd(" " + tfmpNbmf);
             }
         }
 
-        return groupName.toString();
+        rfturn groupNbmf.toString();
     }
 
     /**
-     * Get the group to which this testcase belongs
+     * Gft tif group to wiidi tiis tfstdbsf bflongs
      */
-    private static String getGroup(String testName) {
+    privbtf stbtid String gftGroup(String tfstNbmf) {
 
-        String testNameSplit[] = testName.replace('.', '_').split("_");
-        String group = testNameSplit[0];
+        String tfstNbmfSplit[] = tfstNbmf.rfplbdf('.', '_').split("_");
+        String group = tfstNbmfSplit[0];
         for(int i=1; i<LEVEL; i++) {
-            group = group + "." + testNameSplit[i];
+            group = group + "." + tfstNbmfSplit[i];
         }
 
-        return group;
+        rfturn group;
     }
 
     /**
-     * Opens a File and returns a PrintWriter instance based on new/update
-     * option specified in argument.
+     * Opfns b Filf bnd rfturns b PrintWritfr instbndf bbsfd on nfw/updbtf
+     * option spfdififd in brgumfnt.
      */
-    private static PrintWriter openFile(String name, int nSwitch) {
+    privbtf stbtid PrintWritfr opfnFilf(String nbmf, int nSwitdi) {
 
-        FileOutputStream file = null;
-        OutputStreamWriter writer = null;
+        FilfOutputStrfbm filf = null;
+        OutputStrfbmWritfr writfr = null;
 
         try {
-            switch (nSwitch) {
-                case 1: // HTMLGEN_FILE_NEW
-                    file = new FileOutputStream(name, false);
-                    break;
-                case 2: // HTMLGEN_FILE_UPDATE
-                    file = new FileOutputStream(name, true);
-                    break;
+            switdi (nSwitdi) {
+                dbsf 1: // HTMLGEN_FILE_NEW
+                    filf = nfw FilfOutputStrfbm(nbmf, fblsf);
+                    brfbk;
+                dbsf 2: // HTMLGEN_FILE_UPDATE
+                    filf = nfw FilfOutputStrfbm(nbmf, truf);
+                    brfbk;
             }
-            writer = new OutputStreamWriter(file);
-        } catch (IOException ee) {
-            System.out.println("Error opening file: " + ee);
-            System.exit(1);
+            writfr = nfw OutputStrfbmWritfr(filf);
+        } dbtdi (IOExdfption ff) {
+            Systfm.out.println("Error opfning filf: " + ff);
+            Systfm.fxit(1);
         }
 
-        return new PrintWriter(new BufferedWriter(writer));
+        rfturn nfw PrintWritfr(nfw BufffrfdWritfr(writfr));
     }
 
     /**
-     * Generate an HTML report based on the XML results file passed -
-     * J2DBench_Results.html
+     * Gfnfrbtf bn HTML rfport bbsfd on tif XML rfsults filf pbssfd -
+     * J2DBfndi_Rfsults.itml
      */
-    public static void generateReport(String resultsDir, String xmlFileName) {
+    publid stbtid void gfnfrbtfRfport(String rfsultsDir, String xmlFilfNbmf) {
 
         try {
 
-            String strhtml = null;
+            String stritml = null;
             String strstr = null;
-            String[] tempstr2 = new String[2];
-            String[] tempstr = new String[2];
+            String[] tfmpstr2 = nfw String[2];
+            String[] tfmpstr = nfw String[2];
 
-            J2DAnalyzer.readResults(xmlFileName);
-            J2DAnalyzer.SingleResultSetHolder srsh =
-                (J2DAnalyzer.SingleResultSetHolder)
-                J2DAnalyzer.results.elementAt(0);
-            Enumeration enum_ = srsh.getKeyEnumeration();
-            Vector keyvector = new Vector();
-            while (enum_.hasMoreElements()) {
-                keyvector.add(enum_.nextElement());
+            J2DAnblyzfr.rfbdRfsults(xmlFilfNbmf);
+            J2DAnblyzfr.SinglfRfsultSftHoldfr srsi =
+                (J2DAnblyzfr.SinglfRfsultSftHoldfr)
+                J2DAnblyzfr.rfsults.flfmfntAt(0);
+            Enumfrbtion fnum_ = srsi.gftKfyEnumfrbtion();
+            Vfdtor kfyvfdtor = nfw Vfdtor();
+            wiilf (fnum_.ibsMorfElfmfnts()) {
+                kfyvfdtor.bdd(fnum_.nfxtElfmfnt());
             }
-            String keys[] = new String[keyvector.size()];
-            keyvector.copyInto(keys);
-            J2DAnalyzer.sort(keys);
+            String kfys[] = nfw String[kfyvfdtor.sizf()];
+            kfyvfdtor.dopyInto(kfys);
+            J2DAnblyzfr.sort(kfys);
 
-            File reportFile = new File(resultsDir, "J2DBench_Results.html");
-            PrintWriter writer =
-                openFile(reportFile.getAbsolutePath(), HTMLGEN_FILE_NEW);
+            Filf rfportFilf = nfw Filf(rfsultsDir, "J2DBfndi_Rfsults.itml");
+            PrintWritfr writfr =
+                opfnFilf(rfportFilf.gftAbsolutfPbti(), HTMLGEN_FILE_NEW);
 
-            writer.println("<html><body bgcolor=\"#ffffff\"><hr size=\"1\">");
-            writer.println("<center><h2>J2DBench2 - Report</h2>");
-            writer.println("</center><hr size=\"1\"><br>");
-            writer.println("<table cols=\"2\" cellspacing=\"2\" " +
-                           "cellpadding=\"5\" " +
-                           "border=\"0\" width=\"80%\">");
-            writer.println("<tr><td bgcolor=\"#CCCCFF\" colspan=\"2\">" +
-                           "<b>Build Details</b></td></tr>");
-            writer.println("<tr>");
-            writer.println("<td bgcolor=\"#f0f0f0\">Description</td>");
-            writer.println("<td>" + srsh.getDescription() + "</td>");
-            writer.println("</tr>");
-            writer.println("<tr><td bgcolor=\"#f0f0f0\">From Date</td>");
-            writer.println("<td>" +
-                           dateFormat.format(new Date(srsh.getStartTime())) +
+            writfr.println("<itml><body bgdolor=\"#ffffff\"><ir sizf=\"1\">");
+            writfr.println("<dfntfr><i2>J2DBfndi2 - Rfport</i2>");
+            writfr.println("</dfntfr><ir sizf=\"1\"><br>");
+            writfr.println("<tbblf dols=\"2\" dfllspbding=\"2\" " +
+                           "dfllpbdding=\"5\" " +
+                           "bordfr=\"0\" widti=\"80%\">");
+            writfr.println("<tr><td bgdolor=\"#CCCCFF\" dolspbn=\"2\">" +
+                           "<b>Build Dftbils</b></td></tr>");
+            writfr.println("<tr>");
+            writfr.println("<td bgdolor=\"#f0f0f0\">Dfsdription</td>");
+            writfr.println("<td>" + srsi.gftDfsdription() + "</td>");
+            writfr.println("</tr>");
+            writfr.println("<tr><td bgdolor=\"#f0f0f0\">From Dbtf</td>");
+            writfr.println("<td>" +
+                           dbtfFormbt.formbt(nfw Dbtf(srsi.gftStbrtTimf())) +
                            "</td></tr>");
-            writer.println("<tr><td bgcolor=\"#f0f0f0\">To Date</td>");
-            writer.println("<td>" +
-                           dateFormat.format(new Date(srsh.getEndTime())) +
+            writfr.println("<tr><td bgdolor=\"#f0f0f0\">To Dbtf</td>");
+            writfr.println("<td>" +
+                           dbtfFormbt.formbt(nfw Dbtf(srsi.gftEndTimf())) +
                            "</td></tr>");
-            writer.flush();
+            writfr.flusi();
 
-            //System Properties
-            writer.println("<tr><td bgcolor=\"#CCCCFF\"><b>System Property</b>"+
-                           "</td><td bgcolor=\"#CCCCFF\">" +
-                           "<b>Value</b></td></tr>");
-            String key = null;
-            String value = null;
-            Map sysProps = srsh.getProperties();
-            Iterator iter = sysProps.keySet().iterator();
-            while(iter.hasNext()) {
-                key = iter.next().toString();
-                value = sysProps.get(key).toString();
-                writer.println("<tr><td bgcolor=\"#f0f0f0\">" +
-                               key + "</td><td>" + value + "&nbsp;</td></tr>");
+            //Systfm Propfrtifs
+            writfr.println("<tr><td bgdolor=\"#CCCCFF\"><b>Systfm Propfrty</b>"+
+                           "</td><td bgdolor=\"#CCCCFF\">" +
+                           "<b>Vbluf</b></td></tr>");
+            String kfy = null;
+            String vbluf = null;
+            Mbp sysProps = srsi.gftPropfrtifs();
+            Itfrbtor itfr = sysProps.kfySft().itfrbtor();
+            wiilf(itfr.ibsNfxt()) {
+                kfy = itfr.nfxt().toString();
+                vbluf = sysProps.gft(kfy).toString();
+                writfr.println("<tr><td bgdolor=\"#f0f0f0\">" +
+                               kfy + "</td><td>" + vbluf + "&nbsp;</td></tr>");
             }
-            writer.flush();
+            writfr.flusi();
 
-            writer.println("</table>");
-            writer.println("<br>");
-            writer.println("<hr size=\"1\">");
-            writer.println("<br>");
+            writfr.println("</tbblf>");
+            writfr.println("<br>");
+            writfr.println("<ir sizf=\"1\">");
+            writfr.println("<br>");
 
-            writer.println("<table cellspacing=\"0\" " +
-                           "cellpadding=\"3\" border=\"1\" width=\"80%\">");
-            writer.println("<tr>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                           "<b>Num Reps</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writfr.println("<tbblf dfllspbding=\"0\" " +
+                           "dfllpbdding=\"3\" bordfr=\"1\" widti=\"80%\">");
+            writfr.println("<tr>");
+            writfr.println("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
+                           "<b>Num Rfps</b></td>");
+            writfr.println("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
                            "<b>Num Units</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                           "<b>Name</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writfr.println("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
+                           "<b>Nbmf</b></td>");
+            writfr.println("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
                            "<b>Options</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                           "<b>Score</b></td>");
-            writer.println("</tr>");
-            writer.flush();
+            writfr.println("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
+                           "<b>Sdorf</b></td>");
+            writfr.println("</tr>");
+            writfr.flusi();
 
-            for (int k = 0; k < keys.length; k++) {
+            for (int k = 0; k < kfys.lfngti; k++) {
 
-                J2DAnalyzer.ResultHolder testResult =
-                    srsh.getResultByKey(keys[k]);
+                J2DAnblyzfr.RfsultHoldfr tfstRfsult =
+                    srsi.gftRfsultByKfy(kfys[k]);
 
-                writer.println("<tr>");
-                writer.println("<td>" + testResult.getReps() + "</td>");
-                writer.println("<td>" + testResult.getUnits() + "</td>");
-                writer.println("<td>" + testResult.getName() + "</td>");
-                writer.println("<td valign=\"center\"><ul>");
-                Map map = testResult.getOptions();
-                iter = map.keySet().iterator();
-                while(iter.hasNext()) {
-                    key = iter.next().toString();
-                    value = map.get(key).toString();
-                    writer.println("<li>" + key + " = " + value + "</li>");
+                writfr.println("<tr>");
+                writfr.println("<td>" + tfstRfsult.gftRfps() + "</td>");
+                writfr.println("<td>" + tfstRfsult.gftUnits() + "</td>");
+                writfr.println("<td>" + tfstRfsult.gftNbmf() + "</td>");
+                writfr.println("<td vblign=\"dfntfr\"><ul>");
+                Mbp mbp = tfstRfsult.gftOptions();
+                itfr = mbp.kfySft().itfrbtor();
+                wiilf(itfr.ibsNfxt()) {
+                    kfy = itfr.nfxt().toString();
+                    vbluf = mbp.gft(kfy).toString();
+                    writfr.println("<li>" + kfy + " = " + vbluf + "</li>");
                 }
-                writer.println("</ul></td>");
-                writer.println("<td valign=\"center\">" +
-                               decimalFormat.format(testResult.getScore()) +
+                writfr.println("</ul></td>");
+                writfr.println("<td vblign=\"dfntfr\">" +
+                               dfdimblFormbt.formbt(tfstRfsult.gftSdorf()) +
                                "</td>");
-                writer.println("</tr>");
+                writfr.println("</tr>");
             }
-            writer.flush();
+            writfr.flusi();
 
-            writer.println("</table>");
+            writfr.println("</tbblf>");
 
-            writer.println("<br><hr WIDTH=\"100%\" size=\"1\">");
-            writer.println("</p><hr WIDTH=\"100%\" size=\"1\"></body></html>");
+            writfr.println("<br><ir WIDTH=\"100%\" sizf=\"1\">");
+            writfr.println("</p><ir WIDTH=\"100%\" sizf=\"1\"></body></itml>");
 
-            writer.flush();
-            writer.close();
+            writfr.flusi();
+            writfr.dlosf();
         }
-        catch(Exception e) {
-            e.printStackTrace();
+        dbtdi(Exdfption f) {
+            f.printStbdkTrbdf();
         }
     }
 
     /**
-     * Generate the reports from the base & target result XML
+     * Gfnfrbtf tif rfports from tif bbsf & tbrgft rfsult XML
      */
-    public static void generateComparisonReport(String resultsDir,
-                                                String baseXMLFileName,
-                                                String targetXMLFileName) {
+    publid stbtid void gfnfrbtfCompbrisonRfport(String rfsultsDir,
+                                                String bbsfXMLFilfNbmf,
+                                                String tbrgftXMLFilfNbmf) {
 
-        XMLHTMLReporter.resultsDir = resultsDir;
+        XMLHTMLRfportfr.rfsultsDir = rfsultsDir;
 
-        //Get Base XML File ResultSetHolder
-        J2DAnalyzer.readResults(baseXMLFileName);
-        J2DAnalyzer.SingleResultSetHolder baseSRSH =
-            (J2DAnalyzer.SingleResultSetHolder) J2DAnalyzer.results.elementAt(0);
-        Enumeration baseEnum_ = baseSRSH.getKeyEnumeration();
-        Vector baseKeyvector = new Vector();
-        while (baseEnum_.hasMoreElements()) {
-            baseKeyvector.add(baseEnum_.nextElement());
+        //Gft Bbsf XML Filf RfsultSftHoldfr
+        J2DAnblyzfr.rfbdRfsults(bbsfXMLFilfNbmf);
+        J2DAnblyzfr.SinglfRfsultSftHoldfr bbsfSRSH =
+            (J2DAnblyzfr.SinglfRfsultSftHoldfr) J2DAnblyzfr.rfsults.flfmfntAt(0);
+        Enumfrbtion bbsfEnum_ = bbsfSRSH.gftKfyEnumfrbtion();
+        Vfdtor bbsfKfyvfdtor = nfw Vfdtor();
+        wiilf (bbsfEnum_.ibsMorfElfmfnts()) {
+            bbsfKfyvfdtor.bdd(bbsfEnum_.nfxtElfmfnt());
         }
-        String baseKeys[] = new String[baseKeyvector.size()];
-        baseKeyvector.copyInto(baseKeys);
-        J2DAnalyzer.sort(baseKeys);
+        String bbsfKfys[] = nfw String[bbsfKfyvfdtor.sizf()];
+        bbsfKfyvfdtor.dopyInto(bbsfKfys);
+        J2DAnblyzfr.sort(bbsfKfys);
 
-        //Get Target XML File ResultSetHolder
-        J2DAnalyzer.readResults(targetXMLFileName);
-        J2DAnalyzer.SingleResultSetHolder targetSRSH =
-            (J2DAnalyzer.SingleResultSetHolder)
-                J2DAnalyzer.results.elementAt(1);
-        Enumeration targetEnum_ = baseSRSH.getKeyEnumeration();
-        Vector targetKeyvector = new Vector();
-        while (targetEnum_.hasMoreElements()) {
-            targetKeyvector.add(targetEnum_.nextElement());
+        //Gft Tbrgft XML Filf RfsultSftHoldfr
+        J2DAnblyzfr.rfbdRfsults(tbrgftXMLFilfNbmf);
+        J2DAnblyzfr.SinglfRfsultSftHoldfr tbrgftSRSH =
+            (J2DAnblyzfr.SinglfRfsultSftHoldfr)
+                J2DAnblyzfr.rfsults.flfmfntAt(1);
+        Enumfrbtion tbrgftEnum_ = bbsfSRSH.gftKfyEnumfrbtion();
+        Vfdtor tbrgftKfyvfdtor = nfw Vfdtor();
+        wiilf (tbrgftEnum_.ibsMorfElfmfnts()) {
+            tbrgftKfyvfdtor.bdd(tbrgftEnum_.nfxtElfmfnt());
         }
-        String targetKeys[] = new String[targetKeyvector.size()];
-        targetKeyvector.copyInto(targetKeys);
-        J2DAnalyzer.sort(targetKeys);
+        String tbrgftKfys[] = nfw String[tbrgftKfyvfdtor.sizf()];
+        tbrgftKfyvfdtor.dopyInto(tbrgftKfys);
+        J2DAnblyzfr.sort(tbrgftKfys);
 
-        baseBuild = (String)baseSRSH.getProperties().get("java.vm.version");
-        targetBuild = (String)targetSRSH.getProperties().get("java.vm.version");
-        generateSysPropsReport(targetSRSH);
+        bbsfBuild = (String)bbsfSRSH.gftPropfrtifs().gft("jbvb.vm.vfrsion");
+        tbrgftBuild = (String)tbrgftSRSH.gftPropfrtifs().gft("jbvb.vm.vfrsion");
+        gfnfrbtfSysPropsRfport(tbrgftSRSH);
 
-        File reportFile = new File(resultsDir, "J2DBench_Complete_Report.html");
-        PrintWriter writer = openFile(reportFile.getAbsolutePath(),
+        Filf rfportFilf = nfw Filf(rfsultsDir, "J2DBfndi_Complftf_Rfport.itml");
+        PrintWritfr writfr = opfnFilf(rfportFilf.gftAbsolutfPbti(),
                                       HTMLGEN_FILE_NEW);
 
-        String header = getHeader(baseSRSH, targetSRSH,
-                                  "J2DBench - Complete Report",
-                                  "System_Properties.html");
-        writer.println(header);
-        writer.flush();
+        String ifbdfr = gftHfbdfr(bbsfSRSH, tbrgftSRSH,
+                                  "J2DBfndi - Complftf Rfport",
+                                  "Systfm_Propfrtifs.itml");
+        writfr.println(ifbdfr);
+        writfr.flusi();
 
-        StringBuffer startTags = new StringBuffer();
-        startTags.append("<tr>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                         "<b>Num Reps</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        StringBufffr stbrtTbgs = nfw StringBufffr();
+        stbrtTbgs.bppfnd("<tr>");
+        stbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
+                         "<b>Num Rfps</b></td>");
+        stbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
                          "<b>Num Units</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                         "<b>Name</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        stbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
+                         "<b>Nbmf</b></td>");
+        stbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
                          "<b>Options</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                         "<b>" + baseBuild + " Score</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\"><b>" +
-                         targetBuild + " Score</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                         "<b>% Speedup</b></td>");
-        startTags.append("</tr>");
+        stbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
+                         "<b>" + bbsfBuild + " Sdorf</b></td>");
+        stbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\"><b>" +
+                         tbrgftBuild + " Sdorf</b></td>");
+        stbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
+                         "<b>% Spffdup</b></td>");
+        stbrtTbgs.bppfnd("</tr>");
 
-        StringBuffer worseResultTags = new StringBuffer(startTags.toString());
-        StringBuffer sameResultTags = new StringBuffer(startTags.toString());
-        StringBuffer betterResultTags = new StringBuffer(startTags.toString());
+        StringBufffr worsfRfsultTbgs = nfw StringBufffr(stbrtTbgs.toString());
+        StringBufffr sbmfRfsultTbgs = nfw StringBufffr(stbrtTbgs.toString());
+        StringBufffr bfttfrRfsultTbgs = nfw StringBufffr(stbrtTbgs.toString());
 
-        Map consolBaseRes = new HashMap();
-        Map consolTargetResult = new HashMap();
+        Mbp donsolBbsfRfs = nfw HbsiMbp();
+        Mbp donsolTbrgftRfsult = nfw HbsiMbp();
 
-        Map testCaseBaseResult = new HashMap();
-        Map testCaseResultCount = new HashMap();
-        Map testCaseTargetResult = new HashMap();
+        Mbp tfstCbsfBbsfRfsult = nfw HbsiMbp();
+        Mbp tfstCbsfRfsultCount = nfw HbsiMbp();
+        Mbp tfstCbsfTbrgftRfsult = nfw HbsiMbp();
 
-        for (int k = 0; k < targetKeys.length; k++) {
+        for (int k = 0; k < tbrgftKfys.lfngti; k++) {
 
-            J2DAnalyzer.ResultHolder baseTCR =
-                baseSRSH.getResultByKey(targetKeys[k]);
-            J2DAnalyzer.ResultHolder targetTCR =
-                targetSRSH.getResultByKey(targetKeys[k]);
+            J2DAnblyzfr.RfsultHoldfr bbsfTCR =
+                bbsfSRSH.gftRfsultByKfy(tbrgftKfys[k]);
+            J2DAnblyzfr.RfsultHoldfr tbrgftTCR =
+                tbrgftSRSH.gftRfsultByKfy(tbrgftKfys[k]);
 
-            Object curTestCountObj = testCaseResultCount.get(baseTCR.getName());
-            int curTestCount = 0;
-            if(curTestCountObj != null) {
-                curTestCount = ((Integer) curTestCountObj).intValue();
+            Objfdt durTfstCountObj = tfstCbsfRfsultCount.gft(bbsfTCR.gftNbmf());
+            int durTfstCount = 0;
+            if(durTfstCountObj != null) {
+                durTfstCount = ((Intfgfr) durTfstCountObj).intVbluf();
             }
-            curTestCount++;
-            testCaseBaseResult.put(baseTCR.getName() + "_" +
-                                   (curTestCount - 1), baseTCR);
-            testCaseTargetResult.put(targetTCR.getName() + "_" +
-                                     (curTestCount - 1), targetTCR);
-            testCaseResultCount.put(baseTCR.getName(),
-                                    new Integer(curTestCount));
+            durTfstCount++;
+            tfstCbsfBbsfRfsult.put(bbsfTCR.gftNbmf() + "_" +
+                                   (durTfstCount - 1), bbsfTCR);
+            tfstCbsfTbrgftRfsult.put(tbrgftTCR.gftNbmf() + "_" +
+                                     (durTfstCount - 1), tbrgftTCR);
+            tfstCbsfRfsultCount.put(bbsfTCR.gftNbmf(),
+                                    nfw Intfgfr(durTfstCount));
 
             /******************************************************************
-             * Add the Test to Group List
+             * Add tif Tfst to Group List
              ******************************************************************/
-            addGroup(baseTCR.getName());
+            bddGroup(bbsfTCR.gftNbmf());
 
-            double baseScore = baseTCR.getScore();
-            double targetScore = targetTCR.getScore();
+            doublf bbsfSdorf = bbsfTCR.gftSdorf();
+            doublf tbrgftSdorf = tbrgftTCR.gftSdorf();
 
-            int selColorIndex = selectColor(baseScore, targetScore);
+            int sflColorIndfx = sflfdtColor(bbsfSdorf, tbrgftSdorf);
 
-            StringBuffer tagBuffer = new StringBuffer();
+            StringBufffr tbgBufffr = nfw StringBufffr();
 
-            tagBuffer.append("<tr bgcolor=\""+ color[selColorIndex] + "\">");
-            tagBuffer.append("<td align=\"center\">" + baseTCR.getScore() +
+            tbgBufffr.bppfnd("<tr bgdolor=\""+ dolor[sflColorIndfx] + "\">");
+            tbgBufffr.bppfnd("<td blign=\"dfntfr\">" + bbsfTCR.gftSdorf() +
                              "</td>");
-            tagBuffer.append("<td align=\"center\">" + baseTCR.getUnits() +
+            tbgBufffr.bppfnd("<td blign=\"dfntfr\">" + bbsfTCR.gftUnits() +
                              "</td>");
-            tagBuffer.append("<td align=\"center\">" + baseTCR.getName() +
+            tbgBufffr.bppfnd("<td blign=\"dfntfr\">" + bbsfTCR.gftNbmf() +
                              "</td>");
-            tagBuffer.append("<td valign=\"center\"><ul>");
-            Map map = baseTCR.getOptions();
-            Iterator iter = map.keySet().iterator();
-            while(iter.hasNext()) {
-                Object key = iter.next().toString();
-                Object value = map.get(key).toString();
-                tagBuffer.append("<li>" + key + " = " + value + "</li>");
+            tbgBufffr.bppfnd("<td vblign=\"dfntfr\"><ul>");
+            Mbp mbp = bbsfTCR.gftOptions();
+            Itfrbtor itfr = mbp.kfySft().itfrbtor();
+            wiilf(itfr.ibsNfxt()) {
+                Objfdt kfy = itfr.nfxt().toString();
+                Objfdt vbluf = mbp.gft(kfy).toString();
+                tbgBufffr.bppfnd("<li>" + kfy + " = " + vbluf + "</li>");
             }
-            tagBuffer.append("</ul></td>");
-            tagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                             decimalFormat.format(baseTCR.getScore()) +
+            tbgBufffr.bppfnd("</ul></td>");
+            tbgBufffr.bppfnd("<td vblign=\"dfntfr\" blign=\"dfntfr\">" +
+                             dfdimblFormbt.formbt(bbsfTCR.gftSdorf()) +
                              "</td>");
-            tagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                             decimalFormat.format(targetTCR.getScore()) +
+            tbgBufffr.bppfnd("<td vblign=\"dfntfr\" blign=\"dfntfr\">" +
+                             dfdimblFormbt.formbt(tbrgftTCR.gftSdorf()) +
                              "</td>");
-            tagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                             decimalFormat.format(
-                                 calculateSpeedupPercentage(
-                                     baseTCR.getScore(),
-                                     targetTCR.getScore())) + "</td>");
-            tagBuffer.append("</tr>");
+            tbgBufffr.bppfnd("<td vblign=\"dfntfr\" blign=\"dfntfr\">" +
+                             dfdimblFormbt.formbt(
+                                 dbldulbtfSpffdupPfrdfntbgf(
+                                     bbsfTCR.gftSdorf(),
+                                     tbrgftTCR.gftSdorf())) + "</td>");
+            tbgBufffr.bppfnd("</tr>");
 
-            switch(selColorIndex) {
-                case 0:
-                    betterResultTags.append(tagBuffer.toString());
-                    break;
-                case 1:
-                    sameResultTags.append(tagBuffer.toString());
-                    break;
-                case 2:
-                    worseResultTags.append(tagBuffer.toString());
-                    break;
+            switdi(sflColorIndfx) {
+                dbsf 0:
+                    bfttfrRfsultTbgs.bppfnd(tbgBufffr.toString());
+                    brfbk;
+                dbsf 1:
+                    sbmfRfsultTbgs.bppfnd(tbgBufffr.toString());
+                    brfbk;
+                dbsf 2:
+                    worsfRfsultTbgs.bppfnd(tbgBufffr.toString());
+                    brfbk;
             }
 
-            Object curTotalScoreObj = consolBaseRes.get(baseTCR.getName());
-            double curTotalScore = 0;
-            if(curTotalScoreObj != null) {
-                curTotalScore = ((Double) curTotalScoreObj).doubleValue();
+            Objfdt durTotblSdorfObj = donsolBbsfRfs.gft(bbsfTCR.gftNbmf());
+            doublf durTotblSdorf = 0;
+            if(durTotblSdorfObj != null) {
+                durTotblSdorf = ((Doublf) durTotblSdorfObj).doublfVbluf();
             }
-            curTotalScore = curTotalScore + baseTCR.getScore();
-            consolBaseRes.put(baseTCR.getName(), new Double(curTotalScore));
+            durTotblSdorf = durTotblSdorf + bbsfTCR.gftSdorf();
+            donsolBbsfRfs.put(bbsfTCR.gftNbmf(), nfw Doublf(durTotblSdorf));
 
-            curTotalScoreObj = consolTargetResult.get(targetTCR.getName());
-            curTotalScore = 0;
-            if(curTotalScoreObj != null) {
-                curTotalScore = ((Double) curTotalScoreObj).doubleValue();
+            durTotblSdorfObj = donsolTbrgftRfsult.gft(tbrgftTCR.gftNbmf());
+            durTotblSdorf = 0;
+            if(durTotblSdorfObj != null) {
+                durTotblSdorf = ((Doublf) durTotblSdorfObj).doublfVbluf();
             }
-            curTotalScore = curTotalScore + targetTCR.getScore();
-            consolTargetResult.put(targetTCR.getName(),
-                                   new Double(curTotalScore));
+            durTotblSdorf = durTotblSdorf + tbrgftTCR.gftSdorf();
+            donsolTbrgftRfsult.put(tbrgftTCR.gftNbmf(),
+                                   nfw Doublf(durTotblSdorf));
         }
 
-        writer.println("<br><hr WIDTH=\"100%\" size=\"1\">");
-        writer.println("<A NAME=\"results\"></A><H3>Results:</H3>");
+        writfr.println("<br><ir WIDTH=\"100%\" sizf=\"1\">");
+        writfr.println("<A NAME=\"rfsults\"></A><H3>Rfsults:</H3>");
 
-        writer.println("<table cellspacing=\"0\" " +
-                         "cellpadding=\"3\" border=\"1\" width=\"80%\">");
+        writfr.println("<tbblf dfllspbding=\"0\" " +
+                         "dfllpbdding=\"3\" bordfr=\"1\" widti=\"80%\">");
 
-        writer.println("<tr><td colspan=\"7\" bgcolor=\"#f0f0f0\">" +
-                       "<font size=\"+1\">Tests which run BETTER on target" +
+        writfr.println("<tr><td dolspbn=\"7\" bgdolor=\"#f0f0f0\">" +
+                       "<font sizf=\"+1\">Tfsts wiidi run BETTER on tbrgft" +
                        "</font></td></tr>");
-        writer.println(betterResultTags.toString());
-        writer.flush();
+        writfr.println(bfttfrRfsultTbgs.toString());
+        writfr.flusi();
 
-        writer.println("<tr><td colspan=\"7\">&nbsp;<br>&nbsp;</td></tr>");
-        writer.println("<tr><td colspan=\"7\" bgcolor=\"#f0f0f0\">" +
-                       "<font size=\"+1\">Tests which run " +
-                       "SAME on target</font></td></tr>");
-        writer.println(sameResultTags.toString());
-        writer.flush();
+        writfr.println("<tr><td dolspbn=\"7\">&nbsp;<br>&nbsp;</td></tr>");
+        writfr.println("<tr><td dolspbn=\"7\" bgdolor=\"#f0f0f0\">" +
+                       "<font sizf=\"+1\">Tfsts wiidi run " +
+                       "SAME on tbrgft</font></td></tr>");
+        writfr.println(sbmfRfsultTbgs.toString());
+        writfr.flusi();
 
-        writer.println("<tr><td colspan=\"7\">&nbsp;<br>&nbsp;</td></tr>");
-        writer.println("<tr><td colspan=\"7\" bgcolor=\"#f0f0f0\">" +
-                       "<font size=\"+1\">Tests which run WORSE on target" +
+        writfr.println("<tr><td dolspbn=\"7\">&nbsp;<br>&nbsp;</td></tr>");
+        writfr.println("<tr><td dolspbn=\"7\" bgdolor=\"#f0f0f0\">" +
+                       "<font sizf=\"+1\">Tfsts wiidi run WORSE on tbrgft" +
                        "</font></td></tr>");
-        writer.println(worseResultTags.toString());
-        writer.flush();
+        writfr.println(worsfRfsultTbgs.toString());
+        writfr.flusi();
 
-        writer.println("</table>");
+        writfr.println("</tbblf>");
 
-        writer.println(getFooter());
-        writer.flush();
+        writfr.println(gftFootfr());
+        writfr.flusi();
 
-        writer.close();
+        writfr.dlosf();
 
-        generateTestCaseSummaryReport(baseSRSH, targetSRSH,
-                                      consolBaseRes, consolTargetResult,
-                                      testCaseBaseResult,
-                                      testCaseResultCount,
-                                      testCaseTargetResult);
+        gfnfrbtfTfstCbsfSummbryRfport(bbsfSRSH, tbrgftSRSH,
+                                      donsolBbsfRfs, donsolTbrgftRfsult,
+                                      tfstCbsfBbsfRfsult,
+                                      tfstCbsfRfsultCount,
+                                      tfstCbsfTbrgftRfsult);
 
-        generateGroupSummaryReport(baseSRSH, targetSRSH,
-                                   consolBaseRes, consolTargetResult,
-                                   testCaseBaseResult,
-                                   testCaseResultCount, testCaseTargetResult);
+        gfnfrbtfGroupSummbryRfport(bbsfSRSH, tbrgftSRSH,
+                                   donsolBbsfRfs, donsolTbrgftRfsult,
+                                   tfstCbsfBbsfRfsult,
+                                   tfstCbsfRfsultCount, tfstCbsfTbrgftRfsult);
     }
 
     /**
-     * Generate Group-Summary report - Summary_Report.html
+     * Gfnfrbtf Group-Summbry rfport - Summbry_Rfport.itml
      */
-    private static void generateGroupSummaryReport(
-        J2DAnalyzer.SingleResultSetHolder baseSRSH,
-        J2DAnalyzer.SingleResultSetHolder targetSRSH,
-        Map consolBaseResult,
-        Map consolTargetResult,
-        Map testCaseBaseResult,
-        Map testCaseResultCount,
-        Map testCaseTargetResult) {
+    privbtf stbtid void gfnfrbtfGroupSummbryRfport(
+        J2DAnblyzfr.SinglfRfsultSftHoldfr bbsfSRSH,
+        J2DAnblyzfr.SinglfRfsultSftHoldfr tbrgftSRSH,
+        Mbp donsolBbsfRfsult,
+        Mbp donsolTbrgftRfsult,
+        Mbp tfstCbsfBbsfRfsult,
+        Mbp tfstCbsfRfsultCount,
+        Mbp tfstCbsfTbrgftRfsult) {
 
-        File groupSummaryReportFile =
-            new File(resultsDir, "Summary_Report.html");
-        PrintWriter writer =
-            openFile(groupSummaryReportFile.getAbsolutePath(),
+        Filf groupSummbryRfportFilf =
+            nfw Filf(rfsultsDir, "Summbry_Rfport.itml");
+        PrintWritfr writfr =
+            opfnFilf(groupSummbryRfportFilf.gftAbsolutfPbti(),
                      HTMLGEN_FILE_NEW);
 
-        String header = getHeader(baseSRSH, targetSRSH,
-                                  "J2DBench - Summary Report",
-                                  "System_Properties.html");
-        writer.println(header);
-        writer.flush();
+        String ifbdfr = gftHfbdfr(bbsfSRSH, tbrgftSRSH,
+                                  "J2DBfndi - Summbry Rfport",
+                                  "Systfm_Propfrtifs.itml");
+        writfr.println(ifbdfr);
+        writfr.flusi();
 
-        writer.println("<br><hr size=\"1\">");
+        writfr.println("<br><ir sizf=\"1\">");
 
-        Map baseValuesMap = new HashMap();
-        Map targetValuesMap = new HashMap();
+        Mbp bbsfVblufsMbp = nfw HbsiMbp();
+        Mbp tbrgftVblufsMbp = nfw HbsiMbp();
 
-        String tempGroup = null;
-        for(int i=0; i<groups.size(); i++) {
-            tempGroup = groups.get(i).toString();
-            baseValuesMap.put(tempGroup, new Double(0));
-            targetValuesMap.put(tempGroup, new Double(0));
+        String tfmpGroup = null;
+        for(int i=0; i<groups.sizf(); i++) {
+            tfmpGroup = groups.gft(i).toString();
+            bbsfVblufsMbp.put(tfmpGroup, nfw Doublf(0));
+            tbrgftVblufsMbp.put(tfmpGroup, nfw Doublf(0));
         }
 
 
-        Object key = null;
-        double baseValue = 0, targetValue = 0;
-        Iterator resultsIter = consolBaseResult.keySet().iterator();
+        Objfdt kfy = null;
+        doublf bbsfVbluf = 0, tbrgftVbluf = 0;
+        Itfrbtor rfsultsItfr = donsolBbsfRfsult.kfySft().itfrbtor();
 
-        while(resultsIter.hasNext()) {
+        wiilf(rfsultsItfr.ibsNfxt()) {
 
-            key = resultsIter.next();
+            kfy = rfsultsItfr.nfxt();
 
-            baseValue = ((Double) consolBaseResult.get(key)).doubleValue();
-            targetValue = ((Double) consolTargetResult.get(key)).doubleValue();
+            bbsfVbluf = ((Doublf) donsolBbsfRfsult.gft(kfy)).doublfVbluf();
+            tbrgftVbluf = ((Doublf) donsolTbrgftRfsult.gft(kfy)).doublfVbluf();
 
-            tempGroup = getGroup(key.toString());
+            tfmpGroup = gftGroup(kfy.toString());
 
-            Object curTotalScoreObj = null;
-            double curTotalScore = 0;
+            Objfdt durTotblSdorfObj = null;
+            doublf durTotblSdorf = 0;
 
-            curTotalScoreObj = baseValuesMap.get(tempGroup);
-            if(curTotalScoreObj != null) {
-                curTotalScore = ((Double) curTotalScoreObj).doubleValue();
+            durTotblSdorfObj = bbsfVblufsMbp.gft(tfmpGroup);
+            if(durTotblSdorfObj != null) {
+                durTotblSdorf = ((Doublf) durTotblSdorfObj).doublfVbluf();
             }
-            curTotalScore = curTotalScore + baseValue;
-            baseValuesMap.put(tempGroup, new Double(curTotalScore));
+            durTotblSdorf = durTotblSdorf + bbsfVbluf;
+            bbsfVblufsMbp.put(tfmpGroup, nfw Doublf(durTotblSdorf));
 
-            curTotalScore = 0;
-            curTotalScoreObj = targetValuesMap.get(tempGroup);
-            if(curTotalScoreObj != null) {
-                curTotalScore = ((Double) curTotalScoreObj).doubleValue();
+            durTotblSdorf = 0;
+            durTotblSdorfObj = tbrgftVblufsMbp.gft(tfmpGroup);
+            if(durTotblSdorfObj != null) {
+                durTotblSdorf = ((Doublf) durTotblSdorfObj).doublfVbluf();
             }
-            curTotalScore = curTotalScore + targetValue;
-            targetValuesMap.put(tempGroup, new Double(curTotalScore));
+            durTotblSdorf = durTotblSdorf + tbrgftVbluf;
+            tbrgftVblufsMbp.put(tfmpGroup, nfw Doublf(durTotblSdorf));
         }
 
-        writer.println("<A NAME=\"results_summary\"></A>" +
-                       "<H3>Results Summary:</H3>");
-        writer.println("<table cols=\"4\" cellspacing=\"0\" " +
-                       "cellpadding=\"3\" border=\"1\" width=\"80%\">");
-        writer.println("<TR BGCOLOR=\"#CCCCFF\">");
-        writer.println("<TD><B>Testcase</B></TD>");
-        writer.println("<TD align=\"center\"><B>Score for " + baseBuild +
+        writfr.println("<A NAME=\"rfsults_summbry\"></A>" +
+                       "<H3>Rfsults Summbry:</H3>");
+        writfr.println("<tbblf dols=\"4\" dfllspbding=\"0\" " +
+                       "dfllpbdding=\"3\" bordfr=\"1\" widti=\"80%\">");
+        writfr.println("<TR BGCOLOR=\"#CCCCFF\">");
+        writfr.println("<TD><B>Tfstdbsf</B></TD>");
+        writfr.println("<TD blign=\"dfntfr\"><B>Sdorf for " + bbsfBuild +
                        "</B></TD>");
-        writer.println("<TD align=\"center\"><B>Score for " + targetBuild +
+        writfr.println("<TD blign=\"dfntfr\"><B>Sdorf for " + tbrgftBuild +
                        "</B></TD>");
-        writer.println("<TD align=\"center\"><B>% Speedup</TD>");
-        writer.println("</TR>");
+        writfr.println("<TD blign=\"dfntfr\"><B>% Spffdup</TD>");
+        writfr.println("</TR>");
 
-        StringBuffer betterResultTags = new StringBuffer();
-        StringBuffer sameResultTags = new StringBuffer();
-        StringBuffer worseResultTags = new StringBuffer();
+        StringBufffr bfttfrRfsultTbgs = nfw StringBufffr();
+        StringBufffr sbmfRfsultTbgs = nfw StringBufffr();
+        StringBufffr worsfRfsultTbgs = nfw StringBufffr();
 
-        resultsIter = baseValuesMap.keySet().iterator();
+        rfsultsItfr = bbsfVblufsMbp.kfySft().itfrbtor();
 
-        double speedup = 0;
+        doublf spffdup = 0;
 
-        while(resultsIter.hasNext()) {
+        wiilf(rfsultsItfr.ibsNfxt()) {
 
-            key = resultsIter.next();
+            kfy = rfsultsItfr.nfxt();
 
-            baseValue = ((Double) baseValuesMap.get(key)).doubleValue();
-            targetValue = ((Double) targetValuesMap.get(key)).doubleValue();
-            speedup = calculateSpeedupPercentage(baseValue, targetValue);
+            bbsfVbluf = ((Doublf) bbsfVblufsMbp.gft(kfy)).doublfVbluf();
+            tbrgftVbluf = ((Doublf) tbrgftVblufsMbp.gft(kfy)).doublfVbluf();
+            spffdup = dbldulbtfSpffdupPfrdfntbgf(bbsfVbluf, tbrgftVbluf);
 
-            int selColorIndex = selectColor(baseValue, targetValue);
+            int sflColorIndfx = sflfdtColor(bbsfVbluf, tbrgftVbluf);
 
-            String tcFileName = key.toString().replace('.', '_');
-            tcFileName = tcFileName.toLowerCase() + ".html";
+            String tdFilfNbmf = kfy.toString().rfplbdf('.', '_');
+            tdFilfNbmf = tdFilfNbmf.toLowfrCbsf() + ".itml";
 
-            switch(selColorIndex) {
-                case 0:
-                    betterResultTags.append("<tr bgcolor=\""+
-                                            color[selColorIndex] + "\">");
-                    betterResultTags.append("<td><a href=" +
-                        "\"Testcase_Summary_Report.html#status_" + key +
-                                            "\">" + groupNames.get(key) +
-                                            "</a></td>");
-                    betterResultTags.append("<td align=\"center\">" +
-                                            decimalFormat.format(baseValue) +
+            switdi(sflColorIndfx) {
+                dbsf 0:
+                    bfttfrRfsultTbgs.bppfnd("<tr bgdolor=\""+
+                                            dolor[sflColorIndfx] + "\">");
+                    bfttfrRfsultTbgs.bppfnd("<td><b irff=" +
+                        "\"Tfstdbsf_Summbry_Rfport.itml#stbtus_" + kfy +
+                                            "\">" + groupNbmfs.gft(kfy) +
+                                            "</b></td>");
+                    bfttfrRfsultTbgs.bppfnd("<td blign=\"dfntfr\">" +
+                                            dfdimblFormbt.formbt(bbsfVbluf) +
                                             "</td>");
-                    betterResultTags.append("<td align=\"center\">" +
-                                            decimalFormat.format(targetValue) +
+                    bfttfrRfsultTbgs.bppfnd("<td blign=\"dfntfr\">" +
+                                            dfdimblFormbt.formbt(tbrgftVbluf) +
                                             "</td>");
-                    betterResultTags.append("<td align=\"center\">" +
-                                            decimalFormat.format(speedup) +
+                    bfttfrRfsultTbgs.bppfnd("<td blign=\"dfntfr\">" +
+                                            dfdimblFormbt.formbt(spffdup) +
                                             "</td>");
-                    betterResultTags.append("</tr>");
-                    break;
-                case 1:
-                    sameResultTags.append("<tr bgcolor=\""+
-                                          color[selColorIndex] + "\">");
-                    sameResultTags.append("<td>" +
-                        "<a href=\"Testcase_Summary_Report.html#status_" + key +
-                                          "\">" + groupNames.get(key) +
-                                          "</a></td>");
-                    sameResultTags.append("<td align=\"center\">" +
-                                          decimalFormat.format(baseValue) +
+                    bfttfrRfsultTbgs.bppfnd("</tr>");
+                    brfbk;
+                dbsf 1:
+                    sbmfRfsultTbgs.bppfnd("<tr bgdolor=\""+
+                                          dolor[sflColorIndfx] + "\">");
+                    sbmfRfsultTbgs.bppfnd("<td>" +
+                        "<b irff=\"Tfstdbsf_Summbry_Rfport.itml#stbtus_" + kfy +
+                                          "\">" + groupNbmfs.gft(kfy) +
+                                          "</b></td>");
+                    sbmfRfsultTbgs.bppfnd("<td blign=\"dfntfr\">" +
+                                          dfdimblFormbt.formbt(bbsfVbluf) +
                                           "</td>");
-                    sameResultTags.append("<td align=\"center\">" +
-                                          decimalFormat.format(targetValue) +
+                    sbmfRfsultTbgs.bppfnd("<td blign=\"dfntfr\">" +
+                                          dfdimblFormbt.formbt(tbrgftVbluf) +
                                           "</td>");
-                    sameResultTags.append("<td align=\"center\">" +
-                                          decimalFormat.format(speedup) +
+                    sbmfRfsultTbgs.bppfnd("<td blign=\"dfntfr\">" +
+                                          dfdimblFormbt.formbt(spffdup) +
                                           "</td>");
-                    sameResultTags.append("</tr>");
-                    break;
-                case 2:
-                    worseResultTags.append("<tr bgcolor=\""+
-                                           color[selColorIndex] + "\">");
-                    worseResultTags.append("<td>" +
-                        "<a href=\"Testcase_Summary_Report.html#status_" + key +
-                                           "\">" + groupNames.get(key) +
-                                           "</a></td>");
-                    worseResultTags.append("<td align=\"center\">" +
-                                           decimalFormat.format(baseValue) +
+                    sbmfRfsultTbgs.bppfnd("</tr>");
+                    brfbk;
+                dbsf 2:
+                    worsfRfsultTbgs.bppfnd("<tr bgdolor=\""+
+                                           dolor[sflColorIndfx] + "\">");
+                    worsfRfsultTbgs.bppfnd("<td>" +
+                        "<b irff=\"Tfstdbsf_Summbry_Rfport.itml#stbtus_" + kfy +
+                                           "\">" + groupNbmfs.gft(kfy) +
+                                           "</b></td>");
+                    worsfRfsultTbgs.bppfnd("<td blign=\"dfntfr\">" +
+                                           dfdimblFormbt.formbt(bbsfVbluf) +
                                            "</td>");
-                    worseResultTags.append("<td align=\"center\">" +
-                                           decimalFormat.format(targetValue) +
+                    worsfRfsultTbgs.bppfnd("<td blign=\"dfntfr\">" +
+                                           dfdimblFormbt.formbt(tbrgftVbluf) +
                                            "</td>");
-                    worseResultTags.append("<td align=\"center\">" +
-                                           decimalFormat.format(speedup) +
+                    worsfRfsultTbgs.bppfnd("<td blign=\"dfntfr\">" +
+                                           dfdimblFormbt.formbt(spffdup) +
                                            "</td>");
-                    worseResultTags.append("</tr>");
-                    break;
+                    worsfRfsultTbgs.bppfnd("</tr>");
+                    brfbk;
             }
         }
 
-        writer.println(betterResultTags.toString());
-        writer.flush();
+        writfr.println(bfttfrRfsultTbgs.toString());
+        writfr.flusi();
 
-        writer.println(sameResultTags.toString());
-        writer.flush();
+        writfr.println(sbmfRfsultTbgs.toString());
+        writfr.flusi();
 
-        writer.println(worseResultTags.toString());
-        writer.flush();
+        writfr.println(worsfRfsultTbgs.toString());
+        writfr.flusi();
 
-        writer.println("</table>");
+        writfr.println("</tbblf>");
 
-        writer.println(getFooter());
-        writer.flush();
-        writer.close();
+        writfr.println(gftFootfr());
+        writfr.flusi();
+        writfr.dlosf();
     }
 
     /**
-     * Generate Testcase Summary Report - Testcase_Summary_Report.html
+     * Gfnfrbtf Tfstdbsf Summbry Rfport - Tfstdbsf_Summbry_Rfport.itml
      */
-    private static void generateTestCaseSummaryReport(
-        J2DAnalyzer.SingleResultSetHolder baseSRSH,
-        J2DAnalyzer.SingleResultSetHolder targetSRSH,
-        Map consolBaseResult,
-        Map consolTargetResult,
-        Map testCaseBaseResult,
-        Map testCaseResultCount,
-        Map testCaseTargetResult) {
+    privbtf stbtid void gfnfrbtfTfstCbsfSummbryRfport(
+        J2DAnblyzfr.SinglfRfsultSftHoldfr bbsfSRSH,
+        J2DAnblyzfr.SinglfRfsultSftHoldfr tbrgftSRSH,
+        Mbp donsolBbsfRfsult,
+        Mbp donsolTbrgftRfsult,
+        Mbp tfstCbsfBbsfRfsult,
+        Mbp tfstCbsfRfsultCount,
+        Mbp tfstCbsfTbrgftRfsult) {
 
-        File tcSummaryReportFile =
-            new File(resultsDir, "Testcase_Summary_Report.html");
-        PrintWriter writer =
-            openFile(tcSummaryReportFile.getAbsolutePath(), HTMLGEN_FILE_NEW);
+        Filf tdSummbryRfportFilf =
+            nfw Filf(rfsultsDir, "Tfstdbsf_Summbry_Rfport.itml");
+        PrintWritfr writfr =
+            opfnFilf(tdSummbryRfportFilf.gftAbsolutfPbti(), HTMLGEN_FILE_NEW);
 
-        String header = getHeader(baseSRSH, targetSRSH,
-                                  "J2DBench - Testcase Summary Report",
-                                  "System_Properties.html");
-        writer.println(header);
-        writer.flush();
+        String ifbdfr = gftHfbdfr(bbsfSRSH, tbrgftSRSH,
+                                  "J2DBfndi - Tfstdbsf Summbry Rfport",
+                                  "Systfm_Propfrtifs.itml");
+        writfr.println(ifbdfr);
+        writfr.flusi();
 
-        StringBuffer testResultsStartBuffer = new StringBuffer();
-        testResultsStartBuffer.append("<TR BGCOLOR=\"#CCCCFF\">");
-        testResultsStartBuffer.append("<TD><B>Testcase</B></TD>");
-        testResultsStartBuffer.append("<TD align=\"center\"><B>Score for " +
-                                      baseBuild + "</B></TD>");
-        testResultsStartBuffer.append("<TD align=\"center\"><B>Score for " +
-                                     targetBuild + "</B></TD>");
-        testResultsStartBuffer.append("<TD align=\"center\"><B>% Speedup</TD>");
-        testResultsStartBuffer.append("</TR>");
+        StringBufffr tfstRfsultsStbrtBufffr = nfw StringBufffr();
+        tfstRfsultsStbrtBufffr.bppfnd("<TR BGCOLOR=\"#CCCCFF\">");
+        tfstRfsultsStbrtBufffr.bppfnd("<TD><B>Tfstdbsf</B></TD>");
+        tfstRfsultsStbrtBufffr.bppfnd("<TD blign=\"dfntfr\"><B>Sdorf for " +
+                                      bbsfBuild + "</B></TD>");
+        tfstRfsultsStbrtBufffr.bppfnd("<TD blign=\"dfntfr\"><B>Sdorf for " +
+                                     tbrgftBuild + "</B></TD>");
+        tfstRfsultsStbrtBufffr.bppfnd("<TD blign=\"dfntfr\"><B>% Spffdup</TD>");
+        tfstRfsultsStbrtBufffr.bppfnd("</TR>");
 
-        StringBuffer testResultsScoreBuffer = new StringBuffer();
-        testResultsScoreBuffer.append("<table cols=\"4\" cellspacing=\"0\" " +
-                                      "cellpadding=\"3\" border=\"1\" " +
-                                      "width=\"80%\">");
+        StringBufffr tfstRfsultsSdorfBufffr = nfw StringBufffr();
+        tfstRfsultsSdorfBufffr.bppfnd("<tbblf dols=\"4\" dfllspbding=\"0\" " +
+                                      "dfllpbdding=\"3\" bordfr=\"1\" " +
+                                      "widti=\"80%\">");
 
-        StringBuffer betterResultTags = new StringBuffer();
-        StringBuffer sameResultTags = new StringBuffer();
-        StringBuffer worseResultTags = new StringBuffer();
+        StringBufffr bfttfrRfsultTbgs = nfw StringBufffr();
+        StringBufffr sbmfRfsultTbgs = nfw StringBufffr();
+        StringBufffr worsfRfsultTbgs = nfw StringBufffr();
 
-        Double baseValue = null, targetValue = null;
+        Doublf bbsfVbluf = null, tbrgftVbluf = null;
 
-        String curGroupName = null;
-        String curTestName = null;
+        String durGroupNbmf = null;
+        String durTfstNbmf = null;
 
-        Object[] groupNameArray = groups.toArray();
-        Arrays.sort(groupNameArray);
+        Objfdt[] groupNbmfArrby = groups.toArrby();
+        Arrbys.sort(groupNbmfArrby);
 
-        Object[] testCaseList = consolBaseResult.keySet().toArray();
-        Arrays.sort(testCaseList);
+        Objfdt[] tfstCbsfList = donsolBbsfRfsult.kfySft().toArrby();
+        Arrbys.sort(tfstCbsfList);
 
-        writer.println("<br><hr size=\"1\"><br>");
-        writer.println("<A NAME=\"status\"></A><H3>Status:</H3>");
+        writfr.println("<br><ir sizf=\"1\"><br>");
+        writfr.println("<A NAME=\"stbtus\"></A><H3>Stbtus:</H3>");
 
-        writer.println("<table cellspacing=\"0\" " +
-                       "cellpadding=\"3\" border=\"1\" width=\"80%\">");
+        writfr.println("<tbblf dfllspbding=\"0\" " +
+                       "dfllpbdding=\"3\" bordfr=\"1\" widti=\"80%\">");
 
-        for(int j=0; j<groupNameArray.length; j++) {
+        for(int j=0; j<groupNbmfArrby.lfngti; j++) {
 
             if(j != 0) {
-                testResultsScoreBuffer.append("<tr><td colspan=\"4\">&nbsp;" +
+                tfstRfsultsSdorfBufffr.bppfnd("<tr><td dolspbn=\"4\">&nbsp;" +
                                               "<br>&nbsp;</td></tr>");
-                writer.println("<tr><td colspan=\"5\">&nbsp;<br>&nbsp;" +
+                writfr.println("<tr><td dolspbn=\"5\">&nbsp;<br>&nbsp;" +
                                "</td></tr>");
             }
 
-            curGroupName = groupNameArray[j].toString();
+            durGroupNbmf = groupNbmfArrby[j].toString();
 
-            writer.println("<tr><td colspan=\"5\" valign=\"center\" " +
-                           "bgcolor=\"#f0f0f0\">" +
-                           "<A NAME=\"status_" + curGroupName + "\"></A>" +
-                           "<font size=\"+1\">Status - " +
-                           groupNames.get(curGroupName) + "</font></td></tr>");
-            writer.println("<tr>");
-            writer.println("<td bgcolor=\"#CCCCFF\"><b>Tests " +
-                           "Performance</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writfr.println("<tr><td dolspbn=\"5\" vblign=\"dfntfr\" " +
+                           "bgdolor=\"#f0f0f0\">" +
+                           "<A NAME=\"stbtus_" + durGroupNbmf + "\"></A>" +
+                           "<font sizf=\"+1\">Stbtus - " +
+                           groupNbmfs.gft(durGroupNbmf) + "</font></td></tr>");
+            writfr.println("<tr>");
+            writfr.println("<td bgdolor=\"#CCCCFF\"><b>Tfsts " +
+                           "Pfrformbndf</b></td>");
+            writfr.println("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
                            "<b>BETTER (Num / %)</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writfr.println("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
                            "<b>SAME (Num / %)</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writfr.println("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
                            "<b>WORSE (Num / %)</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                           "<b>Total</b></td>");
-            writer.println("</tr>");
-            writer.flush();
+            writfr.println("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
+                           "<b>Totbl</b></td>");
+            writfr.println("</tr>");
+            writfr.flusi();
 
-            testResultsScoreBuffer.append("<tr><td colspan=\"4\" " +
-                                          "valign=\"center\" " +
-                                          "bgcolor=\"#f0f0f0\">" +
-                                          "<A NAME=\"test_result_" +
-                                          curGroupName +
-                                          "\"></A><font size=\"+1\">" +
-                                          "Test Results - " +
-                                          groupNames.get(curGroupName) +
+            tfstRfsultsSdorfBufffr.bppfnd("<tr><td dolspbn=\"4\" " +
+                                          "vblign=\"dfntfr\" " +
+                                          "bgdolor=\"#f0f0f0\">" +
+                                          "<A NAME=\"tfst_rfsult_" +
+                                          durGroupNbmf +
+                                          "\"></A><font sizf=\"+1\">" +
+                                          "Tfst Rfsults - " +
+                                          groupNbmfs.gft(durGroupNbmf) +
                                           "</font></td></tr>");
-            testResultsScoreBuffer.append(testResultsStartBuffer);
+            tfstRfsultsSdorfBufffr.bppfnd(tfstRfsultsStbrtBufffr);
 
-            String tableTags[] = null;
+            String tbblfTbgs[] = null;
 
-            for(int i=0; i<testCaseList.length; i++) {
+            for(int i=0; i<tfstCbsfList.lfngti; i++) {
 
-                curTestName = testCaseList[i].toString();
+                durTfstNbmf = tfstCbsfList[i].toString();
 
-                if(curTestName.startsWith(curGroupName)) {
+                if(durTfstNbmf.stbrtsWiti(durGroupNbmf)) {
 
-                    tableTags = generateTestCaseReport(
-                        curGroupName, curTestName, baseSRSH, targetSRSH,
-                        testCaseResultCount, testCaseBaseResult,
-                        testCaseTargetResult);
+                    tbblfTbgs = gfnfrbtfTfstCbsfRfport(
+                        durGroupNbmf, durTfstNbmf, bbsfSRSH, tbrgftSRSH,
+                        tfstCbsfRfsultCount, tfstCbsfBbsfRfsult,
+                        tfstCbsfTbrgftRfsult);
 
-                    writer.println(tableTags[0]);
-                    writer.flush();
+                    writfr.println(tbblfTbgs[0]);
+                    writfr.flusi();
 
-                    testResultsScoreBuffer.append(tableTags[1]);
+                    tfstRfsultsSdorfBufffr.bppfnd(tbblfTbgs[1]);
                 }
             }
         }
 
-        testResultsScoreBuffer.append("</table>");
-        writer.println("</table>");
+        tfstRfsultsSdorfBufffr.bppfnd("</tbblf>");
+        writfr.println("</tbblf>");
 
-        writer.println("<br><hr size=\"1\"><br>");
-        writer.println("<A NAME=\"test_results\"></A><H3>Test Results:</H3>");
-        writer.println(testResultsScoreBuffer.toString());
-        writer.flush();
+        writfr.println("<br><ir sizf=\"1\"><br>");
+        writfr.println("<A NAME=\"tfst_rfsults\"></A><H3>Tfst Rfsults:</H3>");
+        writfr.println(tfstRfsultsSdorfBufffr.toString());
+        writfr.flusi();
 
-        writer.println(getFooter());
-        writer.flush();
+        writfr.println(gftFootfr());
+        writfr.flusi();
 
-        writer.close();
+        writfr.dlosf();
     }
 
     /**
      *|----------|------------------------|--------------------------|-----------|
-     *| Testcase | Score for <base build> | Score for <target build> | % Speedup |
+     *| Tfstdbsf | Sdorf for <bbsf build> | Sdorf for <tbrgft build> | % Spffdup |
      *|----------|------------------------|--------------------------|-----------|
      *
      */
-    private static String getTestResultsTableForSummary(String testName,
-                                                        double baseScore,
-                                                        double targetScore)
+    privbtf stbtid String gftTfstRfsultsTbblfForSummbry(String tfstNbmf,
+                                                        doublf bbsfSdorf,
+                                                        doublf tbrgftSdorf)
     {
 
-        double totalScore = baseScore + targetScore;
+        doublf totblSdorf = bbsfSdorf + tbrgftSdorf;
 
-        String fileName = testName.replace('.', '_');
-        fileName = fileName.toLowerCase() + ".html";
+        String filfNbmf = tfstNbmf.rfplbdf('.', '_');
+        filfNbmf = filfNbmf.toLowfrCbsf() + ".itml";
 
-        int selColorIndex = selectColor(baseScore, targetScore);
+        int sflColorIndfx = sflfdtColor(bbsfSdorf, tbrgftSdorf);
 
-        StringBuffer buffer = new StringBuffer();
+        StringBufffr bufffr = nfw StringBufffr();
 
-        buffer.append("<TR BGCOLOR=\"" + color[selColorIndex] + "\">");
-        buffer.append("<TD><P><A HREF=\"testcases/" + fileName +
-                      "\">" + testName + "</A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"testcases/" +
-                      fileName +
-                      "\"><B>" + decimalFormat.format(baseScore) +
+        bufffr.bppfnd("<TR BGCOLOR=\"" + dolor[sflColorIndfx] + "\">");
+        bufffr.bppfnd("<TD><P><A HREF=\"tfstdbsfs/" + filfNbmf +
+                      "\">" + tfstNbmf + "</A></P></TD>");
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><P><A HREF=\"tfstdbsfs/" +
+                      filfNbmf +
+                      "\"><B>" + dfdimblFormbt.formbt(bbsfSdorf) +
                       "</B></A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"testcases/" +
-                      fileName + "\"><B>" + decimalFormat.format(targetScore) +
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><P><A HREF=\"tfstdbsfs/" +
+                      filfNbmf + "\"><B>" + dfdimblFormbt.formbt(tbrgftSdorf) +
                       "</B></A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"testcases/" +
-                      fileName + "\"><B>" +
-                      decimalFormat.format(calculateSpeedupPercentage(
-                          baseScore,
-                          targetScore)) +
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><P><A HREF=\"tfstdbsfs/" +
+                      filfNbmf + "\"><B>" +
+                      dfdimblFormbt.formbt(dbldulbtfSpffdupPfrdfntbgf(
+                          bbsfSdorf,
+                          tbrgftSdorf)) +
                       "</B></A></P></TD>");
-        buffer.append("</TR>");
+        bufffr.bppfnd("</TR>");
 
-        return buffer.toString();
+        rfturn bufffr.toString();
     }
 
     /**
      *|-------------------|-------------------|-----------------|-------------------|--------|
-     *| Tests Performance | BETTER  (Num / %) | SAME  (Num / %) | WORSE  ( Num / %) | Total  |
+     *| Tfsts Pfrformbndf | BETTER  (Num / %) | SAME  (Num / %) | WORSE  ( Num / %) | Totbl  |
      *|-------------------|-------------------|-----------------|-------------------|--------|
      *
      */
-    private static String getStatusTableForSummary(
-        String curGroupName, String testName, int nBetter,
-        int nSame, int nWorse)
+    privbtf stbtid String gftStbtusTbblfForSummbry(
+        String durGroupNbmf, String tfstNbmf, int nBfttfr,
+        int nSbmf, int nWorsf)
     {
 
-        String fileName = testName.replace('.', '_');
-        fileName = fileName.toLowerCase() + ".html";
+        String filfNbmf = tfstNbmf.rfplbdf('.', '_');
+        filfNbmf = filfNbmf.toLowfrCbsf() + ".itml";
 
-        int totalTests = nBetter + nSame + nWorse;
+        int totblTfsts = nBfttfr + nSbmf + nWorsf;
 
-        StringBuffer buffer = new StringBuffer();
+        StringBufffr bufffr = nfw StringBufffr();
 
-        buffer.append("<TR>");
-        buffer.append("<TD><P><A HREF=\"#test_result_" + curGroupName +
-                      "\">" + testName + "</A></P></TD>");
-        buffer.append("<TD BGCOLOR=\"#99FF99\" align=\"center\"><P>" +
-                      "<A HREF=\"#test_result_" + curGroupName +
-                      "\"><B>" + nBetter + "</A></B>&nbsp;&nbsp;&nbsp;&nbsp;(" +
-                      (nBetter * 100)/totalTests + "%)</P></TD>");
-        buffer.append("<TD BGCOLOR=\"#CCFFFF\" align=\"center\"><P>" +
-                      "<A HREF=\"#test_result_" + curGroupName +
-                      "\"><B>" + nSame + "</A></B>&nbsp;&nbsp;&nbsp;&nbsp;(" +
-                      (nSame * 100)/totalTests + "%)</P></TD>");
-        buffer.append("<TD BGCOLOR=\"#FFCC00\" align=\"center\"><P>" +
-                      "<A HREF=\"#test_result_" + curGroupName +
-                      "\"><B>" + nWorse + "</A></B>&nbsp;&nbsp;&nbsp;&nbsp;(" +
-                      (nWorse * 100)/totalTests + "%)</P></TD>");
-        buffer.append("<TD BGCOLOR=\"#FFFFFF\" align=\"center\"><P>" +
-                      "<A HREF=\"#test_result_" + curGroupName +
-                      "\"><B>" + totalTests + "</B></A></P></TD>");
-        buffer.append("</TR>");
+        bufffr.bppfnd("<TR>");
+        bufffr.bppfnd("<TD><P><A HREF=\"#tfst_rfsult_" + durGroupNbmf +
+                      "\">" + tfstNbmf + "</A></P></TD>");
+        bufffr.bppfnd("<TD BGCOLOR=\"#99FF99\" blign=\"dfntfr\"><P>" +
+                      "<A HREF=\"#tfst_rfsult_" + durGroupNbmf +
+                      "\"><B>" + nBfttfr + "</A></B>&nbsp;&nbsp;&nbsp;&nbsp;(" +
+                      (nBfttfr * 100)/totblTfsts + "%)</P></TD>");
+        bufffr.bppfnd("<TD BGCOLOR=\"#CCFFFF\" blign=\"dfntfr\"><P>" +
+                      "<A HREF=\"#tfst_rfsult_" + durGroupNbmf +
+                      "\"><B>" + nSbmf + "</A></B>&nbsp;&nbsp;&nbsp;&nbsp;(" +
+                      (nSbmf * 100)/totblTfsts + "%)</P></TD>");
+        bufffr.bppfnd("<TD BGCOLOR=\"#FFCC00\" blign=\"dfntfr\"><P>" +
+                      "<A HREF=\"#tfst_rfsult_" + durGroupNbmf +
+                      "\"><B>" + nWorsf + "</A></B>&nbsp;&nbsp;&nbsp;&nbsp;(" +
+                      (nWorsf * 100)/totblTfsts + "%)</P></TD>");
+        bufffr.bppfnd("<TD BGCOLOR=\"#FFFFFF\" blign=\"dfntfr\"><P>" +
+                      "<A HREF=\"#tfst_rfsult_" + durGroupNbmf +
+                      "\"><B>" + totblTfsts + "</B></A></P></TD>");
+        bufffr.bppfnd("</TR>");
 
-        return buffer.toString();
+        rfturn bufffr.toString();
     }
 
     /**
      *  |-------------------|-----------------|------------------------------|
-     *  | Tests performance | Number of tests | % from total number of tests |
+     *  | Tfsts pfrformbndf | Numbfr of tfsts | % from totbl numbfr of tfsts |
      *  |-------------------|-----------------|------------------------------|
      *
      */
-    private static String getPerformanceTableForTestcase(
-        String testName, int nBetter, int nSame, int nWorse) {
+    privbtf stbtid String gftPfrformbndfTbblfForTfstdbsf(
+        String tfstNbmf, int nBfttfr, int nSbmf, int nWorsf) {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBufffr bufffr = nfw StringBufffr();
 
-        int totalTests = nBetter + nSame + nWorse;
+        int totblTfsts = nBfttfr + nSbmf + nWorsf;
 
-        buffer.append("<hr size=\"1\">");
-        buffer.append("<H3>Status:</H3>");
+        bufffr.bppfnd("<ir sizf=\"1\">");
+        bufffr.bppfnd("<H3>Stbtus:</H3>");
 
-        buffer.append("<table cols=\"4\" cellspacing=\"0\" " +
-                      "cellpadding=\"3\" border=\"1\" width=\"80%\">");
-        buffer.append("<TR BGCOLOR=\"#CCCCFF\">");
-        buffer.append("<TD align=\"center\"><B>Tests performance</B></TD>");
-        buffer.append("<TD align=\"center\"><B>Number of tests</B></TD>");
-        buffer.append("<TD align=\"center\"><B>% from total number of " +
-                      "tests</B></TD>");
-        buffer.append("</TR>");
+        bufffr.bppfnd("<tbblf dols=\"4\" dfllspbding=\"0\" " +
+                      "dfllpbdding=\"3\" bordfr=\"1\" widti=\"80%\">");
+        bufffr.bppfnd("<TR BGCOLOR=\"#CCCCFF\">");
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><B>Tfsts pfrformbndf</B></TD>");
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><B>Numbfr of tfsts</B></TD>");
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><B>% from totbl numbfr of " +
+                      "tfsts</B></TD>");
+        bufffr.bppfnd("</TR>");
 
-        buffer.append("<TR BGCOLOR=\"#99FF99\">");
-        buffer.append("<TD><P><A HREF=\"#better\">" +
-                      "Target is at least 10 percent BETTER</A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"#better\"><B>" +
-                      nBetter + "</B></A></P></TD>");
-        buffer.append("<TD align=\"center\"><P>" + (nBetter * 100/totalTests) +
+        bufffr.bppfnd("<TR BGCOLOR=\"#99FF99\">");
+        bufffr.bppfnd("<TD><P><A HREF=\"#bfttfr\">" +
+                      "Tbrgft is bt lfbst 10 pfrdfnt BETTER</A></P></TD>");
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><P><A HREF=\"#bfttfr\"><B>" +
+                      nBfttfr + "</B></A></P></TD>");
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><P>" + (nBfttfr * 100/totblTfsts) +
                       "</P></TD>");
-        buffer.append("</TR>");
+        bufffr.bppfnd("</TR>");
 
-        buffer.append("<TR BGCOLOR=\"#CCFFFF\">");
-        buffer.append("<TD><P><A HREF=\"#same\">" +
-                      "The same within 10 percent</A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"#same\"><B>" +
-                      nSame + "</B></A></P></TD>");
-        buffer.append("<TD align=\"center\"><P>" + (nSame * 100/totalTests) +
+        bufffr.bppfnd("<TR BGCOLOR=\"#CCFFFF\">");
+        bufffr.bppfnd("<TD><P><A HREF=\"#sbmf\">" +
+                      "Tif sbmf witiin 10 pfrdfnt</A></P></TD>");
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><P><A HREF=\"#sbmf\"><B>" +
+                      nSbmf + "</B></A></P></TD>");
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><P>" + (nSbmf * 100/totblTfsts) +
                       "</P></TD>");
-        buffer.append("</TR>");
+        bufffr.bppfnd("</TR>");
 
-        buffer.append("<TR BGCOLOR=\"#FFCC00\">");
-        buffer.append("<TD><P><A HREF=\"#worse\">" +
-                      "Target is at least 10 percent WORSE</A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"#worse\"><B>" +
-                      nWorse + "</B></A></P></TD>");
-        buffer.append("<TD align=\"center\"><P>" + (nWorse * 100/totalTests) +
+        bufffr.bppfnd("<TR BGCOLOR=\"#FFCC00\">");
+        bufffr.bppfnd("<TD><P><A HREF=\"#worsf\">" +
+                      "Tbrgft is bt lfbst 10 pfrdfnt WORSE</A></P></TD>");
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><P><A HREF=\"#worsf\"><B>" +
+                      nWorsf + "</B></A></P></TD>");
+        bufffr.bppfnd("<TD blign=\"dfntfr\"><P>" + (nWorsf * 100/totblTfsts) +
                       "</P></TD>");
-        buffer.append("</TR>");
+        bufffr.bppfnd("</TR>");
 
-        buffer.append("</TABLE>");
+        bufffr.bppfnd("</TABLE>");
 
-        return buffer.toString();
+        rfturn bufffr.toString();
     }
 
     /**
      *  |-----------|---------|--------------------|----------------------|------------|
-     *  | Num Units | Options | <base build> Score | <target build> Score | % Speedup  |
+     *  | Num Units | Options | <bbsf build> Sdorf | <tbrgft build> Sdorf | % Spffdup  |
      *  |-----------|---------|--------------------|----------------------|------------|
      *
-     *  String[0] = getStatusTableForSummary()
-     *  String[1] = getTestResultsTableForSummary()
+     *  String[0] = gftStbtusTbblfForSummbry()
+     *  String[1] = gftTfstRfsultsTbblfForSummbry()
      *
-     * Generate Testcase Report - testcases/<testcase name>.html
+     * Gfnfrbtf Tfstdbsf Rfport - tfstdbsfs/<tfstdbsf nbmf>.itml
      */
-    private static String[] generateTestCaseReport(
-        String curGroupName,
-        Object key,
-        J2DAnalyzer.SingleResultSetHolder baseSRSH,
-        J2DAnalyzer.SingleResultSetHolder targetSRSH,
-        Map testCaseResultCount,
-        Map testCaseBaseResult,
-        Map testCaseTargetResult) {
+    privbtf stbtid String[] gfnfrbtfTfstCbsfRfport(
+        String durGroupNbmf,
+        Objfdt kfy,
+        J2DAnblyzfr.SinglfRfsultSftHoldfr bbsfSRSH,
+        J2DAnblyzfr.SinglfRfsultSftHoldfr tbrgftSRSH,
+        Mbp tfstCbsfRfsultCount,
+        Mbp tfstCbsfBbsfRfsult,
+        Mbp tfstCbsfTbrgftRfsult) {
 
-        int numBetterTestCases = 0;
-        int numWorseTestCases = 0;
-        int numSameTestCases = 0;
+        int numBfttfrTfstCbsfs = 0;
+        int numWorsfTfstCbsfs = 0;
+        int numSbmfTfstCbsfs = 0;
 
-        StringBuffer tcStartTags = new StringBuffer();
-        tcStartTags.append("<tr>");
-        tcStartTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        StringBufffr tdStbrtTbgs = nfw StringBufffr();
+        tdStbrtTbgs.bppfnd("<tr>");
+        tdStbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
                            "<b>Num Units</b></td>");
-        tcStartTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        tdStbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
                            "<b>Options</b></td>");
-        tcStartTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\"><b>" +
-                           baseBuild + " Score</b></td>");
-        tcStartTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\"><b>" +
-                           targetBuild + " Score</b></td>");
-        tcStartTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                           "<b>% Speedup</b></td>");
-        tcStartTags.append("</tr>");
+        tdStbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\"><b>" +
+                           bbsfBuild + " Sdorf</b></td>");
+        tdStbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\"><b>" +
+                           tbrgftBuild + " Sdorf</b></td>");
+        tdStbrtTbgs.bppfnd("<td bgdolor=\"#CCCCFF\" blign=\"dfntfr\">" +
+                           "<b>% Spffdup</b></td>");
+        tdStbrtTbgs.bppfnd("</tr>");
 
-        StringBuffer worseTestcaseResultTags =
-            new StringBuffer(tcStartTags.toString());
-        StringBuffer sameTestcaseResultTags =
-            new StringBuffer(tcStartTags.toString());
-        StringBuffer betterTestcaseResultTags =
-            new StringBuffer(tcStartTags.toString());
+        StringBufffr worsfTfstdbsfRfsultTbgs =
+            nfw StringBufffr(tdStbrtTbgs.toString());
+        StringBufffr sbmfTfstdbsfRfsultTbgs =
+            nfw StringBufffr(tdStbrtTbgs.toString());
+        StringBufffr bfttfrTfstdbsfRfsultTbgs =
+            nfw StringBufffr(tdStbrtTbgs.toString());
 
-        Object curTestCountObj = testCaseResultCount.get(key.toString());
-        int curTestCount = 0;
-        if(curTestCountObj != null) {
-            curTestCount = ((Integer) curTestCountObj).intValue();
+        Objfdt durTfstCountObj = tfstCbsfRfsultCount.gft(kfy.toString());
+        int durTfstCount = 0;
+        if(durTfstCountObj != null) {
+            durTfstCount = ((Intfgfr) durTfstCountObj).intVbluf();
         }
 
-        String fileName = key.toString().replace('.', '_');
-        fileName = fileName.toLowerCase() + ".html";
-        File testcaseReportFile =
-            new File(resultsDir + File.separator + "testcases", fileName);
-        PrintWriter writer = openFile(
-            testcaseReportFile.getAbsolutePath(), HTMLGEN_FILE_NEW);
+        String filfNbmf = kfy.toString().rfplbdf('.', '_');
+        filfNbmf = filfNbmf.toLowfrCbsf() + ".itml";
+        Filf tfstdbsfRfportFilf =
+            nfw Filf(rfsultsDir + Filf.sfpbrbtor + "tfstdbsfs", filfNbmf);
+        PrintWritfr writfr = opfnFilf(
+            tfstdbsfRfportFilf.gftAbsolutfPbti(), HTMLGEN_FILE_NEW);
 
-        String header = getHeader(baseSRSH, targetSRSH,
-                                  "J2DBench - " + key.toString(),
-                                  "../System_Properties.html");
-        writer.println(header);
-        writer.flush();
+        String ifbdfr = gftHfbdfr(bbsfSRSH, tbrgftSRSH,
+                                  "J2DBfndi - " + kfy.toString(),
+                                  "../Systfm_Propfrtifs.itml");
+        writfr.println(ifbdfr);
+        writfr.flusi();
 
-        double totalBaseScore = 0;
-        double totalTargetScore = 0;
+        doublf totblBbsfSdorf = 0;
+        doublf totblTbrgftSdorf = 0;
 
-        for(int i=0; i<curTestCount; i++) {
+        for(int i=0; i<durTfstCount; i++) {
 
-            J2DAnalyzer.ResultHolder baseTCR =
-                (J2DAnalyzer.ResultHolder)testCaseBaseResult.get(
-                    key.toString() + "_" + i);
-            J2DAnalyzer.ResultHolder targetTCR =
-                (J2DAnalyzer.ResultHolder) testCaseTargetResult.get(
-                    key.toString() + "_" + i);
+            J2DAnblyzfr.RfsultHoldfr bbsfTCR =
+                (J2DAnblyzfr.RfsultHoldfr)tfstCbsfBbsfRfsult.gft(
+                    kfy.toString() + "_" + i);
+            J2DAnblyzfr.RfsultHoldfr tbrgftTCR =
+                (J2DAnblyzfr.RfsultHoldfr) tfstCbsfTbrgftRfsult.gft(
+                    kfy.toString() + "_" + i);
 
-            double baseScore = baseTCR.getScore();
-            double targetScore = targetTCR.getScore();
+            doublf bbsfSdorf = bbsfTCR.gftSdorf();
+            doublf tbrgftSdorf = tbrgftTCR.gftSdorf();
 
-            StringBuffer tcTagBuffer = new StringBuffer();
+            StringBufffr tdTbgBufffr = nfw StringBufffr();
 
-            int selColorIndex = selectColor(baseScore, targetScore);
-            tcTagBuffer.append("<tr bgcolor=\""+ color[selColorIndex] + "\">");
-            tcTagBuffer.append("<td align=\"center\">" + baseTCR.getUnits() +
+            int sflColorIndfx = sflfdtColor(bbsfSdorf, tbrgftSdorf);
+            tdTbgBufffr.bppfnd("<tr bgdolor=\""+ dolor[sflColorIndfx] + "\">");
+            tdTbgBufffr.bppfnd("<td blign=\"dfntfr\">" + bbsfTCR.gftUnits() +
                                "</td>");
-            tcTagBuffer.append("<td valign=\"center\">");
+            tdTbgBufffr.bppfnd("<td vblign=\"dfntfr\">");
 
-            Map map = baseTCR.getOptions();
-            Iterator iter = map.keySet().iterator();
-            Object subKey=null, subValue=null;
-            tcTagBuffer.append("<ul>");
-            while(iter.hasNext()) {
-                subKey = iter.next().toString();
-                subValue = map.get(subKey).toString();
-                tcTagBuffer.append("<li>" + subKey + " = " +
-                                   subValue + "</li>");
+            Mbp mbp = bbsfTCR.gftOptions();
+            Itfrbtor itfr = mbp.kfySft().itfrbtor();
+            Objfdt subKfy=null, subVbluf=null;
+            tdTbgBufffr.bppfnd("<ul>");
+            wiilf(itfr.ibsNfxt()) {
+                subKfy = itfr.nfxt().toString();
+                subVbluf = mbp.gft(subKfy).toString();
+                tdTbgBufffr.bppfnd("<li>" + subKfy + " = " +
+                                   subVbluf + "</li>");
             }
-            tcTagBuffer.append("</ul></td>");
-            tcTagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                               decimalFormat.format(baseTCR.getScore()) +
+            tdTbgBufffr.bppfnd("</ul></td>");
+            tdTbgBufffr.bppfnd("<td vblign=\"dfntfr\" blign=\"dfntfr\">" +
+                               dfdimblFormbt.formbt(bbsfTCR.gftSdorf()) +
                                "</td>");
-            tcTagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                               decimalFormat.format(targetTCR.getScore()) +
+            tdTbgBufffr.bppfnd("<td vblign=\"dfntfr\" blign=\"dfntfr\">" +
+                               dfdimblFormbt.formbt(tbrgftTCR.gftSdorf()) +
                                "</td>");
-            tcTagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                               decimalFormat.format(
-                                   calculateSpeedupPercentage(
-                                       baseTCR.getScore(),
-                                       targetTCR.getScore())) +
+            tdTbgBufffr.bppfnd("<td vblign=\"dfntfr\" blign=\"dfntfr\">" +
+                               dfdimblFormbt.formbt(
+                                   dbldulbtfSpffdupPfrdfntbgf(
+                                       bbsfTCR.gftSdorf(),
+                                       tbrgftTCR.gftSdorf())) +
                                    "</td>");
-            tcTagBuffer.append("</tr>");
+            tdTbgBufffr.bppfnd("</tr>");
 
-            totalBaseScore = totalBaseScore + baseTCR.getScore();
-            totalTargetScore = totalTargetScore + targetTCR.getScore();
+            totblBbsfSdorf = totblBbsfSdorf + bbsfTCR.gftSdorf();
+            totblTbrgftSdorf = totblTbrgftSdorf + tbrgftTCR.gftSdorf();
 
-            switch(selColorIndex) {
-                case 0:
-                    betterTestcaseResultTags.append(tcTagBuffer.toString());
-                    numBetterTestCases++;
-                    break;
-                case 1:
-                    sameTestcaseResultTags.append(tcTagBuffer.toString());
-                    numSameTestCases++;
-                    break;
-                case 2:
-                    worseTestcaseResultTags.append(tcTagBuffer.toString());
-                    numWorseTestCases++;
-                    break;
+            switdi(sflColorIndfx) {
+                dbsf 0:
+                    bfttfrTfstdbsfRfsultTbgs.bppfnd(tdTbgBufffr.toString());
+                    numBfttfrTfstCbsfs++;
+                    brfbk;
+                dbsf 1:
+                    sbmfTfstdbsfRfsultTbgs.bppfnd(tdTbgBufffr.toString());
+                    numSbmfTfstCbsfs++;
+                    brfbk;
+                dbsf 2:
+                    worsfTfstdbsfRfsultTbgs.bppfnd(tdTbgBufffr.toString());
+                    numWorsfTfstCbsfs++;
+                    brfbk;
             }
         }
 
-        String performanceTable =
-            getPerformanceTableForTestcase(key.toString(),
-                                           numBetterTestCases, numSameTestCases,
-                                           numWorseTestCases);
+        String pfrformbndfTbblf =
+            gftPfrformbndfTbblfForTfstdbsf(kfy.toString(),
+                                           numBfttfrTfstCbsfs, numSbmfTfstCbsfs,
+                                           numWorsfTfstCbsfs);
 
-        writer.println(performanceTable);
-        writer.flush();
+        writfr.println(pfrformbndfTbblf);
+        writfr.flusi();
 
-        writer.println("<hr size=\"1\">");
-        writer.println("<A NAME=\"details\"></A><H3>Details:</H3>");
+        writfr.println("<ir sizf=\"1\">");
+        writfr.println("<A NAME=\"dftbils\"></A><H3>Dftbils:</H3>");
 
-        writer.println("<table cellspacing=\"0\" " +
-                       "cellpadding=\"3\" border=\"1\" width=\"80%\">");
+        writfr.println("<tbblf dfllspbding=\"0\" " +
+                       "dfllpbdding=\"3\" bordfr=\"1\" widti=\"80%\">");
 
-        writer.println("<tr><td colspan=\"5\" " +
-                       "valign=\"center\" bgcolor=\"#f0f0f0\">" +
-                       "<a name=\"better\"></a><font size=\"+1\">" +
-                       key.toString() +
-                       " Tests which run BETTER on target</font></td></tr>");
-        writer.println(betterTestcaseResultTags.toString());
-        writer.flush();
+        writfr.println("<tr><td dolspbn=\"5\" " +
+                       "vblign=\"dfntfr\" bgdolor=\"#f0f0f0\">" +
+                       "<b nbmf=\"bfttfr\"></b><font sizf=\"+1\">" +
+                       kfy.toString() +
+                       " Tfsts wiidi run BETTER on tbrgft</font></td></tr>");
+        writfr.println(bfttfrTfstdbsfRfsultTbgs.toString());
+        writfr.flusi();
 
-        writer.println("<tr><td colspan=\"5\">&nbsp;<br>&nbsp;</td></tr>");
+        writfr.println("<tr><td dolspbn=\"5\">&nbsp;<br>&nbsp;</td></tr>");
 
-        writer.println("<tr><td colspan=\"5\" " +
-                       "valign=\"center\" bgcolor=\"#f0f0f0\">" +
-                       "<a name=\"same\"></a><font size=\"+1\">" +
-                       key.toString() +
-                       " Tests which run SAME on target</font></td></tr>");
-        writer.println(sameTestcaseResultTags.toString());
-        writer.flush();
+        writfr.println("<tr><td dolspbn=\"5\" " +
+                       "vblign=\"dfntfr\" bgdolor=\"#f0f0f0\">" +
+                       "<b nbmf=\"sbmf\"></b><font sizf=\"+1\">" +
+                       kfy.toString() +
+                       " Tfsts wiidi run SAME on tbrgft</font></td></tr>");
+        writfr.println(sbmfTfstdbsfRfsultTbgs.toString());
+        writfr.flusi();
 
-        writer.println("<tr><td colspan=\"5\">&nbsp;<br>&nbsp;</td></tr>");
+        writfr.println("<tr><td dolspbn=\"5\">&nbsp;<br>&nbsp;</td></tr>");
 
-        writer.println("<tr><td colspan=\"5\" " +
-                       "valign=\"center\" bgcolor=\"#f0f0f0\">" +
-                       "<a name=\"worse\"></a><font size=\"+1\">" +
-                       key.toString() +
-                       " Tests which run WORSE on target</font></td></tr>");
-        writer.println(worseTestcaseResultTags.toString());
-        writer.flush();
+        writfr.println("<tr><td dolspbn=\"5\" " +
+                       "vblign=\"dfntfr\" bgdolor=\"#f0f0f0\">" +
+                       "<b nbmf=\"worsf\"></b><font sizf=\"+1\">" +
+                       kfy.toString() +
+                       " Tfsts wiidi run WORSE on tbrgft</font></td></tr>");
+        writfr.println(worsfTfstdbsfRfsultTbgs.toString());
+        writfr.flusi();
 
-        writer.println("</table>");
+        writfr.println("</tbblf>");
 
-        writer.println(getFooter());
-        writer.flush();
+        writfr.println(gftFootfr());
+        writfr.flusi();
 
-        writer.close();
+        writfr.dlosf();
 
-        String statusTable =
-            getStatusTableForSummary(curGroupName, key.toString(),
-                                     numBetterTestCases,
-                                     numSameTestCases, numWorseTestCases);
+        String stbtusTbblf =
+            gftStbtusTbblfForSummbry(durGroupNbmf, kfy.toString(),
+                                     numBfttfrTfstCbsfs,
+                                     numSbmfTfstCbsfs, numWorsfTfstCbsfs);
 
-        String testResultsTable =
-            getTestResultsTableForSummary(key.toString(),
-                                          totalBaseScore, totalTargetScore);
+        String tfstRfsultsTbblf =
+            gftTfstRfsultsTbblfForSummbry(kfy.toString(),
+                                          totblBbsfSdorf, totblTbrgftSdorf);
 
-        return new String[] {statusTable, testResultsTable};
+        rfturn nfw String[] {stbtusTbblf, tfstRfsultsTbblf};
     }
 
     /**
-     * Returns footer tag for HTML files
+     * Rfturns footfr tbg for HTML filfs
      */
-    private static String getFooter() {
+    privbtf stbtid String gftFootfr() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBufffr bufffr = nfw StringBufffr();
 
-        buffer.append("<br><hr WIDTH=\"100%\" size=\"1\">");
-        buffer.append("<A NAME=\"legend\"></A><H3>Legend:</H3>");
-        buffer.append("<table cellspacing=\"0\" cellpadding=\"3\" " +
-                      "border=\"1\" width=\"80%\">");
-        buffer.append("<TR BGCOLOR=\"" + color[0] +
-                      "\"><TD>The result for " + targetBuild +
-                      " is at least 10 percent BETTER than for " + baseBuild +
+        bufffr.bppfnd("<br><ir WIDTH=\"100%\" sizf=\"1\">");
+        bufffr.bppfnd("<A NAME=\"lfgfnd\"></A><H3>Lfgfnd:</H3>");
+        bufffr.bppfnd("<tbblf dfllspbding=\"0\" dfllpbdding=\"3\" " +
+                      "bordfr=\"1\" widti=\"80%\">");
+        bufffr.bppfnd("<TR BGCOLOR=\"" + dolor[0] +
+                      "\"><TD>Tif rfsult for " + tbrgftBuild +
+                      " is bt lfbst 10 pfrdfnt BETTER tibn for " + bbsfBuild +
                       "</TD></TR>");
-        buffer.append("<TR BGCOLOR=\"" + color[1] +
-                      "\"><TD>The results for " + targetBuild + " and " +
-                      baseBuild + " are within 10 percent</TD></TR>");
-        buffer.append("<TR BGCOLOR=\"" + color[2] +
-                      "\"><TD>The result for " + targetBuild +
-                      " is at least 10 percent WORSE than " + baseBuild +
+        bufffr.bppfnd("<TR BGCOLOR=\"" + dolor[1] +
+                      "\"><TD>Tif rfsults for " + tbrgftBuild + " bnd " +
+                      bbsfBuild + " brf witiin 10 pfrdfnt</TD></TR>");
+        bufffr.bppfnd("<TR BGCOLOR=\"" + dolor[2] +
+                      "\"><TD>Tif rfsult for " + tbrgftBuild +
+                      " is bt lfbst 10 pfrdfnt WORSE tibn " + bbsfBuild +
                       "</TD></TR>");
-        buffer.append("<TR><TD>The 'Score' is a number of " +
-                      "successful rendering " +
-                      "operations per second</TD></TR>");
-        buffer.append("</table>");
+        bufffr.bppfnd("<TR><TD>Tif 'Sdorf' is b numbfr of " +
+                      "suddfssful rfndfring " +
+                      "opfrbtions pfr sfdond</TD></TR>");
+        bufffr.bppfnd("</tbblf>");
 
-        buffer.append("<br><hr WIDTH=\"100%\" size=\"1\">");
-        buffer.append("</p><hr WIDTH=\"100%\" size=\"1\"></body></html>");
+        bufffr.bppfnd("<br><ir WIDTH=\"100%\" sizf=\"1\">");
+        bufffr.bppfnd("</p><ir WIDTH=\"100%\" sizf=\"1\"></body></itml>");
 
-        return buffer.toString();
+        rfturn bufffr.toString();
     }
 
     /**
-     * Returns header tag for HTML files
+     * Rfturns ifbdfr tbg for HTML filfs
      */
-    private static String
-        getHeader(J2DAnalyzer.SingleResultSetHolder baseSRSH,
-                  J2DAnalyzer.SingleResultSetHolder targetSRSH,
-                  String title,
-                 String sysPropLoc)
+    privbtf stbtid String
+        gftHfbdfr(J2DAnblyzfr.SinglfRfsultSftHoldfr bbsfSRSH,
+                  J2DAnblyzfr.SinglfRfsultSftHoldfr tbrgftSRSH,
+                  String titlf,
+                 String sysPropLod)
     {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBufffr bufffr = nfw StringBufffr();
 
-        String headerTitle = getHeaderTitle(title);
-        buffer.append(headerTitle);
+        String ifbdfrTitlf = gftHfbdfrTitlf(titlf);
+        bufffr.bppfnd(ifbdfrTitlf);
 
-        //System Properties
-        buffer.append("<tr><td bgcolor=\"#CCCCFF\">" +
-                      "<b><A HREF=\"" + sysPropLoc + "\">System Property</A>" +
+        //Systfm Propfrtifs
+        bufffr.bppfnd("<tr><td bgdolor=\"#CCCCFF\">" +
+                      "<b><A HREF=\"" + sysPropLod + "\">Systfm Propfrty</A>" +
                       "</b></td>" +
-                      "<td bgcolor=\"#CCCCFF\"><b><A HREF=\"" +
-                      sysPropLoc + "\">Value<A></b></td></tr>");
-        Map sysProps = targetSRSH.getProperties();
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">os.name</td><td>" +
-                      sysProps.get("os.name") + "</td></tr>");
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">os.version</td><td>" +
-                      sysProps.get("os.version") + "</td></tr>");
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">os.arch</td><td>" +
-                      sysProps.get("os.arch") + "</td></tr>");
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">sun.desktop</td><td>" +
-                      sysProps.get("sun.desktop") + "</td></tr>");
+                      "<td bgdolor=\"#CCCCFF\"><b><A HREF=\"" +
+                      sysPropLod + "\">Vbluf<A></b></td></tr>");
+        Mbp sysProps = tbrgftSRSH.gftPropfrtifs();
+        bufffr.bppfnd("<tr><td bgdolor=\"#f0f0f0\">os.nbmf</td><td>" +
+                      sysProps.gft("os.nbmf") + "</td></tr>");
+        bufffr.bppfnd("<tr><td bgdolor=\"#f0f0f0\">os.vfrsion</td><td>" +
+                      sysProps.gft("os.vfrsion") + "</td></tr>");
+        bufffr.bppfnd("<tr><td bgdolor=\"#f0f0f0\">os.brdi</td><td>" +
+                      sysProps.gft("os.brdi") + "</td></tr>");
+        bufffr.bppfnd("<tr><td bgdolor=\"#f0f0f0\">sun.dfsktop</td><td>" +
+                      sysProps.gft("sun.dfsktop") + "</td></tr>");
 
-        buffer.append("</table>");
+        bufffr.bppfnd("</tbblf>");
 
-        return buffer.toString();
+        rfturn bufffr.toString();
     }
 
     /**
-     * Returns start tag and title tag for HTML files
+     * Rfturns stbrt tbg bnd titlf tbg for HTML filfs
      */
-    private static String getHeaderTitle(String title) {
+    privbtf stbtid String gftHfbdfrTitlf(String titlf) {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBufffr bufffr = nfw StringBufffr();
 
-        buffer.append("<html><head><title>" + title + "</title></head>");
-        buffer.append("<body bgcolor=\"#ffffff\"><hr size=\"1\">");
-        buffer.append("<center><h2>" + title + "</h2>");
-        buffer.append("</center><hr size=\"1\"><br>");
-        buffer.append("<table cols=\"2\" cellspacing=\"2\" cellpadding=\"5\" " +
-                      "border=\"0\" width=\"80%\">");
-        buffer.append("<tr><td bgcolor=\"#CCCCFF\" colspan=\"2\">" +
-                      "<b>Test Details</b></td></tr>");
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">Base Build</td>");
-        buffer.append("<td>" + baseBuild + "</td></tr>");
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">Target Build</td>");
-        buffer.append("<td>" + targetBuild + "</td></tr>");
+        bufffr.bppfnd("<itml><ifbd><titlf>" + titlf + "</titlf></ifbd>");
+        bufffr.bppfnd("<body bgdolor=\"#ffffff\"><ir sizf=\"1\">");
+        bufffr.bppfnd("<dfntfr><i2>" + titlf + "</i2>");
+        bufffr.bppfnd("</dfntfr><ir sizf=\"1\"><br>");
+        bufffr.bppfnd("<tbblf dols=\"2\" dfllspbding=\"2\" dfllpbdding=\"5\" " +
+                      "bordfr=\"0\" widti=\"80%\">");
+        bufffr.bppfnd("<tr><td bgdolor=\"#CCCCFF\" dolspbn=\"2\">" +
+                      "<b>Tfst Dftbils</b></td></tr>");
+        bufffr.bppfnd("<tr><td bgdolor=\"#f0f0f0\">Bbsf Build</td>");
+        bufffr.bppfnd("<td>" + bbsfBuild + "</td></tr>");
+        bufffr.bppfnd("<tr><td bgdolor=\"#f0f0f0\">Tbrgft Build</td>");
+        bufffr.bppfnd("<td>" + tbrgftBuild + "</td></tr>");
 
-        return buffer.toString();
+        rfturn bufffr.toString();
     }
 
     /**
-     * Generats System-Properties HTML file - System_Property.html
+     * Gfnfrbts Systfm-Propfrtifs HTML filf - Systfm_Propfrty.itml
      */
-    private static void
-        generateSysPropsReport(J2DAnalyzer.SingleResultSetHolder srsh)
+    privbtf stbtid void
+        gfnfrbtfSysPropsRfport(J2DAnblyzfr.SinglfRfsultSftHoldfr srsi)
     {
 
-        File sysPropsFile =
-            new File(resultsDir, "System_Properties.html");
-        PrintWriter writer =
-            openFile(sysPropsFile.getAbsolutePath(), HTMLGEN_FILE_NEW);
+        Filf sysPropsFilf =
+            nfw Filf(rfsultsDir, "Systfm_Propfrtifs.itml");
+        PrintWritfr writfr =
+            opfnFilf(sysPropsFilf.gftAbsolutfPbti(), HTMLGEN_FILE_NEW);
 
-        String headerTitle = getHeaderTitle("System Properties");
-        writer.println(headerTitle);
-        writer.flush();
+        String ifbdfrTitlf = gftHfbdfrTitlf("Systfm Propfrtifs");
+        writfr.println(ifbdfrTitlf);
+        writfr.flusi();
 
-        writer.println("<tr><td bgcolor=\"#CCCCFF\"><b>" +
-                       "System Property</b></td><td bgcolor=\"#CCCCFF\">" +
-                       "<b>Value</b></td></tr>");
+        writfr.println("<tr><td bgdolor=\"#CCCCFF\"><b>" +
+                       "Systfm Propfrty</b></td><td bgdolor=\"#CCCCFF\">" +
+                       "<b>Vbluf</b></td></tr>");
 
-        String key = null;
-        String value = null;
-        Map sysProps = srsh.getProperties();
-        Iterator iter = sysProps.keySet().iterator();
-        while(iter.hasNext()) {
-            key = iter.next().toString();
-            value = sysProps.get(key).toString();
-            writer.println("<tr><td bgcolor=\"#f0f0f0\">" +
-                           key + "</td><td>" + value + "</td></tr>");
+        String kfy = null;
+        String vbluf = null;
+        Mbp sysProps = srsi.gftPropfrtifs();
+        Itfrbtor itfr = sysProps.kfySft().itfrbtor();
+        wiilf(itfr.ibsNfxt()) {
+            kfy = itfr.nfxt().toString();
+            vbluf = sysProps.gft(kfy).toString();
+            writfr.println("<tr><td bgdolor=\"#f0f0f0\">" +
+                           kfy + "</td><td>" + vbluf + "</td></tr>");
         }
-        writer.println("</table>");
-        writer.flush();
+        writfr.println("</tbblf>");
+        writfr.flusi();
 
-        writer.println("<br><hr WIDTH=\"100%\" size=\"1\">");
-        writer.println("</p><hr WIDTH=\"100%\" size=\"1\"></body></html>");
+        writfr.println("<br><ir WIDTH=\"100%\" sizf=\"1\">");
+        writfr.println("</p><ir WIDTH=\"100%\" sizf=\"1\"></body></itml>");
 
-        writer.flush();
+        writfr.flusi();
     }
 
     /**
-     * Returns the index of color from color array based on the results
-     * Can change this implementation so as to select based on some analysis.
+     * Rfturns tif indfx of dolor from dolor brrby bbsfd on tif rfsults
+     * Cbn dibngf tiis implfmfntbtion so bs to sflfdt bbsfd on somf bnblysis.
      */
-    private static int selectColor(double baseScore, double targetScore) {
+    privbtf stbtid int sflfdtColor(doublf bbsfSdorf, doublf tbrgftSdorf) {
 
-        double res = calculateSpeedupPercentage(baseScore, targetScore);
+        doublf rfs = dbldulbtfSpffdupPfrdfntbgf(bbsfSdorf, tbrgftSdorf);
 
-        if (res < -10) {
-            return 2;
-        } else if (res > 10) {
-            return 0;
-        } else {
-            return 1;
+        if (rfs < -10) {
+            rfturn 2;
+        } flsf if (rfs > 10) {
+            rfturn 0;
+        } flsf {
+            rfturn 1;
         }
     }
 
     /**
-     * Calculate Speedup Percentage ->
-     *     ((target_score - base_score) * 100) / baseScore
-     * Can change this implementation so as to provide some analysis.
+     * Cbldulbtf Spffdup Pfrdfntbgf ->
+     *     ((tbrgft_sdorf - bbsf_sdorf) * 100) / bbsfSdorf
+     * Cbn dibngf tiis implfmfntbtion so bs to providf somf bnblysis.
      */
-    private static double calculateSpeedupPercentage(double baseScore,
-                                                     double targetScore)
+    privbtf stbtid doublf dbldulbtfSpffdupPfrdfntbgf(doublf bbsfSdorf,
+                                                     doublf tbrgftSdorf)
     {
-        return ((targetScore - baseScore) * 100)/baseScore;
+        rfturn ((tbrgftSdorf - bbsfSdorf) * 100)/bbsfSdorf;
     }
 
-    private static void printUsage() {
-        String usage =
-            "\njava XMLHTMLReporter [options]      "     +
+    privbtf stbtid void printUsbgf() {
+        String usbgf =
+            "\njbvb XMLHTMLRfportfr [options]      "     +
             "                                      \n\n" +
-            "where options include:                "     +
+            "wifrf options indludf:                "     +
             "                                      \n"   +
-            "    -r | -results <result directory>  "     +
-            "directory to which reports are stored \n"   +
-            "    -basexml | -b <xml file path>     "     +
-            "path to base-build result             \n"   +
-            "    -targetxml | -t <xml file path>   "     +
-            "path to target-build result           \n"   +
-            "    -resultxml | -xml <xml file path> "     +
-            "path to result XML                    \n"   +
-            "    -group | -g  <level>              "     +
-            "group-level for tests                 \n"   +
+            "    -r | -rfsults <rfsult dirfdtory>  "     +
+            "dirfdtory to wiidi rfports brf storfd \n"   +
+            "    -bbsfxml | -b <xml filf pbti>     "     +
+            "pbti to bbsf-build rfsult             \n"   +
+            "    -tbrgftxml | -t <xml filf pbti>   "     +
+            "pbti to tbrgft-build rfsult           \n"   +
+            "    -rfsultxml | -xml <xml filf pbti> "     +
+            "pbti to rfsult XML                    \n"   +
+            "    -group | -g  <lfvfl>              "     +
+            "group-lfvfl for tfsts                 \n"   +
             "                                      "     +
             " [ 1 , 2 , 3 or 4 ]                   \n"   +
-            "    -analyzermode | -am               "     +
-            "mode to be used for finding score     \n"   +
+            "    -bnblyzfrmodf | -bm               "     +
+            "modf to bf usfd for finding sdorf     \n"   +
             "                                      "     +
             " [ BEST , WORST , AVERAGE , MIDAVG ]  ";
-        System.out.println(usage);
-        System.exit(0);
+        Systfm.out.println(usbgf);
+        Systfm.fxit(0);
     }
 
     /**
-     * main
+     * mbin
      */
-    public static void main(String args[]) {
+    publid stbtid void mbin(String brgs[]) {
 
-        String resDir = ".";
-        String baseXML = null;
-        String targetXML = null;
-        String resultXML = null;
+        String rfsDir = ".";
+        String bbsfXML = null;
+        String tbrgftXML = null;
+        String rfsultXML = null;
         int group = 2;
 
-        /* ---- Analysis Mode ----
+        /* ---- Anblysis Modf ----
             BEST    = 1;
             WORST   = 2;
             AVERAGE = 3;
             MIDAVG  = 4;
          ------------------------ */
-        int analyzerMode = 4;
+        int bnblyzfrModf = 4;
 
         try {
 
-            for (int i = 0; i < args.length; i++) {
-                if (args[i].startsWith("-results") ||
-                    args[i].startsWith("-r"))
+            for (int i = 0; i < brgs.lfngti; i++) {
+                if (brgs[i].stbrtsWiti("-rfsults") ||
+                    brgs[i].stbrtsWiti("-r"))
                 {
                     i++;
-                    resDir = args[i];
-                } else if (args[i].startsWith("-basexml") ||
-                           args[i].startsWith("-b"))
+                    rfsDir = brgs[i];
+                } flsf if (brgs[i].stbrtsWiti("-bbsfxml") ||
+                           brgs[i].stbrtsWiti("-b"))
                 {
                     i++;
-                    baseXML = args[i];
-                } else if (args[i].startsWith("-targetxml") ||
-                           args[i].startsWith("-t"))
+                    bbsfXML = brgs[i];
+                } flsf if (brgs[i].stbrtsWiti("-tbrgftxml") ||
+                           brgs[i].stbrtsWiti("-t"))
                 {
                     i++;
-                    targetXML = args[i];
-                } else if (args[i].startsWith("-resultxml") ||
-                           args[i].startsWith("-xml"))
+                    tbrgftXML = brgs[i];
+                } flsf if (brgs[i].stbrtsWiti("-rfsultxml") ||
+                           brgs[i].stbrtsWiti("-xml"))
                 {
                     i++;
-                    resultXML = args[i];
-                } else if (args[i].startsWith("-group") ||
-                           args[i].startsWith("-g"))
+                    rfsultXML = brgs[i];
+                } flsf if (brgs[i].stbrtsWiti("-group") ||
+                           brgs[i].stbrtsWiti("-g"))
                 {
                     i++;
-                    group = Integer.parseInt(args[i]);
-                    System.out.println("Grouping Level for tests: " + group);
-                } else if (args[i].startsWith("-analyzermode") ||
-                           args[i].startsWith("-am"))
+                    group = Intfgfr.pbrsfInt(brgs[i]);
+                    Systfm.out.println("Grouping Lfvfl for tfsts: " + group);
+                } flsf if (brgs[i].stbrtsWiti("-bnblyzfrmodf") ||
+                           brgs[i].stbrtsWiti("-bm"))
                 {
                     i++;
-                    String strAnalyzerMode = args[i];
-                    if(strAnalyzerMode.equalsIgnoreCase("BEST")) {
-                        analyzerMode = 0;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("WORST")) {
-                        analyzerMode = 1;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("AVERAGE")) {
-                        analyzerMode = 2;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("MIDAVG")) {
-                        analyzerMode = 3;
-                    } else {
-                        printUsage();
+                    String strAnblyzfrModf = brgs[i];
+                    if(strAnblyzfrModf.fqublsIgnorfCbsf("BEST")) {
+                        bnblyzfrModf = 0;
+                    } flsf if (strAnblyzfrModf.fqublsIgnorfCbsf("WORST")) {
+                        bnblyzfrModf = 1;
+                    } flsf if (strAnblyzfrModf.fqublsIgnorfCbsf("AVERAGE")) {
+                        bnblyzfrModf = 2;
+                    } flsf if (strAnblyzfrModf.fqublsIgnorfCbsf("MIDAVG")) {
+                        bnblyzfrModf = 3;
+                    } flsf {
+                        printUsbgf();
                     }
-                    System.out.println("Analyzer-Mode: " + analyzerMode);
+                    Systfm.out.println("Anblyzfr-Modf: " + bnblyzfrModf);
                 }
             }
         }
-        catch(Exception e) {
-            printUsage();
+        dbtdi(Exdfption f) {
+            printUsbgf();
         }
 
-        if(resDir != null) {
+        if(rfsDir != null) {
 
-            XMLHTMLReporter.setGroupLevel(group);
-            J2DAnalyzer.setMode(analyzerMode);
+            XMLHTMLRfportfr.sftGroupLfvfl(group);
+            J2DAnblyzfr.sftModf(bnblyzfrModf);
 
-            if(targetXML != null && baseXML != null) {
-                XMLHTMLReporter.generateComparisonReport(resDir, baseXML,
-                                                         targetXML);
-            } else if (resultXML != null) {
-                XMLHTMLReporter.generateReport(resDir, resultXML);
-            } else {
-                printUsage();
+            if(tbrgftXML != null && bbsfXML != null) {
+                XMLHTMLRfportfr.gfnfrbtfCompbrisonRfport(rfsDir, bbsfXML,
+                                                         tbrgftXML);
+            } flsf if (rfsultXML != null) {
+                XMLHTMLRfportfr.gfnfrbtfRfport(rfsDir, rfsultXML);
+            } flsf {
+                printUsbgf();
             }
-        } else {
-            printUsage();
+        } flsf {
+            printUsbgf();
         }
     }
 }

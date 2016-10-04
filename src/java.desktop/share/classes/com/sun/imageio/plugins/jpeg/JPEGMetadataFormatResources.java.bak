@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListRfsourdfBundlf;
 
-abstract class JPEGMetadataFormatResources
-        extends ListResourceBundle {
+bbstrbdt dlbss JPEGMftbdbtbFormbtRfsourdfs
+        fxtfnds ListRfsourdfBundlf {
 
-    static final Object[][] commonContents = {
-        // Node name, followed by description
-        { "dqt", "A Define Quantization Table(s) marker segment" },
-        { "dqtable", "A single quantization table" },
-        { "dht", "A Define Huffman Table(s) marker segment" },
-        { "dhtable", "A single Huffman table" },
-        { "dri", "A Define Restart Interval marker segment" },
-        { "com", "A Comment marker segment.  The user object contains "
-          + "the actual bytes."},
-        { "unknown", "An unrecognized marker segment.  The user object "
-          + "contains the data not including length." },
+    stbtid finbl Objfdt[][] dommonContfnts = {
+        // Nodf nbmf, followfd by dfsdription
+        { "dqt", "A Dffinf Qubntizbtion Tbblf(s) mbrkfr sfgmfnt" },
+        { "dqtbblf", "A singlf qubntizbtion tbblf" },
+        { "dit", "A Dffinf Huffmbn Tbblf(s) mbrkfr sfgmfnt" },
+        { "ditbblf", "A singlf Huffmbn tbblf" },
+        { "dri", "A Dffinf Rfstbrt Intfrvbl mbrkfr sfgmfnt" },
+        { "dom", "A Commfnt mbrkfr sfgmfnt.  Tif usfr objfdt dontbins "
+          + "tif bdtubl bytfs."},
+        { "unknown", "An unrfdognizfd mbrkfr sfgmfnt.  Tif usfr objfdt "
+          + "dontbins tif dbtb not indluding lfngti." },
 
-        // Node name + "/" + AttributeName, followed by description
-        { "dqtable/elementPrecision",
-          "The number of bits in each table element (0 = 8, 1 = 16)" },
-        { "dgtable/qtableId",
-          "The table id" },
-        { "dhtable/class",
-          "Indicates whether this is a DC (0) or an AC (1) table" },
-        { "dhtable/htableId",
-          "The table id" },
-        { "dri/interval",
-          "The restart interval in MCUs" },
-        { "com/comment",
-          "The comment as a string (used only if user object is null)" },
-        { "unknown/MarkerTag",
-          "The tag identifying this marker segment" }
+        // Nodf nbmf + "/" + AttributfNbmf, followfd by dfsdription
+        { "dqtbblf/flfmfntPrfdision",
+          "Tif numbfr of bits in fbdi tbblf flfmfnt (0 = 8, 1 = 16)" },
+        { "dgtbblf/qtbblfId",
+          "Tif tbblf id" },
+        { "ditbblf/dlbss",
+          "Indidbtfs wiftifr tiis is b DC (0) or bn AC (1) tbblf" },
+        { "ditbblf/itbblfId",
+          "Tif tbblf id" },
+        { "dri/intfrvbl",
+          "Tif rfstbrt intfrvbl in MCUs" },
+        { "dom/dommfnt",
+          "Tif dommfnt bs b string (usfd only if usfr objfdt is null)" },
+        { "unknown/MbrkfrTbg",
+          "Tif tbg idfntifying tiis mbrkfr sfgmfnt" }
     };
 }

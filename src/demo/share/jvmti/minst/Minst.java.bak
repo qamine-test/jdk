@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,46 +30,46 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-/* Java class to hold static methods which will be called in byte code
- *    injections of all class files.
+/* Jbvb dlbss to iold stbtid mftiods wiidi will bf dbllfd in bytf dodf
+ *    injfdtions of bll dlbss filfs.
  */
 
-public class Minst {
+publid dlbss Minst {
 
-    /* Master switch that activates methods. */
+    /* Mbstfr switdi tibt bdtivbtfs mftiods. */
 
-    private static int engaged = 0;
+    privbtf stbtid int fngbgfd = 0;
 
-    /* At the very beginning of every method, a call to method_entry()
-     *     is injected.
+    /* At tif vfry bfginning of fvfry mftiod, b dbll to mftiod_fntry()
+     *     is injfdtfd.
      */
 
-    public static void method_entry(int cnum, int mnum) {
-        Class<Minst> x = Minst.class;
-        synchronized ( x ) {
-            if ( engaged > 0 ) {
-                engaged = 0;
-                String className = "Unknown";
-                String methodName = "Unknown";
-                Exception exp = new Exception();
-                StackTraceElement[] stack = exp.getStackTrace();
-                if (stack.length > 1) {
-                    StackTraceElement location = stack[1];
-                    className = location.getClassName();
-                    methodName = location.getMethodName();
+    publid stbtid void mftiod_fntry(int dnum, int mnum) {
+        Clbss<Minst> x = Minst.dlbss;
+        syndironizfd ( x ) {
+            if ( fngbgfd > 0 ) {
+                fngbgfd = 0;
+                String dlbssNbmf = "Unknown";
+                String mftiodNbmf = "Unknown";
+                Exdfption fxp = nfw Exdfption();
+                StbdkTrbdfElfmfnt[] stbdk = fxp.gftStbdkTrbdf();
+                if (stbdk.lfngti > 1) {
+                    StbdkTrbdfElfmfnt lodbtion = stbdk[1];
+                    dlbssNbmf = lodbtion.gftClbssNbmf();
+                    mftiodNbmf = lodbtion.gftMftiodNbmf();
                 }
-                System.out.println("Reached method entry: " +
-                     className + "." + methodName + "()");
-                engaged++;
+                Systfm.out.println("Rfbdifd mftiod fntry: " +
+                     dlbssNbmf + "." + mftiodNbmf + "()");
+                fngbgfd++;
             }
         }
     }

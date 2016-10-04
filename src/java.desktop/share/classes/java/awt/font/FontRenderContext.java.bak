@@ -1,357 +1,357 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
+ * @butior Cibrlton Innovbtions, Ind.
  */
 
-package java.awt.font;
+pbdkbgf jbvb.bwt.font;
 
-import java.awt.RenderingHints;
-import static java.awt.RenderingHints.*;
-import java.awt.geom.AffineTransform;
+import jbvb.bwt.RfndfringHints;
+import stbtid jbvb.bwt.RfndfringHints.*;
+import jbvb.bwt.gfom.AffinfTrbnsform;
 
 /**
-*   The <code>FontRenderContext</code> class is a container for the
-*   information needed to correctly measure text.  The measurement of text
-*   can vary because of rules that map outlines to pixels, and rendering
-*   hints provided by an application.
+*   Tif <dodf>FontRfndfrContfxt</dodf> dlbss is b dontbinfr for tif
+*   informbtion nffdfd to dorrfdtly mfbsurf tfxt.  Tif mfbsurfmfnt of tfxt
+*   dbn vbry bfdbusf of rulfs tibt mbp outlinfs to pixfls, bnd rfndfring
+*   iints providfd by bn bpplidbtion.
 *   <p>
-*   One such piece of information is a transform that scales
-*   typographical points to pixels. (A point is defined to be exactly 1/72
-*   of an inch, which is slightly different than
-*   the traditional mechanical measurement of a point.)  A character that
-*   is rendered at 12pt on a 600dpi device might have a different size
-*   than the same character rendered at 12pt on a 72dpi device because of
-*   such factors as rounding to pixel boundaries and hints that the font
-*   designer may have specified.
+*   Onf sudi pifdf of informbtion is b trbnsform tibt sdblfs
+*   typogrbpiidbl points to pixfls. (A point is dffinfd to bf fxbdtly 1/72
+*   of bn indi, wiidi is sligitly difffrfnt tibn
+*   tif trbditionbl mfdibnidbl mfbsurfmfnt of b point.)  A dibrbdtfr tibt
+*   is rfndfrfd bt 12pt on b 600dpi dfvidf migit ibvf b difffrfnt sizf
+*   tibn tif sbmf dibrbdtfr rfndfrfd bt 12pt on b 72dpi dfvidf bfdbusf of
+*   sudi fbdtors bs rounding to pixfl boundbrifs bnd iints tibt tif font
+*   dfsignfr mby ibvf spfdififd.
 *   <p>
-*   Anti-aliasing and Fractional-metrics specified by an application can also
-*   affect the size of a character because of rounding to pixel
-*   boundaries.
+*   Anti-blibsing bnd Frbdtionbl-mftrids spfdififd by bn bpplidbtion dbn blso
+*   bfffdt tif sizf of b dibrbdtfr bfdbusf of rounding to pixfl
+*   boundbrifs.
 *   <p>
-*   Typically, instances of <code>FontRenderContext</code> are
-*   obtained from a {@link java.awt.Graphics2D Graphics2D} object.  A
-*   <code>FontRenderContext</code> which is directly constructed will
-*   most likely not represent any actual graphics device, and may lead
-*   to unexpected or incorrect results.
-*   @see java.awt.RenderingHints#KEY_TEXT_ANTIALIASING
-*   @see java.awt.RenderingHints#KEY_FRACTIONALMETRICS
-*   @see java.awt.Graphics2D#getFontRenderContext()
-*   @see java.awt.font.LineMetrics
+*   Typidblly, instbndfs of <dodf>FontRfndfrContfxt</dodf> brf
+*   obtbinfd from b {@link jbvb.bwt.Grbpiids2D Grbpiids2D} objfdt.  A
+*   <dodf>FontRfndfrContfxt</dodf> wiidi is dirfdtly donstrudtfd will
+*   most likfly not rfprfsfnt bny bdtubl grbpiids dfvidf, bnd mby lfbd
+*   to unfxpfdtfd or indorrfdt rfsults.
+*   @sff jbvb.bwt.RfndfringHints#KEY_TEXT_ANTIALIASING
+*   @sff jbvb.bwt.RfndfringHints#KEY_FRACTIONALMETRICS
+*   @sff jbvb.bwt.Grbpiids2D#gftFontRfndfrContfxt()
+*   @sff jbvb.bwt.font.LinfMftrids
 */
 
-public class FontRenderContext {
-    private transient AffineTransform tx;
-    private transient Object aaHintValue;
-    private transient Object fmHintValue;
-    private transient boolean defaulting;
+publid dlbss FontRfndfrContfxt {
+    privbtf trbnsifnt AffinfTrbnsform tx;
+    privbtf trbnsifnt Objfdt bbHintVbluf;
+    privbtf trbnsifnt Objfdt fmHintVbluf;
+    privbtf trbnsifnt boolfbn dffbulting;
 
     /**
-     * Constructs a new <code>FontRenderContext</code>
-     * object.
+     * Construdts b nfw <dodf>FontRfndfrContfxt</dodf>
+     * objfdt.
      *
      */
-    protected FontRenderContext() {
-        aaHintValue = VALUE_TEXT_ANTIALIAS_DEFAULT;
-        fmHintValue = VALUE_FRACTIONALMETRICS_DEFAULT;
-        defaulting = true;
+    protfdtfd FontRfndfrContfxt() {
+        bbHintVbluf = VALUE_TEXT_ANTIALIAS_DEFAULT;
+        fmHintVbluf = VALUE_FRACTIONALMETRICS_DEFAULT;
+        dffbulting = truf;
     }
 
     /**
-     * Constructs a <code>FontRenderContext</code> object from an
-     * optional {@link AffineTransform} and two <code>boolean</code>
-     * values that determine if the newly constructed object has
-     * anti-aliasing or fractional metrics.
-     * In each case the boolean values <CODE>true</CODE> and <CODE>false</CODE>
-     * correspond to the rendering hint values <CODE>ON</CODE> and
-     * <CODE>OFF</CODE> respectively.
+     * Construdts b <dodf>FontRfndfrContfxt</dodf> objfdt from bn
+     * optionbl {@link AffinfTrbnsform} bnd two <dodf>boolfbn</dodf>
+     * vblufs tibt dftfrminf if tif nfwly donstrudtfd objfdt ibs
+     * bnti-blibsing or frbdtionbl mftrids.
+     * In fbdi dbsf tif boolfbn vblufs <CODE>truf</CODE> bnd <CODE>fblsf</CODE>
+     * dorrfspond to tif rfndfring iint vblufs <CODE>ON</CODE> bnd
+     * <CODE>OFF</CODE> rfspfdtivfly.
      * <p>
-     * To specify other hint values, use the constructor which
-     * specifies the rendering hint values as parameters :
-     * {@link #FontRenderContext(AffineTransform, Object, Object)}.
-     * @param tx the transform which is used to scale typographical points
-     * to pixels in this <code>FontRenderContext</code>.  If null, an
-     * identity transform is used.
-     * @param isAntiAliased determines if the newly constructed object
-     * has anti-aliasing.
-     * @param usesFractionalMetrics determines if the newly constructed
-     * object has fractional metrics.
+     * To spfdify otifr iint vblufs, usf tif donstrudtor wiidi
+     * spfdififs tif rfndfring iint vblufs bs pbrbmftfrs :
+     * {@link #FontRfndfrContfxt(AffinfTrbnsform, Objfdt, Objfdt)}.
+     * @pbrbm tx tif trbnsform wiidi is usfd to sdblf typogrbpiidbl points
+     * to pixfls in tiis <dodf>FontRfndfrContfxt</dodf>.  If null, bn
+     * idfntity trbnsform is usfd.
+     * @pbrbm isAntiAlibsfd dftfrminfs if tif nfwly donstrudtfd objfdt
+     * ibs bnti-blibsing.
+     * @pbrbm usfsFrbdtionblMftrids dftfrminfs if tif nfwly donstrudtfd
+     * objfdt ibs frbdtionbl mftrids.
      */
-    public FontRenderContext(AffineTransform tx,
-                            boolean isAntiAliased,
-                            boolean usesFractionalMetrics) {
-        if (tx != null && !tx.isIdentity()) {
-            this.tx = new AffineTransform(tx);
+    publid FontRfndfrContfxt(AffinfTrbnsform tx,
+                            boolfbn isAntiAlibsfd,
+                            boolfbn usfsFrbdtionblMftrids) {
+        if (tx != null && !tx.isIdfntity()) {
+            tiis.tx = nfw AffinfTrbnsform(tx);
         }
-        if (isAntiAliased) {
-            aaHintValue = VALUE_TEXT_ANTIALIAS_ON;
-        } else {
-            aaHintValue = VALUE_TEXT_ANTIALIAS_OFF;
+        if (isAntiAlibsfd) {
+            bbHintVbluf = VALUE_TEXT_ANTIALIAS_ON;
+        } flsf {
+            bbHintVbluf = VALUE_TEXT_ANTIALIAS_OFF;
         }
-        if (usesFractionalMetrics) {
-            fmHintValue = VALUE_FRACTIONALMETRICS_ON;
-        } else {
-            fmHintValue = VALUE_FRACTIONALMETRICS_OFF;
+        if (usfsFrbdtionblMftrids) {
+            fmHintVbluf = VALUE_FRACTIONALMETRICS_ON;
+        } flsf {
+            fmHintVbluf = VALUE_FRACTIONALMETRICS_OFF;
         }
     }
 
     /**
-     * Constructs a <code>FontRenderContext</code> object from an
-     * optional {@link AffineTransform} and two <code>Object</code>
-     * values that determine if the newly constructed object has
-     * anti-aliasing or fractional metrics.
-     * @param tx the transform which is used to scale typographical points
-     * to pixels in this <code>FontRenderContext</code>.  If null, an
-     * identity transform is used.
-     * @param aaHint - one of the text antialiasing rendering hint values
-     * defined in {@link java.awt.RenderingHints java.awt.RenderingHints}.
-     * Any other value will throw <code>IllegalArgumentException</code>.
-     * {@link java.awt.RenderingHints#VALUE_TEXT_ANTIALIAS_DEFAULT VALUE_TEXT_ANTIALIAS_DEFAULT}
-     * may be specified, in which case the mode used is implementation
-     * dependent.
-     * @param fmHint - one of the text fractional rendering hint values defined
-     * in {@link java.awt.RenderingHints java.awt.RenderingHints}.
-     * {@link java.awt.RenderingHints#VALUE_FRACTIONALMETRICS_DEFAULT VALUE_FRACTIONALMETRICS_DEFAULT}
-     * may be specified, in which case the mode used is implementation
-     * dependent.
-     * Any other value will throw <code>IllegalArgumentException</code>
-     * @throws IllegalArgumentException if the hints are not one of the
-     * legal values.
-     * @since 1.6
+     * Construdts b <dodf>FontRfndfrContfxt</dodf> objfdt from bn
+     * optionbl {@link AffinfTrbnsform} bnd two <dodf>Objfdt</dodf>
+     * vblufs tibt dftfrminf if tif nfwly donstrudtfd objfdt ibs
+     * bnti-blibsing or frbdtionbl mftrids.
+     * @pbrbm tx tif trbnsform wiidi is usfd to sdblf typogrbpiidbl points
+     * to pixfls in tiis <dodf>FontRfndfrContfxt</dodf>.  If null, bn
+     * idfntity trbnsform is usfd.
+     * @pbrbm bbHint - onf of tif tfxt bntiblibsing rfndfring iint vblufs
+     * dffinfd in {@link jbvb.bwt.RfndfringHints jbvb.bwt.RfndfringHints}.
+     * Any otifr vbluf will tirow <dodf>IllfgblArgumfntExdfption</dodf>.
+     * {@link jbvb.bwt.RfndfringHints#VALUE_TEXT_ANTIALIAS_DEFAULT VALUE_TEXT_ANTIALIAS_DEFAULT}
+     * mby bf spfdififd, in wiidi dbsf tif modf usfd is implfmfntbtion
+     * dfpfndfnt.
+     * @pbrbm fmHint - onf of tif tfxt frbdtionbl rfndfring iint vblufs dffinfd
+     * in {@link jbvb.bwt.RfndfringHints jbvb.bwt.RfndfringHints}.
+     * {@link jbvb.bwt.RfndfringHints#VALUE_FRACTIONALMETRICS_DEFAULT VALUE_FRACTIONALMETRICS_DEFAULT}
+     * mby bf spfdififd, in wiidi dbsf tif modf usfd is implfmfntbtion
+     * dfpfndfnt.
+     * Any otifr vbluf will tirow <dodf>IllfgblArgumfntExdfption</dodf>
+     * @tirows IllfgblArgumfntExdfption if tif iints brf not onf of tif
+     * lfgbl vblufs.
+     * @sindf 1.6
      */
-    public FontRenderContext(AffineTransform tx, Object aaHint, Object fmHint){
-        if (tx != null && !tx.isIdentity()) {
-            this.tx = new AffineTransform(tx);
+    publid FontRfndfrContfxt(AffinfTrbnsform tx, Objfdt bbHint, Objfdt fmHint){
+        if (tx != null && !tx.isIdfntity()) {
+            tiis.tx = nfw AffinfTrbnsform(tx);
         }
         try {
-            if (KEY_TEXT_ANTIALIASING.isCompatibleValue(aaHint)) {
-                aaHintValue = aaHint;
-            } else {
-                throw new IllegalArgumentException("AA hint:" + aaHint);
+            if (KEY_TEXT_ANTIALIASING.isCompbtiblfVbluf(bbHint)) {
+                bbHintVbluf = bbHint;
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("AA iint:" + bbHint);
             }
-        } catch (Exception e) {
-            throw new IllegalArgumentException("AA hint:" +aaHint);
+        } dbtdi (Exdfption f) {
+            tirow nfw IllfgblArgumfntExdfption("AA iint:" +bbHint);
         }
         try {
-            if (KEY_FRACTIONALMETRICS.isCompatibleValue(fmHint)) {
-                fmHintValue = fmHint;
-            } else {
-                throw new IllegalArgumentException("FM hint:" + fmHint);
+            if (KEY_FRACTIONALMETRICS.isCompbtiblfVbluf(fmHint)) {
+                fmHintVbluf = fmHint;
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("FM iint:" + fmHint);
             }
-        } catch (Exception e) {
-            throw new IllegalArgumentException("FM hint:" +fmHint);
+        } dbtdi (Exdfption f) {
+            tirow nfw IllfgblArgumfntExdfption("FM iint:" +fmHint);
         }
     }
 
     /**
-     * Indicates whether or not this <code>FontRenderContext</code> object
-     * measures text in a transformed render context.
-     * @return  <code>true</code> if this <code>FontRenderContext</code>
-     *          object has a non-identity AffineTransform attribute.
-     *          <code>false</code> otherwise.
-     * @see     java.awt.font.FontRenderContext#getTransform
-     * @since   1.6
+     * Indidbtfs wiftifr or not tiis <dodf>FontRfndfrContfxt</dodf> objfdt
+     * mfbsurfs tfxt in b trbnsformfd rfndfr dontfxt.
+     * @rfturn  <dodf>truf</dodf> if tiis <dodf>FontRfndfrContfxt</dodf>
+     *          objfdt ibs b non-idfntity AffinfTrbnsform bttributf.
+     *          <dodf>fblsf</dodf> otifrwisf.
+     * @sff     jbvb.bwt.font.FontRfndfrContfxt#gftTrbnsform
+     * @sindf   1.6
      */
-    public boolean isTransformed() {
-        if (!defaulting) {
-            return tx != null;
-        } else {
-            return !getTransform().isIdentity();
+    publid boolfbn isTrbnsformfd() {
+        if (!dffbulting) {
+            rfturn tx != null;
+        } flsf {
+            rfturn !gftTrbnsform().isIdfntity();
         }
     }
 
     /**
-     * Returns the integer type of the affine transform for this
-     * <code>FontRenderContext</code> as specified by
-     * {@link java.awt.geom.AffineTransform#getType()}
-     * @return the type of the transform.
-     * @see AffineTransform
-     * @since 1.6
+     * Rfturns tif intfgfr typf of tif bffinf trbnsform for tiis
+     * <dodf>FontRfndfrContfxt</dodf> bs spfdififd by
+     * {@link jbvb.bwt.gfom.AffinfTrbnsform#gftTypf()}
+     * @rfturn tif typf of tif trbnsform.
+     * @sff AffinfTrbnsform
+     * @sindf 1.6
      */
-    public int getTransformType() {
-        if (!defaulting) {
+    publid int gftTrbnsformTypf() {
+        if (!dffbulting) {
             if (tx == null) {
-                return AffineTransform.TYPE_IDENTITY;
-            } else {
-                return tx.getType();
+                rfturn AffinfTrbnsform.TYPE_IDENTITY;
+            } flsf {
+                rfturn tx.gftTypf();
             }
-        } else {
-            return getTransform().getType();
+        } flsf {
+            rfturn gftTrbnsform().gftTypf();
         }
     }
 
     /**
-    *   Gets the transform that is used to scale typographical points
-    *   to pixels in this <code>FontRenderContext</code>.
-    *   @return the <code>AffineTransform</code> of this
-    *    <code>FontRenderContext</code>.
-    *   @see AffineTransform
+    *   Gfts tif trbnsform tibt is usfd to sdblf typogrbpiidbl points
+    *   to pixfls in tiis <dodf>FontRfndfrContfxt</dodf>.
+    *   @rfturn tif <dodf>AffinfTrbnsform</dodf> of tiis
+    *    <dodf>FontRfndfrContfxt</dodf>.
+    *   @sff AffinfTrbnsform
     */
-    public AffineTransform getTransform() {
-        return (tx == null) ? new AffineTransform() : new AffineTransform(tx);
+    publid AffinfTrbnsform gftTrbnsform() {
+        rfturn (tx == null) ? nfw AffinfTrbnsform() : nfw AffinfTrbnsform(tx);
     }
 
     /**
-    * Returns a boolean which indicates whether or not some form of
-    * antialiasing is specified by this <code>FontRenderContext</code>.
-    * Call {@link #getAntiAliasingHint() getAntiAliasingHint()}
-    * for the specific rendering hint value.
-    *   @return    <code>true</code>, if text is anti-aliased in this
-    *   <code>FontRenderContext</code>; <code>false</code> otherwise.
-    *   @see        java.awt.RenderingHints#KEY_TEXT_ANTIALIASING
-    *   @see #FontRenderContext(AffineTransform,boolean,boolean)
-    *   @see #FontRenderContext(AffineTransform,Object,Object)
+    * Rfturns b boolfbn wiidi indidbtfs wiftifr or not somf form of
+    * bntiblibsing is spfdififd by tiis <dodf>FontRfndfrContfxt</dodf>.
+    * Cbll {@link #gftAntiAlibsingHint() gftAntiAlibsingHint()}
+    * for tif spfdifid rfndfring iint vbluf.
+    *   @rfturn    <dodf>truf</dodf>, if tfxt is bnti-blibsfd in tiis
+    *   <dodf>FontRfndfrContfxt</dodf>; <dodf>fblsf</dodf> otifrwisf.
+    *   @sff        jbvb.bwt.RfndfringHints#KEY_TEXT_ANTIALIASING
+    *   @sff #FontRfndfrContfxt(AffinfTrbnsform,boolfbn,boolfbn)
+    *   @sff #FontRfndfrContfxt(AffinfTrbnsform,Objfdt,Objfdt)
     */
-    public boolean isAntiAliased() {
-        return !(aaHintValue == VALUE_TEXT_ANTIALIAS_OFF ||
-                 aaHintValue == VALUE_TEXT_ANTIALIAS_DEFAULT);
+    publid boolfbn isAntiAlibsfd() {
+        rfturn !(bbHintVbluf == VALUE_TEXT_ANTIALIAS_OFF ||
+                 bbHintVbluf == VALUE_TEXT_ANTIALIAS_DEFAULT);
     }
 
     /**
-    * Returns a boolean which whether text fractional metrics mode
-    * is used in this <code>FontRenderContext</code>.
-    * Call {@link #getFractionalMetricsHint() getFractionalMetricsHint()}
-    * to obtain the corresponding rendering hint value.
-    *   @return    <code>true</code>, if layout should be performed with
-    *   fractional metrics; <code>false</code> otherwise.
-    *               in this <code>FontRenderContext</code>.
-    *   @see java.awt.RenderingHints#KEY_FRACTIONALMETRICS
-    *   @see #FontRenderContext(AffineTransform,boolean,boolean)
-    *   @see #FontRenderContext(AffineTransform,Object,Object)
+    * Rfturns b boolfbn wiidi wiftifr tfxt frbdtionbl mftrids modf
+    * is usfd in tiis <dodf>FontRfndfrContfxt</dodf>.
+    * Cbll {@link #gftFrbdtionblMftridsHint() gftFrbdtionblMftridsHint()}
+    * to obtbin tif dorrfsponding rfndfring iint vbluf.
+    *   @rfturn    <dodf>truf</dodf>, if lbyout siould bf pfrformfd witi
+    *   frbdtionbl mftrids; <dodf>fblsf</dodf> otifrwisf.
+    *               in tiis <dodf>FontRfndfrContfxt</dodf>.
+    *   @sff jbvb.bwt.RfndfringHints#KEY_FRACTIONALMETRICS
+    *   @sff #FontRfndfrContfxt(AffinfTrbnsform,boolfbn,boolfbn)
+    *   @sff #FontRfndfrContfxt(AffinfTrbnsform,Objfdt,Objfdt)
     */
-    public boolean usesFractionalMetrics() {
-        return !(fmHintValue == VALUE_FRACTIONALMETRICS_OFF ||
-                 fmHintValue == VALUE_FRACTIONALMETRICS_DEFAULT);
+    publid boolfbn usfsFrbdtionblMftrids() {
+        rfturn !(fmHintVbluf == VALUE_FRACTIONALMETRICS_OFF ||
+                 fmHintVbluf == VALUE_FRACTIONALMETRICS_DEFAULT);
     }
 
     /**
-     * Return the text anti-aliasing rendering mode hint used in this
-     * <code>FontRenderContext</code>.
-     * This will be one of the text antialiasing rendering hint values
-     * defined in {@link java.awt.RenderingHints java.awt.RenderingHints}.
-     * @return  text anti-aliasing rendering mode hint used in this
-     * <code>FontRenderContext</code>.
-     * @since 1.6
+     * Rfturn tif tfxt bnti-blibsing rfndfring modf iint usfd in tiis
+     * <dodf>FontRfndfrContfxt</dodf>.
+     * Tiis will bf onf of tif tfxt bntiblibsing rfndfring iint vblufs
+     * dffinfd in {@link jbvb.bwt.RfndfringHints jbvb.bwt.RfndfringHints}.
+     * @rfturn  tfxt bnti-blibsing rfndfring modf iint usfd in tiis
+     * <dodf>FontRfndfrContfxt</dodf>.
+     * @sindf 1.6
      */
-    public Object getAntiAliasingHint() {
-        if (defaulting) {
-            if (isAntiAliased()) {
-                 return VALUE_TEXT_ANTIALIAS_ON;
-            } else {
-                return VALUE_TEXT_ANTIALIAS_OFF;
+    publid Objfdt gftAntiAlibsingHint() {
+        if (dffbulting) {
+            if (isAntiAlibsfd()) {
+                 rfturn VALUE_TEXT_ANTIALIAS_ON;
+            } flsf {
+                rfturn VALUE_TEXT_ANTIALIAS_OFF;
             }
         }
-        return aaHintValue;
+        rfturn bbHintVbluf;
     }
 
     /**
-     * Return the text fractional metrics rendering mode hint used in this
-     * <code>FontRenderContext</code>.
-     * This will be one of the text fractional metrics rendering hint values
-     * defined in {@link java.awt.RenderingHints java.awt.RenderingHints}.
-     * @return the text fractional metrics rendering mode hint used in this
-     * <code>FontRenderContext</code>.
-     * @since 1.6
+     * Rfturn tif tfxt frbdtionbl mftrids rfndfring modf iint usfd in tiis
+     * <dodf>FontRfndfrContfxt</dodf>.
+     * Tiis will bf onf of tif tfxt frbdtionbl mftrids rfndfring iint vblufs
+     * dffinfd in {@link jbvb.bwt.RfndfringHints jbvb.bwt.RfndfringHints}.
+     * @rfturn tif tfxt frbdtionbl mftrids rfndfring modf iint usfd in tiis
+     * <dodf>FontRfndfrContfxt</dodf>.
+     * @sindf 1.6
      */
-    public Object getFractionalMetricsHint() {
-        if (defaulting) {
-            if (usesFractionalMetrics()) {
-                 return VALUE_FRACTIONALMETRICS_ON;
-            } else {
-                return VALUE_FRACTIONALMETRICS_OFF;
+    publid Objfdt gftFrbdtionblMftridsHint() {
+        if (dffbulting) {
+            if (usfsFrbdtionblMftrids()) {
+                 rfturn VALUE_FRACTIONALMETRICS_ON;
+            } flsf {
+                rfturn VALUE_FRACTIONALMETRICS_OFF;
             }
         }
-        return fmHintValue;
+        rfturn fmHintVbluf;
     }
 
     /**
-     * Return true if obj is an instance of FontRenderContext and has the same
-     * transform, antialiasing, and fractional metrics values as this.
-     * @param obj the object to test for equality
-     * @return <code>true</code> if the specified object is equal to
-     *         this <code>FontRenderContext</code>; <code>false</code>
-     *         otherwise.
+     * Rfturn truf if obj is bn instbndf of FontRfndfrContfxt bnd ibs tif sbmf
+     * trbnsform, bntiblibsing, bnd frbdtionbl mftrids vblufs bs tiis.
+     * @pbrbm obj tif objfdt to tfst for fqublity
+     * @rfturn <dodf>truf</dodf> if tif spfdififd objfdt is fqubl to
+     *         tiis <dodf>FontRfndfrContfxt</dodf>; <dodf>fblsf</dodf>
+     *         otifrwisf.
      */
-    public boolean equals(Object obj) {
+    publid boolfbn fqubls(Objfdt obj) {
         try {
-            return equals((FontRenderContext)obj);
+            rfturn fqubls((FontRfndfrContfxt)obj);
         }
-        catch (ClassCastException e) {
-            return false;
+        dbtdi (ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Return true if rhs has the same transform, antialiasing,
-     * and fractional metrics values as this.
-     * @param rhs the <code>FontRenderContext</code> to test for equality
-     * @return <code>true</code> if <code>rhs</code> is equal to
-     *         this <code>FontRenderContext</code>; <code>false</code>
-     *         otherwise.
-     * @since 1.4
+     * Rfturn truf if ris ibs tif sbmf trbnsform, bntiblibsing,
+     * bnd frbdtionbl mftrids vblufs bs tiis.
+     * @pbrbm ris tif <dodf>FontRfndfrContfxt</dodf> to tfst for fqublity
+     * @rfturn <dodf>truf</dodf> if <dodf>ris</dodf> is fqubl to
+     *         tiis <dodf>FontRfndfrContfxt</dodf>; <dodf>fblsf</dodf>
+     *         otifrwisf.
+     * @sindf 1.4
      */
-    public boolean equals(FontRenderContext rhs) {
-        if (this == rhs) {
-            return true;
+    publid boolfbn fqubls(FontRfndfrContfxt ris) {
+        if (tiis == ris) {
+            rfturn truf;
         }
-        if (rhs == null) {
-            return false;
+        if (ris == null) {
+            rfturn fblsf;
         }
 
-        /* if neither instance is a subclass, reference values directly. */
-        if (!rhs.defaulting && !defaulting) {
-            if (rhs.aaHintValue == aaHintValue &&
-                rhs.fmHintValue == fmHintValue) {
+        /* if nfitifr instbndf is b subdlbss, rfffrfndf vblufs dirfdtly. */
+        if (!ris.dffbulting && !dffbulting) {
+            if (ris.bbHintVbluf == bbHintVbluf &&
+                ris.fmHintVbluf == fmHintVbluf) {
 
-                return tx == null ? rhs.tx == null : tx.equals(rhs.tx);
+                rfturn tx == null ? ris.tx == null : tx.fqubls(ris.tx);
             }
-            return false;
-        } else {
-            return
-                rhs.getAntiAliasingHint() == getAntiAliasingHint() &&
-                rhs.getFractionalMetricsHint() == getFractionalMetricsHint() &&
-                rhs.getTransform().equals(getTransform());
+            rfturn fblsf;
+        } flsf {
+            rfturn
+                ris.gftAntiAlibsingHint() == gftAntiAlibsingHint() &&
+                ris.gftFrbdtionblMftridsHint() == gftFrbdtionblMftridsHint() &&
+                ris.gftTrbnsform().fqubls(gftTrbnsform());
         }
     }
 
     /**
-     * Return a hashcode for this FontRenderContext.
+     * Rfturn b ibsidodf for tiis FontRfndfrContfxt.
      */
-    public int hashCode() {
-        int hash = tx == null ? 0 : tx.hashCode();
-        /* SunHints value objects have identity hashcode, so we can rely on
-         * this to ensure that two equal FRC's have the same hashcode.
+    publid int ibsiCodf() {
+        int ibsi = tx == null ? 0 : tx.ibsiCodf();
+        /* SunHints vbluf objfdts ibvf idfntity ibsidodf, so wf dbn rfly on
+         * tiis to fnsurf tibt two fqubl FRC's ibvf tif sbmf ibsidodf.
          */
-        if (defaulting) {
-            hash += getAntiAliasingHint().hashCode();
-            hash += getFractionalMetricsHint().hashCode();
-        } else {
-            hash += aaHintValue.hashCode();
-            hash += fmHintValue.hashCode();
+        if (dffbulting) {
+            ibsi += gftAntiAlibsingHint().ibsiCodf();
+            ibsi += gftFrbdtionblMftridsHint().ibsiCodf();
+        } flsf {
+            ibsi += bbHintVbluf.ibsiCodf();
+            ibsi += fmHintVbluf.ibsiCodf();
         }
-        return hash;
+        rfturn ibsi;
     }
 }

@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
 /**
- * An encapsulation of the result state produced by
- * <code>SSLEngine</code> I/O calls.
+ * An fndbpsulbtion of tif rfsult stbtf produdfd by
+ * <dodf>SSLEnginf</dodf> I/O dblls.
  *
- * <p> A <code>SSLEngine</code> provides a means for establishing
- * secure communication sessions between two peers.  <code>SSLEngine</code>
- * operations typically consume bytes from an input buffer and produce
- * bytes in an output buffer.  This class provides operational result
- * values describing the state of the <code>SSLEngine</code>, including
- * indications of what operations are needed to finish an
- * ongoing handshake.  Lastly, it reports the number of bytes consumed
- * and produced as a result of this operation.
+ * <p> A <dodf>SSLEnginf</dodf> providfs b mfbns for fstbblisiing
+ * sfdurf dommunidbtion sfssions bftwffn two pffrs.  <dodf>SSLEnginf</dodf>
+ * opfrbtions typidblly donsumf bytfs from bn input bufffr bnd produdf
+ * bytfs in bn output bufffr.  Tiis dlbss providfs opfrbtionbl rfsult
+ * vblufs dfsdribing tif stbtf of tif <dodf>SSLEnginf</dodf>, indluding
+ * indidbtions of wibt opfrbtions brf nffdfd to finisi bn
+ * ongoing ibndsibkf.  Lbstly, it rfports tif numbfr of bytfs donsumfd
+ * bnd produdfd bs b rfsult of tiis opfrbtion.
  *
- * @see SSLEngine
- * @see SSLEngine#wrap(ByteBuffer, ByteBuffer)
- * @see SSLEngine#unwrap(ByteBuffer, ByteBuffer)
+ * @sff SSLEnginf
+ * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
  *
- * @author Brad R. Wetmore
- * @since 1.5
+ * @butior Brbd R. Wftmorf
+ * @sindf 1.5
  */
 
-public class SSLEngineResult {
+publid dlbss SSLEnginfRfsult {
 
     /**
-     * An <code>SSLEngineResult</code> enum describing the overall result
-     * of the <code>SSLEngine</code> operation.
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif ovfrbll rfsult
+     * of tif <dodf>SSLEnginf</dodf> opfrbtion.
      *
-     * The <code>Status</code> value does not reflect the
-     * state of a <code>SSLEngine</code> handshake currently
-     * in progress.  The <code>SSLEngineResult's HandshakeStatus</code>
-     * should be consulted for that information.
+     * Tif <dodf>Stbtus</dodf> vbluf dofs not rfflfdt tif
+     * stbtf of b <dodf>SSLEnginf</dodf> ibndsibkf durrfntly
+     * in progrfss.  Tif <dodf>SSLEnginfRfsult's HbndsibkfStbtus</dodf>
+     * siould bf donsultfd for tibt informbtion.
      *
-     * @author Brad R. Wetmore
-     * @since 1.5
+     * @butior Brbd R. Wftmorf
+     * @sindf 1.5
      */
-    public static enum Status {
+    publid stbtid fnum Stbtus {
 
         /**
-         * The <code>SSLEngine</code> was not able to unwrap the
-         * incoming data because there were not enough source bytes
-         * available to make a complete packet.
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to unwrbp tif
+         * indoming dbtb bfdbusf tifrf wfrf not fnougi sourdf bytfs
+         * bvbilbblf to mbkf b domplftf pbdkft.
          *
          * <P>
-         * Repeat the call once more bytes are available.
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
          */
         BUFFER_UNDERFLOW,
 
         /**
-         * The <code>SSLEngine</code> was not able to process the
-         * operation because there are not enough bytes available in the
-         * destination buffer to hold the result.
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to prodfss tif
+         * opfrbtion bfdbusf tifrf brf not fnougi bytfs bvbilbblf in tif
+         * dfstinbtion bufffr to iold tif rfsult.
          * <P>
-         * Repeat the call once more bytes are available.
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
          *
-         * @see SSLSession#getPacketBufferSize()
-         * @see SSLSession#getApplicationBufferSize()
+         * @sff SSLSfssion#gftPbdkftBufffrSizf()
+         * @sff SSLSfssion#gftApplidbtionBufffrSizf()
          */
         BUFFER_OVERFLOW,
 
         /**
-         * The <code>SSLEngine</code> completed the operation, and
-         * is available to process similar calls.
+         * Tif <dodf>SSLEnginf</dodf> domplftfd tif opfrbtion, bnd
+         * is bvbilbblf to prodfss similbr dblls.
          */
         OK,
 
         /**
-         * The operation just closed this side of the
-         * <code>SSLEngine</code>, or the operation
-         * could not be completed because it was already closed.
+         * Tif opfrbtion just dlosfd tiis sidf of tif
+         * <dodf>SSLEnginf</dodf>, or tif opfrbtion
+         * dould not bf domplftfd bfdbusf it wbs blrfbdy dlosfd.
          */
         CLOSED;
     }
 
     /**
-     * An <code>SSLEngineResult</code> enum describing the current
-     * handshaking state of this <code>SSLEngine</code>.
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif durrfnt
+     * ibndsibking stbtf of tiis <dodf>SSLEnginf</dodf>.
      *
-     * @author Brad R. Wetmore
-     * @since 1.5
+     * @butior Brbd R. Wftmorf
+     * @sindf 1.5
      */
-    public static enum HandshakeStatus {
+    publid stbtid fnum HbndsibkfStbtus {
 
         /**
-         * The <code>SSLEngine</code> is not currently handshaking.
+         * Tif <dodf>SSLEnginf</dodf> is not durrfntly ibndsibking.
          */
         NOT_HANDSHAKING,
 
         /**
-         * The <code>SSLEngine</code> has just finished handshaking.
+         * Tif <dodf>SSLEnginf</dodf> ibs just finisifd ibndsibking.
          * <P>
-         * This value is only generated by a call to
-         * <code>SSLEngine.wrap()/unwrap()</code> when that call
-         * finishes a handshake.  It is never generated by
-         * <code>SSLEngine.getHandshakeStatus()</code>.
+         * Tiis vbluf is only gfnfrbtfd by b dbll to
+         * <dodf>SSLEnginf.wrbp()/unwrbp()</dodf> wifn tibt dbll
+         * finisifs b ibndsibkf.  It is nfvfr gfnfrbtfd by
+         * <dodf>SSLEnginf.gftHbndsibkfStbtus()</dodf>.
          *
-         * @see SSLEngine#wrap(ByteBuffer, ByteBuffer)
-         * @see SSLEngine#unwrap(ByteBuffer, ByteBuffer)
-         * @see SSLEngine#getHandshakeStatus()
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#gftHbndsibkfStbtus()
          */
         FINISHED,
 
         /**
-         * The <code>SSLEngine</code> needs the results of one (or more)
-         * delegated tasks before handshaking can continue.
+         * Tif <dodf>SSLEnginf</dodf> nffds tif rfsults of onf (or morf)
+         * dflfgbtfd tbsks bfforf ibndsibking dbn dontinuf.
          *
-         * @see SSLEngine#getDelegatedTask()
+         * @sff SSLEnginf#gftDflfgbtfdTbsk()
          */
         NEED_TASK,
 
         /**
-         * The <code>SSLEngine</code> must send data to the remote side
-         * before handshaking can continue, so <code>SSLEngine.wrap()</code>
-         * should be called.
+         * Tif <dodf>SSLEnginf</dodf> must sfnd dbtb to tif rfmotf sidf
+         * bfforf ibndsibking dbn dontinuf, so <dodf>SSLEnginf.wrbp()</dodf>
+         * siould bf dbllfd.
          *
-         * @see SSLEngine#wrap(ByteBuffer, ByteBuffer)
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
          */
         NEED_WRAP,
 
         /**
-         * The <code>SSLEngine</code> needs to receive data from the
-         * remote side before handshaking can continue.
+         * Tif <dodf>SSLEnginf</dodf> nffds to rfdfivf dbtb from tif
+         * rfmotf sidf bfforf ibndsibking dbn dontinuf.
          */
         NEED_UNWRAP;
     }
 
 
-    private final Status status;
-    private final HandshakeStatus handshakeStatus;
-    private final int bytesConsumed;
-    private final int bytesProduced;
+    privbtf finbl Stbtus stbtus;
+    privbtf finbl HbndsibkfStbtus ibndsibkfStbtus;
+    privbtf finbl int bytfsConsumfd;
+    privbtf finbl int bytfsProdudfd;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @param   status
-     *          the return value of the operation.
+     * @pbrbm   stbtus
+     *          tif rfturn vbluf of tif opfrbtion.
      *
-     * @param   handshakeStatus
-     *          the current handshaking status.
+     * @pbrbm   ibndsibkfStbtus
+     *          tif durrfnt ibndsibking stbtus.
      *
-     * @param   bytesConsumed
-     *          the number of bytes consumed from the source ByteBuffer
+     * @pbrbm   bytfsConsumfd
+     *          tif numbfr of bytfs donsumfd from tif sourdf BytfBufffr
      *
-     * @param   bytesProduced
-     *          the number of bytes placed into the destination ByteBuffer
+     * @pbrbm   bytfsProdudfd
+     *          tif numbfr of bytfs plbdfd into tif dfstinbtion BytfBufffr
      *
-     * @throws  IllegalArgumentException
-     *          if the <code>status</code> or <code>handshakeStatus</code>
-     *          arguments are null, or if <code>bytesConsumed</code> or
-     *          <code>bytesProduced</code> is negative.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if tif <dodf>stbtus</dodf> or <dodf>ibndsibkfStbtus</dodf>
+     *          brgumfnts brf null, or if <dodf>bytfsConsumfd</dodf> or
+     *          <dodf>bytfsProdudfd</dodf> is nfgbtivf.
      */
-    public SSLEngineResult(Status status, HandshakeStatus handshakeStatus,
-            int bytesConsumed, int bytesProduced) {
+    publid SSLEnginfRfsult(Stbtus stbtus, HbndsibkfStbtus ibndsibkfStbtus,
+            int bytfsConsumfd, int bytfsProdudfd) {
 
-        if ((status == null) || (handshakeStatus == null) ||
-                (bytesConsumed < 0) || (bytesProduced < 0)) {
-            throw new IllegalArgumentException("Invalid Parameter(s)");
+        if ((stbtus == null) || (ibndsibkfStbtus == null) ||
+                (bytfsConsumfd < 0) || (bytfsProdudfd < 0)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid Pbrbmftfr(s)");
         }
 
-        this.status = status;
-        this.handshakeStatus = handshakeStatus;
-        this.bytesConsumed = bytesConsumed;
-        this.bytesProduced = bytesProduced;
+        tiis.stbtus = stbtus;
+        tiis.ibndsibkfStbtus = ibndsibkfStbtus;
+        tiis.bytfsConsumfd = bytfsConsumfd;
+        tiis.bytfsProdudfd = bytfsProdudfd;
     }
 
     /**
-     * Gets the return value of this <code>SSLEngine</code> operation.
+     * Gfts tif rfturn vbluf of tiis <dodf>SSLEnginf</dodf> opfrbtion.
      *
-     * @return  the return value
+     * @rfturn  tif rfturn vbluf
      */
-    final public Status getStatus() {
-        return status;
+    finbl publid Stbtus gftStbtus() {
+        rfturn stbtus;
     }
 
     /**
-     * Gets the handshake status of this <code>SSLEngine</code>
-     * operation.
+     * Gfts tif ibndsibkf stbtus of tiis <dodf>SSLEnginf</dodf>
+     * opfrbtion.
      *
-     * @return  the handshake status
+     * @rfturn  tif ibndsibkf stbtus
      */
-    final public HandshakeStatus getHandshakeStatus() {
-        return handshakeStatus;
+    finbl publid HbndsibkfStbtus gftHbndsibkfStbtus() {
+        rfturn ibndsibkfStbtus;
     }
 
     /**
-     * Returns the number of bytes consumed from the input buffer.
+     * Rfturns tif numbfr of bytfs donsumfd from tif input bufffr.
      *
-     * @return  the number of bytes consumed.
+     * @rfturn  tif numbfr of bytfs donsumfd.
      */
-    final public int bytesConsumed() {
-        return bytesConsumed;
+    finbl publid int bytfsConsumfd() {
+        rfturn bytfsConsumfd;
     }
 
     /**
-     * Returns the number of bytes written to the output buffer.
+     * Rfturns tif numbfr of bytfs writtfn to tif output bufffr.
      *
-     * @return  the number of bytes produced
+     * @rfturn  tif numbfr of bytfs produdfd
      */
-    final public int bytesProduced() {
-        return bytesProduced;
+    finbl publid int bytfsProdudfd() {
+        rfturn bytfsProdudfd;
     }
 
     /**
-     * Returns a String representation of this object.
+     * Rfturns b String rfprfsfntbtion of tiis objfdt.
      */
-    @Override
-    public String toString() {
-        return ("Status = " + status +
-            " HandshakeStatus = " + handshakeStatus +
-            "\nbytesConsumed = " + bytesConsumed +
-            " bytesProduced = " + bytesProduced);
+    @Ovfrridf
+    publid String toString() {
+        rfturn ("Stbtus = " + stbtus +
+            " HbndsibkfStbtus = " + ibndsibkfStbtus +
+            "\nbytfsConsumfd = " + bytfsConsumfd +
+            " bytfsProdudfd = " + bytfsProdudfd);
     }
 }

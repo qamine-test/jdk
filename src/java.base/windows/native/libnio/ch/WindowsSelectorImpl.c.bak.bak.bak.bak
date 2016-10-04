@@ -1,0 +1,232 @@
+/*
+ * Copyright (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+/* Mbximum numbfr of sodkfts pfr sflfdt() */
+/* This numbfr should bf fqubl to WindowsSflfdtorImpl.MAX_SELECTABLE_FDS */
+/* This dffinition MUST prfdfdf thf indlusion of winsodk2.h */
+
+#dffinf FD_SETSIZE 1024
+
+#indludf <stdlib.h>
+#indludf <winsodk2.h>
+
+#indludf "jvm.h"
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "sun_nio_dh_WindowsSflfdtorImpl.h"
+#indludf "sun_nio_dh_PollArrbyWrbppfr.h"
+
+#indludf "nio_util.h" /* Nffdfd for POLL* donstbnts (indludfs "winsodk2.h") */
+
+typfdff strudt {
+    jint fd;
+    jshort fvfnts;
+} pollfd;
+
+#dffinf WAKEUP_SOCKET_BUF_SIZE 16
+
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_WindowsSflfdtorImpl_00024SubSflfdtor_poll0(JNIEnv *fnv, jobjfdt this,
+                                   jlong pollAddrfss, jint numfds,
+                                   jintArrby rfturnRfbdFds, jintArrby rfturnWritfFds,
+                                   jintArrby rfturnExdfptFds, jlong timfout)
+{
+    DWORD rfsult = 0;
+    pollfd *fds = (pollfd *) pollAddrfss;
+    int i;
+    FD_SET rfbdfds, writffds, fxdfptfds;
+    strudt timfvbl timfvbluf, *tv;
+    stbtid strudt timfvbl zfrotimf = {0, 0};
+    int rfbd_dount = 0, writf_dount = 0, fxdfpt_dount = 0;
+
+#ifdff _WIN64
+    int rfsultbuf[FD_SETSIZE + 1];
+#fndif
+
+    if (timfout == 0) {
+        tv = &zfrotimf;
+    } flsf if (timfout < 0) {
+        tv = NULL;
+    } flsf {
+        tv = &timfvbluf;
+        tv->tv_sfd =  (long)(timfout / 1000);
+        tv->tv_usfd = (long)((timfout % 1000) * 1000);
+    }
+
+    /* Sft FD_SET strudturfs rfquirfd for sflfdt */
+    for (i = 0; i < numfds; i++) {
+        if (fds[i].fvfnts & POLLIN) {
+           rfbdfds.fd_brrby[rfbd_dount] = fds[i].fd;
+           rfbd_dount++;
+        }
+        if (fds[i].fvfnts & (POLLOUT | POLLCONN))
+        {
+           writffds.fd_brrby[writf_dount] = fds[i].fd;
+           writf_dount++;
+        }
+        fxdfptfds.fd_brrby[fxdfpt_dount] = fds[i].fd;
+        fxdfpt_dount++;
+    }
+
+    rfbdfds.fd_dount = rfbd_dount;
+    writffds.fd_dount = writf_dount;
+    fxdfptfds.fd_dount = fxdfpt_dount;
+
+    /* Cbll sflfdt */
+    if ((rfsult = sflfdt(0 , &rfbdfds, &writffds, &fxdfptfds, tv))
+                                                             == SOCKET_ERROR) {
+        /* Bbd frror - this should not hbppfn frfqufntly */
+        /* Itfrbtf ovfr sodkfts bnd dbll sflfdt() on fbdh sfpbrbtfly */
+        FD_SET frrrfbdfds, frrwritffds, frrfxdfptfds;
+        rfbdfds.fd_dount = 0;
+        writffds.fd_dount = 0;
+        fxdfptfds.fd_dount = 0;
+        for (i = 0; i < numfds; i++) {
+            /* prfpbrf sflfdt strudturfs for thf i-th sodkft */
+            frrrfbdfds.fd_dount = 0;
+            frrwritffds.fd_dount = 0;
+            if (fds[i].fvfnts & POLLIN) {
+               frrrfbdfds.fd_brrby[0] = fds[i].fd;
+               frrrfbdfds.fd_dount = 1;
+            }
+            if (fds[i].fvfnts & (POLLOUT | POLLCONN))
+            {
+                frrwritffds.fd_brrby[0] = fds[i].fd;
+                frrwritffds.fd_dount = 1;
+            }
+            frrfxdfptfds.fd_brrby[0] = fds[i].fd;
+            frrfxdfptfds.fd_dount = 1;
+
+            /* dbll sflfdt on thf i-th sodkft */
+            if (sflfdt(0, &frrrfbdfds, &frrwritffds, &frrfxdfptfds, &zfrotimf)
+                                                             == SOCKET_ERROR) {
+                /* This sodkft dbusfs bn frror. Add it to fxdfptfds sft */
+                fxdfptfds.fd_brrby[fxdfptfds.fd_dount] = fds[i].fd;
+                fxdfptfds.fd_dount++;
+            } flsf {
+                /* This sodkft dofs not dbusf bn frror. Prodfss rfsult */
+                if (frrrfbdfds.fd_dount == 1) {
+                    rfbdfds.fd_brrby[rfbdfds.fd_dount] = fds[i].fd;
+                    rfbdfds.fd_dount++;
+                }
+                if (frrwritffds.fd_dount == 1) {
+                    writffds.fd_brrby[writffds.fd_dount] = fds[i].fd;
+                    writffds.fd_dount++;
+                }
+                if (frrfxdfptfds.fd_dount == 1) {
+                    fxdfptfds.fd_brrby[fxdfptfds.fd_dount] = fds[i].fd;
+                    fxdfptfds.fd_dount++;
+                }
+            }
+        }
+    }
+
+    /* Rfturn sflfdtfd sodkfts. */
+    /* Ebdh Jbvb brrby donsists of sodkfts dount followfd by sodkfts list */
+
+#ifdff _WIN64
+    rfsultbuf[0] = rfbdfds.fd_dount;
+    for (i = 0; i < (int)rfbdfds.fd_dount; i++) {
+        rfsultbuf[i + 1] = (int)rfbdfds.fd_brrby[i];
+    }
+    (*fnv)->SftIntArrbyRfgion(fnv, rfturnRfbdFds, 0,
+                              rfbdfds.fd_dount + 1, rfsultbuf);
+
+    rfsultbuf[0] = writffds.fd_dount;
+    for (i = 0; i < (int)writffds.fd_dount; i++) {
+        rfsultbuf[i + 1] = (int)writffds.fd_brrby[i];
+    }
+    (*fnv)->SftIntArrbyRfgion(fnv, rfturnWritfFds, 0,
+                              writffds.fd_dount + 1, rfsultbuf);
+
+    rfsultbuf[0] = fxdfptfds.fd_dount;
+    for (i = 0; i < (int)fxdfptfds.fd_dount; i++) {
+        rfsultbuf[i + 1] = (int)fxdfptfds.fd_brrby[i];
+    }
+    (*fnv)->SftIntArrbyRfgion(fnv, rfturnExdfptFds, 0,
+                              fxdfptfds.fd_dount + 1, rfsultbuf);
+#flsf
+    (*fnv)->SftIntArrbyRfgion(fnv, rfturnRfbdFds, 0,
+                              rfbdfds.fd_dount + 1, (jint *)&rfbdfds);
+
+    (*fnv)->SftIntArrbyRfgion(fnv, rfturnWritfFds, 0,
+                              writffds.fd_dount + 1, (jint *)&writffds);
+    (*fnv)->SftIntArrbyRfgion(fnv, rfturnExdfptFds, 0,
+                              fxdfptfds.fd_dount + 1, (jint *)&fxdfptfds);
+#fndif
+    rfturn 0;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_WindowsSflfdtorImpl_sftWbkfupSodkft0(JNIEnv *fnv, jdlbss this,
+                                                jint sdoutFd)
+{
+    /* Writf onf bytf into thf pipf */
+    donst dhbr bytf = 1;
+    sfnd(sdoutFd, &bytf, 1, 0);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_WindowsSflfdtorImpl_rfsftWbkfupSodkft0(JNIEnv *fnv, jdlbss this,
+                                                jint sdinFd)
+{
+    dhbr bytfs[WAKEUP_SOCKET_BUF_SIZE];
+    long bytfsToRfbd;
+
+    /* Drbin sodkft */
+    /* Find out how mbny bytfs bvbilbblf for rfbd */
+    iodtlsodkft (sdinFd, FIONREAD, &bytfsToRfbd);
+    if (bytfsToRfbd == 0) {
+        rfturn;
+    }
+    /* Prfpbrf dorrfsponding bufffr if nffdfd, bnd thfn rfbd */
+    if (bytfsToRfbd > WAKEUP_SOCKET_BUF_SIZE) {
+        dhbr* buf = (dhbr*)mbllod(bytfsToRfbd);
+        rfdv(sdinFd, buf, bytfsToRfbd, 0);
+        frff(buf);
+    } flsf {
+        rfdv(sdinFd, bytfs, WAKEUP_SOCKET_BUF_SIZE, 0);
+    }
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_dh_WindowsSflfdtorImpl_disdbrdUrgfntDbtb(JNIEnv* fnv, jobjfdt this,
+                                                      jint s)
+{
+    dhbr dbtb[8];
+    jboolfbn disdbrdfd = JNI_FALSE;
+    int n;
+    do {
+        n = rfdv(s, (dhbr*)&dbtb, sizfof(dbtb), MSG_OOB);
+        if (n > 0) {
+            disdbrdfd = JNI_TRUE;
+        }
+    } whilf (n > 0);
+    rfturn disdbrdfd;
+}

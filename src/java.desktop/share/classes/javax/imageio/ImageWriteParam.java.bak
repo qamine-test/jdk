@@ -1,1470 +1,1470 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio;
+pbdkbgf jbvbx.imbgfio;
 
-import java.awt.Dimension;
-import java.util.Locale;
+import jbvb.bwt.Dimfnsion;
+import jbvb.util.Lodblf;
 
 /**
- * A class describing how a stream is to be encoded.  Instances of
- * this class or its subclasses are used to supply prescriptive
- * "how-to" information to instances of <code>ImageWriter</code>.
+ * A dlbss dfsdribing iow b strfbm is to bf fndodfd.  Instbndfs of
+ * tiis dlbss or its subdlbssfs brf usfd to supply prfsdriptivf
+ * "iow-to" informbtion to instbndfs of <dodf>ImbgfWritfr</dodf>.
  *
- * <p> A plug-in for a specific image format may define a subclass of
- * this class, and return objects of that class from the
- * <code>getDefaultWriteParam</code> method of its
- * <code>ImageWriter</code> implementation.  For example, the built-in
- * JPEG writer plug-in will return instances of
- * <code>javax.imageio.plugins.jpeg.JPEGImageWriteParam</code>.
+ * <p> A plug-in for b spfdifid imbgf formbt mby dffinf b subdlbss of
+ * tiis dlbss, bnd rfturn objfdts of tibt dlbss from tif
+ * <dodf>gftDffbultWritfPbrbm</dodf> mftiod of its
+ * <dodf>ImbgfWritfr</dodf> implfmfntbtion.  For fxbmplf, tif built-in
+ * JPEG writfr plug-in will rfturn instbndfs of
+ * <dodf>jbvbx.imbgfio.plugins.jpfg.JPEGImbgfWritfPbrbm</dodf>.
  *
- * <p> The region of the image to be written is determined by first
- * intersecting the actual bounds of the image with the rectangle
- * specified by <code>IIOParam.setSourceRegion</code>, if any.  If the
- * resulting rectangle has a width or height of zero, the writer will
- * throw an <code>IIOException</code>. If the intersection is
- * non-empty, writing will commence with the first subsampled pixel
- * and include additional pixels within the intersected bounds
- * according to the horizontal and vertical subsampling factors
- * specified by {@link IIOParam#setSourceSubsampling
- * IIOParam.setSourceSubsampling}.
+ * <p> Tif rfgion of tif imbgf to bf writtfn is dftfrminfd by first
+ * intfrsfdting tif bdtubl bounds of tif imbgf witi tif rfdtbnglf
+ * spfdififd by <dodf>IIOPbrbm.sftSourdfRfgion</dodf>, if bny.  If tif
+ * rfsulting rfdtbnglf ibs b widti or ifigit of zfro, tif writfr will
+ * tirow bn <dodf>IIOExdfption</dodf>. If tif intfrsfdtion is
+ * non-fmpty, writing will dommfndf witi tif first subsbmplfd pixfl
+ * bnd indludf bdditionbl pixfls witiin tif intfrsfdtfd bounds
+ * bddording to tif iorizontbl bnd vfrtidbl subsbmpling fbdtors
+ * spfdififd by {@link IIOPbrbm#sftSourdfSubsbmpling
+ * IIOPbrbm.sftSourdfSubsbmpling}.
  *
- * <p> Individual features such as tiling, progressive encoding, and
- * compression may be set in one of four modes.
- * <code>MODE_DISABLED</code> disables the features;
- * <code>MODE_DEFAULT</code> enables the feature with
- * writer-controlled parameter values; <code>MODE_EXPLICIT</code>
- * enables the feature and allows the use of a <code>set</code> method
- * to provide additional parameters; and
- * <code>MODE_COPY_FROM_METADATA</code> copies relevant parameter
- * values from the stream and image metadata objects passed to the
- * writer.  The default for all features is
- * <code>MODE_COPY_FROM_METADATA</code>.  Non-standard features
- * supplied in subclasses are encouraged, but not required to use a
- * similar scheme.
+ * <p> Individubl ffbturfs sudi bs tiling, progrfssivf fndoding, bnd
+ * domprfssion mby bf sft in onf of four modfs.
+ * <dodf>MODE_DISABLED</dodf> disbblfs tif ffbturfs;
+ * <dodf>MODE_DEFAULT</dodf> fnbblfs tif ffbturf witi
+ * writfr-dontrollfd pbrbmftfr vblufs; <dodf>MODE_EXPLICIT</dodf>
+ * fnbblfs tif ffbturf bnd bllows tif usf of b <dodf>sft</dodf> mftiod
+ * to providf bdditionbl pbrbmftfrs; bnd
+ * <dodf>MODE_COPY_FROM_METADATA</dodf> dopifs rflfvbnt pbrbmftfr
+ * vblufs from tif strfbm bnd imbgf mftbdbtb objfdts pbssfd to tif
+ * writfr.  Tif dffbult for bll ffbturfs is
+ * <dodf>MODE_COPY_FROM_METADATA</dodf>.  Non-stbndbrd ffbturfs
+ * supplifd in subdlbssfs brf fndourbgfd, but not rfquirfd to usf b
+ * similbr sdifmf.
  *
- * <p> Plug-in writers may extend the functionality of
- * <code>ImageWriteParam</code> by providing a subclass that implements
- * additional, plug-in specific interfaces.  It is up to the plug-in
- * to document what interfaces are available and how they are to be
- * used.  Writers will silently ignore any extended features of an
- * <code>ImageWriteParam</code> subclass of which they are not aware.
- * Also, they may ignore any optional features that they normally
- * disable when creating their own <code>ImageWriteParam</code>
- * instances via <code>getDefaultWriteParam</code>.
+ * <p> Plug-in writfrs mby fxtfnd tif fundtionblity of
+ * <dodf>ImbgfWritfPbrbm</dodf> by providing b subdlbss tibt implfmfnts
+ * bdditionbl, plug-in spfdifid intfrfbdfs.  It is up to tif plug-in
+ * to dodumfnt wibt intfrfbdfs brf bvbilbblf bnd iow tify brf to bf
+ * usfd.  Writfrs will silfntly ignorf bny fxtfndfd ffbturfs of bn
+ * <dodf>ImbgfWritfPbrbm</dodf> subdlbss of wiidi tify brf not bwbrf.
+ * Also, tify mby ignorf bny optionbl ffbturfs tibt tify normblly
+ * disbblf wifn drfbting tifir own <dodf>ImbgfWritfPbrbm</dodf>
+ * instbndfs vib <dodf>gftDffbultWritfPbrbm</dodf>.
  *
- * <p> Note that unless a query method exists for a capability, it must
- * be supported by all <code>ImageWriter</code> implementations
- * (<i>e.g.</i> progressive encoding is optional, but subsampling must be
- * supported).
+ * <p> Notf tibt unlfss b qufry mftiod fxists for b dbpbbility, it must
+ * bf supportfd by bll <dodf>ImbgfWritfr</dodf> implfmfntbtions
+ * (<i>f.g.</i> progrfssivf fndoding is optionbl, but subsbmpling must bf
+ * supportfd).
  *
  *
- * @see ImageReadParam
+ * @sff ImbgfRfbdPbrbm
  */
-public class ImageWriteParam extends IIOParam {
+publid dlbss ImbgfWritfPbrbm fxtfnds IIOPbrbm {
 
     /**
-     * A constant value that may be passed into methods such as
-     * <code>setTilingMode</code>, <code>setProgressiveMode</code>,
-     * and <code>setCompressionMode</code> to disable a feature for
-     * future writes.  That is, when this mode is set the stream will
-     * <b>not</b> be tiled, progressive, or compressed, and the
-     * relevant accessor methods will throw an
-     * <code>IllegalStateException</code>.
+     * A donstbnt vbluf tibt mby bf pbssfd into mftiods sudi bs
+     * <dodf>sftTilingModf</dodf>, <dodf>sftProgrfssivfModf</dodf>,
+     * bnd <dodf>sftComprfssionModf</dodf> to disbblf b ffbturf for
+     * futurf writfs.  Tibt is, wifn tiis modf is sft tif strfbm will
+     * <b>not</b> bf tilfd, progrfssivf, or domprfssfd, bnd tif
+     * rflfvbnt bddfssor mftiods will tirow bn
+     * <dodf>IllfgblStbtfExdfption</dodf>.
      *
-     * @see #MODE_EXPLICIT
-     * @see #MODE_COPY_FROM_METADATA
-     * @see #MODE_DEFAULT
-     * @see #setProgressiveMode
-     * @see #getProgressiveMode
-     * @see #setTilingMode
-     * @see #getTilingMode
-     * @see #setCompressionMode
-     * @see #getCompressionMode
+     * @sff #MODE_EXPLICIT
+     * @sff #MODE_COPY_FROM_METADATA
+     * @sff #MODE_DEFAULT
+     * @sff #sftProgrfssivfModf
+     * @sff #gftProgrfssivfModf
+     * @sff #sftTilingModf
+     * @sff #gftTilingModf
+     * @sff #sftComprfssionModf
+     * @sff #gftComprfssionModf
      */
-    public static final int MODE_DISABLED = 0;
+    publid stbtid finbl int MODE_DISABLED = 0;
 
     /**
-     * A constant value that may be passed into methods such as
-     * <code>setTilingMode</code>,
-     * <code>setProgressiveMode</code>, and
-     * <code>setCompressionMode</code> to enable that feature for
-     * future writes.  That is, when this mode is enabled the stream
-     * will be tiled, progressive, or compressed according to a
-     * sensible default chosen internally by the writer in a plug-in
-     * dependent way, and the relevant accessor methods will
-     * throw an <code>IllegalStateException</code>.
+     * A donstbnt vbluf tibt mby bf pbssfd into mftiods sudi bs
+     * <dodf>sftTilingModf</dodf>,
+     * <dodf>sftProgrfssivfModf</dodf>, bnd
+     * <dodf>sftComprfssionModf</dodf> to fnbblf tibt ffbturf for
+     * futurf writfs.  Tibt is, wifn tiis modf is fnbblfd tif strfbm
+     * will bf tilfd, progrfssivf, or domprfssfd bddording to b
+     * sfnsiblf dffbult diosfn intfrnblly by tif writfr in b plug-in
+     * dfpfndfnt wby, bnd tif rflfvbnt bddfssor mftiods will
+     * tirow bn <dodf>IllfgblStbtfExdfption</dodf>.
      *
-     * @see #MODE_DISABLED
-     * @see #MODE_EXPLICIT
-     * @see #MODE_COPY_FROM_METADATA
-     * @see #setProgressiveMode
-     * @see #getProgressiveMode
-     * @see #setTilingMode
-     * @see #getTilingMode
-     * @see #setCompressionMode
-     * @see #getCompressionMode
+     * @sff #MODE_DISABLED
+     * @sff #MODE_EXPLICIT
+     * @sff #MODE_COPY_FROM_METADATA
+     * @sff #sftProgrfssivfModf
+     * @sff #gftProgrfssivfModf
+     * @sff #sftTilingModf
+     * @sff #gftTilingModf
+     * @sff #sftComprfssionModf
+     * @sff #gftComprfssionModf
      */
-    public static final int MODE_DEFAULT = 1;
+    publid stbtid finbl int MODE_DEFAULT = 1;
 
     /**
-     * A constant value that may be passed into methods such as
-     * <code>setTilingMode</code> or <code>setCompressionMode</code>
-     * to enable a feature for future writes. That is, when this mode
-     * is set the stream will be tiled or compressed according to
-     * additional information supplied to the corresponding
-     * <code>set</code> methods in this class and retrievable from the
-     * corresponding <code>get</code> methods.  Note that this mode is
-     * not supported for progressive output.
+     * A donstbnt vbluf tibt mby bf pbssfd into mftiods sudi bs
+     * <dodf>sftTilingModf</dodf> or <dodf>sftComprfssionModf</dodf>
+     * to fnbblf b ffbturf for futurf writfs. Tibt is, wifn tiis modf
+     * is sft tif strfbm will bf tilfd or domprfssfd bddording to
+     * bdditionbl informbtion supplifd to tif dorrfsponding
+     * <dodf>sft</dodf> mftiods in tiis dlbss bnd rftrifvbblf from tif
+     * dorrfsponding <dodf>gft</dodf> mftiods.  Notf tibt tiis modf is
+     * not supportfd for progrfssivf output.
      *
-     * @see #MODE_DISABLED
-     * @see #MODE_COPY_FROM_METADATA
-     * @see #MODE_DEFAULT
-     * @see #setProgressiveMode
-     * @see #getProgressiveMode
-     * @see #setTilingMode
-     * @see #getTilingMode
-     * @see #setCompressionMode
-     * @see #getCompressionMode
+     * @sff #MODE_DISABLED
+     * @sff #MODE_COPY_FROM_METADATA
+     * @sff #MODE_DEFAULT
+     * @sff #sftProgrfssivfModf
+     * @sff #gftProgrfssivfModf
+     * @sff #sftTilingModf
+     * @sff #gftTilingModf
+     * @sff #sftComprfssionModf
+     * @sff #gftComprfssionModf
      */
-    public static final int MODE_EXPLICIT = 2;
+    publid stbtid finbl int MODE_EXPLICIT = 2;
 
     /**
-     * A constant value that may be passed into methods such as
-     * <code>setTilingMode</code>, <code>setProgressiveMode</code>, or
-     * <code>setCompressionMode</code> to enable that feature for
-     * future writes.  That is, when this mode is enabled the stream
-     * will be tiled, progressive, or compressed based on the contents
-     * of stream and/or image metadata passed into the write
-     * operation, and any relevant accessor methods will throw an
-     * <code>IllegalStateException</code>.
+     * A donstbnt vbluf tibt mby bf pbssfd into mftiods sudi bs
+     * <dodf>sftTilingModf</dodf>, <dodf>sftProgrfssivfModf</dodf>, or
+     * <dodf>sftComprfssionModf</dodf> to fnbblf tibt ffbturf for
+     * futurf writfs.  Tibt is, wifn tiis modf is fnbblfd tif strfbm
+     * will bf tilfd, progrfssivf, or domprfssfd bbsfd on tif dontfnts
+     * of strfbm bnd/or imbgf mftbdbtb pbssfd into tif writf
+     * opfrbtion, bnd bny rflfvbnt bddfssor mftiods will tirow bn
+     * <dodf>IllfgblStbtfExdfption</dodf>.
      *
-     * <p> This is the default mode for all features, so that a read
-     * including metadata followed by a write including metadata will
-     * preserve as much information as possible.
+     * <p> Tiis is tif dffbult modf for bll ffbturfs, so tibt b rfbd
+     * indluding mftbdbtb followfd by b writf indluding mftbdbtb will
+     * prfsfrvf bs mudi informbtion bs possiblf.
      *
-     * @see #MODE_DISABLED
-     * @see #MODE_EXPLICIT
-     * @see #MODE_DEFAULT
-     * @see #setProgressiveMode
-     * @see #getProgressiveMode
-     * @see #setTilingMode
-     * @see #getTilingMode
-     * @see #setCompressionMode
-     * @see #getCompressionMode
+     * @sff #MODE_DISABLED
+     * @sff #MODE_EXPLICIT
+     * @sff #MODE_DEFAULT
+     * @sff #sftProgrfssivfModf
+     * @sff #gftProgrfssivfModf
+     * @sff #sftTilingModf
+     * @sff #gftTilingModf
+     * @sff #sftComprfssionModf
+     * @sff #gftComprfssionModf
      */
-    public static final int MODE_COPY_FROM_METADATA = 3;
+    publid stbtid finbl int MODE_COPY_FROM_METADATA = 3;
 
-    // If more modes are added, this should be updated.
-    private static final int MAX_MODE = MODE_COPY_FROM_METADATA;
-
-    /**
-     * A <code>boolean</code> that is <code>true</code> if this
-     * <code>ImageWriteParam</code> allows tile width and tile height
-     * parameters to be set.  By default, the value is
-     * <code>false</code>.  Subclasses must set the value manually.
-     *
-     * <p> Subclasses that do not support writing tiles should ensure
-     * that this value is set to <code>false</code>.
-     */
-    protected boolean canWriteTiles = false;
+    // If morf modfs brf bddfd, tiis siould bf updbtfd.
+    privbtf stbtid finbl int MAX_MODE = MODE_COPY_FROM_METADATA;
 
     /**
-     * The mode controlling tiling settings, which Must be
-     * set to one of the four <code>MODE_*</code> values.  The default
-     * is <code>MODE_COPY_FROM_METADATA</code>.
+     * A <dodf>boolfbn</dodf> tibt is <dodf>truf</dodf> if tiis
+     * <dodf>ImbgfWritfPbrbm</dodf> bllows tilf widti bnd tilf ifigit
+     * pbrbmftfrs to bf sft.  By dffbult, tif vbluf is
+     * <dodf>fblsf</dodf>.  Subdlbssfs must sft tif vbluf mbnublly.
      *
-     * <p> Subclasses that do not writing tiles may ignore this value.
-     *
-     * @see #MODE_DISABLED
-     * @see #MODE_EXPLICIT
-     * @see #MODE_COPY_FROM_METADATA
-     * @see #MODE_DEFAULT
-     * @see #setTilingMode
-     * @see #getTilingMode
+     * <p> Subdlbssfs tibt do not support writing tilfs siould fnsurf
+     * tibt tiis vbluf is sft to <dodf>fblsf</dodf>.
      */
-    protected int tilingMode = MODE_COPY_FROM_METADATA;
+    protfdtfd boolfbn dbnWritfTilfs = fblsf;
 
     /**
-     * An array of preferred tile size range pairs.  The default value
-     * is <code>null</code>, which indicates that there are no
-     * preferred sizes.  If the value is non-<code>null</code>, it
-     * must have an even length of at least two.
+     * Tif modf dontrolling tiling sfttings, wiidi Must bf
+     * sft to onf of tif four <dodf>MODE_*</dodf> vblufs.  Tif dffbult
+     * is <dodf>MODE_COPY_FROM_METADATA</dodf>.
      *
-     * <p> Subclasses that do not support writing tiles may ignore
-     * this value.
+     * <p> Subdlbssfs tibt do not writing tilfs mby ignorf tiis vbluf.
      *
-     * @see #getPreferredTileSizes
+     * @sff #MODE_DISABLED
+     * @sff #MODE_EXPLICIT
+     * @sff #MODE_COPY_FROM_METADATA
+     * @sff #MODE_DEFAULT
+     * @sff #sftTilingModf
+     * @sff #gftTilingModf
      */
-    protected Dimension[] preferredTileSizes = null;
+    protfdtfd int tilingModf = MODE_COPY_FROM_METADATA;
 
     /**
-     * A <code>boolean</code> that is <code>true</code> if tiling
-     * parameters have been specified.
+     * An brrby of prfffrrfd tilf sizf rbngf pbirs.  Tif dffbult vbluf
+     * is <dodf>null</dodf>, wiidi indidbtfs tibt tifrf brf no
+     * prfffrrfd sizfs.  If tif vbluf is non-<dodf>null</dodf>, it
+     * must ibvf bn fvfn lfngti of bt lfbst two.
      *
-     * <p> Subclasses that do not support writing tiles may ignore
-     * this value.
+     * <p> Subdlbssfs tibt do not support writing tilfs mby ignorf
+     * tiis vbluf.
+     *
+     * @sff #gftPrfffrrfdTilfSizfs
      */
-    protected boolean tilingSet = false;
+    protfdtfd Dimfnsion[] prfffrrfdTilfSizfs = null;
 
     /**
-     * The width of each tile if tiling has been set, or 0 otherwise.
+     * A <dodf>boolfbn</dodf> tibt is <dodf>truf</dodf> if tiling
+     * pbrbmftfrs ibvf bffn spfdififd.
      *
-     * <p> Subclasses that do not support tiling may ignore this
-     * value.
+     * <p> Subdlbssfs tibt do not support writing tilfs mby ignorf
+     * tiis vbluf.
      */
-    protected int tileWidth = 0;
+    protfdtfd boolfbn tilingSft = fblsf;
 
     /**
-     * The height of each tile if tiling has been set, or 0 otherwise.
-     * The initial value is <code>0</code>.
+     * Tif widti of fbdi tilf if tiling ibs bffn sft, or 0 otifrwisf.
      *
-     * <p> Subclasses that do not support tiling may ignore this
-     * value.
+     * <p> Subdlbssfs tibt do not support tiling mby ignorf tiis
+     * vbluf.
      */
-    protected int tileHeight = 0;
+    protfdtfd int tilfWidti = 0;
 
     /**
-     * A <code>boolean</code> that is <code>true</code> if this
-     * <code>ImageWriteParam</code> allows tiling grid offset
-     * parameters to be set.  By default, the value is
-     * <code>false</code>.  Subclasses must set the value manually.
+     * Tif ifigit of fbdi tilf if tiling ibs bffn sft, or 0 otifrwisf.
+     * Tif initibl vbluf is <dodf>0</dodf>.
      *
-     * <p> Subclasses that do not support writing tiles, or that
-     * support writing but not offsetting tiles must ensure that this
-     * value is set to <code>false</code>.
+     * <p> Subdlbssfs tibt do not support tiling mby ignorf tiis
+     * vbluf.
      */
-    protected boolean canOffsetTiles = false;
+    protfdtfd int tilfHfigit = 0;
 
     /**
-     * The amount by which the tile grid origin should be offset
-     * horizontally from the image origin if tiling has been set,
-     * or 0 otherwise.  The initial value is <code>0</code>.
+     * A <dodf>boolfbn</dodf> tibt is <dodf>truf</dodf> if tiis
+     * <dodf>ImbgfWritfPbrbm</dodf> bllows tiling grid offsft
+     * pbrbmftfrs to bf sft.  By dffbult, tif vbluf is
+     * <dodf>fblsf</dodf>.  Subdlbssfs must sft tif vbluf mbnublly.
      *
-     * <p> Subclasses that do not support offsetting tiles may ignore
-     * this value.
+     * <p> Subdlbssfs tibt do not support writing tilfs, or tibt
+     * support writing but not offsftting tilfs must fnsurf tibt tiis
+     * vbluf is sft to <dodf>fblsf</dodf>.
      */
-    protected int tileGridXOffset = 0;
+    protfdtfd boolfbn dbnOffsftTilfs = fblsf;
 
     /**
-     * The amount by which the tile grid origin should be offset
-     * vertically from the image origin if tiling has been set,
-     * or 0 otherwise.  The initial value is <code>0</code>.
+     * Tif bmount by wiidi tif tilf grid origin siould bf offsft
+     * iorizontblly from tif imbgf origin if tiling ibs bffn sft,
+     * or 0 otifrwisf.  Tif initibl vbluf is <dodf>0</dodf>.
      *
-     * <p> Subclasses that do not support offsetting tiles may ignore
-     * this value.
+     * <p> Subdlbssfs tibt do not support offsftting tilfs mby ignorf
+     * tiis vbluf.
      */
-    protected int tileGridYOffset = 0;
+    protfdtfd int tilfGridXOffsft = 0;
 
     /**
-     * A <code>boolean</code> that is <code>true</code> if this
-     * <code>ImageWriteParam</code> allows images to be written as a
-     * progressive sequence of increasing quality passes.  By default,
-     * the value is <code>false</code>.  Subclasses must set the value
-     * manually.
+     * Tif bmount by wiidi tif tilf grid origin siould bf offsft
+     * vfrtidblly from tif imbgf origin if tiling ibs bffn sft,
+     * or 0 otifrwisf.  Tif initibl vbluf is <dodf>0</dodf>.
      *
-     * <p> Subclasses that do not support progressive encoding must
-     * ensure that this value is set to <code>false</code>.
+     * <p> Subdlbssfs tibt do not support offsftting tilfs mby ignorf
+     * tiis vbluf.
      */
-    protected boolean canWriteProgressive = false;
+    protfdtfd int tilfGridYOffsft = 0;
 
     /**
-     * The mode controlling progressive encoding, which must be set to
-     * one of the four <code>MODE_*</code> values, except
-     * <code>MODE_EXPLICIT</code>.  The default is
-     * <code>MODE_COPY_FROM_METADATA</code>.
+     * A <dodf>boolfbn</dodf> tibt is <dodf>truf</dodf> if tiis
+     * <dodf>ImbgfWritfPbrbm</dodf> bllows imbgfs to bf writtfn bs b
+     * progrfssivf sfqufndf of indrfbsing qublity pbssfs.  By dffbult,
+     * tif vbluf is <dodf>fblsf</dodf>.  Subdlbssfs must sft tif vbluf
+     * mbnublly.
      *
-     * <p> Subclasses that do not support progressive encoding may
-     * ignore this value.
-     *
-     * @see #MODE_DISABLED
-     * @see #MODE_EXPLICIT
-     * @see #MODE_COPY_FROM_METADATA
-     * @see #MODE_DEFAULT
-     * @see #setProgressiveMode
-     * @see #getProgressiveMode
+     * <p> Subdlbssfs tibt do not support progrfssivf fndoding must
+     * fnsurf tibt tiis vbluf is sft to <dodf>fblsf</dodf>.
      */
-    protected int progressiveMode = MODE_COPY_FROM_METADATA;
+    protfdtfd boolfbn dbnWritfProgrfssivf = fblsf;
 
     /**
-     * A <code>boolean</code> that is <code>true</code> if this writer
-     * can write images using compression. By default, the value is
-     * <code>false</code>.  Subclasses must set the value manually.
+     * Tif modf dontrolling progrfssivf fndoding, wiidi must bf sft to
+     * onf of tif four <dodf>MODE_*</dodf> vblufs, fxdfpt
+     * <dodf>MODE_EXPLICIT</dodf>.  Tif dffbult is
+     * <dodf>MODE_COPY_FROM_METADATA</dodf>.
      *
-     * <p> Subclasses that do not support compression must ensure that
-     * this value is set to <code>false</code>.
+     * <p> Subdlbssfs tibt do not support progrfssivf fndoding mby
+     * ignorf tiis vbluf.
+     *
+     * @sff #MODE_DISABLED
+     * @sff #MODE_EXPLICIT
+     * @sff #MODE_COPY_FROM_METADATA
+     * @sff #MODE_DEFAULT
+     * @sff #sftProgrfssivfModf
+     * @sff #gftProgrfssivfModf
      */
-    protected boolean canWriteCompressed = false;
+    protfdtfd int progrfssivfModf = MODE_COPY_FROM_METADATA;
 
     /**
-     * The mode controlling compression settings, which must be set to
-     * one of the four <code>MODE_*</code> values.  The default is
-     * <code>MODE_COPY_FROM_METADATA</code>.
+     * A <dodf>boolfbn</dodf> tibt is <dodf>truf</dodf> if tiis writfr
+     * dbn writf imbgfs using domprfssion. By dffbult, tif vbluf is
+     * <dodf>fblsf</dodf>.  Subdlbssfs must sft tif vbluf mbnublly.
      *
-     * <p> Subclasses that do not support compression may ignore this
-     * value.
-     *
-     * @see #MODE_DISABLED
-     * @see #MODE_EXPLICIT
-     * @see #MODE_COPY_FROM_METADATA
-     * @see #MODE_DEFAULT
-     * @see #setCompressionMode
-     * @see #getCompressionMode
+     * <p> Subdlbssfs tibt do not support domprfssion must fnsurf tibt
+     * tiis vbluf is sft to <dodf>fblsf</dodf>.
      */
-    protected int compressionMode = MODE_COPY_FROM_METADATA;
+    protfdtfd boolfbn dbnWritfComprfssfd = fblsf;
 
     /**
-     * An array of <code>String</code>s containing the names of the
-     * available compression types.  Subclasses must set the value
-     * manually.
+     * Tif modf dontrolling domprfssion sfttings, wiidi must bf sft to
+     * onf of tif four <dodf>MODE_*</dodf> vblufs.  Tif dffbult is
+     * <dodf>MODE_COPY_FROM_METADATA</dodf>.
      *
-     * <p> Subclasses that do not support compression may ignore this
-     * value.
-     */
-    protected String[] compressionTypes = null;
-
-    /**
-     * A <code>String</code> containing the name of the current
-     * compression type, or <code>null</code> if none is set.
+     * <p> Subdlbssfs tibt do not support domprfssion mby ignorf tiis
+     * vbluf.
      *
-     * <p> Subclasses that do not support compression may ignore this
-     * value.
+     * @sff #MODE_DISABLED
+     * @sff #MODE_EXPLICIT
+     * @sff #MODE_COPY_FROM_METADATA
+     * @sff #MODE_DEFAULT
+     * @sff #sftComprfssionModf
+     * @sff #gftComprfssionModf
      */
-    protected String compressionType = null;
+    protfdtfd int domprfssionModf = MODE_COPY_FROM_METADATA;
 
     /**
-     * A <code>float</code> containing the current compression quality
-     * setting.  The initial value is <code>1.0F</code>.
+     * An brrby of <dodf>String</dodf>s dontbining tif nbmfs of tif
+     * bvbilbblf domprfssion typfs.  Subdlbssfs must sft tif vbluf
+     * mbnublly.
      *
-     * <p> Subclasses that do not support compression may ignore this
-     * value.
+     * <p> Subdlbssfs tibt do not support domprfssion mby ignorf tiis
+     * vbluf.
      */
-    protected float compressionQuality = 1.0F;
+    protfdtfd String[] domprfssionTypfs = null;
 
     /**
-     * A <code>Locale</code> to be used to localize compression type
-     * names and quality descriptions, or <code>null</code> to use a
-     * default <code>Locale</code>.  Subclasses must set the value
-     * manually.
-     */
-    protected Locale locale = null;
-
-    /**
-     * Constructs an empty <code>ImageWriteParam</code>.  It is up to
-     * the subclass to set up the instance variables properly.
-     */
-    protected ImageWriteParam() {}
-
-    /**
-     * Constructs an <code>ImageWriteParam</code> set to use a
-     * given <code>Locale</code>.
+     * A <dodf>String</dodf> dontbining tif nbmf of tif durrfnt
+     * domprfssion typf, or <dodf>null</dodf> if nonf is sft.
      *
-     * @param locale a <code>Locale</code> to be used to localize
-     * compression type names and quality descriptions, or
-     * <code>null</code>.
+     * <p> Subdlbssfs tibt do not support domprfssion mby ignorf tiis
+     * vbluf.
      */
-    public ImageWriteParam(Locale locale) {
-        this.locale = locale;
+    protfdtfd String domprfssionTypf = null;
+
+    /**
+     * A <dodf>flobt</dodf> dontbining tif durrfnt domprfssion qublity
+     * sftting.  Tif initibl vbluf is <dodf>1.0F</dodf>.
+     *
+     * <p> Subdlbssfs tibt do not support domprfssion mby ignorf tiis
+     * vbluf.
+     */
+    protfdtfd flobt domprfssionQublity = 1.0F;
+
+    /**
+     * A <dodf>Lodblf</dodf> to bf usfd to lodblizf domprfssion typf
+     * nbmfs bnd qublity dfsdriptions, or <dodf>null</dodf> to usf b
+     * dffbult <dodf>Lodblf</dodf>.  Subdlbssfs must sft tif vbluf
+     * mbnublly.
+     */
+    protfdtfd Lodblf lodblf = null;
+
+    /**
+     * Construdts bn fmpty <dodf>ImbgfWritfPbrbm</dodf>.  It is up to
+     * tif subdlbss to sft up tif instbndf vbribblfs propfrly.
+     */
+    protfdtfd ImbgfWritfPbrbm() {}
+
+    /**
+     * Construdts bn <dodf>ImbgfWritfPbrbm</dodf> sft to usf b
+     * givfn <dodf>Lodblf</dodf>.
+     *
+     * @pbrbm lodblf b <dodf>Lodblf</dodf> to bf usfd to lodblizf
+     * domprfssion typf nbmfs bnd qublity dfsdriptions, or
+     * <dodf>null</dodf>.
+     */
+    publid ImbgfWritfPbrbm(Lodblf lodblf) {
+        tiis.lodblf = lodblf;
     }
 
-    // Return a deep copy of the array
-    private static Dimension[] clonePreferredTileSizes(Dimension[] sizes) {
-        if (sizes == null) {
-            return null;
+    // Rfturn b dffp dopy of tif brrby
+    privbtf stbtid Dimfnsion[] dlonfPrfffrrfdTilfSizfs(Dimfnsion[] sizfs) {
+        if (sizfs == null) {
+            rfturn null;
         }
-        Dimension[] temp = new Dimension[sizes.length];
-        for (int i = 0; i < sizes.length; i++) {
-            temp[i] = new Dimension(sizes[i]);
+        Dimfnsion[] tfmp = nfw Dimfnsion[sizfs.lfngti];
+        for (int i = 0; i < sizfs.lfngti; i++) {
+            tfmp[i] = nfw Dimfnsion(sizfs[i]);
         }
-        return temp;
+        rfturn tfmp;
     }
 
     /**
-     * Returns the currently set <code>Locale</code>, or
-     * <code>null</code> if only a default <code>Locale</code> is
-     * supported.
+     * Rfturns tif durrfntly sft <dodf>Lodblf</dodf>, or
+     * <dodf>null</dodf> if only b dffbult <dodf>Lodblf</dodf> is
+     * supportfd.
      *
-     * @return the current <code>Locale</code>, or <code>null</code>.
+     * @rfturn tif durrfnt <dodf>Lodblf</dodf>, or <dodf>null</dodf>.
      */
-    public Locale getLocale() {
-        return locale;
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
     }
 
     /**
-     * Returns <code>true</code> if the writer can perform tiling
-     * while writing.  If this method returns <code>false</code>, then
-     * <code>setTiling</code> will throw an
-     * <code>UnsupportedOperationException</code>.
+     * Rfturns <dodf>truf</dodf> if tif writfr dbn pfrform tiling
+     * wiilf writing.  If tiis mftiod rfturns <dodf>fblsf</dodf>, tifn
+     * <dodf>sftTiling</dodf> will tirow bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @return <code>true</code> if the writer supports tiling.
+     * @rfturn <dodf>truf</dodf> if tif writfr supports tiling.
      *
-     * @see #canOffsetTiles()
-     * @see #setTiling(int, int, int, int)
+     * @sff #dbnOffsftTilfs()
+     * @sff #sftTiling(int, int, int, int)
      */
-    public boolean canWriteTiles() {
-        return canWriteTiles;
+    publid boolfbn dbnWritfTilfs() {
+        rfturn dbnWritfTilfs;
     }
 
     /**
-     * Returns <code>true</code> if the writer can perform tiling with
-     * non-zero grid offsets while writing.  If this method returns
-     * <code>false</code>, then <code>setTiling</code> will throw an
-     * <code>UnsupportedOperationException</code> if the grid offset
-     * arguments are not both zero.  If <code>canWriteTiles</code>
-     * returns <code>false</code>, this method will return
-     * <code>false</code> as well.
+     * Rfturns <dodf>truf</dodf> if tif writfr dbn pfrform tiling witi
+     * non-zfro grid offsfts wiilf writing.  If tiis mftiod rfturns
+     * <dodf>fblsf</dodf>, tifn <dodf>sftTiling</dodf> will tirow bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> if tif grid offsft
+     * brgumfnts brf not boti zfro.  If <dodf>dbnWritfTilfs</dodf>
+     * rfturns <dodf>fblsf</dodf>, tiis mftiod will rfturn
+     * <dodf>fblsf</dodf> bs wfll.
      *
-     * @return <code>true</code> if the writer supports non-zero tile
-     * offsets.
+     * @rfturn <dodf>truf</dodf> if tif writfr supports non-zfro tilf
+     * offsfts.
      *
-     * @see #canWriteTiles()
-     * @see #setTiling(int, int, int, int)
+     * @sff #dbnWritfTilfs()
+     * @sff #sftTiling(int, int, int, int)
      */
-    public boolean canOffsetTiles() {
-        return canOffsetTiles;
+    publid boolfbn dbnOffsftTilfs() {
+        rfturn dbnOffsftTilfs;
     }
 
     /**
-     * Determines whether the image will be tiled in the output
-     * stream and, if it will, how the tiling parameters will be
-     * determined.  The modes are interpreted as follows:
+     * Dftfrminfs wiftifr tif imbgf will bf tilfd in tif output
+     * strfbm bnd, if it will, iow tif tiling pbrbmftfrs will bf
+     * dftfrminfd.  Tif modfs brf intfrprftfd bs follows:
      *
      * <ul>
      *
-     * <li><code>MODE_DISABLED</code> - The image will not be tiled.
-     * <code>setTiling</code> will throw an
-     * <code>IllegalStateException</code>.
+     * <li><dodf>MODE_DISABLED</dodf> - Tif imbgf will not bf tilfd.
+     * <dodf>sftTiling</dodf> will tirow bn
+     * <dodf>IllfgblStbtfExdfption</dodf>.
      *
-     * <li><code>MODE_DEFAULT</code> - The image will be tiled using
-     * default parameters.  <code>setTiling</code> will throw an
-     * <code>IllegalStateException</code>.
+     * <li><dodf>MODE_DEFAULT</dodf> - Tif imbgf will bf tilfd using
+     * dffbult pbrbmftfrs.  <dodf>sftTiling</dodf> will tirow bn
+     * <dodf>IllfgblStbtfExdfption</dodf>.
      *
-     * <li><code>MODE_EXPLICIT</code> - The image will be tiled
-     * according to parameters given in the {@link #setTiling setTiling}
-     * method.  Any previously set tiling parameters are discarded.
+     * <li><dodf>MODE_EXPLICIT</dodf> - Tif imbgf will bf tilfd
+     * bddording to pbrbmftfrs givfn in tif {@link #sftTiling sftTiling}
+     * mftiod.  Any prfviously sft tiling pbrbmftfrs brf disdbrdfd.
      *
-     * <li><code>MODE_COPY_FROM_METADATA</code> - The image will
-     * conform to the metadata object passed in to a write.
-     * <code>setTiling</code> will throw an
-     * <code>IllegalStateException</code>.
+     * <li><dodf>MODE_COPY_FROM_METADATA</dodf> - Tif imbgf will
+     * donform to tif mftbdbtb objfdt pbssfd in to b writf.
+     * <dodf>sftTiling</dodf> will tirow bn
+     * <dodf>IllfgblStbtfExdfption</dodf>.
      *
      * </ul>
      *
-     * @param mode The mode to use for tiling.
+     * @pbrbm modf Tif modf to usf for tiling.
      *
-     * @exception UnsupportedOperationException if
-     * <code>canWriteTiles</code> returns <code>false</code>.
-     * @exception IllegalArgumentException if <code>mode</code> is not
-     * one of the modes listed above.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfTilfs</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>modf</dodf> is not
+     * onf of tif modfs listfd bbovf.
      *
-     * @see #setTiling
-     * @see #getTilingMode
+     * @sff #sftTiling
+     * @sff #gftTilingModf
      */
-    public void setTilingMode(int mode) {
-        if (canWriteTiles() == false) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+    publid void sftTilingModf(int modf) {
+        if (dbnWritfTilfs() == fblsf) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiling not supportfd!");
         }
-        if (mode < MODE_DISABLED || mode > MAX_MODE) {
-            throw new IllegalArgumentException("Illegal value for mode!");
+        if (modf < MODE_DISABLED || modf > MAX_MODE) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl vbluf for modf!");
         }
-        this.tilingMode = mode;
-        if (mode == MODE_EXPLICIT) {
-            unsetTiling();
+        tiis.tilingModf = modf;
+        if (modf == MODE_EXPLICIT) {
+            unsftTiling();
         }
     }
 
     /**
-     * Returns the current tiling mode, if tiling is supported.
-     * Otherwise throws an <code>UnsupportedOperationException</code>.
+     * Rfturns tif durrfnt tiling modf, if tiling is supportfd.
+     * Otifrwisf tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @return the current tiling mode.
+     * @rfturn tif durrfnt tiling modf.
      *
-     * @exception UnsupportedOperationException if
-     * <code>canWriteTiles</code> returns <code>false</code>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfTilfs</dodf> rfturns <dodf>fblsf</dodf>.
      *
-     * @see #setTilingMode
+     * @sff #sftTilingModf
      */
-    public int getTilingMode() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported");
+    publid int gftTilingModf() {
+        if (!dbnWritfTilfs()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiling not supportfd");
         }
-        return tilingMode;
+        rfturn tilingModf;
     }
 
     /**
-     * Returns an array of <code>Dimension</code>s indicating the
-     * legal size ranges for tiles as they will be encoded in the
-     * output file or stream.  The returned array is a copy.
+     * Rfturns bn brrby of <dodf>Dimfnsion</dodf>s indidbting tif
+     * lfgbl sizf rbngfs for tilfs bs tify will bf fndodfd in tif
+     * output filf or strfbm.  Tif rfturnfd brrby is b dopy.
      *
-     * <p> The information is returned as a set of pairs; the first
-     * element of a pair contains an (inclusive) minimum width and
-     * height, and the second element contains an (inclusive) maximum
-     * width and height.  Together, each pair defines a valid range of
-     * sizes.  To specify a fixed size, use the same width and height
-     * for both elements.  To specify an arbitrary range, a value of
-     * <code>null</code> is used in place of an actual array of
-     * <code>Dimension</code>s.
+     * <p> Tif informbtion is rfturnfd bs b sft of pbirs; tif first
+     * flfmfnt of b pbir dontbins bn (indlusivf) minimum widti bnd
+     * ifigit, bnd tif sfdond flfmfnt dontbins bn (indlusivf) mbximum
+     * widti bnd ifigit.  Togftifr, fbdi pbir dffinfs b vblid rbngf of
+     * sizfs.  To spfdify b fixfd sizf, usf tif sbmf widti bnd ifigit
+     * for boti flfmfnts.  To spfdify bn brbitrbry rbngf, b vbluf of
+     * <dodf>null</dodf> is usfd in plbdf of bn bdtubl brrby of
+     * <dodf>Dimfnsion</dodf>s.
      *
-     * <p> If no array is specified on the constructor, but tiling is
-     * allowed, then this method returns <code>null</code>.
+     * <p> If no brrby is spfdififd on tif donstrudtor, but tiling is
+     * bllowfd, tifn tiis mftiod rfturns <dodf>null</dodf>.
      *
-     * @exception UnsupportedOperationException if the plug-in does
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif plug-in dofs
      * not support tiling.
      *
-     * @return an array of <code>Dimension</code>s with an even length
-     * of at least two, or <code>null</code>.
+     * @rfturn bn brrby of <dodf>Dimfnsion</dodf>s witi bn fvfn lfngti
+     * of bt lfbst two, or <dodf>null</dodf>.
      */
-    public Dimension[] getPreferredTileSizes() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported");
+    publid Dimfnsion[] gftPrfffrrfdTilfSizfs() {
+        if (!dbnWritfTilfs()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiling not supportfd");
         }
-        return clonePreferredTileSizes(preferredTileSizes);
+        rfturn dlonfPrfffrrfdTilfSizfs(prfffrrfdTilfSizfs);
     }
 
     /**
-     * Specifies that the image should be tiled in the output stream.
-     * The <code>tileWidth</code> and <code>tileHeight</code>
-     * parameters specify the width and height of the tiles in the
-     * file.  If the tile width or height is greater than the width or
-     * height of the image, the image is not tiled in that dimension.
+     * Spfdififs tibt tif imbgf siould bf tilfd in tif output strfbm.
+     * Tif <dodf>tilfWidti</dodf> bnd <dodf>tilfHfigit</dodf>
+     * pbrbmftfrs spfdify tif widti bnd ifigit of tif tilfs in tif
+     * filf.  If tif tilf widti or ifigit is grfbtfr tibn tif widti or
+     * ifigit of tif imbgf, tif imbgf is not tilfd in tibt dimfnsion.
      *
-     * <p> If <code>canOffsetTiles</code> returns <code>false</code>,
-     * then the <code>tileGridXOffset</code> and
-     * <code>tileGridYOffset</code> parameters must be zero.
+     * <p> If <dodf>dbnOffsftTilfs</dodf> rfturns <dodf>fblsf</dodf>,
+     * tifn tif <dodf>tilfGridXOffsft</dodf> bnd
+     * <dodf>tilfGridYOffsft</dodf> pbrbmftfrs must bf zfro.
      *
-     * @param tileWidth the width of each tile.
-     * @param tileHeight the height of each tile.
-     * @param tileGridXOffset the horizontal offset of the tile grid.
-     * @param tileGridYOffset the vertical offset of the tile grid.
+     * @pbrbm tilfWidti tif widti of fbdi tilf.
+     * @pbrbm tilfHfigit tif ifigit of fbdi tilf.
+     * @pbrbm tilfGridXOffsft tif iorizontbl offsft of tif tilf grid.
+     * @pbrbm tilfGridYOffsft tif vfrtidbl offsft of tif tilf grid.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif plug-in dofs not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception UnsupportedOperationException if the plug-in does not
-     * support grid offsets, and the grid offsets are not both zero.
-     * @exception IllegalArgumentException if the tile size is not
-     * within one of the allowable ranges returned by
-     * <code>getPreferredTileSizes</code>.
-     * @exception IllegalArgumentException if <code>tileWidth</code>
-     * or <code>tileHeight</code> is less than or equal to 0.
+     * @fxdfption IllfgblStbtfExdfption if tif tiling modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif plug-in dofs not
+     * support grid offsfts, bnd tif grid offsfts brf not boti zfro.
+     * @fxdfption IllfgblArgumfntExdfption if tif tilf sizf is not
+     * witiin onf of tif bllowbblf rbngfs rfturnfd by
+     * <dodf>gftPrfffrrfdTilfSizfs</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>tilfWidti</dodf>
+     * or <dodf>tilfHfigit</dodf> is lfss tibn or fqubl to 0.
      *
-     * @see #canWriteTiles
-     * @see #canOffsetTiles
-     * @see #getTileWidth()
-     * @see #getTileHeight()
-     * @see #getTileGridXOffset()
-     * @see #getTileGridYOffset()
+     * @sff #dbnWritfTilfs
+     * @sff #dbnOffsftTilfs
+     * @sff #gftTilfWidti()
+     * @sff #gftTilfHfigit()
+     * @sff #gftTilfGridXOffsft()
+     * @sff #gftTilfGridYOffsft()
      */
-    public void setTiling(int tileWidth,
-                          int tileHeight,
-                          int tileGridXOffset,
-                          int tileGridYOffset) {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+    publid void sftTiling(int tilfWidti,
+                          int tilfHfigit,
+                          int tilfGridXOffsft,
+                          int tilfGridYOffsft) {
+        if (!dbnWritfTilfs()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiling not supportfd!");
         }
-        if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+        if (gftTilingModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption("Tiling modf not MODE_EXPLICIT!");
         }
-        if (tileWidth <= 0 || tileHeight <= 0) {
-            throw new IllegalArgumentException
-                ("tile dimensions are non-positive!");
+        if (tilfWidti <= 0 || tilfHfigit <= 0) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("tilf dimfnsions brf non-positivf!");
         }
-        boolean tilesOffset = (tileGridXOffset != 0) || (tileGridYOffset != 0);
-        if (!canOffsetTiles() && tilesOffset) {
-            throw new UnsupportedOperationException("Can't offset tiles!");
+        boolfbn tilfsOffsft = (tilfGridXOffsft != 0) || (tilfGridYOffsft != 0);
+        if (!dbnOffsftTilfs() && tilfsOffsft) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Cbn't offsft tilfs!");
         }
-        if (preferredTileSizes != null) {
-            boolean ok = true;
-            for (int i = 0; i < preferredTileSizes.length; i += 2) {
-                Dimension min = preferredTileSizes[i];
-                Dimension max = preferredTileSizes[i+1];
-                if ((tileWidth < min.width) ||
-                    (tileWidth > max.width) ||
-                    (tileHeight < min.height) ||
-                    (tileHeight > max.height)) {
-                    ok = false;
-                    break;
+        if (prfffrrfdTilfSizfs != null) {
+            boolfbn ok = truf;
+            for (int i = 0; i < prfffrrfdTilfSizfs.lfngti; i += 2) {
+                Dimfnsion min = prfffrrfdTilfSizfs[i];
+                Dimfnsion mbx = prfffrrfdTilfSizfs[i+1];
+                if ((tilfWidti < min.widti) ||
+                    (tilfWidti > mbx.widti) ||
+                    (tilfHfigit < min.ifigit) ||
+                    (tilfHfigit > mbx.ifigit)) {
+                    ok = fblsf;
+                    brfbk;
                 }
             }
             if (!ok) {
-                throw new IllegalArgumentException("Illegal tile size!");
+                tirow nfw IllfgblArgumfntExdfption("Illfgbl tilf sizf!");
             }
         }
 
-        this.tilingSet = true;
-        this.tileWidth = tileWidth;
-        this.tileHeight = tileHeight;
-        this.tileGridXOffset = tileGridXOffset;
-        this.tileGridYOffset = tileGridYOffset;
+        tiis.tilingSft = truf;
+        tiis.tilfWidti = tilfWidti;
+        tiis.tilfHfigit = tilfHfigit;
+        tiis.tilfGridXOffsft = tilfGridXOffsft;
+        tiis.tilfGridYOffsft = tilfGridYOffsft;
     }
 
     /**
-     * Removes any previous tile grid parameters specified by calls to
-     * <code>setTiling</code>.
+     * Rfmovfs bny prfvious tilf grid pbrbmftfrs spfdififd by dblls to
+     * <dodf>sftTiling</dodf>.
      *
-     * <p> The default implementation sets the instance variables
-     * <code>tileWidth</code>, <code>tileHeight</code>,
-     * <code>tileGridXOffset</code>, and
-     * <code>tileGridYOffset</code> to <code>0</code>.
+     * <p> Tif dffbult implfmfntbtion sfts tif instbndf vbribblfs
+     * <dodf>tilfWidti</dodf>, <dodf>tilfHfigit</dodf>,
+     * <dodf>tilfGridXOffsft</dodf>, bnd
+     * <dodf>tilfGridYOffsft</dodf> to <dodf>0</dodf>.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif plug-in dofs not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
-     * <code>MODE_EXPLICIT</code>.
+     * @fxdfption IllfgblStbtfExdfption if tif tiling modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
      *
-     * @see #setTiling(int, int, int, int)
+     * @sff #sftTiling(int, int, int, int)
      */
-    public void unsetTiling() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+    publid void unsftTiling() {
+        if (!dbnWritfTilfs()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiling not supportfd!");
         }
-        if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+        if (gftTilingModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption("Tiling modf not MODE_EXPLICIT!");
         }
-        this.tilingSet = false;
-        this.tileWidth = 0;
-        this.tileHeight = 0;
-        this.tileGridXOffset = 0;
-        this.tileGridYOffset = 0;
+        tiis.tilingSft = fblsf;
+        tiis.tilfWidti = 0;
+        tiis.tilfHfigit = 0;
+        tiis.tilfGridXOffsft = 0;
+        tiis.tilfGridYOffsft = 0;
     }
 
     /**
-     * Returns the width of each tile in an image as it will be
-     * written to the output stream.  If tiling parameters have not
-     * been set, an <code>IllegalStateException</code> is thrown.
+     * Rfturns tif widti of fbdi tilf in bn imbgf bs it will bf
+     * writtfn to tif output strfbm.  If tiling pbrbmftfrs ibvf not
+     * bffn sft, bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      *
-     * @return the tile width to be used for encoding.
+     * @rfturn tif tilf widti to bf usfd for fndoding.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif plug-in dofs not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the tiling parameters have
-     * not been set.
+     * @fxdfption IllfgblStbtfExdfption if tif tiling modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tif tiling pbrbmftfrs ibvf
+     * not bffn sft.
      *
-     * @see #setTiling(int, int, int, int)
-     * @see #getTileHeight()
+     * @sff #sftTiling(int, int, int, int)
+     * @sff #gftTilfHfigit()
      */
-    public int getTileWidth() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+    publid int gftTilfWidti() {
+        if (!dbnWritfTilfs()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiling not supportfd!");
         }
-        if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+        if (gftTilingModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption("Tiling modf not MODE_EXPLICIT!");
         }
-        if (!tilingSet) {
-            throw new IllegalStateException("Tiling parameters not set!");
+        if (!tilingSft) {
+            tirow nfw IllfgblStbtfExdfption("Tiling pbrbmftfrs not sft!");
         }
-        return tileWidth;
+        rfturn tilfWidti;
     }
 
     /**
-     * Returns the height of each tile in an image as it will be written to
-     * the output stream.  If tiling parameters have not
-     * been set, an <code>IllegalStateException</code> is thrown.
+     * Rfturns tif ifigit of fbdi tilf in bn imbgf bs it will bf writtfn to
+     * tif output strfbm.  If tiling pbrbmftfrs ibvf not
+     * bffn sft, bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      *
-     * @return the tile height to be used for encoding.
+     * @rfturn tif tilf ifigit to bf usfd for fndoding.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif plug-in dofs not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the tiling parameters have
-     * not been set.
+     * @fxdfption IllfgblStbtfExdfption if tif tiling modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tif tiling pbrbmftfrs ibvf
+     * not bffn sft.
      *
-     * @see #setTiling(int, int, int, int)
-     * @see #getTileWidth()
+     * @sff #sftTiling(int, int, int, int)
+     * @sff #gftTilfWidti()
      */
-    public int getTileHeight() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+    publid int gftTilfHfigit() {
+        if (!dbnWritfTilfs()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiling not supportfd!");
         }
-        if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+        if (gftTilingModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption("Tiling modf not MODE_EXPLICIT!");
         }
-        if (!tilingSet) {
-            throw new IllegalStateException("Tiling parameters not set!");
+        if (!tilingSft) {
+            tirow nfw IllfgblStbtfExdfption("Tiling pbrbmftfrs not sft!");
         }
-        return tileHeight;
+        rfturn tilfHfigit;
     }
 
     /**
-     * Returns the horizontal tile grid offset of an image as it will
-     * be written to the output stream.  If tiling parameters have not
-     * been set, an <code>IllegalStateException</code> is thrown.
+     * Rfturns tif iorizontbl tilf grid offsft of bn imbgf bs it will
+     * bf writtfn to tif output strfbm.  If tiling pbrbmftfrs ibvf not
+     * bffn sft, bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      *
-     * @return the tile grid X offset to be used for encoding.
+     * @rfturn tif tilf grid X offsft to bf usfd for fndoding.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif plug-in dofs not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the tiling parameters have
-     * not been set.
+     * @fxdfption IllfgblStbtfExdfption if tif tiling modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tif tiling pbrbmftfrs ibvf
+     * not bffn sft.
      *
-     * @see #setTiling(int, int, int, int)
-     * @see #getTileGridYOffset()
+     * @sff #sftTiling(int, int, int, int)
+     * @sff #gftTilfGridYOffsft()
      */
-    public int getTileGridXOffset() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+    publid int gftTilfGridXOffsft() {
+        if (!dbnWritfTilfs()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiling not supportfd!");
         }
-        if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+        if (gftTilingModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption("Tiling modf not MODE_EXPLICIT!");
         }
-        if (!tilingSet) {
-            throw new IllegalStateException("Tiling parameters not set!");
+        if (!tilingSft) {
+            tirow nfw IllfgblStbtfExdfption("Tiling pbrbmftfrs not sft!");
         }
-        return tileGridXOffset;
+        rfturn tilfGridXOffsft;
     }
 
     /**
-     * Returns the vertical tile grid offset of an image as it will
-     * be written to the output stream.  If tiling parameters have not
-     * been set, an <code>IllegalStateException</code> is thrown.
+     * Rfturns tif vfrtidbl tilf grid offsft of bn imbgf bs it will
+     * bf writtfn to tif output strfbm.  If tiling pbrbmftfrs ibvf not
+     * bffn sft, bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      *
-     * @return the tile grid Y offset to be used for encoding.
+     * @rfturn tif tilf grid Y offsft to bf usfd for fndoding.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif plug-in dofs not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the tiling parameters have
-     * not been set.
+     * @fxdfption IllfgblStbtfExdfption if tif tiling modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tif tiling pbrbmftfrs ibvf
+     * not bffn sft.
      *
-     * @see #setTiling(int, int, int, int)
-     * @see #getTileGridXOffset()
+     * @sff #sftTiling(int, int, int, int)
+     * @sff #gftTilfGridXOffsft()
      */
-    public int getTileGridYOffset() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+    publid int gftTilfGridYOffsft() {
+        if (!dbnWritfTilfs()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiling not supportfd!");
         }
-        if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+        if (gftTilingModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption("Tiling modf not MODE_EXPLICIT!");
         }
-        if (!tilingSet) {
-            throw new IllegalStateException("Tiling parameters not set!");
+        if (!tilingSft) {
+            tirow nfw IllfgblStbtfExdfption("Tiling pbrbmftfrs not sft!");
         }
-        return tileGridYOffset;
+        rfturn tilfGridYOffsft;
     }
 
     /**
-     * Returns <code>true</code> if the writer can write out images
-     * as a series of passes of progressively increasing quality.
+     * Rfturns <dodf>truf</dodf> if tif writfr dbn writf out imbgfs
+     * bs b sfrifs of pbssfs of progrfssivfly indrfbsing qublity.
      *
-     * @return <code>true</code> if the writer supports progressive
-     * encoding.
+     * @rfturn <dodf>truf</dodf> if tif writfr supports progrfssivf
+     * fndoding.
      *
-     * @see #setProgressiveMode
-     * @see #getProgressiveMode
+     * @sff #sftProgrfssivfModf
+     * @sff #gftProgrfssivfModf
      */
-    public boolean canWriteProgressive() {
-        return canWriteProgressive;
+    publid boolfbn dbnWritfProgrfssivf() {
+        rfturn dbnWritfProgrfssivf;
     }
 
     /**
-     * Specifies that the writer is to write the image out in a
-     * progressive mode such that the stream will contain a series of
-     * scans of increasing quality.  If progressive encoding is not
-     * supported, an <code>UnsupportedOperationException</code> will
-     * be thrown.
+     * Spfdififs tibt tif writfr is to writf tif imbgf out in b
+     * progrfssivf modf sudi tibt tif strfbm will dontbin b sfrifs of
+     * sdbns of indrfbsing qublity.  If progrfssivf fndoding is not
+     * supportfd, bn <dodf>UnsupportfdOpfrbtionExdfption</dodf> will
+     * bf tirown.
      *
-     * <p>  The mode argument determines how
-     * the progression parameters are chosen, and must be either
-     * <code>MODE_DISABLED</code>,
-     * <code>MODE_COPY_FROM_METADATA</code>, or
-     * <code>MODE_DEFAULT</code>.  Otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
+     * <p>  Tif modf brgumfnt dftfrminfs iow
+     * tif progrfssion pbrbmftfrs brf diosfn, bnd must bf fitifr
+     * <dodf>MODE_DISABLED</dodf>,
+     * <dodf>MODE_COPY_FROM_METADATA</dodf>, or
+     * <dodf>MODE_DEFAULT</dodf>.  Otifrwisf bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is tirown.
      *
-     * <p> The modes are interpreted as follows:
+     * <p> Tif modfs brf intfrprftfd bs follows:
      *
      * <ul>
-     *   <li><code>MODE_DISABLED</code> - No progression.  Use this to
-     *   turn off progression.
+     *   <li><dodf>MODE_DISABLED</dodf> - No progrfssion.  Usf tiis to
+     *   turn off progrfssion.
      *
-     *   <li><code>MODE_COPY_FROM_METADATA</code> - The output image
-     *   will use whatever progression parameters are found in the
-     *   metadata objects passed into the writer.
+     *   <li><dodf>MODE_COPY_FROM_METADATA</dodf> - Tif output imbgf
+     *   will usf wibtfvfr progrfssion pbrbmftfrs brf found in tif
+     *   mftbdbtb objfdts pbssfd into tif writfr.
      *
-     *   <li><code>MODE_DEFAULT</code> - The image will be written
-     *   progressively, with parameters chosen by the writer.
+     *   <li><dodf>MODE_DEFAULT</dodf> - Tif imbgf will bf writtfn
+     *   progrfssivfly, witi pbrbmftfrs diosfn by tif writfr.
      * </ul>
      *
-     * <p> The default is <code>MODE_COPY_FROM_METADATA</code>.
+     * <p> Tif dffbult is <dodf>MODE_COPY_FROM_METADATA</dodf>.
      *
-     * @param mode The mode for setting progression in the output
-     * stream.
+     * @pbrbm modf Tif modf for sftting progrfssion in tif output
+     * strfbm.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support progressive encoding.
-     * @exception IllegalArgumentException if <code>mode</code> is not
-     * one of the modes listed above.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support progrfssivf fndoding.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>modf</dodf> is not
+     * onf of tif modfs listfd bbovf.
      *
-     * @see #getProgressiveMode
+     * @sff #gftProgrfssivfModf
      */
-    public void setProgressiveMode(int mode) {
-        if (!canWriteProgressive()) {
-            throw new UnsupportedOperationException(
-                "Progressive output not supported");
+    publid void sftProgrfssivfModf(int modf) {
+        if (!dbnWritfProgrfssivf()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Progrfssivf output not supportfd");
         }
-        if (mode < MODE_DISABLED || mode > MAX_MODE) {
-            throw new IllegalArgumentException("Illegal value for mode!");
+        if (modf < MODE_DISABLED || modf > MAX_MODE) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl vbluf for modf!");
         }
-        if (mode == MODE_EXPLICIT) {
-            throw new IllegalArgumentException(
-                "MODE_EXPLICIT not supported for progressive output");
+        if (modf == MODE_EXPLICIT) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "MODE_EXPLICIT not supportfd for progrfssivf output");
         }
-        this.progressiveMode = mode;
+        tiis.progrfssivfModf = modf;
     }
 
     /**
-     * Returns the current mode for writing the stream in a
-     * progressive manner.
+     * Rfturns tif durrfnt modf for writing tif strfbm in b
+     * progrfssivf mbnnfr.
      *
-     * @return the current mode for progressive encoding.
+     * @rfturn tif durrfnt modf for progrfssivf fndoding.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support progressive encoding.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support progrfssivf fndoding.
      *
-     * @see #setProgressiveMode
+     * @sff #sftProgrfssivfModf
      */
-    public int getProgressiveMode() {
-        if (!canWriteProgressive()) {
-            throw new UnsupportedOperationException
-                ("Progressive output not supported");
+    publid int gftProgrfssivfModf() {
+        if (!dbnWritfProgrfssivf()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption
+                ("Progrfssivf output not supportfd");
         }
-        return progressiveMode;
+        rfturn progrfssivfModf;
     }
 
     /**
-     * Returns <code>true</code> if this writer supports compression.
+     * Rfturns <dodf>truf</dodf> if tiis writfr supports domprfssion.
      *
-     * @return <code>true</code> if the writer supports compression.
+     * @rfturn <dodf>truf</dodf> if tif writfr supports domprfssion.
      */
-    public boolean canWriteCompressed() {
-        return canWriteCompressed;
+    publid boolfbn dbnWritfComprfssfd() {
+        rfturn dbnWritfComprfssfd;
     }
 
     /**
-     * Specifies whether compression is to be performed, and if so how
-     * compression parameters are to be determined.  The <code>mode</code>
-     * argument must be one of the four modes, interpreted as follows:
+     * Spfdififs wiftifr domprfssion is to bf pfrformfd, bnd if so iow
+     * domprfssion pbrbmftfrs brf to bf dftfrminfd.  Tif <dodf>modf</dodf>
+     * brgumfnt must bf onf of tif four modfs, intfrprftfd bs follows:
      *
      * <ul>
-     *   <li><code>MODE_DISABLED</code> - If the mode is set to
-     *   <code>MODE_DISABLED</code>, methods that query or modify the
-     *   compression type or parameters will throw an
-     *   <code>IllegalStateException</code> (if compression is
-     *   normally supported by the plug-in). Some writers, such as JPEG,
-     *   do not normally offer uncompressed output. In this case, attempting
-     *   to set the mode to <code>MODE_DISABLED</code> will throw an
-     *   <code>UnsupportedOperationException</code> and the mode will not be
-     *   changed.
+     *   <li><dodf>MODE_DISABLED</dodf> - If tif modf is sft to
+     *   <dodf>MODE_DISABLED</dodf>, mftiods tibt qufry or modify tif
+     *   domprfssion typf or pbrbmftfrs will tirow bn
+     *   <dodf>IllfgblStbtfExdfption</dodf> (if domprfssion is
+     *   normblly supportfd by tif plug-in). Somf writfrs, sudi bs JPEG,
+     *   do not normblly offfr undomprfssfd output. In tiis dbsf, bttfmpting
+     *   to sft tif modf to <dodf>MODE_DISABLED</dodf> will tirow bn
+     *   <dodf>UnsupportfdOpfrbtionExdfption</dodf> bnd tif modf will not bf
+     *   dibngfd.
      *
-     *   <li><code>MODE_EXPLICIT</code> - Compress using the
-     *   compression type and quality settings specified in this
-     *   <code>ImageWriteParam</code>.  Any previously set compression
-     *   parameters are discarded.
+     *   <li><dodf>MODE_EXPLICIT</dodf> - Comprfss using tif
+     *   domprfssion typf bnd qublity sfttings spfdififd in tiis
+     *   <dodf>ImbgfWritfPbrbm</dodf>.  Any prfviously sft domprfssion
+     *   pbrbmftfrs brf disdbrdfd.
      *
-     *   <li><code>MODE_COPY_FROM_METADATA</code> - Use whatever
-     *   compression parameters are specified in metadata objects
-     *   passed in to the writer.
+     *   <li><dodf>MODE_COPY_FROM_METADATA</dodf> - Usf wibtfvfr
+     *   domprfssion pbrbmftfrs brf spfdififd in mftbdbtb objfdts
+     *   pbssfd in to tif writfr.
      *
-     *   <li><code>MODE_DEFAULT</code> - Use default compression
-     *   parameters.
+     *   <li><dodf>MODE_DEFAULT</dodf> - Usf dffbult domprfssion
+     *   pbrbmftfrs.
      * </ul>
      *
-     * <p> The default is <code>MODE_COPY_FROM_METADATA</code>.
+     * <p> Tif dffbult is <dodf>MODE_COPY_FROM_METADATA</dodf>.
      *
-     * @param mode The mode for setting compression in the output
-     * stream.
+     * @pbrbm modf Tif modf for sftting domprfssion in tif output
+     * strfbm.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression, or does not support the requested mode.
-     * @exception IllegalArgumentException if <code>mode</code> is not
-     * one of the modes listed above.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion, or dofs not support tif rfqufstfd modf.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>modf</dodf> is not
+     * onf of tif modfs listfd bbovf.
      *
-     * @see #getCompressionMode
+     * @sff #gftComprfssionModf
      */
-    public void setCompressionMode(int mode) {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported.");
+    publid void sftComprfssionModf(int modf) {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd.");
         }
-        if (mode < MODE_DISABLED || mode > MAX_MODE) {
-            throw new IllegalArgumentException("Illegal value for mode!");
+        if (modf < MODE_DISABLED || modf > MAX_MODE) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl vbluf for modf!");
         }
-        this.compressionMode = mode;
-        if (mode == MODE_EXPLICIT) {
-            unsetCompression();
+        tiis.domprfssionModf = modf;
+        if (modf == MODE_EXPLICIT) {
+            unsftComprfssion();
         }
     }
 
     /**
-     * Returns the current compression mode, if compression is
-     * supported.
+     * Rfturns tif durrfnt domprfssion modf, if domprfssion is
+     * supportfd.
      *
-     * @return the current compression mode.
+     * @rfturn tif durrfnt domprfssion modf.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
      *
-     * @see #setCompressionMode
+     * @sff #sftComprfssionModf
      */
-    public int getCompressionMode() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported.");
+    publid int gftComprfssionModf() {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd.");
         }
-        return compressionMode;
+        rfturn domprfssionModf;
     }
 
     /**
-     * Returns a list of available compression types, as an array or
-     * <code>String</code>s, or <code>null</code> if a compression
-     * type may not be chosen using these interfaces.  The array
-     * returned is a copy.
+     * Rfturns b list of bvbilbblf domprfssion typfs, bs bn brrby or
+     * <dodf>String</dodf>s, or <dodf>null</dodf> if b domprfssion
+     * typf mby not bf diosfn using tifsf intfrfbdfs.  Tif brrby
+     * rfturnfd is b dopy.
      *
-     * <p> If the writer only offers a single, mandatory form of
-     * compression, it is not necessary to provide any named
-     * compression types.  Named compression types should only be
-     * used where the user is able to make a meaningful choice
-     * between different schemes.
+     * <p> If tif writfr only offfrs b singlf, mbndbtory form of
+     * domprfssion, it is not nfdfssbry to providf bny nbmfd
+     * domprfssion typfs.  Nbmfd domprfssion typfs siould only bf
+     * usfd wifrf tif usfr is bblf to mbkf b mfbningful dioidf
+     * bftwffn difffrfnt sdifmfs.
      *
-     * <p> The default implementation checks if compression is
-     * supported and throws an
-     * <code>UnsupportedOperationException</code> if not.  Otherwise,
-     * it returns a clone of the <code>compressionTypes</code>
-     * instance variable if it is non-<code>null</code>, or else
-     * returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion difdks if domprfssion is
+     * supportfd bnd tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> if not.  Otifrwisf,
+     * it rfturns b dlonf of tif <dodf>domprfssionTypfs</dodf>
+     * instbndf vbribblf if it is non-<dodf>null</dodf>, or flsf
+     * rfturns <dodf>null</dodf>.
      *
-     * @return an array of <code>String</code>s containing the
-     * (non-localized) names of available compression types, or
-     * <code>null</code>.
+     * @rfturn bn brrby of <dodf>String</dodf>s dontbining tif
+     * (non-lodblizfd) nbmfs of bvbilbblf domprfssion typfs, or
+     * <dodf>null</dodf>.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
      */
-    public String[] getCompressionTypes() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported");
+    publid String[] gftComprfssionTypfs() {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd");
         }
-        if (compressionTypes == null) {
-            return null;
+        if (domprfssionTypfs == null) {
+            rfturn null;
         }
-        return compressionTypes.clone();
+        rfturn domprfssionTypfs.dlonf();
     }
 
     /**
-     * Sets the compression type to one of the values indicated by
-     * <code>getCompressionTypes</code>.  If a value of
-     * <code>null</code> is passed in, any previous setting is
-     * removed.
+     * Sfts tif domprfssion typf to onf of tif vblufs indidbtfd by
+     * <dodf>gftComprfssionTypfs</dodf>.  If b vbluf of
+     * <dodf>null</dodf> is pbssfd in, bny prfvious sftting is
+     * rfmovfd.
      *
-     * <p> The default implementation checks whether compression is
-     * supported and the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, it calls
-     * <code>getCompressionTypes</code> and checks if
-     * <code>compressionType</code> is one of the legal values.  If it
-     * is, the <code>compressionType</code> instance variable is set.
-     * If <code>compressionType</code> is <code>null</code>, the
-     * instance variable is set without performing any checking.
+     * <p> Tif dffbult implfmfntbtion difdks wiftifr domprfssion is
+     * supportfd bnd tif domprfssion modf is
+     * <dodf>MODE_EXPLICIT</dodf>.  If so, it dblls
+     * <dodf>gftComprfssionTypfs</dodf> bnd difdks if
+     * <dodf>domprfssionTypf</dodf> is onf of tif lfgbl vblufs.  If it
+     * is, tif <dodf>domprfssionTypf</dodf> instbndf vbribblf is sft.
+     * If <dodf>domprfssionTypf</dodf> is <dodf>null</dodf>, tif
+     * instbndf vbribblf is sft witiout pfrforming bny difdking.
      *
-     * @param compressionType one of the <code>String</code>s returned
-     * by <code>getCompressionTypes</code>, or <code>null</code> to
-     * remove any previous setting.
+     * @pbrbm domprfssionTypf onf of tif <dodf>String</dodf>s rfturnfd
+     * by <dodf>gftComprfssionTypfs</dodf>, or <dodf>null</dodf> to
+     * rfmovf bny prfvious sftting.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
-     * @exception IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception UnsupportedOperationException if there are no
-     * settable compression types.
-     * @exception IllegalArgumentException if
-     * <code>compressionType</code> is non-<code>null</code> but is not
-     * one of the values returned by <code>getCompressionTypes</code>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
+     * @fxdfption IllfgblStbtfExdfption if tif domprfssion modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tifrf brf no
+     * sfttbblf domprfssion typfs.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>domprfssionTypf</dodf> is non-<dodf>null</dodf> but is not
+     * onf of tif vblufs rfturnfd by <dodf>gftComprfssionTypfs</dodf>.
      *
-     * @see #getCompressionTypes
-     * @see #getCompressionType
-     * @see #unsetCompression
+     * @sff #gftComprfssionTypfs
+     * @sff #gftComprfssionTypf
+     * @sff #unsftComprfssion
      */
-    public void setCompressionType(String compressionType) {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported");
+    publid void sftComprfssionTypf(String domprfssionTypf) {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd");
         }
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
+        if (gftComprfssionModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption
+                ("Comprfssion modf not MODE_EXPLICIT!");
         }
-        String[] legalTypes = getCompressionTypes();
-        if (legalTypes == null) {
-            throw new UnsupportedOperationException(
-                "No settable compression types");
+        String[] lfgblTypfs = gftComprfssionTypfs();
+        if (lfgblTypfs == null) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "No sfttbblf domprfssion typfs");
         }
-        if (compressionType != null) {
-            boolean found = false;
-            if (legalTypes != null) {
-                for (int i = 0; i < legalTypes.length; i++) {
-                    if (compressionType.equals(legalTypes[i])) {
-                        found = true;
-                        break;
+        if (domprfssionTypf != null) {
+            boolfbn found = fblsf;
+            if (lfgblTypfs != null) {
+                for (int i = 0; i < lfgblTypfs.lfngti; i++) {
+                    if (domprfssionTypf.fqubls(lfgblTypfs[i])) {
+                        found = truf;
+                        brfbk;
                     }
                 }
             }
             if (!found) {
-                throw new IllegalArgumentException("Unknown compression type!");
+                tirow nfw IllfgblArgumfntExdfption("Unknown domprfssion typf!");
             }
         }
-        this.compressionType = compressionType;
+        tiis.domprfssionTypf = domprfssionTypf;
     }
 
     /**
-     * Returns the currently set compression type, or
-     * <code>null</code> if none has been set.  The type is returned
-     * as a <code>String</code> from among those returned by
-     * <code>getCompressionTypes</code>.
-     * If no compression type has been set, <code>null</code> is
-     * returned.
+     * Rfturns tif durrfntly sft domprfssion typf, or
+     * <dodf>null</dodf> if nonf ibs bffn sft.  Tif typf is rfturnfd
+     * bs b <dodf>String</dodf> from bmong tiosf rfturnfd by
+     * <dodf>gftComprfssionTypfs</dodf>.
+     * If no domprfssion typf ibs bffn sft, <dodf>null</dodf> is
+     * rfturnfd.
      *
-     * <p> The default implementation checks whether compression is
-     * supported and the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, it returns the value of the
-     * <code>compressionType</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion difdks wiftifr domprfssion is
+     * supportfd bnd tif domprfssion modf is
+     * <dodf>MODE_EXPLICIT</dodf>.  If so, it rfturns tif vbluf of tif
+     * <dodf>domprfssionTypf</dodf> instbndf vbribblf.
      *
-     * @return the current compression type as a <code>String</code>,
-     * or <code>null</code> if no type is set.
+     * @rfturn tif durrfnt domprfssion typf bs b <dodf>String</dodf>,
+     * or <dodf>null</dodf> if no typf is sft.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
-     * @exception IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
+     * @fxdfption IllfgblStbtfExdfption if tif domprfssion modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
      *
-     * @see #setCompressionType
+     * @sff #sftComprfssionTypf
      */
-    public String getCompressionType() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported.");
+    publid String gftComprfssionTypf() {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd.");
         }
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
+        if (gftComprfssionModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption
+                ("Comprfssion modf not MODE_EXPLICIT!");
         }
-        return compressionType;
+        rfturn domprfssionTypf;
     }
 
     /**
-     * Removes any previous compression type and quality settings.
+     * Rfmovfs bny prfvious domprfssion typf bnd qublity sfttings.
      *
-     * <p> The default implementation sets the instance variable
-     * <code>compressionType</code> to <code>null</code>, and the
-     * instance variable <code>compressionQuality</code> to
-     * <code>1.0F</code>.
+     * <p> Tif dffbult implfmfntbtion sfts tif instbndf vbribblf
+     * <dodf>domprfssionTypf</dodf> to <dodf>null</dodf>, bnd tif
+     * instbndf vbribblf <dodf>domprfssionQublity</dodf> to
+     * <dodf>1.0F</dodf>.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
-     * support compression.
-     * @exception IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif plug-in dofs not
+     * support domprfssion.
+     * @fxdfption IllfgblStbtfExdfption if tif domprfssion modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
      *
-     * @see #setCompressionType
-     * @see #setCompressionQuality
+     * @sff #sftComprfssionTypf
+     * @sff #sftComprfssionQublity
      */
-    public void unsetCompression() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported");
+    publid void unsftComprfssion() {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd");
         }
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
+        if (gftComprfssionModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption
+                ("Comprfssion modf not MODE_EXPLICIT!");
         }
-        this.compressionType = null;
-        this.compressionQuality = 1.0F;
+        tiis.domprfssionTypf = null;
+        tiis.domprfssionQublity = 1.0F;
     }
 
     /**
-     * Returns a localized version of the name of the current
-     * compression type, using the <code>Locale</code> returned by
-     * <code>getLocale</code>.
+     * Rfturns b lodblizfd vfrsion of tif nbmf of tif durrfnt
+     * domprfssion typf, using tif <dodf>Lodblf</dodf> rfturnfd by
+     * <dodf>gftLodblf</dodf>.
      *
-     * <p> The default implementation checks whether compression is
-     * supported and the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, if
-     * <code>compressionType</code> is <code>non-null</code> the value
-     * of <code>getCompressionType</code> is returned as a
-     * convenience.
+     * <p> Tif dffbult implfmfntbtion difdks wiftifr domprfssion is
+     * supportfd bnd tif domprfssion modf is
+     * <dodf>MODE_EXPLICIT</dodf>.  If so, if
+     * <dodf>domprfssionTypf</dodf> is <dodf>non-null</dodf> tif vbluf
+     * of <dodf>gftComprfssionTypf</dodf> is rfturnfd bs b
+     * donvfnifndf.
      *
-     * @return a <code>String</code> containing a localized version of
-     * the name of the current compression type.
+     * @rfturn b <dodf>String</dodf> dontbining b lodblizfd vfrsion of
+     * tif nbmf of tif durrfnt domprfssion typf.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
-     * @exception IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if no compression type is set.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
+     * @fxdfption IllfgblStbtfExdfption if tif domprfssion modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if no domprfssion typf is sft.
      */
-    public String getLocalizedCompressionTypeName() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported.");
+    publid String gftLodblizfdComprfssionTypfNbmf() {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd.");
         }
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
+        if (gftComprfssionModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption
+                ("Comprfssion modf not MODE_EXPLICIT!");
         }
-        if (getCompressionType() == null) {
-            throw new IllegalStateException("No compression type set!");
+        if (gftComprfssionTypf() == null) {
+            tirow nfw IllfgblStbtfExdfption("No domprfssion typf sft!");
         }
-        return getCompressionType();
+        rfturn gftComprfssionTypf();
     }
 
     /**
-     * Returns <code>true</code> if the current compression type
-     * provides lossless compression.  If a plug-in provides only
-     * one mandatory compression type, then this method may be
-     * called without calling <code>setCompressionType</code> first.
+     * Rfturns <dodf>truf</dodf> if tif durrfnt domprfssion typf
+     * providfs losslfss domprfssion.  If b plug-in providfs only
+     * onf mbndbtory domprfssion typf, tifn tiis mftiod mby bf
+     * dbllfd witiout dblling <dodf>sftComprfssionTypf</dodf> first.
      *
-     * <p> If there are multiple compression types but none has
-     * been set, an <code>IllegalStateException</code> is thrown.
+     * <p> If tifrf brf multiplf domprfssion typfs but nonf ibs
+     * bffn sft, bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      *
-     * <p> The default implementation checks whether compression is
-     * supported and the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, if
-     * <code>getCompressionTypes()</code> is <code>null</code> or
-     * <code>getCompressionType()</code> is non-<code>null</code>
-     * <code>true</code> is returned as a convenience.
+     * <p> Tif dffbult implfmfntbtion difdks wiftifr domprfssion is
+     * supportfd bnd tif domprfssion modf is
+     * <dodf>MODE_EXPLICIT</dodf>.  If so, if
+     * <dodf>gftComprfssionTypfs()</dodf> is <dodf>null</dodf> or
+     * <dodf>gftComprfssionTypf()</dodf> is non-<dodf>null</dodf>
+     * <dodf>truf</dodf> is rfturnfd bs b donvfnifndf.
      *
-     * @return <code>true</code> if the current compression type is
-     * lossless.
+     * @rfturn <dodf>truf</dodf> if tif durrfnt domprfssion typf is
+     * losslfss.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
-     * @exception IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
-     * compression type is <code>null</code>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
+     * @fxdfption IllfgblStbtfExdfption if tif domprfssion modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tif sft of lfgbl
+     * domprfssion typfs is non-<dodf>null</dodf> bnd tif durrfnt
+     * domprfssion typf is <dodf>null</dodf>.
      */
-    public boolean isCompressionLossless() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported");
+    publid boolfbn isComprfssionLosslfss() {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd");
         }
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
+        if (gftComprfssionModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption
+                ("Comprfssion modf not MODE_EXPLICIT!");
         }
-        if ((getCompressionTypes() != null) &&
-            (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+        if ((gftComprfssionTypfs() != null) &&
+            (gftComprfssionTypf() == null)) {
+            tirow nfw IllfgblStbtfExdfption("No domprfssion typf sft!");
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Sets the compression quality to a value between <code>0</code>
-     * and <code>1</code>.  Only a single compression quality setting
-     * is supported by default; writers can provide extended versions
-     * of <code>ImageWriteParam</code> that offer more control.  For
-     * lossy compression schemes, the compression quality should
-     * control the tradeoff between file size and image quality (for
-     * example, by choosing quantization tables when writing JPEG
-     * images).  For lossless schemes, the compression quality may be
-     * used to control the tradeoff between file size and time taken
-     * to perform the compression (for example, by optimizing row
-     * filters and setting the ZLIB compression level when writing
-     * PNG images).
+     * Sfts tif domprfssion qublity to b vbluf bftwffn <dodf>0</dodf>
+     * bnd <dodf>1</dodf>.  Only b singlf domprfssion qublity sftting
+     * is supportfd by dffbult; writfrs dbn providf fxtfndfd vfrsions
+     * of <dodf>ImbgfWritfPbrbm</dodf> tibt offfr morf dontrol.  For
+     * lossy domprfssion sdifmfs, tif domprfssion qublity siould
+     * dontrol tif trbdfoff bftwffn filf sizf bnd imbgf qublity (for
+     * fxbmplf, by dioosing qubntizbtion tbblfs wifn writing JPEG
+     * imbgfs).  For losslfss sdifmfs, tif domprfssion qublity mby bf
+     * usfd to dontrol tif trbdfoff bftwffn filf sizf bnd timf tbkfn
+     * to pfrform tif domprfssion (for fxbmplf, by optimizing row
+     * filtfrs bnd sftting tif ZLIB domprfssion lfvfl wifn writing
+     * PNG imbgfs).
      *
-     * <p> A compression quality setting of 0.0 is most generically
-     * interpreted as "high compression is important," while a setting of
-     * 1.0 is most generically interpreted as "high image quality is
-     * important."
+     * <p> A domprfssion qublity sftting of 0.0 is most gfnfridblly
+     * intfrprftfd bs "iigi domprfssion is importbnt," wiilf b sftting of
+     * 1.0 is most gfnfridblly intfrprftfd bs "iigi imbgf qublity is
+     * importbnt."
      *
-     * <p> If there are multiple compression types but none has been
-     * set, an <code>IllegalStateException</code> is thrown.
+     * <p> If tifrf brf multiplf domprfssion typfs but nonf ibs bffn
+     * sft, bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      *
-     * <p> The default implementation checks that compression is
-     * supported, and that the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, if
-     * <code>getCompressionTypes()</code> returns <code>null</code> or
-     * <code>compressionType</code> is non-<code>null</code> it sets
-     * the <code>compressionQuality</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion difdks tibt domprfssion is
+     * supportfd, bnd tibt tif domprfssion modf is
+     * <dodf>MODE_EXPLICIT</dodf>.  If so, if
+     * <dodf>gftComprfssionTypfs()</dodf> rfturns <dodf>null</dodf> or
+     * <dodf>domprfssionTypf</dodf> is non-<dodf>null</dodf> it sfts
+     * tif <dodf>domprfssionQublity</dodf> instbndf vbribblf.
      *
-     * @param quality a <code>float</code> between <code>0</code>and
-     * <code>1</code> indicating the desired quality level.
+     * @pbrbm qublity b <dodf>flobt</dodf> bftwffn <dodf>0</dodf>bnd
+     * <dodf>1</dodf> indidbting tif dfsirfd qublity lfvfl.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
-     * @exception IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
-     * compression type is <code>null</code>.
-     * @exception IllegalArgumentException if <code>quality</code> is
-     * not between <code>0</code>and <code>1</code>, inclusive.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
+     * @fxdfption IllfgblStbtfExdfption if tif domprfssion modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tif sft of lfgbl
+     * domprfssion typfs is non-<dodf>null</dodf> bnd tif durrfnt
+     * domprfssion typf is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>qublity</dodf> is
+     * not bftwffn <dodf>0</dodf>bnd <dodf>1</dodf>, indlusivf.
      *
-     * @see #getCompressionQuality
+     * @sff #gftComprfssionQublity
      */
-    public void setCompressionQuality(float quality) {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported");
+    publid void sftComprfssionQublity(flobt qublity) {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd");
         }
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
+        if (gftComprfssionModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption
+                ("Comprfssion modf not MODE_EXPLICIT!");
         }
-        if (getCompressionTypes() != null && getCompressionType() == null) {
-            throw new IllegalStateException("No compression type set!");
+        if (gftComprfssionTypfs() != null && gftComprfssionTypf() == null) {
+            tirow nfw IllfgblStbtfExdfption("No domprfssion typf sft!");
         }
-        if (quality < 0.0F || quality > 1.0F) {
-            throw new IllegalArgumentException("Quality out-of-bounds!");
+        if (qublity < 0.0F || qublity > 1.0F) {
+            tirow nfw IllfgblArgumfntExdfption("Qublity out-of-bounds!");
         }
-        this.compressionQuality = quality;
+        tiis.domprfssionQublity = qublity;
     }
 
     /**
-     * Returns the current compression quality setting.
+     * Rfturns tif durrfnt domprfssion qublity sftting.
      *
-     * <p> If there are multiple compression types but none has been
-     * set, an <code>IllegalStateException</code> is thrown.
+     * <p> If tifrf brf multiplf domprfssion typfs but nonf ibs bffn
+     * sft, bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      *
-     * <p> The default implementation checks that compression is
-     * supported and that the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, if
-     * <code>getCompressionTypes()</code> is <code>null</code> or
-     * <code>getCompressionType()</code> is non-<code>null</code>, it
-     * returns the value of the <code>compressionQuality</code>
-     * instance variable.
+     * <p> Tif dffbult implfmfntbtion difdks tibt domprfssion is
+     * supportfd bnd tibt tif domprfssion modf is
+     * <dodf>MODE_EXPLICIT</dodf>.  If so, if
+     * <dodf>gftComprfssionTypfs()</dodf> is <dodf>null</dodf> or
+     * <dodf>gftComprfssionTypf()</dodf> is non-<dodf>null</dodf>, it
+     * rfturns tif vbluf of tif <dodf>domprfssionQublity</dodf>
+     * instbndf vbribblf.
      *
-     * @return the current compression quality setting.
+     * @rfturn tif durrfnt domprfssion qublity sftting.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
-     * @exception IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
-     * compression type is <code>null</code>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
+     * @fxdfption IllfgblStbtfExdfption if tif domprfssion modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tif sft of lfgbl
+     * domprfssion typfs is non-<dodf>null</dodf> bnd tif durrfnt
+     * domprfssion typf is <dodf>null</dodf>.
      *
-     * @see #setCompressionQuality
+     * @sff #sftComprfssionQublity
      */
-    public float getCompressionQuality() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported.");
+    publid flobt gftComprfssionQublity() {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd.");
         }
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
+        if (gftComprfssionModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption
+                ("Comprfssion modf not MODE_EXPLICIT!");
         }
-        if ((getCompressionTypes() != null) &&
-            (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+        if ((gftComprfssionTypfs() != null) &&
+            (gftComprfssionTypf() == null)) {
+            tirow nfw IllfgblStbtfExdfption("No domprfssion typf sft!");
         }
-        return compressionQuality;
+        rfturn domprfssionQublity;
     }
 
 
     /**
-     * Returns a <code>float</code> indicating an estimate of the
-     * number of bits of output data for each bit of input image data
-     * at the given quality level.  The value will typically lie
-     * between <code>0</code> and <code>1</code>, with smaller values
-     * indicating more compression.  A special value of
-     * <code>-1.0F</code> is used to indicate that no estimate is
-     * available.
+     * Rfturns b <dodf>flobt</dodf> indidbting bn fstimbtf of tif
+     * numbfr of bits of output dbtb for fbdi bit of input imbgf dbtb
+     * bt tif givfn qublity lfvfl.  Tif vbluf will typidblly lif
+     * bftwffn <dodf>0</dodf> bnd <dodf>1</dodf>, witi smbllfr vblufs
+     * indidbting morf domprfssion.  A spfdibl vbluf of
+     * <dodf>-1.0F</dodf> is usfd to indidbtf tibt no fstimbtf is
+     * bvbilbblf.
      *
-     * <p> If there are multiple compression types but none has been set,
-     * an <code>IllegalStateException</code> is thrown.
+     * <p> If tifrf brf multiplf domprfssion typfs but nonf ibs bffn sft,
+     * bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      *
-     * <p> The default implementation checks that compression is
-     * supported and the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, if
-     * <code>getCompressionTypes()</code> is <code>null</code> or
-     * <code>getCompressionType()</code> is non-<code>null</code>, and
-     * <code>quality</code> is within bounds, it returns
-     * <code>-1.0</code>.
+     * <p> Tif dffbult implfmfntbtion difdks tibt domprfssion is
+     * supportfd bnd tif domprfssion modf is
+     * <dodf>MODE_EXPLICIT</dodf>.  If so, if
+     * <dodf>gftComprfssionTypfs()</dodf> is <dodf>null</dodf> or
+     * <dodf>gftComprfssionTypf()</dodf> is non-<dodf>null</dodf>, bnd
+     * <dodf>qublity</dodf> is witiin bounds, it rfturns
+     * <dodf>-1.0</dodf>.
      *
-     * @param quality the quality setting whose bit rate is to be
-     * queried.
+     * @pbrbm qublity tif qublity sftting wiosf bit rbtf is to bf
+     * qufrifd.
      *
-     * @return an estimate of the compressed bit rate, or
-     * <code>-1.0F</code> if no estimate is available.
+     * @rfturn bn fstimbtf of tif domprfssfd bit rbtf, or
+     * <dodf>-1.0F</dodf> if no fstimbtf is bvbilbblf.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
-     * @exception IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
-     * compression type is <code>null</code>.
-     * @exception IllegalArgumentException if <code>quality</code> is
-     * not between <code>0</code>and <code>1</code>, inclusive.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
+     * @fxdfption IllfgblStbtfExdfption if tif domprfssion modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tif sft of lfgbl
+     * domprfssion typfs is non-<dodf>null</dodf> bnd tif durrfnt
+     * domprfssion typf is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>qublity</dodf> is
+     * not bftwffn <dodf>0</dodf>bnd <dodf>1</dodf>, indlusivf.
      */
-    public float getBitRate(float quality) {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported.");
+    publid flobt gftBitRbtf(flobt qublity) {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd.");
         }
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
+        if (gftComprfssionModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption
+                ("Comprfssion modf not MODE_EXPLICIT!");
         }
-        if ((getCompressionTypes() != null) &&
-            (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+        if ((gftComprfssionTypfs() != null) &&
+            (gftComprfssionTypf() == null)) {
+            tirow nfw IllfgblStbtfExdfption("No domprfssion typf sft!");
         }
-        if (quality < 0.0F || quality > 1.0F) {
-            throw new IllegalArgumentException("Quality out-of-bounds!");
+        if (qublity < 0.0F || qublity > 1.0F) {
+            tirow nfw IllfgblArgumfntExdfption("Qublity out-of-bounds!");
         }
-        return -1.0F;
+        rfturn -1.0F;
     }
 
     /**
-     * Returns an array of <code>String</code>s that may be used along
-     * with <code>getCompressionQualityValues</code> as part of a user
-     * interface for setting or displaying the compression quality
-     * level.  The <code>String</code> with index <code>i</code>
-     * provides a description of the range of quality levels between
-     * <code>getCompressionQualityValues[i]</code> and
-     * <code>getCompressionQualityValues[i + 1]</code>.  Note that the
-     * length of the array returned from
-     * <code>getCompressionQualityValues</code> will always be one
-     * greater than that returned from
-     * <code>getCompressionQualityDescriptions</code>.
+     * Rfturns bn brrby of <dodf>String</dodf>s tibt mby bf usfd blong
+     * witi <dodf>gftComprfssionQublityVblufs</dodf> bs pbrt of b usfr
+     * intfrfbdf for sftting or displbying tif domprfssion qublity
+     * lfvfl.  Tif <dodf>String</dodf> witi indfx <dodf>i</dodf>
+     * providfs b dfsdription of tif rbngf of qublity lfvfls bftwffn
+     * <dodf>gftComprfssionQublityVblufs[i]</dodf> bnd
+     * <dodf>gftComprfssionQublityVblufs[i + 1]</dodf>.  Notf tibt tif
+     * lfngti of tif brrby rfturnfd from
+     * <dodf>gftComprfssionQublityVblufs</dodf> will blwbys bf onf
+     * grfbtfr tibn tibt rfturnfd from
+     * <dodf>gftComprfssionQublityDfsdriptions</dodf>.
      *
-     * <p> As an example, the strings "Good", "Better", and "Best"
-     * could be associated with the ranges <code>[0, .33)</code>,
-     * <code>[.33, .66)</code>, and <code>[.66, 1.0]</code>.  In this
-     * case, <code>getCompressionQualityDescriptions</code> would
-     * return <code>{ "Good", "Better", "Best" }</code> and
-     * <code>getCompressionQualityValues</code> would return
-     * <code>{ 0.0F, .33F, .66F, 1.0F }</code>.
+     * <p> As bn fxbmplf, tif strings "Good", "Bfttfr", bnd "Bfst"
+     * dould bf bssodibtfd witi tif rbngfs <dodf>[0, .33)</dodf>,
+     * <dodf>[.33, .66)</dodf>, bnd <dodf>[.66, 1.0]</dodf>.  In tiis
+     * dbsf, <dodf>gftComprfssionQublityDfsdriptions</dodf> would
+     * rfturn <dodf>{ "Good", "Bfttfr", "Bfst" }</dodf> bnd
+     * <dodf>gftComprfssionQublityVblufs</dodf> would rfturn
+     * <dodf>{ 0.0F, .33F, .66F, 1.0F }</dodf>.
      *
-     * <p> If no descriptions are available, <code>null</code> is
-     * returned.  If <code>null</code> is returned from
-     * <code>getCompressionQualityValues</code>, this method must also
-     * return <code>null</code>.
+     * <p> If no dfsdriptions brf bvbilbblf, <dodf>null</dodf> is
+     * rfturnfd.  If <dodf>null</dodf> is rfturnfd from
+     * <dodf>gftComprfssionQublityVblufs</dodf>, tiis mftiod must blso
+     * rfturn <dodf>null</dodf>.
      *
-     * <p> The descriptions should be localized for the
-     * <code>Locale</code> returned by <code>getLocale</code>, if it
-     * is non-<code>null</code>.
+     * <p> Tif dfsdriptions siould bf lodblizfd for tif
+     * <dodf>Lodblf</dodf> rfturnfd by <dodf>gftLodblf</dodf>, if it
+     * is non-<dodf>null</dodf>.
      *
-     * <p> If there are multiple compression types but none has been set,
-     * an <code>IllegalStateException</code> is thrown.
+     * <p> If tifrf brf multiplf domprfssion typfs but nonf ibs bffn sft,
+     * bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      *
-     * <p> The default implementation checks that compression is
-     * supported and that the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, if
-     * <code>getCompressionTypes()</code> is <code>null</code> or
-     * <code>getCompressionType()</code> is non-<code>null</code>, it
-     * returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion difdks tibt domprfssion is
+     * supportfd bnd tibt tif domprfssion modf is
+     * <dodf>MODE_EXPLICIT</dodf>.  If so, if
+     * <dodf>gftComprfssionTypfs()</dodf> is <dodf>null</dodf> or
+     * <dodf>gftComprfssionTypf()</dodf> is non-<dodf>null</dodf>, it
+     * rfturns <dodf>null</dodf>.
      *
-     * @return an array of <code>String</code>s containing localized
-     * descriptions of the compression quality levels.
+     * @rfturn bn brrby of <dodf>String</dodf>s dontbining lodblizfd
+     * dfsdriptions of tif domprfssion qublity lfvfls.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
-     * @exception IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
-     * compression type is <code>null</code>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
+     * @fxdfption IllfgblStbtfExdfption if tif domprfssion modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tif sft of lfgbl
+     * domprfssion typfs is non-<dodf>null</dodf> bnd tif durrfnt
+     * domprfssion typf is <dodf>null</dodf>.
      *
-     * @see #getCompressionQualityValues
+     * @sff #gftComprfssionQublityVblufs
      */
-    public String[] getCompressionQualityDescriptions() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported.");
+    publid String[] gftComprfssionQublityDfsdriptions() {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd.");
         }
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
+        if (gftComprfssionModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption
+                ("Comprfssion modf not MODE_EXPLICIT!");
         }
-        if ((getCompressionTypes() != null) &&
-            (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+        if ((gftComprfssionTypfs() != null) &&
+            (gftComprfssionTypf() == null)) {
+            tirow nfw IllfgblStbtfExdfption("No domprfssion typf sft!");
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns an array of <code>float</code>s that may be used along
-     * with <code>getCompressionQualityDescriptions</code> as part of a user
-     * interface for setting or displaying the compression quality
-     * level.  See {@link #getCompressionQualityDescriptions
-     * getCompressionQualityDescriptions} for more information.
+     * Rfturns bn brrby of <dodf>flobt</dodf>s tibt mby bf usfd blong
+     * witi <dodf>gftComprfssionQublityDfsdriptions</dodf> bs pbrt of b usfr
+     * intfrfbdf for sftting or displbying tif domprfssion qublity
+     * lfvfl.  Sff {@link #gftComprfssionQublityDfsdriptions
+     * gftComprfssionQublityDfsdriptions} for morf informbtion.
      *
-     * <p> If no descriptions are available, <code>null</code> is
-     * returned.  If <code>null</code> is returned from
-     * <code>getCompressionQualityDescriptions</code>, this method
-     * must also return <code>null</code>.
+     * <p> If no dfsdriptions brf bvbilbblf, <dodf>null</dodf> is
+     * rfturnfd.  If <dodf>null</dodf> is rfturnfd from
+     * <dodf>gftComprfssionQublityDfsdriptions</dodf>, tiis mftiod
+     * must blso rfturn <dodf>null</dodf>.
      *
-     * <p> If there are multiple compression types but none has been set,
-     * an <code>IllegalStateException</code> is thrown.
+     * <p> If tifrf brf multiplf domprfssion typfs but nonf ibs bffn sft,
+     * bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      *
-     * <p> The default implementation checks that compression is
-     * supported and that the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, if
-     * <code>getCompressionTypes()</code> is <code>null</code> or
-     * <code>getCompressionType()</code> is non-<code>null</code>, it
-     * returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion difdks tibt domprfssion is
+     * supportfd bnd tibt tif domprfssion modf is
+     * <dodf>MODE_EXPLICIT</dodf>.  If so, if
+     * <dodf>gftComprfssionTypfs()</dodf> is <dodf>null</dodf> or
+     * <dodf>gftComprfssionTypf()</dodf> is non-<dodf>null</dodf>, it
+     * rfturns <dodf>null</dodf>.
      *
-     * @return an array of <code>float</code>s indicating the
-     * boundaries between the compression quality levels as described
-     * by the <code>String</code>s from
-     * <code>getCompressionQualityDescriptions</code>.
+     * @rfturn bn brrby of <dodf>flobt</dodf>s indidbting tif
+     * boundbrifs bftwffn tif domprfssion qublity lfvfls bs dfsdribfd
+     * by tif <dodf>String</dodf>s from
+     * <dodf>gftComprfssionQublityDfsdriptions</dodf>.
      *
-     * @exception UnsupportedOperationException if the writer does not
-     * support compression.
-     * @exception IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
-     * compression type is <code>null</code>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif writfr dofs not
+     * support domprfssion.
+     * @fxdfption IllfgblStbtfExdfption if tif domprfssion modf is not
+     * <dodf>MODE_EXPLICIT</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tif sft of lfgbl
+     * domprfssion typfs is non-<dodf>null</dodf> bnd tif durrfnt
+     * domprfssion typf is <dodf>null</dodf>.
      *
-     * @see #getCompressionQualityDescriptions
+     * @sff #gftComprfssionQublityDfsdriptions
      */
-    public float[] getCompressionQualityValues() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
-                "Compression not supported.");
+    publid flobt[] gftComprfssionQublityVblufs() {
+        if (!dbnWritfComprfssfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Comprfssion not supportfd.");
         }
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
+        if (gftComprfssionModf() != MODE_EXPLICIT) {
+            tirow nfw IllfgblStbtfExdfption
+                ("Comprfssion modf not MODE_EXPLICIT!");
         }
-        if ((getCompressionTypes() != null) &&
-            (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+        if ((gftComprfssionTypfs() != null) &&
+            (gftComprfssionTypf() == null)) {
+            tirow nfw IllfgblStbtfExdfption("No domprfssion typf sft!");
         }
-        return null;
+        rfturn null;
     }
 }

@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#wbrn This filf is prfprodfssfd bfforf bfing dompilfd
+
+/*
+ * This dlbss dontbins b mbp whidh rfdords thf lodblf list string for
+ * fbdh rfsourdf in sun.util.rfsourdfs & sun.tfxt.rfsourdfs.
+ * It is usfd to bvoid lobding non-fxistfnt lodblizfd rfsourdfs so thbt
+ * jbr filfs won't bf opfnfd unnfdfssbry to look up thfm.
+ *
+ * @sindf 1.6
+ */
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.util.HbshMbp;
+
+
+publid dlbss LodblfDbtbMftbInfo {
+
+    privbtf stbtid finbl HbshMbp<String, String> rfsourdfNbmfToLodblfs =
+        nfw HbshMbp<String, String>(7);
+
+
+    stbtid {
+        /* During JDK build timf, #XXX_YYY# will bf rfplbdfd by b string dontbin bll thf lodblfs
+           supportfd by thf rfsourdf.
+
+           Don't rfmovf thf spbdf dhbrbdtfr bftwffn " bnd #. Thbt is put thfrf purposfly so thbt
+           look up lodblf string sudh bs "fn" dould bf bbsfd on if it dontbins " fn ".
+        */
+        rfsourdfNbmfToLodblfs.put("FormbtDbtb",
+                                  " #FormbtDbtb_ENLodblfs# | #FormbtDbtb_NonENLodblfs# ");
+
+        rfsourdfNbmfToLodblfs.put("CollbtionDbtb",
+                                  " #CollbtionDbtb_ENLodblfs# | #CollbtionDbtb_NonENLodblfs# ");
+
+        rfsourdfNbmfToLodblfs.put("TimfZonfNbmfs",
+                                  " #TimfZonfNbmfs_ENLodblfs# | #TimfZonfNbmfs_NonENLodblfs# ");
+
+        rfsourdfNbmfToLodblfs.put("LodblfNbmfs",
+                                  " #LodblfNbmfs_ENLodblfs# | #LodblfNbmfs_NonENLodblfs# ");
+
+        rfsourdfNbmfToLodblfs.put("CurrfndyNbmfs",
+                                  " #CurrfndyNbmfs_ENLodblfs# | #CurrfndyNbmfs_NonENLodblfs# ");
+
+        rfsourdfNbmfToLodblfs.put("CblfndbrDbtb",
+                                  " #CblfndbrDbtb_ENLodblfs# | #CblfndbrDbtb_NonENLodblfs# ");
+
+        rfsourdfNbmfToLodblfs.put("AvbilbblfLodblfs",
+                                  " #AvbilbblfLodblfs_ENLodblfs# | #AvbilbblfLodblfs_NonENLodblfs# ");
+    }
+
+    /*
+     * @pbrbm rfsourdfNbmf thf rfsourdf nbmf
+     * @rfturn thf supportfd lodblf string for thf pbssfd in rfsourdf.
+     */
+    publid stbtid String gftSupportfdLodblfString(String rfsourdfNbmf) {
+        rfturn rfsourdfNbmfToLodblfs.gft(rfsourdfNbmf);
+    }
+}

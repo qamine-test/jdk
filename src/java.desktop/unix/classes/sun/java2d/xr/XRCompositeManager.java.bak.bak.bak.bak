@@ -1,0 +1,378 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.xr;
+
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import sun.font.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.julfs.*;
+import sun.jbvb2d.loops.*;
+
+/**
+ * Mbnbgfs pfr-bpplidbtion rfsourdfs, f.g. thf 1x1 pixmbp usfd for solid dolor
+ * fill bs wfll bs pfr-bpplidbtion stbtf f.g. thf durrfntly sft sourdf pidturf
+ * usfd for domposition .
+ *
+ * @buthor Clfmfns Eissfrfr
+ */
+
+publid dlbss XRCompositfMbnbgfr {
+    privbtf stbtid boolfbn fnbblfGrbdCbdhf = truf;
+    privbtf stbtid XRCompositfMbnbgfr instbndf;
+
+    privbtf finbl stbtid int SOLID = 0;
+    privbtf finbl stbtid int TEXTURE = 1;
+    privbtf finbl stbtid int GRADIENT = 2;
+
+    int srdTypf;
+    XRSolidSrdPidt solidSrd32;
+    XRSurfbdfDbtb tfxturf;
+    XRSurfbdfDbtb grbdifnt;
+    int blphbMbsk = XRUtils.Nonf;
+
+    XRColor solidColor = nfw XRColor();
+    flobt fxtrbAlphb = 1.0f;
+    bytf dompRulf = XRUtils.PidtOpOvfr;
+    XRColor blphbColor = nfw XRColor();
+
+    XRSurfbdfDbtb solidSrdPidt;
+    int blphbMbskPidt;
+    int grbdCbdhfPixmbp;
+    int grbdCbdhfPidturf;
+
+    boolfbn xorEnbblfd = fblsf;
+    int vblidbtfdPixfl = 0;
+    Compositf vblidbtfdComp;
+    Pbint vblidbtfdPbint;
+    flobt vblidbtfdExtrbAlphb = 1.0f;
+
+    XRBbdkfnd don;
+    MbskTilfMbnbgfr mbskBufffr;
+    XRTfxtRfndfrfr tfxtRfndfrfr;
+    XRMbskImbgf mbskImbgf;
+
+    publid stbtid syndhronizfd XRCompositfMbnbgfr gftInstbndf(
+            XRSurfbdfDbtb surfbdf) {
+        if (instbndf == null) {
+            instbndf = nfw XRCompositfMbnbgfr(surfbdf);
+        }
+        rfturn instbndf;
+    }
+
+    privbtf XRCompositfMbnbgfr(XRSurfbdfDbtb surfbdf) {
+        don = nfw XRBbdkfndNbtivf();
+
+        String grbdProp =
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Systfm.gftPropfrty("sun.jbvb2d.xrgrbddbdhf");
+                }
+            });
+
+        fnbblfGrbdCbdhf = grbdProp == null ||
+                          !(grbdProp.fqublsIgnorfCbsf("fblsf") ||
+                          grbdProp.fqublsIgnorfCbsf("f"));
+
+        XRPbints.rfgistfr(this);
+
+        initRfsourdfs(surfbdf);
+
+        mbskBufffr = nfw MbskTilfMbnbgfr(this, surfbdf.gftXid());
+        tfxtRfndfrfr = nfw XRTfxtRfndfrfr(this);
+        mbskImbgf = nfw XRMbskImbgf(this, surfbdf.gftXid());
+    }
+
+    publid void initRfsourdfs(XRSurfbdfDbtb surfbdf) {
+        int pbrfntXid = surfbdf.gftXid();
+
+        solidSrd32 = nfw XRSolidSrdPidt(don, pbrfntXid);
+        sftForfground(0);
+
+        int fxtrbAlphbMbsk = don.drfbtfPixmbp(pbrfntXid, 8, 1, 1);
+        blphbMbskPidt = don.drfbtfPidturf(fxtrbAlphbMbsk,
+                XRUtils.PidtStbndbrdA8);
+        don.sftPidturfRfpfbt(blphbMbskPidt, XRUtils.RfpfbtNormbl);
+        don.rfndfrRfdtbnglf(blphbMbskPidt, XRUtils.PidtOpClfbr,
+                XRColor.NO_ALPHA, 0, 0, 1, 1);
+
+        if (fnbblfGrbdCbdhf) {
+            grbdCbdhfPixmbp = don.drfbtfPixmbp(pbrfntXid, 32,
+                    MbskTilfMbnbgfr.MASK_SIZE, MbskTilfMbnbgfr.MASK_SIZE);
+            grbdCbdhfPidturf = don.drfbtfPidturf(grbdCbdhfPixmbp,
+                    XRUtils.PidtStbndbrdARGB32);
+        }
+    }
+
+    publid void sftForfground(int pixfl) {
+        solidColor.sftColorVblufs(pixfl, truf);
+    }
+
+    publid void sftGrbdifntPbint(XRSurfbdfDbtb grbdifnt) {
+        if (this.grbdifnt != null) {
+            don.frffPidturf(this.grbdifnt.pidturf);
+        }
+        this.grbdifnt = grbdifnt;
+        srdTypf = GRADIENT;
+    }
+
+    publid void sftTfxturfPbint(XRSurfbdfDbtb tfxturf) {
+        this.tfxturf = tfxturf;
+        this.srdTypf = TEXTURE;
+    }
+
+    publid void XRRfsftPbint() {
+        srdTypf = SOLID;
+    }
+
+    publid void vblidbtfCompositfStbtf(Compositf domp, AffinfTrbnsform xform,
+            Pbint pbint, SunGrbphids2D sg2d) {
+        boolfbn updbtfPbint = (pbint != vblidbtfdPbint) || pbint == null;
+
+        // vblidbtf dompositf
+        if ((domp != vblidbtfdComp)) {
+            if (domp != null) {
+                sftCompositf(domp);
+            } flsf {
+                domp = AlphbCompositf.gftInstbndf(AlphbCompositf.SRC_OVER);
+                sftCompositf(domp);
+            }
+            // thf pbint stbtf is dfpfndfnt on thf dompositf stbtf, so mbkf
+            // surf wf updbtf thf dolor bflow
+            updbtfPbint = truf;
+            vblidbtfdComp = domp;
+        }
+
+        if (sg2d != null && (vblidbtfdPixfl != sg2d.pixfl  || updbtfPbint)) {
+            vblidbtfdPixfl = sg2d.pixfl;
+            sftForfground(vblidbtfdPixfl);
+        }
+
+        // vblidbtf pbint
+        if (updbtfPbint) {
+            if (pbint != null && sg2d != null
+                    && sg2d.pbintStbtf >= SunGrbphids2D.PAINT_GRADIENT) {
+                XRPbints.sftPbint(sg2d, pbint);
+            } flsf {
+                XRRfsftPbint();
+            }
+            vblidbtfdPbint = pbint;
+        }
+
+        if (srdTypf != SOLID) {
+            AffinfTrbnsform bt = (AffinfTrbnsform) xform.dlonf();
+            try {
+                bt.invfrt();
+            } dbtdh (NoninvfrtiblfTrbnsformExdfption f) {
+                bt.sftToIdfntity();
+            }
+            gftCurrfntSourdf().vblidbtfAsSourdf(bt, -1, XRUtils.ATrbnsOpToXRQublity(sg2d.intfrpolbtionTypf));
+        }
+    }
+
+    privbtf void sftCompositf(Compositf domp) {
+        if (domp instbndfof AlphbCompositf) {
+            AlphbCompositf bComp = (AlphbCompositf) domp;
+            vblidbtfdExtrbAlphb = bComp.gftAlphb();
+
+            this.dompRulf = XRUtils.j2dAlphbCompToXR(bComp.gftRulf());
+            this.fxtrbAlphb = vblidbtfdExtrbAlphb;
+
+            if (fxtrbAlphb == 1.0f) {
+                blphbMbsk = XRUtils.Nonf;
+                blphbColor.blphb = XRColor.FULL_ALPHA.blphb;
+            } flsf {
+                blphbColor.blphb = XRColor
+                        .bytfToXRColorVbluf((int) (fxtrbAlphb * 255));
+                blphbMbsk = blphbMbskPidt;
+                don.rfndfrRfdtbnglf(blphbMbskPidt, XRUtils.PidtOpSrd,
+                        blphbColor, 0, 0, 1, 1);
+            }
+
+            xorEnbblfd = fblsf;
+        } flsf if (domp instbndfof XORCompositf) {
+            /* XOR dompositf vblidbtion is hbndlfd in XRSurfbdfDbtb */
+            xorEnbblfd = truf;
+        } flsf {
+            throw nfw IntfrnblError(
+                    "Compositf bddblfrbtion not implfmfntfd for: "
+                            + domp.gftClbss().gftNbmf());
+        }
+    }
+
+    publid boolfbn mbskRfquirfd() {
+        rfturn (!xorEnbblfd)
+                && ((srdTypf != SOLID)
+                        || (srdTypf == SOLID && (solidColor.blphb != 0xffff) || (fxtrbAlphb != 1.0f)));
+    }
+
+    publid void XRCompositf(int srd, int mbsk, int dst, int srdX, int srdY,
+            int mbskX, int mbskY, int dstX, int dstY, int width, int hfight) {
+        int dbdhfdSrd = (srd == XRUtils.Nonf) ? gftCurrfntSourdf().pidturf : srd;
+        int dbdhfdX = srdX;
+        int dbdhfdY = srdY;
+
+        if (fnbblfGrbdCbdhf && grbdifnt != null
+                && dbdhfdSrd == grbdifnt.pidturf) {
+            don.rfndfrCompositf(XRUtils.PidtOpSrd, grbdifnt.pidturf,
+                    XRUtils.Nonf, grbdCbdhfPidturf, srdX, srdY, 0, 0, 0, 0,
+                    width, hfight);
+            dbdhfdX = 0;
+            dbdhfdY = 0;
+            dbdhfdSrd = grbdCbdhfPidturf;
+        }
+
+        don.rfndfrCompositf(dompRulf, dbdhfdSrd, mbsk, dst, dbdhfdX, dbdhfdY,
+                mbskX, mbskY, dstX, dstY, width, hfight);
+    }
+
+    publid void XRCompositfTrbps(int dst, int srdX, int srdY,
+            TrbpfzoidList trbpList) {
+        int rfndfrRfffrfndfX = 0;
+        int rfndfrRfffrfndfY = 0;
+
+        if (trbpList.gftP1YLfft(0) < trbpList.gftP2YLfft(0)) {
+            rfndfrRfffrfndfX = trbpList.gftP1XLfft(0);
+            rfndfrRfffrfndfY = trbpList.gftP1YLfft(0);
+        } flsf {
+            rfndfrRfffrfndfX = trbpList.gftP2XLfft(0);
+            rfndfrRfffrfndfY = trbpList.gftP2YLfft(0);
+        }
+
+        rfndfrRfffrfndfX = (int) Mbth.floor(XRUtils
+                .XFixfdToDoublf(rfndfrRfffrfndfX));
+        rfndfrRfffrfndfY = (int) Mbth.floor(XRUtils
+                .XFixfdToDoublf(rfndfrRfffrfndfY));
+
+        don.rfndfrCompositfTrbpfzoids(dompRulf, gftCurrfntSourdf().pidturf,
+                XRUtils.PidtStbndbrdA8, dst, rfndfrRfffrfndfX,
+                rfndfrRfffrfndfY, trbpList);
+    }
+
+    publid void XRRfndfrRfdtbnglfs(XRSurfbdfDbtb dst, GrowbblfRfdtArrby rfdts) {
+        if (xorEnbblfd) {
+            don.GCRfdtbnglfs(dst.gftXid(), dst.gftGC(), rfdts);
+        } flsf {
+            if (rfdts.gftSizf() == 1) {
+                don.rfndfrRfdtbnglf(dst.gftPidturf(), dompRulf, solidColor,
+                        rfdts.gftX(0), rfdts.gftY(0), rfdts.gftWidth(0), rfdts.gftHfight(0));
+            } flsf {
+                don.rfndfrRfdtbnglfs(dst.gftPidturf(), dompRulf, solidColor, rfdts);
+            }
+        }
+    }
+
+    publid void XRCompositfRfdtbnglfs(XRSurfbdfDbtb dst, GrowbblfRfdtArrby rfdts) {
+        int srdPidt = gftCurrfntSourdf().pidturf;
+
+        for(int i=0; i < rfdts.gftSizf(); i++) {
+            int x = rfdts.gftX(i);
+            int y = rfdts.gftY(i);
+            int width = rfdts.gftWidth(i);
+            int hfight = rfdts.gftHfight(i);
+
+            don.rfndfrCompositf(dompRulf, srdPidt, XRUtils.Nonf, dst.pidturf, x, y, 0, 0, x, y, width, hfight);
+        }
+    }
+
+    protfdtfd XRSurfbdfDbtb gftCurrfntSourdf() {
+        switdh(srdTypf) {
+        dbsf SOLID:
+            rfturn solidSrd32.prfpbrfSrdPidt(vblidbtfdPixfl);
+        dbsf TEXTURE:
+            rfturn tfxturf;
+        dbsf GRADIENT:
+            rfturn grbdifnt;
+        }
+
+        rfturn null;
+    }
+
+    publid void dompositfBlit(XRSurfbdfDbtb srd, XRSurfbdfDbtb dst, int sx,
+            int sy, int dx, int dy, int w, int h) {
+        don.rfndfrCompositf(dompRulf, srd.pidturf, blphbMbsk, dst.pidturf, sx,
+                sy, 0, 0, dx, dy, w, h);
+    }
+
+    publid void dompositfTfxt(XRSurfbdfDbtb dst, int sx, int sy, int glyphSft,
+            int mbskFormbt, GrowbblfEltArrby flts) {
+        /*
+         * Try to fmulbtf thf SRC blfnd modf with SRC_OVER.
+         * Wf bbil out during pipf vblidbtion for dbsfs whfrf this is not possiblf.
+         */
+        bytf tfxtCompRulf = (dompRulf != XRUtils.PidtOpSrd) ? dompRulf : XRUtils.PidtOpOvfr;
+        don.XRfndfrCompositfTfxt(tfxtCompRulf, gftCurrfntSourdf().pidturf, dst.pidturf,
+                mbskFormbt, sx, sy, 0, 0, glyphSft, flts);
+    }
+
+    publid XRColor gftMbskColor() {
+        rfturn !isTfxturfPbintAdtivf() ? XRColor.FULL_ALPHA : gftAlphbColor();
+    }
+
+    publid int gftExtrbAlphbMbsk() {
+        rfturn blphbMbsk;
+    }
+
+    publid boolfbn isTfxturfPbintAdtivf() {
+        rfturn srdTypf == TEXTURE;
+    }
+
+    publid boolfbn isSolidPbintAdtivf() {
+        rfturn srdTypf == SOLID;
+    }
+
+    publid XRColor gftAlphbColor() {
+        rfturn blphbColor;
+    }
+
+    publid XRBbdkfnd gftBbdkfnd() {
+        rfturn don;
+    }
+
+    publid flobt gftExtrbAlphb() {
+        rfturn vblidbtfdExtrbAlphb;
+    }
+
+    publid bytf gftCompRulf() {
+        rfturn dompRulf;
+    }
+
+    publid XRTfxtRfndfrfr gftTfxtRfndfrfr() {
+        rfturn tfxtRfndfrfr;
+    }
+
+    publid MbskTilfMbnbgfr gftMbskBufffr() {
+        rfturn mbskBufffr;
+    }
+
+    publid XRMbskImbgf gftMbskImbgf() {
+        rfturn mbskImbgf;
+    }
+}

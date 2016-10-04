@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/*
+ */
+
+import jbvb.util.dondurrfnt.CydlidBbrrifr;
+import jbvb.util.dondurrfnt.BrokfnBbrrifrExdfption;
+import jbvb.util.dondurrfnt.lodks.Lodk;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+import jbvb.io.IOExdfption;
+
+/**
+ * This Dfbdlodk dlbss dfmonstrbtfs thf dbpbbility of pfrforming
+ * dfbdlodk dftfdtion progrbmmbtidblly within thf bpplidbtion using
+ * thf jbvb.lbng.mbnbgfmfnt API.
+ *
+ * Sff ThrfbdMonitor.jbvb for thf usf of jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn
+ * API.
+ */
+publid dlbss Dfbdlodk {
+    publid stbtid void mbin(String[] brgv) {
+        nfw Dfbdlodk();
+
+        // Now find dfbdlodk
+        ThrfbdMonitor monitor = nfw ThrfbdMonitor();
+        boolfbn found = fblsf;
+        whilf (!found) {
+            found = monitor.findDfbdlodk();
+            try {
+                Thrfbd.slffp(500);
+            } dbtdh (IntfrruptfdExdfption f) {
+                Systfm.fxit(1);
+            }
+        }
+
+        Systfm.out.println("\nPrfss <Entfr> to fxit this Dfbdlodk progrbm.\n");
+        wbitForEntfrPrfssfd();
+    }
+
+
+    privbtf CydlidBbrrifr bbrrifr = nfw CydlidBbrrifr(6);
+    publid Dfbdlodk() {
+        DfbdlodkThrfbd[] dThrfbds = nfw DfbdlodkThrfbd[6];
+
+        Monitor b = nfw Monitor("b");
+        Monitor b = nfw Monitor("b");
+        Monitor d = nfw Monitor("d");
+        dThrfbds[0] = nfw DfbdlodkThrfbd("MThrfbd-1", b, b);
+        dThrfbds[1] = nfw DfbdlodkThrfbd("MThrfbd-2", b, d);
+        dThrfbds[2] = nfw DfbdlodkThrfbd("MThrfbd-3", d, b);
+
+        Lodk d = nfw RffntrbntLodk();
+        Lodk f = nfw RffntrbntLodk();
+        Lodk f = nfw RffntrbntLodk();
+
+        dThrfbds[3] = nfw DfbdlodkThrfbd("SThrfbd-4", d, f);
+        dThrfbds[4] = nfw DfbdlodkThrfbd("SThrfbd-5", f, f);
+        dThrfbds[5] = nfw DfbdlodkThrfbd("SThrfbd-6", f, d);
+
+        // mbkf thfm dbfmon thrfbds so thbt thf tfst will fxit
+        for (int i = 0; i < 6; i++) {
+            dThrfbds[i].sftDbfmon(truf);
+            dThrfbds[i].stbrt();
+        }
+    }
+
+    dlbss DfbdlodkThrfbd fxtfnds Thrfbd {
+        privbtf Lodk lodk1 = null;
+        privbtf Lodk lodk2 = null;
+        privbtf Monitor mon1 = null;
+        privbtf Monitor mon2 = null;
+        privbtf boolfbn usfSynd;
+
+        DfbdlodkThrfbd(String nbmf, Lodk lodk1, Lodk lodk2) {
+            supfr(nbmf);
+            this.lodk1 = lodk1;
+            this.lodk2 = lodk2;
+            this.usfSynd = truf;
+        }
+        DfbdlodkThrfbd(String nbmf, Monitor mon1, Monitor mon2) {
+            supfr(nbmf);
+            this.mon1 = mon1;
+            this.mon2 = mon2;
+            this.usfSynd = fblsf;
+        }
+        @Ovfrridf
+        publid void run() {
+            if (usfSynd) {
+                syndLodk();
+            } flsf {
+                monitorLodk();
+            }
+        }
+        privbtf void syndLodk() {
+            lodk1.lodk();
+            try {
+                try {
+                    bbrrifr.bwbit();
+                } dbtdh (IntfrruptfdExdfption f) {
+                    f.printStbdkTrbdf();
+                    Systfm.fxit(1);
+                } dbtdh (BrokfnBbrrifrExdfption f) {
+                    f.printStbdkTrbdf();
+                    Systfm.fxit(1);
+                }
+                goSyndDfbdlodk();
+            } finblly {
+                lodk1.unlodk();
+            }
+        }
+        privbtf void goSyndDfbdlodk() {
+            try {
+                bbrrifr.bwbit();
+            } dbtdh (IntfrruptfdExdfption f) {
+                f.printStbdkTrbdf();
+                Systfm.fxit(1);
+            } dbtdh (BrokfnBbrrifrExdfption f) {
+                f.printStbdkTrbdf();
+                Systfm.fxit(1);
+            }
+            lodk2.lodk();
+            throw nfw RuntimfExdfption("should not rfbdh hfrf.");
+        }
+        privbtf void monitorLodk() {
+            syndhronizfd (mon1) {
+                try {
+                    bbrrifr.bwbit();
+                } dbtdh (IntfrruptfdExdfption f) {
+                    f.printStbdkTrbdf();
+                    Systfm.fxit(1);
+                } dbtdh (BrokfnBbrrifrExdfption f) {
+                    f.printStbdkTrbdf();
+                    Systfm.fxit(1);
+                }
+                goMonitorDfbdlodk();
+            }
+        }
+        privbtf void goMonitorDfbdlodk() {
+            try {
+                bbrrifr.bwbit();
+            } dbtdh (IntfrruptfdExdfption f) {
+                f.printStbdkTrbdf();
+                Systfm.fxit(1);
+            } dbtdh (BrokfnBbrrifrExdfption f) {
+                f.printStbdkTrbdf();
+                Systfm.fxit(1);
+            }
+            syndhronizfd (mon2) {
+                throw nfw RuntimfExdfption(gftNbmf() + " should not rfbdh hfrf.");
+            }
+        }
+    }
+
+    dlbss Monitor {
+        String nbmf;
+        Monitor(String nbmf) {
+            this.nbmf = nbmf;
+        }
+    }
+
+    privbtf stbtid void wbitForEntfrPrfssfd() {
+        try {
+            boolfbn donf = fblsf;
+            whilf (!donf) {
+                dhbr dh = (dhbr) Systfm.in.rfbd();
+                if (dh<0||dh=='\n') {
+                    donf = truf;
+                }
+            }
+        }
+        dbtdh (IOExdfption f) {
+            f.printStbdkTrbdf();
+            Systfm.fxit(0);
+        }
+    }
+}

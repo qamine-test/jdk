@@ -1,0 +1,197 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * <p>Notifidbtion fmittfd whfn b dlifnt donnfdtion is opfnfd or
+ * dlosfd or whfn notifidbtions brf lost.  Thfsf notifidbtions brf
+ * sfnt by donnfdtor sfrvfrs (instbndfs of {@link JMXConnfdtorSfrvfr})
+ * bnd by donnfdtor dlifnts (instbndfs of {@link JMXConnfdtor}).  For
+ * dfrtbin donnfdtors, b sfssion dbn donsist of b sfqufndf of
+ * donnfdtions.  Connfdtion-opfnfd bnd donnfdtion-dlosfd notifidbtions
+ * will bf sfnt for fbdh onf.</p>
+ *
+ * <p>Thf notifidbtion typf is onf of thf following:</p>
+ *
+ * <tbblf summbry="JMXConnfdtionNotifidbtion Typfs">
+ *
+ * <tr>
+ * <th blign=lfft>Typf</th>
+ * <th blign=lfft>Mfbning</th>
+ * </tr>
+ *
+ * <tr>
+ * <td><dodf>jmx.rfmotf.donnfdtion.opfnfd</dodf></td>
+ * <td>A nfw dlifnt donnfdtion hbs bffn opfnfd.</td>
+ * </tr>
+ *
+ * <tr>
+ * <td><dodf>jmx.rfmotf.donnfdtion.dlosfd</dodf></td>
+ * <td>A dlifnt donnfdtion hbs bffn dlosfd.</td>
+ * </tr>
+ *
+ * <tr>
+ * <td><dodf>jmx.rfmotf.donnfdtion.fbilfd</dodf></td>
+ * <td>A dlifnt donnfdtion hbs fbilfd unfxpfdtfdly.</td>
+ * </tr>
+ *
+ * <tr>
+ * <td><dodf>jmx.rfmotf.donnfdtion.notifs.lost</dodf></td>
+ * <td>A dlifnt donnfdtion hbs potfntiblly lost notifidbtions.  This
+ * notifidbtion only bppfbrs on thf dlifnt sidf.</td>
+ * </tr>
+ * </tbblf>
+ *
+ * <p>Thf <dodf>timfStbmp</dodf> of thf notifidbtion is b timf vbluf
+ * (donsistfnt with {@link Systfm#durrfntTimfMillis()}) indidbting
+ * whfn thf notifidbtion wbs donstrudtfd.</p>
+ *
+ * @sindf 1.5
+ */
+publid dlbss JMXConnfdtionNotifidbtion fxtfnds Notifidbtion {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2331308725952627538L;
+
+    /**
+     * <p>Notifidbtion typf string for b donnfdtion-opfnfd notifidbtion.
+     */
+    publid stbtid finbl String OPENED = "jmx.rfmotf.donnfdtion.opfnfd";
+
+    /**
+     * <p>Notifidbtion typf string for b donnfdtion-dlosfd notifidbtion.
+     */
+    publid stbtid finbl String CLOSED = "jmx.rfmotf.donnfdtion.dlosfd";
+
+    /**
+     * <p>Notifidbtion typf string for b donnfdtion-fbilfd notifidbtion.
+     */
+    publid stbtid finbl String FAILED = "jmx.rfmotf.donnfdtion.fbilfd";
+
+    /**
+     * <p>Notifidbtion typf string for b donnfdtion thbt hbs possibly
+     * lost notifidbtions.</p>
+     */
+    publid stbtid finbl String NOTIFS_LOST =
+        "jmx.rfmotf.donnfdtion.notifs.lost";
+
+    /**
+     * Construdts b nfw donnfdtion notifidbtion.  Thf {@link
+     * #gftSourdf() sourdf} of thf notifidbtion dfpfnds on whfthfr it
+     * is bfing sfnt by b donnfdtor sfrvfr or b donnfdtor dlifnt:
+     *
+     * <ul>
+     *
+     * <li>For b donnfdtor sfrvfr, if it is rfgistfrfd in bn MBfbn
+     * sfrvfr, thf sourdf is thf {@link ObjfdtNbmf} undfr whidh it is
+     * rfgistfrfd.  Othfrwisf, it is b rfffrfndf to thf donnfdtor
+     * sfrvfr objfdt itsflf, bn instbndf of b subdlbss of {@link
+     * JMXConnfdtorSfrvfr}.
+     *
+     * <li>For b donnfdtor dlifnt, thf sourdf is b rfffrfndf to thf
+     * donnfdtor dlifnt objfdt, bn instbndf of b dlbss implfmfnting
+     * {@link JMXConnfdtor}.
+     *
+     * </ul>
+     *
+     * @pbrbm typf thf typf of thf notifidbtion.  This is usublly onf
+     * of thf donstbnts {@link #OPENED}, {@link #CLOSED}, {@link
+     * #FAILED}, {@link #NOTIFS_LOST}.  It is not bn frror for it to
+     * bf b difffrfnt string.
+     *
+     * @pbrbm sourdf thf donnfdtor sfrvfr or dlifnt fmitting thf
+     * notifidbtion.
+     *
+     * @pbrbm donnfdtionId thf ID of thf donnfdtion within its
+     * donnfdtor sfrvfr.
+     *
+     * @pbrbm sfqufndfNumbfr b non-nfgbtivf intfgfr.  It is fxpfdtfd
+     * but not rfquirfd thbt this numbfr will bf grfbtfr thbn bny
+     * prfvious <dodf>sfqufndfNumbfr</dodf> in b notifidbtion from
+     * this sourdf.
+     *
+     * @pbrbm mfssbgf bn unspfdififd tfxt mfssbgf, typidblly dontbining
+     * b humbn-rfbdbblf dfsdription of thf fvfnt.  Cbn bf null.
+     *
+     * @pbrbm usfrDbtb bn objfdt whosf typf bnd mfbning is dffinfd by
+     * thf donnfdtor sfrvfr.  Cbn bf null.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>typf</dodf>,
+     * <dodf>sourdf</dodf>, or <dodf>donnfdtionId</dodf> is null.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>sfqufndfNumbfr</dodf> is nfgbtivf.
+     */
+    publid JMXConnfdtionNotifidbtion(String typf,
+                                     Objfdt sourdf,
+                                     String donnfdtionId,
+                                     long sfqufndfNumbfr,
+                                     String mfssbgf,
+                                     Objfdt usfrDbtb) {
+        /* Wf don't know whfthfr thf pbrfnt dlbss (Notifidbtion) will
+           throw bn fxdfption if thf typf or sourdf is null, bfdbusf
+           JMX 1.2 dofsn't spfdify thbt.  So wf mbkf surf it is not
+           null, in dbsf it would throw thf wrong fxdfption
+           (f.g. IllfgblArgumfntExdfption instfbd of
+           NullPointfrExdfption).  Likfwisf for thf sfqufndf numbfr.  */
+        supfr((String) nonNull(typf),
+              nonNull(sourdf),
+              Mbth.mbx(0, sfqufndfNumbfr),
+              Systfm.durrfntTimfMillis(),
+              mfssbgf);
+        if (typf == null || sourdf == null || donnfdtionId == null)
+            throw nfw NullPointfrExdfption("Illfgbl null brgumfnt");
+        if (sfqufndfNumbfr < 0)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf sfqufndf numbfr");
+        this.donnfdtionId = donnfdtionId;
+        sftUsfrDbtb(usfrDbtb);
+    }
+
+    privbtf stbtid Objfdt nonNull(Objfdt brg) {
+        if (brg == null)
+            rfturn "";
+        flsf
+            rfturn brg;
+    }
+
+    /**
+     * <p>Thf donnfdtion ID to whidh this notifidbtion pfrtbins.
+     *
+     * @rfturn thf donnfdtion ID.
+     */
+    publid String gftConnfdtionId() {
+        rfturn donnfdtionId;
+    }
+
+    /**
+     * @sfribl Thf donnfdtion ID to whidh this notifidbtion pfrtbins.
+     * @sff #gftConnfdtionId()
+     **/
+    privbtf finbl String donnfdtionId;
+}

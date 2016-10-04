@@ -1,0 +1,318 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2011-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.formbt;
+
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.EPOCH_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.INSTANT_SECONDS;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.OFFSET_SECONDS;
+
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Instbnt;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.dhrono.ChronoLodblDbtf;
+import jbvb.timf.dhrono.Chronology;
+import jbvb.timf.dhrono.IsoChronology;
+import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
+
+/**
+ * Contfxt objfdt usfd during dbtf bnd timf printing.
+ * <p>
+ * This dlbss providfs b singlf wrbppfr to itfms usfd in thf formbt.
+ *
+ * @implSpfd
+ * This dlbss is b mutbblf dontfxt intfndfd for usf from b singlf thrfbd.
+ * Usbgf of thf dlbss is thrfbd-sbff within stbndbrd printing bs thf frbmfwork drfbtfs
+ * b nfw instbndf of thf dlbss for fbdh formbt bnd printing is singlf-thrfbdfd.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss DbtfTimfPrintContfxt {
+
+    /**
+     * Thf tfmporbl bfing output.
+     */
+    privbtf TfmporblAddfssor tfmporbl;
+    /**
+     * Thf formbttfr, not null.
+     */
+    privbtf DbtfTimfFormbttfr formbttfr;
+    /**
+     * Whfthfr thf durrfnt formbttfr is optionbl.
+     */
+    privbtf int optionbl;
+
+    /**
+     * Crfbtfs b nfw instbndf of thf dontfxt.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt bfing output, not null
+     * @pbrbm formbttfr  thf formbttfr dontrolling thf formbt, not null
+     */
+    DbtfTimfPrintContfxt(TfmporblAddfssor tfmporbl, DbtfTimfFormbttfr formbttfr) {
+        supfr();
+        this.tfmporbl = bdjust(tfmporbl, formbttfr);
+        this.formbttfr = formbttfr;
+    }
+
+    privbtf stbtid TfmporblAddfssor bdjust(finbl TfmporblAddfssor tfmporbl, DbtfTimfFormbttfr formbttfr) {
+        // normbl dbsf first (fbrly rfturn is bn optimizbtion)
+        Chronology ovfrridfChrono = formbttfr.gftChronology();
+        ZonfId ovfrridfZonf = formbttfr.gftZonf();
+        if (ovfrridfChrono == null && ovfrridfZonf == null) {
+            rfturn tfmporbl;
+        }
+
+        // fnsurf minimbl dhbngf (fbrly rfturn is bn optimizbtion)
+        Chronology tfmporblChrono = tfmporbl.qufry(TfmporblQufrifs.dhronology());
+        ZonfId tfmporblZonf = tfmporbl.qufry(TfmporblQufrifs.zonfId());
+        if (Objfdts.fqubls(ovfrridfChrono, tfmporblChrono)) {
+            ovfrridfChrono = null;
+        }
+        if (Objfdts.fqubls(ovfrridfZonf, tfmporblZonf)) {
+            ovfrridfZonf = null;
+        }
+        if (ovfrridfChrono == null && ovfrridfZonf == null) {
+            rfturn tfmporbl;
+        }
+
+        // mbkf bdjustmfnt
+        finbl Chronology ffffdtivfChrono = (ovfrridfChrono != null ? ovfrridfChrono : tfmporblChrono);
+        if (ovfrridfZonf != null) {
+            // if hbvf zonf bnd instbnt, dbldulbtion is simplf, dffbulting dhrono if nfdfssbry
+            if (tfmporbl.isSupportfd(INSTANT_SECONDS)) {
+                Chronology dhrono = (ffffdtivfChrono != null ? ffffdtivfChrono : IsoChronology.INSTANCE);
+                rfturn dhrono.zonfdDbtfTimf(Instbnt.from(tfmporbl), ovfrridfZonf);
+            }
+            // blodk dhbnging zonf on OffsftTimf, bnd similbr problfm dbsfs
+            if (ovfrridfZonf.normblizfd() instbndfof ZonfOffsft && tfmporbl.isSupportfd(OFFSET_SECONDS) &&
+                    tfmporbl.gft(OFFSET_SECONDS) != ovfrridfZonf.gftRulfs().gftOffsft(Instbnt.EPOCH).gftTotblSfdonds()) {
+                throw nfw DbtfTimfExdfption("Unbblf to bpply ovfrridf zonf '" + ovfrridfZonf +
+                        "' bfdbusf thf tfmporbl objfdt bfing formbttfd hbs b difffrfnt offsft but" +
+                        " dofs not rfprfsfnt bn instbnt: " + tfmporbl);
+            }
+        }
+        finbl ZonfId ffffdtivfZonf = (ovfrridfZonf != null ? ovfrridfZonf : tfmporblZonf);
+        finbl ChronoLodblDbtf ffffdtivfDbtf;
+        if (ovfrridfChrono != null) {
+            if (tfmporbl.isSupportfd(EPOCH_DAY)) {
+                ffffdtivfDbtf = ffffdtivfChrono.dbtf(tfmporbl);
+            } flsf {
+                // dhfdk for dbtf fiflds othfr thbn fpodh-dby, ignoring dbsf of donvfrting null to ISO
+                if (!(ovfrridfChrono == IsoChronology.INSTANCE && tfmporblChrono == null)) {
+                    for (ChronoFifld f : ChronoFifld.vblufs()) {
+                        if (f.isDbtfBbsfd() && tfmporbl.isSupportfd(f)) {
+                            throw nfw DbtfTimfExdfption("Unbblf to bpply ovfrridf dhronology '" + ovfrridfChrono +
+                                    "' bfdbusf thf tfmporbl objfdt bfing formbttfd dontbins dbtf fiflds but" +
+                                    " dofs not rfprfsfnt b wholf dbtf: " + tfmporbl);
+                        }
+                    }
+                }
+                ffffdtivfDbtf = null;
+            }
+        } flsf {
+            ffffdtivfDbtf = null;
+        }
+
+        // dombinf bvbilbblf dbtb
+        // this is b non-stbndbrd tfmporbl thbt is blmost b purf dflfgbtf
+        // this bfttfr hbndlfs mbp-likf undfrlying tfmporbl instbndfs
+        rfturn nfw TfmporblAddfssor() {
+            @Ovfrridf
+            publid boolfbn isSupportfd(TfmporblFifld fifld) {
+                if (ffffdtivfDbtf != null && fifld.isDbtfBbsfd()) {
+                    rfturn ffffdtivfDbtf.isSupportfd(fifld);
+                }
+                rfturn tfmporbl.isSupportfd(fifld);
+            }
+            @Ovfrridf
+            publid VblufRbngf rbngf(TfmporblFifld fifld) {
+                if (ffffdtivfDbtf != null && fifld.isDbtfBbsfd()) {
+                    rfturn ffffdtivfDbtf.rbngf(fifld);
+                }
+                rfturn tfmporbl.rbngf(fifld);
+            }
+            @Ovfrridf
+            publid long gftLong(TfmporblFifld fifld) {
+                if (ffffdtivfDbtf != null && fifld.isDbtfBbsfd()) {
+                    rfturn ffffdtivfDbtf.gftLong(fifld);
+                }
+                rfturn tfmporbl.gftLong(fifld);
+            }
+            @SupprfssWbrnings("undhfdkfd")
+            @Ovfrridf
+            publid <R> R qufry(TfmporblQufry<R> qufry) {
+                if (qufry == TfmporblQufrifs.dhronology()) {
+                    rfturn (R) ffffdtivfChrono;
+                }
+                if (qufry == TfmporblQufrifs.zonfId()) {
+                    rfturn (R) ffffdtivfZonf;
+                }
+                if (qufry == TfmporblQufrifs.prfdision()) {
+                    rfturn tfmporbl.qufry(qufry);
+                }
+                rfturn qufry.qufryFrom(this);
+            }
+        };
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf tfmporbl objfdt bfing output.
+     *
+     * @rfturn thf tfmporbl objfdt, not null
+     */
+    TfmporblAddfssor gftTfmporbl() {
+        rfturn tfmporbl;
+    }
+
+    /**
+     * Gfts thf lodblf.
+     * <p>
+     * This lodblf is usfd to dontrol lodblizbtion in thf formbt output fxdfpt
+     * whfrf lodblizbtion is dontrollfd by thf DfdimblStylf.
+     *
+     * @rfturn thf lodblf, not null
+     */
+    Lodblf gftLodblf() {
+        rfturn formbttfr.gftLodblf();
+    }
+
+    /**
+     * Gfts thf DfdimblStylf.
+     * <p>
+     * Thf DfdimblStylf dontrols thf lodblizbtion of numfrid output.
+     *
+     * @rfturn thf DfdimblStylf, not null
+     */
+    DfdimblStylf gftDfdimblStylf() {
+        rfturn formbttfr.gftDfdimblStylf();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Stbrts thf printing of bn optionbl sfgmfnt of thf input.
+     */
+    void stbrtOptionbl() {
+        this.optionbl++;
+    }
+
+    /**
+     * Ends thf printing of bn optionbl sfgmfnt of thf input.
+     */
+    void fndOptionbl() {
+        this.optionbl--;
+    }
+
+    /**
+     * Gfts b vbluf using b qufry.
+     *
+     * @pbrbm qufry  thf qufry to usf, not null
+     * @rfturn thf rfsult, null if not found bnd optionbl is truf
+     * @throws DbtfTimfExdfption if thf typf is not bvbilbblf bnd thf sfdtion is not optionbl
+     */
+    <R> R gftVbluf(TfmporblQufry<R> qufry) {
+        R rfsult = tfmporbl.qufry(qufry);
+        if (rfsult == null && optionbl == 0) {
+            throw nfw DbtfTimfExdfption("Unbblf to fxtrbdt vbluf: " + tfmporbl.gftClbss());
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd fifld.
+     * <p>
+     * This will rfturn thf vbluf for thf spfdififd fifld.
+     *
+     * @pbrbm fifld  thf fifld to find, not null
+     * @rfturn thf vbluf, null if not found bnd optionbl is truf
+     * @throws DbtfTimfExdfption if thf fifld is not bvbilbblf bnd thf sfdtion is not optionbl
+     */
+    Long gftVbluf(TfmporblFifld fifld) {
+        try {
+            rfturn tfmporbl.gftLong(fifld);
+        } dbtdh (DbtfTimfExdfption fx) {
+            if (optionbl > 0) {
+                rfturn null;
+            }
+            throw fx;
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b string vfrsion of thf dontfxt for dfbugging.
+     *
+     * @rfturn b string rfprfsfntbtion of thf dontfxt, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn tfmporbl.toString();
+    }
+
+}

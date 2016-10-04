@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jvm.h"
+
+#indludf "jbvb_io_ObjfdtStrfbmClbss.h"
+
+stbtid jdlbss noSudhMfthodErrCl;
+
+/*
+ * Clbss:     jbvb_io_ObjfdtStrfbmClbss
+ * Mfthod:    initNbtivf
+ * Signbturf: ()V
+ *
+ * Nbtivf dodf initiblizbtion hook.
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_ObjfdtStrfbmClbss_initNbtivf(JNIEnv *fnv, jdlbss this)
+{
+    jdlbss dl = (*fnv)->FindClbss(fnv, "jbvb/lbng/NoSudhMfthodError");
+    if (dl == NULL) {           /* fxdfption thrown */
+        rfturn;
+    }
+    noSudhMfthodErrCl = (*fnv)->NfwGlobblRff(fnv, dl);
+}
+
+/*
+ * Clbss:     jbvb_io_ObjfdtStrfbmClbss
+ * Mfthod:    hbsStbtidInitiblizfr
+ * Signbturf: (Ljbvb/lbng/Clbss;)Z
+ *
+ * Rfturns truf if thf givfn dlbss dffinfs b <dlinit>()V mfthod; rfturns fblsf
+ * othfrwisf.
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_ObjfdtStrfbmClbss_hbsStbtidInitiblizfr(JNIEnv *fnv, jdlbss this,
+                                                    jdlbss dlbzz)
+{
+    jdlbss supfrCl = NULL;
+    jmfthodID supfrClinitId = NULL;
+    jmfthodID dlinitId =
+        (*fnv)->GftStbtidMfthodID(fnv, dlbzz, "<dlinit>", "()V");
+    if (dlinitId == NULL) {     /* frror thrown */
+        jthrowbblf th = (*fnv)->ExdfptionOddurrfd(fnv);
+        (*fnv)->ExdfptionClfbr(fnv);    /* normbl rfturn */
+        if (!(*fnv)->IsInstbndfOf(fnv, th, noSudhMfthodErrCl)) {
+            (*fnv)->Throw(fnv, th);
+        }
+        rfturn JNI_FALSE;
+    }
+
+    /*
+     * Chfdk supfrdlbss for stbtid initiblizfr bs wfll--if thf sbmf mfthod ID
+     * is rfturnfd, thfn thf stbtid initiblizfr is from b supfrdlbss.
+     * Empiridblly, this stfp bppfbrs to bf unnfdfssbry in 1.4; howfvfr, thf
+     * JNI spfd mbkfs no gubrbntff thbt GftStbtidMfthodID will not rfturn thf
+     * ID for b supfrdlbss initiblizfr.
+     */
+
+    if ((supfrCl = (*fnv)->GftSupfrdlbss(fnv, dlbzz)) == NULL) {
+        rfturn JNI_TRUE;
+    }
+    supfrClinitId =
+        (*fnv)->GftStbtidMfthodID(fnv, supfrCl, "<dlinit>", "()V");
+    if (supfrClinitId == NULL) {        /* frror thrown */
+        jthrowbblf th = (*fnv)->ExdfptionOddurrfd(fnv);
+        (*fnv)->ExdfptionClfbr(fnv);    /* normbl rfturn */
+        if (!(*fnv)->IsInstbndfOf(fnv, th, noSudhMfthodErrCl)) {
+            (*fnv)->Throw(fnv, th);
+        }
+        rfturn JNI_TRUE;
+    }
+
+    rfturn (dlinitId != supfrClinitId);
+}

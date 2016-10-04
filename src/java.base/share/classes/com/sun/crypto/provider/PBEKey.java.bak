@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.KeyRep;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Locale;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.PBEKeySpec;
+import jbvb.sfdurity.KfyRfp;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvb.util.Lodblf;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.PBEKfySpfd;
 
 /**
- * This class represents a PBE key.
+ * Tiis dlbss rfprfsfnts b PBE kfy.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  */
-final class PBEKey implements SecretKey {
+finbl dlbss PBEKfy implfmfnts SfdrftKfy {
 
-    static final long serialVersionUID = -2234768909660948176L;
+    stbtid finbl long sfriblVfrsionUID = -2234768909660948176L;
 
-    private byte[] key;
+    privbtf bytf[] kfy;
 
-    private String type;
+    privbtf String typf;
 
     /**
-     * Creates a PBE key from a given PBE key specification.
+     * Crfbtfs b PBE kfy from b givfn PBE kfy spfdifidbtion.
      *
-     * @param key the given PBE key specification
+     * @pbrbm kfy tif givfn PBE kfy spfdifidbtion
      */
-    PBEKey(PBEKeySpec keySpec, String keytype) throws InvalidKeySpecException {
-        char[] passwd = keySpec.getPassword();
-        if (passwd == null) {
-            // Should allow an empty password.
-            passwd = new char[0];
+    PBEKfy(PBEKfySpfd kfySpfd, String kfytypf) tirows InvblidKfySpfdExdfption {
+        dibr[] pbsswd = kfySpfd.gftPbssword();
+        if (pbsswd == null) {
+            // Siould bllow bn fmpty pbssword.
+            pbsswd = nfw dibr[0];
         }
-        // Accept "\0" to signify "zero-length password with no terminator".
-        if (!(passwd.length == 1 && passwd[0] == 0)) {
-            for (int i=0; i<passwd.length; i++) {
-                if ((passwd[i] < '\u0020') || (passwd[i] > '\u007E')) {
-                    throw new InvalidKeySpecException("Password is not ASCII");
+        // Addfpt "\0" to signify "zfro-lfngti pbssword witi no tfrminbtor".
+        if (!(pbsswd.lfngti == 1 && pbsswd[0] == 0)) {
+            for (int i=0; i<pbsswd.lfngti; i++) {
+                if ((pbsswd[i] < '\u0020') || (pbsswd[i] > '\u007E')) {
+                    tirow nfw InvblidKfySpfdExdfption("Pbssword is not ASCII");
                 }
             }
         }
-        this.key = new byte[passwd.length];
-        for (int i=0; i<passwd.length; i++)
-            this.key[i] = (byte) (passwd[i] & 0x7f);
-        java.util.Arrays.fill(passwd, ' ');
-        type = keytype;
+        tiis.kfy = nfw bytf[pbsswd.lfngti];
+        for (int i=0; i<pbsswd.lfngti; i++)
+            tiis.kfy[i] = (bytf) (pbsswd[i] & 0x7f);
+        jbvb.util.Arrbys.fill(pbsswd, ' ');
+        typf = kfytypf;
     }
 
-    public byte[] getEncoded() {
-        return this.key.clone();
+    publid bytf[] gftEndodfd() {
+        rfturn tiis.kfy.dlonf();
     }
 
-    public String getAlgorithm() {
-        return type;
+    publid String gftAlgoritim() {
+        rfturn typf;
     }
 
-    public String getFormat() {
-        return "RAW";
+    publid String gftFormbt() {
+        rfturn "RAW";
     }
 
     /**
-     * Calculates a hash code value for the object.
-     * Objects that are equal will also have the same hashcode.
+     * Cbldulbtfs b ibsi dodf vbluf for tif objfdt.
+     * Objfdts tibt brf fqubl will blso ibvf tif sbmf ibsidodf.
      */
-    public int hashCode() {
-        int retval = 0;
-        for (int i = 1; i < this.key.length; i++) {
-            retval += this.key[i] * i;
+    publid int ibsiCodf() {
+        int rftvbl = 0;
+        for (int i = 1; i < tiis.kfy.lfngti; i++) {
+            rftvbl += tiis.kfy[i] * i;
         }
-        return(retval ^= getAlgorithm().toLowerCase(Locale.ENGLISH).hashCode());
+        rfturn(rftvbl ^= gftAlgoritim().toLowfrCbsf(Lodblf.ENGLISH).ibsiCodf());
     }
 
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
 
-        if (!(obj instanceof SecretKey))
-            return false;
+        if (!(obj instbndfof SfdrftKfy))
+            rfturn fblsf;
 
-        SecretKey that = (SecretKey)obj;
+        SfdrftKfy tibt = (SfdrftKfy)obj;
 
-        if (!(that.getAlgorithm().equalsIgnoreCase(type)))
-            return false;
+        if (!(tibt.gftAlgoritim().fqublsIgnorfCbsf(typf)))
+            rfturn fblsf;
 
-        byte[] thatEncoded = that.getEncoded();
-        boolean ret = java.util.Arrays.equals(this.key, thatEncoded);
-        java.util.Arrays.fill(thatEncoded, (byte)0x00);
-        return ret;
+        bytf[] tibtEndodfd = tibt.gftEndodfd();
+        boolfbn rft = jbvb.util.Arrbys.fqubls(tiis.kfy, tibtEndodfd);
+        jbvb.util.Arrbys.fill(tibtEndodfd, (bytf)0x00);
+        rfturn rft;
     }
 
     /**
-     * readObject is called to restore the state of this key from
-     * a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tiis kfy from
+     * b strfbm.
      */
-    private void readObject(java.io.ObjectInputStream s)
-         throws java.io.IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption
     {
-        s.defaultReadObject();
-        key = key.clone();
+        s.dffbultRfbdObjfdt();
+        kfy = kfy.dlonf();
     }
 
 
     /**
-     * Replace the PBE key to be serialized.
+     * Rfplbdf tif PBE kfy to bf sfriblizfd.
      *
-     * @return the standard KeyRep object to be serialized
+     * @rfturn tif stbndbrd KfyRfp objfdt to bf sfriblizfd
      *
-     * @throws java.io.ObjectStreamException if a new object representing
-     * this PBE key could not be created
+     * @tirows jbvb.io.ObjfdtStrfbmExdfption if b nfw objfdt rfprfsfnting
+     * tiis PBE kfy dould not bf drfbtfd
      */
-    private Object writeReplace() throws java.io.ObjectStreamException {
-        return new KeyRep(KeyRep.Type.SECRET,
-                        getAlgorithm(),
-                        getFormat(),
-                        getEncoded());
+    privbtf Objfdt writfRfplbdf() tirows jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw KfyRfp(KfyRfp.Typf.SECRET,
+                        gftAlgoritim(),
+                        gftFormbt(),
+                        gftEndodfd());
     }
 
     /**
-     * Ensures that the password bytes of this key are
-     * set to zero when there are no more references to it.
+     * Ensurfs tibt tif pbssword bytfs of tiis kfy brf
+     * sft to zfro wifn tifrf brf no morf rfffrfndfs to it.
      */
-    protected void finalize() throws Throwable {
+    protfdtfd void finblizf() tirows Tirowbblf {
         try {
-            if (this.key != null) {
-                java.util.Arrays.fill(this.key, (byte)0x00);
-                this.key = null;
+            if (tiis.kfy != null) {
+                jbvb.util.Arrbys.fill(tiis.kfy, (bytf)0x00);
+                tiis.kfy = null;
             }
-        } finally {
-            super.finalize();
+        } finblly {
+            supfr.finblizf();
         }
     }
 }

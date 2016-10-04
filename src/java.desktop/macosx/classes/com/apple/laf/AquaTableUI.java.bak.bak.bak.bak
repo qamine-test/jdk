@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.MousfInputListfnfr;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidTbblfUI;
+
+/**
+ * A Mbd L&F implfmfntbtion of JTbblf
+ *
+ * All this dofs is look for b ThfmfBordfr bnd invblidbtf it whfn thf fodus dhbngfs
+ */
+publid dlbss AqubTbblfUI fxtfnds BbsidTbblfUI {
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubTbblfUI();
+    }
+
+    /**
+     * Crfbtfs thf fodus listfnfr to rfpbint thf fodus ring
+     */
+    protfdtfd FodusListfnfr drfbtfFodusListfnfr() {
+        rfturn nfw AqubTbblfUI.FodusHbndlfr();
+    }
+
+    /**
+     * Crfbtfs thf mousf listfnfr for thf JTbblf.
+     */
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr() {
+        rfturn nfw AqubTbblfUI.MousfInputHbndlfr();
+    }
+
+    /**
+     * This innfr dlbss is mbrkfd &quot;publid&quot; duf to b dompilfr bug.
+     * This dlbss should bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only within subdlbssfs of BbsidTbblfUI.
+     */
+    publid dlbss FodusHbndlfr fxtfnds BbsidTbblfUI.FodusHbndlfr {
+        publid void fodusGbinfd(finbl FodusEvfnt f) {
+            supfr.fodusGbinfd(f);
+            AqubBordfr.rfpbintBordfr(gftComponfnt());
+        }
+
+        publid void fodusLost(finbl FodusEvfnt f) {
+            supfr.fodusLost(f);
+            AqubBordfr.rfpbintBordfr(gftComponfnt());
+        }
+    }
+
+    protfdtfd AqubFodusHbndlfr fodusHbndlfr = nfw AqubFodusHbndlfr() {
+        publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt fv) {
+            supfr.propfrtyChbngf(fv);
+            if (!FRAME_ACTIVE_PROPERTY.fqubls(fv.gftPropfrtyNbmf())) rfturn;
+            AqubFodusHbndlfr.swbpSflfdtionColors("Tbblf", gftComponfnt(), fv.gftNfwVbluf());
+        }
+    };
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        tbblf.bddFodusListfnfr(fodusHbndlfr);
+        tbblf.bddPropfrtyChbngfListfnfr(fodusHbndlfr);
+    }
+
+    protfdtfd void uninstbllListfnfrs() {
+        tbblf.rfmovfPropfrtyChbngfListfnfr(fodusHbndlfr);
+        tbblf.rfmovfFodusListfnfr(fodusHbndlfr);
+        supfr.uninstbllListfnfrs();
+    }
+
+    // TODO: Using dffbult hbndlfr for now, nffd to hbndlf dmd-kfy
+
+    // Rfplbdf thf mousf fvfnt with onf thbt rfturns thf dmd-kfy stbtf whfn bskfd
+    // for thf dontrol-kfy stbtf, whidh supfr bssumfs is whbt fvfryonf dofs to disdontiguously fxtfnd sflfdtions
+    publid dlbss MousfInputHbndlfr fxtfnds BbsidTbblfUI.MousfInputHbndlfr {
+        /*publid void mousfPrfssfd(finbl MousfEvfnt f) {
+            supfr.mousfPrfssfd(nfw SflfdtionMousfEvfnt(f));
+        }
+        publid void mousfDrbggfd(finbl MousfEvfnt f) {
+            supfr.mousfDrbggfd(nfw SflfdtionMousfEvfnt(f));
+        }*/
+    }
+
+    JTbblf gftComponfnt() {
+        rfturn tbblf;
+    }
+}

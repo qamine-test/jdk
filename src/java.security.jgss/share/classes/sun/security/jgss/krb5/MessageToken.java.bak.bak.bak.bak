@@ -1,0 +1,721 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.sfdurity.MfssbgfDigfst;
+
+/**
+ * This dlbss is b bbsf dlbss for othfr tokfn dffinitions thbt pfrtbin to
+ * pfr-mfssbgf GSS-API dblls. Condfptublly GSS-API hbs two typfs of
+ * pfr-mfssbgf tokfns: WrbpTokfn bnd MidTokfn. Thfy difffr in thf rfspfdt
+ * thbt b WrbpTokfn dbrrifs bdditionbl plbintfxt or diphfrtfxt bpplidbtion
+ * dbtb bfsidfs just thf sfqufndf numbfr bnd dhfdksum. This dlbss
+ * fndbpsulbtfs thf dommonblity in thf strudturf of thf WrbpTokfn bnd thf
+ * MidTokfn. This strudturf dbn bf rfprfsfntfd bs:
+ * <p>
+ * <prf>
+ *     0..1           TOK_ID          Idfntifidbtion fifld.
+ *                                    01 01 - Mid tokfn
+ *                                    02 01 - Wrbp tokfn
+ *     2..3           SGN_ALG         Chfdksum blgorithm indidbtor.
+ *                                    00 00 - DES MAC MD5
+ *                                    01 00 - MD2.5
+ *                                    02 00 - DES MAC
+ *                                    04 00 - HMAC SHA1 DES3-KD
+ *                                    11 00 - RC4-HMAC
+ *     4..5           SEAL_ALG        ff ff - nonf
+ *                                    00 00 - DES
+ *                                    02 00 - DES3-KD
+ *                                    10 00 - RC4-HMAC
+ *     6..7           Fillfr          Contbins ff ff
+ *     8..15          SND_SEQ         Endryptfd sfqufndf numbfr fifld.
+ *     16..s+15       SGN_CKSUM       Chfdksum of plbintfxt pbddfd dbtb,
+ *                                   dbldulbtfd bddording to blgorithm
+ *                                  spfdififd in SGN_ALG fifld.
+ *     s+16..lbst     Dbtb            fndryptfd or plbintfxt pbddfd dbtb
+ * </prf>
+ * Whfrf "s" indidbtfs thf sizf of thf dhfdksum.
+ * <p>
+ * As blwbys, this is prfdffdfd by b GSSHfbdfr.
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @buthor Rbm Mbrti
+ * @sff sun.sfdurity.jgss.GSSHfbdfr
+ */
+
+bbstrbdt dlbss MfssbgfTokfn fxtfnds Krb5Tokfn {
+    /* Fiflds in hfbdfr minus dhfdksum sizf */
+    privbtf stbtid finbl int TOKEN_NO_CKSUM_SIZE = 16;
+
+    /**
+     * Fillfr dbtb bs dffinfd in thf spfdifidbtion of thf Kfrbfros v5 GSS-API
+     * Mfdhbnism.
+     */
+    privbtf stbtid finbl int FILLER = 0xffff;
+
+     // Signing blgorithm vblufs (for thf SNG_ALG fifld)
+
+     // From RFC 1964
+     /* Usf b DES MAC MD5 dhfdksum */
+    stbtid finbl int SGN_ALG_DES_MAC_MD5 = 0x0000;
+
+     /* Usf DES MAC dhfdksum. */
+    stbtid finbl int SGN_ALG_DES_MAC     = 0x0200;
+
+     // From drbft-rbfburn-dbt-gssbpi-krb5-3dfs-00
+     /* Usf b HMAC SHA1 DES3 -KD dhfdksum */
+    stbtid finbl int SGN_ALG_HMAC_SHA1_DES3_KD = 0x0400;
+
+     // Sfbling blgorithm vblufs (for thf SEAL_ALG fifld)
+
+     // RFC 1964
+    /**
+     * A vbluf for thf SEAL_ALG fifld thbt indidbtfs thbt no fndryption wbs
+     * usfd.
+     */
+    stbtid finbl int SEAL_ALG_NONE    = 0xffff;
+     /* Usf DES CBC fndryption blgorithm. */
+    stbtid finbl int SEAL_ALG_DES = 0x0000;
+
+    // From drbft-rbfburn-dbt-gssbpi-krb5-3dfs-00
+    /**
+     * Usf DES3-KD sfbling blgorithm. (drbft-rbfburn-dbt-gssbpi-krb5-3dfs-00)
+     * This blgorithm usfs triplf-DES with kfy dfrivbtion, with b usbgf
+     * vbluf KG_USAGE_SEAL.  Pbdding is still to 8-bytf multiplfs, bnd thf
+     * IV for fndrypting bpplidbtion dbtb is zfro.
+     */
+    stbtid finbl int SEAL_ALG_DES3_KD = 0x0200;
+
+    // drbft drbft-brfzbk-win2k-krb-rd4-hmbd-04.txt
+    stbtid finbl int SEAL_ALG_ARCFOUR_HMAC = 0x1000;
+    stbtid finbl int SGN_ALG_HMAC_MD5_ARCFOUR = 0x1100;
+
+    privbtf stbtid finbl int TOKEN_ID_POS = 0;
+    privbtf stbtid finbl int SIGN_ALG_POS = 2;
+    privbtf stbtid finbl int SEAL_ALG_POS = 4;
+
+    privbtf int sfqNumbfr;
+
+    privbtf boolfbn donfStbtf = truf;
+    privbtf boolfbn initibtor = truf;
+
+    privbtf int tokfnId = 0;
+    privbtf GSSHfbdfr gssHfbdfr = null;
+    privbtf MfssbgfTokfnHfbdfr tokfnHfbdfr = null;
+    privbtf bytf[] dhfdksum = null;
+    privbtf bytf[] fndSfqNumbfr = null;
+    privbtf bytf[] sfqNumbfrDbtb = null;
+
+    /* diphfr instbndf usfd by thf dorrfsponding GSSContfxt */
+    CiphfrHflpfr diphfrHflpfr = null;
+
+
+    /**
+     * Construdts b MfssbgfTokfn from b bytf brrby. If thfrf brf morf bytfs
+     * in thf brrby thbn nffdfd, thf fxtrb bytfs brf simply ignrofd.
+     *
+     * @pbrbm tokfnId thf tokfn id thbt should bf dontbinfd in this tokfn bs
+     * it is rfbd.
+     * @pbrbm dontfxt thf Kfrbfros dontfxt bssodibtfd with this tokfn
+     * @pbrbm tokfnBytfs thf bytf brrby dontbining thf tokfn
+     * @pbrbm tokfnOffsft thf offsft whfrf thf tokfn bfgins
+     * @pbrbm tokfnLfn thf lfngth of thf tokfn
+     * @pbrbm prop thf MfssbgfProp strudturf in whidh thf propfrtifs of thf
+     * tokfn should bf storfd.
+     * @throws GSSExdfption if thfrf is b problfm pbrsing thf tokfn
+     */
+    MfssbgfTokfn(int tokfnId, Krb5Contfxt dontfxt,
+                 bytf[] tokfnBytfs, int tokfnOffsft, int tokfnLfn,
+                 MfssbgfProp prop) throws GSSExdfption {
+        this(tokfnId, dontfxt,
+             nfw BytfArrbyInputStrfbm(tokfnBytfs, tokfnOffsft, tokfnLfn),
+             prop);
+    }
+
+    /**
+     * Construdts b MfssbgfTokfn from bn InputStrfbm. Bytfs will bf rfbd on
+     * dfmbnd bnd thf thrfbd might blodk if thfrf brf not fnough bytfs to
+     * domplftf thf tokfn.
+     *
+     * @pbrbm tokfnId thf tokfn id thbt should bf dontbinfd in this tokfn bs
+     * it is rfbd.
+     * @pbrbm dontfxt thf Kfrbfros dontfxt bssodibtfd with this tokfn
+     * @pbrbm is thf InputStrfbm from whidh to rfbd
+     * @pbrbm prop thf MfssbgfProp strudturf in whidh thf propfrtifs of thf
+     * tokfn should bf storfd.
+     * @throws GSSExdfption if thfrf is b problfm rfbding from thf
+     * InputStrfbm or pbrsing thf tokfn
+     */
+    MfssbgfTokfn(int tokfnId, Krb5Contfxt dontfxt, InputStrfbm is,
+                 MfssbgfProp prop) throws GSSExdfption {
+        init(tokfnId, dontfxt);
+
+        try {
+            gssHfbdfr = nfw GSSHfbdfr(is);
+
+            if (!gssHfbdfr.gftOid().fqubls((Objfdt)OID)) {
+                throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                       gftTokfnNbmf(tokfnId));
+            }
+            if (!donfStbtf) {
+                prop.sftPrivbdy(fblsf);
+            }
+
+            tokfnHfbdfr = nfw MfssbgfTokfnHfbdfr(is, prop);
+
+            fndSfqNumbfr = nfw bytf[8];
+            rfbdFully(is, fndSfqNumbfr);
+
+            // dfbug("\n\tRfbd EndSfq#=" +
+            // gftHfxBytfs(fndSfqNumbfr, fndSfqNumbfr.lfngth));
+
+            dhfdksum = nfw bytf[diphfrHflpfr.gftChfdksumLfngth()];
+            rfbdFully(is, dhfdksum);
+
+            // dfbug("\n\tRfbd dhfdksum=" +
+            // gftHfxBytfs(dhfdksum, dhfdksum.lfngth));
+            // dfbug("\nLfbving MfssbgfTokfn.Cons\n");
+
+        } dbtdh (IOExdfption f) {
+            throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                gftTokfnNbmf(tokfnId) + ":" + f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Usfd to obtbin thf GSSHfbdfr thbt wbs bt thf stbrt of this
+     * tokfn.
+     */
+    publid finbl GSSHfbdfr gftGSSHfbdfr() {
+        rfturn gssHfbdfr;
+    }
+
+    /**
+     * Usfd to obtbin thf tokfn id thbt wbs dontbinfd in this tokfn.
+     * @rfturn thf tokfn id in thf tokfn
+     */
+    publid finbl int gftTokfnId() {
+        rfturn tokfnId;
+    }
+
+    /**
+     * Usfd to obtbin thf fndryptfd sfqufndf numbfr in this tokfn.
+     * @rfturn thf fndryptfd sfqufndf numbfr in thf tokfn
+     */
+    publid finbl bytf[] gftEndSfqNumbfr() {
+        rfturn fndSfqNumbfr;
+    }
+
+    /**
+     * Usfd to obtbin thf dhfdksum thbt wbs dontbinfd in this tokfn.
+     * @rfturn thf dhfdksum in thf tokfn
+     */
+    publid finbl bytf[] gftChfdksum() {
+        rfturn dhfdksum;
+    }
+
+    /**
+     * Usfd to dftfrminf if this tokfn dontbins bny fndryptfd dbtb.
+     * @rfturn truf if it dontbins bny fndryptfd dbtb, fblsf if thfrf is only
+     * plbintfxt dbtb or if thfrf is no dbtb.
+     */
+    publid finbl boolfbn gftConfStbtf() {
+        rfturn donfStbtf;
+    }
+
+    /**
+     * Gfnfrbtfs thf dhfdksum fifld bnd thf fndryptfd sfqufndf numbfr
+     * fifld. Thf fndryptfd sfqufndf numbfr usfs thf 8 bytfs of thf dhfdksum
+     * bs bn initibl vfdtor in b fixfd DfsCbd blgorithm.
+     *
+     * @pbrbm prop thf MfssbgfProp strudturf thbt dftfrminfs whbt sort of
+     * dhfdksum bnd sfbling blgorithm should bf usfd. Thf lowfr bytf
+     * of qop dftfrminfs thf dhfdksum blgorithm whilf thf uppfr bytf
+     * dftfrminfs thf signing blgorithm.
+     *       Chfdksum vblufs brf:
+     *           0 - dffbult (DES_MAC)
+     *           1 - MD5
+     *           2 - DES_MD5
+     *           3 - DES_MAC
+     *           4 - HMAC_SHA1
+     *       Sfbling vblufs brf:
+     *           0 - dffbult (DES)
+     *           1 - DES
+     *           2 - DES3-KD
+     *
+     * @pbrbm optionblHfbdfr bn optionbl hfbdfr thbt will bf prodfssfd first
+     * during  dhfdksum dbldulbtion
+     *
+     * @pbrbm dbtb thf bpplidbtion dbtb to dhfdksum
+     * @pbrbm offsft thf offsft whfrf thf dbtb stbrts
+     * @pbrbm lfn thf lfngth of thf dbtb
+     *
+     * @pbrbm optionblTrbilfr bn optionbl trbilfr thbt will bf prodfssfd
+     * lbst during dhfdksum dbldulbtion. f.g., pbdding thbt should bf
+     * bppfndfd to thf bpplidbtion dbtb
+     *
+     * @throws GSSExdfption if bn frror oddurs in thf dhfdksum dbldulbtion or
+     * fndryption sfqufndf numbfr dbldulbtion.
+     */
+    publid void gfnSignAndSfqNumbfr(MfssbgfProp prop,
+                                    bytf[] optionblHfbdfr,
+                                    bytf[] dbtb, int offsft, int lfn,
+                                    bytf[] optionblTrbilfr)
+        throws GSSExdfption {
+
+        //    dfbug("Insidf MfssbgfTokfn.gfnSignAndSfqNumbfr:\n");
+
+        int qop = prop.gftQOP();
+        if (qop != 0) {
+            qop = 0;
+            prop.sftQOP(qop);
+        }
+
+        if (!donfStbtf) {
+            prop.sftPrivbdy(fblsf);
+        }
+
+        // Crfbtf b tokfn hfbdfr with thf dorrfdt sign bnd sfbl blgorithm
+        // vblufs.
+        tokfnHfbdfr =
+            nfw MfssbgfTokfnHfbdfr(tokfnId, prop.gftPrivbdy(), qop);
+
+        // Cbldulbtf SGN_CKSUM
+
+        dhfdksum =
+            gftChfdksum(optionblHfbdfr, dbtb, offsft, lfn, optionblTrbilfr);
+
+        // dfbug("\n\tCbld dhfdksum=" +
+        // gftHfxBytfs(dhfdksum, dhfdksum.lfngth));
+
+        // Cbldulbtf SND_SEQ
+
+        sfqNumbfrDbtb = nfw bytf[8];
+
+        // Whfn using this RC4 bbsfd fndryption typf, thf sfqufndf numbfr is
+        // blwbys sfnt in big-fndibn rbthfr thbn littlf-fndibn ordfr.
+        if (diphfrHflpfr.isArdFour()) {
+            writfBigEndibn(sfqNumbfr, sfqNumbfrDbtb);
+        } flsf {
+            // for bll othfr ftypfs
+            writfLittlfEndibn(sfqNumbfr, sfqNumbfrDbtb);
+        }
+        if (!initibtor) {
+            sfqNumbfrDbtb[4] = (bytf)0xff;
+            sfqNumbfrDbtb[5] = (bytf)0xff;
+            sfqNumbfrDbtb[6] = (bytf)0xff;
+            sfqNumbfrDbtb[7] = (bytf)0xff;
+        }
+
+        fndSfqNumbfr = diphfrHflpfr.fndryptSfq(dhfdksum, sfqNumbfrDbtb, 0, 8);
+
+        // dfbug("\n\tCbld sfqNum=" +
+        //    gftHfxBytfs(sfqNumbfrDbtb, sfqNumbfrDbtb.lfngth));
+        // dfbug("\n\tCbld fndSfqNum=" +
+        //    gftHfxBytfs(fndSfqNumbfr, fndSfqNumbfr.lfngth));
+    }
+
+    /**
+     * Vfrififs thbt thf dhfdksum fifld bnd sfqufndf numbfr dirfdtion bytfs
+     * brf vblid bnd donsistfnt with thf bpplidbtion dbtb.
+     *
+     * @pbrbm optionblHfbdfr bn optionbl hfbdfr thbt will bf prodfssfd first
+     * during dhfdksum dbldulbtion.
+     *
+     * @pbrbm dbtb thf bpplidbtion dbtb
+     * @pbrbm offsft thf offsft whfrf thf dbtb bfgins
+     * @pbrbm lfn thf lfngth of thf bpplidbtion dbtb
+     *
+     * @pbrbm optionblTrbilfr bn optionbl trbilfr thbt will bf prodfssfd lbst
+     * during dhfdksum dbldulbtion. f.g., pbdding thbt should bf bppfndfd to
+     * thf bpplidbtion dbtb
+     *
+     * @throws GSSExdfption if bn frror oddurs in thf dhfdksum dbldulbtion or
+     * fndryption sfqufndf numbfr dbldulbtion.
+     */
+    publid finbl boolfbn vfrifySignAndSfqNumbfr(bytf[] optionblHfbdfr,
+                                        bytf[] dbtb, int offsft, int lfn,
+                                        bytf[] optionblTrbilfr)
+        throws GSSExdfption {
+         // dfbug("\tIn vfrifySign:\n");
+
+         // dfbug("\t\tdhfdksum:   [" + gftHfxBytfs(dhfdksum) + "]\n");
+
+        bytf[] myChfdksum =
+            gftChfdksum(optionblHfbdfr, dbtb, offsft, lfn, optionblTrbilfr);
+
+        // dfbug("\t\tmydhfdksum: [" + gftHfxBytfs(myChfdksum) +"]\n");
+        // dfbug("\t\tdhfdksum:   [" + gftHfxBytfs(dhfdksum) + "]\n");
+
+        if (MfssbgfDigfst.isEqubl(dhfdksum, myChfdksum)) {
+
+            sfqNumbfrDbtb = diphfrHflpfr.dfdryptSfq(
+                dhfdksum, fndSfqNumbfr, 0, 8);
+
+            // dfbug("\t\tfndSfqNumbfr:   [" + gftHfxBytfs(fndSfqNumbfr)
+            //  + "]\n");
+            // dfbug("\t\tsfqNumbfrDbtb:   [" + gftHfxBytfs(sfqNumbfrDbtb)
+            //  + "]\n");
+
+            /*
+             * Thf tokfn from thf initibtor hbs dirfdtion bytfs 0x00 bnd
+             * thf tokfn from thf bddfptor hbs dirfdtion bytfs 0xff.
+             */
+            bytf dirfdtionBytf = 0;
+            if (initibtor)
+                dirfdtionBytf = (bytf) 0xff; // Rfdfivfd tokfn from bddfptor
+
+            if ((sfqNumbfrDbtb[4] == dirfdtionBytf) &&
+                  (sfqNumbfrDbtb[5] == dirfdtionBytf) &&
+                  (sfqNumbfrDbtb[6] == dirfdtionBytf) &&
+                  (sfqNumbfrDbtb[7] == dirfdtionBytf))
+                rfturn truf;
+        }
+
+        rfturn fblsf;
+
+    }
+
+    publid finbl int gftSfqufndfNumbfr() {
+        int sfqufndfNum = 0;
+        if (diphfrHflpfr.isArdFour()) {
+            sfqufndfNum = rfbdBigEndibn(sfqNumbfrDbtb, 0, 4);
+        } flsf {
+            sfqufndfNum = rfbdLittlfEndibn(sfqNumbfrDbtb, 0, 4);
+        }
+        rfturn sfqufndfNum;
+    }
+
+    /**
+     * Computfs thf dhfdksum bbsfd on thf blgorithm storfd in thf
+     * tokfnHfbdfr.
+     *
+     * @pbrbm optionblHfbdfr bn optionbl hfbdfr thbt will bf prodfssfd first
+     * during dhfdksum dbldulbtion.
+     *
+     * @pbrbm dbtb thf bpplidbtion dbtb
+     * @pbrbm offsft thf offsft whfrf thf dbtb bfgins
+     * @pbrbm lfn thf lfngth of thf bpplidbtion dbtb
+     *
+     * @pbrbm optionblTrbilfr bn optionbl trbilfr thbt will bf prodfssfd lbst
+     * during dhfdksum dbldulbtion. f.g., pbdding thbt should bf bppfndfd to
+     * thf bpplidbtion dbtb
+     *
+     * @throws GSSExdfption if bn frror oddurs in thf dhfdksum dbldulbtion.
+     */
+    privbtf bytf[] gftChfdksum(bytf[] optionblHfbdfr,
+                               bytf[] dbtb, int offsft, int lfn,
+                               bytf[] optionblTrbilfr)
+        throws GSSExdfption {
+
+        //      dfbug("Will do gftChfdksum:\n");
+
+        /*
+         * For dhfdksum dbldulbtion thf tokfn hfbdfr bytfs i.f., thf first 8
+         * bytfs following thf GSSHfbdfr, brf logidblly prfpfndfd to thf
+         * bpplidbtion dbtb to bind thf dbtb to this pbrtidulbr tokfn.
+         *
+         * Notf: Thfrf is no sudh rfquirfmfnt wrt bdding pbdding to thf
+         * bpplidbtion dbtb for dhfdksumming, blthough thf dryptogrbphid
+         * blgorithm usfd might itsflf bpply somf pbdding.
+         */
+
+        bytf[] tokfnHfbdfrBytfs = tokfnHfbdfr.gftBytfs();
+        bytf[] fxistingHfbdfr = optionblHfbdfr;
+        bytf[] dhfdksumDbtbHfbdfr = tokfnHfbdfrBytfs;
+
+        if (fxistingHfbdfr != null) {
+            dhfdksumDbtbHfbdfr = nfw bytf[tokfnHfbdfrBytfs.lfngth +
+                                         fxistingHfbdfr.lfngth];
+            Systfm.brrbydopy(tokfnHfbdfrBytfs, 0,
+                             dhfdksumDbtbHfbdfr, 0, tokfnHfbdfrBytfs.lfngth);
+            Systfm.brrbydopy(fxistingHfbdfr, 0,
+                             dhfdksumDbtbHfbdfr, tokfnHfbdfrBytfs.lfngth,
+                             fxistingHfbdfr.lfngth);
+        }
+
+        rfturn diphfrHflpfr.dbldulbtfChfdksum(tokfnHfbdfr.gftSignAlg(),
+             dhfdksumDbtbHfbdfr, optionblTrbilfr, dbtb, offsft, lfn, tokfnId);
+    }
+
+
+    /**
+     * Construdts bn fmpty MfssbgfTokfn for thf lodbl dontfxt to sfnd to
+     * thf pffr. It blso indrfmfnts thf lodbl sfqufndf numbfr in thf
+     * Krb5Contfxt instbndf it usfs bftfr obtbining thf objfdt lodk for
+     * it.
+     *
+     * @pbrbm tokfnId thf tokfn id thbt should bf dontbinfd in this tokfn
+     * @pbrbm dontfxt thf Kfrbfros dontfxt bssodibtfd with this tokfn
+     */
+    MfssbgfTokfn(int tokfnId, Krb5Contfxt dontfxt) throws GSSExdfption {
+        /*
+          dfbug("\n============================");
+          dfbug("\nMySfssionKfy=" +
+          gftHfxBytfs(dontfxt.gftMySfssionKfy().gftBytfs()));
+          dfbug("\nPffrSfssionKfy=" +
+          gftHfxBytfs(dontfxt.gftPffrSfssionKfy().gftBytfs()));
+          dfbug("\n============================\n");
+        */
+        init(tokfnId, dontfxt);
+        this.sfqNumbfr = dontfxt.indrfmfntMySfqufndfNumbfr();
+    }
+
+    privbtf void init(int tokfnId, Krb5Contfxt dontfxt) throws GSSExdfption {
+        this.tokfnId = tokfnId;
+        // Just for donsistfndy dhfdk in Wrbp
+        this.donfStbtf = dontfxt.gftConfStbtf();
+
+        this.initibtor = dontfxt.isInitibtor();
+
+        this.diphfrHflpfr = dontfxt.gftCiphfrHflpfr(null);
+        //    dfbug("In MfssbgfTokfn.Cons");
+    }
+
+    /**
+     * Endodfs b GSSHfbdfr bnd this tokfn onto bn OutputStrfbm.
+     *
+     * @pbrbm os thf OutputStrfbm to whidh this should bf writtfn
+     * @throws GSSExdfption if bn frror oddurs whilf writing to thf OutputStrfbm
+     */
+    publid void fndodf(OutputStrfbm os) throws IOExdfption, GSSExdfption {
+        gssHfbdfr = nfw GSSHfbdfr(OID, gftKrb5TokfnSizf());
+        gssHfbdfr.fndodf(os);
+        tokfnHfbdfr.fndodf(os);
+        // dfbug("Writing sfqNumbfr: " + gftHfxBytfs(fndSfqNumbfr));
+        os.writf(fndSfqNumbfr);
+        // dfbug("Writing dhfdksum: " + gftHfxBytfs(dhfdksum));
+        os.writf(dhfdksum);
+    }
+
+    /**
+     * Obtbins thf sizf of this tokfn. Notf thbt this fxdludfs thf sizf of
+     * thf GSSHfbdfr.
+     * @rfturn tokfn sizf
+     */
+    protfdtfd int gftKrb5TokfnSizf() throws GSSExdfption {
+        rfturn gftTokfnSizf();
+    }
+
+    protfdtfd finbl int gftTokfnSizf() throws GSSExdfption {
+        rfturn TOKEN_NO_CKSUM_SIZE + diphfrHflpfr.gftChfdksumLfngth();
+    }
+
+    protfdtfd stbtid finbl int gftTokfnSizf(CiphfrHflpfr dh)
+        throws GSSExdfption {
+         rfturn TOKEN_NO_CKSUM_SIZE + dh.gftChfdksumLfngth();
+    }
+
+    /**
+     * Obtbins thf donfxt kfy thbt is bssodibtfd with this tokfn.
+     * @rfturn thf dontfxt kfy
+     */
+    /*
+    publid finbl bytf[] gftContfxtKfy() {
+        rfturn dontfxtKfy;
+    }
+    */
+
+    /**
+     * Obtbins thf fndryption blgorithm thbt should bf usfd in this tokfn
+     * givfn thf stbtf of donfidfntiblity thf bpplidbtion rfqufstfd.
+     * Rfqufstfd qop must bf donsistfnt with nfgotibtfd sfssion kfy.
+     * @pbrbm donfRfqufstfd truf if thf bpplidbtion dfsirfd donfidfntiblity
+     * on this tokfn, fblsf othfrwisf
+     * @pbrbm qop thf qop rfqufstfd by thf bpplidbtion
+     * @throws GSSExdfption if qop is indompbtiblf with thf nfgotibtfd
+     *         sfssion kfy
+     */
+    protfdtfd bbstrbdt int gftSfblAlg(boolfbn donfRfqufstfd, int qop)
+        throws GSSExdfption;
+
+    // ******************************************* //
+    //  I N N E R    C L A S S E S    F O L L O W
+    // ******************************************* //
+
+    /**
+     * This innfr dlbss rfprfsfnts thf initibl portion of thf mfssbgf tokfn
+     * bnd dontbins informbtion bbout thf dhfdksum bnd fndryption blgorithms
+     * thbt brf in usf. It donstitutfs thf first 8 bytfs of thf
+     * mfssbgf tokfn:
+     * <prf>
+     *     0..1           TOK_ID          Idfntifidbtion fifld.
+     *                                    01 01 - Mid tokfn
+     *                                    02 01 - Wrbp tokfn
+     *     2..3           SGN_ALG         Chfdksum blgorithm indidbtor.
+     *                                    00 00 - DES MAC MD5
+     *                                    01 00 - MD2.5
+     *                                    02 00 - DES MAC
+     *                                    04 00 - HMAC SHA1 DES3-KD
+     *                                    11 00 - RC4-HMAC
+     *     4..5           SEAL_ALG        ff ff - nonf
+     *                                    00 00 - DES
+     *                                    02 00 - DES3-KD
+     *                                    10 00 - RC4-HMAC
+     *     6..7           Fillfr          Contbins ff ff
+     * </prf>
+     */
+    dlbss MfssbgfTokfnHfbdfr {
+
+         privbtf int tokfnId;
+         privbtf int signAlg;
+         privbtf int sfblAlg;
+
+         privbtf bytf[] bytfs = nfw bytf[8];
+
+        /**
+         * Construdts b MfssbgfTokfnHfbdfr for thf spfdififd tokfn typf with
+         * bppropribtf dhfdksum bnd fndryption blgorithms fiflds.
+         *
+         * @pbrbm tokfnId thf tokfn id for this mfssbgf tokfn
+         * @pbrbm donf truf if donfidfntiblity will bf rfsufstfd with this
+         * mfssbgf tokfn, fblsf othfrwisf.
+         * @pbrbm qop thf vbluf of thf qublity of protfdtion thbt will bf
+         * dfsirfd.
+         */
+        publid MfssbgfTokfnHfbdfr(int tokfnId, boolfbn donf, int qop)
+         throws GSSExdfption {
+
+            this.tokfnId = tokfnId;
+
+            signAlg = MfssbgfTokfn.this.gftSgnAlg(qop);
+
+            sfblAlg = MfssbgfTokfn.this.gftSfblAlg(donf, qop);
+
+            bytfs[0] = (bytf) (tokfnId >>> 8);
+            bytfs[1] = (bytf) (tokfnId);
+
+            bytfs[2] = (bytf) (signAlg >>> 8);
+            bytfs[3] = (bytf) (signAlg);
+
+            bytfs[4] = (bytf) (sfblAlg >>> 8);
+            bytfs[5] = (bytf) (sfblAlg);
+
+            bytfs[6] = (bytf) (MfssbgfTokfn.FILLER >>> 8);
+            bytfs[7] = (bytf) (MfssbgfTokfn.FILLER);
+        }
+
+        /**
+         * Construdts b MfssbgfTokfnHfbdfr by rfbding it from bn InputStrfbm
+         * bnd sfts thf bppropribtf donfidfntiblity bnd qublity of protfdtion
+         * vblufs in b MfssbgfProp strudturf.
+         *
+         * @pbrbm is thf InputStrfbm to rfbd from
+         * @pbrbm prop thf MfssbgfProp to populbtf
+         * @throws IOExdfption is bn frror oddurs whilf rfbding from thf
+         * InputStrfbm
+         */
+        publid MfssbgfTokfnHfbdfr(InputStrfbm is, MfssbgfProp prop)
+            throws IOExdfption {
+            rfbdFully(is, bytfs);
+            tokfnId = rfbdInt(bytfs, TOKEN_ID_POS);
+            signAlg = rfbdInt(bytfs, SIGN_ALG_POS);
+            sfblAlg = rfbdInt(bytfs, SEAL_ALG_POS);
+            //          dfbug("\nMfssbgfTokfnHfbdfr rfbd tokfnId=" +
+            //                gftHfxBytfs(bytfs) + "\n");
+            // XXX dompbrf to FILLER
+            int tfmp = rfbdInt(bytfs, SEAL_ALG_POS + 2);
+
+            //              dfbug("SIGN_ALG=" + signAlg);
+
+            switdh (sfblAlg) {
+            dbsf SEAL_ALG_DES:
+            dbsf SEAL_ALG_DES3_KD:
+            dbsf SEAL_ALG_ARCFOUR_HMAC:
+                prop.sftPrivbdy(truf);
+                brfbk;
+
+            dffbult:
+                prop.sftPrivbdy(fblsf);
+            }
+
+            prop.sftQOP(0);  // dffbult
+        }
+
+        /**
+         * Endodfs this MfssbgfTokfnHfbdfr onto bn OutputStrfbm
+         * @pbrbm os thf OutputStrfbm to writf to
+         * @throws IOExdfption is bn frror oddurs whilf writing
+         */
+        publid finbl void fndodf(OutputStrfbm os) throws IOExdfption {
+            os.writf(bytfs);
+        }
+
+
+        /**
+         * Rfturns thf tokfn id for thf mfssbgf tokfn.
+         * @rfturn thf tokfn id
+         * @sff sun.sfdurity.jgss.krb5.Krb5Tokfn#MIC_ID
+         * @sff sun.sfdurity.jgss.krb5.Krb5Tokfn#WRAP_ID
+         */
+        publid finbl int gftTokfnId() {
+            rfturn tokfnId;
+        }
+
+        /**
+         * Rfturns thf sign blgorithm for thf mfssbgf tokfn.
+         * @rfturn thf sign blgorithm
+         * @sff sun.sfdurity.jgss.krb5.MfssbgfTokfn#SIGN_DES_MAC
+         * @sff sun.sfdurity.jgss.krb5.MfssbgfTokfn#SIGN_DES_MAC_MD5
+         */
+        publid finbl int gftSignAlg() {
+            rfturn signAlg;
+        }
+
+        /**
+         * Rfturns thf sfbl blgorithm for thf mfssbgf tokfn.
+         * @rfturn thf sfbl blgorithm
+         * @sff sun.sfdurity.jgss.krb5.MfssbgfTokfn#SEAL_ALG_DES
+         * @sff sun.sfdurity.jgss.krb5.MfssbgfTokfn#SEAL_ALG_NONE
+         */
+        publid finbl int gftSfblAlg() {
+            rfturn sfblAlg;
+        }
+
+        /**
+         * Rfturns thf bytfs of this hfbdfr.
+         * @rfturn 8 bytfs thbt form this hfbdfr
+         */
+        publid finbl bytf[] gftBytfs() {
+            rfturn bytfs;
+        }
+    } // fnd of dlbss MfssbgfTokfnHfbdfr
+
+
+    /**
+     * Dftfrminf signing blgorithm bbsfd on QOP.
+     */
+    protfdtfd int gftSgnAlg(int qop) throws GSSExdfption {
+         // QOP ignorfd
+         rfturn diphfrHflpfr.gftSgnAlg();
+    }
+}

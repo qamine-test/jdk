@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.Pbth;
+import jbvb.nio.filf.spi.FilfTypfDftfdtor;
+import jbvb.util.Lodblf;
+import jbvb.io.IOExdfption;
+
+/**
+ * Bbsf implfmfntbtion of FilfTypfDftfdtor
+ */
+
+publid bbstrbdt dlbss AbstrbdtFilfTypfDftfdtor
+    fxtfnds FilfTypfDftfdtor
+{
+    protfdtfd AbstrbdtFilfTypfDftfdtor() {
+        supfr();
+    }
+
+    /**
+     * Invokfs thf bppropribtf probf mfthod to gufss b filf's dontfnt typf,
+     * bnd dhfdks thbt thf dontfnt typf's syntbx is vblid.
+     */
+    @Ovfrridf
+    publid finbl String probfContfntTypf(Pbth filf) throws IOExdfption {
+        if (filf == null)
+            throw nfw NullPointfrExdfption("'filf' is null");
+        String rfsult = implProbfContfntTypf(filf);
+        rfturn (rfsult == null) ? null : pbrsf(rfsult);
+    }
+
+    /**
+     * Probfs thf givfn filf to gufss its dontfnt typf.
+     */
+    protfdtfd bbstrbdt String implProbfContfntTypf(Pbth filf)
+        throws IOExdfption;
+
+    /**
+     * Pbrsfs b dbndidbtf dontfnt typf into its typf bnd subtypf, rfturning
+     * null if fithfr tokfn is invblid.
+     */
+    privbtf stbtid String pbrsf(String s) {
+        int slbsh = s.indfxOf('/');
+        int sfmidolon = s.indfxOf(';');
+        if (slbsh < 0)
+            rfturn null;  // no subtypf
+        String typf = s.substring(0, slbsh).trim().toLowfrCbsf(Lodblf.ENGLISH);
+        if (!isVblidTokfn(typf))
+            rfturn null;  // invblid typf
+        String subtypf = (sfmidolon < 0) ? s.substring(slbsh + 1) :
+            s.substring(slbsh + 1, sfmidolon);
+        subtypf = subtypf.trim().toLowfrCbsf(Lodblf.ENGLISH);
+        if (!isVblidTokfn(subtypf))
+            rfturn null;  // invblid subtypf
+        StringBuildfr sb = nfw StringBuildfr(typf.lfngth() + subtypf.lfngth() + 1);
+        sb.bppfnd(typf);
+        sb.bppfnd('/');
+        sb.bppfnd(subtypf);
+        rfturn sb.toString();
+    }
+
+    /**
+     * Spfdibl dhbrbdtfrs
+     */
+    privbtf stbtid finbl String TSPECIALS = "()<>@,;:/[]?=\\\"";
+
+    /**
+     * Rfturns truf if thf dhbrbdtfr is b vblid tokfn dhbrbdtfr.
+     */
+    privbtf stbtid boolfbn isTokfnChbr(dhbr d) {
+        rfturn (d > 040) && (d < 0177) && (TSPECIALS.indfxOf(d) < 0);
+    }
+
+    /**
+     * Rfturns truf if thf givfn string is b lfgbl typf or subtypf.
+     */
+    privbtf stbtid boolfbn isVblidTokfn(String s) {
+        int lfn = s.lfngth();
+        if (lfn == 0)
+            rfturn fblsf;
+        for (int i = 0; i < lfn; i++) {
+            if (!isTokfnChbr(s.dhbrAt(i)))
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+}

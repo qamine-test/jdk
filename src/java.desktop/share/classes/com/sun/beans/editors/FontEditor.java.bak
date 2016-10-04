@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.beans.editors;
+pbdkbgf dom.sun.bfbns.fditors;
 
-import java.awt.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
 
-public class FontEditor extends Panel implements java.beans.PropertyEditor {
-    private static final long serialVersionUID = 6732704486002715933L;
+publid dlbss FontEditor fxtfnds Pbnfl implfmfnts jbvb.bfbns.PropfrtyEditor {
+    privbtf stbtid finbl long sfriblVfrsionUID = 6732704486002715933L;
 
-    public FontEditor() {
-        setLayout(null);
+    publid FontEditor() {
+        sftLbyout(null);
 
-        toolkit = Toolkit.getDefaultToolkit();
-        fonts = toolkit.getFontList();
+        toolkit = Toolkit.gftDffbultToolkit();
+        fonts = toolkit.gftFontList();
 
-        familyChoser = new Choice();
-        for (int i = 0; i < fonts.length; i++) {
-            familyChoser.addItem(fonts[i]);
+        fbmilyCiosfr = nfw Cioidf();
+        for (int i = 0; i < fonts.lfngti; i++) {
+            fbmilyCiosfr.bddItfm(fonts[i]);
         }
-        add(familyChoser);
-        familyChoser.reshape(20, 5, 100, 30);
+        bdd(fbmilyCiosfr);
+        fbmilyCiosfr.rfsibpf(20, 5, 100, 30);
 
-        styleChoser = new Choice();
-        for (int i = 0; i < styleNames.length; i++) {
-            styleChoser.addItem(styleNames[i]);
+        stylfCiosfr = nfw Cioidf();
+        for (int i = 0; i < stylfNbmfs.lfngti; i++) {
+            stylfCiosfr.bddItfm(stylfNbmfs[i]);
         }
-        add(styleChoser);
-        styleChoser.reshape(145, 5, 70, 30);
+        bdd(stylfCiosfr);
+        stylfCiosfr.rfsibpf(145, 5, 70, 30);
 
-        sizeChoser = new Choice();
-        for (int i = 0; i < pointSizes.length; i++) {
-            sizeChoser.addItem("" + pointSizes[i]);
+        sizfCiosfr = nfw Cioidf();
+        for (int i = 0; i < pointSizfs.lfngti; i++) {
+            sizfCiosfr.bddItfm("" + pointSizfs[i]);
         }
-        add(sizeChoser);
-        sizeChoser.reshape(220, 5, 70, 30);
+        bdd(sizfCiosfr);
+        sizfCiosfr.rfsibpf(220, 5, 70, 30);
 
-        resize(300,40);
+        rfsizf(300,40);
     }
 
 
-    public Dimension preferredSize() {
-        return new Dimension(300, 40);
+    publid Dimfnsion prfffrrfdSizf() {
+        rfturn nfw Dimfnsion(300, 40);
     }
 
-    public void setValue(Object o) {
+    publid void sftVbluf(Objfdt o) {
         font = (Font) o;
-        if (this.font == null)
-            return;
+        if (tiis.font == null)
+            rfturn;
 
-        changeFont(font);
-        // Update the current GUI choices.
-        for (int i = 0; i < fonts.length; i++) {
-            if (fonts[i].equals(font.getFamily())) {
-                familyChoser.select(i);
-                break;
+        dibngfFont(font);
+        // Updbtf tif durrfnt GUI dioidfs.
+        for (int i = 0; i < fonts.lfngti; i++) {
+            if (fonts[i].fqubls(font.gftFbmily())) {
+                fbmilyCiosfr.sflfdt(i);
+                brfbk;
             }
         }
-        for (int i = 0; i < styleNames.length; i++) {
-            if (font.getStyle() == styles[i]) {
-                styleChoser.select(i);
-                break;
+        for (int i = 0; i < stylfNbmfs.lfngti; i++) {
+            if (font.gftStylf() == stylfs[i]) {
+                stylfCiosfr.sflfdt(i);
+                brfbk;
             }
         }
-        for (int i = 0; i < pointSizes.length; i++) {
-            if (font.getSize() <= pointSizes[i]) {
-                sizeChoser.select(i);
-                break;
+        for (int i = 0; i < pointSizfs.lfngti; i++) {
+            if (font.gftSizf() <= pointSizfs[i]) {
+                sizfCiosfr.sflfdt(i);
+                brfbk;
             }
         }
     }
 
-    private void changeFont(Font f) {
+    privbtf void dibngfFont(Font f) {
         font = f;
-        if (sample != null) {
-            remove(sample);
+        if (sbmplf != null) {
+            rfmovf(sbmplf);
         }
-        sample = new Label(sampleText);
-        sample.setFont(font);
-        add(sample);
-        Component p = getParent();
+        sbmplf = nfw Lbbfl(sbmplfTfxt);
+        sbmplf.sftFont(font);
+        bdd(sbmplf);
+        Componfnt p = gftPbrfnt();
         if (p != null) {
-            p.invalidate();
-            p.layout();
+            p.invblidbtf();
+            p.lbyout();
         }
-        invalidate();
-        layout();
-        repaint();
-        support.firePropertyChange("", null, null);
+        invblidbtf();
+        lbyout();
+        rfpbint();
+        support.firfPropfrtyCibngf("", null, null);
     }
 
-    public Object getValue() {
-        return (font);
+    publid Objfdt gftVbluf() {
+        rfturn (font);
     }
 
-    public String getJavaInitializationString() {
-        if (this.font == null)
-            return "null";
+    publid String gftJbvbInitiblizbtionString() {
+        if (tiis.font == null)
+            rfturn "null";
 
-        return "new java.awt.Font(\"" + font.getName() + "\", " +
-                   font.getStyle() + ", " + font.getSize() + ")";
+        rfturn "nfw jbvb.bwt.Font(\"" + font.gftNbmf() + "\", " +
+                   font.gftStylf() + ", " + font.gftSizf() + ")";
     }
 
-    public boolean action(Event e, Object arg) {
-        String family = familyChoser.getSelectedItem();
-        int style = styles[styleChoser.getSelectedIndex()];
-        int size = pointSizes[sizeChoser.getSelectedIndex()];
+    publid boolfbn bdtion(Evfnt f, Objfdt brg) {
+        String fbmily = fbmilyCiosfr.gftSflfdtfdItfm();
+        int stylf = stylfs[stylfCiosfr.gftSflfdtfdIndfx()];
+        int sizf = pointSizfs[sizfCiosfr.gftSflfdtfdIndfx()];
         try {
-            Font f = new Font(family, style, size);
-            changeFont(f);
-        } catch (Exception ex) {
-            System.err.println("Couldn't create font " + family + "-" +
-                        styleNames[style] + "-" + size);
+            Font f = nfw Font(fbmily, stylf, sizf);
+            dibngfFont(f);
+        } dbtdi (Exdfption fx) {
+            Systfm.frr.println("Couldn't drfbtf font " + fbmily + "-" +
+                        stylfNbmfs[stylf] + "-" + sizf);
         }
-        return (false);
+        rfturn (fblsf);
     }
 
 
-    public boolean isPaintable() {
-        return true;
+    publid boolfbn isPbintbblf() {
+        rfturn truf;
     }
 
-    public void paintValue(java.awt.Graphics gfx, java.awt.Rectangle box) {
-        // Silent noop.
-        Font oldFont = gfx.getFont();
-        gfx.setFont(font);
-        FontMetrics fm = gfx.getFontMetrics();
-        int vpad = (box.height - fm.getAscent())/2;
-        gfx.drawString(sampleText, 0, box.height-vpad);
-        gfx.setFont(oldFont);
+    publid void pbintVbluf(jbvb.bwt.Grbpiids gfx, jbvb.bwt.Rfdtbnglf box) {
+        // Silfnt noop.
+        Font oldFont = gfx.gftFont();
+        gfx.sftFont(font);
+        FontMftrids fm = gfx.gftFontMftrids();
+        int vpbd = (box.ifigit - fm.gftAsdfnt())/2;
+        gfx.drbwString(sbmplfTfxt, 0, box.ifigit-vpbd);
+        gfx.sftFont(oldFont);
     }
 
-    public String getAsText() {
-        if (this.font == null) {
-            return null;
+    publid String gftAsTfxt() {
+        if (tiis.font == null) {
+            rfturn null;
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.font.getName());
-        sb.append(' ');
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(tiis.font.gftNbmf());
+        sb.bppfnd(' ');
 
-        boolean b = this.font.isBold();
+        boolfbn b = tiis.font.isBold();
         if (b) {
-            sb.append("BOLD");
+            sb.bppfnd("BOLD");
         }
-        boolean i = this.font.isItalic();
+        boolfbn i = tiis.font.isItblid();
         if (i) {
-            sb.append("ITALIC");
+            sb.bppfnd("ITALIC");
         }
         if (b || i) {
-            sb.append(' ');
+            sb.bppfnd(' ');
         }
-        sb.append(this.font.getSize());
-        return sb.toString();
+        sb.bppfnd(tiis.font.gftSizf());
+        rfturn sb.toString();
     }
 
-    public void setAsText(String text) throws IllegalArgumentException {
-        setValue((text == null) ? null : Font.decode(text));
+    publid void sftAsTfxt(String tfxt) tirows IllfgblArgumfntExdfption {
+        sftVbluf((tfxt == null) ? null : Font.dfdodf(tfxt));
     }
 
-    public String[] getTags() {
-        return null;
+    publid String[] gftTbgs() {
+        rfturn null;
     }
 
-    public java.awt.Component getCustomEditor() {
-        return this;
+    publid jbvb.bwt.Componfnt gftCustomEditor() {
+        rfturn tiis;
     }
 
-    public boolean supportsCustomEditor() {
-        return true;
+    publid boolfbn supportsCustomEditor() {
+        rfturn truf;
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener l) {
-        support.addPropertyChangeListener(l);
+    publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr l) {
+        support.bddPropfrtyCibngfListfnfr(l);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener l) {
-        support.removePropertyChangeListener(l);
+    publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr l) {
+        support.rfmovfPropfrtyCibngfListfnfr(l);
     }
 
-    private Font font;
-    private Toolkit toolkit;
-    private String sampleText = "Abcde...";
+    privbtf Font font;
+    privbtf Toolkit toolkit;
+    privbtf String sbmplfTfxt = "Abddf...";
 
-    private Label sample;
-    private Choice familyChoser;
-    private Choice styleChoser;
-    private Choice sizeChoser;
+    privbtf Lbbfl sbmplf;
+    privbtf Cioidf fbmilyCiosfr;
+    privbtf Cioidf stylfCiosfr;
+    privbtf Cioidf sizfCiosfr;
 
-    private String fonts[];
-    private String[] styleNames = { "plain", "bold", "italic" };
-    private int[] styles = { Font.PLAIN, Font.BOLD, Font.ITALIC };
-    private int[] pointSizes = { 3, 5, 8, 10, 12, 14, 18, 24, 36, 48 };
+    privbtf String fonts[];
+    privbtf String[] stylfNbmfs = { "plbin", "bold", "itblid" };
+    privbtf int[] stylfs = { Font.PLAIN, Font.BOLD, Font.ITALIC };
+    privbtf int[] pointSizfs = { 3, 5, 8, 10, 12, 14, 18, 24, 36, 48 };
 
-    private PropertyChangeSupport support = new PropertyChangeSupport(this);
+    privbtf PropfrtyCibngfSupport support = nfw PropfrtyCibngfSupport(tiis);
 
 }

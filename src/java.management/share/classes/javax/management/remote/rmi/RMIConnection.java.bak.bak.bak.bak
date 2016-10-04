@@ -1,0 +1,1092 @@
+/*
+ * Copyright (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
+
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+import jbvb.rmi.MbrshbllfdObjfdt;
+import jbvb.rmi.Rfmotf;
+import jbvb.util.Sft;
+
+import jbvbx.mbnbgfmfnt.AttributfList;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.IntrospfdtionExdfption;
+import jbvbx.mbnbgfmfnt.InvblidAttributfVblufExdfption;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+import jbvbx.mbnbgfmfnt.rfmotf.NotifidbtionRfsult;
+import jbvbx.sfdurity.buth.Subjfdt;
+
+/**
+ * <p>RMI objfdt usfd to forwbrd bn MBfbnSfrvfr rfqufst from b dlifnt
+ * to its MBfbnSfrvfr implfmfntbtion on thf sfrvfr sidf.  Thfrf is onf
+ * Rfmotf objfdt implfmfnting this intfrfbdf for fbdh rfmotf dlifnt
+ * donnfdtfd to bn RMI donnfdtor.</p>
+ *
+ * <p>Usfr dodf dofs not usublly rfffr to this intfrfbdf.  It is
+ * spfdififd bs pbrt of thf publid API so thbt difffrfnt
+ * implfmfntbtions of thbt API will intfropfrbtf.</p>
+ *
+ * <p>To fnsurf thbt dlifnt pbrbmftfrs will bf dfsfriblizfd bt thf
+ * sfrvfr sidf with thf dorrfdt dlbsslobdfr, dlifnt pbrbmftfrs sudh bs
+ * pbrbmftfrs usfd to invokf b mfthod brf wrbppfd in b {@link
+ * MbrshbllfdObjfdt}.  An implfmfntbtion of this intfrfbdf must first
+ * gft thf bppropribtf dlbss lobdfr for thf opfrbtion bnd its tbrgft,
+ * thfn dfsfriblizf thf mbrshbllfd pbrbmftfrs with this dlbsslobdfr.
+ * Exdfpt bs notfd, b pbrbmftfr thbt is b
+ * <dodf>MbrshbllfdObjfdt</dodf> or <dodf>MbrshbllfdObjfdt[]</dodf>
+ * must not bf null; thf bfhbvior is unspfdififd if it is.</p>
+ *
+ * <p>Clbss lobding bspfdts brf dftbilfd in thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+ * JMX Spfdifidbtion, vfrsion 1.4</b> PDF dodumfnt.</p>
+ *
+ * <p>Most mfthods in this intfrfbdf pbrbllfl mfthods in thf {@link
+ * MBfbnSfrvfrConnfdtion} intfrfbdf.  Whfrf bn bspfdt of thf bfhbvior
+ * of b mfthod is not spfdififd hfrf, it is thf sbmf bs in thf
+ * dorrfsponding <dodf>MBfbnSfrvfrConnfdtion</dodf> mfthod.
+ *
+ * @sindf 1.5
+ */
+/*
+ * Notidf thbt wf omit thf typf pbrbmftfr from MbrshbllfdObjfdt fvfrywhfrf,
+ * fvfn though it would bdd usfful informbtion to thf dodumfntbtion.  Thf
+ * rfbson is thbt it wbs only bddfd in Mustbng (Jbvb SE 6), whfrfbs vfrsions
+ * 1.4 bnd 2.0 of thf JMX API must bf implfmfntbblf on Tigfr pfr our
+ * dommitmfnts for JSR 255.  This is blso why wf supprfss rbwtypfs wbrnings.
+ */
+@SupprfssWbrnings("rbwtypfs")
+publid intfrfbdf RMIConnfdtion fxtfnds Closfbblf, Rfmotf {
+    /**
+     * <p>Rfturns thf donnfdtion ID.  This string is difffrfnt for
+     * fvfry opfn donnfdtion to b givfn RMI donnfdtor sfrvfr.</p>
+     *
+     * @rfturn thf donnfdtion ID
+     *
+     * @sff RMIConnfdtor#donnfdt RMIConnfdtor.donnfdt
+     *
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid String gftConnfdtionId() throws IOExdfption;
+
+    /**
+     * <p>Closfs this donnfdtion.  On rfturn from this mfthod, thf RMI
+     * objfdt implfmfnting this intfrfbdf is unfxportfd, so furthfr
+     * rfmotf dblls to it will fbil.</p>
+     *
+     * @throws IOExdfption if thf donnfdtion dould not bf dlosfd,
+     * or thf Rfmotf objfdt dould not bf unfxportfd, or thfrf wbs b
+     * dommunidbtion fbilurf whfn trbnsmitting thf rfmotf dlosf
+     * rfqufst.
+     */
+    publid void dlosf() throws IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#drfbtfMBfbn(String,
+     * ObjfdtNbmf)}.
+     *
+     * @pbrbm dlbssNbmf Thf dlbss nbmf of thf MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn. Mby bf null.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn An <dodf>ObjfdtInstbndf</dodf>, dontbining thf
+     * <dodf>ObjfdtNbmf</dodf> bnd thf Jbvb dlbss nbmf of thf nfwly
+     * instbntibtfd MBfbn.  If thf dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, thf dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
+     *
+     * @throws RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.ClbssNotFoundExdfption</dodf> or b
+     * <dodf>jbvb.lbng.Exdfption</dodf> thbt oddurrfd
+     * whfn trying to invokf thf MBfbn's donstrudtor.
+     * @throws InstbndfAlrfbdyExistsExdfption Thf MBfbn is blrfbdy
+     * undfr thf dontrol of thf MBfbn sfrvfr.
+     * @throws MBfbnRfgistrbtionExdfption Thf
+     * <dodf>prfRfgistfr</dodf> (<dodf>MBfbnRfgistrbtion</dodf>
+     * intfrfbdf) mfthod of thf MBfbn hbs thrown bn fxdfption. Thf
+     * MBfbn will not bf rfgistfrfd.
+     * @throws MBfbnExdfption Thf donstrudtor of thf MBfbn hbs
+     * thrown bn fxdfption.
+     * @throws NotComplibntMBfbnExdfption This dlbss is not b JMX
+     * domplibnt MBfbn.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf dlbssNbmf
+     * pbssfd in pbrbmftfr is null, thf <dodf>ObjfdtNbmf</dodf> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn or no <dodf>ObjfdtNbmf</dodf>
+     * is spfdififd for thf MBfbn.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf,
+                                      ObjfdtNbmf nbmf,
+                                      Subjfdt dflfgbtionSubjfdt)
+        throws
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#drfbtfMBfbn(String,
+     * ObjfdtNbmf, ObjfdtNbmf)}.
+     *
+     * @pbrbm dlbssNbmf Thf dlbss nbmf of thf MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn. Mby bf null.
+     * @pbrbm lobdfrNbmf Thf objfdt nbmf of thf dlbss lobdfr to bf usfd.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn An <dodf>ObjfdtInstbndf</dodf>, dontbining thf
+     * <dodf>ObjfdtNbmf</dodf> bnd thf Jbvb dlbss nbmf of thf nfwly
+     * instbntibtfd MBfbn.  If thf dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, thf dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
+     *
+     * @throws RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.ClbssNotFoundExdfption</dodf> or b
+     * <dodf>jbvb.lbng.Exdfption</dodf> thbt oddurrfd whfn trying to
+     * invokf thf MBfbn's donstrudtor.
+     * @throws InstbndfAlrfbdyExistsExdfption Thf MBfbn is blrfbdy
+     * undfr thf dontrol of thf MBfbn sfrvfr.
+     * @throws MBfbnRfgistrbtionExdfption Thf
+     * <dodf>prfRfgistfr</dodf> (<dodf>MBfbnRfgistrbtion</dodf>
+     * intfrfbdf) mfthod of thf MBfbn hbs thrown bn fxdfption. Thf
+     * MBfbn will not bf rfgistfrfd.
+     * @throws MBfbnExdfption Thf donstrudtor of thf MBfbn hbs
+     * thrown bn fxdfption.
+     * @throws NotComplibntMBfbnExdfption This dlbss is not b JMX
+     * domplibnt MBfbn.
+     * @throws InstbndfNotFoundExdfption Thf spfdififd dlbss lobdfr
+     * is not rfgistfrfd in thf MBfbn sfrvfr.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf dlbssNbmf
+     * pbssfd in pbrbmftfr is null, thf <dodf>ObjfdtNbmf</dodf> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn or no <dodf>ObjfdtNbmf</dodf>
+     * is spfdififd for thf MBfbn.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf,
+                                      ObjfdtNbmf nbmf,
+                                      ObjfdtNbmf lobdfrNbmf,
+                                      Subjfdt dflfgbtionSubjfdt)
+        throws
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption,
+        InstbndfNotFoundExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#drfbtfMBfbn(String,
+     * ObjfdtNbmf, Objfdt[], String[])}.  Thf <dodf>Objfdt[]</dodf>
+     * pbrbmftfr is wrbppfd in b <dodf>MbrshbllfdObjfdt</dodf>.
+     *
+     * @pbrbm dlbssNbmf Thf dlbss nbmf of thf MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn. Mby bf null.
+     * @pbrbm pbrbms An brrby dontbining thf pbrbmftfrs of thf
+     * donstrudtor to bf invokfd, fndbpsulbtfd into b
+     * <dodf>MbrshbllfdObjfdt</dodf>.  Thf fndbpsulbtfd brrby dbn bf
+     * null, fquivblfnt to bn fmpty brrby.
+     * @pbrbm signbturf An brrby dontbining thf signbturf of thf
+     * donstrudtor to bf invokfd.  Cbn bf null, fquivblfnt to bn fmpty
+     * brrby.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn An <dodf>ObjfdtInstbndf</dodf>, dontbining thf
+     * <dodf>ObjfdtNbmf</dodf> bnd thf Jbvb dlbss nbmf of thf nfwly
+     * instbntibtfd MBfbn.  If thf dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, thf dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
+     *
+     * @throws RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.ClbssNotFoundExdfption</dodf> or b
+     * <dodf>jbvb.lbng.Exdfption</dodf> thbt oddurrfd whfn trying to
+     * invokf thf MBfbn's donstrudtor.
+     * @throws InstbndfAlrfbdyExistsExdfption Thf MBfbn is blrfbdy
+     * undfr thf dontrol of thf MBfbn sfrvfr.
+     * @throws MBfbnRfgistrbtionExdfption Thf
+     * <dodf>prfRfgistfr</dodf> (<dodf>MBfbnRfgistrbtion</dodf>
+     * intfrfbdf) mfthod of thf MBfbn hbs thrown bn fxdfption. Thf
+     * MBfbn will not bf rfgistfrfd.
+     * @throws MBfbnExdfption Thf donstrudtor of thf MBfbn hbs
+     * thrown bn fxdfption.
+     * @throws NotComplibntMBfbnExdfption This dlbss is not b JMX
+     * domplibnt MBfbn.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf dlbssNbmf
+     * pbssfd in pbrbmftfr is null, thf <dodf>ObjfdtNbmf</dodf> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn, or no <dodf>ObjfdtNbmf</dodf>
+     * is spfdififd for thf MBfbn.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf,
+                                ObjfdtNbmf nbmf,
+                                MbrshbllfdObjfdt pbrbms,
+                                String signbturf[],
+                                Subjfdt dflfgbtionSubjfdt)
+        throws
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#drfbtfMBfbn(String,
+     * ObjfdtNbmf, ObjfdtNbmf, Objfdt[], String[])}.  Thf
+     * <dodf>Objfdt[]</dodf> pbrbmftfr is wrbppfd in b
+     * <dodf>MbrshbllfdObjfdt</dodf>.
+     *
+     * @pbrbm dlbssNbmf Thf dlbss nbmf of thf MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn. Mby bf null.
+     * @pbrbm lobdfrNbmf Thf objfdt nbmf of thf dlbss lobdfr to bf usfd.
+     * @pbrbm pbrbms An brrby dontbining thf pbrbmftfrs of thf
+     * donstrudtor to bf invokfd, fndbpsulbtfd into b
+     * <dodf>MbrshbllfdObjfdt</dodf>.  Thf fndbpsulbtfd brrby dbn bf
+     * null, fquivblfnt to bn fmpty brrby.
+     * @pbrbm signbturf An brrby dontbining thf signbturf of thf
+     * donstrudtor to bf invokfd.  Cbn bf null, fquivblfnt to bn fmpty
+     * brrby.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn An <dodf>ObjfdtInstbndf</dodf>, dontbining thf
+     * <dodf>ObjfdtNbmf</dodf> bnd thf Jbvb dlbss nbmf of thf nfwly
+     * instbntibtfd MBfbn.  If thf dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, thf dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
+     *
+     * @throws RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.ClbssNotFoundExdfption</dodf> or b
+     * <dodf>jbvb.lbng.Exdfption</dodf> thbt oddurrfd whfn trying to
+     * invokf thf MBfbn's donstrudtor.
+     * @throws InstbndfAlrfbdyExistsExdfption Thf MBfbn is blrfbdy
+     * undfr thf dontrol of thf MBfbn sfrvfr.
+     * @throws MBfbnRfgistrbtionExdfption Thf
+     * <dodf>prfRfgistfr</dodf> (<dodf>MBfbnRfgistrbtion</dodf>
+     * intfrfbdf) mfthod of thf MBfbn hbs thrown bn fxdfption. Thf
+     * MBfbn will not bf rfgistfrfd.
+     * @throws MBfbnExdfption Thf donstrudtor of thf MBfbn hbs
+     * thrown bn fxdfption.
+     * @throws NotComplibntMBfbnExdfption This dlbss is not b JMX
+     * domplibnt MBfbn.
+     * @throws InstbndfNotFoundExdfption Thf spfdififd dlbss lobdfr
+     * is not rfgistfrfd in thf MBfbn sfrvfr.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf dlbssNbmf
+     * pbssfd in pbrbmftfr is null, thf <dodf>ObjfdtNbmf</dodf> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn, or no <dodf>ObjfdtNbmf</dodf>
+     * is spfdififd for thf MBfbn.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf,
+                                ObjfdtNbmf nbmf,
+                                ObjfdtNbmf lobdfrNbmf,
+                                MbrshbllfdObjfdt pbrbms,
+                                String signbturf[],
+                                Subjfdt dflfgbtionSubjfdt)
+        throws
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption,
+        InstbndfNotFoundExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#unrfgistfrMBfbn(ObjfdtNbmf)}.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn to bf unrfgistfrfd.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @throws InstbndfNotFoundExdfption Thf MBfbn spfdififd is not
+     * rfgistfrfd in thf MBfbn sfrvfr.
+     * @throws MBfbnRfgistrbtionExdfption Thf prfDfrfgistfr
+     * ((<dodf>MBfbnRfgistrbtion</dodf> intfrfbdf) mfthod of thf MBfbn
+     * hbs thrown bn fxdfption.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf objfdt
+     * nbmf in pbrbmftfr is null or thf MBfbn you brf whfn trying to
+     * unrfgistfr is thf {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf
+     * MBfbnSfrvfrDflfgbtf} MBfbn.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid void unrfgistfrMBfbn(ObjfdtNbmf nbmf, Subjfdt dflfgbtionSubjfdt)
+        throws
+        InstbndfNotFoundExdfption,
+        MBfbnRfgistrbtionExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftObjfdtInstbndf(ObjfdtNbmf)}.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn Thf <dodf>ObjfdtInstbndf</dodf> bssodibtfd with thf MBfbn
+     * spfdififd by <vbr>nbmf</vbr>.  Thf dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>nbmf</dodf> bnd thf dontbinfd dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(nbmf)}.gftClbssNbmf()</dodf>.
+     *
+     * @throws InstbndfNotFoundExdfption Thf MBfbn spfdififd is not
+     * rfgistfrfd in thf MBfbn sfrvfr.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf objfdt
+     * nbmf in pbrbmftfr is null.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid ObjfdtInstbndf gftObjfdtInstbndf(ObjfdtNbmf nbmf,
+                                            Subjfdt dflfgbtionSubjfdt)
+        throws InstbndfNotFoundExdfption, IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#qufryMBfbns(ObjfdtNbmf,
+     * QufryExp)}.  Thf <dodf>QufryExp</dodf> is wrbppfd in b
+     * <dodf>MbrshbllfdObjfdt</dodf>.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf pbttfrn idfntifying thf MBfbns to
+     * bf rftrifvfd. If null or no dombin bnd kfy propfrtifs brf
+     * spfdififd, bll thf MBfbns rfgistfrfd will bf rftrifvfd.
+     * @pbrbm qufry Thf qufry fxprfssion to bf bpplifd for sflfdting
+     * MBfbns, fndbpsulbtfd into b <dodf>MbrshbllfdObjfdt</dodf>. If
+     * thf <dodf>MbrshbllfdObjfdt</dodf> fndbpsulbtfs b null vbluf no
+     * qufry fxprfssion will bf bpplifd for sflfdting MBfbns.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn A sft dontbining thf <dodf>ObjfdtInstbndf</dodf>
+     * objfdts for thf sflfdtfd MBfbns.  If no MBfbn sbtisfifs thf
+     * qufry bn fmpty list is rfturnfd.
+     *
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid Sft<ObjfdtInstbndf>
+        qufryMBfbns(ObjfdtNbmf nbmf,
+                    MbrshbllfdObjfdt qufry,
+                    Subjfdt dflfgbtionSubjfdt)
+        throws IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#qufryNbmfs(ObjfdtNbmf,
+     * QufryExp)}.  Thf <dodf>QufryExp</dodf> is wrbppfd in b
+     * <dodf>MbrshbllfdObjfdt</dodf>.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf pbttfrn idfntifying thf MBfbn nbmfs
+     * to bf rftrifvfd. If null or no dombin bnd kfy propfrtifs brf
+     * spfdififd, thf nbmf of bll rfgistfrfd MBfbns will bf rftrifvfd.
+     * @pbrbm qufry Thf qufry fxprfssion to bf bpplifd for sflfdting
+     * MBfbns, fndbpsulbtfd into b <dodf>MbrshbllfdObjfdt</dodf>. If
+     * thf <dodf>MbrshbllfdObjfdt</dodf> fndbpsulbtfs b null vbluf no
+     * qufry fxprfssion will bf bpplifd for sflfdting MBfbns.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn A sft dontbining thf ObjfdtNbmfs for thf MBfbns
+     * sflfdtfd.  If no MBfbn sbtisfifs thf qufry, bn fmpty list is
+     * rfturnfd.
+     *
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid Sft<ObjfdtNbmf>
+        qufryNbmfs(ObjfdtNbmf nbmf,
+                   MbrshbllfdObjfdt qufry,
+                   Subjfdt dflfgbtionSubjfdt)
+        throws IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#isRfgistfrfd(ObjfdtNbmf)}.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn to bf dhfdkfd.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn Truf if thf MBfbn is blrfbdy rfgistfrfd in thf MBfbn
+     * sfrvfr, fblsf othfrwisf.
+     *
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf objfdt
+     * nbmf in pbrbmftfr is null.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid boolfbn isRfgistfrfd(ObjfdtNbmf nbmf, Subjfdt dflfgbtionSubjfdt)
+        throws IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftMBfbnCount()}.
+     *
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn thf numbfr of MBfbns rfgistfrfd.
+     *
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid Intfgfr gftMBfbnCount(Subjfdt dflfgbtionSubjfdt)
+        throws IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftAttributf(ObjfdtNbmf,
+     * String)}.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn from whidh thf
+     * bttributf is to bf rftrifvfd.
+     * @pbrbm bttributf A String spfdifying thf nbmf of thf bttributf
+     * to bf rftrifvfd.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn  Thf vbluf of thf rftrifvfd bttributf.
+     *
+     * @throws AttributfNotFoundExdfption Thf bttributf spfdififd
+     * is not bddfssiblf in thf MBfbn.
+     * @throws MBfbnExdfption Wrbps bn fxdfption thrown by thf
+     * MBfbn's gfttfr.
+     * @throws InstbndfNotFoundExdfption Thf MBfbn spfdififd is not
+     * rfgistfrfd in thf MBfbn sfrvfr.
+     * @throws RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.Exdfption</dodf> thrown whfn trying to invokf
+     * thf gfttfr.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf objfdt
+     * nbmf in pbrbmftfr is null or thf bttributf in pbrbmftfr is
+     * null.
+     * @throws RuntimfMBfbnExdfption Wrbps b runtimf fxdfption thrown
+     * by thf MBfbn's gfttfr.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     *
+     * @sff #sftAttributf
+     */
+    publid Objfdt gftAttributf(ObjfdtNbmf nbmf,
+                               String bttributf,
+                               Subjfdt dflfgbtionSubjfdt)
+        throws
+        MBfbnExdfption,
+        AttributfNotFoundExdfption,
+        InstbndfNotFoundExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftAttributfs(ObjfdtNbmf,
+     * String[])}.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn from whidh thf
+     * bttributfs brf rftrifvfd.
+     * @pbrbm bttributfs A list of thf bttributfs to bf rftrifvfd.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn Thf list of thf rftrifvfd bttributfs.
+     *
+     * @throws InstbndfNotFoundExdfption Thf MBfbn spfdififd is not
+     * rfgistfrfd in thf MBfbn sfrvfr.
+     * @throws RfflfdtionExdfption An fxdfption oddurrfd whfn
+     * trying to invokf thf gftAttributfs mfthod of b Dynbmid MBfbn.
+     * @throws RuntimfOpfrbtionsExdfption Wrbp b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf objfdt
+     * nbmf in pbrbmftfr is null or bttributfs in pbrbmftfr is null.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     *
+     * @sff #sftAttributfs
+     */
+    publid AttributfList gftAttributfs(ObjfdtNbmf nbmf,
+                                       String[] bttributfs,
+                                       Subjfdt dflfgbtionSubjfdt)
+        throws
+        InstbndfNotFoundExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#sftAttributf(ObjfdtNbmf,
+     * Attributf)}.  Thf <dodf>Attributf</dodf> pbrbmftfr is wrbppfd
+     * in b <dodf>MbrshbllfdObjfdt</dodf>.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn within whidh thf bttributf is
+     * to bf sft.
+     * @pbrbm bttributf Thf idfntifidbtion of thf bttributf to bf sft
+     * bnd thf vbluf it is to bf sft to, fndbpsulbtfd into b
+     * <dodf>MbrshbllfdObjfdt</dodf>.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @throws InstbndfNotFoundExdfption Thf MBfbn spfdififd is not
+     * rfgistfrfd in thf MBfbn sfrvfr.
+     * @throws AttributfNotFoundExdfption Thf bttributf spfdififd
+     * is not bddfssiblf in thf MBfbn.
+     * @throws InvblidAttributfVblufExdfption Thf vbluf spfdififd
+     * for thf bttributf is not vblid.
+     * @throws MBfbnExdfption Wrbps bn fxdfption thrown by thf
+     * MBfbn's sfttfr.
+     * @throws RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.Exdfption</dodf> thrown whfn trying to invokf
+     * thf sfttfr.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf objfdt
+     * nbmf in pbrbmftfr is null or thf bttributf in pbrbmftfr is
+     * null.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     *
+     * @sff #gftAttributf
+     */
+    publid void sftAttributf(ObjfdtNbmf nbmf,
+                             MbrshbllfdObjfdt bttributf,
+                             Subjfdt dflfgbtionSubjfdt)
+        throws
+        InstbndfNotFoundExdfption,
+        AttributfNotFoundExdfption,
+        InvblidAttributfVblufExdfption,
+        MBfbnExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#sftAttributfs(ObjfdtNbmf,
+     * AttributfList)}.  Thf <dodf>AttributfList</dodf> pbrbmftfr is
+     * wrbppfd in b <dodf>MbrshbllfdObjfdt</dodf>.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn within whidh thf
+     * bttributfs brf to bf sft.
+     * @pbrbm bttributfs A list of bttributfs: Thf idfntifidbtion of
+     * thf bttributfs to bf sft bnd thf vblufs thfy brf to bf sft to,
+     * fndbpsulbtfd into b <dodf>MbrshbllfdObjfdt</dodf>.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn Thf list of bttributfs thbt wfrf sft, with thfir nfw
+     * vblufs.
+     *
+     * @throws InstbndfNotFoundExdfption Thf MBfbn spfdififd is not
+     * rfgistfrfd in thf MBfbn sfrvfr.
+     * @throws RfflfdtionExdfption An fxdfption oddurrfd whfn
+     * trying to invokf thf gftAttributfs mfthod of b Dynbmid MBfbn.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf objfdt
+     * nbmf in pbrbmftfr is null or bttributfs in pbrbmftfr is null.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     *
+     * @sff #gftAttributfs
+     */
+    publid AttributfList sftAttributfs(ObjfdtNbmf nbmf,
+                          MbrshbllfdObjfdt bttributfs,
+                          Subjfdt dflfgbtionSubjfdt)
+        throws
+        InstbndfNotFoundExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#invokf(ObjfdtNbmf,
+     * String, Objfdt[], String[])}.  Thf <dodf>Objfdt[]</dodf>
+     * pbrbmftfr is wrbppfd in b <dodf>MbrshbllfdObjfdt</dodf>.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn on whidh thf mfthod is
+     * to bf invokfd.
+     * @pbrbm opfrbtionNbmf Thf nbmf of thf opfrbtion to bf invokfd.
+     * @pbrbm pbrbms An brrby dontbining thf pbrbmftfrs to bf sft whfn
+     * thf opfrbtion is invokfd, fndbpsulbtfd into b
+     * <dodf>MbrshbllfdObjfdt</dodf>.  Thf fndbpsulbtfd brrby dbn bf
+     * null, fquivblfnt to bn fmpty brrby.
+     * @pbrbm signbturf An brrby dontbining thf signbturf of thf
+     * opfrbtion. Thf dlbss objfdts will bf lobdfd using thf sbmf
+     * dlbss lobdfr bs thf onf usfd for lobding thf MBfbn on whidh thf
+     * opfrbtion wbs invokfd.  Cbn bf null, fquivblfnt to bn fmpty
+     * brrby.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn Thf objfdt rfturnfd by thf opfrbtion, whidh rfprfsfnts
+     * thf rfsult of invoking thf opfrbtion on thf MBfbn spfdififd.
+     *
+     * @throws InstbndfNotFoundExdfption Thf MBfbn spfdififd is not
+     * rfgistfrfd in thf MBfbn sfrvfr.
+     * @throws MBfbnExdfption Wrbps bn fxdfption thrown by thf
+     * MBfbn's invokfd mfthod.
+     * @throws RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.Exdfption</dodf> thrown whilf trying to invokf
+     * thf mfthod.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps bn {@link
+     * IllfgblArgumfntExdfption} whfn <dodf>nbmf</dodf> or
+     * <dodf>opfrbtionNbmf</dodf> is null.
+     */
+    publid Objfdt invokf(ObjfdtNbmf nbmf,
+                         String opfrbtionNbmf,
+                         MbrshbllfdObjfdt pbrbms,
+                         String signbturf[],
+                         Subjfdt dflfgbtionSubjfdt)
+        throws
+        InstbndfNotFoundExdfption,
+        MBfbnExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftDffbultDombin()}.
+     *
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn thf dffbult dombin.
+     *
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid String gftDffbultDombin(Subjfdt dflfgbtionSubjfdt)
+        throws IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftDombins()}.
+     *
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn thf list of dombins.
+     *
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid String[] gftDombins(Subjfdt dflfgbtionSubjfdt)
+        throws IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftMBfbnInfo(ObjfdtNbmf)}.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn to bnblyzf
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn An instbndf of <dodf>MBfbnInfo</dodf> bllowing thf
+     * rftrifvbl of bll bttributfs bnd opfrbtions of this MBfbn.
+     *
+     * @throws IntrospfdtionExdfption An fxdfption oddurrfd during
+     * introspfdtion.
+     * @throws InstbndfNotFoundExdfption Thf MBfbn spfdififd wbs
+     * not found.
+     * @throws RfflfdtionExdfption An fxdfption oddurrfd whfn
+     * trying to invokf thf gftMBfbnInfo of b Dynbmid MBfbn.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf objfdt
+     * nbmf in pbrbmftfr is null.
+     */
+    publid MBfbnInfo gftMBfbnInfo(ObjfdtNbmf nbmf, Subjfdt dflfgbtionSubjfdt)
+        throws
+        InstbndfNotFoundExdfption,
+        IntrospfdtionExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#isInstbndfOf(ObjfdtNbmf,
+     * String)}.
+     *
+     * @pbrbm nbmf Thf <dodf>ObjfdtNbmf</dodf> of thf MBfbn.
+     * @pbrbm dlbssNbmf Thf nbmf of thf dlbss.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @rfturn truf if thf MBfbn spfdififd is bn instbndf of thf
+     * spfdififd dlbss bddording to thf rulfs bbovf, fblsf othfrwisf.
+     *
+     * @throws InstbndfNotFoundExdfption Thf MBfbn spfdififd is not
+     * rfgistfrfd in thf MBfbn sfrvfr.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Thf objfdt
+     * nbmf in pbrbmftfr is null.
+     */
+    publid boolfbn isInstbndfOf(ObjfdtNbmf nbmf,
+                                String dlbssNbmf,
+                                Subjfdt dflfgbtionSubjfdt)
+        throws InstbndfNotFoundExdfption, IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#bddNotifidbtionListfnfr(ObjfdtNbmf,
+     * ObjfdtNbmf, NotifidbtionFiltfr, Objfdt)}.  Thf
+     * <dodf>NotifidbtionFiltfr</dodf> pbrbmftfr is wrbppfd in b
+     * <dodf>MbrshbllfdObjfdt</dodf>.  Thf <dodf>Objfdt</dodf>
+     * (hbndbbdk) pbrbmftfr is blso wrbppfd in b
+     * <dodf>MbrshbllfdObjfdt</dodf>.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf listfnfr should
+     * bf bddfd.
+     * @pbrbm listfnfr Thf objfdt nbmf of thf listfnfr whidh will
+     * hbndlf thf notifidbtions fmittfd by thf rfgistfrfd MBfbn.
+     * @pbrbm filtfr Thf filtfr objfdt, fndbpsulbtfd into b
+     * <dodf>MbrshbllfdObjfdt</dodf>. If filtfr fndbpsulbtfd in thf
+     * <dodf>MbrshbllfdObjfdt</dodf> hbs b null vbluf, no filtfring
+     * will bf pfrformfd bfforf hbndling notifidbtions.
+     * @pbrbm hbndbbdk Thf dontfxt to bf sfnt to thf listfnfr whfn b
+     * notifidbtion is fmittfd, fndbpsulbtfd into b
+     * <dodf>MbrshbllfdObjfdt</dodf>.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @throws InstbndfNotFoundExdfption Thf MBfbn nbmf of thf
+     * notifidbtion listfnfr or of thf notifidbtion brobddbstfr dofs
+     * not mbtdh bny of thf rfgistfrfd MBfbns.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps bn {@link
+     * IllfgblArgumfntExdfption}.  Thf MBfbn nbmfd by
+     * <dodf>listfnfr</dodf> fxists but dofs not implfmfnt thf
+     * {@link jbvbx.mbnbgfmfnt.NotifidbtionListfnfr} intfrfbdf,
+     * or <dodf>nbmf</dodf> or <dodf>listfnfr</dodf> is null.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     *
+     * @sff #rfmovfNotifidbtionListfnfr(ObjfdtNbmf, ObjfdtNbmf, Subjfdt)
+     * @sff #rfmovfNotifidbtionListfnfr(ObjfdtNbmf, ObjfdtNbmf,
+     * MbrshbllfdObjfdt, MbrshbllfdObjfdt, Subjfdt)
+     */
+    publid void bddNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                        ObjfdtNbmf listfnfr,
+                        MbrshbllfdObjfdt filtfr,
+                        MbrshbllfdObjfdt hbndbbdk,
+                        Subjfdt dflfgbtionSubjfdt)
+        throws InstbndfNotFoundExdfption, IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#rfmovfNotifidbtionListfnfr(ObjfdtNbmf,
+     * ObjfdtNbmf)}.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf listfnfr should
+     * bf rfmovfd.
+     * @pbrbm listfnfr Thf objfdt nbmf of thf listfnfr to bf rfmovfd.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @throws InstbndfNotFoundExdfption Thf MBfbn nbmf providfd
+     * dofs not mbtdh bny of thf rfgistfrfd MBfbns.
+     * @throws ListfnfrNotFoundExdfption Thf listfnfr is not
+     * rfgistfrfd in thf MBfbn.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps bn {@link
+     * IllfgblArgumfntExdfption} whfn <dodf>nbmf</dodf> or
+     * <dodf>listfnfr</dodf> is null.
+     *
+     * @sff #bddNotifidbtionListfnfr
+     */
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           ObjfdtNbmf listfnfr,
+                                           Subjfdt dflfgbtionSubjfdt)
+        throws
+        InstbndfNotFoundExdfption,
+        ListfnfrNotFoundExdfption,
+        IOExdfption;
+
+    /**
+     * Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#rfmovfNotifidbtionListfnfr(ObjfdtNbmf,
+     * ObjfdtNbmf, NotifidbtionFiltfr, Objfdt)}.  Thf
+     * <dodf>NotifidbtionFiltfr</dodf> pbrbmftfr is wrbppfd in b
+     * <dodf>MbrshbllfdObjfdt</dodf>.  Thf <dodf>Objfdt</dodf>
+     * pbrbmftfr is blso wrbppfd in b <dodf>MbrshbllfdObjfdt</dodf>.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf listfnfr should
+     * bf rfmovfd.
+     * @pbrbm listfnfr A listfnfr thbt wbs prfviously bddfd to this
+     * MBfbn.
+     * @pbrbm filtfr Thf filtfr thbt wbs spfdififd whfn thf listfnfr
+     * wbs bddfd, fndbpsulbtfd into b <dodf>MbrshbllfdObjfdt</dodf>.
+     * @pbrbm hbndbbdk Thf hbndbbdk thbt wbs spfdififd whfn thf
+     * listfnfr wbs bddfd, fndbpsulbtfd into b <dodf>MbrshbllfdObjfdt</dodf>.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @throws InstbndfNotFoundExdfption Thf MBfbn nbmf providfd
+     * dofs not mbtdh bny of thf rfgistfrfd MBfbns.
+     * @throws ListfnfrNotFoundExdfption Thf listfnfr is not
+     * rfgistfrfd in thf MBfbn, or it is not rfgistfrfd with thf givfn
+     * filtfr bnd hbndbbdk.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to pfrform this opfrbtion.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @throws RuntimfOpfrbtionsExdfption Wrbps bn {@link
+     * IllfgblArgumfntExdfption} whfn <dodf>nbmf</dodf> or
+     * <dodf>listfnfr</dodf> is null.
+     *
+     * @sff #bddNotifidbtionListfnfr
+     */
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                      ObjfdtNbmf listfnfr,
+                      MbrshbllfdObjfdt filtfr,
+                      MbrshbllfdObjfdt hbndbbdk,
+                      Subjfdt dflfgbtionSubjfdt)
+        throws
+        InstbndfNotFoundExdfption,
+        ListfnfrNotFoundExdfption,
+        IOExdfption;
+
+    // Spfdibl Hbndling of Notifidbtions -------------------------------------
+
+    /**
+     * <p>Hbndlfs thf mfthod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#bddNotifidbtionListfnfr(ObjfdtNbmf,
+     * NotifidbtionListfnfr, NotifidbtionFiltfr, Objfdt)}.</p>
+     *
+     * <p>Rfgistfr for notifidbtions from thf givfn MBfbns thbt mbtdh
+     * thf givfn filtfrs.  Thf rfmotf dlifnt dbn subsfqufntly rftrifvf
+     * thf notifidbtions using thf {@link #fftdhNotifidbtions
+     * fftdhNotifidbtions} mfthod.</p>
+     *
+     * <p>For fbdh listfnfr, thf originbl
+     * <dodf>NotifidbtionListfnfr</dodf> bnd <dodf>hbndbbdk</dodf> brf
+     * kfpt on thf dlifnt sidf; in ordfr for thf dlifnt to bf bblf to
+     * idfntify thfm, thf sfrvfr gfnfrbtfs bnd rfturns b uniquf
+     * <dodf>listfnfrID</dodf>.  This <dodf>listfnfrID</dodf> is
+     * forwbrdfd with thf <dodf>Notifidbtions</dodf> to thf rfmotf
+     * dlifnt.</p>
+     *
+     * <p>If bny onf of thf givfn (nbmf, filtfr) pbirs dbnnot bf
+     * rfgistfrfd, thfn thf opfrbtion fbils with bn fxdfption, bnd no
+     * nbmfs or filtfrs brf rfgistfrfd.</p>
+     *
+     * @pbrbm nbmfs thf <dodf>ObjfdtNbmfs</dodf> idfntifying thf
+     * MBfbns fmitting thf Notifidbtions.
+     * @pbrbm filtfrs bn brrby of mbrshbllfd rfprfsfntbtions of thf
+     * <dodf>NotifidbtionFiltfrs</dodf>.  Elfmfnts of this brrby dbn
+     * bf null.
+     * @pbrbm dflfgbtionSubjfdts thf <dodf>Subjfdts</dodf> on bfhblf
+     * of whidh thf listfnfrs brf bfing bddfd.  Elfmfnts of this brrby
+     * dbn bf null.  Also, thf <dodf>dflfgbtionSubjfdts</dodf>
+     * pbrbmftfr itsflf dbn bf null, whidh is fquivblfnt to bn brrby
+     * of null vblufs with thf sbmf sizf bs thf <dodf>nbmfs</dodf> bnd
+     * <dodf>filtfrs</dodf> brrbys.
+     *
+     * @rfturn bn brrby of <dodf>listfnfrIDs</dodf> idfntifying thf
+     * lodbl listfnfrs.  This brrby hbs thf sbmf numbfr of flfmfnts bs
+     * thf pbrbmftfrs.
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmfs</dodf> or
+     * <dodf>filtfrs</dodf> is null, or if <dodf>nbmfs</dodf> dontbins
+     * b null flfmfnt, or if thf thrff brrbys do not bll hbvf thf sbmf
+     * sizf.
+     * @throws ClbssCbstExdfption if onf of thf flfmfnts of
+     * <dodf>filtfrs</dodf> unmbrshblls bs b non-null objfdt thbt is
+     * not b <dodf>NotifidbtionFiltfr</dodf>.
+     * @throws InstbndfNotFoundExdfption if onf of thf
+     * <dodf>nbmfs</dodf> dofs not dorrfspond to bny rfgistfrfd MBfbn.
+     * @throws SfdurityExdfption if, for onf of thf MBfbns, thf
+     * dlifnt, or thf dflfgbtfd Subjfdt if bny, dofs not hbvf
+     * pfrmission to bdd b listfnfr.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid Intfgfr[] bddNotifidbtionListfnfrs(ObjfdtNbmf[] nbmfs,
+                    MbrshbllfdObjfdt[] filtfrs,
+                    Subjfdt[] dflfgbtionSubjfdts)
+        throws InstbndfNotFoundExdfption, IOExdfption;
+
+    /**
+     * <p>Hbndlfs thf
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#rfmovfNotifidbtionListfnfr(ObjfdtNbmf,NotifidbtionListfnfr)
+     * rfmovfNotifidbtionListfnfr(ObjfdtNbmf, NotifidbtionListfnfr)} bnd
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#rfmovfNotifidbtionListfnfr(ObjfdtNbmf,NotifidbtionListfnfr,NotifidbtionFiltfr,Objfdt)
+     * rfmovfNotifidbtionListfnfr(ObjfdtNbmf, NotifidbtionListfnfr, NotifidbtionFiltfr, Objfdt)} mfthods.</p>
+     *
+     * <p>This mfthod rfmovfs onf or morf
+     * <dodf>NotifidbtionListfnfr</dodf>s from b givfn MBfbn in thf
+     * MBfbn sfrvfr.</p>
+     *
+     * <p>Thf <dodf>NotifidbtionListfnfrs</dodf> brf idfntififd by thf
+     * IDs whidh wfrf rfturnfd by thf {@link
+     * #bddNotifidbtionListfnfrs(ObjfdtNbmf[], MbrshbllfdObjfdt[],
+     * Subjfdt[])} mfthod.</p>
+     *
+     * @pbrbm nbmf thf <dodf>ObjfdtNbmf</dodf> idfntifying thf MBfbn
+     * fmitting thf Notifidbtions.
+     * @pbrbm listfnfrIDs thf list of thf IDs dorrfsponding to thf
+     * listfnfrs to rfmovf.
+     * @pbrbm dflfgbtionSubjfdt Thf <dodf>Subjfdt</dodf> dontbining thf
+     * dflfgbtion prindipbls or <dodf>null</dodf> if thf buthfntidbtion
+     * prindipbl is usfd instfbd.
+     *
+     * @throws InstbndfNotFoundExdfption if thf givfn
+     * <dodf>nbmf</dodf> dofs not dorrfspond to bny rfgistfrfd MBfbn.
+     * @throws ListfnfrNotFoundExdfption if onf of thf listfnfrs wbs
+     * not found on thf sfrvfr sidf.  This fxdfption dbn hbppfn if thf
+     * MBfbn disdbrdfd b listfnfr for somf rfbson othfr thbn b dbll to
+     * <dodf>MBfbnSfrvfr.rfmovfNotifidbtionListfnfr</dodf>.
+     * @throws SfdurityExdfption if thf dlifnt, or thf dflfgbtfd Subjfdt
+     * if bny, dofs not hbvf pfrmission to rfmovf thf listfnfrs.
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @throws IllfgblArgumfntExdfption if <dodf>ObjfdtNbmf</dodf> or
+     * <dodf>listfnfrIds</dodf> is null or if <dodf>listfnfrIds</dodf>
+     * dontbins b null flfmfnt.
+     */
+    publid void rfmovfNotifidbtionListfnfrs(ObjfdtNbmf nbmf,
+                                            Intfgfr[] listfnfrIDs,
+                                            Subjfdt dflfgbtionSubjfdt)
+        throws
+        InstbndfNotFoundExdfption,
+        ListfnfrNotFoundExdfption,
+        IOExdfption;
+
+    /**
+     * <p>Rftrifvfs notifidbtions from thf donnfdtor sfrvfr.  This
+     * mfthod dbn blodk until thfrf is bt lfbst onf notifidbtion or
+     * until thf spfdififd timfout is rfbdhfd.  Thf mfthod dbn blso
+     * rfturn bt bny timf with zfro notifidbtions.</p>
+     *
+     * <p>A notifidbtion dbn bf indludfd in thf rfsult if its sfqufndf
+     * numbfr is no lfss thbn <dodf>dlifntSfqufndfNumbfr</dodf> bnd
+     * this dlifnt hbs rfgistfrfd bt lfbst onf listfnfr for thf MBfbn
+     * gfnfrbting thf notifidbtion, with b filtfr thbt bddfpts thf
+     * notifidbtion.  Ebdh listfnfr thbt is intfrfstfd in thf
+     * notifidbtion is idfntififd by bn Intfgfr ID thbt wbs rfturnfd
+     * by {@link #bddNotifidbtionListfnfrs(ObjfdtNbmf[],
+     * MbrshbllfdObjfdt[], Subjfdt[])}.</p>
+     *
+     * @pbrbm dlifntSfqufndfNumbfr thf first sfqufndf numbfr thbt thf
+     * dlifnt is intfrfstfd in.  If nfgbtivf, it is intfrprftfd bs
+     * mfbning thf sfqufndf numbfr thbt thf nfxt notifidbtion will
+     * hbvf.
+     *
+     * @pbrbm mbxNotifidbtions thf mbximum numbfr of difffrfnt
+     * notifidbtions to rfturn.  Thf <dodf>TbrgftfdNotifidbtion</dodf>
+     * brrby in thf rfturnfd <dodf>NotifidbtionRfsult</dodf> dbn hbvf
+     * morf flfmfnts thbn this if thf sbmf notifidbtion bppfbrs morf
+     * thbn ondf.  Thf bfhbvior is unspfdififd if this pbrbmftfr is
+     * nfgbtivf.
+     *
+     * @pbrbm timfout thf mbximum timf in millisfdonds to wbit for b
+     * notifidbtion to brrivf.  This dbn bf 0 to indidbtf thbt thf
+     * mfthod should not wbit if thfrf brf no notifidbtions, but
+     * should rfturn bt ondf.  It dbn bf <dodf>Long.MAX_VALUE</dodf>
+     * to indidbtf thbt thfrf is no timfout.  Thf bfhbvior is
+     * unspfdififd if this pbrbmftfr is nfgbtivf.
+     *
+     * @rfturn A <dodf>NotifidbtionRfsult</dodf>.
+     *
+     * @throws IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid NotifidbtionRfsult fftdhNotifidbtions(long dlifntSfqufndfNumbfr,
+                                                 int mbxNotifidbtions,
+                                                 long timfout)
+            throws IOExdfption;
+}

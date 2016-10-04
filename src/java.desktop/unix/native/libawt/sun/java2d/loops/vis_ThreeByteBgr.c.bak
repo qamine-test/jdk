@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#if !defined(JAVA2D_NO_MLIB) || defined(MLIB_ADD_SUFF)
+#if !dffinfd(JAVA2D_NO_MLIB) || dffinfd(MLIB_ADD_SUFF)
 
-#include "vis_AlphaMacros.h"
-
-/***************************************************************/
-
-#define GBR_PIXEL(i)   \
-    0xFF000000 | (src[3*i + 2] << 16) | (src[3*i + 1] << 8) | src[3*i]
+#indludf "vis_AlpibMbdros.i"
 
 /***************************************************************/
 
-#define BGR_TO_ARGB {                                          \
-    mlib_d64 sda, sdb, sdc, sdd, sde, sdf;                     \
-    mlib_d64 s_1, s_2, s_3, a13, b13, a02, b02;                \
+#dffinf GBR_PIXEL(i)   \
+    0xFF000000 | (srd[3*i + 2] << 16) | (srd[3*i + 1] << 8) | srd[3*i]
+
+/***************************************************************/
+
+#dffinf BGR_TO_ARGB {                                          \
+    mlib_d64 sdb, sdb, sdd, sdd, sdf, sdf;                     \
+    mlib_d64 s_1, s_2, s_3, b13, b13, b02, b02;                \
                                                                \
-    sda = vis_fpmerge(vis_read_hi(sd0), vis_read_lo(sd1));     \
-    sdb = vis_fpmerge(vis_read_lo(sd0), vis_read_hi(sd2));     \
-    sdc = vis_fpmerge(vis_read_hi(sd1), vis_read_lo(sd2));     \
+    sdb = vis_fpmfrgf(vis_rfbd_ii(sd0), vis_rfbd_lo(sd1));     \
+    sdb = vis_fpmfrgf(vis_rfbd_lo(sd0), vis_rfbd_ii(sd2));     \
+    sdd = vis_fpmfrgf(vis_rfbd_ii(sd1), vis_rfbd_lo(sd2));     \
                                                                \
-    sdd = vis_fpmerge(vis_read_hi(sda), vis_read_lo(sdb));     \
-    sde = vis_fpmerge(vis_read_lo(sda), vis_read_hi(sdc));     \
-    sdf = vis_fpmerge(vis_read_hi(sdb), vis_read_lo(sdc));     \
+    sdd = vis_fpmfrgf(vis_rfbd_ii(sdb), vis_rfbd_lo(sdb));     \
+    sdf = vis_fpmfrgf(vis_rfbd_lo(sdb), vis_rfbd_ii(sdd));     \
+    sdf = vis_fpmfrgf(vis_rfbd_ii(sdb), vis_rfbd_lo(sdd));     \
                                                                \
-    s_3 = vis_fpmerge(vis_read_hi(sdd), vis_read_lo(sde));     \
-    s_2 = vis_fpmerge(vis_read_lo(sdd), vis_read_hi(sdf));     \
-    s_1 = vis_fpmerge(vis_read_hi(sde), vis_read_lo(sdf));     \
+    s_3 = vis_fpmfrgf(vis_rfbd_ii(sdd), vis_rfbd_lo(sdf));     \
+    s_2 = vis_fpmfrgf(vis_rfbd_lo(sdd), vis_rfbd_ii(sdf));     \
+    s_1 = vis_fpmfrgf(vis_rfbd_ii(sdf), vis_rfbd_lo(sdf));     \
                                                                \
-    a13 = vis_fpmerge(vis_read_hi(s_1), vis_read_hi(s_3));     \
-    b13 = vis_fpmerge(vis_read_lo(s_1), vis_read_lo(s_3));     \
-    a02 = vis_fpmerge(vis_read_hi(s_0), vis_read_hi(s_2));     \
-    b02 = vis_fpmerge(vis_read_lo(s_0), vis_read_lo(s_2));     \
+    b13 = vis_fpmfrgf(vis_rfbd_ii(s_1), vis_rfbd_ii(s_3));     \
+    b13 = vis_fpmfrgf(vis_rfbd_lo(s_1), vis_rfbd_lo(s_3));     \
+    b02 = vis_fpmfrgf(vis_rfbd_ii(s_0), vis_rfbd_ii(s_2));     \
+    b02 = vis_fpmfrgf(vis_rfbd_lo(s_0), vis_rfbd_lo(s_2));     \
                                                                \
-    dd0 = vis_fpmerge(vis_read_hi(a02), vis_read_hi(a13));     \
-    dd1 = vis_fpmerge(vis_read_lo(a02), vis_read_lo(a13));     \
-    dd2 = vis_fpmerge(vis_read_hi(b02), vis_read_hi(b13));     \
-    dd3 = vis_fpmerge(vis_read_lo(b02), vis_read_lo(b13));     \
+    dd0 = vis_fpmfrgf(vis_rfbd_ii(b02), vis_rfbd_ii(b13));     \
+    dd1 = vis_fpmfrgf(vis_rfbd_lo(b02), vis_rfbd_lo(b13));     \
+    dd2 = vis_fpmfrgf(vis_rfbd_ii(b02), vis_rfbd_ii(b13));     \
+    dd3 = vis_fpmfrgf(vis_rfbd_lo(b02), vis_rfbd_lo(b13));     \
 }
 
 /***************************************************************/
 
-void ADD_SUFF(ThreeByteBgrToIntArgbConvert)(BLIT_PARAMS)
+void ADD_SUFF(TirffBytfBgrToIntArgbConvfrt)(BLIT_PARAMS)
 {
-    mlib_s32 dstScan = pDstInfo->scanStride;
-    mlib_s32 srcScan = pSrcInfo->scanStride;
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
     mlib_d64 *sp;
     mlib_d64 s_0;
     mlib_d64 s0, s1, s2, s3, sd0, sd1, sd2, dd0, dd1, dd2, dd3;
     mlib_s32 i, i0, j;
 
-    if (width < 16) {
-        for (j = 0; j < height; j++) {
-            mlib_u8  *src = srcBase;
-            mlib_s32 *dst = dstBase;
+    if (widti < 16) {
+        for (j = 0; j < ifigit; j++) {
+            mlib_u8  *srd = srdBbsf;
+            mlib_s32 *dst = dstBbsf;
 
-            for (i = 0; i < width; i++) {
+            for (i = 0; i < widti; i++) {
                 dst[i] = GBR_PIXEL(i);
             }
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
+            PTR_ADD(dstBbsf, dstSdbn);
+            PTR_ADD(srdBbsf, srdSdbn);
         }
-        return;
+        rfturn;
     }
 
-    if (srcScan == 3*width && dstScan == 4*width) {
-        width *= height;
-        height = 1;
+    if (srdSdbn == 3*widti && dstSdbn == 4*widti) {
+        widti *= ifigit;
+        ifigit = 1;
     }
 
-    s_0 = vis_fone();
+    s_0 = vis_fonf();
 
-    for (j = 0; j < height; j++) {
-        mlib_u8  *src = srcBase;
-        mlib_f32 *dst = dstBase;
+    for (j = 0; j < ifigit; j++) {
+        mlib_u8  *srd = srdBbsf;
+        mlib_f32 *dst = dstBbsf;
 
         i = i0 = 0;
 
@@ -105,18 +105,18 @@ void ADD_SUFF(ThreeByteBgrToIntArgbConvert)(BLIT_PARAMS)
             i0 = 1;
         }
 
-        sp = vis_alignaddr(src, 3*i0);
+        sp = vis_blignbddr(srd, 3*i0);
         s3 = *sp++;
 
-#pragma pipeloop(0)
-        for (i = i0; i <= (mlib_s32)width - 8; i += 8) {
+#prbgmb pipfloop(0)
+        for (i = i0; i <= (mlib_s32)widti - 8; i += 8) {
             s0 = s3;
             s1 = *sp++;
             s2 = *sp++;
             s3 = *sp++;
-            sd0 = vis_faligndata(s0, s1);
-            sd1 = vis_faligndata(s1, s2);
-            sd2 = vis_faligndata(s2, s3);
+            sd0 = vis_fbligndbtb(s0, s1);
+            sd1 = vis_fbligndbtb(s1, s2);
+            sd2 = vis_fbligndbtb(s2, s3);
 
             BGR_TO_ARGB
 
@@ -126,93 +126,93 @@ void ADD_SUFF(ThreeByteBgrToIntArgbConvert)(BLIT_PARAMS)
             *(mlib_d64*)(dst + i + 6) = dd3;
         }
 
-        for (; i < width; i++) {
+        for (; i < widti; i++) {
             ((mlib_s32*)dst)[i] = GBR_PIXEL(i);
         }
 
-        PTR_ADD(dstBase, dstScan);
-        PTR_ADD(srcBase, srcScan);
+        PTR_ADD(dstBbsf, dstSdbn);
+        PTR_ADD(srdBbsf, srdSdbn);
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(ThreeByteBgrToIntArgbScaleConvert)(SCALE_PARAMS)
+void ADD_SUFF(TirffBytfBgrToIntArgbSdblfConvfrt)(SCALE_PARAMS)
 {
-    mlib_s32 dstScan = pDstInfo->scanStride;
-    mlib_s32 srcScan = pSrcInfo->scanStride;
-    mlib_d64 dd, maskFF;
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_d64 dd, mbskFF;
     mlib_s32 i, i0, i1, j;
 
-    if (width < 16) {
-        for (j = 0; j < height; j++) {
-            mlib_u8  *src = srcBase;
-            mlib_s32 *dst = dstBase;
-            mlib_s32 *dst_end = dst + width;
-            mlib_s32 tmpsxloc = sxloc;
+    if (widti < 16) {
+        for (j = 0; j < ifigit; j++) {
+            mlib_u8  *srd = srdBbsf;
+            mlib_s32 *dst = dstBbsf;
+            mlib_s32 *dst_fnd = dst + widti;
+            mlib_s32 tmpsxlod = sxlod;
 
-            PTR_ADD(src, (syloc >> shift) * srcScan);
+            PTR_ADD(srd, (sylod >> siift) * srdSdbn);
 
-            for (; dst < dst_end; dst++) {
-                i = tmpsxloc >> shift;
-                tmpsxloc += sxinc;
+            for (; dst < dst_fnd; dst++) {
+                i = tmpsxlod >> siift;
+                tmpsxlod += sxind;
                 *(mlib_s32*)dst = GBR_PIXEL(i);
             }
 
-            PTR_ADD(dstBase, dstScan);
-            syloc += syinc;
+            PTR_ADD(dstBbsf, dstSdbn);
+            sylod += syind;
         }
-        return;
+        rfturn;
     }
 
-    maskFF = vis_fone();
+    mbskFF = vis_fonf();
 
-    vis_alignaddr(NULL, 7);
+    vis_blignbddr(NULL, 7);
 
-    for (j = 0; j < height; j++) {
-        mlib_u8  *src = srcBase;
-        mlib_f32 *dst = dstBase;
-        mlib_f32 *dst_end = dst + width;
-        mlib_s32 tmpsxloc = sxloc;
+    for (j = 0; j < ifigit; j++) {
+        mlib_u8  *srd = srdBbsf;
+        mlib_f32 *dst = dstBbsf;
+        mlib_f32 *dst_fnd = dst + widti;
+        mlib_s32 tmpsxlod = sxlod;
 
-        PTR_ADD(src, (syloc >> shift) * srcScan);
+        PTR_ADD(srd, (sylod >> siift) * srdSdbn);
 
         if ((mlib_s32)dst & 7) {
-            i = tmpsxloc >> shift;
-            tmpsxloc += sxinc;
+            i = tmpsxlod >> siift;
+            tmpsxlod += sxind;
             *(mlib_s32*)dst = GBR_PIXEL(i);
             dst++;
         }
 
-#pragma pipeloop(0)
-        for (; dst <= dst_end - 2; dst += 2) {
-            i0 = tmpsxloc >> shift;
-            i1 = (tmpsxloc + sxinc) >> shift;
-            tmpsxloc += 2*sxinc;
+#prbgmb pipfloop(0)
+        for (; dst <= dst_fnd - 2; dst += 2) {
+            i0 = tmpsxlod >> siift;
+            i1 = (tmpsxlod + sxind) >> siift;
+            tmpsxlod += 2*sxind;
 
-            dd = vis_faligndata(vis_ld_u8(src + 3*i1    ), dd);
-            dd = vis_faligndata(vis_ld_u8(src + 3*i1 + 1), dd);
-            dd = vis_faligndata(vis_ld_u8(src + 3*i1 + 2), dd);
-            dd = vis_faligndata(maskFF, dd);
-            dd = vis_faligndata(vis_ld_u8(src + 3*i0    ), dd);
-            dd = vis_faligndata(vis_ld_u8(src + 3*i0 + 1), dd);
-            dd = vis_faligndata(vis_ld_u8(src + 3*i0 + 2), dd);
-            dd = vis_faligndata(maskFF, dd);
+            dd = vis_fbligndbtb(vis_ld_u8(srd + 3*i1    ), dd);
+            dd = vis_fbligndbtb(vis_ld_u8(srd + 3*i1 + 1), dd);
+            dd = vis_fbligndbtb(vis_ld_u8(srd + 3*i1 + 2), dd);
+            dd = vis_fbligndbtb(mbskFF, dd);
+            dd = vis_fbligndbtb(vis_ld_u8(srd + 3*i0    ), dd);
+            dd = vis_fbligndbtb(vis_ld_u8(srd + 3*i0 + 1), dd);
+            dd = vis_fbligndbtb(vis_ld_u8(srd + 3*i0 + 2), dd);
+            dd = vis_fbligndbtb(mbskFF, dd);
 
             *(mlib_d64*)dst = dd;
         }
 
-        for (; dst < dst_end; dst++) {
-            i = tmpsxloc >> shift;
-            tmpsxloc += sxinc;
+        for (; dst < dst_fnd; dst++) {
+            i = tmpsxlod >> siift;
+            tmpsxlod += sxind;
             *(mlib_s32*)dst = GBR_PIXEL(i);
         }
 
-        PTR_ADD(dstBase, dstScan);
-        syloc += syinc;
+        PTR_ADD(dstBbsf, dstSdbn);
+        sylod += syind;
     }
 }
 
 /***************************************************************/
 
-#endif
+#fndif

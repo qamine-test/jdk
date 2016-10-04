@@ -1,0 +1,646 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft.sfribl;
+
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.sql.*;
+import jbvb.util.Mbp;
+import jbvb.util.Vfdtor;
+
+/**
+ * Thf output strfbm for writing thf bttributfs of b
+ * dustom-mbppfd usfr-dffinfd typf (UDT) bbdk to thf dbtbbbsf.
+ * Thf drivfr usfs this intfrfbdf intfrnblly, bnd its
+ * mfthods brf nfvfr dirfdtly invokfd by bn bpplidbtion progrbmmfr.
+ * <p>
+ * Whfn bn bpplidbtion dblls thf
+ * mfthod <dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf>, thf drivfr
+ * dhfdks to sff whfthfr thf vbluf to bf writtfn is b UDT with
+ * b dustom mbpping.  If it is, thfrf will bf bn fntry in b
+ * typf mbp dontbining thf <dodf>Clbss</dodf> objfdt for thf
+ * dlbss thbt implfmfnts <dodf>SQLDbtb</dodf> for this UDT.
+ * If thf vbluf to bf writtfn is bn instbndf of <dodf>SQLDbtb</dodf>,
+ * thf drivfr will drfbtf bn instbndf of <dodf>SQLOutputImpl</dodf>
+ * bnd pbss it to thf mfthod <dodf>SQLDbtb.writfSQL</dodf>.
+ * Thf mfthod <dodf>writfSQL</dodf> in turn dblls thf
+ * bppropribtf <dodf>SQLOutputImpl.writfXXX</dodf> mfthods
+ * to writf dbtb from thf <dodf>SQLDbtb</dodf> objfdt to
+ * thf <dodf>SQLOutputImpl</dodf> output strfbm bs thf
+ * rfprfsfntbtion of bn SQL usfr-dffinfd typf.
+ *
+ * @sindf 1.5
+ */
+publid dlbss SQLOutputImpl implfmfnts SQLOutput {
+
+    /**
+     * A rfffrfndf to bn fxisting vfdtor thbt
+     * dontbins thf bttributfs of b <dodf>Strudt</dodf> objfdt.
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf Vfdtor bttribs;
+
+    /**
+     * Thf typf mbp thf drivfr supplifs to b nfwly drfbtfd
+     * <dodf>SQLOutputImpl</dodf> objfdt.  This typf mbp
+     * indidbtfs thf <dodf>SQLDbtb</dodf> dlbss whosf
+     * <dodf>writfSQL</dodf> mfthod will bf dbllfd.  This
+     * mfthod will in turn dbll thf bppropribtf
+     * <dodf>SQLOutputImpl</dodf> writfr mfthods.
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf Mbp mbp;
+
+    /**
+     * Crfbtfs b nfw <dodf>SQLOutputImpl</dodf> objfdt
+     * initiblizfd with thf givfn vfdtor of bttributfs bnd
+     * typf mbp.  Thf drivfr will usf thf typf mbp to dftfrminf
+     * whidh <dodf>SQLDbtb.writfSQL</dodf> mfthod to invokf.
+     * This mfthod will thfn dbll thf bppropribtf
+     * <dodf>SQLOutputImpl</dodf> writfr mfthods in ordfr bnd
+     * thfrfby writf thf bttributfs to thf nfw output strfbm.
+     *
+     * @pbrbm bttributfs b <dodf>Vfdtor</dodf> objfdt dontbining thf bttributfs of
+     *        thf UDT to bf mbppfd to onf or morf objfdts in thf Jbvb
+     *        progrbmming lbngubgf
+     *
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt dontbining zfro or
+     *        morf fntrifs, with fbdh fntry donsisting of 1) b <dodf>String</dodf>
+     *        giving thf fully qublififd nbmf of b UDT bnd 2) thf
+     *        <dodf>Clbss</dodf> objfdt for thf <dodf>SQLDbtb</dodf> implfmfntbtion
+     *        thbt dffinfs how thf UDT is to bf mbppfd
+     * @throws SQLExdfption if thf <dodf>bttributfs</dodf> or thf <dodf>mbp</dodf>
+     *        is b <dodf>null</dodf> vbluf
+     */
+    publid SQLOutputImpl(Vfdtor<?> bttributfs, Mbp<String,?> mbp)
+        throws SQLExdfption
+    {
+        if ((bttributfs == null) || (mbp == null)) {
+            throw nfw SQLExdfption("Cbnnot instbntibtf b SQLOutputImpl " +
+            "instbndf with null pbrbmftfrs");
+        }
+        this.bttribs = bttributfs;
+        this.mbp = mbp;
+    }
+
+    //================================================================
+    // Mfthods for writing bttributfs to thf strfbm of SQL dbtb.
+    // Thfsf mfthods dorrfspond to thf dolumn-bddfssor mfthods of
+    // jbvb.sql.RfsultSft.
+    //================================================================
+
+    /**
+     * Writfs b <dodf>String</dodf> in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>CHAR</dodf>, <dodf>VARCHAR</dodf>, or
+     * <dodf>LONGVARCHAR</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfString(String x) throws SQLExdfption {
+        //Systfm.out.println("Adding :"+x);
+        bttribs.bdd(x);
+    }
+
+    /**
+     * Writfs b <dodf>boolfbn</dodf> in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>BIT</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfBoolfbn(boolfbn x) throws SQLExdfption {
+        bttribs.bdd(Boolfbn.vblufOf(x));
+    }
+
+    /**
+     * Writfs b <dodf>bytf</dodf> in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>BIT</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfBytf(bytf x) throws SQLExdfption {
+        bttribs.bdd(Bytf.vblufOf(x));
+    }
+
+    /**
+     * Writfs b <dodf>short</dodf> in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>SMALLINT</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfShort(short x) throws SQLExdfption {
+        bttribs.bdd(Short.vblufOf(x));
+    }
+
+    /**
+     * Writfs bn <dodf>int</dodf> in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>INTEGER</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfInt(int x) throws SQLExdfption {
+        bttribs.bdd(Intfgfr.vblufOf(x));
+    }
+
+    /**
+     * Writfs b <dodf>long</dodf> in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>BIGINT</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfLong(long x) throws SQLExdfption {
+        bttribs.bdd(Long.vblufOf(x));
+    }
+
+    /**
+     * Writfs b <dodf>flobt</dodf> in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>REAL</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfFlobt(flobt x) throws SQLExdfption {
+        bttribs.bdd(Flobt.vblufOf(x));
+    }
+
+    /**
+     * Writfs b <dodf>doublf</dodf> in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>DOUBLE</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfDoublf(doublf x) throws SQLExdfption{
+        bttribs.bdd(Doublf.vblufOf(x));
+    }
+
+    /**
+     * Writfs b <dodf>jbvb.mbth.BigDfdimbl</dodf> objfdt in thf Jbvb progrbmming
+     * lbngubgf to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>NUMERIC</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfBigDfdimbl(jbvb.mbth.BigDfdimbl x) throws SQLExdfption{
+        bttribs.bdd(x);
+    }
+
+    /**
+     * Writfs bn brrby of <dodf>bytfs</dodf> in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>VARBINARY</dodf> or <dodf>LONGVARBINARY</dodf>
+     * bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfBytfs(bytf[] x) throws SQLExdfption {
+        bttribs.bdd(x);
+    }
+
+    /**
+     * Writfs b <dodf>jbvb.sql.Dbtf</dodf> objfdt in thf Jbvb progrbmming
+     * lbngubgf to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>DATE</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfDbtf(jbvb.sql.Dbtf x) throws SQLExdfption {
+        bttribs.bdd(x);
+    }
+
+    /**
+     * Writfs b <dodf>jbvb.sql.Timf</dodf> objfdt in thf Jbvb progrbmming
+     * lbngubgf to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>TIME</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfTimf(jbvb.sql.Timf x) throws SQLExdfption {
+        bttribs.bdd(x);
+    }
+
+    /**
+     * Writfs b <dodf>jbvb.sql.Timfstbmp</dodf> objfdt in thf Jbvb progrbmming
+     * lbngubgf to this <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr donvfrts
+     * it to bn SQL <dodf>TIMESTAMP</dodf> bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfTimfstbmp(jbvb.sql.Timfstbmp x) throws SQLExdfption {
+        bttribs.bdd(x);
+    }
+
+    /**
+     * Writfs b strfbm of Unidodf dhbrbdtfrs to this
+     * <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr will do bny nfdfssbry
+     * donvfrsion from Unidodf to thf dbtbbbsf <dodf>CHAR</dodf> formbt.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfChbrbdtfrStrfbm(jbvb.io.Rfbdfr x) throws SQLExdfption {
+         BufffrfdRfbdfr bufRfbdfr = nfw BufffrfdRfbdfr(x);
+         try {
+             int i;
+             whilf( (i = bufRfbdfr.rfbd()) != -1 ) {
+                dhbr dh = (dhbr)i;
+                StringBufffr strBuf = nfw StringBufffr();
+                strBuf.bppfnd(dh);
+
+                String str = nfw String(strBuf);
+                String strLinf = bufRfbdfr.rfbdLinf();
+
+                writfString(str.dondbt(strLinf));
+             }
+         } dbtdh(IOExdfption iof) {
+
+         }
+    }
+
+    /**
+     * Writfs b strfbm of ASCII dhbrbdtfrs to this
+     * <dodf>SQLOutputImpl</dodf> objfdt. Thf drivfr will do bny nfdfssbry
+     * donvfrsion from ASCII to thf dbtbbbsf <dodf>CHAR</dodf> formbt.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfAsdiiStrfbm(jbvb.io.InputStrfbm x) throws SQLExdfption {
+         BufffrfdRfbdfr bufRfbdfr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(x));
+         try {
+               int i;
+               whilf( (i=bufRfbdfr.rfbd()) != -1 ) {
+                dhbr dh = (dhbr)i;
+
+                StringBufffr strBuf = nfw StringBufffr();
+                strBuf.bppfnd(dh);
+
+                String str = nfw String(strBuf);
+                String strLinf = bufRfbdfr.rfbdLinf();
+
+                writfString(str.dondbt(strLinf));
+            }
+          }dbtdh(IOExdfption iof) {
+            throw nfw SQLExdfption(iof.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Writfs b strfbm of unintfrprftfd bytfs to this <dodf>SQLOutputImpl</dodf>
+     * objfdt.
+     *
+     * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfBinbryStrfbm(jbvb.io.InputStrfbm x) throws SQLExdfption {
+         BufffrfdRfbdfr bufRfbdfr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(x));
+         try {
+               int i;
+             whilf( (i=bufRfbdfr.rfbd()) != -1 ) {
+                dhbr dh = (dhbr)i;
+
+                StringBufffr strBuf = nfw StringBufffr();
+                strBuf.bppfnd(dh);
+
+                String str = nfw String(strBuf);
+                String strLinf = bufRfbdfr.rfbdLinf();
+
+                writfString(str.dondbt(strLinf));
+             }
+        } dbtdh(IOExdfption iof) {
+            throw nfw SQLExdfption(iof.gftMfssbgf());
+        }
+    }
+
+    //================================================================
+    // Mfthods for writing itfms of SQL usfr-dffinfd typfs to thf strfbm.
+    // Thfsf mfthods pbss objfdts to thf dbtbbbsf bs vblufs of SQL
+    // Strudturfd Typfs, Distindt Typfs, Construdtfd Typfs, bnd Lodbtor
+    // Typfs.  Thfy dfdomposf thf Jbvb objfdt(s) bnd writf lfbf dbtb
+    // itfms using thf mfthods bbovf.
+    //================================================================
+
+    /**
+     * Writfs to thf strfbm thf dbtb dontbinfd in thf givfn
+     * <dodf>SQLDbtb</dodf> objfdt.
+     * Whfn thf <dodf>SQLDbtb</dodf> objfdt is <dodf>null</dodf>, this
+     * mfthod writfs bn SQL <dodf>NULL</dodf> to thf strfbm.
+     * Othfrwisf, it dblls thf <dodf>SQLDbtb.writfSQL</dodf>
+     * mfthod of thf givfn objfdt, whidh
+     * writfs thf objfdt's bttributfs to thf strfbm.
+     * <P>
+     * Thf implfmfntbtion of thf mfthod <dodf>SQLDbtb.writfSQ</dodf>
+     * dblls thf bppropribtf <dodf>SQLOutputImpl.writfXXX</dodf> mfthod(s)
+     * for writing fbdh of thf objfdt's bttributfs in ordfr.
+     * Thf bttributfs must bf rfbd from bn <dodf>SQLInput</dodf>
+     * input strfbm bnd writtfn to bn <dodf>SQLOutputImpl</dodf>
+     * output strfbm in thf sbmf ordfr in whidh thfy wfrf
+     * listfd in thf SQL dffinition of thf usfr-dffinfd typf.
+     *
+     * @pbrbm x thf objfdt rfprfsfnting dbtb of bn SQL strudturfd or
+     *          distindt typf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfObjfdt(SQLDbtb x) throws SQLExdfption {
+
+        /*
+         * Exdfpt for thf typfs thbt brf pbssfd bs objfdts
+         * this sffms to bf thf only wby for bn objfdt to
+         * gft b null vbluf for b fifld in b strudturf.
+         *
+         * Notf: this mfbns thbt thf dlbss dffining SQLDbtb
+         * will nffd to trbdk if b fifld is SQL null for itsflf
+         */
+        if (x == null) {
+            bttribs.bdd(null);
+        } flsf {
+            /*
+             * Wf hbvf to writf out b SfriblStrudt thbt dontbins
+             * thf nbmf of this dlbss othfrwisf wf don't know
+             * whbt to rf-instbntibtf during rfbdSQL()
+             */
+            bttribs.bdd(nfw SfriblStrudt(x, mbp));
+        }
+    }
+
+    /**
+     * Writfs b <dodf>Rff</dodf> objfdt in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt.  Thf drivfr donvfrts
+     * it to b sfriblizbblf <dodf>SfriblRff</dodf> SQL <dodf>REF</dodf> vbluf
+     * bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x bn objfdt rfprfsfnting bn SQL <dodf>REF</dodf> vbluf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfRff(Rff x) throws SQLExdfption {
+        if (x == null) {
+            bttribs.bdd(null);
+        } flsf {
+            bttribs.bdd(nfw SfriblRff(x));
+        }
+    }
+
+    /**
+     * Writfs b <dodf>Blob</dodf> objfdt in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt.  Thf drivfr donvfrts
+     * it to b sfriblizbblf <dodf>SfriblBlob</dodf> SQL <dodf>BLOB</dodf> vbluf
+     * bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x bn objfdt rfprfsfnting bn SQL <dodf>BLOB</dodf> vbluf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfBlob(Blob x) throws SQLExdfption {
+        if (x == null) {
+            bttribs.bdd(null);
+        } flsf {
+            bttribs.bdd(nfw SfriblBlob(x));
+        }
+    }
+
+    /**
+     * Writfs b <dodf>Clob</dodf> objfdt in thf Jbvb progrbmming lbngubgf
+     * to this <dodf>SQLOutputImpl</dodf> objfdt.  Thf drivfr donvfrts
+     * it to b sfriblizbblf <dodf>SfriblClob</dodf> SQL <dodf>CLOB</dodf> vbluf
+     * bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x bn objfdt rfprfsfnting bn SQL <dodf>CLOB</dodf> vbluf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfClob(Clob x) throws SQLExdfption {
+        if (x == null) {
+            bttribs.bdd(null);
+        } flsf {
+            bttribs.bdd(nfw SfriblClob(x));
+        }
+    }
+
+    /**
+     * Writfs b <dodf>Strudt</dodf> objfdt in thf Jbvb
+     * progrbmming lbngubgf to this <dodf>SQLOutputImpl</dodf>
+     * objfdt. Thf drivfr donvfrts this vbluf to bn SQL strudturfd typf
+     * bfforf rfturning it to thf dbtbbbsf.
+     * <P>
+     * This mfthod should bf usfd whfn bn SQL strudturfd typf hbs bffn
+     * mbppfd to b <dodf>Strudt</dodf> objfdt in thf Jbvb progrbmming
+     * lbngubgf (thf stbndbrd mbpping).  Thf mfthod
+     * <dodf>writfObjfdt</dodf> should bf usfd if bn SQL strudturfd typf
+     * hbs bffn dustom mbppfd to b dlbss in thf Jbvb progrbmming lbngubgf.
+     *
+     * @pbrbm x bn objfdt rfprfsfnting thf bttributfs of bn SQL strudturfd typf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfStrudt(Strudt x) throws SQLExdfption {
+        SfriblStrudt s = nfw SfriblStrudt(x,mbp);;
+        bttribs.bdd(s);
+    }
+
+    /**
+     * Writfs bn <dodf>Arrby</dodf> objfdt in thf Jbvb
+     * progrbmming lbngubgf to this <dodf>SQLOutputImpl</dodf>
+     * objfdt. Thf drivfr donvfrts this vbluf to b sfriblizbblf
+     * <dodf>SfriblArrby</dodf> SQL <dodf>ARRAY</dodf>
+     * vbluf bfforf rfturning it to thf dbtbbbsf.
+     *
+     * @pbrbm x bn objfdt rfprfsfnting bn SQL <dodf>ARRAY</dodf> vbluf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfArrby(Arrby x) throws SQLExdfption {
+        if (x == null) {
+            bttribs.bdd(null);
+        } flsf {
+            bttribs.bdd(nfw SfriblArrby(x, mbp));
+        }
+    }
+
+    /**
+     * Writfs bn <dodf>jbvb.sql.Typf.DATALINK</dodf> objfdt in thf Jbvb
+     * progrbmming lbngubgf to this <dodf>SQLOutputImpl</dodf> objfdt. Thf
+     * drivfr donvfrts this vbluf to b sfriblizbblf <dodf>SfriblDbtblink</dodf>
+     * SQL <dodf>DATALINK</dodf> vbluf bfforf rfturn it to thf dbtbbbsf.
+     *
+     * @pbrbm url bn objfdt rfprfsfnting b SQL <dodf>DATALINK</dodf> vbluf
+     * @throws SQLExdfption if thf <dodf>SQLOutputImpl</dodf> objfdt is in
+     *        usf by b <dodf>SQLDbtb</dodf> objfdt bttfmpting to writf thf bttributf
+     *        vblufs of b UDT to thf dbtbbbsf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid void writfURL(jbvb.nft.URL url) throws SQLExdfption {
+        if (url == null) {
+            bttribs.bdd(null);
+        } flsf {
+            bttribs.bdd(nfw SfriblDbtblink(url));
+        }
+    }
+
+
+  /**
+   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
+   * in thf Jbvb progrbmming lbngubgf. Thf drivfr donvfrts this to b
+   * SQL <dodf>NCHAR</dodf> or
+   * <dodf>NVARCHAR</dodf> or <dodf>LONGNVARCHAR</dodf> vbluf
+   * (dfpfnding on thf brgumfnt's
+   * sizf rflbtivf to thf drivfr's limits on <dodf>NVARCHAR</dodf> vblufs)
+   * whfn it sfnds it to thf strfbm.
+   *
+   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sindf 1.6
+   */
+   @SupprfssWbrnings("undhfdkfd")
+   publid void writfNString(String x) throws SQLExdfption {
+       bttribs.bdd(x);
+   }
+
+  /**
+   * Writfs bn SQL <dodf>NCLOB</dodf> vbluf to thf strfbm.
+   *
+   * @pbrbm x b <dodf>NClob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * <dodf>NCLOB</dodf> vbluf
+   *
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sindf 1.6
+   */
+   @SupprfssWbrnings("undhfdkfd")
+   publid void writfNClob(NClob x) throws SQLExdfption {
+           bttribs.bdd(x);
+   }
+
+
+  /**
+   * Writfs bn SQL <dodf>ROWID</dodf> vbluf to thf strfbm.
+   *
+   * @pbrbm x b <dodf>RowId</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * <dodf>ROWID</dodf> vbluf
+   *
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sindf 1.6
+   */
+   @SupprfssWbrnings("undhfdkfd")
+   publid void writfRowId(RowId x) throws SQLExdfption {
+        bttribs.bdd(x);
+   }
+
+
+  /**
+   * Writfs bn SQL <dodf>XML</dodf> vbluf to thf strfbm.
+   *
+   * @pbrbm x b <dodf>SQLXML</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * <dodf>XML</dodf> vbluf
+   *
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sindf 1.6
+   */
+   @SupprfssWbrnings("undhfdkfd")
+   publid void writfSQLXML(SQLXML x) throws SQLExdfption {
+        bttribs.bdd(x);
+    }
+
+}

@@ -1,0 +1,484 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import dom.sun.jmx.mbfbnsfrvfr.MXBfbnProxy;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.util.Arrbys;
+import jbvb.util.WfbkHbshMbp;
+
+/**
+ * <p>{@link InvodbtionHbndlfr} thbt forwbrds mfthods in bn MBfbn's
+ * mbnbgfmfnt intfrfbdf through thf MBfbn sfrvfr to thf MBfbn.</p>
+ *
+ * <p>Givfn bn {@link MBfbnSfrvfrConnfdtion}, thf {@link ObjfdtNbmf}
+ * of bn MBfbn within thbt MBfbn sfrvfr, bnd b Jbvb intfrfbdf
+ * <dodf>Intf</dodf> thbt dfsdribfs thf mbnbgfmfnt intfrfbdf of thf
+ * MBfbn using thf pbttfrns for b Stbndbrd MBfbn or bn MXBfbn, this
+ * dlbss dbn bf usfd to donstrudt b proxy for thf MBfbn.  Thf proxy
+ * implfmfnts thf intfrfbdf <dodf>Intf</dodf> sudh thbt bll of its
+ * mfthods brf forwbrdfd through thf MBfbn sfrvfr to thf MBfbn.</p>
+ *
+ * <p>If thf {@dodf InvodbtionHbndlfr} is for bn MXBfbn, thfn thf pbrbmftfrs of
+ * b mfthod brf donvfrtfd from thf typf dfdlbrfd in thf MXBfbn
+ * intfrfbdf into thf dorrfsponding mbppfd typf, bnd thf rfturn vbluf
+ * is donvfrtfd from thf mbppfd typf into thf dfdlbrfd typf.  For
+ * fxbmplf, with thf mfthod<br>
+
+ * {@dodf publid List<String> rfvfrsf(List<String> list);}<br>
+
+ * bnd givfn thbt thf mbppfd typf for {@dodf List<String>} is {@dodf
+ * String[]}, b dbll to {@dodf proxy.rfvfrsf(somfList)} will donvfrt
+ * {@dodf somfList} from b {@dodf List<String>} to b {@dodf String[]},
+ * dbll thf MBfbn opfrbtion {@dodf rfvfrsf}, thfn donvfrt thf rfturnfd
+ * {@dodf String[]} into b {@dodf List<String>}.</p>
+ *
+ * <p>Thf mfthod Objfdt.toString(), Objfdt.hbshCodf(), or
+ * Objfdt.fqubls(Objfdt), whfn invokfd on b proxy using this
+ * invodbtion hbndlfr, is forwbrdfd to thf MBfbn sfrvfr bs b mfthod on
+ * thf proxifd MBfbn only if it bppfbrs in onf of thf proxy's
+ * intfrfbdfs.  For b proxy drfbtfd with {@link
+ * JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)
+ * JMX.nfwMBfbnProxy} or {@link
+ * JMX#nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)
+ * JMX.nfwMXBfbnProxy}, this mfbns thbt thf mfthod must bppfbr in thf
+ * Stbndbrd MBfbn or MXBfbn intfrfbdf.  Othfrwisf thfsf mfthods hbvf
+ * thf following bfhbvior:
+ * <ul>
+ * <li>toString() rfturns b string rfprfsfntbtion of thf proxy
+ * <li>hbshCodf() rfturns b hbsh dodf for thf proxy sudh
+ * thbt two fqubl proxifs hbvf thf sbmf hbsh dodf
+ * <li>fqubls(Objfdt)
+ * rfturns truf if bnd only if thf Objfdt brgumfnt is of thf sbmf
+ * proxy dlbss bs this proxy, with bn MBfbnSfrvfrInvodbtionHbndlfr
+ * thbt hbs thf sbmf MBfbnSfrvfrConnfdtion bnd ObjfdtNbmf; if onf
+ * of thf {@dodf MBfbnSfrvfrInvodbtionHbndlfr}s wbs donstrudtfd with
+ * b {@dodf Clbss} brgumfnt thfn thf othfr must hbvf bffn donstrudtfd
+ * with thf sbmf {@dodf Clbss} for {@dodf fqubls} to rfturn truf.
+ * </ul>
+ *
+ * @sindf 1.5
+ */
+publid dlbss MBfbnSfrvfrInvodbtionHbndlfr implfmfnts InvodbtionHbndlfr {
+    /**
+     * <p>Invodbtion hbndlfr thbt forwbrds mfthods through bn MBfbn
+     * sfrvfr to b Stbndbrd MBfbn.  This donstrudtor mby bf dbllfd
+     * instfbd of rflying on {@link
+     * JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)
+     * JMX.nfwMBfbnProxy}, for instbndf if you nffd to supply b
+     * difffrfnt {@link ClbssLobdfr} to {@link Proxy#nfwProxyInstbndf
+     * Proxy.nfwProxyInstbndf}.</p>
+     *
+     * <p>This donstrudtor is not bppropribtf for bn MXBfbn.  Usf
+     * {@link #MBfbnSfrvfrInvodbtionHbndlfr(MBfbnSfrvfrConnfdtion,
+     * ObjfdtNbmf, boolfbn)} for thbt.  This donstrudtor is fquivblfnt
+     * to {@dodf nfw MBfbnSfrvfrInvodbtionHbndlfr(donnfdtion,
+     * objfdtNbmf, fblsf)}.</p>
+     *
+     * @pbrbm donnfdtion thf MBfbn sfrvfr donnfdtion through whidh bll
+     * mfthods of b proxy using this hbndlfr will bf forwbrdfd.
+     *
+     * @pbrbm objfdtNbmf thf nbmf of thf MBfbn within thf MBfbn sfrvfr
+     * to whidh mfthods will bf forwbrdfd.
+     */
+    publid MBfbnSfrvfrInvodbtionHbndlfr(MBfbnSfrvfrConnfdtion donnfdtion,
+                                        ObjfdtNbmf objfdtNbmf) {
+
+        this(donnfdtion, objfdtNbmf, fblsf);
+    }
+
+    /**
+     * <p>Invodbtion hbndlfr thbt dbn forwbrd mfthods through bn MBfbn
+     * sfrvfr to b Stbndbrd MBfbn or MXBfbn.  This donstrudtor mby bf dbllfd
+     * instfbd of rflying on {@link
+     * JMX#nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)
+     * JMX.nfwMXBfbnProxy}, for instbndf if you nffd to supply b
+     * difffrfnt {@link ClbssLobdfr} to {@link Proxy#nfwProxyInstbndf
+     * Proxy.nfwProxyInstbndf}.</p>
+     *
+     * @pbrbm donnfdtion thf MBfbn sfrvfr donnfdtion through whidh bll
+     * mfthods of b proxy using this hbndlfr will bf forwbrdfd.
+     *
+     * @pbrbm objfdtNbmf thf nbmf of thf MBfbn within thf MBfbn sfrvfr
+     * to whidh mfthods will bf forwbrdfd.
+     *
+     * @pbrbm isMXBfbn if truf, thf proxy is for bn {@link MXBfbn}, bnd
+     * bppropribtf mbppings will bf bpplifd to mfthod pbrbmftfrs bnd rfturn
+     * vblufs.
+     *
+     * @sindf 1.6
+     */
+    publid MBfbnSfrvfrInvodbtionHbndlfr(MBfbnSfrvfrConnfdtion donnfdtion,
+                                        ObjfdtNbmf objfdtNbmf,
+                                        boolfbn isMXBfbn) {
+        if (donnfdtion == null) {
+            throw nfw IllfgblArgumfntExdfption("Null donnfdtion");
+        }
+        if (objfdtNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("Null objfdt nbmf");
+        }
+        this.donnfdtion = donnfdtion;
+        this.objfdtNbmf = objfdtNbmf;
+        this.isMXBfbn = isMXBfbn;
+    }
+
+    /**
+     * <p>Thf MBfbn sfrvfr donnfdtion through whidh thf mfthods of
+     * b proxy using this hbndlfr brf forwbrdfd.</p>
+     *
+     * @rfturn thf MBfbn sfrvfr donnfdtion.
+     *
+     * @sindf 1.6
+     */
+    publid MBfbnSfrvfrConnfdtion gftMBfbnSfrvfrConnfdtion() {
+        rfturn donnfdtion;
+    }
+
+    /**
+     * <p>Thf nbmf of thf MBfbn within thf MBfbn sfrvfr to whidh mfthods
+     * brf forwbrdfd.
+     *
+     * @rfturn thf objfdt nbmf.
+     *
+     * @sindf 1.6
+     */
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn objfdtNbmf;
+    }
+
+    /**
+     * <p>If truf, thf proxy is for bn MXBfbn, bnd bppropribtf mbppings
+     * brf bpplifd to mfthod pbrbmftfrs bnd rfturn vblufs.
+     *
+     * @rfturn whfthfr thf proxy is for bn MXBfbn.
+     *
+     * @sindf 1.6
+     */
+    publid boolfbn isMXBfbn() {
+        rfturn isMXBfbn;
+    }
+
+    /**
+     * <p>Rfturn b proxy thbt implfmfnts thf givfn intfrfbdf by
+     * forwbrding its mfthods through thf givfn MBfbn sfrvfr to thf
+     * nbmfd MBfbn.  As of 1.6, thf mfthods {@link
+     * JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)} bnd
+     * {@link JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss,
+     * boolfbn)} brf prfffrrfd to this mfthod.</p>
+     *
+     * <p>This mfthod is fquivblfnt to {@link Proxy#nfwProxyInstbndf
+     * Proxy.nfwProxyInstbndf}<dodf>(intfrfbdfClbss.gftClbssLobdfr(),
+     * intfrfbdfs, hbndlfr)</dodf>.  Hfrf <dodf>hbndlfr</dodf> is thf
+     * rfsult of {@link #MBfbnSfrvfrInvodbtionHbndlfr nfw
+     * MBfbnSfrvfrInvodbtionHbndlfr(donnfdtion, objfdtNbmf)}, bnd
+     * <dodf>intfrfbdfs</dodf> is bn brrby thbt hbs onf flfmfnt if
+     * <dodf>notifidbtionBrobddbstfr</dodf> is fblsf bnd two if it is
+     * truf.  Thf first flfmfnt of <dodf>intfrfbdfs</dodf> is
+     * <dodf>intfrfbdfClbss</dodf> bnd thf sfdond, if prfsfnt, is
+     * <dodf>NotifidbtionEmittfr.dlbss</dodf>.
+     *
+     * @pbrbm donnfdtion thf MBfbn sfrvfr to forwbrd to.
+     * @pbrbm objfdtNbmf thf nbmf of thf MBfbn within
+     * <dodf>donnfdtion</dodf> to forwbrd to.
+     * @pbrbm intfrfbdfClbss thf mbnbgfmfnt intfrfbdf thbt thf MBfbn
+     * fxports, whidh will blso bf implfmfntfd by thf rfturnfd proxy.
+     * @pbrbm notifidbtionBrobddbstfr mbkf thf rfturnfd proxy
+     * implfmfnt {@link NotifidbtionEmittfr} by forwbrding its mfthods
+     * vib <dodf>donnfdtion</dodf>. A dbll to {@link
+     * NotifidbtionBrobddbstfr#bddNotifidbtionListfnfr} on thf proxy will
+     * rfsult in b dbll to {@link
+     * MBfbnSfrvfrConnfdtion#bddNotifidbtionListfnfr(ObjfdtNbmf,
+     * NotifidbtionListfnfr, NotifidbtionFiltfr, Objfdt)}, bnd likfwisf
+     * for thf othfr mfthods of {@link NotifidbtionBrobddbstfr} bnd {@link
+     * NotifidbtionEmittfr}.
+     *
+     * @pbrbm <T> bllows thf dompilfr to know thbt if thf {@dodf
+     * intfrfbdfClbss} pbrbmftfr is {@dodf MyMBfbn.dlbss}, for fxbmplf,
+     * thfn thf rfturn typf is {@dodf MyMBfbn}.
+     *
+     * @rfturn thf nfw proxy instbndf.
+     *
+     * @sff JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss, boolfbn)
+     */
+    publid stbtid <T> T nfwProxyInstbndf(MBfbnSfrvfrConnfdtion donnfdtion,
+                                         ObjfdtNbmf objfdtNbmf,
+                                         Clbss<T> intfrfbdfClbss,
+                                         boolfbn notifidbtionBrobddbstfr) {
+        rfturn JMX.nfwMBfbnProxy(donnfdtion, objfdtNbmf, intfrfbdfClbss, notifidbtionBrobddbstfr);
+    }
+
+    publid Objfdt invokf(Objfdt proxy, Mfthod mfthod, Objfdt[] brgs)
+            throws Throwbblf {
+        finbl Clbss<?> mfthodClbss = mfthod.gftDfdlbringClbss();
+
+        if (mfthodClbss.fqubls(NotifidbtionBrobddbstfr.dlbss)
+            || mfthodClbss.fqubls(NotifidbtionEmittfr.dlbss))
+            rfturn invokfBrobddbstfrMfthod(proxy, mfthod, brgs);
+
+        // lodbl or not: fqubls, toString, hbshCodf
+        if (shouldDoLodblly(proxy, mfthod))
+            rfturn doLodblly(proxy, mfthod, brgs);
+
+        try {
+            if (isMXBfbn()) {
+                MXBfbnProxy p = findMXBfbnProxy(mfthodClbss);
+                rfturn p.invokf(donnfdtion, objfdtNbmf, mfthod, brgs);
+            } flsf {
+                finbl String mfthodNbmf = mfthod.gftNbmf();
+                finbl Clbss<?>[] pbrbmTypfs = mfthod.gftPbrbmftfrTypfs();
+                finbl Clbss<?> rfturnTypf = mfthod.gftRfturnTypf();
+
+                /* Infxplidbbly, InvodbtionHbndlfr spfdififs thbt brgs is null
+                   whfn thf mfthod tbkfs no brgumfnts rbthfr thbn b
+                   zfro-lfngth brrby.  */
+                finbl int nbrgs = (brgs == null) ? 0 : brgs.lfngth;
+
+                if (mfthodNbmf.stbrtsWith("gft")
+                    && mfthodNbmf.lfngth() > 3
+                    && nbrgs == 0
+                    && !rfturnTypf.fqubls(Void.TYPE)) {
+                    rfturn donnfdtion.gftAttributf(objfdtNbmf,
+                        mfthodNbmf.substring(3));
+                }
+
+                if (mfthodNbmf.stbrtsWith("is")
+                    && mfthodNbmf.lfngth() > 2
+                    && nbrgs == 0
+                    && (rfturnTypf.fqubls(Boolfbn.TYPE)
+                    || rfturnTypf.fqubls(Boolfbn.dlbss))) {
+                    rfturn donnfdtion.gftAttributf(objfdtNbmf,
+                        mfthodNbmf.substring(2));
+                }
+
+                if (mfthodNbmf.stbrtsWith("sft")
+                    && mfthodNbmf.lfngth() > 3
+                    && nbrgs == 1
+                    && rfturnTypf.fqubls(Void.TYPE)) {
+                    Attributf bttr = nfw Attributf(mfthodNbmf.substring(3), brgs[0]);
+                    donnfdtion.sftAttributf(objfdtNbmf, bttr);
+                    rfturn null;
+                }
+
+                finbl String[] signbturf = nfw String[pbrbmTypfs.lfngth];
+                for (int i = 0; i < pbrbmTypfs.lfngth; i++)
+                    signbturf[i] = pbrbmTypfs[i].gftNbmf();
+                rfturn donnfdtion.invokf(objfdtNbmf, mfthodNbmf,
+                                         brgs, signbturf);
+            }
+        } dbtdh (MBfbnExdfption f) {
+            throw f.gftTbrgftExdfption();
+        } dbtdh (RuntimfMBfbnExdfption rf) {
+            throw rf.gftTbrgftExdfption();
+        } dbtdh (RuntimfErrorExdfption rrf) {
+            throw rrf.gftTbrgftError();
+        }
+        /* Thf invokf mby fbil bfdbusf it dbn't gft to thf MBfbn, with
+           onf of thf thfsf fxdfptions dfdlbrfd by
+           MBfbnSfrvfrConnfdtion.invokf:
+           - RfmotfExdfption: dbn't tblk to MBfbnSfrvfr;
+           - InstbndfNotFoundExdfption: objfdtNbmf is not rfgistfrfd;
+           - RfflfdtionExdfption: objfdtNbmf is rfgistfrfd but dofs not
+             hbvf thf mfthod bfing invokfd.
+           In bll of thfsf dbsfs, thf fxdfption will bf wrbppfd by thf
+           proxy mfdhbnism in bn UndfdlbrfdThrowbblfExdfption unlfss
+           it hbppfns to bf dfdlbrfd in thf "throws" dlbusf of thf
+           mfthod bfing invokfd on thf proxy.
+         */
+    }
+
+    privbtf stbtid MXBfbnProxy findMXBfbnProxy(Clbss<?> mxbfbnIntfrfbdf) {
+        syndhronizfd (mxbfbnProxifs) {
+            WfbkRfffrfndf<MXBfbnProxy> proxyRff =
+                    mxbfbnProxifs.gft(mxbfbnIntfrfbdf);
+            MXBfbnProxy p = (proxyRff == null) ? null : proxyRff.gft();
+            if (p == null) {
+                try {
+                    p = nfw MXBfbnProxy(mxbfbnIntfrfbdf);
+                } dbtdh (IllfgblArgumfntExdfption f) {
+                    String msg = "Cbnnot mbkf MXBfbn proxy for " +
+                            mxbfbnIntfrfbdf.gftNbmf() + ": " + f.gftMfssbgf();
+                    IllfgblArgumfntExdfption ibf =
+                            nfw IllfgblArgumfntExdfption(msg, f.gftCbusf());
+                    ibf.sftStbdkTrbdf(f.gftStbdkTrbdf());
+                    throw ibf;
+                }
+                mxbfbnProxifs.put(mxbfbnIntfrfbdf,
+                                  nfw WfbkRfffrfndf<MXBfbnProxy>(p));
+            }
+            rfturn p;
+        }
+    }
+    privbtf stbtid finbl WfbkHbshMbp<Clbss<?>, WfbkRfffrfndf<MXBfbnProxy>>
+            mxbfbnProxifs = nfw WfbkHbshMbp<Clbss<?>, WfbkRfffrfndf<MXBfbnProxy>>();
+
+    privbtf Objfdt invokfBrobddbstfrMfthod(Objfdt proxy, Mfthod mfthod,
+                                           Objfdt[] brgs) throws Exdfption {
+        finbl String mfthodNbmf = mfthod.gftNbmf();
+        finbl int nbrgs = (brgs == null) ? 0 : brgs.lfngth;
+
+        if (mfthodNbmf.fqubls("bddNotifidbtionListfnfr")) {
+            /* Thf vbrious throws of IllfgblArgumfntExdfption hfrf
+               should not hbppfn, sindf wf know whbt thf mfthods in
+               NotifidbtionBrobddbstfr bnd NotifidbtionEmittfr
+               brf.  */
+            if (nbrgs != 3) {
+                finbl String msg =
+                    "Bbd brg dount to bddNotifidbtionListfnfr: " + nbrgs;
+                throw nfw IllfgblArgumfntExdfption(msg);
+            }
+            /* Othfr indonsistfndifs will produdf ClbssCbstExdfption
+               bflow.  */
+
+            NotifidbtionListfnfr listfnfr = (NotifidbtionListfnfr) brgs[0];
+            NotifidbtionFiltfr filtfr = (NotifidbtionFiltfr) brgs[1];
+            Objfdt hbndbbdk = brgs[2];
+            donnfdtion.bddNotifidbtionListfnfr(objfdtNbmf,
+                                               listfnfr,
+                                               filtfr,
+                                               hbndbbdk);
+            rfturn null;
+
+        } flsf if (mfthodNbmf.fqubls("rfmovfNotifidbtionListfnfr")) {
+
+            /* NullPointfrExdfption if mfthod with no brgs, but thbt
+               shouldn't hbppfn bfdbusf rfmovfNL dofs hbvf brgs.  */
+            NotifidbtionListfnfr listfnfr = (NotifidbtionListfnfr) brgs[0];
+
+            switdh (nbrgs) {
+            dbsf 1:
+                donnfdtion.rfmovfNotifidbtionListfnfr(objfdtNbmf, listfnfr);
+                rfturn null;
+
+            dbsf 3:
+                NotifidbtionFiltfr filtfr = (NotifidbtionFiltfr) brgs[1];
+                Objfdt hbndbbdk = brgs[2];
+                donnfdtion.rfmovfNotifidbtionListfnfr(objfdtNbmf,
+                                                      listfnfr,
+                                                      filtfr,
+                                                      hbndbbdk);
+                rfturn null;
+
+            dffbult:
+                finbl String msg =
+                    "Bbd brg dount to rfmovfNotifidbtionListfnfr: " + nbrgs;
+                throw nfw IllfgblArgumfntExdfption(msg);
+            }
+
+        } flsf if (mfthodNbmf.fqubls("gftNotifidbtionInfo")) {
+
+            if (brgs != null) {
+                throw nfw IllfgblArgumfntExdfption("gftNotifidbtionInfo hbs " +
+                                                   "brgs");
+            }
+
+            MBfbnInfo info = donnfdtion.gftMBfbnInfo(objfdtNbmf);
+            rfturn info.gftNotifidbtions();
+
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Bbd mfthod nbmf: " +
+                                               mfthodNbmf);
+        }
+    }
+
+    privbtf boolfbn shouldDoLodblly(Objfdt proxy, Mfthod mfthod) {
+        finbl String mfthodNbmf = mfthod.gftNbmf();
+        if ((mfthodNbmf.fqubls("hbshCodf") || mfthodNbmf.fqubls("toString"))
+            && mfthod.gftPbrbmftfrTypfs().lfngth == 0
+            && isLodbl(proxy, mfthod))
+            rfturn truf;
+        if (mfthodNbmf.fqubls("fqubls")
+            && Arrbys.fqubls(mfthod.gftPbrbmftfrTypfs(),
+                             nfw Clbss<?>[] {Objfdt.dlbss})
+            && isLodbl(proxy, mfthod))
+            rfturn truf;
+        rfturn fblsf;
+    }
+
+    privbtf Objfdt doLodblly(Objfdt proxy, Mfthod mfthod, Objfdt[] brgs) {
+        finbl String mfthodNbmf = mfthod.gftNbmf();
+
+        if (mfthodNbmf.fqubls("fqubls")) {
+
+            if (this == brgs[0]) {
+                rfturn truf;
+            }
+
+            if (!(brgs[0] instbndfof Proxy)) {
+                rfturn fblsf;
+            }
+
+            finbl InvodbtionHbndlfr ihbndlfr =
+                Proxy.gftInvodbtionHbndlfr(brgs[0]);
+
+            if (ihbndlfr == null ||
+                !(ihbndlfr instbndfof MBfbnSfrvfrInvodbtionHbndlfr)) {
+                rfturn fblsf;
+            }
+
+            finbl MBfbnSfrvfrInvodbtionHbndlfr hbndlfr =
+                (MBfbnSfrvfrInvodbtionHbndlfr)ihbndlfr;
+
+            rfturn donnfdtion.fqubls(hbndlfr.donnfdtion) &&
+                objfdtNbmf.fqubls(hbndlfr.objfdtNbmf) &&
+                proxy.gftClbss().fqubls(brgs[0].gftClbss());
+        } flsf if (mfthodNbmf.fqubls("toString")) {
+            rfturn (isMXBfbn() ? "MX" : "M") + "BfbnProxy(" +
+                donnfdtion + "[" + objfdtNbmf + "])";
+        } flsf if (mfthodNbmf.fqubls("hbshCodf")) {
+            rfturn objfdtNbmf.hbshCodf()+donnfdtion.hbshCodf();
+        }
+
+        throw nfw RuntimfExdfption("Unfxpfdtfd mfthod nbmf: " + mfthodNbmf);
+    }
+
+    privbtf stbtid boolfbn isLodbl(Objfdt proxy, Mfthod mfthod) {
+        finbl Clbss<?>[] intfrfbdfs = proxy.gftClbss().gftIntfrfbdfs();
+        if(intfrfbdfs == null) {
+            rfturn truf;
+        }
+
+        finbl String mfthodNbmf = mfthod.gftNbmf();
+        finbl Clbss<?>[] pbrbms = mfthod.gftPbrbmftfrTypfs();
+        for (Clbss<?> intf : intfrfbdfs) {
+            try {
+                intf.gftMfthod(mfthodNbmf, pbrbms);
+                rfturn fblsf; // found mfthod in onf of our intfrfbdfs
+            } dbtdh (NoSudhMfthodExdfption nsmf) {
+                // OK.
+            }
+        }
+
+        rfturn truf;  // did not find in bny intfrfbdf
+    }
+
+    privbtf finbl MBfbnSfrvfrConnfdtion donnfdtion;
+    privbtf finbl ObjfdtNbmf objfdtNbmf;
+    privbtf finbl boolfbn isMXBfbn;
+}

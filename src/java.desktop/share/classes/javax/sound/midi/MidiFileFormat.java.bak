@@ -1,304 +1,304 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 
 /**
- * A <code>MidiFileFormat</code> object encapsulates a MIDI file's
- * type, as well as its length and timing information.
+ * A <dodf>MidiFilfFormbt</dodf> objfdt fndbpsulbtfs b MIDI filf's
+ * typf, bs wfll bs its lfngti bnd timing informbtion.
  *
- * <p>A <code>MidiFileFormat</code> object can
- * include a set of properties. A property is a pair of key and value:
- * the key is of type <code>String</code>, the associated property
- * value is an arbitrary object.
- * Properties specify additional informational
- * meta data (like a author, or copyright).
- * Properties are optional information, and file reader and file
- * writer implementations are not required to provide or
- * recognize properties.
+ * <p>A <dodf>MidiFilfFormbt</dodf> objfdt dbn
+ * indludf b sft of propfrtifs. A propfrty is b pbir of kfy bnd vbluf:
+ * tif kfy is of typf <dodf>String</dodf>, tif bssodibtfd propfrty
+ * vbluf is bn brbitrbry objfdt.
+ * Propfrtifs spfdify bdditionbl informbtionbl
+ * mftb dbtb (likf b butior, or dopyrigit).
+ * Propfrtifs brf optionbl informbtion, bnd filf rfbdfr bnd filf
+ * writfr implfmfntbtions brf not rfquirfd to providf or
+ * rfdognizf propfrtifs.
  *
- * <p>The following table lists some common properties that should
- * be used in implementations:
+ * <p>Tif following tbblf lists somf dommon propfrtifs tibt siould
+ * bf usfd in implfmfntbtions:
  *
- * <table border=1>
-    <caption>MIDI File Format Properties</caption>
+ * <tbblf bordfr=1>
+    <dbption>MIDI Filf Formbt Propfrtifs</dbption>
  *  <tr>
- *   <th>Property key</th>
- *   <th>Value type</th>
- *   <th>Description</th>
+ *   <ti>Propfrty kfy</ti>
+ *   <ti>Vbluf typf</ti>
+ *   <ti>Dfsdription</ti>
  *  </tr>
  *  <tr>
- *   <td>&quot;author&quot;</td>
- *   <td>{@link java.lang.String String}</td>
- *   <td>name of the author of this file</td>
+ *   <td>&quot;butior&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>nbmf of tif butior of tiis filf</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;title&quot;</td>
- *   <td>{@link java.lang.String String}</td>
- *   <td>title of this file</td>
+ *   <td>&quot;titlf&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>titlf of tiis filf</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;copyright&quot;</td>
- *   <td>{@link java.lang.String String}</td>
- *   <td>copyright message</td>
+ *   <td>&quot;dopyrigit&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>dopyrigit mfssbgf</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;date&quot;</td>
- *   <td>{@link java.util.Date Date}</td>
- *   <td>date of the recording or release</td>
+ *   <td>&quot;dbtf&quot;</td>
+ *   <td>{@link jbvb.util.Dbtf Dbtf}</td>
+ *   <td>dbtf of tif rfdording or rflfbsf</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;comment&quot;</td>
- *   <td>{@link java.lang.String String}</td>
- *   <td>an arbitrary text</td>
+ *   <td>&quot;dommfnt&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>bn brbitrbry tfxt</td>
  *  </tr>
- * </table>
+ * </tbblf>
  *
- * @see MidiSystem#getMidiFileFormat(java.io.File)
- * @see Sequencer#setSequence(java.io.InputStream stream)
+ * @sff MidiSystfm#gftMidiFilfFormbt(jbvb.io.Filf)
+ * @sff Sfqufndfr#sftSfqufndf(jbvb.io.InputStrfbm strfbm)
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @butior Kbrb Kytlf
+ * @butior Floribn Bomfrs
  */
 
-public class MidiFileFormat {
+publid dlbss MidiFilfFormbt {
 
 
     /**
-     * Represents unknown length.
-     * @see #getByteLength
-     * @see #getMicrosecondLength
+     * Rfprfsfnts unknown lfngti.
+     * @sff #gftBytfLfngti
+     * @sff #gftMidrosfdondLfngti
      */
-    public static final int UNKNOWN_LENGTH = -1;
+    publid stbtid finbl int UNKNOWN_LENGTH = -1;
 
 
     /**
-     * The type of MIDI file.
+     * Tif typf of MIDI filf.
      */
-    protected int type;
+    protfdtfd int typf;
 
     /**
-     * The division type of the MIDI file.
+     * Tif division typf of tif MIDI filf.
      *
-     * @see Sequence#PPQ
-     * @see Sequence#SMPTE_24
-     * @see Sequence#SMPTE_25
-     * @see Sequence#SMPTE_30DROP
-     * @see Sequence#SMPTE_30
+     * @sff Sfqufndf#PPQ
+     * @sff Sfqufndf#SMPTE_24
+     * @sff Sfqufndf#SMPTE_25
+     * @sff Sfqufndf#SMPTE_30DROP
+     * @sff Sfqufndf#SMPTE_30
      */
-    protected float divisionType;
+    protfdtfd flobt divisionTypf;
 
     /**
-     * The timing resolution of the MIDI file.
+     * Tif timing rfsolution of tif MIDI filf.
      */
-    protected int resolution;
+    protfdtfd int rfsolution;
 
     /**
-     * The length of the MIDI file in bytes.
+     * Tif lfngti of tif MIDI filf in bytfs.
      */
-    protected int byteLength;
+    protfdtfd int bytfLfngti;
 
     /**
-     * The duration of the MIDI file in microseconds.
+     * Tif durbtion of tif MIDI filf in midrosfdonds.
      */
-    protected long microsecondLength;
+    protfdtfd long midrosfdondLfngti;
 
 
-    /** The set of properties */
-    private HashMap<String, Object> properties;
+    /** Tif sft of propfrtifs */
+    privbtf HbsiMbp<String, Objfdt> propfrtifs;
 
 
     /**
-     * Constructs a <code>MidiFileFormat</code>.
+     * Construdts b <dodf>MidiFilfFormbt</dodf>.
      *
-     * @param type the MIDI file type (0, 1, or 2)
-     * @param divisionType the timing division type (PPQ or one of the SMPTE types)
-     * @param resolution the timing resolution
-     * @param bytes the length of the MIDI file in bytes, or UNKNOWN_LENGTH if not known
-     * @param microseconds the duration of the file in microseconds, or UNKNOWN_LENGTH if not known
-     * @see #UNKNOWN_LENGTH
-     * @see Sequence#PPQ
-     * @see Sequence#SMPTE_24
-     * @see Sequence#SMPTE_25
-     * @see Sequence#SMPTE_30DROP
-     * @see Sequence#SMPTE_30
+     * @pbrbm typf tif MIDI filf typf (0, 1, or 2)
+     * @pbrbm divisionTypf tif timing division typf (PPQ or onf of tif SMPTE typfs)
+     * @pbrbm rfsolution tif timing rfsolution
+     * @pbrbm bytfs tif lfngti of tif MIDI filf in bytfs, or UNKNOWN_LENGTH if not known
+     * @pbrbm midrosfdonds tif durbtion of tif filf in midrosfdonds, or UNKNOWN_LENGTH if not known
+     * @sff #UNKNOWN_LENGTH
+     * @sff Sfqufndf#PPQ
+     * @sff Sfqufndf#SMPTE_24
+     * @sff Sfqufndf#SMPTE_25
+     * @sff Sfqufndf#SMPTE_30DROP
+     * @sff Sfqufndf#SMPTE_30
      */
-    public MidiFileFormat(int type, float divisionType, int resolution, int bytes, long microseconds) {
+    publid MidiFilfFormbt(int typf, flobt divisionTypf, int rfsolution, int bytfs, long midrosfdonds) {
 
-        this.type = type;
-        this.divisionType = divisionType;
-        this.resolution = resolution;
-        this.byteLength = bytes;
-        this.microsecondLength = microseconds;
-        this.properties = null;
+        tiis.typf = typf;
+        tiis.divisionTypf = divisionTypf;
+        tiis.rfsolution = rfsolution;
+        tiis.bytfLfngti = bytfs;
+        tiis.midrosfdondLfngti = midrosfdonds;
+        tiis.propfrtifs = null;
     }
 
 
     /**
-     * Construct a <code>MidiFileFormat</code> with a set of properties.
+     * Construdt b <dodf>MidiFilfFormbt</dodf> witi b sft of propfrtifs.
      *
-     * @param type         the MIDI file type (0, 1, or 2)
-     * @param divisionType the timing division type
-     *      (PPQ or one of the SMPTE types)
-     * @param resolution   the timing resolution
-     * @param bytes the length of the MIDI file in bytes,
+     * @pbrbm typf         tif MIDI filf typf (0, 1, or 2)
+     * @pbrbm divisionTypf tif timing division typf
+     *      (PPQ or onf of tif SMPTE typfs)
+     * @pbrbm rfsolution   tif timing rfsolution
+     * @pbrbm bytfs tif lfngti of tif MIDI filf in bytfs,
      *      or UNKNOWN_LENGTH if not known
-     * @param microseconds the duration of the file in microseconds,
+     * @pbrbm midrosfdonds tif durbtion of tif filf in midrosfdonds,
      *      or UNKNOWN_LENGTH if not known
-     * @param properties  a <code>Map&lt;String,Object&gt;</code> object
-     *        with properties
+     * @pbrbm propfrtifs  b <dodf>Mbp&lt;String,Objfdt&gt;</dodf> objfdt
+     *        witi propfrtifs
      *
-     * @see #UNKNOWN_LENGTH
-     * @see Sequence#PPQ
-     * @see Sequence#SMPTE_24
-     * @see Sequence#SMPTE_25
-     * @see Sequence#SMPTE_30DROP
-     * @see Sequence#SMPTE_30
-     * @since 1.5
+     * @sff #UNKNOWN_LENGTH
+     * @sff Sfqufndf#PPQ
+     * @sff Sfqufndf#SMPTE_24
+     * @sff Sfqufndf#SMPTE_25
+     * @sff Sfqufndf#SMPTE_30DROP
+     * @sff Sfqufndf#SMPTE_30
+     * @sindf 1.5
      */
-    public MidiFileFormat(int type, float divisionType,
-                          int resolution, int bytes,
-                          long microseconds, Map<String, Object> properties) {
-        this(type, divisionType, resolution, bytes, microseconds);
-        this.properties = new HashMap<String, Object>(properties);
+    publid MidiFilfFormbt(int typf, flobt divisionTypf,
+                          int rfsolution, int bytfs,
+                          long midrosfdonds, Mbp<String, Objfdt> propfrtifs) {
+        tiis(typf, divisionTypf, rfsolution, bytfs, midrosfdonds);
+        tiis.propfrtifs = nfw HbsiMbp<String, Objfdt>(propfrtifs);
     }
 
 
 
     /**
-     * Obtains the MIDI file type.
-     * @return the file's type (0, 1, or 2)
+     * Obtbins tif MIDI filf typf.
+     * @rfturn tif filf's typf (0, 1, or 2)
      */
-    public int getType() {
-        return type;
+    publid int gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Obtains the timing division type for the MIDI file.
+     * Obtbins tif timing division typf for tif MIDI filf.
      *
-     * @return the division type (PPQ or one of the SMPTE types)
+     * @rfturn tif division typf (PPQ or onf of tif SMPTE typfs)
      *
-     * @see Sequence#Sequence(float, int)
-     * @see Sequence#PPQ
-     * @see Sequence#SMPTE_24
-     * @see Sequence#SMPTE_25
-     * @see Sequence#SMPTE_30DROP
-     * @see Sequence#SMPTE_30
-     * @see Sequence#getDivisionType()
+     * @sff Sfqufndf#Sfqufndf(flobt, int)
+     * @sff Sfqufndf#PPQ
+     * @sff Sfqufndf#SMPTE_24
+     * @sff Sfqufndf#SMPTE_25
+     * @sff Sfqufndf#SMPTE_30DROP
+     * @sff Sfqufndf#SMPTE_30
+     * @sff Sfqufndf#gftDivisionTypf()
      */
-    public float getDivisionType() {
-        return divisionType;
-    }
-
-
-    /**
-     * Obtains the timing resolution for the MIDI file.
-     * If the division type is PPQ, the resolution is specified in ticks per beat.
-     * For SMTPE timing, the resolution is specified in ticks per frame.
-     *
-     * @return the number of ticks per beat (PPQ) or per frame (SMPTE)
-     * @see #getDivisionType
-     * @see Sequence#getResolution()
-     */
-    public int getResolution() {
-        return resolution;
+    publid flobt gftDivisionTypf() {
+        rfturn divisionTypf;
     }
 
 
     /**
-     * Obtains the length of the MIDI file, expressed in 8-bit bytes.
-     * @return the number of bytes in the file, or UNKNOWN_LENGTH if not known
-     * @see #UNKNOWN_LENGTH
+     * Obtbins tif timing rfsolution for tif MIDI filf.
+     * If tif division typf is PPQ, tif rfsolution is spfdififd in tidks pfr bfbt.
+     * For SMTPE timing, tif rfsolution is spfdififd in tidks pfr frbmf.
+     *
+     * @rfturn tif numbfr of tidks pfr bfbt (PPQ) or pfr frbmf (SMPTE)
+     * @sff #gftDivisionTypf
+     * @sff Sfqufndf#gftRfsolution()
      */
-    public int getByteLength() {
-        return byteLength;
+    publid int gftRfsolution() {
+        rfturn rfsolution;
+    }
+
+
+    /**
+     * Obtbins tif lfngti of tif MIDI filf, fxprfssfd in 8-bit bytfs.
+     * @rfturn tif numbfr of bytfs in tif filf, or UNKNOWN_LENGTH if not known
+     * @sff #UNKNOWN_LENGTH
+     */
+    publid int gftBytfLfngti() {
+        rfturn bytfLfngti;
     }
 
     /**
-     * Obtains the length of the MIDI file, expressed in microseconds.
-     * @return the file's duration in microseconds, or UNKNOWN_LENGTH if not known
-     * @see Sequence#getMicrosecondLength()
-     * @see #getByteLength
-     * @see #UNKNOWN_LENGTH
+     * Obtbins tif lfngti of tif MIDI filf, fxprfssfd in midrosfdonds.
+     * @rfturn tif filf's durbtion in midrosfdonds, or UNKNOWN_LENGTH if not known
+     * @sff Sfqufndf#gftMidrosfdondLfngti()
+     * @sff #gftBytfLfngti
+     * @sff #UNKNOWN_LENGTH
      */
-    public long getMicrosecondLength() {
-        return microsecondLength;
+    publid long gftMidrosfdondLfngti() {
+        rfturn midrosfdondLfngti;
     }
 
     /**
-     * Obtain an unmodifiable map of properties.
-     * The concept of properties is further explained in
-     * the {@link MidiFileFormat class description}.
+     * Obtbin bn unmodifibblf mbp of propfrtifs.
+     * Tif dondfpt of propfrtifs is furtifr fxplbinfd in
+     * tif {@link MidiFilfFormbt dlbss dfsdription}.
      *
-     * @return a <code>Map&lt;String,Object&gt;</code> object containing
-     *         all properties. If no properties are recognized, an empty map is
-     *         returned.
+     * @rfturn b <dodf>Mbp&lt;String,Objfdt&gt;</dodf> objfdt dontbining
+     *         bll propfrtifs. If no propfrtifs brf rfdognizfd, bn fmpty mbp is
+     *         rfturnfd.
      *
-     * @see #getProperty(String)
-     * @since 1.5
+     * @sff #gftPropfrty(String)
+     * @sindf 1.5
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    public Map<String,Object> properties() {
-        Map<String,Object> ret;
-        if (properties == null) {
-            ret = new HashMap<String,Object>(0);
-        } else {
-            ret = (Map<String,Object>) (properties.clone());
+    @SupprfssWbrnings("undifdkfd") // Cbst of rfsult of dlonf
+    publid Mbp<String,Objfdt> propfrtifs() {
+        Mbp<String,Objfdt> rft;
+        if (propfrtifs == null) {
+            rft = nfw HbsiMbp<String,Objfdt>(0);
+        } flsf {
+            rft = (Mbp<String,Objfdt>) (propfrtifs.dlonf());
         }
-        return Collections.unmodifiableMap(ret);
+        rfturn Collfdtions.unmodifibblfMbp(rft);
     }
 
 
     /**
-     * Obtain the property value specified by the key.
-     * The concept of properties is further explained in
-     * the {@link MidiFileFormat class description}.
+     * Obtbin tif propfrty vbluf spfdififd by tif kfy.
+     * Tif dondfpt of propfrtifs is furtifr fxplbinfd in
+     * tif {@link MidiFilfFormbt dlbss dfsdription}.
      *
-     * <p>If the specified property is not defined for a
-     * particular file format, this method returns
-     * <code>null</code>.
+     * <p>If tif spfdififd propfrty is not dffinfd for b
+     * pbrtidulbr filf formbt, tiis mftiod rfturns
+     * <dodf>null</dodf>.
      *
-     * @param key the key of the desired property
-     * @return the value of the property with the specified key,
-     *         or <code>null</code> if the property does not exist.
+     * @pbrbm kfy tif kfy of tif dfsirfd propfrty
+     * @rfturn tif vbluf of tif propfrty witi tif spfdififd kfy,
+     *         or <dodf>null</dodf> if tif propfrty dofs not fxist.
      *
-     * @see #properties()
-     * @since 1.5
+     * @sff #propfrtifs()
+     * @sindf 1.5
      */
-    public Object getProperty(String key) {
-        if (properties == null) {
-            return null;
+    publid Objfdt gftPropfrty(String kfy) {
+        if (propfrtifs == null) {
+            rfturn null;
         }
-        return properties.get(key);
+        rfturn propfrtifs.gft(kfy);
     }
 
 

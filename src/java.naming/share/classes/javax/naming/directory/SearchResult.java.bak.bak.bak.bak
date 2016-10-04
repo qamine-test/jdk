@@ -1,0 +1,189 @@
+/*
+ * Copyright (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.dirfdtory;
+
+import jbvbx.nbming.Binding;
+
+/**
+  * This dlbss rfprfsfnts bn itfm in thf NbmingEnumfrbtion rfturnfd bs b
+  * rfsult of thf DirContfxt.sfbrdh() mfthods.
+  *<p>
+  * A SfbrdhRfsult instbndf is not syndhronizfd bgbinst dondurrfnt
+  * multithrfbdfd bddfss. Multiplf thrfbds trying to bddfss bnd modify
+  * b singlf SfbrdhRfsult instbndf should lodk thf objfdt.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff DirContfxt#sfbrdh
+  * @sindf 1.3
+  */
+
+publid dlbss SfbrdhRfsult fxtfnds Binding {
+    /**
+     * Contbins thf bttributfs rfturnfd with thf objfdt.
+     * @sfribl
+     */
+    privbtf Attributfs bttrs;
+
+    /**
+      * Construdts b sfbrdh rfsult using thf rfsult's nbmf, its bound objfdt, bnd
+      * its bttributfs.
+      *<p>
+      * <tt>gftClbssNbmf()</tt> will rfturn thf dlbss nbmf of <tt>obj</tt>
+      * (or null if <tt>obj</tt> is null) unlfss thf dlbss nbmf hbs bffn
+      * fxpliditly sft using <tt>sftClbssNbmf()</tt>.
+      *
+      * @pbrbm nbmf Thf non-null nbmf of thf sfbrdh itfm. It is rflbtivf
+      *             to thf <fm>tbrgft dontfxt</fm> of thf sfbrdh (whidh is
+      * nbmfd by thf first pbrbmftfr of thf <dodf>sfbrdh()</dodf> mfthod)
+      *
+      * @pbrbm obj  Thf objfdt bound to nbmf. Cbn bf null.
+      * @pbrbm bttrs Thf bttributfs thbt wfrf rfqufstfd to bf rfturnfd with
+      * this sfbrdh itfm. Cbnnot bf null.
+      * @sff jbvbx.nbming.NbmfClbssPbir#sftClbssNbmf
+      * @sff jbvbx.nbming.NbmfClbssPbir#gftClbssNbmf
+      */
+    publid SfbrdhRfsult(String nbmf, Objfdt obj, Attributfs bttrs) {
+        supfr(nbmf, obj);
+        this.bttrs = bttrs;
+    }
+
+    /**
+      * Construdts b sfbrdh rfsult using thf rfsult's nbmf, its bound objfdt, bnd
+      * its bttributfs, bnd whfthfr thf nbmf is rflbtivf.
+      *<p>
+      * <tt>gftClbssNbmf()</tt> will rfturn thf dlbss nbmf of <tt>obj</tt>
+      * (or null if <tt>obj</tt> is null) unlfss thf dlbss nbmf hbs bffn
+      * fxpliditly sft using <tt>sftClbssNbmf()</tt>
+      *
+      * @pbrbm nbmf Thf non-null nbmf of thf sfbrdh itfm.
+      * @pbrbm obj  Thf objfdt bound to nbmf. Cbn bf null.
+      * @pbrbm bttrs Thf bttributfs thbt wfrf rfqufstfd to bf rfturnfd with
+      * this sfbrdh itfm. Cbnnot bf null.
+      * @pbrbm isRflbtivf truf if <dodf>nbmf</dodf> is rflbtivf
+      *         to thf tbrgft dontfxt of thf sfbrdh (whidh is nbmfd by
+      *         thf first pbrbmftfr of thf <dodf>sfbrdh()</dodf> mfthod);
+      *         fblsf if <dodf>nbmf</dodf> is b URL string.
+      * @sff jbvbx.nbming.NbmfClbssPbir#sftClbssNbmf
+      * @sff jbvbx.nbming.NbmfClbssPbir#gftClbssNbmf
+      */
+    publid SfbrdhRfsult(String nbmf, Objfdt obj, Attributfs bttrs,
+        boolfbn isRflbtivf) {
+        supfr(nbmf, obj, isRflbtivf);
+        this.bttrs = bttrs;
+    }
+
+    /**
+      * Construdts b sfbrdh rfsult using thf rfsult's nbmf, its dlbss nbmf,
+      * its bound objfdt, bnd its bttributfs.
+      *
+      * @pbrbm nbmf Thf non-null nbmf of thf sfbrdh itfm. It is rflbtivf
+      *             to thf <fm>tbrgft dontfxt</fm> of thf sfbrdh (whidh is
+      * nbmfd by thf first pbrbmftfr of thf <dodf>sfbrdh()</dodf> mfthod)
+      *
+      * @pbrbm  dlbssNbmf       Thf possibly null dlbss nbmf of thf objfdt
+      *         bound to <tt>nbmf</tt>. If null, thf dlbss nbmf of <tt>obj</tt> is
+      *         rfturnfd by <tt>gftClbssNbmf()</tt>. If <tt>obj</tt> is blso null,
+      *         <tt>gftClbssNbmf()</tt> will rfturn null.
+      * @pbrbm obj  Thf objfdt bound to nbmf. Cbn bf null.
+      * @pbrbm bttrs Thf bttributfs thbt wfrf rfqufstfd to bf rfturnfd with
+      * this sfbrdh itfm. Cbnnot bf null.
+      * @sff jbvbx.nbming.NbmfClbssPbir#sftClbssNbmf
+      * @sff jbvbx.nbming.NbmfClbssPbir#gftClbssNbmf
+      */
+    publid SfbrdhRfsult(String nbmf, String dlbssNbmf,
+        Objfdt obj, Attributfs bttrs) {
+        supfr(nbmf, dlbssNbmf, obj);
+        this.bttrs = bttrs;
+    }
+
+    /**
+      * Construdts b sfbrdh rfsult using thf rfsult's nbmf, its dlbss nbmf,
+      * its bound objfdt, its bttributfs, bnd whfthfr thf nbmf is rflbtivf.
+      *
+      * @pbrbm nbmf Thf non-null nbmf of thf sfbrdh itfm.
+      * @pbrbm  dlbssNbmf       Thf possibly null dlbss nbmf of thf objfdt
+      *         bound to <tt>nbmf</tt>. If null, thf dlbss nbmf of <tt>obj</tt> is
+      *         rfturnfd by <tt>gftClbssNbmf()</tt>. If <tt>obj</tt> is blso null,
+      *         <tt>gftClbssNbmf()</tt> will rfturn null.
+      * @pbrbm obj  Thf objfdt bound to nbmf. Cbn bf null.
+      * @pbrbm bttrs Thf bttributfs thbt wfrf rfqufstfd to bf rfturnfd with
+      * this sfbrdh itfm. Cbnnot bf null.
+      * @pbrbm isRflbtivf truf if <dodf>nbmf</dodf> is rflbtivf
+      *         to thf tbrgft dontfxt of thf sfbrdh (whidh is nbmfd by
+      *         thf first pbrbmftfr of thf <dodf>sfbrdh()</dodf> mfthod);
+      *         fblsf if <dodf>nbmf</dodf> is b URL string.
+      * @sff jbvbx.nbming.NbmfClbssPbir#sftClbssNbmf
+      * @sff jbvbx.nbming.NbmfClbssPbir#gftClbssNbmf
+      */
+    publid SfbrdhRfsult(String nbmf, String dlbssNbmf, Objfdt obj,
+        Attributfs bttrs, boolfbn isRflbtivf) {
+        supfr(nbmf, dlbssNbmf, obj, isRflbtivf);
+        this.bttrs = bttrs;
+    }
+
+    /**
+     * Rftrifvfs thf bttributfs in this sfbrdh rfsult.
+     *
+     * @rfturn Thf non-null bttributfs in this sfbrdh rfsult. Cbn bf fmpty.
+     * @sff #sftAttributfs
+     */
+    publid Attributfs gftAttributfs() {
+        rfturn bttrs;
+    }
+
+
+    /**
+     * Sfts thf bttributfs of this sfbrdh rfsult to <dodf>bttrs</dodf>.
+     * @pbrbm bttrs Thf non-null bttributfs to usf. Cbn bf fmpty.
+     * @sff #gftAttributfs
+     */
+    publid void sftAttributfs(Attributfs bttrs) {
+        this.bttrs = bttrs;
+        // ??? dhfdk for null?
+    }
+
+
+    /**
+      * Gfnfrbtfs thf string rfprfsfntbtion of this SfbrdhRfsult.
+      * Thf string rfprfsfntbtion donsists of thf string rfprfsfntbtion
+      * of thf binding bnd thf string rfprfsfntbtion of
+      * this sfbrdh rfsult's bttributfs, sfpbrbtfd by ':'.
+      * Thf dontfnts of this string is usfful
+      * for dfbugging bnd is not mfbnt to bf intfrprftfd progrbmmbtidblly.
+      *
+      * @rfturn Thf string rfprfsfntbtion of this SfbrdhRfsult. Cbnnot bf null.
+      */
+    publid String toString() {
+        rfturn supfr.toString() + ":" + gftAttributfs();
+    }
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -9158063327699723172L;
+}

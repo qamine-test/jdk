@@ -1,0 +1,406 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.PKIXCfrtPbthChfdkfr;
+import jbvb.sfdurity.dfrt.PKIXRfvodbtionChfdkfr;
+import jbvb.sfdurity.dfrt.TrustAndhor;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSft;
+import jbvb.util.List;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.Sft;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.sfdurity.providfr.dfrtpbth.PKIX.BuildfrPbrbms;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.x509.NbmfConstrbintsExtfnsion;
+import sun.sfdurity.x509.SubjfdtKfyIdfntififrExtfnsion;
+import sun.sfdurity.x509.X509CfrtImpl;
+
+/**
+ * A spfdifidbtion of b rfvfrsf PKIX vblidbtion stbtf
+ * whidh is initiblizfd by fbdh build bnd updbtfd fbdh timf b
+ * dfrtifidbtf is bddfd to thf durrfnt pbth.
+ * @sindf       1.4
+ * @buthor      Sfbn Mullbn
+ * @buthor      Ybssir Ellfy
+ */
+
+dlbss RfvfrsfStbtf implfmfnts Stbtf {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+
+    /* Thf subjfdt DN of thf lbst dfrt in thf pbth */
+    X500Prindipbl subjfdtDN;
+
+    /* Thf subjfdt publid kfy of thf lbst dfrt */
+    PublidKfy pubKfy;
+
+    /* Thf subjfdt kfy idfntififr fxtfnsion (if bny) of thf lbst dfrt */
+    SubjfdtKfyIdfntififrExtfnsion subjKfyId;
+
+    /* Thf PKIX donstrbinfd/fxdludfd subtrffs stbtf vbribblf */
+    NbmfConstrbintsExtfnsion nd;
+
+    /* Thf PKIX fxplidit polidy, polidy mbpping, bnd inhibit_bny-polidy
+       stbtf vbribblfs */
+    int fxpliditPolidy;
+    int polidyMbpping;
+    int inhibitAnyPolidy;
+    int dfrtIndfx;
+    PolidyNodfImpl rootNodf;
+
+    /* Thf numbfr of rfmbining CA dfrts whidh mby follow in thf pbth.
+     * -1: prfvious dfrt wbs bn EE dfrt
+     * 0: only EE dfrts mby follow.
+     * >0 bnd <Intfgfr.MAX_VALUE:no morf thbn this numbfr of CA dfrts mby follow
+     * Intfgfr.MAX_VALUE: unlimitfd
+     */
+    int rfmbiningCACfrts;
+
+    /* Thf list of usfr-dffinfd dhfdkfrs rftrifvfd from thf PKIXPbrbmftfrs
+     * instbndf */
+    ArrbyList<PKIXCfrtPbthChfdkfr> usfrChfdkfrs;
+
+    /* Flbg indidbting if stbtf is initibl (pbth is just stbrting) */
+    privbtf boolfbn init = truf;
+
+    /* thf dhfdkfr usfd for rfvodbtion stbtus */
+    RfvodbtionChfdkfr rfvChfdkfr;
+
+    /* thf blgorithm dhfdkfr */
+    AlgorithmChfdkfr blgorithmChfdkfr;
+
+    /* thf untrustfd dfrtifidbtfs dhfdkfr */
+    UntrustfdChfdkfr untrustfdChfdkfr;
+
+    /* thf trust bndhor usfd to vblidbtf thf pbth */
+    TrustAndhor trustAndhor;
+
+    /* Flbg indidbting if durrfnt dfrt dbn voudh for thf CRL for
+     * thf nfxt dfrt
+     */
+    boolfbn drlSign = truf;
+
+    /**
+     * Rfturns b boolfbn flbg indidbting if thf stbtf is initibl
+     * (just stbrting)
+     *
+     * @rfturn boolfbn flbg indidbting if thf stbtf is initibl (just stbrting)
+     */
+    @Ovfrridf
+    publid boolfbn isInitibl() {
+        rfturn init;
+    }
+
+    /**
+     * Displby stbtf for dfbugging purposfs
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("Stbtf [");
+        sb.bppfnd("\n  subjfdtDN of lbst dfrt: ").bppfnd(subjfdtDN);
+        sb.bppfnd("\n  subjfdtKfyIdfntififr: ").bppfnd
+                 (String.vblufOf(subjKfyId));
+        sb.bppfnd("\n  nbmfConstrbints: ").bppfnd(String.vblufOf(nd));
+        sb.bppfnd("\n  dfrtIndfx: ").bppfnd(dfrtIndfx);
+        sb.bppfnd("\n  fxpliditPolidy: ").bppfnd(fxpliditPolidy);
+        sb.bppfnd("\n  polidyMbpping:  ").bppfnd(polidyMbpping);
+        sb.bppfnd("\n  inhibitAnyPolidy:  ").bppfnd(inhibitAnyPolidy);
+        sb.bppfnd("\n  rootNodf: ").bppfnd(rootNodf);
+        sb.bppfnd("\n  rfmbiningCACfrts: ").bppfnd(rfmbiningCACfrts);
+        sb.bppfnd("\n  drlSign: ").bppfnd(drlSign);
+        sb.bppfnd("\n  init: ").bppfnd(init);
+        sb.bppfnd("\n]\n");
+        rfturn sb.toString();
+    }
+
+    /**
+     * Initiblizf thf stbtf.
+     *
+     * @pbrbm buildPbrbms buildfr pbrbmftfrs
+     */
+    publid void initStbtf(BuildfrPbrbms buildPbrbms)
+        throws CfrtPbthVblidbtorExdfption
+    {
+        /*
+         * Initiblizf numbfr of rfmbiningCACfrts.
+         * Notf thbt -1 mbxPbthLfn implifs unlimitfd.
+         * 0 implifs only bn EE dfrt is bddfptbblf.
+         */
+        int mbxPbthLfn = buildPbrbms.mbxPbthLfngth();
+        rfmbiningCACfrts = (mbxPbthLfn == -1) ? Intfgfr.MAX_VALUE
+                                              : mbxPbthLfn;
+
+        /* Initiblizf fxplidit polidy stbtf vbribblf */
+        if (buildPbrbms.fxpliditPolidyRfquirfd()) {
+            fxpliditPolidy = 0;
+        } flsf {
+            // undonstrbinfd if mbxPbthLfn is -1,
+            // othfrwisf, wf wbnt to initiblizf this to thf vbluf of thf
+            // longfst possiblf pbth + 1 (i.f. mbxpbthlfn + finbldfrt + 1)
+            fxpliditPolidy = (mbxPbthLfn == -1) ? mbxPbthLfn : mbxPbthLfn + 2;
+        }
+
+        /* Initiblizf polidy mbpping stbtf vbribblf */
+        if (buildPbrbms.polidyMbppingInhibitfd()) {
+            polidyMbpping = 0;
+        } flsf {
+            polidyMbpping = (mbxPbthLfn == -1) ? mbxPbthLfn : mbxPbthLfn + 2;
+        }
+
+        /* Initiblizf inhibit bny polidy stbtf vbribblf */
+        if (buildPbrbms.bnyPolidyInhibitfd()) {
+            inhibitAnyPolidy = 0;
+        } flsf {
+            inhibitAnyPolidy = (mbxPbthLfn == -1) ? mbxPbthLfn : mbxPbthLfn + 2;
+        }
+
+        /* Initiblizf dfrtIndfx */
+        dfrtIndfx = 1;
+
+        /* Initiblizf polidy trff */
+        Sft<String> initExpPolSft = nfw HbshSft<>(1);
+        initExpPolSft.bdd(PolidyChfdkfr.ANY_POLICY);
+
+        rootNodf = nfw PolidyNodfImpl(null, PolidyChfdkfr.ANY_POLICY, null,
+                                      fblsf, initExpPolSft, fblsf);
+
+        /*
+         * Initiblizf fbdh usfr-dffinfd dhfdkfr
+         * Shbllow dopy thf dhfdkfrs
+         */
+        usfrChfdkfrs = nfw ArrbyList<>(buildPbrbms.dfrtPbthChfdkfrs());
+        /* initiblizf fbdh dhfdkfr (just in dbsf) */
+        for (PKIXCfrtPbthChfdkfr dhfdkfr : usfrChfdkfrs) {
+            dhfdkfr.init(fblsf);
+        }
+
+        /* Stbrt by trusting thf dfrt to sign CRLs */
+        drlSign = truf;
+
+        init = truf;
+    }
+
+    /**
+     * Updbtf thf stbtf with thf spfdififd trust bndhor.
+     *
+     * @pbrbm bndhor thf most-trustfd CA
+     * @pbrbm buildPbrbms buildfr pbrbmftfrs
+     */
+    publid void updbtfStbtf(TrustAndhor bndhor, BuildfrPbrbms buildPbrbms)
+        throws CfrtifidbtfExdfption, IOExdfption, CfrtPbthVblidbtorExdfption
+    {
+        trustAndhor = bndhor;
+        X509Cfrtifidbtf trustfdCfrt = bndhor.gftTrustfdCfrt();
+        if (trustfdCfrt != null) {
+            updbtfStbtf(trustfdCfrt);
+        } flsf {
+            X500Prindipbl dbNbmf = bndhor.gftCA();
+            updbtfStbtf(bndhor.gftCAPublidKfy(), dbNbmf);
+        }
+
+        // Thf usfr spfdififd AlgorithmChfdkfr bnd RfvodbtionChfdkfr mby not bf
+        // bblf to sft thf trust bndhor until now.
+        boolfbn rfvChfdkfrAddfd = fblsf;
+        for (PKIXCfrtPbthChfdkfr dhfdkfr : usfrChfdkfrs) {
+            if (dhfdkfr instbndfof AlgorithmChfdkfr) {
+                ((AlgorithmChfdkfr)dhfdkfr).trySftTrustAndhor(bndhor);
+            } flsf if (dhfdkfr instbndfof PKIXRfvodbtionChfdkfr) {
+                if (rfvChfdkfrAddfd) {
+                    throw nfw CfrtPbthVblidbtorExdfption(
+                        "Only onf PKIXRfvodbtionChfdkfr dbn bf spfdififd");
+                }
+                // if it's our own, initiblizf it
+                if (dhfdkfr instbndfof RfvodbtionChfdkfr) {
+                    ((RfvodbtionChfdkfr)dhfdkfr).init(bndhor, buildPbrbms);
+                }
+                ((PKIXRfvodbtionChfdkfr)dhfdkfr).init(fblsf);
+                rfvChfdkfrAddfd = truf;
+            }
+        }
+
+        // only drfbtf b RfvodbtionChfdkfr if rfvodbtion is fnbblfd bnd
+        // b PKIXRfvodbtionChfdkfr hbs not blrfbdy bffn bddfd
+        if (buildPbrbms.rfvodbtionEnbblfd() && !rfvChfdkfrAddfd) {
+            rfvChfdkfr = nfw RfvodbtionChfdkfr(bndhor, buildPbrbms);
+            rfvChfdkfr.init(fblsf);
+        }
+
+        init = fblsf;
+    }
+
+    /**
+     * Updbtf thf stbtf. This mfthod is usfd whfn thf most-trustfd CA is
+     * b trustfd publid-kfy bnd dbNbmf, instfbd of b trustfd dfrt.
+     *
+     * @pbrbm pubKfy thf publid kfy of thf trustfd CA
+     * @pbrbm subjfdtDN thf subjfdt distinguishfd nbmf of thf trustfd CA
+     */
+    privbtf void updbtfStbtf(PublidKfy pubKfy, X500Prindipbl subjfdtDN) {
+
+        /* updbtf subjfdt DN */
+        this.subjfdtDN = subjfdtDN;
+
+        /* updbtf subjfdt publid kfy */
+        this.pubKfy = pubKfy;
+    }
+
+    /**
+     * Updbtf thf stbtf with thf nfxt dfrtifidbtf bddfd to thf pbth.
+     *
+     * @pbrbm dfrt thf dfrtifidbtf whidh is usfd to updbtf thf stbtf
+     */
+    publid void updbtfStbtf(X509Cfrtifidbtf dfrt)
+        throws CfrtifidbtfExdfption, IOExdfption, CfrtPbthVblidbtorExdfption {
+
+        if (dfrt == null) {
+            rfturn;
+        }
+
+        /* updbtf subjfdt DN */
+        subjfdtDN = dfrt.gftSubjfdtX500Prindipbl();
+
+        /* dhfdk for kfy nffding to inhfrit blg pbrbmftfrs */
+        X509CfrtImpl idfrt = X509CfrtImpl.toImpl(dfrt);
+        PublidKfy nfwKfy = dfrt.gftPublidKfy();
+        if (PKIX.isDSAPublidKfyWithoutPbrbms(nfwKfy)) {
+            nfwKfy = BbsidChfdkfr.mbkfInhfritfdPbrbmsKfy(nfwKfy, pubKfy);
+        }
+
+        /* updbtf subjfdt publid kfy */
+        pubKfy = nfwKfy;
+
+        /*
+         * if this is b trustfd dfrt (init == truf), thfn wf
+         * don't updbtf bny of thf rfmbining fiflds
+         */
+        if (init) {
+            init = fblsf;
+            rfturn;
+        }
+
+        /* updbtf subjfdt kfy idfntififr */
+        subjKfyId = idfrt.gftSubjfdtKfyIdfntififrExtfnsion();
+
+        /* updbtf drlSign */
+        drlSign = RfvodbtionChfdkfr.dfrtCbnSignCrl(dfrt);
+
+        /* updbtf durrfnt nbmf donstrbints */
+        if (nd != null) {
+            nd.mfrgf(idfrt.gftNbmfConstrbintsExtfnsion());
+        } flsf {
+            nd = idfrt.gftNbmfConstrbintsExtfnsion();
+            if (nd != null) {
+                // Mbkf surf wf do b dlonf hfrf, bfdbusf wf'rf probbbly
+                // going to modify this objfdt lbtfr bnd wf don't wbnt to
+                // bf shbring it with b Cfrtifidbtf objfdt!
+                nd = (NbmfConstrbintsExtfnsion) nd.dlonf();
+            }
+        }
+
+        /* updbtf polidy stbtf vbribblfs */
+        fxpliditPolidy =
+            PolidyChfdkfr.mfrgfExpliditPolidy(fxpliditPolidy, idfrt, fblsf);
+        polidyMbpping =
+            PolidyChfdkfr.mfrgfPolidyMbpping(polidyMbpping, idfrt);
+        inhibitAnyPolidy =
+            PolidyChfdkfr.mfrgfInhibitAnyPolidy(inhibitAnyPolidy, idfrt);
+        dfrtIndfx++;
+
+        /*
+         * Updbtf rfmbining CA dfrts
+         */
+        rfmbiningCACfrts =
+            ConstrbintsChfdkfr.mfrgfBbsidConstrbints(dfrt, rfmbiningCACfrts);
+
+        init = fblsf;
+    }
+
+    /**
+     * Rfturns b boolfbn flbg indidbting if b kfy lbdking nfdfssbry kfy
+     * blgorithm pbrbmftfrs hbs bffn fndountfrfd.
+     *
+     * @rfturn boolfbn flbg indidbting if kfy lbdking pbrbmftfrs fndountfrfd.
+     */
+    @Ovfrridf
+    publid boolfbn kfyPbrbmsNffdfd() {
+        /* whfn building in rfvfrsf, wf immfdibtfly gft pbrbmftfrs nffdfd
+         * or flsf throw bn fxdfption
+         */
+        rfturn fblsf;
+    }
+
+    /*
+     * Clonf durrfnt stbtf. Thf stbtf is dlonfd bs fbdh dfrt is
+     * bddfd to thf pbth. This is nfdfssbry if bbdktrbdking oddurs,
+     * bnd b prior stbtf nffds to bf rfstorfd.
+     *
+     * Notf thbt this is b SMART dlonf. Not bll fiflds brf fully dopifd,
+     * bfdbusf somf of thfm (f.g., subjKfyId) will
+     * not hbvf thfir dontfnts modififd by subsfqufnt dblls to updbtfStbtf.
+     */
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd") // Sbff dbsts bssuming dlonf() works dorrfdtly
+    publid Objfdt dlonf() {
+        try {
+            RfvfrsfStbtf dlonfdStbtf = (RfvfrsfStbtf) supfr.dlonf();
+
+            /* dlonf dhfdkfrs, if dlonfbblf */
+            dlonfdStbtf.usfrChfdkfrs =
+                        (ArrbyList<PKIXCfrtPbthChfdkfr>)usfrChfdkfrs.dlonf();
+            ListItfrbtor<PKIXCfrtPbthChfdkfr> li =
+                        dlonfdStbtf.usfrChfdkfrs.listItfrbtor();
+            whilf (li.hbsNfxt()) {
+                PKIXCfrtPbthChfdkfr dhfdkfr = li.nfxt();
+                if (dhfdkfr instbndfof Clonfbblf) {
+                    li.sft((PKIXCfrtPbthChfdkfr)dhfdkfr.dlonf());
+                }
+            }
+
+            /* mbkf dopy of nbmf donstrbints */
+            if (nd != null) {
+                dlonfdStbtf.nd = (NbmfConstrbintsExtfnsion) nd.dlonf();
+            }
+
+            /* mbkf dopy of polidy trff */
+            if (rootNodf != null) {
+                dlonfdStbtf.rootNodf = rootNodf.dopyTrff();
+            }
+
+            rfturn dlonfdStbtf;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f.toString(), f);
+        }
+    }
+}

@@ -1,0 +1,295 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import sun.misd.Unsbff;
+
+
+/**
+ * Thf RfndfrBufffr dlbss is b simplififd, high-pfrformbndf, Unsbff wrbppfr
+ * usfd for bufffring rfndfring opfrbtions in b singlf-thrfbdfd rfndfring
+ * fnvironmfnt.  It's fundtionblity is similbr to thf BytfBufffr bnd rflbtfd
+ * NIO dlbssfs.  Howfvfr, thf mfthods in this dlbss pfrform littlf to no
+ * blignmfnt or bounds dhfdks for pfrformbndf rfbsons.  Thfrfforf, it is
+ * thf dbllfr's rfsponsibility to fnsurf thbt bll put() dblls brf propfrly
+ * blignfd bnd within bounds:
+ *   - int bnd flobt vblufs must bf blignfd on 4-bytf boundbrifs
+ *   - long bnd doublf vblufs must bf blignfd on 8-bytf boundbrifs
+ *
+ * This dlbss only indludfs thf bbrf minimum of mfthods to support
+ * singlf-thrfbdfd rfndfring.  For fxbmplf, thfrf is no put(doublf[]) mfthod
+ * bfdbusf wf durrfntly hbvf no nffd for sudh b mfthod in thf STR dlbssfs.
+ */
+publid dlbss RfndfrBufffr {
+
+    /**
+     * Thfsf donstbnts rfprfsfnt thf sizf of vbrious dbtb typfs (in bytfs).
+     */
+    protfdtfd stbtid finbl long SIZEOF_BYTE   = 1L;
+    protfdtfd stbtid finbl long SIZEOF_SHORT  = 2L;
+    protfdtfd stbtid finbl long SIZEOF_INT    = 4L;
+    protfdtfd stbtid finbl long SIZEOF_FLOAT  = 4L;
+    protfdtfd stbtid finbl long SIZEOF_LONG   = 8L;
+    protfdtfd stbtid finbl long SIZEOF_DOUBLE = 8L;
+
+    /**
+     * Rfprfsfnts thf numbfr of flfmfnts bt whidh wf hbvf fmpiridblly
+     * dftfrminfd thbt thf bvfrbgf dost of b JNI dbll fxdffds thf fxpfnsf
+     * of bn flfmfnt by flfmfnt dopy.  In othfr words, if thf numbfr of
+     * flfmfnts in bn brrby to bf dopifd fxdffds this vbluf, thfn wf should
+     * usf thf dopyFromArrby() mfthod to domplftf thf bulk put opfrbtion.
+     * (This vbluf dbn bf bdjustfd if thf dost of JNI downdblls is rfdudfd
+     * in b futurf rflfbsf.)
+     */
+    privbtf stbtid finbl int COPY_FROM_ARRAY_THRESHOLD = 6;
+
+    protfdtfd finbl Unsbff unsbff;
+    protfdtfd finbl long bbsfAddrfss;
+    protfdtfd finbl long fndAddrfss;
+    protfdtfd long durAddrfss;
+    protfdtfd finbl int dbpbdity;
+
+    protfdtfd RfndfrBufffr(int numBytfs) {
+        unsbff = Unsbff.gftUnsbff();
+        durAddrfss = bbsfAddrfss = unsbff.bllodbtfMfmory(numBytfs);
+        fndAddrfss = bbsfAddrfss + numBytfs;
+        dbpbdity = numBytfs;
+    }
+
+    /**
+     * Allodbtfs b frfsh bufffr using thf mbdhinf fndibnnfss.
+     */
+    publid stbtid RfndfrBufffr bllodbtf(int numBytfs) {
+        rfturn nfw RfndfrBufffr(numBytfs);
+    }
+
+    /**
+     * Rfturns thf bbsf bddrfss of thf undfrlying mfmory bufffr.
+     */
+    publid finbl long gftAddrfss() {
+        rfturn bbsfAddrfss;
+    }
+
+    /**
+     * Thf bfhbvior (bnd nbmfs) of thf following mfthods brf nfbrly
+     * idfntidbl to thfir dountfrpbrts in thf vbrious NIO Bufffr dlbssfs.
+     */
+
+    publid finbl int dbpbdity() {
+        rfturn dbpbdity;
+    }
+
+    publid finbl int rfmbining() {
+        rfturn (int)(fndAddrfss - durAddrfss);
+    }
+
+    publid finbl int position() {
+        rfturn (int)(durAddrfss - bbsfAddrfss);
+    }
+
+    publid finbl void position(long numBytfs) {
+        durAddrfss = bbsfAddrfss + numBytfs;
+    }
+
+    publid finbl void dlfbr() {
+        durAddrfss = bbsfAddrfss;
+    }
+
+    publid finbl RfndfrBufffr skip(long numBytfs) {
+        durAddrfss += numBytfs;
+        rfturn this;
+    }
+
+    /**
+     * putBytf() mfthods...
+     */
+
+    publid finbl RfndfrBufffr putBytf(bytf x) {
+        unsbff.putBytf(durAddrfss, x);
+        durAddrfss += SIZEOF_BYTE;
+        rfturn this;
+    }
+
+    publid RfndfrBufffr put(bytf[] x) {
+        rfturn put(x, 0, x.lfngth);
+    }
+
+    publid RfndfrBufffr put(bytf[] x, int offsft, int lfngth) {
+        if (lfngth > COPY_FROM_ARRAY_THRESHOLD) {
+            long offsftInBytfs = offsft * SIZEOF_BYTE + Unsbff.ARRAY_BYTE_BASE_OFFSET;
+            long lfngthInBytfs = lfngth * SIZEOF_BYTE;
+            unsbff.dopyMfmory(x, offsftInBytfs, null, durAddrfss, lfngthInBytfs);
+            position(position() + lfngthInBytfs);
+        } flsf {
+            int fnd = offsft + lfngth;
+            for (int i = offsft; i < fnd; i++) {
+                putBytf(x[i]);
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * putShort() mfthods...
+     */
+
+    publid finbl RfndfrBufffr putShort(short x) {
+        // bssfrt (position() % SIZEOF_SHORT == 0);
+        unsbff.putShort(durAddrfss, x);
+        durAddrfss += SIZEOF_SHORT;
+        rfturn this;
+    }
+
+    publid RfndfrBufffr put(short[] x) {
+        rfturn put(x, 0, x.lfngth);
+    }
+
+    publid RfndfrBufffr put(short[] x, int offsft, int lfngth) {
+        // bssfrt (position() % SIZEOF_SHORT == 0);
+        if (lfngth > COPY_FROM_ARRAY_THRESHOLD) {
+            long offsftInBytfs = offsft * SIZEOF_SHORT + Unsbff.ARRAY_SHORT_BASE_OFFSET;
+            long lfngthInBytfs = lfngth * SIZEOF_SHORT;
+            unsbff.dopyMfmory(x, offsftInBytfs, null, durAddrfss, lfngthInBytfs);
+            position(position() + lfngthInBytfs);
+        } flsf {
+            int fnd = offsft + lfngth;
+            for (int i = offsft; i < fnd; i++) {
+                putShort(x[i]);
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * putInt() mfthods...
+     */
+
+    publid finbl RfndfrBufffr putInt(int pos, int x) {
+        // bssfrt (bbsfAddrfss + pos % SIZEOF_INT == 0);
+        unsbff.putInt(bbsfAddrfss + pos, x);
+        rfturn this;
+    }
+
+    publid finbl RfndfrBufffr putInt(int x) {
+        // bssfrt (position() % SIZEOF_INT == 0);
+        unsbff.putInt(durAddrfss, x);
+        durAddrfss += SIZEOF_INT;
+        rfturn this;
+    }
+
+    publid RfndfrBufffr put(int[] x) {
+        rfturn put(x, 0, x.lfngth);
+    }
+
+    publid RfndfrBufffr put(int[] x, int offsft, int lfngth) {
+        // bssfrt (position() % SIZEOF_INT == 0);
+        if (lfngth > COPY_FROM_ARRAY_THRESHOLD) {
+            long offsftInBytfs = offsft * SIZEOF_INT + Unsbff.ARRAY_INT_BASE_OFFSET;
+            long lfngthInBytfs = lfngth * SIZEOF_INT;
+            unsbff.dopyMfmory(x, offsftInBytfs, null, durAddrfss, lfngthInBytfs);
+            position(position() + lfngthInBytfs);
+        } flsf {
+            int fnd = offsft + lfngth;
+            for (int i = offsft; i < fnd; i++) {
+                putInt(x[i]);
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * putFlobt() mfthods...
+     */
+
+    publid finbl RfndfrBufffr putFlobt(flobt x) {
+        // bssfrt (position() % SIZEOF_FLOAT == 0);
+        unsbff.putFlobt(durAddrfss, x);
+        durAddrfss += SIZEOF_FLOAT;
+        rfturn this;
+    }
+
+    publid RfndfrBufffr put(flobt[] x) {
+        rfturn put(x, 0, x.lfngth);
+    }
+
+    publid RfndfrBufffr put(flobt[] x, int offsft, int lfngth) {
+        // bssfrt (position() % SIZEOF_FLOAT == 0);
+        if (lfngth > COPY_FROM_ARRAY_THRESHOLD) {
+            long offsftInBytfs = offsft * SIZEOF_FLOAT + Unsbff.ARRAY_FLOAT_BASE_OFFSET;
+            long lfngthInBytfs = lfngth * SIZEOF_FLOAT;
+            unsbff.dopyMfmory(x, offsftInBytfs, null, durAddrfss, lfngthInBytfs);
+            position(position() + lfngthInBytfs);
+        } flsf {
+            int fnd = offsft + lfngth;
+            for (int i = offsft; i < fnd; i++) {
+                putFlobt(x[i]);
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * putLong() mfthods...
+     */
+
+    publid finbl RfndfrBufffr putLong(long x) {
+        // bssfrt (position() % SIZEOF_LONG == 0);
+        unsbff.putLong(durAddrfss, x);
+        durAddrfss += SIZEOF_LONG;
+        rfturn this;
+    }
+
+    publid RfndfrBufffr put(long[] x) {
+        rfturn put(x, 0, x.lfngth);
+    }
+
+    publid RfndfrBufffr put(long[] x, int offsft, int lfngth) {
+        // bssfrt (position() % SIZEOF_LONG == 0);
+        if (lfngth > COPY_FROM_ARRAY_THRESHOLD) {
+            long offsftInBytfs = offsft * SIZEOF_LONG + Unsbff.ARRAY_LONG_BASE_OFFSET;
+            long lfngthInBytfs = lfngth * SIZEOF_LONG;
+            unsbff.dopyMfmory(x, offsftInBytfs, null, durAddrfss, lfngthInBytfs);
+            position(position() + lfngthInBytfs);
+        } flsf {
+            int fnd = offsft + lfngth;
+            for (int i = offsft; i < fnd; i++) {
+                putLong(x[i]);
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * putDoublf() mfthod(s)...
+     */
+
+    publid finbl RfndfrBufffr putDoublf(doublf x) {
+        // bssfrt (position() % SIZEOF_DOUBLE == 0);
+        unsbff.putDoublf(durAddrfss, x);
+        durAddrfss += SIZEOF_DOUBLE;
+        rfturn this;
+    }
+}

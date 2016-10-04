@@ -1,0 +1,291 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.bwt.Adjustbblf;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+
+/**
+ * Thf bdjustmfnt fvfnt fmittfd by Adjustbblf objfdts likf
+ * {@link jbvb.bwt.Sdrollbbr} bnd {@link jbvb.bwt.SdrollPbnf}.
+ * Whfn thf usfr dhbngfs thf vbluf of thf sdrolling domponfnt,
+ * it rfdfivfs bn instbndf of {@dodf AdjustmfntEvfnt}.
+ * <p>
+ * An unspfdififd bfhbvior will bf dbusfd if thf {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf AdjustmfntEvfnt} instbndf is not
+ * in thf rbngf from {@dodf ADJUSTMENT_FIRST} to {@dodf ADJUSTMENT_LAST}.
+ * <p>
+ * Thf {@dodf typf} of bny {@dodf AdjustmfntEvfnt} instbndf tbkfs onf of thf following
+ * vblufs:
+ *                     <ul>
+ *                     <li> {@dodf UNIT_INCREMENT}
+ *                     <li> {@dodf UNIT_DECREMENT}
+ *                     <li> {@dodf BLOCK_INCREMENT}
+ *                     <li> {@dodf BLOCK_DECREMENT}
+ *                     <li> {@dodf TRACK}
+ *                     </ul>
+ * Assigning thf vbluf difffrfnt from listfd bbovf will dbusf bn unspfdififd bfhbvior.
+ * @sff jbvb.bwt.Adjustbblf
+ * @sff AdjustmfntListfnfr
+ *
+ * @buthor Amy Fowlfr
+ * @sindf 1.1
+ */
+publid dlbss AdjustmfntEvfnt fxtfnds AWTEvfnt {
+
+    /**
+     * Mbrks thf first intfgfr id for thf rbngf of bdjustmfnt fvfnt ids.
+     */
+    publid stbtid finbl int ADJUSTMENT_FIRST    = 601;
+
+    /**
+     * Mbrks thf lbst intfgfr id for thf rbngf of bdjustmfnt fvfnt ids.
+     */
+    publid stbtid finbl int ADJUSTMENT_LAST     = 601;
+
+    /**
+     * Thf bdjustmfnt vbluf dhbngfd fvfnt.
+     */
+    publid stbtid finbl int ADJUSTMENT_VALUE_CHANGED = ADJUSTMENT_FIRST; //Evfnt.SCROLL_LINE_UP
+
+    /**
+     * Thf unit indrfmfnt bdjustmfnt typf.
+     */
+    @Nbtivf publid stbtid finbl int UNIT_INCREMENT      = 1;
+
+    /**
+     * Thf unit dfdrfmfnt bdjustmfnt typf.
+     */
+    @Nbtivf publid stbtid finbl int UNIT_DECREMENT      = 2;
+
+    /**
+     * Thf blodk dfdrfmfnt bdjustmfnt typf.
+     */
+    @Nbtivf publid stbtid finbl int BLOCK_DECREMENT     = 3;
+
+    /**
+     * Thf blodk indrfmfnt bdjustmfnt typf.
+     */
+    @Nbtivf publid stbtid finbl int BLOCK_INCREMENT     = 4;
+
+    /**
+     * Thf bbsolutf trbdking bdjustmfnt typf.
+     */
+    @Nbtivf publid stbtid finbl int TRACK               = 5;
+
+    /**
+     * Thf bdjustbblf objfdt thbt firfd thf fvfnt.
+     *
+     * @sfribl
+     * @sff #gftAdjustbblf
+     */
+    Adjustbblf bdjustbblf;
+
+    /**
+     * <dodf>vbluf</dodf> will dontbin thf nfw vbluf of thf
+     * bdjustbblf objfdt.  This vbluf will blwbys bf  in b
+     * rbngf bssodibtfd bdjustbblf objfdt.
+     *
+     * @sfribl
+     * @sff #gftVbluf
+     */
+    int vbluf;
+
+    /**
+     * Thf <dodf>bdjustmfntTypf</dodf> dfsdribfs how thf bdjustbblf
+     * objfdt vbluf hbs dhbngfd.
+     * This vbluf dbn bf indrfbsfd/dfdrfbsfd by b blodk or unit bmount
+     * whfrf thf blodk is bssodibtfd with pbgf indrfmfnts/dfdrfmfnts,
+     * bnd b unit is bssodibtfd with linf indrfmfnts/dfdrfmfnts.
+     *
+     * @sfribl
+     * @sff #gftAdjustmfntTypf
+     */
+    int bdjustmfntTypf;
+
+
+    /**
+     * Thf <dodf>isAdjusting</dodf> is truf if thf fvfnt is onf
+     * of thf sfrifs of multiplf bdjustmfnt fvfnts.
+     *
+     * @sindf 1.4
+     * @sfribl
+     * @sff #gftVblufIsAdjusting
+     */
+    boolfbn isAdjusting;
+
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 5700290645205279921L;
+
+
+    /**
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt with thf
+     * spfdififd <dodf>Adjustbblf</dodf> sourdf, fvfnt typf,
+     * bdjustmfnt typf, bnd vbluf.
+     * <p> This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf Thf <dodf>Adjustbblf</dodf> objfdt whfrf thf
+     *               fvfnt originbtfd
+     * @pbrbm id     An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link AdjustmfntEvfnt}
+     * @pbrbm typf   An intfgfr indidbting thf bdjustmfnt typf.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link AdjustmfntEvfnt}
+     * @pbrbm vbluf  Thf durrfnt vbluf of thf bdjustmfnt
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftAdjustmfntTypf()
+     * @sff #gftVbluf()
+     */
+    publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf) {
+        this(sourdf, id, typf, vbluf, fblsf);
+    }
+
+    /**
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt with thf
+     * spfdififd Adjustbblf sourdf, fvfnt typf, bdjustmfnt typf, bnd vbluf.
+     * <p> This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf Thf <dodf>Adjustbblf</dodf> objfdt whfrf thf
+     *               fvfnt originbtfd
+     * @pbrbm id     An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link AdjustmfntEvfnt}
+     * @pbrbm typf   An intfgfr indidbting thf bdjustmfnt typf.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link AdjustmfntEvfnt}
+     * @pbrbm vbluf  Thf durrfnt vbluf of thf bdjustmfnt
+     * @pbrbm isAdjusting A boolfbn thbt fqubls <dodf>truf</dodf> if thf fvfnt is onf
+     *               of b sfrifs of multiplf bdjusting fvfnts,
+     *               othfrwisf <dodf>fblsf</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sindf 1.4
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftAdjustmfntTypf()
+     * @sff #gftVbluf()
+     * @sff #gftVblufIsAdjusting()
+     */
+    publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf, boolfbn isAdjusting) {
+        supfr(sourdf, id);
+        bdjustbblf = sourdf;
+        this.bdjustmfntTypf = typf;
+        this.vbluf = vbluf;
+        this.isAdjusting = isAdjusting;
+    }
+
+    /**
+     * Rfturns thf <dodf>Adjustbblf</dodf> objfdt whfrf this fvfnt originbtfd.
+     *
+     * @rfturn thf <dodf>Adjustbblf</dodf> objfdt whfrf this fvfnt originbtfd
+     */
+    publid Adjustbblf gftAdjustbblf() {
+        rfturn bdjustbblf;
+    }
+
+    /**
+     * Rfturns thf durrfnt vbluf in thf bdjustmfnt fvfnt.
+     *
+     * @rfturn thf durrfnt vbluf in thf bdjustmfnt fvfnt
+     */
+    publid int gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf typf of bdjustmfnt whidh dbusfd thf vbluf dhbngfd
+     * fvfnt.  It will hbvf onf of thf following vblufs:
+     * <ul>
+     * <li>{@link #UNIT_INCREMENT}
+     * <li>{@link #UNIT_DECREMENT}
+     * <li>{@link #BLOCK_INCREMENT}
+     * <li>{@link #BLOCK_DECREMENT}
+     * <li>{@link #TRACK}
+     * </ul>
+     * @rfturn onf of thf bdjustmfnt vblufs listfd bbovf
+     */
+    publid int gftAdjustmfntTypf() {
+        rfturn bdjustmfntTypf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this is onf of multiplf
+     * bdjustmfnt fvfnts.
+     *
+     * @rfturn <dodf>truf</dodf> if this is onf of multiplf
+     *         bdjustmfnt fvfnts, othfrwisf rfturns <dodf>fblsf</dodf>
+     * @sindf 1.4
+     */
+    publid boolfbn gftVblufIsAdjusting() {
+        rfturn isAdjusting;
+    }
+
+    publid String pbrbmString() {
+        String typfStr;
+        switdh(id) {
+          dbsf ADJUSTMENT_VALUE_CHANGED:
+              typfStr = "ADJUSTMENT_VALUE_CHANGED";
+              brfbk;
+          dffbult:
+              typfStr = "unknown typf";
+        }
+        String bdjTypfStr;
+        switdh(bdjustmfntTypf) {
+          dbsf UNIT_INCREMENT:
+              bdjTypfStr = "UNIT_INCREMENT";
+              brfbk;
+          dbsf UNIT_DECREMENT:
+              bdjTypfStr = "UNIT_DECREMENT";
+              brfbk;
+          dbsf BLOCK_INCREMENT:
+              bdjTypfStr = "BLOCK_INCREMENT";
+              brfbk;
+          dbsf BLOCK_DECREMENT:
+              bdjTypfStr = "BLOCK_DECREMENT";
+              brfbk;
+          dbsf TRACK:
+              bdjTypfStr = "TRACK";
+              brfbk;
+          dffbult:
+              bdjTypfStr = "unknown typf";
+        }
+        rfturn typfStr
+            + ",bdjTypf="+bdjTypfStr
+            + ",vbluf="+vbluf
+            + ",isAdjusting="+isAdjusting;
+    }
+}

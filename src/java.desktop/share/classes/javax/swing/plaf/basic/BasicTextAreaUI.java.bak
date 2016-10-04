@@ -1,393 +1,393 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.beans.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
+import jbvb.bfbns.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * Provides the look and feel for a plain text editor.  In this
- * implementation the default UI is extended to act as a simple
- * view factory.
+ * Providfs tif look bnd fffl for b plbin tfxt fditor.  In tiis
+ * implfmfntbtion tif dffbult UI is fxtfndfd to bdt bs b simplf
+ * vifw fbdtory.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicTextAreaUI extends BasicTextUI {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidTfxtArfbUI fxtfnds BbsidTfxtUI {
 
     /**
-     * Creates a UI for a JTextArea.
+     * Crfbtfs b UI for b JTfxtArfb.
      *
-     * @param ta a text area
-     * @return the UI
+     * @pbrbm tb b tfxt brfb
+     * @rfturn tif UI
      */
-    public static ComponentUI createUI(JComponent ta) {
-        return new BasicTextAreaUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt tb) {
+        rfturn nfw BbsidTfxtArfbUI();
     }
 
     /**
-     * Constructs a new BasicTextAreaUI object.
+     * Construdts b nfw BbsidTfxtArfbUI objfdt.
      */
-    public BasicTextAreaUI() {
-        super();
+    publid BbsidTfxtArfbUI() {
+        supfr();
     }
 
     /**
-     * Fetches the name used as a key to look up properties through the
-     * UIManager.  This is used as a prefix to all the standard
-     * text properties.
+     * Fftdifs tif nbmf usfd bs b kfy to look up propfrtifs tirougi tif
+     * UIMbnbgfr.  Tiis is usfd bs b prffix to bll tif stbndbrd
+     * tfxt propfrtifs.
      *
-     * @return the name ("TextArea")
+     * @rfturn tif nbmf ("TfxtArfb")
      */
-    protected String getPropertyPrefix() {
-        return "TextArea";
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn "TfxtArfb";
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
-        //the fix for 4785160 is undone
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+        //tif fix for 4785160 is undonf
     }
 
     /**
-     * This method gets called when a bound property is changed
-     * on the associated JTextComponent.  This is a hook
-     * which UI implementations may change to reflect how the
-     * UI displays bound properties of JTextComponent subclasses.
-     * This is implemented to rebuild the View when the
-     * <em>WrapLine</em> or the <em>WrapStyleWord</em> property changes.
+     * Tiis mftiod gfts dbllfd wifn b bound propfrty is dibngfd
+     * on tif bssodibtfd JTfxtComponfnt.  Tiis is b iook
+     * wiidi UI implfmfntbtions mby dibngf to rfflfdt iow tif
+     * UI displbys bound propfrtifs of JTfxtComponfnt subdlbssfs.
+     * Tiis is implfmfntfd to rfbuild tif Vifw wifn tif
+     * <fm>WrbpLinf</fm> or tif <fm>WrbpStylfWord</fm> propfrty dibngfs.
      *
-     * @param evt the property change event
+     * @pbrbm fvt tif propfrty dibngf fvfnt
      */
-    protected void propertyChange(PropertyChangeEvent evt) {
-        super.propertyChange(evt);
-        if (evt.getPropertyName().equals("lineWrap") ||
-            evt.getPropertyName().equals("wrapStyleWord") ||
-                evt.getPropertyName().equals("tabSize")) {
-            // rebuild the view
-            modelChanged();
-        } else if ("editable".equals(evt.getPropertyName())) {
-            updateFocusTraversalKeys();
+    protfdtfd void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        supfr.propfrtyCibngf(fvt);
+        if (fvt.gftPropfrtyNbmf().fqubls("linfWrbp") ||
+            fvt.gftPropfrtyNbmf().fqubls("wrbpStylfWord") ||
+                fvt.gftPropfrtyNbmf().fqubls("tbbSizf")) {
+            // rfbuild tif vifw
+            modflCibngfd();
+        } flsf if ("fditbblf".fqubls(fvt.gftPropfrtyNbmf())) {
+            updbtfFodusTrbvfrsblKfys();
         }
     }
 
 
     /**
-     * The method is overridden to take into account caret width.
+     * Tif mftiod is ovfrriddfn to tbkf into bddount dbrft widti.
      *
-     * @param c the editor component
-     * @return the preferred size
-     * @throws IllegalArgumentException if invalid value is passed
+     * @pbrbm d tif fditor domponfnt
+     * @rfturn tif prfffrrfd sizf
+     * @tirows IllfgblArgumfntExdfption if invblid vbluf is pbssfd
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Dimension getPreferredSize(JComponent c) {
-        return super.getPreferredSize(c);
-        //the fix for 4785160 is undone
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        rfturn supfr.gftPrfffrrfdSizf(d);
+        //tif fix for 4785160 is undonf
     }
 
     /**
-     * The method is overridden to take into account caret width.
+     * Tif mftiod is ovfrriddfn to tbkf into bddount dbrft widti.
      *
-     * @param c the editor component
-     * @return the minimum size
-     * @throws IllegalArgumentException if invalid value is passed
+     * @pbrbm d tif fditor domponfnt
+     * @rfturn tif minimum sizf
+     * @tirows IllfgblArgumfntExdfption if invblid vbluf is pbssfd
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Dimension getMinimumSize(JComponent c) {
-        return super.getMinimumSize(c);
-        //the fix for 4785160 is undone
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        rfturn supfr.gftMinimumSizf(d);
+        //tif fix for 4785160 is undonf
     }
 
     /**
-     * Creates the view for an element.  Returns a WrappedPlainView or
-     * PlainView.
+     * Crfbtfs tif vifw for bn flfmfnt.  Rfturns b WrbppfdPlbinVifw or
+     * PlbinVifw.
      *
-     * @param elem the element
-     * @return the view
+     * @pbrbm flfm tif flfmfnt
+     * @rfturn tif vifw
      */
-    public View create(Element elem) {
-        Document doc = elem.getDocument();
-        Object i18nFlag = doc.getProperty("i18n"/*AbstractDocument.I18NProperty*/);
-        if ((i18nFlag != null) && i18nFlag.equals(Boolean.TRUE)) {
-            // build a view that support bidi
-            return createI18N(elem);
-        } else {
-            JTextComponent c = getComponent();
-            if (c instanceof JTextArea) {
-                JTextArea area = (JTextArea) c;
-                View v;
-                if (area.getLineWrap()) {
-                    v = new WrappedPlainView(elem, area.getWrapStyleWord());
-                } else {
-                    v = new PlainView(elem);
+    publid Vifw drfbtf(Elfmfnt flfm) {
+        Dodumfnt dod = flfm.gftDodumfnt();
+        Objfdt i18nFlbg = dod.gftPropfrty("i18n"/*AbstrbdtDodumfnt.I18NPropfrty*/);
+        if ((i18nFlbg != null) && i18nFlbg.fqubls(Boolfbn.TRUE)) {
+            // build b vifw tibt support bidi
+            rfturn drfbtfI18N(flfm);
+        } flsf {
+            JTfxtComponfnt d = gftComponfnt();
+            if (d instbndfof JTfxtArfb) {
+                JTfxtArfb brfb = (JTfxtArfb) d;
+                Vifw v;
+                if (brfb.gftLinfWrbp()) {
+                    v = nfw WrbppfdPlbinVifw(flfm, brfb.gftWrbpStylfWord());
+                } flsf {
+                    v = nfw PlbinVifw(flfm);
                 }
-                return v;
+                rfturn v;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    View createI18N(Element elem) {
-        String kind = elem.getName();
+    Vifw drfbtfI18N(Elfmfnt flfm) {
+        String kind = flfm.gftNbmf();
         if (kind != null) {
-            if (kind.equals(AbstractDocument.ContentElementName)) {
-                return new PlainParagraph(elem);
-            } else if (kind.equals(AbstractDocument.ParagraphElementName)) {
-                return new BoxView(elem, View.Y_AXIS);
+            if (kind.fqubls(AbstrbdtDodumfnt.ContfntElfmfntNbmf)) {
+                rfturn nfw PlbinPbrbgrbpi(flfm);
+            } flsf if (kind.fqubls(AbstrbdtDodumfnt.PbrbgrbpiElfmfntNbmf)) {
+                rfturn nfw BoxVifw(flfm, Vifw.Y_AXIS);
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the baseline.
+     * Rfturns tif bbsflinf.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        Object i18nFlag = ((JTextComponent)c).getDocument().
-                                              getProperty("i18n");
-        Insets insets = c.getInsets();
-        if (Boolean.TRUE.equals(i18nFlag)) {
-            View rootView = getRootView((JTextComponent)c);
-            if (rootView.getViewCount() > 0) {
-                height = height - insets.top - insets.bottom;
-                int baseline = insets.top;
-                int fieldBaseline = BasicHTML.getBaseline(
-                        rootView.getView(0), width - insets.left -
-                        insets.right, height);
-                if (fieldBaseline < 0) {
-                    return -1;
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        supfr.gftBbsflinf(d, widti, ifigit);
+        Objfdt i18nFlbg = ((JTfxtComponfnt)d).gftDodumfnt().
+                                              gftPropfrty("i18n");
+        Insfts insfts = d.gftInsfts();
+        if (Boolfbn.TRUE.fqubls(i18nFlbg)) {
+            Vifw rootVifw = gftRootVifw((JTfxtComponfnt)d);
+            if (rootVifw.gftVifwCount() > 0) {
+                ifigit = ifigit - insfts.top - insfts.bottom;
+                int bbsflinf = insfts.top;
+                int fifldBbsflinf = BbsidHTML.gftBbsflinf(
+                        rootVifw.gftVifw(0), widti - insfts.lfft -
+                        insfts.rigit, ifigit);
+                if (fifldBbsflinf < 0) {
+                    rfturn -1;
                 }
-                return baseline + fieldBaseline;
+                rfturn bbsflinf + fifldBbsflinf;
             }
-            return -1;
+            rfturn -1;
         }
-        FontMetrics fm = c.getFontMetrics(c.getFont());
-        return insets.top + fm.getAscent();
+        FontMftrids fm = d.gftFontMftrids(d.gftFont());
+        rfturn insfts.top + fm.gftAsdfnt();
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Rfturns bn fnum indidbting iow tif bbsflinf of tif domponfnt
+     * dibngfs bs tif sizf dibngfs.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
-            JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+    publid Componfnt.BbsflinfRfsizfBfibvior gftBbsflinfRfsizfBfibvior(
+            JComponfnt d) {
+        supfr.gftBbsflinfRfsizfBfibvior(d);
+        rfturn Componfnt.BbsflinfRfsizfBfibvior.CONSTANT_ASCENT;
     }
 
 
     /**
-     * Paragraph for representing plain-text lines that support
-     * bidirectional text.
+     * Pbrbgrbpi for rfprfsfnting plbin-tfxt linfs tibt support
+     * bidirfdtionbl tfxt.
      */
-    static class PlainParagraph extends ParagraphView {
+    stbtid dlbss PlbinPbrbgrbpi fxtfnds PbrbgrbpiVifw {
 
-        PlainParagraph(Element elem) {
-            super(elem);
-            layoutPool = new LogicalView(elem);
-            layoutPool.setParent(this);
+        PlbinPbrbgrbpi(Elfmfnt flfm) {
+            supfr(flfm);
+            lbyoutPool = nfw LogidblVifw(flfm);
+            lbyoutPool.sftPbrfnt(tiis);
         }
 
-        public void setParent(View parent) {
-            super.setParent(parent);
-            if (parent != null) {
-                setPropertiesFromAttributes();
+        publid void sftPbrfnt(Vifw pbrfnt) {
+            supfr.sftPbrfnt(pbrfnt);
+            if (pbrfnt != null) {
+                sftPropfrtifsFromAttributfs();
             }
         }
 
-        protected void setPropertiesFromAttributes() {
-            Component c = getContainer();
-            if ((c != null) && (! c.getComponentOrientation().isLeftToRight())) {
-                setJustification(StyleConstants.ALIGN_RIGHT);
-            } else {
-                setJustification(StyleConstants.ALIGN_LEFT);
+        protfdtfd void sftPropfrtifsFromAttributfs() {
+            Componfnt d = gftContbinfr();
+            if ((d != null) && (! d.gftComponfntOrifntbtion().isLfftToRigit())) {
+                sftJustifidbtion(StylfConstbnts.ALIGN_RIGHT);
+            } flsf {
+                sftJustifidbtion(StylfConstbnts.ALIGN_LEFT);
             }
         }
 
         /**
-         * Fetch the constraining span to flow against for
-         * the given child index.
+         * Fftdi tif donstrbining spbn to flow bgbinst for
+         * tif givfn diild indfx.
          */
-        public int getFlowSpan(int index) {
-            Component c = getContainer();
-            if (c instanceof JTextArea) {
-                JTextArea area = (JTextArea) c;
-                if (! area.getLineWrap()) {
-                    // no limit if unwrapped
-                    return Integer.MAX_VALUE;
+        publid int gftFlowSpbn(int indfx) {
+            Componfnt d = gftContbinfr();
+            if (d instbndfof JTfxtArfb) {
+                JTfxtArfb brfb = (JTfxtArfb) d;
+                if (! brfb.gftLinfWrbp()) {
+                    // no limit if unwrbppfd
+                    rfturn Intfgfr.MAX_VALUE;
                 }
             }
-            return super.getFlowSpan(index);
+            rfturn supfr.gftFlowSpbn(indfx);
         }
 
-        protected SizeRequirements calculateMinorAxisRequirements(int axis,
-                                                                  SizeRequirements r) {
-            SizeRequirements req = super.calculateMinorAxisRequirements(axis, r);
-            Component c = getContainer();
-            if (c instanceof JTextArea) {
-                JTextArea area = (JTextArea) c;
-                if (! area.getLineWrap()) {
-                    // min is pref if unwrapped
-                    req.minimum = req.preferred;
-                } else {
-                    req.minimum = 0;
-                    req.preferred = getWidth();
-                    if (req.preferred == Integer.MAX_VALUE) {
-                        // We have been initially set to MAX_VALUE, but we
-                        // don't want this as our preferred.
-                        req.preferred = 100;
+        protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis,
+                                                                  SizfRfquirfmfnts r) {
+            SizfRfquirfmfnts rfq = supfr.dbldulbtfMinorAxisRfquirfmfnts(bxis, r);
+            Componfnt d = gftContbinfr();
+            if (d instbndfof JTfxtArfb) {
+                JTfxtArfb brfb = (JTfxtArfb) d;
+                if (! brfb.gftLinfWrbp()) {
+                    // min is prff if unwrbppfd
+                    rfq.minimum = rfq.prfffrrfd;
+                } flsf {
+                    rfq.minimum = 0;
+                    rfq.prfffrrfd = gftWidti();
+                    if (rfq.prfffrrfd == Intfgfr.MAX_VALUE) {
+                        // Wf ibvf bffn initiblly sft to MAX_VALUE, but wf
+                        // don't wbnt tiis bs our prfffrrfd.
+                        rfq.prfffrrfd = 100;
                     }
                 }
             }
-            return req;
+            rfturn rfq;
         }
 
         /**
-         * Sets the size of the view.  If the size has changed, layout
-         * is redone.  The size is the full size of the view including
-         * the inset areas.
+         * Sfts tif sizf of tif vifw.  If tif sizf ibs dibngfd, lbyout
+         * is rfdonf.  Tif sizf is tif full sizf of tif vifw indluding
+         * tif insft brfbs.
          *
-         * @param width the width >= 0
-         * @param height the height >= 0
+         * @pbrbm widti tif widti >= 0
+         * @pbrbm ifigit tif ifigit >= 0
          */
-        public void setSize(float width, float height) {
-            if ((int) width != getWidth()) {
-                preferenceChanged(null, true, true);
+        publid void sftSizf(flobt widti, flobt ifigit) {
+            if ((int) widti != gftWidti()) {
+                prfffrfndfCibngfd(null, truf, truf);
             }
-            super.setSize(width, height);
+            supfr.sftSizf(widti, ifigit);
         }
 
         /**
-         * This class can be used to represent a logical view for
-         * a flow.  It keeps the children updated to reflect the state
-         * of the model, gives the logical child views access to the
-         * view hierarchy, and calculates a preferred span.  It doesn't
-         * do any rendering, layout, or model/view translation.
+         * Tiis dlbss dbn bf usfd to rfprfsfnt b logidbl vifw for
+         * b flow.  It kffps tif diildrfn updbtfd to rfflfdt tif stbtf
+         * of tif modfl, givfs tif logidbl diild vifws bddfss to tif
+         * vifw iifrbrdiy, bnd dbldulbtfs b prfffrrfd spbn.  It dofsn't
+         * do bny rfndfring, lbyout, or modfl/vifw trbnslbtion.
          */
-        static class LogicalView extends CompositeView {
+        stbtid dlbss LogidblVifw fxtfnds CompositfVifw {
 
-            LogicalView(Element elem) {
-                super(elem);
+            LogidblVifw(Elfmfnt flfm) {
+                supfr(flfm);
             }
 
-            protected int getViewIndexAtPosition(int pos) {
-                Element elem = getElement();
-                if (elem.getElementCount() > 0) {
-                    return elem.getElementIndex(pos);
+            protfdtfd int gftVifwIndfxAtPosition(int pos) {
+                Elfmfnt flfm = gftElfmfnt();
+                if (flfm.gftElfmfntCount() > 0) {
+                    rfturn flfm.gftElfmfntIndfx(pos);
                 }
-                return 0;
+                rfturn 0;
             }
 
-            protected boolean updateChildren(DocumentEvent.ElementChange ec,
-                                             DocumentEvent e, ViewFactory f) {
-                return false;
+            protfdtfd boolfbn updbtfCiildrfn(DodumfntEvfnt.ElfmfntCibngf fd,
+                                             DodumfntEvfnt f, VifwFbdtory f) {
+                rfturn fblsf;
             }
 
-            protected void loadChildren(ViewFactory f) {
-                Element elem = getElement();
-                if (elem.getElementCount() > 0) {
-                    super.loadChildren(f);
-                } else {
-                    View v = new GlyphView(elem);
-                    append(v);
+            protfdtfd void lobdCiildrfn(VifwFbdtory f) {
+                Elfmfnt flfm = gftElfmfnt();
+                if (flfm.gftElfmfntCount() > 0) {
+                    supfr.lobdCiildrfn(f);
+                } flsf {
+                    Vifw v = nfw GlypiVifw(flfm);
+                    bppfnd(v);
                 }
             }
 
-            public float getPreferredSpan(int axis) {
-                if( getViewCount() != 1 )
-                    throw new Error("One child view is assumed.");
+            publid flobt gftPrfffrrfdSpbn(int bxis) {
+                if( gftVifwCount() != 1 )
+                    tirow nfw Error("Onf diild vifw is bssumfd.");
 
-                View v = getView(0);
-                return v.getPreferredSpan(axis);
+                Vifw v = gftVifw(0);
+                rfturn v.gftPrfffrrfdSpbn(bxis);
             }
 
             /**
-             * Forward the DocumentEvent to the given child view.  This
-             * is implemented to reparent the child to the logical view
-             * (the children may have been parented by a row in the flow
-             * if they fit without breaking) and then execute the superclass
-             * behavior.
+             * Forwbrd tif DodumfntEvfnt to tif givfn diild vifw.  Tiis
+             * is implfmfntfd to rfpbrfnt tif diild to tif logidbl vifw
+             * (tif diildrfn mby ibvf bffn pbrfntfd by b row in tif flow
+             * if tify fit witiout brfbking) bnd tifn fxfdutf tif supfrdlbss
+             * bfibvior.
              *
-             * @param v the child view to forward the event to.
-             * @param e the change information from the associated document
-             * @param a the current allocation of the view
-             * @param f the factory to use to rebuild if the view has children
-             * @see #forwardUpdate
-             * @since 1.3
+             * @pbrbm v tif diild vifw to forwbrd tif fvfnt to.
+             * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+             * @pbrbm b tif durrfnt bllodbtion of tif vifw
+             * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+             * @sff #forwbrdUpdbtf
+             * @sindf 1.3
              */
-            protected void forwardUpdateToView(View v, DocumentEvent e,
-                                               Shape a, ViewFactory f) {
-                v.setParent(this);
-                super.forwardUpdateToView(v, e, a, f);
+            protfdtfd void forwbrdUpdbtfToVifw(Vifw v, DodumfntEvfnt f,
+                                               Sibpf b, VifwFbdtory f) {
+                v.sftPbrfnt(tiis);
+                supfr.forwbrdUpdbtfToVifw(v, f, b, f);
             }
 
-            // The following methods don't do anything useful, they
-            // simply keep the class from being abstract.
+            // Tif following mftiods don't do bnytiing usfful, tify
+            // simply kffp tif dlbss from bfing bbstrbdt.
 
-            public void paint(Graphics g, Shape allocation) {
+            publid void pbint(Grbpiids g, Sibpf bllodbtion) {
             }
 
-            protected boolean isBefore(int x, int y, Rectangle alloc) {
-                return false;
+            protfdtfd boolfbn isBfforf(int x, int y, Rfdtbnglf bllod) {
+                rfturn fblsf;
             }
 
-            protected boolean isAfter(int x, int y, Rectangle alloc) {
-                return false;
+            protfdtfd boolfbn isAftfr(int x, int y, Rfdtbnglf bllod) {
+                rfturn fblsf;
             }
 
-            protected View getViewAtPoint(int x, int y, Rectangle alloc) {
-                return null;
+            protfdtfd Vifw gftVifwAtPoint(int x, int y, Rfdtbnglf bllod) {
+                rfturn null;
             }
 
-            protected void childAllocation(int index, Rectangle a) {
+            protfdtfd void diildAllodbtion(int indfx, Rfdtbnglf b) {
             }
         }
     }

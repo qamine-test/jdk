@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * This class is used to define how to synthesize audio in universal maner
- * for both SF2 and DLS instruments.
+ * Tiis dlbss is usfd to dffinf iow to syntifsizf budio in univfrsbl mbnfr
+ * for boti SF2 bnd DLS instrumfnts.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class ModelPerformer {
+publid finbl dlbss ModflPfrformfr {
 
-    private final List<ModelOscillator> oscillators = new ArrayList<ModelOscillator>();
-    private List<ModelConnectionBlock> connectionBlocks
-            = new ArrayList<ModelConnectionBlock>();
-    private int keyFrom = 0;
-    private int keyTo = 127;
-    private int velFrom = 0;
-    private int velTo = 127;
-    private int exclusiveClass = 0;
-    private boolean releaseTrigger = false;
-    private boolean selfNonExclusive = false;
-    private Object userObject = null;
-    private boolean addDefaultConnections = true;
-    private String name = null;
+    privbtf finbl List<ModflOsdillbtor> osdillbtors = nfw ArrbyList<ModflOsdillbtor>();
+    privbtf List<ModflConnfdtionBlodk> donnfdtionBlodks
+            = nfw ArrbyList<ModflConnfdtionBlodk>();
+    privbtf int kfyFrom = 0;
+    privbtf int kfyTo = 127;
+    privbtf int vflFrom = 0;
+    privbtf int vflTo = 127;
+    privbtf int fxdlusivfClbss = 0;
+    privbtf boolfbn rflfbsfTriggfr = fblsf;
+    privbtf boolfbn sflfNonExdlusivf = fblsf;
+    privbtf Objfdt usfrObjfdt = null;
+    privbtf boolfbn bddDffbultConnfdtions = truf;
+    privbtf String nbmf = null;
 
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    publid void sftNbmf(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
-    public List<ModelConnectionBlock> getConnectionBlocks() {
-        return connectionBlocks;
+    publid List<ModflConnfdtionBlodk> gftConnfdtionBlodks() {
+        rfturn donnfdtionBlodks;
     }
 
-    public void setConnectionBlocks(List<ModelConnectionBlock> connectionBlocks) {
-        this.connectionBlocks = connectionBlocks;
+    publid void sftConnfdtionBlodks(List<ModflConnfdtionBlodk> donnfdtionBlodks) {
+        tiis.donnfdtionBlodks = donnfdtionBlodks;
     }
 
-    public List<ModelOscillator> getOscillators() {
-        return oscillators;
+    publid List<ModflOsdillbtor> gftOsdillbtors() {
+        rfturn osdillbtors;
     }
 
-    public int getExclusiveClass() {
-        return exclusiveClass;
+    publid int gftExdlusivfClbss() {
+        rfturn fxdlusivfClbss;
     }
 
-    public void setExclusiveClass(int exclusiveClass) {
-        this.exclusiveClass = exclusiveClass;
+    publid void sftExdlusivfClbss(int fxdlusivfClbss) {
+        tiis.fxdlusivfClbss = fxdlusivfClbss;
     }
 
-    public boolean isSelfNonExclusive() {
-        return selfNonExclusive;
+    publid boolfbn isSflfNonExdlusivf() {
+        rfturn sflfNonExdlusivf;
     }
 
-    public void setSelfNonExclusive(boolean selfNonExclusive) {
-        this.selfNonExclusive = selfNonExclusive;
+    publid void sftSflfNonExdlusivf(boolfbn sflfNonExdlusivf) {
+        tiis.sflfNonExdlusivf = sflfNonExdlusivf;
     }
 
-    public int getKeyFrom() {
-        return keyFrom;
+    publid int gftKfyFrom() {
+        rfturn kfyFrom;
     }
 
-    public void setKeyFrom(int keyFrom) {
-        this.keyFrom = keyFrom;
+    publid void sftKfyFrom(int kfyFrom) {
+        tiis.kfyFrom = kfyFrom;
     }
 
-    public int getKeyTo() {
-        return keyTo;
+    publid int gftKfyTo() {
+        rfturn kfyTo;
     }
 
-    public void setKeyTo(int keyTo) {
-        this.keyTo = keyTo;
+    publid void sftKfyTo(int kfyTo) {
+        tiis.kfyTo = kfyTo;
     }
 
-    public int getVelFrom() {
-        return velFrom;
+    publid int gftVflFrom() {
+        rfturn vflFrom;
     }
 
-    public void setVelFrom(int velFrom) {
-        this.velFrom = velFrom;
+    publid void sftVflFrom(int vflFrom) {
+        tiis.vflFrom = vflFrom;
     }
 
-    public int getVelTo() {
-        return velTo;
+    publid int gftVflTo() {
+        rfturn vflTo;
     }
 
-    public void setVelTo(int velTo) {
-        this.velTo = velTo;
+    publid void sftVflTo(int vflTo) {
+        tiis.vflTo = vflTo;
     }
 
-    public boolean isReleaseTriggered() {
-        return releaseTrigger;
+    publid boolfbn isRflfbsfTriggfrfd() {
+        rfturn rflfbsfTriggfr;
     }
 
-    public void setReleaseTriggered(boolean value) {
-        this.releaseTrigger = value;
+    publid void sftRflfbsfTriggfrfd(boolfbn vbluf) {
+        tiis.rflfbsfTriggfr = vbluf;
     }
 
-    public Object getUserObject() {
-        return userObject;
+    publid Objfdt gftUsfrObjfdt() {
+        rfturn usfrObjfdt;
     }
 
-    public void setUserObject(Object object) {
-        userObject = object;
+    publid void sftUsfrObjfdt(Objfdt objfdt) {
+        usfrObjfdt = objfdt;
     }
 
-    public boolean isDefaultConnectionsEnabled() {
-        return addDefaultConnections;
+    publid boolfbn isDffbultConnfdtionsEnbblfd() {
+        rfturn bddDffbultConnfdtions;
     }
 
-    public void setDefaultConnectionsEnabled(boolean addDefaultConnections) {
-        this.addDefaultConnections = addDefaultConnections;
+    publid void sftDffbultConnfdtionsEnbblfd(boolfbn bddDffbultConnfdtions) {
+        tiis.bddDffbultConnfdtions = bddDffbultConnfdtions;
     }
 }

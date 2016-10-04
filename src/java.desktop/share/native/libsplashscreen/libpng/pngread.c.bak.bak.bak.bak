@@ -1,0 +1,1482 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* pngrfbd.d - rfbd b PNG filf
+ *
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf bnd, pfr its tfrms, should not bf rfmovfd:
+ *
+ * Lbst dhbngfd in libpng 1.5.4 [July 7, 2011]
+ * Copyright (d) 1998-2011 Glfnn Rbndfrs-Pfhrson
+ * (Vfrsion 0.96 Copyright (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyright (d) 1995, 1996 Guy Erid Sdhblnbt, Group 42, Ind.)
+ *
+ * This dodf is rflfbsfd undfr thf libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff thf disdlbimfr
+ * bnd lidfnsf in png.h
+ *
+ * This filf dontbins routinfs thbt bn bpplidbtion dblls dirfdtly to
+ * rfbd b PNG filf or strfbm.
+ */
+
+#indludf "pngpriv.h"
+
+#ifdff PNG_READ_SUPPORTED
+
+/* Crfbtf b PNG strudturf for rfbding, bnd bllodbtf bny mfmory nffdfd. */
+PNG_FUNCTION(png_strudtp,PNGAPI
+png_drfbtf_rfbd_strudt,(png_donst_dhbrp usfr_png_vfr, png_voidp frror_ptr,
+    png_frror_ptr frror_fn, png_frror_ptr wbrn_fn),PNG_ALLOCATED)
+{
+
+#ifdff PNG_USER_MEM_SUPPORTED
+   rfturn (png_drfbtf_rfbd_strudt_2(usfr_png_vfr, frror_ptr, frror_fn,
+       wbrn_fn, NULL, NULL, NULL));
+}
+
+/* Altfrnbtf drfbtf PNG strudturf for rfbding, bnd bllodbtf bny mfmory
+ * nffdfd.
+ */
+PNG_FUNCTION(png_strudtp,PNGAPI
+png_drfbtf_rfbd_strudt_2,(png_donst_dhbrp usfr_png_vfr, png_voidp frror_ptr,
+    png_frror_ptr frror_fn, png_frror_ptr wbrn_fn, png_voidp mfm_ptr,
+    png_mbllod_ptr mbllod_fn, png_frff_ptr frff_fn),PNG_ALLOCATED)
+{
+#fndif /* PNG_USER_MEM_SUPPORTED */
+
+#ifdff PNG_SETJMP_SUPPORTED
+   volbtilf
+#fndif
+   png_strudtp png_ptr;
+   volbtilf int png_dlfbnup_nffdfd = 0;
+
+#ifdff PNG_SETJMP_SUPPORTED
+#ifdff USE_FAR_KEYWORD
+   jmp_buf tmp_jmpbuf;
+#fndif
+#fndif
+
+   png_dfbug(1, "in png_drfbtf_rfbd_strudt");
+
+#ifdff PNG_USER_MEM_SUPPORTED
+   png_ptr = (png_strudtp)png_drfbtf_strudt_2(PNG_STRUCT_PNG,
+       mbllod_fn, mfm_ptr);
+#flsf
+   png_ptr = (png_strudtp)png_drfbtf_strudt(PNG_STRUCT_PNG);
+#fndif
+   if (png_ptr == NULL)
+      rfturn (NULL);
+
+   /* Addfd bt libpng-1.2.6 */
+#ifdff PNG_USER_LIMITS_SUPPORTED
+   png_ptr->usfr_width_mbx = PNG_USER_WIDTH_MAX;
+   png_ptr->usfr_hfight_mbx = PNG_USER_HEIGHT_MAX;
+
+#  ifdff PNG_USER_CHUNK_CACHE_MAX
+   /* Addfd bt libpng-1.2.43 bnd 1.4.0 */
+   png_ptr->usfr_dhunk_dbdhf_mbx = PNG_USER_CHUNK_CACHE_MAX;
+#  fndif
+
+#  ifdff PNG_SET_USER_CHUNK_MALLOC_MAX
+   /* Addfd bt libpng-1.2.43 bnd 1.4.1 */
+   png_ptr->usfr_dhunk_mbllod_mbx = PNG_USER_CHUNK_MALLOC_MAX;
+#  fndif
+#fndif
+
+#ifdff PNG_SETJMP_SUPPORTED
+/* Applidbtions thbt nfglfdt to sft up thfir own sftjmp() bnd thfn
+   fndountfr b png_frror() will longjmp hfrf.  Sindf thf jmpbuf is
+   thfn mfbninglfss wf bbort instfbd of rfturning. */
+#ifdff USE_FAR_KEYWORD
+   if (sftjmp(tmp_jmpbuf))
+#flsf
+   if (sftjmp(png_jmpbuf(png_ptr))) /* Sfts longjmp to mbtdh sftjmp */
+#fndif
+      PNG_ABORT();
+#ifdff USE_FAR_KEYWORD
+   png_mfmdpy(png_jmpbuf(png_ptr), tmp_jmpbuf, png_sizfof(jmp_buf));
+#fndif
+#fndif /* PNG_SETJMP_SUPPORTED */
+
+#ifdff PNG_USER_MEM_SUPPORTED
+   png_sft_mfm_fn(png_ptr, mfm_ptr, mbllod_fn, frff_fn);
+#fndif
+
+   png_sft_frror_fn(png_ptr, frror_ptr, frror_fn, wbrn_fn);
+
+   /* Cbll thf gfnfrbl vfrsion dhfdkfr (shbrfd with rfbd bnd writf dodf): */
+   if (!png_usfr_vfrsion_dhfdk(png_ptr, usfr_png_vfr))
+      png_dlfbnup_nffdfd = 1;
+
+   if (!png_dlfbnup_nffdfd)
+   {
+   /* Initiblizf zbuf - domprfssion bufffr */
+   png_ptr->zbuf_sizf = PNG_ZBUF_SIZE;
+   png_ptr->zbuf = (png_bytfp)png_mbllod_wbrn(png_ptr, png_ptr->zbuf_sizf);
+
+   if (png_ptr->zbuf == NULL)
+      png_dlfbnup_nffdfd = 1;
+   }
+
+   png_ptr->zstrfbm.zbllod = png_zbllod;
+   png_ptr->zstrfbm.zfrff = png_zfrff;
+   png_ptr->zstrfbm.opbquf = (voidpf)png_ptr;
+
+   if (!png_dlfbnup_nffdfd)
+   {
+      switdh (inflbtfInit(&png_ptr->zstrfbm))
+      {
+         dbsf Z_OK:
+            brfbk; /* Do nothing */
+
+         dbsf Z_MEM_ERROR:
+            png_wbrning(png_ptr, "zlib mfmory frror");
+            png_dlfbnup_nffdfd = 1;
+            brfbk;
+
+         dbsf Z_STREAM_ERROR:
+            png_wbrning(png_ptr, "zlib strfbm frror");
+            png_dlfbnup_nffdfd = 1;
+            brfbk;
+
+         dbsf Z_VERSION_ERROR:
+            png_wbrning(png_ptr, "zlib vfrsion frror");
+            png_dlfbnup_nffdfd = 1;
+            brfbk;
+
+         dffbult: png_wbrning(png_ptr, "Unknown zlib frror");
+            png_dlfbnup_nffdfd = 1;
+      }
+   }
+
+   if (png_dlfbnup_nffdfd)
+   {
+      /* Clfbn up PNG strudturf bnd dfbllodbtf bny mfmory. */
+      png_frff(png_ptr, png_ptr->zbuf);
+      png_ptr->zbuf = NULL;
+#ifdff PNG_USER_MEM_SUPPORTED
+      png_dfstroy_strudt_2((png_voidp)png_ptr,
+          (png_frff_ptr)frff_fn, (png_voidp)mfm_ptr);
+#flsf
+      png_dfstroy_strudt((png_voidp)png_ptr);
+#fndif
+      rfturn (NULL);
+   }
+
+   png_ptr->zstrfbm.nfxt_out = png_ptr->zbuf;
+   png_ptr->zstrfbm.bvbil_out = (uInt)png_ptr->zbuf_sizf;
+
+   png_sft_rfbd_fn(png_ptr, NULL, NULL);
+
+
+   rfturn (png_ptr);
+}
+
+
+#ifdff PNG_SEQUENTIAL_READ_SUPPORTED
+/* Rfbd thf informbtion bfforf thf bdtubl imbgf dbtb.  This hbs bffn
+ * dhbngfd in v0.90 to bllow rfbding b filf thbt blrfbdy hbs thf mbgid
+ * bytfs rfbd from thf strfbm.  You dbn tfll libpng how mbny bytfs hbvf
+ * bffn rfbd from thf bfginning of thf strfbm (up to thf mbximum of 8)
+ * vib png_sft_sig_bytfs(), bnd wf will only dhfdk thf rfmbining bytfs
+ * hfrf.  Thf bpplidbtion dbn thfn hbvf bddfss to thf signbturf bytfs wf
+ * rfbd if it is dftfrminfd thbt this isn't b vblid PNG filf.
+ */
+void PNGAPI
+png_rfbd_info(png_strudtp png_ptr, png_infop info_ptr)
+{
+   png_dfbug(1, "in png_rfbd_info");
+
+   if (png_ptr == NULL || info_ptr == NULL)
+      rfturn;
+
+   /* Rfbd bnd dhfdk thf PNG filf signbturf. */
+   png_rfbd_sig(png_ptr, info_ptr);
+
+   for (;;)
+   {
+      PNG_IHDR;
+      PNG_IDAT;
+      PNG_IEND;
+      PNG_PLTE;
+#ifdff PNG_READ_bKGD_SUPPORTED
+      PNG_bKGD;
+#fndif
+#ifdff PNG_READ_dHRM_SUPPORTED
+      PNG_dHRM;
+#fndif
+#ifdff PNG_READ_gAMA_SUPPORTED
+      PNG_gAMA;
+#fndif
+#ifdff PNG_READ_hIST_SUPPORTED
+      PNG_hIST;
+#fndif
+#ifdff PNG_READ_iCCP_SUPPORTED
+      PNG_iCCP;
+#fndif
+#ifdff PNG_READ_iTXt_SUPPORTED
+      PNG_iTXt;
+#fndif
+#ifdff PNG_READ_oFFs_SUPPORTED
+      PNG_oFFs;
+#fndif
+#ifdff PNG_READ_pCAL_SUPPORTED
+      PNG_pCAL;
+#fndif
+#ifdff PNG_READ_pHYs_SUPPORTED
+      PNG_pHYs;
+#fndif
+#ifdff PNG_READ_sBIT_SUPPORTED
+      PNG_sBIT;
+#fndif
+#ifdff PNG_READ_sCAL_SUPPORTED
+      PNG_sCAL;
+#fndif
+#ifdff PNG_READ_sPLT_SUPPORTED
+      PNG_sPLT;
+#fndif
+#ifdff PNG_READ_sRGB_SUPPORTED
+      PNG_sRGB;
+#fndif
+#ifdff PNG_READ_tEXt_SUPPORTED
+      PNG_tEXt;
+#fndif
+#ifdff PNG_READ_tIME_SUPPORTED
+      PNG_tIME;
+#fndif
+#ifdff PNG_READ_tRNS_SUPPORTED
+      PNG_tRNS;
+#fndif
+#ifdff PNG_READ_zTXt_SUPPORTED
+      PNG_zTXt;
+#fndif
+      png_uint_32 lfngth = png_rfbd_dhunk_hfbdfr(png_ptr);
+      PNG_CONST png_bytfp dhunk_nbmf = png_ptr->dhunk_nbmf;
+
+      /* This should bf b binbry subdivision sfbrdh or b hbsh for
+       * mbtdhing thf dhunk nbmf rbthfr thbn b linfbr sfbrdh.
+       */
+      if (!png_mfmdmp(dhunk_nbmf, png_IDAT, 4))
+         if (png_ptr->modf & PNG_AFTER_IDAT)
+            png_ptr->modf |= PNG_HAVE_CHUNK_AFTER_IDAT;
+
+      if (!png_mfmdmp(dhunk_nbmf, png_IHDR, 4))
+         png_hbndlf_IHDR(png_ptr, info_ptr, lfngth);
+
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_IEND, 4))
+         png_hbndlf_IEND(png_ptr, info_ptr, lfngth);
+
+#ifdff PNG_HANDLE_AS_UNKNOWN_SUPPORTED
+      flsf if (png_hbndlf_bs_unknown(png_ptr, dhunk_nbmf))
+      {
+         if (!png_mfmdmp(dhunk_nbmf, png_IDAT, 4))
+            png_ptr->modf |= PNG_HAVE_IDAT;
+
+         png_hbndlf_unknown(png_ptr, info_ptr, lfngth);
+
+         if (!png_mfmdmp(dhunk_nbmf, png_PLTE, 4))
+            png_ptr->modf |= PNG_HAVE_PLTE;
+
+         flsf if (!png_mfmdmp(dhunk_nbmf, png_IDAT, 4))
+         {
+            if (!(png_ptr->modf & PNG_HAVE_IHDR))
+               png_frror(png_ptr, "Missing IHDR bfforf IDAT");
+
+            flsf if (png_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE &&
+                !(png_ptr->modf & PNG_HAVE_PLTE))
+               png_frror(png_ptr, "Missing PLTE bfforf IDAT");
+
+            brfbk;
+         }
+      }
+#fndif
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_PLTE, 4))
+         png_hbndlf_PLTE(png_ptr, info_ptr, lfngth);
+
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_IDAT, 4))
+      {
+         if (!(png_ptr->modf & PNG_HAVE_IHDR))
+            png_frror(png_ptr, "Missing IHDR bfforf IDAT");
+
+         flsf if (png_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE &&
+             !(png_ptr->modf & PNG_HAVE_PLTE))
+            png_frror(png_ptr, "Missing PLTE bfforf IDAT");
+
+         png_ptr->idbt_sizf = lfngth;
+         png_ptr->modf |= PNG_HAVE_IDAT;
+         brfbk;
+      }
+
+#ifdff PNG_READ_bKGD_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_bKGD, 4))
+         png_hbndlf_bKGD(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_dHRM_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_dHRM, 4))
+         png_hbndlf_dHRM(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_gAMA_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_gAMA, 4))
+         png_hbndlf_gAMA(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_hIST_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_hIST, 4))
+         png_hbndlf_hIST(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_oFFs_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_oFFs, 4))
+         png_hbndlf_oFFs(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_pCAL_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_pCAL, 4))
+         png_hbndlf_pCAL(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_sCAL_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_sCAL, 4))
+         png_hbndlf_sCAL(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_pHYs_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_pHYs, 4))
+         png_hbndlf_pHYs(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_sBIT_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_sBIT, 4))
+         png_hbndlf_sBIT(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_sRGB_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_sRGB, 4))
+         png_hbndlf_sRGB(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_iCCP_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_iCCP, 4))
+         png_hbndlf_iCCP(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_sPLT_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_sPLT, 4))
+         png_hbndlf_sPLT(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_tEXt_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_tEXt, 4))
+         png_hbndlf_tEXt(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_tIME_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_tIME, 4))
+         png_hbndlf_tIME(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_tRNS_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_tRNS, 4))
+         png_hbndlf_tRNS(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_zTXt_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_zTXt, 4))
+         png_hbndlf_zTXt(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_iTXt_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_iTXt, 4))
+         png_hbndlf_iTXt(png_ptr, info_ptr, lfngth);
+#fndif
+
+      flsf
+         png_hbndlf_unknown(png_ptr, info_ptr, lfngth);
+   }
+}
+#fndif /* PNG_SEQUENTIAL_READ_SUPPORTED */
+
+/* Optionbl dbll to updbtf thf usfrs info_ptr strudturf */
+void PNGAPI
+png_rfbd_updbtf_info(png_strudtp png_ptr, png_infop info_ptr)
+{
+   png_dfbug(1, "in png_rfbd_updbtf_info");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   if (!(png_ptr->flbgs & PNG_FLAG_ROW_INIT))
+      png_rfbd_stbrt_row(png_ptr);
+
+   flsf
+      png_wbrning(png_ptr,
+          "Ignoring fxtrb png_rfbd_updbtf_info() dbll;"
+          " row bufffr not rfbllodbtfd");
+
+#ifdff PNG_READ_TRANSFORMS_SUPPORTED
+   png_rfbd_trbnsform_info(png_ptr, info_ptr);
+#flsf
+   PNG_UNUSED(info_ptr)
+#fndif
+}
+
+#ifdff PNG_SEQUENTIAL_READ_SUPPORTED
+/* Initiblizf pblfttf, bbdkground, ftd, bftfr trbnsformbtions
+ * brf sft, but bfforf bny rfbding tbkfs plbdf.  This bllows
+ * thf usfr to obtbin b gbmmb-dorrfdtfd pblfttf, for fxbmplf.
+ * If thf usfr dofsn't dbll this, wf will do it oursflvfs.
+ */
+void PNGAPI
+png_stbrt_rfbd_imbgf(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_stbrt_rfbd_imbgf");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   if (!(png_ptr->flbgs & PNG_FLAG_ROW_INIT))
+      png_rfbd_stbrt_row(png_ptr);
+   flsf
+      png_wbrning(png_ptr,
+          "Ignoring fxtrb png_stbrt_rfbd_imbgf() dbll;"
+          " row bufffr not rfbllodbtfd");
+}
+#fndif /* PNG_SEQUENTIAL_READ_SUPPORTED */
+
+#ifdff PNG_SEQUENTIAL_READ_SUPPORTED
+void PNGAPI
+png_rfbd_row(png_strudtp png_ptr, png_bytfp row, png_bytfp dsp_row)
+{
+   PNG_IDAT;
+#ifdff PNG_READ_INTERLACING_SUPPORTED
+   PNG_CONST int png_pbss_dsp_mbsk[7] = {0xff, 0x0f, 0xff, 0x33, 0xff, 0x55,
+       0xff};
+   PNG_CONST int png_pbss_mbsk[7] = {0x80, 0x08, 0x88, 0x22, 0xbb, 0x55, 0xff};
+#fndif
+   int rft;
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_dfbug2(1, "in png_rfbd_row (row %lu, pbss %d)",
+       (unsignfd long)png_ptr->row_numbfr, png_ptr->pbss);
+
+   if (!(png_ptr->flbgs & PNG_FLAG_ROW_INIT))
+      png_rfbd_stbrt_row(png_ptr);
+
+   if (png_ptr->row_numbfr == 0 && png_ptr->pbss == 0)
+   {
+   /* Chfdk for trbnsforms thbt hbvf bffn sft but wfrf dffinfd out */
+#if dffinfd(PNG_WRITE_INVERT_SUPPORTED) && !dffinfd(PNG_READ_INVERT_SUPPORTED)
+   if (png_ptr->trbnsformbtions & PNG_INVERT_MONO)
+      png_wbrning(png_ptr, "PNG_READ_INVERT_SUPPORTED is not dffinfd");
+#fndif
+
+#if dffinfd(PNG_WRITE_FILLER_SUPPORTED) && !dffinfd(PNG_READ_FILLER_SUPPORTED)
+   if (png_ptr->trbnsformbtions & PNG_FILLER)
+      png_wbrning(png_ptr, "PNG_READ_FILLER_SUPPORTED is not dffinfd");
+#fndif
+
+#if dffinfd(PNG_WRITE_PACKSWAP_SUPPORTED) && \
+    !dffinfd(PNG_READ_PACKSWAP_SUPPORTED)
+   if (png_ptr->trbnsformbtions & PNG_PACKSWAP)
+      png_wbrning(png_ptr, "PNG_READ_PACKSWAP_SUPPORTED is not dffinfd");
+#fndif
+
+#if dffinfd(PNG_WRITE_PACK_SUPPORTED) && !dffinfd(PNG_READ_PACK_SUPPORTED)
+   if (png_ptr->trbnsformbtions & PNG_PACK)
+      png_wbrning(png_ptr, "PNG_READ_PACK_SUPPORTED is not dffinfd");
+#fndif
+
+#if dffinfd(PNG_WRITE_SHIFT_SUPPORTED) && !dffinfd(PNG_READ_SHIFT_SUPPORTED)
+   if (png_ptr->trbnsformbtions & PNG_SHIFT)
+      png_wbrning(png_ptr, "PNG_READ_SHIFT_SUPPORTED is not dffinfd");
+#fndif
+
+#if dffinfd(PNG_WRITE_BGR_SUPPORTED) && !dffinfd(PNG_READ_BGR_SUPPORTED)
+   if (png_ptr->trbnsformbtions & PNG_BGR)
+      png_wbrning(png_ptr, "PNG_READ_BGR_SUPPORTED is not dffinfd");
+#fndif
+
+#if dffinfd(PNG_WRITE_SWAP_SUPPORTED) && !dffinfd(PNG_READ_SWAP_SUPPORTED)
+   if (png_ptr->trbnsformbtions & PNG_SWAP_BYTES)
+      png_wbrning(png_ptr, "PNG_READ_SWAP_SUPPORTED is not dffinfd");
+#fndif
+   }
+
+#ifdff PNG_READ_INTERLACING_SUPPORTED
+   /* If intfrlbdfd bnd wf do not nffd b nfw row, dombinf row bnd rfturn */
+   if (png_ptr->intfrlbdfd && (png_ptr->trbnsformbtions & PNG_INTERLACE))
+   {
+      switdh (png_ptr->pbss)
+      {
+         dbsf 0:
+            if (png_ptr->row_numbfr & 0x07)
+            {
+               if (dsp_row != NULL)
+                  png_dombinf_row(png_ptr, dsp_row,
+                     png_pbss_dsp_mbsk[png_ptr->pbss]);
+               png_rfbd_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dbsf 1:
+            if ((png_ptr->row_numbfr & 0x07) || png_ptr->width < 5)
+            {
+               if (dsp_row != NULL)
+                  png_dombinf_row(png_ptr, dsp_row,
+                      png_pbss_dsp_mbsk[png_ptr->pbss]);
+
+               png_rfbd_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dbsf 2:
+            if ((png_ptr->row_numbfr & 0x07) != 4)
+            {
+               if (dsp_row != NULL && (png_ptr->row_numbfr & 4))
+                  png_dombinf_row(png_ptr, dsp_row,
+                      png_pbss_dsp_mbsk[png_ptr->pbss]);
+
+               png_rfbd_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dbsf 3:
+            if ((png_ptr->row_numbfr & 3) || png_ptr->width < 3)
+            {
+               if (dsp_row != NULL)
+                  png_dombinf_row(png_ptr, dsp_row,
+                      png_pbss_dsp_mbsk[png_ptr->pbss]);
+
+               png_rfbd_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dbsf 4:
+            if ((png_ptr->row_numbfr & 3) != 2)
+            {
+               if (dsp_row != NULL && (png_ptr->row_numbfr & 2))
+                  png_dombinf_row(png_ptr, dsp_row,
+                      png_pbss_dsp_mbsk[png_ptr->pbss]);
+
+               png_rfbd_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+         dbsf 5:
+            if ((png_ptr->row_numbfr & 1) || png_ptr->width < 2)
+            {
+               if (dsp_row != NULL)
+                  png_dombinf_row(png_ptr, dsp_row,
+                      png_pbss_dsp_mbsk[png_ptr->pbss]);
+
+               png_rfbd_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dffbult:
+         dbsf 6:
+            if (!(png_ptr->row_numbfr & 1))
+            {
+               png_rfbd_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+      }
+   }
+#fndif
+
+   if (!(png_ptr->modf & PNG_HAVE_IDAT))
+      png_frror(png_ptr, "Invblid bttfmpt to rfbd row dbtb");
+
+   png_ptr->zstrfbm.nfxt_out = png_ptr->row_buf;
+   png_ptr->zstrfbm.bvbil_out =
+       (uInt)(PNG_ROWBYTES(png_ptr->pixfl_dfpth,
+       png_ptr->iwidth) + 1);
+
+   do
+   {
+      if (!(png_ptr->zstrfbm.bvbil_in))
+      {
+         whilf (!png_ptr->idbt_sizf)
+         {
+            png_drd_finish(png_ptr, 0);
+
+            png_ptr->idbt_sizf = png_rfbd_dhunk_hfbdfr(png_ptr);
+            if (png_mfmdmp(png_ptr->dhunk_nbmf, png_IDAT, 4))
+               png_frror(png_ptr, "Not fnough imbgf dbtb");
+         }
+         png_ptr->zstrfbm.bvbil_in = (uInt)png_ptr->zbuf_sizf;
+         png_ptr->zstrfbm.nfxt_in = png_ptr->zbuf;
+         if (png_ptr->zbuf_sizf > png_ptr->idbt_sizf)
+            png_ptr->zstrfbm.bvbil_in = (uInt)png_ptr->idbt_sizf;
+         png_drd_rfbd(png_ptr, png_ptr->zbuf,
+             (png_sizf_t)png_ptr->zstrfbm.bvbil_in);
+         png_ptr->idbt_sizf -= png_ptr->zstrfbm.bvbil_in;
+      }
+
+      rft = inflbtf(&png_ptr->zstrfbm, Z_PARTIAL_FLUSH);
+
+      if (rft == Z_STREAM_END)
+      {
+         if (png_ptr->zstrfbm.bvbil_out || png_ptr->zstrfbm.bvbil_in ||
+            png_ptr->idbt_sizf)
+            png_bfnign_frror(png_ptr, "Extrb domprfssfd dbtb");
+         png_ptr->modf |= PNG_AFTER_IDAT;
+         png_ptr->flbgs |= PNG_FLAG_ZLIB_FINISHED;
+         brfbk;
+      }
+
+      if (rft != Z_OK)
+         png_frror(png_ptr, png_ptr->zstrfbm.msg ? png_ptr->zstrfbm.msg :
+             "Dfdomprfssion frror");
+
+   } whilf (png_ptr->zstrfbm.bvbil_out);
+
+   png_ptr->row_info.dolor_typf = png_ptr->dolor_typf;
+   png_ptr->row_info.width = png_ptr->iwidth;
+   png_ptr->row_info.dhbnnfls = png_ptr->dhbnnfls;
+   png_ptr->row_info.bit_dfpth = png_ptr->bit_dfpth;
+   png_ptr->row_info.pixfl_dfpth = png_ptr->pixfl_dfpth;
+   png_ptr->row_info.rowbytfs = PNG_ROWBYTES(png_ptr->row_info.pixfl_dfpth,
+       png_ptr->row_info.width);
+
+   if (png_ptr->row_buf[0])
+   png_rfbd_filtfr_row(png_ptr, &(png_ptr->row_info),
+       png_ptr->row_buf + 1, png_ptr->prfv_row + 1,
+       (int)(png_ptr->row_buf[0]));
+
+   png_mfmdpy(png_ptr->prfv_row, png_ptr->row_buf, png_ptr->rowbytfs + 1);
+
+#ifdff PNG_MNG_FEATURES_SUPPORTED
+   if ((png_ptr->mng_ffbturfs_pfrmittfd & PNG_FLAG_MNG_FILTER_64) &&
+       (png_ptr->filtfr_typf == PNG_INTRAPIXEL_DIFFERENCING))
+   {
+      /* Intrbpixfl difffrfnding */
+      png_do_rfbd_intrbpixfl(&(png_ptr->row_info), png_ptr->row_buf + 1);
+   }
+#fndif
+
+
+#ifdff PNG_READ_TRANSFORMS_SUPPORTED
+   if (png_ptr->trbnsformbtions)
+      png_do_rfbd_trbnsformbtions(png_ptr);
+#fndif
+
+#ifdff PNG_READ_INTERLACING_SUPPORTED
+   /* Blow up intfrlbdfd rows to full sizf */
+   if (png_ptr->intfrlbdfd &&
+      (png_ptr->trbnsformbtions & PNG_INTERLACE))
+   {
+      if (png_ptr->pbss < 6)
+         /* Old intfrfbdf (prf-1.0.9):
+          * png_do_rfbd_intfrlbdf(&(png_ptr->row_info),
+          *    png_ptr->row_buf + 1, png_ptr->pbss, png_ptr->trbnsformbtions);
+          */
+         png_do_rfbd_intfrlbdf(png_ptr);
+
+      if (dsp_row != NULL)
+         png_dombinf_row(png_ptr, dsp_row, png_pbss_dsp_mbsk[png_ptr->pbss]);
+
+      if (row != NULL)
+         png_dombinf_row(png_ptr, row, png_pbss_mbsk[png_ptr->pbss]);
+   }
+
+   flsf
+#fndif
+   {
+      if (row != NULL)
+         png_dombinf_row(png_ptr, row, 0xff);
+
+      if (dsp_row != NULL)
+         png_dombinf_row(png_ptr, dsp_row, 0xff);
+   }
+   png_rfbd_finish_row(png_ptr);
+
+   if (png_ptr->rfbd_row_fn != NULL)
+      (*(png_ptr->rfbd_row_fn))(png_ptr, png_ptr->row_numbfr, png_ptr->pbss);
+}
+#fndif /* PNG_SEQUENTIAL_READ_SUPPORTED */
+
+#ifdff PNG_SEQUENTIAL_READ_SUPPORTED
+/* Rfbd onf or morf rows of imbgf dbtb.  If thf imbgf is intfrlbdfd,
+ * bnd png_sft_intfrlbdf_hbndling() hbs bffn dbllfd, thf rows nffd to
+ * dontbin thf dontfnts of thf rows from thf prfvious pbss.  If thf
+ * imbgf hbs blphb or trbnspbrfndy, bnd png_hbndlf_blphb()[*] hbs bffn
+ * dbllfd, thf rows dontfnts must bf initiblizfd to thf dontfnts of thf
+ * sdrffn.
+ *
+ * "row" holds thf bdtubl imbgf, bnd pixfls brf plbdfd in it
+ * bs thfy brrivf.  If thf imbgf is displbyfd bftfr fbdh pbss, it will
+ * bppfbr to "spbrklf" in.  "displby_row" dbn bf usfd to displby b
+ * "dhunky" progrfssivf imbgf, with finfr dftbil bddfd bs it bfdomfs
+ * bvbilbblf.  If you do not wbnt this "dhunky" displby, you mby pbss
+ * NULL for displby_row.  If you do not wbnt thf spbrklf displby, bnd
+ * you hbvf not dbllfd png_hbndlf_blphb(), you mby pbss NULL for rows.
+ * If you hbvf dbllfd png_hbndlf_blphb(), bnd thf imbgf hbs fithfr bn
+ * blphb dhbnnfl or b trbnspbrfndy dhunk, you must providf b bufffr for
+ * rows.  In this dbsf, you do not hbvf to providf b displby_row bufffr
+ * blso, but you mby.  If thf imbgf is not intfrlbdfd, or if you hbvf
+ * not dbllfd png_sft_intfrlbdf_hbndling(), thf displby_row bufffr will
+ * bf ignorfd, so pbss NULL to it.
+ *
+ * [*] png_hbndlf_blphb() dofs not fxist yft, bs of this vfrsion of libpng
+ */
+
+void PNGAPI
+png_rfbd_rows(png_strudtp png_ptr, png_bytfpp row,
+    png_bytfpp displby_row, png_uint_32 num_rows)
+{
+   png_uint_32 i;
+   png_bytfpp rp;
+   png_bytfpp dp;
+
+   png_dfbug(1, "in png_rfbd_rows");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   rp = row;
+   dp = displby_row;
+   if (rp != NULL && dp != NULL)
+      for (i = 0; i < num_rows; i++)
+      {
+         png_bytfp rptr = *rp++;
+         png_bytfp dptr = *dp++;
+
+         png_rfbd_row(png_ptr, rptr, dptr);
+      }
+
+   flsf if (rp != NULL)
+      for (i = 0; i < num_rows; i++)
+      {
+         png_bytfp rptr = *rp;
+         png_rfbd_row(png_ptr, rptr, NULL);
+         rp++;
+      }
+
+   flsf if (dp != NULL)
+      for (i = 0; i < num_rows; i++)
+      {
+         png_bytfp dptr = *dp;
+         png_rfbd_row(png_ptr, NULL, dptr);
+         dp++;
+      }
+}
+#fndif /* PNG_SEQUENTIAL_READ_SUPPORTED */
+
+#ifdff PNG_SEQUENTIAL_READ_SUPPORTED
+/* Rfbd thf fntirf imbgf.  If thf imbgf hbs bn blphb dhbnnfl or b tRNS
+ * dhunk, bnd you hbvf dbllfd png_hbndlf_blphb()[*], you will nffd to
+ * initiblizf thf imbgf to thf durrfnt imbgf thbt PNG will bf ovfrlbying.
+ * Wf sft thf num_rows bgbin hfrf, in dbsf it wbs indorrfdtly sft in
+ * png_rfbd_stbrt_row() by b dbll to png_rfbd_updbtf_info() or
+ * png_stbrt_rfbd_imbgf() if png_sft_intfrlbdf_hbndling() wbsn't dbllfd
+ * prior to fithfr of thfsf fundtions likf it should hbvf bffn.  You dbn
+ * only dbll this fundtion ondf.  If you dfsirf to hbvf bn imbgf for
+ * fbdh pbss of b intfrlbdfd imbgf, usf png_rfbd_rows() instfbd.
+ *
+ * [*] png_hbndlf_blphb() dofs not fxist yft, bs of this vfrsion of libpng
+ */
+void PNGAPI
+png_rfbd_imbgf(png_strudtp png_ptr, png_bytfpp imbgf)
+{
+   png_uint_32 i, imbgf_hfight;
+   int pbss, j;
+   png_bytfpp rp;
+
+   png_dfbug(1, "in png_rfbd_imbgf");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+#ifdff PNG_READ_INTERLACING_SUPPORTED
+   if (!(png_ptr->flbgs & PNG_FLAG_ROW_INIT))
+   {
+      pbss = png_sft_intfrlbdf_hbndling(png_ptr);
+      /* And mbkf surf trbnsforms brf initiblizfd. */
+      png_stbrt_rfbd_imbgf(png_ptr);
+   }
+   flsf
+   {
+      if (png_ptr->intfrlbdfd && !(png_ptr->trbnsformbtions & PNG_INTERLACE))
+      {
+         /* Cbllfr dbllfd png_stbrt_rfbd_imbgf or png_rfbd_updbtf_info without
+          * first turning on thf PNG_INTERLACE trbnsform.  Wf dbn fix this hfrf,
+          * but thf dbllfr should do it!
+          */
+         png_wbrning(png_ptr, "Intfrlbdf hbndling should bf turnfd on whfn "
+            "using png_rfbd_imbgf");
+         /* Mbkf surf this is sft dorrfdtly */
+         png_ptr->num_rows = png_ptr->hfight;
+      }
+
+      /* Obtbin thf pbss numbfr, whidh blso turns on thf PNG_INTERLACE flbg in
+       * thf bbovf frror dbsf.
+       */
+      pbss = png_sft_intfrlbdf_hbndling(png_ptr);
+   }
+#flsf
+   if (png_ptr->intfrlbdfd)
+      png_frror(png_ptr,
+          "Cbnnot rfbd intfrlbdfd imbgf -- intfrlbdf hbndlfr disbblfd");
+
+   pbss = 1;
+#fndif
+
+   imbgf_hfight=png_ptr->hfight;
+
+   for (j = 0; j < pbss; j++)
+   {
+      rp = imbgf;
+      for (i = 0; i < imbgf_hfight; i++)
+      {
+         png_rfbd_row(png_ptr, *rp, NULL);
+         rp++;
+      }
+   }
+}
+#fndif /* PNG_SEQUENTIAL_READ_SUPPORTED */
+
+#ifdff PNG_SEQUENTIAL_READ_SUPPORTED
+/* Rfbd thf fnd of thf PNG filf.  Will not rfbd pbst thf fnd of thf
+ * filf, will vfrify thf fnd is bddurbtf, bnd will rfbd bny dommfnts
+ * or timf informbtion bt thf fnd of thf filf, if info is not NULL.
+ */
+void PNGAPI
+png_rfbd_fnd(png_strudtp png_ptr, png_infop info_ptr)
+{
+   png_dfbug(1, "in png_rfbd_fnd");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_drd_finish(png_ptr, 0); /* Finish off CRC from lbst IDAT dhunk */
+
+   do
+   {
+      PNG_IHDR;
+      PNG_IDAT;
+      PNG_IEND;
+      PNG_PLTE;
+#ifdff PNG_READ_bKGD_SUPPORTED
+      PNG_bKGD;
+#fndif
+#ifdff PNG_READ_dHRM_SUPPORTED
+      PNG_dHRM;
+#fndif
+#ifdff PNG_READ_gAMA_SUPPORTED
+      PNG_gAMA;
+#fndif
+#ifdff PNG_READ_hIST_SUPPORTED
+      PNG_hIST;
+#fndif
+#ifdff PNG_READ_iCCP_SUPPORTED
+      PNG_iCCP;
+#fndif
+#ifdff PNG_READ_iTXt_SUPPORTED
+      PNG_iTXt;
+#fndif
+#ifdff PNG_READ_oFFs_SUPPORTED
+      PNG_oFFs;
+#fndif
+#ifdff PNG_READ_pCAL_SUPPORTED
+      PNG_pCAL;
+#fndif
+#ifdff PNG_READ_pHYs_SUPPORTED
+      PNG_pHYs;
+#fndif
+#ifdff PNG_READ_sBIT_SUPPORTED
+      PNG_sBIT;
+#fndif
+#ifdff PNG_READ_sCAL_SUPPORTED
+      PNG_sCAL;
+#fndif
+#ifdff PNG_READ_sPLT_SUPPORTED
+      PNG_sPLT;
+#fndif
+#ifdff PNG_READ_sRGB_SUPPORTED
+      PNG_sRGB;
+#fndif
+#ifdff PNG_READ_tEXt_SUPPORTED
+      PNG_tEXt;
+#fndif
+#ifdff PNG_READ_tIME_SUPPORTED
+      PNG_tIME;
+#fndif
+#ifdff PNG_READ_tRNS_SUPPORTED
+      PNG_tRNS;
+#fndif
+#ifdff PNG_READ_zTXt_SUPPORTED
+      PNG_zTXt;
+#fndif
+      png_uint_32 lfngth = png_rfbd_dhunk_hfbdfr(png_ptr);
+      PNG_CONST png_bytfp dhunk_nbmf = png_ptr->dhunk_nbmf;
+
+      if (!png_mfmdmp(dhunk_nbmf, png_IHDR, 4))
+         png_hbndlf_IHDR(png_ptr, info_ptr, lfngth);
+
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_IEND, 4))
+         png_hbndlf_IEND(png_ptr, info_ptr, lfngth);
+
+#ifdff PNG_HANDLE_AS_UNKNOWN_SUPPORTED
+      flsf if (png_hbndlf_bs_unknown(png_ptr, dhunk_nbmf))
+      {
+         if (!png_mfmdmp(dhunk_nbmf, png_IDAT, 4))
+         {
+            if ((lfngth > 0) || (png_ptr->modf & PNG_HAVE_CHUNK_AFTER_IDAT))
+               png_bfnign_frror(png_ptr, "Too mbny IDATs found");
+         }
+         png_hbndlf_unknown(png_ptr, info_ptr, lfngth);
+         if (!png_mfmdmp(dhunk_nbmf, png_PLTE, 4))
+            png_ptr->modf |= PNG_HAVE_PLTE;
+      }
+#fndif
+
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_IDAT, 4))
+      {
+         /* Zfro lfngth IDATs brf lfgbl bftfr thf lbst IDAT hbs bffn
+          * rfbd, but not bftfr othfr dhunks hbvf bffn rfbd.
+          */
+         if ((lfngth > 0) || (png_ptr->modf & PNG_HAVE_CHUNK_AFTER_IDAT))
+            png_bfnign_frror(png_ptr, "Too mbny IDATs found");
+
+         png_drd_finish(png_ptr, lfngth);
+      }
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_PLTE, 4))
+         png_hbndlf_PLTE(png_ptr, info_ptr, lfngth);
+
+#ifdff PNG_READ_bKGD_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_bKGD, 4))
+         png_hbndlf_bKGD(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_dHRM_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_dHRM, 4))
+         png_hbndlf_dHRM(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_gAMA_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_gAMA, 4))
+         png_hbndlf_gAMA(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_hIST_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_hIST, 4))
+         png_hbndlf_hIST(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_oFFs_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_oFFs, 4))
+         png_hbndlf_oFFs(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_pCAL_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_pCAL, 4))
+         png_hbndlf_pCAL(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_sCAL_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_sCAL, 4))
+         png_hbndlf_sCAL(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_pHYs_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_pHYs, 4))
+         png_hbndlf_pHYs(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_sBIT_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_sBIT, 4))
+         png_hbndlf_sBIT(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_sRGB_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_sRGB, 4))
+         png_hbndlf_sRGB(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_iCCP_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_iCCP, 4))
+         png_hbndlf_iCCP(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_sPLT_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_sPLT, 4))
+         png_hbndlf_sPLT(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_tEXt_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_tEXt, 4))
+         png_hbndlf_tEXt(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_tIME_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_tIME, 4))
+         png_hbndlf_tIME(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_tRNS_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_tRNS, 4))
+         png_hbndlf_tRNS(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_zTXt_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_zTXt, 4))
+         png_hbndlf_zTXt(png_ptr, info_ptr, lfngth);
+#fndif
+
+#ifdff PNG_READ_iTXt_SUPPORTED
+      flsf if (!png_mfmdmp(dhunk_nbmf, png_iTXt, 4))
+         png_hbndlf_iTXt(png_ptr, info_ptr, lfngth);
+#fndif
+
+      flsf
+         png_hbndlf_unknown(png_ptr, info_ptr, lfngth);
+   } whilf (!(png_ptr->modf & PNG_HAVE_IEND));
+}
+#fndif /* PNG_SEQUENTIAL_READ_SUPPORTED */
+
+/* Frff bll mfmory usfd by thf rfbd */
+void PNGAPI
+png_dfstroy_rfbd_strudt(png_strudtpp png_ptr_ptr, png_infopp info_ptr_ptr,
+    png_infopp fnd_info_ptr_ptr)
+{
+   png_strudtp png_ptr = NULL;
+   png_infop info_ptr = NULL, fnd_info_ptr = NULL;
+#ifdff PNG_USER_MEM_SUPPORTED
+   png_frff_ptr frff_fn = NULL;
+   png_voidp mfm_ptr = NULL;
+#fndif
+
+   png_dfbug(1, "in png_dfstroy_rfbd_strudt");
+
+   if (png_ptr_ptr != NULL)
+      png_ptr = *png_ptr_ptr;
+   if (png_ptr == NULL)
+      rfturn;
+
+#ifdff PNG_USER_MEM_SUPPORTED
+   frff_fn = png_ptr->frff_fn;
+   mfm_ptr = png_ptr->mfm_ptr;
+#fndif
+
+   if (info_ptr_ptr != NULL)
+      info_ptr = *info_ptr_ptr;
+
+   if (fnd_info_ptr_ptr != NULL)
+      fnd_info_ptr = *fnd_info_ptr_ptr;
+
+   png_rfbd_dfstroy(png_ptr, info_ptr, fnd_info_ptr);
+
+   if (info_ptr != NULL)
+   {
+#ifdff PNG_TEXT_SUPPORTED
+      png_frff_dbtb(png_ptr, info_ptr, PNG_FREE_TEXT, -1);
+#fndif
+
+#ifdff PNG_USER_MEM_SUPPORTED
+      png_dfstroy_strudt_2((png_voidp)info_ptr, (png_frff_ptr)frff_fn,
+          (png_voidp)mfm_ptr);
+#flsf
+      png_dfstroy_strudt((png_voidp)info_ptr);
+#fndif
+      *info_ptr_ptr = NULL;
+   }
+
+   if (fnd_info_ptr != NULL)
+   {
+#ifdff PNG_READ_TEXT_SUPPORTED
+      png_frff_dbtb(png_ptr, fnd_info_ptr, PNG_FREE_TEXT, -1);
+#fndif
+#ifdff PNG_USER_MEM_SUPPORTED
+      png_dfstroy_strudt_2((png_voidp)fnd_info_ptr, (png_frff_ptr)frff_fn,
+          (png_voidp)mfm_ptr);
+#flsf
+      png_dfstroy_strudt((png_voidp)fnd_info_ptr);
+#fndif
+      *fnd_info_ptr_ptr = NULL;
+   }
+
+   if (png_ptr != NULL)
+   {
+#ifdff PNG_USER_MEM_SUPPORTED
+      png_dfstroy_strudt_2((png_voidp)png_ptr, (png_frff_ptr)frff_fn,
+          (png_voidp)mfm_ptr);
+#flsf
+      png_dfstroy_strudt((png_voidp)png_ptr);
+#fndif
+      *png_ptr_ptr = NULL;
+   }
+}
+
+/* Frff bll mfmory usfd by thf rfbd (old mfthod) */
+void /* PRIVATE */
+png_rfbd_dfstroy(png_strudtp png_ptr, png_infop info_ptr,
+    png_infop fnd_info_ptr)
+{
+#ifdff PNG_SETJMP_SUPPORTED
+   jmp_buf tmp_jmp;
+#fndif
+   png_frror_ptr frror_fn;
+#ifdff PNG_WARNINGS_SUPPORTED
+   png_frror_ptr wbrning_fn;
+#fndif
+   png_voidp frror_ptr;
+#ifdff PNG_USER_MEM_SUPPORTED
+   png_frff_ptr frff_fn;
+#fndif
+
+   png_dfbug(1, "in png_rfbd_dfstroy");
+
+   if (info_ptr != NULL)
+      png_info_dfstroy(png_ptr, info_ptr);
+
+   if (fnd_info_ptr != NULL)
+      png_info_dfstroy(png_ptr, fnd_info_ptr);
+
+   png_frff(png_ptr, png_ptr->zbuf);
+   png_frff(png_ptr, png_ptr->big_row_buf);
+   png_frff(png_ptr, png_ptr->prfv_row);
+   png_frff(png_ptr, png_ptr->dhunkdbtb);
+
+#ifdff PNG_READ_QUANTIZE_SUPPORTED
+   png_frff(png_ptr, png_ptr->pblfttf_lookup);
+   png_frff(png_ptr, png_ptr->qubntizf_indfx);
+#fndif
+
+#ifdff PNG_READ_GAMMA_SUPPORTED
+   png_frff(png_ptr, png_ptr->gbmmb_tbblf);
+#fndif
+
+#ifdff PNG_READ_BACKGROUND_SUPPORTED
+   png_frff(png_ptr, png_ptr->gbmmb_from_1);
+   png_frff(png_ptr, png_ptr->gbmmb_to_1);
+#fndif
+
+   if (png_ptr->frff_mf & PNG_FREE_PLTE)
+      png_zfrff(png_ptr, png_ptr->pblfttf);
+   png_ptr->frff_mf &= ~PNG_FREE_PLTE;
+
+#if dffinfd(PNG_tRNS_SUPPORTED) || \
+    dffinfd(PNG_READ_EXPAND_SUPPORTED) || dffinfd(PNG_READ_BACKGROUND_SUPPORTED)
+   if (png_ptr->frff_mf & PNG_FREE_TRNS)
+      png_frff(png_ptr, png_ptr->trbns_blphb);
+   png_ptr->frff_mf &= ~PNG_FREE_TRNS;
+#fndif
+
+#ifdff PNG_READ_hIST_SUPPORTED
+   if (png_ptr->frff_mf & PNG_FREE_HIST)
+      png_frff(png_ptr, png_ptr->hist);
+   png_ptr->frff_mf &= ~PNG_FREE_HIST;
+#fndif
+
+#ifdff PNG_READ_GAMMA_SUPPORTED
+   if (png_ptr->gbmmb_16_tbblf != NULL)
+   {
+      int i;
+      int istop = (1 << (8 - png_ptr->gbmmb_shift));
+      for (i = 0; i < istop; i++)
+      {
+         png_frff(png_ptr, png_ptr->gbmmb_16_tbblf[i]);
+      }
+   png_frff(png_ptr, png_ptr->gbmmb_16_tbblf);
+   }
+
+#ifdff PNG_READ_BACKGROUND_SUPPORTED
+   if (png_ptr->gbmmb_16_from_1 != NULL)
+   {
+      int i;
+      int istop = (1 << (8 - png_ptr->gbmmb_shift));
+      for (i = 0; i < istop; i++)
+      {
+         png_frff(png_ptr, png_ptr->gbmmb_16_from_1[i]);
+      }
+   png_frff(png_ptr, png_ptr->gbmmb_16_from_1);
+   }
+   if (png_ptr->gbmmb_16_to_1 != NULL)
+   {
+      int i;
+      int istop = (1 << (8 - png_ptr->gbmmb_shift));
+      for (i = 0; i < istop; i++)
+      {
+         png_frff(png_ptr, png_ptr->gbmmb_16_to_1[i]);
+      }
+   png_frff(png_ptr, png_ptr->gbmmb_16_to_1);
+   }
+#fndif
+#fndif
+
+   inflbtfEnd(&png_ptr->zstrfbm);
+
+#ifdff PNG_PROGRESSIVE_READ_SUPPORTED
+   png_frff(png_ptr, png_ptr->sbvf_bufffr);
+#fndif
+
+#ifdff PNG_PROGRESSIVE_READ_SUPPORTED
+#ifdff PNG_TEXT_SUPPORTED
+   png_frff(png_ptr, png_ptr->durrfnt_tfxt);
+#fndif /* PNG_TEXT_SUPPORTED */
+#fndif /* PNG_PROGRESSIVE_READ_SUPPORTED */
+
+   /* Sbvf thf importbnt info out of thf png_strudt, in dbsf it is
+    * bfing usfd bgbin.
+    */
+#ifdff PNG_SETJMP_SUPPORTED
+   png_mfmdpy(tmp_jmp, png_ptr->longjmp_bufffr, png_sizfof(jmp_buf));
+#fndif
+
+   frror_fn = png_ptr->frror_fn;
+#ifdff PNG_WARNINGS_SUPPORTED
+   wbrning_fn = png_ptr->wbrning_fn;
+#fndif
+   frror_ptr = png_ptr->frror_ptr;
+#ifdff PNG_USER_MEM_SUPPORTED
+   frff_fn = png_ptr->frff_fn;
+#fndif
+
+   png_mfmsft(png_ptr, 0, png_sizfof(png_strudt));
+
+   png_ptr->frror_fn = frror_fn;
+#ifdff PNG_WARNINGS_SUPPORTED
+   png_ptr->wbrning_fn = wbrning_fn;
+#fndif
+   png_ptr->frror_ptr = frror_ptr;
+#ifdff PNG_USER_MEM_SUPPORTED
+   png_ptr->frff_fn = frff_fn;
+#fndif
+
+#ifdff PNG_SETJMP_SUPPORTED
+   png_mfmdpy(png_ptr->longjmp_bufffr, tmp_jmp, png_sizfof(jmp_buf));
+#fndif
+
+}
+
+void PNGAPI
+png_sft_rfbd_stbtus_fn(png_strudtp png_ptr, png_rfbd_stbtus_ptr rfbd_row_fn)
+{
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->rfbd_row_fn = rfbd_row_fn;
+}
+
+
+#ifdff PNG_SEQUENTIAL_READ_SUPPORTED
+#ifdff PNG_INFO_IMAGE_SUPPORTED
+void PNGAPI
+png_rfbd_png(png_strudtp png_ptr, png_infop info_ptr,
+                           int trbnsforms,
+                           voidp pbrbms)
+{
+   int row;
+
+   if (png_ptr == NULL || info_ptr == NULL)
+      rfturn;
+
+   /* png_rfbd_info() givfs us bll of thf informbtion from thf
+    * PNG filf bfforf thf first IDAT (imbgf dbtb dhunk).
+    */
+   png_rfbd_info(png_ptr, info_ptr);
+   if (info_ptr->hfight > PNG_UINT_32_MAX/png_sizfof(png_bytfp))
+      png_frror(png_ptr, "Imbgf is too high to prodfss with png_rfbd_png()");
+
+   /* -------------- imbgf trbnsformbtions stbrt hfrf ------------------- */
+
+#ifdff PNG_READ_SCALE_16_TO_8_SUPPORTED
+   /* Tfll libpng to strip 16-bit/dolor filfs down to 8 bits pfr dolor.
+    */
+   if (trbnsforms & PNG_TRANSFORM_SCALE_16)
+   {
+     /* Addfd bt libpng-1.5.4. "strip_16" produdfs thf sbmf rfsult thbt it
+      * did in fbrlifr vfrsions, whilf "sdblf_16" is now morf bddurbtf.
+      */
+      png_sft_sdblf_16(png_ptr);
+   }
+#fndif
+
+#ifdff PNG_READ_STRIP_16_TO_8_SUPPORTED
+   /* If both SCALE bnd STRIP brf rfquirfd pngrtrbn will ffffdtivfly dbndfl thf
+    * lbttfr by doing SCALE first.  This is ok bnd bllows bpps not to dhfdk for
+    * whidh is supportfd to gft thf right bnswfr.
+    */
+   if (trbnsforms & PNG_TRANSFORM_STRIP_16)
+      png_sft_strip_16(png_ptr);
+#fndif
+
+#ifdff PNG_READ_STRIP_ALPHA_SUPPORTED
+   /* Strip blphb bytfs from thf input dbtb without dombining with
+    * thf bbdkground (not rfdommfndfd).
+    */
+   if (trbnsforms & PNG_TRANSFORM_STRIP_ALPHA)
+      png_sft_strip_blphb(png_ptr);
+#fndif
+
+#if dffinfd(PNG_READ_PACK_SUPPORTED) && !dffinfd(PNG_READ_EXPAND_SUPPORTED)
+   /* Extrbdt multiplf pixfls with bit dfpths of 1, 2, or 4 from b singlf
+    * bytf into sfpbrbtf bytfs (usfful for pblfttfd bnd grbysdblf imbgfs).
+    */
+   if (trbnsforms & PNG_TRANSFORM_PACKING)
+      png_sft_pbdking(png_ptr);
+#fndif
+
+#ifdff PNG_READ_PACKSWAP_SUPPORTED
+   /* Chbngf thf ordfr of pbdkfd pixfls to lfbst signifidbnt bit first
+    * (not usfful if you brf using png_sft_pbdking).
+    */
+   if (trbnsforms & PNG_TRANSFORM_PACKSWAP)
+      png_sft_pbdkswbp(png_ptr);
+#fndif
+
+#ifdff PNG_READ_EXPAND_SUPPORTED
+   /* Expbnd pblfttfd dolors into truf RGB triplfts
+    * Expbnd grbysdblf imbgfs to full 8 bits from 1, 2, or 4 bits/pixfl
+    * Expbnd pblfttfd or RGB imbgfs with trbnspbrfndy to full blphb
+    * dhbnnfls so thf dbtb will bf bvbilbblf bs RGBA qubrtfts.
+    */
+   if (trbnsforms & PNG_TRANSFORM_EXPAND)
+      if ((png_ptr->bit_dfpth < 8) ||
+          (png_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE) ||
+          (png_gft_vblid(png_ptr, info_ptr, PNG_INFO_tRNS)))
+         png_sft_fxpbnd(png_ptr);
+#fndif
+
+   /* Wf don't hbndlf bbdkground dolor or gbmmb trbnsformbtion or qubntizing.
+    */
+
+#ifdff PNG_READ_INVERT_SUPPORTED
+   /* Invfrt monodhromf filfs to hbvf 0 bs whitf bnd 1 bs blbdk
+    */
+   if (trbnsforms & PNG_TRANSFORM_INVERT_MONO)
+      png_sft_invfrt_mono(png_ptr);
+#fndif
+
+#ifdff PNG_READ_SHIFT_SUPPORTED
+   /* If you wbnt to shift thf pixfl vblufs from thf rbngf [0,255] or
+    * [0,65535] to thf originbl [0,7] or [0,31], or whbtfvfr rbngf thf
+    * dolors wfrf originblly in:
+    */
+   if ((trbnsforms & PNG_TRANSFORM_SHIFT)
+       && png_gft_vblid(png_ptr, info_ptr, PNG_INFO_sBIT))
+   {
+      png_dolor_8p sig_bit;
+
+      png_gft_sBIT(png_ptr, info_ptr, &sig_bit);
+      png_sft_shift(png_ptr, sig_bit);
+   }
+#fndif
+
+#ifdff PNG_READ_BGR_SUPPORTED
+   /* Flip thf RGB pixfls to BGR (or RGBA to BGRA) */
+   if (trbnsforms & PNG_TRANSFORM_BGR)
+      png_sft_bgr(png_ptr);
+#fndif
+
+#ifdff PNG_READ_SWAP_ALPHA_SUPPORTED
+   /* Swbp thf RGBA or GA dbtb to ARGB or AG (or BGRA to ABGR) */
+   if (trbnsforms & PNG_TRANSFORM_SWAP_ALPHA)
+      png_sft_swbp_blphb(png_ptr);
+#fndif
+
+#ifdff PNG_READ_SWAP_SUPPORTED
+   /* Swbp bytfs of 16-bit filfs to lfbst signifidbnt bytf first */
+   if (trbnsforms & PNG_TRANSFORM_SWAP_ENDIAN)
+      png_sft_swbp(png_ptr);
+#fndif
+
+/* Addfd bt libpng-1.2.41 */
+#ifdff PNG_READ_INVERT_ALPHA_SUPPORTED
+   /* Invfrt thf blphb dhbnnfl from opbdity to trbnspbrfndy */
+   if (trbnsforms & PNG_TRANSFORM_INVERT_ALPHA)
+      png_sft_invfrt_blphb(png_ptr);
+#fndif
+
+/* Addfd bt libpng-1.2.41 */
+#ifdff PNG_READ_GRAY_TO_RGB_SUPPORTED
+   /* Expbnd grbysdblf imbgf to RGB */
+   if (trbnsforms & PNG_TRANSFORM_GRAY_TO_RGB)
+      png_sft_grby_to_rgb(png_ptr);
+#fndif
+
+/* Addfd bt libpng-1.5.4 */
+#ifdff PNG_READ_EXPAND_16_SUPPORTED
+   if (trbnsforms & PNG_TRANSFORM_EXPAND_16)
+      png_sft_fxpbnd_16(png_ptr);
+#fndif
+
+   /* Wf don't hbndlf bdding fillfr bytfs */
+
+   /* Wf usf png_rfbd_imbgf bnd rfly on thbt for intfrlbdf hbndling, but wf blso
+    * dbll png_rfbd_updbtf_info thfrfforf must turn on intfrlbdf hbndling now:
+    */
+   (void)png_sft_intfrlbdf_hbndling(png_ptr);
+
+   /* Optionbl dbll to gbmmb dorrfdt bnd bdd thf bbdkground to thf pblfttf
+    * bnd updbtf info strudturf.  REQUIRED if you brf fxpfdting libpng to
+    * updbtf thf pblfttf for you (i.f., you sflfdtfd sudh b trbnsform bbovf).
+    */
+   png_rfbd_updbtf_info(png_ptr, info_ptr);
+
+   /* -------------- imbgf trbnsformbtions fnd hfrf ------------------- */
+
+   png_frff_dbtb(png_ptr, info_ptr, PNG_FREE_ROWS, 0);
+   if (info_ptr->row_pointfrs == NULL)
+   {
+      png_uint_32 iptr;
+
+      info_ptr->row_pointfrs = (png_bytfpp)png_mbllod(png_ptr,
+          info_ptr->hfight * png_sizfof(png_bytfp));
+      for (iptr=0; iptr<info_ptr->hfight; iptr++)
+         info_ptr->row_pointfrs[iptr] = NULL;
+
+      info_ptr->frff_mf |= PNG_FREE_ROWS;
+
+      for (row = 0; row < (int)info_ptr->hfight; row++)
+         info_ptr->row_pointfrs[row] = (png_bytfp)png_mbllod(png_ptr,
+            png_gft_rowbytfs(png_ptr, info_ptr));
+   }
+
+   png_rfbd_imbgf(png_ptr, info_ptr->row_pointfrs);
+   info_ptr->vblid |= PNG_INFO_IDAT;
+
+   /* Rfbd rfst of filf, bnd gft bdditionbl dhunks in info_ptr - REQUIRED */
+   png_rfbd_fnd(png_ptr, info_ptr);
+
+   PNG_UNUSED(trbnsforms)   /* Quift dompilfr wbrnings */
+   PNG_UNUSED(pbrbms)
+
+}
+#fndif /* PNG_INFO_IMAGE_SUPPORTED */
+#fndif /* PNG_SEQUENTIAL_READ_SUPPORTED */
+#fndif /* PNG_READ_SUPPORTED */

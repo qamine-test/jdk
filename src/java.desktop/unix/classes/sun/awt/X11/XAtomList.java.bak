@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * Helper class to ease the work with the lists of atoms.
+ * Hflpfr dlbss to fbsf tif work witi tif lists of btoms.
  */
-class XAtomList {
-    Set<XAtom> atoms = new HashSet<XAtom>();
+dlbss XAtomList {
+    Sft<XAtom> btoms = nfw HbsiSft<XAtom>();
 
     /**
-     * Creates empty list.
+     * Crfbtfs fmpty list.
      */
-    public XAtomList() {
+    publid XAtomList() {
     }
 
     /**
-     * Creates instance of XAtomList and initializes it with
-     * the contents pointer by <code>data</code>.
-     * Uses default display to initialize atoms.
+     * Crfbtfs instbndf of XAtomList bnd initiblizfs it witi
+     * tif dontfnts pointfr by <dodf>dbtb</dodf>.
+     * Usfs dffbult displby to initiblizf btoms.
      */
-    public XAtomList(long data, int count) {
-        init(data, count);
+    publid XAtomList(long dbtb, int dount) {
+        init(dbtb, dount);
     }
-    private void init(long data, int count) {
-        for (int i = 0; i < count; i++) {
-            add(new XAtom(XToolkit.getDisplay(), XAtom.getAtom(data+count*XAtom.getAtomSize())));
+    privbtf void init(long dbtb, int dount) {
+        for (int i = 0; i < dount; i++) {
+            bdd(nfw XAtom(XToolkit.gftDisplby(), XAtom.gftAtom(dbtb+dount*XAtom.gftAtomSizf())));
         }
     }
 
     /**
-     * Creates instance of XAtomList and initializes it with
-     * the arrays of atoms. Array can contain null atoms.
+     * Crfbtfs instbndf of XAtomList bnd initiblizfs it witi
+     * tif brrbys of btoms. Arrby dbn dontbin null btoms.
      */
-    public XAtomList(XAtom[] atoms) {
-        init(atoms);
+    publid XAtomList(XAtom[] btoms) {
+        init(btoms);
     }
-    private void init(XAtom[] atoms) {
-        for (int i = 0; i < atoms.length; i++) {
-            add(atoms[i]);
+    privbtf void init(XAtom[] btoms) {
+        for (int i = 0; i < btoms.lfngti; i++) {
+            bdd(btoms[i]);
         }
     }
 
     /**
-     * Returns contents of the list as array of atoms.
+     * Rfturns dontfnts of tif list bs brrby of btoms.
      */
-    public XAtom[] getAtoms() {
-        XAtom[] res = new XAtom[size()];
-        Iterator<XAtom> iter = atoms.iterator();
+    publid XAtom[] gftAtoms() {
+        XAtom[] rfs = nfw XAtom[sizf()];
+        Itfrbtor<XAtom> itfr = btoms.itfrbtor();
         int i = 0;
-        while (iter.hasNext()) {
-            res[i++] = iter.next();
+        wiilf (itfr.ibsNfxt()) {
+            rfs[i++] = itfr.nfxt();
         }
-        return res;
+        rfturn rfs;
     }
 
     /**
-     * Returns contents of the list as pointer to native data
-     * The size of the native data is size of the list multiplied by
-     * size of the Atom type on the platform. Caller is responsible for
-     * freeing the data by Unsafe.freeMemory when it is no longer needed.
+     * Rfturns dontfnts of tif list bs pointfr to nbtivf dbtb
+     * Tif sizf of tif nbtivf dbtb is sizf of tif list multiplifd by
+     * sizf of tif Atom typf on tif plbtform. Cbllfr is rfsponsiblf for
+     * frffing tif dbtb by Unsbff.frffMfmory wifn it is no longfr nffdfd.
      */
-    public long getAtomsData() {
-        return XAtom.toData(getAtoms());
+    publid long gftAtomsDbtb() {
+        rfturn XAtom.toDbtb(gftAtoms());
     }
 
     /**
-     * Returns true if this list contains the atom <code>atom</code>
+     * Rfturns truf if tiis list dontbins tif btom <dodf>btom</dodf>
      */
-    public boolean contains(XAtom atom) {
-        return atoms.contains(atom);
+    publid boolfbn dontbins(XAtom btom) {
+        rfturn btoms.dontbins(btom);
     }
 
     /**
-     * Add atom to the list. Does nothing if list already contains this atom.
+     * Add btom to tif list. Dofs notiing if list blrfbdy dontbins tiis btom.
      */
-    public void add(XAtom atom) {
-        atoms.add(atom);
+    publid void bdd(XAtom btom) {
+        btoms.bdd(btom);
     }
 
     /**
-     * Removes atom from the list. Does nothing if arrays doesn't conaint this atom.
+     * Rfmovfs btom from tif list. Dofs notiing if brrbys dofsn't donbint tiis btom.
      */
-    public void remove(XAtom atom) {
-        atoms.remove(atom);
+    publid void rfmovf(XAtom btom) {
+        btoms.rfmovf(btom);
     }
 
 
     /**
-     * Returns size of the list
+     * Rfturns sizf of tif list
      */
-    public int size() {
-        return atoms.size();
+    publid int sizf() {
+        rfturn btoms.sizf();
     }
 
     /**
-     * Returns a subset of a list which is intersection of this set and set build by mapping <code>mask</code> in
-     * <code>mapping</code>.
+     * Rfturns b subsft of b list wiidi is intfrsfdtion of tiis sft bnd sft build by mbpping <dodf>mbsk</dodf> in
+     * <dodf>mbpping</dodf>.
      */
-    public XAtomList subset(int mask, Map<Integer, XAtom> mapping) {
-        XAtomList res = new XAtomList();
-        Iterator<Integer> iter = mapping.keySet().iterator();
-        while (iter.hasNext()) {
-            Integer bits = iter.next();
-            if ( (mask & bits.intValue()) == bits.intValue() ) {
-                XAtom atom = mapping.get(bits);
-                if (contains(atom)) {
-                    res.add(atom);
+    publid XAtomList subsft(int mbsk, Mbp<Intfgfr, XAtom> mbpping) {
+        XAtomList rfs = nfw XAtomList();
+        Itfrbtor<Intfgfr> itfr = mbpping.kfySft().itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            Intfgfr bits = itfr.nfxt();
+            if ( (mbsk & bits.intVbluf()) == bits.intVbluf() ) {
+                XAtom btom = mbpping.gft(bits);
+                if (dontbins(btom)) {
+                    rfs.bdd(btom);
                 }
             }
         }
-        return res;
+        rfturn rfs;
     }
 
     /**
-     * Returns iterator for items.
+     * Rfturns itfrbtor for itfms.
      */
-    public Iterator<XAtom> iterator() {
-        return atoms.iterator();
+    publid Itfrbtor<XAtom> itfrbtor() {
+        rfturn btoms.itfrbtor();
     }
 
     /**
-     * Merges without duplicates all the atoms from another list
+     * Mfrgfs witiout duplidbtfs bll tif btoms from bnotifr list
      */
-    public void addAll(XAtomList atoms) {
-        Iterator<XAtom> iter = atoms.iterator();
-        while(iter.hasNext()) {
-            add(iter.next());
+    publid void bddAll(XAtomList btoms) {
+        Itfrbtor<XAtom> itfr = btoms.itfrbtor();
+        wiilf(itfr.ibsNfxt()) {
+            bdd(itfr.nfxt());
         }
     }
 
-    public String toString() {
-        StringBuffer buf = new StringBuffer();
-        buf.append("[");
-        Iterator<XAtom> iter = atoms.iterator();
-        while (iter.hasNext()) {
-            buf.append(iter.next().toString());
-            if (iter.hasNext()) {
-                buf.append(", ");
+    publid String toString() {
+        StringBufffr buf = nfw StringBufffr();
+        buf.bppfnd("[");
+        Itfrbtor<XAtom> itfr = btoms.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            buf.bppfnd(itfr.nfxt().toString());
+            if (itfr.ibsNfxt()) {
+                buf.bppfnd(", ");
             }
         }
-        buf.append("]");
-        return buf.toString();
+        buf.bppfnd("]");
+        rfturn buf.toString();
     }
 }

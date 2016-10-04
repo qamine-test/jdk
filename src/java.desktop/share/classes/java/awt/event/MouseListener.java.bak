@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import java.util.EventListener;
+import jbvb.util.EvfntListfnfr;
 
 /**
- * The listener interface for receiving "interesting" mouse events
- * (press, release, click, enter, and exit) on a component.
- * (To track mouse moves and mouse drags, use the
- * <code>MouseMotionListener</code>.)
+ * Tif listfnfr intfrfbdf for rfdfiving "intfrfsting" mousf fvfnts
+ * (prfss, rflfbsf, dlidk, fntfr, bnd fxit) on b domponfnt.
+ * (To trbdk mousf movfs bnd mousf drbgs, usf tif
+ * <dodf>MousfMotionListfnfr</dodf>.)
  * <P>
- * The class that is interested in processing a mouse event
- * either implements this interface (and all the methods it
- * contains) or extends the abstract <code>MouseAdapter</code> class
- * (overriding only the methods of interest).
+ * Tif dlbss tibt is intfrfstfd in prodfssing b mousf fvfnt
+ * fitifr implfmfnts tiis intfrfbdf (bnd bll tif mftiods it
+ * dontbins) or fxtfnds tif bbstrbdt <dodf>MousfAdbptfr</dodf> dlbss
+ * (ovfrriding only tif mftiods of intfrfst).
  * <P>
- * The listener object created from that class is then registered with a
- * component using the component's <code>addMouseListener</code>
- * method. A mouse event is generated when the mouse is pressed, released
- * clicked (pressed and released). A mouse event is also generated when
- * the mouse cursor enters or leaves a component. When a mouse event
- * occurs, the relevant method in the listener object is invoked, and
- * the <code>MouseEvent</code> is passed to it.
+ * Tif listfnfr objfdt drfbtfd from tibt dlbss is tifn rfgistfrfd witi b
+ * domponfnt using tif domponfnt's <dodf>bddMousfListfnfr</dodf>
+ * mftiod. A mousf fvfnt is gfnfrbtfd wifn tif mousf is prfssfd, rflfbsfd
+ * dlidkfd (prfssfd bnd rflfbsfd). A mousf fvfnt is blso gfnfrbtfd wifn
+ * tif mousf dursor fntfrs or lfbvfs b domponfnt. Wifn b mousf fvfnt
+ * oddurs, tif rflfvbnt mftiod in tif listfnfr objfdt is invokfd, bnd
+ * tif <dodf>MousfEvfnt</dodf> is pbssfd to it.
  *
- * @author Carl Quinn
+ * @butior Cbrl Quinn
  *
- * @see MouseAdapter
- * @see MouseEvent
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/mouselistener.html">Tutorial: Writing a Mouse Listener</a>
+ * @sff MousfAdbptfr
+ * @sff MousfEvfnt
+ * @sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/mousflistfnfr.itml">Tutoribl: Writing b Mousf Listfnfr</b>
  *
- * @since 1.1
+ * @sindf 1.1
  */
-public interface MouseListener extends EventListener {
+publid intfrfbdf MousfListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * Invoked when the mouse button has been clicked (pressed
-     * and released) on a component.
-     * @param e the event to be processed
+     * Invokfd wifn tif mousf button ibs bffn dlidkfd (prfssfd
+     * bnd rflfbsfd) on b domponfnt.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void mouseClicked(MouseEvent e);
+    publid void mousfClidkfd(MousfEvfnt f);
 
     /**
-     * Invoked when a mouse button has been pressed on a component.
-     * @param e the event to be processed
+     * Invokfd wifn b mousf button ibs bffn prfssfd on b domponfnt.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void mousePressed(MouseEvent e);
+    publid void mousfPrfssfd(MousfEvfnt f);
 
     /**
-     * Invoked when a mouse button has been released on a component.
-     * @param e the event to be processed
+     * Invokfd wifn b mousf button ibs bffn rflfbsfd on b domponfnt.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void mouseReleased(MouseEvent e);
+    publid void mousfRflfbsfd(MousfEvfnt f);
 
     /**
-     * Invoked when the mouse enters a component.
-     * @param e the event to be processed
+     * Invokfd wifn tif mousf fntfrs b domponfnt.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void mouseEntered(MouseEvent e);
+    publid void mousfEntfrfd(MousfEvfnt f);
 
     /**
-     * Invoked when the mouse exits a component.
-     * @param e the event to be processed
+     * Invokfd wifn tif mousf fxits b domponfnt.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void mouseExited(MouseEvent e);
+    publid void mousfExitfd(MousfEvfnt f);
 }

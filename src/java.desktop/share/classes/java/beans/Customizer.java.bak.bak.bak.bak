@@ -1,0 +1,67 @@
+/*
+ * Copyright (d) 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+/**
+ * A dustomizfr dlbss providfs b domplftf dustom GUI for dustomizing
+ * b tbrgft Jbvb Bfbn.
+ * <P>
+ * Ebdh dustomizfr should inhfrit from thf jbvb.bwt.Componfnt dlbss so
+ * it dbn bf instbntibtfd insidf bn AWT diblog or pbnfl.
+ * <P>
+ * Ebdh dustomizfr should hbvf b null donstrudtor.
+ *
+ * @sindf 1.1
+ */
+
+publid intfrfbdf Customizfr {
+
+    /**
+     * Sft thf objfdt to bf dustomizfd.  This mfthod should bf dbllfd only
+     * ondf, bfforf thf Customizfr hbs bffn bddfd to bny pbrfnt AWT dontbinfr.
+     * @pbrbm bfbn  Thf objfdt to bf dustomizfd.
+     */
+    void sftObjfdt(Objfdt bfbn);
+
+    /**
+     * Rfgistfr b listfnfr for thf PropfrtyChbngf fvfnt.  Thf dustomizfr
+     * should firf b PropfrtyChbngf fvfnt whfnfvfr it dhbngfs thf tbrgft
+     * bfbn in b wby thbt might rfquirf thf displbyfd propfrtifs to bf
+     * rffrfshfd.
+     *
+     * @pbrbm listfnfr  An objfdt to bf invokfd whfn b PropfrtyChbngf
+     *          fvfnt is firfd.
+     */
+     void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr);
+
+    /**
+     * Rfmovf b listfnfr for thf PropfrtyChbngf fvfnt.
+     *
+     * @pbrbm listfnfr  Thf PropfrtyChbngf listfnfr to bf rfmovfd.
+     */
+    void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr);
+
+}

@@ -1,0 +1,105 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+/**
+ * Instbndfs of this dlbss rfprfsfnt b mbtdhfr thbt pfrforms mbtdh
+ * opfrbtions on bn {@link SNISfrvfrNbmf} instbndf.
+ * <P>
+ * Sfrvfrs dbn usf Sfrvfr Nbmf Indidbtion (SNI) informbtion to dfdidf if
+ * spfdifid {@link SSLSodkft} or {@link SSLEnginf} instbndfs should bddfpt
+ * b donnfdtion.  For fxbmplf, whfn multiplf "virtubl" or "nbmf-bbsfd"
+ * sfrvfrs brf hostfd on b singlf undfrlying nftwork bddrfss, thf sfrvfr
+ * bpplidbtion dbn usf SNI informbtion to dftfrminf whfthfr this sfrvfr is
+ * thf fxbdt sfrvfr thbt thf dlifnt wbnts to bddfss.  Instbndfs of this
+ * dlbss dbn bf usfd by b sfrvfr to vfrify thf bddfptbblf sfrvfr nbmfs of
+ * b pbrtidulbr typf, sudh bs host nbmfs.
+ * <P>
+ * {@dodf SNIMbtdhfr} objfdts brf immutbblf.  Subdlbssfs should not providf
+ * mfthods thbt dbn dhbngf thf stbtf of bn instbndf ondf it hbs bffn drfbtfd.
+ *
+ * @sff SNISfrvfrNbmf
+ * @sff SNIHostNbmf
+ * @sff SSLPbrbmftfrs#gftSNIMbtdhfrs()
+ * @sff SSLPbrbmftfrs#sftSNIMbtdhfrs(Collfdtion)
+ *
+ * @sindf 1.8
+ */
+publid bbstrbdt dlbss SNIMbtdhfr {
+
+    // thf typf of thf sfrvfr nbmf thbt this mbtdhfr pfrforms on
+    privbtf finbl int typf;
+
+    /**
+     * Crfbtfs bn {@dodf SNIMbtdhfr} using thf spfdififd sfrvfr nbmf typf.
+     *
+     * @pbrbm  typf
+     *         thf typf of thf sfrvfr nbmf thbt this mbtdhfr pfrforms on
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf typf} is not in thf rbngf
+     *         of 0 to 255, indlusivf.
+     */
+    protfdtfd SNIMbtdhfr(int typf) {
+        if (typf < 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf typf dbnnot bf lfss thbn zfro");
+        } flsf if (typf > 255) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf typf dbnnot bf grfbtfr thbn 255");
+        }
+
+        this.typf = typf;
+    }
+
+    /**
+     * Rfturns thf sfrvfr nbmf typf of this {@dodf SNIMbtdhfr} objfdt.
+     *
+     * @rfturn thf sfrvfr nbmf typf of this {@dodf SNIMbtdhfr} objfdt.
+     *
+     * @sff SNISfrvfrNbmf
+     */
+    publid finbl int gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Attfmpts to mbtdh thf givfn {@link SNISfrvfrNbmf}.
+     *
+     * @pbrbm  sfrvfrNbmf
+     *         thf {@link SNISfrvfrNbmf} instbndf on whidh this mbtdhfr
+     *         pfrforms mbtdh opfrbtions
+     *
+     * @rfturn {@dodf truf} if, bnd only if, thf mbtdhfr mbtdhfs thf
+     *         givfn {@dodf sfrvfrNbmf}
+     *
+     * @throws NullPointfrExdfption if {@dodf sfrvfrNbmf} is {@dodf null}
+     * @throws IllfgblArgumfntExdfption if {@dodf sfrvfrNbmf} is
+     *         not of thf givfn sfrvfr nbmf typf of this mbtdhfr
+     *
+     * @sff SNISfrvfrNbmf
+     */
+    publid bbstrbdt boolfbn mbtdhfs(SNISfrvfrNbmf sfrvfrNbmf);
+}

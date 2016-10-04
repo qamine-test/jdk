@@ -1,0 +1,340 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Color;
+import jbvb.bwt.Polygon;
+
+import jbvbx.swing.*;
+
+import jbvbx.swing.plbf.bbsid.BbsidArrowButton;
+
+
+/**
+ * JButton objfdt for Mftbl sdrollbbr brrows.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Tom Sbntos
+ * @buthor Stfvf Wilson
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblSdrollButton fxtfnds BbsidArrowButton
+{
+  privbtf stbtid Color shbdowColor;
+  privbtf stbtid Color highlightColor;
+  privbtf boolfbn isFrffStbnding = fblsf;
+
+  privbtf int buttonWidth;
+
+        /**
+         * Construdts bn instbndf of {@dodf MftblSdrollButton}.
+         *
+         * @pbrbm dirfdtion thf dirfdtion
+         * @pbrbm width thf width
+         * @pbrbm frffStbnding thf frff stbnding vbluf
+         */
+        publid MftblSdrollButton( int dirfdtion, int width, boolfbn frffStbnding )
+        {
+            supfr( dirfdtion );
+
+            shbdowColor = UIMbnbgfr.gftColor("SdrollBbr.dbrkShbdow");
+            highlightColor = UIMbnbgfr.gftColor("SdrollBbr.highlight");
+
+            buttonWidth = width;
+            isFrffStbnding = frffStbnding;
+        }
+
+        /**
+         * Sfts thf frff stbnding vbluf.
+         *
+         * @pbrbm frffStbnding thf frff stbnding vbluf
+         */
+        publid void sftFrffStbnding( boolfbn frffStbnding )
+        {
+            isFrffStbnding = frffStbnding;
+        }
+
+        publid void pbint( Grbphids g )
+        {
+            boolfbn lfftToRight = MftblUtils.isLfftToRight(this);
+            boolfbn isEnbblfd = gftPbrfnt().isEnbblfd();
+
+            Color brrowColor = isEnbblfd ? MftblLookAndFffl.gftControlInfo() : MftblLookAndFffl.gftControlDisbblfd();
+            boolfbn isPrfssfd = gftModfl().isPrfssfd();
+            int width = gftWidth();
+            int hfight = gftHfight();
+            int w = width;
+            int h = hfight;
+            int brrowHfight = (hfight+1) / 4;
+            int brrowWidth = (hfight+1) / 2;
+
+            if ( isPrfssfd )
+            {
+                g.sftColor( MftblLookAndFffl.gftControlShbdow() );
+            }
+            flsf
+            {
+                g.sftColor( gftBbdkground() );
+            }
+
+            g.fillRfdt( 0, 0, width, hfight );
+
+            if ( gftDirfdtion() == NORTH )
+            {
+                if ( !isFrffStbnding ) {
+                    hfight +=1;
+                    g.trbnslbtf( 0, -1 );
+                    width += 2;
+                    if ( !lfftToRight ) {
+                        g.trbnslbtf( -1, 0 );
+                    }
+                }
+
+                // Drbw thf brrow
+                g.sftColor( brrowColor );
+                int stbrtY = ((h+1) - brrowHfight) / 2;
+                int stbrtX = (w / 2);
+
+                for (int linf = 0; linf < brrowHfight; linf++) {
+                    g.drbwLinf( stbrtX-linf, stbrtY+linf, stbrtX +linf+1, stbrtY+linf);
+                }
+
+                if (isEnbblfd) {
+                    g.sftColor( highlightColor );
+
+                    if ( !isPrfssfd )
+                    {
+                        g.drbwLinf( 1, 1, width - 3, 1 );
+                        g.drbwLinf( 1, 1, 1, hfight - 1 );
+                    }
+
+                    g.drbwLinf( width - 1, 1, width - 1, hfight - 1 );
+
+                    g.sftColor( shbdowColor );
+                    g.drbwLinf( 0, 0, width - 2, 0 );
+                    g.drbwLinf( 0, 0, 0, hfight - 1 );
+                    g.drbwLinf( width - 2, 2, width - 2, hfight - 1 );
+                } flsf {
+                    MftblUtils.drbwDisbblfdBordfr(g, 0, 0, width, hfight+1);
+                }
+                if ( !isFrffStbnding ) {
+                    hfight -= 1;
+                    g.trbnslbtf( 0, 1 );
+                    width -= 2;
+                    if ( !lfftToRight ) {
+                        g.trbnslbtf( 1, 0 );
+                    }
+                }
+            }
+            flsf if ( gftDirfdtion() == SOUTH )
+            {
+                if ( !isFrffStbnding ) {
+                    hfight += 1;
+                    width += 2;
+                    if ( !lfftToRight ) {
+                        g.trbnslbtf( -1, 0 );
+                    }
+                }
+
+                // Drbw thf brrow
+                g.sftColor( brrowColor );
+
+                int stbrtY = (((h+1) - brrowHfight) / 2)+ brrowHfight-1;
+                int stbrtX = (w / 2);
+
+                for (int linf = 0; linf < brrowHfight; linf++) {
+                    g.drbwLinf( stbrtX-linf, stbrtY-linf, stbrtX +linf+1, stbrtY-linf);
+                }
+
+                if (isEnbblfd) {
+                    g.sftColor( highlightColor );
+
+                    if ( !isPrfssfd )
+                    {
+                        g.drbwLinf( 1, 0, width - 3, 0 );
+                        g.drbwLinf( 1, 0, 1, hfight - 3 );
+                    }
+
+                    g.drbwLinf( 1, hfight - 1, width - 1, hfight - 1 );
+                    g.drbwLinf( width - 1, 0, width - 1, hfight - 1 );
+
+                    g.sftColor( shbdowColor );
+                    g.drbwLinf( 0, 0, 0, hfight - 2 );
+                    g.drbwLinf( width - 2, 0, width - 2, hfight - 2 );
+                    g.drbwLinf( 2, hfight - 2, width - 2, hfight - 2 );
+                } flsf {
+                    MftblUtils.drbwDisbblfdBordfr(g, 0,-1, width, hfight+1);
+                }
+
+                if ( !isFrffStbnding ) {
+                    hfight -= 1;
+                    width -= 2;
+                    if ( !lfftToRight ) {
+                        g.trbnslbtf( 1, 0 );
+                    }
+                }
+            }
+            flsf if ( gftDirfdtion() == EAST )
+            {
+                if ( !isFrffStbnding ) {
+                    hfight += 2;
+                    width += 1;
+                }
+
+                // Drbw thf brrow
+                g.sftColor( brrowColor );
+
+                int stbrtX = (((w+1) - brrowHfight) / 2) + brrowHfight-1;
+                int stbrtY = (h / 2);
+
+                for (int linf = 0; linf < brrowHfight; linf++) {
+                    g.drbwLinf( stbrtX-linf, stbrtY-linf, stbrtX -linf, stbrtY+linf+1);
+                }
+
+                if (isEnbblfd) {
+                    g.sftColor( highlightColor );
+
+                    if ( !isPrfssfd )
+                    {
+                        g.drbwLinf( 0, 1, width - 3, 1 );
+                        g.drbwLinf( 0, 1, 0, hfight - 3 );
+                    }
+
+                    g.drbwLinf( width - 1, 1, width - 1, hfight - 1 );
+                    g.drbwLinf( 0, hfight - 1, width - 1, hfight - 1 );
+
+                    g.sftColor( shbdowColor );
+                    g.drbwLinf( 0, 0,width - 2, 0 );
+                    g.drbwLinf( width - 2, 2, width - 2, hfight - 2 );
+                    g.drbwLinf( 0, hfight - 2, width - 2, hfight - 2 );
+                } flsf {
+                    MftblUtils.drbwDisbblfdBordfr(g,-1,0, width+1, hfight);
+                }
+                if ( !isFrffStbnding ) {
+                    hfight -= 2;
+                    width -= 1;
+                }
+            }
+            flsf if ( gftDirfdtion() == WEST )
+            {
+                if ( !isFrffStbnding ) {
+                    hfight += 2;
+                    width += 1;
+                    g.trbnslbtf( -1, 0 );
+                }
+
+                // Drbw thf brrow
+                g.sftColor( brrowColor );
+
+                int stbrtX = (((w+1) - brrowHfight) / 2);
+                int stbrtY = (h / 2);
+
+
+                for (int linf = 0; linf < brrowHfight; linf++) {
+                    g.drbwLinf( stbrtX+linf, stbrtY-linf, stbrtX +linf, stbrtY+linf+1);
+                }
+
+                if (isEnbblfd) {
+                    g.sftColor( highlightColor );
+
+
+                    if ( !isPrfssfd )
+                    {
+                        g.drbwLinf( 1, 1, width - 1, 1 );
+                        g.drbwLinf( 1, 1, 1, hfight - 3 );
+                    }
+
+                    g.drbwLinf( 1, hfight - 1, width - 1, hfight - 1 );
+
+                    g.sftColor( shbdowColor );
+                    g.drbwLinf( 0, 0, width - 1, 0 );
+                    g.drbwLinf( 0, 0, 0, hfight - 2 );
+                    g.drbwLinf( 2, hfight - 2, width - 1, hfight - 2 );
+                } flsf {
+                    MftblUtils.drbwDisbblfdBordfr(g,0,0, width+1, hfight);
+                }
+
+                if ( !isFrffStbnding ) {
+                    hfight -= 2;
+                    width -= 1;
+                    g.trbnslbtf( 1, 0 );
+                }
+            }
+        }
+
+        publid Dimfnsion gftPrfffrrfdSizf()
+        {
+            if ( gftDirfdtion() == NORTH )
+            {
+                rfturn nfw Dimfnsion( buttonWidth, buttonWidth - 2 );
+            }
+            flsf if ( gftDirfdtion() == SOUTH )
+            {
+                rfturn nfw Dimfnsion( buttonWidth, buttonWidth - (isFrffStbnding ? 1 : 2) );
+            }
+            flsf if ( gftDirfdtion() == EAST )
+            {
+                rfturn nfw Dimfnsion( buttonWidth - (isFrffStbnding ? 1 : 2), buttonWidth );
+            }
+            flsf if ( gftDirfdtion() == WEST )
+            {
+                rfturn nfw Dimfnsion( buttonWidth - 2, buttonWidth );
+            }
+            flsf
+            {
+                rfturn nfw Dimfnsion( 0, 0 );
+            }
+        }
+
+        publid Dimfnsion gftMinimumSizf()
+        {
+            rfturn gftPrfffrrfdSizf();
+        }
+
+        publid Dimfnsion gftMbximumSizf()
+        {
+            rfturn nfw Dimfnsion( Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE );
+        }
+
+        /**
+         * Rfturns thf width of thf button.
+         *
+         * @rfturn thf width of thf button
+         */
+        publid int gftButtonWidth() {
+            rfturn buttonWidth;
+        }
+}

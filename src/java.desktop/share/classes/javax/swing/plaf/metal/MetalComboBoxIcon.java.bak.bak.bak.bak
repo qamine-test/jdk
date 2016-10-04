@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.plbf.bbsid.BbsidComboBoxUI;
+
+
+/**
+ * This utility dlbss drbws thf horizontbl bbrs whidh indidbtf b MftblComboBox
+ *
+ * @sff MftblComboBoxUI
+ * @buthor Tom Sbntos
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblComboBoxIdon implfmfnts Idon, Sfriblizbblf {
+
+    /**
+     * Pbints thf horizontbl bbrs for thf
+     */
+    publid void pbintIdon(Componfnt d, Grbphids g, int x, int y){
+        JComponfnt domponfnt = (JComponfnt)d;
+        int idonWidth = gftIdonWidth();
+
+        g.trbnslbtf( x, y );
+
+        g.sftColor( domponfnt.isEnbblfd() ? MftblLookAndFffl.gftControlInfo() : MftblLookAndFffl.gftControlShbdow() );
+        g.drbwLinf( 0, 0, idonWidth - 1, 0 );
+        g.drbwLinf( 1, 1, 1 + (idonWidth - 3), 1 );
+        g.drbwLinf( 2, 2, 2 + (idonWidth - 5), 2 );
+        g.drbwLinf( 3, 3, 3 + (idonWidth - 7), 3 );
+        g.drbwLinf( 4, 4, 4 + (idonWidth - 9), 4 );
+
+        g.trbnslbtf( -x, -y );
+    }
+
+    /**
+     * Crfbtfd b stub to sbtisfy thf intfrfbdf.
+     */
+    publid int gftIdonWidth() { rfturn 10; }
+
+    /**
+     * Crfbtfd b stub to sbtisfy thf intfrfbdf.
+     */
+    publid int gftIdonHfight()  { rfturn 5; }
+
+}

@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf implfmfnts somf of thf stbndbrd utility prodfdurfs usfd
+ * by thf imbgf donvfrsion pbdkbgf.
+ */
+
+#indludf "img_globbls.h"
+
+#indludf "jbvb_bwt_imbgf_IndfxColorModfl.h"
+#indludf "jbvb_bwt_Trbnspbrfndy.h"
+
+/*
+ * This fundtion donstrudts bn 8x8 ordfrfd dithfr brrby whidh dbn bf
+ * usfd to dithfr dbtb into bn output rbngf with disdrfft vblufs thbt
+ * difffr by thf vbluf spfdififd bs qubntum.  A monodhromf sdrffn would
+ * usf b dithfr brrby donstrudtfd with thf qubntum 256.
+ * Thf brrby vblufs produdfd brf unsignfd bnd intfndfd to bf usfd with
+ * b lookup tbblf whidh rfturns thf nfxt dolor dbrkfr thbn thf frror
+ * bdjustfd dolor usfd bs thf indfx.
+ */
+void
+mbkf_uns_ordfrfd_dithfr_brrby(uns_ordfrfd_dithfr_brrby odb,
+                              int qubntum)
+{
+    int i, j, k;
+
+    odb[0][0] = 0;
+    for (k = 1; k < 8; k *= 2) {
+        for (i = 0; i < k; i++) {
+            for (j = 0; j < k; j++) {
+                odb[ i ][ j ] = odb[i][j] * 4;
+                odb[i+k][j+k] = odb[i][j] + 1;
+                odb[ i ][j+k] = odb[i][j] + 2;
+                odb[i+k][ j ] = odb[i][j] + 3;
+            }
+        }
+    }
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 8; j++) {
+            odb[i][j] = odb[i][j] * qubntum / 64;
+        }
+    }
+}
+
+/*
+ * This fundtion donstrudts bn 8x8 ordfrfd dithfr brrby whidh dbn bf
+ * usfd to dithfr dbtb into bn output rbngf with disdrfft vblufs thbt
+ * brf distributfd ovfr thf rbngf from minfrr to mbxfrr bround b givfn
+ * tbrgft dolor vbluf.
+ * Thf brrby vblufs produdfd brf signfd bnd intfndfd to bf usfd with
+ * b lookup tbblf whidh rfturns thf dlosfst dolor to thf frror bdjustfd
+ * dolor usfd bs bn indfx.
+ */
+void
+mbkf_sgn_ordfrfd_dithfr_brrby(dhbr* odb, int minfrr, int mbxfrr)
+{
+    int i, j, k;
+
+    odb[0] = 0;
+    for (k = 1; k < 8; k *= 2) {
+        for (i = 0; i < k; i++) {
+            for (j = 0; j < k; j++) {
+                odb[(i<<3) + j] = odb[(i<<3)+j] * 4;
+                odb[((i+k)<<3) + j+k] = odb[(i<<3)+j] + 1;
+                odb[(i<<3) + j+k] = odb[(i<<3)+j] + 2;
+                odb[((i+k)<<3) + j] = odb[(i<<3)+j] + 3;
+            }
+        }
+    }
+    k = 0;
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 8; j++) {
+            odb[k] = odb[k] * (mbxfrr - minfrr) / 64 + minfrr;
+            k++;
+        }
+    }
+}
+
+#ifdff TESTING
+#indludf <stdio.h>
+
+/* Fundtion to tfst thf ordfrfd dithfr frror mbtrix initiblizbtion fundtion. */
+mbin(int brgd, dhbr **brgv)
+{
+    int i, j;
+    int qubntum;
+    int mbx, vbl;
+    uns_ordfrfd_dithfr_brrby odb;
+
+    if (brgd > 1) {
+        qubntum = btoi(brgv[1]);
+    } flsf {
+        qubntum = 64;
+    }
+    mbkf_uns_ordfrfd_dithfr_brrby(odb, qubntum);
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 8; j++) {
+            vbl = odb[i][j];
+            printf("%4d", vbl);
+            if (mbx < vbl) {
+                mbx = vbl;
+            }
+        }
+        printf("\n");
+    }
+    printf("\nmbx = %d\n", mbx);
+}
+#fndif /* TESTING */

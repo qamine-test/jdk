@@ -1,0 +1,165 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * Sflfdts thf proxy sfrvfr to usf, if bny, whfn donnfdting to thf
+ * nftwork rfsourdf rfffrfndfd by b URL. A proxy sflfdtor is b
+ * dondrftf sub-dlbss of this dlbss bnd is rfgistfrfd by invoking thf
+ * {@link jbvb.nft.ProxySflfdtor#sftDffbult sftDffbult} mfthod. Thf
+ * durrfntly rfgistfrfd proxy sflfdtor dbn bf rftrifvfd by dblling
+ * {@link jbvb.nft.ProxySflfdtor#gftDffbult gftDffbult} mfthod.
+ *
+ * <p> Whfn b proxy sflfdtor is rfgistfrfd, for instbndf, b subdlbss
+ * of URLConnfdtion dlbss should dbll thf {@link #sflfdt sflfdt}
+ * mfthod for fbdh URL rfqufst so thbt thf proxy sflfdtor dbn dfdidf
+ * if b dirfdt, or proxifd donnfdtion should bf usfd. Thf {@link
+ * #sflfdt sflfdt} mfthod rfturns bn itfrbtor ovfr b dollfdtion with
+ * thf prfffrrfd donnfdtion bpprobdh.
+ *
+ * <p> If b donnfdtion dbnnot bf fstbblishfd to b proxy (PROXY or
+ * SOCKS) sfrvfrs thfn thf dbllfr should dbll thf proxy sflfdtor's
+ * {@link #donnfdtFbilfd donnfdtFbilfd} mfthod to notify thf proxy
+ * sflfdtor thbt thf proxy sfrvfr is unbvbilbblf. </p>
+ *
+ * <P>Thf dffbult proxy sflfdtor dofs fnfordf b
+ * <b hrff="dod-filfs/nft-propfrtifs.html#Proxifs">sft of Systfm Propfrtifs</b>
+ * rflbtfd to proxy sfttings.</P>
+ *
+ * @buthor Yingxibn Wbng
+ * @buthor Jfbn-Christophf Collft
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss ProxySflfdtor {
+    /**
+     * Thf systfm widf proxy sflfdtor thbt sflfdts thf proxy sfrvfr to
+     * usf, if bny, whfn donnfdting to b rfmotf objfdt rfffrfndfd by
+     * bn URL.
+     *
+     * @sff #sftDffbult(ProxySflfdtor)
+     */
+    privbtf stbtid ProxySflfdtor thfProxySflfdtor;
+
+    stbtid {
+        try {
+            Clbss<?> d = Clbss.forNbmf("sun.nft.spi.DffbultProxySflfdtor");
+            if (d != null && ProxySflfdtor.dlbss.isAssignbblfFrom(d)) {
+                thfProxySflfdtor = (ProxySflfdtor) d.nfwInstbndf();
+            }
+        } dbtdh (Exdfption f) {
+            thfProxySflfdtor = null;
+        }
+    }
+
+    /**
+     * Gfts thf systfm-widf proxy sflfdtor.
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("gftProxySflfdtor")}
+     * @sff #sftDffbult(ProxySflfdtor)
+     * @rfturn thf systfm-widf {@dodf ProxySflfdtor}
+     * @sindf 1.5
+     */
+    publid stbtid ProxySflfdtor gftDffbult() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(SfdurityConstbnts.GET_PROXYSELECTOR_PERMISSION);
+        }
+        rfturn thfProxySflfdtor;
+    }
+
+    /**
+     * Sfts (or unsfts) thf systfm-widf proxy sflfdtor.
+     *
+     * Notf: non-stbndbrd protodol hbndlfrs mby ignorf this sftting.
+     *
+     * @pbrbm ps Thf HTTP proxy sflfdtor, or
+     *          {@dodf null} to unsft thf proxy sflfdtor.
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("sftProxySflfdtor")}
+     *
+     * @sff #gftDffbult()
+     * @sindf 1.5
+     */
+    publid stbtid void sftDffbult(ProxySflfdtor ps) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(SfdurityConstbnts.SET_PROXYSELECTOR_PERMISSION);
+        }
+        thfProxySflfdtor = ps;
+    }
+
+    /**
+     * Sflfdts bll thf bpplidbblf proxifs bbsfd on thf protodol to
+     * bddfss thf rfsourdf with bnd b dfstinbtion bddrfss to bddfss
+     * thf rfsourdf bt.
+     * Thf formbt of thf URI is dffinfd bs follow:
+     * <UL>
+     * <LI>http URI for http donnfdtions</LI>
+     * <LI>https URI for https donnfdtions
+     * <LI>{@dodf sodkft://host:port}<br>
+     *     for tdp dlifnt sodkfts donnfdtions</LI>
+     * </UL>
+     *
+     * @pbrbm   uri
+     *          Thf URI thbt b donnfdtion is rfquirfd to
+     *
+     * @rfturn  b List of Proxifs. Ebdh flfmfnt in thf
+     *          thf List is of typf
+     *          {@link jbvb.nft.Proxy Proxy};
+     *          whfn no proxy is bvbilbblf, thf list will
+     *          dontbin onf flfmfnt of typf
+     *          {@link jbvb.nft.Proxy Proxy}
+     *          thbt rfprfsfnts b dirfdt donnfdtion.
+     * @throws IllfgblArgumfntExdfption if thf brgumfnt is null
+     */
+    publid bbstrbdt List<Proxy> sflfdt(URI uri);
+
+    /**
+     * Cbllfd to indidbtf thbt b donnfdtion dould not bf fstbblishfd
+     * to b proxy/sodks sfrvfr. An implfmfntbtion of this mfthod dbn
+     * tfmporbrily rfmovf thf proxifs or rfordfr thf sfqufndf of
+     * proxifs rfturnfd by {@link #sflfdt(URI)}, using thf bddrfss
+     * bnd thf IOExdfption dbught whfn trying to donnfdt.
+     *
+     * @pbrbm   uri
+     *          Thf URI thbt thf proxy bt sb fbilfd to sfrvf.
+     * @pbrbm   sb
+     *          Thf sodkft bddrfss of thf proxy/SOCKS sfrvfr
+     *
+     * @pbrbm   iof
+     *          Thf I/O fxdfption thrown whfn thf donnfdt fbilfd.
+     * @throws IllfgblArgumfntExdfption if fithfr brgumfnt is null
+     */
+    publid bbstrbdt void donnfdtFbilfd(URI uri, SodkftAddrfss sb, IOExdfption iof);
+}

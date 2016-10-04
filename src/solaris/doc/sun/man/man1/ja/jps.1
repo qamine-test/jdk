@@ -1,49 +1,49 @@
 '\" t
-.\" Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: jps
-.\" Lbngubge: English
-.\" Dbte: 2013Ç¯11·î21Æü
-.\" SectDesc: ¥â¥Ë¥¿¥ê¥ó¥°¡¦¥Ä¡¼¥ë
-.\" Softwbre: JDK 8
-.\" Arch: ÈÆÍÑ
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jps
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013Ç¯11·î21Æü
+.\" SfdtDfsd: ¥â¥Ë¥¿¥ê¥ó¥°¡¦¥Ä¡¼¥ë
+.\" Softwbrf: JDK 8
+.\" Ardi: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
 .TH "jps" "1" "2013Ç¯11·î21Æü" "JDK 8" "¥â¥Ë¥¿¥ê¥ó¥°¡¦¥Ä¡¼¥ë"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
@@ -56,7 +56,7 @@ jps \- ¥¿¡¼¥²¥Ã¥È¡¦¥·¥¹¥Æ¥à¾å¤Ç·×Â¬¤µ¤ì¤¿Jbvb²¾ÁÛ¥Þ¥·¥ó(JVM)¤ò°ìÍ÷É½¼¨¤·¤Þ¤¹¡£¤³
 .RS 4
 .\}
 .nf
-\fIjps\fR [ \fIoptions\fR ] [ \fIhostid\fR ]
+\fIjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
 .fi
 .if n \{\
 .RE
@@ -67,15 +67,15 @@ jps \- ¥¿¡¼¥²¥Ã¥È¡¦¥·¥¹¥Æ¥à¾å¤Ç·×Â¬¤µ¤ì¤¿Jbvb²¾ÁÛ¥Þ¥·¥ó(JVM)¤ò°ìÍ÷É½¼¨¤·¤Þ¤¹¡£¤³
 ¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¡£¥ª¥×¥·¥ç¥ó¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .RE
 .PP
-\fIhostid\fR
+\fIiostid\fR
 .RS 4
-¥×¥í¥»¥¹¡¦¥ì¥Ý¡¼¥È¤òÀ¸À®¤¹¤ë¥Û¥¹¥È¤Î¼±ÊÌ»Ò¡£\fIhostid\fR¤Ë¤Ï¡¢ÄÌ¿®¥×¥í¥È¥³¥ë¡¢¥Ý¡¼¥ÈÈÖ¹æ¡¢¼ÂÁõ¤Ë¸ÇÍ­¤ÊÂ¾¤Î¥Ç¡¼¥¿¤ò»ØÄê¤·¤¿¥ª¥×¥·¥ç¥ó¡¦¥³¥ó¥Ý¡¼¥Í¥ó¥È¤ò´Þ¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¥Û¥¹¥È¼±ÊÌ»Ò¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
+¥×¥í¥»¥¹¡¦¥ì¥Ý¡¼¥È¤òÀ¸À®¤¹¤ë¥Û¥¹¥È¤Î¼±ÊÌ»Ò¡£\fIiostid\fR¤Ë¤Ï¡¢ÄÌ¿®¥×¥í¥È¥³¥ë¡¢¥Ý¡¼¥ÈÈÖ¹æ¡¢¼ÂÁõ¤Ë¸ÇÍ­¤ÊÂ¾¤Î¥Ç¡¼¥¿¤ò»ØÄê¤·¤¿¥ª¥×¥·¥ç¥ó¡¦¥³¥ó¥Ý¡¼¥Í¥ó¥È¤ò´Þ¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¥Û¥¹¥È¼±ÊÌ»Ò¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .RE
 .SH "ÀâÌÀ"
 .PP
 \fIjps\fR¥³¥Þ¥ó¥É¤Ï¡¢¥¿¡¼¥²¥Ã¥È¡¦¥·¥¹¥Æ¥à¾å¤Ç·×Â¬¤µ¤ì¤¿Jbvb HotSpot VM¤ò°ìÍ÷É½¼¨¤·¤Þ¤¹¡£¤³¤Î¥³¥Þ¥ó¥É¤ÇÉ½¼¨¤Ç¤­¤ë¥ì¥Ý¡¼¥È¾ðÊó¤Ï¡¢¥¢¥¯¥»¥¹¸¢¤ò»ý¤Ã¤¿JVM¤Ë´Ø¤¹¤ë¤â¤Î¤Ë¸ÂÄê¤µ¤ì¤Þ¤¹¡£
 .PP
-\fIhostid\fR¤ò»ØÄê¤»¤º¤Ë\fIjps\fR¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤·¤¿¾ì¹ç¡¢¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤Ç·×Â¬¤µ¤ì¤¿JVM¤¬¸¡º÷¤µ¤ì¤Þ¤¹¡£\fIhostid\fR¤ò»ØÄê¤·¤Æµ¯Æ°¤·¤¿¾ì¹ç¡¢»ØÄê¤µ¤ì¤¿¥×¥í¥È¥³¥ë¤È¥Ý¡¼¥È¤ò»ÈÍÑ¤·¤Æ¡¢»ØÄê¤µ¤ì¤¿¥Û¥¹¥È¾å¤ÎJVM¤ò¸¡º÷¤·¤Þ¤¹¡£\fIjstbtd\fR¥×¥í¥»¥¹¤¬¥¿¡¼¥²¥Ã¥È¡¦¥Û¥¹¥È¾å¤Ç¼Â¹Ô¤µ¤ì¤Æ¤¤¤ë¤ÈÁÛÄê¤µ¤ì¤Þ¤¹¡£
+\fIiostid\fR¤ò»ØÄê¤»¤º¤Ë\fIjps\fR¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤·¤¿¾ì¹ç¡¢¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤Ç·×Â¬¤µ¤ì¤¿JVM¤¬¸¡º÷¤µ¤ì¤Þ¤¹¡£\fIiostid\fR¤ò»ØÄê¤·¤Æµ¯Æ°¤·¤¿¾ì¹ç¡¢»ØÄê¤µ¤ì¤¿¥×¥í¥È¥³¥ë¤È¥Ý¡¼¥È¤ò»ÈÍÑ¤·¤Æ¡¢»ØÄê¤µ¤ì¤¿¥Û¥¹¥È¾å¤ÎJVM¤ò¸¡º÷¤·¤Þ¤¹¡£\fIjstbtd\fR¥×¥í¥»¥¹¤¬¥¿¡¼¥²¥Ã¥È¡¦¥Û¥¹¥È¾å¤Ç¼Â¹Ô¤µ¤ì¤Æ¤¤¤ë¤ÈÁÛÄê¤µ¤ì¤Þ¤¹¡£
 .PP
 \fIjps\fR¥³¥Þ¥ó¥É¤Ï¡¢¥¿¡¼¥²¥Ã¥È¡¦¥·¥¹¥Æ¥à¤Ç·×Â¬¤µ¤ì¤¿³ÆJVM¤Ë¤Ä¤¤¤Æ¡¢¥í¡¼¥«¥ëVM¼±ÊÌ»Ò¡¢¤Ä¤Þ¤ê\fIlvmid\fR¤ò¥ì¥Ý¡¼¥È¤·¤Þ¤¹¡£\fIlvmid\fR¤Ï¡¢°ìÈÌÅª¤Ë¤ÏJVM¥×¥í¥»¥¹¤ËÂÐ¤¹¤ë¥ª¥Ú¥ì¡¼¥Æ¥£¥ó¥°¡¦¥·¥¹¥Æ¥à¤Î¥×¥í¥»¥¹¼±ÊÌ»Ò¤Ç¤¹¤¬¡¢É¬¤º¤·¤â¤½¤¦¤Ç¤¢¤ë¤È¤Ï¸Â¤ê¤Þ¤»¤ó¡£¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤·¤Ê¤¤¾ì¹ç¡¢\fIjps\fR¤Ë¤è¤Ã¤Æ¡¢³ÆJbvb¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Î\fIlvmid\fR¤¬°ìÍ÷É½¼¨¤µ¤ì¡¢¤½¤ì¤¾¤ì¤Ë¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Î¥¯¥é¥¹Ì¾¤Þ¤¿¤ÏJAR¥Õ¥¡¥¤¥ëÌ¾¤¬´ÊÃ±¤Ê·Á¼°¤Ç¼¨¤µ¤ì¤Þ¤¹¡£¤³¤Î´ÊÃ±¤Ê·Á¼°¤Î¥¯¥é¥¹Ì¾¤ÈJAR¥Õ¥¡¥¤¥ëÌ¾¤Ç¤Ï¡¢¥¯¥é¥¹¤Î¥Ñ¥Ã¥±¡¼¥¸¾ðÊó¤Þ¤¿¤ÏJAR¥Õ¥¡¥¤¥ë¡¦¥Ñ¥¹¾ðÊó¤¬¾ÊÎ¬¤µ¤ì¤Æ¤¤¤Þ¤¹¡£
 .PP
@@ -117,35 +117,35 @@ JVM¤Ë\fIoption\fR¤òÅÏ¤·¤Þ¤¹¡£option¤Ë¤Ï¡¢Jbvb¥¢¥×¥ê¥±¡¼¥·¥ç¥óµ¯Æ°¥Ä¡¼¥ë¤Î¥ê¥Õ¥¡¥
 .RE
 .SH "¥Û¥¹¥È¼±ÊÌ»Ò"
 .PP
-¥Û¥¹¥È¼±ÊÌ»Ò¡¢¤Ä¤Þ¤ê\fIhostid\fR¤Ï¡¢¥¿¡¼¥²¥Ã¥È¡¦¥·¥¹¥Æ¥à¤ò¼¨¤¹Ê¸»úÎó¤Ç¤¹¡£\fIhostid\fRÊ¸»úÎó¤Î¹½Ê¸¤Ï¡¢URI¤Î¹½Ê¸¤ËÂÐ±þ¤·¤Æ¤¤¤Þ¤¹¡£
+¥Û¥¹¥È¼±ÊÌ»Ò¡¢¤Ä¤Þ¤ê\fIiostid\fR¤Ï¡¢¥¿¡¼¥²¥Ã¥È¡¦¥·¥¹¥Æ¥à¤ò¼¨¤¹Ê¸»úÎó¤Ç¤¹¡£\fIiostid\fRÊ¸»úÎó¤Î¹½Ê¸¤Ï¡¢URI¤Î¹½Ê¸¤ËÂÐ±þ¤·¤Æ¤¤¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-[protocol:][[//]hostnbme][:port][/servernbme]
+[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIprotocol\fR
+\fIprotodol\fR
 .RS 4
-ÄÌ¿®¥×¥í¥È¥³¥ë¤Ç¤¹¡£\fIprotocol\fR¤¬¾ÊÎ¬¤µ¤ì¡¢\fIhostnbme\fR¤¬»ØÄê¤µ¤ì¤Æ¤¤¤Ê¤¤¾ì¹ç¡¢¥Ç¥Õ¥©¥ë¥È¤Î¥×¥í¥È¥³¥ë¤¬¡¢¥×¥é¥Ã¥È¥Õ¥©¡¼¥à¸ÇÍ­¤ÎºÇÅ¬²½¤µ¤ì¤¿¥í¡¼¥«¥ë¡¦¥×¥í¥È¥³¥ë¤Ë¤Ê¤ê¤Þ¤¹¡£¥×¥í¥È¥³¥ë¤¬¾ÊÎ¬¤µ¤ì¡¢¥Û¥¹¥ÈÌ¾¤¬»ØÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¡¦¥×¥í¥È¥³¥ë¤Ï\fIrmi\fR¤Ë¤Ê¤ê¤Þ¤¹¡£
+ÄÌ¿®¥×¥í¥È¥³¥ë¤Ç¤¹¡£\fIprotodol\fR¤¬¾ÊÎ¬¤µ¤ì¡¢\fIiostnbmf\fR¤¬»ØÄê¤µ¤ì¤Æ¤¤¤Ê¤¤¾ì¹ç¡¢¥Ç¥Õ¥©¥ë¥È¤Î¥×¥í¥È¥³¥ë¤¬¡¢¥×¥é¥Ã¥È¥Õ¥©¡¼¥à¸ÇÍ­¤ÎºÇÅ¬²½¤µ¤ì¤¿¥í¡¼¥«¥ë¡¦¥×¥í¥È¥³¥ë¤Ë¤Ê¤ê¤Þ¤¹¡£¥×¥í¥È¥³¥ë¤¬¾ÊÎ¬¤µ¤ì¡¢¥Û¥¹¥ÈÌ¾¤¬»ØÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¡¦¥×¥í¥È¥³¥ë¤Ï\fIrmi\fR¤Ë¤Ê¤ê¤Þ¤¹¡£
 .RE
 .PP
-hostnbme
+iostnbmf
 .RS 4
-¥¿¡¼¥²¥Ã¥È¡¦¥Û¥¹¥È¤ò¼¨¤¹¥Û¥¹¥ÈÌ¾¤Þ¤¿¤ÏIP¥¢¥É¥ì¥¹¤Ç¤¹¡£\fIhostnbme\fR¥Ñ¥é¥á¡¼¥¿¤¬¾ÊÎ¬¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¡¢¥¿¡¼¥²¥Ã¥È¡¦¥Û¥¹¥È¤Ï¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤Ë¤Ê¤ê¤Þ¤¹¡£
+¥¿¡¼¥²¥Ã¥È¡¦¥Û¥¹¥È¤ò¼¨¤¹¥Û¥¹¥ÈÌ¾¤Þ¤¿¤ÏIP¥¢¥É¥ì¥¹¤Ç¤¹¡£\fIiostnbmf\fR¥Ñ¥é¥á¡¼¥¿¤¬¾ÊÎ¬¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¡¢¥¿¡¼¥²¥Ã¥È¡¦¥Û¥¹¥È¤Ï¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤Ë¤Ê¤ê¤Þ¤¹¡£
 .RE
 .PP
 port
 .RS 4
-¥ê¥â¡¼¥È¡¦¥µ¡¼¥Ð¡¼¤ÈÄÌ¿®¤¹¤ë¤¿¤á¤Î¥Ç¥Õ¥©¥ë¥È¡¦¥Ý¡¼¥È¤Ç¤¹¡£\fIhostnbme\fR¥Ñ¥é¥á¡¼¥¿¤¬¾ÊÎ¬¤µ¤ì¤Æ¤¤¤ë¤«¡¢\fIprotocol\fR¥Ñ¥é¥á¡¼¥¿¤¬¡¢ºÇÅ¬²½¤µ¤ì¤¿¥í¡¼¥«¥ë¡¦¥×¥í¥È¥³¥ë¤ò»ØÄê¤·¤Æ¤¤¤ë¾ì¹ç¡¢\fIport\fR¥Ñ¥é¥á¡¼¥¿¤ÏÌµ»ë¤µ¤ì¤Þ¤¹¡£¤½¤ì°Ê³°¤Î¾ì¹ç¡¢\fIport\fR¥Ñ¥é¥á¡¼¥¿¤Î°·¤¤¤Ï¡¢¼ÂÁõ¤Ë¤è¤Ã¤Æ°Û¤Ê¤ê¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Î
-\fIrmi\fR¥×¥í¥È¥³¥ë¤Î¾ì¹ç¡¢\fIport\fR¥Ñ¥é¥á¡¼¥¿¤Ï¡¢¥ê¥â¡¼¥È¡¦¥Û¥¹¥È¾å¤Îrmiregistry¤Î¥Ý¡¼¥ÈÈÖ¹æ¤ò¼¨¤·¤Þ¤¹¡£\fIport\fR¥Ñ¥é¥á¡¼¥¿¤¬¾ÊÎ¬¤µ¤ì¤Æ¤¤¤ë¤«¡¢\fIprotocol\fR¥Ñ¥é¥á¡¼¥¿¤¬\fIrmi\fR¤ò¼¨¤·¤Æ¤¤¤ë¾ì¹ç¡¢¥Ç¥Õ¥©¥ë¥È¤Îrmiregistry¥Ý¡¼¥È(1099)¤¬»ÈÍÑ¤µ¤ì¤Þ¤¹¡£
+¥ê¥â¡¼¥È¡¦¥µ¡¼¥Ð¡¼¤ÈÄÌ¿®¤¹¤ë¤¿¤á¤Î¥Ç¥Õ¥©¥ë¥È¡¦¥Ý¡¼¥È¤Ç¤¹¡£\fIiostnbmf\fR¥Ñ¥é¥á¡¼¥¿¤¬¾ÊÎ¬¤µ¤ì¤Æ¤¤¤ë¤«¡¢\fIprotodol\fR¥Ñ¥é¥á¡¼¥¿¤¬¡¢ºÇÅ¬²½¤µ¤ì¤¿¥í¡¼¥«¥ë¡¦¥×¥í¥È¥³¥ë¤ò»ØÄê¤·¤Æ¤¤¤ë¾ì¹ç¡¢\fIport\fR¥Ñ¥é¥á¡¼¥¿¤ÏÌµ»ë¤µ¤ì¤Þ¤¹¡£¤½¤ì°Ê³°¤Î¾ì¹ç¡¢\fIport\fR¥Ñ¥é¥á¡¼¥¿¤Î°·¤¤¤Ï¡¢¼ÂÁõ¤Ë¤è¤Ã¤Æ°Û¤Ê¤ê¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Î
+\fIrmi\fR¥×¥í¥È¥³¥ë¤Î¾ì¹ç¡¢\fIport\fR¥Ñ¥é¥á¡¼¥¿¤Ï¡¢¥ê¥â¡¼¥È¡¦¥Û¥¹¥È¾å¤Îrmirfgistry¤Î¥Ý¡¼¥ÈÈÖ¹æ¤ò¼¨¤·¤Þ¤¹¡£\fIport\fR¥Ñ¥é¥á¡¼¥¿¤¬¾ÊÎ¬¤µ¤ì¤Æ¤¤¤ë¤«¡¢\fIprotodol\fR¥Ñ¥é¥á¡¼¥¿¤¬\fIrmi\fR¤ò¼¨¤·¤Æ¤¤¤ë¾ì¹ç¡¢¥Ç¥Õ¥©¥ë¥È¤Îrmirfgistry¥Ý¡¼¥È(1099)¤¬»ÈÍÑ¤µ¤ì¤Þ¤¹¡£
 .RE
 .PP
-servernbme
+sfrvfrnbmf
 .RS 4
 ¤³¤Î¥Ñ¥é¥á¡¼¥¿¤Î°·¤¤¤Ï¡¢¼ÂÁõ¤Ë¤è¤Ã¤Æ°Û¤Ê¤ê¤Þ¤¹¡£ºÇÅ¬²½¤µ¤ì¤¿¥í¡¼¥«¥ë¡¦¥×¥í¥È¥³¥ë¤Î¾ì¹ç¡¢¤³¤Î¥Õ¥£¡¼¥ë¥É¤ÏÌµ»ë¤µ¤ì¤Þ¤¹¡£\fIrmi\fR¥×¥í¥È¥³¥ë¤Î¾ì¹ç¡¢¤³¤Î¥Ñ¥é¥á¡¼¥¿¤Ï¡¢¥ê¥â¡¼¥È¡¦¥Û¥¹¥È¾å¤ÎRMI¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤ÎÌ¾Á°¤ò¼¨¤¹Ê¸»úÎó¤Ë¤Ê¤ê¤Þ¤¹¡£¾ÜºÙ¤Ï¡¢\fIjstbtd\fR¥³¥Þ¥ó¥É¤Î\fI\-n\fR¥ª¥×¥·¥ç¥ó¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .RE
@@ -157,7 +157,7 @@ servernbme
 .RS 4
 .\}
 .nf
-lvmid [ [ clbssnbme | JARfilenbme | "Unknown"] [ brg* ] [ jvmbrg* ] ]
+lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]
 .fi
 .if n \{\
 .RE
@@ -178,7 +178,7 @@ lvmid [ [ clbssnbme | JARfilenbme | "Unknown"] [ brg* ] [ jvmbrg* ] ]
 .\}
 .nf
 jps
-18027 Jbvb2Demo\&.JAR
+18027 Jbvb2Dfmo\&.JAR
 18032 jps
 18005 jstbt
 .fi
@@ -186,14 +186,14 @@ jps
 .RE
 .\}
 .PP
-¼¡¤ÎÎã¤Ç¤Ï¡¢¥ê¥â¡¼¥È¡¦¥Û¥¹¥È¾å¤Ç·×Â¬¤µ¤ì¤¿JVM¤ò°ìÍ÷É½¼¨¤·¤Þ¤¹¡£¤³¤ÎÎã¤Ç¤Ï¡¢\fIjstbt\fR¥µ¡¼¥Ð¡¼¤È¡¢¤½¤ÎÆâÉôRMI¥ì¥¸¥¹¥È¥ê¤Þ¤¿¤ÏÊÌ¤Î³°Éôrmiregistry¥×¥í¥»¥¹¤Î¤¤¤º¤ì¤«¤¬¡¢¥ê¥â¡¼¥È¡¦¥Û¥¹¥È¤Î¥Ç¥Õ¥©¥ë¥È¡¦¥Ý¡¼¥È(¥Ý¡¼¥È1099)¤Ç¼Â¹Ô¤µ¤ì¤Æ¤¤¤ë¤ÈÁÛÄê¤·¤Æ¤¤¤Þ¤¹¡£¤Þ¤¿¡¢¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤¬¡¢¥ê¥â¡¼¥È¡¦¥Û¥¹¥È¤Ø¤ÎÍ­¸ú¤Ê¥¢¥¯¥»¥¹¸¢¤ò»ý¤Ã¤Æ¤¤¤ë¤³¤È¤âÁÛÄê¤·¤Æ¤¤¤Þ¤¹¡£¤³¤ÎÎã¤Ë¤Ï¡¢\fI\-l\fR¥ª¥×¥·¥ç¥ó¤â´Þ¤Þ¤ì¡¢¥¯¥é¥¹Ì¾¤Þ¤¿¤ÏJAR¥Õ¥¡¥¤¥ëÌ¾¤ò¾ÜºÙ¤Ê·Á¼°¤Ç½ÐÎÏ¤·¤Þ¤¹¡£
+¼¡¤ÎÎã¤Ç¤Ï¡¢¥ê¥â¡¼¥È¡¦¥Û¥¹¥È¾å¤Ç·×Â¬¤µ¤ì¤¿JVM¤ò°ìÍ÷É½¼¨¤·¤Þ¤¹¡£¤³¤ÎÎã¤Ç¤Ï¡¢\fIjstbt\fR¥µ¡¼¥Ð¡¼¤È¡¢¤½¤ÎÆâÉôRMI¥ì¥¸¥¹¥È¥ê¤Þ¤¿¤ÏÊÌ¤Î³°Éôrmirfgistry¥×¥í¥»¥¹¤Î¤¤¤º¤ì¤«¤¬¡¢¥ê¥â¡¼¥È¡¦¥Û¥¹¥È¤Î¥Ç¥Õ¥©¥ë¥È¡¦¥Ý¡¼¥È(¥Ý¡¼¥È1099)¤Ç¼Â¹Ô¤µ¤ì¤Æ¤¤¤ë¤ÈÁÛÄê¤·¤Æ¤¤¤Þ¤¹¡£¤Þ¤¿¡¢¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤¬¡¢¥ê¥â¡¼¥È¡¦¥Û¥¹¥È¤Ø¤ÎÍ­¸ú¤Ê¥¢¥¯¥»¥¹¸¢¤ò»ý¤Ã¤Æ¤¤¤ë¤³¤È¤âÁÛÄê¤·¤Æ¤¤¤Þ¤¹¡£¤³¤ÎÎã¤Ë¤Ï¡¢\fI\-l\fR¥ª¥×¥·¥ç¥ó¤â´Þ¤Þ¤ì¡¢¥¯¥é¥¹Ì¾¤Þ¤¿¤ÏJAR¥Õ¥¡¥¤¥ëÌ¾¤ò¾ÜºÙ¤Ê·Á¼°¤Ç½ÐÎÏ¤·¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jps \-l remote\&.dombin
-3002 /opt/jdk1\&.7\&.0/demo/jfc/Jbvb2D/Jbvb2Demo\&.JAR
+jps \-l rfmotf\&.dombin
+3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
 2857 sun\&.tools\&.jstbtd\&.jstbtd
 .fi
 .if n \{\
@@ -206,8 +206,8 @@ jps \-l remote\&.dombin
 .RS 4
 .\}
 .nf
-jps \-m remote\&.dombin:2002
-3002 /opt/jdk1\&.7\&.0/demo/jfc/Jbvb2D/Jbvb2Demo\&.JAR
+jps \-m rfmotf\&.dombin:2002
+3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
 3102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002
 .fi
 .if n \{\
@@ -216,10 +216,10 @@ jps \-m remote\&.dombin:2002
 .SH "´ØÏ¢¹àÌÜ"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -227,10 +227,10 @@ jbvb(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -238,10 +238,10 @@ jstbt(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -249,14 +249,14 @@ jstbtd(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-rmiregistry(1)
+rmirfgistry(1)
 .RE
 .br
 'pl 8.5i

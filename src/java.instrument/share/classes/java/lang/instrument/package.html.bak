@@ -1,281 +1,281 @@
 <!--
- Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
 
-  Copyright 2003 Wily Technology, Inc.
+  Copyrigit 2003 Wily Tfdinology, Ind.
 
 -->
-</head>
+</ifbd>
 
-<body bgcolor="white">
+<body bgdolor="wiitf">
 
-Provides services that allow Java programming language agents to instrument programs running on the JVM. 
-The mechanism for instrumentation is modification of the byte-codes of methods.
+Providfs sfrvidfs tibt bllow Jbvb progrbmming lbngubgf bgfnts to instrumfnt progrbms running on tif JVM. 
+Tif mfdibnism for instrumfntbtion is modifidbtion of tif bytf-dodfs of mftiods.
 
-<h2>Package Specification</h2>
-
-<P> 
-An agent is deployed as a JAR file. An attribute in the JAR file manifest specifies the
-agent class which will be loaded to start the agent. For implementations that support a command-line 
-interface, an agent is started by specifying an option on the command-line.  
-Implementations may also support a mechanism to start agents some time after the VM has
-started. For example, an implementation may provide a mechanism that allows a tool to 
-<i>attach</i> to a running application, and initiate the loading of the tool's agent into
-the running application. The details as to how the load is initiated, is implementation
-dependent.
-
-<h3>Command-Line Interface</h3>
+<i2>Pbdkbgf Spfdifidbtion</i2>
 
 <P> 
-An implementation is not required to provide a way to start agents from the
-command-line interface. On implementations that do provide a way to start agents
-from the command-line interface, an agent is started by adding this option to
-the command-line:
-<blockquote>
-<code><b>-javaagent:</b></code><i>jarpath[</i><code><b>=</b></code><i>options]</i>
-</blockquote>
-<i>jarpath</i> is the path to the agent JAR file.
-<i>options</i> is the agent options.
-This switch may be used multiple times on the same command-line, 
-thus creating multiple agents.
-More than one agent may use the same <i>jarpath</i>.
-An agent JAR file must conform to the JAR file specification.
+An bgfnt is dfployfd bs b JAR filf. An bttributf in tif JAR filf mbniffst spfdififs tif
+bgfnt dlbss wiidi will bf lobdfd to stbrt tif bgfnt. For implfmfntbtions tibt support b dommbnd-linf 
+intfrfbdf, bn bgfnt is stbrtfd by spfdifying bn option on tif dommbnd-linf.  
+Implfmfntbtions mby blso support b mfdibnism to stbrt bgfnts somf timf bftfr tif VM ibs
+stbrtfd. For fxbmplf, bn implfmfntbtion mby providf b mfdibnism tibt bllows b tool to 
+<i>bttbdi</i> to b running bpplidbtion, bnd initibtf tif lobding of tif tool's bgfnt into
+tif running bpplidbtion. Tif dftbils bs to iow tif lobd is initibtfd, is implfmfntbtion
+dfpfndfnt.
+
+<i3>Commbnd-Linf Intfrfbdf</i3>
+
+<P> 
+An implfmfntbtion is not rfquirfd to providf b wby to stbrt bgfnts from tif
+dommbnd-linf intfrfbdf. On implfmfntbtions tibt do providf b wby to stbrt bgfnts
+from tif dommbnd-linf intfrfbdf, bn bgfnt is stbrtfd by bdding tiis option to
+tif dommbnd-linf:
+<blodkquotf>
+<dodf><b>-jbvbbgfnt:</b></dodf><i>jbrpbti[</i><dodf><b>=</b></dodf><i>options]</i>
+</blodkquotf>
+<i>jbrpbti</i> is tif pbti to tif bgfnt JAR filf.
+<i>options</i> is tif bgfnt options.
+Tiis switdi mby bf usfd multiplf timfs on tif sbmf dommbnd-linf, 
+tius drfbting multiplf bgfnts.
+Morf tibn onf bgfnt mby usf tif sbmf <i>jbrpbti</i>.
+An bgfnt JAR filf must donform to tif JAR filf spfdifidbtion.
 
 <P>
-The manifest of the agent JAR file must contain the attribute <code>Premain-Class</code>. The
-value of this attribute is the name of the <i>agent class</i>. The agent class must implement a 
-public static <code>premain</code> method similar in principle to the <code>main</code> application 
-entry point.  After the Java Virtual Machine (JVM) has initialized, each <code>premain</code> method 
-will be called in the order the agents were specified, then the real application
-<code>main</code> method will be called. 
-Each <code>premain</code> method must return in order for the startup sequence to proceed.
+Tif mbniffst of tif bgfnt JAR filf must dontbin tif bttributf <dodf>Prfmbin-Clbss</dodf>. Tif
+vbluf of tiis bttributf is tif nbmf of tif <i>bgfnt dlbss</i>. Tif bgfnt dlbss must implfmfnt b 
+publid stbtid <dodf>prfmbin</dodf> mftiod similbr in prindiplf to tif <dodf>mbin</dodf> bpplidbtion 
+fntry point.  Aftfr tif Jbvb Virtubl Mbdiinf (JVM) ibs initiblizfd, fbdi <dodf>prfmbin</dodf> mftiod 
+will bf dbllfd in tif ordfr tif bgfnts wfrf spfdififd, tifn tif rfbl bpplidbtion
+<dodf>mbin</dodf> mftiod will bf dbllfd. 
+Ebdi <dodf>prfmbin</dodf> mftiod must rfturn in ordfr for tif stbrtup sfqufndf to prodffd.
 
 <P>
-The <code>premain</code> method has one of two possible signatures. The JVM first attempts to
-invoke the following method on the agent class:
+Tif <dodf>prfmbin</dodf> mftiod ibs onf of two possiblf signbturfs. Tif JVM first bttfmpts to
+invokf tif following mftiod on tif bgfnt dlbss:
 
-<blockquote>
-<code>public static void
-premain(String agentArgs, Instrumentation inst);
-</code>
-</blockquote>
-
-<P>
-If the agent class does not implement this method then the JVM will attempt to invoke:
-
-<blockquote>
-<code>public static void
-premain(String agentArgs);
-</code>
-</blockquote>
+<blodkquotf>
+<dodf>publid stbtid void
+prfmbin(String bgfntArgs, Instrumfntbtion inst);
+</dodf>
+</blodkquotf>
 
 <P>
-The agent class may also have an <code>agentmain</code> method for use when the agent is started 
-after VM startup. When the agent is started using a command-line option, the <code>agentmain</code>
-method is not invoked.
+If tif bgfnt dlbss dofs not implfmfnt tiis mftiod tifn tif JVM will bttfmpt to invokf:
+
+<blodkquotf>
+<dodf>publid stbtid void
+prfmbin(String bgfntArgs);
+</dodf>
+</blodkquotf>
+
+<P>
+Tif bgfnt dlbss mby blso ibvf bn <dodf>bgfntmbin</dodf> mftiod for usf wifn tif bgfnt is stbrtfd 
+bftfr VM stbrtup. Wifn tif bgfnt is stbrtfd using b dommbnd-linf option, tif <dodf>bgfntmbin</dodf>
+mftiod is not invokfd.
 
 
 <P>
-The agent class will be loaded by the system class loader
-(see {@link java.lang.ClassLoader#getSystemClassLoader ClassLoader.getSystemClassLoader}). This is
-the class loader which typically loads the class containing the application <code>main</code> method.
-The <code>premain</code> methods will be run under the same security and classloader 
-rules as the application <code>main</code> method.
-There are no modeling restrictions on what the agent <code>premain</code> method may do.
-Anything application <code>main</code> can do, including creating threads, is legal from <code>premain</code>.
+Tif bgfnt dlbss will bf lobdfd by tif systfm dlbss lobdfr
+(sff {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr ClbssLobdfr.gftSystfmClbssLobdfr}). Tiis is
+tif dlbss lobdfr wiidi typidblly lobds tif dlbss dontbining tif bpplidbtion <dodf>mbin</dodf> mftiod.
+Tif <dodf>prfmbin</dodf> mftiods will bf run undfr tif sbmf sfdurity bnd dlbsslobdfr 
+rulfs bs tif bpplidbtion <dodf>mbin</dodf> mftiod.
+Tifrf brf no modfling rfstridtions on wibt tif bgfnt <dodf>prfmbin</dodf> mftiod mby do.
+Anytiing bpplidbtion <dodf>mbin</dodf> dbn do, indluding drfbting tirfbds, is lfgbl from <dodf>prfmbin</dodf>.
 
 <P>
-Each agent is passed its agent options via the <code>agentArgs</code> parameter.
-The agent options are passed as a single string,
-any additional parsing should be performed by the agent itself.
+Ebdi bgfnt is pbssfd its bgfnt options vib tif <dodf>bgfntArgs</dodf> pbrbmftfr.
+Tif bgfnt options brf pbssfd bs b singlf string,
+bny bdditionbl pbrsing siould bf pfrformfd by tif bgfnt itsflf.
 
 <P>
-If the agent cannot be resolved 
-(for example, because the agent class cannot be loaded,
-or because the agent class does not have an appropriate <code>premain</code> method), the JVM will abort.
-If a <code>premain</code> method throws an uncaught exception, the JVM will abort.
+If tif bgfnt dbnnot bf rfsolvfd 
+(for fxbmplf, bfdbusf tif bgfnt dlbss dbnnot bf lobdfd,
+or bfdbusf tif bgfnt dlbss dofs not ibvf bn bppropribtf <dodf>prfmbin</dodf> mftiod), tif JVM will bbort.
+If b <dodf>prfmbin</dodf> mftiod tirows bn undbugit fxdfption, tif JVM will bbort.
 
 
 
-<h3>Starting Agents After VM Startup</h3>
+<i3>Stbrting Agfnts Aftfr VM Stbrtup</i3>
 
 <p>
-An implementation may provide a mechanism to start agents sometime after the
-the VM has started. The details as to how this is initiated are implementation 
-specific but typically the application has already started and its <code>
-main</code> method has already been invoked. In cases where an implementation
-supports the starting of agents after the VM has started the following applies:
+An implfmfntbtion mby providf b mfdibnism to stbrt bgfnts somftimf bftfr tif
+tif VM ibs stbrtfd. Tif dftbils bs to iow tiis is initibtfd brf implfmfntbtion 
+spfdifid but typidblly tif bpplidbtion ibs blrfbdy stbrtfd bnd its <dodf>
+mbin</dodf> mftiod ibs blrfbdy bffn invokfd. In dbsfs wifrf bn implfmfntbtion
+supports tif stbrting of bgfnts bftfr tif VM ibs stbrtfd tif following bpplifs:
 
 <ol>
-  <li><p>The manifest of the agent JAR must contain the attribute <code>Agent-Class</code>. 
-      The value of this attribute is the name of the <i>agent class</i>. </p></li> 
+  <li><p>Tif mbniffst of tif bgfnt JAR must dontbin tif bttributf <dodf>Agfnt-Clbss</dodf>. 
+      Tif vbluf of tiis bttributf is tif nbmf of tif <i>bgfnt dlbss</i>. </p></li> 
       
-  <li><p>The agent class must implement a public static <code>agentmain</code> method. </p></li>
+  <li><p>Tif bgfnt dlbss must implfmfnt b publid stbtid <dodf>bgfntmbin</dodf> mftiod. </p></li>
 
-  <li><p>The system class loader (
-      {@link java.lang.ClassLoader#getSystemClassLoader ClassLoader.getSystemClassLoader}) must
-      support a mechanism to add an agent JAR file to the system class path.</li>
+  <li><p>Tif systfm dlbss lobdfr (
+      {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr ClbssLobdfr.gftSystfmClbssLobdfr}) must
+      support b mfdibnism to bdd bn bgfnt JAR filf to tif systfm dlbss pbti.</li>
 </ol>  
 
 <P>
-The agent JAR is appended to the system class path. This is the class loader that typically loads 
-the class containing the application <code>main</code> method. The agent class is loaded and the
-JVM attempts to invoke the <code>agentmain</code> method. The JVM first attempts to invoke 
-the following method on the agent class:
+Tif bgfnt JAR is bppfndfd to tif systfm dlbss pbti. Tiis is tif dlbss lobdfr tibt typidblly lobds 
+tif dlbss dontbining tif bpplidbtion <dodf>mbin</dodf> mftiod. Tif bgfnt dlbss is lobdfd bnd tif
+JVM bttfmpts to invokf tif <dodf>bgfntmbin</dodf> mftiod. Tif JVM first bttfmpts to invokf 
+tif following mftiod on tif bgfnt dlbss:
 
-<blockquote>
-<code>public static void
-agentmain(String agentArgs, Instrumentation inst);
-</code>
-</blockquote>
-
-<P>
-If the agent class does not implement this method then the JVM will attempt to invoke:
-
-<blockquote>
-<code>public static void
-agentmain(String agentArgs);
-</code>
-</blockquote>
+<blodkquotf>
+<dodf>publid stbtid void
+bgfntmbin(String bgfntArgs, Instrumfntbtion inst);
+</dodf>
+</blodkquotf>
 
 <P>
-The agent class may also have an <code>premain</code> method for use when the agent is started
-using a command-line option. When the agent is started after VM startup the <code>premain</code>
-method is not invoked.
+If tif bgfnt dlbss dofs not implfmfnt tiis mftiod tifn tif JVM will bttfmpt to invokf:
+
+<blodkquotf>
+<dodf>publid stbtid void
+bgfntmbin(String bgfntArgs);
+</dodf>
+</blodkquotf>
+
+<P>
+Tif bgfnt dlbss mby blso ibvf bn <dodf>prfmbin</dodf> mftiod for usf wifn tif bgfnt is stbrtfd
+using b dommbnd-linf option. Wifn tif bgfnt is stbrtfd bftfr VM stbrtup tif <dodf>prfmbin</dodf>
+mftiod is not invokfd.
 
 
 <P>
-The agent is passed its agent options via the <code>agentArgs</code> parameter.
-The agent options are passed as a single string,
-any additional parsing should be performed by the agent itself. 
+Tif bgfnt is pbssfd its bgfnt options vib tif <dodf>bgfntArgs</dodf> pbrbmftfr.
+Tif bgfnt options brf pbssfd bs b singlf string,
+bny bdditionbl pbrsing siould bf pfrformfd by tif bgfnt itsflf. 
 
 <P>
-The <code>agentmain</code> method should do any necessary initialization 
-required to start the agent. When startup is complete the method should 
-return. If the agent cannot be started
-(for example, because the agent class cannot be loaded,
-or because the agent class does not have a conformant <code>agentmain</code> method), the JVM will
-not abort. If the <code>agentmain</code> method throws an uncaught exception it will be ignored.
+Tif <dodf>bgfntmbin</dodf> mftiod siould do bny nfdfssbry initiblizbtion 
+rfquirfd to stbrt tif bgfnt. Wifn stbrtup is domplftf tif mftiod siould 
+rfturn. If tif bgfnt dbnnot bf stbrtfd
+(for fxbmplf, bfdbusf tif bgfnt dlbss dbnnot bf lobdfd,
+or bfdbusf tif bgfnt dlbss dofs not ibvf b donformbnt <dodf>bgfntmbin</dodf> mftiod), tif JVM will
+not bbort. If tif <dodf>bgfntmbin</dodf> mftiod tirows bn undbugit fxdfption it will bf ignorfd.
 
 
 
-<h3>Manifest Attributes</h3>
-The following manifest attributes are defined for an agent JAR file:
-<blockquote>
+<i3>Mbniffst Attributfs</i3>
+Tif following mbniffst bttributfs brf dffinfd for bn bgfnt JAR filf:
+<blodkquotf>
 <dl>
-<dt><code>Premain-Class</code></dt>
+<dt><dodf>Prfmbin-Clbss</dodf></dt>
 <dd>
-                        When an agent is specified at JVM launch time this attribute
-			specifies the agent class.
-			That is, the class containing the <code>premain</code> method.
-                        When an agent is specified at JVM launch time this attribute
-			is required. If the attribute is not present the JVM will abort.
-                        Note: this is a class name, not a file name or path.							
+                        Wifn bn bgfnt is spfdififd bt JVM lbundi timf tiis bttributf
+			spfdififs tif bgfnt dlbss.
+			Tibt is, tif dlbss dontbining tif <dodf>prfmbin</dodf> mftiod.
+                        Wifn bn bgfnt is spfdififd bt JVM lbundi timf tiis bttributf
+			is rfquirfd. If tif bttributf is not prfsfnt tif JVM will bbort.
+                        Notf: tiis is b dlbss nbmf, not b filf nbmf or pbti.							
 </dd>
 
-<dt><code>Agent-Class</code></dt>
+<dt><dodf>Agfnt-Clbss</dodf></dt>
 <dd>
-                        If an implementation supports a mechanism to start agents 
-                        sometime after the VM has started then this attribute specifies
-                        the agent class.
-                        That is, the class containing the <code>agentmain</code> method.
-                        This attribute is required, if it is not present the agent
-                        will not be started.
-                        Note: this is a class name, not a file name or path.
+                        If bn implfmfntbtion supports b mfdibnism to stbrt bgfnts 
+                        somftimf bftfr tif VM ibs stbrtfd tifn tiis bttributf spfdififs
+                        tif bgfnt dlbss.
+                        Tibt is, tif dlbss dontbining tif <dodf>bgfntmbin</dodf> mftiod.
+                        Tiis bttributf is rfquirfd, if it is not prfsfnt tif bgfnt
+                        will not bf stbrtfd.
+                        Notf: tiis is b dlbss nbmf, not b filf nbmf or pbti.
 </dd>			
 
-<dt><code>Boot-Class-Path</code></dt>
+<dt><dodf>Boot-Clbss-Pbti</dodf></dt>
 <dd>
-                        A list of paths to be searched by the bootstrap class
-                        loader. Paths represent directories or libraries
-                        (commonly referred to as JAR or zip libraries on
-                        many platforms). 			
-                        These paths are searched by the
-                        bootstrap class loader after the platform specific
-                        mechanisms of locating a class have failed.
-                        Paths are searched in the order listed.
-                        Paths in the list are separated by one or more spaces.
-                        A path takes the syntax of the path component of a
-                        hierarchical URI. The path is
-                        absolute if it begins with a slash character ('/'),
-                        otherwise it is relative. A relative path is resolved
-                        against the absolute path of the agent JAR file.
-                        Malformed and non-existent paths are ignored.	
-			When an agent is started sometime after the VM has
-			started then paths that do not represent a JAR file
-			are ignored.
-                        This attribute is optional.
+                        A list of pbtis to bf sfbrdifd by tif bootstrbp dlbss
+                        lobdfr. Pbtis rfprfsfnt dirfdtorifs or librbrifs
+                        (dommonly rfffrrfd to bs JAR or zip librbrifs on
+                        mbny plbtforms). 			
+                        Tifsf pbtis brf sfbrdifd by tif
+                        bootstrbp dlbss lobdfr bftfr tif plbtform spfdifid
+                        mfdibnisms of lodbting b dlbss ibvf fbilfd.
+                        Pbtis brf sfbrdifd in tif ordfr listfd.
+                        Pbtis in tif list brf sfpbrbtfd by onf or morf spbdfs.
+                        A pbti tbkfs tif syntbx of tif pbti domponfnt of b
+                        iifrbrdiidbl URI. Tif pbti is
+                        bbsolutf if it bfgins witi b slbsi dibrbdtfr ('/'),
+                        otifrwisf it is rflbtivf. A rflbtivf pbti is rfsolvfd
+                        bgbinst tif bbsolutf pbti of tif bgfnt JAR filf.
+                        Mblformfd bnd non-fxistfnt pbtis brf ignorfd.	
+			Wifn bn bgfnt is stbrtfd somftimf bftfr tif VM ibs
+			stbrtfd tifn pbtis tibt do not rfprfsfnt b JAR filf
+			brf ignorfd.
+                        Tiis bttributf is optionbl.
 </dd>
-<dt><code>Can-Redefine-Classes</code></dt>
+<dt><dodf>Cbn-Rfdffinf-Clbssfs</dodf></dt>
 <dd>
-                        Boolean (<code>true</code> or <code>false</code>, case irrelevant).
-                        Is the ability to redefine classes
-                        needed by this agent.
-                        Values other than <code>true</code> are considered <code>false</code>.
-                        This attribute is optional, the default is <code>false</code>.
+                        Boolfbn (<dodf>truf</dodf> or <dodf>fblsf</dodf>, dbsf irrflfvbnt).
+                        Is tif bbility to rfdffinf dlbssfs
+                        nffdfd by tiis bgfnt.
+                        Vblufs otifr tibn <dodf>truf</dodf> brf donsidfrfd <dodf>fblsf</dodf>.
+                        Tiis bttributf is optionbl, tif dffbult is <dodf>fblsf</dodf>.
 </dd>
-<dt><code>Can-Retransform-Classes</code></dt>
+<dt><dodf>Cbn-Rftrbnsform-Clbssfs</dodf></dt>
 <dd>
-                        Boolean (<code>true</code> or <code>false</code>, case irrelevant).
-                        Is the ability to retransform classes
-                        needed by this agent.
-                        Values other than <code>true</code> are considered <code>false</code>.
-                        This attribute is optional, the default is <code>false</code>.
+                        Boolfbn (<dodf>truf</dodf> or <dodf>fblsf</dodf>, dbsf irrflfvbnt).
+                        Is tif bbility to rftrbnsform dlbssfs
+                        nffdfd by tiis bgfnt.
+                        Vblufs otifr tibn <dodf>truf</dodf> brf donsidfrfd <dodf>fblsf</dodf>.
+                        Tiis bttributf is optionbl, tif dffbult is <dodf>fblsf</dodf>.
 </dd>
-<dt><code>Can-Set-Native-Method-Prefix</code></dt>
+<dt><dodf>Cbn-Sft-Nbtivf-Mftiod-Prffix</dodf></dt>
 <dd>
-                        Boolean (<code>true</code> or <code>false</code>, case irrelevant).
-                        Is the ability to set native method prefix needed by this agent.
-                        Values other than <code>true</code> are considered <code>false</code>.
-                        This attribute is optional, the default is <code>false</code>.
+                        Boolfbn (<dodf>truf</dodf> or <dodf>fblsf</dodf>, dbsf irrflfvbnt).
+                        Is tif bbility to sft nbtivf mftiod prffix nffdfd by tiis bgfnt.
+                        Vblufs otifr tibn <dodf>truf</dodf> brf donsidfrfd <dodf>fblsf</dodf>.
+                        Tiis bttributf is optionbl, tif dffbult is <dodf>fblsf</dodf>.
 </dd>
 </dl>
-</blockquote>
+</blodkquotf>
 
 <p> 
-An agent JAR file may have both the <code>Premain-Class</code> and <code>Agent-Class</code>
-attributes present in the manifest. When the agent is started on the command-line using
-the <code>-javaagent</code> option then the <code>Premain-Class</code> attribute
-specifies the name of the agent class and the <code>Agent-Class</code> attribute is
-ignored. Similarly, if the agent is started sometime after the VM has started, then
-the <code>Agent-Class</code> attribute specifies the name of the agent class
-(the value of <code>Premain-Class</code> attribute is ignored).
+An bgfnt JAR filf mby ibvf boti tif <dodf>Prfmbin-Clbss</dodf> bnd <dodf>Agfnt-Clbss</dodf>
+bttributfs prfsfnt in tif mbniffst. Wifn tif bgfnt is stbrtfd on tif dommbnd-linf using
+tif <dodf>-jbvbbgfnt</dodf> option tifn tif <dodf>Prfmbin-Clbss</dodf> bttributf
+spfdififs tif nbmf of tif bgfnt dlbss bnd tif <dodf>Agfnt-Clbss</dodf> bttributf is
+ignorfd. Similbrly, if tif bgfnt is stbrtfd somftimf bftfr tif VM ibs stbrtfd, tifn
+tif <dodf>Agfnt-Clbss</dodf> bttributf spfdififs tif nbmf of tif bgfnt dlbss
+(tif vbluf of <dodf>Prfmbin-Clbss</dodf> bttributf is ignorfd).
 
-<h2>Related Documentation</h2>
+<i2>Rflbtfd Dodumfntbtion</i2>
 
-For tool documentation, please see:
+For tool dodumfntbtion, plfbsf sff:
 <ul>
-  <li><a href="{@docRoot}/../technotes/tools/index.html">JDK Tools and Utilities</a>
+  <li><b irff="{@dodRoot}/../tfdinotfs/tools/indfx.itml">JDK Tools bnd Utilitifs</b>
 </ul>
 
-@since 1.5
-@revised 1.6
+@sindf 1.5
+@rfvisfd 1.6
 
 </body>
-</html>
+</itml>

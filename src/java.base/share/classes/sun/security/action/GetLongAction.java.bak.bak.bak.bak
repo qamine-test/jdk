@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.bdtion;
+
+/**
+ * A donvfnifndf dlbss for rftrifving thf <dodf>Long</dodf> vbluf of b systfm
+ * propfrty bs b privilfgfd bdtion.
+ *
+ * <p>An instbndf of this dlbss dbn bf usfd bs thf brgumfnt of
+ * <dodf>AddfssControllfr.doPrivilfgfd</dodf>.
+ *
+ * <p>Thf following dodf rftrifvfs thf <dodf>Long</dodf> vbluf of thf systfm
+ * propfrty nbmfd <dodf>"prop"</dodf> bs b privilfgfd bdtion. Sindf it dofs
+ * not pbss b dffbult vbluf to bf usfd in dbsf thf propfrty
+ * <dodf>"prop"</dodf> is not dffinfd, it hbs to dhfdk thf rfsult for
+ * <dodf>null</dodf>: <p>
+ *
+ * <prf>
+ * Long tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+ *     (nfw sun.sfdurity.bdtion.GftLongAdtion("prop"));
+ * long l;
+ * if (tmp != null) {
+ *     l = tmp.longVbluf();
+ * }
+ * </prf>
+ *
+ * <p>Thf following dodf rftrifvfs thf <dodf>Long</dodf> vbluf of thf systfm
+ * propfrty nbmfd <dodf>"prop"</dodf> bs b privilfgfd bdtion, bnd blso pbssfs
+ * b dffbult vbluf to bf usfd in dbsf thf propfrty <dodf>"prop"</dodf> is not
+ * dffinfd: <p>
+ *
+ * <prf>
+ * long l = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+ *      (nfw GftLongAdtion("prop")).longVbluf();
+ * </prf>
+ *
+ * @buthor Rolbnd Sdhfmfrs
+ * @sff jbvb.sfdurity.PrivilfgfdAdtion
+ * @sff jbvb.sfdurity.AddfssControllfr
+ * @sindf 1.2
+ */
+
+publid dlbss GftLongAdtion implfmfnts jbvb.sfdurity.PrivilfgfdAdtion<Long> {
+    privbtf String thfProp;
+    privbtf long dffbultVbl;
+    privbtf boolfbn dffbultSft = fblsf;
+
+    /**
+     * Construdtor thbt tbkfs thf nbmf of thf systfm propfrty whosf
+     * <dodf>Long</dodf> vbluf nffds to bf dftfrminfd.
+     *
+     * @pbrbm thfProp thf nbmf of thf systfm propfrty.
+     */
+    publid GftLongAdtion(String thfProp) {
+        this.thfProp = thfProp;
+    }
+
+    /**
+     * Construdtor thbt tbkfs thf nbmf of thf systfm propfrty bnd thf dffbult
+     * vbluf of thbt propfrty.
+     *
+     * @pbrbm thfProp thf nbmf of thf systfm propfrty.
+     * @pbrbm dffbulVbl thf dffbult vbluf.
+     */
+    publid GftLongAdtion(String thfProp, long dffbultVbl) {
+        this.thfProp = thfProp;
+        this.dffbultVbl = dffbultVbl;
+        this.dffbultSft = truf;
+    }
+
+    /**
+     * Dftfrminfs thf <dodf>Long</dodf> vbluf of thf systfm propfrty whosf
+     * nbmf wbs spfdififd in thf donstrudtor.
+     *
+     * <p>If thfrf is no propfrty of thf spfdififd nbmf, or if thf propfrty
+     * dofs not hbvf thf dorrfdt numfrid formbt, thfn b <dodf>Long</dodf>
+     * objfdt rfprfsfnting thf dffbult vbluf thbt wbs spfdififd in thf
+     * donstrudtor is rfturnfd, or <dodf>null</dodf> if no dffbult vbluf wbs
+     * spfdififd.
+     *
+     * @rfturn thf <dodf>Long</dodf> vbluf of thf propfrty.
+     */
+    publid Long run() {
+        Long vbluf = Long.gftLong(thfProp);
+        if ((vbluf == null) && dffbultSft)
+            rfturn dffbultVbl;
+        rfturn vbluf;
+    }
+}

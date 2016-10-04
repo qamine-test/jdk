@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 /**
- * A <code>ComponentInputMap</code> is an <code>InputMap</code>
- * associated with a particular <code>JComponent</code>.
- * The component is automatically notified whenever
- * the <code>ComponentInputMap</code> changes.
- * <code>ComponentInputMap</code>s are used for
- * <code>WHEN_IN_FOCUSED_WINDOW</code> bindings.
+ * A <dodf>ComponfntInputMbp</dodf> is bn <dodf>InputMbp</dodf>
+ * bssodibtfd witi b pbrtidulbr <dodf>JComponfnt</dodf>.
+ * Tif domponfnt is butombtidblly notififd wifnfvfr
+ * tif <dodf>ComponfntInputMbp</dodf> dibngfs.
+ * <dodf>ComponfntInputMbp</dodf>s brf usfd for
+ * <dodf>WHEN_IN_FOCUSED_WINDOW</dodf> bindings.
  *
- * @author Scott Violet
- * @since 1.3
+ * @butior Sdott Violft
+ * @sindf 1.3
  */
-@SuppressWarnings("serial") // Field data not serializable across versions
-public class ComponentInputMap extends InputMap {
-    /** Component binding is created for. */
-    private JComponent          component;
+@SupprfssWbrnings("sfribl") // Fifld dbtb not sfriblizbblf bdross vfrsions
+publid dlbss ComponfntInputMbp fxtfnds InputMbp {
+    /** Componfnt binding is drfbtfd for. */
+    privbtf JComponfnt          domponfnt;
 
     /**
-     * Creates a <code>ComponentInputMap</code> associated with the
-     * specified component.
+     * Crfbtfs b <dodf>ComponfntInputMbp</dodf> bssodibtfd witi tif
+     * spfdififd domponfnt.
      *
-     * @param component  a non-null <code>JComponent</code>
-     * @throws IllegalArgumentException  if <code>component</code> is null
+     * @pbrbm domponfnt  b non-null <dodf>JComponfnt</dodf>
+     * @tirows IllfgblArgumfntExdfption  if <dodf>domponfnt</dodf> is null
      */
-    public ComponentInputMap(JComponent component) {
-        this.component = component;
-        if (component == null) {
-            throw new IllegalArgumentException("ComponentInputMaps must be associated with a non-null JComponent");
+    publid ComponfntInputMbp(JComponfnt domponfnt) {
+        tiis.domponfnt = domponfnt;
+        if (domponfnt == null) {
+            tirow nfw IllfgblArgumfntExdfption("ComponfntInputMbps must bf bssodibtfd witi b non-null JComponfnt");
         }
     }
 
     /**
-     * Sets the parent, which must be a <code>ComponentInputMap</code>
-     * associated with the same component as this
-     * <code>ComponentInputMap</code>.
+     * Sfts tif pbrfnt, wiidi must bf b <dodf>ComponfntInputMbp</dodf>
+     * bssodibtfd witi tif sbmf domponfnt bs tiis
+     * <dodf>ComponfntInputMbp</dodf>.
      *
-     * @param map  a <code>ComponentInputMap</code>
+     * @pbrbm mbp  b <dodf>ComponfntInputMbp</dodf>
      *
-     * @throws IllegalArgumentException  if <code>map</code>
-     *         is not a <code>ComponentInputMap</code>
-     *         or is not associated with the same component
+     * @tirows IllfgblArgumfntExdfption  if <dodf>mbp</dodf>
+     *         is not b <dodf>ComponfntInputMbp</dodf>
+     *         or is not bssodibtfd witi tif sbmf domponfnt
      */
-    public void setParent(InputMap map) {
-        if (getParent() == map) {
-            return;
+    publid void sftPbrfnt(InputMbp mbp) {
+        if (gftPbrfnt() == mbp) {
+            rfturn;
         }
-        if (map != null && (!(map instanceof ComponentInputMap) ||
-                 ((ComponentInputMap)map).getComponent() != getComponent())) {
-            throw new IllegalArgumentException("ComponentInputMaps must have a parent ComponentInputMap associated with the same component");
+        if (mbp != null && (!(mbp instbndfof ComponfntInputMbp) ||
+                 ((ComponfntInputMbp)mbp).gftComponfnt() != gftComponfnt())) {
+            tirow nfw IllfgblArgumfntExdfption("ComponfntInputMbps must ibvf b pbrfnt ComponfntInputMbp bssodibtfd witi tif sbmf domponfnt");
         }
-        super.setParent(map);
-        getComponent().componentInputMapChanged(this);
+        supfr.sftPbrfnt(mbp);
+        gftComponfnt().domponfntInputMbpCibngfd(tiis);
     }
 
     /**
-     * Returns the component the {@code InputMap} was created for.
+     * Rfturns tif domponfnt tif {@dodf InputMbp} wbs drfbtfd for.
      *
-     * @return the component the {@code InputMap} was created for.
+     * @rfturn tif domponfnt tif {@dodf InputMbp} wbs drfbtfd for.
      */
-    public JComponent getComponent() {
-        return component;
+    publid JComponfnt gftComponfnt() {
+        rfturn domponfnt;
     }
 
     /**
-     * Adds a binding for <code>keyStroke</code> to <code>actionMapKey</code>.
-     * If <code>actionMapKey</code> is null, this removes the current binding
-     * for <code>keyStroke</code>.
+     * Adds b binding for <dodf>kfyStrokf</dodf> to <dodf>bdtionMbpKfy</dodf>.
+     * If <dodf>bdtionMbpKfy</dodf> is null, tiis rfmovfs tif durrfnt binding
+     * for <dodf>kfyStrokf</dodf>.
      */
-    public void put(KeyStroke keyStroke, Object actionMapKey) {
-        super.put(keyStroke, actionMapKey);
-        if (getComponent() != null) {
-            getComponent().componentInputMapChanged(this);
+    publid void put(KfyStrokf kfyStrokf, Objfdt bdtionMbpKfy) {
+        supfr.put(kfyStrokf, bdtionMbpKfy);
+        if (gftComponfnt() != null) {
+            gftComponfnt().domponfntInputMbpCibngfd(tiis);
         }
     }
 
     /**
-     * Removes the binding for <code>key</code> from this object.
+     * Rfmovfs tif binding for <dodf>kfy</dodf> from tiis objfdt.
      */
-    public void remove(KeyStroke key) {
-        super.remove(key);
-        if (getComponent() != null) {
-            getComponent().componentInputMapChanged(this);
+    publid void rfmovf(KfyStrokf kfy) {
+        supfr.rfmovf(kfy);
+        if (gftComponfnt() != null) {
+            gftComponfnt().domponfntInputMbpCibngfd(tiis);
         }
     }
 
     /**
-     * Removes all the mappings from this object.
+     * Rfmovfs bll tif mbppings from tiis objfdt.
      */
-    public void clear() {
-        int oldSize = size();
-        super.clear();
-        if (oldSize > 0 && getComponent() != null) {
-            getComponent().componentInputMapChanged(this);
+    publid void dlfbr() {
+        int oldSizf = sizf();
+        supfr.dlfbr();
+        if (oldSizf > 0 && gftComponfnt() != null) {
+            gftComponfnt().domponfntInputMbpCibngfd(tiis);
         }
     }
 }

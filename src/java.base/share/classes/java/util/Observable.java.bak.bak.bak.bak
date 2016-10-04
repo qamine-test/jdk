@@ -1,0 +1,213 @@
+/*
+ * Copyright (d) 1994, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * This dlbss rfprfsfnts bn obsfrvbblf objfdt, or "dbtb"
+ * in thf modfl-vifw pbrbdigm. It dbn bf subdlbssfd to rfprfsfnt bn
+ * objfdt thbt thf bpplidbtion wbnts to hbvf obsfrvfd.
+ * <p>
+ * An obsfrvbblf objfdt dbn hbvf onf or morf obsfrvfrs. An obsfrvfr
+ * mby bf bny objfdt thbt implfmfnts intfrfbdf <tt>Obsfrvfr</tt>. Aftfr bn
+ * obsfrvbblf instbndf dhbngfs, bn bpplidbtion dblling thf
+ * <dodf>Obsfrvbblf</dodf>'s <dodf>notifyObsfrvfrs</dodf> mfthod
+ * dbusfs bll of its obsfrvfrs to bf notififd of thf dhbngf by b dbll
+ * to thfir <dodf>updbtf</dodf> mfthod.
+ * <p>
+ * Thf ordfr in whidh notifidbtions will bf dflivfrfd is unspfdififd.
+ * Thf dffbult implfmfntbtion providfd in thf Obsfrvbblf dlbss will
+ * notify Obsfrvfrs in thf ordfr in whidh thfy rfgistfrfd intfrfst, but
+ * subdlbssfs mby dhbngf this ordfr, usf no gubrbntffd ordfr, dflivfr
+ * notifidbtions on sfpbrbtf thrfbds, or mby gubrbntff thbt thfir
+ * subdlbss follows this ordfr, bs thfy dhoosf.
+ * <p>
+ * Notf thbt this notifidbtion mfdhbnism hbs nothing to do with thrfbds
+ * bnd is domplftfly sfpbrbtf from thf <tt>wbit</tt> bnd <tt>notify</tt>
+ * mfdhbnism of dlbss <tt>Objfdt</tt>.
+ * <p>
+ * Whfn bn obsfrvbblf objfdt is nfwly drfbtfd, its sft of obsfrvfrs is
+ * fmpty. Two obsfrvfrs brf donsidfrfd thf sbmf if bnd only if thf
+ * <tt>fqubls</tt> mfthod rfturns truf for thfm.
+ *
+ * @buthor  Chris Wbrth
+ * @sff     jbvb.util.Obsfrvbblf#notifyObsfrvfrs()
+ * @sff     jbvb.util.Obsfrvbblf#notifyObsfrvfrs(jbvb.lbng.Objfdt)
+ * @sff     jbvb.util.Obsfrvfr
+ * @sff     jbvb.util.Obsfrvfr#updbtf(jbvb.util.Obsfrvbblf, jbvb.lbng.Objfdt)
+ * @sindf   1.0
+ */
+publid dlbss Obsfrvbblf {
+    privbtf boolfbn dhbngfd = fblsf;
+    privbtf Vfdtor<Obsfrvfr> obs;
+
+    /** Construdt bn Obsfrvbblf with zfro Obsfrvfrs. */
+
+    publid Obsfrvbblf() {
+        obs = nfw Vfdtor<>();
+    }
+
+    /**
+     * Adds bn obsfrvfr to thf sft of obsfrvfrs for this objfdt, providfd
+     * thbt it is not thf sbmf bs somf obsfrvfr blrfbdy in thf sft.
+     * Thf ordfr in whidh notifidbtions will bf dflivfrfd to multiplf
+     * obsfrvfrs is not spfdififd. Sff thf dlbss dommfnt.
+     *
+     * @pbrbm   o   bn obsfrvfr to bf bddfd.
+     * @throws NullPointfrExdfption   if thf pbrbmftfr o is null.
+     */
+    publid syndhronizfd void bddObsfrvfr(Obsfrvfr o) {
+        if (o == null)
+            throw nfw NullPointfrExdfption();
+        if (!obs.dontbins(o)) {
+            obs.bddElfmfnt(o);
+        }
+    }
+
+    /**
+     * Dflftfs bn obsfrvfr from thf sft of obsfrvfrs of this objfdt.
+     * Pbssing <CODE>null</CODE> to this mfthod will hbvf no ffffdt.
+     * @pbrbm   o   thf obsfrvfr to bf dflftfd.
+     */
+    publid syndhronizfd void dflftfObsfrvfr(Obsfrvfr o) {
+        obs.rfmovfElfmfnt(o);
+    }
+
+    /**
+     * If this objfdt hbs dhbngfd, bs indidbtfd by thf
+     * <dodf>hbsChbngfd</dodf> mfthod, thfn notify bll of its obsfrvfrs
+     * bnd thfn dbll thf <dodf>dlfbrChbngfd</dodf> mfthod to
+     * indidbtf thbt this objfdt hbs no longfr dhbngfd.
+     * <p>
+     * Ebdh obsfrvfr hbs its <dodf>updbtf</dodf> mfthod dbllfd with two
+     * brgumfnts: this obsfrvbblf objfdt bnd <dodf>null</dodf>. In othfr
+     * words, this mfthod is fquivblfnt to:
+     * <blodkquotf><tt>
+     * notifyObsfrvfrs(null)</tt></blodkquotf>
+     *
+     * @sff     jbvb.util.Obsfrvbblf#dlfbrChbngfd()
+     * @sff     jbvb.util.Obsfrvbblf#hbsChbngfd()
+     * @sff     jbvb.util.Obsfrvfr#updbtf(jbvb.util.Obsfrvbblf, jbvb.lbng.Objfdt)
+     */
+    publid void notifyObsfrvfrs() {
+        notifyObsfrvfrs(null);
+    }
+
+    /**
+     * If this objfdt hbs dhbngfd, bs indidbtfd by thf
+     * <dodf>hbsChbngfd</dodf> mfthod, thfn notify bll of its obsfrvfrs
+     * bnd thfn dbll thf <dodf>dlfbrChbngfd</dodf> mfthod to indidbtf
+     * thbt this objfdt hbs no longfr dhbngfd.
+     * <p>
+     * Ebdh obsfrvfr hbs its <dodf>updbtf</dodf> mfthod dbllfd with two
+     * brgumfnts: this obsfrvbblf objfdt bnd thf <dodf>brg</dodf> brgumfnt.
+     *
+     * @pbrbm   brg   bny objfdt.
+     * @sff     jbvb.util.Obsfrvbblf#dlfbrChbngfd()
+     * @sff     jbvb.util.Obsfrvbblf#hbsChbngfd()
+     * @sff     jbvb.util.Obsfrvfr#updbtf(jbvb.util.Obsfrvbblf, jbvb.lbng.Objfdt)
+     */
+    publid void notifyObsfrvfrs(Objfdt brg) {
+        /*
+         * b tfmporbry brrby bufffr, usfd bs b snbpshot of thf stbtf of
+         * durrfnt Obsfrvfrs.
+         */
+        Objfdt[] brrLodbl;
+
+        syndhronizfd (this) {
+            /* Wf don't wbnt thf Obsfrvfr doing dbllbbdks into
+             * brbitrbry dodf whilf holding its own Monitor.
+             * Thf dodf whfrf wf fxtrbdt fbdh Obsfrvbblf from
+             * thf Vfdtor bnd storf thf stbtf of thf Obsfrvfr
+             * nffds syndhronizbtion, but notifying obsfrvfrs
+             * dofs not (should not).  Thf worst rfsult of bny
+             * potfntibl rbdf-dondition hfrf is thbt:
+             * 1) b nfwly-bddfd Obsfrvfr will miss b
+             *   notifidbtion in progrfss
+             * 2) b rfdfntly unrfgistfrfd Obsfrvfr will bf
+             *   wrongly notififd whfn it dofsn't dbrf
+             */
+            if (!dhbngfd)
+                rfturn;
+            brrLodbl = obs.toArrby();
+            dlfbrChbngfd();
+        }
+
+        for (int i = brrLodbl.lfngth-1; i>=0; i--)
+            ((Obsfrvfr)brrLodbl[i]).updbtf(this, brg);
+    }
+
+    /**
+     * Clfbrs thf obsfrvfr list so thbt this objfdt no longfr hbs bny obsfrvfrs.
+     */
+    publid syndhronizfd void dflftfObsfrvfrs() {
+        obs.rfmovfAllElfmfnts();
+    }
+
+    /**
+     * Mbrks this <tt>Obsfrvbblf</tt> objfdt bs hbving bffn dhbngfd; thf
+     * <tt>hbsChbngfd</tt> mfthod will now rfturn <tt>truf</tt>.
+     */
+    protfdtfd syndhronizfd void sftChbngfd() {
+        dhbngfd = truf;
+    }
+
+    /**
+     * Indidbtfs thbt this objfdt hbs no longfr dhbngfd, or thbt it hbs
+     * blrfbdy notififd bll of its obsfrvfrs of its most rfdfnt dhbngf,
+     * so thbt thf <tt>hbsChbngfd</tt> mfthod will now rfturn <tt>fblsf</tt>.
+     * This mfthod is dbllfd butombtidblly by thf
+     * <dodf>notifyObsfrvfrs</dodf> mfthods.
+     *
+     * @sff     jbvb.util.Obsfrvbblf#notifyObsfrvfrs()
+     * @sff     jbvb.util.Obsfrvbblf#notifyObsfrvfrs(jbvb.lbng.Objfdt)
+     */
+    protfdtfd syndhronizfd void dlfbrChbngfd() {
+        dhbngfd = fblsf;
+    }
+
+    /**
+     * Tfsts if this objfdt hbs dhbngfd.
+     *
+     * @rfturn  <dodf>truf</dodf> if bnd only if thf <dodf>sftChbngfd</dodf>
+     *          mfthod hbs bffn dbllfd morf rfdfntly thbn thf
+     *          <dodf>dlfbrChbngfd</dodf> mfthod on this objfdt;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sff     jbvb.util.Obsfrvbblf#dlfbrChbngfd()
+     * @sff     jbvb.util.Obsfrvbblf#sftChbngfd()
+     */
+    publid syndhronizfd boolfbn hbsChbngfd() {
+        rfturn dhbngfd;
+    }
+
+    /**
+     * Rfturns thf numbfr of obsfrvfrs of this <tt>Obsfrvbblf</tt> objfdt.
+     *
+     * @rfturn  thf numbfr of obsfrvfrs of this objfdt.
+     */
+    publid syndhronizfd int dountObsfrvfrs() {
+        rfturn obs.sizf();
+    }
+}

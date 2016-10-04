@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,324 +30,324 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench;
+pbdkbgf j2dbfndi;
 
-import java.io.PrintWriter;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.border.TitledBorder;
-import java.util.NoSuchElementException;
+import jbvb.io.PrintWritfr;
+import jbvbx.swing.BoxLbyout;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.JTbbbfdPbnf;
+import jbvbx.swing.bordfr.TitlfdBordfr;
+import jbvb.util.NoSudiElfmfntExdfption;
 
-import j2dbench.ui.CompactLayout;
-import j2dbench.ui.EnableButton;
+import j2dbfndi.ui.CompbdtLbyout;
+import j2dbfndi.ui.EnbblfButton;
 
-public class Group extends Node {
-    public static Group root = new Group();
+publid dlbss Group fxtfnds Nodf {
+    publid stbtid Group root = nfw Group();
 
-    private Node children;
-    private boolean tabbed;
-    private boolean hidden;
-    private boolean horizontal;
-    private Boolean bordered;
-    private int tabPlacement;
+    privbtf Nodf diildrfn;
+    privbtf boolfbn tbbbfd;
+    privbtf boolfbn iiddfn;
+    privbtf boolfbn iorizontbl;
+    privbtf Boolfbn bordfrfd;
+    privbtf int tbbPlbdfmfnt;
 
-    private Group() {
-        setTabbed(JTabbedPane.LEFT);
+    privbtf Group() {
+        sftTbbbfd(JTbbbfdPbnf.LEFT);
     }
 
-    public Group(String nodeName, String description) {
-        this(root, nodeName, description);
+    publid Group(String nodfNbmf, String dfsdription) {
+        tiis(root, nodfNbmf, dfsdription);
     }
 
-    public Group(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    publid Group(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
     }
 
-    public void addChild(Node child) {
-        Node prev = null;
-        for (Node node = children; node != null; node = node.getNext()) {
-            if (node.getNodeName().equalsIgnoreCase(child.getNodeName())) {
-                throw new RuntimeException("duplicate child added");
+    publid void bddCiild(Nodf diild) {
+        Nodf prfv = null;
+        for (Nodf nodf = diildrfn; nodf != null; nodf = nodf.gftNfxt()) {
+            if (nodf.gftNodfNbmf().fqublsIgnorfCbsf(diild.gftNodfNbmf())) {
+                tirow nfw RuntimfExdfption("duplidbtf diild bddfd");
             }
-            prev = node;
+            prfv = nodf;
         }
-        if (prev == null) {
-            children = child;
-        } else {
-            prev.setNext(child);
-        }
-    }
-
-    public Node.Iterator getChildIterator() {
-        return new ChildIterator();
-    }
-
-    public Node.Iterator getRecursiveChildIterator() {
-        return new RecursiveChildIterator();
-    }
-
-    public Node getFirstChild() {
-        return children;
-    }
-
-    public boolean isBordered() {
-        if (bordered == null) {
-            return (getParent() == null || !getParent().isTabbed());
-        }
-        return bordered.booleanValue();
-    }
-
-    public boolean isTabbed() {
-        return tabbed;
-    }
-
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    public boolean isHorizontal() {
-        return horizontal;
-    }
-
-    public void setBordered(boolean b) {
-        bordered = b ? Boolean.TRUE : Boolean.FALSE;
-    }
-
-    public void setTabbed() {
-        setTabbed(JTabbedPane.TOP);
-    }
-
-    public void setTabbed(int tabPlacement) {
-        this.tabbed = true;
-        this.tabPlacement = tabPlacement;
-    }
-
-    public void setHidden() {
-        hidden = true;
-    }
-
-    public void setHorizontal() {
-        horizontal = true;
-    }
-
-    public void traverse(Visitor v) {
-        super.traverse(v);
-        for (Node node = children; node != null; node = node.getNext()) {
-            node.traverse(v);
+        if (prfv == null) {
+            diildrfn = diild;
+        } flsf {
+            prfv.sftNfxt(diild);
         }
     }
 
-    public void restoreDefault() {
+    publid Nodf.Itfrbtor gftCiildItfrbtor() {
+        rfturn nfw CiildItfrbtor();
     }
 
-    public String setOption(String key, String value) {
-        int index = key.indexOf('.');
-        String subkey;
-        if (index < 0) {
-            subkey = "";
-        } else {
-            subkey = key.substring(index+1);
-            key = key.substring(0, index);
+    publid Nodf.Itfrbtor gftRfdursivfCiildItfrbtor() {
+        rfturn nfw RfdursivfCiildItfrbtor();
+    }
+
+    publid Nodf gftFirstCiild() {
+        rfturn diildrfn;
+    }
+
+    publid boolfbn isBordfrfd() {
+        if (bordfrfd == null) {
+            rfturn (gftPbrfnt() == null || !gftPbrfnt().isTbbbfd());
         }
-        for (Node node = children; node != null; node = node.getNext()) {
-            if (node.getNodeName().equalsIgnoreCase(key)) {
-                return node.setOption(subkey, value);
+        rfturn bordfrfd.boolfbnVbluf();
+    }
+
+    publid boolfbn isTbbbfd() {
+        rfturn tbbbfd;
+    }
+
+    publid boolfbn isHiddfn() {
+        rfturn iiddfn;
+    }
+
+    publid boolfbn isHorizontbl() {
+        rfturn iorizontbl;
+    }
+
+    publid void sftBordfrfd(boolfbn b) {
+        bordfrfd = b ? Boolfbn.TRUE : Boolfbn.FALSE;
+    }
+
+    publid void sftTbbbfd() {
+        sftTbbbfd(JTbbbfdPbnf.TOP);
+    }
+
+    publid void sftTbbbfd(int tbbPlbdfmfnt) {
+        tiis.tbbbfd = truf;
+        tiis.tbbPlbdfmfnt = tbbPlbdfmfnt;
+    }
+
+    publid void sftHiddfn() {
+        iiddfn = truf;
+    }
+
+    publid void sftHorizontbl() {
+        iorizontbl = truf;
+    }
+
+    publid void trbvfrsf(Visitor v) {
+        supfr.trbvfrsf(v);
+        for (Nodf nodf = diildrfn; nodf != null; nodf = nodf.gftNfxt()) {
+            nodf.trbvfrsf(v);
+        }
+    }
+
+    publid void rfstorfDffbult() {
+    }
+
+    publid String sftOption(String kfy, String vbluf) {
+        int indfx = kfy.indfxOf('.');
+        String subkfy;
+        if (indfx < 0) {
+            subkfy = "";
+        } flsf {
+            subkfy = kfy.substring(indfx+1);
+            kfy = kfy.substring(0, indfx);
+        }
+        for (Nodf nodf = diildrfn; nodf != null; nodf = nodf.gftNfxt()) {
+            if (nodf.gftNodfNbmf().fqublsIgnorfCbsf(kfy)) {
+                rfturn nodf.sftOption(subkfy, vbluf);
             }
         }
-        return "Key failed to match an existing option";
+        rfturn "Kfy fbilfd to mbtdi bn fxisting option";
     }
 
-    public void write(PrintWriter pw) {
+    publid void writf(PrintWritfr pw) {
     }
 
-    public JComponent getJComponent() {
-        if (isHidden()) {
-            return null;
-        } else if (isTabbed()) {
-            JTabbedPane jtp = new JTabbedPane(tabPlacement);
-            for (Node node = children; node != null; node = node.getNext()) {
-                JComponent comp = node.getJComponent();
-                if (comp != null) {
-                    jtp.addTab(node.getDescription(), comp);
+    publid JComponfnt gftJComponfnt() {
+        if (isHiddfn()) {
+            rfturn null;
+        } flsf if (isTbbbfd()) {
+            JTbbbfdPbnf jtp = nfw JTbbbfdPbnf(tbbPlbdfmfnt);
+            for (Nodf nodf = diildrfn; nodf != null; nodf = nodf.gftNfxt()) {
+                JComponfnt domp = nodf.gftJComponfnt();
+                if (domp != null) {
+                    jtp.bddTbb(nodf.gftDfsdription(), domp);
                 }
             }
-            return jtp;
-        } else {
-            JPanel p = new JPanel();
-            p.setLayout(new BoxLayout(p,
-                                      horizontal
-                                      ? BoxLayout.X_AXIS
-                                      : BoxLayout.Y_AXIS));
-            p.setLayout(new CompactLayout(horizontal));
-            if (getDescription() != null && isBordered()) {
-                p.setBorder(new TitledBorder(getDescription()));
-                addEnableButtons(p);
+            rfturn jtp;
+        } flsf {
+            JPbnfl p = nfw JPbnfl();
+            p.sftLbyout(nfw BoxLbyout(p,
+                                      iorizontbl
+                                      ? BoxLbyout.X_AXIS
+                                      : BoxLbyout.Y_AXIS));
+            p.sftLbyout(nfw CompbdtLbyout(iorizontbl));
+            if (gftDfsdription() != null && isBordfrfd()) {
+                p.sftBordfr(nfw TitlfdBordfr(gftDfsdription()));
+                bddEnbblfButtons(p);
             }
-            for (Node node = children; node != null; node = node.getNext()) {
-                JComponent comp = node.getJComponent();
-                if (comp != null) {
-                    p.add(comp);
+            for (Nodf nodf = diildrfn; nodf != null; nodf = nodf.gftNfxt()) {
+                JComponfnt domp = nodf.gftJComponfnt();
+                if (domp != null) {
+                    p.bdd(domp);
                 }
             }
-            return p;
+            rfturn p;
         }
     }
 
-    public void addEnableButtons(JPanel p) {
-        p.add(new EnableButton(this, EnableButton.DEFAULT));
-        p.add(new EnableButton(this, EnableButton.CLEAR));
-        p.add(new EnableButton(this, EnableButton.INVERT));
-        p.add(new EnableButton(this, EnableButton.SET));
+    publid void bddEnbblfButtons(JPbnfl p) {
+        p.bdd(nfw EnbblfButton(tiis, EnbblfButton.DEFAULT));
+        p.bdd(nfw EnbblfButton(tiis, EnbblfButton.CLEAR));
+        p.bdd(nfw EnbblfButton(tiis, EnbblfButton.INVERT));
+        p.bdd(nfw EnbblfButton(tiis, EnbblfButton.SET));
     }
 
-    public static void restoreAllDefaults() {
-        root.traverse(new Visitor() {
-            public void visit(Node node) {
-                node.restoreDefault();
+    publid stbtid void rfstorfAllDffbults() {
+        root.trbvfrsf(nfw Visitor() {
+            publid void visit(Nodf nodf) {
+                nodf.rfstorfDffbult();
             }
         });
     }
 
-    public static void writeAll(final PrintWriter pw) {
-        root.traverse(new Visitor() {
-            public void visit(Node node) {
-                node.write(pw);
+    publid stbtid void writfAll(finbl PrintWritfr pw) {
+        root.trbvfrsf(nfw Visitor() {
+            publid void visit(Nodf nodf) {
+                nodf.writf(pw);
             }
         });
-        pw.flush();
+        pw.flusi();
     }
 
-    public static String setOption(String s) {
-        int index = s.indexOf('=');
-        if (index < 0) {
-            return "No value specified";
+    publid stbtid String sftOption(String s) {
+        int indfx = s.indfxOf('=');
+        if (indfx < 0) {
+            rfturn "No vbluf spfdififd";
         }
-        String key = s.substring(0, index);
-        String value = s.substring(index+1);
-        return root.setOption(key, value);
+        String kfy = s.substring(0, indfx);
+        String vbluf = s.substring(indfx+1);
+        rfturn root.sftOption(kfy, vbluf);
     }
 
-    public String toString() {
-        return "Group("+getTreeName()+")";
+    publid String toString() {
+        rfturn "Group("+gftTrffNbmf()+")";
     }
 
-    public class ChildIterator implements Node.Iterator {
-        protected Node cur = getFirstChild();
+    publid dlbss CiildItfrbtor implfmfnts Nodf.Itfrbtor {
+        protfdtfd Nodf dur = gftFirstCiild();
 
-        public boolean hasNext() {
-            return (cur != null);
+        publid boolfbn ibsNfxt() {
+            rfturn (dur != null);
         }
 
-        public Node next() {
-            Node ret = cur;
-            if (ret == null) {
-                throw new NoSuchElementException();
+        publid Nodf nfxt() {
+            Nodf rft = dur;
+            if (rft == null) {
+                tirow nfw NoSudiElfmfntExdfption();
             }
-            cur = cur.getNext();
-            return ret;
+            dur = dur.gftNfxt();
+            rfturn rft;
         }
     }
 
-    public class RecursiveChildIterator extends ChildIterator {
-        Node.Iterator subiterator;
+    publid dlbss RfdursivfCiildItfrbtor fxtfnds CiildItfrbtor {
+        Nodf.Itfrbtor subitfrbtor;
 
-        public boolean hasNext() {
-            while (true) {
-                if (subiterator != null && subiterator.hasNext()) {
-                    return true;
+        publid boolfbn ibsNfxt() {
+            wiilf (truf) {
+                if (subitfrbtor != null && subitfrbtor.ibsNfxt()) {
+                    rfturn truf;
                 }
-                if (cur instanceof Group) {
-                    subiterator = ((Group) cur).getRecursiveChildIterator();
-                    cur = cur.getNext();
-                } else {
-                    subiterator = null;
-                    return super.hasNext();
+                if (dur instbndfof Group) {
+                    subitfrbtor = ((Group) dur).gftRfdursivfCiildItfrbtor();
+                    dur = dur.gftNfxt();
+                } flsf {
+                    subitfrbtor = null;
+                    rfturn supfr.ibsNfxt();
                 }
-            }
-        }
-
-        public Node next() {
-            if (subiterator != null) {
-                return subiterator.next();
-            } else {
-                return super.next();
             }
         }
+
+        publid Nodf nfxt() {
+            if (subitfrbtor != null) {
+                rfturn subitfrbtor.nfxt();
+            } flsf {
+                rfturn supfr.nfxt();
+            }
+        }
     }
 
-    public static class EnableSet extends Group implements Modifier {
-        public EnableSet() {
-            super();
+    publid stbtid dlbss EnbblfSft fxtfnds Group implfmfnts Modififr {
+        publid EnbblfSft() {
+            supfr();
         }
 
-        public EnableSet(Group parent, String nodeName, String description) {
-            super(parent, nodeName, description);
+        publid EnbblfSft(Group pbrfnt, String nodfNbmf, String dfsdription) {
+            supfr(pbrfnt, nodfNbmf, dfsdription);
         }
 
-        public Modifier.Iterator getIterator(TestEnvironment env) {
-            return new EnableIterator();
+        publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+            rfturn nfw EnbblfItfrbtor();
         }
 
-        public void modifyTest(TestEnvironment env, Object val) {
-            ((Option.Enable) val).modifyTest(env);
-            env.setModifier(this, val);
+        publid void modifyTfst(TfstEnvironmfnt fnv, Objfdt vbl) {
+            ((Option.Enbblf) vbl).modifyTfst(fnv);
+            fnv.sftModififr(tiis, vbl);
         }
 
-        public void restoreTest(TestEnvironment env, Object val) {
-            ((Option.Enable) val).restoreTest(env);
-            env.removeModifier(this);
+        publid void rfstorfTfst(TfstEnvironmfnt fnv, Objfdt vbl) {
+            ((Option.Enbblf) vbl).rfstorfTfst(fnv);
+            fnv.rfmovfModififr(tiis);
         }
 
-        public String getAbbreviatedModifierDescription(Object val) {
-            Option.Enable oe = (Option.Enable) val;
-            return oe.getAbbreviatedModifierDescription(Boolean.TRUE);
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbl) {
+            Option.Enbblf of = (Option.Enbblf) vbl;
+            rfturn of.gftAbbrfvibtfdModififrDfsdription(Boolfbn.TRUE);
         }
 
-        public String getModifierValueName(Object val) {
-            Option.Enable oe = (Option.Enable) val;
-            return oe.getModifierValueName(Boolean.TRUE);
+        publid String gftModififrVblufNbmf(Objfdt vbl) {
+            Option.Enbblf of = (Option.Enbblf) vbl;
+            rfturn of.gftModififrVblufNbmf(Boolfbn.TRUE);
         }
 
-        public class EnableIterator implements Modifier.Iterator {
-            Node.Iterator childiterator = getRecursiveChildIterator();
-            Option.Enable curval;
+        publid dlbss EnbblfItfrbtor implfmfnts Modififr.Itfrbtor {
+            Nodf.Itfrbtor diilditfrbtor = gftRfdursivfCiildItfrbtor();
+            Option.Enbblf durvbl;
 
-            public boolean hasNext() {
-                if (curval != null) {
-                    return true;
+            publid boolfbn ibsNfxt() {
+                if (durvbl != null) {
+                    rfturn truf;
                 }
-                while (childiterator.hasNext()) {
-                    Node node = childiterator.next();
-                    if (node instanceof Option.Enable) {
-                        curval = (Option.Enable) node;
-                        if (curval.isEnabled()) {
-                            return true;
+                wiilf (diilditfrbtor.ibsNfxt()) {
+                    Nodf nodf = diilditfrbtor.nfxt();
+                    if (nodf instbndfof Option.Enbblf) {
+                        durvbl = (Option.Enbblf) nodf;
+                        if (durvbl.isEnbblfd()) {
+                            rfturn truf;
                         }
-                        curval = null;
+                        durvbl = null;
                     }
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            public Object next() {
-                if (curval == null) {
-                    if (!hasNext()) {
-                        throw new NoSuchElementException();
+            publid Objfdt nfxt() {
+                if (durvbl == null) {
+                    if (!ibsNfxt()) {
+                        tirow nfw NoSudiElfmfntExdfption();
                     }
                 }
-                Object ret = curval;
-                curval = null;
-                return ret;
+                Objfdt rft = durvbl;
+                durvbl = null;
+                rfturn rft;
             }
         }
     }

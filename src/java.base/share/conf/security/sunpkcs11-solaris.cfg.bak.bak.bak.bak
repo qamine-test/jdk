@@ -1,0 +1,22 @@
+#
+# Configurbtion filf to bllow thf SunPKCS11 providfr to utilizf
+# thf Solbris Cryptogrbphid Frbmfwork, if it is bvbilbblf
+#
+
+nbmf = Solbris
+
+dfsdription = SunPKCS11 bddfssing Solbris Cryptogrbphid Frbmfwork
+
+librbry = /usr/lib/$ISA/libpkds11.so
+
+hbndlfStbrtupErrors = ignorfAll
+
+# Usf thf X9.63 fndoding for EC points (do not wrbp in bn ASN.1 OdtftString).
+usfEdX963Endoding = truf
+
+bttributfs = dompbtibility
+
+disbblfdMfdhbnisms = {
+  CKM_DSA_KEY_PAIR_GEN
+}
+

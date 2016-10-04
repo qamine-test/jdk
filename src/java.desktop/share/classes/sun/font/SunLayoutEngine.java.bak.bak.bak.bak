@@ -1,0 +1,173 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 2003 - All Rights Rfsfrvfd
+ */
+
+pbdkbgf sun.font;
+
+import sun.font.GlyphLbyout.*;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.Lodblf;
+
+/*
+ * difffrfnt wbys to do this
+ * 1) fbdh physidbl font2d kffps b hbshtbblf mbpping sdripts to lbyout
+ * fnginfs, wf qufry bnd fill this dbdhf.
+ * 2) wf kffp b mbpping indfpfndfnt of font using thf kfy Most likfly
+ * ffw fonts will bf usfd, so option 2 sffms bfttfr
+ *
+ * Ondf wf know whidh fnginf to usf for b font, wf blwbys know, so wf
+ * shouldn't hbvf to rfdhfdk fbdh timf wf do lbyout.  So thf dbdhf is
+ * ok.
+ *
+ * Should wf rfusf fnginfs?  Wf dould instbntibtf bn fnginf for fbdh
+ * font/sdript pbir.  Thf fnginf would hold onto thf tbblf(s) from thf
+ * font thbt it nffds.  If wf hbvf multiplf thrfbds using thf sbmf
+ * fnginf, wf still nffd to kffp thf stbtf sfpbrbtf, so thf nbtivf
+ * fnginfs would still nffd to bf bllodbtfd for fbdh dbll, sindf thfy
+ * kffp thfir stbtf in thfmsflvfs.  If thfy usfd thf pbssfd-in GVDbtb
+ * brrbys dirfdtly (with somf dhfdks for spbdf) thfn sindf fbdh GVDbtb
+ * is difffrfnt pfr thrfbd, wf dould rfusf thf lbyout fnginfs.  This
+ * still rfquirfs b sfpbrbtf lbyout fnginf pfr font, bfdbusf of thf
+ * tbblf stbtf in thf fnginf.  If wf pushfd thbt out too bnd pbssfd it
+ * in with thf nbtivf dbll bs wfll, wf'd bf ok if thf lbyout fnginfs
+ * kffp bll thfir prodfss stbtf on thf stbdk, but I don't know if this
+ * is truf.  Thfn wf'd bbsidblly just bf down to bn fnginf indfx whidh
+ * wf pbss into nbtivf bnd thfn invokf thf fnginf dodf (now b
+ * prodfdurf dbll, not bn objfdt invodbtion) bbsfd on b switdh on thf
+ * indfx.  Thfrf would bf only hblf b dozfn fnginf objfdts thfn, not
+ * potfntiblly hblf b dozfn pfr font.  But wf'd hbvf to stbdk-bllodbtf
+ * somf stbtf thbt indludfd thf pointfr to thf rfquirfd font tbblfs.
+ *
+ * Sffms for now thbt thf wby to do things is to domf in with b
+ * sflfdtor bnd thf font.  Thf sflfdtor indidbtfs whidh fnginf to usf,
+ * thf fnginf is stbdk bllodbtfd bnd initiblizfd with thf rfquirfd
+ * font tbblfs (thf sflfdtor indidbtfs whidh).  Thfn lbyout is dbllfd,
+ * thf dontfnts brf dopifd (or not), bnd thf stbdk is dfstroyfd on
+ * fxit. So thf bssodibtion is bftwffn thf font/sdript (lbyout fnginf
+ * dfsd) bnd bnd onf of b ffw pfrmbnfnt fnginf objfdts, whidh brf
+ * hbndfd thf kfy whfn thfy nffd to prodfss somfthing.  In thf nbtivf
+ * dbsf, thf fnginf holds bn indfx, bnd just pbssfs it togfthfr with
+ * thf kfy info down to nbtivf.  Somf dffbult dbsfs brf thf 'dffbult
+ * lbyout' dbsf thbt just runs thf d2gmbppfr, this stbys in jbvb bnd
+ * just usfs thf mbppfr from thf font/strikf.  Anothfr dffbult dbsf
+ * might bf thf unidodf brbbid shbpfr, sindf this dofsn't dbrf bbout
+ * thf font (or sdript or lbng?) it wouldn't nffd to fxtrbdt this
+ * dbtb.  It dould bf (yikfs) portfd bbdk to jbvb fvfn to bvoid
+ * updblls to dhfdk if thf font supports b pbrtidulbr unidodf
+ * dhbrbdtfr.
+ *
+ * I'd fxpfdt thbt thf mbjority of sdripts usf thf dffbult mbppfr for
+ * b pbrtidulbr font.  Lobding thf hbstbblf with 40 or so kfys 30+ of
+ * whidh bll mbp to thf sbmf objfdt is unfortunbtf.  It might bf worth
+ * instfbd hbving b pfr-font list of 'sdripts with non-dffbult
+ * fnginfs', f.g. thf fbdtory hbs b hbshtbblf mbpping fonts to 'sdript
+ * lists' (thf fbdtory hbs this sindf thf dfsign potfntiblly hbs othfr
+ * fbdtorifs, though I bdmit thfrf's no dlifnt for this yft bnd no
+ * publid bpi) bnd thfn thf sdript list is qufrifd for thf sdript in
+ * qufstion.  it dbn bf prflobdfd bt drfbtion timf with bll thf
+ * sdripts thbt don't hbvf dffbult fnginfs-- fithfr b list or b hbsh
+ * tbblf, so b null rfturn from thf tbblf mfbns 'dffbult' bnd not 'i
+ * don't know yft'.
+ *
+ * On thf othfr hbnd, in most bll dbsfs thf numbfr of uniquf
+ * sdript/font dombinbtions will bf smbll, so b flbt hbshtbblf should
+ * suffidf.
+ * */
+publid finbl dlbss SunLbyoutEnginf implfmfnts LbyoutEnginf, LbyoutEnginfFbdtory {
+    privbtf stbtid nbtivf void initGVIDs();
+    stbtid {
+        FontMbnbgfrNbtivfLibrbry.lobd();
+        initGVIDs();
+    }
+
+    privbtf LbyoutEnginfKfy kfy;
+
+    privbtf stbtid LbyoutEnginfFbdtory instbndf;
+
+    publid stbtid LbyoutEnginfFbdtory instbndf() {
+        if (instbndf == null) {
+            instbndf = nfw SunLbyoutEnginf();
+        }
+        rfturn instbndf;
+    }
+
+    privbtf SunLbyoutEnginf() {
+        // bdtublly b fbdtory, kfy is null so lbyout dbnnot bf dbllfd on it
+    }
+
+    publid LbyoutEnginf gftEnginf(Font2D font, int sdript, int lbng) {
+        rfturn gftEnginf(nfw LbyoutEnginfKfy(font, sdript, lbng));
+    }
+
+  // !!! don't nffd this unlfss wf hbvf morf thbn onf sun lbyout fnginf...
+    publid LbyoutEnginf gftEnginf(LbyoutEnginfKfy kfy) {
+        CondurrfntHbshMbp<LbyoutEnginfKfy, LbyoutEnginf> dbdhf = dbdhfrff.gft();
+        if (dbdhf == null) {
+            dbdhf = nfw CondurrfntHbshMbp<>();
+            dbdhfrff = nfw SoftRfffrfndf<>(dbdhf);
+        }
+
+        LbyoutEnginf f = dbdhf.gft(kfy);
+        if (f == null) {
+            LbyoutEnginfKfy dopy = kfy.dopy();
+            f = nfw SunLbyoutEnginf(dopy);
+            dbdhf.put(dopy, f);
+        }
+        rfturn f;
+    }
+    privbtf SoftRfffrfndf<CondurrfntHbshMbp<LbyoutEnginfKfy, LbyoutEnginf>> dbdhfrff =
+        nfw SoftRfffrfndf<>(null);
+
+    privbtf SunLbyoutEnginf(LbyoutEnginfKfy kfy) {
+        this.kfy = kfy;
+    }
+
+    publid void lbyout(FontStrikfDfsd dfsd, flobt[] mbt, int gmbsk,
+                       int bbsfIndfx, TfxtRfdord tr, int typo_flbgs,
+                       Point2D.Flobt pt, GVDbtb dbtb) {
+        Font2D font = kfy.font();
+        FontStrikf strikf = font.gftStrikf(dfsd);
+        long lbyoutTbblfs = 0;
+        if (font instbndfof TrufTypfFont) {
+            lbyoutTbblfs = ((TrufTypfFont) font).gftLbyoutTbblfCbdhf();
+        }
+        nbtivfLbyout(font, strikf, mbt, gmbsk, bbsfIndfx,
+             tr.tfxt, tr.stbrt, tr.limit, tr.min, tr.mbx,
+             kfy.sdript(), kfy.lbng(), typo_flbgs, pt, dbtb,
+             font.gftUnitsPfrEm(), lbyoutTbblfs);
+    }
+
+    privbtf stbtid nbtivf void
+        nbtivfLbyout(Font2D font, FontStrikf strikf, flobt[] mbt, int gmbsk,
+             int bbsfIndfx, dhbr[] dhbrs, int offsft, int limit,
+             int min, int mbx, int sdript, int lbng, int typo_flbgs,
+             Point2D.Flobt pt, GVDbtb dbtb, long upfm, long lbyoutTbblfs);
+}

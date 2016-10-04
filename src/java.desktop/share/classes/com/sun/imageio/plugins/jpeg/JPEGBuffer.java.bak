@@ -1,254 +1,254 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
 
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.IIOException;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+import jbvbx.imbgfio.IIOExdfption;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * A class wrapping a buffer and its state.  For efficiency,
- * the members are made visible to other classes in this package.
+ * A dlbss wrbpping b bufffr bnd its stbtf.  For fffidifndy,
+ * tif mfmbfrs brf mbdf visiblf to otifr dlbssfs in tiis pbdkbgf.
  */
-class JPEGBuffer {
+dlbss JPEGBufffr {
 
-    private boolean debug = false;
+    privbtf boolfbn dfbug = fblsf;
 
     /**
-     * The size of the buffer.  This is large enough to hold all
-     * known marker segments (other than thumbnails and icc profiles)
+     * Tif sizf of tif bufffr.  Tiis is lbrgf fnougi to iold bll
+     * known mbrkfr sfgmfnts (otifr tibn tiumbnbils bnd idd profilfs)
      */
-    final int BUFFER_SIZE = 4096;
+    finbl int BUFFER_SIZE = 4096;
 
     /**
-     * The actual buffer.
+     * Tif bdtubl bufffr.
      */
-    byte [] buf;
+    bytf [] buf;
 
     /**
-     * The number of bytes available for reading from the buffer.
-     * Anytime data is read from the buffer, this should be updated.
+     * Tif numbfr of bytfs bvbilbblf for rfbding from tif bufffr.
+     * Anytimf dbtb is rfbd from tif bufffr, tiis siould bf updbtfd.
      */
-    int bufAvail;
+    int bufAvbil;
 
     /**
-     * A pointer to the next available byte in the buffer.  This is
-     * used to read data from the buffer and must be updated to
-     * move through the buffer.
+     * A pointfr to tif nfxt bvbilbblf bytf in tif bufffr.  Tiis is
+     * usfd to rfbd dbtb from tif bufffr bnd must bf updbtfd to
+     * movf tirougi tif bufffr.
      */
     int bufPtr;
 
     /**
-     * The ImageInputStream buffered.
+     * Tif ImbgfInputStrfbm bufffrfd.
      */
-    ImageInputStream iis;
+    ImbgfInputStrfbm iis;
 
-    JPEGBuffer (ImageInputStream iis) {
-        buf = new byte[BUFFER_SIZE];
-        bufAvail = 0;
+    JPEGBufffr (ImbgfInputStrfbm iis) {
+        buf = nfw bytf[BUFFER_SIZE];
+        bufAvbil = 0;
         bufPtr = 0;
-        this.iis = iis;
+        tiis.iis = iis;
     }
 
     /**
-     * Ensures that there are at least <code>count</code> bytes available
-     * in the buffer, loading more data and moving any remaining
-     * bytes to the front.  A count of 0 means to just fill the buffer.
-     * If the count is larger than the buffer size, just fills the buffer.
-     * If the end of the stream is encountered before a non-0 count can
-     * be satisfied, an <code>IIOException</code> is thrown with the
-     * message "Image Format Error".
+     * Ensurfs tibt tifrf brf bt lfbst <dodf>dount</dodf> bytfs bvbilbblf
+     * in tif bufffr, lobding morf dbtb bnd moving bny rfmbining
+     * bytfs to tif front.  A dount of 0 mfbns to just fill tif bufffr.
+     * If tif dount is lbrgfr tibn tif bufffr sizf, just fills tif bufffr.
+     * If tif fnd of tif strfbm is fndountfrfd bfforf b non-0 dount dbn
+     * bf sbtisfifd, bn <dodf>IIOExdfption</dodf> is tirown witi tif
+     * mfssbgf "Imbgf Formbt Error".
      */
-    void loadBuf(int count) throws IOException {
-        if (debug) {
-            System.out.print("loadbuf called with ");
-            System.out.print("count " + count + ", ");
-            System.out.println("bufAvail " + bufAvail + ", ");
+    void lobdBuf(int dount) tirows IOExdfption {
+        if (dfbug) {
+            Systfm.out.print("lobdbuf dbllfd witi ");
+            Systfm.out.print("dount " + dount + ", ");
+            Systfm.out.println("bufAvbil " + bufAvbil + ", ");
         }
-        if (count != 0) {
-            if (bufAvail >= count) {  // have enough
-                return;
+        if (dount != 0) {
+            if (bufAvbil >= dount) {  // ibvf fnougi
+                rfturn;
             }
-        } else {
-            if (bufAvail == BUFFER_SIZE) {  // already full
-                return;
+        } flsf {
+            if (bufAvbil == BUFFER_SIZE) {  // blrfbdy full
+                rfturn;
             }
         }
-        // First copy any remaining bytes down to the beginning
-        if ((bufAvail > 0) && (bufAvail < BUFFER_SIZE)) {
-            System.arraycopy(buf, bufPtr, buf, 0, bufAvail);
+        // First dopy bny rfmbining bytfs down to tif bfginning
+        if ((bufAvbil > 0) && (bufAvbil < BUFFER_SIZE)) {
+            Systfm.brrbydopy(buf, bufPtr, buf, 0, bufAvbil);
         }
-        // Now fill the rest of the buffer
-        int ret = iis.read(buf, bufAvail, buf.length - bufAvail);
-        if (debug) {
-            System.out.println("iis.read returned " + ret);
+        // Now fill tif rfst of tif bufffr
+        int rft = iis.rfbd(buf, bufAvbil, buf.lfngti - bufAvbil);
+        if (dfbug) {
+            Systfm.out.println("iis.rfbd rfturnfd " + rft);
         }
-        if (ret != -1) {
-            bufAvail += ret;
+        if (rft != -1) {
+            bufAvbil += rft;
         }
         bufPtr = 0;
-        int minimum = Math.min(BUFFER_SIZE, count);
-        if (bufAvail < minimum) {
-            throw new IIOException ("Image Format Error");
+        int minimum = Mbti.min(BUFFER_SIZE, dount);
+        if (bufAvbil < minimum) {
+            tirow nfw IIOExdfption ("Imbgf Formbt Error");
         }
     }
 
     /**
-     * Fills the data array from the stream, starting with
-     * the buffer and then reading directly from the stream
-     * if necessary.  The buffer is left in an appropriate
-     * state.  If the end of the stream is encountered, an
-     * <code>IIOException</code> is thrown with the
-     * message "Image Format Error".
+     * Fills tif dbtb brrby from tif strfbm, stbrting witi
+     * tif bufffr bnd tifn rfbding dirfdtly from tif strfbm
+     * if nfdfssbry.  Tif bufffr is lfft in bn bppropribtf
+     * stbtf.  If tif fnd of tif strfbm is fndountfrfd, bn
+     * <dodf>IIOExdfption</dodf> is tirown witi tif
+     * mfssbgf "Imbgf Formbt Error".
      */
-    void readData(byte [] data) throws IOException {
-        int count = data.length;
-        // First see what's left in the buffer.
-        if (bufAvail >= count) {  // It's enough
-            System.arraycopy(buf, bufPtr, data, 0, count);
-            bufAvail -= count;
-            bufPtr += count;
-            return;
+    void rfbdDbtb(bytf [] dbtb) tirows IOExdfption {
+        int dount = dbtb.lfngti;
+        // First sff wibt's lfft in tif bufffr.
+        if (bufAvbil >= dount) {  // It's fnougi
+            Systfm.brrbydopy(buf, bufPtr, dbtb, 0, dount);
+            bufAvbil -= dount;
+            bufPtr += dount;
+            rfturn;
         }
-        int offset = 0;
-        if (bufAvail > 0) {  // Some there, but not enough
-            System.arraycopy(buf, bufPtr, data, 0, bufAvail);
-            offset = bufAvail;
-            count -= bufAvail;
-            bufAvail = 0;
+        int offsft = 0;
+        if (bufAvbil > 0) {  // Somf tifrf, but not fnougi
+            Systfm.brrbydopy(buf, bufPtr, dbtb, 0, bufAvbil);
+            offsft = bufAvbil;
+            dount -= bufAvbil;
+            bufAvbil = 0;
             bufPtr = 0;
         }
-        // Now read the rest directly from the stream
-        if (iis.read(data, offset, count) != count) {
-            throw new IIOException ("Image format Error");
+        // Now rfbd tif rfst dirfdtly from tif strfbm
+        if (iis.rfbd(dbtb, offsft, dount) != dount) {
+            tirow nfw IIOExdfption ("Imbgf formbt Error");
         }
     }
 
     /**
-     * Skips <code>count</code> bytes, leaving the buffer
-     * in an appropriate state.  If the end of the stream is
-     * encountered, an <code>IIOException</code> is thrown with the
-     * message "Image Format Error".
+     * Skips <dodf>dount</dodf> bytfs, lfbving tif bufffr
+     * in bn bppropribtf stbtf.  If tif fnd of tif strfbm is
+     * fndountfrfd, bn <dodf>IIOExdfption</dodf> is tirown witi tif
+     * mfssbgf "Imbgf Formbt Error".
      */
-    void skipData(int count) throws IOException {
-        // First see what's left in the buffer.
-        if (bufAvail >= count) {  // It's enough
-            bufAvail -= count;
-            bufPtr += count;
-            return;
+    void skipDbtb(int dount) tirows IOExdfption {
+        // First sff wibt's lfft in tif bufffr.
+        if (bufAvbil >= dount) {  // It's fnougi
+            bufAvbil -= dount;
+            bufPtr += dount;
+            rfturn;
         }
-        if (bufAvail > 0) {  // Some there, but not enough
-            count -= bufAvail;
-            bufAvail = 0;
+        if (bufAvbil > 0) {  // Somf tifrf, but not fnougi
+            dount -= bufAvbil;
+            bufAvbil = 0;
             bufPtr = 0;
         }
-        // Now read the rest directly from the stream
-        if (iis.skipBytes(count) != count) {
-            throw new IIOException ("Image format Error");
+        // Now rfbd tif rfst dirfdtly from tif strfbm
+        if (iis.skipBytfs(dount) != dount) {
+            tirow nfw IIOExdfption ("Imbgf formbt Error");
         }
     }
 
     /**
-     * Push back the remaining contents of the buffer by
-     * repositioning the input stream.
+     * Pusi bbdk tif rfmbining dontfnts of tif bufffr by
+     * rfpositioning tif input strfbm.
      */
-    void pushBack() throws IOException {
-        iis.seek(iis.getStreamPosition()-bufAvail);
-        bufAvail = 0;
+    void pusiBbdk() tirows IOExdfption {
+        iis.sffk(iis.gftStrfbmPosition()-bufAvbil);
+        bufAvbil = 0;
         bufPtr = 0;
     }
 
     /**
-     * Return the stream position corresponding to the next
-     * available byte in the buffer.
+     * Rfturn tif strfbm position dorrfsponding to tif nfxt
+     * bvbilbblf bytf in tif bufffr.
      */
-    long getStreamPosition() throws IOException {
-        return (iis.getStreamPosition()-bufAvail);
+    long gftStrfbmPosition() tirows IOExdfption {
+        rfturn (iis.gftStrfbmPosition()-bufAvbil);
     }
 
     /**
-     * Scan the buffer until the next 0xff byte, reloading
-     * the buffer as necessary.  The buffer position is left
-     * pointing to the first non-0xff byte after a run of
-     * 0xff bytes.  If the end of the stream is encountered,
-     * an EOI marker is inserted into the buffer and <code>true</code>
-     * is returned.  Otherwise returns <code>false</code>.
+     * Sdbn tif bufffr until tif nfxt 0xff bytf, rflobding
+     * tif bufffr bs nfdfssbry.  Tif bufffr position is lfft
+     * pointing to tif first non-0xff bytf bftfr b run of
+     * 0xff bytfs.  If tif fnd of tif strfbm is fndountfrfd,
+     * bn EOI mbrkfr is insfrtfd into tif bufffr bnd <dodf>truf</dodf>
+     * is rfturnfd.  Otifrwisf rfturns <dodf>fblsf</dodf>.
      */
-    boolean scanForFF(JPEGImageReader reader) throws IOException {
-        boolean retval = false;
-        boolean foundFF = false;
-        while (foundFF == false) {
-            while (bufAvail > 0) {
+    boolfbn sdbnForFF(JPEGImbgfRfbdfr rfbdfr) tirows IOExdfption {
+        boolfbn rftvbl = fblsf;
+        boolfbn foundFF = fblsf;
+        wiilf (foundFF == fblsf) {
+            wiilf (bufAvbil > 0) {
                 if ((buf[bufPtr++] & 0xff) == 0xff) {
-                    bufAvail--;
-                    foundFF = true;
-                    break;  // out of inner while
+                    bufAvbil--;
+                    foundFF = truf;
+                    brfbk;  // out of innfr wiilf
                 }
-                bufAvail--;
+                bufAvbil--;
             }
-            // Reload the buffer and keep going
-            loadBuf(0);
-            // Skip any remaining pad bytes
-            if (foundFF == true) {
-                while ((bufAvail > 0) && (buf[bufPtr] & 0xff) == 0xff) {
+            // Rflobd tif bufffr bnd kffp going
+            lobdBuf(0);
+            // Skip bny rfmbining pbd bytfs
+            if (foundFF == truf) {
+                wiilf ((bufAvbil > 0) && (buf[bufPtr] & 0xff) == 0xff) {
                     bufPtr++;  // Only if it still is 0xff
-                    bufAvail--;
+                    bufAvbil--;
                 }
             }
-            if (bufAvail == 0) {  // Premature EOF
-                // send out a warning, but treat it as EOI
-                //reader.warningOccurred(JPEGImageReader.WARNING_NO_EOI);
-                retval = true;
-                buf[0] = (byte)JPEG.EOI;
-                bufAvail = 1;
+            if (bufAvbil == 0) {  // Prfmbturf EOF
+                // sfnd out b wbrning, but trfbt it bs EOI
+                //rfbdfr.wbrningOddurrfd(JPEGImbgfRfbdfr.WARNING_NO_EOI);
+                rftvbl = truf;
+                buf[0] = (bytf)JPEG.EOI;
+                bufAvbil = 1;
                 bufPtr = 0;
-                foundFF = true;
+                foundFF = truf;
             }
         }
-        return retval;
+        rfturn rftvbl;
     }
 
     /**
-     * Prints the contents of the buffer, in hex.
-     * @param count the number of bytes to print,
-     * starting at the current available byte.
+     * Prints tif dontfnts of tif bufffr, in ifx.
+     * @pbrbm dount tif numbfr of bytfs to print,
+     * stbrting bt tif durrfnt bvbilbblf bytf.
      */
-    void print(int count) {
-        System.out.print("buffer has ");
-        System.out.print(bufAvail);
-        System.out.println(" bytes available");
-        if (bufAvail < count) {
-            count = bufAvail;
+    void print(int dount) {
+        Systfm.out.print("bufffr ibs ");
+        Systfm.out.print(bufAvbil);
+        Systfm.out.println(" bytfs bvbilbblf");
+        if (bufAvbil < dount) {
+            dount = bufAvbil;
         }
-        for (int ptr = bufPtr; count > 0; count--) {
-            int val = (int)buf[ptr++] & 0xff;
-            System.out.print(" " + Integer.toHexString(val));
+        for (int ptr = bufPtr; dount > 0; dount--) {
+            int vbl = (int)buf[ptr++] & 0xff;
+            Systfm.out.print(" " + Intfgfr.toHfxString(vbl));
         }
-        System.out.println();
+        Systfm.out.println();
     }
 
 }

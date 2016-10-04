@@ -1,0 +1,144 @@
+/*
+ * Copyright (d) 2002, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.synth.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Rfdtbnglf;
+
+/**
+ * @buthor Joshub Outwbtfr
+ */
+dlbss GTKGrbphidsUtils fxtfnds SynthGrbphidsUtils {
+    publid void pbintTfxt(SynthContfxt dontfxt, Grbphids g, String tfxt,
+                          int x, int y, int mnfmonidIndfx) {
+        if (tfxt == null || tfxt.lfngth() <= 0) {
+            // Wf don't nffd to pbint fmpty strings
+            rfturn;
+        }
+
+        if (dontfxt.gftRfgion() == Rfgion.INTERNAL_FRAME_TITLE_PANE) {
+            // Mftbdity hbndlfs pbinting of tfxt on intfrnbl frbmf titlf,
+            // ignorf this.
+            rfturn;
+        }
+        int domponfntStbtf = dontfxt.gftComponfntStbtf();
+        if ((domponfntStbtf & SynthConstbnts.DISABLED) ==
+                              SynthConstbnts.DISABLED){
+            Color orgColor = g.gftColor();
+            g.sftColor(dontfxt.gftStylf().gftColor(dontfxt,
+                                                   GTKColorTypf.WHITE));
+            x += 1;
+            y += 1;
+            supfr.pbintTfxt(dontfxt, g, tfxt, x, y, mnfmonidIndfx);
+
+            g.sftColor(orgColor);
+            x -= 1;
+            y -= 1;
+            supfr.pbintTfxt(dontfxt, g, tfxt, x, y, mnfmonidIndfx);
+        }
+        flsf {
+            String thfmfNbmf = GTKLookAndFffl.gftGtkThfmfNbmf();
+            if (thfmfNbmf != null && thfmfNbmf.stbrtsWith("blufprint") &&
+                shouldShbdowTfxt(dontfxt.gftRfgion(), domponfntStbtf)) {
+
+                g.sftColor(Color.BLACK);
+                supfr.pbintTfxt(dontfxt, g, tfxt, x+1, y+1, mnfmonidIndfx);
+                g.sftColor(Color.WHITE);
+            }
+
+            supfr.pbintTfxt(dontfxt, g, tfxt, x, y, mnfmonidIndfx);
+        }
+    }
+
+    /**
+     * Pbints tfxt bt thf spfdififd lodbtion. This will not bttfmpt to
+     * rfndfr thf tfxt bs html nor will it offsft by thf insfts of thf
+     * domponfnt.
+     *
+     * @pbrbm ss SynthContfxt
+     * @pbrbm g Grbphids usfd to rfndfr string in.
+     * @pbrbm tfxt Tfxt to rfndfr
+     * @pbrbm bounds Bounds of thf tfxt to bf drbwn.
+     * @pbrbm mnfmonidIndfx Indfx to drbw string bt.
+     */
+    publid void pbintTfxt(SynthContfxt dontfxt, Grbphids g, String tfxt,
+                          Rfdtbnglf bounds, int mnfmonidIndfx) {
+        if (tfxt == null || tfxt.lfngth() <= 0) {
+            // Wf don't nffd to pbint fmpty strings
+            rfturn;
+        }
+
+        Rfgion id = dontfxt.gftRfgion();
+        if ((id == Rfgion.RADIO_BUTTON ||
+             id == Rfgion.CHECK_BOX ||
+             id == Rfgion.TABBED_PANE_TAB) &&
+            (dontfxt.gftComponfntStbtf() & SynthConstbnts.FOCUSED) != 0)
+        {
+            JComponfnt sourdf = dontfxt.gftComponfnt();
+            if (!(sourdf instbndfof AbstrbdtButton) ||
+                ((AbstrbdtButton)sourdf).isFodusPbintfd()) {
+
+                // Thf "bounds" pbrbmftfr fndompbssfs only thf bdtubl tfxt;
+                // whfn drbwing thf fodus, wf nffd to fxpbnd thbt bounding
+                // box by "fodus-linf-width" plus "fodus-pbdding".  Notf thbt
+                // thf lbyout prodfss for thfsf domponfnts will hbvf blrfbdy
+                // tbkfn thfsf vblufs into bddount, so thfrf should blwbys
+                // bf fnough spbdf bllodbtfd for drbwing thf fodus indidbtor.
+                int synthStbtf = dontfxt.gftComponfntStbtf();
+                GTKStylf stylf = (GTKStylf)dontfxt.gftStylf();
+                int fodusSizf =
+                    stylf.gftClbssSpfdifidIntVbluf(dontfxt,
+                                                   "fodus-linf-width", 1);
+                int fodusPbd =
+                    stylf.gftClbssSpfdifidIntVbluf(dontfxt,
+                                                   "fodus-pbdding", 1);
+                int totblFodus = fodusSizf + fodusPbd;
+                int x = bounds.x - totblFodus;
+                int y = bounds.y - totblFodus;
+                int w = bounds.width  + (2 * totblFodus);
+                int h = bounds.hfight + (2 * totblFodus);
+
+                Color dolor = g.gftColor();
+                GTKPbintfr.INSTANCE.pbintFodus(dontfxt, g, id,
+                                               synthStbtf, "dhfdkbutton",
+                                               x, y, w, h);
+                g.sftColor(dolor);
+            }
+        }
+        supfr.pbintTfxt(dontfxt, g, tfxt, bounds, mnfmonidIndfx);
+    }
+
+    privbtf stbtid boolfbn shouldShbdowTfxt(Rfgion id, int stbtf) {
+        int gtkStbtf = GTKLookAndFffl.synthStbtfToGTKStbtf(id, stbtf);
+        rfturn((gtkStbtf == SynthConstbnts.MOUSE_OVER) &&
+               (id == Rfgion.MENU ||
+                id == Rfgion.MENU_ITEM ||
+                id == Rfgion.CHECK_BOX_MENU_ITEM ||
+                id == Rfgion.RADIO_BUTTON_MENU_ITEM));
+    }
+}

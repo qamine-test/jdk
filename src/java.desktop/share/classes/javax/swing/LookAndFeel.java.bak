@@ -1,730 +1,730 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Font;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.SystemColor;
-import java.awt.Toolkit;
-import sun.awt.SunToolkit;
+import jbvb.bwt.Font;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.SystfmColor;
+import jbvb.bwt.Toolkit;
+import sun.bwt.SunToolkit;
 
-import javax.swing.text.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
 
-import java.net.URL;
-import sun.swing.SwingUtilities2;
-import sun.swing.DefaultLayoutStyle;
-import sun.swing.ImageIconUIResource;
+import jbvb.nft.URL;
+import sun.swing.SwingUtilitifs2;
+import sun.swing.DffbultLbyoutStylf;
+import sun.swing.ImbgfIdonUIRfsourdf;
 
-import java.util.StringTokenizer;
+import jbvb.util.StringTokfnizfr;
 
 
 /**
- * {@code LookAndFeel}, as the name implies, encapsulates a look and
- * feel. Beyond installing a look and feel most developers never need to
- * interact directly with {@code LookAndFeel}. In general only developers
- * creating a custom look and feel need to concern themselves with this class.
+ * {@dodf LookAndFffl}, bs tif nbmf implifs, fndbpsulbtfs b look bnd
+ * fffl. Bfyond instblling b look bnd fffl most dfvflopfrs nfvfr nffd to
+ * intfrbdt dirfdtly witi {@dodf LookAndFffl}. In gfnfrbl only dfvflopfrs
+ * drfbting b dustom look bnd fffl nffd to dondfrn tifmsflvfs witi tiis dlbss.
  * <p>
- * Swing is built upon the foundation that each {@code JComponent}
- * subclass has an implementation of a specific {@code ComponentUI}
- * subclass. The {@code ComponentUI} is often referred to as "the ui",
- * "component ui", or "look and feel delegate". The {@code ComponentUI}
- * subclass is responsible for providing the look and feel specific
- * functionality of the component. For example, {@code JTree} requires
- * an implementation of the {@code ComponentUI} subclass {@code
- * TreeUI}. The implementation of the specific {@code
- * ComponentUI} subclass is provided by the {@code LookAndFeel}. Each
- * {@code JComponent} subclass identifies the {@code ComponentUI}
- * subclass it requires by way of the {@code JComponent} method {@code
- * getUIClassID}.
+ * Swing is built upon tif foundbtion tibt fbdi {@dodf JComponfnt}
+ * subdlbss ibs bn implfmfntbtion of b spfdifid {@dodf ComponfntUI}
+ * subdlbss. Tif {@dodf ComponfntUI} is oftfn rfffrrfd to bs "tif ui",
+ * "domponfnt ui", or "look bnd fffl dflfgbtf". Tif {@dodf ComponfntUI}
+ * subdlbss is rfsponsiblf for providing tif look bnd fffl spfdifid
+ * fundtionblity of tif domponfnt. For fxbmplf, {@dodf JTrff} rfquirfs
+ * bn implfmfntbtion of tif {@dodf ComponfntUI} subdlbss {@dodf
+ * TrffUI}. Tif implfmfntbtion of tif spfdifid {@dodf
+ * ComponfntUI} subdlbss is providfd by tif {@dodf LookAndFffl}. Ebdi
+ * {@dodf JComponfnt} subdlbss idfntififs tif {@dodf ComponfntUI}
+ * subdlbss it rfquirfs by wby of tif {@dodf JComponfnt} mftiod {@dodf
+ * gftUIClbssID}.
  * <p>
- * Each {@code LookAndFeel} implementation must provide
- * an implementation of the appropriate {@code ComponentUI} subclass by
- * specifying a value for each of Swing's ui class ids in the {@code
- * UIDefaults} object returned from {@code getDefaults}. For example,
- * {@code BasicLookAndFeel} uses {@code BasicTreeUI} as the concrete
- * implementation for {@code TreeUI}. This is accomplished by {@code
- * BasicLookAndFeel} providing the key-value pair {@code
- * "TreeUI"-"javax.swing.plaf.basic.BasicTreeUI"}, in the
- * {@code UIDefaults} returned from {@code getDefaults}. Refer to
- * {@link UIDefaults#getUI(JComponent)} for details on how the implementation
- * of the {@code ComponentUI} subclass is obtained.
+ * Ebdi {@dodf LookAndFffl} implfmfntbtion must providf
+ * bn implfmfntbtion of tif bppropribtf {@dodf ComponfntUI} subdlbss by
+ * spfdifying b vbluf for fbdi of Swing's ui dlbss ids in tif {@dodf
+ * UIDffbults} objfdt rfturnfd from {@dodf gftDffbults}. For fxbmplf,
+ * {@dodf BbsidLookAndFffl} usfs {@dodf BbsidTrffUI} bs tif dondrftf
+ * implfmfntbtion for {@dodf TrffUI}. Tiis is bddomplisifd by {@dodf
+ * BbsidLookAndFffl} providing tif kfy-vbluf pbir {@dodf
+ * "TrffUI"-"jbvbx.swing.plbf.bbsid.BbsidTrffUI"}, in tif
+ * {@dodf UIDffbults} rfturnfd from {@dodf gftDffbults}. Rfffr to
+ * {@link UIDffbults#gftUI(JComponfnt)} for dftbils on iow tif implfmfntbtion
+ * of tif {@dodf ComponfntUI} subdlbss is obtbinfd.
  * <p>
- * When a {@code LookAndFeel} is installed the {@code UIManager} does
- * not check that an entry exists for all ui class ids. As such,
- * random exceptions will occur if the current look and feel has not
- * provided a value for a particular ui class id and an instance of
- * the {@code JComponent} subclass is created.
+ * Wifn b {@dodf LookAndFffl} is instbllfd tif {@dodf UIMbnbgfr} dofs
+ * not difdk tibt bn fntry fxists for bll ui dlbss ids. As sudi,
+ * rbndom fxdfptions will oddur if tif durrfnt look bnd fffl ibs not
+ * providfd b vbluf for b pbrtidulbr ui dlbss id bnd bn instbndf of
+ * tif {@dodf JComponfnt} subdlbss is drfbtfd.
  *
- * <h2>Recommendations for Look and Feels</h2>
+ * <i2>Rfdommfndbtions for Look bnd Fffls</i2>
  *
- * As noted in {@code UIManager} each {@code LookAndFeel} has the opportunity
- * to provide a set of defaults that are layered in with developer and
- * system defaults. Some of Swing's components require the look and feel
- * to provide a specific set of defaults. These are documented in the
- * classes that require the specific default.
+ * As notfd in {@dodf UIMbnbgfr} fbdi {@dodf LookAndFffl} ibs tif opportunity
+ * to providf b sft of dffbults tibt brf lbyfrfd in witi dfvflopfr bnd
+ * systfm dffbults. Somf of Swing's domponfnts rfquirf tif look bnd fffl
+ * to providf b spfdifid sft of dffbults. Tifsf brf dodumfntfd in tif
+ * dlbssfs tibt rfquirf tif spfdifid dffbult.
  *
- * <h3><a name="defaultRecommendation">ComponentUIs and defaults</a></h3>
+ * <i3><b nbmf="dffbultRfdommfndbtion">ComponfntUIs bnd dffbults</b></i3>
  *
- * All {@code ComponentUIs} typically need to set various properties
- * on the {@code JComponent} the {@code ComponentUI} is providing the
- * look and feel for. This is typically done when the {@code
- * ComponentUI} is installed on the {@code JComponent}. Setting a
- * property should only be done if the developer has not set the
- * property. For non-primitive values it is recommended that the
- * {@code ComponentUI} only change the property on the {@code
- * JComponent} if the current value is {@code null} or implements
- * {@code UIResource}. If the current value is {@code null} or
- * implements {@code UIResource} it indicates the property has not
- * been set by the developer, and the ui is free to change it.  For
- * example, {@code BasicButtonUI.installDefaults} only changes the
- * font on the {@code JButton} if the return value from {@code
- * button.getFont()} is {@code null} or implements {@code
- * UIResource}. On the other hand if {@code button.getFont()} returned
- * a {@code non-null} value that did not implement {@code UIResource}
- * then {@code BasicButtonUI.installDefaults} would not change the
- * {@code JButton}'s font.
+ * All {@dodf ComponfntUIs} typidblly nffd to sft vbrious propfrtifs
+ * on tif {@dodf JComponfnt} tif {@dodf ComponfntUI} is providing tif
+ * look bnd fffl for. Tiis is typidblly donf wifn tif {@dodf
+ * ComponfntUI} is instbllfd on tif {@dodf JComponfnt}. Sftting b
+ * propfrty siould only bf donf if tif dfvflopfr ibs not sft tif
+ * propfrty. For non-primitivf vblufs it is rfdommfndfd tibt tif
+ * {@dodf ComponfntUI} only dibngf tif propfrty on tif {@dodf
+ * JComponfnt} if tif durrfnt vbluf is {@dodf null} or implfmfnts
+ * {@dodf UIRfsourdf}. If tif durrfnt vbluf is {@dodf null} or
+ * implfmfnts {@dodf UIRfsourdf} it indidbtfs tif propfrty ibs not
+ * bffn sft by tif dfvflopfr, bnd tif ui is frff to dibngf it.  For
+ * fxbmplf, {@dodf BbsidButtonUI.instbllDffbults} only dibngfs tif
+ * font on tif {@dodf JButton} if tif rfturn vbluf from {@dodf
+ * button.gftFont()} is {@dodf null} or implfmfnts {@dodf
+ * UIRfsourdf}. On tif otifr ibnd if {@dodf button.gftFont()} rfturnfd
+ * b {@dodf non-null} vbluf tibt did not implfmfnt {@dodf UIRfsourdf}
+ * tifn {@dodf BbsidButtonUI.instbllDffbults} would not dibngf tif
+ * {@dodf JButton}'s font.
  * <p>
- * For primitive values, such as {@code opaque}, the method {@code
- * installProperty} should be invoked.  {@code installProperty} only changes
- * the corresponding property if the value has not been changed by the
- * developer.
+ * For primitivf vblufs, sudi bs {@dodf opbquf}, tif mftiod {@dodf
+ * instbllPropfrty} siould bf invokfd.  {@dodf instbllPropfrty} only dibngfs
+ * tif dorrfsponding propfrty if tif vbluf ibs not bffn dibngfd by tif
+ * dfvflopfr.
  * <p>
- * {@code ComponentUI} implementations should use the various install methods
- * provided by this class as they handle the necessary checking and install
- * the property using the recommended guidelines.
+ * {@dodf ComponfntUI} implfmfntbtions siould usf tif vbrious instbll mftiods
+ * providfd by tiis dlbss bs tify ibndlf tif nfdfssbry difdking bnd instbll
+ * tif propfrty using tif rfdommfndfd guidflinfs.
  *
- * <h3><a name="exceptions"></a>Exceptions</h3>
+ * <i3><b nbmf="fxdfptions"></b>Exdfptions</i3>
  *
- * All of the install methods provided by {@code LookAndFeel} need to
- * access the defaults if the value of the property being changed is
- * {@code null} or a {@code UIResource}. For example, installing the
- * font does the following:
- * <pre>
- *   JComponent c;
- *   Font font = c.getFont();
- *   if (font == null || (font instanceof UIResource)) {
- *       c.setFont(UIManager.getFont("fontKey"));
+ * All of tif instbll mftiods providfd by {@dodf LookAndFffl} nffd to
+ * bddfss tif dffbults if tif vbluf of tif propfrty bfing dibngfd is
+ * {@dodf null} or b {@dodf UIRfsourdf}. For fxbmplf, instblling tif
+ * font dofs tif following:
+ * <prf>
+ *   JComponfnt d;
+ *   Font font = d.gftFont();
+ *   if (font == null || (font instbndfof UIRfsourdf)) {
+ *       d.sftFont(UIMbnbgfr.gftFont("fontKfy"));
  *   }
- * </pre>
- * If the font is {@code null} or a {@code UIResource}, the
- * defaults table is queried with the key {@code fontKey}. All of
- * {@code UIDefault's} get methods throw a {@code
- * NullPointerException} if passed in {@code null}. As such, unless
- * otherwise noted each of the various install methods of {@code
- * LookAndFeel} throw a {@code NullPointerException} if the current
- * value is {@code null} or a {@code UIResource} and the supplied
- * defaults key is {@code null}. In addition, unless otherwise specified
- * all of the {@code install} methods throw a {@code NullPointerException} if
- * a {@code null} component is passed in.
+ * </prf>
+ * If tif font is {@dodf null} or b {@dodf UIRfsourdf}, tif
+ * dffbults tbblf is qufrifd witi tif kfy {@dodf fontKfy}. All of
+ * {@dodf UIDffbult's} gft mftiods tirow b {@dodf
+ * NullPointfrExdfption} if pbssfd in {@dodf null}. As sudi, unlfss
+ * otifrwisf notfd fbdi of tif vbrious instbll mftiods of {@dodf
+ * LookAndFffl} tirow b {@dodf NullPointfrExdfption} if tif durrfnt
+ * vbluf is {@dodf null} or b {@dodf UIRfsourdf} bnd tif supplifd
+ * dffbults kfy is {@dodf null}. In bddition, unlfss otifrwisf spfdififd
+ * bll of tif {@dodf instbll} mftiods tirow b {@dodf NullPointfrExdfption} if
+ * b {@dodf null} domponfnt is pbssfd in.
  *
- * @author Tom Ball
- * @author Hans Muller
- * @since 1.2
+ * @butior Tom Bbll
+ * @butior Hbns Mullfr
+ * @sindf 1.2
  */
-public abstract class LookAndFeel
+publid bbstrbdt dlbss LookAndFffl
 {
 
     /**
-     * Convenience method for setting a component's foreground
-     * and background color properties with values from the
-     * defaults.  The properties are only set if the current
-     * value is either {@code null} or a {@code UIResource}.
+     * Convfnifndf mftiod for sftting b domponfnt's forfground
+     * bnd bbdkground dolor propfrtifs witi vblufs from tif
+     * dffbults.  Tif propfrtifs brf only sft if tif durrfnt
+     * vbluf is fitifr {@dodf null} or b {@dodf UIRfsourdf}.
      *
-     * @param c component to set the colors on
-     * @param defaultBgName key for the background
-     * @param defaultFgName key for the foreground
+     * @pbrbm d domponfnt to sft tif dolors on
+     * @pbrbm dffbultBgNbmf kfy for tif bbdkground
+     * @pbrbm dffbultFgNbmf kfy for tif forfground
      *
-     * @see #installColorsAndFont
-     * @see UIManager#getColor
-     * @throws NullPointerException as described in
-     *         <a href="#exceptions">exceptions</a>
+     * @sff #instbllColorsAndFont
+     * @sff UIMbnbgfr#gftColor
+     * @tirows NullPointfrExdfption bs dfsdribfd in
+     *         <b irff="#fxdfptions">fxdfptions</b>
      */
-    public static void installColors(JComponent c,
-                                     String defaultBgName,
-                                     String defaultFgName)
+    publid stbtid void instbllColors(JComponfnt d,
+                                     String dffbultBgNbmf,
+                                     String dffbultFgNbmf)
     {
-        Color bg = c.getBackground();
-        if (bg == null || bg instanceof UIResource) {
-            c.setBackground(UIManager.getColor(defaultBgName));
+        Color bg = d.gftBbdkground();
+        if (bg == null || bg instbndfof UIRfsourdf) {
+            d.sftBbdkground(UIMbnbgfr.gftColor(dffbultBgNbmf));
         }
 
-        Color fg = c.getForeground();
-        if (fg == null || fg instanceof UIResource) {
-            c.setForeground(UIManager.getColor(defaultFgName));
+        Color fg = d.gftForfground();
+        if (fg == null || fg instbndfof UIRfsourdf) {
+            d.sftForfground(UIMbnbgfr.gftColor(dffbultFgNbmf));
         }
     }
 
 
     /**
-     * Convenience method for setting a component's foreground,
-     * background and font properties with values from the
-     * defaults.  The properties are only set if the current
-     * value is either {@code null} or a {@code UIResource}.
+     * Convfnifndf mftiod for sftting b domponfnt's forfground,
+     * bbdkground bnd font propfrtifs witi vblufs from tif
+     * dffbults.  Tif propfrtifs brf only sft if tif durrfnt
+     * vbluf is fitifr {@dodf null} or b {@dodf UIRfsourdf}.
      *
-     * @param c component set to the colors and font on
-     * @param defaultBgName key for the background
-     * @param defaultFgName key for the foreground
-     * @param defaultFontName key for the font
-     * @throws NullPointerException as described in
-     *         <a href="#exceptions">exceptions</a>
+     * @pbrbm d domponfnt sft to tif dolors bnd font on
+     * @pbrbm dffbultBgNbmf kfy for tif bbdkground
+     * @pbrbm dffbultFgNbmf kfy for tif forfground
+     * @pbrbm dffbultFontNbmf kfy for tif font
+     * @tirows NullPointfrExdfption bs dfsdribfd in
+     *         <b irff="#fxdfptions">fxdfptions</b>
      *
-     * @see #installColors
-     * @see UIManager#getColor
-     * @see UIManager#getFont
+     * @sff #instbllColors
+     * @sff UIMbnbgfr#gftColor
+     * @sff UIMbnbgfr#gftFont
      */
-    public static void installColorsAndFont(JComponent c,
-                                         String defaultBgName,
-                                         String defaultFgName,
-                                         String defaultFontName) {
-        Font f = c.getFont();
-        if (f == null || f instanceof UIResource) {
-            c.setFont(UIManager.getFont(defaultFontName));
+    publid stbtid void instbllColorsAndFont(JComponfnt d,
+                                         String dffbultBgNbmf,
+                                         String dffbultFgNbmf,
+                                         String dffbultFontNbmf) {
+        Font f = d.gftFont();
+        if (f == null || f instbndfof UIRfsourdf) {
+            d.sftFont(UIMbnbgfr.gftFont(dffbultFontNbmf));
         }
 
-        installColors(c, defaultBgName, defaultFgName);
+        instbllColors(d, dffbultBgNbmf, dffbultFgNbmf);
     }
 
 
     /**
-     * Convenience method for setting a component's border property with
-     * a value from the defaults. The border is only set if the border is
-     * {@code null} or an instance of {@code UIResource}.
+     * Convfnifndf mftiod for sftting b domponfnt's bordfr propfrty witi
+     * b vbluf from tif dffbults. Tif bordfr is only sft if tif bordfr is
+     * {@dodf null} or bn instbndf of {@dodf UIRfsourdf}.
      *
-     * @param c component to set the border on
-     * @param defaultBorderName key specifying the border
-     * @throws NullPointerException as described in
-     *         <a href="#exceptions">exceptions</a>
+     * @pbrbm d domponfnt to sft tif bordfr on
+     * @pbrbm dffbultBordfrNbmf kfy spfdifying tif bordfr
+     * @tirows NullPointfrExdfption bs dfsdribfd in
+     *         <b irff="#fxdfptions">fxdfptions</b>
      */
-    public static void installBorder(JComponent c, String defaultBorderName) {
-        Border b = c.getBorder();
-        if (b == null || b instanceof UIResource) {
-            c.setBorder(UIManager.getBorder(defaultBorderName));
+    publid stbtid void instbllBordfr(JComponfnt d, String dffbultBordfrNbmf) {
+        Bordfr b = d.gftBordfr();
+        if (b == null || b instbndfof UIRfsourdf) {
+            d.sftBordfr(UIMbnbgfr.gftBordfr(dffbultBordfrNbmf));
         }
     }
 
 
     /**
-     * Convenience method for uninstalling a border. If the border of
-     * the component is a {@code UIResource}, it is set to {@code
+     * Convfnifndf mftiod for uninstblling b bordfr. If tif bordfr of
+     * tif domponfnt is b {@dodf UIRfsourdf}, it is sft to {@dodf
      * null}.
      *
-     * @param c component to uninstall the border on
-     * @throws NullPointerException if {@code c} is {@code null}
+     * @pbrbm d domponfnt to uninstbll tif bordfr on
+     * @tirows NullPointfrExdfption if {@dodf d} is {@dodf null}
      */
-    public static void uninstallBorder(JComponent c) {
-        if (c.getBorder() instanceof UIResource) {
-            c.setBorder(null);
+    publid stbtid void uninstbllBordfr(JComponfnt d) {
+        if (d.gftBordfr() instbndfof UIRfsourdf) {
+            d.sftBordfr(null);
         }
     }
 
     /**
-     * Convenience method for installing a property with the specified name
-     * and value on a component if that property has not already been set
-     * by the developer.  This method is intended to be used by
-     * ui delegate instances that need to specify a default value for a
-     * property of primitive type (boolean, int, ..), but do not wish
-     * to override a value set by the client.  Since primitive property
-     * values cannot be wrapped with the {@code UIResource} marker, this method
-     * uses private state to determine whether the property has been set
-     * by the client.
+     * Convfnifndf mftiod for instblling b propfrty witi tif spfdififd nbmf
+     * bnd vbluf on b domponfnt if tibt propfrty ibs not blrfbdy bffn sft
+     * by tif dfvflopfr.  Tiis mftiod is intfndfd to bf usfd by
+     * ui dflfgbtf instbndfs tibt nffd to spfdify b dffbult vbluf for b
+     * propfrty of primitivf typf (boolfbn, int, ..), but do not wisi
+     * to ovfrridf b vbluf sft by tif dlifnt.  Sindf primitivf propfrty
+     * vblufs dbnnot bf wrbppfd witi tif {@dodf UIRfsourdf} mbrkfr, tiis mftiod
+     * usfs privbtf stbtf to dftfrminf wiftifr tif propfrty ibs bffn sft
+     * by tif dlifnt.
      *
-     * @throws IllegalArgumentException if the specified property is not
-     *         one which can be set using this method
-     * @throws ClassCastException if the property value has not been set
-     *         by the developer and the type does not match the property's type
-     * @throws NullPointerException if {@code c} is {@code null}, or the
-     *         named property has not been set by the developer and
-     *         {@code propertyValue} is {@code null}
-     * @param c target component to set the property on
-     * @param propertyName name of the property to set
-     * @param propertyValue value of the property
-     * @since 1.5
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd propfrty is not
+     *         onf wiidi dbn bf sft using tiis mftiod
+     * @tirows ClbssCbstExdfption if tif propfrty vbluf ibs not bffn sft
+     *         by tif dfvflopfr bnd tif typf dofs not mbtdi tif propfrty's typf
+     * @tirows NullPointfrExdfption if {@dodf d} is {@dodf null}, or tif
+     *         nbmfd propfrty ibs not bffn sft by tif dfvflopfr bnd
+     *         {@dodf propfrtyVbluf} is {@dodf null}
+     * @pbrbm d tbrgft domponfnt to sft tif propfrty on
+     * @pbrbm propfrtyNbmf nbmf of tif propfrty to sft
+     * @pbrbm propfrtyVbluf vbluf of tif propfrty
+     * @sindf 1.5
      */
-    public static void installProperty(JComponent c,
-                                       String propertyName, Object propertyValue) {
-        // this is a special case because the JPasswordField's ancestor hierarchy
-        // includes a class outside of javax.swing, thus we cannot call setUIProperty
-        // directly.
-        if (SunToolkit.isInstanceOf(c, "javax.swing.JPasswordField")) {
-            if (!((JPasswordField)c).customSetUIProperty(propertyName, propertyValue)) {
-                c.setUIProperty(propertyName, propertyValue);
+    publid stbtid void instbllPropfrty(JComponfnt d,
+                                       String propfrtyNbmf, Objfdt propfrtyVbluf) {
+        // tiis is b spfdibl dbsf bfdbusf tif JPbsswordFifld's bndfstor iifrbrdiy
+        // indludfs b dlbss outsidf of jbvbx.swing, tius wf dbnnot dbll sftUIPropfrty
+        // dirfdtly.
+        if (SunToolkit.isInstbndfOf(d, "jbvbx.swing.JPbsswordFifld")) {
+            if (!((JPbsswordFifld)d).dustomSftUIPropfrty(propfrtyNbmf, propfrtyVbluf)) {
+                d.sftUIPropfrty(propfrtyNbmf, propfrtyVbluf);
             }
-        } else {
-            c.setUIProperty(propertyName, propertyValue);
+        } flsf {
+            d.sftUIPropfrty(propfrtyNbmf, propfrtyVbluf);
         }
     }
 
     /**
-     * Convenience method for building an array of {@code
-     * KeyBindings}. While this method is not deprecated, developers
-     * should instead use {@code ActionMap} and {@code InputMap} for
-     * supplying key bindings.
+     * Convfnifndf mftiod for building bn brrby of {@dodf
+     * KfyBindings}. Wiilf tiis mftiod is not dfprfdbtfd, dfvflopfrs
+     * siould instfbd usf {@dodf AdtionMbp} bnd {@dodf InputMbp} for
+     * supplying kfy bindings.
      * <p>
-     * This method returns an array of {@code KeyBindings}, one for each
-     * alternating {@code key-action} pair in {@code keyBindingList}.
-     * A {@code key} can either be a {@code String} in the format
-     * specified by the <code>KeyStroke.getKeyStroke</code> method, or
-     * a {@code KeyStroke}. The {@code action} part of the pair is a
-     * {@code String} that corresponds to the name of the {@code
-     * Action}.
+     * Tiis mftiod rfturns bn brrby of {@dodf KfyBindings}, onf for fbdi
+     * bltfrnbting {@dodf kfy-bdtion} pbir in {@dodf kfyBindingList}.
+     * A {@dodf kfy} dbn fitifr bf b {@dodf String} in tif formbt
+     * spfdififd by tif <dodf>KfyStrokf.gftKfyStrokf</dodf> mftiod, or
+     * b {@dodf KfyStrokf}. Tif {@dodf bdtion} pbrt of tif pbir is b
+     * {@dodf String} tibt dorrfsponds to tif nbmf of tif {@dodf
+     * Adtion}.
      * <p>
-     * The following example illustrates creating a {@code KeyBinding} array
-     * from six alternating {@code key-action} pairs:
-     * <pre>
-     *  JTextComponent.KeyBinding[] multilineBindings = makeKeyBindings( new Object[] {
-     *          "UP", DefaultEditorKit.upAction,
-     *        "DOWN", DefaultEditorKit.downAction,
-     *     "PAGE_UP", DefaultEditorKit.pageUpAction,
-     *   "PAGE_DOWN", DefaultEditorKit.pageDownAction,
-     *       "ENTER", DefaultEditorKit.insertBreakAction,
-     *         "TAB", DefaultEditorKit.insertTabAction
+     * Tif following fxbmplf illustrbtfs drfbting b {@dodf KfyBinding} brrby
+     * from six bltfrnbting {@dodf kfy-bdtion} pbirs:
+     * <prf>
+     *  JTfxtComponfnt.KfyBinding[] multilinfBindings = mbkfKfyBindings( nfw Objfdt[] {
+     *          "UP", DffbultEditorKit.upAdtion,
+     *        "DOWN", DffbultEditorKit.downAdtion,
+     *     "PAGE_UP", DffbultEditorKit.pbgfUpAdtion,
+     *   "PAGE_DOWN", DffbultEditorKit.pbgfDownAdtion,
+     *       "ENTER", DffbultEditorKit.insfrtBrfbkAdtion,
+     *         "TAB", DffbultEditorKit.insfrtTbbAdtion
      *  });
-     * </pre>
-     * If {@code keyBindingList's} length is odd, the last element is
-     * ignored.
+     * </prf>
+     * If {@dodf kfyBindingList's} lfngti is odd, tif lbst flfmfnt is
+     * ignorfd.
      * <p>
-     * Supplying a {@code null} value for either the {@code key} or
-     * {@code action} part of the {@code key-action} pair results in
-     * creating a {@code KeyBinding} with the corresponding value
-     * {@code null}. As other parts of Swing's expect {@code non-null} values
-     * in a {@code KeyBinding}, you should avoid supplying {@code null} as
-     * either the {@code key} or {@code action} part of the {@code key-action}
-     * pair.
+     * Supplying b {@dodf null} vbluf for fitifr tif {@dodf kfy} or
+     * {@dodf bdtion} pbrt of tif {@dodf kfy-bdtion} pbir rfsults in
+     * drfbting b {@dodf KfyBinding} witi tif dorrfsponding vbluf
+     * {@dodf null}. As otifr pbrts of Swing's fxpfdt {@dodf non-null} vblufs
+     * in b {@dodf KfyBinding}, you siould bvoid supplying {@dodf null} bs
+     * fitifr tif {@dodf kfy} or {@dodf bdtion} pbrt of tif {@dodf kfy-bdtion}
+     * pbir.
      *
-     * @param keyBindingList an array of {@code key-action} pairs
-     * @return an array of {@code KeyBindings}
-     * @throws NullPointerException if {@code keyBindingList} is {@code null}
-     * @throws ClassCastException if the {@code key} part of the pair is
-     *         not a {@code KeyStroke} or {@code String}, or the
-     *         {@code action} part of the pair is not a {@code String}
-     * @see ActionMap
-     * @see InputMap
-     * @see KeyStroke#getKeyStroke
+     * @pbrbm kfyBindingList bn brrby of {@dodf kfy-bdtion} pbirs
+     * @rfturn bn brrby of {@dodf KfyBindings}
+     * @tirows NullPointfrExdfption if {@dodf kfyBindingList} is {@dodf null}
+     * @tirows ClbssCbstExdfption if tif {@dodf kfy} pbrt of tif pbir is
+     *         not b {@dodf KfyStrokf} or {@dodf String}, or tif
+     *         {@dodf bdtion} pbrt of tif pbir is not b {@dodf String}
+     * @sff AdtionMbp
+     * @sff InputMbp
+     * @sff KfyStrokf#gftKfyStrokf
      */
-    public static JTextComponent.KeyBinding[] makeKeyBindings(Object[] keyBindingList)
+    publid stbtid JTfxtComponfnt.KfyBinding[] mbkfKfyBindings(Objfdt[] kfyBindingList)
     {
-        JTextComponent.KeyBinding[] rv = new JTextComponent.KeyBinding[keyBindingList.length / 2];
+        JTfxtComponfnt.KfyBinding[] rv = nfw JTfxtComponfnt.KfyBinding[kfyBindingList.lfngti / 2];
 
-        for(int i = 0; i < rv.length; i ++) {
-            Object o = keyBindingList[2 * i];
-            KeyStroke keystroke = (o instanceof KeyStroke)
-                ? (KeyStroke) o
-                : KeyStroke.getKeyStroke((String) o);
-            String action = (String) keyBindingList[2 * i + 1];
-            rv[i] = new JTextComponent.KeyBinding(keystroke, action);
+        for(int i = 0; i < rv.lfngti; i ++) {
+            Objfdt o = kfyBindingList[2 * i];
+            KfyStrokf kfystrokf = (o instbndfof KfyStrokf)
+                ? (KfyStrokf) o
+                : KfyStrokf.gftKfyStrokf((String) o);
+            String bdtion = (String) kfyBindingList[2 * i + 1];
+            rv[i] = nfw JTfxtComponfnt.KfyBinding(kfystrokf, bdtion);
         }
 
-        return rv;
+        rfturn rv;
     }
 
     /**
-     * Creates a {@code InputMapUIResource} from <code>keys</code>. This is
-     * a convenience method for creating a new {@code InputMapUIResource},
-     * invoking {@code loadKeyBindings(map, keys)}, and returning the
-     * {@code InputMapUIResource}.
+     * Crfbtfs b {@dodf InputMbpUIRfsourdf} from <dodf>kfys</dodf>. Tiis is
+     * b donvfnifndf mftiod for drfbting b nfw {@dodf InputMbpUIRfsourdf},
+     * invoking {@dodf lobdKfyBindings(mbp, kfys)}, bnd rfturning tif
+     * {@dodf InputMbpUIRfsourdf}.
      *
-     * @param keys alternating pairs of {@code keystroke-action key}
-     *        pairs as described in {@link #loadKeyBindings}
-     * @return newly created and populated {@code InputMapUIResource}
-     * @see #loadKeyBindings
+     * @pbrbm kfys bltfrnbting pbirs of {@dodf kfystrokf-bdtion kfy}
+     *        pbirs bs dfsdribfd in {@link #lobdKfyBindings}
+     * @rfturn nfwly drfbtfd bnd populbtfd {@dodf InputMbpUIRfsourdf}
+     * @sff #lobdKfyBindings
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public static InputMap makeInputMap(Object[] keys) {
-        InputMap retMap = new InputMapUIResource();
-        loadKeyBindings(retMap, keys);
-        return retMap;
+    publid stbtid InputMbp mbkfInputMbp(Objfdt[] kfys) {
+        InputMbp rftMbp = nfw InputMbpUIRfsourdf();
+        lobdKfyBindings(rftMbp, kfys);
+        rfturn rftMbp;
     }
 
     /**
-     * Creates a {@code ComponentInputMapUIResource} from
-     * <code>keys</code>. This is a convenience method for creating a
-     * new {@code ComponentInputMapUIResource}, invoking {@code
-     * loadKeyBindings(map, keys)}, and returning the {@code
-     * ComponentInputMapUIResource}.
+     * Crfbtfs b {@dodf ComponfntInputMbpUIRfsourdf} from
+     * <dodf>kfys</dodf>. Tiis is b donvfnifndf mftiod for drfbting b
+     * nfw {@dodf ComponfntInputMbpUIRfsourdf}, invoking {@dodf
+     * lobdKfyBindings(mbp, kfys)}, bnd rfturning tif {@dodf
+     * ComponfntInputMbpUIRfsourdf}.
      *
-     * @param c component to create the {@code ComponentInputMapUIResource}
-     *          with
-     * @param keys alternating pairs of {@code keystroke-action key}
-     *        pairs as described in {@link #loadKeyBindings}
-     * @return newly created and populated {@code InputMapUIResource}
-     * @throws IllegalArgumentException if {@code c} is {@code null}
+     * @pbrbm d domponfnt to drfbtf tif {@dodf ComponfntInputMbpUIRfsourdf}
+     *          witi
+     * @pbrbm kfys bltfrnbting pbirs of {@dodf kfystrokf-bdtion kfy}
+     *        pbirs bs dfsdribfd in {@link #lobdKfyBindings}
+     * @rfturn nfwly drfbtfd bnd populbtfd {@dodf InputMbpUIRfsourdf}
+     * @tirows IllfgblArgumfntExdfption if {@dodf d} is {@dodf null}
      *
-     * @see #loadKeyBindings
-     * @see ComponentInputMapUIResource
+     * @sff #lobdKfyBindings
+     * @sff ComponfntInputMbpUIRfsourdf
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public static ComponentInputMap makeComponentInputMap(JComponent c,
-                                                          Object[] keys) {
-        ComponentInputMap retMap = new ComponentInputMapUIResource(c);
-        loadKeyBindings(retMap, keys);
-        return retMap;
+    publid stbtid ComponfntInputMbp mbkfComponfntInputMbp(JComponfnt d,
+                                                          Objfdt[] kfys) {
+        ComponfntInputMbp rftMbp = nfw ComponfntInputMbpUIRfsourdf(d);
+        lobdKfyBindings(rftMbp, kfys);
+        rfturn rftMbp;
     }
 
 
     /**
-     * Populates an {@code InputMap} with the specified bindings.
-     * The bindings are supplied as a list of alternating
-     * {@code keystroke-action key} pairs. The {@code keystroke} is either
-     * an instance of {@code KeyStroke}, or a {@code String}
-     * that identifies the {@code KeyStroke} for the binding. Refer
-     * to {@code KeyStroke.getKeyStroke(String)} for the specific
-     * format. The {@code action key} part of the pair is the key
-     * registered in the {@code InputMap} for the {@code KeyStroke}.
+     * Populbtfs bn {@dodf InputMbp} witi tif spfdififd bindings.
+     * Tif bindings brf supplifd bs b list of bltfrnbting
+     * {@dodf kfystrokf-bdtion kfy} pbirs. Tif {@dodf kfystrokf} is fitifr
+     * bn instbndf of {@dodf KfyStrokf}, or b {@dodf String}
+     * tibt idfntififs tif {@dodf KfyStrokf} for tif binding. Rfffr
+     * to {@dodf KfyStrokf.gftKfyStrokf(String)} for tif spfdifid
+     * formbt. Tif {@dodf bdtion kfy} pbrt of tif pbir is tif kfy
+     * rfgistfrfd in tif {@dodf InputMbp} for tif {@dodf KfyStrokf}.
      * <p>
-     * The following illustrates loading an {@code InputMap} with two
-     * {@code key-action} pairs:
-     * <pre>
-     *   LookAndFeel.loadKeyBindings(inputMap, new Object[] {
-     *     "control X", "cut",
-     *     "control V", "paste"
+     * Tif following illustrbtfs lobding bn {@dodf InputMbp} witi two
+     * {@dodf kfy-bdtion} pbirs:
+     * <prf>
+     *   LookAndFffl.lobdKfyBindings(inputMbp, nfw Objfdt[] {
+     *     "dontrol X", "dut",
+     *     "dontrol V", "pbstf"
      *   });
-     * </pre>
+     * </prf>
      * <p>
-     * Supplying a {@code null} list of bindings ({@code keys}) does not
-     * change {@code retMap} in any way.
+     * Supplying b {@dodf null} list of bindings ({@dodf kfys}) dofs not
+     * dibngf {@dodf rftMbp} in bny wby.
      * <p>
-     * Specifying a {@code null} {@code action key} results in
-     * removing the {@code keystroke's} entry from the {@code InputMap}.
-     * A {@code null} {@code keystroke} is ignored.
+     * Spfdifying b {@dodf null} {@dodf bdtion kfy} rfsults in
+     * rfmoving tif {@dodf kfystrokf's} fntry from tif {@dodf InputMbp}.
+     * A {@dodf null} {@dodf kfystrokf} is ignorfd.
      *
-     * @param retMap {@code InputMap} to add the {@code key-action}
-     *               pairs to
-     * @param keys bindings to add to {@code retMap}
-     * @throws NullPointerException if {@code keys} is
-     *         {@code non-null}, not empty, and {@code retMap} is
-     *         {@code null}
+     * @pbrbm rftMbp {@dodf InputMbp} to bdd tif {@dodf kfy-bdtion}
+     *               pbirs to
+     * @pbrbm kfys bindings to bdd to {@dodf rftMbp}
+     * @tirows NullPointfrExdfption if {@dodf kfys} is
+     *         {@dodf non-null}, not fmpty, bnd {@dodf rftMbp} is
+     *         {@dodf null}
      *
-     * @see KeyStroke#getKeyStroke(String)
-     * @see InputMap
+     * @sff KfyStrokf#gftKfyStrokf(String)
+     * @sff InputMbp
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public static void loadKeyBindings(InputMap retMap, Object[] keys) {
-        if (keys != null) {
-            for (int counter = 0, maxCounter = keys.length;
-                 counter < maxCounter; counter++) {
-                Object keyStrokeO = keys[counter++];
-                KeyStroke ks = (keyStrokeO instanceof KeyStroke) ?
-                                (KeyStroke)keyStrokeO :
-                                KeyStroke.getKeyStroke((String)keyStrokeO);
-                retMap.put(ks, keys[counter]);
+    publid stbtid void lobdKfyBindings(InputMbp rftMbp, Objfdt[] kfys) {
+        if (kfys != null) {
+            for (int dountfr = 0, mbxCountfr = kfys.lfngti;
+                 dountfr < mbxCountfr; dountfr++) {
+                Objfdt kfyStrokfO = kfys[dountfr++];
+                KfyStrokf ks = (kfyStrokfO instbndfof KfyStrokf) ?
+                                (KfyStrokf)kfyStrokfO :
+                                KfyStrokf.gftKfyStrokf((String)kfyStrokfO);
+                rftMbp.put(ks, kfys[dountfr]);
             }
         }
     }
 
     /**
-     * Creates and returns a {@code UIDefault.LazyValue} that loads an
-     * image. The returned value is an implementation of {@code
-     * UIDefaults.LazyValue}. When {@code createValue} is invoked on
-     * the returned object, the image is loaded. If the image is {@code
-     * non-null}, it is then wrapped in an {@code Icon} that implements {@code
-     * UIResource}. The image is loaded using {@code
-     * Class.getResourceAsStream(gifFile)}.
+     * Crfbtfs bnd rfturns b {@dodf UIDffbult.LbzyVbluf} tibt lobds bn
+     * imbgf. Tif rfturnfd vbluf is bn implfmfntbtion of {@dodf
+     * UIDffbults.LbzyVbluf}. Wifn {@dodf drfbtfVbluf} is invokfd on
+     * tif rfturnfd objfdt, tif imbgf is lobdfd. If tif imbgf is {@dodf
+     * non-null}, it is tifn wrbppfd in bn {@dodf Idon} tibt implfmfnts {@dodf
+     * UIRfsourdf}. Tif imbgf is lobdfd using {@dodf
+     * Clbss.gftRfsourdfAsStrfbm(gifFilf)}.
      * <p>
-     * This method does not check the arguments in any way. It is
-     * strongly recommended that {@code non-null} values are supplied else
-     * exceptions may occur when {@code createValue} is invoked on the
-     * returned object.
+     * Tiis mftiod dofs not difdk tif brgumfnts in bny wby. It is
+     * strongly rfdommfndfd tibt {@dodf non-null} vblufs brf supplifd flsf
+     * fxdfptions mby oddur wifn {@dodf drfbtfVbluf} is invokfd on tif
+     * rfturnfd objfdt.
      *
-     * @param baseClass {@code Class} used to load the resource
-     * @param gifFile path to the image to load
-     * @return a {@code UIDefaults.LazyValue}; when resolved the
-     *         {@code LazyValue} loads the specified image
-     * @see UIDefaults.LazyValue
-     * @see Icon
-     * @see Class#getResourceAsStream(String)
+     * @pbrbm bbsfClbss {@dodf Clbss} usfd to lobd tif rfsourdf
+     * @pbrbm gifFilf pbti to tif imbgf to lobd
+     * @rfturn b {@dodf UIDffbults.LbzyVbluf}; wifn rfsolvfd tif
+     *         {@dodf LbzyVbluf} lobds tif spfdififd imbgf
+     * @sff UIDffbults.LbzyVbluf
+     * @sff Idon
+     * @sff Clbss#gftRfsourdfAsStrfbm(String)
      */
-    public static Object makeIcon(final Class<?> baseClass, final String gifFile) {
-        return SwingUtilities2.makeIcon_Unprivileged(baseClass, baseClass, gifFile);
+    publid stbtid Objfdt mbkfIdon(finbl Clbss<?> bbsfClbss, finbl String gifFilf) {
+        rfturn SwingUtilitifs2.mbkfIdon_Unprivilfgfd(bbsfClbss, bbsfClbss, gifFilf);
     }
 
     /**
-     * Returns the <code>LayoutStyle</code> for this look
-     * and feel.  This never returns {@code null}.
+     * Rfturns tif <dodf>LbyoutStylf</dodf> for tiis look
+     * bnd fffl.  Tiis nfvfr rfturns {@dodf null}.
      * <p>
-     * You generally don't use the <code>LayoutStyle</code> from
-     * the look and feel, instead use the <code>LayoutStyle</code>
-     * method <code>getInstance</code>.
+     * You gfnfrblly don't usf tif <dodf>LbyoutStylf</dodf> from
+     * tif look bnd fffl, instfbd usf tif <dodf>LbyoutStylf</dodf>
+     * mftiod <dodf>gftInstbndf</dodf>.
      *
-     * @see LayoutStyle#getInstance
-     * @return the <code>LayoutStyle</code> for this look and feel
-     * @since 1.6
+     * @sff LbyoutStylf#gftInstbndf
+     * @rfturn tif <dodf>LbyoutStylf</dodf> for tiis look bnd fffl
+     * @sindf 1.6
      */
-    public LayoutStyle getLayoutStyle() {
-        return DefaultLayoutStyle.getInstance();
+    publid LbyoutStylf gftLbyoutStylf() {
+        rfturn DffbultLbyoutStylf.gftInstbndf();
     }
 
     /**
-     * Invoked when the user attempts an invalid operation,
-     * such as pasting into an uneditable <code>JTextField</code>
-     * that has focus. The default implementation beeps. Subclasses
-     * that wish different behavior should override this and provide
-     * the additional feedback.
+     * Invokfd wifn tif usfr bttfmpts bn invblid opfrbtion,
+     * sudi bs pbsting into bn unfditbblf <dodf>JTfxtFifld</dodf>
+     * tibt ibs fodus. Tif dffbult implfmfntbtion bffps. Subdlbssfs
+     * tibt wisi difffrfnt bfibvior siould ovfrridf tiis bnd providf
+     * tif bdditionbl fffdbbdk.
      *
-     * @param component the <code>Component</code> the error occurred in,
-     *                  may be <code>null</code>
-     *                  indicating the error condition is not directly
-     *                  associated with a <code>Component</code>
-     * @since 1.4
+     * @pbrbm domponfnt tif <dodf>Componfnt</dodf> tif frror oddurrfd in,
+     *                  mby bf <dodf>null</dodf>
+     *                  indidbting tif frror dondition is not dirfdtly
+     *                  bssodibtfd witi b <dodf>Componfnt</dodf>
+     * @sindf 1.4
      */
-    public void provideErrorFeedback(Component component) {
+    publid void providfErrorFffdbbdk(Componfnt domponfnt) {
         Toolkit toolkit = null;
-        if (component != null) {
-            toolkit = component.getToolkit();
-        } else {
-            toolkit = Toolkit.getDefaultToolkit();
+        if (domponfnt != null) {
+            toolkit = domponfnt.gftToolkit();
+        } flsf {
+            toolkit = Toolkit.gftDffbultToolkit();
         }
-        toolkit.beep();
-    } // provideErrorFeedback()
+        toolkit.bffp();
+    } // providfErrorFffdbbdk()
 
     /**
-     * Returns the value of the specified system desktop property by
-     * invoking <code>Toolkit.getDefaultToolkit().getDesktopProperty()</code>.
-     * If the value of the specified property is {@code null},
-     * {@code fallbackValue} is returned.
+     * Rfturns tif vbluf of tif spfdififd systfm dfsktop propfrty by
+     * invoking <dodf>Toolkit.gftDffbultToolkit().gftDfsktopPropfrty()</dodf>.
+     * If tif vbluf of tif spfdififd propfrty is {@dodf null},
+     * {@dodf fbllbbdkVbluf} is rfturnfd.
      *
-     * @param systemPropertyName the name of the system desktop property being queried
-     * @param fallbackValue the object to be returned as the value if the system value is null
-     * @return the current value of the desktop property
+     * @pbrbm systfmPropfrtyNbmf tif nbmf of tif systfm dfsktop propfrty bfing qufrifd
+     * @pbrbm fbllbbdkVbluf tif objfdt to bf rfturnfd bs tif vbluf if tif systfm vbluf is null
+     * @rfturn tif durrfnt vbluf of tif dfsktop propfrty
      *
-     * @see java.awt.Toolkit#getDesktopProperty
+     * @sff jbvb.bwt.Toolkit#gftDfsktopPropfrty
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public static Object getDesktopPropertyValue(String systemPropertyName, Object fallbackValue) {
-        Object value = Toolkit.getDefaultToolkit().getDesktopProperty(systemPropertyName);
-        if (value == null) {
-            return fallbackValue;
-        } else if (value instanceof Color) {
-            return new ColorUIResource((Color)value);
-        } else if (value instanceof Font) {
-            return new FontUIResource((Font)value);
+    publid stbtid Objfdt gftDfsktopPropfrtyVbluf(String systfmPropfrtyNbmf, Objfdt fbllbbdkVbluf) {
+        Objfdt vbluf = Toolkit.gftDffbultToolkit().gftDfsktopPropfrty(systfmPropfrtyNbmf);
+        if (vbluf == null) {
+            rfturn fbllbbdkVbluf;
+        } flsf if (vbluf instbndfof Color) {
+            rfturn nfw ColorUIRfsourdf((Color)vbluf);
+        } flsf if (vbluf instbndfof Font) {
+            rfturn nfw FontUIRfsourdf((Font)vbluf);
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Returns an <code>Icon</code> with a disabled appearance.
-     * This method is used to generate a disabled <code>Icon</code> when
-     * one has not been specified.  For example, if you create a
-     * <code>JButton</code> and only specify an <code>Icon</code> via
-     * <code>setIcon</code> this method will be called to generate the
-     * disabled <code>Icon</code>. If {@code null} is passed as
-     * <code>icon</code> this method returns {@code null}.
+     * Rfturns bn <dodf>Idon</dodf> witi b disbblfd bppfbrbndf.
+     * Tiis mftiod is usfd to gfnfrbtf b disbblfd <dodf>Idon</dodf> wifn
+     * onf ibs not bffn spfdififd.  For fxbmplf, if you drfbtf b
+     * <dodf>JButton</dodf> bnd only spfdify bn <dodf>Idon</dodf> vib
+     * <dodf>sftIdon</dodf> tiis mftiod will bf dbllfd to gfnfrbtf tif
+     * disbblfd <dodf>Idon</dodf>. If {@dodf null} is pbssfd bs
+     * <dodf>idon</dodf> tiis mftiod rfturns {@dodf null}.
      * <p>
-     * Some look and feels might not render the disabled {@code Icon}, in which
-     * case they will ignore this.
+     * Somf look bnd fffls migit not rfndfr tif disbblfd {@dodf Idon}, in wiidi
+     * dbsf tify will ignorf tiis.
      *
-     * @param component {@code JComponent} that will display the {@code Icon},
-     *         may be {@code null}
-     * @param icon {@code Icon} to generate the disabled icon from
-     * @return disabled {@code Icon}, or {@code null} if a suitable
-     *         {@code Icon} can not be generated
-     * @since 1.5
+     * @pbrbm domponfnt {@dodf JComponfnt} tibt will displby tif {@dodf Idon},
+     *         mby bf {@dodf null}
+     * @pbrbm idon {@dodf Idon} to gfnfrbtf tif disbblfd idon from
+     * @rfturn disbblfd {@dodf Idon}, or {@dodf null} if b suitbblf
+     *         {@dodf Idon} dbn not bf gfnfrbtfd
+     * @sindf 1.5
      */
-    public Icon getDisabledIcon(JComponent component, Icon icon) {
-        if (icon instanceof ImageIcon) {
-            return new ImageIconUIResource(GrayFilter.
-                   createDisabledImage(((ImageIcon)icon).getImage()));
+    publid Idon gftDisbblfdIdon(JComponfnt domponfnt, Idon idon) {
+        if (idon instbndfof ImbgfIdon) {
+            rfturn nfw ImbgfIdonUIRfsourdf(GrbyFiltfr.
+                   drfbtfDisbblfdImbgf(((ImbgfIdon)idon).gftImbgf()));
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns an <code>Icon</code> for use by disabled
-     * components that are also selected. This method is used to generate an
-     * <code>Icon</code> for components that are in both the disabled and
-     * selected states but do not have a specific <code>Icon</code> for this
-     * state.  For example, if you create a <code>JButton</code> and only
-     * specify an <code>Icon</code> via <code>setIcon</code> this method
-     * will be called to generate the disabled and selected
-     * <code>Icon</code>. If {@code null} is passed as <code>icon</code> this
-     * methods returns {@code null}.
+     * Rfturns bn <dodf>Idon</dodf> for usf by disbblfd
+     * domponfnts tibt brf blso sflfdtfd. Tiis mftiod is usfd to gfnfrbtf bn
+     * <dodf>Idon</dodf> for domponfnts tibt brf in boti tif disbblfd bnd
+     * sflfdtfd stbtfs but do not ibvf b spfdifid <dodf>Idon</dodf> for tiis
+     * stbtf.  For fxbmplf, if you drfbtf b <dodf>JButton</dodf> bnd only
+     * spfdify bn <dodf>Idon</dodf> vib <dodf>sftIdon</dodf> tiis mftiod
+     * will bf dbllfd to gfnfrbtf tif disbblfd bnd sflfdtfd
+     * <dodf>Idon</dodf>. If {@dodf null} is pbssfd bs <dodf>idon</dodf> tiis
+     * mftiods rfturns {@dodf null}.
      * <p>
-     * Some look and feels might not render the disabled and selected
-     * {@code Icon}, in which case they will ignore this.
+     * Somf look bnd fffls migit not rfndfr tif disbblfd bnd sflfdtfd
+     * {@dodf Idon}, in wiidi dbsf tify will ignorf tiis.
      *
-     * @param component {@code JComponent} that will display the {@code Icon},
-     *        may be {@code null}
-     * @param icon {@code Icon} to generate disabled and selected icon from
-     * @return disabled and selected icon, or {@code null} if a suitable
-     *         {@code Icon} can not be generated.
-     * @since 1.5
+     * @pbrbm domponfnt {@dodf JComponfnt} tibt will displby tif {@dodf Idon},
+     *        mby bf {@dodf null}
+     * @pbrbm idon {@dodf Idon} to gfnfrbtf disbblfd bnd sflfdtfd idon from
+     * @rfturn disbblfd bnd sflfdtfd idon, or {@dodf null} if b suitbblf
+     *         {@dodf Idon} dbn not bf gfnfrbtfd.
+     * @sindf 1.5
      */
-    public Icon getDisabledSelectedIcon(JComponent component, Icon icon) {
-        return getDisabledIcon(component, icon);
+    publid Idon gftDisbblfdSflfdtfdIdon(JComponfnt domponfnt, Idon idon) {
+        rfturn gftDisbblfdIdon(domponfnt, idon);
     }
 
     /**
-     * Return a short string that identifies this look and feel, e.g.
-     * "CDE/Motif".  This string should be appropriate for a menu item.
-     * Distinct look and feels should have different names, e.g.
-     * a subclass of MotifLookAndFeel that changes the way a few components
-     * are rendered should be called "CDE/Motif My Way"; something
-     * that would be useful to a user trying to select a L&amp;F from a list
-     * of names.
+     * Rfturn b siort string tibt idfntififs tiis look bnd fffl, f.g.
+     * "CDE/Motif".  Tiis string siould bf bppropribtf for b mfnu itfm.
+     * Distindt look bnd fffls siould ibvf difffrfnt nbmfs, f.g.
+     * b subdlbss of MotifLookAndFffl tibt dibngfs tif wby b ffw domponfnts
+     * brf rfndfrfd siould bf dbllfd "CDE/Motif My Wby"; somftiing
+     * tibt would bf usfful to b usfr trying to sflfdt b L&bmp;F from b list
+     * of nbmfs.
      *
-     * @return short identifier for the look and feel
+     * @rfturn siort idfntififr for tif look bnd fffl
      */
-    public abstract String getName();
+    publid bbstrbdt String gftNbmf();
 
 
     /**
-     * Return a string that identifies this look and feel.  This string
-     * will be used by applications/services that want to recognize
-     * well known look and feel implementations.  Presently
-     * the well known names are "Motif", "Windows", "Mac", "Metal".  Note
-     * that a LookAndFeel derived from a well known superclass
-     * that doesn't make any fundamental changes to the look or feel
-     * shouldn't override this method.
+     * Rfturn b string tibt idfntififs tiis look bnd fffl.  Tiis string
+     * will bf usfd by bpplidbtions/sfrvidfs tibt wbnt to rfdognizf
+     * wfll known look bnd fffl implfmfntbtions.  Prfsfntly
+     * tif wfll known nbmfs brf "Motif", "Windows", "Mbd", "Mftbl".  Notf
+     * tibt b LookAndFffl dfrivfd from b wfll known supfrdlbss
+     * tibt dofsn't mbkf bny fundbmfntbl dibngfs to tif look or fffl
+     * siouldn't ovfrridf tiis mftiod.
      *
-     * @return identifier for the look and feel
+     * @rfturn idfntififr for tif look bnd fffl
      */
-    public abstract String getID();
+    publid bbstrbdt String gftID();
 
 
     /**
-     * Return a one line description of this look and feel implementation,
-     * e.g. "The CDE/Motif Look and Feel".   This string is intended for
-     * the user, e.g. in the title of a window or in a ToolTip message.
+     * Rfturn b onf linf dfsdription of tiis look bnd fffl implfmfntbtion,
+     * f.g. "Tif CDE/Motif Look bnd Fffl".   Tiis string is intfndfd for
+     * tif usfr, f.g. in tif titlf of b window or in b ToolTip mfssbgf.
      *
-     * @return short description for the look and feel
+     * @rfturn siort dfsdription for tif look bnd fffl
      */
-    public abstract String getDescription();
+    publid bbstrbdt String gftDfsdription();
 
 
     /**
-     * Returns {@code true} if the <code>LookAndFeel</code> returned
-     * <code>RootPaneUI</code> instances support providing {@code Window}
-     * decorations in a <code>JRootPane</code>.
+     * Rfturns {@dodf truf} if tif <dodf>LookAndFffl</dodf> rfturnfd
+     * <dodf>RootPbnfUI</dodf> instbndfs support providing {@dodf Window}
+     * dfdorbtions in b <dodf>JRootPbnf</dodf>.
      * <p>
-     * The default implementation returns {@code false}, subclasses that
-     * support {@code Window} decorations should override this and return
-     * {@code true}.
+     * Tif dffbult implfmfntbtion rfturns {@dodf fblsf}, subdlbssfs tibt
+     * support {@dodf Window} dfdorbtions siould ovfrridf tiis bnd rfturn
+     * {@dodf truf}.
      *
-     * @return {@code true} if the {@code RootPaneUI} instances created by
-     *         this look and feel support client side decorations
-     * @see JDialog#setDefaultLookAndFeelDecorated
-     * @see JFrame#setDefaultLookAndFeelDecorated
-     * @see JRootPane#setWindowDecorationStyle
-     * @since 1.4
+     * @rfturn {@dodf truf} if tif {@dodf RootPbnfUI} instbndfs drfbtfd by
+     *         tiis look bnd fffl support dlifnt sidf dfdorbtions
+     * @sff JDiblog#sftDffbultLookAndFfflDfdorbtfd
+     * @sff JFrbmf#sftDffbultLookAndFfflDfdorbtfd
+     * @sff JRootPbnf#sftWindowDfdorbtionStylf
+     * @sindf 1.4
      */
-    public boolean getSupportsWindowDecorations() {
-        return false;
+    publid boolfbn gftSupportsWindowDfdorbtions() {
+        rfturn fblsf;
     }
 
     /**
-     * If the underlying platform has a "native" look and feel, and
-     * this is an implementation of it, return {@code true}.  For
-     * example, when the underlying platform is Solaris running CDE
-     * a CDE/Motif look and feel implementation would return {@code
-     * true}.
+     * If tif undfrlying plbtform ibs b "nbtivf" look bnd fffl, bnd
+     * tiis is bn implfmfntbtion of it, rfturn {@dodf truf}.  For
+     * fxbmplf, wifn tif undfrlying plbtform is Solbris running CDE
+     * b CDE/Motif look bnd fffl implfmfntbtion would rfturn {@dodf
+     * truf}.
      *
-     * @return {@code true} if this look and feel represents the underlying
-     *         platform look and feel
+     * @rfturn {@dodf truf} if tiis look bnd fffl rfprfsfnts tif undfrlying
+     *         plbtform look bnd fffl
      */
-    public abstract boolean isNativeLookAndFeel();
+    publid bbstrbdt boolfbn isNbtivfLookAndFffl();
 
 
     /**
-     * Return {@code true} if the underlying platform supports and or permits
-     * this look and feel.  This method returns {@code false} if the look
-     * and feel depends on special resources or legal agreements that
-     * aren't defined for the current platform.
+     * Rfturn {@dodf truf} if tif undfrlying plbtform supports bnd or pfrmits
+     * tiis look bnd fffl.  Tiis mftiod rfturns {@dodf fblsf} if tif look
+     * bnd fffl dfpfnds on spfdibl rfsourdfs or lfgbl bgrffmfnts tibt
+     * brfn't dffinfd for tif durrfnt plbtform.
      *
      *
-     * @return {@code true} if this is a supported look and feel
-     * @see UIManager#setLookAndFeel
+     * @rfturn {@dodf truf} if tiis is b supportfd look bnd fffl
+     * @sff UIMbnbgfr#sftLookAndFffl
      */
-    public abstract boolean isSupportedLookAndFeel();
+    publid bbstrbdt boolfbn isSupportfdLookAndFffl();
 
 
     /**
-     * Initializes the look and feel. While this method is public,
-     * it should only be invoked by the {@code UIManager} when a
-     * look and feel is installed as the current look and feel. This
-     * method is invoked before the {@code UIManager} invokes
-     * {@code getDefaults}. This method is intended to perform any
-     * initialization for the look and feel. Subclasses
-     * should do any one-time setup they need here, rather than
-     * in a static initializer, because look and feel class objects
-     * may be loaded just to discover that {@code isSupportedLookAndFeel()}
-     * returns {@code false}.
+     * Initiblizfs tif look bnd fffl. Wiilf tiis mftiod is publid,
+     * it siould only bf invokfd by tif {@dodf UIMbnbgfr} wifn b
+     * look bnd fffl is instbllfd bs tif durrfnt look bnd fffl. Tiis
+     * mftiod is invokfd bfforf tif {@dodf UIMbnbgfr} invokfs
+     * {@dodf gftDffbults}. Tiis mftiod is intfndfd to pfrform bny
+     * initiblizbtion for tif look bnd fffl. Subdlbssfs
+     * siould do bny onf-timf sftup tify nffd ifrf, rbtifr tibn
+     * in b stbtid initiblizfr, bfdbusf look bnd fffl dlbss objfdts
+     * mby bf lobdfd just to disdovfr tibt {@dodf isSupportfdLookAndFffl()}
+     * rfturns {@dodf fblsf}.
      *
-     * @see #uninitialize
-     * @see UIManager#setLookAndFeel
+     * @sff #uninitiblizf
+     * @sff UIMbnbgfr#sftLookAndFffl
      */
-    public void initialize() {
+    publid void initiblizf() {
     }
 
 
     /**
-     * Uninitializes the look and feel. While this method is public,
-     * it should only be invoked by the {@code UIManager} when
-     * the look and feel is uninstalled. For example,
-     * {@code UIManager.setLookAndFeel} invokes this when the look and
-     * feel is changed.
+     * Uninitiblizfs tif look bnd fffl. Wiilf tiis mftiod is publid,
+     * it siould only bf invokfd by tif {@dodf UIMbnbgfr} wifn
+     * tif look bnd fffl is uninstbllfd. For fxbmplf,
+     * {@dodf UIMbnbgfr.sftLookAndFffl} invokfs tiis wifn tif look bnd
+     * fffl is dibngfd.
      * <p>
-     * Subclasses may choose to free up some resources here.
+     * Subdlbssfs mby dioosf to frff up somf rfsourdfs ifrf.
      *
-     * @see #initialize
-     * @see UIManager#setLookAndFeel
+     * @sff #initiblizf
+     * @sff UIMbnbgfr#sftLookAndFffl
      */
-    public void uninitialize() {
+    publid void uninitiblizf() {
     }
 
     /**
-     * Returns the look and feel defaults. While this method is public,
-     * it should only be invoked by the {@code UIManager} when the
-     * look and feel is set as the current look and feel and after
-     * {@code initialize} has been invoked.
+     * Rfturns tif look bnd fffl dffbults. Wiilf tiis mftiod is publid,
+     * it siould only bf invokfd by tif {@dodf UIMbnbgfr} wifn tif
+     * look bnd fffl is sft bs tif durrfnt look bnd fffl bnd bftfr
+     * {@dodf initiblizf} ibs bffn invokfd.
      *
-     * @return the look and feel defaults
-     * @see #initialize
-     * @see #uninitialize
-     * @see UIManager#setLookAndFeel
+     * @rfturn tif look bnd fffl dffbults
+     * @sff #initiblizf
+     * @sff #uninitiblizf
+     * @sff UIMbnbgfr#sftLookAndFffl
      */
-    public UIDefaults getDefaults() {
-        return null;
+    publid UIDffbults gftDffbults() {
+        rfturn null;
     }
 
     /**
-     * Returns a string that displays and identifies this
-     * object's properties.
+     * Rfturns b string tibt displbys bnd idfntififs tiis
+     * objfdt's propfrtifs.
      *
-     * @return a String representation of this object
+     * @rfturn b String rfprfsfntbtion of tiis objfdt
      */
-    public String toString() {
-        return "[" + getDescription() + " - " + getClass().getName() + "]";
+    publid String toString() {
+        rfturn "[" + gftDfsdription() + " - " + gftClbss().gftNbmf() + "]";
     }
 }

@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thrown whfn bn bpplidbtion trifs to bddfss bn fnum donstbnt by nbmf
+ * bnd thf fnum typf dontbins no donstbnt with thf spfdififd nbmf.
+ * This fxdfption dbn bf thrown by thf {@linkplbin
+ * jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt API usfd to rfbd bnnotbtions
+ * rfflfdtivfly}.
+ *
+ * @buthor  Josh Blodh
+ * @sff     jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt
+ * @sindf   1.5
+ */
+@SupprfssWbrnings("rbwtypfs") /* rbwtypfs brf pbrt of thf publid bpi */
+publid dlbss EnumConstbntNotPrfsfntExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -6046998521960521108L;
+
+    /**
+     * Thf typf of thf missing fnum donstbnt.
+     */
+    privbtf Clbss<? fxtfnds Enum> fnumTypf;
+
+    /**
+     * Thf nbmf of thf missing fnum donstbnt.
+     */
+    privbtf String donstbntNbmf;
+
+    /**
+     * Construdts bn <tt>EnumConstbntNotPrfsfntExdfption</tt> for thf
+     * spfdififd donstbnt.
+     *
+     * @pbrbm fnumTypf thf typf of thf missing fnum donstbnt
+     * @pbrbm donstbntNbmf thf nbmf of thf missing fnum donstbnt
+     */
+    publid EnumConstbntNotPrfsfntExdfption(Clbss<? fxtfnds Enum> fnumTypf,
+                                           String donstbntNbmf) {
+        supfr(fnumTypf.gftNbmf() + "." + donstbntNbmf);
+        this.fnumTypf = fnumTypf;
+        this.donstbntNbmf  = donstbntNbmf;
+    }
+
+    /**
+     * Rfturns thf typf of thf missing fnum donstbnt.
+     *
+     * @rfturn thf typf of thf missing fnum donstbnt
+     */
+    publid Clbss<? fxtfnds Enum> fnumTypf() { rfturn fnumTypf; }
+
+    /**
+     * Rfturns thf nbmf of thf missing fnum donstbnt.
+     *
+     * @rfturn thf nbmf of thf missing fnum donstbnt
+     */
+    publid String donstbntNbmf() { rfturn donstbntNbmf; }
+}

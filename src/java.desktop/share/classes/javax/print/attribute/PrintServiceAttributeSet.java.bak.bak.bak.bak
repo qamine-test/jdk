@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.print.bttributf;
+
+/**
+ * Intfrfbdf PrintSfrvidfAttributfSft spfdififs thf intfrfbdf for b sft of
+ * print job bttributfs, i.f. printing bttributfs thbt implfmfnt intfrfbdf
+ * {@link
+ * PrintSfrvidfAttributf PrintSfrvidfAttributf}. In thf Print Sfrvidf API,
+ * thf Print Sfrvidf instbndf usfs b PrintSfrvidfAttributfSft to rfport thf
+ * stbtus of thf print sfrvidf.
+ * <P>
+ * A PrintSfrvidfAttributfSft is just bn {@link AttributfSft AttributfSft}
+ * whosf donstrudtors bnd mutbting opfrbtions gubrbntff bn bdditionbl
+ * invbribnt,
+ * nbmfly thbt bll bttributf vblufs in thf PrintSfrvidfAttributfSft must bf
+ * instbndfs of intfrfbdf {@link PrintSfrvidfAttributf PrintSfrvidfAttributf}.
+ * Thf {@link #bdd(Attributf) bdd(Attributf)}, bnd
+ * {@link #bddAll(AttributfSft) bddAll(AttributfSft)} opfrbtions
+ * brf rfspfdififd bflow to gubrbntff this bdditionbl invbribnt.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid intfrfbdf PrintSfrvidfAttributfSft fxtfnds AttributfSft {
+
+
+
+    /**
+     * Adds thf spfdififd bttributf vbluf to this bttributf sft if it is not
+     * blrfbdy prfsfnt, first rfmoving bny fxisting vbluf in thf sbmf
+     * bttributf dbtfgory bs thf spfdififd bttributf vbluf (optionbl
+     * opfrbtion).
+     *
+     * @pbrbm  bttributf  Attributf vbluf to bf bddfd to this bttributf sft.
+     *
+     * @rfturn  <tt>truf</tt> if this bttributf sft dhbngfd bs b rfsult of
+     *          thf dbll, i.f., thf givfn bttributf vbluf wbs not blrfbdy b
+     *          mfmbfr of this bttributf sft.
+     *
+     * @throws  UnmodifibblfSftExdfption
+     *     (undhfdkfd fxdfption) Thrown if this bttributf sft dofs not
+     *     support thf <CODE>bdd()</CODE> opfrbtion.
+     * @throws  ClbssCbstExdfption
+     *     (undhfdkfd fxdfption) Thrown if thf <CODE>bttributf</CODE> is
+     *     not bn instbndf of intfrfbdf
+     *     {@link PrintSfrvidfAttributf PrintSfrvidfAttributf}.
+     * @throws  NullPointfrExdfption
+     *    (undhfdkfd fxdfption) Thrown if thf <CODE>bttributf</CODE> is null.
+     */
+    publid boolfbn bdd(Attributf bttributf);
+
+    /**
+     * Adds bll of thf flfmfnts in thf spfdififd sft to this bttributf.
+     * Thf outdomf is  thf sbmf bs if thf
+     * {@link #bdd(Attributf) bdd(Attributf)}
+     * opfrbtion hbd bffn bpplifd to this bttributf sft suddfssivfly with
+     * fbdh flfmfnt from thf spfdififd sft. If nonf of thf dbtfgorifs in thf
+     * spfdififd sft  brf thf sbmf bs bny dbtfgorifs in this bttributf sft,
+     * thf <tt>bddAll()</tt> opfrbtion ffffdtivfly modififs this bttributf
+     * sft so thbt its vbluf is thf <i>union</i> of thf two sfts.
+     * <P>
+     * Thf bfhbvior of thf <CODE>bddAll()</CODE> opfrbtion is unspfdififd if
+     * thf spfdififd sft is modififd whilf thf opfrbtion is in progrfss.
+     * <P>
+     * If thf <CODE>bddAll()</CODE> opfrbtion throws bn fxdfption, thf ffffdt
+     * on this bttributf sft's stbtf is implfmfntbtion dfpfndfnt; flfmfnts
+     * from thf spfdififd sft bfforf thf point of thf fxdfption mby or
+     * mby not hbvf bffn bddfd to this bttributf sft.
+     *
+     * @pbrbm  bttributfs  whosf flfmfnts brf to bf bddfd to this bttributf
+     *            sft.
+     *
+     * @rfturn  <tt>truf</tt> if this bttributf sft dhbngfd bs b rfsult of
+     *          thf dbll.
+     *
+     * @throws  UnmodifibblfSftExdfption
+     *     (Undhfdkfd fxdfption) Thrown if this bttributf sft dofs not
+     *     support thf <tt>bddAll()</tt> mfthod.
+     * @throws  ClbssCbstExdfption
+     *     (Undhfdkfd fxdfption) Thrown if somf flfmfnt in thf spfdififd
+     *     sft is not bn instbndf of intfrfbdf {@link PrintSfrvidfAttributf
+     *     PrintSfrvidfAttributf}.
+     * @throws  NullPointfrExdfption
+     *     (Undhfdkfd fxdfption) Thrown if thf spfdififd  sft is null.
+     *
+     * @sff #bdd(Attributf)
+     */
+    publid boolfbn bddAll(AttributfSft bttributfs);
+}

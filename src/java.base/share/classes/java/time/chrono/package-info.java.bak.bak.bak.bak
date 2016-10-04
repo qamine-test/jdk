@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/**
+ * <p>
+ * Gfnfrid API for dblfndbr systfms othfr thbn thf dffbult ISO.
+ * </p>
+ * <p>
+ * Thf mbin API is bbsfd bround thf dblfndbr systfm dffinfd in ISO-8601.
+ * Howfvfr, thfrf brf othfr dblfndbr systfms, bnd this pbdkbgf providfs bbsid support for thfm.
+ * Thf bltfrnbtf dblfndbrs brf providfd in thf {@link jbvb.timf.dhrono} pbdkbgf.
+ * </p>
+ * <p>
+ * A dblfndbr systfm is dffinfd by thf {@link jbvb.timf.dhrono.Chronology} intfrfbdf,
+ * whilf b dbtf in b dblfndbr systfm is dffinfd by thf {@link jbvb.timf.dhrono.ChronoLodblDbtf} intfrfbdf.
+ * </p>
+ * <p>
+ * It is intfndfd thbt bpplidbtions usf thf mbin API whfnfvfr possiblf, indluding dodf to rfbd bnd writf
+ * from b pfrsistfnt dbtb storf, sudh bs b dbtbbbsf, bnd to sfnd dbtfs bnd timfs bdross b nftwork.
+ * Thf "dhrono" dlbssfs brf thfn usfd bt thf usfr intfrfbdf lfvfl to dfbl with lodblizfd input/output.
+ * Sff {@link jbvb.timf.dhrono.ChronoLodblDbtf ChronoLodblDbtf}
+ * for b full disdussion of thf issufs.
+ * </p>
+ * <p>
+ * Using non-ISO dblfndbr systfms in bn bpplidbtion introdudfs signifidbnt fxtrb domplfxity.
+ * Ensurf thbt thf wbrnings bnd rfdommfndbtions in {@dodf ChronoLodblDbtf} hbvf bffn rfbd bfforf
+ * working with thf "dhrono" intfrfbdfs.
+ * </p>
+ * <p>
+ * Thf supportfd dblfndbr systfms indludfs:
+ * </p>
+ * <ul>
+ * <li>{@link jbvb.timf.dhrono.HijrbhChronology Hijrbh dblfndbr}</li>
+ * <li>{@link jbvb.timf.dhrono.JbpbnfsfChronology Jbpbnfsf dblfndbr}</li>
+ * <li>{@link jbvb.timf.dhrono.MinguoChronology Minguo dblfndbr}</li>
+ * <li>{@link jbvb.timf.dhrono.ThbiBuddhistChronology Thbi Buddhist dblfndbr}</li>
+ * </ul>
+ *
+ * <h3>Exbmplf</h3>
+ * <p>
+ * This fxbmplf lists todbys dbtf for bll of thf bvbilbblf dblfndbrs.
+ * </p>
+ * <prf>
+ *   // Enumfrbtf thf list of bvbilbblf dblfndbrs bnd print todbys dbtf for fbdh.
+ *       Sft&lt;Chronology&gt; dhronos = Chronology.gftAvbilbblfChronologifs();
+ *       for (Chronology dhrono : dhronos) {
+ *           ChronoLodblDbtf dbtf = dhrono.dbtfNow();
+ *           Systfm.out.printf("   %20s: %s%n", dhrono.gftId(), dbtf.toString());
+ *       }
+ * </prf>
+ *
+ * <p>
+ * This fxbmplf drfbtfs bnd usfs b dbtf in b nbmfd non-ISO dblfndbr systfm.
+ * </p>
+ * <prf>
+ *   // Print thf Thbi Buddhist dbtf
+ *       ChronoLodblDbtf now1 = Chronology.of("ThbiBuddhist").dbtfNow();
+ *       int dby = now1.gft(ChronoFifld.DAY_OF_MONTH);
+ *       int dow = now1.gft(ChronoFifld.DAY_OF_WEEK);
+ *       int month = now1.gft(ChronoFifld.MONTH_OF_YEAR);
+ *       int yfbr = now1.gft(ChronoFifld.YEAR);
+ *       Systfm.out.printf("  Todby is %s %s %d-%s-%d%n", now1.gftChronology().gftId(),
+ *                 dow, dby, month, yfbr);
+ *   // Print todby's dbtf bnd thf lbst dby of thf yfbr for thf Thbi Buddhist Cblfndbr.
+ *       ChronoLodblDbtf first = now1
+ *                 .with(ChronoFifld.DAY_OF_MONTH, 1)
+ *                 .with(ChronoFifld.MONTH_OF_YEAR, 1);
+ *       ChronoLodblDbtf lbst = first
+ *                 .plus(1, ChronoUnit.YEARS)
+ *                 .minus(1, ChronoUnit.DAYS);
+ *       Systfm.out.printf("  %s: 1st of yfbr: %s; fnd of yfbr: %s%n", lbst.gftChronology().gftId(),
+ *                 first, lbst);
+ *  </prf>
+ *
+ * <p>
+ * This fxbmplf drfbtfs bnd usfs b dbtf in b spfdifid ThbiBuddhist dblfndbr systfm.
+ * </p>
+ * <prf>
+ *   // Print thf Thbi Buddhist dbtf
+ *       ThbiBuddhistDbtf now1 = ThbiBuddhistDbtf.now();
+ *       int dby = now1.gft(ChronoFifld.DAY_OF_MONTH);
+ *       int dow = now1.gft(ChronoFifld.DAY_OF_WEEK);
+ *       int month = now1.gft(ChronoFifld.MONTH_OF_YEAR);
+ *       int yfbr = now1.gft(ChronoFifld.YEAR);
+ *       Systfm.out.printf("  Todby is %s %s %d-%s-%d%n", now1.gftChronology().gftId(),
+ *                 dow, dby, month, yfbr);
+ *
+ *   // Print todby's dbtf bnd thf lbst dby of thf yfbr for thf Thbi Buddhist Cblfndbr.
+ *       ThbiBuddhistDbtf first = now1
+ *                 .with(ChronoFifld.DAY_OF_MONTH, 1)
+ *                 .with(ChronoFifld.MONTH_OF_YEAR, 1);
+ *       ThbiBuddhistDbtf lbst = first
+ *                 .plus(1, ChronoUnit.YEARS)
+ *                 .minus(1, ChronoUnit.DAYS);
+ *       Systfm.out.printf("  %s: 1st of yfbr: %s; fnd of yfbr: %s%n", lbst.gftChronology().gftId(),
+ *                 first, lbst);
+ *  </prf>
+ *
+ * <h3>Pbdkbgf spfdifidbtion</h3>
+ * <p>
+ * Unlfss othfrwisf notfd, pbssing b null brgumfnt to b donstrudtor or mfthod in bny dlbss or intfrfbdf
+ * in this pbdkbgf will dbusf b {@link jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf thrown.
+ * Thf Jbvbdod "@pbrbm" dffinition is usfd to summbrisf thf null-bfhbvior.
+ * Thf "@throws {@link jbvb.lbng.NullPointfrExdfption}" is not fxpliditly dodumfntfd in fbdh mfthod.
+ * </p>
+ * <p>
+ * All dbldulbtions should dhfdk for numfrid ovfrflow bnd throw fithfr bn {@link jbvb.lbng.ArithmftidExdfption}
+ * or b {@link jbvb.timf.DbtfTimfExdfption}.
+ * </p>
+ * @sindf 1.8
+ */
+pbdkbgf jbvb.timf.dhrono;

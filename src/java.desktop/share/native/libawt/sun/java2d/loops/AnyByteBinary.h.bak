@@ -1,934 +1,934 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AnyByteBinary_h_Included
-#define AnyByteBinary_h_Included
+#ifndff AnyBytfBinbry_i_Indludfd
+#dffinf AnyBytfBinbry_i_Indludfd
 
-#include <string.h>
+#indludf <string.i>
 
-#include "AlphaMacros.h"
-#include "GraphicsPrimitiveMgr.h"
-#include "LoopMacros.h"
-#include "LineUtils.h"
+#indludf "AlpibMbdros.i"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "LoopMbdros.i"
+#indludf "LinfUtils.i"
 
 /*
- * This file contains macros that are similar to those found in LoopMacros.h
- * and AlphaMacros.h, yet have been specialized to manipulate any one of the
- * surfaces in the "ByteBinary" family.  It also contains generalized versions
- * of some macros that are used by the more specific ByteBinary surfaces.
+ * Tiis filf dontbins mbdros tibt brf similbr to tiosf found in LoopMbdros.i
+ * bnd AlpibMbdros.i, yft ibvf bffn spfdiblizfd to mbnipulbtf bny onf of tif
+ * surfbdfs in tif "BytfBinbry" fbmily.  It blso dontbins gfnfrblizfd vfrsions
+ * of somf mbdros tibt brf usfd by tif morf spfdifid BytfBinbry surfbdfs.
  */
 
-/* REMIND: the ByteBinary store macros should probably do ordered dithering */
-#define DeclareByteBinaryLoadVars(PREFIX) \
+/* REMIND: tif BytfBinbry storf mbdros siould probbbly do ordfrfd ditifring */
+#dffinf DfdlbrfBytfBinbryLobdVbrs(PREFIX) \
     jint *PREFIX ## Lut;
 
-#define DeclareByteBinaryStoreVars(PREFIX) \
-    unsigned char *PREFIX ## InvLut;
+#dffinf DfdlbrfBytfBinbryStorfVbrs(PREFIX) \
+    unsignfd dibr *PREFIX ## InvLut;
 
-#define SetByteBinaryStoreVarsYPos(PREFIX, pRasInfo, LOC)
-#define SetByteBinaryStoreVarsXPos(PREFIX, pRasInfo, LOC)
+#dffinf SftBytfBinbryStorfVbrsYPos(PREFIX, pRbsInfo, LOC)
+#dffinf SftBytfBinbryStorfVbrsXPos(PREFIX, pRbsInfo, LOC)
 
-#define InitByteBinaryLoadVars(PREFIX, pRasInfo) \
-    PREFIX ## Lut = (pRasInfo)->lutBase
+#dffinf InitBytfBinbryLobdVbrs(PREFIX, pRbsInfo) \
+    PREFIX ## Lut = (pRbsInfo)->lutBbsf
 
-#define InitByteBinaryStoreVarsY(PREFIX, pRasInfo) \
-    PREFIX ## InvLut = (pRasInfo)->invColorTable
+#dffinf InitBytfBinbryStorfVbrsY(PREFIX, pRbsInfo) \
+    PREFIX ## InvLut = (pRbsInfo)->invColorTbblf
 
-#define InitByteBinaryStoreVarsX(PREFIX, pRasInfo)
-#define NextByteBinaryStoreVarsX(PREFIX)
-#define NextByteBinaryStoreVarsY(PREFIX)
+#dffinf InitBytfBinbryStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtBytfBinbryStorfVbrsX(PREFIX)
+#dffinf NfxtBytfBinbryStorfVbrsY(PREFIX)
 
 
-#define DeclareByteBinaryInitialLoadVars(TYPE, INFO, pRas, PREFIX, x) \
-    int PREFIX ## adjx = (x) + (INFO)->pixelBitOffset / TYPE ## BitsPerPixel; \
-    int PREFIX ## index = (PREFIX ## adjx) / TYPE ## PixelsPerByte; \
-    int PREFIX ## bits = TYPE ## MaxBitOffset - \
-                             (((PREFIX ## adjx) % TYPE ## PixelsPerByte) * \
-                              TYPE ## BitsPerPixel); \
-    int PREFIX ## bbpix = (pRas)[PREFIX ## index];
+#dffinf DfdlbrfBytfBinbryInitiblLobdVbrs(TYPE, INFO, pRbs, PREFIX, x) \
+    int PREFIX ## bdjx = (x) + (INFO)->pixflBitOffsft / TYPE ## BitsPfrPixfl; \
+    int PREFIX ## indfx = (PREFIX ## bdjx) / TYPE ## PixflsPfrBytf; \
+    int PREFIX ## bits = TYPE ## MbxBitOffsft - \
+                             (((PREFIX ## bdjx) % TYPE ## PixflsPfrBytf) * \
+                              TYPE ## BitsPfrPixfl); \
+    int PREFIX ## bbpix = (pRbs)[PREFIX ## indfx];
 
-#define InitialLoadByteBinary(TYPE, pRas, PREFIX) \
+#dffinf InitiblLobdBytfBinbry(TYPE, pRbs, PREFIX) \
     do { \
         if (PREFIX ## bits < 0) { \
-            (pRas)[PREFIX ## index] = (jubyte) PREFIX ## bbpix; \
-            PREFIX ## bbpix = (pRas)[++(PREFIX ## index)]; \
-            PREFIX ## bits = TYPE ## MaxBitOffset; \
+            (pRbs)[PREFIX ## indfx] = (jubytf) PREFIX ## bbpix; \
+            PREFIX ## bbpix = (pRbs)[++(PREFIX ## indfx)]; \
+            PREFIX ## bits = TYPE ## MbxBitOffsft; \
         } \
-    } while (0)
+    } wiilf (0)
 
-#define ShiftBitsByteBinary(TYPE, PREFIX) \
-    PREFIX ## bits -= TYPE ## BitsPerPixel
+#dffinf SiiftBitsBytfBinbry(TYPE, PREFIX) \
+    PREFIX ## bits -= TYPE ## BitsPfrPixfl
 
-#define FinalStoreByteBinary(TYPE, pRas, PREFIX) \
-    (pRas)[PREFIX ## index] = (jubyte) PREFIX ## bbpix
+#dffinf FinblStorfBytfBinbry(TYPE, pRbs, PREFIX) \
+    (pRbs)[PREFIX ## indfx] = (jubytf) PREFIX ## bbpix
 
-#define CurrentPixelByteBinary(TYPE, PREFIX) \
-    ((PREFIX ## bbpix >> PREFIX ## bits) & TYPE ## PixelMask)
+#dffinf CurrfntPixflBytfBinbry(TYPE, PREFIX) \
+    ((PREFIX ## bbpix >> PREFIX ## bits) & TYPE ## PixflMbsk)
 
 
-#define StoreByteBinaryPixel(TYPE, pRas, x, pixel)
+#dffinf StorfBytfBinbryPixfl(TYPE, pRbs, x, pixfl)
 
-#define StoreByteBinaryPixelData(TYPE, pPix, x, pixel, PREFIX) \
+#dffinf StorfBytfBinbryPixflDbtb(TYPE, pPix, x, pixfl, PREFIX) \
     do { \
-        PREFIX ## bbpix &= ~(TYPE ## PixelMask << PREFIX ## bits); \
-        PREFIX ## bbpix |= (pixel << PREFIX ## bits); \
-    } while (0)
+        PREFIX ## bbpix &= ~(TYPE ## PixflMbsk << PREFIX ## bits); \
+        PREFIX ## bbpix |= (pixfl << PREFIX ## bits); \
+    } wiilf (0)
 
-#define ByteBinaryPixelFromArgb(TYPE, pixel, rgb, pRasInfo) \
+#dffinf BytfBinbryPixflFromArgb(TYPE, pixfl, rgb, pRbsInfo) \
     do { \
         jint r, g, b; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-        (pixel) = SurfaceData_InvColorMap((pRasInfo)->invColorTable, \
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+        (pixfl) = SurfbdfDbtb_InvColorMbp((pRbsInfo)->invColorTbblf, \
                                           r, g, b); \
-    } while (0)
+    } wiilf (0)
 
-#define XorByteBinaryPixelData(TYPE, pDst, x, PREFIX, \
-                               srcpixel, xorpixel, mask) \
-    PREFIX ## bbpix ^= ((((srcpixel) ^ (xorpixel)) & TYPE ## PixelMask) \
+#dffinf XorBytfBinbryPixflDbtb(TYPE, pDst, x, PREFIX, \
+                               srdpixfl, xorpixfl, mbsk) \
+    PREFIX ## bbpix ^= ((((srdpixfl) ^ (xorpixfl)) & TYPE ## PixflMbsk) \
                            << PREFIX ## bits)
 
 
-#define LoadByteBinaryTo1IntRgb(TYPE, pRas, PREFIX, x, rgb) \
-    (rgb) = PREFIX ## Lut[CurrentPixelByteBinary(TYPE, PREFIX)]
+#dffinf LobdBytfBinbryTo1IntRgb(TYPE, pRbs, PREFIX, x, rgb) \
+    (rgb) = PREFIX ## Lut[CurrfntPixflBytfBinbry(TYPE, PREFIX)]
 
-#define LoadByteBinaryTo1IntArgb(TYPE, pRas, PREFIX, x, argb) \
-    (argb) = PREFIX ## Lut[CurrentPixelByteBinary(TYPE, PREFIX)]
+#dffinf LobdBytfBinbryTo1IntArgb(TYPE, pRbs, PREFIX, x, brgb) \
+    (brgb) = PREFIX ## Lut[CurrfntPixflBytfBinbry(TYPE, PREFIX)]
 
-#define LoadByteBinaryTo3ByteRgb(TYPE, pRas, PREFIX, x, r, g, b) \
+#dffinf LobdBytfBinbryTo3BytfRgb(TYPE, pRbs, PREFIX, x, r, g, b) \
     do { \
-        jint rgb = PREFIX ## Lut[CurrentPixelByteBinary(TYPE, PREFIX)]; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-    } while (0)
+        jint rgb = PREFIX ## Lut[CurrfntPixflBytfBinbry(TYPE, PREFIX)]; \
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+    } wiilf (0)
 
-#define LoadByteBinaryTo4ByteArgb(TYPE, pRas, PREFIX, x, a, r, g, b) \
+#dffinf LobdBytfBinbryTo4BytfArgb(TYPE, pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        jint argb = PREFIX ## Lut[CurrentPixelByteBinary(TYPE, PREFIX)]; \
-        ExtractIntDcmComponents1234(argb, a, r, g, b); \
-    } while (0)
+        jint brgb = PREFIX ## Lut[CurrfntPixflBytfBinbry(TYPE, PREFIX)]; \
+        ExtrbdtIntDdmComponfnts1234(brgb, b, r, g, b); \
+    } wiilf (0)
 
-#define StoreByteBinaryFrom1IntRgb(TYPE, pRas, PREFIX, x, rgb) \
+#dffinf StorfBytfBinbryFrom1IntRgb(TYPE, pRbs, PREFIX, x, rgb) \
     do { \
         int r, g, b; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-        StoreByteBinaryFrom3ByteRgb(TYPE, pRas, PREFIX, x, r, g, b); \
-    } while (0)
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+        StorfBytfBinbryFrom3BytfRgb(TYPE, pRbs, PREFIX, x, r, g, b); \
+    } wiilf (0)
 
-#define StoreByteBinaryFrom1IntArgb(TYPE, pRas, PREFIX, x, argb) \
-    StoreByteBinaryFrom1IntRgb(TYPE, pRas, PREFIX, x, argb)
+#dffinf StorfBytfBinbryFrom1IntArgb(TYPE, pRbs, PREFIX, x, brgb) \
+    StorfBytfBinbryFrom1IntRgb(TYPE, pRbs, PREFIX, x, brgb)
 
-#define StoreByteBinaryFrom3ByteRgb(TYPE, pRas, PREFIX, x, r, g, b) \
-    StoreByteBinaryPixelData(TYPE, pRas, x, \
-                             SurfaceData_InvColorMap(PREFIX ## InvLut, \
+#dffinf StorfBytfBinbryFrom3BytfRgb(TYPE, pRbs, PREFIX, x, r, g, b) \
+    StorfBytfBinbryPixflDbtb(TYPE, pRbs, x, \
+                             SurfbdfDbtb_InvColorMbp(PREFIX ## InvLut, \
                                                      r, g, b), \
                              PREFIX)
 
-#define StoreByteBinaryFrom4ByteArgb(TYPE, pRas, PREFIX, x, a, r, g, b) \
-    StoreByteBinaryFrom3ByteRgb(TYPE, pRas, PREFIX, x, r, g, b)
+#dffinf StorfBytfBinbryFrom4BytfArgb(TYPE, pRbs, PREFIX, x, b, r, g, b) \
+    StorfBytfBinbryFrom3BytfRgb(TYPE, pRbs, PREFIX, x, r, g, b)
 
 
-#define DeclareByteBinaryAlphaLoadData(TYPE, PREFIX) \
+#dffinf DfdlbrfBytfBinbryAlpibLobdDbtb(TYPE, PREFIX) \
     jint *PREFIX ## Lut; \
     jint PREFIX ## rgb;
 
-#define InitByteBinaryAlphaLoadData(TYPE, PREFIX, pRasInfo) \
+#dffinf InitBytfBinbryAlpibLobdDbtb(TYPE, PREFIX, pRbsInfo) \
     do { \
-        PREFIX ## Lut = (pRasInfo)->lutBase; \
+        PREFIX ## Lut = (pRbsInfo)->lutBbsf; \
         PREFIX ## rgb = 0; \
-    } while (0)
+    } wiilf (0)
 
-#define LoadAlphaFromByteBinaryFor4ByteArgb(TYPE, pRas, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromBytfBinbryFor4BytfArgb(TYPE, pRbs, PREFIX, COMP_PREFIX) \
     do { \
-        PREFIX ## rgb = PREFIX ## Lut[CurrentPixelByteBinary(TYPE, PREFIX)]; \
+        PREFIX ## rgb = PREFIX ## Lut[CurrfntPixflBytfBinbry(TYPE, PREFIX)]; \
         COMP_PREFIX ## A = ((juint) PREFIX ## rgb) >> 24; \
-    } while (0)
+    } wiilf (0)
 
-#define Postload4ByteArgbFromByteBinary(TYPE, pRas, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd4BytfArgbFromBytfBinbry(TYPE, pRbs, PREFIX, COMP_PREFIX) \
     do { \
         COMP_PREFIX ## R = (PREFIX ## rgb >> 16) & 0xff; \
         COMP_PREFIX ## G = (PREFIX ## rgb >>  8) & 0xff; \
         COMP_PREFIX ## B = (PREFIX ## rgb >>  0) & 0xff; \
-    } while (0)
+    } wiilf (0)
 
 
-#define ByteBinaryIsPremultiplied       0
+#dffinf BytfBinbryIsPrfmultiplifd       0
 
-#define StoreByteBinaryFrom4ByteArgbComps(TYPE, pRas, PREFIX, x, COMP_PREFIX)\
-    StoreByteBinaryFrom4ByteArgb(TYPE, pRas, PREFIX, x, \
+#dffinf StorfBytfBinbryFrom4BytfArgbComps(TYPE, pRbs, PREFIX, x, COMP_PREFIX)\
+    StorfBytfBinbryFrom4BytfArgb(TYPE, pRbs, PREFIX, x, \
                                  COMP_PREFIX ## A, COMP_PREFIX ## R, \
                                  COMP_PREFIX ## G, COMP_PREFIX ## B)
 
 
 
 
-#define BBBlitLoopWidthHeight(SRCTYPE, SRCPTR, SRCBASE, SRCINFO, SRCPREFIX, \
+#dffinf BBBlitLoopWidtiHfigit(SRCTYPE, SRCPTR, SRCBASE, SRCINFO, SRCPREFIX, \
                               DSTTYPE, DSTPTR, DSTBASE, DSTINFO, DSTPREFIX, \
                               WIDTH, HEIGHT, BODY) \
     do { \
-        SRCTYPE ## DataType *SRCPTR = (SRCTYPE ## DataType *) (SRCBASE); \
-        DSTTYPE ## DataType *DSTPTR = (DSTTYPE ## DataType *) (DSTBASE); \
-        jint srcScan = (SRCINFO)->scanStride; \
-        jint dstScan = (DSTINFO)->scanStride; \
-        jint srcx1 = (SRCINFO)->bounds.x1; \
+        SRCTYPE ## DbtbTypf *SRCPTR = (SRCTYPE ## DbtbTypf *) (SRCBASE); \
+        DSTTYPE ## DbtbTypf *DSTPTR = (DSTTYPE ## DbtbTypf *) (DSTBASE); \
+        jint srdSdbn = (SRCINFO)->sdbnStridf; \
+        jint dstSdbn = (DSTINFO)->sdbnStridf; \
+        jint srdx1 = (SRCINFO)->bounds.x1; \
         jint dstx1 = (DSTINFO)->bounds.x1; \
-        Init ## DSTTYPE ## StoreVarsY(DSTPREFIX, DSTINFO); \
-        srcScan -= (WIDTH) * SRCTYPE ## PixelStride; \
-        dstScan -= (WIDTH) * DSTTYPE ## PixelStride; \
+        Init ## DSTTYPE ## StorfVbrsY(DSTPREFIX, DSTINFO); \
+        srdSdbn -= (WIDTH) * SRCTYPE ## PixflStridf; \
+        dstSdbn -= (WIDTH) * DSTTYPE ## PixflStridf; \
         do { \
-            Declare ## SRCTYPE ## InitialLoadVars(SRCINFO, SRCPTR, SRCPREFIX, \
-                                                  srcx1) \
-            Declare ## DSTTYPE ## InitialLoadVars(DSTINFO, DSTPTR, DSTPREFIX, \
+            Dfdlbrf ## SRCTYPE ## InitiblLobdVbrs(SRCINFO, SRCPTR, SRCPREFIX, \
+                                                  srdx1) \
+            Dfdlbrf ## DSTTYPE ## InitiblLobdVbrs(DSTINFO, DSTPTR, DSTPREFIX, \
                                                   dstx1) \
             juint w = WIDTH; \
-            Init ## DSTTYPE ## StoreVarsX(DSTPREFIX, DSTINFO); \
+            Init ## DSTTYPE ## StorfVbrsX(DSTPREFIX, DSTINFO); \
             do { \
-                InitialLoad ## SRCTYPE(SRCPTR, SRCPREFIX); \
-                InitialLoad ## DSTTYPE(DSTPTR, DSTPREFIX); \
+                InitiblLobd ## SRCTYPE(SRCPTR, SRCPREFIX); \
+                InitiblLobd ## DSTTYPE(DSTPTR, DSTPREFIX); \
                 BODY; \
-                ShiftBits ## SRCTYPE(SRCPREFIX); \
-                ShiftBits ## DSTTYPE(DSTPREFIX); \
-                SRCPTR = PtrAddBytes(SRCPTR, SRCTYPE ## PixelStride); \
-                DSTPTR = PtrAddBytes(DSTPTR, DSTTYPE ## PixelStride); \
-                Next ## DSTTYPE ## StoreVarsX(DSTPREFIX); \
-            } while (--w > 0); \
-            FinalStore ## DSTTYPE(DSTPTR, DSTPREFIX); \
-            SRCPTR = PtrAddBytes(SRCPTR, srcScan); \
-            DSTPTR = PtrAddBytes(DSTPTR, dstScan); \
-            Next ## DSTTYPE ## StoreVarsY(DSTPREFIX); \
-        } while (--HEIGHT > 0); \
-    } while (0)
+                SiiftBits ## SRCTYPE(SRCPREFIX); \
+                SiiftBits ## DSTTYPE(DSTPREFIX); \
+                SRCPTR = PtrAddBytfs(SRCPTR, SRCTYPE ## PixflStridf); \
+                DSTPTR = PtrAddBytfs(DSTPTR, DSTTYPE ## PixflStridf); \
+                Nfxt ## DSTTYPE ## StorfVbrsX(DSTPREFIX); \
+            } wiilf (--w > 0); \
+            FinblStorf ## DSTTYPE(DSTPTR, DSTPREFIX); \
+            SRCPTR = PtrAddBytfs(SRCPTR, srdSdbn); \
+            DSTPTR = PtrAddBytfs(DSTPTR, dstSdbn); \
+            Nfxt ## DSTTYPE ## StorfVbrsY(DSTPREFIX); \
+        } wiilf (--HEIGHT > 0); \
+    } wiilf (0)
 
-#define BBXorVia1IntArgb(SRCPTR, SRCTYPE, SRCPREFIX, \
+#dffinf BBXorVib1IntArgb(SRCPTR, SRCTYPE, SRCPREFIX, \
                          DSTPTR, DSTTYPE, DSTPREFIX, \
                          XVAR, XORPIXEL, MASK, DSTINFOPTR) \
     do { \
-        jint srcpixel; \
-        Load ## SRCTYPE ## To1IntArgb(SRCPTR, SRCPREFIX, XVAR, srcpixel); \
+        jint srdpixfl; \
+        Lobd ## SRCTYPE ## To1IntArgb(SRCPTR, SRCPREFIX, XVAR, srdpixfl); \
  \
-        if (IsArgbTransparent(srcpixel)) { \
-            break; \
+        if (IsArgbTrbnspbrfnt(srdpixfl)) { \
+            brfbk; \
         } \
  \
-        DSTTYPE ## PixelFromArgb(srcpixel, srcpixel, DSTINFOPTR); \
+        DSTTYPE ## PixflFromArgb(srdpixfl, srdpixfl, DSTINFOPTR); \
  \
-        Xor ## DSTTYPE ## PixelData(DSTPTR, XVAR, DSTPREFIX, srcpixel, \
+        Xor ## DSTTYPE ## PixflDbtb(DSTPTR, XVAR, DSTPREFIX, srdpixfl, \
                                     XORPIXEL, MASK); \
-    } while (0)
+    } wiilf (0)
 
-#define DEFINE_BYTE_BINARY_CONVERT_BLIT(SRC, DST, STRATEGY) \
-void NAME_CONVERT_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
-                                 juint width, juint height, \
-                                 SurfaceDataRasInfo *pSrcInfo, \
-                                 SurfaceDataRasInfo *pDstInfo, \
-                                 NativePrimitive *pPrim, \
-                                 CompositeInfo *pCompInfo) \
+#dffinf DEFINE_BYTE_BINARY_CONVERT_BLIT(SRC, DST, STRATEGY) \
+void NAME_CONVERT_BLIT(SRC, DST)(void *srdBbsf, void *dstBbsf, \
+                                 juint widti, juint ifigit, \
+                                 SurfbdfDbtbRbsInfo *pSrdInfo, \
+                                 SurfbdfDbtbRbsInfo *pDstInfo, \
+                                 NbtivfPrimitivf *pPrim, \
+                                 CompositfInfo *pCompInfo) \
 { \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    Declare ## DST ## StoreVars(DstWrite) \
+    Dfdlbrf ## SRC ## LobdVbrs(SrdRfbd) \
+    Dfdlbrf ## DST ## StorfVbrs(DstWritf) \
  \
-    Init ## SRC ## LoadVars(SrcRead, pSrcInfo); \
-    BBBlitLoopWidthHeight(SRC, pSrc, srcBase, pSrcInfo, SrcRead, \
-                          DST, pDst, dstBase, pDstInfo, DstWrite, \
-                          width, height, \
-                          ConvertVia ## STRATEGY(pSrc, SRC, SrcRead, \
-                                                 pDst, DST, DstWrite, \
+    Init ## SRC ## LobdVbrs(SrdRfbd, pSrdInfo); \
+    BBBlitLoopWidtiHfigit(SRC, pSrd, srdBbsf, pSrdInfo, SrdRfbd, \
+                          DST, pDst, dstBbsf, pDstInfo, DstWritf, \
+                          widti, ifigit, \
+                          ConvfrtVib ## STRATEGY(pSrd, SRC, SrdRfbd, \
+                                                 pDst, DST, DstWritf, \
                                                  0, 0)); \
 }
 
-#define DEFINE_BYTE_BINARY_XOR_BLIT(SRC, DST) \
-void NAME_XOR_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
-                             juint width, juint height, \
-                             SurfaceDataRasInfo *pSrcInfo, \
-                             SurfaceDataRasInfo *pDstInfo, \
-                             NativePrimitive *pPrim, \
-                             CompositeInfo *pCompInfo) \
+#dffinf DEFINE_BYTE_BINARY_XOR_BLIT(SRC, DST) \
+void NAME_XOR_BLIT(SRC, DST)(void *srdBbsf, void *dstBbsf, \
+                             juint widti, juint ifigit, \
+                             SurfbdfDbtbRbsInfo *pSrdInfo, \
+                             SurfbdfDbtbRbsInfo *pDstInfo, \
+                             NbtivfPrimitivf *pPrim, \
+                             CompositfInfo *pCompInfo) \
 { \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    juint alphamask = pCompInfo->alphaMask; \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    Declare ## DST ## StoreVars(DstWrite) \
+    jint xorpixfl = pCompInfo->dftbils.xorPixfl; \
+    juint blpibmbsk = pCompInfo->blpibMbsk; \
+    Dfdlbrf ## SRC ## LobdVbrs(SrdRfbd) \
+    Dfdlbrf ## DST ## StorfVbrs(DstWritf) \
  \
-    Init ## SRC ## LoadVars(SrcRead, pSrcInfo); \
-    BBBlitLoopWidthHeight(SRC, pSrc, srcBase, pSrcInfo, SrcRead, \
-                          DST, pDst, dstBase, pDstInfo, DstWrite, \
-                          width, height, \
-                          BBXorVia1IntArgb(pSrc, SRC, SrcRead, \
-                                           pDst, DST, DstWrite, \
-                                           0, xorpixel, \
-                                           alphamask, pDstInfo)); \
+    Init ## SRC ## LobdVbrs(SrdRfbd, pSrdInfo); \
+    BBBlitLoopWidtiHfigit(SRC, pSrd, srdBbsf, pSrdInfo, SrdRfbd, \
+                          DST, pDst, dstBbsf, pDstInfo, DstWritf, \
+                          widti, ifigit, \
+                          BBXorVib1IntArgb(pSrd, SRC, SrdRfbd, \
+                                           pDst, DST, DstWritf, \
+                                           0, xorpixfl, \
+                                           blpibmbsk, pDstInfo)); \
 }
 
-#define DEFINE_BYTE_BINARY_SOLID_FILLRECT(DST) \
-void NAME_SOLID_FILLRECT(DST)(SurfaceDataRasInfo *pRasInfo, \
+#dffinf DEFINE_BYTE_BINARY_SOLID_FILLRECT(DST) \
+void NAME_SOLID_FILLRECT(DST)(SurfbdfDbtbRbsInfo *pRbsInfo, \
                               jint lox, jint loy, \
-                              jint hix, jint hiy, \
-                              jint pixel, \
-                              NativePrimitive *pPrim, \
-                              CompositeInfo *pCompInfo) \
+                              jint iix, jint iiy, \
+                              jint pixfl, \
+                              NbtivfPrimitivf *pPrim, \
+                              CompositfInfo *pCompInfo) \
 { \
-    DST ## DataType *pPix; \
-    jint scan = pRasInfo->scanStride; \
-    juint height = hiy - loy; \
-    juint width = hix - lox; \
+    DST ## DbtbTypf *pPix; \
+    jint sdbn = pRbsInfo->sdbnStridf; \
+    juint ifigit = iiy - loy; \
+    juint widti = iix - lox; \
  \
-    pPix = PtrCoord(pRasInfo->rasBase, lox, DST ## PixelStride, loy, scan); \
+    pPix = PtrCoord(pRbsInfo->rbsBbsf, lox, DST ## PixflStridf, loy, sdbn); \
     do { \
-        Declare ## DST ## InitialLoadVars(pRasInfo, pPix, DstPix, lox) \
-        jint w = width; \
+        Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, DstPix, lox) \
+        jint w = widti; \
         do { \
-            InitialLoad ## DST(pPix, DstPix); \
-            Store ## DST ## PixelData(pPix, 0, pixel, DstPix); \
-            ShiftBits ## DST(DstPix); \
-        } while (--w > 0); \
-        FinalStore ## DST(pPix, DstPix); \
-        pPix = PtrAddBytes(pPix, scan); \
-    } while (--height > 0); \
+            InitiblLobd ## DST(pPix, DstPix); \
+            Storf ## DST ## PixflDbtb(pPix, 0, pixfl, DstPix); \
+            SiiftBits ## DST(DstPix); \
+        } wiilf (--w > 0); \
+        FinblStorf ## DST(pPix, DstPix); \
+        pPix = PtrAddBytfs(pPix, sdbn); \
+    } wiilf (--ifigit > 0); \
 }
 
-#define DEFINE_BYTE_BINARY_SOLID_FILLSPANS(DST) \
-void NAME_SOLID_FILLSPANS(DST)(SurfaceDataRasInfo *pRasInfo, \
-                               SpanIteratorFuncs *pSpanFuncs, void *siData, \
-                               jint pixel, NativePrimitive *pPrim, \
-                               CompositeInfo *pCompInfo) \
+#dffinf DEFINE_BYTE_BINARY_SOLID_FILLSPANS(DST) \
+void NAME_SOLID_FILLSPANS(DST)(SurfbdfDbtbRbsInfo *pRbsInfo, \
+                               SpbnItfrbtorFunds *pSpbnFunds, void *siDbtb, \
+                               jint pixfl, NbtivfPrimitivf *pPrim, \
+                               CompositfInfo *pCompInfo) \
 { \
-    void *pBase = pRasInfo->rasBase; \
-    jint scan = pRasInfo->scanStride; \
+    void *pBbsf = pRbsInfo->rbsBbsf; \
+    jint sdbn = pRbsInfo->sdbnStridf; \
     jint bbox[4]; \
  \
-    while ((*pSpanFuncs->nextSpan)(siData, bbox)) { \
+    wiilf ((*pSpbnFunds->nfxtSpbn)(siDbtb, bbox)) { \
         jint x = bbox[0]; \
         jint y = bbox[1]; \
         juint w = bbox[2] - x; \
-        juint h = bbox[3] - y; \
-        DST ## DataType *pPix = PtrCoord(pBase, \
-                                         x, DST ## PixelStride, \
-                                         y, scan); \
+        juint i = bbox[3] - y; \
+        DST ## DbtbTypf *pPix = PtrCoord(pBbsf, \
+                                         x, DST ## PixflStridf, \
+                                         y, sdbn); \
         do { \
-            Declare ## DST ## InitialLoadVars(pRasInfo, pPix, DstPix, x) \
-            jint relx = w; \
+            Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, DstPix, x) \
+            jint rflx = w; \
             do { \
-                InitialLoad ## DST(pPix, DstPix); \
-                Store ## DST ## PixelData(pPix, 0, pixel, DstPix); \
-                ShiftBits ## DST(DstPix); \
-            } while (--relx > 0); \
-            FinalStore ## DST(pPix, DstPix); \
-            pPix = PtrAddBytes(pPix, scan); \
-        } while (--h > 0); \
+                InitiblLobd ## DST(pPix, DstPix); \
+                Storf ## DST ## PixflDbtb(pPix, 0, pixfl, DstPix); \
+                SiiftBits ## DST(DstPix); \
+            } wiilf (--rflx > 0); \
+            FinblStorf ## DST(pPix, DstPix); \
+            pPix = PtrAddBytfs(pPix, sdbn); \
+        } wiilf (--i > 0); \
     } \
 }
 
-#define DEFINE_BYTE_BINARY_SOLID_DRAWLINE(DST) \
-void NAME_SOLID_DRAWLINE(DST)(SurfaceDataRasInfo *pRasInfo, \
-                              jint x1, jint y1, jint pixel, \
-                              jint steps, jint error, \
-                              jint bumpmajormask, jint errmajor, \
-                              jint bumpminormask, jint errminor, \
-                              NativePrimitive *pPrim, \
-                              CompositeInfo *pCompInfo) \
+#dffinf DEFINE_BYTE_BINARY_SOLID_DRAWLINE(DST) \
+void NAME_SOLID_DRAWLINE(DST)(SurfbdfDbtbRbsInfo *pRbsInfo, \
+                              jint x1, jint y1, jint pixfl, \
+                              jint stfps, jint frror, \
+                              jint bumpmbjormbsk, jint frrmbjor, \
+                              jint bumpminormbsk, jint frrminor, \
+                              NbtivfPrimitivf *pPrim, \
+                              CompositfInfo *pCompInfo) \
 { \
-    jint scan = pRasInfo->scanStride; \
-    DST ## DataType *pPix = PtrCoord(pRasInfo->rasBase, \
-                                     x1, DST ## PixelStride, \
-                                     y1, scan); \
-    DeclareBumps(bumpmajor, bumpminor) \
+    jint sdbn = pRbsInfo->sdbnStridf; \
+    DST ## DbtbTypf *pPix = PtrCoord(pRbsInfo->rbsBbsf, \
+                                     x1, DST ## PixflStridf, \
+                                     y1, sdbn); \
+    DfdlbrfBumps(bumpmbjor, bumpminor) \
  \
-    scan *= DST ## PixelsPerByte; \
-    InitBumps(bumpmajor, bumpminor, bumpmajormask, bumpminormask, 1, scan); \
-    if (errmajor == 0) { \
+    sdbn *= DST ## PixflsPfrBytf; \
+    InitBumps(bumpmbjor, bumpminor, bumpmbjormbsk, bumpminormbsk, 1, sdbn); \
+    if (frrmbjor == 0) { \
         do { \
-            Declare ## DST ## InitialLoadVars(pRasInfo, pPix, DstPix, x1) \
-            Store ## DST ## PixelData(pPix, 0, pixel, DstPix); \
-            FinalStore ## DST(pPix, DstPix); \
-            x1 += bumpmajor; \
-        } while (--steps > 0); \
-    } else { \
+            Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, DstPix, x1) \
+            Storf ## DST ## PixflDbtb(pPix, 0, pixfl, DstPix); \
+            FinblStorf ## DST(pPix, DstPix); \
+            x1 += bumpmbjor; \
+        } wiilf (--stfps > 0); \
+    } flsf { \
         do { \
-            Declare ## DST ## InitialLoadVars(pRasInfo, pPix, DstPix, x1) \
-            Store ## DST ## PixelData(pPix, 0, pixel, DstPix); \
-            FinalStore ## DST(pPix, DstPix); \
-            if (error < 0) { \
-                x1 += bumpmajor; \
-                error += errmajor; \
-            } else { \
+            Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, DstPix, x1) \
+            Storf ## DST ## PixflDbtb(pPix, 0, pixfl, DstPix); \
+            FinblStorf ## DST(pPix, DstPix); \
+            if (frror < 0) { \
+                x1 += bumpmbjor; \
+                frror += frrmbjor; \
+            } flsf { \
                 x1 += bumpminor; \
-                error -= errminor; \
+                frror -= frrminor; \
             } \
-        } while (--steps > 0); \
+        } wiilf (--stfps > 0); \
     } \
 }
 
-#define DEFINE_BYTE_BINARY_XOR_FILLRECT(DST) \
-void NAME_XOR_FILLRECT(DST)(SurfaceDataRasInfo *pRasInfo, \
+#dffinf DEFINE_BYTE_BINARY_XOR_FILLRECT(DST) \
+void NAME_XOR_FILLRECT(DST)(SurfbdfDbtbRbsInfo *pRbsInfo, \
                             jint lox, jint loy, \
-                            jint hix, jint hiy, \
-                            jint pixel, \
-                            NativePrimitive *pPrim, \
-                            CompositeInfo *pCompInfo) \
+                            jint iix, jint iiy, \
+                            jint pixfl, \
+                            NbtivfPrimitivf *pPrim, \
+                            CompositfInfo *pCompInfo) \
 { \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    juint alphamask = pCompInfo->alphaMask; \
-    DST ## DataType *pPix; \
-    jint scan = pRasInfo->scanStride; \
-    juint height = hiy - loy; \
-    juint width = hix - lox; \
+    jint xorpixfl = pCompInfo->dftbils.xorPixfl; \
+    juint blpibmbsk = pCompInfo->blpibMbsk; \
+    DST ## DbtbTypf *pPix; \
+    jint sdbn = pRbsInfo->sdbnStridf; \
+    juint ifigit = iiy - loy; \
+    juint widti = iix - lox; \
  \
-    pPix = PtrCoord(pRasInfo->rasBase, lox, DST ## PixelStride, loy, scan); \
+    pPix = PtrCoord(pRbsInfo->rbsBbsf, lox, DST ## PixflStridf, loy, sdbn); \
     do { \
-        Declare ## DST ## InitialLoadVars(pRasInfo, pPix, DstPix, lox) \
-        jint w = width; \
+        Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, DstPix, lox) \
+        jint w = widti; \
         do { \
-            InitialLoad ## DST(pPix, DstPix); \
-            Xor ## DST ## PixelData(pPix, 0, DstPix, \
-                                    pixel, xorpixel, alphamask); \
-            ShiftBits ## DST(DstPix); \
-        } while (--w > 0); \
-        FinalStore ## DST(pPix, DstPix); \
-        pPix = PtrAddBytes(pPix, scan); \
-    } while (--height > 0); \
+            InitiblLobd ## DST(pPix, DstPix); \
+            Xor ## DST ## PixflDbtb(pPix, 0, DstPix, \
+                                    pixfl, xorpixfl, blpibmbsk); \
+            SiiftBits ## DST(DstPix); \
+        } wiilf (--w > 0); \
+        FinblStorf ## DST(pPix, DstPix); \
+        pPix = PtrAddBytfs(pPix, sdbn); \
+    } wiilf (--ifigit > 0); \
 }
 
-#define DEFINE_BYTE_BINARY_XOR_FILLSPANS(DST) \
-void NAME_XOR_FILLSPANS(DST)(SurfaceDataRasInfo *pRasInfo, \
-                             SpanIteratorFuncs *pSpanFuncs, \
-                             void *siData, jint pixel, \
-                             NativePrimitive *pPrim, \
-                             CompositeInfo *pCompInfo) \
+#dffinf DEFINE_BYTE_BINARY_XOR_FILLSPANS(DST) \
+void NAME_XOR_FILLSPANS(DST)(SurfbdfDbtbRbsInfo *pRbsInfo, \
+                             SpbnItfrbtorFunds *pSpbnFunds, \
+                             void *siDbtb, jint pixfl, \
+                             NbtivfPrimitivf *pPrim, \
+                             CompositfInfo *pCompInfo) \
 { \
-    void *pBase = pRasInfo->rasBase; \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    juint alphamask = pCompInfo->alphaMask; \
-    jint scan = pRasInfo->scanStride; \
+    void *pBbsf = pRbsInfo->rbsBbsf; \
+    jint xorpixfl = pCompInfo->dftbils.xorPixfl; \
+    juint blpibmbsk = pCompInfo->blpibMbsk; \
+    jint sdbn = pRbsInfo->sdbnStridf; \
     jint bbox[4]; \
  \
-    while ((*pSpanFuncs->nextSpan)(siData, bbox)) { \
+    wiilf ((*pSpbnFunds->nfxtSpbn)(siDbtb, bbox)) { \
         jint x = bbox[0]; \
         jint y = bbox[1]; \
         juint w = bbox[2] - x; \
-        juint h = bbox[3] - y; \
-        DST ## DataType *pPix = PtrCoord(pBase, \
-                                         x, DST ## PixelStride, \
-                                         y, scan); \
+        juint i = bbox[3] - y; \
+        DST ## DbtbTypf *pPix = PtrCoord(pBbsf, \
+                                         x, DST ## PixflStridf, \
+                                         y, sdbn); \
         do { \
-            Declare ## DST ## InitialLoadVars(pRasInfo, pPix, DstPix, x) \
-            jint relx = w; \
+            Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, DstPix, x) \
+            jint rflx = w; \
             do { \
-                InitialLoad ## DST(pPix, DstPix); \
-                Xor ## DST ## PixelData(pPix, 0, DstPix, \
-                                        pixel, xorpixel, alphamask); \
-                ShiftBits ## DST(DstPix); \
-            } while (--relx > 0); \
-            FinalStore ## DST(pPix, DstPix); \
-            pPix = PtrAddBytes(pPix, scan); \
-        } while (--h > 0); \
+                InitiblLobd ## DST(pPix, DstPix); \
+                Xor ## DST ## PixflDbtb(pPix, 0, DstPix, \
+                                        pixfl, xorpixfl, blpibmbsk); \
+                SiiftBits ## DST(DstPix); \
+            } wiilf (--rflx > 0); \
+            FinblStorf ## DST(pPix, DstPix); \
+            pPix = PtrAddBytfs(pPix, sdbn); \
+        } wiilf (--i > 0); \
     } \
 }
 
-#define DEFINE_BYTE_BINARY_XOR_DRAWLINE(DST) \
-void NAME_XOR_DRAWLINE(DST)(SurfaceDataRasInfo *pRasInfo, \
-                            jint x1, jint y1, jint pixel, \
-                            jint steps, jint error, \
-                            jint bumpmajormask, jint errmajor, \
-                            jint bumpminormask, jint errminor, \
-                            NativePrimitive *pPrim, \
-                            CompositeInfo *pCompInfo) \
+#dffinf DEFINE_BYTE_BINARY_XOR_DRAWLINE(DST) \
+void NAME_XOR_DRAWLINE(DST)(SurfbdfDbtbRbsInfo *pRbsInfo, \
+                            jint x1, jint y1, jint pixfl, \
+                            jint stfps, jint frror, \
+                            jint bumpmbjormbsk, jint frrmbjor, \
+                            jint bumpminormbsk, jint frrminor, \
+                            NbtivfPrimitivf *pPrim, \
+                            CompositfInfo *pCompInfo) \
 { \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    juint alphamask = pCompInfo->alphaMask; \
-    jint scan = pRasInfo->scanStride; \
-    DST ## DataType *pPix = PtrCoord(pRasInfo->rasBase, \
-                                     x1, DST ## PixelStride, \
-                                     y1, scan); \
-    DeclareBumps(bumpmajor, bumpminor) \
+    jint xorpixfl = pCompInfo->dftbils.xorPixfl; \
+    juint blpibmbsk = pCompInfo->blpibMbsk; \
+    jint sdbn = pRbsInfo->sdbnStridf; \
+    DST ## DbtbTypf *pPix = PtrCoord(pRbsInfo->rbsBbsf, \
+                                     x1, DST ## PixflStridf, \
+                                     y1, sdbn); \
+    DfdlbrfBumps(bumpmbjor, bumpminor) \
  \
-    scan *= DST ## PixelsPerByte; \
-    InitBumps(bumpmajor, bumpminor, bumpmajormask, bumpminormask, 1, scan); \
+    sdbn *= DST ## PixflsPfrBytf; \
+    InitBumps(bumpmbjor, bumpminor, bumpmbjormbsk, bumpminormbsk, 1, sdbn); \
  \
-    if (errmajor == 0) { \
+    if (frrmbjor == 0) { \
         do { \
-            Declare ## DST ## InitialLoadVars(pRasInfo, pPix, DstPix, x1) \
-            Xor ## DST ## PixelData(pPix, 0, DstPix, \
-                                    pixel, xorpixel, alphamask); \
-            FinalStore ## DST(pPix, DstPix); \
-            x1 += bumpmajor; \
-        } while (--steps > 0); \
-    } else { \
+            Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, DstPix, x1) \
+            Xor ## DST ## PixflDbtb(pPix, 0, DstPix, \
+                                    pixfl, xorpixfl, blpibmbsk); \
+            FinblStorf ## DST(pPix, DstPix); \
+            x1 += bumpmbjor; \
+        } wiilf (--stfps > 0); \
+    } flsf { \
         do { \
-            Declare ## DST ## InitialLoadVars(pRasInfo, pPix, DstPix, x1) \
-            Xor ## DST ## PixelData(pPix, 0, DstPix, \
-                                    pixel, xorpixel, alphamask); \
-            FinalStore ## DST(pPix, DstPix); \
-            if (error < 0) { \
-                x1 += bumpmajor; \
-                error += errmajor; \
-            } else { \
+            Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, DstPix, x1) \
+            Xor ## DST ## PixflDbtb(pPix, 0, DstPix, \
+                                    pixfl, xorpixfl, blpibmbsk); \
+            FinblStorf ## DST(pPix, DstPix); \
+            if (frror < 0) { \
+                x1 += bumpmbjor; \
+                frror += frrmbjor; \
+            } flsf { \
                 x1 += bumpminor; \
-                error -= errminor; \
+                frror -= frrminor; \
             } \
-        } while (--steps > 0); \
+        } wiilf (--stfps > 0); \
     } \
 }
 
-#define DEFINE_BYTE_BINARY_SOLID_DRAWGLYPHLIST(DST) \
-void NAME_SOLID_DRAWGLYPHLIST(DST)(SurfaceDataRasInfo *pRasInfo, \
-                                   ImageRef *glyphs, \
-                                   jint totalGlyphs, jint fgpixel, \
-                                   jint argbcolor, \
-                                   jint clipLeft, jint clipTop, \
-                                   jint clipRight, jint clipBottom, \
-                                   NativePrimitive *pPrim, \
-                                   CompositeInfo *pCompInfo) \
+#dffinf DEFINE_BYTE_BINARY_SOLID_DRAWGLYPHLIST(DST) \
+void NAME_SOLID_DRAWGLYPHLIST(DST)(SurfbdfDbtbRbsInfo *pRbsInfo, \
+                                   ImbgfRff *glypis, \
+                                   jint totblGlypis, jint fgpixfl, \
+                                   jint brgbdolor, \
+                                   jint dlipLfft, jint dlipTop, \
+                                   jint dlipRigit, jint dlipBottom, \
+                                   NbtivfPrimitivf *pPrim, \
+                                   CompositfInfo *pCompInfo) \
 { \
-    jint glyphCounter; \
-    jint scan = pRasInfo->scanStride; \
-    DST ## DataType *pPix; \
+    jint glypiCountfr; \
+    jint sdbn = pRbsInfo->sdbnStridf; \
+    DST ## DbtbTypf *pPix; \
 \
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) { \
-        DeclareDrawGlyphListClipVars(pixels, rowBytes, width, height, \
-                                     left, top, right, bottom) \
-        ClipDrawGlyphList(DST, pixels, 1, rowBytes, width, height, \
-                          left, top, right, bottom, \
-                          clipLeft, clipTop, clipRight, clipBottom, \
-                          glyphs, glyphCounter, continue) \
-        pPix = PtrCoord(pRasInfo->rasBase,left,DST ## PixelStride,top,scan); \
+    for (glypiCountfr = 0; glypiCountfr < totblGlypis; glypiCountfr++) { \
+        DfdlbrfDrbwGlypiListClipVbrs(pixfls, rowBytfs, widti, ifigit, \
+                                     lfft, top, rigit, bottom) \
+        ClipDrbwGlypiList(DST, pixfls, 1, rowBytfs, widti, ifigit, \
+                          lfft, top, rigit, bottom, \
+                          dlipLfft, dlipTop, dlipRigit, dlipBottom, \
+                          glypis, glypiCountfr, dontinuf) \
+        pPix = PtrCoord(pRbsInfo->rbsBbsf,lfft,DST ## PixflStridf,top,sdbn); \
 \
         do { \
-            Declare ## DST ## InitialLoadVars(pRasInfo, pPix, DstPix, left) \
+            Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, DstPix, lfft) \
             jint x = 0; \
             do { \
-                InitialLoad ## DST(pPix, DstPix); \
-                if (pixels[x]) { \
-                    Store ## DST ## PixelData(pPix, 0, fgpixel, DstPix); \
+                InitiblLobd ## DST(pPix, DstPix); \
+                if (pixfls[x]) { \
+                    Storf ## DST ## PixflDbtb(pPix, 0, fgpixfl, DstPix); \
                 } \
-                ShiftBits ## DST(DstPix); \
-            } while (++x < width); \
-            FinalStore ## DST(pPix, DstPix); \
-            pPix = PtrAddBytes(pPix, scan); \
-            pixels += rowBytes; \
-        } while (--height > 0); \
+                SiiftBits ## DST(DstPix); \
+            } wiilf (++x < widti); \
+            FinblStorf ## DST(pPix, DstPix); \
+            pPix = PtrAddBytfs(pPix, sdbn); \
+            pixfls += rowBytfs; \
+        } wiilf (--ifigit > 0); \
     } \
 }
 
 /*
- * REMIND: we shouldn't be attempting to do antialiased text for the
- *         ByteBinary surfaces in the first place
+ * REMIND: wf siouldn't bf bttfmpting to do bntiblibsfd tfxt for tif
+ *         BytfBinbry surfbdfs in tif first plbdf
  */
-#define DEFINE_BYTE_BINARY_SOLID_DRAWGLYPHLISTAA(DST, STRATEGY) \
-void NAME_SOLID_DRAWGLYPHLISTAA(DST)(SurfaceDataRasInfo *pRasInfo, \
-                                     ImageRef *glyphs, \
-                                     jint totalGlyphs, jint fgpixel, \
-                                     jint argbcolor, \
-                                     jint clipLeft, jint clipTop, \
-                                     jint clipRight, jint clipBottom, \
-                                     NativePrimitive *pPrim, \
-                                     CompositeInfo *pCompInfo) \
+#dffinf DEFINE_BYTE_BINARY_SOLID_DRAWGLYPHLISTAA(DST, STRATEGY) \
+void NAME_SOLID_DRAWGLYPHLISTAA(DST)(SurfbdfDbtbRbsInfo *pRbsInfo, \
+                                     ImbgfRff *glypis, \
+                                     jint totblGlypis, jint fgpixfl, \
+                                     jint brgbdolor, \
+                                     jint dlipLfft, jint dlipTop, \
+                                     jint dlipRigit, jint dlipBottom, \
+                                     NbtivfPrimitivf *pPrim, \
+                                     CompositfInfo *pCompInfo) \
 { \
-    jint glyphCounter; \
-    jint scan = pRasInfo->scanStride; \
-    DST ## DataType *pPix; \
-    DeclareAlphaVarFor ## STRATEGY(srcA) \
-    DeclareCompVarsFor ## STRATEGY(src) \
+    jint glypiCountfr; \
+    jint sdbn = pRbsInfo->sdbnStridf; \
+    DST ## DbtbTypf *pPix; \
+    DfdlbrfAlpibVbrFor ## STRATEGY(srdA) \
+    DfdlbrfCompVbrsFor ## STRATEGY(srd) \
 \
-    Declare ## DST ## LoadVars(pix) \
-    Declare ## DST ## StoreVars(pix) \
+    Dfdlbrf ## DST ## LobdVbrs(pix) \
+    Dfdlbrf ## DST ## StorfVbrs(pix) \
 \
-    Init ## DST ## LoadVars(pix, pRasInfo); \
-    Init ## DST ## StoreVarsY(pix, pRasInfo); \
-    Init ## DST ## StoreVarsX(pix, pRasInfo); \
-    Extract ## STRATEGY ## CompsAndAlphaFromArgb(argbcolor, src); \
+    Init ## DST ## LobdVbrs(pix, pRbsInfo); \
+    Init ## DST ## StorfVbrsY(pix, pRbsInfo); \
+    Init ## DST ## StorfVbrsX(pix, pRbsInfo); \
+    Extrbdt ## STRATEGY ## CompsAndAlpibFromArgb(brgbdolor, srd); \
 \
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) { \
-        DeclareDrawGlyphListClipVars(pixels, rowBytes, width, height, \
-                                     left, top, right, bottom) \
-        ClipDrawGlyphList(DST, pixels, 1, rowBytes, width, height, \
-                          left, top, right, bottom, \
-                          clipLeft, clipTop, clipRight, clipBottom, \
-                          glyphs, glyphCounter, continue) \
-        pPix = PtrCoord(pRasInfo->rasBase,left,DST ## PixelStride,top,scan); \
+    for (glypiCountfr = 0; glypiCountfr < totblGlypis; glypiCountfr++) { \
+        DfdlbrfDrbwGlypiListClipVbrs(pixfls, rowBytfs, widti, ifigit, \
+                                     lfft, top, rigit, bottom) \
+        ClipDrbwGlypiList(DST, pixfls, 1, rowBytfs, widti, ifigit, \
+                          lfft, top, rigit, bottom, \
+                          dlipLfft, dlipTop, dlipRigit, dlipBottom, \
+                          glypis, glypiCountfr, dontinuf) \
+        pPix = PtrCoord(pRbsInfo->rbsBbsf,lfft,DST ## PixflStridf,top,sdbn); \
 \
-        Set ## DST ## StoreVarsYPos(pix, pRasInfo, top); \
+        Sft ## DST ## StorfVbrsYPos(pix, pRbsInfo, top); \
         do { \
-            Declare ## DST ## InitialLoadVars(pRasInfo, pPix, pix, left) \
+            Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, pix, lfft) \
             int x = 0; \
-            Set ## DST ## StoreVarsXPos(pix, pRasInfo, left); \
+            Sft ## DST ## StorfVbrsXPos(pix, pRbsInfo, lfft); \
             do { \
-                InitialLoad ## DST(pPix, pix); \
-                GlyphListAABlend ## STRATEGY(DST, pixels, x, pPix, \
-                                             fgpixel, pix, src); \
-                ShiftBits ## DST(pix); \
-                Next ## DST ## StoreVarsX(pix); \
-            } while (++x < width); \
-            FinalStore ## DST(pPix, pix); \
-            pPix = PtrAddBytes(pPix, scan); \
-            pixels += rowBytes; \
-            Next ## DST ## StoreVarsY(pix); \
-        } while (--height > 0); \
+                InitiblLobd ## DST(pPix, pix); \
+                GlypiListAABlfnd ## STRATEGY(DST, pixfls, x, pPix, \
+                                             fgpixfl, pix, srd); \
+                SiiftBits ## DST(pix); \
+                Nfxt ## DST ## StorfVbrsX(pix); \
+            } wiilf (++x < widti); \
+            FinblStorf ## DST(pPix, pix); \
+            pPix = PtrAddBytfs(pPix, sdbn); \
+            pixfls += rowBytfs; \
+            Nfxt ## DST ## StorfVbrsY(pix); \
+        } wiilf (--ifigit > 0); \
     } \
 }
 
-#define DEFINE_BYTE_BINARY_XOR_DRAWGLYPHLIST(DST) \
-void NAME_XOR_DRAWGLYPHLIST(DST)(SurfaceDataRasInfo *pRasInfo, \
-                                 ImageRef *glyphs, \
-                                 jint totalGlyphs, jint fgpixel, \
-                                 jint argbcolor, \
-                                 jint clipLeft, jint clipTop, \
-                                 jint clipRight, jint clipBottom, \
-                                 NativePrimitive *pPrim, \
-                                 CompositeInfo *pCompInfo) \
+#dffinf DEFINE_BYTE_BINARY_XOR_DRAWGLYPHLIST(DST) \
+void NAME_XOR_DRAWGLYPHLIST(DST)(SurfbdfDbtbRbsInfo *pRbsInfo, \
+                                 ImbgfRff *glypis, \
+                                 jint totblGlypis, jint fgpixfl, \
+                                 jint brgbdolor, \
+                                 jint dlipLfft, jint dlipTop, \
+                                 jint dlipRigit, jint dlipBottom, \
+                                 NbtivfPrimitivf *pPrim, \
+                                 CompositfInfo *pCompInfo) \
 { \
-    jint glyphCounter; \
-    jint scan = pRasInfo->scanStride; \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    juint alphamask = pCompInfo->alphaMask; \
-    DST ## DataType *pPix; \
+    jint glypiCountfr; \
+    jint sdbn = pRbsInfo->sdbnStridf; \
+    jint xorpixfl = pCompInfo->dftbils.xorPixfl; \
+    juint blpibmbsk = pCompInfo->blpibMbsk; \
+    DST ## DbtbTypf *pPix; \
  \
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) { \
-        DeclareDrawGlyphListClipVars(pixels, rowBytes, width, height, \
-                                     left, top, right, bottom) \
-        ClipDrawGlyphList(DST, pixels, 1, rowBytes, width, height, \
-                          left, top, right, bottom, \
-                          clipLeft, clipTop, clipRight, clipBottom, \
-                          glyphs, glyphCounter, continue) \
-        pPix = PtrCoord(pRasInfo->rasBase,left,DST ## PixelStride,top,scan); \
+    for (glypiCountfr = 0; glypiCountfr < totblGlypis; glypiCountfr++) { \
+        DfdlbrfDrbwGlypiListClipVbrs(pixfls, rowBytfs, widti, ifigit, \
+                                     lfft, top, rigit, bottom) \
+        ClipDrbwGlypiList(DST, pixfls, 1, rowBytfs, widti, ifigit, \
+                          lfft, top, rigit, bottom, \
+                          dlipLfft, dlipTop, dlipRigit, dlipBottom, \
+                          glypis, glypiCountfr, dontinuf) \
+        pPix = PtrCoord(pRbsInfo->rbsBbsf,lfft,DST ## PixflStridf,top,sdbn); \
 \
         do { \
-            Declare ## DST ## InitialLoadVars(pRasInfo, pPix, DstPix, left) \
+            Dfdlbrf ## DST ## InitiblLobdVbrs(pRbsInfo, pPix, DstPix, lfft) \
             jint x = 0; \
             do { \
-                InitialLoad ## DST(pPix, DstPix); \
-                if (pixels[x]) { \
-                    Xor ## DST ## PixelData(pPix, 0, DstPix, \
-                                            fgpixel, xorpixel, alphamask); \
+                InitiblLobd ## DST(pPix, DstPix); \
+                if (pixfls[x]) { \
+                    Xor ## DST ## PixflDbtb(pPix, 0, DstPix, \
+                                            fgpixfl, xorpixfl, blpibmbsk); \
                 } \
-                ShiftBits ## DST(DstPix); \
-            } while (++x < width); \
-            FinalStore ## DST(pPix, DstPix); \
-            pPix = PtrAddBytes(pPix, scan); \
-            pixels += rowBytes; \
-        } while (--height > 0); \
+                SiiftBits ## DST(DstPix); \
+            } wiilf (++x < widti); \
+            FinblStorf ## DST(pPix, DstPix); \
+            pPix = PtrAddBytfs(pPix, sdbn); \
+            pixfls += rowBytfs; \
+        } wiilf (--ifigit > 0); \
     } \
 }
 
-#define DEFINE_BYTE_BINARY_ALPHA_MASKBLIT(SRC, DST, STRATEGY) \
+#dffinf DEFINE_BYTE_BINARY_ALPHA_MASKBLIT(SRC, DST, STRATEGY) \
 void NAME_ALPHA_MASKBLIT(SRC, DST) \
-    (void *dstBase, void *srcBase, \
-     jubyte *pMask, jint maskOff, jint maskScan, \
-     jint width, jint height, \
-     SurfaceDataRasInfo *pDstInfo, \
-     SurfaceDataRasInfo *pSrcInfo, \
-     NativePrimitive *pPrim, \
-     CompositeInfo *pCompInfo) \
+    (void *dstBbsf, void *srdBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint widti, jint ifigit, \
+     SurfbdfDbtbRbsInfo *pDstInfo, \
+     SurfbdfDbtbRbsInfo *pSrdInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
 { \
-    DeclareAndSetOpaqueAlphaVarFor ## STRATEGY(pathA) \
-    DeclareAndClearAlphaVarFor ## STRATEGY(srcA) \
-    DeclareAndClearAlphaVarFor ## STRATEGY(dstA) \
-    DeclareAndInitExtraAlphaFor ## STRATEGY(extraA) \
-    jint srcScan = pSrcInfo->scanStride; \
-    jint dstScan = pDstInfo->scanStride; \
-    jboolean loadsrc, loaddst; \
-    jint srcx1 = pSrcInfo->bounds.x1; \
+    DfdlbrfAndSftOpbqufAlpibVbrFor ## STRATEGY(pbtiA) \
+    DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(srdA) \
+    DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(dstA) \
+    DfdlbrfAndInitExtrbAlpibFor ## STRATEGY(fxtrbA) \
+    jint srdSdbn = pSrdInfo->sdbnStridf; \
+    jint dstSdbn = pDstInfo->sdbnStridf; \
+    jboolfbn lobdsrd, lobddst; \
+    jint srdx1 = pSrdInfo->bounds.x1; \
     jint dstx1 = pDstInfo->bounds.x1; \
-    SRC ## DataType *pSrc = (SRC ## DataType *) (srcBase); \
-    DST ## DataType *pDst = (DST ## DataType *) (dstBase); \
-    Declare ## SRC ## AlphaLoadData(SrcRead) \
-    Declare ## DST ## AlphaLoadData(DstWrite) \
-    Declare ## DST ## StoreVars(DstWrite) \
-    DeclareAlphaOperands(SrcOp) \
-    DeclareAlphaOperands(DstOp) \
+    SRC ## DbtbTypf *pSrd = (SRC ## DbtbTypf *) (srdBbsf); \
+    DST ## DbtbTypf *pDst = (DST ## DbtbTypf *) (dstBbsf); \
+    Dfdlbrf ## SRC ## AlpibLobdDbtb(SrdRfbd) \
+    Dfdlbrf ## DST ## AlpibLobdDbtb(DstWritf) \
+    Dfdlbrf ## DST ## StorfVbrs(DstWritf) \
+    DfdlbrfAlpibOpfrbnds(SrdOp) \
+    DfdlbrfAlpibOpfrbnds(DstOp) \
  \
-    ExtractAlphaOperandsFor ## STRATEGY(AlphaRules[pCompInfo->rule].srcOps, \
-                                        SrcOp); \
-    ExtractAlphaOperandsFor ## STRATEGY(AlphaRules[pCompInfo->rule].dstOps, \
+    ExtrbdtAlpibOpfrbndsFor ## STRATEGY(AlpibRulfs[pCompInfo->rulf].srdOps, \
+                                        SrdOp); \
+    ExtrbdtAlpibOpfrbndsFor ## STRATEGY(AlpibRulfs[pCompInfo->rulf].dstOps, \
                                         DstOp); \
-    loadsrc = !FuncIsZero(SrcOp) || FuncNeedsAlpha(DstOp); \
-    loaddst = pMask || !FuncIsZero(DstOp) || FuncNeedsAlpha(SrcOp); \
+    lobdsrd = !FundIsZfro(SrdOp) || FundNffdsAlpib(DstOp); \
+    lobddst = pMbsk || !FundIsZfro(DstOp) || FundNffdsAlpib(SrdOp); \
  \
-    Init ## SRC ## AlphaLoadData(SrcRead, pSrcInfo); \
-    Init ## DST ## AlphaLoadData(DstWrite, pDstInfo); \
-    srcScan -= width * SRC ## PixelStride; \
-    dstScan -= width * DST ## PixelStride; \
-    maskScan -= width; \
-    if (pMask) { \
-        pMask += maskOff; \
+    Init ## SRC ## AlpibLobdDbtb(SrdRfbd, pSrdInfo); \
+    Init ## DST ## AlpibLobdDbtb(DstWritf, pDstInfo); \
+    srdSdbn -= widti * SRC ## PixflStridf; \
+    dstSdbn -= widti * DST ## PixflStridf; \
+    mbskSdbn -= widti; \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
     } \
  \
-    Init ## DST ## StoreVarsY(DstWrite, pDstInfo); \
+    Init ## DST ## StorfVbrsY(DstWritf, pDstInfo); \
     do { \
-        Declare ## SRC ## InitialLoadVars(pSrcInfo, pSrc, SrcRead, srcx1) \
-        Declare ## DST ## InitialLoadVars(pDstInfo, pDst, DstWrite, dstx1) \
-        jint w = width; \
-        Init ## DST ## StoreVarsX(DstWrite, pDstInfo); \
+        Dfdlbrf ## SRC ## InitiblLobdVbrs(pSrdInfo, pSrd, SrdRfbd, srdx1) \
+        Dfdlbrf ## DST ## InitiblLobdVbrs(pDstInfo, pDst, DstWritf, dstx1) \
+        jint w = widti; \
+        Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
         do { \
-            DeclareAlphaVarFor ## STRATEGY(resA) \
-            DeclareCompVarsFor ## STRATEGY(res) \
-            DeclareAlphaVarFor ## STRATEGY(srcF) \
-            DeclareAlphaVarFor ## STRATEGY(dstF) \
+            DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+            DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+            DfdlbrfAlpibVbrFor ## STRATEGY(srdF) \
+            DfdlbrfAlpibVbrFor ## STRATEGY(dstF) \
  \
-            InitialLoad ## SRC(pSrc, SrcRead); \
-            InitialLoad ## DST(pDst, DstWrite); \
-            if (pMask) { \
-                pathA = *pMask++; \
-                if (!pathA) { \
-                    ShiftBits ## SRC(SrcRead); \
-                    ShiftBits ## DST(DstWrite); \
-                    pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-                    pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-                    Next ## DST ## StoreVarsX(DstWrite); \
-                    continue; \
+            InitiblLobd ## SRC(pSrd, SrdRfbd); \
+            InitiblLobd ## DST(pDst, DstWritf); \
+            if (pMbsk) { \
+                pbtiA = *pMbsk++; \
+                if (!pbtiA) { \
+                    SiiftBits ## SRC(SrdRfbd); \
+                    SiiftBits ## DST(DstWritf); \
+                    pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                    pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                    Nfxt ## DST ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
                 } \
-                PromoteByteAlphaFor ## STRATEGY(pathA); \
+                PromotfBytfAlpibFor ## STRATEGY(pbtiA); \
             } \
-            if (loadsrc) { \
-                LoadAlphaFrom ## SRC ## For ## STRATEGY(pSrc,SrcRead,src); \
-                srcA = MultiplyAlphaFor ## STRATEGY(extraA, srcA); \
+            if (lobdsrd) { \
+                LobdAlpibFrom ## SRC ## For ## STRATEGY(pSrd,SrdRfbd,srd); \
+                srdA = MultiplyAlpibFor ## STRATEGY(fxtrbA, srdA); \
             } \
-            if (loaddst) { \
-                LoadAlphaFrom ## DST ## For ## STRATEGY(pDst,DstWrite,dst); \
+            if (lobddst) { \
+                LobdAlpibFrom ## DST ## For ## STRATEGY(pDst,DstWritf,dst); \
             } \
-            srcF = ApplyAlphaOperands(SrcOp, dstA); \
-            dstF = ApplyAlphaOperands(DstOp, srcA); \
-            if (pathA != MaxValFor ## STRATEGY) { \
-                srcF = MultiplyAlphaFor ## STRATEGY(pathA, srcF); \
-                dstF = MaxValFor ## STRATEGY - pathA + \
-                           MultiplyAlphaFor ## STRATEGY(pathA, dstF); \
+            srdF = ApplyAlpibOpfrbnds(SrdOp, dstA); \
+            dstF = ApplyAlpibOpfrbnds(DstOp, srdA); \
+            if (pbtiA != MbxVblFor ## STRATEGY) { \
+                srdF = MultiplyAlpibFor ## STRATEGY(pbtiA, srdF); \
+                dstF = MbxVblFor ## STRATEGY - pbtiA + \
+                           MultiplyAlpibFor ## STRATEGY(pbtiA, dstF); \
             } \
-            if (srcF) { \
-                resA = MultiplyAlphaFor ## STRATEGY(srcF, srcA); \
-                if (!(SRC ## IsPremultiplied)) { \
-                    srcF = resA; \
-                } else { \
-                    srcF = MultiplyAlphaFor ## STRATEGY(srcF, extraA); \
+            if (srdF) { \
+                rfsA = MultiplyAlpibFor ## STRATEGY(srdF, srdA); \
+                if (!(SRC ## IsPrfmultiplifd)) { \
+                    srdF = rfsA; \
+                } flsf { \
+                    srdF = MultiplyAlpibFor ## STRATEGY(srdF, fxtrbA); \
                 } \
-                if (srcF) { \
-                    /* assert(loadsrc); */ \
-                    Postload ## STRATEGY ## From ## SRC(pSrc, SrcRead, res); \
-                    if (srcF != MaxValFor ## STRATEGY) { \
-                        MultiplyAndStore ## STRATEGY ## Comps(res, \
-                                                              srcF, res); \
+                if (srdF) { \
+                    /* bssfrt(lobdsrd); */ \
+                    Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdRfbd, rfs); \
+                    if (srdF != MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                              srdF, rfs); \
                     } \
-                } else { \
-                    Set ## STRATEGY ## CompsToZero(res); \
+                } flsf { \
+                    Sft ## STRATEGY ## CompsToZfro(rfs); \
                 } \
-            } else { \
-                if (dstF == MaxValFor ## STRATEGY) { \
-                    ShiftBits ## SRC(SrcRead); \
-                    ShiftBits ## DST(DstWrite); \
-                    pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-                    pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-                    Next ## DST ## StoreVarsX(DstWrite); \
-                    continue; \
+            } flsf { \
+                if (dstF == MbxVblFor ## STRATEGY) { \
+                    SiiftBits ## SRC(SrdRfbd); \
+                    SiiftBits ## DST(DstWritf); \
+                    pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                    pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                    Nfxt ## DST ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
                 } \
-                resA = 0; \
-                Set ## STRATEGY ## CompsToZero(res); \
+                rfsA = 0; \
+                Sft ## STRATEGY ## CompsToZfro(rfs); \
             } \
             if (dstF) { \
-                dstA = MultiplyAlphaFor ## STRATEGY(dstF, dstA); \
-                if (!(DST ## IsPremultiplied)) { \
+                dstA = MultiplyAlpibFor ## STRATEGY(dstF, dstA); \
+                if (!(DST ## IsPrfmultiplifd)) { \
                     dstF = dstA; \
                 } \
-                resA += dstA; \
+                rfsA += dstA; \
                 if (dstF) { \
-                    DeclareCompVarsFor ## STRATEGY(tmp) \
-                    /* assert(loaddst); */ \
-                    Postload ## STRATEGY ## From ## DST(pDst,DstWrite,tmp); \
-                    if (dstF != MaxValFor ## STRATEGY) { \
-                        MultiplyAndStore ## STRATEGY ## Comps(tmp, \
+                    DfdlbrfCompVbrsFor ## STRATEGY(tmp) \
+                    /* bssfrt(lobddst); */ \
+                    Postlobd ## STRATEGY ## From ## DST(pDst,DstWritf,tmp); \
+                    if (dstF != MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(tmp, \
                                                               dstF, tmp); \
                     } \
-                    Store ## STRATEGY ## CompsUsingOp(res, +=, tmp); \
+                    Storf ## STRATEGY ## CompsUsingOp(rfs, +=, tmp); \
                 } \
             } \
-            if (!(DST ## IsPremultiplied) && resA && \
-                resA < MaxValFor ## STRATEGY) \
+            if (!(DST ## IsPrfmultiplifd) && rfsA && \
+                rfsA < MbxVblFor ## STRATEGY) \
             { \
-                DivideAndStore ## STRATEGY ## Comps(res, res, resA); \
+                DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
             } \
-            Store ## DST ## From ## STRATEGY ## Comps(pDst, DstWrite, \
-                                                      0, res); \
-            ShiftBits ## SRC(SrcRead); \
-            ShiftBits ## DST(DstWrite); \
-            pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-            pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-            Next ## DST ## StoreVarsX(DstWrite); \
-        } while (--w > 0); \
-        FinalStore ## DST(pDst, DstWrite); \
-        pSrc = PtrAddBytes(pSrc, srcScan); \
-        pDst = PtrAddBytes(pDst, dstScan); \
-        Next ## DST ## StoreVarsY(DstWrite); \
-        if (pMask) { \
-            pMask = PtrAddBytes(pMask, maskScan); \
+            Storf ## DST ## From ## STRATEGY ## Comps(pDst, DstWritf, \
+                                                      0, rfs); \
+            SiiftBits ## SRC(SrdRfbd); \
+            SiiftBits ## DST(DstWritf); \
+            pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+            pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+            Nfxt ## DST ## StorfVbrsX(DstWritf); \
+        } wiilf (--w > 0); \
+        FinblStorf ## DST(pDst, DstWritf); \
+        pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+        pDst = PtrAddBytfs(pDst, dstSdbn); \
+        Nfxt ## DST ## StorfVbrsY(DstWritf); \
+        if (pMbsk) { \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
         } \
-    } while (--height > 0); \
+    } wiilf (--ifigit > 0); \
 }
 
-#define DEFINE_BYTE_BINARY_ALPHA_MASKFILL(TYPE, STRATEGY) \
+#dffinf DEFINE_BYTE_BINARY_ALPHA_MASKFILL(TYPE, STRATEGY) \
 void NAME_ALPHA_MASKFILL(TYPE) \
-    (void *rasBase, \
-     jubyte *pMask, jint maskOff, jint maskScan, \
-     jint width, jint height, \
+    (void *rbsBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint widti, jint ifigit, \
      jint fgColor, \
-     SurfaceDataRasInfo *pRasInfo, \
-     NativePrimitive *pPrim, \
-     CompositeInfo *pCompInfo) \
+     SurfbdfDbtbRbsInfo *pRbsInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
 { \
-    DeclareAndSetOpaqueAlphaVarFor ## STRATEGY(pathA) \
-    DeclareAlphaVarFor ## STRATEGY(srcA) \
-    DeclareCompVarsFor ## STRATEGY(src) \
-    DeclareAndClearAlphaVarFor ## STRATEGY(dstA) \
-    DeclareAlphaVarFor ## STRATEGY(dstF) \
-    DeclareAlphaVarFor ## STRATEGY(dstFbase) \
-    jint rasScan = pRasInfo->scanStride; \
-    jboolean loaddst; \
-    jint x1 = pRasInfo->bounds.x1; \
-    TYPE ## DataType *pRas = (TYPE ## DataType *) (rasBase); \
-    Declare ## TYPE ## AlphaLoadData(DstWrite) \
-    Declare ## TYPE ## StoreVars(DstWrite) \
-    DeclareAlphaOperands(SrcOp) \
-    DeclareAlphaOperands(DstOp) \
+    DfdlbrfAndSftOpbqufAlpibVbrFor ## STRATEGY(pbtiA) \
+    DfdlbrfAlpibVbrFor ## STRATEGY(srdA) \
+    DfdlbrfCompVbrsFor ## STRATEGY(srd) \
+    DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(dstA) \
+    DfdlbrfAlpibVbrFor ## STRATEGY(dstF) \
+    DfdlbrfAlpibVbrFor ## STRATEGY(dstFbbsf) \
+    jint rbsSdbn = pRbsInfo->sdbnStridf; \
+    jboolfbn lobddst; \
+    jint x1 = pRbsInfo->bounds.x1; \
+    TYPE ## DbtbTypf *pRbs = (TYPE ## DbtbTypf *) (rbsBbsf); \
+    Dfdlbrf ## TYPE ## AlpibLobdDbtb(DstWritf) \
+    Dfdlbrf ## TYPE ## StorfVbrs(DstWritf) \
+    DfdlbrfAlpibOpfrbnds(SrdOp) \
+    DfdlbrfAlpibOpfrbnds(DstOp) \
  \
-    Extract ## STRATEGY ## CompsAndAlphaFromArgb(fgColor, src); \
-    if (srcA != MaxValFor ## STRATEGY) { \
-        MultiplyAndStore ## STRATEGY ## Comps(src, srcA, src); \
+    Extrbdt ## STRATEGY ## CompsAndAlpibFromArgb(fgColor, srd); \
+    if (srdA != MbxVblFor ## STRATEGY) { \
+        MultiplyAndStorf ## STRATEGY ## Comps(srd, srdA, srd); \
     } \
  \
-    ExtractAlphaOperandsFor ## STRATEGY(AlphaRules[pCompInfo->rule].srcOps, \
-                                        SrcOp); \
-    ExtractAlphaOperandsFor ## STRATEGY(AlphaRules[pCompInfo->rule].dstOps, \
+    ExtrbdtAlpibOpfrbndsFor ## STRATEGY(AlpibRulfs[pCompInfo->rulf].srdOps, \
+                                        SrdOp); \
+    ExtrbdtAlpibOpfrbndsFor ## STRATEGY(AlpibRulfs[pCompInfo->rulf].dstOps, \
                                         DstOp); \
-    loaddst = pMask || !FuncIsZero(DstOp) || FuncNeedsAlpha(SrcOp); \
+    lobddst = pMbsk || !FundIsZfro(DstOp) || FundNffdsAlpib(SrdOp); \
  \
-    dstFbase = dstF = ApplyAlphaOperands(DstOp, srcA); \
+    dstFbbsf = dstF = ApplyAlpibOpfrbnds(DstOp, srdA); \
  \
-    Init ## TYPE ## AlphaLoadData(DstWrite, pRasInfo); \
-    maskScan -= width; \
-    if (pMask) { \
-        pMask += maskOff; \
+    Init ## TYPE ## AlpibLobdDbtb(DstWritf, pRbsInfo); \
+    mbskSdbn -= widti; \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
     } \
  \
-    Init ## TYPE ## StoreVarsY(DstWrite, pRasInfo); \
+    Init ## TYPE ## StorfVbrsY(DstWritf, pRbsInfo); \
     do { \
-        Declare ## TYPE ## InitialLoadVars(pRasInfo, pRas, DstWrite, x1) \
-        jint w = width; \
-        Init ## TYPE ## StoreVarsX(DstWrite, pRasInfo); \
+        Dfdlbrf ## TYPE ## InitiblLobdVbrs(pRbsInfo, pRbs, DstWritf, x1) \
+        jint w = widti; \
+        Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
         do { \
-            DeclareAlphaVarFor ## STRATEGY(resA) \
-            DeclareCompVarsFor ## STRATEGY(res) \
-            DeclareAlphaVarFor ## STRATEGY(srcF) \
+            DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+            DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+            DfdlbrfAlpibVbrFor ## STRATEGY(srdF) \
  \
-            InitialLoad ## TYPE(pRas, DstWrite); \
-            if (pMask) { \
-                pathA = *pMask++; \
-                if (!pathA) { \
-                    ShiftBits ## TYPE(DstWrite); \
-                    Next ## TYPE ## StoreVarsX(DstWrite); \
-                    continue; \
+            InitiblLobd ## TYPE(pRbs, DstWritf); \
+            if (pMbsk) { \
+                pbtiA = *pMbsk++; \
+                if (!pbtiA) { \
+                    SiiftBits ## TYPE(DstWritf); \
+                    Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
                 } \
-                PromoteByteAlphaFor ## STRATEGY(pathA); \
-                dstF = dstFbase; \
+                PromotfBytfAlpibFor ## STRATEGY(pbtiA); \
+                dstF = dstFbbsf; \
             } \
-            if (loaddst) { \
-                LoadAlphaFrom ## TYPE ## For ## STRATEGY(pRas,DstWrite,dst);\
+            if (lobddst) { \
+                LobdAlpibFrom ## TYPE ## For ## STRATEGY(pRbs,DstWritf,dst);\
             } \
-            srcF = ApplyAlphaOperands(SrcOp, dstA); \
-            if (pathA != MaxValFor ## STRATEGY) { \
-                srcF = MultiplyAlphaFor ## STRATEGY(pathA, srcF); \
-                dstF = MaxValFor ## STRATEGY - pathA + \
-                           MultiplyAlphaFor ## STRATEGY(pathA, dstF); \
+            srdF = ApplyAlpibOpfrbnds(SrdOp, dstA); \
+            if (pbtiA != MbxVblFor ## STRATEGY) { \
+                srdF = MultiplyAlpibFor ## STRATEGY(pbtiA, srdF); \
+                dstF = MbxVblFor ## STRATEGY - pbtiA + \
+                           MultiplyAlpibFor ## STRATEGY(pbtiA, dstF); \
             } \
-            if (srcF) { \
-                if (srcF == MaxValFor ## STRATEGY) { \
-                    resA = srcA; \
-                    Store ## STRATEGY ## CompsUsingOp(res, =, src); \
-                } else { \
-                    resA = MultiplyAlphaFor ## STRATEGY(srcF, srcA); \
-                    MultiplyAndStore ## STRATEGY ## Comps(res, srcF, src); \
+            if (srdF) { \
+                if (srdF == MbxVblFor ## STRATEGY) { \
+                    rfsA = srdA; \
+                    Storf ## STRATEGY ## CompsUsingOp(rfs, =, srd); \
+                } flsf { \
+                    rfsA = MultiplyAlpibFor ## STRATEGY(srdF, srdA); \
+                    MultiplyAndStorf ## STRATEGY ## Comps(rfs, srdF, srd); \
                 } \
-            } else { \
-                if (dstF == MaxValFor ## STRATEGY) { \
-                    ShiftBits ## TYPE(DstWrite); \
-                    Next ## TYPE ## StoreVarsX(DstWrite); \
-                    continue; \
+            } flsf { \
+                if (dstF == MbxVblFor ## STRATEGY) { \
+                    SiiftBits ## TYPE(DstWritf); \
+                    Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
                 } \
-                resA = 0; \
-                Set ## STRATEGY ## CompsToZero(res); \
+                rfsA = 0; \
+                Sft ## STRATEGY ## CompsToZfro(rfs); \
             } \
             if (dstF) { \
-                dstA = MultiplyAlphaFor ## STRATEGY(dstF, dstA); \
-                if (!(TYPE ## IsPremultiplied)) { \
+                dstA = MultiplyAlpibFor ## STRATEGY(dstF, dstA); \
+                if (!(TYPE ## IsPrfmultiplifd)) { \
                     dstF = dstA; \
                 } \
-                resA += dstA; \
+                rfsA += dstA; \
                 if (dstF) { \
-                    DeclareCompVarsFor ## STRATEGY(tmp) \
-                    /* assert(loaddst); */ \
-                    Postload ## STRATEGY ## From ## TYPE(pRas,DstWrite,tmp); \
-                    if (dstF != MaxValFor ## STRATEGY) { \
-                        MultiplyAndStore ## STRATEGY ## Comps(tmp, \
+                    DfdlbrfCompVbrsFor ## STRATEGY(tmp) \
+                    /* bssfrt(lobddst); */ \
+                    Postlobd ## STRATEGY ## From ## TYPE(pRbs,DstWritf,tmp); \
+                    if (dstF != MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(tmp, \
                                                               dstF, tmp); \
                     } \
-                    Store ## STRATEGY ## CompsUsingOp(res, +=, tmp); \
+                    Storf ## STRATEGY ## CompsUsingOp(rfs, +=, tmp); \
                 } \
             } \
-            if (!(TYPE ## IsPremultiplied) && resA && \
-                resA < MaxValFor ## STRATEGY) \
+            if (!(TYPE ## IsPrfmultiplifd) && rfsA && \
+                rfsA < MbxVblFor ## STRATEGY) \
             { \
-                DivideAndStore ## STRATEGY ## Comps(res, res, resA); \
+                DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
             } \
-            Store ## TYPE ## From ## STRATEGY ## Comps(pRas, DstWrite, \
-                                                       0, res); \
-            ShiftBits ## TYPE(DstWrite); \
-            Next ## TYPE ## StoreVarsX(DstWrite); \
-        } while (--w > 0); \
-        FinalStore ## TYPE(pRas, DstWrite); \
-        pRas = PtrAddBytes(pRas, rasScan); \
-        Next ## TYPE ## StoreVarsY(DstWrite); \
-        if (pMask) { \
-            pMask = PtrAddBytes(pMask, maskScan); \
+            Storf ## TYPE ## From ## STRATEGY ## Comps(pRbs, DstWritf, \
+                                                       0, rfs); \
+            SiiftBits ## TYPE(DstWritf); \
+            Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+        } wiilf (--w > 0); \
+        FinblStorf ## TYPE(pRbs, DstWritf); \
+        pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+        Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+        if (pMbsk) { \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
         } \
-    } while (--height > 0); \
+    } wiilf (--ifigit > 0); \
 }
 
 
 /*
- * The macros defined above use the following macro definitions supplied
- * for the various ByteBinary-specific surface types to manipulate pixel data.
+ * Tif mbdros dffinfd bbovf usf tif following mbdro dffinitions supplifd
+ * for tif vbrious BytfBinbry-spfdifid surfbdf typfs to mbnipulbtf pixfl dbtb.
  *
- * In the macro names in the following definitions, the string <stype>
- * is used as a place holder for the SurfaceType name (eg. ByteBinary2Bit).
- * The macros above access these type specific macros using the ANSI
- * CPP token concatenation operator "##".
+ * In tif mbdro nbmfs in tif following dffinitions, tif string <stypf>
+ * is usfd bs b plbdf ioldfr for tif SurfbdfTypf nbmf (fg. BytfBinbry2Bit).
+ * Tif mbdros bbovf bddfss tifsf typf spfdifid mbdros using tif ANSI
+ * CPP tokfn dondbtfnbtion opfrbtor "##".
  *
- * Declare<stype>InitialLoadVars     Declare and initialize the variables used
- *                                   for managing byte/bit offsets
- * InitialLoad<stype>                Store the current byte, fetch the next
- *                                   byte, and reset the bit offset
- * ShiftBits<stype>                  Advance to the next pixel by adjusting
- *                                   the bit offset (1, 2, or 4 bits)
- * FinalStore<stype>                 Store the current byte
- * CurrentPixel<stype>               Represents the current pixel by shifting
- *                                   the value with the current bit offset and
- *                                   then masking the value to either 1, 2, or
+ * Dfdlbrf<stypf>InitiblLobdVbrs     Dfdlbrf bnd initiblizf tif vbribblfs usfd
+ *                                   for mbnbging bytf/bit offsfts
+ * InitiblLobd<stypf>                Storf tif durrfnt bytf, fftdi tif nfxt
+ *                                   bytf, bnd rfsft tif bit offsft
+ * SiiftBits<stypf>                  Advbndf to tif nfxt pixfl by bdjusting
+ *                                   tif bit offsft (1, 2, or 4 bits)
+ * FinblStorf<stypf>                 Storf tif durrfnt bytf
+ * CurrfntPixfl<stypf>               Rfprfsfnts tif durrfnt pixfl by siifting
+ *                                   tif vbluf witi tif durrfnt bit offsft bnd
+ *                                   tifn mbsking tif vbluf to fitifr 1, 2, or
  *                                   4 bits
  */
 
-#endif /* AnyByteBinary_h_Included */
+#fndif /* AnyBytfBinbry_i_Indludfd */

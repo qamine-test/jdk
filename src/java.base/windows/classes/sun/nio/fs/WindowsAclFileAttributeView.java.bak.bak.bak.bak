@@ -1,0 +1,226 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.ProvidfrMismbtdhExdfption;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/**
+ * Windows implfmfntbtion of AdlFilfAttributfVifw.
+ */
+
+dlbss WindowsAdlFilfAttributfVifw
+    fxtfnds AbstrbdtAdlFilfAttributfVifw
+{
+    /**
+     * typfdff strudt _SECURITY_DESCRIPTOR {
+     *     BYTE  Rfvision;
+     *     BYTE  Sbz1;
+     *     SECURITY_DESCRIPTOR_CONTROL Control;
+     *     PSID Ownfr;
+     *     PSID Group;
+     *     PACL Sbdl;
+     *     PACL Dbdl;
+     * } SECURITY_DESCRIPTOR;
+     */
+    privbtf stbtid finbl short SIZEOF_SECURITY_DESCRIPTOR   = 20;
+
+    privbtf finbl WindowsPbth filf;
+    privbtf finbl boolfbn followLinks;
+
+    WindowsAdlFilfAttributfVifw(WindowsPbth filf, boolfbn followLinks) {
+        this.filf = filf;
+        this.followLinks = followLinks;
+    }
+
+    // pfrmission dhfdk
+    privbtf void dhfdkAddfss(WindowsPbth filf,
+                             boolfbn dhfdkRfbd,
+                             boolfbn dhfdkWritf)
+    {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            if (dhfdkRfbd)
+                sm.dhfdkRfbd(filf.gftPbthForPfrmissionChfdk());
+            if (dhfdkWritf)
+                sm.dhfdkWritf(filf.gftPbthForPfrmissionChfdk());
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("bddfssUsfrInformbtion"));
+        }
+    }
+
+    // invokfs GftFilfSfdurity to gft rfqufstfd sfdurity informbtion
+    stbtid NbtivfBufffr gftFilfSfdurity(String pbth, int rfqufst)
+        throws IOExdfption
+    {
+        // invokf gft to bufffr sizf
+        int sizf = 0;
+        try {
+            sizf = GftFilfSfdurity(pbth, rfqufst, 0L, 0);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(pbth);
+        }
+        bssfrt sizf > 0;
+
+        // bllodbtf bufffr bnd rf-invokf to gft sfdurity informbtion
+        NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+        try {
+            for (;;) {
+                int nfwSizf = GftFilfSfdurity(pbth, rfqufst, bufffr.bddrfss(), sizf);
+                if (nfwSizf <= sizf)
+                    rfturn bufffr;
+
+                // bufffr wbs insuffidifnt
+                bufffr.rflfbsf();
+                bufffr = NbtivfBufffrs.gftNbtivfBufffr(nfwSizf);
+                sizf = nfwSizf;
+            }
+        } dbtdh (WindowsExdfption x) {
+            bufffr.rflfbsf();
+            x.rfthrowAsIOExdfption(pbth);
+            rfturn null;
+        }
+    }
+
+    @Ovfrridf
+    publid UsfrPrindipbl gftOwnfr()
+        throws IOExdfption
+    {
+        dhfdkAddfss(filf, truf, fblsf);
+
+        // GftFilfSfdurity dofs not follow links so whfn following links wf
+        // nffd thf finbl tbrgft
+        String pbth = WindowsLinkSupport.gftFinblPbth(filf, followLinks);
+        NbtivfBufffr bufffr = gftFilfSfdurity(pbth, OWNER_SECURITY_INFORMATION);
+        try {
+            // gft thf bddrfss of thf SID
+            long sidAddrfss = GftSfdurityDfsdriptorOwnfr(bufffr.bddrfss());
+            if (sidAddrfss == 0L)
+                throw nfw IOExdfption("no ownfr");
+            rfturn WindowsUsfrPrindipbls.fromSid(sidAddrfss);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(filf);
+            rfturn null;
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+
+    @Ovfrridf
+    publid List<AdlEntry> gftAdl()
+        throws IOExdfption
+    {
+        dhfdkAddfss(filf, truf, fblsf);
+
+        // GftFilfSfdurity dofs not follow links so whfn following links wf
+        // nffd thf finbl tbrgft
+        String pbth = WindowsLinkSupport.gftFinblPbth(filf, followLinks);
+
+        // ALLOW bnd DENY fntrifs in DACL;
+        // AUDIT fntrifs in SACL (ignorf for now bs it rfquirfs privilfgfs)
+        NbtivfBufffr bufffr = gftFilfSfdurity(pbth, DACL_SECURITY_INFORMATION);
+        try {
+            rfturn WindowsSfdurityDfsdriptor.gftAdl(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+
+    @Ovfrridf
+    publid void sftOwnfr(UsfrPrindipbl obj)
+        throws IOExdfption
+    {
+        if (obj == null)
+            throw nfw NullPointfrExdfption("'ownfr' is null");
+        if (!(obj instbndfof WindowsUsfrPrindipbls.Usfr))
+            throw nfw ProvidfrMismbtdhExdfption();
+        WindowsUsfrPrindipbls.Usfr ownfr = (WindowsUsfrPrindipbls.Usfr)obj;
+
+        // pfrmission dhfdk
+        dhfdkAddfss(filf, fblsf, truf);
+
+        // SftFilfSfdurity dofs not follow links so whfn following links wf
+        // nffd thf finbl tbrgft
+        String pbth = WindowsLinkSupport.gftFinblPbth(filf, followLinks);
+
+        // ConvfrtStringSidToSid bllodbtfs mfmory for SID so must invokf
+        // LodblFrff to frff it whfn wf brf donf
+        long pOwnfr = 0L;
+        try {
+            pOwnfr = ConvfrtStringSidToSid(ownfr.sidString());
+        } dbtdh (WindowsExdfption x) {
+            throw nfw IOExdfption("Fbilfd to gft SID for " + ownfr.gftNbmf()
+                + ": " + x.frrorString());
+        }
+
+        // Allodbtf bufffr for sfdurity dfsdriptor, initiblizf it, sft
+        // ownfr informbtion bnd updbtf thf filf.
+        try {
+            NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffr(SIZEOF_SECURITY_DESCRIPTOR);
+            try {
+                InitiblizfSfdurityDfsdriptor(bufffr.bddrfss());
+                SftSfdurityDfsdriptorOwnfr(bufffr.bddrfss(), pOwnfr);
+                // mby nffd SfRfstorfPrivilfgf to sft thf ownfr
+                WindowsSfdurity.Privilfgf priv =
+                    WindowsSfdurity.fnbblfPrivilfgf("SfRfstorfPrivilfgf");
+                try {
+                    SftFilfSfdurity(pbth,
+                                    OWNER_SECURITY_INFORMATION,
+                                    bufffr.bddrfss());
+                } finblly {
+                    priv.drop();
+                }
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(filf);
+            } finblly {
+                bufffr.rflfbsf();
+            }
+        } finblly {
+            LodblFrff(pOwnfr);
+        }
+    }
+
+    @Ovfrridf
+    publid void sftAdl(List<AdlEntry> bdl) throws IOExdfption {
+        dhfdkAddfss(filf, fblsf, truf);
+
+        // SftFilfSfdurity dofs not follow links so whfn following links wf
+        // nffd thf finbl tbrgft
+        String pbth = WindowsLinkSupport.gftFinblPbth(filf, followLinks);
+        WindowsSfdurityDfsdriptor sd = WindowsSfdurityDfsdriptor.drfbtf(bdl);
+        try {
+            SftFilfSfdurity(pbth, DACL_SECURITY_INFORMATION, sd.bddrfss());
+        } dbtdh (WindowsExdfption x) {
+             x.rfthrowAsIOExdfption(filf);
+        } finblly {
+            sd.rflfbsf();
+        }
+    }
+}

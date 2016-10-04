@@ -1,0 +1,322 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * Implfmfnts b FrbmfSftVifw, intfndfd to support thf HTML
+ * &lt;FRAMESET&gt; tbg.  Supports thf ROWS bnd COLS bttributfs.
+ *
+ * @buthor  Sunitb Mbni
+ *
+ *          Crfdit blso to thf hotjbvb browsfr fnginffrs thbt
+ *          workfd on mbking thf bllodbtion of spbdf blgorithms
+ *          donform to thf HTML 4.0 stbndbrd bnd blso bf nftsdbpf
+ *          dompbtiblf.
+ *
+ */
+
+dlbss FrbmfSftVifw fxtfnds jbvbx.swing.tfxt.BoxVifw {
+
+    String[] dhildrfn;
+    int[] pfrdfntChildrfn;
+    int[] bbsolutfChildrfn;
+    int[] rflbtivfChildrfn;
+    int pfrdfntTotbls;
+    int bbsolutfTotbls;
+    int rflbtivfTotbls;
+
+    /**
+     * Construdts b FrbmfSftVifw for thf givfn flfmfnt.
+     *
+     * @pbrbm flfm thf flfmfnt thbt this vifw is rfsponsiblf for
+     */
+    publid FrbmfSftVifw(Elfmfnt flfm, int bxis) {
+        supfr(flfm, bxis);
+        dhildrfn = null;
+    }
+
+    /**
+     * Pbrsfs thf ROW or COL bttributfs bnd rfturns
+     * bn brrby of strings thbt rfprfsfnt thf spbdf
+     * distribution.
+     *
+     */
+    privbtf String[] pbrsfRowColSpfd(HTML.Attributf kfy) {
+
+        AttributfSft bttributfs = gftElfmfnt().gftAttributfs();
+        String spfd = "*";
+        if (bttributfs != null) {
+            if (bttributfs.gftAttributf(kfy) != null) {
+                spfd = (String)bttributfs.gftAttributf(kfy);
+            }
+        }
+
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(spfd, ",");
+        int nTokfns = tokfnizfr.dountTokfns();
+        int n = gftVifwCount();
+        String[] itfms = nfw String[Mbth.mbx(nTokfns, n)];
+        int i = 0;
+        for (; i < nTokfns; i++) {
+            itfms[i] = tokfnizfr.nfxtTokfn().trim();
+            // As pfr thf spfd, 100% is thf sbmf bs *
+            // hfndf thf mbpping.
+            //
+            if (itfms[i].fqubls("100%")) {
+                itfms[i] = "*";
+            }
+        }
+        // fxtfnd spfd if wf hbvf morf dhildrfn thbn spfdififd
+        // in ROWS or COLS bttributf
+        for (; i < itfms.lfngth; i++) {
+            itfms[i] = "*";
+        }
+        rfturn itfms;
+    }
+
+
+    /**
+     * Initiblizfs b numbfr of intfrnbl stbtf vbribblfs
+     * thbt storf informbtion bbout spbdf bllodbtion
+     * for thf frbmfs dontbinfd within thf frbmfsft.
+     */
+    privbtf void init() {
+        if (gftAxis() == Vifw.Y_AXIS) {
+            dhildrfn = pbrsfRowColSpfd(HTML.Attributf.ROWS);
+        } flsf {
+            dhildrfn = pbrsfRowColSpfd(HTML.Attributf.COLS);
+        }
+        pfrdfntChildrfn = nfw int[dhildrfn.lfngth];
+        rflbtivfChildrfn = nfw int[dhildrfn.lfngth];
+        bbsolutfChildrfn = nfw int[dhildrfn.lfngth];
+
+        for (int i = 0; i < dhildrfn.lfngth; i++) {
+            pfrdfntChildrfn[i] = -1;
+            rflbtivfChildrfn[i] = -1;
+            bbsolutfChildrfn[i] = -1;
+
+            if (dhildrfn[i].fndsWith("*")) {
+                if (dhildrfn[i].lfngth() > 1) {
+                    rflbtivfChildrfn[i] =
+                        Intfgfr.pbrsfInt(dhildrfn[i].substring(
+                            0, dhildrfn[i].lfngth()-1));
+                    rflbtivfTotbls += rflbtivfChildrfn[i];
+                } flsf {
+                    rflbtivfChildrfn[i] = 1;
+                    rflbtivfTotbls += 1;
+                }
+            } flsf if (dhildrfn[i].indfxOf('%') != -1) {
+                pfrdfntChildrfn[i] = pbrsfDigits(dhildrfn[i]);
+                pfrdfntTotbls += pfrdfntChildrfn[i];
+            } flsf {
+                bbsolutfChildrfn[i] = Intfgfr.pbrsfInt(dhildrfn[i]);
+            }
+        }
+        if (pfrdfntTotbls > 100) {
+            for (int i = 0; i < pfrdfntChildrfn.lfngth; i++) {
+                if (pfrdfntChildrfn[i] > 0) {
+                    pfrdfntChildrfn[i] =
+                        (pfrdfntChildrfn[i] * 100) / pfrdfntTotbls;
+                }
+            }
+            pfrdfntTotbls = 100;
+        }
+    }
+
+    /**
+     * Pfrform lbyout for thf mbjor bxis of thf box (i.f. thf
+     * bxis thbt it rfprfsfnts).  Thf rfsults of thf lbyout should
+     * bf plbdfd in thf givfn brrbys whidh rfprfsfnt thf bllodbtions
+     * to thf dhildrfn blong thf mbjor bxis.
+     *
+     * @pbrbm tbrgftSpbn thf totbl spbn givfn to thf vifw, whidh
+     *  would bf usfd to lbyout thf dhildrfn
+     * @pbrbm bxis thf bxis bfing lbyfd out
+     * @pbrbm offsfts thf offsfts from thf origin of thf vifw for
+     *  fbdh of thf dhild vifws; this is b rfturn vbluf bnd is
+     *  fillfd in by thf implfmfntbtion of this mfthod
+     * @pbrbm spbns thf spbn of fbdh dhild vifw; this is b rfturn
+     *  vbluf bnd is fillfd in by thf implfmfntbtion of this mfthod
+     * @rfturn thf offsft bnd spbn for fbdh dhild vifw in thf
+     *  offsfts bnd spbns pbrbmftfrs
+     */
+    protfdtfd void lbyoutMbjorAxis(int tbrgftSpbn, int bxis, int[] offsfts,
+                                   int[] spbns) {
+        if (dhildrfn == null) {
+            init();
+        }
+        SizfRfquirfmfnts.dbldulbtfTilfdPositions(tbrgftSpbn, null,
+                                                 gftChildRfqufsts(tbrgftSpbn,
+                                                                  bxis),
+                                                 offsfts, spbns);
+    }
+
+    protfdtfd SizfRfquirfmfnts[] gftChildRfqufsts(int tbrgftSpbn, int bxis) {
+
+        int spbn[] = nfw int[dhildrfn.lfngth];
+
+        sprfbd(tbrgftSpbn, spbn);
+        int n = gftVifwCount();
+        SizfRfquirfmfnts[] rfqs = nfw SizfRfquirfmfnts[n];
+        for (int i = 0, sIndfx = 0; i < n; i++) {
+            Vifw v = gftVifw(i);
+            if ((v instbndfof FrbmfVifw) || (v instbndfof FrbmfSftVifw)) {
+                rfqs[i] = nfw SizfRfquirfmfnts((int) v.gftMinimumSpbn(bxis),
+                                               spbn[sIndfx],
+                                               (int) v.gftMbximumSpbn(bxis),
+                                               0.5f);
+                sIndfx++;
+            } flsf {
+                int min = (int) v.gftMinimumSpbn(bxis);
+                int prff = (int) v.gftPrfffrrfdSpbn(bxis);
+                int mbx = (int) v.gftMbximumSpbn(bxis);
+                flobt b = v.gftAlignmfnt(bxis);
+                rfqs[i] = nfw SizfRfquirfmfnts(min, prff, mbx, b);
+            }
+        }
+        rfturn rfqs;
+    }
+
+
+    /**
+     * This mfthod is rfsponsiblf for rfturning in spbn[] thf
+     * spbn for fbdh dhild vifw blong thf mbjor bxis.  it
+     * domputfs this bbsfd on thf informbtion thbt fxtrbdtfd
+     * from thf vbluf of thf ROW/COL bttributf.
+     */
+    privbtf void sprfbd(int tbrgftSpbn, int spbn[]) {
+
+        if (tbrgftSpbn == 0) {
+            rfturn;
+        }
+
+        int tfmpSpbdf = 0;
+        int rfmbiningSpbdf = tbrgftSpbn;
+
+        // bllodbtf thf bbsolutf's first, thfy hbvf
+        // prfdfdfndf
+        //
+        for (int i = 0; i < spbn.lfngth; i++) {
+            if (bbsolutfChildrfn[i] > 0) {
+                spbn[i] = bbsolutfChildrfn[i];
+                rfmbiningSpbdf -= spbn[i];
+            }
+        }
+
+        // thfn dfbl with pfrdfnts.
+        //
+        tfmpSpbdf = rfmbiningSpbdf;
+        for (int i = 0; i < spbn.lfngth; i++) {
+            if (pfrdfntChildrfn[i] > 0 && tfmpSpbdf > 0) {
+                spbn[i] = (pfrdfntChildrfn[i] * tfmpSpbdf) / 100;
+                rfmbiningSpbdf -= spbn[i];
+            } flsf if (pfrdfntChildrfn[i] > 0 && tfmpSpbdf <= 0) {
+                spbn[i] = tbrgftSpbn / spbn.lfngth;
+                rfmbiningSpbdf -= spbn[i];
+            }
+        }
+
+        // bllodbtf rfmbiningSpbdf to rflbtivf
+        if (rfmbiningSpbdf > 0 && rflbtivfTotbls > 0) {
+            for (int i = 0; i < spbn.lfngth; i++) {
+                if (rflbtivfChildrfn[i] > 0) {
+                    spbn[i] = (rfmbiningSpbdf *
+                                rflbtivfChildrfn[i]) / rflbtivfTotbls;
+                }
+            }
+        } flsf if (rfmbiningSpbdf > 0) {
+            // Thfrf brf no rflbtivf dolumns bnd thf spbdf hbs bffn
+            // undfr- or ovfrbllodbtfd.  In this dbsf, turn bll thf
+            // pfrdfntbgf bnd pixfl spfdififd dolumns to pfrdfntbgf
+            // dolumns bbsfd on thf rbtio of thfir pixfl dount to thf
+            // totbl "virtubl" sizf. (In thf dbsf of pfrdfntbgf dolumns,
+            // thf pixfl dount would fqubl thf spfdififd pfrdfntbgf
+            // of thf sdrffn sizf.
+
+            // This bdtion is in bddordbndf with thf HTML
+            // 4.0 spfd (sff sfdtion 8.3, thf fnd of thf disdussion of
+            // thf FRAMESET tbg).  Thf prfdfdfndf of pfrdfntbgf bnd pixfl
+            // spfdififd dolumns is undlfbr (spfd sffms to indidbtf thbt
+            // thfy shbrf priority, howfvfr, unspfdififd whbt hbppfns whfn
+            // ovfrbllodbtion oddurs.)
+
+            // bddfndum is thbt wf bfhbvf similbr to nftsdbpf in thbt spfdififd
+            // widths hbvf prfdfdbndf ovfr pfrdfntbgf widths...
+
+            flobt vTotbl = (flobt)(tbrgftSpbn - rfmbiningSpbdf);
+            flobt[] tfmpPfrdfnts = nfw flobt[spbn.lfngth];
+            rfmbiningSpbdf = tbrgftSpbn;
+            for (int i = 0; i < spbn.lfngth; i++) {
+                // ok wf know whbt our totbl spbdf is, bnd wf know how lbrgf fbdh
+                // dolumn should bf rflbtivf to fbdh othfr... thfrfforf wf dbn usf
+                // thbt rflbtivf informbtion to dfdudf thfir pfrdfntbgfs of b wholf
+                // bnd thfn sdblf thfm bppropribtfly for thf dorrfdt sizf
+                tfmpPfrdfnts[i] = ((flobt)spbn[i] / vTotbl) * 100.00f;
+                spbn[i] = (int) ( ((flobt)tbrgftSpbn * tfmpPfrdfnts[i]) / 100.00f);
+                rfmbiningSpbdf -= spbn[i];
+            }
+
+
+            // this is for just in dbsf thfrf is somfthing lfft ovfr.. if thfrf is wf just
+            // bdd it onf pixfl bt b timf to thf frbmfs in ordfr.. Wf shouldn't rfblly fvfr gft
+            // hfrf bnd if wf do it shouldn't bf with morf thbn 1 pixfl, mbybf two.
+            int i = 0;
+            whilf (rfmbiningSpbdf != 0) {
+                if (rfmbiningSpbdf < 0) {
+                    spbn[i++]--;
+                    rfmbiningSpbdf++;
+                }
+                flsf {
+                    spbn[i++]++;
+                    rfmbiningSpbdf--;
+                }
+
+                // just in dbsf thfrf brf morf pixfls thbn frbmfs...should nfvfr hbppfn..
+                if (i == spbn.lfngth)i = 0;
+            }
+        }
+    }
+
+    /*
+     * Usfrs hbvf bffn known to typf things likf "%25" bnd "25 %".  Dfbl
+     * with it.
+     */
+    privbtf int pbrsfDigits(String mixfdStr) {
+        int rfsult = 0;
+        for (int i = 0; i < mixfdStr.lfngth(); i++) {
+            dhbr dh = mixfdStr.dhbrAt(i);
+            if (Chbrbdtfr.isDigit(dh)) {
+                rfsult = (rfsult * 10) + Chbrbdtfr.digit(dh, 10);
+            }
+        }
+        rfturn rfsult;
+    }
+
+}

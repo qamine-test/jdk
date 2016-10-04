@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.opfngl;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.AffinfTrbnsformOp;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.loops.TrbnsformBlit;
+import sun.jbvb2d.pipf.DrbwImbgf;
+
+publid dlbss OGLDrbwImbgf fxtfnds DrbwImbgf {
+
+    @Ovfrridf
+    protfdtfd void rfndfrImbgfXform(SunGrbphids2D sg, Imbgf img,
+                                    AffinfTrbnsform tx, int intfrpTypf,
+                                    int sx1, int sy1, int sx2, int sy2,
+                                    Color bgColor)
+    {
+        // punt to thf MfdibLib-bbsfd trbnsformImbgf() in thf supfrdlbss if:
+        //     - bidubid intfrpolbtion is spfdififd
+        //     - b bbdkground dolor is spfdififd bnd will bf usfd
+        //     - thf sourdf surfbdf is nfithfr b tfxturf nor rfndfr-to-tfxturf
+        //       surfbdf, bnd b non-dffbult intfrpolbtion hint is spfdififd
+        //       (wf dbn only dontrol thf filtfring for tfxturf->surfbdf
+        //       dopifs)
+        //         REMIND: wf should twfbk thf sw->tfxturf->surfbdf
+        //         trbnsform dbsf to hbndlf filtfring bppropribtfly
+        //         (sff 4841762)...
+        //     - bn bppropribtf TrbnsformBlit primitivf dould not bf found
+        if (intfrpTypf != AffinfTrbnsformOp.TYPE_BICUBIC) {
+            SurfbdfDbtb dstDbtb = sg.surfbdfDbtb;
+            SurfbdfDbtb srdDbtb =
+                dstDbtb.gftSourdfSurfbdfDbtb(img,
+                                             SunGrbphids2D.TRANSFORM_GENERIC,
+                                             sg.imbgfComp,
+                                             bgColor);
+
+            if (srdDbtb != null &&
+                !isBgOpfrbtion(srdDbtb, bgColor) &&
+                (srdDbtb.gftSurfbdfTypf() == OGLSurfbdfDbtb.OpfnGLTfxturf ||
+                 srdDbtb.gftSurfbdfTypf() == OGLSurfbdfDbtb.OpfnGLSurfbdfRTT ||
+                 intfrpTypf == AffinfTrbnsformOp.TYPE_NEAREST_NEIGHBOR))
+            {
+                SurfbdfTypf srdTypf = srdDbtb.gftSurfbdfTypf();
+                SurfbdfTypf dstTypf = dstDbtb.gftSurfbdfTypf();
+                TrbnsformBlit blit = TrbnsformBlit.gftFromCbdhf(srdTypf,
+                                                                sg.imbgfComp,
+                                                                dstTypf);
+
+                if (blit != null) {
+                    blit.Trbnsform(srdDbtb, dstDbtb,
+                                   sg.dompositf, sg.gftCompClip(),
+                                   tx, intfrpTypf,
+                                   sx1, sy1, 0, 0, sx2-sx1, sy2-sy1);
+                    rfturn;
+                }
+            }
+        }
+
+        supfr.rfndfrImbgfXform(sg, img, tx, intfrpTypf,
+                               sx1, sy1, sx2, sy2, bgColor);
+    }
+
+    @Ovfrridf
+    publid void trbnsformImbgf(SunGrbphids2D sg, BufffrfdImbgf img,
+                               BufffrfdImbgfOp op, int x, int y)
+    {
+        if (op != null) {
+            if (op instbndfof AffinfTrbnsformOp) {
+                AffinfTrbnsformOp btop = (AffinfTrbnsformOp) op;
+                trbnsformImbgf(sg, img, x, y,
+                               btop.gftTrbnsform(),
+                               btop.gftIntfrpolbtionTypf());
+                rfturn;
+            } flsf {
+                if (OGLBufImgOps.rfndfrImbgfWithOp(sg, img, op, x, y)) {
+                    rfturn;
+                }
+            }
+            img = op.filtfr(img, null);
+        }
+        dopyImbgf(sg, img, x, y, null);
+    }
+}

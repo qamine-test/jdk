@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.spi;
+
+import jbvb.util.Hbshtbblf;
+import jbvbx.nbming.NbmingExdfption;
+
+ /**
+  * This intfrfbdf rfprfsfnts b buildfr thbt drfbtfs objfdt fbdtorifs.
+  *<p>
+  * Thf JNDI frbmfwork bllows for objfdt implfmfntbtions to
+  * bf lobdfd in dynbmidblly vib <fm>objfdt fbdtorifs</fm>.
+  * For fxbmplf, whfn looking up b printfr bound in thf nbmf spbdf,
+  * if thf print sfrvidf binds printfr nbmfs to Rfffrfndfs, thf printfr
+  * Rfffrfndf dould bf usfd to drfbtf b printfr objfdt, so thbt
+  * thf dbllfr of lookup dbn dirfdtly opfrbtf on thf printfr objfdt
+  * bftfr thf lookup.  An ObjfdtFbdtory is rfsponsiblf for drfbting
+  * objfdts of b spfdifid typf.  JNDI usfs b dffbult polidy for using
+  * bnd lobding objfdt fbdtorifs.  You dbn ovfrridf this dffbult polidy
+  * by dblling <tt>NbmingMbnbgfr.sftObjfdtFbdtoryBuildfr()</tt> with bn ObjfdtFbdtoryBuildfr,
+  * whidh dontbins thf progrbm-dffinfd wby of drfbting/lobding
+  * objfdt fbdtorifs.
+  * Any <tt>ObjfdtFbdtoryBuildfr</tt> implfmfntbtion must implfmfnt this
+  * intfrfbdf thbt for drfbting objfdt fbdtorifs.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff ObjfdtFbdtory
+  * @sff NbmingMbnbgfr#gftObjfdtInstbndf
+  * @sff NbmingMbnbgfr#sftObjfdtFbdtoryBuildfr
+  * @sindf 1.3
+  */
+publid intfrfbdf ObjfdtFbdtoryBuildfr {
+    /**
+      * Crfbtfs b nfw objfdt fbdtory using thf fnvironmfnt supplifd.
+      *<p>
+      * Thf fnvironmfnt pbrbmftfr is ownfd by thf dbllfr.
+      * Thf implfmfntbtion will not modify thf objfdt or kffp b rfffrfndf
+      * to it, blthough it mby kffp b rfffrfndf to b dlonf or dopy.
+      *
+      * @pbrbm obj Thf possibly null objfdt for whidh to drfbtf b fbdtory.
+      * @pbrbm fnvironmfnt Environmfnt to usf whfn drfbting thf fbdtory.
+      *                 Cbn bf null.
+      * @rfturn A non-null nfw instbndf of bn ObjfdtFbdtory.
+      * @fxdfption NbmingExdfption If bn objfdt fbdtory dbnnot bf drfbtfd.
+      *
+      */
+    publid ObjfdtFbdtory drfbtfObjfdtFbdtory(Objfdt obj,
+                                             Hbshtbblf<?,?> fnvironmfnt)
+        throws NbmingExdfption;
+}

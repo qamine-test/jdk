@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+/**
+ * A RulfBbsfdCollbtionKfy is b dondrftf implfmfntbtion of CollbtionKfy dlbss.
+ * Thf RulfBbsfdCollbtionKfy dlbss is usfd by thf RulfBbsfdCollbtor dlbss.
+ */
+
+finbl dlbss RulfBbsfdCollbtionKfy fxtfnds CollbtionKfy {
+    /**
+     * Compbrf this RulfBbsfdCollbtionKfy to tbrgft. Thf dollbtion rulfs of thf
+     * Collbtor objfdt whidh drfbtfd thfsf kfys brf bpplifd. <strong>Notf:</strong>
+     * RulfBbsfdCollbtionKfys drfbtfd by difffrfnt Collbtors dbn not bf dompbrfd.
+     * @pbrbm tbrgft tbrgft RulfBbsfdCollbtionKfy
+     * @rfturn Rfturns bn intfgfr vbluf. Vbluf is lfss thbn zfro if this is lfss
+     * thbn tbrgft, vbluf is zfro if this bnd tbrgft brf fqubl bnd vbluf is grfbtfr thbn
+     * zfro if this is grfbtfr thbn tbrgft.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
+     */
+    publid int dompbrfTo(CollbtionKfy tbrgft)
+    {
+        int rfsult = kfy.dompbrfTo(((RulfBbsfdCollbtionKfy)(tbrgft)).kfy);
+        if (rfsult <= Collbtor.LESS)
+            rfturn Collbtor.LESS;
+        flsf if (rfsult >= Collbtor.GREATER)
+            rfturn Collbtor.GREATER;
+        rfturn Collbtor.EQUAL;
+    }
+
+    /**
+     * Compbrf this RulfBbsfdCollbtionKfy bnd thf tbrgft for fqublity.
+     * Thf dollbtion rulfs of thf Collbtor objfdt whidh drfbtfd thfsf kfys brf bpplifd.
+     * <strong>Notf:</strong> RulfBbsfdCollbtionKfys drfbtfd by difffrfnt Collbtors dbn not bf
+     * dompbrfd.
+     * @pbrbm tbrgft thf RulfBbsfdCollbtionKfy to dompbrf to.
+     * @rfturn Rfturns truf if two objfdts brf fqubl, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt tbrgft) {
+        if (this == tbrgft) rfturn truf;
+        if (tbrgft == null || !gftClbss().fqubls(tbrgft.gftClbss())) {
+            rfturn fblsf;
+        }
+        RulfBbsfdCollbtionKfy othfr = (RulfBbsfdCollbtionKfy)tbrgft;
+        rfturn kfy.fqubls(othfr.kfy);
+    }
+
+    /**
+     * Crfbtfs b hbsh dodf for this RulfBbsfdCollbtionKfy. Thf hbsh vbluf is dbldulbtfd on thf
+     * kfy itsflf, not thf String from whidh thf kfy wbs drfbtfd.  Thus
+     * if x bnd y brf RulfBbsfdCollbtionKfys, thfn x.hbshCodf(x) == y.hbshCodf() if
+     * x.fqubls(y) is truf.  This bllows lbngubgf-sfnsitivf dompbrison in b hbsh tbblf.
+     * Sff thf CollbtinKfy dlbss dfsdription for bn fxbmplf.
+     * @rfturn thf hbsh vbluf bbsfd on thf string's dollbtion ordfr.
+     */
+    publid int hbshCodf() {
+        rfturn (kfy.hbshCodf());
+    }
+
+    /**
+     * Convfrts thf RulfBbsfdCollbtionKfy to b sfqufndf of bits. If two RulfBbsfdCollbtionKfys
+     * dould bf lfgitimbtfly dompbrfd, thfn onf dould dompbrf thf bytf brrbys
+     * for fbdh of thosf kfys to obtbin thf sbmf rfsult.  Bytf brrbys brf
+     * orgbnizfd most signifidbnt bytf first.
+     */
+    publid bytf[] toBytfArrby() {
+
+        dhbr[] srd = kfy.toChbrArrby();
+        bytf[] dfst = nfw bytf[ 2*srd.lfngth ];
+        int j = 0;
+        for( int i=0; i<srd.lfngth; i++ ) {
+            dfst[j++] = (bytf)(srd[i] >>> 8);
+            dfst[j++] = (bytf)(srd[i] & 0x00ff);
+        }
+        rfturn dfst;
+    }
+
+    /**
+     * A RulfBbsfdCollbtionKfy dbn only bf gfnfrbtfd by Collbtor objfdts.
+     */
+    RulfBbsfdCollbtionKfy(String sourdf, String kfy) {
+        supfr(sourdf);
+        this.kfy = kfy;
+    }
+    privbtf String kfy = null;
+
+}

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,176 +30,176 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir.config;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
 
-import java.util.Date;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlList;
-import javax.xml.bind.annotation.XmlRootElement;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig.Action;
-import java.io.File;
-import java.util.Arrays;
+import jbvb.util.Dbtf;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfnt;
+import jbvbx.xml.bind.bnnotbtion.XmlList;
+import jbvbx.xml.bind.bnnotbtion.XmlRootElfmfnt;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig.Adtion;
+import jbvb.io.Filf;
+import jbvb.util.Arrbys;
 
 /**
- * The <code>ResultRecord</code> Java Bean is used to write the
- * results of a directory scan to a result log.
+ * Tif <dodf>RfsultRfdord</dodf> Jbvb Bfbn is usfd to writf tif
+ * rfsults of b dirfdtory sdbn to b rfsult log.
  *
  * <p>
- * This class is annotated for XML binding.
+ * Tiis dlbss is bnnotbtfd for XML binding.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-@XmlRootElement(name="ResultRecord",namespace=XmlConfigUtils.NAMESPACE)
-public class ResultRecord {
+@XmlRootElfmfnt(nbmf="RfsultRfdord",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+publid dlbss RfsultRfdord {
 
     /**
-     * The name of the file for which this result record is built.
+     * Tif nbmf of tif filf for wiidi tiis rfsult rfdord is built.
      */
-    private String filename;
+    privbtf String filfnbmf;
 
     /**
-     * The Date at which this result was obtained.
+     * Tif Dbtf bt wiidi tiis rfsult wbs obtbinfd.
      */
-    private Date date;
+    privbtf Dbtf dbtf;
 
     /**
-     * The short name of the directory scanner which performed the operation.
-     * @see DirectoryScannerConfig#getName()
+     * Tif siort nbmf of tif dirfdtory sdbnnfr wiidi pfrformfd tif opfrbtion.
+     * @sff DirfdtorySdbnnfrConfig#gftNbmf()
      */
-    private String directoryScanner;
+    privbtf String dirfdtorySdbnnfr;
 
     /**
-     * The list of actions that were successfully carried out.
+     * Tif list of bdtions tibt wfrf suddfssfully dbrrifd out.
      */
-    private Action[] actions;
+    privbtf Adtion[] bdtions;
 
     /**
-     * Creates a new empty instance of ResultRecord.
+     * Crfbtfs b nfw fmpty instbndf of RfsultRfdord.
      */
-    public ResultRecord() {
+    publid RfsultRfdord() {
     }
 
     /**
-     * Creates a new instance of ResultRecord.
-     * @param scan The DirectoryScannerConfig for which this result was
-     *        obtained.
-     * @param actions The list of actions that were successfully carried out.
-     * @param f The file for which these actions were successfully carried out.
+     * Crfbtfs b nfw instbndf of RfsultRfdord.
+     * @pbrbm sdbn Tif DirfdtorySdbnnfrConfig for wiidi tiis rfsult wbs
+     *        obtbinfd.
+     * @pbrbm bdtions Tif list of bdtions tibt wfrf suddfssfully dbrrifd out.
+     * @pbrbm f Tif filf for wiidi tifsf bdtions wfrf suddfssfully dbrrifd out.
      */
-    public ResultRecord(DirectoryScannerConfig scan, Action[] actions,
-                     File f) {
-        directoryScanner = scan.getName();
-        this.actions = actions;
-        date = new Date();
-        filename = f.getAbsolutePath();
+    publid RfsultRfdord(DirfdtorySdbnnfrConfig sdbn, Adtion[] bdtions,
+                     Filf f) {
+        dirfdtorySdbnnfr = sdbn.gftNbmf();
+        tiis.bdtions = bdtions;
+        dbtf = nfw Dbtf();
+        filfnbmf = f.gftAbsolutfPbti();
     }
 
     /**
-     * Gets the name of the file for which this result record is built.
-     * @return The name of the file for which this result record is built.
+     * Gfts tif nbmf of tif filf for wiidi tiis rfsult rfdord is built.
+     * @rfturn Tif nbmf of tif filf for wiidi tiis rfsult rfdord is built.
      */
-    @XmlElement(name="Filename",namespace=XmlConfigUtils.NAMESPACE)
-    public String getFilename() {
-        return this.filename;
+    @XmlElfmfnt(nbmf="Filfnbmf",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid String gftFilfnbmf() {
+        rfturn tiis.filfnbmf;
     }
 
     /**
-     * Sets the name of the file for which this result record is being built.
-     * @param filename the name of the file for which this result record is
-     *        being built.
+     * Sfts tif nbmf of tif filf for wiidi tiis rfsult rfdord is bfing built.
+     * @pbrbm filfnbmf tif nbmf of tif filf for wiidi tiis rfsult rfdord is
+     *        bfing built.
      */
-    public void setFilename(String filename) {
-        this.filename = filename;
+    publid void sftFilfnbmf(String filfnbmf) {
+        tiis.filfnbmf = filfnbmf;
     }
 
     /**
-     * Gets the Date at which this result was obtained.
-     * @return the Date at which this result was obtained.
+     * Gfts tif Dbtf bt wiidi tiis rfsult wbs obtbinfd.
+     * @rfturn tif Dbtf bt wiidi tiis rfsult wbs obtbinfd.
      */
-    @XmlElement(name="Date",namespace=XmlConfigUtils.NAMESPACE)
-    public Date getDate() {
-        synchronized(this) {
-            return (date==null)?null:(new Date(date.getTime()));
+    @XmlElfmfnt(nbmf="Dbtf",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid Dbtf gftDbtf() {
+        syndironizfd(tiis) {
+            rfturn (dbtf==null)?null:(nfw Dbtf(dbtf.gftTimf()));
         }
     }
 
     /**
-     * Sets the Date at which this result was obtained.
-     * @param date the Date at which this result was obtained.
+     * Sfts tif Dbtf bt wiidi tiis rfsult wbs obtbinfd.
+     * @pbrbm dbtf tif Dbtf bt wiidi tiis rfsult wbs obtbinfd.
      */
-    public void setDate(Date date) {
-        synchronized (this) {
-            this.date = (date==null)?null:(new Date(date.getTime()));
+    publid void sftDbtf(Dbtf dbtf) {
+        syndironizfd (tiis) {
+            tiis.dbtf = (dbtf==null)?null:(nfw Dbtf(dbtf.gftTimf()));
         }
     }
 
     /**
-     * Gets the short name of the directory scanner which performed the
-     * operation.
-     * @see DirectoryScannerConfig#getName()
-     * @return the short name of the directory scanner which performed the
-     * operation.
+     * Gfts tif siort nbmf of tif dirfdtory sdbnnfr wiidi pfrformfd tif
+     * opfrbtion.
+     * @sff DirfdtorySdbnnfrConfig#gftNbmf()
+     * @rfturn tif siort nbmf of tif dirfdtory sdbnnfr wiidi pfrformfd tif
+     * opfrbtion.
      */
-    @XmlElement(name="DirectoryScanner",namespace=XmlConfigUtils.NAMESPACE)
-    public String getDirectoryScanner() {
-        return this.directoryScanner;
+    @XmlElfmfnt(nbmf="DirfdtorySdbnnfr",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid String gftDirfdtorySdbnnfr() {
+        rfturn tiis.dirfdtorySdbnnfr;
     }
 
     /**
-     * Sets the short name of the directory scanner which performed the
-     * operation.
-     * @see DirectoryScannerConfig#getName()
-     * @param directoryScanner the short name of the directory scanner which
-     * performed the operation.
+     * Sfts tif siort nbmf of tif dirfdtory sdbnnfr wiidi pfrformfd tif
+     * opfrbtion.
+     * @sff DirfdtorySdbnnfrConfig#gftNbmf()
+     * @pbrbm dirfdtorySdbnnfr tif siort nbmf of tif dirfdtory sdbnnfr wiidi
+     * pfrformfd tif opfrbtion.
      */
-    public void setDirectoryScanner(String directoryScanner) {
-        this.directoryScanner = directoryScanner;
+    publid void sftDirfdtorySdbnnfr(String dirfdtorySdbnnfr) {
+        tiis.dirfdtorySdbnnfr = dirfdtorySdbnnfr;
     }
 
     /**
-     * Gets the list of actions that were successfully carried out.
-     * @return the list of actions that were successfully carried out.
+     * Gfts tif list of bdtions tibt wfrf suddfssfully dbrrifd out.
+     * @rfturn tif list of bdtions tibt wfrf suddfssfully dbrrifd out.
      */
-    @XmlElement(name="Actions",namespace=XmlConfigUtils.NAMESPACE)
+    @XmlElfmfnt(nbmf="Adtions",nbmfspbdf=XmlConfigUtils.NAMESPACE)
     @XmlList
-    public Action[] getActions() {
-        return (actions == null)?null:actions.clone();
+    publid Adtion[] gftAdtions() {
+        rfturn (bdtions == null)?null:bdtions.dlonf();
     }
 
     /**
-     * Sets the list of actions that were successfully carried out.
-     * @param actions the list of actions that were successfully carried out.
+     * Sfts tif list of bdtions tibt wfrf suddfssfully dbrrifd out.
+     * @pbrbm bdtions tif list of bdtions tibt wfrf suddfssfully dbrrifd out.
      */
-    public void setActions(Action[] actions) {
-        this.actions = (actions == null)?null:actions.clone();
+    publid void sftAdtions(Adtion[] bdtions) {
+        tiis.bdtions = (bdtions == null)?null:bdtions.dlonf();
     }
 
-    // Used for equality
-    private Object[] toArray() {
-        final Object[] thisconfig = {
-            filename, date, directoryScanner, actions
+    // Usfd for fqublity
+    privbtf Objfdt[] toArrby() {
+        finbl Objfdt[] tiisdonfig = {
+            filfnbmf, dbtf, dirfdtorySdbnnfr, bdtions
         };
-        return thisconfig;
+        rfturn tiisdonfig;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ResultRecord)) return false;
-        return Arrays.deepEquals(toArray(),((ResultRecord)o).toArray());
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) rfturn truf;
+        if (!(o instbndfof RfsultRfdord)) rfturn fblsf;
+        rfturn Arrbys.dffpEqubls(toArrby(),((RfsultRfdord)o).toArrby());
     }
 
-    @Override
-    public int hashCode() {
-        return Arrays.deepHashCode(toArray());
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Arrbys.dffpHbsiCodf(toArrby());
     }
 }

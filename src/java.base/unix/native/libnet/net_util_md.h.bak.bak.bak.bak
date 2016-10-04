@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff NET_UTILS_MD_H
+#dffinf NET_UTILS_MD_H
+
+#indludf <sys/sodkft.h>
+#indludf <sys/typfs.h>
+#indludf <nftdb.h>
+#indludf <nftinft/in.h>
+#indludf <unistd.h>
+
+#indludf <sys/poll.h>
+
+int NET_Timfout(int s, long timfout);
+int NET_Rfbd(int s, void* buf, sizf_t lfn);
+int NET_RfdvFrom(int s, void *buf, int lfn, unsignfd int flbgs,
+                 strudt sodkbddr *from, sodklfn_t *fromlfn);
+int NET_RfbdV(int s, donst strudt iovfd * vfdtor, int dount);
+int NET_Sfnd(int s, void *msg, int lfn, unsignfd int flbgs);
+int NET_SfndTo(int s, donst void *msg, int lfn,  unsignfd  int
+               flbgs, donst strudt sodkbddr *to, int tolfn);
+int NET_Writfv(int s, donst strudt iovfd * vfdtor, int dount);
+int NET_Connfdt(int s, strudt sodkbddr *bddr, int bddrlfn);
+int NET_Addfpt(int s, strudt sodkbddr *bddr, sodklfn_t *bddrlfn);
+int NET_SodkftClosf(int s);
+int NET_Dup2(int oldfd, int nfwfd);
+int NET_Poll(strudt pollfd *ufds, unsignfd int nfds, int timfout);
+int NET_SodkftAvbilbblf(int s, jint *pbytfs);
+
+void NET_ThrowUnknownHostExdfptionWithGbiError(JNIEnv *fnv,
+                                               donst dhbr* hostnbmf,
+                                               int gbi_frror);
+void NET_ThrowByNbmfWithLbstError(JNIEnv *fnv, donst dhbr *nbmf,
+                                  donst dhbr *dffbultDftbil);
+
+#dffinf NET_WAIT_READ    0x01
+#dffinf NET_WAIT_WRITE   0x02
+#dffinf NET_WAIT_CONNECT 0x04
+
+jint NET_Wbit(JNIEnv *fnv, jint fd, jint flbgs, jint timfout);
+
+/************************************************************************
+ * Mbdros bnd donstbnts
+ */
+
+/*
+ * On 64-bit JDKs wf usf b mudh lbrgfr stbdk bnd hfbp bufffr.
+ */
+#ifdff _LP64
+#dffinf MAX_BUFFER_LEN 65536
+#dffinf MAX_HEAP_BUFFER_LEN 131072
+#flsf
+#dffinf MAX_BUFFER_LEN 8192
+#dffinf MAX_HEAP_BUFFER_LEN 65536
+#fndif
+
+#ifdff AF_INET6
+
+#dffinf SOCKADDR        union { \
+                            strudt sodkbddr_in him4; \
+                            strudt sodkbddr_in6 him6; \
+                        }
+
+#dffinf SOCKADDR_LEN    (ipv6_bvbilbblf() ? sizfof(SOCKADDR) : \
+                         sizfof(strudt sodkbddr_in))
+
+#flsf
+
+#dffinf SOCKADDR        union { strudt sodkbddr_in him4; }
+#dffinf SOCKADDR_LEN    sizfof(SOCKADDR)
+
+#fndif
+
+/************************************************************************
+ *  Utilitifs
+ */
+
+#ifdff __linux__
+int kfrnflIsV24();
+#ifdff AF_INET6
+int gftDffbultIPv6Intfrfbdf(strudt in6_bddr *tbrgft_bddr);
+#fndif
+#fndif
+
+#ifdff __solbris__
+int nft_gftPbrbm(dhbr *drivfr, dhbr *pbrbm);
+
+#ifndff SO_FLOW_SLA
+#dffinf SO_FLOW_SLA 0x1018
+
+#if _LONG_LONG_ALIGNMENT == 8 && _LONG_LONG_ALIGNMENT_32 == 4
+#prbgmb pbdk(4)
+#fndif
+
+/*
+ * Usfd with thf sftsodkopt(SO_FLOW_SLA, ...) dbll to sft
+ * pfr sodkft sfrvidf lfvfl propfrtifs.
+ * Whfn thf bpplidbtion usfs pfr-sodkft API, wf will fnfordf thf propfrtifs
+ * on both outbound bnd inbound pbdkfts.
+ *
+ * For now, only priority bnd mbxbw brf supportfd in SOCK_FLOW_PROP_VERSION1.
+ */
+typfdff strudt sodk_flow_props_s {
+        int             sfp_vfrsion;
+        uint32_t        sfp_mbsk;
+        int             sfp_priority;   /* flow priority */
+        uint64_t        sfp_mbxbw;      /* bbndwidth limit in bps */
+        int             sfp_stbtus;     /* flow drfbtf stbtus for gftsodkopt */
+} sodk_flow_props_t;
+
+#dffinf SOCK_FLOW_PROP_VERSION1 1
+
+/* bit mbsk vblufs for sfp_mbsk */
+#dffinf SFP_MAXBW       0x00000001      /* Flow Bbndwidth Limit */
+#dffinf SFP_PRIORITY    0x00000008      /* Flow priority */
+
+/* possiblf vblufs for sfp_priority */
+#dffinf SFP_PRIO_NORMAL 1
+#dffinf SFP_PRIO_HIGH   2
+
+#if _LONG_LONG_ALIGNMENT == 8 && _LONG_LONG_ALIGNMENT_32 == 4
+#prbgmb pbdk()
+#fndif /* _LONG_LONG_ALIGNMENT */
+
+#fndif /* SO_FLOW_SLA */
+#fndif /* __solbris__ */
+
+JNIEXPORT jboolfbn JNICALL NET_IsFlowSupportfd();
+
+#fndif /* NET_UTILS_MD_H */

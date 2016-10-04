@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.nio.file.attribute.BasicFileAttributes;
-import java.io.IOException;
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfs;
+import jbvb.io.IOExdfption;
 
 /**
- * A visitor of files. An implementation of this interface is provided to the
- * {@link Files#walkFileTree Files.walkFileTree} methods to visit each file in
- * a file tree.
+ * A visitor of filfs. An implfmfntbtion of tiis intfrfbdf is providfd to tif
+ * {@link Filfs#wblkFilfTrff Filfs.wblkFilfTrff} mftiods to visit fbdi filf in
+ * b filf trff.
  *
- * <p> <b>Usage Examples:</b>
- * Suppose we want to delete a file tree. In that case, each directory should
- * be deleted after the entries in the directory are deleted.
- * <pre>
- *     Path start = ...
- *     Files.walkFileTree(start, new SimpleFileVisitor&lt;Path&gt;() {
- *         &#64;Override
- *         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
- *             throws IOException
+ * <p> <b>Usbgf Exbmplfs:</b>
+ * Supposf wf wbnt to dflftf b filf trff. In tibt dbsf, fbdi dirfdtory siould
+ * bf dflftfd bftfr tif fntrifs in tif dirfdtory brf dflftfd.
+ * <prf>
+ *     Pbti stbrt = ...
+ *     Filfs.wblkFilfTrff(stbrt, nfw SimplfFilfVisitor&lt;Pbti&gt;() {
+ *         &#64;Ovfrridf
+ *         publid FilfVisitRfsult visitFilf(Pbti filf, BbsidFilfAttributfs bttrs)
+ *             tirows IOExdfption
  *         {
- *             Files.delete(file);
- *             return FileVisitResult.CONTINUE;
+ *             Filfs.dflftf(filf);
+ *             rfturn FilfVisitRfsult.CONTINUE;
  *         }
- *         &#64;Override
- *         public FileVisitResult postVisitDirectory(Path dir, IOException e)
- *             throws IOException
+ *         &#64;Ovfrridf
+ *         publid FilfVisitRfsult postVisitDirfdtory(Pbti dir, IOExdfption f)
+ *             tirows IOExdfption
  *         {
- *             if (e == null) {
- *                 Files.delete(dir);
- *                 return FileVisitResult.CONTINUE;
- *             } else {
- *                 // directory iteration failed
- *                 throw e;
+ *             if (f == null) {
+ *                 Filfs.dflftf(dir);
+ *                 rfturn FilfVisitRfsult.CONTINUE;
+ *             } flsf {
+ *                 // dirfdtory itfrbtion fbilfd
+ *                 tirow f;
  *             }
  *         }
  *     });
- * </pre>
- * <p> Furthermore, suppose we want to copy a file tree to a target location.
- * In that case, symbolic links should be followed and the target directory
- * should be created before the entries in the directory are copied.
- * <pre>
- *     final Path source = ...
- *     final Path target = ...
+ * </prf>
+ * <p> Furtifrmorf, supposf wf wbnt to dopy b filf trff to b tbrgft lodbtion.
+ * In tibt dbsf, symbolid links siould bf followfd bnd tif tbrgft dirfdtory
+ * siould bf drfbtfd bfforf tif fntrifs in tif dirfdtory brf dopifd.
+ * <prf>
+ *     finbl Pbti sourdf = ...
+ *     finbl Pbti tbrgft = ...
  *
- *     Files.walkFileTree(source, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE,
- *         new SimpleFileVisitor&lt;Path&gt;() {
- *             &#64;Override
- *             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
- *                 throws IOException
+ *     Filfs.wblkFilfTrff(sourdf, EnumSft.of(FilfVisitOption.FOLLOW_LINKS), Intfgfr.MAX_VALUE,
+ *         nfw SimplfFilfVisitor&lt;Pbti&gt;() {
+ *             &#64;Ovfrridf
+ *             publid FilfVisitRfsult prfVisitDirfdtory(Pbti dir, BbsidFilfAttributfs bttrs)
+ *                 tirows IOExdfption
  *             {
- *                 Path targetdir = target.resolve(source.relativize(dir));
+ *                 Pbti tbrgftdir = tbrgft.rfsolvf(sourdf.rflbtivizf(dir));
  *                 try {
- *                     Files.copy(dir, targetdir);
- *                 } catch (FileAlreadyExistsException e) {
- *                      if (!Files.isDirectory(targetdir))
- *                          throw e;
+ *                     Filfs.dopy(dir, tbrgftdir);
+ *                 } dbtdi (FilfAlrfbdyExistsExdfption f) {
+ *                      if (!Filfs.isDirfdtory(tbrgftdir))
+ *                          tirow f;
  *                 }
- *                 return CONTINUE;
+ *                 rfturn CONTINUE;
  *             }
- *             &#64;Override
- *             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
- *                 throws IOException
+ *             &#64;Ovfrridf
+ *             publid FilfVisitRfsult visitFilf(Pbti filf, BbsidFilfAttributfs bttrs)
+ *                 tirows IOExdfption
  *             {
- *                 Files.copy(file, target.resolve(source.relativize(file)));
- *                 return CONTINUE;
+ *                 Filfs.dopy(filf, tbrgft.rfsolvf(sourdf.rflbtivizf(filf)));
+ *                 rfturn CONTINUE;
  *             }
  *         });
- * </pre>
+ * </prf>
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public interface FileVisitor<T> {
+publid intfrfbdf FilfVisitor<T> {
 
     /**
-     * Invoked for a directory before entries in the directory are visited.
+     * Invokfd for b dirfdtory bfforf fntrifs in tif dirfdtory brf visitfd.
      *
-     * <p> If this method returns {@link FileVisitResult#CONTINUE CONTINUE},
-     * then entries in the directory are visited. If this method returns {@link
-     * FileVisitResult#SKIP_SUBTREE SKIP_SUBTREE} or {@link
-     * FileVisitResult#SKIP_SIBLINGS SKIP_SIBLINGS} then entries in the
-     * directory (and any descendants) will not be visited.
+     * <p> If tiis mftiod rfturns {@link FilfVisitRfsult#CONTINUE CONTINUE},
+     * tifn fntrifs in tif dirfdtory brf visitfd. If tiis mftiod rfturns {@link
+     * FilfVisitRfsult#SKIP_SUBTREE SKIP_SUBTREE} or {@link
+     * FilfVisitRfsult#SKIP_SIBLINGS SKIP_SIBLINGS} tifn fntrifs in tif
+     * dirfdtory (bnd bny dfsdfndbnts) will not bf visitfd.
      *
-     * @param   dir
-     *          a reference to the directory
-     * @param   attrs
-     *          the directory's basic attributes
+     * @pbrbm   dir
+     *          b rfffrfndf to tif dirfdtory
+     * @pbrbm   bttrs
+     *          tif dirfdtory's bbsid bttributfs
      *
-     * @return  the visit result
+     * @rfturn  tif visit rfsult
      *
-     * @throws  IOException
-     *          if an I/O error occurs
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
      */
-    FileVisitResult preVisitDirectory(T dir, BasicFileAttributes attrs)
-        throws IOException;
+    FilfVisitRfsult prfVisitDirfdtory(T dir, BbsidFilfAttributfs bttrs)
+        tirows IOExdfption;
 
     /**
-     * Invoked for a file in a directory.
+     * Invokfd for b filf in b dirfdtory.
      *
-     * @param   file
-     *          a reference to the file
-     * @param   attrs
-     *          the file's basic attributes
+     * @pbrbm   filf
+     *          b rfffrfndf to tif filf
+     * @pbrbm   bttrs
+     *          tif filf's bbsid bttributfs
      *
-     * @return  the visit result
+     * @rfturn  tif visit rfsult
      *
-     * @throws  IOException
-     *          if an I/O error occurs
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
      */
-    FileVisitResult visitFile(T file, BasicFileAttributes attrs)
-        throws IOException;
+    FilfVisitRfsult visitFilf(T filf, BbsidFilfAttributfs bttrs)
+        tirows IOExdfption;
 
     /**
-     * Invoked for a file that could not be visited. This method is invoked
-     * if the file's attributes could not be read, the file is a directory
-     * that could not be opened, and other reasons.
+     * Invokfd for b filf tibt dould not bf visitfd. Tiis mftiod is invokfd
+     * if tif filf's bttributfs dould not bf rfbd, tif filf is b dirfdtory
+     * tibt dould not bf opfnfd, bnd otifr rfbsons.
      *
-     * @param   file
-     *          a reference to the file
-     * @param   exc
-     *          the I/O exception that prevented the file from being visited
+     * @pbrbm   filf
+     *          b rfffrfndf to tif filf
+     * @pbrbm   fxd
+     *          tif I/O fxdfption tibt prfvfntfd tif filf from bfing visitfd
      *
-     * @return  the visit result
+     * @rfturn  tif visit rfsult
      *
-     * @throws  IOException
-     *          if an I/O error occurs
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
      */
-    FileVisitResult visitFileFailed(T file, IOException exc)
-        throws IOException;
+    FilfVisitRfsult visitFilfFbilfd(T filf, IOExdfption fxd)
+        tirows IOExdfption;
 
     /**
-     * Invoked for a directory after entries in the directory, and all of their
-     * descendants, have been visited. This method is also invoked when iteration
-     * of the directory completes prematurely (by a {@link #visitFile visitFile}
-     * method returning {@link FileVisitResult#SKIP_SIBLINGS SKIP_SIBLINGS},
-     * or an I/O error when iterating over the directory).
+     * Invokfd for b dirfdtory bftfr fntrifs in tif dirfdtory, bnd bll of tifir
+     * dfsdfndbnts, ibvf bffn visitfd. Tiis mftiod is blso invokfd wifn itfrbtion
+     * of tif dirfdtory domplftfs prfmbturfly (by b {@link #visitFilf visitFilf}
+     * mftiod rfturning {@link FilfVisitRfsult#SKIP_SIBLINGS SKIP_SIBLINGS},
+     * or bn I/O frror wifn itfrbting ovfr tif dirfdtory).
      *
-     * @param   dir
-     *          a reference to the directory
-     * @param   exc
-     *          {@code null} if the iteration of the directory completes without
-     *          an error; otherwise the I/O exception that caused the iteration
-     *          of the directory to complete prematurely
+     * @pbrbm   dir
+     *          b rfffrfndf to tif dirfdtory
+     * @pbrbm   fxd
+     *          {@dodf null} if tif itfrbtion of tif dirfdtory domplftfs witiout
+     *          bn frror; otifrwisf tif I/O fxdfption tibt dbusfd tif itfrbtion
+     *          of tif dirfdtory to domplftf prfmbturfly
      *
-     * @return  the visit result
+     * @rfturn  tif visit rfsult
      *
-     * @throws  IOException
-     *          if an I/O error occurs
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
      */
-    FileVisitResult postVisitDirectory(T dir, IOException exc)
-        throws IOException;
+    FilfVisitRfsult postVisitDirfdtory(T dir, IOExdfption fxd)
+        tirows IOExdfption;
 }

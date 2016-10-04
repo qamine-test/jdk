@@ -1,316 +1,316 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.transforms.params;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.pbrbms;
 
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.transforms.TransformParam;
-import com.sun.org.apache.xml.internal.security.utils.ElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformPbrbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
 /**
- * Implements the parameters for a custom Transform which has a better performance
- * than the xfilter2.
+ * Implfmfnts tif pbrbmftfrs for b dustom Trbnsform wiidi ibs b bfttfr pfrformbndf
+ * tibn tif xfiltfr2.
  *
- * @author $Author: coheigea $
+ * @butior $Autior: doifigfb $
  */
-public class XPathFilterCHGPContainer extends ElementProxy implements TransformParam {
+publid dlbss XPbtiFiltfrCHGPContbinfr fxtfnds ElfmfntProxy implfmfnts TrbnsformPbrbm {
 
-    public static final String TRANSFORM_XPATHFILTERCHGP =
-        "http://www.nue.et-inf.uni-siegen.de/~geuer-pollmann/#xpathFilter";
+    publid stbtid finbl String TRANSFORM_XPATHFILTERCHGP =
+        "ittp://www.nuf.ft-inf.uni-sifgfn.df/~gfufr-pollmbnn/#xpbtiFiltfr";
 
-    /** Field _ATT_FILTER_VALUE_INTERSECT */
-    private static final String _TAG_INCLUDE_BUT_SEARCH = "IncludeButSearch";
+    /** Fifld _ATT_FILTER_VALUE_INTERSECT */
+    privbtf stbtid finbl String _TAG_INCLUDE_BUT_SEARCH = "IndludfButSfbrdi";
 
-    /** Field _ATT_FILTER_VALUE_SUBTRACT */
-    private static final String _TAG_EXCLUDE_BUT_SEARCH = "ExcludeButSearch";
+    /** Fifld _ATT_FILTER_VALUE_SUBTRACT */
+    privbtf stbtid finbl String _TAG_EXCLUDE_BUT_SEARCH = "ExdludfButSfbrdi";
 
-    /** Field _ATT_FILTER_VALUE_UNION */
-    private static final String _TAG_EXCLUDE = "Exclude";
+    /** Fifld _ATT_FILTER_VALUE_UNION */
+    privbtf stbtid finbl String _TAG_EXCLUDE = "Exdludf";
 
-    /** Field _TAG_XPATHCHGP */
-    public static final String _TAG_XPATHCHGP = "XPathAlternative";
+    /** Fifld _TAG_XPATHCHGP */
+    publid stbtid finbl String _TAG_XPATHCHGP = "XPbtiAltfrnbtivf";
 
-    /** Field _ATT_INCLUDESLASH */
-    public static final String _ATT_INCLUDESLASH = "IncludeSlashPolicy";
+    /** Fifld _ATT_INCLUDESLASH */
+    publid stbtid finbl String _ATT_INCLUDESLASH = "IndludfSlbsiPolidy";
 
-    /** Field IncludeSlash           */
-    public static final boolean IncludeSlash = true;
+    /** Fifld IndludfSlbsi           */
+    publid stbtid finbl boolfbn IndludfSlbsi = truf;
 
-    /** Field ExcludeSlash           */
-    public static final boolean ExcludeSlash = false;
+    /** Fifld ExdludfSlbsi           */
+    publid stbtid finbl boolfbn ExdludfSlbsi = fblsf;
 
     /**
-     * Constructor XPathFilterCHGPContainer
+     * Construdtor XPbtiFiltfrCHGPContbinfr
      *
      */
-    private XPathFilterCHGPContainer() {
-        // no instantiation
+    privbtf XPbtiFiltfrCHGPContbinfr() {
+        // no instbntibtion
     }
 
     /**
-     * Constructor XPathFilterCHGPContainer
+     * Construdtor XPbtiFiltfrCHGPContbinfr
      *
-     * @param doc
-     * @param includeSlashPolicy
-     * @param includeButSearch
-     * @param excludeButSearch
-     * @param exclude
+     * @pbrbm dod
+     * @pbrbm indludfSlbsiPolidy
+     * @pbrbm indludfButSfbrdi
+     * @pbrbm fxdludfButSfbrdi
+     * @pbrbm fxdludf
      */
-    private XPathFilterCHGPContainer(
-        Document doc, boolean includeSlashPolicy, String includeButSearch,
-        String excludeButSearch, String exclude
+    privbtf XPbtiFiltfrCHGPContbinfr(
+        Dodumfnt dod, boolfbn indludfSlbsiPolidy, String indludfButSfbrdi,
+        String fxdludfButSfbrdi, String fxdludf
     ) {
-        super(doc);
+        supfr(dod);
 
-        if (includeSlashPolicy) {
-            this.constructionElement.setAttributeNS(
-                null, XPathFilterCHGPContainer._ATT_INCLUDESLASH, "true"
+        if (indludfSlbsiPolidy) {
+            tiis.donstrudtionElfmfnt.sftAttributfNS(
+                null, XPbtiFiltfrCHGPContbinfr._ATT_INCLUDESLASH, "truf"
             );
-        } else {
-            this.constructionElement.setAttributeNS(
-                null, XPathFilterCHGPContainer._ATT_INCLUDESLASH, "false"
+        } flsf {
+            tiis.donstrudtionElfmfnt.sftAttributfNS(
+                null, XPbtiFiltfrCHGPContbinfr._ATT_INCLUDESLASH, "fblsf"
             );
         }
 
-        if ((includeButSearch != null) && (includeButSearch.trim().length() > 0)) {
-            Element includeButSearchElem =
-                ElementProxy.createElementForFamily(
-                    doc, this.getBaseNamespace(), XPathFilterCHGPContainer._TAG_INCLUDE_BUT_SEARCH
+        if ((indludfButSfbrdi != null) && (indludfButSfbrdi.trim().lfngti() > 0)) {
+            Elfmfnt indludfButSfbrdiElfm =
+                ElfmfntProxy.drfbtfElfmfntForFbmily(
+                    dod, tiis.gftBbsfNbmfspbdf(), XPbtiFiltfrCHGPContbinfr._TAG_INCLUDE_BUT_SEARCH
                 );
 
-            includeButSearchElem.appendChild(
-                this.doc.createTextNode(indentXPathText(includeButSearch))
+            indludfButSfbrdiElfm.bppfndCiild(
+                tiis.dod.drfbtfTfxtNodf(indfntXPbtiTfxt(indludfButSfbrdi))
             );
-            XMLUtils.addReturnToElement(this.constructionElement);
-            this.constructionElement.appendChild(includeButSearchElem);
+            XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
+            tiis.donstrudtionElfmfnt.bppfndCiild(indludfButSfbrdiElfm);
         }
 
-        if ((excludeButSearch != null) && (excludeButSearch.trim().length() > 0)) {
-            Element excludeButSearchElem =
-                ElementProxy.createElementForFamily(
-                    doc, this.getBaseNamespace(), XPathFilterCHGPContainer._TAG_EXCLUDE_BUT_SEARCH
+        if ((fxdludfButSfbrdi != null) && (fxdludfButSfbrdi.trim().lfngti() > 0)) {
+            Elfmfnt fxdludfButSfbrdiElfm =
+                ElfmfntProxy.drfbtfElfmfntForFbmily(
+                    dod, tiis.gftBbsfNbmfspbdf(), XPbtiFiltfrCHGPContbinfr._TAG_EXCLUDE_BUT_SEARCH
                 );
 
-            excludeButSearchElem.appendChild(
-                this.doc.createTextNode(indentXPathText(excludeButSearch)));
+            fxdludfButSfbrdiElfm.bppfndCiild(
+                tiis.dod.drfbtfTfxtNodf(indfntXPbtiTfxt(fxdludfButSfbrdi)));
 
-            XMLUtils.addReturnToElement(this.constructionElement);
-            this.constructionElement.appendChild(excludeButSearchElem);
+            XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
+            tiis.donstrudtionElfmfnt.bppfndCiild(fxdludfButSfbrdiElfm);
         }
 
-        if ((exclude != null) && (exclude.trim().length() > 0)) {
-            Element excludeElem =
-                ElementProxy.createElementForFamily(
-                   doc, this.getBaseNamespace(), XPathFilterCHGPContainer._TAG_EXCLUDE);
+        if ((fxdludf != null) && (fxdludf.trim().lfngti() > 0)) {
+            Elfmfnt fxdludfElfm =
+                ElfmfntProxy.drfbtfElfmfntForFbmily(
+                   dod, tiis.gftBbsfNbmfspbdf(), XPbtiFiltfrCHGPContbinfr._TAG_EXCLUDE);
 
-            excludeElem.appendChild(this.doc.createTextNode(indentXPathText(exclude)));
-            XMLUtils.addReturnToElement(this.constructionElement);
-            this.constructionElement.appendChild(excludeElem);
+            fxdludfElfm.bppfndCiild(tiis.dod.drfbtfTfxtNodf(indfntXPbtiTfxt(fxdludf)));
+            XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
+            tiis.donstrudtionElfmfnt.bppfndCiild(fxdludfElfm);
         }
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Method indentXPathText
+     * Mftiod indfntXPbtiTfxt
      *
-     * @param xp
-     * @return the string with enters
+     * @pbrbm xp
+     * @rfturn tif string witi fntfrs
      */
-    static String indentXPathText(String xp) {
-        if ((xp.length() > 2) && (!Character.isWhitespace(xp.charAt(0)))) {
-            return "\n" + xp + "\n";
+    stbtid String indfntXPbtiTfxt(String xp) {
+        if ((xp.lfngti() > 2) && (!Cibrbdtfr.isWiitfspbdf(xp.dibrAt(0)))) {
+            rfturn "\n" + xp + "\n";
         }
-        return xp;
+        rfturn xp;
     }
 
     /**
-     * Constructor XPathFilterCHGPContainer
+     * Construdtor XPbtiFiltfrCHGPContbinfr
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    private XPathFilterCHGPContainer(Element element, String BaseURI)
-        throws XMLSecurityException {
-        super(element, BaseURI);
+    privbtf XPbtiFiltfrCHGPContbinfr(Elfmfnt flfmfnt, String BbsfURI)
+        tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
     }
 
     /**
-     * Creates a new XPathFilterCHGPContainer; needed for generation.
+     * Crfbtfs b nfw XPbtiFiltfrCHGPContbinfr; nffdfd for gfnfrbtion.
      *
-     * @param doc
-     * @param includeSlashPolicy
-     * @param includeButSearch
-     * @param excludeButSearch
-     * @param exclude
-     * @return the created object
+     * @pbrbm dod
+     * @pbrbm indludfSlbsiPolidy
+     * @pbrbm indludfButSfbrdi
+     * @pbrbm fxdludfButSfbrdi
+     * @pbrbm fxdludf
+     * @rfturn tif drfbtfd objfdt
      */
-    public static XPathFilterCHGPContainer getInstance(
-        Document doc, boolean includeSlashPolicy, String includeButSearch,
-        String excludeButSearch, String exclude
+    publid stbtid XPbtiFiltfrCHGPContbinfr gftInstbndf(
+        Dodumfnt dod, boolfbn indludfSlbsiPolidy, String indludfButSfbrdi,
+        String fxdludfButSfbrdi, String fxdludf
     ) {
-        return new XPathFilterCHGPContainer(
-            doc, includeSlashPolicy, includeButSearch, excludeButSearch, exclude);
+        rfturn nfw XPbtiFiltfrCHGPContbinfr(
+            dod, indludfSlbsiPolidy, indludfButSfbrdi, fxdludfButSfbrdi, fxdludf);
     }
 
     /**
-     * Creates a XPathFilterCHGPContainer from an existing Element; needed for verification.
+     * Crfbtfs b XPbtiFiltfrCHGPContbinfr from bn fxisting Elfmfnt; nffdfd for vfrifidbtion.
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
      *
-     * @throws XMLSecurityException
-     * @return the created object.
+     * @tirows XMLSfdurityExdfption
+     * @rfturn tif drfbtfd objfdt.
      */
-    public static XPathFilterCHGPContainer getInstance(
-        Element element, String BaseURI
-    ) throws XMLSecurityException {
-        return new XPathFilterCHGPContainer(element, BaseURI);
+    publid stbtid XPbtiFiltfrCHGPContbinfr gftInstbndf(
+        Elfmfnt flfmfnt, String BbsfURI
+    ) tirows XMLSfdurityExdfption {
+        rfturn nfw XPbtiFiltfrCHGPContbinfr(flfmfnt, BbsfURI);
     }
 
     /**
-     * Method getXStr
+     * Mftiod gftXStr
      *
-     * @param type
-     * @return The Xstr
+     * @pbrbm typf
+     * @rfturn Tif Xstr
      */
-    private String getXStr(String type) {
-        if (this.length(this.getBaseNamespace(), type) != 1) {
-            return "";
+    privbtf String gftXStr(String typf) {
+        if (tiis.lfngti(tiis.gftBbsfNbmfspbdf(), typf) != 1) {
+            rfturn "";
         }
 
-        Element xElem =
-            XMLUtils.selectNode(
-                this.constructionElement.getFirstChild(), this.getBaseNamespace(), type, 0
+        Elfmfnt xElfm =
+            XMLUtils.sflfdtNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), tiis.gftBbsfNbmfspbdf(), typf, 0
             );
 
-        return XMLUtils.getFullTextChildrenFromElement(xElem);
+        rfturn XMLUtils.gftFullTfxtCiildrfnFromElfmfnt(xElfm);
     }
 
     /**
-     * Method getIncludeButSearch
+     * Mftiod gftIndludfButSfbrdi
      *
-     * @return the string
+     * @rfturn tif string
      */
-    public String getIncludeButSearch() {
-        return this.getXStr(XPathFilterCHGPContainer._TAG_INCLUDE_BUT_SEARCH);
+    publid String gftIndludfButSfbrdi() {
+        rfturn tiis.gftXStr(XPbtiFiltfrCHGPContbinfr._TAG_INCLUDE_BUT_SEARCH);
     }
 
     /**
-     * Method getExcludeButSearch
+     * Mftiod gftExdludfButSfbrdi
      *
-     * @return the string
+     * @rfturn tif string
      */
-    public String getExcludeButSearch() {
-        return this.getXStr(XPathFilterCHGPContainer._TAG_EXCLUDE_BUT_SEARCH);
+    publid String gftExdludfButSfbrdi() {
+        rfturn tiis.gftXStr(XPbtiFiltfrCHGPContbinfr._TAG_EXCLUDE_BUT_SEARCH);
     }
 
     /**
-     * Method getExclude
+     * Mftiod gftExdludf
      *
-     * @return the string
+     * @rfturn tif string
      */
-    public String getExclude() {
-        return this.getXStr(XPathFilterCHGPContainer._TAG_EXCLUDE);
+    publid String gftExdludf() {
+        rfturn tiis.gftXStr(XPbtiFiltfrCHGPContbinfr._TAG_EXCLUDE);
     }
 
     /**
-     * Method getIncludeSlashPolicy
+     * Mftiod gftIndludfSlbsiPolidy
      *
-     * @return the string
+     * @rfturn tif string
      */
-    public boolean getIncludeSlashPolicy() {
-        return this.constructionElement.getAttributeNS(
-            null, XPathFilterCHGPContainer._ATT_INCLUDESLASH).equals("true");
+    publid boolfbn gftIndludfSlbsiPolidy() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+            null, XPbtiFiltfrCHGPContbinfr._ATT_INCLUDESLASH).fqubls("truf");
     }
 
     /**
-     * Returns the first Text node which contains information from the XPath
-     * Filter String. We must use this stupid hook to enable the here() function
+     * Rfturns tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti
+     * Filtfr String. Wf must usf tiis stupid iook to fnbblf tif ifrf() fundtion
      * to work.
      *
-     * $todo$ I dunno whether this crashes: <XPath> he<!-- comment -->re()/ds:Signature[1]</XPath>
-     * @param type
-     * @return the first Text node which contains information from the XPath 2 Filter String
+     * $todo$ I dunno wiftifr tiis drbsifs: <XPbti> if<!-- dommfnt -->rf()/ds:Signbturf[1]</XPbti>
+     * @pbrbm typf
+     * @rfturn tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2 Filtfr String
      */
-    private Node getHereContextNode(String type) {
+    privbtf Nodf gftHfrfContfxtNodf(String typf) {
 
-        if (this.length(this.getBaseNamespace(), type) != 1) {
-            return null;
+        if (tiis.lfngti(tiis.gftBbsfNbmfspbdf(), typf) != 1) {
+            rfturn null;
         }
 
-        return XMLUtils.selectNodeText(
-            this.constructionElement.getFirstChild(), this.getBaseNamespace(), type, 0
+        rfturn XMLUtils.sflfdtNodfTfxt(
+            tiis.donstrudtionElfmfnt.gftFirstCiild(), tiis.gftBbsfNbmfspbdf(), typf, 0
         );
     }
 
     /**
-     * Method getHereContextNodeIncludeButSearch
+     * Mftiod gftHfrfContfxtNodfIndludfButSfbrdi
      *
-     * @return the string
+     * @rfturn tif string
      */
-    public Node getHereContextNodeIncludeButSearch() {
-        return this.getHereContextNode(XPathFilterCHGPContainer._TAG_INCLUDE_BUT_SEARCH);
+    publid Nodf gftHfrfContfxtNodfIndludfButSfbrdi() {
+        rfturn tiis.gftHfrfContfxtNodf(XPbtiFiltfrCHGPContbinfr._TAG_INCLUDE_BUT_SEARCH);
     }
 
     /**
-     * Method getHereContextNodeExcludeButSearch
+     * Mftiod gftHfrfContfxtNodfExdludfButSfbrdi
      *
-     * @return the string
+     * @rfturn tif string
      */
-    public Node getHereContextNodeExcludeButSearch() {
-        return this.getHereContextNode(XPathFilterCHGPContainer._TAG_EXCLUDE_BUT_SEARCH);
+    publid Nodf gftHfrfContfxtNodfExdludfButSfbrdi() {
+        rfturn tiis.gftHfrfContfxtNodf(XPbtiFiltfrCHGPContbinfr._TAG_EXCLUDE_BUT_SEARCH);
     }
 
     /**
-     * Method getHereContextNodeExclude
+     * Mftiod gftHfrfContfxtNodfExdludf
      *
-     * @return the string
+     * @rfturn tif string
      */
-    public Node getHereContextNodeExclude() {
-        return this.getHereContextNode(XPathFilterCHGPContainer._TAG_EXCLUDE);
+    publid Nodf gftHfrfContfxtNodfExdludf() {
+        rfturn tiis.gftHfrfContfxtNodf(XPbtiFiltfrCHGPContbinfr._TAG_EXCLUDE);
     }
 
     /**
-     * Method getBaseLocalName
+     * Mftiod gftBbsfLodblNbmf
      *
-     * @inheritDoc
+     * @inifritDod
      */
-    public final String getBaseLocalName() {
-        return XPathFilterCHGPContainer._TAG_XPATHCHGP;
+    publid finbl String gftBbsfLodblNbmf() {
+        rfturn XPbtiFiltfrCHGPContbinfr._TAG_XPATHCHGP;
     }
 
     /**
-     * Method getBaseNamespace
+     * Mftiod gftBbsfNbmfspbdf
      *
-     * @inheritDoc
+     * @inifritDod
      */
-    public final String getBaseNamespace() {
-        return TRANSFORM_XPATHFILTERCHGP;
+    publid finbl String gftBbsfNbmfspbdf() {
+        rfturn TRANSFORM_XPATHFILTERCHGP;
     }
 }

@@ -1,168 +1,168 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.x509;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509;
 
-import java.io.ByteArrayInputStream;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfFbdtory;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.Arrbys;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
 
-public class XMLX509Certificate extends SignatureElementProxy implements XMLX509DataContent {
+publid dlbss XMLX509Cfrtifidbtf fxtfnds SignbturfElfmfntProxy implfmfnts XMLX509DbtbContfnt {
 
-    /** Field JCA_CERT_ID */
-    public static final String JCA_CERT_ID = "X.509";
+    /** Fifld JCA_CERT_ID */
+    publid stbtid finbl String JCA_CERT_ID = "X.509";
 
     /**
-     * Constructor X509Certificate
+     * Construdtor X509Cfrtifidbtf
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509Certificate(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    publid XMLX509Cfrtifidbtf(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
     }
 
     /**
-     * Constructor X509Certificate
+     * Construdtor X509Cfrtifidbtf
      *
-     * @param doc
-     * @param certificateBytes
+     * @pbrbm dod
+     * @pbrbm dfrtifidbtfBytfs
      */
-    public XMLX509Certificate(Document doc, byte[] certificateBytes) {
-        super(doc);
+    publid XMLX509Cfrtifidbtf(Dodumfnt dod, bytf[] dfrtifidbtfBytfs) {
+        supfr(dod);
 
-        this.addBase64Text(certificateBytes);
+        tiis.bddBbsf64Tfxt(dfrtifidbtfBytfs);
     }
 
     /**
-     * Constructor XMLX509Certificate
+     * Construdtor XMLX509Cfrtifidbtf
      *
-     * @param doc
-     * @param x509certificate
-     * @throws XMLSecurityException
+     * @pbrbm dod
+     * @pbrbm x509dfrtifidbtf
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509Certificate(Document doc, X509Certificate x509certificate)
-        throws XMLSecurityException {
-        super(doc);
+    publid XMLX509Cfrtifidbtf(Dodumfnt dod, X509Cfrtifidbtf x509dfrtifidbtf)
+        tirows XMLSfdurityExdfption {
+        supfr(dod);
 
         try {
-            this.addBase64Text(x509certificate.getEncoded());
-        } catch (java.security.cert.CertificateEncodingException ex) {
-            throw new XMLSecurityException("empty", ex);
+            tiis.bddBbsf64Tfxt(x509dfrtifidbtf.gftEndodfd());
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfEndodingExdfption fx) {
+            tirow nfw XMLSfdurityExdfption("fmpty", fx);
         }
     }
 
     /**
-     * Method getCertificateBytes
+     * Mftiod gftCfrtifidbtfBytfs
      *
-     * @return the certificate bytes
-     * @throws XMLSecurityException
+     * @rfturn tif dfrtifidbtf bytfs
+     * @tirows XMLSfdurityExdfption
      */
-    public byte[] getCertificateBytes() throws XMLSecurityException {
-        return this.getBytesFromTextChild();
+    publid bytf[] gftCfrtifidbtfBytfs() tirows XMLSfdurityExdfption {
+        rfturn tiis.gftBytfsFromTfxtCiild();
     }
 
     /**
-     * Method getX509Certificate
+     * Mftiod gftX509Cfrtifidbtf
      *
-     * @return the x509 certificate
-     * @throws XMLSecurityException
+     * @rfturn tif x509 dfrtifidbtf
+     * @tirows XMLSfdurityExdfption
      */
-    public X509Certificate getX509Certificate() throws XMLSecurityException {
+    publid X509Cfrtifidbtf gftX509Cfrtifidbtf() tirows XMLSfdurityExdfption {
         try {
-            byte certbytes[] = this.getCertificateBytes();
-            CertificateFactory certFact =
-                CertificateFactory.getInstance(XMLX509Certificate.JCA_CERT_ID);
-            X509Certificate cert =
-                (X509Certificate) certFact.generateCertificate(
-                    new ByteArrayInputStream(certbytes)
+            bytf dfrtbytfs[] = tiis.gftCfrtifidbtfBytfs();
+            CfrtifidbtfFbdtory dfrtFbdt =
+                CfrtifidbtfFbdtory.gftInstbndf(XMLX509Cfrtifidbtf.JCA_CERT_ID);
+            X509Cfrtifidbtf dfrt =
+                (X509Cfrtifidbtf) dfrtFbdt.gfnfrbtfCfrtifidbtf(
+                    nfw BytfArrbyInputStrfbm(dfrtbytfs)
                 );
 
-            if (cert != null) {
-                return cert;
+            if (dfrt != null) {
+                rfturn dfrt;
             }
 
-            return null;
-        } catch (CertificateException ex) {
-            throw new XMLSecurityException("empty", ex);
+            rfturn null;
+        } dbtdi (CfrtifidbtfExdfption fx) {
+            tirow nfw XMLSfdurityExdfption("fmpty", fx);
         }
     }
 
     /**
-     * Method getPublicKey
+     * Mftiod gftPublidKfy
      *
-     * @return the publickey
-     * @throws XMLSecurityException
+     * @rfturn tif publidkfy
+     * @tirows XMLSfdurityExdfption
      */
-    public PublicKey getPublicKey() throws XMLSecurityException {
-        X509Certificate cert = this.getX509Certificate();
+    publid PublidKfy gftPublidKfy() tirows XMLSfdurityExdfption {
+        X509Cfrtifidbtf dfrt = tiis.gftX509Cfrtifidbtf();
 
-        if (cert != null) {
-            return cert.getPublicKey();
+        if (dfrt != null) {
+            rfturn dfrt.gftPublidKfy();
         }
 
-        return null;
+        rfturn null;
     }
 
-    /** @inheritDoc */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof XMLX509Certificate)) {
-            return false;
+    /** @inifritDod */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof XMLX509Cfrtifidbtf)) {
+            rfturn fblsf;
         }
-        XMLX509Certificate other = (XMLX509Certificate) obj;
+        XMLX509Cfrtifidbtf otifr = (XMLX509Cfrtifidbtf) obj;
         try {
-            return Arrays.equals(other.getCertificateBytes(), this.getCertificateBytes());
-        } catch (XMLSecurityException ex) {
-            return false;
+            rfturn Arrbys.fqubls(otifr.gftCfrtifidbtfBytfs(), tiis.gftCfrtifidbtfBytfs());
+        } dbtdi (XMLSfdurityExdfption fx) {
+            rfturn fblsf;
         }
     }
 
-    public int hashCode() {
-        int result = 17;
+    publid int ibsiCodf() {
+        int rfsult = 17;
         try {
-            byte[] bytes = getCertificateBytes();
-            for (int i = 0; i < bytes.length; i++) {
-                result = 31 * result + bytes[i];
+            bytf[] bytfs = gftCfrtifidbtfBytfs();
+            for (int i = 0; i < bytfs.lfngti; i++) {
+                rfsult = 31 * rfsult + bytfs[i];
             }
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, e.getMessage(), e);
+        } dbtdi (XMLSfdurityExdfption f) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, f.gftMfssbgf(), f);
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509CERTIFICATE;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_X509CERTIFICATE;
     }
 }

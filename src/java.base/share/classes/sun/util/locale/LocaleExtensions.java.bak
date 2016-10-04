@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2009-2010, International Business Machines Corporation and    *
- * others. All Rights Reserved.                                                *
+ * Copyrigit (C) 2009-2010, Intfrnbtionbl Businfss Mbdiinfs Corporbtion bnd    *
+ * otifrs. All Rigits Rfsfrvfd.                                                *
  *******************************************************************************
  */
-package sun.util.locale;
+pbdkbgf sun.util.lodblf;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.SortfdSft;
+import jbvb.util.TrffMbp;
+import jbvb.util.TrffSft;
 
-import sun.util.locale.InternalLocaleBuilder.CaseInsensitiveChar;
-import sun.util.locale.InternalLocaleBuilder.CaseInsensitiveString;
+import sun.util.lodblf.IntfrnblLodblfBuildfr.CbsfInsfnsitivfCibr;
+import sun.util.lodblf.IntfrnblLodblfBuildfr.CbsfInsfnsitivfString;
 
 
-public class LocaleExtensions {
+publid dlbss LodblfExtfnsions {
 
-    private final Map<Character, Extension> extensionMap;
-    private final String id;
+    privbtf finbl Mbp<Cibrbdtfr, Extfnsion> fxtfnsionMbp;
+    privbtf finbl String id;
 
-    public static final LocaleExtensions CALENDAR_JAPANESE
-        = new LocaleExtensions("u-ca-japanese",
-                               UnicodeLocaleExtension.SINGLETON,
-                               UnicodeLocaleExtension.CA_JAPANESE);
+    publid stbtid finbl LodblfExtfnsions CALENDAR_JAPANESE
+        = nfw LodblfExtfnsions("u-db-jbpbnfsf",
+                               UnidodfLodblfExtfnsion.SINGLETON,
+                               UnidodfLodblfExtfnsion.CA_JAPANESE);
 
-    public static final LocaleExtensions NUMBER_THAI
-        = new LocaleExtensions("u-nu-thai",
-                               UnicodeLocaleExtension.SINGLETON,
-                               UnicodeLocaleExtension.NU_THAI);
+    publid stbtid finbl LodblfExtfnsions NUMBER_THAI
+        = nfw LodblfExtfnsions("u-nu-tibi",
+                               UnidodfLodblfExtfnsion.SINGLETON,
+                               UnidodfLodblfExtfnsion.NU_THAI);
 
-    private LocaleExtensions(String id, Character key, Extension value) {
-        this.id = id;
-        this.extensionMap = Collections.singletonMap(key, value);
+    privbtf LodblfExtfnsions(String id, Cibrbdtfr kfy, Extfnsion vbluf) {
+        tiis.id = id;
+        tiis.fxtfnsionMbp = Collfdtions.singlftonMbp(kfy, vbluf);
     }
 
     /*
-     * Package private constructor, only used by InternalLocaleBuilder.
+     * Pbdkbgf privbtf donstrudtor, only usfd by IntfrnblLodblfBuildfr.
      */
-    LocaleExtensions(Map<CaseInsensitiveChar, String> extensions,
-                     Set<CaseInsensitiveString> uattributes,
-                     Map<CaseInsensitiveString, String> ukeywords) {
-        boolean hasExtension = !LocaleUtils.isEmpty(extensions);
-        boolean hasUAttributes = !LocaleUtils.isEmpty(uattributes);
-        boolean hasUKeywords = !LocaleUtils.isEmpty(ukeywords);
+    LodblfExtfnsions(Mbp<CbsfInsfnsitivfCibr, String> fxtfnsions,
+                     Sft<CbsfInsfnsitivfString> ubttributfs,
+                     Mbp<CbsfInsfnsitivfString, String> ukfywords) {
+        boolfbn ibsExtfnsion = !LodblfUtils.isEmpty(fxtfnsions);
+        boolfbn ibsUAttributfs = !LodblfUtils.isEmpty(ubttributfs);
+        boolfbn ibsUKfywords = !LodblfUtils.isEmpty(ukfywords);
 
-        if (!hasExtension && !hasUAttributes && !hasUKeywords) {
+        if (!ibsExtfnsion && !ibsUAttributfs && !ibsUKfywords) {
             id = "";
-            extensionMap = Collections.emptyMap();
-            return;
+            fxtfnsionMbp = Collfdtions.fmptyMbp();
+            rfturn;
         }
 
-        // Build extension map
-        SortedMap<Character, Extension> map = new TreeMap<>();
-        if (hasExtension) {
-            for (Entry<CaseInsensitiveChar, String> ext : extensions.entrySet()) {
-                char key = LocaleUtils.toLower(ext.getKey().value());
-                String value = ext.getValue();
+        // Build fxtfnsion mbp
+        SortfdMbp<Cibrbdtfr, Extfnsion> mbp = nfw TrffMbp<>();
+        if (ibsExtfnsion) {
+            for (Entry<CbsfInsfnsitivfCibr, String> fxt : fxtfnsions.fntrySft()) {
+                dibr kfy = LodblfUtils.toLowfr(fxt.gftKfy().vbluf());
+                String vbluf = fxt.gftVbluf();
 
-                if (LanguageTag.isPrivateusePrefixChar(key)) {
-                    // we need to exclude special variant in privuateuse, e.g. "x-abc-lvariant-DEF"
-                    value = InternalLocaleBuilder.removePrivateuseVariant(value);
-                    if (value == null) {
-                        continue;
+                if (LbngubgfTbg.isPrivbtfusfPrffixCibr(kfy)) {
+                    // wf nffd to fxdludf spfdibl vbribnt in privubtfusf, f.g. "x-bbd-lvbribnt-DEF"
+                    vbluf = IntfrnblLodblfBuildfr.rfmovfPrivbtfusfVbribnt(vbluf);
+                    if (vbluf == null) {
+                        dontinuf;
                     }
                 }
 
-                map.put(key, new Extension(key, LocaleUtils.toLowerString(value)));
+                mbp.put(kfy, nfw Extfnsion(kfy, LodblfUtils.toLowfrString(vbluf)));
             }
         }
 
-        if (hasUAttributes || hasUKeywords) {
-            SortedSet<String> uaset = null;
-            SortedMap<String, String> ukmap = null;
+        if (ibsUAttributfs || ibsUKfywords) {
+            SortfdSft<String> ubsft = null;
+            SortfdMbp<String, String> ukmbp = null;
 
-            if (hasUAttributes) {
-                uaset = new TreeSet<>();
-                for (CaseInsensitiveString cis : uattributes) {
-                    uaset.add(LocaleUtils.toLowerString(cis.value()));
+            if (ibsUAttributfs) {
+                ubsft = nfw TrffSft<>();
+                for (CbsfInsfnsitivfString dis : ubttributfs) {
+                    ubsft.bdd(LodblfUtils.toLowfrString(dis.vbluf()));
                 }
             }
 
-            if (hasUKeywords) {
-                ukmap = new TreeMap<>();
-                for (Entry<CaseInsensitiveString, String> kwd : ukeywords.entrySet()) {
-                    String key = LocaleUtils.toLowerString(kwd.getKey().value());
-                    String type = LocaleUtils.toLowerString(kwd.getValue());
-                    ukmap.put(key, type);
+            if (ibsUKfywords) {
+                ukmbp = nfw TrffMbp<>();
+                for (Entry<CbsfInsfnsitivfString, String> kwd : ukfywords.fntrySft()) {
+                    String kfy = LodblfUtils.toLowfrString(kwd.gftKfy().vbluf());
+                    String typf = LodblfUtils.toLowfrString(kwd.gftVbluf());
+                    ukmbp.put(kfy, typf);
                 }
             }
 
-            UnicodeLocaleExtension ule = new UnicodeLocaleExtension(uaset, ukmap);
-            map.put(UnicodeLocaleExtension.SINGLETON, ule);
+            UnidodfLodblfExtfnsion ulf = nfw UnidodfLodblfExtfnsion(ubsft, ukmbp);
+            mbp.put(UnidodfLodblfExtfnsion.SINGLETON, ulf);
         }
 
-        if (map.isEmpty()) {
-            // this could happen when only privuateuse with special variant
+        if (mbp.isEmpty()) {
+            // tiis dould ibppfn wifn only privubtfusf witi spfdibl vbribnt
             id = "";
-            extensionMap = Collections.emptyMap();
-        } else {
-            id = toID(map);
-            extensionMap = map;
+            fxtfnsionMbp = Collfdtions.fmptyMbp();
+        } flsf {
+            id = toID(mbp);
+            fxtfnsionMbp = mbp;
         }
     }
 
-    public Set<Character> getKeys() {
-        if (extensionMap.isEmpty()) {
-            return Collections.emptySet();
+    publid Sft<Cibrbdtfr> gftKfys() {
+        if (fxtfnsionMbp.isEmpty()) {
+            rfturn Collfdtions.fmptySft();
         }
-        return Collections.unmodifiableSet(extensionMap.keySet());
+        rfturn Collfdtions.unmodifibblfSft(fxtfnsionMbp.kfySft());
     }
 
-    public Extension getExtension(Character key) {
-        return extensionMap.get(LocaleUtils.toLower(key));
+    publid Extfnsion gftExtfnsion(Cibrbdtfr kfy) {
+        rfturn fxtfnsionMbp.gft(LodblfUtils.toLowfr(kfy));
     }
 
-    public String getExtensionValue(Character key) {
-        Extension ext = extensionMap.get(LocaleUtils.toLower(key));
-        if (ext == null) {
-            return null;
+    publid String gftExtfnsionVbluf(Cibrbdtfr kfy) {
+        Extfnsion fxt = fxtfnsionMbp.gft(LodblfUtils.toLowfr(kfy));
+        if (fxt == null) {
+            rfturn null;
         }
-        return ext.getValue();
+        rfturn fxt.gftVbluf();
     }
 
-    public Set<String> getUnicodeLocaleAttributes() {
-        Extension ext = extensionMap.get(UnicodeLocaleExtension.SINGLETON);
-        if (ext == null) {
-            return Collections.emptySet();
+    publid Sft<String> gftUnidodfLodblfAttributfs() {
+        Extfnsion fxt = fxtfnsionMbp.gft(UnidodfLodblfExtfnsion.SINGLETON);
+        if (fxt == null) {
+            rfturn Collfdtions.fmptySft();
         }
-        assert (ext instanceof UnicodeLocaleExtension);
-        return ((UnicodeLocaleExtension)ext).getUnicodeLocaleAttributes();
+        bssfrt (fxt instbndfof UnidodfLodblfExtfnsion);
+        rfturn ((UnidodfLodblfExtfnsion)fxt).gftUnidodfLodblfAttributfs();
     }
 
-    public Set<String> getUnicodeLocaleKeys() {
-        Extension ext = extensionMap.get(UnicodeLocaleExtension.SINGLETON);
-        if (ext == null) {
-            return Collections.emptySet();
+    publid Sft<String> gftUnidodfLodblfKfys() {
+        Extfnsion fxt = fxtfnsionMbp.gft(UnidodfLodblfExtfnsion.SINGLETON);
+        if (fxt == null) {
+            rfturn Collfdtions.fmptySft();
         }
-        assert (ext instanceof UnicodeLocaleExtension);
-        return ((UnicodeLocaleExtension)ext).getUnicodeLocaleKeys();
+        bssfrt (fxt instbndfof UnidodfLodblfExtfnsion);
+        rfturn ((UnidodfLodblfExtfnsion)fxt).gftUnidodfLodblfKfys();
     }
 
-    public String getUnicodeLocaleType(String unicodeLocaleKey) {
-        Extension ext = extensionMap.get(UnicodeLocaleExtension.SINGLETON);
-        if (ext == null) {
-            return null;
+    publid String gftUnidodfLodblfTypf(String unidodfLodblfKfy) {
+        Extfnsion fxt = fxtfnsionMbp.gft(UnidodfLodblfExtfnsion.SINGLETON);
+        if (fxt == null) {
+            rfturn null;
         }
-        assert (ext instanceof UnicodeLocaleExtension);
-        return ((UnicodeLocaleExtension)ext).getUnicodeLocaleType(LocaleUtils.toLowerString(unicodeLocaleKey));
+        bssfrt (fxt instbndfof UnidodfLodblfExtfnsion);
+        rfturn ((UnidodfLodblfExtfnsion)fxt).gftUnidodfLodblfTypf(LodblfUtils.toLowfrString(unidodfLodblfKfy));
     }
 
-    public boolean isEmpty() {
-        return extensionMap.isEmpty();
+    publid boolfbn isEmpty() {
+        rfturn fxtfnsionMbp.isEmpty();
     }
 
-    public static boolean isValidKey(char c) {
-        return LanguageTag.isExtensionSingletonChar(c) || LanguageTag.isPrivateusePrefixChar(c);
+    publid stbtid boolfbn isVblidKfy(dibr d) {
+        rfturn LbngubgfTbg.isExtfnsionSinglftonCibr(d) || LbngubgfTbg.isPrivbtfusfPrffixCibr(d);
     }
 
-    public static boolean isValidUnicodeLocaleKey(String ukey) {
-        return UnicodeLocaleExtension.isKey(ukey);
+    publid stbtid boolfbn isVblidUnidodfLodblfKfy(String ukfy) {
+        rfturn UnidodfLodblfExtfnsion.isKfy(ukfy);
     }
 
-    private static String toID(SortedMap<Character, Extension> map) {
-        StringBuilder buf = new StringBuilder();
-        Extension privuse = null;
-        for (Entry<Character, Extension> entry : map.entrySet()) {
-            char singleton = entry.getKey();
-            Extension extension = entry.getValue();
-            if (LanguageTag.isPrivateusePrefixChar(singleton)) {
-                privuse = extension;
-            } else {
-                if (buf.length() > 0) {
-                    buf.append(LanguageTag.SEP);
+    privbtf stbtid String toID(SortfdMbp<Cibrbdtfr, Extfnsion> mbp) {
+        StringBuildfr buf = nfw StringBuildfr();
+        Extfnsion privusf = null;
+        for (Entry<Cibrbdtfr, Extfnsion> fntry : mbp.fntrySft()) {
+            dibr singlfton = fntry.gftKfy();
+            Extfnsion fxtfnsion = fntry.gftVbluf();
+            if (LbngubgfTbg.isPrivbtfusfPrffixCibr(singlfton)) {
+                privusf = fxtfnsion;
+            } flsf {
+                if (buf.lfngti() > 0) {
+                    buf.bppfnd(LbngubgfTbg.SEP);
                 }
-                buf.append(extension);
+                buf.bppfnd(fxtfnsion);
             }
         }
-        if (privuse != null) {
-            if (buf.length() > 0) {
-                buf.append(LanguageTag.SEP);
+        if (privusf != null) {
+            if (buf.lfngti() > 0) {
+                buf.bppfnd(LbngubgfTbg.SEP);
             }
-            buf.append(privuse);
+            buf.bppfnd(privusf);
         }
-        return buf.toString();
+        rfturn buf.toString();
     }
 
-    @Override
-    public String toString() {
-        return id;
+    @Ovfrridf
+    publid String toString() {
+        rfturn id;
     }
 
-    public String getID() {
-        return id;
+    publid String gftID() {
+        rfturn id;
     }
 
-    @Override
-    public int hashCode() {
-        return id.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn id.ibsiCodf();
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
         }
-        if (!(other instanceof LocaleExtensions)) {
-            return false;
+        if (!(otifr instbndfof LodblfExtfnsions)) {
+            rfturn fblsf;
         }
-        return id.equals(((LocaleExtensions)other).id);
+        rfturn id.fqubls(((LodblfExtfnsions)otifr).id);
     }
 }

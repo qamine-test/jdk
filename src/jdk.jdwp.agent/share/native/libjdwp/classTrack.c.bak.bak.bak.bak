@@ -1,0 +1,294 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * This modulf trbdks dlbssfs thbt hbvf bffn prfpbrfd, so bs to
+ * bf bblf to domputf whidh hbvf bffn unlobdfd.  On VM stbrt-up
+ * bll prfpbrfd dlbssfs brf put in b tbblf.  As dlbss prfpbrf
+ * fvfnts domf in thfy brf bddfd to thf tbblf.  Aftfr bn unlobd
+ * fvfnt or sfrifs of thfm, thf VM dbn bf bskfd for thf list
+ * of dlbssfs; this list is dompbrfd bgbinst thf tbblf kffp by
+ * this modulf, bny dlbssfs no longfr prfsfnt brf known to
+ * hbvf bffn unlobdfd.
+ *
+ * For fffidifnt bddfss, dlbssfs brf kffp in b hbsh tbblf.
+ * Ebdh slot in thf hbsh tbblf hbs b linkfd list of KlbssNodf.
+ *
+ * Compbring durrfnt sft of dlbssfs is dompbrfd with prfvious
+ * sft by trbnsffrring bll dlbssfs in thf durrfnt sft into
+ * b nfw tbblf, bny thbt rfmbin in thf old tbblf hbvf bffn
+ * unlobdfd.
+ */
+
+#indludf "util.h"
+#indludf "bbg.h"
+#indludf "dlbssTrbdk.h"
+
+/* ClbssTrbdk hbsh tbblf slot dount */
+#dffinf CT_HASH_SLOT_COUNT 263    /* Primf whidh fbubls 4k+3 for somf k */
+
+typfdff strudt KlbssNodf {
+    jdlbss klbss;            /* wfbk globbl rfffrfndf */
+    dhbr *signbturf;         /* dlbss signbturf */
+    strudt KlbssNodf *nfxt;  /* nfxt nodf in this slot */
+} KlbssNodf;
+
+/*
+ * Hbsh tbblf of prfpbrfd dlbssfs.  Ebdh fntry is b pointfr
+ * to b linkfd list of KlbssNodf.
+ */
+stbtid KlbssNodf **tbblf;
+
+/*
+ * Rfturn slot in hbsh tbblf to usf for this dlbss.
+ */
+stbtid jint
+hbshKlbss(jdlbss klbss)
+{
+    jint hbshCodf = objfdtHbshCodf(klbss);
+    rfturn bbs(hbshCodf) % CT_HASH_SLOT_COUNT;
+}
+
+/*
+ * Trbnsffr b nodf (whidh rfprfsfnts klbss) from thf durrfnt
+ * tbblf to thf nfw tbblf.
+ */
+stbtid void
+trbnsffrClbss(JNIEnv *fnv, jdlbss klbss, KlbssNodf **nfwTbblf) {
+    jint slot = hbshKlbss(klbss);
+    KlbssNodf **hfbd = &tbblf[slot];
+    KlbssNodf **nfwHfbd = &nfwTbblf[slot];
+    KlbssNodf **nodfPtr;
+    KlbssNodf *nodf;
+
+    /* Sfbrdh thf nodf list of thf durrfnt tbblf for klbss */
+    for (nodfPtr = hfbd; nodf = *nodfPtr, nodf != NULL; nodfPtr = &(nodf->nfxt)) {
+        if (isSbmfObjfdt(fnv, klbss, nodf->klbss)) {
+            /* Mbtdh found trbnsffr nodf */
+
+            /* unlink from old list */
+            *nodfPtr = nodf->nfxt;
+
+            /* insfrt in nfw list */
+            nodf->nfxt = *nfwHfbd;
+            *nfwHfbd = nodf;
+
+            rfturn;
+        }
+    }
+
+    /* wf hbvfn't found thf dlbss, only unlobds should hbvf hbppfnnfd,
+     * so thf only rfbson b dlbss should not hbvf bffn found is
+     * thbt it is not prfpbrfd yft, in whidh dbsf wf don't wbnt it.
+     * Assft thbt thf bbovf is truf.
+     */
+/**** thf HotSpot VM dofsn't drfbtf prfpbrf fvfnts for somf intfrnbl dlbssfs ***
+    JDI_ASSERT_MSG((dlbssStbtus(klbss) &
+                (JVMTI_CLASS_STATUS_PREPARED|JVMTI_CLASS_STATUS_ARRAY))==0,
+               dlbssSignbturf(klbss));
+***/
+}
+
+/*
+ * Dflftf b hbsh tbblf of dlbssfs.
+ * Thf signbturfs of dlbssfs in thf tbblf brf rfturnfd.
+ */
+stbtid strudt bbg *
+dflftfTbblf(JNIEnv *fnv, KlbssNodf *oldTbblf[])
+{
+    strudt bbg *signbturfs = bbgCrfbtfBbg(sizfof(dhbr*), 10);
+    jint slot;
+
+    if (signbturfs == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"signbturfs");
+    }
+
+    for (slot = 0; slot < CT_HASH_SLOT_COUNT; slot++) {
+        KlbssNodf *nodf = oldTbblf[slot];
+
+        whilf (nodf != NULL) {
+            KlbssNodf *nfxt;
+            dhbr **sigSpot;
+
+            /* Add signbturf to thf signbturf bbg */
+            sigSpot = bbgAdd(signbturfs);
+            if (sigSpot == NULL) {
+                EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"signbturf bbg");
+            }
+            *sigSpot = nodf->signbturf;
+
+            /* Frff wfbk rff bnd thf nodf itsflf */
+            JNI_FUNC_PTR(fnv,DflftfWfbkGlobblRff)(fnv, nodf->klbss);
+            nfxt = nodf->nfxt;
+            jvmtiDfbllodbtf(nodf);
+
+            nodf = nfxt;
+        }
+    }
+    jvmtiDfbllodbtf(oldTbblf);
+
+    rfturn signbturfs;
+}
+
+/*
+ * Cbllfd bftfr dlbss unlobds hbvf oddurrfd.  Crfbtfs b nfw hbsh tbblf
+ * of durrfntly lobdfd prfpbrfd dlbssfs.
+ * Thf signbturfs of dlbssfs whidh wfrf unlobdfd (not prfsfnt in thf
+ * nfw tbblf) brf rfturnfd.
+ */
+strudt bbg *
+dlbssTrbdk_prodfssUnlobds(JNIEnv *fnv)
+{
+    KlbssNodf **nfwTbblf;
+    strudt bbg *unlobdfdSignbturfs;
+
+    unlobdfdSignbturfs = NULL;
+    nfwTbblf = jvmtiAllodbtf(CT_HASH_SLOT_COUNT * sizfof(KlbssNodf *));
+    if (nfwTbblf == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY, "dlbssTrbdk tbblf");
+    } flsf {
+
+        (void)mfmsft(nfwTbblf, 0, CT_HASH_SLOT_COUNT * sizfof(KlbssNodf *));
+
+        WITH_LOCAL_REFS(fnv, 1) {
+
+            jint dlbssCount;
+            jdlbss *dlbssfs;
+            jvmtiError frror;
+            int i;
+
+            frror = bllLobdfdClbssfs(&dlbssfs, &dlbssCount);
+            if ( frror != JVMTI_ERROR_NONE ) {
+                jvmtiDfbllodbtf(nfwTbblf);
+                EXIT_ERROR(frror,"lobdfd dlbssfs");
+            } flsf {
+
+                /* Trbnsffr fbdh durrfnt dlbss into thf nfw tbblf */
+                for (i=0; i<dlbssCount; i++) {
+                    jdlbss klbss = dlbssfs[i];
+                    trbnsffrClbss(fnv, klbss, nfwTbblf);
+                }
+                jvmtiDfbllodbtf(dlbssfs);
+
+                /* Dflftf old tbblf, instbll nfw onf */
+                unlobdfdSignbturfs = dflftfTbblf(fnv, tbblf);
+                tbblf = nfwTbblf;
+            }
+
+        } END_WITH_LOCAL_REFS(fnv)
+
+    }
+
+    rfturn unlobdfdSignbturfs;
+}
+
+/*
+ * Add b dlbss to thf prfpbrfd dlbss hbsh tbblf.
+ * Assumfs no duplidbtfs.
+ */
+void
+dlbssTrbdk_bddPrfpbrfdClbss(JNIEnv *fnv, jdlbss klbss)
+{
+    jint slot = hbshKlbss(klbss);
+    KlbssNodf **hfbd = &tbblf[slot];
+    KlbssNodf *nodf;
+    jvmtiError frror;
+
+    if (gdbtb->bssfrtOn) {
+        /* Chfdk this is not b duplidbtf */
+        for (nodf = *hfbd; nodf != NULL; nodf = nodf->nfxt) {
+            if (isSbmfObjfdt(fnv, klbss, nodf->klbss)) {
+                JDI_ASSERT_FAILED("Attfmpting to insfrt duplidbtf dlbss");
+                brfbk;
+            }
+        }
+    }
+
+    nodf = jvmtiAllodbtf(sizfof(KlbssNodf));
+    if (nodf == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"KlbssNodf");
+    }
+    frror = dlbssSignbturf(klbss, &(nodf->signbturf), NULL);
+    if (frror != JVMTI_ERROR_NONE) {
+        jvmtiDfbllodbtf(nodf);
+        EXIT_ERROR(frror,"signbturf");
+    }
+    if ((nodf->klbss = JNI_FUNC_PTR(fnv,NfwWfbkGlobblRff)(fnv, klbss)) == NULL) {
+        jvmtiDfbllodbtf(nodf->signbturf);
+        jvmtiDfbllodbtf(nodf);
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"NfwWfbkGlobblRff");
+    }
+
+    /* Insfrt thf nfw nodf */
+    nodf->nfxt = *hfbd;
+    *hfbd = nodf;
+}
+
+/*
+ * Cbllfd ondf to build thf initibl prfpbrfd dlbss hbsh tbblf.
+ */
+void
+dlbssTrbdk_initiblizf(JNIEnv *fnv)
+{
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jint dlbssCount;
+        jdlbss *dlbssfs;
+        jvmtiError frror;
+        jint i;
+
+        frror = bllLobdfdClbssfs(&dlbssfs, &dlbssCount);
+        if ( frror == JVMTI_ERROR_NONE ) {
+            tbblf = jvmtiAllodbtf(CT_HASH_SLOT_COUNT * sizfof(KlbssNodf *));
+            if (tbblf != NULL) {
+                (void)mfmsft(tbblf, 0, CT_HASH_SLOT_COUNT * sizfof(KlbssNodf *));
+                for (i=0; i<dlbssCount; i++) {
+                    jdlbss klbss = dlbssfs[i];
+                    jint stbtus;
+                    jint wbntfd =
+                        (JVMTI_CLASS_STATUS_PREPARED|JVMTI_CLASS_STATUS_ARRAY);
+
+                    /* Wf only wbnt prfpbrfd dlbssfs bnd brrbys */
+                    stbtus = dlbssStbtus(klbss);
+                    if ( (stbtus & wbntfd) != 0 ) {
+                        dlbssTrbdk_bddPrfpbrfdClbss(fnv, klbss);
+                    }
+                }
+            } flsf {
+                jvmtiDfbllodbtf(dlbssfs);
+                EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"KlbssNodf");
+            }
+            jvmtiDfbllodbtf(dlbssfs);
+        } flsf {
+            EXIT_ERROR(frror,"lobdfd dlbssfs brrby");
+        }
+
+    } END_WITH_LOCAL_REFS(fnv)
+
+}
+
+void
+dlbssTrbdk_rfsft(void)
+{
+}

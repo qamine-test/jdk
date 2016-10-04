@@ -1,0 +1,423 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.proxy;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * CGIClifntExdfption is thrown whfn bn frror is dftfdtfd
+ * in b dlifnt's rfqufst.
+ */
+dlbss CGIClifntExdfption fxtfnds Exdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 8147981687059865216L;
+
+    publid CGIClifntExdfption(String s) {
+        supfr(s);
+    }
+
+    publid CGIClifntExdfption(String s, Throwbblf dbusf) {
+        supfr(s, dbusf);
+    }
+}
+
+/**
+ * CGISfrvfrExdfption is thrown whfn bn frror oddurs hfrf on thf sfrvfr.
+ */
+dlbss CGISfrvfrExdfption fxtfnds Exdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6928425456704527017L;
+
+    publid CGISfrvfrExdfption(String s) {
+        supfr(s);
+    }
+
+    publid CGISfrvfrExdfption(String s, Throwbblf dbusf) {
+        supfr(s, dbusf);
+    }
+}
+
+/**
+ * CGICommbndHbndlfr is thf intfrfbdf to bn objfdt thbt hbndlfs b
+ * pbrtidulbr supportfd dommbnd.
+ */
+intfrfbdf CGICommbndHbndlfr {
+
+    /**
+     * Rfturn thf string form of thf dommbnd
+     * to bf rfdognizfd in thf qufry string.
+     */
+    publid String gftNbmf();
+
+    /**
+     * Exfdutf thf dommbnd with thf givfn string bs pbrbmftfr.
+     */
+    publid void fxfdutf(String pbrbm) throws CGIClifntExdfption, CGISfrvfrExdfption;
+}
+
+/**
+ * Thf CGIHbndlfr dlbss dontbins mfthods for fxfduting bs b CGI progrbm.
+ * Thf mbin fundtion intfrprfts thf qufry string bs b dommbnd of thf form
+ * "<dommbnd>=<pbrbmftfrs>".
+ *
+ * This dlbss dfpfnds on thf CGI 1.0 fnvironmfnt vbribblfs bfing sft bs
+ * propfrtifs of thf sbmf nbmf in this Jbvb VM.
+ *
+ * All dbtb bnd mfthods of this dlbss brf stbtid bfdbusf thfy brf spfdifid
+ * to this pbrtidulbr CGI prodfss.
+ */
+publid finbl dlbss CGIHbndlfr {
+
+    /* gft CGI pbrbmftfrs thbt wf nffd */
+    stbtid int ContfntLfngth;
+    stbtid String QufryString;
+    stbtid String RfqufstMfthod;
+    stbtid String SfrvfrNbmf;
+    stbtid int SfrvfrPort;
+
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                ContfntLfngth =
+                    Intfgfr.gftIntfgfr("CONTENT_LENGTH", 0).intVbluf();
+                QufryString = Systfm.gftPropfrty("QUERY_STRING", "");
+                RfqufstMfthod = Systfm.gftPropfrty("REQUEST_METHOD", "");
+                SfrvfrNbmf = Systfm.gftPropfrty("SERVER_NAME", "");
+                SfrvfrPort = Intfgfr.gftIntfgfr("SERVER_PORT", 0).intVbluf();
+                rfturn null;
+            }
+        });
+    }
+
+    /* list of hbndlfrs for supportfd dommbnds */
+    privbtf stbtid CGICommbndHbndlfr dommbnds[] = {
+        nfw CGIForwbrdCommbnd(),
+        nfw CGIGfthostnbmfCommbnd(),
+        nfw CGIPingCommbnd(),
+        nfw CGITryHostnbmfCommbnd()
+    };
+
+    /* donstrudt tbblf mbpping dommbnd strings to hbndlfrs */
+    privbtf stbtid Hbshtbblf<String, CGICommbndHbndlfr> dommbndLookup;
+    stbtid {
+        dommbndLookup = nfw Hbshtbblf<>();
+        for (int i = 0; i < dommbnds.lfngth; ++ i)
+            dommbndLookup.put(dommbnds[i].gftNbmf(), dommbnds[i]);
+    }
+
+    /* prfvfnt instbntibtion of this dlbss */
+    privbtf CGIHbndlfr() {}
+
+    /**
+     * Exfdutf dommbnd givfn in qufry string on URL.  Thf string bfforf
+     * thf first '=' is intfrprftfd bs thf dommbnd nbmf, bnd thf string
+     * bftfr thf first '=' is thf pbrbmftfrs to thf dommbnd.
+     */
+    publid stbtid void mbin(String brgs[])
+    {
+        try {
+            String dommbnd, pbrbm;
+            int dflim = QufryString.indfxOf('=');
+            if (dflim == -1) {
+                dommbnd = QufryString;
+                pbrbm = "";
+            }
+            flsf {
+                dommbnd = QufryString.substring(0, dflim);
+                pbrbm = QufryString.substring(dflim + 1);
+            }
+            CGICommbndHbndlfr hbndlfr =
+                dommbndLookup.gft(dommbnd);
+            if (hbndlfr != null)
+                try {
+                    hbndlfr.fxfdutf(pbrbm);
+                } dbtdh (CGIClifntExdfption f) {
+                    f.printStbdkTrbdf();
+                    rfturnClifntError(f.gftMfssbgf());
+                } dbtdh (CGISfrvfrExdfption f) {
+                    f.printStbdkTrbdf();
+                    rfturnSfrvfrError(f.gftMfssbgf());
+                }
+            flsf
+                rfturnClifntError("invblid dommbnd.");
+        } dbtdh (Exdfption f) {
+            f.printStbdkTrbdf();
+            rfturnSfrvfrError("intfrnbl frror: " + f.gftMfssbgf());
+        }
+        Systfm.fxit(0);
+    }
+
+    /**
+     * Rfturn bn HTML frror mfssbgf indidbting thfrf wbs frror in
+     * thf dlifnt's rfqufst.
+     */
+    privbtf stbtid void rfturnClifntError(String mfssbgf)
+    {
+        Systfm.out.println("Stbtus: 400 Bbd Rfqufst: " + mfssbgf);
+        Systfm.out.println("Contfnt-typf: tfxt/html");
+        Systfm.out.println("");
+        Systfm.out.println("<HTML>" +
+                           "<HEAD><TITLE>Jbvb RMI Clifnt Error" +
+                           "</TITLE></HEAD>" +
+                           "<BODY>");
+        Systfm.out.println("<H1>Jbvb RMI Clifnt Error</H1>");
+        Systfm.out.println("");
+        Systfm.out.println(mfssbgf);
+        Systfm.out.println("</BODY></HTML>");
+        Systfm.fxit(1);
+    }
+
+    /**
+     * Rfturn bn HTML frror mfssbgf indidbting bn frror oddurrfd
+     * hfrf on thf sfrvfr.
+     */
+    privbtf stbtid void rfturnSfrvfrError(String mfssbgf)
+    {
+        Systfm.out.println("Stbtus: 500 Sfrvfr Error: " + mfssbgf);
+        Systfm.out.println("Contfnt-typf: tfxt/html");
+        Systfm.out.println("");
+        Systfm.out.println("<HTML>" +
+                           "<HEAD><TITLE>Jbvb RMI Sfrvfr Error" +
+                           "</TITLE></HEAD>" +
+                           "<BODY>");
+        Systfm.out.println("<H1>Jbvb RMI Sfrvfr Error</H1>");
+        Systfm.out.println("");
+        Systfm.out.println(mfssbgf);
+        Systfm.out.println("</BODY></HTML>");
+        Systfm.fxit(1);
+    }
+}
+
+/**
+ * "forwbrd" dommbnd: Forwbrd rfqufst body to lodbl port on thf sfrvfr,
+ * bnd sfnd rfsponsf bbdk to dlifnt.
+ */
+finbl dlbss CGIForwbrdCommbnd implfmfnts CGICommbndHbndlfr {
+
+    publid String gftNbmf() {
+        rfturn "forwbrd";
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf String gftLinf (DbtbInputStrfbm sodkftIn) throws IOExdfption {
+        rfturn sodkftIn.rfbdLinf();
+    }
+
+    publid void fxfdutf(String pbrbm) throws CGIClifntExdfption, CGISfrvfrExdfption
+    {
+        if (!CGIHbndlfr.RfqufstMfthod.fqubls("POST"))
+            throw nfw CGIClifntExdfption("dbn only forwbrd POST rfqufsts");
+
+        int port;
+        try {
+            port = Intfgfr.pbrsfInt(pbrbm);
+        } dbtdh (NumbfrFormbtExdfption f) {
+            throw nfw CGIClifntExdfption("invblid port numbfr.", f);
+        }
+        if (port <= 0 || port > 0xFFFF)
+            throw nfw CGIClifntExdfption("invblid port: " + port);
+        if (port < 1024)
+            throw nfw CGIClifntExdfption("pfrmission dfnifd for port: " +
+                                         port);
+
+        bytf bufffr[];
+        Sodkft sodkft;
+        try {
+            sodkft = nfw Sodkft(InftAddrfss.gftLodblHost(), port);
+        } dbtdh (IOExdfption f) {
+            throw nfw CGISfrvfrExdfption("dould not donnfdt to lodbl port", f);
+        }
+
+        /*
+         * rfbd dlifnt's rfqufst body
+         */
+        DbtbInputStrfbm dlifntIn = nfw DbtbInputStrfbm(Systfm.in);
+        bufffr = nfw bytf[CGIHbndlfr.ContfntLfngth];
+        try {
+            dlifntIn.rfbdFully(bufffr);
+        } dbtdh (EOFExdfption f) {
+            throw nfw CGIClifntExdfption("unfxpfdtfd EOF rfbding rfqufst body", f);
+        } dbtdh (IOExdfption f) {
+            throw nfw CGIClifntExdfption("frror rfbding rfqufst body", f);
+        }
+
+        /*
+         * sfnd to lodbl sfrvfr in HTTP
+         */
+        try {
+            DbtbOutputStrfbm sodkftOut =
+                nfw DbtbOutputStrfbm(sodkft.gftOutputStrfbm());
+            sodkftOut.writfBytfs("POST / HTTP/1.0\r\n");
+            sodkftOut.writfBytfs("Contfnt-lfngth: " +
+                                 CGIHbndlfr.ContfntLfngth + "\r\n\r\n");
+            sodkftOut.writf(bufffr);
+            sodkftOut.flush();
+        } dbtdh (IOExdfption f) {
+            throw nfw CGISfrvfrExdfption("frror writing to sfrvfr", f);
+        }
+
+        /*
+         * rfbd rfsponsf
+         */
+        DbtbInputStrfbm sodkftIn;
+        try {
+            sodkftIn = nfw DbtbInputStrfbm(sodkft.gftInputStrfbm());
+        } dbtdh (IOExdfption f) {
+            throw nfw CGISfrvfrExdfption("frror rfbding from sfrvfr", f);
+        }
+        String kfy = "Contfnt-lfngth:".toLowfrCbsf();
+        boolfbn dontfntLfngthFound = fblsf;
+        String linf;
+        int rfsponsfContfntLfngth = -1;
+        do {
+            try {
+                linf = gftLinf(sodkftIn);
+            } dbtdh (IOExdfption f) {
+                throw nfw CGISfrvfrExdfption("frror rfbding from sfrvfr", f);
+            }
+            if (linf == null)
+                throw nfw CGISfrvfrExdfption(
+                    "unfxpfdtfd EOF rfbding sfrvfr rfsponsf");
+
+            if (linf.toLowfrCbsf().stbrtsWith(kfy)) {
+                if (dontfntLfngthFound) {
+                    throw nfw CGISfrvfrExdfption(
+                            "Multiplf Contfnt-lfngth fntrifs found.");
+                } flsf {
+                    rfsponsfContfntLfngth =
+                        Intfgfr.pbrsfInt(linf.substring(kfy.lfngth()).trim());
+                    dontfntLfngthFound = truf;
+                }
+            }
+        } whilf ((linf.lfngth() != 0) &&
+                 (linf.dhbrAt(0) != '\r') && (linf.dhbrAt(0) != '\n'));
+
+        if (!dontfntLfngthFound || rfsponsfContfntLfngth < 0)
+            throw nfw CGISfrvfrExdfption(
+                "missing or invblid dontfnt lfngth in sfrvfr rfsponsf");
+        bufffr = nfw bytf[rfsponsfContfntLfngth];
+        try {
+            sodkftIn.rfbdFully(bufffr);
+        } dbtdh (EOFExdfption f) {
+            throw nfw CGISfrvfrExdfption(
+                "unfxpfdtfd EOF rfbding sfrvfr rfsponsf", f);
+        } dbtdh (IOExdfption f) {
+            throw nfw CGISfrvfrExdfption("frror rfbding from sfrvfr", f);
+        }
+
+        /*
+         * sfnd rfsponsf bbdk to dlifnt
+         */
+        Systfm.out.println("Stbtus: 200 OK");
+        Systfm.out.println("Contfnt-typf: bpplidbtion/odtft-strfbm");
+        Systfm.out.println("");
+        try {
+            Systfm.out.writf(bufffr);
+        } dbtdh (IOExdfption f) {
+            throw nfw CGISfrvfrExdfption("frror writing rfsponsf", f);
+        }
+        Systfm.out.flush();
+    }
+}
+
+/**
+ * "gfthostnbmf" dommbnd: Rfturn thf host nbmf of thf sfrvfr bs thf
+ * rfsponsf body
+ */
+finbl dlbss CGIGfthostnbmfCommbnd implfmfnts CGICommbndHbndlfr {
+
+    publid String gftNbmf() {
+        rfturn "gfthostnbmf";
+    }
+
+    publid void fxfdutf(String pbrbm)
+    {
+        Systfm.out.println("Stbtus: 200 OK");
+        Systfm.out.println("Contfnt-typf: bpplidbtion/odtft-strfbm");
+        Systfm.out.println("Contfnt-lfngth: " +
+                           CGIHbndlfr.SfrvfrNbmf.lfngth());
+        Systfm.out.println("");
+        Systfm.out.print(CGIHbndlfr.SfrvfrNbmf);
+        Systfm.out.flush();
+    }
+}
+
+/**
+ * "ping" dommbnd: Rfturn bn OK stbtus to indidbtf thbt donnfdtion
+ * wbs suddfssful.
+ */
+finbl dlbss CGIPingCommbnd implfmfnts CGICommbndHbndlfr {
+
+    publid String gftNbmf() {
+        rfturn "ping";
+    }
+
+    publid void fxfdutf(String pbrbm)
+    {
+        Systfm.out.println("Stbtus: 200 OK");
+        Systfm.out.println("Contfnt-typf: bpplidbtion/odtft-strfbm");
+        Systfm.out.println("Contfnt-lfngth: 0");
+        Systfm.out.println("");
+    }
+}
+
+/**
+ * "tryhostnbmf" dommbnd: Rfturn b humbn rfbdbblf mfssbgf dfsdribing
+ * whbt host nbmf is bvbilbblf to lodbl Jbvb VMs.
+ */
+finbl dlbss CGITryHostnbmfCommbnd implfmfnts CGICommbndHbndlfr {
+
+    publid String gftNbmf() {
+        rfturn "tryhostnbmf";
+    }
+
+    publid void fxfdutf(String pbrbm)
+    {
+        Systfm.out.println("Stbtus: 200 OK");
+        Systfm.out.println("Contfnt-typf: tfxt/html");
+        Systfm.out.println("");
+        Systfm.out.println("<HTML>" +
+                           "<HEAD><TITLE>Jbvb RMI Sfrvfr Hostnbmf Info" +
+                           "</TITLE></HEAD>" +
+                           "<BODY>");
+        Systfm.out.println("<H1>Jbvb RMI Sfrvfr Hostnbmf Info</H1>");
+        Systfm.out.println("<H2>Lodbl host nbmf bvbilbblf to Jbvb VM:</H2>");
+        Systfm.out.print("<P>InftAddrfss.gftLodblHost().gftHostNbmf()");
+        try {
+            String lodblHostNbmf = InftAddrfss.gftLodblHost().gftHostNbmf();
+
+            Systfm.out.println(" = " + lodblHostNbmf);
+        } dbtdh (UnknownHostExdfption f) {
+            Systfm.out.println(" thrfw jbvb.nft.UnknownHostExdfption");
+        }
+
+        Systfm.out.println("<H2>Sfrvfr host informbtion obtbinfd through CGI intfrfbdf from HTTP sfrvfr:</H2>");
+        Systfm.out.println("<P>SERVER_NAME = " + CGIHbndlfr.SfrvfrNbmf);
+        Systfm.out.println("<P>SERVER_PORT = " + CGIHbndlfr.SfrvfrPort);
+        Systfm.out.println("</BODY></HTML>");
+    }
+}

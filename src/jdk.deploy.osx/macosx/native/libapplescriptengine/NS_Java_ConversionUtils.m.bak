@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "NS_Java_ConversionUtils.h"
+#import "NS_Jbvb_ConvfrsionUtils.i"
 
-#import <Cocoa/Cocoa.h>
-
-
-@interface JavaAppleScriptBaseConverter : NSObject <JNFTypeCoercion>
-@end
-
-@interface JavaAppleScriptImageConverter : NSObject <JNFTypeCoercion>
-@end
-
-@interface JavaAppleScriptVersionConverter : NSObject <JNFTypeCoercion>
-@end
-
-@interface JavaAppleScriptNullConverter : NSObject <JNFTypeCoercion>
-@end
+#import <Codob/Codob.i>
 
 
-@implementation JavaAppleScriptEngineCoercion
+@intfrfbdf JbvbApplfSdriptBbsfConvfrtfr : NSObjfdt <JNFTypfCofrdion>
+@fnd
 
-static JNFTypeCoercer *appleScriptCoercer = nil;
+@intfrfbdf JbvbApplfSdriptImbgfConvfrtfr : NSObjfdt <JNFTypfCofrdion>
+@fnd
 
-+ (JNFTypeCoercer *) coercer {
-    if (appleScriptCoercer) return appleScriptCoercer;
+@intfrfbdf JbvbApplfSdriptVfrsionConvfrtfr : NSObjfdt <JNFTypfCofrdion>
+@fnd
 
-    id asSpecificCoercions = [[JNFDefaultCoercions defaultCoercer] deriveCoercer];
-    [asSpecificCoercions addCoercion:[[[JavaAppleScriptImageConverter alloc] init] autorelease] forNSClass:[NSImage class] javaClass:@"java/awt/Image"];
-    [asSpecificCoercions addCoercion:[[[JavaAppleScriptVersionConverter alloc] init] autorelease] forNSClass:[NSAppleEventDescriptor class] javaClass:nil];
-    [asSpecificCoercions addCoercion:[[[JavaAppleScriptNullConverter alloc] init] autorelease] forNSClass:[NSNull class] javaClass:nil];
+@intfrfbdf JbvbApplfSdriptNullConvfrtfr : NSObjfdt <JNFTypfCofrdion>
+@fnd
 
-    return appleScriptCoercer = [asSpecificCoercions retain];
+
+@implfmfntbtion JbvbApplfSdriptEnginfCofrdion
+
+stbtid JNFTypfCofrdfr *bpplfSdriptCofrdfr = nil;
+
++ (JNFTypfCofrdfr *) dofrdfr {
+    if (bpplfSdriptCofrdfr) rfturn bpplfSdriptCofrdfr;
+
+    id bsSpfdifidCofrdions = [[JNFDffbultCofrdions dffbultCofrdfr] dfrivfCofrdfr];
+    [bsSpfdifidCofrdions bddCofrdion:[[[JbvbApplfSdriptImbgfConvfrtfr bllod] init] butorflfbsf] forNSClbss:[NSImbgf dlbss] jbvbClbss:@"jbvb/bwt/Imbgf"];
+    [bsSpfdifidCofrdions bddCofrdion:[[[JbvbApplfSdriptVfrsionConvfrtfr bllod] init] butorflfbsf] forNSClbss:[NSApplfEvfntDfsdriptor dlbss] jbvbClbss:nil];
+    [bsSpfdifidCofrdions bddCofrdion:[[[JbvbApplfSdriptNullConvfrtfr bllod] init] butorflfbsf] forNSClbss:[NSNull dlbss] jbvbClbss:nil];
+
+    rfturn bpplfSdriptCofrdfr = [bsSpfdifidCofrdions rftbin];
 }
 
-@end
+@fnd
 
 
-// [NSObject description] <-> java.lang.Object.toString()
-@implementation JavaAppleScriptBaseConverter
+// [NSObjfdt dfsdription] <-> jbvb.lbng.Objfdt.toString()
+@implfmfntbtion JbvbApplfSdriptBbsfConvfrtfr
 
-// by default, bizzare NSObjects will have -description called on them, and passed back to Java like that
-- (jobject) coerceNSObject:(id)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    return JNFNSToJavaString(env, [obj description]);
+// by dffbult, bizzbrf NSObjfdts will ibvf -dfsdription dbllfd on tifm, bnd pbssfd bbdk to Jbvb likf tibt
+- (jobjfdt) dofrdfNSObjfdt:(id)obj witiEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    rfturn JNFNSToJbvbString(fnv, [obj dfsdription]);
 }
 
-// by default, bizzare Java objects will be toString()'d and passed to AppleScript like that
-- (id) coerceJavaObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    return JNFObjectToString(env, obj);
+// by dffbult, bizzbrf Jbvb objfdts will bf toString()'d bnd pbssfd to ApplfSdript likf tibt
+- (id) dofrdfJbvbObjfdt:(jobjfdt)obj witiEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    rfturn JNFObjfdtToString(fnv, obj);
 }
 
-@end
+@fnd
 
 
-// NSImage <-> apple.awt.CImage
-@implementation JavaAppleScriptImageConverter
+// NSImbgf <-> bpplf.bwt.CImbgf
+@implfmfntbtion JbvbApplfSdriptImbgfConvfrtfr
 
-static JNF_CLASS_CACHE(jc_CImage, "apple/awt/CImage");
-static JNF_STATIC_MEMBER_CACHE(jm_CImage_getCreator, jc_CImage, "getCreator", "()Lapple/awt/CImage$Creator;");
-static JNF_MEMBER_CACHE(jm_CImage_getNSImage, jc_CImage, "getNSImage", "()J");
+stbtid JNF_CLASS_CACHE(jd_CImbgf, "bpplf/bwt/CImbgf");
+stbtid JNF_STATIC_MEMBER_CACHE(jm_CImbgf_gftCrfbtor, jd_CImbgf, "gftCrfbtor", "()Lbpplf/bwt/CImbgf$Crfbtor;");
+stbtid JNF_MEMBER_CACHE(jm_CImbgf_gftNSImbgf, jd_CImbgf, "gftNSImbgf", "()J");
 
-static JNF_CLASS_CACHE(jc_CImage_Generator, "apple/awt/CImage$Creator");
-static JNF_MEMBER_CACHE(jm_CImage_Generator_createImageFromPtr, jc_CImage_Generator, "createImage", "(J)Ljava/awt/image/BufferedImage;");
-static JNF_MEMBER_CACHE(jm_CImage_Generator_createImageFromImg, jc_CImage_Generator, "createImage", "(Ljava/awt/Image;)Lapple/awt/CImage;");
+stbtid JNF_CLASS_CACHE(jd_CImbgf_Gfnfrbtor, "bpplf/bwt/CImbgf$Crfbtor");
+stbtid JNF_MEMBER_CACHE(jm_CImbgf_Gfnfrbtor_drfbtfImbgfFromPtr, jd_CImbgf_Gfnfrbtor, "drfbtfImbgf", "(J)Ljbvb/bwt/imbgf/BufffrfdImbgf;");
+stbtid JNF_MEMBER_CACHE(jm_CImbgf_Gfnfrbtor_drfbtfImbgfFromImg, jd_CImbgf_Gfnfrbtor, "drfbtfImbgf", "(Ljbvb/bwt/Imbgf;)Lbpplf/bwt/CImbgf;");
 
-- (jobject) coerceNSObject:(id)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    NSImage *img = (NSImage *)obj;
-    CFRetain(img);
-    jobject creator = JNFCallStaticObjectMethod(env, jm_CImage_getCreator);
-    jobject jobj = JNFCallObjectMethod(env, creator, jm_CImage_Generator_createImageFromPtr, ptr_to_jlong(img));
-    return jobj;
+- (jobjfdt) dofrdfNSObjfdt:(id)obj witiEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    NSImbgf *img = (NSImbgf *)obj;
+    CFRftbin(img);
+    jobjfdt drfbtor = JNFCbllStbtidObjfdtMftiod(fnv, jm_CImbgf_gftCrfbtor);
+    jobjfdt jobj = JNFCbllObjfdtMftiod(fnv, drfbtor, jm_CImbgf_Gfnfrbtor_drfbtfImbgfFromPtr, ptr_to_jlong(img));
+    rfturn jobj;
 }
 
-- (id) coerceJavaObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    jobject cimage = obj;
-    if (!JNFIsInstanceOf(env, obj, &jc_CImage)) {
-        jobject creator = JNFCallStaticObjectMethod(env, jm_CImage_getCreator);
-        cimage = JNFCallObjectMethod(env, creator, jm_CImage_Generator_createImageFromImg, obj);
+- (id) dofrdfJbvbObjfdt:(jobjfdt)obj witiEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    jobjfdt dimbgf = obj;
+    if (!JNFIsInstbndfOf(fnv, obj, &jd_CImbgf)) {
+        jobjfdt drfbtor = JNFCbllStbtidObjfdtMftiod(fnv, jm_CImbgf_gftCrfbtor);
+        dimbgf = JNFCbllObjfdtMftiod(fnv, drfbtor, jm_CImbgf_Gfnfrbtor_drfbtfImbgfFromImg, obj);
     }
 
-    jlong nsImagePtr = JNFCallLongMethod(env, cimage, jm_CImage_getNSImage);
+    jlong nsImbgfPtr = JNFCbllLongMftiod(fnv, dimbgf, jm_CImbgf_gftNSImbgf);
 
-    NSImage *img = (NSImage *)jlong_to_ptr(nsImagePtr);
-    return [[img retain] autorelease];
+    NSImbgf *img = (NSImbgf *)jlong_to_ptr(nsImbgfPtr);
+    rfturn [[img rftbin] butorflfbsf];
 }
 
-@end
+@fnd
 
 
-// NSAppleEventDescriptor('vers') -> java.lang.String
-@implementation JavaAppleScriptVersionConverter
+// NSApplfEvfntDfsdriptor('vfrs') -> jbvb.lbng.String
+@implfmfntbtion JbvbApplfSdriptVfrsionConvfrtfr
 
-- (jobject) coerceNSObject:(id)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    NSAppleEventDescriptor *desc = (NSAppleEventDescriptor *)obj;
+- (jobjfdt) dofrdfNSObjfdt:(id)obj witiEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    NSApplfEvfntDfsdriptor *dfsd = (NSApplfEvfntDfsdriptor *)obj;
 
-    const AEDesc *aeDesc = [desc aeDesc];
-    if (aeDesc->descriptorType == typeNull) {
-        return NULL;
+    donst AEDfsd *bfDfsd = [dfsd bfDfsd];
+    if (bfDfsd->dfsdriptorTypf == typfNull) {
+        rfturn NULL;
     }
 
-    return JNFNSToJavaString(env, [obj description]);
+    rfturn JNFNSToJbvbString(fnv, [obj dfsdription]);
 }
 
-- (id) coerceJavaObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    return nil; // there is no Java object that represents a "version"
+- (id) dofrdfJbvbObjfdt:(jobjfdt)obj witiEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    rfturn nil; // tifrf is no Jbvb objfdt tibt rfprfsfnts b "vfrsion"
 }
 
-@end
+@fnd
 
 
 // NSNull <-> null
-@implementation JavaAppleScriptNullConverter
+@implfmfntbtion JbvbApplfSdriptNullConvfrtfr
 
-- (jobject) coerceNSObject:(id)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    return NULL;
+- (jobjfdt) dofrdfNSObjfdt:(id)obj witiEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    rfturn NULL;
 }
 
-- (id) coerceJavaObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    return nil;
+- (id) dofrdfJbvbObjfdt:(jobjfdt)obj witiEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    rfturn nil;
 }
 
-@end
+@fnd

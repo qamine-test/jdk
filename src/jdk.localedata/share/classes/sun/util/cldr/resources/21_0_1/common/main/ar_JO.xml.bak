@@ -1,35 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 5695 $"/>
-		<generation date="$Date: 2011-04-27 03:39:31 +0900 (Wed, 27 Apr 2011) $"/>
-		<language type="ar"/>
-		<territory type="JO"/>
-	</identity>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="wide">
-							<month type="1">كانون الثاني</month>
-							<month type="2">شباط</month>
-							<month type="3">آذار</month>
-							<month type="4">نيسان</month>
-							<month type="5">أيار</month>
-							<month type="6">حزيران</month>
-							<month type="7">تموز</month>
-							<month type="8">آب</month>
-							<month type="9">أيلول</month>
-							<month type="10">تشرين الأول</month>
-							<month type="11">تشرين الثاني</month>
-							<month type="12">كانون الأول</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-			</calendar>
-		</calendars>
-	</dates>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 5695 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-04-27 03:39:31 +0900 (Wfd, 27 Apr 2011) $"/>
+		<lbngubgf typf="br"/>
+		<tfrritory typf="JO"/>
+	</idfntity>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="widf">
+							<monti typf="1">كانون الثاني</monti>
+							<monti typf="2">شباط</monti>
+							<monti typf="3">آذار</monti>
+							<monti typf="4">نيسان</monti>
+							<monti typf="5">أيار</monti>
+							<monti typf="6">حزيران</monti>
+							<monti typf="7">تموز</monti>
+							<monti typf="8">آب</monti>
+							<monti typf="9">أيلول</monti>
+							<monti typf="10">تشرين الأول</monti>
+							<monti typf="11">تشرين الثاني</monti>
+							<monti typf="12">كانون الأول</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
 </ldml>
 

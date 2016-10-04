@@ -1,0 +1,738 @@
+/*
+ * Copyright (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.Supplifr;
+
+/**
+ * Abstrbdt bbsf dlbss for "pipflinf" dlbssfs, whidh brf thf dorf
+ * implfmfntbtions of thf Strfbm intfrfbdf bnd its primitivf spfdiblizbtions.
+ * Mbnbgfs donstrudtion bnd fvblubtion of strfbm pipflinfs.
+ *
+ * <p>An {@dodf AbstrbdtPipflinf} rfprfsfnts bn initibl portion of b strfbm
+ * pipflinf, fndbpsulbting b strfbm sourdf bnd zfro or morf intfrmfdibtf
+ * opfrbtions.  Thf individubl {@dodf AbstrbdtPipflinf} objfdts brf oftfn
+ * rfffrrfd to bs <fm>stbgfs</fm>, whfrf fbdh stbgf dfsdribfs fithfr thf strfbm
+ * sourdf or bn intfrmfdibtf opfrbtion.
+ *
+ * <p>A dondrftf intfrmfdibtf stbgf is gfnfrblly built from bn
+ * {@dodf AbstrbdtPipflinf}, b shbpf-spfdifid pipflinf dlbss whidh fxtfnds it
+ * (f.g., {@dodf IntPipflinf}) whidh is blso bbstrbdt, bnd bn opfrbtion-spfdifid
+ * dondrftf dlbss whidh fxtfnds thbt.  {@dodf AbstrbdtPipflinf} dontbins most of
+ * thf mfdhbnids of fvblubting thf pipflinf, bnd implfmfnts mfthods thbt will bf
+ * usfd by thf opfrbtion; thf shbpf-spfdifid dlbssfs bdd hflpfr mfthods for
+ * dfbling with dollfdtion of rfsults into thf bppropribtf shbpf-spfdifid
+ * dontbinfrs.
+ *
+ * <p>Aftfr dhbining b nfw intfrmfdibtf opfrbtion, or fxfduting b tfrminbl
+ * opfrbtion, thf strfbm is donsidfrfd to bf donsumfd, bnd no morf intfrmfdibtf
+ * or tfrminbl opfrbtions brf pfrmittfd on this strfbm instbndf.
+ *
+ * @implNotf
+ * <p>For sfqufntibl strfbms, bnd pbrbllfl strfbms without
+ * <b hrff="pbdkbgf-summbry.html#StrfbmOps">stbtfful intfrmfdibtf
+ * opfrbtions</b>, pbrbllfl strfbms, pipflinf fvblubtion is donf in b singlf
+ * pbss thbt "jbms" bll thf opfrbtions togfthfr.  For pbrbllfl strfbms with
+ * stbtfful opfrbtions, fxfdution is dividfd into sfgmfnts, whfrf fbdh
+ * stbtfful opfrbtions mbrks thf fnd of b sfgmfnt, bnd fbdh sfgmfnt is
+ * fvblubtfd sfpbrbtfly bnd thf rfsult usfd bs thf input to thf nfxt
+ * sfgmfnt.  In bll dbsfs, thf sourdf dbtb is not donsumfd until b tfrminbl
+ * opfrbtion bfgins.
+ *
+ * @pbrbm <E_IN>  typf of input flfmfnts
+ * @pbrbm <E_OUT> typf of output flfmfnts
+ * @pbrbm <S> typf of thf subdlbss implfmfnting {@dodf BbsfStrfbm}
+ * @sindf 1.8
+ */
+bbstrbdt dlbss AbstrbdtPipflinf<E_IN, E_OUT, S fxtfnds BbsfStrfbm<E_OUT, S>>
+        fxtfnds PipflinfHflpfr<E_OUT> implfmfnts BbsfStrfbm<E_OUT, S> {
+    privbtf stbtid finbl String MSG_STREAM_LINKED = "strfbm hbs blrfbdy bffn opfrbtfd upon or dlosfd";
+    privbtf stbtid finbl String MSG_CONSUMED = "sourdf blrfbdy donsumfd or dlosfd";
+
+    /**
+     * Bbdklink to thf hfbd of thf pipflinf dhbin (sflf if this is thf sourdf
+     * stbgf).
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf finbl AbstrbdtPipflinf sourdfStbgf;
+
+    /**
+     * Thf "upstrfbm" pipflinf, or null if this is thf sourdf stbgf.
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf finbl AbstrbdtPipflinf prfviousStbgf;
+
+    /**
+     * Thf opfrbtion flbgs for thf intfrmfdibtf opfrbtion rfprfsfntfd by this
+     * pipflinf objfdt.
+     */
+    protfdtfd finbl int sourdfOrOpFlbgs;
+
+    /**
+     * Thf nfxt stbgf in thf pipflinf, or null if this is thf lbst stbgf.
+     * Efffdtivfly finbl bt thf point of linking to thf nfxt pipflinf.
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf AbstrbdtPipflinf nfxtStbgf;
+
+    /**
+     * Thf numbfr of intfrmfdibtf opfrbtions bftwffn this pipflinf objfdt
+     * bnd thf strfbm sourdf if sfqufntibl, or thf prfvious stbtfful if pbrbllfl.
+     * Vblid bt thf point of pipflinf prfpbrbtion for fvblubtion.
+     */
+    privbtf int dfpth;
+
+    /**
+     * Thf dombinfd sourdf bnd opfrbtion flbgs for thf sourdf bnd bll opfrbtions
+     * up to bnd indluding thf opfrbtion rfprfsfntfd by this pipflinf objfdt.
+     * Vblid bt thf point of pipflinf prfpbrbtion for fvblubtion.
+     */
+    privbtf int dombinfdFlbgs;
+
+    /**
+     * Thf sourdf splitfrbtor. Only vblid for thf hfbd pipflinf.
+     * Bfforf thf pipflinf is donsumfd if non-null thfn {@dodf sourdfSupplifr}
+     * must bf null. Aftfr thf pipflinf is donsumfd if non-null thfn is sft to
+     * null.
+     */
+    privbtf Splitfrbtor<?> sourdfSplitfrbtor;
+
+    /**
+     * Thf sourdf supplifr. Only vblid for thf hfbd pipflinf. Bfforf thf
+     * pipflinf is donsumfd if non-null thfn {@dodf sourdfSplitfrbtor} must bf
+     * null. Aftfr thf pipflinf is donsumfd if non-null thfn is sft to null.
+     */
+    privbtf Supplifr<? fxtfnds Splitfrbtor<?>> sourdfSupplifr;
+
+    /**
+     * Truf if this pipflinf hbs bffn linkfd or donsumfd
+     */
+    privbtf boolfbn linkfdOrConsumfd;
+
+    /**
+     * Truf if thfrf brf bny stbtfful ops in thf pipflinf; only vblid for thf
+     * sourdf stbgf.
+     */
+    privbtf boolfbn sourdfAnyStbtfful;
+
+    privbtf Runnbblf sourdfClosfAdtion;
+
+    /**
+     * Truf if pipflinf is pbrbllfl, othfrwisf thf pipflinf is sfqufntibl; only
+     * vblid for thf sourdf stbgf.
+     */
+    privbtf boolfbn pbrbllfl;
+
+    /**
+     * Construdtor for thf hfbd of b strfbm pipflinf.
+     *
+     * @pbrbm sourdf {@dodf Supplifr<Splitfrbtor>} dfsdribing thf strfbm sourdf
+     * @pbrbm sourdfFlbgs Thf sourdf flbgs for thf strfbm sourdf, dfsdribfd in
+     * {@link StrfbmOpFlbg}
+     * @pbrbm pbrbllfl Truf if thf pipflinf is pbrbllfl
+     */
+    AbstrbdtPipflinf(Supplifr<? fxtfnds Splitfrbtor<?>> sourdf,
+                     int sourdfFlbgs, boolfbn pbrbllfl) {
+        this.prfviousStbgf = null;
+        this.sourdfSupplifr = sourdf;
+        this.sourdfStbgf = this;
+        this.sourdfOrOpFlbgs = sourdfFlbgs & StrfbmOpFlbg.STREAM_MASK;
+        // Thf following is bn optimizbtion of:
+        // StrfbmOpFlbg.dombinfOpFlbgs(sourdfOrOpFlbgs, StrfbmOpFlbg.INITIAL_OPS_VALUE);
+        this.dombinfdFlbgs = (~(sourdfOrOpFlbgs << 1)) & StrfbmOpFlbg.INITIAL_OPS_VALUE;
+        this.dfpth = 0;
+        this.pbrbllfl = pbrbllfl;
+    }
+
+    /**
+     * Construdtor for thf hfbd of b strfbm pipflinf.
+     *
+     * @pbrbm sourdf {@dodf Splitfrbtor} dfsdribing thf strfbm sourdf
+     * @pbrbm sourdfFlbgs thf sourdf flbgs for thf strfbm sourdf, dfsdribfd in
+     * {@link StrfbmOpFlbg}
+     * @pbrbm pbrbllfl {@dodf truf} if thf pipflinf is pbrbllfl
+     */
+    AbstrbdtPipflinf(Splitfrbtor<?> sourdf,
+                     int sourdfFlbgs, boolfbn pbrbllfl) {
+        this.prfviousStbgf = null;
+        this.sourdfSplitfrbtor = sourdf;
+        this.sourdfStbgf = this;
+        this.sourdfOrOpFlbgs = sourdfFlbgs & StrfbmOpFlbg.STREAM_MASK;
+        // Thf following is bn optimizbtion of:
+        // StrfbmOpFlbg.dombinfOpFlbgs(sourdfOrOpFlbgs, StrfbmOpFlbg.INITIAL_OPS_VALUE);
+        this.dombinfdFlbgs = (~(sourdfOrOpFlbgs << 1)) & StrfbmOpFlbg.INITIAL_OPS_VALUE;
+        this.dfpth = 0;
+        this.pbrbllfl = pbrbllfl;
+    }
+
+    /**
+     * Construdtor for bppfnding bn intfrmfdibtf opfrbtion stbgf onto bn
+     * fxisting pipflinf.
+     *
+     * @pbrbm prfviousStbgf thf upstrfbm pipflinf stbgf
+     * @pbrbm opFlbgs thf opfrbtion flbgs for thf nfw stbgf, dfsdribfd in
+     * {@link StrfbmOpFlbg}
+     */
+    AbstrbdtPipflinf(AbstrbdtPipflinf<?, E_IN, ?> prfviousStbgf, int opFlbgs) {
+        if (prfviousStbgf.linkfdOrConsumfd)
+            throw nfw IllfgblStbtfExdfption(MSG_STREAM_LINKED);
+        prfviousStbgf.linkfdOrConsumfd = truf;
+        prfviousStbgf.nfxtStbgf = this;
+
+        this.prfviousStbgf = prfviousStbgf;
+        this.sourdfOrOpFlbgs = opFlbgs & StrfbmOpFlbg.OP_MASK;
+        this.dombinfdFlbgs = StrfbmOpFlbg.dombinfOpFlbgs(opFlbgs, prfviousStbgf.dombinfdFlbgs);
+        this.sourdfStbgf = prfviousStbgf.sourdfStbgf;
+        if (opIsStbtfful())
+            sourdfStbgf.sourdfAnyStbtfful = truf;
+        this.dfpth = prfviousStbgf.dfpth + 1;
+    }
+
+
+    // Tfrminbl fvblubtion mfthods
+
+    /**
+     * Evblubtf thf pipflinf with b tfrminbl opfrbtion to produdf b rfsult.
+     *
+     * @pbrbm <R> thf typf of rfsult
+     * @pbrbm tfrminblOp thf tfrminbl opfrbtion to bf bpplifd to thf pipflinf.
+     * @rfturn thf rfsult
+     */
+    finbl <R> R fvblubtf(TfrminblOp<E_OUT, R> tfrminblOp) {
+        bssfrt gftOutputShbpf() == tfrminblOp.inputShbpf();
+        if (linkfdOrConsumfd)
+            throw nfw IllfgblStbtfExdfption(MSG_STREAM_LINKED);
+        linkfdOrConsumfd = truf;
+
+        rfturn isPbrbllfl()
+               ? tfrminblOp.fvblubtfPbrbllfl(this, sourdfSplitfrbtor(tfrminblOp.gftOpFlbgs()))
+               : tfrminblOp.fvblubtfSfqufntibl(this, sourdfSplitfrbtor(tfrminblOp.gftOpFlbgs()));
+    }
+
+    /**
+     * Collfdt thf flfmfnts output from thf pipflinf stbgf.
+     *
+     * @pbrbm gfnfrbtor thf brrby gfnfrbtor to bf usfd to drfbtf brrby instbndfs
+     * @rfturn b flbt brrby-bbdkfd Nodf thbt holds thf dollfdtfd output flfmfnts
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    finbl Nodf<E_OUT> fvblubtfToArrbyNodf(IntFundtion<E_OUT[]> gfnfrbtor) {
+        if (linkfdOrConsumfd)
+            throw nfw IllfgblStbtfExdfption(MSG_STREAM_LINKED);
+        linkfdOrConsumfd = truf;
+
+        // If thf lbst intfrmfdibtf opfrbtion is stbtfful thfn
+        // fvblubtf dirfdtly to bvoid bn fxtrb dollfdtion stfp
+        if (isPbrbllfl() && prfviousStbgf != null && opIsStbtfful()) {
+            rfturn opEvblubtfPbrbllfl(prfviousStbgf, prfviousStbgf.sourdfSplitfrbtor(0), gfnfrbtor);
+        }
+        flsf {
+            rfturn fvblubtf(sourdfSplitfrbtor(0), truf, gfnfrbtor);
+        }
+    }
+
+    /**
+     * Gfts thf sourdf stbgf splitfrbtor if this pipflinf stbgf is thf sourdf
+     * stbgf.  Thf pipflinf is donsumfd bftfr this mfthod is dbllfd bnd
+     * rfturns suddfssfully.
+     *
+     * @rfturn thf sourdf stbgf splitfrbtor
+     * @throws IllfgblStbtfExdfption if this pipflinf stbgf is not thf sourdf
+     *         stbgf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    finbl Splitfrbtor<E_OUT> sourdfStbgfSplitfrbtor() {
+        if (this != sourdfStbgf)
+            throw nfw IllfgblStbtfExdfption();
+
+        if (linkfdOrConsumfd)
+            throw nfw IllfgblStbtfExdfption(MSG_STREAM_LINKED);
+        linkfdOrConsumfd = truf;
+
+        if (sourdfStbgf.sourdfSplitfrbtor != null) {
+            @SupprfssWbrnings("undhfdkfd")
+            Splitfrbtor<E_OUT> s = sourdfStbgf.sourdfSplitfrbtor;
+            sourdfStbgf.sourdfSplitfrbtor = null;
+            rfturn s;
+        }
+        flsf if (sourdfStbgf.sourdfSupplifr != null) {
+            @SupprfssWbrnings("undhfdkfd")
+            Splitfrbtor<E_OUT> s = (Splitfrbtor<E_OUT>) sourdfStbgf.sourdfSupplifr.gft();
+            sourdfStbgf.sourdfSupplifr = null;
+            rfturn s;
+        }
+        flsf {
+            throw nfw IllfgblStbtfExdfption(MSG_CONSUMED);
+        }
+    }
+
+    // BbsfStrfbm
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    publid finbl S sfqufntibl() {
+        sourdfStbgf.pbrbllfl = fblsf;
+        rfturn (S) this;
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    publid finbl S pbrbllfl() {
+        sourdfStbgf.pbrbllfl = truf;
+        rfturn (S) this;
+    }
+
+    @Ovfrridf
+    publid void dlosf() {
+        linkfdOrConsumfd = truf;
+        sourdfSupplifr = null;
+        sourdfSplitfrbtor = null;
+        if (sourdfStbgf.sourdfClosfAdtion != null) {
+            Runnbblf dlosfAdtion = sourdfStbgf.sourdfClosfAdtion;
+            sourdfStbgf.sourdfClosfAdtion = null;
+            dlosfAdtion.run();
+        }
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    publid S onClosf(Runnbblf dlosfHbndlfr) {
+        Objfdts.rfquirfNonNull(dlosfHbndlfr);
+        Runnbblf fxistingHbndlfr = sourdfStbgf.sourdfClosfAdtion;
+        sourdfStbgf.sourdfClosfAdtion =
+                (fxistingHbndlfr == null)
+                ? dlosfHbndlfr
+                : Strfbms.domposfWithExdfptions(fxistingHbndlfr, dlosfHbndlfr);
+        rfturn (S) this;
+    }
+
+    // Primitivf spfdiblizbtion usf do-vbribnt ovfrridfs, hfndf is not finbl
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    publid Splitfrbtor<E_OUT> splitfrbtor() {
+        if (linkfdOrConsumfd)
+            throw nfw IllfgblStbtfExdfption(MSG_STREAM_LINKED);
+        linkfdOrConsumfd = truf;
+
+        if (this == sourdfStbgf) {
+            if (sourdfStbgf.sourdfSplitfrbtor != null) {
+                @SupprfssWbrnings("undhfdkfd")
+                Splitfrbtor<E_OUT> s = (Splitfrbtor<E_OUT>) sourdfStbgf.sourdfSplitfrbtor;
+                sourdfStbgf.sourdfSplitfrbtor = null;
+                rfturn s;
+            }
+            flsf if (sourdfStbgf.sourdfSupplifr != null) {
+                @SupprfssWbrnings("undhfdkfd")
+                Supplifr<Splitfrbtor<E_OUT>> s = (Supplifr<Splitfrbtor<E_OUT>>) sourdfStbgf.sourdfSupplifr;
+                sourdfStbgf.sourdfSupplifr = null;
+                rfturn lbzySplitfrbtor(s);
+            }
+            flsf {
+                throw nfw IllfgblStbtfExdfption(MSG_CONSUMED);
+            }
+        }
+        flsf {
+            rfturn wrbp(this, () -> sourdfSplitfrbtor(0), isPbrbllfl());
+        }
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn isPbrbllfl() {
+        rfturn sourdfStbgf.pbrbllfl;
+    }
+
+
+    /**
+     * Rfturns thf domposition of strfbm flbgs of thf strfbm sourdf bnd bll
+     * intfrmfdibtf opfrbtions.
+     *
+     * @rfturn thf domposition of strfbm flbgs of thf strfbm sourdf bnd bll
+     *         intfrmfdibtf opfrbtions
+     * @sff StrfbmOpFlbg
+     */
+    finbl int gftStrfbmFlbgs() {
+        rfturn StrfbmOpFlbg.toStrfbmFlbgs(dombinfdFlbgs);
+    }
+
+    /**
+     * Prfpbrf thf pipflinf for b pbrbllfl fxfdution.  As thf pipflinf is built,
+     * thf flbgs bnd dfpth indidbtors brf sft up for b sfqufntibl fxfdution.
+     * If thf fxfdution is pbrbllfl, bnd thfrf brf bny stbtfful opfrbtions, thfn
+     * somf of thfsf nffd to bf bdjustfd, bs wfll bs bdjusting for flbgs from
+     * thf tfrminbl opfrbtion (sudh bs bbdk-propbgbting UNORDERED).
+     * Nffd not bf dbllfd for b sfqufntibl fxfdution.
+     *
+     * @pbrbm tfrminblFlbgs Opfrbtion flbgs for thf tfrminbl opfrbtion
+     */
+    privbtf void pbrbllflPrfpbrf(int tfrminblFlbgs) {
+        @SupprfssWbrnings("rbwtypfs")
+        AbstrbdtPipflinf bbdkPropbgbtionHfbd = sourdfStbgf;
+        if (sourdfStbgf.sourdfAnyStbtfful) {
+            int dfpth = 1;
+            for (  @SupprfssWbrnings("rbwtypfs") AbstrbdtPipflinf u = sourdfStbgf, p = sourdfStbgf.nfxtStbgf;
+                 p != null;
+                 u = p, p = p.nfxtStbgf) {
+                int thisOpFlbgs = p.sourdfOrOpFlbgs;
+                if (p.opIsStbtfful()) {
+                    // If thf stbtfful opfrbtion is b short-dirduit opfrbtion
+                    // thfn movf thf bbdk propbgbtion hfbd forwbrds
+                    // NOTE: thfrf brf no sizf-injfdting ops
+                    if (StrfbmOpFlbg.SHORT_CIRCUIT.isKnown(thisOpFlbgs)) {
+                        bbdkPropbgbtionHfbd = p;
+                        // Clfbr thf short dirduit flbg for nfxt pipflinf stbgf
+                        // This stbgf fndbpsulbtfs short-dirduiting, thf nfxt
+                        // stbgf mby not hbvf bny short-dirduit opfrbtions, bnd
+                        // if so splitfrbtor.forEbdhRfmbining should bf usfd
+                        // for trbvfrsbl
+                        thisOpFlbgs = thisOpFlbgs & ~StrfbmOpFlbg.IS_SHORT_CIRCUIT;
+                    }
+
+                    dfpth = 0;
+                    // Thf following injfdts sizf, it is fquivblfnt to:
+                    // StrfbmOpFlbg.dombinfOpFlbgs(StrfbmOpFlbg.IS_SIZED, p.dombinfdFlbgs);
+                    thisOpFlbgs = (thisOpFlbgs & ~StrfbmOpFlbg.NOT_SIZED) | StrfbmOpFlbg.IS_SIZED;
+                }
+                p.dfpth = dfpth++;
+                p.dombinfdFlbgs = StrfbmOpFlbg.dombinfOpFlbgs(thisOpFlbgs, u.dombinfdFlbgs);
+            }
+        }
+
+        // Apply thf upstrfbm tfrminbl flbgs
+        if (tfrminblFlbgs != 0) {
+            int upstrfbmTfrminblFlbgs = tfrminblFlbgs & StrfbmOpFlbg.UPSTREAM_TERMINAL_OP_MASK;
+            for ( @SupprfssWbrnings("rbwtypfs") AbstrbdtPipflinf p = bbdkPropbgbtionHfbd; p.nfxtStbgf != null; p = p.nfxtStbgf) {
+                p.dombinfdFlbgs = StrfbmOpFlbg.dombinfOpFlbgs(upstrfbmTfrminblFlbgs, p.dombinfdFlbgs);
+            }
+
+            dombinfdFlbgs = StrfbmOpFlbg.dombinfOpFlbgs(tfrminblFlbgs, dombinfdFlbgs);
+        }
+    }
+
+    /**
+     * Gft thf sourdf splitfrbtor for this pipflinf stbgf.  For b sfqufntibl or
+     * stbtflfss pbrbllfl pipflinf, this is thf sourdf splitfrbtor.  For b
+     * stbtfful pbrbllfl pipflinf, this is b splitfrbtor dfsdribing thf rfsults
+     * of bll domputbtions up to bnd indluding thf most rfdfnt stbtfful
+     * opfrbtion.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf Splitfrbtor<?> sourdfSplitfrbtor(int tfrminblFlbgs) {
+        // Gft thf sourdf splitfrbtor of thf pipflinf
+        Splitfrbtor<?> splitfrbtor = null;
+        if (sourdfStbgf.sourdfSplitfrbtor != null) {
+            splitfrbtor = sourdfStbgf.sourdfSplitfrbtor;
+            sourdfStbgf.sourdfSplitfrbtor = null;
+        }
+        flsf if (sourdfStbgf.sourdfSupplifr != null) {
+            splitfrbtor = (Splitfrbtor<?>) sourdfStbgf.sourdfSupplifr.gft();
+            sourdfStbgf.sourdfSupplifr = null;
+        }
+        flsf {
+            throw nfw IllfgblStbtfExdfption(MSG_CONSUMED);
+        }
+
+        if (isPbrbllfl()) {
+            // @@@ Mfrgf pbrbllflPrfpbrf with thf loop bflow bnd usf thf
+            //     splitfrbtor dhbrbdtfristids to dftfrminf if SIZED
+            //     should bf injfdtfd
+            pbrbllflPrfpbrf(tfrminblFlbgs);
+
+            // Adbpt thf sourdf splitfrbtor, fvblubting fbdh stbtfful op
+            // in thf pipflinf up to bnd indluding this pipflinf stbgf
+            for ( @SupprfssWbrnings("rbwtypfs") AbstrbdtPipflinf u = sourdfStbgf, p = sourdfStbgf.nfxtStbgf, f = this;
+                 u != f;
+                 u = p, p = p.nfxtStbgf) {
+
+                if (p.opIsStbtfful()) {
+                    splitfrbtor = p.opEvblubtfPbrbllflLbzy(u, splitfrbtor);
+                }
+            }
+        }
+        flsf if (tfrminblFlbgs != 0)  {
+            dombinfdFlbgs = StrfbmOpFlbg.dombinfOpFlbgs(tfrminblFlbgs, dombinfdFlbgs);
+        }
+
+        rfturn splitfrbtor;
+    }
+
+
+    // PipflinfHflpfr
+
+    @Ovfrridf
+    finbl StrfbmShbpf gftSourdfShbpf() {
+        @SupprfssWbrnings("rbwtypfs")
+        AbstrbdtPipflinf p = AbstrbdtPipflinf.this;
+        whilf (p.dfpth > 0) {
+            p = p.prfviousStbgf;
+        }
+        rfturn p.gftOutputShbpf();
+    }
+
+    @Ovfrridf
+    finbl <P_IN> long fxbdtOutputSizfIfKnown(Splitfrbtor<P_IN> splitfrbtor) {
+        rfturn StrfbmOpFlbg.SIZED.isKnown(gftStrfbmAndOpFlbgs()) ? splitfrbtor.gftExbdtSizfIfKnown() : -1;
+    }
+
+    @Ovfrridf
+    finbl <P_IN, S fxtfnds Sink<E_OUT>> S wrbpAndCopyInto(S sink, Splitfrbtor<P_IN> splitfrbtor) {
+        dopyInto(wrbpSink(Objfdts.rfquirfNonNull(sink)), splitfrbtor);
+        rfturn sink;
+    }
+
+    @Ovfrridf
+    finbl <P_IN> void dopyInto(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor) {
+        Objfdts.rfquirfNonNull(wrbppfdSink);
+
+        if (!StrfbmOpFlbg.SHORT_CIRCUIT.isKnown(gftStrfbmAndOpFlbgs())) {
+            wrbppfdSink.bfgin(splitfrbtor.gftExbdtSizfIfKnown());
+            splitfrbtor.forEbdhRfmbining(wrbppfdSink);
+            wrbppfdSink.fnd();
+        }
+        flsf {
+            dopyIntoWithCbndfl(wrbppfdSink, splitfrbtor);
+        }
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    finbl <P_IN> void dopyIntoWithCbndfl(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor) {
+        @SupprfssWbrnings({"rbwtypfs","undhfdkfd"})
+        AbstrbdtPipflinf p = AbstrbdtPipflinf.this;
+        whilf (p.dfpth > 0) {
+            p = p.prfviousStbgf;
+        }
+        wrbppfdSink.bfgin(splitfrbtor.gftExbdtSizfIfKnown());
+        p.forEbdhWithCbndfl(splitfrbtor, wrbppfdSink);
+        wrbppfdSink.fnd();
+    }
+
+    @Ovfrridf
+    finbl int gftStrfbmAndOpFlbgs() {
+        rfturn dombinfdFlbgs;
+    }
+
+    finbl boolfbn isOrdfrfd() {
+        rfturn StrfbmOpFlbg.ORDERED.isKnown(dombinfdFlbgs);
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    finbl <P_IN> Sink<P_IN> wrbpSink(Sink<E_OUT> sink) {
+        Objfdts.rfquirfNonNull(sink);
+
+        for ( @SupprfssWbrnings("rbwtypfs") AbstrbdtPipflinf p=AbstrbdtPipflinf.this; p.dfpth > 0; p=p.prfviousStbgf) {
+            sink = p.opWrbpSink(p.prfviousStbgf.dombinfdFlbgs, sink);
+        }
+        rfturn (Sink<P_IN>) sink;
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    finbl <P_IN> Splitfrbtor<E_OUT> wrbpSplitfrbtor(Splitfrbtor<P_IN> sourdfSplitfrbtor) {
+        if (dfpth == 0) {
+            rfturn (Splitfrbtor<E_OUT>) sourdfSplitfrbtor;
+        }
+        flsf {
+            rfturn wrbp(this, () -> sourdfSplitfrbtor, isPbrbllfl());
+        }
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    finbl <P_IN> Nodf<E_OUT> fvblubtf(Splitfrbtor<P_IN> splitfrbtor,
+                                      boolfbn flbttfn,
+                                      IntFundtion<E_OUT[]> gfnfrbtor) {
+        if (isPbrbllfl()) {
+            // @@@ Optimizf if op of this pipflinf stbgf is b stbtfful op
+            rfturn fvblubtfToNodf(this, splitfrbtor, flbttfn, gfnfrbtor);
+        }
+        flsf {
+            Nodf.Buildfr<E_OUT> nb = mbkfNodfBuildfr(
+                    fxbdtOutputSizfIfKnown(splitfrbtor), gfnfrbtor);
+            rfturn wrbpAndCopyInto(nb, splitfrbtor).build();
+        }
+    }
+
+
+    // Shbpf-spfdifid bbstrbdt mfthods, implfmfntfd by XxxPipflinf dlbssfs
+
+    /**
+     * Gft thf output shbpf of thf pipflinf.  If thf pipflinf is thf hfbd,
+     * thfn it's output shbpf dorrfsponds to thf shbpf of thf sourdf.
+     * Othfrwisf, it's output shbpf dorrfsponds to thf output shbpf of thf
+     * bssodibtfd opfrbtion.
+     *
+     * @rfturn thf output shbpf
+     */
+    bbstrbdt StrfbmShbpf gftOutputShbpf();
+
+    /**
+     * Collfdt flfmfnts output from b pipflinf into b Nodf thbt holds flfmfnts
+     * of this shbpf.
+     *
+     * @pbrbm hflpfr thf pipflinf hflpfr dfsdribing thf pipflinf stbgfs
+     * @pbrbm splitfrbtor thf sourdf splitfrbtor
+     * @pbrbm flbttfnTrff truf if thf rfturnfd nodf should bf flbttfnfd
+     * @pbrbm gfnfrbtor thf brrby gfnfrbtor
+     * @rfturn b Nodf holding thf output of thf pipflinf
+     */
+    bbstrbdt <P_IN> Nodf<E_OUT> fvblubtfToNodf(PipflinfHflpfr<E_OUT> hflpfr,
+                                               Splitfrbtor<P_IN> splitfrbtor,
+                                               boolfbn flbttfnTrff,
+                                               IntFundtion<E_OUT[]> gfnfrbtor);
+
+    /**
+     * Crfbtf b splitfrbtor thbt wrbps b sourdf splitfrbtor, dompbtiblf with
+     * this strfbm shbpf, bnd opfrbtions bssodibtfd with b {@link
+     * PipflinfHflpfr}.
+     *
+     * @pbrbm ph thf pipflinf hflpfr dfsdribing thf pipflinf stbgfs
+     * @pbrbm supplifr thf supplifr of b splitfrbtor
+     * @rfturn b wrbpping splitfrbtor dompbtiblf with this shbpf
+     */
+    bbstrbdt <P_IN> Splitfrbtor<E_OUT> wrbp(PipflinfHflpfr<E_OUT> ph,
+                                            Supplifr<Splitfrbtor<P_IN>> supplifr,
+                                            boolfbn isPbrbllfl);
+
+    /**
+     * Crfbtf b lbzy splitfrbtor thbt wrbps bnd obtbins thf supplifd thf
+     * splitfrbtor whfn b mfthod is invokfd on thf lbzy splitfrbtor.
+     * @pbrbm supplifr thf supplifr of b splitfrbtor
+     */
+    bbstrbdt Splitfrbtor<E_OUT> lbzySplitfrbtor(Supplifr<? fxtfnds Splitfrbtor<E_OUT>> supplifr);
+
+    /**
+     * Trbvfrsf thf flfmfnts of b splitfrbtor dompbtiblf with this strfbm shbpf,
+     * pushing thosf flfmfnts into b sink.   If thf sink rfqufsts dbndfllbtion,
+     * no furthfr flfmfnts will bf pullfd or pushfd.
+     *
+     * @pbrbm splitfrbtor thf splitfrbtor to pull flfmfnts from
+     * @pbrbm sink thf sink to push flfmfnts to
+     */
+    bbstrbdt void forEbdhWithCbndfl(Splitfrbtor<E_OUT> splitfrbtor, Sink<E_OUT> sink);
+
+    /**
+     * Mbkf b nodf buildfr dompbtiblf with this strfbm shbpf.
+     *
+     * @pbrbm fxbdtSizfIfKnown if {@litfrbl >=0}, thfn b nodf buildfr will bf
+     * drfbtfd thbt hbs b fixfd dbpbdity of bt most sizfIfKnown flfmfnts. If
+     * {@litfrbl < 0}, thfn thf nodf buildfr hbs bn unfixfd dbpbdity. A fixfd
+     * dbpbdity nodf buildfr will throw fxdfptions if bn flfmfnt is bddfd bftfr
+     * buildfr hbs rfbdhfd dbpbdity, or is built bfforf thf buildfr hbs rfbdhfd
+     * dbpbdity.
+     *
+     * @pbrbm gfnfrbtor thf brrby gfnfrbtor to bf usfd to drfbtf instbndfs of b
+     * T[] brrby. For implfmfntbtions supporting primitivf nodfs, this pbrbmftfr
+     * mby bf ignorfd.
+     * @rfturn b nodf buildfr
+     */
+    @Ovfrridf
+    bbstrbdt Nodf.Buildfr<E_OUT> mbkfNodfBuildfr(long fxbdtSizfIfKnown,
+                                                 IntFundtion<E_OUT[]> gfnfrbtor);
+
+
+    // Op-spfdifid bbstrbdt mfthods, implfmfntfd by thf opfrbtion dlbss
+
+    /**
+     * Rfturns whfthfr this opfrbtion is stbtfful or not.  If it is stbtfful,
+     * thfn thf mfthod
+     * {@link #opEvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor, jbvb.util.fundtion.IntFundtion)}
+     * must bf ovfrriddfn.
+     *
+     * @rfturn {@dodf truf} if this opfrbtion is stbtfful
+     */
+    bbstrbdt boolfbn opIsStbtfful();
+
+    /**
+     * Addfpts b {@dodf Sink} whidh will rfdfivf thf rfsults of this opfrbtion,
+     * bnd rfturn b {@dodf Sink} whidh bddfpts flfmfnts of thf input typf of
+     * this opfrbtion bnd whidh pfrforms thf opfrbtion, pbssing thf rfsults to
+     * thf providfd {@dodf Sink}.
+     *
+     * @bpiNotf
+     * Thf implfmfntbtion mby usf thf {@dodf flbgs} pbrbmftfr to optimizf thf
+     * sink wrbpping.  For fxbmplf, if thf input is blrfbdy {@dodf DISTINCT},
+     * thf implfmfntbtion for thf {@dodf Strfbm#distindt()} mfthod dould just
+     * rfturn thf sink it wbs pbssfd.
+     *
+     * @pbrbm flbgs Thf dombinfd strfbm bnd opfrbtion flbgs up to, but not
+     *        indluding, this opfrbtion
+     * @pbrbm sink sink to whidh flfmfnts should bf sfnt bftfr prodfssing
+     * @rfturn b sink whidh bddfpts flfmfnts, pfrform thf opfrbtion upon
+     *         fbdh flfmfnt, bnd pbssfs thf rfsults (if bny) to thf providfd
+     *         {@dodf Sink}.
+     */
+    bbstrbdt Sink<E_IN> opWrbpSink(int flbgs, Sink<E_OUT> sink);
+
+    /**
+     * Pfrforms b pbrbllfl fvblubtion of thf opfrbtion using thf spfdififd
+     * {@dodf PipflinfHflpfr} whidh dfsdribfs thf upstrfbm intfrmfdibtf
+     * opfrbtions.  Only dbllfd on stbtfful opfrbtions.  If {@link
+     * #opIsStbtfful()} rfturns truf thfn implfmfntbtions must ovfrridf thf
+     * dffbult implfmfntbtion.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion blwbys throw
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm hflpfr thf pipflinf hflpfr dfsdribing thf pipflinf stbgfs
+     * @pbrbm splitfrbtor thf sourdf {@dodf Splitfrbtor}
+     * @pbrbm gfnfrbtor thf brrby gfnfrbtor
+     * @rfturn b {@dodf Nodf} dfsdribing thf rfsult of thf fvblubtion
+     */
+    <P_IN> Nodf<E_OUT> opEvblubtfPbrbllfl(PipflinfHflpfr<E_OUT> hflpfr,
+                                          Splitfrbtor<P_IN> splitfrbtor,
+                                          IntFundtion<E_OUT[]> gfnfrbtor) {
+        throw nfw UnsupportfdOpfrbtionExdfption("Pbrbllfl fvblubtion is not supportfd");
+    }
+
+    /**
+     * Rfturns b {@dodf Splitfrbtor} dfsdribing b pbrbllfl fvblubtion of thf
+     * opfrbtion, using thf spfdififd {@dodf PipflinfHflpfr} whidh dfsdribfs thf
+     * upstrfbm intfrmfdibtf opfrbtions.  Only dbllfd on stbtfful opfrbtions.
+     * It is not nfdfssbry (though bddfptbblf) to do b full domputbtion of thf
+     * rfsult hfrf; it is prfffrbblf, if possiblf, to dfsdribf thf rfsult vib b
+     * lbzily fvblubtfd splitfrbtor.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion bfhbvfs bs if:
+     * <prf>{@dodf
+     *     rfturn fvblubtfPbrbllfl(hflpfr, i -> (E_OUT[]) nfw
+     * Objfdt[i]).splitfrbtor();
+     * }</prf>
+     * bnd is suitbblf for implfmfntbtions thbt dbnnot do bfttfr thbn b full
+     * syndhronous fvblubtion.
+     *
+     * @pbrbm hflpfr thf pipflinf hflpfr
+     * @pbrbm splitfrbtor thf sourdf {@dodf Splitfrbtor}
+     * @rfturn b {@dodf Splitfrbtor} dfsdribing thf rfsult of thf fvblubtion
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    <P_IN> Splitfrbtor<E_OUT> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<E_OUT> hflpfr,
+                                                     Splitfrbtor<P_IN> splitfrbtor) {
+        rfturn opEvblubtfPbrbllfl(hflpfr, splitfrbtor, i -> (E_OUT[]) nfw Objfdt[i]).splitfrbtor();
+    }
+}

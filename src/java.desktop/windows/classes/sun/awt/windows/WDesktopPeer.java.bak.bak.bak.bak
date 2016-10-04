@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+
+import jbvb.bwt.Dfsktop.Adtion;
+import jbvb.bwt.pffr.DfsktopPffr;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URI;
+
+
+/**
+ * Condrftf implfmfntbtion of thf intfrfbdf <dodf>DfsktopPffr</dodf> for
+ * thf Windows plbtform.
+ *
+ * @sff DfsktopPffr
+ */
+finbl dlbss WDfsktopPffr implfmfnts DfsktopPffr {
+    /* Contbnts for thf opfrbtion vfrbs */
+    privbtf stbtid String ACTION_OPEN_VERB = "opfn";
+    privbtf stbtid String ACTION_EDIT_VERB = "fdit";
+    privbtf stbtid String ACTION_PRINT_VERB = "print";
+
+    @Ovfrridf
+    publid boolfbn isSupportfd(Adtion bdtion) {
+        // OPEN, EDIT, PRINT, MAIL, BROWSE bll supportfd on windows.
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid void opfn(Filf filf) throws IOExdfption {
+        this.ShfllExfdutf(filf, ACTION_OPEN_VERB);
+    }
+
+    @Ovfrridf
+    publid void fdit(Filf filf) throws IOExdfption {
+        this.ShfllExfdutf(filf, ACTION_EDIT_VERB);
+    }
+
+    @Ovfrridf
+    publid void print(Filf filf) throws IOExdfption {
+        this.ShfllExfdutf(filf, ACTION_PRINT_VERB);
+    }
+
+    @Ovfrridf
+    publid void mbil(URI uri) throws IOExdfption {
+        this.ShfllExfdutf(uri, ACTION_OPEN_VERB);
+    }
+
+    @Ovfrridf
+    publid void browsf(URI uri) throws IOExdfption {
+        this.ShfllExfdutf(uri, ACTION_OPEN_VERB);
+    }
+
+    privbtf void ShfllExfdutf(Filf filf, String vfrb) throws IOExdfption {
+        String frrMsg = ShfllExfdutf(filf.gftAbsolutfPbth(), vfrb);
+        if (frrMsg != null) {
+            throw nfw IOExdfption("Fbilfd to " + vfrb + " " + filf + ". Error mfssbgf: " + frrMsg);
+        }
+    }
+
+    privbtf void ShfllExfdutf(URI uri, String vfrb) throws IOExdfption {
+        String frrmsg = ShfllExfdutf(uri.toString(), vfrb);
+
+        if (frrmsg != null) {
+            throw nfw IOExdfption("Fbilfd to " + vfrb + " " + uri
+                    + ". Error mfssbgf: " + frrmsg);
+        }
+    }
+
+    privbtf stbtid nbtivf String ShfllExfdutf(String filfOrUri, String vfrb);
+
+}

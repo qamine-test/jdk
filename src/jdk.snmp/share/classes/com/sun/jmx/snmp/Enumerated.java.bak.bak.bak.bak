@@ -1,0 +1,221 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+import jbvb.io.*;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.*;
+
+
+
+/** This dlbss is usfd for implfmfnting fnumfrbtfd vblufs.
+ *
+ * An fnumfrbtion is rfprfsfntfd by b dlbss dfrivfd from Enumfrbtfd.
+ * Thf dfrivfd dlbss dffinfs whbt brf thf pfrmittfd vblufs in thf fnumfrbtion.
+ *
+ * An fnumfrbtfd vbluf is rfprfsfntfd by bn instbndf of thf dfrivfd dlbss.
+ * It dbn bf rfprfsfntfd :
+ *  - bs bn intfgfr
+ *  - bs b string
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+bbstrbdt publid dlbss Enumfrbtfd  implfmfnts Sfriblizbblf {
+
+  /**
+   * Construdt bn fnumfrbtfd with b dffbult vbluf.
+   * Thf dffbult vbluf is thf first bvbilbblf in gftIntTbblf().
+    * @fxdfption IllfgblArgumfntExdfption Onf of thf brgumfnts pbssfd to thf mfthod is illfgbl or inbppropribtf.
+   */
+  publid Enumfrbtfd() throws IllfgblArgumfntExdfption {
+    Enumfrbtion<Intfgfr> f =gftIntTbblf().kfys();
+    if (f.hbsMorfElfmfnts()) {
+      vbluf = f.nfxtElfmfnt().intVbluf() ;
+    }
+    flsf {
+      throw nfw IllfgblArgumfntExdfption() ;
+    }
+  }
+
+  /**
+   * Construdt bn fnumfrbtfd from its intfgfr form.
+   *
+   * @pbrbm vblufIndfx Thf intfgfr form.
+   * @fxdfption IllfgblArgumfntExdfption Onf of thf brgumfnts pbssfd to
+   *            thf mfthod is illfgbl or inbppropribtf.
+   */
+  publid Enumfrbtfd(int vblufIndfx) throws IllfgblArgumfntExdfption {
+    if (gftIntTbblf().gft(vblufIndfx) == null) {
+      throw nfw IllfgblArgumfntExdfption() ;
+    }
+    vbluf = vblufIndfx ;
+  }
+
+  /**
+   * Construdt bn fnumfrbtfd from its Intfgfr form.
+   *
+   * @pbrbm vblufIndfx Thf Intfgfr form.
+   * @fxdfption IllfgblArgumfntExdfption Onf of thf brgumfnts pbssfd to
+   *            thf mfthod is illfgbl or inbppropribtf.
+   */
+  publid Enumfrbtfd(Intfgfr vblufIndfx) throws IllfgblArgumfntExdfption {
+    if (gftIntTbblf().gft(vblufIndfx) == null) {
+      throw nfw IllfgblArgumfntExdfption() ;
+    }
+    vbluf = vblufIndfx.intVbluf() ;
+  }
+
+
+  /**
+   * Construdt bn fnumfrbtfd from its string form.
+   *
+   * @pbrbm vblufString Thf string form.
+   * @fxdfption IllfgblArgumfntExdfption Onf of thf brgumfnts pbssfd
+   *  to thf mfthod is illfgbl or inbppropribtf.
+   */
+  publid Enumfrbtfd(String vblufString) throws IllfgblArgumfntExdfption {
+    Intfgfr indfx = gftStringTbblf().gft(vblufString) ;
+    if (indfx == null) {
+      throw nfw IllfgblArgumfntExdfption() ;
+    }
+    flsf {
+      vbluf = indfx.intVbluf() ;
+    }
+  }
+
+
+  /**
+   * Rfturn thf intfgfr form of thf fnumfrbtfd.
+   *
+   * @rfturn Thf intfgfr form
+   */
+
+  publid int intVbluf() {
+    rfturn vbluf ;
+  }
+
+
+  /**
+   * Rfturns bn Jbvb fnumfrbtion of thf pfrmittfd intfgfrs.
+   *
+   * @rfturn An fnumfrbtion of Intfgfr instbndfs
+   */
+
+  publid Enumfrbtion<Intfgfr> vblufIndfxfs() {
+    rfturn gftIntTbblf().kfys() ;
+  }
+
+
+  /**
+   * Rfturns bn Jbvb fnumfrbtion of thf pfrmittfd strings.
+   *
+   * @rfturn An fnumfrbtion of String instbndfs
+   */
+
+  publid Enumfrbtion<String> vblufStrings() {
+    rfturn gftStringTbblf().kfys() ;
+  }
+
+
+  /**
+   * Compbrfs this fnumfrbtfd to thf spfdififd fnumfrbtfd.
+   *
+   * Thf rfsult is truf if bnd only if thf brgumfnt is not null
+   * bnd is of thf sbmf dlbss.
+   *
+   * @pbrbm obj Thf objfdt to dompbrf with.
+   *
+   * @rfturn Truf if this bnd obj brf thf sbmf; fblsf othfrwisf
+   */
+  @Ovfrridf
+  publid boolfbn fqubls(Objfdt obj) {
+
+    rfturn ((obj != null) &&
+            (gftClbss() == obj.gftClbss()) &&
+            (vbluf == ((Enumfrbtfd)obj).vbluf)) ;
+  }
+
+
+  /**
+   * Rfturns thf hbsh dodf for this fnumfrbtfd.
+   *
+   * @rfturn A hbsh dodf vbluf for this objfdt.
+   */
+  @Ovfrridf
+  publid int hbshCodf() {
+    String hbshString = gftClbss().gftNbmf() + String.vblufOf(vbluf) ;
+    rfturn hbshString.hbshCodf() ;
+  }
+
+
+  /**
+   * Rfturns thf string form of this fnumfrbtfd.
+   *
+   * @rfturn Thf string for for this objfdt.
+   */
+  @Ovfrridf
+  publid String toString() {
+    rfturn gftIntTbblf().gft(vbluf);
+  }
+
+
+  /**
+   * Rfturns thf hbshtbblf of thf intfgfr forms.
+   * gftIntTbblf().gft(x) rfturns thf string form bssodibtfd
+   * to thf intfgfr x.
+   *
+   * This mfthod must bf implfmfntfd by thf dfrivfd dlbss.
+   *
+   * @rfturn An hbshtbblf for rfbd-only purposf
+   */
+
+  protfdtfd bbstrbdt Hbshtbblf<Intfgfr,String>  gftIntTbblf() ;
+
+
+
+  /**
+   * Rfturns thf hbshtbblf of thf string forms.
+   * gftStringTbblf().gft(s) rfturns thf intfgfr form bssodibtfd
+   * to thf string s.
+   *
+   * This mfthod must bf implfmfntfd by thf dfrivfd dlbss.
+   *
+   * @rfturn An hbshtbblf for rfbd-only purposf
+   */
+
+  protfdtfd bbstrbdt Hbshtbblf<String,Intfgfr> gftStringTbblf() ;
+
+
+  /**
+   * This vbribblf kffps thf intfgfr form of thf fnumfrbtfd.
+   * Thf string form is rftrifvfd using gftIntTbblf().
+   */
+  protfdtfd int vbluf ;
+
+}

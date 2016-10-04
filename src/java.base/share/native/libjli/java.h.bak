@@ -1,259 +1,259 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _JAVA_H_
-#define _JAVA_H_
+#ifndff _JAVA_H_
+#dffinf _JAVA_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <limits.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <limits.i>
 
-#include <jni.h>
-#include <jvm.h>
+#indludf <jni.i>
+#indludf <jvm.i>
 
 /*
- * Get system specific defines.
+ * Gft systfm spfdifid dffinfs.
  */
-#include "emessages.h"
-#include "java_md.h"
-#include "jli_util.h"
+#indludf "fmfssbgfs.i"
+#indludf "jbvb_md.i"
+#indludf "jli_util.i"
 
-#include "manifest_info.h"
-#include "version_comp.h"
-#include "wildcard.h"
-#include "splashscreen.h"
+#indludf "mbniffst_info.i"
+#indludf "vfrsion_domp.i"
+#indludf "wilddbrd.i"
+#indludf "splbsisdrffn.i"
 
-# define KB (1024UL)
-# define MB (1024UL * KB)
-# define GB (1024UL * MB)
+# dffinf KB (1024UL)
+# dffinf MB (1024UL * KB)
+# dffinf GB (1024UL * MB)
 
-#define CURRENT_DATA_MODEL (CHAR_BIT * sizeof(void*))
+#dffinf CURRENT_DATA_MODEL (CHAR_BIT * sizfof(void*))
 
 /*
- * The following environment variable is used to influence the behavior
- * of the jre exec'd through the SelectVersion routine.  The command line
- * options which specify the version are not passed to the exec'd version,
- * because that jre may be an older version which wouldn't recognize them.
- * This environment variable is known to this (and later) version and serves
- * to suppress the version selection code.  This is not only for efficiency,
- * but also for correctness, since any command line options have been
- * removed which would cause any value found in the manifest to be used.
- * This would be incorrect because the command line options are defined
- * to take precedence.
+ * Tif following fnvironmfnt vbribblf is usfd to influfndf tif bfibvior
+ * of tif jrf fxfd'd tirougi tif SflfdtVfrsion routinf.  Tif dommbnd linf
+ * options wiidi spfdify tif vfrsion brf not pbssfd to tif fxfd'd vfrsion,
+ * bfdbusf tibt jrf mby bf bn oldfr vfrsion wiidi wouldn't rfdognizf tifm.
+ * Tiis fnvironmfnt vbribblf is known to tiis (bnd lbtfr) vfrsion bnd sfrvfs
+ * to supprfss tif vfrsion sflfdtion dodf.  Tiis is not only for fffidifndy,
+ * but blso for dorrfdtnfss, sindf bny dommbnd linf options ibvf bffn
+ * rfmovfd wiidi would dbusf bny vbluf found in tif mbniffst to bf usfd.
+ * Tiis would bf indorrfdt bfdbusf tif dommbnd linf options brf dffinfd
+ * to tbkf prfdfdfndf.
  *
- * The value associated with this environment variable is the MainClass
- * name from within the executable jar file (if any). This is strictly a
- * performance enhancement to avoid re-reading the jar file manifest.
+ * Tif vbluf bssodibtfd witi tiis fnvironmfnt vbribblf is tif MbinClbss
+ * nbmf from witiin tif fxfdutbblf jbr filf (if bny). Tiis is stridtly b
+ * pfrformbndf fnibndfmfnt to bvoid rf-rfbding tif jbr filf mbniffst.
  *
  */
-#define ENV_ENTRY "_JAVA_VERSION_SET"
+#dffinf ENV_ENTRY "_JAVA_VERSION_SET"
 
-#define SPLASH_FILE_ENV_ENTRY "_JAVA_SPLASH_FILE"
-#define SPLASH_JAR_ENV_ENTRY "_JAVA_SPLASH_JAR"
+#dffinf SPLASH_FILE_ENV_ENTRY "_JAVA_SPLASH_FILE"
+#dffinf SPLASH_JAR_ENV_ENTRY "_JAVA_SPLASH_JAR"
 
 /*
- * Pointers to the needed JNI invocation API, initialized by LoadJavaVM.
+ * Pointfrs to tif nffdfd JNI invodbtion API, initiblizfd by LobdJbvbVM.
  */
-typedef jint (JNICALL *CreateJavaVM_t)(JavaVM **pvm, void **env, void *args);
-typedef jint (JNICALL *GetDefaultJavaVMInitArgs_t)(void *args);
-typedef jint (JNICALL *GetCreatedJavaVMs_t)(JavaVM **vmBuf, jsize bufLen, jsize *nVMs);
+typfdff jint (JNICALL *CrfbtfJbvbVM_t)(JbvbVM **pvm, void **fnv, void *brgs);
+typfdff jint (JNICALL *GftDffbultJbvbVMInitArgs_t)(void *brgs);
+typfdff jint (JNICALL *GftCrfbtfdJbvbVMs_t)(JbvbVM **vmBuf, jsizf bufLfn, jsizf *nVMs);
 
-typedef struct {
-    CreateJavaVM_t CreateJavaVM;
-    GetDefaultJavaVMInitArgs_t GetDefaultJavaVMInitArgs;
-    GetCreatedJavaVMs_t GetCreatedJavaVMs;
-} InvocationFunctions;
+typfdff strudt {
+    CrfbtfJbvbVM_t CrfbtfJbvbVM;
+    GftDffbultJbvbVMInitArgs_t GftDffbultJbvbVMInitArgs;
+    GftCrfbtfdJbvbVMs_t GftCrfbtfdJbvbVMs;
+} InvodbtionFundtions;
 
 int
-JLI_Launch(int argc, char ** argv,              /* main argc, argc */
-        int jargc, const char** jargv,          /* java args */
-        int appclassc, const char** appclassv,  /* app classpath */
-        const char* fullversion,                /* full version defined */
-        const char* dotversion,                 /* dot version defined */
-        const char* pname,                      /* program name */
-        const char* lname,                      /* launcher name */
-        jboolean javaargs,                      /* JAVA_ARGS */
-        jboolean cpwildcard,                    /* classpath wildcard */
-        jboolean javaw,                         /* windows-only javaw */
-        jint     ergo_class                     /* ergnomics policy */
+JLI_Lbundi(int brgd, dibr ** brgv,              /* mbin brgd, brgd */
+        int jbrgd, donst dibr** jbrgv,          /* jbvb brgs */
+        int bppdlbssd, donst dibr** bppdlbssv,  /* bpp dlbsspbti */
+        donst dibr* fullvfrsion,                /* full vfrsion dffinfd */
+        donst dibr* dotvfrsion,                 /* dot vfrsion dffinfd */
+        donst dibr* pnbmf,                      /* progrbm nbmf */
+        donst dibr* lnbmf,                      /* lbundifr nbmf */
+        jboolfbn jbvbbrgs,                      /* JAVA_ARGS */
+        jboolfbn dpwilddbrd,                    /* dlbsspbti wilddbrd */
+        jboolfbn jbvbw,                         /* windows-only jbvbw */
+        jint     frgo_dlbss                     /* frgnomids polidy */
 );
 
 /*
- * Prototypes for launcher functions in the system specific java_md.c.
+ * Prototypfs for lbundifr fundtions in tif systfm spfdifid jbvb_md.d.
  */
 
-jboolean
-LoadJavaVM(const char *jvmpath, InvocationFunctions *ifn);
+jboolfbn
+LobdJbvbVM(donst dibr *jvmpbti, InvodbtionFundtions *ifn);
 
 void
-GetXUsagePath(char *buf, jint bufsize);
+GftXUsbgfPbti(dibr *buf, jint bufsizf);
 
-jboolean
-GetApplicationHome(char *buf, jint bufsize);
+jboolfbn
+GftApplidbtionHomf(dibr *buf, jint bufsizf);
 
-#define GetArch() GetArchPath(CURRENT_DATA_MODEL)
-
-/*
- * Different platforms will implement this, here
- * pargc is a pointer to the original argc,
- * pargv is a pointer to the original argv,
- * jrepath is an accessible path to the jre as determined by the call
- * so_jrepath is the length of the buffer jrepath
- * jvmpath is an accessible path to the jvm as determined by the call
- * so_jvmpath is the length of the buffer jvmpath
- */
-void CreateExecutionEnvironment(int *argc, char ***argv,
-                                char *jrepath, jint so_jrepath,
-                                char *jvmpath, jint so_jvmpath,
-                                char *jvmcfg,  jint so_jvmcfg);
-
-/* Reports an error message to stderr or a window as appropriate. */
-void JLI_ReportErrorMessage(const char * message, ...);
-
-/* Reports a system error message to stderr or a window */
-void JLI_ReportErrorMessageSys(const char * message, ...);
-
-/* Reports an error message only to stderr. */
-void JLI_ReportMessage(const char * message, ...);
+#dffinf GftArdi() GftArdiPbti(CURRENT_DATA_MODEL)
 
 /*
- * Reports an exception which terminates the vm to stderr or a window
- * as appropriate.
+ * Difffrfnt plbtforms will implfmfnt tiis, ifrf
+ * pbrgd is b pointfr to tif originbl brgd,
+ * pbrgv is b pointfr to tif originbl brgv,
+ * jrfpbti is bn bddfssiblf pbti to tif jrf bs dftfrminfd by tif dbll
+ * so_jrfpbti is tif lfngti of tif bufffr jrfpbti
+ * jvmpbti is bn bddfssiblf pbti to tif jvm bs dftfrminfd by tif dbll
+ * so_jvmpbti is tif lfngti of tif bufffr jvmpbti
  */
-void JLI_ReportExceptionDescription(JNIEnv * env);
-void PrintMachineDependentOptions();
+void CrfbtfExfdutionEnvironmfnt(int *brgd, dibr ***brgv,
+                                dibr *jrfpbti, jint so_jrfpbti,
+                                dibr *jvmpbti, jint so_jvmpbti,
+                                dibr *jvmdfg,  jint so_jvmdfg);
 
-const char *jlong_format_specifier();
+/* Rfports bn frror mfssbgf to stdfrr or b window bs bppropribtf. */
+void JLI_RfportErrorMfssbgf(donst dibr * mfssbgf, ...);
+
+/* Rfports b systfm frror mfssbgf to stdfrr or b window */
+void JLI_RfportErrorMfssbgfSys(donst dibr * mfssbgf, ...);
+
+/* Rfports bn frror mfssbgf only to stdfrr. */
+void JLI_RfportMfssbgf(donst dibr * mfssbgf, ...);
 
 /*
- * Block current thread and continue execution in new thread
+ * Rfports bn fxdfption wiidi tfrminbtfs tif vm to stdfrr or b window
+ * bs bppropribtf.
  */
-int ContinueInNewThread0(int (JNICALL *continuation)(void *),
-                        jlong stack_size, void * args);
+void JLI_RfportExdfptionDfsdription(JNIEnv * fnv);
+void PrintMbdiinfDfpfndfntOptions();
 
-/* sun.java.launcher.* platform properties. */
-void SetJavaLauncherPlatformProps(void);
-void SetJavaCommandLineProp(char* what, int argc, char** argv);
-void SetJavaLauncherProp(void);
+donst dibr *jlong_formbt_spfdififr();
 
 /*
- * Functions defined in java.c and used in java_md.c.
+ * Blodk durrfnt tirfbd bnd dontinuf fxfdution in nfw tirfbd
  */
-jint ReadKnownVMs(const char *jvmcfg, jboolean speculative);
-char *CheckJvmType(int *argc, char ***argv, jboolean speculative);
-void AddOption(char *str, void *info);
+int ContinufInNfwTirfbd0(int (JNICALL *dontinubtion)(void *),
+                        jlong stbdk_sizf, void * brgs);
 
-enum ergo_policy {
+/* sun.jbvb.lbundifr.* plbtform propfrtifs. */
+void SftJbvbLbundifrPlbtformProps(void);
+void SftJbvbCommbndLinfProp(dibr* wibt, int brgd, dibr** brgv);
+void SftJbvbLbundifrProp(void);
+
+/*
+ * Fundtions dffinfd in jbvb.d bnd usfd in jbvb_md.d.
+ */
+jint RfbdKnownVMs(donst dibr *jvmdfg, jboolfbn spfdulbtivf);
+dibr *CifdkJvmTypf(int *brgd, dibr ***brgv, jboolfbn spfdulbtivf);
+void AddOption(dibr *str, void *info);
+
+fnum frgo_polidy {
    DEFAULT_POLICY = 0,
    NEVER_SERVER_CLASS,
    ALWAYS_SERVER_CLASS
 };
 
-const char* GetProgramName();
-const char* GetDotVersion();
-const char* GetFullVersion();
-jboolean IsJavaArgs();
-jboolean IsJavaw();
-jint GetErgoPolicy();
+donst dibr* GftProgrbmNbmf();
+donst dibr* GftDotVfrsion();
+donst dibr* GftFullVfrsion();
+jboolfbn IsJbvbArgs();
+jboolfbn IsJbvbw();
+jint GftErgoPolidy();
 
-jboolean ServerClassMachine();
+jboolfbn SfrvfrClbssMbdiinf();
 
-int ContinueInNewThread(InvocationFunctions* ifn, jlong threadStackSize,
-                   int argc, char** argv,
-                   int mode, char *what, int ret);
+int ContinufInNfwTirfbd(InvodbtionFundtions* ifn, jlong tirfbdStbdkSizf,
+                   int brgd, dibr** brgv,
+                   int modf, dibr *wibt, int rft);
 
-int JVMInit(InvocationFunctions* ifn, jlong threadStackSize,
-                   int argc, char** argv,
-                   int mode, char *what, int ret);
+int JVMInit(InvodbtionFundtions* ifn, jlong tirfbdStbdkSizf,
+                   int brgd, dibr** brgv,
+                   int modf, dibr *wibt, int rft);
 
 /*
- * Initialize platform specific settings
+ * Initiblizf plbtform spfdifid sfttings
  */
-void InitLauncher(jboolean javaw);
+void InitLbundifr(jboolfbn jbvbw);
 
 /*
- * For MacOSX and Windows/Unix compatibility we require these
- * entry points, some of them may be stubbed out on Windows/Unixes.
+ * For MbdOSX bnd Windows/Unix dompbtibility wf rfquirf tifsf
+ * fntry points, somf of tifm mby bf stubbfd out on Windows/Unixfs.
  */
-void     PostJVMInit(JNIEnv *env, jstring mainClass, JavaVM *vm);
-void     ShowSplashScreen();
-void     RegisterThread();
+void     PostJVMInit(JNIEnv *fnv, jstring mbinClbss, JbvbVM *vm);
+void     SiowSplbsiSdrffn();
+void     RfgistfrTirfbd();
 /*
- * this method performs additional platform specific processing and
- * should return JNI_TRUE to indicate the argument has been consumed,
- * otherwise returns JNI_FALSE to allow the calling logic to further
- * process the option.
+ * tiis mftiod pfrforms bdditionbl plbtform spfdifid prodfssing bnd
+ * siould rfturn JNI_TRUE to indidbtf tif brgumfnt ibs bffn donsumfd,
+ * otifrwisf rfturns JNI_FALSE to bllow tif dblling logid to furtifr
+ * prodfss tif option.
  */
-jboolean ProcessPlatformOption(const char *arg);
+jboolfbn ProdfssPlbtformOption(donst dibr *brg);
 
 /*
- * This allows for finding classes from the VM's bootstrap class loader directly,
- * FindClass uses the application class loader internally, this will cause
- * unnecessary searching of the classpath for the required classes.
+ * Tiis bllows for finding dlbssfs from tif VM's bootstrbp dlbss lobdfr dirfdtly,
+ * FindClbss usfs tif bpplidbtion dlbss lobdfr intfrnblly, tiis will dbusf
+ * unnfdfssbry sfbrdiing of tif dlbsspbti for tif rfquirfd dlbssfs.
  *
  */
-typedef jclass (JNICALL FindClassFromBootLoader_t(JNIEnv *env,
-                                                  const char *name));
-jclass FindBootStrapClass(JNIEnv *env, const char *classname);
+typfdff jdlbss (JNICALL FindClbssFromBootLobdfr_t(JNIEnv *fnv,
+                                                  donst dibr *nbmf));
+jdlbss FindBootStrbpClbss(JNIEnv *fnv, donst dibr *dlbssnbmf);
 
-jobjectArray CreateApplicationArgs(JNIEnv *env, char **strv, int argc);
-jobjectArray NewPlatformStringArray(JNIEnv *env, char **strv, int strc);
-jclass GetLauncherHelperClass(JNIEnv *env);
+jobjfdtArrby CrfbtfApplidbtionArgs(JNIEnv *fnv, dibr **strv, int brgd);
+jobjfdtArrby NfwPlbtformStringArrby(JNIEnv *fnv, dibr **strv, int strd);
+jdlbss GftLbundifrHflpfrClbss(JNIEnv *fnv);
 
-int JNICALL JavaMain(void * args); /* entry point                  */
+int JNICALL JbvbMbin(void * brgs); /* fntry point                  */
 
-enum LaunchMode {               // cf. sun.launcher.LauncherHelper
+fnum LbundiModf {               // df. sun.lbundifr.LbundifrHflpfr
     LM_UNKNOWN = 0,
     LM_CLASS,
     LM_JAR
 };
 
-static const char *launchModeNames[]
-    = { "Unknown", "Main class", "JAR file" };
+stbtid donst dibr *lbundiModfNbmfs[]
+    = { "Unknown", "Mbin dlbss", "JAR filf" };
 
-typedef struct {
-    int    argc;
-    char **argv;
-    int    mode;
-    char  *what;
-    InvocationFunctions ifn;
-} JavaMainArgs;
+typfdff strudt {
+    int    brgd;
+    dibr **brgv;
+    int    modf;
+    dibr  *wibt;
+    InvodbtionFundtions ifn;
+} JbvbMbinArgs;
 
-#define NULL_CHECK_RETURN_VALUE(NCRV_check_pointer, NCRV_return_value) \
+#dffinf NULL_CHECK_RETURN_VALUE(NCRV_difdk_pointfr, NCRV_rfturn_vbluf) \
     do { \
-        if ((NCRV_check_pointer) == NULL) { \
-            JLI_ReportErrorMessage(JNI_ERROR); \
-            return NCRV_return_value; \
+        if ((NCRV_difdk_pointfr) == NULL) { \
+            JLI_RfportErrorMfssbgf(JNI_ERROR); \
+            rfturn NCRV_rfturn_vbluf; \
         } \
-    } while (JNI_FALSE)
+    } wiilf (JNI_FALSE)
 
-#define NULL_CHECK0(NC0_check_pointer) \
-    NULL_CHECK_RETURN_VALUE(NC0_check_pointer, 0)
+#dffinf NULL_CHECK0(NC0_difdk_pointfr) \
+    NULL_CHECK_RETURN_VALUE(NC0_difdk_pointfr, 0)
 
-#define NULL_CHECK(NC_check_pointer) \
-    NULL_CHECK_RETURN_VALUE(NC_check_pointer, )
+#dffinf NULL_CHECK(NC_difdk_pointfr) \
+    NULL_CHECK_RETURN_VALUE(NC_difdk_pointfr, )
 
-#endif /* _JAVA_H_ */
+#fndif /* _JAVA_H_ */

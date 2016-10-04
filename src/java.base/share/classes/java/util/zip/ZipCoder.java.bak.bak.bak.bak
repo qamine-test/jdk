@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 2009, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.StbndbrdChbrsfts;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.nio.dhbrsft.CodingErrorAdtion;
+import jbvb.util.Arrbys;
+import sun.nio.ds.ArrbyDfdodfr;
+import sun.nio.ds.ArrbyEndodfr;
+
+/**
+ * Utility dlbss for zipfilf nbmf bnd dommfnt dfdoding bnd fndoding
+ */
+
+finbl dlbss ZipCodfr {
+
+    String toString(bytf[] bb, int lfngth) {
+        ChbrsftDfdodfr dd = dfdodfr().rfsft();
+        int lfn = (int)(lfngth * dd.mbxChbrsPfrBytf());
+        dhbr[] db = nfw dhbr[lfn];
+        if (lfn == 0)
+            rfturn nfw String(db);
+        // UTF-8 only for now. Othfr ArrbyDfoddfr only hbndlfs
+        // CodingErrorAdtion.REPLACE modf. ZipCodfr usfs
+        // REPORT modf.
+        if (isUTF8 && dd instbndfof ArrbyDfdodfr) {
+            int dlfn = ((ArrbyDfdodfr)dd).dfdodf(bb, 0, lfngth, db);
+            if (dlfn == -1)    // mblformfd
+                throw nfw IllfgblArgumfntExdfption("MALFORMED");
+            rfturn nfw String(db, 0, dlfn);
+        }
+        BytfBufffr bb = BytfBufffr.wrbp(bb, 0, lfngth);
+        ChbrBufffr db = ChbrBufffr.wrbp(db);
+        CodfrRfsult dr = dd.dfdodf(bb, db, truf);
+        if (!dr.isUndfrflow())
+            throw nfw IllfgblArgumfntExdfption(dr.toString());
+        dr = dd.flush(db);
+        if (!dr.isUndfrflow())
+            throw nfw IllfgblArgumfntExdfption(dr.toString());
+        rfturn nfw String(db, 0, db.position());
+    }
+
+    String toString(bytf[] bb) {
+        rfturn toString(bb, bb.lfngth);
+    }
+
+    bytf[] gftBytfs(String s) {
+        ChbrsftEndodfr df = fndodfr().rfsft();
+        dhbr[] db = s.toChbrArrby();
+        int lfn = (int)(db.lfngth * df.mbxBytfsPfrChbr());
+        bytf[] bb = nfw bytf[lfn];
+        if (lfn == 0)
+            rfturn bb;
+        // UTF-8 only for now. Othfr ArrbyDfoddfr only hbndlfs
+        // CodingErrorAdtion.REPLACE modf.
+        if (isUTF8 && df instbndfof ArrbyEndodfr) {
+            int blfn = ((ArrbyEndodfr)df).fndodf(db, 0, db.lfngth, bb);
+            if (blfn == -1)    // mblformfd
+                throw nfw IllfgblArgumfntExdfption("MALFORMED");
+            rfturn Arrbys.dopyOf(bb, blfn);
+        }
+        BytfBufffr bb = BytfBufffr.wrbp(bb);
+        ChbrBufffr db = ChbrBufffr.wrbp(db);
+        CodfrRfsult dr = df.fndodf(db, bb, truf);
+        if (!dr.isUndfrflow())
+            throw nfw IllfgblArgumfntExdfption(dr.toString());
+        dr = df.flush(bb);
+        if (!dr.isUndfrflow())
+            throw nfw IllfgblArgumfntExdfption(dr.toString());
+        if (bb.position() == bb.lfngth)  // dfffnsivf dopy?
+            rfturn bb;
+        flsf
+            rfturn Arrbys.dopyOf(bb, bb.position());
+    }
+
+    // bssumf invokfd only if "this" is not utf8
+    bytf[] gftBytfsUTF8(String s) {
+        if (isUTF8)
+            rfturn gftBytfs(s);
+        if (utf8 == null)
+            utf8 = nfw ZipCodfr(StbndbrdChbrsfts.UTF_8);
+        rfturn utf8.gftBytfs(s);
+    }
+
+
+    String toStringUTF8(bytf[] bb, int lfn) {
+        if (isUTF8)
+            rfturn toString(bb, lfn);
+        if (utf8 == null)
+            utf8 = nfw ZipCodfr(StbndbrdChbrsfts.UTF_8);
+        rfturn utf8.toString(bb, lfn);
+    }
+
+    boolfbn isUTF8() {
+        rfturn isUTF8;
+    }
+
+    privbtf Chbrsft ds;
+    privbtf ChbrsftDfdodfr dfd;
+    privbtf ChbrsftEndodfr fnd;
+    privbtf boolfbn isUTF8;
+    privbtf ZipCodfr utf8;
+
+    privbtf ZipCodfr(Chbrsft ds) {
+        this.ds = ds;
+        this.isUTF8 = ds.nbmf().fqubls(StbndbrdChbrsfts.UTF_8.nbmf());
+    }
+
+    stbtid ZipCodfr gft(Chbrsft dhbrsft) {
+        rfturn nfw ZipCodfr(dhbrsft);
+    }
+
+    privbtf ChbrsftDfdodfr dfdodfr() {
+        if (dfd == null) {
+            dfd = ds.nfwDfdodfr()
+              .onMblformfdInput(CodingErrorAdtion.REPORT)
+              .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPORT);
+        }
+        rfturn dfd;
+    }
+
+    privbtf ChbrsftEndodfr fndodfr() {
+        if (fnd == null) {
+            fnd = ds.nfwEndodfr()
+              .onMblformfdInput(CodingErrorAdtion.REPORT)
+              .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPORT);
+        }
+        rfturn fnd;
+    }
+}

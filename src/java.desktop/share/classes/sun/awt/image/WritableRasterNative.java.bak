@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DirectColorModel;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.SampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
-import java.awt.image.WritableRaster;
-import sun.java2d.SurfaceData;
+import jbvb.bwt.Point;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.PixflIntfrlfbvfdSbmplfModfl;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.SinglfPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import sun.jbvb2d.SurfbdfDbtb;
 
 /**
- * WritableRasterNative
- * This class exists to wrap a native DataBuffer object.  The
- * standard WritableRaster object assumes that a DataBuffer
- * of a given type (e.g., DataBuffer.TYPE_INT) implies a certain
- * subclass (e.g., DataBufferInt).  But this is not always the
- * case.  DataBufferNative, for example, may allow access to
- * integer-based data, but it is not DataBufferInt (which is a
- * final class and cannot be subclassed).
- * So this class exists simply to allow the WritableRaster
- * functionality for this new kind of DataBuffer object.
+ * WritbblfRbstfrNbtivf
+ * Tiis dlbss fxists to wrbp b nbtivf DbtbBufffr objfdt.  Tif
+ * stbndbrd WritbblfRbstfr objfdt bssumfs tibt b DbtbBufffr
+ * of b givfn typf (f.g., DbtbBufffr.TYPE_INT) implifs b dfrtbin
+ * subdlbss (f.g., DbtbBufffrInt).  But tiis is not blwbys tif
+ * dbsf.  DbtbBufffrNbtivf, for fxbmplf, mby bllow bddfss to
+ * intfgfr-bbsfd dbtb, but it is not DbtbBufffrInt (wiidi is b
+ * finbl dlbss bnd dbnnot bf subdlbssfd).
+ * So tiis dlbss fxists simply to bllow tif WritbblfRbstfr
+ * fundtionblity for tiis nfw kind of DbtbBufffr objfdt.
  */
-public class WritableRasterNative extends WritableRaster {
+publid dlbss WritbblfRbstfrNbtivf fxtfnds WritbblfRbstfr {
 
-    public static WritableRasterNative createNativeRaster(SampleModel sm,
-                                                          DataBuffer db)
+    publid stbtid WritbblfRbstfrNbtivf drfbtfNbtivfRbstfr(SbmplfModfl sm,
+                                                          DbtbBufffr db)
     {
-        return new WritableRasterNative(sm, db);
+        rfturn nfw WritbblfRbstfrNbtivf(sm, db);
     }
 
-    protected WritableRasterNative(SampleModel sm, DataBuffer db) {
-        super(sm, db, new Point(0, 0));
+    protfdtfd WritbblfRbstfrNbtivf(SbmplfModfl sm, DbtbBufffr db) {
+        supfr(sm, db, nfw Point(0, 0));
     }
 
-    public static WritableRasterNative createNativeRaster(ColorModel cm,
-                                                          SurfaceData sd,
-                                                          int width,
-                                                          int height)
+    publid stbtid WritbblfRbstfrNbtivf drfbtfNbtivfRbstfr(ColorModfl dm,
+                                                          SurfbdfDbtb sd,
+                                                          int widti,
+                                                          int ifigit)
     {
-        SampleModel smHw = null;
-        int dataType = 0;
-        int scanStride = width;
+        SbmplfModfl smHw = null;
+        int dbtbTypf = 0;
+        int sdbnStridf = widti;
 
-        switch (cm.getPixelSize()) {
-        case 8:
-        case 12:
-            // 8-bits uses PixelInterleavedSampleModel
-            if (cm.getPixelSize() == 8) {
-                dataType = DataBuffer.TYPE_BYTE;
-            } else {
-                dataType = DataBuffer.TYPE_USHORT;
+        switdi (dm.gftPixflSizf()) {
+        dbsf 8:
+        dbsf 12:
+            // 8-bits usfs PixflIntfrlfbvfdSbmplfModfl
+            if (dm.gftPixflSizf() == 8) {
+                dbtbTypf = DbtbBufffr.TYPE_BYTE;
+            } flsf {
+                dbtbTypf = DbtbBufffr.TYPE_USHORT;
             }
-            int[] bandOffsets = new int[1];
-            bandOffsets[0] = 0;
-            smHw = new PixelInterleavedSampleModel(dataType, width,
-                                                   height,
-                                                   1, scanStride,
-                                                   bandOffsets);
-            break;
+            int[] bbndOffsfts = nfw int[1];
+            bbndOffsfts[0] = 0;
+            smHw = nfw PixflIntfrlfbvfdSbmplfModfl(dbtbTypf, widti,
+                                                   ifigit,
+                                                   1, sdbnStridf,
+                                                   bbndOffsfts);
+            brfbk;
 
-            // all others use SinglePixelPackedSampleModel
-        case 15:
-        case 16:
-            dataType = DataBuffer.TYPE_USHORT;
-            int[] bitMasks = new int[3];
-            DirectColorModel dcm = (DirectColorModel)cm;
-            bitMasks[0] = dcm.getRedMask();
-            bitMasks[1] = dcm.getGreenMask();
-            bitMasks[2] = dcm.getBlueMask();
-            smHw = new SinglePixelPackedSampleModel(dataType, width,
-                                                    height, scanStride,
-                                                    bitMasks);
-            break;
-        case 24:
-        case 32:
-            dataType = DataBuffer.TYPE_INT;
-            bitMasks = new int[3];
-            dcm = (DirectColorModel)cm;
-            bitMasks[0] = dcm.getRedMask();
-            bitMasks[1] = dcm.getGreenMask();
-            bitMasks[2] = dcm.getBlueMask();
-            smHw = new SinglePixelPackedSampleModel(dataType, width,
-                                                    height, scanStride,
-                                                    bitMasks);
-            break;
-        default:
-            throw new InternalError("Unsupported depth " +
-                                    cm.getPixelSize());
+            // bll otifrs usf SinglfPixflPbdkfdSbmplfModfl
+        dbsf 15:
+        dbsf 16:
+            dbtbTypf = DbtbBufffr.TYPE_USHORT;
+            int[] bitMbsks = nfw int[3];
+            DirfdtColorModfl ddm = (DirfdtColorModfl)dm;
+            bitMbsks[0] = ddm.gftRfdMbsk();
+            bitMbsks[1] = ddm.gftGrffnMbsk();
+            bitMbsks[2] = ddm.gftBlufMbsk();
+            smHw = nfw SinglfPixflPbdkfdSbmplfModfl(dbtbTypf, widti,
+                                                    ifigit, sdbnStridf,
+                                                    bitMbsks);
+            brfbk;
+        dbsf 24:
+        dbsf 32:
+            dbtbTypf = DbtbBufffr.TYPE_INT;
+            bitMbsks = nfw int[3];
+            ddm = (DirfdtColorModfl)dm;
+            bitMbsks[0] = ddm.gftRfdMbsk();
+            bitMbsks[1] = ddm.gftGrffnMbsk();
+            bitMbsks[2] = ddm.gftBlufMbsk();
+            smHw = nfw SinglfPixflPbdkfdSbmplfModfl(dbtbTypf, widti,
+                                                    ifigit, sdbnStridf,
+                                                    bitMbsks);
+            brfbk;
+        dffbult:
+            tirow nfw IntfrnblError("Unsupportfd dfpti " +
+                                    dm.gftPixflSizf());
         }
 
-        DataBuffer dbn = new DataBufferNative(sd, dataType,
-                                              width, height);
-        return new WritableRasterNative(smHw, dbn);
+        DbtbBufffr dbn = nfw DbtbBufffrNbtivf(sd, dbtbTypf,
+                                              widti, ifigit);
+        rfturn nfw WritbblfRbstfrNbtivf(smHw, dbn);
     }
 }

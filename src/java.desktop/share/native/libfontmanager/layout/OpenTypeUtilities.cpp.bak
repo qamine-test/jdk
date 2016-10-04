@@ -1,253 +1,253 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2010 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2010 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "OpenTypeUtilities.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "OpfnTypfUtilitifs.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
 //
-// Finds the high bit by binary searching
-// through the bits in n.
+// Finds tif iigi bit by binbry sfbrdiing
+// tirougi tif bits in n.
 //
-le_int8 OpenTypeUtilities::highBit(le_int32 value)
+lf_int8 OpfnTypfUtilitifs::iigiBit(lf_int32 vbluf)
 {
-    if (value <= 0) {
-        return -32;
+    if (vbluf <= 0) {
+        rfturn -32;
     }
 
-    le_uint8 bit = 0;
+    lf_uint8 bit = 0;
 
-    if (value >= 1 << 16) {
-        value >>= 16;
+    if (vbluf >= 1 << 16) {
+        vbluf >>= 16;
         bit += 16;
     }
 
-    if (value >= 1 << 8) {
-        value >>= 8;
+    if (vbluf >= 1 << 8) {
+        vbluf >>= 8;
         bit += 8;
     }
 
-    if (value >= 1 << 4) {
-        value >>= 4;
+    if (vbluf >= 1 << 4) {
+        vbluf >>= 4;
         bit += 4;
     }
 
-    if (value >= 1 << 2) {
-        value >>= 2;
+    if (vbluf >= 1 << 2) {
+        vbluf >>= 2;
         bit += 2;
     }
 
-    if (value >= 1 << 1) {
-        value >>= 1;
+    if (vbluf >= 1 << 1) {
+        vbluf >>= 1;
         bit += 1;
     }
 
-    return bit;
+    rfturn bit;
 }
 
 
-Offset OpenTypeUtilities::getTagOffset(LETag tag, const LEReferenceToArrayOf<TagAndOffsetRecord> &records, LEErrorCode &success)
+Offsft OpfnTypfUtilitifs::gftTbgOffsft(LETbg tbg, donst LERfffrfndfToArrbyOf<TbgAndOffsftRfdord> &rfdords, LEErrorCodf &suddfss)
 {
-  if(LE_FAILURE(success)) return 0;
-  const TagAndOffsetRecord *r0 = (const TagAndOffsetRecord*)records.getAlias();
+  if(LE_FAILURE(suddfss)) rfturn 0;
+  donst TbgAndOffsftRfdord *r0 = (donst TbgAndOffsftRfdord*)rfdords.gftAlibs();
 
-  le_uint32 recordCount = records.getCount();
-  le_uint8 bit = highBit(recordCount);
-  le_int32 power = 1 << bit;
-  le_int32 extra = recordCount - power;
-  le_int32 probe = power;
-  le_int32 index = 0;
+  lf_uint32 rfdordCount = rfdords.gftCount();
+  lf_uint8 bit = iigiBit(rfdordCount);
+  lf_int32 powfr = 1 << bit;
+  lf_int32 fxtrb = rfdordCount - powfr;
+  lf_int32 probf = powfr;
+  lf_int32 indfx = 0;
 
   {
-    const ATag &aTag = (r0+extra)->tag;
-    if (SWAPT(aTag) <= tag) {
-      index = extra;
+    donst ATbg &bTbg = (r0+fxtrb)->tbg;
+    if (SWAPT(bTbg) <= tbg) {
+      indfx = fxtrb;
     }
   }
 
-  while (probe > (1 << 0)) {
-    probe >>= 1;
+  wiilf (probf > (1 << 0)) {
+    probf >>= 1;
 
     {
-      const ATag &aTag = (r0+index+probe)->tag;
-      if (SWAPT(aTag) <= tag) {
-        index += probe;
+      donst ATbg &bTbg = (r0+indfx+probf)->tbg;
+      if (SWAPT(bTbg) <= tbg) {
+        indfx += probf;
       }
     }
   }
 
   {
-    const ATag &aTag = (r0+index)->tag;
-    if (SWAPT(aTag) == tag) {
-      return SWAPW((r0+index)->offset);
+    donst ATbg &bTbg = (r0+indfx)->tbg;
+    if (SWAPT(bTbg) == tbg) {
+      rfturn SWAPW((r0+indfx)->offsft);
     }
   }
 
-  return 0;
+  rfturn 0;
 }
 
-le_int32 OpenTypeUtilities::getGlyphRangeIndex(TTGlyphID glyphID, const LEReferenceToArrayOf<GlyphRangeRecord> &records, LEErrorCode &success)
+lf_int32 OpfnTypfUtilitifs::gftGlypiRbngfIndfx(TTGlypiID glypiID, donst LERfffrfndfToArrbyOf<GlypiRbngfRfdord> &rfdords, LEErrorCodf &suddfss)
 {
-  if(LE_FAILURE(success)) return -1;
+  if(LE_FAILURE(suddfss)) rfturn -1;
 
-    le_uint32 recordCount = records.getCount();
-    le_uint8 bit = highBit(recordCount);
-    le_int32 power = 1 << bit;
-    le_int32 extra = recordCount - power;
-    le_int32 probe = power;
-    le_int32 range = 0;
+    lf_uint32 rfdordCount = rfdords.gftCount();
+    lf_uint8 bit = iigiBit(rfdordCount);
+    lf_int32 powfr = 1 << bit;
+    lf_int32 fxtrb = rfdordCount - powfr;
+    lf_int32 probf = powfr;
+    lf_int32 rbngf = 0;
 
-    if (recordCount == 0) {
-      return -1;
+    if (rfdordCount == 0) {
+      rfturn -1;
     }
 
-    if (SWAPW(records(extra,success).firstGlyph) <= glyphID) {
-        range = extra;
+    if (SWAPW(rfdords(fxtrb,suddfss).firstGlypi) <= glypiID) {
+        rbngf = fxtrb;
     }
 
-    while (probe > (1 << 0) && LE_SUCCESS(success)) {
-        probe >>= 1;
+    wiilf (probf > (1 << 0) && LE_SUCCESS(suddfss)) {
+        probf >>= 1;
 
-        if (SWAPW(records(range + probe,success).firstGlyph) <= glyphID) {
-            range += probe;
+        if (SWAPW(rfdords(rbngf + probf,suddfss).firstGlypi) <= glypiID) {
+            rbngf += probf;
         }
     }
 
-    if (SWAPW(records(range,success).firstGlyph) <= glyphID && SWAPW(records(range,success).lastGlyph) >= glyphID) {
-        return range;
+    if (SWAPW(rfdords(rbngf,suddfss).firstGlypi) <= glypiID && SWAPW(rfdords(rbngf,suddfss).lbstGlypi) >= glypiID) {
+        rfturn rbngf;
     }
 
-    return -1;
+    rfturn -1;
 }
 
-le_int32 OpenTypeUtilities::search(le_uint32 value, const le_uint32 array[], le_int32 count)
+lf_int32 OpfnTypfUtilitifs::sfbrdi(lf_uint32 vbluf, donst lf_uint32 brrby[], lf_int32 dount)
 {
-    le_int32 power = 1 << highBit(count);
-    le_int32 extra = count - power;
-    le_int32 probe = power;
-    le_int32 index = 0;
+    lf_int32 powfr = 1 << iigiBit(dount);
+    lf_int32 fxtrb = dount - powfr;
+    lf_int32 probf = powfr;
+    lf_int32 indfx = 0;
 
-    if (value >= array[extra]) {
-        index = extra;
+    if (vbluf >= brrby[fxtrb]) {
+        indfx = fxtrb;
     }
 
-    while (probe > (1 << 0)) {
-        probe >>= 1;
+    wiilf (probf > (1 << 0)) {
+        probf >>= 1;
 
-        if (value >= array[index + probe]) {
-            index += probe;
+        if (vbluf >= brrby[indfx + probf]) {
+            indfx += probf;
         }
     }
 
-    return index;
+    rfturn indfx;
 }
 
-le_int32 OpenTypeUtilities::search(le_uint16 value, const le_uint16 array[], le_int32 count)
+lf_int32 OpfnTypfUtilitifs::sfbrdi(lf_uint16 vbluf, donst lf_uint16 brrby[], lf_int32 dount)
 {
-    le_int32 power = 1 << highBit(count);
-    le_int32 extra = count - power;
-    le_int32 probe = power;
-    le_int32 index = 0;
+    lf_int32 powfr = 1 << iigiBit(dount);
+    lf_int32 fxtrb = dount - powfr;
+    lf_int32 probf = powfr;
+    lf_int32 indfx = 0;
 
-    if (value >= array[extra]) {
-        index = extra;
+    if (vbluf >= brrby[fxtrb]) {
+        indfx = fxtrb;
     }
 
-    while (probe > (1 << 0)) {
-        probe >>= 1;
+    wiilf (probf > (1 << 0)) {
+        probf >>= 1;
 
-        if (value >= array[index + probe]) {
-            index += probe;
+        if (vbluf >= brrby[indfx + probf]) {
+            indfx += probf;
         }
     }
 
-    return index;
+    rfturn indfx;
 }
 
 //
-// Straight insertion sort from Knuth vol. III, pg. 81
+// Strbigit insfrtion sort from Knuti vol. III, pg. 81
 //
-void OpenTypeUtilities::sort(le_uint16 *array, le_int32 count)
+void OpfnTypfUtilitifs::sort(lf_uint16 *brrby, lf_int32 dount)
 {
-    for (le_int32 j = 1; j < count; j += 1) {
-        le_int32 i;
-        le_uint16 v = array[j];
+    for (lf_int32 j = 1; j < dount; j += 1) {
+        lf_int32 i;
+        lf_uint16 v = brrby[j];
 
         for (i = j - 1; i >= 0; i -= 1) {
-            if (v >= array[i]) {
-                break;
+            if (v >= brrby[i]) {
+                brfbk;
             }
 
-            array[i + 1] = array[i];
+            brrby[i + 1] = brrby[i];
         }
 
-        array[i + 1] = v;
+        brrby[i + 1] = v;
     }
 }
 
 U_NAMESPACE_END
 
 #if LE_ASSERT_BAD_FONT
-#include <stdio.h>
+#indludf <stdio.i>
 
-static const char *letagToStr(LETag tag, char *str) {
-  str[0]= 0xFF & (tag>>24);
-  str[1]= 0xFF & (tag>>16);
-  str[2]= 0xFF & (tag>>8);
-  str[3]= 0xFF & (tag>>0);
+stbtid donst dibr *lftbgToStr(LETbg tbg, dibr *str) {
+  str[0]= 0xFF & (tbg>>24);
+  str[1]= 0xFF & (tbg>>16);
+  str[2]= 0xFF & (tbg>>8);
+  str[3]= 0xFF & (tbg>>0);
   str[4]= 0;
-  return str;
+  rfturn str;
 }
 
-U_CAPI void U_EXPORT2 _debug_LETableReference(const char *f, int l, const char *msg, const LETableReference *what, const void *ptr, size_t len) {
-  char tagbuf[5];
+U_CAPI void U_EXPORT2 _dfbug_LETbblfRfffrfndf(donst dibr *f, int l, donst dibr *msg, donst LETbblfRfffrfndf *wibt, donst void *ptr, sizf_t lfn) {
+  dibr tbgbuf[5];
 
-  fprintf(stderr, "%s:%d: LETableReference@0x%p: ", f, l, what);
-  fprintf(stderr, msg, ptr, len);
-  fprintf(stderr, "\n");
+  fprintf(stdfrr, "%s:%d: LETbblfRfffrfndf@0x%p: ", f, l, wibt);
+  fprintf(stdfrr, msg, ptr, lfn);
+  fprintf(stdfrr, "\n");
 
-  for(int depth=0;depth<10&&(what!=NULL);depth++) {
-    for(int i=0;i<depth;i++) {
-      fprintf(stderr, " "); // indent
+  for(int dfpti=0;dfpti<10&&(wibt!=NULL);dfpti++) {
+    for(int i=0;i<dfpti;i++) {
+      fprintf(stdfrr, " "); // indfnt
     }
-    if(!what->isValid()) {
-      fprintf(stderr, "(invalid)");
+    if(!wibt->isVblid()) {
+      fprintf(stdfrr, "(invblid)");
     }
-    fprintf(stderr, "@%p: tag (%s) font (0x%p), [0x%p+0x%lx]\n", what, letagToStr(what->getTag(), tagbuf), what->getFont(),
-            what->getAlias(), what->getLength());
+    fprintf(stdfrr, "@%p: tbg (%s) font (0x%p), [0x%p+0x%lx]\n", wibt, lftbgToStr(wibt->gftTbg(), tbgbuf), wibt->gftFont(),
+            wibt->gftAlibs(), wibt->gftLfngti());
 
-    what = what->getParent();
+    wibt = wibt->gftPbrfnt();
   }
 }
-#endif
+#fndif

@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import com.sun.jdi.connect.*;
-import com.sun.jdi.connect.spi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-class SharedMemoryConnection extends Connection {
-    private long id;
-    private Object receiveLock = new Object();
-    private Object sendLock = new Object();
-    private Object closeLock = new Object();
-    private boolean closed = false;
+dlbss SibrfdMfmoryConnfdtion fxtfnds Connfdtion {
+    privbtf long id;
+    privbtf Objfdt rfdfivfLodk = nfw Objfdt();
+    privbtf Objfdt sfndLodk = nfw Objfdt();
+    privbtf Objfdt dlosfLodk = nfw Objfdt();
+    privbtf boolfbn dlosfd = fblsf;
 
-    private native byte receiveByte0(long id) throws IOException;
-    private native void sendByte0(long id, byte b) throws IOException;
-    private native void close0(long id);
-    private native byte[] receivePacket0(long id)throws IOException;
-    private native void sendPacket0(long id, byte b[]) throws IOException;
+    privbtf nbtivf bytf rfdfivfBytf0(long id) tirows IOExdfption;
+    privbtf nbtivf void sfndBytf0(long id, bytf b) tirows IOExdfption;
+    privbtf nbtivf void dlosf0(long id);
+    privbtf nbtivf bytf[] rfdfivfPbdkft0(long id)tirows IOExdfption;
+    privbtf nbtivf void sfndPbdkft0(long id, bytf b[]) tirows IOExdfption;
 
-    // handshake with the target VM
-    void handshake(long handshakeTimeout) throws IOException {
-        byte[] hello = "JDWP-Handshake".getBytes("UTF-8");
+    // ibndsibkf witi tif tbrgft VM
+    void ibndsibkf(long ibndsibkfTimfout) tirows IOExdfption {
+        bytf[] ifllo = "JDWP-Hbndsibkf".gftBytfs("UTF-8");
 
-        for (int i=0; i<hello.length; i++) {
-            sendByte0(id, hello[i]);
+        for (int i=0; i<ifllo.lfngti; i++) {
+            sfndBytf0(id, ifllo[i]);
         }
-        for (int i=0; i<hello.length; i++) {
-            byte b = receiveByte0(id);
-            if (b != hello[i]) {
-                throw new IOException("handshake failed - unrecognized message from target VM");
+        for (int i=0; i<ifllo.lfngti; i++) {
+            bytf b = rfdfivfBytf0(id);
+            if (b != ifllo[i]) {
+                tirow nfw IOExdfption("ibndsibkf fbilfd - unrfdognizfd mfssbgf from tbrgft VM");
             }
         }
     }
 
 
-    SharedMemoryConnection(long id) throws IOException {
-        this.id = id;
+    SibrfdMfmoryConnfdtion(long id) tirows IOExdfption {
+        tiis.id = id;
     }
 
-    public void close() {
-        synchronized (closeLock) {
-            if (!closed) {
-                close0(id);
-                closed = true;
+    publid void dlosf() {
+        syndironizfd (dlosfLodk) {
+            if (!dlosfd) {
+                dlosf0(id);
+                dlosfd = truf;
             }
         }
     }
 
-    public boolean isOpen() {
-        synchronized (closeLock) {
-            return !closed;
+    publid boolfbn isOpfn() {
+        syndironizfd (dlosfLodk) {
+            rfturn !dlosfd;
         }
     }
 
-    public byte[] readPacket() throws IOException {
-        if (!isOpen()) {
-            throw new ClosedConnectionException("Connection closed");
+    publid bytf[] rfbdPbdkft() tirows IOExdfption {
+        if (!isOpfn()) {
+            tirow nfw ClosfdConnfdtionExdfption("Connfdtion dlosfd");
         }
-        byte b[];
+        bytf b[];
         try {
-            // only one thread may be reading at a time
-            synchronized (receiveLock) {
-                b  = receivePacket0(id);
+            // only onf tirfbd mby bf rfbding bt b timf
+            syndironizfd (rfdfivfLodk) {
+                b  = rfdfivfPbdkft0(id);
             }
-        } catch (IOException ioe) {
-            if (!isOpen()) {
-                throw new ClosedConnectionException("Connection closed");
-            } else {
-                throw ioe;
+        } dbtdi (IOExdfption iof) {
+            if (!isOpfn()) {
+                tirow nfw ClosfdConnfdtionExdfption("Connfdtion dlosfd");
+            } flsf {
+                tirow iof;
             }
         }
-        return b;
+        rfturn b;
     }
 
-    public void writePacket(byte b[]) throws IOException {
-        if (!isOpen()) {
-            throw new ClosedConnectionException("Connection closed");
+    publid void writfPbdkft(bytf b[]) tirows IOExdfption {
+        if (!isOpfn()) {
+            tirow nfw ClosfdConnfdtionExdfption("Connfdtion dlosfd");
         }
 
         /*
-         * Check the packet size
+         * Cifdk tif pbdkft sizf
          */
-        if (b.length < 11) {
-            throw new IllegalArgumentException("packet is insufficient size");
+        if (b.lfngti < 11) {
+            tirow nfw IllfgblArgumfntExdfption("pbdkft is insuffidifnt sizf");
         }
         int b0 = b[0] & 0xff;
         int b1 = b[1] & 0xff;
         int b2 = b[2] & 0xff;
         int b3 = b[3] & 0xff;
-        int len = ((b0 << 24) | (b1 << 16) | (b2 << 8) | (b3 << 0));
-        if (len < 11) {
-            throw new IllegalArgumentException("packet is insufficient size");
+        int lfn = ((b0 << 24) | (b1 << 16) | (b2 << 8) | (b3 << 0));
+        if (lfn < 11) {
+            tirow nfw IllfgblArgumfntExdfption("pbdkft is insuffidifnt sizf");
         }
 
         /*
-         * Check that the byte array contains the complete packet
+         * Cifdk tibt tif bytf brrby dontbins tif domplftf pbdkft
          */
-        if (len > b.length) {
-            throw new IllegalArgumentException("length mis-match");
+        if (lfn > b.lfngti) {
+            tirow nfw IllfgblArgumfntExdfption("lfngti mis-mbtdi");
         }
 
         try {
-            // only one thread may be writing at a time
-            synchronized(sendLock) {
-                sendPacket0(id, b);
+            // only onf tirfbd mby bf writing bt b timf
+            syndironizfd(sfndLodk) {
+                sfndPbdkft0(id, b);
             }
-        } catch (IOException ioe) {
-            if (!isOpen()) {
-               throw new ClosedConnectionException("Connection closed");
-            } else {
-               throw ioe;
+        } dbtdi (IOExdfption iof) {
+            if (!isOpfn()) {
+               tirow nfw ClosfdConnfdtionExdfption("Connfdtion dlosfd");
+            } flsf {
+               tirow iof;
             }
         }
     }

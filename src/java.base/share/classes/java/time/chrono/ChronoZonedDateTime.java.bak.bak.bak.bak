@@ -1,0 +1,677 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2007-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.dhrono;
+
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.INSTANT_SECONDS;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.OFFSET_SECONDS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.FOREVER;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.NANOS;
+
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.ZonfdDbtfTimf;
+import jbvb.timf.formbt.DbtfTimfFormbttfr;
+import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.tfmporbl.ChronoUnit;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objfdts;
+
+/**
+ * A dbtf-timf with b timf-zonf in bn brbitrbry dhronology,
+ * intfndfd for bdvbndfd globblizbtion usf dbsfs.
+ * <p>
+ * <b>Most bpplidbtions should dfdlbrf mfthod signbturfs, fiflds bnd vbribblfs
+ * bs {@link ZonfdDbtfTimf}, not this intfrfbdf.</b>
+ * <p>
+ * A {@dodf ChronoZonfdDbtfTimf} is thf bbstrbdt rfprfsfntbtion of bn offsft dbtf-timf
+ * whfrf thf {@dodf Chronology dhronology}, or dblfndbr systfm, is pluggbblf.
+ * Thf dbtf-timf is dffinfd in tfrms of fiflds fxprfssfd by {@link TfmporblFifld},
+ * whfrf most dommon implfmfntbtions brf dffinfd in {@link ChronoFifld}.
+ * Thf dhronology dffinfs how thf dblfndbr systfm opfrbtfs bnd thf mfbning of
+ * thf stbndbrd fiflds.
+ *
+ * <h3>Whfn to usf this intfrfbdf</h3>
+ * Thf dfsign of thf API fndourbgfs thf usf of {@dodf ZonfdDbtfTimf} rbthfr thbn this
+ * intfrfbdf, fvfn in thf dbsf whfrf thf bpplidbtion nffds to dfbl with multiplf
+ * dblfndbr systfms. Thf rbtionblf for this is fxplorfd in dftbil in {@link ChronoLodblDbtf}.
+ * <p>
+ * Ensurf thbt thf disdussion in {@dodf ChronoLodblDbtf} hbs bffn rfbd bnd undfrstood
+ * bfforf using this intfrfbdf.
+ *
+ * @implSpfd
+ * This intfrfbdf must bf implfmfntfd with dbrf to fnsurf othfr dlbssfs opfrbtf dorrfdtly.
+ * All implfmfntbtions thbt dbn bf instbntibtfd must bf finbl, immutbblf bnd thrfbd-sbff.
+ * Subdlbssfs should bf Sfriblizbblf whfrfvfr possiblf.
+ *
+ * @pbrbm <D> thf dondrftf typf for thf dbtf of this dbtf-timf
+ * @sindf 1.8
+ */
+publid intfrfbdf ChronoZonfdDbtfTimf<D fxtfnds ChronoLodblDbtf>
+        fxtfnds Tfmporbl, Compbrbblf<ChronoZonfdDbtfTimf<?>> {
+
+    /**
+     * Gfts b dompbrbtor thbt dompbrfs {@dodf ChronoZonfdDbtfTimf} in
+     * timf-linf ordfr ignoring thf dhronology.
+     * <p>
+     * This dompbrbtor difffrs from thf dompbrison in {@link #dompbrfTo} in thbt it
+     * only dompbrfs thf undfrlying instbnt bnd not thf dhronology.
+     * This bllows dbtfs in difffrfnt dblfndbr systfms to bf dompbrfd bbsfd
+     * on thf position of thf dbtf-timf on thf instbnt timf-linf.
+     * Thf undfrlying dompbrison is fquivblfnt to dompbring thf fpodh-sfdond bnd nbno-of-sfdond.
+     *
+     * @rfturn b dompbrbtor thbt dompbrfs in timf-linf ordfr ignoring thf dhronology
+     * @sff #isAftfr
+     * @sff #isBfforf
+     * @sff #isEqubl
+     */
+    stbtid Compbrbtor<ChronoZonfdDbtfTimf<?>> timfLinfOrdfr() {
+        rfturn AbstrbdtChronology.INSTANT_ORDER;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf ChronoZonfdDbtfTimf} from b tfmporbl objfdt.
+     * <p>
+     * This drfbtfs b zonfd dbtf-timf bbsfd on thf spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * whidh this fbdtory donvfrts to bn instbndf of {@dodf ChronoZonfdDbtfTimf}.
+     * <p>
+     * Thf donvfrsion fxtrbdts bnd dombinfs thf dhronology, dbtf, timf bnd zonf
+     * from thf tfmporbl objfdt. Thf bfhbvior is fquivblfnt to using
+     * {@link Chronology#zonfdDbtfTimf(TfmporblAddfssor)} with thf fxtrbdtfd dhronology.
+     * Implfmfntbtions brf pfrmittfd to pfrform optimizbtions sudh bs bddfssing
+     * thosf fiflds thbt brf fquivblfnt to thf rflfvbnt objfdts.
+     * <p>
+     * This mfthod mbtdhfs thf signbturf of thf fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mfthod rfffrfndf, {@dodf ChronoZonfdDbtfTimf::from}.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to donvfrt, not null
+     * @rfturn thf dbtf-timf, not null
+     * @throws DbtfTimfExdfption if unbblf to donvfrt to b {@dodf ChronoZonfdDbtfTimf}
+     * @sff Chronology#zonfdDbtfTimf(TfmporblAddfssor)
+     */
+    stbtid ChronoZonfdDbtfTimf<?> from(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof ChronoZonfdDbtfTimf) {
+            rfturn (ChronoZonfdDbtfTimf<?>) tfmporbl;
+        }
+        Objfdts.rfquirfNonNull(tfmporbl, "tfmporbl");
+        Chronology dhrono = tfmporbl.qufry(TfmporblQufrifs.dhronology());
+        if (dhrono == null) {
+            throw nfw DbtfTimfExdfption("Unbblf to obtbin ChronoZonfdDbtfTimf from TfmporblAddfssor: " + tfmporbl.gftClbss());
+        }
+        rfturn dhrono.zonfdDbtfTimf(tfmporbl);
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    dffbult VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld instbndfof ChronoFifld) {
+            if (fifld == INSTANT_SECONDS || fifld == OFFSET_SECONDS) {
+                rfturn fifld.rbngf();
+            }
+            rfturn toLodblDbtfTimf().rbngf(fifld);
+        }
+        rfturn fifld.rbngfRffinfdBy(this);
+    }
+
+    @Ovfrridf
+    dffbult int gft(TfmporblFifld fifld) {
+        if (fifld instbndfof ChronoFifld) {
+            switdh ((ChronoFifld) fifld) {
+                dbsf INSTANT_SECONDS:
+                    throw nfw UnsupportfdTfmporblTypfExdfption("Invblid fifld 'InstbntSfdonds' for gft() mfthod, usf gftLong() instfbd");
+                dbsf OFFSET_SECONDS:
+                    rfturn gftOffsft().gftTotblSfdonds();
+            }
+            rfturn toLodblDbtfTimf().gft(fifld);
+        }
+        rfturn Tfmporbl.supfr.gft(fifld);
+    }
+
+    @Ovfrridf
+    dffbult long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof ChronoFifld) {
+            switdh ((ChronoFifld) fifld) {
+                dbsf INSTANT_SECONDS: rfturn toEpodhSfdond();
+                dbsf OFFSET_SECONDS: rfturn gftOffsft().gftTotblSfdonds();
+            }
+            rfturn toLodblDbtfTimf().gftLong(fifld);
+        }
+        rfturn fifld.gftFrom(this);
+    }
+
+    /**
+     * Gfts thf lodbl dbtf pbrt of this dbtf-timf.
+     * <p>
+     * This rfturns b lodbl dbtf with thf sbmf yfbr, month bnd dby
+     * bs this dbtf-timf.
+     *
+     * @rfturn thf dbtf pbrt of this dbtf-timf, not null
+     */
+    dffbult D toLodblDbtf() {
+        rfturn toLodblDbtfTimf().toLodblDbtf();
+    }
+
+    /**
+     * Gfts thf lodbl timf pbrt of this dbtf-timf.
+     * <p>
+     * This rfturns b lodbl timf with thf sbmf hour, minutf, sfdond bnd
+     * nbnosfdond bs this dbtf-timf.
+     *
+     * @rfturn thf timf pbrt of this dbtf-timf, not null
+     */
+    dffbult LodblTimf toLodblTimf() {
+        rfturn toLodblDbtfTimf().toLodblTimf();
+    }
+
+    /**
+     * Gfts thf lodbl dbtf-timf pbrt of this dbtf-timf.
+     * <p>
+     * This rfturns b lodbl dbtf with thf sbmf yfbr, month bnd dby
+     * bs this dbtf-timf.
+     *
+     * @rfturn thf lodbl dbtf-timf pbrt of this dbtf-timf, not null
+     */
+    ChronoLodblDbtfTimf<D> toLodblDbtfTimf();
+
+    /**
+     * Gfts thf dhronology of this dbtf-timf.
+     * <p>
+     * Thf {@dodf Chronology} rfprfsfnts thf dblfndbr systfm in usf.
+     * Thf frb bnd othfr fiflds in {@link ChronoFifld} brf dffinfd by thf dhronology.
+     *
+     * @rfturn thf dhronology, not null
+     */
+    dffbult Chronology gftChronology() {
+        rfturn toLodblDbtf().gftChronology();
+    }
+
+    /**
+     * Gfts thf zonf offsft, sudh bs '+01:00'.
+     * <p>
+     * This is thf offsft of thf lodbl dbtf-timf from UTC/Grffnwidh.
+     *
+     * @rfturn thf zonf offsft, not null
+     */
+    ZonfOffsft gftOffsft();
+
+    /**
+     * Gfts thf zonf ID, sudh bs 'Europf/Pbris'.
+     * <p>
+     * This rfturns thf storfd timf-zonf id usfd to dftfrminf thf timf-zonf rulfs.
+     *
+     * @rfturn thf zonf ID, not null
+     */
+    ZonfId gftZonf();
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b dopy of this dbtf-timf dhbnging thf zonf offsft to thf
+     * fbrlifr of thf two vblid offsfts bt b lodbl timf-linf ovfrlbp.
+     * <p>
+     * This mfthod only hbs bny ffffdt whfn thf lodbl timf-linf ovfrlbps, sudh bs
+     * bt bn butumn dbylight sbvings dutovfr. In this sdfnbrio, thfrf brf two
+     * vblid offsfts for thf lodbl dbtf-timf. Cblling this mfthod will rfturn
+     * b zonfd dbtf-timf with thf fbrlifr of thf two sflfdtfd.
+     * <p>
+     * If this mfthod is dbllfd whfn it is not bn ovfrlbp, {@dodf this}
+     * is rfturnfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @rfturn b {@dodf ChronoZonfdDbtfTimf} bbsfd on this dbtf-timf with thf fbrlifr offsft, not null
+     * @throws DbtfTimfExdfption if no rulfs dbn bf found for thf zonf
+     * @throws DbtfTimfExdfption if no rulfs brf vblid for this dbtf-timf
+     */
+    ChronoZonfdDbtfTimf<D> withEbrlifrOffsftAtOvfrlbp();
+
+    /**
+     * Rfturns b dopy of this dbtf-timf dhbnging thf zonf offsft to thf
+     * lbtfr of thf two vblid offsfts bt b lodbl timf-linf ovfrlbp.
+     * <p>
+     * This mfthod only hbs bny ffffdt whfn thf lodbl timf-linf ovfrlbps, sudh bs
+     * bt bn butumn dbylight sbvings dutovfr. In this sdfnbrio, thfrf brf two
+     * vblid offsfts for thf lodbl dbtf-timf. Cblling this mfthod will rfturn
+     * b zonfd dbtf-timf with thf lbtfr of thf two sflfdtfd.
+     * <p>
+     * If this mfthod is dbllfd whfn it is not bn ovfrlbp, {@dodf this}
+     * is rfturnfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @rfturn b {@dodf ChronoZonfdDbtfTimf} bbsfd on this dbtf-timf with thf lbtfr offsft, not null
+     * @throws DbtfTimfExdfption if no rulfs dbn bf found for thf zonf
+     * @throws DbtfTimfExdfption if no rulfs brf vblid for this dbtf-timf
+     */
+    ChronoZonfdDbtfTimf<D> withLbtfrOffsftAtOvfrlbp();
+
+    /**
+     * Rfturns b dopy of this dbtf-timf with b difffrfnt timf-zonf,
+     * rftbining thf lodbl dbtf-timf if possiblf.
+     * <p>
+     * This mfthod dhbngfs thf timf-zonf bnd rftbins thf lodbl dbtf-timf.
+     * Thf lodbl dbtf-timf is only dhbngfd if it is invblid for thf nfw zonf.
+     * <p>
+     * To dhbngf thf zonf bnd bdjust thf lodbl dbtf-timf,
+     * usf {@link #withZonfSbmfInstbnt(ZonfId)}.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm zonf  thf timf-zonf to dhbngf to, not null
+     * @rfturn b {@dodf ChronoZonfdDbtfTimf} bbsfd on this dbtf-timf with thf rfqufstfd zonf, not null
+     */
+    ChronoZonfdDbtfTimf<D> withZonfSbmfLodbl(ZonfId zonf);
+
+    /**
+     * Rfturns b dopy of this dbtf-timf with b difffrfnt timf-zonf,
+     * rftbining thf instbnt.
+     * <p>
+     * This mfthod dhbngfs thf timf-zonf bnd rftbins thf instbnt.
+     * This normblly rfsults in b dhbngf to thf lodbl dbtf-timf.
+     * <p>
+     * This mfthod is bbsfd on rftbining thf sbmf instbnt, thus gbps bnd ovfrlbps
+     * in thf lodbl timf-linf hbvf no ffffdt on thf rfsult.
+     * <p>
+     * To dhbngf thf offsft whilf kffping thf lodbl timf,
+     * usf {@link #withZonfSbmfLodbl(ZonfId)}.
+     *
+     * @pbrbm zonf  thf timf-zonf to dhbngf to, not null
+     * @rfturn b {@dodf ChronoZonfdDbtfTimf} bbsfd on this dbtf-timf with thf rfqufstfd zonf, not null
+     * @throws DbtfTimfExdfption if thf rfsult fxdffds thf supportfd dbtf rbngf
+     */
+    ChronoZonfdDbtfTimf<D> withZonfSbmfInstbnt(ZonfId zonf);
+
+    /**
+     * Chfdks if thf spfdififd fifld is supportfd.
+     * <p>
+     * This dhfdks if thf spfdififd fifld dbn bf qufrifd on this dbtf-timf.
+     * If fblsf, thfn dblling thf {@link #rbngf(TfmporblFifld) rbngf},
+     * {@link #gft(TfmporblFifld) gft} bnd {@link #with(TfmporblFifld, long)}
+     * mfthods will throw bn fxdfption.
+     * <p>
+     * Thf sft of supportfd fiflds is dffinfd by thf dhronology bnd normblly indludfs
+     * bll {@dodf ChronoFifld} fiflds.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * Whfthfr thf fifld is supportfd is dftfrminfd by thf fifld.
+     *
+     * @pbrbm fifld  thf fifld to dhfdk, null rfturns fblsf
+     * @rfturn truf if thf fifld dbn bf qufrifd, fblsf if not
+     */
+    @Ovfrridf
+    boolfbn isSupportfd(TfmporblFifld fifld);
+
+    /**
+     * Chfdks if thf spfdififd unit is supportfd.
+     * <p>
+     * This dhfdks if thf spfdififd unit dbn bf bddfd to or subtrbdtfd from this dbtf-timf.
+     * If fblsf, thfn dblling thf {@link #plus(long, TfmporblUnit)} bnd
+     * {@link #minus(long, TfmporblUnit) minus} mfthods will throw bn fxdfption.
+     * <p>
+     * Thf sft of supportfd units is dffinfd by thf dhronology bnd normblly indludfs
+     * bll {@dodf ChronoUnit} units fxdfpt {@dodf FOREVER}.
+     * <p>
+     * If thf unit is not b {@dodf ChronoUnit}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.isSupportfdBy(Tfmporbl)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * Whfthfr thf unit is supportfd is dftfrminfd by thf unit.
+     *
+     * @pbrbm unit  thf unit to dhfdk, null rfturns fblsf
+     * @rfturn truf if thf unit dbn bf bddfd/subtrbdtfd, fblsf if not
+     */
+    @Ovfrridf
+    dffbult boolfbn isSupportfd(TfmporblUnit unit) {
+        if (unit instbndfof ChronoUnit) {
+            rfturn unit != FOREVER;
+        }
+        rfturn unit != null && unit.isSupportfdBy(this);
+    }
+
+    //-----------------------------------------------------------------------
+    // ovfrridf for dovbribnt rfturn typf
+    /**
+     * {@inhfritDod}
+     * @throws DbtfTimfExdfption {@inhfritDod}
+     * @throws ArithmftidExdfption {@inhfritDod}
+     */
+    @Ovfrridf
+    dffbult ChronoZonfdDbtfTimf<D> with(TfmporblAdjustfr bdjustfr) {
+        rfturn ChronoZonfdDbtfTimfImpl.fnsurfVblid(gftChronology(), Tfmporbl.supfr.with(bdjustfr));
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws DbtfTimfExdfption {@inhfritDod}
+     * @throws ArithmftidExdfption {@inhfritDod}
+     */
+    @Ovfrridf
+    ChronoZonfdDbtfTimf<D> with(TfmporblFifld fifld, long nfwVbluf);
+
+    /**
+     * {@inhfritDod}
+     * @throws DbtfTimfExdfption {@inhfritDod}
+     * @throws ArithmftidExdfption {@inhfritDod}
+     */
+    @Ovfrridf
+    dffbult ChronoZonfdDbtfTimf<D> plus(TfmporblAmount bmount) {
+        rfturn ChronoZonfdDbtfTimfImpl.fnsurfVblid(gftChronology(), Tfmporbl.supfr.plus(bmount));
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws DbtfTimfExdfption {@inhfritDod}
+     * @throws ArithmftidExdfption {@inhfritDod}
+     */
+    @Ovfrridf
+    ChronoZonfdDbtfTimf<D> plus(long bmountToAdd, TfmporblUnit unit);
+
+    /**
+     * {@inhfritDod}
+     * @throws DbtfTimfExdfption {@inhfritDod}
+     * @throws ArithmftidExdfption {@inhfritDod}
+     */
+    @Ovfrridf
+    dffbult ChronoZonfdDbtfTimf<D> minus(TfmporblAmount bmount) {
+        rfturn ChronoZonfdDbtfTimfImpl.fnsurfVblid(gftChronology(), Tfmporbl.supfr.minus(bmount));
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws DbtfTimfExdfption {@inhfritDod}
+     * @throws ArithmftidExdfption {@inhfritDod}
+     */
+    @Ovfrridf
+    dffbult ChronoZonfdDbtfTimf<D> minus(long bmountToSubtrbdt, TfmporblUnit unit) {
+        rfturn ChronoZonfdDbtfTimfImpl.fnsurfVblid(gftChronology(), Tfmporbl.supfr.minus(bmountToSubtrbdt, unit));
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Qufrifs this dbtf-timf using thf spfdififd qufry.
+     * <p>
+     * This qufrifs this dbtf-timf using thf spfdififd qufry strbtfgy objfdt.
+     * Thf {@dodf TfmporblQufry} objfdt dffinfs thf logid to bf usfd to
+     * obtbin thf rfsult. Rfbd thf dodumfntbtion of thf qufry to undfrstbnd
+     * whbt thf rfsult of this mfthod will bf.
+     * <p>
+     * Thf rfsult of this mfthod is obtbinfd by invoking thf
+     * {@link TfmporblQufry#qufryFrom(TfmporblAddfssor)} mfthod on thf
+     * spfdififd qufry pbssing {@dodf this} bs thf brgumfnt.
+     *
+     * @pbrbm <R> thf typf of thf rfsult
+     * @pbrbm qufry  thf qufry to invokf, not null
+     * @rfturn thf qufry rfsult, null mby bf rfturnfd (dffinfd by thf qufry)
+     * @throws DbtfTimfExdfption if unbblf to qufry (dffinfd by thf qufry)
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs (dffinfd by thf qufry)
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    @Ovfrridf
+    dffbult <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.zonf() || qufry == TfmporblQufrifs.zonfId()) {
+            rfturn (R) gftZonf();
+        } flsf if (qufry == TfmporblQufrifs.offsft()) {
+            rfturn (R) gftOffsft();
+        } flsf if (qufry == TfmporblQufrifs.lodblTimf()) {
+            rfturn (R) toLodblTimf();
+        } flsf if (qufry == TfmporblQufrifs.dhronology()) {
+            rfturn (R) gftChronology();
+        } flsf if (qufry == TfmporblQufrifs.prfdision()) {
+            rfturn (R) NANOS;
+        }
+        // inlinf TfmporblAddfssor.supfr.qufry(qufry) bs bn optimizbtion
+        // non-JDK dlbssfs brf not pfrmittfd to mbkf this optimizbtion
+        rfturn qufry.qufryFrom(this);
+    }
+
+    /**
+     * Formbts this dbtf-timf using thf spfdififd formbttfr.
+     * <p>
+     * This dbtf-timf will bf pbssfd to thf formbttfr to produdf b string.
+     * <p>
+     * Thf dffbult implfmfntbtion must bfhbvf bs follows:
+     * <prf>
+     *  rfturn formbttfr.formbt(this);
+     * </prf>
+     *
+     * @pbrbm formbttfr  thf formbttfr to usf, not null
+     * @rfturn thf formbttfd dbtf-timf string, not null
+     * @throws DbtfTimfExdfption if bn frror oddurs during printing
+     */
+    dffbult String formbt(DbtfTimfFormbttfr formbttfr) {
+        Objfdts.rfquirfNonNull(formbttfr, "formbttfr");
+        rfturn formbttfr.formbt(this);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Convfrts this dbtf-timf to bn {@dodf Instbnt}.
+     * <p>
+     * This rfturns bn {@dodf Instbnt} rfprfsfnting thf sbmf point on thf
+     * timf-linf bs this dbtf-timf. Thf dbldulbtion dombinfs thf
+     * {@linkplbin #toLodblDbtfTimf() lodbl dbtf-timf} bnd
+     * {@linkplbin #gftOffsft() offsft}.
+     *
+     * @rfturn bn {@dodf Instbnt} rfprfsfnting thf sbmf instbnt, not null
+     */
+    dffbult Instbnt toInstbnt() {
+        rfturn Instbnt.ofEpodhSfdond(toEpodhSfdond(), toLodblTimf().gftNbno());
+    }
+
+    /**
+     * Convfrts this dbtf-timf to thf numbfr of sfdonds from thf fpodh
+     * of 1970-01-01T00:00:00Z.
+     * <p>
+     * This usfs thf {@linkplbin #toLodblDbtfTimf() lodbl dbtf-timf} bnd
+     * {@linkplbin #gftOffsft() offsft} to dbldulbtf thf fpodh-sfdond vbluf,
+     * whidh is thf numbfr of flbpsfd sfdonds from 1970-01-01T00:00:00Z.
+     * Instbnts on thf timf-linf bftfr thf fpodh brf positivf, fbrlifr brf nfgbtivf.
+     *
+     * @rfturn thf numbfr of sfdonds from thf fpodh of 1970-01-01T00:00:00Z
+     */
+    dffbult long toEpodhSfdond() {
+        long fpodhDby = toLodblDbtf().toEpodhDby();
+        long sfds = fpodhDby * 86400 + toLodblTimf().toSfdondOfDby();
+        sfds -= gftOffsft().gftTotblSfdonds();
+        rfturn sfds;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Compbrfs this dbtf-timf to bnothfr dbtf-timf, indluding thf dhronology.
+     * <p>
+     * Thf dompbrison is bbsfd first on thf instbnt, thfn on thf lodbl dbtf-timf,
+     * thfn on thf zonf ID, thfn on thf dhronology.
+     * It is "donsistfnt with fqubls", bs dffinfd by {@link Compbrbblf}.
+     * <p>
+     * If bll thf dbtf-timf objfdts bfing dompbrfd brf in thf sbmf dhronology, thfn thf
+     * bdditionbl dhronology stbgf is not rfquirfd.
+     * <p>
+     * This dffbult implfmfntbtion pfrforms thf dompbrison dffinfd bbovf.
+     *
+     * @pbrbm othfr  thf othfr dbtf-timf to dompbrf to, not null
+     * @rfturn thf dompbrbtor vbluf, nfgbtivf if lfss, positivf if grfbtfr
+     */
+    @Ovfrridf
+    dffbult int dompbrfTo(ChronoZonfdDbtfTimf<?> othfr) {
+        int dmp = Long.dompbrf(toEpodhSfdond(), othfr.toEpodhSfdond());
+        if (dmp == 0) {
+            dmp = toLodblTimf().gftNbno() - othfr.toLodblTimf().gftNbno();
+            if (dmp == 0) {
+                dmp = toLodblDbtfTimf().dompbrfTo(othfr.toLodblDbtfTimf());
+                if (dmp == 0) {
+                    dmp = gftZonf().gftId().dompbrfTo(othfr.gftZonf().gftId());
+                    if (dmp == 0) {
+                        dmp = gftChronology().dompbrfTo(othfr.gftChronology());
+                    }
+                }
+            }
+        }
+        rfturn dmp;
+    }
+
+    /**
+     * Chfdks if thf instbnt of this dbtf-timf is bfforf thbt of thf spfdififd dbtf-timf.
+     * <p>
+     * This mfthod difffrs from thf dompbrison in {@link #dompbrfTo} in thbt it
+     * only dompbrfs thf instbnt of thf dbtf-timf. This is fquivblfnt to using
+     * {@dodf dbtfTimf1.toInstbnt().isBfforf(dbtfTimf2.toInstbnt());}.
+     * <p>
+     * This dffbult implfmfntbtion pfrforms thf dompbrison bbsfd on thf fpodh-sfdond
+     * bnd nbno-of-sfdond.
+     *
+     * @pbrbm othfr  thf othfr dbtf-timf to dompbrf to, not null
+     * @rfturn truf if this point is bfforf thf spfdififd dbtf-timf
+     */
+    dffbult boolfbn isBfforf(ChronoZonfdDbtfTimf<?> othfr) {
+        long thisEpodhSfd = toEpodhSfdond();
+        long othfrEpodhSfd = othfr.toEpodhSfdond();
+        rfturn thisEpodhSfd < othfrEpodhSfd ||
+            (thisEpodhSfd == othfrEpodhSfd && toLodblTimf().gftNbno() < othfr.toLodblTimf().gftNbno());
+    }
+
+    /**
+     * Chfdks if thf instbnt of this dbtf-timf is bftfr thbt of thf spfdififd dbtf-timf.
+     * <p>
+     * This mfthod difffrs from thf dompbrison in {@link #dompbrfTo} in thbt it
+     * only dompbrfs thf instbnt of thf dbtf-timf. This is fquivblfnt to using
+     * {@dodf dbtfTimf1.toInstbnt().isAftfr(dbtfTimf2.toInstbnt());}.
+     * <p>
+     * This dffbult implfmfntbtion pfrforms thf dompbrison bbsfd on thf fpodh-sfdond
+     * bnd nbno-of-sfdond.
+     *
+     * @pbrbm othfr  thf othfr dbtf-timf to dompbrf to, not null
+     * @rfturn truf if this is bftfr thf spfdififd dbtf-timf
+     */
+    dffbult boolfbn isAftfr(ChronoZonfdDbtfTimf<?> othfr) {
+        long thisEpodhSfd = toEpodhSfdond();
+        long othfrEpodhSfd = othfr.toEpodhSfdond();
+        rfturn thisEpodhSfd > othfrEpodhSfd ||
+            (thisEpodhSfd == othfrEpodhSfd && toLodblTimf().gftNbno() > othfr.toLodblTimf().gftNbno());
+    }
+
+    /**
+     * Chfdks if thf instbnt of this dbtf-timf is fqubl to thbt of thf spfdififd dbtf-timf.
+     * <p>
+     * This mfthod difffrs from thf dompbrison in {@link #dompbrfTo} bnd {@link #fqubls}
+     * in thbt it only dompbrfs thf instbnt of thf dbtf-timf. This is fquivblfnt to using
+     * {@dodf dbtfTimf1.toInstbnt().fqubls(dbtfTimf2.toInstbnt());}.
+     * <p>
+     * This dffbult implfmfntbtion pfrforms thf dompbrison bbsfd on thf fpodh-sfdond
+     * bnd nbno-of-sfdond.
+     *
+     * @pbrbm othfr  thf othfr dbtf-timf to dompbrf to, not null
+     * @rfturn truf if thf instbnt fqubls thf instbnt of thf spfdififd dbtf-timf
+     */
+    dffbult boolfbn isEqubl(ChronoZonfdDbtfTimf<?> othfr) {
+        rfturn toEpodhSfdond() == othfr.toEpodhSfdond() &&
+                toLodblTimf().gftNbno() == othfr.toLodblTimf().gftNbno();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this dbtf-timf is fqubl to bnothfr dbtf-timf.
+     * <p>
+     * Thf dompbrison is bbsfd on thf offsft dbtf-timf bnd thf zonf.
+     * To dompbrf for thf sbmf instbnt on thf timf-linf, usf {@link #dompbrfTo}.
+     * Only objfdts of typf {@dodf ChronoZonfdDbtfTimf} brf dompbrfd, othfr typfs rfturn fblsf.
+     *
+     * @pbrbm obj  thf objfdt to dhfdk, null rfturns fblsf
+     * @rfturn truf if this is fqubl to thf othfr dbtf-timf
+     */
+    @Ovfrridf
+    boolfbn fqubls(Objfdt obj);
+
+    /**
+     * A hbsh dodf for this dbtf-timf.
+     *
+     * @rfturn b suitbblf hbsh dodf
+     */
+    @Ovfrridf
+    int hbshCodf();
+
+    //-----------------------------------------------------------------------
+    /**
+     * Outputs this dbtf-timf bs b {@dodf String}.
+     * <p>
+     * Thf output will indludf thf full zonfd dbtf-timf.
+     *
+     * @rfturn b string rfprfsfntbtion of this dbtf-timf, not null
+     */
+    @Ovfrridf
+    String toString();
+
+}

@@ -1,0 +1,217 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * <P>An fxdfption thbt providfs informbtion on  dbtbbbsf bddfss
+ * wbrnings. Wbrnings brf silfntly dhbinfd to thf objfdt whosf mfthod
+ * dbusfd it to bf rfportfd.
+ * <P>
+ * Wbrnings mby bf rftrifvfd from <dodf>Connfdtion</dodf>, <dodf>Stbtfmfnt</dodf>,
+ * bnd <dodf>RfsultSft</dodf> objfdts.  Trying to rftrifvf b wbrning on b
+ * donnfdtion bftfr it hbs bffn dlosfd will dbusf bn fxdfption to bf thrown.
+ * Similbrly, trying to rftrifvf b wbrning on b stbtfmfnt bftfr it hbs bffn
+ * dlosfd or on b rfsult sft bftfr it hbs bffn dlosfd will dbusf
+ * bn fxdfption to bf thrown. Notf thbt dlosing b stbtfmfnt blso
+ * dlosfs b rfsult sft thbt it might hbvf produdfd.
+ *
+ * @sff Connfdtion#gftWbrnings
+ * @sff Stbtfmfnt#gftWbrnings
+ * @sff RfsultSft#gftWbrnings
+ */
+publid dlbss SQLWbrning fxtfnds SQLExdfption {
+
+    /**
+     * Construdts b  <dodf>SQLWbrning</dodf> objfdt
+     *  with b givfn <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>  bnd
+     * <dodf>vfndorCodf</dodf>.
+     *
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     * @pbrbm rfbson b dfsdription of thf wbrning
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf wbrning
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid wbrning dodf
+     */
+     publid SQLWbrning(String rfbson, String SQLStbtf, int vfndorCodf) {
+        supfr(rfbson, SQLStbtf, vfndorCodf);
+        DrivfrMbnbgfr.println("SQLWbrning: rfbson(" + rfbson +
+                              ") SQLStbtf(" + SQLStbtf +
+                              ") vfndor dodf(" + vfndorCodf + ")");
+    }
+
+
+    /**
+     * Construdts b <dodf>SQLWbrning</dodf> objfdt
+     * with b givfn <dodf>rfbson</dodf> bnd <dodf>SQLStbtf</dodf>.
+     *
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod. Thf vfndor dodf
+     * is initiblizfd to 0.
+     *
+     * @pbrbm rfbson b dfsdription of thf wbrning
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf wbrning
+     */
+    publid SQLWbrning(String rfbson, String SQLStbtf) {
+        supfr(rfbson, SQLStbtf);
+        DrivfrMbnbgfr.println("SQLWbrning: rfbson(" + rfbson +
+                                  ") SQLStbtf(" + SQLStbtf + ")");
+    }
+
+    /**
+     * Construdts b <dodf>SQLWbrning</dodf> objfdt
+     * with b givfn <dodf>rfbson</dodf>. Thf <dodf>SQLStbtf</dodf>
+     * is initiblizfd to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd
+     * to 0.
+     *
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     * @pbrbm rfbson b dfsdription of thf wbrning
+     */
+    publid SQLWbrning(String rfbson) {
+        supfr(rfbson);
+        DrivfrMbnbgfr.println("SQLWbrning: rfbson(" + rfbson + ")");
+    }
+
+    /**
+     * Construdts b  <dodf>SQLWbrning</dodf> objfdt.
+     * Thf <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> brf initiblizfd
+     * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     *
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     */
+    publid SQLWbrning() {
+        supfr();
+        DrivfrMbnbgfr.println("SQLWbrning: ");
+    }
+
+    /**
+     * Construdts b <dodf>SQLWbrning</dodf> objfdt
+     * with b givfn  <dodf>dbusf</dodf>.
+     * Thf <dodf>SQLStbtf</dodf> is initiblizfd
+     * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     * Thf <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+     * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+     * <dodf>dbusf!=null</dodf>.
+     *
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLWbrning</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     */
+    publid SQLWbrning(Throwbblf dbusf) {
+        supfr(dbusf);
+        DrivfrMbnbgfr.println("SQLWbrning");
+    }
+
+    /**
+     * Construdts b <dodf>SQLWbrning</dodf> objfdt
+     * with b givfn
+     * <dodf>rfbson</dodf> bnd  <dodf>dbusf</dodf>.
+     * Thf <dodf>SQLStbtf</dodf> is  initiblizfd to <dodf>null</dodf>
+     * bnd thf vfndor dodf is initiblizfd to 0.
+     *
+     * @pbrbm rfbson b dfsdription of thf wbrning
+     * @pbrbm dbusf  thf undfrlying rfbson for this <dodf>SQLWbrning</dodf>
+     * (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod);
+     * mby bf null indidbting thf dbusf is non-fxistfnt or unknown.
+     */
+    publid SQLWbrning(String rfbson, Throwbblf dbusf) {
+        supfr(rfbson,dbusf);
+        DrivfrMbnbgfr.println("SQLWbrning : rfbson("+ rfbson + ")");
+    }
+
+    /**
+     * Construdts b <dodf>SQLWbrning</dodf> objfdt
+     * with b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> bnd  <dodf>dbusf</dodf>.
+     * Thf vfndor dodf is initiblizfd to 0.
+     *
+     * @pbrbm rfbson b dfsdription of thf wbrning
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf wbrning
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLWbrning</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     */
+    publid SQLWbrning(String rfbson, String SQLStbtf, Throwbblf dbusf) {
+        supfr(rfbson,SQLStbtf,dbusf);
+        DrivfrMbnbgfr.println("SQLWbrning: rfbson(" + rfbson +
+                                  ") SQLStbtf(" + SQLStbtf + ")");
+    }
+
+    /**
+     * Construdts b<dodf>SQLWbrning</dodf> objfdt
+     * with b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf>
+     * bnd  <dodf>dbusf</dodf>.
+     *
+     * @pbrbm rfbson b dfsdription of thf wbrning
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf wbrning
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid wbrning dodf
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLWbrning</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     */
+    publid SQLWbrning(String rfbson, String SQLStbtf, int vfndorCodf, Throwbblf dbusf) {
+        supfr(rfbson,SQLStbtf,vfndorCodf,dbusf);
+        DrivfrMbnbgfr.println("SQLWbrning: rfbson(" + rfbson +
+                              ") SQLStbtf(" + SQLStbtf +
+                              ") vfndor dodf(" + vfndorCodf + ")");
+
+    }
+    /**
+     * Rftrifvfs thf wbrning dhbinfd to this <dodf>SQLWbrning</dodf> objfdt by
+     * <dodf>sftNfxtWbrning</dodf>.
+     *
+     * @rfturn thf nfxt <dodf>SQLExdfption</dodf> in thf dhbin; <dodf>null</dodf> if nonf
+     * @sff #sftNfxtWbrning
+     */
+    publid SQLWbrning gftNfxtWbrning() {
+        try {
+            rfturn ((SQLWbrning)gftNfxtExdfption());
+        } dbtdh (ClbssCbstExdfption fx) {
+            // Thf dhbinfd vbluf isn't b SQLWbrning.
+            // This is b progrbmming frror by whofvfr bddfd it to
+            // thf SQLWbrning dhbin.  Wf throw b Jbvb "Error".
+            throw nfw Error("SQLWbrning dhbin holds vbluf thbt is not b SQLWbrning");
+        }
+    }
+
+    /**
+     * Adds b <dodf>SQLWbrning</dodf> objfdt to thf fnd of thf dhbin.
+     *
+     * @pbrbm w thf nfw fnd of thf <dodf>SQLExdfption</dodf> dhbin
+     * @sff #gftNfxtWbrning
+     */
+    publid void sftNfxtWbrning(SQLWbrning w) {
+        sftNfxtExdfption(w);
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 3917336774604784856L;
+}

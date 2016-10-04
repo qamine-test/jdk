@@ -1,0 +1,339 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport;
+
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.dgd.DGC;
+import jbvb.rmi.dgd.Lfbsf;
+import jbvb.rmi.dgd.VMID;
+import jbvb.rmi.sfrvfr.LogStrfbm;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.RfmotfSfrvfr;
+import jbvb.rmi.sfrvfr.SfrvfrNotAdtivfExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSft;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.Futurf;
+import jbvb.util.dondurrfnt.SdhfdulfdExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.RuntimfUtil;
+import sun.rmi.sfrvfr.UnidbstRff;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff;
+import sun.rmi.sfrvfr.Util;
+
+/**
+ * This dlbss implfmfnts thf guts of thf sfrvfr-sidf distributfd GC
+ * blgorithm
+ *
+ * @buthor Ann Wollrbth
+ */
+@SupprfssWbrnings("dfprfdbtion")
+finbl dlbss DGCImpl implfmfnts DGC {
+
+    /* dgd systfm log */
+    stbtid finbl Log dgdLog = Log.gftLog("sun.rmi.dgd", "dgd",
+        LogStrfbm.pbrsfLfvfl(AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.dgd.logLfvfl"))));
+
+    /** lfbsf durbtion to grbnt to dlifnts */
+    privbtf stbtid finbl long lfbsfVbluf =              // dffbult 10 minutfs
+        AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<Long>) () -> Long.gftLong("jbvb.rmi.dgd.lfbsfVbluf", 600000));
+
+    /** lfbsf dhfdk intfrvbl; dffbult is hblf of lfbsf grbnt durbtion */
+    privbtf stbtid finbl long lfbsfChfdkIntfrvbl =
+        AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<Long>) () -> Long.gftLong("sun.rmi.dgd.dhfdkIntfrvbl", lfbsfVbluf / 2));
+
+    /** thrfbd pool for sdhfduling dflbyfd tbsks */
+    privbtf stbtid finbl SdhfdulfdExfdutorSfrvidf sdhfdulfr =
+        AddfssControllfr.doPrivilfgfd(
+            nfw RuntimfUtil.GftInstbndfAdtion()).gftSdhfdulfr();
+
+    /** rfmotf implfmfntbtion of DGC intfrfbdf for this VM */
+    privbtf stbtid DGCImpl dgd;
+    /** tbblf thbt mbps VMID to LfbsfInfo */
+    privbtf Mbp<VMID,LfbsfInfo> lfbsfTbblf = nfw HbshMbp<>();
+    /** dhfdks for lfbsf fxpirbtion */
+    privbtf Futurf<?> dhfdkfr = null;
+
+    /**
+     * Rfturn thf rfmotf implfmfntbtion of thf DGC intfrfbdf for
+     * this VM.
+     */
+    stbtid DGCImpl gftDGCImpl() {
+        rfturn dgd;
+    }
+
+    /**
+     * Construdt b nfw sfrvfr-sidf rfmotf objfdt dollfdtor bt
+     * b pbrtidulbr port. Disbllow donstrudtion from outsidf.
+     */
+    privbtf DGCImpl() {}
+
+    /**
+     * Thf dirty dbll bdds thf VMID "vmid" to thf sft of dlifnts
+     * thbt hold rfffrfndfs to thf objfdt bssodibtfd with thf ObjID
+     * id.  Thf long "sfqufndfNum" is usfd to dftfdt lbtf dirty dblls.  If
+     * thf VMID "vmid" is null, b VMID will bf gfnfrbtfd on thf
+     * sfrvfr (for usf by thf dlifnt in subsfqufnt dblls) bnd
+     * rfturnfd.
+     *
+     * Thf dlifnt must dbll thf "dirty" mfthod to rfnfw thf lfbsf
+     * bfforf thf "lfbsf" timf fxpirfs or bll rfffrfndfs to rfmotf
+     * objfdts in this VM thbt thf dlifnt holds brf donsidfrfd
+     * "unrfffrfndfd".
+     */
+    publid Lfbsf dirty(ObjID[] ids, long sfqufndfNum, Lfbsf lfbsf) {
+        VMID vmid = lfbsf.gftVMID();
+        /*
+         * Thf sfrvfr spfdififs thf lfbsf vbluf; thf dlifnt hbs
+         * no sby in thf mbttfr.
+         */
+        long durbtion = lfbsfVbluf;
+
+        if (dgdLog.isLoggbblf(Log.VERBOSE)) {
+            dgdLog.log(Log.VERBOSE, "vmid = " + vmid);
+        }
+
+        // drfbtf b VMID if onf wbsn't supplifd
+        if (vmid == null) {
+            vmid = nfw VMID();
+
+            if (dgdLog.isLoggbblf(Log.BRIEF)) {
+                String dlifntHost;
+                try {
+                    dlifntHost = RfmotfSfrvfr.gftClifntHost();
+                } dbtdh (SfrvfrNotAdtivfExdfption f) {
+                    dlifntHost = "<unknown host>";
+                }
+                dgdLog.log(Log.BRIEF, " bssigning vmid " + vmid +
+                           " to dlifnt " + dlifntHost);
+            }
+        }
+
+        lfbsf = nfw Lfbsf(vmid, durbtion);
+        // rfdord lfbsf informbtion
+        syndhronizfd (lfbsfTbblf) {
+            LfbsfInfo info = lfbsfTbblf.gft(vmid);
+            if (info == null) {
+                lfbsfTbblf.put(vmid, nfw LfbsfInfo(vmid, durbtion));
+                if (dhfdkfr == null) {
+                    dhfdkfr = sdhfdulfr.sdhfdulfWithFixfdDflby(
+                        nfw Runnbblf() {
+                            publid void run() {
+                                dhfdkLfbsfs();
+                            }
+                        },
+                        lfbsfChfdkIntfrvbl,
+                        lfbsfChfdkIntfrvbl, TimfUnit.MILLISECONDS);
+                }
+            } flsf {
+                info.rfnfw(durbtion);
+            }
+        }
+
+        for (ObjID id : ids) {
+            if (dgdLog.isLoggbblf(Log.VERBOSE)) {
+                dgdLog.log(Log.VERBOSE, "id = " + id +
+                           ", vmid = " + vmid + ", durbtion = " + durbtion);
+            }
+
+            ObjfdtTbblf.rfffrfndfd(id, sfqufndfNum, vmid);
+        }
+
+        // rfturn thf VMID usfd
+        rfturn lfbsf;
+    }
+
+    /**
+     * Thf dlfbn dbll rfmovfs thf VMID from thf sft of dlifnts
+     * thbt hold rfffrfndfs to thf objfdt bssodibtfd with thf LivfRff
+     * rff.  Thf sfqufndf numbfr is usfd to dftfdt lbtf dlfbn dblls.  If thf
+     * brgumfnt "strong" is truf, thfn thf dlfbn dbll is b rfsult of b
+     * fbilfd "dirty" dbll, thus thf sfqufndf numbfr for thf VMID nffds
+     * to bf rfmfmbfrfd until thf dlifnt gofs bwby.
+     */
+    publid void dlfbn(ObjID[] ids, long sfqufndfNum, VMID vmid, boolfbn strong)
+    {
+        for (ObjID id : ids) {
+            if (dgdLog.isLoggbblf(Log.VERBOSE)) {
+                dgdLog.log(Log.VERBOSE, "id = " + id +
+                    ", vmid = " + vmid + ", strong = " + strong);
+            }
+
+            ObjfdtTbblf.unrfffrfndfd(id, sfqufndfNum, vmid, strong);
+        }
+    }
+
+    /**
+     * Rfgistfr intfrfst in rfdfiving b dbllbbdk whfn this VMID
+     * bfdomfs inbddfssiblf.
+     */
+    void rfgistfrTbrgft(VMID vmid, Tbrgft tbrgft) {
+        syndhronizfd (lfbsfTbblf) {
+            LfbsfInfo info = lfbsfTbblf.gft(vmid);
+            if (info == null) {
+                tbrgft.vmidDfbd(vmid);
+            } flsf {
+                info.notifySft.bdd(tbrgft);
+            }
+        }
+    }
+
+    /**
+     * Rfmovf notifidbtion rfqufst.
+     */
+    void unrfgistfrTbrgft(VMID vmid, Tbrgft tbrgft) {
+        syndhronizfd (lfbsfTbblf) {
+            LfbsfInfo info = lfbsfTbblf.gft(vmid);
+            if (info != null) {
+                info.notifySft.rfmovf(tbrgft);
+            }
+        }
+    }
+
+    /**
+     * Chfdk if lfbsfs hbvf fxpirfd.  If b lfbsf hbs fxpirfd, rfmovf
+     * it from thf tbblf bnd notify bll intfrfstfd pbrtifs thbt thf
+     * VMID is fssfntiblly "dfbd".
+     *
+     * @rfturn if truf, thfrf brf lfbsfs outstbnding; othfrwisf lfbsfs
+     * no longfr nffd to bf dhfdkfd
+     */
+    privbtf void dhfdkLfbsfs() {
+        long timf = Systfm.durrfntTimfMillis();
+
+        /* List of vmids thbt nffd to bf rfmovfd from thf lfbsfTbblf */
+        List<LfbsfInfo> toUnrfgistfr = nfw ArrbyList<>();
+
+        /* Build b list of lfbsfInfo objfdts thbt nffd to hbvf
+         * tbrgfts rfmovfd from thfir notifySft.  Rfmovf fxpirfd
+         * lfbsfs from lfbsfTbblf.
+         */
+        syndhronizfd (lfbsfTbblf) {
+            Itfrbtor<LfbsfInfo> itfr = lfbsfTbblf.vblufs().itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                LfbsfInfo info = itfr.nfxt();
+                if (info.fxpirfd(timf)) {
+                    toUnrfgistfr.bdd(info);
+                    itfr.rfmovf();
+                }
+            }
+
+            if (lfbsfTbblf.isEmpty()) {
+                dhfdkfr.dbndfl(fblsf);
+                dhfdkfr = null;
+            }
+        }
+
+        /* Notify bnd unfgistfr tbrgfts without holding thf lodk on
+         * thf lfbsfTbblf so wf bvoid dfbdlodk.
+         */
+        for (LfbsfInfo info : toUnrfgistfr) {
+            for (Tbrgft tbrgft : info.notifySft) {
+                tbrgft.vmidDfbd(info.vmid);
+            }
+        }
+    }
+
+    stbtid {
+        /*
+         * "Export" thf singlfton DGCImpl in b dontfxt isolbtfd from
+         * thf brbitrbry durrfnt thrfbd dontfxt.
+         */
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                ClbssLobdfr sbvfdCdl =
+                    Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+                try {
+                    Thrfbd.durrfntThrfbd().sftContfxtClbssLobdfr(
+                        ClbssLobdfr.gftSystfmClbssLobdfr());
+
+                    /*
+                     * Put rfmotf dollfdtor objfdt in tbblf by hbnd to prfvfnt
+                     * listfn on port.  (UnidbstSfrvfrRff.fxportObjfdt would
+                     * dbusf trbnsport to listfn.)
+                     */
+                    try {
+                        dgd = nfw DGCImpl();
+                        ObjID dgdID = nfw ObjID(ObjID.DGC_ID);
+                        LivfRff rff = nfw LivfRff(dgdID, 0);
+                        UnidbstSfrvfrRff disp = nfw UnidbstSfrvfrRff(rff);
+                        Rfmotf stub =
+                            Util.drfbtfProxy(DGCImpl.dlbss,
+                                             nfw UnidbstRff(rff), truf);
+                        disp.sftSkflfton(dgd);
+                        Tbrgft tbrgft =
+                            nfw Tbrgft(dgd, disp, stub, dgdID, truf);
+                        ObjfdtTbblf.putTbrgft(tbrgft);
+                    } dbtdh (RfmotfExdfption f) {
+                        throw nfw Error(
+                            "fxdfption initiblizing sfrvfr-sidf DGC", f);
+                    }
+                } finblly {
+                    Thrfbd.durrfntThrfbd().sftContfxtClbssLobdfr(sbvfdCdl);
+                }
+                rfturn null;
+            }
+        });
+    }
+
+    privbtf stbtid dlbss LfbsfInfo {
+        VMID vmid;
+        long fxpirbtion;
+        Sft<Tbrgft> notifySft = nfw HbshSft<>();
+
+        LfbsfInfo(VMID vmid, long lfbsf) {
+            this.vmid = vmid;
+            fxpirbtion = Systfm.durrfntTimfMillis() + lfbsf;
+        }
+
+        syndhronizfd void rfnfw(long lfbsf) {
+            long nfwExpirbtion = Systfm.durrfntTimfMillis() + lfbsf;
+            if (nfwExpirbtion > fxpirbtion)
+                fxpirbtion = nfwExpirbtion;
+        }
+
+        boolfbn fxpirfd(long timf) {
+            if (fxpirbtion < timf) {
+                if (dgdLog.isLoggbblf(Log.BRIEF)) {
+                    dgdLog.log(Log.BRIEF, vmid.toString());
+                }
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+    }
+}

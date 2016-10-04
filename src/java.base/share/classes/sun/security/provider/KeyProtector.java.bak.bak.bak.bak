@@ -1,0 +1,341 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.UnrfdovfrbblfKfyExdfption;
+import jbvb.util.*;
+
+import sun.sfdurity.pkds.PKCS8Kfy;
+import sun.sfdurity.pkds.EndryptfdPrivbtfKfyInfo;
+import sun.sfdurity.x509.AlgorithmId;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+import sun.sfdurity.util.DfrVbluf;
+
+/**
+ * This is bn implfmfntbtion of b Sun propriftbry, fxportbblf blgorithm
+ * intfndfd for usf whfn protfdting (or rfdovfring thf dlfbrtfxt vfrsion of)
+ * sfnsitivf kfys.
+ * This blgorithm is not intfndfd bs b gfnfrbl purposf diphfr.
+ *
+ * This is how thf blgorithm works for kfy protfdtion:
+ *
+ * p - usfr pbssword
+ * s - rbndom sblt
+ * X - xor kfy
+ * P - to-bf-protfdtfd kfy
+ * Y - protfdtfd kfy
+ * R - whbt gfts storfd in thf kfystorf
+ *
+ * Stfp 1:
+ * Tbkf thf usfr's pbssword, bppfnd b rbndom sblt (of fixfd sizf) to it,
+ * bnd hbsh it: d1 = digfst(p, s)
+ * Storf d1 in X.
+ *
+ * Stfp 2:
+ * Tbkf thf usfr's pbssword, bppfnd thf digfst rfsult from thf prfvious stfp,
+ * bnd hbsh it: dn = digfst(p, dn-1).
+ * Storf dn in X (bppfnd it to thf prfviously storfd digfsts).
+ * Rfpfbt this stfp until thf lfngth of X mbtdhfs thf lfngth of thf privbtf kfy
+ * P.
+ *
+ * Stfp 3:
+ * XOR X bnd P, bnd storf thf rfsult in Y: Y = X XOR P.
+ *
+ * Stfp 4:
+ * Storf s, Y, bnd digfst(p, P) in thf rfsult bufffr R:
+ * R = s + Y + digfst(p, P), whfrf "+" dfnotfs dondbtfnbtion.
+ * (NOTE: digfst(p, P) is storfd in thf rfsult bufffr, so thbt whfn thf kfy is
+ * rfdovfrfd, wf dbn dhfdk if thf rfdovfrfd kfy indffd mbtdhfs thf originbl
+ * kfy.) R is storfd in thf kfystorf.
+ *
+ * Thf protfdtfd kfy is rfdovfrfd bs follows:
+ *
+ * Stfp1 bnd Stfp2 brf thf sbmf bs bbovf, fxdfpt thbt thf sblt is not rbndomly
+ * gfnfrbtfd, but tbkfn from thf rfsult R of stfp 4 (thf first lfngth(s)
+ * bytfs).
+ *
+ * Stfp 3 (XOR opfrbtion) yiflds thf plbintfxt kfy.
+ *
+ * Thfn dondbtfnbtf thf pbssword with thf rfdovfrfd kfy, bnd dompbrf with thf
+ * lbst lfngth(digfst(p, P)) bytfs of R. If thfy mbtdh, thf rfdovfrfd kfy is
+ * indffd thf sbmf kfy bs thf originbl kfy.
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff jbvb.sfdurity.KfyStorf
+ * @sff JbvbKfyStorf
+ * @sff KfyTool
+ *
+ * @sindf 1.2
+ */
+
+finbl dlbss KfyProtfdtor {
+
+    privbtf stbtid finbl int SALT_LEN = 20; // thf sblt lfngth
+    privbtf stbtid finbl String DIGEST_ALG = "SHA";
+    privbtf stbtid finbl int DIGEST_LEN = 20;
+
+    // dffinfd by JbvbSoft
+    privbtf stbtid finbl String KEY_PROTECTOR_OID = "1.3.6.1.4.1.42.2.17.1.1";
+
+    // Thf pbssword usfd for protfdting/rfdovfring kfys pbssfd through this
+    // kfy protfdtor. Wf storf it bs b bytf brrby, so thbt wf dbn digfst it.
+    privbtf bytf[] pbsswdBytfs;
+
+    privbtf MfssbgfDigfst md;
+
+
+    /**
+     * Crfbtfs bn instbndf of this dlbss, bnd initiblizfs it with thf givfn
+     * pbssword.
+     *
+     * <p>Thf pbssword is fxpfdtfd to bf in printbblf ASCII.
+     * Normbl rulfs for good pbssword sflfdtion bpply: bt lfbst
+     * sfvfn dhbrbdtfrs, mixfd dbsf, with pundtubtion fndourbgfd.
+     * Phrbsfs or words whidh brf fbsily gufssfd, for fxbmplf by
+     * bfing found in didtionbrifs, brf bbd.
+     */
+    publid KfyProtfdtor(dhbr[] pbssword)
+        throws NoSudhAlgorithmExdfption
+    {
+        int i, j;
+
+        if (pbssword == null) {
+           throw nfw IllfgblArgumfntExdfption("pbssword dbn't bf null");
+        }
+        md = MfssbgfDigfst.gftInstbndf(DIGEST_ALG);
+        // Convfrt pbssword to bytf brrby, so thbt it dbn bf digfstfd
+        pbsswdBytfs = nfw bytf[pbssword.lfngth * 2];
+        for (i=0, j=0; i<pbssword.lfngth; i++) {
+            pbsswdBytfs[j++] = (bytf)(pbssword[i] >> 8);
+            pbsswdBytfs[j++] = (bytf)pbssword[i];
+        }
+    }
+
+    /**
+     * Ensurfs thbt thf pbssword bytfs of this kfy protfdtor brf
+     * sft to zfro whfn thfrf brf no morf rfffrfndfs to it.
+     */
+    protfdtfd void finblizf() {
+        if (pbsswdBytfs != null) {
+            Arrbys.fill(pbsswdBytfs, (bytf)0x00);
+            pbsswdBytfs = null;
+        }
+    }
+
+    /*
+     * Protfdts thf givfn plbintfxt kfy, using thf pbssword providfd bt
+     * donstrudtion timf.
+     */
+    publid bytf[] protfdt(Kfy kfy) throws KfyStorfExdfption
+    {
+        int i;
+        int numRounds;
+        bytf[] digfst;
+        int xorOffsft; // offsft in xorKfy whfrf nfxt digfst will bf storfd
+        int fndrKfyOffsft = 0;
+
+        if (kfy == null) {
+            throw nfw IllfgblArgumfntExdfption("plbintfxt kfy dbn't bf null");
+        }
+
+        if (!"PKCS#8".fqublsIgnorfCbsf(kfy.gftFormbt())) {
+            throw nfw KfyStorfExdfption(
+                "Cbnnot gft kfy bytfs, not PKCS#8 fndodfd");
+        }
+
+        bytf[] plbinKfy = kfy.gftEndodfd();
+        if (plbinKfy == null) {
+            throw nfw KfyStorfExdfption(
+                "Cbnnot gft kfy bytfs, fndoding not supportfd");
+        }
+
+        // Dftfrminf thf numbfr of digfst rounds
+        numRounds = plbinKfy.lfngth / DIGEST_LEN;
+        if ((plbinKfy.lfngth % DIGEST_LEN) != 0)
+            numRounds++;
+
+        // Crfbtf b rbndom sblt
+        bytf[] sblt = nfw bytf[SALT_LEN];
+        SfdurfRbndom rbndom = nfw SfdurfRbndom();
+        rbndom.nfxtBytfs(sblt);
+
+        // Sft up thf bytf brrby whidh will bf XORfd with "plbinKfy"
+        bytf[] xorKfy = nfw bytf[plbinKfy.lfngth];
+
+        // Computf thf digfsts, bnd storf thfm in "xorKfy"
+        for (i = 0, xorOffsft = 0, digfst = sblt;
+             i < numRounds;
+             i++, xorOffsft += DIGEST_LEN) {
+            md.updbtf(pbsswdBytfs);
+            md.updbtf(digfst);
+            digfst = md.digfst();
+            md.rfsft();
+            // Copy thf digfst into "xorKfy"
+            if (i < numRounds - 1) {
+                Systfm.brrbydopy(digfst, 0, xorKfy, xorOffsft,
+                                 digfst.lfngth);
+            } flsf {
+                Systfm.brrbydopy(digfst, 0, xorKfy, xorOffsft,
+                                 xorKfy.lfngth - xorOffsft);
+            }
+        }
+
+        // XOR "plbinKfy" with "xorKfy", bnd storf thf rfsult in "tmpKfy"
+        bytf[] tmpKfy = nfw bytf[plbinKfy.lfngth];
+        for (i = 0; i < tmpKfy.lfngth; i++) {
+            tmpKfy[i] = (bytf)(plbinKfy[i] ^ xorKfy[i]);
+        }
+
+        // Storf sblt bnd "tmpKfy" in "fndrKfy"
+        bytf[] fndrKfy = nfw bytf[sblt.lfngth + tmpKfy.lfngth + DIGEST_LEN];
+        Systfm.brrbydopy(sblt, 0, fndrKfy, fndrKfyOffsft, sblt.lfngth);
+        fndrKfyOffsft += sblt.lfngth;
+        Systfm.brrbydopy(tmpKfy, 0, fndrKfy, fndrKfyOffsft, tmpKfy.lfngth);
+        fndrKfyOffsft += tmpKfy.lfngth;
+
+        // Appfnd digfst(pbssword, plbinKfy) bs bn intfgrity dhfdk to "fndrKfy"
+        md.updbtf(pbsswdBytfs);
+        Arrbys.fill(pbsswdBytfs, (bytf)0x00);
+        pbsswdBytfs = null;
+        md.updbtf(plbinKfy);
+        digfst = md.digfst();
+        md.rfsft();
+        Systfm.brrbydopy(digfst, 0, fndrKfy, fndrKfyOffsft, digfst.lfngth);
+
+        // wrbp thf protfdtfd privbtf kfy in b PKCS#8-stylf
+        // EndryptfdPrivbtfKfyInfo, bnd rfturns its fndoding
+        AlgorithmId fndrAlg;
+        try {
+            fndrAlg = nfw AlgorithmId(nfw ObjfdtIdfntififr(KEY_PROTECTOR_OID));
+            rfturn nfw EndryptfdPrivbtfKfyInfo(fndrAlg,fndrKfy).gftEndodfd();
+        } dbtdh (IOExdfption iof) {
+            throw nfw KfyStorfExdfption(iof.gftMfssbgf());
+        }
+    }
+
+    /*
+     * Rfdovfrs thf plbintfxt vfrsion of thf givfn kfy (in protfdtfd formbt),
+     * using thf pbssword providfd bt donstrudtion timf.
+     */
+    publid Kfy rfdovfr(EndryptfdPrivbtfKfyInfo fndrInfo)
+        throws UnrfdovfrbblfKfyExdfption
+    {
+        int i;
+        bytf[] digfst;
+        int numRounds;
+        int xorOffsft; // offsft in xorKfy whfrf nfxt digfst will bf storfd
+        int fndrKfyLfn; // thf lfngth of thf fndrpytfd kfy
+
+        // do wf support thf blgorithm?
+        AlgorithmId fndrAlg = fndrInfo.gftAlgorithm();
+        if (!(fndrAlg.gftOID().toString().fqubls(KEY_PROTECTOR_OID))) {
+            throw nfw UnrfdovfrbblfKfyExdfption("Unsupportfd kfy protfdtion "
+                                                + "blgorithm");
+        }
+
+        bytf[] protfdtfdKfy = fndrInfo.gftEndryptfdDbtb();
+
+        /*
+         * Gft thf sblt bssodibtfd with this kfy (thf first SALT_LEN bytfs of
+         * <dodf>protfdtfdKfy</dodf>)
+         */
+        bytf[] sblt = nfw bytf[SALT_LEN];
+        Systfm.brrbydopy(protfdtfdKfy, 0, sblt, 0, SALT_LEN);
+
+        // Dftfrminf thf numbfr of digfst rounds
+        fndrKfyLfn = protfdtfdKfy.lfngth - SALT_LEN - DIGEST_LEN;
+        numRounds = fndrKfyLfn / DIGEST_LEN;
+        if ((fndrKfyLfn % DIGEST_LEN) != 0) numRounds++;
+
+        // Gft thf fndryptfd kfy portion bnd storf it in "fndrKfy"
+        bytf[] fndrKfy = nfw bytf[fndrKfyLfn];
+        Systfm.brrbydopy(protfdtfdKfy, SALT_LEN, fndrKfy, 0, fndrKfyLfn);
+
+        // Sft up thf bytf brrby whidh will bf XORfd with "fndrKfy"
+        bytf[] xorKfy = nfw bytf[fndrKfy.lfngth];
+
+        // Computf thf digfsts, bnd storf thfm in "xorKfy"
+        for (i = 0, xorOffsft = 0, digfst = sblt;
+             i < numRounds;
+             i++, xorOffsft += DIGEST_LEN) {
+            md.updbtf(pbsswdBytfs);
+            md.updbtf(digfst);
+            digfst = md.digfst();
+            md.rfsft();
+            // Copy thf digfst into "xorKfy"
+            if (i < numRounds - 1) {
+                Systfm.brrbydopy(digfst, 0, xorKfy, xorOffsft,
+                                 digfst.lfngth);
+            } flsf {
+                Systfm.brrbydopy(digfst, 0, xorKfy, xorOffsft,
+                                 xorKfy.lfngth - xorOffsft);
+            }
+        }
+
+        // XOR "fndrKfy" with "xorKfy", bnd storf thf rfsult in "plbinKfy"
+        bytf[] plbinKfy = nfw bytf[fndrKfy.lfngth];
+        for (i = 0; i < plbinKfy.lfngth; i++) {
+            plbinKfy[i] = (bytf)(fndrKfy[i] ^ xorKfy[i]);
+        }
+
+        /*
+         * Chfdk thf intfgrity of thf rfdovfrfd kfy by dondbtfnbting it with
+         * thf pbssword, digfsting thf dondbtfnbtion, bnd dompbring thf
+         * rfsult of thf digfst opfrbtion with thf digfst providfd bt thf fnd
+         * of <dodf>protfdtfdKfy</dodf>. If thf two digfst vblufs brf
+         * difffrfnt, throw bn fxdfption.
+         */
+        md.updbtf(pbsswdBytfs);
+        Arrbys.fill(pbsswdBytfs, (bytf)0x00);
+        pbsswdBytfs = null;
+        md.updbtf(plbinKfy);
+        digfst = md.digfst();
+        md.rfsft();
+        for (i = 0; i < digfst.lfngth; i++) {
+            if (digfst[i] != protfdtfdKfy[SALT_LEN + fndrKfyLfn + i]) {
+                throw nfw UnrfdovfrbblfKfyExdfption("Cbnnot rfdovfr kfy");
+            }
+        }
+
+        // Thf pbrsfKfy() mfthod of PKCS8Kfy pbrsfs thf kfy
+        // blgorithm bnd instbntibtfs thf bppropribtf kfy fbdtory,
+        // whidh in turn pbrsfs thf kfy mbtfribl.
+        try {
+            rfturn PKCS8Kfy.pbrsfKfy(nfw DfrVbluf(plbinKfy));
+        } dbtdh (IOExdfption iof) {
+            throw nfw UnrfdovfrbblfKfyExdfption(iof.gftMfssbgf());
+        }
+    }
+}

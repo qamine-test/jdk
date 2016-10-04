@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "MethodImpl.h"
-#include "inStream.h"
-#include "outStream.h"
+#indludf "util.i"
+#indludf "MftiodImpl.i"
+#indludf "inStrfbm.i"
+#indludf "outStrfbm.i"
 
-static jboolean
-lineTable(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+linfTbblf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jvmtiError error;
-    jint count = 0;
-    jvmtiLineNumberEntry *table = NULL;
-    jmethodID method;
-    jlocation firstCodeIndex;
-    jlocation lastCodeIndex;
-    jboolean isNative;
+    jvmtiError frror;
+    jint dount = 0;
+    jvmtiLinfNumbfrEntry *tbblf = NULL;
+    jmftiodID mftiod;
+    jlodbtion firstCodfIndfx;
+    jlodbtion lbstCodfIndfx;
+    jboolfbn isNbtivf;
 
-    /* JVMDI needed the class, but JVMTI does not so we ignore it */
-    (void)inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    /* JVMDI nffdfd tif dlbss, but JVMTI dofs not so wf ignorf it */
+    (void)inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    method = inStream_readMethodID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    mftiod = inStrfbm_rfbdMftiodID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
     /*
-     * JVMTI behavior for the calls below is unspecified for native
-     * methods, so we must check explicitly.
+     * JVMTI bfibvior for tif dblls bflow is unspfdififd for nbtivf
+     * mftiods, so wf must difdk fxpliditly.
      */
-    isNative = isMethodNative(method);
-    if (isNative) {
-        outStream_setError(out, JDWP_ERROR(NATIVE_METHOD));
-        return JNI_TRUE;
+    isNbtivf = isMftiodNbtivf(mftiod);
+    if (isNbtivf) {
+        outStrfbm_sftError(out, JDWP_ERROR(NATIVE_METHOD));
+        rfturn JNI_TRUE;
     }
 
-    error = methodLocation(method, &firstCodeIndex, &lastCodeIndex);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
+    frror = mftiodLodbtion(mftiod, &firstCodfIndfx, &lbstCodfIndfx);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
-    (void)outStream_writeLocation(out, firstCodeIndex);
-    (void)outStream_writeLocation(out, lastCodeIndex);
+    (void)outStrfbm_writfLodbtion(out, firstCodfIndfx);
+    (void)outStrfbm_writfLodbtion(out, lbstCodfIndfx);
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLineNumberTable)
-                (gdata->jvmti, method, &count, &table);
-    if (error == JVMTI_ERROR_ABSENT_INFORMATION) {
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLinfNumbfrTbblf)
+                (gdbtb->jvmti, mftiod, &dount, &tbblf);
+    if (frror == JVMTI_ERROR_ABSENT_INFORMATION) {
         /*
-         * Indicate no line info with an empty table. The code indices
-         * are still useful, so we don't want to return an error
+         * Indidbtf no linf info witi bn fmpty tbblf. Tif dodf indidfs
+         * brf still usfful, so wf don't wbnt to rfturn bn frror
          */
-        (void)outStream_writeInt(out, 0);
-    } else if (error == JVMTI_ERROR_NONE) {
+        (void)outStrfbm_writfInt(out, 0);
+    } flsf if (frror == JVMTI_ERROR_NONE) {
         jint i;
-        (void)outStream_writeInt(out, count);
-        for (i = 0; (i < count) && !outStream_error(out); i++) {
-            (void)outStream_writeLocation(out, table[i].start_location);
-            (void)outStream_writeInt(out, table[i].line_number);
+        (void)outStrfbm_writfInt(out, dount);
+        for (i = 0; (i < dount) && !outStrfbm_frror(out); i++) {
+            (void)outStrfbm_writfLodbtion(out, tbblf[i].stbrt_lodbtion);
+            (void)outStrfbm_writfInt(out, tbblf[i].linf_numbfr);
         }
-        jvmtiDeallocate(table);
-    } else {
-        outStream_setError(out, map2jdwpError(error));
+        jvmtiDfbllodbtf(tbblf);
+    } flsf {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 
-static jboolean
-doVariableTable(PacketInputStream *in, PacketOutputStream *out,
-                int outputGenerics)
+stbtid jboolfbn
+doVbribblfTbblf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out,
+                int outputGfnfrids)
 {
-    jvmtiError error;
-    jint count;
-    jvmtiLocalVariableEntry *table;
-    jmethodID method;
-    jint argsSize;
-    jboolean isNative;
+    jvmtiError frror;
+    jint dount;
+    jvmtiLodblVbribblfEntry *tbblf;
+    jmftiodID mftiod;
+    jint brgsSizf;
+    jboolfbn isNbtivf;
 
-    /* JVMDI needed the class, but JVMTI does not so we ignore it */
-    (void)inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    /* JVMDI nffdfd tif dlbss, but JVMTI dofs not so wf ignorf it */
+    (void)inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    method = inStream_readMethodID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    mftiod = inStrfbm_rfbdMftiodID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
     /*
-     * JVMTI behavior for the calls below is unspecified for native
-     * methods, so we must check explicitly.
+     * JVMTI bfibvior for tif dblls bflow is unspfdififd for nbtivf
+     * mftiods, so wf must difdk fxpliditly.
      */
-    isNative = isMethodNative(method);
-    if (isNative) {
-        outStream_setError(out, JDWP_ERROR(NATIVE_METHOD));
-        return JNI_TRUE;
+    isNbtivf = isMftiodNbtivf(mftiod);
+    if (isNbtivf) {
+        outStrfbm_sftError(out, JDWP_ERROR(NATIVE_METHOD));
+        rfturn JNI_TRUE;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetArgumentsSize)
-                (gdata->jvmti, method, &argsSize);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftArgumfntsSizf)
+                (gdbtb->jvmti, mftiod, &brgsSizf);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalVariableTable)
-                (gdata->jvmti, method, &count, &table);
-    if (error == JVMTI_ERROR_NONE) {
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblVbribblfTbblf)
+                (gdbtb->jvmti, mftiod, &dount, &tbblf);
+    if (frror == JVMTI_ERROR_NONE) {
         jint i;
-        (void)outStream_writeInt(out, argsSize);
-        (void)outStream_writeInt(out, count);
-        for (i = 0; (i < count) && !outStream_error(out); i++) {
-            jvmtiLocalVariableEntry *entry = &table[i];
-            (void)outStream_writeLocation(out, entry->start_location);
-            (void)outStream_writeString(out, entry->name);
-            (void)outStream_writeString(out, entry->signature);
-            if (outputGenerics == 1) {
-                writeGenericSignature(out, entry->generic_signature);
+        (void)outStrfbm_writfInt(out, brgsSizf);
+        (void)outStrfbm_writfInt(out, dount);
+        for (i = 0; (i < dount) && !outStrfbm_frror(out); i++) {
+            jvmtiLodblVbribblfEntry *fntry = &tbblf[i];
+            (void)outStrfbm_writfLodbtion(out, fntry->stbrt_lodbtion);
+            (void)outStrfbm_writfString(out, fntry->nbmf);
+            (void)outStrfbm_writfString(out, fntry->signbturf);
+            if (outputGfnfrids == 1) {
+                writfGfnfridSignbturf(out, fntry->gfnfrid_signbturf);
             }
-            (void)outStream_writeInt(out, entry->length);
-            (void)outStream_writeInt(out, entry->slot);
+            (void)outStrfbm_writfInt(out, fntry->lfngti);
+            (void)outStrfbm_writfInt(out, fntry->slot);
 
-            jvmtiDeallocate(entry->name);
-            jvmtiDeallocate(entry->signature);
-            if (entry->generic_signature != NULL) {
-              jvmtiDeallocate(entry->generic_signature);
+            jvmtiDfbllodbtf(fntry->nbmf);
+            jvmtiDfbllodbtf(fntry->signbturf);
+            if (fntry->gfnfrid_signbturf != NULL) {
+              jvmtiDfbllodbtf(fntry->gfnfrid_signbturf);
             }
         }
 
-        jvmtiDeallocate(table);
-    } else {
-        outStream_setError(out, map2jdwpError(error));
+        jvmtiDfbllodbtf(tbblf);
+    } flsf {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 
-static jboolean
-variableTable(PacketInputStream *in, PacketOutputStream *out) {
-    return doVariableTable(in, out, 0);
+stbtid jboolfbn
+vbribblfTbblf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out) {
+    rfturn doVbribblfTbblf(in, out, 0);
 }
 
-static jboolean
-variableTableWithGenerics(PacketInputStream *in, PacketOutputStream *out) {
-    return doVariableTable(in, out, 1);
+stbtid jboolfbn
+vbribblfTbblfWitiGfnfrids(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out) {
+    rfturn doVbribblfTbblf(in, out, 1);
 }
 
 
-static jboolean
-bytecodes(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+bytfdodfs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jvmtiError error;
-    unsigned char * bcp;
-    jint bytecodeCount;
-    jmethodID method;
+    jvmtiError frror;
+    unsignfd dibr * bdp;
+    jint bytfdodfCount;
+    jmftiodID mftiod;
 
-    /* JVMDI needed the class, but JVMTI does not so we ignore it */
-    (void)inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    /* JVMDI nffdfd tif dlbss, but JVMTI dofs not so wf ignorf it */
+    (void)inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    method = inStream_readMethodID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
-    }
-
-    /* Initialize assuming no bytecodes and no error */
-    error         = JVMTI_ERROR_NONE;
-    bytecodeCount = 0;
-    bcp           = NULL;
-
-    /* Only non-native methods have bytecodes, don't even ask if native. */
-    if ( !isMethodNative(method) ) {
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetBytecodes)
-                    (gdata->jvmti, method, &bytecodeCount, &bcp);
-    }
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-    } else {
-        (void)outStream_writeByteArray(out, bytecodeCount, (jbyte *)bcp);
-        jvmtiDeallocate(bcp);
+    mftiod = inStrfbm_rfbdMftiodID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    return JNI_TRUE;
+    /* Initiblizf bssuming no bytfdodfs bnd no frror */
+    frror         = JVMTI_ERROR_NONE;
+    bytfdodfCount = 0;
+    bdp           = NULL;
+
+    /* Only non-nbtivf mftiods ibvf bytfdodfs, don't fvfn bsk if nbtivf. */
+    if ( !isMftiodNbtivf(mftiod) ) {
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftBytfdodfs)
+                    (gdbtb->jvmti, mftiod, &bytfdodfCount, &bdp);
+    }
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+    } flsf {
+        (void)outStrfbm_writfBytfArrby(out, bytfdodfCount, (jbytf *)bdp);
+        jvmtiDfbllodbtf(bdp);
+    }
+
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-isObsolete(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+isObsolftf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jboolean isObsolete;
-    jmethodID method;
+    jboolfbn isObsolftf;
+    jmftiodID mftiod;
 
-    /* JVMDI needed the class, but JVMTI does not so we ignore it */
-    (void)inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    /* JVMDI nffdfd tif dlbss, but JVMTI dofs not so wf ignorf it */
+    (void)inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    method = inStream_readMethodID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    mftiod = inStrfbm_rfbdMftiodID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    isObsolete = isMethodObsolete(method);
-    (void)outStream_writeBoolean(out, isObsolete);
+    isObsolftf = isMftiodObsolftf(mftiod);
+    (void)outStrfbm_writfBoolfbn(out, isObsolftf);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-void *Method_Cmds[] = { (void *)0x5
-    ,(void *)lineTable
-    ,(void *)variableTable
-    ,(void *)bytecodes
-    ,(void *)isObsolete
-    ,(void *)variableTableWithGenerics
+void *Mftiod_Cmds[] = { (void *)0x5
+    ,(void *)linfTbblf
+    ,(void *)vbribblfTbblf
+    ,(void *)bytfdodfs
+    ,(void *)isObsolftf
+    ,(void *)vbribblfTbblfWitiGfnfrids
 };

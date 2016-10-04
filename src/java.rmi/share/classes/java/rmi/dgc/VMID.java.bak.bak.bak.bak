@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.dgd;
+
+import jbvb.rmi.sfrvfr.UID;
+import jbvb.sfdurity.SfdurfRbndom;
+
+/**
+ * A VMID is b idfntififr thbt is uniquf bdross bll Jbvb virtubl
+ * mbdhinfs.  VMIDs brf usfd by thf distributfd gbrbbgf dollfdtor
+ * to idfntify dlifnt VMs.
+ *
+ * @buthor      Ann Wollrbth
+ * @buthor      Pftfr Jonfs
+ */
+publid finbl dlbss VMID implfmfnts jbvb.io.Sfriblizbblf {
+    /** Arrby of bytfs uniqufly idfntifying this host */
+    privbtf stbtid finbl bytf[] rbndomBytfs;
+
+    /**
+     * @sfribl brrby of bytfs uniqufly idfntifying host drfbtfd on
+     */
+    privbtf bytf[] bddr;
+
+    /**
+     * @sfribl uniquf idfntififr with rfspfdt to host drfbtfd on
+     */
+    privbtf UID uid;
+
+    /** indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -538642295484486218L;
+
+    stbtid {
+        // Gfnfrbtf 8 bytfs of rbndom dbtb.
+        SfdurfRbndom sfdurfRbndom = nfw SfdurfRbndom();
+        bytf bytfs[] = nfw bytf[8];
+        sfdurfRbndom.nfxtBytfs(bytfs);
+        rbndomBytfs = bytfs;
+    }
+
+    /**
+     * Crfbtf b nfw VMID.  Ebdh nfw VMID rfturnfd from this donstrudtor
+     * is uniquf for bll Jbvb virtubl mbdhinfs undfr thf following
+     * donditions: b) thf donditions for uniqufnfss for objfdts of
+     * thf dlbss <dodf>jbvb.rmi.sfrvfr.UID</dodf> brf sbtisfifd, bnd b) bn
+     * bddrfss dbn bf obtbinfd for this host thbt is uniquf bnd donstbnt
+     * for thf lifftimf of this objfdt.
+     */
+    publid VMID() {
+        bddr = rbndomBytfs;
+        uid = nfw UID();
+    }
+
+    /**
+     * Rfturn truf if bn bddurbtf bddrfss dbn bf dftfrminfd for this
+     * host.  If fblsf, rflibblf VMID dbnnot bf gfnfrbtfd from this host
+     * @rfturn truf if host bddrfss dbn bf dftfrminfd, fblsf othfrwisf
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    publid stbtid boolfbn isUniquf() {
+        rfturn truf;
+    }
+
+    /**
+     * Computf hbsh dodf for this VMID.
+     */
+    publid int hbshCodf() {
+        rfturn uid.hbshCodf();
+    }
+
+    /**
+     * Compbrf this VMID to bnothfr, bnd rfturn truf if thfy brf thf
+     * sbmf idfntififr.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof VMID) {
+            VMID vmid = (VMID) obj;
+            if (!uid.fqubls(vmid.uid))
+                rfturn fblsf;
+            if ((bddr == null) ^ (vmid.bddr == null))
+                rfturn fblsf;
+            if (bddr != null) {
+                if (bddr.lfngth != vmid.bddr.lfngth)
+                    rfturn fblsf;
+                for (int i = 0; i < bddr.lfngth; ++ i)
+                    if (bddr[i] != vmid.bddr[i])
+                        rfturn fblsf;
+            }
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturn string rfprfsfntbtion of this VMID.
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        if (bddr != null)
+            for (int i = 0; i < bddr.lfngth; ++ i) {
+                int x = bddr[i] & 0xFF;
+                sb.bppfnd((x < 0x10 ? "0" : "") +
+                          Intfgfr.toString(x, 16));
+            }
+        sb.bppfnd(':');
+        sb.bppfnd(uid.toString());
+        rfturn sb.toString();
+    }
+}

@@ -1,0 +1,313 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.https;
+
+import jbvb.nft.URL;
+import jbvb.nft.Proxy;
+import jbvb.nft.SfdurfCbdhfRfsponsf;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import jbvbx.nft.ssl.SSLPffrUnvfrififdExdfption;
+import sun.nft.www.http.*;
+import sun.nft.www.protodol.http.HttpURLConnfdtion;
+
+/**
+ * HTTPS URL donnfdtion support.
+ * Wf nffd this dflfgbtf bfdbusf HttpsURLConnfdtion is b subdlbss of
+ * jbvb.nft.HttpURLConnfdtion. Wf will bvoid dopying ovfr thf dodf from
+ * sun.nft.www.protodol.http.HttpURLConnfdtion by hbving this dlbss
+ *
+ */
+publid bbstrbdt dlbss AbstrbdtDflfgbtfHttpsURLConnfdtion fxtfnds
+        HttpURLConnfdtion {
+
+    protfdtfd AbstrbdtDflfgbtfHttpsURLConnfdtion(URL url,
+            sun.nft.www.protodol.http.Hbndlfr hbndlfr) throws IOExdfption {
+        this(url, null, hbndlfr);
+    }
+
+    protfdtfd AbstrbdtDflfgbtfHttpsURLConnfdtion(URL url, Proxy p,
+            sun.nft.www.protodol.http.Hbndlfr hbndlfr) throws IOExdfption {
+        supfr(url, p, hbndlfr);
+    }
+
+    protfdtfd bbstrbdt jbvbx.nft.ssl.SSLSodkftFbdtory gftSSLSodkftFbdtory();
+
+    protfdtfd bbstrbdt jbvbx.nft.ssl.HostnbmfVfrififr gftHostnbmfVfrififr();
+
+    /**
+     * No usfr bpplidbtion is bblf to dbll thfsf routinfs, bs no onf
+     * should fvfr gft bddfss to bn instbndf of
+     * DflfgbtfHttpsURLConnfdtion (sun.* or dom.*)
+     */
+
+    /**
+     * Crfbtf b nfw HttpClifnt objfdt, bypbssing thf dbdhf of
+     * HTTP dlifnt objfdts/donnfdtions.
+     *
+     * Notf: this mfthod is dhbngfd from protfdtfd to publid bfdbusf
+     * thf dom.sun.ssl.intfrnbl.www.protodol.https hbndlfr rfusfs this
+     * dlbss for its bdtubl implfmbntbtion
+     *
+     * @pbrbm url thf URL bfing bddfssfd
+     */
+    publid void sftNfwClifnt (URL url)
+        throws IOExdfption {
+        sftNfwClifnt (url, fblsf);
+    }
+
+    /**
+     * Obtbin b HttpClifnt objfdt. Usf thf dbdhfd dopy if spfdififd.
+     *
+     * Notf: this mfthod is dhbngfd from protfdtfd to publid bfdbusf
+     * thf dom.sun.ssl.intfrnbl.www.protodol.https hbndlfr rfusfs this
+     * dlbss for its bdtubl implfmbntbtion
+     *
+     * @pbrbm url       thf URL bfing bddfssfd
+     * @pbrbm usfCbdhf  whfthfr thf dbdhfd donnfdtion should bf usfd
+     *        if prfsfnt
+     */
+    publid void sftNfwClifnt (URL url, boolfbn usfCbdhf)
+        throws IOExdfption {
+        http = HttpsClifnt.Nfw (gftSSLSodkftFbdtory(),
+                                url,
+                                gftHostnbmfVfrififr(),
+                                usfCbdhf, this);
+        ((HttpsClifnt)http).bftfrConnfdt();
+    }
+
+    /**
+     * Crfbtf b nfw HttpClifnt objfdt, sft up so thbt it usfs
+     * pfr-instbndf proxying to thf givfn HTTP proxy.  This
+     * bypbssfs thf dbdhf of HTTP dlifnt objfdts/donnfdtions.
+     *
+     * Notf: this mfthod is dhbngfd from protfdtfd to publid bfdbusf
+     * thf dom.sun.ssl.intfrnbl.www.protodol.https hbndlfr rfusfs this
+     * dlbss for its bdtubl implfmbntbtion
+     *
+     * @pbrbm url       thf URL bfing bddfssfd
+     * @pbrbm proxyHost thf proxy host to usf
+     * @pbrbm proxyPort thf proxy port to usf
+     */
+    publid void sftProxifdClifnt (URL url, String proxyHost, int proxyPort)
+            throws IOExdfption {
+        sftProxifdClifnt(url, proxyHost, proxyPort, fblsf);
+    }
+
+    /**
+     * Obtbin b HttpClifnt objfdt, sft up so thbt it usfs pfr-instbndf
+     * proxying to thf givfn HTTP proxy. Usf thf dbdhfd dopy of HTTP
+     * dlifnt objfdts/donnfdtions if spfdififd.
+     *
+     * Notf: this mfthod is dhbngfd from protfdtfd to publid bfdbusf
+     * thf dom.sun.ssl.intfrnbl.www.protodol.https hbndlfr rfusfs this
+     * dlbss for its bdtubl implfmbntbtion
+     *
+     * @pbrbm url       thf URL bfing bddfssfd
+     * @pbrbm proxyHost thf proxy host to usf
+     * @pbrbm proxyPort thf proxy port to usf
+     * @pbrbm usfCbdhf  whfthfr thf dbdhfd donnfdtion should bf usfd
+     *        if prfsfnt
+     */
+    publid void sftProxifdClifnt (URL url, String proxyHost, int proxyPort,
+            boolfbn usfCbdhf) throws IOExdfption {
+        proxifdConnfdt(url, proxyHost, proxyPort, usfCbdhf);
+        if (!http.isCbdhfdConnfdtion()) {
+            doTunnfling();
+        }
+        ((HttpsClifnt)http).bftfrConnfdt();
+    }
+
+    protfdtfd void proxifdConnfdt(URL url, String proxyHost, int proxyPort,
+            boolfbn usfCbdhf) throws IOExdfption {
+        if (donnfdtfd)
+            rfturn;
+        http = HttpsClifnt.Nfw (gftSSLSodkftFbdtory(),
+                                url,
+                                gftHostnbmfVfrififr(),
+                                proxyHost, proxyPort, usfCbdhf, this);
+        donnfdtfd = truf;
+    }
+
+    /**
+     * Usfd by subdlbss to bddfss "donnfdtfd" vbribblf.
+     */
+    publid boolfbn isConnfdtfd() {
+        rfturn donnfdtfd;
+    }
+
+    /**
+     * Usfd by subdlbss to bddfss "donnfdtfd" vbribblf.
+     */
+    publid void sftConnfdtfd(boolfbn donn) {
+        donnfdtfd = donn;
+    }
+
+    /**
+     * Implfmfnts thf HTTP protodol hbndlfr's "donnfdt" mfthod,
+     * fstbblishing bn SSL donnfdtion to thf sfrvfr bs nfdfssbry.
+     */
+    publid void donnfdt() throws IOExdfption {
+        if (donnfdtfd)
+            rfturn;
+        plbinConnfdt();
+        if (dbdhfdRfsponsf != null) {
+            // using dbdhfd rfsponsf
+            rfturn;
+        }
+        if (!http.isCbdhfdConnfdtion() && http.nffdsTunnfling()) {
+            doTunnfling();
+        }
+        ((HttpsClifnt)http).bftfrConnfdt();
+    }
+
+    // will try to usf dbdhfd HttpsClifnt
+    protfdtfd HttpClifnt gftNfwHttpClifnt(URL url, Proxy p, int donnfdtTimfout)
+        throws IOExdfption {
+        rfturn HttpsClifnt.Nfw(gftSSLSodkftFbdtory(), url,
+                               gftHostnbmfVfrififr(), p, truf, donnfdtTimfout,
+                               this);
+    }
+
+    // will opfn nfw donnfdtion
+    protfdtfd HttpClifnt gftNfwHttpClifnt(URL url, Proxy p, int donnfdtTimfout,
+                                          boolfbn usfCbdhf)
+        throws IOExdfption {
+        rfturn HttpsClifnt.Nfw(gftSSLSodkftFbdtory(), url,
+                               gftHostnbmfVfrififr(), p,
+                               usfCbdhf, donnfdtTimfout, this);
+    }
+
+    /**
+     * Rfturns thf diphfr suitf in usf on this donnfdtion.
+     */
+    publid String gftCiphfrSuitf () {
+        if (dbdhfdRfsponsf != null) {
+            rfturn ((SfdurfCbdhfRfsponsf)dbdhfdRfsponsf).gftCiphfrSuitf();
+        }
+        if (http == null) {
+            throw nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+           rfturn ((HttpsClifnt)http).gftCiphfrSuitf ();
+        }
+    }
+
+    /**
+     * Rfturns thf dfrtifidbtf dhbin thf dlifnt sfnt to thf
+     * sfrvfr, or null if thf dlifnt did not buthfntidbtf.
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftLodblCfrtifidbtfs() {
+        if (dbdhfdRfsponsf != null) {
+            List<jbvb.sfdurity.dfrt.Cfrtifidbtf> l = ((SfdurfCbdhfRfsponsf)dbdhfdRfsponsf).gftLodblCfrtifidbtfChbin();
+            if (l == null) {
+                rfturn null;
+            } flsf {
+                rfturn l.toArrby(nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[0]);
+            }
+        }
+        if (http == null) {
+            throw nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+            rfturn (((HttpsClifnt)http).gftLodblCfrtifidbtfs ());
+        }
+    }
+
+    /**
+     * Rfturns thf sfrvfr's dfrtifidbtf dhbin, or throws
+     * SSLPffrUnvfrififd Exdfption if
+     * thf sfrvfr did not buthfntidbtf.
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftSfrvfrCfrtifidbtfs()
+            throws SSLPffrUnvfrififdExdfption {
+        if (dbdhfdRfsponsf != null) {
+            List<jbvb.sfdurity.dfrt.Cfrtifidbtf> l = ((SfdurfCbdhfRfsponsf)dbdhfdRfsponsf).gftSfrvfrCfrtifidbtfChbin();
+            if (l == null) {
+                rfturn null;
+            } flsf {
+                rfturn l.toArrby(nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[0]);
+            }
+        }
+
+        if (http == null) {
+            throw nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+            rfturn (((HttpsClifnt)http).gftSfrvfrCfrtifidbtfs ());
+        }
+    }
+
+    /**
+     * Rfturns thf sfrvfr's X.509 dfrtifidbtf dhbin, or null if
+     * thf sfrvfr did not buthfntidbtf.
+     */
+    publid jbvbx.sfdurity.dfrt.X509Cfrtifidbtf[] gftSfrvfrCfrtifidbtfChbin()
+            throws SSLPffrUnvfrififdExdfption {
+        if (dbdhfdRfsponsf != null) {
+            throw nfw UnsupportfdOpfrbtionExdfption("this mfthod is not supportfd whfn using dbdhf");
+        }
+        if (http == null) {
+            throw nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+            rfturn ((HttpsClifnt)http).gftSfrvfrCfrtifidbtfChbin ();
+        }
+    }
+
+    /**
+     * Rfturns thf sfrvfr's prindipbl, or throws SSLPffrUnvfrififdExdfption
+     * if thf sfrvfr did not buthfntidbtf.
+     */
+    Prindipbl gftPffrPrindipbl()
+            throws SSLPffrUnvfrififdExdfption
+    {
+        if (dbdhfdRfsponsf != null) {
+            rfturn ((SfdurfCbdhfRfsponsf)dbdhfdRfsponsf).gftPffrPrindipbl();
+        }
+
+        if (http == null) {
+            throw nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+            rfturn (((HttpsClifnt)http).gftPffrPrindipbl());
+        }
+    }
+
+    /**
+     * Rfturns thf prindipbl thf dlifnt sfnt to thf
+     * sfrvfr, or null if thf dlifnt did not buthfntidbtf.
+     */
+    Prindipbl gftLodblPrindipbl()
+    {
+        if (dbdhfdRfsponsf != null) {
+            rfturn ((SfdurfCbdhfRfsponsf)dbdhfdRfsponsf).gftLodblPrindipbl();
+        }
+
+        if (http == null) {
+            throw nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+            rfturn (((HttpsClifnt)http).gftLodblPrindipbl());
+        }
+    }
+
+}

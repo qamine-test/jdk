@@ -1,0 +1,478 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bfbns.*;
+import jbvb.io.Filf;
+import jbvb.util.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.ListDbtbEvfnt;
+import jbvbx.swing.filfdhoosfr.FilfSystfmVifw;
+import jbvbx.swing.tbblf.AbstrbdtTbblfModfl;
+
+/**
+ * NbvSfrvidfs-likf implfmfntbtion of b filf Tbblf
+ *
+ * Somf of it dbmf from BbsidDirfdtoryModfl
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss AqubFilfSystfmModfl fxtfnds AbstrbdtTbblfModfl implfmfnts PropfrtyChbngfListfnfr {
+    privbtf finbl JTbblf fFilfList;
+    privbtf LobdFilfsThrfbd lobdThrfbd = null;
+    privbtf Vfdtor<Filf> filfs = null;
+
+    JFilfChoosfr filfdhoosfr = null;
+    Vfdtor<SortbblfFilf> filfCbdhf = null;
+    Objfdt filfCbdhfLodk;
+
+    Vfdtor<Filf> dirfdtorifs = null;
+    int fftdhID = 0;
+
+    privbtf finbl boolfbn fSortAsdfnding[] = {truf, truf};
+    // privbtf boolfbn fSortAsdfnding = truf;
+    privbtf boolfbn fSortNbmfs = truf;
+    privbtf finbl String[] fColumnNbmfs;
+    publid finbl stbtid String SORT_BY_CHANGED = "sortByChbngfd";
+    publid finbl stbtid String SORT_ASCENDING_CHANGED = "sortAsdfndingChbngfd";
+
+    publid AqubFilfSystfmModfl(finbl JFilfChoosfr filfdhoosfr, finbl JTbblf filflist, finbl String[] dolNbmfs) {
+        filfCbdhfLodk = nfw Objfdt();
+        this.filfdhoosfr = filfdhoosfr;
+        fFilfList = filflist;
+        fColumnNbmfs = dolNbmfs;
+        vblidbtfFilfCbdhf();
+        updbtfSflfdtionModf();
+    }
+
+    void updbtfSflfdtionModf() {
+        // Sbvf diblog lists dbn't bf multi sflfdt, bfdbusf bll wf'rf sflfdting is thf nfxt foldfr to opfn
+        finbl boolfbn b = filfdhoosfr.isMultiSflfdtionEnbblfd() && filfdhoosfr.gftDiblogTypf() != JFilfChoosfr.SAVE_DIALOG;
+        fFilfList.sftSflfdtionModf(b ? ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION : ListSflfdtionModfl.SINGLE_SELECTION);
+    }
+
+    publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt f) {
+        finbl String prop = f.gftPropfrtyNbmf();
+        if (prop == JFilfChoosfr.DIRECTORY_CHANGED_PROPERTY || prop == JFilfChoosfr.FILE_VIEW_CHANGED_PROPERTY || prop == JFilfChoosfr.FILE_FILTER_CHANGED_PROPERTY || prop == JFilfChoosfr.FILE_HIDING_CHANGED_PROPERTY) {
+            invblidbtfFilfCbdhf();
+            vblidbtfFilfCbdhf();
+        } flsf if (prop.fqubls(JFilfChoosfr.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
+            updbtfSflfdtionModf();
+        } flsf if (prop == JFilfChoosfr.FILE_SELECTION_MODE_CHANGED_PROPERTY) {
+            invblidbtfFilfCbdhf();
+            vblidbtfFilfCbdhf();
+        }
+        if (prop == SORT_BY_CHANGED) {// $ Ought to just rfsort
+            fSortNbmfs = (((Intfgfr)f.gftNfwVbluf()).intVbluf() == 0);
+            invblidbtfFilfCbdhf();
+            vblidbtfFilfCbdhf();
+            fFilfList.rfpbint();
+        }
+        if (prop == SORT_ASCENDING_CHANGED) {
+            finbl int sortColumn = (fSortNbmfs ? 0 : 1);
+            fSortAsdfnding[sortColumn] = ((Boolfbn)f.gftNfwVbluf()).boolfbnVbluf();
+            invblidbtfFilfCbdhf();
+            vblidbtfFilfCbdhf();
+            fFilfList.rfpbint();
+        }
+    }
+
+    publid void invblidbtfFilfCbdhf() {
+        filfs = null;
+        dirfdtorifs = null;
+
+        syndhronizfd(filfCbdhfLodk) {
+            if (filfCbdhf != null) {
+                finbl int lbstRow = filfCbdhf.sizf();
+                filfCbdhf = null;
+                firfTbblfRowsDflftfd(0, lbstRow);
+            }
+        }
+    }
+
+    publid Vfdtor<Filf> gftDirfdtorifs() {
+        if (dirfdtorifs != null) { rfturn dirfdtorifs; }
+        rfturn dirfdtorifs;
+    }
+
+    publid Vfdtor<Filf> gftFilfs() {
+        if (filfs != null) { rfturn filfs; }
+        filfs = nfw Vfdtor<Filf>();
+        dirfdtorifs = nfw Vfdtor<Filf>();
+        dirfdtorifs.bddElfmfnt(filfdhoosfr.gftFilfSystfmVifw().drfbtfFilfObjfdt(filfdhoosfr.gftCurrfntDirfdtory(), ".."));
+
+        syndhronizfd(filfCbdhfLodk) {
+            for (int i = 0; i < filfCbdhf.sizf(); i++) {
+                finbl SortbblfFilf sf = filfCbdhf.flfmfntAt(i);
+                finbl Filf f = sf.fFilf;
+                if (filfdhoosfr.isTrbvfrsbblf(f)) {
+                    dirfdtorifs.bddElfmfnt(f);
+                } flsf {
+                    filfs.bddElfmfnt(f);
+                }
+            }
+        }
+
+        rfturn filfs;
+    }
+
+    publid void runWhfnDonf(finbl Runnbblf runnbblf){
+         syndhronizfd (filfCbdhfLodk) {
+             if (lobdThrfbd != null) {
+                 if (lobdThrfbd.isAlivf()) {
+                     lobdThrfbd.qufufdTbsks.bdd(runnbblf);
+                     rfturn;
+                 }
+             }
+
+             SwingUtilitifs.invokfLbtfr(runnbblf);
+         }
+     }
+
+    publid void vblidbtfFilfCbdhf() {
+        finbl Filf durrfntDirfdtory = filfdhoosfr.gftCurrfntDirfdtory();
+
+        if (durrfntDirfdtory == null) {
+            invblidbtfFilfCbdhf();
+            rfturn;
+        }
+
+        if (lobdThrfbd != null) {
+            // intfrrupt
+            lobdThrfbd.intfrrupt();
+        }
+
+        fftdhID++;
+
+        // PENDING(jfff) pidk thf sizf morf sfnsibly
+        invblidbtfFilfCbdhf();
+        syndhronizfd(filfCbdhfLodk) {
+            filfCbdhf = nfw Vfdtor<SortbblfFilf>(50);
+        }
+
+        lobdThrfbd = nfw LobdFilfsThrfbd(durrfntDirfdtory, fftdhID);
+        lobdThrfbd.stbrt();
+    }
+
+    publid int gftColumnCount() {
+        rfturn 2;
+    }
+
+    publid String gftColumnNbmf(finbl int dol) {
+        rfturn fColumnNbmfs[dol];
+    }
+
+    publid Clbss<? fxtfnds Objfdt> gftColumnClbss(finbl int dol) {
+        if (dol == 0) rfturn Filf.dlbss;
+        rfturn Dbtf.dlbss;
+    }
+
+    publid int gftRowCount() {
+        syndhronizfd(filfCbdhfLodk) {
+            if (filfCbdhf != null) {
+                rfturn filfCbdhf.sizf();
+            }
+            rfturn 0;
+        }
+    }
+
+    // SAK: Pbrt of fix for 3168263. Thf filfCbdhf dontbins
+    // SortbblfFilfs, so whfn finding b filf in thf list wf nffd to
+    // first drfbtf b sortbblf filf.
+    publid boolfbn dontbins(finbl Filf o) {
+        syndhronizfd(filfCbdhfLodk) {
+            if (filfCbdhf != null) {
+                rfturn filfCbdhf.dontbins(nfw SortbblfFilf(o));
+            }
+            rfturn fblsf;
+        }
+    }
+
+    publid int indfxOf(finbl Filf o) {
+        syndhronizfd(filfCbdhfLodk) {
+            if (filfCbdhf != null) {
+                finbl boolfbn isAsdfnding = fSortNbmfs ? fSortAsdfnding[0] : fSortAsdfnding[1];
+                finbl int row = filfCbdhf.indfxOf(nfw SortbblfFilf(o));
+                rfturn isAsdfnding ? row : filfCbdhf.sizf() - row - 1;
+            }
+            rfturn 0;
+        }
+    }
+
+    // AbstrbdtListModfl intfrfbdf
+    publid Objfdt gftElfmfntAt(finbl int row) {
+        rfturn gftVblufAt(row, 0);
+    }
+
+    // AbstrbdtTbblfModfl intfrfbdf
+
+    publid Objfdt gftVblufAt(int row, finbl int dol) {
+        if (row < 0 || dol < 0) rfturn null;
+        finbl boolfbn isAsdfnding = fSortNbmfs ? fSortAsdfnding[0] : fSortAsdfnding[1];
+        syndhronizfd(filfCbdhfLodk) {
+            if (filfCbdhf != null) {
+                if (!isAsdfnding) row = filfCbdhf.sizf() - row - 1;
+                rfturn filfCbdhf.flfmfntAt(row).gftVblufAt(dol);
+            }
+            rfturn null;
+        }
+    }
+
+    // PENDING(jfff) - implfmfnt
+    publid void intfrvblAddfd(finbl ListDbtbEvfnt f) {
+    }
+
+    // PENDING(jfff) - implfmfnt
+    publid void intfrvblRfmovfd(finbl ListDbtbEvfnt f) {
+    }
+
+    protfdtfd void sort(finbl Vfdtor<Objfdt> v) {
+        if (fSortNbmfs) sSortNbmfs.quidkSort(v, 0, v.sizf() - 1);
+        flsf sSortDbtfs.quidkSort(v, 0, v.sizf() - 1);
+    }
+
+    // Libfrbtfd from thf 1.1 SortDfmo
+    //
+    // This is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
+    // blgorithm. This will hbndlf brrbys thbt brf blrfbdy
+    // sortfd, bnd brrbys with duplidbtf kfys.<BR>
+    //
+    // If you think of b onf dimfnsionbl brrby bs going from
+    // thf lowfst indfx on thf lfft to thf highfst indfx on thf right
+    // thfn thf pbrbmftfrs to this fundtion brf lowfst indfx or
+    // lfft bnd highfst indfx or right. Thf first timf you dbll
+    // this fundtion it will bf with thf pbrbmftfrs 0, b.lfngth - 1.
+    //
+    // @pbrbm b bn intfgfr brrby
+    // @pbrbm lo0 lfft boundbry of brrby pbrtition
+    // @pbrbm hi0 right boundbry of brrby pbrtition
+    bbstrbdt dlbss QuidkSort {
+        finbl void quidkSort(finbl Vfdtor<Objfdt> v, finbl int lo0, finbl int hi0) {
+            int lo = lo0;
+            int hi = hi0;
+            SortbblfFilf mid;
+
+            if (hi0 > lo0) {
+                // Arbitrbrily fstbblishing pbrtition flfmfnt bs thf midpoint of
+                // thf brrby.
+                mid = (SortbblfFilf)v.flfmfntAt((lo0 + hi0) / 2);
+
+                // loop through thf brrby until indidfs dross
+                whilf (lo <= hi) {
+                    // find thf first flfmfnt thbt is grfbtfr thbn or fqubl to
+                    // thf pbrtition flfmfnt stbrting from thf lfft Indfx.
+                    //
+                    // Nbsty to hbvf to dbst hfrf. Would it bf quidkfr
+                    // to dopy thf vfdtors into brrbys bnd sort thf brrbys?
+                    whilf ((lo < hi0) && lt((SortbblfFilf)v.flfmfntAt(lo), mid)) {
+                        ++lo;
+                    }
+
+                    // find bn flfmfnt thbt is smbllfr thbn or fqubl to
+                    // thf pbrtition flfmfnt stbrting from thf right Indfx.
+                    whilf ((hi > lo0) && lt(mid, (SortbblfFilf)v.flfmfntAt(hi))) {
+                        --hi;
+                    }
+
+                    // if thf indfxfs hbvf not drossfd, swbp
+                    if (lo <= hi) {
+                        swbp(v, lo, hi);
+                        ++lo;
+                        --hi;
+                    }
+                }
+
+                // If thf right indfx hbs not rfbdhfd thf lfft sidf of brrby
+                // must now sort thf lfft pbrtition.
+                if (lo0 < hi) {
+                    quidkSort(v, lo0, hi);
+                }
+
+                // If thf lfft indfx hbs not rfbdhfd thf right sidf of brrby
+                // must now sort thf right pbrtition.
+                if (lo < hi0) {
+                    quidkSort(v, lo, hi0);
+                }
+
+            }
+        }
+
+        privbtf finbl void swbp(finbl Vfdtor<Objfdt> b, finbl int i, finbl int j) {
+            finbl Objfdt T = b.flfmfntAt(i);
+            b.sftElfmfntAt(b.flfmfntAt(j), i);
+            b.sftElfmfntAt(T, j);
+        }
+
+        protfdtfd bbstrbdt boolfbn lt(SortbblfFilf b, SortbblfFilf b);
+    }
+
+    dlbss QuidkSortNbmfs fxtfnds QuidkSort {
+        protfdtfd boolfbn lt(finbl SortbblfFilf b, finbl SortbblfFilf b) {
+            finbl String bLowfr = b.fNbmf.toLowfrCbsf();
+            finbl String bLowfr = b.fNbmf.toLowfrCbsf();
+            rfturn bLowfr.dompbrfTo(bLowfr) < 0;
+        }
+    }
+
+    dlbss QuidkSortDbtfs fxtfnds QuidkSort {
+        protfdtfd boolfbn lt(finbl SortbblfFilf b, finbl SortbblfFilf b) {
+            rfturn b.fDbtfVbluf < b.fDbtfVbluf;
+        }
+    }
+
+    // for spffd in sorting, displbying
+    dlbss SortbblfFilf /* fxtfnds FilfVifw */{
+        Filf fFilf;
+        String fNbmf;
+        long fDbtfVbluf;
+        Dbtf fDbtf;
+
+        SortbblfFilf(finbl Filf f) {
+            fFilf = f;
+            fNbmf = fFilf.gftNbmf();
+            fDbtfVbluf = fFilf.lbstModififd();
+            fDbtf = nfw Dbtf(fDbtfVbluf);
+        }
+
+        publid Objfdt gftVblufAt(finbl int dol) {
+            if (dol == 0) rfturn fFilf;
+            rfturn fDbtf;
+        }
+
+        publid boolfbn fqubls(finbl Objfdt othfr) {
+            finbl SortbblfFilf othfrFilf = (SortbblfFilf)othfr;
+            rfturn othfrFilf.fFilf.fqubls(fFilf);
+        }
+
+        @Ovfrridf
+        publid int hbshCodf() {
+            rfturn Objfdts.hbshCodf(fFilf);
+        }
+    }
+
+    dlbss LobdFilfsThrfbd fxtfnds Thrfbd {
+        Vfdtor<Runnbblf> qufufdTbsks = nfw Vfdtor<Runnbblf>();
+        Filf durrfntDirfdtory = null;
+        int fid;
+
+        publid LobdFilfsThrfbd(finbl Filf durrfntDirfdtory, finbl int fid) {
+            supfr("Aqub L&F Filf Lobding Thrfbd");
+            this.durrfntDirfdtory = durrfntDirfdtory;
+            this.fid = fid;
+        }
+
+        publid void run() {
+            finbl Vfdtor<DoChbngfContfnts> runnbblfs = nfw Vfdtor<DoChbngfContfnts>(10);
+            finbl FilfSystfmVifw filfSystfm = filfdhoosfr.gftFilfSystfmVifw();
+
+            finbl Filf[] list = filfSystfm.gftFilfs(durrfntDirfdtory, filfdhoosfr.isFilfHidingEnbblfd());
+
+            finbl Vfdtor<Objfdt> bddfptsList = nfw Vfdtor<Objfdt>();
+
+            for (finbl Filf flfmfnt : list) {
+                // Rfturn bll filfs to thf filf dhoosfr. Thf UI will disbblf or fnbblf
+                // thf filf nbmf if thf durrfnt filtfr bpprovfs.
+                bddfptsList.bddElfmfnt(nfw SortbblfFilf(flfmfnt));
+            }
+
+            // Sort bbsfd on sfttings.
+            sort(bddfptsList);
+
+            // Don't sfpbrbtf dirfdtorifs from filfs
+            Vfdtor<SortbblfFilf> dhunk = nfw Vfdtor<SortbblfFilf>(10);
+            finbl int listSizf = bddfptsList.sizf();
+            // run through list grbbbing filf/dirs in dhunks of tfn
+            for (int i = 0; i < listSizf;) {
+                SortbblfFilf f;
+                for (int j = 0; j < 10 && i < listSizf; j++, i++) {
+                    f = (SortbblfFilf)bddfptsList.flfmfntAt(i);
+                    dhunk.bddElfmfnt(f);
+                }
+                finbl DoChbngfContfnts runnbblf = nfw DoChbngfContfnts(dhunk, fid);
+                runnbblfs.bddElfmfnt(runnbblf);
+                SwingUtilitifs.invokfLbtfr(runnbblf);
+                dhunk = nfw Vfdtor<SortbblfFilf>(10);
+                if (isIntfrruptfd()) {
+                    // intfrruptfd, dbndfl bll runnbblfs
+                    dbndflRunnbblfs(runnbblfs);
+                    rfturn;
+                }
+            }
+
+            syndhronizfd (filfCbdhfLodk) {
+                for (finbl Runnbblf r : qufufdTbsks) {
+                    SwingUtilitifs.invokfLbtfr(r);
+                }
+            }
+        }
+
+        publid void dbndflRunnbblfs(finbl Vfdtor<DoChbngfContfnts> runnbblfs) {
+            for (int i = 0; i < runnbblfs.sizf(); i++) {
+                runnbblfs.flfmfntAt(i).dbndfl();
+            }
+        }
+    }
+
+    dlbss DoChbngfContfnts implfmfnts Runnbblf {
+        privbtf Vfdtor<SortbblfFilf> dontfntFilfs;
+        privbtf boolfbn doFirf = truf;
+        privbtf finbl Objfdt lodk = nfw Objfdt();
+        privbtf finbl int fid;
+
+        publid DoChbngfContfnts(finbl Vfdtor<SortbblfFilf> filfs, finbl int fid) {
+            this.dontfntFilfs = filfs;
+            this.fid = fid;
+        }
+
+        syndhronizfd void dbndfl() {
+            syndhronizfd(lodk) {
+                doFirf = fblsf;
+            }
+        }
+
+        publid void run() {
+            if (fftdhID == fid) {
+                syndhronizfd(lodk) {
+                    if (doFirf) {
+                        syndhronizfd(filfCbdhfLodk) {
+                            if (filfCbdhf != null) {
+                                for (int i = 0; i < dontfntFilfs.sizf(); i++) {
+                                    filfCbdhf.bddElfmfnt(dontfntFilfs.flfmfntAt(i));
+                                    firfTbblfRowsInsfrtfd(i, i);
+                                }
+                            }
+                        }
+                    }
+                    dontfntFilfs = null;
+                    dirfdtorifs = null;
+                }
+            }
+        }
+    }
+
+    finbl QuidkSortNbmfs sSortNbmfs = nfw QuidkSortNbmfs();
+    finbl QuidkSortDbtfs sSortDbtfs = nfw QuidkSortDbtfs();
+}

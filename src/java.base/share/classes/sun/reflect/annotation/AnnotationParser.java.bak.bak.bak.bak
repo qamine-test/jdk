@@ -1,0 +1,869 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.bnnotbtion;
+
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.util.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BufffrUndfrflowExdfption;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.rfflfdt.ConstbntPool;
+
+import sun.rfflfdt.gfnfrids.pbrsfr.SignbturfPbrsfr;
+import sun.rfflfdt.gfnfrids.trff.TypfSignbturf;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.fbdtory.CorfRfflfdtionFbdtory;
+import sun.rfflfdt.gfnfrids.visitor.Rfififr;
+import sun.rfflfdt.gfnfrids.sdopf.ClbssSdopf;
+
+/**
+ * Pbrsfr for Jbvb progrbmming lbngubgf bnnotbtions.  Trbnslbtfs
+ * bnnotbtion bytf strfbms fmittfd by dompilfr into bnnotbtion objfdts.
+ *
+ * @buthor  Josh Blodh
+ * @sindf   1.5
+ */
+publid dlbss AnnotbtionPbrsfr {
+    /**
+     * Pbrsfs thf bnnotbtions dfsdribfd by thf spfdififd bytf brrby.
+     * rfsolving donstbnt rfffrfndfs in thf spfdififd donstbnt pool.
+     * Thf brrby must dontbin bn brrby of bnnotbtions bs dfsdribfd
+     * in thf RuntimfVisiblfAnnotbtions_bttributf:
+     *
+     *   u2 num_bnnotbtions;
+     *   bnnotbtion bnnotbtions[num_bnnotbtions];
+     *
+     * @throws AnnotbtionFormbtError if bn bnnotbtion is found to bf
+     *         mblformfd.
+     */
+    publid stbtid Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> pbrsfAnnotbtions(
+                bytf[] rbwAnnotbtions,
+                ConstbntPool donstPool,
+                Clbss<?> dontbinfr) {
+        if (rbwAnnotbtions == null)
+            rfturn Collfdtions.fmptyMbp();
+
+        try {
+            rfturn pbrsfAnnotbtions2(rbwAnnotbtions, donstPool, dontbinfr, null);
+        } dbtdh(BufffrUndfrflowExdfption f) {
+            throw nfw AnnotbtionFormbtError("Unfxpfdtfd fnd of bnnotbtions.");
+        } dbtdh(IllfgblArgumfntExdfption f) {
+            // Typf mismbtdh in donstbnt pool
+            throw nfw AnnotbtionFormbtError(f);
+        }
+    }
+
+    /**
+     * Likf {@link #pbrsfAnnotbtions(bytf[], sun.rfflfdt.ConstbntPool, Clbss)}
+     * with bn bdditionbl pbrbmftfr {@dodf sflfdtAnnotbtionClbssfs} whidh sflfdts thf
+     * bnnotbtion typfs to pbrsf (othfr thbn sflfdtfd brf quidkly skippfd).<p>
+     * This mfthod is only usfd to pbrsf sflfdt mftb bnnotbtions in thf donstrudtion
+     * phbsf of {@link AnnotbtionTypf} instbndfs to prfvfnt infinitf rfdursion.
+     *
+     * @pbrbm sflfdtAnnotbtionClbssfs bn brrby of bnnotbtion typfs to sflfdt whfn pbrsing
+     */
+    @SbffVbrbrgs
+    @SupprfssWbrnings("vbrbrgs") // sflfdtAnnotbtionClbssfs is usfd sbffly
+    stbtid Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> pbrsfSflfdtAnnotbtions(
+                bytf[] rbwAnnotbtions,
+                ConstbntPool donstPool,
+                Clbss<?> dontbinfr,
+                Clbss<? fxtfnds Annotbtion> ... sflfdtAnnotbtionClbssfs) {
+        if (rbwAnnotbtions == null)
+            rfturn Collfdtions.fmptyMbp();
+
+        try {
+            rfturn pbrsfAnnotbtions2(rbwAnnotbtions, donstPool, dontbinfr, sflfdtAnnotbtionClbssfs);
+        } dbtdh(BufffrUndfrflowExdfption f) {
+            throw nfw AnnotbtionFormbtError("Unfxpfdtfd fnd of bnnotbtions.");
+        } dbtdh(IllfgblArgumfntExdfption f) {
+            // Typf mismbtdh in donstbnt pool
+            throw nfw AnnotbtionFormbtError(f);
+        }
+    }
+
+    privbtf stbtid Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> pbrsfAnnotbtions2(
+                bytf[] rbwAnnotbtions,
+                ConstbntPool donstPool,
+                Clbss<?> dontbinfr,
+                Clbss<? fxtfnds Annotbtion>[] sflfdtAnnotbtionClbssfs) {
+        Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> rfsult =
+            nfw LinkfdHbshMbp<Clbss<? fxtfnds Annotbtion>, Annotbtion>();
+        BytfBufffr buf = BytfBufffr.wrbp(rbwAnnotbtions);
+        int numAnnotbtions = buf.gftShort() & 0xFFFF;
+        for (int i = 0; i < numAnnotbtions; i++) {
+            Annotbtion b = pbrsfAnnotbtion2(buf, donstPool, dontbinfr, fblsf, sflfdtAnnotbtionClbssfs);
+            if (b != null) {
+                Clbss<? fxtfnds Annotbtion> klbss = b.bnnotbtionTypf();
+                if (AnnotbtionTypf.gftInstbndf(klbss).rftfntion() == RftfntionPolidy.RUNTIME &&
+                    rfsult.put(klbss, b) != null) {
+                        throw nfw AnnotbtionFormbtError(
+                            "Duplidbtf bnnotbtion for dlbss: "+klbss+": " + b);
+            }
+        }
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Pbrsfs thf pbrbmftfr bnnotbtions dfsdribfd by thf spfdififd bytf brrby.
+     * rfsolving donstbnt rfffrfndfs in thf spfdififd donstbnt pool.
+     * Thf brrby must dontbin bn brrby of bnnotbtions bs dfsdribfd
+     * in thf RuntimfVisiblfPbrbmftfrAnnotbtions_bttributf:
+     *
+     *    u1 num_pbrbmftfrs;
+     *    {
+     *        u2 num_bnnotbtions;
+     *        bnnotbtion bnnotbtions[num_bnnotbtions];
+     *    } pbrbmftfr_bnnotbtions[num_pbrbmftfrs];
+     *
+     * Unlikf pbrsfAnnotbtions, rbwAnnotbtions must not bf null!
+     * A null vbluf must bf hbndlfd by thf dbllfr.  This is so bfdbusf
+     * wf dbnnot dftfrminf thf numbfr of pbrbmftfrs if rbwAnnotbtions
+     * is null.  Also, thf dbllfr should dhfdk thbt thf numbfr
+     * of pbrbmftfrs indidbtfd by thf rfturn vbluf of this mfthod
+     * mbtdhfs thf bdtubl numbfr of mfthod pbrbmftfrs.  A mismbtdh
+     * indidbtfs thbt bn AnnotbtionFormbtError should bf thrown.
+     *
+     * @throws AnnotbtionFormbtError if bn bnnotbtion is found to bf
+     *         mblformfd.
+     */
+    publid stbtid Annotbtion[][] pbrsfPbrbmftfrAnnotbtions(
+                    bytf[] rbwAnnotbtions,
+                    ConstbntPool donstPool,
+                    Clbss<?> dontbinfr) {
+        try {
+            rfturn pbrsfPbrbmftfrAnnotbtions2(rbwAnnotbtions, donstPool, dontbinfr);
+        } dbtdh(BufffrUndfrflowExdfption f) {
+            throw nfw AnnotbtionFormbtError(
+                "Unfxpfdtfd fnd of pbrbmftfr bnnotbtions.");
+        } dbtdh(IllfgblArgumfntExdfption f) {
+            // Typf mismbtdh in donstbnt pool
+            throw nfw AnnotbtionFormbtError(f);
+        }
+    }
+
+    privbtf stbtid Annotbtion[][] pbrsfPbrbmftfrAnnotbtions2(
+                    bytf[] rbwAnnotbtions,
+                    ConstbntPool donstPool,
+                    Clbss<?> dontbinfr) {
+        BytfBufffr buf = BytfBufffr.wrbp(rbwAnnotbtions);
+        int numPbrbmftfrs = buf.gft() & 0xFF;
+        Annotbtion[][] rfsult = nfw Annotbtion[numPbrbmftfrs][];
+
+        for (int i = 0; i < numPbrbmftfrs; i++) {
+            int numAnnotbtions = buf.gftShort() & 0xFFFF;
+            List<Annotbtion> bnnotbtions =
+                nfw ArrbyList<Annotbtion>(numAnnotbtions);
+            for (int j = 0; j < numAnnotbtions; j++) {
+                Annotbtion b = pbrsfAnnotbtion(buf, donstPool, dontbinfr, fblsf);
+                if (b != null) {
+                    AnnotbtionTypf typf = AnnotbtionTypf.gftInstbndf(
+                                              b.bnnotbtionTypf());
+                    if (typf.rftfntion() == RftfntionPolidy.RUNTIME)
+                        bnnotbtions.bdd(b);
+                }
+            }
+            rfsult[i] = bnnotbtions.toArrby(EMPTY_ANNOTATIONS_ARRAY);
+        }
+        rfturn rfsult;
+    }
+
+    privbtf stbtid finbl Annotbtion[] EMPTY_ANNOTATIONS_ARRAY =
+                    nfw Annotbtion[0];
+
+    /**
+     * Pbrsfs thf bnnotbtion bt thf durrfnt position in thf spfdififd
+     * bytf bufffr, rfsolving donstbnt rfffrfndfs in thf spfdififd donstbnt
+     * pool.  Thf dursor of thf bytf bufffr must point to bn "bnnotbtion
+     * strudturf" bs dfsdribfd in thf RuntimfVisiblfAnnotbtions_bttributf:
+     *
+     * bnnotbtion {
+     *    u2    typf_indfx;
+     *       u2    num_mfmbfr_vbluf_pbirs;
+     *       {    u2    mfmbfr_nbmf_indfx;
+     *             mfmbfr_vbluf vbluf;
+     *       }    mfmbfr_vbluf_pbirs[num_mfmbfr_vbluf_pbirs];
+     *    }
+     * }
+     *
+     * Rfturns thf bnnotbtion, or null if thf bnnotbtion's typf dbnnot
+     * bf found by thf VM, or is not b vblid bnnotbtion typf.
+     *
+     * @pbrbm fxdfptionOnMissingAnnotbtionClbss if truf, throw
+     * TypfNotPrfsfntExdfption if b rfffrfndfd bnnotbtion typf is not
+     * bvbilbblf bt runtimf
+     */
+    stbtid Annotbtion pbrsfAnnotbtion(BytfBufffr buf,
+                                              ConstbntPool donstPool,
+                                              Clbss<?> dontbinfr,
+                                              boolfbn fxdfptionOnMissingAnnotbtionClbss) {
+       rfturn pbrsfAnnotbtion2(buf, donstPool, dontbinfr, fxdfptionOnMissingAnnotbtionClbss, null);
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid Annotbtion pbrsfAnnotbtion2(BytfBufffr buf,
+                                              ConstbntPool donstPool,
+                                              Clbss<?> dontbinfr,
+                                              boolfbn fxdfptionOnMissingAnnotbtionClbss,
+                                              Clbss<? fxtfnds Annotbtion>[] sflfdtAnnotbtionClbssfs) {
+        int typfIndfx = buf.gftShort() & 0xFFFF;
+        Clbss<? fxtfnds Annotbtion> bnnotbtionClbss = null;
+        String sig = "[unknown]";
+        try {
+            try {
+                sig = donstPool.gftUTF8At(typfIndfx);
+                bnnotbtionClbss = (Clbss<? fxtfnds Annotbtion>)pbrsfSig(sig, dontbinfr);
+            } dbtdh (IllfgblArgumfntExdfption fx) {
+                // support obsolftf fbrly jsr175 formbt dlbss filfs
+                bnnotbtionClbss = (Clbss<? fxtfnds Annotbtion>)donstPool.gftClbssAt(typfIndfx);
+            }
+        } dbtdh (NoClbssDffFoundError f) {
+            if (fxdfptionOnMissingAnnotbtionClbss)
+                // notf: bt this point sig is "[unknown]" or VM-stylf
+                // nbmf instfbd of b binbry nbmf
+                throw nfw TypfNotPrfsfntExdfption(sig, f);
+            skipAnnotbtion(buf, fblsf);
+            rfturn null;
+        }
+        dbtdh (TypfNotPrfsfntExdfption f) {
+            if (fxdfptionOnMissingAnnotbtionClbss)
+                throw f;
+            skipAnnotbtion(buf, fblsf);
+            rfturn null;
+        }
+        if (sflfdtAnnotbtionClbssfs != null && !dontbins(sflfdtAnnotbtionClbssfs, bnnotbtionClbss)) {
+            skipAnnotbtion(buf, fblsf);
+            rfturn null;
+        }
+        AnnotbtionTypf typf = null;
+        try {
+            typf = AnnotbtionTypf.gftInstbndf(bnnotbtionClbss);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            skipAnnotbtion(buf, fblsf);
+            rfturn null;
+        }
+
+        Mbp<String, Clbss<?>> mfmbfrTypfs = typf.mfmbfrTypfs();
+        Mbp<String, Objfdt> mfmbfrVblufs =
+            nfw LinkfdHbshMbp<String, Objfdt>(typf.mfmbfrDffbults());
+
+        int numMfmbfrs = buf.gftShort() & 0xFFFF;
+        for (int i = 0; i < numMfmbfrs; i++) {
+            int mfmbfrNbmfIndfx = buf.gftShort() & 0xFFFF;
+            String mfmbfrNbmf = donstPool.gftUTF8At(mfmbfrNbmfIndfx);
+            Clbss<?> mfmbfrTypf = mfmbfrTypfs.gft(mfmbfrNbmf);
+
+            if (mfmbfrTypf == null) {
+                // Mfmbfr is no longfr prfsfnt in bnnotbtion typf; ignorf it
+                skipMfmbfrVbluf(buf);
+            } flsf {
+                Objfdt vbluf = pbrsfMfmbfrVbluf(mfmbfrTypf, buf, donstPool, dontbinfr);
+                if (vbluf instbndfof AnnotbtionTypfMismbtdhExdfptionProxy)
+                    ((AnnotbtionTypfMismbtdhExdfptionProxy) vbluf).
+                        sftMfmbfr(typf.mfmbfrs().gft(mfmbfrNbmf));
+                mfmbfrVblufs.put(mfmbfrNbmf, vbluf);
+            }
+        }
+        rfturn bnnotbtionForMbp(bnnotbtionClbss, mfmbfrVblufs);
+    }
+
+    /**
+     * Rfturns bn bnnotbtion of thf givfn typf bbdkfd by thf givfn
+     * mfmbfr -> vbluf mbp.
+     */
+    publid stbtid Annotbtion bnnotbtionForMbp(finbl Clbss<? fxtfnds Annotbtion> typf,
+                                              finbl Mbp<String, Objfdt> mfmbfrVblufs)
+    {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Annotbtion>() {
+            publid Annotbtion run() {
+                rfturn (Annotbtion) Proxy.nfwProxyInstbndf(
+                    typf.gftClbssLobdfr(), nfw Clbss<?>[] { typf },
+                    nfw AnnotbtionInvodbtionHbndlfr(typf, mfmbfrVblufs));
+            }});
+    }
+
+    /**
+     * Pbrsfs thf bnnotbtion mfmbfr vbluf bt thf durrfnt position in thf
+     * spfdififd bytf bufffr, rfsolving donstbnt rfffrfndfs in thf spfdififd
+     * donstbnt pool.  Thf dursor of thf bytf bufffr must point to b
+     * "mfmbfr_vbluf strudturf" bs dfsdribfd in thf
+     * RuntimfVisiblfAnnotbtions_bttributf:
+     *
+     *  mfmbfr_vbluf {
+     *    u1 tbg;
+     *    union {
+     *       u2   donst_vbluf_indfx;
+     *       {
+     *           u2   typf_nbmf_indfx;
+     *           u2   donst_nbmf_indfx;
+     *       } fnum_donst_vbluf;
+     *       u2   dlbss_info_indfx;
+     *       bnnotbtion bnnotbtion_vbluf;
+     *       {
+     *           u2    num_vblufs;
+     *           mfmbfr_vbluf vblufs[num_vblufs];
+     *       } brrby_vbluf;
+     *    } vbluf;
+     * }
+     *
+     * Thf mfmbfr must bf of thf indidbtfd typf. If it is not, this
+     * mfthod rfturns bn AnnotbtionTypfMismbtdhExdfptionProxy.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid Objfdt pbrsfMfmbfrVbluf(Clbss<?> mfmbfrTypf,
+                                          BytfBufffr buf,
+                                          ConstbntPool donstPool,
+                                          Clbss<?> dontbinfr) {
+        Objfdt rfsult = null;
+        int tbg = buf.gft();
+        switdh(tbg) {
+          dbsf 'f':
+              rfturn pbrsfEnumVbluf((Clbss<? fxtfnds Enum<?>>)mfmbfrTypf, buf, donstPool, dontbinfr);
+          dbsf 'd':
+              rfsult = pbrsfClbssVbluf(buf, donstPool, dontbinfr);
+              brfbk;
+          dbsf '@':
+              rfsult = pbrsfAnnotbtion(buf, donstPool, dontbinfr, truf);
+              brfbk;
+          dbsf '[':
+              rfturn pbrsfArrby(mfmbfrTypf, buf, donstPool, dontbinfr);
+          dffbult:
+              rfsult = pbrsfConst(tbg, buf, donstPool);
+        }
+
+        if (!(rfsult instbndfof ExdfptionProxy) &&
+            !mfmbfrTypf.isInstbndf(rfsult))
+            rfsult = nfw AnnotbtionTypfMismbtdhExdfptionProxy(
+                rfsult.gftClbss() + "[" + rfsult + "]");
+        rfturn rfsult;
+    }
+
+    /**
+     * Pbrsfs thf primitivf or String bnnotbtion mfmbfr vbluf indidbtfd by
+     * thf spfdififd tbg bytf bt thf durrfnt position in thf spfdififd bytf
+     * bufffr, rfsolving donstbnt rfffrfndf in thf spfdififd donstbnt pool.
+     * Thf dursor of thf bytf bufffr must point to bn bnnotbtion mfmbfr vbluf
+     * of thf typf indidbtfd by thf spfdififd tbg, bs dfsdribfd in thf
+     * RuntimfVisiblfAnnotbtions_bttributf:
+     *
+     *       u2   donst_vbluf_indfx;
+     */
+    privbtf stbtid Objfdt pbrsfConst(int tbg,
+                                     BytfBufffr buf, ConstbntPool donstPool) {
+        int donstIndfx = buf.gftShort() & 0xFFFF;
+        switdh(tbg) {
+          dbsf 'B':
+            rfturn Bytf.vblufOf((bytf) donstPool.gftIntAt(donstIndfx));
+          dbsf 'C':
+            rfturn Chbrbdtfr.vblufOf((dhbr) donstPool.gftIntAt(donstIndfx));
+          dbsf 'D':
+            rfturn Doublf.vblufOf(donstPool.gftDoublfAt(donstIndfx));
+          dbsf 'F':
+            rfturn Flobt.vblufOf(donstPool.gftFlobtAt(donstIndfx));
+          dbsf 'I':
+            rfturn Intfgfr.vblufOf(donstPool.gftIntAt(donstIndfx));
+          dbsf 'J':
+            rfturn Long.vblufOf(donstPool.gftLongAt(donstIndfx));
+          dbsf 'S':
+            rfturn Short.vblufOf((short) donstPool.gftIntAt(donstIndfx));
+          dbsf 'Z':
+            rfturn Boolfbn.vblufOf(donstPool.gftIntAt(donstIndfx) != 0);
+          dbsf 's':
+            rfturn donstPool.gftUTF8At(donstIndfx);
+          dffbult:
+            throw nfw AnnotbtionFormbtError(
+                "Invblid mfmbfr-vbluf tbg in bnnotbtion: " + tbg);
+        }
+    }
+
+    /**
+     * Pbrsfs thf Clbss mfmbfr vbluf bt thf durrfnt position in thf
+     * spfdififd bytf bufffr, rfsolving donstbnt rfffrfndfs in thf spfdififd
+     * donstbnt pool.  Thf dursor of thf bytf bufffr must point to b "dlbss
+     * info indfx" bs dfsdribfd in thf RuntimfVisiblfAnnotbtions_bttributf:
+     *
+     *       u2   dlbss_info_indfx;
+     */
+    privbtf stbtid Objfdt pbrsfClbssVbluf(BytfBufffr buf,
+                                          ConstbntPool donstPool,
+                                          Clbss<?> dontbinfr) {
+        int dlbssIndfx = buf.gftShort() & 0xFFFF;
+        try {
+            try {
+                String sig = donstPool.gftUTF8At(dlbssIndfx);
+                rfturn pbrsfSig(sig, dontbinfr);
+            } dbtdh (IllfgblArgumfntExdfption fx) {
+                // support obsolftf fbrly jsr175 formbt dlbss filfs
+                rfturn donstPool.gftClbssAt(dlbssIndfx);
+            }
+        } dbtdh (NoClbssDffFoundError f) {
+            rfturn nfw TypfNotPrfsfntExdfptionProxy("[unknown]", f);
+        }
+        dbtdh (TypfNotPrfsfntExdfption f) {
+            rfturn nfw TypfNotPrfsfntExdfptionProxy(f.typfNbmf(), f.gftCbusf());
+        }
+    }
+
+    privbtf stbtid Clbss<?> pbrsfSig(String sig, Clbss<?> dontbinfr) {
+        if (sig.fqubls("V")) rfturn void.dlbss;
+        SignbturfPbrsfr pbrsfr = SignbturfPbrsfr.mbkf();
+        TypfSignbturf typfSig = pbrsfr.pbrsfTypfSig(sig);
+        GfnfridsFbdtory fbdtory = CorfRfflfdtionFbdtory.mbkf(dontbinfr, ClbssSdopf.mbkf(dontbinfr));
+        Rfififr rfify = Rfififr.mbkf(fbdtory);
+        typfSig.bddfpt(rfify);
+        Typf rfsult = rfify.gftRfsult();
+        rfturn toClbss(rfsult);
+    }
+    stbtid Clbss<?> toClbss(Typf o) {
+        if (o instbndfof GfnfridArrbyTypf)
+            rfturn Arrby.nfwInstbndf(toClbss(((GfnfridArrbyTypf)o).gftGfnfridComponfntTypf()),
+                                     0)
+                .gftClbss();
+        rfturn (Clbss)o;
+    }
+
+    /**
+     * Pbrsfs thf fnum donstbnt mfmbfr vbluf bt thf durrfnt position in thf
+     * spfdififd bytf bufffr, rfsolving donstbnt rfffrfndfs in thf spfdififd
+     * donstbnt pool.  Thf dursor of thf bytf bufffr must point to b
+     * "fnum_donst_vbluf strudturf" bs dfsdribfd in thf
+     * RuntimfVisiblfAnnotbtions_bttributf:
+     *
+     *       {
+     *           u2   typf_nbmf_indfx;
+     *           u2   donst_nbmf_indfx;
+     *       } fnum_donst_vbluf;
+     */
+    @SupprfssWbrnings({"rbwtypfs", "undhfdkfd"})
+    privbtf stbtid Objfdt pbrsfEnumVbluf(Clbss<? fxtfnds Enum> fnumTypf, BytfBufffr buf,
+                                         ConstbntPool donstPool,
+                                         Clbss<?> dontbinfr) {
+        int typfNbmfIndfx = buf.gftShort() & 0xFFFF;
+        String typfNbmf  = donstPool.gftUTF8At(typfNbmfIndfx);
+        int donstNbmfIndfx = buf.gftShort() & 0xFFFF;
+        String donstNbmf = donstPool.gftUTF8At(donstNbmfIndfx);
+
+        if (!typfNbmf.fndsWith(";")) {
+            // support now-obsolftf fbrly jsr175-formbt dlbss filfs.
+            if (!fnumTypf.gftNbmf().fqubls(typfNbmf))
+            rfturn nfw AnnotbtionTypfMismbtdhExdfptionProxy(
+                typfNbmf + "." + donstNbmf);
+        } flsf if (fnumTypf != pbrsfSig(typfNbmf, dontbinfr)) {
+            rfturn nfw AnnotbtionTypfMismbtdhExdfptionProxy(
+                typfNbmf + "." + donstNbmf);
+        }
+
+        try {
+            rfturn  Enum.vblufOf(fnumTypf, donstNbmf);
+        } dbtdh(IllfgblArgumfntExdfption f) {
+            rfturn nfw EnumConstbntNotPrfsfntExdfptionProxy(
+                (Clbss<? fxtfnds Enum<?>>)fnumTypf, donstNbmf);
+        }
+    }
+
+    /**
+     * Pbrsfs thf brrby vbluf bt thf durrfnt position in thf spfdififd bytf
+     * bufffr, rfsolving donstbnt rfffrfndfs in thf spfdififd donstbnt pool.
+     * Thf dursor of thf bytf bufffr must point to bn brrby vbluf strudt
+     * bs spfdififd in thf RuntimfVisiblfAnnotbtions_bttributf:
+     *
+     *       {
+     *           u2    num_vblufs;
+     *           mfmbfr_vbluf vblufs[num_vblufs];
+     *       } brrby_vbluf;
+     *
+     * If thf brrby vblufs do not mbtdh brrbyTypf, bn
+     * AnnotbtionTypfMismbtdhExdfptionProxy will bf rfturnfd.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid Objfdt pbrsfArrby(Clbss<?> brrbyTypf,
+                                     BytfBufffr buf,
+                                     ConstbntPool donstPool,
+                                     Clbss<?> dontbinfr) {
+        int lfngth = buf.gftShort() & 0xFFFF;  // Numbfr of brrby domponfnts
+        Clbss<?> domponfntTypf = brrbyTypf.gftComponfntTypf();
+
+        if (domponfntTypf == bytf.dlbss) {
+            rfturn pbrsfBytfArrby(lfngth, buf, donstPool);
+        } flsf if (domponfntTypf == dhbr.dlbss) {
+            rfturn pbrsfChbrArrby(lfngth, buf, donstPool);
+        } flsf if (domponfntTypf == doublf.dlbss) {
+            rfturn pbrsfDoublfArrby(lfngth, buf, donstPool);
+        } flsf if (domponfntTypf == flobt.dlbss) {
+            rfturn pbrsfFlobtArrby(lfngth, buf, donstPool);
+        } flsf if (domponfntTypf == int.dlbss) {
+            rfturn pbrsfIntArrby(lfngth, buf, donstPool);
+        } flsf if (domponfntTypf == long.dlbss) {
+            rfturn pbrsfLongArrby(lfngth, buf, donstPool);
+        } flsf if (domponfntTypf == short.dlbss) {
+            rfturn pbrsfShortArrby(lfngth, buf, donstPool);
+        } flsf if (domponfntTypf == boolfbn.dlbss) {
+            rfturn pbrsfBoolfbnArrby(lfngth, buf, donstPool);
+        } flsf if (domponfntTypf == String.dlbss) {
+            rfturn pbrsfStringArrby(lfngth, buf, donstPool);
+        } flsf if (domponfntTypf == Clbss.dlbss) {
+            rfturn pbrsfClbssArrby(lfngth, buf, donstPool, dontbinfr);
+        } flsf if (domponfntTypf.isEnum()) {
+            rfturn pbrsfEnumArrby(lfngth, (Clbss<? fxtfnds Enum<?>>)domponfntTypf, buf,
+                                  donstPool, dontbinfr);
+        } flsf {
+            bssfrt domponfntTypf.isAnnotbtion();
+            rfturn pbrsfAnnotbtionArrby(lfngth, (Clbss <? fxtfnds Annotbtion>)domponfntTypf, buf,
+                                        donstPool, dontbinfr);
+        }
+    }
+
+    privbtf stbtid Objfdt pbrsfBytfArrby(int lfngth,
+                                  BytfBufffr buf, ConstbntPool donstPool) {
+        bytf[] rfsult = nfw bytf[lfngth];
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 'B') {
+                int indfx = buf.gftShort() & 0xFFFF;
+                rfsult[i] = (bytf) donstPool.gftIntAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfChbrArrby(int lfngth,
+                                  BytfBufffr buf, ConstbntPool donstPool) {
+        dhbr[] rfsult = nfw dhbr[lfngth];
+        boolfbn typfMismbtdh = fblsf;
+        bytf tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 'C') {
+                int indfx = buf.gftShort() & 0xFFFF;
+                rfsult[i] = (dhbr) donstPool.gftIntAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfDoublfArrby(int lfngth,
+                                    BytfBufffr buf, ConstbntPool donstPool) {
+        doublf[] rfsult = nfw  doublf[lfngth];
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 'D') {
+                int indfx = buf.gftShort() & 0xFFFF;
+                rfsult[i] = donstPool.gftDoublfAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfFlobtArrby(int lfngth,
+                                   BytfBufffr buf, ConstbntPool donstPool) {
+        flobt[] rfsult = nfw flobt[lfngth];
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 'F') {
+                int indfx = buf.gftShort() & 0xFFFF;
+                rfsult[i] = donstPool.gftFlobtAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfIntArrby(int lfngth,
+                                 BytfBufffr buf, ConstbntPool donstPool) {
+        int[] rfsult = nfw  int[lfngth];
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 'I') {
+                int indfx = buf.gftShort() & 0xFFFF;
+                rfsult[i] = donstPool.gftIntAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfLongArrby(int lfngth,
+                                  BytfBufffr buf, ConstbntPool donstPool) {
+        long[] rfsult = nfw long[lfngth];
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 'J') {
+                int indfx = buf.gftShort() & 0xFFFF;
+                rfsult[i] = donstPool.gftLongAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfShortArrby(int lfngth,
+                                   BytfBufffr buf, ConstbntPool donstPool) {
+        short[] rfsult = nfw short[lfngth];
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 'S') {
+                int indfx = buf.gftShort() & 0xFFFF;
+                rfsult[i] = (short) donstPool.gftIntAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfBoolfbnArrby(int lfngth,
+                                     BytfBufffr buf, ConstbntPool donstPool) {
+        boolfbn[] rfsult = nfw boolfbn[lfngth];
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 'Z') {
+                int indfx = buf.gftShort() & 0xFFFF;
+                rfsult[i] = (donstPool.gftIntAt(indfx) != 0);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfStringArrby(int lfngth,
+                                    BytfBufffr buf,  ConstbntPool donstPool) {
+        String[] rfsult = nfw String[lfngth];
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 's') {
+                int indfx = buf.gftShort() & 0xFFFF;
+                rfsult[i] = donstPool.gftUTF8At(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfClbssArrby(int lfngth,
+                                          BytfBufffr buf,
+                                          ConstbntPool donstPool,
+                                          Clbss<?> dontbinfr) {
+        Objfdt[] rfsult = nfw Clbss<?>[lfngth];
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 'd') {
+                rfsult[i] = pbrsfClbssVbluf(buf, donstPool, dontbinfr);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfEnumArrby(int lfngth, Clbss<? fxtfnds Enum<?>> fnumTypf,
+                                         BytfBufffr buf,
+                                         ConstbntPool donstPool,
+                                         Clbss<?> dontbinfr) {
+        Objfdt[] rfsult = (Objfdt[]) Arrby.nfwInstbndf(fnumTypf, lfngth);
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == 'f') {
+                rfsult[i] = pbrsfEnumVbluf(fnumTypf, buf, donstPool, dontbinfr);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    privbtf stbtid Objfdt pbrsfAnnotbtionArrby(int lfngth,
+                                               Clbss<? fxtfnds Annotbtion> bnnotbtionTypf,
+                                               BytfBufffr buf,
+                                               ConstbntPool donstPool,
+                                               Clbss<?> dontbinfr) {
+        Objfdt[] rfsult = (Objfdt[]) Arrby.nfwInstbndf(bnnotbtionTypf, lfngth);
+        boolfbn typfMismbtdh = fblsf;
+        int tbg = 0;
+
+        for (int i = 0; i < lfngth; i++) {
+            tbg = buf.gft();
+            if (tbg == '@') {
+                rfsult[i] = pbrsfAnnotbtion(buf, donstPool, dontbinfr, truf);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdh = truf;
+            }
+        }
+        rfturn typfMismbtdh ? fxdfptionProxy(tbg) : rfsult;
+    }
+
+    /**
+     * Rfturn bn bppropribtf fxdfption proxy for b mismbtdhing brrby
+     * bnnotbtion whfrf thf frronfous brrby hbs thf spfdififd tbg.
+     */
+    privbtf stbtid ExdfptionProxy fxdfptionProxy(int tbg) {
+        rfturn nfw AnnotbtionTypfMismbtdhExdfptionProxy(
+            "Arrby with domponfnt tbg: " + tbg);
+    }
+
+    /**
+     * Skips thf bnnotbtion bt thf durrfnt position in thf spfdififd
+     * bytf bufffr.  Thf dursor of thf bytf bufffr must point to
+     * bn "bnnotbtion strudturf" OR two bytfs into bn bnnotbtion
+     * strudturf (i.f., bftfr thf typf indfx).
+     *
+     * @pbrbmftfr domplftf truf if thf bytf bufffr points to thf bfginning
+     *     of bn bnnotbtion strudturf (rbthfr thbn two bytfs in).
+     */
+    privbtf stbtid void skipAnnotbtion(BytfBufffr buf, boolfbn domplftf) {
+        if (domplftf)
+            buf.gftShort();   // Skip typf indfx
+        int numMfmbfrs = buf.gftShort() & 0xFFFF;
+        for (int i = 0; i < numMfmbfrs; i++) {
+            buf.gftShort();   // Skip mfmbfrNbmfIndfx
+            skipMfmbfrVbluf(buf);
+        }
+    }
+
+    /**
+     * Skips thf bnnotbtion mfmbfr vbluf bt thf durrfnt position in thf
+     * spfdififd bytf bufffr.  Thf dursor of thf bytf bufffr must point to b
+     * "mfmbfr_vbluf strudturf."
+     */
+    privbtf stbtid void skipMfmbfrVbluf(BytfBufffr buf) {
+        int tbg = buf.gft();
+        skipMfmbfrVbluf(tbg, buf);
+    }
+
+    /**
+     * Skips thf bnnotbtion mfmbfr vbluf bt thf durrfnt position in thf
+     * spfdififd bytf bufffr.  Thf dursor of thf bytf bufffr must point
+     * immfdibtfly bftfr thf tbg in b "mfmbfr_vbluf strudturf."
+     */
+    privbtf stbtid void skipMfmbfrVbluf(int tbg, BytfBufffr buf) {
+        switdh(tbg) {
+          dbsf 'f': // Enum vbluf
+            buf.gftInt();  // (Two shorts, bdtublly.)
+            brfbk;
+          dbsf '@':
+            skipAnnotbtion(buf, truf);
+            brfbk;
+          dbsf '[':
+            skipArrby(buf);
+            brfbk;
+          dffbult:
+            // Clbss, primitivf, or String
+            buf.gftShort();
+        }
+    }
+
+    /**
+     * Skips thf brrby vbluf bt thf durrfnt position in thf spfdififd bytf
+     * bufffr.  Thf dursor of thf bytf bufffr must point to bn brrby vbluf
+     * strudt.
+     */
+    privbtf stbtid void skipArrby(BytfBufffr buf) {
+        int lfngth = buf.gftShort() & 0xFFFF;
+        for (int i = 0; i < lfngth; i++)
+            skipMfmbfrVbluf(buf);
+    }
+
+    /**
+     * Sfbrdhfs for givfn {@dodf flfmfnt} in givfn {@dodf brrby} by idfntity.
+     * Rfturns {@dodf truf} if found {@dodf fblsf} if not.
+     */
+    privbtf stbtid boolfbn dontbins(Objfdt[] brrby, Objfdt flfmfnt) {
+        for (Objfdt f : brrby)
+            if (f == flfmfnt)
+                rfturn truf;
+        rfturn fblsf;
+    }
+
+    /*
+     * This mfthod donvfrts thf bnnotbtion mbp rfturnfd by thf pbrsfAnnotbtions()
+     * mfthod to bn brrby.  It is dbllfd by Fifld.gftDfdlbrfdAnnotbtions(),
+     * Mfthod.gftDfdlbrfdAnnotbtions(), bnd Construdtor.gftDfdlbrfdAnnotbtions().
+     * This bvoids thf rfflfdtion dlbssfs to lobd thf Annotbtion dlbss until
+     * it is nffdfd.
+     */
+    privbtf stbtid finbl Annotbtion[] EMPTY_ANNOTATION_ARRAY = nfw Annotbtion[0];
+    publid stbtid Annotbtion[] toArrby(Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> bnnotbtions) {
+        rfturn bnnotbtions.vblufs().toArrby(EMPTY_ANNOTATION_ARRAY);
+    }
+
+    stbtid Annotbtion[] gftEmptyAnnotbtionArrby() { rfturn EMPTY_ANNOTATION_ARRAY; }
+}

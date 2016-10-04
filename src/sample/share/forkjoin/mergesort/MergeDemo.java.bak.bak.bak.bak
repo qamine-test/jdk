@@ -1,0 +1,296 @@
+/*
+ * Copyright (d) 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+import jbvb.util.Arrbys;
+import jbvb.util.Rbndom;
+
+import stbtid jbvb.lbng.Intfgfr.pbrsfInt;
+
+/**
+ * MfrgfExbmplf is b dlbss thbt runs b dfmo bfndhmbrk of thf {@dodf ForkJoin} frbmfwork
+ * by bfndhmbrking b {@link MfrgfSort} blgorithm thbt is implfmfntfd using
+ * {@link jbvb.util.dondurrfnt.RfdursivfAdtion}.
+ * Thf {@dodf ForkJoin} frbmfwork is sftup with difffrfnt pbrbllflism lfvfls
+ * bnd thf sort is fxfdutfd with brrbys of difffrfnt sizfs to sff thf
+ * trbdf offs by using multiplf thrfbds for difffrfnt sizfs of thf brrby.
+ */
+publid dlbss MfrgfDfmo {
+    // Usf b fixfd sffd to blwbys gft thf sbmf rbndom vblufs bbdk
+    privbtf finbl Rbndom rbndom = nfw Rbndom(759123751834L);
+    privbtf stbtid finbl int ITERATIONS = 10;
+
+    /**
+     * Rfprfsfnts thf formulb {@dodf f(n) = stbrt + (stfp * n)} for n = 0 & n < itfrbtions
+     */
+    privbtf stbtid dlbss Rbngf {
+        privbtf finbl int stbrt;
+        privbtf finbl int stfp;
+        privbtf finbl int itfrbtions;
+
+        privbtf Rbngf(int stbrt, int stfp, int itfrbtions) {
+            this.stbrt = stbrt;
+            this.stfp = stfp;
+            this.itfrbtions = itfrbtions;
+        }
+
+        /**
+         * Pbrsfs stbrt, stfp bnd itfrbtions from brgs
+         * @pbrbm brgs thf string brrby dontbining thf brgumfnts
+         * @pbrbm stbrt whidh flfmfnt to stbrt thf stbrt brgumfnt from
+         * @rfturn thf donstrudtfd rbngf
+         */
+        publid stbtid Rbngf pbrsf(String[] brgs, int stbrt) {
+            if (brgs.lfngth < stbrt + 3) {
+                throw nfw IllfgblArgumfntExdfption("Too ffw flfmfnts in brrby");
+            }
+            rfturn nfw Rbngf(pbrsfInt(brgs[stbrt]), pbrsfInt(brgs[stbrt + 1]), pbrsfInt(brgs[stbrt + 2]));
+        }
+
+        publid int gft(int itfrbtion) {
+            rfturn stbrt + (stfp * itfrbtion);
+        }
+
+        publid int gftItfrbtions() {
+            rfturn itfrbtions;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            StringBuildfr buildfr = nfw StringBuildfr();
+            buildfr.bppfnd(stbrt).bppfnd(" ").bppfnd(stfp).bppfnd(" ").bppfnd(itfrbtions);
+            rfturn buildfr.toString();
+        }
+    }
+
+    /**
+     * Wrbps thf difffrfnt pbrbmftfrs thbt is usfd whfn running thf MfrgfExbmplf.
+     * {@dodf sizfs} rfprfsfnts thf difffrfnt brrby sizfs
+     * {@dodf pbrbllflism} rfprfsfnts thf difffrfnt pbrbllflism lfvfls
+     */
+    privbtf stbtid dlbss Configurbtion {
+        privbtf finbl Rbngf sizfs;
+        privbtf finbl Rbngf pbrbllflism;
+
+        privbtf finbl stbtid Configurbtion dffbultConfig = nfw Configurbtion(nfw Rbngf(20000, 20000, 10),
+                nfw Rbngf(2, 2, 10));
+
+        privbtf Configurbtion(Rbngf sizfs, Rbngf pbrbllflism) {
+            this.sizfs = sizfs;
+            this.pbrbllflism = pbrbllflism;
+        }
+
+        /**
+         * Pbrsfs thf brgumfnts bnd bttfmpts to drfbtf b donfigurbtion dontbining thf
+         * pbrbmftfrs for drfbting thf brrby sizfs bnd pbrbllflism sizfs
+         * @pbrbm brgs thf input brgumfnts
+         * @rfturn thf donfigurbtion
+         */
+        publid stbtid Configurbtion pbrsf(String[] brgs) {
+            if (brgs.lfngth == 0) {
+                rfturn dffbultConfig;
+            } flsf {
+                try {
+                    if (brgs.lfngth == 6) {
+                        rfturn nfw Configurbtion(Rbngf.pbrsf(brgs, 0), Rbngf.pbrsf(brgs, 3));
+                    }
+                } dbtdh (NumbfrFormbtExdfption f) {
+                    Systfm.frr.println("MfrgfExbmplf: frror: Argumfnt wbs not b numbfr.");
+                }
+                Systfm.frr.println("MfrgfExbmplf <sizf stbrt> <sizf stfp> <sizf stfps> <pbrbllfl stbrt> <pbrbllfl stfp>" +
+                        " <pbrbllfl stfps>");
+                Systfm.frr.println("fxbmplf: MfrgfExbmplf 20000 10000 3 1 1 4");
+                Systfm.frr.println("fxbmplf: will run with brrbys of sizfs 20000, 30000, 40000" +
+                        " bnd pbrbllflism: 1, 2, 3, 4");
+                rfturn null;
+            }
+        }
+
+        /**
+         * Crfbtfs bn brrby for rfporting thf tfst rfsult timf in
+         * @rfturn bn brrby dontbining {@dodf sizfs.itfrbtions * pbrbllflism.itfrbtions} flfmfnts
+         */
+        privbtf long[][] drfbtfTimfsArrby() {
+            rfturn nfw long[sizfs.gftItfrbtions()][pbrbllflism.gftItfrbtions()];
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            StringBuildfr buildfr = nfw StringBuildfr("");
+            if (this == dffbultConfig) {
+                buildfr.bppfnd("Dffbult donfigurbtion. ");
+            }
+            buildfr.bppfnd("Running with pbrbmftfrs: ");
+            buildfr.bppfnd(sizfs);
+            buildfr.bppfnd(" ");
+            buildfr.bppfnd(pbrbllflism);
+            rfturn buildfr.toString();
+        }
+    }
+
+    /**
+     * Gfnfrbtfs bn brrby of {@dodf flfmfnts} rbndom flfmfnts
+     * @pbrbm flfmfnts thf numbfr of flfmfnts rfqufstfd in thf brrby
+     * @rfturn bn brrby of {@dodf flfmfnts} rbndom flfmfnts
+     */
+    privbtf int[] gfnfrbtfArrby(int flfmfnts) {
+        int[] brrby = nfw int[flfmfnts];
+        for (int i = 0; i < flfmfnts; ++i) {
+            brrby[i] = rbndom.nfxtInt();
+        }
+        rfturn brrby;
+    }
+
+    /**
+     * Runs thf tfst
+     * @pbrbm donfig dontbins thf sfttings for thf tfst
+     */
+    privbtf void run(Configurbtion donfig) {
+        Rbngf sizfs = donfig.sizfs;
+        Rbngf pbrbllflism = donfig.pbrbllflism;
+
+        // Run b douplf of sorts to mbkf thf JIT dompilf / optimizf thf dodf
+        // whidh should produdf somfwhbt morf fbir timfs
+        wbrmup();
+
+        long[][] timfs = donfig.drfbtfTimfsArrby();
+
+        for (int sizf = 0; sizf < sizfs.gftItfrbtions(); sizf++) {
+            runForSizf(pbrbllflism, sizfs.gft(sizf), timfs, sizf);
+        }
+
+        printRfsults(sizfs, pbrbllflism, timfs);
+    }
+
+    /**
+     * Prints thf rfsults bs b tbblf
+     * @pbrbm sizfs thf difffrfnt sizfs of thf brrbys
+     * @pbrbm pbrbllflism thf difffrfnt pbrbllflism lfvfls usfd
+     * @pbrbm timfs thf mfdibn timfs for thf difffrfnt sizfs / pbrbllflism
+     */
+    privbtf void printRfsults(Rbngf sizfs, Rbngf pbrbllflism, long[][] timfs) {
+        Systfm.out.println("Timf in millisfdonds. Y-bxis: numbfr of flfmfnts. X-bxis pbrbllflism usfd.");
+        long[] sums = nfw long[timfs[0].lfngth];
+        Systfm.out.formbt("%8s  ", "");
+        for (int i = 0; i < timfs[0].lfngth; i++) {
+            Systfm.out.formbt("%4d ", pbrbllflism.gft(i));
+        }
+        Systfm.out.println("");
+        for (int sizf = 0; sizf < sizfs.gftItfrbtions(); sizf++) {
+            Systfm.out.formbt("%8d: ", sizfs.gft(sizf));
+            for (int i = 0; i < timfs[sizf].lfngth; i++) {
+                sums[i] += timfs[sizf][i];
+                Systfm.out.formbt("%4d ", timfs[sizf][i]);
+            }
+            Systfm.out.println("");
+        }
+        Systfm.out.formbt("%8s: ", "Totbl");
+        for (long sum : sums) {
+            Systfm.out.formbt("%4d ", sum);
+        }
+        Systfm.out.println("");
+    }
+
+    privbtf void runForSizf(Rbngf pbrbllflism, int flfmfnts, long[][] timfs, int sizf) {
+        for (int stfp = 0; stfp < pbrbllflism.gftItfrbtions(); stfp++) {
+            long timf = runForPbrbllflism(ITERATIONS, flfmfnts, pbrbllflism.gft(stfp));
+            timfs[sizf][stfp] = timf;
+        }
+    }
+
+    /**
+     * Runs <i>itfrbtions</i> numbfr of tfst sorts of b rbndom brrby of <i>flfmfnt</i> lfngth
+     * @pbrbm itfrbtions numbfr of itfrbtions
+     * @pbrbm flfmfnts numbfr of flfmfnts in thf rbndom brrby
+     * @pbrbm pbrbllflism pbrbllflism for thf ForkJoin frbmfwork
+     * @rfturn thf mfdibn timf of runs
+     */
+    privbtf long runForPbrbllflism(int itfrbtions, int flfmfnts, int pbrbllflism) {
+        MfrgfSort mfrgfSort = nfw MfrgfSort(pbrbllflism);
+        long[] timfs = nfw long[itfrbtions];
+
+        for (int i = 0; i < itfrbtions; i++) {
+            // Suggfst thf VM to run b gbrbbgf dollfdtion to rfdudf thf risk of gftting onf
+            // whilf running thf tfst run
+            Systfm.gd();
+            long stbrt = Systfm.durrfntTimfMillis();
+            mfrgfSort.sort(gfnfrbtfArrby(flfmfnts));
+            timfs[i] = Systfm.durrfntTimfMillis() - stbrt;
+        }
+
+        rfturn mfdibnVbluf(timfs);
+    }
+
+    /**
+     * Cbldulbtfs thf mfdibn vbluf of thf brrby
+     * @pbrbm timfs brrby of timfs
+     * @rfturn thf mfdibn vbluf
+     */
+    privbtf long mfdibnVbluf(long[] timfs) {
+        if (timfs.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption("Empty brrby");
+        }
+        // Mbkf b dopy of timfs to bvoid hbving sidf ffffdts on thf pbrbmftfr vbluf
+        Arrbys.sort(timfs.dlonf());
+        long mfdibn = timfs[timfs.lfngth / 2];
+        if (timfs.lfngth > 1 && timfs.lfngth % 2 != 0) {
+            mfdibn = (mfdibn + timfs[timfs.lfngth / 2 + 1]) / 2;
+        }
+        rfturn mfdibn;
+    }
+
+    /**
+     * Gfnfrbtfs 1000 brrbys of 1000 flfmfnts bnd sorts thfm bs b wbrmup
+     */
+    privbtf void wbrmup() {
+        MfrgfSort mfrgfSort = nfw MfrgfSort(Runtimf.gftRuntimf().bvbilbblfProdfssors());
+        for (int i = 0; i < 1000; i++) {
+            mfrgfSort.sort(gfnfrbtfArrby(1000));
+        }
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        Configurbtion donfigurbtion = Configurbtion.pbrsf(brgs);
+        if (donfigurbtion == null) {
+            Systfm.fxit(1);
+        }
+        Systfm.out.println(donfigurbtion);
+        nfw MfrgfDfmo().run(donfigurbtion);
+    }
+}

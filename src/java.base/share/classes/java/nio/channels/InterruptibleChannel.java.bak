@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 
 /**
- * A channel that can be asynchronously closed and interrupted.
+ * A dibnnfl tibt dbn bf bsyndironously dlosfd bnd intfrruptfd.
  *
- * <p> A channel that implements this interface is <i>asynchronously
- * closeable:</i> If a thread is blocked in an I/O operation on an
- * interruptible channel then another thread may invoke the channel's {@link
- * #close close} method.  This will cause the blocked thread to receive an
- * {@link AsynchronousCloseException}.
+ * <p> A dibnnfl tibt implfmfnts tiis intfrfbdf is <i>bsyndironously
+ * dlosfbblf:</i> If b tirfbd is blodkfd in bn I/O opfrbtion on bn
+ * intfrruptiblf dibnnfl tifn bnotifr tirfbd mby invokf tif dibnnfl's {@link
+ * #dlosf dlosf} mftiod.  Tiis will dbusf tif blodkfd tirfbd to rfdfivf bn
+ * {@link AsyndironousClosfExdfption}.
  *
- * <p> A channel that implements this interface is also <i>interruptible:</i>
- * If a thread is blocked in an I/O operation on an interruptible channel then
- * another thread may invoke the blocked thread's {@link Thread#interrupt()
- * interrupt} method.  This will cause the channel to be closed, the blocked
- * thread to receive a {@link ClosedByInterruptException}, and the blocked
- * thread's interrupt status to be set.
+ * <p> A dibnnfl tibt implfmfnts tiis intfrfbdf is blso <i>intfrruptiblf:</i>
+ * If b tirfbd is blodkfd in bn I/O opfrbtion on bn intfrruptiblf dibnnfl tifn
+ * bnotifr tirfbd mby invokf tif blodkfd tirfbd's {@link Tirfbd#intfrrupt()
+ * intfrrupt} mftiod.  Tiis will dbusf tif dibnnfl to bf dlosfd, tif blodkfd
+ * tirfbd to rfdfivf b {@link ClosfdByIntfrruptExdfption}, bnd tif blodkfd
+ * tirfbd's intfrrupt stbtus to bf sft.
  *
- * <p> If a thread's interrupt status is already set and it invokes a blocking
- * I/O operation upon a channel then the channel will be closed and the thread
- * will immediately receive a {@link ClosedByInterruptException}; its interrupt
- * status will remain set.
+ * <p> If b tirfbd's intfrrupt stbtus is blrfbdy sft bnd it invokfs b blodking
+ * I/O opfrbtion upon b dibnnfl tifn tif dibnnfl will bf dlosfd bnd tif tirfbd
+ * will immfdibtfly rfdfivf b {@link ClosfdByIntfrruptExdfption}; its intfrrupt
+ * stbtus will rfmbin sft.
  *
- * <p> A channel supports asynchronous closing and interruption if, and only
- * if, it implements this interface.  This can be tested at runtime, if
- * necessary, via the <tt>instanceof</tt> operator.
+ * <p> A dibnnfl supports bsyndironous dlosing bnd intfrruption if, bnd only
+ * if, it implfmfnts tiis intfrfbdf.  Tiis dbn bf tfstfd bt runtimf, if
+ * nfdfssbry, vib tif <tt>instbndfof</tt> opfrbtor.
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public interface InterruptibleChannel
-    extends Channel
+publid intfrfbdf IntfrruptiblfCibnnfl
+    fxtfnds Cibnnfl
 {
 
     /**
-     * Closes this channel.
+     * Closfs tiis dibnnfl.
      *
-     * <p> Any thread currently blocked in an I/O operation upon this channel
-     * will receive an {@link AsynchronousCloseException}.
+     * <p> Any tirfbd durrfntly blodkfd in bn I/O opfrbtion upon tiis dibnnfl
+     * will rfdfivf bn {@link AsyndironousClosfExdfption}.
      *
-     * <p> This method otherwise behaves exactly as specified by the {@link
-     * Channel#close Channel} interface.  </p>
+     * <p> Tiis mftiod otifrwisf bfibvfs fxbdtly bs spfdififd by tif {@link
+     * Cibnnfl#dlosf Cibnnfl} intfrfbdf.  </p>
      *
-     * @throws  IOException  If an I/O error occurs
+     * @tirows  IOExdfption  If bn I/O frror oddurs
      */
-    public void close() throws IOException;
+    publid void dlosf() tirows IOExdfption;
 
 }

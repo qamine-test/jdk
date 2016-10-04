@@ -1,708 +1,708 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="sbp"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ak">Ishiyakani</language>
-			<language type="am">Ishiyamuhali</language>
-			<language type="ar">Ishiyalabu</language>
-			<language type="be">Ishibelalusi</language>
-			<language type="bg">Ishibulugalia</language>
-			<language type="bn">Ishibangila</language>
-			<language type="cs">Ishisheki</language>
-			<language type="de">Ishijelumani</language>
-			<language type="el">Ishigiliki</language>
-			<language type="en">Ishingelesa</language>
-			<language type="es">Ishihisipaniya</language>
-			<language type="fa">Ishiajemi</language>
-			<language type="fr">Ishifalansa</language>
-			<language type="ha">Ishihawusa</language>
-			<language type="hi">Ishihindi</language>
-			<language type="hu">Ishihungali</language>
-			<language type="id">Ishihindonesia</language>
-			<language type="ig">Ishihigibo</language>
-			<language type="it">Ishihitaliyano</language>
-			<language type="ja">Ishijapani</language>
-			<language type="jv">Ishijava</language>
-			<language type="km">Ishikambodia</language>
-			<language type="ko">Ishikoleya</language>
-			<language type="ms">Ishimalesiya</language>
-			<language type="my">Ishibuluma</language>
-			<language type="ne">Ishinepali</language>
-			<language type="nl">Ishiholansi</language>
-			<language type="pa">Ishipunjabi</language>
-			<language type="pl">Ishipolandi</language>
-			<language type="pt">Ishileno</language>
-			<language type="ro">Ishilomaniya</language>
-			<language type="ru">Ishilusi</language>
-			<language type="rw">Ishinyalwanda</language>
-			<language type="sbp">Ishisangu</language>
-			<language type="so">Ishisomali</language>
-			<language type="sv">Ishiswidi</language>
-			<language type="ta">Ishitamili</language>
-			<language type="th">Ishitayilandi</language>
-			<language type="tr">Ishituluki</language>
-			<language type="uk">Ishiyukilaniya</language>
-			<language type="ur">Ishiwuludi</language>
-			<language type="vi">Ishivietinamu</language>
-			<language type="yo">Ishiyoluba</language>
-			<language type="zh">Ishishina</language>
-			<language type="zu">Ishisulu</language>
-		</languages>
-		<territories>
-			<territory type="AD">Andola</territory>
-			<territory type="AE">Wutwa wa shiyalabu</territory>
-			<territory type="AF">Afuganisitani</territory>
-			<territory type="AG">Anitiguya ni Balubuda</territory>
-			<territory type="AI">Anguilla</territory>
-			<territory type="AL">Alubaniya</territory>
-			<territory type="AM">Alimeniya</territory>
-			<territory type="AN">Anitili sa Uholansi</territory>
-			<territory type="AO">Angola</territory>
-			<territory type="AR">Ajentina</territory>
-			<territory type="AS">Samoya ya Malekani</territory>
-			<territory type="AT">Awusitiliya</territory>
-			<territory type="AU">Awusitilaliya</territory>
-			<territory type="AW">Aluba</territory>
-			<territory type="AZ">Asabajani</territory>
-			<territory type="BA">Bosiniya ni Hesegovina</territory>
-			<territory type="BB">Babadosi</territory>
-			<territory type="BD">Bangiladeshi</territory>
-			<territory type="BE">Ubeligiji</territory>
-			<territory type="BF">Bukinafaso</territory>
-			<territory type="BG">Buligaliya</territory>
-			<territory type="BH">Bahaleni</territory>
-			<territory type="BI">Bulundi</territory>
-			<territory type="BJ">Benini</territory>
-			<territory type="BM">Belimuda</territory>
-			<territory type="BN">Buluneyi</territory>
-			<territory type="BO">Boliviya</territory>
-			<territory type="BR">Bulasili</territory>
-			<territory type="BS">Bahama</territory>
-			<territory type="BT">Butani</territory>
-			<territory type="BW">Botiswana</territory>
-			<territory type="BY">Belalusi</territory>
-			<territory type="BZ">Belise</territory>
-			<territory type="CA">Kanada</territory>
-			<territory type="CD">Jamuhuli ya Kidemokilasiya ya Kongo</territory>
-			<territory type="CF">Jamuhuli ya Afilika ya Pakhati</territory>
-			<territory type="CG">Kongo</territory>
-			<territory type="CH">Uswisi</territory>
-			<territory type="CI">Kodivaya</territory>
-			<territory type="CK">Figunguli fya Kooki</territory>
-			<territory type="CL">Shile</territory>
-			<territory type="CM">Kameruni</territory>
-			<territory type="CN">Shina</territory>
-			<territory type="CO">Kolombiya</territory>
-			<territory type="CR">Kositalika</territory>
-			<territory type="CS">Selibiya ni Montenegilo</territory>
-			<territory type="CU">Kuba</territory>
-			<territory type="CV">Kepuvede</territory>
-			<territory type="CY">Kupilosi</territory>
-			<territory type="CZ">Jamuhuli ya Sheki</territory>
-			<territory type="DE">Wujelumani</territory>
-			<territory type="DJ">Jibuti</territory>
-			<territory type="DK">Denimaki</territory>
-			<territory type="DM">Dominika</territory>
-			<territory type="DO">Jamuhuli ya Dominika</territory>
-			<territory type="DZ">Alijeliya</territory>
-			<territory type="EC">Ekwado</territory>
-			<territory type="EE">Esitoniya</territory>
-			<territory type="EG">Misili</territory>
-			<territory type="ER">Elitileya</territory>
-			<territory type="ES">Hisipaniya</territory>
-			<territory type="ET">Uhabeshi</territory>
-			<territory type="FI">Wufini</territory>
-			<territory type="FJ">Fiji</territory>
-			<territory type="FK">Figunguli fya Fokolendi</territory>
-			<territory type="FM">Mikilonesiya</territory>
-			<territory type="FR">Wufalansa</territory>
-			<territory type="GA">Gaboni</territory>
-			<territory type="GB">Uwingelesa</territory>
-			<territory type="GD">Gilenada</territory>
-			<territory type="GE">Jojiya</territory>
-			<territory type="GF">Gwiyana ya Wufalansa</territory>
-			<territory type="GH">Khana</territory>
-			<territory type="GI">Jibulalita</territory>
-			<territory type="GL">Gilinilandi</territory>
-			<territory type="GM">Gambiya</territory>
-			<territory type="GN">Gine</territory>
-			<territory type="GP">Gwadelupe</territory>
-			<territory type="GQ">Ginekweta</territory>
-			<territory type="GR">Wugiliki</territory>
-			<territory type="GT">Gwatemala</territory>
-			<territory type="GU">Gwamu</territory>
-			<territory type="GW">Ginebisawu</territory>
-			<territory type="GY">Guyana</territory>
-			<territory type="HN">Hondulasi</territory>
-			<territory type="HR">Kolasiya</territory>
-			<territory type="HT">Hayiti</territory>
-			<territory type="HU">Hungaliya</territory>
-			<territory type="ID">Indonesiya</territory>
-			<territory type="IE">Ayalandi</territory>
-			<territory type="IL">Isilaeli</territory>
-			<territory type="IN">Indiya</territory>
-			<territory type="IO">Uluvala lwa Uwingelesa ku Bahali ya Hindi</territory>
-			<territory type="IQ">Ilaki</territory>
-			<territory type="IR">Uwajemi</territory>
-			<territory type="IS">Ayisilendi</territory>
-			<territory type="IT">Italiya</territory>
-			<territory type="JM">Jamaika</territory>
-			<territory type="JO">Yolodani</territory>
-			<territory type="JP">Japani</territory>
-			<territory type="KE">Kenya</territory>
-			<territory type="KG">Kiligisisitani</territory>
-			<territory type="KH">Kambodiya</territory>
-			<territory type="KI">Kilibati</territory>
-			<territory type="KM">Komolo</territory>
-			<territory type="KN">Santakitisi ni Nevisi</territory>
-			<territory type="KP">Koleya ya luvala lwa Kunyamande</territory>
-			<territory type="KR">Koleya ya Kusini</territory>
-			<territory type="KW">Kuwaiti</territory>
-			<territory type="KY">Figunguli ifya Kayimayi</territory>
-			<territory type="KZ">Kasakisitani</territory>
-			<territory type="LA">Layosi</territory>
-			<territory type="LB">Lebanoni</territory>
-			<territory type="LC">Santalusiya</territory>
-			<territory type="LI">Lisheniteni</territory>
-			<territory type="LK">Sililanka</territory>
-			<territory type="LR">Libeliya</territory>
-			<territory type="LS">Lesoto</territory>
-			<territory type="LT">Litwaniya</territory>
-			<territory type="LU">Lasembagi</territory>
-			<territory type="LV">Lativiya</territory>
-			<territory type="LY">Libiya</territory>
-			<territory type="MA">Moloko</territory>
-			<territory type="MC">Monako</territory>
-			<territory type="MD">Molidova</territory>
-			<territory type="MG">Bukini</territory>
-			<territory type="MH">Figunguli ifya Malishali</territory>
-			<territory type="MK">Masedoniya</territory>
-			<territory type="ML">Mali</territory>
-			<territory type="MM">Muyama</territory>
-			<territory type="MN">Mongoliya</territory>
-			<territory type="MP">Figunguli fya Maliyana ifya luvala lwa Kunyamande</territory>
-			<territory type="MQ">Malitiniki</territory>
-			<territory type="MR">Molitaniya</territory>
-			<territory type="MS">Monitiselati</territory>
-			<territory type="MT">Malita</territory>
-			<territory type="MU">Molisi</territory>
-			<territory type="MV">Modivu</territory>
-			<territory type="MW">Malawi</territory>
-			<territory type="MX">Mekisiko</territory>
-			<territory type="MY">Malesiya</territory>
-			<territory type="MZ">Musumbiji</territory>
-			<territory type="NA">Namibiya</territory>
-			<territory type="NC">Nyukaledoniya</territory>
-			<territory type="NE">Nijeli</territory>
-			<territory type="NF">Shigunguli sha Nolifoki</territory>
-			<territory type="NG">Nijeliya</territory>
-			<territory type="NI">Nikalagwa</territory>
-			<territory type="NL">Wuholansi</territory>
-			<territory type="NO">Nolwe</territory>
-			<territory type="NP">Nepali</territory>
-			<territory type="NR">Nawulu</territory>
-			<territory type="NU">Niwue</territory>
-			<territory type="NZ">Nyusilendi</territory>
-			<territory type="OM">Omani</territory>
-			<territory type="PA">Panama</territory>
-			<territory type="PE">Pelu</territory>
-			<territory type="PF">Polinesiya ya Wufalansa</territory>
-			<territory type="PG">Papuwa</territory>
-			<territory type="PH">Filipino</territory>
-			<territory type="PK">Pakisitani</territory>
-			<territory type="PL">Polandi</territory>
-			<territory type="PM">Santapieli ni Mikeloni</territory>
-			<territory type="PN">Pitikailini</territory>
-			<territory type="PR">Pwetoliko</territory>
-			<territory type="PS">Munjema gwa Kusikha nu Luvala lwa Gasa lwa Palesit</territory>
-			<territory type="PT">Wuleno</territory>
-			<territory type="PW">Palawu</territory>
-			<territory type="PY">Palagwayi</territory>
-			<territory type="QA">Katali</territory>
-			<territory type="RE">Liyunioni</territory>
-			<territory type="RO">Lomaniya</territory>
-			<territory type="RU">Wulusi</territory>
-			<territory type="RW">Lwanda</territory>
-			<territory type="SA">Sawudi</territory>
-			<territory type="SB">Figunguli fya Solomoni</territory>
-			<territory type="SC">Shelisheli</territory>
-			<territory type="SD">Sudani</territory>
-			<territory type="SE">Uswidi</territory>
-			<territory type="SG">Singapoo</territory>
-			<territory type="SH">Santahelena</territory>
-			<territory type="SI">Siloveniya</territory>
-			<territory type="SK">Silovakiya</territory>
-			<territory type="SL">Siela Liyoni</territory>
-			<territory type="SM">Samalino</territory>
-			<territory type="SN">Senegali</territory>
-			<territory type="SO">Somaliya</territory>
-			<territory type="SR">Sulinamu</territory>
-			<territory type="ST">Sayo Tome ni Pilinikipe</territory>
-			<territory type="SV">Elisavado</territory>
-			<territory type="SY">Siliya</territory>
-			<territory type="SZ">Uswasi</territory>
-			<territory type="TC">Figunguli fya Tuliki ni Kaiko</territory>
-			<territory type="TD">Shadi</territory>
-			<territory type="TG">Togo</territory>
-			<territory type="TH">Tailandi</territory>
-			<territory type="TJ">Tajikisitani</territory>
-			<territory type="TK">Tokelawu</territory>
-			<territory type="TL">Timoli ya kunena</territory>
-			<territory type="TM">Tulukimenisitani</territory>
-			<territory type="TN">Tunisiya</territory>
-			<territory type="TO">Tonga</territory>
-			<territory type="TR">Utuluki</territory>
-			<territory type="TT">Tilinidadi ni Tobago</territory>
-			<territory type="TV">Tuvalu</territory>
-			<territory type="TW">Taiwani</territory>
-			<territory type="TZ">Tansaniya</territory>
-			<territory type="UA">Yukileini</territory>
-			<territory type="UG">Uganda</territory>
-			<territory type="US">Malekani</territory>
-			<territory type="UY">Ulugwayi</territory>
-			<territory type="UZ">Usibekisitani</territory>
-			<territory type="VA">Vatikani</territory>
-			<territory type="VC">Santavisenti na Gilenadini</territory>
-			<territory type="VE">Venesuela</territory>
-			<territory type="VG">Figunguli ifya Viliginiya ifya Uwingelesa</territory>
-			<territory type="VI">Figunguli fya Viliginiya ifya Malekani</territory>
-			<territory type="VN">Vietinamu</territory>
-			<territory type="VU">Vanuatu</territory>
-			<territory type="WF">Walisi ni Futuna</territory>
-			<territory type="WS">Samoya</territory>
-			<territory type="YE">Yemeni</territory>
-			<territory type="YT">Mayote</territory>
-			<territory type="ZA">Afilika Kusini</territory>
-			<territory type="ZM">Sambiya</territory>
-			<territory type="ZW">Simbabwe</territory>
-		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a b c d e f g h i j k l m n o p s t u v w y]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[q r x z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P S T U V W Y]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Mup</month>
-							<month type="2">Mwi</month>
-							<month type="3">Msh</month>
-							<month type="4">Mun</month>
-							<month type="5">Mag</month>
-							<month type="6">Muj</month>
-							<month type="7">Msp</month>
-							<month type="8">Mpg</month>
-							<month type="9">Mye</month>
-							<month type="10">Mok</month>
-							<month type="11">Mus</month>
-							<month type="12">Muh</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">Mupalangulwa</month>
-							<month type="2">Mwitope</month>
-							<month type="3">Mushende</month>
-							<month type="4">Munyi</month>
-							<month type="5">Mushende Magali</month>
-							<month type="6">Mujimbi</month>
-							<month type="7">Mushipepo</month>
-							<month type="8">Mupuguto</month>
-							<month type="9">Munyense</month>
-							<month type="10">Mokhu</month>
-							<month type="11">Musongandembwe</month>
-							<month type="12">Muhaano</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Mul</day>
-							<day type="mon">Jtt</day>
-							<day type="tue">Jnn</day>
-							<day type="wed">Jtn</day>
-							<day type="thu">Alh</day>
-							<day type="fri">Iju</day>
-							<day type="sat">Jmo</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Mulungu</day>
-							<day type="mon">Jumatatu</day>
-							<day type="tue">Jumanne</day>
-							<day type="wed">Jumatano</day>
-							<day type="thu">Alahamisi</day>
-							<day type="fri">Ijumaa</day>
-							<day type="sat">Jumamosi</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">M</day>
-							<day type="mon">J</day>
-							<day type="tue">J</day>
-							<day type="wed">J</day>
-							<day type="thu">A</day>
-							<day type="fri">I</day>
-							<day type="sat">J</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">L1</quarter>
-							<quarter type="2">L2</quarter>
-							<quarter type="3">L3</quarter>
-							<quarter type="4">L4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">Lobo 1</quarter>
-							<quarter type="2">Lobo 2</quarter>
-							<quarter type="3">Lobo 3</quarter>
-							<quarter type="4">Lobo 4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">Lwamilawu</dayPeriod>
-							<dayPeriod type="pm">Pashamihe</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">Ashanali uKilisito</era>
-						<era type="1">Pamwandi ya Kilisto</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">AK</era>
-						<era type="1">PK</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">M/d</dateFormatItem>
-						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
-						<dateFormatItem id="ms">m:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">M/d/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">MMM d y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>Uluhaavi lwa</displayName>
-					</field>
-					<field type="year">
-						<displayName>Mwakha</displayName>
-					</field>
-					<field type="month">
-						<displayName>Mwesi</displayName>
-					</field>
-					<field type="week">
-						<displayName>Ilijuma</displayName>
-					</field>
-					<field type="day">
-						<displayName>Lusiku</displayName>
-						<relative type="-1">Imehe</relative>
-						<relative type="0">Ineng'uni</relative>
-						<relative type="1">Pamulaawu</relative>
-					</field>
-					<field type="weekday">
-						<displayName>Ulusiku lwa Lijuma</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>Uluhaavi lwa lusiku</displayName>
-					</field>
-					<field type="hour">
-						<displayName>Ilisala</displayName>
-					</field>
-					<field type="minute">
-						<displayName>Idakika</displayName>
-					</field>
-					<field type="second">
-						<displayName>Isekunde</displayName>
-					</field>
-					<field type="zone">
-						<displayName>Uluhaavi lwa lisaa</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>.</decimal>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="sbp"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bk">Isiiybkbni</lbngubgf>
+			<lbngubgf typf="bm">Isiiybmuibli</lbngubgf>
+			<lbngubgf typf="br">Isiiyblbbu</lbngubgf>
+			<lbngubgf typf="bf">Isiibflblusi</lbngubgf>
+			<lbngubgf typf="bg">Isiibulugblib</lbngubgf>
+			<lbngubgf typf="bn">Isiibbngilb</lbngubgf>
+			<lbngubgf typf="ds">Isiisifki</lbngubgf>
+			<lbngubgf typf="df">Isiijflumbni</lbngubgf>
+			<lbngubgf typf="fl">Isiigiliki</lbngubgf>
+			<lbngubgf typf="fn">Isiingflfsb</lbngubgf>
+			<lbngubgf typf="fs">Isiiiisipbniyb</lbngubgf>
+			<lbngubgf typf="fb">Isiibjfmi</lbngubgf>
+			<lbngubgf typf="fr">Isiifblbnsb</lbngubgf>
+			<lbngubgf typf="ib">Isiiibwusb</lbngubgf>
+			<lbngubgf typf="ii">Isiiiindi</lbngubgf>
+			<lbngubgf typf="iu">Isiiiungbli</lbngubgf>
+			<lbngubgf typf="id">Isiiiindonfsib</lbngubgf>
+			<lbngubgf typf="ig">Isiiiigibo</lbngubgf>
+			<lbngubgf typf="it">Isiiiitbliybno</lbngubgf>
+			<lbngubgf typf="jb">Isiijbpbni</lbngubgf>
+			<lbngubgf typf="jv">Isiijbvb</lbngubgf>
+			<lbngubgf typf="km">Isiikbmbodib</lbngubgf>
+			<lbngubgf typf="ko">Isiikolfyb</lbngubgf>
+			<lbngubgf typf="ms">Isiimblfsiyb</lbngubgf>
+			<lbngubgf typf="my">Isiibulumb</lbngubgf>
+			<lbngubgf typf="nf">Isiinfpbli</lbngubgf>
+			<lbngubgf typf="nl">Isiiiolbnsi</lbngubgf>
+			<lbngubgf typf="pb">Isiipunjbbi</lbngubgf>
+			<lbngubgf typf="pl">Isiipolbndi</lbngubgf>
+			<lbngubgf typf="pt">Isiilfno</lbngubgf>
+			<lbngubgf typf="ro">Isiilombniyb</lbngubgf>
+			<lbngubgf typf="ru">Isiilusi</lbngubgf>
+			<lbngubgf typf="rw">Isiinyblwbndb</lbngubgf>
+			<lbngubgf typf="sbp">Isiisbngu</lbngubgf>
+			<lbngubgf typf="so">Isiisombli</lbngubgf>
+			<lbngubgf typf="sv">Isiiswidi</lbngubgf>
+			<lbngubgf typf="tb">Isiitbmili</lbngubgf>
+			<lbngubgf typf="ti">Isiitbyilbndi</lbngubgf>
+			<lbngubgf typf="tr">Isiituluki</lbngubgf>
+			<lbngubgf typf="uk">Isiiyukilbniyb</lbngubgf>
+			<lbngubgf typf="ur">Isiiwuludi</lbngubgf>
+			<lbngubgf typf="vi">Isiiviftinbmu</lbngubgf>
+			<lbngubgf typf="yo">Isiiyolubb</lbngubgf>
+			<lbngubgf typf="zi">Isiisiinb</lbngubgf>
+			<lbngubgf typf="zu">Isiisulu</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="AD">Andolb</tfrritory>
+			<tfrritory typf="AE">Wutwb wb siiyblbbu</tfrritory>
+			<tfrritory typf="AF">Afugbnisitbni</tfrritory>
+			<tfrritory typf="AG">Anitiguyb ni Bblubudb</tfrritory>
+			<tfrritory typf="AI">Anguillb</tfrritory>
+			<tfrritory typf="AL">Alubbniyb</tfrritory>
+			<tfrritory typf="AM">Alimfniyb</tfrritory>
+			<tfrritory typf="AN">Anitili sb Uiolbnsi</tfrritory>
+			<tfrritory typf="AO">Angolb</tfrritory>
+			<tfrritory typf="AR">Ajfntinb</tfrritory>
+			<tfrritory typf="AS">Sbmoyb yb Mblfkbni</tfrritory>
+			<tfrritory typf="AT">Awusitiliyb</tfrritory>
+			<tfrritory typf="AU">Awusitilbliyb</tfrritory>
+			<tfrritory typf="AW">Alubb</tfrritory>
+			<tfrritory typf="AZ">Asbbbjbni</tfrritory>
+			<tfrritory typf="BA">Bosiniyb ni Hfsfgovinb</tfrritory>
+			<tfrritory typf="BB">Bbbbdosi</tfrritory>
+			<tfrritory typf="BD">Bbngilbdfsii</tfrritory>
+			<tfrritory typf="BE">Ubfligiji</tfrritory>
+			<tfrritory typf="BF">Bukinbfbso</tfrritory>
+			<tfrritory typf="BG">Buligbliyb</tfrritory>
+			<tfrritory typf="BH">Bbiblfni</tfrritory>
+			<tfrritory typf="BI">Bulundi</tfrritory>
+			<tfrritory typf="BJ">Bfnini</tfrritory>
+			<tfrritory typf="BM">Bflimudb</tfrritory>
+			<tfrritory typf="BN">Bulunfyi</tfrritory>
+			<tfrritory typf="BO">Boliviyb</tfrritory>
+			<tfrritory typf="BR">Bulbsili</tfrritory>
+			<tfrritory typf="BS">Bbibmb</tfrritory>
+			<tfrritory typf="BT">Butbni</tfrritory>
+			<tfrritory typf="BW">Botiswbnb</tfrritory>
+			<tfrritory typf="BY">Bflblusi</tfrritory>
+			<tfrritory typf="BZ">Bflisf</tfrritory>
+			<tfrritory typf="CA">Kbnbdb</tfrritory>
+			<tfrritory typf="CD">Jbmuiuli yb Kidfmokilbsiyb yb Kongo</tfrritory>
+			<tfrritory typf="CF">Jbmuiuli yb Afilikb yb Pbkibti</tfrritory>
+			<tfrritory typf="CG">Kongo</tfrritory>
+			<tfrritory typf="CH">Uswisi</tfrritory>
+			<tfrritory typf="CI">Kodivbyb</tfrritory>
+			<tfrritory typf="CK">Figunguli fyb Kooki</tfrritory>
+			<tfrritory typf="CL">Siilf</tfrritory>
+			<tfrritory typf="CM">Kbmfruni</tfrritory>
+			<tfrritory typf="CN">Siinb</tfrritory>
+			<tfrritory typf="CO">Kolombiyb</tfrritory>
+			<tfrritory typf="CR">Kositblikb</tfrritory>
+			<tfrritory typf="CS">Sflibiyb ni Montfnfgilo</tfrritory>
+			<tfrritory typf="CU">Kubb</tfrritory>
+			<tfrritory typf="CV">Kfpuvfdf</tfrritory>
+			<tfrritory typf="CY">Kupilosi</tfrritory>
+			<tfrritory typf="CZ">Jbmuiuli yb Sifki</tfrritory>
+			<tfrritory typf="DE">Wujflumbni</tfrritory>
+			<tfrritory typf="DJ">Jibuti</tfrritory>
+			<tfrritory typf="DK">Dfnimbki</tfrritory>
+			<tfrritory typf="DM">Dominikb</tfrritory>
+			<tfrritory typf="DO">Jbmuiuli yb Dominikb</tfrritory>
+			<tfrritory typf="DZ">Alijfliyb</tfrritory>
+			<tfrritory typf="EC">Ekwbdo</tfrritory>
+			<tfrritory typf="EE">Esitoniyb</tfrritory>
+			<tfrritory typf="EG">Misili</tfrritory>
+			<tfrritory typf="ER">Elitilfyb</tfrritory>
+			<tfrritory typf="ES">Hisipbniyb</tfrritory>
+			<tfrritory typf="ET">Uibbfsii</tfrritory>
+			<tfrritory typf="FI">Wufini</tfrritory>
+			<tfrritory typf="FJ">Fiji</tfrritory>
+			<tfrritory typf="FK">Figunguli fyb Fokolfndi</tfrritory>
+			<tfrritory typf="FM">Mikilonfsiyb</tfrritory>
+			<tfrritory typf="FR">Wufblbnsb</tfrritory>
+			<tfrritory typf="GA">Gbboni</tfrritory>
+			<tfrritory typf="GB">Uwingflfsb</tfrritory>
+			<tfrritory typf="GD">Gilfnbdb</tfrritory>
+			<tfrritory typf="GE">Jojiyb</tfrritory>
+			<tfrritory typf="GF">Gwiybnb yb Wufblbnsb</tfrritory>
+			<tfrritory typf="GH">Kibnb</tfrritory>
+			<tfrritory typf="GI">Jibulblitb</tfrritory>
+			<tfrritory typf="GL">Gilinilbndi</tfrritory>
+			<tfrritory typf="GM">Gbmbiyb</tfrritory>
+			<tfrritory typf="GN">Ginf</tfrritory>
+			<tfrritory typf="GP">Gwbdflupf</tfrritory>
+			<tfrritory typf="GQ">Ginfkwftb</tfrritory>
+			<tfrritory typf="GR">Wugiliki</tfrritory>
+			<tfrritory typf="GT">Gwbtfmblb</tfrritory>
+			<tfrritory typf="GU">Gwbmu</tfrritory>
+			<tfrritory typf="GW">Ginfbisbwu</tfrritory>
+			<tfrritory typf="GY">Guybnb</tfrritory>
+			<tfrritory typf="HN">Hondulbsi</tfrritory>
+			<tfrritory typf="HR">Kolbsiyb</tfrritory>
+			<tfrritory typf="HT">Hbyiti</tfrritory>
+			<tfrritory typf="HU">Hungbliyb</tfrritory>
+			<tfrritory typf="ID">Indonfsiyb</tfrritory>
+			<tfrritory typf="IE">Ayblbndi</tfrritory>
+			<tfrritory typf="IL">Isilbfli</tfrritory>
+			<tfrritory typf="IN">Indiyb</tfrritory>
+			<tfrritory typf="IO">Uluvblb lwb Uwingflfsb ku Bbibli yb Hindi</tfrritory>
+			<tfrritory typf="IQ">Ilbki</tfrritory>
+			<tfrritory typf="IR">Uwbjfmi</tfrritory>
+			<tfrritory typf="IS">Ayisilfndi</tfrritory>
+			<tfrritory typf="IT">Itbliyb</tfrritory>
+			<tfrritory typf="JM">Jbmbikb</tfrritory>
+			<tfrritory typf="JO">Yolodbni</tfrritory>
+			<tfrritory typf="JP">Jbpbni</tfrritory>
+			<tfrritory typf="KE">Kfnyb</tfrritory>
+			<tfrritory typf="KG">Kiligisisitbni</tfrritory>
+			<tfrritory typf="KH">Kbmbodiyb</tfrritory>
+			<tfrritory typf="KI">Kilibbti</tfrritory>
+			<tfrritory typf="KM">Komolo</tfrritory>
+			<tfrritory typf="KN">Sbntbkitisi ni Nfvisi</tfrritory>
+			<tfrritory typf="KP">Kolfyb yb luvblb lwb Kunybmbndf</tfrritory>
+			<tfrritory typf="KR">Kolfyb yb Kusini</tfrritory>
+			<tfrritory typf="KW">Kuwbiti</tfrritory>
+			<tfrritory typf="KY">Figunguli ifyb Kbyimbyi</tfrritory>
+			<tfrritory typf="KZ">Kbsbkisitbni</tfrritory>
+			<tfrritory typf="LA">Lbyosi</tfrritory>
+			<tfrritory typf="LB">Lfbbnoni</tfrritory>
+			<tfrritory typf="LC">Sbntblusiyb</tfrritory>
+			<tfrritory typf="LI">Lisifnitfni</tfrritory>
+			<tfrritory typf="LK">Sililbnkb</tfrritory>
+			<tfrritory typf="LR">Libfliyb</tfrritory>
+			<tfrritory typf="LS">Lfsoto</tfrritory>
+			<tfrritory typf="LT">Litwbniyb</tfrritory>
+			<tfrritory typf="LU">Lbsfmbbgi</tfrritory>
+			<tfrritory typf="LV">Lbtiviyb</tfrritory>
+			<tfrritory typf="LY">Libiyb</tfrritory>
+			<tfrritory typf="MA">Moloko</tfrritory>
+			<tfrritory typf="MC">Monbko</tfrritory>
+			<tfrritory typf="MD">Molidovb</tfrritory>
+			<tfrritory typf="MG">Bukini</tfrritory>
+			<tfrritory typf="MH">Figunguli ifyb Mblisibli</tfrritory>
+			<tfrritory typf="MK">Mbsfdoniyb</tfrritory>
+			<tfrritory typf="ML">Mbli</tfrritory>
+			<tfrritory typf="MM">Muybmb</tfrritory>
+			<tfrritory typf="MN">Mongoliyb</tfrritory>
+			<tfrritory typf="MP">Figunguli fyb Mbliybnb ifyb luvblb lwb Kunybmbndf</tfrritory>
+			<tfrritory typf="MQ">Mblitiniki</tfrritory>
+			<tfrritory typf="MR">Molitbniyb</tfrritory>
+			<tfrritory typf="MS">Monitisflbti</tfrritory>
+			<tfrritory typf="MT">Mblitb</tfrritory>
+			<tfrritory typf="MU">Molisi</tfrritory>
+			<tfrritory typf="MV">Modivu</tfrritory>
+			<tfrritory typf="MW">Mblbwi</tfrritory>
+			<tfrritory typf="MX">Mfkisiko</tfrritory>
+			<tfrritory typf="MY">Mblfsiyb</tfrritory>
+			<tfrritory typf="MZ">Musumbiji</tfrritory>
+			<tfrritory typf="NA">Nbmibiyb</tfrritory>
+			<tfrritory typf="NC">Nyukblfdoniyb</tfrritory>
+			<tfrritory typf="NE">Nijfli</tfrritory>
+			<tfrritory typf="NF">Siigunguli sib Nolifoki</tfrritory>
+			<tfrritory typf="NG">Nijfliyb</tfrritory>
+			<tfrritory typf="NI">Nikblbgwb</tfrritory>
+			<tfrritory typf="NL">Wuiolbnsi</tfrritory>
+			<tfrritory typf="NO">Nolwf</tfrritory>
+			<tfrritory typf="NP">Nfpbli</tfrritory>
+			<tfrritory typf="NR">Nbwulu</tfrritory>
+			<tfrritory typf="NU">Niwuf</tfrritory>
+			<tfrritory typf="NZ">Nyusilfndi</tfrritory>
+			<tfrritory typf="OM">Ombni</tfrritory>
+			<tfrritory typf="PA">Pbnbmb</tfrritory>
+			<tfrritory typf="PE">Pflu</tfrritory>
+			<tfrritory typf="PF">Polinfsiyb yb Wufblbnsb</tfrritory>
+			<tfrritory typf="PG">Pbpuwb</tfrritory>
+			<tfrritory typf="PH">Filipino</tfrritory>
+			<tfrritory typf="PK">Pbkisitbni</tfrritory>
+			<tfrritory typf="PL">Polbndi</tfrritory>
+			<tfrritory typf="PM">Sbntbpifli ni Mikfloni</tfrritory>
+			<tfrritory typf="PN">Pitikbilini</tfrritory>
+			<tfrritory typf="PR">Pwftoliko</tfrritory>
+			<tfrritory typf="PS">Munjfmb gwb Kusikib nu Luvblb lwb Gbsb lwb Pblfsit</tfrritory>
+			<tfrritory typf="PT">Wulfno</tfrritory>
+			<tfrritory typf="PW">Pblbwu</tfrritory>
+			<tfrritory typf="PY">Pblbgwbyi</tfrritory>
+			<tfrritory typf="QA">Kbtbli</tfrritory>
+			<tfrritory typf="RE">Liyunioni</tfrritory>
+			<tfrritory typf="RO">Lombniyb</tfrritory>
+			<tfrritory typf="RU">Wulusi</tfrritory>
+			<tfrritory typf="RW">Lwbndb</tfrritory>
+			<tfrritory typf="SA">Sbwudi</tfrritory>
+			<tfrritory typf="SB">Figunguli fyb Solomoni</tfrritory>
+			<tfrritory typf="SC">Siflisifli</tfrritory>
+			<tfrritory typf="SD">Sudbni</tfrritory>
+			<tfrritory typf="SE">Uswidi</tfrritory>
+			<tfrritory typf="SG">Singbpoo</tfrritory>
+			<tfrritory typf="SH">Sbntbiflfnb</tfrritory>
+			<tfrritory typf="SI">Silovfniyb</tfrritory>
+			<tfrritory typf="SK">Silovbkiyb</tfrritory>
+			<tfrritory typf="SL">Siflb Liyoni</tfrritory>
+			<tfrritory typf="SM">Sbmblino</tfrritory>
+			<tfrritory typf="SN">Sfnfgbli</tfrritory>
+			<tfrritory typf="SO">Sombliyb</tfrritory>
+			<tfrritory typf="SR">Sulinbmu</tfrritory>
+			<tfrritory typf="ST">Sbyo Tomf ni Pilinikipf</tfrritory>
+			<tfrritory typf="SV">Elisbvbdo</tfrritory>
+			<tfrritory typf="SY">Siliyb</tfrritory>
+			<tfrritory typf="SZ">Uswbsi</tfrritory>
+			<tfrritory typf="TC">Figunguli fyb Tuliki ni Kbiko</tfrritory>
+			<tfrritory typf="TD">Sibdi</tfrritory>
+			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TH">Tbilbndi</tfrritory>
+			<tfrritory typf="TJ">Tbjikisitbni</tfrritory>
+			<tfrritory typf="TK">Tokflbwu</tfrritory>
+			<tfrritory typf="TL">Timoli yb kunfnb</tfrritory>
+			<tfrritory typf="TM">Tulukimfnisitbni</tfrritory>
+			<tfrritory typf="TN">Tunisiyb</tfrritory>
+			<tfrritory typf="TO">Tongb</tfrritory>
+			<tfrritory typf="TR">Utuluki</tfrritory>
+			<tfrritory typf="TT">Tilinidbdi ni Tobbgo</tfrritory>
+			<tfrritory typf="TV">Tuvblu</tfrritory>
+			<tfrritory typf="TW">Tbiwbni</tfrritory>
+			<tfrritory typf="TZ">Tbnsbniyb</tfrritory>
+			<tfrritory typf="UA">Yukilfini</tfrritory>
+			<tfrritory typf="UG">Ugbndb</tfrritory>
+			<tfrritory typf="US">Mblfkbni</tfrritory>
+			<tfrritory typf="UY">Ulugwbyi</tfrritory>
+			<tfrritory typf="UZ">Usibfkisitbni</tfrritory>
+			<tfrritory typf="VA">Vbtikbni</tfrritory>
+			<tfrritory typf="VC">Sbntbvisfnti nb Gilfnbdini</tfrritory>
+			<tfrritory typf="VE">Vfnfsuflb</tfrritory>
+			<tfrritory typf="VG">Figunguli ifyb Viliginiyb ifyb Uwingflfsb</tfrritory>
+			<tfrritory typf="VI">Figunguli fyb Viliginiyb ifyb Mblfkbni</tfrritory>
+			<tfrritory typf="VN">Viftinbmu</tfrritory>
+			<tfrritory typf="VU">Vbnubtu</tfrritory>
+			<tfrritory typf="WF">Wblisi ni Futunb</tfrritory>
+			<tfrritory typf="WS">Sbmoyb</tfrritory>
+			<tfrritory typf="YE">Yfmfni</tfrritory>
+			<tfrritory typf="YT">Mbyotf</tfrritory>
+			<tfrritory typf="ZA">Afilikb Kusini</tfrritory>
+			<tfrritory typf="ZM">Sbmbiyb</tfrritory>
+			<tfrritory typf="ZW">Simbbbwf</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b b d d f f g i i j k l m n o p s t u v w y]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[q r x z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[A B C D E F G H I J K L M N O P S T U V W Y]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">Mup</monti>
+							<monti typf="2">Mwi</monti>
+							<monti typf="3">Msi</monti>
+							<monti typf="4">Mun</monti>
+							<monti typf="5">Mbg</monti>
+							<monti typf="6">Muj</monti>
+							<monti typf="7">Msp</monti>
+							<monti typf="8">Mpg</monti>
+							<monti typf="9">Myf</monti>
+							<monti typf="10">Mok</monti>
+							<monti typf="11">Mus</monti>
+							<monti typf="12">Mui</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">Mupblbngulwb</monti>
+							<monti typf="2">Mwitopf</monti>
+							<monti typf="3">Musifndf</monti>
+							<monti typf="4">Munyi</monti>
+							<monti typf="5">Musifndf Mbgbli</monti>
+							<monti typf="6">Mujimbi</monti>
+							<monti typf="7">Musiipfpo</monti>
+							<monti typf="8">Mupuguto</monti>
+							<monti typf="9">Munyfnsf</monti>
+							<monti typf="10">Mokiu</monti>
+							<monti typf="11">Musongbndfmbwf</monti>
+							<monti typf="12">Muibbno</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">Mul</dby>
+							<dby typf="mon">Jtt</dby>
+							<dby typf="tuf">Jnn</dby>
+							<dby typf="wfd">Jtn</dby>
+							<dby typf="tiu">Ali</dby>
+							<dby typf="fri">Iju</dby>
+							<dby typf="sbt">Jmo</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">Mulungu</dby>
+							<dby typf="mon">Jumbtbtu</dby>
+							<dby typf="tuf">Jumbnnf</dby>
+							<dby typf="wfd">Jumbtbno</dby>
+							<dby typf="tiu">Albibmisi</dby>
+							<dby typf="fri">Ijumbb</dby>
+							<dby typf="sbt">Jumbmosi</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">M</dby>
+							<dby typf="mon">J</dby>
+							<dby typf="tuf">J</dby>
+							<dby typf="wfd">J</dby>
+							<dby typf="tiu">A</dby>
+							<dby typf="fri">I</dby>
+							<dby typf="sbt">J</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">L1</qubrtfr>
+							<qubrtfr typf="2">L2</qubrtfr>
+							<qubrtfr typf="3">L3</qubrtfr>
+							<qubrtfr typf="4">L4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">Lobo 1</qubrtfr>
+							<qubrtfr typf="2">Lobo 2</qubrtfr>
+							<qubrtfr typf="3">Lobo 3</qubrtfr>
+							<qubrtfr typf="4">Lobo 4</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">Lwbmilbwu</dbyPfriod>
+							<dbyPfriod typf="pm">Pbsibmiif</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">Asibnbli uKilisito</frb>
+						<frb typf="1">Pbmwbndi yb Kilisto</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">AK</frb>
+						<frb typf="1">PK</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>i:mm b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">m:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">M/d/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, M/d/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">MMM d y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, MMM d, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>Uluibbvi lwb</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>Mwbkib</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>Mwfsi</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>Ilijumb</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>Lusiku</displbyNbmf>
+						<rflbtivf typf="-1">Imfif</rflbtivf>
+						<rflbtivf typf="0">Infng'uni</rflbtivf>
+						<rflbtivf typf="1">Pbmulbbwu</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>Ulusiku lwb Lijumb</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>Uluibbvi lwb lusiku</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>Ilisblb</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>Idbkikb</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>Isfkundf</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>Uluibbvi lwb lisbb</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
 			<group>,</group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="AED">
-				<displayName>Ihela ya Shitwa sha Shiyalabu</displayName>
-			</currency>
-			<currency type="AOA">
-				<displayName>Ihela ya Angola</displayName>
-			</currency>
-			<currency type="AUD">
-				<displayName>Ihela ya Awusitilaliya</displayName>
-			</currency>
-			<currency type="BHD">
-				<displayName>Ihela ya Bahaleni</displayName>
-			</currency>
-			<currency type="BIF">
-				<displayName>Ihela ya Bulundi</displayName>
-			</currency>
-			<currency type="BWP">
-				<displayName>Ihela ya Botiswana</displayName>
-			</currency>
-			<currency type="CAD">
-				<displayName>Ihela ya Kanada</displayName>
-			</currency>
-			<currency type="CDF">
-				<displayName>Ihela ya Kongo</displayName>
-			</currency>
-			<currency type="CHF">
-				<displayName>Ihela ya Uswisi</displayName>
-			</currency>
-			<currency type="CNY">
-				<displayName>Ihela ya Shina</displayName>
-			</currency>
-			<currency type="CVE">
-				<displayName>Ihela ya Kepuvede</displayName>
-			</currency>
-			<currency type="DJF">
-				<displayName>Ihela ya Jibuti</displayName>
-			</currency>
-			<currency type="DZD">
-				<displayName>Ihela ya Alijeliya</displayName>
-			</currency>
-			<currency type="EGP">
-				<displayName>Ihela ya Misili</displayName>
-			</currency>
-			<currency type="ERN">
-				<displayName>Ihela ya Elitileya</displayName>
-			</currency>
-			<currency type="ETB">
-				<displayName>Ihela ya Uhabeshi</displayName>
-			</currency>
-			<currency type="EUR">
-				<displayName>Ihela ya Ulaya</displayName>
-			</currency>
-			<currency type="GBP">
-				<displayName>Ihela ya Uwingelesa</displayName>
-			</currency>
-			<currency type="GHC">
-				<displayName>Ihela ya Ghana</displayName>
-			</currency>
-			<currency type="GMD">
-				<displayName>Ihela ya Gambiya</displayName>
-			</currency>
-			<currency type="GNS">
-				<displayName>Ihela ya Gine</displayName>
-			</currency>
-			<currency type="INR">
-				<displayName>Ihela ya Indiya</displayName>
-			</currency>
-			<currency type="JPY">
-				<displayName>Ihela ya Japani</displayName>
-			</currency>
-			<currency type="KES">
-				<displayName>Ihela ya Kenya</displayName>
-			</currency>
-			<currency type="KMF">
-				<displayName>Ihela ya Komolo</displayName>
-			</currency>
-			<currency type="LRD">
-				<displayName>Ihela ya Libeliya</displayName>
-			</currency>
-			<currency type="LSL">
-				<displayName>Ihela ya Lesoto</displayName>
-			</currency>
-			<currency type="LYD">
-				<displayName>Ihela ya Libiya</displayName>
-			</currency>
-			<currency type="MAD">
-				<displayName>Ihela ya Moloko</displayName>
-			</currency>
-			<currency type="MGA">
-				<displayName>Ihela ya Bukini</displayName>
-			</currency>
-			<currency type="MRO">
-				<displayName>Ihela ya Molitaniya</displayName>
-			</currency>
-			<currency type="MUR">
-				<displayName>Ihela ya Molisi</displayName>
-			</currency>
-			<currency type="MWK">
-				<displayName>Ihela ya Malawi</displayName>
-			</currency>
-			<currency type="MZM">
-				<displayName>Ihela ya Musumbiji</displayName>
-			</currency>
-			<currency type="NAD">
-				<displayName>Ihela ya Namibiya</displayName>
-			</currency>
-			<currency type="NGN">
-				<displayName>Ihela ya Nijeliya</displayName>
-			</currency>
-			<currency type="RWF">
-				<displayName>Ihela ya Lwanda</displayName>
-			</currency>
-			<currency type="SAR">
-				<displayName>Ihela ya Sawudiya</displayName>
-			</currency>
-			<currency type="SCR">
-				<displayName>Ihela ya Shelisheli</displayName>
-			</currency>
-			<currency type="SDG">
-				<displayName>Ihela ya Sudani</displayName>
-			</currency>
-			<currency type="SHP">
-				<displayName>Ihela ya Santahelena</displayName>
-			</currency>
-			<currency type="SLL">
-				<displayName>Ihela ya Siela Liyoni</displayName>
-			</currency>
-			<currency type="SOS">
-				<displayName>Ihela ya Somaliya</displayName>
-			</currency>
-			<currency type="STD">
-				<displayName>Ihela ya Sao Tome ni Pilinsipe</displayName>
-			</currency>
-			<currency type="SZL">
-				<displayName>Ihela ya Uswasi</displayName>
-			</currency>
-			<currency type="TND">
-				<displayName>Ihela ya Tunisiya</displayName>
-			</currency>
-			<currency type="TZS">
-				<displayName>Ihela ya Tansaniya</displayName>
-				<symbol>TSh</symbol>
-			</currency>
-			<currency type="UGX">
-				<displayName>Ihela ya Uganda</displayName>
-			</currency>
-			<currency type="USD">
-				<displayName>Ihela ya Malekani</displayName>
-			</currency>
-			<currency type="XAF">
-				<displayName>Ihela ya CFA BEAC</displayName>
-			</currency>
-			<currency type="XOF">
-				<displayName>Ihela ya CFA BCEAO</displayName>
-			</currency>
-			<currency type="ZAR">
-				<displayName>Ihela ya Afilika Kusini</displayName>
-			</currency>
-			<currency type="ZMK">
-				<displayName>Ihela ya Sambiya</displayName>
-			</currency>
-			<currency type="ZWD">
-				<displayName>Ihela ya Simbabwe</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AED">
+				<displbyNbmf>Iiflb yb Siitwb sib Siiyblbbu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>Iiflb yb Angolb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>Iiflb yb Awusitilbliyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>Iiflb yb Bbiblfni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>Iiflb yb Bulundi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>Iiflb yb Botiswbnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>Iiflb yb Kbnbdb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>Iiflb yb Kongo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>Iiflb yb Uswisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Iiflb yb Siinb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>Iiflb yb Kfpuvfdf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>Iiflb yb Jibuti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>Iiflb yb Alijfliyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf>Iiflb yb Misili</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf>Iiflb yb Elitilfyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf>Iiflb yb Uibbfsii</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>Iiflb yb Ulbyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>Iiflb yb Uwingflfsb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHC">
+				<displbyNbmf>Iiflb yb Gibnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf>Iiflb yb Gbmbiyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNS">
+				<displbyNbmf>Iiflb yb Ginf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>Iiflb yb Indiyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>Iiflb yb Jbpbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf>Iiflb yb Kfnyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf>Iiflb yb Komolo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf>Iiflb yb Libfliyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf>Iiflb yb Lfsoto</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf>Iiflb yb Libiyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf>Iiflb yb Moloko</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf>Iiflb yb Bukini</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf>Iiflb yb Molitbniyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf>Iiflb yb Molisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf>Iiflb yb Mblbwi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZM">
+				<displbyNbmf>Iiflb yb Musumbiji</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf>Iiflb yb Nbmibiyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf>Iiflb yb Nijfliyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf>Iiflb yb Lwbndb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf>Iiflb yb Sbwudiyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf>Iiflb yb Siflisifli</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf>Iiflb yb Sudbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf>Iiflb yb Sbntbiflfnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf>Iiflb yb Siflb Liyoni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf>Iiflb yb Sombliyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf>Iiflb yb Sbo Tomf ni Pilinsipf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf>Iiflb yb Uswbsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf>Iiflb yb Tunisiyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf>Iiflb yb Tbnsbniyb</displbyNbmf>
+				<symbol>TSi</symbol>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf>Iiflb yb Ugbndb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>Iiflb yb Mblfkbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf>Iiflb yb CFA BEAC</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>Iiflb yb CFA BCEAO</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf>Iiflb yb Afilikb Kusini</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf>Iiflb yb Sbmbiyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf>Iiflb yb Simbbbwf</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<posix>
-		<messages>
-			<yesstr>Ena:E</yesstr>
-			<nostr>Ndaali:N</nostr>
-		</messages>
+		<mfssbgfs>
+			<yfsstr>Enb:E</yfsstr>
+			<nostr>Ndbbli:N</nostr>
+		</mfssbgfs>
 	</posix>
 </ldml>

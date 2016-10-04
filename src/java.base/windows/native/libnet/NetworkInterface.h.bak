@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef NETWORK_INTERFACE_H
-#define NETWORK_INTERFACE_H
+#ifndff NETWORK_INTERFACE_H
+#dffinf NETWORK_INTERFACE_H
 
-#include <iphlpapi.h>
-#include "net_util.h"
+#indludf <ipilpbpi.i>
+#indludf "nft_util.i"
 
 /*
- * Structures used when enumerating interfaces and addresses
+ * Strudturfs usfd wifn fnumfrbting intfrfbdfs bnd bddrfssfs
  */
-typedef struct _netaddr  {
-    SOCKETADDRESS    addr;                  /* IPv4 or IPv6 address */
-    SOCKETADDRESS    brdcast;
-    short            mask;
-    struct _netaddr *next;
-} netaddr;
+typfdff strudt _nftbddr  {
+    SOCKETADDRESS    bddr;                  /* IPv4 or IPv6 bddrfss */
+    SOCKETADDRESS    brddbst;
+    siort            mbsk;
+    strudt _nftbddr *nfxt;
+} nftbddr;
 
-typedef struct _netif {
-    char *name;
-    char *displayName;
-    DWORD dwIndex;              /* Internal index */
-    DWORD ifType;               /* Interface type */
-    int index;                  /* Friendly index */
-    struct _netif *next;
+typfdff strudt _nftif {
+    dibr *nbmf;
+    dibr *displbyNbmf;
+    DWORD dwIndfx;              /* Intfrnbl indfx */
+    DWORD ifTypf;               /* Intfrfbdf typf */
+    int indfx;                  /* Frifndly indfx */
+    strudt _nftif *nfxt;
 
-    /* Following fields used on Windows XP when IPv6 is used only */
-    jboolean hasIpv6Address;    /* true when following fields valid */
-    jboolean dNameIsUnicode;    /* Display Name is Unicode */
-    int naddrs;                 /* Number of addrs */
-    DWORD ipv6Index;
-    struct _netaddr *addrs;     /* addr list for interfaces */
-} netif;
+    /* Following fiflds usfd on Windows XP wifn IPv6 is usfd only */
+    jboolfbn ibsIpv6Addrfss;    /* truf wifn following fiflds vblid */
+    jboolfbn dNbmfIsUnidodf;    /* Displby Nbmf is Unidodf */
+    int nbddrs;                 /* Numbfr of bddrs */
+    DWORD ipv6Indfx;
+    strudt _nftbddr *bddrs;     /* bddr list for intfrfbdfs */
+} nftif;
 
-extern void free_netif(netif *netifP);
-extern void free_netaddr(netaddr *netaddrP);
+fxtfrn void frff_nftif(nftif *nftifP);
+fxtfrn void frff_nftbddr(nftbddr *nftbddrP);
 
-/* various JNI ids */
-extern jclass ni_class;             /* NetworkInterface */
+/* vbrious JNI ids */
+fxtfrn jdlbss ni_dlbss;             /* NftworkIntfrfbdf */
 
-extern jmethodID ni_ctor;           /* NetworkInterface() */
+fxtfrn jmftiodID ni_dtor;           /* NftworkIntfrfbdf() */
 
-extern jfieldID ni_indexID;         /* NetworkInterface.index */
-extern jfieldID ni_addrsID;         /* NetworkInterface.addrs */
-extern jfieldID ni_bindsID;         /* NetworkInterface.bindings */
-extern jfieldID ni_nameID;          /* NetworkInterface.name */
-extern jfieldID ni_displayNameID;   /* NetworkInterface.displayName */
-extern jfieldID ni_childsID;        /* NetworkInterface.childs */
+fxtfrn jfifldID ni_indfxID;         /* NftworkIntfrfbdf.indfx */
+fxtfrn jfifldID ni_bddrsID;         /* NftworkIntfrfbdf.bddrs */
+fxtfrn jfifldID ni_bindsID;         /* NftworkIntfrfbdf.bindings */
+fxtfrn jfifldID ni_nbmfID;          /* NftworkIntfrfbdf.nbmf */
+fxtfrn jfifldID ni_displbyNbmfID;   /* NftworkIntfrfbdf.displbyNbmf */
+fxtfrn jfifldID ni_diildsID;        /* NftworkIntfrfbdf.diilds */
 
-extern jclass ni_ibcls;             /* InterfaceAddress */
-extern jmethodID ni_ibctrID;        /* InterfaceAddress() */
-extern jfieldID ni_ibaddressID;     /* InterfaceAddress.address */
-extern jfieldID ni_ibbroadcastID;   /* InterfaceAddress.broadcast */
-extern jfieldID ni_ibmaskID;        /* InterfaceAddress.maskLength */
+fxtfrn jdlbss ni_ibdls;             /* IntfrfbdfAddrfss */
+fxtfrn jmftiodID ni_ibdtrID;        /* IntfrfbdfAddrfss() */
+fxtfrn jfifldID ni_ibbddrfssID;     /* IntfrfbdfAddrfss.bddrfss */
+fxtfrn jfifldID ni_ibbrobddbstID;   /* IntfrfbdfAddrfss.brobddbst */
+fxtfrn jfifldID ni_ibmbskID;        /* IntfrfbdfAddrfss.mbskLfngti */
 
-int enumInterfaces(JNIEnv *env, netif **netifPP);
+int fnumIntfrfbdfs(JNIEnv *fnv, nftif **nftifPP);
 
-// Windows Visa (and later) only.....
-#ifndef IF_TYPE_IEEE80211
-#define IF_TYPE_IEEE80211     71
-#endif
+// Windows Visb (bnd lbtfr) only.....
+#ifndff IF_TYPE_IEEE80211
+#dffinf IF_TYPE_IEEE80211     71
+#fndif
 
-#endif
+#fndif

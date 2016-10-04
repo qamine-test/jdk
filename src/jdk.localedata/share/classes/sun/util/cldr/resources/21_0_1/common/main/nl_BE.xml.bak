@@ -1,80 +1,80 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="nl"/>
-		<territory type="BE"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="lv">Lets</language>
-			<language type="oc">Occitaans (na 1500); Provençaals</language>
-			<language type="sh">Servo-Kroatisch</language>
-			<language type="ssa" draft="provisional">Nilo-Saharaans</language>
-		</languages>
-		<territories>
-			<territory type="013" draft="provisional">Centraal-Amerika</territory>
-			<territory type="IM">Het Eiland Man</territory>
-			<territory type="MV" draft="unconfirmed">Malediven</territory>
-			<territory type="SB" draft="unconfirmed">Salomoneilanden</territory>
-		</territories>
-		<types>
-			<type type="traditional" key="collation">Traditioneel</type>
-		</types>
-	</localeDisplayNames>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<dateFormats>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d-MMM-y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/MM/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<intervalFormats>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d" draft="unconfirmed">d/MM - d/MM</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d/MM - d/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d" draft="unconfirmed">E d/MM - E d/MM</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E d/MM - E d/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="unconfirmed">MM/yy - MM/yy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MM/yy - MM/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="unconfirmed">d/MM/yy - d/MM/yy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d/MM/yy - d/MM/yy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">d/MM/yy - d/MM/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="unconfirmed">E d/MM/yy - E d/MM/yy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E d/MM/yy - E d/MM/yy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E d/MM/yy - E d/MM/yy</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00 ¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-	</numbers>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="nl"/>
+		<tfrritory typf="BE"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="lv">Lfts</lbngubgf>
+			<lbngubgf typf="od">Odditbbns (nb 1500); Provfnçbbls</lbngubgf>
+			<lbngubgf typf="si">Sfrvo-Krobtisdi</lbngubgf>
+			<lbngubgf typf="ssb" drbft="provisionbl">Nilo-Sbibrbbns</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="013" drbft="provisionbl">Cfntrbbl-Amfrikb</tfrritory>
+			<tfrritory typf="IM">Hft Eilbnd Mbn</tfrritory>
+			<tfrritory typf="MV" drbft="undonfirmfd">Mblfdivfn</tfrritory>
+			<tfrritory typf="SB" drbft="undonfirmfd">Sblomonfilbndfn</tfrritory>
+		</tfrritorifs>
+		<typfs>
+			<typf typf="trbditionbl" kfy="dollbtion">Trbditionffl</typf>
+		</typfs>
+	</lodblfDisplbyNbmfs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d-MMM-y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>d/MM/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/MM - d/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/MM - d/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E d/MM - E d/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E d/MM - E d/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MM/yy - MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">MM/yy - MM/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/MM/yy - d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/MM/yy - d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">d/MM/yy - d/MM/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E d/MM/yy - E d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E d/MM/yy - E d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E d/MM/yy - E d/MM/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+	</numbfrs>
 </ldml>

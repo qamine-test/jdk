@@ -1,0 +1,520 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ *
+ * Thf {@dodf Bytf} dlbss wrbps b vbluf of primitivf typf {@dodf bytf}
+ * in bn objfdt.  An objfdt of typf {@dodf Bytf} dontbins b singlf
+ * fifld whosf typf is {@dodf bytf}.
+ *
+ * <p>In bddition, this dlbss providfs sfvfrbl mfthods for donvfrting
+ * b {@dodf bytf} to b {@dodf String} bnd b {@dodf String} to b {@dodf
+ * bytf}, bs wfll bs othfr donstbnts bnd mfthods usfful whfn dfbling
+ * with b {@dodf bytf}.
+ *
+ * @buthor  Nbkul Sbrbiyb
+ * @buthor  Josfph D. Dbrdy
+ * @sff     jbvb.lbng.Numbfr
+ * @sindf   1.1
+ */
+publid finbl dlbss Bytf fxtfnds Numbfr implfmfnts Compbrbblf<Bytf> {
+
+    /**
+     * A donstbnt holding thf minimum vbluf b {@dodf bytf} dbn
+     * hbvf, -2<sup>7</sup>.
+     */
+    publid stbtid finbl bytf   MIN_VALUE = -128;
+
+    /**
+     * A donstbnt holding thf mbximum vbluf b {@dodf bytf} dbn
+     * hbvf, 2<sup>7</sup>-1.
+     */
+    publid stbtid finbl bytf   MAX_VALUE = 127;
+
+    /**
+     * Thf {@dodf Clbss} instbndf rfprfsfnting thf primitivf typf
+     * {@dodf bytf}.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid finbl Clbss<Bytf>     TYPE = (Clbss<Bytf>) Clbss.gftPrimitivfClbss("bytf");
+
+    /**
+     * Rfturns b nfw {@dodf String} objfdt rfprfsfnting thf
+     * spfdififd {@dodf bytf}. Thf rbdix is bssumfd to bf 10.
+     *
+     * @pbrbm b thf {@dodf bytf} to bf donvfrtfd
+     * @rfturn thf string rfprfsfntbtion of thf spfdififd {@dodf bytf}
+     * @sff jbvb.lbng.Intfgfr#toString(int)
+     */
+    publid stbtid String toString(bytf b) {
+        rfturn Intfgfr.toString((int)b, 10);
+    }
+
+    privbtf stbtid dlbss BytfCbdhf {
+        privbtf BytfCbdhf(){}
+
+        stbtid finbl Bytf dbdhf[] = nfw Bytf[-(-128) + 127 + 1];
+
+        stbtid {
+            for(int i = 0; i < dbdhf.lfngth; i++)
+                dbdhf[i] = nfw Bytf((bytf)(i - 128));
+        }
+    }
+
+    /**
+     * Rfturns b {@dodf Bytf} instbndf rfprfsfnting thf spfdififd
+     * {@dodf bytf} vbluf.
+     * If b nfw {@dodf Bytf} instbndf is not rfquirfd, this mfthod
+     * should gfnfrblly bf usfd in prfffrfndf to thf donstrudtor
+     * {@link #Bytf(bytf)}, bs this mfthod is likfly to yifld
+     * signifidbntly bfttfr spbdf bnd timf pfrformbndf sindf
+     * bll bytf vblufs brf dbdhfd.
+     *
+     * @pbrbm  b b bytf vbluf.
+     * @rfturn b {@dodf Bytf} instbndf rfprfsfnting {@dodf b}.
+     * @sindf  1.5
+     */
+    publid stbtid Bytf vblufOf(bytf b) {
+        finbl int offsft = 128;
+        rfturn BytfCbdhf.dbdhf[(int)b + offsft];
+    }
+
+    /**
+     * Pbrsfs thf string brgumfnt bs b signfd {@dodf bytf} in thf
+     * rbdix spfdififd by thf sfdond brgumfnt. Thf dhbrbdtfrs in thf
+     * string must bll bf digits, of thf spfdififd rbdix (bs
+     * dftfrminfd by whfthfr {@link jbvb.lbng.Chbrbdtfr#digit(dhbr,
+     * int)} rfturns b nonnfgbtivf vbluf) fxdfpt thbt thf first
+     * dhbrbdtfr mby bf bn ASCII minus sign {@dodf '-'}
+     * ({@dodf '\u005Cu002D'}) to indidbtf b nfgbtivf vbluf or bn
+     * ASCII plus sign {@dodf '+'} ({@dodf '\u005Cu002B'}) to
+     * indidbtf b positivf vbluf.  Thf rfsulting {@dodf bytf} vbluf is
+     * rfturnfd.
+     *
+     * <p>An fxdfption of typf {@dodf NumbfrFormbtExdfption} is
+     * thrown if bny of thf following situbtions oddurs:
+     * <ul>
+     * <li> Thf first brgumfnt is {@dodf null} or is b string of
+     * lfngth zfro.
+     *
+     * <li> Thf rbdix is fithfr smbllfr thbn {@link
+     * jbvb.lbng.Chbrbdtfr#MIN_RADIX} or lbrgfr thbn {@link
+     * jbvb.lbng.Chbrbdtfr#MAX_RADIX}.
+     *
+     * <li> Any dhbrbdtfr of thf string is not b digit of thf
+     * spfdififd rbdix, fxdfpt thbt thf first dhbrbdtfr mby bf b minus
+     * sign {@dodf '-'} ({@dodf '\u005Cu002D'}) or plus sign
+     * {@dodf '+'} ({@dodf '\u005Cu002B'}) providfd thbt thf
+     * string is longfr thbn lfngth 1.
+     *
+     * <li> Thf vbluf rfprfsfntfd by thf string is not b vbluf of typf
+     * {@dodf bytf}.
+     * </ul>
+     *
+     * @pbrbm s         thf {@dodf String} dontbining thf
+     *                  {@dodf bytf}
+     *                  rfprfsfntbtion to bf pbrsfd
+     * @pbrbm rbdix     thf rbdix to bf usfd whilf pbrsing {@dodf s}
+     * @rfturn          thf {@dodf bytf} vbluf rfprfsfntfd by thf string
+     *                   brgumfnt in thf spfdififd rbdix
+     * @throws          NumbfrFormbtExdfption If thf string dofs
+     *                  not dontbin b pbrsbblf {@dodf bytf}.
+     */
+    publid stbtid bytf pbrsfBytf(String s, int rbdix)
+        throws NumbfrFormbtExdfption {
+        int i = Intfgfr.pbrsfInt(s, rbdix);
+        if (i < MIN_VALUE || i > MAX_VALUE)
+            throw nfw NumbfrFormbtExdfption(
+                "Vbluf out of rbngf. Vbluf:\"" + s + "\" Rbdix:" + rbdix);
+        rfturn (bytf)i;
+    }
+
+    /**
+     * Pbrsfs thf string brgumfnt bs b signfd dfdimbl {@dodf
+     * bytf}. Thf dhbrbdtfrs in thf string must bll bf dfdimbl digits,
+     * fxdfpt thbt thf first dhbrbdtfr mby bf bn ASCII minus sign
+     * {@dodf '-'} ({@dodf '\u005Cu002D'}) to indidbtf b nfgbtivf
+     * vbluf or bn ASCII plus sign {@dodf '+'}
+     * ({@dodf '\u005Cu002B'}) to indidbtf b positivf vbluf. Thf
+     * rfsulting {@dodf bytf} vbluf is rfturnfd, fxbdtly bs if thf
+     * brgumfnt bnd thf rbdix 10 wfrf givfn bs brgumfnts to thf {@link
+     * #pbrsfBytf(jbvb.lbng.String, int)} mfthod.
+     *
+     * @pbrbm s         b {@dodf String} dontbining thf
+     *                  {@dodf bytf} rfprfsfntbtion to bf pbrsfd
+     * @rfturn          thf {@dodf bytf} vbluf rfprfsfntfd by thf
+     *                  brgumfnt in dfdimbl
+     * @throws          NumbfrFormbtExdfption if thf string dofs not
+     *                  dontbin b pbrsbblf {@dodf bytf}.
+     */
+    publid stbtid bytf pbrsfBytf(String s) throws NumbfrFormbtExdfption {
+        rfturn pbrsfBytf(s, 10);
+    }
+
+    /**
+     * Rfturns b {@dodf Bytf} objfdt holding thf vbluf
+     * fxtrbdtfd from thf spfdififd {@dodf String} whfn pbrsfd
+     * with thf rbdix givfn by thf sfdond brgumfnt. Thf first brgumfnt
+     * is intfrprftfd bs rfprfsfnting b signfd {@dodf bytf} in
+     * thf rbdix spfdififd by thf sfdond brgumfnt, fxbdtly bs if thf
+     * brgumfnt wfrf givfn to thf {@link #pbrsfBytf(jbvb.lbng.String,
+     * int)} mfthod. Thf rfsult is b {@dodf Bytf} objfdt thbt
+     * rfprfsfnts thf {@dodf bytf} vbluf spfdififd by thf string.
+     *
+     * <p> In othfr words, this mfthod rfturns b {@dodf Bytf} objfdt
+     * fqubl to thf vbluf of:
+     *
+     * <blodkquotf>
+     * {@dodf nfw Bytf(Bytf.pbrsfBytf(s, rbdix))}
+     * </blodkquotf>
+     *
+     * @pbrbm s         thf string to bf pbrsfd
+     * @pbrbm rbdix     thf rbdix to bf usfd in intfrprfting {@dodf s}
+     * @rfturn          b {@dodf Bytf} objfdt holding thf vbluf
+     *                  rfprfsfntfd by thf string brgumfnt in thf
+     *                  spfdififd rbdix.
+     * @throws          NumbfrFormbtExdfption If thf {@dodf String} dofs
+     *                  not dontbin b pbrsbblf {@dodf bytf}.
+     */
+    publid stbtid Bytf vblufOf(String s, int rbdix)
+        throws NumbfrFormbtExdfption {
+        rfturn vblufOf(pbrsfBytf(s, rbdix));
+    }
+
+    /**
+     * Rfturns b {@dodf Bytf} objfdt holding thf vbluf
+     * givfn by thf spfdififd {@dodf String}. Thf brgumfnt is
+     * intfrprftfd bs rfprfsfnting b signfd dfdimbl {@dodf bytf},
+     * fxbdtly bs if thf brgumfnt wfrf givfn to thf {@link
+     * #pbrsfBytf(jbvb.lbng.String)} mfthod. Thf rfsult is b
+     * {@dodf Bytf} objfdt thbt rfprfsfnts thf {@dodf bytf}
+     * vbluf spfdififd by thf string.
+     *
+     * <p> In othfr words, this mfthod rfturns b {@dodf Bytf} objfdt
+     * fqubl to thf vbluf of:
+     *
+     * <blodkquotf>
+     * {@dodf nfw Bytf(Bytf.pbrsfBytf(s))}
+     * </blodkquotf>
+     *
+     * @pbrbm s         thf string to bf pbrsfd
+     * @rfturn          b {@dodf Bytf} objfdt holding thf vbluf
+     *                  rfprfsfntfd by thf string brgumfnt
+     * @throws          NumbfrFormbtExdfption If thf {@dodf String} dofs
+     *                  not dontbin b pbrsbblf {@dodf bytf}.
+     */
+    publid stbtid Bytf vblufOf(String s) throws NumbfrFormbtExdfption {
+        rfturn vblufOf(s, 10);
+    }
+
+    /**
+     * Dfdodfs b {@dodf String} into b {@dodf Bytf}.
+     * Addfpts dfdimbl, hfxbdfdimbl, bnd odtbl numbfrs givfn by
+     * thf following grbmmbr:
+     *
+     * <blodkquotf>
+     * <dl>
+     * <dt><i>DfdodbblfString:</i>
+     * <dd><i>Sign<sub>opt</sub> DfdimblNumfrbl</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf 0x} <i>HfxDigits</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf 0X} <i>HfxDigits</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf #} <i>HfxDigits</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf 0} <i>OdtblDigits</i>
+     *
+     * <dt><i>Sign:</i>
+     * <dd>{@dodf -}
+     * <dd>{@dodf +}
+     * </dl>
+     * </blodkquotf>
+     *
+     * <i>DfdimblNumfrbl</i>, <i>HfxDigits</i>, bnd <i>OdtblDigits</i>
+     * brf bs dffinfd in sfdtion 3.10.1 of
+     * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>,
+     * fxdfpt thbt undfrsdorfs brf not bddfptfd bftwffn digits.
+     *
+     * <p>Thf sfqufndf of dhbrbdtfrs following bn optionbl
+     * sign bnd/or rbdix spfdififr ("{@dodf 0x}", "{@dodf 0X}",
+     * "{@dodf #}", or lfbding zfro) is pbrsfd bs by thf {@dodf
+     * Bytf.pbrsfBytf} mfthod with thf indidbtfd rbdix (10, 16, or 8).
+     * This sfqufndf of dhbrbdtfrs must rfprfsfnt b positivf vbluf or
+     * b {@link NumbfrFormbtExdfption} will bf thrown.  Thf rfsult is
+     * nfgbtfd if first dhbrbdtfr of thf spfdififd {@dodf String} is
+     * thf minus sign.  No whitfspbdf dhbrbdtfrs brf pfrmittfd in thf
+     * {@dodf String}.
+     *
+     * @pbrbm     nm thf {@dodf String} to dfdodf.
+     * @rfturn   b {@dodf Bytf} objfdt holding thf {@dodf bytf}
+     *          vbluf rfprfsfntfd by {@dodf nm}
+     * @throws  NumbfrFormbtExdfption  if thf {@dodf String} dofs not
+     *            dontbin b pbrsbblf {@dodf bytf}.
+     * @sff jbvb.lbng.Bytf#pbrsfBytf(jbvb.lbng.String, int)
+     */
+    publid stbtid Bytf dfdodf(String nm) throws NumbfrFormbtExdfption {
+        int i = Intfgfr.dfdodf(nm);
+        if (i < MIN_VALUE || i > MAX_VALUE)
+            throw nfw NumbfrFormbtExdfption(
+                    "Vbluf " + i + " out of rbngf from input " + nm);
+        rfturn vblufOf((bytf)i);
+    }
+
+    /**
+     * Thf vbluf of thf {@dodf Bytf}.
+     *
+     * @sfribl
+     */
+    privbtf finbl bytf vbluf;
+
+    /**
+     * Construdts b nfwly bllodbtfd {@dodf Bytf} objfdt thbt
+     * rfprfsfnts thf spfdififd {@dodf bytf} vbluf.
+     *
+     * @pbrbm vbluf     thf vbluf to bf rfprfsfntfd by thf
+     *                  {@dodf Bytf}.
+     */
+    publid Bytf(bytf vbluf) {
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * Construdts b nfwly bllodbtfd {@dodf Bytf} objfdt thbt
+     * rfprfsfnts thf {@dodf bytf} vbluf indidbtfd by thf
+     * {@dodf String} pbrbmftfr. Thf string is donvfrtfd to b
+     * {@dodf bytf} vbluf in fxbdtly thf mbnnfr usfd by thf
+     * {@dodf pbrsfBytf} mfthod for rbdix 10.
+     *
+     * @pbrbm s         thf {@dodf String} to bf donvfrtfd to b
+     *                  {@dodf Bytf}
+     * @throws           NumbfrFormbtExdfption If thf {@dodf String}
+     *                  dofs not dontbin b pbrsbblf {@dodf bytf}.
+     * @sff        jbvb.lbng.Bytf#pbrsfBytf(jbvb.lbng.String, int)
+     */
+    publid Bytf(String s) throws NumbfrFormbtExdfption {
+        this.vbluf = pbrsfBytf(s, 10);
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Bytf} bs b
+     * {@dodf bytf}.
+     */
+    publid bytf bytfVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Bytf} bs b {@dodf short} bftfr
+     * b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
+     */
+    publid short shortVbluf() {
+        rfturn (short)vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Bytf} bs bn {@dodf int} bftfr
+     * b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
+     */
+    publid int intVbluf() {
+        rfturn (int)vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Bytf} bs b {@dodf long} bftfr
+     * b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
+     */
+    publid long longVbluf() {
+        rfturn (long)vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Bytf} bs b {@dodf flobt} bftfr
+     * b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
+     */
+    publid flobt flobtVbluf() {
+        rfturn (flobt)vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Bytf} bs b {@dodf doublf}
+     * bftfr b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
+     */
+    publid doublf doublfVbluf() {
+        rfturn (doublf)vbluf;
+    }
+
+    /**
+     * Rfturns b {@dodf String} objfdt rfprfsfnting this
+     * {@dodf Bytf}'s vbluf.  Thf vbluf is donvfrtfd to signfd
+     * dfdimbl rfprfsfntbtion bnd rfturnfd bs b string, fxbdtly bs if
+     * thf {@dodf bytf} vbluf wfrf givfn bs bn brgumfnt to thf
+     * {@link jbvb.lbng.Bytf#toString(bytf)} mfthod.
+     *
+     * @rfturn  b string rfprfsfntbtion of thf vbluf of this objfdt in
+     *          bbsf&nbsp;10.
+     */
+    publid String toString() {
+        rfturn Intfgfr.toString((int)vbluf);
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this {@dodf Bytf}; fqubl to thf rfsult
+     * of invoking {@dodf intVbluf()}.
+     *
+     * @rfturn b hbsh dodf vbluf for this {@dodf Bytf}
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn Bytf.hbshCodf(vbluf);
+    }
+
+    /**
+     * Rfturns b hbsh dodf for b {@dodf bytf} vbluf; dompbtiblf with
+     * {@dodf Bytf.hbshCodf()}.
+     *
+     * @pbrbm vbluf thf vbluf to hbsh
+     * @rfturn b hbsh dodf vbluf for b {@dodf bytf} vbluf.
+     * @sindf 1.8
+     */
+    publid stbtid int hbshCodf(bytf vbluf) {
+        rfturn (int)vbluf;
+    }
+
+    /**
+     * Compbrfs this objfdt to thf spfdififd objfdt.  Thf rfsult is
+     * {@dodf truf} if bnd only if thf brgumfnt is not
+     * {@dodf null} bnd is b {@dodf Bytf} objfdt thbt
+     * dontbins thf sbmf {@dodf bytf} vbluf bs this objfdt.
+     *
+     * @pbrbm obj       thf objfdt to dompbrf with
+     * @rfturn          {@dodf truf} if thf objfdts brf thf sbmf;
+     *                  {@dodf fblsf} othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Bytf) {
+            rfturn vbluf == ((Bytf)obj).bytfVbluf();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Compbrfs two {@dodf Bytf} objfdts numfridblly.
+     *
+     * @pbrbm   bnothfrBytf   thf {@dodf Bytf} to bf dompbrfd.
+     * @rfturn  thf vbluf {@dodf 0} if this {@dodf Bytf} is
+     *          fqubl to thf brgumfnt {@dodf Bytf}; b vbluf lfss thbn
+     *          {@dodf 0} if this {@dodf Bytf} is numfridblly lfss
+     *          thbn thf brgumfnt {@dodf Bytf}; bnd b vbluf grfbtfr thbn
+     *           {@dodf 0} if this {@dodf Bytf} is numfridblly
+     *           grfbtfr thbn thf brgumfnt {@dodf Bytf} (signfd
+     *           dompbrison).
+     * @sindf   1.2
+     */
+    publid int dompbrfTo(Bytf bnothfrBytf) {
+        rfturn dompbrf(this.vbluf, bnothfrBytf.vbluf);
+    }
+
+    /**
+     * Compbrfs two {@dodf bytf} vblufs numfridblly.
+     * Thf vbluf rfturnfd is idfntidbl to whbt would bf rfturnfd by:
+     * <prf>
+     *    Bytf.vblufOf(x).dompbrfTo(Bytf.vblufOf(y))
+     * </prf>
+     *
+     * @pbrbm  x thf first {@dodf bytf} to dompbrf
+     * @pbrbm  y thf sfdond {@dodf bytf} to dompbrf
+     * @rfturn thf vbluf {@dodf 0} if {@dodf x == y};
+     *         b vbluf lfss thbn {@dodf 0} if {@dodf x < y}; bnd
+     *         b vbluf grfbtfr thbn {@dodf 0} if {@dodf x > y}
+     * @sindf 1.7
+     */
+    publid stbtid int dompbrf(bytf x, bytf y) {
+        rfturn x - y;
+    }
+
+    /**
+     * Convfrts thf brgumfnt to bn {@dodf int} by bn unsignfd
+     * donvfrsion.  In bn unsignfd donvfrsion to bn {@dodf int}, thf
+     * high-ordfr 24 bits of thf {@dodf int} brf zfro bnd thf
+     * low-ordfr 8 bits brf fqubl to thf bits of thf {@dodf bytf} brgumfnt.
+     *
+     * Consfqufntly, zfro bnd positivf {@dodf bytf} vblufs brf mbppfd
+     * to b numfridblly fqubl {@dodf int} vbluf bnd nfgbtivf {@dodf
+     * bytf} vblufs brf mbppfd to bn {@dodf int} vbluf fqubl to thf
+     * input plus 2<sup>8</sup>.
+     *
+     * @pbrbm  x thf vbluf to donvfrt to bn unsignfd {@dodf int}
+     * @rfturn thf brgumfnt donvfrtfd to {@dodf int} by bn unsignfd
+     *         donvfrsion
+     * @sindf 1.8
+     */
+    publid stbtid int toUnsignfdInt(bytf x) {
+        rfturn ((int) x) & 0xff;
+    }
+
+    /**
+     * Convfrts thf brgumfnt to b {@dodf long} by bn unsignfd
+     * donvfrsion.  In bn unsignfd donvfrsion to b {@dodf long}, thf
+     * high-ordfr 56 bits of thf {@dodf long} brf zfro bnd thf
+     * low-ordfr 8 bits brf fqubl to thf bits of thf {@dodf bytf} brgumfnt.
+     *
+     * Consfqufntly, zfro bnd positivf {@dodf bytf} vblufs brf mbppfd
+     * to b numfridblly fqubl {@dodf long} vbluf bnd nfgbtivf {@dodf
+     * bytf} vblufs brf mbppfd to b {@dodf long} vbluf fqubl to thf
+     * input plus 2<sup>8</sup>.
+     *
+     * @pbrbm  x thf vbluf to donvfrt to bn unsignfd {@dodf long}
+     * @rfturn thf brgumfnt donvfrtfd to {@dodf long} by bn unsignfd
+     *         donvfrsion
+     * @sindf 1.8
+     */
+    publid stbtid long toUnsignfdLong(bytf x) {
+        rfturn ((long) x) & 0xffL;
+    }
+
+
+    /**
+     * Thf numbfr of bits usfd to rfprfsfnt b {@dodf bytf} vbluf in two's
+     * domplfmfnt binbry form.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl int SIZE = 8;
+
+    /**
+     * Thf numbfr of bytfs usfd to rfprfsfnt b {@dodf bytf} vbluf in two's
+     * domplfmfnt binbry form.
+     *
+     * @sindf 1.8
+     */
+    publid stbtid finbl int BYTES = SIZE / Bytf.SIZE;
+
+    /** usf sfriblVfrsionUID from JDK 1.1. for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7183698231559129828L;
+}

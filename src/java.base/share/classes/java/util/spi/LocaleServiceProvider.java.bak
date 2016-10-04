@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.spi;
+pbdkbgf jbvb.util.spi;
 
-import java.util.Locale;
+import jbvb.util.Lodblf;
 
 /**
  * <p>
- * This is the super class of all the locale sensitive service provider
- * interfaces (SPIs).
+ * Tiis is tif supfr dlbss of bll tif lodblf sfnsitivf sfrvidf providfr
+ * intfrfbdfs (SPIs).
  * <p>
- * Locale sensitive  service provider interfaces are interfaces that
- * correspond to locale sensitive classes in the <code>java.text</code>
- * and <code>java.util</code> packages. The interfaces enable the
- * construction of locale sensitive objects and the retrieval of
- * localized names for these packages. Locale sensitive factory methods
- * and methods for name retrieval in the <code>java.text</code> and
- * <code>java.util</code> packages use implementations of the provider
- * interfaces to offer support for locales beyond the set of locales
- * supported by the Java runtime environment itself.
+ * Lodblf sfnsitivf  sfrvidf providfr intfrfbdfs brf intfrfbdfs tibt
+ * dorrfspond to lodblf sfnsitivf dlbssfs in tif <dodf>jbvb.tfxt</dodf>
+ * bnd <dodf>jbvb.util</dodf> pbdkbgfs. Tif intfrfbdfs fnbblf tif
+ * donstrudtion of lodblf sfnsitivf objfdts bnd tif rftrifvbl of
+ * lodblizfd nbmfs for tifsf pbdkbgfs. Lodblf sfnsitivf fbdtory mftiods
+ * bnd mftiods for nbmf rftrifvbl in tif <dodf>jbvb.tfxt</dodf> bnd
+ * <dodf>jbvb.util</dodf> pbdkbgfs usf implfmfntbtions of tif providfr
+ * intfrfbdfs to offfr support for lodblfs bfyond tif sft of lodblfs
+ * supportfd by tif Jbvb runtimf fnvironmfnt itsflf.
  *
- * <h3>Packaging of Locale Sensitive Service Provider Implementations</h3>
- * Implementations of these locale sensitive services are packaged using the
- * <a href="../../../../technotes/guides/extensions/index.html">Java Extension Mechanism</a>
- * as installed extensions.  A provider identifies itself with a
- * provider-configuration file in the resource directory META-INF/services,
- * using the fully qualified provider interface class name as the file name.
- * The file should contain a list of fully-qualified concrete provider class names,
- * one per line. A line is terminated by any one of a line feed ('\n'), a carriage
- * return ('\r'), or a carriage return followed immediately by a line feed. Space
- * and tab characters surrounding each name, as well as blank lines, are ignored.
- * The comment character is '#' ('\u0023'); on each line all characters following
- * the first comment character are ignored. The file must be encoded in UTF-8.
+ * <i3>Pbdkbging of Lodblf Sfnsitivf Sfrvidf Providfr Implfmfntbtions</i3>
+ * Implfmfntbtions of tifsf lodblf sfnsitivf sfrvidfs brf pbdkbgfd using tif
+ * <b irff="../../../../tfdinotfs/guidfs/fxtfnsions/indfx.itml">Jbvb Extfnsion Mfdibnism</b>
+ * bs instbllfd fxtfnsions.  A providfr idfntififs itsflf witi b
+ * providfr-donfigurbtion filf in tif rfsourdf dirfdtory META-INF/sfrvidfs,
+ * using tif fully qublififd providfr intfrfbdf dlbss nbmf bs tif filf nbmf.
+ * Tif filf siould dontbin b list of fully-qublififd dondrftf providfr dlbss nbmfs,
+ * onf pfr linf. A linf is tfrminbtfd by bny onf of b linf fffd ('\n'), b dbrribgf
+ * rfturn ('\r'), or b dbrribgf rfturn followfd immfdibtfly by b linf fffd. Spbdf
+ * bnd tbb dibrbdtfrs surrounding fbdi nbmf, bs wfll bs blbnk linfs, brf ignorfd.
+ * Tif dommfnt dibrbdtfr is '#' ('\u0023'); on fbdi linf bll dibrbdtfrs following
+ * tif first dommfnt dibrbdtfr brf ignorfd. Tif filf must bf fndodfd in UTF-8.
  * <p>
- * If a particular concrete provider class is named in more than one configuration
- * file, or is named in the same configuration file more than once, then the
- * duplicates will be ignored. The configuration file naming a particular provider
- * need not be in the same jar file or other distribution unit as the provider itself.
- * The provider must be accessible from the same class loader that was initially
- * queried to locate the configuration file; this is not necessarily the class loader
- * that loaded the file.
+ * If b pbrtidulbr dondrftf providfr dlbss is nbmfd in morf tibn onf donfigurbtion
+ * filf, or is nbmfd in tif sbmf donfigurbtion filf morf tibn ondf, tifn tif
+ * duplidbtfs will bf ignorfd. Tif donfigurbtion filf nbming b pbrtidulbr providfr
+ * nffd not bf in tif sbmf jbr filf or otifr distribution unit bs tif providfr itsflf.
+ * Tif providfr must bf bddfssiblf from tif sbmf dlbss lobdfr tibt wbs initiblly
+ * qufrifd to lodbtf tif donfigurbtion filf; tiis is not nfdfssbrily tif dlbss lobdfr
+ * tibt lobdfd tif filf.
  * <p>
- * For example, an implementation of the
- * {@link java.text.spi.DateFormatProvider DateFormatProvider} class should
- * take the form of a jar file which contains the file:
- * <pre>
- * META-INF/services/java.text.spi.DateFormatProvider
- * </pre>
- * And the file <code>java.text.spi.DateFormatProvider</code> should have
- * a line such as:
- * <pre>
- * <code>com.foo.DateFormatProviderImpl</code>
- * </pre>
- * which is the fully qualified class name of the class implementing
- * <code>DateFormatProvider</code>.
- * <h4>Invocation of Locale Sensitive Services</h4>
+ * For fxbmplf, bn implfmfntbtion of tif
+ * {@link jbvb.tfxt.spi.DbtfFormbtProvidfr DbtfFormbtProvidfr} dlbss siould
+ * tbkf tif form of b jbr filf wiidi dontbins tif filf:
+ * <prf>
+ * META-INF/sfrvidfs/jbvb.tfxt.spi.DbtfFormbtProvidfr
+ * </prf>
+ * And tif filf <dodf>jbvb.tfxt.spi.DbtfFormbtProvidfr</dodf> siould ibvf
+ * b linf sudi bs:
+ * <prf>
+ * <dodf>dom.foo.DbtfFormbtProvidfrImpl</dodf>
+ * </prf>
+ * wiidi is tif fully qublififd dlbss nbmf of tif dlbss implfmfnting
+ * <dodf>DbtfFormbtProvidfr</dodf>.
+ * <i4>Invodbtion of Lodblf Sfnsitivf Sfrvidfs</i4>
  * <p>
- * Locale sensitive factory methods and methods for name retrieval in the
- * <code>java.text</code> and <code>java.util</code> packages invoke
- * service provider methods when needed to support the requested locale.
- * The methods first check whether the Java runtime environment itself
- * supports the requested locale, and use its support if available.
- * Otherwise, they call the {@link #isSupportedLocale(Locale) isSupportedLocale}
- * methods of installed providers for the appropriate interface to find one that
- * supports the requested locale. If such a provider is found, its other
- * methods are called to obtain the requested object or name.  When checking
- * whether a locale is supported, the <a href="../Locale.html#def_extensions">
- * locale's extensions</a> are ignored by default. (If locale's extensions should
- * also be checked, the {@code isSupportedLocale} method must be overridden.)
- * If neither the Java runtime environment itself nor an installed provider
- * supports the requested locale, the methods go through a list of candidate
- * locales and repeat the availability check for each until a match is found.
- * The algorithm used for creating a list of candidate locales is same as
- * the one used by <code>ResourceBundle</code> by default (see
- * {@link java.util.ResourceBundle.Control#getCandidateLocales getCandidateLocales}
- * for the details).  Even if a locale is resolved from the candidate list,
- * methods that return requested objects or names are invoked with the original
- * requested locale including {@code Locale} extensions. The Java runtime
- * environment must support the root locale for all locale sensitive services in
- * order to guarantee that this process terminates.
+ * Lodblf sfnsitivf fbdtory mftiods bnd mftiods for nbmf rftrifvbl in tif
+ * <dodf>jbvb.tfxt</dodf> bnd <dodf>jbvb.util</dodf> pbdkbgfs invokf
+ * sfrvidf providfr mftiods wifn nffdfd to support tif rfqufstfd lodblf.
+ * Tif mftiods first difdk wiftifr tif Jbvb runtimf fnvironmfnt itsflf
+ * supports tif rfqufstfd lodblf, bnd usf its support if bvbilbblf.
+ * Otifrwisf, tify dbll tif {@link #isSupportfdLodblf(Lodblf) isSupportfdLodblf}
+ * mftiods of instbllfd providfrs for tif bppropribtf intfrfbdf to find onf tibt
+ * supports tif rfqufstfd lodblf. If sudi b providfr is found, its otifr
+ * mftiods brf dbllfd to obtbin tif rfqufstfd objfdt or nbmf.  Wifn difdking
+ * wiftifr b lodblf is supportfd, tif <b irff="../Lodblf.itml#dff_fxtfnsions">
+ * lodblf's fxtfnsions</b> brf ignorfd by dffbult. (If lodblf's fxtfnsions siould
+ * blso bf difdkfd, tif {@dodf isSupportfdLodblf} mftiod must bf ovfrriddfn.)
+ * If nfitifr tif Jbvb runtimf fnvironmfnt itsflf nor bn instbllfd providfr
+ * supports tif rfqufstfd lodblf, tif mftiods go tirougi b list of dbndidbtf
+ * lodblfs bnd rfpfbt tif bvbilbbility difdk for fbdi until b mbtdi is found.
+ * Tif blgoritim usfd for drfbting b list of dbndidbtf lodblfs is sbmf bs
+ * tif onf usfd by <dodf>RfsourdfBundlf</dodf> by dffbult (sff
+ * {@link jbvb.util.RfsourdfBundlf.Control#gftCbndidbtfLodblfs gftCbndidbtfLodblfs}
+ * for tif dftbils).  Evfn if b lodblf is rfsolvfd from tif dbndidbtf list,
+ * mftiods tibt rfturn rfqufstfd objfdts or nbmfs brf invokfd witi tif originbl
+ * rfqufstfd lodblf indluding {@dodf Lodblf} fxtfnsions. Tif Jbvb runtimf
+ * fnvironmfnt must support tif root lodblf for bll lodblf sfnsitivf sfrvidfs in
+ * ordfr to gubrbntff tibt tiis prodfss tfrminbtfs.
  * <p>
- * Providers of names (but not providers of other objects) are allowed to
- * return null for some name requests even for locales that they claim to
- * support by including them in their return value for
- * <code>getAvailableLocales</code>. Similarly, the Java runtime
- * environment itself may not have all names for all locales that it
- * supports. This is because the sets of objects for which names are
- * requested can be large and vary over time, so that it's not always
- * feasible to cover them completely. If the Java runtime environment or a
- * provider returns null instead of a name, the lookup will proceed as
- * described above as if the locale was not supported.
+ * Providfrs of nbmfs (but not providfrs of otifr objfdts) brf bllowfd to
+ * rfturn null for somf nbmf rfqufsts fvfn for lodblfs tibt tify dlbim to
+ * support by indluding tifm in tifir rfturn vbluf for
+ * <dodf>gftAvbilbblfLodblfs</dodf>. Similbrly, tif Jbvb runtimf
+ * fnvironmfnt itsflf mby not ibvf bll nbmfs for bll lodblfs tibt it
+ * supports. Tiis is bfdbusf tif sfts of objfdts for wiidi nbmfs brf
+ * rfqufstfd dbn bf lbrgf bnd vbry ovfr timf, so tibt it's not blwbys
+ * ffbsiblf to dovfr tifm domplftfly. If tif Jbvb runtimf fnvironmfnt or b
+ * providfr rfturns null instfbd of b nbmf, tif lookup will prodffd bs
+ * dfsdribfd bbovf bs if tif lodblf wbs not supportfd.
  * <p>
- * Starting from JDK8, the search order of locale sensitive services can
- * be configured by using the "java.locale.providers" system property.
- * This system property declares the user's preferred order for looking up
- * the locale sensitive services separated by a comma. It is only read at
- * the Java runtime startup, so the later call to System.setProperty() won't
- * affect the order.
+ * Stbrting from JDK8, tif sfbrdi ordfr of lodblf sfnsitivf sfrvidfs dbn
+ * bf donfigurfd by using tif "jbvb.lodblf.providfrs" systfm propfrty.
+ * Tiis systfm propfrty dfdlbrfs tif usfr's prfffrrfd ordfr for looking up
+ * tif lodblf sfnsitivf sfrvidfs sfpbrbtfd by b dommb. It is only rfbd bt
+ * tif Jbvb runtimf stbrtup, so tif lbtfr dbll to Systfm.sftPropfrty() won't
+ * bfffdt tif ordfr.
  * <p>
- * For example, if the following is specified in the property:
- * <pre>
- * java.locale.providers=SPI,JRE
- * </pre>
- * where "SPI" represents the locale sensitive services implemented in the
- * installed SPI providers, and "JRE" represents the locale sensitive services
- * in the Java Runtime Environment, the locale sensitive services in the SPI
- * providers are looked up first.
+ * For fxbmplf, if tif following is spfdififd in tif propfrty:
+ * <prf>
+ * jbvb.lodblf.providfrs=SPI,JRE
+ * </prf>
+ * wifrf "SPI" rfprfsfnts tif lodblf sfnsitivf sfrvidfs implfmfntfd in tif
+ * instbllfd SPI providfrs, bnd "JRE" rfprfsfnts tif lodblf sfnsitivf sfrvidfs
+ * in tif Jbvb Runtimf Environmfnt, tif lodblf sfnsitivf sfrvidfs in tif SPI
+ * providfrs brf lookfd up first.
  * <p>
- * There are two other possible locale sensitive service providers, i.e., "CLDR"
- * which is a provider based on Unicode Consortium's
- * <a href="http://cldr.unicode.org/">CLDR Project</a>, and "HOST" which is a
- * provider that reflects the user's custom settings in the underlying operating
- * system. These two providers may not be available, depending on the Java Runtime
- * Environment implementation. Specifying "JRE,SPI" is identical to the default
- * behavior, which is compatibile with the prior releases.
+ * Tifrf brf two otifr possiblf lodblf sfnsitivf sfrvidf providfrs, i.f., "CLDR"
+ * wiidi is b providfr bbsfd on Unidodf Consortium's
+ * <b irff="ittp://dldr.unidodf.org/">CLDR Projfdt</b>, bnd "HOST" wiidi is b
+ * providfr tibt rfflfdts tif usfr's dustom sfttings in tif undfrlying opfrbting
+ * systfm. Tifsf two providfrs mby not bf bvbilbblf, dfpfnding on tif Jbvb Runtimf
+ * Environmfnt implfmfntbtion. Spfdifying "JRE,SPI" is idfntidbl to tif dffbult
+ * bfibvior, wiidi is dompbtibilf witi tif prior rflfbsfs.
  *
- * @since        1.6
+ * @sindf        1.6
  */
-public abstract class LocaleServiceProvider {
+publid bbstrbdt dlbss LodblfSfrvidfProvidfr {
 
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    protected LocaleServiceProvider() {
+    protfdtfd LodblfSfrvidfProvidfr() {
     }
 
     /**
-     * Returns an array of all locales for which this locale service provider
-     * can provide localized objects or names. This information is used to
-     * compose {@code getAvailableLocales()} values of the locale-dependent
-     * services, such as {@code DateFormat.getAvailableLocales()}.
+     * Rfturns bn brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs. Tiis informbtion is usfd to
+     * domposf {@dodf gftAvbilbblfLodblfs()} vblufs of tif lodblf-dfpfndfnt
+     * sfrvidfs, sudi bs {@dodf DbtfFormbt.gftAvbilbblfLodblfs()}.
      *
-     * <p>The array returned by this method should not include two or more
-     * {@code Locale} objects only differing in their extensions.
+     * <p>Tif brrby rfturnfd by tiis mftiod siould not indludf two or morf
+     * {@dodf Lodblf} objfdts only difffring in tifir fxtfnsions.
      *
-     * @return An array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * @rfturn An brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
      */
-    public abstract Locale[] getAvailableLocales();
+    publid bbstrbdt Lodblf[] gftAvbilbblfLodblfs();
 
     /**
-     * Returns {@code true} if the given {@code locale} is supported by
-     * this locale service provider. The given {@code locale} may contain
-     * <a href="../Locale.html#def_extensions">extensions</a> that should be
-     * taken into account for the support determination.
+     * Rfturns {@dodf truf} if tif givfn {@dodf lodblf} is supportfd by
+     * tiis lodblf sfrvidf providfr. Tif givfn {@dodf lodblf} mby dontbin
+     * <b irff="../Lodblf.itml#dff_fxtfnsions">fxtfnsions</b> tibt siould bf
+     * tbkfn into bddount for tif support dftfrminbtion.
      *
-     * <p>The default implementation returns {@code true} if the given {@code locale}
-     * is equal to any of the available {@code Locale}s returned by
-     * {@link #getAvailableLocales()} with ignoring any extensions in both the
-     * given {@code locale} and the available locales. Concrete locale service
-     * provider implementations should override this method if those
-     * implementations are {@code Locale} extensions-aware. For example,
-     * {@code DecimalFormatSymbolsProvider} implementations will need to check
-     * extensions in the given {@code locale} to see if any numbering system is
-     * specified and can be supported. However, {@code CollatorProvider}
-     * implementations may not be affected by any particular numbering systems,
-     * and in that case, extensions for numbering systems should be ignored.
+     * <p>Tif dffbult implfmfntbtion rfturns {@dodf truf} if tif givfn {@dodf lodblf}
+     * is fqubl to bny of tif bvbilbblf {@dodf Lodblf}s rfturnfd by
+     * {@link #gftAvbilbblfLodblfs()} witi ignoring bny fxtfnsions in boti tif
+     * givfn {@dodf lodblf} bnd tif bvbilbblf lodblfs. Condrftf lodblf sfrvidf
+     * providfr implfmfntbtions siould ovfrridf tiis mftiod if tiosf
+     * implfmfntbtions brf {@dodf Lodblf} fxtfnsions-bwbrf. For fxbmplf,
+     * {@dodf DfdimblFormbtSymbolsProvidfr} implfmfntbtions will nffd to difdk
+     * fxtfnsions in tif givfn {@dodf lodblf} to sff if bny numbfring systfm is
+     * spfdififd bnd dbn bf supportfd. Howfvfr, {@dodf CollbtorProvidfr}
+     * implfmfntbtions mby not bf bfffdtfd by bny pbrtidulbr numbfring systfms,
+     * bnd in tibt dbsf, fxtfnsions for numbfring systfms siould bf ignorfd.
      *
-     * @param locale a {@code Locale} to be tested
-     * @return {@code true} if the given {@code locale} is supported by this
-     *         provider; {@code false} otherwise.
-     * @throws NullPointerException
-     *         if the given {@code locale} is {@code null}
-     * @see Locale#hasExtensions()
-     * @see Locale#stripExtensions()
-     * @since 1.8
+     * @pbrbm lodblf b {@dodf Lodblf} to bf tfstfd
+     * @rfturn {@dodf truf} if tif givfn {@dodf lodblf} is supportfd by tiis
+     *         providfr; {@dodf fblsf} otifrwisf.
+     * @tirows NullPointfrExdfption
+     *         if tif givfn {@dodf lodblf} is {@dodf null}
+     * @sff Lodblf#ibsExtfnsions()
+     * @sff Lodblf#stripExtfnsions()
+     * @sindf 1.8
      */
-    public boolean isSupportedLocale(Locale locale) {
-        locale = locale.stripExtensions(); // throws NPE if locale == null
-        for (Locale available : getAvailableLocales()) {
-            if (locale.equals(available.stripExtensions())) {
-                return true;
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        lodblf = lodblf.stripExtfnsions(); // tirows NPE if lodblf == null
+        for (Lodblf bvbilbblf : gftAvbilbblfLodblfs()) {
+            if (lodblf.fqubls(bvbilbblf.stripExtfnsions())) {
+                rfturn truf;
 }
         }
-        return false;
+        rfturn fblsf;
     }
 }

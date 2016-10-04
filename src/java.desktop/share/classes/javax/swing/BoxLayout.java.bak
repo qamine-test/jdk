@@ -1,540 +1,540 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.beans.ConstructorProperties;
-import java.io.Serializable;
-import java.io.PrintStream;
+import jbvb.bwt.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.PrintStrfbm;
 
 /**
- * A layout manager that allows multiple components to be laid out either
- * vertically or horizontally. The components will not wrap so, for
- * example, a vertical arrangement of components will stay vertically
- * arranged when the frame is resized.
- * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="layout">
+ * A lbyout mbnbgfr tibt bllows multiplf domponfnts to bf lbid out fitifr
+ * vfrtidblly or iorizontblly. Tif domponfnts will not wrbp so, for
+ * fxbmplf, b vfrtidbl brrbngfmfnt of domponfnts will stby vfrtidblly
+ * brrbngfd wifn tif frbmf is rfsizfd.
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
  *    <TR>
  *      <TD ALIGN="CENTER">
- *         <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="doc-files/BoxLayout-1.gif"
- *          alt="The following text describes this graphic."
+ *         <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="dod-filfs/BoxLbyout-1.gif"
+ *          blt="Tif following tfxt dfsdribfs tiis grbpiid."
  *          WIDTH="191" HEIGHT="201" STYLE="FLOAT:BOTTOM; BORDER:0">
  *      </TD>
  *    </TR>
  * </TABLE>
  * <p>
- * Nesting multiple panels with different combinations of horizontal and
- * vertical gives an effect similar to GridBagLayout, without the
- * complexity. The diagram shows two panels arranged horizontally, each
- * of which contains 3 components arranged vertically.
+ * Nfsting multiplf pbnfls witi difffrfnt dombinbtions of iorizontbl bnd
+ * vfrtidbl givfs bn ffffdt similbr to GridBbgLbyout, witiout tif
+ * domplfxity. Tif dibgrbm siows two pbnfls brrbngfd iorizontblly, fbdi
+ * of wiidi dontbins 3 domponfnts brrbngfd vfrtidblly.
  *
- * <p> The BoxLayout manager is constructed with an axis parameter that
- * specifies the type of layout that will be done. There are four choices:
+ * <p> Tif BoxLbyout mbnbgfr is donstrudtfd witi bn bxis pbrbmftfr tibt
+ * spfdififs tif typf of lbyout tibt will bf donf. Tifrf brf four dioidfs:
  *
- * <blockquote><b><tt>X_AXIS</tt></b> - Components are laid out horizontally
- * from left to right.</blockquote>
+ * <blodkquotf><b><tt>X_AXIS</tt></b> - Componfnts brf lbid out iorizontblly
+ * from lfft to rigit.</blodkquotf>
  *
- * <blockquote><b><tt>Y_AXIS</tt></b> - Components are laid out vertically
- * from top to bottom.</blockquote>
+ * <blodkquotf><b><tt>Y_AXIS</tt></b> - Componfnts brf lbid out vfrtidblly
+ * from top to bottom.</blodkquotf>
  *
- * <blockquote><b><tt>LINE_AXIS</tt></b> - Components are laid out the way
- * words are laid out in a line, based on the container's
- * <tt>ComponentOrientation</tt> property. If the container's
- * <tt>ComponentOrientation</tt> is horizontal then components are laid out
- * horizontally, otherwise they are laid out vertically.  For horizontal
- * orientations, if the container's <tt>ComponentOrientation</tt> is left to
- * right then components are laid out left to right, otherwise they are laid
- * out right to left. For vertical orientations components are always laid out
- * from top to bottom.</blockquote>
+ * <blodkquotf><b><tt>LINE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * words brf lbid out in b linf, bbsfd on tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * iorizontblly, otifrwisf tify brf lbid out vfrtidblly.  For iorizontbl
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * out rigit to lfft. For vfrtidbl orifntbtions domponfnts brf blwbys lbid out
+ * from top to bottom.</blodkquotf>
  *
- * <blockquote><b><tt>PAGE_AXIS</tt></b> - Components are laid out the way
- * text lines are laid out on a page, based on the container's
- * <tt>ComponentOrientation</tt> property. If the container's
- * <tt>ComponentOrientation</tt> is horizontal then components are laid out
- * vertically, otherwise they are laid out horizontally.  For horizontal
- * orientations, if the container's <tt>ComponentOrientation</tt> is left to
- * right then components are laid out left to right, otherwise they are laid
- * out right to left.&nbsp; For vertical orientations components are always
- * laid out from top to bottom.</blockquote>
+ * <blodkquotf><b><tt>PAGE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * tfxt linfs brf lbid out on b pbgf, bbsfd on tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * vfrtidblly, otifrwisf tify brf lbid out iorizontblly.  For iorizontbl
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * out rigit to lfft.&nbsp; For vfrtidbl orifntbtions domponfnts brf blwbys
+ * lbid out from top to bottom.</blodkquotf>
  * <p>
- * For all directions, components are arranged in the same order as they were
- * added to the container.
+ * For bll dirfdtions, domponfnts brf brrbngfd in tif sbmf ordfr bs tify wfrf
+ * bddfd to tif dontbinfr.
  * <p>
- * BoxLayout attempts to arrange components
- * at their preferred widths (for horizontal layout)
- * or heights (for vertical layout).
- * For a horizontal layout,
- * if not all the components are the same height,
- * BoxLayout attempts to make all the components
- * as high as the highest component.
- * If that's not possible for a particular component,
- * then BoxLayout aligns that component vertically,
- * according to the component's Y alignment.
- * By default, a component has a Y alignment of 0.5,
- * which means that the vertical center of the component
- * should have the same Y coordinate as
- * the vertical centers of other components with 0.5 Y alignment.
+ * BoxLbyout bttfmpts to brrbngf domponfnts
+ * bt tifir prfffrrfd widtis (for iorizontbl lbyout)
+ * or ifigits (for vfrtidbl lbyout).
+ * For b iorizontbl lbyout,
+ * if not bll tif domponfnts brf tif sbmf ifigit,
+ * BoxLbyout bttfmpts to mbkf bll tif domponfnts
+ * bs iigi bs tif iigifst domponfnt.
+ * If tibt's not possiblf for b pbrtidulbr domponfnt,
+ * tifn BoxLbyout bligns tibt domponfnt vfrtidblly,
+ * bddording to tif domponfnt's Y blignmfnt.
+ * By dffbult, b domponfnt ibs b Y blignmfnt of 0.5,
+ * wiidi mfbns tibt tif vfrtidbl dfntfr of tif domponfnt
+ * siould ibvf tif sbmf Y doordinbtf bs
+ * tif vfrtidbl dfntfrs of otifr domponfnts witi 0.5 Y blignmfnt.
  * <p>
- * Similarly, for a vertical layout,
- * BoxLayout attempts to make all components in the column
- * as wide as the widest component.
- * If that fails, it aligns them horizontally
- * according to their X alignments.  For <code>PAGE_AXIS</code> layout,
- * horizontal alignment is done based on the leading edge of the component.
- * In other words, an X alignment value of 0.0 means the left edge of a
- * component if the container's <code>ComponentOrientation</code> is left to
- * right and it means the right edge of the component otherwise.
+ * Similbrly, for b vfrtidbl lbyout,
+ * BoxLbyout bttfmpts to mbkf bll domponfnts in tif dolumn
+ * bs widf bs tif widfst domponfnt.
+ * If tibt fbils, it bligns tifm iorizontblly
+ * bddording to tifir X blignmfnts.  For <dodf>PAGE_AXIS</dodf> lbyout,
+ * iorizontbl blignmfnt is donf bbsfd on tif lfbding fdgf of tif domponfnt.
+ * In otifr words, bn X blignmfnt vbluf of 0.0 mfbns tif lfft fdgf of b
+ * domponfnt if tif dontbinfr's <dodf>ComponfntOrifntbtion</dodf> is lfft to
+ * rigit bnd it mfbns tif rigit fdgf of tif domponfnt otifrwisf.
  * <p>
- * Instead of using BoxLayout directly, many programs use the Box class.
- * The Box class is a lightweight container that uses a BoxLayout.
- * It also provides handy methods to help you use BoxLayout well.
- * Adding components to multiple nested boxes is a powerful way to get
- * the arrangement you want.
+ * Instfbd of using BoxLbyout dirfdtly, mbny progrbms usf tif Box dlbss.
+ * Tif Box dlbss is b ligitwfigit dontbinfr tibt usfs b BoxLbyout.
+ * It blso providfs ibndy mftiods to iflp you usf BoxLbyout wfll.
+ * Adding domponfnts to multiplf nfstfd boxfs is b powfrful wby to gft
+ * tif brrbngfmfnt you wbnt.
  * <p>
- * For further information and examples see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/layout/box.html">How to Use BoxLayout</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For furtifr informbtion bnd fxbmplfs sff
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/box.itml">How to Usf BoxLbyout</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see Box
- * @see java.awt.ComponentOrientation
- * @see JComponent#getAlignmentX
- * @see JComponent#getAlignmentY
+ * @sff Box
+ * @sff jbvb.bwt.ComponfntOrifntbtion
+ * @sff JComponfnt#gftAlignmfntX
+ * @sff JComponfnt#gftAlignmfntY
  *
- * @author   Timothy Prinzing
- * @since 1.2
+ * @butior   Timotiy Prinzing
+ * @sindf 1.2
  */
-@SuppressWarnings("serial")
-public class BoxLayout implements LayoutManager2, Serializable {
+@SupprfssWbrnings("sfribl")
+publid dlbss BoxLbyout implfmfnts LbyoutMbnbgfr2, Sfriblizbblf {
 
     /**
-     * Specifies that components should be laid out left to right.
+     * Spfdififs tibt domponfnts siould bf lbid out lfft to rigit.
      */
-    public static final int X_AXIS = 0;
+    publid stbtid finbl int X_AXIS = 0;
 
     /**
-     * Specifies that components should be laid out top to bottom.
+     * Spfdififs tibt domponfnts siould bf lbid out top to bottom.
      */
-    public static final int Y_AXIS = 1;
+    publid stbtid finbl int Y_AXIS = 1;
 
     /**
-     * Specifies that components should be laid out in the direction of
-     * a line of text as determined by the target container's
-     * <code>ComponentOrientation</code> property.
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion of
+     * b linf of tfxt bs dftfrminfd by tif tbrgft dontbinfr's
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
      */
-    public static final int LINE_AXIS = 2;
+    publid stbtid finbl int LINE_AXIS = 2;
 
     /**
-     * Specifies that components should be laid out in the direction that
-     * lines flow across a page as determined by the target container's
-     * <code>ComponentOrientation</code> property.
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion tibt
+     * linfs flow bdross b pbgf bs dftfrminfd by tif tbrgft dontbinfr's
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
      */
-    public static final int PAGE_AXIS = 3;
+    publid stbtid finbl int PAGE_AXIS = 3;
 
     /**
-     * Creates a layout manager that will lay out components along the
-     * given axis.
+     * Crfbtfs b lbyout mbnbgfr tibt will lby out domponfnts blong tif
+     * givfn bxis.
      *
-     * @param target  the container that needs to be laid out
-     * @param axis  the axis to lay out components along. Can be one of:
-     *              <code>BoxLayout.X_AXIS</code>,
-     *              <code>BoxLayout.Y_AXIS</code>,
-     *              <code>BoxLayout.LINE_AXIS</code> or
-     *              <code>BoxLayout.PAGE_AXIS</code>
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
      *
-     * @exception AWTError  if the value of <code>axis</code> is invalid
+     * @fxdfption AWTError  if tif vbluf of <dodf>bxis</dodf> is invblid
      */
-    @ConstructorProperties({"target", "axis"})
-    public BoxLayout(Container target, int axis) {
-        if (axis != X_AXIS && axis != Y_AXIS &&
-            axis != LINE_AXIS && axis != PAGE_AXIS) {
-            throw new AWTError("Invalid axis");
+    @ConstrudtorPropfrtifs({"tbrgft", "bxis"})
+    publid BoxLbyout(Contbinfr tbrgft, int bxis) {
+        if (bxis != X_AXIS && bxis != Y_AXIS &&
+            bxis != LINE_AXIS && bxis != PAGE_AXIS) {
+            tirow nfw AWTError("Invblid bxis");
         }
-        this.axis = axis;
-        this.target = target;
+        tiis.bxis = bxis;
+        tiis.tbrgft = tbrgft;
     }
 
     /**
-     * Constructs a BoxLayout that
-     * produces debugging messages.
+     * Construdts b BoxLbyout tibt
+     * produdfs dfbugging mfssbgfs.
      *
-     * @param target  the container that needs to be laid out
-     * @param axis  the axis to lay out components along. Can be one of:
-     *              <code>BoxLayout.X_AXIS</code>,
-     *              <code>BoxLayout.Y_AXIS</code>,
-     *              <code>BoxLayout.LINE_AXIS</code> or
-     *              <code>BoxLayout.PAGE_AXIS</code>
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
      *
-     * @param dbg  the stream to which debugging messages should be sent,
-     *   null if none
+     * @pbrbm dbg  tif strfbm to wiidi dfbugging mfssbgfs siould bf sfnt,
+     *   null if nonf
      */
-    BoxLayout(Container target, int axis, PrintStream dbg) {
-        this(target, axis);
-        this.dbg = dbg;
+    BoxLbyout(Contbinfr tbrgft, int bxis, PrintStrfbm dbg) {
+        tiis(tbrgft, bxis);
+        tiis.dbg = dbg;
     }
 
     /**
-     * Returns the container that uses this layout manager.
+     * Rfturns tif dontbinfr tibt usfs tiis lbyout mbnbgfr.
      *
-     * @return the container that uses this layout manager
+     * @rfturn tif dontbinfr tibt usfs tiis lbyout mbnbgfr
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public final Container getTarget() {
-        return this.target;
+    publid finbl Contbinfr gftTbrgft() {
+        rfturn tiis.tbrgft;
     }
 
     /**
-     * Returns the axis that was used to lay out components.
-     * Returns one of:
-     * <code>BoxLayout.X_AXIS</code>,
-     * <code>BoxLayout.Y_AXIS</code>,
-     * <code>BoxLayout.LINE_AXIS</code> or
-     * <code>BoxLayout.PAGE_AXIS</code>
+     * Rfturns tif bxis tibt wbs usfd to lby out domponfnts.
+     * Rfturns onf of:
+     * <dodf>BoxLbyout.X_AXIS</dodf>,
+     * <dodf>BoxLbyout.Y_AXIS</dodf>,
+     * <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     * <dodf>BoxLbyout.PAGE_AXIS</dodf>
      *
-     * @return the axis that was used to lay out components
+     * @rfturn tif bxis tibt wbs usfd to lby out domponfnts
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public final int getAxis() {
-        return this.axis;
+    publid finbl int gftAxis() {
+        rfturn tiis.bxis;
     }
 
     /**
-     * Indicates that a child has changed its layout related information,
-     * and thus any cached calculations should be flushed.
+     * Indidbtfs tibt b diild ibs dibngfd its lbyout rflbtfd informbtion,
+     * bnd tius bny dbdifd dbldulbtions siould bf flusifd.
      * <p>
-     * This method is called by AWT when the invalidate method is called
-     * on the Container.  Since the invalidate method may be called
-     * asynchronously to the event thread, this method may be called
-     * asynchronously.
+     * Tiis mftiod is dbllfd by AWT wifn tif invblidbtf mftiod is dbllfd
+     * on tif Contbinfr.  Sindf tif invblidbtf mftiod mby bf dbllfd
+     * bsyndironously to tif fvfnt tirfbd, tiis mftiod mby bf dbllfd
+     * bsyndironously.
      *
-     * @param target  the affected container
+     * @pbrbm tbrgft  tif bfffdtfd dontbinfr
      *
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
      */
-    public synchronized void invalidateLayout(Container target) {
-        checkContainer(target);
-        xChildren = null;
-        yChildren = null;
-        xTotal = null;
-        yTotal = null;
+    publid syndironizfd void invblidbtfLbyout(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        xCiildrfn = null;
+        yCiildrfn = null;
+        xTotbl = null;
+        yTotbl = null;
     }
 
     /**
-     * Not used by this class.
+     * Not usfd by tiis dlbss.
      *
-     * @param name the name of the component
-     * @param comp the component
+     * @pbrbm nbmf tif nbmf of tif domponfnt
+     * @pbrbm domp tif domponfnt
      */
-    public void addLayoutComponent(String name, Component comp) {
-        invalidateLayout(comp.getParent());
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+        invblidbtfLbyout(domp.gftPbrfnt());
     }
 
     /**
-     * Not used by this class.
+     * Not usfd by tiis dlbss.
      *
-     * @param comp the component
+     * @pbrbm domp tif domponfnt
      */
-    public void removeLayoutComponent(Component comp) {
-        invalidateLayout(comp.getParent());
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+        invblidbtfLbyout(domp.gftPbrfnt());
     }
 
     /**
-     * Not used by this class.
+     * Not usfd by tiis dlbss.
      *
-     * @param comp the component
-     * @param constraints constraints
+     * @pbrbm domp tif domponfnt
+     * @pbrbm donstrbints donstrbints
      */
-    public void addLayoutComponent(Component comp, Object constraints) {
-        invalidateLayout(comp.getParent());
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+        invblidbtfLbyout(domp.gftPbrfnt());
     }
 
     /**
-     * Returns the preferred dimensions for this layout, given the components
-     * in the specified target container.
+     * Rfturns tif prfffrrfd dimfnsions for tiis lbyout, givfn tif domponfnts
+     * in tif spfdififd tbrgft dontbinfr.
      *
-     * @param target  the container that needs to be laid out
-     * @return the dimensions &gt;= 0 &amp;&amp; &lt;= Integer.MAX_VALUE
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
-     * @see Container
-     * @see #minimumLayoutSize
-     * @see #maximumLayoutSize
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
+     * @sff Contbinfr
+     * @sff #minimumLbyoutSizf
+     * @sff #mbximumLbyoutSizf
      */
-    public Dimension preferredLayoutSize(Container target) {
-        Dimension size;
-        synchronized(this) {
-            checkContainer(target);
-            checkRequests();
-            size = new Dimension(xTotal.preferred, yTotal.preferred);
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+        Dimfnsion sizf;
+        syndironizfd(tiis) {
+            difdkContbinfr(tbrgft);
+            difdkRfqufsts();
+            sizf = nfw Dimfnsion(xTotbl.prfffrrfd, yTotbl.prfffrrfd);
         }
 
-        Insets insets = target.getInsets();
-        size.width = (int) Math.min((long) size.width + (long) insets.left + (long) insets.right, Integer.MAX_VALUE);
-        size.height = (int) Math.min((long) size.height + (long) insets.top + (long) insets.bottom, Integer.MAX_VALUE);
-        return size;
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        rfturn sizf;
     }
 
     /**
-     * Returns the minimum dimensions needed to lay out the components
-     * contained in the specified target container.
+     * Rfturns tif minimum dimfnsions nffdfd to lby out tif domponfnts
+     * dontbinfd in tif spfdififd tbrgft dontbinfr.
      *
-     * @param target  the container that needs to be laid out
-     * @return the dimensions &gt;= 0 &amp;&amp; &lt;= Integer.MAX_VALUE
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
-     * @see #preferredLayoutSize
-     * @see #maximumLayoutSize
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #mbximumLbyoutSizf
      */
-    public Dimension minimumLayoutSize(Container target) {
-        Dimension size;
-        synchronized(this) {
-            checkContainer(target);
-            checkRequests();
-            size = new Dimension(xTotal.minimum, yTotal.minimum);
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+        Dimfnsion sizf;
+        syndironizfd(tiis) {
+            difdkContbinfr(tbrgft);
+            difdkRfqufsts();
+            sizf = nfw Dimfnsion(xTotbl.minimum, yTotbl.minimum);
         }
 
-        Insets insets = target.getInsets();
-        size.width = (int) Math.min((long) size.width + (long) insets.left + (long) insets.right, Integer.MAX_VALUE);
-        size.height = (int) Math.min((long) size.height + (long) insets.top + (long) insets.bottom, Integer.MAX_VALUE);
-        return size;
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        rfturn sizf;
     }
 
     /**
-     * Returns the maximum dimensions the target container can use
-     * to lay out the components it contains.
+     * Rfturns tif mbximum dimfnsions tif tbrgft dontbinfr dbn usf
+     * to lby out tif domponfnts it dontbins.
      *
-     * @param target  the container that needs to be laid out
-     * @return the dimensions &gt;= 0 &amp;&amp; &lt;= Integer.MAX_VALUE
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
-     * @see #preferredLayoutSize
-     * @see #minimumLayoutSize
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #minimumLbyoutSizf
      */
-    public Dimension maximumLayoutSize(Container target) {
-        Dimension size;
-        synchronized(this) {
-            checkContainer(target);
-            checkRequests();
-            size = new Dimension(xTotal.maximum, yTotal.maximum);
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+        Dimfnsion sizf;
+        syndironizfd(tiis) {
+            difdkContbinfr(tbrgft);
+            difdkRfqufsts();
+            sizf = nfw Dimfnsion(xTotbl.mbximum, yTotbl.mbximum);
         }
 
-        Insets insets = target.getInsets();
-        size.width = (int) Math.min((long) size.width + (long) insets.left + (long) insets.right, Integer.MAX_VALUE);
-        size.height = (int) Math.min((long) size.height + (long) insets.top + (long) insets.bottom, Integer.MAX_VALUE);
-        return size;
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        rfturn sizf;
     }
 
     /**
-     * Returns the alignment along the X axis for the container.
-     * If the box is horizontal, the default
-     * alignment will be returned. Otherwise, the alignment needed
-     * to place the children along the X axis will be returned.
+     * Rfturns tif blignmfnt blong tif X bxis for tif dontbinfr.
+     * If tif box is iorizontbl, tif dffbult
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * to plbdf tif diildrfn blong tif X bxis will bf rfturnfd.
      *
-     * @param target  the container
-     * @return the alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
+     * @pbrbm tbrgft  tif dontbinfr
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
      */
-    public synchronized float getLayoutAlignmentX(Container target) {
-        checkContainer(target);
-        checkRequests();
-        return xTotal.alignment;
+    publid syndironizfd flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkRfqufsts();
+        rfturn xTotbl.blignmfnt;
     }
 
     /**
-     * Returns the alignment along the Y axis for the container.
-     * If the box is vertical, the default
-     * alignment will be returned. Otherwise, the alignment needed
-     * to place the children along the Y axis will be returned.
+     * Rfturns tif blignmfnt blong tif Y bxis for tif dontbinfr.
+     * If tif box is vfrtidbl, tif dffbult
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * to plbdf tif diildrfn blong tif Y bxis will bf rfturnfd.
      *
-     * @param target  the container
-     * @return the alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
+     * @pbrbm tbrgft  tif dontbinfr
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
      */
-    public synchronized float getLayoutAlignmentY(Container target) {
-        checkContainer(target);
-        checkRequests();
-        return yTotal.alignment;
+    publid syndironizfd flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkRfqufsts();
+        rfturn yTotbl.blignmfnt;
     }
 
     /**
-     * Called by the AWT <!-- XXX CHECK! --> when the specified container
-     * needs to be laid out.
+     * Cbllfd by tif AWT <!-- XXX CHECK! --> wifn tif spfdififd dontbinfr
+     * nffds to bf lbid out.
      *
-     * @param target  the container to lay out
+     * @pbrbm tbrgft  tif dontbinfr to lby out
      *
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
      */
-    public void layoutContainer(Container target) {
-        checkContainer(target);
-        int nChildren = target.getComponentCount();
-        int[] xOffsets = new int[nChildren];
-        int[] xSpans = new int[nChildren];
-        int[] yOffsets = new int[nChildren];
-        int[] ySpans = new int[nChildren];
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        int nCiildrfn = tbrgft.gftComponfntCount();
+        int[] xOffsfts = nfw int[nCiildrfn];
+        int[] xSpbns = nfw int[nCiildrfn];
+        int[] yOffsfts = nfw int[nCiildrfn];
+        int[] ySpbns = nfw int[nCiildrfn];
 
-        Dimension alloc = target.getSize();
-        Insets in = target.getInsets();
-        alloc.width -= in.left + in.right;
-        alloc.height -= in.top + in.bottom;
+        Dimfnsion bllod = tbrgft.gftSizf();
+        Insfts in = tbrgft.gftInsfts();
+        bllod.widti -= in.lfft + in.rigit;
+        bllod.ifigit -= in.top + in.bottom;
 
-        // Resolve axis to an absolute value (either X_AXIS or Y_AXIS)
-        ComponentOrientation o = target.getComponentOrientation();
-        int absoluteAxis = resolveAxis( axis, o );
-        boolean ltr = (absoluteAxis != axis) ? o.isLeftToRight() : true;
+        // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+        ComponfntOrifntbtion o = tbrgft.gftComponfntOrifntbtion();
+        int bbsolutfAxis = rfsolvfAxis( bxis, o );
+        boolfbn ltr = (bbsolutfAxis != bxis) ? o.isLfftToRigit() : truf;
 
 
-        // determine the child placements
-        synchronized(this) {
-            checkRequests();
+        // dftfrminf tif diild plbdfmfnts
+        syndironizfd(tiis) {
+            difdkRfqufsts();
 
-            if (absoluteAxis == X_AXIS) {
-                SizeRequirements.calculateTiledPositions(alloc.width, xTotal,
-                                                         xChildren, xOffsets,
-                                                         xSpans, ltr);
-                SizeRequirements.calculateAlignedPositions(alloc.height, yTotal,
-                                                           yChildren, yOffsets,
-                                                           ySpans);
-            } else {
-                SizeRequirements.calculateAlignedPositions(alloc.width, xTotal,
-                                                           xChildren, xOffsets,
-                                                           xSpans, ltr);
-                SizeRequirements.calculateTiledPositions(alloc.height, yTotal,
-                                                         yChildren, yOffsets,
-                                                         ySpans);
+            if (bbsolutfAxis == X_AXIS) {
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.widti, xTotbl,
+                                                         xCiildrfn, xOffsfts,
+                                                         xSpbns, ltr);
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.ifigit, yTotbl,
+                                                           yCiildrfn, yOffsfts,
+                                                           ySpbns);
+            } flsf {
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.widti, xTotbl,
+                                                           xCiildrfn, xOffsfts,
+                                                           xSpbns, ltr);
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.ifigit, yTotbl,
+                                                         yCiildrfn, yOffsfts,
+                                                         ySpbns);
             }
         }
 
-        // flush changes to the container
-        for (int i = 0; i < nChildren; i++) {
-            Component c = target.getComponent(i);
-            c.setBounds((int) Math.min((long) in.left + (long) xOffsets[i], Integer.MAX_VALUE),
-                        (int) Math.min((long) in.top + (long) yOffsets[i], Integer.MAX_VALUE),
-                        xSpans[i], ySpans[i]);
+        // flusi dibngfs to tif dontbinfr
+        for (int i = 0; i < nCiildrfn; i++) {
+            Componfnt d = tbrgft.gftComponfnt(i);
+            d.sftBounds((int) Mbti.min((long) in.lfft + (long) xOffsfts[i], Intfgfr.MAX_VALUE),
+                        (int) Mbti.min((long) in.top + (long) yOffsfts[i], Intfgfr.MAX_VALUE),
+                        xSpbns[i], ySpbns[i]);
 
         }
         if (dbg != null) {
-            for (int i = 0; i < nChildren; i++) {
-                Component c = target.getComponent(i);
-                dbg.println(c.toString());
-                dbg.println("X: " + xChildren[i]);
-                dbg.println("Y: " + yChildren[i]);
+            for (int i = 0; i < nCiildrfn; i++) {
+                Componfnt d = tbrgft.gftComponfnt(i);
+                dbg.println(d.toString());
+                dbg.println("X: " + xCiildrfn[i]);
+                dbg.println("Y: " + yCiildrfn[i]);
             }
         }
 
     }
 
-    void checkContainer(Container target) {
-        if (this.target != target) {
-            throw new AWTError("BoxLayout can't be shared");
+    void difdkContbinfr(Contbinfr tbrgft) {
+        if (tiis.tbrgft != tbrgft) {
+            tirow nfw AWTError("BoxLbyout dbn't bf sibrfd");
         }
     }
 
-    void checkRequests() {
-        if (xChildren == null || yChildren == null) {
-            // The requests have been invalidated... recalculate
-            // the request information.
-            int n = target.getComponentCount();
-            xChildren = new SizeRequirements[n];
-            yChildren = new SizeRequirements[n];
+    void difdkRfqufsts() {
+        if (xCiildrfn == null || yCiildrfn == null) {
+            // Tif rfqufsts ibvf bffn invblidbtfd... rfdbldulbtf
+            // tif rfqufst informbtion.
+            int n = tbrgft.gftComponfntCount();
+            xCiildrfn = nfw SizfRfquirfmfnts[n];
+            yCiildrfn = nfw SizfRfquirfmfnts[n];
             for (int i = 0; i < n; i++) {
-                Component c = target.getComponent(i);
-                if (!c.isVisible()) {
-                    xChildren[i] = new SizeRequirements(0,0,0, c.getAlignmentX());
-                    yChildren[i] = new SizeRequirements(0,0,0, c.getAlignmentY());
-                    continue;
+                Componfnt d = tbrgft.gftComponfnt(i);
+                if (!d.isVisiblf()) {
+                    xCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntX());
+                    yCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntY());
+                    dontinuf;
                 }
-                Dimension min = c.getMinimumSize();
-                Dimension typ = c.getPreferredSize();
-                Dimension max = c.getMaximumSize();
-                xChildren[i] = new SizeRequirements(min.width, typ.width,
-                                                    max.width,
-                                                    c.getAlignmentX());
-                yChildren[i] = new SizeRequirements(min.height, typ.height,
-                                                    max.height,
-                                                    c.getAlignmentY());
+                Dimfnsion min = d.gftMinimumSizf();
+                Dimfnsion typ = d.gftPrfffrrfdSizf();
+                Dimfnsion mbx = d.gftMbximumSizf();
+                xCiildrfn[i] = nfw SizfRfquirfmfnts(min.widti, typ.widti,
+                                                    mbx.widti,
+                                                    d.gftAlignmfntX());
+                yCiildrfn[i] = nfw SizfRfquirfmfnts(min.ifigit, typ.ifigit,
+                                                    mbx.ifigit,
+                                                    d.gftAlignmfntY());
             }
 
-            // Resolve axis to an absolute value (either X_AXIS or Y_AXIS)
-            int absoluteAxis = resolveAxis(axis,target.getComponentOrientation());
+            // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+            int bbsolutfAxis = rfsolvfAxis(bxis,tbrgft.gftComponfntOrifntbtion());
 
-            if (absoluteAxis == X_AXIS) {
-                xTotal = SizeRequirements.getTiledSizeRequirements(xChildren);
-                yTotal = SizeRequirements.getAlignedSizeRequirements(yChildren);
-            } else {
-                xTotal = SizeRequirements.getAlignedSizeRequirements(xChildren);
-                yTotal = SizeRequirements.getTiledSizeRequirements(yChildren);
+            if (bbsolutfAxis == X_AXIS) {
+                xTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(xCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(yCiildrfn);
+            } flsf {
+                xTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(xCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(yCiildrfn);
             }
         }
     }
 
     /**
-     * Given one of the 4 axis values, resolve it to an absolute axis.
-     * The relative axis values, PAGE_AXIS and LINE_AXIS are converted
-     * to their absolute couterpart given the target's ComponentOrientation
-     * value.  The absolute axes, X_AXIS and Y_AXIS are returned unmodified.
+     * Givfn onf of tif 4 bxis vblufs, rfsolvf it to bn bbsolutf bxis.
+     * Tif rflbtivf bxis vblufs, PAGE_AXIS bnd LINE_AXIS brf donvfrtfd
+     * to tifir bbsolutf doutfrpbrt givfn tif tbrgft's ComponfntOrifntbtion
+     * vbluf.  Tif bbsolutf bxfs, X_AXIS bnd Y_AXIS brf rfturnfd unmodififd.
      *
-     * @param axis the axis to resolve
-     * @param o the ComponentOrientation to resolve against
-     * @return the resolved axis
+     * @pbrbm bxis tif bxis to rfsolvf
+     * @pbrbm o tif ComponfntOrifntbtion to rfsolvf bgbinst
+     * @rfturn tif rfsolvfd bxis
      */
-    private int resolveAxis( int axis, ComponentOrientation o ) {
-        int absoluteAxis;
-        if( axis == LINE_AXIS ) {
-            absoluteAxis = o.isHorizontal() ? X_AXIS : Y_AXIS;
-        } else if( axis == PAGE_AXIS ) {
-            absoluteAxis = o.isHorizontal() ? Y_AXIS : X_AXIS;
-        } else {
-            absoluteAxis = axis;
+    privbtf int rfsolvfAxis( int bxis, ComponfntOrifntbtion o ) {
+        int bbsolutfAxis;
+        if( bxis == LINE_AXIS ) {
+            bbsolutfAxis = o.isHorizontbl() ? X_AXIS : Y_AXIS;
+        } flsf if( bxis == PAGE_AXIS ) {
+            bbsolutfAxis = o.isHorizontbl() ? Y_AXIS : X_AXIS;
+        } flsf {
+            bbsolutfAxis = bxis;
         }
-        return absoluteAxis;
+        rfturn bbsolutfAxis;
    }
 
 
-    private int axis;
-    private Container target;
+    privbtf int bxis;
+    privbtf Contbinfr tbrgft;
 
-    private transient SizeRequirements[] xChildren;
-    private transient SizeRequirements[] yChildren;
-    private transient SizeRequirements xTotal;
-    private transient SizeRequirements yTotal;
+    privbtf trbnsifnt SizfRfquirfmfnts[] xCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] yCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts xTotbl;
+    privbtf trbnsifnt SizfRfquirfmfnts yTotbl;
 
-    private transient PrintStream dbg;
+    privbtf trbnsifnt PrintStrfbm dbg;
 }

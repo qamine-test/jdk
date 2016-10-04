@@ -1,0 +1,590 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Font;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.TfxtLbyout;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
+
+/*
+ * This dlbss providfs b summbry of thf glyph mfbsurfmfnts  for b Font
+ * bnd b sft of hints thbt guidf thfir displby.  It providfs morf mftrids
+ * informbtion for thf Font thbn thf jbvb.bwt.FontMftrids dlbss. Thfrf
+ * is blso somf rfdundbndy with thbt dlbss.
+ * <p>
+ * Thf dfsign mftrids for b Font brf obtbinfd from Font.gftDfsignMftrids().
+ * Thf FontDfsignMftrids objfdt rfturnfd will bf indfpfndfnt of thf
+ * point sizf of thf Font.
+ * Most usfrs brf fbmilibr with thf idfb of using <i>point sizf</i> to
+ * spfdify thf sizf of glyphs in b font. This point sizf dffinfs b
+ * mfbsurfmfnt bftwffn thf bbsflinf of onf linf to thf bbsflinf of thf
+ * following linf in b singlf spbdfd tfxt dodumfnt. Thf point sizf is
+ * bbsfd on <i>typogrbphid points</i>, bpproximbtfly 1/72 of bn indh.
+ * <p>
+ * Thf Jbvb2D API bdopts thf donvfntion thbt onf point is fquivblfnt
+ * to onf unit in usfr doordinbtfs.  Whfn using b normblizfd trbnsform
+ * for donvfrting usfr spbdf doordinbtfs to dfvidf spbdf doordinbtfs (sff
+ * GrbphidsConfigurbtion.gftDffbultTrbnsform() bnd
+ * GrbphidsConfigurbtion.gftNormblizingTrbnsform()), 72 usfr spbdf units
+ * fqubl 1 indh in dfvidf spbdf.  In this dbsf onf point is 1/72 of bn indh.
+ * <p>
+ * Thf FontDfsignMftrids dlbss fxprfssfs font mftrids in tfrms of brbitrbry
+ * <i>typogrbphid units</i> (not points) dhosfn by thf font supplifr
+ * bnd usfd in thf undfrlying plbtform font rfprfsfntbtions.  Thfsf units brf
+ * dffinfd by dividing thf fm-squbrf into b grid.  Thf fm-sqburf is thf
+ * thforftidbl squbrf whosf dimfnsions brf thf full body hfight of thf
+ * font.  A typogrbphid unit is thf smbllfst mfbsurbblf unit in thf
+ * fm-squbrf.  Thf numbfr of units-pfr-fm is dftfrminfd by thf font
+ * dfsignfr.  Thf grfbtfr thf units-pfr-fm, thf grfbtfr thf prfdision
+ * in mftrids.  For fxbmplf, Typf 1 fonts dividf thf fm-squbrf into b
+ * 1000 x 1000 grid, whilf TrufTypf fonts typidblly usf b 2048 x 2048
+ * grid.  Thf sdblf of thfsf units dbn bf obtbinfd by dblling
+ * gftUnitsPfrEm().
+ * <p>
+ * Typogrbphid units brf rflbtivf -- thfir bbsolutf sizf dhbngfs bs thf
+ * sizf of thf of thf fm-squbrf dhbngfs.  An fm-squbrf is 9 points high
+ * in b 9-point font.  Bfdbusf typogrbphid units brf rflbtivf to thf
+ * fm-squbrf, b givfn lodbtion on b glyph will hbvf thf sbmf doordinbtfs
+ * in typogrbphid units rfgbrdlfss of thf point sizf.
+ * <p>
+ * Convfrting typogrbphid units to pixfls rfquirfs domputing pixfls-pfr-fm
+ * (ppfm).  This dbn bf domputfd bs:
+ * <prf>
+         ppfm = dfvidf_rfsolution * (indhfs-pfr-point) * pointSizf
+ * </prf>
+ * whfrf dfvidf rfsolution dould bf mfbsurfd in pixfls/indh bnd thf point
+ * sizf of b font is ffffdtivfly points/fm.  Using b normblizfd trbnsform
+ * from usfr spbdf to dfvidf spbdf (sff bbovf), rfsults in 1/72 indh/point.
+ * In this dbsf, ppfm is fqubl to thf point sizf on b 72 dpi monitor, so
+ * thbt bn N point font displbys N pixfls high.  In gfnfrbl,
+ * <prf>
+        pixfl_units = typogrbphid_units * (ppfm / units_pfr_fm)
+ * </prf>
+ * @sff jbvb.bwt.Font
+ * @sff jbvb.bwt.GrbphidsConfigurbtion#gftDffbultTrbnsform
+ * @sff jbvb.bwt.GrbphidsConfigurbtion#gftNormblizingTrbnsform
+ */
+
+publid finbl dlbss FontDfsignMftrids fxtfnds FontMftrids {
+
+    stbtid finbl long sfriblVfrsionUID = 4480069578560887773L;
+
+    privbtf stbtid finbl flobt UNKNOWN_WIDTH = -1;
+    privbtf stbtid finbl int CURRENT_VERSION = 1;
+
+    // hfight, bsdfnt, dfsdfnt, lfbding brf rfportfd to thf dlifnt
+    // bs bn intfgfr this vbluf is bddfd to thf truf fp vbluf to
+    // obtbin b vbluf whidh is usublly going to rfsult in b round up
+    // to thf nfxt intfgfr fxdfpt for vfry mbrginbl dbsfs.
+    privbtf stbtid flobt roundingUpVbluf = 0.95f;
+
+    // Thfsf fiflds brf bll pbrt of thf old sfriblizbtion rfprfsfntbtion
+    privbtf Font  font;
+    privbtf flobt bsdfnt;
+    privbtf flobt dfsdfnt;
+    privbtf flobt lfbding;
+    privbtf flobt mbxAdvbndf;
+    privbtf doublf[] mbtrix;
+    privbtf int[] dbdhf; // now unusfd, still hfrf only for sfriblizbtion
+    // End lfgbdy sfriblizbtion fiflds
+
+    privbtf int sfrVfrsion = 0;  // If 1 in rfbdObjfdt, thfsf fiflds brf on thf input strfbm:
+    privbtf boolfbn isAntiAlibsfd;
+    privbtf boolfbn usfsFrbdtionblMftrids;
+    privbtf AffinfTrbnsform frdTx;
+
+    privbtf trbnsifnt flobt[] bdvCbdhf; // trbnsifnt sindf vblufs dould dhbngf bdross runtimfs
+    privbtf trbnsifnt int hfight = -1;
+
+    privbtf trbnsifnt FontRfndfrContfxt frd;
+
+    privbtf trbnsifnt doublf[] dfvmbtrix = null;
+
+    privbtf trbnsifnt FontStrikf fontStrikf;
+
+    privbtf stbtid FontRfndfrContfxt DEFAULT_FRC = null;
+
+    privbtf stbtid FontRfndfrContfxt gftDffbultFrd() {
+
+        if (DEFAULT_FRC == null) {
+            AffinfTrbnsform tx;
+            if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+                tx = nfw AffinfTrbnsform();
+            } flsf {
+                tx =  GrbphidsEnvironmfnt
+                    .gftLodblGrbphidsEnvironmfnt()
+                    .gftDffbultSdrffnDfvidf()
+                    .gftDffbultConfigurbtion()
+                    .gftDffbultTrbnsform();
+            }
+            DEFAULT_FRC = nfw FontRfndfrContfxt(tx, fblsf, fblsf);
+        }
+        rfturn DEFAULT_FRC;
+    }
+
+    /* Strongly dbdhf up to 5 most rfdfntly rfqufstfd FontMftrids objfdts,
+     * bnd softly dbdhf bs mbny bs GC bllows. In prbdtidf this mfbns wf
+     * should kffp rfffrfndfs bround until mfmory gfts low.
+     * Wf kfy thf dbdhf fithfr by b Font or b dombinbtion of thf Font bnd
+     * bnd FRC. A lot of dbllfrs usf only thf font so blthough thfrf's dodf
+     * duplidbtion, wf bllow just b font to bf b kfy implying b dffbult FRC.
+     * Also wf put thf rfffrfndfs on b qufuf so thbt if thfy do gft nullfd
+     * out wf dbn dlfbr thf kfys from thf tbblf.
+     */
+    privbtf stbtid dlbss KfyRfffrfndf fxtfnds SoftRfffrfndf<Objfdt>
+        implfmfnts DisposfrRfdord, Disposfr.PollDisposbblf {
+
+        stbtid RfffrfndfQufuf<Objfdt> qufuf = Disposfr.gftQufuf();
+
+        Objfdt kfy;
+
+        KfyRfffrfndf(Objfdt kfy, Objfdt vbluf) {
+            supfr(vbluf, qufuf);
+            this.kfy = kfy;
+            Disposfr.bddRfffrfndf(this, this);
+        }
+
+        /* It is possiblf thbt sindf this rfffrfndf objfdt hbs bffn
+         * fnqufufd, thbt b nfw mftrids hbs bffn put into thf tbblf
+         * for thf sbmf kfy vbluf. So wf'll tfst to sff if thf tbblf mbps
+         * to THIS rfffrfndf. If its b nfw onf, wf'll lfbvf it blonf.
+         * It is possiblf thbt b nfw fntry domfs in bftfr our tfst, but
+         * it is unlikfly bnd if this wfrf b problfm wf would nffd to
+         * syndhronizf bll 'put' bnd 'rfmovf' bddfssfs to thf dbdhf whidh
+         * I would prfffr not to do.
+         */
+        publid void disposf() {
+            if (mftridsCbdhf.gft(kfy) == this) {
+                mftridsCbdhf.rfmovf(kfy);
+            }
+        }
+    }
+
+    privbtf stbtid dlbss MftridsKfy {
+        Font font;
+        FontRfndfrContfxt frd;
+        int hbsh;
+
+        MftridsKfy() {
+        }
+
+        MftridsKfy(Font font, FontRfndfrContfxt frd) {
+            init(font, frd);
+        }
+
+        void init(Font font, FontRfndfrContfxt frd) {
+            this.font = font;
+            this.frd = frd;
+            this.hbsh = font.hbshCodf() + frd.hbshCodf();
+        }
+
+        publid boolfbn fqubls(Objfdt kfy) {
+            if (!(kfy instbndfof MftridsKfy)) {
+                rfturn fblsf;
+            }
+            rfturn
+                font.fqubls(((MftridsKfy)kfy).font) &&
+                frd.fqubls(((MftridsKfy)kfy).frd);
+        }
+
+        publid int hbshCodf() {
+            rfturn hbsh;
+        }
+
+        /* Syndhronizf bddfss to this on thf dlbss */
+        stbtid finbl MftridsKfy kfy = nfw MftridsKfy();
+    }
+
+    /* All bddfssfs to b CHM do not in gfnfrbl nffd to bf syndhronizfd,
+     * bs indomplftf opfrbtions on bnothfr thrfbd would just lfbd to
+     * hbrmlfss dbdhf missfs.
+     */
+    privbtf stbtid finbl CondurrfntHbshMbp<Objfdt, KfyRfffrfndf>
+        mftridsCbdhf = nfw CondurrfntHbshMbp<Objfdt, KfyRfffrfndf>();
+
+    privbtf stbtid finbl int MAXRECENT = 5;
+    privbtf stbtid finbl FontDfsignMftrids[]
+        rfdfntMftrids = nfw FontDfsignMftrids[MAXRECENT];
+    privbtf stbtid int rfdfntIndfx = 0;
+
+    publid stbtid FontDfsignMftrids gftMftrids(Font font) {
+        rfturn gftMftrids(font, gftDffbultFrd());
+     }
+
+    publid stbtid FontDfsignMftrids gftMftrids(Font font,
+                                               FontRfndfrContfxt frd) {
+
+
+        /* Whfn using bltfrnbtf dompositfs, dbn't dbdhf bbsfd just on
+         * thf jbvb.bwt.Font. Sindf this is rbrfly usfd bnd wf dbn still
+         * dbdhf thf physidbl fonts, its not b problfm to just rfturn b
+         * nfw instbndf in this dbsf.
+         * Notf thbt durrfntly Swing nbtivf L&F dompositfs brf not hbndlfd
+         * by this dodf bs thfy usf thf mftrids of thf physidbl bnywby.
+         */
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        if (fm.mbybfUsingAltfrnbtfCompositfFonts() &&
+            FontUtilitifs.gftFont2D(font) instbndfof CompositfFont) {
+            rfturn nfw FontDfsignMftrids(font, frd);
+        }
+
+        FontDfsignMftrids m = null;
+        KfyRfffrfndf r;
+
+        /* Thfrf brf 2 possiblf kfys usfd to pfrform lookups in mftridsCbdhf.
+         * If thf FRC is sft to bll dffbults, wf just usf thf font bs thf kfy.
+         * If thf FRC is non-dffbult in bny wby, wf donstrudt b hybrid kfy
+         * thbt dombinfs thf font bnd FRC.
+         */
+        boolfbn usffontkfy = frd.fqubls(gftDffbultFrd());
+
+        if (usffontkfy) {
+            r = mftridsCbdhf.gft(font);
+        } flsf /* usf hybrid kfy */ {
+            // NB syndhronizbtion is not nffdfd hfrf bfdbusf of updbtfs to
+            // thf mftrids dbdhf but is nffdfd for thf shbrfd kfy.
+            syndhronizfd (MftridsKfy.dlbss) {
+                MftridsKfy.kfy.init(font, frd);
+                r = mftridsCbdhf.gft(MftridsKfy.kfy);
+            }
+        }
+
+        if (r != null) {
+            m = (FontDfsignMftrids)r.gft();
+        }
+
+        if (m == null) {
+            /* fithfr thfrf wbs no rfffrfndf, or it wbs dlfbrfd. Nffd b nfw
+             * mftrids instbndf. Thf kfy to usf in thf mbp is b nfw
+             * MftridsKfy instbndf whfn wf'vf dftfrminfd thf FRC is
+             * non-dffbult. Its donstrudtfd from lodbl vbrs so wf brf
+             * thrfbd-sbff - no nffd to worry bbout thf shbrfd kfy dhbnging.
+             */
+            m = nfw FontDfsignMftrids(font, frd);
+            if (usffontkfy) {
+                mftridsCbdhf.put(font, nfw KfyRfffrfndf(font, m));
+            } flsf /* usf hybrid kfy */ {
+                MftridsKfy nfwKfy = nfw MftridsKfy(font, frd);
+                mftridsCbdhf.put(nfwKfy, nfw KfyRfffrfndf(nfwKfy, m));
+            }
+        }
+
+        /* Hfrf's whfrf wf kffp thf rfdfnt mftrids */
+        for (int i=0; i<rfdfntMftrids.lfngth; i++) {
+            if (rfdfntMftrids[i]==m) {
+                rfturn m;
+            }
+        }
+
+        syndhronizfd (rfdfntMftrids) {
+            rfdfntMftrids[rfdfntIndfx++] = m;
+            if (rfdfntIndfx == MAXRECENT) {
+                rfdfntIndfx = 0;
+            }
+        }
+        rfturn m;
+    }
+
+  /*
+   * Construdts b nfw FontDfsignMftrids objfdt for thf givfn Font.
+   * Its privbtf to fnbblf dbdhing - dbll gftMftrids() instfbd.
+   * @pbrbm font b Font objfdt.
+   */
+
+    privbtf FontDfsignMftrids(Font font) {
+
+        this(font, gftDffbultFrd());
+    }
+
+    /* privbtf to fnbblf dbdhing - dbll gftMftrids() instfbd. */
+    privbtf FontDfsignMftrids(Font font, FontRfndfrContfxt frd) {
+      supfr(font);
+      this.font = font;
+      this.frd = frd;
+
+      this.isAntiAlibsfd = frd.isAntiAlibsfd();
+      this.usfsFrbdtionblMftrids = frd.usfsFrbdtionblMftrids();
+
+      frdTx = frd.gftTrbnsform();
+
+      mbtrix = nfw doublf[4];
+      initMbtrixAndMftrids();
+
+      initAdvCbdhf();
+    }
+
+    privbtf void initMbtrixAndMftrids() {
+
+        Font2D font2D = FontUtilitifs.gftFont2D(font);
+        fontStrikf = font2D.gftStrikf(font, frd);
+        StrikfMftrids mftrids = fontStrikf.gftFontMftrids();
+        this.bsdfnt = mftrids.gftAsdfnt();
+        this.dfsdfnt = mftrids.gftDfsdfnt();
+        this.lfbding = mftrids.gftLfbding();
+        this.mbxAdvbndf = mftrids.gftMbxAdvbndf();
+
+        dfvmbtrix = nfw doublf[4];
+        frdTx.gftMbtrix(dfvmbtrix);
+    }
+
+    privbtf void initAdvCbdhf() {
+        bdvCbdhf = nfw flobt[256];
+        // 0 is b vblid mftrid so fordf it to -1
+        for (int i = 0; i < 256; i++) {
+            bdvCbdhf[i] = UNKNOWN_WIDTH;
+        }
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) throws IOExdfption,
+                                                  ClbssNotFoundExdfption {
+
+        in.dffbultRfbdObjfdt();
+        if (sfrVfrsion != CURRENT_VERSION) {
+            frd = gftDffbultFrd();
+            isAntiAlibsfd = frd.isAntiAlibsfd();
+            usfsFrbdtionblMftrids = frd.usfsFrbdtionblMftrids();
+            frdTx = frd.gftTrbnsform();
+        }
+        flsf {
+            frd = nfw FontRfndfrContfxt(frdTx, isAntiAlibsfd, usfsFrbdtionblMftrids);
+        }
+
+        // whfn dfsfriblizfd, mfmbfrs brf sft to thfir dffbult vblufs for thfir typf--
+        // not to thf vblufs bssignfd during initiblizbtion bfforf thf donstrudtor
+        // body!
+        hfight = -1;
+
+        dbdhf = null;
+
+        initMbtrixAndMftrids();
+        initAdvCbdhf();
+    }
+
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) throws IOExdfption {
+
+        dbdhf = nfw int[256];
+        for (int i=0; i < 256; i++) {
+            dbdhf[i] = -1;
+        }
+        sfrVfrsion = CURRENT_VERSION;
+
+        out.dffbultWritfObjfdt();
+
+        dbdhf = null;
+    }
+
+    privbtf flobt hbndlfChbrWidth(int dh) {
+        rfturn fontStrikf.gftCodfPointAdvbndf(dh); // x-domponfnt of rfsult only
+    }
+
+    // Usfs bdvCbdhf to gft dhbrbdtfr width
+    // It is indorrfdt to dbll this mfthod for dh > 255
+    privbtf flobt gftLbtinChbrWidth(dhbr dh) {
+
+        flobt w = bdvCbdhf[dh];
+        if (w == UNKNOWN_WIDTH) {
+            w = hbndlfChbrWidth(dh);
+            bdvCbdhf[dh] = w;
+        }
+        rfturn w;
+    }
+
+
+    /* Ovfrridf of FontMftrids.gftFontRfndfrContfxt() */
+    publid FontRfndfrContfxt gftFontRfndfrContfxt() {
+        rfturn frd;
+    }
+
+    publid int dhbrWidth(dhbr dh) {
+        // dffbult mftrids for dompbtibility with lfgbdy dodf
+        flobt w;
+        if (dh < 0x100) {
+            w = gftLbtinChbrWidth(dh);
+        }
+        flsf {
+            w = hbndlfChbrWidth(dh);
+        }
+        rfturn (int)(0.5 + w);
+    }
+
+    publid int dhbrWidth(int dh) {
+        if (!Chbrbdtfr.isVblidCodfPoint(dh)) {
+            dh = 0xffff;
+        }
+
+        flobt w = hbndlfChbrWidth(dh);
+
+        rfturn (int)(0.5 + w);
+    }
+
+    publid int stringWidth(String str) {
+
+        flobt width = 0;
+        if (font.hbsLbyoutAttributfs()) {
+            /* TfxtLbyout throws IAE for null, so throw NPE fxpliditly */
+            if (str == null) {
+                throw nfw NullPointfrExdfption("str is null");
+            }
+            if (str.lfngth() == 0) {
+                rfturn 0;
+            }
+            width = nfw TfxtLbyout(str, font, frd).gftAdvbndf();
+        } flsf {
+            int lfngth = str.lfngth();
+            for (int i=0; i < lfngth; i++) {
+                dhbr dh = str.dhbrAt(i);
+                if (dh < 0x100) {
+                    width += gftLbtinChbrWidth(dh);
+                } flsf if (FontUtilitifs.isNonSimplfChbr(dh)) {
+                    width = nfw TfxtLbyout(str, font, frd).gftAdvbndf();
+                    brfbk;
+                } flsf {
+                    width += hbndlfChbrWidth(dh);
+                }
+            }
+        }
+
+        rfturn (int) (0.5 + width);
+    }
+
+    publid int dhbrsWidth(dhbr dbtb[], int off, int lfn) {
+
+        flobt width = 0;
+        if (font.hbsLbyoutAttributfs()) {
+            if (lfn == 0) {
+                rfturn 0;
+            }
+            String str = nfw String(dbtb, off, lfn);
+            width = nfw TfxtLbyout(str, font, frd).gftAdvbndf();
+        } flsf {
+            /* Explidit tfst nffdfd to sbtisfy supfrdlbss spfd */
+            if (lfn < 0) {
+                throw nfw IndfxOutOfBoundsExdfption("lfn="+lfn);
+            }
+            int limit = off + lfn;
+            for (int i=off; i < limit; i++) {
+                dhbr dh = dbtb[i];
+                if (dh < 0x100) {
+                    width += gftLbtinChbrWidth(dh);
+                } flsf if (FontUtilitifs.isNonSimplfChbr(dh)) {
+                    String str = nfw String(dbtb, off, lfn);
+                    width = nfw TfxtLbyout(str, font, frd).gftAdvbndf();
+                    brfbk;
+                } flsf {
+                    width += hbndlfChbrWidth(dh);
+                }
+            }
+        }
+
+        rfturn (int) (0.5 + width);
+    }
+
+    /**
+     * Gfts thf bdvbndf widths of thf first 256 dhbrbdtfrs in thf
+     * <dodf>Font</dodf>.  Thf bdvbndf is thf
+     * distbndf from thf lfftmost point to thf rightmost point on thf
+     * dhbrbdtfr's bbsflinf.  Notf thbt thf bdvbndf of b
+     * <dodf>String</dodf> is not nfdfssbrily thf sum of thf bdvbndfs
+     * of its dhbrbdtfrs.
+     * @rfturn    bn brrby storing thf bdvbndf widths of thf
+     *                 dhbrbdtfrs in thf <dodf>Font</dodf>
+     *                 dfsdribfd by this <dodf>FontMftrids</dodf> objfdt.
+     */
+    // Morf fffidifnt thbn bbsf dlbss implfmfntbtion - rfusfs fxisting dbdhf
+    publid int[] gftWidths() {
+        int[] widths = nfw int[256];
+        for (dhbr dh = 0 ; dh < 256 ; dh++) {
+            flobt w = bdvCbdhf[dh];
+            if (w == UNKNOWN_WIDTH) {
+                w = bdvCbdhf[dh] = hbndlfChbrWidth(dh);
+            }
+            widths[dh] = (int) (0.5 + w);
+        }
+        rfturn widths;
+    }
+
+    publid int gftMbxAdvbndf() {
+        rfturn (int)(0.99f + this.mbxAdvbndf);
+    }
+
+  /*
+   * Rfturns thf typogrbphid bsdfnt of thf font. This is thf mbximum distbndf
+   * glyphs in this font fxtfnd bbovf thf bbsf linf (mfbsurfd in typogrbphid
+   * units).
+   */
+    publid int gftAsdfnt() {
+        rfturn (int)(roundingUpVbluf + this.bsdfnt);
+    }
+
+  /*
+   * Rfturns thf typogrbphid dfsdfnt of thf font. This is thf mbximum distbndf
+   * glyphs in this font fxtfnd bflow thf bbsf linf.
+   */
+    publid int gftDfsdfnt() {
+        rfturn (int)(roundingUpVbluf + this.dfsdfnt);
+    }
+
+    publid int gftLfbding() {
+        // nb this fnsurfs thf sum of thf rfsults of thf publid mfthods
+        // for lfbding, bsdfnt & dfsdfnt sum to hfight.
+        // if thf dbldulbtions in bny othfr mfthods dhbngf this nffds
+        // to bf dhbngfd too.
+        // thf 0.95 vbluf usfd hfrf bnd in thf othfr mfthods bllows somf
+        // tiny frbdtion of lffwby bfforf rouding up. A highfr vbluf (0.99)
+        // dbusfd somf fxdfssivf rounding up.
+        rfturn
+            (int)(roundingUpVbluf + dfsdfnt + lfbding) -
+            (int)(roundingUpVbluf + dfsdfnt);
+    }
+
+    // hfight is dbldulbtfd bs thf sum of two sfpbrbtfly roundfd up vblufs
+    // bfdbusf typidblly dlifnts usf bsdfnt to dftfrminf thf y lodbtion to
+    // pbss to drbwString ftd bnd wf nffd to fnsurf thbt thf hfight hbs fnough
+    // spbdf bflow thf bbsflinf to fully dontbin bny dfsdfndfr.
+    publid int gftHfight() {
+
+        if (hfight < 0) {
+            hfight = gftAsdfnt() + (int)(roundingUpVbluf + dfsdfnt + lfbding);
+        }
+        rfturn hfight;
+    }
+}

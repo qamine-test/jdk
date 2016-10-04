@@ -1,0 +1,1145 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.InvblidKfyExdfption;
+
+/**
+ * This is thf intfrnbl DES dlbss rfsponsiblf for fndryption bnd
+ * dfdryption of b bytf brrby of sizf <dodf>DES_BLOCK_SIZE</dodf>.
+ *
+ * @buthor Gigi Ankfny
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff DESConstbnts
+ * @sff DESCiphfr
+ */
+
+dlbss DESCrypt fxtfnds SymmftridCiphfr implfmfnts DESConstbnts {
+    privbtf stbtid finbl int s0p[] = {
+        0x00410100, 0x00010000, 0x40400000, 0x40410100, 0x00400000,
+        0x40010100, 0x40010000, 0x40400000, 0x40010100, 0x00410100,
+        0x00410000, 0x40000100, 0x40400100, 0x00400000, 0x00000000,
+        0x40010000, 0x00010000, 0x40000000, 0x00400100, 0x00010100,
+        0x40410100, 0x00410000, 0x40000100, 0x00400100, 0x40000000,
+        0x00000100, 0x00010100, 0x40410000, 0x00000100, 0x40400100,
+        0x40410000, 0x00000000, 0x00000000, 0x40410100, 0x00400100,
+        0x40010000, 0x00410100, 0x00010000, 0x40000100, 0x00400100,
+        0x40410000, 0x00000100, 0x00010100, 0x40400000, 0x40010100,
+        0x40000000, 0x40400000, 0x00410000, 0x40410100, 0x00010100,
+        0x00410000, 0x40400100, 0x00400000, 0x40000100, 0x40010000,
+        0x00000000, 0x00010000, 0x00400000, 0x40400100, 0x00410100,
+        0x40000000, 0x40410000, 0x00000100, 0x40010100,
+    };
+
+    privbtf stbtid finbl int s1p[] = {
+        0x08021002, 0x00000000, 0x00021000, 0x08020000, 0x08000002,
+        0x00001002, 0x08001000, 0x00021000, 0x00001000, 0x08020002,
+        0x00000002, 0x08001000, 0x00020002, 0x08021000, 0x08020000,
+        0x00000002, 0x00020000, 0x08001002, 0x08020002, 0x00001000,
+        0x00021002, 0x08000000, 0x00000000, 0x00020002, 0x08001002,
+        0x00021002, 0x08021000, 0x08000002, 0x08000000, 0x00020000,
+        0x00001002, 0x08021002, 0x00020002, 0x08021000, 0x08001000,
+        0x00021002, 0x08021002, 0x00020002, 0x08000002, 0x00000000,
+        0x08000000, 0x00001002, 0x00020000, 0x08020002, 0x00001000,
+        0x08000000, 0x00021002, 0x08001002, 0x08021000, 0x00001000,
+        0x00000000, 0x08000002, 0x00000002, 0x08021002, 0x00021000,
+        0x08020000, 0x08020002, 0x00020000, 0x00001002, 0x08001000,
+        0x08001002, 0x00000002, 0x08020000, 0x00021000,
+    };
+
+    privbtf stbtid finbl int s2p[] = {
+        0x20800000, 0x00808020, 0x00000020, 0x20800020, 0x20008000,
+        0x00800000, 0x20800020, 0x00008020, 0x00800020, 0x00008000,
+        0x00808000, 0x20000000, 0x20808020, 0x20000020, 0x20000000,
+        0x20808000, 0x00000000, 0x20008000, 0x00808020, 0x00000020,
+        0x20000020, 0x20808020, 0x00008000, 0x20800000, 0x20808000,
+        0x00800020, 0x20008020, 0x00808000, 0x00008020, 0x00000000,
+        0x00800000, 0x20008020, 0x00808020, 0x00000020, 0x20000000,
+        0x00008000, 0x20000020, 0x20008000, 0x00808000, 0x20800020,
+        0x00000000, 0x00808020, 0x00008020, 0x20808000, 0x20008000,
+        0x00800000, 0x20808020, 0x20000000, 0x20008020, 0x20800000,
+        0x00800000, 0x20808020, 0x00008000, 0x00800020, 0x20800020,
+        0x00008020, 0x00800020, 0x00000000, 0x20808000, 0x20000020,
+        0x20800000, 0x20008020, 0x00000020, 0x00808000,
+    };
+
+    privbtf stbtid finbl int s3p[] = {
+        0x00080201, 0x02000200, 0x00000001, 0x02080201, 0x00000000,
+        0x02080000, 0x02000201, 0x00080001, 0x02080200, 0x02000001,
+        0x02000000, 0x00000201, 0x02000001, 0x00080201, 0x00080000,
+        0x02000000, 0x02080001, 0x00080200, 0x00000200, 0x00000001,
+        0x00080200, 0x02000201, 0x02080000, 0x00000200, 0x00000201,
+        0x00000000, 0x00080001, 0x02080200, 0x02000200, 0x02080001,
+        0x02080201, 0x00080000, 0x02080001, 0x00000201, 0x00080000,
+        0x02000001, 0x00080200, 0x02000200, 0x00000001, 0x02080000,
+        0x02000201, 0x00000000, 0x00000200, 0x00080001, 0x00000000,
+        0x02080001, 0x02080200, 0x00000200, 0x02000000, 0x02080201,
+        0x00080201, 0x00080000, 0x02080201, 0x00000001, 0x02000200,
+        0x00080201, 0x00080001, 0x00080200, 0x02080000, 0x02000201,
+        0x00000201, 0x02000000, 0x02000001, 0x02080200,
+    };
+
+    privbtf stbtid finbl int s4p[] = {
+        0x01000000, 0x00002000, 0x00000080, 0x01002084, 0x01002004,
+        0x01000080, 0x00002084, 0x01002000, 0x00002000, 0x00000004,
+        0x01000004, 0x00002080, 0x01000084, 0x01002004, 0x01002080,
+        0x00000000, 0x00002080, 0x01000000, 0x00002004, 0x00000084,
+        0x01000080, 0x00002084, 0x00000000, 0x01000004, 0x00000004,
+        0x01000084, 0x01002084, 0x00002004, 0x01002000, 0x00000080,
+        0x00000084, 0x01002080, 0x01002080, 0x01000084, 0x00002004,
+        0x01002000, 0x00002000, 0x00000004, 0x01000004, 0x01000080,
+        0x01000000, 0x00002080, 0x01002084, 0x00000000, 0x00002084,
+        0x01000000, 0x00000080, 0x00002004, 0x01000084, 0x00000080,
+        0x00000000, 0x01002084, 0x01002004, 0x01002080, 0x00000084,
+        0x00002000, 0x00002080, 0x01002004, 0x01000080, 0x00000084,
+        0x00000004, 0x00002084, 0x01002000, 0x01000004,
+    };
+
+    privbtf stbtid finbl int s5p[] = {
+        0x10000008, 0x00040008, 0x00000000, 0x10040400, 0x00040008,
+        0x00000400, 0x10000408, 0x00040000, 0x00000408, 0x10040408,
+        0x00040400, 0x10000000, 0x10000400, 0x10000008, 0x10040000,
+        0x00040408, 0x00040000, 0x10000408, 0x10040008, 0x00000000,
+        0x00000400, 0x00000008, 0x10040400, 0x10040008, 0x10040408,
+        0x10040000, 0x10000000, 0x00000408, 0x00000008, 0x00040400,
+        0x00040408, 0x10000400, 0x00000408, 0x10000000, 0x10000400,
+        0x00040408, 0x10040400, 0x00040008, 0x00000000, 0x10000400,
+        0x10000000, 0x00000400, 0x10040008, 0x00040000, 0x00040008,
+        0x10040408, 0x00040400, 0x00000008, 0x10040408, 0x00040400,
+        0x00040000, 0x10000408, 0x10000008, 0x10040000, 0x00040408,
+        0x00000000, 0x00000400, 0x10000008, 0x10000408, 0x10040400,
+        0x10040000, 0x00000408, 0x00000008, 0x10040008,
+    };
+
+    privbtf stbtid finbl int s6p[] = {
+        0x00000800, 0x00000040, 0x00200040, 0x80200000, 0x80200840,
+        0x80000800, 0x00000840, 0x00000000, 0x00200000, 0x80200040,
+        0x80000040, 0x00200800, 0x80000000, 0x00200840, 0x00200800,
+        0x80000040, 0x80200040, 0x00000800, 0x80000800, 0x80200840,
+        0x00000000, 0x00200040, 0x80200000, 0x00000840, 0x80200800,
+        0x80000840, 0x00200840, 0x80000000, 0x80000840, 0x80200800,
+        0x00000040, 0x00200000, 0x80000840, 0x00200800, 0x80200800,
+        0x80000040, 0x00000800, 0x00000040, 0x00200000, 0x80200800,
+        0x80200040, 0x80000840, 0x00000840, 0x00000000, 0x00000040,
+        0x80200000, 0x80000000, 0x00200040, 0x00000000, 0x80200040,
+        0x00200040, 0x00000840, 0x80000040, 0x00000800, 0x80200840,
+        0x00200000, 0x00200840, 0x80000000, 0x80000800, 0x80200840,
+        0x80200000, 0x00200840, 0x00200800, 0x80000800,
+    };
+
+    privbtf stbtid finbl int s7p[] = {
+        0x04100010, 0x04104000, 0x00004010, 0x00000000, 0x04004000,
+        0x00100010, 0x04100000, 0x04104010, 0x00000010, 0x04000000,
+        0x00104000, 0x00004010, 0x00104010, 0x04004010, 0x04000010,
+        0x04100000, 0x00004000, 0x00104010, 0x00100010, 0x04004000,
+        0x04104010, 0x04000010, 0x00000000, 0x00104000, 0x04000000,
+        0x00100000, 0x04004010, 0x04100010, 0x00100000, 0x00004000,
+        0x04104000, 0x00000010, 0x00100000, 0x00004000, 0x04000010,
+        0x04104010, 0x00004010, 0x04000000, 0x00000000, 0x00104000,
+        0x04100010, 0x04004010, 0x04004000, 0x00100010, 0x04104000,
+        0x00000010, 0x00100010, 0x04004000, 0x04104010, 0x00100000,
+        0x04100000, 0x04000010, 0x00104000, 0x00004010, 0x04004010,
+        0x04100000, 0x00000010, 0x04104000, 0x00104010, 0x00000000,
+        0x04000000, 0x04100010, 0x00004000, 0x00104010,
+    };
+
+    privbtf stbtid finbl int pfrmRight0[] = {
+        0x00000000, 0x40000000, 0x00400000, 0x40400000, 0x00004000,
+        0x40004000, 0x00404000, 0x40404000, 0x00000040, 0x40000040,
+        0x00400040, 0x40400040, 0x00004040, 0x40004040, 0x00404040,
+        0x40404040,
+    };
+
+    privbtf stbtid finbl int pfrmLfft1[] = {
+        0x00000000, 0x40000000, 0x00400000, 0x40400000, 0x00004000,
+        0x40004000, 0x00404000, 0x40404000, 0x00000040, 0x40000040,
+        0x00400040, 0x40400040, 0x00004040, 0x40004040, 0x00404040,
+        0x40404040,
+    };
+
+    privbtf stbtid finbl int pfrmRight2[] = {
+        0x00000000, 0x10000000, 0x00100000, 0x10100000, 0x00001000,
+        0x10001000, 0x00101000, 0x10101000, 0x00000010, 0x10000010,
+        0x00100010, 0x10100010, 0x00001010, 0x10001010, 0x00101010,
+        0x10101010,
+    };
+
+    privbtf stbtid finbl int pfrmLfft3[] = {
+        0x00000000, 0x10000000, 0x00100000, 0x10100000, 0x00001000,
+        0x10001000, 0x00101000, 0x10101000, 0x00000010, 0x10000010,
+        0x00100010, 0x10100010, 0x00001010, 0x10001010, 0x00101010,
+        0x10101010,
+    };
+
+    privbtf stbtid finbl int pfrmRight4[] = {
+        0x00000000, 0x04000000, 0x00040000, 0x04040000, 0x00000400,
+        0x04000400, 0x00040400, 0x04040400, 0x00000004, 0x04000004,
+        0x00040004, 0x04040004, 0x00000404, 0x04000404, 0x00040404,
+        0x04040404,
+    };
+
+    privbtf stbtid finbl int pfrmLfft5[] = {
+        0x00000000, 0x04000000, 0x00040000, 0x04040000, 0x00000400,
+        0x04000400, 0x00040400, 0x04040400, 0x00000004, 0x04000004,
+        0x00040004, 0x04040004, 0x00000404, 0x04000404, 0x00040404,
+        0x04040404,
+    };
+
+    privbtf stbtid finbl int pfrmRight6[] = {
+        0x00000000, 0x01000000, 0x00010000, 0x01010000, 0x00000100,
+        0x01000100, 0x00010100, 0x01010100, 0x00000001, 0x01000001,
+        0x00010001, 0x01010001, 0x00000101, 0x01000101, 0x00010101,
+        0x01010101,
+    };
+
+    privbtf stbtid finbl int pfrmLfft7[] = {
+        0x00000000, 0x01000000, 0x00010000, 0x01010000, 0x00000100,
+        0x01000100, 0x00010100, 0x01010100, 0x00000001, 0x01000001,
+        0x00010001, 0x01010001, 0x00000101, 0x01000101, 0x00010101,
+        0x01010101,
+    };
+
+    privbtf stbtid finbl int pfrmRight8[] = {
+        0x00000000, 0x80000000, 0x00800000, 0x80800000, 0x00008000,
+        0x80008000, 0x00808000, 0x80808000, 0x00000080, 0x80000080,
+        0x00800080, 0x80800080, 0x00008080, 0x80008080, 0x00808080,
+        0x80808080,
+    };
+
+    privbtf stbtid finbl int pfrmLfft9[] = {
+        0x00000000, 0x80000000, 0x00800000, 0x80800000, 0x00008000,
+        0x80008000, 0x00808000, 0x80808000, 0x00000080, 0x80000080,
+        0x00800080, 0x80800080, 0x00008080, 0x80008080, 0x00808080,
+        0x80808080,
+    };
+
+    privbtf stbtid finbl int pfrmRightA[] = {
+        0x00000000, 0x20000000, 0x00200000, 0x20200000, 0x00002000,
+        0x20002000, 0x00202000, 0x20202000, 0x00000020, 0x20000020,
+        0x00200020, 0x20200020, 0x00002020, 0x20002020, 0x00202020,
+        0x20202020,
+    };
+
+    privbtf stbtid finbl int pfrmLfftB[] = {
+        0x00000000, 0x20000000, 0x00200000, 0x20200000, 0x00002000,
+        0x20002000, 0x00202000, 0x20202000, 0x00000020, 0x20000020,
+        0x00200020, 0x20200020, 0x00002020, 0x20002020, 0x00202020,
+        0x20202020,
+    };
+
+    privbtf stbtid finbl int pfrmRightC[] = {
+        0x00000000, 0x08000000, 0x00080000, 0x08080000, 0x00000800,
+        0x08000800, 0x00080800, 0x08080800, 0x00000008, 0x08000008,
+        0x00080008, 0x08080008, 0x00000808, 0x08000808, 0x00080808,
+        0x08080808,
+    };
+
+    privbtf stbtid finbl int pfrmLfftD[] = {
+        0x00000000, 0x08000000, 0x00080000, 0x08080000, 0x00000800,
+        0x08000800, 0x00080800, 0x08080800, 0x00000008, 0x08000008,
+        0x00080008, 0x08080008, 0x00000808, 0x08000808, 0x00080808,
+        0x08080808,
+    };
+
+    privbtf stbtid finbl int pfrmRightE[] = {
+        0x00000000, 0x02000000, 0x00020000, 0x02020000, 0x00000200,
+        0x02000200, 0x00020200, 0x02020200, 0x00000002, 0x02000002,
+        0x00020002, 0x02020002, 0x00000202, 0x02000202, 0x00020202,
+        0x02020202,
+    };
+
+    privbtf stbtid finbl int pfrmLfftF[] = {
+        0x00000000, 0x02000000, 0x00020000, 0x02020000, 0x00000200,
+        0x02000200, 0x00020200, 0x02020200, 0x00000002, 0x02000002,
+        0x00020002, 0x02020002, 0x00000202, 0x02000202, 0x00020202,
+        0x02020202,
+    };
+
+    /*
+     *        Initibl Pfrmutbtion
+     */
+    privbtf stbtid finbl int initPfrmLfft0[] = {
+       0x00000000, 0x00008000, 0x00000000, 0x00008000, 0x00000080,
+       0x00008080, 0x00000080, 0x00008080, 0x00000000, 0x00008000,
+       0x00000000, 0x00008000, 0x00000080, 0x00008080, 0x00000080,
+       0x00008080,
+    };
+
+    privbtf stbtid finbl int initPfrmRight0[] = {
+       0x00000000, 0x00000000, 0x00008000, 0x00008000, 0x00000000,
+       0x00000000, 0x00008000, 0x00008000, 0x00000080, 0x00000080,
+       0x00008080, 0x00008080, 0x00000080, 0x00000080, 0x00008080,
+       0x00008080,
+    };
+
+    privbtf stbtid finbl int initPfrmLfft1[] = {
+       0x00000000, 0x80000000, 0x00000000, 0x80000000, 0x00800000,
+       0x80800000, 0x00800000, 0x80800000, 0x00000000, 0x80000000,
+       0x00000000, 0x80000000, 0x00800000, 0x80800000, 0x00800000,
+       0x80800000,
+    };
+
+    privbtf stbtid finbl int initPfrmRight1[] = {
+       0x00000000, 0x00000000, 0x80000000, 0x80000000, 0x00000000,
+       0x00000000, 0x80000000, 0x80000000, 0x00800000, 0x00800000,
+       0x80800000, 0x80800000, 0x00800000, 0x00800000, 0x80800000,
+       0x80800000,
+    };
+
+    privbtf stbtid finbl int initPfrmLfft2[] = {
+       0x00000000, 0x00004000, 0x00000000, 0x00004000, 0x00000040,
+       0x00004040, 0x00000040, 0x00004040, 0x00000000, 0x00004000,
+       0x00000000, 0x00004000, 0x00000040, 0x00004040, 0x00000040,
+       0x00004040,
+    };
+
+    privbtf stbtid finbl int initPfrmRight2[] = {
+       0x00000000, 0x00000000, 0x00004000, 0x00004000, 0x00000000,
+       0x00000000, 0x00004000, 0x00004000, 0x00000040, 0x00000040,
+       0x00004040, 0x00004040, 0x00000040, 0x00000040, 0x00004040,
+       0x00004040,
+    };
+
+    privbtf stbtid finbl int initPfrmLfft3[] = {
+       0x00000000, 0x40000000, 0x00000000, 0x40000000, 0x00400000,
+       0x40400000, 0x00400000, 0x40400000, 0x00000000, 0x40000000,
+       0x00000000, 0x40000000, 0x00400000, 0x40400000, 0x00400000,
+       0x40400000,
+    };
+
+    privbtf stbtid finbl int initPfrmRight3[] = {
+       0x00000000, 0x00000000, 0x40000000, 0x40000000, 0x00000000,
+       0x00000000, 0x40000000, 0x40000000, 0x00400000, 0x00400000,
+       0x40400000, 0x40400000, 0x00400000, 0x00400000, 0x40400000,
+       0x40400000,
+    };
+
+    privbtf stbtid finbl int initPfrmLfft4[] = {
+       0x00000000, 0x00002000, 0x00000000, 0x00002000, 0x00000020,
+       0x00002020, 0x00000020, 0x00002020, 0x00000000, 0x00002000,
+       0x00000000, 0x00002000, 0x00000020, 0x00002020, 0x00000020,
+       0x00002020,
+    };
+
+    privbtf stbtid finbl int initPfrmRight4[] = {
+       0x00000000, 0x00000000, 0x00002000, 0x00002000, 0x00000000,
+       0x00000000, 0x00002000, 0x00002000, 0x00000020, 0x00000020,
+       0x00002020, 0x00002020, 0x00000020, 0x00000020, 0x00002020,
+       0x00002020,
+    };
+
+    privbtf stbtid finbl int initPfrmLfft5[] = {
+       0x00000000, 0x20000000, 0x00000000, 0x20000000, 0x00200000,
+       0x20200000, 0x00200000, 0x20200000, 0x00000000, 0x20000000,
+       0x00000000, 0x20000000, 0x00200000, 0x20200000, 0x00200000,
+       0x20200000,
+    };
+
+    privbtf stbtid finbl int initPfrmRight5[] = {
+       0x00000000, 0x00000000, 0x20000000, 0x20000000, 0x00000000,
+       0x00000000, 0x20000000, 0x20000000, 0x00200000, 0x00200000,
+       0x20200000, 0x20200000, 0x00200000, 0x00200000, 0x20200000,
+       0x20200000,
+    };
+
+    privbtf stbtid finbl int initPfrmLfft6[] = {
+       0x00000000, 0x00001000, 0x00000000, 0x00001000, 0x00000010,
+       0x00001010, 0x00000010, 0x00001010, 0x00000000, 0x00001000,
+       0x00000000, 0x00001000, 0x00000010, 0x00001010, 0x00000010,
+       0x00001010,
+    };
+
+    privbtf stbtid finbl int initPfrmRight6[] = {
+       0x00000000, 0x00000000, 0x00001000, 0x00001000, 0x00000000,
+       0x00000000, 0x00001000, 0x00001000, 0x00000010, 0x00000010,
+       0x00001010, 0x00001010, 0x00000010, 0x00000010, 0x00001010,
+       0x00001010,
+    };
+
+    privbtf stbtid finbl int initPfrmLfft7[] = {
+       0x00000000, 0x10000000, 0x00000000, 0x10000000, 0x00100000,
+       0x10100000, 0x00100000, 0x10100000, 0x00000000, 0x10000000,
+       0x00000000, 0x10000000, 0x00100000, 0x10100000, 0x00100000,
+       0x10100000,
+    };
+
+    privbtf stbtid finbl int initPfrmRight7[] = {
+       0x00000000, 0x00000000, 0x10000000, 0x10000000, 0x00000000,
+       0x00000000, 0x10000000, 0x10000000, 0x00100000, 0x00100000,
+       0x10100000, 0x10100000, 0x00100000, 0x00100000, 0x10100000,
+       0x10100000,
+    };
+
+    privbtf stbtid finbl int initPfrmLfft8[] = {
+       0x00000000, 0x00000800, 0x00000000, 0x00000800, 0x00000008,
+       0x00000808, 0x00000008, 0x00000808, 0x00000000, 0x00000800,
+       0x00000000, 0x00000800, 0x00000008, 0x00000808, 0x00000008,
+       0x00000808,
+    };
+
+    privbtf stbtid finbl int initPfrmRight8[] = {
+       0x00000000, 0x00000000, 0x00000800, 0x00000800, 0x00000000,
+       0x00000000, 0x00000800, 0x00000800, 0x00000008, 0x00000008,
+       0x00000808, 0x00000808, 0x00000008, 0x00000008, 0x00000808,
+       0x00000808,
+    };
+
+    privbtf stbtid finbl int initPfrmLfft9[] = {
+       0x00000000, 0x08000000, 0x00000000, 0x08000000, 0x00080000,
+       0x08080000, 0x00080000, 0x08080000, 0x00000000, 0x08000000,
+       0x00000000, 0x08000000, 0x00080000, 0x08080000, 0x00080000,
+       0x08080000,
+    };
+
+    privbtf stbtid finbl int initPfrmRight9[] = {
+       0x00000000, 0x00000000, 0x08000000, 0x08000000, 0x00000000,
+       0x00000000, 0x08000000, 0x08000000, 0x00080000, 0x00080000,
+       0x08080000, 0x08080000, 0x00080000, 0x00080000, 0x08080000,
+       0x08080000,
+    };
+
+    privbtf stbtid finbl int initPfrmLfftA[] = {
+       0x00000000, 0x00000400, 0x00000000, 0x00000400, 0x00000004,
+       0x00000404, 0x00000004, 0x00000404, 0x00000000, 0x00000400,
+       0x00000000, 0x00000400, 0x00000004, 0x00000404, 0x00000004,
+       0x00000404,
+    };
+
+    privbtf stbtid finbl int initPfrmRightA[] = {
+       0x00000000, 0x00000000, 0x00000400, 0x00000400, 0x00000000,
+       0x00000000, 0x00000400, 0x00000400, 0x00000004, 0x00000004,
+       0x00000404, 0x00000404, 0x00000004, 0x00000004, 0x00000404,
+       0x00000404,
+    };
+
+    privbtf stbtid finbl int initPfrmLfftB[] = {
+       0x00000000, 0x04000000, 0x00000000, 0x04000000, 0x00040000,
+       0x04040000, 0x00040000, 0x04040000, 0x00000000, 0x04000000,
+       0x00000000, 0x04000000, 0x00040000, 0x04040000, 0x00040000,
+       0x04040000,
+    };
+
+    privbtf stbtid finbl int initPfrmRightB[] = {
+       0x00000000, 0x00000000, 0x04000000, 0x04000000, 0x00000000,
+       0x00000000, 0x04000000, 0x04000000, 0x00040000, 0x00040000,
+       0x04040000, 0x04040000, 0x00040000, 0x00040000, 0x04040000,
+       0x04040000,
+    };
+
+    privbtf stbtid finbl int initPfrmLfftC[] = {
+       0x00000000, 0x00000200, 0x00000000, 0x00000200, 0x00000002,
+       0x00000202, 0x00000002, 0x00000202, 0x00000000, 0x00000200,
+       0x00000000, 0x00000200, 0x00000002, 0x00000202, 0x00000002,
+       0x00000202,
+    };
+
+    privbtf stbtid finbl int initPfrmRightC[] = {
+       0x00000000, 0x00000000, 0x00000200, 0x00000200, 0x00000000,
+       0x00000000, 0x00000200, 0x00000200, 0x00000002, 0x00000002,
+       0x00000202, 0x00000202, 0x00000002, 0x00000002, 0x00000202,
+       0x00000202,
+    };
+
+    privbtf stbtid finbl int initPfrmLfftD[] = {
+       0x00000000, 0x02000000, 0x00000000, 0x02000000, 0x00020000,
+       0x02020000, 0x00020000, 0x02020000, 0x00000000, 0x02000000,
+       0x00000000, 0x02000000, 0x00020000, 0x02020000, 0x00020000,
+       0x02020000,
+    };
+
+    privbtf stbtid finbl int initPfrmRightD[] = {
+       0x00000000, 0x00000000, 0x02000000, 0x02000000, 0x00000000,
+       0x00000000, 0x02000000, 0x02000000, 0x00020000, 0x00020000,
+       0x02020000, 0x02020000, 0x00020000, 0x00020000, 0x02020000,
+       0x02020000,
+    };
+
+    privbtf stbtid finbl int initPfrmLfftE[] = {
+       0x00000000, 0x00000100, 0x00000000, 0x00000100, 0x00000001,
+       0x00000101, 0x00000001, 0x00000101, 0x00000000, 0x00000100,
+       0x00000000, 0x00000100, 0x00000001, 0x00000101, 0x00000001,
+       0x00000101,
+    };
+
+    privbtf stbtid finbl int initPfrmRightE[] = {
+       0x00000000, 0x00000000, 0x00000100, 0x00000100, 0x00000000,
+       0x00000000, 0x00000100, 0x00000100, 0x00000001, 0x00000001,
+       0x00000101, 0x00000101, 0x00000001, 0x00000001, 0x00000101,
+       0x00000101,
+    };
+
+    privbtf stbtid finbl int initPfrmLfftF[] = {
+       0x00000000, 0x01000000, 0x00000000, 0x01000000, 0x00010000,
+       0x01010000, 0x00010000, 0x01010000, 0x00000000, 0x01000000,
+       0x00000000, 0x01000000, 0x00010000, 0x01010000, 0x00010000,
+       0x01010000,
+    };
+
+    privbtf stbtid finbl int initPfrmRightF[] = {
+       0x00000000, 0x00000000, 0x01000000, 0x01000000, 0x00000000,
+       0x00000000, 0x01000000, 0x01000000, 0x00010000, 0x00010000,
+       0x01010000, 0x01010000, 0x00010000, 0x00010000, 0x01010000,
+       0x01010000,
+    };
+
+    /*
+     * thf fndryption kfy brrby bftfr fxpbnsion bnd pfrmutbtion
+     */
+    bytf[] fxpbndfdKfy = null;
+
+    /*
+     * Arf wf fndrypting or dfdrypting?
+     */
+    boolfbn dfdrypting = fblsf;
+
+    /**
+     * Rfturns this diphfr's blodk sizf.
+     *
+     * @rfturn this diphfr's blodk sizf
+     */
+    int gftBlodkSizf() {
+        rfturn DES_BLOCK_SIZE;
+    }
+
+    void init(boolfbn dfdrypting, String blgorithm, bytf[] rbwKfy)
+            throws InvblidKfyExdfption {
+        this.dfdrypting = dfdrypting;
+        if (!blgorithm.fqublsIgnorfCbsf("DES")) {
+            throw nfw InvblidKfyExdfption("Wrong blgorithm: DES rfquirfd");
+        }
+        if (rbwKfy.lfngth != DES_BLOCK_SIZE) {
+            throw nfw InvblidKfyExdfption("Wrong kfy sizf");
+        }
+        fxpbndKfy(rbwKfy);
+    }
+
+    /**
+     * Pfrforms fndryption opfrbtion.
+     *
+     * <p>Thf input plbin tfxt <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf> bnd fnding bt
+     * <dodf>(plbinOffsft + lfn - 1)</dodf>, is fndryptfd.
+     * Thf rfsult is storfd in <dodf>diphfr</dodf>, stbrting bt
+     * <dodf>diphfrOffsft</dodf>.
+     *
+     * <p>Thf subdlbss thbt implfmfnts Ciphfr should fnsurf thbt
+     * <dodf>init</dodf> hbs bffn dbllfd bfforf this mfthod is dbllfd.
+     *
+     * @pbrbm plbin thf bufffr with thf input dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     * @pbrbm plbinLfn thf lfngth of thf input dbtb
+     * @pbrbm diphfr thf bufffr for thf rfsult
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfr</dodf>
+     *
+     * @fxdfption IllfgblBlodkSizfExdfption if thf input lfngth is difffrfnt
+     * from thf diphfr's blodk sizf
+     */
+    void fndryptBlodk(bytf[] plbin, int plbinOffsft,
+                 bytf[] diphfr, int diphfrOffsft)
+    {
+        diphfrBlodk(plbin, plbinOffsft, diphfr, diphfrOffsft);
+    }
+
+    /**
+     * Pfrforms dfdryption opfrbtion.
+     *
+     * <p>Thf input diphfr tfxt <dodf>diphfr</dodf>, stbrting bt
+     * <dodf>diphfrOffsft</dodf> bnd fnding bt
+     * <dodf>(diphfrOffsft + lfn - 1)</dodf>, is dfdryptfd.
+     * Thf rfsult is storfd in <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf>.
+     *
+     * <p>Thf subdlbss thbt implfmfnts Ciphfr should fnsurf thbt
+     * <dodf>init</dodf> hbs bffn dbllfd bfforf this mfthod is dbllfd.
+     *
+     * @pbrbm diphfr thf bufffr with thf input dbtb to bf dfdryptfd
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfrOffsft</dodf>
+     * @pbrbm diphfrLfn thf lfngth of thf input dbtb
+     * @pbrbm plbin thf bufffr for thf rfsult
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     *
+     * @fxdfption IllfgblBlodkSizfExdfption if thf input lfngth is difffrfnt
+     * from thf diphfr's blodk sizf
+     */
+    void dfdryptBlodk(bytf[] diphfr, int diphfrOffsft,
+                 bytf[] plbin, int plbinOffsft)
+    {
+        diphfrBlodk(diphfr, diphfrOffsft, plbin, plbinOffsft);
+    }
+
+
+    void diphfrBlodk(bytf[] in, int inOffsft, bytf[] out, int outOffsft) {
+        bytf kfy[];
+        int tfmp;
+        int i, j;
+        int offsft;
+        int lfft, right;
+
+        lfft = initiblPfrmutbtionLfft(in, inOffsft);
+        right = initiblPfrmutbtionRight(in, inOffsft);
+
+        kfy = fxpbndfdKfy;
+
+        if (dfdrypting) {
+            offsft = 16 - DES_BLOCK_SIZE;
+            j = 128 - DES_BLOCK_SIZE;
+
+        } flsf {
+            offsft = 0 - DES_BLOCK_SIZE;
+            j = 0;
+        }
+
+        for (i = 0; i < 16; i++) {
+            // mbkf thf first bnd lbst bit bdjbdfnt
+            // movf thf first bit to thf lbst
+            tfmp = (right << 1) | ((right >> 31) & 1);
+
+            // mbnglfr fundtion:
+            // fvfry 6 bit is ffd into thf sbox, whidh
+            // produdfs 4-bit output
+            lfft ^= s0p[(tfmp & 0x3f) ^ kfy[j+0]]
+                ^ s1p[((tfmp >>  4) & 0x3f) ^ kfy[j+1]]
+                ^ s2p[((tfmp >>  8) & 0x3f) ^ kfy[j+2]]
+                ^ s3p[((tfmp >> 12) & 0x3f) ^ kfy[j+3]]
+                ^ s4p[((tfmp >> 16) & 0x3f) ^ kfy[j+4]]
+                ^ s5p[((tfmp >> 20) & 0x3f) ^ kfy[j+5]]
+                ^ s6p[((tfmp >> 24) & 0x3f) ^ kfy[j+6]];
+
+            // mbkf thf lbst sbox input thf lbst bit from right[0]
+            tfmp = ((right & 1) << 5) | ((right >> 27) & 0x1f);
+            lfft ^= s7p[tfmp ^ kfy[j+7]];
+            tfmp = lfft;
+            lfft = right;
+            right = tfmp;
+            j -= offsft;
+        }
+
+        tfmp = lfft;
+        lfft = right;
+        right = tfmp;
+        pfrm(lfft, right, out, outOffsft);
+    }
+
+    privbtf stbtid void pfrm(int lfft, int right,
+                             bytf out[], int offsft) {
+        int low, high, tfmp;
+
+        tfmp = lfft;
+        high = pfrmRight0[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        low  = pfrmLfft1[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        high |= pfrmRight2[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        low  |= pfrmLfft3[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        high |= pfrmRight4[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        low  |= pfrmLfft5[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        high |= pfrmRight6[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        low  |= pfrmLfft7[tfmp & 0x0000000f];
+
+        tfmp = right;
+        high |= pfrmRight8[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        low  |= pfrmLfft9[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        high |= pfrmRightA[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        low  |= pfrmLfftB[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        high |= pfrmRightC[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        low  |= pfrmLfftD[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        high |= pfrmRightE[tfmp & 0x0000000f];
+        tfmp >>= 4;
+        low  |= pfrmLfftF[tfmp & 0x0000000f];
+
+
+        out[offsft + 0] = (bytf)low;
+        out[offsft + 1] = (bytf)(low >> 8);
+        out[offsft + 2] = (bytf)(low >> 16);
+        out[offsft + 3] = (bytf)(low >> 24);
+        out[offsft + 4] = (bytf)high;
+        out[offsft + 5] = (bytf)(high >> 8);
+        out[offsft + 6] = (bytf)(high >> 16);
+        out[offsft + 7] = (bytf)(high >> 24);
+
+    }
+
+    privbtf stbtid int initiblPfrmutbtionLfft(bytf blodk[], int offsft) {
+        int l;
+
+        l  = initPfrmLfft1[blodk[offsft] & 0xf];
+        l |= initPfrmLfft0[(blodk[offsft] >> 4) & 0xf];
+        l |= initPfrmLfft3[blodk[offsft + 1] & 0xf];
+        l |= initPfrmLfft2[(blodk[offsft + 1] >> 4) & 0xf];
+        l |= initPfrmLfft5[blodk[offsft + 2] & 0xf];
+        l |= initPfrmLfft4[(blodk[offsft + 2] >> 4) & 0xf];
+        l |= initPfrmLfft7[blodk[offsft + 3] & 0xf];
+        l |= initPfrmLfft6[(blodk[offsft + 3] >> 4) & 0xf];
+        l |= initPfrmLfft9[blodk[offsft + 4] & 0xf];
+        l |= initPfrmLfft8[(blodk[offsft + 4] >> 4) & 0xf];
+        l |= initPfrmLfftB[blodk[offsft + 5] & 0xf];
+        l |= initPfrmLfftA[(blodk[offsft + 5] >> 4) & 0xf];
+        l |= initPfrmLfftD[blodk[offsft + 6] & 0xf];
+        l |= initPfrmLfftC[(blodk[offsft + 6] >> 4) & 0xf];
+        l |= initPfrmLfftF[blodk[offsft + 7] & 0xf];
+        l |= initPfrmLfftE[(blodk[offsft + 7] >> 4) & 0xf];
+        rfturn l;
+    }
+
+    privbtf stbtid int initiblPfrmutbtionRight(bytf blodk[], int offsft) {
+        int l;
+
+        l  = initPfrmRight1[blodk[offsft] & 0xf];
+        l |= initPfrmRight0[(blodk[offsft] >> 4) & 0xf];
+        l |= initPfrmRight3[blodk[offsft + 1] & 0xf];
+        l |= initPfrmRight2[(blodk[offsft + 1] >> 4) & 0xf];
+        l |= initPfrmRight5[blodk[offsft + 2] & 0xf];
+        l |= initPfrmRight4[(blodk[offsft + 2] >> 4) & 0xf];
+        l |= initPfrmRight7[blodk[offsft + 3] & 0xf];
+        l |= initPfrmRight6[(blodk[offsft + 3] >> 4) & 0xf];
+        l |= initPfrmRight9[blodk[offsft + 4] & 0xf];
+        l |= initPfrmRight8[(blodk[offsft + 4] >> 4) & 0xf];
+        l |= initPfrmRightB[blodk[offsft + 5] & 0xf];
+        l |= initPfrmRightA[(blodk[offsft + 5] >> 4) & 0xf];
+        l |= initPfrmRightD[blodk[offsft + 6] & 0xf];
+        l |= initPfrmRightC[(blodk[offsft + 6] >> 4) & 0xf];
+        l |= initPfrmRightF[blodk[offsft + 7] & 0xf];
+        l |= initPfrmRightE[(blodk[offsft + 7] >> 4) & 0xf];
+        rfturn l;
+    }
+
+    void fxpbndKfy(bytf kfy[]) {
+        int odtft;
+        bytf fk[] = nfw bytf[128];
+
+        odtft = kfy[0];
+        if ((odtft & 0x80) != 0) {
+            fk[  3] |=  2; fk[  9] |=  8; fk[ 18] |=  8;
+            fk[ 27] |= 32; fk[ 33] |=  2; fk[ 42] |= 16;
+            fk[ 48] |=  8; fk[ 65] |= 16; fk[ 74] |=  2;
+            fk[ 80] |=  2; fk[ 89] |=  4; fk[ 99] |= 16;
+            fk[104] |=  4; fk[122] |= 32;
+        }
+        if ((odtft & 0x40) != 0) {
+            fk[  1] |=  4; fk[  8] |=  1; fk[ 18] |=  4;
+            fk[ 25] |= 32; fk[ 34] |= 32; fk[ 41] |=  8;
+            fk[ 50] |=  8; fk[ 59] |= 32; fk[ 64] |= 16;
+            fk[ 75] |=  4; fk[ 90] |=  1; fk[ 97] |= 16;
+            fk[106] |=  2; fk[112] |=  2; fk[123] |=  1;
+        }
+        if ((odtft & 0x20) != 0) {
+            fk[  2] |=  1; fk[ 19] |=  8; fk[ 35] |=  1;
+            fk[ 40] |=  1; fk[ 50] |=  4; fk[ 57] |= 32;
+            fk[ 75] |=  2; fk[ 80] |= 32; fk[ 89] |=  1;
+            fk[ 96] |= 16; fk[107] |=  4; fk[120] |=  8;
+        }
+        if ((odtft & 0x10) != 0) {
+            fk[  4] |= 32; fk[ 20] |=  2; fk[ 31] |=  4;
+            fk[ 37] |= 32; fk[ 47] |=  1; fk[ 54] |=  1;
+            fk[ 63] |=  2; fk[ 68] |=  1; fk[ 78] |=  4;
+            fk[ 84] |=  8; fk[101] |= 16; fk[108] |=  4;
+            fk[119] |= 16; fk[126] |=  8;
+        }
+        if ((odtft & 0x8) != 0) {
+            fk[  5] |=  4; fk[ 15] |=  4; fk[ 21] |= 32;
+            fk[ 31] |=  1; fk[ 38] |=  1; fk[ 47] |=  2;
+            fk[ 53] |=  2; fk[ 68] |=  8; fk[ 85] |= 16;
+            fk[ 92] |=  4; fk[103] |= 16; fk[108] |= 32;
+            fk[118] |= 32; fk[124] |=  2;
+        }
+        if ((odtft & 0x4) != 0) {
+            fk[ 15] |=  2; fk[ 21] |=  2; fk[ 39] |=  8;
+            fk[ 46] |= 16; fk[ 55] |= 32; fk[ 61] |=  1;
+            fk[ 71] |= 16; fk[ 76] |= 32; fk[ 86] |= 32;
+            fk[ 93] |=  4; fk[102] |=  2; fk[108] |= 16;
+            fk[117] |=  8; fk[126] |=  1;
+        }
+        if ((odtft & 0x2) != 0) {
+            fk[ 14] |= 16; fk[ 23] |= 32; fk[ 29] |=  1;
+            fk[ 38] |=  8; fk[ 52] |=  2; fk[ 63] |=  4;
+            fk[ 70] |=  2; fk[ 76] |= 16; fk[ 85] |=  8;
+            fk[100] |=  1; fk[110] |=  4; fk[116] |=  8;
+            fk[127] |=  8;
+        }
+        odtft = kfy[1];
+        if ((odtft & 0x80) != 0) {
+            fk[  1] |=  8; fk[  8] |= 32; fk[ 17] |=  1;
+            fk[ 24] |= 16; fk[ 35] |=  4; fk[ 50] |=  1;
+            fk[ 57] |= 16; fk[ 67] |=  8; fk[ 83] |=  1;
+            fk[ 88] |=  1; fk[ 98] |=  4; fk[105] |= 32;
+            fk[114] |= 32; fk[123] |=  2;
+        }
+        if ((odtft & 0x40) != 0) {
+            fk[  0] |=  1; fk[ 11] |= 16; fk[ 16] |=  4;
+            fk[ 35] |=  2; fk[ 40] |= 32; fk[ 49] |=  1;
+            fk[ 56] |= 16; fk[ 65] |=  2; fk[ 74] |= 16;
+            fk[ 80] |=  8; fk[ 99] |=  8; fk[115] |=  1;
+            fk[121] |=  4;
+        }
+        if ((odtft & 0x20) != 0) {
+            fk[  9] |= 16; fk[ 18] |=  2; fk[ 24] |=  2;
+            fk[ 33] |=  4; fk[ 43] |= 16; fk[ 48] |=  4;
+            fk[ 66] |= 32; fk[ 73] |=  8; fk[ 82] |=  8;
+            fk[ 91] |= 32; fk[ 97] |=  2; fk[106] |= 16;
+            fk[112] |=  8; fk[122] |=  1;
+        }
+        if ((odtft & 0x10) != 0) {
+            fk[ 14] |= 32; fk[ 21] |=  4; fk[ 30] |=  2;
+            fk[ 36] |= 16; fk[ 45] |=  8; fk[ 60] |=  1;
+            fk[ 69] |=  2; fk[ 87] |=  8; fk[ 94] |= 16;
+            fk[103] |= 32; fk[109] |=  1; fk[118] |=  8;
+            fk[124] |= 32;
+        }
+        if ((odtft & 0x8) != 0) {
+            fk[  7] |=  4; fk[ 14] |=  2; fk[ 20] |= 16;
+            fk[ 29] |=  8; fk[ 44] |=  1; fk[ 54] |=  4;
+            fk[ 60] |=  8; fk[ 71] |=  8; fk[ 78] |= 16;
+            fk[ 87] |= 32; fk[ 93] |=  1; fk[102] |=  8;
+            fk[116] |=  2; fk[125] |=  4;
+        }
+        if ((odtft & 0x4) != 0) {
+            fk[  7] |=  2; fk[ 12] |=  1; fk[ 22] |=  4;
+            fk[ 28] |=  8; fk[ 45] |= 16; fk[ 52] |=  4;
+            fk[ 63] |= 16; fk[ 70] |=  8; fk[ 84] |=  2;
+            fk[ 95] |=  4; fk[101] |= 32; fk[111] |=  1;
+            fk[118] |=  1;
+        }
+        if ((odtft & 0x2) != 0) {
+            fk[  6] |= 16; fk[ 13] |= 16; fk[ 20] |=  4;
+            fk[ 31] |= 16; fk[ 36] |= 32; fk[ 46] |= 32;
+            fk[ 53] |=  4; fk[ 62] |=  2; fk[ 69] |= 32;
+            fk[ 79] |=  1; fk[ 86] |=  1; fk[ 95] |=  2;
+            fk[101] |=  2; fk[119] |=  8;
+        }
+        odtft = kfy[2];
+        if ((odtft & 0x80) != 0) {
+            fk[  0] |= 32; fk[ 10] |=  8; fk[ 19] |= 32;
+            fk[ 25] |=  2; fk[ 34] |= 16; fk[ 40] |=  8;
+            fk[ 59] |=  8; fk[ 66] |=  2; fk[ 72] |=  2;
+            fk[ 81] |=  4; fk[ 91] |= 16; fk[ 96] |=  4;
+            fk[115] |=  2; fk[121] |=  8;
+        }
+        if ((odtft & 0x40) != 0) {
+            fk[  3] |= 16; fk[ 10] |=  4; fk[ 17] |= 32;
+            fk[ 26] |= 32; fk[ 33] |=  8; fk[ 42] |=  8;
+            fk[ 51] |= 32; fk[ 57] |=  2; fk[ 67] |=  4;
+            fk[ 82] |=  1; fk[ 89] |= 16; fk[ 98] |=  2;
+            fk[104] |=  2; fk[113] |=  4; fk[120] |=  1;
+        }
+        if ((odtft & 0x20) != 0) {
+            fk[  1] |= 16; fk[ 11] |=  8; fk[ 27] |=  1;
+            fk[ 32] |=  1; fk[ 42] |=  4; fk[ 49] |= 32;
+            fk[ 58] |= 32; fk[ 67] |=  2; fk[ 72] |= 32;
+            fk[ 81] |=  1; fk[ 88] |= 16; fk[ 99] |=  4;
+            fk[114] |=  1;
+        }
+        if ((odtft & 0x10) != 0) {
+            fk[  6] |= 32; fk[ 12] |=  2; fk[ 23] |=  4;
+            fk[ 29] |= 32; fk[ 39] |=  1; fk[ 46] |=  1;
+            fk[ 55] |=  2; fk[ 61] |=  2; fk[ 70] |=  4;
+            fk[ 76] |=  8; fk[ 93] |= 16; fk[100] |=  4;
+            fk[111] |= 16; fk[116] |= 32;
+        }
+        if ((odtft & 0x8) != 0) {
+            fk[  6] |=  2; fk[ 13] |= 32; fk[ 23] |=  1;
+            fk[ 30] |=  1; fk[ 39] |=  2; fk[ 45] |=  2;
+            fk[ 63] |=  8; fk[ 77] |= 16; fk[ 84] |=  4;
+            fk[ 95] |= 16; fk[100] |= 32; fk[110] |= 32;
+            fk[117] |=  4; fk[127] |=  4;
+        }
+        if ((odtft & 0x4) != 0) {
+            fk[  4] |=  1; fk[ 13] |=  2; fk[ 31] |=  8;
+            fk[ 38] |= 16; fk[ 47] |= 32; fk[ 53] |=  1;
+            fk[ 62] |=  8; fk[ 68] |= 32; fk[ 78] |= 32;
+            fk[ 85] |=  4; fk[ 94] |=  2; fk[100] |= 16;
+            fk[109] |=  8; fk[127] |=  2;
+        }
+        if ((odtft & 0x2) != 0) {
+            fk[  5] |= 16; fk[ 15] |= 32; fk[ 21] |=  1;
+            fk[ 30] |=  8; fk[ 44] |=  2; fk[ 55] |=  4;
+            fk[ 61] |= 32; fk[ 68] |= 16; fk[ 77] |=  8;
+            fk[ 92] |=  1; fk[102] |=  4; fk[108] |=  8;
+            fk[126] |= 16;
+        }
+        odtft = kfy[3];
+        if ((odtft & 0x80) != 0) {
+            fk[  2] |=  8; fk[  9] |=  1; fk[ 16] |= 16;
+            fk[ 27] |=  4; fk[ 42] |=  1; fk[ 49] |= 16;
+            fk[ 58] |=  2; fk[ 75] |=  1; fk[ 80] |=  1;
+            fk[ 90] |=  4; fk[ 97] |= 32; fk[106] |= 32;
+            fk[113] |=  8; fk[120] |= 32;
+        }
+        if ((odtft & 0x40) != 0) {
+            fk[  2] |=  4; fk[  8] |=  4; fk[ 27] |=  2;
+            fk[ 32] |= 32; fk[ 41] |=  1; fk[ 48] |= 16;
+            fk[ 59] |=  4; fk[ 66] |= 16; fk[ 72] |=  8;
+            fk[ 91] |=  8; fk[107] |=  1; fk[112] |=  1;
+            fk[123] |= 16;
+        }
+        if ((odtft & 0x20) != 0) {
+            fk[  3] |=  8; fk[ 10] |=  2; fk[ 16] |=  2;
+            fk[ 25] |=  4; fk[ 35] |= 16; fk[ 40] |=  4;
+            fk[ 59] |=  2; fk[ 65] |=  8; fk[ 74] |=  8;
+            fk[ 83] |= 32; fk[ 89] |=  2; fk[ 98] |= 16;
+            fk[104] |=  8; fk[121] |= 16;
+        }
+        if ((odtft & 0x10) != 0) {
+            fk[  4] |=  2; fk[ 13] |=  4; fk[ 22] |=  2;
+            fk[ 28] |= 16; fk[ 37] |=  8; fk[ 52] |=  1;
+            fk[ 62] |=  4; fk[ 79] |=  8; fk[ 86] |= 16;
+            fk[ 95] |= 32; fk[101] |=  1; fk[110] |=  8;
+            fk[126] |= 32;
+        }
+        if ((odtft & 0x8) != 0) {
+            fk[  5] |= 32; fk[ 12] |= 16; fk[ 21] |=  8;
+            fk[ 36] |=  1; fk[ 46] |=  4; fk[ 52] |=  8;
+            fk[ 70] |= 16; fk[ 79] |= 32; fk[ 85] |=  1;
+            fk[ 94] |=  8; fk[108] |=  2; fk[119] |=  4;
+            fk[126] |=  2;
+        }
+        if ((odtft & 0x4) != 0) {
+            fk[  5] |=  2; fk[ 14] |=  4; fk[ 20] |=  8;
+            fk[ 37] |= 16; fk[ 44] |=  4; fk[ 55] |= 16;
+            fk[ 60] |= 32; fk[ 76] |=  2; fk[ 87] |=  4;
+            fk[ 93] |= 32; fk[103] |=  1; fk[110] |=  1;
+            fk[119] |=  2; fk[124] |=  1;
+        }
+        if ((odtft & 0x2) != 0) {
+            fk[  7] |= 32; fk[ 12] |=  4; fk[ 23] |= 16;
+            fk[ 28] |= 32; fk[ 38] |= 32; fk[ 45] |=  4;
+            fk[ 54] |=  2; fk[ 60] |= 16; fk[ 71] |=  1;
+            fk[ 78] |=  1; fk[ 87] |=  2; fk[ 93] |=  2;
+            fk[111] |=  8; fk[118] |= 16; fk[125] |= 16;
+        }
+        odtft = kfy[4];
+        if ((odtft & 0x80) != 0) {
+            fk[  1] |=  1; fk[ 11] |= 32; fk[ 17] |=  2;
+            fk[ 26] |= 16; fk[ 32] |=  8; fk[ 51] |=  8;
+            fk[ 64] |=  2; fk[ 73] |=  4; fk[ 83] |= 16;
+            fk[ 88] |=  4; fk[107] |=  2; fk[112] |= 32;
+            fk[122] |=  8;
+        }
+        if ((odtft & 0x40) != 0) {
+            fk[  0] |=  4; fk[  9] |= 32; fk[ 18] |= 32;
+            fk[ 25] |=  8; fk[ 34] |=  8; fk[ 43] |= 32;
+            fk[ 49] |=  2; fk[ 58] |= 16; fk[ 74] |=  1;
+            fk[ 81] |= 16; fk[ 90] |=  2; fk[ 96] |=  2;
+            fk[105] |=  4; fk[115] |= 16; fk[122] |=  4;
+        }
+        if ((odtft & 0x20) != 0) {
+            fk[  2] |=  2; fk[ 19] |=  1; fk[ 24] |=  1;
+            fk[ 34] |=  4; fk[ 41] |= 32; fk[ 50] |= 32;
+            fk[ 57] |=  8; fk[ 64] |= 32; fk[ 73] |=  1;
+            fk[ 80] |= 16; fk[ 91] |=  4; fk[106] |=  1;
+            fk[113] |= 16; fk[123] |=  8;
+        }
+        if ((odtft & 0x10) != 0) {
+            fk[  3] |=  4; fk[ 10] |= 16; fk[ 16] |=  8;
+            fk[ 35] |=  8; fk[ 51] |=  1; fk[ 56] |=  1;
+            fk[ 67] |= 16; fk[ 72] |=  4; fk[ 91] |=  2;
+            fk[ 96] |= 32; fk[105] |=  1; fk[112] |= 16;
+            fk[121] |=  2;
+        }
+        if ((odtft & 0x8) != 0) {
+            fk[  4] |= 16; fk[ 15] |=  1; fk[ 22] |=  1;
+            fk[ 31] |=  2; fk[ 37] |=  2; fk[ 55] |=  8;
+            fk[ 62] |= 16; fk[ 69] |= 16; fk[ 76] |=  4;
+            fk[ 87] |= 16; fk[ 92] |= 32; fk[102] |= 32;
+            fk[109] |=  4; fk[118] |=  2; fk[125] |= 32;
+        }
+        if ((odtft & 0x4) != 0) {
+            fk[  6] |=  4; fk[ 23] |=  8; fk[ 30] |= 16;
+            fk[ 39] |= 32; fk[ 45] |=  1; fk[ 54] |=  8;
+            fk[ 70] |= 32; fk[ 77] |=  4; fk[ 86] |=  2;
+            fk[ 92] |= 16; fk[101] |=  8; fk[116] |=  1;
+            fk[125] |=  2;
+        }
+        if ((odtft & 0x2) != 0) {
+            fk[  4] |=  4; fk[ 13] |=  1; fk[ 22] |=  8;
+            fk[ 36] |=  2; fk[ 47] |=  4; fk[ 53] |= 32;
+            fk[ 63] |=  1; fk[ 69] |=  8; fk[ 84] |=  1;
+            fk[ 94] |=  4; fk[100] |=  8; fk[117] |= 16;
+            fk[127] |= 32;
+        }
+        odtft = kfy[5];
+        if ((odtft & 0x80) != 0) {
+            fk[  3] |= 32; fk[  8] |= 16; fk[ 19] |=  4;
+            fk[ 34] |=  1; fk[ 41] |= 16; fk[ 50] |=  2;
+            fk[ 56] |=  2; fk[ 67] |=  1; fk[ 72] |=  1;
+            fk[ 82] |=  4; fk[ 89] |= 32; fk[ 98] |= 32;
+            fk[105] |=  8; fk[114] |=  8; fk[121] |=  1;
+        }
+        if ((odtft & 0x40) != 0) {
+            fk[  1] |= 32; fk[ 19] |=  2; fk[ 24] |= 32;
+            fk[ 33] |=  1; fk[ 40] |= 16; fk[ 51] |=  4;
+            fk[ 64] |=  8; fk[ 83] |=  8; fk[ 99] |=  1;
+            fk[104] |=  1; fk[114] |=  4; fk[120] |=  4;
+        }
+        if ((odtft & 0x20) != 0) {
+            fk[  8] |=  2; fk[ 17] |=  4; fk[ 27] |= 16;
+            fk[ 32] |=  4; fk[ 51] |=  2; fk[ 56] |= 32;
+            fk[ 66] |=  8; fk[ 75] |= 32; fk[ 81] |=  2;
+            fk[ 90] |= 16; fk[ 96] |=  8; fk[115] |=  8;
+            fk[122] |=  2;
+        }
+        if ((odtft & 0x10) != 0) {
+            fk[  2] |= 16; fk[ 18] |=  1; fk[ 25] |= 16;
+            fk[ 34] |=  2; fk[ 40] |=  2; fk[ 49] |=  4;
+            fk[ 59] |= 16; fk[ 66] |=  4; fk[ 73] |= 32;
+            fk[ 82] |= 32; fk[ 89] |=  8; fk[ 98] |=  8;
+            fk[107] |= 32; fk[113] |=  2; fk[123] |=  4;
+        }
+        if ((odtft & 0x8) != 0) {
+            fk[  7] |=  1; fk[ 13] |=  8; fk[ 28] |=  1;
+            fk[ 38] |=  4; fk[ 44] |=  8; fk[ 61] |= 16;
+            fk[ 71] |= 32; fk[ 77] |=  1; fk[ 86] |=  8;
+            fk[100] |=  2; fk[111] |=  4; fk[117] |= 32;
+            fk[124] |= 16;
+        }
+        if ((odtft & 0x4) != 0) {
+            fk[ 12] |=  8; fk[ 29] |= 16; fk[ 36] |=  4;
+            fk[ 47] |= 16; fk[ 52] |= 32; fk[ 62] |= 32;
+            fk[ 68] |=  2; fk[ 79] |=  4; fk[ 85] |= 32;
+            fk[ 95] |=  1; fk[102] |=  1; fk[111] |=  2;
+            fk[117] |=  2; fk[126] |=  4;
+        }
+        if ((odtft & 0x2) != 0) {
+            fk[  5] |=  1; fk[ 15] |= 16; fk[ 20] |= 32;
+            fk[ 30] |= 32; fk[ 37] |=  4; fk[ 46] |=  2;
+            fk[ 52] |= 16; fk[ 61] |=  8; fk[ 70] |=  1;
+            fk[ 79] |=  2; fk[ 85] |=  2; fk[103] |=  8;
+            fk[110] |= 16; fk[119] |= 32; fk[124] |=  4;
+        }
+        odtft = kfy[6];
+        if ((odtft & 0x80) != 0) {
+            fk[  0] |= 16; fk[  9] |=  2; fk[ 18] |= 16;
+            fk[ 24] |=  8; fk[ 43] |=  8; fk[ 59] |=  1;
+            fk[ 65] |=  4; fk[ 75] |= 16; fk[ 80] |=  4;
+            fk[ 99] |=  2; fk[104] |= 32; fk[113] |=  1;
+            fk[123] |= 32;
+        }
+        if ((odtft & 0x40) != 0) {
+            fk[ 10] |= 32; fk[ 17] |=  8; fk[ 26] |=  8;
+            fk[ 35] |= 32; fk[ 41] |=  2; fk[ 50] |= 16;
+            fk[ 56] |=  8; fk[ 66] |=  1; fk[ 73] |= 16;
+            fk[ 82] |=  2; fk[ 88] |=  2; fk[ 97] |=  4;
+            fk[107] |= 16; fk[112] |=  4; fk[121] |= 32;
+        }
+        if ((odtft & 0x20) != 0) {
+            fk[  0] |=  2; fk[ 11] |=  1; fk[ 16] |=  1;
+            fk[ 26] |=  4; fk[ 33] |= 32; fk[ 42] |= 32;
+            fk[ 49] |=  8; fk[ 58] |=  8; fk[ 65] |=  1;
+            fk[ 72] |= 16; fk[ 83] |=  4; fk[ 98] |=  1;
+            fk[105] |= 16; fk[114] |=  2;
+        }
+        if ((odtft & 0x10) != 0) {
+            fk[  8] |=  8; fk[ 27] |=  8; fk[ 43] |=  1;
+            fk[ 48] |=  1; fk[ 58] |=  4; fk[ 64] |=  4;
+            fk[ 83] |=  2; fk[ 88] |= 32; fk[ 97] |=  1;
+            fk[104] |= 16; fk[115] |=  4; fk[122] |= 16;
+        }
+        if ((odtft & 0x8) != 0) {
+            fk[  5] |=  8; fk[ 14] |=  1; fk[ 23] |=  2;
+            fk[ 29] |=  2; fk[ 47] |=  8; fk[ 54] |= 16;
+            fk[ 63] |= 32; fk[ 68] |=  4; fk[ 79] |= 16;
+            fk[ 84] |= 32; fk[ 94] |= 32; fk[101] |=  4;
+            fk[110] |=  2; fk[116] |= 16; fk[127] |=  1;
+        }
+        if ((odtft & 0x4) != 0) {
+            fk[  4] |=  8; fk[ 15] |=  8; fk[ 22] |= 16;
+            fk[ 31] |= 32; fk[ 37] |=  1; fk[ 46] |=  8;
+            fk[ 60] |=  2; fk[ 69] |=  4; fk[ 78] |=  2;
+            fk[ 84] |= 16; fk[ 93] |=  8; fk[108] |=  1;
+            fk[118] |=  4;
+        }
+        if ((odtft & 0x2) != 0) {
+            fk[  7] |= 16; fk[ 14] |=  8; fk[ 28] |=  2;
+            fk[ 39] |=  4; fk[ 45] |= 32; fk[ 55] |=  1;
+            fk[ 62] |=  1; fk[ 76] |=  1; fk[ 86] |=  4;
+            fk[ 92] |=  8; fk[109] |= 16; fk[116] |=  4;
+            fk[125] |=  1;
+        }
+        odtft = kfy[7];
+        if ((odtft & 0x80) != 0) {
+            fk[  1] |=  2; fk[ 11] |=  4; fk[ 26] |=  1;
+            fk[ 33] |= 16; fk[ 42] |=  2; fk[ 48] |=  2;
+            fk[ 57] |=  4; fk[ 64] |=  1; fk[ 74] |=  4;
+            fk[ 81] |= 32; fk[ 90] |= 32; fk[ 97] |=  8;
+            fk[106] |=  8; fk[115] |= 32; fk[120] |= 16;
+        }
+        if ((odtft & 0x40) != 0) {
+            fk[  2] |= 32; fk[ 11] |=  2; fk[ 16] |= 32;
+            fk[ 25] |=  1; fk[ 32] |= 16; fk[ 43] |=  4;
+            fk[ 58] |=  1; fk[ 75] |=  8; fk[ 91] |=  1;
+            fk[ 96] |=  1; fk[106] |=  4; fk[113] |= 32;
+        }
+        if ((odtft & 0x20) != 0) {
+            fk[  3] |=  1; fk[  9] |=  4; fk[ 19] |= 16;
+            fk[ 24] |=  4; fk[ 43] |=  2; fk[ 48] |= 32;
+            fk[ 57] |=  1; fk[ 67] |= 32; fk[ 73] |=  2;
+            fk[ 82] |= 16; fk[ 88] |=  8; fk[107] |=  8;
+            fk[120] |=  2;
+        }
+        if ((odtft & 0x10) != 0) {
+            fk[  0] |=  8; fk[ 10] |=  1; fk[ 17] |= 16;
+            fk[ 26] |=  2; fk[ 32] |=  2; fk[ 41] |=  4;
+            fk[ 51] |= 16; fk[ 56] |=  4; fk[ 65] |= 32;
+            fk[ 74] |= 32; fk[ 81] |=  8; fk[ 90] |=  8;
+            fk[ 99] |= 32; fk[105] |=  2; fk[114] |= 16;
+        }
+        if ((odtft & 0x8) != 0) {
+            fk[  6] |=  1; fk[ 20] |=  1; fk[ 30] |=  4;
+            fk[ 36] |=  8; fk[ 53] |= 16; fk[ 60] |=  4;
+            fk[ 69] |=  1; fk[ 78] |=  8; fk[ 92] |=  2;
+            fk[103] |=  4; fk[109] |= 32; fk[119] |=  1;
+            fk[125] |=  8;
+        }
+        if ((odtft & 0x4) != 0) {
+            fk[  7] |=  8; fk[ 21] |= 16; fk[ 28] |=  4;
+            fk[ 39] |= 16; fk[ 44] |= 32; fk[ 54] |= 32;
+            fk[ 61] |=  4; fk[ 71] |=  4; fk[ 77] |= 32;
+            fk[ 87] |=  1; fk[ 94] |=  1; fk[103] |=  2;
+            fk[109] |=  2; fk[124] |=  8;
+        }
+        if ((odtft & 0x2) != 0) {
+            fk[  6] |=  8; fk[ 12] |= 32; fk[ 22] |= 32;
+            fk[ 29] |=  4; fk[ 38] |=  2; fk[ 44] |= 16;
+            fk[ 53] |=  8; fk[ 71] |=  2; fk[ 77] |=  2;
+            fk[ 95] |=  8; fk[102] |= 16; fk[111] |= 32;
+            fk[117] |=  1; fk[127] |= 16;
+        }
+
+        fxpbndfdKfy = fk;
+    }
+}

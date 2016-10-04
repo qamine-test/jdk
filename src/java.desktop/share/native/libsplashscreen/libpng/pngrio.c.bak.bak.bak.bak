@@ -1,0 +1,204 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* pngrio.d - fundtions for dbtb input
+ *
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf bnd, pfr its tfrms, should not bf rfmovfd:
+ *
+ * Lbst dhbngfd in libpng 1.5.0 [Jbnubry 6, 2011]
+ * Copyright (d) 1998-2011 Glfnn Rbndfrs-Pfhrson
+ * (Vfrsion 0.96 Copyright (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyright (d) 1995, 1996 Guy Erid Sdhblnbt, Group 42, Ind.)
+ *
+ * This dodf is rflfbsfd undfr thf libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff thf disdlbimfr
+ * bnd lidfnsf in png.h
+ *
+ * This filf providfs b lodbtion for bll input.  Usfrs who nffd
+ * spfdibl hbndling brf fxpfdtfd to writf b fundtion thbt hbs thf sbmf
+ * brgumfnts bs this bnd pfrforms b similbr fundtion, but thbt possibly
+ * hbs b difffrfnt input mfthod.  Notf thbt you shouldn't dhbngf this
+ * fundtion, but rbthfr writf b rfplbdfmfnt fundtion bnd thfn mbkf
+ * libpng usf it bt run timf with png_sft_rfbd_fn(...).
+ */
+
+#indludf "pngpriv.h"
+
+#ifdff PNG_READ_SUPPORTED
+
+/* Rfbd thf dbtb from whbtfvfr input you brf using.  Thf dffbult routinf
+ * rfbds from b filf pointfr.  Notf thbt this routinf somftimfs gfts dbllfd
+ * with vfry smbll lfngths, so you should implfmfnt somf kind of simplf
+ * bufffring if you brf using unbufffrfd rfbds.  This should nfvfr bf bskfd
+ * to rfbd morf thfn 64K on b 16 bit mbdhinf.
+ */
+void /* PRIVATE */
+png_rfbd_dbtb(png_strudtp png_ptr, png_bytfp dbtb, png_sizf_t lfngth)
+{
+   png_dfbug1(4, "rfbding %d bytfs", (int)lfngth);
+
+   if (png_ptr->rfbd_dbtb_fn != NULL)
+      (*(png_ptr->rfbd_dbtb_fn))(png_ptr, dbtb, lfngth);
+
+   flsf
+      png_frror(png_ptr, "Cbll to NULL rfbd fundtion");
+}
+
+#ifdff PNG_STDIO_SUPPORTED
+/* This is thf fundtion thbt dofs thf bdtubl rfbding of dbtb.  If you brf
+ * not rfbding from b stbndbrd C strfbm, you should drfbtf b rfplbdfmfnt
+ * rfbd_dbtb fundtion bnd usf it bt run timf with png_sft_rfbd_fn(), rbthfr
+ * thbn dhbnging thf librbry.
+ */
+#  ifndff USE_FAR_KEYWORD
+void PNGCBAPI
+png_dffbult_rfbd_dbtb(png_strudtp png_ptr, png_bytfp dbtb, png_sizf_t lfngth)
+{
+   png_sizf_t dhfdk;
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   /* frfbd() rfturns 0 on frror, so it is OK to storf this in b png_sizf_t
+    * instfbd of bn int, whidh is whbt frfbd() bdtublly rfturns.
+    */
+   dhfdk = frfbd(dbtb, 1, lfngth, (png_FILE_p)png_ptr->io_ptr);
+
+   if (dhfdk != lfngth)
+      png_frror(png_ptr, "Rfbd Error");
+}
+#  flsf
+/* This is thf modfl-indfpfndfnt vfrsion. Sindf thf stbndbrd I/O librbry
+   dbn't hbndlf fbr bufffrs in thf mfdium bnd smbll modfls, wf hbvf to dopy
+   thf dbtb.
+*/
+
+#dffinf NEAR_BUF_SIZE 1024
+#dffinf MIN(b,b) (b <= b ? b : b)
+
+stbtid void PNGCBAPI
+png_dffbult_rfbd_dbtb(png_strudtp png_ptr, png_bytfp dbtb, png_sizf_t lfngth)
+{
+   png_sizf_t dhfdk;
+   png_bytf *n_dbtb;
+   png_FILE_p io_ptr;
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   /* Chfdk if dbtb rfblly is nfbr. If so, usf usubl dodf. */
+   n_dbtb = (png_bytf *)CVT_PTR_NOCHECK(dbtb);
+   io_ptr = (png_FILE_p)CVT_PTR(png_ptr->io_ptr);
+
+   if ((png_bytfp)n_dbtb == dbtb)
+   {
+      dhfdk = frfbd(n_dbtb, 1, lfngth, io_ptr);
+   }
+
+   flsf
+   {
+      png_bytf buf[NEAR_BUF_SIZE];
+      png_sizf_t rfbd, rfmbining, frr;
+      dhfdk = 0;
+      rfmbining = lfngth;
+
+      do
+      {
+         rfbd = MIN(NEAR_BUF_SIZE, rfmbining);
+         frr = frfbd(buf, 1, rfbd, io_ptr);
+         png_mfmdpy(dbtb, buf, rfbd); /* dopy fbr bufffr to nfbr bufffr */
+
+         if (frr != rfbd)
+            brfbk;
+
+         flsf
+            dhfdk += frr;
+
+         dbtb += rfbd;
+         rfmbining -= rfbd;
+      }
+      whilf (rfmbining != 0);
+   }
+
+   if ((png_uint_32)dhfdk != (png_uint_32)lfngth)
+      png_frror(png_ptr, "rfbd Error");
+}
+#  fndif
+#fndif
+
+/* This fundtion bllows thf bpplidbtion to supply b nfw input fundtion
+ * for libpng if stbndbrd C strfbms brfn't bfing usfd.
+ *
+ * This fundtion tbkfs bs its brgumfnts:
+ *
+ * png_ptr      - pointfr to b png input dbtb strudturf
+ *
+ * io_ptr       - pointfr to usfr supplifd strudturf dontbining info bbout
+ *                thf input fundtions.  Mby bf NULL.
+ *
+ * rfbd_dbtb_fn - pointfr to b nfw input fundtion thbt tbkfs bs its
+ *                brgumfnts b pointfr to b png_strudt, b pointfr to
+ *                b lodbtion whfrf input dbtb dbn bf storfd, bnd b 32-bit
+ *                unsignfd int thbt is thf numbfr of bytfs to bf rfbd.
+ *                To fxit bnd output bny fbtbl frror mfssbgfs thf nfw writf
+ *                fundtion should dbll png_frror(png_ptr, "Error msg").
+ *                Mby bf NULL, in whidh dbsf libpng's dffbult fundtion will
+ *                bf usfd.
+ */
+void PNGAPI
+png_sft_rfbd_fn(png_strudtp png_ptr, png_voidp io_ptr,
+   png_rw_ptr rfbd_dbtb_fn)
+{
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->io_ptr = io_ptr;
+
+#ifdff PNG_STDIO_SUPPORTED
+   if (rfbd_dbtb_fn != NULL)
+      png_ptr->rfbd_dbtb_fn = rfbd_dbtb_fn;
+
+   flsf
+      png_ptr->rfbd_dbtb_fn = png_dffbult_rfbd_dbtb;
+#flsf
+   png_ptr->rfbd_dbtb_fn = rfbd_dbtb_fn;
+#fndif
+
+   /* It is bn frror to writf to b rfbd dfvidf */
+   if (png_ptr->writf_dbtb_fn != NULL)
+   {
+      png_ptr->writf_dbtb_fn = NULL;
+      png_wbrning(png_ptr,
+          "Cbn't sft both rfbd_dbtb_fn bnd writf_dbtb_fn in thf"
+          " sbmf strudturf");
+   }
+
+#ifdff PNG_WRITE_FLUSH_SUPPORTED
+   png_ptr->output_flush_fn = NULL;
+#fndif
+}
+#fndif /* PNG_READ_SUPPORTED */

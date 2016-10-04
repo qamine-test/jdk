@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rowset.internal;
+pbdkbgf dom.sun.rowsft.intfrnbl;
 
-import com.sun.rowset.JdbcRowSetResourceBundle;
-import java.sql.*;
-import javax.sql.*;
-import java.io.*;
-import java.util.*;
+import dom.sun.rowsft.JdbdRowSftRfsourdfBundlf;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * A class used internally to manage a <code>CachedRowSet</code> object's
- * insert row.  This class keeps track of the number of columns in the
- * insert row and which columns have had a value inserted.  It provides
- * methods for retrieving a column value, setting a column value, and finding
- * out whether the insert row is complete.
+ * A dlbss usfd intfrnblly to mbnbgf b <dodf>CbdifdRowSft</dodf> objfdt's
+ * insfrt row.  Tiis dlbss kffps trbdk of tif numbfr of dolumns in tif
+ * insfrt row bnd wiidi dolumns ibvf ibd b vbluf insfrtfd.  It providfs
+ * mftiods for rftrifving b dolumn vbluf, sftting b dolumn vbluf, bnd finding
+ * out wiftifr tif insfrt row is domplftf.
  */
-public class InsertRow extends BaseRow implements Serializable, Cloneable {
+publid dlbss InsfrtRow fxtfnds BbsfRow implfmfnts Sfriblizbblf, Clonfbblf {
 
 /**
- * An internal <code>BitSet</code> object used to keep track of the
- * columns in this <code>InsertRow</code> object that have had a value
- * inserted.
+ * An intfrnbl <dodf>BitSft</dodf> objfdt usfd to kffp trbdk of tif
+ * dolumns in tiis <dodf>InsfrtRow</dodf> objfdt tibt ibvf ibd b vbluf
+ * insfrtfd.
  */
-    private BitSet colsInserted;
+    privbtf BitSft dolsInsfrtfd;
 
 /**
- * The number of columns in this <code>InsertRow</code> object.
+ * Tif numbfr of dolumns in tiis <dodf>InsfrtRow</dodf> objfdt.
  */
-    private int cols;
+    privbtf int dols;
 
-    private JdbcRowSetResourceBundle resBundle;
+    privbtf JdbdRowSftRfsourdfBundlf rfsBundlf;
 
 /**
- * Creates an <code>InsertRow</code> object initialized with the
- * given number of columns, an array for keeping track of the
- * original values in this insert row, and a
- * <code>BitSet</code> object with the same number of bits as
- * there are columns.
+ * Crfbtfs bn <dodf>InsfrtRow</dodf> objfdt initiblizfd witi tif
+ * givfn numbfr of dolumns, bn brrby for kffping trbdk of tif
+ * originbl vblufs in tiis insfrt row, bnd b
+ * <dodf>BitSft</dodf> objfdt witi tif sbmf numbfr of bits bs
+ * tifrf brf dolumns.
  *
- * @param numCols an <code>int</code> indicating the number of columns
- *                in this <code>InsertRow</code> object
+ * @pbrbm numCols bn <dodf>int</dodf> indidbting tif numbfr of dolumns
+ *                in tiis <dodf>InsfrtRow</dodf> objfdt
  */
-    public InsertRow(int numCols) {
-        origVals = new Object[numCols];
-        colsInserted = new BitSet(numCols);
-        cols = numCols;
+    publid InsfrtRow(int numCols) {
+        origVbls = nfw Objfdt[numCols];
+        dolsInsfrtfd = nfw BitSft(numCols);
+        dols = numCols;
         try {
-           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
     }
 
 /**
- * Sets the bit in this <code>InsertRow</code> object's internal
- * <code>BitSet</code> object that corresponds to the specified column
- * in this <code>InsertRow</code> object. Setting a bit indicates
- * that a value has been set.
+ * Sfts tif bit in tiis <dodf>InsfrtRow</dodf> objfdt's intfrnbl
+ * <dodf>BitSft</dodf> objfdt tibt dorrfsponds to tif spfdififd dolumn
+ * in tiis <dodf>InsfrtRow</dodf> objfdt. Sftting b bit indidbtfs
+ * tibt b vbluf ibs bffn sft.
  *
- * @param col the number of the column to be marked as inserted;
- *            the first column is <code>1</code>
+ * @pbrbm dol tif numbfr of tif dolumn to bf mbrkfd bs insfrtfd;
+ *            tif first dolumn is <dodf>1</dodf>
  */
-    protected void markColInserted(int col) {
-        colsInserted.set(col);
+    protfdtfd void mbrkColInsfrtfd(int dol) {
+        dolsInsfrtfd.sft(dol);
     }
 
 /**
- * Indicates whether this <code>InsertRow</code> object has a value
- * for every column that cannot be null.
- * @param RowSetMD the <code>RowSetMetaData</code> object for the
- *                 <code>CachedRowSet</code> object that maintains this
- *                 <code>InsertRow</code> object
- * @return <code>true</code> if this <code>InsertRow</code> object is
- *         complete; <code>false</code> otherwise
- * @throws SQLException if there is an error accessing data
+ * Indidbtfs wiftifr tiis <dodf>InsfrtRow</dodf> objfdt ibs b vbluf
+ * for fvfry dolumn tibt dbnnot bf null.
+ * @pbrbm RowSftMD tif <dodf>RowSftMftbDbtb</dodf> objfdt for tif
+ *                 <dodf>CbdifdRowSft</dodf> objfdt tibt mbintbins tiis
+ *                 <dodf>InsfrtRow</dodf> objfdt
+ * @rfturn <dodf>truf</dodf> if tiis <dodf>InsfrtRow</dodf> objfdt is
+ *         domplftf; <dodf>fblsf</dodf> otifrwisf
+ * @tirows SQLExdfption if tifrf is bn frror bddfssing dbtb
  */
-    public boolean isCompleteRow(RowSetMetaData RowSetMD) throws SQLException {
-        for (int i = 0; i < cols; i++) {
-            if (colsInserted.get(i) == false &&
-                RowSetMD.isNullable(i + 1) ==
-                ResultSetMetaData.columnNoNulls) {
-                return false;
+    publid boolfbn isComplftfRow(RowSftMftbDbtb RowSftMD) tirows SQLExdfption {
+        for (int i = 0; i < dols; i++) {
+            if (dolsInsfrtfd.gft(i) == fblsf &&
+                RowSftMD.isNullbblf(i + 1) ==
+                RfsultSftMftbDbtb.dolumnNoNulls) {
+                rfturn fblsf;
             }
 
         }
-        return true;
+        rfturn truf;
     }
 
 /**
- * Clears all the bits in the internal <code>BitSet</code> object
- * maintained by this <code>InsertRow</code> object.  Clearing all the bits
- * indicates that none of the columns have had a value inserted.
+ * Clfbrs bll tif bits in tif intfrnbl <dodf>BitSft</dodf> objfdt
+ * mbintbinfd by tiis <dodf>InsfrtRow</dodf> objfdt.  Clfbring bll tif bits
+ * indidbtfs tibt nonf of tif dolumns ibvf ibd b vbluf insfrtfd.
  */
-    public void initInsertRow() {
-        for (int i = 0; i < cols; i++) {
-            colsInserted.clear(i);
+    publid void initInsfrtRow() {
+        for (int i = 0; i < dols; i++) {
+            dolsInsfrtfd.dlfbr(i);
         }
     }
 
 /**
- * Retrieves the value of the designated column in this
- * <code>InsertRow</code> object.  If no value has been inserted
- * into the designated column, this method throws an
- * <code>SQLException</code>.
+ * Rftrifvfs tif vbluf of tif dfsignbtfd dolumn in tiis
+ * <dodf>InsfrtRow</dodf> objfdt.  If no vbluf ibs bffn insfrtfd
+ * into tif dfsignbtfd dolumn, tiis mftiod tirows bn
+ * <dodf>SQLExdfption</dodf>.
  *
- * @param idx the column number of the value to be retrieved;
- *            the first column is <code>1</code>
- * @throws SQLException if no value has been inserted into
- *                                   the designated column
+ * @pbrbm idx tif dolumn numbfr of tif vbluf to bf rftrifvfd;
+ *            tif first dolumn is <dodf>1</dodf>
+ * @tirows SQLExdfption if no vbluf ibs bffn insfrtfd into
+ *                                   tif dfsignbtfd dolumn
  */
-    public Object getColumnObject(int idx) throws SQLException {
-        if (colsInserted.get(idx - 1) == false) {
-            throw new SQLException(resBundle.handleGetObject("insertrow.novalue").toString());
+    publid Objfdt gftColumnObjfdt(int idx) tirows SQLExdfption {
+        if (dolsInsfrtfd.gft(idx - 1) == fblsf) {
+            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("insfrtrow.novbluf").toString());
         }
-        return (origVals[idx - 1]);
+        rfturn (origVbls[idx - 1]);
     }
 
 /**
- * Sets the element in this <code>InsertRow</code> object's
- * internal array of original values that corresponds to the
- * designated column with the given value.  If the third
- * argument is <code>true</code>,
- * which means that the cursor is on the insert row, this
- * <code>InsertRow</code> object's internal <code>BitSet</code> object
- * is set so that the bit corresponding to the column being set is
- * turned on.
+ * Sfts tif flfmfnt in tiis <dodf>InsfrtRow</dodf> objfdt's
+ * intfrnbl brrby of originbl vblufs tibt dorrfsponds to tif
+ * dfsignbtfd dolumn witi tif givfn vbluf.  If tif tiird
+ * brgumfnt is <dodf>truf</dodf>,
+ * wiidi mfbns tibt tif dursor is on tif insfrt row, tiis
+ * <dodf>InsfrtRow</dodf> objfdt's intfrnbl <dodf>BitSft</dodf> objfdt
+ * is sft so tibt tif bit dorrfsponding to tif dolumn bfing sft is
+ * turnfd on.
  *
- * @param idx the number of the column in the insert row to be set;
- *              the first column is <code>1</code>
- * @param val the value to be set
+ * @pbrbm idx tif numbfr of tif dolumn in tif insfrt row to bf sft;
+ *              tif first dolumn is <dodf>1</dodf>
+ * @pbrbm vbl tif vbluf to bf sft
  */
-    public void setColumnObject(int idx, Object val) {
-        origVals[idx - 1] = val;
-        markColInserted(idx - 1);
+    publid void sftColumnObjfdt(int idx, Objfdt vbl) {
+        origVbls[idx - 1] = vbl;
+        mbrkColInsfrtfd(idx - 1);
     }
 
     /**
-     * This method re populates the resBundle
-     * during the deserialization process
+     * Tiis mftiod rf populbtfs tif rfsBundlf
+     * during tif dfsfriblizbtion prodfss
      *
      */
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of transient Res Bundle happens here .
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion ibppfns ifrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of trbnsifnt Rfs Bundlf ibppfns ifrf .
         try {
-           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
 
     }
 
-    static final long serialVersionUID = 1066099658102869344L;
+    stbtid finbl long sfriblVfrsionUID = 1066099658102869344L;
 }

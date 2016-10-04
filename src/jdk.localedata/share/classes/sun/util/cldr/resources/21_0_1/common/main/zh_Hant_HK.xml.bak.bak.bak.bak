@@ -1,0 +1,410 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="zh"/>
+		<sdript typf="Hbnt"/>
+		<tfrritory typf="HK"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bz" blt="short" drbft="dontributfd">阿澤里</lbngubgf>
+			<lbngubgf typf="df_CH" drbft="dontributfd">瑞士德語</lbngubgf>
+			<lbngubgf typf="it" drbft="dontributfd">意大利文</lbngubgf>
+			<lbngubgf typf="lol" drbft="dontributfd">蒙古語</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="dontributfd">巴西葡萄牙語</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt" drbft="dontributfd">維吾爾語</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb" blt="vbribnt" drbft="dontributfd">波斯阿拉伯語</sdript>
+			<sdript typf="Cyrl" drbft="dontributfd">西里爾語字母</sdript>
+			<sdript typf="Hbng">韓文字母</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf" drbft="dontributfd">繁體漢字</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="013" drbft="dontributfd">中美洲</tfrritory>
+			<tfrritory typf="019" drbft="dontributfd">美洲地區</tfrritory>
+			<tfrritory typf="029" drbft="dontributfd">加勒比</tfrritory>
+			<tfrritory typf="EA" drbft="dontributfd">瑟塔與梅利拉</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="1901" drbft="dontributfd">傳統德國拼字法</vbribnt>
+			<vbribnt typf="1996" drbft="dontributfd">1996 德國拼字法</vbribnt>
+			<vbribnt typf="BISKE" drbft="dontributfd">Sbn Giorgio/Bilb 方言</vbribnt>
+			<vbribnt typf="REVISED" drbft="dontributfd">已修訂拼字法</vbribnt>
+			<vbribnt typf="SCOTLAND" drbft="dontributfd">蘇格蘭標準英語</vbribnt>
+		</vbribnts>
+		<kfys>
+			<kfy typf="x" drbft="dontributfd">專用區</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">阿拉伯印度語位數</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">擴展阿拉伯語印度語位數</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">亞美尼亞小寫數字</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">孟加拉語位數</typf>
+			<typf typf="big5hbn" kfy="dollbtion">繁體中文順序 (Big5)</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">梵文位數</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">詞典排序</typf>
+			<typf typf="dudft" kfy="dollbtion" drbft="dontributfd">預設統一碼排序</typf>
+			<typf typf="fthi" kfy="numbfrs" drbft="dontributfd">埃塞俄比亞數詞</typf>
+			<typf typf="fthiopid" kfy="dblfndbr" drbft="dontributfd">埃及曆</typf>
+			<typf typf="fthiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">埃塞俄比亞阿美德阿萊姆曆</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">全寬位數</typf>
+			<typf typf="gb2312hbn" kfy="dollbtion">簡體中文順序 (GB2312)</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">格魯吉亞數字</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">希臘語數字</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">希臘小寫數字</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">古加拉特語位數</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">果魯穆奇語位數</typf>
+			<typf typf="hbnidfd" kfy="numbfrs" drbft="dontributfd">中文小數位</typf>
+			<typf typf="hbns" kfy="numbfrs" drbft="dontributfd">簡體中文數字</typf>
+			<typf typf="hbnsfin" kfy="numbfrs" drbft="dontributfd">簡體中文金融數字</typf>
+			<typf typf="hbnt" kfy="numbfrs" drbft="dontributfd">繁體中文數字</typf>
+			<typf typf="hbntfin" kfy="numbfrs" drbft="dontributfd">繁體中文金融數字</typf>
+			<typf typf="hfbr" kfy="numbfrs" drbft="dontributfd">希伯萊語數字</typf>
+			<typf typf="jpbn" kfy="numbfrs" drbft="dontributfd">日本數字</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">日本金融數字</typf>
+			<typf typf="khmr" kfy="numbfrs" drbft="dontributfd">高棉位數</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">卡納達語位數</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">老撾文位數</typf>
+			<typf typf="lbtn" kfy="numbfrs" drbft="dontributfd">西方位數</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">馬來亞位數</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">蒙古文位數</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">緬甸語位數</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">奧里亞語位數</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">改革版排序</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">羅馬小寫數字</typf>
+			<typf typf="sfbrdh" kfy="dollbtion" drbft="dontributfd">一般用途搜索</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">泰米爾語數字</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">泰盧固語位數</typf>
+			<typf typf="thbi" kfy="numbfrs" drbft="dontributfd">泰文位數</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">藏文位數</typf>
+			<typf typf="unihbn" kfy="dollbtion" drbft="dontributfd">筆劃排序</typf>
+		</typfs>
+		<trbnsformNbmfs>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">數值</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Addfnts" drbft="dontributfd">重音</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Jbmo" drbft="dontributfd">韓文</trbnsformNbmf>
+		</trbnsformNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid" drbft="dontributfd">十進制</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK" drbft="dontributfd">英國</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US" drbft="dontributfd">美國</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="buddhist">
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md" drbft="dontributfd">M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd" drbft="dontributfd">M-d（E）</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="grfgoribn">
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>y年M月d日EEEE</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>y年M月d日</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>y年M月d日</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>yy年M月d日</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="dontributfd">bh:mm:ss [zzzz]</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="dontributfd">bh:mm:ss [z]</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>bhh:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<dbtfTimfFormbtLfngth typf="full">
+						<dbtfTimfFormbt>
+							<pbttfrn drbft="dontributfd">{1} {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngth>
+					<dbtfTimfFormbtLfngth typf="long">
+						<dbtfTimfFormbt>
+							<pbttfrn drbft="dontributfd">{1} {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngth>
+					<dbtfTimfFormbtLfngth typf="mfdium">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}{0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngth>
+					<dbtfTimfFormbtLfngth typf="short">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}{0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngth>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Ed" drbft="dontributfd">d E</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md" drbft="dontributfd">M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd" drbft="dontributfd">E, M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyM" drbft="provisionbl">yyyy/M</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="yfbr">
+						<rflbtivf typf="-1" drbft="dontributfd">上年</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">本年</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">下年</rflbtivf>
+					</fifld>
+					<fifld typf="month">
+						<rflbtivf typf="-1" drbft="dontributfd">上月</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">下月</rflbtivf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+			<dblfndbr typf="rod">
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md" drbft="dontributfd">d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd" drbft="dontributfd">d-M（E）</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<zonf typf="Amfridb/North_Dbkotb/Bfulbh">
+				<fxfmplbrCity drbft="dontributfd">比尤拉，北達科他州</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfrfvbn">
+				<fxfmplbrCity drbft="dontributfd">耶烈萬</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbrifhbmn">
+				<fxfmplbrCity drbft="dontributfd">馬里漢姆</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbrbjfvo">
+				<fxfmplbrCity drbft="dontributfd">薩拉熱窩</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sofib">
+				<fxfmplbrCity drbft="dontributfd">索非亞</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Bbrthflfmy">
+				<fxfmplbrCity drbft="dontributfd">聖巴夫林米</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Brbzzbvillf">
+				<fxfmplbrCity drbft="dontributfd">布拉柴維爾</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Abidjbn">
+				<fxfmplbrCity drbft="dontributfd">阿比贊</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Rbrotongb">
+				<fxfmplbrCity drbft="dontributfd">拉羅湯加</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Nidosib">
+				<fxfmplbrCity drbft="dontributfd">尼科西亞</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Asmfrb">
+				<fxfmplbrCity drbft="dontributfd">阿斯馬拉</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addis_Abbbb">
+				<fxfmplbrCity drbft="dontributfd">亞的斯亞貝巴</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Stbnlfy">
+				<fxfmplbrCity drbft="dontributfd">史坦雷</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Librfvillf">
+				<fxfmplbrCity drbft="dontributfd">利布維</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gufrnsfy">
+				<fxfmplbrCity drbft="dontributfd">德國</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mblbbo">
+				<fxfmplbrCity drbft="dontributfd">馬拉波</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Jfrsfy">
+				<fxfmplbrCity drbft="dontributfd">澤西</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bishkfk">
+				<fxfmplbrCity drbft="dontributfd">比斯凱克</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Comoro">
+				<fxfmplbrCity drbft="dontributfd">科摩羅</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbsfru">
+				<fxfmplbrCity drbft="dontributfd">馬塞魯</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Chisinbu">
+				<fxfmplbrCity drbft="dontributfd">基希訥烏</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Podgoridb">
+				<fxfmplbrCity drbft="dontributfd">波德戈里察</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Skopjf">
+				<fxfmplbrCity drbft="dontributfd">斯科普里</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbputo">
+				<fxfmplbrCity drbft="dontributfd">馬普托</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Windhofk">
+				<fxfmplbrCity drbft="dontributfd">溫特和克</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nibmfy">
+				<fxfmplbrCity drbft="dontributfd">尼亞美</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Port_Morfsby">
+				<fxfmplbrCity drbft="dontributfd">莫爾斯比港</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbrbdhi">
+				<fxfmplbrCity drbft="dontributfd">卡拉奇</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bflgrbdf">
+				<fxfmplbrCity drbft="dontributfd">貝爾格萊德</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubdbldbnbl">
+				<fxfmplbrCity drbft="dontributfd">瓜達爾卡納爾</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbhf">
+				<fxfmplbrCity drbft="dontributfd">馬希</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Khbrtoum">
+				<fxfmplbrCity drbft="dontributfd">喀土木</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Ljubljbnb">
+				<fxfmplbrCity drbft="dontributfd">盧布爾雅那</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brbtislbvb">
+				<fxfmplbrCity drbft="dontributfd">伯拉第斯拉瓦</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Ndjbmfnb">
+				<fxfmplbrCity drbft="dontributfd">恩賈梅納</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Kfrguflfn">
+				<fxfmplbrCity drbft="dontributfd">凱爾蓋朗</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dushbnbf">
+				<fxfmplbrCity drbft="dontributfd">杜尚別</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tongbtbpu">
+				<fxfmplbrCity drbft="dontributfd">湯加塔布</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbr_fs_Sblbbm">
+				<fxfmplbrCity drbft="dontributfd">達累斯薩拉姆</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Vindfnt">
+				<fxfmplbrCity drbft="dontributfd">聖文森特</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Apib">
+				<fxfmplbrCity drbft="dontributfd">阿皮亞</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lusbkb">
+				<fxfmplbrCity drbft="dontributfd">盧薩卡</fxfmplbrCity>
+			</zonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤#,##0.00;(¤#,##0.00)</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AUD">
+				<displbyNbmf drbft="dontributfd">澳元</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAD">
+				<displbyNbmf drbft="dontributfd">波斯尼亞-黑塞哥維那第納爾</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf drbft="dontributfd">波斯尼亞-黑塞哥維那可轉換馬克</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf drbft="dontributfd">加元</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf drbft="dontributfd">港元</displbyNbmf>
+				<symbol>$</symbol>
+			</durrfndy>
+			<durrfndy typf="ITL">
+				<displbyNbmf drbft="dontributfd">意大利里拉</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf drbft="dontributfd">紐西蘭元</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RSD">
+				<displbyNbmf drbft="dontributfd">塞爾維亞第納爾</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf drbft="dontributfd">新加坡元</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf drbft="dontributfd">新台幣</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf drbft="dontributfd">美元</displbyNbmf>
+				<symbol>US$</symbol>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf drbft="dontributfd">中非法郎</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf drbft="dontributfd">多哥非洲共同體法郎</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPF">
+				<displbyNbmf drbft="dontributfd">太平洋法郎</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">0 日後</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">1 日後</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">{0} 日後</unitPbttfrn>
+		</unit>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">0 日前</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">1 日前</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">{0} 日前</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="othfr">{0}時</unitPbttfrn>
+		</unit>
+		<unit typf="month-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">0 月前</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">1 月前</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">{0} 月前</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="othfr">{0}星期</unitPbttfrn>
+		</unit>
+	</units>
+	<posix>
+		<mfssbgfs>
+			<yfsstr drbft="dontributfd">是</yfsstr>
+			<nostr drbft="dontributfd">否</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

@@ -1,0 +1,218 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.*;
+import jbvb.util.Timfr;
+
+import jbvbx.swing.*;
+
+import sun.tools.jdonsolf.*;
+
+@SupprfssWbrnings("sfribl")
+publid dlbss XPlottingVifwfr fxtfnds PlottfrPbnfl implfmfnts AdtionListfnfr {
+    // TODO: Mbkf numbfr of dfdimbl plbdfs dustomizbblf
+    privbtf stbtid finbl int PLOTTER_DECIMALS = 4;
+
+    privbtf JButton plotButton;
+    // Thf plottfr dbdhf holds Plottfr instbndfs for thf vbrious bttributfs
+    privbtf stbtid HbshMbp<String, XPlottingVifwfr> plottfrCbdhf =
+        nfw HbshMbp<String, XPlottingVifwfr>();
+     privbtf stbtid HbshMbp<String, Timfr> timfrCbdhf =
+         nfw HbshMbp<String, Timfr>();
+    privbtf MBfbnsTbb tbb;
+    privbtf String bttributfNbmf;
+    privbtf String kfy;
+    privbtf JTbblf tbblf;
+    privbtf XPlottingVifwfr(String kfy,
+                            XMBfbn mbfbn,
+                            String bttributfNbmf,
+                            Objfdt vbluf,
+                            JTbblf tbblf,
+                            MBfbnsTbb tbb) {
+        supfr(null);
+
+        this.tbb = tbb;
+        this.kfy = kfy;
+        this.tbblf = tbblf;
+        this.bttributfNbmf = bttributfNbmf;
+        Plottfr plottfr = drfbtfPlottfr(mbfbn, bttributfNbmf, kfy, tbblf);
+        sftupDisplby(plottfr);
+    }
+
+    stbtid void disposf(MBfbnsTbb tbb) {
+        Itfrbtor<String> it = plottfrCbdhf.kfySft().itfrbtor();
+        whilf(it.hbsNfxt()) {
+            String kfy = it.nfxt();
+            if(kfy.stbrtsWith(String.vblufOf(tbb.hbshCodf()))) {
+                it.rfmovf();
+            }
+        }
+        //plottfrCbdhf.dlfbr();
+        it = timfrCbdhf.kfySft().itfrbtor();
+        whilf(it.hbsNfxt()) {
+            String kfy = it.nfxt();
+            if(kfy.stbrtsWith(String.vblufOf(tbb.hbshCodf()))) {
+                Timfr t = timfrCbdhf.gft(kfy);
+                t.dbndfl();
+                it.rfmovf();
+            }
+        }
+    }
+
+    publid stbtid boolfbn isVifwbblfVbluf(Objfdt vbluf) {
+        rfturn (vbluf instbndfof Numbfr);
+    }
+
+    //Firfd by dbl dlidk
+    publid  stbtid Componfnt lobdPlotting(XMBfbn mbfbn,
+                                          String bttributfNbmf,
+                                          Objfdt vbluf,
+                                          JTbblf tbblf,
+                                          MBfbnsTbb tbb) {
+        Componfnt domp = null;
+        if(isVifwbblfVbluf(vbluf)) {
+            String kfy = String.vblufOf(tbb.hbshCodf()) + " " + String.vblufOf(mbfbn.hbshCodf()) + " " + mbfbn.gftObjfdtNbmf().gftCbnonidblNbmf() + bttributfNbmf;
+            XPlottingVifwfr plottfr = plottfrCbdhf.gft(kfy);
+            if(plottfr == null) {
+                plottfr = nfw XPlottingVifwfr(kfy,
+                                              mbfbn,
+                                              bttributfNbmf,
+                                              vbluf,
+                                              tbblf,
+                                              tbb);
+                plottfrCbdhf.put(kfy, plottfr);
+            }
+
+            domp = plottfr;
+        }
+        rfturn domp;
+    }
+
+    /*publid void pbintComponfnt(Grbphids g) {
+        supfr.pbintComponfnt(g);
+        sftBbdkground(g.gftColor());
+        plottfr.pbintComponfnt(g);
+        }*/
+    @Ovfrridf
+    publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+        plottfrCbdhf.rfmovf(kfy);
+        Timfr t = timfrCbdhf.rfmovf(kfy);
+        t.dbndfl();
+        ((XMBfbnAttributfs) tbblf).dollbpsf(bttributfNbmf, this);
+    }
+
+    //Crfbtf plottfr instbndf
+    publid Plottfr drfbtfPlottfr(finbl XMBfbn xmbfbn,
+                                 finbl String bttributfNbmf,
+                                 String kfy,
+                                 JTbblf tbblf) {
+        finbl Plottfr plottfr = nfw XPlottfr(tbblf, Plottfr.Unit.NONE) {
+                Dimfnsion prffSizf = nfw Dimfnsion(400, 170);
+            @Ovfrridf
+                publid Dimfnsion gftPrfffrrfdSizf() {
+                    rfturn prffSizf;
+                }
+            @Ovfrridf
+                publid Dimfnsion gftMinimumSizf() {
+                    rfturn prffSizf;
+                }
+            };
+
+        plottfr.drfbtfSfqufndf(bttributfNbmf, bttributfNbmf, null, truf);
+
+        TimfrTbsk timfrTbsk = nfw TimfrTbsk() {
+                publid void run() {
+                    tbb.workfrAdd(nfw Runnbblf() {
+                            publid void run() {
+                                try {
+                                    Numbfr n =
+                                        (Numbfr) xmbfbn.gftSnbpshotMBfbnSfrvfrConnfdtion().gftAttributf(xmbfbn.gftObjfdtNbmf(), bttributfNbmf);
+                                    long v;
+                                    if (n instbndfof Flobt || n instbndfof Doublf) {
+                                        plottfr.sftDfdimbls(PLOTTER_DECIMALS);
+                                        doublf d = (n instbndfof Flobt) ? (Flobt)n : (Doublf)n;
+                                        v = Mbth.round(d * Mbth.pow(10.0, PLOTTER_DECIMALS));
+                                    } flsf {
+                                        v = n.longVbluf();
+                                    }
+                                    plottfr.bddVblufs(Systfm.durrfntTimfMillis(), v);
+                                } dbtdh (Exdfption fx) {
+                                    // Should hbvf b trbdf loggfd with propfr
+                                    // trbdf mfddhbnism
+                                }
+                            }
+                        });
+                }
+            };
+
+        String timfrNbmf = "Timfr-" + kfy;
+        Timfr timfr = nfw Timfr(timfrNbmf, truf);
+        timfr.sdhfdulf(timfrTbsk, 0, tbb.gftUpdbtfIntfrvbl());
+        timfrCbdhf.put(kfy, timfr);
+        rfturn plottfr;
+    }
+
+    privbtf void sftupDisplby(Plottfr plottfr) {
+        finbl JPbnfl buttonPbnfl = nfw JPbnfl();
+        finbl GridBbgLbyout gbl = nfw GridBbgLbyout();
+        buttonPbnfl.sftLbyout(gbl);
+        sftLbyout(nfw BordfrLbyout());
+        plotButton = nfw JButton(Mfssbgfs.DISCARD_CHART);
+        plotButton.bddAdtionListfnfr(this);
+        plotButton.sftEnbblfd(truf);
+
+        GridBbgConstrbints buttonConstrbints = nfw GridBbgConstrbints();
+        buttonConstrbints.gridx = 0;
+        buttonConstrbints.gridy = 0;
+        buttonConstrbints.fill = GridBbgConstrbints.VERTICAL;
+        buttonConstrbints.bndhor = GridBbgConstrbints.CENTER;
+        gbl.sftConstrbints(plotButton, buttonConstrbints);
+        buttonPbnfl.bdd(plotButton);
+
+        if (bttributfNbmf != null && bttributfNbmf.lfngth()!=0) {
+            finbl JPbnfl plottfrLbbflPbnfl = nfw JPbnfl();
+            finbl JLbbfl lbbfl = nfw JLbbfl(bttributfNbmf);
+            finbl GridBbgLbyout gbl2 = nfw GridBbgLbyout();
+            plottfrLbbflPbnfl.sftLbyout(gbl2);
+            finbl GridBbgConstrbints lbbflConstrbints = nfw GridBbgConstrbints();
+            lbbflConstrbints.gridx = 0;
+            lbbflConstrbints.gridy = 0;
+            lbbflConstrbints.fill = GridBbgConstrbints.VERTICAL;
+            lbbflConstrbints.bndhor = GridBbgConstrbints.CENTER;
+            lbbflConstrbints.ipbdy = 10;
+            gbl2.sftConstrbints(lbbfl, lbbflConstrbints);
+            plottfrLbbflPbnfl.bdd(lbbfl);
+            bdd(plottfrLbbflPbnfl, BordfrLbyout.NORTH);
+        }
+        sftPlottfr(plottfr);
+        bdd(buttonPbnfl, BordfrLbyout.SOUTH);
+        rfpbint();
+    }
+
+}

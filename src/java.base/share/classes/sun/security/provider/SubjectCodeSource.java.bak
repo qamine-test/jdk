@@ -1,401 +1,401 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.net.URL;
-import java.util.*;
-import java.security.CodeSource;
-import java.security.Principal;
-import java.security.cert.Certificate;
-import java.lang.reflect.Constructor;
+import jbvb.nft.URL;
+import jbvb.util.*;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.lbng.rfflfdt.Construdtor;
 
-import javax.security.auth.Subject;
-import sun.security.provider.PolicyParser.PrincipalEntry;
+import jbvbx.sfdurity.buti.Subjfdt;
+import sun.sfdurity.providfr.PolidyPbrsfr.PrindipblEntry;
 
 /**
- * <p> This <code>SubjectCodeSource</code> class contains
- * a <code>URL</code>, signer certificates, and either a <code>Subject</code>
- * (that represents the <code>Subject</code> in the current
- * <code>AccessControlContext</code>), or a linked list of Principals
- * (that represent a "subject" in a <code>Policy</code>).
+ * <p> Tiis <dodf>SubjfdtCodfSourdf</dodf> dlbss dontbins
+ * b <dodf>URL</dodf>, signfr dfrtifidbtfs, bnd fitifr b <dodf>Subjfdt</dodf>
+ * (tibt rfprfsfnts tif <dodf>Subjfdt</dodf> in tif durrfnt
+ * <dodf>AddfssControlContfxt</dodf>), or b linkfd list of Prindipbls
+ * (tibt rfprfsfnt b "subjfdt" in b <dodf>Polidy</dodf>).
  *
  */
-class SubjectCodeSource extends CodeSource implements java.io.Serializable {
+dlbss SubjfdtCodfSourdf fxtfnds CodfSourdf implfmfnts jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = 6039418085604715275L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6039418085604715275L;
 
-    private static final java.util.ResourceBundle rb =
-        java.security.AccessController.doPrivileged
-        (new java.security.PrivilegedAction<java.util.ResourceBundle>() {
-            public java.util.ResourceBundle run() {
-                return (java.util.ResourceBundle.getBundle
-                        ("sun.security.util.AuthResources"));
+    privbtf stbtid finbl jbvb.util.RfsourdfBundlf rb =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+        (nfw jbvb.sfdurity.PrivilfgfdAdtion<jbvb.util.RfsourdfBundlf>() {
+            publid jbvb.util.RfsourdfBundlf run() {
+                rfturn (jbvb.util.RfsourdfBundlf.gftBundlf
+                        ("sun.sfdurity.util.AutiRfsourdfs"));
             }
         });
 
-    private Subject subject;
-    private LinkedList<PrincipalEntry> principals;
-    private static final Class<?>[] PARAMS = { String.class };
-    private static final sun.security.util.Debug debug =
-        sun.security.util.Debug.getInstance("auth", "\t[Auth Access]");
-    private ClassLoader sysClassLoader;
+    privbtf Subjfdt subjfdt;
+    privbtf LinkfdList<PrindipblEntry> prindipbls;
+    privbtf stbtid finbl Clbss<?>[] PARAMS = { String.dlbss };
+    privbtf stbtid finbl sun.sfdurity.util.Dfbug dfbug =
+        sun.sfdurity.util.Dfbug.gftInstbndf("buti", "\t[Auti Addfss]");
+    privbtf ClbssLobdfr sysClbssLobdfr;
 
     /**
-     * Creates a new <code>SubjectCodeSource</code>
-     * with the given <code>Subject</code>, principals, <code>URL</code>,
-     * and signers (Certificates).  The <code>Subject</code>
-     * represents the <code>Subject</code> associated with the current
-     * <code>AccessControlContext</code>.
-     * The Principals are given as a <code>LinkedList</code>
-     * of <code>PolicyParser.PrincipalEntry</code> objects.
-     * Typically either a <code>Subject</code> will be provided,
-     * or a list of <code>principals</code> will be provided
-     * (not both).
+     * Crfbtfs b nfw <dodf>SubjfdtCodfSourdf</dodf>
+     * witi tif givfn <dodf>Subjfdt</dodf>, prindipbls, <dodf>URL</dodf>,
+     * bnd signfrs (Cfrtifidbtfs).  Tif <dodf>Subjfdt</dodf>
+     * rfprfsfnts tif <dodf>Subjfdt</dodf> bssodibtfd witi tif durrfnt
+     * <dodf>AddfssControlContfxt</dodf>.
+     * Tif Prindipbls brf givfn bs b <dodf>LinkfdList</dodf>
+     * of <dodf>PolidyPbrsfr.PrindipblEntry</dodf> objfdts.
+     * Typidblly fitifr b <dodf>Subjfdt</dodf> will bf providfd,
+     * or b list of <dodf>prindipbls</dodf> will bf providfd
+     * (not boti).
      *
      * <p>
      *
-     * @param subject the <code>Subject</code> associated with this
-     *                  <code>SubjectCodeSource</code> <p>
+     * @pbrbm subjfdt tif <dodf>Subjfdt</dodf> bssodibtfd witi tiis
+     *                  <dodf>SubjfdtCodfSourdf</dodf> <p>
      *
-     * @param url the <code>URL</code> associated with this
-     *                  <code>SubjectCodeSource</code> <p>
+     * @pbrbm url tif <dodf>URL</dodf> bssodibtfd witi tiis
+     *                  <dodf>SubjfdtCodfSourdf</dodf> <p>
      *
-     * @param certs the signers associated with this
-     *                  <code>SubjectCodeSource</code> <p>
+     * @pbrbm dfrts tif signfrs bssodibtfd witi tiis
+     *                  <dodf>SubjfdtCodfSourdf</dodf> <p>
      */
-    SubjectCodeSource(Subject subject,
-        LinkedList<PrincipalEntry> principals,
-        URL url, Certificate[] certs) {
+    SubjfdtCodfSourdf(Subjfdt subjfdt,
+        LinkfdList<PrindipblEntry> prindipbls,
+        URL url, Cfrtifidbtf[] dfrts) {
 
-        super(url, certs);
-        this.subject = subject;
-        this.principals = (principals == null ?
-                new LinkedList<PrincipalEntry>() :
-                new LinkedList<PrincipalEntry>(principals));
-        sysClassLoader = java.security.AccessController.doPrivileged
-        (new java.security.PrivilegedAction<ClassLoader>() {
-            public ClassLoader run() {
-                    return ClassLoader.getSystemClassLoader();
+        supfr(url, dfrts);
+        tiis.subjfdt = subjfdt;
+        tiis.prindipbls = (prindipbls == null ?
+                nfw LinkfdList<PrindipblEntry>() :
+                nfw LinkfdList<PrindipblEntry>(prindipbls));
+        sysClbssLobdfr = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+        (nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+            publid ClbssLobdfr run() {
+                    rfturn ClbssLobdfr.gftSystfmClbssLobdfr();
             }
         });
     }
 
     /**
-     * Get the Principals associated with this <code>SubjectCodeSource</code>.
-     * The Principals are retrieved as a <code>LinkedList</code>
-     * of <code>PolicyParser.PrincipalEntry</code> objects.
+     * Gft tif Prindipbls bssodibtfd witi tiis <dodf>SubjfdtCodfSourdf</dodf>.
+     * Tif Prindipbls brf rftrifvfd bs b <dodf>LinkfdList</dodf>
+     * of <dodf>PolidyPbrsfr.PrindipblEntry</dodf> objfdts.
      *
      * <p>
      *
-     * @return the Principals associated with this
-     *          <code>SubjectCodeSource</code> as a <code>LinkedList</code>
-     *          of <code>PolicyParser.PrincipalEntry</code> objects.
+     * @rfturn tif Prindipbls bssodibtfd witi tiis
+     *          <dodf>SubjfdtCodfSourdf</dodf> bs b <dodf>LinkfdList</dodf>
+     *          of <dodf>PolidyPbrsfr.PrindipblEntry</dodf> objfdts.
      */
-    LinkedList<PrincipalEntry> getPrincipals() {
-        return principals;
+    LinkfdList<PrindipblEntry> gftPrindipbls() {
+        rfturn prindipbls;
     }
 
     /**
-     * Get the <code>Subject</code> associated with this
-     * <code>SubjectCodeSource</code>.  The <code>Subject</code>
-     * represents the <code>Subject</code> associated with the
-     * current <code>AccessControlContext</code>.
+     * Gft tif <dodf>Subjfdt</dodf> bssodibtfd witi tiis
+     * <dodf>SubjfdtCodfSourdf</dodf>.  Tif <dodf>Subjfdt</dodf>
+     * rfprfsfnts tif <dodf>Subjfdt</dodf> bssodibtfd witi tif
+     * durrfnt <dodf>AddfssControlContfxt</dodf>.
      *
      * <p>
      *
-     * @return the <code>Subject</code> associated with this
-     *          <code>SubjectCodeSource</code>.
+     * @rfturn tif <dodf>Subjfdt</dodf> bssodibtfd witi tiis
+     *          <dodf>SubjfdtCodfSourdf</dodf>.
      */
-    Subject getSubject() {
-        return subject;
+    Subjfdt gftSubjfdt() {
+        rfturn subjfdt;
     }
 
     /**
-     * Returns true if this <code>SubjectCodeSource</code> object "implies"
-     * the specified <code>CodeSource</code>.
-     * More specifically, this method makes the following checks.
-     * If any fail, it returns false.  If they all succeed, it returns true.
+     * Rfturns truf if tiis <dodf>SubjfdtCodfSourdf</dodf> objfdt "implifs"
+     * tif spfdififd <dodf>CodfSourdf</dodf>.
+     * Morf spfdifidblly, tiis mftiod mbkfs tif following difdks.
+     * If bny fbil, it rfturns fblsf.  If tify bll suddffd, it rfturns truf.
      *
      * <p>
      * <ol>
-     * <li> The provided codesource must not be <code>null</code>.
-     * <li> codesource must be an instance of <code>SubjectCodeSource</code>.
-     * <li> super.implies(codesource) must return true.
-     * <li> for each principal in this codesource's principal list:
+     * <li> Tif providfd dodfsourdf must not bf <dodf>null</dodf>.
+     * <li> dodfsourdf must bf bn instbndf of <dodf>SubjfdtCodfSourdf</dodf>.
+     * <li> supfr.implifs(dodfsourdf) must rfturn truf.
+     * <li> for fbdi prindipbl in tiis dodfsourdf's prindipbl list:
      * <ol>
-     * <li>     if the principal is an instanceof
-     *          <code>Principal</code>, then the principal must
-     *          imply the provided codesource's <code>Subject</code>.
-     * <li>     if the principal is not an instanceof
-     *          <code>Principal</code>, then the provided
-     *          codesource's <code>Subject</code> must have an
-     *          associated <code>Principal</code>, <i>P</i>, where
-     *          P.getClass().getName equals principal.principalClass,
-     *          and P.getName() equals principal.principalName.
+     * <li>     if tif prindipbl is bn instbndfof
+     *          <dodf>Prindipbl</dodf>, tifn tif prindipbl must
+     *          imply tif providfd dodfsourdf's <dodf>Subjfdt</dodf>.
+     * <li>     if tif prindipbl is not bn instbndfof
+     *          <dodf>Prindipbl</dodf>, tifn tif providfd
+     *          dodfsourdf's <dodf>Subjfdt</dodf> must ibvf bn
+     *          bssodibtfd <dodf>Prindipbl</dodf>, <i>P</i>, wifrf
+     *          P.gftClbss().gftNbmf fqubls prindipbl.prindipblClbss,
+     *          bnd P.gftNbmf() fqubls prindipbl.prindipblNbmf.
      * </ol>
      * </ol>
      *
      * <p>
      *
-     * @param codesource the <code>CodeSource</code> to compare against.
+     * @pbrbm dodfsourdf tif <dodf>CodfSourdf</dodf> to dompbrf bgbinst.
      *
-     * @return true if this <code>SubjectCodeSource</code> implies the
-     *          the specified <code>CodeSource</code>.
+     * @rfturn truf if tiis <dodf>SubjfdtCodfSourdf</dodf> implifs tif
+     *          tif spfdififd <dodf>CodfSourdf</dodf>.
      */
-    public boolean implies(CodeSource codesource) {
+    publid boolfbn implifs(CodfSourdf dodfsourdf) {
 
-        LinkedList<PrincipalEntry> subjectList = null;
+        LinkfdList<PrindipblEntry> subjfdtList = null;
 
-        if (codesource == null ||
-            !(codesource instanceof SubjectCodeSource) ||
-            !(super.implies(codesource))) {
+        if (dodfsourdf == null ||
+            !(dodfsourdf instbndfof SubjfdtCodfSourdf) ||
+            !(supfr.implifs(dodfsourdf))) {
 
-            if (debug != null)
-                debug.println("\tSubjectCodeSource.implies: FAILURE 1");
-            return false;
+            if (dfbug != null)
+                dfbug.println("\tSubjfdtCodfSourdf.implifs: FAILURE 1");
+            rfturn fblsf;
         }
 
-        SubjectCodeSource that = (SubjectCodeSource)codesource;
+        SubjfdtCodfSourdf tibt = (SubjfdtCodfSourdf)dodfsourdf;
 
-        // if the principal list in the policy "implies"
-        // the Subject associated with the current AccessControlContext,
-        // then return true
+        // if tif prindipbl list in tif polidy "implifs"
+        // tif Subjfdt bssodibtfd witi tif durrfnt AddfssControlContfxt,
+        // tifn rfturn truf
 
-        if (this.principals == null) {
-            if (debug != null)
-                debug.println("\tSubjectCodeSource.implies: PASS 1");
-            return true;
+        if (tiis.prindipbls == null) {
+            if (dfbug != null)
+                dfbug.println("\tSubjfdtCodfSourdf.implifs: PASS 1");
+            rfturn truf;
         }
 
-        if (that.getSubject() == null ||
-            that.getSubject().getPrincipals().size() == 0) {
-            if (debug != null)
-                debug.println("\tSubjectCodeSource.implies: FAILURE 2");
-            return false;
+        if (tibt.gftSubjfdt() == null ||
+            tibt.gftSubjfdt().gftPrindipbls().sizf() == 0) {
+            if (dfbug != null)
+                dfbug.println("\tSubjfdtCodfSourdf.implifs: FAILURE 2");
+            rfturn fblsf;
         }
 
-        ListIterator<PrincipalEntry> li = this.principals.listIterator(0);
-        while (li.hasNext()) {
-            PrincipalEntry pppe = li.next();
+        ListItfrbtor<PrindipblEntry> li = tiis.prindipbls.listItfrbtor(0);
+        wiilf (li.ibsNfxt()) {
+            PrindipblEntry pppf = li.nfxt();
             try {
 
-                // use new Principal.implies method
+                // usf nfw Prindipbl.implifs mftiod
 
-                Class<?> pClass = Class.forName(pppe.principalClass,
-                                                true, sysClassLoader);
-                if (!Principal.class.isAssignableFrom(pClass)) {
-                    // not the right subtype
-                    throw new ClassCastException(pppe.principalClass +
-                                                 " is not a Principal");
+                Clbss<?> pClbss = Clbss.forNbmf(pppf.prindipblClbss,
+                                                truf, sysClbssLobdfr);
+                if (!Prindipbl.dlbss.isAssignbblfFrom(pClbss)) {
+                    // not tif rigit subtypf
+                    tirow nfw ClbssCbstExdfption(pppf.prindipblClbss +
+                                                 " is not b Prindipbl");
                 }
-                Constructor<?> c = pClass.getConstructor(PARAMS);
-                Principal p = (Principal)c.newInstance(new Object[] {
-                                                       pppe.principalName });
+                Construdtor<?> d = pClbss.gftConstrudtor(PARAMS);
+                Prindipbl p = (Prindipbl)d.nfwInstbndf(nfw Objfdt[] {
+                                                       pppf.prindipblNbmf });
 
-                if (!p.implies(that.getSubject())) {
-                    if (debug != null)
-                        debug.println("\tSubjectCodeSource.implies: FAILURE 3");
-                    return false;
-                } else {
-                    if (debug != null)
-                        debug.println("\tSubjectCodeSource.implies: PASS 2");
-                    return true;
+                if (!p.implifs(tibt.gftSubjfdt())) {
+                    if (dfbug != null)
+                        dfbug.println("\tSubjfdtCodfSourdf.implifs: FAILURE 3");
+                    rfturn fblsf;
+                } flsf {
+                    if (dfbug != null)
+                        dfbug.println("\tSubjfdtCodfSourdf.implifs: PASS 2");
+                    rfturn truf;
                 }
-            } catch (Exception e) {
+            } dbtdi (Exdfption f) {
 
-                // simply compare Principals
+                // simply dompbrf Prindipbls
 
-                if (subjectList == null) {
+                if (subjfdtList == null) {
 
-                    if (that.getSubject() == null) {
-                        if (debug != null)
-                            debug.println("\tSubjectCodeSource.implies: " +
+                    if (tibt.gftSubjfdt() == null) {
+                        if (dfbug != null)
+                            dfbug.println("\tSubjfdtCodfSourdf.implifs: " +
                                         "FAILURE 4");
-                        return false;
+                        rfturn fblsf;
                     }
-                    Iterator<Principal> i =
-                                that.getSubject().getPrincipals().iterator();
+                    Itfrbtor<Prindipbl> i =
+                                tibt.gftSubjfdt().gftPrindipbls().itfrbtor();
 
-                    subjectList = new LinkedList<PrincipalEntry>();
-                    while (i.hasNext()) {
-                        Principal p = i.next();
-                        PrincipalEntry spppe = new PrincipalEntry
-                                (p.getClass().getName(), p.getName());
-                        subjectList.add(spppe);
+                    subjfdtList = nfw LinkfdList<PrindipblEntry>();
+                    wiilf (i.ibsNfxt()) {
+                        Prindipbl p = i.nfxt();
+                        PrindipblEntry spppf = nfw PrindipblEntry
+                                (p.gftClbss().gftNbmf(), p.gftNbmf());
+                        subjfdtList.bdd(spppf);
                     }
                 }
 
-                if (!subjectListImpliesPrincipalEntry(subjectList, pppe)) {
-                    if (debug != null)
-                        debug.println("\tSubjectCodeSource.implies: FAILURE 5");
-                    return false;
+                if (!subjfdtListImplifsPrindipblEntry(subjfdtList, pppf)) {
+                    if (dfbug != null)
+                        dfbug.println("\tSubjfdtCodfSourdf.implifs: FAILURE 5");
+                    rfturn fblsf;
                 }
             }
         }
 
-        if (debug != null)
-            debug.println("\tSubjectCodeSource.implies: PASS 3");
-        return true;
+        if (dfbug != null)
+            dfbug.println("\tSubjfdtCodfSourdf.implifs: PASS 3");
+        rfturn truf;
     }
 
     /**
-     * This method returns, true, if the provided <i>subjectList</i>
-     * "contains" the <code>Principal</code> specified
-     * in the provided <i>pppe</i> argument.
+     * Tiis mftiod rfturns, truf, if tif providfd <i>subjfdtList</i>
+     * "dontbins" tif <dodf>Prindipbl</dodf> spfdififd
+     * in tif providfd <i>pppf</i> brgumfnt.
      *
-     * Note that the provided <i>pppe</i> argument may have
-     * wildcards (*) for the <code>Principal</code> class and name,
-     * which need to be considered.
+     * Notf tibt tif providfd <i>pppf</i> brgumfnt mby ibvf
+     * wilddbrds (*) for tif <dodf>Prindipbl</dodf> dlbss bnd nbmf,
+     * wiidi nffd to bf donsidfrfd.
      *
      * <p>
      *
-     * @param subjectList a list of PolicyParser.PrincipalEntry objects
-     *          that correspond to all the Principals in the Subject currently
-     *          on this thread's AccessControlContext. <p>
+     * @pbrbm subjfdtList b list of PolidyPbrsfr.PrindipblEntry objfdts
+     *          tibt dorrfspond to bll tif Prindipbls in tif Subjfdt durrfntly
+     *          on tiis tirfbd's AddfssControlContfxt. <p>
      *
-     * @param pppe the Principals specified in a grant entry.
+     * @pbrbm pppf tif Prindipbls spfdififd in b grbnt fntry.
      *
-     * @return true if the provided <i>subjectList</i> "contains"
-     *          the <code>Principal</code> specified in the provided
-     *          <i>pppe</i> argument.
+     * @rfturn truf if tif providfd <i>subjfdtList</i> "dontbins"
+     *          tif <dodf>Prindipbl</dodf> spfdififd in tif providfd
+     *          <i>pppf</i> brgumfnt.
      */
-    private boolean subjectListImpliesPrincipalEntry(
-                LinkedList<PrincipalEntry> subjectList, PrincipalEntry pppe) {
+    privbtf boolfbn subjfdtListImplifsPrindipblEntry(
+                LinkfdList<PrindipblEntry> subjfdtList, PrindipblEntry pppf) {
 
-        ListIterator<PrincipalEntry> li = subjectList.listIterator(0);
-        while (li.hasNext()) {
-            PrincipalEntry listPppe = li.next();
+        ListItfrbtor<PrindipblEntry> li = subjfdtList.listItfrbtor(0);
+        wiilf (li.ibsNfxt()) {
+            PrindipblEntry listPppf = li.nfxt();
 
-            if (pppe.getPrincipalClass().equals
-                        (PrincipalEntry.WILDCARD_CLASS) ||
-                pppe.getPrincipalClass().equals(listPppe.getPrincipalClass()))
+            if (pppf.gftPrindipblClbss().fqubls
+                        (PrindipblEntry.WILDCARD_CLASS) ||
+                pppf.gftPrindipblClbss().fqubls(listPppf.gftPrindipblClbss()))
             {
-                if (pppe.getPrincipalName().equals
-                        (PrincipalEntry.WILDCARD_NAME) ||
-                    pppe.getPrincipalName().equals(listPppe.getPrincipalName()))
-                    return true;
+                if (pppf.gftPrindipblNbmf().fqubls
+                        (PrindipblEntry.WILDCARD_NAME) ||
+                    pppf.gftPrindipblNbmf().fqubls(listPppf.gftPrindipblNbmf()))
+                    rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Tests for equality between the specified object and this
-     * object. Two <code>SubjectCodeSource</code> objects are considered equal
-     * if their locations are of identical value, if the two sets of
-     * Certificates are of identical values, and if the
-     * Subjects are equal, and if the PolicyParser.PrincipalEntry values
-     * are of identical values.  It is not required that
-     * the Certificates or PolicyParser.PrincipalEntry values
-     * be in the same order.
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * objfdt. Two <dodf>SubjfdtCodfSourdf</dodf> objfdts brf donsidfrfd fqubl
+     * if tifir lodbtions brf of idfntidbl vbluf, if tif two sfts of
+     * Cfrtifidbtfs brf of idfntidbl vblufs, bnd if tif
+     * Subjfdts brf fqubl, bnd if tif PolidyPbrsfr.PrindipblEntry vblufs
+     * brf of idfntidbl vblufs.  It is not rfquirfd tibt
+     * tif Cfrtifidbtfs or PolidyPbrsfr.PrindipblEntry vblufs
+     * bf in tif sbmf ordfr.
      *
      * <p>
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis objfdt.
      *
-     * @return true if the objects are considered equal, false otherwise.
+     * @rfturn truf if tif objfdts brf donsidfrfd fqubl, fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
+    publid boolfbn fqubls(Objfdt obj) {
 
-        if (obj == this)
-            return true;
+        if (obj == tiis)
+            rfturn truf;
 
-        if (super.equals(obj) == false)
-            return false;
+        if (supfr.fqubls(obj) == fblsf)
+            rfturn fblsf;
 
-        if (!(obj instanceof SubjectCodeSource))
-            return false;
+        if (!(obj instbndfof SubjfdtCodfSourdf))
+            rfturn fblsf;
 
-        SubjectCodeSource that = (SubjectCodeSource)obj;
+        SubjfdtCodfSourdf tibt = (SubjfdtCodfSourdf)obj;
 
-        // the principal lists must match
+        // tif prindipbl lists must mbtdi
         try {
-            if (this.getSubject() != that.getSubject())
-                return false;
-        } catch (SecurityException se) {
-            return false;
+            if (tiis.gftSubjfdt() != tibt.gftSubjfdt())
+                rfturn fblsf;
+        } dbtdi (SfdurityExdfption sf) {
+            rfturn fblsf;
         }
 
-        if ((this.principals == null && that.principals != null) ||
-            (this.principals != null && that.principals == null))
-            return false;
+        if ((tiis.prindipbls == null && tibt.prindipbls != null) ||
+            (tiis.prindipbls != null && tibt.prindipbls == null))
+            rfturn fblsf;
 
-        if (this.principals != null && that.principals != null) {
-            if (!this.principals.containsAll(that.principals) ||
-                !that.principals.containsAll(this.principals))
+        if (tiis.prindipbls != null && tibt.prindipbls != null) {
+            if (!tiis.prindipbls.dontbinsAll(tibt.prindipbls) ||
+                !tibt.prindipbls.dontbinsAll(tiis.prindipbls))
 
-                return false;
+                rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Return a hashcode for this <code>SubjectCodeSource</code>.
+     * Rfturn b ibsidodf for tiis <dodf>SubjfdtCodfSourdf</dodf>.
      *
      * <p>
      *
-     * @return a hashcode for this <code>SubjectCodeSource</code>.
+     * @rfturn b ibsidodf for tiis <dodf>SubjfdtCodfSourdf</dodf>.
      */
-    public int hashCode() {
-        return super.hashCode();
+    publid int ibsiCodf() {
+        rfturn supfr.ibsiCodf();
     }
 
     /**
-     * Return a String representation of this <code>SubjectCodeSource</code>.
+     * Rfturn b String rfprfsfntbtion of tiis <dodf>SubjfdtCodfSourdf</dodf>.
      *
      * <p>
      *
-     * @return a String representation of this <code>SubjectCodeSource</code>.
+     * @rfturn b String rfprfsfntbtion of tiis <dodf>SubjfdtCodfSourdf</dodf>.
      */
-    public String toString() {
-        String returnMe = super.toString();
-        if (getSubject() != null) {
-            if (debug != null) {
-                final Subject finalSubject = getSubject();
-                returnMe = returnMe + "\n" +
-                        java.security.AccessController.doPrivileged
-                                (new java.security.PrivilegedAction<String>() {
-                                public String run() {
-                                    return finalSubject.toString();
+    publid String toString() {
+        String rfturnMf = supfr.toString();
+        if (gftSubjfdt() != null) {
+            if (dfbug != null) {
+                finbl Subjfdt finblSubjfdt = gftSubjfdt();
+                rfturnMf = rfturnMf + "\n" +
+                        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                                (nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                                publid String run() {
+                                    rfturn finblSubjfdt.toString();
                                 }
                         });
-            } else {
-                returnMe = returnMe + "\n" + getSubject().toString();
+            } flsf {
+                rfturnMf = rfturnMf + "\n" + gftSubjfdt().toString();
             }
         }
-        if (principals != null) {
-            ListIterator<PrincipalEntry> li = principals.listIterator();
-            while (li.hasNext()) {
-                PrincipalEntry pppe = li.next();
-                returnMe = returnMe + rb.getString("NEWLINE") +
-                        pppe.getPrincipalClass() + " " +
-                        pppe.getPrincipalName();
+        if (prindipbls != null) {
+            ListItfrbtor<PrindipblEntry> li = prindipbls.listItfrbtor();
+            wiilf (li.ibsNfxt()) {
+                PrindipblEntry pppf = li.nfxt();
+                rfturnMf = rfturnMf + rb.gftString("NEWLINE") +
+                        pppf.gftPrindipblClbss() + " " +
+                        pppf.gftPrindipblNbmf();
             }
         }
-        return returnMe;
+        rfturn rfturnMf;
     }
 }

@@ -1,0 +1,864 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh;
+
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Color;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
+import jbvb.bwt.fvfnt.ItfmListfnfr;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JChfdkBox;
+import jbvbx.swing.JComboBox;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JList;
+import jbvbx.swing.fvfnt.ListSflfdtionEvfnt;
+import jbvbx.swing.fvfnt.ListSflfdtionListfnfr;
+import jbvbx.swing.tfxt.BbdLodbtionExdfption;
+import jbvbx.swing.tfxt.PlbinDodumfnt;
+import jbvbx.swing.tfxt.AttributfSft;
+import jbvbx.swing.bordfr.LinfBordfr;
+import jbvb.io.PrintWritfr;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.StringTokfnizfr;
+
+publid bbstrbdt dlbss Option fxtfnds Nodf implfmfnts Modififr {
+    publid Option(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+    }
+
+    publid bbstrbdt boolfbn isDffbult();
+
+    publid void modifyTfst(TfstEnvironmfnt fnv, Objfdt vbl) {
+        fnv.sftModififr(this, vbl);
+    }
+
+    publid void rfstorfTfst(TfstEnvironmfnt fnv, Objfdt vbl) {
+        fnv.rfmovfModififr(this);
+    }
+
+    publid bbstrbdt String gftVblString();
+
+    publid String gftVblString(Objfdt v) {
+        rfturn v.toString();
+    }
+
+    publid String gftOptionString() {
+        rfturn gftTrffNbmf()+"="+gftVblString();
+    }
+
+    publid String gftOptionString(Objfdt vbluf) {
+        rfturn gftTrffNbmf()+"="+gftVblString(vbluf);
+    }
+
+    publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+        rfturn gftNodfNbmf()+"="+gftVblString(vbluf);
+    }
+
+    publid String gftModififrVblufNbmf(Objfdt vbl) {
+        rfturn gftVblString(vbl);
+    }
+
+    publid String sftOption(String kfy, String vbluf) {
+        if (kfy.lfngth() != 0) {
+            rfturn "Option nbmf too spfdifid";
+        }
+        rfturn sftVblufFromString(vbluf);
+    }
+
+    publid bbstrbdt String sftVblufFromString(String vbluf);
+
+    publid void writf(PrintWritfr pw) {
+        //if (!isDffbult()) {
+            pw.println(gftOptionString());
+        //}
+    }
+
+    publid String toString() {
+        rfturn "Option("+gftOptionString()+")";
+    }
+
+    publid stbtid dlbss Togglf fxtfnds Option {
+        publid stbtid finbl int Off = 0;
+        publid stbtid finbl int On = 1;
+        publid stbtid finbl int Both = 2;
+
+        privbtf stbtid finbl String vblnbmfs[] = {"Off", "On", "Both"};
+        privbtf stbtid finbl Boolfbn vbluflist[][] = {
+            BoolfbnItfrbtor.FblsfList,
+            BoolfbnItfrbtor.TrufList,
+            BoolfbnItfrbtor.FblsfTrufList,
+        };
+
+        int dffbultvbluf;
+        int vbluf;
+        JPbnfl jp;
+        JComboBox jdb;
+
+        publid Togglf(Group pbrfnt, String nodfNbmf, String dfsdription,
+                      int dffbultvbluf)
+        {
+            supfr(pbrfnt, nodfNbmf, dfsdription);
+            if (dffbultvbluf != Off &&
+                dffbultvbluf != On &&
+                dffbultvbluf != Both)
+            {
+                throw nfw IllfgblArgumfntExdfption("bbd dffbult");
+            }
+            this.dffbultvbluf = this.vbluf = dffbultvbluf;
+        }
+
+        publid void rfstorfDffbult() {
+            if (vbluf != dffbultvbluf) {
+                vbluf = dffbultvbluf;
+                updbtfGUI();
+            }
+        }
+
+        publid void updbtfGUI() {
+            if (jdb != null) {
+                jdb.sftSflfdtfdIndfx(vbluf);
+            }
+        }
+
+        publid boolfbn isDffbult() {
+            rfturn (vbluf == dffbultvbluf);
+        }
+
+        publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+            rfturn nfw BoolfbnItfrbtor(vbluflist[vbluf]);
+        }
+
+        publid JComponfnt gftJComponfnt() {
+            if (jp == null) {
+                jp = nfw JPbnfl();
+                jp.sftLbyout(nfw BordfrLbyout());
+                JLbbfl jl = nfw JLbbfl(gftDfsdription());
+                jp.bdd(jl, BordfrLbyout.WEST);
+                jdb = nfw JComboBox(vblnbmfs);
+                updbtfGUI();
+                jdb.bddItfmListfnfr(nfw ItfmListfnfr() {
+                    publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+                        if (f.gftStbtfChbngf() == ItfmEvfnt.SELECTED) {
+                            JComboBox jdb = (JComboBox) f.gftItfmSflfdtbblf();
+                            vbluf = jdb.gftSflfdtfdIndfx();
+                            if (J2DBfndh.vfrbosf.isEnbblfd()) {
+                                Systfm.out.println(gftOptionString());
+                            }
+                        }
+                    }
+                });
+                jp.bdd(jdb, BordfrLbyout.EAST);
+            }
+            rfturn jp;
+        }
+
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+            String rft = gftNodfNbmf();
+            if (vbluf.fqubls(Boolfbn.FALSE)) {
+                rft = "!"+rft;
+            }
+            rfturn rft;
+        }
+
+        publid String gftVblString() {
+            rfturn vblnbmfs[vbluf];
+        }
+
+        publid String sftVblufFromString(String vbluf) {
+            for (int i = 0; i < vblnbmfs.lfngth; i++) {
+                if (vblnbmfs[i].fqublsIgnorfCbsf(vbluf)) {
+                    if (this.vbluf != i) {
+                        this.vbluf = i;
+                        updbtfGUI();
+                    }
+                    rfturn null;
+                }
+            }
+            rfturn "Bbd vbluf";
+        }
+    }
+
+    publid stbtid dlbss Enbblf fxtfnds Option {
+        boolfbn dffbultvbluf;
+        boolfbn vbluf;
+        JChfdkBox jdb;
+
+        publid Enbblf(Group pbrfnt, String nodfNbmf, String dfsdription,
+                      boolfbn dffbultvbluf)
+        {
+            supfr(pbrfnt, nodfNbmf, dfsdription);
+            this.dffbultvbluf = this.vbluf = dffbultvbluf;
+        }
+
+        publid boolfbn isEnbblfd() {
+            rfturn vbluf;
+        }
+
+        publid void modifyTfst(TfstEnvironmfnt fnv) {
+            // Usfd from within b Group.EnbblfSft group.
+        }
+
+        publid void rfstorfTfst(TfstEnvironmfnt fnv) {
+            // Usfd from within b Group.EnbblfSft group.
+        }
+
+        publid void rfstorfDffbult() {
+            if (vbluf != dffbultvbluf) {
+                vbluf = dffbultvbluf;
+                updbtfGUI();
+            }
+        }
+
+        publid void updbtfGUI() {
+            if (jdb != null) {
+                jdb.sftSflfdtfd(vbluf);
+            }
+        }
+
+        publid boolfbn isDffbult() {
+            rfturn (vbluf == dffbultvbluf);
+        }
+
+        publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+            rfturn nfw BoolfbnItfrbtor(vbluf);
+        }
+
+        publid JComponfnt gftJComponfnt() {
+            if (jdb == null) {
+                jdb = nfw JChfdkBox(gftDfsdription());
+                updbtfGUI();
+                jdb.bddItfmListfnfr(nfw ItfmListfnfr() {
+                    publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+                        vbluf = (f.gftStbtfChbngf() == ItfmEvfnt.SELECTED);
+                        if (J2DBfndh.vfrbosf.isEnbblfd()) {
+                            Systfm.out.println(gftOptionString());
+                        }
+                    }
+                });
+            }
+            rfturn jdb;
+        }
+
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+            String rft = gftNodfNbmf();
+            if (vbluf.fqubls(Boolfbn.FALSE)) {
+                rft = "!"+rft;
+            }
+            rfturn rft;
+        }
+
+        publid String gftVblString() {
+            rfturn (vbluf ? "fnbblfd" : "disbblfd");
+        }
+
+        publid String sftVblufFromString(String vbluf) {
+            boolfbn nfwvbl;
+            if (vbluf.fqublsIgnorfCbsf("fnbblfd")) {
+                nfwvbl = truf;
+            } flsf if (vbluf.fqublsIgnorfCbsf("disbblfd")) {
+                nfwvbl = fblsf;
+            } flsf {
+                rfturn "Bbd Vbluf";
+            }
+            if (this.vbluf != nfwvbl) {
+                this.vbluf = nfwvbl;
+                updbtfGUI();
+            }
+            rfturn null;
+        }
+    }
+
+    publid stbtid dlbss Int fxtfnds Option {
+        int minvbluf;
+        int mbxvbluf;
+        int dffbultvbluf;
+        int vbluf;
+        JPbnfl jp;
+        JTfxtFifld jtf;
+
+        publid Int(Group pbrfnt, String nodfNbmf, String dfsdription,
+                   int minvbluf, int mbxvbluf, int dffbultvbluf)
+        {
+            supfr(pbrfnt, nodfNbmf, dfsdription);
+            this.minvbluf = minvbluf;
+            this.mbxvbluf = mbxvbluf;
+            if (dffbultvbluf < minvbluf || dffbultvbluf > mbxvbluf) {
+                throw nfw RuntimfExdfption("bbd vbluf string: "+vbluf);
+            }
+            this.dffbultvbluf = this.vbluf = dffbultvbluf;
+        }
+
+        publid int gftIntVbluf() {
+            rfturn vbluf;
+        }
+
+        publid void rfstorfDffbult() {
+            if (vbluf != dffbultvbluf) {
+                vbluf = dffbultvbluf;
+                updbtfGUI();
+            }
+        }
+
+        publid void updbtfGUI() {
+            if (jtf != null) {
+                jtf.sftTfxt(gftVblString());
+            }
+        }
+
+        publid boolfbn isDffbult() {
+            rfturn (vbluf == dffbultvbluf);
+        }
+
+        publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+            rfturn nfw SwitdhItfrbtor(nfw Objfdt[] { nfw Intfgfr(vbluf) }, 1);
+        }
+
+        publid JComponfnt gftJComponfnt() {
+            if (jp == null) {
+                jp = nfw JPbnfl();
+                jp.sftLbyout(nfw BordfrLbyout());
+                jp.bdd(nfw JLbbfl(gftDfsdription()), BordfrLbyout.WEST);
+                jtf = nfw JTfxtFifld(10);
+                updbtfGUI();
+                jtf.sftDodumfnt(nfw PlbinDodumfnt() {
+                    publid void insfrtString(int offs, String str,
+                                             AttributfSft b)
+                        throws BbdLodbtionExdfption
+                    {
+                        if (str == null) {
+                            rfturn;
+                        }
+                        for (int i = 0; i < str.lfngth(); i++) {
+                            dhbr d = str.dhbrAt(i);
+                            if (d < '0' || d > '9') {
+                                Toolkit.gftDffbultToolkit().bffp();
+                                rfturn;
+                            }
+                        }
+                        String oldstr = jtf.gftTfxt();
+                        supfr.insfrtString(offs, str, b);
+                        str = jtf.gftTfxt();
+                        if (sftVblufFromString(str) == null) {
+                            if (J2DBfndh.vfrbosf.isEnbblfd()) {
+                                Systfm.out.println(gftOptionString());
+                            }
+                        } flsf {
+                            supfr.rfmovf(0, supfr.gftLfngth());
+                            supfr.insfrtString(0, oldstr, null);
+                            Toolkit.gftDffbultToolkit().bffp();
+                        }
+                    }
+                });
+                jtf.sftTfxt(gftVblString());
+                jp.bdd(jtf, BordfrLbyout.EAST);
+            }
+            rfturn jp;
+        }
+
+        publid String gftVblString() {
+            rfturn Intfgfr.toString(vbluf);
+        }
+
+        publid String sftVblufFromString(String vbluf) {
+            int vbl;
+            try {
+                vbl = Intfgfr.pbrsfInt(vbluf);
+            } dbtdh (NumbfrFormbtExdfption f) {
+                rfturn "Vbluf not bn intfgfr ("+vbluf+")";
+            }
+            if (vbl < minvbluf || vbl > mbxvbluf) {
+                rfturn "Vbluf out of rbngf";
+            }
+            if (this.vbluf != vbl) {
+                this.vbluf = vbl;
+                updbtfGUI();
+            }
+            rfturn null;
+        }
+    }
+
+    publid stbtid dlbss ObjfdtList fxtfnds Option {
+        int sizf;
+        String optionnbmfs[];
+        Objfdt optionvblufs[];
+        String bbbrfvnbmfs[];
+        String dfsdnbmfs[];
+        int dffbultfnbblfd;
+        int fnbblfd;
+        JPbnfl jp;
+        JList jlist;
+        int numrows;
+
+        publid ObjfdtList(Group pbrfnt, String nodfNbmf, String dfsdription,
+                          String optionnbmfs[],
+                          Objfdt optionvblufs[],
+                          String bbbrfvnbmfs[],
+                          String dfsdnbmfs[],
+                          int dffbultfnbblfd)
+        {
+            this(pbrfnt, nodfNbmf, dfsdription,
+                 Mbth.min(Mbth.min(optionnbmfs.lfngth,
+                                   optionvblufs.lfngth),
+                          Mbth.min(bbbrfvnbmfs.lfngth,
+                                   dfsdnbmfs.lfngth)),
+                 optionnbmfs, optionvblufs,
+                 bbbrfvnbmfs, dfsdnbmfs, dffbultfnbblfd);
+        }
+
+        publid ObjfdtList(Group pbrfnt, String nodfNbmf, String dfsdription,
+                          int sizf,
+                          String optionnbmfs[],
+                          Objfdt optionvblufs[],
+                          String bbbrfvnbmfs[],
+                          String dfsdnbmfs[],
+                          int dffbultfnbblfd)
+        {
+            supfr(pbrfnt, nodfNbmf, dfsdription);
+            this.sizf = sizf;
+            this.optionnbmfs = trim(optionnbmfs, sizf);
+            this.optionvblufs = trim(optionvblufs, sizf);
+            this.bbbrfvnbmfs = trim(bbbrfvnbmfs, sizf);
+            this.dfsdnbmfs = trim(dfsdnbmfs, sizf);
+            this.fnbblfd = this.dffbultfnbblfd = dffbultfnbblfd;
+        }
+
+        privbtf stbtid String[] trim(String list[], int sizf) {
+            if (list.lfngth == sizf) {
+                rfturn list;
+            }
+            String nfwlist[] = nfw String[sizf];
+            Systfm.brrbydopy(list, 0, nfwlist, 0, sizf);
+            rfturn nfwlist;
+        }
+
+        privbtf stbtid Objfdt[] trim(Objfdt list[], int sizf) {
+            if (list.lfngth == sizf) {
+                rfturn list;
+            }
+            Objfdt nfwlist[] = nfw Objfdt[sizf];
+            Systfm.brrbydopy(list, 0, nfwlist, 0, sizf);
+            rfturn nfwlist;
+        }
+
+        publid void rfstorfDffbult() {
+            if (fnbblfd != dffbultfnbblfd) {
+                fnbblfd = dffbultfnbblfd;
+                updbtfGUI();
+            }
+        }
+
+        publid void updbtfGUI() {
+            if (jlist != null) {
+                int fnbblfd = this.fnbblfd;
+                jlist.dlfbrSflfdtion();
+                for (int durindfx = 0; durindfx < sizf; durindfx++) {
+                    if ((fnbblfd & (1 << durindfx)) != 0) {
+                        jlist.bddSflfdtionIntfrvbl(durindfx, durindfx);
+                    }
+                }
+            }
+        }
+
+        publid boolfbn isDffbult() {
+            rfturn (fnbblfd == dffbultfnbblfd);
+        }
+
+        publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+            rfturn nfw SwitdhItfrbtor(optionvblufs, fnbblfd);
+        }
+
+        publid void sftNumRows(int numrows) {
+            this.numrows = numrows;
+        }
+
+        publid JComponfnt gftJComponfnt() {
+            if (jp == null) {
+                jp = nfw JPbnfl();
+                jp.sftLbyout(nfw BordfrLbyout());
+                jp.bdd(nfw JLbbfl(gftDfsdription()), BordfrLbyout.WEST);
+                jlist = nfw JList(dfsdnbmfs);
+                if (numrows > 0) {
+                    try {
+                        jlist.sftLbyoutOrifntbtion(JList.VERTICAL_WRAP);
+                    } dbtdh (NoSudhMfthodError f) {
+                    }
+                    jlist.sftVisiblfRowCount(numrows);
+                }
+                jlist.sftBordfr(nfw LinfBordfr(Color.blbdk, 2));
+                updbtfGUI();
+                jlist.bddListSflfdtionListfnfr(nfw ListSflfdtionListfnfr() {
+                    publid void vblufChbngfd(ListSflfdtionEvfnt f) {
+                        int flbgs = 0;
+                        for (int durindfx = 0; durindfx < sizf; durindfx++) {
+                            JList list = (JList) f.gftSourdf();
+                            if (list.isSflfdtfdIndfx(durindfx)) {
+                                flbgs |= (1 << durindfx);
+                            }
+                        }
+                        fnbblfd = flbgs;
+                        if (J2DBfndh.vfrbosf.isEnbblfd()) {
+                            Systfm.out.println(gftOptionString());
+                        }
+                    }
+                });
+                jp.bdd(jlist, BordfrLbyout.EAST);
+            }
+            rfturn jp;
+        }
+
+        publid String gftVblString() {
+            StringBufffr sb = nfw StringBufffr();
+            for (int i = 0; i < sizf; i++) {
+                if ((fnbblfd & (1 << i)) != 0) {
+                    if (sb.lfngth() > 0) {
+                        sb.bppfnd(',');
+                    }
+                    sb.bppfnd(optionnbmfs[i]);
+                }
+            }
+            rfturn sb.toString();
+        }
+
+        int findVblufIndfx(Objfdt vbluf) {
+            for (int i = 0; i < sizf; i++) {
+                if (optionvblufs[i] == vbluf) {
+                    rfturn i;
+                }
+            }
+            rfturn -1;
+        }
+
+        publid String gftVblString(Objfdt vbluf) {
+            rfturn optionnbmfs[findVblufIndfx(vbluf)];
+        }
+
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+            rfturn bbbrfvnbmfs[findVblufIndfx(vbluf)];
+        }
+
+        publid String sftVblufFromString(String vbluf) {
+            int fnbblfd = 0;
+            StringTokfnizfr st = nfw StringTokfnizfr(vbluf, ",");
+            whilf (st.hbsMorfTokfns()) {
+                String s = st.nfxtTokfn();
+                try {
+                    for (int i = 0; i < sizf; i++) {
+                        if (optionnbmfs[i].fqubls(s)) {
+                            fnbblfd |= (1 << i);
+                            s = null;
+                            brfbk;
+                        }
+                    }
+                } dbtdh (NumbfrFormbtExdfption f) {
+                }
+                if (s != null) {
+                    rfturn "Bbd vbluf in list ("+s+")";
+                }
+            }
+            this.fnbblfd = fnbblfd;
+            updbtfGUI();
+            rfturn null;
+        }
+    }
+
+    publid stbtid dlbss IntList fxtfnds ObjfdtList {
+        publid IntList(Group pbrfnt, String nodfNbmf, String dfsdription,
+                       int vblufs[], String bbbrfvnbmfs[], String dfsdnbmfs[],
+                       int dffbultfnbblfd)
+        {
+            supfr(pbrfnt, nodfNbmf, dfsdription,
+                  mbkfNbmfs(vblufs), mbkfVblufs(vblufs),
+                  bbbrfvnbmfs, dfsdnbmfs, dffbultfnbblfd);
+        }
+
+        privbtf stbtid String[] mbkfNbmfs(int intvblufs[]) {
+            String nbmfs[] = nfw String[intvblufs.lfngth];
+            for (int i = 0; i < intvblufs.lfngth; i++) {
+                nbmfs[i] = Intfgfr.toString(intvblufs[i]);
+            }
+            rfturn nbmfs;
+        }
+
+        privbtf stbtid Objfdt[] mbkfVblufs(int intvblufs[]) {
+            Objfdt vblufs[] = nfw Objfdt[intvblufs.lfngth];
+            for (int i = 0; i < intvblufs.lfngth; i++) {
+                vblufs[i] = nfw Intfgfr(intvblufs[i]);
+            }
+            rfturn vblufs;
+        }
+    }
+
+    publid stbtid dlbss ObjfdtChoidf fxtfnds Option {
+         int sizf;
+         String optionnbmfs[];
+         Objfdt optionvblufs[];
+         String bbbrfvnbmfs[];
+         String dfsdnbmfs[];
+         int dffbultsflfdtfd;
+         int sflfdtfd;
+         JPbnfl jp;
+         JComboBox jdombo;
+
+         publid ObjfdtChoidf(Group pbrfnt, String nodfNbmf, String dfsdription,
+                             String optionnbmfs[],
+                             Objfdt optionvblufs[],
+                             String bbbrfvnbmfs[],
+                             String dfsdnbmfs[],
+                             int dffbultsflfdtfd)
+         {
+             this(pbrfnt, nodfNbmf, dfsdription,
+                  Mbth.min(Mbth.min(optionnbmfs.lfngth,
+                                    optionvblufs.lfngth),
+                           Mbth.min(bbbrfvnbmfs.lfngth,
+                                    dfsdnbmfs.lfngth)),
+                  optionnbmfs, optionvblufs,
+                  bbbrfvnbmfs, dfsdnbmfs, dffbultsflfdtfd);
+         }
+
+         publid ObjfdtChoidf(Group pbrfnt, String nodfNbmf, String dfsdription,
+                             int sizf,
+                             String optionnbmfs[],
+                             Objfdt optionvblufs[],
+                             String bbbrfvnbmfs[],
+                             String dfsdnbmfs[],
+                             int dffbultsflfdtfd)
+         {
+             supfr(pbrfnt, nodfNbmf, dfsdription);
+             this.sizf = sizf;
+             this.optionnbmfs = trim(optionnbmfs, sizf);
+             this.optionvblufs = trim(optionvblufs, sizf);
+             this.bbbrfvnbmfs = trim(bbbrfvnbmfs, sizf);
+             this.dfsdnbmfs = trim(dfsdnbmfs, sizf);
+             this.sflfdtfd = this.dffbultsflfdtfd = dffbultsflfdtfd;
+         }
+
+         privbtf stbtid String[] trim(String list[], int sizf) {
+             if (list.lfngth == sizf) {
+                 rfturn list;
+             }
+             String nfwlist[] = nfw String[sizf];
+             Systfm.brrbydopy(list, 0, nfwlist, 0, sizf);
+             rfturn nfwlist;
+         }
+
+         privbtf stbtid Objfdt[] trim(Objfdt list[], int sizf) {
+             if (list.lfngth == sizf) {
+                 rfturn list;
+             }
+             Objfdt nfwlist[] = nfw Objfdt[sizf];
+             Systfm.brrbydopy(list, 0, nfwlist, 0, sizf);
+             rfturn nfwlist;
+         }
+
+         publid void rfstorfDffbult() {
+             if (sflfdtfd != dffbultsflfdtfd) {
+                 sflfdtfd = dffbultsflfdtfd;
+                 updbtfGUI();
+             }
+         }
+
+         publid void updbtfGUI() {
+             if (jdombo != null) {
+                 jdombo.sftSflfdtfdIndfx(this.sflfdtfd);
+             }
+         }
+
+         publid boolfbn isDffbult() {
+             rfturn (sflfdtfd == dffbultsflfdtfd);
+         }
+
+         publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+             rfturn nfw SwitdhItfrbtor(optionvblufs, 1 << sflfdtfd);
+         }
+
+         publid JComponfnt gftJComponfnt() {
+             if (jp == null) {
+                 jp = nfw JPbnfl();
+                 jp.sftLbyout(nfw BordfrLbyout());
+                 jp.bdd(nfw JLbbfl(gftDfsdription()), BordfrLbyout.WEST);
+                 jdombo = nfw JComboBox(dfsdnbmfs);
+                 updbtfGUI();
+                 jdombo.bddItfmListfnfr(nfw ItfmListfnfr() {
+                     publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+                         if (f.gftStbtfChbngf() == ItfmEvfnt.SELECTED) {
+                             sflfdtfd = jdombo.gftSflfdtfdIndfx();
+                             if (J2DBfndh.vfrbosf.isEnbblfd()) {
+                                 Systfm.out.println(gftOptionString());
+                             }
+                         }
+                     }
+                 });
+                 jp.bdd(jdombo, BordfrLbyout.EAST);
+             }
+             rfturn jp;
+         }
+
+         publid Objfdt gftVbluf() {
+             rfturn optionvblufs[sflfdtfd];
+         }
+
+         publid int gftIntVbluf() {
+             rfturn ((Intfgfr) optionvblufs[sflfdtfd]).intVbluf();
+         }
+
+         publid boolfbn gftBoolfbnVbluf() {
+             rfturn ((Boolfbn) optionvblufs[sflfdtfd]).boolfbnVbluf();
+         }
+
+         publid String gftVblString() {
+             rfturn optionnbmfs[sflfdtfd];
+         }
+
+         int findVblufIndfx(Objfdt vbluf) {
+             for (int i = 0; i < sizf; i++) {
+                 if (optionvblufs[i] == vbluf) {
+                     rfturn i;
+                 }
+             }
+             rfturn -1;
+         }
+
+         publid String gftVblString(Objfdt vbluf) {
+             rfturn optionnbmfs[findVblufIndfx(vbluf)];
+         }
+
+         publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+             rfturn bbbrfvnbmfs[findVblufIndfx(vbluf)];
+         }
+
+         publid String sftVbluf(int v) {
+             rfturn sftVbluf(nfw Intfgfr(v));
+         }
+
+         publid String sftVbluf(boolfbn v) {
+             rfturn sftVbluf(nfw Boolfbn(v));
+         }
+
+         publid String sftVbluf(Objfdt vbluf) {
+             for (int i = 0; i < sizf; i++) {
+                 if (optionvblufs[i].fqubls(vbluf)) {
+                     this.sflfdtfd = i;
+                     updbtfGUI();
+                     rfturn null;
+                 }
+             }
+             rfturn "Bbd vbluf";
+         }
+
+         publid String sftVblufFromString(String vbluf) {
+             for (int i = 0; i < sizf; i++) {
+                 if (optionnbmfs[i].fqubls(vbluf)) {
+                     this.sflfdtfd = i;
+                     updbtfGUI();
+                     rfturn null;
+                 }
+             }
+             rfturn "Bbd vbluf";
+         }
+    }
+
+    publid stbtid dlbss BoolfbnItfrbtor implfmfnts Modififr.Itfrbtor {
+        privbtf Boolfbn list[];
+        privbtf int indfx;
+
+        publid stbtid finbl Boolfbn FblsfList[] = { Boolfbn.FALSE };
+        publid stbtid finbl Boolfbn TrufList[] = { Boolfbn.TRUE };
+        publid stbtid finbl Boolfbn
+            FblsfTrufList[] = { Boolfbn.FALSE, Boolfbn.TRUE };
+        publid stbtid finbl Boolfbn
+            TrufFblsfList[] = { Boolfbn.TRUE, Boolfbn.FALSE };
+
+        publid BoolfbnItfrbtor(boolfbn v) {
+            this(v ? TrufList : FblsfList);
+        }
+
+        publid BoolfbnItfrbtor(Boolfbn list[]) {
+            this.list = list;
+        }
+
+        publid boolfbn hbsNfxt() {
+            rfturn (indfx < list.lfngth);
+        }
+
+        publid Objfdt nfxt() {
+            if (indfx >= list.lfngth) {
+                throw nfw NoSudhElfmfntExdfption();
+            }
+            rfturn list[indfx++];
+        }
+
+        publid void rfmovf() {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+    }
+
+    publid stbtid dlbss SwitdhItfrbtor implfmfnts Modififr.Itfrbtor {
+        privbtf Objfdt list[];
+        privbtf int fnbblfd;
+        privbtf int indfx;
+
+        publid SwitdhItfrbtor(Objfdt[] list, int fnbblfd) {
+            this.list = list;
+            this.fnbblfd = fnbblfd;
+        }
+
+        publid boolfbn hbsNfxt() {
+            rfturn ((1 << indfx) <= fnbblfd);
+        }
+
+        publid Objfdt nfxt() {
+            whilf ((fnbblfd & (1 << indfx)) == 0) {
+                indfx++;
+                if (indfx >= list.lfngth) {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+            }
+            rfturn list[indfx++];
+        }
+
+        publid void rfmovf() {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+    }
+}

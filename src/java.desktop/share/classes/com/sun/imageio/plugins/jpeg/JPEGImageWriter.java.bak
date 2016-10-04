@@ -1,927 +1,927 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
 
-import javax.imageio.IIOException;
-import javax.imageio.ImageWriter;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.IIOImage;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
-import javax.imageio.plugins.jpeg.JPEGQTable;
-import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.ImbgfWritfPbrbm;
+import jbvbx.imbgfio.IIOImbgf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.plugins.jpfg.JPEGImbgfWritfPbrbm;
+import jbvbx.imbgfio.plugins.jpfg.JPEGQTbblf;
+import jbvbx.imbgfio.plugins.jpfg.JPEGHuffmbnTbblf;
 
-import org.w3c.dom.Node;
+import org.w3d.dom.Nodf;
 
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.SampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.ColorConvertOp;
-import java.awt.image.RenderedImage;
-import java.awt.image.BufferedImage;
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ICC_Profile;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Transparency;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.ColorConvfrtOp;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.dolor.ICC_ColorSpbdf;
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Trbnspbrfndy;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
 
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
 
-public class JPEGImageWriter extends ImageWriter {
+publid dlbss JPEGImbgfWritfr fxtfnds ImbgfWritfr {
 
-    ///////// Private variables
+    ///////// Privbtf vbribblfs
 
-    private boolean debug = false;
-
-    /**
-     * The following variable contains a pointer to the IJG library
-     * structure for this reader.  It is assigned in the constructor
-     * and then is passed in to every native call.  It is set to 0
-     * by dispose to avoid disposing twice.
-     */
-    private long structPointer = 0;
-
-
-    /** The output stream we write to */
-    private ImageOutputStream ios = null;
-
-    /** The Raster we will write from */
-    private Raster srcRas = null;
-
-    /** An intermediate Raster holding compressor-friendly data */
-    private WritableRaster raster = null;
+    privbtf boolfbn dfbug = fblsf;
 
     /**
-     * Set to true if we are writing an image with an
-     * indexed ColorModel
+     * Tif following vbribblf dontbins b pointfr to tif IJG librbry
+     * strudturf for tiis rfbdfr.  It is bssignfd in tif donstrudtor
+     * bnd tifn is pbssfd in to fvfry nbtivf dbll.  It is sft to 0
+     * by disposf to bvoid disposing twidf.
      */
-    private boolean indexed = false;
-    private IndexColorModel indexCM = null;
+    privbtf long strudtPointfr = 0;
 
-    private boolean convertTosRGB = false;  // Used by PhotoYCC only
-    private WritableRaster converted = null;
 
-    private boolean isAlphaPremultiplied = false;
-    private ColorModel srcCM = null;
+    /** Tif output strfbm wf writf to */
+    privbtf ImbgfOutputStrfbm ios = null;
+
+    /** Tif Rbstfr wf will writf from */
+    privbtf Rbstfr srdRbs = null;
+
+    /** An intfrmfdibtf Rbstfr iolding domprfssor-frifndly dbtb */
+    privbtf WritbblfRbstfr rbstfr = null;
 
     /**
-     * If there are thumbnails to be written, this is the list.
+     * Sft to truf if wf brf writing bn imbgf witi bn
+     * indfxfd ColorModfl
      */
-    private List<? extends BufferedImage> thumbnails = null;
+    privbtf boolfbn indfxfd = fblsf;
+    privbtf IndfxColorModfl indfxCM = null;
+
+    privbtf boolfbn donvfrtTosRGB = fblsf;  // Usfd by PiotoYCC only
+    privbtf WritbblfRbstfr donvfrtfd = null;
+
+    privbtf boolfbn isAlpibPrfmultiplifd = fblsf;
+    privbtf ColorModfl srdCM = null;
 
     /**
-     * If metadata should include an icc profile, store it here.
+     * If tifrf brf tiumbnbils to bf writtfn, tiis is tif list.
      */
-    private ICC_Profile iccProfile = null;
+    privbtf List<? fxtfnds BufffrfdImbgf> tiumbnbils = null;
 
-    private int sourceXOffset = 0;
-    private int sourceYOffset = 0;
-    private int sourceWidth = 0;
-    private int [] srcBands = null;
-    private int sourceHeight = 0;
+    /**
+     * If mftbdbtb siould indludf bn idd profilf, storf it ifrf.
+     */
+    privbtf ICC_Profilf iddProfilf = null;
 
-    /** Used when calling listeners */
-    private int currentImage = 0;
+    privbtf int sourdfXOffsft = 0;
+    privbtf int sourdfYOffsft = 0;
+    privbtf int sourdfWidti = 0;
+    privbtf int [] srdBbnds = null;
+    privbtf int sourdfHfigit = 0;
 
-    private ColorConvertOp convertOp = null;
+    /** Usfd wifn dblling listfnfrs */
+    privbtf int durrfntImbgf = 0;
 
-    private JPEGQTable [] streamQTables = null;
-    private JPEGHuffmanTable[] streamDCHuffmanTables = null;
-    private JPEGHuffmanTable[] streamACHuffmanTables = null;
+    privbtf ColorConvfrtOp donvfrtOp = null;
 
-    // Parameters for writing metadata
-    private boolean ignoreJFIF = false;  // If it's there, use it
-    private boolean forceJFIF = false;  // Add one for the thumbnails
-    private boolean ignoreAdobe = false;  // If it's there, use it
-    private int newAdobeTransform = JPEG.ADOBE_IMPOSSIBLE;  // Change if needed
-    private boolean writeDefaultJFIF = false;
-    private boolean writeAdobe = false;
-    private JPEGMetadata metadata = null;
+    privbtf JPEGQTbblf [] strfbmQTbblfs = null;
+    privbtf JPEGHuffmbnTbblf[] strfbmDCHuffmbnTbblfs = null;
+    privbtf JPEGHuffmbnTbblf[] strfbmACHuffmbnTbblfs = null;
 
-    private boolean sequencePrepared = false;
+    // Pbrbmftfrs for writing mftbdbtb
+    privbtf boolfbn ignorfJFIF = fblsf;  // If it's tifrf, usf it
+    privbtf boolfbn fordfJFIF = fblsf;  // Add onf for tif tiumbnbils
+    privbtf boolfbn ignorfAdobf = fblsf;  // If it's tifrf, usf it
+    privbtf int nfwAdobfTrbnsform = JPEG.ADOBE_IMPOSSIBLE;  // Cibngf if nffdfd
+    privbtf boolfbn writfDffbultJFIF = fblsf;
+    privbtf boolfbn writfAdobf = fblsf;
+    privbtf JPEGMftbdbtb mftbdbtb = null;
 
-    private int numScans = 0;
+    privbtf boolfbn sfqufndfPrfpbrfd = fblsf;
 
-    /** The referent to be registered with the Disposer. */
-    private Object disposerReferent = new Object();
+    privbtf int numSdbns = 0;
 
-    /** The DisposerRecord that handles the actual disposal of this writer. */
-    private DisposerRecord disposerRecord;
+    /** Tif rfffrfnt to bf rfgistfrfd witi tif Disposfr. */
+    privbtf Objfdt disposfrRfffrfnt = nfw Objfdt();
 
-    ///////// End of Private variables
+    /** Tif DisposfrRfdord tibt ibndlfs tif bdtubl disposbl of tiis writfr. */
+    privbtf DisposfrRfdord disposfrRfdord;
 
-    ///////// Protected variables
+    ///////// End of Privbtf vbribblfs
 
-    protected static final int WARNING_DEST_IGNORED = 0;
-    protected static final int WARNING_STREAM_METADATA_IGNORED = 1;
-    protected static final int WARNING_DEST_METADATA_COMP_MISMATCH = 2;
-    protected static final int WARNING_DEST_METADATA_JFIF_MISMATCH = 3;
-    protected static final int WARNING_DEST_METADATA_ADOBE_MISMATCH = 4;
-    protected static final int WARNING_IMAGE_METADATA_JFIF_MISMATCH = 5;
-    protected static final int WARNING_IMAGE_METADATA_ADOBE_MISMATCH = 6;
-    protected static final int WARNING_METADATA_NOT_JPEG_FOR_RASTER = 7;
-    protected static final int WARNING_NO_BANDS_ON_INDEXED = 8;
-    protected static final int WARNING_ILLEGAL_THUMBNAIL = 9;
-    protected static final int WARNING_IGNORING_THUMBS = 10;
-    protected static final int WARNING_FORCING_JFIF = 11;
-    protected static final int WARNING_THUMB_CLIPPED = 12;
-    protected static final int WARNING_METADATA_ADJUSTED_FOR_THUMB = 13;
-    protected static final int WARNING_NO_RGB_THUMB_AS_INDEXED = 14;
-    protected static final int WARNING_NO_GRAY_THUMB_AS_INDEXED = 15;
+    ///////// Protfdtfd vbribblfs
 
-    private static final int MAX_WARNING = WARNING_NO_GRAY_THUMB_AS_INDEXED;
+    protfdtfd stbtid finbl int WARNING_DEST_IGNORED = 0;
+    protfdtfd stbtid finbl int WARNING_STREAM_METADATA_IGNORED = 1;
+    protfdtfd stbtid finbl int WARNING_DEST_METADATA_COMP_MISMATCH = 2;
+    protfdtfd stbtid finbl int WARNING_DEST_METADATA_JFIF_MISMATCH = 3;
+    protfdtfd stbtid finbl int WARNING_DEST_METADATA_ADOBE_MISMATCH = 4;
+    protfdtfd stbtid finbl int WARNING_IMAGE_METADATA_JFIF_MISMATCH = 5;
+    protfdtfd stbtid finbl int WARNING_IMAGE_METADATA_ADOBE_MISMATCH = 6;
+    protfdtfd stbtid finbl int WARNING_METADATA_NOT_JPEG_FOR_RASTER = 7;
+    protfdtfd stbtid finbl int WARNING_NO_BANDS_ON_INDEXED = 8;
+    protfdtfd stbtid finbl int WARNING_ILLEGAL_THUMBNAIL = 9;
+    protfdtfd stbtid finbl int WARNING_IGNORING_THUMBS = 10;
+    protfdtfd stbtid finbl int WARNING_FORCING_JFIF = 11;
+    protfdtfd stbtid finbl int WARNING_THUMB_CLIPPED = 12;
+    protfdtfd stbtid finbl int WARNING_METADATA_ADJUSTED_FOR_THUMB = 13;
+    protfdtfd stbtid finbl int WARNING_NO_RGB_THUMB_AS_INDEXED = 14;
+    protfdtfd stbtid finbl int WARNING_NO_GRAY_THUMB_AS_INDEXED = 15;
 
-    ///////// End of Protected variables
+    privbtf stbtid finbl int MAX_WARNING = WARNING_NO_GRAY_THUMB_AS_INDEXED;
 
-    ///////// static initializer
+    ///////// End of Protfdtfd vbribblfs
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("javajpeg");
-                    return null;
+    ///////// stbtid initiblizfr
+
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("jbvbjpfg");
+                    rfturn null;
                 }
             });
-        initWriterIDs(JPEGQTable.class,
-                      JPEGHuffmanTable.class);
+        initWritfrIDs(JPEGQTbblf.dlbss,
+                      JPEGHuffmbnTbblf.dlbss);
     }
 
-    //////// Public API
+    //////// Publid API
 
-    public JPEGImageWriter(ImageWriterSpi originator) {
-        super(originator);
-        structPointer = initJPEGImageWriter();
-        disposerRecord = new JPEGWriterDisposerRecord(structPointer);
-        Disposer.addRecord(disposerReferent, disposerRecord);
+    publid JPEGImbgfWritfr(ImbgfWritfrSpi originbtor) {
+        supfr(originbtor);
+        strudtPointfr = initJPEGImbgfWritfr();
+        disposfrRfdord = nfw JPEGWritfrDisposfrRfdord(strudtPointfr);
+        Disposfr.bddRfdord(disposfrRfffrfnt, disposfrRfdord);
     }
 
-    public void setOutput(Object output) {
-        setThreadLock();
+    publid void sftOutput(Objfdt output) {
+        sftTirfbdLodk();
         try {
-            cbLock.check();
+            dbLodk.difdk();
 
-            super.setOutput(output); // validates output
-            resetInternalState();
-            ios = (ImageOutputStream) output; // so this will always work
-            // Set the native destination
-            setDest(structPointer);
-        } finally {
-            clearThreadLock();
+            supfr.sftOutput(output); // vblidbtfs output
+            rfsftIntfrnblStbtf();
+            ios = (ImbgfOutputStrfbm) output; // so tiis will blwbys work
+            // Sft tif nbtivf dfstinbtion
+            sftDfst(strudtPointfr);
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    public ImageWriteParam getDefaultWriteParam() {
-        return new JPEGImageWriteParam(null);
+    publid ImbgfWritfPbrbm gftDffbultWritfPbrbm() {
+        rfturn nfw JPEGImbgfWritfPbrbm(null);
     }
 
-    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
-        setThreadLock();
+    publid IIOMftbdbtb gftDffbultStrfbmMftbdbtb(ImbgfWritfPbrbm pbrbm) {
+        sftTirfbdLodk();
         try {
-            return new JPEGMetadata(param, this);
-        } finally {
-            clearThreadLock();
+            rfturn nfw JPEGMftbdbtb(pbrbm, tiis);
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    public IIOMetadata
-        getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                ImageWriteParam param) {
-        setThreadLock();
+    publid IIOMftbdbtb
+        gftDffbultImbgfMftbdbtb(ImbgfTypfSpfdififr imbgfTypf,
+                                ImbgfWritfPbrbm pbrbm) {
+        sftTirfbdLodk();
         try {
-            return new JPEGMetadata(imageType, param, this);
-        } finally {
-            clearThreadLock();
+            rfturn nfw JPEGMftbdbtb(imbgfTypf, pbrbm, tiis);
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                             ImageWriteParam param) {
-        // There isn't much we can do.  If it's one of ours, then
-        // return it.  Otherwise just return null.  We use it only
-        // for tables, so we can't get a default and modify it,
-        // as this will usually not be what is intended.
-        if (inData instanceof JPEGMetadata) {
-            JPEGMetadata jpegData = (JPEGMetadata) inData;
-            if (jpegData.isStream) {
-                return inData;
+    publid IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                             ImbgfWritfPbrbm pbrbm) {
+        // Tifrf isn't mudi wf dbn do.  If it's onf of ours, tifn
+        // rfturn it.  Otifrwisf just rfturn null.  Wf usf it only
+        // for tbblfs, so wf dbn't gft b dffbult bnd modify it,
+        // bs tiis will usublly not bf wibt is intfndfd.
+        if (inDbtb instbndfof JPEGMftbdbtb) {
+            JPEGMftbdbtb jpfgDbtb = (JPEGMftbdbtb) inDbtb;
+            if (jpfgDbtb.isStrfbm) {
+                rfturn inDbtb;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public IIOMetadata
-        convertImageMetadata(IIOMetadata inData,
-                             ImageTypeSpecifier imageType,
-                             ImageWriteParam param) {
-        setThreadLock();
+    publid IIOMftbdbtb
+        donvfrtImbgfMftbdbtb(IIOMftbdbtb inDbtb,
+                             ImbgfTypfSpfdififr imbgfTypf,
+                             ImbgfWritfPbrbm pbrbm) {
+        sftTirfbdLodk();
         try {
-            return convertImageMetadataOnThread(inData, imageType, param);
-        } finally {
-            clearThreadLock();
+            rfturn donvfrtImbgfMftbdbtbOnTirfbd(inDbtb, imbgfTypf, pbrbm);
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    private IIOMetadata
-        convertImageMetadataOnThread(IIOMetadata inData,
-                                     ImageTypeSpecifier imageType,
-                                     ImageWriteParam param) {
-        // If it's one of ours, just return it
-        if (inData instanceof JPEGMetadata) {
-            JPEGMetadata jpegData = (JPEGMetadata) inData;
-            if (!jpegData.isStream) {
-                return inData;
-            } else {
-                // Can't convert stream metadata to image metadata
-                // XXX Maybe this should put out a warning?
-                return null;
+    privbtf IIOMftbdbtb
+        donvfrtImbgfMftbdbtbOnTirfbd(IIOMftbdbtb inDbtb,
+                                     ImbgfTypfSpfdififr imbgfTypf,
+                                     ImbgfWritfPbrbm pbrbm) {
+        // If it's onf of ours, just rfturn it
+        if (inDbtb instbndfof JPEGMftbdbtb) {
+            JPEGMftbdbtb jpfgDbtb = (JPEGMftbdbtb) inDbtb;
+            if (!jpfgDbtb.isStrfbm) {
+                rfturn inDbtb;
+            } flsf {
+                // Cbn't donvfrt strfbm mftbdbtb to imbgf mftbdbtb
+                // XXX Mbybf tiis siould put out b wbrning?
+                rfturn null;
             }
         }
-        // If it's not one of ours, create a default and set it from
-        // the standard tree from the input, if it exists.
-        if (inData.isStandardMetadataFormatSupported()) {
-            String formatName =
-                IIOMetadataFormatImpl.standardMetadataFormatName;
-            Node tree = inData.getAsTree(formatName);
-            if (tree != null) {
-                JPEGMetadata jpegData = new JPEGMetadata(imageType,
-                                                         param,
-                                                         this);
+        // If it's not onf of ours, drfbtf b dffbult bnd sft it from
+        // tif stbndbrd trff from tif input, if it fxists.
+        if (inDbtb.isStbndbrdMftbdbtbFormbtSupportfd()) {
+            String formbtNbmf =
+                IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf;
+            Nodf trff = inDbtb.gftAsTrff(formbtNbmf);
+            if (trff != null) {
+                JPEGMftbdbtb jpfgDbtb = nfw JPEGMftbdbtb(imbgfTypf,
+                                                         pbrbm,
+                                                         tiis);
                 try {
-                    jpegData.setFromTree(formatName, tree);
-                } catch (IIOInvalidTreeException e) {
-                    // Other plug-in generates bogus standard tree
-                    // XXX Maybe this should put out a warning?
-                    return null;
+                    jpfgDbtb.sftFromTrff(formbtNbmf, trff);
+                } dbtdi (IIOInvblidTrffExdfption f) {
+                    // Otifr plug-in gfnfrbtfs bogus stbndbrd trff
+                    // XXX Mbybf tiis siould put out b wbrning?
+                    rfturn null;
                 }
 
-                return jpegData;
+                rfturn jpfgDbtb;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public int getNumThumbnailsSupported(ImageTypeSpecifier imageType,
-                                         ImageWriteParam param,
-                                         IIOMetadata streamMetadata,
-                                         IIOMetadata imageMetadata) {
-        if (jfifOK(imageType, param, streamMetadata, imageMetadata)) {
-            return Integer.MAX_VALUE;
+    publid int gftNumTiumbnbilsSupportfd(ImbgfTypfSpfdififr imbgfTypf,
+                                         ImbgfWritfPbrbm pbrbm,
+                                         IIOMftbdbtb strfbmMftbdbtb,
+                                         IIOMftbdbtb imbgfMftbdbtb) {
+        if (jfifOK(imbgfTypf, pbrbm, strfbmMftbdbtb, imbgfMftbdbtb)) {
+            rfturn Intfgfr.MAX_VALUE;
         }
-        return 0;
+        rfturn 0;
     }
 
-    static final Dimension [] preferredThumbSizes = {new Dimension(1, 1),
-                                                     new Dimension(255, 255)};
+    stbtid finbl Dimfnsion [] prfffrrfdTiumbSizfs = {nfw Dimfnsion(1, 1),
+                                                     nfw Dimfnsion(255, 255)};
 
-    public Dimension[] getPreferredThumbnailSizes(ImageTypeSpecifier imageType,
-                                                  ImageWriteParam param,
-                                                  IIOMetadata streamMetadata,
-                                                  IIOMetadata imageMetadata) {
-        if (jfifOK(imageType, param, streamMetadata, imageMetadata)) {
-            return preferredThumbSizes.clone();
+    publid Dimfnsion[] gftPrfffrrfdTiumbnbilSizfs(ImbgfTypfSpfdififr imbgfTypf,
+                                                  ImbgfWritfPbrbm pbrbm,
+                                                  IIOMftbdbtb strfbmMftbdbtb,
+                                                  IIOMftbdbtb imbgfMftbdbtb) {
+        if (jfifOK(imbgfTypf, pbrbm, strfbmMftbdbtb, imbgfMftbdbtb)) {
+            rfturn prfffrrfdTiumbSizfs.dlonf();
         }
-        return null;
+        rfturn null;
     }
 
-    private boolean jfifOK(ImageTypeSpecifier imageType,
-                           ImageWriteParam param,
-                           IIOMetadata streamMetadata,
-                           IIOMetadata imageMetadata) {
-        // If the image type and metadata are JFIF compatible, return true
-        if ((imageType != null) &&
-            (!JPEG.isJFIFcompliant(imageType, true))) {
-            return false;
+    privbtf boolfbn jfifOK(ImbgfTypfSpfdififr imbgfTypf,
+                           ImbgfWritfPbrbm pbrbm,
+                           IIOMftbdbtb strfbmMftbdbtb,
+                           IIOMftbdbtb imbgfMftbdbtb) {
+        // If tif imbgf typf bnd mftbdbtb brf JFIF dompbtiblf, rfturn truf
+        if ((imbgfTypf != null) &&
+            (!JPEG.isJFIFdomplibnt(imbgfTypf, truf))) {
+            rfturn fblsf;
         }
-        if (imageMetadata != null) {
-            JPEGMetadata metadata = null;
-            if (imageMetadata instanceof JPEGMetadata) {
-                metadata = (JPEGMetadata) imageMetadata;
-            } else {
-                metadata = (JPEGMetadata)convertImageMetadata(imageMetadata,
-                                                              imageType,
-                                                              param);
+        if (imbgfMftbdbtb != null) {
+            JPEGMftbdbtb mftbdbtb = null;
+            if (imbgfMftbdbtb instbndfof JPEGMftbdbtb) {
+                mftbdbtb = (JPEGMftbdbtb) imbgfMftbdbtb;
+            } flsf {
+                mftbdbtb = (JPEGMftbdbtb)donvfrtImbgfMftbdbtb(imbgfMftbdbtb,
+                                                              imbgfTypf,
+                                                              pbrbm);
             }
-            // metadata must have a jfif node
-            if (metadata.findMarkerSegment
-                (JFIFMarkerSegment.class, true) == null){
-                return false;
+            // mftbdbtb must ibvf b jfif nodf
+            if (mftbdbtb.findMbrkfrSfgmfnt
+                (JFIFMbrkfrSfgmfnt.dlbss, truf) == null){
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    public boolean canWriteRasters() {
-        return true;
+    publid boolfbn dbnWritfRbstfrs() {
+        rfturn truf;
     }
 
-    public void write(IIOMetadata streamMetadata,
-                      IIOImage image,
-                      ImageWriteParam param) throws IOException {
-        setThreadLock();
+    publid void writf(IIOMftbdbtb strfbmMftbdbtb,
+                      IIOImbgf imbgf,
+                      ImbgfWritfPbrbm pbrbm) tirows IOExdfption {
+        sftTirfbdLodk();
         try {
-            cbLock.check();
+            dbLodk.difdk();
 
-            writeOnThread(streamMetadata, image, param);
-        } finally {
-            clearThreadLock();
+            writfOnTirfbd(strfbmMftbdbtb, imbgf, pbrbm);
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    private void writeOnThread(IIOMetadata streamMetadata,
-                      IIOImage image,
-                      ImageWriteParam param) throws IOException {
+    privbtf void writfOnTirfbd(IIOMftbdbtb strfbmMftbdbtb,
+                      IIOImbgf imbgf,
+                      ImbgfWritfPbrbm pbrbm) tirows IOExdfption {
 
         if (ios == null) {
-            throw new IllegalStateException("Output has not been set!");
+            tirow nfw IllfgblStbtfExdfption("Output ibs not bffn sft!");
         }
 
-        if (image == null) {
-            throw new IllegalArgumentException("image is null!");
+        if (imbgf == null) {
+            tirow nfw IllfgblArgumfntExdfption("imbgf is null!");
         }
 
-        // if streamMetadata is not null, issue a warning
-        if (streamMetadata != null) {
-            warningOccurred(WARNING_STREAM_METADATA_IGNORED);
+        // if strfbmMftbdbtb is not null, issuf b wbrning
+        if (strfbmMftbdbtb != null) {
+            wbrningOddurrfd(WARNING_STREAM_METADATA_IGNORED);
         }
 
-        // Obtain the raster and image, if there is one
-        boolean rasterOnly = image.hasRaster();
+        // Obtbin tif rbstfr bnd imbgf, if tifrf is onf
+        boolfbn rbstfrOnly = imbgf.ibsRbstfr();
 
-        RenderedImage rimage = null;
-        if (rasterOnly) {
-            srcRas = image.getRaster();
-        } else {
-            rimage = image.getRenderedImage();
-            if (rimage instanceof BufferedImage) {
-                // Use the Raster directly.
-                srcRas = ((BufferedImage)rimage).getRaster();
-            } else if (rimage.getNumXTiles() == 1 &&
-                       rimage.getNumYTiles() == 1)
+        RfndfrfdImbgf rimbgf = null;
+        if (rbstfrOnly) {
+            srdRbs = imbgf.gftRbstfr();
+        } flsf {
+            rimbgf = imbgf.gftRfndfrfdImbgf();
+            if (rimbgf instbndfof BufffrfdImbgf) {
+                // Usf tif Rbstfr dirfdtly.
+                srdRbs = ((BufffrfdImbgf)rimbgf).gftRbstfr();
+            } flsf if (rimbgf.gftNumXTilfs() == 1 &&
+                       rimbgf.gftNumYTilfs() == 1)
             {
-                // Get the unique tile.
-                srcRas = rimage.getTile(rimage.getMinTileX(),
-                                        rimage.getMinTileY());
+                // Gft tif uniquf tilf.
+                srdRbs = rimbgf.gftTilf(rimbgf.gftMinTilfX(),
+                                        rimbgf.gftMinTilfY());
 
-                // Ensure the Raster has dimensions of the image,
-                // as the tile dimensions might differ.
-                if (srcRas.getWidth() != rimage.getWidth() ||
-                    srcRas.getHeight() != rimage.getHeight())
+                // Ensurf tif Rbstfr ibs dimfnsions of tif imbgf,
+                // bs tif tilf dimfnsions migit difffr.
+                if (srdRbs.gftWidti() != rimbgf.gftWidti() ||
+                    srdRbs.gftHfigit() != rimbgf.gftHfigit())
                 {
-                    srcRas = srcRas.createChild(srcRas.getMinX(),
-                                                srcRas.getMinY(),
-                                                rimage.getWidth(),
-                                                rimage.getHeight(),
-                                                srcRas.getMinX(),
-                                                srcRas.getMinY(),
+                    srdRbs = srdRbs.drfbtfCiild(srdRbs.gftMinX(),
+                                                srdRbs.gftMinY(),
+                                                rimbgf.gftWidti(),
+                                                rimbgf.gftHfigit(),
+                                                srdRbs.gftMinX(),
+                                                srdRbs.gftMinY(),
                                                 null);
                 }
-            } else {
-                // Image is tiled so get a contiguous raster by copying.
-                srcRas = rimage.getData();
+            } flsf {
+                // Imbgf is tilfd so gft b dontiguous rbstfr by dopying.
+                srdRbs = rimbgf.gftDbtb();
             }
         }
 
-        // Now determine if we are using a band subset
+        // Now dftfrminf if wf brf using b bbnd subsft
 
-        // By default, we are using all source bands
-        int numSrcBands = srcRas.getNumBands();
-        indexed = false;
-        indexCM = null;
-        ColorModel cm = null;
-        ColorSpace cs = null;
-        isAlphaPremultiplied = false;
-        srcCM = null;
-        if (!rasterOnly) {
-            cm = rimage.getColorModel();
-            if (cm != null) {
-                cs = cm.getColorSpace();
-                if (cm instanceof IndexColorModel) {
-                    indexed = true;
-                    indexCM = (IndexColorModel) cm;
-                    numSrcBands = cm.getNumComponents();
+        // By dffbult, wf brf using bll sourdf bbnds
+        int numSrdBbnds = srdRbs.gftNumBbnds();
+        indfxfd = fblsf;
+        indfxCM = null;
+        ColorModfl dm = null;
+        ColorSpbdf ds = null;
+        isAlpibPrfmultiplifd = fblsf;
+        srdCM = null;
+        if (!rbstfrOnly) {
+            dm = rimbgf.gftColorModfl();
+            if (dm != null) {
+                ds = dm.gftColorSpbdf();
+                if (dm instbndfof IndfxColorModfl) {
+                    indfxfd = truf;
+                    indfxCM = (IndfxColorModfl) dm;
+                    numSrdBbnds = dm.gftNumComponfnts();
                 }
-                if (cm.isAlphaPremultiplied()) {
-                    isAlphaPremultiplied = true;
-                    srcCM = cm;
+                if (dm.isAlpibPrfmultiplifd()) {
+                    isAlpibPrfmultiplifd = truf;
+                    srdCM = dm;
                 }
             }
         }
 
-        srcBands = JPEG.bandOffsets[numSrcBands-1];
-        int numBandsUsed = numSrcBands;
-        // Consult the param to determine if we're writing a subset
+        srdBbnds = JPEG.bbndOffsfts[numSrdBbnds-1];
+        int numBbndsUsfd = numSrdBbnds;
+        // Consult tif pbrbm to dftfrminf if wf'rf writing b subsft
 
-        if (param != null) {
-            int[] sBands = param.getSourceBands();
-            if (sBands != null) {
-                if (indexed) {
-                    warningOccurred(WARNING_NO_BANDS_ON_INDEXED);
-                } else {
-                    srcBands = sBands;
-                    numBandsUsed = srcBands.length;
-                    if (numBandsUsed > numSrcBands) {
-                        throw new IIOException
-                        ("ImageWriteParam specifies too many source bands");
+        if (pbrbm != null) {
+            int[] sBbnds = pbrbm.gftSourdfBbnds();
+            if (sBbnds != null) {
+                if (indfxfd) {
+                    wbrningOddurrfd(WARNING_NO_BANDS_ON_INDEXED);
+                } flsf {
+                    srdBbnds = sBbnds;
+                    numBbndsUsfd = srdBbnds.lfngti;
+                    if (numBbndsUsfd > numSrdBbnds) {
+                        tirow nfw IIOExdfption
+                        ("ImbgfWritfPbrbm spfdififs too mbny sourdf bbnds");
                     }
                 }
             }
         }
 
-        boolean usingBandSubset = (numBandsUsed != numSrcBands);
-        boolean fullImage = ((!rasterOnly) && (!usingBandSubset));
+        boolfbn usingBbndSubsft = (numBbndsUsfd != numSrdBbnds);
+        boolfbn fullImbgf = ((!rbstfrOnly) && (!usingBbndSubsft));
 
-        int [] bandSizes = null;
-        if (!indexed) {
-            bandSizes = srcRas.getSampleModel().getSampleSize();
-            // If this is a subset, we must adjust bandSizes
-            if (usingBandSubset) {
-                int [] temp = new int [numBandsUsed];
-                for (int i = 0; i < numBandsUsed; i++) {
-                    temp[i] = bandSizes[srcBands[i]];
+        int [] bbndSizfs = null;
+        if (!indfxfd) {
+            bbndSizfs = srdRbs.gftSbmplfModfl().gftSbmplfSizf();
+            // If tiis is b subsft, wf must bdjust bbndSizfs
+            if (usingBbndSubsft) {
+                int [] tfmp = nfw int [numBbndsUsfd];
+                for (int i = 0; i < numBbndsUsfd; i++) {
+                    tfmp[i] = bbndSizfs[srdBbnds[i]];
                 }
-                bandSizes = temp;
+                bbndSizfs = tfmp;
             }
-        } else {
-            int [] tempSize = srcRas.getSampleModel().getSampleSize();
-            bandSizes = new int [numSrcBands];
-            for (int i = 0; i < numSrcBands; i++) {
-                bandSizes[i] = tempSize[0];  // All the same
+        } flsf {
+            int [] tfmpSizf = srdRbs.gftSbmplfModfl().gftSbmplfSizf();
+            bbndSizfs = nfw int [numSrdBbnds];
+            for (int i = 0; i < numSrdBbnds; i++) {
+                bbndSizfs[i] = tfmpSizf[0];  // All tif sbmf
             }
         }
 
-        for (int i = 0; i < bandSizes.length; i++) {
-            // 4450894 part 1: The IJG libraries are compiled so they only
-            // handle <= 8-bit samples.  We now check the band sizes and throw
-            // an exception for images, such as USHORT_GRAY, with > 8 bits
-            // per sample.
-            if (bandSizes[i] <= 0 || bandSizes[i] > 8) {
-                throw new IIOException("Illegal band size: should be 0 < size <= 8");
+        for (int i = 0; i < bbndSizfs.lfngti; i++) {
+            // 4450894 pbrt 1: Tif IJG librbrifs brf dompilfd so tify only
+            // ibndlf <= 8-bit sbmplfs.  Wf now difdk tif bbnd sizfs bnd tirow
+            // bn fxdfption for imbgfs, sudi bs USHORT_GRAY, witi > 8 bits
+            // pfr sbmplf.
+            if (bbndSizfs[i] <= 0 || bbndSizfs[i] > 8) {
+                tirow nfw IIOExdfption("Illfgbl bbnd sizf: siould bf 0 < sizf <= 8");
             }
-            // 4450894 part 2: We expand IndexColorModel images to full 24-
-            // or 32-bit in grabPixels() for each scanline.  For indexed
-            // images such as BYTE_BINARY, we need to ensure that we update
-            // bandSizes to account for the scaling from 1-bit band sizes
+            // 4450894 pbrt 2: Wf fxpbnd IndfxColorModfl imbgfs to full 24-
+            // or 32-bit in grbbPixfls() for fbdi sdbnlinf.  For indfxfd
+            // imbgfs sudi bs BYTE_BINARY, wf nffd to fnsurf tibt wf updbtf
+            // bbndSizfs to bddount for tif sdbling from 1-bit bbnd sizfs
             // to 8-bit.
-            if (indexed) {
-                bandSizes[i] = 8;
+            if (indfxfd) {
+                bbndSizfs[i] = 8;
             }
         }
 
-        if (debug) {
-            System.out.println("numSrcBands is " + numSrcBands);
-            System.out.println("numBandsUsed is " + numBandsUsed);
-            System.out.println("usingBandSubset is " + usingBandSubset);
-            System.out.println("fullImage is " + fullImage);
-            System.out.print("Band sizes:");
-            for (int i = 0; i< bandSizes.length; i++) {
-                System.out.print(" " + bandSizes[i]);
+        if (dfbug) {
+            Systfm.out.println("numSrdBbnds is " + numSrdBbnds);
+            Systfm.out.println("numBbndsUsfd is " + numBbndsUsfd);
+            Systfm.out.println("usingBbndSubsft is " + usingBbndSubsft);
+            Systfm.out.println("fullImbgf is " + fullImbgf);
+            Systfm.out.print("Bbnd sizfs:");
+            for (int i = 0; i< bbndSizfs.lfngti; i++) {
+                Systfm.out.print(" " + bbndSizfs[i]);
             }
-            System.out.println();
+            Systfm.out.println();
         }
 
-        // Destination type, if there is one
-        ImageTypeSpecifier destType = null;
-        if (param != null) {
-            destType = param.getDestinationType();
-            // Ignore dest type if we are writing a complete image
-            if ((fullImage) && (destType != null)) {
-                warningOccurred(WARNING_DEST_IGNORED);
-                destType = null;
+        // Dfstinbtion typf, if tifrf is onf
+        ImbgfTypfSpfdififr dfstTypf = null;
+        if (pbrbm != null) {
+            dfstTypf = pbrbm.gftDfstinbtionTypf();
+            // Ignorf dfst typf if wf brf writing b domplftf imbgf
+            if ((fullImbgf) && (dfstTypf != null)) {
+                wbrningOddurrfd(WARNING_DEST_IGNORED);
+                dfstTypf = null;
             }
         }
 
-        // Examine the param
+        // Exbminf tif pbrbm
 
-        sourceXOffset = srcRas.getMinX();
-        sourceYOffset = srcRas.getMinY();
-        int imageWidth = srcRas.getWidth();
-        int imageHeight = srcRas.getHeight();
-        sourceWidth = imageWidth;
-        sourceHeight = imageHeight;
-        int periodX = 1;
-        int periodY = 1;
+        sourdfXOffsft = srdRbs.gftMinX();
+        sourdfYOffsft = srdRbs.gftMinY();
+        int imbgfWidti = srdRbs.gftWidti();
+        int imbgfHfigit = srdRbs.gftHfigit();
+        sourdfWidti = imbgfWidti;
+        sourdfHfigit = imbgfHfigit;
+        int pfriodX = 1;
+        int pfriodY = 1;
         int gridX = 0;
         int gridY = 0;
-        JPEGQTable [] qTables = null;
-        JPEGHuffmanTable[] DCHuffmanTables = null;
-        JPEGHuffmanTable[] ACHuffmanTables = null;
-        boolean optimizeHuffman = false;
-        JPEGImageWriteParam jparam = null;
-        int progressiveMode = ImageWriteParam.MODE_DISABLED;
+        JPEGQTbblf [] qTbblfs = null;
+        JPEGHuffmbnTbblf[] DCHuffmbnTbblfs = null;
+        JPEGHuffmbnTbblf[] ACHuffmbnTbblfs = null;
+        boolfbn optimizfHuffmbn = fblsf;
+        JPEGImbgfWritfPbrbm jpbrbm = null;
+        int progrfssivfModf = ImbgfWritfPbrbm.MODE_DISABLED;
 
-        if (param != null) {
+        if (pbrbm != null) {
 
-            Rectangle sourceRegion = param.getSourceRegion();
-            if (sourceRegion != null) {
-                Rectangle imageBounds = new Rectangle(sourceXOffset,
-                                                      sourceYOffset,
-                                                      sourceWidth,
-                                                      sourceHeight);
-                sourceRegion = sourceRegion.intersection(imageBounds);
-                sourceXOffset = sourceRegion.x;
-                sourceYOffset = sourceRegion.y;
-                sourceWidth = sourceRegion.width;
-                sourceHeight = sourceRegion.height;
+            Rfdtbnglf sourdfRfgion = pbrbm.gftSourdfRfgion();
+            if (sourdfRfgion != null) {
+                Rfdtbnglf imbgfBounds = nfw Rfdtbnglf(sourdfXOffsft,
+                                                      sourdfYOffsft,
+                                                      sourdfWidti,
+                                                      sourdfHfigit);
+                sourdfRfgion = sourdfRfgion.intfrsfdtion(imbgfBounds);
+                sourdfXOffsft = sourdfRfgion.x;
+                sourdfYOffsft = sourdfRfgion.y;
+                sourdfWidti = sourdfRfgion.widti;
+                sourdfHfigit = sourdfRfgion.ifigit;
             }
 
-            if (sourceWidth + sourceXOffset > imageWidth) {
-                sourceWidth = imageWidth - sourceXOffset;
+            if (sourdfWidti + sourdfXOffsft > imbgfWidti) {
+                sourdfWidti = imbgfWidti - sourdfXOffsft;
             }
-            if (sourceHeight + sourceYOffset > imageHeight) {
-                sourceHeight = imageHeight - sourceYOffset;
-            }
-
-            periodX = param.getSourceXSubsampling();
-            periodY = param.getSourceYSubsampling();
-            gridX = param.getSubsamplingXOffset();
-            gridY = param.getSubsamplingYOffset();
-
-            switch(param.getCompressionMode()) {
-            case ImageWriteParam.MODE_DISABLED:
-                throw new IIOException("JPEG compression cannot be disabled");
-            case ImageWriteParam.MODE_EXPLICIT:
-                float quality = param.getCompressionQuality();
-                quality = JPEG.convertToLinearQuality(quality);
-                qTables = new JPEGQTable[2];
-                qTables[0] = JPEGQTable.K1Luminance.getScaledInstance
-                    (quality, true);
-                qTables[1] = JPEGQTable.K2Chrominance.getScaledInstance
-                    (quality, true);
-                break;
-            case ImageWriteParam.MODE_DEFAULT:
-                qTables = new JPEGQTable[2];
-                qTables[0] = JPEGQTable.K1Div2Luminance;
-                qTables[1] = JPEGQTable.K2Div2Chrominance;
-                break;
-            // We'll handle the metadata case later
+            if (sourdfHfigit + sourdfYOffsft > imbgfHfigit) {
+                sourdfHfigit = imbgfHfigit - sourdfYOffsft;
             }
 
-            progressiveMode = param.getProgressiveMode();
+            pfriodX = pbrbm.gftSourdfXSubsbmpling();
+            pfriodY = pbrbm.gftSourdfYSubsbmpling();
+            gridX = pbrbm.gftSubsbmplingXOffsft();
+            gridY = pbrbm.gftSubsbmplingYOffsft();
 
-            if (param instanceof JPEGImageWriteParam) {
-                jparam = (JPEGImageWriteParam)param;
-                optimizeHuffman = jparam.getOptimizeHuffmanTables();
+            switdi(pbrbm.gftComprfssionModf()) {
+            dbsf ImbgfWritfPbrbm.MODE_DISABLED:
+                tirow nfw IIOExdfption("JPEG domprfssion dbnnot bf disbblfd");
+            dbsf ImbgfWritfPbrbm.MODE_EXPLICIT:
+                flobt qublity = pbrbm.gftComprfssionQublity();
+                qublity = JPEG.donvfrtToLinfbrQublity(qublity);
+                qTbblfs = nfw JPEGQTbblf[2];
+                qTbblfs[0] = JPEGQTbblf.K1Luminbndf.gftSdblfdInstbndf
+                    (qublity, truf);
+                qTbblfs[1] = JPEGQTbblf.K2Cirominbndf.gftSdblfdInstbndf
+                    (qublity, truf);
+                brfbk;
+            dbsf ImbgfWritfPbrbm.MODE_DEFAULT:
+                qTbblfs = nfw JPEGQTbblf[2];
+                qTbblfs[0] = JPEGQTbblf.K1Div2Luminbndf;
+                qTbblfs[1] = JPEGQTbblf.K2Div2Cirominbndf;
+                brfbk;
+            // Wf'll ibndlf tif mftbdbtb dbsf lbtfr
             }
-        }
 
-        // Now examine the metadata
-        IIOMetadata mdata = image.getMetadata();
-        if (mdata != null) {
-            if (mdata instanceof JPEGMetadata) {
-                metadata = (JPEGMetadata) mdata;
-                if (debug) {
-                    System.out.println
-                        ("We have metadata, and it's JPEG metadata");
-                }
-            } else {
-                if (!rasterOnly) {
-                    ImageTypeSpecifier type = destType;
-                    if (type == null) {
-                        type = new ImageTypeSpecifier(rimage);
-                    }
-                    metadata = (JPEGMetadata) convertImageMetadata(mdata,
-                                                                   type,
-                                                                   param);
-                } else {
-                    warningOccurred(WARNING_METADATA_NOT_JPEG_FOR_RASTER);
-                }
+            progrfssivfModf = pbrbm.gftProgrfssivfModf();
+
+            if (pbrbm instbndfof JPEGImbgfWritfPbrbm) {
+                jpbrbm = (JPEGImbgfWritfPbrbm)pbrbm;
+                optimizfHuffmbn = jpbrbm.gftOptimizfHuffmbnTbblfs();
             }
         }
 
-        // First set a default state
-
-        ignoreJFIF = false;  // If it's there, use it
-        ignoreAdobe = false;  // If it's there, use it
-        newAdobeTransform = JPEG.ADOBE_IMPOSSIBLE;  // Change if needed
-        writeDefaultJFIF = false;
-        writeAdobe = false;
-
-        // By default we'll do no conversion:
-        int inCsType = JPEG.JCS_UNKNOWN;
-        int outCsType = JPEG.JCS_UNKNOWN;
-
-        JFIFMarkerSegment jfif = null;
-        AdobeMarkerSegment adobe = null;
-        SOFMarkerSegment sof = null;
-
-        if (metadata != null) {
-            jfif = (JFIFMarkerSegment) metadata.findMarkerSegment
-                (JFIFMarkerSegment.class, true);
-            adobe = (AdobeMarkerSegment) metadata.findMarkerSegment
-                (AdobeMarkerSegment.class, true);
-            sof = (SOFMarkerSegment) metadata.findMarkerSegment
-                (SOFMarkerSegment.class, true);
+        // Now fxbminf tif mftbdbtb
+        IIOMftbdbtb mdbtb = imbgf.gftMftbdbtb();
+        if (mdbtb != null) {
+            if (mdbtb instbndfof JPEGMftbdbtb) {
+                mftbdbtb = (JPEGMftbdbtb) mdbtb;
+                if (dfbug) {
+                    Systfm.out.println
+                        ("Wf ibvf mftbdbtb, bnd it's JPEG mftbdbtb");
+                }
+            } flsf {
+                if (!rbstfrOnly) {
+                    ImbgfTypfSpfdififr typf = dfstTypf;
+                    if (typf == null) {
+                        typf = nfw ImbgfTypfSpfdififr(rimbgf);
+                    }
+                    mftbdbtb = (JPEGMftbdbtb) donvfrtImbgfMftbdbtb(mdbtb,
+                                                                   typf,
+                                                                   pbrbm);
+                } flsf {
+                    wbrningOddurrfd(WARNING_METADATA_NOT_JPEG_FOR_RASTER);
+                }
+            }
         }
 
-        iccProfile = null;  // By default don't write one
-        convertTosRGB = false;  // PhotoYCC does this
-        converted = null;
+        // First sft b dffbult stbtf
 
-        if (destType != null) {
-            if (numBandsUsed != destType.getNumBands()) {
-                throw new IIOException
-                    ("Number of source bands != number of destination bands");
+        ignorfJFIF = fblsf;  // If it's tifrf, usf it
+        ignorfAdobf = fblsf;  // If it's tifrf, usf it
+        nfwAdobfTrbnsform = JPEG.ADOBE_IMPOSSIBLE;  // Cibngf if nffdfd
+        writfDffbultJFIF = fblsf;
+        writfAdobf = fblsf;
+
+        // By dffbult wf'll do no donvfrsion:
+        int inCsTypf = JPEG.JCS_UNKNOWN;
+        int outCsTypf = JPEG.JCS_UNKNOWN;
+
+        JFIFMbrkfrSfgmfnt jfif = null;
+        AdobfMbrkfrSfgmfnt bdobf = null;
+        SOFMbrkfrSfgmfnt sof = null;
+
+        if (mftbdbtb != null) {
+            jfif = (JFIFMbrkfrSfgmfnt) mftbdbtb.findMbrkfrSfgmfnt
+                (JFIFMbrkfrSfgmfnt.dlbss, truf);
+            bdobf = (AdobfMbrkfrSfgmfnt) mftbdbtb.findMbrkfrSfgmfnt
+                (AdobfMbrkfrSfgmfnt.dlbss, truf);
+            sof = (SOFMbrkfrSfgmfnt) mftbdbtb.findMbrkfrSfgmfnt
+                (SOFMbrkfrSfgmfnt.dlbss, truf);
+        }
+
+        iddProfilf = null;  // By dffbult don't writf onf
+        donvfrtTosRGB = fblsf;  // PiotoYCC dofs tiis
+        donvfrtfd = null;
+
+        if (dfstTypf != null) {
+            if (numBbndsUsfd != dfstTypf.gftNumBbnds()) {
+                tirow nfw IIOExdfption
+                    ("Numbfr of sourdf bbnds != numbfr of dfstinbtion bbnds");
             }
-            cs = destType.getColorModel().getColorSpace();
-            // Check the metadata against the destination type
-            if (metadata != null) {
-                checkSOFBands(sof, numBandsUsed);
+            ds = dfstTypf.gftColorModfl().gftColorSpbdf();
+            // Cifdk tif mftbdbtb bgbinst tif dfstinbtion typf
+            if (mftbdbtb != null) {
+                difdkSOFBbnds(sof, numBbndsUsfd);
 
-                checkJFIF(jfif, destType, false);
-                // Do we want to write an ICC profile?
-                if ((jfif != null) && (ignoreJFIF == false)) {
-                    if (JPEG.isNonStandardICC(cs)) {
-                        iccProfile = ((ICC_ColorSpace) cs).getProfile();
+                difdkJFIF(jfif, dfstTypf, fblsf);
+                // Do wf wbnt to writf bn ICC profilf?
+                if ((jfif != null) && (ignorfJFIF == fblsf)) {
+                    if (JPEG.isNonStbndbrdICC(ds)) {
+                        iddProfilf = ((ICC_ColorSpbdf) ds).gftProfilf();
                     }
                 }
-                checkAdobe(adobe, destType, false);
+                difdkAdobf(bdobf, dfstTypf, fblsf);
 
-            } else { // no metadata, but there is a dest type
-                // If we can add a JFIF or an Adobe marker segment, do so
-                if (JPEG.isJFIFcompliant(destType, false)) {
-                    writeDefaultJFIF = true;
-                    // Do we want to write an ICC profile?
-                    if (JPEG.isNonStandardICC(cs)) {
-                        iccProfile = ((ICC_ColorSpace) cs).getProfile();
+            } flsf { // no mftbdbtb, but tifrf is b dfst typf
+                // If wf dbn bdd b JFIF or bn Adobf mbrkfr sfgmfnt, do so
+                if (JPEG.isJFIFdomplibnt(dfstTypf, fblsf)) {
+                    writfDffbultJFIF = truf;
+                    // Do wf wbnt to writf bn ICC profilf?
+                    if (JPEG.isNonStbndbrdICC(ds)) {
+                        iddProfilf = ((ICC_ColorSpbdf) ds).gftProfilf();
                     }
-                } else {
-                    int transform = JPEG.transformForType(destType, false);
-                    if (transform != JPEG.ADOBE_IMPOSSIBLE) {
-                        writeAdobe = true;
-                        newAdobeTransform = transform;
+                } flsf {
+                    int trbnsform = JPEG.trbnsformForTypf(dfstTypf, fblsf);
+                    if (trbnsform != JPEG.ADOBE_IMPOSSIBLE) {
+                        writfAdobf = truf;
+                        nfwAdobfTrbnsform = trbnsform;
                     }
                 }
-                // re-create the metadata
-                metadata = new JPEGMetadata(destType, null, this);
+                // rf-drfbtf tif mftbdbtb
+                mftbdbtb = nfw JPEGMftbdbtb(dfstTypf, null, tiis);
             }
-            inCsType = getSrcCSType(destType);
-            outCsType = getDefaultDestCSType(destType);
-        } else { // no destination type
-            if (metadata == null) {
-                if (fullImage) {  // no dest, no metadata, full image
-                    // Use default metadata matching the image and param
-                    metadata = new JPEGMetadata(new ImageTypeSpecifier(rimage),
-                                                param, this);
-                    if (metadata.findMarkerSegment
-                        (JFIFMarkerSegment.class, true) != null) {
-                        cs = rimage.getColorModel().getColorSpace();
-                        if (JPEG.isNonStandardICC(cs)) {
-                            iccProfile = ((ICC_ColorSpace) cs).getProfile();
+            inCsTypf = gftSrdCSTypf(dfstTypf);
+            outCsTypf = gftDffbultDfstCSTypf(dfstTypf);
+        } flsf { // no dfstinbtion typf
+            if (mftbdbtb == null) {
+                if (fullImbgf) {  // no dfst, no mftbdbtb, full imbgf
+                    // Usf dffbult mftbdbtb mbtdiing tif imbgf bnd pbrbm
+                    mftbdbtb = nfw JPEGMftbdbtb(nfw ImbgfTypfSpfdififr(rimbgf),
+                                                pbrbm, tiis);
+                    if (mftbdbtb.findMbrkfrSfgmfnt
+                        (JFIFMbrkfrSfgmfnt.dlbss, truf) != null) {
+                        ds = rimbgf.gftColorModfl().gftColorSpbdf();
+                        if (JPEG.isNonStbndbrdICC(ds)) {
+                            iddProfilf = ((ICC_ColorSpbdf) ds).gftProfilf();
                         }
                     }
 
-                    inCsType = getSrcCSType(rimage);
-                    outCsType = getDefaultDestCSType(rimage);
+                    inCsTypf = gftSrdCSTypf(rimbgf);
+                    outCsTypf = gftDffbultDfstCSTypf(rimbgf);
                 }
-                // else no dest, no metadata, not an image,
-                // so no special headers, no color conversion
-            } else { // no dest type, but there is metadata
-                checkSOFBands(sof, numBandsUsed);
-                if (fullImage) {  // no dest, metadata, image
-                    // Check that the metadata and the image match
+                // flsf no dfst, no mftbdbtb, not bn imbgf,
+                // so no spfdibl ifbdfrs, no dolor donvfrsion
+            } flsf { // no dfst typf, but tifrf is mftbdbtb
+                difdkSOFBbnds(sof, numBbndsUsfd);
+                if (fullImbgf) {  // no dfst, mftbdbtb, imbgf
+                    // Cifdk tibt tif mftbdbtb bnd tif imbgf mbtdi
 
-                    ImageTypeSpecifier inputType =
-                        new ImageTypeSpecifier(rimage);
+                    ImbgfTypfSpfdififr inputTypf =
+                        nfw ImbgfTypfSpfdififr(rimbgf);
 
-                    inCsType = getSrcCSType(rimage);
+                    inCsTypf = gftSrdCSTypf(rimbgf);
 
-                    if (cm != null) {
-                        boolean alpha = cm.hasAlpha();
-                        switch (cs.getType()) {
-                        case ColorSpace.TYPE_GRAY:
-                            if (!alpha) {
-                                outCsType = JPEG.JCS_GRAYSCALE;
-                            } else {
+                    if (dm != null) {
+                        boolfbn blpib = dm.ibsAlpib();
+                        switdi (ds.gftTypf()) {
+                        dbsf ColorSpbdf.TYPE_GRAY:
+                            if (!blpib) {
+                                outCsTypf = JPEG.JCS_GRAYSCALE;
+                            } flsf {
                                 if (jfif != null) {
-                                    ignoreJFIF = true;
-                                    warningOccurred
+                                    ignorfJFIF = truf;
+                                    wbrningOddurrfd
                                     (WARNING_IMAGE_METADATA_JFIF_MISMATCH);
                                 }
-                                // out colorspace remains unknown
+                                // out dolorspbdf rfmbins unknown
                             }
-                            if ((adobe != null)
-                                && (adobe.transform != JPEG.ADOBE_UNKNOWN)) {
-                                newAdobeTransform = JPEG.ADOBE_UNKNOWN;
-                                warningOccurred
+                            if ((bdobf != null)
+                                && (bdobf.trbnsform != JPEG.ADOBE_UNKNOWN)) {
+                                nfwAdobfTrbnsform = JPEG.ADOBE_UNKNOWN;
+                                wbrningOddurrfd
                                 (WARNING_IMAGE_METADATA_ADOBE_MISMATCH);
                             }
-                            break;
-                        case ColorSpace.TYPE_RGB:
-                            if (!alpha) {
+                            brfbk;
+                        dbsf ColorSpbdf.TYPE_RGB:
+                            if (!blpib) {
                                 if (jfif != null) {
-                                    outCsType = JPEG.JCS_YCbCr;
-                                    if (JPEG.isNonStandardICC(cs)
-                                        || ((cs instanceof ICC_ColorSpace)
-                                            && (jfif.iccSegment != null))) {
-                                        iccProfile =
-                                            ((ICC_ColorSpace) cs).getProfile();
+                                    outCsTypf = JPEG.JCS_YCbCr;
+                                    if (JPEG.isNonStbndbrdICC(ds)
+                                        || ((ds instbndfof ICC_ColorSpbdf)
+                                            && (jfif.iddSfgmfnt != null))) {
+                                        iddProfilf =
+                                            ((ICC_ColorSpbdf) ds).gftProfilf();
                                     }
-                                } else if (adobe != null) {
-                                    switch (adobe.transform) {
-                                    case JPEG.ADOBE_UNKNOWN:
-                                        outCsType = JPEG.JCS_RGB;
-                                        break;
-                                    case JPEG.ADOBE_YCC:
-                                        outCsType = JPEG.JCS_YCbCr;
-                                        break;
-                                    default:
-                                        warningOccurred
+                                } flsf if (bdobf != null) {
+                                    switdi (bdobf.trbnsform) {
+                                    dbsf JPEG.ADOBE_UNKNOWN:
+                                        outCsTypf = JPEG.JCS_RGB;
+                                        brfbk;
+                                    dbsf JPEG.ADOBE_YCC:
+                                        outCsTypf = JPEG.JCS_YCbCr;
+                                        brfbk;
+                                    dffbult:
+                                        wbrningOddurrfd
                                         (WARNING_IMAGE_METADATA_ADOBE_MISMATCH);
-                                        newAdobeTransform = JPEG.ADOBE_UNKNOWN;
-                                        outCsType = JPEG.JCS_RGB;
-                                        break;
+                                        nfwAdobfTrbnsform = JPEG.ADOBE_UNKNOWN;
+                                        outCsTypf = JPEG.JCS_RGB;
+                                        brfbk;
                                     }
-                                } else {
-                                    // consult the ids
-                                    int outCS = sof.getIDencodedCSType();
-                                    // if they don't resolve it,
-                                    // consult the sampling factors
+                                } flsf {
+                                    // donsult tif ids
+                                    int outCS = sof.gftIDfndodfdCSTypf();
+                                    // if tify don't rfsolvf it,
+                                    // donsult tif sbmpling fbdtors
                                     if (outCS != JPEG.JCS_UNKNOWN) {
-                                        outCsType = outCS;
-                                    } else {
-                                        boolean subsampled =
-                                        isSubsampled(sof.componentSpecs);
-                                        if (subsampled) {
-                                            outCsType = JPEG.JCS_YCbCr;
-                                        } else {
-                                            outCsType = JPEG.JCS_RGB;
+                                        outCsTypf = outCS;
+                                    } flsf {
+                                        boolfbn subsbmplfd =
+                                        isSubsbmplfd(sof.domponfntSpfds);
+                                        if (subsbmplfd) {
+                                            outCsTypf = JPEG.JCS_YCbCr;
+                                        } flsf {
+                                            outCsTypf = JPEG.JCS_RGB;
                                         }
                                     }
                                 }
-                            } else { // RGBA
+                            } flsf { // RGBA
                                 if (jfif != null) {
-                                    ignoreJFIF = true;
-                                    warningOccurred
+                                    ignorfJFIF = truf;
+                                    wbrningOddurrfd
                                     (WARNING_IMAGE_METADATA_JFIF_MISMATCH);
                                 }
-                                if (adobe != null) {
-                                    if (adobe.transform
+                                if (bdobf != null) {
+                                    if (bdobf.trbnsform
                                         != JPEG.ADOBE_UNKNOWN) {
-                                        newAdobeTransform = JPEG.ADOBE_UNKNOWN;
-                                        warningOccurred
+                                        nfwAdobfTrbnsform = JPEG.ADOBE_UNKNOWN;
+                                        wbrningOddurrfd
                                         (WARNING_IMAGE_METADATA_ADOBE_MISMATCH);
                                     }
-                                    outCsType = JPEG.JCS_RGBA;
-                                } else {
-                                    // consult the ids
-                                    int outCS = sof.getIDencodedCSType();
-                                    // if they don't resolve it,
-                                    // consult the sampling factors
+                                    outCsTypf = JPEG.JCS_RGBA;
+                                } flsf {
+                                    // donsult tif ids
+                                    int outCS = sof.gftIDfndodfdCSTypf();
+                                    // if tify don't rfsolvf it,
+                                    // donsult tif sbmpling fbdtors
                                     if (outCS != JPEG.JCS_UNKNOWN) {
-                                        outCsType = outCS;
-                                    } else {
-                                        boolean subsampled =
-                                        isSubsampled(sof.componentSpecs);
-                                        outCsType = subsampled ?
+                                        outCsTypf = outCS;
+                                    } flsf {
+                                        boolfbn subsbmplfd =
+                                        isSubsbmplfd(sof.domponfntSpfds);
+                                        outCsTypf = subsbmplfd ?
                                             JPEG.JCS_YCbCrA : JPEG.JCS_RGBA;
                                     }
                                 }
                             }
-                            break;
-                        case ColorSpace.TYPE_3CLR:
-                            if (cs == JPEG.JCS.getYCC()) {
-                                if (!alpha) {
+                            brfbk;
+                        dbsf ColorSpbdf.TYPE_3CLR:
+                            if (ds == JPEG.JCS.gftYCC()) {
+                                if (!blpib) {
                                     if (jfif != null) {
-                                        convertTosRGB = true;
-                                        convertOp =
-                                        new ColorConvertOp(cs,
+                                        donvfrtTosRGB = truf;
+                                        donvfrtOp =
+                                        nfw ColorConvfrtOp(ds,
                                                            JPEG.JCS.sRGB,
                                                            null);
-                                        outCsType = JPEG.JCS_YCbCr;
-                                    } else if (adobe != null) {
-                                        if (adobe.transform
+                                        outCsTypf = JPEG.JCS_YCbCr;
+                                    } flsf if (bdobf != null) {
+                                        if (bdobf.trbnsform
                                             != JPEG.ADOBE_YCC) {
-                                            newAdobeTransform = JPEG.ADOBE_YCC;
-                                            warningOccurred
+                                            nfwAdobfTrbnsform = JPEG.ADOBE_YCC;
+                                            wbrningOddurrfd
                                             (WARNING_IMAGE_METADATA_ADOBE_MISMATCH);
                                         }
-                                        outCsType = JPEG.JCS_YCC;
-                                    } else {
-                                        outCsType = JPEG.JCS_YCC;
+                                        outCsTypf = JPEG.JCS_YCC;
+                                    } flsf {
+                                        outCsTypf = JPEG.JCS_YCC;
                                     }
-                                } else { // PhotoYCCA
+                                } flsf { // PiotoYCCA
                                     if (jfif != null) {
-                                        ignoreJFIF = true;
-                                        warningOccurred
+                                        ignorfJFIF = truf;
+                                        wbrningOddurrfd
                                         (WARNING_IMAGE_METADATA_JFIF_MISMATCH);
-                                    } else if (adobe != null) {
-                                        if (adobe.transform
+                                    } flsf if (bdobf != null) {
+                                        if (bdobf.trbnsform
                                             != JPEG.ADOBE_UNKNOWN) {
-                                            newAdobeTransform
+                                            nfwAdobfTrbnsform
                                             = JPEG.ADOBE_UNKNOWN;
-                                            warningOccurred
+                                            wbrningOddurrfd
                                             (WARNING_IMAGE_METADATA_ADOBE_MISMATCH);
                                         }
                                     }
-                                    outCsType = JPEG.JCS_YCCA;
+                                    outCsTypf = JPEG.JCS_YCCA;
                                 }
                             }
                         }
                     }
-                } // else no dest, metadata, not an image.  Defaults ok
+                } // flsf no dfst, mftbdbtb, not bn imbgf.  Dffbults ok
             }
         }
 
-        boolean metadataProgressive = false;
-        int [] scans = null;
+        boolfbn mftbdbtbProgrfssivf = fblsf;
+        int [] sdbns = null;
 
-        if (metadata != null) {
+        if (mftbdbtb != null) {
             if (sof == null) {
-                sof = (SOFMarkerSegment) metadata.findMarkerSegment
-                    (SOFMarkerSegment.class, true);
+                sof = (SOFMbrkfrSfgmfnt) mftbdbtb.findMbrkfrSfgmfnt
+                    (SOFMbrkfrSfgmfnt.dlbss, truf);
             }
-            if ((sof != null) && (sof.tag == JPEG.SOF2)) {
-                metadataProgressive = true;
-                if (progressiveMode == ImageWriteParam.MODE_COPY_FROM_METADATA) {
-                    scans = collectScans(metadata, sof);  // Might still be null
-                } else {
-                    numScans = 0;
+            if ((sof != null) && (sof.tbg == JPEG.SOF2)) {
+                mftbdbtbProgrfssivf = truf;
+                if (progrfssivfModf == ImbgfWritfPbrbm.MODE_COPY_FROM_METADATA) {
+                    sdbns = dollfdtSdbns(mftbdbtb, sof);  // Migit still bf null
+                } flsf {
+                    numSdbns = 0;
                 }
             }
             if (jfif == null) {
-                jfif = (JFIFMarkerSegment) metadata.findMarkerSegment
-                    (JFIFMarkerSegment.class, true);
+                jfif = (JFIFMbrkfrSfgmfnt) mftbdbtb.findMbrkfrSfgmfnt
+                    (JFIFMbrkfrSfgmfnt.dlbss, truf);
             }
         }
 
-        thumbnails = image.getThumbnails();
-        int numThumbs = image.getNumThumbnails();
-        forceJFIF = false;
-        // determine if thumbnails can be written
-        // If we are going to add a default JFIF marker segment,
-        // then thumbnails can be written
-        if (!writeDefaultJFIF) {
-            // If there is no metadata, then we can't write thumbnails
-            if (metadata == null) {
-                thumbnails = null;
-                if (numThumbs != 0) {
-                    warningOccurred(WARNING_IGNORING_THUMBS);
+        tiumbnbils = imbgf.gftTiumbnbils();
+        int numTiumbs = imbgf.gftNumTiumbnbils();
+        fordfJFIF = fblsf;
+        // dftfrminf if tiumbnbils dbn bf writtfn
+        // If wf brf going to bdd b dffbult JFIF mbrkfr sfgmfnt,
+        // tifn tiumbnbils dbn bf writtfn
+        if (!writfDffbultJFIF) {
+            // If tifrf is no mftbdbtb, tifn wf dbn't writf tiumbnbils
+            if (mftbdbtb == null) {
+                tiumbnbils = null;
+                if (numTiumbs != 0) {
+                    wbrningOddurrfd(WARNING_IGNORING_THUMBS);
                 }
-            } else {
-                // There is metadata
-                // If we are writing a raster or subbands,
-                // then the user must specify JFIF on the metadata
-                if (fullImage == false) {
+            } flsf {
+                // Tifrf is mftbdbtb
+                // If wf brf writing b rbstfr or subbbnds,
+                // tifn tif usfr must spfdify JFIF on tif mftbdbtb
+                if (fullImbgf == fblsf) {
                     if (jfif == null) {
-                        thumbnails = null;  // Or we can't include thumbnails
-                        if (numThumbs != 0) {
-                            warningOccurred(WARNING_IGNORING_THUMBS);
+                        tiumbnbils = null;  // Or wf dbn't indludf tiumbnbils
+                        if (numTiumbs != 0) {
+                            wbrningOddurrfd(WARNING_IGNORING_THUMBS);
                         }
                     }
-                } else {  // It is a full image, and there is metadata
+                } flsf {  // It is b full imbgf, bnd tifrf is mftbdbtb
                     if (jfif == null) {  // Not JFIF
-                        // Can it have JFIF?
-                        if ((outCsType == JPEG.JCS_GRAYSCALE)
-                            || (outCsType == JPEG.JCS_YCbCr)) {
-                            if (numThumbs != 0) {
-                                forceJFIF = true;
-                                warningOccurred(WARNING_FORCING_JFIF);
+                        // Cbn it ibvf JFIF?
+                        if ((outCsTypf == JPEG.JCS_GRAYSCALE)
+                            || (outCsTypf == JPEG.JCS_YCbCr)) {
+                            if (numTiumbs != 0) {
+                                fordfJFIF = truf;
+                                wbrningOddurrfd(WARNING_FORCING_JFIF);
                             }
-                        } else {  // Nope, not JFIF-compatible
-                            thumbnails = null;
-                            if (numThumbs != 0) {
-                                warningOccurred(WARNING_IGNORING_THUMBS);
+                        } flsf {  // Nopf, not JFIF-dompbtiblf
+                            tiumbnbils = null;
+                            if (numTiumbs != 0) {
+                                wbrningOddurrfd(WARNING_IGNORING_THUMBS);
                             }
                         }
                     }
@@ -929,986 +929,986 @@ public class JPEGImageWriter extends ImageWriter {
             }
         }
 
-        // Set up a boolean to indicate whether we need to call back to
-        // write metadata
-        boolean haveMetadata =
-            ((metadata != null) || writeDefaultJFIF || writeAdobe);
+        // Sft up b boolfbn to indidbtf wiftifr wf nffd to dbll bbdk to
+        // writf mftbdbtb
+        boolfbn ibvfMftbdbtb =
+            ((mftbdbtb != null) || writfDffbultJFIF || writfAdobf);
 
-        // Now that we have dealt with metadata, finalize our tables set up
+        // Now tibt wf ibvf dfblt witi mftbdbtb, finblizf our tbblfs sft up
 
-        // Are we going to write tables?  By default, yes.
-        boolean writeDQT = true;
-        boolean writeDHT = true;
+        // Arf wf going to writf tbblfs?  By dffbult, yfs.
+        boolfbn writfDQT = truf;
+        boolfbn writfDHT = truf;
 
-        // But if the metadata has no tables, no.
-        DQTMarkerSegment dqt = null;
-        DHTMarkerSegment dht = null;
+        // But if tif mftbdbtb ibs no tbblfs, no.
+        DQTMbrkfrSfgmfnt dqt = null;
+        DHTMbrkfrSfgmfnt dit = null;
 
-        int restartInterval = 0;
+        int rfstbrtIntfrvbl = 0;
 
-        if (metadata != null) {
-            dqt = (DQTMarkerSegment) metadata.findMarkerSegment
-                (DQTMarkerSegment.class, true);
-            dht = (DHTMarkerSegment) metadata.findMarkerSegment
-                (DHTMarkerSegment.class, true);
-            DRIMarkerSegment dri =
-                (DRIMarkerSegment) metadata.findMarkerSegment
-                (DRIMarkerSegment.class, true);
+        if (mftbdbtb != null) {
+            dqt = (DQTMbrkfrSfgmfnt) mftbdbtb.findMbrkfrSfgmfnt
+                (DQTMbrkfrSfgmfnt.dlbss, truf);
+            dit = (DHTMbrkfrSfgmfnt) mftbdbtb.findMbrkfrSfgmfnt
+                (DHTMbrkfrSfgmfnt.dlbss, truf);
+            DRIMbrkfrSfgmfnt dri =
+                (DRIMbrkfrSfgmfnt) mftbdbtb.findMbrkfrSfgmfnt
+                (DRIMbrkfrSfgmfnt.dlbss, truf);
             if (dri != null) {
-                restartInterval = dri.restartInterval;
+                rfstbrtIntfrvbl = dri.rfstbrtIntfrvbl;
             }
 
             if (dqt == null) {
-                writeDQT = false;
+                writfDQT = fblsf;
             }
-            if (dht == null) {
-                writeDHT = false;  // Ignored if optimizeHuffman is true
+            if (dit == null) {
+                writfDHT = fblsf;  // Ignorfd if optimizfHuffmbn is truf
             }
         }
 
-        // Whether we write tables or not, we need to figure out which ones
-        // to use
-        if (qTables == null) { // Get them from metadata, or use defaults
+        // Wiftifr wf writf tbblfs or not, wf nffd to figurf out wiidi onfs
+        // to usf
+        if (qTbblfs == null) { // Gft tifm from mftbdbtb, or usf dffbults
             if (dqt != null) {
-                qTables = collectQTablesFromMetadata(metadata);
-            } else if (streamQTables != null) {
-                qTables = streamQTables;
-            } else if ((jparam != null) && (jparam.areTablesSet())) {
-                qTables = jparam.getQTables();
-            } else {
-                qTables = JPEG.getDefaultQTables();
+                qTbblfs = dollfdtQTbblfsFromMftbdbtb(mftbdbtb);
+            } flsf if (strfbmQTbblfs != null) {
+                qTbblfs = strfbmQTbblfs;
+            } flsf if ((jpbrbm != null) && (jpbrbm.brfTbblfsSft())) {
+                qTbblfs = jpbrbm.gftQTbblfs();
+            } flsf {
+                qTbblfs = JPEG.gftDffbultQTbblfs();
             }
 
         }
 
-        // If we are optimizing, we don't want any tables.
-        if (optimizeHuffman == false) {
-            // If they were for progressive scans, we can't use them.
-            if ((dht != null) && (metadataProgressive == false)) {
-                DCHuffmanTables = collectHTablesFromMetadata(metadata, true);
-                ACHuffmanTables = collectHTablesFromMetadata(metadata, false);
-            } else if (streamDCHuffmanTables != null) {
-                DCHuffmanTables = streamDCHuffmanTables;
-                ACHuffmanTables = streamACHuffmanTables;
-            } else if ((jparam != null) && (jparam.areTablesSet())) {
-                DCHuffmanTables = jparam.getDCHuffmanTables();
-                ACHuffmanTables = jparam.getACHuffmanTables();
-            } else {
-                DCHuffmanTables = JPEG.getDefaultHuffmanTables(true);
-                ACHuffmanTables = JPEG.getDefaultHuffmanTables(false);
+        // If wf brf optimizing, wf don't wbnt bny tbblfs.
+        if (optimizfHuffmbn == fblsf) {
+            // If tify wfrf for progrfssivf sdbns, wf dbn't usf tifm.
+            if ((dit != null) && (mftbdbtbProgrfssivf == fblsf)) {
+                DCHuffmbnTbblfs = dollfdtHTbblfsFromMftbdbtb(mftbdbtb, truf);
+                ACHuffmbnTbblfs = dollfdtHTbblfsFromMftbdbtb(mftbdbtb, fblsf);
+            } flsf if (strfbmDCHuffmbnTbblfs != null) {
+                DCHuffmbnTbblfs = strfbmDCHuffmbnTbblfs;
+                ACHuffmbnTbblfs = strfbmACHuffmbnTbblfs;
+            } flsf if ((jpbrbm != null) && (jpbrbm.brfTbblfsSft())) {
+                DCHuffmbnTbblfs = jpbrbm.gftDCHuffmbnTbblfs();
+                ACHuffmbnTbblfs = jpbrbm.gftACHuffmbnTbblfs();
+            } flsf {
+                DCHuffmbnTbblfs = JPEG.gftDffbultHuffmbnTbblfs(truf);
+                ACHuffmbnTbblfs = JPEG.gftDffbultHuffmbnTbblfs(fblsf);
             }
         }
 
-        // By default, ids are 1 - N, no subsampling
-        int [] componentIds = new int[numBandsUsed];
-        int [] HsamplingFactors = new int[numBandsUsed];
-        int [] VsamplingFactors = new int[numBandsUsed];
-        int [] QtableSelectors = new int[numBandsUsed];
-        for (int i = 0; i < numBandsUsed; i++) {
-            componentIds[i] = i+1; // JFIF compatible
-            HsamplingFactors[i] = 1;
-            VsamplingFactors[i] = 1;
-            QtableSelectors[i] = 0;
+        // By dffbult, ids brf 1 - N, no subsbmpling
+        int [] domponfntIds = nfw int[numBbndsUsfd];
+        int [] HsbmplingFbdtors = nfw int[numBbndsUsfd];
+        int [] VsbmplingFbdtors = nfw int[numBbndsUsfd];
+        int [] QtbblfSflfdtors = nfw int[numBbndsUsfd];
+        for (int i = 0; i < numBbndsUsfd; i++) {
+            domponfntIds[i] = i+1; // JFIF dompbtiblf
+            HsbmplingFbdtors[i] = 1;
+            VsbmplingFbdtors[i] = 1;
+            QtbblfSflfdtors[i] = 0;
         }
 
-        // Now override them with the contents of sof, if there is one,
+        // Now ovfrridf tifm witi tif dontfnts of sof, if tifrf is onf,
         if (sof != null) {
-            for (int i = 0; i < numBandsUsed; i++) {
-                if (forceJFIF == false) {  // else use JFIF-compatible default
-                    componentIds[i] = sof.componentSpecs[i].componentId;
+            for (int i = 0; i < numBbndsUsfd; i++) {
+                if (fordfJFIF == fblsf) {  // flsf usf JFIF-dompbtiblf dffbult
+                    domponfntIds[i] = sof.domponfntSpfds[i].domponfntId;
                 }
-                HsamplingFactors[i] = sof.componentSpecs[i].HsamplingFactor;
-                VsamplingFactors[i] = sof.componentSpecs[i].VsamplingFactor;
-                QtableSelectors[i] = sof.componentSpecs[i].QtableSelector;
+                HsbmplingFbdtors[i] = sof.domponfntSpfds[i].HsbmplingFbdtor;
+                VsbmplingFbdtors[i] = sof.domponfntSpfds[i].VsbmplingFbdtor;
+                QtbblfSflfdtors[i] = sof.domponfntSpfds[i].QtbblfSflfdtor;
             }
         }
 
-        sourceXOffset += gridX;
-        sourceWidth -= gridX;
-        sourceYOffset += gridY;
-        sourceHeight -= gridY;
+        sourdfXOffsft += gridX;
+        sourdfWidti -= gridX;
+        sourdfYOffsft += gridY;
+        sourdfHfigit -= gridY;
 
-        int destWidth = (sourceWidth + periodX - 1)/periodX;
-        int destHeight = (sourceHeight + periodY - 1)/periodY;
+        int dfstWidti = (sourdfWidti + pfriodX - 1)/pfriodX;
+        int dfstHfigit = (sourdfHfigit + pfriodY - 1)/pfriodY;
 
-        // Create an appropriate 1-line databuffer for writing
-        int lineSize = sourceWidth*numBandsUsed;
+        // Crfbtf bn bppropribtf 1-linf dbtbbufffr for writing
+        int linfSizf = sourdfWidti*numBbndsUsfd;
 
-        DataBufferByte buffer = new DataBufferByte(lineSize);
+        DbtbBufffrBytf bufffr = nfw DbtbBufffrBytf(linfSizf);
 
-        // Create a raster from that
-        int [] bandOffs = JPEG.bandOffsets[numBandsUsed-1];
+        // Crfbtf b rbstfr from tibt
+        int [] bbndOffs = JPEG.bbndOffsfts[numBbndsUsfd-1];
 
-        raster = Raster.createInterleavedRaster(buffer,
-                                                sourceWidth, 1,
-                                                lineSize,
-                                                numBandsUsed,
-                                                bandOffs,
+        rbstfr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(bufffr,
+                                                sourdfWidti, 1,
+                                                linfSizf,
+                                                numBbndsUsfd,
+                                                bbndOffs,
                                                 null);
 
-        // Call the writer, who will call back for every scanline
+        // Cbll tif writfr, wio will dbll bbdk for fvfry sdbnlinf
 
-        processImageStarted(currentImage);
+        prodfssImbgfStbrtfd(durrfntImbgf);
 
-        boolean aborted = false;
+        boolfbn bbortfd = fblsf;
 
-        if (debug) {
-            System.out.println("inCsType: " + inCsType);
-            System.out.println("outCsType: " + outCsType);
+        if (dfbug) {
+            Systfm.out.println("inCsTypf: " + inCsTypf);
+            Systfm.out.println("outCsTypf: " + outCsTypf);
         }
 
-        // Note that getData disables acceleration on buffer, but it is
-        // just a 1-line intermediate data transfer buffer that does not
-        // affect the acceleration of the source image.
-        aborted = writeImage(structPointer,
-                             buffer.getData(),
-                             inCsType, outCsType,
-                             numBandsUsed,
-                             bandSizes,
-                             sourceWidth,
-                             destWidth, destHeight,
-                             periodX, periodY,
-                             qTables,
-                             writeDQT,
-                             DCHuffmanTables,
-                             ACHuffmanTables,
-                             writeDHT,
-                             optimizeHuffman,
-                             (progressiveMode
-                              != ImageWriteParam.MODE_DISABLED),
-                             numScans,
-                             scans,
-                             componentIds,
-                             HsamplingFactors,
-                             VsamplingFactors,
-                             QtableSelectors,
-                             haveMetadata,
-                             restartInterval);
+        // Notf tibt gftDbtb disbblfs bddflfrbtion on bufffr, but it is
+        // just b 1-linf intfrmfdibtf dbtb trbnsffr bufffr tibt dofs not
+        // bfffdt tif bddflfrbtion of tif sourdf imbgf.
+        bbortfd = writfImbgf(strudtPointfr,
+                             bufffr.gftDbtb(),
+                             inCsTypf, outCsTypf,
+                             numBbndsUsfd,
+                             bbndSizfs,
+                             sourdfWidti,
+                             dfstWidti, dfstHfigit,
+                             pfriodX, pfriodY,
+                             qTbblfs,
+                             writfDQT,
+                             DCHuffmbnTbblfs,
+                             ACHuffmbnTbblfs,
+                             writfDHT,
+                             optimizfHuffmbn,
+                             (progrfssivfModf
+                              != ImbgfWritfPbrbm.MODE_DISABLED),
+                             numSdbns,
+                             sdbns,
+                             domponfntIds,
+                             HsbmplingFbdtors,
+                             VsbmplingFbdtors,
+                             QtbblfSflfdtors,
+                             ibvfMftbdbtb,
+                             rfstbrtIntfrvbl);
 
-        cbLock.lock();
+        dbLodk.lodk();
         try {
-            if (aborted) {
-                processWriteAborted();
-            } else {
-                processImageComplete();
+            if (bbortfd) {
+                prodfssWritfAbortfd();
+            } flsf {
+                prodfssImbgfComplftf();
             }
 
-            ios.flush();
-        } finally {
-            cbLock.unlock();
+            ios.flusi();
+        } finblly {
+            dbLodk.unlodk();
         }
-        currentImage++;  // After a successful write
+        durrfntImbgf++;  // Aftfr b suddfssful writf
     }
 
-    public void prepareWriteSequence(IIOMetadata streamMetadata)
-        throws IOException {
-        setThreadLock();
+    publid void prfpbrfWritfSfqufndf(IIOMftbdbtb strfbmMftbdbtb)
+        tirows IOExdfption {
+        sftTirfbdLodk();
         try {
-            cbLock.check();
+            dbLodk.difdk();
 
-            prepareWriteSequenceOnThread(streamMetadata);
-        } finally {
-            clearThreadLock();
+            prfpbrfWritfSfqufndfOnTirfbd(strfbmMftbdbtb);
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    private void prepareWriteSequenceOnThread(IIOMetadata streamMetadata)
-        throws IOException {
+    privbtf void prfpbrfWritfSfqufndfOnTirfbd(IIOMftbdbtb strfbmMftbdbtb)
+        tirows IOExdfption {
         if (ios == null) {
-            throw new IllegalStateException("Output has not been set!");
+            tirow nfw IllfgblStbtfExdfption("Output ibs not bffn sft!");
         }
 
         /*
-         * from jpeg_metadata.html:
-         * If no stream metadata is supplied to
-         * <code>ImageWriter.prepareWriteSequence</code>, then no
-         * tables-only image is written.  If stream metadata containing
-         * no tables is supplied to
-         * <code>ImageWriter.prepareWriteSequence</code>, then a tables-only
-         * image containing default visually lossless tables is written.
+         * from jpfg_mftbdbtb.itml:
+         * If no strfbm mftbdbtb is supplifd to
+         * <dodf>ImbgfWritfr.prfpbrfWritfSfqufndf</dodf>, tifn no
+         * tbblfs-only imbgf is writtfn.  If strfbm mftbdbtb dontbining
+         * no tbblfs is supplifd to
+         * <dodf>ImbgfWritfr.prfpbrfWritfSfqufndf</dodf>, tifn b tbblfs-only
+         * imbgf dontbining dffbult visublly losslfss tbblfs is writtfn.
          */
-        if (streamMetadata != null) {
-            if (streamMetadata instanceof JPEGMetadata) {
-                // write a complete tables-only image at the beginning of
-                // the stream.
-                JPEGMetadata jmeta = (JPEGMetadata) streamMetadata;
-                if (jmeta.isStream == false) {
-                    throw new IllegalArgumentException
-                        ("Invalid stream metadata object.");
+        if (strfbmMftbdbtb != null) {
+            if (strfbmMftbdbtb instbndfof JPEGMftbdbtb) {
+                // writf b domplftf tbblfs-only imbgf bt tif bfginning of
+                // tif strfbm.
+                JPEGMftbdbtb jmftb = (JPEGMftbdbtb) strfbmMftbdbtb;
+                if (jmftb.isStrfbm == fblsf) {
+                    tirow nfw IllfgblArgumfntExdfption
+                        ("Invblid strfbm mftbdbtb objfdt.");
                 }
-                // Check that we are
-                // at the beginning of the stream, or can go there, and haven't
-                // written out the metadata already.
-                if (currentImage != 0) {
-                    throw new IIOException
-                        ("JPEG Stream metadata must precede all images");
+                // Cifdk tibt wf brf
+                // bt tif bfginning of tif strfbm, or dbn go tifrf, bnd ibvfn't
+                // writtfn out tif mftbdbtb blrfbdy.
+                if (durrfntImbgf != 0) {
+                    tirow nfw IIOExdfption
+                        ("JPEG Strfbm mftbdbtb must prfdfdf bll imbgfs");
                 }
-                if (sequencePrepared == true) {
-                    throw new IIOException("Stream metadata already written!");
-                }
-
-                // Set the tables
-                // If the metadata has no tables, use default tables.
-                streamQTables = collectQTablesFromMetadata(jmeta);
-                if (debug) {
-                    System.out.println("after collecting from stream metadata, "
-                                       + "streamQTables.length is "
-                                       + streamQTables.length);
-                }
-                if (streamQTables == null) {
-                    streamQTables = JPEG.getDefaultQTables();
-                }
-                streamDCHuffmanTables =
-                    collectHTablesFromMetadata(jmeta, true);
-                if (streamDCHuffmanTables == null) {
-                    streamDCHuffmanTables = JPEG.getDefaultHuffmanTables(true);
-                }
-                streamACHuffmanTables =
-                    collectHTablesFromMetadata(jmeta, false);
-                if (streamACHuffmanTables == null) {
-                    streamACHuffmanTables = JPEG.getDefaultHuffmanTables(false);
+                if (sfqufndfPrfpbrfd == truf) {
+                    tirow nfw IIOExdfption("Strfbm mftbdbtb blrfbdy writtfn!");
                 }
 
-                // Now write them out
-                writeTables(structPointer,
-                            streamQTables,
-                            streamDCHuffmanTables,
-                            streamACHuffmanTables);
-            } else {
-                throw new IIOException("Stream metadata must be JPEG metadata");
+                // Sft tif tbblfs
+                // If tif mftbdbtb ibs no tbblfs, usf dffbult tbblfs.
+                strfbmQTbblfs = dollfdtQTbblfsFromMftbdbtb(jmftb);
+                if (dfbug) {
+                    Systfm.out.println("bftfr dollfdting from strfbm mftbdbtb, "
+                                       + "strfbmQTbblfs.lfngti is "
+                                       + strfbmQTbblfs.lfngti);
+                }
+                if (strfbmQTbblfs == null) {
+                    strfbmQTbblfs = JPEG.gftDffbultQTbblfs();
+                }
+                strfbmDCHuffmbnTbblfs =
+                    dollfdtHTbblfsFromMftbdbtb(jmftb, truf);
+                if (strfbmDCHuffmbnTbblfs == null) {
+                    strfbmDCHuffmbnTbblfs = JPEG.gftDffbultHuffmbnTbblfs(truf);
+                }
+                strfbmACHuffmbnTbblfs =
+                    dollfdtHTbblfsFromMftbdbtb(jmftb, fblsf);
+                if (strfbmACHuffmbnTbblfs == null) {
+                    strfbmACHuffmbnTbblfs = JPEG.gftDffbultHuffmbnTbblfs(fblsf);
+                }
+
+                // Now writf tifm out
+                writfTbblfs(strudtPointfr,
+                            strfbmQTbblfs,
+                            strfbmDCHuffmbnTbblfs,
+                            strfbmACHuffmbnTbblfs);
+            } flsf {
+                tirow nfw IIOExdfption("Strfbm mftbdbtb must bf JPEG mftbdbtb");
             }
         }
-        sequencePrepared = true;
+        sfqufndfPrfpbrfd = truf;
     }
 
-    public void writeToSequence(IIOImage image, ImageWriteParam param)
-        throws IOException {
-        setThreadLock();
+    publid void writfToSfqufndf(IIOImbgf imbgf, ImbgfWritfPbrbm pbrbm)
+        tirows IOExdfption {
+        sftTirfbdLodk();
         try {
-            cbLock.check();
+            dbLodk.difdk();
 
-            if (sequencePrepared == false) {
-                throw new IllegalStateException("sequencePrepared not called!");
+            if (sfqufndfPrfpbrfd == fblsf) {
+                tirow nfw IllfgblStbtfExdfption("sfqufndfPrfpbrfd not dbllfd!");
             }
-            // In the case of JPEG this does nothing different from write
-            write(null, image, param);
-        } finally {
-            clearThreadLock();
+            // In tif dbsf of JPEG tiis dofs notiing difffrfnt from writf
+            writf(null, imbgf, pbrbm);
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    public void endWriteSequence() throws IOException {
-        setThreadLock();
+    publid void fndWritfSfqufndf() tirows IOExdfption {
+        sftTirfbdLodk();
         try {
-            cbLock.check();
+            dbLodk.difdk();
 
-            if (sequencePrepared == false) {
-                throw new IllegalStateException("sequencePrepared not called!");
+            if (sfqufndfPrfpbrfd == fblsf) {
+                tirow nfw IllfgblStbtfExdfption("sfqufndfPrfpbrfd not dbllfd!");
             }
-            sequencePrepared = false;
-        } finally {
-            clearThreadLock();
+            sfqufndfPrfpbrfd = fblsf;
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    public synchronized void abort() {
-        setThreadLock();
+    publid syndironizfd void bbort() {
+        sftTirfbdLodk();
         try {
             /**
-             * NB: we do not check the call back lock here, we allow to abort
-             * the reader any time.
+             * NB: wf do not difdk tif dbll bbdk lodk ifrf, wf bllow to bbort
+             * tif rfbdfr bny timf.
              */
-            super.abort();
-            abortWrite(structPointer);
-        } finally {
-            clearThreadLock();
+            supfr.bbort();
+            bbortWritf(strudtPointfr);
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    private void resetInternalState() {
-        // reset C structures
-        resetWriter(structPointer);
+    privbtf void rfsftIntfrnblStbtf() {
+        // rfsft C strudturfs
+        rfsftWritfr(strudtPointfr);
 
-        // reset local Java structures
-        srcRas = null;
-        raster = null;
-        convertTosRGB = false;
-        currentImage = 0;
-        numScans = 0;
-        metadata = null;
+        // rfsft lodbl Jbvb strudturfs
+        srdRbs = null;
+        rbstfr = null;
+        donvfrtTosRGB = fblsf;
+        durrfntImbgf = 0;
+        numSdbns = 0;
+        mftbdbtb = null;
     }
 
-    public void reset() {
-        setThreadLock();
+    publid void rfsft() {
+        sftTirfbdLodk();
         try {
-            cbLock.check();
+            dbLodk.difdk();
 
-            super.reset();
-        } finally {
-            clearThreadLock();
+            supfr.rfsft();
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    public void dispose() {
-        setThreadLock();
+    publid void disposf() {
+        sftTirfbdLodk();
         try {
-            cbLock.check();
+            dbLodk.difdk();
 
-            if (structPointer != 0) {
-                disposerRecord.dispose();
-                structPointer = 0;
+            if (strudtPointfr != 0) {
+                disposfrRfdord.disposf();
+                strudtPointfr = 0;
             }
-        } finally {
-            clearThreadLock();
+        } finblly {
+            dlfbrTirfbdLodk();
         }
     }
 
-    ////////// End of public API
+    ////////// End of publid API
 
-    ///////// Package-access API
+    ///////// Pbdkbgf-bddfss API
 
     /**
-     * Called by the native code or other classes to signal a warning.
-     * The code is used to lookup a localized message to be used when
-     * sending warnings to listeners.
+     * Cbllfd by tif nbtivf dodf or otifr dlbssfs to signbl b wbrning.
+     * Tif dodf is usfd to lookup b lodblizfd mfssbgf to bf usfd wifn
+     * sfnding wbrnings to listfnfrs.
      */
-    void warningOccurred(int code) {
-        cbLock.lock();
+    void wbrningOddurrfd(int dodf) {
+        dbLodk.lodk();
         try {
-            if ((code < 0) || (code > MAX_WARNING)){
-                throw new InternalError("Invalid warning index");
+            if ((dodf < 0) || (dodf > MAX_WARNING)){
+                tirow nfw IntfrnblError("Invblid wbrning indfx");
             }
-            processWarningOccurred
-                (currentImage,
-                 "com.sun.imageio.plugins.jpeg.JPEGImageWriterResources",
-                Integer.toString(code));
-        } finally {
-            cbLock.unlock();
+            prodfssWbrningOddurrfd
+                (durrfntImbgf,
+                 "dom.sun.imbgfio.plugins.jpfg.JPEGImbgfWritfrRfsourdfs",
+                Intfgfr.toString(dodf));
+        } finblly {
+            dbLodk.unlodk();
         }
     }
 
     /**
-     * The library has it's own error facility that emits warning messages.
-     * This routine is called by the native code when it has already
-     * formatted a string for output.
-     * XXX  For truly complete localization of all warning messages,
-     * the sun_jpeg_output_message routine in the native code should
-     * send only the codes and parameters to a method here in Java,
-     * which will then format and send the warnings, using localized
-     * strings.  This method will have to deal with all the parameters
-     * and formats (%u with possibly large numbers, %02d, %02x, etc.)
-     * that actually occur in the JPEG library.  For now, this prevents
-     * library warnings from being printed to stderr.
+     * Tif librbry ibs it's own frror fbdility tibt fmits wbrning mfssbgfs.
+     * Tiis routinf is dbllfd by tif nbtivf dodf wifn it ibs blrfbdy
+     * formbttfd b string for output.
+     * XXX  For truly domplftf lodblizbtion of bll wbrning mfssbgfs,
+     * tif sun_jpfg_output_mfssbgf routinf in tif nbtivf dodf siould
+     * sfnd only tif dodfs bnd pbrbmftfrs to b mftiod ifrf in Jbvb,
+     * wiidi will tifn formbt bnd sfnd tif wbrnings, using lodblizfd
+     * strings.  Tiis mftiod will ibvf to dfbl witi bll tif pbrbmftfrs
+     * bnd formbts (%u witi possibly lbrgf numbfrs, %02d, %02x, ftd.)
+     * tibt bdtublly oddur in tif JPEG librbry.  For now, tiis prfvfnts
+     * librbry wbrnings from bfing printfd to stdfrr.
      */
-    void warningWithMessage(String msg) {
-        cbLock.lock();
+    void wbrningWitiMfssbgf(String msg) {
+        dbLodk.lodk();
         try {
-            processWarningOccurred(currentImage, msg);
-        } finally {
-            cbLock.unlock();
+            prodfssWbrningOddurrfd(durrfntImbgf, msg);
+        } finblly {
+            dbLodk.unlodk();
         }
     }
 
-    void thumbnailStarted(int thumbnailIndex) {
-        cbLock.lock();
+    void tiumbnbilStbrtfd(int tiumbnbilIndfx) {
+        dbLodk.lodk();
         try {
-            processThumbnailStarted(currentImage, thumbnailIndex);
-        } finally {
-            cbLock.unlock();
+            prodfssTiumbnbilStbrtfd(durrfntImbgf, tiumbnbilIndfx);
+        } finblly {
+            dbLodk.unlodk();
         }
     }
 
-    // Provide access to protected superclass method
-    void thumbnailProgress(float percentageDone) {
-        cbLock.lock();
+    // Providf bddfss to protfdtfd supfrdlbss mftiod
+    void tiumbnbilProgrfss(flobt pfrdfntbgfDonf) {
+        dbLodk.lodk();
         try {
-            processThumbnailProgress(percentageDone);
-        } finally {
-            cbLock.unlock();
+            prodfssTiumbnbilProgrfss(pfrdfntbgfDonf);
+        } finblly {
+            dbLodk.unlodk();
         }
     }
 
-    // Provide access to protected superclass method
-    void thumbnailComplete() {
-        cbLock.lock();
+    // Providf bddfss to protfdtfd supfrdlbss mftiod
+    void tiumbnbilComplftf() {
+        dbLodk.lodk();
         try {
-            processThumbnailComplete();
-        } finally {
-            cbLock.unlock();
+            prodfssTiumbnbilComplftf();
+        } finblly {
+            dbLodk.unlodk();
         }
     }
 
-    ///////// End of Package-access API
+    ///////// End of Pbdkbgf-bddfss API
 
-    ///////// Private methods
+    ///////// Privbtf mftiods
 
-    ///////// Metadata handling
+    ///////// Mftbdbtb ibndling
 
-    private void checkSOFBands(SOFMarkerSegment sof, int numBandsUsed)
-        throws IIOException {
-        // Does the metadata frame header, if any, match numBandsUsed?
+    privbtf void difdkSOFBbnds(SOFMbrkfrSfgmfnt sof, int numBbndsUsfd)
+        tirows IIOExdfption {
+        // Dofs tif mftbdbtb frbmf ifbdfr, if bny, mbtdi numBbndsUsfd?
         if (sof != null) {
-            if (sof.componentSpecs.length != numBandsUsed) {
-                throw new IIOException
-                    ("Metadata components != number of destination bands");
+            if (sof.domponfntSpfds.lfngti != numBbndsUsfd) {
+                tirow nfw IIOExdfption
+                    ("Mftbdbtb domponfnts != numbfr of dfstinbtion bbnds");
             }
         }
     }
 
-    private void checkJFIF(JFIFMarkerSegment jfif,
-                           ImageTypeSpecifier type,
-                           boolean input) {
+    privbtf void difdkJFIF(JFIFMbrkfrSfgmfnt jfif,
+                           ImbgfTypfSpfdififr typf,
+                           boolfbn input) {
         if (jfif != null) {
-            if (!JPEG.isJFIFcompliant(type, input)) {
-                ignoreJFIF = true;  // type overrides metadata
-                warningOccurred(input
+            if (!JPEG.isJFIFdomplibnt(typf, input)) {
+                ignorfJFIF = truf;  // typf ovfrridfs mftbdbtb
+                wbrningOddurrfd(input
                                 ? WARNING_IMAGE_METADATA_JFIF_MISMATCH
                                 : WARNING_DEST_METADATA_JFIF_MISMATCH);
             }
         }
     }
 
-    private void checkAdobe(AdobeMarkerSegment adobe,
-                           ImageTypeSpecifier type,
-                           boolean input) {
-        if (adobe != null) {
-            int rightTransform = JPEG.transformForType(type, input);
-            if (adobe.transform != rightTransform) {
-                warningOccurred(input
+    privbtf void difdkAdobf(AdobfMbrkfrSfgmfnt bdobf,
+                           ImbgfTypfSpfdififr typf,
+                           boolfbn input) {
+        if (bdobf != null) {
+            int rigitTrbnsform = JPEG.trbnsformForTypf(typf, input);
+            if (bdobf.trbnsform != rigitTrbnsform) {
+                wbrningOddurrfd(input
                                 ? WARNING_IMAGE_METADATA_ADOBE_MISMATCH
                                 : WARNING_DEST_METADATA_ADOBE_MISMATCH);
-                if (rightTransform == JPEG.ADOBE_IMPOSSIBLE) {
-                    ignoreAdobe = true;
-                } else {
-                    newAdobeTransform = rightTransform;
+                if (rigitTrbnsform == JPEG.ADOBE_IMPOSSIBLE) {
+                    ignorfAdobf = truf;
+                } flsf {
+                    nfwAdobfTrbnsform = rigitTrbnsform;
                 }
             }
         }
     }
 
     /**
-     * Collect all the scan info from the given metadata, and
-     * organize it into the scan info array required by the
-     * IJG libray.  It is much simpler to parse out this
-     * data in Java and then just copy the data in C.
+     * Collfdt bll tif sdbn info from tif givfn mftbdbtb, bnd
+     * orgbnizf it into tif sdbn info brrby rfquirfd by tif
+     * IJG librby.  It is mudi simplfr to pbrsf out tiis
+     * dbtb in Jbvb bnd tifn just dopy tif dbtb in C.
      */
-    private int [] collectScans(JPEGMetadata metadata,
-                                SOFMarkerSegment sof) {
-        List<SOSMarkerSegment> segments = new ArrayList<>();
+    privbtf int [] dollfdtSdbns(JPEGMftbdbtb mftbdbtb,
+                                SOFMbrkfrSfgmfnt sof) {
+        List<SOSMbrkfrSfgmfnt> sfgmfnts = nfw ArrbyList<>();
         int SCAN_SIZE = 9;
         int MAX_COMPS_PER_SCAN = 4;
-        for (Iterator<MarkerSegment> iter = metadata.markerSequence.iterator();
-             iter.hasNext();) {
-            MarkerSegment seg = iter.next();
-            if (seg instanceof SOSMarkerSegment) {
-                segments.add((SOSMarkerSegment) seg);
+        for (Itfrbtor<MbrkfrSfgmfnt> itfr = mftbdbtb.mbrkfrSfqufndf.itfrbtor();
+             itfr.ibsNfxt();) {
+            MbrkfrSfgmfnt sfg = itfr.nfxt();
+            if (sfg instbndfof SOSMbrkfrSfgmfnt) {
+                sfgmfnts.bdd((SOSMbrkfrSfgmfnt) sfg);
             }
         }
-        int [] retval = null;
-        numScans = 0;
-        if (!segments.isEmpty()) {
-            numScans = segments.size();
-            retval = new int [numScans*SCAN_SIZE];
-            int index = 0;
-            for (int i = 0; i < numScans; i++) {
-                SOSMarkerSegment sos = segments.get(i);
-                retval[index++] = sos.componentSpecs.length; // num comps
+        int [] rftvbl = null;
+        numSdbns = 0;
+        if (!sfgmfnts.isEmpty()) {
+            numSdbns = sfgmfnts.sizf();
+            rftvbl = nfw int [numSdbns*SCAN_SIZE];
+            int indfx = 0;
+            for (int i = 0; i < numSdbns; i++) {
+                SOSMbrkfrSfgmfnt sos = sfgmfnts.gft(i);
+                rftvbl[indfx++] = sos.domponfntSpfds.lfngti; // num domps
                 for (int j = 0; j < MAX_COMPS_PER_SCAN; j++) {
-                    if (j < sos.componentSpecs.length) {
-                        int compSel = sos.componentSpecs[j].componentSelector;
-                        for (int k = 0; k < sof.componentSpecs.length; k++) {
-                            if (compSel == sof.componentSpecs[k].componentId) {
-                                retval[index++] = k;
-                                break; // out of for over sof comps
+                    if (j < sos.domponfntSpfds.lfngti) {
+                        int dompSfl = sos.domponfntSpfds[j].domponfntSflfdtor;
+                        for (int k = 0; k < sof.domponfntSpfds.lfngti; k++) {
+                            if (dompSfl == sof.domponfntSpfds[k].domponfntId) {
+                                rftvbl[indfx++] = k;
+                                brfbk; // out of for ovfr sof domps
                             }
                         }
-                    } else {
-                        retval[index++] = 0;
+                    } flsf {
+                        rftvbl[indfx++] = 0;
                     }
                 }
-                retval[index++] = sos.startSpectralSelection;
-                retval[index++] = sos.endSpectralSelection;
-                retval[index++] = sos.approxHigh;
-                retval[index++] = sos.approxLow;
+                rftvbl[indfx++] = sos.stbrtSpfdtrblSflfdtion;
+                rftvbl[indfx++] = sos.fndSpfdtrblSflfdtion;
+                rftvbl[indfx++] = sos.bpproxHigi;
+                rftvbl[indfx++] = sos.bpproxLow;
             }
         }
-        return retval;
+        rfturn rftvbl;
     }
 
     /**
-     * Finds all DQT marker segments and returns all the q
-     * tables as a single array of JPEGQTables.
+     * Finds bll DQT mbrkfr sfgmfnts bnd rfturns bll tif q
+     * tbblfs bs b singlf brrby of JPEGQTbblfs.
      */
-    private JPEGQTable [] collectQTablesFromMetadata
-        (JPEGMetadata metadata) {
-        ArrayList<DQTMarkerSegment.Qtable> tables = new ArrayList<>();
-        Iterator<MarkerSegment> iter = metadata.markerSequence.iterator();
-        while (iter.hasNext()) {
-            MarkerSegment seg = iter.next();
-            if (seg instanceof DQTMarkerSegment) {
-                DQTMarkerSegment dqt =
-                    (DQTMarkerSegment) seg;
-                tables.addAll(dqt.tables);
+    privbtf JPEGQTbblf [] dollfdtQTbblfsFromMftbdbtb
+        (JPEGMftbdbtb mftbdbtb) {
+        ArrbyList<DQTMbrkfrSfgmfnt.Qtbblf> tbblfs = nfw ArrbyList<>();
+        Itfrbtor<MbrkfrSfgmfnt> itfr = mftbdbtb.mbrkfrSfqufndf.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            MbrkfrSfgmfnt sfg = itfr.nfxt();
+            if (sfg instbndfof DQTMbrkfrSfgmfnt) {
+                DQTMbrkfrSfgmfnt dqt =
+                    (DQTMbrkfrSfgmfnt) sfg;
+                tbblfs.bddAll(dqt.tbblfs);
             }
         }
-        JPEGQTable [] retval = null;
-        if (tables.size() != 0) {
-            retval = new JPEGQTable[tables.size()];
-            for (int i = 0; i < retval.length; i++) {
-                retval[i] =
-                    new JPEGQTable(tables.get(i).data);
+        JPEGQTbblf [] rftvbl = null;
+        if (tbblfs.sizf() != 0) {
+            rftvbl = nfw JPEGQTbblf[tbblfs.sizf()];
+            for (int i = 0; i < rftvbl.lfngti; i++) {
+                rftvbl[i] =
+                    nfw JPEGQTbblf(tbblfs.gft(i).dbtb);
             }
         }
-        return retval;
+        rfturn rftvbl;
     }
 
     /**
-     * Finds all DHT marker segments and returns all the q
-     * tables as a single array of JPEGQTables.  The metadata
-     * must not be for a progressive image, or an exception
-     * will be thrown when two Huffman tables with the same
-     * table id are encountered.
+     * Finds bll DHT mbrkfr sfgmfnts bnd rfturns bll tif q
+     * tbblfs bs b singlf brrby of JPEGQTbblfs.  Tif mftbdbtb
+     * must not bf for b progrfssivf imbgf, or bn fxdfption
+     * will bf tirown wifn two Huffmbn tbblfs witi tif sbmf
+     * tbblf id brf fndountfrfd.
      */
-    private JPEGHuffmanTable[] collectHTablesFromMetadata
-        (JPEGMetadata metadata, boolean wantDC) throws IIOException {
-        ArrayList<DHTMarkerSegment.Htable> tables = new ArrayList<>();
-        Iterator<MarkerSegment> iter = metadata.markerSequence.iterator();
-        while (iter.hasNext()) {
-            MarkerSegment seg = iter.next();
-            if (seg instanceof DHTMarkerSegment) {
-                DHTMarkerSegment dht = (DHTMarkerSegment) seg;
-                for (int i = 0; i < dht.tables.size(); i++) {
-                    DHTMarkerSegment.Htable htable = dht.tables.get(i);
-                    if (htable.tableClass == (wantDC ? 0 : 1)) {
-                        tables.add(htable);
+    privbtf JPEGHuffmbnTbblf[] dollfdtHTbblfsFromMftbdbtb
+        (JPEGMftbdbtb mftbdbtb, boolfbn wbntDC) tirows IIOExdfption {
+        ArrbyList<DHTMbrkfrSfgmfnt.Htbblf> tbblfs = nfw ArrbyList<>();
+        Itfrbtor<MbrkfrSfgmfnt> itfr = mftbdbtb.mbrkfrSfqufndf.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            MbrkfrSfgmfnt sfg = itfr.nfxt();
+            if (sfg instbndfof DHTMbrkfrSfgmfnt) {
+                DHTMbrkfrSfgmfnt dit = (DHTMbrkfrSfgmfnt) sfg;
+                for (int i = 0; i < dit.tbblfs.sizf(); i++) {
+                    DHTMbrkfrSfgmfnt.Htbblf itbblf = dit.tbblfs.gft(i);
+                    if (itbblf.tbblfClbss == (wbntDC ? 0 : 1)) {
+                        tbblfs.bdd(itbblf);
                     }
                 }
             }
         }
-        JPEGHuffmanTable [] retval = null;
-        if (tables.size() != 0) {
-            DHTMarkerSegment.Htable [] htables =
-                new DHTMarkerSegment.Htable[tables.size()];
-            tables.toArray(htables);
-            retval = new JPEGHuffmanTable[tables.size()];
-            for (int i = 0; i < retval.length; i++) {
-                retval[i] = null;
-                for (int j = 0; j < tables.size(); j++) {
-                    if (htables[j].tableID == i) {
-                        if (retval[i] != null) {
-                            throw new IIOException("Metadata has duplicate Htables!");
+        JPEGHuffmbnTbblf [] rftvbl = null;
+        if (tbblfs.sizf() != 0) {
+            DHTMbrkfrSfgmfnt.Htbblf [] itbblfs =
+                nfw DHTMbrkfrSfgmfnt.Htbblf[tbblfs.sizf()];
+            tbblfs.toArrby(itbblfs);
+            rftvbl = nfw JPEGHuffmbnTbblf[tbblfs.sizf()];
+            for (int i = 0; i < rftvbl.lfngti; i++) {
+                rftvbl[i] = null;
+                for (int j = 0; j < tbblfs.sizf(); j++) {
+                    if (itbblfs[j].tbblfID == i) {
+                        if (rftvbl[i] != null) {
+                            tirow nfw IIOExdfption("Mftbdbtb ibs duplidbtf Htbblfs!");
                         }
-                        retval[i] = new JPEGHuffmanTable(htables[j].numCodes,
-                                                         htables[j].values);
+                        rftvbl[i] = nfw JPEGHuffmbnTbblf(itbblfs[j].numCodfs,
+                                                         itbblfs[j].vblufs);
                     }
                 }
             }
         }
 
-        return retval;
+        rfturn rftvbl;
     }
 
-    /////////// End of metadata handling
+    /////////// End of mftbdbtb ibndling
 
-    ////////////// ColorSpace conversion
+    ////////////// ColorSpbdf donvfrsion
 
-    private int getSrcCSType(ImageTypeSpecifier type) {
-         return getSrcCSType(type.getColorModel());
+    privbtf int gftSrdCSTypf(ImbgfTypfSpfdififr typf) {
+         rfturn gftSrdCSTypf(typf.gftColorModfl());
     }
 
-    private int getSrcCSType(RenderedImage rimage) {
-        return getSrcCSType(rimage.getColorModel());
+    privbtf int gftSrdCSTypf(RfndfrfdImbgf rimbgf) {
+        rfturn gftSrdCSTypf(rimbgf.gftColorModfl());
     }
 
-    private int getSrcCSType(ColorModel cm) {
-        int retval = JPEG.JCS_UNKNOWN;
-        if (cm != null) {
-            boolean alpha = cm.hasAlpha();
-            ColorSpace cs = cm.getColorSpace();
-            switch (cs.getType()) {
-            case ColorSpace.TYPE_GRAY:
-                retval = JPEG.JCS_GRAYSCALE;
-                break;
-            case ColorSpace.TYPE_RGB:
-                if (alpha) {
-                    retval = JPEG.JCS_RGBA;
-                } else {
-                    retval = JPEG.JCS_RGB;
+    privbtf int gftSrdCSTypf(ColorModfl dm) {
+        int rftvbl = JPEG.JCS_UNKNOWN;
+        if (dm != null) {
+            boolfbn blpib = dm.ibsAlpib();
+            ColorSpbdf ds = dm.gftColorSpbdf();
+            switdi (ds.gftTypf()) {
+            dbsf ColorSpbdf.TYPE_GRAY:
+                rftvbl = JPEG.JCS_GRAYSCALE;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_RGB:
+                if (blpib) {
+                    rftvbl = JPEG.JCS_RGBA;
+                } flsf {
+                    rftvbl = JPEG.JCS_RGB;
                 }
-                break;
-            case ColorSpace.TYPE_YCbCr:
-                if (alpha) {
-                    retval = JPEG.JCS_YCbCrA;
-                } else {
-                    retval = JPEG.JCS_YCbCr;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_YCbCr:
+                if (blpib) {
+                    rftvbl = JPEG.JCS_YCbCrA;
+                } flsf {
+                    rftvbl = JPEG.JCS_YCbCr;
                 }
-                break;
-            case ColorSpace.TYPE_3CLR:
-                if (cs == JPEG.JCS.getYCC()) {
-                    if (alpha) {
-                        retval = JPEG.JCS_YCCA;
-                    } else {
-                        retval = JPEG.JCS_YCC;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_3CLR:
+                if (ds == JPEG.JCS.gftYCC()) {
+                    if (blpib) {
+                        rftvbl = JPEG.JCS_YCCA;
+                    } flsf {
+                        rftvbl = JPEG.JCS_YCC;
                     }
                 }
-                break;
-            case ColorSpace.TYPE_CMYK:
-                retval = JPEG.JCS_CMYK;
-                break;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_CMYK:
+                rftvbl = JPEG.JCS_CMYK;
+                brfbk;
             }
         }
-        return retval;
+        rfturn rftvbl;
     }
 
-    private int getDestCSType(ImageTypeSpecifier destType) {
-        ColorModel cm = destType.getColorModel();
-        boolean alpha = cm.hasAlpha();
-        ColorSpace cs = cm.getColorSpace();
-        int retval = JPEG.JCS_UNKNOWN;
-        switch (cs.getType()) {
-        case ColorSpace.TYPE_GRAY:
-                retval = JPEG.JCS_GRAYSCALE;
-                break;
-            case ColorSpace.TYPE_RGB:
-                if (alpha) {
-                    retval = JPEG.JCS_RGBA;
-                } else {
-                    retval = JPEG.JCS_RGB;
+    privbtf int gftDfstCSTypf(ImbgfTypfSpfdififr dfstTypf) {
+        ColorModfl dm = dfstTypf.gftColorModfl();
+        boolfbn blpib = dm.ibsAlpib();
+        ColorSpbdf ds = dm.gftColorSpbdf();
+        int rftvbl = JPEG.JCS_UNKNOWN;
+        switdi (ds.gftTypf()) {
+        dbsf ColorSpbdf.TYPE_GRAY:
+                rftvbl = JPEG.JCS_GRAYSCALE;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_RGB:
+                if (blpib) {
+                    rftvbl = JPEG.JCS_RGBA;
+                } flsf {
+                    rftvbl = JPEG.JCS_RGB;
                 }
-                break;
-            case ColorSpace.TYPE_YCbCr:
-                if (alpha) {
-                    retval = JPEG.JCS_YCbCrA;
-                } else {
-                    retval = JPEG.JCS_YCbCr;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_YCbCr:
+                if (blpib) {
+                    rftvbl = JPEG.JCS_YCbCrA;
+                } flsf {
+                    rftvbl = JPEG.JCS_YCbCr;
                 }
-                break;
-            case ColorSpace.TYPE_3CLR:
-                if (cs == JPEG.JCS.getYCC()) {
-                    if (alpha) {
-                        retval = JPEG.JCS_YCCA;
-                    } else {
-                        retval = JPEG.JCS_YCC;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_3CLR:
+                if (ds == JPEG.JCS.gftYCC()) {
+                    if (blpib) {
+                        rftvbl = JPEG.JCS_YCCA;
+                    } flsf {
+                        rftvbl = JPEG.JCS_YCC;
                     }
                 }
-                break;
-            case ColorSpace.TYPE_CMYK:
-                retval = JPEG.JCS_CMYK;
-                break;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_CMYK:
+                rftvbl = JPEG.JCS_CMYK;
+                brfbk;
             }
-        return retval;
+        rfturn rftvbl;
         }
 
-    private int getDefaultDestCSType(ImageTypeSpecifier type) {
-        return getDefaultDestCSType(type.getColorModel());
+    privbtf int gftDffbultDfstCSTypf(ImbgfTypfSpfdififr typf) {
+        rfturn gftDffbultDfstCSTypf(typf.gftColorModfl());
     }
 
-    private int getDefaultDestCSType(RenderedImage rimage) {
-        return getDefaultDestCSType(rimage.getColorModel());
+    privbtf int gftDffbultDfstCSTypf(RfndfrfdImbgf rimbgf) {
+        rfturn gftDffbultDfstCSTypf(rimbgf.gftColorModfl());
     }
 
-    private int getDefaultDestCSType(ColorModel cm) {
-        int retval = JPEG.JCS_UNKNOWN;
-        if (cm != null) {
-            boolean alpha = cm.hasAlpha();
-            ColorSpace cs = cm.getColorSpace();
-            switch (cs.getType()) {
-            case ColorSpace.TYPE_GRAY:
-                retval = JPEG.JCS_GRAYSCALE;
-                break;
-            case ColorSpace.TYPE_RGB:
-                if (alpha) {
-                    retval = JPEG.JCS_YCbCrA;
-                } else {
-                    retval = JPEG.JCS_YCbCr;
+    privbtf int gftDffbultDfstCSTypf(ColorModfl dm) {
+        int rftvbl = JPEG.JCS_UNKNOWN;
+        if (dm != null) {
+            boolfbn blpib = dm.ibsAlpib();
+            ColorSpbdf ds = dm.gftColorSpbdf();
+            switdi (ds.gftTypf()) {
+            dbsf ColorSpbdf.TYPE_GRAY:
+                rftvbl = JPEG.JCS_GRAYSCALE;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_RGB:
+                if (blpib) {
+                    rftvbl = JPEG.JCS_YCbCrA;
+                } flsf {
+                    rftvbl = JPEG.JCS_YCbCr;
                 }
-                break;
-            case ColorSpace.TYPE_YCbCr:
-                if (alpha) {
-                    retval = JPEG.JCS_YCbCrA;
-                } else {
-                    retval = JPEG.JCS_YCbCr;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_YCbCr:
+                if (blpib) {
+                    rftvbl = JPEG.JCS_YCbCrA;
+                } flsf {
+                    rftvbl = JPEG.JCS_YCbCr;
                 }
-                break;
-            case ColorSpace.TYPE_3CLR:
-                if (cs == JPEG.JCS.getYCC()) {
-                    if (alpha) {
-                        retval = JPEG.JCS_YCCA;
-                    } else {
-                        retval = JPEG.JCS_YCC;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_3CLR:
+                if (ds == JPEG.JCS.gftYCC()) {
+                    if (blpib) {
+                        rftvbl = JPEG.JCS_YCCA;
+                    } flsf {
+                        rftvbl = JPEG.JCS_YCC;
                     }
                 }
-                break;
-            case ColorSpace.TYPE_CMYK:
-                retval = JPEG.JCS_YCCK;
-                break;
+                brfbk;
+            dbsf ColorSpbdf.TYPE_CMYK:
+                rftvbl = JPEG.JCS_YCCK;
+                brfbk;
             }
         }
-        return retval;
+        rfturn rftvbl;
     }
 
-    private boolean isSubsampled(SOFMarkerSegment.ComponentSpec [] specs) {
-        int hsamp0 = specs[0].HsamplingFactor;
-        int vsamp0 = specs[0].VsamplingFactor;
-        for (int i = 1; i < specs.length; i++) {
-            if ((specs[i].HsamplingFactor != hsamp0) ||
-                (specs[i].HsamplingFactor != hsamp0))
-                return true;
+    privbtf boolfbn isSubsbmplfd(SOFMbrkfrSfgmfnt.ComponfntSpfd [] spfds) {
+        int isbmp0 = spfds[0].HsbmplingFbdtor;
+        int vsbmp0 = spfds[0].VsbmplingFbdtor;
+        for (int i = 1; i < spfds.lfngti; i++) {
+            if ((spfds[i].HsbmplingFbdtor != isbmp0) ||
+                (spfds[i].HsbmplingFbdtor != isbmp0))
+                rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    ////////////// End of ColorSpace conversion
+    ////////////// End of ColorSpbdf donvfrsion
 
-    ////////////// Native methods and callbacks
+    ////////////// Nbtivf mftiods bnd dbllbbdks
 
-    /** Sets up static native structures. */
-    private static native void initWriterIDs(Class<?> qTableClass,
-                                             Class<?> huffClass);
+    /** Sfts up stbtid nbtivf strudturfs. */
+    privbtf stbtid nbtivf void initWritfrIDs(Clbss<?> qTbblfClbss,
+                                             Clbss<?> iuffClbss);
 
-    /** Sets up per-writer native structure and returns a pointer to it. */
-    private native long initJPEGImageWriter();
+    /** Sfts up pfr-writfr nbtivf strudturf bnd rfturns b pointfr to it. */
+    privbtf nbtivf long initJPEGImbgfWritfr();
 
-    /** Sets up native structures for output stream */
-    private native void setDest(long structPointer);
-
-    /**
-     * Returns <code>true</code> if the write was aborted.
-     */
-    private native boolean writeImage(long structPointer,
-                                      byte [] data,
-                                      int inCsType, int outCsType,
-                                      int numBands,
-                                      int [] bandSizes,
-                                      int srcWidth,
-                                      int destWidth, int destHeight,
-                                      int stepX, int stepY,
-                                      JPEGQTable [] qtables,
-                                      boolean writeDQT,
-                                      JPEGHuffmanTable[] DCHuffmanTables,
-                                      JPEGHuffmanTable[] ACHuffmanTables,
-                                      boolean writeDHT,
-                                      boolean optimizeHuffman,
-                                      boolean progressive,
-                                      int numScans,
-                                      int [] scans,
-                                      int [] componentIds,
-                                      int [] HsamplingFactors,
-                                      int [] VsamplingFactors,
-                                      int [] QtableSelectors,
-                                      boolean haveMetadata,
-                                      int restartInterval);
-
+    /** Sfts up nbtivf strudturfs for output strfbm */
+    privbtf nbtivf void sftDfst(long strudtPointfr);
 
     /**
-     * Writes the metadata out when called by the native code,
-     * which will have already written the header to the stream
-     * and established the library state.  This is simpler than
-     * breaking the write call in two.
+     * Rfturns <dodf>truf</dodf> if tif writf wbs bbortfd.
      */
-    private void writeMetadata() throws IOException {
-        if (metadata == null) {
-            if (writeDefaultJFIF) {
-                JFIFMarkerSegment.writeDefaultJFIF(ios,
-                                                   thumbnails,
-                                                   iccProfile,
-                                                   this);
+    privbtf nbtivf boolfbn writfImbgf(long strudtPointfr,
+                                      bytf [] dbtb,
+                                      int inCsTypf, int outCsTypf,
+                                      int numBbnds,
+                                      int [] bbndSizfs,
+                                      int srdWidti,
+                                      int dfstWidti, int dfstHfigit,
+                                      int stfpX, int stfpY,
+                                      JPEGQTbblf [] qtbblfs,
+                                      boolfbn writfDQT,
+                                      JPEGHuffmbnTbblf[] DCHuffmbnTbblfs,
+                                      JPEGHuffmbnTbblf[] ACHuffmbnTbblfs,
+                                      boolfbn writfDHT,
+                                      boolfbn optimizfHuffmbn,
+                                      boolfbn progrfssivf,
+                                      int numSdbns,
+                                      int [] sdbns,
+                                      int [] domponfntIds,
+                                      int [] HsbmplingFbdtors,
+                                      int [] VsbmplingFbdtors,
+                                      int [] QtbblfSflfdtors,
+                                      boolfbn ibvfMftbdbtb,
+                                      int rfstbrtIntfrvbl);
+
+
+    /**
+     * Writfs tif mftbdbtb out wifn dbllfd by tif nbtivf dodf,
+     * wiidi will ibvf blrfbdy writtfn tif ifbdfr to tif strfbm
+     * bnd fstbblisifd tif librbry stbtf.  Tiis is simplfr tibn
+     * brfbking tif writf dbll in two.
+     */
+    privbtf void writfMftbdbtb() tirows IOExdfption {
+        if (mftbdbtb == null) {
+            if (writfDffbultJFIF) {
+                JFIFMbrkfrSfgmfnt.writfDffbultJFIF(ios,
+                                                   tiumbnbils,
+                                                   iddProfilf,
+                                                   tiis);
             }
-            if (writeAdobe) {
-                AdobeMarkerSegment.writeAdobeSegment(ios, newAdobeTransform);
+            if (writfAdobf) {
+                AdobfMbrkfrSfgmfnt.writfAdobfSfgmfnt(ios, nfwAdobfTrbnsform);
             }
-        } else {
-            metadata.writeToStream(ios,
-                                   ignoreJFIF,
-                                   forceJFIF,
-                                   thumbnails,
-                                   iccProfile,
-                                   ignoreAdobe,
-                                   newAdobeTransform,
-                                   this);
+        } flsf {
+            mftbdbtb.writfToStrfbm(ios,
+                                   ignorfJFIF,
+                                   fordfJFIF,
+                                   tiumbnbils,
+                                   iddProfilf,
+                                   ignorfAdobf,
+                                   nfwAdobfTrbnsform,
+                                   tiis);
         }
     }
 
     /**
-     * Write out a tables-only image to the stream.
+     * Writf out b tbblfs-only imbgf to tif strfbm.
      */
-    private native void writeTables(long structPointer,
-                                    JPEGQTable [] qtables,
-                                    JPEGHuffmanTable[] DCHuffmanTables,
-                                    JPEGHuffmanTable[] ACHuffmanTables);
+    privbtf nbtivf void writfTbblfs(long strudtPointfr,
+                                    JPEGQTbblf [] qtbblfs,
+                                    JPEGHuffmbnTbblf[] DCHuffmbnTbblfs,
+                                    JPEGHuffmbnTbblf[] ACHuffmbnTbblfs);
 
     /**
-     * Put the scanline y of the source ROI view Raster into the
-     * 1-line Raster for writing.  This handles ROI and band
-     * rearrangements, and expands indexed images.  Subsampling is
-     * done in the native code.
-     * This is called by the native code.
+     * Put tif sdbnlinf y of tif sourdf ROI vifw Rbstfr into tif
+     * 1-linf Rbstfr for writing.  Tiis ibndlfs ROI bnd bbnd
+     * rfbrrbngfmfnts, bnd fxpbnds indfxfd imbgfs.  Subsbmpling is
+     * donf in tif nbtivf dodf.
+     * Tiis is dbllfd by tif nbtivf dodf.
      */
-    private void grabPixels(int y) {
+    privbtf void grbbPixfls(int y) {
 
-        Raster sourceLine = null;
-        if (indexed) {
-            sourceLine = srcRas.createChild(sourceXOffset,
-                                            sourceYOffset+y,
-                                            sourceWidth, 1,
+        Rbstfr sourdfLinf = null;
+        if (indfxfd) {
+            sourdfLinf = srdRbs.drfbtfCiild(sourdfXOffsft,
+                                            sourdfYOffsft+y,
+                                            sourdfWidti, 1,
                                             0, 0,
-                                            new int [] {0});
-            // If the image has BITMASK transparency, we need to make sure
-            // it gets converted to 32-bit ARGB, because the JPEG encoder
-            // relies upon the full 8-bit alpha channel.
-            boolean forceARGB =
-                (indexCM.getTransparency() != Transparency.OPAQUE);
-            BufferedImage temp = indexCM.convertToIntDiscrete(sourceLine,
-                                                              forceARGB);
-            sourceLine = temp.getRaster();
-        } else {
-            sourceLine = srcRas.createChild(sourceXOffset,
-                                            sourceYOffset+y,
-                                            sourceWidth, 1,
+                                            nfw int [] {0});
+            // If tif imbgf ibs BITMASK trbnspbrfndy, wf nffd to mbkf surf
+            // it gfts donvfrtfd to 32-bit ARGB, bfdbusf tif JPEG fndodfr
+            // rflifs upon tif full 8-bit blpib dibnnfl.
+            boolfbn fordfARGB =
+                (indfxCM.gftTrbnspbrfndy() != Trbnspbrfndy.OPAQUE);
+            BufffrfdImbgf tfmp = indfxCM.donvfrtToIntDisdrftf(sourdfLinf,
+                                                              fordfARGB);
+            sourdfLinf = tfmp.gftRbstfr();
+        } flsf {
+            sourdfLinf = srdRbs.drfbtfCiild(sourdfXOffsft,
+                                            sourdfYOffsft+y,
+                                            sourdfWidti, 1,
                                             0, 0,
-                                            srcBands);
+                                            srdBbnds);
         }
-        if (convertTosRGB) {
-            if (debug) {
-                System.out.println("Converting to sRGB");
+        if (donvfrtTosRGB) {
+            if (dfbug) {
+                Systfm.out.println("Convfrting to sRGB");
             }
-            // The first time through, converted is null, so
-            // a new raster is allocated.  It is then reused
-            // on subsequent lines.
-            converted = convertOp.filter(sourceLine, converted);
-            sourceLine = converted;
+            // Tif first timf tirougi, donvfrtfd is null, so
+            // b nfw rbstfr is bllodbtfd.  It is tifn rfusfd
+            // on subsfqufnt linfs.
+            donvfrtfd = donvfrtOp.filtfr(sourdfLinf, donvfrtfd);
+            sourdfLinf = donvfrtfd;
         }
-        if (isAlphaPremultiplied) {
-            WritableRaster wr = sourceLine.createCompatibleWritableRaster();
-            int[] data = null;
-            data = sourceLine.getPixels(sourceLine.getMinX(), sourceLine.getMinY(),
-                                        sourceLine.getWidth(), sourceLine.getHeight(),
-                                        data);
-            wr.setPixels(sourceLine.getMinX(), sourceLine.getMinY(),
-                         sourceLine.getWidth(), sourceLine.getHeight(),
-                         data);
-            srcCM.coerceData(wr, false);
-            sourceLine = wr.createChild(wr.getMinX(), wr.getMinY(),
-                                        wr.getWidth(), wr.getHeight(),
+        if (isAlpibPrfmultiplifd) {
+            WritbblfRbstfr wr = sourdfLinf.drfbtfCompbtiblfWritbblfRbstfr();
+            int[] dbtb = null;
+            dbtb = sourdfLinf.gftPixfls(sourdfLinf.gftMinX(), sourdfLinf.gftMinY(),
+                                        sourdfLinf.gftWidti(), sourdfLinf.gftHfigit(),
+                                        dbtb);
+            wr.sftPixfls(sourdfLinf.gftMinX(), sourdfLinf.gftMinY(),
+                         sourdfLinf.gftWidti(), sourdfLinf.gftHfigit(),
+                         dbtb);
+            srdCM.dofrdfDbtb(wr, fblsf);
+            sourdfLinf = wr.drfbtfCiild(wr.gftMinX(), wr.gftMinY(),
+                                        wr.gftWidti(), wr.gftHfigit(),
                                         0, 0,
-                                        srcBands);
+                                        srdBbnds);
         }
-        raster.setRect(sourceLine);
-        if ((y > 7) && (y%8 == 0)) {  // Every 8 scanlines
-            cbLock.lock();
+        rbstfr.sftRfdt(sourdfLinf);
+        if ((y > 7) && (y%8 == 0)) {  // Evfry 8 sdbnlinfs
+            dbLodk.lodk();
             try {
-                processImageProgress((float) y / (float) sourceHeight * 100.0F);
-            } finally {
-                cbLock.unlock();
+                prodfssImbgfProgrfss((flobt) y / (flobt) sourdfHfigit * 100.0F);
+            } finblly {
+                dbLodk.unlodk();
             }
         }
     }
 
-    /** Aborts the current write in the native code */
-    private native void abortWrite(long structPointer);
+    /** Aborts tif durrfnt writf in tif nbtivf dodf */
+    privbtf nbtivf void bbortWritf(long strudtPointfr);
 
-    /** Resets native structures */
-    private native void resetWriter(long structPointer);
+    /** Rfsfts nbtivf strudturfs */
+    privbtf nbtivf void rfsftWritfr(long strudtPointfr);
 
-    /** Releases native structures */
-    private static native void disposeWriter(long structPointer);
+    /** Rflfbsfs nbtivf strudturfs */
+    privbtf stbtid nbtivf void disposfWritfr(long strudtPointfr);
 
-    private static class JPEGWriterDisposerRecord implements DisposerRecord {
-        private long pData;
+    privbtf stbtid dlbss JPEGWritfrDisposfrRfdord implfmfnts DisposfrRfdord {
+        privbtf long pDbtb;
 
-        public JPEGWriterDisposerRecord(long pData) {
-            this.pData = pData;
+        publid JPEGWritfrDisposfrRfdord(long pDbtb) {
+            tiis.pDbtb = pDbtb;
         }
 
-        public synchronized void dispose() {
-            if (pData != 0) {
-                disposeWriter(pData);
-                pData = 0;
+        publid syndironizfd void disposf() {
+            if (pDbtb != 0) {
+                disposfWritfr(pDbtb);
+                pDbtb = 0;
             }
         }
     }
 
     /**
-     * This method is called from native code in order to write encoder
-     * output to the destination.
+     * Tiis mftiod is dbllfd from nbtivf dodf in ordfr to writf fndodfr
+     * output to tif dfstinbtion.
      *
-     * We block any attempt to change the writer state during this
-     * method, in order to prevent a corruption of the native encoder
-     * state.
+     * Wf blodk bny bttfmpt to dibngf tif writfr stbtf during tiis
+     * mftiod, in ordfr to prfvfnt b dorruption of tif nbtivf fndodfr
+     * stbtf.
      */
-    private void writeOutputData(byte[] data, int offset, int len)
-            throws IOException
+    privbtf void writfOutputDbtb(bytf[] dbtb, int offsft, int lfn)
+            tirows IOExdfption
     {
-        cbLock.lock();
+        dbLodk.lodk();
         try {
-            ios.write(data, offset, len);
-        } finally {
-            cbLock.unlock();
+            ios.writf(dbtb, offsft, lfn);
+        } finblly {
+            dbLodk.unlodk();
         }
     }
 
-    private Thread theThread = null;
-    private int theLockCount = 0;
+    privbtf Tirfbd tifTirfbd = null;
+    privbtf int tifLodkCount = 0;
 
-    private synchronized void setThreadLock() {
-        Thread currThread = Thread.currentThread();
-        if (theThread != null) {
-            if (theThread != currThread) {
-                // it looks like that this reader instance is used
-                // by multiple threads.
-                throw new IllegalStateException("Attempt to use instance of " +
-                                                this + " locked on thread " +
-                                                theThread + " from thread " +
-                                                currThread);
-            } else {
-                theLockCount ++;
+    privbtf syndironizfd void sftTirfbdLodk() {
+        Tirfbd durrTirfbd = Tirfbd.durrfntTirfbd();
+        if (tifTirfbd != null) {
+            if (tifTirfbd != durrTirfbd) {
+                // it looks likf tibt tiis rfbdfr instbndf is usfd
+                // by multiplf tirfbds.
+                tirow nfw IllfgblStbtfExdfption("Attfmpt to usf instbndf of " +
+                                                tiis + " lodkfd on tirfbd " +
+                                                tifTirfbd + " from tirfbd " +
+                                                durrTirfbd);
+            } flsf {
+                tifLodkCount ++;
             }
-        } else {
-            theThread = currThread;
-            theLockCount = 1;
+        } flsf {
+            tifTirfbd = durrTirfbd;
+            tifLodkCount = 1;
         }
     }
 
-    private synchronized void clearThreadLock() {
-        Thread currThread = Thread.currentThread();
-        if (theThread == null || theThread != currThread) {
-            throw new IllegalStateException("Attempt to clear thread lock form wrong thread. " +
-                                            "Locked thread: " + theThread +
-                                            "; current thread: " + currThread);
+    privbtf syndironizfd void dlfbrTirfbdLodk() {
+        Tirfbd durrTirfbd = Tirfbd.durrfntTirfbd();
+        if (tifTirfbd == null || tifTirfbd != durrTirfbd) {
+            tirow nfw IllfgblStbtfExdfption("Attfmpt to dlfbr tirfbd lodk form wrong tirfbd. " +
+                                            "Lodkfd tirfbd: " + tifTirfbd +
+                                            "; durrfnt tirfbd: " + durrTirfbd);
         }
-        theLockCount --;
-        if (theLockCount == 0) {
-            theThread = null;
+        tifLodkCount --;
+        if (tifLodkCount == 0) {
+            tifTirfbd = null;
         }
     }
 
-    private CallBackLock cbLock = new CallBackLock();
+    privbtf CbllBbdkLodk dbLodk = nfw CbllBbdkLodk();
 
-    private static class CallBackLock {
+    privbtf stbtid dlbss CbllBbdkLodk {
 
-        private State lockState;
+        privbtf Stbtf lodkStbtf;
 
-        CallBackLock() {
-            lockState = State.Unlocked;
+        CbllBbdkLodk() {
+            lodkStbtf = Stbtf.Unlodkfd;
         }
 
-        void check() {
-            if (lockState != State.Unlocked) {
-                throw new IllegalStateException("Access to the writer is not allowed");
+        void difdk() {
+            if (lodkStbtf != Stbtf.Unlodkfd) {
+                tirow nfw IllfgblStbtfExdfption("Addfss to tif writfr is not bllowfd");
             }
         }
 
-        private void lock() {
-            lockState = State.Locked;
+        privbtf void lodk() {
+            lodkStbtf = Stbtf.Lodkfd;
         }
 
-        private void unlock() {
-            lockState = State.Unlocked;
+        privbtf void unlodk() {
+            lodkStbtf = Stbtf.Unlodkfd;
         }
 
-        private static enum State {
-            Unlocked,
-            Locked
+        privbtf stbtid fnum Stbtf {
+            Unlodkfd,
+            Lodkfd
         }
     }
 }

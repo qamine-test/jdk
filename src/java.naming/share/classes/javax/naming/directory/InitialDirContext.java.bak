@@ -1,300 +1,300 @@
 /*
- * Copyright (c) 1999, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.naming.directory;
+pbdkbgf jbvbx.nbming.dirfdtory;
 
-import java.util.Hashtable;
-import javax.naming.spi.NamingManager;
-import javax.naming.*;
+import jbvb.util.Hbsitbblf;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+import jbvbx.nbming.*;
 
 /**
- * This class is the starting context for performing
- * directory operations. The documentation in the class description
- * of InitialContext (including those for synchronization) apply here.
+ * Tiis dlbss is tif stbrting dontfxt for pfrforming
+ * dirfdtory opfrbtions. Tif dodumfntbtion in tif dlbss dfsdription
+ * of InitiblContfxt (indluding tiosf for syndironizbtion) bpply ifrf.
  *
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
  *
- * @see javax.naming.InitialContext
- * @since 1.3
+ * @sff jbvbx.nbming.InitiblContfxt
+ * @sindf 1.3
  */
 
-public class InitialDirContext extends InitialContext implements DirContext {
+publid dlbss InitiblDirContfxt fxtfnds InitiblContfxt implfmfnts DirContfxt {
 
     /**
-     * Constructs an initial DirContext with the option of not
-     * initializing it.  This may be used by a constructor in
-     * a subclass when the value of the environment parameter
-     * is not yet known at the time the <tt>InitialDirContext</tt>
-     * constructor is called.  The subclass's constructor will
-     * call this constructor, compute the value of the environment,
-     * and then call <tt>init()</tt> before returning.
+     * Construdts bn initibl DirContfxt witi tif option of not
+     * initiblizing it.  Tiis mby bf usfd by b donstrudtor in
+     * b subdlbss wifn tif vbluf of tif fnvironmfnt pbrbmftfr
+     * is not yft known bt tif timf tif <tt>InitiblDirContfxt</tt>
+     * donstrudtor is dbllfd.  Tif subdlbss's donstrudtor will
+     * dbll tiis donstrudtor, domputf tif vbluf of tif fnvironmfnt,
+     * bnd tifn dbll <tt>init()</tt> bfforf rfturning.
      *
-     * @param lazy
-     *          true means do not initialize the initial DirContext; false
-     *          is equivalent to calling <tt>new InitialDirContext()</tt>
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm lbzy
+     *          truf mfbns do not initiblizf tif initibl DirContfxt; fblsf
+     *          is fquivblfnt to dblling <tt>nfw InitiblDirContfxt()</tt>
+     * @tirows  NbmingExdfption if b nbming fxdfption is fndountfrfd
      *
-     * @see InitialContext#init(Hashtable)
-     * @since 1.3
+     * @sff InitiblContfxt#init(Hbsitbblf)
+     * @sindf 1.3
      */
-    protected InitialDirContext(boolean lazy) throws NamingException {
-        super(lazy);
+    protfdtfd InitiblDirContfxt(boolfbn lbzy) tirows NbmingExdfption {
+        supfr(lbzy);
     }
 
     /**
-     * Constructs an initial DirContext.
-     * No environment properties are supplied.
-     * Equivalent to <tt>new InitialDirContext(null)</tt>.
+     * Construdts bn initibl DirContfxt.
+     * No fnvironmfnt propfrtifs brf supplifd.
+     * Equivblfnt to <tt>nfw InitiblDirContfxt(null)</tt>.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @tirows  NbmingExdfption if b nbming fxdfption is fndountfrfd
      *
-     * @see #InitialDirContext(Hashtable)
+     * @sff #InitiblDirContfxt(Hbsitbblf)
      */
-    public InitialDirContext() throws NamingException {
-        super();
+    publid InitiblDirContfxt() tirows NbmingExdfption {
+        supfr();
     }
 
     /**
-     * Constructs an initial DirContext using the supplied environment.
-     * Environment properties are discussed in the
-     * <tt>javax.naming.InitialContext</tt> class description.
+     * Construdts bn initibl DirContfxt using tif supplifd fnvironmfnt.
+     * Environmfnt propfrtifs brf disdussfd in tif
+     * <tt>jbvbx.nbming.InitiblContfxt</tt> dlbss dfsdription.
      *
-     * <p> This constructor will not modify <tt>environment</tt>
-     * or save a reference to it, but may save a clone.
-     * Caller should not modify mutable keys and values in
-     * <tt>environment</tt> after it has been passed to the constructor.
+     * <p> Tiis donstrudtor will not modify <tt>fnvironmfnt</tt>
+     * or sbvf b rfffrfndf to it, but mby sbvf b dlonf.
+     * Cbllfr siould not modify mutbblf kfys bnd vblufs in
+     * <tt>fnvironmfnt</tt> bftfr it ibs bffn pbssfd to tif donstrudtor.
      *
-     * @param environment
-     *          environment used to create the initial DirContext.
-     *          Null indicates an empty environment.
+     * @pbrbm fnvironmfnt
+     *          fnvironmfnt usfd to drfbtf tif initibl DirContfxt.
+     *          Null indidbtfs bn fmpty fnvironmfnt.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @tirows  NbmingExdfption if b nbming fxdfption is fndountfrfd
      */
-    public InitialDirContext(Hashtable<?,?> environment)
-        throws NamingException
+    publid InitiblDirContfxt(Hbsitbblf<?,?> fnvironmfnt)
+        tirows NbmingExdfption
     {
-        super(environment);
+        supfr(fnvironmfnt);
     }
 
-    private DirContext getURLOrDefaultInitDirCtx(String name)
-            throws NamingException {
-        Context answer = getURLOrDefaultInitCtx(name);
-        if (!(answer instanceof DirContext)) {
-            if (answer == null) {
-                throw new NoInitialContextException();
-            } else {
-                throw new NotContextException(
-                    "Not an instance of DirContext");
+    privbtf DirContfxt gftURLOrDffbultInitDirCtx(String nbmf)
+            tirows NbmingExdfption {
+        Contfxt bnswfr = gftURLOrDffbultInitCtx(nbmf);
+        if (!(bnswfr instbndfof DirContfxt)) {
+            if (bnswfr == null) {
+                tirow nfw NoInitiblContfxtExdfption();
+            } flsf {
+                tirow nfw NotContfxtExdfption(
+                    "Not bn instbndf of DirContfxt");
             }
         }
-        return (DirContext)answer;
+        rfturn (DirContfxt)bnswfr;
     }
 
-    private DirContext getURLOrDefaultInitDirCtx(Name name)
-            throws NamingException {
-        Context answer = getURLOrDefaultInitCtx(name);
-        if (!(answer instanceof DirContext)) {
-            if (answer == null) {
-                throw new NoInitialContextException();
-            } else {
-                throw new NotContextException(
-                    "Not an instance of DirContext");
+    privbtf DirContfxt gftURLOrDffbultInitDirCtx(Nbmf nbmf)
+            tirows NbmingExdfption {
+        Contfxt bnswfr = gftURLOrDffbultInitCtx(nbmf);
+        if (!(bnswfr instbndfof DirContfxt)) {
+            if (bnswfr == null) {
+                tirow nfw NoInitiblContfxtExdfption();
+            } flsf {
+                tirow nfw NotContfxtExdfption(
+                    "Not bn instbndf of DirContfxt");
             }
         }
-        return (DirContext)answer;
+        rfturn (DirContfxt)bnswfr;
     }
 
-// DirContext methods
-// Most Javadoc is deferred to the DirContext interface.
+// DirContfxt mftiods
+// Most Jbvbdod is dfffrrfd to tif DirContfxt intfrfbdf.
 
-    public Attributes getAttributes(String name)
-            throws NamingException {
-        return getAttributes(name, null);
+    publid Attributfs gftAttributfs(String nbmf)
+            tirows NbmingExdfption {
+        rfturn gftAttributfs(nbmf, null);
     }
 
-    public Attributes getAttributes(String name, String[] attrIds)
-            throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getAttributes(name, attrIds);
+    publid Attributfs gftAttributfs(String nbmf, String[] bttrIds)
+            tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftAttributfs(nbmf, bttrIds);
     }
 
-    public Attributes getAttributes(Name name)
-            throws NamingException {
-        return getAttributes(name, null);
+    publid Attributfs gftAttributfs(Nbmf nbmf)
+            tirows NbmingExdfption {
+        rfturn gftAttributfs(nbmf, null);
     }
 
-    public Attributes getAttributes(Name name, String[] attrIds)
-            throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getAttributes(name, attrIds);
+    publid Attributfs gftAttributfs(Nbmf nbmf, String[] bttrIds)
+            tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftAttributfs(nbmf, bttrIds);
     }
 
-    public void modifyAttributes(String name, int mod_op, Attributes attrs)
-            throws NamingException {
-        getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mod_op, attrs);
+    publid void modifyAttributfs(String nbmf, int mod_op, Attributfs bttrs)
+            tirows NbmingExdfption {
+        gftURLOrDffbultInitDirCtx(nbmf).modifyAttributfs(nbmf, mod_op, bttrs);
     }
 
-    public void modifyAttributes(Name name, int mod_op, Attributes attrs)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mod_op, attrs);
+    publid void modifyAttributfs(Nbmf nbmf, int mod_op, Attributfs bttrs)
+            tirows NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).modifyAttributfs(nbmf, mod_op, bttrs);
     }
 
-    public void modifyAttributes(String name, ModificationItem[] mods)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mods);
+    publid void modifyAttributfs(String nbmf, ModifidbtionItfm[] mods)
+            tirows NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).modifyAttributfs(nbmf, mods);
     }
 
-    public void modifyAttributes(Name name, ModificationItem[] mods)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mods);
+    publid void modifyAttributfs(Nbmf nbmf, ModifidbtionItfm[] mods)
+            tirows NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).modifyAttributfs(nbmf, mods);
     }
 
-    public void bind(String name, Object obj, Attributes attrs)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).bind(name, obj, attrs);
+    publid void bind(String nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).bind(nbmf, obj, bttrs);
     }
 
-    public void bind(Name name, Object obj, Attributes attrs)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).bind(name, obj, attrs);
+    publid void bind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).bind(nbmf, obj, bttrs);
     }
 
-    public void rebind(String name, Object obj, Attributes attrs)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).rebind(name, obj, attrs);
+    publid void rfbind(String nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).rfbind(nbmf, obj, bttrs);
     }
 
-    public void rebind(Name name, Object obj, Attributes attrs)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).rebind(name, obj, attrs);
+    publid void rfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).rfbind(nbmf, obj, bttrs);
     }
 
-    public DirContext createSubcontext(String name, Attributes attrs)
-            throws NamingException  {
-        return getURLOrDefaultInitDirCtx(name).createSubcontext(name, attrs);
+    publid DirContfxt drfbtfSubdontfxt(String nbmf, Attributfs bttrs)
+            tirows NbmingExdfption  {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).drfbtfSubdontfxt(nbmf, bttrs);
     }
 
-    public DirContext createSubcontext(Name name, Attributes attrs)
-            throws NamingException  {
-        return getURLOrDefaultInitDirCtx(name).createSubcontext(name, attrs);
+    publid DirContfxt drfbtfSubdontfxt(Nbmf nbmf, Attributfs bttrs)
+            tirows NbmingExdfption  {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).drfbtfSubdontfxt(nbmf, bttrs);
     }
 
-    public DirContext getSchema(String name) throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getSchema(name);
+    publid DirContfxt gftSdifmb(String nbmf) tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftSdifmb(nbmf);
     }
 
-    public DirContext getSchema(Name name) throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getSchema(name);
+    publid DirContfxt gftSdifmb(Nbmf nbmf) tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftSdifmb(nbmf);
     }
 
-    public DirContext getSchemaClassDefinition(String name)
-            throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getSchemaClassDefinition(name);
+    publid DirContfxt gftSdifmbClbssDffinition(String nbmf)
+            tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftSdifmbClbssDffinition(nbmf);
     }
 
-    public DirContext getSchemaClassDefinition(Name name)
-            throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getSchemaClassDefinition(name);
+    publid DirContfxt gftSdifmbClbssDffinition(Nbmf nbmf)
+            tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftSdifmbClbssDffinition(nbmf);
     }
 
-// -------------------- search operations
+// -------------------- sfbrdi opfrbtions
 
-    public NamingEnumeration<SearchResult>
-        search(String name, Attributes matchingAttributes)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(String nbmf, Attributfs mbtdiingAttributfs)
+        tirows NbmingExdfption
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, matchingAttributes);
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdi(nbmf, mbtdiingAttributfs);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name, Attributes matchingAttributes)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(Nbmf nbmf, Attributfs mbtdiingAttributfs)
+        tirows NbmingExdfption
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, matchingAttributes);
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdi(nbmf, mbtdiingAttributfs);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
-               Attributes matchingAttributes,
-               String[] attributesToReturn)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(String nbmf,
+               Attributfs mbtdiingAttributfs,
+               String[] bttributfsToRfturn)
+        tirows NbmingExdfption
     {
-        return getURLOrDefaultInitDirCtx(name).search(name,
-                                                      matchingAttributes,
-                                                      attributesToReturn);
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdi(nbmf,
+                                                      mbtdiingAttributfs,
+                                                      bttributfsToRfturn);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
-               Attributes matchingAttributes,
-               String[] attributesToReturn)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(Nbmf nbmf,
+               Attributfs mbtdiingAttributfs,
+               String[] bttributfsToRfturn)
+        tirows NbmingExdfption
     {
-        return getURLOrDefaultInitDirCtx(name).search(name,
-                                            matchingAttributes,
-                                            attributesToReturn);
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdi(nbmf,
+                                            mbtdiingAttributfs,
+                                            bttributfsToRfturn);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
-               String filter,
-               SearchControls cons)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(String nbmf,
+               String filtfr,
+               SfbrdiControls dons)
+        tirows NbmingExdfption
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, filter, cons);
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdi(nbmf, filtfr, dons);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
-               String filter,
-               SearchControls cons)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(Nbmf nbmf,
+               String filtfr,
+               SfbrdiControls dons)
+        tirows NbmingExdfption
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, filter, cons);
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdi(nbmf, filtfr, dons);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
-               String filterExpr,
-               Object[] filterArgs,
-               SearchControls cons)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(String nbmf,
+               String filtfrExpr,
+               Objfdt[] filtfrArgs,
+               SfbrdiControls dons)
+        tirows NbmingExdfption
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, filterExpr,
-                                                      filterArgs, cons);
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdi(nbmf, filtfrExpr,
+                                                      filtfrArgs, dons);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
-               String filterExpr,
-               Object[] filterArgs,
-               SearchControls cons)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(Nbmf nbmf,
+               String filtfrExpr,
+               Objfdt[] filtfrArgs,
+               SfbrdiControls dons)
+        tirows NbmingExdfption
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, filterExpr,
-                                                      filterArgs, cons);
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdi(nbmf, filtfrExpr,
+                                                      filtfrArgs, dons);
     }
 }

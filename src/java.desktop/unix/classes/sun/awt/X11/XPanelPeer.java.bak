@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
 
-import sun.awt.SunGraphicsCallback;
+import sun.bwt.SunGrbpiidsCbllbbdk;
 
-public class XPanelPeer extends XCanvasPeer implements PanelPeer {
+publid dlbss XPbnflPffr fxtfnds XCbnvbsPffr implfmfnts PbnflPffr {
 
-    XEmbeddingContainer embedder = null; //new XEmbeddingContainer();
+    XEmbfddingContbinfr fmbfddfr = null; //nfw XEmbfddingContbinfr();
     /**
-     * Embeds the given window into container using XEmbed protocol
+     * Embfds tif givfn window into dontbinfr using XEmbfd protodol
      */
-    public void xembed(long window) {
-        if (embedder != null) {
-            embedder.add(window);
+    publid void xfmbfd(long window) {
+        if (fmbfddfr != null) {
+            fmbfddfr.bdd(window);
         }
     }
-    XPanelPeer() {}
+    XPbnflPffr() {}
 
-    XPanelPeer(XCreateWindowParams params) {
-        super(params);
+    XPbnflPffr(XCrfbtfWindowPbrbms pbrbms) {
+        supfr(pbrbms);
     }
 
-    XPanelPeer(Component target) {
-        super(target);
+    XPbnflPffr(Componfnt tbrgft) {
+        supfr(tbrgft);
     }
 
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
-        if (embedder != null) {
-            embedder.install(this);
+    void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
+        if (fmbfddfr != null) {
+            fmbfddfr.instbll(tiis);
         }
     }
 
-    public Insets getInsets() {
-        return new Insets(0, 0, 0, 0);
+    publid Insfts gftInsfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
     }
-    public void paint(Graphics g) {
-        super.paint(g);
-        SunGraphicsCallback.PaintHeavyweightComponentsCallback.getInstance().
-            runComponents(((Container)target).getComponents(), g,
-                          SunGraphicsCallback.LIGHTWEIGHTS |
-                          SunGraphicsCallback.HEAVYWEIGHTS);
+    publid void pbint(Grbpiids g) {
+        supfr.pbint(g);
+        SunGrbpiidsCbllbbdk.PbintHfbvywfigitComponfntsCbllbbdk.gftInstbndf().
+            runComponfnts(((Contbinfr)tbrgft).gftComponfnts(), g,
+                          SunGrbpiidsCbllbbdk.LIGHTWEIGHTS |
+                          SunGrbpiidsCbllbbdk.HEAVYWEIGHTS);
     }
-    public void print(Graphics g) {
-        super.print(g);
-        SunGraphicsCallback.PrintHeavyweightComponentsCallback.getInstance().
-            runComponents(((Container)target).getComponents(), g,
-                          SunGraphicsCallback.LIGHTWEIGHTS |
-                          SunGraphicsCallback.HEAVYWEIGHTS);
+    publid void print(Grbpiids g) {
+        supfr.print(g);
+        SunGrbpiidsCbllbbdk.PrintHfbvywfigitComponfntsCbllbbdk.gftInstbndf().
+            runComponfnts(((Contbinfr)tbrgft).gftComponfnts(), g,
+                          SunGrbpiidsCbllbbdk.LIGHTWEIGHTS |
+                          SunGrbpiidsCbllbbdk.HEAVYWEIGHTS);
 
     }
 
-    public void setBackground(Color c) {
-        Component comp;
+    publid void sftBbdkground(Color d) {
+        Componfnt domp;
         int i;
 
-        Container cont = (Container) target;
-        synchronized(target.getTreeLock()) {
-            int n = cont.getComponentCount();
+        Contbinfr dont = (Contbinfr) tbrgft;
+        syndironizfd(tbrgft.gftTrffLodk()) {
+            int n = dont.gftComponfntCount();
             for(i=0; i < n; i++) {
-                comp = cont.getComponent(i);
-                ComponentPeer peer = comp.getPeer();
-                if (peer != null) {
-                    Color color = comp.getBackground();
-                    if (color == null || color.equals(c)) {
-                        peer.setBackground(c);
+                domp = dont.gftComponfnt(i);
+                ComponfntPffr pffr = domp.gftPffr();
+                if (pffr != null) {
+                    Color dolor = domp.gftBbdkground();
+                    if (dolor == null || dolor.fqubls(d)) {
+                        pffr.sftBbdkground(d);
                     }
                 }
             }
         }
-        super.setBackground(c);
+        supfr.sftBbdkground(d);
     }
 
-    public void setForeground(Color c) {
-        setForegroundForHierarchy((Container) target, c);
+    publid void sftForfground(Color d) {
+        sftForfgroundForHifrbrdiy((Contbinfr) tbrgft, d);
     }
 
-    private void setForegroundForHierarchy(Container cont, Color c) {
-        synchronized(target.getTreeLock()) {
-            int n = cont.getComponentCount();
+    privbtf void sftForfgroundForHifrbrdiy(Contbinfr dont, Color d) {
+        syndironizfd(tbrgft.gftTrffLodk()) {
+            int n = dont.gftComponfntCount();
             for(int i=0; i < n; i++) {
-                Component comp = cont.getComponent(i);
-                Color color = comp.getForeground();
-                if (color == null || color.equals(c)) {
-                    ComponentPeer cpeer = comp.getPeer();
-                    if (cpeer != null) {
-                        cpeer.setForeground(c);
+                Componfnt domp = dont.gftComponfnt(i);
+                Color dolor = domp.gftForfground();
+                if (dolor == null || dolor.fqubls(d)) {
+                    ComponfntPffr dpffr = domp.gftPffr();
+                    if (dpffr != null) {
+                        dpffr.sftForfground(d);
                     }
-                    if (cpeer instanceof LightweightPeer
-                        && comp instanceof Container)
+                    if (dpffr instbndfof LigitwfigitPffr
+                        && domp instbndfof Contbinfr)
                     {
-                        setForegroundForHierarchy((Container) comp, c);
+                        sftForfgroundForHifrbrdiy((Contbinfr) domp, d);
                     }
                 }
             }
@@ -123,22 +123,22 @@ public class XPanelPeer extends XCanvasPeer implements PanelPeer {
     }
 
     /**
-     * DEPRECATED:  Replaced by getInsets().
+     * DEPRECATED:  Rfplbdfd by gftInsfts().
      */
-    public Insets insets() {
-        return getInsets();
+    publid Insfts insfts() {
+        rfturn gftInsfts();
     }
 
-    public void dispose() {
-        if (embedder != null) {
-            embedder.deinstall();
+    publid void disposf() {
+        if (fmbfddfr != null) {
+            fmbfddfr.dfinstbll();
         }
-        super.dispose();
+        supfr.disposf();
     }
 
-    protected boolean shouldFocusOnClick() {
-        // Return false if this container has children so in that case it won't
-        // be focused. Return true otherwise.
-        return ((Container)target).getComponentCount() == 0;
+    protfdtfd boolfbn siouldFodusOnClidk() {
+        // Rfturn fblsf if tiis dontbinfr ibs diildrfn so in tibt dbsf it won't
+        // bf fodusfd. Rfturn truf otifrwisf.
+        rfturn ((Contbinfr)tbrgft).gftComponfntCount() == 0;
     }
 }

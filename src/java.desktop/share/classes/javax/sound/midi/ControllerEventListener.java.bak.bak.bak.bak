@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+import jbvb.util.EvfntListfnfr;
+
+
+/**
+ * Thf <dodf>ControllfrEvfntListfnfr</dodf> intfrfbdf should bf implfmfntfd
+ * by dlbssfs whosf instbndfs nffd to bf notififd whfn b <dodf>Sfqufndfr</dodf>
+ * hbs prodfssfd b rfqufstfd typf of MIDI dontrol-dhbngf fvfnt.
+ * To rfgistfr b <dodf>ControllfrEvfntListfnfr</dodf> objfdt to rfdfivf sudh
+ * notifidbtions, invokf thf
+ * {@link Sfqufndfr#bddControllfrEvfntListfnfr(ControllfrEvfntListfnfr, int[])
+ * bddControllfrEvfntListfnfr} mfthod of <dodf>Sfqufndfr</dodf>,
+ * spfdifying thf typfs of MIDI dontrollfrs bbout whidh you brf intfrfstfd in
+ * gftting dontrol-dhbngf notifidbtions.
+ *
+ * @sff MidiChbnnfl#dontrolChbngf(int, int)
+ *
+ * @buthor Kbrb Kytlf
+ */
+publid intfrfbdf ControllfrEvfntListfnfr fxtfnds EvfntListfnfr {
+
+    /**
+     * Invokfd whfn b <dodf>Sfqufndfr</dodf> hbs fndountfrfd bnd prodfssfd
+     * b dontrol-dhbngf fvfnt of intfrfst to this listfnfr.  Thf fvfnt pbssfd
+     * in is b <dodf>ShortMfssbgf</dodf> whosf first dbtb bytf indidbtfs
+     * thf dontrollfr numbfr bnd whosf sfdond dbtb bytf is thf vbluf to whidh
+     * thf dontrollfr wbs sft.
+     *
+     * @pbrbm fvfnt thf dontrol-dhbngf fvfnt thbt thf sfqufndfr fndountfrfd in
+     * thf sfqufndf it is prodfssing
+     *
+     * @sff Sfqufndfr#bddControllfrEvfntListfnfr(ControllfrEvfntListfnfr, int[])
+     * @sff MidiChbnnfl#dontrolChbngf(int, int)
+     * @sff ShortMfssbgf#gftDbtb1
+     * @sff ShortMfssbgf#gftDbtb2
+     */
+    publid void dontrolChbngf(ShortMfssbgf fvfnt);
+}

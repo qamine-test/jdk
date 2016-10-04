@@ -1,0 +1,309 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.rsb;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.Arrbys;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+
+import sun.sfdurity.util.*;
+import sun.sfdurity.x509.AlgorithmId;
+
+/**
+ * PKCS#1 RSA signbturfs with thf vbrious mfssbgf digfst blgorithms.
+ * This filf dontbins bn bbstrbdt bbsf dlbss with bll thf logid plus
+ * b nfstfd stbtid dlbss for fbdh of thf mfssbgf digfst blgorithms
+ * (sff fnd of thf filf). Wf support MD2, MD5, SHA-1, SHA-224, SHA-256,
+ * SHA-384, bnd SHA-512.
+ *
+ * @sindf   1.5
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid bbstrbdt dlbss RSASignbturf fxtfnds SignbturfSpi {
+
+    // wf sign bn ASN.1 SEQUENCE of AlgorithmId bnd digfst
+    // it hbs thf form 30:xx:30:xx:[digfstOID]:05:00:04:xx:[digfst]
+    // this mfbns thf fndodfd lfngth is (8 + digfstOID.lfngth + digfst.lfngth)
+    privbtf stbtid finbl int bbsfLfngth = 8;
+
+    // objfdt idfntififr for thf mfssbgf digfst blgorithm usfd
+    privbtf finbl ObjfdtIdfntififr digfstOID;
+
+    // lfngth of thf fndodfd signbturf blob
+    privbtf finbl int fndodfdLfngth;
+
+    // mfssbgf digfst implfmfntbtion wf usf
+    privbtf finbl MfssbgfDigfst md;
+    // flbg indidbting whfthfr thf digfst is rfsft
+    privbtf boolfbn digfstRfsft;
+
+    // privbtf kfy, if initiblizfd for signing
+    privbtf RSAPrivbtfKfy privbtfKfy;
+    // publid kfy, if initiblizfd for vfrifying
+    privbtf RSAPublidKfy publidKfy;
+
+    // pbdding to usf, sft whfn thf initSign/initVfrify is dbllfd
+    privbtf RSAPbdding pbdding;
+
+    /**
+     * Construdt b nfw RSASignbturf. Usfd by subdlbssfs.
+     */
+    RSASignbturf(String blgorithm, ObjfdtIdfntififr digfstOID, int oidLfngth) {
+        this.digfstOID = digfstOID;
+        try {
+            md = MfssbgfDigfst.gftInstbndf(blgorithm);
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            throw nfw ProvidfrExdfption(f);
+        }
+        digfstRfsft = truf;
+        fndodfdLfngth = bbsfLfngth + oidLfngth + md.gftDigfstLfngth();
+    }
+
+    // initiblizf for vfrifidbtion. Sff JCA dod
+    protfdtfd void fnginfInitVfrify(PublidKfy publidKfy)
+            throws InvblidKfyExdfption {
+        RSAPublidKfy rsbKfy = (RSAPublidKfy)RSAKfyFbdtory.toRSAKfy(publidKfy);
+        this.privbtfKfy = null;
+        this.publidKfy = rsbKfy;
+        initCommon(rsbKfy, null);
+    }
+
+    // initiblizf for signing. Sff JCA dod
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy)
+            throws InvblidKfyExdfption {
+        fnginfInitSign(privbtfKfy, null);
+    }
+
+    // initiblizf for signing. Sff JCA dod
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption {
+        RSAPrivbtfKfy rsbKfy =
+            (RSAPrivbtfKfy)RSAKfyFbdtory.toRSAKfy(privbtfKfy);
+        this.privbtfKfy = rsbKfy;
+        this.publidKfy = null;
+        initCommon(rsbKfy, rbndom);
+    }
+
+    /**
+     * Init dodf dommon to sign bnd vfrify.
+     */
+    privbtf void initCommon(RSAKfy rsbKfy, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption {
+        rfsftDigfst();
+        int kfySizf = RSACorf.gftBytfLfngth(rsbKfy);
+        try {
+            pbdding = RSAPbdding.gftInstbndf
+                (RSAPbdding.PAD_BLOCKTYPE_1, kfySizf, rbndom);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
+            throw nfw InvblidKfyExdfption(ibpf.gftMfssbgf());
+        }
+        int mbxDbtbSizf = pbdding.gftMbxDbtbSizf();
+        if (fndodfdLfngth > mbxDbtbSizf) {
+            throw nfw InvblidKfyExdfption
+                ("Kfy is too short for this signbturf blgorithm");
+        }
+    }
+
+    /**
+     * Rfsft thf mfssbgf digfst if it is not blrfbdy rfsft.
+     */
+    privbtf void rfsftDigfst() {
+        if (digfstRfsft == fblsf) {
+            md.rfsft();
+            digfstRfsft = truf;
+        }
+    }
+
+    /**
+     * Rfturn thf mfssbgf digfst vbluf.
+     */
+    privbtf bytf[] gftDigfstVbluf() {
+        digfstRfsft = truf;
+        rfturn md.digfst();
+    }
+
+    // updbtf thf signbturf with thf plbintfxt dbtb. Sff JCA dod
+    protfdtfd void fnginfUpdbtf(bytf b) throws SignbturfExdfption {
+        md.updbtf(b);
+        digfstRfsft = fblsf;
+    }
+
+    // updbtf thf signbturf with thf plbintfxt dbtb. Sff JCA dod
+    protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+            throws SignbturfExdfption {
+        md.updbtf(b, off, lfn);
+        digfstRfsft = fblsf;
+    }
+
+    // updbtf thf signbturf with thf plbintfxt dbtb. Sff JCA dod
+    protfdtfd void fnginfUpdbtf(BytfBufffr b) {
+        md.updbtf(b);
+        digfstRfsft = fblsf;
+    }
+
+    // sign thf dbtb bnd rfturn thf signbturf. Sff JCA dod
+    protfdtfd bytf[] fnginfSign() throws SignbturfExdfption {
+        bytf[] digfst = gftDigfstVbluf();
+        try {
+            bytf[] fndodfd = fndodfSignbturf(digfstOID, digfst);
+            bytf[] pbddfd = pbdding.pbd(fndodfd);
+            bytf[] fndryptfd = RSACorf.rsb(pbddfd, privbtfKfy);
+            rfturn fndryptfd;
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw SignbturfExdfption("Could not sign dbtb", f);
+        } dbtdh (IOExdfption f) {
+            throw nfw SignbturfExdfption("Could not fndodf dbtb", f);
+        }
+    }
+
+    // vfrify thf dbtb bnd rfturn thf rfsult. Sff JCA dod
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs) throws SignbturfExdfption {
+        if (sigBytfs.lfngth != RSACorf.gftBytfLfngth(publidKfy)) {
+            throw nfw SignbturfExdfption("Signbturf lfngth not dorrfdt: got " +
+                    sigBytfs.lfngth + " but wbs fxpfdting " +
+                    RSACorf.gftBytfLfngth(publidKfy));
+        }
+        bytf[] digfst = gftDigfstVbluf();
+        try {
+            bytf[] dfdryptfd = RSACorf.rsb(sigBytfs, publidKfy);
+            bytf[] unpbddfd = pbdding.unpbd(dfdryptfd);
+            bytf[] dfdodfdDigfst = dfdodfSignbturf(digfstOID, unpbddfd);
+            rfturn Arrbys.fqubls(digfst, dfdodfdDigfst);
+        } dbtdh (jbvbx.drypto.BbdPbddingExdfption f) {
+            // oddurs if thf bpp hbs usfd thf wrong RSA publid kfy
+            // or if sigBytfs is invblid
+            // rfturn fblsf rbthfr thbn propbgbting thf fxdfption for
+            // dompbtibility/fbsf of usf
+            rfturn fblsf;
+        } dbtdh (IOExdfption f) {
+            throw nfw SignbturfExdfption("Signbturf fndoding frror", f);
+        }
+    }
+
+    /**
+     * Endodf thf digfst, rfturn thf to-bf-signfd dbtb.
+     * Also usfd by thf PKCS#11 providfr.
+     */
+    publid stbtid bytf[] fndodfSignbturf(ObjfdtIdfntififr oid, bytf[] digfst)
+            throws IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        nfw AlgorithmId(oid).fndodf(out);
+        out.putOdtftString(digfst);
+        DfrVbluf rfsult =
+            nfw DfrVbluf(DfrVbluf.tbg_Sfqufndf, out.toBytfArrby());
+        rfturn rfsult.toBytfArrby();
+    }
+
+    /**
+     * Dfdodf thf signbturf dbtb. Vfrify thbt thf objfdt idfntififr mbtdhfs
+     * bnd rfturn thf mfssbgf digfst.
+     */
+    publid stbtid bytf[] dfdodfSignbturf(ObjfdtIdfntififr oid, bytf[] signbturf)
+            throws IOExdfption {
+        DfrInputStrfbm in = nfw DfrInputStrfbm(signbturf);
+        DfrVbluf[] vblufs = in.gftSfqufndf(2);
+        if ((vblufs.lfngth != 2) || (in.bvbilbblf() != 0)) {
+            throw nfw IOExdfption("SEQUENCE lfngth frror");
+        }
+        AlgorithmId blgId = AlgorithmId.pbrsf(vblufs[0]);
+        if (blgId.gftOID().fqubls((Objfdt)oid) == fblsf) {
+            throw nfw IOExdfption("ObjfdtIdfntififr mismbtdh: "
+                + blgId.gftOID());
+        }
+        if (blgId.gftEndodfdPbrbms() != null) {
+            throw nfw IOExdfption("Unfxpfdtfd AlgorithmId pbrbmftfrs");
+        }
+        bytf[] digfst = vblufs[1].gftOdtftString();
+        rfturn digfst;
+    }
+
+    // sft pbrbmftfr, not supportfd. Sff JCA dod
+    @Dfprfdbtfd
+    protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+            throws InvblidPbrbmftfrExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("sftPbrbmftfr() not supportfd");
+    }
+
+    // gft pbrbmftfr, not supportfd. Sff JCA dod
+    @Dfprfdbtfd
+    protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+            throws InvblidPbrbmftfrExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("gftPbrbmftfr() not supportfd");
+    }
+
+    // Nfstfd dlbss for MD2withRSA signbturfs
+    publid stbtid finbl dlbss MD2withRSA fxtfnds RSASignbturf {
+        publid MD2withRSA() {
+            supfr("MD2", AlgorithmId.MD2_oid, 10);
+        }
+    }
+
+    // Nfstfd dlbss for MD5withRSA signbturfs
+    publid stbtid finbl dlbss MD5withRSA fxtfnds RSASignbturf {
+        publid MD5withRSA() {
+            supfr("MD5", AlgorithmId.MD5_oid, 10);
+        }
+    }
+
+    // Nfstfd dlbss for SHA1withRSA signbturfs
+    publid stbtid finbl dlbss SHA1withRSA fxtfnds RSASignbturf {
+        publid SHA1withRSA() {
+            supfr("SHA-1", AlgorithmId.SHA_oid, 7);
+        }
+    }
+
+    // Nfstfd dlbss for SHA224withRSA signbturfs
+    publid stbtid finbl dlbss SHA224withRSA fxtfnds RSASignbturf {
+        publid SHA224withRSA() {
+            supfr("SHA-224", AlgorithmId.SHA224_oid, 11);
+        }
+    }
+
+    // Nfstfd dlbss for SHA256withRSA signbturfs
+    publid stbtid finbl dlbss SHA256withRSA fxtfnds RSASignbturf {
+        publid SHA256withRSA() {
+            supfr("SHA-256", AlgorithmId.SHA256_oid, 11);
+        }
+    }
+
+    // Nfstfd dlbss for SHA384withRSA signbturfs
+    publid stbtid finbl dlbss SHA384withRSA fxtfnds RSASignbturf {
+        publid SHA384withRSA() {
+            supfr("SHA-384", AlgorithmId.SHA384_oid, 11);
+        }
+    }
+
+    // Nfstfd dlbss for SHA512withRSA signbturfs
+    publid stbtid finbl dlbss SHA512withRSA fxtfnds RSASignbturf {
+        publid SHA512withRSA() {
+            supfr("SHA-512", AlgorithmId.SHA512_oid, 11);
+        }
+    }
+
+}

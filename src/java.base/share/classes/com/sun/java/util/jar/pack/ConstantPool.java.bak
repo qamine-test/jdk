@@ -1,1658 +1,1658 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.util.jar.pack;
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
-import static com.sun.java.util.jar.pack.Constants.*;
+import jbvb.util.AbstrbdtList;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.List;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import stbtid dom.sun.jbvb.util.jbr.pbdk.Constbnts.*;
 
 /**
- * Representation of constant pool entries and indexes.
- * @author John Rose
+ * Rfprfsfntbtion of donstbnt pool fntrifs bnd indfxfs.
+ * @butior Join Rosf
  */
-abstract
-class ConstantPool {
-    private ConstantPool() {}  // do not instantiate
+bbstrbdt
+dlbss ConstbntPool {
+    privbtf ConstbntPool() {}  // do not instbntibtf
 
-    static int verbose() {
-        return Utils.currentPropMap().getInteger(Utils.DEBUG_VERBOSE);
+    stbtid int vfrbosf() {
+        rfturn Utils.durrfntPropMbp().gftIntfgfr(Utils.DEBUG_VERBOSE);
     }
 
-    /** Factory for Utf8 string constants.
-     *  Used for well-known strings like "SourceFile", "<init>", etc.
-     *  Also used to back up more complex constant pool entries, like Class.
+    /** Fbdtory for Utf8 string donstbnts.
+     *  Usfd for wfll-known strings likf "SourdfFilf", "<init>", ftd.
+     *  Also usfd to bbdk up morf domplfx donstbnt pool fntrifs, likf Clbss.
      */
-    public static synchronized Utf8Entry getUtf8Entry(String value) {
-        Map<String, Utf8Entry> utf8Entries  = Utils.getTLGlobals().getUtf8Entries();
-        Utf8Entry e = utf8Entries.get(value);
-        if (e == null) {
-            e = new Utf8Entry(value);
-            utf8Entries.put(e.stringValue(), e);
+    publid stbtid syndironizfd Utf8Entry gftUtf8Entry(String vbluf) {
+        Mbp<String, Utf8Entry> utf8Entrifs  = Utils.gftTLGlobbls().gftUtf8Entrifs();
+        Utf8Entry f = utf8Entrifs.gft(vbluf);
+        if (f == null) {
+            f = nfw Utf8Entry(vbluf);
+            utf8Entrifs.put(f.stringVbluf(), f);
         }
-        return e;
+        rfturn f;
     }
-    /** Factory for Class constants. */
-    public static ClassEntry getClassEntry(String name) {
-        Map<String, ClassEntry> classEntries = Utils.getTLGlobals().getClassEntries();
-        ClassEntry e = classEntries.get(name);
-        if (e == null) {
-            e = new ClassEntry(getUtf8Entry(name));
-            assert(name.equals(e.stringValue()));
-            classEntries.put(e.stringValue(), e);
+    /** Fbdtory for Clbss donstbnts. */
+    publid stbtid ClbssEntry gftClbssEntry(String nbmf) {
+        Mbp<String, ClbssEntry> dlbssEntrifs = Utils.gftTLGlobbls().gftClbssEntrifs();
+        ClbssEntry f = dlbssEntrifs.gft(nbmf);
+        if (f == null) {
+            f = nfw ClbssEntry(gftUtf8Entry(nbmf));
+            bssfrt(nbmf.fqubls(f.stringVbluf()));
+            dlbssEntrifs.put(f.stringVbluf(), f);
         }
-        return e;
+        rfturn f;
     }
-    /** Factory for literal constants (String, Integer, etc.). */
-    public static LiteralEntry getLiteralEntry(Comparable<?> value) {
-        Map<Object, LiteralEntry> literalEntries = Utils.getTLGlobals().getLiteralEntries();
-        LiteralEntry e = literalEntries.get(value);
-        if (e == null) {
-            if (value instanceof String)
-                e = new StringEntry(getUtf8Entry((String)value));
-            else
-                e = new NumberEntry((Number)value);
-            literalEntries.put(value, e);
+    /** Fbdtory for litfrbl donstbnts (String, Intfgfr, ftd.). */
+    publid stbtid LitfrblEntry gftLitfrblEntry(Compbrbblf<?> vbluf) {
+        Mbp<Objfdt, LitfrblEntry> litfrblEntrifs = Utils.gftTLGlobbls().gftLitfrblEntrifs();
+        LitfrblEntry f = litfrblEntrifs.gft(vbluf);
+        if (f == null) {
+            if (vbluf instbndfof String)
+                f = nfw StringEntry(gftUtf8Entry((String)vbluf));
+            flsf
+                f = nfw NumbfrEntry((Numbfr)vbluf);
+            litfrblEntrifs.put(vbluf, f);
         }
-        return e;
+        rfturn f;
     }
-    /** Factory for literal constants (String, Integer, etc.). */
-    public static StringEntry getStringEntry(String value) {
-        return (StringEntry) getLiteralEntry(value);
-    }
-
-    /** Factory for signature (type) constants. */
-    public static SignatureEntry getSignatureEntry(String type) {
-        Map<String, SignatureEntry> signatureEntries = Utils.getTLGlobals().getSignatureEntries();
-        SignatureEntry e = signatureEntries.get(type);
-        if (e == null) {
-            e = new SignatureEntry(type);
-            assert(e.stringValue().equals(type));
-            signatureEntries.put(type, e);
-        }
-        return e;
-    }
-    // Convenience overloading.
-    public static SignatureEntry getSignatureEntry(Utf8Entry formRef, ClassEntry[] classRefs) {
-        return getSignatureEntry(SignatureEntry.stringValueOf(formRef, classRefs));
+    /** Fbdtory for litfrbl donstbnts (String, Intfgfr, ftd.). */
+    publid stbtid StringEntry gftStringEntry(String vbluf) {
+        rfturn (StringEntry) gftLitfrblEntry(vbluf);
     }
 
-    /** Factory for descriptor (name-and-type) constants. */
-    public static DescriptorEntry getDescriptorEntry(Utf8Entry nameRef, SignatureEntry typeRef) {
-        Map<String, DescriptorEntry> descriptorEntries = Utils.getTLGlobals().getDescriptorEntries();
-        String key = DescriptorEntry.stringValueOf(nameRef, typeRef);
-        DescriptorEntry e = descriptorEntries.get(key);
-        if (e == null) {
-            e = new DescriptorEntry(nameRef, typeRef);
-            assert(e.stringValue().equals(key))
-                : (e.stringValue()+" != "+(key));
-            descriptorEntries.put(key, e);
+    /** Fbdtory for signbturf (typf) donstbnts. */
+    publid stbtid SignbturfEntry gftSignbturfEntry(String typf) {
+        Mbp<String, SignbturfEntry> signbturfEntrifs = Utils.gftTLGlobbls().gftSignbturfEntrifs();
+        SignbturfEntry f = signbturfEntrifs.gft(typf);
+        if (f == null) {
+            f = nfw SignbturfEntry(typf);
+            bssfrt(f.stringVbluf().fqubls(typf));
+            signbturfEntrifs.put(typf, f);
         }
-        return e;
+        rfturn f;
     }
-    // Convenience overloading.
-    public static DescriptorEntry getDescriptorEntry(Utf8Entry nameRef, Utf8Entry typeRef) {
-        return getDescriptorEntry(nameRef, getSignatureEntry(typeRef.stringValue()));
+    // Convfnifndf ovfrlobding.
+    publid stbtid SignbturfEntry gftSignbturfEntry(Utf8Entry formRff, ClbssEntry[] dlbssRffs) {
+        rfturn gftSignbturfEntry(SignbturfEntry.stringVblufOf(formRff, dlbssRffs));
     }
 
-    /** Factory for member reference constants. */
-    public static MemberEntry getMemberEntry(byte tag, ClassEntry classRef, DescriptorEntry descRef) {
-        Map<String, MemberEntry> memberEntries = Utils.getTLGlobals().getMemberEntries();
-        String key = MemberEntry.stringValueOf(tag, classRef, descRef);
-        MemberEntry e = memberEntries.get(key);
-        if (e == null) {
-            e = new MemberEntry(tag, classRef, descRef);
-            assert(e.stringValue().equals(key))
-                : (e.stringValue()+" != "+(key));
-            memberEntries.put(key, e);
+    /** Fbdtory for dfsdriptor (nbmf-bnd-typf) donstbnts. */
+    publid stbtid DfsdriptorEntry gftDfsdriptorEntry(Utf8Entry nbmfRff, SignbturfEntry typfRff) {
+        Mbp<String, DfsdriptorEntry> dfsdriptorEntrifs = Utils.gftTLGlobbls().gftDfsdriptorEntrifs();
+        String kfy = DfsdriptorEntry.stringVblufOf(nbmfRff, typfRff);
+        DfsdriptorEntry f = dfsdriptorEntrifs.gft(kfy);
+        if (f == null) {
+            f = nfw DfsdriptorEntry(nbmfRff, typfRff);
+            bssfrt(f.stringVbluf().fqubls(kfy))
+                : (f.stringVbluf()+" != "+(kfy));
+            dfsdriptorEntrifs.put(kfy, f);
         }
-        return e;
+        rfturn f;
+    }
+    // Convfnifndf ovfrlobding.
+    publid stbtid DfsdriptorEntry gftDfsdriptorEntry(Utf8Entry nbmfRff, Utf8Entry typfRff) {
+        rfturn gftDfsdriptorEntry(nbmfRff, gftSignbturfEntry(typfRff.stringVbluf()));
     }
 
-    /** Factory for MethodHandle constants. */
-    public static MethodHandleEntry getMethodHandleEntry(byte refKind, MemberEntry memRef) {
-        Map<String, MethodHandleEntry> methodHandleEntries = Utils.getTLGlobals().getMethodHandleEntries();
-        String key = MethodHandleEntry.stringValueOf(refKind, memRef);
-        MethodHandleEntry e = methodHandleEntries.get(key);
-        if (e == null) {
-            e = new MethodHandleEntry(refKind, memRef);
-            assert(e.stringValue().equals(key));
-            methodHandleEntries.put(key, e);
+    /** Fbdtory for mfmbfr rfffrfndf donstbnts. */
+    publid stbtid MfmbfrEntry gftMfmbfrEntry(bytf tbg, ClbssEntry dlbssRff, DfsdriptorEntry dfsdRff) {
+        Mbp<String, MfmbfrEntry> mfmbfrEntrifs = Utils.gftTLGlobbls().gftMfmbfrEntrifs();
+        String kfy = MfmbfrEntry.stringVblufOf(tbg, dlbssRff, dfsdRff);
+        MfmbfrEntry f = mfmbfrEntrifs.gft(kfy);
+        if (f == null) {
+            f = nfw MfmbfrEntry(tbg, dlbssRff, dfsdRff);
+            bssfrt(f.stringVbluf().fqubls(kfy))
+                : (f.stringVbluf()+" != "+(kfy));
+            mfmbfrEntrifs.put(kfy, f);
         }
-        return e;
+        rfturn f;
     }
 
-    /** Factory for MethodType constants. */
-    public static MethodTypeEntry getMethodTypeEntry(SignatureEntry sigRef) {
-        Map<String, MethodTypeEntry> methodTypeEntries = Utils.getTLGlobals().getMethodTypeEntries();
-        String key = sigRef.stringValue();
-        MethodTypeEntry e = methodTypeEntries.get(key);
-        if (e == null) {
-            e = new MethodTypeEntry(sigRef);
-            assert(e.stringValue().equals(key));
-            methodTypeEntries.put(key, e);
+    /** Fbdtory for MftiodHbndlf donstbnts. */
+    publid stbtid MftiodHbndlfEntry gftMftiodHbndlfEntry(bytf rffKind, MfmbfrEntry mfmRff) {
+        Mbp<String, MftiodHbndlfEntry> mftiodHbndlfEntrifs = Utils.gftTLGlobbls().gftMftiodHbndlfEntrifs();
+        String kfy = MftiodHbndlfEntry.stringVblufOf(rffKind, mfmRff);
+        MftiodHbndlfEntry f = mftiodHbndlfEntrifs.gft(kfy);
+        if (f == null) {
+            f = nfw MftiodHbndlfEntry(rffKind, mfmRff);
+            bssfrt(f.stringVbluf().fqubls(kfy));
+            mftiodHbndlfEntrifs.put(kfy, f);
         }
-        return e;
-    }
-    public static MethodTypeEntry getMethodTypeEntry(Utf8Entry typeRef) {
-        return getMethodTypeEntry(getSignatureEntry(typeRef.stringValue()));
+        rfturn f;
     }
 
-    /** Factory for InvokeDynamic constants. */
-    public static InvokeDynamicEntry getInvokeDynamicEntry(BootstrapMethodEntry bssRef, DescriptorEntry descRef) {
-        Map<String, InvokeDynamicEntry> invokeDynamicEntries = Utils.getTLGlobals().getInvokeDynamicEntries();
-        String key = InvokeDynamicEntry.stringValueOf(bssRef, descRef);
-        InvokeDynamicEntry e = invokeDynamicEntries.get(key);
-        if (e == null) {
-            e = new InvokeDynamicEntry(bssRef, descRef);
-            assert(e.stringValue().equals(key));
-            invokeDynamicEntries.put(key, e);
+    /** Fbdtory for MftiodTypf donstbnts. */
+    publid stbtid MftiodTypfEntry gftMftiodTypfEntry(SignbturfEntry sigRff) {
+        Mbp<String, MftiodTypfEntry> mftiodTypfEntrifs = Utils.gftTLGlobbls().gftMftiodTypfEntrifs();
+        String kfy = sigRff.stringVbluf();
+        MftiodTypfEntry f = mftiodTypfEntrifs.gft(kfy);
+        if (f == null) {
+            f = nfw MftiodTypfEntry(sigRff);
+            bssfrt(f.stringVbluf().fqubls(kfy));
+            mftiodTypfEntrifs.put(kfy, f);
         }
-        return e;
+        rfturn f;
+    }
+    publid stbtid MftiodTypfEntry gftMftiodTypfEntry(Utf8Entry typfRff) {
+        rfturn gftMftiodTypfEntry(gftSignbturfEntry(typfRff.stringVbluf()));
     }
 
-    /** Factory for BootstrapMethod pseudo-constants. */
-    public static BootstrapMethodEntry getBootstrapMethodEntry(MethodHandleEntry bsmRef, Entry[] argRefs) {
-        Map<String, BootstrapMethodEntry> bootstrapMethodEntries = Utils.getTLGlobals().getBootstrapMethodEntries();
-        String key = BootstrapMethodEntry.stringValueOf(bsmRef, argRefs);
-        BootstrapMethodEntry e = bootstrapMethodEntries.get(key);
-        if (e == null) {
-            e = new BootstrapMethodEntry(bsmRef, argRefs);
-            assert(e.stringValue().equals(key));
-            bootstrapMethodEntries.put(key, e);
+    /** Fbdtory for InvokfDynbmid donstbnts. */
+    publid stbtid InvokfDynbmidEntry gftInvokfDynbmidEntry(BootstrbpMftiodEntry bssRff, DfsdriptorEntry dfsdRff) {
+        Mbp<String, InvokfDynbmidEntry> invokfDynbmidEntrifs = Utils.gftTLGlobbls().gftInvokfDynbmidEntrifs();
+        String kfy = InvokfDynbmidEntry.stringVblufOf(bssRff, dfsdRff);
+        InvokfDynbmidEntry f = invokfDynbmidEntrifs.gft(kfy);
+        if (f == null) {
+            f = nfw InvokfDynbmidEntry(bssRff, dfsdRff);
+            bssfrt(f.stringVbluf().fqubls(kfy));
+            invokfDynbmidEntrifs.put(kfy, f);
         }
-        return e;
+        rfturn f;
+    }
+
+    /** Fbdtory for BootstrbpMftiod psfudo-donstbnts. */
+    publid stbtid BootstrbpMftiodEntry gftBootstrbpMftiodEntry(MftiodHbndlfEntry bsmRff, Entry[] brgRffs) {
+        Mbp<String, BootstrbpMftiodEntry> bootstrbpMftiodEntrifs = Utils.gftTLGlobbls().gftBootstrbpMftiodEntrifs();
+        String kfy = BootstrbpMftiodEntry.stringVblufOf(bsmRff, brgRffs);
+        BootstrbpMftiodEntry f = bootstrbpMftiodEntrifs.gft(kfy);
+        if (f == null) {
+            f = nfw BootstrbpMftiodEntry(bsmRff, brgRffs);
+            bssfrt(f.stringVbluf().fqubls(kfy));
+            bootstrbpMftiodEntrifs.put(kfy, f);
+        }
+        rfturn f;
     }
 
 
-    /** Entries in the constant pool. */
-    public static abstract
-    class Entry implements Comparable<Object> {
-        protected final byte tag;       // a CONSTANT_foo code
-        protected int valueHash;        // cached hashCode
+    /** Entrifs in tif donstbnt pool. */
+    publid stbtid bbstrbdt
+    dlbss Entry implfmfnts Compbrbblf<Objfdt> {
+        protfdtfd finbl bytf tbg;       // b CONSTANT_foo dodf
+        protfdtfd int vblufHbsi;        // dbdifd ibsiCodf
 
-        protected Entry(byte tag) {
-            this.tag = tag;
+        protfdtfd Entry(bytf tbg) {
+            tiis.tbg = tbg;
         }
 
-        public final byte getTag() {
-            return tag;
+        publid finbl bytf gftTbg() {
+            rfturn tbg;
         }
 
-        public final boolean tagEquals(int tag) {
-            return getTag() == tag;
+        publid finbl boolfbn tbgEqubls(int tbg) {
+            rfturn gftTbg() == tbg;
         }
 
-        public Entry getRef(int i) {
-            return null;
+        publid Entry gftRff(int i) {
+            rfturn null;
         }
 
-        public boolean eq(Entry that) {  // same reference
-            assert(that != null);
-            return this == that || this.equals(that);
+        publid boolfbn fq(Entry tibt) {  // sbmf rfffrfndf
+            bssfrt(tibt != null);
+            rfturn tiis == tibt || tiis.fqubls(tibt);
         }
 
-        // Equality of Entries is value-based.
-        public abstract boolean equals(Object o);
-        public final int hashCode() {
-            if (valueHash == 0) {
-                valueHash = computeValueHash();
-                if (valueHash == 0)  valueHash = 1;
+        // Equblity of Entrifs is vbluf-bbsfd.
+        publid bbstrbdt boolfbn fqubls(Objfdt o);
+        publid finbl int ibsiCodf() {
+            if (vblufHbsi == 0) {
+                vblufHbsi = domputfVblufHbsi();
+                if (vblufHbsi == 0)  vblufHbsi = 1;
             }
-            return valueHash;
+            rfturn vblufHbsi;
         }
-        protected abstract int computeValueHash();
+        protfdtfd bbstrbdt int domputfVblufHbsi();
 
-        public abstract int compareTo(Object o);
+        publid bbstrbdt int dompbrfTo(Objfdt o);
 
-        protected int superCompareTo(Object o) {
-            Entry that = (Entry) o;
+        protfdtfd int supfrCompbrfTo(Objfdt o) {
+            Entry tibt = (Entry) o;
 
-            if (this.tag != that.tag) {
-                return TAG_ORDER[this.tag] - TAG_ORDER[that.tag];
+            if (tiis.tbg != tibt.tbg) {
+                rfturn TAG_ORDER[tiis.tbg] - TAG_ORDER[tibt.tbg];
             }
 
-            return 0;  // subclasses must refine this
+            rfturn 0;  // subdlbssfs must rffinf tiis
         }
 
-        public final boolean isDoubleWord() {
-            return tag == CONSTANT_Double || tag == CONSTANT_Long;
+        publid finbl boolfbn isDoublfWord() {
+            rfturn tbg == CONSTANT_Doublf || tbg == CONSTANT_Long;
         }
 
-        public final boolean tagMatches(int matchTag) {
-            if (tag == matchTag)
-                return true;
-            byte[] allowedTags;
-            switch (matchTag) {
-                case CONSTANT_All:
-                    return true;
-                case CONSTANT_Signature:
-                    return tag == CONSTANT_Utf8;  // format check also?
-                case CONSTANT_LoadableValue:
-                    allowedTags = LOADABLE_VALUE_TAGS;
-                    break;
-                case CONSTANT_AnyMember:
-                    allowedTags = ANY_MEMBER_TAGS;
-                    break;
-                case CONSTANT_FieldSpecific:
-                    allowedTags = FIELD_SPECIFIC_TAGS;
-                    break;
-                default:
-                    return false;
+        publid finbl boolfbn tbgMbtdifs(int mbtdiTbg) {
+            if (tbg == mbtdiTbg)
+                rfturn truf;
+            bytf[] bllowfdTbgs;
+            switdi (mbtdiTbg) {
+                dbsf CONSTANT_All:
+                    rfturn truf;
+                dbsf CONSTANT_Signbturf:
+                    rfturn tbg == CONSTANT_Utf8;  // formbt difdk blso?
+                dbsf CONSTANT_LobdbblfVbluf:
+                    bllowfdTbgs = LOADABLE_VALUE_TAGS;
+                    brfbk;
+                dbsf CONSTANT_AnyMfmbfr:
+                    bllowfdTbgs = ANY_MEMBER_TAGS;
+                    brfbk;
+                dbsf CONSTANT_FifldSpfdifid:
+                    bllowfdTbgs = FIELD_SPECIFIC_TAGS;
+                    brfbk;
+                dffbult:
+                    rfturn fblsf;
             }
-            for (byte b : allowedTags) {
-                if (b == tag)
-                    return true;
+            for (bytf b : bllowfdTbgs) {
+                if (b == tbg)
+                    rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public String toString() {
-            String valuePrint = stringValue();
-            if (verbose() > 4) {
-                if (valueHash != 0)
-                    valuePrint += " hash="+valueHash;
-                valuePrint += " id="+System.identityHashCode(this);
+        publid String toString() {
+            String vblufPrint = stringVbluf();
+            if (vfrbosf() > 4) {
+                if (vblufHbsi != 0)
+                    vblufPrint += " ibsi="+vblufHbsi;
+                vblufPrint += " id="+Systfm.idfntityHbsiCodf(tiis);
             }
-            return tagName(tag)+"="+valuePrint;
+            rfturn tbgNbmf(tbg)+"="+vblufPrint;
         }
-        public abstract String stringValue();
+        publid bbstrbdt String stringVbluf();
     }
 
-    public static
-    class Utf8Entry extends Entry {
-        final String value;
+    publid stbtid
+    dlbss Utf8Entry fxtfnds Entry {
+        finbl String vbluf;
 
-        Utf8Entry(String value) {
-            super(CONSTANT_Utf8);
-            this.value = value.intern();
-            hashCode();  // force computation of valueHash
+        Utf8Entry(String vbluf) {
+            supfr(CONSTANT_Utf8);
+            tiis.vbluf = vbluf.intfrn();
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        protected int computeValueHash() {
-            return value.hashCode();
+        protfdtfd int domputfVblufHbsi() {
+            rfturn vbluf.ibsiCodf();
         }
-        public boolean equals(Object o) {
-            // Use reference equality of interned strings:
-            return (o != null && o.getClass() == Utf8Entry.class
-                    && ((Utf8Entry) o).value.equals(value));
+        publid boolfbn fqubls(Objfdt o) {
+            // Usf rfffrfndf fqublity of intfrnfd strings:
+            rfturn (o != null && o.gftClbss() == Utf8Entry.dlbss
+                    && ((Utf8Entry) o).vbluf.fqubls(vbluf));
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                x = value.compareTo(((Utf8Entry)o).value);
+                x = vbluf.dompbrfTo(((Utf8Entry)o).vbluf);
             }
-            return x;
+            rfturn x;
         }
-        public String stringValue() {
-            return value;
+        publid String stringVbluf() {
+            rfturn vbluf;
         }
     }
 
-    static boolean isMemberTag(byte tag) {
-        switch (tag) {
-        case CONSTANT_Fieldref:
-        case CONSTANT_Methodref:
-        case CONSTANT_InterfaceMethodref:
-            return true;
+    stbtid boolfbn isMfmbfrTbg(bytf tbg) {
+        switdi (tbg) {
+        dbsf CONSTANT_Fifldrff:
+        dbsf CONSTANT_Mftiodrff:
+        dbsf CONSTANT_IntfrfbdfMftiodrff:
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    static byte numberTagOf(Number value) {
-        if (value instanceof Integer)  return CONSTANT_Integer;
-        if (value instanceof Float)    return CONSTANT_Float;
-        if (value instanceof Long)     return CONSTANT_Long;
-        if (value instanceof Double)   return CONSTANT_Double;
-        throw new RuntimeException("bad literal value "+value);
+    stbtid bytf numbfrTbgOf(Numbfr vbluf) {
+        if (vbluf instbndfof Intfgfr)  rfturn CONSTANT_Intfgfr;
+        if (vbluf instbndfof Flobt)    rfturn CONSTANT_Flobt;
+        if (vbluf instbndfof Long)     rfturn CONSTANT_Long;
+        if (vbluf instbndfof Doublf)   rfturn CONSTANT_Doublf;
+        tirow nfw RuntimfExdfption("bbd litfrbl vbluf "+vbluf);
     }
 
-    static boolean isRefKind(byte refKind) {
-        return (REF_getField <= refKind && refKind <= REF_invokeInterface);
+    stbtid boolfbn isRffKind(bytf rffKind) {
+        rfturn (REF_gftFifld <= rffKind && rffKind <= REF_invokfIntfrfbdf);
     }
 
-    public static abstract
-    class LiteralEntry extends Entry {
-        protected LiteralEntry(byte tag) {
-            super(tag);
+    publid stbtid bbstrbdt
+    dlbss LitfrblEntry fxtfnds Entry {
+        protfdtfd LitfrblEntry(bytf tbg) {
+            supfr(tbg);
         }
 
-        public abstract Comparable<?> literalValue();
+        publid bbstrbdt Compbrbblf<?> litfrblVbluf();
     }
 
-    public static
-    class NumberEntry extends LiteralEntry {
-        final Number value;
-        NumberEntry(Number value) {
-            super(numberTagOf(value));
-            this.value = value;
-            hashCode();  // force computation of valueHash
+    publid stbtid
+    dlbss NumbfrEntry fxtfnds LitfrblEntry {
+        finbl Numbfr vbluf;
+        NumbfrEntry(Numbfr vbluf) {
+            supfr(numbfrTbgOf(vbluf));
+            tiis.vbluf = vbluf;
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        protected int computeValueHash() {
-            return value.hashCode();
+        protfdtfd int domputfVblufHbsi() {
+            rfturn vbluf.ibsiCodf();
         }
 
-        public boolean equals(Object o) {
-            return (o != null && o.getClass() == NumberEntry.class
-                    && ((NumberEntry) o).value.equals(value));
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn (o != null && o.gftClbss() == NumbfrEntry.dlbss
+                    && ((NumbfrEntry) o).vbluf.fqubls(vbluf));
 
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                @SuppressWarnings("unchecked")
-                Comparable<Number> compValue = (Comparable<Number>)value;
-                x = compValue.compareTo(((NumberEntry)o).value);
+                @SupprfssWbrnings("undifdkfd")
+                Compbrbblf<Numbfr> dompVbluf = (Compbrbblf<Numbfr>)vbluf;
+                x = dompVbluf.dompbrfTo(((NumbfrEntry)o).vbluf);
             }
-            return x;
+            rfturn x;
         }
-        public Number numberValue() {
-            return value;
+        publid Numbfr numbfrVbluf() {
+            rfturn vbluf;
         }
-        public Comparable<?> literalValue() {
-            return (Comparable<?>) value;
+        publid Compbrbblf<?> litfrblVbluf() {
+            rfturn (Compbrbblf<?>) vbluf;
         }
-        public String stringValue() {
-            return value.toString();
+        publid String stringVbluf() {
+            rfturn vbluf.toString();
         }
     }
 
-    public static
-    class StringEntry extends LiteralEntry {
-        final Utf8Entry ref;
-        public Entry getRef(int i) { return i == 0 ? ref : null; }
+    publid stbtid
+    dlbss StringEntry fxtfnds LitfrblEntry {
+        finbl Utf8Entry rff;
+        publid Entry gftRff(int i) { rfturn i == 0 ? rff : null; }
 
-        StringEntry(Entry ref) {
-            super(CONSTANT_String);
-            this.ref = (Utf8Entry) ref;
-            hashCode();  // force computation of valueHash
+        StringEntry(Entry rff) {
+            supfr(CONSTANT_String);
+            tiis.rff = (Utf8Entry) rff;
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        protected int computeValueHash() {
-            return ref.hashCode() + tag;
+        protfdtfd int domputfVblufHbsi() {
+            rfturn rff.ibsiCodf() + tbg;
         }
-        public boolean equals(Object o) {
-            return (o != null && o.getClass() == StringEntry.class &&
-                    ((StringEntry)o).ref.eq(ref));
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn (o != null && o.gftClbss() == StringEntry.dlbss &&
+                    ((StringEntry)o).rff.fq(rff));
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                x = ref.compareTo(((StringEntry)o).ref);
+                x = rff.dompbrfTo(((StringEntry)o).rff);
             }
-            return x;
+            rfturn x;
         }
-        public Comparable<?> literalValue() {
-            return ref.stringValue();
+        publid Compbrbblf<?> litfrblVbluf() {
+            rfturn rff.stringVbluf();
         }
-        public String stringValue() {
-            return ref.stringValue();
+        publid String stringVbluf() {
+            rfturn rff.stringVbluf();
         }
     }
 
-    public static
-    class ClassEntry extends Entry {
-        final Utf8Entry ref;
-        public Entry getRef(int i) { return i == 0 ? ref : null; }
+    publid stbtid
+    dlbss ClbssEntry fxtfnds Entry {
+        finbl Utf8Entry rff;
+        publid Entry gftRff(int i) { rfturn i == 0 ? rff : null; }
 
-        protected int computeValueHash() {
-            return ref.hashCode() + tag;
+        protfdtfd int domputfVblufHbsi() {
+            rfturn rff.ibsiCodf() + tbg;
         }
-        ClassEntry(Entry ref) {
-            super(CONSTANT_Class);
-            this.ref = (Utf8Entry) ref;
-            hashCode();  // force computation of valueHash
+        ClbssEntry(Entry rff) {
+            supfr(CONSTANT_Clbss);
+            tiis.rff = (Utf8Entry) rff;
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        public boolean equals(Object o) {
-            return (o != null && o.getClass() == ClassEntry.class
-                    && ((ClassEntry) o).ref.eq(ref));
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn (o != null && o.gftClbss() == ClbssEntry.dlbss
+                    && ((ClbssEntry) o).rff.fq(rff));
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                x = ref.compareTo(((ClassEntry)o).ref);
+                x = rff.dompbrfTo(((ClbssEntry)o).rff);
             }
-            return x;
+            rfturn x;
         }
-        public String stringValue() {
-            return ref.stringValue();
+        publid String stringVbluf() {
+            rfturn rff.stringVbluf();
         }
     }
 
-    public static
-    class DescriptorEntry extends Entry {
-        final Utf8Entry      nameRef;
-        final SignatureEntry typeRef;
-        public Entry getRef(int i) {
-            if (i == 0)  return nameRef;
-            if (i == 1)  return typeRef;
-            return null;
+    publid stbtid
+    dlbss DfsdriptorEntry fxtfnds Entry {
+        finbl Utf8Entry      nbmfRff;
+        finbl SignbturfEntry typfRff;
+        publid Entry gftRff(int i) {
+            if (i == 0)  rfturn nbmfRff;
+            if (i == 1)  rfturn typfRff;
+            rfturn null;
         }
-        DescriptorEntry(Entry nameRef, Entry typeRef) {
-            super(CONSTANT_NameandType);
-            if (typeRef instanceof Utf8Entry) {
-                typeRef = getSignatureEntry(typeRef.stringValue());
+        DfsdriptorEntry(Entry nbmfRff, Entry typfRff) {
+            supfr(CONSTANT_NbmfbndTypf);
+            if (typfRff instbndfof Utf8Entry) {
+                typfRff = gftSignbturfEntry(typfRff.stringVbluf());
             }
-            this.nameRef = (Utf8Entry) nameRef;
-            this.typeRef = (SignatureEntry) typeRef;
-            hashCode();  // force computation of valueHash
+            tiis.nbmfRff = (Utf8Entry) nbmfRff;
+            tiis.typfRff = (SignbturfEntry) typfRff;
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        protected int computeValueHash() {
-            int hc2 = typeRef.hashCode();
-            return (nameRef.hashCode() + (hc2 << 8)) ^ hc2;
+        protfdtfd int domputfVblufHbsi() {
+            int id2 = typfRff.ibsiCodf();
+            rfturn (nbmfRff.ibsiCodf() + (id2 << 8)) ^ id2;
         }
-        public boolean equals(Object o) {
-            if (o == null || o.getClass() != DescriptorEntry.class) {
-                return false;
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == null || o.gftClbss() != DfsdriptorEntry.dlbss) {
+                rfturn fblsf;
             }
-            DescriptorEntry that = (DescriptorEntry)o;
-            return this.nameRef.eq(that.nameRef)
-                && this.typeRef.eq(that.typeRef);
+            DfsdriptorEntry tibt = (DfsdriptorEntry)o;
+            rfturn tiis.nbmfRff.fq(tibt.nbmfRff)
+                && tiis.typfRff.fq(tibt.typfRff);
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                DescriptorEntry that = (DescriptorEntry)o;
-                // Primary key is typeRef, not nameRef.
-                x = this.typeRef.compareTo(that.typeRef);
+                DfsdriptorEntry tibt = (DfsdriptorEntry)o;
+                // Primbry kfy is typfRff, not nbmfRff.
+                x = tiis.typfRff.dompbrfTo(tibt.typfRff);
                 if (x == 0)
-                    x = this.nameRef.compareTo(that.nameRef);
+                    x = tiis.nbmfRff.dompbrfTo(tibt.nbmfRff);
             }
-            return x;
+            rfturn x;
         }
-        public String stringValue() {
-            return stringValueOf(nameRef, typeRef);
+        publid String stringVbluf() {
+            rfturn stringVblufOf(nbmfRff, typfRff);
         }
-        static
-        String stringValueOf(Entry nameRef, Entry typeRef) {
-            return qualifiedStringValue(typeRef, nameRef);
-        }
-
-        public String prettyString() {
-            return nameRef.stringValue()+typeRef.prettyString();
+        stbtid
+        String stringVblufOf(Entry nbmfRff, Entry typfRff) {
+            rfturn qublififdStringVbluf(typfRff, nbmfRff);
         }
 
-        public boolean isMethod() {
-            return typeRef.isMethod();
+        publid String prfttyString() {
+            rfturn nbmfRff.stringVbluf()+typfRff.prfttyString();
         }
 
-        public byte getLiteralTag() {
-            return typeRef.getLiteralTag();
+        publid boolfbn isMftiod() {
+            rfturn typfRff.isMftiod();
+        }
+
+        publid bytf gftLitfrblTbg() {
+            rfturn typfRff.gftLitfrblTbg();
         }
     }
 
-    static String qualifiedStringValue(Entry e1, Entry e2) {
-        return qualifiedStringValue(e1.stringValue(), e2.stringValue());
+    stbtid String qublififdStringVbluf(Entry f1, Entry f2) {
+        rfturn qublififdStringVbluf(f1.stringVbluf(), f2.stringVbluf());
     }
-    static String qualifiedStringValue(String s1, String s234) {
-        // Qualification by dot must decompose uniquely.  Second string might already be qualified.
-        assert(s1.indexOf('.') < 0);
-        return s1+"."+s234;
+    stbtid String qublififdStringVbluf(String s1, String s234) {
+        // Qublifidbtion by dot must dfdomposf uniqufly.  Sfdond string migit blrfbdy bf qublififd.
+        bssfrt(s1.indfxOf('.') < 0);
+        rfturn s1+"."+s234;
     }
 
-    public static
-    class MemberEntry extends Entry {
-        final ClassEntry classRef;
-        final DescriptorEntry descRef;
-        public Entry getRef(int i) {
-            if (i == 0)  return classRef;
-            if (i == 1)  return descRef;
-            return null;
+    publid stbtid
+    dlbss MfmbfrEntry fxtfnds Entry {
+        finbl ClbssEntry dlbssRff;
+        finbl DfsdriptorEntry dfsdRff;
+        publid Entry gftRff(int i) {
+            if (i == 0)  rfturn dlbssRff;
+            if (i == 1)  rfturn dfsdRff;
+            rfturn null;
         }
-        protected int computeValueHash() {
-            int hc2 = descRef.hashCode();
-            return (classRef.hashCode() + (hc2 << 8)) ^ hc2;
+        protfdtfd int domputfVblufHbsi() {
+            int id2 = dfsdRff.ibsiCodf();
+            rfturn (dlbssRff.ibsiCodf() + (id2 << 8)) ^ id2;
         }
 
-        MemberEntry(byte tag, ClassEntry classRef, DescriptorEntry descRef) {
-            super(tag);
-            assert(isMemberTag(tag));
-            this.classRef = classRef;
-            this.descRef  = descRef;
-            hashCode();  // force computation of valueHash
+        MfmbfrEntry(bytf tbg, ClbssEntry dlbssRff, DfsdriptorEntry dfsdRff) {
+            supfr(tbg);
+            bssfrt(isMfmbfrTbg(tbg));
+            tiis.dlbssRff = dlbssRff;
+            tiis.dfsdRff  = dfsdRff;
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        public boolean equals(Object o) {
-            if (o == null || o.getClass() != MemberEntry.class) {
-                return false;
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == null || o.gftClbss() != MfmbfrEntry.dlbss) {
+                rfturn fblsf;
             }
-            MemberEntry that = (MemberEntry)o;
-            return this.classRef.eq(that.classRef)
-                && this.descRef.eq(that.descRef);
+            MfmbfrEntry tibt = (MfmbfrEntry)o;
+            rfturn tiis.dlbssRff.fq(tibt.dlbssRff)
+                && tiis.dfsdRff.fq(tibt.dfsdRff);
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                MemberEntry that = (MemberEntry)o;
+                MfmbfrEntry tibt = (MfmbfrEntry)o;
                 if (Utils.SORT_MEMBERS_DESCR_MAJOR)
-                    // descRef is transmitted as UDELTA5; sort it first?
-                    x = this.descRef.compareTo(that.descRef);
-                // Primary key is classRef.
+                    // dfsdRff is trbnsmittfd bs UDELTA5; sort it first?
+                    x = tiis.dfsdRff.dompbrfTo(tibt.dfsdRff);
+                // Primbry kfy is dlbssRff.
                 if (x == 0)
-                    x = this.classRef.compareTo(that.classRef);
+                    x = tiis.dlbssRff.dompbrfTo(tibt.dlbssRff);
                 if (x == 0)
-                    x = this.descRef.compareTo(that.descRef);
+                    x = tiis.dfsdRff.dompbrfTo(tibt.dfsdRff);
             }
-            return x;
+            rfturn x;
         }
-        public String stringValue() {
-            return stringValueOf(tag, classRef, descRef);
+        publid String stringVbluf() {
+            rfturn stringVblufOf(tbg, dlbssRff, dfsdRff);
         }
-        static
-        String stringValueOf(byte tag, ClassEntry classRef, DescriptorEntry descRef) {
-            assert(isMemberTag(tag));
+        stbtid
+        String stringVblufOf(bytf tbg, ClbssEntry dlbssRff, DfsdriptorEntry dfsdRff) {
+            bssfrt(isMfmbfrTbg(tbg));
             String pfx;
-            switch (tag) {
-            case CONSTANT_Fieldref:            pfx = "Field:";   break;
-            case CONSTANT_Methodref:           pfx = "Method:";  break;
-            case CONSTANT_InterfaceMethodref:  pfx = "IMethod:"; break;
-            default:                           pfx = tag+"???";  break;
+            switdi (tbg) {
+            dbsf CONSTANT_Fifldrff:            pfx = "Fifld:";   brfbk;
+            dbsf CONSTANT_Mftiodrff:           pfx = "Mftiod:";  brfbk;
+            dbsf CONSTANT_IntfrfbdfMftiodrff:  pfx = "IMftiod:"; brfbk;
+            dffbult:                           pfx = tbg+"???";  brfbk;
             }
-            return pfx+qualifiedStringValue(classRef, descRef);
+            rfturn pfx+qublififdStringVbluf(dlbssRff, dfsdRff);
         }
 
-        public boolean isMethod() {
-            return descRef.isMethod();
+        publid boolfbn isMftiod() {
+            rfturn dfsdRff.isMftiod();
         }
     }
 
-    public static
-    class SignatureEntry extends Entry {
-        final Utf8Entry    formRef;
-        final ClassEntry[] classRefs;
-        String             value;
-        Utf8Entry          asUtf8Entry;
-        public Entry getRef(int i) {
-            if (i == 0)  return formRef;
-            return i-1 < classRefs.length ? classRefs[i-1] : null;
+    publid stbtid
+    dlbss SignbturfEntry fxtfnds Entry {
+        finbl Utf8Entry    formRff;
+        finbl ClbssEntry[] dlbssRffs;
+        String             vbluf;
+        Utf8Entry          bsUtf8Entry;
+        publid Entry gftRff(int i) {
+            if (i == 0)  rfturn formRff;
+            rfturn i-1 < dlbssRffs.lfngti ? dlbssRffs[i-1] : null;
         }
-        SignatureEntry(String value) {
-            super(CONSTANT_Signature);
-            value = value.intern();  // always do this
-            this.value = value;
-            String[] parts = structureSignature(value);
-            formRef = getUtf8Entry(parts[0]);
-            classRefs = new ClassEntry[parts.length-1];
-            for (int i = 1; i < parts.length; i++) {
-                classRefs[i - 1] = getClassEntry(parts[i]);
+        SignbturfEntry(String vbluf) {
+            supfr(CONSTANT_Signbturf);
+            vbluf = vbluf.intfrn();  // blwbys do tiis
+            tiis.vbluf = vbluf;
+            String[] pbrts = strudturfSignbturf(vbluf);
+            formRff = gftUtf8Entry(pbrts[0]);
+            dlbssRffs = nfw ClbssEntry[pbrts.lfngti-1];
+            for (int i = 1; i < pbrts.lfngti; i++) {
+                dlbssRffs[i - 1] = gftClbssEntry(pbrts[i]);
             }
-            hashCode();  // force computation of valueHash
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        protected int computeValueHash() {
-            stringValue();  // force computation of value
-            return value.hashCode() + tag;
+        protfdtfd int domputfVblufHbsi() {
+            stringVbluf();  // fordf domputbtion of vbluf
+            rfturn vbluf.ibsiCodf() + tbg;
         }
 
-        public Utf8Entry asUtf8Entry() {
-            if (asUtf8Entry == null) {
-                asUtf8Entry = getUtf8Entry(stringValue());
+        publid Utf8Entry bsUtf8Entry() {
+            if (bsUtf8Entry == null) {
+                bsUtf8Entry = gftUtf8Entry(stringVbluf());
             }
-            return asUtf8Entry;
+            rfturn bsUtf8Entry;
         }
 
-        public boolean equals(Object o) {
-            return (o != null && o.getClass() == SignatureEntry.class &&
-                    ((SignatureEntry)o).value.equals(value));
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn (o != null && o.gftClbss() == SignbturfEntry.dlbss &&
+                    ((SignbturfEntry)o).vbluf.fqubls(vbluf));
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                SignatureEntry that = (SignatureEntry)o;
-                x = compareSignatures(this.value, that.value);
+                SignbturfEntry tibt = (SignbturfEntry)o;
+                x = dompbrfSignbturfs(tiis.vbluf, tibt.vbluf);
             }
-            return x;
+            rfturn x;
         }
-        public String stringValue() {
-            if (value == null) {
-                value = stringValueOf(formRef, classRefs);
+        publid String stringVbluf() {
+            if (vbluf == null) {
+                vbluf = stringVblufOf(formRff, dlbssRffs);
             }
-            return value;
+            rfturn vbluf;
         }
-        static
-        String stringValueOf(Utf8Entry formRef, ClassEntry[] classRefs) {
-            String[] parts = new String[1+classRefs.length];
-            parts[0] = formRef.stringValue();
-            for (int i = 1; i < parts.length; i++) {
-                parts[i] = classRefs[i - 1].stringValue();
+        stbtid
+        String stringVblufOf(Utf8Entry formRff, ClbssEntry[] dlbssRffs) {
+            String[] pbrts = nfw String[1+dlbssRffs.lfngti];
+            pbrts[0] = formRff.stringVbluf();
+            for (int i = 1; i < pbrts.lfngti; i++) {
+                pbrts[i] = dlbssRffs[i - 1].stringVbluf();
             }
-            return flattenSignature(parts).intern();
+            rfturn flbttfnSignbturf(pbrts).intfrn();
         }
 
-        public int computeSize(boolean countDoublesTwice) {
-            String form = formRef.stringValue();
+        publid int domputfSizf(boolfbn dountDoublfsTwidf) {
+            String form = formRff.stringVbluf();
             int min = 0;
-            int max = 1;
-            if (isMethod()) {
+            int mbx = 1;
+            if (isMftiod()) {
                 min = 1;
-                max = form.indexOf(')');
+                mbx = form.indfxOf(')');
             }
-            int size = 0;
-            for (int i = min; i < max; i++) {
-                switch (form.charAt(i)) {
-                    case 'D':
-                    case 'J':
-                        if (countDoublesTwice) {
-                            size++;
+            int sizf = 0;
+            for (int i = min; i < mbx; i++) {
+                switdi (form.dibrAt(i)) {
+                    dbsf 'D':
+                    dbsf 'J':
+                        if (dountDoublfsTwidf) {
+                            sizf++;
                         }
-                        break;
-                    case '[':
-                        // Skip rest of array info.
-                        while (form.charAt(i) == '[') {
+                        brfbk;
+                    dbsf '[':
+                        // Skip rfst of brrby info.
+                        wiilf (form.dibrAt(i) == '[') {
                             ++i;
                         }
-                        break;
-                    case ';':
-                        continue;
-                    default:
-                        assert (0 <= JAVA_SIGNATURE_CHARS.indexOf(form.charAt(i)));
-                        break;
+                        brfbk;
+                    dbsf ';':
+                        dontinuf;
+                    dffbult:
+                        bssfrt (0 <= JAVA_SIGNATURE_CHARS.indfxOf(form.dibrAt(i)));
+                        brfbk;
                 }
-                size++;
+                sizf++;
             }
-            return size;
+            rfturn sizf;
         }
-        public boolean isMethod() {
-            return formRef.stringValue().charAt(0) == '(';
+        publid boolfbn isMftiod() {
+            rfturn formRff.stringVbluf().dibrAt(0) == '(';
         }
-        public byte getLiteralTag() {
-            switch (formRef.stringValue().charAt(0)) {
-            case 'I': return CONSTANT_Integer;
-            case 'J': return CONSTANT_Long;
-            case 'F': return CONSTANT_Float;
-            case 'D': return CONSTANT_Double;
-            case 'B': case 'S': case 'C': case 'Z':
-                return CONSTANT_Integer;
-            case 'L':
+        publid bytf gftLitfrblTbg() {
+            switdi (formRff.stringVbluf().dibrAt(0)) {
+            dbsf 'I': rfturn CONSTANT_Intfgfr;
+            dbsf 'J': rfturn CONSTANT_Long;
+            dbsf 'F': rfturn CONSTANT_Flobt;
+            dbsf 'D': rfturn CONSTANT_Doublf;
+            dbsf 'B': dbsf 'S': dbsf 'C': dbsf 'Z':
+                rfturn CONSTANT_Intfgfr;
+            dbsf 'L':
                 /*
-                switch (classRefs[0].stringValue()) {
-                case "java/lang/String":
-                    return CONSTANT_String;
-                case "java/lang/invoke/MethodHandle":
-                    return CONSTANT_MethodHandle;
-                case "java/lang/invoke/MethodType":
-                    return CONSTANT_MethodType;
-                default:  // java/lang/Object, etc.
-                    return CONSTANT_LoadableValue;
+                switdi (dlbssRffs[0].stringVbluf()) {
+                dbsf "jbvb/lbng/String":
+                    rfturn CONSTANT_String;
+                dbsf "jbvb/lbng/invokf/MftiodHbndlf":
+                    rfturn CONSTANT_MftiodHbndlf;
+                dbsf "jbvb/lbng/invokf/MftiodTypf":
+                    rfturn CONSTANT_MftiodTypf;
+                dffbult:  // jbvb/lbng/Objfdt, ftd.
+                    rfturn CONSTANT_LobdbblfVbluf;
                 }
                 */
-                return CONSTANT_String;  // JDK 7 ConstantValue limited to String
+                rfturn CONSTANT_String;  // JDK 7 ConstbntVbluf limitfd to String
             }
-            assert(false);
-            return CONSTANT_None;
+            bssfrt(fblsf);
+            rfturn CONSTANT_Nonf;
         }
-        public String prettyString() {
+        publid String prfttyString() {
             String s;
-            if (isMethod()) {
-                s = formRef.stringValue();
-                s = s.substring(0, 1+s.indexOf(')'));
-            } else {
-                s = "/" + formRef.stringValue();
+            if (isMftiod()) {
+                s = formRff.stringVbluf();
+                s = s.substring(0, 1+s.indfxOf(')'));
+            } flsf {
+                s = "/" + formRff.stringVbluf();
             }
             int i;
-            while ((i = s.indexOf(';')) >= 0) {
+            wiilf ((i = s.indfxOf(';')) >= 0) {
                 s = s.substring(0, i) + s.substring(i + 1);
             }
-            return s;
+            rfturn s;
         }
     }
 
-    static int compareSignatures(String s1, String s2) {
-        return compareSignatures(s1, s2, null, null);
+    stbtid int dompbrfSignbturfs(String s1, String s2) {
+        rfturn dompbrfSignbturfs(s1, s2, null, null);
     }
-    static int compareSignatures(String s1, String s2, String[] p1, String[] p2) {
-        final int S1_COMES_FIRST = -1;
-        final int S2_COMES_FIRST = +1;
-        char c1 = s1.charAt(0);
-        char c2 = s2.charAt(0);
-        // fields before methods (because there are fewer of them)
-        if (c1 != '(' && c2 == '(')  return S1_COMES_FIRST;
-        if (c2 != '(' && c1 == '(')  return S2_COMES_FIRST;
-        if (p1 == null)  p1 = structureSignature(s1);
-        if (p2 == null)  p2 = structureSignature(s2);
+    stbtid int dompbrfSignbturfs(String s1, String s2, String[] p1, String[] p2) {
+        finbl int S1_COMES_FIRST = -1;
+        finbl int S2_COMES_FIRST = +1;
+        dibr d1 = s1.dibrAt(0);
+        dibr d2 = s2.dibrAt(0);
+        // fiflds bfforf mftiods (bfdbusf tifrf brf ffwfr of tifm)
+        if (d1 != '(' && d2 == '(')  rfturn S1_COMES_FIRST;
+        if (d2 != '(' && d1 == '(')  rfturn S2_COMES_FIRST;
+        if (p1 == null)  p1 = strudturfSignbturf(s1);
+        if (p2 == null)  p2 = strudturfSignbturf(s2);
         /*
-         // non-classes before classes (because there are fewer of them)
-         if (p1.length == 1 && p2.length > 1)  return S1_COMES_FIRST;
-         if (p2.length == 1 && p1.length > 1)  return S2_COMES_FIRST;
-         // all else being equal, use the same comparison as for Utf8 strings
-         return s1.compareTo(s2);
+         // non-dlbssfs bfforf dlbssfs (bfdbusf tifrf brf ffwfr of tifm)
+         if (p1.lfngti == 1 && p2.lfngti > 1)  rfturn S1_COMES_FIRST;
+         if (p2.lfngti == 1 && p1.lfngti > 1)  rfturn S2_COMES_FIRST;
+         // bll flsf bfing fqubl, usf tif sbmf dompbrison bs for Utf8 strings
+         rfturn s1.dompbrfTo(s2);
          */
-        if (p1.length != p2.length)  return p1.length - p2.length;
-        int length = p1.length;
-        for (int i = length; --i >= 0; ) {
-            int res = p1[i].compareTo(p2[i]);
-            if (res != 0)  return res;
+        if (p1.lfngti != p2.lfngti)  rfturn p1.lfngti - p2.lfngti;
+        int lfngti = p1.lfngti;
+        for (int i = lfngti; --i >= 0; ) {
+            int rfs = p1[i].dompbrfTo(p2[i]);
+            if (rfs != 0)  rfturn rfs;
         }
-        assert(s1.equals(s2));
-        return 0;
+        bssfrt(s1.fqubls(s2));
+        rfturn 0;
     }
 
-    static int countClassParts(Utf8Entry formRef) {
+    stbtid int dountClbssPbrts(Utf8Entry formRff) {
         int num = 0;
-        String s = formRef.stringValue();
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == 'L')  ++num;
+        String s = formRff.stringVbluf();
+        for (int i = 0; i < s.lfngti(); i++) {
+            if (s.dibrAt(i) == 'L')  ++num;
         }
-        return num;
+        rfturn num;
     }
 
-    static String flattenSignature(String[] parts) {
-        String form = parts[0];
-        if (parts.length == 1)  return form;
-        int len = form.length();
-        for (int i = 1; i < parts.length; i++) {
-            len += parts[i].length();
+    stbtid String flbttfnSignbturf(String[] pbrts) {
+        String form = pbrts[0];
+        if (pbrts.lfngti == 1)  rfturn form;
+        int lfn = form.lfngti();
+        for (int i = 1; i < pbrts.lfngti; i++) {
+            lfn += pbrts[i].lfngti();
         }
-        char[] sig = new char[len];
+        dibr[] sig = nfw dibr[lfn];
         int j = 0;
         int k = 1;
-        for (int i = 0; i < form.length(); i++) {
-            char ch = form.charAt(i);
-            sig[j++] = ch;
-            if (ch == 'L') {
-                String cls = parts[k++];
-                cls.getChars(0, cls.length(), sig, j);
-                j += cls.length();
+        for (int i = 0; i < form.lfngti(); i++) {
+            dibr di = form.dibrAt(i);
+            sig[j++] = di;
+            if (di == 'L') {
+                String dls = pbrts[k++];
+                dls.gftCibrs(0, dls.lfngti(), sig, j);
+                j += dls.lfngti();
                 //sig[j++] = ';';
             }
         }
-        assert(j == len);
-        assert(k == parts.length);
-        return new String(sig);
+        bssfrt(j == lfn);
+        bssfrt(k == pbrts.lfngti);
+        rfturn nfw String(sig);
     }
 
-    static private int skipTo(char semi, String sig, int i) {
-        i = sig.indexOf(semi, i);
-        return (i >= 0) ? i : sig.length();
+    stbtid privbtf int skipTo(dibr sfmi, String sig, int i) {
+        i = sig.indfxOf(sfmi, i);
+        rfturn (i >= 0) ? i : sig.lfngti();
     }
 
-    static String[] structureSignature(String sig) {
-        int firstl = sig.indexOf('L');
+    stbtid String[] strudturfSignbturf(String sig) {
+        int firstl = sig.indfxOf('L');
         if (firstl < 0) {
-            String[] parts = { sig };
-            return parts;
+            String[] pbrts = { sig };
+            rfturn pbrts;
         }
-        // Segment the string like sig.split("L\\([^;<]*\\)").
-        // N.B.: Previous version of this code did a more complex match,
-        // to next ch < ' ' or ch in [';'..'@'].  The only important
-        // characters are ';' and '<', since they are part of the
-        // signature syntax.
-        // Examples:
-        //   "(Ljava/lang/Object;IJLLoo;)V" => {"(L;IJL;)V", "java/lang/Object", "Loo"}
-        //   "Ljava/util/List<Ljava/lang/String;>;" => {"L<L;>;", "java/util/List", "java/lang/String"}
-        char[] form = null;
-        String[] parts = null;
-        for (int pass = 0; pass <= 1; pass++) {
-            // pass 0 is a sizing pass, pass 1 packs the arrays
+        // Sfgmfnt tif string likf sig.split("L\\([^;<]*\\)").
+        // N.B.: Prfvious vfrsion of tiis dodf did b morf domplfx mbtdi,
+        // to nfxt di < ' ' or di in [';'..'@'].  Tif only importbnt
+        // dibrbdtfrs brf ';' bnd '<', sindf tify brf pbrt of tif
+        // signbturf syntbx.
+        // Exbmplfs:
+        //   "(Ljbvb/lbng/Objfdt;IJLLoo;)V" => {"(L;IJL;)V", "jbvb/lbng/Objfdt", "Loo"}
+        //   "Ljbvb/util/List<Ljbvb/lbng/String;>;" => {"L<L;>;", "jbvb/util/List", "jbvb/lbng/String"}
+        dibr[] form = null;
+        String[] pbrts = null;
+        for (int pbss = 0; pbss <= 1; pbss++) {
+            // pbss 0 is b sizing pbss, pbss 1 pbdks tif brrbys
             int formPtr = 0;
-            int partPtr = 1;
-            int nextsemi = 0, nextangl = 0;  // next ';' or '<', or zero, or sigLen
-            int lastj = 0;
-            for (int i = firstl + 1, j; i > 0; i = sig.indexOf('L', j) + 1) {
-                // sig[i-1] is 'L', while sig[j] will be the first ';' or '<' after it
-                // each part is in sig[i .. j-1]
-                if (nextsemi < i)  nextsemi = skipTo(';', sig, i);
-                if (nextangl < i)  nextangl = skipTo('<', sig, i);
-                j = (nextsemi < nextangl ? nextsemi : nextangl);
-                if (pass != 0) {
-                    sig.getChars(lastj, i, form, formPtr);
-                    parts[partPtr] = sig.substring(i, j);
+            int pbrtPtr = 1;
+            int nfxtsfmi = 0, nfxtbngl = 0;  // nfxt ';' or '<', or zfro, or sigLfn
+            int lbstj = 0;
+            for (int i = firstl + 1, j; i > 0; i = sig.indfxOf('L', j) + 1) {
+                // sig[i-1] is 'L', wiilf sig[j] will bf tif first ';' or '<' bftfr it
+                // fbdi pbrt is in sig[i .. j-1]
+                if (nfxtsfmi < i)  nfxtsfmi = skipTo(';', sig, i);
+                if (nfxtbngl < i)  nfxtbngl = skipTo('<', sig, i);
+                j = (nfxtsfmi < nfxtbngl ? nfxtsfmi : nfxtbngl);
+                if (pbss != 0) {
+                    sig.gftCibrs(lbstj, i, form, formPtr);
+                    pbrts[pbrtPtr] = sig.substring(i, j);
                 }
-                formPtr += (i - lastj);
-                partPtr += 1;
-                lastj = j;
+                formPtr += (i - lbstj);
+                pbrtPtr += 1;
+                lbstj = j;
             }
-            if (pass != 0) {
-                sig.getChars(lastj, sig.length(), form, formPtr);
-                break;
+            if (pbss != 0) {
+                sig.gftCibrs(lbstj, sig.lfngti(), form, formPtr);
+                brfbk;
             }
-            formPtr += (sig.length() - lastj);
-            form = new char[formPtr];
-            parts = new String[partPtr];
+            formPtr += (sig.lfngti() - lbstj);
+            form = nfw dibr[formPtr];
+            pbrts = nfw String[pbrtPtr];
         }
-        parts[0] = new String(form);
-        //assert(flattenSignature(parts).equals(sig));
-        return parts;
+        pbrts[0] = nfw String(form);
+        //bssfrt(flbttfnSignbturf(pbrts).fqubls(sig));
+        rfturn pbrts;
     }
 
-    /** @since 1.7, JSR 292 */
-    public static
-    class MethodHandleEntry extends Entry {
-        final int refKind;
-        final MemberEntry memRef;
-        public Entry getRef(int i) { return i == 0 ? memRef : null; }
+    /** @sindf 1.7, JSR 292 */
+    publid stbtid
+    dlbss MftiodHbndlfEntry fxtfnds Entry {
+        finbl int rffKind;
+        finbl MfmbfrEntry mfmRff;
+        publid Entry gftRff(int i) { rfturn i == 0 ? mfmRff : null; }
 
-        protected int computeValueHash() {
-            int hc2 = refKind;
-            return (memRef.hashCode() + (hc2 << 8)) ^ hc2;
+        protfdtfd int domputfVblufHbsi() {
+            int id2 = rffKind;
+            rfturn (mfmRff.ibsiCodf() + (id2 << 8)) ^ id2;
         }
 
-        MethodHandleEntry(byte refKind, MemberEntry memRef) {
-            super(CONSTANT_MethodHandle);
-            assert(isRefKind(refKind));
-            this.refKind = refKind;
-            this.memRef  = memRef;
-            hashCode();  // force computation of valueHash
+        MftiodHbndlfEntry(bytf rffKind, MfmbfrEntry mfmRff) {
+            supfr(CONSTANT_MftiodHbndlf);
+            bssfrt(isRffKind(rffKind));
+            tiis.rffKind = rffKind;
+            tiis.mfmRff  = mfmRff;
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        public boolean equals(Object o) {
-            if (o == null || o.getClass() != MethodHandleEntry.class) {
-                return false;
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == null || o.gftClbss() != MftiodHbndlfEntry.dlbss) {
+                rfturn fblsf;
             }
-            MethodHandleEntry that = (MethodHandleEntry)o;
-            return this.refKind == that.refKind
-                && this.memRef.eq(that.memRef);
+            MftiodHbndlfEntry tibt = (MftiodHbndlfEntry)o;
+            rfturn tiis.rffKind == tibt.rffKind
+                && tiis.mfmRff.fq(tibt.mfmRff);
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                MethodHandleEntry that = (MethodHandleEntry)o;
+                MftiodHbndlfEntry tibt = (MftiodHbndlfEntry)o;
                 if (Utils.SORT_HANDLES_KIND_MAJOR)
-                    // Primary key could be refKind.
-                    x = this.refKind - that.refKind;
-                // Primary key is memRef, which is transmitted as UDELTA5.
+                    // Primbry kfy dould bf rffKind.
+                    x = tiis.rffKind - tibt.rffKind;
+                // Primbry kfy is mfmRff, wiidi is trbnsmittfd bs UDELTA5.
                 if (x == 0)
-                    x = this.memRef.compareTo(that.memRef);
+                    x = tiis.mfmRff.dompbrfTo(tibt.mfmRff);
                 if (x == 0)
-                    x = this.refKind - that.refKind;
+                    x = tiis.rffKind - tibt.rffKind;
             }
-            return x;
+            rfturn x;
         }
-        public static String stringValueOf(int refKind, MemberEntry memRef) {
-            return refKindName(refKind)+":"+memRef.stringValue();
+        publid stbtid String stringVblufOf(int rffKind, MfmbfrEntry mfmRff) {
+            rfturn rffKindNbmf(rffKind)+":"+mfmRff.stringVbluf();
         }
-        public String stringValue() {
-            return stringValueOf(refKind, memRef);
+        publid String stringVbluf() {
+            rfturn stringVblufOf(rffKind, mfmRff);
         }
     }
 
-    /** @since 1.7, JSR 292 */
-    public static
-    class MethodTypeEntry extends Entry {
-        final SignatureEntry typeRef;
-        public Entry getRef(int i) { return i == 0 ? typeRef : null; }
+    /** @sindf 1.7, JSR 292 */
+    publid stbtid
+    dlbss MftiodTypfEntry fxtfnds Entry {
+        finbl SignbturfEntry typfRff;
+        publid Entry gftRff(int i) { rfturn i == 0 ? typfRff : null; }
 
-        protected int computeValueHash() {
-            return typeRef.hashCode() + tag;
+        protfdtfd int domputfVblufHbsi() {
+            rfturn typfRff.ibsiCodf() + tbg;
         }
 
-        MethodTypeEntry(SignatureEntry typeRef) {
-            super(CONSTANT_MethodType);
-            this.typeRef  = typeRef;
-            hashCode();  // force computation of valueHash
+        MftiodTypfEntry(SignbturfEntry typfRff) {
+            supfr(CONSTANT_MftiodTypf);
+            tiis.typfRff  = typfRff;
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        public boolean equals(Object o) {
-            if (o == null || o.getClass() != MethodTypeEntry.class) {
-                return false;
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == null || o.gftClbss() != MftiodTypfEntry.dlbss) {
+                rfturn fblsf;
             }
-            MethodTypeEntry that = (MethodTypeEntry)o;
-            return this.typeRef.eq(that.typeRef);
+            MftiodTypfEntry tibt = (MftiodTypfEntry)o;
+            rfturn tiis.typfRff.fq(tibt.typfRff);
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                MethodTypeEntry that = (MethodTypeEntry)o;
-                x = this.typeRef.compareTo(that.typeRef);
+                MftiodTypfEntry tibt = (MftiodTypfEntry)o;
+                x = tiis.typfRff.dompbrfTo(tibt.typfRff);
             }
-            return x;
+            rfturn x;
         }
-        public String stringValue() {
-            return typeRef.stringValue();
+        publid String stringVbluf() {
+            rfturn typfRff.stringVbluf();
         }
     }
 
-    /** @since 1.7, JSR 292 */
-    public static
-    class InvokeDynamicEntry extends Entry {
-        final BootstrapMethodEntry bssRef;
-        final DescriptorEntry descRef;
-        public Entry getRef(int i) {
-            if (i == 0)  return bssRef;
-            if (i == 1)  return descRef;
-            return null;
+    /** @sindf 1.7, JSR 292 */
+    publid stbtid
+    dlbss InvokfDynbmidEntry fxtfnds Entry {
+        finbl BootstrbpMftiodEntry bssRff;
+        finbl DfsdriptorEntry dfsdRff;
+        publid Entry gftRff(int i) {
+            if (i == 0)  rfturn bssRff;
+            if (i == 1)  rfturn dfsdRff;
+            rfturn null;
         }
-        protected int computeValueHash() {
-            int hc2 = descRef.hashCode();
-            return (bssRef.hashCode() + (hc2 << 8)) ^ hc2;
+        protfdtfd int domputfVblufHbsi() {
+            int id2 = dfsdRff.ibsiCodf();
+            rfturn (bssRff.ibsiCodf() + (id2 << 8)) ^ id2;
         }
 
-        InvokeDynamicEntry(BootstrapMethodEntry bssRef, DescriptorEntry descRef) {
-            super(CONSTANT_InvokeDynamic);
-            this.bssRef  = bssRef;
-            this.descRef = descRef;
-            hashCode();  // force computation of valueHash
+        InvokfDynbmidEntry(BootstrbpMftiodEntry bssRff, DfsdriptorEntry dfsdRff) {
+            supfr(CONSTANT_InvokfDynbmid);
+            tiis.bssRff  = bssRff;
+            tiis.dfsdRff = dfsdRff;
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        public boolean equals(Object o) {
-            if (o == null || o.getClass() != InvokeDynamicEntry.class) {
-                return false;
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == null || o.gftClbss() != InvokfDynbmidEntry.dlbss) {
+                rfturn fblsf;
             }
-            InvokeDynamicEntry that = (InvokeDynamicEntry)o;
-            return this.bssRef.eq(that.bssRef)
-                && this.descRef.eq(that.descRef);
+            InvokfDynbmidEntry tibt = (InvokfDynbmidEntry)o;
+            rfturn tiis.bssRff.fq(tibt.bssRff)
+                && tiis.dfsdRff.fq(tibt.dfsdRff);
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                InvokeDynamicEntry that = (InvokeDynamicEntry)o;
+                InvokfDynbmidEntry tibt = (InvokfDynbmidEntry)o;
                 if (Utils.SORT_INDY_BSS_MAJOR)
-                    // Primary key could be bsmRef.
-                    x = this.bssRef.compareTo(that.bssRef);
-                // Primary key is descriptor, which is transmitted as UDELTA5.
+                    // Primbry kfy dould bf bsmRff.
+                    x = tiis.bssRff.dompbrfTo(tibt.bssRff);
+                // Primbry kfy is dfsdriptor, wiidi is trbnsmittfd bs UDELTA5.
                 if (x == 0)
-                    x = this.descRef.compareTo(that.descRef);
+                    x = tiis.dfsdRff.dompbrfTo(tibt.dfsdRff);
                 if (x == 0)
-                    x = this.bssRef.compareTo(that.bssRef);
+                    x = tiis.bssRff.dompbrfTo(tibt.bssRff);
             }
-            return x;
+            rfturn x;
         }
-        public String stringValue() {
-            return stringValueOf(bssRef, descRef);
+        publid String stringVbluf() {
+            rfturn stringVblufOf(bssRff, dfsdRff);
         }
-        static
-        String stringValueOf(BootstrapMethodEntry bssRef, DescriptorEntry descRef) {
-            return "Indy:"+bssRef.stringValue()+"."+descRef.stringValue();
+        stbtid
+        String stringVblufOf(BootstrbpMftiodEntry bssRff, DfsdriptorEntry dfsdRff) {
+            rfturn "Indy:"+bssRff.stringVbluf()+"."+dfsdRff.stringVbluf();
         }
     }
 
-    /** @since 1.7, JSR 292 */
-    public static
-    class BootstrapMethodEntry extends Entry {
-        final MethodHandleEntry bsmRef;
-        final Entry[] argRefs;
-        public Entry getRef(int i) {
-            if (i == 0)  return bsmRef;
-            if (i-1 < argRefs.length)  return argRefs[i-1];
-            return null;
+    /** @sindf 1.7, JSR 292 */
+    publid stbtid
+    dlbss BootstrbpMftiodEntry fxtfnds Entry {
+        finbl MftiodHbndlfEntry bsmRff;
+        finbl Entry[] brgRffs;
+        publid Entry gftRff(int i) {
+            if (i == 0)  rfturn bsmRff;
+            if (i-1 < brgRffs.lfngti)  rfturn brgRffs[i-1];
+            rfturn null;
         }
-        protected int computeValueHash() {
-            int hc2 = bsmRef.hashCode();
-            return (Arrays.hashCode(argRefs) + (hc2 << 8)) ^ hc2;
+        protfdtfd int domputfVblufHbsi() {
+            int id2 = bsmRff.ibsiCodf();
+            rfturn (Arrbys.ibsiCodf(brgRffs) + (id2 << 8)) ^ id2;
         }
 
-        BootstrapMethodEntry(MethodHandleEntry bsmRef, Entry[] argRefs) {
-            super(CONSTANT_BootstrapMethod);
-            this.bsmRef  = bsmRef;
-            this.argRefs = argRefs.clone();
-            hashCode();  // force computation of valueHash
+        BootstrbpMftiodEntry(MftiodHbndlfEntry bsmRff, Entry[] brgRffs) {
+            supfr(CONSTANT_BootstrbpMftiod);
+            tiis.bsmRff  = bsmRff;
+            tiis.brgRffs = brgRffs.dlonf();
+            ibsiCodf();  // fordf domputbtion of vblufHbsi
         }
-        public boolean equals(Object o) {
-            if (o == null || o.getClass() != BootstrapMethodEntry.class) {
-                return false;
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == null || o.gftClbss() != BootstrbpMftiodEntry.dlbss) {
+                rfturn fblsf;
             }
-            BootstrapMethodEntry that = (BootstrapMethodEntry)o;
-            return this.bsmRef.eq(that.bsmRef)
-                && Arrays.equals(this.argRefs, that.argRefs);
+            BootstrbpMftiodEntry tibt = (BootstrbpMftiodEntry)o;
+            rfturn tiis.bsmRff.fq(tibt.bsmRff)
+                && Arrbys.fqubls(tiis.brgRffs, tibt.brgRffs);
         }
-        public int compareTo(Object o) {
-            int x = superCompareTo(o);
+        publid int dompbrfTo(Objfdt o) {
+            int x = supfrCompbrfTo(o);
             if (x == 0) {
-                BootstrapMethodEntry that = (BootstrapMethodEntry)o;
+                BootstrbpMftiodEntry tibt = (BootstrbpMftiodEntry)o;
                 if (Utils.SORT_BSS_BSM_MAJOR)
-                    // Primary key is bsmRef.
-                    x = this.bsmRef.compareTo(that.bsmRef);
-                // Primary key is args array length, which is transmitted as UDELTA5.
+                    // Primbry kfy is bsmRff.
+                    x = tiis.bsmRff.dompbrfTo(tibt.bsmRff);
+                // Primbry kfy is brgs brrby lfngti, wiidi is trbnsmittfd bs UDELTA5.
                 if (x == 0)
-                    x = compareArgArrays(this.argRefs, that.argRefs);
+                    x = dompbrfArgArrbys(tiis.brgRffs, tibt.brgRffs);
                 if (x == 0)
-                    x = this.bsmRef.compareTo(that.bsmRef);
+                    x = tiis.bsmRff.dompbrfTo(tibt.bsmRff);
             }
-            return x;
+            rfturn x;
         }
-        public String stringValue() {
-            return stringValueOf(bsmRef, argRefs);
+        publid String stringVbluf() {
+            rfturn stringVblufOf(bsmRff, brgRffs);
         }
-        static
-        String stringValueOf(MethodHandleEntry bsmRef, Entry[] argRefs) {
-            StringBuilder sb = new StringBuilder(bsmRef.stringValue());
-            // Arguments are formatted as "<foo;bar;baz>" instead of "[foo,bar,baz]".
-            // This ensures there will be no confusion if "[,]" appear inside of names.
-            char nextSep = '<';
-            boolean didOne = false;
-            for (Entry argRef : argRefs) {
-                sb.append(nextSep).append(argRef.stringValue());
-                nextSep = ';';
+        stbtid
+        String stringVblufOf(MftiodHbndlfEntry bsmRff, Entry[] brgRffs) {
+            StringBuildfr sb = nfw StringBuildfr(bsmRff.stringVbluf());
+            // Argumfnts brf formbttfd bs "<foo;bbr;bbz>" instfbd of "[foo,bbr,bbz]".
+            // Tiis fnsurfs tifrf will bf no donfusion if "[,]" bppfbr insidf of nbmfs.
+            dibr nfxtSfp = '<';
+            boolfbn didOnf = fblsf;
+            for (Entry brgRff : brgRffs) {
+                sb.bppfnd(nfxtSfp).bppfnd(brgRff.stringVbluf());
+                nfxtSfp = ';';
             }
-            if (nextSep == '<')  sb.append(nextSep);
-            sb.append('>');
-            return sb.toString();
+            if (nfxtSfp == '<')  sb.bppfnd(nfxtSfp);
+            sb.bppfnd('>');
+            rfturn sb.toString();
         }
-        static
-        int compareArgArrays(Entry[] a1, Entry[] a2) {
-            int x = a1.length - a2.length;
-            if (x != 0)  return x;
-            for (int i = 0; i < a1.length; i++) {
-                x = a1[i].compareTo(a2[i]);
-                if (x != 0)  break;
+        stbtid
+        int dompbrfArgArrbys(Entry[] b1, Entry[] b2) {
+            int x = b1.lfngti - b2.lfngti;
+            if (x != 0)  rfturn x;
+            for (int i = 0; i < b1.lfngti; i++) {
+                x = b1[i].dompbrfTo(b2[i]);
+                if (x != 0)  brfbk;
             }
-            return x;
+            rfturn x;
         }
     }
 
-    // Handy constants:
-    protected static final Entry[] noRefs = {};
-    protected static final ClassEntry[] noClassRefs = {};
+    // Hbndy donstbnts:
+    protfdtfd stbtid finbl Entry[] noRffs = {};
+    protfdtfd stbtid finbl ClbssEntry[] noClbssRffs = {};
 
-    /** An Index is a mapping between CP entries and small integers. */
-    public static final
-    class Index extends AbstractList<Entry> {
-        protected String debugName;
-        protected Entry[] cpMap;
-        protected boolean flattenSigs;
-        protected Entry[] getMap() {
-            return cpMap;
+    /** An Indfx is b mbpping bftwffn CP fntrifs bnd smbll intfgfrs. */
+    publid stbtid finbl
+    dlbss Indfx fxtfnds AbstrbdtList<Entry> {
+        protfdtfd String dfbugNbmf;
+        protfdtfd Entry[] dpMbp;
+        protfdtfd boolfbn flbttfnSigs;
+        protfdtfd Entry[] gftMbp() {
+            rfturn dpMbp;
         }
-        protected Index(String debugName) {
-            this.debugName = debugName;
+        protfdtfd Indfx(String dfbugNbmf) {
+            tiis.dfbugNbmf = dfbugNbmf;
         }
-        protected Index(String debugName, Entry[] cpMap) {
-            this(debugName);
-            setMap(cpMap);
+        protfdtfd Indfx(String dfbugNbmf, Entry[] dpMbp) {
+            tiis(dfbugNbmf);
+            sftMbp(dpMbp);
         }
-        protected void setMap(Entry[] cpMap) {
-            clearIndex();
-            this.cpMap = cpMap;
+        protfdtfd void sftMbp(Entry[] dpMbp) {
+            dlfbrIndfx();
+            tiis.dpMbp = dpMbp;
         }
-        protected Index(String debugName, Collection<Entry> cpMapList) {
-            this(debugName);
-            setMap(cpMapList);
+        protfdtfd Indfx(String dfbugNbmf, Collfdtion<Entry> dpMbpList) {
+            tiis(dfbugNbmf);
+            sftMbp(dpMbpList);
         }
-        protected void setMap(Collection<Entry> cpMapList) {
-            cpMap = new Entry[cpMapList.size()];
-            cpMapList.toArray(cpMap);
-            setMap(cpMap);
+        protfdtfd void sftMbp(Collfdtion<Entry> dpMbpList) {
+            dpMbp = nfw Entry[dpMbpList.sizf()];
+            dpMbpList.toArrby(dpMbp);
+            sftMbp(dpMbp);
         }
-        public int size() {
-            return cpMap.length;
+        publid int sizf() {
+            rfturn dpMbp.lfngti;
         }
-        public Entry get(int i) {
-            return cpMap[i];
+        publid Entry gft(int i) {
+            rfturn dpMbp[i];
         }
-        public Entry getEntry(int i) {
-            // same as get(), with covariant return type
-            return cpMap[i];
+        publid Entry gftEntry(int i) {
+            // sbmf bs gft(), witi dovbribnt rfturn typf
+            rfturn dpMbp[i];
         }
 
-        // Find index of e in cpMap, or return -1 if none.
+        // Find indfx of f in dpMbp, or rfturn -1 if nonf.
         //
-        // As a special hack, if flattenSigs, signatures are
-        // treated as equivalent entries of cpMap.  This is wrong
-        // from a Collection point of view, because contains()
-        // reports true for signatures, but the iterator()
-        // never produces them!
-        private int findIndexOf(Entry e) {
-            if (indexKey == null) {
-                initializeIndex();
+        // As b spfdibl ibdk, if flbttfnSigs, signbturfs brf
+        // trfbtfd bs fquivblfnt fntrifs of dpMbp.  Tiis is wrong
+        // from b Collfdtion point of vifw, bfdbusf dontbins()
+        // rfports truf for signbturfs, but tif itfrbtor()
+        // nfvfr produdfs tifm!
+        privbtf int findIndfxOf(Entry f) {
+            if (indfxKfy == null) {
+                initiblizfIndfx();
             }
-            int probe = findIndexLocation(e);
-            if (indexKey[probe] != e) {
-                if (flattenSigs && e.tag == CONSTANT_Signature) {
-                    SignatureEntry se = (SignatureEntry) e;
-                    return findIndexOf(se.asUtf8Entry());
+            int probf = findIndfxLodbtion(f);
+            if (indfxKfy[probf] != f) {
+                if (flbttfnSigs && f.tbg == CONSTANT_Signbturf) {
+                    SignbturfEntry sf = (SignbturfEntry) f;
+                    rfturn findIndfxOf(sf.bsUtf8Entry());
                 }
-                return -1;
+                rfturn -1;
             }
-            int index = indexValue[probe];
-            assert(e.equals(cpMap[index]));
-            return index;
+            int indfx = indfxVbluf[probf];
+            bssfrt(f.fqubls(dpMbp[indfx]));
+            rfturn indfx;
         }
-        public boolean contains(Entry e) {
-            return findIndexOf(e) >= 0;
+        publid boolfbn dontbins(Entry f) {
+            rfturn findIndfxOf(f) >= 0;
         }
-        // Find index of e in cpMap.  Should not return -1.
-        public int indexOf(Entry e) {
-            int index = findIndexOf(e);
-            if (index < 0 && verbose() > 0) {
-                System.out.println("not found: "+e);
-                System.out.println("       in: "+this.dumpString());
-                Thread.dumpStack();
+        // Find indfx of f in dpMbp.  Siould not rfturn -1.
+        publid int indfxOf(Entry f) {
+            int indfx = findIndfxOf(f);
+            if (indfx < 0 && vfrbosf() > 0) {
+                Systfm.out.println("not found: "+f);
+                Systfm.out.println("       in: "+tiis.dumpString());
+                Tirfbd.dumpStbdk();
             }
-            assert(index >= 0);
-            return index;
+            bssfrt(indfx >= 0);
+            rfturn indfx;
         }
-        public int lastIndexOf(Entry e) {
-            return indexOf(e);
+        publid int lbstIndfxOf(Entry f) {
+            rfturn indfxOf(f);
         }
 
-        public boolean assertIsSorted() {
-            for (int i = 1; i < cpMap.length; i++) {
-                if (cpMap[i-1].compareTo(cpMap[i]) > 0) {
-                    System.out.println("Not sorted at "+(i-1)+"/"+i+": "+this.dumpString());
-                    return false;
+        publid boolfbn bssfrtIsSortfd() {
+            for (int i = 1; i < dpMbp.lfngti; i++) {
+                if (dpMbp[i-1].dompbrfTo(dpMbp[i]) > 0) {
+                    Systfm.out.println("Not sortfd bt "+(i-1)+"/"+i+": "+tiis.dumpString());
+                    rfturn fblsf;
                 }
             }
-            return true;
+            rfturn truf;
         }
 
-        // internal hash table
-        protected Entry[] indexKey;
-        protected int[]   indexValue;
-        protected void clearIndex() {
-            indexKey   = null;
-            indexValue = null;
+        // intfrnbl ibsi tbblf
+        protfdtfd Entry[] indfxKfy;
+        protfdtfd int[]   indfxVbluf;
+        protfdtfd void dlfbrIndfx() {
+            indfxKfy   = null;
+            indfxVbluf = null;
         }
-        private int findIndexLocation(Entry e) {
-            int size   = indexKey.length;
-            int hash   = e.hashCode();
-            int probe  = hash & (size - 1);
-            int stride = ((hash >>> 8) | 1) & (size - 1);
+        privbtf int findIndfxLodbtion(Entry f) {
+            int sizf   = indfxKfy.lfngti;
+            int ibsi   = f.ibsiCodf();
+            int probf  = ibsi & (sizf - 1);
+            int stridf = ((ibsi >>> 8) | 1) & (sizf - 1);
             for (;;) {
-                Entry e1 = indexKey[probe];
-                if (e1 == e || e1 == null)
-                    return probe;
-                probe += stride;
-                if (probe >= size)  probe -= size;
+                Entry f1 = indfxKfy[probf];
+                if (f1 == f || f1 == null)
+                    rfturn probf;
+                probf += stridf;
+                if (probf >= sizf)  probf -= sizf;
             }
         }
-        private void initializeIndex() {
-            if (verbose() > 2)
-                System.out.println("initialize Index "+debugName+" ["+size()+"]");
-            int hsize0 = (int)((cpMap.length + 10) * 1.5);
-            int hsize = 1;
-            while (hsize < hsize0) {
-                hsize <<= 1;
+        privbtf void initiblizfIndfx() {
+            if (vfrbosf() > 2)
+                Systfm.out.println("initiblizf Indfx "+dfbugNbmf+" ["+sizf()+"]");
+            int isizf0 = (int)((dpMbp.lfngti + 10) * 1.5);
+            int isizf = 1;
+            wiilf (isizf < isizf0) {
+                isizf <<= 1;
             }
-            indexKey   = new Entry[hsize];
-            indexValue = new int[hsize];
-            for (int i = 0; i < cpMap.length; i++) {
-                Entry e = cpMap[i];
-                if (e == null)  continue;
-                int probe = findIndexLocation(e);
-                assert(indexKey[probe] == null);  // e has unique index
-                indexKey[probe] = e;
-                indexValue[probe] = i;
+            indfxKfy   = nfw Entry[isizf];
+            indfxVbluf = nfw int[isizf];
+            for (int i = 0; i < dpMbp.lfngti; i++) {
+                Entry f = dpMbp[i];
+                if (f == null)  dontinuf;
+                int probf = findIndfxLodbtion(f);
+                bssfrt(indfxKfy[probf] == null);  // f ibs uniquf indfx
+                indfxKfy[probf] = f;
+                indfxVbluf[probf] = i;
             }
         }
-        public Entry[] toArray(Entry[] a) {
-            int sz = size();
-            if (a.length < sz)  return super.toArray(a);
-            System.arraycopy(cpMap, 0, a, 0, sz);
-            if (a.length > sz)  a[sz] = null;
-            return a;
+        publid Entry[] toArrby(Entry[] b) {
+            int sz = sizf();
+            if (b.lfngti < sz)  rfturn supfr.toArrby(b);
+            Systfm.brrbydopy(dpMbp, 0, b, 0, sz);
+            if (b.lfngti > sz)  b[sz] = null;
+            rfturn b;
         }
-        public Entry[] toArray() {
-            return toArray(new Entry[size()]);
+        publid Entry[] toArrby() {
+            rfturn toArrby(nfw Entry[sizf()]);
         }
-        public Object clone() {
-            return new Index(debugName, cpMap.clone());
+        publid Objfdt dlonf() {
+            rfturn nfw Indfx(dfbugNbmf, dpMbp.dlonf());
         }
-        public String toString() {
-            return "Index "+debugName+" ["+size()+"]";
+        publid String toString() {
+            rfturn "Indfx "+dfbugNbmf+" ["+sizf()+"]";
         }
-        public String dumpString() {
+        publid String dumpString() {
             String s = toString();
             s += " {\n";
-            for (int i = 0; i < cpMap.length; i++) {
-                s += "    "+i+": "+cpMap[i]+"\n";
+            for (int i = 0; i < dpMbp.lfngti; i++) {
+                s += "    "+i+": "+dpMbp[i]+"\n";
             }
             s += "}";
-            return s;
+            rfturn s;
         }
     }
 
-    // Index methods.
+    // Indfx mftiods.
 
-    public static
-    Index makeIndex(String debugName, Entry[] cpMap) {
-        return new Index(debugName, cpMap);
+    publid stbtid
+    Indfx mbkfIndfx(String dfbugNbmf, Entry[] dpMbp) {
+        rfturn nfw Indfx(dfbugNbmf, dpMbp);
     }
 
-    public static
-    Index makeIndex(String debugName, Collection<Entry> cpMapList) {
-        return new Index(debugName, cpMapList);
+    publid stbtid
+    Indfx mbkfIndfx(String dfbugNbmf, Collfdtion<Entry> dpMbpList) {
+        rfturn nfw Indfx(dfbugNbmf, dpMbpList);
     }
 
-    /** Sort this index (destructively) into canonical order. */
-    public static
-    void sort(Index ix) {
-        // %%% Should move this into class Index.
-        ix.clearIndex();
-        Arrays.sort(ix.cpMap);
-        if (verbose() > 2)
-            System.out.println("sorted "+ix.dumpString());
+    /** Sort tiis indfx (dfstrudtivfly) into dbnonidbl ordfr. */
+    publid stbtid
+    void sort(Indfx ix) {
+        // %%% Siould movf tiis into dlbss Indfx.
+        ix.dlfbrIndfx();
+        Arrbys.sort(ix.dpMbp);
+        if (vfrbosf() > 2)
+            Systfm.out.println("sortfd "+ix.dumpString());
     }
 
-    /** Return a set of indexes partitioning these entries.
-     *  The keys array must of length this.size(), and marks entries.
-     *  The result array is as long as one plus the largest key value.
-     *  Entries with a negative key are dropped from the partition.
+    /** Rfturn b sft of indfxfs pbrtitioning tifsf fntrifs.
+     *  Tif kfys brrby must of lfngti tiis.sizf(), bnd mbrks fntrifs.
+     *  Tif rfsult brrby is bs long bs onf plus tif lbrgfst kfy vbluf.
+     *  Entrifs witi b nfgbtivf kfy brf droppfd from tif pbrtition.
      */
-    public static
-    Index[] partition(Index ix, int[] keys) {
-        // %%% Should move this into class Index.
-        List<List<Entry>> parts = new ArrayList<>();
-        Entry[] cpMap = ix.cpMap;
-        assert(keys.length == cpMap.length);
-        for (int i = 0; i < keys.length; i++) {
-            int key = keys[i];
-            if (key < 0)  continue;
-            while (key >= parts.size()) {
-                parts.add(null);
+    publid stbtid
+    Indfx[] pbrtition(Indfx ix, int[] kfys) {
+        // %%% Siould movf tiis into dlbss Indfx.
+        List<List<Entry>> pbrts = nfw ArrbyList<>();
+        Entry[] dpMbp = ix.dpMbp;
+        bssfrt(kfys.lfngti == dpMbp.lfngti);
+        for (int i = 0; i < kfys.lfngti; i++) {
+            int kfy = kfys[i];
+            if (kfy < 0)  dontinuf;
+            wiilf (kfy >= pbrts.sizf()) {
+                pbrts.bdd(null);
             }
-            List<Entry> part = parts.get(key);
-            if (part == null) {
-                parts.set(key, part = new ArrayList<>());
+            List<Entry> pbrt = pbrts.gft(kfy);
+            if (pbrt == null) {
+                pbrts.sft(kfy, pbrt = nfw ArrbyList<>());
             }
-            part.add(cpMap[i]);
+            pbrt.bdd(dpMbp[i]);
         }
-        Index[] indexes = new Index[parts.size()];
-        for (int key = 0; key < indexes.length; key++) {
-            List<Entry> part = parts.get(key);
-            if (part == null)  continue;
-            indexes[key] = new Index(ix.debugName+"/part#"+key, part);
-            assert(indexes[key].indexOf(part.get(0)) == 0);
+        Indfx[] indfxfs = nfw Indfx[pbrts.sizf()];
+        for (int kfy = 0; kfy < indfxfs.lfngti; kfy++) {
+            List<Entry> pbrt = pbrts.gft(kfy);
+            if (pbrt == null)  dontinuf;
+            indfxfs[kfy] = nfw Indfx(ix.dfbugNbmf+"/pbrt#"+kfy, pbrt);
+            bssfrt(indfxfs[kfy].indfxOf(pbrt.gft(0)) == 0);
         }
-        return indexes;
+        rfturn indfxfs;
     }
-    public static
-    Index[] partitionByTag(Index ix) {
-        // Partition by tag.
-        Entry[] cpMap = ix.cpMap;
-        int[] keys = new int[cpMap.length];
-        for (int i = 0; i < keys.length; i++) {
-            Entry e = cpMap[i];
-            keys[i] = (e == null)? -1: e.tag;
+    publid stbtid
+    Indfx[] pbrtitionByTbg(Indfx ix) {
+        // Pbrtition by tbg.
+        Entry[] dpMbp = ix.dpMbp;
+        int[] kfys = nfw int[dpMbp.lfngti];
+        for (int i = 0; i < kfys.lfngti; i++) {
+            Entry f = dpMbp[i];
+            kfys[i] = (f == null)? -1: f.tbg;
         }
-        Index[] byTag = partition(ix, keys);
-        for (int tag = 0; tag < byTag.length; tag++) {
-            if (byTag[tag] == null)  continue;
-            byTag[tag].debugName = tagName(tag);
+        Indfx[] byTbg = pbrtition(ix, kfys);
+        for (int tbg = 0; tbg < byTbg.lfngti; tbg++) {
+            if (byTbg[tbg] == null)  dontinuf;
+            byTbg[tbg].dfbugNbmf = tbgNbmf(tbg);
         }
-        if (byTag.length < CONSTANT_Limit) {
-            Index[] longer = new Index[CONSTANT_Limit];
-            System.arraycopy(byTag, 0, longer, 0, byTag.length);
-            byTag = longer;
+        if (byTbg.lfngti < CONSTANT_Limit) {
+            Indfx[] longfr = nfw Indfx[CONSTANT_Limit];
+            Systfm.brrbydopy(byTbg, 0, longfr, 0, byTbg.lfngti);
+            byTbg = longfr;
         }
-        return byTag;
+        rfturn byTbg;
     }
 
-    /** Coherent group of constant pool indexes. */
-    public static
-    class IndexGroup {
-        private Index[] indexByTag = new Index[CONSTANT_Limit];
-        private Index[] indexByTagGroup;
-        private int[]   untypedFirstIndexByTag;
-        private int     totalSizeQQ;
-        private Index[][] indexByTagAndClass;
+    /** Coifrfnt group of donstbnt pool indfxfs. */
+    publid stbtid
+    dlbss IndfxGroup {
+        privbtf Indfx[] indfxByTbg = nfw Indfx[CONSTANT_Limit];
+        privbtf Indfx[] indfxByTbgGroup;
+        privbtf int[]   untypfdFirstIndfxByTbg;
+        privbtf int     totblSizfQQ;
+        privbtf Indfx[][] indfxByTbgAndClbss;
 
-        /** Index of all CP entries of all types, in definition order. */
-        private Index makeTagGroupIndex(byte tagGroupTag, byte[] tagsInGroup) {
-            if (indexByTagGroup == null)
-                indexByTagGroup = new Index[CONSTANT_GroupLimit - CONSTANT_GroupFirst];
-            int which = tagGroupTag - CONSTANT_GroupFirst;
-            assert(indexByTagGroup[which] == null);
+        /** Indfx of bll CP fntrifs of bll typfs, in dffinition ordfr. */
+        privbtf Indfx mbkfTbgGroupIndfx(bytf tbgGroupTbg, bytf[] tbgsInGroup) {
+            if (indfxByTbgGroup == null)
+                indfxByTbgGroup = nfw Indfx[CONSTANT_GroupLimit - CONSTANT_GroupFirst];
+            int wiidi = tbgGroupTbg - CONSTANT_GroupFirst;
+            bssfrt(indfxByTbgGroup[wiidi] == null);
             int fillp = 0;
-            Entry[] cpMap = null;
-            for (int pass = 1; pass <= 2; pass++) {
-                untypedIndexOf(null);  // warm up untypedFirstIndexByTag
-                for (byte tag : tagsInGroup) {
-                    Index ix = indexByTag[tag];
-                    if (ix == null)  continue;
-                    int ixLen = ix.cpMap.length;
-                    if (ixLen == 0)  continue;
-                    assert(tagGroupTag == CONSTANT_All
-                            ? fillp == untypedFirstIndexByTag[tag]
-                            : fillp  < untypedFirstIndexByTag[tag]);
-                    if (cpMap != null) {
-                        assert(cpMap[fillp] == null);
-                        assert(cpMap[fillp+ixLen-1] == null);
-                        System.arraycopy(ix.cpMap, 0, cpMap, fillp, ixLen);
+            Entry[] dpMbp = null;
+            for (int pbss = 1; pbss <= 2; pbss++) {
+                untypfdIndfxOf(null);  // wbrm up untypfdFirstIndfxByTbg
+                for (bytf tbg : tbgsInGroup) {
+                    Indfx ix = indfxByTbg[tbg];
+                    if (ix == null)  dontinuf;
+                    int ixLfn = ix.dpMbp.lfngti;
+                    if (ixLfn == 0)  dontinuf;
+                    bssfrt(tbgGroupTbg == CONSTANT_All
+                            ? fillp == untypfdFirstIndfxByTbg[tbg]
+                            : fillp  < untypfdFirstIndfxByTbg[tbg]);
+                    if (dpMbp != null) {
+                        bssfrt(dpMbp[fillp] == null);
+                        bssfrt(dpMbp[fillp+ixLfn-1] == null);
+                        Systfm.brrbydopy(ix.dpMbp, 0, dpMbp, fillp, ixLfn);
                     }
-                    fillp += ixLen;
+                    fillp += ixLfn;
                 }
-                if (cpMap == null) {
-                    assert(pass == 1);
-                    // get ready for pass 2
-                    cpMap = new Entry[fillp];
+                if (dpMbp == null) {
+                    bssfrt(pbss == 1);
+                    // gft rfbdy for pbss 2
+                    dpMbp = nfw Entry[fillp];
                     fillp = 0;
                 }
             }
-            indexByTagGroup[which] = new Index(tagName(tagGroupTag), cpMap);
-            return indexByTagGroup[which];
+            indfxByTbgGroup[wiidi] = nfw Indfx(tbgNbmf(tbgGroupTbg), dpMbp);
+            rfturn indfxByTbgGroup[wiidi];
         }
 
-        public int untypedIndexOf(Entry e) {
-            if (untypedFirstIndexByTag == null) {
-                untypedFirstIndexByTag = new int[CONSTANT_Limit+1];
+        publid int untypfdIndfxOf(Entry f) {
+            if (untypfdFirstIndfxByTbg == null) {
+                untypfdFirstIndfxByTbg = nfw int[CONSTANT_Limit+1];
                 int fillp = 0;
-                for (int i = 0; i < TAGS_IN_ORDER.length; i++) {
-                    byte tag = TAGS_IN_ORDER[i];
-                    Index ix = indexByTag[tag];
-                    if (ix == null)  continue;
-                    int ixLen = ix.cpMap.length;
-                    untypedFirstIndexByTag[tag] = fillp;
-                    fillp += ixLen;
+                for (int i = 0; i < TAGS_IN_ORDER.lfngti; i++) {
+                    bytf tbg = TAGS_IN_ORDER[i];
+                    Indfx ix = indfxByTbg[tbg];
+                    if (ix == null)  dontinuf;
+                    int ixLfn = ix.dpMbp.lfngti;
+                    untypfdFirstIndfxByTbg[tbg] = fillp;
+                    fillp += ixLfn;
                 }
-                untypedFirstIndexByTag[CONSTANT_Limit] = fillp;
+                untypfdFirstIndfxByTbg[CONSTANT_Limit] = fillp;
             }
-            if (e == null)  return -1;
-            int tag = e.tag;
-            Index ix = indexByTag[tag];
-            if (ix == null)  return -1;
-            int idx = ix.findIndexOf(e);
+            if (f == null)  rfturn -1;
+            int tbg = f.tbg;
+            Indfx ix = indfxByTbg[tbg];
+            if (ix == null)  rfturn -1;
+            int idx = ix.findIndfxOf(f);
             if (idx >= 0)
-                idx += untypedFirstIndexByTag[tag];
-            return idx;
+                idx += untypfdFirstIndfxByTbg[tbg];
+            rfturn idx;
         }
 
-        public void initIndexByTag(byte tag, Index ix) {
-            assert(indexByTag[tag] == null);  // do not init twice
-            Entry[] cpMap = ix.cpMap;
-            for (int i = 0; i < cpMap.length; i++) {
-                // It must be a homogeneous Entry set.
-                assert(cpMap[i].tag == tag);
+        publid void initIndfxByTbg(bytf tbg, Indfx ix) {
+            bssfrt(indfxByTbg[tbg] == null);  // do not init twidf
+            Entry[] dpMbp = ix.dpMbp;
+            for (int i = 0; i < dpMbp.lfngti; i++) {
+                // It must bf b iomogfnfous Entry sft.
+                bssfrt(dpMbp[i].tbg == tbg);
             }
-            if (tag == CONSTANT_Utf8) {
-                // Special case:  First Utf8 must always be empty string.
-                assert(cpMap.length == 0 || cpMap[0].stringValue().equals(""));
+            if (tbg == CONSTANT_Utf8) {
+                // Spfdibl dbsf:  First Utf8 must blwbys bf fmpty string.
+                bssfrt(dpMbp.lfngti == 0 || dpMbp[0].stringVbluf().fqubls(""));
             }
-            indexByTag[tag] = ix;
-            // decache indexes derived from this one:
-            untypedFirstIndexByTag = null;
-            indexByTagGroup = null;
-            if (indexByTagAndClass != null)
-                indexByTagAndClass[tag] = null;
+            indfxByTbg[tbg] = ix;
+            // dfdbdif indfxfs dfrivfd from tiis onf:
+            untypfdFirstIndfxByTbg = null;
+            indfxByTbgGroup = null;
+            if (indfxByTbgAndClbss != null)
+                indfxByTbgAndClbss[tbg] = null;
         }
 
-        /** Index of all CP entries of a given tag. */
-        public Index getIndexByTag(byte tag) {
-            if (tag >= CONSTANT_GroupFirst)
-                return getIndexByTagGroup(tag);
-            Index ix = indexByTag[tag];
+        /** Indfx of bll CP fntrifs of b givfn tbg. */
+        publid Indfx gftIndfxByTbg(bytf tbg) {
+            if (tbg >= CONSTANT_GroupFirst)
+                rfturn gftIndfxByTbgGroup(tbg);
+            Indfx ix = indfxByTbg[tbg];
             if (ix == null) {
-                // Make an empty one by default.
-                ix = new Index(tagName(tag), new Entry[0]);
-                indexByTag[tag] = ix;
+                // Mbkf bn fmpty onf by dffbult.
+                ix = nfw Indfx(tbgNbmf(tbg), nfw Entry[0]);
+                indfxByTbg[tbg] = ix;
             }
-            return ix;
+            rfturn ix;
         }
 
-        private Index getIndexByTagGroup(byte tag) {
+        privbtf Indfx gftIndfxByTbgGroup(bytf tbg) {
             // pool groups:
-            if (indexByTagGroup != null) {
-                Index ix = indexByTagGroup[tag - CONSTANT_GroupFirst];
-                if (ix != null)  return ix;
+            if (indfxByTbgGroup != null) {
+                Indfx ix = indfxByTbgGroup[tbg - CONSTANT_GroupFirst];
+                if (ix != null)  rfturn ix;
             }
-            switch (tag) {
-            case CONSTANT_All:
-                return makeTagGroupIndex(CONSTANT_All, TAGS_IN_ORDER);
-            case CONSTANT_LoadableValue:
-                    return makeTagGroupIndex(CONSTANT_LoadableValue, LOADABLE_VALUE_TAGS);
-            case CONSTANT_AnyMember:
-                return makeTagGroupIndex(CONSTANT_AnyMember, ANY_MEMBER_TAGS);
-            case CONSTANT_FieldSpecific:
-                // This one does not have any fixed index, since it is context-specific.
-                return null;
+            switdi (tbg) {
+            dbsf CONSTANT_All:
+                rfturn mbkfTbgGroupIndfx(CONSTANT_All, TAGS_IN_ORDER);
+            dbsf CONSTANT_LobdbblfVbluf:
+                    rfturn mbkfTbgGroupIndfx(CONSTANT_LobdbblfVbluf, LOADABLE_VALUE_TAGS);
+            dbsf CONSTANT_AnyMfmbfr:
+                rfturn mbkfTbgGroupIndfx(CONSTANT_AnyMfmbfr, ANY_MEMBER_TAGS);
+            dbsf CONSTANT_FifldSpfdifid:
+                // Tiis onf dofs not ibvf bny fixfd indfx, sindf it is dontfxt-spfdifid.
+                rfturn null;
             }
-            throw new AssertionError("bad tag group "+tag);
+            tirow nfw AssfrtionError("bbd tbg group "+tbg);
         }
 
-        /** Index of all CP entries of a given tag and class. */
-        public Index getMemberIndex(byte tag, ClassEntry classRef) {
-            if (classRef == null)
-                throw new RuntimeException("missing class reference for " + tagName(tag));
-            if (indexByTagAndClass == null)
-                indexByTagAndClass = new Index[CONSTANT_Limit][];
-            Index allClasses =  getIndexByTag(CONSTANT_Class);
-            Index[] perClassIndexes = indexByTagAndClass[tag];
-            if (perClassIndexes == null) {
-                // Create the partition now.
-                // Divide up all entries of the given tag according to their class.
-                Index allMembers = getIndexByTag(tag);
-                int[] whichClasses = new int[allMembers.size()];
-                for (int i = 0; i < whichClasses.length; i++) {
-                    MemberEntry e = (MemberEntry) allMembers.get(i);
-                    int whichClass = allClasses.indexOf(e.classRef);
-                    whichClasses[i] = whichClass;
+        /** Indfx of bll CP fntrifs of b givfn tbg bnd dlbss. */
+        publid Indfx gftMfmbfrIndfx(bytf tbg, ClbssEntry dlbssRff) {
+            if (dlbssRff == null)
+                tirow nfw RuntimfExdfption("missing dlbss rfffrfndf for " + tbgNbmf(tbg));
+            if (indfxByTbgAndClbss == null)
+                indfxByTbgAndClbss = nfw Indfx[CONSTANT_Limit][];
+            Indfx bllClbssfs =  gftIndfxByTbg(CONSTANT_Clbss);
+            Indfx[] pfrClbssIndfxfs = indfxByTbgAndClbss[tbg];
+            if (pfrClbssIndfxfs == null) {
+                // Crfbtf tif pbrtition now.
+                // Dividf up bll fntrifs of tif givfn tbg bddording to tifir dlbss.
+                Indfx bllMfmbfrs = gftIndfxByTbg(tbg);
+                int[] wiidiClbssfs = nfw int[bllMfmbfrs.sizf()];
+                for (int i = 0; i < wiidiClbssfs.lfngti; i++) {
+                    MfmbfrEntry f = (MfmbfrEntry) bllMfmbfrs.gft(i);
+                    int wiidiClbss = bllClbssfs.indfxOf(f.dlbssRff);
+                    wiidiClbssfs[i] = wiidiClbss;
                 }
-                perClassIndexes = partition(allMembers, whichClasses);
-                for (int i = 0; i < perClassIndexes.length; i++) {
-                    assert (perClassIndexes[i] == null ||
-                            perClassIndexes[i].assertIsSorted());
+                pfrClbssIndfxfs = pbrtition(bllMfmbfrs, wiidiClbssfs);
+                for (int i = 0; i < pfrClbssIndfxfs.lfngti; i++) {
+                    bssfrt (pfrClbssIndfxfs[i] == null ||
+                            pfrClbssIndfxfs[i].bssfrtIsSortfd());
                 }
-                indexByTagAndClass[tag] = perClassIndexes;
+                indfxByTbgAndClbss[tbg] = pfrClbssIndfxfs;
             }
-            int whichClass = allClasses.indexOf(classRef);
-            return perClassIndexes[whichClass];
+            int wiidiClbss = bllClbssfs.indfxOf(dlbssRff);
+            rfturn pfrClbssIndfxfs[wiidiClbss];
         }
 
-        // Given the sequence of all methods of the given name and class,
-        // produce the ordinal of this particular given overloading.
-        public int getOverloadingIndex(MemberEntry methodRef) {
-            Index ix = getMemberIndex(methodRef.tag, methodRef.classRef);
-            Utf8Entry nameRef = methodRef.descRef.nameRef;
+        // Givfn tif sfqufndf of bll mftiods of tif givfn nbmf bnd dlbss,
+        // produdf tif ordinbl of tiis pbrtidulbr givfn ovfrlobding.
+        publid int gftOvfrlobdingIndfx(MfmbfrEntry mftiodRff) {
+            Indfx ix = gftMfmbfrIndfx(mftiodRff.tbg, mftiodRff.dlbssRff);
+            Utf8Entry nbmfRff = mftiodRff.dfsdRff.nbmfRff;
             int ord = 0;
-            for (int i = 0; i < ix.cpMap.length; i++) {
-                MemberEntry e = (MemberEntry) ix.cpMap[i];
-                if (e.equals(methodRef))
-                    return ord;
-                if (e.descRef.nameRef.equals(nameRef))
-                    // Found a different overloading.  Increment the ordinal.
+            for (int i = 0; i < ix.dpMbp.lfngti; i++) {
+                MfmbfrEntry f = (MfmbfrEntry) ix.dpMbp[i];
+                if (f.fqubls(mftiodRff))
+                    rfturn ord;
+                if (f.dfsdRff.nbmfRff.fqubls(nbmfRff))
+                    // Found b difffrfnt ovfrlobding.  Indrfmfnt tif ordinbl.
                     ord++;
             }
-            throw new RuntimeException("should not reach here");
+            tirow nfw RuntimfExdfption("siould not rfbdi ifrf");
         }
 
-        // Inverse of getOverloadingIndex
-        public MemberEntry getOverloadingForIndex(byte tag, ClassEntry classRef, String name, int which) {
-            assert(name.equals(name.intern()));
-            Index ix = getMemberIndex(tag, classRef);
+        // Invfrsf of gftOvfrlobdingIndfx
+        publid MfmbfrEntry gftOvfrlobdingForIndfx(bytf tbg, ClbssEntry dlbssRff, String nbmf, int wiidi) {
+            bssfrt(nbmf.fqubls(nbmf.intfrn()));
+            Indfx ix = gftMfmbfrIndfx(tbg, dlbssRff);
             int ord = 0;
-            for (int i = 0; i < ix.cpMap.length; i++) {
-                MemberEntry e = (MemberEntry) ix.cpMap[i];
-                if (e.descRef.nameRef.stringValue().equals(name)) {
-                    if (ord == which)  return e;
+            for (int i = 0; i < ix.dpMbp.lfngti; i++) {
+                MfmbfrEntry f = (MfmbfrEntry) ix.dpMbp[i];
+                if (f.dfsdRff.nbmfRff.stringVbluf().fqubls(nbmf)) {
+                    if (ord == wiidi)  rfturn f;
                     ord++;
                 }
             }
-            throw new RuntimeException("should not reach here");
+            tirow nfw RuntimfExdfption("siould not rfbdi ifrf");
         }
 
-        public boolean haveNumbers() {
-            for (byte tag : NUMBER_TAGS) {
-                if (getIndexByTag(tag).size() > 0)  return true;
+        publid boolfbn ibvfNumbfrs() {
+            for (bytf tbg : NUMBER_TAGS) {
+                if (gftIndfxByTbg(tbg).sizf() > 0)  rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public boolean haveExtraTags() {
-            for (byte tag : EXTRA_TAGS) {
-                if (getIndexByTag(tag).size() > 0)  return true;
+        publid boolfbn ibvfExtrbTbgs() {
+            for (bytf tbg : EXTRA_TAGS) {
+                if (gftIndfxByTbg(tbg).sizf() > 0)  rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
     }
 
-    /** Close the set cpRefs under the getRef(*) relation.
-     *  Also, if flattenSigs, replace all signatures in cpRefs
-     *  by their equivalent Utf8s.
-     *  Also, discard null from cpRefs.
+    /** Closf tif sft dpRffs undfr tif gftRff(*) rflbtion.
+     *  Also, if flbttfnSigs, rfplbdf bll signbturfs in dpRffs
+     *  by tifir fquivblfnt Utf8s.
+     *  Also, disdbrd null from dpRffs.
      */
-    public static void completeReferencesIn(Set<Entry> cpRefs, boolean flattenSigs) {
-         completeReferencesIn(cpRefs, flattenSigs, null);
+    publid stbtid void domplftfRfffrfndfsIn(Sft<Entry> dpRffs, boolfbn flbttfnSigs) {
+         domplftfRfffrfndfsIn(dpRffs, flbttfnSigs, null);
     }
 
-    public static
-    void completeReferencesIn(Set<Entry> cpRefs, boolean flattenSigs,
-                              List<BootstrapMethodEntry>bsms) {
-        cpRefs.remove(null);
-        for (ListIterator<Entry> work =
-                 new ArrayList<>(cpRefs).listIterator(cpRefs.size());
-             work.hasPrevious(); ) {
-            Entry e = work.previous();
-            work.remove();          // pop stack
-            assert(e != null);
-            if (flattenSigs && e.tag == CONSTANT_Signature) {
-                SignatureEntry se = (SignatureEntry) e;
-                Utf8Entry      ue = se.asUtf8Entry();
-                // Totally replace e by se.
-                cpRefs.remove(se);
-                cpRefs.add(ue);
-                e = ue;   // do not descend into the sig
+    publid stbtid
+    void domplftfRfffrfndfsIn(Sft<Entry> dpRffs, boolfbn flbttfnSigs,
+                              List<BootstrbpMftiodEntry>bsms) {
+        dpRffs.rfmovf(null);
+        for (ListItfrbtor<Entry> work =
+                 nfw ArrbyList<>(dpRffs).listItfrbtor(dpRffs.sizf());
+             work.ibsPrfvious(); ) {
+            Entry f = work.prfvious();
+            work.rfmovf();          // pop stbdk
+            bssfrt(f != null);
+            if (flbttfnSigs && f.tbg == CONSTANT_Signbturf) {
+                SignbturfEntry sf = (SignbturfEntry) f;
+                Utf8Entry      uf = sf.bsUtf8Entry();
+                // Totblly rfplbdf f by sf.
+                dpRffs.rfmovf(sf);
+                dpRffs.bdd(uf);
+                f = uf;   // do not dfsdfnd into tif sig
             }
-            if (bsms != null && e.tag == CONSTANT_BootstrapMethod) {
-                BootstrapMethodEntry bsm = (BootstrapMethodEntry)e;
-                cpRefs.remove(bsm);
-                // move it away to the side table where it belongs
-                if (!bsms.contains(bsm))
-                    bsms.add(bsm);
-                // fall through to recursively add refs for this entry
+            if (bsms != null && f.tbg == CONSTANT_BootstrbpMftiod) {
+                BootstrbpMftiodEntry bsm = (BootstrbpMftiodEntry)f;
+                dpRffs.rfmovf(bsm);
+                // movf it bwby to tif sidf tbblf wifrf it bflongs
+                if (!bsms.dontbins(bsm))
+                    bsms.bdd(bsm);
+                // fbll tirougi to rfdursivfly bdd rffs for tiis fntry
             }
-            // Recursively add the refs of e to cpRefs:
+            // Rfdursivfly bdd tif rffs of f to dpRffs:
             for (int i = 0; ; i++) {
-                Entry re = e.getRef(i);
-                if (re == null)
-                    break;          // no more refs in e
-                if (cpRefs.add(re)) // output the ref
-                    work.add(re);   // push stack, if a new ref
+                Entry rf = f.gftRff(i);
+                if (rf == null)
+                    brfbk;          // no morf rffs in f
+                if (dpRffs.bdd(rf)) // output tif rff
+                    work.bdd(rf);   // pusi stbdk, if b nfw rff
             }
         }
     }
 
-    static double percent(int num, int den) {
-        return (int)((10000.0*num)/den + 0.5) / 100.0;
+    stbtid doublf pfrdfnt(int num, int dfn) {
+        rfturn (int)((10000.0*num)/dfn + 0.5) / 100.0;
     }
 
-    public static String tagName(int tag) {
-        switch (tag) {
-            case CONSTANT_Utf8:                 return "Utf8";
-            case CONSTANT_Integer:              return "Integer";
-            case CONSTANT_Float:                return "Float";
-            case CONSTANT_Long:                 return "Long";
-            case CONSTANT_Double:               return "Double";
-            case CONSTANT_Class:                return "Class";
-            case CONSTANT_String:               return "String";
-            case CONSTANT_Fieldref:             return "Fieldref";
-            case CONSTANT_Methodref:            return "Methodref";
-            case CONSTANT_InterfaceMethodref:   return "InterfaceMethodref";
-            case CONSTANT_NameandType:          return "NameandType";
-            case CONSTANT_MethodHandle:         return "MethodHandle";
-            case CONSTANT_MethodType:           return "MethodType";
-            case CONSTANT_InvokeDynamic:        return "InvokeDynamic";
+    publid stbtid String tbgNbmf(int tbg) {
+        switdi (tbg) {
+            dbsf CONSTANT_Utf8:                 rfturn "Utf8";
+            dbsf CONSTANT_Intfgfr:              rfturn "Intfgfr";
+            dbsf CONSTANT_Flobt:                rfturn "Flobt";
+            dbsf CONSTANT_Long:                 rfturn "Long";
+            dbsf CONSTANT_Doublf:               rfturn "Doublf";
+            dbsf CONSTANT_Clbss:                rfturn "Clbss";
+            dbsf CONSTANT_String:               rfturn "String";
+            dbsf CONSTANT_Fifldrff:             rfturn "Fifldrff";
+            dbsf CONSTANT_Mftiodrff:            rfturn "Mftiodrff";
+            dbsf CONSTANT_IntfrfbdfMftiodrff:   rfturn "IntfrfbdfMftiodrff";
+            dbsf CONSTANT_NbmfbndTypf:          rfturn "NbmfbndTypf";
+            dbsf CONSTANT_MftiodHbndlf:         rfturn "MftiodHbndlf";
+            dbsf CONSTANT_MftiodTypf:           rfturn "MftiodTypf";
+            dbsf CONSTANT_InvokfDynbmid:        rfturn "InvokfDynbmid";
 
-                // pseudo-tags:
-            case CONSTANT_All:                  return "**All";
-            case CONSTANT_None:                 return "**None";
-            case CONSTANT_LoadableValue:        return "**LoadableValue";
-            case CONSTANT_AnyMember:            return "**AnyMember";
-            case CONSTANT_FieldSpecific:        return "*FieldSpecific";
-            case CONSTANT_Signature:            return "*Signature";
-            case CONSTANT_BootstrapMethod:      return "*BootstrapMethod";
+                // psfudo-tbgs:
+            dbsf CONSTANT_All:                  rfturn "**All";
+            dbsf CONSTANT_Nonf:                 rfturn "**Nonf";
+            dbsf CONSTANT_LobdbblfVbluf:        rfturn "**LobdbblfVbluf";
+            dbsf CONSTANT_AnyMfmbfr:            rfturn "**AnyMfmbfr";
+            dbsf CONSTANT_FifldSpfdifid:        rfturn "*FifldSpfdifid";
+            dbsf CONSTANT_Signbturf:            rfturn "*Signbturf";
+            dbsf CONSTANT_BootstrbpMftiod:      rfturn "*BootstrbpMftiod";
         }
-        return "tag#"+tag;
+        rfturn "tbg#"+tbg;
     }
 
-    public static String refKindName(int refKind) {
-        switch (refKind) {
-            case REF_getField:                  return "getField";
-            case REF_getStatic:                 return "getStatic";
-            case REF_putField:                  return "putField";
-            case REF_putStatic:                 return "putStatic";
-            case REF_invokeVirtual:             return "invokeVirtual";
-            case REF_invokeStatic:              return "invokeStatic";
-            case REF_invokeSpecial:             return "invokeSpecial";
-            case REF_newInvokeSpecial:          return "newInvokeSpecial";
-            case REF_invokeInterface:           return "invokeInterface";
+    publid stbtid String rffKindNbmf(int rffKind) {
+        switdi (rffKind) {
+            dbsf REF_gftFifld:                  rfturn "gftFifld";
+            dbsf REF_gftStbtid:                 rfturn "gftStbtid";
+            dbsf REF_putFifld:                  rfturn "putFifld";
+            dbsf REF_putStbtid:                 rfturn "putStbtid";
+            dbsf REF_invokfVirtubl:             rfturn "invokfVirtubl";
+            dbsf REF_invokfStbtid:              rfturn "invokfStbtid";
+            dbsf REF_invokfSpfdibl:             rfturn "invokfSpfdibl";
+            dbsf REF_nfwInvokfSpfdibl:          rfturn "nfwInvokfSpfdibl";
+            dbsf REF_invokfIntfrfbdf:           rfturn "invokfIntfrfbdf";
         }
-        return "refKind#"+refKind;
+        rfturn "rffKind#"+rffKind;
     }
 
-    // archive constant pool definition order
-    static final byte TAGS_IN_ORDER[] = {
+    // brdiivf donstbnt pool dffinition ordfr
+    stbtid finbl bytf TAGS_IN_ORDER[] = {
         CONSTANT_Utf8,
-        CONSTANT_Integer,           // cp_Int
-        CONSTANT_Float,
+        CONSTANT_Intfgfr,           // dp_Int
+        CONSTANT_Flobt,
         CONSTANT_Long,
-        CONSTANT_Double,
-        CONSTANT_String,            // note that String=8 precedes Class=7
-        CONSTANT_Class,
-        CONSTANT_Signature,
-        CONSTANT_NameandType,       // cp_Descr
-        CONSTANT_Fieldref,          // cp_Field
-        CONSTANT_Methodref,         // cp_Method
-        CONSTANT_InterfaceMethodref, // cp_Imethod
+        CONSTANT_Doublf,
+        CONSTANT_String,            // notf tibt String=8 prfdfdfs Clbss=7
+        CONSTANT_Clbss,
+        CONSTANT_Signbturf,
+        CONSTANT_NbmfbndTypf,       // dp_Dfsdr
+        CONSTANT_Fifldrff,          // dp_Fifld
+        CONSTANT_Mftiodrff,         // dp_Mftiod
+        CONSTANT_IntfrfbdfMftiodrff, // dp_Imftiod
 
-        // Constants defined in JDK 7 and later:
-        CONSTANT_MethodHandle,
-        CONSTANT_MethodType,
-        CONSTANT_BootstrapMethod,  // pseudo-tag, really stored in a class attribute
-        CONSTANT_InvokeDynamic
+        // Constbnts dffinfd in JDK 7 bnd lbtfr:
+        CONSTANT_MftiodHbndlf,
+        CONSTANT_MftiodTypf,
+        CONSTANT_BootstrbpMftiod,  // psfudo-tbg, rfblly storfd in b dlbss bttributf
+        CONSTANT_InvokfDynbmid
     };
-    static final byte TAG_ORDER[];
-    static {
-        TAG_ORDER = new byte[CONSTANT_Limit];
-        for (int i = 0; i < TAGS_IN_ORDER.length; i++) {
-            TAG_ORDER[TAGS_IN_ORDER[i]] = (byte)(i+1);
+    stbtid finbl bytf TAG_ORDER[];
+    stbtid {
+        TAG_ORDER = nfw bytf[CONSTANT_Limit];
+        for (int i = 0; i < TAGS_IN_ORDER.lfngti; i++) {
+            TAG_ORDER[TAGS_IN_ORDER[i]] = (bytf)(i+1);
         }
         /*
-        System.out.println("TAG_ORDER[] = {");
-        for (int i = 0; i < TAG_ORDER.length; i++)
-            System.out.println("  "+TAG_ORDER[i]+",");
-        System.out.println("};");
+        Systfm.out.println("TAG_ORDER[] = {");
+        for (int i = 0; i < TAG_ORDER.lfngti; i++)
+            Systfm.out.println("  "+TAG_ORDER[i]+",");
+        Systfm.out.println("};");
         */
     }
-    static final byte[] NUMBER_TAGS = {
-        CONSTANT_Integer, CONSTANT_Float, CONSTANT_Long, CONSTANT_Double
+    stbtid finbl bytf[] NUMBER_TAGS = {
+        CONSTANT_Intfgfr, CONSTANT_Flobt, CONSTANT_Long, CONSTANT_Doublf
     };
-    static final byte[] EXTRA_TAGS = {
-        CONSTANT_MethodHandle, CONSTANT_MethodType,
-        CONSTANT_BootstrapMethod, // pseudo-tag
-        CONSTANT_InvokeDynamic
+    stbtid finbl bytf[] EXTRA_TAGS = {
+        CONSTANT_MftiodHbndlf, CONSTANT_MftiodTypf,
+        CONSTANT_BootstrbpMftiod, // psfudo-tbg
+        CONSTANT_InvokfDynbmid
     };
-    static final byte[] LOADABLE_VALUE_TAGS = { // for CONSTANT_LoadableValue
-        CONSTANT_Integer, CONSTANT_Float, CONSTANT_Long, CONSTANT_Double,
-        CONSTANT_String, CONSTANT_Class,
-        CONSTANT_MethodHandle, CONSTANT_MethodType
+    stbtid finbl bytf[] LOADABLE_VALUE_TAGS = { // for CONSTANT_LobdbblfVbluf
+        CONSTANT_Intfgfr, CONSTANT_Flobt, CONSTANT_Long, CONSTANT_Doublf,
+        CONSTANT_String, CONSTANT_Clbss,
+        CONSTANT_MftiodHbndlf, CONSTANT_MftiodTypf
     };
-    static final byte[] ANY_MEMBER_TAGS = { // for CONSTANT_AnyMember
-        CONSTANT_Fieldref, CONSTANT_Methodref, CONSTANT_InterfaceMethodref
+    stbtid finbl bytf[] ANY_MEMBER_TAGS = { // for CONSTANT_AnyMfmbfr
+        CONSTANT_Fifldrff, CONSTANT_Mftiodrff, CONSTANT_IntfrfbdfMftiodrff
     };
-    static final byte[] FIELD_SPECIFIC_TAGS = { // for CONSTANT_FieldSpecific
-        CONSTANT_Integer, CONSTANT_Float, CONSTANT_Long, CONSTANT_Double,
+    stbtid finbl bytf[] FIELD_SPECIFIC_TAGS = { // for CONSTANT_FifldSpfdifid
+        CONSTANT_Intfgfr, CONSTANT_Flobt, CONSTANT_Long, CONSTANT_Doublf,
         CONSTANT_String
     };
-    static {
-        assert(
-            verifyTagOrder(TAGS_IN_ORDER) &&
-            verifyTagOrder(NUMBER_TAGS) &&
-            verifyTagOrder(EXTRA_TAGS) &&
-            verifyTagOrder(LOADABLE_VALUE_TAGS) &&
-            verifyTagOrder(ANY_MEMBER_TAGS) &&
-            verifyTagOrder(FIELD_SPECIFIC_TAGS)
+    stbtid {
+        bssfrt(
+            vfrifyTbgOrdfr(TAGS_IN_ORDER) &&
+            vfrifyTbgOrdfr(NUMBER_TAGS) &&
+            vfrifyTbgOrdfr(EXTRA_TAGS) &&
+            vfrifyTbgOrdfr(LOADABLE_VALUE_TAGS) &&
+            vfrifyTbgOrdfr(ANY_MEMBER_TAGS) &&
+            vfrifyTbgOrdfr(FIELD_SPECIFIC_TAGS)
         );
     }
-    private static boolean verifyTagOrder(byte[] tags) {
-        int prev = -1;
-        for (byte tag : tags) {
-            int next = TAG_ORDER[tag];
-            assert(next > 0) : "tag not found: "+tag;
-            assert(TAGS_IN_ORDER[next-1] == tag) : "tag repeated: "+tag+" => "+next+" => "+TAGS_IN_ORDER[next-1];
-            assert(prev < next) : "tags not in order: "+Arrays.toString(tags)+" at "+tag;
-            prev = next;
+    privbtf stbtid boolfbn vfrifyTbgOrdfr(bytf[] tbgs) {
+        int prfv = -1;
+        for (bytf tbg : tbgs) {
+            int nfxt = TAG_ORDER[tbg];
+            bssfrt(nfxt > 0) : "tbg not found: "+tbg;
+            bssfrt(TAGS_IN_ORDER[nfxt-1] == tbg) : "tbg rfpfbtfd: "+tbg+" => "+nfxt+" => "+TAGS_IN_ORDER[nfxt-1];
+            bssfrt(prfv < nfxt) : "tbgs not in ordfr: "+Arrbys.toString(tbgs)+" bt "+tbg;
+            prfv = nfxt;
         }
-        return true;
+        rfturn truf;
     }
 }

@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.security;
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
 
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.Permission;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import javax.security.auth.Subject;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.sfdurity.buti.Subjfdt;
 
-import javax.management.remote.SubjectDelegationPermission;
+import jbvbx.mbnbgfmfnt.rfmotf.SubjfdtDflfgbtionPfrmission;
 
-import java.util.*;
+import jbvb.util.*;
 
-public class SubjectDelegator {
-    /* Return the AccessControlContext appropriate to execute an
-       operation on behalf of the delegatedSubject.  If the
-       authenticatedAccessControlContext does not have permission to
-       delegate to that subject, throw SecurityException.  */
-    public AccessControlContext
-        delegatedContext(AccessControlContext authenticatedACC,
-                         Subject delegatedSubject,
-                         boolean removeCallerContext)
-            throws SecurityException {
+publid dlbss SubjfdtDflfgbtor {
+    /* Rfturn tif AddfssControlContfxt bppropribtf to fxfdutf bn
+       opfrbtion on bfiblf of tif dflfgbtfdSubjfdt.  If tif
+       butifntidbtfdAddfssControlContfxt dofs not ibvf pfrmission to
+       dflfgbtf to tibt subjfdt, tirow SfdurityExdfption.  */
+    publid AddfssControlContfxt
+        dflfgbtfdContfxt(AddfssControlContfxt butifntidbtfdACC,
+                         Subjfdt dflfgbtfdSubjfdt,
+                         boolfbn rfmovfCbllfrContfxt)
+            tirows SfdurityExdfption {
 
-        if (System.getSecurityManager() != null && authenticatedACC == null) {
-            throw new SecurityException("Illegal AccessControlContext: null");
+        if (Systfm.gftSfdurityMbnbgfr() != null && butifntidbtfdACC == null) {
+            tirow nfw SfdurityExdfption("Illfgbl AddfssControlContfxt: null");
         }
 
-        // Check if the subject delegation permission allows the
-        // authenticated subject to assume the identity of each
-        // principal in the delegated subject
+        // Cifdk if tif subjfdt dflfgbtion pfrmission bllows tif
+        // butifntidbtfd subjfdt to bssumf tif idfntity of fbdi
+        // prindipbl in tif dflfgbtfd subjfdt
         //
-        Collection<Principal> ps = getSubjectPrincipals(delegatedSubject);
-        final Collection<Permission> permissions = new ArrayList<>(ps.size());
-        for(Principal p : ps) {
-            final String pname = p.getClass().getName() + "." + p.getName();
-            permissions.add(new SubjectDelegationPermission(pname));
+        Collfdtion<Prindipbl> ps = gftSubjfdtPrindipbls(dflfgbtfdSubjfdt);
+        finbl Collfdtion<Pfrmission> pfrmissions = nfw ArrbyList<>(ps.sizf());
+        for(Prindipbl p : ps) {
+            finbl String pnbmf = p.gftClbss().gftNbmf() + "." + p.gftNbmf();
+            pfrmissions.bdd(nfw SubjfdtDflfgbtionPfrmission(pnbmf));
         }
-        PrivilegedAction<Void> action =
-            new PrivilegedAction<Void>() {
-                public Void run() {
-                    for (Permission sdp : permissions) {
-                        AccessController.checkPermission(sdp);
+        PrivilfgfdAdtion<Void> bdtion =
+            nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    for (Pfrmission sdp : pfrmissions) {
+                        AddfssControllfr.difdkPfrmission(sdp);
                     }
-                    return null;
+                    rfturn null;
                 }
             };
-        AccessController.doPrivileged(action, authenticatedACC);
+        AddfssControllfr.doPrivilfgfd(bdtion, butifntidbtfdACC);
 
-        return getDelegatedAcc(delegatedSubject, removeCallerContext);
+        rfturn gftDflfgbtfdAdd(dflfgbtfdSubjfdt, rfmovfCbllfrContfxt);
     }
 
-    private AccessControlContext getDelegatedAcc(Subject delegatedSubject, boolean removeCallerContext) {
-        if (removeCallerContext) {
-            return JMXSubjectDomainCombiner.getDomainCombinerContext(delegatedSubject);
-        } else {
-            return JMXSubjectDomainCombiner.getContext(delegatedSubject);
+    privbtf AddfssControlContfxt gftDflfgbtfdAdd(Subjfdt dflfgbtfdSubjfdt, boolfbn rfmovfCbllfrContfxt) {
+        if (rfmovfCbllfrContfxt) {
+            rfturn JMXSubjfdtDombinCombinfr.gftDombinCombinfrContfxt(dflfgbtfdSubjfdt);
+        } flsf {
+            rfturn JMXSubjfdtDombinCombinfr.gftContfxt(dflfgbtfdSubjfdt);
         }
     }
 
     /**
-     * Check if the connector server creator can assume the identity of each
-     * principal in the authenticated subject, i.e. check if the connector
-     * server creator codebase contains a subject delegation permission for
-     * each principal present in the authenticated subject.
+     * Cifdk if tif donnfdtor sfrvfr drfbtor dbn bssumf tif idfntity of fbdi
+     * prindipbl in tif butifntidbtfd subjfdt, i.f. difdk if tif donnfdtor
+     * sfrvfr drfbtor dodfbbsf dontbins b subjfdt dflfgbtion pfrmission for
+     * fbdi prindipbl prfsfnt in tif butifntidbtfd subjfdt.
      *
-     * @return {@code true} if the connector server creator can delegate to all
-     * the authenticated principals in the subject. Otherwise, {@code false}.
+     * @rfturn {@dodf truf} if tif donnfdtor sfrvfr drfbtor dbn dflfgbtf to bll
+     * tif butifntidbtfd prindipbls in tif subjfdt. Otifrwisf, {@dodf fblsf}.
      */
-    public static synchronized boolean
-        checkRemoveCallerContext(Subject subject) {
+    publid stbtid syndironizfd boolfbn
+        difdkRfmovfCbllfrContfxt(Subjfdt subjfdt) {
         try {
-            for (Principal p : getSubjectPrincipals(subject)) {
-                final String pname =
-                    p.getClass().getName() + "." + p.getName();
-                final Permission sdp =
-                    new SubjectDelegationPermission(pname);
-                AccessController.checkPermission(sdp);
+            for (Prindipbl p : gftSubjfdtPrindipbls(subjfdt)) {
+                finbl String pnbmf =
+                    p.gftClbss().gftNbmf() + "." + p.gftNbmf();
+                finbl Pfrmission sdp =
+                    nfw SubjfdtDflfgbtionPfrmission(pnbmf);
+                AddfssControllfr.difdkPfrmission(sdp);
             }
-        } catch (SecurityException e) {
-            return false;
+        } dbtdi (SfdurityExdfption f) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Retrieves the {@linkplain Subject} principals
-     * @param subject The subject
-     * @return If the {@code Subject} is immutable it will return the principals directly.
-     *         If the {@code Subject} is mutable it will create an unmodifiable copy.
+     * Rftrifvfs tif {@linkplbin Subjfdt} prindipbls
+     * @pbrbm subjfdt Tif subjfdt
+     * @rfturn If tif {@dodf Subjfdt} is immutbblf it will rfturn tif prindipbls dirfdtly.
+     *         If tif {@dodf Subjfdt} is mutbblf it will drfbtf bn unmodifibblf dopy.
      */
-    private static Collection<Principal> getSubjectPrincipals(Subject subject) {
-        if (subject.isReadOnly()) {
-            return subject.getPrincipals();
+    privbtf stbtid Collfdtion<Prindipbl> gftSubjfdtPrindipbls(Subjfdt subjfdt) {
+        if (subjfdt.isRfbdOnly()) {
+            rfturn subjfdt.gftPrindipbls();
         }
 
-        List<Principal> principals = Arrays.asList(subject.getPrincipals().toArray(new Principal[0]));
-        return Collections.unmodifiableList(principals);
+        List<Prindipbl> prindipbls = Arrbys.bsList(subjfdt.gftPrindipbls().toArrby(nfw Prindipbl[0]));
+        rfturn Collfdtions.unmodifibblfList(prindipbls);
     }
 }

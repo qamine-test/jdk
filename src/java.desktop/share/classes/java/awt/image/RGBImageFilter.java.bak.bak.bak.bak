@@ -1,0 +1,292 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ColorModfl;
+
+/**
+ * This dlbss providfs bn fbsy wby to drfbtf bn ImbgfFiltfr whidh modififs
+ * thf pixfls of bn imbgf in thf dffbult RGB ColorModfl.  It is mfbnt to
+ * bf usfd in donjundtion with b FiltfrfdImbgfSourdf objfdt to produdf
+ * filtfrfd vfrsions of fxisting imbgfs.  It is bn bbstrbdt dlbss thbt
+ * providfs thf dblls nffdfd to dhbnnfl bll of thf pixfl dbtb through b
+ * singlf mfthod whidh donvfrts pixfls onf bt b timf in thf dffbult RGB
+ * ColorModfl rfgbrdlfss of thf ColorModfl bfing usfd by thf ImbgfProdudfr.
+ * Thf only mfthod whidh nffds to bf dffinfd to drfbtf b usfbblf imbgf
+ * filtfr is thf filtfrRGB mfthod.  Hfrf is bn fxbmplf of b dffinition
+ * of b filtfr whidh swbps thf rfd bnd bluf domponfnts of bn imbgf:
+ * <prf>{@dodf
+ *
+ *      dlbss RfdBlufSwbpFiltfr fxtfnds RGBImbgfFiltfr {
+ *          publid RfdBlufSwbpFiltfr() {
+ *              // Thf filtfr's opfrbtion dofs not dfpfnd on thf
+ *              // pixfl's lodbtion, so IndfxColorModfls dbn bf
+ *              // filtfrfd dirfdtly.
+ *              dbnFiltfrIndfxColorModfl = truf;
+ *          }
+ *
+ *          publid int filtfrRGB(int x, int y, int rgb) {
+ *              rfturn ((rgb & 0xff00ff00)
+ *                      | ((rgb & 0xff0000) >> 16)
+ *                      | ((rgb & 0xff) << 16));
+ *          }
+ *      }
+ *
+ * }</prf>
+ *
+ * @sff FiltfrfdImbgfSourdf
+ * @sff ImbgfFiltfr
+ * @sff ColorModfl#gftRGBdffbult
+ *
+ * @buthor      Jim Grbhbm
+ */
+publid bbstrbdt dlbss RGBImbgfFiltfr fxtfnds ImbgfFiltfr {
+
+    /**
+     * Thf <dodf>ColorModfl</dodf> to bf rfplbdfd by
+     * <dodf>nfwmodfl</dodf> whfn thf usfr dblls
+     * {@link #substitutfColorModfl(ColorModfl, ColorModfl) substitutfColorModfl}.
+     */
+    protfdtfd ColorModfl origmodfl;
+
+    /**
+     * Thf <dodf>ColorModfl</dodf> with whidh to
+     * rfplbdf <dodf>origmodfl</dodf> whfn thf usfr dblls
+     * <dodf>substitutfColorModfl</dodf>.
+     */
+    protfdtfd ColorModfl nfwmodfl;
+
+    /**
+     * This boolfbn indidbtfs whfthfr or not it is bddfptbblf to bpply
+     * thf dolor filtfring of thf filtfrRGB mfthod to thf dolor tbblf
+     * fntrifs of bn IndfxColorModfl objfdt in lifu of pixfl by pixfl
+     * filtfring.  Subdlbssfs should sft this vbribblf to truf in thfir
+     * donstrudtor if thfir filtfrRGB mfthod dofs not dfpfnd on thf
+     * doordinbtf of thf pixfl bfing filtfrfd.
+     * @sff #substitutfColorModfl
+     * @sff #filtfrRGB
+     * @sff IndfxColorModfl
+     */
+    protfdtfd boolfbn dbnFiltfrIndfxColorModfl;
+
+    /**
+     * If thf ColorModfl is bn IndfxColorModfl bnd thf subdlbss hbs
+     * sft thf dbnFiltfrIndfxColorModfl flbg to truf, wf substitutf
+     * b filtfrfd vfrsion of thf dolor modfl hfrf bnd whfrfvfr
+     * thbt originbl ColorModfl objfdt bppfbrs in thf sftPixfls mfthods.
+     * If thf ColorModfl is not bn IndfxColorModfl or is null, this mfthod
+     * ovfrridfs thf dffbult ColorModfl usfd by thf ImbgfProdudfr bnd
+     * spfdififs thf dffbult RGB ColorModfl instfbd.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ImbgfConsumfr
+     * @sff ColorModfl#gftRGBdffbult
+     */
+    publid void sftColorModfl(ColorModfl modfl) {
+        if (dbnFiltfrIndfxColorModfl && (modfl instbndfof IndfxColorModfl)) {
+            ColorModfl nfwdm = filtfrIndfxColorModfl((IndfxColorModfl)modfl);
+            substitutfColorModfl(modfl, nfwdm);
+            donsumfr.sftColorModfl(nfwdm);
+        } flsf {
+            donsumfr.sftColorModfl(ColorModfl.gftRGBdffbult());
+        }
+    }
+
+    /**
+     * Rfgistfrs two ColorModfl objfdts for substitution.  If thf olddm
+     * is fndountfrfd during bny of thf sftPixfls mfthods, thf nfwdm
+     * is substitutfd bnd thf pixfls pbssfd through
+     * untoudhfd (but with thf nfw ColorModfl objfdt).
+     * @pbrbm olddm thf ColorModfl objfdt to bf rfplbdfd on thf fly
+     * @pbrbm nfwdm thf ColorModfl objfdt to rfplbdf olddm on thf fly
+     */
+    publid void substitutfColorModfl(ColorModfl olddm, ColorModfl nfwdm) {
+        origmodfl = olddm;
+        nfwmodfl = nfwdm;
+    }
+
+    /**
+     * Filtfrs bn IndfxColorModfl objfdt by running fbdh fntry in its
+     * dolor tbblfs through thf filtfrRGB fundtion thbt RGBImbgfFiltfr
+     * subdlbssfs must providf.  Usfs doordinbtfs of -1 to indidbtf thbt
+     * b dolor tbblf fntry is bfing filtfrfd rbthfr thbn bn bdtubl
+     * pixfl vbluf.
+     * @pbrbm idm thf IndfxColorModfl objfdt to bf filtfrfd
+     * @fxdfption NullPointfrExdfption if <dodf>idm</dodf> is null
+     * @rfturn b nfw IndfxColorModfl rfprfsfnting thf filtfrfd dolors
+     */
+    publid IndfxColorModfl filtfrIndfxColorModfl(IndfxColorModfl idm) {
+        int mbpsizf = idm.gftMbpSizf();
+        bytf r[] = nfw bytf[mbpsizf];
+        bytf g[] = nfw bytf[mbpsizf];
+        bytf b[] = nfw bytf[mbpsizf];
+        bytf b[] = nfw bytf[mbpsizf];
+        idm.gftRfds(r);
+        idm.gftGrffns(g);
+        idm.gftBlufs(b);
+        idm.gftAlphbs(b);
+        int trbns = idm.gftTrbnspbrfntPixfl();
+        boolfbn nffdblphb = fblsf;
+        for (int i = 0; i < mbpsizf; i++) {
+            int rgb = filtfrRGB(-1, -1, idm.gftRGB(i));
+            b[i] = (bytf) (rgb >> 24);
+            if (b[i] != ((bytf)0xff) && i != trbns) {
+                nffdblphb = truf;
+            }
+            r[i] = (bytf) (rgb >> 16);
+            g[i] = (bytf) (rgb >> 8);
+            b[i] = (bytf) (rgb >> 0);
+        }
+        if (nffdblphb) {
+            rfturn nfw IndfxColorModfl(idm.gftPixflSizf(), mbpsizf,
+                                       r, g, b, b);
+        } flsf {
+            rfturn nfw IndfxColorModfl(idm.gftPixflSizf(), mbpsizf,
+                                       r, g, b, trbns);
+        }
+    }
+
+    /**
+     * Filtfrs b bufffr of pixfls in thf dffbult RGB ColorModfl by pbssing
+     * thfm onf by onf through thf filtfrRGB mfthod.
+     * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr of thf rfgion
+     *          of pixfls
+     * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr of thf rfgion
+     *          of pixfls
+     * @pbrbm w thf width of thf rfgion of pixfls
+     * @pbrbm h thf hfight of thf rfgion of pixfls
+     * @pbrbm pixfls thf brrby of pixfls
+     * @pbrbm off thf offsft into thf <dodf>pixfls</dodf> brrby
+     * @pbrbm sdbnsizf thf distbndf from onf row of pixfls to thf nfxt
+     *        in thf brrby
+     * @sff ColorModfl#gftRGBdffbult
+     * @sff #filtfrRGB
+     */
+    publid void filtfrRGBPixfls(int x, int y, int w, int h,
+                                int pixfls[], int off, int sdbnsizf) {
+        int indfx = off;
+        for (int dy = 0; dy < h; dy++) {
+            for (int dx = 0; dx < w; dx++) {
+                pixfls[indfx] = filtfrRGB(x + dx, y + dy, pixfls[indfx]);
+                indfx++;
+            }
+            indfx += sdbnsizf - w;
+        }
+        donsumfr.sftPixfls(x, y, w, h, ColorModfl.gftRGBdffbult(),
+                           pixfls, off, sdbnsizf);
+    }
+
+    /**
+     * If thf ColorModfl objfdt is thf sbmf onf thbt hbs blrfbdy
+     * bffn donvfrtfd, thfn simply pbssfs thf pixfls through with thf
+     * donvfrtfd ColorModfl. Othfrwisf donvfrts thf bufffr of bytf
+     * pixfls to thf dffbult RGB ColorModfl bnd pbssfs thf donvfrtfd
+     * bufffr to thf filtfrRGBPixfls mfthod to bf donvfrtfd onf by onf.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ColorModfl#gftRGBdffbult
+     * @sff #filtfrRGBPixfls
+     */
+    publid void sftPixfls(int x, int y, int w, int h,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          int sdbnsizf) {
+        if (modfl == origmodfl) {
+            donsumfr.sftPixfls(x, y, w, h, nfwmodfl, pixfls, off, sdbnsizf);
+        } flsf {
+            int filtfrfdpixfls[] = nfw int[w];
+            int indfx = off;
+            for (int dy = 0; dy < h; dy++) {
+                for (int dx = 0; dx < w; dx++) {
+                    filtfrfdpixfls[dx] = modfl.gftRGB((pixfls[indfx] & 0xff));
+                    indfx++;
+                }
+                indfx += sdbnsizf - w;
+                filtfrRGBPixfls(x, y + dy, w, 1, filtfrfdpixfls, 0, w);
+            }
+        }
+    }
+
+    /**
+     * If thf ColorModfl objfdt is thf sbmf onf thbt hbs blrfbdy
+     * bffn donvfrtfd, thfn simply pbssfs thf pixfls through with thf
+     * donvfrtfd ColorModfl, othfrwisf donvfrts thf bufffr of intfgfr
+     * pixfls to thf dffbult RGB ColorModfl bnd pbssfs thf donvfrtfd
+     * bufffr to thf filtfrRGBPixfls mfthod to bf donvfrtfd onf by onf.
+     * Convfrts b bufffr of intfgfr pixfls to thf dffbult RGB ColorModfl
+     * bnd pbssfs thf donvfrtfd bufffr to thf filtfrRGBPixfls mfthod.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ColorModfl#gftRGBdffbult
+     * @sff #filtfrRGBPixfls
+     */
+    publid void sftPixfls(int x, int y, int w, int h,
+                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
+        if (modfl == origmodfl) {
+            donsumfr.sftPixfls(x, y, w, h, nfwmodfl, pixfls, off, sdbnsizf);
+        } flsf {
+            int filtfrfdpixfls[] = nfw int[w];
+            int indfx = off;
+            for (int dy = 0; dy < h; dy++) {
+                for (int dx = 0; dx < w; dx++) {
+                    filtfrfdpixfls[dx] = modfl.gftRGB(pixfls[indfx]);
+                    indfx++;
+                }
+                indfx += sdbnsizf - w;
+                filtfrRGBPixfls(x, y + dy, w, 1, filtfrfdpixfls, 0, w);
+            }
+        }
+    }
+
+    /**
+     * Subdlbssfs must spfdify b mfthod to donvfrt b singlf input pixfl
+     * in thf dffbult RGB ColorModfl to b singlf output pixfl.
+     * @pbrbm x thf X doordinbtf of thf pixfl
+     * @pbrbm y thf Y doordinbtf of thf pixfl
+     * @pbrbm rgb thf intfgfr pixfl rfprfsfntbtion in thf dffbult RGB
+     *            dolor modfl
+     * @rfturn b filtfrfd pixfl in thf dffbult RGB dolor modfl.
+     * @sff ColorModfl#gftRGBdffbult
+     * @sff #filtfrRGBPixfls
+     */
+    publid bbstrbdt int filtfrRGB(int x, int y, int rgb);
+}

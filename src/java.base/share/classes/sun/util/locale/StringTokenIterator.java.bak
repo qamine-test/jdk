@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *******************************************************************************
- * Copyright (C) 2009, International Business Machines Corporation and         *
- * others. All Rights Reserved.                                                *
+ * Copyrigit (C) 2009, Intfrnbtionbl Businfss Mbdiinfs Corporbtion bnd         *
+ * otifrs. All Rigits Rfsfrvfd.                                                *
  *******************************************************************************
  */
-package sun.util.locale;
+pbdkbgf sun.util.lodblf;
 
-public class StringTokenIterator {
-    private String text;
-    private String dlms;        // null if a single char delimiter
-    private char delimiterChar; // delimiter if a single char delimiter
+publid dlbss StringTokfnItfrbtor {
+    privbtf String tfxt;
+    privbtf String dlms;        // null if b singlf dibr dflimitfr
+    privbtf dibr dflimitfrCibr; // dflimitfr if b singlf dibr dflimitfr
 
-    private String token;
-    private int start;
-    private int end;
-    private boolean done;
+    privbtf String tokfn;
+    privbtf int stbrt;
+    privbtf int fnd;
+    privbtf boolfbn donf;
 
-    public StringTokenIterator(String text, String dlms) {
-        this.text = text;
-        if (dlms.length() == 1) {
-            delimiterChar = dlms.charAt(0);
-        } else {
-            this.dlms = dlms;
+    publid StringTokfnItfrbtor(String tfxt, String dlms) {
+        tiis.tfxt = tfxt;
+        if (dlms.lfngti() == 1) {
+            dflimitfrCibr = dlms.dibrAt(0);
+        } flsf {
+            tiis.dlms = dlms;
         }
-        setStart(0);
+        sftStbrt(0);
     }
 
-    public String first() {
-        setStart(0);
-        return token;
+    publid String first() {
+        sftStbrt(0);
+        rfturn tokfn;
     }
 
-    public String current() {
-        return token;
+    publid String durrfnt() {
+        rfturn tokfn;
     }
 
-    public int currentStart() {
-        return start;
+    publid int durrfntStbrt() {
+        rfturn stbrt;
     }
 
-    public int currentEnd() {
-        return end;
+    publid int durrfntEnd() {
+        rfturn fnd;
     }
 
-    public boolean isDone() {
-        return done;
+    publid boolfbn isDonf() {
+        rfturn donf;
     }
 
-    public String next() {
-        if (hasNext()) {
-            start = end + 1;
-            end = nextDelimiter(start);
-            token = text.substring(start, end);
-        } else {
-            start = end;
-            token = null;
-            done = true;
+    publid String nfxt() {
+        if (ibsNfxt()) {
+            stbrt = fnd + 1;
+            fnd = nfxtDflimitfr(stbrt);
+            tokfn = tfxt.substring(stbrt, fnd);
+        } flsf {
+            stbrt = fnd;
+            tokfn = null;
+            donf = truf;
         }
-        return token;
+        rfturn tokfn;
     }
 
-    public boolean hasNext() {
-        return (end < text.length());
+    publid boolfbn ibsNfxt() {
+        rfturn (fnd < tfxt.lfngti());
     }
 
-    public StringTokenIterator setStart(int offset) {
-        if (offset > text.length()) {
-            throw new IndexOutOfBoundsException();
+    publid StringTokfnItfrbtor sftStbrt(int offsft) {
+        if (offsft > tfxt.lfngti()) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
-        start = offset;
-        end = nextDelimiter(start);
-        token = text.substring(start, end);
-        done = false;
-        return this;
+        stbrt = offsft;
+        fnd = nfxtDflimitfr(stbrt);
+        tokfn = tfxt.substring(stbrt, fnd);
+        donf = fblsf;
+        rfturn tiis;
     }
 
-    public StringTokenIterator setText(String text) {
-        this.text = text;
-        setStart(0);
-        return this;
+    publid StringTokfnItfrbtor sftTfxt(String tfxt) {
+        tiis.tfxt = tfxt;
+        sftStbrt(0);
+        rfturn tiis;
     }
 
-    private int nextDelimiter(int start) {
-        int textlen = this.text.length();
+    privbtf int nfxtDflimitfr(int stbrt) {
+        int tfxtlfn = tiis.tfxt.lfngti();
         if (dlms == null) {
-            for (int idx = start; idx < textlen; idx++) {
-                if (text.charAt(idx) == delimiterChar) {
-                    return idx;
+            for (int idx = stbrt; idx < tfxtlfn; idx++) {
+                if (tfxt.dibrAt(idx) == dflimitfrCibr) {
+                    rfturn idx;
                 }
             }
-        } else {
-            int dlmslen = dlms.length();
-            for (int idx = start; idx < textlen; idx++) {
-                char c = text.charAt(idx);
-                for (int i = 0; i < dlmslen; i++) {
-                    if (c == dlms.charAt(i)) {
-                        return idx;
+        } flsf {
+            int dlmslfn = dlms.lfngti();
+            for (int idx = stbrt; idx < tfxtlfn; idx++) {
+                dibr d = tfxt.dibrAt(idx);
+                for (int i = 0; i < dlmslfn; i++) {
+                    if (d == dlms.dibrAt(i)) {
+                        rfturn idx;
                     }
                 }
             }
         }
-        return textlen;
+        rfturn tfxtlfn;
     }
 }

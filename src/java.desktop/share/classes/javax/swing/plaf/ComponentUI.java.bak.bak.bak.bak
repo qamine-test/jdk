@@ -1,0 +1,361 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf;
+
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.bddfssibility.Addfssiblf;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+
+
+/**
+ * Thf bbsf dlbss for bll UI dflfgbtf objfdts in thf Swing pluggbblf
+ * look bnd fffl brdhitfdturf.  Thf UI dflfgbtf objfdt for b Swing
+ * domponfnt is rfsponsiblf for implfmfnting thf bspfdts of thf
+ * domponfnt thbt dfpfnd on thf look bnd fffl.
+ * Thf <dodf>JComponfnt</dodf> dlbss
+ * invokfs mfthods from this dlbss in ordfr to dflfgbtf opfrbtions
+ * (pbinting, lbyout dbldulbtions, ftd.) thbt mby vbry dfpfnding on thf
+ * look bnd fffl instbllfd.  <b>Clifnt progrbms should not invokf mfthods
+ * on this dlbss dirfdtly.</b>
+ *
+ * @sff jbvbx.swing.JComponfnt
+ * @sff jbvbx.swing.UIMbnbgfr
+ *
+ */
+publid bbstrbdt dlbss ComponfntUI {
+    /**
+     * Solf donstrudtor. (For invodbtion by subdlbss donstrudtors,
+     * typidblly implidit.)
+     */
+    publid ComponfntUI() {
+    }
+
+    /**
+     * Configurfs thf spfdififd domponfnt bppropribtfly for thf look bnd fffl.
+     * This mfthod is invokfd whfn thf <dodf>ComponfntUI</dodf> instbndf is bfing instbllfd
+     * bs thf UI dflfgbtf on thf spfdififd domponfnt.  This mfthod should
+     * domplftfly donfigurf thf domponfnt for thf look bnd fffl,
+     * indluding thf following:
+     * <ol>
+     * <li>Instbll dffbult propfrty vblufs for dolor, fonts, bordfrs,
+     *     idons, opbdity, ftd. on thf domponfnt.  Whfnfvfr possiblf,
+     *     propfrty vblufs initiblizfd by thf dlifnt progrbm should <i>not</i>
+     *     bf ovfrriddfn.
+     * <li>Instbll b <dodf>LbyoutMbnbgfr</dodf> on thf domponfnt if nfdfssbry.
+     * <li>Crfbtf/bdd bny rfquirfd sub-domponfnts to thf domponfnt.
+     * <li>Crfbtf/instbll fvfnt listfnfrs on thf domponfnt.
+     * <li>Crfbtf/instbll b <dodf>PropfrtyChbngfListfnfr</dodf> on thf domponfnt in ordfr
+     *     to dftfdt bnd rfspond to domponfnt propfrty dhbngfs bppropribtfly.
+     * <li>Instbll kfybobrd UI (mnfmonids, trbvfrsbl, ftd.) on thf domponfnt.
+     * <li>Initiblizf bny bppropribtf instbndf dbtb.
+     * </ol>
+     * @pbrbm d thf domponfnt whfrf this UI dflfgbtf is bfing instbllfd
+     *
+     * @sff #uninstbllUI
+     * @sff jbvbx.swing.JComponfnt#sftUI
+     * @sff jbvbx.swing.JComponfnt#updbtfUI
+     */
+    publid void instbllUI(JComponfnt d) {
+    }
+
+    /**
+     * Rfvfrsfs donfigurbtion whidh wbs donf on thf spfdififd domponfnt during
+     * <dodf>instbllUI</dodf>.  This mfthod is invokfd whfn this
+     * <dodf>UIComponfnt</dodf> instbndf is bfing rfmovfd bs thf UI dflfgbtf
+     * for thf spfdififd domponfnt.  This mfthod should undo thf
+     * donfigurbtion pfrformfd in <dodf>instbllUI</dodf>, bfing dbrfful to
+     * lfbvf thf <dodf>JComponfnt</dodf> instbndf in b dlfbn stbtf (no
+     * fxtrbnfous listfnfrs, look-bnd-fffl-spfdifid propfrty objfdts, ftd.).
+     * This should indludf thf following:
+     * <ol>
+     * <li>Rfmovf bny UI-sft bordfrs from thf domponfnt.
+     * <li>Rfmovf bny UI-sft lbyout mbnbgfrs on thf domponfnt.
+     * <li>Rfmovf bny UI-bddfd sub-domponfnts from thf domponfnt.
+     * <li>Rfmovf bny UI-bddfd fvfnt/propfrty listfnfrs from thf domponfnt.
+     * <li>Rfmovf bny UI-instbllfd kfybobrd UI from thf domponfnt.
+     * <li>Nullify bny bllodbtfd instbndf dbtb objfdts to bllow for GC.
+     * </ol>
+     * @pbrbm d thf domponfnt from whidh this UI dflfgbtf is bfing rfmovfd;
+     *          this brgumfnt is oftfn ignorfd,
+     *          but might bf usfd if thf UI objfdt is stbtflfss
+     *          bnd shbrfd by multiplf domponfnts
+     *
+     * @sff #instbllUI
+     * @sff jbvbx.swing.JComponfnt#updbtfUI
+     */
+    publid void uninstbllUI(JComponfnt d) {
+    }
+
+    /**
+     * Pbints thf spfdififd domponfnt bppropribtfly for thf look bnd fffl.
+     * This mfthod is invokfd from thf <dodf>ComponfntUI.updbtf</dodf> mfthod whfn
+     * thf spfdififd domponfnt is bfing pbintfd.  Subdlbssfs should ovfrridf
+     * this mfthod bnd usf thf spfdififd <dodf>Grbphids</dodf> objfdt to
+     * rfndfr thf dontfnt of thf domponfnt.
+     *
+     * @pbrbm g thf <dodf>Grbphids</dodf> dontfxt in whidh to pbint
+     * @pbrbm d thf domponfnt bfing pbintfd;
+     *          this brgumfnt is oftfn ignorfd,
+     *          but might bf usfd if thf UI objfdt is stbtflfss
+     *          bnd shbrfd by multiplf domponfnts
+     *
+     * @sff #updbtf
+     */
+    publid void pbint(Grbphids g, JComponfnt d) {
+    }
+
+    /**
+     * Notififs this UI dflfgbtf thbt it is timf to pbint thf spfdififd
+     * domponfnt.  This mfthod is invokfd by <dodf>JComponfnt</dodf>
+     * whfn thf spfdififd domponfnt is bfing pbintfd.
+     *
+     * <p>By dffbult this mfthod fills thf spfdififd domponfnt with
+     * its bbdkground dolor if its {@dodf opbquf} propfrty is {@dodf truf},
+     * bnd thfn immfdibtfly dblls {@dodf pbint}. In gfnfrbl this mfthod nffd
+     * not bf ovfrriddfn by subdlbssfs; bll look-bnd-fffl rfndfring dodf should
+     * rfsidf in thf {@dodf pbint} mfthod.
+     *
+     * @pbrbm g thf <dodf>Grbphids</dodf> dontfxt in whidh to pbint
+     * @pbrbm d thf domponfnt bfing pbintfd;
+     *          this brgumfnt is oftfn ignorfd,
+     *          but might bf usfd if thf UI objfdt is stbtflfss
+     *          bnd shbrfd by multiplf domponfnts
+     *
+     * @sff #pbint
+     * @sff jbvbx.swing.JComponfnt#pbintComponfnt
+     */
+    publid void updbtf(Grbphids g, JComponfnt d) {
+        if (d.isOpbquf()) {
+            g.sftColor(d.gftBbdkground());
+            g.fillRfdt(0, 0, d.gftWidth(),d.gftHfight());
+        }
+        pbint(g, d);
+    }
+
+    /**
+     * Rfturns thf spfdififd domponfnt's prfffrrfd sizf bppropribtf for
+     * thf look bnd fffl.  If <dodf>null</dodf> is rfturnfd, thf prfffrrfd
+     * sizf will bf dbldulbtfd by thf domponfnt's lbyout mbnbgfr instfbd
+     * (this is thf prfffrrfd bpprobdh for bny domponfnt with b spfdifid
+     * lbyout mbnbgfr instbllfd).  Thf dffbult implfmfntbtion of this
+     * mfthod rfturns <dodf>null</dodf>.
+     *
+     * @pbrbm d thf domponfnt whosf prfffrrfd sizf is bfing qufrifd;
+     *          this brgumfnt is oftfn ignorfd,
+     *          but might bf usfd if thf UI objfdt is stbtflfss
+     *          bnd shbrfd by multiplf domponfnts
+     *
+     * @sff jbvbx.swing.JComponfnt#gftPrfffrrfdSizf
+     * @sff jbvb.bwt.LbyoutMbnbgfr#prfffrrfdLbyoutSizf
+     */
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf spfdififd domponfnt's minimum sizf bppropribtf for
+     * thf look bnd fffl.  If <dodf>null</dodf> is rfturnfd, thf minimum
+     * sizf will bf dbldulbtfd by thf domponfnt's lbyout mbnbgfr instfbd
+     * (this is thf prfffrrfd bpprobdh for bny domponfnt with b spfdifid
+     * lbyout mbnbgfr instbllfd).  Thf dffbult implfmfntbtion of this
+     * mfthod invokfs <dodf>gftPrfffrrfdSizf</dodf> bnd rfturns thbt vbluf.
+     *
+     * @pbrbm d thf domponfnt whosf minimum sizf is bfing qufrifd;
+     *          this brgumfnt is oftfn ignorfd,
+     *          but might bf usfd if thf UI objfdt is stbtflfss
+     *          bnd shbrfd by multiplf domponfnts
+     *
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt or <dodf>null</dodf>
+     *
+     * @sff jbvbx.swing.JComponfnt#gftMinimumSizf
+     * @sff jbvb.bwt.LbyoutMbnbgfr#minimumLbyoutSizf
+     * @sff #gftPrfffrrfdSizf
+     */
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        rfturn gftPrfffrrfdSizf(d);
+    }
+
+    /**
+     * Rfturns thf spfdififd domponfnt's mbximum sizf bppropribtf for
+     * thf look bnd fffl.  If <dodf>null</dodf> is rfturnfd, thf mbximum
+     * sizf will bf dbldulbtfd by thf domponfnt's lbyout mbnbgfr instfbd
+     * (this is thf prfffrrfd bpprobdh for bny domponfnt with b spfdifid
+     * lbyout mbnbgfr instbllfd).  Thf dffbult implfmfntbtion of this
+     * mfthod invokfs <dodf>gftPrfffrrfdSizf</dodf> bnd rfturns thbt vbluf.
+     *
+     * @pbrbm d thf domponfnt whosf mbximum sizf is bfing qufrifd;
+     *          this brgumfnt is oftfn ignorfd,
+     *          but might bf usfd if thf UI objfdt is stbtflfss
+     *          bnd shbrfd by multiplf domponfnts
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt or <dodf>null</dodf>
+     *
+     * @sff jbvbx.swing.JComponfnt#gftMbximumSizf
+     * @sff jbvb.bwt.LbyoutMbnbgfr2#mbximumLbyoutSizf
+     */
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        rfturn gftPrfffrrfdSizf(d);
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf spfdififd <i>x,y</i> lodbtion is
+     * dontbinfd within thf look bnd fffl's dffinfd shbpf of thf spfdififd
+     * domponfnt. <dodf>x</dodf> bnd <dodf>y</dodf> brf dffinfd to bf rflbtivf
+     * to thf doordinbtf systfm of thf spfdififd domponfnt.  Although
+     * b domponfnt's <dodf>bounds</dodf> is donstrbinfd to b rfdtbnglf,
+     * this mfthod providfs thf mfbns for dffining b non-rfdtbngulbr
+     * shbpf within thosf bounds for thf purposf of hit dftfdtion.
+     *
+     * @pbrbm d thf domponfnt whfrf thf <i>x,y</i> lodbtion is bfing qufrifd;
+     *          this brgumfnt is oftfn ignorfd,
+     *          but might bf usfd if thf UI objfdt is stbtflfss
+     *          bnd shbrfd by multiplf domponfnts
+     * @pbrbm x thf <i>x</i> doordinbtf of thf point
+     * @pbrbm y thf <i>y</i> doordinbtf of thf point
+     *
+     * @sff jbvbx.swing.JComponfnt#dontbins
+     * @sff jbvb.bwt.Componfnt#dontbins
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid boolfbn dontbins(JComponfnt d, int x, int y) {
+        rfturn d.insidf(x, y);
+    }
+
+    /**
+     * Rfturns bn instbndf of thf UI dflfgbtf for thf spfdififd domponfnt.
+     * Ebdh subdlbss must providf its own stbtid <dodf>drfbtfUI</dodf>
+     * mfthod thbt rfturns bn instbndf of thbt UI dflfgbtf subdlbss.
+     * If thf UI dflfgbtf subdlbss is stbtflfss, it mby rfturn bn instbndf
+     * thbt is shbrfd by multiplf domponfnts.  If thf UI dflfgbtf is
+     * stbtfful, thfn it should rfturn b nfw instbndf pfr domponfnt.
+     * Thf dffbult implfmfntbtion of this mfthod throws bn frror, bs it
+     * should nfvfr bf invokfd.
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        throw nfw Error("ComponfntUI.drfbtfUI not implfmfntfd.");
+    }
+
+    /**
+     * Rfturns thf bbsflinf.  Thf bbsflinf is mfbsurfd from thf top of
+     * thf domponfnt.  This mfthod is primbrily mfbnt for
+     * <dodf>LbyoutMbnbgfr</dodf>s to blign domponfnts blong thfir
+     * bbsflinf.  A rfturn vbluf lfss thbn 0 indidbtfs this domponfnt
+     * dofs not hbvf b rfbsonbblf bbsflinf bnd thbt
+     * <dodf>LbyoutMbnbgfr</dodf>s should not blign this domponfnt on
+     * its bbsflinf.
+     * <p>
+     * This mfthod rfturns -1.  Subdlbssfs thbt hbvf b mfbningful bbsflinf
+     * should ovfrridf bppropribtfly.
+     *
+     * @pbrbm d <dodf>JComponfnt</dodf> bbsflinf is bfing rfqufstfd for
+     * @pbrbm width thf width to gft thf bbsflinf for
+     * @pbrbm hfight thf hfight to gft thf bbsflinf for
+     * @throws NullPointfrExdfption if <dodf>d</dodf> is <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if width or hfight is &lt; 0
+     * @rfturn bbsflinf or b vbluf &lt; 0 indidbting thfrf is no rfbsonbblf
+     *                  bbsflinf
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int,int)
+     * @sindf 1.6
+     */
+    publid int gftBbsflinf(JComponfnt d, int width, int hfight) {
+        if (d == null) {
+            throw nfw NullPointfrExdfption("Componfnt must bf non-null");
+        }
+        if (width < 0 || hfight < 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "Width bnd hfight must bf >= 0");
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns bn fnum indidbting how thf bbsflinf of thf domponfnt
+     * dhbngfs bs thf sizf dhbngfs.  This mfthod is primbrily mfbnt for
+     * lbyout mbnbgfrs bnd GUI buildfrs.
+     * <p>
+     * This mfthod rfturns <dodf>BbsflinfRfsizfBfhbvior.OTHER</dodf>.
+     * Subdlbssfs thbt support b bbsflinf should ovfrridf bppropribtfly.
+     *
+     * @pbrbm d <dodf>JComponfnt</dodf> to rfturn bbsflinf rfsizf bfhbvior for
+     * @rfturn bn fnum indidbting how thf bbsflinf dhbngfs bs thf domponfnt
+     *         sizf dhbngfs
+     * @throws NullPointfrExdfption if <dodf>d</dodf> is <dodf>null</dodf>
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
+     */
+    publid Componfnt.BbsflinfRfsizfBfhbvior gftBbsflinfRfsizfBfhbvior(
+            JComponfnt d) {
+        if (d == null) {
+            throw nfw NullPointfrExdfption("Componfnt must bf non-null");
+        }
+        rfturn Componfnt.BbsflinfRfsizfBfhbvior.OTHER;
+    }
+
+    /**
+     * Rfturns thf numbfr of bddfssiblf dhildrfn in thf objfdt.  If bll
+     * of thf dhildrfn of this objfdt implfmfnt <dodf>Addfssiblf</dodf>,
+     * this
+     * mfthod should rfturn thf numbfr of dhildrfn of this objfdt.
+     * UIs might wish to ovfrridf this if thfy prfsfnt brfbs on thf
+     * sdrffn thbt dbn bf vifwfd bs domponfnts, but bdtubl domponfnts
+     * brf not usfd for prfsfnting thosf brfbs.
+     *
+     * Notf: As of v1.3, it is rfdommfndfd thbt dfvflopfrs dbll
+     * <dodf>Componfnt.AddfssiblfAWTComponfnt.gftAddfssiblfChildrfnCount()</dodf> instfbd
+     * of this mfthod.
+     *
+     * @sff #gftAddfssiblfChild
+     * @rfturn thf numbfr of bddfssiblf dhildrfn in thf objfdt
+     */
+    publid int gftAddfssiblfChildrfnCount(JComponfnt d) {
+        rfturn SwingUtilitifs.gftAddfssiblfChildrfnCount(d);
+    }
+
+    /**
+     * Rfturns thf <dodf>i</dodf>th <dodf>Addfssiblf</dodf> dhild of thf objfdt.
+     * UIs might nffd to ovfrridf this if thfy prfsfnt brfbs on thf
+     * sdrffn thbt dbn bf vifwfd bs domponfnts, but bdtubl domponfnts
+     * brf not usfd for prfsfnting thosf brfbs.
+     *
+     * <p>
+     *
+     * Notf: As of v1.3, it is rfdommfndfd thbt dfvflopfrs dbll
+     * <dodf>Componfnt.AddfssiblfAWTComponfnt.gftAddfssiblfChild()</dodf> instfbd of
+     * this mfthod.
+     *
+     * @sff #gftAddfssiblfChildrfnCount
+     * @pbrbm i zfro-bbsfd indfx of dhild
+     * @rfturn thf <dodf>i</dodf>th <dodf>Addfssiblf</dodf> dhild of thf objfdt
+     */
+    publid Addfssiblf gftAddfssiblfChild(JComponfnt d, int i) {
+        rfturn SwingUtilitifs.gftAddfssiblfChild(d, i);
+    }
+}

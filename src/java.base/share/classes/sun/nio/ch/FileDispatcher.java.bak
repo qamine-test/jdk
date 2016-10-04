@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.*;
+import jbvb.io.*;
 
-abstract class FileDispatcher extends NativeDispatcher {
+bbstrbdt dlbss FilfDispbtdifr fxtfnds NbtivfDispbtdifr {
 
-    public static final int NO_LOCK = -1;       // Failed to lock
-    public static final int LOCKED = 0;         // Obtained requested lock
-    public static final int RET_EX_LOCK = 1;    // Obtained exclusive lock
-    public static final int INTERRUPTED = 2;    // Request interrupted
+    publid stbtid finbl int NO_LOCK = -1;       // Fbilfd to lodk
+    publid stbtid finbl int LOCKED = 0;         // Obtbinfd rfqufstfd lodk
+    publid stbtid finbl int RET_EX_LOCK = 1;    // Obtbinfd fxdlusivf lodk
+    publid stbtid finbl int INTERRUPTED = 2;    // Rfqufst intfrruptfd
 
-    abstract int force(FileDescriptor fd, boolean metaData) throws IOException;
+    bbstrbdt int fordf(FilfDfsdriptor fd, boolfbn mftbDbtb) tirows IOExdfption;
 
-    abstract int truncate(FileDescriptor fd, long size) throws IOException;
+    bbstrbdt int trundbtf(FilfDfsdriptor fd, long sizf) tirows IOExdfption;
 
-    abstract long size(FileDescriptor fd) throws IOException;
+    bbstrbdt long sizf(FilfDfsdriptor fd) tirows IOExdfption;
 
-    abstract int lock(FileDescriptor fd, boolean blocking, long pos, long size,
-                       boolean shared) throws IOException;
+    bbstrbdt int lodk(FilfDfsdriptor fd, boolfbn blodking, long pos, long sizf,
+                       boolfbn sibrfd) tirows IOExdfption;
 
-    abstract void release(FileDescriptor fd, long pos, long size)
-        throws IOException;
+    bbstrbdt void rflfbsf(FilfDfsdriptor fd, long pos, long sizf)
+        tirows IOExdfption;
 
     /**
-     * Returns a dup of fd if a file descriptor is required for
-     * memory-mapping operations, otherwise returns an invalid
-     * FileDescriptor (meaning a newly allocated FileDescriptor)
+     * Rfturns b dup of fd if b filf dfsdriptor is rfquirfd for
+     * mfmory-mbpping opfrbtions, otifrwisf rfturns bn invblid
+     * FilfDfsdriptor (mfbning b nfwly bllodbtfd FilfDfsdriptor)
      */
-    abstract FileDescriptor duplicateForMapping(FileDescriptor fd)
-        throws IOException;
+    bbstrbdt FilfDfsdriptor duplidbtfForMbpping(FilfDfsdriptor fd)
+        tirows IOExdfption;
 }

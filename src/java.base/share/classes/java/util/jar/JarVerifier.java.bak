@@ -1,869 +1,869 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.jar;
+pbdkbgf jbvb.util.jbr;
 
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-import java.security.*;
-import java.security.cert.CertificateException;
-import java.util.zip.ZipEntry;
+import jbvb.io.*;
+import jbvb.nft.URL;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.zip.ZipEntry;
 
-import sun.misc.JarIndex;
-import sun.security.util.ManifestDigester;
-import sun.security.util.ManifestEntryVerifier;
-import sun.security.util.SignatureFileVerifier;
-import sun.security.util.Debug;
+import sun.misd.JbrIndfx;
+import sun.sfdurity.util.MbniffstDigfstfr;
+import sun.sfdurity.util.MbniffstEntryVfrififr;
+import sun.sfdurity.util.SignbturfFilfVfrififr;
+import sun.sfdurity.util.Dfbug;
 
 /**
  *
- * @author      Roland Schemers
+ * @butior      Rolbnd Sdifmfrs
  */
-class JarVerifier {
+dlbss JbrVfrififr {
 
-    /* Are we debugging ? */
-    static final Debug debug = Debug.getInstance("jar");
+    /* Arf wf dfbugging ? */
+    stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("jbr");
 
-    /* a table mapping names to code signers, for jar entries that have
-       had their actual hashes verified */
-    private Hashtable<String, CodeSigner[]> verifiedSigners;
+    /* b tbblf mbpping nbmfs to dodf signfrs, for jbr fntrifs tibt ibvf
+       ibd tifir bdtubl ibsifs vfrififd */
+    privbtf Hbsitbblf<String, CodfSignfr[]> vfrififdSignfrs;
 
-    /* a table mapping names to code signers, for jar entries that have
-       passed the .SF/.DSA/.EC -> MANIFEST check */
-    private Hashtable<String, CodeSigner[]> sigFileSigners;
+    /* b tbblf mbpping nbmfs to dodf signfrs, for jbr fntrifs tibt ibvf
+       pbssfd tif .SF/.DSA/.EC -> MANIFEST difdk */
+    privbtf Hbsitbblf<String, CodfSignfr[]> sigFilfSignfrs;
 
-    /* a hash table to hold .SF bytes */
-    private Hashtable<String, byte[]> sigFileData;
+    /* b ibsi tbblf to iold .SF bytfs */
+    privbtf Hbsitbblf<String, bytf[]> sigFilfDbtb;
 
-    /** "queue" of pending PKCS7 blocks that we couldn't parse
-     *  until we parsed the .SF file */
-    private ArrayList<SignatureFileVerifier> pendingBlocks;
+    /** "qufuf" of pfnding PKCS7 blodks tibt wf douldn't pbrsf
+     *  until wf pbrsfd tif .SF filf */
+    privbtf ArrbyList<SignbturfFilfVfrififr> pfndingBlodks;
 
-    /* cache of CodeSigner objects */
-    private ArrayList<CodeSigner[]> signerCache;
+    /* dbdif of CodfSignfr objfdts */
+    privbtf ArrbyList<CodfSignfr[]> signfrCbdif;
 
-    /* Are we parsing a block? */
-    private boolean parsingBlockOrSF = false;
+    /* Arf wf pbrsing b blodk? */
+    privbtf boolfbn pbrsingBlodkOrSF = fblsf;
 
-    /* Are we done parsing META-INF entries? */
-    private boolean parsingMeta = true;
+    /* Arf wf donf pbrsing META-INF fntrifs? */
+    privbtf boolfbn pbrsingMftb = truf;
 
-    /* Are there are files to verify? */
-    private boolean anyToVerify = true;
+    /* Arf tifrf brf filfs to vfrify? */
+    privbtf boolfbn bnyToVfrify = truf;
 
-    /* The output stream to use when keeping track of files we are interested
+    /* Tif output strfbm to usf wifn kffping trbdk of filfs wf brf intfrfstfd
        in */
-    private ByteArrayOutputStream baos;
+    privbtf BytfArrbyOutputStrfbm bbos;
 
-    /** The ManifestDigester object */
-    private volatile ManifestDigester manDig;
+    /** Tif MbniffstDigfstfr objfdt */
+    privbtf volbtilf MbniffstDigfstfr mbnDig;
 
-    /** the bytes for the manDig object */
-    byte manifestRawBytes[] = null;
+    /** tif bytfs for tif mbnDig objfdt */
+    bytf mbniffstRbwBytfs[] = null;
 
-    /** controls eager signature validation */
-    boolean eagerValidation;
+    /** dontrols fbgfr signbturf vblidbtion */
+    boolfbn fbgfrVblidbtion;
 
-    /** makes code source singleton instances unique to us */
-    private Object csdomain = new Object();
+    /** mbkfs dodf sourdf singlfton instbndfs uniquf to us */
+    privbtf Objfdt dsdombin = nfw Objfdt();
 
-    /** collect -DIGEST-MANIFEST values for blacklist */
-    private List<Object> manifestDigests;
+    /** dollfdt -DIGEST-MANIFEST vblufs for blbdklist */
+    privbtf List<Objfdt> mbniffstDigfsts;
 
-    public JarVerifier(byte rawBytes[]) {
-        manifestRawBytes = rawBytes;
-        sigFileSigners = new Hashtable<>();
-        verifiedSigners = new Hashtable<>();
-        sigFileData = new Hashtable<>(11);
-        pendingBlocks = new ArrayList<>();
-        baos = new ByteArrayOutputStream();
-        manifestDigests = new ArrayList<>();
+    publid JbrVfrififr(bytf rbwBytfs[]) {
+        mbniffstRbwBytfs = rbwBytfs;
+        sigFilfSignfrs = nfw Hbsitbblf<>();
+        vfrififdSignfrs = nfw Hbsitbblf<>();
+        sigFilfDbtb = nfw Hbsitbblf<>(11);
+        pfndingBlodks = nfw ArrbyList<>();
+        bbos = nfw BytfArrbyOutputStrfbm();
+        mbniffstDigfsts = nfw ArrbyList<>();
     }
 
     /**
-     * This method scans to see which entry we're parsing and
-     * keeps various state information depending on what type of
-     * file is being parsed.
+     * Tiis mftiod sdbns to sff wiidi fntry wf'rf pbrsing bnd
+     * kffps vbrious stbtf informbtion dfpfnding on wibt typf of
+     * filf is bfing pbrsfd.
      */
-    public void beginEntry(JarEntry je, ManifestEntryVerifier mev)
-        throws IOException
+    publid void bfginEntry(JbrEntry jf, MbniffstEntryVfrififr mfv)
+        tirows IOExdfption
     {
-        if (je == null)
-            return;
+        if (jf == null)
+            rfturn;
 
-        if (debug != null) {
-            debug.println("beginEntry "+je.getName());
+        if (dfbug != null) {
+            dfbug.println("bfginEntry "+jf.gftNbmf());
         }
 
-        String name = je.getName();
+        String nbmf = jf.gftNbmf();
 
         /*
          * Assumptions:
-         * 1. The manifest should be the first entry in the META-INF directory.
-         * 2. The .SF/.DSA/.EC files follow the manifest, before any normal entries
-         * 3. Any of the following will throw a SecurityException:
-         *    a. digest mismatch between a manifest section and
-         *       the SF section.
-         *    b. digest mismatch between the actual jar entry and the manifest
+         * 1. Tif mbniffst siould bf tif first fntry in tif META-INF dirfdtory.
+         * 2. Tif .SF/.DSA/.EC filfs follow tif mbniffst, bfforf bny normbl fntrifs
+         * 3. Any of tif following will tirow b SfdurityExdfption:
+         *    b. digfst mismbtdi bftwffn b mbniffst sfdtion bnd
+         *       tif SF sfdtion.
+         *    b. digfst mismbtdi bftwffn tif bdtubl jbr fntry bnd tif mbniffst
          */
 
-        if (parsingMeta) {
-            String uname = name.toUpperCase(Locale.ENGLISH);
-            if ((uname.startsWith("META-INF/") ||
-                 uname.startsWith("/META-INF/"))) {
+        if (pbrsingMftb) {
+            String unbmf = nbmf.toUppfrCbsf(Lodblf.ENGLISH);
+            if ((unbmf.stbrtsWiti("META-INF/") ||
+                 unbmf.stbrtsWiti("/META-INF/"))) {
 
-                if (je.isDirectory()) {
-                    mev.setEntry(null, je);
-                    return;
+                if (jf.isDirfdtory()) {
+                    mfv.sftEntry(null, jf);
+                    rfturn;
                 }
 
-                if (uname.equals(JarFile.MANIFEST_NAME) ||
-                        uname.equals(JarIndex.INDEX_NAME)) {
-                    return;
+                if (unbmf.fqubls(JbrFilf.MANIFEST_NAME) ||
+                        unbmf.fqubls(JbrIndfx.INDEX_NAME)) {
+                    rfturn;
                 }
 
-                if (SignatureFileVerifier.isBlockOrSF(uname)) {
-                    /* We parse only DSA, RSA or EC PKCS7 blocks. */
-                    parsingBlockOrSF = true;
-                    baos.reset();
-                    mev.setEntry(null, je);
-                    return;
+                if (SignbturfFilfVfrififr.isBlodkOrSF(unbmf)) {
+                    /* Wf pbrsf only DSA, RSA or EC PKCS7 blodks. */
+                    pbrsingBlodkOrSF = truf;
+                    bbos.rfsft();
+                    mfv.sftEntry(null, jf);
+                    rfturn;
                 }
 
-                // If a META-INF entry is not MF or block or SF, they should
-                // be normal entries. According to 2 above, no more block or
-                // SF will appear. Let's doneWithMeta.
+                // If b META-INF fntry is not MF or blodk or SF, tify siould
+                // bf normbl fntrifs. Addording to 2 bbovf, no morf blodk or
+                // SF will bppfbr. Lft's donfWitiMftb.
             }
         }
 
-        if (parsingMeta) {
-            doneWithMeta();
+        if (pbrsingMftb) {
+            donfWitiMftb();
         }
 
-        if (je.isDirectory()) {
-            mev.setEntry(null, je);
-            return;
+        if (jf.isDirfdtory()) {
+            mfv.sftEntry(null, jf);
+            rfturn;
         }
 
-        // be liberal in what you accept. If the name starts with ./, remove
-        // it as we internally canonicalize it with out the ./.
-        if (name.startsWith("./"))
-            name = name.substring(2);
+        // bf libfrbl in wibt you bddfpt. If tif nbmf stbrts witi ./, rfmovf
+        // it bs wf intfrnblly dbnonidblizf it witi out tif ./.
+        if (nbmf.stbrtsWiti("./"))
+            nbmf = nbmf.substring(2);
 
-        // be liberal in what you accept. If the name starts with /, remove
-        // it as we internally canonicalize it with out the /.
-        if (name.startsWith("/"))
-            name = name.substring(1);
+        // bf libfrbl in wibt you bddfpt. If tif nbmf stbrts witi /, rfmovf
+        // it bs wf intfrnblly dbnonidblizf it witi out tif /.
+        if (nbmf.stbrtsWiti("/"))
+            nbmf = nbmf.substring(1);
 
-        // only set the jev object for entries that have a signature
-        // (either verified or not)
-        if (sigFileSigners.get(name) != null ||
-                verifiedSigners.get(name) != null) {
-            mev.setEntry(name, je);
-            return;
+        // only sft tif jfv objfdt for fntrifs tibt ibvf b signbturf
+        // (fitifr vfrififd or not)
+        if (sigFilfSignfrs.gft(nbmf) != null ||
+                vfrififdSignfrs.gft(nbmf) != null) {
+            mfv.sftEntry(nbmf, jf);
+            rfturn;
         }
 
-        // don't compute the digest for this entry
-        mev.setEntry(null, je);
+        // don't domputf tif digfst for tiis fntry
+        mfv.sftEntry(null, jf);
 
-        return;
+        rfturn;
     }
 
     /**
-     * update a single byte.
+     * updbtf b singlf bytf.
      */
 
-    public void update(int b, ManifestEntryVerifier mev)
-        throws IOException
+    publid void updbtf(int b, MbniffstEntryVfrififr mfv)
+        tirows IOExdfption
     {
         if (b != -1) {
-            if (parsingBlockOrSF) {
-                baos.write(b);
-            } else {
-                mev.update((byte)b);
+            if (pbrsingBlodkOrSF) {
+                bbos.writf(b);
+            } flsf {
+                mfv.updbtf((bytf)b);
             }
-        } else {
-            processEntry(mev);
+        } flsf {
+            prodfssEntry(mfv);
         }
     }
 
     /**
-     * update an array of bytes.
+     * updbtf bn brrby of bytfs.
      */
 
-    public void update(int n, byte[] b, int off, int len,
-                       ManifestEntryVerifier mev)
-        throws IOException
+    publid void updbtf(int n, bytf[] b, int off, int lfn,
+                       MbniffstEntryVfrififr mfv)
+        tirows IOExdfption
     {
         if (n != -1) {
-            if (parsingBlockOrSF) {
-                baos.write(b, off, n);
-            } else {
-                mev.update(b, off, n);
+            if (pbrsingBlodkOrSF) {
+                bbos.writf(b, off, n);
+            } flsf {
+                mfv.updbtf(b, off, n);
             }
-        } else {
-            processEntry(mev);
+        } flsf {
+            prodfssEntry(mfv);
         }
     }
 
     /**
-     * called when we reach the end of entry in one of the read() methods.
+     * dbllfd wifn wf rfbdi tif fnd of fntry in onf of tif rfbd() mftiods.
      */
-    private void processEntry(ManifestEntryVerifier mev)
-        throws IOException
+    privbtf void prodfssEntry(MbniffstEntryVfrififr mfv)
+        tirows IOExdfption
     {
-        if (!parsingBlockOrSF) {
-            JarEntry je = mev.getEntry();
-            if ((je != null) && (je.signers == null)) {
-                je.signers = mev.verify(verifiedSigners, sigFileSigners);
-                je.certs = mapSignersToCertArray(je.signers);
+        if (!pbrsingBlodkOrSF) {
+            JbrEntry jf = mfv.gftEntry();
+            if ((jf != null) && (jf.signfrs == null)) {
+                jf.signfrs = mfv.vfrify(vfrififdSignfrs, sigFilfSignfrs);
+                jf.dfrts = mbpSignfrsToCfrtArrby(jf.signfrs);
             }
-        } else {
+        } flsf {
 
             try {
-                parsingBlockOrSF = false;
+                pbrsingBlodkOrSF = fblsf;
 
-                if (debug != null) {
-                    debug.println("processEntry: processing block");
+                if (dfbug != null) {
+                    dfbug.println("prodfssEntry: prodfssing blodk");
                 }
 
-                String uname = mev.getEntry().getName()
-                                             .toUpperCase(Locale.ENGLISH);
+                String unbmf = mfv.gftEntry().gftNbmf()
+                                             .toUppfrCbsf(Lodblf.ENGLISH);
 
-                if (uname.endsWith(".SF")) {
-                    String key = uname.substring(0, uname.length()-3);
-                    byte bytes[] = baos.toByteArray();
-                    // add to sigFileData in case future blocks need it
-                    sigFileData.put(key, bytes);
-                    // check pending blocks, we can now process
-                    // anyone waiting for this .SF file
-                    for (SignatureFileVerifier sfv : pendingBlocks) {
-                        if (sfv.needSignatureFile(key)) {
-                            if (debug != null) {
-                                debug.println(
-                                 "processEntry: processing pending block");
+                if (unbmf.fndsWiti(".SF")) {
+                    String kfy = unbmf.substring(0, unbmf.lfngti()-3);
+                    bytf bytfs[] = bbos.toBytfArrby();
+                    // bdd to sigFilfDbtb in dbsf futurf blodks nffd it
+                    sigFilfDbtb.put(kfy, bytfs);
+                    // difdk pfnding blodks, wf dbn now prodfss
+                    // bnyonf wbiting for tiis .SF filf
+                    for (SignbturfFilfVfrififr sfv : pfndingBlodks) {
+                        if (sfv.nffdSignbturfFilf(kfy)) {
+                            if (dfbug != null) {
+                                dfbug.println(
+                                 "prodfssEntry: prodfssing pfnding blodk");
                             }
 
-                            sfv.setSignatureFile(bytes);
-                            sfv.process(sigFileSigners, manifestDigests);
+                            sfv.sftSignbturfFilf(bytfs);
+                            sfv.prodfss(sigFilfSignfrs, mbniffstDigfsts);
                         }
                     }
-                    return;
+                    rfturn;
                 }
 
-                // now we are parsing a signature block file
+                // now wf brf pbrsing b signbturf blodk filf
 
-                String key = uname.substring(0, uname.lastIndexOf('.'));
+                String kfy = unbmf.substring(0, unbmf.lbstIndfxOf('.'));
 
-                if (signerCache == null)
-                    signerCache = new ArrayList<>();
+                if (signfrCbdif == null)
+                    signfrCbdif = nfw ArrbyList<>();
 
-                if (manDig == null) {
-                    synchronized(manifestRawBytes) {
-                        if (manDig == null) {
-                            manDig = new ManifestDigester(manifestRawBytes);
-                            manifestRawBytes = null;
+                if (mbnDig == null) {
+                    syndironizfd(mbniffstRbwBytfs) {
+                        if (mbnDig == null) {
+                            mbnDig = nfw MbniffstDigfstfr(mbniffstRbwBytfs);
+                            mbniffstRbwBytfs = null;
                         }
                     }
                 }
 
-                SignatureFileVerifier sfv =
-                  new SignatureFileVerifier(signerCache,
-                                            manDig, uname, baos.toByteArray());
+                SignbturfFilfVfrififr sfv =
+                  nfw SignbturfFilfVfrififr(signfrCbdif,
+                                            mbnDig, unbmf, bbos.toBytfArrby());
 
-                if (sfv.needSignatureFileBytes()) {
-                    // see if we have already parsed an external .SF file
-                    byte[] bytes = sigFileData.get(key);
+                if (sfv.nffdSignbturfFilfBytfs()) {
+                    // sff if wf ibvf blrfbdy pbrsfd bn fxtfrnbl .SF filf
+                    bytf[] bytfs = sigFilfDbtb.gft(kfy);
 
-                    if (bytes == null) {
-                        // put this block on queue for later processing
-                        // since we don't have the .SF bytes yet
-                        // (uname, block);
-                        if (debug != null) {
-                            debug.println("adding pending block");
+                    if (bytfs == null) {
+                        // put tiis blodk on qufuf for lbtfr prodfssing
+                        // sindf wf don't ibvf tif .SF bytfs yft
+                        // (unbmf, blodk);
+                        if (dfbug != null) {
+                            dfbug.println("bdding pfnding blodk");
                         }
-                        pendingBlocks.add(sfv);
-                        return;
-                    } else {
-                        sfv.setSignatureFile(bytes);
+                        pfndingBlodks.bdd(sfv);
+                        rfturn;
+                    } flsf {
+                        sfv.sftSignbturfFilf(bytfs);
                     }
                 }
-                sfv.process(sigFileSigners, manifestDigests);
+                sfv.prodfss(sigFilfSignfrs, mbniffstDigfsts);
 
-            } catch (IOException | CertificateException |
-                    NoSuchAlgorithmException | SignatureException e) {
-                if (debug != null) debug.println("processEntry caught: "+e);
-                // ignore and treat as unsigned
+            } dbtdi (IOExdfption | CfrtifidbtfExdfption |
+                    NoSudiAlgoritimExdfption | SignbturfExdfption f) {
+                if (dfbug != null) dfbug.println("prodfssEntry dbugit: "+f);
+                // ignorf bnd trfbt bs unsignfd
             }
         }
     }
 
     /**
-     * Return an array of java.security.cert.Certificate objects for
-     * the given file in the jar.
-     * @deprecated
+     * Rfturn bn brrby of jbvb.sfdurity.dfrt.Cfrtifidbtf objfdts for
+     * tif givfn filf in tif jbr.
+     * @dfprfdbtfd
      */
-    @Deprecated
-    public java.security.cert.Certificate[] getCerts(String name)
+    @Dfprfdbtfd
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftCfrts(String nbmf)
     {
-        return mapSignersToCertArray(getCodeSigners(name));
+        rfturn mbpSignfrsToCfrtArrby(gftCodfSignfrs(nbmf));
     }
 
-    public java.security.cert.Certificate[] getCerts(JarFile jar, JarEntry entry)
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftCfrts(JbrFilf jbr, JbrEntry fntry)
     {
-        return mapSignersToCertArray(getCodeSigners(jar, entry));
+        rfturn mbpSignfrsToCfrtArrby(gftCodfSignfrs(jbr, fntry));
     }
 
     /**
-     * return an array of CodeSigner objects for
-     * the given file in the jar. this array is not cloned.
+     * rfturn bn brrby of CodfSignfr objfdts for
+     * tif givfn filf in tif jbr. tiis brrby is not dlonfd.
      *
      */
-    public CodeSigner[] getCodeSigners(String name)
+    publid CodfSignfr[] gftCodfSignfrs(String nbmf)
     {
-        return verifiedSigners.get(name);
+        rfturn vfrififdSignfrs.gft(nbmf);
     }
 
-    public CodeSigner[] getCodeSigners(JarFile jar, JarEntry entry)
+    publid CodfSignfr[] gftCodfSignfrs(JbrFilf jbr, JbrEntry fntry)
     {
-        String name = entry.getName();
-        if (eagerValidation && sigFileSigners.get(name) != null) {
+        String nbmf = fntry.gftNbmf();
+        if (fbgfrVblidbtion && sigFilfSignfrs.gft(nbmf) != null) {
             /*
-             * Force a read of the entry data to generate the
-             * verification hash.
+             * Fordf b rfbd of tif fntry dbtb to gfnfrbtf tif
+             * vfrifidbtion ibsi.
              */
             try {
-                InputStream s = jar.getInputStream(entry);
-                byte[] buffer = new byte[1024];
-                int n = buffer.length;
-                while (n != -1) {
-                    n = s.read(buffer, 0, buffer.length);
+                InputStrfbm s = jbr.gftInputStrfbm(fntry);
+                bytf[] bufffr = nfw bytf[1024];
+                int n = bufffr.lfngti;
+                wiilf (n != -1) {
+                    n = s.rfbd(bufffr, 0, bufffr.lfngti);
                 }
-                s.close();
-            } catch (IOException e) {
+                s.dlosf();
+            } dbtdi (IOExdfption f) {
             }
         }
-        return getCodeSigners(name);
+        rfturn gftCodfSignfrs(nbmf);
     }
 
     /*
-     * Convert an array of signers into an array of concatenated certificate
-     * arrays.
+     * Convfrt bn brrby of signfrs into bn brrby of dondbtfnbtfd dfrtifidbtf
+     * brrbys.
      */
-    private static java.security.cert.Certificate[] mapSignersToCertArray(
-        CodeSigner[] signers) {
+    privbtf stbtid jbvb.sfdurity.dfrt.Cfrtifidbtf[] mbpSignfrsToCfrtArrby(
+        CodfSignfr[] signfrs) {
 
-        if (signers != null) {
-            ArrayList<java.security.cert.Certificate> certChains = new ArrayList<>();
-            for (CodeSigner signer : signers) {
-                certChains.addAll(
-                    signer.getSignerCertPath().getCertificates());
+        if (signfrs != null) {
+            ArrbyList<jbvb.sfdurity.dfrt.Cfrtifidbtf> dfrtCibins = nfw ArrbyList<>();
+            for (CodfSignfr signfr : signfrs) {
+                dfrtCibins.bddAll(
+                    signfr.gftSignfrCfrtPbti().gftCfrtifidbtfs());
             }
 
-            // Convert into a Certificate[]
-            return certChains.toArray(
-                    new java.security.cert.Certificate[certChains.size()]);
+            // Convfrt into b Cfrtifidbtf[]
+            rfturn dfrtCibins.toArrby(
+                    nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[dfrtCibins.sizf()]);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * returns true if there no files to verify.
-     * should only be called after all the META-INF entries
-     * have been processed.
+     * rfturns truf if tifrf no filfs to vfrify.
+     * siould only bf dbllfd bftfr bll tif META-INF fntrifs
+     * ibvf bffn prodfssfd.
      */
-    boolean nothingToVerify()
+    boolfbn notiingToVfrify()
     {
-        return (anyToVerify == false);
+        rfturn (bnyToVfrify == fblsf);
     }
 
     /**
-     * called to let us know we have processed all the
-     * META-INF entries, and if we re-read one of them, don't
-     * re-process it. Also gets rid of any data structures
-     * we needed when parsing META-INF entries.
+     * dbllfd to lft us know wf ibvf prodfssfd bll tif
+     * META-INF fntrifs, bnd if wf rf-rfbd onf of tifm, don't
+     * rf-prodfss it. Also gfts rid of bny dbtb strudturfs
+     * wf nffdfd wifn pbrsing META-INF fntrifs.
      */
-    void doneWithMeta()
+    void donfWitiMftb()
     {
-        parsingMeta = false;
-        anyToVerify = !sigFileSigners.isEmpty();
-        baos = null;
-        sigFileData = null;
-        pendingBlocks = null;
-        signerCache = null;
-        manDig = null;
-        // MANIFEST.MF is always treated as signed and verified,
-        // move its signers from sigFileSigners to verifiedSigners.
-        if (sigFileSigners.containsKey(JarFile.MANIFEST_NAME)) {
-            CodeSigner[] codeSigners = sigFileSigners.remove(JarFile.MANIFEST_NAME);
-            verifiedSigners.put(JarFile.MANIFEST_NAME, codeSigners);
+        pbrsingMftb = fblsf;
+        bnyToVfrify = !sigFilfSignfrs.isEmpty();
+        bbos = null;
+        sigFilfDbtb = null;
+        pfndingBlodks = null;
+        signfrCbdif = null;
+        mbnDig = null;
+        // MANIFEST.MF is blwbys trfbtfd bs signfd bnd vfrififd,
+        // movf its signfrs from sigFilfSignfrs to vfrififdSignfrs.
+        if (sigFilfSignfrs.dontbinsKfy(JbrFilf.MANIFEST_NAME)) {
+            CodfSignfr[] dodfSignfrs = sigFilfSignfrs.rfmovf(JbrFilf.MANIFEST_NAME);
+            vfrififdSignfrs.put(JbrFilf.MANIFEST_NAME, dodfSignfrs);
         }
     }
 
-    static class VerifierStream extends java.io.InputStream {
+    stbtid dlbss VfrififrStrfbm fxtfnds jbvb.io.InputStrfbm {
 
-        private InputStream is;
-        private JarVerifier jv;
-        private ManifestEntryVerifier mev;
-        private long numLeft;
+        privbtf InputStrfbm is;
+        privbtf JbrVfrififr jv;
+        privbtf MbniffstEntryVfrififr mfv;
+        privbtf long numLfft;
 
-        VerifierStream(Manifest man,
-                       JarEntry je,
-                       InputStream is,
-                       JarVerifier jv) throws IOException
+        VfrififrStrfbm(Mbniffst mbn,
+                       JbrEntry jf,
+                       InputStrfbm is,
+                       JbrVfrififr jv) tirows IOExdfption
         {
-            this.is = is;
-            this.jv = jv;
-            this.mev = new ManifestEntryVerifier(man);
-            this.jv.beginEntry(je, mev);
-            this.numLeft = je.getSize();
-            if (this.numLeft == 0)
-                this.jv.update(-1, this.mev);
+            tiis.is = is;
+            tiis.jv = jv;
+            tiis.mfv = nfw MbniffstEntryVfrififr(mbn);
+            tiis.jv.bfginEntry(jf, mfv);
+            tiis.numLfft = jf.gftSizf();
+            if (tiis.numLfft == 0)
+                tiis.jv.updbtf(-1, tiis.mfv);
         }
 
-        public int read() throws IOException
+        publid int rfbd() tirows IOExdfption
         {
-            if (numLeft > 0) {
-                int b = is.read();
-                jv.update(b, mev);
-                numLeft--;
-                if (numLeft == 0)
-                    jv.update(-1, mev);
-                return b;
-            } else {
-                return -1;
+            if (numLfft > 0) {
+                int b = is.rfbd();
+                jv.updbtf(b, mfv);
+                numLfft--;
+                if (numLfft == 0)
+                    jv.updbtf(-1, mfv);
+                rfturn b;
+            } flsf {
+                rfturn -1;
             }
         }
 
-        public int read(byte b[], int off, int len) throws IOException {
-            if ((numLeft > 0) && (numLeft < len)) {
-                len = (int)numLeft;
+        publid int rfbd(bytf b[], int off, int lfn) tirows IOExdfption {
+            if ((numLfft > 0) && (numLfft < lfn)) {
+                lfn = (int)numLfft;
             }
 
-            if (numLeft > 0) {
-                int n = is.read(b, off, len);
-                jv.update(n, b, off, len, mev);
-                numLeft -= n;
-                if (numLeft == 0)
-                    jv.update(-1, b, off, len, mev);
-                return n;
-            } else {
-                return -1;
+            if (numLfft > 0) {
+                int n = is.rfbd(b, off, lfn);
+                jv.updbtf(n, b, off, lfn, mfv);
+                numLfft -= n;
+                if (numLfft == 0)
+                    jv.updbtf(-1, b, off, lfn, mfv);
+                rfturn n;
+            } flsf {
+                rfturn -1;
             }
         }
 
-        public void close()
-            throws IOException
+        publid void dlosf()
+            tirows IOExdfption
         {
             if (is != null)
-                is.close();
+                is.dlosf();
             is = null;
-            mev = null;
+            mfv = null;
             jv = null;
         }
 
-        public int available() throws IOException {
-            return is.available();
+        publid int bvbilbblf() tirows IOExdfption {
+            rfturn is.bvbilbblf();
         }
 
     }
 
-    // Extended JavaUtilJarAccess CodeSource API Support
+    // Extfndfd JbvbUtilJbrAddfss CodfSourdf API Support
 
-    private Map<URL, Map<CodeSigner[], CodeSource>> urlToCodeSourceMap = new HashMap<>();
-    private Map<CodeSigner[], CodeSource> signerToCodeSource = new HashMap<>();
-    private URL lastURL;
-    private Map<CodeSigner[], CodeSource> lastURLMap;
+    privbtf Mbp<URL, Mbp<CodfSignfr[], CodfSourdf>> urlToCodfSourdfMbp = nfw HbsiMbp<>();
+    privbtf Mbp<CodfSignfr[], CodfSourdf> signfrToCodfSourdf = nfw HbsiMbp<>();
+    privbtf URL lbstURL;
+    privbtf Mbp<CodfSignfr[], CodfSourdf> lbstURLMbp;
 
     /*
-     * Create a unique mapping from codeSigner cache entries to CodeSource.
-     * In theory, multiple URLs origins could map to a single locally cached
-     * and shared JAR file although in practice there will be a single URL in use.
+     * Crfbtf b uniquf mbpping from dodfSignfr dbdif fntrifs to CodfSourdf.
+     * In tifory, multiplf URLs origins dould mbp to b singlf lodblly dbdifd
+     * bnd sibrfd JAR filf bltiougi in prbdtidf tifrf will bf b singlf URL in usf.
      */
-    private synchronized CodeSource mapSignersToCodeSource(URL url, CodeSigner[] signers) {
-        Map<CodeSigner[], CodeSource> map;
-        if (url == lastURL) {
-            map = lastURLMap;
-        } else {
-            map = urlToCodeSourceMap.get(url);
-            if (map == null) {
-                map = new HashMap<>();
-                urlToCodeSourceMap.put(url, map);
+    privbtf syndironizfd CodfSourdf mbpSignfrsToCodfSourdf(URL url, CodfSignfr[] signfrs) {
+        Mbp<CodfSignfr[], CodfSourdf> mbp;
+        if (url == lbstURL) {
+            mbp = lbstURLMbp;
+        } flsf {
+            mbp = urlToCodfSourdfMbp.gft(url);
+            if (mbp == null) {
+                mbp = nfw HbsiMbp<>();
+                urlToCodfSourdfMbp.put(url, mbp);
             }
-            lastURLMap = map;
-            lastURL = url;
+            lbstURLMbp = mbp;
+            lbstURL = url;
         }
-        CodeSource cs = map.get(signers);
-        if (cs == null) {
-            cs = new VerifierCodeSource(csdomain, url, signers);
-            signerToCodeSource.put(signers, cs);
+        CodfSourdf ds = mbp.gft(signfrs);
+        if (ds == null) {
+            ds = nfw VfrififrCodfSourdf(dsdombin, url, signfrs);
+            signfrToCodfSourdf.put(signfrs, ds);
         }
-        return cs;
+        rfturn ds;
     }
 
-    private CodeSource[] mapSignersToCodeSources(URL url, List<CodeSigner[]> signers, boolean unsigned) {
-        List<CodeSource> sources = new ArrayList<>();
+    privbtf CodfSourdf[] mbpSignfrsToCodfSourdfs(URL url, List<CodfSignfr[]> signfrs, boolfbn unsignfd) {
+        List<CodfSourdf> sourdfs = nfw ArrbyList<>();
 
-        for (CodeSigner[] signer : signers) {
-            sources.add(mapSignersToCodeSource(url, signer));
+        for (CodfSignfr[] signfr : signfrs) {
+            sourdfs.bdd(mbpSignfrsToCodfSourdf(url, signfr));
         }
-        if (unsigned) {
-            sources.add(mapSignersToCodeSource(url, null));
+        if (unsignfd) {
+            sourdfs.bdd(mbpSignfrsToCodfSourdf(url, null));
         }
-        return sources.toArray(new CodeSource[sources.size()]);
+        rfturn sourdfs.toArrby(nfw CodfSourdf[sourdfs.sizf()]);
     }
-    private CodeSigner[] emptySigner = new CodeSigner[0];
+    privbtf CodfSignfr[] fmptySignfr = nfw CodfSignfr[0];
 
     /*
-     * Match CodeSource to a CodeSigner[] in the signer cache.
+     * Mbtdi CodfSourdf to b CodfSignfr[] in tif signfr dbdif.
      */
-    private CodeSigner[] findMatchingSigners(CodeSource cs) {
-        if (cs instanceof VerifierCodeSource) {
-            VerifierCodeSource vcs = (VerifierCodeSource) cs;
-            if (vcs.isSameDomain(csdomain)) {
-                return ((VerifierCodeSource) cs).getPrivateSigners();
+    privbtf CodfSignfr[] findMbtdiingSignfrs(CodfSourdf ds) {
+        if (ds instbndfof VfrififrCodfSourdf) {
+            VfrififrCodfSourdf vds = (VfrififrCodfSourdf) ds;
+            if (vds.isSbmfDombin(dsdombin)) {
+                rfturn ((VfrififrCodfSourdf) ds).gftPrivbtfSignfrs();
             }
         }
 
         /*
-         * In practice signers should always be optimized above
-         * but this handles a CodeSource of any type, just in case.
+         * In prbdtidf signfrs siould blwbys bf optimizfd bbovf
+         * but tiis ibndlfs b CodfSourdf of bny typf, just in dbsf.
          */
-        CodeSource[] sources = mapSignersToCodeSources(cs.getLocation(), getJarCodeSigners(), true);
-        List<CodeSource> sourceList = new ArrayList<>();
-        for (CodeSource source : sources) {
-            sourceList.add(source);
+        CodfSourdf[] sourdfs = mbpSignfrsToCodfSourdfs(ds.gftLodbtion(), gftJbrCodfSignfrs(), truf);
+        List<CodfSourdf> sourdfList = nfw ArrbyList<>();
+        for (CodfSourdf sourdf : sourdfs) {
+            sourdfList.bdd(sourdf);
         }
-        int j = sourceList.indexOf(cs);
+        int j = sourdfList.indfxOf(ds);
         if (j != -1) {
-            CodeSigner[] match;
-            match = ((VerifierCodeSource) sourceList.get(j)).getPrivateSigners();
-            if (match == null) {
-                match = emptySigner;
+            CodfSignfr[] mbtdi;
+            mbtdi = ((VfrififrCodfSourdf) sourdfList.gft(j)).gftPrivbtfSignfrs();
+            if (mbtdi == null) {
+                mbtdi = fmptySignfr;
             }
-            return match;
+            rfturn mbtdi;
         }
-        return null;
+        rfturn null;
     }
 
     /*
-     * Instances of this class hold uncopied references to internal
-     * signing data that can be compared by object reference identity.
+     * Instbndfs of tiis dlbss iold undopifd rfffrfndfs to intfrnbl
+     * signing dbtb tibt dbn bf dompbrfd by objfdt rfffrfndf idfntity.
      */
-    private static class VerifierCodeSource extends CodeSource {
-        private static final long serialVersionUID = -9047366145967768825L;
+    privbtf stbtid dlbss VfrififrCodfSourdf fxtfnds CodfSourdf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -9047366145967768825L;
 
-        URL vlocation;
-        CodeSigner[] vsigners;
-        java.security.cert.Certificate[] vcerts;
-        Object csdomain;
+        URL vlodbtion;
+        CodfSignfr[] vsignfrs;
+        jbvb.sfdurity.dfrt.Cfrtifidbtf[] vdfrts;
+        Objfdt dsdombin;
 
-        VerifierCodeSource(Object csdomain, URL location, CodeSigner[] signers) {
-            super(location, signers);
-            this.csdomain = csdomain;
-            vlocation = location;
-            vsigners = signers; // from signerCache
+        VfrififrCodfSourdf(Objfdt dsdombin, URL lodbtion, CodfSignfr[] signfrs) {
+            supfr(lodbtion, signfrs);
+            tiis.dsdombin = dsdombin;
+            vlodbtion = lodbtion;
+            vsignfrs = signfrs; // from signfrCbdif
         }
 
-        VerifierCodeSource(Object csdomain, URL location, java.security.cert.Certificate[] certs) {
-            super(location, certs);
-            this.csdomain = csdomain;
-            vlocation = location;
-            vcerts = certs; // from signerCache
+        VfrififrCodfSourdf(Objfdt dsdombin, URL lodbtion, jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts) {
+            supfr(lodbtion, dfrts);
+            tiis.dsdombin = dsdombin;
+            vlodbtion = lodbtion;
+            vdfrts = dfrts; // from signfrCbdif
         }
 
         /*
-         * All VerifierCodeSource instances are constructed based on
-         * singleton signerCache or signerCacheCert entries for each unique signer.
-         * No CodeSigner<->Certificate[] conversion is required.
-         * We use these assumptions to optimize equality comparisons.
+         * All VfrififrCodfSourdf instbndfs brf donstrudtfd bbsfd on
+         * singlfton signfrCbdif or signfrCbdifCfrt fntrifs for fbdi uniquf signfr.
+         * No CodfSignfr<->Cfrtifidbtf[] donvfrsion is rfquirfd.
+         * Wf usf tifsf bssumptions to optimizf fqublity dompbrisons.
          */
-        public boolean equals(Object obj) {
-            if (obj == this) {
-                return true;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == tiis) {
+                rfturn truf;
             }
-            if (obj instanceof VerifierCodeSource) {
-                VerifierCodeSource that = (VerifierCodeSource) obj;
+            if (obj instbndfof VfrififrCodfSourdf) {
+                VfrififrCodfSourdf tibt = (VfrififrCodfSourdf) obj;
 
                 /*
-                 * Only compare against other per-signer singletons constructed
-                 * on behalf of the same JarFile instance. Otherwise, compare
-                 * things the slower way.
+                 * Only dompbrf bgbinst otifr pfr-signfr singlftons donstrudtfd
+                 * on bfiblf of tif sbmf JbrFilf instbndf. Otifrwisf, dompbrf
+                 * tiings tif slowfr wby.
                  */
-                if (isSameDomain(that.csdomain)) {
-                    if (that.vsigners != this.vsigners
-                            || that.vcerts != this.vcerts) {
-                        return false;
+                if (isSbmfDombin(tibt.dsdombin)) {
+                    if (tibt.vsignfrs != tiis.vsignfrs
+                            || tibt.vdfrts != tiis.vdfrts) {
+                        rfturn fblsf;
                     }
-                    if (that.vlocation != null) {
-                        return that.vlocation.equals(this.vlocation);
-                    } else if (this.vlocation != null) {
-                        return this.vlocation.equals(that.vlocation);
-                    } else { // both null
-                        return true;
+                    if (tibt.vlodbtion != null) {
+                        rfturn tibt.vlodbtion.fqubls(tiis.vlodbtion);
+                    } flsf if (tiis.vlodbtion != null) {
+                        rfturn tiis.vlodbtion.fqubls(tibt.vlodbtion);
+                    } flsf { // boti null
+                        rfturn truf;
                     }
                 }
             }
-            return super.equals(obj);
+            rfturn supfr.fqubls(obj);
         }
 
-        boolean isSameDomain(Object csdomain) {
-            return this.csdomain == csdomain;
+        boolfbn isSbmfDombin(Objfdt dsdombin) {
+            rfturn tiis.dsdombin == dsdombin;
         }
 
-        private CodeSigner[] getPrivateSigners() {
-            return vsigners;
+        privbtf CodfSignfr[] gftPrivbtfSignfrs() {
+            rfturn vsignfrs;
         }
 
-        private java.security.cert.Certificate[] getPrivateCertificates() {
-            return vcerts;
+        privbtf jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftPrivbtfCfrtifidbtfs() {
+            rfturn vdfrts;
         }
     }
-    private Map<String, CodeSigner[]> signerMap;
+    privbtf Mbp<String, CodfSignfr[]> signfrMbp;
 
-    private synchronized Map<String, CodeSigner[]> signerMap() {
-        if (signerMap == null) {
+    privbtf syndironizfd Mbp<String, CodfSignfr[]> signfrMbp() {
+        if (signfrMbp == null) {
             /*
-             * Snapshot signer state so it doesn't change on us. We care
-             * only about the asserted signatures. Verification of
-             * signature validity happens via the JarEntry apis.
+             * Snbpsiot signfr stbtf so it dofsn't dibngf on us. Wf dbrf
+             * only bbout tif bssfrtfd signbturfs. Vfrifidbtion of
+             * signbturf vblidity ibppfns vib tif JbrEntry bpis.
              */
-            signerMap = new HashMap<>(verifiedSigners.size() + sigFileSigners.size());
-            signerMap.putAll(verifiedSigners);
-            signerMap.putAll(sigFileSigners);
+            signfrMbp = nfw HbsiMbp<>(vfrififdSignfrs.sizf() + sigFilfSignfrs.sizf());
+            signfrMbp.putAll(vfrififdSignfrs);
+            signfrMbp.putAll(sigFilfSignfrs);
         }
-        return signerMap;
+        rfturn signfrMbp;
     }
 
-    public synchronized Enumeration<String> entryNames(JarFile jar, final CodeSource[] cs) {
-        final Map<String, CodeSigner[]> map = signerMap();
-        final Iterator<Map.Entry<String, CodeSigner[]>> itor = map.entrySet().iterator();
-        boolean matchUnsigned = false;
+    publid syndironizfd Enumfrbtion<String> fntryNbmfs(JbrFilf jbr, finbl CodfSourdf[] ds) {
+        finbl Mbp<String, CodfSignfr[]> mbp = signfrMbp();
+        finbl Itfrbtor<Mbp.Entry<String, CodfSignfr[]>> itor = mbp.fntrySft().itfrbtor();
+        boolfbn mbtdiUnsignfd = fblsf;
 
         /*
-         * Grab a single copy of the CodeSigner arrays. Check
-         * to see if we can optimize CodeSigner equality test.
+         * Grbb b singlf dopy of tif CodfSignfr brrbys. Cifdk
+         * to sff if wf dbn optimizf CodfSignfr fqublity tfst.
          */
-        List<CodeSigner[]> req = new ArrayList<>(cs.length);
-        for (CodeSource c : cs) {
-            CodeSigner[] match = findMatchingSigners(c);
-            if (match != null) {
-                if (match.length > 0) {
-                    req.add(match);
-                } else {
-                    matchUnsigned = true;
+        List<CodfSignfr[]> rfq = nfw ArrbyList<>(ds.lfngti);
+        for (CodfSourdf d : ds) {
+            CodfSignfr[] mbtdi = findMbtdiingSignfrs(d);
+            if (mbtdi != null) {
+                if (mbtdi.lfngti > 0) {
+                    rfq.bdd(mbtdi);
+                } flsf {
+                    mbtdiUnsignfd = truf;
                 }
-            } else {
-                matchUnsigned = true;
+            } flsf {
+                mbtdiUnsignfd = truf;
             }
         }
 
-        final List<CodeSigner[]> signersReq = req;
-        final Enumeration<String> enum2 = (matchUnsigned) ? unsignedEntryNames(jar) : emptyEnumeration;
+        finbl List<CodfSignfr[]> signfrsRfq = rfq;
+        finbl Enumfrbtion<String> fnum2 = (mbtdiUnsignfd) ? unsignfdEntryNbmfs(jbr) : fmptyEnumfrbtion;
 
-        return new Enumeration<String>() {
+        rfturn nfw Enumfrbtion<String>() {
 
-            String name;
+            String nbmf;
 
-            public boolean hasMoreElements() {
-                if (name != null) {
-                    return true;
+            publid boolfbn ibsMorfElfmfnts() {
+                if (nbmf != null) {
+                    rfturn truf;
                 }
 
-                while (itor.hasNext()) {
-                    Map.Entry<String, CodeSigner[]> e = itor.next();
-                    if (signersReq.contains(e.getValue())) {
-                        name = e.getKey();
-                        return true;
+                wiilf (itor.ibsNfxt()) {
+                    Mbp.Entry<String, CodfSignfr[]> f = itor.nfxt();
+                    if (signfrsRfq.dontbins(f.gftVbluf())) {
+                        nbmf = f.gftKfy();
+                        rfturn truf;
                     }
                 }
-                while (enum2.hasMoreElements()) {
-                    name = enum2.nextElement();
-                    return true;
+                wiilf (fnum2.ibsMorfElfmfnts()) {
+                    nbmf = fnum2.nfxtElfmfnt();
+                    rfturn truf;
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            public String nextElement() {
-                if (hasMoreElements()) {
-                    String value = name;
-                    name = null;
-                    return value;
+            publid String nfxtElfmfnt() {
+                if (ibsMorfElfmfnts()) {
+                    String vbluf = nbmf;
+                    nbmf = null;
+                    rfturn vbluf;
                 }
-                throw new NoSuchElementException();
+                tirow nfw NoSudiElfmfntExdfption();
             }
         };
     }
 
     /*
-     * Like entries() but screens out internal JAR mechanism entries
-     * and includes signed entries with no ZIP data.
+     * Likf fntrifs() but sdrffns out intfrnbl JAR mfdibnism fntrifs
+     * bnd indludfs signfd fntrifs witi no ZIP dbtb.
      */
-    public Enumeration<JarEntry> entries2(final JarFile jar, Enumeration<? extends ZipEntry> e) {
-        final Map<String, CodeSigner[]> map = new HashMap<>();
-        map.putAll(signerMap());
-        final Enumeration<? extends ZipEntry> enum_ = e;
-        return new Enumeration<JarEntry>() {
+    publid Enumfrbtion<JbrEntry> fntrifs2(finbl JbrFilf jbr, Enumfrbtion<? fxtfnds ZipEntry> f) {
+        finbl Mbp<String, CodfSignfr[]> mbp = nfw HbsiMbp<>();
+        mbp.putAll(signfrMbp());
+        finbl Enumfrbtion<? fxtfnds ZipEntry> fnum_ = f;
+        rfturn nfw Enumfrbtion<JbrEntry>() {
 
-            Enumeration<String> signers = null;
-            JarEntry entry;
+            Enumfrbtion<String> signfrs = null;
+            JbrEntry fntry;
 
-            public boolean hasMoreElements() {
-                if (entry != null) {
-                    return true;
+            publid boolfbn ibsMorfElfmfnts() {
+                if (fntry != null) {
+                    rfturn truf;
                 }
-                while (enum_.hasMoreElements()) {
-                    ZipEntry ze = enum_.nextElement();
-                    if (JarVerifier.isSigningRelated(ze.getName())) {
-                        continue;
+                wiilf (fnum_.ibsMorfElfmfnts()) {
+                    ZipEntry zf = fnum_.nfxtElfmfnt();
+                    if (JbrVfrififr.isSigningRflbtfd(zf.gftNbmf())) {
+                        dontinuf;
                     }
-                    entry = jar.newEntry(ze);
-                    return true;
+                    fntry = jbr.nfwEntry(zf);
+                    rfturn truf;
                 }
-                if (signers == null) {
-                    signers = Collections.enumeration(map.keySet());
+                if (signfrs == null) {
+                    signfrs = Collfdtions.fnumfrbtion(mbp.kfySft());
                 }
-                while (signers.hasMoreElements()) {
-                    String name = signers.nextElement();
-                    entry = jar.newEntry(new ZipEntry(name));
-                    return true;
+                wiilf (signfrs.ibsMorfElfmfnts()) {
+                    String nbmf = signfrs.nfxtElfmfnt();
+                    fntry = jbr.nfwEntry(nfw ZipEntry(nbmf));
+                    rfturn truf;
                 }
 
-                // Any map entries left?
-                return false;
+                // Any mbp fntrifs lfft?
+                rfturn fblsf;
             }
 
-            public JarEntry nextElement() {
-                if (hasMoreElements()) {
-                    JarEntry je = entry;
-                    map.remove(je.getName());
-                    entry = null;
-                    return je;
+            publid JbrEntry nfxtElfmfnt() {
+                if (ibsMorfElfmfnts()) {
+                    JbrEntry jf = fntry;
+                    mbp.rfmovf(jf.gftNbmf());
+                    fntry = null;
+                    rfturn jf;
                 }
-                throw new NoSuchElementException();
+                tirow nfw NoSudiElfmfntExdfption();
             }
         };
     }
-    private Enumeration<String> emptyEnumeration = new Enumeration<String>() {
+    privbtf Enumfrbtion<String> fmptyEnumfrbtion = nfw Enumfrbtion<String>() {
 
-        public boolean hasMoreElements() {
-            return false;
+        publid boolfbn ibsMorfElfmfnts() {
+            rfturn fblsf;
         }
 
-        public String nextElement() {
-            throw new NoSuchElementException();
+        publid String nfxtElfmfnt() {
+            tirow nfw NoSudiElfmfntExdfption();
         }
     };
 
-    // true if file is part of the signature mechanism itself
-    static boolean isSigningRelated(String name) {
-        return SignatureFileVerifier.isSigningRelated(name);
+    // truf if filf is pbrt of tif signbturf mfdibnism itsflf
+    stbtid boolfbn isSigningRflbtfd(String nbmf) {
+        rfturn SignbturfFilfVfrififr.isSigningRflbtfd(nbmf);
     }
 
-    private Enumeration<String> unsignedEntryNames(JarFile jar) {
-        final Map<String, CodeSigner[]> map = signerMap();
-        final Enumeration<JarEntry> entries = jar.entries();
-        return new Enumeration<String>() {
+    privbtf Enumfrbtion<String> unsignfdEntryNbmfs(JbrFilf jbr) {
+        finbl Mbp<String, CodfSignfr[]> mbp = signfrMbp();
+        finbl Enumfrbtion<JbrEntry> fntrifs = jbr.fntrifs();
+        rfturn nfw Enumfrbtion<String>() {
 
-            String name;
+            String nbmf;
 
             /*
-             * Grab entries from ZIP directory but screen out
-             * metadata.
+             * Grbb fntrifs from ZIP dirfdtory but sdrffn out
+             * mftbdbtb.
              */
-            public boolean hasMoreElements() {
-                if (name != null) {
-                    return true;
+            publid boolfbn ibsMorfElfmfnts() {
+                if (nbmf != null) {
+                    rfturn truf;
                 }
-                while (entries.hasMoreElements()) {
-                    String value;
-                    ZipEntry e = entries.nextElement();
-                    value = e.getName();
-                    if (e.isDirectory() || isSigningRelated(value)) {
-                        continue;
+                wiilf (fntrifs.ibsMorfElfmfnts()) {
+                    String vbluf;
+                    ZipEntry f = fntrifs.nfxtElfmfnt();
+                    vbluf = f.gftNbmf();
+                    if (f.isDirfdtory() || isSigningRflbtfd(vbluf)) {
+                        dontinuf;
                     }
-                    if (map.get(value) == null) {
-                        name = value;
-                        return true;
+                    if (mbp.gft(vbluf) == null) {
+                        nbmf = vbluf;
+                        rfturn truf;
                     }
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            public String nextElement() {
-                if (hasMoreElements()) {
-                    String value = name;
-                    name = null;
-                    return value;
+            publid String nfxtElfmfnt() {
+                if (ibsMorfElfmfnts()) {
+                    String vbluf = nbmf;
+                    nbmf = null;
+                    rfturn vbluf;
                 }
-                throw new NoSuchElementException();
+                tirow nfw NoSudiElfmfntExdfption();
             }
         };
     }
-    private List<CodeSigner[]> jarCodeSigners;
+    privbtf List<CodfSignfr[]> jbrCodfSignfrs;
 
-    private synchronized List<CodeSigner[]> getJarCodeSigners() {
-        CodeSigner[] signers;
-        if (jarCodeSigners == null) {
-            HashSet<CodeSigner[]> set = new HashSet<>();
-            set.addAll(signerMap().values());
-            jarCodeSigners = new ArrayList<>();
-            jarCodeSigners.addAll(set);
+    privbtf syndironizfd List<CodfSignfr[]> gftJbrCodfSignfrs() {
+        CodfSignfr[] signfrs;
+        if (jbrCodfSignfrs == null) {
+            HbsiSft<CodfSignfr[]> sft = nfw HbsiSft<>();
+            sft.bddAll(signfrMbp().vblufs());
+            jbrCodfSignfrs = nfw ArrbyList<>();
+            jbrCodfSignfrs.bddAll(sft);
         }
-        return jarCodeSigners;
+        rfturn jbrCodfSignfrs;
     }
 
-    public synchronized CodeSource[] getCodeSources(JarFile jar, URL url) {
-        boolean hasUnsigned = unsignedEntryNames(jar).hasMoreElements();
+    publid syndironizfd CodfSourdf[] gftCodfSourdfs(JbrFilf jbr, URL url) {
+        boolfbn ibsUnsignfd = unsignfdEntryNbmfs(jbr).ibsMorfElfmfnts();
 
-        return mapSignersToCodeSources(url, getJarCodeSigners(), hasUnsigned);
+        rfturn mbpSignfrsToCodfSourdfs(url, gftJbrCodfSignfrs(), ibsUnsignfd);
     }
 
-    public CodeSource getCodeSource(URL url, String name) {
-        CodeSigner[] signers;
+    publid CodfSourdf gftCodfSourdf(URL url, String nbmf) {
+        CodfSignfr[] signfrs;
 
-        signers = signerMap().get(name);
-        return mapSignersToCodeSource(url, signers);
+        signfrs = signfrMbp().gft(nbmf);
+        rfturn mbpSignfrsToCodfSourdf(url, signfrs);
     }
 
-    public CodeSource getCodeSource(URL url, JarFile jar, JarEntry je) {
-        CodeSigner[] signers;
+    publid CodfSourdf gftCodfSourdf(URL url, JbrFilf jbr, JbrEntry jf) {
+        CodfSignfr[] signfrs;
 
-        return mapSignersToCodeSource(url, getCodeSigners(jar, je));
+        rfturn mbpSignfrsToCodfSourdf(url, gftCodfSignfrs(jbr, jf));
     }
 
-    public void setEagerValidation(boolean eager) {
-        eagerValidation = eager;
+    publid void sftEbgfrVblidbtion(boolfbn fbgfr) {
+        fbgfrVblidbtion = fbgfr;
     }
 
-    public synchronized List<Object> getManifestDigests() {
-        return Collections.unmodifiableList(manifestDigests);
+    publid syndironizfd List<Objfdt> gftMbniffstDigfsts() {
+        rfturn Collfdtions.unmodifibblfList(mbniffstDigfsts);
     }
 
-    static CodeSource getUnsignedCS(URL url) {
-        return new VerifierCodeSource(null, url, (java.security.cert.Certificate[]) null);
+    stbtid CodfSourdf gftUnsignfdCS(URL url) {
+        rfturn nfw VfrififrCodfSourdf(null, url, (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null);
     }
 }

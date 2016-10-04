@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.rmi.dgc;
+pbdkbgf jbvb.rmi.dgd;
 
 /**
- * A lease contains a unique VM identifier and a lease duration. A
- * Lease object is used to request and grant leases to remote object
- * references.
+ * A lfbsf dontbins b uniquf VM idfntififr bnd b lfbsf durbtion. A
+ * Lfbsf objfdt is usfd to rfqufst bnd grbnt lfbsfs to rfmotf objfdt
+ * rfffrfndfs.
  */
-public final class Lease implements java.io.Serializable {
+publid finbl dlbss Lfbsf implfmfnts jbvb.io.Sfriblizbblf {
 
     /**
-     * @serial Virtual Machine ID with which this Lease is associated.
-     * @see #getVMID
+     * @sfribl Virtubl Mbdiinf ID witi wiidi tiis Lfbsf is bssodibtfd.
+     * @sff #gftVMID
      */
-    private VMID vmid;
+    privbtf VMID vmid;
 
     /**
-     * @serial Duration of this lease.
-     * @see #getValue
+     * @sfribl Durbtion of tiis lfbsf.
+     * @sff #gftVbluf
      */
-    private long value;
-    /** indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = -5713411624328831948L;
+    privbtf long vbluf;
+    /** indidbtf dompbtibility witi JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5713411624328831948L;
 
     /**
-     * Constructs a lease with a specific VMID and lease duration. The
-     * vmid may be null.
-     * @param id VMID associated with this lease
-     * @param duration lease duration
+     * Construdts b lfbsf witi b spfdifid VMID bnd lfbsf durbtion. Tif
+     * vmid mby bf null.
+     * @pbrbm id VMID bssodibtfd witi tiis lfbsf
+     * @pbrbm durbtion lfbsf durbtion
      */
-    public Lease(VMID id, long duration)
+    publid Lfbsf(VMID id, long durbtion)
     {
         vmid = id;
-        value = duration;
+        vbluf = durbtion;
     }
 
     /**
-     * Returns the client VMID associated with the lease.
-     * @return client VMID
+     * Rfturns tif dlifnt VMID bssodibtfd witi tif lfbsf.
+     * @rfturn dlifnt VMID
      */
-    public VMID getVMID()
+    publid VMID gftVMID()
     {
-        return vmid;
+        rfturn vmid;
     }
 
     /**
-     * Returns the lease duration.
-     * @return lease duration
+     * Rfturns tif lfbsf durbtion.
+     * @rfturn lfbsf durbtion
      */
-    public long getValue()
+    publid long gftVbluf()
     {
-        return value;
+        rfturn vbluf;
     }
 }

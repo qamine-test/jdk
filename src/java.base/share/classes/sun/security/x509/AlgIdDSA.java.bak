@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.*;
-import java.security.interfaces.DSAParams;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.DSAPbrbms;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 
 /**
- * This class identifies DSS/DSA Algorithm variants, which are distinguished
- * by using different algorithm parameters <em>P, Q, G</em>.  It uses the
- * NIST/IETF standard DER encoding.  These are used to implement the Digital
- * Signature Standard (DSS), FIPS 186.
+ * Tiis dlbss idfntififs DSS/DSA Algoritim vbribnts, wiidi brf distinguisifd
+ * by using difffrfnt blgoritim pbrbmftfrs <fm>P, Q, G</fm>.  It usfs tif
+ * NIST/IETF stbndbrd DER fndoding.  Tifsf brf usfd to implfmfnt tif Digitbl
+ * Signbturf Stbndbrd (DSS), FIPS 186.
  *
- * <P><em><b>NOTE:</b>  DSS/DSA Algorithm IDs may be created without these
- * parameters.  Use of DSS/DSA in modes where parameters are
- * either implicit (e.g. a default applicable to a site or a larger scope),
- * or are derived from some Certificate Authority's DSS certificate, is
- * not supported directly.  The application is responsible for creating a key
- * containing the required parameters prior to using the key in cryptographic
- * operations.  The follwoing is an example of how this may be done assuming
- * that we have a certificate called <code>currentCert</code> which doesn't
- * contain DSS/DSA parameters and we need to derive DSS/DSA parameters
- * from a CA's certificate called <code>caCert</code>.
+ * <P><fm><b>NOTE:</b>  DSS/DSA Algoritim IDs mby bf drfbtfd witiout tifsf
+ * pbrbmftfrs.  Usf of DSS/DSA in modfs wifrf pbrbmftfrs brf
+ * fitifr implidit (f.g. b dffbult bpplidbblf to b sitf or b lbrgfr sdopf),
+ * or brf dfrivfd from somf Cfrtifidbtf Autiority's DSS dfrtifidbtf, is
+ * not supportfd dirfdtly.  Tif bpplidbtion is rfsponsiblf for drfbting b kfy
+ * dontbining tif rfquirfd pbrbmftfrs prior to using tif kfy in dryptogrbpiid
+ * opfrbtions.  Tif follwoing is bn fxbmplf of iow tiis mby bf donf bssuming
+ * tibt wf ibvf b dfrtifidbtf dbllfd <dodf>durrfntCfrt</dodf> wiidi dofsn't
+ * dontbin DSS/DSA pbrbmftfrs bnd wf nffd to dfrivf DSS/DSA pbrbmftfrs
+ * from b CA's dfrtifidbtf dbllfd <dodf>dbCfrt</dodf>.
  * <p>
- * <code><pre>
- * // key containing parameters to use
- * DSAPublicKey cAKey = (DSAPublicKey)(caCert.getPublicKey());
- * // key without parameters
- * DSAPublicKey nullParamsKey = (DSAPublicKey)(currentCert.getPublicKey());
+ * <dodf><prf>
+ * // kfy dontbining pbrbmftfrs to usf
+ * DSAPublidKfy dAKfy = (DSAPublidKfy)(dbCfrt.gftPublidKfy());
+ * // kfy witiout pbrbmftfrs
+ * DSAPublidKfy nullPbrbmsKfy = (DSAPublidKfy)(durrfntCfrt.gftPublidKfy());
  *
- * DSAParams cAKeyParams = cAKey.getParams();
- * KeyFactory kf = KeyFactory.getInstance("DSA");
- * DSAPublicKeySpec ks = new DSAPublicKeySpec(nullParamsKey.getY(),
- *                                            cAKeyParams.getP(),
- *                                            cAKeyParams.getQ(),
- *                                            cAKeyParams.getG());
- * DSAPublicKey usableKey = kf.generatePublic(ks);
- * </pre></code>
+ * DSAPbrbms dAKfyPbrbms = dAKfy.gftPbrbms();
+ * KfyFbdtory kf = KfyFbdtory.gftInstbndf("DSA");
+ * DSAPublidKfySpfd ks = nfw DSAPublidKfySpfd(nullPbrbmsKfy.gftY(),
+ *                                            dAKfyPbrbms.gftP(),
+ *                                            dAKfyPbrbms.gftQ(),
+ *                                            dAKfyPbrbms.gftG());
+ * DSAPublidKfy usbblfKfy = kf.gfnfrbtfPublid(ks);
+ * </prf></dodf>
  *
- * @see java.security.interfaces.DSAParams
- * @see java.security.interfaces.DSAPublicKey
- * @see java.security.KeyFactory
- * @see java.security.spec.DSAPublicKeySpec
+ * @sff jbvb.sfdurity.intfrfbdfs.DSAPbrbms
+ * @sff jbvb.sfdurity.intfrfbdfs.DSAPublidKfy
+ * @sff jbvb.sfdurity.KfyFbdtory
+ * @sff jbvb.sfdurity.spfd.DSAPublidKfySpfd
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-public final
-class AlgIdDSA extends AlgorithmId implements DSAParams
+publid finbl
+dlbss AlgIdDSA fxtfnds AlgoritimId implfmfnts DSAPbrbms
 {
 
-    private static final long serialVersionUID = 3437177836797504046L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3437177836797504046L;
 
     /*
-     * The three unsigned integer parameters.
+     * Tif tirff unsignfd intfgfr pbrbmftfrs.
      */
-    private BigInteger  p , q, g;
+    privbtf BigIntfgfr  p , q, g;
 
-    /** Returns the DSS/DSA parameter "P" */
-    public BigInteger   getP () { return p; }
+    /** Rfturns tif DSS/DSA pbrbmftfr "P" */
+    publid BigIntfgfr   gftP () { rfturn p; }
 
-    /** Returns the DSS/DSA parameter "Q" */
-    public BigInteger   getQ () { return q; }
+    /** Rfturns tif DSS/DSA pbrbmftfr "Q" */
+    publid BigIntfgfr   gftQ () { rfturn q; }
 
-    /** Returns the DSS/DSA parameter "G" */
-    public BigInteger   getG () { return g; }
+    /** Rfturns tif DSS/DSA pbrbmftfr "G" */
+    publid BigIntfgfr   gftG () { rfturn g; }
 
     /**
-     * Default constructor.  The OID and parameters must be
-     * deserialized before this algorithm ID is used.
+     * Dffbult donstrudtor.  Tif OID bnd pbrbmftfrs must bf
+     * dfsfriblizfd bfforf tiis blgoritim ID is usfd.
      */
-    @Deprecated
-    public AlgIdDSA () {}
+    @Dfprfdbtfd
+    publid AlgIdDSA () {}
 
-    AlgIdDSA (DerValue val) throws IOException
-        { super(val.getOID()); }
+    AlgIdDSA (DfrVbluf vbl) tirows IOExdfption
+        { supfr(vbl.gftOID()); }
 
     /**
-     * Construct an AlgIdDSA from an X.509 encoded byte array.
+     * Construdt bn AlgIdDSA from bn X.509 fndodfd bytf brrby.
      */
-    public AlgIdDSA (byte[] encodedAlg) throws IOException
-        { super (new DerValue(encodedAlg).getOID()); }
+    publid AlgIdDSA (bytf[] fndodfdAlg) tirows IOExdfption
+        { supfr (nfw DfrVbluf(fndodfdAlg).gftOID()); }
 
     /**
-     * Constructs a DSS/DSA Algorithm ID from unsigned integers that
-     * define the algorithm parameters.  Those integers are encoded
-     * as big-endian byte arrays.
+     * Construdts b DSS/DSA Algoritim ID from unsignfd intfgfrs tibt
+     * dffinf tif blgoritim pbrbmftfrs.  Tiosf intfgfrs brf fndodfd
+     * bs big-fndibn bytf brrbys.
      *
-     * @param p the DSS/DSA parameter "P"
-     * @param q the DSS/DSA parameter "Q"
-     * @param g the DSS/DSA parameter "G"
+     * @pbrbm p tif DSS/DSA pbrbmftfr "P"
+     * @pbrbm q tif DSS/DSA pbrbmftfr "Q"
+     * @pbrbm g tif DSS/DSA pbrbmftfr "G"
      */
-    public AlgIdDSA (byte p [], byte q [], byte g [])
-    throws IOException
+    publid AlgIdDSA (bytf p [], bytf q [], bytf g [])
+    tirows IOExdfption
     {
-        this (new BigInteger (1, p),
-            new BigInteger (1, q),
-            new BigInteger (1, g));
+        tiis (nfw BigIntfgfr (1, p),
+            nfw BigIntfgfr (1, q),
+            nfw BigIntfgfr (1, g));
     }
 
     /**
-     * Constructs a DSS/DSA Algorithm ID from numeric parameters.
-     * If all three are null, then the parameters portion of the algorithm id
-     * is set to null.  See note in header regarding use.
+     * Construdts b DSS/DSA Algoritim ID from numfrid pbrbmftfrs.
+     * If bll tirff brf null, tifn tif pbrbmftfrs portion of tif blgoritim id
+     * is sft to null.  Sff notf in ifbdfr rfgbrding usf.
      *
-     * @param p the DSS/DSA parameter "P"
-     * @param q the DSS/DSA parameter "Q"
-     * @param g the DSS/DSA parameter "G"
+     * @pbrbm p tif DSS/DSA pbrbmftfr "P"
+     * @pbrbm q tif DSS/DSA pbrbmftfr "Q"
+     * @pbrbm g tif DSS/DSA pbrbmftfr "G"
      */
-    public AlgIdDSA (BigInteger p, BigInteger q, BigInteger g)
+    publid AlgIdDSA (BigIntfgfr p, BigIntfgfr q, BigIntfgfr g)
     {
-        super (DSA_oid);
+        supfr (DSA_oid);
 
         if (p != null || q != null || g != null) {
             if (p == null || q == null || g == null)
-                throw new ProviderException("Invalid parameters for DSS/DSA" +
-                                            " Algorithm ID");
+                tirow nfw ProvidfrExdfption("Invblid pbrbmftfrs for DSS/DSA" +
+                                            " Algoritim ID");
             try {
-                this.p = p;
-                this.q = q;
-                this.g = g;
-                initializeParams ();
+                tiis.p = p;
+                tiis.q = q;
+                tiis.g = g;
+                initiblizfPbrbms ();
 
-            } catch (IOException e) {
-                /* this should not happen */
-                throw new ProviderException ("Construct DSS/DSA Algorithm ID");
+            } dbtdi (IOExdfption f) {
+                /* tiis siould not ibppfn */
+                tirow nfw ProvidfrExdfption ("Construdt DSS/DSA Algoritim ID");
             }
         }
     }
 
     /**
-     * Returns "DSA", indicating the Digital Signature Algorithm (DSA) as
-     * defined by the Digital Signature Standard (DSS), FIPS 186.
+     * Rfturns "DSA", indidbting tif Digitbl Signbturf Algoritim (DSA) bs
+     * dffinfd by tif Digitbl Signbturf Stbndbrd (DSS), FIPS 186.
      */
-    public String getName ()
-        { return "DSA"; }
+    publid String gftNbmf ()
+        { rfturn "DSA"; }
 
 
     /*
-     * For algorithm IDs which haven't been created from a DER encoded
-     * value, "params" must be created.
+     * For blgoritim IDs wiidi ibvfn't bffn drfbtfd from b DER fndodfd
+     * vbluf, "pbrbms" must bf drfbtfd.
      */
-    private void initializeParams ()
-    throws IOException
+    privbtf void initiblizfPbrbms ()
+    tirows IOExdfption
     {
-        DerOutputStream out = new DerOutputStream ();
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm ();
 
-        out.putInteger(p);
-        out.putInteger(q);
-        out.putInteger(g);
-        params = new DerValue (DerValue.tag_Sequence,out.toByteArray ());
+        out.putIntfgfr(p);
+        out.putIntfgfr(q);
+        out.putIntfgfr(g);
+        pbrbms = nfw DfrVbluf (DfrVbluf.tbg_Sfqufndf,out.toBytfArrby ());
     }
 
     /**
-     * Parses algorithm parameters P, Q, and G.  They're found
-     * in the "params" member, which never needs to be changed.
+     * Pbrsfs blgoritim pbrbmftfrs P, Q, bnd G.  Tify'rf found
+     * in tif "pbrbms" mfmbfr, wiidi nfvfr nffds to bf dibngfd.
      */
-    protected void decodeParams ()
-    throws IOException
+    protfdtfd void dfdodfPbrbms ()
+    tirows IOExdfption
     {
-        if (params == null)
-            throw new IOException("DSA alg params are null");
-        if (params.tag != DerValue.tag_Sequence)
-            throw new  IOException("DSA alg parsing error");
+        if (pbrbms == null)
+            tirow nfw IOExdfption("DSA blg pbrbms brf null");
+        if (pbrbms.tbg != DfrVbluf.tbg_Sfqufndf)
+            tirow nfw  IOExdfption("DSA blg pbrsing frror");
 
-        params.data.reset ();
+        pbrbms.dbtb.rfsft ();
 
-        this.p = params.data.getBigInteger();
-        this.q = params.data.getBigInteger();
-        this.g = params.data.getBigInteger();
+        tiis.p = pbrbms.dbtb.gftBigIntfgfr();
+        tiis.q = pbrbms.dbtb.gftBigIntfgfr();
+        tiis.g = pbrbms.dbtb.gftBigIntfgfr();
 
-        if (params.data.available () != 0)
-            throw new IOException ("AlgIdDSA params, extra="+
-                                   params.data.available ());
+        if (pbrbms.dbtb.bvbilbblf () != 0)
+            tirow nfw IOExdfption ("AlgIdDSA pbrbms, fxtrb="+
+                                   pbrbms.dbtb.bvbilbblf ());
     }
 
 
     /*
-     * Returns a formatted string describing the parameters.
+     * Rfturns b formbttfd string dfsdribing tif pbrbmftfrs.
      */
-    public String toString ()
-        { return paramsToString (); }
+    publid String toString ()
+        { rfturn pbrbmsToString (); }
 
     /*
-     * Returns a string describing the parameters.
+     * Rfturns b string dfsdribing tif pbrbmftfrs.
      */
-    protected String paramsToString ()
+    protfdtfd String pbrbmsToString ()
     {
-        if (params == null)
-            return " null\n";
-        else
-            return
-                "\n    p:\n" + Debug.toHexString(p) +
-                "\n    q:\n" + Debug.toHexString(q) +
-                "\n    g:\n" + Debug.toHexString(g) +
+        if (pbrbms == null)
+            rfturn " null\n";
+        flsf
+            rfturn
+                "\n    p:\n" + Dfbug.toHfxString(p) +
+                "\n    q:\n" + Dfbug.toHfxString(q) +
+                "\n    g:\n" + Dfbug.toHfxString(g) +
                 "\n";
     }
 }

@@ -1,0 +1,52 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.lbng.bnnotbtion.*;
+
+/**
+ * Indidbtfs thbt b mfthod dfdlbrbtion is intfndfd to ovfrridf b
+ * mfthod dfdlbrbtion in b supfrtypf. If b mfthod is bnnotbtfd with
+ * this bnnotbtion typf dompilfrs brf rfquirfd to gfnfrbtf bn frror
+ * mfssbgf unlfss bt lfbst onf of thf following donditions hold:
+ *
+ * <ul><li>
+ * Thf mfthod dofs ovfrridf or implfmfnt b mfthod dfdlbrfd in b
+ * supfrtypf.
+ * </li><li>
+ * Thf mfthod hbs b signbturf thbt is ovfrridf-fquivblfnt to thbt of
+ * bny publid mfthod dfdlbrfd in {@linkplbin Objfdt}.
+ * </li></ul>
+ *
+ * @buthor  Pftfr von dfr Ah&fbdutf;
+ * @buthor  Joshub Blodh
+ * @jls 9.6.1.4 @Ovfrridf
+ * @sindf 1.5
+ */
+@Tbrgft(ElfmfntTypf.METHOD)
+@Rftfntion(RftfntionPolidy.SOURCE)
+publid @intfrfbdf Ovfrridf {
+}

@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 1995, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thrown whfn bn bpplidbtion trifs to lobd in b dlbss through its
+ * string nbmf using:
+ * <ul>
+ * <li>Thf <dodf>forNbmf</dodf> mfthod in dlbss <dodf>Clbss</dodf>.
+ * <li>Thf <dodf>findSystfmClbss</dodf> mfthod in dlbss
+ *     <dodf>ClbssLobdfr</dodf> .
+ * <li>Thf <dodf>lobdClbss</dodf> mfthod in dlbss <dodf>ClbssLobdfr</dodf>.
+ * </ul>
+ * <p>
+ * but no dffinition for thf dlbss with thf spfdififd nbmf dould bf found.
+ *
+ * <p>As of rflfbsf 1.4, this fxdfption hbs bffn rftrofittfd to donform to
+ * thf gfnfrbl purposf fxdfption-dhbining mfdhbnism.  Thf "optionbl fxdfption
+ * thbt wbs rbisfd whilf lobding thf dlbss" thbt mby bf providfd bt
+ * donstrudtion timf bnd bddfssfd vib thf {@link #gftExdfption()} mfthod is
+ * now known bs thf <i>dbusf</i>, bnd mby bf bddfssfd vib thf {@link
+ * Throwbblf#gftCbusf()} mfthod, bs wfll bs thf bforfmfntionfd "lfgbdy mfthod."
+ *
+ * @buthor  unbsdribfd
+ * @sff     jbvb.lbng.Clbss#forNbmf(jbvb.lbng.String)
+ * @sff     jbvb.lbng.ClbssLobdfr#findSystfmClbss(jbvb.lbng.String)
+ * @sff     jbvb.lbng.ClbssLobdfr#lobdClbss(jbvb.lbng.String, boolfbn)
+ * @sindf   1.0
+ */
+publid dlbss ClbssNotFoundExdfption fxtfnds RfflfdtivfOpfrbtionExdfption {
+    /**
+     * usf sfriblVfrsionUID from JDK 1.1.X for intfropfrbbility
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 9176873029745254542L;
+
+    /**
+     * This fifld holds thf fxdfption fx if thf
+     * ClbssNotFoundExdfption(String s, Throwbblf fx) donstrudtor wbs
+     * usfd to instbntibtf thf objfdt
+     * @sfribl
+     * @sindf 1.2
+     */
+    privbtf Throwbblf fx;
+
+    /**
+     * Construdts b <dodf>ClbssNotFoundExdfption</dodf> with no dftbil mfssbgf.
+     */
+    publid ClbssNotFoundExdfption() {
+        supfr((Throwbblf)null);  // Disbllow initCbusf
+    }
+
+    /**
+     * Construdts b <dodf>ClbssNotFoundExdfption</dodf> with thf
+     * spfdififd dftbil mfssbgf.
+     *
+     * @pbrbm   s   thf dftbil mfssbgf.
+     */
+    publid ClbssNotFoundExdfption(String s) {
+        supfr(s, null);  //  Disbllow initCbusf
+    }
+
+    /**
+     * Construdts b <dodf>ClbssNotFoundExdfption</dodf> with thf
+     * spfdififd dftbil mfssbgf bnd optionbl fxdfption thbt wbs
+     * rbisfd whilf lobding thf dlbss.
+     *
+     * @pbrbm s thf dftbil mfssbgf
+     * @pbrbm fx thf fxdfption thbt wbs rbisfd whilf lobding thf dlbss
+     * @sindf 1.2
+     */
+    publid ClbssNotFoundExdfption(String s, Throwbblf fx) {
+        supfr(s, null);  //  Disbllow initCbusf
+        this.fx = fx;
+    }
+
+    /**
+     * Rfturns thf fxdfption thbt wbs rbisfd if bn frror oddurrfd whilf
+     * bttfmpting to lobd thf dlbss. Othfrwisf, rfturns <tt>null</tt>.
+     *
+     * <p>This mfthod prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
+     * Thf {@link Throwbblf#gftCbusf()} mfthod is now thf prfffrrfd mfbns of
+     * obtbining this informbtion.
+     *
+     * @rfturn thf <dodf>Exdfption</dodf> thbt wbs rbisfd whilf lobding b dlbss
+     * @sindf 1.2
+     */
+    publid Throwbblf gftExdfption() {
+        rfturn fx;
+    }
+
+    /**
+     * Rfturns thf dbusf of this fxdfption (thf fxdfption thbt wbs rbisfd
+     * if bn frror oddurrfd whilf bttfmpting to lobd thf dlbss; othfrwisf
+     * <tt>null</tt>).
+     *
+     * @rfturn  thf dbusf of this fxdfption.
+     * @sindf   1.4
+     */
+    publid Throwbblf gftCbusf() {
+        rfturn fx;
+    }
+}

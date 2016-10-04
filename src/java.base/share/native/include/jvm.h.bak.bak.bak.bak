@@ -1,0 +1,1507 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _JAVASOFT_JVM_H_
+#dffinf _JAVASOFT_JVM_H_
+
+#indludf <sys/stbt.h>
+
+#indludf "jni.h"
+#indludf "jvm_md.h"
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/*
+ * This filf dontbins bdditionbl fundtions fxportfd from thf VM.
+ * Thfsf fundtions brf domplfmfntbry to thf stbndbrd JNI support.
+ * Thfrf brf thrff pbrts to this filf:
+ *
+ * First, this filf dontbins thf VM-rflbtfd fundtions nffdfd by nbtivf
+ * librbrifs in thf stbndbrd Jbvb API. For fxbmplf, thf jbvb.lbng.Objfdt
+ * dlbss nffds VM-lfvfl fundtions thbt wbit for bnd notify monitors.
+ *
+ * Sfdond, this filf dontbins thf fundtions bnd donstbnt dffinitions
+ * nffdfd by thf bytf dodf vfrififr bnd dlbss filf formbt dhfdkfr.
+ * Thfsf fundtions bllow thf vfrififr bnd formbt dhfdkfr to bf writtfn
+ * in b VM-indfpfndfnt wby.
+ *
+ * Third, this filf dontbins vbrious I/O bnd nfrwork opfrbtions nffdfd
+ * by thf stbndbrd Jbvb I/O bnd nftwork APIs.
+ */
+
+/*
+ * Bump thf vfrsion numbfr whfn fithfr of thf following hbppfns:
+ *
+ * 1. Thfrf is b dhbngf in JVM_* fundtions.
+ *
+ * 2. Thfrf is b dhbngf in thf dontrbdt bftwffn VM bnd Jbvb dlbssfs.
+ *    For fxbmplf, if thf VM rflifs on b nfw privbtf fifld in Thrfbd
+ *    dlbss.
+ */
+
+#dffinf JVM_INTERFACE_VERSION 4
+
+JNIEXPORT jint JNICALL
+JVM_GftIntfrfbdfVfrsion(void);
+
+/*************************************************************************
+ PART 1: Fundtions for Nbtivf Librbrifs
+ ************************************************************************/
+/*
+ * jbvb.lbng.Objfdt
+ */
+JNIEXPORT jint JNICALL
+JVM_IHbshCodf(JNIEnv *fnv, jobjfdt obj);
+
+JNIEXPORT void JNICALL
+JVM_MonitorWbit(JNIEnv *fnv, jobjfdt obj, jlong ms);
+
+JNIEXPORT void JNICALL
+JVM_MonitorNotify(JNIEnv *fnv, jobjfdt obj);
+
+JNIEXPORT void JNICALL
+JVM_MonitorNotifyAll(JNIEnv *fnv, jobjfdt obj);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_Clonf(JNIEnv *fnv, jobjfdt obj);
+
+/*
+ * jbvb.lbng.String
+ */
+JNIEXPORT jstring JNICALL
+JVM_IntfrnString(JNIEnv *fnv, jstring str);
+
+/*
+ * jbvb.lbng.Systfm
+ */
+JNIEXPORT jlong JNICALL
+JVM_CurrfntTimfMillis(JNIEnv *fnv, jdlbss ignorfd);
+
+JNIEXPORT jlong JNICALL
+JVM_NbnoTimf(JNIEnv *fnv, jdlbss ignorfd);
+
+JNIEXPORT void JNICALL
+JVM_ArrbyCopy(JNIEnv *fnv, jdlbss ignorfd, jobjfdt srd, jint srd_pos,
+              jobjfdt dst, jint dst_pos, jint lfngth);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_InitPropfrtifs(JNIEnv *fnv, jobjfdt p);
+
+/*
+ * jbvb.io.Filf
+ */
+JNIEXPORT void JNICALL
+JVM_OnExit(void (*fund)(void));
+
+/*
+ * jbvb.lbng.Runtimf
+ */
+JNIEXPORT void JNICALL
+JVM_Exit(jint dodf);
+
+JNIEXPORT void JNICALL
+JVM_Hblt(jint dodf);
+
+JNIEXPORT void JNICALL
+JVM_GC(void);
+
+/* Rfturns thf numbfr of rfbl-timf millisfdonds thbt hbvf flbpsfd sindf thf
+ * lfbst-rfdfntly-inspfdtfd hfbp objfdt wbs lbst inspfdtfd by thf gbrbbgf
+ * dollfdtor.
+ *
+ * For simplf stop-thf-world dollfdtors this vbluf is just thf timf
+ * sindf thf most rfdfnt dollfdtion.  For gfnfrbtionbl dollfdtors it is thf
+ * timf sindf thf oldfst gfnfrbtion wbs most rfdfntly dollfdtfd.  Othfr
+ * dollfdtors brf frff to rfturn b pfssimistid fstimbtf of thf flbpsfd timf, or
+ * simply thf timf sindf thf lbst full dollfdtion wbs pfrformfd.
+ *
+ * Notf thbt in thf prfsfndf of rfffrfndf objfdts, b givfn objfdt thbt is no
+ * longfr strongly rfbdhbblf mby hbvf to bf inspfdtfd multiplf timfs bfforf it
+ * dbn bf rfdlbimfd.
+ */
+JNIEXPORT jlong JNICALL
+JVM_MbxObjfdtInspfdtionAgf(void);
+
+JNIEXPORT void JNICALL
+JVM_TrbdfInstrudtions(jboolfbn on);
+
+JNIEXPORT void JNICALL
+JVM_TrbdfMfthodCblls(jboolfbn on);
+
+JNIEXPORT jlong JNICALL
+JVM_TotblMfmory(void);
+
+JNIEXPORT jlong JNICALL
+JVM_FrffMfmory(void);
+
+JNIEXPORT jlong JNICALL
+JVM_MbxMfmory(void);
+
+JNIEXPORT jint JNICALL
+JVM_AdtivfProdfssorCount(void);
+
+JNIEXPORT void * JNICALL
+JVM_LobdLibrbry(donst dhbr *nbmf);
+
+JNIEXPORT void JNICALL
+JVM_UnlobdLibrbry(void * hbndlf);
+
+JNIEXPORT void * JNICALL
+JVM_FindLibrbryEntry(void *hbndlf, donst dhbr *nbmf);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_IsSupportfdJNIVfrsion(jint vfrsion);
+
+/*
+ * jbvb.lbng.Flobt bnd jbvb.lbng.Doublf
+ */
+JNIEXPORT jboolfbn JNICALL
+JVM_IsNbN(jdoublf d);
+
+/*
+ * jbvb.lbng.Throwbblf
+ */
+JNIEXPORT void JNICALL
+JVM_FillInStbdkTrbdf(JNIEnv *fnv, jobjfdt throwbblf);
+
+JNIEXPORT jint JNICALL
+JVM_GftStbdkTrbdfDfpth(JNIEnv *fnv, jobjfdt throwbblf);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_GftStbdkTrbdfElfmfnt(JNIEnv *fnv, jobjfdt throwbblf, jint indfx);
+
+/*
+ * jbvb.lbng.Compilfr
+ */
+JNIEXPORT void JNICALL
+JVM_InitiblizfCompilfr (JNIEnv *fnv, jdlbss dompCls);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_IsSilfntCompilfr(JNIEnv *fnv, jdlbss dompCls);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_CompilfClbss(JNIEnv *fnv, jdlbss dompCls, jdlbss dls);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_CompilfClbssfs(JNIEnv *fnv, jdlbss dls, jstring jnbmf);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_CompilfrCommbnd(JNIEnv *fnv, jdlbss dompCls, jobjfdt brg);
+
+JNIEXPORT void JNICALL
+JVM_EnbblfCompilfr(JNIEnv *fnv, jdlbss dompCls);
+
+JNIEXPORT void JNICALL
+JVM_DisbblfCompilfr(JNIEnv *fnv, jdlbss dompCls);
+
+/*
+ * jbvb.lbng.Thrfbd
+ */
+JNIEXPORT void JNICALL
+JVM_StbrtThrfbd(JNIEnv *fnv, jobjfdt thrfbd);
+
+JNIEXPORT void JNICALL
+JVM_StopThrfbd(JNIEnv *fnv, jobjfdt thrfbd, jobjfdt fxdfption);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_IsThrfbdAlivf(JNIEnv *fnv, jobjfdt thrfbd);
+
+JNIEXPORT void JNICALL
+JVM_SuspfndThrfbd(JNIEnv *fnv, jobjfdt thrfbd);
+
+JNIEXPORT void JNICALL
+JVM_RfsumfThrfbd(JNIEnv *fnv, jobjfdt thrfbd);
+
+JNIEXPORT void JNICALL
+JVM_SftThrfbdPriority(JNIEnv *fnv, jobjfdt thrfbd, jint prio);
+
+JNIEXPORT void JNICALL
+JVM_Yifld(JNIEnv *fnv, jdlbss thrfbdClbss);
+
+JNIEXPORT void JNICALL
+JVM_Slffp(JNIEnv *fnv, jdlbss thrfbdClbss, jlong millis);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_CurrfntThrfbd(JNIEnv *fnv, jdlbss thrfbdClbss);
+
+JNIEXPORT jint JNICALL
+JVM_CountStbdkFrbmfs(JNIEnv *fnv, jobjfdt thrfbd);
+
+JNIEXPORT void JNICALL
+JVM_Intfrrupt(JNIEnv *fnv, jobjfdt thrfbd);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_IsIntfrruptfd(JNIEnv *fnv, jobjfdt thrfbd, jboolfbn dlfbrIntfrruptfd);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_HoldsLodk(JNIEnv *fnv, jdlbss thrfbdClbss, jobjfdt obj);
+
+JNIEXPORT void JNICALL
+JVM_DumpAllStbdks(JNIEnv *fnv, jdlbss unusfd);
+
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftAllThrfbds(JNIEnv *fnv, jdlbss dummy);
+
+JNIEXPORT void JNICALL
+JVM_SftNbtivfThrfbdNbmf(JNIEnv *fnv, jobjfdt jthrfbd, jstring nbmf);
+
+/* gftStbdkTrbdf() bnd gftAllStbdkTrbdfs() mfthod */
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_DumpThrfbds(JNIEnv *fnv, jdlbss thrfbdClbss, jobjfdtArrby thrfbds);
+
+/*
+ * jbvb.lbng.SfdurityMbnbgfr
+ */
+JNIEXPORT jdlbss JNICALL
+JVM_CurrfntLobdfdClbss(JNIEnv *fnv);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_CurrfntClbssLobdfr(JNIEnv *fnv);
+
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssContfxt(JNIEnv *fnv);
+
+JNIEXPORT jint JNICALL
+JVM_ClbssDfpth(JNIEnv *fnv, jstring nbmf);
+
+JNIEXPORT jint JNICALL
+JVM_ClbssLobdfrDfpth(JNIEnv *fnv);
+
+/*
+ * jbvb.lbng.Pbdkbgf
+ */
+JNIEXPORT jstring JNICALL
+JVM_GftSystfmPbdkbgf(JNIEnv *fnv, jstring nbmf);
+
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftSystfmPbdkbgfs(JNIEnv *fnv);
+
+/*
+ * jbvb.io.ObjfdtInputStrfbm
+ */
+JNIEXPORT jobjfdt JNICALL
+JVM_AllodbtfNfwObjfdt(JNIEnv *fnv, jobjfdt obj, jdlbss durrClbss,
+                      jdlbss initClbss);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_AllodbtfNfwArrby(JNIEnv *fnv, jobjfdt obj, jdlbss durrClbss,
+                     jint lfngth);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_LbtfstUsfrDffinfdLobdfr(JNIEnv *fnv);
+
+/*
+ * This fundtion hbs bffn dfprfdbtfd bnd should not bf donsidfrfd
+ * pbrt of thf spfdififd JVM intfrfbdf.
+ */
+JNIEXPORT jdlbss JNICALL
+JVM_LobdClbss0(JNIEnv *fnv, jobjfdt obj, jdlbss durrClbss,
+               jstring durrClbssNbmf);
+
+/*
+ * jbvb.lbng.rfflfdt.Arrby
+ */
+JNIEXPORT jint JNICALL
+JVM_GftArrbyLfngth(JNIEnv *fnv, jobjfdt brr);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_GftArrbyElfmfnt(JNIEnv *fnv, jobjfdt brr, jint indfx);
+
+JNIEXPORT jvbluf JNICALL
+JVM_GftPrimitivfArrbyElfmfnt(JNIEnv *fnv, jobjfdt brr, jint indfx, jint wCodf);
+
+JNIEXPORT void JNICALL
+JVM_SftArrbyElfmfnt(JNIEnv *fnv, jobjfdt brr, jint indfx, jobjfdt vbl);
+
+JNIEXPORT void JNICALL
+JVM_SftPrimitivfArrbyElfmfnt(JNIEnv *fnv, jobjfdt brr, jint indfx, jvbluf v,
+                             unsignfd dhbr vCodf);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_NfwArrby(JNIEnv *fnv, jdlbss fltClbss, jint lfngth);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_NfwMultiArrby(JNIEnv *fnv, jdlbss fltClbss, jintArrby dim);
+
+/*
+ * jbvb.lbng.Clbss bnd jbvb.lbng.ClbssLobdfr
+ */
+
+#dffinf JVM_CALLER_DEPTH -1
+
+/*
+ * Rfturns thf immfdibtf dbllfr dlbss of thf nbtivf mfthod invoking
+ * JVM_GftCbllfrClbss.  Thf Mfthod.invokf bnd othfr frbmfs duf to
+ * rfflfdtion mbdhinfry brf skippfd.
+ *
+ * Thf dfpth pbrbmftfr must bf -1 (JVM_DEPTH). Thf dbllfr is fxpfdtfd
+ * to bf mbrkfd with sun.rfflfdt.CbllfrSfnsitivf.  Thf JVM will throw
+ * bn frror if it is not mbrkfd propfrtly.
+ */
+JNIEXPORT jdlbss JNICALL
+JVM_GftCbllfrClbss(JNIEnv *fnv, int dfpth);
+
+
+/*
+ * Find primitivf dlbssfs
+ * utf: dlbss nbmf
+ */
+JNIEXPORT jdlbss JNICALL
+JVM_FindPrimitivfClbss(JNIEnv *fnv, donst dhbr *utf);
+
+/*
+ * Link thf dlbss
+ */
+JNIEXPORT void JNICALL
+JVM_RfsolvfClbss(JNIEnv *fnv, jdlbss dls);
+
+/*
+ * Find b dlbss from b boot dlbss lobdfr. Rfturns NULL if dlbss not found.
+ */
+JNIEXPORT jdlbss JNICALL
+JVM_FindClbssFromBootLobdfr(JNIEnv *fnv, donst dhbr *nbmf);
+
+/*
+ * Find b dlbss from b givfn dlbss lobdfr. Throw ClbssNotFoundExdfption
+ * or NoClbssDffFoundError dfpfnding on thf vbluf of thf lbst
+ * brgumfnt.
+ */
+JNIEXPORT jdlbss JNICALL
+JVM_FindClbssFromClbssLobdfr(JNIEnv *fnv, donst dhbr *nbmf, jboolfbn init,
+                             jobjfdt lobdfr, jboolfbn throwError);
+
+/*
+ * Find b dlbss from b givfn dlbss.
+ */
+JNIEXPORT jdlbss JNICALL
+JVM_FindClbssFromClbss(JNIEnv *fnv, donst dhbr *nbmf, jboolfbn init,
+                             jdlbss from);
+
+/* Find b lobdfd dlbss dbdhfd by thf VM */
+JNIEXPORT jdlbss JNICALL
+JVM_FindLobdfdClbss(JNIEnv *fnv, jobjfdt lobdfr, jstring nbmf);
+
+/* Dffinf b dlbss */
+JNIEXPORT jdlbss JNICALL
+JVM_DffinfClbss(JNIEnv *fnv, donst dhbr *nbmf, jobjfdt lobdfr, donst jbytf *buf,
+                jsizf lfn, jobjfdt pd);
+
+/* Dffinf b dlbss with b sourdf (bddfd in JDK1.5) */
+JNIEXPORT jdlbss JNICALL
+JVM_DffinfClbssWithSourdf(JNIEnv *fnv, donst dhbr *nbmf, jobjfdt lobdfr,
+                          donst jbytf *buf, jsizf lfn, jobjfdt pd,
+                          donst dhbr *sourdf);
+
+/*
+ * Rfflfdtion support fundtions
+ */
+
+JNIEXPORT jstring JNICALL
+JVM_GftClbssNbmf(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssIntfrfbdfs(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_IsIntfrfbdf(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssSignfrs(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT void JNICALL
+JVM_SftClbssSignfrs(JNIEnv *fnv, jdlbss dls, jobjfdtArrby signfrs);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_GftProtfdtionDombin(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_IsArrbyClbss(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_IsPrimitivfClbss(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jint JNICALL
+JVM_GftClbssModififrs(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftDfdlbrfdClbssfs(JNIEnv *fnv, jdlbss ofClbss);
+
+JNIEXPORT jdlbss JNICALL
+JVM_GftDfdlbringClbss(JNIEnv *fnv, jdlbss ofClbss);
+
+/* Gfnfrids support (JDK 1.5) */
+JNIEXPORT jstring JNICALL
+JVM_GftClbssSignbturf(JNIEnv *fnv, jdlbss dls);
+
+/* Annotbtions support (JDK 1.5) */
+JNIEXPORT jbytfArrby JNICALL
+JVM_GftClbssAnnotbtions(JNIEnv *fnv, jdlbss dls);
+
+/* Typf usf bnnotbtions support (JDK 1.8) */
+
+JNIEXPORT jbytfArrby JNICALL
+JVM_GftClbssTypfAnnotbtions(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jbytfArrby JNICALL
+JVM_GftFifldTypfAnnotbtions(JNIEnv *fnv, jobjfdt fifld);
+
+JNIEXPORT jbytfArrby JNICALL
+JVM_GftMfthodTypfAnnotbtions(JNIEnv *fnv, jobjfdt mfthod);
+
+/*
+ * Nfw (JDK 1.4) rfflfdtion implfmfntbtion
+ */
+
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssDfdlbrfdMfthods(JNIEnv *fnv, jdlbss ofClbss, jboolfbn publidOnly);
+
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssDfdlbrfdFiflds(JNIEnv *fnv, jdlbss ofClbss, jboolfbn publidOnly);
+
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssDfdlbrfdConstrudtors(JNIEnv *fnv, jdlbss ofClbss, jboolfbn publidOnly);
+
+/* Difffrs from JVM_GftClbssModififrs in trfbtmfnt of innfr dlbssfs.
+   This rfturns thf bddfss flbgs for thf dlbss bs spfdififd in thf
+   dlbss filf rbthfr thbn sfbrdhing thf InnfrClbssfs bttributf (if
+   prfsfnt) to find thf sourdf-lfvfl bddfss flbgs. Only thf vblufs of
+   thf low 13 bits (i.f., b mbsk of 0x1FFF) brf gubrbntffd to bf
+   vblid. */
+JNIEXPORT jint JNICALL
+JVM_GftClbssAddfssFlbgs(JNIEnv *fnv, jdlbss dls);
+
+/* Thf following two rfflfdtion routinfs brf still nffdfd duf to stbrtup timf issufs */
+/*
+ * jbvb.lbng.rfflfdt.Mfthod
+ */
+JNIEXPORT jobjfdt JNICALL
+JVM_InvokfMfthod(JNIEnv *fnv, jobjfdt mfthod, jobjfdt obj, jobjfdtArrby brgs0);
+
+/*
+ * jbvb.lbng.rfflfdt.Construdtor
+ */
+JNIEXPORT jobjfdt JNICALL
+JVM_NfwInstbndfFromConstrudtor(JNIEnv *fnv, jobjfdt d, jobjfdtArrby brgs0);
+
+/*
+ * Constbnt pool bddfss; durrfntly usfd to implfmfnt rfflfdtivf bddfss to bnnotbtions (JDK 1.5)
+ */
+
+JNIEXPORT jobjfdt JNICALL
+JVM_GftClbssConstbntPool(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jint JNICALL JVM_ConstbntPoolGftSizf
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool);
+
+JNIEXPORT jdlbss JNICALL JVM_ConstbntPoolGftClbssAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jdlbss JNICALL JVM_ConstbntPoolGftClbssAtIfLobdfd
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jobjfdt JNICALL JVM_ConstbntPoolGftMfthodAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jobjfdt JNICALL JVM_ConstbntPoolGftMfthodAtIfLobdfd
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jobjfdt JNICALL JVM_ConstbntPoolGftFifldAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jobjfdt JNICALL JVM_ConstbntPoolGftFifldAtIfLobdfd
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jobjfdtArrby JNICALL JVM_ConstbntPoolGftMfmbfrRffInfoAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jint JNICALL JVM_ConstbntPoolGftIntAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jlong JNICALL JVM_ConstbntPoolGftLongAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jflobt JNICALL JVM_ConstbntPoolGftFlobtAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jdoublf JNICALL JVM_ConstbntPoolGftDoublfAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jstring JNICALL JVM_ConstbntPoolGftStringAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jstring JNICALL JVM_ConstbntPoolGftUTF8At
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+/*
+ * Pbrbmftfr rfflfdtion
+ */
+
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftMfthodPbrbmftfrs(JNIEnv *fnv, jobjfdt mfthod);
+
+/*
+ * jbvb.sfdurity.*
+ */
+
+JNIEXPORT jobjfdt JNICALL
+JVM_DoPrivilfgfd(JNIEnv *fnv, jdlbss dls,
+                 jobjfdt bdtion, jobjfdt dontfxt, jboolfbn wrbpExdfption);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_GftInhfritfdAddfssControlContfxt(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_GftStbdkAddfssControlContfxt(JNIEnv *fnv, jdlbss dls);
+
+/*
+ * Signbl support, usfd to implfmfnt thf shutdown sfqufndf.  Evfry VM must
+ * support JVM_SIGINT bnd JVM_SIGTERM, rbising thf formfr for usfr intfrrupts
+ * (^C) bnd thf lbttfr for fxtfrnbl tfrminbtion (kill, systfm shutdown, ftd.).
+ * Othfr plbtform-dfpfndfnt signbl vblufs mby blso bf supportfd.
+ */
+
+JNIEXPORT void * JNICALL
+JVM_RfgistfrSignbl(jint sig, void *hbndlfr);
+
+JNIEXPORT jboolfbn JNICALL
+JVM_RbisfSignbl(jint sig);
+
+JNIEXPORT jint JNICALL
+JVM_FindSignbl(donst dhbr *nbmf);
+
+/*
+ * Rftrifvf thf bssfrtion dirfdtivfs for thf spfdififd dlbss.
+ */
+JNIEXPORT jboolfbn JNICALL
+JVM_DfsirfdAssfrtionStbtus(JNIEnv *fnv, jdlbss unusfd, jdlbss dls);
+
+/*
+ * Rftrifvf thf bssfrtion dirfdtivfs from thf VM.
+ */
+JNIEXPORT jobjfdt JNICALL
+JVM_AssfrtionStbtusDirfdtivfs(JNIEnv *fnv, jdlbss unusfd);
+
+/*
+ * jbvb.util.dondurrfnt.btomid.AtomidLong
+ */
+JNIEXPORT jboolfbn JNICALL
+JVM_SupportsCX8(void);
+
+/*
+ * dom.sun.dtrbdf.jsdt support
+ */
+
+#dffinf JVM_TRACING_DTRACE_VERSION 1
+
+/*
+ * Strudturf to pbss onf probf dfsdription to JVM
+ */
+typfdff strudt {
+    jmfthodID mfthod;
+    jstring   fundtion;
+    jstring   nbmf;
+    void*            rfsfrvfd[4];     // for futurf usf
+} JVM_DTrbdfProbf;
+
+/**
+ * Endbpsulbtfs thf stbbility rbtings for b DTrbdf providfr fifld
+ */
+typfdff strudt {
+    jint nbmfStbbility;
+    jint dbtbStbbility;
+    jint dfpfndfndyClbss;
+} JVM_DTrbdfIntfrfbdfAttributfs;
+
+/*
+ * Strudturf to pbss onf providfr dfsdription to JVM
+ */
+typfdff strudt {
+    jstring                       nbmf;
+    JVM_DTrbdfProbf*              probfs;
+    jint                          probf_dount;
+    JVM_DTrbdfIntfrfbdfAttributfs providfrAttributfs;
+    JVM_DTrbdfIntfrfbdfAttributfs modulfAttributfs;
+    JVM_DTrbdfIntfrfbdfAttributfs fundtionAttributfs;
+    JVM_DTrbdfIntfrfbdfAttributfs nbmfAttributfs;
+    JVM_DTrbdfIntfrfbdfAttributfs brgsAttributfs;
+    void*                         rfsfrvfd[4]; // for futurf usf
+} JVM_DTrbdfProvidfr;
+
+/*
+ * Gft thf vfrsion numbfr thf JVM wbs built with
+ */
+JNIEXPORT jint JNICALL
+JVM_DTrbdfGftVfrsion(JNIEnv* fnv);
+
+/*
+ * Rfgistfr nfw probf with givfn signbturf, rfturn globbl hbndlf
+ *
+ * Thf vfrsion pbssfd in is thf vfrsion thbt thf librbry dodf wbs
+ * built with.
+ */
+JNIEXPORT jlong JNICALL
+JVM_DTrbdfAdtivbtf(JNIEnv* fnv, jint vfrsion, jstring modulf_nbmf,
+  jint providfrs_dount, JVM_DTrbdfProvidfr* providfrs);
+
+/*
+ * Chfdk JSDT probf
+ */
+JNIEXPORT jboolfbn JNICALL
+JVM_DTrbdfIsProbfEnbblfd(JNIEnv* fnv, jmfthodID mfthod);
+
+/*
+ * Dfstroy dustom DOF
+ */
+JNIEXPORT void JNICALL
+JVM_DTrbdfDisposf(JNIEnv* fnv, jlong bdtivbtion_hbndlf);
+
+/*
+ * Chfdk to sff if DTrbdf is supportfd by OS
+ */
+JNIEXPORT jboolfbn JNICALL
+JVM_DTrbdfIsSupportfd(JNIEnv* fnv);
+
+/*************************************************************************
+ PART 2: Support for thf Vfrififr bnd Clbss Filf Formbt Chfdkfr
+ ************************************************************************/
+/*
+ * Rfturn thf dlbss nbmf in UTF formbt. Thf rfsult is vblid
+ * until JVM_RflfbsfUTf is dbllfd.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ */
+JNIEXPORT donst dhbr * JNICALL
+JVM_GftClbssNbmfUTF(JNIEnv *fnv, jdlbss db);
+
+/*
+ * Rfturns thf donstbnt pool typfs in thf bufffr providfd by "typfs."
+ */
+JNIEXPORT void JNICALL
+JVM_GftClbssCPTypfs(JNIEnv *fnv, jdlbss db, unsignfd dhbr *typfs);
+
+/*
+ * Rfturns thf numbfr of Constbnt Pool fntrifs.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftClbssCPEntrifsCount(JNIEnv *fnv, jdlbss db);
+
+/*
+ * Rfturns thf numbfr of *dfdlbrfd* fiflds or mfthods.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftClbssFifldsCount(JNIEnv *fnv, jdlbss db);
+
+JNIEXPORT jint JNICALL
+JVM_GftClbssMfthodsCount(JNIEnv *fnv, jdlbss db);
+
+/*
+ * Rfturns thf CP indfxfs of fxdfptions rbisfd by b givfn mfthod.
+ * Plbdfs thf rfsult in thf givfn bufffr.
+ *
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT void JNICALL
+JVM_GftMfthodIxExdfptionIndfxfs(JNIEnv *fnv, jdlbss db, jint mfthod_indfx,
+                                unsignfd short *fxdfptions);
+/*
+ * Rfturns thf numbfr of fxdfptions rbisfd by b givfn mfthod.
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftMfthodIxExdfptionsCount(JNIEnv *fnv, jdlbss db, jint mfthod_indfx);
+
+/*
+ * Rfturns thf bytf dodf sfqufndf of b givfn mfthod.
+ * Plbdfs thf rfsult in thf givfn bufffr.
+ *
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT void JNICALL
+JVM_GftMfthodIxBytfCodf(JNIEnv *fnv, jdlbss db, jint mfthod_indfx,
+                        unsignfd dhbr *dodf);
+
+/*
+ * Rfturns thf lfngth of thf bytf dodf sfqufndf of b givfn mfthod.
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftMfthodIxBytfCodfLfngth(JNIEnv *fnv, jdlbss db, jint mfthod_indfx);
+
+/*
+ * A strudturf usfd to b dbpturf fxdfption tbblf fntry in b Jbvb mfthod.
+ */
+typfdff strudt {
+    jint stbrt_pd;
+    jint fnd_pd;
+    jint hbndlfr_pd;
+    jint dbtdhTypf;
+} JVM_ExdfptionTbblfEntryTypf;
+
+/*
+ * Rfturns thf fxdfption tbblf fntry bt fntry_indfx of b givfn mfthod.
+ * Plbdfs thf rfsult in thf givfn bufffr.
+ *
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT void JNICALL
+JVM_GftMfthodIxExdfptionTbblfEntry(JNIEnv *fnv, jdlbss db, jint mfthod_indfx,
+                                   jint fntry_indfx,
+                                   JVM_ExdfptionTbblfEntryTypf *fntry);
+
+/*
+ * Rfturns thf lfngth of thf fxdfption tbblf of b givfn mfthod.
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftMfthodIxExdfptionTbblfLfngth(JNIEnv *fnv, jdlbss db, int indfx);
+
+/*
+ * Rfturns thf modififrs of b givfn fifld.
+ * Thf fifld is idfntififd by fifld_indfx.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftFifldIxModififrs(JNIEnv *fnv, jdlbss db, int indfx);
+
+/*
+ * Rfturns thf modififrs of b givfn mfthod.
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftMfthodIxModififrs(JNIEnv *fnv, jdlbss db, int indfx);
+
+/*
+ * Rfturns thf numbfr of lodbl vbribblfs of b givfn mfthod.
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftMfthodIxLodblsCount(JNIEnv *fnv, jdlbss db, int indfx);
+
+/*
+ * Rfturns thf numbfr of brgumfnts (indluding this pointfr) of b givfn mfthod.
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftMfthodIxArgsSizf(JNIEnv *fnv, jdlbss db, int indfx);
+
+/*
+ * Rfturns thf mbximum bmount of stbdk (in words) usfd by b givfn mfthod.
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftMfthodIxMbxStbdk(JNIEnv *fnv, jdlbss db, int indfx);
+
+/*
+ * Is b givfn mfthod b donstrudtor.
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT jboolfbn JNICALL
+JVM_IsConstrudtorIx(JNIEnv *fnv, jdlbss db, int indfx);
+
+/*
+ * Is thf givfn mfthod gfnfrbtfd by thf VM.
+ * Thf mfthod is idfntififd by mfthod_indfx.
+ */
+JNIEXPORT jboolfbn JNICALL
+JVM_IsVMGfnfrbtfdMfthodIx(JNIEnv *fnv, jdlbss db, int indfx);
+
+/*
+ * Rfturns thf nbmf of b givfn mfthod in UTF formbt.
+ * Thf rfsult rfmbins vblid until JVM_RflfbsfUTF is dbllfd.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ */
+JNIEXPORT donst dhbr * JNICALL
+JVM_GftMfthodIxNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
+
+/*
+ * Rfturns thf signbturf of b givfn mfthod in UTF formbt.
+ * Thf rfsult rfmbins vblid until JVM_RflfbsfUTF is dbllfd.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ */
+JNIEXPORT donst dhbr * JNICALL
+JVM_GftMfthodIxSignbturfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
+
+/*
+ * Rfturns thf nbmf of thf fifld rfffrrfd to bt b givfn donstbnt pool
+ * indfx.
+ *
+ * Thf rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ */
+JNIEXPORT donst dhbr * JNICALL
+JVM_GftCPFifldNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
+
+/*
+ * Rfturns thf nbmf of thf mfthod rfffrrfd to bt b givfn donstbnt pool
+ * indfx.
+ *
+ * Thf rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ */
+JNIEXPORT donst dhbr * JNICALL
+JVM_GftCPMfthodNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
+
+/*
+ * Rfturns thf signbturf of thf mfthod rfffrrfd to bt b givfn donstbnt pool
+ * indfx.
+ *
+ * Thf rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ */
+JNIEXPORT donst dhbr * JNICALL
+JVM_GftCPMfthodSignbturfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
+
+/*
+ * Rfturns thf signbturf of thf fifld rfffrrfd to bt b givfn donstbnt pool
+ * indfx.
+ *
+ * Thf rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ */
+JNIEXPORT donst dhbr * JNICALL
+JVM_GftCPFifldSignbturfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
+
+/*
+ * Rfturns thf dlbss nbmf rfffrrfd to bt b givfn donstbnt pool indfx.
+ *
+ * Thf rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ */
+JNIEXPORT donst dhbr * JNICALL
+JVM_GftCPClbssNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
+
+/*
+ * Rfturns thf dlbss nbmf rfffrrfd to bt b givfn donstbnt pool indfx.
+ *
+ * Thf donstbnt pool fntry must rfffr to b CONSTANT_Fifldrff.
+ *
+ * Thf rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ */
+JNIEXPORT donst dhbr * JNICALL
+JVM_GftCPFifldClbssNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
+
+/*
+ * Rfturns thf dlbss nbmf rfffrrfd to bt b givfn donstbnt pool indfx.
+ *
+ * Thf donstbnt pool fntry must rfffr to CONSTANT_Mfthodrff or
+ * CONSTANT_IntfrfbdfMfthodrff.
+ *
+ * Thf rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ */
+JNIEXPORT donst dhbr * JNICALL
+JVM_GftCPMfthodClbssNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
+
+/*
+ * Rfturns thf modififrs of b fifld in dbllfdClbss. Thf fifld is
+ * rfffrrfd to in dlbss db bt donstbnt pool fntry indfx.
+ *
+ * Thf dbllfr must trfbt thf string bs b donstbnt bnd not modify it
+ * in bny wby.
+ *
+ * Rfturns -1 if thf fifld dofs not fxist in dbllfdClbss.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftCPFifldModififrs(JNIEnv *fnv, jdlbss db, int indfx, jdlbss dbllfdClbss);
+
+/*
+ * Rfturns thf modififrs of b mfthod in dbllfdClbss. Thf mfthod is
+ * rfffrrfd to in dlbss db bt donstbnt pool fntry indfx.
+ *
+ * Rfturns -1 if thf mfthod dofs not fxist in dbllfdClbss.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftCPMfthodModififrs(JNIEnv *fnv, jdlbss db, int indfx, jdlbss dbllfdClbss);
+
+/*
+ * Rflfbsfs thf UTF string obtbinfd from thf VM.
+ */
+JNIEXPORT void JNICALL
+JVM_RflfbsfUTF(donst dhbr *utf);
+
+/*
+ * Compbrf if two dlbssfs brf in thf sbmf pbdkbgf.
+ */
+JNIEXPORT jboolfbn JNICALL
+JVM_IsSbmfClbssPbdkbgf(JNIEnv *fnv, jdlbss dlbss1, jdlbss dlbss2);
+
+/* Gft dlbssfilf donstbnts */
+#indludf "dlbssfilf_donstbnts.h"
+
+/*
+ * A fundtion dffinfd by thf bytf-dodf vfrififr bnd dbllfd by thf VM.
+ * This is not b fundtion implfmfntfd in thf VM.
+ *
+ * Rfturns JNI_FALSE if vfrifidbtion fbils. A dftbilfd frror mfssbgf
+ * will bf plbdfs in msg_buf, whosf lfngth is spfdififd by buf_lfn.
+ */
+typfdff jboolfbn (*vfrififr_fn_t)(JNIEnv *fnv,
+                                  jdlbss db,
+                                  dhbr * msg_buf,
+                                  jint buf_lfn);
+
+
+/*
+ * Support for b VM-indfpfndfnt dlbss formbt dhfdkfr.
+ */
+typfdff strudt {
+    unsignfd long dodf;    /* bytf dodf */
+    unsignfd long fxds;    /* fxdfptions */
+    unsignfd long ftbb;    /* dbtdh tbblf */
+    unsignfd long lnum;    /* linf numbfr */
+    unsignfd long lvbr;    /* lodbl vbrs */
+} mfthod_sizf_info;
+
+typfdff strudt {
+    unsignfd int donstbnts;    /* donstbnt pool */
+    unsignfd int fiflds;
+    unsignfd int mfthods;
+    unsignfd int intfrfbdfs;
+    unsignfd int fiflds2;      /* numbfr of stbtid 2-word fiflds */
+    unsignfd int innfrdlbssfs; /* # of rfdords in InnfrClbssfs bttr */
+
+    mfthod_sizf_info dlinit;   /* mfmory usfd in dlinit */
+    mfthod_sizf_info mbin;     /* usfd fvfrywhfrf flsf */
+} dlbss_sizf_info;
+
+/*
+ * Fundtions dffinfd in libjbvb.so to pfrform string donvfrsions.
+ *
+ */
+
+typfdff jstring (*to_jbvb_string_fn_t)(JNIEnv *fnv, dhbr *str);
+
+typfdff dhbr *(*to_d_string_fn_t)(JNIEnv *fnv, jstring s, jboolfbn *b);
+
+/* This is thf fundtion dffinfd in libjbvb.so thbt pfrforms dlbss
+ * formbt dhfdks. This fundtions fills in sizf informbtion bbout
+ * thf dlbss filf bnd rfturns:
+ *
+ *   0: good
+ *  -1: out of mfmory
+ *  -2: bbd formbt
+ *  -3: unsupportfd vfrsion
+ *  -4: bbd dlbss nbmf
+ */
+
+typfdff jint (*dhfdk_formbt_fn_t)(dhbr *dlbss_nbmf,
+                                  unsignfd dhbr *dbtb,
+                                  unsignfd int dbtb_sizf,
+                                  dlbss_sizf_info *dlbss_sizf,
+                                  dhbr *mfssbgf_bufffr,
+                                  jint bufffr_lfngth,
+                                  jboolfbn mfbsurf_only,
+                                  jboolfbn dhfdk_rflbxfd);
+
+#dffinf JVM_RECOGNIZED_CLASS_MODIFIERS (JVM_ACC_PUBLIC | \
+                                        JVM_ACC_FINAL | \
+                                        JVM_ACC_SUPER | \
+                                        JVM_ACC_INTERFACE | \
+                                        JVM_ACC_ABSTRACT | \
+                                        JVM_ACC_ANNOTATION | \
+                                        JVM_ACC_ENUM | \
+                                        JVM_ACC_SYNTHETIC)
+
+#dffinf JVM_RECOGNIZED_FIELD_MODIFIERS (JVM_ACC_PUBLIC | \
+                                        JVM_ACC_PRIVATE | \
+                                        JVM_ACC_PROTECTED | \
+                                        JVM_ACC_STATIC | \
+                                        JVM_ACC_FINAL | \
+                                        JVM_ACC_VOLATILE | \
+                                        JVM_ACC_TRANSIENT | \
+                                        JVM_ACC_ENUM | \
+                                        JVM_ACC_SYNTHETIC)
+
+#dffinf JVM_RECOGNIZED_METHOD_MODIFIERS (JVM_ACC_PUBLIC | \
+                                         JVM_ACC_PRIVATE | \
+                                         JVM_ACC_PROTECTED | \
+                                         JVM_ACC_STATIC | \
+                                         JVM_ACC_FINAL | \
+                                         JVM_ACC_SYNCHRONIZED | \
+                                         JVM_ACC_BRIDGE | \
+                                         JVM_ACC_VARARGS | \
+                                         JVM_ACC_NATIVE | \
+                                         JVM_ACC_ABSTRACT | \
+                                         JVM_ACC_STRICT | \
+                                         JVM_ACC_SYNTHETIC)
+
+/*
+ * This is thf fundtion dffinfd in libjbvb.so to pfrform pbth
+ * dbnonidblizbtion. VM dbll this fundtion bfforf opfning jbr filfs
+ * to lobd systfm dlbssfs.
+ *
+ */
+
+typfdff int (*dbnonidblizf_fn_t)(JNIEnv *fnv, dhbr *orig, dhbr *out, int lfn);
+
+/*************************************************************************
+ PART 3: I/O bnd Nftwork Support
+ ************************************************************************/
+
+/* Notf thbt thf JVM IO fundtions brf fxpfdtfd to rfturn JVM_IO_ERR
+ * whfn thfrf is bny kind of frror. Thf dbllfr dbn thfn usf thf
+ * plbtform spfdifid support (f.g., frrno) to gft thf dftbilfd
+ * frror info.  Thf JVM_GftLbstErrorString prodfdurf mby blso bf usfd
+ * to obtbin b dfsdriptivf frror string.
+ */
+#dffinf JVM_IO_ERR  (-1)
+
+/* For intfrruptiblf IO. Rfturning JVM_IO_INTR indidbtfs thbt bn IO
+ * opfrbtion hbs bffn disruptfd by Thrfbd.intfrrupt. Thfrf brf b
+ * numbfr of tfdhnidbl diffidultifs rflbtfd to intfrruptiblf IO thbt
+ * nffd to bf solvfd. For fxbmplf, most fxisting progrbms do not hbndlf
+ * IntfrruptfdIOExdfptions spfdiblly, thfy simply trfbt thosf bs bny
+ * IOExdfptions, whidh typidblly indidbtf fbtbl frrors.
+ *
+ * Thfrf brf blso two modfs of opfrbtion for intfrruptiblf IO. In thf
+ * rfsumption modf, bn intfrruptfd IO opfrbtion is gubrbntffd not to
+ * hbvf bny sidf-ffffdts, bnd dbn bf rfstbrtfd. In thf tfrminbtion modf,
+ * bn intfrruptfd IO opfrbtion dorrupts thf undfrlying IO strfbm, so
+ * thbt thf only rfbsonbblf opfrbtion on bn intfrruptfd strfbm is to
+ * dlosf thbt strfbm. Thf rfsumption modf sffms to bf impossiblf to
+ * implfmfnt on Win32 bnd Solbris. Implfmfnting thf tfrminbtion modf is
+ * fbsifr, but it's not dlfbr thbt's thf right sfmbntids.
+ *
+ * Intfrruptiblf IO is not supportfd on Win32.It dbn bf fnbblfd/disbblfd
+ * using b dompilf-timf flbg on Solbris. Third-pbrty JVM ports do not
+ * nffd to implfmfnt intfrruptiblf IO.
+ */
+#dffinf JVM_IO_INTR (-2)
+
+/* Writf b string into thf givfn bufffr, in thf plbtform's lodbl fndoding,
+ * thbt dfsdribfs thf most rfdfnt systfm-lfvfl frror to oddur in this thrfbd.
+ * Rfturn thf lfngth of thf string or zfro if no frror oddurrfd.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftLbstErrorString(dhbr *buf, int lfn);
+
+/*
+ * Convfrt b pbthnbmf into nbtivf formbt.  This fundtion dofs syntbdtid
+ * dlfbnup, sudh bs rfmoving rfdundbnt sfpbrbtor dhbrbdtfrs.  It modififs
+ * thf givfn pbthnbmf string in plbdf.
+ */
+JNIEXPORT dhbr * JNICALL
+JVM_NbtivfPbth(dhbr *);
+
+/*
+ * JVM I/O frror dodfs
+ */
+#dffinf JVM_EEXIST       -100
+
+/*
+ * Opfn b filf dfsdriptor. This fundtion rfturns b nfgbtivf frror dodf
+ * on frror, bnd b non-nfgbtivf intfgfr thbt is thf filf dfsdriptor on
+ * suddfss.
+ */
+JNIEXPORT jint JNICALL
+JVM_Opfn(donst dhbr *fnbmf, jint flbgs, jint modf);
+
+/*
+ * Closf b filf dfsdriptor. This fundtion rfturns -1 on frror, bnd 0
+ * on suddfss.
+ *
+ * fd        thf filf dfsdriptor to dlosf.
+ */
+JNIEXPORT jint JNICALL
+JVM_Closf(jint fd);
+
+/*
+ * Rfbd dbtb from b filf dfdriptor into b dhbr brrby.
+ *
+ * fd        thf filf dfsdriptor to rfbd from.
+ * buf       thf bufffr whfrf to put thf rfbd dbtb.
+ * nbytfs    thf numbfr of bytfs to rfbd.
+ *
+ * This fundtion rfturns -1 on frror, bnd 0 on suddfss.
+ */
+JNIEXPORT jint JNICALL
+JVM_Rfbd(jint fd, dhbr *buf, jint nbytfs);
+
+/*
+ * Writf dbtb from b dhbr brrby to b filf dfdriptor.
+ *
+ * fd        thf filf dfsdriptor to rfbd from.
+ * buf       thf bufffr from whidh to fftdh thf dbtb.
+ * nbytfs    thf numbfr of bytfs to writf.
+ *
+ * This fundtion rfturns -1 on frror, bnd 0 on suddfss.
+ */
+JNIEXPORT jint JNICALL
+JVM_Writf(jint fd, dhbr *buf, jint nbytfs);
+
+/*
+ * Rfturns thf numbfr of bytfs bvbilbblf for rfbding from b givfn filf
+ * dfsdriptor
+ */
+JNIEXPORT jint JNICALL
+JVM_Avbilbblf(jint fd, jlong *pbytfs);
+
+/*
+ * Movf thf filf dfsdriptor pointfr from whfndf by offsft.
+ *
+ * fd        thf filf dfsdriptor to movf.
+ * offsft    thf numbfr of bytfs to movf it by.
+ * whfndf    thf stbrt from whfrf to movf it.
+ *
+ * This fundtion rfturns thf rfsulting pointfr lodbtion.
+ */
+JNIEXPORT jlong JNICALL
+JVM_Lsffk(jint fd, jlong offsft, jint whfndf);
+
+/*
+ * Sft thf lfngth of thf filf bssodibtfd with thf givfn dfsdriptor to thf givfn
+ * lfngth.  If thf nfw lfngth is longfr thbn thf durrfnt lfngth thfn thf filf
+ * is fxtfndfd; thf dontfnts of thf fxtfndfd portion brf not dffinfd.  Thf
+ * vbluf of thf filf pointfr is undffinfd bftfr this prodfdurf rfturns.
+ */
+JNIEXPORT jint JNICALL
+JVM_SftLfngth(jint fd, jlong lfngth);
+
+/*
+ * Syndhronizf thf filf dfsdriptor's in mfmory stbtf with thbt of thf
+ * physidbl dfvidf.  Rfturn of -1 is bn frror, 0 is OK.
+ */
+JNIEXPORT jint JNICALL
+JVM_Synd(jint fd);
+
+/*
+ * Nftworking librbry support
+ */
+
+JNIEXPORT jint JNICALL
+JVM_InitiblizfSodkftLibrbry(void);
+
+strudt sodkbddr;
+
+JNIEXPORT jint JNICALL
+JVM_Sodkft(jint dombin, jint typf, jint protodol);
+
+JNIEXPORT jint JNICALL
+JVM_SodkftClosf(jint fd);
+
+JNIEXPORT jint JNICALL
+JVM_SodkftShutdown(jint fd, jint howto);
+
+JNIEXPORT jint JNICALL
+JVM_Rfdv(jint fd, dhbr *buf, jint nBytfs, jint flbgs);
+
+JNIEXPORT jint JNICALL
+JVM_Sfnd(jint fd, dhbr *buf, jint nBytfs, jint flbgs);
+
+JNIEXPORT jint JNICALL
+JVM_Timfout(int fd, long timfout);
+
+JNIEXPORT jint JNICALL
+JVM_Listfn(jint fd, jint dount);
+
+JNIEXPORT jint JNICALL
+JVM_Connfdt(jint fd, strudt sodkbddr *him, jint lfn);
+
+JNIEXPORT jint JNICALL
+JVM_Bind(jint fd, strudt sodkbddr *him, jint lfn);
+
+JNIEXPORT jint JNICALL
+JVM_Addfpt(jint fd, strudt sodkbddr *him, jint *lfn);
+
+JNIEXPORT jint JNICALL
+JVM_RfdvFrom(jint fd, dhbr *buf, int nBytfs,
+                  int flbgs, strudt sodkbddr *from, int *fromlfn);
+
+JNIEXPORT jint JNICALL
+JVM_SfndTo(jint fd, dhbr *buf, int lfn,
+                int flbgs, strudt sodkbddr *to, int tolfn);
+
+JNIEXPORT jint JNICALL
+JVM_SodkftAvbilbblf(jint fd, jint *rfsult);
+
+
+JNIEXPORT jint JNICALL
+JVM_GftSodkNbmf(jint fd, strudt sodkbddr *him, int *lfn);
+
+JNIEXPORT jint JNICALL
+JVM_GftSodkOpt(jint fd, int lfvfl, int optnbmf, dhbr *optvbl, int *optlfn);
+
+JNIEXPORT jint JNICALL
+JVM_SftSodkOpt(jint fd, int lfvfl, int optnbmf, donst dhbr *optvbl, int optlfn);
+
+JNIEXPORT int JNICALL
+JVM_GftHostNbmf(dhbr* nbmf, int nbmflfn);
+
+/*
+ * Thf stbndbrd printing fundtions supportfd by thf Jbvb VM. (Should thfy
+ * bf rfnbmfd to JVM_* in thf futurf?
+ */
+
+/*
+ * BE CAREFUL! Thf following fundtions do not implfmfnt thf
+ * full ffbturf sft of stbndbrd C printf formbts.
+ */
+int
+jio_vsnprintf(dhbr *str, sizf_t dount, donst dhbr *fmt, vb_list brgs);
+
+int
+jio_snprintf(dhbr *str, sizf_t dount, donst dhbr *fmt, ...);
+
+int
+jio_fprintf(FILE *, donst dhbr *fmt, ...);
+
+int
+jio_vfprintf(FILE *, donst dhbr *fmt, vb_list brgs);
+
+
+JNIEXPORT void * JNICALL
+JVM_RbwMonitorCrfbtf(void);
+
+JNIEXPORT void JNICALL
+JVM_RbwMonitorDfstroy(void *mon);
+
+JNIEXPORT jint JNICALL
+JVM_RbwMonitorEntfr(void *mon);
+
+JNIEXPORT void JNICALL
+JVM_RbwMonitorExit(void *mon);
+
+/*
+ * jbvb.lbng.mbnbgfmfnt support
+ */
+JNIEXPORT void* JNICALL
+JVM_GftMbnbgfmfnt(jint vfrsion);
+
+/*
+ * dom.sun.tools.bttbdh.VirtublMbdhinf support
+ *
+ * Initiblizf thf bgfnt propfrtifs with thf propfrtifs mbintbinfd in thf VM.
+ */
+JNIEXPORT jobjfdt JNICALL
+JVM_InitAgfntPropfrtifs(JNIEnv *fnv, jobjfdt bgfnt_props);
+
+JNIEXPORT jstring JNICALL
+JVM_GftTfmporbryDirfdtory(JNIEnv *fnv);
+
+/* Gfnfrids rfflfdtion support.
+ *
+ * Rfturns informbtion bbout thf givfn dlbss's EndlosingMfthod
+ * bttributf, if prfsfnt, or null if thf dlbss hbd no fndlosing
+ * mfthod.
+ *
+ * If non-null, thf rfturnfd brrby dontbins thrff flfmfnts. Elfmfnt 0
+ * is thf jbvb.lbng.Clbss of whidh thf fndlosing mfthod is b mfmbfr,
+ * bnd flfmfnts 1 bnd 2 brf thf jbvb.lbng.Strings for thf fndlosing
+ * mfthod's nbmf bnd dfsdriptor, rfspfdtivfly.
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftEndlosingMfthodInfo(JNIEnv* fnv, jdlbss ofClbss);
+
+/*
+ * Jbvb thrfbd stbtf support
+ */
+fnum {
+    JAVA_THREAD_STATE_NEW           = 0,
+    JAVA_THREAD_STATE_RUNNABLE      = 1,
+    JAVA_THREAD_STATE_BLOCKED       = 2,
+    JAVA_THREAD_STATE_WAITING       = 3,
+    JAVA_THREAD_STATE_TIMED_WAITING = 4,
+    JAVA_THREAD_STATE_TERMINATED    = 5,
+    JAVA_THREAD_STATE_COUNT         = 6
+};
+
+/*
+ * Rfturns bn brrby of thf thrfbdStbtus vblufs rfprfsfnting thf
+ * givfn Jbvb thrfbd stbtf.  Rfturns NULL if thf VM vfrsion is
+ * indompbtiblf with thf JDK or dofsn't support thf givfn
+ * Jbvb thrfbd stbtf.
+ */
+JNIEXPORT jintArrby JNICALL
+JVM_GftThrfbdStbtfVblufs(JNIEnv* fnv, jint jbvbThrfbdStbtf);
+
+/*
+ * Rfturns bn brrby of thf substbtf nbmfs rfprfsfnting thf
+ * givfn Jbvb thrfbd stbtf.  Rfturns NULL if thf VM vfrsion is
+ * indompbtiblf with thf JDK or thf VM dofsn't support
+ * thf givfn Jbvb thrfbd stbtf.
+ * vblufs must bf thf jintArrby rfturnfd from JVM_GftThrfbdStbtfVblufs
+ * bnd jbvbThrfbdStbtf.
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftThrfbdStbtfNbmfs(JNIEnv* fnv, jint jbvbThrfbdStbtf, jintArrby vblufs);
+
+/* =========================================================================
+ * Thf following dffinfs b privbtf JVM intfrfbdf thbt thf JDK dbn qufry
+ * for thf JVM vfrsion bnd dbpbbilitifs.  sun.misd.Vfrsion dffinfs
+ * thf mfthods for gftting thf VM vfrsion bnd its dbpbbilitifs.
+ *
+ * Whfn b nfw bit is bddfd, thf following should bf updbtfd to providf
+ * bddfss to thf nfw dbpbbility:
+ *    HS:   JVM_GftVfrsionInfo bnd Abstrbdt_VM_Vfrsion dlbss
+ *    SDK:  Vfrsion dlbss
+ *
+ * Similbry, b privbtf JDK intfrfbdf JDK_GftVfrsionInfo0 is dffinfd for
+ * JVM to qufry for thf JDK vfrsion bnd dbpbbilitifs.
+ *
+ * Whfn b nfw bit is bddfd, thf following should bf updbtfd to providf
+ * bddfss to thf nfw dbpbbility:
+ *    HS:   JDK_Vfrsion dlbss
+ *    SDK:  JDK_GftVfrsionInfo0
+ *
+ * ==========================================================================
+ */
+typfdff strudt {
+    /* Nbming donvfntion of RE build vfrsion string: n.n.n[_uu[d]][-<idfntififr>]-bxx */
+    unsignfd int jvm_vfrsion;   /* Consists of mbjor, minor, midro (n.n.n) */
+                                /* bnd build numbfr (xx) */
+    unsignfd int updbtf_vfrsion : 8;         /* Updbtf rflfbsf vfrsion (uu) */
+    unsignfd int spfdibl_updbtf_vfrsion : 8; /* Spfdibl updbtf rflfbsf vfrsion (d)*/
+    unsignfd int rfsfrvfd1 : 16;
+    unsignfd int rfsfrvfd2;
+
+    /* Thf following bits rfprfsfnts JVM supports thbt JDK hbs dfpfndfndy on.
+     * JDK dbn usf thfsf bits to dftfrminf whidh JVM vfrsion
+     * bnd support it hbs to mbintbin runtimf dompbtibility.
+     *
+     * Whfn b nfw bit is bddfd in b minor or updbtf rflfbsf, mbkf surf
+     * thf nfw bit is blso bddfd in thf mbin/bbsflinf.
+     */
+    unsignfd int is_bttbdh_supportfd : 1;
+    unsignfd int : 31;
+    unsignfd int : 32;
+    unsignfd int : 32;
+} jvm_vfrsion_info;
+
+#dffinf JVM_VERSION_MAJOR(vfrsion) ((vfrsion & 0xFF000000) >> 24)
+#dffinf JVM_VERSION_MINOR(vfrsion) ((vfrsion & 0x00FF0000) >> 16)
+#dffinf JVM_VERSION_MICRO(vfrsion) ((vfrsion & 0x0000FF00) >> 8)
+
+/* Build numbfr is bvbilbblf only for RE builds.
+ * It will bf zfro for intfrnbl builds.
+ */
+#dffinf JVM_VERSION_BUILD(vfrsion) ((vfrsion & 0x000000FF))
+
+JNIEXPORT void JNICALL
+JVM_GftVfrsionInfo(JNIEnv* fnv, jvm_vfrsion_info* info, sizf_t info_sizf);
+
+typfdff strudt {
+    // Nbming donvfntion of RE build vfrsion string: n.n.n[_uu[d]][-<idfntififr>]-bxx
+    unsignfd int jdk_vfrsion;   /* Consists of mbjor, minor, midro (n.n.n) */
+                                /* bnd build numbfr (xx) */
+    unsignfd int updbtf_vfrsion : 8;         /* Updbtf rflfbsf vfrsion (uu) */
+    unsignfd int spfdibl_updbtf_vfrsion : 8; /* Spfdibl updbtf rflfbsf vfrsion (d)*/
+    unsignfd int rfsfrvfd1 : 16;
+    unsignfd int rfsfrvfd2;
+
+    /* Thf following bits rfprfsfnts nfw JDK supports thbt VM hbs dfpfndfndy on.
+     * VM implfmfntbtion dbn usf thfsf bits to dftfrminf whidh JDK vfrsion
+     * bnd support it hbs to mbintbin runtimf dompbtibility.
+     *
+     * Whfn b nfw bit is bddfd in b minor or updbtf rflfbsf, mbkf surf
+     * thf nfw bit is blso bddfd in thf mbin/bbsflinf.
+     */
+    unsignfd int thrfbd_pbrk_blodkfr : 1;
+    unsignfd int post_vm_init_hook_fnbblfd : 1;
+    unsignfd int pfnding_list_usfs_disdovfrfd_fifld : 1;
+    unsignfd int : 29;
+    unsignfd int : 32;
+    unsignfd int : 32;
+} jdk_vfrsion_info;
+
+#dffinf JDK_VERSION_MAJOR(vfrsion) ((vfrsion & 0xFF000000) >> 24)
+#dffinf JDK_VERSION_MINOR(vfrsion) ((vfrsion & 0x00FF0000) >> 16)
+#dffinf JDK_VERSION_MICRO(vfrsion) ((vfrsion & 0x0000FF00) >> 8)
+
+/* Build numbfr is bvbilbblf only for RE build (i.f. JDK_BUILD_NUMBER is sft to bNN)
+ * It will bf zfro for intfrnbl builds.
+ */
+#dffinf JDK_VERSION_BUILD(vfrsion) ((vfrsion & 0x000000FF))
+
+/*
+ * This is thf fundtion JDK_GftVfrsionInfo0 dffinfd in libjbvb.so
+ * thbt is dynbmidblly lookfd up by JVM.
+ */
+typfdff void (*jdk_vfrsion_info_fn_t)(jdk_vfrsion_info* info, sizf_t info_sizf);
+
+/*
+ * This strudturf is usfd by thf lbundhfr to gft thf dffbult thrfbd
+ * stbdk sizf from thf VM using JNI_GftDffbultJbvbVMInitArgs() with b
+ * vfrsion of 1.1.  As it is not supportfd othfrwisf, it hbs bffn rfmovfd
+ * from jni.h
+ */
+typfdff strudt JDK1_1InitArgs {
+    jint vfrsion;
+
+    dhbr **propfrtifs;
+    jint dhfdkSourdf;
+    jint nbtivfStbdkSizf;
+    jint jbvbStbdkSizf;
+    jint minHfbpSizf;
+    jint mbxHfbpSizf;
+    jint vfrifyModf;
+    dhbr *dlbsspbth;
+
+    jint (JNICALL *vfprintf)(FILE *fp, donst dhbr *formbt, vb_list brgs);
+    void (JNICALL *fxit)(jint dodf);
+    void (JNICALL *bbort)(void);
+
+    jint fnbblfClbssGC;
+    jint fnbblfVfrbosfGC;
+    jint disbblfAsyndGC;
+    jint vfrbosf;
+    jboolfbn dfbugging;
+    jint dfbugPort;
+} JDK1_1InitArgs;
+
+
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+
+#fndif /* __dplusplus */
+
+#fndif /* !_JAVASOFT_JVM_H_ */

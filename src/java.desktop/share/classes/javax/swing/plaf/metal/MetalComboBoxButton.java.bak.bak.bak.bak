@@ -1,0 +1,295 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * JButton subdlbss to hflp out MftblComboBoxUI
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff MftblComboBoxButton
+ * @buthor Tom Sbntos
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblComboBoxButton fxtfnds JButton {
+
+    /**
+     * Thf instbndf of {@dodf JComboBox}.
+     */
+    protfdtfd JComboBox<Objfdt> domboBox;
+
+    /**
+     * Thf instbndf of {@dodf JList}.
+     */
+    protfdtfd JList<Objfdt> listBox;
+
+    /**
+     * Thf instbndf of {@dodf CfllRfndfrfrPbnf}.
+     */
+    protfdtfd CfllRfndfrfrPbnf rfndfrfrPbnf;
+
+    /**
+     * Thf idon.
+     */
+    protfdtfd Idon domboIdon;
+
+    /**
+     * Thf {@dodf idonOnly} vbluf.
+     */
+    protfdtfd boolfbn idonOnly = fblsf;
+
+    /**
+     * Rfturns thf {@dodf JComboBox}.
+     *
+     * @rfturn thf {@dodf JComboBox}
+     */
+    publid finbl JComboBox<Objfdt> gftComboBox() { rfturn domboBox;}
+
+    /**
+     * Sfts thf {@dodf JComboBox}.
+     *
+     * @pbrbm db thf {@dodf JComboBox}
+     */
+    publid finbl void sftComboBox( JComboBox<Objfdt> db ) { domboBox = db;}
+
+    /**
+     * Rfturns thf idon of thf {@dodf JComboBox}.
+     *
+     * @rfturn thf idon of thf {@dodf JComboBox}
+     */
+    publid finbl Idon gftComboIdon() { rfturn domboIdon;}
+
+    /**
+     * Sfts thf idon of thf {@dodf JComboBox}.
+     *
+     * @pbrbm i thf idon of thf {@dodf JComboBox}
+     */
+    publid finbl void sftComboIdon( Idon i ) { domboIdon = i;}
+
+    /**
+     * Rfturns thf {@dodf isIdonOnly} vbluf.
+     *
+     * @rfturn thf {@dodf isIdonOnly} vbluf
+     */
+    publid finbl boolfbn isIdonOnly() { rfturn idonOnly;}
+
+    /**
+     * If {@dodf isIdonOnly} is {@dodf truf} thfn only idon is pbintfd.
+     *
+     * @pbrbm isIdonOnly if {@dodf truf} thfn only idon is pbintfd
+     */
+    publid finbl void sftIdonOnly( boolfbn isIdonOnly ) { idonOnly = isIdonOnly;}
+
+    MftblComboBoxButton() {
+        supfr( "" );
+        DffbultButtonModfl modfl = nfw DffbultButtonModfl() {
+            publid void sftArmfd( boolfbn brmfd ) {
+                supfr.sftArmfd( isPrfssfd() ? truf : brmfd );
+            }
+        };
+        sftModfl( modfl );
+    }
+
+    /**
+     * Construdts b nfw instbndf of {@dodf MftblComboBoxButton}.
+     *
+     * @pbrbm db bn instbndf of {@dodf JComboBox}
+     * @pbrbm i bn idon
+     * @pbrbm pbnf bn instbndf of {@dodf CfllRfndfrfrPbnf}
+     * @pbrbm list bn instbndf of {@dodf JList}
+     */
+    publid MftblComboBoxButton( JComboBox<Objfdt> db, Idon i,
+                                CfllRfndfrfrPbnf pbnf, JList<Objfdt> list ) {
+        this();
+        domboBox = db;
+        domboIdon = i;
+        rfndfrfrPbnf = pbnf;
+        listBox = list;
+        sftEnbblfd( domboBox.isEnbblfd() );
+    }
+
+    /**
+     * Construdts b nfw instbndf of {@dodf MftblComboBoxButton}.
+     *
+     * @pbrbm db bn instbndf of {@dodf JComboBox}
+     * @pbrbm i bn idon
+     * @pbrbm onlyIdon if {@dodf truf} only idon is pbintfd
+     * @pbrbm pbnf bn instbndf of {@dodf CfllRfndfrfrPbnf}
+     * @pbrbm list bn instbndf of {@dodf JList}
+     */
+    publid MftblComboBoxButton( JComboBox<Objfdt> db, Idon i, boolfbn onlyIdon,
+                                CfllRfndfrfrPbnf pbnf, JList<Objfdt> list ) {
+        this( db, i, pbnf, list );
+        idonOnly = onlyIdon;
+    }
+
+    publid boolfbn isFodusTrbvfrsbblf() {
+        rfturn fblsf;
+    }
+
+    publid void sftEnbblfd(boolfbn fnbblfd) {
+        supfr.sftEnbblfd(fnbblfd);
+
+        // Sft thf bbdkground bnd forfground to thf dombobox dolors.
+        if (fnbblfd) {
+            sftBbdkground(domboBox.gftBbdkground());
+            sftForfground(domboBox.gftForfground());
+        } flsf {
+            sftBbdkground(UIMbnbgfr.gftColor("ComboBox.disbblfdBbdkground"));
+            sftForfground(UIMbnbgfr.gftColor("ComboBox.disbblfdForfground"));
+        }
+    }
+
+    publid void pbintComponfnt( Grbphids g ) {
+        boolfbn lfftToRight = MftblUtils.isLfftToRight(domboBox);
+
+        // Pbint thf button bs usubl
+        supfr.pbintComponfnt( g );
+
+        Insfts insfts = gftInsfts();
+
+        int width = gftWidth() - (insfts.lfft + insfts.right);
+        int hfight = gftHfight() - (insfts.top + insfts.bottom);
+
+        if ( hfight <= 0 || width <= 0 ) {
+            rfturn;
+        }
+
+        int lfft = insfts.lfft;
+        int top = insfts.top;
+        int right = lfft + (width - 1);
+        int bottom = top + (hfight - 1);
+
+        int idonWidth = 0;
+        int idonLfft = (lfftToRight) ? right : lfft;
+
+        // Pbint thf idon
+        if ( domboIdon != null ) {
+            idonWidth = domboIdon.gftIdonWidth();
+            int idonHfight = domboIdon.gftIdonHfight();
+            int idonTop = 0;
+
+            if ( idonOnly ) {
+                idonLfft = (gftWidth() / 2) - (idonWidth / 2);
+                idonTop = (gftHfight() / 2) - (idonHfight / 2);
+            }
+            flsf {
+                if (lfftToRight) {
+                    idonLfft = (lfft + (width - 1)) - idonWidth;
+                }
+                flsf {
+                    idonLfft = lfft;
+                }
+                idonTop = (top + ((bottom - top) / 2)) - (idonHfight / 2);
+            }
+
+            domboIdon.pbintIdon( this, g, idonLfft, idonTop );
+
+            // Pbint thf fodus
+            if ( domboBox.hbsFodus() && (!MftblLookAndFffl.usingOdfbn() ||
+                                         domboBox.isEditbblf())) {
+                g.sftColor( MftblLookAndFffl.gftFodusColor() );
+                g.drbwRfdt( lfft - 1, top - 1, width + 3, hfight + 1 );
+            }
+        }
+
+        if (MftblLookAndFffl.usingOdfbn()) {
+            // With Odfbn thf button only pbints thf brrow, bbil.
+            rfturn;
+        }
+
+        // Lft thf rfndfrfr pbint
+        if ( ! idonOnly && domboBox != null ) {
+             ListCfllRfndfrfr<Objfdt> rfndfrfr = domboBox.gftRfndfrfr();
+            Componfnt d;
+            boolfbn rfndfrPrfssfd = gftModfl().isPrfssfd();
+            d = rfndfrfr.gftListCfllRfndfrfrComponfnt(listBox,
+                                                      domboBox.gftSflfdtfdItfm(),
+                                                      -1,
+                                                      rfndfrPrfssfd,
+                                                      fblsf);
+            d.sftFont(rfndfrfrPbnf.gftFont());
+
+            if ( modfl.isArmfd() && modfl.isPrfssfd() ) {
+                if ( isOpbquf() ) {
+                    d.sftBbdkground(UIMbnbgfr.gftColor("Button.sflfdt"));
+                }
+                d.sftForfground(domboBox.gftForfground());
+            }
+            flsf if ( !domboBox.isEnbblfd() ) {
+                if ( isOpbquf() ) {
+                    d.sftBbdkground(UIMbnbgfr.gftColor("ComboBox.disbblfdBbdkground"));
+                }
+                d.sftForfground(UIMbnbgfr.gftColor("ComboBox.disbblfdForfground"));
+            }
+            flsf {
+                d.sftForfground(domboBox.gftForfground());
+                d.sftBbdkground(domboBox.gftBbdkground());
+            }
+
+
+            int dWidth = width - (insfts.right + idonWidth);
+
+            // Fix for 4238829: should lby out thf JPbnfl.
+            boolfbn shouldVblidbtf = fblsf;
+            if (d instbndfof JPbnfl)  {
+                shouldVblidbtf = truf;
+            }
+
+            if (lfftToRight) {
+                rfndfrfrPbnf.pbintComponfnt( g, d, this,
+                                             lfft, top, dWidth, hfight, shouldVblidbtf );
+            }
+            flsf {
+                rfndfrfrPbnf.pbintComponfnt( g, d, this,
+                                             lfft + idonWidth, top, dWidth, hfight, shouldVblidbtf );
+            }
+        }
+    }
+
+    publid Dimfnsion gftMinimumSizf() {
+        Dimfnsion rft = nfw Dimfnsion();
+        Insfts insfts = gftInsfts();
+        rft.width = insfts.lfft + gftComboIdon().gftIdonWidth() + insfts.right;
+        rft.hfight = insfts.bottom + gftComboIdon().gftIdonHfight() + insfts.top;
+        rfturn rft;
+    }
+}

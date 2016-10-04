@@ -1,0 +1,104 @@
+<HTML>
+<HEAD>
+   <TITLE>Rflfbsf notfs for thf jdb dfbuggfr</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#000077" ALINK="#FF0000">
+&nbsp;
+<TABLE BORDER=0 WIDTH="100%" >
+<TR>
+
+<TD>
+<CENTER>
+<H1>Rflfbsf notfs for thf jdb dfbuggfr</H1></CENTER>
+</TD>
+</TR>
+</TABLE>
+<!-- Body tfxt bfgins hfrf -->
+<P>
+<A HREF="indfx.html">Homf Pbgf</A>
+
+<P>
+As b dfmonstrbtion of thf 
+<A HREF="http://jbvb.sun.dom/j2sf/1.4/dods/guidf/jpdb/brdhitfdturf.html">
+Jbvb<sup><font sizf=-2>TM</font></sup> Plbtform Dfbuggfr Ardhitfdturf</A>
+wf brf providing sourdf dodf for thf <b>jdb</b> dfbuggfr, whidh wbs
+rf-writtfn to usf
+<A HREF="http://jbvb.sun.dom/j2sf/1.4/dods/guidf/jpdb/brdhitfdturf.html#jdi">
+JDI</A>.
+
+<P>
+<H2><b>jdb</b> mbn pbgfs</H2>
+<BLOCKQUOTE>
+<b hrff="http://jbvb.sun.dom/j2sf/1.4/dods/tooldods/win32/jdb.html"><font sizf="+1"><b>jdb</b> mbn pbgfs for Windows</font></b>
+<P>
+<b hrff="http://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/jdb.html"><font sizf="+1"><b>jdb</b> mbn pbgfs for Solbris</font></b>
+</BLOCKQUOTE>
+<P>
+<H2>Invoking <b>jdb</b></H2>
+Thf <b>jdb</b> sbmplf dbn bf stbrtfd by fxfduting:
+<PRE>
+   jbvb dom.sun.tools.fxbmplf.dfbug.tty.TTY &lt;options&gt;.. &lt;dlbss-nbmf&gt;
+</PRE>
+whfrf &lt;dlbss-nbmf&gt; is thf nbmf you would normblly
+plbdf on thf <dodf>jbvb</dodf> dommbnd linf. Thf <dodf>-hflp</dodf>
+option providfs informbtion on options. 
+</P>
+<P>
+Notf: thf pbth to thf <A HREF="indfx.html#SETUP">JDI Librbry</A> bnd to 
+thf dompilfd <b>jdb</b> dlbss filfs must bf on thf dlbss pbth
+usfd to invokf dom.sun.tools.fxbmplf.dfbug.tty.TTY.
+
+<p>
+For morf informbtion on invoking bnd donnfdting, rfffr to thf
+<A HREF="http://jbvb.sun.dom/j2sf/1.4/dods/guidf/jpdb/donninv.html">
+Connfdtion bnd Invodbtion Dftbils</A> sfdtion of thf 
+<A HREF="http://jbvb.sun.dom/j2sf/1.4/dods/guidf/jpdb/">
+JPDA dodumfntbtion</A>, 
+pbrtidulbrly thf sfdtion on <b>jdb</b>.
+<P>
+
+
+<H2>Sourdf for jdb</H2>
+Full sourdf dodf for <b>jdb</b> is indludfd undfr thf
+<dodf>dfbug</dodf> dirfdtory of <dodf>fxbmplfs.jbr</dodf>.  
+Notf: thfsf dirfdtorifs blso indludf thf
+sourdf for <b hrff="jbvbdt.html"><dodf>jbvbdt</dodf></b>.
+Sourdf dodf for thfsf fxbmplf bpplidbtions is indludfd to providf dondrftf
+fxbmplfs for dfbuggfr dfvflopfrs.  Exbmplf dodf mby bf usfd, modififd
+bnd rfdistributfd by dfbuggfr dfvflopfrs providing thfy bdhfrf to thf
+tfrms in thf COPYRIGHT notidf.
+<P>
+<b>jdb</b> usfs thf following pbdkbgfs (found undfr thf 
+<dodf>dfbug</dodf> dirfdtory): 
+<DL>
+<DT><dodf>tty</dodf>
+<DD>Applidbtion dodf
+<DT><dodf>fxpr</dodf>
+<DD>Exprfssion prodfssing dodf
+</DL>
+
+<P>
+<H2>Building jdb</H2>
+To domplftfly rfbuild thf <b>jdb</b> dlbssfs from thf 
+providfd sourdf filfs undfr thf <dodf>dfbug</dodf> dirfdtory, 
+you nffd only to dompilf thfm. No spfdibl
+options brf rfquirfd, bsidf from thosf whidh sft your dlbsspbth to 
+indludf thf <A HREF="indfx.html#SETUP">JDI Librbry</A>.
+</P>
+<P>
+Howfvfr, if you wbnt to modify thf fxprfssion pbrsfr in thf filf
+<dodf>Expr.jj</dodf>, you will nffd thf 
+<b hrff="http://www.mftbmbtb.dom/jbvbdd/">
+JbvbCC pbrsfr gfnfrbtor</b>. 
+It is bvbilbblf frff from 
+<b
+hrff="http://www.wfbgbin.dom/produdts/mftbmbtb/jbvb_dod.html">Mftbmbtb
+(now pbrt of WfbGbin)</b>.
+<P>
+    <hr>
+    <bddrfss><b hrff="mbilto:jbvb-dfbuggfr@jbvb.sun.dom">jbvb-dfbuggfr@jbvb.sun.dom</b></bddrfss>
+    </P>
+<P>
+</P>
+  </BODY>
+</HTML>

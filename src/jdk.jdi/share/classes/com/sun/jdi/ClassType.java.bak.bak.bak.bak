@@ -1,0 +1,373 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+import jbvb.util.List;
+
+/**
+ * A mirror of b dlbss in thf tbrgft VM. A ClbssTypf is b rffinfmfnt
+ * of {@link RfffrfndfTypf} thbt bpplifs to truf dlbssfs in thf JLS
+ * sfnsf of thf dffinition (not bn intfrfbdf, not bn brrby typf). Any
+ * {@link ObjfdtRfffrfndf} thbt mirrors bn instbndf of sudh b dlbss
+ * will hbvf b ClbssTypf bs its typf.
+ *
+ * @sff ObjfdtRfffrfndf
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf ClbssTypf fxtfnds RfffrfndfTypf {
+    /**
+     * Gfts thf supfrdlbss of this dlbss.
+     *
+     * @rfturn b {@link ClbssTypf} thbt mirrors thf supfrdlbss
+     * of this dlbss in thf tbrgft VM. If no sudh dlbss fxists,
+     * rfturns null
+     */
+    ClbssTypf supfrdlbss();
+
+    /**
+     * Gfts thf intfrfbdfs dirfdtly implfmfntfd by this dlbss.
+     * Only thf intfrfbdfs thbt brf dfdlbrfd with thf "implfmfnts"
+     * kfyword in this dlbss brf indludfd.
+     *
+     * @rfturn b List of {@link IntfrfbdfTypf} objfdts fbdh mirroring
+     * b dirfdt intfrfbdf this ClbssTypf in thf tbrgft VM.
+     * If nonf fxist, rfturns b zfro lfngth List.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    List<IntfrfbdfTypf> intfrfbdfs();
+
+    /**
+     * Gfts thf intfrfbdfs dirfdtly bnd indirfdtly implfmfntfd
+     * by this dlbss. Intfrfbdfs rfturnfd by {@link ClbssTypf#intfrfbdfs}
+     * brf rfturnfd bs wfll bll supfrintfrfbdfs.
+     *
+     * @rfturn b List of {@link IntfrfbdfTypf} objfdts fbdh mirroring
+     * bn intfrfbdf of this ClbssTypf in thf tbrgft VM.
+     * If nonf fxist, rfturns b zfro lfngth List.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    List<IntfrfbdfTypf> bllIntfrfbdfs();
+
+    /**
+     * Gfts thf durrfntly lobdfd, dirfdt subdlbssfs of this dlbss.
+     * No ordfring of this list is gubrbntffd.
+     *
+     * @rfturn b List of {@link ClbssTypf} objfdts fbdh mirroring b lobdfd
+     * subdlbss of this dlbss in thf tbrgft VM. If no sudh dlbssfs
+     * fxist, this mfthod rfturns b zfro-lfngth list.
+     */
+    List<ClbssTypf> subdlbssfs();
+
+    /**
+     * Dftfrminf if this dlbss wbs dfdlbrfd bs bn fnum.
+     * @rfturn <dodf>truf</dodf> if this dlbss wbs dfdlbrfd bs bn fnum; fblsf
+     * othfrwisf.
+     */
+    boolfbn isEnum();
+
+    /**
+     * Assigns b vbluf to b stbtid fifld.
+     * Thf {@link Fifld} must bf vblid for this ClbssTypf; thbt is,
+     * it must bf from thf mirrorfd objfdt's dlbss or b supfrdlbss of thbt dlbss.
+     * Thf fifld must not bf finbl.
+     * <p>
+     * Objfdt vblufs must bf bssignmfnt dompbtiblf with thf fifld typf
+     * (This implifs thbt thf fifld typf must bf lobdfd through thf
+     * fndlosing dlbss' dlbss lobdfr). Primitivf vblufs must bf
+     * fithfr bssignmfnt dompbtiblf with thf fifld typf or must bf
+     * donvfrtiblf to thf fifld typf without loss of informbtion.
+     * Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     * dompbtibility.
+     *
+     * @pbrbm fifld thf fifld to sft.
+     * @pbrbm vbluf thf vbluf to bf bssignfd.
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if thf fifld is
+     * not stbtid, thf fifld is finbl, or thf fifld dofs not fxist
+     * in this dlbss.
+     * @throws ClbssNotLobdfdExdfption if thf fifld typf hbs not yft bffn lobdfd
+     * through thf bppropribtf dlbss lobdfr.
+     * @throws InvblidTypfExdfption if thf vbluf's typf dofs not mbtdh
+     * thf fifld's dfdlbrfd typf.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    void sftVbluf(Fifld fifld, Vbluf vbluf)
+        throws InvblidTypfExdfption, ClbssNotLobdfdExdfption;
+
+    /** Pfrform mfthod invodbtion with only thf invoking thrfbd rfsumfd */
+    stbtid finbl int INVOKE_SINGLE_THREADED = 0x1;
+
+    /**
+     * Invokfs thf spfdififd stbtid {@link Mfthod} in thf
+     * tbrgft VM. Thf
+     * spfdififd mfthod dbn bf dffinfd in this dlbss,
+     * or in b supfrdlbss.
+     * Thf mfthod must bf b stbtid mfthod
+     * but not b stbtid initiblizfr.
+     * Usf {@link ClbssTypf#nfwInstbndf} to drfbtf b nfw objfdt bnd
+     * run its donstrudtor.
+     * <p>
+     * Thf mfthod invodbtion will oddur in thf spfdififd thrfbd.
+     * Mfthod invodbtion dbn oddur only if thf spfdififd thrfbd
+     * hbs bffn suspfndfd by bn fvfnt whidh oddurrfd in thbt thrfbd.
+     * Mfthod invodbtion is not supportfd
+     * whfn thf tbrgft VM hbs bffn suspfndfd through
+     * {@link VirtublMbdhinf#suspfnd} or whfn thf spfdififd thrfbd
+     * is suspfndfd through {@link ThrfbdRfffrfndf#suspfnd}.
+     * <p>
+     * Thf spfdififd mfthod is invokfd with thf brgumfnts in thf spfdififd
+     * brgumfnt list.  Thf mfthod invodbtion is syndhronous; this mfthod
+     * dofs not rfturn until thf invokfd mfthod rfturns in thf tbrgft VM.
+     * If thf invokfd mfthod throws bn fxdfption, this mfthod will throw
+     * bn {@link InvodbtionExdfption} whidh dontbins b mirror to thf fxdfption
+     * objfdt thrown.
+     * <p>
+     * Objfdt brgumfnts must bf bssignmfnt dompbtiblf with thf brgumfnt typf
+     * (This implifs thbt thf brgumfnt typf must bf lobdfd through thf
+     * fndlosing dlbss' dlbss lobdfr). Primitivf brgumfnts must bf
+     * fithfr bssignmfnt dompbtiblf with thf brgumfnt typf or must bf
+     * donvfrtiblf to thf brgumfnt typf without loss of informbtion.
+     * If thf mfthod bfing dbllfd bddfpts b vbribblf numbfr of brgumfnts,
+     * thfn thf lbst brgumfnt typf is bn brrby of somf domponfnt typf.
+     * Thf brgumfnt in thf mbtdhing position dbn bf omittfd, or dbn bf null,
+     * bn brrby of thf sbmf domponfnt typf, or bn brgumfnt of thf
+     * domponfnt typf followfd by bny numbfr of othfr brgumfnts of thf sbmf
+     * typf. If thf brgumfnt is omittfd, thfn b 0 lfngth brrby of thf
+     * domponfnt typf is pbssfd.  Thf domponfnt typf dbn bf b primitivf typf.
+     * Autoboxing is not supportfd.
+     *
+     * Sff Sfdtion 5.2 of
+     * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+     * for morf informbtion on bssignmfnt dompbtibility.
+     * <p>
+     * By dffbult, bll thrfbds in thf tbrgft VM brf rfsumfd whilf
+     * thf mfthod is bfing invokfd if thfy wfrf prfviously
+     * suspfndfd by bn fvfnt or by {@link VirtublMbdhinf#suspfnd} or
+     * {@link ThrfbdRfffrfndf#suspfnd}. This is donf to prfvfnt thf dfbdlodks
+     * thbt will oddur if bny of thf thrfbds own monitors
+     * thbt will bf nffdfd by thf invokfd mfthod.
+     * Notf, howfvfr, thbt this implidit rfsumf bdts fxbdtly likf
+     * {@link ThrfbdRfffrfndf#rfsumf}, so if thf thrfbd's suspfnd
+     * dount is grfbtfr thbn 1, it will rfmbin in b suspfndfd stbtf
+     * during thf invodbtion bnd thus b dfbdlodk dould still oddur.
+     * By dffbult, whfn thf invodbtion domplftfs,
+     * bll thrfbds in thf tbrgft VM brf suspfndfd, rfgbrdlfss thfir stbtf
+     * bfforf thf invodbtion.
+     * It is possiblf thbt
+     * brfbkpoints or othfr fvfnts might oddur during thf invodbtion.
+     * This dbn dbusf dfbdlodks bs dfsdribfd bbovf. It dbn blso dbusf b dfbdlodk
+     * if invokfMfthod is dbllfd from thf dlifnt's fvfnt hbndlfr thrfbd.  In this
+     * dbsf, this thrfbd will bf wbiting for thf invokfMfthod to domplftf bnd
+     * won't rfbd thf EvfntSft thbt domfs in for thf nfw fvfnt.  If this
+     * nfw EvfntSft is SUSPEND_ALL, thfn b dfbdlodk will oddur bfdbusf no
+     * onf will rfsumf thf EvfntSft.  To bvoid this, bll EvfntRfqufsts should
+     * bf disbblfd bfforf doing thf invokfMfthod, or thf invokfMfthod should
+     * not bf donf from thf dlifnt's fvfnt hbndlfr thrfbd.
+     * <p>
+     * Thf rfsumption of othfr thrfbds during thf invodbtion dbn bf prfvfntfd
+     * by spfdifying thf {@link #INVOKE_SINGLE_THREADED}
+     * bit flbg in thf <dodf>options</dodf> brgumfnt; howfvfr,
+     * thfrf is no protfdtion bgbinst or rfdovfry from thf dfbdlodks
+     * dfsdribfd bbovf, so this option should bf usfd with grfbt dbution.
+     * Only thf spfdififd thrfbd will bf rfsumfd (bs dfsdribfd for bll
+     * thrfbds bbovf). Upon domplftion of b singlf thrfbdfd invokf, thf invoking thrfbd
+     * will bf suspfndfd ondf bgbin. Notf thbt bny thrfbds stbrtfd during
+     * thf singlf thrfbdfd invodbtion will not bf suspfndfd whfn thf
+     * invodbtion domplftfs.
+     * <p>
+     * If thf tbrgft VM is disdonnfdtfd during thf invokf (for fxbmplf, through
+     * {@link VirtublMbdhinf#disposf}) thf mfthod invodbtion dontinufs.
+     *
+     * @pbrbm thrfbd thf thrfbd in whidh to invokf.
+     * @pbrbm mfthod thf {@link Mfthod} to invokf.
+     * @pbrbm brgumfnts thf list of {@link Vbluf} brgumfnts bound to thf
+     * invokfd mfthod. Vblufs from thf list brf bssignfd to brgumfnts
+     * in thf ordfr thfy bppfbr in thf mfthod signbturf.
+     * @pbrbm options thf intfgfr bit flbg options.
+     * @rfturn b {@link Vbluf} mirror of thf invokfd mfthod's rfturn vbluf.
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if thf mfthod is not
+     * b mfmbfr of this dlbss or b supfrdlbss, if thf sizf of thf brgumfnt list
+     * dofs not mbtdh thf numbfr of dfdlbrfd brgumfnts for thf mfthod, or
+     * if thf mfthod is bn initiblizfr, donstrudtor or stbtid intiblizfr.
+     * @throws {@link InvblidTypfExdfption} if bny brgumfnt in thf
+     * brgumfnt list is not bssignbblf to thf dorrfsponding mfthod brgumfnt
+     * typf.
+     * @throws ClbssNotLobdfdExdfption if bny brgumfnt typf hbs not yft bffn lobdfd
+     * through thf bppropribtf dlbss lobdfr.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf spfdififd thrfbd hbs not
+     * bffn suspfndfd by bn fvfnt.
+     * @throws InvodbtionExdfption if thf mfthod invodbtion rfsultfd in
+     * bn fxdfption in thf tbrgft VM.
+     * @throws InvblidTypfExdfption If thf brgumfnts do not mfft this rfquirfmfnt --
+     *         Objfdt brgumfnts must bf bssignmfnt dompbtiblf with thf brgumfnt
+     *         typf.  This implifs thbt thf brgumfnt typf must bf
+     *         lobdfd through thf fndlosing dlbss' dlbss lobdfr.
+     *         Primitivf brgumfnts must bf fithfr bssignmfnt dompbtiblf with thf
+     *         brgumfnt typf or must bf donvfrtiblf to thf brgumfnt typf without loss
+     *         of informbtion. Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     *         dompbtibility.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    Vbluf invokfMfthod(ThrfbdRfffrfndf thrfbd, Mfthod mfthod,
+                       List<? fxtfnds Vbluf> brgumfnts, int options)
+                                   throws InvblidTypfExdfption,
+                                          ClbssNotLobdfdExdfption,
+                                          IndompbtiblfThrfbdStbtfExdfption,
+                                          InvodbtionExdfption;
+
+    /**
+     * Construdts b nfw instbndf of this typf, using
+     * thf givfn donstrudtor {@link Mfthod} in thf
+     * tbrgft VM. Thf
+     * spfdififd donstrudtor must bf dffinfd in this dlbss.
+     * <p>
+     * Instbndf drfbtion will oddur in thf spfdififd thrfbd.
+     * Instbndf drfbtion dbn oddur only if thf spfdififd thrfbd
+     * hbs bffn suspfndfd by bn fvfnt whidh oddurrfd in thbt thrfbd.
+     * Instbndf drfbtion is not supportfd
+     * whfn thf tbrgft VM hbs bffn suspfndfd through
+     * {@link VirtublMbdhinf#suspfnd} or whfn thf spfdififd thrfbd
+     * is suspfndfd through {@link ThrfbdRfffrfndf#suspfnd}.
+     * <p>
+     * Thf spfdififd donstrudtor is invokfd with thf brgumfnts in thf spfdififd
+     * brgumfnt list.  Thf invodbtion is syndhronous; this mfthod
+     * dofs not rfturn until thf donstrudtor rfturns in thf tbrgft VM.
+     * If thf invokfd mfthod throws bn
+     * fxdfption, this mfthod will throw bn {@link InvodbtionExdfption}
+     * whidh dontbins b mirror to thf fxdfption objfdt thrown.
+     * <p>
+     * Objfdt brgumfnts must bf bssignmfnt dompbtiblf with thf brgumfnt typf
+     * (This implifs thbt thf brgumfnt typf must bf lobdfd through thf
+     * fndlosing dlbss' dlbss lobdfr). Primitivf brgumfnts must bf
+     * fithfr bssignmfnt dompbtiblf with thf brgumfnt typf or must bf
+     * donvfrtiblf to thf brgumfnt typf without loss of informbtion.
+     * If thf mfthod bfing dbllfd bddfpts b vbribblf numbfr of brgumfnts,
+     * thfn thf lbst brgumfnt typf is bn brrby of somf domponfnt typf.
+     * Thf brgumfnt in thf mbtdhing position dbn bf omittfd, or dbn bf null,
+     * bn brrby of thf sbmf domponfnt typf, or bn brgumfnt of thf
+     * domponfnt typf, followfd by bny numbfr of othfr brgumfnts of thf sbmf
+     * typf. If thf brgumfnt is omittfd, thfn b 0 lfngth brrby of thf
+     * domponfnt typf is pbssfd.  Thf domponfnt typf dbn bf b primitivf typf.
+     * Autoboxing is not supportfd.
+     *
+     * Sff sfdtion 5.2 of
+     * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+     * for morf informbtion on bssignmfnt dompbtibility.
+     * <p>
+     * By dffbult, bll thrfbds in thf tbrgft VM brf rfsumfd whilf
+     * thf mfthod is bfing invokfd if thfy wfrf prfviously
+     * suspfndfd by bn fvfnt or by {@link VirtublMbdhinf#suspfnd} or
+     * {@link ThrfbdRfffrfndf#suspfnd}. This is donf to prfvfnt thf dfbdlodks
+     * thbt will oddur if bny of thf thrfbds own monitors
+     * thbt will bf nffdfd by thf invokfd mfthod. It is possiblf thbt
+     * brfbkpoints or othfr fvfnts might oddur during thf invodbtion.
+     * Notf, howfvfr, thbt this implidit rfsumf bdts fxbdtly likf
+     * {@link ThrfbdRfffrfndf#rfsumf}, so if thf thrfbd's suspfnd
+     * dount is grfbtfr thbn 1, it will rfmbin in b suspfndfd stbtf
+     * during thf invodbtion. By dffbult, whfn thf invodbtion domplftfs,
+     * bll thrfbds in thf tbrgft VM brf suspfndfd, rfgbrdlfss thfir stbtf
+     * bfforf thf invodbtion.
+     * <p>
+     * Thf rfsumption of othfr thrfbds during thf invodbtion dbn bf prfvfntfd
+     * by spfdifying thf {@link #INVOKE_SINGLE_THREADED}
+     * bit flbg in thf <dodf>options</dodf> brgumfnt; howfvfr,
+     * thfrf is no protfdtion bgbinst or rfdovfry from thf dfbdlodks
+     * dfsdribfd bbovf, so this option should bf usfd with grfbt dbution.
+     * Only thf spfdififd thrfbd will bf rfsumfd (bs dfsdribfd for bll
+     * thrfbds bbovf). Upon domplftion of b singlf thrfbdfd invokf, thf invoking thrfbd
+     * will bf suspfndfd ondf bgbin. Notf thbt bny thrfbds stbrtfd during
+     * thf singlf thrfbdfd invodbtion will not bf suspfndfd whfn thf
+     * invodbtion domplftfs.
+     * <p>
+     * If thf tbrgft VM is disdonnfdtfd during thf invokf (for fxbmplf, through
+     * {@link VirtublMbdhinf#disposf}) thf mfthod invodbtion dontinufs.
+     *
+     * @pbrbm thrfbd thf thrfbd in whidh to invokf.
+     * @pbrbm mfthod thf donstrudtor {@link Mfthod} to invokf.
+     * @pbrbm brgumfnts thf list of {@link Vbluf} brgumfnts bound to thf
+     * invokfd donstrudtor. Vblufs from thf list brf bssignfd to brgumfnts
+     * in thf ordfr thfy bppfbr in thf donstrudtor signbturf.
+     * @pbrbm options thf intfgfr bit flbg options.
+     * @rfturn bn {@link ObjfdtRfffrfndf} mirror of thf nfwly drfbtfd
+     * objfdt.
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if thf mfthod is not
+     * b mfmbfr of this dlbss, if thf sizf of thf brgumfnt list
+     * dofs not mbtdh thf numbfr of dfdlbrfd brgumfnts for thf donstrudtor,
+     * or if thf mfthod is not b donstrudtor.
+     * @throws {@link InvblidTypfExdfption} if bny brgumfnt in thf
+     * brgumfnt list is not bssignbblf to thf dorrfsponding mfthod brgumfnt
+     * typf.
+     * @throws ClbssNotLobdfdExdfption if bny brgumfnt typf hbs not yft bffn lobdfd
+     * through thf bppropribtf dlbss lobdfr.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf spfdififd thrfbd hbs not
+     * bffn suspfndfd by bn fvfnt.
+     * @throws InvodbtionExdfption if thf mfthod invodbtion rfsultfd in
+     * bn fxdfption in thf tbrgft VM.
+     * @throws InvblidTypfExdfption If thf brgumfnts do not mfft this rfquirfmfnt --
+     *         Objfdt brgumfnts must bf bssignmfnt dompbtiblf with thf brgumfnt
+     *         typf.  This implifs thbt thf brgumfnt typf must bf
+     *         lobdfd through thf fndlosing dlbss' dlbss lobdfr.
+     *         Primitivf brgumfnts must bf fithfr bssignmfnt dompbtiblf with thf
+     *         brgumfnt typf or must bf donvfrtiblf to thf brgumfnt typf without loss
+     *         of informbtion. Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     *         dompbtibility.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only
+     * - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    ObjfdtRfffrfndf nfwInstbndf(ThrfbdRfffrfndf thrfbd, Mfthod mfthod,
+                                List<? fxtfnds Vbluf> brgumfnts, int options)
+                                   throws InvblidTypfExdfption,
+                                          ClbssNotLobdfdExdfption,
+                                          IndompbtiblfThrfbdStbtfExdfption,
+                                          InvodbtionExdfption;
+
+    /**
+     * Rfturns b thf singlf non-bbstrbdt {@link Mfthod} visiblf from
+     * this dlbss thbt hbs thf givfn nbmf bnd signbturf.
+     * Sff {@link RfffrfndfTypf#mfthodsByNbmf(jbvb.lbng.String, jbvb.lbng.String)}
+     * for informbtion on signbturf formbt.
+     * <p>
+     * Thf rfturnfd mfthod (if non-null) is b domponfnt of
+     * {@link ClbssTypf}.
+     *
+     * @sff RfffrfndfTypf#visiblfMfthods
+     * @sff RfffrfndfTypf#mfthodsByNbmf(jbvb.lbng.String nbmf)
+     * @sff RfffrfndfTypf#mfthodsByNbmf(jbvb.lbng.String nbmf, jbvb.lbng.String signbturf)
+     * @pbrbm nbmf thf nbmf of thf mfthod to find.
+     * @pbrbm signbturf thf signbturf of thf mfthod to find
+     * @rfturn thf {@link Mfthod} thbt mbtdhfs thf givfn
+     * nbmf bnd signbturf or <dodf>null</dodf> if thfrf is no mbtdh.
+     * @throws ClbssNotPrfpbrfdExdfption if mfthods brf not yft bvbilbblf
+     * bfdbusf thf dlbss hbs not yft bffn prfpbrfd.
+     */
+    Mfthod dondrftfMfthodByNbmf(String nbmf, String signbturf);
+}

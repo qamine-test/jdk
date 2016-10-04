@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
-import java.security.InvalidAlgorithmParameterException;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
 
 /**
  *
- * The <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@link CertPathValidator CertPathValidator} class. All
- * {@code CertPathValidator} implementations must include a class (the
- * SPI class) that extends this class ({@code CertPathValidatorSpi})
- * and implements all of its methods. In general, instances of this class
- * should only be accessed through the {@code CertPathValidator} class.
- * For details, see the Java Cryptography Architecture.
+ * Tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif {@link CfrtPbtiVblidbtor CfrtPbtiVblidbtor} dlbss. All
+ * {@dodf CfrtPbtiVblidbtor} implfmfntbtions must indludf b dlbss (tif
+ * SPI dlbss) tibt fxtfnds tiis dlbss ({@dodf CfrtPbtiVblidbtorSpi})
+ * bnd implfmfnts bll of its mftiods. In gfnfrbl, instbndfs of tiis dlbss
+ * siould only bf bddfssfd tirougi tif {@dodf CfrtPbtiVblidbtor} dlbss.
+ * For dftbils, sff tif Jbvb Cryptogrbpiy Ardiitfdturf.
  * <p>
- * <b>Concurrent Access</b>
+ * <b>Condurrfnt Addfss</b>
  * <p>
- * Instances of this class need not be protected against concurrent
- * access from multiple threads. Threads that need to access a single
- * {@code CertPathValidatorSpi} instance concurrently should synchronize
- * amongst themselves and provide the necessary locking before calling the
- * wrapping {@code CertPathValidator} object.
+ * Instbndfs of tiis dlbss nffd not bf protfdtfd bgbinst dondurrfnt
+ * bddfss from multiplf tirfbds. Tirfbds tibt nffd to bddfss b singlf
+ * {@dodf CfrtPbtiVblidbtorSpi} instbndf dondurrfntly siould syndironizf
+ * bmongst tifmsflvfs bnd providf tif nfdfssbry lodking bfforf dblling tif
+ * wrbpping {@dodf CfrtPbtiVblidbtor} objfdt.
  * <p>
- * However, implementations of {@code CertPathValidatorSpi} may still
- * encounter concurrency issues, since multiple threads each
- * manipulating a different {@code CertPathValidatorSpi} instance need not
- * synchronize.
+ * Howfvfr, implfmfntbtions of {@dodf CfrtPbtiVblidbtorSpi} mby still
+ * fndountfr dondurrfndy issufs, sindf multiplf tirfbds fbdi
+ * mbnipulbting b difffrfnt {@dodf CfrtPbtiVblidbtorSpi} instbndf nffd not
+ * syndironizf.
  *
- * @since       1.4
- * @author      Yassir Elley
+ * @sindf       1.4
+ * @butior      Ybssir Ellfy
  */
-public abstract class CertPathValidatorSpi {
+publid bbstrbdt dlbss CfrtPbtiVblidbtorSpi {
 
     /**
-     * The default constructor.
+     * Tif dffbult donstrudtor.
      */
-    public CertPathValidatorSpi() {}
+    publid CfrtPbtiVblidbtorSpi() {}
 
     /**
-     * Validates the specified certification path using the specified
-     * algorithm parameter set.
+     * Vblidbtfs tif spfdififd dfrtifidbtion pbti using tif spfdififd
+     * blgoritim pbrbmftfr sft.
      * <p>
-     * The {@code CertPath} specified must be of a type that is
-     * supported by the validation algorithm, otherwise an
-     * {@code InvalidAlgorithmParameterException} will be thrown. For
-     * example, a {@code CertPathValidator} that implements the PKIX
-     * algorithm validates {@code CertPath} objects of type X.509.
+     * Tif {@dodf CfrtPbti} spfdififd must bf of b typf tibt is
+     * supportfd by tif vblidbtion blgoritim, otifrwisf bn
+     * {@dodf InvblidAlgoritimPbrbmftfrExdfption} will bf tirown. For
+     * fxbmplf, b {@dodf CfrtPbtiVblidbtor} tibt implfmfnts tif PKIX
+     * blgoritim vblidbtfs {@dodf CfrtPbti} objfdts of typf X.509.
      *
-     * @param certPath the {@code CertPath} to be validated
-     * @param params the algorithm parameters
-     * @return the result of the validation algorithm
-     * @exception CertPathValidatorException if the {@code CertPath}
-     * does not validate
-     * @exception InvalidAlgorithmParameterException if the specified
-     * parameters or the type of the specified {@code CertPath} are
-     * inappropriate for this {@code CertPathValidator}
+     * @pbrbm dfrtPbti tif {@dodf CfrtPbti} to bf vblidbtfd
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs
+     * @rfturn tif rfsult of tif vblidbtion blgoritim
+     * @fxdfption CfrtPbtiVblidbtorExdfption if tif {@dodf CfrtPbti}
+     * dofs not vblidbtf
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif spfdififd
+     * pbrbmftfrs or tif typf of tif spfdififd {@dodf CfrtPbti} brf
+     * inbppropribtf for tiis {@dodf CfrtPbtiVblidbtor}
      */
-    public abstract CertPathValidatorResult
-        engineValidate(CertPath certPath, CertPathParameters params)
-        throws CertPathValidatorException, InvalidAlgorithmParameterException;
+    publid bbstrbdt CfrtPbtiVblidbtorRfsult
+        fnginfVblidbtf(CfrtPbti dfrtPbti, CfrtPbtiPbrbmftfrs pbrbms)
+        tirows CfrtPbtiVblidbtorExdfption, InvblidAlgoritimPbrbmftfrExdfption;
 
     /**
-     * Returns a {@code CertPathChecker} that this implementation uses to
-     * check the revocation status of certificates. A PKIX implementation
-     * returns objects of type {@code PKIXRevocationChecker}.
+     * Rfturns b {@dodf CfrtPbtiCifdkfr} tibt tiis implfmfntbtion usfs to
+     * difdk tif rfvodbtion stbtus of dfrtifidbtfs. A PKIX implfmfntbtion
+     * rfturns objfdts of typf {@dodf PKIXRfvodbtionCifdkfr}.
      *
-     * <p>The primary purpose of this method is to allow callers to specify
-     * additional input parameters and options specific to revocation checking.
-     * See the class description of {@code CertPathValidator} for an example.
+     * <p>Tif primbry purposf of tiis mftiod is to bllow dbllfrs to spfdify
+     * bdditionbl input pbrbmftfrs bnd options spfdifid to rfvodbtion difdking.
+     * Sff tif dlbss dfsdription of {@dodf CfrtPbtiVblidbtor} for bn fxbmplf.
      *
-     * <p>This method was added to version 1.8 of the Java Platform Standard
-     * Edition. In order to maintain backwards compatibility with existing
-     * service providers, this method cannot be abstract and by default throws
-     * an {@code UnsupportedOperationException}.
+     * <p>Tiis mftiod wbs bddfd to vfrsion 1.8 of tif Jbvb Plbtform Stbndbrd
+     * Edition. In ordfr to mbintbin bbdkwbrds dompbtibility witi fxisting
+     * sfrvidf providfrs, tiis mftiod dbnnot bf bbstrbdt bnd by dffbult tirows
+     * bn {@dodf UnsupportfdOpfrbtionExdfption}.
      *
-     * @return a {@code CertPathChecker} that this implementation uses to
-     * check the revocation status of certificates
-     * @throws UnsupportedOperationException if this method is not supported
-     * @since 1.8
+     * @rfturn b {@dodf CfrtPbtiCifdkfr} tibt tiis implfmfntbtion usfs to
+     * difdk tif rfvodbtion stbtus of dfrtifidbtfs
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mftiod is not supportfd
+     * @sindf 1.8
      */
-    public CertPathChecker engineGetRevocationChecker() {
-        throw new UnsupportedOperationException();
+    publid CfrtPbtiCifdkfr fnginfGftRfvodbtionCifdkfr() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 }

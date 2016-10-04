@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * (C) Copyright IBM Corp. 1998-2001 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2001 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by IBM. These materials are provided
- * under terms of a License Agreement between IBM and Sun.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by IBM. Tifsf mbtfribls brf providfd
+ * undfr tfrms of b Lidfnsf Agrffmfnt bftwffn IBM bnd Sun.
+ * Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to IBM mby not bf rfmovfd.
  */
 
-#ifndef __FONTINSTANCEADAPTER_H
-#define __FONTINSTANCEADAPTER_H
+#ifndff __FONTINSTANCEADAPTER_H
+#dffinf __FONTINSTANCEADAPTER_H
 
-#include "LETypes.h"
-#include "LEFontInstance.h"
-#include "jni.h"
-#include "sunfontids.h"
-#include "fontscalerdefs.h"
-#include <jni_util.h>
+#indludf "LETypfs.i"
+#indludf "LEFontInstbndf.i"
+#indludf "jni.i"
+#indludf "sunfontids.i"
+#indludf "fontsdblfrdffs.i"
+#indludf <jni_util.i>
 
-class FontInstanceAdapter : public LEFontInstance {
-private:
-    JNIEnv *env;
-    jobject font2D;
-    jobject fontStrike;
+dlbss FontInstbndfAdbptfr : publid LEFontInstbndf {
+privbtf:
+    JNIEnv *fnv;
+    jobjfdt font2D;
+    jobjfdt fontStrikf;
 
-    float xppem;
-    float yppem;
+    flobt xppfm;
+    flobt yppfm;
 
-    float xScaleUnitsToPoints;
-    float yScaleUnitsToPoints;
+    flobt xSdblfUnitsToPoints;
+    flobt ySdblfUnitsToPoints;
 
-    float xScalePixelsToUnits;
-    float yScalePixelsToUnits;
+    flobt xSdblfPixflsToUnits;
+    flobt ySdblfPixflsToUnits;
 
-    le_int32 upem;
-    float xPointSize, yPointSize;
-    float txMat[4];
+    lf_int32 upfm;
+    flobt xPointSizf, yPointSizf;
+    flobt txMbt[4];
 
-    float euclidianDistance(float a, float b);
+    flobt fudlidibnDistbndf(flobt b, flobt b);
 
-    /* Table format is the same as defined in the truetype spec.
-       Pointer can be NULL (e.g. for Type1 fonts). */
-    TTLayoutTableCache* layoutTables;
+    /* Tbblf formbt is tif sbmf bs dffinfd in tif truftypf spfd.
+       Pointfr dbn bf NULL (f.g. for Typf1 fonts). */
+    TTLbyoutTbblfCbdif* lbyoutTbblfs;
 
-public:
-    FontInstanceAdapter(JNIEnv *env,
-                        jobject theFont2D, jobject theFontStrike,
-                        float *matrix, le_int32 xRes, le_int32 yRes,
-                        le_int32 theUPEM, TTLayoutTableCache *ltables);
+publid:
+    FontInstbndfAdbptfr(JNIEnv *fnv,
+                        jobjfdt tifFont2D, jobjfdt tifFontStrikf,
+                        flobt *mbtrix, lf_int32 xRfs, lf_int32 yRfs,
+                        lf_int32 tifUPEM, TTLbyoutTbblfCbdif *ltbblfs);
 
-    virtual ~FontInstanceAdapter() { };
+    virtubl ~FontInstbndfAdbptfr() { };
 
-    virtual const LEFontInstance *getSubFont(const LEUnicode chars[],
-                            le_int32 *offset, le_int32 limit,
-                            le_int32 script, LEErrorCode &success) const {
-      return this;
+    virtubl donst LEFontInstbndf *gftSubFont(donst LEUnidodf dibrs[],
+                            lf_int32 *offsft, lf_int32 limit,
+                            lf_int32 sdript, LEErrorCodf &suddfss) donst {
+      rfturn tiis;
     }
 
-    // tables are cached with the native font scaler data
-    // only supports gsub, gpos, gdef, mort tables at present
-    virtual const void *getFontTable(LETag tableTag) const;
-    virtual const void *getFontTable(LETag tableTag, size_t &len) const;
+    // tbblfs brf dbdifd witi tif nbtivf font sdblfr dbtb
+    // only supports gsub, gpos, gdff, mort tbblfs bt prfsfnt
+    virtubl donst void *gftFontTbblf(LETbg tbblfTbg) donst;
+    virtubl donst void *gftFontTbblf(LETbg tbblfTbg, sizf_t &lfn) donst;
 
-    virtual void *getKernPairs() const {
-        return layoutTables->kernPairs;
+    virtubl void *gftKfrnPbirs() donst {
+        rfturn lbyoutTbblfs->kfrnPbirs;
     }
-    virtual void setKernPairs(void *pairs) const {
-        layoutTables->kernPairs = pairs;
+    virtubl void sftKfrnPbirs(void *pbirs) donst {
+        lbyoutTbblfs->kfrnPbirs = pbirs;
     }
 
-    virtual le_bool canDisplay(LEUnicode32 ch) const
+    virtubl lf_bool dbnDisplby(LEUnidodf32 di) donst
     {
-        return  (le_bool)env->CallBooleanMethod(font2D,
-                                                sunFontIDs.canDisplayMID, ch);
+        rfturn  (lf_bool)fnv->CbllBoolfbnMftiod(font2D,
+                                                sunFontIDs.dbnDisplbyMID, di);
     };
 
-    virtual le_int32 getUnitsPerEM() const {
-       return upem;
+    virtubl lf_int32 gftUnitsPfrEM() donst {
+       rfturn upfm;
     };
 
-    virtual LEGlyphID mapCharToGlyph(LEUnicode32 ch, const LECharMapper *mapper) const;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr) donst;
 
-    virtual LEGlyphID mapCharToGlyph(LEUnicode32 ch) const;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di) donst;
 
-    virtual void mapCharsToWideGlyphs(const LEUnicode chars[],
-        le_int32 offset, le_int32 count, le_bool reverse,
-        const LECharMapper *mapper, le_uint32 glyphs[]) const;
+    virtubl void mbpCibrsToWidfGlypis(donst LEUnidodf dibrs[],
+        lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+        donst LECibrMbppfr *mbppfr, lf_uint32 glypis[]) donst;
 
-    virtual le_uint32 mapCharToWideGlyph(LEUnicode32 ch,
-        const LECharMapper *mapper) const;
+    virtubl lf_uint32 mbpCibrToWidfGlypi(LEUnidodf32 di,
+        donst LECibrMbppfr *mbppfr) donst;
 
-    virtual void getGlyphAdvance(LEGlyphID glyph, LEPoint &advance) const;
+    virtubl void gftGlypiAdvbndf(LEGlypiID glypi, LEPoint &bdvbndf) donst;
 
-    virtual void getKerningAdjustment(LEPoint &adjustment) const;
+    virtubl void gftKfrningAdjustmfnt(LEPoint &bdjustmfnt) donst;
 
-    virtual void getWideGlyphAdvance(le_uint32 glyph, LEPoint &advance) const;
+    virtubl void gftWidfGlypiAdvbndf(lf_uint32 glypi, LEPoint &bdvbndf) donst;
 
-    virtual le_bool getGlyphPoint(LEGlyphID glyph,
-        le_int32 pointNumber, LEPoint &point) const;
+    virtubl lf_bool gftGlypiPoint(LEGlypiID glypi,
+        lf_int32 pointNumbfr, LEPoint &point) donst;
 
-    float getXPixelsPerEm() const
+    flobt gftXPixflsPfrEm() donst
     {
-        return xppem;
+        rfturn xppfm;
     };
 
-    float getYPixelsPerEm() const
+    flobt gftYPixflsPfrEm() donst
     {
-        return yppem;
+        rfturn yppfm;
     };
 
-    float xUnitsToPoints(float xUnits) const
+    flobt xUnitsToPoints(flobt xUnits) donst
     {
-        return xUnits * xScaleUnitsToPoints;
+        rfturn xUnits * xSdblfUnitsToPoints;
     };
 
-    float yUnitsToPoints(float yUnits) const
+    flobt yUnitsToPoints(flobt yUnits) donst
     {
-        return yUnits * yScaleUnitsToPoints;
+        rfturn yUnits * ySdblfUnitsToPoints;
     };
 
-    void unitsToPoints(LEPoint &units, LEPoint &points) const
+    void unitsToPoints(LEPoint &units, LEPoint &points) donst
     {
         points.fX = xUnitsToPoints(units.fX);
         points.fY = yUnitsToPoints(units.fY);
     }
 
-    float xPixelsToUnits(float xPixels) const
+    flobt xPixflsToUnits(flobt xPixfls) donst
     {
-        return xPixels * xScalePixelsToUnits;
+        rfturn xPixfls * xSdblfPixflsToUnits;
     };
 
-    float yPixelsToUnits(float yPixels) const
+    flobt yPixflsToUnits(flobt yPixfls) donst
     {
-        return yPixels * yScalePixelsToUnits;
+        rfturn yPixfls * ySdblfPixflsToUnits;
     };
 
-    void pixelsToUnits(LEPoint &pixels, LEPoint &units) const
+    void pixflsToUnits(LEPoint &pixfls, LEPoint &units) donst
     {
-        units.fX = xPixelsToUnits(pixels.fX);
-        units.fY = yPixelsToUnits(pixels.fY);
+        units.fX = xPixflsToUnits(pixfls.fX);
+        units.fY = yPixflsToUnits(pixfls.fY);
     };
 
-    virtual float getScaleFactorX() const {
-        return xScalePixelsToUnits;
+    virtubl flobt gftSdblfFbdtorX() donst {
+        rfturn xSdblfPixflsToUnits;
     };
 
-    virtual float getScaleFactorY() const {
-        return yScalePixelsToUnits;
+    virtubl flobt gftSdblfFbdtorY() donst {
+        rfturn ySdblfPixflsToUnits;
     };
 
-    void transformFunits(float xFunits, float yFunits, LEPoint &pixels) const;
+    void trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst;
 
-    virtual le_int32 getAscent() const { return 0; };  // not used
-    virtual le_int32 getDescent() const { return 0; }; // not used
-    virtual le_int32 getLeading() const { return 0; }; // not used
+    virtubl lf_int32 gftAsdfnt() donst { rfturn 0; };  // not usfd
+    virtubl lf_int32 gftDfsdfnt() donst { rfturn 0; }; // not usfd
+    virtubl lf_int32 gftLfbding() donst { rfturn 0; }; // not usfd
 };
 
-#endif
+#fndif

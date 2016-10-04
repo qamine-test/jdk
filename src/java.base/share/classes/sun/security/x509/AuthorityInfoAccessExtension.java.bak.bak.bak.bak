@@ -1,0 +1,241 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+
+import jbvb.util.*;
+
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+
+/**
+ * Thf Authority Informbtion Addfss Extfnsion (OID = 1.3.6.1.5.5.7.1.1).
+ * <p>
+ * Thf AIA fxtfnsion idfntififs how to bddfss CA informbtion bnd sfrvidfs
+ * for thf dfrtifidbtf in whidh it bppfbrs. It fnbblfs CAs to issuf thfir
+ * dfrtifidbtfs prf-donfigurfd with thf URLs bppropribtf for dontbdting
+ * sfrvidfs rflfvbnt to thosf dfrtifidbtfs. For fxbmplf, b CA mby issuf b
+ * dfrtifidbtf thbt idfntififs thf spfdifid OCSP Rfspondfr to usf whfn
+ * pfrforming on-linf vblidbtion of thbt dfrtifidbtf.
+ * <p>
+ * This fxtfnsion is dffinfd in <b hrff="http://www.iftf.org/rfd/rfd3280.txt">
+ * Intfrnft X.509 PKI Cfrtifidbtf bnd Cfrtifidbtf Rfvodbtion List
+ * (CRL) Profilf</b>. Thf profilf pfrmits
+ * thf fxtfnsion to bf indludfd in fnd-fntity or CA dfrtifidbtfs,
+ * bnd it must bf mbrkfd bs non-dritidbl. Its ASN.1 dffinition is bs follows:
+ * <prf>
+ *   id-pf-buthorityInfoAddfss OBJECT IDENTIFIER ::= { id-pf 1 }
+ *
+ *   AuthorityInfoAddfssSyntbx  ::=
+ *         SEQUENCE SIZE (1..MAX) OF AddfssDfsdription
+ *
+ *   AddfssDfsdription  ::=  SEQUENCE {
+ *         bddfssMfthod          OBJECT IDENTIFIER,
+ *         bddfssLodbtion        GfnfrblNbmf  }
+ * </prf>
+ * <p>
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
+ */
+
+publid dlbss AuthorityInfoAddfssExtfnsion fxtfnds Extfnsion
+        implfmfnts CfrtAttrSft<String> {
+
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT =
+                                "x509.info.fxtfnsions.AuthorityInfoAddfss";
+
+    /**
+     * Attributf nbmf.
+     */
+    publid stbtid finbl String NAME = "AuthorityInfoAddfss";
+    publid stbtid finbl String DESCRIPTIONS = "dfsdriptions";
+
+    /**
+     * Thf List of AddfssDfsdription objfdts.
+     */
+    privbtf List<AddfssDfsdription> bddfssDfsdriptions;
+
+    /**
+     * Crfbtf bn AuthorityInfoAddfssExtfnsion from b List of
+     * AddfssDfsdription; thf dritidblity is sft to fblsf.
+     *
+     * @pbrbm bddfssDfsdriptions thf List of AddfssDfsdription
+     * @throws IOExdfption on frror
+     */
+    publid AuthorityInfoAddfssExtfnsion(
+            List<AddfssDfsdription> bddfssDfsdriptions) throws IOExdfption {
+        this.fxtfnsionId = PKIXExtfnsions.AuthInfoAddfss_Id;
+        this.dritidbl = fblsf;
+        this.bddfssDfsdriptions = bddfssDfsdriptions;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf thf fxtfnsion from thf pbssfd DER fndodfd vbluf of thf sbmf.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf Arrby of DER fndodfd bytfs of thf bdtubl vbluf.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid AuthorityInfoAddfssExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+            throws IOExdfption {
+        this.fxtfnsionId = PKIXExtfnsions.AuthInfoAddfss_Id;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+
+        if (!(vbluf instbndfof bytf[])) {
+            throw nfw IOExdfption("Illfgbl brgumfnt typf");
+        }
+
+        fxtfnsionVbluf = (bytf[])vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(fxtfnsionVbluf);
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Invblid fndoding for " +
+                                  "AuthorityInfoAddfssExtfnsion.");
+        }
+        bddfssDfsdriptions = nfw ArrbyList<AddfssDfsdription>();
+        whilf (vbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf sfq = vbl.dbtb.gftDfrVbluf();
+            AddfssDfsdription bddfssDfsdription = nfw AddfssDfsdription(sfq);
+            bddfssDfsdriptions.bdd(bddfssDfsdription);
+        }
+    }
+
+    /**
+     * Rfturn thf list of AddfssDfsdription objfdts.
+     */
+    publid List<AddfssDfsdription> gftAddfssDfsdriptions() {
+        rfturn bddfssDfsdriptions;
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn NAME;
+    }
+
+    /**
+     * Writf thf fxtfnsion to thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to writf thf fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (this.fxtfnsionVbluf == null) {
+            this.fxtfnsionId = PKIXExtfnsions.AuthInfoAddfss_Id;
+            this.dritidbl = fblsf;
+            fndodfThis();
+        }
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    @SupprfssWbrnings("undhfdkfd") // Chfdkfd with bn instbndfof dhfdk
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(DESCRIPTIONS)) {
+            if (!(obj instbndfof List)) {
+                throw nfw IOExdfption("Attributf vbluf should bf of typf List.");
+            }
+            bddfssDfsdriptions = (List<AddfssDfsdription>)obj;
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:AuthorityInfoAddfssExtfnsion.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid List<AddfssDfsdription> gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(DESCRIPTIONS)) {
+            rfturn bddfssDfsdriptions;
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:AuthorityInfoAddfssExtfnsion.");
+        }
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(DESCRIPTIONS)) {
+            bddfssDfsdriptions = nfw ArrbyList<AddfssDfsdription>();
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:AuthorityInfoAddfssExtfnsion.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(DESCRIPTIONS);
+        rfturn flfmfnts.flfmfnts();
+    }
+
+     // Endodf this fxtfnsion vbluf
+    privbtf void fndodfThis() throws IOExdfption {
+        if (bddfssDfsdriptions.isEmpty()) {
+            this.fxtfnsionVbluf = null;
+        } flsf {
+            DfrOutputStrfbm bds = nfw DfrOutputStrfbm();
+            for (AddfssDfsdription bddfssDfsdription : bddfssDfsdriptions) {
+                bddfssDfsdription.fndodf(bds);
+            }
+            DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+            sfq.writf(DfrVbluf.tbg_Sfqufndf, bds);
+            this.fxtfnsionVbluf = sfq.toBytfArrby();
+        }
+    }
+
+    /**
+     * Rfturn thf fxtfnsion bs usfr rfbdbblf string.
+     */
+    publid String toString() {
+        rfturn supfr.toString() + "AuthorityInfoAddfss [\n  "
+               + bddfssDfsdriptions + "\n]\n";
+    }
+
+}

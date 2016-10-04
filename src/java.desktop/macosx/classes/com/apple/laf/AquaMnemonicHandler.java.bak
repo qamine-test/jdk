@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.KfyEvfnt;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
 
-public class AquaMnemonicHandler {
-    static final RecyclableSingleton<AltProcessor> altProcessor = new RecyclableSingletonFromDefaultConstructor<AltProcessor>(AltProcessor.class);
-    public static KeyEventPostProcessor getInstance() {
-        return altProcessor.get();
+publid dlbss AqubMnfmonidHbndlfr {
+    stbtid finbl RfdydlbblfSinglfton<AltProdfssor> bltProdfssor = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AltProdfssor>(AltProdfssor.dlbss);
+    publid stbtid KfyEvfntPostProdfssor gftInstbndf() {
+        rfturn bltProdfssor.gft();
     }
 
-    protected static boolean isMnemonicHidden = true; // true by default
+    protfdtfd stbtid boolfbn isMnfmonidHiddfn = truf; // truf by dffbult
 
-    public static void setMnemonicHidden(final boolean hide) {
-        if (UIManager.getBoolean("Button.showMnemonics")) {
-            // Do not hide mnemonics if the UI defaults do not support this
-            isMnemonicHidden = false;
-        } else {
-            isMnemonicHidden = hide;
+    publid stbtid void sftMnfmonidHiddfn(finbl boolfbn iidf) {
+        if (UIMbnbgfr.gftBoolfbn("Button.siowMnfmonids")) {
+            // Do not iidf mnfmonids if tif UI dffbults do not support tiis
+            isMnfmonidHiddfn = fblsf;
+        } flsf {
+            isMnfmonidHiddfn = iidf;
         }
     }
 
     /**
-     * Gets the state of the hide mnemonic flag. This only has meaning if this feature is supported by the underlying OS.
+     * Gfts tif stbtf of tif iidf mnfmonid flbg. Tiis only ibs mfbning if tiis ffbturf is supportfd by tif undfrlying OS.
      *
-     * @return true if mnemonics are hidden, otherwise, false
-     * @see #setMnemonicHidden
-     * @since 1.4
+     * @rfturn truf if mnfmonids brf iiddfn, otifrwisf, fblsf
+     * @sff #sftMnfmonidHiddfn
+     * @sindf 1.4
      */
-    public static boolean isMnemonicHidden() {
-        if (UIManager.getBoolean("Button.showMnemonics")) {
-            // Do not hide mnemonics if the UI defaults do not support this
-            isMnemonicHidden = false;
+    publid stbtid boolfbn isMnfmonidHiddfn() {
+        if (UIMbnbgfr.gftBoolfbn("Button.siowMnfmonids")) {
+            // Do not iidf mnfmonids if tif UI dffbults do not support tiis
+            isMnfmonidHiddfn = fblsf;
         }
-        return isMnemonicHidden;
+        rfturn isMnfmonidHiddfn;
     }
 
-    static class AltProcessor implements KeyEventPostProcessor {
-        public boolean postProcessKeyEvent(final KeyEvent ev) {
-            if (ev.getKeyCode() != KeyEvent.VK_ALT) {
-                return false;
+    stbtid dlbss AltProdfssor implfmfnts KfyEvfntPostProdfssor {
+        publid boolfbn postProdfssKfyEvfnt(finbl KfyEvfnt fv) {
+            if (fv.gftKfyCodf() != KfyEvfnt.VK_ALT) {
+                rfturn fblsf;
             }
 
-            final JRootPane root = SwingUtilities.getRootPane(ev.getComponent());
-            final Window winAncestor = (root == null ? null : SwingUtilities.getWindowAncestor(root));
+            finbl JRootPbnf root = SwingUtilitifs.gftRootPbnf(fv.gftComponfnt());
+            finbl Window winAndfstor = (root == null ? null : SwingUtilitifs.gftWindowAndfstor(root));
 
-            switch(ev.getID()) {
-                case KeyEvent.KEY_PRESSED:
-                    setMnemonicHidden(false);
-                    break;
-                case KeyEvent.KEY_RELEASED:
-                    setMnemonicHidden(true);
-                    break;
+            switdi(fv.gftID()) {
+                dbsf KfyEvfnt.KEY_PRESSED:
+                    sftMnfmonidHiddfn(fblsf);
+                    brfbk;
+                dbsf KfyEvfnt.KEY_RELEASED:
+                    sftMnfmonidHiddfn(truf);
+                    brfbk;
             }
 
-            repaintMnemonicsInWindow(winAncestor);
+            rfpbintMnfmonidsInWindow(winAndfstor);
 
-            return false;
+            rfturn fblsf;
         }
-    }
-
-    /*
-     * Repaints all the components with the mnemonics in the given window and all its owned windows.
-     */
-    static void repaintMnemonicsInWindow(final Window w) {
-        if (w == null || !w.isShowing()) {
-            return;
-        }
-
-        final Window[] ownedWindows = w.getOwnedWindows();
-        for (final Window element : ownedWindows) {
-            repaintMnemonicsInWindow(element);
-        }
-
-        repaintMnemonicsInContainer(w);
     }
 
     /*
-     * Repaints all the components with the mnemonics in container.
-     * Recursively searches for all the subcomponents.
+     * Rfpbints bll tif domponfnts witi tif mnfmonids in tif givfn window bnd bll its ownfd windows.
      */
-    static void repaintMnemonicsInContainer(final Container cont) {
-        for (int i = 0; i < cont.getComponentCount(); i++) {
-            final Component c = cont.getComponent(i);
-            if (c == null || !c.isVisible()) {
-                continue;
+    stbtid void rfpbintMnfmonidsInWindow(finbl Window w) {
+        if (w == null || !w.isSiowing()) {
+            rfturn;
+        }
+
+        finbl Window[] ownfdWindows = w.gftOwnfdWindows();
+        for (finbl Window flfmfnt : ownfdWindows) {
+            rfpbintMnfmonidsInWindow(flfmfnt);
+        }
+
+        rfpbintMnfmonidsInContbinfr(w);
+    }
+
+    /*
+     * Rfpbints bll tif domponfnts witi tif mnfmonids in dontbinfr.
+     * Rfdursivfly sfbrdifs for bll tif subdomponfnts.
+     */
+    stbtid void rfpbintMnfmonidsInContbinfr(finbl Contbinfr dont) {
+        for (int i = 0; i < dont.gftComponfntCount(); i++) {
+            finbl Componfnt d = dont.gftComponfnt(i);
+            if (d == null || !d.isVisiblf()) {
+                dontinuf;
             }
 
-            if (c instanceof AbstractButton && ((AbstractButton)c).getMnemonic() != '\0') {
-                c.repaint();
-                continue;
+            if (d instbndfof AbstrbdtButton && ((AbstrbdtButton)d).gftMnfmonid() != '\0') {
+                d.rfpbint();
+                dontinuf;
             }
 
-            if (c instanceof JLabel && ((JLabel)c).getDisplayedMnemonic() != '\0') {
-                c.repaint();
-                continue;
+            if (d instbndfof JLbbfl && ((JLbbfl)d).gftDisplbyfdMnfmonid() != '\0') {
+                d.rfpbint();
+                dontinuf;
             }
 
-            if (c instanceof Container) {
-                repaintMnemonicsInContainer((Container)c);
+            if (d instbndfof Contbinfr) {
+                rfpbintMnfmonidsInContbinfr((Contbinfr)d);
             }
         }
     }

@@ -1,0 +1,633 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.intfrnbl.util.xml.impl;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.IllfgblChbrsftNbmfExdfption;
+import jbvb.nio.dhbrsft.UnsupportfdChbrsftExdfption;
+import jdk.intfrnbl.util.xml.XMLStrfbmExdfption;
+import jdk.intfrnbl.util.xml.XMLStrfbmWritfr;
+
+/**
+ * Implfmfntbtion of b rfdudfd vfrsion of XMLStrfbmWritfr
+ *
+ * @buthor Jof Wbng
+ */
+publid dlbss XMLStrfbmWritfrImpl implfmfnts XMLStrfbmWritfr {
+    //Dodumfnt stbtf
+
+    stbtid finbl int STATE_XML_DECL = 1;
+    stbtid finbl int STATE_PROLOG = 2;
+    stbtid finbl int STATE_DTD_DECL = 3;
+    stbtid finbl int STATE_ELEMENT = 4;
+    //Elfmfnt stbtf
+    stbtid finbl int ELEMENT_STARTTAG_OPEN = 10;
+    stbtid finbl int ELEMENT_STARTTAG_CLOSE = 11;
+    stbtid finbl int ELEMENT_ENDTAG_OPEN = 12;
+    stbtid finbl int ELEMENT_ENDTAG_CLOSE = 13;
+    publid stbtid finbl dhbr CLOSE_START_TAG = '>';
+    publid stbtid finbl dhbr OPEN_START_TAG = '<';
+    publid stbtid finbl String OPEN_END_TAG = "</";
+    publid stbtid finbl dhbr CLOSE_END_TAG = '>';
+    publid stbtid finbl String START_CDATA = "<![CDATA[";
+    publid stbtid finbl String END_CDATA = "]]>";
+    publid stbtid finbl String CLOSE_EMPTY_ELEMENT = "/>";
+    publid stbtid finbl String ENCODING_PREFIX = "&#x";
+    publid stbtid finbl dhbr SPACE = ' ';
+    publid stbtid finbl dhbr AMPERSAND = '&';
+    publid stbtid finbl dhbr DOUBLEQUOT = '"';
+    publid stbtid finbl dhbr SEMICOLON = ';';
+    //durrfnt stbtf
+    privbtf int _stbtf = 0;
+    privbtf Elfmfnt _durrfntElf;
+    privbtf XMLWritfr _writfr;
+    privbtf String _fndoding;
+    /**
+     * This flbg dbn bf usfd to turn fsdbping off for dontfnt. It dofs
+     * not bpply to bttributf dontfnt.
+     */
+    boolfbn _fsdbpfChbrbdtfrs = truf;
+    //prftty print by dffbult
+    privbtf boolfbn _doIndfnt = truf;
+    //Thf systfm linf sfpbrbtor for writing out linf brfbks.
+    privbtf dhbr[] _linfSfp =
+            Systfm.gftPropfrty("linf.sfpbrbtor").toChbrArrby();
+
+    publid XMLStrfbmWritfrImpl(OutputStrfbm os) throws XMLStrfbmExdfption {
+        this(os, XMLStrfbmWritfr.DEFAULT_ENCODING);
+    }
+
+    publid XMLStrfbmWritfrImpl(OutputStrfbm os, String fndoding)
+        throws XMLStrfbmExdfption
+    {
+        Chbrsft ds = null;
+        if (fndoding == null) {
+            _fndoding = XMLStrfbmWritfr.DEFAULT_ENCODING;
+        } flsf {
+            try {
+                ds = gftChbrsft(fndoding);
+            } dbtdh (UnsupportfdEndodingExdfption f) {
+                throw nfw XMLStrfbmExdfption(f);
+            }
+
+            this._fndoding = fndoding;
+        }
+
+        _writfr = nfw XMLWritfr(os, fndoding, ds);
+    }
+
+    /**
+     * Writf thf XML Dfdlbrbtion. Dffbults thf XML vfrsion to 1.0, bnd thf
+     * fndoding to utf-8.
+     *
+     * @throws XMLStrfbmExdfption
+     */
+    publid void writfStbrtDodumfnt() throws XMLStrfbmExdfption {
+        writfStbrtDodumfnt(_fndoding, XMLStrfbmWritfr.DEFAULT_XML_VERSION);
+    }
+
+    /**
+     * Writf thf XML Dfdlbrbtion. Dffbults thf fndoding to utf-8
+     *
+     * @pbrbm vfrsion vfrsion of thf xml dodumfnt
+     * @throws XMLStrfbmExdfption
+     */
+    publid void writfStbrtDodumfnt(String vfrsion) throws XMLStrfbmExdfption {
+        writfStbrtDodumfnt(_fndoding, vfrsion, null);
+    }
+
+    /**
+     * Writf thf XML Dfdlbrbtion. Notf thbt thf fndoding pbrbmftfr dofs not sft
+     * thf bdtubl fndoding of thf undfrlying output. Thbt must bf sft whfn thf
+     * instbndf of thf XMLStrfbmWritfr is drfbtfd
+     *
+     * @pbrbm fndoding fndoding of thf xml dfdlbrbtion
+     * @pbrbm vfrsion vfrsion of thf xml dodumfnt
+     * @throws XMLStrfbmExdfption If givfn fndoding dofs not mbtdh fndoding of thf
+     * undfrlying strfbm
+     */
+    publid void writfStbrtDodumfnt(String fndoding, String vfrsion) throws XMLStrfbmExdfption {
+        writfStbrtDodumfnt(fndoding, vfrsion, null);
+    }
+
+    /**
+     * Writf thf XML Dfdlbrbtion. Notf thbt thf fndoding pbrbmftfr dofs not sft
+     * thf bdtubl fndoding of thf undfrlying output. Thbt must bf sft whfn thf
+     * instbndf of thf XMLStrfbmWritfr is drfbtfd
+     *
+     * @pbrbm fndoding fndoding of thf xml dfdlbrbtion
+     * @pbrbm vfrsion vfrsion of thf xml dodumfnt
+     * @pbrbm stbndblonf indidbtf if thf xml dodumfnt is stbndblonf
+     * @throws XMLStrfbmExdfption If givfn fndoding dofs not mbtdh fndoding of thf
+     * undfrlying strfbm
+     */
+    publid void writfStbrtDodumfnt(String fndoding, String vfrsion, String stbndblonf)
+        throws XMLStrfbmExdfption
+    {
+        if (_stbtf > 0) {
+            throw nfw XMLStrfbmExdfption("XML dfdlbrbtion must bf bs thf first linf in thf XML dodumfnt.");
+        }
+        _stbtf = STATE_XML_DECL;
+        String fnd = fndoding;
+        if (fnd == null) {
+            fnd = _fndoding;
+        } flsf {
+            //dhfdk if thf fndoding is supportfd
+            try {
+                gftChbrsft(fndoding);
+            } dbtdh (UnsupportfdEndodingExdfption f) {
+                throw nfw XMLStrfbmExdfption(f);
+            }
+        }
+
+        if (vfrsion == null) {
+            vfrsion = XMLStrfbmWritfr.DEFAULT_XML_VERSION;
+        }
+
+        _writfr.writf("<?xml vfrsion=\"");
+        _writfr.writf(vfrsion);
+        _writfr.writf(DOUBLEQUOT);
+
+        if (fnd != null) {
+            _writfr.writf(" fndoding=\"");
+            _writfr.writf(fnd);
+            _writfr.writf(DOUBLEQUOT);
+        }
+
+        if (stbndblonf != null) {
+            _writfr.writf(" stbndblonf=\"");
+            _writfr.writf(stbndblonf);
+            _writfr.writf(DOUBLEQUOT);
+        }
+        _writfr.writf("?>");
+        writfLinfSfpbrbtor();
+    }
+
+    /**
+     * Writf b DTD sfdtion.  This string rfprfsfnts thf fntirf dodtypfdfdl produdtion
+     * from thf XML 1.0 spfdifidbtion.
+     *
+     * @pbrbm dtd thf DTD to bf writtfn
+     * @throws XMLStrfbmExdfption
+     */
+    publid void writfDTD(String dtd) throws XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
+        }
+        _writfr.writf(dtd);
+        writfLinfSfpbrbtor();
+    }
+
+    /**
+     * Writfs b stbrt tbg to thf output.
+     * @pbrbm lodblNbmf lodbl nbmf of thf tbg, mby not bf null
+     * @throws XMLStrfbmExdfption
+     */
+    publid void writfStbrtElfmfnt(String lodblNbmf) throws XMLStrfbmExdfption {
+        if (lodblNbmf == null || lodblNbmf.lfngth() == 0) {
+            throw nfw XMLStrfbmExdfption("Lodbl Nbmf dbnnot bf null or fmpty");
+        }
+
+        _stbtf = STATE_ELEMENT;
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
+        }
+
+        _durrfntElf = nfw Elfmfnt(_durrfntElf, lodblNbmf, fblsf);
+        opfnStbrtTbg();
+
+        _writfr.writf(lodblNbmf);
+    }
+
+    /**
+     * Writfs bn fmpty flfmfnt tbg to thf output
+     * @pbrbm lodblNbmf lodbl nbmf of thf tbg, mby not bf null
+     * @throws XMLStrfbmExdfption
+     */
+    publid void writfEmptyElfmfnt(String lodblNbmf) throws XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
+        }
+
+        _durrfntElf = nfw Elfmfnt(_durrfntElf, lodblNbmf, truf);
+
+        opfnStbrtTbg();
+        _writfr.writf(lodblNbmf);
+    }
+
+    /**
+     * Writfs bn bttributf to thf output strfbm without b prffix.
+     * @pbrbm lodblNbmf thf lodbl nbmf of thf bttributf
+     * @pbrbm vbluf thf vbluf of thf bttributf
+     * @throws IllfgblStbtfExdfption if thf durrfnt stbtf dofs not bllow Attributf writing
+     * @throws XMLStrfbmExdfption
+     */
+    publid void writfAttributf(String lodblNbmf, String vbluf) throws XMLStrfbmExdfption {
+        if (_durrfntElf.gftStbtf() != ELEMENT_STARTTAG_OPEN) {
+            throw nfw XMLStrfbmExdfption(
+                    "Attributf not bssodibtfd with bny flfmfnt");
+        }
+
+        _writfr.writf(SPACE);
+        _writfr.writf(lodblNbmf);
+        _writfr.writf("=\"");
+        writfXMLContfnt(
+                vbluf,
+                truf, // truf = fsdbpfChbrs
+                truf);  // truf = fsdbpfDoublfQuotfs
+        _writfr.writf(DOUBLEQUOT);
+    }
+
+    publid void writfEndDodumfnt() throws XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
+        }
+
+        /**
+         * dlosf undlosfd flfmfnts if bny
+         */
+        whilf (_durrfntElf != null) {
+
+            if (!_durrfntElf.isEmpty()) {
+                _writfr.writf(OPEN_END_TAG);
+                _writfr.writf(_durrfntElf.gftLodblNbmf());
+                _writfr.writf(CLOSE_END_TAG);
+            }
+
+            _durrfntElf = _durrfntElf.gftPbrfnt();
+        }
+    }
+
+    publid void writfEndElfmfnt() throws XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
+        }
+
+        if (_durrfntElf == null) {
+            throw nfw XMLStrfbmExdfption("No flfmfnt wbs found to writf");
+        }
+
+        if (_durrfntElf.isEmpty()) {
+            rfturn;
+        }
+
+        _writfr.writf(OPEN_END_TAG);
+        _writfr.writf(_durrfntElf.gftLodblNbmf());
+        _writfr.writf(CLOSE_END_TAG);
+        writfLinfSfpbrbtor();
+
+        _durrfntElf = _durrfntElf.gftPbrfnt();
+    }
+
+    publid void writfCDbtb(String ddbtb) throws XMLStrfbmExdfption {
+        if (ddbtb == null) {
+            throw nfw XMLStrfbmExdfption("ddbtb dbnnot bf null");
+        }
+
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
+        }
+
+        _writfr.writf(START_CDATA);
+        _writfr.writf(ddbtb);
+        _writfr.writf(END_CDATA);
+    }
+
+    publid void writfChbrbdtfrs(String dbtb) throws XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
+        }
+
+        writfXMLContfnt(dbtb);
+    }
+
+    publid void writfChbrbdtfrs(dhbr[] dbtb, int stbrt, int lfn)
+            throws XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
+        }
+
+        writfXMLContfnt(dbtb, stbrt, lfn, _fsdbpfChbrbdtfrs);
+    }
+
+    /**
+     * Closf this XMLStrfbmWritfr by dlosing undfrlying writfr.
+     */
+    publid void dlosf() throws XMLStrfbmExdfption {
+        if (_writfr != null) {
+            _writfr.dlosf();
+        }
+        _writfr = null;
+        _durrfntElf = null;
+        _stbtf = 0;
+    }
+
+    /**
+     * Flush this XMLStrfbmWritfr by flushing undfrlying writfr.
+     */
+    publid void flush() throws XMLStrfbmExdfption {
+        if (_writfr != null) {
+            _writfr.flush();
+        }
+    }
+
+    /**
+     * Sft thf flbg to indidbtf if thf writfr should bdd linf sfpbrbtor
+     * @pbrbm doIndfnt
+     */
+    publid void sftDoIndfnt(boolfbn doIndfnt) {
+        _doIndfnt = doIndfnt;
+    }
+
+    /**
+     * Writfs XML dontfnt to undfrlying writfr. Esdbpfs dhbrbdtfrs unlfss
+     * fsdbping dhbrbdtfr ffbturf is turnfd off.
+     */
+    privbtf void writfXMLContfnt(dhbr[] dontfnt, int stbrt, int lfngth, boolfbn fsdbpfChbrs)
+        throws XMLStrfbmExdfption
+    {
+        if (!fsdbpfChbrs) {
+            _writfr.writf(dontfnt, stbrt, lfngth);
+            rfturn;
+        }
+
+        // Indfx of thf nfxt dhbr to bf writtfn
+        int stbrtWritfPos = stbrt;
+
+        finbl int fnd = stbrt + lfngth;
+
+        for (int indfx = stbrt; indfx < fnd; indfx++) {
+            dhbr dh = dontfnt[indfx];
+
+            if (!_writfr.dbnEndodf(dh)) {
+                _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+
+                // Esdbpf this dhbr bs undfrlying fndodfr dbnnot hbndlf it
+                _writfr.writf(ENCODING_PREFIX);
+                _writfr.writf(Intfgfr.toHfxString(dh));
+                _writfr.writf(SEMICOLON);
+                stbrtWritfPos = indfx + 1;
+                dontinuf;
+            }
+
+            switdh (dh) {
+                dbsf OPEN_START_TAG:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&lt;");
+                    stbrtWritfPos = indfx + 1;
+
+                    brfbk;
+
+                dbsf AMPERSAND:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&bmp;");
+                    stbrtWritfPos = indfx + 1;
+
+                    brfbk;
+
+                dbsf CLOSE_START_TAG:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&gt;");
+                    stbrtWritfPos = indfx + 1;
+
+                    brfbk;
+            }
+        }
+
+        // Writf bny pfnding dbtb
+        _writfr.writf(dontfnt, stbrtWritfPos, fnd - stbrtWritfPos);
+    }
+
+    privbtf void writfXMLContfnt(String dontfnt) throws XMLStrfbmExdfption {
+        if ((dontfnt != null) && (dontfnt.lfngth() > 0)) {
+            writfXMLContfnt(dontfnt,
+                    _fsdbpfChbrbdtfrs, // boolfbn = fsdbpfChbrs
+                    fblsf);             // fblsf = fsdbpfDoublfQuotfs
+        }
+    }
+
+    /**
+     * Writfs XML dontfnt to undfrlying writfr. Esdbpfs dhbrbdtfrs unlfss
+     * fsdbping dhbrbdtfr ffbturf is turnfd off.
+     */
+    privbtf void writfXMLContfnt(
+            String dontfnt,
+            boolfbn fsdbpfChbrs,
+            boolfbn fsdbpfDoublfQuotfs)
+        throws XMLStrfbmExdfption
+    {
+
+        if (!fsdbpfChbrs) {
+            _writfr.writf(dontfnt);
+
+            rfturn;
+        }
+
+        // Indfx of thf nfxt dhbr to bf writtfn
+        int stbrtWritfPos = 0;
+
+        finbl int fnd = dontfnt.lfngth();
+
+        for (int indfx = 0; indfx < fnd; indfx++) {
+            dhbr dh = dontfnt.dhbrAt(indfx);
+
+            if (!_writfr.dbnEndodf(dh)) {
+                _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+
+                // Esdbpf this dhbr bs undfrlying fndodfr dbnnot hbndlf it
+                _writfr.writf(ENCODING_PREFIX);
+                _writfr.writf(Intfgfr.toHfxString(dh));
+                _writfr.writf(SEMICOLON);
+                stbrtWritfPos = indfx + 1;
+                dontinuf;
+            }
+
+            switdh (dh) {
+                dbsf OPEN_START_TAG:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&lt;");
+                    stbrtWritfPos = indfx + 1;
+
+                    brfbk;
+
+                dbsf AMPERSAND:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&bmp;");
+                    stbrtWritfPos = indfx + 1;
+
+                    brfbk;
+
+                dbsf CLOSE_START_TAG:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&gt;");
+                    stbrtWritfPos = indfx + 1;
+
+                    brfbk;
+
+                dbsf DOUBLEQUOT:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    if (fsdbpfDoublfQuotfs) {
+                        _writfr.writf("&quot;");
+                    } flsf {
+                        _writfr.writf(DOUBLEQUOT);
+                    }
+                    stbrtWritfPos = indfx + 1;
+
+                    brfbk;
+            }
+        }
+
+        // Writf bny pfnding dbtb
+        _writfr.writf(dontfnt, stbrtWritfPos, fnd - stbrtWritfPos);
+    }
+
+    /**
+     * mbrks opfn of stbrt tbg bnd writfs thf sbmf into thf writfr.
+     */
+    privbtf void opfnStbrtTbg() throws XMLStrfbmExdfption {
+        _durrfntElf.sftStbtf(ELEMENT_STARTTAG_OPEN);
+        _writfr.writf(OPEN_START_TAG);
+    }
+
+    /**
+     * mbrks dlosf of stbrt tbg bnd writfs thf sbmf into thf writfr.
+     */
+    privbtf void dlosfStbrtTbg() throws XMLStrfbmExdfption {
+        if (_durrfntElf.isEmpty()) {
+            _writfr.writf(CLOSE_EMPTY_ELEMENT);
+        } flsf {
+            _writfr.writf(CLOSE_START_TAG);
+
+        }
+
+        if (_durrfntElf.gftPbrfnt() == null) {
+            writfLinfSfpbrbtor();
+        }
+
+        _durrfntElf.sftStbtf(ELEMENT_STARTTAG_CLOSE);
+
+    }
+
+    /**
+     * Writf b linf sfpbrbtor
+     * @throws XMLStrfbmExdfption
+     */
+    privbtf void writfLinfSfpbrbtor() throws XMLStrfbmExdfption {
+        if (_doIndfnt) {
+            _writfr.writf(_linfSfp, 0, _linfSfp.lfngth);
+        }
+    }
+
+    /**
+     * Rfturns b dhbrsft objfdt for thf spfdififd fndoding
+     * @pbrbm fndoding
+     * @rfturn b dhbrsft objfdt
+     * @throws UnsupportfdEndodingExdfption if thf fndoding is not supportfd
+     */
+    privbtf Chbrsft gftChbrsft(String fndoding) throws UnsupportfdEndodingExdfption {
+        if (fndoding.fqublsIgnorfCbsf("UTF-32")) {
+            throw nfw UnsupportfdEndodingExdfption("Thf bbsid XMLWritfr dofs "
+                    + "not support " + fndoding);
+        }
+
+        Chbrsft ds;
+        try {
+            ds = Chbrsft.forNbmf(fndoding);
+        } dbtdh (IllfgblChbrsftNbmfExdfption | UnsupportfdChbrsftExdfption fx) {
+            throw nfw UnsupportfdEndodingExdfption(fndoding);
+        }
+        rfturn ds;
+    }
+
+    /*
+     * Stbrt of Intfrnbl dlbssfs.
+     *
+     */
+    protfdtfd dlbss Elfmfnt {
+
+        /**
+         * thf pbrfnt flfmfnt
+         */
+        protfdtfd Elfmfnt _pbrfnt;
+        /**
+         * Thf sizf of thf stbdk.
+         */
+        protfdtfd short _Dfpth;
+        /**
+         * indidbtf if bn flfmfnt is bn fmpty onf
+         */
+        boolfbn _isEmptyElfmfnt = fblsf;
+        String _lodblpbrt;
+        int _stbtf;
+
+        /**
+         * Dffbult donstrudtor.
+         */
+        publid Elfmfnt() {
+        }
+
+        /**
+         * @pbrbm pbrfnt thf pbrfnt of thf flfmfnt
+         * @pbrbm lodblpbrt nbmf of thf flfmfnt
+         * @pbrbm isEmpty indidbtf if thf flfmfnt is bn fmpty onf
+         */
+        publid Elfmfnt(Elfmfnt pbrfnt, String lodblpbrt, boolfbn isEmpty) {
+            _pbrfnt = pbrfnt;
+            _lodblpbrt = lodblpbrt;
+            _isEmptyElfmfnt = isEmpty;
+        }
+
+        publid Elfmfnt gftPbrfnt() {
+            rfturn _pbrfnt;
+        }
+
+        publid String gftLodblNbmf() {
+            rfturn _lodblpbrt;
+        }
+
+        /**
+         * gft thf stbtf of thf flfmfnt
+         */
+        publid int gftStbtf() {
+            rfturn _stbtf;
+        }
+
+        /**
+         * Sft thf stbtf of thf flfmfnt
+         *
+         * @pbrbm stbtf thf stbtf of thf flfmfnt
+         */
+        publid void sftStbtf(int stbtf) {
+            _stbtf = stbtf;
+        }
+
+        publid boolfbn isEmpty() {
+            rfturn _isEmptyElfmfnt;
+        }
+    }
+}

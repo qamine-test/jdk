@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2001, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <winsock2.h>
+#indludf <winsodk2.i>
 
-#include "jni.h"
+#indludf "jni.i"
 
 /**
- * The maximum buffer size for WSASend/WSARecv. Microsoft recommendation for
- * blocking operations is to use buffers no larger than 64k. We need the
- * maximum to be less than 128k to support asynchronous close on Windows
- * Server 2003 and newer editions of Windows.
+ * Tif mbximum bufffr sizf for WSASfnd/WSARfdv. Midrosoft rfdommfndbtion for
+ * blodking opfrbtions is to usf bufffrs no lbrgfr tibn 64k. Wf nffd tif
+ * mbximum to bf lfss tibn 128k to support bsyndironous dlosf on Windows
+ * Sfrvfr 2003 bnd nfwfr fditions of Windows.
  */
-#define MAX_BUFFER_SIZE             ((128*1024)-1)
+#dffinf MAX_BUFFER_SIZE             ((128*1024)-1)
 
-jint fdval(JNIEnv *env, jobject fdo);
-jlong handleval(JNIEnv *env, jobject fdo);
-jint convertReturnVal(JNIEnv *env, jint n, jboolean r);
-jlong convertLongReturnVal(JNIEnv *env, jlong n, jboolean r);
-jboolean purgeOutstandingICMP(JNIEnv *env, jclass clazz, jint fd);
-jint handleSocketError(JNIEnv *env, int errorValue);
+jint fdvbl(JNIEnv *fnv, jobjfdt fdo);
+jlong ibndlfvbl(JNIEnv *fnv, jobjfdt fdo);
+jint donvfrtRfturnVbl(JNIEnv *fnv, jint n, jboolfbn r);
+jlong donvfrtLongRfturnVbl(JNIEnv *fnv, jlong n, jboolfbn r);
+jboolfbn purgfOutstbndingICMP(JNIEnv *fnv, jdlbss dlbzz, jint fd);
+jint ibndlfSodkftError(JNIEnv *fnv, int frrorVbluf);
 
-#ifdef _WIN64
+#ifdff _WIN64
 
-struct iovec {
-    jlong  iov_base;
-    jint  iov_len;
+strudt iovfd {
+    jlong  iov_bbsf;
+    jint  iov_lfn;
 };
 
-#else
+#flsf
 
-struct iovec {
-    jint  iov_base;
-    jint  iov_len;
+strudt iovfd {
+    jint  iov_bbsf;
+    jint  iov_lfn;
 };
 
-#endif
+#fndif
 
-#ifndef POLLIN
-    /* WSAPoll()/WSAPOLLFD and the corresponding constants are only defined   */
-    /* in Windows Vista / Windows Server 2008 and later. If we are on an      */
-    /* older release we just use the Solaris constants as this was previously */
-    /* done in PollArrayWrapper.java.                                         */
-    #define POLLIN       0x0001
-    #define POLLOUT      0x0004
-    #define POLLERR      0x0008
-    #define POLLHUP      0x0010
-    #define POLLNVAL     0x0020
-    #define POLLCONN     0x0002
-#else
-    /* POLLCONN must not equal any of the other constants (see winsock2.h).   */
-    #define POLLCONN     0x2000
-#endif
+#ifndff POLLIN
+    /* WSAPoll()/WSAPOLLFD bnd tif dorrfsponding donstbnts brf only dffinfd   */
+    /* in Windows Vistb / Windows Sfrvfr 2008 bnd lbtfr. If wf brf on bn      */
+    /* oldfr rflfbsf wf just usf tif Solbris donstbnts bs tiis wbs prfviously */
+    /* donf in PollArrbyWrbppfr.jbvb.                                         */
+    #dffinf POLLIN       0x0001
+    #dffinf POLLOUT      0x0004
+    #dffinf POLLERR      0x0008
+    #dffinf POLLHUP      0x0010
+    #dffinf POLLNVAL     0x0020
+    #dffinf POLLCONN     0x0002
+#flsf
+    /* POLLCONN must not fqubl bny of tif otifr donstbnts (sff winsodk2.i).   */
+    #dffinf POLLCONN     0x2000
+#fndif

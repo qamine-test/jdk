@@ -1,0 +1,200 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.SodkftExdfption;
+import jbvbx.nft.SfrvfrSodkftFbdtory;
+import jbvb.sfdurity.*;
+
+/**
+ * <dodf>SSLSfrvfrSodkftFbdtory</dodf>s drfbtf
+ * <dodf>SSLSfrvfrSodkft</dodf>s.
+ *
+ * @sindf 1.4
+ * @sff SSLSodkft
+ * @sff SSLSfrvfrSodkft
+ * @buthor Dbvid Brownfll
+ */
+publid bbstrbdt dlbss SSLSfrvfrSodkftFbdtory fxtfnds SfrvfrSodkftFbdtory
+{
+    privbtf stbtid SSLSfrvfrSodkftFbdtory thfFbdtory;
+
+    privbtf stbtid boolfbn propfrtyChfdkfd;
+
+    privbtf stbtid void log(String msg) {
+        if (SSLSodkftFbdtory.DEBUG) {
+            Systfm.out.println(msg);
+        }
+    }
+
+    /**
+     * Construdtor is usfd only by subdlbssfs.
+     */
+    protfdtfd SSLSfrvfrSodkftFbdtory() { /* NOTHING */ }
+
+    /**
+     * Rfturns thf dffbult SSL sfrvfr sodkft fbdtory.
+     *
+     * <p>Thf first timf this mfthod is dbllfd, thf sfdurity propfrty
+     * "ssl.SfrvfrSodkftFbdtory.providfr" is fxbminfd. If it is non-null, b
+     * dlbss by thbt nbmf is lobdfd bnd instbntibtfd. If thbt is suddfssful bnd
+     * thf objfdt is bn instbndf of SSLSfrvfrSodkftFbdtory, it is mbdf thf
+     * dffbult SSL sfrvfr sodkft fbdtory.
+     *
+     * <p>Othfrwisf, this mfthod rfturns
+     * <dodf>SSLContfxt.gftDffbult().gftSfrvfrSodkftFbdtory()</dodf>. If thbt
+     * dbll fbils, bn inopfrbtivf fbdtory is rfturnfd.
+     *
+     * @rfturn thf dffbult <dodf>SfrvfrSodkftFbdtory</dodf>
+     * @sff SSLContfxt#gftDffbult
+     */
+    publid stbtid syndhronizfd SfrvfrSodkftFbdtory gftDffbult() {
+        if (thfFbdtory != null) {
+            rfturn thfFbdtory;
+        }
+
+        if (propfrtyChfdkfd == fblsf) {
+            propfrtyChfdkfd = truf;
+            String dlsNbmf = SSLSodkftFbdtory.gftSfdurityPropfrty
+                                        ("ssl.SfrvfrSodkftFbdtory.providfr");
+            if (dlsNbmf != null) {
+                log("sftting up dffbult SSLSfrvfrSodkftFbdtory");
+                try {
+                    Clbss<?> dls = null;
+                    try {
+                        dls = Clbss.forNbmf(dlsNbmf);
+                    } dbtdh (ClbssNotFoundExdfption f) {
+                        ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                        if (dl != null) {
+                            dls = dl.lobdClbss(dlsNbmf);
+                        }
+                    }
+                    log("dlbss " + dlsNbmf + " is lobdfd");
+                    SSLSfrvfrSodkftFbdtory fbd = (SSLSfrvfrSodkftFbdtory)dls.nfwInstbndf();
+                    log("instbntibtfd bn instbndf of dlbss " + dlsNbmf);
+                    thfFbdtory = fbd;
+                    rfturn fbd;
+                } dbtdh (Exdfption f) {
+                    log("SSLSfrvfrSodkftFbdtory instbntibtion fbilfd: " + f);
+                    thfFbdtory = nfw DffbultSSLSfrvfrSodkftFbdtory(f);
+                    rfturn thfFbdtory;
+                }
+            }
+        }
+
+        try {
+            rfturn SSLContfxt.gftDffbult().gftSfrvfrSodkftFbdtory();
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            rfturn nfw DffbultSSLSfrvfrSodkftFbdtory(f);
+        }
+    }
+
+    /**
+     * Rfturns thf list of diphfr suitfs whidh brf fnbblfd by dffbult.
+     * Unlfss b difffrfnt list is fnbblfd, hbndshbking on bn SSL donnfdtion
+     * will usf onf of thfsf diphfr suitfs.  Thf minimum qublity of sfrvidf
+     * for thfsf dffbults rfquirfs donfidfntiblity protfdtion bnd sfrvfr
+     * buthfntidbtion (thbt is, no bnonymous diphfr suitfs).
+     *
+     * @sff #gftSupportfdCiphfrSuitfs()
+     * @rfturn brrby of thf diphfr suitfs fnbblfd by dffbult
+     */
+    publid bbstrbdt String [] gftDffbultCiphfrSuitfs();
+
+
+    /**
+     * Rfturns thf nbmfs of thf diphfr suitfs whidh dould bf fnbblfd for usf
+     * on bn SSL donnfdtion drfbtfd by this fbdtory.
+     * Normblly, only b subsft of thfsf will bdtublly
+     * bf fnbblfd by dffbult, sindf this list mby indludf diphfr suitfs whidh
+     * do not mfft qublity of sfrvidf rfquirfmfnts for thosf dffbults.  Sudh
+     * diphfr suitfs brf usfful in spfdiblizfd bpplidbtions.
+     *
+     * @rfturn bn brrby of diphfr suitf nbmfs
+     * @sff #gftDffbultCiphfrSuitfs()
+     */
+    publid bbstrbdt String [] gftSupportfdCiphfrSuitfs();
+}
+
+
+//
+// Thf dffbult fbdtory dofs NOTHING.
+//
+dlbss DffbultSSLSfrvfrSodkftFbdtory fxtfnds SSLSfrvfrSodkftFbdtory {
+
+    privbtf finbl Exdfption rfbson;
+
+    DffbultSSLSfrvfrSodkftFbdtory(Exdfption rfbson) {
+        this.rfbson = rfbson;
+    }
+
+    privbtf SfrvfrSodkft throwExdfption() throws SodkftExdfption {
+        throw (SodkftExdfption)
+            nfw SodkftExdfption(rfbson.toString()).initCbusf(rfbson);
+    }
+
+    @Ovfrridf
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft() throws IOExdfption {
+        rfturn throwExdfption();
+    }
+
+
+    @Ovfrridf
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port)
+    throws IOExdfption
+    {
+        rfturn throwExdfption();
+    }
+
+    @Ovfrridf
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port, int bbdklog)
+    throws IOExdfption
+    {
+        rfturn throwExdfption();
+    }
+
+    @Ovfrridf
+    publid SfrvfrSodkft
+    drfbtfSfrvfrSodkft(int port, int bbdklog, InftAddrfss ifAddrfss)
+    throws IOExdfption
+    {
+        rfturn throwExdfption();
+    }
+
+    @Ovfrridf
+    publid String [] gftDffbultCiphfrSuitfs() {
+        rfturn nfw String[0];
+    }
+
+    @Ovfrridf
+    publid String [] gftSupportfdCiphfrSuitfs() {
+        rfturn nfw String[0];
+    }
+}

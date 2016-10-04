@@ -1,343 +1,343 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.proxy;
+pbdkbgf sun.rmi.trbnsport.proxy;
 
-import java.io.*;
-import java.net.*;
-import java.security.PrivilegedAction;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import sun.rmi.runtime.Log;
+import sun.rmi.runtimf.Log;
 
 /**
- * The HttpSendSocket class extends the java.net.Socket class
- * by enclosing the data output stream in, then extracting the input
- * stream from, an HTTP protocol transmission.
+ * Tif HttpSfndSodkft dlbss fxtfnds tif jbvb.nft.Sodkft dlbss
+ * by fndlosing tif dbtb output strfbm in, tifn fxtrbdting tif input
+ * strfbm from, bn HTTP protodol trbnsmission.
  *
  * NOTES:
  *
- * Since the length of the output request must be known before the
- * HTTP header can be completed, all of the output is buffered by
- * an HttpOutputStream object until either an attempt is made to
- * read from this socket, or the socket is explicitly closed.
+ * Sindf tif lfngti of tif output rfqufst must bf known bfforf tif
+ * HTTP ifbdfr dbn bf domplftfd, bll of tif output is bufffrfd by
+ * bn HttpOutputStrfbm objfdt until fitifr bn bttfmpt is mbdf to
+ * rfbd from tiis sodkft, or tif sodkft is fxpliditly dlosfd.
  *
- * On the first read attempt to read from this socket, the buffered
- * output is sent to the destination as the body of an HTTP POST
- * request.  All reads will then acquire data from the body of
- * the response.  A subsequent attempt to write to this socket will
- * throw an IOException.
+ * On tif first rfbd bttfmpt to rfbd from tiis sodkft, tif bufffrfd
+ * output is sfnt to tif dfstinbtion bs tif body of bn HTTP POST
+ * rfqufst.  All rfbds will tifn bdquirf dbtb from tif body of
+ * tif rfsponsf.  A subsfqufnt bttfmpt to writf to tiis sodkft will
+ * tirow bn IOExdfption.
  */
-class HttpSendSocket extends Socket implements RMISocketInfo {
+dlbss HttpSfndSodkft fxtfnds Sodkft implfmfnts RMISodkftInfo {
 
-    /** the host to connect to */
-    protected String host;
+    /** tif iost to donnfdt to */
+    protfdtfd String iost;
 
-    /** the port to connect to */
-    protected int port;
+    /** tif port to donnfdt to */
+    protfdtfd int port;
 
-    /** the URL to forward through */
-    protected URL url;
+    /** tif URL to forwbrd tirougi */
+    protfdtfd URL url;
 
-    /** the object managing this connection through the URL */
-    protected URLConnection conn = null;
+    /** tif objfdt mbnbging tiis donnfdtion tirougi tif URL */
+    protfdtfd URLConnfdtion donn = null;
 
-    /** internal input stream for this socket */
-    protected InputStream in = null;
+    /** intfrnbl input strfbm for tiis sodkft */
+    protfdtfd InputStrfbm in = null;
 
-    /** internal output stream for this socket */
-    protected OutputStream out = null;
+    /** intfrnbl output strfbm for tiis sodkft */
+    protfdtfd OutputStrfbm out = null;
 
-    /** the notifying input stream returned to users */
-    protected HttpSendInputStream inNotifier;
+    /** tif notifying input strfbm rfturnfd to usfrs */
+    protfdtfd HttpSfndInputStrfbm inNotififr;
 
-    /** the notifying output stream returned to users */
-    protected HttpSendOutputStream outNotifier;
-
-    /**
-     * Line separator string.  This is the value of the line.separator
-     * property at the moment that the socket was created.
-     */
-    private String lineSeparator =
-        java.security.AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("line.separator"));
+    /** tif notifying output strfbm rfturnfd to usfrs */
+    protfdtfd HttpSfndOutputStrfbm outNotififr;
 
     /**
-     * Create a stream socket and connect it to the specified port on
-     * the specified host.
-     * @param host the host
-     * @param port the port
+     * Linf sfpbrbtor string.  Tiis is tif vbluf of tif linf.sfpbrbtor
+     * propfrty bt tif momfnt tibt tif sodkft wbs drfbtfd.
      */
-    public HttpSendSocket(String host, int port, URL url) throws IOException
+    privbtf String linfSfpbrbtor =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("linf.sfpbrbtor"));
+
+    /**
+     * Crfbtf b strfbm sodkft bnd donnfdt it to tif spfdififd port on
+     * tif spfdififd iost.
+     * @pbrbm iost tif iost
+     * @pbrbm port tif port
+     */
+    publid HttpSfndSodkft(String iost, int port, URL url) tirows IOExdfption
     {
-        super((SocketImpl)null);        // no underlying SocketImpl for this object
+        supfr((SodkftImpl)null);        // no undfrlying SodkftImpl for tiis objfdt
 
-        if (RMIMasterSocketFactory.proxyLog.isLoggable(Log.VERBOSE)) {
-            RMIMasterSocketFactory.proxyLog.log(Log.VERBOSE,
-                "host = " + host + ", port = " + port + ", url = " + url);
+        if (RMIMbstfrSodkftFbdtory.proxyLog.isLoggbblf(Log.VERBOSE)) {
+            RMIMbstfrSodkftFbdtory.proxyLog.log(Log.VERBOSE,
+                "iost = " + iost + ", port = " + port + ", url = " + url);
         }
 
-        this.host = host;
-        this.port = port;
-        this.url = url;
+        tiis.iost = iost;
+        tiis.port = port;
+        tiis.url = url;
 
-        inNotifier = new HttpSendInputStream(null, this);
-        outNotifier = new HttpSendOutputStream(writeNotify(), this);
+        inNotififr = nfw HttpSfndInputStrfbm(null, tiis);
+        outNotififr = nfw HttpSfndOutputStrfbm(writfNotify(), tiis);
     }
 
     /**
-     * Create a stream socket and connect it to the specified port on
-     * the specified host.
-     * @param host the host
-     * @param port the port
+     * Crfbtf b strfbm sodkft bnd donnfdt it to tif spfdififd port on
+     * tif spfdififd iost.
+     * @pbrbm iost tif iost
+     * @pbrbm port tif port
      */
-    public HttpSendSocket(String host, int port) throws IOException
+    publid HttpSfndSodkft(String iost, int port) tirows IOExdfption
     {
-        this(host, port, new URL("http", host, port, "/"));
+        tiis(iost, port, nfw URL("ittp", iost, port, "/"));
     }
 
     /**
-     * Create a stream socket and connect it to the specified address on
-     * the specified port.
-     * @param address the address
-     * @param port the port
+     * Crfbtf b strfbm sodkft bnd donnfdt it to tif spfdififd bddrfss on
+     * tif spfdififd port.
+     * @pbrbm bddrfss tif bddrfss
+     * @pbrbm port tif port
      */
-    public HttpSendSocket(InetAddress address, int port) throws IOException
+    publid HttpSfndSodkft(InftAddrfss bddrfss, int port) tirows IOExdfption
     {
-        this(address.getHostName(), port);
+        tiis(bddrfss.gftHostNbmf(), port);
     }
 
     /**
-     * Indicate that this socket is not reusable.
+     * Indidbtf tibt tiis sodkft is not rfusbblf.
      */
-    public boolean isReusable()
+    publid boolfbn isRfusbblf()
     {
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Create a new socket connection to host (or proxy), and prepare to
-     * send HTTP transmission.
+     * Crfbtf b nfw sodkft donnfdtion to iost (or proxy), bnd prfpbrf to
+     * sfnd HTTP trbnsmission.
      */
-    public synchronized OutputStream writeNotify() throws IOException
+    publid syndironizfd OutputStrfbm writfNotify() tirows IOExdfption
     {
-        if (conn != null) {
-            throw new IOException("attempt to write on HttpSendSocket after " +
-                                  "request has been sent");
+        if (donn != null) {
+            tirow nfw IOExdfption("bttfmpt to writf on HttpSfndSodkft bftfr " +
+                                  "rfqufst ibs bffn sfnt");
         }
 
-        conn = url.openConnection();
-        conn.setDoOutput(true);
-        conn.setUseCaches(false);
-        conn.setRequestProperty("Content-type", "application/octet-stream");
+        donn = url.opfnConnfdtion();
+        donn.sftDoOutput(truf);
+        donn.sftUsfCbdifs(fblsf);
+        donn.sftRfqufstPropfrty("Contfnt-typf", "bpplidbtion/odtft-strfbm");
 
-        inNotifier.deactivate();
+        inNotififr.dfbdtivbtf();
         in = null;
 
-        return out = conn.getOutputStream();
+        rfturn out = donn.gftOutputStrfbm();
     }
 
     /**
-     * Send HTTP output transmission and prepare to receive response.
+     * Sfnd HTTP output trbnsmission bnd prfpbrf to rfdfivf rfsponsf.
      */
-    public synchronized InputStream readNotify() throws IOException
+    publid syndironizfd InputStrfbm rfbdNotify() tirows IOExdfption
     {
-        RMIMasterSocketFactory.proxyLog.log(Log.VERBOSE,
-            "sending request and activating input stream");
+        RMIMbstfrSodkftFbdtory.proxyLog.log(Log.VERBOSE,
+            "sfnding rfqufst bnd bdtivbting input strfbm");
 
-        outNotifier.deactivate();
-        out.close();
+        outNotififr.dfbdtivbtf();
+        out.dlosf();
         out = null;
 
         try {
-            in = conn.getInputStream();
-        } catch (IOException e) {
-            RMIMasterSocketFactory.proxyLog.log(Log.BRIEF,
-                "failed to get input stream, exception: ", e);
+            in = donn.gftInputStrfbm();
+        } dbtdi (IOExdfption f) {
+            RMIMbstfrSodkftFbdtory.proxyLog.log(Log.BRIEF,
+                "fbilfd to gft input strfbm, fxdfption: ", f);
 
-            throw new IOException("HTTP request failed");
+            tirow nfw IOExdfption("HTTP rfqufst fbilfd");
         }
 
         /*
-         * If an HTTP error response is returned, sometimes an IOException
-         * is thrown, which is handled above, and other times it isn't, and
-         * the error response body will be available for reading.
-         * As a safety net to catch any such unexpected HTTP behavior, we
-         * verify that the content type of the response is what the
-         * HttpOutputStream generates: "application/octet-stream".
-         * (Servers' error responses will generally be "text/html".)
-         * Any error response body is printed to the log.
+         * If bn HTTP frror rfsponsf is rfturnfd, somftimfs bn IOExdfption
+         * is tirown, wiidi is ibndlfd bbovf, bnd otifr timfs it isn't, bnd
+         * tif frror rfsponsf body will bf bvbilbblf for rfbding.
+         * As b sbffty nft to dbtdi bny sudi unfxpfdtfd HTTP bfibvior, wf
+         * vfrify tibt tif dontfnt typf of tif rfsponsf is wibt tif
+         * HttpOutputStrfbm gfnfrbtfs: "bpplidbtion/odtft-strfbm".
+         * (Sfrvfrs' frror rfsponsfs will gfnfrblly bf "tfxt/itml".)
+         * Any frror rfsponsf body is printfd to tif log.
          */
-        String contentType = conn.getContentType();
-        if (contentType == null ||
-            !conn.getContentType().equals("application/octet-stream"))
+        String dontfntTypf = donn.gftContfntTypf();
+        if (dontfntTypf == null ||
+            !donn.gftContfntTypf().fqubls("bpplidbtion/odtft-strfbm"))
         {
-            if (RMIMasterSocketFactory.proxyLog.isLoggable(Log.BRIEF)) {
-                String message;
-                if (contentType == null) {
-                    message = "missing content type in response" +
-                        lineSeparator;
-                } else {
-                    message = "invalid content type in response: " +
-                        contentType + lineSeparator;
+            if (RMIMbstfrSodkftFbdtory.proxyLog.isLoggbblf(Log.BRIEF)) {
+                String mfssbgf;
+                if (dontfntTypf == null) {
+                    mfssbgf = "missing dontfnt typf in rfsponsf" +
+                        linfSfpbrbtor;
+                } flsf {
+                    mfssbgf = "invblid dontfnt typf in rfsponsf: " +
+                        dontfntTypf + linfSfpbrbtor;
                 }
 
-                message += "HttpSendSocket.readNotify: response body: ";
+                mfssbgf += "HttpSfndSodkft.rfbdNotify: rfsponsf body: ";
                 try {
-                    BufferedReader din = new BufferedReader(new InputStreamReader(in));
-                    String line;
-                    while ((line = din.readLine()) != null)
-                        message += line + lineSeparator;
-                } catch (IOException e) {
+                    BufffrfdRfbdfr din = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in));
+                    String linf;
+                    wiilf ((linf = din.rfbdLinf()) != null)
+                        mfssbgf += linf + linfSfpbrbtor;
+                } dbtdi (IOExdfption f) {
                 }
-                RMIMasterSocketFactory.proxyLog.log(Log.BRIEF, message);
+                RMIMbstfrSodkftFbdtory.proxyLog.log(Log.BRIEF, mfssbgf);
             }
 
-            throw new IOException("HTTP request failed");
+            tirow nfw IOExdfption("HTTP rfqufst fbilfd");
         }
 
-        return in;
+        rfturn in;
     }
 
     /**
-     * Get the address to which the socket is connected.
+     * Gft tif bddrfss to wiidi tif sodkft is donnfdtfd.
      */
-    public InetAddress getInetAddress()
+    publid InftAddrfss gftInftAddrfss()
     {
         try {
-            return InetAddress.getByName(host);
-        } catch (UnknownHostException e) {
-            return null;        // null if couldn't resolve destination host
+            rfturn InftAddrfss.gftByNbmf(iost);
+        } dbtdi (UnknownHostExdfption f) {
+            rfturn null;        // null if douldn't rfsolvf dfstinbtion iost
         }
     }
 
     /**
-     * Get the local address to which the socket is bound.
+     * Gft tif lodbl bddrfss to wiidi tif sodkft is bound.
      */
-    public InetAddress getLocalAddress()
+    publid InftAddrfss gftLodblAddrfss()
     {
         try {
-            return InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            return null;        // null if couldn't determine local host
+            rfturn InftAddrfss.gftLodblHost();
+        } dbtdi (UnknownHostExdfption f) {
+            rfturn null;        // null if douldn't dftfrminf lodbl iost
         }
     }
 
     /**
-     * Get the remote port to which the socket is connected.
+     * Gft tif rfmotf port to wiidi tif sodkft is donnfdtfd.
      */
-    public int getPort()
+    publid int gftPort()
     {
-        return port;
+        rfturn port;
     }
 
     /**
-     * Get the local port to which the socket is connected.
+     * Gft tif lodbl port to wiidi tif sodkft is donnfdtfd.
      */
-    public int getLocalPort()
+    publid int gftLodblPort()
     {
-        return -1;      // request not applicable to this socket type
+        rfturn -1;      // rfqufst not bpplidbblf to tiis sodkft typf
     }
 
     /**
-     * Get an InputStream for this socket.
+     * Gft bn InputStrfbm for tiis sodkft.
      */
-    public InputStream getInputStream() throws IOException
+    publid InputStrfbm gftInputStrfbm() tirows IOExdfption
     {
-        return inNotifier;
+        rfturn inNotififr;
     }
 
     /**
-     * Get an OutputStream for this socket.
+     * Gft bn OutputStrfbm for tiis sodkft.
      */
-    public OutputStream getOutputStream() throws IOException
+    publid OutputStrfbm gftOutputStrfbm() tirows IOExdfption
     {
-        return outNotifier;
+        rfturn outNotififr;
     }
 
     /**
-     * Enable/disable TCP_NODELAY.
-     * This operation has no effect for an HttpSendSocket.
+     * Enbblf/disbblf TCP_NODELAY.
+     * Tiis opfrbtion ibs no ffffdt for bn HttpSfndSodkft.
      */
-    public void setTcpNoDelay(boolean on) throws SocketException
-    {
-    }
-
-    /**
-     * Retrieve whether TCP_NODELAY is enabled.
-     */
-    public boolean getTcpNoDelay() throws SocketException
-    {
-        return false;   // imply option is disabled
-    }
-
-    /**
-     * Enable/disable SO_LINGER with the specified linger time.
-     * This operation has no effect for an HttpSendSocket.
-     */
-    public void setSoLinger(boolean on, int val) throws SocketException
+    publid void sftTdpNoDflby(boolfbn on) tirows SodkftExdfption
     {
     }
 
     /**
-     * Retrive setting for SO_LINGER.
+     * Rftrifvf wiftifr TCP_NODELAY is fnbblfd.
      */
-    public int getSoLinger() throws SocketException
+    publid boolfbn gftTdpNoDflby() tirows SodkftExdfption
     {
-        return -1;      // imply option is disabled
+        rfturn fblsf;   // imply option is disbblfd
     }
 
     /**
-     * Enable/disable SO_TIMEOUT with the specified timeout
-     * This operation has no effect for an HttpSendSocket.
+     * Enbblf/disbblf SO_LINGER witi tif spfdififd lingfr timf.
+     * Tiis opfrbtion ibs no ffffdt for bn HttpSfndSodkft.
      */
-    public synchronized void setSoTimeout(int timeout) throws SocketException
+    publid void sftSoLingfr(boolfbn on, int vbl) tirows SodkftExdfption
     {
     }
 
     /**
-     * Retrive setting for SO_TIMEOUT.
+     * Rftrivf sftting for SO_LINGER.
      */
-    public synchronized int getSoTimeout() throws SocketException
+    publid int gftSoLingfr() tirows SodkftExdfption
     {
-        return 0;       // imply option is disabled
+        rfturn -1;      // imply option is disbblfd
     }
 
     /**
-     * Close the socket.
+     * Enbblf/disbblf SO_TIMEOUT witi tif spfdififd timfout
+     * Tiis opfrbtion ibs no ffffdt for bn HttpSfndSodkft.
      */
-    public synchronized void close() throws IOException
+    publid syndironizfd void sftSoTimfout(int timfout) tirows SodkftExdfption
     {
-        if (out != null) // push out transmission if not done
-            out.close();
     }
 
     /**
-     * Return string representation of this pseudo-socket.
+     * Rftrivf sftting for SO_TIMEOUT.
      */
-    public String toString()
+    publid syndironizfd int gftSoTimfout() tirows SodkftExdfption
     {
-        return "HttpSendSocket[host=" + host +
+        rfturn 0;       // imply option is disbblfd
+    }
+
+    /**
+     * Closf tif sodkft.
+     */
+    publid syndironizfd void dlosf() tirows IOExdfption
+    {
+        if (out != null) // pusi out trbnsmission if not donf
+            out.dlosf();
+    }
+
+    /**
+     * Rfturn string rfprfsfntbtion of tiis psfudo-sodkft.
+     */
+    publid String toString()
+    {
+        rfturn "HttpSfndSodkft[iost=" + iost +
                ",port=" + port +
                ",url=" + url + "]";
     }

@@ -1,77 +1,77 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Java Deployment Tools
-.\"     Title: unpack200.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Dfploymfnt Tools
+.\"     Titlf: unpbdk200.1
 .\"
 .if n .pl 99999
-.TH unpack200 1 "21 November 2013" "JDK 8" "Java Deployment Tools"
+.TH unpbdk200 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Dfploymfnt Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-unpack200 \- Transforms a packed file produced by pack200(1) into a JAR file for web deployment\&.
+unpbdk200 \- Trbnsforms b pbdkfd filf produdfd by pbdk200(1) into b JAR filf for wfb dfploymfnt\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBunpack200\fR [ \fIoptions\fR ] input\-file \fIJAR\-file\fR
+\fBunpbdk200\fR [ \fIoptions\fR ] input\-filf \fIJAR\-filf\fR
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
-\fIinput-file\fR
-Name of the input file, which can be a pack200 gzip file or a pack200 file\&. The input can also be JAR file produced by \f3pack200\fR(1) with an effort of \f30\fR, in which case the contents of the input file are copied to the output JAR file with the Pack200 marker\&.
+\fIinput-filf\fR
+Nbmf of tif input filf, wiidi dbn bf b pbdk200 gzip filf or b pbdk200 filf\&. Tif input dbn blso bf JAR filf produdfd by \f3pbdk200\fR(1) witi bn fffort of \f30\fR, in wiidi dbsf tif dontfnts of tif input filf brf dopifd to tif output JAR filf witi tif Pbdk200 mbrkfr\&.
 .TP     
-\fIJAR-file\fR
-Name of the output JAR file\&.
+\fIJAR-filf\fR
+Nbmf of tif output JAR filf\&.
 .SH DESCRIPTION    
-The \f3unpack200\fR command is a native implementation that transforms a packed file produced by \f3pack200\fR\f3(1)\fR into a JAR file\&. A typical usage follows\&. In the following example, the \f3myarchive\&.jar\fR file is produced from \f3myarchive\&.pack\&.gz\fR with the default \f3unpack200\fR command settings\&.
+Tif \f3unpbdk200\fR dommbnd is b nbtivf implfmfntbtion tibt trbnsforms b pbdkfd filf produdfd by \f3pbdk200\fR\f3(1)\fR into b JAR filf\&. A typidbl usbgf follows\&. In tif following fxbmplf, tif \f3mybrdiivf\&.jbr\fR filf is produdfd from \f3mybrdiivf\&.pbdk\&.gz\fR witi tif dffbult \f3unpbdk200\fR dommbnd sfttings\&.
 .sp     
 .nf     
-\f3unpack200 myarchive\&.pack\&.gz myarchive\&.jar\fP
+\f3unpbdk200 mybrdiivf\&.pbdk\&.gz mybrdiivf\&.jbr\fP
 .fi     
 .nf     
 \f3\fP
@@ -79,59 +79,59 @@ The \f3unpack200\fR command is a native implementation that transforms a packed 
 .sp     
 .SH OPTIONS    
 .TP
--Hvalue --deflate-hint=\fIvalue\fR
+-Hvbluf --dfflbtf-iint=\fIvbluf\fR
 .br
-Sets the deflation to be \f3true\fR, \f3false\fR, or \f3keep\fR on all entries within a JAR file\&. The default mode is \f3keep\fR\&. If the value is \f3true\fR or \f3false\fR, then the \f3--deflate=hint\fR option overrides the default behavior and sets the deflation mode on all entries within the output JAR file\&.
+Sfts tif dfflbtion to bf \f3truf\fR, \f3fblsf\fR, or \f3kffp\fR on bll fntrifs witiin b JAR filf\&. Tif dffbult modf is \f3kffp\fR\&. If tif vbluf is \f3truf\fR or \f3fblsf\fR, tifn tif \f3--dfflbtf=iint\fR option ovfrridfs tif dffbult bfibvior bnd sfts tif dfflbtion modf on bll fntrifs witiin tif output JAR filf\&.
 .TP
--r --remove-pack-file
+-r --rfmovf-pbdk-filf
 .br
-Removes the input pack file\&.
+Rfmovfs tif input pbdk filf\&.
 .TP
--v --verbose
+-v --vfrbosf
 .br
-Displays minimal messages\&. Multiple specifications of this option displays more verbose messages\&.
+Displbys minimbl mfssbgfs\&. Multiplf spfdifidbtions of tiis option displbys morf vfrbosf mfssbgfs\&.
 .TP
--q --quiet
+-q --quift
 .br
-Specifies quiet operation with no messages\&.
+Spfdififs quift opfrbtion witi no mfssbgfs\&.
 .TP
--lfilename --log-file=\fIfilename\fR
+-lfilfnbmf --log-filf=\fIfilfnbmf\fR
 .br
-Specifies a log file where output messages are logged\&.
+Spfdififs b log filf wifrf output mfssbgfs brf loggfd\&.
 .TP
--? -h --help
+-? -i --iflp
 .br
-Prints help information about the \f3unpack200\fR command\&.
+Prints iflp informbtion bbout tif \f3unpbdk200\fR dommbnd\&.
 .TP
--V --version
+-V --vfrsion
 .br
-Prints version information about the \f3unpack200\fR command\&.
+Prints vfrsion informbtion bbout tif \f3unpbdk200\fR dommbnd\&.
 .TP
 -J\fIoption\fR
 .br
-Passes option to the Java Virtual Machine, where \f3option\fR is one of the options described on the reference page for the Java application launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+Pbssfs option to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
 .SH NOTES    
-This command should not be confused with the \f3unpack\fR command\&. They are distinctly separate products\&.
+Tiis dommbnd siould not bf donfusfd witi tif \f3unpbdk\fR dommbnd\&. Tify brf distindtly sfpbrbtf produdts\&.
 .PP
-The Java SE API Specification provided with the JDK is the superseding authority in case of discrepancies\&.
+Tif Jbvb SE API Spfdifidbtion providfd witi tif JDK is tif supfrsfding butiority in dbsf of disdrfpbndifs\&.
 .SH EXIT\ STATUS    
-The following exit values are returned: 0 for successful completion, and a value that is greater than 0 when an error occurred\&.
+Tif following fxit vblufs brf rfturnfd: 0 for suddfssful domplftion, bnd b vbluf tibt is grfbtfr tibn 0 wifn bn frror oddurrfd\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-pack200(1)
+pbdk200(1)
 .TP 0.2i    
 \(bu
-jar(1)
+jbr(1)
 .TP 0.2i    
 \(bu
-jarsigner(1)
+jbrsignfr(1)
 .TP 0.2i    
 \(bu
-Pack200 and Compression at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/deployment/deployment-guide/pack200\&.html
+Pbdk200 bnd Comprfssion bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/dfploymfnt/dfploymfnt-guidf/pbdk200\&.itml
 .TP 0.2i    
 \(bu
-The Java SE Technical Documentation page at http://docs\&.oracle\&.com/javase/
+Tif Jbvb SE Tfdinidbl Dodumfntbtion pbgf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/
 .RE
 .br
 'pl 8.5i

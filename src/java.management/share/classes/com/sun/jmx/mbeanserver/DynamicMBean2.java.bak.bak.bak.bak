@@ -1,0 +1,77 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * A dynbmid MBfbn thbt wrbps bn undfrlying rfsourdf.  A vfrsion of this
+ * intfrfbdf might fvfntublly bppfbr in thf publid JMX API.
+ *
+ * @sindf 1.6
+ */
+publid intfrfbdf DynbmidMBfbn2 fxtfnds DynbmidMBfbn {
+    /**
+     * Thf rfsourdf dorrfsponding to this MBfbn.  This is thf objfdt whosf
+     * dlbss nbmf should bf rfflfdtfd by thf MBfbn's
+     * gftMBfbnInfo().gftClbssNbmf() for fxbmplf.  For b "plbin"
+     * DynbmidMBfbn it will bf "this".  For bn MBfbn thbt wrbps bnothfr
+     * objfdt, likf jbvbx.mbnbgfmfnt.StbndbrdMBfbn, it will bf thf wrbppfd
+     * objfdt.
+     */
+    publid Objfdt gftRfsourdf();
+
+    /**
+     * Thf nbmf of this MBfbn's dlbss, bs usfd by pfrmission dhfdks.
+     * This is typidblly fqubl to gftRfsourdf().gftClbss().gftNbmf().
+     * This mfthod is typidblly fbstfr, somftimfs mudh fbstfr,
+     * thbn gftMBfbnInfo().gftClbssNbmf(), but should rfturn thf sbmf
+     * rfsult.
+     */
+    publid String gftClbssNbmf();
+
+    /**
+     * Additionbl rfgistrbtion hook.  This mfthod is dbllfd bftfr
+     * {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion#prfRfgistfr prfRfgistfr}.
+     * Unlikf thbt mfthod, if it throws bn fxdfption bnd thf MBfbn implfmfnts
+     * {@dodf MBfbnRfgistrbtion}, thfn {@link
+     * jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion#postRfgistfr postRfgistfr(fblsf)}
+     * will bf dbllfd on thf MBfbn.  This is thf bfhbvior thbt thf MBfbn
+     * fxpfdts for b problfm thbt dofs not domf from its own prfRfgistfr
+     * mfthod.
+     */
+    publid void prfRfgistfr2(MBfbnSfrvfr mbs, ObjfdtNbmf nbmf)
+            throws Exdfption;
+
+    /**
+     * Additionbl rfgistrbtion hook.  This mfthod is dbllfd if prfRfgistfr
+     * bnd prfRfgistfr2 suddffd, but thfn thf MBfbn dbnnot bf rfgistfrfd
+     * (for fxbmplf bfdbusf thfrf is blrfbdy bnothfr MBfbn of thf sbmf nbmf).
+     */
+    publid void rfgistfrFbilfd();
+}

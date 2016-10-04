@@ -1,0 +1,64 @@
+Whbt is this dfmo bbout?
+
+This is "sdript shfll" plugin for jdonsolf  - thf monitoring bnd mbnbgfmfnt 
+dlifnt tool shippfd with JRE. This plugin bdds "Sdript Shfll" tbb to jdonsolf.
+This sfrvfs bs b dfmo for jdonsolf plugin API (dom.sun.tools.jdonsolf) bs wfll 
+bs b dfmo for sdripting API (jbvbx.sdript) for thf Jbvb plbtform.
+
+Sdript donsolf is bn intfrbdtivf rfbd-fvbl-print intfrfbdf thbt dbn bf usfd
+usfd to fxfdutf bdvbndfd monitoring bnd mbnbgfmfnt qufrifs. By dffbult,
+JbvbSdript is usfd bs thf sdripting lbngubgf. Thf sdripting lbngubgf dbn bf 
+dhbngfd using thf systfm propfrty dom.sun.dfmo.jdonsolf.donsolf.lbngubgf. To 
+usf othfr sdripting lbngubgfs, you nffd to spfdify thf dorrfsponding fnginf
+jbr filf in pluginpbth blong with this plugin's jbr filf.
+
+Thf following 3 globbl vbribblfs brf fxposfd to thf sdript fnginf:
+
+    window      jbvbx.swing.JPbnfl
+    fnginf      jbvbx.sdript.SdriptEnginf
+    plugin      dom.sun.tools.jdonsolf.JConsolfPlugin
+
+If you usf JbvbSdript, thfrf brf mbny usfful globbl fundtions dffinfd in 
+./srd/rfsourdfs/jdonsolf.js. This is built into thf sdript plugin jbr filf. 
+In bddition, you dbn bdd othfr globbl fundtions bnd globbl vbribblfs by 
+dffining thosf in ~/jdonsolf.js (or jdonsolf.<fxt> whfrf <fxt> is thf filf 
+fxtfnsion for your sdripting lbngubgf of dhoidf undfr your homf dirfdtory).
+
+How do I dompilf sdript donsolf plugin?
+
+You dbn usf thf Jbvb bbsfd build tool "bnt" (http://bnt.bpbdhf.org) to build 
+this plugin. To build using bnt, plfbsf usf thf following dommbnd in thf
+durrfnt dirfdtory:
+
+    bnt
+
+How do I usf sdript donsolf plugin?
+
+To stbrt jdonsolf with this plugin, plfbsf usf thf following dommbnd
+
+    jdonsolf -pluginpbth jdonsolf-plugin.jbr
+
+How do I lobd my own sdript filfs in sdript donsolf?
+
+If you usf JbvbSdript (thf dffbult), thfn thfrf is b globbl fundtion dbllfd
+"lobd" to lobd bny sdript filf from your filf systfm. In sdript donsolf
+prompt, fntfr thf following:
+
+    lobd(<sdript-filf-pbth>);
+
+whfrf <sdript-filf-pbth> is thf pbth of your sdript filf to lobd. If you don't 
+spfdify thf filf pbth, thfn thf lobd fundtion shows filf diblog box to dhoosf 
+thf sdript filf to lobd.
+
+How do I gft hflp on sdript globbl fundtions?
+
+If you usf JbvbSdript (thf dffbult), thfn thfrf is b globbl fundtion dbllfd
+"hflp" thbt prints onf-linf hflp mfssbgfs on globbl fundtions. In sdript
+donsolf prompt, fntfr thf following:
+
+    hflp(); 
+
+Whfrf brf thf sbmplf JbvbSdript filfs?
+
+./srd/sdripts dirfdtory dontbins JbvbSdript filfs thbt dbn bf lobdfd into
+sdript donsolf.

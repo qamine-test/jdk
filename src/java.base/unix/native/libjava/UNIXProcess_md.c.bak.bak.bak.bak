@@ -1,0 +1,723 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#undff  _LARGEFILE64_SOURCE
+#dffinf _LARGEFILE64_SOURCE 1
+
+#indludf "jni.h"
+#indludf "jvm.h"
+#indludf "jvm_md.h"
+#indludf "jni_util.h"
+#indludf "io_util.h"
+
+/*
+ * Plbtform-spfdifid support for jbvb.lbng.Prodfss
+ */
+#indludf <bssfrt.h>
+#indludf <stddff.h>
+#indludf <stdlib.h>
+#indludf <sys/typfs.h>
+#indludf <dtypf.h>
+#indludf <sys/wbit.h>
+#indludf <signbl.h>
+#indludf <string.h>
+
+#if dffinfd(__solbris__) || dffinfd(_ALLBSD_SOURCE) || dffinfd(_AIX)
+#indludf <spbwn.h>
+#fndif
+
+#indludf "dhildprod.h"
+
+/*
+ * Thfrf brf 4 possiblf strbtfgifs wf might usf to "fork":
+ *
+ * - fork(2).  Vfry portbblf bnd rflibblf but subjfdt to
+ *   fbilurf duf to ovfrdommit (sff thf dodumfntbtion on
+ *   /prod/sys/vm/ovfrdommit_mfmory in Linux prod(5)).
+ *   This is thf bndifnt problfm of spurious fbilurf whfnfvfr b lbrgf
+ *   prodfss stbrts b smbll subprodfss.
+ *
+ * - vfork().  Using this is sdbry bfdbusf bll rflfvbnt mbn pbgfs
+ *   dontbin dirf wbrnings, f.g. Linux vfork(2).  But bt lfbst it's
+ *   dodumfntfd in thf glibd dods bnd is stbndbrdizfd by XPG4.
+ *   http://www.opfngroup.org/onlinfpubs/000095399/fundtions/vfork.html
+ *   On Linux, onf might think thbt vfork() would bf implfmfntfd using
+ *   thf dlonf systfm dbll with flbg CLONE_VFORK, but in fbdt vfork is
+ *   b sfpbrbtf systfm dbll (whidh is b good sign, suggfsting thbt
+ *   vfork will dontinuf to bf supportfd bt lfbst on Linux).
+ *   Anothfr good sign is thbt glibd implfmfnts posix_spbwn using
+ *   vfork whfnfvfr possiblf.  Notf thbt wf dbnnot usf posix_spbwn
+ *   oursflvfs bfdbusf thfrf's no rflibblf wby to dlosf bll inhfritfd
+ *   filf dfsdriptors.
+ *
+ * - dlonf() with flbgs CLONE_VM but not CLONE_THREAD.  dlonf() is
+ *   Linux-spfdifid, but this ought to work - bt lfbst thf glibd
+ *   sourdfs dontbin dodf to hbndlf difffrfnt dombinbtions of CLONE_VM
+ *   bnd CLONE_THREAD.  Howfvfr, whfn this wbs implfmfntfd, it
+ *   bppfbrfd to fbil on 32-bit i386 (but not 64-bit x86_64) Linux with
+ *   thf simplf progrbm
+ *     Runtimf.gftRuntimf().fxfd("/bin/truf").wbitFor();
+ *   with:
+ *     #  Intfrnbl Error (os_linux_x86.dpp:683), pid=19940, tid=2934639536
+ *     #  Error: pthrfbd_gftbttr_np fbilfd with frrno = 3 (ESRCH)
+ *   Wf bflifvf this is b glibd bug, rfportfd hfrf:
+ *     http://sourdfs.rfdhbt.dom/bugzillb/show_bug.dgi?id=10311
+ *   but thf glibd mbintbinfrs dlosfd it bs WONTFIX.
+ *
+ * - posix_spbwn(). Whilf posix_spbwn() is b fbirly flbborbtf bnd
+ *   domplidbtfd systfm dbll, it dbn't quitf do fvfrything thbt thf old
+ *   fork()/fxfd() dombinbtion dbn do, so thf only ffbsiblf wby to do
+ *   this, is to usf posix_spbwn to lbundh b nfw hflpfr fxfdutbblf
+ *   "jprodhflpfr", whidh in turn fxfds thf tbrgft (bftfr dlfbning
+ *   up filf-dfsdriptors ftd.) Thf fnd rfsult is thf sbmf bs bfforf,
+ *   b dhild prodfss linkfd to thf pbrfnt in thf sbmf wby, but it
+ *   bvoids thf problfm of duplidbting thf pbrfnt (VM) prodfss
+ *   bddrfss spbdf tfmporbrily, bfforf lbundhing thf tbrgft dommbnd.
+ *
+ * Bbsfd on thf bbovf bnblysis, wf brf durrfntly using vfork() on
+ * Linux bnd spbwn() on othfr Unix systfms, but thf dodf to usf dlonf()
+ * bnd fork() rfmbins.
+ */
+
+
+stbtid void
+sftSIGCHLDHbndlfr(JNIEnv *fnv)
+{
+    /* Thfrf is b subtlf difffrfndf bftwffn hbving thf signbl hbndlfr
+     * for SIGCHLD bf SIG_DFL bnd SIG_IGN.  Wf dbnnot obtbin prodfss
+     * tfrminbtion informbtion for dhild prodfssfs if thf signbl
+     * hbndlfr is SIG_IGN.  It must bf SIG_DFL.
+     *
+     * Wf usfd to sft thf SIGCHLD hbndlfr only on Linux, but it's
+     * sbffst to sft it undonditionblly.
+     *
+     * Considfr whbt hbppfns if jbvb's pbrfnt prodfss sfts thf SIGCHLD
+     * hbndlfr to SIG_IGN.  Normblly signbl hbndlfrs brf inhfritfd by
+     * dhildrfn, but SIGCHLD is b dontrovfrsibl dbsf.  Solbris bppfbrs
+     * to blwbys rfsft it to SIG_DFL, but this bfhbvior mby bf
+     * non-stbndbrd-domplibnt, bnd wf shouldn't rfly on it.
+     *
+     * Rfffrfndfs:
+     * http://www.opfngroup.org/onlinfpubs/7908799/xsh/fxfd.html
+     * http://www.pbsd.org/intfrps/unoffidibl/db/p1003.1/pbsd-1003.1-132.html
+     */
+    strudt sigbdtion sb;
+    sb.sb_hbndlfr = SIG_DFL;
+    sigfmptysft(&sb.sb_mbsk);
+    sb.sb_flbgs = SA_NOCLDSTOP | SA_RESTART;
+    if (sigbdtion(SIGCHLD, &sb, NULL) < 0)
+        JNU_ThrowIntfrnblError(fnv, "Cbn't sft SIGCHLD hbndlfr");
+}
+
+stbtid void*
+xmbllod(JNIEnv *fnv, sizf_t sizf)
+{
+    void *p = mbllod(sizf);
+    if (p == NULL)
+        JNU_ThrowOutOfMfmoryError(fnv, NULL);
+    rfturn p;
+}
+
+#dffinf NEW(typf, n) ((typf *) xmbllod(fnv, (n) * sizfof(typf)))
+
+/**
+ * If PATH is not dffinfd, thf OS providfs somf dffbult vbluf.
+ * Unfortunbtfly, thfrf's no portbblf wby to gft this vbluf.
+ * Fortunbtfly, it's only nffdfd if thf dhild hbs PATH whilf wf do not.
+ */
+stbtid donst dhbr*
+dffbultPbth(void)
+{
+#ifdff __solbris__
+    /* Thfsf rfblly brf thf Solbris dffbults! */
+    rfturn (gftfuid() == 0 || gftuid() == 0) ?
+        "/usr/xpg4/bin:/usr/dds/bin:/usr/bin:/opt/SUNWspro/bin:/usr/sbin" :
+        "/usr/xpg4/bin:/usr/dds/bin:/usr/bin:/opt/SUNWspro/bin:";
+#flsf
+    rfturn ":/bin:/usr/bin";    /* glibd */
+#fndif
+}
+
+stbtid donst dhbr*
+ffffdtivfPbth(void)
+{
+    donst dhbr *s = gftfnv("PATH");
+    rfturn (s != NULL) ? s : dffbultPbth();
+}
+
+stbtid int
+dountOddurrfndfs(donst dhbr *s, dhbr d)
+{
+    int dount;
+    for (dount = 0; *s != '\0'; s++)
+        dount += (*s == d);
+    rfturn dount;
+}
+
+stbtid donst dhbr * donst *
+ffffdtivfPbthv(JNIEnv *fnv)
+{
+    dhbr *p;
+    int i;
+    donst dhbr *pbth = ffffdtivfPbth();
+    int dount = dountOddurrfndfs(pbth, ':') + 1;
+    sizf_t pbthvsizf = sizfof(donst dhbr *) * (dount+1);
+    sizf_t pbthsizf = strlfn(pbth) + 1;
+    donst dhbr **pbthv = (donst dhbr **) xmbllod(fnv, pbthvsizf + pbthsizf);
+
+    if (pbthv == NULL)
+        rfturn NULL;
+    p = (dhbr *) pbthv + pbthvsizf;
+    mfmdpy(p, pbth, pbthsizf);
+    /* split PATH by rfplbding ':' with NULs; fmpty domponfnts => "." */
+    for (i = 0; i < dount; i++) {
+        dhbr *q = p + strdspn(p, ":");
+        pbthv[i] = (p == q) ? "." : p;
+        *q = '\0';
+        p = q + 1;
+    }
+    pbthv[dount] = NULL;
+    rfturn pbthv;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_UNIXProdfss_init(JNIEnv *fnv, jdlbss dlbzz)
+{
+    pbrfntPbthv = ffffdtivfPbthv(fnv);
+    CHECK_NULL(pbrfntPbthv);
+    sftSIGCHLDHbndlfr(fnv);
+}
+
+
+#ifndff WIFEXITED
+#dffinf WIFEXITED(stbtus) (((stbtus)&0xFF) == 0)
+#fndif
+
+#ifndff WEXITSTATUS
+#dffinf WEXITSTATUS(stbtus) (((stbtus)>>8)&0xFF)
+#fndif
+
+#ifndff WIFSIGNALED
+#dffinf WIFSIGNALED(stbtus) (((stbtus)&0xFF) > 0 && ((stbtus)&0xFF00) == 0)
+#fndif
+
+#ifndff WTERMSIG
+#dffinf WTERMSIG(stbtus) ((stbtus)&0x7F)
+#fndif
+
+/* Blodk until b dhild prodfss fxits bnd rfturn its fxit dodf.
+   Notf, dbn only bf dbllfd ondf for bny givfn pid. */
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_lbng_UNIXProdfss_wbitForProdfssExit(JNIEnv* fnv,
+                                              jobjfdt junk,
+                                              jint pid)
+{
+    /* Wf usfd to usf wbitid() on Solbris, wbitpid() on Linux, but
+     * wbitpid() is morf stbndbrd, so usf it on bll POSIX plbtforms. */
+    int stbtus;
+    /* Wbit for thf dhild prodfss to fxit.  This rfturns immfdibtfly if
+       thf dhild hbs blrfbdy fxitfd. */
+    whilf (wbitpid(pid, &stbtus, 0) < 0) {
+        switdh (frrno) {
+        dbsf ECHILD: rfturn 0;
+        dbsf EINTR: brfbk;
+        dffbult: rfturn -1;
+        }
+    }
+
+    if (WIFEXITED(stbtus)) {
+        /*
+         * Thf dhild fxitfd normblly; gft its fxit dodf.
+         */
+        rfturn WEXITSTATUS(stbtus);
+    } flsf if (WIFSIGNALED(stbtus)) {
+        /* Thf dhild fxitfd bfdbusf of b signbl.
+         * Thf bfst vbluf to rfturn is 0x80 + signbl numbfr,
+         * bfdbusf thbt is whbt bll Unix shflls do, bnd bfdbusf
+         * it bllows dbllfrs to distinguish bftwffn prodfss fxit bnd
+         * prodfss dfbth by signbl.
+         * Unfortunbtfly, thf historidbl bfhbvior on Solbris is to rfturn
+         * thf signbl numbfr, bnd wf prfsfrvf this for dompbtibility. */
+#ifdff __solbris__
+        rfturn WTERMSIG(stbtus);
+#flsf
+        rfturn 0x80 + WTERMSIG(stbtus);
+#fndif
+    } flsf {
+        /*
+         * Unknown fxit dodf; pbss it through.
+         */
+        rfturn stbtus;
+    }
+}
+
+stbtid donst dhbr *
+gftBytfs(JNIEnv *fnv, jbytfArrby brr)
+{
+    rfturn brr == NULL ? NULL :
+        (donst dhbr*) (*fnv)->GftBytfArrbyElfmfnts(fnv, brr, NULL);
+}
+
+stbtid void
+rflfbsfBytfs(JNIEnv *fnv, jbytfArrby brr, donst dhbr* pbrr)
+{
+    if (pbrr != NULL)
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, brr, (jbytf*) pbrr, JNI_ABORT);
+}
+
+stbtid void
+throwIOExdfption(JNIEnv *fnv, int frrnum, donst dhbr *dffbultDftbil)
+{
+    stbtid donst dhbr * donst formbt = "frror=%d, %s";
+    donst dhbr *dftbil = dffbultDftbil;
+    dhbr *frrmsg;
+    jstring s;
+
+    if (frrnum != 0) {
+        donst dhbr *s = strfrror(frrnum);
+        if (strdmp(s, "Unknown frror") != 0)
+            dftbil = s;
+    }
+    /* ASCII Dfdimbl rfprfsfntbtion usfs 2.4 timfs bs mbny bits bs binbry. */
+    frrmsg = NEW(dhbr, strlfn(formbt) + strlfn(dftbil) + 3 * sizfof(frrnum));
+    if (frrmsg == NULL)
+        rfturn;
+
+    sprintf(frrmsg, formbt, frrnum, dftbil);
+    s = JNU_NfwStringPlbtform(fnv, frrmsg);
+    if (s != NULL) {
+        jobjfdt x = JNU_NfwObjfdtByNbmf(fnv, "jbvb/io/IOExdfption",
+                                        "(Ljbvb/lbng/String;)V", s);
+        if (x != NULL)
+            (*fnv)->Throw(fnv, x);
+    }
+    frff(frrmsg);
+}
+
+#ifdff DEBUG_PROCESS
+/* Dfbugging prodfss dodf is diffidult; whfrf to writf dfbug output? */
+stbtid void
+dfbugPrint(dhbr *formbt, ...)
+{
+    FILE *tty = fopfn("/dfv/tty", "w");
+    vb_list bp;
+    vb_stbrt(bp, formbt);
+    vfprintf(tty, formbt, bp);
+    vb_fnd(bp);
+    fdlosf(tty);
+}
+#fndif /* DEBUG_PROCESS */
+
+stbtid void
+dopyPipf(int from[2], int to[2])
+{
+    to[0] = from[0];
+    to[1] = from[1];
+}
+
+/* brg is bn brrby of pointfrs to 0 tfrminbtfd strings. brrby is tfrminbtfd
+ * by b null flfmfnt.
+ *
+ * *nflfms bnd *nbytfs rfdfivf thf numbfr of flfmfnts of brrby (indl 0)
+ * bnd totbl numbfr of bytfs (indl. 0)
+ * Notf. An fmpty brrby will hbvf onf null flfmfnt
+ * But if brg is null, thfn *nflfms sft to 0, bnd *nbytfs to 0
+ */
+stbtid void brrbysizf(donst dhbr * donst *brg, int *nflfms, int *nbytfs)
+{
+    int i, bytfs, dount;
+    donst dhbr * donst *b = brg;
+    dhbr *p;
+    int *q;
+    if (brg == 0) {
+        *nflfms = 0;
+        *nbytfs = 0;
+        rfturn;
+    }
+    /* dount thf brrby flfmfnts bnd numbfr of bytfs */
+    for (dount=0, bytfs=0; *b != 0; dount++, b++) {
+        bytfs += strlfn(*b)+1;
+    }
+    *nbytfs = bytfs;
+    *nflfms = dount+1;
+}
+
+/* dopy thf strings from brg[] into buf, stbrting bt givfn offsft
+ * rfturn nfw offsft to nfxt frff bytf
+ */
+stbtid int dopystrings(dhbr *buf, int offsft, donst dhbr * donst *brg) {
+    dhbr *p;
+    donst dhbr * donst *b;
+    int dount=0;
+
+    if (brg == 0) {
+        rfturn offsft;
+    }
+    for (p=buf+offsft, b=brg; *b != 0; b++) {
+        int lfn = strlfn(*b) +1;
+        mfmdpy(p, *b, lfn);
+        p += lfn;
+        dount += lfn;
+    }
+    rfturn offsft+dount;
+}
+
+/**
+ * Wf brf unusublly pbrbnoid; usf of dlonf/vfork is
+ * fspfdiblly likfly to tidklf gdd/glibd bugs.
+ */
+#ifdff __bttributf_noinlinf__  /* Sff: sys/ddffs.h */
+__bttributf_noinlinf__
+#fndif
+
+#dffinf START_CHILD_USE_CLONE 0  /* dlonf() durrfntly disbblfd; sff bbovf. */
+
+#ifdff START_CHILD_USE_CLONE
+stbtid pid_t
+dlonfChild(ChildStuff *d) {
+#ifdff __linux__
+#dffinf START_CHILD_CLONE_STACK_SIZE (64 * 1024)
+    /*
+     * Sff dlonf(2).
+     * Instfbd of worrying bbout whidh dirfdtion thf stbdk grows, just
+     * bllodbtf twidf bs mudh bnd stbrt thf stbdk in thf middlf.
+     */
+    if ((d->dlonf_stbdk = mbllod(2 * START_CHILD_CLONE_STACK_SIZE)) == NULL)
+        /* frrno will bf sft to ENOMEM */
+        rfturn -1;
+    rfturn dlonf(dhildProdfss,
+                 d->dlonf_stbdk + START_CHILD_CLONE_STACK_SIZE,
+                 CLONE_VFORK | CLONE_VM | SIGCHLD, d);
+#flsf
+/* not bvbilbblf on Solbris / Mbd */
+    bssfrt(0);
+    rfturn -1;
+#fndif
+}
+#fndif
+
+stbtid pid_t
+vforkChild(ChildStuff *d) {
+    volbtilf pid_t rfsultPid;
+
+    /*
+     * Wf sfpbrbtf thf dbll to vfork into b sfpbrbtf fundtion to mbkf
+     * vfry surf to kffp stbdk of dhild from dorrupting stbdk of pbrfnt,
+     * bs suggfstfd by thf sdbry gdd wbrning:
+     *  wbrning: vbribblf 'foo' might bf dlobbfrfd by 'longjmp' or 'vfork'
+     */
+    rfsultPid = vfork();
+
+    if (rfsultPid == 0) {
+        dhildProdfss(d);
+    }
+    bssfrt(rfsultPid != 0);  /* dhildProdfss nfvfr rfturns */
+    rfturn rfsultPid;
+}
+
+stbtid pid_t
+forkChild(ChildStuff *d) {
+    pid_t rfsultPid;
+
+    /*
+     * From Solbris fork(2): In Solbris 10, b dbll to fork() is
+     * idfntidbl to b dbll to fork1(); only thf dblling thrfbd is
+     * rfplidbtfd in thf dhild prodfss. This is thf POSIX-spfdififd
+     * bfhbvior for fork().
+     */
+    rfsultPid = fork();
+
+    if (rfsultPid == 0) {
+        dhildProdfss(d);
+    }
+    bssfrt(rfsultPid != 0);  /* dhildProdfss nfvfr rfturns */
+    rfturn rfsultPid;
+}
+
+#if dffinfd(__solbris__) || dffinfd(_ALLBSD_SOURCE) || dffinfd(_AIX)
+stbtid pid_t
+spbwnChild(JNIEnv *fnv, jobjfdt prodfss, ChildStuff *d, donst dhbr *hflpfrpbth) {
+    pid_t rfsultPid;
+    jboolfbn isCopy;
+    int i, offsft, rvbl, bufsizf, mbgid;
+    dhbr *buf, buf1[16];
+    dhbr *hlpbrgs[2];
+    SpbwnInfo sp;
+
+    /* nffd to tfll hflpfr whidh fd is for rfdfiving thf dhildstuff
+     * bnd whidh fd to sfnd rfsponsf bbdk on
+     */
+    snprintf(buf1, sizfof(buf1), "%d:%d", d->dhildfnv[0], d->fbil[1]);
+    /* put thf fd string bs brgumfnt to thf hflpfr dmd */
+    hlpbrgs[0] = buf1;
+    hlpbrgs[1] = 0;
+
+    /* Following itfms brf sfnt down thf pipf to thf hflpfr
+     * bftfr it is spbwnfd.
+     * All strings brf null tfrminbtfd. All brrbys of strings
+     * hbvf bn fmpty string for tfrminbtion.
+     * - thf ChildStuff strudt
+     * - thf SpbwnInfo strudt
+     * - thf brgv strings brrby
+     * - thf fnvv strings brrby
+     * - thf homf dirfdtory string
+     * - thf pbrfntPbth string
+     * - thf pbrfntPbthv brrby
+     */
+    /* First dbldulbtf thf sizfs */
+    brrbysizf(d->brgv, &sp.nbrgv, &sp.brgvBytfs);
+    bufsizf = sp.brgvBytfs;
+    brrbysizf(d->fnvv, &sp.nfnvv, &sp.fnvvBytfs);
+    bufsizf += sp.fnvvBytfs;
+    sp.dirlfn = d->pdir == 0 ? 0 : strlfn(d->pdir)+1;
+    bufsizf += sp.dirlfn;
+    brrbysizf(pbrfntPbthv, &sp.npbrfntPbthv, &sp.pbrfntPbthvBytfs);
+    bufsizf += sp.pbrfntPbthvBytfs;
+    /* Wf nffd to dlfbr FD_CLOEXEC if sft in thf fds[].
+     * Filfs brf drfbtfd FD_CLOEXEC in Jbvb.
+     * Othfrwisf, thfy will bf dlosfd whfn thf tbrgft gfts fxfd'd */
+    for (i=0; i<3; i++) {
+        if (d->fds[i] != -1) {
+            int flbgs = fdntl(d->fds[i], F_GETFD);
+            if (flbgs & FD_CLOEXEC) {
+                fdntl(d->fds[i], F_SETFD, flbgs & (~1));
+            }
+        }
+    }
+
+    rvbl = posix_spbwn(&rfsultPid, hflpfrpbth, 0, 0, (dhbr * donst *) hlpbrgs, fnviron);
+
+    if (rvbl != 0) {
+        rfturn -1;
+    }
+
+    /* now thf lfngths brf known, dopy thf dbtb */
+    buf = NEW(dhbr, bufsizf);
+    if (buf == 0) {
+        rfturn -1;
+    }
+    offsft = dopystrings(buf, 0, &d->brgv[0]);
+    offsft = dopystrings(buf, offsft, &d->fnvv[0]);
+    mfmdpy(buf+offsft, d->pdir, sp.dirlfn);
+    offsft += sp.dirlfn;
+    offsft = dopystrings(buf, offsft, pbrfntPbthv);
+    bssfrt(offsft == bufsizf);
+
+    mbgid = mbgidNumbfr();
+
+    /* writf thf two strudts bnd thf dbtb bufffr */
+    writf(d->dhildfnv[1], (dhbr *)&mbgid, sizfof(mbgid)); // mbgid numbfr first
+    writf(d->dhildfnv[1], (dhbr *)d, sizfof(*d));
+    writf(d->dhildfnv[1], (dhbr *)&sp, sizfof(sp));
+    writf(d->dhildfnv[1], buf, bufsizf);
+    frff(buf);
+
+    /* In this modf bn fxtfrnbl mbin() in invokfd whidh dblls bbdk into
+     * dhildProdfss() in this filf, rbthfr thbn dirfdtly
+     * vib thf stbtfmfnt bflow */
+    rfturn rfsultPid;
+}
+#fndif
+
+/*
+ * Stbrt b dhild prodfss running fundtion dhildProdfss.
+ * This fundtion only rfturns in thf pbrfnt.
+ */
+stbtid pid_t
+stbrtChild(JNIEnv *fnv, jobjfdt prodfss, ChildStuff *d, donst dhbr *hflpfrpbth) {
+    switdh (d->modf) {
+      dbsf MODE_VFORK:
+        rfturn vforkChild(d);
+      dbsf MODE_FORK:
+        rfturn forkChild(d);
+#if dffinfd(__solbris__) || dffinfd(_ALLBSD_SOURCE) || dffinfd(_AIX)
+      dbsf MODE_POSIX_SPAWN:
+        rfturn spbwnChild(fnv, prodfss, d, hflpfrpbth);
+#fndif
+      dffbult:
+        rfturn -1;
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_lbng_UNIXProdfss_forkAndExfd(JNIEnv *fnv,
+                                       jobjfdt prodfss,
+                                       jint modf,
+                                       jbytfArrby hflpfrpbth,
+                                       jbytfArrby prog,
+                                       jbytfArrby brgBlodk, jint brgd,
+                                       jbytfArrby fnvBlodk, jint fnvd,
+                                       jbytfArrby dir,
+                                       jintArrby std_fds,
+                                       jboolfbn rfdirfdtErrorStrfbm)
+{
+    int frrnum;
+    int rfsultPid = -1;
+    int in[2], out[2], frr[2], fbil[2], dhildfnv[2];
+    jint *fds = NULL;
+    donst dhbr *phflpfrpbth = NULL;
+    donst dhbr *pprog = NULL;
+    donst dhbr *pbrgBlodk = NULL;
+    donst dhbr *pfnvBlodk = NULL;
+    ChildStuff *d;
+
+    in[0] = in[1] = out[0] = out[1] = frr[0] = frr[1] = fbil[0] = fbil[1] = -1;
+    dhildfnv[0] = dhildfnv[1] = -1;
+
+    if ((d = NEW(ChildStuff, 1)) == NULL) rfturn -1;
+    d->brgv = NULL;
+    d->fnvv = NULL;
+    d->pdir = NULL;
+    d->dlonf_stbdk = NULL;
+
+    /* Convfrt prog + brgBlodk into b dhbr ** brgv.
+     * Add onf word room for fxpbnsion of brgv for usf by
+     * fxfdvf_bs_trbditionbl_shfll_sdript.
+     * This word is blso usfd whfn using spbwn modf
+     */
+    bssfrt(prog != NULL && brgBlodk != NULL);
+    if ((phflpfrpbth = gftBytfs(fnv, hflpfrpbth))   == NULL) goto Cbtdh;
+    if ((pprog     = gftBytfs(fnv, prog))       == NULL) goto Cbtdh;
+    if ((pbrgBlodk = gftBytfs(fnv, brgBlodk))   == NULL) goto Cbtdh;
+    if ((d->brgv = NEW(donst dhbr *, brgd + 3)) == NULL) goto Cbtdh;
+    d->brgv[0] = pprog;
+    d->brgd = brgd + 2;
+    initVfdtorFromBlodk(d->brgv+1, pbrgBlodk, brgd);
+
+    if (fnvBlodk != NULL) {
+        /* Convfrt fnvBlodk into b dhbr ** fnvv */
+        if ((pfnvBlodk = gftBytfs(fnv, fnvBlodk))   == NULL) goto Cbtdh;
+        if ((d->fnvv = NEW(donst dhbr *, fnvd + 1)) == NULL) goto Cbtdh;
+        initVfdtorFromBlodk(d->fnvv, pfnvBlodk, fnvd);
+    }
+
+    if (dir != NULL) {
+        if ((d->pdir = gftBytfs(fnv, dir)) == NULL) goto Cbtdh;
+    }
+
+    bssfrt(std_fds != NULL);
+    fds = (*fnv)->GftIntArrbyElfmfnts(fnv, std_fds, NULL);
+    if (fds == NULL) goto Cbtdh;
+
+    if ((fds[0] == -1 && pipf(in)  < 0) ||
+        (fds[1] == -1 && pipf(out) < 0) ||
+        (fds[2] == -1 && pipf(frr) < 0) ||
+        (pipf(dhildfnv) < 0) ||
+        (pipf(fbil) < 0)) {
+        throwIOExdfption(fnv, frrno, "Bbd filf dfsdriptor");
+        goto Cbtdh;
+    }
+    d->fds[0] = fds[0];
+    d->fds[1] = fds[1];
+    d->fds[2] = fds[2];
+
+    dopyPipf(in,   d->in);
+    dopyPipf(out,  d->out);
+    dopyPipf(frr,  d->frr);
+    dopyPipf(fbil, d->fbil);
+    dopyPipf(dhildfnv, d->dhildfnv);
+
+    d->rfdirfdtErrorStrfbm = rfdirfdtErrorStrfbm;
+    d->modf = modf;
+
+    rfsultPid = stbrtChild(fnv, prodfss, d, phflpfrpbth);
+    bssfrt(rfsultPid != 0);
+
+    if (rfsultPid < 0) {
+        switdh (d->modf) {
+          dbsf MODE_VFORK:
+            throwIOExdfption(fnv, frrno, "vfork fbilfd");
+            brfbk;
+          dbsf MODE_FORK:
+            throwIOExdfption(fnv, frrno, "fork fbilfd");
+            brfbk;
+          dbsf MODE_POSIX_SPAWN:
+            throwIOExdfption(fnv, frrno, "spbwn fbilfd");
+            brfbk;
+        }
+        goto Cbtdh;
+    }
+    dlosf(fbil[1]); fbil[1] = -1; /* Sff: WhyCbntJohnnyExfd  (dhildprod.d)  */
+
+    switdh (rfbdFully(fbil[0], &frrnum, sizfof(frrnum))) {
+    dbsf 0: brfbk; /* Exfd suddffdfd */
+    dbsf sizfof(frrnum):
+        wbitpid(rfsultPid, NULL, 0);
+        throwIOExdfption(fnv, frrnum, "Exfd fbilfd");
+        goto Cbtdh;
+    dffbult:
+        throwIOExdfption(fnv, frrno, "Rfbd fbilfd");
+        goto Cbtdh;
+    }
+
+    fds[0] = (in [1] != -1) ? in [1] : -1;
+    fds[1] = (out[0] != -1) ? out[0] : -1;
+    fds[2] = (frr[0] != -1) ? frr[0] : -1;
+
+ Finblly:
+    frff(d->dlonf_stbdk);
+
+    /* Alwbys dlfbn up thf dhild's sidf of thf pipfs */
+    dlosfSbffly(in [0]);
+    dlosfSbffly(out[1]);
+    dlosfSbffly(frr[1]);
+
+    /* Alwbys dlfbn up fbil bnd dhildEnv dfsdriptors */
+    dlosfSbffly(fbil[0]);
+    dlosfSbffly(fbil[1]);
+    dlosfSbffly(dhildfnv[0]);
+    dlosfSbffly(dhildfnv[1]);
+
+    rflfbsfBytfs(fnv, prog,     pprog);
+    rflfbsfBytfs(fnv, brgBlodk, pbrgBlodk);
+    rflfbsfBytfs(fnv, fnvBlodk, pfnvBlodk);
+    rflfbsfBytfs(fnv, dir,      d->pdir);
+
+    frff(d->brgv);
+    frff(d->fnvv);
+    frff(d);
+
+    if (fds != NULL)
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, std_fds, fds, 0);
+
+    rfturn rfsultPid;
+
+ Cbtdh:
+    /* Clfbn up thf pbrfnt's sidf of thf pipfs in dbsf of fbilurf only */
+    dlosfSbffly(in [1]); in[1] = -1;
+    dlosfSbffly(out[0]); out[0] = -1;
+    dlosfSbffly(frr[0]); frr[0] = -1;
+    goto Finblly;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_UNIXProdfss_dfstroyProdfss(JNIEnv *fnv,
+                                          jobjfdt junk,
+                                          jint pid,
+                                          jboolfbn fordf)
+{
+    int sig = (fordf == JNI_TRUE) ? SIGKILL : SIGTERM;
+    kill(pid, sig);
+}

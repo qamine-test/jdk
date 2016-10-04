@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2009-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2009-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,567 +59,567 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone;
+pbdkbgf jbvb.timf.zonf;
 
-import static java.time.temporal.TemporalAdjusters.nextOrSame;
-import static java.time.temporal.TemporalAdjusters.previousOrSame;
+import stbtid jbvb.timf.tfmporbl.TfmporblAdjustfrs.nfxtOrSbmf;
+import stbtid jbvb.timf.tfmporbl.TfmporblAdjustfrs.prfviousOrSbmf;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.ZoneOffset;
-import java.time.chrono.IsoChronology;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbyOfWffk;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtfTimf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.Monti;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.dirono.IsoCironology;
+import jbvb.util.Objfdts;
 
 /**
- * A rule expressing how to create a transition.
+ * A rulf fxprfssing iow to drfbtf b trbnsition.
  * <p>
- * This class allows rules for identifying future transitions to be expressed.
- * A rule might be written in many forms:
+ * Tiis dlbss bllows rulfs for idfntifying futurf trbnsitions to bf fxprfssfd.
+ * A rulf migit bf writtfn in mbny forms:
  * <ul>
- * <li>the 16th March
- * <li>the Sunday on or after the 16th March
- * <li>the Sunday on or before the 16th March
- * <li>the last Sunday in February
+ * <li>tif 16ti Mbrdi
+ * <li>tif Sundby on or bftfr tif 16ti Mbrdi
+ * <li>tif Sundby on or bfforf tif 16ti Mbrdi
+ * <li>tif lbst Sundby in Ffbrubry
  * </ul>
- * These different rule types can be expressed and queried.
+ * Tifsf difffrfnt rulf typfs dbn bf fxprfssfd bnd qufrifd.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class ZoneOffsetTransitionRule implements Serializable {
+publid finbl dlbss ZonfOffsftTrbnsitionRulf implfmfnts Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = 6889046316657758795L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6889046316657758795L;
 
     /**
-     * The month of the month-day of the first day of the cutover week.
-     * The actual date will be adjusted by the dowChange field.
+     * Tif monti of tif monti-dby of tif first dby of tif dutovfr wffk.
+     * Tif bdtubl dbtf will bf bdjustfd by tif dowCibngf fifld.
      */
-    private final Month month;
+    privbtf finbl Monti monti;
     /**
-     * The day-of-month of the month-day of the cutover week.
-     * If positive, it is the start of the week where the cutover can occur.
-     * If negative, it represents the end of the week where cutover can occur.
-     * The value is the number of days from the end of the month, such that
-     * {@code -1} is the last day of the month, {@code -2} is the second
-     * to last day, and so on.
+     * Tif dby-of-monti of tif monti-dby of tif dutovfr wffk.
+     * If positivf, it is tif stbrt of tif wffk wifrf tif dutovfr dbn oddur.
+     * If nfgbtivf, it rfprfsfnts tif fnd of tif wffk wifrf dutovfr dbn oddur.
+     * Tif vbluf is tif numbfr of dbys from tif fnd of tif monti, sudi tibt
+     * {@dodf -1} is tif lbst dby of tif monti, {@dodf -2} is tif sfdond
+     * to lbst dby, bnd so on.
      */
-    private final byte dom;
+    privbtf finbl bytf dom;
     /**
-     * The cutover day-of-week, null to retain the day-of-month.
+     * Tif dutovfr dby-of-wffk, null to rftbin tif dby-of-monti.
      */
-    private final DayOfWeek dow;
+    privbtf finbl DbyOfWffk dow;
     /**
-     * The cutover time in the 'before' offset.
+     * Tif dutovfr timf in tif 'bfforf' offsft.
      */
-    private final LocalTime time;
+    privbtf finbl LodblTimf timf;
     /**
-     * Whether the cutover time is midnight at the end of day.
+     * Wiftifr tif dutovfr timf is midnigit bt tif fnd of dby.
      */
-    private final boolean timeEndOfDay;
+    privbtf finbl boolfbn timfEndOfDby;
     /**
-     * The definition of how the local time should be interpreted.
+     * Tif dffinition of iow tif lodbl timf siould bf intfrprftfd.
      */
-    private final TimeDefinition timeDefinition;
+    privbtf finbl TimfDffinition timfDffinition;
     /**
-     * The standard offset at the cutover.
+     * Tif stbndbrd offsft bt tif dutovfr.
      */
-    private final ZoneOffset standardOffset;
+    privbtf finbl ZonfOffsft stbndbrdOffsft;
     /**
-     * The offset before the cutover.
+     * Tif offsft bfforf tif dutovfr.
      */
-    private final ZoneOffset offsetBefore;
+    privbtf finbl ZonfOffsft offsftBfforf;
     /**
-     * The offset after the cutover.
+     * Tif offsft bftfr tif dutovfr.
      */
-    private final ZoneOffset offsetAfter;
+    privbtf finbl ZonfOffsft offsftAftfr;
 
     /**
-     * Obtains an instance defining the yearly rule to create transitions between two offsets.
+     * Obtbins bn instbndf dffining tif yfbrly rulf to drfbtf trbnsitions bftwffn two offsfts.
      * <p>
-     * Applications should normally obtain an instance from {@link ZoneRules}.
-     * This factory is only intended for use when creating {@link ZoneRules}.
+     * Applidbtions siould normblly obtbin bn instbndf from {@link ZonfRulfs}.
+     * Tiis fbdtory is only intfndfd for usf wifn drfbting {@link ZonfRulfs}.
      *
-     * @param month  the month of the month-day of the first day of the cutover week, not null
-     * @param dayOfMonthIndicator  the day of the month-day of the cutover week, positive if the week is that
-     *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
-     *  from -28 to 31 excluding 0
-     * @param dayOfWeek  the required day-of-week, null if the month-day should not be changed
-     * @param time  the cutover time in the 'before' offset, not null
-     * @param timeEndOfDay  whether the time is midnight at the end of day
-     * @param timeDefnition  how to interpret the cutover
-     * @param standardOffset  the standard offset in force at the cutover, not null
-     * @param offsetBefore  the offset before the cutover, not null
-     * @param offsetAfter  the offset after the cutover, not null
-     * @return the rule, not null
-     * @throws IllegalArgumentException if the day of month indicator is invalid
-     * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
+     * @pbrbm monti  tif monti of tif monti-dby of tif first dby of tif dutovfr wffk, not null
+     * @pbrbm dbyOfMontiIndidbtor  tif dby of tif monti-dby of tif dutovfr wffk, positivf if tif wffk is tibt
+     *  dby or lbtfr, nfgbtivf if tif wffk is tibt dby or fbrlifr, dounting from tif lbst dby of tif monti,
+     *  from -28 to 31 fxdluding 0
+     * @pbrbm dbyOfWffk  tif rfquirfd dby-of-wffk, null if tif monti-dby siould not bf dibngfd
+     * @pbrbm timf  tif dutovfr timf in tif 'bfforf' offsft, not null
+     * @pbrbm timfEndOfDby  wiftifr tif timf is midnigit bt tif fnd of dby
+     * @pbrbm timfDffnition  iow to intfrprft tif dutovfr
+     * @pbrbm stbndbrdOffsft  tif stbndbrd offsft in fordf bt tif dutovfr, not null
+     * @pbrbm offsftBfforf  tif offsft bfforf tif dutovfr, not null
+     * @pbrbm offsftAftfr  tif offsft bftfr tif dutovfr, not null
+     * @rfturn tif rulf, not null
+     * @tirows IllfgblArgumfntExdfption if tif dby of monti indidbtor is invblid
+     * @tirows IllfgblArgumfntExdfption if tif fnd of dby flbg is truf wifn tif timf is not midnigit
      */
-    public static ZoneOffsetTransitionRule of(
-            Month month,
-            int dayOfMonthIndicator,
-            DayOfWeek dayOfWeek,
-            LocalTime time,
-            boolean timeEndOfDay,
-            TimeDefinition timeDefnition,
-            ZoneOffset standardOffset,
-            ZoneOffset offsetBefore,
-            ZoneOffset offsetAfter) {
-        Objects.requireNonNull(month, "month");
-        Objects.requireNonNull(time, "time");
-        Objects.requireNonNull(timeDefnition, "timeDefnition");
-        Objects.requireNonNull(standardOffset, "standardOffset");
-        Objects.requireNonNull(offsetBefore, "offsetBefore");
-        Objects.requireNonNull(offsetAfter, "offsetAfter");
-        if (dayOfMonthIndicator < -28 || dayOfMonthIndicator > 31 || dayOfMonthIndicator == 0) {
-            throw new IllegalArgumentException("Day of month indicator must be between -28 and 31 inclusive excluding zero");
+    publid stbtid ZonfOffsftTrbnsitionRulf of(
+            Monti monti,
+            int dbyOfMontiIndidbtor,
+            DbyOfWffk dbyOfWffk,
+            LodblTimf timf,
+            boolfbn timfEndOfDby,
+            TimfDffinition timfDffnition,
+            ZonfOffsft stbndbrdOffsft,
+            ZonfOffsft offsftBfforf,
+            ZonfOffsft offsftAftfr) {
+        Objfdts.rfquirfNonNull(monti, "monti");
+        Objfdts.rfquirfNonNull(timf, "timf");
+        Objfdts.rfquirfNonNull(timfDffnition, "timfDffnition");
+        Objfdts.rfquirfNonNull(stbndbrdOffsft, "stbndbrdOffsft");
+        Objfdts.rfquirfNonNull(offsftBfforf, "offsftBfforf");
+        Objfdts.rfquirfNonNull(offsftAftfr, "offsftAftfr");
+        if (dbyOfMontiIndidbtor < -28 || dbyOfMontiIndidbtor > 31 || dbyOfMontiIndidbtor == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Dby of monti indidbtor must bf bftwffn -28 bnd 31 indlusivf fxdluding zfro");
         }
-        if (timeEndOfDay && time.equals(LocalTime.MIDNIGHT) == false) {
-            throw new IllegalArgumentException("Time must be midnight when end of day flag is true");
+        if (timfEndOfDby && timf.fqubls(LodblTimf.MIDNIGHT) == fblsf) {
+            tirow nfw IllfgblArgumfntExdfption("Timf must bf midnigit wifn fnd of dby flbg is truf");
         }
-        return new ZoneOffsetTransitionRule(month, dayOfMonthIndicator, dayOfWeek, time, timeEndOfDay, timeDefnition, standardOffset, offsetBefore, offsetAfter);
+        rfturn nfw ZonfOffsftTrbnsitionRulf(monti, dbyOfMontiIndidbtor, dbyOfWffk, timf, timfEndOfDby, timfDffnition, stbndbrdOffsft, offsftBfforf, offsftAftfr);
     }
 
     /**
-     * Creates an instance defining the yearly rule to create transitions between two offsets.
+     * Crfbtfs bn instbndf dffining tif yfbrly rulf to drfbtf trbnsitions bftwffn two offsfts.
      *
-     * @param month  the month of the month-day of the first day of the cutover week, not null
-     * @param dayOfMonthIndicator  the day of the month-day of the cutover week, positive if the week is that
-     *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
-     *  from -28 to 31 excluding 0
-     * @param dayOfWeek  the required day-of-week, null if the month-day should not be changed
-     * @param time  the cutover time in the 'before' offset, not null
-     * @param timeEndOfDay  whether the time is midnight at the end of day
-     * @param timeDefnition  how to interpret the cutover
-     * @param standardOffset  the standard offset in force at the cutover, not null
-     * @param offsetBefore  the offset before the cutover, not null
-     * @param offsetAfter  the offset after the cutover, not null
-     * @throws IllegalArgumentException if the day of month indicator is invalid
-     * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
+     * @pbrbm monti  tif monti of tif monti-dby of tif first dby of tif dutovfr wffk, not null
+     * @pbrbm dbyOfMontiIndidbtor  tif dby of tif monti-dby of tif dutovfr wffk, positivf if tif wffk is tibt
+     *  dby or lbtfr, nfgbtivf if tif wffk is tibt dby or fbrlifr, dounting from tif lbst dby of tif monti,
+     *  from -28 to 31 fxdluding 0
+     * @pbrbm dbyOfWffk  tif rfquirfd dby-of-wffk, null if tif monti-dby siould not bf dibngfd
+     * @pbrbm timf  tif dutovfr timf in tif 'bfforf' offsft, not null
+     * @pbrbm timfEndOfDby  wiftifr tif timf is midnigit bt tif fnd of dby
+     * @pbrbm timfDffnition  iow to intfrprft tif dutovfr
+     * @pbrbm stbndbrdOffsft  tif stbndbrd offsft in fordf bt tif dutovfr, not null
+     * @pbrbm offsftBfforf  tif offsft bfforf tif dutovfr, not null
+     * @pbrbm offsftAftfr  tif offsft bftfr tif dutovfr, not null
+     * @tirows IllfgblArgumfntExdfption if tif dby of monti indidbtor is invblid
+     * @tirows IllfgblArgumfntExdfption if tif fnd of dby flbg is truf wifn tif timf is not midnigit
      */
-    ZoneOffsetTransitionRule(
-            Month month,
-            int dayOfMonthIndicator,
-            DayOfWeek dayOfWeek,
-            LocalTime time,
-            boolean timeEndOfDay,
-            TimeDefinition timeDefnition,
-            ZoneOffset standardOffset,
-            ZoneOffset offsetBefore,
-            ZoneOffset offsetAfter) {
-        this.month = month;
-        this.dom = (byte) dayOfMonthIndicator;
-        this.dow = dayOfWeek;
-        this.time = time;
-        this.timeEndOfDay = timeEndOfDay;
-        this.timeDefinition = timeDefnition;
-        this.standardOffset = standardOffset;
-        this.offsetBefore = offsetBefore;
-        this.offsetAfter = offsetAfter;
+    ZonfOffsftTrbnsitionRulf(
+            Monti monti,
+            int dbyOfMontiIndidbtor,
+            DbyOfWffk dbyOfWffk,
+            LodblTimf timf,
+            boolfbn timfEndOfDby,
+            TimfDffinition timfDffnition,
+            ZonfOffsft stbndbrdOffsft,
+            ZonfOffsft offsftBfforf,
+            ZonfOffsft offsftAftfr) {
+        tiis.monti = monti;
+        tiis.dom = (bytf) dbyOfMontiIndidbtor;
+        tiis.dow = dbyOfWffk;
+        tiis.timf = timf;
+        tiis.timfEndOfDby = timfEndOfDby;
+        tiis.timfDffinition = timfDffnition;
+        tiis.stbndbrdOffsft = stbndbrdOffsft;
+        tiis.offsftBfforf = offsftBfforf;
+        tiis.offsftAftfr = offsftAftfr;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.zone.Ser">dedicated serialized form</a>.
-     * @serialData
-     * Refer to the serialized form of
-     * <a href="../../../serialized-form.html#java.time.zone.ZoneRules">ZoneRules.writeReplace</a>
-     * for the encoding of epoch seconds and offsets.
-     * <pre style="font-size:1.0em">{@code
+     * Writfs tif objfdt using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.zonf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * Rfffr to tif sfriblizfd form of
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.zonf.ZonfRulfs">ZonfRulfs.writfRfplbdf</b>
+     * for tif fndoding of fpodi sfdonds bnd offsfts.
+     * <prf stylf="font-sizf:1.0fm">{@dodf
      *
-     *      out.writeByte(3);                // identifies a ZoneOffsetTransition
-     *      final int timeSecs = (timeEndOfDay ? 86400 : time.toSecondOfDay());
-     *      final int stdOffset = standardOffset.getTotalSeconds();
-     *      final int beforeDiff = offsetBefore.getTotalSeconds() - stdOffset;
-     *      final int afterDiff = offsetAfter.getTotalSeconds() - stdOffset;
-     *      final int timeByte = (timeSecs % 3600 == 0 ? (timeEndOfDay ? 24 : time.getHour()) : 31);
-     *      final int stdOffsetByte = (stdOffset % 900 == 0 ? stdOffset / 900 + 128 : 255);
-     *      final int beforeByte = (beforeDiff == 0 || beforeDiff == 1800 || beforeDiff == 3600 ? beforeDiff / 1800 : 3);
-     *      final int afterByte = (afterDiff == 0 || afterDiff == 1800 || afterDiff == 3600 ? afterDiff / 1800 : 3);
-     *      final int dowByte = (dow == null ? 0 : dow.getValue());
-     *      int b = (month.getValue() << 28) +          // 4 bits
+     *      out.writfBytf(3);                // idfntififs b ZonfOffsftTrbnsition
+     *      finbl int timfSfds = (timfEndOfDby ? 86400 : timf.toSfdondOfDby());
+     *      finbl int stdOffsft = stbndbrdOffsft.gftTotblSfdonds();
+     *      finbl int bfforfDiff = offsftBfforf.gftTotblSfdonds() - stdOffsft;
+     *      finbl int bftfrDiff = offsftAftfr.gftTotblSfdonds() - stdOffsft;
+     *      finbl int timfBytf = (timfSfds % 3600 == 0 ? (timfEndOfDby ? 24 : timf.gftHour()) : 31);
+     *      finbl int stdOffsftBytf = (stdOffsft % 900 == 0 ? stdOffsft / 900 + 128 : 255);
+     *      finbl int bfforfBytf = (bfforfDiff == 0 || bfforfDiff == 1800 || bfforfDiff == 3600 ? bfforfDiff / 1800 : 3);
+     *      finbl int bftfrBytf = (bftfrDiff == 0 || bftfrDiff == 1800 || bftfrDiff == 3600 ? bftfrDiff / 1800 : 3);
+     *      finbl int dowBytf = (dow == null ? 0 : dow.gftVbluf());
+     *      int b = (monti.gftVbluf() << 28) +          // 4 bits
      *              ((dom + 32) << 22) +                // 6 bits
-     *              (dowByte << 19) +                   // 3 bits
-     *              (timeByte << 14) +                  // 5 bits
-     *              (timeDefinition.ordinal() << 12) +  // 2 bits
-     *              (stdOffsetByte << 4) +              // 8 bits
-     *              (beforeByte << 2) +                 // 2 bits
-     *              afterByte;                          // 2 bits
-     *      out.writeInt(b);
-     *      if (timeByte == 31) {
-     *          out.writeInt(timeSecs);
+     *              (dowBytf << 19) +                   // 3 bits
+     *              (timfBytf << 14) +                  // 5 bits
+     *              (timfDffinition.ordinbl() << 12) +  // 2 bits
+     *              (stdOffsftBytf << 4) +              // 8 bits
+     *              (bfforfBytf << 2) +                 // 2 bits
+     *              bftfrBytf;                          // 2 bits
+     *      out.writfInt(b);
+     *      if (timfBytf == 31) {
+     *          out.writfInt(timfSfds);
      *      }
-     *      if (stdOffsetByte == 255) {
-     *          out.writeInt(stdOffset);
+     *      if (stdOffsftBytf == 255) {
+     *          out.writfInt(stdOffsft);
      *      }
-     *      if (beforeByte == 3) {
-     *          out.writeInt(offsetBefore.getTotalSeconds());
+     *      if (bfforfBytf == 3) {
+     *          out.writfInt(offsftBfforf.gftTotblSfdonds());
      *      }
-     *      if (afterByte == 3) {
-     *          out.writeInt(offsetAfter.getTotalSeconds());
+     *      if (bftfrBytf == 3) {
+     *          out.writfInt(offsftAftfr.gftTotblSfdonds());
      *      }
      * }
-     * </pre>
+     * </prf>
      *
-     * @return the replacing object, not null
+     * @rfturn tif rfplbding objfdt, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.ZOTRULE, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.ZOTRULE, tiis);
     }
 
     /**
-     * Writes the state to the stream.
+     * Writfs tif stbtf to tif strfbm.
      *
-     * @param out  the output stream, not null
-     * @throws IOException if an error occurs
+     * @pbrbm out  tif output strfbm, not null
+     * @tirows IOExdfption if bn frror oddurs
      */
-    void writeExternal(DataOutput out) throws IOException {
-        final int timeSecs = (timeEndOfDay ? 86400 : time.toSecondOfDay());
-        final int stdOffset = standardOffset.getTotalSeconds();
-        final int beforeDiff = offsetBefore.getTotalSeconds() - stdOffset;
-        final int afterDiff = offsetAfter.getTotalSeconds() - stdOffset;
-        final int timeByte = (timeSecs % 3600 == 0 ? (timeEndOfDay ? 24 : time.getHour()) : 31);
-        final int stdOffsetByte = (stdOffset % 900 == 0 ? stdOffset / 900 + 128 : 255);
-        final int beforeByte = (beforeDiff == 0 || beforeDiff == 1800 || beforeDiff == 3600 ? beforeDiff / 1800 : 3);
-        final int afterByte = (afterDiff == 0 || afterDiff == 1800 || afterDiff == 3600 ? afterDiff / 1800 : 3);
-        final int dowByte = (dow == null ? 0 : dow.getValue());
-        int b = (month.getValue() << 28) +          // 4 bits
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        finbl int timfSfds = (timfEndOfDby ? 86400 : timf.toSfdondOfDby());
+        finbl int stdOffsft = stbndbrdOffsft.gftTotblSfdonds();
+        finbl int bfforfDiff = offsftBfforf.gftTotblSfdonds() - stdOffsft;
+        finbl int bftfrDiff = offsftAftfr.gftTotblSfdonds() - stdOffsft;
+        finbl int timfBytf = (timfSfds % 3600 == 0 ? (timfEndOfDby ? 24 : timf.gftHour()) : 31);
+        finbl int stdOffsftBytf = (stdOffsft % 900 == 0 ? stdOffsft / 900 + 128 : 255);
+        finbl int bfforfBytf = (bfforfDiff == 0 || bfforfDiff == 1800 || bfforfDiff == 3600 ? bfforfDiff / 1800 : 3);
+        finbl int bftfrBytf = (bftfrDiff == 0 || bftfrDiff == 1800 || bftfrDiff == 3600 ? bftfrDiff / 1800 : 3);
+        finbl int dowBytf = (dow == null ? 0 : dow.gftVbluf());
+        int b = (monti.gftVbluf() << 28) +          // 4 bits
                 ((dom + 32) << 22) +                // 6 bits
-                (dowByte << 19) +                   // 3 bits
-                (timeByte << 14) +                  // 5 bits
-                (timeDefinition.ordinal() << 12) +  // 2 bits
-                (stdOffsetByte << 4) +              // 8 bits
-                (beforeByte << 2) +                 // 2 bits
-                afterByte;                          // 2 bits
-        out.writeInt(b);
-        if (timeByte == 31) {
-            out.writeInt(timeSecs);
+                (dowBytf << 19) +                   // 3 bits
+                (timfBytf << 14) +                  // 5 bits
+                (timfDffinition.ordinbl() << 12) +  // 2 bits
+                (stdOffsftBytf << 4) +              // 8 bits
+                (bfforfBytf << 2) +                 // 2 bits
+                bftfrBytf;                          // 2 bits
+        out.writfInt(b);
+        if (timfBytf == 31) {
+            out.writfInt(timfSfds);
         }
-        if (stdOffsetByte == 255) {
-            out.writeInt(stdOffset);
+        if (stdOffsftBytf == 255) {
+            out.writfInt(stdOffsft);
         }
-        if (beforeByte == 3) {
-            out.writeInt(offsetBefore.getTotalSeconds());
+        if (bfforfBytf == 3) {
+            out.writfInt(offsftBfforf.gftTotblSfdonds());
         }
-        if (afterByte == 3) {
-            out.writeInt(offsetAfter.getTotalSeconds());
+        if (bftfrBytf == 3) {
+            out.writfInt(offsftAftfr.gftTotblSfdonds());
         }
     }
 
     /**
-     * Reads the state from the stream.
+     * Rfbds tif stbtf from tif strfbm.
      *
-     * @param in  the input stream, not null
-     * @return the created object, not null
-     * @throws IOException if an error occurs
+     * @pbrbm in  tif input strfbm, not null
+     * @rfturn tif drfbtfd objfdt, not null
+     * @tirows IOExdfption if bn frror oddurs
      */
-    static ZoneOffsetTransitionRule readExternal(DataInput in) throws IOException {
-        int data = in.readInt();
-        Month month = Month.of(data >>> 28);
-        int dom = ((data & (63 << 22)) >>> 22) - 32;
-        int dowByte = (data & (7 << 19)) >>> 19;
-        DayOfWeek dow = dowByte == 0 ? null : DayOfWeek.of(dowByte);
-        int timeByte = (data & (31 << 14)) >>> 14;
-        TimeDefinition defn = TimeDefinition.values()[(data & (3 << 12)) >>> 12];
-        int stdByte = (data & (255 << 4)) >>> 4;
-        int beforeByte = (data & (3 << 2)) >>> 2;
-        int afterByte = (data & 3);
-        LocalTime time = (timeByte == 31 ? LocalTime.ofSecondOfDay(in.readInt()) : LocalTime.of(timeByte % 24, 0));
-        ZoneOffset std = (stdByte == 255 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds((stdByte - 128) * 900));
-        ZoneOffset before = (beforeByte == 3 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(std.getTotalSeconds() + beforeByte * 1800));
-        ZoneOffset after = (afterByte == 3 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(std.getTotalSeconds() + afterByte * 1800));
-        return ZoneOffsetTransitionRule.of(month, dom, dow, time, timeByte == 24, defn, std, before, after);
+    stbtid ZonfOffsftTrbnsitionRulf rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+        int dbtb = in.rfbdInt();
+        Monti monti = Monti.of(dbtb >>> 28);
+        int dom = ((dbtb & (63 << 22)) >>> 22) - 32;
+        int dowBytf = (dbtb & (7 << 19)) >>> 19;
+        DbyOfWffk dow = dowBytf == 0 ? null : DbyOfWffk.of(dowBytf);
+        int timfBytf = (dbtb & (31 << 14)) >>> 14;
+        TimfDffinition dffn = TimfDffinition.vblufs()[(dbtb & (3 << 12)) >>> 12];
+        int stdBytf = (dbtb & (255 << 4)) >>> 4;
+        int bfforfBytf = (dbtb & (3 << 2)) >>> 2;
+        int bftfrBytf = (dbtb & 3);
+        LodblTimf timf = (timfBytf == 31 ? LodblTimf.ofSfdondOfDby(in.rfbdInt()) : LodblTimf.of(timfBytf % 24, 0));
+        ZonfOffsft std = (stdBytf == 255 ? ZonfOffsft.ofTotblSfdonds(in.rfbdInt()) : ZonfOffsft.ofTotblSfdonds((stdBytf - 128) * 900));
+        ZonfOffsft bfforf = (bfforfBytf == 3 ? ZonfOffsft.ofTotblSfdonds(in.rfbdInt()) : ZonfOffsft.ofTotblSfdonds(std.gftTotblSfdonds() + bfforfBytf * 1800));
+        ZonfOffsft bftfr = (bftfrBytf == 3 ? ZonfOffsft.ofTotblSfdonds(in.rfbdInt()) : ZonfOffsft.ofTotblSfdonds(std.gftTotblSfdonds() + bftfrBytf * 1800));
+        rfturn ZonfOffsftTrbnsitionRulf.of(monti, dom, dow, timf, timfBytf == 24, dffn, std, bfforf, bftfr);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the month of the transition.
+     * Gfts tif monti of tif trbnsition.
      * <p>
-     * If the rule defines an exact date then the month is the month of that date.
+     * If tif rulf dffinfs bn fxbdt dbtf tifn tif monti is tif monti of tibt dbtf.
      * <p>
-     * If the rule defines a week where the transition might occur, then the month
-     * if the month of either the earliest or latest possible date of the cutover.
+     * If tif rulf dffinfs b wffk wifrf tif trbnsition migit oddur, tifn tif monti
+     * if tif monti of fitifr tif fbrlifst or lbtfst possiblf dbtf of tif dutovfr.
      *
-     * @return the month of the transition, not null
+     * @rfturn tif monti of tif trbnsition, not null
      */
-    public Month getMonth() {
-        return month;
+    publid Monti gftMonti() {
+        rfturn monti;
     }
 
     /**
-     * Gets the indicator of the day-of-month of the transition.
+     * Gfts tif indidbtor of tif dby-of-monti of tif trbnsition.
      * <p>
-     * If the rule defines an exact date then the day is the month of that date.
+     * If tif rulf dffinfs bn fxbdt dbtf tifn tif dby is tif monti of tibt dbtf.
      * <p>
-     * If the rule defines a week where the transition might occur, then the day
-     * defines either the start of the end of the transition week.
+     * If tif rulf dffinfs b wffk wifrf tif trbnsition migit oddur, tifn tif dby
+     * dffinfs fitifr tif stbrt of tif fnd of tif trbnsition wffk.
      * <p>
-     * If the value is positive, then it represents a normal day-of-month, and is the
-     * earliest possible date that the transition can be.
-     * The date may refer to 29th February which should be treated as 1st March in non-leap years.
+     * If tif vbluf is positivf, tifn it rfprfsfnts b normbl dby-of-monti, bnd is tif
+     * fbrlifst possiblf dbtf tibt tif trbnsition dbn bf.
+     * Tif dbtf mby rfffr to 29ti Ffbrubry wiidi siould bf trfbtfd bs 1st Mbrdi in non-lfbp yfbrs.
      * <p>
-     * If the value is negative, then it represents the number of days back from the
-     * end of the month where {@code -1} is the last day of the month.
-     * In this case, the day identified is the latest possible date that the transition can be.
+     * If tif vbluf is nfgbtivf, tifn it rfprfsfnts tif numbfr of dbys bbdk from tif
+     * fnd of tif monti wifrf {@dodf -1} is tif lbst dby of tif monti.
+     * In tiis dbsf, tif dby idfntififd is tif lbtfst possiblf dbtf tibt tif trbnsition dbn bf.
      *
-     * @return the day-of-month indicator, from -28 to 31 excluding 0
+     * @rfturn tif dby-of-monti indidbtor, from -28 to 31 fxdluding 0
      */
-    public int getDayOfMonthIndicator() {
-        return dom;
+    publid int gftDbyOfMontiIndidbtor() {
+        rfturn dom;
     }
 
     /**
-     * Gets the day-of-week of the transition.
+     * Gfts tif dby-of-wffk of tif trbnsition.
      * <p>
-     * If the rule defines an exact date then this returns null.
+     * If tif rulf dffinfs bn fxbdt dbtf tifn tiis rfturns null.
      * <p>
-     * If the rule defines a week where the cutover might occur, then this method
-     * returns the day-of-week that the month-day will be adjusted to.
-     * If the day is positive then the adjustment is later.
-     * If the day is negative then the adjustment is earlier.
+     * If tif rulf dffinfs b wffk wifrf tif dutovfr migit oddur, tifn tiis mftiod
+     * rfturns tif dby-of-wffk tibt tif monti-dby will bf bdjustfd to.
+     * If tif dby is positivf tifn tif bdjustmfnt is lbtfr.
+     * If tif dby is nfgbtivf tifn tif bdjustmfnt is fbrlifr.
      *
-     * @return the day-of-week that the transition occurs, null if the rule defines an exact date
+     * @rfturn tif dby-of-wffk tibt tif trbnsition oddurs, null if tif rulf dffinfs bn fxbdt dbtf
      */
-    public DayOfWeek getDayOfWeek() {
-        return dow;
+    publid DbyOfWffk gftDbyOfWffk() {
+        rfturn dow;
     }
 
     /**
-     * Gets the local time of day of the transition which must be checked with
-     * {@link #isMidnightEndOfDay()}.
+     * Gfts tif lodbl timf of dby of tif trbnsition wiidi must bf difdkfd witi
+     * {@link #isMidnigitEndOfDby()}.
      * <p>
-     * The time is converted into an instant using the time definition.
+     * Tif timf is donvfrtfd into bn instbnt using tif timf dffinition.
      *
-     * @return the local time of day of the transition, not null
+     * @rfturn tif lodbl timf of dby of tif trbnsition, not null
      */
-    public LocalTime getLocalTime() {
-        return time;
+    publid LodblTimf gftLodblTimf() {
+        rfturn timf;
     }
 
     /**
-     * Is the transition local time midnight at the end of day.
+     * Is tif trbnsition lodbl timf midnigit bt tif fnd of dby.
      * <p>
-     * The transition may be represented as occurring at 24:00.
+     * Tif trbnsition mby bf rfprfsfntfd bs oddurring bt 24:00.
      *
-     * @return whether a local time of midnight is at the start or end of the day
+     * @rfturn wiftifr b lodbl timf of midnigit is bt tif stbrt or fnd of tif dby
      */
-    public boolean isMidnightEndOfDay() {
-        return timeEndOfDay;
+    publid boolfbn isMidnigitEndOfDby() {
+        rfturn timfEndOfDby;
     }
 
     /**
-     * Gets the time definition, specifying how to convert the time to an instant.
+     * Gfts tif timf dffinition, spfdifying iow to donvfrt tif timf to bn instbnt.
      * <p>
-     * The local time can be converted to an instant using the standard offset,
-     * the wall offset or UTC.
+     * Tif lodbl timf dbn bf donvfrtfd to bn instbnt using tif stbndbrd offsft,
+     * tif wbll offsft or UTC.
      *
-     * @return the time definition, not null
+     * @rfturn tif timf dffinition, not null
      */
-    public TimeDefinition getTimeDefinition() {
-        return timeDefinition;
+    publid TimfDffinition gftTimfDffinition() {
+        rfturn timfDffinition;
     }
 
     /**
-     * Gets the standard offset in force at the transition.
+     * Gfts tif stbndbrd offsft in fordf bt tif trbnsition.
      *
-     * @return the standard offset, not null
+     * @rfturn tif stbndbrd offsft, not null
      */
-    public ZoneOffset getStandardOffset() {
-        return standardOffset;
+    publid ZonfOffsft gftStbndbrdOffsft() {
+        rfturn stbndbrdOffsft;
     }
 
     /**
-     * Gets the offset before the transition.
+     * Gfts tif offsft bfforf tif trbnsition.
      *
-     * @return the offset before, not null
+     * @rfturn tif offsft bfforf, not null
      */
-    public ZoneOffset getOffsetBefore() {
-        return offsetBefore;
+    publid ZonfOffsft gftOffsftBfforf() {
+        rfturn offsftBfforf;
     }
 
     /**
-     * Gets the offset after the transition.
+     * Gfts tif offsft bftfr tif trbnsition.
      *
-     * @return the offset after, not null
+     * @rfturn tif offsft bftfr, not null
      */
-    public ZoneOffset getOffsetAfter() {
-        return offsetAfter;
+    publid ZonfOffsft gftOffsftAftfr() {
+        rfturn offsftAftfr;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Creates a transition instance for the specified year.
+     * Crfbtfs b trbnsition instbndf for tif spfdififd yfbr.
      * <p>
-     * Calculations are performed using the ISO-8601 chronology.
+     * Cbldulbtions brf pfrformfd using tif ISO-8601 dironology.
      *
-     * @param year  the year to create a transition for, not null
-     * @return the transition instance, not null
+     * @pbrbm yfbr  tif yfbr to drfbtf b trbnsition for, not null
+     * @rfturn tif trbnsition instbndf, not null
      */
-    public ZoneOffsetTransition createTransition(int year) {
-        LocalDate date;
+    publid ZonfOffsftTrbnsition drfbtfTrbnsition(int yfbr) {
+        LodblDbtf dbtf;
         if (dom < 0) {
-            date = LocalDate.of(year, month, month.length(IsoChronology.INSTANCE.isLeapYear(year)) + 1 + dom);
+            dbtf = LodblDbtf.of(yfbr, monti, monti.lfngti(IsoCironology.INSTANCE.isLfbpYfbr(yfbr)) + 1 + dom);
             if (dow != null) {
-                date = date.with(previousOrSame(dow));
+                dbtf = dbtf.witi(prfviousOrSbmf(dow));
             }
-        } else {
-            date = LocalDate.of(year, month, dom);
+        } flsf {
+            dbtf = LodblDbtf.of(yfbr, monti, dom);
             if (dow != null) {
-                date = date.with(nextOrSame(dow));
+                dbtf = dbtf.witi(nfxtOrSbmf(dow));
             }
         }
-        if (timeEndOfDay) {
-            date = date.plusDays(1);
+        if (timfEndOfDby) {
+            dbtf = dbtf.plusDbys(1);
         }
-        LocalDateTime localDT = LocalDateTime.of(date, time);
-        LocalDateTime transition = timeDefinition.createDateTime(localDT, standardOffset, offsetBefore);
-        return new ZoneOffsetTransition(transition, offsetBefore, offsetAfter);
+        LodblDbtfTimf lodblDT = LodblDbtfTimf.of(dbtf, timf);
+        LodblDbtfTimf trbnsition = timfDffinition.drfbtfDbtfTimf(lodblDT, stbndbrdOffsft, offsftBfforf);
+        rfturn nfw ZonfOffsftTrbnsition(trbnsition, offsftBfforf, offsftAftfr);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this object equals another.
+     * Cifdks if tiis objfdt fqubls bnotifr.
      * <p>
-     * The entire state of the object is compared.
+     * Tif fntirf stbtf of tif objfdt is dompbrfd.
      *
-     * @param otherRule  the other object to compare to, null returns false
-     * @return true if equal
+     * @pbrbm otifrRulf  tif otifr objfdt to dompbrf to, null rfturns fblsf
+     * @rfturn truf if fqubl
      */
-    @Override
-    public boolean equals(Object otherRule) {
-        if (otherRule == this) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt otifrRulf) {
+        if (otifrRulf == tiis) {
+            rfturn truf;
         }
-        if (otherRule instanceof ZoneOffsetTransitionRule) {
-            ZoneOffsetTransitionRule other = (ZoneOffsetTransitionRule) otherRule;
-            return month == other.month && dom == other.dom && dow == other.dow &&
-                timeDefinition == other.timeDefinition &&
-                time.equals(other.time) &&
-                timeEndOfDay == other.timeEndOfDay &&
-                standardOffset.equals(other.standardOffset) &&
-                offsetBefore.equals(other.offsetBefore) &&
-                offsetAfter.equals(other.offsetAfter);
+        if (otifrRulf instbndfof ZonfOffsftTrbnsitionRulf) {
+            ZonfOffsftTrbnsitionRulf otifr = (ZonfOffsftTrbnsitionRulf) otifrRulf;
+            rfturn monti == otifr.monti && dom == otifr.dom && dow == otifr.dow &&
+                timfDffinition == otifr.timfDffinition &&
+                timf.fqubls(otifr.timf) &&
+                timfEndOfDby == otifr.timfEndOfDby &&
+                stbndbrdOffsft.fqubls(otifr.stbndbrdOffsft) &&
+                offsftBfforf.fqubls(otifr.offsftBfforf) &&
+                offsftAftfr.fqubls(otifr.offsftAftfr);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a suitable hash code.
+     * Rfturns b suitbblf ibsi dodf.
      *
-     * @return the hash code
+     * @rfturn tif ibsi dodf
      */
-    @Override
-    public int hashCode() {
-        int hash = ((time.toSecondOfDay() + (timeEndOfDay ? 1 : 0)) << 15) +
-                (month.ordinal() << 11) + ((dom + 32) << 5) +
-                ((dow == null ? 7 : dow.ordinal()) << 2) + (timeDefinition.ordinal());
-        return hash ^ standardOffset.hashCode() ^
-                offsetBefore.hashCode() ^ offsetAfter.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int ibsi = ((timf.toSfdondOfDby() + (timfEndOfDby ? 1 : 0)) << 15) +
+                (monti.ordinbl() << 11) + ((dom + 32) << 5) +
+                ((dow == null ? 7 : dow.ordinbl()) << 2) + (timfDffinition.ordinbl());
+        rfturn ibsi ^ stbndbrdOffsft.ibsiCodf() ^
+                offsftBfforf.ibsiCodf() ^ offsftAftfr.ibsiCodf();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a string describing this object.
+     * Rfturns b string dfsdribing tiis objfdt.
      *
-     * @return a string for debugging, not null
+     * @rfturn b string for dfbugging, not null
      */
-    @Override
-    public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append("TransitionRule[")
-            .append(offsetBefore.compareTo(offsetAfter) > 0 ? "Gap " : "Overlap ")
-            .append(offsetBefore).append(" to ").append(offsetAfter).append(", ");
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr();
+        buf.bppfnd("TrbnsitionRulf[")
+            .bppfnd(offsftBfforf.dompbrfTo(offsftAftfr) > 0 ? "Gbp " : "Ovfrlbp ")
+            .bppfnd(offsftBfforf).bppfnd(" to ").bppfnd(offsftAftfr).bppfnd(", ");
         if (dow != null) {
             if (dom == -1) {
-                buf.append(dow.name()).append(" on or before last day of ").append(month.name());
-            } else if (dom < 0) {
-                buf.append(dow.name()).append(" on or before last day minus ").append(-dom - 1).append(" of ").append(month.name());
-            } else {
-                buf.append(dow.name()).append(" on or after ").append(month.name()).append(' ').append(dom);
+                buf.bppfnd(dow.nbmf()).bppfnd(" on or bfforf lbst dby of ").bppfnd(monti.nbmf());
+            } flsf if (dom < 0) {
+                buf.bppfnd(dow.nbmf()).bppfnd(" on or bfforf lbst dby minus ").bppfnd(-dom - 1).bppfnd(" of ").bppfnd(monti.nbmf());
+            } flsf {
+                buf.bppfnd(dow.nbmf()).bppfnd(" on or bftfr ").bppfnd(monti.nbmf()).bppfnd(' ').bppfnd(dom);
             }
-        } else {
-            buf.append(month.name()).append(' ').append(dom);
+        } flsf {
+            buf.bppfnd(monti.nbmf()).bppfnd(' ').bppfnd(dom);
         }
-        buf.append(" at ").append(timeEndOfDay ? "24:00" : time.toString())
-            .append(" ").append(timeDefinition)
-            .append(", standard offset ").append(standardOffset)
-            .append(']');
-        return buf.toString();
+        buf.bppfnd(" bt ").bppfnd(timfEndOfDby ? "24:00" : timf.toString())
+            .bppfnd(" ").bppfnd(timfDffinition)
+            .bppfnd(", stbndbrd offsft ").bppfnd(stbndbrdOffsft)
+            .bppfnd(']');
+        rfturn buf.toString();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * A definition of the way a local time can be converted to the actual
-     * transition date-time.
+     * A dffinition of tif wby b lodbl timf dbn bf donvfrtfd to tif bdtubl
+     * trbnsition dbtf-timf.
      * <p>
-     * Time zone rules are expressed in one of three ways:
+     * Timf zonf rulfs brf fxprfssfd in onf of tirff wbys:
      * <ul>
-     * <li>Relative to UTC</li>
-     * <li>Relative to the standard offset in force</li>
-     * <li>Relative to the wall offset (what you would see on a clock on the wall)</li>
+     * <li>Rflbtivf to UTC</li>
+     * <li>Rflbtivf to tif stbndbrd offsft in fordf</li>
+     * <li>Rflbtivf to tif wbll offsft (wibt you would sff on b dlodk on tif wbll)</li>
      * </ul>
      */
-    public static enum TimeDefinition {
-        /** The local date-time is expressed in terms of the UTC offset. */
+    publid stbtid fnum TimfDffinition {
+        /** Tif lodbl dbtf-timf is fxprfssfd in tfrms of tif UTC offsft. */
         UTC,
-        /** The local date-time is expressed in terms of the wall offset. */
+        /** Tif lodbl dbtf-timf is fxprfssfd in tfrms of tif wbll offsft. */
         WALL,
-        /** The local date-time is expressed in terms of the standard offset. */
+        /** Tif lodbl dbtf-timf is fxprfssfd in tfrms of tif stbndbrd offsft. */
         STANDARD;
 
         /**
-         * Converts the specified local date-time to the local date-time actually
-         * seen on a wall clock.
+         * Convfrts tif spfdififd lodbl dbtf-timf to tif lodbl dbtf-timf bdtublly
+         * sffn on b wbll dlodk.
          * <p>
-         * This method converts using the type of this enum.
-         * The output is defined relative to the 'before' offset of the transition.
+         * Tiis mftiod donvfrts using tif typf of tiis fnum.
+         * Tif output is dffinfd rflbtivf to tif 'bfforf' offsft of tif trbnsition.
          * <p>
-         * The UTC type uses the UTC offset.
-         * The STANDARD type uses the standard offset.
-         * The WALL type returns the input date-time.
-         * The result is intended for use with the wall-offset.
+         * Tif UTC typf usfs tif UTC offsft.
+         * Tif STANDARD typf usfs tif stbndbrd offsft.
+         * Tif WALL typf rfturns tif input dbtf-timf.
+         * Tif rfsult is intfndfd for usf witi tif wbll-offsft.
          *
-         * @param dateTime  the local date-time, not null
-         * @param standardOffset  the standard offset, not null
-         * @param wallOffset  the wall offset, not null
-         * @return the date-time relative to the wall/before offset, not null
+         * @pbrbm dbtfTimf  tif lodbl dbtf-timf, not null
+         * @pbrbm stbndbrdOffsft  tif stbndbrd offsft, not null
+         * @pbrbm wbllOffsft  tif wbll offsft, not null
+         * @rfturn tif dbtf-timf rflbtivf to tif wbll/bfforf offsft, not null
          */
-        public LocalDateTime createDateTime(LocalDateTime dateTime, ZoneOffset standardOffset, ZoneOffset wallOffset) {
-            switch (this) {
-                case UTC: {
-                    int difference = wallOffset.getTotalSeconds() - ZoneOffset.UTC.getTotalSeconds();
-                    return dateTime.plusSeconds(difference);
+        publid LodblDbtfTimf drfbtfDbtfTimf(LodblDbtfTimf dbtfTimf, ZonfOffsft stbndbrdOffsft, ZonfOffsft wbllOffsft) {
+            switdi (tiis) {
+                dbsf UTC: {
+                    int difffrfndf = wbllOffsft.gftTotblSfdonds() - ZonfOffsft.UTC.gftTotblSfdonds();
+                    rfturn dbtfTimf.plusSfdonds(difffrfndf);
                 }
-                case STANDARD: {
-                    int difference = wallOffset.getTotalSeconds() - standardOffset.getTotalSeconds();
-                    return dateTime.plusSeconds(difference);
+                dbsf STANDARD: {
+                    int difffrfndf = wbllOffsft.gftTotblSfdonds() - stbndbrdOffsft.gftTotblSfdonds();
+                    rfturn dbtfTimf.plusSfdonds(difffrfndf);
                 }
-                default:  // WALL
-                    return dateTime;
+                dffbult:  // WALL
+                    rfturn dbtfTimf;
             }
         }
     }

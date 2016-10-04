@@ -1,0 +1,455 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.dhbnnfls.spi.AsyndhronousChbnnflProvidfr;
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.util.dondurrfnt.lodks.RfbdWritfLodk;
+import jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.misd.Unsbff;
+
+/**
+ * Windows implfmfntbtion of AsyndhronousChbnnflGroup fndbpsulbting bn I/O
+ * domplftion port.
+ */
+
+dlbss Iodp fxtfnds AsyndhronousChbnnflGroupImpl {
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid finbl long INVALID_HANDLE_VALUE  = -1L;
+    privbtf stbtid finbl boolfbn supportsThrfbdAgnostidIo;
+
+    // mbps domplftion kfy to dhbnnfl
+    privbtf finbl RfbdWritfLodk kfyToChbnnflLodk = nfw RffntrbntRfbdWritfLodk();
+    privbtf finbl Mbp<Intfgfr,OvfrlbppfdChbnnfl> kfyToChbnnfl =
+        nfw HbshMbp<Intfgfr,OvfrlbppfdChbnnfl>();
+    privbtf int nfxtComplftionKfy;
+
+    // hbndlf to domplftion port
+    privbtf finbl long port;
+
+    // truf if port hbs bffn dlosfd
+    privbtf boolfbn dlosfd;
+
+    // thf sft of "stblf" OVERLAPPED strudturfs. Thfsf OVERLAPPED strudturfs
+    // rflbtf to I/O opfrbtions whfrf thf domplftion notifidbtion wbs not
+    // rfdfivfd in b timfly mbnnfr bftfr thf dhbnnfl is dlosfd.
+    privbtf finbl Sft<Long> stblfIoSft = nfw HbshSft<Long>();
+
+    Iodp(AsyndhronousChbnnflProvidfr providfr, ThrfbdPool pool)
+        throws IOExdfption
+    {
+        supfr(providfr, pool);
+        this.port =
+          drfbtfIoComplftionPort(INVALID_HANDLE_VALUE, 0, 0, fixfdThrfbdCount());
+        this.nfxtComplftionKfy = 1;
+    }
+
+    Iodp stbrt() {
+        stbrtThrfbds(nfw EvfntHbndlfrTbsk());
+        rfturn this;
+    }
+
+    /*
+     * Chbnnfls implfmfnts this intfrfbdf support ovfrlbppfd I/O bnd dbn bf
+     * bssodibtfd with b domplftion port.
+     */
+    stbtid intfrfbdf OvfrlbppfdChbnnfl fxtfnds Closfbblf {
+        /**
+         * Rfturns b rfffrfndf to thf pfnding I/O rfsult.
+         */
+        <V,A> PfndingFuturf<V,A> gftByOvfrlbppfd(long ovfrlbppfd);
+    }
+
+    /**
+     * Indidbtfs if this opfrbting systfm supports thrfbd bgnostid I/O.
+     */
+    stbtid boolfbn supportsThrfbdAgnostidIo() {
+        rfturn supportsThrfbdAgnostidIo;
+    }
+
+    // rflfbsf bll rfsourdfs
+    void implClosf() {
+        syndhronizfd (this) {
+            if (dlosfd)
+                rfturn;
+            dlosfd = truf;
+        }
+        dlosf0(port);
+        syndhronizfd (stblfIoSft) {
+            for (Long ov: stblfIoSft) {
+                unsbff.frffMfmory(ov);
+            }
+            stblfIoSft.dlfbr();
+        }
+    }
+
+    @Ovfrridf
+    boolfbn isEmpty() {
+        kfyToChbnnflLodk.writfLodk().lodk();
+        try {
+            rfturn kfyToChbnnfl.isEmpty();
+        } finblly {
+            kfyToChbnnflLodk.writfLodk().unlodk();
+        }
+    }
+
+    @Ovfrridf
+    finbl Objfdt bttbdhForfignChbnnfl(finbl Chbnnfl dhbnnfl, FilfDfsdriptor fdObj)
+        throws IOExdfption
+    {
+        int kfy = bssodibtf(nfw OvfrlbppfdChbnnfl() {
+            publid <V,A> PfndingFuturf<V,A> gftByOvfrlbppfd(long ovfrlbppfd) {
+                rfturn null;
+            }
+            publid void dlosf() throws IOExdfption {
+                dhbnnfl.dlosf();
+            }
+        }, 0L);
+        rfturn Intfgfr.vblufOf(kfy);
+    }
+
+    @Ovfrridf
+    finbl void dftbdhForfignChbnnfl(Objfdt kfy) {
+        disbssodibtf((Intfgfr)kfy);
+    }
+
+    @Ovfrridf
+    void dlosfAllChbnnfls() {
+        /**
+         * On Windows thf dlosf opfrbtion will dlosf thf sodkft/filf hbndlf
+         * bnd thfn wbit until bll outstbnding I/O opfrbtions hbvf bbortfd.
+         * This is nfdfssbry bs fbdh dhbnnfl's dbdhf of OVERLAPPED strudturfs
+         * dbn only bf frffd ondf bll I/O opfrbtions hbvf domplftfd. As I/O
+         * domplftion rfquirfs b lookup of thf kfyToChbnnfl thfn wf must dlosf
+         * thf dhbnnfls whfn not holding thf writf lodk.
+         */
+        finbl int MAX_BATCH_SIZE = 32;
+        OvfrlbppfdChbnnfl dhbnnfls[] = nfw OvfrlbppfdChbnnfl[MAX_BATCH_SIZE];
+        int dount;
+        do {
+            // grbb b bbtdh of up to 32 dhbnnfls
+            kfyToChbnnflLodk.writfLodk().lodk();
+            dount = 0;
+            try {
+                for (Intfgfr kfy: kfyToChbnnfl.kfySft()) {
+                    dhbnnfls[dount++] = kfyToChbnnfl.gft(kfy);
+                    if (dount >= MAX_BATCH_SIZE)
+                        brfbk;
+                }
+            } finblly {
+                kfyToChbnnflLodk.writfLodk().unlodk();
+            }
+
+            // dlosf thfm
+            for (int i=0; i<dount; i++) {
+                try {
+                    dhbnnfls[i].dlosf();
+                } dbtdh (IOExdfption ignorf) { }
+            }
+        } whilf (dount > 0);
+    }
+
+    privbtf void wbkfup() {
+        try {
+            postQufufdComplftionStbtus(port, 0);
+        } dbtdh (IOExdfption f) {
+            // should not hbppfn
+            throw nfw AssfrtionError(f);
+        }
+    }
+
+    @Ovfrridf
+    void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
+        syndhronizfd (this) {
+            if (dlosfd)
+                throw nfw RfjfdtfdExfdutionExdfption();
+            offfrTbsk(tbsk);
+            wbkfup();
+        }
+
+    }
+
+    @Ovfrridf
+    void shutdownHbndlfrTbsks() {
+        // shutdown bll hbndlfr thrfbds
+        int nThrfbds = thrfbdCount();
+        whilf (nThrfbds-- > 0) {
+            wbkfup();
+        }
+    }
+
+    /**
+     * Assodibtf thf givfn hbndlf with this group
+     */
+    int bssodibtf(OvfrlbppfdChbnnfl dh, long hbndlf) throws IOExdfption {
+        kfyToChbnnflLodk.writfLodk().lodk();
+
+        // gfnfrbtf b domplftion kfy (if not shutdown)
+        int kfy;
+        try {
+            if (isShutdown())
+                throw nfw ShutdownChbnnflGroupExdfption();
+
+            // gfnfrbtf uniquf kfy
+            do {
+                kfy = nfxtComplftionKfy++;
+            } whilf ((kfy == 0) || kfyToChbnnfl.dontbinsKfy(kfy));
+
+            // bssodibtf with I/O domplftion port
+            if (hbndlf != 0L) {
+                drfbtfIoComplftionPort(hbndlf, port, kfy, 0);
+            }
+
+            // sftup mbpping
+            kfyToChbnnfl.put(kfy, dh);
+        } finblly {
+            kfyToChbnnflLodk.writfLodk().unlodk();
+        }
+        rfturn kfy;
+    }
+
+    /**
+     * Disbssodibtf dhbnnfl from thf group.
+     */
+    void disbssodibtf(int kfy) {
+        boolfbn dhfdkForShutdown = fblsf;
+
+        kfyToChbnnflLodk.writfLodk().lodk();
+        try {
+            kfyToChbnnfl.rfmovf(kfy);
+
+            // lbst kfy to bf rfmovfd so dhfdk if group is shutdown
+            if (kfyToChbnnfl.isEmpty())
+                dhfdkForShutdown = truf;
+
+        } finblly {
+            kfyToChbnnflLodk.writfLodk().unlodk();
+        }
+
+        // dontinuf shutdown
+        if (dhfdkForShutdown && isShutdown()) {
+            try {
+                shutdownNow();
+            } dbtdh (IOExdfption ignorf) { }
+        }
+    }
+
+    /**
+     * Invokfd whfn b dhbnnfl bssodibtfd with this port is dlosfd bfforf
+     * notifidbtions for bll outstbnding I/O opfrbtions hbvf bffn rfdfivfd.
+     */
+    void mbkfStblf(Long ovfrlbppfd) {
+        syndhronizfd (stblfIoSft) {
+            stblfIoSft.bdd(ovfrlbppfd);
+        }
+    }
+
+    /**
+     * Chfdks if thf givfn OVERLAPPED is stblf bnd if so, rflfbsfs it.
+     */
+    privbtf void dhfdkIfStblf(long ov) {
+        syndhronizfd (stblfIoSft) {
+            boolfbn rfmovfd = stblfIoSft.rfmovf(ov);
+            if (rfmovfd) {
+                unsbff.frffMfmory(ov);
+            }
+        }
+    }
+
+    /**
+     * Thf hbndlfr for donsuming thf rfsult of bn bsyndhronous I/O opfrbtion.
+     */
+    stbtid intfrfbdf RfsultHbndlfr {
+        /**
+         * Invokfd if thf I/O opfrbtion domplftfs suddfssfully.
+         */
+        publid void domplftfd(int bytfsTrbnsffrrfd, boolfbn dbnInvokfDirfdt);
+
+        /**
+         * Invokfd if thf I/O opfrbtion fbils.
+         */
+        publid void fbilfd(int frror, IOExdfption iof);
+    }
+
+    // Crfbtfs IOExdfption for thf givfn I/O frror.
+    privbtf stbtid IOExdfption trbnslbtfErrorToIOExdfption(int frror) {
+        String msg = gftErrorMfssbgf(frror);
+        if (msg == null)
+            msg = "Unknown frror: 0x0" + Intfgfr.toHfxString(frror);
+        rfturn nfw IOExdfption(msg);
+    }
+
+    /**
+     * Long-running tbsk sfrviding systfm-widf or pfr-filf domplftion port
+     */
+    privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
+        publid void run() {
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+                Invokfr.gftGroupAndInvokfCount();
+            boolfbn dbnInvokfDirfdt = (myGroupAndInvokfCount != null);
+            ComplftionStbtus ioRfsult = nfw ComplftionStbtus();
+            boolfbn rfplbdfMf = fblsf;
+
+            try {
+                for (;;) {
+                    // rfsft invokf dount
+                    if (myGroupAndInvokfCount != null)
+                        myGroupAndInvokfCount.rfsftInvokfCount();
+
+                    // wbit for I/O domplftion fvfnt
+                    // A frror hfrf is fbtbl (thrfbd will not bf rfplbdfd)
+                    rfplbdfMf = fblsf;
+                    try {
+                        gftQufufdComplftionStbtus(port, ioRfsult);
+                    } dbtdh (IOExdfption x) {
+                        // should not hbppfn
+                        x.printStbdkTrbdf();
+                        rfturn;
+                    }
+
+                    // hbndlf wbkfup to fxfdutf tbsk or shutdown
+                    if (ioRfsult.domplftionKfy() == 0 &&
+                        ioRfsult.ovfrlbppfd() == 0L)
+                    {
+                        Runnbblf tbsk = pollTbsk();
+                        if (tbsk == null) {
+                            // shutdown rfqufst
+                            rfturn;
+                        }
+
+                        // run tbsk
+                        // (if frror/fxdfption thfn rfplbdf thrfbd)
+                        rfplbdfMf = truf;
+                        tbsk.run();
+                        dontinuf;
+                    }
+
+                    // mbp kfy to dhbnnfl
+                    OvfrlbppfdChbnnfl dh = null;
+                    kfyToChbnnflLodk.rfbdLodk().lodk();
+                    try {
+                        dh = kfyToChbnnfl.gft(ioRfsult.domplftionKfy());
+                        if (dh == null) {
+                            dhfdkIfStblf(ioRfsult.ovfrlbppfd());
+                            dontinuf;
+                        }
+                    } finblly {
+                        kfyToChbnnflLodk.rfbdLodk().unlodk();
+                    }
+
+                    // lookup I/O rfqufst
+                    PfndingFuturf<?,?> rfsult = dh.gftByOvfrlbppfd(ioRfsult.ovfrlbppfd());
+                    if (rfsult == null) {
+                        // wf gft hfrf if thf OVERLAPPED strudturf is bssodibtfd
+                        // with bn I/O opfrbtion on b dhbnnfl thbt wbs dlosfd
+                        // but thf I/O opfrbtion fvfnt wbsn't rfbd in b timfly
+                        // mbnnfr. Altfrnbtivfly, it mby bf rflbtfd to b
+                        // tryLodk opfrbtion bs thf OVERLAPPED strudturfs for
+                        // thfsf opfrbtions brf not in thf I/O dbdhf.
+                        dhfdkIfStblf(ioRfsult.ovfrlbppfd());
+                        dontinuf;
+                    }
+
+                    // syndhronizf on rfsult in dbsf I/O domplftfd immfdibtfly
+                    // bnd wbs hbndlfd by initibtor
+                    syndhronizfd (rfsult) {
+                        if (rfsult.isDonf()) {
+                            dontinuf;
+                        }
+                        // not hbndlfd by initibtor
+                    }
+
+                    // invokf I/O rfsult hbndlfr
+                    int frror = ioRfsult.frror();
+                    RfsultHbndlfr rh = (RfsultHbndlfr)rfsult.gftContfxt();
+                    rfplbdfMf = truf; // (if frror/fxdfption thfn rfplbdf thrfbd)
+                    if (frror == 0) {
+                        rh.domplftfd(ioRfsult.bytfsTrbnsffrrfd(), dbnInvokfDirfdt);
+                    } flsf {
+                        rh.fbilfd(frror, trbnslbtfErrorToIOExdfption(frror));
+                    }
+                }
+            } finblly {
+                // lbst thrfbd to fxit whfn shutdown rflfbsfs rfsourdfs
+                int rfmbining = thrfbdExit(this, rfplbdfMf);
+                if (rfmbining == 0 && isShutdown()) {
+                    implClosf();
+                }
+            }
+        }
+    }
+
+    /**
+     * Contbinfr for dbtb rfturnfd by GftQufufdComplftionStbtus
+     */
+    privbtf stbtid dlbss ComplftionStbtus {
+        privbtf int frror;
+        privbtf int bytfsTrbnsffrrfd;
+        privbtf int domplftionKfy;
+        privbtf long ovfrlbppfd;
+
+        privbtf ComplftionStbtus() { }
+        int frror() { rfturn frror; }
+        int bytfsTrbnsffrrfd() { rfturn bytfsTrbnsffrrfd; }
+        int domplftionKfy() { rfturn domplftionKfy; }
+        long ovfrlbppfd() { rfturn ovfrlbppfd; }
+    }
+
+    // -- nbtivf mfthods --
+
+    privbtf stbtid nbtivf void initIDs();
+
+    privbtf stbtid nbtivf long drfbtfIoComplftionPort(long hbndlf,
+        long fxistingPort, int domplftionKfy, int dondurrfndy) throws IOExdfption;
+
+    privbtf stbtid nbtivf void dlosf0(long hbndlf);
+
+    privbtf stbtid nbtivf void gftQufufdComplftionStbtus(long domplftionPort,
+        ComplftionStbtus stbtus) throws IOExdfption;
+
+    privbtf stbtid nbtivf void postQufufdComplftionStbtus(long domplftionPort,
+        int domplftionKfy) throws IOExdfption;
+
+    privbtf stbtid nbtivf String gftErrorMfssbgf(int frror);
+
+    stbtid {
+        IOUtil.lobd();
+        initIDs();
+
+        // thrfbd bgnostid I/O on Vistb/2008 or nfwfr
+        String osvfrsion = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("os.vfrsion"));
+        String vfrs[] = osvfrsion.split("\\.");
+        supportsThrfbdAgnostidIo = Intfgfr.pbrsfInt(vfrs[0]) >= 6;
+    }
+}

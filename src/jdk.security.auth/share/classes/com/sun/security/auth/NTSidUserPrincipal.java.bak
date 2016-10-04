@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth;
+pbdkbgf dom.sun.sfdurity.buti;
 
 /**
- * <p> This class extends <code>NTSid</code>
- * and represents a Windows NT user's SID.
+ * <p> Tiis dlbss fxtfnds <dodf>NTSid</dodf>
+ * bnd rfprfsfnts b Windows NT usfr's SID.
  *
- * <p> Principals such as this <code>NTSidUserPrincipal</code>
- * may be associated with a particular <code>Subject</code>
- * to augment that <code>Subject</code> with an additional
- * identity.  Refer to the <code>Subject</code> class for more information
- * on how to achieve this.  Authorization decisions can then be based upon
- * the Principals associated with a <code>Subject</code>.
+ * <p> Prindipbls sudi bs tiis <dodf>NTSidUsfrPrindipbl</dodf>
+ * mby bf bssodibtfd witi b pbrtidulbr <dodf>Subjfdt</dodf>
+ * to bugmfnt tibt <dodf>Subjfdt</dodf> witi bn bdditionbl
+ * idfntity.  Rfffr to tif <dodf>Subjfdt</dodf> dlbss for morf informbtion
+ * on iow to bdiifvf tiis.  Autiorizbtion dfdisions dbn tifn bf bbsfd upon
+ * tif Prindipbls bssodibtfd witi b <dodf>Subjfdt</dodf>.
  *
- * @see java.security.Principal
- * @see javax.security.auth.Subject
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvbx.sfdurity.buti.Subjfdt
  */
-@jdk.Exported
-public class NTSidUserPrincipal extends NTSid {
+@jdk.Exportfd
+publid dlbss NTSidUsfrPrindipbl fxtfnds NTSid {
 
-    private static final long serialVersionUID = -5573239889517749525L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5573239889517749525L;
 
     /**
-     * Create an <code>NTSidUserPrincipal</code> with a Windows NT SID.
+     * Crfbtf bn <dodf>NTSidUsfrPrindipbl</dodf> witi b Windows NT SID.
      *
      * <p>
      *
-     * @param name a string version of the Windows NT SID for this user.<p>
+     * @pbrbm nbmf b string vfrsion of tif Windows NT SID for tiis usfr.<p>
      *
-     * @exception NullPointerException if the <code>name</code>
-     *                  is <code>null</code>.
+     * @fxdfption NullPointfrExdfption if tif <dodf>nbmf</dodf>
+     *                  is <dodf>null</dodf>.
      */
-    public NTSidUserPrincipal(String name) {
-        super(name);
+    publid NTSidUsfrPrindipbl(String nbmf) {
+        supfr(nbmf);
     }
 
     /**
-     * Return a string representation of this <code>NTSidUserPrincipal</code>.
+     * Rfturn b string rfprfsfntbtion of tiis <dodf>NTSidUsfrPrindipbl</dodf>.
      *
      * <p>
      *
-     * @return a string representation of this <code>NTSidUserPrincipal</code>.
+     * @rfturn b string rfprfsfntbtion of tiis <dodf>NTSidUsfrPrindipbl</dodf>.
      */
-    public String toString() {
-        java.text.MessageFormat form = new java.text.MessageFormat
-                (sun.security.util.ResourcesMgr.getString
-                        ("NTSidUserPrincipal.name",
-                        "sun.security.util.AuthResources"));
-        Object[] source = {getName()};
-        return form.format(source);
+    publid String toString() {
+        jbvb.tfxt.MfssbgfFormbt form = nfw jbvb.tfxt.MfssbgfFormbt
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("NTSidUsfrPrindipbl.nbmf",
+                        "sun.sfdurity.util.AutiRfsourdfs"));
+        Objfdt[] sourdf = {gftNbmf()};
+        rfturn form.formbt(sourdf);
     }
 
     /**
-     * Compares the specified Object with this <code>NTSidUserPrincipal</code>
-     * for equality.  Returns true if the given object is also a
-     * <code>NTSidUserPrincipal</code> and the two NTSidUserPrincipals
-     * have the same SID.
+     * Compbrfs tif spfdififd Objfdt witi tiis <dodf>NTSidUsfrPrindipbl</dodf>
+     * for fqublity.  Rfturns truf if tif givfn objfdt is blso b
+     * <dodf>NTSidUsfrPrindipbl</dodf> bnd tif two NTSidUsfrPrindipbls
+     * ibvf tif sbmf SID.
      *
      * <p>
      *
-     * @param o Object to be compared for equality with this
-     *          <code>NTSidUserPrincipal</code>.
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity witi tiis
+     *          <dodf>NTSidUsfrPrindipbl</dodf>.
      *
-     * @return true if the specified Object is equal equal to this
-     *          <code>NTSidUserPrincipal</code>.
+     * @rfturn truf if tif spfdififd Objfdt is fqubl fqubl to tiis
+     *          <dodf>NTSidUsfrPrindipbl</dodf>.
      */
-    public boolean equals(Object o) {
+    publid boolfbn fqubls(Objfdt o) {
             if (o == null)
-                return false;
+                rfturn fblsf;
 
-        if (this == o)
-            return true;
+        if (tiis == o)
+            rfturn truf;
 
-        if (!(o instanceof NTSidUserPrincipal))
-            return false;
+        if (!(o instbndfof NTSidUsfrPrindipbl))
+            rfturn fblsf;
 
-        return super.equals(o);
+        rfturn supfr.fqubls(o);
     }
 }

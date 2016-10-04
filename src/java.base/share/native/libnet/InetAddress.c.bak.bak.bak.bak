@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <string.h>
+
+#indludf "jbvb_nft_InftAddrfss.h"
+#indludf "nft_util.h"
+
+/************************************************************************
+ * InftAddrfss
+ */
+
+jdlbss ib_dlbss;
+jdlbss ibd_dlbss;
+jfifldID ib_holdfrID;
+jfifldID ibd_bddrfssID;
+jfifldID ibd_fbmilyID;
+jfifldID ibd_hostNbmfID;
+jfifldID ib_prfffrIPv6AddrfssID;
+
+stbtid int ib_initiblizfd = 0;
+
+/*
+ * Clbss:     jbvb_nft_InftAddrfss
+ * Mfthod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_InftAddrfss_init(JNIEnv *fnv, jdlbss dls) {
+    if (!ib_initiblizfd) {
+        jdlbss d = (*fnv)->FindClbss(fnv,"jbvb/nft/InftAddrfss");
+        CHECK_NULL(d);
+        ib_dlbss = (*fnv)->NfwGlobblRff(fnv, d);
+        CHECK_NULL(ib_dlbss);
+        d = (*fnv)->FindClbss(fnv,"jbvb/nft/InftAddrfss$InftAddrfssHoldfr");
+        CHECK_NULL(d);
+        ibd_dlbss = (*fnv)->NfwGlobblRff(fnv, d);
+        ib_holdfrID = (*fnv)->GftFifldID(fnv, ib_dlbss, "holdfr", "Ljbvb/nft/InftAddrfss$InftAddrfssHoldfr;");
+        CHECK_NULL(ib_holdfrID);
+        ib_prfffrIPv6AddrfssID = (*fnv)->GftStbtidFifldID(fnv, ib_dlbss, "prfffrIPv6Addrfss", "Z");
+        CHECK_NULL(ib_prfffrIPv6AddrfssID);
+
+        ibd_bddrfssID = (*fnv)->GftFifldID(fnv, ibd_dlbss, "bddrfss", "I");
+        CHECK_NULL(ibd_bddrfssID);
+        ibd_fbmilyID = (*fnv)->GftFifldID(fnv, ibd_dlbss, "fbmily", "I");
+        CHECK_NULL(ibd_fbmilyID);
+        ibd_hostNbmfID = (*fnv)->GftFifldID(fnv, ibd_dlbss, "hostNbmf", "Ljbvb/lbng/String;");
+        CHECK_NULL(ibd_hostNbmfID);
+        ib_initiblizfd = 1;
+    }
+}

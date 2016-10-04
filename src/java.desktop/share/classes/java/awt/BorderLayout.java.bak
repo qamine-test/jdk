@@ -1,892 +1,892 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.util.Hashtable;
+import jbvb.util.Hbsitbblf;
 
 /**
- * A border layout lays out a container, arranging and resizing
- * its components to fit in five regions:
- * north, south, east, west, and center.
- * Each region may contain no more than one component, and
- * is identified by a corresponding constant:
- * <code>NORTH</code>, <code>SOUTH</code>, <code>EAST</code>,
- * <code>WEST</code>, and <code>CENTER</code>.  When adding a
- * component to a container with a border layout, use one of these
- * five constants, for example:
- * <pre>
- *    Panel p = new Panel();
- *    p.setLayout(new BorderLayout());
- *    p.add(new Button("Okay"), BorderLayout.SOUTH);
- * </pre>
- * As a convenience, <code>BorderLayout</code> interprets the
- * absence of a string specification the same as the constant
- * <code>CENTER</code>:
- * <pre>
- *    Panel p2 = new Panel();
- *    p2.setLayout(new BorderLayout());
- *    p2.add(new TextArea());  // Same as p.add(new TextArea(), BorderLayout.CENTER);
- * </pre>
+ * A bordfr lbyout lbys out b dontbinfr, brrbnging bnd rfsizing
+ * its domponfnts to fit in fivf rfgions:
+ * norti, souti, fbst, wfst, bnd dfntfr.
+ * Ebdi rfgion mby dontbin no morf tibn onf domponfnt, bnd
+ * is idfntififd by b dorrfsponding donstbnt:
+ * <dodf>NORTH</dodf>, <dodf>SOUTH</dodf>, <dodf>EAST</dodf>,
+ * <dodf>WEST</dodf>, bnd <dodf>CENTER</dodf>.  Wifn bdding b
+ * domponfnt to b dontbinfr witi b bordfr lbyout, usf onf of tifsf
+ * fivf donstbnts, for fxbmplf:
+ * <prf>
+ *    Pbnfl p = nfw Pbnfl();
+ *    p.sftLbyout(nfw BordfrLbyout());
+ *    p.bdd(nfw Button("Okby"), BordfrLbyout.SOUTH);
+ * </prf>
+ * As b donvfnifndf, <dodf>BordfrLbyout</dodf> intfrprfts tif
+ * bbsfndf of b string spfdifidbtion tif sbmf bs tif donstbnt
+ * <dodf>CENTER</dodf>:
+ * <prf>
+ *    Pbnfl p2 = nfw Pbnfl();
+ *    p2.sftLbyout(nfw BordfrLbyout());
+ *    p2.bdd(nfw TfxtArfb());  // Sbmf bs p.bdd(nfw TfxtArfb(), BordfrLbyout.CENTER);
+ * </prf>
  * <p>
- * In addition, <code>BorderLayout</code> supports the relative
- * positioning constants, <code>PAGE_START</code>, <code>PAGE_END</code>,
- * <code>LINE_START</code>, and <code>LINE_END</code>.
- * In a container whose <code>ComponentOrientation</code> is set to
- * <code>ComponentOrientation.LEFT_TO_RIGHT</code>, these constants map to
- * <code>NORTH</code>, <code>SOUTH</code>, <code>WEST</code>, and
- * <code>EAST</code>, respectively.
+ * In bddition, <dodf>BordfrLbyout</dodf> supports tif rflbtivf
+ * positioning donstbnts, <dodf>PAGE_START</dodf>, <dodf>PAGE_END</dodf>,
+ * <dodf>LINE_START</dodf>, bnd <dodf>LINE_END</dodf>.
+ * In b dontbinfr wiosf <dodf>ComponfntOrifntbtion</dodf> is sft to
+ * <dodf>ComponfntOrifntbtion.LEFT_TO_RIGHT</dodf>, tifsf donstbnts mbp to
+ * <dodf>NORTH</dodf>, <dodf>SOUTH</dodf>, <dodf>WEST</dodf>, bnd
+ * <dodf>EAST</dodf>, rfspfdtivfly.
  * <p>
- * For compatibility with previous releases, <code>BorderLayout</code>
- * also includes the relative positioning constants <code>BEFORE_FIRST_LINE</code>,
- * <code>AFTER_LAST_LINE</code>, <code>BEFORE_LINE_BEGINS</code> and
- * <code>AFTER_LINE_ENDS</code>.  These are equivalent to
- * <code>PAGE_START</code>, <code>PAGE_END</code>, <code>LINE_START</code>
- * and <code>LINE_END</code> respectively.  For
- * consistency with the relative positioning constants used by other
- * components, the latter constants are preferred.
+ * For dompbtibility witi prfvious rflfbsfs, <dodf>BordfrLbyout</dodf>
+ * blso indludfs tif rflbtivf positioning donstbnts <dodf>BEFORE_FIRST_LINE</dodf>,
+ * <dodf>AFTER_LAST_LINE</dodf>, <dodf>BEFORE_LINE_BEGINS</dodf> bnd
+ * <dodf>AFTER_LINE_ENDS</dodf>.  Tifsf brf fquivblfnt to
+ * <dodf>PAGE_START</dodf>, <dodf>PAGE_END</dodf>, <dodf>LINE_START</dodf>
+ * bnd <dodf>LINE_END</dodf> rfspfdtivfly.  For
+ * donsistfndy witi tif rflbtivf positioning donstbnts usfd by otifr
+ * domponfnts, tif lbttfr donstbnts brf prfffrrfd.
  * <p>
- * Mixing both absolute and relative positioning constants can lead to
- * unpredictable results.  If
- * you use both types, the relative constants will take precedence.
- * For example, if you add components using both the <code>NORTH</code>
- * and <code>PAGE_START</code> constants in a container whose
- * orientation is <code>LEFT_TO_RIGHT</code>, only the
- * <code>PAGE_START</code> will be layed out.
+ * Mixing boti bbsolutf bnd rflbtivf positioning donstbnts dbn lfbd to
+ * unprfdidtbblf rfsults.  If
+ * you usf boti typfs, tif rflbtivf donstbnts will tbkf prfdfdfndf.
+ * For fxbmplf, if you bdd domponfnts using boti tif <dodf>NORTH</dodf>
+ * bnd <dodf>PAGE_START</dodf> donstbnts in b dontbinfr wiosf
+ * orifntbtion is <dodf>LEFT_TO_RIGHT</dodf>, only tif
+ * <dodf>PAGE_START</dodf> will bf lbyfd out.
  * <p>
- * NOTE: Currently (in the Java 2 platform v1.2),
- * <code>BorderLayout</code> does not support vertical
- * orientations.  The <code>isVertical</code> setting on the container's
- * <code>ComponentOrientation</code> is not respected.
+ * NOTE: Currfntly (in tif Jbvb 2 plbtform v1.2),
+ * <dodf>BordfrLbyout</dodf> dofs not support vfrtidbl
+ * orifntbtions.  Tif <dodf>isVfrtidbl</dodf> sftting on tif dontbinfr's
+ * <dodf>ComponfntOrifntbtion</dodf> is not rfspfdtfd.
  * <p>
- * The components are laid out according to their
- * preferred sizes and the constraints of the container's size.
- * The <code>NORTH</code> and <code>SOUTH</code> components may
- * be stretched horizontally; the <code>EAST</code> and
- * <code>WEST</code> components may be stretched vertically;
- * the <code>CENTER</code> component may stretch both horizontally
- * and vertically to fill any space left over.
+ * Tif domponfnts brf lbid out bddording to tifir
+ * prfffrrfd sizfs bnd tif donstrbints of tif dontbinfr's sizf.
+ * Tif <dodf>NORTH</dodf> bnd <dodf>SOUTH</dodf> domponfnts mby
+ * bf strftdifd iorizontblly; tif <dodf>EAST</dodf> bnd
+ * <dodf>WEST</dodf> domponfnts mby bf strftdifd vfrtidblly;
+ * tif <dodf>CENTER</dodf> domponfnt mby strftdi boti iorizontblly
+ * bnd vfrtidblly to fill bny spbdf lfft ovfr.
  * <p>
- * Here is an example of five buttons in an applet laid out using
- * the <code>BorderLayout</code> layout manager:
+ * Hfrf is bn fxbmplf of fivf buttons in bn bpplft lbid out using
+ * tif <dodf>BordfrLbyout</dodf> lbyout mbnbgfr:
  * <p>
- * <img src="doc-files/BorderLayout-1.gif"
- * alt="Diagram of an applet demonstrating BorderLayout.
- *      Each section of the BorderLayout contains a Button corresponding to its position in the layout, one of:
- *      North, West, Center, East, or South."
- * style="float:center; margin: 7px 10px;">
+ * <img srd="dod-filfs/BordfrLbyout-1.gif"
+ * blt="Dibgrbm of bn bpplft dfmonstrbting BordfrLbyout.
+ *      Ebdi sfdtion of tif BordfrLbyout dontbins b Button dorrfsponding to its position in tif lbyout, onf of:
+ *      Norti, Wfst, Cfntfr, Ebst, or Souti."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
  * <p>
- * The code for this applet is as follows:
+ * Tif dodf for tiis bpplft is bs follows:
  *
- * <hr><blockquote><pre>
- * import java.awt.*;
- * import java.applet.Applet;
+ * <ir><blodkquotf><prf>
+ * import jbvb.bwt.*;
+ * import jbvb.bpplft.Applft;
  *
- * public class buttonDir extends Applet {
- *   public void init() {
- *     setLayout(new BorderLayout());
- *     add(new Button("North"), BorderLayout.NORTH);
- *     add(new Button("South"), BorderLayout.SOUTH);
- *     add(new Button("East"), BorderLayout.EAST);
- *     add(new Button("West"), BorderLayout.WEST);
- *     add(new Button("Center"), BorderLayout.CENTER);
+ * publid dlbss buttonDir fxtfnds Applft {
+ *   publid void init() {
+ *     sftLbyout(nfw BordfrLbyout());
+ *     bdd(nfw Button("Norti"), BordfrLbyout.NORTH);
+ *     bdd(nfw Button("Souti"), BordfrLbyout.SOUTH);
+ *     bdd(nfw Button("Ebst"), BordfrLbyout.EAST);
+ *     bdd(nfw Button("Wfst"), BordfrLbyout.WEST);
+ *     bdd(nfw Button("Cfntfr"), BordfrLbyout.CENTER);
  *   }
  * }
- * </pre></blockquote><hr>
+ * </prf></blodkquotf><ir>
  *
- * @author      Arthur van Hoff
- * @see         java.awt.Container#add(String, Component)
- * @see         java.awt.ComponentOrientation
- * @since       1.0
+ * @butior      Artiur vbn Hoff
+ * @sff         jbvb.bwt.Contbinfr#bdd(String, Componfnt)
+ * @sff         jbvb.bwt.ComponfntOrifntbtion
+ * @sindf       1.0
  */
-public class BorderLayout implements LayoutManager2,
-                                     java.io.Serializable {
+publid dlbss BordfrLbyout implfmfnts LbyoutMbnbgfr2,
+                                     jbvb.io.Sfriblizbblf {
     /**
-     * Constructs a border layout with the horizontal gaps
-     * between components.
-     * The horizontal gap is specified by <code>hgap</code>.
+     * Construdts b bordfr lbyout witi tif iorizontbl gbps
+     * bftwffn domponfnts.
+     * Tif iorizontbl gbp is spfdififd by <dodf>igbp</dodf>.
      *
-     * @see #getHgap()
-     * @see #setHgap(int)
+     * @sff #gftHgbp()
+     * @sff #sftHgbp(int)
      *
-     * @serial
+     * @sfribl
      */
-        int hgap;
+        int igbp;
 
     /**
-     * Constructs a border layout with the vertical gaps
-     * between components.
-     * The vertical gap is specified by <code>vgap</code>.
+     * Construdts b bordfr lbyout witi tif vfrtidbl gbps
+     * bftwffn domponfnts.
+     * Tif vfrtidbl gbp is spfdififd by <dodf>vgbp</dodf>.
      *
-     * @see #getVgap()
-     * @see #setVgap(int)
-     * @serial
+     * @sff #gftVgbp()
+     * @sff #sftVgbp(int)
+     * @sfribl
      */
-        int vgap;
+        int vgbp;
 
     /**
-     * Constant to specify components location to be the
-     *      north portion of the border layout.
-     * @serial
-     * @see #getChild(String, boolean)
-     * @see #addLayoutComponent
-     * @see #getLayoutAlignmentX
-     * @see #getLayoutAlignmentY
-     * @see #removeLayoutComponent
+     * Constbnt to spfdify domponfnts lodbtion to bf tif
+     *      norti portion of tif bordfr lbyout.
+     * @sfribl
+     * @sff #gftCiild(String, boolfbn)
+     * @sff #bddLbyoutComponfnt
+     * @sff #gftLbyoutAlignmfntX
+     * @sff #gftLbyoutAlignmfntY
+     * @sff #rfmovfLbyoutComponfnt
      */
-        Component north;
+        Componfnt norti;
      /**
-     * Constant to specify components location to be the
-     *      west portion of the border layout.
-     * @serial
-     * @see #getChild(String, boolean)
-     * @see #addLayoutComponent
-     * @see #getLayoutAlignmentX
-     * @see #getLayoutAlignmentY
-     * @see #removeLayoutComponent
+     * Constbnt to spfdify domponfnts lodbtion to bf tif
+     *      wfst portion of tif bordfr lbyout.
+     * @sfribl
+     * @sff #gftCiild(String, boolfbn)
+     * @sff #bddLbyoutComponfnt
+     * @sff #gftLbyoutAlignmfntX
+     * @sff #gftLbyoutAlignmfntY
+     * @sff #rfmovfLbyoutComponfnt
      */
-        Component west;
+        Componfnt wfst;
     /**
-     * Constant to specify components location to be the
-     *      east portion of the border layout.
-     * @serial
-     * @see #getChild(String, boolean)
-     * @see #addLayoutComponent
-     * @see #getLayoutAlignmentX
-     * @see #getLayoutAlignmentY
-     * @see #removeLayoutComponent
+     * Constbnt to spfdify domponfnts lodbtion to bf tif
+     *      fbst portion of tif bordfr lbyout.
+     * @sfribl
+     * @sff #gftCiild(String, boolfbn)
+     * @sff #bddLbyoutComponfnt
+     * @sff #gftLbyoutAlignmfntX
+     * @sff #gftLbyoutAlignmfntY
+     * @sff #rfmovfLbyoutComponfnt
      */
-        Component east;
+        Componfnt fbst;
     /**
-     * Constant to specify components location to be the
-     *      south portion of the border layout.
-     * @serial
-     * @see #getChild(String, boolean)
-     * @see #addLayoutComponent
-     * @see #getLayoutAlignmentX
-     * @see #getLayoutAlignmentY
-     * @see #removeLayoutComponent
+     * Constbnt to spfdify domponfnts lodbtion to bf tif
+     *      souti portion of tif bordfr lbyout.
+     * @sfribl
+     * @sff #gftCiild(String, boolfbn)
+     * @sff #bddLbyoutComponfnt
+     * @sff #gftLbyoutAlignmfntX
+     * @sff #gftLbyoutAlignmfntY
+     * @sff #rfmovfLbyoutComponfnt
      */
-    Component south;
+    Componfnt souti;
     /**
-     * Constant to specify components location to be the
-     *      center portion of the border layout.
-     * @serial
-     * @see #getChild(String, boolean)
-     * @see #addLayoutComponent
-     * @see #getLayoutAlignmentX
-     * @see #getLayoutAlignmentY
-     * @see #removeLayoutComponent
+     * Constbnt to spfdify domponfnts lodbtion to bf tif
+     *      dfntfr portion of tif bordfr lbyout.
+     * @sfribl
+     * @sff #gftCiild(String, boolfbn)
+     * @sff #bddLbyoutComponfnt
+     * @sff #gftLbyoutAlignmfntX
+     * @sff #gftLbyoutAlignmfntY
+     * @sff #rfmovfLbyoutComponfnt
      */
-        Component center;
+        Componfnt dfntfr;
 
     /**
      *
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * mixing the two types of constants can lead to unpredictable results.  If
-     * you use both types, the relative constants will take precedence.
-     * For example, if you add components using both the <code>NORTH</code>
-     * and <code>BEFORE_FIRST_LINE</code> constants in a container whose
-     * orientation is <code>LEFT_TO_RIGHT</code>, only the
-     * <code>BEFORE_FIRST_LINE</code> will be layed out.
-     * This will be the same for lastLine, firstItem, lastItem.
-     * @serial
+     * A rflbtivf positioning donstbnt, tibt dbn bf usfd instfbd of
+     * norti, souti, fbst, wfst or dfntfr.
+     * mixing tif two typfs of donstbnts dbn lfbd to unprfdidtbblf rfsults.  If
+     * you usf boti typfs, tif rflbtivf donstbnts will tbkf prfdfdfndf.
+     * For fxbmplf, if you bdd domponfnts using boti tif <dodf>NORTH</dodf>
+     * bnd <dodf>BEFORE_FIRST_LINE</dodf> donstbnts in b dontbinfr wiosf
+     * orifntbtion is <dodf>LEFT_TO_RIGHT</dodf>, only tif
+     * <dodf>BEFORE_FIRST_LINE</dodf> will bf lbyfd out.
+     * Tiis will bf tif sbmf for lbstLinf, firstItfm, lbstItfm.
+     * @sfribl
      */
-    Component firstLine;
+    Componfnt firstLinf;
      /**
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * Please read Description for firstLine.
-     * @serial
+     * A rflbtivf positioning donstbnt, tibt dbn bf usfd instfbd of
+     * norti, souti, fbst, wfst or dfntfr.
+     * Plfbsf rfbd Dfsdription for firstLinf.
+     * @sfribl
      */
-        Component lastLine;
+        Componfnt lbstLinf;
      /**
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * Please read Description for firstLine.
-     * @serial
+     * A rflbtivf positioning donstbnt, tibt dbn bf usfd instfbd of
+     * norti, souti, fbst, wfst or dfntfr.
+     * Plfbsf rfbd Dfsdription for firstLinf.
+     * @sfribl
      */
-        Component firstItem;
+        Componfnt firstItfm;
     /**
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * Please read Description for firstLine.
-     * @serial
+     * A rflbtivf positioning donstbnt, tibt dbn bf usfd instfbd of
+     * norti, souti, fbst, wfst or dfntfr.
+     * Plfbsf rfbd Dfsdription for firstLinf.
+     * @sfribl
      */
-        Component lastItem;
+        Componfnt lbstItfm;
 
     /**
-     * The north layout constraint (top of container).
+     * Tif norti lbyout donstrbint (top of dontbinfr).
      */
-    public static final String NORTH  = "North";
+    publid stbtid finbl String NORTH  = "Norti";
 
     /**
-     * The south layout constraint (bottom of container).
+     * Tif souti lbyout donstrbint (bottom of dontbinfr).
      */
-    public static final String SOUTH  = "South";
+    publid stbtid finbl String SOUTH  = "Souti";
 
     /**
-     * The east layout constraint (right side of container).
+     * Tif fbst lbyout donstrbint (rigit sidf of dontbinfr).
      */
-    public static final String EAST   = "East";
+    publid stbtid finbl String EAST   = "Ebst";
 
     /**
-     * The west layout constraint (left side of container).
+     * Tif wfst lbyout donstrbint (lfft sidf of dontbinfr).
      */
-    public static final String WEST   = "West";
+    publid stbtid finbl String WEST   = "Wfst";
 
     /**
-     * The center layout constraint (middle of container).
+     * Tif dfntfr lbyout donstrbint (middlf of dontbinfr).
      */
-    public static final String CENTER = "Center";
+    publid stbtid finbl String CENTER = "Cfntfr";
 
     /**
-     * Synonym for PAGE_START.  Exists for compatibility with previous
-     * versions.  PAGE_START is preferred.
+     * Synonym for PAGE_START.  Exists for dompbtibility witi prfvious
+     * vfrsions.  PAGE_START is prfffrrfd.
      *
-     * @see #PAGE_START
-     * @since 1.2
+     * @sff #PAGE_START
+     * @sindf 1.2
      */
-    public static final String BEFORE_FIRST_LINE = "First";
+    publid stbtid finbl String BEFORE_FIRST_LINE = "First";
 
     /**
-     * Synonym for PAGE_END.  Exists for compatibility with previous
-     * versions.  PAGE_END is preferred.
+     * Synonym for PAGE_END.  Exists for dompbtibility witi prfvious
+     * vfrsions.  PAGE_END is prfffrrfd.
      *
-     * @see #PAGE_END
-     * @since 1.2
+     * @sff #PAGE_END
+     * @sindf 1.2
      */
-    public static final String AFTER_LAST_LINE = "Last";
+    publid stbtid finbl String AFTER_LAST_LINE = "Lbst";
 
     /**
-     * Synonym for LINE_START.  Exists for compatibility with previous
-     * versions.  LINE_START is preferred.
+     * Synonym for LINE_START.  Exists for dompbtibility witi prfvious
+     * vfrsions.  LINE_START is prfffrrfd.
      *
-     * @see #LINE_START
-     * @since 1.2
+     * @sff #LINE_START
+     * @sindf 1.2
      */
-    public static final String BEFORE_LINE_BEGINS = "Before";
+    publid stbtid finbl String BEFORE_LINE_BEGINS = "Bfforf";
 
     /**
-     * Synonym for LINE_END.  Exists for compatibility with previous
-     * versions.  LINE_END is preferred.
+     * Synonym for LINE_END.  Exists for dompbtibility witi prfvious
+     * vfrsions.  LINE_END is prfffrrfd.
      *
-     * @see #LINE_END
-     * @since 1.2
+     * @sff #LINE_END
+     * @sindf 1.2
      */
-    public static final String AFTER_LINE_ENDS = "After";
+    publid stbtid finbl String AFTER_LINE_ENDS = "Aftfr";
 
     /**
-     * The component comes before the first line of the layout's content.
-     * For Western, left-to-right and top-to-bottom orientations, this is
-     * equivalent to NORTH.
+     * Tif domponfnt domfs bfforf tif first linf of tif lbyout's dontfnt.
+     * For Wfstfrn, lfft-to-rigit bnd top-to-bottom orifntbtions, tiis is
+     * fquivblfnt to NORTH.
      *
-     * @see java.awt.Component#getComponentOrientation
-     * @since 1.4
+     * @sff jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sindf 1.4
      */
-    public static final String PAGE_START = BEFORE_FIRST_LINE;
+    publid stbtid finbl String PAGE_START = BEFORE_FIRST_LINE;
 
     /**
-     * The component comes after the last line of the layout's content.
-     * For Western, left-to-right and top-to-bottom orientations, this is
-     * equivalent to SOUTH.
+     * Tif domponfnt domfs bftfr tif lbst linf of tif lbyout's dontfnt.
+     * For Wfstfrn, lfft-to-rigit bnd top-to-bottom orifntbtions, tiis is
+     * fquivblfnt to SOUTH.
      *
-     * @see java.awt.Component#getComponentOrientation
-     * @since 1.4
+     * @sff jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sindf 1.4
      */
-    public static final String PAGE_END = AFTER_LAST_LINE;
+    publid stbtid finbl String PAGE_END = AFTER_LAST_LINE;
 
     /**
-     * The component goes at the beginning of the line direction for the
-     * layout. For Western, left-to-right and top-to-bottom orientations,
-     * this is equivalent to WEST.
+     * Tif domponfnt gofs bt tif bfginning of tif linf dirfdtion for tif
+     * lbyout. For Wfstfrn, lfft-to-rigit bnd top-to-bottom orifntbtions,
+     * tiis is fquivblfnt to WEST.
      *
-     * @see java.awt.Component#getComponentOrientation
-     * @since 1.4
+     * @sff jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sindf 1.4
      */
-    public static final String LINE_START = BEFORE_LINE_BEGINS;
+    publid stbtid finbl String LINE_START = BEFORE_LINE_BEGINS;
 
     /**
-     * The component goes at the end of the line direction for the
-     * layout. For Western, left-to-right and top-to-bottom orientations,
-     * this is equivalent to EAST.
+     * Tif domponfnt gofs bt tif fnd of tif linf dirfdtion for tif
+     * lbyout. For Wfstfrn, lfft-to-rigit bnd top-to-bottom orifntbtions,
+     * tiis is fquivblfnt to EAST.
      *
-     * @see java.awt.Component#getComponentOrientation
-     * @since 1.4
+     * @sff jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sindf 1.4
      */
-    public static final String LINE_END = AFTER_LINE_ENDS;
+    publid stbtid finbl String LINE_END = AFTER_LINE_ENDS;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-     private static final long serialVersionUID = -8658291919501921765L;
+     privbtf stbtid finbl long sfriblVfrsionUID = -8658291919501921765L;
 
     /**
-     * Constructs a new border layout with
-     * no gaps between components.
+     * Construdts b nfw bordfr lbyout witi
+     * no gbps bftwffn domponfnts.
      */
-    public BorderLayout() {
-        this(0, 0);
+    publid BordfrLbyout() {
+        tiis(0, 0);
     }
 
     /**
-     * Constructs a border layout with the specified gaps
-     * between components.
-     * The horizontal gap is specified by <code>hgap</code>
-     * and the vertical gap is specified by <code>vgap</code>.
-     * @param   hgap   the horizontal gap.
-     * @param   vgap   the vertical gap.
+     * Construdts b bordfr lbyout witi tif spfdififd gbps
+     * bftwffn domponfnts.
+     * Tif iorizontbl gbp is spfdififd by <dodf>igbp</dodf>
+     * bnd tif vfrtidbl gbp is spfdififd by <dodf>vgbp</dodf>.
+     * @pbrbm   igbp   tif iorizontbl gbp.
+     * @pbrbm   vgbp   tif vfrtidbl gbp.
      */
-    public BorderLayout(int hgap, int vgap) {
-        this.hgap = hgap;
-        this.vgap = vgap;
+    publid BordfrLbyout(int igbp, int vgbp) {
+        tiis.igbp = igbp;
+        tiis.vgbp = vgbp;
     }
 
     /**
-     * Returns the horizontal gap between components.
+     * Rfturns tif iorizontbl gbp bftwffn domponfnts.
      *
-     * @return the horizontal gap between components
-     * @since   1.1
+     * @rfturn tif iorizontbl gbp bftwffn domponfnts
+     * @sindf   1.1
      */
-    public int getHgap() {
-        return hgap;
+    publid int gftHgbp() {
+        rfturn igbp;
     }
 
     /**
-     * Sets the horizontal gap between components.
+     * Sfts tif iorizontbl gbp bftwffn domponfnts.
      *
-     * @param hgap the horizontal gap between components
-     * @since   1.1
+     * @pbrbm igbp tif iorizontbl gbp bftwffn domponfnts
+     * @sindf   1.1
      */
-    public void setHgap(int hgap) {
-        this.hgap = hgap;
+    publid void sftHgbp(int igbp) {
+        tiis.igbp = igbp;
     }
 
     /**
-     * Returns the vertical gap between components.
+     * Rfturns tif vfrtidbl gbp bftwffn domponfnts.
      *
-     * @return the vertical gap between components
-     * @since   1.1
+     * @rfturn tif vfrtidbl gbp bftwffn domponfnts
+     * @sindf   1.1
      */
-    public int getVgap() {
-        return vgap;
+    publid int gftVgbp() {
+        rfturn vgbp;
     }
 
     /**
-     * Sets the vertical gap between components.
+     * Sfts tif vfrtidbl gbp bftwffn domponfnts.
      *
-     * @param vgap the vertical gap between components
-     * @since   1.1
+     * @pbrbm vgbp tif vfrtidbl gbp bftwffn domponfnts
+     * @sindf   1.1
      */
-    public void setVgap(int vgap) {
-        this.vgap = vgap;
+    publid void sftVgbp(int vgbp) {
+        tiis.vgbp = vgbp;
     }
 
     /**
-     * Adds the specified component to the layout, using the specified
-     * constraint object.  For border layouts, the constraint must be
-     * one of the following constants:  <code>NORTH</code>,
-     * <code>SOUTH</code>, <code>EAST</code>,
-     * <code>WEST</code>, or <code>CENTER</code>.
+     * Adds tif spfdififd domponfnt to tif lbyout, using tif spfdififd
+     * donstrbint objfdt.  For bordfr lbyouts, tif donstrbint must bf
+     * onf of tif following donstbnts:  <dodf>NORTH</dodf>,
+     * <dodf>SOUTH</dodf>, <dodf>EAST</dodf>,
+     * <dodf>WEST</dodf>, or <dodf>CENTER</dodf>.
      * <p>
-     * Most applications do not call this method directly. This method
-     * is called when a component is added to a container using the
-     * <code>Container.add</code> method with the same argument types.
-     * @param   comp         the component to be added.
-     * @param   constraints  an object that specifies how and where
-     *                       the component is added to the layout.
-     * @see     java.awt.Container#add(java.awt.Component, java.lang.Object)
-     * @exception   IllegalArgumentException  if the constraint object is not
-     *              a string, or if it not one of the five specified constants.
-     * @since   1.1
+     * Most bpplidbtions do not dbll tiis mftiod dirfdtly. Tiis mftiod
+     * is dbllfd wifn b domponfnt is bddfd to b dontbinfr using tif
+     * <dodf>Contbinfr.bdd</dodf> mftiod witi tif sbmf brgumfnt typfs.
+     * @pbrbm   domp         tif domponfnt to bf bddfd.
+     * @pbrbm   donstrbints  bn objfdt tibt spfdififs iow bnd wifrf
+     *                       tif domponfnt is bddfd to tif lbyout.
+     * @sff     jbvb.bwt.Contbinfr#bdd(jbvb.bwt.Componfnt, jbvb.lbng.Objfdt)
+     * @fxdfption   IllfgblArgumfntExdfption  if tif donstrbint objfdt is not
+     *              b string, or if it not onf of tif fivf spfdififd donstbnts.
+     * @sindf   1.1
      */
-    public void addLayoutComponent(Component comp, Object constraints) {
-      synchronized (comp.getTreeLock()) {
-        if ((constraints == null) || (constraints instanceof String)) {
-            addLayoutComponent((String)constraints, comp);
-        } else {
-            throw new IllegalArgumentException("cannot add to layout: constraint must be a string (or null)");
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+      syndironizfd (domp.gftTrffLodk()) {
+        if ((donstrbints == null) || (donstrbints instbndfof String)) {
+            bddLbyoutComponfnt((String)donstrbints, domp);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("dbnnot bdd to lbyout: donstrbint must bf b string (or null)");
         }
       }
     }
 
     /**
-     * @deprecated  replaced by <code>addLayoutComponent(Component, Object)</code>.
+     * @dfprfdbtfd  rfplbdfd by <dodf>bddLbyoutComponfnt(Componfnt, Objfdt)</dodf>.
      */
-    @Deprecated
-    public void addLayoutComponent(String name, Component comp) {
-      synchronized (comp.getTreeLock()) {
-        /* Special case:  treat null the same as "Center". */
-        if (name == null) {
-            name = "Center";
+    @Dfprfdbtfd
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+      syndironizfd (domp.gftTrffLodk()) {
+        /* Spfdibl dbsf:  trfbt null tif sbmf bs "Cfntfr". */
+        if (nbmf == null) {
+            nbmf = "Cfntfr";
         }
 
-        /* Assign the component to one of the known regions of the layout.
+        /* Assign tif domponfnt to onf of tif known rfgions of tif lbyout.
          */
-        if ("Center".equals(name)) {
-            center = comp;
-        } else if ("North".equals(name)) {
-            north = comp;
-        } else if ("South".equals(name)) {
-            south = comp;
-        } else if ("East".equals(name)) {
-            east = comp;
-        } else if ("West".equals(name)) {
-            west = comp;
-        } else if (BEFORE_FIRST_LINE.equals(name)) {
-            firstLine = comp;
-        } else if (AFTER_LAST_LINE.equals(name)) {
-            lastLine = comp;
-        } else if (BEFORE_LINE_BEGINS.equals(name)) {
-            firstItem = comp;
-        } else if (AFTER_LINE_ENDS.equals(name)) {
-            lastItem = comp;
-        } else {
-            throw new IllegalArgumentException("cannot add to layout: unknown constraint: " + name);
+        if ("Cfntfr".fqubls(nbmf)) {
+            dfntfr = domp;
+        } flsf if ("Norti".fqubls(nbmf)) {
+            norti = domp;
+        } flsf if ("Souti".fqubls(nbmf)) {
+            souti = domp;
+        } flsf if ("Ebst".fqubls(nbmf)) {
+            fbst = domp;
+        } flsf if ("Wfst".fqubls(nbmf)) {
+            wfst = domp;
+        } flsf if (BEFORE_FIRST_LINE.fqubls(nbmf)) {
+            firstLinf = domp;
+        } flsf if (AFTER_LAST_LINE.fqubls(nbmf)) {
+            lbstLinf = domp;
+        } flsf if (BEFORE_LINE_BEGINS.fqubls(nbmf)) {
+            firstItfm = domp;
+        } flsf if (AFTER_LINE_ENDS.fqubls(nbmf)) {
+            lbstItfm = domp;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("dbnnot bdd to lbyout: unknown donstrbint: " + nbmf);
         }
       }
     }
 
     /**
-     * Removes the specified component from this border layout. This
-     * method is called when a container calls its <code>remove</code> or
-     * <code>removeAll</code> methods. Most applications do not call this
-     * method directly.
-     * @param   comp   the component to be removed.
-     * @see     java.awt.Container#remove(java.awt.Component)
-     * @see     java.awt.Container#removeAll()
+     * Rfmovfs tif spfdififd domponfnt from tiis bordfr lbyout. Tiis
+     * mftiod is dbllfd wifn b dontbinfr dblls its <dodf>rfmovf</dodf> or
+     * <dodf>rfmovfAll</dodf> mftiods. Most bpplidbtions do not dbll tiis
+     * mftiod dirfdtly.
+     * @pbrbm   domp   tif domponfnt to bf rfmovfd.
+     * @sff     jbvb.bwt.Contbinfr#rfmovf(jbvb.bwt.Componfnt)
+     * @sff     jbvb.bwt.Contbinfr#rfmovfAll()
      */
-    public void removeLayoutComponent(Component comp) {
-      synchronized (comp.getTreeLock()) {
-        if (comp == center) {
-            center = null;
-        } else if (comp == north) {
-            north = null;
-        } else if (comp == south) {
-            south = null;
-        } else if (comp == east) {
-            east = null;
-        } else if (comp == west) {
-            west = null;
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+      syndironizfd (domp.gftTrffLodk()) {
+        if (domp == dfntfr) {
+            dfntfr = null;
+        } flsf if (domp == norti) {
+            norti = null;
+        } flsf if (domp == souti) {
+            souti = null;
+        } flsf if (domp == fbst) {
+            fbst = null;
+        } flsf if (domp == wfst) {
+            wfst = null;
         }
-        if (comp == firstLine) {
-            firstLine = null;
-        } else if (comp == lastLine) {
-            lastLine = null;
-        } else if (comp == firstItem) {
-            firstItem = null;
-        } else if (comp == lastItem) {
-            lastItem = null;
+        if (domp == firstLinf) {
+            firstLinf = null;
+        } flsf if (domp == lbstLinf) {
+            lbstLinf = null;
+        } flsf if (domp == firstItfm) {
+            firstItfm = null;
+        } flsf if (domp == lbstItfm) {
+            lbstItfm = null;
         }
       }
     }
 
     /**
-     * Gets the component that was added using the given constraint
+     * Gfts tif domponfnt tibt wbs bddfd using tif givfn donstrbint
      *
-     * @param   constraints  the desired constraint, one of <code>CENTER</code>,
-     *                       <code>NORTH</code>, <code>SOUTH</code>,
-     *                       <code>WEST</code>, <code>EAST</code>,
-     *                       <code>PAGE_START</code>, <code>PAGE_END</code>,
-     *                       <code>LINE_START</code>, <code>LINE_END</code>
-     * @return  the component at the given location, or <code>null</code> if
-     *          the location is empty
-     * @exception   IllegalArgumentException  if the constraint object is
-     *              not one of the nine specified constants
-     * @see     #addLayoutComponent(java.awt.Component, java.lang.Object)
-     * @since 1.5
+     * @pbrbm   donstrbints  tif dfsirfd donstrbint, onf of <dodf>CENTER</dodf>,
+     *                       <dodf>NORTH</dodf>, <dodf>SOUTH</dodf>,
+     *                       <dodf>WEST</dodf>, <dodf>EAST</dodf>,
+     *                       <dodf>PAGE_START</dodf>, <dodf>PAGE_END</dodf>,
+     *                       <dodf>LINE_START</dodf>, <dodf>LINE_END</dodf>
+     * @rfturn  tif domponfnt bt tif givfn lodbtion, or <dodf>null</dodf> if
+     *          tif lodbtion is fmpty
+     * @fxdfption   IllfgblArgumfntExdfption  if tif donstrbint objfdt is
+     *              not onf of tif ninf spfdififd donstbnts
+     * @sff     #bddLbyoutComponfnt(jbvb.bwt.Componfnt, jbvb.lbng.Objfdt)
+     * @sindf 1.5
      */
-    public Component getLayoutComponent(Object constraints) {
-        if (CENTER.equals(constraints)) {
-            return center;
-        } else if (NORTH.equals(constraints)) {
-            return north;
-        } else if (SOUTH.equals(constraints)) {
-            return south;
-        } else if (WEST.equals(constraints)) {
-            return west;
-        } else if (EAST.equals(constraints)) {
-            return east;
-        } else if (PAGE_START.equals(constraints)) {
-            return firstLine;
-        } else if (PAGE_END.equals(constraints)) {
-            return lastLine;
-        } else if (LINE_START.equals(constraints)) {
-            return firstItem;
-        } else if (LINE_END.equals(constraints)) {
-            return lastItem;
-        } else {
-            throw new IllegalArgumentException("cannot get component: unknown constraint: " + constraints);
+    publid Componfnt gftLbyoutComponfnt(Objfdt donstrbints) {
+        if (CENTER.fqubls(donstrbints)) {
+            rfturn dfntfr;
+        } flsf if (NORTH.fqubls(donstrbints)) {
+            rfturn norti;
+        } flsf if (SOUTH.fqubls(donstrbints)) {
+            rfturn souti;
+        } flsf if (WEST.fqubls(donstrbints)) {
+            rfturn wfst;
+        } flsf if (EAST.fqubls(donstrbints)) {
+            rfturn fbst;
+        } flsf if (PAGE_START.fqubls(donstrbints)) {
+            rfturn firstLinf;
+        } flsf if (PAGE_END.fqubls(donstrbints)) {
+            rfturn lbstLinf;
+        } flsf if (LINE_START.fqubls(donstrbints)) {
+            rfturn firstItfm;
+        } flsf if (LINE_END.fqubls(donstrbints)) {
+            rfturn lbstItfm;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("dbnnot gft domponfnt: unknown donstrbint: " + donstrbints);
         }
     }
 
 
     /**
-     * Returns the component that corresponds to the given constraint location
-     * based on the target <code>Container</code>'s component orientation.
-     * Components added with the relative constraints <code>PAGE_START</code>,
-     * <code>PAGE_END</code>, <code>LINE_START</code>, and <code>LINE_END</code>
-     * take precedence over components added with the explicit constraints
-     * <code>NORTH</code>, <code>SOUTH</code>, <code>WEST</code>, and <code>EAST</code>.
-     * The <code>Container</code>'s component orientation is used to determine the location of components
-     * added with <code>LINE_START</code> and <code>LINE_END</code>.
+     * Rfturns tif domponfnt tibt dorrfsponds to tif givfn donstrbint lodbtion
+     * bbsfd on tif tbrgft <dodf>Contbinfr</dodf>'s domponfnt orifntbtion.
+     * Componfnts bddfd witi tif rflbtivf donstrbints <dodf>PAGE_START</dodf>,
+     * <dodf>PAGE_END</dodf>, <dodf>LINE_START</dodf>, bnd <dodf>LINE_END</dodf>
+     * tbkf prfdfdfndf ovfr domponfnts bddfd witi tif fxplidit donstrbints
+     * <dodf>NORTH</dodf>, <dodf>SOUTH</dodf>, <dodf>WEST</dodf>, bnd <dodf>EAST</dodf>.
+     * Tif <dodf>Contbinfr</dodf>'s domponfnt orifntbtion is usfd to dftfrminf tif lodbtion of domponfnts
+     * bddfd witi <dodf>LINE_START</dodf> bnd <dodf>LINE_END</dodf>.
      *
-     * @param   constraints     the desired absolute position, one of <code>CENTER</code>,
-     *                          <code>NORTH</code>, <code>SOUTH</code>,
-     *                          <code>EAST</code>, <code>WEST</code>
-     * @param   target     the {@code Container} used to obtain
-     *                     the constraint location based on the target
-     *                     {@code Container}'s component orientation.
-     * @return  the component at the given location, or <code>null</code> if
-     *          the location is empty
-     * @exception   IllegalArgumentException  if the constraint object is
-     *              not one of the five specified constants
-     * @exception   NullPointerException  if the target parameter is null
-     * @see     #addLayoutComponent(java.awt.Component, java.lang.Object)
-     * @since 1.5
+     * @pbrbm   donstrbints     tif dfsirfd bbsolutf position, onf of <dodf>CENTER</dodf>,
+     *                          <dodf>NORTH</dodf>, <dodf>SOUTH</dodf>,
+     *                          <dodf>EAST</dodf>, <dodf>WEST</dodf>
+     * @pbrbm   tbrgft     tif {@dodf Contbinfr} usfd to obtbin
+     *                     tif donstrbint lodbtion bbsfd on tif tbrgft
+     *                     {@dodf Contbinfr}'s domponfnt orifntbtion.
+     * @rfturn  tif domponfnt bt tif givfn lodbtion, or <dodf>null</dodf> if
+     *          tif lodbtion is fmpty
+     * @fxdfption   IllfgblArgumfntExdfption  if tif donstrbint objfdt is
+     *              not onf of tif fivf spfdififd donstbnts
+     * @fxdfption   NullPointfrExdfption  if tif tbrgft pbrbmftfr is null
+     * @sff     #bddLbyoutComponfnt(jbvb.bwt.Componfnt, jbvb.lbng.Objfdt)
+     * @sindf 1.5
      */
-    public Component getLayoutComponent(Container target, Object constraints) {
-        boolean ltr = target.getComponentOrientation().isLeftToRight();
-        Component result = null;
+    publid Componfnt gftLbyoutComponfnt(Contbinfr tbrgft, Objfdt donstrbints) {
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRigit();
+        Componfnt rfsult = null;
 
-        if (NORTH.equals(constraints)) {
-            result = (firstLine != null) ? firstLine : north;
-        } else if (SOUTH.equals(constraints)) {
-            result = (lastLine != null) ? lastLine : south;
-        } else if (WEST.equals(constraints)) {
-            result = ltr ? firstItem : lastItem;
-            if (result == null) {
-                result = west;
+        if (NORTH.fqubls(donstrbints)) {
+            rfsult = (firstLinf != null) ? firstLinf : norti;
+        } flsf if (SOUTH.fqubls(donstrbints)) {
+            rfsult = (lbstLinf != null) ? lbstLinf : souti;
+        } flsf if (WEST.fqubls(donstrbints)) {
+            rfsult = ltr ? firstItfm : lbstItfm;
+            if (rfsult == null) {
+                rfsult = wfst;
             }
-        } else if (EAST.equals(constraints)) {
-            result = ltr ? lastItem : firstItem;
-            if (result == null) {
-                result = east;
+        } flsf if (EAST.fqubls(donstrbints)) {
+            rfsult = ltr ? lbstItfm : firstItfm;
+            if (rfsult == null) {
+                rfsult = fbst;
             }
-        } else if (CENTER.equals(constraints)) {
-            result = center;
-        } else {
-            throw new IllegalArgumentException("cannot get component: invalid constraint: " + constraints);
+        } flsf if (CENTER.fqubls(donstrbints)) {
+            rfsult = dfntfr;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("dbnnot gft domponfnt: invblid donstrbint: " + donstrbints);
         }
 
-        return result;
+        rfturn rfsult;
     }
 
 
     /**
-     * Gets the constraints for the specified component
+     * Gfts tif donstrbints for tif spfdififd domponfnt
      *
-     * @param   comp the component to be queried
-     * @return  the constraint for the specified component,
-     *          or null if component is null or is not present
-     *          in this layout
-     * @see #addLayoutComponent(java.awt.Component, java.lang.Object)
-     * @since 1.5
+     * @pbrbm   domp tif domponfnt to bf qufrifd
+     * @rfturn  tif donstrbint for tif spfdififd domponfnt,
+     *          or null if domponfnt is null or is not prfsfnt
+     *          in tiis lbyout
+     * @sff #bddLbyoutComponfnt(jbvb.bwt.Componfnt, jbvb.lbng.Objfdt)
+     * @sindf 1.5
      */
-    public Object getConstraints(Component comp) {
-        //fix for 6242148 : API method java.awt.BorderLayout.getConstraints(null) should return null
-        if (comp == null){
-            return null;
+    publid Objfdt gftConstrbints(Componfnt domp) {
+        //fix for 6242148 : API mftiod jbvb.bwt.BordfrLbyout.gftConstrbints(null) siould rfturn null
+        if (domp == null){
+            rfturn null;
         }
-        if (comp == center) {
-            return CENTER;
-        } else if (comp == north) {
-            return NORTH;
-        } else if (comp == south) {
-            return SOUTH;
-        } else if (comp == west) {
-            return WEST;
-        } else if (comp == east) {
-            return EAST;
-        } else if (comp == firstLine) {
-            return PAGE_START;
-        } else if (comp == lastLine) {
-            return PAGE_END;
-        } else if (comp == firstItem) {
-            return LINE_START;
-        } else if (comp == lastItem) {
-            return LINE_END;
+        if (domp == dfntfr) {
+            rfturn CENTER;
+        } flsf if (domp == norti) {
+            rfturn NORTH;
+        } flsf if (domp == souti) {
+            rfturn SOUTH;
+        } flsf if (domp == wfst) {
+            rfturn WEST;
+        } flsf if (domp == fbst) {
+            rfturn EAST;
+        } flsf if (domp == firstLinf) {
+            rfturn PAGE_START;
+        } flsf if (domp == lbstLinf) {
+            rfturn PAGE_END;
+        } flsf if (domp == firstItfm) {
+            rfturn LINE_START;
+        } flsf if (domp == lbstItfm) {
+            rfturn LINE_END;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Determines the minimum size of the <code>target</code> container
-     * using this layout manager.
+     * Dftfrminfs tif minimum sizf of tif <dodf>tbrgft</dodf> dontbinfr
+     * using tiis lbyout mbnbgfr.
      * <p>
-     * This method is called when a container calls its
-     * <code>getMinimumSize</code> method. Most applications do not call
-     * this method directly.
-     * @param   target   the container in which to do the layout.
-     * @return  the minimum dimensions needed to lay out the subcomponents
-     *          of the specified container.
-     * @see     java.awt.Container
-     * @see     java.awt.BorderLayout#preferredLayoutSize
-     * @see     java.awt.Container#getMinimumSize()
+     * Tiis mftiod is dbllfd wifn b dontbinfr dblls its
+     * <dodf>gftMinimumSizf</dodf> mftiod. Most bpplidbtions do not dbll
+     * tiis mftiod dirfdtly.
+     * @pbrbm   tbrgft   tif dontbinfr in wiidi to do tif lbyout.
+     * @rfturn  tif minimum dimfnsions nffdfd to lby out tif subdomponfnts
+     *          of tif spfdififd dontbinfr.
+     * @sff     jbvb.bwt.Contbinfr
+     * @sff     jbvb.bwt.BordfrLbyout#prfffrrfdLbyoutSizf
+     * @sff     jbvb.bwt.Contbinfr#gftMinimumSizf()
      */
-    public Dimension minimumLayoutSize(Container target) {
-      synchronized (target.getTreeLock()) {
-        Dimension dim = new Dimension(0, 0);
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+      syndironizfd (tbrgft.gftTrffLodk()) {
+        Dimfnsion dim = nfw Dimfnsion(0, 0);
 
-        boolean ltr = target.getComponentOrientation().isLeftToRight();
-        Component c = null;
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRigit();
+        Componfnt d = null;
 
-        if ((c=getChild(EAST,ltr)) != null) {
-            Dimension d = c.getMinimumSize();
-            dim.width += d.width + hgap;
-            dim.height = Math.max(d.height, dim.height);
+        if ((d=gftCiild(EAST,ltr)) != null) {
+            Dimfnsion d = d.gftMinimumSizf();
+            dim.widti += d.widti + igbp;
+            dim.ifigit = Mbti.mbx(d.ifigit, dim.ifigit);
         }
-        if ((c=getChild(WEST,ltr)) != null) {
-            Dimension d = c.getMinimumSize();
-            dim.width += d.width + hgap;
-            dim.height = Math.max(d.height, dim.height);
+        if ((d=gftCiild(WEST,ltr)) != null) {
+            Dimfnsion d = d.gftMinimumSizf();
+            dim.widti += d.widti + igbp;
+            dim.ifigit = Mbti.mbx(d.ifigit, dim.ifigit);
         }
-        if ((c=getChild(CENTER,ltr)) != null) {
-            Dimension d = c.getMinimumSize();
-            dim.width += d.width;
-            dim.height = Math.max(d.height, dim.height);
+        if ((d=gftCiild(CENTER,ltr)) != null) {
+            Dimfnsion d = d.gftMinimumSizf();
+            dim.widti += d.widti;
+            dim.ifigit = Mbti.mbx(d.ifigit, dim.ifigit);
         }
-        if ((c=getChild(NORTH,ltr)) != null) {
-            Dimension d = c.getMinimumSize();
-            dim.width = Math.max(d.width, dim.width);
-            dim.height += d.height + vgap;
+        if ((d=gftCiild(NORTH,ltr)) != null) {
+            Dimfnsion d = d.gftMinimumSizf();
+            dim.widti = Mbti.mbx(d.widti, dim.widti);
+            dim.ifigit += d.ifigit + vgbp;
         }
-        if ((c=getChild(SOUTH,ltr)) != null) {
-            Dimension d = c.getMinimumSize();
-            dim.width = Math.max(d.width, dim.width);
-            dim.height += d.height + vgap;
+        if ((d=gftCiild(SOUTH,ltr)) != null) {
+            Dimfnsion d = d.gftMinimumSizf();
+            dim.widti = Mbti.mbx(d.widti, dim.widti);
+            dim.ifigit += d.ifigit + vgbp;
         }
 
-        Insets insets = target.getInsets();
-        dim.width += insets.left + insets.right;
-        dim.height += insets.top + insets.bottom;
+        Insfts insfts = tbrgft.gftInsfts();
+        dim.widti += insfts.lfft + insfts.rigit;
+        dim.ifigit += insfts.top + insfts.bottom;
 
-        return dim;
+        rfturn dim;
       }
     }
 
     /**
-     * Determines the preferred size of the <code>target</code>
-     * container using this layout manager, based on the components
-     * in the container.
+     * Dftfrminfs tif prfffrrfd sizf of tif <dodf>tbrgft</dodf>
+     * dontbinfr using tiis lbyout mbnbgfr, bbsfd on tif domponfnts
+     * in tif dontbinfr.
      * <p>
-     * Most applications do not call this method directly. This method
-     * is called when a container calls its <code>getPreferredSize</code>
-     * method.
-     * @param   target   the container in which to do the layout.
-     * @return  the preferred dimensions to lay out the subcomponents
-     *          of the specified container.
-     * @see     java.awt.Container
-     * @see     java.awt.BorderLayout#minimumLayoutSize
-     * @see     java.awt.Container#getPreferredSize()
+     * Most bpplidbtions do not dbll tiis mftiod dirfdtly. Tiis mftiod
+     * is dbllfd wifn b dontbinfr dblls its <dodf>gftPrfffrrfdSizf</dodf>
+     * mftiod.
+     * @pbrbm   tbrgft   tif dontbinfr in wiidi to do tif lbyout.
+     * @rfturn  tif prfffrrfd dimfnsions to lby out tif subdomponfnts
+     *          of tif spfdififd dontbinfr.
+     * @sff     jbvb.bwt.Contbinfr
+     * @sff     jbvb.bwt.BordfrLbyout#minimumLbyoutSizf
+     * @sff     jbvb.bwt.Contbinfr#gftPrfffrrfdSizf()
      */
-    public Dimension preferredLayoutSize(Container target) {
-      synchronized (target.getTreeLock()) {
-        Dimension dim = new Dimension(0, 0);
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+      syndironizfd (tbrgft.gftTrffLodk()) {
+        Dimfnsion dim = nfw Dimfnsion(0, 0);
 
-        boolean ltr = target.getComponentOrientation().isLeftToRight();
-        Component c = null;
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRigit();
+        Componfnt d = null;
 
-        if ((c=getChild(EAST,ltr)) != null) {
-            Dimension d = c.getPreferredSize();
-            dim.width += d.width + hgap;
-            dim.height = Math.max(d.height, dim.height);
+        if ((d=gftCiild(EAST,ltr)) != null) {
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            dim.widti += d.widti + igbp;
+            dim.ifigit = Mbti.mbx(d.ifigit, dim.ifigit);
         }
-        if ((c=getChild(WEST,ltr)) != null) {
-            Dimension d = c.getPreferredSize();
-            dim.width += d.width + hgap;
-            dim.height = Math.max(d.height, dim.height);
+        if ((d=gftCiild(WEST,ltr)) != null) {
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            dim.widti += d.widti + igbp;
+            dim.ifigit = Mbti.mbx(d.ifigit, dim.ifigit);
         }
-        if ((c=getChild(CENTER,ltr)) != null) {
-            Dimension d = c.getPreferredSize();
-            dim.width += d.width;
-            dim.height = Math.max(d.height, dim.height);
+        if ((d=gftCiild(CENTER,ltr)) != null) {
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            dim.widti += d.widti;
+            dim.ifigit = Mbti.mbx(d.ifigit, dim.ifigit);
         }
-        if ((c=getChild(NORTH,ltr)) != null) {
-            Dimension d = c.getPreferredSize();
-            dim.width = Math.max(d.width, dim.width);
-            dim.height += d.height + vgap;
+        if ((d=gftCiild(NORTH,ltr)) != null) {
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            dim.widti = Mbti.mbx(d.widti, dim.widti);
+            dim.ifigit += d.ifigit + vgbp;
         }
-        if ((c=getChild(SOUTH,ltr)) != null) {
-            Dimension d = c.getPreferredSize();
-            dim.width = Math.max(d.width, dim.width);
-            dim.height += d.height + vgap;
+        if ((d=gftCiild(SOUTH,ltr)) != null) {
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            dim.widti = Mbti.mbx(d.widti, dim.widti);
+            dim.ifigit += d.ifigit + vgbp;
         }
 
-        Insets insets = target.getInsets();
-        dim.width += insets.left + insets.right;
-        dim.height += insets.top + insets.bottom;
+        Insfts insfts = tbrgft.gftInsfts();
+        dim.widti += insfts.lfft + insfts.rigit;
+        dim.ifigit += insfts.top + insfts.bottom;
 
-        return dim;
+        rfturn dim;
       }
     }
 
     /**
-     * Returns the maximum dimensions for this layout given the components
-     * in the specified target container.
-     * @param target the component which needs to be laid out
-     * @see Container
-     * @see #minimumLayoutSize
-     * @see #preferredLayoutSize
+     * Rfturns tif mbximum dimfnsions for tiis lbyout givfn tif domponfnts
+     * in tif spfdififd tbrgft dontbinfr.
+     * @pbrbm tbrgft tif domponfnt wiidi nffds to bf lbid out
+     * @sff Contbinfr
+     * @sff #minimumLbyoutSizf
+     * @sff #prfffrrfdLbyoutSizf
      */
-    public Dimension maximumLayoutSize(Container target) {
-        return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+        rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * Returns the alignment along the x axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Rfturns tif blignmfnt blong tif x bxis.  Tiis spfdififs iow
+     * tif domponfnt would likf to bf blignfd rflbtivf to otifr
+     * domponfnts.  Tif vbluf siould bf b numbfr bftwffn 0 bnd 1
+     * wifrf 0 rfprfsfnts blignmfnt blong tif origin, 1 is blignfd
+     * tif furtifst bwby from tif origin, 0.5 is dfntfrfd, ftd.
      */
-    public float getLayoutAlignmentX(Container parent) {
-        return 0.5f;
+    publid flobt gftLbyoutAlignmfntX(Contbinfr pbrfnt) {
+        rfturn 0.5f;
     }
 
     /**
-     * Returns the alignment along the y axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Rfturns tif blignmfnt blong tif y bxis.  Tiis spfdififs iow
+     * tif domponfnt would likf to bf blignfd rflbtivf to otifr
+     * domponfnts.  Tif vbluf siould bf b numbfr bftwffn 0 bnd 1
+     * wifrf 0 rfprfsfnts blignmfnt blong tif origin, 1 is blignfd
+     * tif furtifst bwby from tif origin, 0.5 is dfntfrfd, ftd.
      */
-    public float getLayoutAlignmentY(Container parent) {
-        return 0.5f;
+    publid flobt gftLbyoutAlignmfntY(Contbinfr pbrfnt) {
+        rfturn 0.5f;
     }
 
     /**
-     * Invalidates the layout, indicating that if the layout manager
-     * has cached information it should be discarded.
+     * Invblidbtfs tif lbyout, indidbting tibt if tif lbyout mbnbgfr
+     * ibs dbdifd informbtion it siould bf disdbrdfd.
      */
-    public void invalidateLayout(Container target) {
+    publid void invblidbtfLbyout(Contbinfr tbrgft) {
     }
 
     /**
-     * Lays out the container argument using this border layout.
+     * Lbys out tif dontbinfr brgumfnt using tiis bordfr lbyout.
      * <p>
-     * This method actually reshapes the components in the specified
-     * container in order to satisfy the constraints of this
-     * <code>BorderLayout</code> object. The <code>NORTH</code>
-     * and <code>SOUTH</code> components, if any, are placed at
-     * the top and bottom of the container, respectively. The
-     * <code>WEST</code> and <code>EAST</code> components are
-     * then placed on the left and right, respectively. Finally,
-     * the <code>CENTER</code> object is placed in any remaining
-     * space in the middle.
+     * Tiis mftiod bdtublly rfsibpfs tif domponfnts in tif spfdififd
+     * dontbinfr in ordfr to sbtisfy tif donstrbints of tiis
+     * <dodf>BordfrLbyout</dodf> objfdt. Tif <dodf>NORTH</dodf>
+     * bnd <dodf>SOUTH</dodf> domponfnts, if bny, brf plbdfd bt
+     * tif top bnd bottom of tif dontbinfr, rfspfdtivfly. Tif
+     * <dodf>WEST</dodf> bnd <dodf>EAST</dodf> domponfnts brf
+     * tifn plbdfd on tif lfft bnd rigit, rfspfdtivfly. Finblly,
+     * tif <dodf>CENTER</dodf> objfdt is plbdfd in bny rfmbining
+     * spbdf in tif middlf.
      * <p>
-     * Most applications do not call this method directly. This method
-     * is called when a container calls its <code>doLayout</code> method.
-     * @param   target   the container in which to do the layout.
-     * @see     java.awt.Container
-     * @see     java.awt.Container#doLayout()
+     * Most bpplidbtions do not dbll tiis mftiod dirfdtly. Tiis mftiod
+     * is dbllfd wifn b dontbinfr dblls its <dodf>doLbyout</dodf> mftiod.
+     * @pbrbm   tbrgft   tif dontbinfr in wiidi to do tif lbyout.
+     * @sff     jbvb.bwt.Contbinfr
+     * @sff     jbvb.bwt.Contbinfr#doLbyout()
      */
-    public void layoutContainer(Container target) {
-      synchronized (target.getTreeLock()) {
-        Insets insets = target.getInsets();
-        int top = insets.top;
-        int bottom = target.height - insets.bottom;
-        int left = insets.left;
-        int right = target.width - insets.right;
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+      syndironizfd (tbrgft.gftTrffLodk()) {
+        Insfts insfts = tbrgft.gftInsfts();
+        int top = insfts.top;
+        int bottom = tbrgft.ifigit - insfts.bottom;
+        int lfft = insfts.lfft;
+        int rigit = tbrgft.widti - insfts.rigit;
 
-        boolean ltr = target.getComponentOrientation().isLeftToRight();
-        Component c = null;
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRigit();
+        Componfnt d = null;
 
-        if ((c=getChild(NORTH,ltr)) != null) {
-            c.setSize(right - left, c.height);
-            Dimension d = c.getPreferredSize();
-            c.setBounds(left, top, right - left, d.height);
-            top += d.height + vgap;
+        if ((d=gftCiild(NORTH,ltr)) != null) {
+            d.sftSizf(rigit - lfft, d.ifigit);
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            d.sftBounds(lfft, top, rigit - lfft, d.ifigit);
+            top += d.ifigit + vgbp;
         }
-        if ((c=getChild(SOUTH,ltr)) != null) {
-            c.setSize(right - left, c.height);
-            Dimension d = c.getPreferredSize();
-            c.setBounds(left, bottom - d.height, right - left, d.height);
-            bottom -= d.height + vgap;
+        if ((d=gftCiild(SOUTH,ltr)) != null) {
+            d.sftSizf(rigit - lfft, d.ifigit);
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            d.sftBounds(lfft, bottom - d.ifigit, rigit - lfft, d.ifigit);
+            bottom -= d.ifigit + vgbp;
         }
-        if ((c=getChild(EAST,ltr)) != null) {
-            c.setSize(c.width, bottom - top);
-            Dimension d = c.getPreferredSize();
-            c.setBounds(right - d.width, top, d.width, bottom - top);
-            right -= d.width + hgap;
+        if ((d=gftCiild(EAST,ltr)) != null) {
+            d.sftSizf(d.widti, bottom - top);
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            d.sftBounds(rigit - d.widti, top, d.widti, bottom - top);
+            rigit -= d.widti + igbp;
         }
-        if ((c=getChild(WEST,ltr)) != null) {
-            c.setSize(c.width, bottom - top);
-            Dimension d = c.getPreferredSize();
-            c.setBounds(left, top, d.width, bottom - top);
-            left += d.width + hgap;
+        if ((d=gftCiild(WEST,ltr)) != null) {
+            d.sftSizf(d.widti, bottom - top);
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            d.sftBounds(lfft, top, d.widti, bottom - top);
+            lfft += d.widti + igbp;
         }
-        if ((c=getChild(CENTER,ltr)) != null) {
-            c.setBounds(left, top, right - left, bottom - top);
+        if ((d=gftCiild(CENTER,ltr)) != null) {
+            d.sftBounds(lfft, top, rigit - lfft, bottom - top);
         }
       }
     }
 
     /**
-     * Get the component that corresponds to the given constraint location
+     * Gft tif domponfnt tibt dorrfsponds to tif givfn donstrbint lodbtion
      *
-     * @param   key     The desired absolute position,
-     *                  either NORTH, SOUTH, EAST, or WEST.
-     * @param   ltr     Is the component line direction left-to-right?
+     * @pbrbm   kfy     Tif dfsirfd bbsolutf position,
+     *                  fitifr NORTH, SOUTH, EAST, or WEST.
+     * @pbrbm   ltr     Is tif domponfnt linf dirfdtion lfft-to-rigit?
      */
-    private Component getChild(String key, boolean ltr) {
-        Component result = null;
+    privbtf Componfnt gftCiild(String kfy, boolfbn ltr) {
+        Componfnt rfsult = null;
 
-        if (key == NORTH) {
-            result = (firstLine != null) ? firstLine : north;
+        if (kfy == NORTH) {
+            rfsult = (firstLinf != null) ? firstLinf : norti;
         }
-        else if (key == SOUTH) {
-            result = (lastLine != null) ? lastLine : south;
+        flsf if (kfy == SOUTH) {
+            rfsult = (lbstLinf != null) ? lbstLinf : souti;
         }
-        else if (key == WEST) {
-            result = ltr ? firstItem : lastItem;
-            if (result == null) {
-                result = west;
-            }
-        }
-        else if (key == EAST) {
-            result = ltr ? lastItem : firstItem;
-            if (result == null) {
-                result = east;
+        flsf if (kfy == WEST) {
+            rfsult = ltr ? firstItfm : lbstItfm;
+            if (rfsult == null) {
+                rfsult = wfst;
             }
         }
-        else if (key == CENTER) {
-            result = center;
+        flsf if (kfy == EAST) {
+            rfsult = ltr ? lbstItfm : firstItfm;
+            if (rfsult == null) {
+                rfsult = fbst;
+            }
         }
-        if (result != null && !result.visible) {
-            result = null;
+        flsf if (kfy == CENTER) {
+            rfsult = dfntfr;
         }
-        return result;
+        if (rfsult != null && !rfsult.visiblf) {
+            rfsult = null;
+        }
+        rfturn rfsult;
     }
 
     /**
-     * Returns a string representation of the state of this border layout.
-     * @return    a string representation of this border layout.
+     * Rfturns b string rfprfsfntbtion of tif stbtf of tiis bordfr lbyout.
+     * @rfturn    b string rfprfsfntbtion of tiis bordfr lbyout.
      */
-    public String toString() {
-        return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[igbp=" + igbp + ",vgbp=" + vgbp + "]";
     }
 }

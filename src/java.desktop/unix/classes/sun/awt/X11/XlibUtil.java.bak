@@ -1,409 +1,409 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Rectangle;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.Sft;
 
-import sun.awt.X11GraphicsConfig;
-import sun.awt.X11GraphicsDevice;
-import sun.awt.X11GraphicsEnvironment;
+import sun.bwt.X11GrbpiidsConfig;
+import sun.bwt.X11GrbpiidsDfvidf;
+import sun.bwt.X11GrbpiidsEnvironmfnt;
 
 /*
- * This class is a collection of utility methods that operate
- * with native windows.
+ * Tiis dlbss is b dollfdtion of utility mftiods tibt opfrbtf
+ * witi nbtivf windows.
  */
-public class XlibUtil
+publid dlbss XlibUtil
 {
     /**
-     * The constructor is made private to eliminate any
-     * instances of this class
+     * Tif donstrudtor is mbdf privbtf to fliminbtf bny
+     * instbndfs of tiis dlbss
     */
-    private XlibUtil()
+    privbtf XlibUtil()
     {
     }
 
     /**
-     * Xinerama-aware version of XlibWrapper.RootWindow method.
+     * Xinfrbmb-bwbrf vfrsion of XlibWrbppfr.RootWindow mftiod.
      */
-    public static long getRootWindow(int screenNumber)
+    publid stbtid long gftRootWindow(int sdrffnNumbfr)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try
         {
-            X11GraphicsEnvironment x11ge = (X11GraphicsEnvironment)
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-            if (x11ge.runningXinerama())
+            X11GrbpiidsEnvironmfnt x11gf = (X11GrbpiidsEnvironmfnt)
+                GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+            if (x11gf.runningXinfrbmb())
             {
-                // all the Xinerama windows share the same root window
-                return XlibWrapper.RootWindow(XToolkit.getDisplay(), 0);
+                // bll tif Xinfrbmb windows sibrf tif sbmf root window
+                rfturn XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), 0);
             }
-            else
+            flsf
             {
-                return XlibWrapper.RootWindow(XToolkit.getDisplay(), screenNumber);
+                rfturn XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), sdrffnNumbfr);
             }
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Checks if the given window is a root window for the given screen
+     * Cifdks if tif givfn window is b root window for tif givfn sdrffn
      */
-    static boolean isRoot(long rootCandidate, long screenNumber)
+    stbtid boolfbn isRoot(long rootCbndidbtf, long sdrffnNumbfr)
     {
         long root;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try
         {
-            root = XlibWrapper.RootWindow(XToolkit.getDisplay(),
-                                          screenNumber);
+            root = XlibWrbppfr.RootWindow(XToolkit.gftDisplby(),
+                                          sdrffnNumbfr);
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlodk();
         }
 
-        return root == rootCandidate;
+        rfturn root == rootCbndidbtf;
     }
 
     /**
-     * Returns the bounds of the given window, in absolute coordinates
+     * Rfturns tif bounds of tif givfn window, in bbsolutf doordinbtfs
      */
-    static Rectangle getWindowGeometry(long window)
+    stbtid Rfdtbnglf gftWindowGfomftry(long window)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try
         {
-            int res = XlibWrapper.XGetGeometry(XToolkit.getDisplay(),
+            int rfs = XlibWrbppfr.XGftGfomftry(XToolkit.gftDisplby(),
                                                window,
-                                               XlibWrapper.larg1, // root_return
-                                               XlibWrapper.larg2, // x_return
-                                               XlibWrapper.larg3, // y_return
-                                               XlibWrapper.larg4, // width_return
-                                               XlibWrapper.larg5, // height_return
-                                               XlibWrapper.larg6, // border_width_return
-                                               XlibWrapper.larg7); // depth_return
-            if (res == 0)
+                                               XlibWrbppfr.lbrg1, // root_rfturn
+                                               XlibWrbppfr.lbrg2, // x_rfturn
+                                               XlibWrbppfr.lbrg3, // y_rfturn
+                                               XlibWrbppfr.lbrg4, // widti_rfturn
+                                               XlibWrbppfr.lbrg5, // ifigit_rfturn
+                                               XlibWrbppfr.lbrg6, // bordfr_widti_rfturn
+                                               XlibWrbppfr.lbrg7); // dfpti_rfturn
+            if (rfs == 0)
             {
-                return null;
+                rfturn null;
             }
 
-            int x = Native.getInt(XlibWrapper.larg2);
-            int y = Native.getInt(XlibWrapper.larg3);
-            long width = Native.getUInt(XlibWrapper.larg4);
-            long height = Native.getUInt(XlibWrapper.larg5);
+            int x = Nbtivf.gftInt(XlibWrbppfr.lbrg2);
+            int y = Nbtivf.gftInt(XlibWrbppfr.lbrg3);
+            long widti = Nbtivf.gftUInt(XlibWrbppfr.lbrg4);
+            long ifigit = Nbtivf.gftUInt(XlibWrbppfr.lbrg5);
 
-            return new Rectangle(x, y, (int)width, (int)height);
+            rfturn nfw Rfdtbnglf(x, y, (int)widti, (int)ifigit);
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Translates the given point from one window to another. Returns
-     * null if the translation is failed
+     * Trbnslbtfs tif givfn point from onf window to bnotifr. Rfturns
+     * null if tif trbnslbtion is fbilfd
      */
-    static Point translateCoordinates(long src, long dst, Point p)
+    stbtid Point trbnslbtfCoordinbtfs(long srd, long dst, Point p)
     {
-        Point translated = null;
+        Point trbnslbtfd = null;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try
         {
-            XTranslateCoordinates xtc =
-                new XTranslateCoordinates(src, dst, p.x, p.y);
+            XTrbnslbtfCoordinbtfs xtd =
+                nfw XTrbnslbtfCoordinbtfs(srd, dst, p.x, p.y);
             try
             {
-                int status = xtc.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                if ((status != 0) &&
-                    ((XErrorHandlerUtil.saved_error == null) ||
-                    (XErrorHandlerUtil.saved_error.get_error_code() == XConstants.Success)))
+                int stbtus = xtd.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                if ((stbtus != 0) &&
+                    ((XErrorHbndlfrUtil.sbvfd_frror == null) ||
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() == XConstbnts.Suddfss)))
                 {
-                    translated = new Point(xtc.get_dest_x(), xtc.get_dest_y());
+                    trbnslbtfd = nfw Point(xtd.gft_dfst_x(), xtd.gft_dfst_y());
                 }
             }
-            finally
+            finblly
             {
-                xtc.dispose();
+                xtd.disposf();
             }
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlodk();
         }
 
-        return translated;
+        rfturn trbnslbtfd;
     }
 
     /**
-     * Translates the given rectangle from one window to another.
-     * Returns null if the translation is failed
+     * Trbnslbtfs tif givfn rfdtbnglf from onf window to bnotifr.
+     * Rfturns null if tif trbnslbtion is fbilfd
      */
-    static Rectangle translateCoordinates(long src, long dst, Rectangle r)
+    stbtid Rfdtbnglf trbnslbtfCoordinbtfs(long srd, long dst, Rfdtbnglf r)
     {
-        Point translatedLoc = translateCoordinates(src, dst, r.getLocation());
-        if (translatedLoc == null)
+        Point trbnslbtfdLod = trbnslbtfCoordinbtfs(srd, dst, r.gftLodbtion());
+        if (trbnslbtfdLod == null)
         {
-            return null;
+            rfturn null;
         }
-        else
+        flsf
         {
-            return new Rectangle(translatedLoc, r.getSize());
+            rfturn nfw Rfdtbnglf(trbnslbtfdLod, r.gftSizf());
         }
     }
 
     /**
-     * Returns the parent for the given window
+     * Rfturns tif pbrfnt for tif givfn window
      */
-    static long getParentWindow(long window)
+    stbtid long gftPbrfntWindow(long window)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try
         {
-            XBaseWindow bw = XToolkit.windowToXWindow(window);
+            XBbsfWindow bw = XToolkit.windowToXWindow(window);
             if (bw != null)
             {
-                XBaseWindow pbw = bw.getParentWindow();
+                XBbsfWindow pbw = bw.gftPbrfntWindow();
                 if (pbw != null)
                 {
-                    return pbw.getWindow();
+                    rfturn pbw.gftWindow();
                 }
             }
 
-            XQueryTree qt = new XQueryTree(window);
+            XQufryTrff qt = nfw XQufryTrff(window);
             try
             {
-                if (qt.execute() == 0)
+                if (qt.fxfdutf() == 0)
                 {
-                    return 0;
+                    rfturn 0;
                 }
-                else
+                flsf
                 {
-                    return qt.get_parent();
+                    rfturn qt.gft_pbrfnt();
                 }
             }
-            finally
+            finblly
             {
-                qt.dispose();
+                qt.disposf();
             }
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Returns all the children for the given window
+     * Rfturns bll tif diildrfn for tif givfn window
      */
-    static Set<Long> getChildWindows(long window)
+    stbtid Sft<Long> gftCiildWindows(long window)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try
         {
-            XBaseWindow bw = XToolkit.windowToXWindow(window);
+            XBbsfWindow bw = XToolkit.windowToXWindow(window);
             if (bw != null)
             {
-                return bw.getChildren();
+                rfturn bw.gftCiildrfn();
             }
 
-            XQueryTree xqt = new XQueryTree(window);
+            XQufryTrff xqt = nfw XQufryTrff(window);
             try
             {
-                int status = xqt.execute();
-                if (status == 0)
+                int stbtus = xqt.fxfdutf();
+                if (stbtus == 0)
                 {
-                    return Collections.emptySet();
+                    rfturn Collfdtions.fmptySft();
                 }
 
-                long children = xqt.get_children();
+                long diildrfn = xqt.gft_diildrfn();
 
-                if (children == 0)
+                if (diildrfn == 0)
                 {
-                    return Collections.emptySet();
+                    rfturn Collfdtions.fmptySft();
                 }
 
-                int childrenCount = xqt.get_nchildren();
+                int diildrfnCount = xqt.gft_ndiildrfn();
 
-                Set<Long> childrenSet = new HashSet<Long>(childrenCount);
-                for (int i = 0; i < childrenCount; i++)
+                Sft<Long> diildrfnSft = nfw HbsiSft<Long>(diildrfnCount);
+                for (int i = 0; i < diildrfnCount; i++)
                 {
-                    childrenSet.add(Native.getWindow(children, i));
+                    diildrfnSft.bdd(Nbtivf.gftWindow(diildrfn, i));
                 }
 
-                return childrenSet;
+                rfturn diildrfnSft;
             }
-            finally
+            finblly
             {
-                xqt.dispose();
+                xqt.disposf();
             }
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Checks if the given window is a Java window and is an
-     * instance of XWindowPeer
+     * Cifdks if tif givfn window is b Jbvb window bnd is bn
+     * instbndf of XWindowPffr
      */
-    static boolean isXAWTToplevelWindow(long window)
+    stbtid boolfbn isXAWTToplfvflWindow(long window)
     {
-        return XToolkit.windowToXWindow(window) instanceof XWindowPeer;
+        rfturn XToolkit.windowToXWindow(window) instbndfof XWindowPffr;
     }
 
     /**
-     * NOTICE: Right now returns only decorated top-levels (not Window)
+     * NOTICE: Rigit now rfturns only dfdorbtfd top-lfvfls (not Window)
      */
-    static boolean isToplevelWindow(long window)
+    stbtid boolfbn isToplfvflWindow(long window)
     {
-        if (XToolkit.windowToXWindow(window) instanceof XDecoratedPeer)
+        if (XToolkit.windowToXWindow(window) instbndfof XDfdorbtfdPffr)
         {
-            return true;
+            rfturn truf;
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try
         {
-            WindowPropertyGetter wpg =
-                new WindowPropertyGetter(window, XWM.XA_WM_STATE, 0, 1, false,
+            WindowPropfrtyGfttfr wpg =
+                nfw WindowPropfrtyGfttfr(window, XWM.XA_WM_STATE, 0, 1, fblsf,
                                          XWM.XA_WM_STATE);
             try
             {
-                wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                if (wpg.getActualType() == XWM.XA_WM_STATE.getAtom())
+                wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                if (wpg.gftAdtublTypf() == XWM.XA_WM_STATE.gftAtom())
                 {
-                    return true;
+                    rfturn truf;
                 }
             }
-            finally
+            finblly
             {
-                wpg.dispose();
+                wpg.disposf();
             }
 
-            return false;
+            rfturn fblsf;
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * The same as isToplevelWindow(window), but doesn't treat
-     * XEmbeddedFramePeer as toplevel.
+     * Tif sbmf bs isToplfvflWindow(window), but dofsn't trfbt
+     * XEmbfddfdFrbmfPffr bs toplfvfl.
      */
-    static boolean isTrueToplevelWindow(long window)
+    stbtid boolfbn isTrufToplfvflWindow(long window)
     {
-        if (XToolkit.windowToXWindow(window) instanceof XEmbeddedFramePeer)
+        if (XToolkit.windowToXWindow(window) instbndfof XEmbfddfdFrbmfPffr)
         {
-            return false;
+            rfturn fblsf;
         }
 
-        return isToplevelWindow(window);
+        rfturn isToplfvflWindow(window);
     }
 
-    static int getWindowMapState(long window)
+    stbtid int gftWindowMbpStbtf(long window)
     {
-        XToolkit.awtLock();
-        XWindowAttributes wattr = new XWindowAttributes();
+        XToolkit.bwtLodk();
+        XWindowAttributfs wbttr = nfw XWindowAttributfs();
         try
         {
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-            int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                          window, wattr.pData);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
-            if ((status != 0) &&
-                ((XErrorHandlerUtil.saved_error == null) ||
-                (XErrorHandlerUtil.saved_error.get_error_code() == XConstants.Success)))
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+            int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                          window, wbttr.pDbtb);
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+            if ((stbtus != 0) &&
+                ((XErrorHbndlfrUtil.sbvfd_frror == null) ||
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() == XConstbnts.Suddfss)))
             {
-                return wattr.get_map_state();
+                rfturn wbttr.gft_mbp_stbtf();
             }
         }
-        finally
+        finblly
         {
-            wattr.dispose();
-            XToolkit.awtUnlock();
+            wbttr.disposf();
+            XToolkit.bwtUnlodk();
         }
 
-        return XConstants.IsUnmapped;
+        rfturn XConstbnts.IsUnmbppfd;
     }
 
     /**
-     * XSHAPE extension support.
+     * XSHAPE fxtfnsion support.
      */
 
-    // The variable is declared static as the XSHAPE extension cannot
-    // be disabled at run-time, and thus is available all the time
-    // once the check is passed.
-    static Boolean isShapingSupported = null;
+    // Tif vbribblf is dfdlbrfd stbtid bs tif XSHAPE fxtfnsion dbnnot
+    // bf disbblfd bt run-timf, bnd tius is bvbilbblf bll tif timf
+    // ondf tif difdk is pbssfd.
+    stbtid Boolfbn isSibpingSupportfd = null;
 
     /**
-     *  Returns whether the XSHAPE extension available
-     *  @since 1.7
+     *  Rfturns wiftifr tif XSHAPE fxtfnsion bvbilbblf
+     *  @sindf 1.7
      */
-    static synchronized boolean isShapingSupported() {
+    stbtid syndironizfd boolfbn isSibpingSupportfd() {
 
-        if (isShapingSupported == null) {
-            XToolkit.awtLock();
+        if (isSibpingSupportfd == null) {
+            XToolkit.bwtLodk();
             try {
-                isShapingSupported =
-                    XlibWrapper.XShapeQueryExtension(
-                            XToolkit.getDisplay(),
-                            XlibWrapper.larg1,
-                            XlibWrapper.larg2);
-            } finally {
-                XToolkit.awtUnlock();
+                isSibpingSupportfd =
+                    XlibWrbppfr.XSibpfQufryExtfnsion(
+                            XToolkit.gftDisplby(),
+                            XlibWrbppfr.lbrg1,
+                            XlibWrbppfr.lbrg2);
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
         }
 
-        return isShapingSupported.booleanValue();
+        rfturn isSibpingSupportfd.boolfbnVbluf();
     }
 
-    static int getButtonMask(int button) {
-        // Button indices start with 1. The first bit in the button mask is the 8th.
-        // The state mask does not support button indicies > 5, so we need to
-        // cut there.
-        if (button <= 0 || button > XConstants.MAX_BUTTONS) {
-            return 0;
-        } else {
-            return 1 << (7 + button);
+    stbtid int gftButtonMbsk(int button) {
+        // Button indidfs stbrt witi 1. Tif first bit in tif button mbsk is tif 8ti.
+        // Tif stbtf mbsk dofs not support button indidifs > 5, so wf nffd to
+        // dut tifrf.
+        if (button <= 0 || button > XConstbnts.MAX_BUTTONS) {
+            rfturn 0;
+        } flsf {
+            rfturn 1 << (7 + button);
         }
     }
 }

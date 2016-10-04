@@ -1,0 +1,663 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Point;
+
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
+
+import jbvb.bwt.dnd.pffr.DrbgSourdfContfxtPffr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.util.TooMbnyListfnfrsExdfption;
+
+/**
+ * Thf <dodf>DrbgSourdfContfxt</dodf> dlbss is rfsponsiblf for mbnbging thf
+ * initibtor sidf of thf Drbg bnd Drop protodol. In pbrtidulbr, it is rfsponsiblf
+ * for mbnbging drbg fvfnt notifidbtions to thf
+ * {@linkplbin DrbgSourdfListfnfr DrbgSourdfListfnfrs}
+ * bnd {@linkplbin DrbgSourdfMotionListfnfr DrbgSourdfMotionListfnfrs}, bnd providing thf
+ * {@link Trbnsffrbblf} rfprfsfnting thf sourdf dbtb for thf drbg opfrbtion.
+ * <p>
+ * Notf thbt thf <dodf>DrbgSourdfContfxt</dodf> itsflf
+ * implfmfnts thf <dodf>DrbgSourdfListfnfr</dodf> bnd
+ * <dodf>DrbgSourdfMotionListfnfr</dodf> intfrfbdfs.
+ * This is to bllow thf plbtform pffr
+ * (thf {@link DrbgSourdfContfxtPffr} instbndf)
+ * drfbtfd by thf {@link DrbgSourdf} to notify
+ * thf <dodf>DrbgSourdfContfxt</dodf> of
+ * stbtf dhbngfs in thf ongoing opfrbtion. This bllows thf
+ * <dodf>DrbgSourdfContfxt</dodf> objfdt to intfrposf
+ * itsflf bftwffn thf plbtform bnd thf
+ * listfnfrs providfd by thf initibtor of thf drbg opfrbtion.
+ * <p>
+ * <b nbmf="dffbultCursor"></b>
+ * By dffbult, {@dodf DrbgSourdfContfxt} sfts thf dursor bs bppropribtf
+ * for thf durrfnt stbtf of thf drbg bnd drop opfrbtion. For fxbmplf, if
+ * thf usfr hbs dhosfn {@linkplbin DnDConstbnts#ACTION_MOVE thf movf bdtion},
+ * bnd thf pointfr is ovfr b tbrgft thbt bddfpts
+ * thf movf bdtion, thf dffbult movf dursor is shown. Whfn
+ * thf pointfr is ovfr bn brfb thbt dofs not bddfpt thf trbnsffr,
+ * thf dffbult "no drop" dursor is shown.
+ * <p>
+ * This dffbult hbndling mfdhbnism is disbblfd whfn b dustom dursor is sft
+ * by thf {@link #sftCursor} mfthod. Whfn thf dffbult hbndling is disbblfd,
+ * it bfdomfs thf rfsponsibility
+ * of thf dfvflopfr to kffp thf dursor up to dbtf, by listfning
+ * to thf {@dodf DrbgSourdf} fvfnts bnd dblling thf {@dodf sftCursor()} mfthod.
+ * Altfrnbtivfly, you dbn providf dustom dursor bfhbvior by providing
+ * dustom implfmfntbtions of thf {@dodf DrbgSourdf}
+ * bnd thf {@dodf DrbgSourdfContfxt} dlbssfs.
+ *
+ * @sff DrbgSourdfListfnfr
+ * @sff DrbgSourdfMotionListfnfr
+ * @sff DnDConstbnts
+ * @sindf 1.2
+ */
+
+publid dlbss DrbgSourdfContfxt
+    implfmfnts DrbgSourdfListfnfr, DrbgSourdfMotionListfnfr, Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -115407898692194719L;
+
+    // usfd by updbtfCurrfntCursor
+
+    /**
+     * An <dodf>int</dodf> usfd by updbtfCurrfntCursor()
+     * indidbting thbt thf <dodf>Cursor</dodf> should dhbngf
+     * to thf dffbult (no drop) <dodf>Cursor</dodf>.
+     */
+    protfdtfd stbtid finbl int DEFAULT = 0;
+
+    /**
+     * An <dodf>int</dodf> usfd by updbtfCurrfntCursor()
+     * indidbting thbt thf <dodf>Cursor</dodf>
+     * hbs fntfrfd b <dodf>DropTbrgft</dodf>.
+     */
+    protfdtfd stbtid finbl int ENTER   = 1;
+
+    /**
+     * An <dodf>int</dodf> usfd by updbtfCurrfntCursor()
+     * indidbting thbt thf <dodf>Cursor</dodf> is
+     * ovfr b <dodf>DropTbrgft</dodf>.
+     */
+    protfdtfd stbtid finbl int OVER    = 2;
+
+    /**
+     * An <dodf>int</dodf> usfd by updbtfCurrfntCursor()
+     * indidbting thbt thf usfr opfrbtion hbs dhbngfd.
+     */
+
+    protfdtfd stbtid finbl int CHANGED = 3;
+
+    /**
+     * Cbllfd from <dodf>DrbgSourdf</dodf>, this donstrudtor drfbtfs b nfw
+     * <dodf>DrbgSourdfContfxt</dodf> givfn thf
+     * <dodf>DrbgSourdfContfxtPffr</dodf> for this Drbg, thf
+     * <dodf>DrbgGfsturfEvfnt</dodf> thbt triggfrfd thf Drbg, thf initibl
+     * <dodf>Cursor</dodf> to usf for thf Drbg, bn (optionbl)
+     * <dodf>Imbgf</dodf> to displby whilf thf Drbg is tbking plbdf, thf offsft
+     * of thf <dodf>Imbgf</dodf> origin from thf hotspot bt thf instbnt of thf
+     * triggfring fvfnt, thf <dodf>Trbnsffrbblf</dodf> subjfdt dbtb, bnd thf
+     * <dodf>DrbgSourdfListfnfr</dodf> to usf during thf Drbg bnd Drop
+     * opfrbtion.
+     * <br>
+     * If <dodf>DrbgSourdfContfxtPffr</dodf> is <dodf>null</dodf>
+     * <dodf>NullPointfrExdfption</dodf> is thrown.
+     * <br>
+     * If <dodf>DrbgGfsturfEvfnt</dodf> is <dodf>null</dodf>
+     * <dodf>NullPointfrExdfption</dodf> is thrown.
+     * <br>
+     * If <dodf>Cursor</dodf> is <dodf>null</dodf> no fxdfption is thrown bnd
+     * thf dffbult drbg dursor bfhbvior is bdtivbtfd for this drbg opfrbtion.
+     * <br>
+     * If <dodf>Imbgf</dodf> is <dodf>null</dodf> no fxdfption is thrown.
+     * <br>
+     * If <dodf>Imbgf</dodf> is not <dodf>null</dodf> bnd thf offsft is
+     * <dodf>null</dodf> <dodf>NullPointfrExdfption</dodf> is thrown.
+     * <br>
+     * If <dodf>Trbnsffrbblf</dodf> is <dodf>null</dodf>
+     * <dodf>NullPointfrExdfption</dodf> is thrown.
+     * <br>
+     * If <dodf>DrbgSourdfListfnfr</dodf> is <dodf>null</dodf> no fxdfption
+     * is thrown.
+     *
+     * @pbrbm dsdp       thf <dodf>DrbgSourdfContfxtPffr</dodf> for this drbg
+     * @pbrbm triggfr    thf triggfring fvfnt
+     * @pbrbm drbgCursor     thf initibl {@dodf Cursor} for this drbg opfrbtion
+     *                       or {@dodf null} for thf dffbult dursor hbndling;
+     *                       sff <b hrff="DrbgSourdfContfxt.html#dffbultCursor">dlbss lfvfl dodumfntbtion</b>
+     *                       for morf dftbils on thf dursor hbndling mfdhbnism during drbg bnd drop
+     * @pbrbm drbgImbgf  thf <dodf>Imbgf</dodf> to drbg (or <dodf>null</dodf>)
+     * @pbrbm offsft     thf offsft of thf imbgf origin from thf hotspot bt thf
+     *                   instbnt of thf triggfring fvfnt
+     * @pbrbm t          thf <dodf>Trbnsffrbblf</dodf>
+     * @pbrbm dsl        thf <dodf>DrbgSourdfListfnfr</dodf>
+     *
+     * @throws IllfgblArgumfntExdfption if thf <dodf>Componfnt</dodf> bssodibtfd
+     *         with thf triggfr fvfnt is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if thf <dodf>DrbgSourdf</dodf> for thf
+     *         triggfr fvfnt is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if thf drbg bdtion for thf
+     *         triggfr fvfnt is <dodf>DnDConstbnts.ACTION_NONE</dodf>.
+     * @throws IllfgblArgumfntExdfption if thf sourdf bdtions for thf
+     *         <dodf>DrbgGfsturfRfdognizfr</dodf> bssodibtfd with thf triggfr
+     *         fvfnt brf fqubl to <dodf>DnDConstbnts.ACTION_NONE</dodf>.
+     * @throws NullPointfrExdfption if dsdp, triggfr, or t brf null, or
+     *         if drbgImbgf is non-null bnd offsft is null
+     */
+    publid DrbgSourdfContfxt(DrbgSourdfContfxtPffr dsdp,
+                             DrbgGfsturfEvfnt triggfr, Cursor drbgCursor,
+                             Imbgf drbgImbgf, Point offsft, Trbnsffrbblf t,
+                             DrbgSourdfListfnfr dsl) {
+        if (dsdp == null) {
+            throw nfw NullPointfrExdfption("DrbgSourdfContfxtPffr");
+        }
+
+        if (triggfr == null) {
+            throw nfw NullPointfrExdfption("Triggfr");
+        }
+
+        if (triggfr.gftDrbgSourdf() == null) {
+            throw nfw IllfgblArgumfntExdfption("DrbgSourdf");
+        }
+
+        if (triggfr.gftComponfnt() == null) {
+            throw nfw IllfgblArgumfntExdfption("Componfnt");
+        }
+
+        if (triggfr.gftSourdfAsDrbgGfsturfRfdognizfr().gftSourdfAdtions() ==
+                 DnDConstbnts.ACTION_NONE) {
+            throw nfw IllfgblArgumfntExdfption("sourdf bdtions");
+        }
+
+        if (triggfr.gftDrbgAdtion() == DnDConstbnts.ACTION_NONE) {
+            throw nfw IllfgblArgumfntExdfption("no drbg bdtion");
+        }
+
+        if (t == null) {
+            throw nfw NullPointfrExdfption("Trbnsffrbblf");
+        }
+
+        if (drbgImbgf != null && offsft == null) {
+            throw nfw NullPointfrExdfption("offsft");
+        }
+
+        pffr         = dsdp;
+        this.triggfr = triggfr;
+        dursor       = drbgCursor;
+        trbnsffrbblf = t;
+        listfnfr     = dsl;
+        sourdfAdtions =
+            triggfr.gftSourdfAsDrbgGfsturfRfdognizfr().gftSourdfAdtions();
+
+        usfCustomCursor = (drbgCursor != null);
+
+        updbtfCurrfntCursor(triggfr.gftDrbgAdtion(), gftSourdfAdtions(), DEFAULT);
+    }
+
+    /**
+     * Rfturns thf <dodf>DrbgSourdf</dodf>
+     * thbt instbntibtfd this <dodf>DrbgSourdfContfxt</dodf>.
+     *
+     * @rfturn thf <dodf>DrbgSourdf</dodf> thbt
+     *   instbntibtfd this <dodf>DrbgSourdfContfxt</dodf>
+     */
+
+    publid DrbgSourdf   gftDrbgSourdf() { rfturn triggfr.gftDrbgSourdf(); }
+
+    /**
+     * Rfturns thf <dodf>Componfnt</dodf> bssodibtfd with this
+     * <dodf>DrbgSourdfContfxt</dodf>.
+     *
+     * @rfturn thf <dodf>Componfnt</dodf> thbt stbrtfd thf drbg
+     */
+
+    publid Componfnt    gftComponfnt() { rfturn triggfr.gftComponfnt(); }
+
+    /**
+     * Rfturns thf <dodf>DrbgGfsturfEvfnt</dodf>
+     * thbt initiblly triggfrfd thf drbg.
+     *
+     * @rfturn thf Evfnt thbt triggfrfd thf drbg
+     */
+
+    publid DrbgGfsturfEvfnt gftTriggfr() { rfturn triggfr; }
+
+    /**
+     * Rfturns b bitwisf mbsk of <dodf>DnDConstbnts</dodf> thbt
+     * rfprfsfnt thf sft of drop bdtions supportfd by thf drbg sourdf for thf
+     * drbg opfrbtion bssodibtfd with this <dodf>DrbgSourdfContfxt</dodf>.
+     *
+     * @rfturn thf drop bdtions supportfd by thf drbg sourdf
+     */
+    publid int  gftSourdfAdtions() {
+        rfturn sourdfAdtions;
+    }
+
+    /**
+     * Sfts thf dursor for this drbg opfrbtion to thf spfdififd
+     * <dodf>Cursor</dodf>.  If thf spfdififd <dodf>Cursor</dodf>
+     * is <dodf>null</dodf>, thf dffbult drbg dursor bfhbvior is
+     * bdtivbtfd for this drbg opfrbtion, othfrwisf it is dfbdtivbtfd.
+     *
+     * @pbrbm d     thf initibl {@dodf Cursor} for this drbg opfrbtion,
+     *                       or {@dodf null} for thf dffbult dursor hbndling;
+     *                       sff {@linkplbin Cursor dlbss
+     *                       lfvfl dodumfntbtion} for morf dftbils
+     *                       on thf dursor hbndling during drbg bnd drop
+     *
+     */
+
+    publid syndhronizfd void sftCursor(Cursor d) {
+        usfCustomCursor = (d != null);
+        sftCursorImpl(d);
+    }
+
+    /**
+     * Rfturns thf durrfnt drbg <dodf>Cursor</dodf>.
+     *
+     * @rfturn thf durrfnt drbg <dodf>Cursor</dodf>
+     */
+
+    publid Cursor gftCursor() { rfturn dursor; }
+
+    /**
+     * Add b <dodf>DrbgSourdfListfnfr</dodf> to this
+     * <dodf>DrbgSourdfContfxt</dodf> if onf hbs not blrfbdy bffn bddfd.
+     * If b <dodf>DrbgSourdfListfnfr</dodf> blrfbdy fxists,
+     * this mfthod throws b <dodf>TooMbnyListfnfrsExdfption</dodf>.
+     *
+     * @pbrbm dsl thf <dodf>DrbgSourdfListfnfr</dodf> to bdd.
+     * Notf thbt whilf <dodf>null</dodf> is not prohibitfd,
+     * it is not bddfptbblf bs b pbrbmftfr.
+     *
+     * @throws TooMbnyListfnfrsExdfption if
+     * b <dodf>DrbgSourdfListfnfr</dodf> hbs blrfbdy bffn bddfd
+     */
+
+    publid syndhronizfd void bddDrbgSourdfListfnfr(DrbgSourdfListfnfr dsl) throws TooMbnyListfnfrsExdfption {
+        if (dsl == null) rfturn;
+
+        if (fqubls(dsl)) throw nfw IllfgblArgumfntExdfption("DrbgSourdfContfxt mby not bf its own listfnfr");
+
+        if (listfnfr != null)
+            throw nfw TooMbnyListfnfrsExdfption();
+        flsf
+            listfnfr = dsl;
+    }
+
+    /**
+     * Rfmovfs thf spfdififd <dodf>DrbgSourdfListfnfr</dodf>
+     * from  this <dodf>DrbgSourdfContfxt</dodf>.
+     *
+     * @pbrbm dsl thf <dodf>DrbgSourdfListfnfr</dodf> to rfmovf;
+     *     notf thbt whilf <dodf>null</dodf> is not prohibitfd,
+     *     it is not bddfptbblf bs b pbrbmftfr
+     */
+
+    publid syndhronizfd void rfmovfDrbgSourdfListfnfr(DrbgSourdfListfnfr dsl) {
+        if (listfnfr != null && listfnfr.fqubls(dsl)) {
+            listfnfr = null;
+        } flsf
+            throw nfw IllfgblArgumfntExdfption();
+    }
+
+    /**
+     * Notififs thf pffr thbt thf <dodf>Trbnsffrbblf</dodf>'s
+     * <dodf>DbtbFlbvor</dodf>s hbvf dhbngfd.
+     */
+
+    publid void trbnsffrbblfsFlbvorsChbngfd() {
+        if (pffr != null) pffr.trbnsffrbblfsFlbvorsChbngfd();
+    }
+
+    /**
+     * Cblls <dodf>drbgEntfr</dodf> on thf
+     * <dodf>DrbgSourdfListfnfr</dodf>s rfgistfrfd with this
+     * <dodf>DrbgSourdfContfxt</dodf> bnd with thf bssodibtfd
+     * <dodf>DrbgSourdf</dodf>, bnd pbssfs thfm thf spfdififd
+     * <dodf>DrbgSourdfDrbgEvfnt</dodf>.
+     *
+     * @pbrbm dsdf thf <dodf>DrbgSourdfDrbgEvfnt</dodf>
+     */
+    publid void drbgEntfr(DrbgSourdfDrbgEvfnt dsdf) {
+        DrbgSourdfListfnfr dsl = listfnfr;
+        if (dsl != null) {
+            dsl.drbgEntfr(dsdf);
+        }
+        gftDrbgSourdf().prodfssDrbgEntfr(dsdf);
+
+        updbtfCurrfntCursor(gftSourdfAdtions(), dsdf.gftTbrgftAdtions(), ENTER);
+    }
+
+    /**
+     * Cblls <dodf>drbgOvfr</dodf> on thf
+     * <dodf>DrbgSourdfListfnfr</dodf>s rfgistfrfd with this
+     * <dodf>DrbgSourdfContfxt</dodf> bnd with thf bssodibtfd
+     * <dodf>DrbgSourdf</dodf>, bnd pbssfs thfm thf spfdififd
+     * <dodf>DrbgSourdfDrbgEvfnt</dodf>.
+     *
+     * @pbrbm dsdf thf <dodf>DrbgSourdfDrbgEvfnt</dodf>
+     */
+    publid void drbgOvfr(DrbgSourdfDrbgEvfnt dsdf) {
+        DrbgSourdfListfnfr dsl = listfnfr;
+        if (dsl != null) {
+            dsl.drbgOvfr(dsdf);
+        }
+        gftDrbgSourdf().prodfssDrbgOvfr(dsdf);
+
+        updbtfCurrfntCursor(gftSourdfAdtions(), dsdf.gftTbrgftAdtions(), OVER);
+    }
+
+    /**
+     * Cblls <dodf>drbgExit</dodf> on thf
+     * <dodf>DrbgSourdfListfnfr</dodf>s rfgistfrfd with this
+     * <dodf>DrbgSourdfContfxt</dodf> bnd with thf bssodibtfd
+     * <dodf>DrbgSourdf</dodf>, bnd pbssfs thfm thf spfdififd
+     * <dodf>DrbgSourdfEvfnt</dodf>.
+     *
+     * @pbrbm dsf thf <dodf>DrbgSourdfEvfnt</dodf>
+     */
+    publid void drbgExit(DrbgSourdfEvfnt dsf) {
+        DrbgSourdfListfnfr dsl = listfnfr;
+        if (dsl != null) {
+            dsl.drbgExit(dsf);
+        }
+        gftDrbgSourdf().prodfssDrbgExit(dsf);
+
+        updbtfCurrfntCursor(DnDConstbnts.ACTION_NONE, DnDConstbnts.ACTION_NONE, DEFAULT);
+    }
+
+    /**
+     * Cblls <dodf>dropAdtionChbngfd</dodf> on thf
+     * <dodf>DrbgSourdfListfnfr</dodf>s rfgistfrfd with this
+     * <dodf>DrbgSourdfContfxt</dodf> bnd with thf bssodibtfd
+     * <dodf>DrbgSourdf</dodf>, bnd pbssfs thfm thf spfdififd
+     * <dodf>DrbgSourdfDrbgEvfnt</dodf>.
+     *
+     * @pbrbm dsdf thf <dodf>DrbgSourdfDrbgEvfnt</dodf>
+     */
+    publid void dropAdtionChbngfd(DrbgSourdfDrbgEvfnt dsdf) {
+        DrbgSourdfListfnfr dsl = listfnfr;
+        if (dsl != null) {
+            dsl.dropAdtionChbngfd(dsdf);
+        }
+        gftDrbgSourdf().prodfssDropAdtionChbngfd(dsdf);
+
+        updbtfCurrfntCursor(gftSourdfAdtions(), dsdf.gftTbrgftAdtions(), CHANGED);
+    }
+
+    /**
+     * Cblls <dodf>drbgDropEnd</dodf> on thf
+     * <dodf>DrbgSourdfListfnfr</dodf>s rfgistfrfd with this
+     * <dodf>DrbgSourdfContfxt</dodf> bnd with thf bssodibtfd
+     * <dodf>DrbgSourdf</dodf>, bnd pbssfs thfm thf spfdififd
+     * <dodf>DrbgSourdfDropEvfnt</dodf>.
+     *
+     * @pbrbm dsdf thf <dodf>DrbgSourdfDropEvfnt</dodf>
+     */
+    publid void drbgDropEnd(DrbgSourdfDropEvfnt dsdf) {
+        DrbgSourdfListfnfr dsl = listfnfr;
+        if (dsl != null) {
+            dsl.drbgDropEnd(dsdf);
+        }
+        gftDrbgSourdf().prodfssDrbgDropEnd(dsdf);
+    }
+
+    /**
+     * Cblls <dodf>drbgMousfMovfd</dodf> on thf
+     * <dodf>DrbgSourdfMotionListfnfr</dodf>s rfgistfrfd with thf
+     * <dodf>DrbgSourdf</dodf> bssodibtfd with this
+     * <dodf>DrbgSourdfContfxt</dodf>, bnd thfm pbssfs thf spfdififd
+     * <dodf>DrbgSourdfDrbgEvfnt</dodf>.
+     *
+     * @pbrbm dsdf thf <dodf>DrbgSourdfDrbgEvfnt</dodf>
+     * @sindf 1.4
+     */
+    publid void drbgMousfMovfd(DrbgSourdfDrbgEvfnt dsdf) {
+        gftDrbgSourdf().prodfssDrbgMousfMovfd(dsdf);
+    }
+
+    /**
+     * Rfturns thf <dodf>Trbnsffrbblf</dodf> bssodibtfd with
+     * this <dodf>DrbgSourdfContfxt</dodf>.
+     *
+     * @rfturn thf <dodf>Trbnsffrbblf</dodf>
+     */
+    publid Trbnsffrbblf gftTrbnsffrbblf() { rfturn trbnsffrbblf; }
+
+    /**
+     * If thf dffbult drbg dursor bfhbvior is bdtivf, this mfthod
+     * sfts thf dffbult drbg dursor for thf spfdififd bdtions
+     * supportfd by thf drbg sourdf, thf drop tbrgft bdtion,
+     * bnd stbtus, othfrwisf this mfthod dofs nothing.
+     *
+     * @pbrbm sourdfAdt thf bdtions supportfd by thf drbg sourdf
+     * @pbrbm tbrgftAdt thf drop tbrgft bdtion
+     * @pbrbm stbtus onf of thf fiflds <dodf>DEFAULT</dodf>,
+     *               <dodf>ENTER</dodf>, <dodf>OVER</dodf>,
+     *               <dodf>CHANGED</dodf>
+     */
+    @SupprfssWbrnings("fbllthrough")
+    protfdtfd syndhronizfd void updbtfCurrfntCursor(int sourdfAdt, int tbrgftAdt, int stbtus) {
+
+        // if thf dursor hbs bffn prfviously sft thfn don't do bny dffbults
+        // prodfssing.
+
+        if (usfCustomCursor) {
+            rfturn;
+        }
+
+        // do dffbults prodfssing
+
+        Cursor d = null;
+
+        switdh (stbtus) {
+            dffbult:
+                tbrgftAdt = DnDConstbnts.ACTION_NONE;
+            dbsf ENTER:
+            dbsf OVER:
+            dbsf CHANGED:
+                int    rb = sourdfAdt & tbrgftAdt;
+
+                if (rb == DnDConstbnts.ACTION_NONE) { // no drop possiblf
+                    if ((sourdfAdt & DnDConstbnts.ACTION_LINK) == DnDConstbnts.ACTION_LINK)
+                        d = DrbgSourdf.DffbultLinkNoDrop;
+                    flsf if ((sourdfAdt & DnDConstbnts.ACTION_MOVE) == DnDConstbnts.ACTION_MOVE)
+                        d = DrbgSourdf.DffbultMovfNoDrop;
+                    flsf
+                        d = DrbgSourdf.DffbultCopyNoDrop;
+                } flsf { // drop possiblf
+                    if ((rb & DnDConstbnts.ACTION_LINK) == DnDConstbnts.ACTION_LINK)
+                        d = DrbgSourdf.DffbultLinkDrop;
+                    flsf if ((rb & DnDConstbnts.ACTION_MOVE) == DnDConstbnts.ACTION_MOVE)
+                        d = DrbgSourdf.DffbultMovfDrop;
+                    flsf
+                        d = DrbgSourdf.DffbultCopyDrop;
+                }
+        }
+
+        sftCursorImpl(d);
+    }
+
+    privbtf void sftCursorImpl(Cursor d) {
+        if (dursor == null || !dursor.fqubls(d)) {
+            dursor = d;
+            if (pffr != null) pffr.sftCursor(dursor);
+        }
+    }
+
+    /**
+     * Sfriblizfs this <dodf>DrbgSourdfContfxt</dodf>. This mfthod first
+     * pfrforms dffbult sfriblizbtion. Nfxt, this objfdt's
+     * <dodf>Trbnsffrbblf</dodf> is writtfn out if bnd only if it dbn bf
+     * sfriblizfd. If not, <dodf>null</dodf> is writtfn instfbd. In this dbsf,
+     * b <dodf>DrbgSourdfContfxt</dodf> drfbtfd from thf rfsulting dfsfriblizfd
+     * strfbm will dontbin b dummy <dodf>Trbnsffrbblf</dodf> whidh supports no
+     * <dodf>DbtbFlbvor</dodf>s. Finblly, this objfdt's
+     * <dodf>DrbgSourdfListfnfr</dodf> is writtfn out if bnd only if it dbn bf
+     * sfriblizfd. If not, <dodf>null</dodf> is writtfn instfbd.
+     *
+     * @sfriblDbtb Thf dffbult sfriblizbblf fiflds, in blphbbftidbl ordfr,
+     *             followfd by fithfr b <dodf>Trbnsffrbblf</dodf> instbndf, or
+     *             <dodf>null</dodf>, followfd by fithfr b
+     *             <dodf>DrbgSourdfListfnfr</dodf> instbndf, or
+     *             <dodf>null</dodf>.
+     * @sindf 1.4
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+
+        s.writfObjfdt(SfriblizbtionTfstfr.tfst(trbnsffrbblf)
+                      ? trbnsffrbblf : null);
+        s.writfObjfdt(SfriblizbtionTfstfr.tfst(listfnfr)
+                      ? listfnfr : null);
+    }
+
+    /**
+     * Dfsfriblizfs this <dodf>DrbgSourdfContfxt</dodf>. This mfthod first
+     * pfrforms dffbult dfsfriblizbtion for bll non-<dodf>trbnsifnt</dodf>
+     * fiflds. This objfdt's <dodf>Trbnsffrbblf</dodf> bnd
+     * <dodf>DrbgSourdfListfnfr</dodf> brf thfn dfsfriblizfd bs wfll by using
+     * thf nfxt two objfdts in thf strfbm. If thf rfsulting
+     * <dodf>Trbnsffrbblf</dodf> is <dodf>null</dodf>, this objfdt's
+     * <dodf>Trbnsffrbblf</dodf> is sft to b dummy <dodf>Trbnsffrbblf</dodf>
+     * whidh supports no <dodf>DbtbFlbvor</dodf>s.
+     *
+     * @sindf 1.4
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws ClbssNotFoundExdfption, IOExdfption
+    {
+        ObjfdtInputStrfbm.GftFifld f = s.rfbdFiflds();
+
+        DrbgGfsturfEvfnt nfwTriggfr = (DrbgGfsturfEvfnt)f.gft("triggfr", null);
+        if (nfwTriggfr == null) {
+            throw nfw InvblidObjfdtExdfption("Null triggfr");
+        }
+        if (nfwTriggfr.gftDrbgSourdf() == null) {
+            throw nfw InvblidObjfdtExdfption("Null DrbgSourdf");
+        }
+        if (nfwTriggfr.gftComponfnt() == null) {
+            throw nfw InvblidObjfdtExdfption("Null triggfr domponfnt");
+        }
+
+        int nfwSourdfAdtions = f.gft("sourdfAdtions", 0)
+                & (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK);
+        if (nfwSourdfAdtions == DnDConstbnts.ACTION_NONE) {
+            throw nfw InvblidObjfdtExdfption("Invblid sourdf bdtions");
+        }
+        int triggfrAdtions = nfwTriggfr.gftDrbgAdtion();
+        if (triggfrAdtions != DnDConstbnts.ACTION_COPY &&
+                triggfrAdtions != DnDConstbnts.ACTION_MOVE &&
+                triggfrAdtions != DnDConstbnts.ACTION_LINK) {
+            throw nfw InvblidObjfdtExdfption("No drbg bdtion");
+        }
+        triggfr = nfwTriggfr;
+
+        dursor = (Cursor)f.gft("dursor", null);
+        usfCustomCursor = f.gft("usfCustomCursor", fblsf);
+        sourdfAdtions = nfwSourdfAdtions;
+
+        trbnsffrbblf = (Trbnsffrbblf)s.rfbdObjfdt();
+        listfnfr = (DrbgSourdfListfnfr)s.rfbdObjfdt();
+
+        // Implfmfntbtion bssumfs 'trbnsffrbblf' is nfvfr null.
+        if (trbnsffrbblf == null) {
+            if (fmptyTrbnsffrbblf == null) {
+                fmptyTrbnsffrbblf = nfw Trbnsffrbblf() {
+                        publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+                            rfturn nfw DbtbFlbvor[0];
+                        }
+                        publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor)
+                        {
+                            rfturn fblsf;
+                        }
+                        publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor)
+                            throws UnsupportfdFlbvorExdfption
+                        {
+                            throw nfw UnsupportfdFlbvorExdfption(flbvor);
+                        }
+                    };
+            }
+            trbnsffrbblf = fmptyTrbnsffrbblf;
+        }
+    }
+
+    privbtf stbtid Trbnsffrbblf fmptyTrbnsffrbblf;
+
+    /*
+     * fiflds
+     */
+
+    privbtf trbnsifnt DrbgSourdfContfxtPffr pffr;
+
+    /**
+     * Thf fvfnt whidh triggfrfd thf stbrt of thf drbg.
+     *
+     * @sfribl
+     */
+    privbtf DrbgGfsturfEvfnt    triggfr;
+
+    /**
+     * Thf durrfnt drbg dursor.
+     *
+     * @sfribl
+     */
+    privbtf Cursor              dursor;
+
+    privbtf trbnsifnt Trbnsffrbblf      trbnsffrbblf;
+
+    privbtf trbnsifnt DrbgSourdfListfnfr    listfnfr;
+
+    /**
+     * <dodf>truf</dodf> if thf dustom drbg dursor is usfd instfbd of thf
+     * dffbult onf.
+     *
+     * @sfribl
+     */
+    privbtf boolfbn usfCustomCursor;
+
+    /**
+     * A bitwisf mbsk of <dodf>DnDConstbnts</dodf> thbt rfprfsfnts thf sft of
+     * drop bdtions supportfd by thf drbg sourdf for thf drbg opfrbtion bssodibtfd
+     * with this <dodf>DrbgSourdfContfxt.</dodf>
+     *
+     * @sfribl
+     */
+    privbtf int sourdfAdtions;
+}

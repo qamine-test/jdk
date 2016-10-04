@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file was based upon the example.c stub file included in the
- * release 6 of the Independent JPEG Group's free JPEG software.
- * It has been updated to conform to release 6b.
+ * Tiis filf wbs bbsfd upon tif fxbmplf.d stub filf indludfd in tif
+ * rflfbsf 6 of tif Indfpfndfnt JPEG Group's frff JPEG softwbrf.
+ * It ibs bffn updbtfd to donform to rflfbsf 6b.
  */
 
-/* First, if system header files define "boolean" map it to "system_boolean" */
-#define boolean system_boolean
+/* First, if systfm ifbdfr filfs dffinf "boolfbn" mbp it to "systfm_boolfbn" */
+#dffinf boolfbn systfm_boolfbn
 
-#include <stdio.h>
-#include <setjmp.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <sftjmp.i>
+#indludf <string.i>
+#indludf <stdlib.i>
+#indludf <bssfrt.i>
 
-#include "jni.h"
-#include "jni_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
 
-/* undo "system_boolean" hack and undef FAR since we don't use it anyway */
-#undef boolean
-#undef FAR
-#include <jpeglib.h>
-#include "jerror.h"
+/* undo "systfm_boolfbn" ibdk bnd undff FAR sindf wf don't usf it bnywby */
+#undff boolfbn
+#undff FAR
+#indludf <jpfglib.i>
+#indludf "jfrror.i"
 
-#ifdef __APPLE__
-/* use setjmp/longjmp versions that do not save/restore the signal mask */
-#define setjmp _setjmp
-#define longjmp _longjmp
-#endif
+#ifdff __APPLE__
+/* usf sftjmp/longjmp vfrsions tibt do not sbvf/rfstorf tif signbl mbsk */
+#dffinf sftjmp _sftjmp
+#dffinf longjmp _longjmp
+#fndif
 
-/* The method IDs we cache. Note that the last two belongs to the
- * java.io.InputStream class.
+/* Tif mftiod IDs wf dbdif. Notf tibt tif lbst two bflongs to tif
+ * jbvb.io.InputStrfbm dlbss.
  */
-static jmethodID sendHeaderInfoID;
-static jmethodID sendPixelsByteID;
-static jmethodID sendPixelsIntID;
-static jmethodID InputStream_readID;
-static jmethodID InputStream_availableID;
+stbtid jmftiodID sfndHfbdfrInfoID;
+stbtid jmftiodID sfndPixflsBytfID;
+stbtid jmftiodID sfndPixflsIntID;
+stbtid jmftiodID InputStrfbm_rfbdID;
+stbtid jmftiodID InputStrfbm_bvbilbblfID;
 
-/* Initialize the Java VM instance variable when the library is
-   first loaded */
-JavaVM *jvm;
+/* Initiblizf tif Jbvb VM instbndf vbribblf wifn tif librbry is
+   first lobdfd */
+JbvbVM *jvm;
 
 JNIEXPORT jint JNICALL
-JNI_OnLoad(JavaVM *vm, void *reserved)
+JNI_OnLobd(JbvbVM *vm, void *rfsfrvfd)
 {
     jvm = vm;
-    return JNI_VERSION_1_2;
+    rfturn JNI_VERSION_1_2;
 }
 
 /*
  * ERROR HANDLING:
  *
- * The JPEG library's standard error handler (jerror.c) is divided into
- * several "methods" which you can override individually.  This lets you
- * adjust the behavior without duplicating a lot of code, which you might
- * have to update with each future release.
+ * Tif JPEG librbry's stbndbrd frror ibndlfr (jfrror.d) is dividfd into
+ * sfvfrbl "mftiods" wiidi you dbn ovfrridf individublly.  Tiis lfts you
+ * bdjust tif bfibvior witiout duplidbting b lot of dodf, wiidi you migit
+ * ibvf to updbtf witi fbdi futurf rflfbsf.
  *
- * Our example here shows how to override the "error_exit" method so that
- * control is returned to the library's caller when a fatal error occurs,
- * rather than calling exit() as the standard error_exit method does.
+ * Our fxbmplf ifrf siows iow to ovfrridf tif "frror_fxit" mftiod so tibt
+ * dontrol is rfturnfd to tif librbry's dbllfr wifn b fbtbl frror oddurs,
+ * rbtifr tibn dblling fxit() bs tif stbndbrd frror_fxit mftiod dofs.
  *
- * We use C's setjmp/longjmp facility to return control.  This means that the
- * routine which calls the JPEG library must first execute a setjmp() call to
- * establish the return point.  We want the replacement error_exit to do a
- * longjmp().  But we need to make the setjmp buffer accessible to the
- * error_exit routine.  To do this, we make a private extension of the
- * standard JPEG error handler object.  (If we were using C++, we'd say we
- * were making a subclass of the regular error handler.)
+ * Wf usf C's sftjmp/longjmp fbdility to rfturn dontrol.  Tiis mfbns tibt tif
+ * routinf wiidi dblls tif JPEG librbry must first fxfdutf b sftjmp() dbll to
+ * fstbblisi tif rfturn point.  Wf wbnt tif rfplbdfmfnt frror_fxit to do b
+ * longjmp().  But wf nffd to mbkf tif sftjmp bufffr bddfssiblf to tif
+ * frror_fxit routinf.  To do tiis, wf mbkf b privbtf fxtfnsion of tif
+ * stbndbrd JPEG frror ibndlfr objfdt.  (If wf wfrf using C++, wf'd sby wf
+ * wfrf mbking b subdlbss of tif rfgulbr frror ibndlfr.)
  *
- * Here's the extended error handler struct:
+ * Hfrf's tif fxtfndfd frror ibndlfr strudt:
  */
 
-struct sun_jpeg_error_mgr {
-  struct jpeg_error_mgr pub;    /* "public" fields */
+strudt sun_jpfg_frror_mgr {
+  strudt jpfg_frror_mgr pub;    /* "publid" fiflds */
 
-  jmp_buf setjmp_buffer;        /* for return to caller */
+  jmp_buf sftjmp_bufffr;        /* for rfturn to dbllfr */
 };
 
-typedef struct sun_jpeg_error_mgr * sun_jpeg_error_ptr;
+typfdff strudt sun_jpfg_frror_mgr * sun_jpfg_frror_ptr;
 
 /*
- * Here's the routine that will replace the standard error_exit method:
+ * Hfrf's tif routinf tibt will rfplbdf tif stbndbrd frror_fxit mftiod:
  */
 
 METHODDEF(void)
-sun_jpeg_error_exit (j_common_ptr cinfo)
+sun_jpfg_frror_fxit (j_dommon_ptr dinfo)
 {
-  /* cinfo->err really points to a sun_jpeg_error_mgr struct */
-  sun_jpeg_error_ptr myerr = (sun_jpeg_error_ptr) cinfo->err;
+  /* dinfo->frr rfblly points to b sun_jpfg_frror_mgr strudt */
+  sun_jpfg_frror_ptr myfrr = (sun_jpfg_frror_ptr) dinfo->frr;
 
-  /* Always display the message. */
-  /* We could postpone this until after returning, if we chose. */
-  /* (*cinfo->err->output_message) (cinfo); */
-  /* For Java, we will format the message and put it in the error we throw. */
+  /* Alwbys displby tif mfssbgf. */
+  /* Wf dould postponf tiis until bftfr rfturning, if wf diosf. */
+  /* (*dinfo->frr->output_mfssbgf) (dinfo); */
+  /* For Jbvb, wf will formbt tif mfssbgf bnd put it in tif frror wf tirow. */
 
-  /* Return control to the setjmp point */
-  longjmp(myerr->setjmp_buffer, 1);
+  /* Rfturn dontrol to tif sftjmp point */
+  longjmp(myfrr->sftjmp_bufffr, 1);
 }
 
 /*
- * Error Message handling
+ * Error Mfssbgf ibndling
  *
- * This overrides the output_message method to send JPEG messages
+ * Tiis ovfrridfs tif output_mfssbgf mftiod to sfnd JPEG mfssbgfs
  *
  */
 
 METHODDEF(void)
-sun_jpeg_output_message (j_common_ptr cinfo)
+sun_jpfg_output_mfssbgf (j_dommon_ptr dinfo)
 {
-  char buffer[JMSG_LENGTH_MAX];
+  dibr bufffr[JMSG_LENGTH_MAX];
 
-  /* Create the message */
-  (*cinfo->err->format_message) (cinfo, buffer);
+  /* Crfbtf tif mfssbgf */
+  (*dinfo->frr->formbt_mfssbgf) (dinfo, bufffr);
 
-  /* Send it to stderr, adding a newline */
-  fprintf(stderr, "%s\n", buffer);
+  /* Sfnd it to stdfrr, bdding b nfwlinf */
+  fprintf(stdfrr, "%s\n", bufffr);
 }
 
 
@@ -148,627 +148,627 @@ sun_jpeg_output_message (j_common_ptr cinfo)
 /*
  * INPUT HANDLING:
  *
- * The JPEG library's input management is defined by the jpeg_source_mgr
- * structure which contains two fields to convey the information in the
- * buffer and 5 methods which perform all buffer management.  The library
- * defines a standard input manager that uses stdio for obtaining compressed
- * jpeg data, but here we need to use Java to get our data.
+ * Tif JPEG librbry's input mbnbgfmfnt is dffinfd by tif jpfg_sourdf_mgr
+ * strudturf wiidi dontbins two fiflds to donvfy tif informbtion in tif
+ * bufffr bnd 5 mftiods wiidi pfrform bll bufffr mbnbgfmfnt.  Tif librbry
+ * dffinfs b stbndbrd input mbnbgfr tibt usfs stdio for obtbining domprfssfd
+ * jpfg dbtb, but ifrf wf nffd to usf Jbvb to gft our dbtb.
  *
- * We need to make the Java class information accessible to the source_mgr
- * input routines.  We also need to store a pointer to the start of the
- * Java array being used as an input buffer so that it is not moved or
- * garbage collected while the JPEG library is using it.  To store these
- * things, we make a private extension of the standard JPEG jpeg_source_mgr
- * object.
+ * Wf nffd to mbkf tif Jbvb dlbss informbtion bddfssiblf to tif sourdf_mgr
+ * input routinfs.  Wf blso nffd to storf b pointfr to tif stbrt of tif
+ * Jbvb brrby bfing usfd bs bn input bufffr so tibt it is not movfd or
+ * gbrbbgf dollfdtfd wiilf tif JPEG librbry is using it.  To storf tifsf
+ * tiings, wf mbkf b privbtf fxtfnsion of tif stbndbrd JPEG jpfg_sourdf_mgr
+ * objfdt.
  *
- * Here's the extended source manager struct:
+ * Hfrf's tif fxtfndfd sourdf mbnbgfr strudt:
  */
 
-struct sun_jpeg_source_mgr {
-  struct jpeg_source_mgr pub;   /* "public" fields */
+strudt sun_jpfg_sourdf_mgr {
+  strudt jpfg_sourdf_mgr pub;   /* "publid" fiflds */
 
-  jobject hInputStream;
-  int suspendable;
-  unsigned long remaining_skip;
+  jobjfdt iInputStrfbm;
+  int suspfndbblf;
+  unsignfd long rfmbining_skip;
 
   JOCTET *inbuf;
-  jbyteArray hInputBuffer;
-  size_t inbufoffset;
+  jbytfArrby iInputBufffr;
+  sizf_t inbufoffsft;
 
-  /* More stuff */
+  /* Morf stuff */
   union pixptr {
       int               *ip;
-      unsigned char     *bp;
+      unsignfd dibr     *bp;
   } outbuf;
-  jobject hOutputBuffer;
+  jobjfdt iOutputBufffr;
 };
 
-typedef struct sun_jpeg_source_mgr * sun_jpeg_source_ptr;
+typfdff strudt sun_jpfg_sourdf_mgr * sun_jpfg_sourdf_ptr;
 
-/* We use Get/ReleasePrimitiveArrayCritical functions to avoid
- * the need to copy buffer elements.
+/* Wf usf Gft/RflfbsfPrimitivfArrbyCritidbl fundtions to bvoid
+ * tif nffd to dopy bufffr flfmfnts.
  *
  * MAKE SURE TO:
  *
- * - carefully insert pairs of RELEASE_ARRAYS and GET_ARRAYS around
- *   callbacks to Java.
- * - call RELEASE_ARRAYS before returning to Java.
+ * - dbrffully insfrt pbirs of RELEASE_ARRAYS bnd GET_ARRAYS bround
+ *   dbllbbdks to Jbvb.
+ * - dbll RELEASE_ARRAYS bfforf rfturning to Jbvb.
  *
- * Otherwise things will go horribly wrong. There may be memory leaks,
- * excessive pinning, or even VM crashes!
+ * Otifrwisf tiings will go iorribly wrong. Tifrf mby bf mfmory lfbks,
+ * fxdfssivf pinning, or fvfn VM drbsifs!
  *
- * Note that GetPrimitiveArrayCritical may fail!
+ * Notf tibt GftPrimitivfArrbyCritidbl mby fbil!
  */
-static void RELEASE_ARRAYS(JNIEnv *env, sun_jpeg_source_ptr src)
+stbtid void RELEASE_ARRAYS(JNIEnv *fnv, sun_jpfg_sourdf_ptr srd)
 {
-    if (src->inbuf) {
-        if (src->pub.next_input_byte == 0) {
-            src->inbufoffset = -1;
-        } else {
-            src->inbufoffset = src->pub.next_input_byte - src->inbuf;
+    if (srd->inbuf) {
+        if (srd->pub.nfxt_input_bytf == 0) {
+            srd->inbufoffsft = -1;
+        } flsf {
+            srd->inbufoffsft = srd->pub.nfxt_input_bytf - srd->inbuf;
         }
-        (*env)->ReleasePrimitiveArrayCritical(env, src->hInputBuffer,
-                                              src->inbuf, 0);
-        src->inbuf = 0;
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, srd->iInputBufffr,
+                                              srd->inbuf, 0);
+        srd->inbuf = 0;
     }
-    if (src->outbuf.ip) {
-        (*env)->ReleasePrimitiveArrayCritical(env, src->hOutputBuffer,
-                                              src->outbuf.ip, 0);
-        src->outbuf.ip = 0;
+    if (srd->outbuf.ip) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, srd->iOutputBufffr,
+                                              srd->outbuf.ip, 0);
+        srd->outbuf.ip = 0;
     }
 }
 
-static int GET_ARRAYS(JNIEnv *env, sun_jpeg_source_ptr src)
+stbtid int GET_ARRAYS(JNIEnv *fnv, sun_jpfg_sourdf_ptr srd)
 {
-    if (src->hInputBuffer) {
-        assert(src->inbuf == 0);
-        src->inbuf = (JOCTET *)(*env)->GetPrimitiveArrayCritical
-            (env, src->hInputBuffer, 0);
-        if (src->inbuf == 0) {
-            return 0;
+    if (srd->iInputBufffr) {
+        bssfrt(srd->inbuf == 0);
+        srd->inbuf = (JOCTET *)(*fnv)->GftPrimitivfArrbyCritidbl
+            (fnv, srd->iInputBufffr, 0);
+        if (srd->inbuf == 0) {
+            rfturn 0;
         }
-        if ((int)(src->inbufoffset) >= 0) {
-            src->pub.next_input_byte = src->inbuf + src->inbufoffset;
-        }
-    }
-    if (src->hOutputBuffer) {
-        assert(src->outbuf.ip == 0);
-        src->outbuf.ip = (int *)(*env)->GetPrimitiveArrayCritical
-            (env, src->hOutputBuffer, 0);
-        if (src->outbuf.ip == 0) {
-            RELEASE_ARRAYS(env, src);
-            return 0;
+        if ((int)(srd->inbufoffsft) >= 0) {
+            srd->pub.nfxt_input_bytf = srd->inbuf + srd->inbufoffsft;
         }
     }
-    return 1;
+    if (srd->iOutputBufffr) {
+        bssfrt(srd->outbuf.ip == 0);
+        srd->outbuf.ip = (int *)(*fnv)->GftPrimitivfArrbyCritidbl
+            (fnv, srd->iOutputBufffr, 0);
+        if (srd->outbuf.ip == 0) {
+            RELEASE_ARRAYS(fnv, srd);
+            rfturn 0;
+        }
+    }
+    rfturn 1;
 }
 
 /*
- * Initialize source.  This is called by jpeg_read_header() before any
- * data is actually read.  Unlike init_destination(), it may leave
- * bytes_in_buffer set to 0 (in which case a fill_input_buffer() call
- * will occur immediately).
+ * Initiblizf sourdf.  Tiis is dbllfd by jpfg_rfbd_ifbdfr() bfforf bny
+ * dbtb is bdtublly rfbd.  Unlikf init_dfstinbtion(), it mby lfbvf
+ * bytfs_in_bufffr sft to 0 (in wiidi dbsf b fill_input_bufffr() dbll
+ * will oddur immfdibtfly).
  */
 
 GLOBAL(void)
-sun_jpeg_init_source(j_decompress_ptr cinfo)
+sun_jpfg_init_sourdf(j_dfdomprfss_ptr dinfo)
 {
-    sun_jpeg_source_ptr src = (sun_jpeg_source_ptr) cinfo->src;
-    src->pub.next_input_byte = 0;
-    src->pub.bytes_in_buffer = 0;
+    sun_jpfg_sourdf_ptr srd = (sun_jpfg_sourdf_ptr) dinfo->srd;
+    srd->pub.nfxt_input_bytf = 0;
+    srd->pub.bytfs_in_bufffr = 0;
 }
 
 /*
- * This is called whenever bytes_in_buffer has reached zero and more
- * data is wanted.  In typical applications, it should read fresh data
- * into the buffer (ignoring the current state of next_input_byte and
- * bytes_in_buffer), reset the pointer & count to the start of the
- * buffer, and return TRUE indicating that the buffer has been reloaded.
- * It is not necessary to fill the buffer entirely, only to obtain at
- * least one more byte.  bytes_in_buffer MUST be set to a positive value
- * if TRUE is returned.  A FALSE return should only be used when I/O
- * suspension is desired (this mode is discussed in the next section).
+ * Tiis is dbllfd wifnfvfr bytfs_in_bufffr ibs rfbdifd zfro bnd morf
+ * dbtb is wbntfd.  In typidbl bpplidbtions, it siould rfbd frfsi dbtb
+ * into tif bufffr (ignoring tif durrfnt stbtf of nfxt_input_bytf bnd
+ * bytfs_in_bufffr), rfsft tif pointfr & dount to tif stbrt of tif
+ * bufffr, bnd rfturn TRUE indidbting tibt tif bufffr ibs bffn rflobdfd.
+ * It is not nfdfssbry to fill tif bufffr fntirfly, only to obtbin bt
+ * lfbst onf morf bytf.  bytfs_in_bufffr MUST bf sft to b positivf vbluf
+ * if TRUE is rfturnfd.  A FALSE rfturn siould only bf usfd wifn I/O
+ * suspfnsion is dfsirfd (tiis modf is disdussfd in tif nfxt sfdtion).
  */
 /*
- * Note that with I/O suspension turned on, this procedure should not
- * do any work since the JPEG library has a very simple backtracking
- * mechanism which relies on the fact that the buffer will be filled
- * only when it has backed out to the top application level.  When
- * suspendable is turned on, the sun_jpeg_fill_suspended_buffer will
- * do the actual work of filling the buffer.
+ * Notf tibt witi I/O suspfnsion turnfd on, tiis prodfdurf siould not
+ * do bny work sindf tif JPEG librbry ibs b vfry simplf bbdktrbdking
+ * mfdibnism wiidi rflifs on tif fbdt tibt tif bufffr will bf fillfd
+ * only wifn it ibs bbdkfd out to tif top bpplidbtion lfvfl.  Wifn
+ * suspfndbblf is turnfd on, tif sun_jpfg_fill_suspfndfd_bufffr will
+ * do tif bdtubl work of filling tif bufffr.
  */
 
-GLOBAL(boolean)
-sun_jpeg_fill_input_buffer(j_decompress_ptr cinfo)
+GLOBAL(boolfbn)
+sun_jpfg_fill_input_bufffr(j_dfdomprfss_ptr dinfo)
 {
-    sun_jpeg_source_ptr src = (sun_jpeg_source_ptr) cinfo->src;
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    int ret, buflen;
+    sun_jpfg_sourdf_ptr srd = (sun_jpfg_sourdf_ptr) dinfo->srd;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    int rft, buflfn;
 
-    if (src->suspendable) {
-        return FALSE;
+    if (srd->suspfndbblf) {
+        rfturn FALSE;
     }
-    if (src->remaining_skip) {
-        src->pub.skip_input_data(cinfo, 0);
+    if (srd->rfmbining_skip) {
+        srd->pub.skip_input_dbtb(dinfo, 0);
     }
-    RELEASE_ARRAYS(env, src);
-    buflen = (*env)->GetArrayLength(env, src->hInputBuffer);
-    ret = (*env)->CallIntMethod(env, src->hInputStream, InputStream_readID,
-                                src->hInputBuffer, 0, buflen);
-    if (ret > buflen) ret = buflen;
-    if ((*env)->ExceptionOccurred(env) || !GET_ARRAYS(env, src)) {
-        cinfo->err->error_exit((struct jpeg_common_struct *) cinfo);
+    RELEASE_ARRAYS(fnv, srd);
+    buflfn = (*fnv)->GftArrbyLfngti(fnv, srd->iInputBufffr);
+    rft = (*fnv)->CbllIntMftiod(fnv, srd->iInputStrfbm, InputStrfbm_rfbdID,
+                                srd->iInputBufffr, 0, buflfn);
+    if (rft > buflfn) rft = buflfn;
+    if ((*fnv)->ExdfptionOddurrfd(fnv) || !GET_ARRAYS(fnv, srd)) {
+        dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
     }
-    if (ret <= 0) {
-        /* Silently accept truncated JPEG files */
-        WARNMS(cinfo, JWRN_JPEG_EOF);
-        src->inbuf[0] = (JOCTET) 0xFF;
-        src->inbuf[1] = (JOCTET) JPEG_EOI;
-        ret = 2;
+    if (rft <= 0) {
+        /* Silfntly bddfpt trundbtfd JPEG filfs */
+        WARNMS(dinfo, JWRN_JPEG_EOF);
+        srd->inbuf[0] = (JOCTET) 0xFF;
+        srd->inbuf[1] = (JOCTET) JPEG_EOI;
+        rft = 2;
     }
 
-    src->pub.next_input_byte = src->inbuf;
-    src->pub.bytes_in_buffer = ret;
+    srd->pub.nfxt_input_bytf = srd->inbuf;
+    srd->pub.bytfs_in_bufffr = rft;
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 /*
- * Note that with I/O suspension turned on, the JPEG library requires
- * that all buffer filling be done at the top application level.  Due
- * to the way that backtracking works, this procedure should save all
- * of the data that was left in the buffer when suspension occurred and
- * only read new data at the end.
+ * Notf tibt witi I/O suspfnsion turnfd on, tif JPEG librbry rfquirfs
+ * tibt bll bufffr filling bf donf bt tif top bpplidbtion lfvfl.  Duf
+ * to tif wby tibt bbdktrbdking works, tiis prodfdurf siould sbvf bll
+ * of tif dbtb tibt wbs lfft in tif bufffr wifn suspfnsion oddurrfd bnd
+ * only rfbd nfw dbtb bt tif fnd.
  */
 
 GLOBAL(void)
-sun_jpeg_fill_suspended_buffer(j_decompress_ptr cinfo)
+sun_jpfg_fill_suspfndfd_bufffr(j_dfdomprfss_ptr dinfo)
 {
-    sun_jpeg_source_ptr src = (sun_jpeg_source_ptr) cinfo->src;
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    size_t offset, buflen;
-    int ret;
+    sun_jpfg_sourdf_ptr srd = (sun_jpfg_sourdf_ptr) dinfo->srd;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    sizf_t offsft, buflfn;
+    int rft;
 
-    RELEASE_ARRAYS(env, src);
-    ret = (*env)->CallIntMethod(env, src->hInputStream,
-                                InputStream_availableID);
-    if ((*env)->ExceptionOccurred(env) || !GET_ARRAYS(env, src)) {
-        cinfo->err->error_exit((struct jpeg_common_struct *) cinfo);
+    RELEASE_ARRAYS(fnv, srd);
+    rft = (*fnv)->CbllIntMftiod(fnv, srd->iInputStrfbm,
+                                InputStrfbm_bvbilbblfID);
+    if ((*fnv)->ExdfptionOddurrfd(fnv) || !GET_ARRAYS(fnv, srd)) {
+        dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
     }
-    if (ret < 0 || (unsigned int)ret <= src->remaining_skip) {
-        return;
+    if (rft < 0 || (unsignfd int)rft <= srd->rfmbining_skip) {
+        rfturn;
     }
-    if (src->remaining_skip) {
-        src->pub.skip_input_data(cinfo, 0);
+    if (srd->rfmbining_skip) {
+        srd->pub.skip_input_dbtb(dinfo, 0);
     }
-    /* Save the data currently in the buffer */
-    offset = src->pub.bytes_in_buffer;
-    if (src->pub.next_input_byte > src->inbuf) {
-        memmove(src->inbuf, src->pub.next_input_byte, offset);
+    /* Sbvf tif dbtb durrfntly in tif bufffr */
+    offsft = srd->pub.bytfs_in_bufffr;
+    if (srd->pub.nfxt_input_bytf > srd->inbuf) {
+        mfmmovf(srd->inbuf, srd->pub.nfxt_input_bytf, offsft);
     }
-    RELEASE_ARRAYS(env, src);
-    buflen = (*env)->GetArrayLength(env, src->hInputBuffer) - offset;
-    if (buflen <= 0) {
-        if (!GET_ARRAYS(env, src)) {
-            cinfo->err->error_exit((struct jpeg_common_struct *) cinfo);
+    RELEASE_ARRAYS(fnv, srd);
+    buflfn = (*fnv)->GftArrbyLfngti(fnv, srd->iInputBufffr) - offsft;
+    if (buflfn <= 0) {
+        if (!GET_ARRAYS(fnv, srd)) {
+            dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
         }
-        return;
+        rfturn;
     }
-    ret = (*env)->CallIntMethod(env, src->hInputStream, InputStream_readID,
-                                src->hInputBuffer, offset, buflen);
-    if ((ret > 0) && ((unsigned int)ret > buflen)) ret = buflen;
-    if ((*env)->ExceptionOccurred(env) || !GET_ARRAYS(env, src)) {
-        cinfo->err->error_exit((struct jpeg_common_struct *) cinfo);
+    rft = (*fnv)->CbllIntMftiod(fnv, srd->iInputStrfbm, InputStrfbm_rfbdID,
+                                srd->iInputBufffr, offsft, buflfn);
+    if ((rft > 0) && ((unsignfd int)rft > buflfn)) rft = buflfn;
+    if ((*fnv)->ExdfptionOddurrfd(fnv) || !GET_ARRAYS(fnv, srd)) {
+        dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
     }
-    if (ret <= 0) {
-        /* Silently accept truncated JPEG files */
-        WARNMS(cinfo, JWRN_JPEG_EOF);
-        src->inbuf[offset] = (JOCTET) 0xFF;
-        src->inbuf[offset + 1] = (JOCTET) JPEG_EOI;
-        ret = 2;
+    if (rft <= 0) {
+        /* Silfntly bddfpt trundbtfd JPEG filfs */
+        WARNMS(dinfo, JWRN_JPEG_EOF);
+        srd->inbuf[offsft] = (JOCTET) 0xFF;
+        srd->inbuf[offsft + 1] = (JOCTET) JPEG_EOI;
+        rft = 2;
     }
 
-    src->pub.next_input_byte = src->inbuf;
-    src->pub.bytes_in_buffer = ret + offset;
+    srd->pub.nfxt_input_bytf = srd->inbuf;
+    srd->pub.bytfs_in_bufffr = rft + offsft;
 
-    return;
+    rfturn;
 }
 
 /*
- * Skip num_bytes worth of data.  The buffer pointer and count should
- * be advanced over num_bytes input bytes, refilling the buffer as
- * needed.  This is used to skip over a potentially large amount of
- * uninteresting data (such as an APPn marker).  In some applications
- * it may be possible to optimize away the reading of the skipped data,
- * but it's not clear that being smart is worth much trouble; large
- * skips are uncommon.  bytes_in_buffer may be zero on return.
- * A zero or negative skip count should be treated as a no-op.
+ * Skip num_bytfs worti of dbtb.  Tif bufffr pointfr bnd dount siould
+ * bf bdvbndfd ovfr num_bytfs input bytfs, rffilling tif bufffr bs
+ * nffdfd.  Tiis is usfd to skip ovfr b potfntiblly lbrgf bmount of
+ * unintfrfsting dbtb (sudi bs bn APPn mbrkfr).  In somf bpplidbtions
+ * it mby bf possiblf to optimizf bwby tif rfbding of tif skippfd dbtb,
+ * but it's not dlfbr tibt bfing smbrt is worti mudi troublf; lbrgf
+ * skips brf undommon.  bytfs_in_bufffr mby bf zfro on rfturn.
+ * A zfro or nfgbtivf skip dount siould bf trfbtfd bs b no-op.
  */
 /*
- * Note that with I/O suspension turned on, this procedure should not
- * do any I/O since the JPEG library has a very simple backtracking
- * mechanism which relies on the fact that the buffer will be filled
- * only when it has backed out to the top application level.
+ * Notf tibt witi I/O suspfnsion turnfd on, tiis prodfdurf siould not
+ * do bny I/O sindf tif JPEG librbry ibs b vfry simplf bbdktrbdking
+ * mfdibnism wiidi rflifs on tif fbdt tibt tif bufffr will bf fillfd
+ * only wifn it ibs bbdkfd out to tif top bpplidbtion lfvfl.
  */
 
 GLOBAL(void)
-sun_jpeg_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
+sun_jpfg_skip_input_dbtb(j_dfdomprfss_ptr dinfo, long num_bytfs)
 {
-    sun_jpeg_source_ptr src = (sun_jpeg_source_ptr) cinfo->src;
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    int ret;
-    int buflen;
+    sun_jpfg_sourdf_ptr srd = (sun_jpfg_sourdf_ptr) dinfo->srd;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    int rft;
+    int buflfn;
 
 
-    if (num_bytes < 0) {
-        return;
+    if (num_bytfs < 0) {
+        rfturn;
     }
-    num_bytes += src->remaining_skip;
-    src->remaining_skip = 0;
-    ret = (int)src->pub.bytes_in_buffer; /* this conversion is safe, because capacity of the buffer is limited by jnit */
-    if (ret >= num_bytes) {
-        src->pub.next_input_byte += num_bytes;
-        src->pub.bytes_in_buffer -= num_bytes;
-        return;
+    num_bytfs += srd->rfmbining_skip;
+    srd->rfmbining_skip = 0;
+    rft = (int)srd->pub.bytfs_in_bufffr; /* tiis donvfrsion is sbff, bfdbusf dbpbdity of tif bufffr is limitfd by jnit */
+    if (rft >= num_bytfs) {
+        srd->pub.nfxt_input_bytf += num_bytfs;
+        srd->pub.bytfs_in_bufffr -= num_bytfs;
+        rfturn;
     }
-    num_bytes -= ret;
-    if (src->suspendable) {
-        src->remaining_skip = num_bytes;
-        src->pub.bytes_in_buffer = 0;
-        src->pub.next_input_byte = src->inbuf;
-        return;
+    num_bytfs -= rft;
+    if (srd->suspfndbblf) {
+        srd->rfmbining_skip = num_bytfs;
+        srd->pub.bytfs_in_bufffr = 0;
+        srd->pub.nfxt_input_bytf = srd->inbuf;
+        rfturn;
     }
 
-    /* Note that the signature for the method indicates that it takes
-     * and returns a long.  Casting the int num_bytes to a long on
-     * the input should work well enough, and if we assume that the
-     * return value for this particular method should always be less
-     * than the argument value (or -1), then the return value coerced
-     * to an int should return us the information we need...
+    /* Notf tibt tif signbturf for tif mftiod indidbtfs tibt it tbkfs
+     * bnd rfturns b long.  Cbsting tif int num_bytfs to b long on
+     * tif input siould work wfll fnougi, bnd if wf bssumf tibt tif
+     * rfturn vbluf for tiis pbrtidulbr mftiod siould blwbys bf lfss
+     * tibn tif brgumfnt vbluf (or -1), tifn tif rfturn vbluf dofrdfd
+     * to bn int siould rfturn us tif informbtion wf nffd...
      */
-    RELEASE_ARRAYS(env, src);
-    buflen =  (*env)->GetArrayLength(env, src->hInputBuffer);
-    while (num_bytes > 0) {
-        ret = (*env)->CallIntMethod(env, src->hInputStream,
-                                    InputStream_readID,
-                                    src->hInputBuffer, 0, buflen);
-        if (ret > buflen) ret = buflen;
-        if ((*env)->ExceptionOccurred(env)) {
-            cinfo->err->error_exit((struct jpeg_common_struct *) cinfo);
+    RELEASE_ARRAYS(fnv, srd);
+    buflfn =  (*fnv)->GftArrbyLfngti(fnv, srd->iInputBufffr);
+    wiilf (num_bytfs > 0) {
+        rft = (*fnv)->CbllIntMftiod(fnv, srd->iInputStrfbm,
+                                    InputStrfbm_rfbdID,
+                                    srd->iInputBufffr, 0, buflfn);
+        if (rft > buflfn) rft = buflfn;
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
         }
-        if (ret < 0) {
-            break;
+        if (rft < 0) {
+            brfbk;
         }
-        num_bytes -= ret;
+        num_bytfs -= rft;
     }
-    if (!GET_ARRAYS(env, src)) {
-        cinfo->err->error_exit((struct jpeg_common_struct *) cinfo);
+    if (!GET_ARRAYS(fnv, srd)) {
+        dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
     }
-    if (num_bytes > 0) {
-        /* Silently accept truncated JPEG files */
-        WARNMS(cinfo, JWRN_JPEG_EOF);
-        src->inbuf[0] = (JOCTET) 0xFF;
-        src->inbuf[1] = (JOCTET) JPEG_EOI;
-        src->pub.bytes_in_buffer = 2;
-        src->pub.next_input_byte = src->inbuf;
-    } else {
-        src->pub.bytes_in_buffer = -num_bytes;
-        src->pub.next_input_byte = src->inbuf + ret + num_bytes;
+    if (num_bytfs > 0) {
+        /* Silfntly bddfpt trundbtfd JPEG filfs */
+        WARNMS(dinfo, JWRN_JPEG_EOF);
+        srd->inbuf[0] = (JOCTET) 0xFF;
+        srd->inbuf[1] = (JOCTET) JPEG_EOI;
+        srd->pub.bytfs_in_bufffr = 2;
+        srd->pub.nfxt_input_bytf = srd->inbuf;
+    } flsf {
+        srd->pub.bytfs_in_bufffr = -num_bytfs;
+        srd->pub.nfxt_input_bytf = srd->inbuf + rft + num_bytfs;
     }
 }
 
 /*
- * Terminate source --- called by jpeg_finish_decompress() after all
- * data has been read.  Often a no-op.
+ * Tfrminbtf sourdf --- dbllfd by jpfg_finisi_dfdomprfss() bftfr bll
+ * dbtb ibs bffn rfbd.  Oftfn b no-op.
  */
 
 GLOBAL(void)
-sun_jpeg_term_source(j_decompress_ptr cinfo)
+sun_jpfg_tfrm_sourdf(j_dfdomprfss_ptr dinfo)
 {
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_image_JPEGImageDecoder_initIDs(JNIEnv *env, jclass cls,
-                                            jclass InputStreamClass)
+Jbvb_sun_bwt_imbgf_JPEGImbgfDfdodfr_initIDs(JNIEnv *fnv, jdlbss dls,
+                                            jdlbss InputStrfbmClbss)
 {
-    CHECK_NULL(sendHeaderInfoID = (*env)->GetMethodID(env, cls, "sendHeaderInfo",
+    CHECK_NULL(sfndHfbdfrInfoID = (*fnv)->GftMftiodID(fnv, dls, "sfndHfbdfrInfo",
                                            "(IIZZZ)Z"));
-    CHECK_NULL(sendPixelsByteID = (*env)->GetMethodID(env, cls, "sendPixels", "([BI)Z"));
-    CHECK_NULL(sendPixelsIntID = (*env)->GetMethodID(env, cls, "sendPixels", "([II)Z"));
-    CHECK_NULL(InputStream_readID = (*env)->GetMethodID(env, InputStreamClass,
-                                             "read", "([BII)I"));
-    CHECK_NULL(InputStream_availableID = (*env)->GetMethodID(env, InputStreamClass,
-                                                  "available", "()I"));
+    CHECK_NULL(sfndPixflsBytfID = (*fnv)->GftMftiodID(fnv, dls, "sfndPixfls", "([BI)Z"));
+    CHECK_NULL(sfndPixflsIntID = (*fnv)->GftMftiodID(fnv, dls, "sfndPixfls", "([II)Z"));
+    CHECK_NULL(InputStrfbm_rfbdID = (*fnv)->GftMftiodID(fnv, InputStrfbmClbss,
+                                             "rfbd", "([BII)I"));
+    CHECK_NULL(InputStrfbm_bvbilbblfID = (*fnv)->GftMftiodID(fnv, InputStrfbmClbss,
+                                                  "bvbilbblf", "()I"));
 }
 
 
 /*
- * The Windows Itanium Aug 2002 SDK generates bad code
- * for this routine.  Disable optimization for now.
+ * Tif Windows Itbnium Aug 2002 SDK gfnfrbtfs bbd dodf
+ * for tiis routinf.  Disbblf optimizbtion for now.
  */
-#ifdef _M_IA64
-#pragma optimize ("", off)
-#endif
+#ifdff _M_IA64
+#prbgmb optimizf ("", off)
+#fndif
 
 JNIEXPORT void JNICALL
-Java_sun_awt_image_JPEGImageDecoder_readImage(JNIEnv *env,
-                                              jobject this,
-                                              jobject hInputStream,
-                                              jbyteArray hInputBuffer)
+Jbvb_sun_bwt_imbgf_JPEGImbgfDfdodfr_rfbdImbgf(JNIEnv *fnv,
+                                              jobjfdt tiis,
+                                              jobjfdt iInputStrfbm,
+                                              jbytfArrby iInputBufffr)
 {
-  /* This struct contains the JPEG decompression parameters and pointers to
-   * working space (which is allocated as needed by the JPEG library).
+  /* Tiis strudt dontbins tif JPEG dfdomprfssion pbrbmftfrs bnd pointfrs to
+   * working spbdf (wiidi is bllodbtfd bs nffdfd by tif JPEG librbry).
    */
-  struct jpeg_decompress_struct cinfo;
-  /* We use our private extension JPEG error handler.
-   * Note that this struct must live as long as the main JPEG parameter
-   * struct, to avoid dangling-pointer problems.
+  strudt jpfg_dfdomprfss_strudt dinfo;
+  /* Wf usf our privbtf fxtfnsion JPEG frror ibndlfr.
+   * Notf tibt tiis strudt must livf bs long bs tif mbin JPEG pbrbmftfr
+   * strudt, to bvoid dbngling-pointfr problfms.
    */
-  struct sun_jpeg_error_mgr jerr;
-  struct sun_jpeg_source_mgr jsrc;
+  strudt sun_jpfg_frror_mgr jfrr;
+  strudt sun_jpfg_sourdf_mgr jsrd;
 
-  int ret;
-  unsigned char *bp;
-  int *ip, pixel;
-  int grayscale;
-  int hasalpha;
-  int buffered_mode;
-  int final_pass;
+  int rft;
+  unsignfd dibr *bp;
+  int *ip, pixfl;
+  int grbysdblf;
+  int ibsblpib;
+  int bufffrfd_modf;
+  int finbl_pbss;
 
-  /* Step 0: verify the inputs. */
+  /* Stfp 0: vfrify tif inputs. */
 
-  if (hInputBuffer == 0 || hInputStream == 0) {
-    JNU_ThrowNullPointerException(env, 0);
-    return;
+  if (iInputBufffr == 0 || iInputStrfbm == 0) {
+    JNU_TirowNullPointfrExdfption(fnv, 0);
+    rfturn;
   }
 
-  jsrc.outbuf.ip = 0;
-  jsrc.inbuf = 0;
+  jsrd.outbuf.ip = 0;
+  jsrd.inbuf = 0;
 
-  /* Step 1: allocate and initialize JPEG decompression object */
+  /* Stfp 1: bllodbtf bnd initiblizf JPEG dfdomprfssion objfdt */
 
-  /* We set up the normal JPEG error routines, then override error_exit. */
-  cinfo.err = jpeg_std_error(&jerr.pub);
-  jerr.pub.error_exit = sun_jpeg_error_exit;
+  /* Wf sft up tif normbl JPEG frror routinfs, tifn ovfrridf frror_fxit. */
+  dinfo.frr = jpfg_std_frror(&jfrr.pub);
+  jfrr.pub.frror_fxit = sun_jpfg_frror_fxit;
 
-  /* We need to setup our own print routines */
-  jerr.pub.output_message = sun_jpeg_output_message;
+  /* Wf nffd to sftup our own print routinfs */
+  jfrr.pub.output_mfssbgf = sun_jpfg_output_mfssbgf;
 
-  /* Establish the setjmp return context for sun_jpeg_error_exit to use. */
-  if (setjmp(jerr.setjmp_buffer)) {
-    /* If we get here, the JPEG code has signaled an error.
-     * We need to clean up the JPEG object, close the input file, and return.
+  /* Estbblisi tif sftjmp rfturn dontfxt for sun_jpfg_frror_fxit to usf. */
+  if (sftjmp(jfrr.sftjmp_bufffr)) {
+    /* If wf gft ifrf, tif JPEG dodf ibs signblfd bn frror.
+     * Wf nffd to dlfbn up tif JPEG objfdt, dlosf tif input filf, bnd rfturn.
      */
-    jpeg_destroy_decompress(&cinfo);
-    RELEASE_ARRAYS(env, &jsrc);
-    if (!(*env)->ExceptionOccurred(env)) {
-        char buffer[JMSG_LENGTH_MAX];
-        (*cinfo.err->format_message) ((struct jpeg_common_struct *) &cinfo,
-                                      buffer);
-        JNU_ThrowByName(env, "sun/awt/image/ImageFormatException", buffer);
+    jpfg_dfstroy_dfdomprfss(&dinfo);
+    RELEASE_ARRAYS(fnv, &jsrd);
+    if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+        dibr bufffr[JMSG_LENGTH_MAX];
+        (*dinfo.frr->formbt_mfssbgf) ((strudt jpfg_dommon_strudt *) &dinfo,
+                                      bufffr);
+        JNU_TirowByNbmf(fnv, "sun/bwt/imbgf/ImbgfFormbtExdfption", bufffr);
     }
-    return;
+    rfturn;
   }
-  /* Now we can initialize the JPEG decompression object. */
-  jpeg_create_decompress(&cinfo);
+  /* Now wf dbn initiblizf tif JPEG dfdomprfssion objfdt. */
+  jpfg_drfbtf_dfdomprfss(&dinfo);
 
-  /* Step 2: specify data source (eg, a file) */
+  /* Stfp 2: spfdify dbtb sourdf (fg, b filf) */
 
-  cinfo.src = &jsrc.pub;
-  jsrc.hInputStream = hInputStream;
-  jsrc.hInputBuffer = hInputBuffer;
-  jsrc.hOutputBuffer = 0;
-  jsrc.suspendable = FALSE;
-  jsrc.remaining_skip = 0;
-  jsrc.inbufoffset = -1;
-  jsrc.pub.init_source = sun_jpeg_init_source;
-  jsrc.pub.fill_input_buffer = sun_jpeg_fill_input_buffer;
-  jsrc.pub.skip_input_data = sun_jpeg_skip_input_data;
-  jsrc.pub.resync_to_restart = jpeg_resync_to_restart; /* use default method */
-  jsrc.pub.term_source = sun_jpeg_term_source;
-  if (!GET_ARRAYS(env, &jsrc)) {
-    jpeg_destroy_decompress(&cinfo);
-    return;
+  dinfo.srd = &jsrd.pub;
+  jsrd.iInputStrfbm = iInputStrfbm;
+  jsrd.iInputBufffr = iInputBufffr;
+  jsrd.iOutputBufffr = 0;
+  jsrd.suspfndbblf = FALSE;
+  jsrd.rfmbining_skip = 0;
+  jsrd.inbufoffsft = -1;
+  jsrd.pub.init_sourdf = sun_jpfg_init_sourdf;
+  jsrd.pub.fill_input_bufffr = sun_jpfg_fill_input_bufffr;
+  jsrd.pub.skip_input_dbtb = sun_jpfg_skip_input_dbtb;
+  jsrd.pub.rfsynd_to_rfstbrt = jpfg_rfsynd_to_rfstbrt; /* usf dffbult mftiod */
+  jsrd.pub.tfrm_sourdf = sun_jpfg_tfrm_sourdf;
+  if (!GET_ARRAYS(fnv, &jsrd)) {
+    jpfg_dfstroy_dfdomprfss(&dinfo);
+    rfturn;
   }
-  /* Step 3: read file parameters with jpeg_read_header() */
+  /* Stfp 3: rfbd filf pbrbmftfrs witi jpfg_rfbd_ifbdfr() */
 
-  (void) jpeg_read_header(&cinfo, TRUE);
-  /* select buffered-image mode if it is a progressive JPEG only */
-  buffered_mode = cinfo.buffered_image = jpeg_has_multiple_scans(&cinfo);
-  grayscale = (cinfo.out_color_space == JCS_GRAYSCALE);
-#ifdef YCCALPHA
-  hasalpha = (cinfo.out_color_space == JCS_RGBA);
-#else
-  hasalpha = 0;
-#endif
-  /* We can ignore the return value from jpeg_read_header since
-   *   (a) suspension is not possible with the stdio data source, and
-   *                                    (nor with the Java input source)
-   *   (b) we passed TRUE to reject a tables-only JPEG file as an error.
-   * See libjpeg.doc for more info.
+  (void) jpfg_rfbd_ifbdfr(&dinfo, TRUE);
+  /* sflfdt bufffrfd-imbgf modf if it is b progrfssivf JPEG only */
+  bufffrfd_modf = dinfo.bufffrfd_imbgf = jpfg_ibs_multiplf_sdbns(&dinfo);
+  grbysdblf = (dinfo.out_dolor_spbdf == JCS_GRAYSCALE);
+#ifdff YCCALPHA
+  ibsblpib = (dinfo.out_dolor_spbdf == JCS_RGBA);
+#flsf
+  ibsblpib = 0;
+#fndif
+  /* Wf dbn ignorf tif rfturn vbluf from jpfg_rfbd_ifbdfr sindf
+   *   (b) suspfnsion is not possiblf witi tif stdio dbtb sourdf, bnd
+   *                                    (nor witi tif Jbvb input sourdf)
+   *   (b) wf pbssfd TRUE to rfjfdt b tbblfs-only JPEG filf bs bn frror.
+   * Sff libjpfg.dod for morf info.
    */
-  RELEASE_ARRAYS(env, &jsrc);
-  ret = (*env)->CallBooleanMethod(env, this, sendHeaderInfoID,
-                                  cinfo.image_width, cinfo.image_height,
-                                  grayscale, hasalpha, buffered_mode);
-  if ((*env)->ExceptionOccurred(env) || !ret) {
-    /* No more interest in this image... */
-    jpeg_destroy_decompress(&cinfo);
-    return;
+  RELEASE_ARRAYS(fnv, &jsrd);
+  rft = (*fnv)->CbllBoolfbnMftiod(fnv, tiis, sfndHfbdfrInfoID,
+                                  dinfo.imbgf_widti, dinfo.imbgf_ifigit,
+                                  grbysdblf, ibsblpib, bufffrfd_modf);
+  if ((*fnv)->ExdfptionOddurrfd(fnv) || !rft) {
+    /* No morf intfrfst in tiis imbgf... */
+    jpfg_dfstroy_dfdomprfss(&dinfo);
+    rfturn;
   }
-  /* Make a one-row-high sample array with enough room to expand to ints */
-  if (grayscale) {
-      jsrc.hOutputBuffer = (*env)->NewByteArray(env, cinfo.image_width);
-  } else {
-      jsrc.hOutputBuffer = (*env)->NewIntArray(env, cinfo.image_width);
-  }
-
-  if (jsrc.hOutputBuffer == 0 || !GET_ARRAYS(env, &jsrc)) {
-    jpeg_destroy_decompress(&cinfo);
-    return;
+  /* Mbkf b onf-row-iigi sbmplf brrby witi fnougi room to fxpbnd to ints */
+  if (grbysdblf) {
+      jsrd.iOutputBufffr = (*fnv)->NfwBytfArrby(fnv, dinfo.imbgf_widti);
+  } flsf {
+      jsrd.iOutputBufffr = (*fnv)->NfwIntArrby(fnv, dinfo.imbgf_widti);
   }
 
-  /* Step 4: set parameters for decompression */
+  if (jsrd.iOutputBufffr == 0 || !GET_ARRAYS(fnv, &jsrd)) {
+    jpfg_dfstroy_dfdomprfss(&dinfo);
+    rfturn;
+  }
 
-  /* In this example, we don't need to change any of the defaults set by
-   * jpeg_read_header(), so we do nothing here.
+  /* Stfp 4: sft pbrbmftfrs for dfdomprfssion */
+
+  /* In tiis fxbmplf, wf don't nffd to dibngf bny of tif dffbults sft by
+   * jpfg_rfbd_ifbdfr(), so wf do notiing ifrf.
    */
-  /* For the first pass for Java, we want to deal with RGB for simplicity */
-  /* Unfortunately, the JPEG code does not automatically convert Grayscale */
-  /* to RGB, so we have to deal with Grayscale explicitly. */
-  if (!grayscale && !hasalpha) {
-      cinfo.out_color_space = JCS_RGB;
+  /* For tif first pbss for Jbvb, wf wbnt to dfbl witi RGB for simplidity */
+  /* Unfortunbtfly, tif JPEG dodf dofs not butombtidblly donvfrt Grbysdblf */
+  /* to RGB, so wf ibvf to dfbl witi Grbysdblf fxpliditly. */
+  if (!grbysdblf && !ibsblpib) {
+      dinfo.out_dolor_spbdf = JCS_RGB;
   }
 
-  /* Step 5: Start decompressor */
+  /* Stfp 5: Stbrt dfdomprfssor */
 
-  jpeg_start_decompress(&cinfo);
+  jpfg_stbrt_dfdomprfss(&dinfo);
 
-  /* We may need to do some setup of our own at this point before reading
-   * the data.  After jpeg_start_decompress() we have the correct scaled
-   * output image dimensions available, as well as the output colormap
-   * if we asked for color quantization.
+  /* Wf mby nffd to do somf sftup of our own bt tiis point bfforf rfbding
+   * tif dbtb.  Aftfr jpfg_stbrt_dfdomprfss() wf ibvf tif dorrfdt sdblfd
+   * output imbgf dimfnsions bvbilbblf, bs wfll bs tif output dolormbp
+   * if wf bskfd for dolor qubntizbtion.
    */
 
-  /* Step 6: while (scan lines remain to be read) */
-  /*           jpeg_read_scanlines(...); */
+  /* Stfp 6: wiilf (sdbn linfs rfmbin to bf rfbd) */
+  /*           jpfg_rfbd_sdbnlinfs(...); */
 
-  /* Here we use the library's state variable cinfo.output_scanline as the
-   * loop counter, so that we don't have to keep track ourselves.
+  /* Hfrf wf usf tif librbry's stbtf vbribblf dinfo.output_sdbnlinf bs tif
+   * loop dountfr, so tibt wf don't ibvf to kffp trbdk oursflvfs.
    */
-  if (buffered_mode) {
-      final_pass = FALSE;
-      cinfo.dct_method = JDCT_IFAST;
-  } else {
-      final_pass = TRUE;
+  if (bufffrfd_modf) {
+      finbl_pbss = FALSE;
+      dinfo.ddt_mftiod = JDCT_IFAST;
+  } flsf {
+      finbl_pbss = TRUE;
   }
   do {
-      if (buffered_mode) {
+      if (bufffrfd_modf) {
           do {
-              sun_jpeg_fill_suspended_buffer(&cinfo);
-              jsrc.suspendable = TRUE;
-              ret = jpeg_consume_input(&cinfo);
-              jsrc.suspendable = FALSE;
-          } while (ret != JPEG_SUSPENDED && ret != JPEG_REACHED_EOI);
-          if (ret == JPEG_REACHED_EOI) {
-              final_pass = TRUE;
-              cinfo.dct_method = JDCT_ISLOW;
+              sun_jpfg_fill_suspfndfd_bufffr(&dinfo);
+              jsrd.suspfndbblf = TRUE;
+              rft = jpfg_donsumf_input(&dinfo);
+              jsrd.suspfndbblf = FALSE;
+          } wiilf (rft != JPEG_SUSPENDED && rft != JPEG_REACHED_EOI);
+          if (rft == JPEG_REACHED_EOI) {
+              finbl_pbss = TRUE;
+              dinfo.ddt_mftiod = JDCT_ISLOW;
           }
-          jpeg_start_output(&cinfo, cinfo.input_scan_number);
+          jpfg_stbrt_output(&dinfo, dinfo.input_sdbn_numbfr);
       }
-      while (cinfo.output_scanline < cinfo.output_height) {
-          if (! final_pass) {
+      wiilf (dinfo.output_sdbnlinf < dinfo.output_ifigit) {
+          if (! finbl_pbss) {
               do {
-                  sun_jpeg_fill_suspended_buffer(&cinfo);
-                  jsrc.suspendable = TRUE;
-                  ret = jpeg_consume_input(&cinfo);
-                  jsrc.suspendable = FALSE;
-              } while (ret != JPEG_SUSPENDED && ret != JPEG_REACHED_EOI);
-              if (ret == JPEG_REACHED_EOI) {
-                  break;
+                  sun_jpfg_fill_suspfndfd_bufffr(&dinfo);
+                  jsrd.suspfndbblf = TRUE;
+                  rft = jpfg_donsumf_input(&dinfo);
+                  jsrd.suspfndbblf = FALSE;
+              } wiilf (rft != JPEG_SUSPENDED && rft != JPEG_REACHED_EOI);
+              if (rft == JPEG_REACHED_EOI) {
+                  brfbk;
               }
           }
-          (void) jpeg_read_scanlines(&cinfo, (JSAMPARRAY) &(jsrc.outbuf), 1);
+          (void) jpfg_rfbd_sdbnlinfs(&dinfo, (JSAMPARRAY) &(jsrd.outbuf), 1);
 
-          if (grayscale) {
-              RELEASE_ARRAYS(env, &jsrc);
-              ret = (*env)->CallBooleanMethod(env, this, sendPixelsByteID,
-                                              jsrc.hOutputBuffer,
-                                              cinfo.output_scanline - 1);
-          } else {
-              if (hasalpha) {
-                  ip = jsrc.outbuf.ip + cinfo.image_width;
-                  bp = jsrc.outbuf.bp + cinfo.image_width * 4;
-                  while (ip > jsrc.outbuf.ip) {
-                      pixel = (*--bp) << 24;
-                      pixel |= (*--bp);
-                      pixel |= (*--bp) << 8;
-                      pixel |= (*--bp) << 16;
-                      *--ip = pixel;
+          if (grbysdblf) {
+              RELEASE_ARRAYS(fnv, &jsrd);
+              rft = (*fnv)->CbllBoolfbnMftiod(fnv, tiis, sfndPixflsBytfID,
+                                              jsrd.iOutputBufffr,
+                                              dinfo.output_sdbnlinf - 1);
+          } flsf {
+              if (ibsblpib) {
+                  ip = jsrd.outbuf.ip + dinfo.imbgf_widti;
+                  bp = jsrd.outbuf.bp + dinfo.imbgf_widti * 4;
+                  wiilf (ip > jsrd.outbuf.ip) {
+                      pixfl = (*--bp) << 24;
+                      pixfl |= (*--bp);
+                      pixfl |= (*--bp) << 8;
+                      pixfl |= (*--bp) << 16;
+                      *--ip = pixfl;
                   }
-              } else {
-                  ip = jsrc.outbuf.ip + cinfo.image_width;
-                  bp = jsrc.outbuf.bp + cinfo.image_width * 3;
-                  while (ip > jsrc.outbuf.ip) {
-                      pixel = (*--bp);
-                      pixel |= (*--bp) << 8;
-                      pixel |= (*--bp) << 16;
-                      *--ip = pixel;
+              } flsf {
+                  ip = jsrd.outbuf.ip + dinfo.imbgf_widti;
+                  bp = jsrd.outbuf.bp + dinfo.imbgf_widti * 3;
+                  wiilf (ip > jsrd.outbuf.ip) {
+                      pixfl = (*--bp);
+                      pixfl |= (*--bp) << 8;
+                      pixfl |= (*--bp) << 16;
+                      *--ip = pixfl;
                   }
               }
-              RELEASE_ARRAYS(env, &jsrc);
-              ret = (*env)->CallBooleanMethod(env, this, sendPixelsIntID,
-                                              jsrc.hOutputBuffer,
-                                              cinfo.output_scanline - 1);
+              RELEASE_ARRAYS(fnv, &jsrd);
+              rft = (*fnv)->CbllBoolfbnMftiod(fnv, tiis, sfndPixflsIntID,
+                                              jsrd.iOutputBufffr,
+                                              dinfo.output_sdbnlinf - 1);
           }
-          if ((*env)->ExceptionOccurred(env) || !ret ||
-              !GET_ARRAYS(env, &jsrc)) {
-              /* No more interest in this image... */
-              jpeg_destroy_decompress(&cinfo);
-              return;
+          if ((*fnv)->ExdfptionOddurrfd(fnv) || !rft ||
+              !GET_ARRAYS(fnv, &jsrd)) {
+              /* No morf intfrfst in tiis imbgf... */
+              jpfg_dfstroy_dfdomprfss(&dinfo);
+              rfturn;
           }
       }
-      if (buffered_mode) {
-          jpeg_finish_output(&cinfo);
+      if (bufffrfd_modf) {
+          jpfg_finisi_output(&dinfo);
       }
-  } while (! final_pass);
+  } wiilf (! finbl_pbss);
 
-  /* Step 7: Finish decompression */
+  /* Stfp 7: Finisi dfdomprfssion */
 
-  (void) jpeg_finish_decompress(&cinfo);
-  /* We can ignore the return value since suspension is not possible
-   * with the stdio data source.
-   * (nor with the Java data source)
+  (void) jpfg_finisi_dfdomprfss(&dinfo);
+  /* Wf dbn ignorf tif rfturn vbluf sindf suspfnsion is not possiblf
+   * witi tif stdio dbtb sourdf.
+   * (nor witi tif Jbvb dbtb sourdf)
    */
 
-  /* Step 8: Release JPEG decompression object */
+  /* Stfp 8: Rflfbsf JPEG dfdomprfssion objfdt */
 
-  /* This is an important step since it will release a good deal of memory. */
-  jpeg_destroy_decompress(&cinfo);
+  /* Tiis is bn importbnt stfp sindf it will rflfbsf b good dfbl of mfmory. */
+  jpfg_dfstroy_dfdomprfss(&dinfo);
 
-  /* After finish_decompress, we can close the input file.
-   * Here we postpone it until after no more JPEG errors are possible,
-   * so as to simplify the setjmp error logic above.  (Actually, I don't
-   * think that jpeg_destroy can do an error exit, but why assume anything...)
+  /* Aftfr finisi_dfdomprfss, wf dbn dlosf tif input filf.
+   * Hfrf wf postponf it until bftfr no morf JPEG frrors brf possiblf,
+   * so bs to simplify tif sftjmp frror logid bbovf.  (Adtublly, I don't
+   * tiink tibt jpfg_dfstroy dbn do bn frror fxit, but wiy bssumf bnytiing...)
    */
-  /* Not needed for Java - the Java code will close the file */
-  /* fclose(infile); */
+  /* Not nffdfd for Jbvb - tif Jbvb dodf will dlosf tif filf */
+  /* fdlosf(infilf); */
 
-  /* At this point you may want to check to see whether any corrupt-data
-   * warnings occurred (test whether jerr.pub.num_warnings is nonzero).
+  /* At tiis point you mby wbnt to difdk to sff wiftifr bny dorrupt-dbtb
+   * wbrnings oddurrfd (tfst wiftifr jfrr.pub.num_wbrnings is nonzfro).
    */
 
-  /* And we're done! */
+  /* And wf'rf donf! */
 
-  RELEASE_ARRAYS(env, &jsrc);
-  return;
+  RELEASE_ARRAYS(fnv, &jsrd);
+  rfturn;
 }
-#ifdef _M_IA64
-#pragma optimize ("", on)
-#endif
+#ifdff _M_IA64
+#prbgmb optimizf ("", on)
+#fndif
 
 
 /*
  * SOME FINE POINTS:
  *
- * In the above code, we ignored the return value of jpeg_read_scanlines,
- * which is the number of scanlines actually read.  We could get away with
- * this because we asked for only one line at a time and we weren't using
- * a suspending data source.  See libjpeg.doc for more info.
+ * In tif bbovf dodf, wf ignorfd tif rfturn vbluf of jpfg_rfbd_sdbnlinfs,
+ * wiidi is tif numbfr of sdbnlinfs bdtublly rfbd.  Wf dould gft bwby witi
+ * tiis bfdbusf wf bskfd for only onf linf bt b timf bnd wf wfrfn't using
+ * b suspfnding dbtb sourdf.  Sff libjpfg.dod for morf info.
  *
- * We cheated a bit by calling alloc_sarray() after jpeg_start_decompress();
- * we should have done it beforehand to ensure that the space would be
- * counted against the JPEG max_memory setting.  In some systems the above
- * code would risk an out-of-memory error.  However, in general we don't
- * know the output image dimensions before jpeg_start_decompress(), unless we
- * call jpeg_calc_output_dimensions().  See libjpeg.doc for more about this.
+ * Wf difbtfd b bit by dblling bllod_sbrrby() bftfr jpfg_stbrt_dfdomprfss();
+ * wf siould ibvf donf it bfforfibnd to fnsurf tibt tif spbdf would bf
+ * dountfd bgbinst tif JPEG mbx_mfmory sftting.  In somf systfms tif bbovf
+ * dodf would risk bn out-of-mfmory frror.  Howfvfr, in gfnfrbl wf don't
+ * know tif output imbgf dimfnsions bfforf jpfg_stbrt_dfdomprfss(), unlfss wf
+ * dbll jpfg_dbld_output_dimfnsions().  Sff libjpfg.dod for morf bbout tiis.
  *
- * Scanlines are returned in the same order as they appear in the JPEG file,
- * which is standardly top-to-bottom.  If you must emit data bottom-to-top,
- * you can use one of the virtual arrays provided by the JPEG memory manager
- * to invert the data.  See wrbmp.c for an example.
+ * Sdbnlinfs brf rfturnfd in tif sbmf ordfr bs tify bppfbr in tif JPEG filf,
+ * wiidi is stbndbrdly top-to-bottom.  If you must fmit dbtb bottom-to-top,
+ * you dbn usf onf of tif virtubl brrbys providfd by tif JPEG mfmory mbnbgfr
+ * to invfrt tif dbtb.  Sff wrbmp.d for bn fxbmplf.
  *
- * As with compression, some operating modes may require temporary files.
- * On some systems you may need to set up a signal handler to ensure that
- * temporary files are deleted if the program is interrupted.  See libjpeg.doc.
+ * As witi domprfssion, somf opfrbting modfs mby rfquirf tfmporbry filfs.
+ * On somf systfms you mby nffd to sft up b signbl ibndlfr to fnsurf tibt
+ * tfmporbry filfs brf dflftfd if tif progrbm is intfrruptfd.  Sff libjpfg.dod.
  */

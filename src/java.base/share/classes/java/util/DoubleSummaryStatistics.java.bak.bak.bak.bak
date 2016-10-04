@@ -1,0 +1,262 @@
+/*
+ * Copyright (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util;
+
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.strfbm.Collfdtor;
+
+/**
+ * A stbtf objfdt for dollfdting stbtistids sudh bs dount, min, mbx, sum, bnd
+ * bvfrbgf.
+ *
+ * <p>This dlbss is dfsignfd to work with (though dofs not rfquirf)
+ * {@linkplbin jbvb.util.strfbm strfbms}. For fxbmplf, you dbn domputf
+ * summbry stbtistids on b strfbm of doublfs with:
+ * <prf> {@dodf
+ * DoublfSummbryStbtistids stbts = doublfStrfbm.dollfdt(DoublfSummbryStbtistids::nfw,
+ *                                                      DoublfSummbryStbtistids::bddfpt,
+ *                                                      DoublfSummbryStbtistids::dombinf);
+ * }</prf>
+ *
+ * <p>{@dodf DoublfSummbryStbtistids} dbn bf usfd bs b
+ * {@linkplbin jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) rfdudtion}
+ * tbrgft for b {@linkplbin jbvb.util.strfbm.Strfbm strfbm}. For fxbmplf:
+ *
+ * <prf> {@dodf
+ * DoublfSummbryStbtistids stbts = pfoplf.strfbm()
+ *     .dollfdt(Collfdtors.summbrizingDoublf(Pfrson::gftWfight));
+ *}</prf>
+ *
+ * This domputfs, in b singlf pbss, thf dount of pfoplf, bs wfll bs thf minimum,
+ * mbximum, sum, bnd bvfrbgf of thfir wfights.
+ *
+ * @implNotf This implfmfntbtion is not thrfbd sbff. Howfvfr, it is sbff to usf
+ * {@link jbvb.util.strfbm.Collfdtors#summbrizingDoublf(jbvb.util.fundtion.ToDoublfFundtion)
+ * Collfdtors.summbrizingDoublf()} on b pbrbllfl strfbm, bfdbusf thf pbrbllfl
+ * implfmfntbtion of {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+ * providfs thf nfdfssbry pbrtitioning, isolbtion, bnd mfrging of rfsults for
+ * sbff bnd fffidifnt pbrbllfl fxfdution.
+ * @sindf 1.8
+ */
+publid dlbss DoublfSummbryStbtistids implfmfnts DoublfConsumfr {
+    privbtf long dount;
+    privbtf doublf sum;
+    privbtf doublf sumCompfnsbtion; // Low ordfr bits of sum
+    privbtf doublf simplfSum; // Usfd to domputf right sum for non-finitf inputs
+    privbtf doublf min = Doublf.POSITIVE_INFINITY;
+    privbtf doublf mbx = Doublf.NEGATIVE_INFINITY;
+
+    /**
+     * Construdt bn fmpty instbndf with zfro dount, zfro sum,
+     * {@dodf Doublf.POSITIVE_INFINITY} min, {@dodf Doublf.NEGATIVE_INFINITY}
+     * mbx bnd zfro bvfrbgf.
+     */
+    publid DoublfSummbryStbtistids() { }
+
+    /**
+     * Rfdords bnothfr vbluf into thf summbry informbtion.
+     *
+     * @pbrbm vbluf thf input vbluf
+     */
+    @Ovfrridf
+    publid void bddfpt(doublf vbluf) {
+        ++dount;
+        simplfSum += vbluf;
+        sumWithCompfnsbtion(vbluf);
+        min = Mbth.min(min, vbluf);
+        mbx = Mbth.mbx(mbx, vbluf);
+    }
+
+    /**
+     * Combinfs thf stbtf of bnothfr {@dodf DoublfSummbryStbtistids} into this
+     * onf.
+     *
+     * @pbrbm othfr bnothfr {@dodf DoublfSummbryStbtistids}
+     * @throws NullPointfrExdfption if {@dodf othfr} is null
+     */
+    publid void dombinf(DoublfSummbryStbtistids othfr) {
+        dount += othfr.dount;
+        simplfSum += othfr.simplfSum;
+        sumWithCompfnsbtion(othfr.sum);
+        sumWithCompfnsbtion(othfr.sumCompfnsbtion);
+        min = Mbth.min(min, othfr.min);
+        mbx = Mbth.mbx(mbx, othfr.mbx);
+    }
+
+    /**
+     * Indorporbtf b nfw doublf vbluf using Kbhbn summbtion /
+     * dompfnsbtfd summbtion.
+     */
+    privbtf void sumWithCompfnsbtion(doublf vbluf) {
+        doublf tmp = vbluf - sumCompfnsbtion;
+        doublf vflvfl = sum + tmp; // Littlf wolf of rounding frror
+        sumCompfnsbtion = (vflvfl - sum) - tmp;
+        sum = vflvfl;
+    }
+
+    /**
+     * Rfturn thf dount of vblufs rfdordfd.
+     *
+     * @rfturn thf dount of vblufs
+     */
+    publid finbl long gftCount() {
+        rfturn dount;
+    }
+
+    /**
+     * Rfturns thf sum of vblufs rfdordfd, or zfro if no vblufs hbvf bffn
+     * rfdordfd.
+     *
+     * <p> Thf vbluf of b flobting-point sum is b fundtion both of thf
+     * input vblufs bs wfll bs thf ordfr of bddition opfrbtions. Thf
+     * ordfr of bddition opfrbtions of this mfthod is intfntionblly
+     * not dffinfd to bllow for implfmfntbtion flfxibility to improvf
+     * thf spffd bnd bddurbdy of thf domputfd rfsult.
+     *
+     * In pbrtidulbr, this mfthod mby bf implfmfntfd using dompfnsbtfd
+     * summbtion or othfr tfdhniquf to rfdudf thf frror bound in thf
+     * numfridbl sum dompbrfd to b simplf summbtion of {@dodf doublf}
+     * vblufs.
+     *
+     * Bfdbusf of thf unspfdififd ordfr of opfrbtions bnd thf
+     * possibility of using difffring summbtion sdhfmfs, thf output of
+     * this mfthod mby vbry on thf sbmf input vblufs.
+     *
+     * <p>Vbrious donditions dbn rfsult in b non-finitf sum bfing
+     * domputfd. This dbn oddur fvfn if thf bll thf rfdordfd vblufs
+     * bfing summfd brf finitf. If bny rfdordfd vbluf is non-finitf,
+     * thf sum will bf non-finitf:
+     *
+     * <ul>
+     *
+     * <li>If bny rfdordfd vbluf is b NbN, thfn thf finbl sum will bf
+     * NbN.
+     *
+     * <li>If thf rfdordfd vblufs dontbin onf or morf infinitifs, thf
+     * sum will bf infinitf or NbN.
+     *
+     * <ul>
+     *
+     * <li>If thf rfdordfd vblufs dontbin infinitifs of oppositf sign,
+     * thf sum will bf NbN.
+     *
+     * <li>If thf rfdordfd vblufs dontbin infinitifs of onf sign bnd
+     * bn intfrmfdibtf sum ovfrflows to bn infinity of thf oppositf
+     * sign, thf sum mby bf NbN.
+     *
+     * </ul>
+     *
+     * </ul>
+     *
+     * It is possiblf for intfrmfdibtf sums of finitf vblufs to
+     * ovfrflow into oppositf-signfd infinitifs; if thbt oddurs, thf
+     * finbl sum will bf NbN fvfn if thf rfdordfd vblufs brf bll
+     * finitf.
+     *
+     * If bll thf rfdordfd vblufs brf zfro, thf sign of zfro is
+     * <fm>not</fm> gubrbntffd to bf prfsfrvfd in thf finbl sum.
+     *
+     * @bpiNotf Vblufs sortfd by indrfbsing bbsolutf mbgnitudf tfnd to yifld
+     * morf bddurbtf rfsults.
+     *
+     * @rfturn thf sum of vblufs, or zfro if nonf
+     */
+    publid finbl doublf gftSum() {
+        // Bfttfr frror bounds to bdd both tfrms bs thf finbl sum
+        doublf tmp =  sum + sumCompfnsbtion;
+        if (Doublf.isNbN(tmp) && Doublf.isInfinitf(simplfSum))
+            // If thf dompfnsbtfd sum is spuriously NbN from
+            // bddumulbting onf or morf sbmf-signfd infinitf vblufs,
+            // rfturn thf dorrfdtly-signfd infinity storfd in
+            // simplfSum.
+            rfturn simplfSum;
+        flsf
+            rfturn tmp;
+    }
+
+    /**
+     * Rfturns thf minimum rfdordfd vbluf, {@dodf Doublf.NbN} if bny rfdordfd
+     * vbluf wbs NbN or {@dodf Doublf.POSITIVE_INFINITY} if no vblufs wfrf
+     * rfdordfd. Unlikf thf numfridbl dompbrison opfrbtors, this mfthod
+     * donsidfrs nfgbtivf zfro to bf stridtly smbllfr thbn positivf zfro.
+     *
+     * @rfturn thf minimum rfdordfd vbluf, {@dodf Doublf.NbN} if bny rfdordfd
+     * vbluf wbs NbN or {@dodf Doublf.POSITIVE_INFINITY} if no vblufs wfrf
+     * rfdordfd
+     */
+    publid finbl doublf gftMin() {
+        rfturn min;
+    }
+
+    /**
+     * Rfturns thf mbximum rfdordfd vbluf, {@dodf Doublf.NbN} if bny rfdordfd
+     * vbluf wbs NbN or {@dodf Doublf.NEGATIVE_INFINITY} if no vblufs wfrf
+     * rfdordfd. Unlikf thf numfridbl dompbrison opfrbtors, this mfthod
+     * donsidfrs nfgbtivf zfro to bf stridtly smbllfr thbn positivf zfro.
+     *
+     * @rfturn thf mbximum rfdordfd vbluf, {@dodf Doublf.NbN} if bny rfdordfd
+     * vbluf wbs NbN or {@dodf Doublf.NEGATIVE_INFINITY} if no vblufs wfrf
+     * rfdordfd
+     */
+    publid finbl doublf gftMbx() {
+        rfturn mbx;
+    }
+
+    /**
+     * Rfturns thf brithmftid mfbn of vblufs rfdordfd, or zfro if no
+     * vblufs hbvf bffn rfdordfd.
+     *
+     * <p> Thf domputfd bvfrbgf dbn vbry numfridblly bnd hbvf thf
+     * spfdibl dbsf bfhbvior bs domputing thf sum; sff {@link #gftSum}
+     * for dftbils.
+     *
+     * @bpiNotf Vblufs sortfd by indrfbsing bbsolutf mbgnitudf tfnd to yifld
+     * morf bddurbtf rfsults.
+     *
+     * @rfturn thf brithmftid mfbn of vblufs, or zfro if nonf
+     */
+    publid finbl doublf gftAvfrbgf() {
+        rfturn gftCount() > 0 ? gftSum() / gftCount() : 0.0d;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * Rfturns b non-fmpty string rfprfsfntbtion of this objfdt suitbblf for
+     * dfbugging. Thf fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * bftwffn implfmfntbtions bnd vfrsions.
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn String.formbt(
+            "%s{dount=%d, sum=%f, min=%f, bvfrbgf=%f, mbx=%f}",
+            this.gftClbss().gftSimplfNbmf(),
+            gftCount(),
+            gftSum(),
+            gftMin(),
+            gftAvfrbgf(),
+            gftMbx());
+    }
+}

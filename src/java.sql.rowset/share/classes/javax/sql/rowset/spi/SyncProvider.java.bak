@@ -1,431 +1,431 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset.spi;
+pbdkbgf jbvbx.sql.rowsft.spi;
 
-import javax.sql.*;
+import jbvbx.sql.*;
 
 /**
- * The synchronization mechanism that provides reader/writer capabilities for
- * disconnected <code>RowSet</code> objects.
- * A <code>SyncProvider</code> implementation is a class that extends the
- * <code>SyncProvider</code> abstract class.
+ * Tif syndironizbtion mfdibnism tibt providfs rfbdfr/writfr dbpbbilitifs for
+ * disdonnfdtfd <dodf>RowSft</dodf> objfdts.
+ * A <dodf>SyndProvidfr</dodf> implfmfntbtion is b dlbss tibt fxtfnds tif
+ * <dodf>SyndProvidfr</dodf> bbstrbdt dlbss.
  * <P>
- * A <code>SyncProvider</code> implementation is
- * identified by a unique ID, which is its fully qualified class name.
- * This name must be registered with the
- * <code>SyncFactory</code> SPI, thus making the implementation available to
- * all <code>RowSet</code> implementations.
- * The factory mechanism in the reference implementation uses this name to instantiate
- * the implementation, which can then provide a <code>RowSet</code> object with its
- * reader (a <code>javax.sql.RowSetReader</code> object) and its writer (a
- * <code>javax.sql.RowSetWriter</code> object).
+ * A <dodf>SyndProvidfr</dodf> implfmfntbtion is
+ * idfntififd by b uniquf ID, wiidi is its fully qublififd dlbss nbmf.
+ * Tiis nbmf must bf rfgistfrfd witi tif
+ * <dodf>SyndFbdtory</dodf> SPI, tius mbking tif implfmfntbtion bvbilbblf to
+ * bll <dodf>RowSft</dodf> implfmfntbtions.
+ * Tif fbdtory mfdibnism in tif rfffrfndf implfmfntbtion usfs tiis nbmf to instbntibtf
+ * tif implfmfntbtion, wiidi dbn tifn providf b <dodf>RowSft</dodf> objfdt witi its
+ * rfbdfr (b <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt) bnd its writfr (b
+ * <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt).
  * <P>
- * The Jdbc <code>RowSet</code> Implementations specification provides two
- * reference implementations of the <code>SyncProvider</code> abstract class:
- * <code>RIOptimisticProvider</code> and <code>RIXMLProvider</code>.
- * The <code>RIOptimisticProvider</code> can set any <code>RowSet</code>
- * implementation with a <code>RowSetReader</code> object and a
- * <code>RowSetWriter</code> object.  However, only the <code>RIXMLProvider</code>
- * implementation can set an <code>XmlReader</code> object and an
- * <code>XmlWriter</code> object. A <code>WebRowSet</code> object uses the
- * <code>XmlReader</code> object to read data in XML format to populate itself with that
- * data.  It uses the <code>XmlWriter</code> object to write itself to a stream or
- * <code>java.io.Writer</code> object in XML format.
+ * Tif Jdbd <dodf>RowSft</dodf> Implfmfntbtions spfdifidbtion providfs two
+ * rfffrfndf implfmfntbtions of tif <dodf>SyndProvidfr</dodf> bbstrbdt dlbss:
+ * <dodf>RIOptimistidProvidfr</dodf> bnd <dodf>RIXMLProvidfr</dodf>.
+ * Tif <dodf>RIOptimistidProvidfr</dodf> dbn sft bny <dodf>RowSft</dodf>
+ * implfmfntbtion witi b <dodf>RowSftRfbdfr</dodf> objfdt bnd b
+ * <dodf>RowSftWritfr</dodf> objfdt.  Howfvfr, only tif <dodf>RIXMLProvidfr</dodf>
+ * implfmfntbtion dbn sft bn <dodf>XmlRfbdfr</dodf> objfdt bnd bn
+ * <dodf>XmlWritfr</dodf> objfdt. A <dodf>WfbRowSft</dodf> objfdt usfs tif
+ * <dodf>XmlRfbdfr</dodf> objfdt to rfbd dbtb in XML formbt to populbtf itsflf witi tibt
+ * dbtb.  It usfs tif <dodf>XmlWritfr</dodf> objfdt to writf itsflf to b strfbm or
+ * <dodf>jbvb.io.Writfr</dodf> objfdt in XML formbt.
  *
- * <h3>1.0 Naming Convention for Implementations</h3>
- * As a guide  to naming <code>SyncProvider</code>
- * implementations, the following should be noted:
+ * <i3>1.0 Nbming Convfntion for Implfmfntbtions</i3>
+ * As b guidf  to nbming <dodf>SyndProvidfr</dodf>
+ * implfmfntbtions, tif following siould bf notfd:
  * <UL>
- * <li>The name for a <code>SyncProvider</code> implementation
- * is its fully qualified class name.
- * <li>It is recommended that vendors supply a
- * <code>SyncProvider</code> implementation in a package named <code>providers</code>.
+ * <li>Tif nbmf for b <dodf>SyndProvidfr</dodf> implfmfntbtion
+ * is its fully qublififd dlbss nbmf.
+ * <li>It is rfdommfndfd tibt vfndors supply b
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion in b pbdkbgf nbmfd <dodf>providfrs</dodf>.
  * </UL>
  * <p>
- * For instance, if a vendor named Fred, Inc. offered a
- * <code>SyncProvider</code> implementation, you could have the following:
+ * For instbndf, if b vfndor nbmfd Frfd, Ind. offfrfd b
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion, you dould ibvf tif following:
  * <PRE>
- *     Vendor name:  Fred, Inc.
- *     Domain name of vendor:  com.fred
- *     Package name:  com.fred.providers
- *     SyncProvider implementation class name:  HighAvailabilityProvider
+ *     Vfndor nbmf:  Frfd, Ind.
+ *     Dombin nbmf of vfndor:  dom.frfd
+ *     Pbdkbgf nbmf:  dom.frfd.providfrs
+ *     SyndProvidfr implfmfntbtion dlbss nbmf:  HigiAvbilbbilityProvidfr
  *
- *     Fully qualified class name of SyncProvider implementation:
- *                        com.fred.providers.HighAvailabilityProvider
+ *     Fully qublififd dlbss nbmf of SyndProvidfr implfmfntbtion:
+ *                        dom.frfd.providfrs.HigiAvbilbbilityProvidfr
  * </PRE>
  * <P>
- * The following line of code uses the fully qualified name to register
- * this implementation with the <code>SyncFactory</code> static instance.
+ * Tif following linf of dodf usfs tif fully qublififd nbmf to rfgistfr
+ * tiis implfmfntbtion witi tif <dodf>SyndFbdtory</dodf> stbtid instbndf.
  * <PRE>
- *     SyncFactory.registerProvider(
- *                          "com.fred.providers.HighAvailabilityProvider");
+ *     SyndFbdtory.rfgistfrProvidfr(
+ *                          "dom.frfd.providfrs.HigiAvbilbbilityProvidfr");
  * </PRE>
  * <P>
- * The default <code>SyncProvider</code> object provided with the reference
- * implementation uses the following name:
- * <pre>
- *     com.sun.rowset.providers.RIOptimisticProvider
- * </pre>
+ * Tif dffbult <dodf>SyndProvidfr</dodf> objfdt providfd witi tif rfffrfndf
+ * implfmfntbtion usfs tif following nbmf:
+ * <prf>
+ *     dom.sun.rowsft.providfrs.RIOptimistidProvidfr
+ * </prf>
  * <p>
- * A vendor can register a <code>SyncProvider</code> implementation class name
- * with Oracle Corporation by sending email to jdbc@sun.com.
- * Oracle will maintain a database listing the
- * available <code>SyncProvider</code> implementations for use with compliant
- * <code>RowSet</code> implementations.  This database will be similar to the
- * one already maintained to list available JDBC drivers.
+ * A vfndor dbn rfgistfr b <dodf>SyndProvidfr</dodf> implfmfntbtion dlbss nbmf
+ * witi Orbdlf Corporbtion by sfnding fmbil to jdbd@sun.dom.
+ * Orbdlf will mbintbin b dbtbbbsf listing tif
+ * bvbilbblf <dodf>SyndProvidfr</dodf> implfmfntbtions for usf witi domplibnt
+ * <dodf>RowSft</dodf> implfmfntbtions.  Tiis dbtbbbsf will bf similbr to tif
+ * onf blrfbdy mbintbinfd to list bvbilbblf JDBC drivfrs.
  * <P>
- * Vendors should refer to the reference implementation synchronization
- * providers for additional guidance on how to implement a new
- * <code>SyncProvider</code> implementation.
+ * Vfndors siould rfffr to tif rfffrfndf implfmfntbtion syndironizbtion
+ * providfrs for bdditionbl guidbndf on iow to implfmfnt b nfw
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion.
  *
- * <h3>2.0 How a <code>RowSet</code> Object Gets Its Provider</h3>
+ * <i3>2.0 How b <dodf>RowSft</dodf> Objfdt Gfts Its Providfr</i3>
  *
- * A disconnected <code>Rowset</code> object may get access to a
- * <code>SyncProvider</code> object in one of the following two ways:
+ * A disdonnfdtfd <dodf>Rowsft</dodf> objfdt mby gft bddfss to b
+ * <dodf>SyndProvidfr</dodf> objfdt in onf of tif following two wbys:
  * <UL>
- *  <LI>Using a constructor<BR>
+ *  <LI>Using b donstrudtor<BR>
  *      <PRE>
- *       CachedRowSet crs = new CachedRowSet(
- *                  "com.fred.providers.HighAvailabilitySyncProvider");
+ *       CbdifdRowSft drs = nfw CbdifdRowSft(
+ *                  "dom.frfd.providfrs.HigiAvbilbbilitySyndProvidfr");
  *      </PRE>
- *  <LI>Using the <code>setSyncProvider</code> method
+ *  <LI>Using tif <dodf>sftSyndProvidfr</dodf> mftiod
  *      <PRE>
- *       CachedRowSet crs = new CachedRowSet();
- *       crs.setSyncProvider("com.fred.providers.HighAvailabilitySyncProvider");
+ *       CbdifdRowSft drs = nfw CbdifdRowSft();
+ *       drs.sftSyndProvidfr("dom.frfd.providfrs.HigiAvbilbbilitySyndProvidfr");
  *      </PRE>
 
  * </UL>
  * <p>
- * By default, the reference implementations of the <code>RowSet</code> synchronization
- * providers are always available to the Java platform.
- * If no other pluggable synchronization providers have been correctly
- * registered, the <code>SyncFactory</code> will automatically generate
- * an instance of the default <code>SyncProvider</code> reference implementation.
- * Thus, in the preceding code fragment, if no implementation named
- * <code>com.fred.providers.HighAvailabilitySyncProvider</code> has been
- * registered with the <code>SyncFactory</code> instance, <i>crs</i> will be
- * assigned the default provider in the reference implementation, which is
- * <code>com.sun.rowset.providers.RIOptimisticProvider</code>.
+ * By dffbult, tif rfffrfndf implfmfntbtions of tif <dodf>RowSft</dodf> syndironizbtion
+ * providfrs brf blwbys bvbilbblf to tif Jbvb plbtform.
+ * If no otifr pluggbblf syndironizbtion providfrs ibvf bffn dorrfdtly
+ * rfgistfrfd, tif <dodf>SyndFbdtory</dodf> will butombtidblly gfnfrbtf
+ * bn instbndf of tif dffbult <dodf>SyndProvidfr</dodf> rfffrfndf implfmfntbtion.
+ * Tius, in tif prfdfding dodf frbgmfnt, if no implfmfntbtion nbmfd
+ * <dodf>dom.frfd.providfrs.HigiAvbilbbilitySyndProvidfr</dodf> ibs bffn
+ * rfgistfrfd witi tif <dodf>SyndFbdtory</dodf> instbndf, <i>drs</i> will bf
+ * bssignfd tif dffbult providfr in tif rfffrfndf implfmfntbtion, wiidi is
+ * <dodf>dom.sun.rowsft.providfrs.RIOptimistidProvidfr</dodf>.
  *
- * <h3>3.0 Violations and Synchronization Issues</h3>
- * If an update between a disconnected <code>RowSet</code> object
- * and a data source violates
- * the original query or the underlying data source constraints, this will
- * result in undefined behavior for all disconnected <code>RowSet</code> implementations
- * and their designated <code>SyncProvider</code> implementations.
- * Not defining the behavior when such violations occur offers greater flexibility
- * for a <code>SyncProvider</code>
- * implementation to determine its own best course of action.
+ * <i3>3.0 Violbtions bnd Syndironizbtion Issufs</i3>
+ * If bn updbtf bftwffn b disdonnfdtfd <dodf>RowSft</dodf> objfdt
+ * bnd b dbtb sourdf violbtfs
+ * tif originbl qufry or tif undfrlying dbtb sourdf donstrbints, tiis will
+ * rfsult in undffinfd bfibvior for bll disdonnfdtfd <dodf>RowSft</dodf> implfmfntbtions
+ * bnd tifir dfsignbtfd <dodf>SyndProvidfr</dodf> implfmfntbtions.
+ * Not dffining tif bfibvior wifn sudi violbtions oddur offfrs grfbtfr flfxibility
+ * for b <dodf>SyndProvidfr</dodf>
+ * implfmfntbtion to dftfrminf its own bfst doursf of bdtion.
  * <p>
- * A <code>SyncProvider</code> implementation
- * may choose to implement a specific handler to
- * handle a subset of query violations.
- * However if an original query violation or a more general data source constraint
- * violation is not handled by the <code>SyncProvider</code> implementation,
- * all <code>SyncProvider</code>
- * objects must throw a <code>SyncProviderException</code>.
+ * A <dodf>SyndProvidfr</dodf> implfmfntbtion
+ * mby dioosf to implfmfnt b spfdifid ibndlfr to
+ * ibndlf b subsft of qufry violbtions.
+ * Howfvfr if bn originbl qufry violbtion or b morf gfnfrbl dbtb sourdf donstrbint
+ * violbtion is not ibndlfd by tif <dodf>SyndProvidfr</dodf> implfmfntbtion,
+ * bll <dodf>SyndProvidfr</dodf>
+ * objfdts must tirow b <dodf>SyndProvidfrExdfption</dodf>.
  *
- * <h3>4.0 Updatable SQL VIEWs</h3>
- * It is possible for any disconnected or connected <code>RowSet</code> object to be populated
- * from an SQL query that is formulated originally from an SQL <code>VIEW</code>.
- * While in many cases it is possible for an update to be performed to an
- * underlying view, such an update requires additional metadata, which may vary.
- * The <code>SyncProvider</code> class provides two constants to indicate whether
- * an implementation supports updating an SQL <code>VIEW</code>.
+ * <i3>4.0 Updbtbblf SQL VIEWs</i3>
+ * It is possiblf for bny disdonnfdtfd or donnfdtfd <dodf>RowSft</dodf> objfdt to bf populbtfd
+ * from bn SQL qufry tibt is formulbtfd originblly from bn SQL <dodf>VIEW</dodf>.
+ * Wiilf in mbny dbsfs it is possiblf for bn updbtf to bf pfrformfd to bn
+ * undfrlying vifw, sudi bn updbtf rfquirfs bdditionbl mftbdbtb, wiidi mby vbry.
+ * Tif <dodf>SyndProvidfr</dodf> dlbss providfs two donstbnts to indidbtf wiftifr
+ * bn implfmfntbtion supports updbting bn SQL <dodf>VIEW</dodf>.
  * <ul>
- * <li><code><b>NONUPDATABLE_VIEW_SYNC</b></code> - Indicates that a <code>SyncProvider</code>
- * implementation does not support synchronization with an SQL <code>VIEW</code> as the
- * underlying source of data for the <code>RowSet</code> object.
- * <li><code><b>UPDATABLE_VIEW_SYNC</b></code> - Indicates that a
- * <code>SyncProvider</code> implementation
- * supports synchronization with an SQL <code>VIEW</code> as the underlying source
- * of data.
+ * <li><dodf><b>NONUPDATABLE_VIEW_SYNC</b></dodf> - Indidbtfs tibt b <dodf>SyndProvidfr</dodf>
+ * implfmfntbtion dofs not support syndironizbtion witi bn SQL <dodf>VIEW</dodf> bs tif
+ * undfrlying sourdf of dbtb for tif <dodf>RowSft</dodf> objfdt.
+ * <li><dodf><b>UPDATABLE_VIEW_SYNC</b></dodf> - Indidbtfs tibt b
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion
+ * supports syndironizbtion witi bn SQL <dodf>VIEW</dodf> bs tif undfrlying sourdf
+ * of dbtb.
  * </ul>
  * <P>
- * The default is for a <code>RowSet</code> object not to be updatable if it was
- * populated with data from an SQL <code>VIEW</code>.
+ * Tif dffbult is for b <dodf>RowSft</dodf> objfdt not to bf updbtbblf if it wbs
+ * populbtfd witi dbtb from bn SQL <dodf>VIEW</dodf>.
  *
- * <h3>5.0 <code>SyncProvider</code> Constants</h3>
- * The <code>SyncProvider</code> class provides three sets of constants that
- * are used as return values or parameters for <code>SyncProvider</code> methods.
- * <code>SyncProvider</code> objects may be implemented to perform synchronization
- * between a <code>RowSet</code> object and its underlying data source with varying
- * degrees of of care. The first group of constants indicate how synchronization
- * is handled. For example, <code>GRADE_NONE</code> indicates that a
- * <code>SyncProvider</code> object will not take any care to see what data is
- * valid and will simply write the <code>RowSet</code> data to the data source.
- * <code>GRADE_MODIFIED_AT_COMMIT</code> indicates that the provider will check
- * only modified data for validity.  Other grades check all data for validity
- * or set locks when data is modified or loaded.
+ * <i3>5.0 <dodf>SyndProvidfr</dodf> Constbnts</i3>
+ * Tif <dodf>SyndProvidfr</dodf> dlbss providfs tirff sfts of donstbnts tibt
+ * brf usfd bs rfturn vblufs or pbrbmftfrs for <dodf>SyndProvidfr</dodf> mftiods.
+ * <dodf>SyndProvidfr</dodf> objfdts mby bf implfmfntfd to pfrform syndironizbtion
+ * bftwffn b <dodf>RowSft</dodf> objfdt bnd its undfrlying dbtb sourdf witi vbrying
+ * dfgrffs of of dbrf. Tif first group of donstbnts indidbtf iow syndironizbtion
+ * is ibndlfd. For fxbmplf, <dodf>GRADE_NONE</dodf> indidbtfs tibt b
+ * <dodf>SyndProvidfr</dodf> objfdt will not tbkf bny dbrf to sff wibt dbtb is
+ * vblid bnd will simply writf tif <dodf>RowSft</dodf> dbtb to tif dbtb sourdf.
+ * <dodf>GRADE_MODIFIED_AT_COMMIT</dodf> indidbtfs tibt tif providfr will difdk
+ * only modififd dbtb for vblidity.  Otifr grbdfs difdk bll dbtb for vblidity
+ * or sft lodks wifn dbtb is modififd or lobdfd.
  * <OL>
- *  <LI>Constants to indicate the synchronization grade of a
- *     <code>SyncProvider</code> object
+ *  <LI>Constbnts to indidbtf tif syndironizbtion grbdf of b
+ *     <dodf>SyndProvidfr</dodf> objfdt
  *   <UL>
- *    <LI>SyncProvider.GRADE_NONE
- *    <LI>SyncProvider.GRADE_MODIFIED_AT_COMMIT
- *    <LI>SyncProvider.GRADE_CHECK_ALL_AT_COMMIT
- *    <LI>SyncProvider.GRADE_LOCK_WHEN_MODIFIED
- *    <LI>SyncProvider.GRADE_LOCK_WHEN_LOADED
+ *    <LI>SyndProvidfr.GRADE_NONE
+ *    <LI>SyndProvidfr.GRADE_MODIFIED_AT_COMMIT
+ *    <LI>SyndProvidfr.GRADE_CHECK_ALL_AT_COMMIT
+ *    <LI>SyndProvidfr.GRADE_LOCK_WHEN_MODIFIED
+ *    <LI>SyndProvidfr.GRADE_LOCK_WHEN_LOADED
  *   </UL>
- *  <LI>Constants to indicate what locks are set on the data source
+ *  <LI>Constbnts to indidbtf wibt lodks brf sft on tif dbtb sourdf
  *   <UL>
- *     <LI>SyncProvider.DATASOURCE_NO_LOCK
- *     <LI>SyncProvider.DATASOURCE_ROW_LOCK
- *     <LI>SyncProvider.DATASOURCE_TABLE_LOCK
- *     <LI>SyncProvider.DATASOURCE_DB_LOCK
+ *     <LI>SyndProvidfr.DATASOURCE_NO_LOCK
+ *     <LI>SyndProvidfr.DATASOURCE_ROW_LOCK
+ *     <LI>SyndProvidfr.DATASOURCE_TABLE_LOCK
+ *     <LI>SyndProvidfr.DATASOURCE_DB_LOCK
  *   </UL>
- *  <LI>Constants to indicate whether a <code>SyncProvider</code> object can
- *       perform updates to an SQL <code>VIEW</code> <BR>
- *       These constants are explained in the preceding section (4.0).
+ *  <LI>Constbnts to indidbtf wiftifr b <dodf>SyndProvidfr</dodf> objfdt dbn
+ *       pfrform updbtfs to bn SQL <dodf>VIEW</dodf> <BR>
+ *       Tifsf donstbnts brf fxplbinfd in tif prfdfding sfdtion (4.0).
  *   <UL>
- *     <LI>SyncProvider.UPDATABLE_VIEW_SYNC
- *     <LI>SyncProvider.NONUPDATABLE_VIEW_SYNC
+ *     <LI>SyndProvidfr.UPDATABLE_VIEW_SYNC
+ *     <LI>SyndProvidfr.NONUPDATABLE_VIEW_SYNC
  *   </UL>
  * </OL>
  *
- * @author Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncFactory
- * @see javax.sql.rowset.spi.SyncFactoryException
- * @since 1.5
+ * @butior Jonbtibn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
+ * @sindf 1.5
  */
-public abstract class SyncProvider {
+publid bbstrbdt dlbss SyndProvidfr {
 
    /**
-    * Creates a default <code>SyncProvider</code> object.
+    * Crfbtfs b dffbult <dodf>SyndProvidfr</dodf> objfdt.
     */
-    public SyncProvider() {
+    publid SyndProvidfr() {
     }
 
     /**
-     * Returns the unique identifier for this <code>SyncProvider</code> object.
+     * Rfturns tif uniquf idfntififr for tiis <dodf>SyndProvidfr</dodf> objfdt.
      *
-     * @return a <code>String</code> object with the fully qualified class name of
-     *         this <code>SyncProvider</code> object
+     * @rfturn b <dodf>String</dodf> objfdt witi tif fully qublififd dlbss nbmf of
+     *         tiis <dodf>SyndProvidfr</dodf> objfdt
      */
-    public abstract String getProviderID();
+    publid bbstrbdt String gftProvidfrID();
 
     /**
-     * Returns a <code>javax.sql.RowSetReader</code> object, which can be used to
-     * populate a <code>RowSet</code> object with data.
+     * Rfturns b <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt, wiidi dbn bf usfd to
+     * populbtf b <dodf>RowSft</dodf> objfdt witi dbtb.
      *
-     * @return a <code>javax.sql.RowSetReader</code> object
+     * @rfturn b <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt
      */
-    public abstract RowSetReader getRowSetReader();
+    publid bbstrbdt RowSftRfbdfr gftRowSftRfbdfr();
 
     /**
-     * Returns a <code>javax.sql.RowSetWriter</code> object, which can be
-     * used to write a <code>RowSet</code> object's data back to the
-     * underlying data source.
+     * Rfturns b <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt, wiidi dbn bf
+     * usfd to writf b <dodf>RowSft</dodf> objfdt's dbtb bbdk to tif
+     * undfrlying dbtb sourdf.
      *
-     * @return a <code>javax.sql.RowSetWriter</code> object
+     * @rfturn b <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt
      */
-    public abstract RowSetWriter getRowSetWriter();
+    publid bbstrbdt RowSftWritfr gftRowSftWritfr();
 
     /**
-     * Returns a constant indicating the
-     * grade of synchronization a <code>RowSet</code> object can expect from
-     * this <code>SyncProvider</code> object.
+     * Rfturns b donstbnt indidbting tif
+     * grbdf of syndironizbtion b <dodf>RowSft</dodf> objfdt dbn fxpfdt from
+     * tiis <dodf>SyndProvidfr</dodf> objfdt.
      *
-     * @return an int that is one of the following constants:
-     *           SyncProvider.GRADE_NONE,
-     *           SyncProvider.GRADE_CHECK_MODIFIED_AT_COMMIT,
-     *           SyncProvider.GRADE_CHECK_ALL_AT_COMMIT,
-     *           SyncProvider.GRADE_LOCK_WHEN_MODIFIED,
-     *           SyncProvider.GRADE_LOCK_WHEN_LOADED
+     * @rfturn bn int tibt is onf of tif following donstbnts:
+     *           SyndProvidfr.GRADE_NONE,
+     *           SyndProvidfr.GRADE_CHECK_MODIFIED_AT_COMMIT,
+     *           SyndProvidfr.GRADE_CHECK_ALL_AT_COMMIT,
+     *           SyndProvidfr.GRADE_LOCK_WHEN_MODIFIED,
+     *           SyndProvidfr.GRADE_LOCK_WHEN_LOADED
      */
-    public abstract int getProviderGrade();
+    publid bbstrbdt int gftProvidfrGrbdf();
 
 
     /**
-     * Sets a lock on the underlying data source at the level indicated by
-     * <i>datasource_lock</i>. This should cause the
-     * <code>SyncProvider</code> to adjust its behavior by increasing or
-     * decreasing the level of optimism it provides for a successful
-     * synchronization.
+     * Sfts b lodk on tif undfrlying dbtb sourdf bt tif lfvfl indidbtfd by
+     * <i>dbtbsourdf_lodk</i>. Tiis siould dbusf tif
+     * <dodf>SyndProvidfr</dodf> to bdjust its bfibvior by indrfbsing or
+     * dfdrfbsing tif lfvfl of optimism it providfs for b suddfssful
+     * syndironizbtion.
      *
-     * @param datasource_lock one of the following constants indicating the severity
-     *           level of data source lock required:
-     * <pre>
-     *           SyncProvider.DATASOURCE_NO_LOCK,
-     *           SyncProvider.DATASOURCE_ROW_LOCK,
-     *           SyncProvider.DATASOURCE_TABLE_LOCK,
-     *           SyncProvider.DATASOURCE_DB_LOCK,
-     * </pre>
-     * @throws SyncProviderException if an unsupported data source locking level
-     *           is set.
-     * @see #getDataSourceLock
+     * @pbrbm dbtbsourdf_lodk onf of tif following donstbnts indidbting tif sfvfrity
+     *           lfvfl of dbtb sourdf lodk rfquirfd:
+     * <prf>
+     *           SyndProvidfr.DATASOURCE_NO_LOCK,
+     *           SyndProvidfr.DATASOURCE_ROW_LOCK,
+     *           SyndProvidfr.DATASOURCE_TABLE_LOCK,
+     *           SyndProvidfr.DATASOURCE_DB_LOCK,
+     * </prf>
+     * @tirows SyndProvidfrExdfption if bn unsupportfd dbtb sourdf lodking lfvfl
+     *           is sft.
+     * @sff #gftDbtbSourdfLodk
      */
-    public abstract void setDataSourceLock(int datasource_lock)
-        throws SyncProviderException;
+    publid bbstrbdt void sftDbtbSourdfLodk(int dbtbsourdf_lodk)
+        tirows SyndProvidfrExdfption;
 
     /**
-     * Returns the current data source lock severity level active in this
-     * <code>SyncProvider</code> implementation.
+     * Rfturns tif durrfnt dbtb sourdf lodk sfvfrity lfvfl bdtivf in tiis
+     * <dodf>SyndProvidfr</dodf> implfmfntbtion.
      *
-     * @return a constant indicating the current level of data source lock
-     *        active in this <code>SyncProvider</code> object;
-     *         one of the following:
-     * <pre>
-     *           SyncProvider.DATASOURCE_NO_LOCK,
-     *           SyncProvider.DATASOURCE_ROW_LOCK,
-     *           SyncProvider.DATASOURCE_TABLE_LOCK,
-     *           SyncProvider.DATASOURCE_DB_LOCK
-     * </pre>
-     * @throws SyncProviderException if an error occurs determining the data
-     *        source locking level.
-     * @see #setDataSourceLock
+     * @rfturn b donstbnt indidbting tif durrfnt lfvfl of dbtb sourdf lodk
+     *        bdtivf in tiis <dodf>SyndProvidfr</dodf> objfdt;
+     *         onf of tif following:
+     * <prf>
+     *           SyndProvidfr.DATASOURCE_NO_LOCK,
+     *           SyndProvidfr.DATASOURCE_ROW_LOCK,
+     *           SyndProvidfr.DATASOURCE_TABLE_LOCK,
+     *           SyndProvidfr.DATASOURCE_DB_LOCK
+     * </prf>
+     * @tirows SyndProvidfrExdfption if bn frror oddurs dftfrmining tif dbtb
+     *        sourdf lodking lfvfl.
+     * @sff #sftDbtbSourdfLodk
 
      */
-    public abstract int getDataSourceLock()
-        throws SyncProviderException;
+    publid bbstrbdt int gftDbtbSourdfLodk()
+        tirows SyndProvidfrExdfption;
 
     /**
-     * Returns whether this <code>SyncProvider</code> implementation
-     * can perform synchronization between a <code>RowSet</code> object
-     * and the SQL <code>VIEW</code> in the data source from which
-     * the <code>RowSet</code> object got its data.
+     * Rfturns wiftifr tiis <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * dbn pfrform syndironizbtion bftwffn b <dodf>RowSft</dodf> objfdt
+     * bnd tif SQL <dodf>VIEW</dodf> in tif dbtb sourdf from wiidi
+     * tif <dodf>RowSft</dodf> objfdt got its dbtb.
      *
-     * @return an <code>int</code> saying whether this <code>SyncProvider</code>
-     *         object supports updating an SQL <code>VIEW</code>; one of the
+     * @rfturn bn <dodf>int</dodf> sbying wiftifr tiis <dodf>SyndProvidfr</dodf>
+     *         objfdt supports updbting bn SQL <dodf>VIEW</dodf>; onf of tif
      *         following:
-     *            SyncProvider.UPDATABLE_VIEW_SYNC,
-     *            SyncProvider.NONUPDATABLE_VIEW_SYNC
+     *            SyndProvidfr.UPDATABLE_VIEW_SYNC,
+     *            SyndProvidfr.NONUPDATABLE_VIEW_SYNC
      */
-    public abstract int supportsUpdatableView();
+    publid bbstrbdt int supportsUpdbtbblfVifw();
 
     /**
-     * Returns the release version of this <code>SyncProvider</code> instance.
+     * Rfturns tif rflfbsf vfrsion of tiis <dodf>SyndProvidfr</dodf> instbndf.
      *
-     * @return a <code>String</code> detailing the release version of the
-     *     <code>SyncProvider</code> implementation
+     * @rfturn b <dodf>String</dodf> dftbiling tif rflfbsf vfrsion of tif
+     *     <dodf>SyndProvidfr</dodf> implfmfntbtion
      */
-    public abstract String getVersion();
+    publid bbstrbdt String gftVfrsion();
 
     /**
-     * Returns the vendor name of this <code>SyncProvider</code> instance
+     * Rfturns tif vfndor nbmf of tiis <dodf>SyndProvidfr</dodf> instbndf
      *
-     * @return a <code>String</code> detailing the vendor name of this
-     *     <code>SyncProvider</code> implementation
+     * @rfturn b <dodf>String</dodf> dftbiling tif vfndor nbmf of tiis
+     *     <dodf>SyndProvidfr</dodf> implfmfntbtion
      */
-    public abstract String getVendor();
+    publid bbstrbdt String gftVfndor();
 
     /*
-     * Standard description of synchronization grades that a SyncProvider
-     * could provide.
+     * Stbndbrd dfsdription of syndironizbtion grbdfs tibt b SyndProvidfr
+     * dould providf.
      */
 
     /**
-     * Indicates that no synchronization with the originating data source is
-     * provided. A <code>SyncProvider</code>
-     * implementation returning this grade will simply attempt to write
-     * updates in the <code>RowSet</code> object to the underlying data
-     * source without checking the validity of any data.
+     * Indidbtfs tibt no syndironizbtion witi tif originbting dbtb sourdf is
+     * providfd. A <dodf>SyndProvidfr</dodf>
+     * implfmfntbtion rfturning tiis grbdf will simply bttfmpt to writf
+     * updbtfs in tif <dodf>RowSft</dodf> objfdt to tif undfrlying dbtb
+     * sourdf witiout difdking tif vblidity of bny dbtb.
      *
      */
-    public static final int GRADE_NONE = 1;
+    publid stbtid finbl int GRADE_NONE = 1;
 
     /**
-     * Indicates a low level optimistic synchronization grade with
-     * respect to the originating data source.
+     * Indidbtfs b low lfvfl optimistid syndironizbtion grbdf witi
+     * rfspfdt to tif originbting dbtb sourdf.
      *
-     * A <code>SyncProvider</code> implementation
-     * returning this grade will check only rows that have changed.
+     * A <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * rfturning tiis grbdf will difdk only rows tibt ibvf dibngfd.
      *
      */
-    public static final int GRADE_CHECK_MODIFIED_AT_COMMIT = 2;
+    publid stbtid finbl int GRADE_CHECK_MODIFIED_AT_COMMIT = 2;
 
     /**
-     * Indicates a high level optimistic synchronization grade with
-     * respect to the originating data source.
+     * Indidbtfs b iigi lfvfl optimistid syndironizbtion grbdf witi
+     * rfspfdt to tif originbting dbtb sourdf.
      *
-     * A <code>SyncProvider</code> implementation
-     * returning this grade will check all rows, including rows that have not
-     * changed.
+     * A <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * rfturning tiis grbdf will difdk bll rows, indluding rows tibt ibvf not
+     * dibngfd.
      */
-    public static final int GRADE_CHECK_ALL_AT_COMMIT = 3;
+    publid stbtid finbl int GRADE_CHECK_ALL_AT_COMMIT = 3;
 
     /**
-     * Indicates a pessimistic synchronization grade with
-     * respect to the originating data source.
+     * Indidbtfs b pfssimistid syndironizbtion grbdf witi
+     * rfspfdt to tif originbting dbtb sourdf.
      *
-     * A <code>SyncProvider</code>
-     * implementation returning this grade will lock the row in the originating
-     * data source.
+     * A <dodf>SyndProvidfr</dodf>
+     * implfmfntbtion rfturning tiis grbdf will lodk tif row in tif originbting
+     * dbtb sourdf.
      */
-    public static final int GRADE_LOCK_WHEN_MODIFIED = 4;
+    publid stbtid finbl int GRADE_LOCK_WHEN_MODIFIED = 4;
 
     /**
-     * Indicates the most pessimistic synchronization grade with
-     * respect to the originating
-     * data source. A <code>SyncProvider</code>
-     * implementation returning this grade will lock the entire view and/or
-     * table affected by the original statement used to populate a
-     * <code>RowSet</code> object.
+     * Indidbtfs tif most pfssimistid syndironizbtion grbdf witi
+     * rfspfdt to tif originbting
+     * dbtb sourdf. A <dodf>SyndProvidfr</dodf>
+     * implfmfntbtion rfturning tiis grbdf will lodk tif fntirf vifw bnd/or
+     * tbblf bfffdtfd by tif originbl stbtfmfnt usfd to populbtf b
+     * <dodf>RowSft</dodf> objfdt.
      */
-    public static final int GRADE_LOCK_WHEN_LOADED = 5;
+    publid stbtid finbl int GRADE_LOCK_WHEN_LOADED = 5;
 
     /**
-     * Indicates that no locks remain on the originating data source. This is the default
-     * lock setting for all <code>SyncProvider</code> implementations unless
-     * otherwise directed by a <code>RowSet</code> object.
+     * Indidbtfs tibt no lodks rfmbin on tif originbting dbtb sourdf. Tiis is tif dffbult
+     * lodk sftting for bll <dodf>SyndProvidfr</dodf> implfmfntbtions unlfss
+     * otifrwisf dirfdtfd by b <dodf>RowSft</dodf> objfdt.
      */
-    public static final int DATASOURCE_NO_LOCK = 1;
+    publid stbtid finbl int DATASOURCE_NO_LOCK = 1;
 
     /**
-     * Indicates that a lock is placed on the rows that are touched by the original
-     * SQL statement used to populate the <code>RowSet</code> object
-     * that is using this <code>SyncProvider</code> object.
+     * Indidbtfs tibt b lodk is plbdfd on tif rows tibt brf toudifd by tif originbl
+     * SQL stbtfmfnt usfd to populbtf tif <dodf>RowSft</dodf> objfdt
+     * tibt is using tiis <dodf>SyndProvidfr</dodf> objfdt.
      */
-    public static final int DATASOURCE_ROW_LOCK = 2;
+    publid stbtid finbl int DATASOURCE_ROW_LOCK = 2;
 
     /**
-     * Indicates that a lock is placed on all tables that are touched by the original
-     * SQL statement used to populate the <code>RowSet</code> object
-     * that is using this <code>SyncProvider</code> object.
+     * Indidbtfs tibt b lodk is plbdfd on bll tbblfs tibt brf toudifd by tif originbl
+     * SQL stbtfmfnt usfd to populbtf tif <dodf>RowSft</dodf> objfdt
+     * tibt is using tiis <dodf>SyndProvidfr</dodf> objfdt.
      */
-    public static final int DATASOURCE_TABLE_LOCK = 3;
+    publid stbtid finbl int DATASOURCE_TABLE_LOCK = 3;
 
     /**
-     * Indicates that a lock is placed on the entire data source that is the source of
-     * data for the <code>RowSet</code> object
-     * that is using this <code>SyncProvider</code> object.
+     * Indidbtfs tibt b lodk is plbdfd on tif fntirf dbtb sourdf tibt is tif sourdf of
+     * dbtb for tif <dodf>RowSft</dodf> objfdt
+     * tibt is using tiis <dodf>SyndProvidfr</dodf> objfdt.
      */
-    public static final int DATASOURCE_DB_LOCK = 4;
+    publid stbtid finbl int DATASOURCE_DB_LOCK = 4;
 
     /**
-     * Indicates that a <code>SyncProvider</code> implementation
-     * supports synchronization between a <code>RowSet</code> object and
-     * the SQL <code>VIEW</code> used to populate it.
+     * Indidbtfs tibt b <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * supports syndironizbtion bftwffn b <dodf>RowSft</dodf> objfdt bnd
+     * tif SQL <dodf>VIEW</dodf> usfd to populbtf it.
      */
-    public static final int UPDATABLE_VIEW_SYNC = 5;
+    publid stbtid finbl int UPDATABLE_VIEW_SYNC = 5;
 
     /**
-     * Indicates that a <code>SyncProvider</code> implementation
-     * does <B>not</B> support synchronization between a <code>RowSet</code>
-     * object and the SQL <code>VIEW</code> used to populate it.
+     * Indidbtfs tibt b <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * dofs <B>not</B> support syndironizbtion bftwffn b <dodf>RowSft</dodf>
+     * objfdt bnd tif SQL <dodf>VIEW</dodf> usfd to populbtf it.
      */
-    public static final int NONUPDATABLE_VIEW_SYNC = 6;
+    publid stbtid finbl int NONUPDATABLE_VIEW_SYNC = 6;
 }

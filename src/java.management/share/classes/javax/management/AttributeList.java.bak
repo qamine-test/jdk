@@ -1,337 +1,337 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * <p>Represents a list of values for attributes of an MBean.  See the
- * {@link MBeanServerConnection#getAttributes getAttributes} and
- * {@link MBeanServerConnection#setAttributes setAttributes} methods of
- * {@link MBeanServer} and {@link MBeanServerConnection}.</p>
+ * <p>Rfprfsfnts b list of vblufs for bttributfs of bn MBfbn.  Sff tif
+ * {@link MBfbnSfrvfrConnfdtion#gftAttributfs gftAttributfs} bnd
+ * {@link MBfbnSfrvfrConnfdtion#sftAttributfs sftAttributfs} mftiods of
+ * {@link MBfbnSfrvfr} bnd {@link MBfbnSfrvfrConnfdtion}.</p>
  *
- * <p id="type-safe">For compatibility reasons, it is possible, though
- * highly discouraged, to add objects to an {@code AttributeList} that are
- * not instances of {@code Attribute}.  However, an {@code AttributeList}
- * can be made <em>type-safe</em>, which means that an attempt to add
- * an object that is not an {@code Attribute} will produce an {@code
- * IllegalArgumentException}.  An {@code AttributeList} becomes type-safe
- * when the method {@link #asList()} is called on it.</p>
+ * <p id="typf-sbff">For dompbtibility rfbsons, it is possiblf, tiougi
+ * iigily disdourbgfd, to bdd objfdts to bn {@dodf AttributfList} tibt brf
+ * not instbndfs of {@dodf Attributf}.  Howfvfr, bn {@dodf AttributfList}
+ * dbn bf mbdf <fm>typf-sbff</fm>, wiidi mfbns tibt bn bttfmpt to bdd
+ * bn objfdt tibt is not bn {@dodf Attributf} will produdf bn {@dodf
+ * IllfgblArgumfntExdfption}.  An {@dodf AttributfList} bfdomfs typf-sbff
+ * wifn tif mftiod {@link #bsList()} is dbllfd on it.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-/* We cannot extend ArrayList<Attribute> because our legacy
-   add(Attribute) method would then override add(E) in ArrayList<E>,
-   and our return value is void whereas ArrayList.add(E)'s is boolean.
-   Likewise for set(int,Attribute).  Grrr.  We cannot use covariance
-   to override the most important methods and have them return
-   Attribute, either, because that would break subclasses that
-   override those methods in turn (using the original return type
-   of Object).  Finally, we cannot implement Iterable<Attribute>
-   so you could write
-       for (Attribute a : attributeList)
-   because ArrayList<> implements Iterable<> and the same class cannot
-   implement two versions of a generic interface.  Instead we provide
-   the asList() method so you can write
-       for (Attribute a : attributeList.asList())
+/* Wf dbnnot fxtfnd ArrbyList<Attributf> bfdbusf our lfgbdy
+   bdd(Attributf) mftiod would tifn ovfrridf bdd(E) in ArrbyList<E>,
+   bnd our rfturn vbluf is void wifrfbs ArrbyList.bdd(E)'s is boolfbn.
+   Likfwisf for sft(int,Attributf).  Grrr.  Wf dbnnot usf dovbribndf
+   to ovfrridf tif most importbnt mftiods bnd ibvf tifm rfturn
+   Attributf, fitifr, bfdbusf tibt would brfbk subdlbssfs tibt
+   ovfrridf tiosf mftiods in turn (using tif originbl rfturn typf
+   of Objfdt).  Finblly, wf dbnnot implfmfnt Itfrbblf<Attributf>
+   so you dould writf
+       for (Attributf b : bttributfList)
+   bfdbusf ArrbyList<> implfmfnts Itfrbblf<> bnd tif sbmf dlbss dbnnot
+   implfmfnt two vfrsions of b gfnfrid intfrfbdf.  Instfbd wf providf
+   tif bsList() mftiod so you dbn writf
+       for (Attributf b : bttributfList.bsList())
 */
-public class AttributeList extends ArrayList<Object> {
+publid dlbss AttributfList fxtfnds ArrbyList<Objfdt> {
 
-    private transient volatile boolean typeSafe;
-    private transient volatile boolean tainted;
+    privbtf trbnsifnt volbtilf boolfbn typfSbff;
+    privbtf trbnsifnt volbtilf boolfbn tbintfd;
 
-    /* Serial version */
-    private static final long serialVersionUID = -4077085769279709076L;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4077085769279709076L;
 
     /**
-     * Constructs an empty <CODE>AttributeList</CODE>.
+     * Construdts bn fmpty <CODE>AttributfList</CODE>.
      */
-    public AttributeList() {
-        super();
+    publid AttributfList() {
+        supfr();
     }
 
     /**
-     * Constructs an empty <CODE>AttributeList</CODE> with
-     * the initial capacity specified.
+     * Construdts bn fmpty <CODE>AttributfList</CODE> witi
+     * tif initibl dbpbdity spfdififd.
      *
-     * @param initialCapacity the initial capacity of the
-     * <code>AttributeList</code>, as specified by {@link
-     * ArrayList#ArrayList(int)}.
+     * @pbrbm initiblCbpbdity tif initibl dbpbdity of tif
+     * <dodf>AttributfList</dodf>, bs spfdififd by {@link
+     * ArrbyList#ArrbyList(int)}.
      */
-    public AttributeList(int initialCapacity) {
-        super(initialCapacity);
+    publid AttributfList(int initiblCbpbdity) {
+        supfr(initiblCbpbdity);
     }
 
     /**
-     * Constructs an <CODE>AttributeList</CODE> containing the
-     * elements of the <CODE>AttributeList</CODE> specified, in the
-     * order in which they are returned by the
-     * <CODE>AttributeList</CODE>'s iterator.  The
-     * <CODE>AttributeList</CODE> instance has an initial capacity of
-     * 110% of the size of the <CODE>AttributeList</CODE> specified.
+     * Construdts bn <CODE>AttributfList</CODE> dontbining tif
+     * flfmfnts of tif <CODE>AttributfList</CODE> spfdififd, in tif
+     * ordfr in wiidi tify brf rfturnfd by tif
+     * <CODE>AttributfList</CODE>'s itfrbtor.  Tif
+     * <CODE>AttributfList</CODE> instbndf ibs bn initibl dbpbdity of
+     * 110% of tif sizf of tif <CODE>AttributfList</CODE> spfdififd.
      *
-     * @param list the <code>AttributeList</code> that defines the initial
-     * contents of the new <code>AttributeList</code>.
+     * @pbrbm list tif <dodf>AttributfList</dodf> tibt dffinfs tif initibl
+     * dontfnts of tif nfw <dodf>AttributfList</dodf>.
      *
-     * @see ArrayList#ArrayList(java.util.Collection)
+     * @sff ArrbyList#ArrbyList(jbvb.util.Collfdtion)
      */
-    public AttributeList(AttributeList list) {
-        super(list);
+    publid AttributfList(AttributfList list) {
+        supfr(list);
     }
 
     /**
-     * Constructs an {@code AttributeList} containing the elements of the
-     * {@code List} specified, in the order in which they are returned by
-     * the {@code List}'s iterator.
+     * Construdts bn {@dodf AttributfList} dontbining tif flfmfnts of tif
+     * {@dodf List} spfdififd, in tif ordfr in wiidi tify brf rfturnfd by
+     * tif {@dodf List}'s itfrbtor.
      *
-     * @param list the {@code List} that defines the initial contents of
-     * the new {@code AttributeList}.
+     * @pbrbm list tif {@dodf List} tibt dffinfs tif initibl dontfnts of
+     * tif nfw {@dodf AttributfList}.
      *
-     * @exception IllegalArgumentException if the {@code list} parameter
-     * is {@code null} or if the {@code list} parameter contains any
-     * non-Attribute objects.
+     * @fxdfption IllfgblArgumfntExdfption if tif {@dodf list} pbrbmftfr
+     * is {@dodf null} or if tif {@dodf list} pbrbmftfr dontbins bny
+     * non-Attributf objfdts.
      *
-     * @see ArrayList#ArrayList(java.util.Collection)
+     * @sff ArrbyList#ArrbyList(jbvb.util.Collfdtion)
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public AttributeList(List<Attribute> list) {
-        // Check for null parameter
+    publid AttributfList(List<Attributf> list) {
+        // Cifdk for null pbrbmftfr
         //
         if (list == null)
-            throw new IllegalArgumentException("Null parameter");
+            tirow nfw IllfgblArgumfntExdfption("Null pbrbmftfr");
 
-        // Check for non-Attribute objects
+        // Cifdk for non-Attributf objfdts
         //
-        adding(list);
+        bdding(list);
 
-        // Build the List<Attribute>
+        // Build tif List<Attributf>
         //
-        super.addAll(list);
+        supfr.bddAll(list);
     }
 
     /**
-     * Return a view of this list as a {@code List<Attribute>}.
-     * Changes to the returned value are reflected by changes
-     * to the original {@code AttributeList} and vice versa.
+     * Rfturn b vifw of tiis list bs b {@dodf List<Attributf>}.
+     * Cibngfs to tif rfturnfd vbluf brf rfflfdtfd by dibngfs
+     * to tif originbl {@dodf AttributfList} bnd vidf vfrsb.
      *
-     * @return a {@code List<Attribute>} whose contents
-     * reflect the contents of this {@code AttributeList}.
+     * @rfturn b {@dodf List<Attributf>} wiosf dontfnts
+     * rfflfdt tif dontfnts of tiis {@dodf AttributfList}.
      *
-     * <p>If this method has ever been called on a given
-     * {@code AttributeList} instance, a subsequent attempt to add
-     * an object to that instance which is not an {@code Attribute}
-     * will fail with a {@code IllegalArgumentException}. For compatibility
-     * reasons, an {@code AttributeList} on which this method has never
-     * been called does allow objects other than {@code Attribute}s to
-     * be added.</p>
+     * <p>If tiis mftiod ibs fvfr bffn dbllfd on b givfn
+     * {@dodf AttributfList} instbndf, b subsfqufnt bttfmpt to bdd
+     * bn objfdt to tibt instbndf wiidi is not bn {@dodf Attributf}
+     * will fbil witi b {@dodf IllfgblArgumfntExdfption}. For dompbtibility
+     * rfbsons, bn {@dodf AttributfList} on wiidi tiis mftiod ibs nfvfr
+     * bffn dbllfd dofs bllow objfdts otifr tibn {@dodf Attributf}s to
+     * bf bddfd.</p>
      *
-     * @throws IllegalArgumentException if this {@code AttributeList} contains
-     * an element that is not an {@code Attribute}.
+     * @tirows IllfgblArgumfntExdfption if tiis {@dodf AttributfList} dontbins
+     * bn flfmfnt tibt is not bn {@dodf Attributf}.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    @SuppressWarnings("unchecked")
-    public List<Attribute> asList() {
-        typeSafe = true;
-        if (tainted)
-            adding((Collection<?>) this);  // will throw IllegalArgumentException
-        return (List<Attribute>) (List<?>) this;
+    @SupprfssWbrnings("undifdkfd")
+    publid List<Attributf> bsList() {
+        typfSbff = truf;
+        if (tbintfd)
+            bdding((Collfdtion<?>) tiis);  // will tirow IllfgblArgumfntExdfption
+        rfturn (List<Attributf>) (List<?>) tiis;
     }
 
     /**
-     * Adds the {@code Attribute} specified as the last element of the list.
+     * Adds tif {@dodf Attributf} spfdififd bs tif lbst flfmfnt of tif list.
      *
-     * @param object  The attribute to be added.
+     * @pbrbm objfdt  Tif bttributf to bf bddfd.
      */
-    public void add(Attribute object)  {
-        super.add(object);
+    publid void bdd(Attributf objfdt)  {
+        supfr.bdd(objfdt);
     }
 
     /**
-     * Inserts the attribute specified as an element at the position specified.
-     * Elements with an index greater than or equal to the current position are
-     * shifted up. If the index is out of range {@literal (index < 0 || index >
-     * size())} a RuntimeOperationsException should be raised, wrapping the
-     * java.lang.IndexOutOfBoundsException thrown.
+     * Insfrts tif bttributf spfdififd bs bn flfmfnt bt tif position spfdififd.
+     * Elfmfnts witi bn indfx grfbtfr tibn or fqubl to tif durrfnt position brf
+     * siiftfd up. If tif indfx is out of rbngf {@litfrbl (indfx < 0 || indfx >
+     * sizf())} b RuntimfOpfrbtionsExdfption siould bf rbisfd, wrbpping tif
+     * jbvb.lbng.IndfxOutOfBoundsExdfption tirown.
      *
-     * @param object  The <CODE>Attribute</CODE> object to be inserted.
-     * @param index The position in the list where the new {@code Attribute}
-     * object is to be inserted.
+     * @pbrbm objfdt  Tif <CODE>Attributf</CODE> objfdt to bf insfrtfd.
+     * @pbrbm indfx Tif position in tif list wifrf tif nfw {@dodf Attributf}
+     * objfdt is to bf insfrtfd.
      */
-    public void add(int index, Attribute object)  {
+    publid void bdd(int indfx, Attributf objfdt)  {
         try {
-            super.add(index, object);
+            supfr.bdd(indfx, objfdt);
         }
-        catch (IndexOutOfBoundsException e) {
-            throw new RuntimeOperationsException(e,
-                "The specified index is out of range");
+        dbtdi (IndfxOutOfBoundsExdfption f) {
+            tirow nfw RuntimfOpfrbtionsExdfption(f,
+                "Tif spfdififd indfx is out of rbngf");
         }
     }
 
     /**
-     * Sets the element at the position specified to be the attribute specified.
-     * The previous element at that position is discarded. If the index is
-     * out of range {@literal (index < 0 || index > size())} a RuntimeOperationsException
-     * should be raised, wrapping the java.lang.IndexOutOfBoundsException thrown.
+     * Sfts tif flfmfnt bt tif position spfdififd to bf tif bttributf spfdififd.
+     * Tif prfvious flfmfnt bt tibt position is disdbrdfd. If tif indfx is
+     * out of rbngf {@litfrbl (indfx < 0 || indfx > sizf())} b RuntimfOpfrbtionsExdfption
+     * siould bf rbisfd, wrbpping tif jbvb.lbng.IndfxOutOfBoundsExdfption tirown.
      *
-     * @param object  The value to which the attribute element should be set.
-     * @param index  The position specified.
+     * @pbrbm objfdt  Tif vbluf to wiidi tif bttributf flfmfnt siould bf sft.
+     * @pbrbm indfx  Tif position spfdififd.
      */
-    public void set(int index, Attribute object)  {
+    publid void sft(int indfx, Attributf objfdt)  {
         try {
-            super.set(index, object);
+            supfr.sft(indfx, objfdt);
         }
-        catch (IndexOutOfBoundsException e) {
-            throw new RuntimeOperationsException(e,
-                "The specified index is out of range");
+        dbtdi (IndfxOutOfBoundsExdfption f) {
+            tirow nfw RuntimfOpfrbtionsExdfption(f,
+                "Tif spfdififd indfx is out of rbngf");
         }
     }
 
     /**
-     * Appends all the elements in the <CODE>AttributeList</CODE> specified to
-     * the end of the list, in the order in which they are returned by the
-     * Iterator of the <CODE>AttributeList</CODE> specified.
+     * Appfnds bll tif flfmfnts in tif <CODE>AttributfList</CODE> spfdififd to
+     * tif fnd of tif list, in tif ordfr in wiidi tify brf rfturnfd by tif
+     * Itfrbtor of tif <CODE>AttributfList</CODE> spfdififd.
      *
-     * @param list  Elements to be inserted into the list.
+     * @pbrbm list  Elfmfnts to bf insfrtfd into tif list.
      *
-     * @return true if this list changed as a result of the call.
+     * @rfturn truf if tiis list dibngfd bs b rfsult of tif dbll.
      *
-     * @see ArrayList#addAll(java.util.Collection)
+     * @sff ArrbyList#bddAll(jbvb.util.Collfdtion)
      */
-    public boolean addAll(AttributeList list)  {
-        return (super.addAll(list));
+    publid boolfbn bddAll(AttributfList list)  {
+        rfturn (supfr.bddAll(list));
     }
 
     /**
-     * Inserts all of the elements in the <CODE>AttributeList</CODE> specified
-     * into this list, starting at the specified position, in the order in which
-     * they are returned by the Iterator of the {@code AttributeList} specified.
-     * If the index is out of range {@literal (index < 0 || index > size())} a
-     * RuntimeOperationsException should be raised, wrapping the
-     * java.lang.IndexOutOfBoundsException thrown.
+     * Insfrts bll of tif flfmfnts in tif <CODE>AttributfList</CODE> spfdififd
+     * into tiis list, stbrting bt tif spfdififd position, in tif ordfr in wiidi
+     * tify brf rfturnfd by tif Itfrbtor of tif {@dodf AttributfList} spfdififd.
+     * If tif indfx is out of rbngf {@litfrbl (indfx < 0 || indfx > sizf())} b
+     * RuntimfOpfrbtionsExdfption siould bf rbisfd, wrbpping tif
+     * jbvb.lbng.IndfxOutOfBoundsExdfption tirown.
      *
-     * @param list  Elements to be inserted into the list.
-     * @param index  Position at which to insert the first element from the
-     * <CODE>AttributeList</CODE> specified.
+     * @pbrbm list  Elfmfnts to bf insfrtfd into tif list.
+     * @pbrbm indfx  Position bt wiidi to insfrt tif first flfmfnt from tif
+     * <CODE>AttributfList</CODE> spfdififd.
      *
-     * @return true if this list changed as a result of the call.
+     * @rfturn truf if tiis list dibngfd bs b rfsult of tif dbll.
      *
-     * @see ArrayList#addAll(int, java.util.Collection)
+     * @sff ArrbyList#bddAll(int, jbvb.util.Collfdtion)
      */
-    public boolean addAll(int index, AttributeList list)  {
+    publid boolfbn bddAll(int indfx, AttributfList list)  {
         try {
-            return super.addAll(index, list);
-        } catch (IndexOutOfBoundsException e) {
-            throw new RuntimeOperationsException(e,
-                "The specified index is out of range");
+            rfturn supfr.bddAll(indfx, list);
+        } dbtdi (IndfxOutOfBoundsExdfption f) {
+            tirow nfw RuntimfOpfrbtionsExdfption(f,
+                "Tif spfdififd indfx is out of rbngf");
         }
     }
 
     /*
-     * Override all of the methods from ArrayList<Object> that might add
-     * a non-Attribute to the List, and disallow that if asList has ever
-     * been called on this instance.
+     * Ovfrridf bll of tif mftiods from ArrbyList<Objfdt> tibt migit bdd
+     * b non-Attributf to tif List, bnd disbllow tibt if bsList ibs fvfr
+     * bffn dbllfd on tiis instbndf.
      */
 
     /**
-     * {@inheritDoc}
-     * @throws IllegalArgumentException if this {@code AttributeList} is
-     * <a href="#type-safe">type-safe</a> and {@code element} is not an
-     * {@code Attribute}.
+     * {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption if tiis {@dodf AttributfList} is
+     * <b irff="#typf-sbff">typf-sbff</b> bnd {@dodf flfmfnt} is not bn
+     * {@dodf Attributf}.
      */
-    @Override
-    public boolean add(Object element) {
-        adding(element);
-        return super.add(element);
+    @Ovfrridf
+    publid boolfbn bdd(Objfdt flfmfnt) {
+        bdding(flfmfnt);
+        rfturn supfr.bdd(flfmfnt);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws IllegalArgumentException if this {@code AttributeList} is
-     * <a href="#type-safe">type-safe</a> and {@code element} is not an
-     * {@code Attribute}.
+     * {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption if tiis {@dodf AttributfList} is
+     * <b irff="#typf-sbff">typf-sbff</b> bnd {@dodf flfmfnt} is not bn
+     * {@dodf Attributf}.
      */
-    @Override
-    public void add(int index, Object element) {
-        adding(element);
-        super.add(index, element);
+    @Ovfrridf
+    publid void bdd(int indfx, Objfdt flfmfnt) {
+        bdding(flfmfnt);
+        supfr.bdd(indfx, flfmfnt);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws IllegalArgumentException if this {@code AttributeList} is
-     * <a href="#type-safe">type-safe</a> and {@code c} contains an
-     * element that is not an {@code Attribute}.
+     * {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption if tiis {@dodf AttributfList} is
+     * <b irff="#typf-sbff">typf-sbff</b> bnd {@dodf d} dontbins bn
+     * flfmfnt tibt is not bn {@dodf Attributf}.
      */
-    @Override
-    public boolean addAll(Collection<?> c) {
-        adding(c);
-        return super.addAll(c);
+    @Ovfrridf
+    publid boolfbn bddAll(Collfdtion<?> d) {
+        bdding(d);
+        rfturn supfr.bddAll(d);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws IllegalArgumentException if this {@code AttributeList} is
-     * <a href="#type-safe">type-safe</a> and {@code c} contains an
-     * element that is not an {@code Attribute}.
+     * {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption if tiis {@dodf AttributfList} is
+     * <b irff="#typf-sbff">typf-sbff</b> bnd {@dodf d} dontbins bn
+     * flfmfnt tibt is not bn {@dodf Attributf}.
      */
-    @Override
-    public boolean addAll(int index, Collection<?> c) {
-        adding(c);
-        return super.addAll(index, c);
+    @Ovfrridf
+    publid boolfbn bddAll(int indfx, Collfdtion<?> d) {
+        bdding(d);
+        rfturn supfr.bddAll(indfx, d);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws IllegalArgumentException if this {@code AttributeList} is
-     * <a href="#type-safe">type-safe</a> and {@code element} is not an
-     * {@code Attribute}.
+     * {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption if tiis {@dodf AttributfList} is
+     * <b irff="#typf-sbff">typf-sbff</b> bnd {@dodf flfmfnt} is not bn
+     * {@dodf Attributf}.
      */
-    @Override
-    public Object set(int index, Object element) {
-        adding(element);
-        return super.set(index, element);
+    @Ovfrridf
+    publid Objfdt sft(int indfx, Objfdt flfmfnt) {
+        bdding(flfmfnt);
+        rfturn supfr.sft(indfx, flfmfnt);
     }
 
-    private void adding(Object x) {
-        if (x == null || x instanceof Attribute)
-            return;
-        if (typeSafe)
-            throw new IllegalArgumentException("Not an Attribute: " + x);
-        else
-            tainted = true;
+    privbtf void bdding(Objfdt x) {
+        if (x == null || x instbndfof Attributf)
+            rfturn;
+        if (typfSbff)
+            tirow nfw IllfgblArgumfntExdfption("Not bn Attributf: " + x);
+        flsf
+            tbintfd = truf;
     }
 
-    private void adding(Collection<?> c) {
-        for (Object x : c)
-            adding(x);
+    privbtf void bdding(Collfdtion<?> d) {
+        for (Objfdt x : d)
+            bdding(x);
     }
 }

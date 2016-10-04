@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
-import java.awt.event.*;
-import java.awt.*;
-import javax.swing.event.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.*;
+import jbvbx.swing.fvfnt.*;
 
 /**
- * State model for buttons.
+ * Stbtf modfl for buttons.
  * <p>
- * This model is used for regular buttons, as well as check boxes
- * and radio buttons, which are special kinds of buttons. In practice,
- * a button's UI takes the responsibility of calling methods on its
- * model to manage the state, as detailed below:
+ * Tiis modfl is usfd for rfgulbr buttons, bs wfll bs difdk boxfs
+ * bnd rbdio buttons, wiidi brf spfdibl kinds of buttons. In prbdtidf,
+ * b button's UI tbkfs tif rfsponsibility of dblling mftiods on its
+ * modfl to mbnbgf tif stbtf, bs dftbilfd bflow:
  * <p>
- * In simple terms, pressing and releasing the mouse over a regular
- * button triggers the button and causes and <code>ActionEvent</code>
- * to be fired. The same behavior can be produced via a keyboard key
- * defined by the look and feel of the button (typically the SPACE BAR).
- * Pressing and releasing this key while the button has
- * focus will give the same results. For check boxes and radio buttons, the
- * mouse or keyboard equivalent sequence just described causes the button
- * to become selected.
+ * In simplf tfrms, prfssing bnd rflfbsing tif mousf ovfr b rfgulbr
+ * button triggfrs tif button bnd dbusfs bnd <dodf>AdtionEvfnt</dodf>
+ * to bf firfd. Tif sbmf bfibvior dbn bf produdfd vib b kfybobrd kfy
+ * dffinfd by tif look bnd fffl of tif button (typidblly tif SPACE BAR).
+ * Prfssing bnd rflfbsing tiis kfy wiilf tif button ibs
+ * fodus will givf tif sbmf rfsults. For difdk boxfs bnd rbdio buttons, tif
+ * mousf or kfybobrd fquivblfnt sfqufndf just dfsdribfd dbusfs tif button
+ * to bfdomf sflfdtfd.
  * <p>
- * In details, the state model for buttons works as follows
- * when used with the mouse:
+ * In dftbils, tif stbtf modfl for buttons works bs follows
+ * wifn usfd witi tif mousf:
  * <br>
- * Pressing the mouse on top of a button makes the model both
- * armed and pressed. As long as the mouse remains down,
- * the model remains pressed, even if the mouse moves
- * outside the button. On the contrary, the model is only
- * armed while the mouse remains pressed within the bounds of
- * the button (it can move in or out of the button, but the model
- * is only armed during the portion of time spent within the button).
- * A button is triggered, and an <code>ActionEvent</code> is fired,
- * when the mouse is released while the model is armed
- * - meaning when it is released over top of the button after the mouse
- * has previously been pressed on that button (and not already released).
- * Upon mouse release, the model becomes unarmed and unpressed.
+ * Prfssing tif mousf on top of b button mbkfs tif modfl boti
+ * brmfd bnd prfssfd. As long bs tif mousf rfmbins down,
+ * tif modfl rfmbins prfssfd, fvfn if tif mousf movfs
+ * outsidf tif button. On tif dontrbry, tif modfl is only
+ * brmfd wiilf tif mousf rfmbins prfssfd witiin tif bounds of
+ * tif button (it dbn movf in or out of tif button, but tif modfl
+ * is only brmfd during tif portion of timf spfnt witiin tif button).
+ * A button is triggfrfd, bnd bn <dodf>AdtionEvfnt</dodf> is firfd,
+ * wifn tif mousf is rflfbsfd wiilf tif modfl is brmfd
+ * - mfbning wifn it is rflfbsfd ovfr top of tif button bftfr tif mousf
+ * ibs prfviously bffn prfssfd on tibt button (bnd not blrfbdy rflfbsfd).
+ * Upon mousf rflfbsf, tif modfl bfdomfs unbrmfd bnd unprfssfd.
  * <p>
- * In details, the state model for buttons works as follows
- * when used with the keyboard:
+ * In dftbils, tif stbtf modfl for buttons works bs follows
+ * wifn usfd witi tif kfybobrd:
  * <br>
- * Pressing the look and feel defined keyboard key while the button
- * has focus makes the model both armed and pressed. As long as this key
- * remains down, the model remains in this state. Releasing the key sets
- * the model to unarmed and unpressed, triggers the button, and causes an
- * <code>ActionEvent</code> to be fired.
+ * Prfssing tif look bnd fffl dffinfd kfybobrd kfy wiilf tif button
+ * ibs fodus mbkfs tif modfl boti brmfd bnd prfssfd. As long bs tiis kfy
+ * rfmbins down, tif modfl rfmbins in tiis stbtf. Rflfbsing tif kfy sfts
+ * tif modfl to unbrmfd bnd unprfssfd, triggfrs tif button, bnd dbusfs bn
+ * <dodf>AdtionEvfnt</dodf> to bf firfd.
  *
- * @author Jeff Dinkins
- * @since 1.2
+ * @butior Jfff Dinkins
+ * @sindf 1.2
  */
-public interface ButtonModel extends ItemSelectable {
+publid intfrfbdf ButtonModfl fxtfnds ItfmSflfdtbblf {
 
     /**
-     * Indicates partial commitment towards triggering the
+     * Indidbtfs pbrtibl dommitmfnt towbrds triggfring tif
      * button.
      *
-     * @return <code>true</code> if the button is armed,
-     *         and ready to be triggered
-     * @see #setArmed
+     * @rfturn <dodf>truf</dodf> if tif button is brmfd,
+     *         bnd rfbdy to bf triggfrfd
+     * @sff #sftArmfd
      */
-    boolean isArmed();
+    boolfbn isArmfd();
 
     /**
-     * Indicates if the button has been selected. Only needed for
-     * certain types of buttons - such as radio buttons and check boxes.
+     * Indidbtfs if tif button ibs bffn sflfdtfd. Only nffdfd for
+     * dfrtbin typfs of buttons - sudi bs rbdio buttons bnd difdk boxfs.
      *
-     * @return <code>true</code> if the button is selected
+     * @rfturn <dodf>truf</dodf> if tif button is sflfdtfd
      */
-    boolean isSelected();
+    boolfbn isSflfdtfd();
 
     /**
-     * Indicates if the button can be selected or triggered by
-     * an input device, such as a mouse pointer.
+     * Indidbtfs if tif button dbn bf sflfdtfd or triggfrfd by
+     * bn input dfvidf, sudi bs b mousf pointfr.
      *
-     * @return <code>true</code> if the button is enabled
+     * @rfturn <dodf>truf</dodf> if tif button is fnbblfd
      */
-    boolean isEnabled();
+    boolfbn isEnbblfd();
 
     /**
-     * Indicates if the button is pressed.
+     * Indidbtfs if tif button is prfssfd.
      *
-     * @return <code>true</code> if the button is pressed
+     * @rfturn <dodf>truf</dodf> if tif button is prfssfd
      */
-    boolean isPressed();
+    boolfbn isPrfssfd();
 
     /**
-     * Indicates that the mouse is over the button.
+     * Indidbtfs tibt tif mousf is ovfr tif button.
      *
-     * @return <code>true</code> if the mouse is over the button
+     * @rfturn <dodf>truf</dodf> if tif mousf is ovfr tif button
      */
-    boolean isRollover();
+    boolfbn isRollovfr();
 
     /**
-     * Marks the button as armed or unarmed.
+     * Mbrks tif button bs brmfd or unbrmfd.
      *
-     * @param b whether or not the button should be armed
+     * @pbrbm b wiftifr or not tif button siould bf brmfd
      */
-    public void setArmed(boolean b);
+    publid void sftArmfd(boolfbn b);
 
     /**
-     * Selects or deselects the button.
+     * Sflfdts or dfsflfdts tif button.
      *
-     * @param b <code>true</code> selects the button,
-     *          <code>false</code> deselects the button
+     * @pbrbm b <dodf>truf</dodf> sflfdts tif button,
+     *          <dodf>fblsf</dodf> dfsflfdts tif button
      */
-    public void setSelected(boolean b);
+    publid void sftSflfdtfd(boolfbn b);
 
     /**
-     * Enables or disables the button.
+     * Enbblfs or disbblfs tif button.
      *
-     * @param b whether or not the button should be enabled
-     * @see #isEnabled
+     * @pbrbm b wiftifr or not tif button siould bf fnbblfd
+     * @sff #isEnbblfd
      */
-    public void setEnabled(boolean b);
+    publid void sftEnbblfd(boolfbn b);
 
     /**
-     * Sets the button to pressed or unpressed.
+     * Sfts tif button to prfssfd or unprfssfd.
      *
-     * @param b whether or not the button should be pressed
-     * @see #isPressed
+     * @pbrbm b wiftifr or not tif button siould bf prfssfd
+     * @sff #isPrfssfd
      */
-    public void setPressed(boolean b);
+    publid void sftPrfssfd(boolfbn b);
 
     /**
-     * Sets or clears the button's rollover state
+     * Sfts or dlfbrs tif button's rollovfr stbtf
      *
-     * @param b whether or not the button is in the rollover state
-     * @see #isRollover
+     * @pbrbm b wiftifr or not tif button is in tif rollovfr stbtf
+     * @sff #isRollovfr
      */
-    public void setRollover(boolean b);
+    publid void sftRollovfr(boolfbn b);
 
     /**
-     * Sets the keyboard mnemonic (shortcut key or
-     * accelerator key) for the button.
+     * Sfts tif kfybobrd mnfmonid (siortdut kfy or
+     * bddflfrbtor kfy) for tif button.
      *
-     * @param key an int specifying the accelerator key
+     * @pbrbm kfy bn int spfdifying tif bddflfrbtor kfy
      */
-    public void setMnemonic(int key);
+    publid void sftMnfmonid(int kfy);
 
     /**
-     * Gets the keyboard mnemonic for the button.
+     * Gfts tif kfybobrd mnfmonid for tif button.
      *
-     * @return an int specifying the accelerator key
-     * @see #setMnemonic
+     * @rfturn bn int spfdifying tif bddflfrbtor kfy
+     * @sff #sftMnfmonid
      */
-    public int  getMnemonic();
+    publid int  gftMnfmonid();
 
     /**
-     * Sets the action command string that gets sent as part of the
-     * <code>ActionEvent</code> when the button is triggered.
+     * Sfts tif bdtion dommbnd string tibt gfts sfnt bs pbrt of tif
+     * <dodf>AdtionEvfnt</dodf> wifn tif button is triggfrfd.
      *
-     * @param s the <code>String</code> that identifies the generated event
-     * @see #getActionCommand
-     * @see java.awt.event.ActionEvent#getActionCommand
+     * @pbrbm s tif <dodf>String</dodf> tibt idfntififs tif gfnfrbtfd fvfnt
+     * @sff #gftAdtionCommbnd
+     * @sff jbvb.bwt.fvfnt.AdtionEvfnt#gftAdtionCommbnd
      */
-    public void setActionCommand(String s);
+    publid void sftAdtionCommbnd(String s);
 
     /**
-     * Returns the action command string for the button.
+     * Rfturns tif bdtion dommbnd string for tif button.
      *
-     * @return the <code>String</code> that identifies the generated event
-     * @see #setActionCommand
+     * @rfturn tif <dodf>String</dodf> tibt idfntififs tif gfnfrbtfd fvfnt
+     * @sff #sftAdtionCommbnd
      */
-    public String getActionCommand();
+    publid String gftAdtionCommbnd();
 
     /**
-     * Identifies the group the button belongs to --
-     * needed for radio buttons, which are mutually
-     * exclusive within their group.
+     * Idfntififs tif group tif button bflongs to --
+     * nffdfd for rbdio buttons, wiidi brf mutublly
+     * fxdlusivf witiin tifir group.
      *
-     * @param group the <code>ButtonGroup</code> the button belongs to
+     * @pbrbm group tif <dodf>ButtonGroup</dodf> tif button bflongs to
      */
-    public void setGroup(ButtonGroup group);
+    publid void sftGroup(ButtonGroup group);
 
     /**
-     * Adds an <code>ActionListener</code> to the model.
+     * Adds bn <dodf>AdtionListfnfr</dodf> to tif modfl.
      *
-     * @param l the listener to add
+     * @pbrbm l tif listfnfr to bdd
      */
-    void addActionListener(ActionListener l);
+    void bddAdtionListfnfr(AdtionListfnfr l);
 
     /**
-     * Removes an <code>ActionListener</code> from the model.
+     * Rfmovfs bn <dodf>AdtionListfnfr</dodf> from tif modfl.
      *
-     * @param l the listener to remove
+     * @pbrbm l tif listfnfr to rfmovf
      */
-    void removeActionListener(ActionListener l);
+    void rfmovfAdtionListfnfr(AdtionListfnfr l);
 
     /**
-     * Adds an <code>ItemListener</code> to the model.
+     * Adds bn <dodf>ItfmListfnfr</dodf> to tif modfl.
      *
-     * @param l the listener to add
+     * @pbrbm l tif listfnfr to bdd
      */
-    void addItemListener(ItemListener l);
+    void bddItfmListfnfr(ItfmListfnfr l);
 
     /**
-     * Removes an <code>ItemListener</code> from the model.
+     * Rfmovfs bn <dodf>ItfmListfnfr</dodf> from tif modfl.
      *
-     * @param l the listener to remove
+     * @pbrbm l tif listfnfr to rfmovf
      */
-    void removeItemListener(ItemListener l);
+    void rfmovfItfmListfnfr(ItfmListfnfr l);
 
     /**
-     * Adds a <code>ChangeListener</code> to the model.
+     * Adds b <dodf>CibngfListfnfr</dodf> to tif modfl.
      *
-     * @param l the listener to add
+     * @pbrbm l tif listfnfr to bdd
      */
-    void addChangeListener(ChangeListener l);
+    void bddCibngfListfnfr(CibngfListfnfr l);
 
     /**
-     * Removes a <code>ChangeListener</code> from the model.
+     * Rfmovfs b <dodf>CibngfListfnfr</dodf> from tif modfl.
      *
-     * @param l the listener to remove
+     * @pbrbm l tif listfnfr to rfmovf
      */
-    void removeChangeListener(ChangeListener l);
+    void rfmovfCibngfListfnfr(CibngfListfnfr l);
 
 }

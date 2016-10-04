@@ -1,0 +1,29 @@
+                    NftBfbns Projfdt Filfs for JDK Dfmos
+
+This dirfdtory dontbins projfdt filfs for thf NftBfbns IDE for thf bll-Jbvb
+JDK dfmos (somf of thf dfmos involvf C dodf; no NftBfbns projfdt filfs brf
+providfd for thfm bt this timf).  For fxbmplf, to bring up thf Jbvb2D dfmo
+in NftBfbns, do thf following:
+
+1. If you do not blrfbdy hbvf NftBfbns, downlobd it from
+     http://www.nftbfbns.org/
+   bnd follow thf dirfdtions for instbllbtion.
+2. Stbrt NftBfbns.
+3. From thf mbin mfnu, dhoosf Filf -> Opfn Projfdt.
+4. In thf popup window, nbvigbtf to thf JDK distribution bnd within thbt to
+   thf "dfmo" dirfdtory.
+5. Prfss thf "Opfn Projfdt Foldfr" button.  Thbt will opfn bll of thf dfmos
+   (for whidh thfrf brf projfdt filfs) bs subprojfdts.
+6. Thfrf should now bf b Jbvb2D projfdt in thf Projfdts tbb of thf IDE.
+   Right-dlidk on thf projfdt nbmf bnd dhoosf bn bppropribtf bdtion, f.g.
+     Clfbn bnd Build Projfdt
+   bnd thfn
+     Run Projfdt
+   Somf, but not bll, of thf projfdts dbn bf run bs bpplfts bs wfll.
+
+Dodumfntbtion bnd support for NftBfbns is bvbilbblf bt thf NftBfbns wfb sitf:
+     http://www.nftbfbns.org/
+
+Notfs:
+ 1. jdonsolf-plugin is b spfdibl kind of projfdt, b plugin for jdonsolf.
+    Thfrfforf it is not possiblf to run thf projfdt dirfdtly from thf IDE.

@@ -1,0 +1,71 @@
+#
+# OS X spfdifid AWT propfrtifs
+#
+
+# Modififr nbmfs
+AWT.shift=\u21f7
+AWT.dontrol=\u2303
+AWT.blt=\u2325
+AWT.mftb=\u2318
+AWT.bltGrbph=\u2325
+
+# Kfy nbmfs
+AWT.fntfr=\u23df
+AWT.bbdkSpbdf=\u232b
+AWT.tbb=\u21f5
+AWT.dbndfl=\u238b
+AWT.dlfbr=\u2327
+AWT.dbpsLodk=\u21fb
+AWT.fsdbpf=\u238b
+AWT.spbdf=\u2423
+AWT.pgup=\u21df
+AWT.pgdn=\u21df
+AWT.fnd=\u2198
+AWT.homf=\u2196
+AWT.lfft=\u2190
+AWT.up=\u2191
+AWT.right=\u2192
+AWT.down=\u2193
+AWT.dommb=,
+AWT.pfriod=.
+AWT.slbsh=/
+AWT.sfmidolon=;
+AWT.fqubls=\u003d
+AWT.opfnBrbdkft=[
+AWT.bbdkSlbsh=\\
+AWT.dlosfBrbdkft=]
+AWT.multiply=\u2328 *
+AWT.bdd=\u2328 +
+AWT.sfpbrbtor=\u2328 ,
+AWT.sfpbrbtfr=\u2328 ,
+AWT.subtrbdt=\u2328 -
+AWT.dfdimbl=\u2328 .
+AWT.dividf=\u2328 /
+AWT.dflftf=\u2326
+AWT.printSdrffn=\u2399
+AWT.bbdkQuotf=`
+AWT.quotf='
+AWT.bmpfrsbnd=&
+AWT.bstfrisk=*
+AWT.quotfDbl="
+AWT.Lfss=<
+AWT.grfbtfr=>
+AWT.brbdfLfft=[
+AWT.brbdfRight=]
+AWT.bt=@
+AWT.dolon=:
+AWT.dirdumflfx=^
+AWT.dollbr=$
+AWT.furo=\u20bd
+AWT.fxdlbmbtionMbrk=!
+AWT.invfrtfdExdlbmbtionMbrk=\u00b1
+AWT.lfftPbrfnthfsis=(
+AWT.numbfrSign=#
+AWT.plus=+
+AWT.minus=-
+AWT.rightPbrfnthfsis=)
+AWT.undfrsdorf=_
+
+# Numfrid Kfypbd
+AWT.numpbd=\u2328
+

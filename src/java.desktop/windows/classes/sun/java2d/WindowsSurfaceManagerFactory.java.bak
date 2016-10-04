@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import java.awt.GraphicsConfiguration;
-import sun.awt.image.BufImgVolatileSurfaceManager;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.VolatileSurfaceManager;
-import sun.java2d.d3d.D3DGraphicsConfig;
-import sun.java2d.d3d.D3DVolatileSurfaceManager;
-import sun.java2d.opengl.WGLGraphicsConfig;
-import sun.java2d.opengl.WGLVolatileSurfaceManager;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import sun.bwt.imbgf.BufImgVolbtilfSurfbdfMbnbgfr;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.bwt.imbgf.VolbtilfSurfbdfMbnbgfr;
+import sun.jbvb2d.d3d.D3DGrbpiidsConfig;
+import sun.jbvb2d.d3d.D3DVolbtilfSurfbdfMbnbgfr;
+import sun.jbvb2d.opfngl.WGLGrbpiidsConfig;
+import sun.jbvb2d.opfngl.WGLVolbtilfSurfbdfMbnbgfr;
 
 /**
- * The SurfaceManagerFactory that creates VolatileSurfaceManager
- * implementations for the Windows volatile images.
+ * Tif SurfbdfMbnbgfrFbdtory tibt drfbtfs VolbtilfSurfbdfMbnbgfr
+ * implfmfntbtions for tif Windows volbtilf imbgfs.
  */
-public class WindowsSurfaceManagerFactory extends SurfaceManagerFactory {
+publid dlbss WindowsSurfbdfMbnbgfrFbdtory fxtfnds SurfbdfMbnbgfrFbdtory {
 
     /**
-     * Creates a new instance of a VolatileSurfaceManager given any
-     * arbitrary SunVolatileImage.  An optional context Object can be supplied
-     * as a way for the caller to pass pipeline-specific context data to
-     * the VolatileSurfaceManager (such as a backbuffer handle, for example).
+     * Crfbtfs b nfw instbndf of b VolbtilfSurfbdfMbnbgfr givfn bny
+     * brbitrbry SunVolbtilfImbgf.  An optionbl dontfxt Objfdt dbn bf supplifd
+     * bs b wby for tif dbllfr to pbss pipflinf-spfdifid dontfxt dbtb to
+     * tif VolbtilfSurfbdfMbnbgfr (sudi bs b bbdkbufffr ibndlf, for fxbmplf).
      *
-     * For Windows platforms, this method returns a Windows-specific
-     * VolatileSurfaceManager.
+     * For Windows plbtforms, tiis mftiod rfturns b Windows-spfdifid
+     * VolbtilfSurfbdfMbnbgfr.
      */
-    public VolatileSurfaceManager createVolatileManager(SunVolatileImage vImg,
-                                                        Object context)
+    publid VolbtilfSurfbdfMbnbgfr drfbtfVolbtilfMbnbgfr(SunVolbtilfImbgf vImg,
+                                                        Objfdt dontfxt)
     {
-        GraphicsConfiguration gc = vImg.getGraphicsConfig();
-        if (gc instanceof D3DGraphicsConfig) {
-            return new D3DVolatileSurfaceManager(vImg, context);
-        } else if (gc instanceof WGLGraphicsConfig) {
-            return new WGLVolatileSurfaceManager(vImg, context);
-        } else {
-            return new BufImgVolatileSurfaceManager(vImg, context);
+        GrbpiidsConfigurbtion gd = vImg.gftGrbpiidsConfig();
+        if (gd instbndfof D3DGrbpiidsConfig) {
+            rfturn nfw D3DVolbtilfSurfbdfMbnbgfr(vImg, dontfxt);
+        } flsf if (gd instbndfof WGLGrbpiidsConfig) {
+            rfturn nfw WGLVolbtilfSurfbdfMbnbgfr(vImg, dontfxt);
+        } flsf {
+            rfturn nfw BufImgVolbtilfSurfbdfMbnbgfr(vImg, dontfxt);
         }
     }
 

@@ -1,875 +1,875 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.applet;
+pbdkbgf sun.bpplft;
 
-import java.lang.NullPointerException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.SocketPermission;
-import java.net.URLConnection;
-import java.net.MalformedURLException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.io.File;
-import java.io.FilePermission;
-import java.io.IOException;
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.NoSuchElementException;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.security.CodeSource;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
-import sun.misc.IOUtils;
-import sun.net.www.ParseUtil;
-import sun.security.util.SecurityConstants;
+import jbvb.lbng.NullPointfrExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+import sun.misd.IOUtils;
+import sun.nft.www.PbrsfUtil;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * This class defines the class loader for loading applet classes and
- * resources. It extends URLClassLoader to search the applet code base
- * for the class or resource after checking any loaded JAR files.
+ * Tiis dlbss dffinfs tif dlbss lobdfr for lobding bpplft dlbssfs bnd
+ * rfsourdfs. It fxtfnds URLClbssLobdfr to sfbrdi tif bpplft dodf bbsf
+ * for tif dlbss or rfsourdf bftfr difdking bny lobdfd JAR filfs.
  */
-public class AppletClassLoader extends URLClassLoader {
-    private URL base;   /* applet code base URL */
-    private CodeSource codesource; /* codesource for the base URL */
-    private AccessControlContext acc;
-    private boolean exceptionStatus = false;
+publid dlbss ApplftClbssLobdfr fxtfnds URLClbssLobdfr {
+    privbtf URL bbsf;   /* bpplft dodf bbsf URL */
+    privbtf CodfSourdf dodfsourdf; /* dodfsourdf for tif bbsf URL */
+    privbtf AddfssControlContfxt bdd;
+    privbtf boolfbn fxdfptionStbtus = fblsf;
 
-    private final Object threadGroupSynchronizer = new Object();
-    private final Object grabReleaseSynchronizer = new Object();
+    privbtf finbl Objfdt tirfbdGroupSyndironizfr = nfw Objfdt();
+    privbtf finbl Objfdt grbbRflfbsfSyndironizfr = nfw Objfdt();
 
-    private boolean codebaseLookup = true;
-    private volatile boolean allowRecursiveDirectoryRead = true;
+    privbtf boolfbn dodfbbsfLookup = truf;
+    privbtf volbtilf boolfbn bllowRfdursivfDirfdtoryRfbd = truf;
 
     /*
-     * Creates a new AppletClassLoader for the specified base URL.
+     * Crfbtfs b nfw ApplftClbssLobdfr for tif spfdififd bbsf URL.
      */
-    protected AppletClassLoader(URL base) {
-        super(new URL[0]);
-        this.base = base;
-        this.codesource =
-            new CodeSource(base, (java.security.cert.Certificate[]) null);
-        acc = AccessController.getContext();
+    protfdtfd ApplftClbssLobdfr(URL bbsf) {
+        supfr(nfw URL[0]);
+        tiis.bbsf = bbsf;
+        tiis.dodfsourdf =
+            nfw CodfSourdf(bbsf, (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null);
+        bdd = AddfssControllfr.gftContfxt();
     }
 
-    public void disableRecursiveDirectoryRead() {
-        allowRecursiveDirectoryRead = false;
+    publid void disbblfRfdursivfDirfdtoryRfbd() {
+        bllowRfdursivfDirfdtoryRfbd = fblsf;
     }
 
 
     /**
-     * Set the codebase lookup flag.
+     * Sft tif dodfbbsf lookup flbg.
      */
-    void setCodebaseLookup(boolean codebaseLookup)  {
-        this.codebaseLookup = codebaseLookup;
+    void sftCodfbbsfLookup(boolfbn dodfbbsfLookup)  {
+        tiis.dodfbbsfLookup = dodfbbsfLookup;
     }
 
     /*
-     * Returns the applet code base URL.
+     * Rfturns tif bpplft dodf bbsf URL.
      */
-    URL getBaseURL() {
-        return base;
+    URL gftBbsfURL() {
+        rfturn bbsf;
     }
 
     /*
-     * Returns the URLs used for loading classes and resources.
+     * Rfturns tif URLs usfd for lobding dlbssfs bnd rfsourdfs.
      */
-    public URL[] getURLs() {
-        URL[] jars = super.getURLs();
-        URL[] urls = new URL[jars.length + 1];
-        System.arraycopy(jars, 0, urls, 0, jars.length);
-        urls[urls.length - 1] = base;
-        return urls;
+    publid URL[] gftURLs() {
+        URL[] jbrs = supfr.gftURLs();
+        URL[] urls = nfw URL[jbrs.lfngti + 1];
+        Systfm.brrbydopy(jbrs, 0, urls, 0, jbrs.lfngti);
+        urls[urls.lfngti - 1] = bbsf;
+        rfturn urls;
     }
 
     /*
-     * Adds the specified JAR file to the search path of loaded JAR files.
-     * Changed modifier to protected in order to be able to overwrite addJar()
-     * in PluginClassLoader.java
+     * Adds tif spfdififd JAR filf to tif sfbrdi pbti of lobdfd JAR filfs.
+     * Cibngfd modififr to protfdtfd in ordfr to bf bblf to ovfrwritf bddJbr()
+     * in PluginClbssLobdfr.jbvb
      */
-    protected void addJar(String name) throws IOException {
+    protfdtfd void bddJbr(String nbmf) tirows IOExdfption {
         URL url;
         try {
-            url = new URL(base, name);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("name");
+            url = nfw URL(bbsf, nbmf);
+        } dbtdi (MblformfdURLExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption("nbmf");
         }
-        addURL(url);
+        bddURL(url);
         // DEBUG
-        //URL[] urls = getURLs();
-        //for (int i = 0; i < urls.length; i++) {
-        //    System.out.println("url[" + i + "] = " + urls[i]);
+        //URL[] urls = gftURLs();
+        //for (int i = 0; i < urls.lfngti; i++) {
+        //    Systfm.out.println("url[" + i + "] = " + urls[i]);
         //}
     }
 
     /*
-     * Override loadClass so that class loading errors can be caught in
-     * order to print better error messages.
+     * Ovfrridf lobdClbss so tibt dlbss lobding frrors dbn bf dbugit in
+     * ordfr to print bfttfr frror mfssbgfs.
      */
-    public synchronized Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException
+    publid syndironizfd Clbss<?> lobdClbss(String nbmf, boolfbn rfsolvf)
+        tirows ClbssNotFoundExdfption
     {
-        // First check if we have permission to access the package. This
-        // should go away once we've added support for exported packages.
-        int i = name.lastIndexOf('.');
+        // First difdk if wf ibvf pfrmission to bddfss tif pbdkbgf. Tiis
+        // siould go bwby ondf wf'vf bddfd support for fxportfd pbdkbgfs.
+        int i = nbmf.lbstIndfxOf('.');
         if (i != -1) {
-            SecurityManager sm = System.getSecurityManager();
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null)
-                sm.checkPackageAccess(name.substring(0, i));
+                sm.difdkPbdkbgfAddfss(nbmf.substring(0, i));
         }
         try {
-            return super.loadClass(name, resolve);
-        } catch (ClassNotFoundException e) {
-            //printError(name, e.getException());
-            throw e;
-        } catch (RuntimeException e) {
-            //printError(name, e);
-            throw e;
-        } catch (Error e) {
-            //printError(name, e);
-            throw e;
+            rfturn supfr.lobdClbss(nbmf, rfsolvf);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            //printError(nbmf, f.gftExdfption());
+            tirow f;
+        } dbtdi (RuntimfExdfption f) {
+            //printError(nbmf, f);
+            tirow f;
+        } dbtdi (Error f) {
+            //printError(nbmf, f);
+            tirow f;
         }
     }
 
     /*
-     * Finds the applet class with the specified name. First searches
-     * loaded JAR files then the applet code base for the class.
+     * Finds tif bpplft dlbss witi tif spfdififd nbmf. First sfbrdifs
+     * lobdfd JAR filfs tifn tif bpplft dodf bbsf for tif dlbss.
      */
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
+    protfdtfd Clbss<?> findClbss(String nbmf) tirows ClbssNotFoundExdfption {
 
-        int index = name.indexOf(';');
-        String cookie = "";
-        if(index != -1) {
-                cookie = name.substring(index, name.length());
-                name = name.substring(0, index);
+        int indfx = nbmf.indfxOf(';');
+        String dookif = "";
+        if(indfx != -1) {
+                dookif = nbmf.substring(indfx, nbmf.lfngti());
+                nbmf = nbmf.substring(0, indfx);
         }
 
-        // check loaded JAR files
+        // difdk lobdfd JAR filfs
         try {
-            return super.findClass(name);
-        } catch (ClassNotFoundException e) {
+            rfturn supfr.findClbss(nbmf);
+        } dbtdi (ClbssNotFoundExdfption f) {
         }
 
-        // Otherwise, try loading the class from the code base URL
+        // Otifrwisf, try lobding tif dlbss from tif dodf bbsf URL
 
-        // 4668479: Option to turn off codebase lookup in AppletClassLoader
-        // during resource requests. [stanley.ho]
-        if (codebaseLookup == false)
-            throw new ClassNotFoundException(name);
+        // 4668479: Option to turn off dodfbbsf lookup in ApplftClbssLobdfr
+        // during rfsourdf rfqufsts. [stbnlfy.io]
+        if (dodfbbsfLookup == fblsf)
+            tirow nfw ClbssNotFoundExdfption(nbmf);
 
-//      final String path = name.replace('.', '/').concat(".class").concat(cookie);
-        String encodedName = ParseUtil.encodePath(name.replace('.', '/'), false);
-        final String path = (new StringBuffer(encodedName)).append(".class").append(cookie).toString();
+//      finbl String pbti = nbmf.rfplbdf('.', '/').dondbt(".dlbss").dondbt(dookif);
+        String fndodfdNbmf = PbrsfUtil.fndodfPbti(nbmf.rfplbdf('.', '/'), fblsf);
+        finbl String pbti = (nfw StringBufffr(fndodfdNbmf)).bppfnd(".dlbss").bppfnd(dookif).toString();
         try {
-            byte[] b = AccessController.doPrivileged(
-                               new PrivilegedExceptionAction<byte[]>() {
-                public byte[] run() throws IOException {
+            bytf[] b = AddfssControllfr.doPrivilfgfd(
+                               nfw PrivilfgfdExdfptionAdtion<bytf[]>() {
+                publid bytf[] run() tirows IOExdfption {
                    try {
-                        URL finalURL = new URL(base, path);
+                        URL finblURL = nfw URL(bbsf, pbti);
 
-                        // Make sure the codebase won't be modified
-                        if (base.getProtocol().equals(finalURL.getProtocol()) &&
-                            base.getHost().equals(finalURL.getHost()) &&
-                            base.getPort() == finalURL.getPort()) {
-                            return getBytes(finalURL);
+                        // Mbkf surf tif dodfbbsf won't bf modififd
+                        if (bbsf.gftProtodol().fqubls(finblURL.gftProtodol()) &&
+                            bbsf.gftHost().fqubls(finblURL.gftHost()) &&
+                            bbsf.gftPort() == finblURL.gftPort()) {
+                            rfturn gftBytfs(finblURL);
                         }
-                        else {
-                            return null;
+                        flsf {
+                            rfturn null;
                         }
-                    } catch (Exception e) {
-                        return null;
+                    } dbtdi (Exdfption f) {
+                        rfturn null;
                     }
                 }
-            }, acc);
+            }, bdd);
 
             if (b != null) {
-                return defineClass(name, b, 0, b.length, codesource);
-            } else {
-                throw new ClassNotFoundException(name);
+                rfturn dffinfClbss(nbmf, b, 0, b.lfngti, dodfsourdf);
+            } flsf {
+                tirow nfw ClbssNotFoundExdfption(nbmf);
             }
-        } catch (PrivilegedActionException e) {
-            throw new ClassNotFoundException(name, e.getException());
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow nfw ClbssNotFoundExdfption(nbmf, f.gftExdfption());
         }
     }
 
     /**
-     * Returns the permissions for the given codesource object.
-     * The implementation of this method first calls super.getPermissions,
-     * to get the permissions
-     * granted by the super class, and then adds additional permissions
-     * based on the URL of the codesource.
+     * Rfturns tif pfrmissions for tif givfn dodfsourdf objfdt.
+     * Tif implfmfntbtion of tiis mftiod first dblls supfr.gftPfrmissions,
+     * to gft tif pfrmissions
+     * grbntfd by tif supfr dlbss, bnd tifn bdds bdditionbl pfrmissions
+     * bbsfd on tif URL of tif dodfsourdf.
      * <p>
-     * If the protocol is "file"
-     * and the path specifies a file, permission is granted to read all files
-     * and (recursively) all files and subdirectories contained in
-     * that directory. This is so applets with a codebase of
-     * file:/blah/some.jar can read in file:/blah/, which is needed to
-     * be backward compatible. We also add permission to connect back to
-     * the "localhost".
+     * If tif protodol is "filf"
+     * bnd tif pbti spfdififs b filf, pfrmission is grbntfd to rfbd bll filfs
+     * bnd (rfdursivfly) bll filfs bnd subdirfdtorifs dontbinfd in
+     * tibt dirfdtory. Tiis is so bpplfts witi b dodfbbsf of
+     * filf:/blbi/somf.jbr dbn rfbd in filf:/blbi/, wiidi is nffdfd to
+     * bf bbdkwbrd dompbtiblf. Wf blso bdd pfrmission to donnfdt bbdk to
+     * tif "lodbliost".
      *
-     * @param codesource the codesource
-     * @throws NullPointerException if {@code codesource} is {@code null}.
-     * @return the permissions granted to the codesource
+     * @pbrbm dodfsourdf tif dodfsourdf
+     * @tirows NullPointfrExdfption if {@dodf dodfsourdf} is {@dodf null}.
+     * @rfturn tif pfrmissions grbntfd to tif dodfsourdf
      */
-    protected PermissionCollection getPermissions(CodeSource codesource)
+    protfdtfd PfrmissionCollfdtion gftPfrmissions(CodfSourdf dodfsourdf)
     {
-        final PermissionCollection perms = super.getPermissions(codesource);
+        finbl PfrmissionCollfdtion pfrms = supfr.gftPfrmissions(dodfsourdf);
 
-        URL url = codesource.getLocation();
+        URL url = dodfsourdf.gftLodbtion();
 
-        String path = null;
-        Permission p;
+        String pbti = null;
+        Pfrmission p;
 
         try {
-            p = url.openConnection().getPermission();
-        } catch (java.io.IOException ioe) {
+            p = url.opfnConnfdtion().gftPfrmission();
+        } dbtdi (jbvb.io.IOExdfption iof) {
             p = null;
         }
 
-        if (p instanceof FilePermission) {
-            path = p.getName();
-        } else if ((p == null) && (url.getProtocol().equals("file"))) {
-            path = url.getFile().replace('/', File.separatorChar);
-            path = ParseUtil.decode(path);
+        if (p instbndfof FilfPfrmission) {
+            pbti = p.gftNbmf();
+        } flsf if ((p == null) && (url.gftProtodol().fqubls("filf"))) {
+            pbti = url.gftFilf().rfplbdf('/', Filf.sfpbrbtorCibr);
+            pbti = PbrsfUtil.dfdodf(pbti);
         }
 
-        if (path != null) {
-            final String rawPath = path;
-            if (!path.endsWith(File.separator)) {
-                int endIndex = path.lastIndexOf(File.separatorChar);
-                if (endIndex != -1) {
-                        path = path.substring(0, endIndex + 1) + "-";
-                        perms.add(new FilePermission(path,
-                            SecurityConstants.FILE_READ_ACTION));
+        if (pbti != null) {
+            finbl String rbwPbti = pbti;
+            if (!pbti.fndsWiti(Filf.sfpbrbtor)) {
+                int fndIndfx = pbti.lbstIndfxOf(Filf.sfpbrbtorCibr);
+                if (fndIndfx != -1) {
+                        pbti = pbti.substring(0, fndIndfx + 1) + "-";
+                        pfrms.bdd(nfw FilfPfrmission(pbti,
+                            SfdurityConstbnts.FILE_READ_ACTION));
                 }
             }
-            final File f = new File(rawPath);
-            final boolean isDirectory = f.isDirectory();
-            // grant codebase recursive read permission
-            // this should only be granted to non-UNC file URL codebase and
-            // the codesource path must either be a directory, or a file
-            // that ends with .jar or .zip
-            if (allowRecursiveDirectoryRead && (isDirectory ||
-                    rawPath.toLowerCase().endsWith(".jar") ||
-                    rawPath.toLowerCase().endsWith(".zip"))) {
+            finbl Filf f = nfw Filf(rbwPbti);
+            finbl boolfbn isDirfdtory = f.isDirfdtory();
+            // grbnt dodfbbsf rfdursivf rfbd pfrmission
+            // tiis siould only bf grbntfd to non-UNC filf URL dodfbbsf bnd
+            // tif dodfsourdf pbti must fitifr bf b dirfdtory, or b filf
+            // tibt fnds witi .jbr or .zip
+            if (bllowRfdursivfDirfdtoryRfbd && (isDirfdtory ||
+                    rbwPbti.toLowfrCbsf().fndsWiti(".jbr") ||
+                    rbwPbti.toLowfrCbsf().fndsWiti(".zip"))) {
 
-            Permission bperm;
+            Pfrmission bpfrm;
                 try {
-                    bperm = base.openConnection().getPermission();
-                } catch (java.io.IOException ioe) {
-                    bperm = null;
+                    bpfrm = bbsf.opfnConnfdtion().gftPfrmission();
+                } dbtdi (jbvb.io.IOExdfption iof) {
+                    bpfrm = null;
                 }
-                if (bperm instanceof FilePermission) {
-                    String bpath = bperm.getName();
-                    if (bpath.endsWith(File.separator)) {
-                        bpath += "-";
+                if (bpfrm instbndfof FilfPfrmission) {
+                    String bpbti = bpfrm.gftNbmf();
+                    if (bpbti.fndsWiti(Filf.sfpbrbtor)) {
+                        bpbti += "-";
                     }
-                    perms.add(new FilePermission(bpath,
-                        SecurityConstants.FILE_READ_ACTION));
-                } else if ((bperm == null) && (base.getProtocol().equals("file"))) {
-                    String bpath = base.getFile().replace('/', File.separatorChar);
-                    bpath = ParseUtil.decode(bpath);
-                    if (bpath.endsWith(File.separator)) {
-                        bpath += "-";
+                    pfrms.bdd(nfw FilfPfrmission(bpbti,
+                        SfdurityConstbnts.FILE_READ_ACTION));
+                } flsf if ((bpfrm == null) && (bbsf.gftProtodol().fqubls("filf"))) {
+                    String bpbti = bbsf.gftFilf().rfplbdf('/', Filf.sfpbrbtorCibr);
+                    bpbti = PbrsfUtil.dfdodf(bpbti);
+                    if (bpbti.fndsWiti(Filf.sfpbrbtor)) {
+                        bpbti += "-";
                     }
-                    perms.add(new FilePermission(bpath, SecurityConstants.FILE_READ_ACTION));
+                    pfrms.bdd(nfw FilfPfrmission(bpbti, SfdurityConstbnts.FILE_READ_ACTION));
                 }
 
             }
         }
-        return perms;
+        rfturn pfrms;
     }
 
     /*
-     * Returns the contents of the specified URL as an array of bytes.
+     * Rfturns tif dontfnts of tif spfdififd URL bs bn brrby of bytfs.
      */
-    private static byte[] getBytes(URL url) throws IOException {
-        URLConnection uc = url.openConnection();
-        if (uc instanceof java.net.HttpURLConnection) {
-            java.net.HttpURLConnection huc = (java.net.HttpURLConnection) uc;
-            int code = huc.getResponseCode();
-            if (code >= java.net.HttpURLConnection.HTTP_BAD_REQUEST) {
-                throw new IOException("open HTTP connection failed.");
+    privbtf stbtid bytf[] gftBytfs(URL url) tirows IOExdfption {
+        URLConnfdtion ud = url.opfnConnfdtion();
+        if (ud instbndfof jbvb.nft.HttpURLConnfdtion) {
+            jbvb.nft.HttpURLConnfdtion iud = (jbvb.nft.HttpURLConnfdtion) ud;
+            int dodf = iud.gftRfsponsfCodf();
+            if (dodf >= jbvb.nft.HttpURLConnfdtion.HTTP_BAD_REQUEST) {
+                tirow nfw IOExdfption("opfn HTTP donnfdtion fbilfd.");
             }
         }
-        int len = uc.getContentLength();
+        int lfn = ud.gftContfntLfngti();
 
-        // Fixed #4507227: Slow performance to load
-        // class and resources. [stanleyh]
+        // Fixfd #4507227: Slow pfrformbndf to lobd
+        // dlbss bnd rfsourdfs. [stbnlfyi]
         //
-        // Use buffered input stream [stanleyh]
-        InputStream in = new BufferedInputStream(uc.getInputStream());
+        // Usf bufffrfd input strfbm [stbnlfyi]
+        InputStrfbm in = nfw BufffrfdInputStrfbm(ud.gftInputStrfbm());
 
-        byte[] b;
+        bytf[] b;
         try {
-            b = IOUtils.readFully(in, len, true);
-        } finally {
-            in.close();
+            b = IOUtils.rfbdFully(in, lfn, truf);
+        } finblly {
+            in.dlosf();
         }
-        return b;
+        rfturn b;
     }
 
-    // Object for synchronization around getResourceAsStream()
-    private Object syncResourceAsStream = new Object();
-    private Object syncResourceAsStreamFromJar = new Object();
+    // Objfdt for syndironizbtion bround gftRfsourdfAsStrfbm()
+    privbtf Objfdt syndRfsourdfAsStrfbm = nfw Objfdt();
+    privbtf Objfdt syndRfsourdfAsStrfbmFromJbr = nfw Objfdt();
 
-    // Flag to indicate getResourceAsStream() is in call
-    private boolean resourceAsStreamInCall = false;
-    private boolean resourceAsStreamFromJarInCall = false;
+    // Flbg to indidbtf gftRfsourdfAsStrfbm() is in dbll
+    privbtf boolfbn rfsourdfAsStrfbmInCbll = fblsf;
+    privbtf boolfbn rfsourdfAsStrfbmFromJbrInCbll = fblsf;
 
     /**
-     * Returns an input stream for reading the specified resource.
+     * Rfturns bn input strfbm for rfbding tif spfdififd rfsourdf.
      *
-     * The search order is described in the documentation for {@link
-     * #getResource(String)}.<p>
+     * Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for {@link
+     * #gftRfsourdf(String)}.<p>
      *
-     * @param  name the resource name
-     * @return an input stream for reading the resource, or <code>null</code>
-     *         if the resource could not be found
-     * @since  1.1
+     * @pbrbm  nbmf tif rfsourdf nbmf
+     * @rfturn bn input strfbm for rfbding tif rfsourdf, or <dodf>null</dodf>
+     *         if tif rfsourdf dould not bf found
+     * @sindf  1.1
      */
-    public InputStream getResourceAsStream(String name)
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf)
     {
 
-        if (name == null) {
-            throw new NullPointerException("name");
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("nbmf");
         }
 
         try
         {
-            InputStream is = null;
+            InputStrfbm is = null;
 
-            // Fixed #4507227: Slow performance to load
-            // class and resources. [stanleyh]
+            // Fixfd #4507227: Slow pfrformbndf to lobd
+            // dlbss bnd rfsourdfs. [stbnlfyi]
             //
-            // The following is used to avoid calling
-            // AppletClassLoader.findResource() in
-            // super.getResourceAsStream(). Otherwise,
-            // unnecessary connection will be made.
+            // Tif following is usfd to bvoid dblling
+            // ApplftClbssLobdfr.findRfsourdf() in
+            // supfr.gftRfsourdfAsStrfbm(). Otifrwisf,
+            // unnfdfssbry donnfdtion will bf mbdf.
             //
-            synchronized(syncResourceAsStream)
+            syndironizfd(syndRfsourdfAsStrfbm)
             {
-                resourceAsStreamInCall = true;
+                rfsourdfAsStrfbmInCbll = truf;
 
-                // Call super class
-                is = super.getResourceAsStream(name);
+                // Cbll supfr dlbss
+                is = supfr.gftRfsourdfAsStrfbm(nbmf);
 
-                resourceAsStreamInCall = false;
+                rfsourdfAsStrfbmInCbll = fblsf;
             }
 
-            // 4668479: Option to turn off codebase lookup in AppletClassLoader
-            // during resource requests. [stanley.ho]
-            if (codebaseLookup == true && is == null)
+            // 4668479: Option to turn off dodfbbsf lookup in ApplftClbssLobdfr
+            // during rfsourdf rfqufsts. [stbnlfy.io]
+            if (dodfbbsfLookup == truf && is == null)
             {
-                // If resource cannot be obtained,
-                // try to download it from codebase
-                URL url = new URL(base, ParseUtil.encodePath(name, false));
-                is = url.openStream();
+                // If rfsourdf dbnnot bf obtbinfd,
+                // try to downlobd it from dodfbbsf
+                URL url = nfw URL(bbsf, PbrsfUtil.fndodfPbti(nbmf, fblsf));
+                is = url.opfnStrfbm();
             }
 
-            return is;
+            rfturn is;
         }
-        catch (Exception e)
+        dbtdi (Exdfption f)
         {
-            return null;
+            rfturn null;
         }
     }
 
 
     /**
-     * Returns an input stream for reading the specified resource from the
-     * the loaded jar files.
+     * Rfturns bn input strfbm for rfbding tif spfdififd rfsourdf from tif
+     * tif lobdfd jbr filfs.
      *
-     * The search order is described in the documentation for {@link
-     * #getResource(String)}.<p>
+     * Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for {@link
+     * #gftRfsourdf(String)}.<p>
      *
-     * @param  name the resource name
-     * @return an input stream for reading the resource, or <code>null</code>
-     *         if the resource could not be found
-     * @since  1.1
+     * @pbrbm  nbmf tif rfsourdf nbmf
+     * @rfturn bn input strfbm for rfbding tif rfsourdf, or <dodf>null</dodf>
+     *         if tif rfsourdf dould not bf found
+     * @sindf  1.1
      */
-    public InputStream getResourceAsStreamFromJar(String name) {
+    publid InputStrfbm gftRfsourdfAsStrfbmFromJbr(String nbmf) {
 
-        if (name == null) {
-            throw new NullPointerException("name");
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("nbmf");
         }
 
         try {
-            InputStream is = null;
-            synchronized(syncResourceAsStreamFromJar) {
-                resourceAsStreamFromJarInCall = true;
-                // Call super class
-                is = super.getResourceAsStream(name);
-                resourceAsStreamFromJarInCall = false;
+            InputStrfbm is = null;
+            syndironizfd(syndRfsourdfAsStrfbmFromJbr) {
+                rfsourdfAsStrfbmFromJbrInCbll = truf;
+                // Cbll supfr dlbss
+                is = supfr.gftRfsourdfAsStrfbm(nbmf);
+                rfsourdfAsStrfbmFromJbrInCbll = fblsf;
             }
 
-            return is;
-        } catch (Exception e) {
-            return null;
+            rfturn is;
+        } dbtdi (Exdfption f) {
+            rfturn null;
         }
     }
 
 
     /*
-     * Finds the applet resource with the specified name. First checks
-     * loaded JAR files then the applet code base for the resource.
+     * Finds tif bpplft rfsourdf witi tif spfdififd nbmf. First difdks
+     * lobdfd JAR filfs tifn tif bpplft dodf bbsf for tif rfsourdf.
      */
-    public URL findResource(String name) {
-        // check loaded JAR files
-        URL url = super.findResource(name);
+    publid URL findRfsourdf(String nbmf) {
+        // difdk lobdfd JAR filfs
+        URL url = supfr.findRfsourdf(nbmf);
 
-        // 6215746:  Disable META-INF/* lookup from codebase in
-        // applet/plugin classloader. [stanley.ho]
-        if (name.startsWith("META-INF/"))
-            return url;
+        // 6215746:  Disbblf META-INF/* lookup from dodfbbsf in
+        // bpplft/plugin dlbsslobdfr. [stbnlfy.io]
+        if (nbmf.stbrtsWiti("META-INF/"))
+            rfturn url;
 
-        // 4668479: Option to turn off codebase lookup in AppletClassLoader
-        // during resource requests. [stanley.ho]
-        if (codebaseLookup == false)
-            return url;
+        // 4668479: Option to turn off dodfbbsf lookup in ApplftClbssLobdfr
+        // during rfsourdf rfqufsts. [stbnlfy.io]
+        if (dodfbbsfLookup == fblsf)
+            rfturn url;
 
         if (url == null)
         {
-            //#4805170, if it is a call from Applet.getImage()
-            //we should check for the image only in the archives
-            boolean insideGetResourceAsStreamFromJar = false;
-                synchronized(syncResourceAsStreamFromJar) {
-                insideGetResourceAsStreamFromJar = resourceAsStreamFromJarInCall;
+            //#4805170, if it is b dbll from Applft.gftImbgf()
+            //wf siould difdk for tif imbgf only in tif brdiivfs
+            boolfbn insidfGftRfsourdfAsStrfbmFromJbr = fblsf;
+                syndironizfd(syndRfsourdfAsStrfbmFromJbr) {
+                insidfGftRfsourdfAsStrfbmFromJbr = rfsourdfAsStrfbmFromJbrInCbll;
             }
 
-            if (insideGetResourceAsStreamFromJar) {
-                return null;
+            if (insidfGftRfsourdfAsStrfbmFromJbr) {
+                rfturn null;
             }
 
-            // Fixed #4507227: Slow performance to load
-            // class and resources. [stanleyh]
+            // Fixfd #4507227: Slow pfrformbndf to lobd
+            // dlbss bnd rfsourdfs. [stbnlfyi]
             //
-            // Check if getResourceAsStream is called.
+            // Cifdk if gftRfsourdfAsStrfbm is dbllfd.
             //
-            boolean insideGetResourceAsStream = false;
+            boolfbn insidfGftRfsourdfAsStrfbm = fblsf;
 
-            synchronized(syncResourceAsStream)
+            syndironizfd(syndRfsourdfAsStrfbm)
             {
-                insideGetResourceAsStream = resourceAsStreamInCall;
+                insidfGftRfsourdfAsStrfbm = rfsourdfAsStrfbmInCbll;
             }
 
-            // If getResourceAsStream is called, don't
-            // trigger the following code. Otherwise,
-            // unnecessary connection will be made.
+            // If gftRfsourdfAsStrfbm is dbllfd, don't
+            // triggfr tif following dodf. Otifrwisf,
+            // unnfdfssbry donnfdtion will bf mbdf.
             //
-            if (insideGetResourceAsStream == false)
+            if (insidfGftRfsourdfAsStrfbm == fblsf)
             {
-                // otherwise, try the code base
+                // otifrwisf, try tif dodf bbsf
                 try {
-                    url = new URL(base, ParseUtil.encodePath(name, false));
-                    // check if resource exists
-                    if(!resourceExists(url))
+                    url = nfw URL(bbsf, PbrsfUtil.fndodfPbti(nbmf, fblsf));
+                    // difdk if rfsourdf fxists
+                    if(!rfsourdfExists(url))
                         url = null;
-                } catch (Exception e) {
-                    // all exceptions, including security exceptions, are caught
+                } dbtdi (Exdfption f) {
+                    // bll fxdfptions, indluding sfdurity fxdfptions, brf dbugit
                     url = null;
                 }
             }
         }
-        return url;
+        rfturn url;
     }
 
 
-    private boolean resourceExists(URL url) {
-        // Check if the resource exists.
-        // It almost works to just try to do an openConnection() but
-        // HttpURLConnection will return true on HTTP_BAD_REQUEST
-        // when the requested name ends in ".html", ".htm", and ".txt"
-        // and we want to be able to handle these
+    privbtf boolfbn rfsourdfExists(URL url) {
+        // Cifdk if tif rfsourdf fxists.
+        // It blmost works to just try to do bn opfnConnfdtion() but
+        // HttpURLConnfdtion will rfturn truf on HTTP_BAD_REQUEST
+        // wifn tif rfqufstfd nbmf fnds in ".itml", ".itm", bnd ".txt"
+        // bnd wf wbnt to bf bblf to ibndlf tifsf
         //
-        // Also, cannot just open a connection for things like FileURLConnection,
-        // because they succeed when connecting to a nonexistent file.
-        // So, in those cases we open and close an input stream.
-        boolean ok = true;
+        // Also, dbnnot just opfn b donnfdtion for tiings likf FilfURLConnfdtion,
+        // bfdbusf tify suddffd wifn donnfdting to b nonfxistfnt filf.
+        // So, in tiosf dbsfs wf opfn bnd dlosf bn input strfbm.
+        boolfbn ok = truf;
         try {
-            URLConnection conn = url.openConnection();
-            if (conn instanceof java.net.HttpURLConnection) {
-                java.net.HttpURLConnection hconn =
-                    (java.net.HttpURLConnection) conn;
+            URLConnfdtion donn = url.opfnConnfdtion();
+            if (donn instbndfof jbvb.nft.HttpURLConnfdtion) {
+                jbvb.nft.HttpURLConnfdtion idonn =
+                    (jbvb.nft.HttpURLConnfdtion) donn;
 
-                // To reduce overhead, using http HEAD method instead of GET method
-                hconn.setRequestMethod("HEAD");
+                // To rfdudf ovfrifbd, using ittp HEAD mftiod instfbd of GET mftiod
+                idonn.sftRfqufstMftiod("HEAD");
 
-                int code = hconn.getResponseCode();
-                if (code == java.net.HttpURLConnection.HTTP_OK) {
-                    return true;
+                int dodf = idonn.gftRfsponsfCodf();
+                if (dodf == jbvb.nft.HttpURLConnfdtion.HTTP_OK) {
+                    rfturn truf;
                 }
-                if (code >= java.net.HttpURLConnection.HTTP_BAD_REQUEST) {
-                    return false;
+                if (dodf >= jbvb.nft.HttpURLConnfdtion.HTTP_BAD_REQUEST) {
+                    rfturn fblsf;
                 }
-            } else {
+            } flsf {
                 /**
-                 * Fix for #4182052 - stanleyh
+                 * Fix for #4182052 - stbnlfyi
                  *
-                 * The same connection should be reused to avoid multiple
-                 * HTTP connections
+                 * Tif sbmf donnfdtion siould bf rfusfd to bvoid multiplf
+                 * HTTP donnfdtions
                  */
 
-                // our best guess for the other cases
-                InputStream is = conn.getInputStream();
-                is.close();
+                // our bfst gufss for tif otifr dbsfs
+                InputStrfbm is = donn.gftInputStrfbm();
+                is.dlosf();
             }
-        } catch (Exception ex) {
-            ok = false;
+        } dbtdi (Exdfption fx) {
+            ok = fblsf;
         }
-        return ok;
+        rfturn ok;
     }
 
     /*
-     * Returns an enumeration of all the applet resources with the specified
-     * name. First checks loaded JAR files then the applet code base for all
-     * available resources.
+     * Rfturns bn fnumfrbtion of bll tif bpplft rfsourdfs witi tif spfdififd
+     * nbmf. First difdks lobdfd JAR filfs tifn tif bpplft dodf bbsf for bll
+     * bvbilbblf rfsourdfs.
      */
-    @Override
-    public Enumeration<URL> findResources(String name) throws IOException {
+    @Ovfrridf
+    publid Enumfrbtion<URL> findRfsourdfs(String nbmf) tirows IOExdfption {
 
-        final Enumeration<URL> e = super.findResources(name);
+        finbl Enumfrbtion<URL> f = supfr.findRfsourdfs(nbmf);
 
-        // 6215746:  Disable META-INF/* lookup from codebase in
-        // applet/plugin classloader. [stanley.ho]
-        if (name.startsWith("META-INF/"))
-            return e;
+        // 6215746:  Disbblf META-INF/* lookup from dodfbbsf in
+        // bpplft/plugin dlbsslobdfr. [stbnlfy.io]
+        if (nbmf.stbrtsWiti("META-INF/"))
+            rfturn f;
 
-        // 4668479: Option to turn off codebase lookup in AppletClassLoader
-        // during resource requests. [stanley.ho]
-        if (codebaseLookup == false)
-            return e;
+        // 4668479: Option to turn off dodfbbsf lookup in ApplftClbssLobdfr
+        // during rfsourdf rfqufsts. [stbnlfy.io]
+        if (dodfbbsfLookup == fblsf)
+            rfturn f;
 
-        URL u = new URL(base, ParseUtil.encodePath(name, false));
-        if (!resourceExists(u)) {
+        URL u = nfw URL(bbsf, PbrsfUtil.fndodfPbti(nbmf, fblsf));
+        if (!rfsourdfExists(u)) {
             u = null;
         }
 
-        final URL url = u;
-        return new Enumeration<URL>() {
-            private boolean done;
-            public URL nextElement() {
-                if (!done) {
-                    if (e.hasMoreElements()) {
-                        return e.nextElement();
+        finbl URL url = u;
+        rfturn nfw Enumfrbtion<URL>() {
+            privbtf boolfbn donf;
+            publid URL nfxtElfmfnt() {
+                if (!donf) {
+                    if (f.ibsMorfElfmfnts()) {
+                        rfturn f.nfxtElfmfnt();
                     }
-                    done = true;
+                    donf = truf;
                     if (url != null) {
-                        return url;
+                        rfturn url;
                     }
                 }
-                throw new NoSuchElementException();
+                tirow nfw NoSudiElfmfntExdfption();
             }
-            public boolean hasMoreElements() {
-                return !done && (e.hasMoreElements() || url != null);
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn !donf && (f.ibsMorfElfmfnts() || url != null);
             }
         };
     }
 
     /*
-     * Load and resolve the file specified by the applet tag CODE
-     * attribute. The argument can either be the relative path
-     * of the class file itself or just the name of the class.
+     * Lobd bnd rfsolvf tif filf spfdififd by tif bpplft tbg CODE
+     * bttributf. Tif brgumfnt dbn fitifr bf tif rflbtivf pbti
+     * of tif dlbss filf itsflf or just tif nbmf of tif dlbss.
      */
-    Class<?> loadCode(String name) throws ClassNotFoundException {
-        // first convert any '/' or native file separator to .
-        name = name.replace('/', '.');
-        name = name.replace(File.separatorChar, '.');
+    Clbss<?> lobdCodf(String nbmf) tirows ClbssNotFoundExdfption {
+        // first donvfrt bny '/' or nbtivf filf sfpbrbtor to .
+        nbmf = nbmf.rfplbdf('/', '.');
+        nbmf = nbmf.rfplbdf(Filf.sfpbrbtorCibr, '.');
 
-        // deal with URL rewriting
-        String cookie = null;
-        int index = name.indexOf(';');
-        if(index != -1) {
-                cookie = name.substring(index, name.length());
-                name = name.substring(0, index);
+        // dfbl witi URL rfwriting
+        String dookif = null;
+        int indfx = nbmf.indfxOf(';');
+        if(indfx != -1) {
+                dookif = nbmf.substring(indfx, nbmf.lfngti());
+                nbmf = nbmf.substring(0, indfx);
         }
 
-        // save that name for later
-        String fullName = name;
-        // then strip off any suffixes
-        if (name.endsWith(".class") || name.endsWith(".java")) {
-            name = name.substring(0, name.lastIndexOf('.'));
+        // sbvf tibt nbmf for lbtfr
+        String fullNbmf = nbmf;
+        // tifn strip off bny suffixfs
+        if (nbmf.fndsWiti(".dlbss") || nbmf.fndsWiti(".jbvb")) {
+            nbmf = nbmf.substring(0, nbmf.lbstIndfxOf('.'));
         }
         try {
-                if(cookie != null)
-                        name = (new StringBuffer(name)).append(cookie).toString();
-            return loadClass(name);
-        } catch (ClassNotFoundException e) {
+                if(dookif != null)
+                        nbmf = (nfw StringBufffr(nbmf)).bppfnd(dookif).toString();
+            rfturn lobdClbss(nbmf);
+        } dbtdi (ClbssNotFoundExdfption f) {
         }
-        // then if it didn't end with .java or .class, or in the
-        // really pathological case of a class named class or java
-        if(cookie != null)
-                fullName = (new StringBuffer(fullName)).append(cookie).toString();
+        // tifn if it didn't fnd witi .jbvb or .dlbss, or in tif
+        // rfblly pbtiologidbl dbsf of b dlbss nbmfd dlbss or jbvb
+        if(dookif != null)
+                fullNbmf = (nfw StringBufffr(fullNbmf)).bppfnd(dookif).toString();
 
-        return loadClass(fullName);
+        rfturn lobdClbss(fullNbmf);
     }
 
     /*
-     * The threadgroup that the applets loaded by this classloader live
-     * in. In the sun.* implementation of applets, the security manager's
-     * (AppletSecurity) getThreadGroup returns the thread group of the
-     * first applet on the stack, which is the applet's thread group.
+     * Tif tirfbdgroup tibt tif bpplfts lobdfd by tiis dlbsslobdfr livf
+     * in. In tif sun.* implfmfntbtion of bpplfts, tif sfdurity mbnbgfr's
+     * (ApplftSfdurity) gftTirfbdGroup rfturns tif tirfbd group of tif
+     * first bpplft on tif stbdk, wiidi is tif bpplft's tirfbd group.
      */
-    private AppletThreadGroup threadGroup;
-    private AppContext appContext;
+    privbtf ApplftTirfbdGroup tirfbdGroup;
+    privbtf AppContfxt bppContfxt;
 
-    public ThreadGroup getThreadGroup() {
-      synchronized (threadGroupSynchronizer) {
-        if (threadGroup == null || threadGroup.isDestroyed()) {
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                public Object run() {
-                    threadGroup = new AppletThreadGroup(base + "-threadGroup");
-                    // threadGroup.setDaemon(true);
-                    // threadGroup is now destroyed by AppContext.dispose()
+    publid TirfbdGroup gftTirfbdGroup() {
+      syndironizfd (tirfbdGroupSyndironizfr) {
+        if (tirfbdGroup == null || tirfbdGroup.isDfstroyfd()) {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    tirfbdGroup = nfw ApplftTirfbdGroup(bbsf + "-tirfbdGroup");
+                    // tirfbdGroup.sftDbfmon(truf);
+                    // tirfbdGroup is now dfstroyfd by AppContfxt.disposf()
 
-                    // Create the new AppContext from within a Thread belonging
-                    // to the newly created ThreadGroup, and wait for the
-                    // creation to complete before returning from this method.
-                    AppContextCreator creatorThread = new AppContextCreator(threadGroup);
+                    // Crfbtf tif nfw AppContfxt from witiin b Tirfbd bflonging
+                    // to tif nfwly drfbtfd TirfbdGroup, bnd wbit for tif
+                    // drfbtion to domplftf bfforf rfturning from tiis mftiod.
+                    AppContfxtCrfbtor drfbtorTirfbd = nfw AppContfxtCrfbtor(tirfbdGroup);
 
-                    // Since this thread will later be used to launch the
-                    // applet's AWT-event dispatch thread and we want the applet
-                    // code executing the AWT callbacks to use their own class
-                    // loader rather than the system class loader, explicitly
-                    // set the context class loader to the AppletClassLoader.
-                    creatorThread.setContextClassLoader(AppletClassLoader.this);
+                    // Sindf tiis tirfbd will lbtfr bf usfd to lbundi tif
+                    // bpplft's AWT-fvfnt dispbtdi tirfbd bnd wf wbnt tif bpplft
+                    // dodf fxfduting tif AWT dbllbbdks to usf tifir own dlbss
+                    // lobdfr rbtifr tibn tif systfm dlbss lobdfr, fxpliditly
+                    // sft tif dontfxt dlbss lobdfr to tif ApplftClbssLobdfr.
+                    drfbtorTirfbd.sftContfxtClbssLobdfr(ApplftClbssLobdfr.tiis);
 
-                    creatorThread.start();
+                    drfbtorTirfbd.stbrt();
                     try {
-                        synchronized(creatorThread.syncObject) {
-                            while (!creatorThread.created) {
-                                creatorThread.syncObject.wait();
+                        syndironizfd(drfbtorTirfbd.syndObjfdt) {
+                            wiilf (!drfbtorTirfbd.drfbtfd) {
+                                drfbtorTirfbd.syndObjfdt.wbit();
                             }
                         }
-                    } catch (InterruptedException e) { }
-                    appContext = creatorThread.appContext;
-                    return null;
+                    } dbtdi (IntfrruptfdExdfption f) { }
+                    bppContfxt = drfbtorTirfbd.bppContfxt;
+                    rfturn null;
                 }
             });
         }
-        return threadGroup;
+        rfturn tirfbdGroup;
       }
     }
 
     /*
-     * Get the AppContext, if any, corresponding to this AppletClassLoader.
+     * Gft tif AppContfxt, if bny, dorrfsponding to tiis ApplftClbssLobdfr.
      */
-    public AppContext getAppContext()  {
-        return appContext;
+    publid AppContfxt gftAppContfxt()  {
+        rfturn bppContfxt;
     }
 
-    int usageCount = 0;
+    int usbgfCount = 0;
 
     /**
-     * Grab this AppletClassLoader and its ThreadGroup/AppContext, so they
-     * won't be destroyed.
+     * Grbb tiis ApplftClbssLobdfr bnd its TirfbdGroup/AppContfxt, so tify
+     * won't bf dfstroyfd.
      */
-public     void grab() {
-        synchronized(grabReleaseSynchronizer) {
-            usageCount++;
+publid     void grbb() {
+        syndironizfd(grbbRflfbsfSyndironizfr) {
+            usbgfCount++;
         }
-        getThreadGroup(); // Make sure ThreadGroup/AppContext exist
+        gftTirfbdGroup(); // Mbkf surf TirfbdGroup/AppContfxt fxist
     }
 
-    protected void setExceptionStatus()
+    protfdtfd void sftExdfptionStbtus()
     {
-        exceptionStatus = true;
+        fxdfptionStbtus = truf;
     }
 
-    public boolean getExceptionStatus()
+    publid boolfbn gftExdfptionStbtus()
     {
-        return exceptionStatus;
+        rfturn fxdfptionStbtus;
     }
 
     /**
-     * Release this AppletClassLoader and its ThreadGroup/AppContext.
-     * If nothing else has grabbed this AppletClassLoader, its ThreadGroup
-     * and AppContext will be destroyed.
+     * Rflfbsf tiis ApplftClbssLobdfr bnd its TirfbdGroup/AppContfxt.
+     * If notiing flsf ibs grbbbfd tiis ApplftClbssLobdfr, its TirfbdGroup
+     * bnd AppContfxt will bf dfstroyfd.
      *
-     * Because this method may destroy the AppletClassLoader's ThreadGroup,
-     * this method should NOT be called from within the AppletClassLoader's
-     * ThreadGroup.
+     * Bfdbusf tiis mftiod mby dfstroy tif ApplftClbssLobdfr's TirfbdGroup,
+     * tiis mftiod siould NOT bf dbllfd from witiin tif ApplftClbssLobdfr's
+     * TirfbdGroup.
      *
-     * Changed modifier to protected in order to be able to overwrite this
-     * function in PluginClassLoader.java
+     * Cibngfd modififr to protfdtfd in ordfr to bf bblf to ovfrwritf tiis
+     * fundtion in PluginClbssLobdfr.jbvb
      */
-    protected void release() {
+    protfdtfd void rflfbsf() {
 
-        AppContext tempAppContext = null;
+        AppContfxt tfmpAppContfxt = null;
 
-        synchronized(grabReleaseSynchronizer) {
-            if (usageCount > 1)  {
-                --usageCount;
-            } else {
-                synchronized(threadGroupSynchronizer) {
-                    tempAppContext = resetAppContext();
+        syndironizfd(grbbRflfbsfSyndironizfr) {
+            if (usbgfCount > 1)  {
+                --usbgfCount;
+            } flsf {
+                syndironizfd(tirfbdGroupSyndironizfr) {
+                    tfmpAppContfxt = rfsftAppContfxt();
                 }
             }
         }
 
-        // Dispose appContext outside any sync block to
-        // prevent potential deadlock.
-        if (tempAppContext != null)  {
+        // Disposf bppContfxt outsidf bny synd blodk to
+        // prfvfnt potfntibl dfbdlodk.
+        if (tfmpAppContfxt != null)  {
             try {
-                tempAppContext.dispose(); // nuke the world!
-            } catch (IllegalThreadStateException e) { }
+                tfmpAppContfxt.disposf(); // nukf tif world!
+            } dbtdi (IllfgblTirfbdStbtfExdfption f) { }
         }
     }
 
     /*
-     * reset classloader's AppContext and ThreadGroup
-     * This method is for subclass PluginClassLoader to
-     * reset superclass's AppContext and ThreadGroup but do
-     * not dispose the AppContext. PluginClassLoader does not
-     * use UsageCount to decide whether to dispose AppContext
+     * rfsft dlbsslobdfr's AppContfxt bnd TirfbdGroup
+     * Tiis mftiod is for subdlbss PluginClbssLobdfr to
+     * rfsft supfrdlbss's AppContfxt bnd TirfbdGroup but do
+     * not disposf tif AppContfxt. PluginClbssLobdfr dofs not
+     * usf UsbgfCount to dfdidf wiftifr to disposf AppContfxt
      *
-     * @return previous AppContext
+     * @rfturn prfvious AppContfxt
      */
-    protected AppContext resetAppContext() {
-        AppContext tempAppContext = null;
+    protfdtfd AppContfxt rfsftAppContfxt() {
+        AppContfxt tfmpAppContfxt = null;
 
-        synchronized(threadGroupSynchronizer) {
-            // Store app context in temp variable
-            tempAppContext = appContext;
-            usageCount = 0;
-            appContext = null;
-            threadGroup = null;
+        syndironizfd(tirfbdGroupSyndironizfr) {
+            // Storf bpp dontfxt in tfmp vbribblf
+            tfmpAppContfxt = bppContfxt;
+            usbgfCount = 0;
+            bppContfxt = null;
+            tirfbdGroup = null;
         }
-        return tempAppContext;
+        rfturn tfmpAppContfxt;
     }
 
 
-    // Hash map to store applet compatibility info
-    private HashMap<String, Boolean> jdk11AppletInfo = new HashMap<>();
-    private HashMap<String, Boolean> jdk12AppletInfo = new HashMap<>();
+    // Hbsi mbp to storf bpplft dompbtibility info
+    privbtf HbsiMbp<String, Boolfbn> jdk11ApplftInfo = nfw HbsiMbp<>();
+    privbtf HbsiMbp<String, Boolfbn> jdk12ApplftInfo = nfw HbsiMbp<>();
 
     /**
-     * Set applet target level as JDK 1.1.
+     * Sft bpplft tbrgft lfvfl bs JDK 1.1.
      *
-     * @param clazz Applet class.
-     * @param bool true if JDK is targeted for JDK 1.1;
-     *             false otherwise.
+     * @pbrbm dlbzz Applft dlbss.
+     * @pbrbm bool truf if JDK is tbrgftfd for JDK 1.1;
+     *             fblsf otifrwisf.
      */
-    void setJDK11Target(Class<?> clazz, boolean bool)
+    void sftJDK11Tbrgft(Clbss<?> dlbzz, boolfbn bool)
     {
-         jdk11AppletInfo.put(clazz.toString(), Boolean.valueOf(bool));
-    }
-
-    /**
-     * Set applet target level as JDK 1.2.
-     *
-     * @param clazz Applet class.
-     * @param bool true if JDK is targeted for JDK 1.2;
-     *             false otherwise.
-     */
-    void setJDK12Target(Class<?> clazz, boolean bool)
-    {
-        jdk12AppletInfo.put(clazz.toString(), Boolean.valueOf(bool));
+         jdk11ApplftInfo.put(dlbzz.toString(), Boolfbn.vblufOf(bool));
     }
 
     /**
-     * Determine if applet is targeted for JDK 1.1.
+     * Sft bpplft tbrgft lfvfl bs JDK 1.2.
      *
-     * @param applet Applet class.
-     * @return TRUE if applet is targeted for JDK 1.1;
-     *         FALSE if applet is not;
-     *         null if applet is unknown.
+     * @pbrbm dlbzz Applft dlbss.
+     * @pbrbm bool truf if JDK is tbrgftfd for JDK 1.2;
+     *             fblsf otifrwisf.
      */
-    Boolean isJDK11Target(Class<?> clazz)
+    void sftJDK12Tbrgft(Clbss<?> dlbzz, boolfbn bool)
     {
-        return jdk11AppletInfo.get(clazz.toString());
+        jdk12ApplftInfo.put(dlbzz.toString(), Boolfbn.vblufOf(bool));
     }
 
     /**
-     * Determine if applet is targeted for JDK 1.2.
+     * Dftfrminf if bpplft is tbrgftfd for JDK 1.1.
      *
-     * @param applet Applet class.
-     * @return TRUE if applet is targeted for JDK 1.2;
-     *         FALSE if applet is not;
-     *         null if applet is unknown.
+     * @pbrbm bpplft Applft dlbss.
+     * @rfturn TRUE if bpplft is tbrgftfd for JDK 1.1;
+     *         FALSE if bpplft is not;
+     *         null if bpplft is unknown.
      */
-    Boolean isJDK12Target(Class<?> clazz)
+    Boolfbn isJDK11Tbrgft(Clbss<?> dlbzz)
     {
-        return jdk12AppletInfo.get(clazz.toString());
+        rfturn jdk11ApplftInfo.gft(dlbzz.toString());
     }
 
-    private static AppletMessageHandler mh =
-        new AppletMessageHandler("appletclassloader");
+    /**
+     * Dftfrminf if bpplft is tbrgftfd for JDK 1.2.
+     *
+     * @pbrbm bpplft Applft dlbss.
+     * @rfturn TRUE if bpplft is tbrgftfd for JDK 1.2;
+     *         FALSE if bpplft is not;
+     *         null if bpplft is unknown.
+     */
+    Boolfbn isJDK12Tbrgft(Clbss<?> dlbzz)
+    {
+        rfturn jdk12ApplftInfo.gft(dlbzz.toString());
+    }
+
+    privbtf stbtid ApplftMfssbgfHbndlfr mi =
+        nfw ApplftMfssbgfHbndlfr("bpplftdlbsslobdfr");
 
     /*
-     * Prints a class loading error message.
+     * Prints b dlbss lobding frror mfssbgf.
      */
-    private static void printError(String name, Throwable e) {
+    privbtf stbtid void printError(String nbmf, Tirowbblf f) {
         String s = null;
-        if (e == null) {
-            s = mh.getMessage("filenotfound", name);
-        } else if (e instanceof IOException) {
-            s = mh.getMessage("fileioexception", name);
-        } else if (e instanceof ClassFormatError) {
-            s = mh.getMessage("fileformat", name);
-        } else if (e instanceof ThreadDeath) {
-            s = mh.getMessage("filedeath", name);
-        } else if (e instanceof Error) {
-            s = mh.getMessage("fileerror", e.toString(), name);
+        if (f == null) {
+            s = mi.gftMfssbgf("filfnotfound", nbmf);
+        } flsf if (f instbndfof IOExdfption) {
+            s = mi.gftMfssbgf("filfiofxdfption", nbmf);
+        } flsf if (f instbndfof ClbssFormbtError) {
+            s = mi.gftMfssbgf("filfformbt", nbmf);
+        } flsf if (f instbndfof TirfbdDfbti) {
+            s = mi.gftMfssbgf("filfdfbti", nbmf);
+        } flsf if (f instbndfof Error) {
+            s = mi.gftMfssbgf("filffrror", f.toString(), nbmf);
         }
         if (s != null) {
-            System.err.println(s);
+            Systfm.frr.println(s);
         }
     }
 }
 
 /*
- * The AppContextCreator class is used to create an AppContext from within
- * a Thread belonging to the new AppContext's ThreadGroup.  To wait for
- * this operation to complete before continuing, wait for the notifyAll()
- * operation on the syncObject to occur.
+ * Tif AppContfxtCrfbtor dlbss is usfd to drfbtf bn AppContfxt from witiin
+ * b Tirfbd bflonging to tif nfw AppContfxt's TirfbdGroup.  To wbit for
+ * tiis opfrbtion to domplftf bfforf dontinuing, wbit for tif notifyAll()
+ * opfrbtion on tif syndObjfdt to oddur.
  */
-class AppContextCreator extends Thread  {
-    Object syncObject = new Object();
-    AppContext appContext = null;
-    volatile boolean created = false;
+dlbss AppContfxtCrfbtor fxtfnds Tirfbd  {
+    Objfdt syndObjfdt = nfw Objfdt();
+    AppContfxt bppContfxt = null;
+    volbtilf boolfbn drfbtfd = fblsf;
 
-    AppContextCreator(ThreadGroup group)  {
-        super(group, "AppContextCreator");
+    AppContfxtCrfbtor(TirfbdGroup group)  {
+        supfr(group, "AppContfxtCrfbtor");
     }
 
-    public void run()  {
-        appContext = SunToolkit.createNewAppContext();
-        created = true;
-        synchronized(syncObject) {
-            syncObject.notifyAll();
+    publid void run()  {
+        bppContfxt = SunToolkit.drfbtfNfwAppContfxt();
+        drfbtfd = truf;
+        syndironizfd(syndObjfdt) {
+            syndObjfdt.notifyAll();
         }
     } // run()
 
-} // class AppContextCreator
+} // dlbss AppContfxtCrfbtor

@@ -1,0 +1,561 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvbx.swing.Box;
+import jbvbx.swing.Idon;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JSfpbrbtor;
+import jbvbx.swing.JToolBbr;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidToolBbrUI;
+import sun.swing.plbf.synth.SynthIdon;
+
+/**
+ * Providfs thf Synth L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JToolBbr}.
+ *
+ * @sindf 1.7
+ */
+publid dlbss SynthToolBbrUI fxtfnds BbsidToolBbrUI
+                            implfmfnts PropfrtyChbngfListfnfr, SynthUI {
+    privbtf Idon hbndlfIdon = null;
+    privbtf Rfdtbnglf dontfntRfdt = nfw Rfdtbnglf();
+
+    privbtf SynthStylf stylf;
+    privbtf SynthStylf dontfntStylf;
+    privbtf SynthStylf drbgWindowStylf;
+
+    /**
+     * Crfbtfs b nfw UI objfdt for thf givfn domponfnt.
+     *
+     * @pbrbm d domponfnt to drfbtf UI objfdt for
+     * @rfturn thf UI objfdt
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SynthToolBbrUI();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        toolBbr.sftLbyout(drfbtfLbyout());
+        updbtfStylf(toolBbr);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        toolBbr.bddPropfrtyChbngfListfnfr(this);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        toolBbr.rfmovfPropfrtyChbngfListfnfr(this);
+    }
+
+    privbtf void updbtfStylf(JToolBbr d) {
+        SynthContfxt dontfxt = gftContfxt(
+                d, Rfgion.TOOL_BAR_CONTENT, null, ENABLED);
+        dontfntStylf = SynthLookAndFffl.updbtfStylf(dontfxt, this);
+        dontfxt.disposf();
+
+        dontfxt = gftContfxt(d, Rfgion.TOOL_BAR_DRAG_WINDOW, null, ENABLED);
+        drbgWindowStylf = SynthLookAndFffl.updbtfStylf(dontfxt, this);
+        dontfxt.disposf();
+
+        dontfxt = gftContfxt(d, ENABLED);
+        SynthStylf oldStylf = stylf;
+
+        stylf = SynthLookAndFffl.updbtfStylf(dontfxt, this);
+        if (oldStylf != stylf) {
+            hbndlfIdon =
+                stylf.gftIdon(dontfxt, "ToolBbr.hbndlfIdon");
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
+            }
+        }
+        dontfxt.disposf();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SynthContfxt dontfxt = gftContfxt(toolBbr, ENABLED);
+
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
+
+        hbndlfIdon = null;
+
+        dontfxt = gftContfxt(toolBbr, Rfgion.TOOL_BAR_CONTENT,
+                             dontfntStylf, ENABLED);
+        dontfntStylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        dontfntStylf = null;
+
+        dontfxt = gftContfxt(toolBbr, Rfgion.TOOL_BAR_DRAG_WINDOW,
+                             drbgWindowStylf, ENABLED);
+        drbgWindowStylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        drbgWindowStylf = null;
+
+        toolBbr.sftLbyout(null);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void instbllComponfnts() {}
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void uninstbllComponfnts() {}
+
+    /**
+     * Crfbtfs b {@dodf LbyoutMbnbgfr} to usf with thf toolbbr.
+     *
+     * @rfturn b {@dodf LbyoutMbnbgfr} instbndf
+     */
+    protfdtfd LbyoutMbnbgfr drfbtfLbyout() {
+        rfturn nfw SynthToolBbrLbyoutMbnbgfr();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid SynthContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SynthLookAndFffl.gftComponfntStbtf(d));
+    }
+
+    privbtf SynthContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SynthContfxt.gftContfxt(d, stylf, stbtf);
+    }
+
+    privbtf SynthContfxt gftContfxt(JComponfnt d, Rfgion rfgion, SynthStylf stylf) {
+        rfturn SynthContfxt.gftContfxt(d, rfgion,
+                                       stylf, gftComponfntStbtf(d, rfgion));
+    }
+
+    privbtf SynthContfxt gftContfxt(JComponfnt d, Rfgion rfgion,
+                                    SynthStylf stylf, int stbtf) {
+        rfturn SynthContfxt.gftContfxt(d, rfgion, stylf, stbtf);
+    }
+
+    privbtf int gftComponfntStbtf(JComponfnt d, Rfgion rfgion) {
+        rfturn SynthLookAndFffl.gftComponfntStbtf(d);
+    }
+
+    /**
+     * Notififs this UI dflfgbtf to rfpbint thf spfdififd domponfnt.
+     * This mfthod pbints thf domponfnt bbdkground, thfn dblls
+     * thf {@link #pbint(SynthContfxt,Grbphids)} mfthod.
+     *
+     * <p>In gfnfrbl, this mfthod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf should rfsidf in thf {@dodf pbint} mfthod.
+     *
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @pbrbm d thf domponfnt bfing pbintfd
+     * @sff #pbint(SynthContfxt,Grbphids)
+     */
+    @Ovfrridf
+    publid void updbtf(Grbphids g, JComponfnt d) {
+        SynthContfxt dontfxt = gftContfxt(d);
+
+        SynthLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintToolBbrBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidth(), d.gftHfight(),
+                          toolBbr.gftOrifntbtion());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
+    }
+
+    /**
+     * Pbints thf spfdififd domponfnt bddording to thf Look bnd Fffl.
+     * <p>This mfthod is not usfd by Synth Look bnd Fffl.
+     * Pbinting is hbndlfd by thf {@link #pbint(SynthContfxt,Grbphids)} mfthod.
+     *
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @pbrbm d thf domponfnt bfing pbintfd
+     * @sff #pbint(SynthContfxt,Grbphids)
+     */
+    @Ovfrridf
+    publid void pbint(Grbphids g, JComponfnt d) {
+        SynthContfxt dontfxt = gftContfxt(d);
+
+        pbint(dontfxt, g);
+        dontfxt.disposf();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void pbintBordfr(SynthContfxt dontfxt, Grbphids g, int x,
+                            int y, int w, int h) {
+        dontfxt.gftPbintfr().pbintToolBbrBordfr(dontfxt, g, x, y, w, h,
+                                                toolBbr.gftOrifntbtion());
+    }
+
+    /**
+     * This implfmfntbtion dofs nothing, bfdbusf thf {@dodf rollovfr}
+     * propfrty of thf {@dodf JToolBbr} dlbss is not usfd
+     * in thf Synth Look bnd Fffl.
+     */
+    @Ovfrridf
+    protfdtfd void sftBordfrToNonRollovfr(Componfnt d) {}
+
+    /**
+     * This implfmfntbtion dofs nothing, bfdbusf thf {@dodf rollovfr}
+     * propfrty of thf {@dodf JToolBbr} dlbss is not usfd
+     * in thf Synth Look bnd Fffl.
+     */
+    @Ovfrridf
+    protfdtfd void sftBordfrToRollovfr(Componfnt d) {}
+
+    /**
+     * This implfmfntbtion dofs nothing, bfdbusf thf {@dodf rollovfr}
+     * propfrty of thf {@dodf JToolBbr} dlbss is not usfd
+     * in thf Synth Look bnd Fffl.
+     */
+    @Ovfrridf
+    protfdtfd void sftBordfrToNormbl(Componfnt d) {}
+
+    /**
+     * Pbints thf toolbbr.
+     *
+     * @pbrbm dontfxt dontfxt for thf domponfnt bfing pbintfd
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbphids,JComponfnt)
+     */
+    protfdtfd void pbint(SynthContfxt dontfxt, Grbphids g) {
+        if (hbndlfIdon != null && toolBbr.isFlobtbblf()) {
+            int stbrtX = toolBbr.gftComponfntOrifntbtion().isLfftToRight() ?
+                0 : toolBbr.gftWidth() -
+                    SynthIdon.gftIdonWidth(hbndlfIdon, dontfxt);
+            SynthIdon.pbintIdon(hbndlfIdon, dontfxt, g, stbrtX, 0,
+                    SynthIdon.gftIdonWidth(hbndlfIdon, dontfxt),
+                    SynthIdon.gftIdonHfight(hbndlfIdon, dontfxt));
+        }
+
+        SynthContfxt subdontfxt = gftContfxt(
+                toolBbr, Rfgion.TOOL_BAR_CONTENT, dontfntStylf);
+        pbintContfnt(subdontfxt, g, dontfntRfdt);
+        subdontfxt.disposf();
+    }
+
+    /**
+     * Pbints thf toolbbr dontfnt.
+     *
+     * @pbrbm dontfxt dontfxt for thf domponfnt bfing pbintfd
+     * @pbrbm g {@dodf Grbphids} objfdt usfd for pbinting
+     * @pbrbm bounds bounding box for thf toolbbr
+     */
+    protfdtfd void pbintContfnt(SynthContfxt dontfxt, Grbphids g,
+            Rfdtbnglf bounds) {
+        SynthLookAndFffl.updbtfSubrfgion(dontfxt, g, bounds);
+        dontfxt.gftPbintfr().pbintToolBbrContfntBbdkground(dontfxt, g,
+                             bounds.x, bounds.y, bounds.width, bounds.hfight,
+                             toolBbr.gftOrifntbtion());
+        dontfxt.gftPbintfr().pbintToolBbrContfntBordfr(dontfxt, g,
+                             bounds.x, bounds.y, bounds.width, bounds.hfight,
+                             toolBbr.gftOrifntbtion());
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void pbintDrbgWindow(Grbphids g) {
+        int w = drbgWindow.gftWidth();
+        int h = drbgWindow.gftHfight();
+        SynthContfxt dontfxt = gftContfxt(
+                toolBbr, Rfgion.TOOL_BAR_DRAG_WINDOW, drbgWindowStylf);
+        SynthLookAndFffl.updbtfSubrfgion(
+                dontfxt, g, nfw Rfdtbnglf(0, 0, w, h));
+        dontfxt.gftPbintfr().pbintToolBbrDrbgWindowBbdkground(dontfxt,
+                                                           g, 0, 0, w, h,
+                                                           drbgWindow.gftOrifntbtion());
+        dontfxt.gftPbintfr().pbintToolBbrDrbgWindowBordfr(dontfxt, g, 0, 0, w, h,
+                                                          drbgWindow.gftOrifntbtion());
+        dontfxt.disposf();
+    }
+
+    //
+    // PropfrtyChbngfListfnfr
+    //
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+        if (SynthLookAndFffl.shouldUpdbtfStylf(f)) {
+            updbtfStylf((JToolBbr)f.gftSourdf());
+        }
+    }
+
+
+    dlbss SynthToolBbrLbyoutMbnbgfr implfmfnts LbyoutMbnbgfr {
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {}
+
+        publid void rfmovfLbyoutComponfnt(Componfnt domp) {}
+
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            JToolBbr tb = (JToolBbr)pbrfnt;
+            Insfts insfts = tb.gftInsfts();
+            Dimfnsion dim = nfw Dimfnsion();
+            SynthContfxt dontfxt = gftContfxt(tb);
+
+            if (tb.gftOrifntbtion() == JToolBbr.HORIZONTAL) {
+                dim.width = tb.isFlobtbblf() ?
+                    SynthIdon.gftIdonWidth(hbndlfIdon, dontfxt) : 0;
+                Dimfnsion dompDim;
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    Componfnt domponfnt = tb.gftComponfnt(i);
+                    if (domponfnt.isVisiblf()) {
+                        dompDim = domponfnt.gftMinimumSizf();
+                        dim.width += dompDim.width;
+                        dim.hfight = Mbth.mbx(dim.hfight, dompDim.hfight);
+                    }
+                }
+            } flsf {
+                dim.hfight = tb.isFlobtbblf() ?
+                    SynthIdon.gftIdonHfight(hbndlfIdon, dontfxt) : 0;
+                Dimfnsion dompDim;
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    Componfnt domponfnt = tb.gftComponfnt(i);
+                    if (domponfnt.isVisiblf()) {
+                        dompDim = domponfnt.gftMinimumSizf();
+                        dim.width = Mbth.mbx(dim.width, dompDim.width);
+                        dim.hfight += dompDim.hfight;
+                    }
+                }
+            }
+            dim.width += insfts.lfft + insfts.right;
+            dim.hfight += insfts.top + insfts.bottom;
+
+            dontfxt.disposf();
+            rfturn dim;
+        }
+
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            JToolBbr tb = (JToolBbr)pbrfnt;
+            Insfts insfts = tb.gftInsfts();
+            Dimfnsion dim = nfw Dimfnsion();
+            SynthContfxt dontfxt = gftContfxt(tb);
+
+            if (tb.gftOrifntbtion() == JToolBbr.HORIZONTAL) {
+                dim.width = tb.isFlobtbblf() ?
+                    SynthIdon.gftIdonWidth(hbndlfIdon, dontfxt) : 0;
+                Dimfnsion dompDim;
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    Componfnt domponfnt = tb.gftComponfnt(i);
+                    if (domponfnt.isVisiblf()) {
+                        dompDim = domponfnt.gftPrfffrrfdSizf();
+                        dim.width += dompDim.width;
+                        dim.hfight = Mbth.mbx(dim.hfight, dompDim.hfight);
+                    }
+                }
+            } flsf {
+                dim.hfight = tb.isFlobtbblf() ?
+                    SynthIdon.gftIdonHfight(hbndlfIdon, dontfxt) : 0;
+                Dimfnsion dompDim;
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    Componfnt domponfnt = tb.gftComponfnt(i);
+                    if (domponfnt.isVisiblf()) {
+                        dompDim = domponfnt.gftPrfffrrfdSizf();
+                        dim.width = Mbth.mbx(dim.width, dompDim.width);
+                        dim.hfight += dompDim.hfight;
+                    }
+                }
+            }
+            dim.width += insfts.lfft + insfts.right;
+            dim.hfight += insfts.top + insfts.bottom;
+
+            dontfxt.disposf();
+            rfturn dim;
+        }
+
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            JToolBbr tb = (JToolBbr)pbrfnt;
+            Insfts insfts = tb.gftInsfts();
+            boolfbn ltr = tb.gftComponfntOrifntbtion().isLfftToRight();
+            SynthContfxt dontfxt = gftContfxt(tb);
+
+            Componfnt d;
+            Dimfnsion d;
+
+            // JToolBbr by dffbult usfs b somfwhbt modififd BoxLbyout bs
+            // its lbyout mbnbgfr. For dompbtibility rfbsons, wf wbnt to
+            // support Box "gluf" bs b wby to movf things bround on thf
+            // toolbbr. "gluf" is rfprfsfntfd in BoxLbyout bs b Box.Fillfr
+            // with b minimum bnd prfffrrfd sizf of (0,0).
+            // So whbt wf do hfrf is find thf numbfr of sudh gluf fillfrs
+            // bnd figurf out how mudh spbdf should bf bllodbtfd to thfm.
+            int glufCount = 0;
+            for (int i=0; i<tb.gftComponfntCount(); i++) {
+                if (isGluf(tb.gftComponfnt(i))) glufCount++;
+            }
+
+            if (tb.gftOrifntbtion() == JToolBbr.HORIZONTAL) {
+                int hbndlfWidth = tb.isFlobtbblf() ?
+                    SynthIdon.gftIdonWidth(hbndlfIdon, dontfxt) : 0;
+
+                // Notf: dontfntRfdt dofs not tbkf insfts into bddount
+                // sindf it is usfd for dftfrmining thf bounds thbt brf
+                // pbssfd to pbintToolBbrContfntBbdkground().
+                dontfntRfdt.x = ltr ? hbndlfWidth : 0;
+                dontfntRfdt.y = 0;
+                dontfntRfdt.width = tb.gftWidth() - hbndlfWidth;
+                dontfntRfdt.hfight = tb.gftHfight();
+
+                // Howfvfr, wf do tbkf thf insfts into bddount hfrf for
+                // thf purposfs of lbying out thf toolbbr dhild domponfnts.
+                int x = ltr ?
+                    hbndlfWidth + insfts.lfft :
+                    tb.gftWidth() - hbndlfWidth - insfts.right;
+                int bbsfY = insfts.top;
+                int bbsfH = tb.gftHfight() - insfts.top - insfts.bottom;
+
+                // wf nffd to gft thf minimum width for lbying things out
+                // so thbt wf dbn dbldulbtf how mudh fmpty spbdf nffds to
+                // bf distributfd bmong thf "gluf", if bny
+                int fxtrbSpbdfPfrGluf = 0;
+                if (glufCount > 0) {
+                    int minWidth = minimumLbyoutSizf(pbrfnt).width;
+                    fxtrbSpbdfPfrGluf = (tb.gftWidth() - minWidth) / glufCount;
+                    if (fxtrbSpbdfPfrGluf < 0) fxtrbSpbdfPfrGluf = 0;
+                }
+
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    d = tb.gftComponfnt(i);
+                    if (d.isVisiblf()) {
+                        d = d.gftPrfffrrfdSizf();
+                        int y, h;
+                        if (d.hfight >= bbsfH || d instbndfof JSfpbrbtor) {
+                            // Fill bvbilbblf hfight
+                            y = bbsfY;
+                            h = bbsfH;
+                        } flsf {
+                            // Cfntfr domponfnt vfrtidblly in thf bvbilbblf spbdf
+                            y = bbsfY + (bbsfH / 2) - (d.hfight / 2);
+                            h = d.hfight;
+                        }
+                        //if thf domponfnt is b "gluf" domponfnt thfn bdd to its
+                        //width thf fxtrbSpbdfPfrGluf it is duf
+                        if (isGluf(d)) d.width += fxtrbSpbdfPfrGluf;
+                        d.sftBounds(ltr ? x : x - d.width, y, d.width, h);
+                        x = ltr ? x + d.width : x - d.width;
+                    }
+                }
+            } flsf {
+                int hbndlfHfight = tb.isFlobtbblf() ?
+                    SynthIdon.gftIdonHfight(hbndlfIdon, dontfxt) : 0;
+
+                // Sff notfs bbovf rfgbrding thf usf of insfts
+                dontfntRfdt.x = 0;
+                dontfntRfdt.y = hbndlfHfight;
+                dontfntRfdt.width = tb.gftWidth();
+                dontfntRfdt.hfight = tb.gftHfight() - hbndlfHfight;
+
+                int bbsfX = insfts.lfft;
+                int bbsfW = tb.gftWidth() - insfts.lfft - insfts.right;
+                int y = hbndlfHfight + insfts.top;
+
+                // wf nffd to gft thf minimum hfight for lbying things out
+                // so thbt wf dbn dbldulbtf how mudh fmpty spbdf nffds to
+                // bf distributfd bmong thf "gluf", if bny
+                int fxtrbSpbdfPfrGluf = 0;
+                if (glufCount > 0) {
+                    int minHfight = minimumLbyoutSizf(pbrfnt).hfight;
+                    fxtrbSpbdfPfrGluf = (tb.gftHfight() - minHfight) / glufCount;
+                    if (fxtrbSpbdfPfrGluf < 0) fxtrbSpbdfPfrGluf = 0;
+                }
+
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    d = tb.gftComponfnt(i);
+                    if (d.isVisiblf()) {
+                        d = d.gftPrfffrrfdSizf();
+                        int x, w;
+                        if (d.width >= bbsfW || d instbndfof JSfpbrbtor) {
+                            // Fill bvbilbblf width
+                            x = bbsfX;
+                            w = bbsfW;
+                        } flsf {
+                            // Cfntfr domponfnt horizontblly in thf bvbilbblf spbdf
+                            x = bbsfX + (bbsfW / 2) - (d.width / 2);
+                            w = d.width;
+                        }
+                        //if thf domponfnt is b "gluf" domponfnt thfn bdd to its
+                        //hfight thf fxtrbSpbdfPfrGluf it is duf
+                        if (isGluf(d)) d.hfight += fxtrbSpbdfPfrGluf;
+                        d.sftBounds(x, y, w, d.hfight);
+                        y += d.hfight;
+                    }
+                }
+            }
+            dontfxt.disposf();
+        }
+
+        privbtf boolfbn isGluf(Componfnt d) {
+            if (d.isVisiblf() && d instbndfof Box.Fillfr) {
+                Box.Fillfr f = (Box.Fillfr)d;
+                Dimfnsion min = f.gftMinimumSizf();
+                Dimfnsion prff = f.gftPrfffrrfdSizf();
+                rfturn min.width == 0 &&  min.hfight == 0 &&
+                        prff.width == 0 && prff.hfight == 0;
+            }
+            rfturn fblsf;
+        }
+    }
+}

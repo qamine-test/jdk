@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library for prime field curves.
+ * Tif Originbl Codf is tif flliptid durvf mbti librbry for primf fifld durvfs.
  *
- * The Initial Developer of the Original Code is
- * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Sheueling Chang-Shantz <sheueling.chang@sun.com>,
- *   Stephen Fung <fungstep@hotmail.com>, and
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories.
- *   Bodo Moeller <moeller@cdc.informatik.tu-darmstadt.de>,
- *   Nils Larsch <nla@trustcenter.de>, and
- *   Lenka Fibikova <fibikova@exp-math.uni-essen.de>, the OpenSSL Project
+ *   Sifufling Cibng-Sibntz <sifufling.dibng@sun.dom>,
+ *   Stfpifn Fung <fungstfp@iotmbil.dom>, bnd
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs.
+ *   Bodo Mofllfr <mofllfr@ddd.informbtik.tu-dbrmstbdt.df>,
+ *   Nils Lbrsdi <nlb@trustdfntfr.df>, bnd
+ *   Lfnkb Fibikovb <fibikovb@fxp-mbti.uni-fssfn.df>, tif OpfnSSL Projfdt
  *
  *********************************************************************** */
 
-#include "ecp.h"
-#include "mplogic.h"
-#ifndef _KERNEL
-#include <stdlib.h>
-#endif
-#ifdef ECL_DEBUG
-#include <assert.h>
-#endif
+#indludf "fdp.i"
+#indludf "mplogid.i"
+#ifndff _KERNEL
+#indludf <stdlib.i>
+#fndif
+#ifdff ECL_DEBUG
+#indludf <bssfrt.i>
+#fndif
 
-/* Converts a point P(px, py) from affine coordinates to Jacobian
- * projective coordinates R(rx, ry, rz). Assumes input is already
- * field-encoded using field_enc, and returns output that is still
- * field-encoded. */
-mp_err
-ec_GFp_pt_aff2jac(const mp_int *px, const mp_int *py, mp_int *rx,
-                                  mp_int *ry, mp_int *rz, const ECGroup *group)
+/* Convfrts b point P(px, py) from bffinf doordinbtfs to Jbdobibn
+ * projfdtivf doordinbtfs R(rx, ry, rz). Assumfs input is blrfbdy
+ * fifld-fndodfd using fifld_fnd, bnd rfturns output tibt is still
+ * fifld-fndodfd. */
+mp_frr
+fd_GFp_pt_bff2jbd(donst mp_int *px, donst mp_int *py, mp_int *rx,
+                                  mp_int *ry, mp_int *rz, donst ECGroup *group)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
 
-        if (ec_GFp_pt_is_inf_aff(px, py) == MP_YES) {
-                MP_CHECKOK(ec_GFp_pt_set_inf_jac(rx, ry, rz));
-        } else {
-                MP_CHECKOK(mp_copy(px, rx));
-                MP_CHECKOK(mp_copy(py, ry));
-                MP_CHECKOK(mp_set_int(rz, 1));
-                if (group->meth->field_enc) {
-                        MP_CHECKOK(group->meth->field_enc(rz, rz, group->meth));
+        if (fd_GFp_pt_is_inf_bff(px, py) == MP_YES) {
+                MP_CHECKOK(fd_GFp_pt_sft_inf_jbd(rx, ry, rz));
+        } flsf {
+                MP_CHECKOK(mp_dopy(px, rx));
+                MP_CHECKOK(mp_dopy(py, ry));
+                MP_CHECKOK(mp_sft_int(rz, 1));
+                if (group->mfti->fifld_fnd) {
+                        MP_CHECKOK(group->mfti->fifld_fnd(rz, rz, group->mfti));
                 }
         }
   CLEANUP:
-        return res;
+        rfturn rfs;
 }
 
-/* Converts a point P(px, py, pz) from Jacobian projective coordinates to
- * affine coordinates R(rx, ry).  P and R can share x and y coordinates.
- * Assumes input is already field-encoded using field_enc, and returns
- * output that is still field-encoded. */
-mp_err
-ec_GFp_pt_jac2aff(const mp_int *px, const mp_int *py, const mp_int *pz,
-                                  mp_int *rx, mp_int *ry, const ECGroup *group)
+/* Convfrts b point P(px, py, pz) from Jbdobibn projfdtivf doordinbtfs to
+ * bffinf doordinbtfs R(rx, ry).  P bnd R dbn sibrf x bnd y doordinbtfs.
+ * Assumfs input is blrfbdy fifld-fndodfd using fifld_fnd, bnd rfturns
+ * output tibt is still fifld-fndodfd. */
+mp_frr
+fd_GFp_pt_jbd2bff(donst mp_int *px, donst mp_int *py, donst mp_int *pz,
+                                  mp_int *rx, mp_int *ry, donst ECGroup *group)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
         mp_int z1, z2, z3;
 
         MP_DIGITS(&z1) = 0;
@@ -91,61 +91,61 @@ ec_GFp_pt_jac2aff(const mp_int *px, const mp_int *py, const mp_int *pz,
         MP_CHECKOK(mp_init(&z2, FLAG(px)));
         MP_CHECKOK(mp_init(&z3, FLAG(px)));
 
-        /* if point at infinity, then set point at infinity and exit */
-        if (ec_GFp_pt_is_inf_jac(px, py, pz) == MP_YES) {
-                MP_CHECKOK(ec_GFp_pt_set_inf_aff(rx, ry));
+        /* if point bt infinity, tifn sft point bt infinity bnd fxit */
+        if (fd_GFp_pt_is_inf_jbd(px, py, pz) == MP_YES) {
+                MP_CHECKOK(fd_GFp_pt_sft_inf_bff(rx, ry));
                 goto CLEANUP;
         }
 
-        /* transform (px, py, pz) into (px / pz^2, py / pz^3) */
-        if (mp_cmp_d(pz, 1) == 0) {
-                MP_CHECKOK(mp_copy(px, rx));
-                MP_CHECKOK(mp_copy(py, ry));
-        } else {
-                MP_CHECKOK(group->meth->field_div(NULL, pz, &z1, group->meth));
-                MP_CHECKOK(group->meth->field_sqr(&z1, &z2, group->meth));
-                MP_CHECKOK(group->meth->field_mul(&z1, &z2, &z3, group->meth));
-                MP_CHECKOK(group->meth->field_mul(px, &z2, rx, group->meth));
-                MP_CHECKOK(group->meth->field_mul(py, &z3, ry, group->meth));
+        /* trbnsform (px, py, pz) into (px / pz^2, py / pz^3) */
+        if (mp_dmp_d(pz, 1) == 0) {
+                MP_CHECKOK(mp_dopy(px, rx));
+                MP_CHECKOK(mp_dopy(py, ry));
+        } flsf {
+                MP_CHECKOK(group->mfti->fifld_div(NULL, pz, &z1, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_sqr(&z1, &z2, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_mul(&z1, &z2, &z3, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_mul(px, &z2, rx, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_mul(py, &z3, ry, group->mfti));
         }
 
   CLEANUP:
-        mp_clear(&z1);
-        mp_clear(&z2);
-        mp_clear(&z3);
-        return res;
+        mp_dlfbr(&z1);
+        mp_dlfbr(&z2);
+        mp_dlfbr(&z3);
+        rfturn rfs;
 }
 
-/* Checks if point P(px, py, pz) is at infinity. Uses Jacobian
- * coordinates. */
-mp_err
-ec_GFp_pt_is_inf_jac(const mp_int *px, const mp_int *py, const mp_int *pz)
+/* Cifdks if point P(px, py, pz) is bt infinity. Usfs Jbdobibn
+ * doordinbtfs. */
+mp_frr
+fd_GFp_pt_is_inf_jbd(donst mp_int *px, donst mp_int *py, donst mp_int *pz)
 {
-        return mp_cmp_z(pz);
+        rfturn mp_dmp_z(pz);
 }
 
-/* Sets P(px, py, pz) to be the point at infinity.  Uses Jacobian
- * coordinates. */
-mp_err
-ec_GFp_pt_set_inf_jac(mp_int *px, mp_int *py, mp_int *pz)
+/* Sfts P(px, py, pz) to bf tif point bt infinity.  Usfs Jbdobibn
+ * doordinbtfs. */
+mp_frr
+fd_GFp_pt_sft_inf_jbd(mp_int *px, mp_int *py, mp_int *pz)
 {
-        mp_zero(pz);
-        return MP_OKAY;
+        mp_zfro(pz);
+        rfturn MP_OKAY;
 }
 
-/* Computes R = P + Q where R is (rx, ry, rz), P is (px, py, pz) and Q is
- * (qx, qy, 1).  Elliptic curve points P, Q, and R can all be identical.
- * Uses mixed Jacobian-affine coordinates. Assumes input is already
- * field-encoded using field_enc, and returns output that is still
- * field-encoded. Uses equation (2) from Brown, Hankerson, Lopez, and
- * Menezes. Software Implementation of the NIST Elliptic Curves Over Prime
- * Fields. */
-mp_err
-ec_GFp_pt_add_jac_aff(const mp_int *px, const mp_int *py, const mp_int *pz,
-                                          const mp_int *qx, const mp_int *qy, mp_int *rx,
-                                          mp_int *ry, mp_int *rz, const ECGroup *group)
+/* Computfs R = P + Q wifrf R is (rx, ry, rz), P is (px, py, pz) bnd Q is
+ * (qx, qy, 1).  Elliptid durvf points P, Q, bnd R dbn bll bf idfntidbl.
+ * Usfs mixfd Jbdobibn-bffinf doordinbtfs. Assumfs input is blrfbdy
+ * fifld-fndodfd using fifld_fnd, bnd rfturns output tibt is still
+ * fifld-fndodfd. Usfs fqubtion (2) from Brown, Hbnkfrson, Lopfz, bnd
+ * Mfnfzfs. Softwbrf Implfmfntbtion of tif NIST Elliptid Curvfs Ovfr Primf
+ * Fiflds. */
+mp_frr
+fd_GFp_pt_bdd_jbd_bff(donst mp_int *px, donst mp_int *py, donst mp_int *pz,
+                                          donst mp_int *qx, donst mp_int *qy, mp_int *rx,
+                                          mp_int *ry, mp_int *rz, donst ECGroup *group)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
         mp_int A, B, C, D, C2, C3;
 
         MP_DIGITS(&A) = 0;
@@ -161,79 +161,79 @@ ec_GFp_pt_add_jac_aff(const mp_int *px, const mp_int *py, const mp_int *pz,
         MP_CHECKOK(mp_init(&C2, FLAG(px)));
         MP_CHECKOK(mp_init(&C3, FLAG(px)));
 
-        /* If either P or Q is the point at infinity, then return the other
+        /* If fitifr P or Q is tif point bt infinity, tifn rfturn tif otifr
          * point */
-        if (ec_GFp_pt_is_inf_jac(px, py, pz) == MP_YES) {
-                MP_CHECKOK(ec_GFp_pt_aff2jac(qx, qy, rx, ry, rz, group));
+        if (fd_GFp_pt_is_inf_jbd(px, py, pz) == MP_YES) {
+                MP_CHECKOK(fd_GFp_pt_bff2jbd(qx, qy, rx, ry, rz, group));
                 goto CLEANUP;
         }
-        if (ec_GFp_pt_is_inf_aff(qx, qy) == MP_YES) {
-                MP_CHECKOK(mp_copy(px, rx));
-                MP_CHECKOK(mp_copy(py, ry));
-                MP_CHECKOK(mp_copy(pz, rz));
+        if (fd_GFp_pt_is_inf_bff(qx, qy) == MP_YES) {
+                MP_CHECKOK(mp_dopy(px, rx));
+                MP_CHECKOK(mp_dopy(py, ry));
+                MP_CHECKOK(mp_dopy(pz, rz));
                 goto CLEANUP;
         }
 
         /* A = qx * pz^2, B = qy * pz^3 */
-        MP_CHECKOK(group->meth->field_sqr(pz, &A, group->meth));
-        MP_CHECKOK(group->meth->field_mul(&A, pz, &B, group->meth));
-        MP_CHECKOK(group->meth->field_mul(&A, qx, &A, group->meth));
-        MP_CHECKOK(group->meth->field_mul(&B, qy, &B, group->meth));
+        MP_CHECKOK(group->mfti->fifld_sqr(pz, &A, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_mul(&A, pz, &B, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_mul(&A, qx, &A, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_mul(&B, qy, &B, group->mfti));
 
         /* C = A - px, D = B - py */
-        MP_CHECKOK(group->meth->field_sub(&A, px, &C, group->meth));
-        MP_CHECKOK(group->meth->field_sub(&B, py, &D, group->meth));
+        MP_CHECKOK(group->mfti->fifld_sub(&A, px, &C, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_sub(&B, py, &D, group->mfti));
 
         /* C2 = C^2, C3 = C^3 */
-        MP_CHECKOK(group->meth->field_sqr(&C, &C2, group->meth));
-        MP_CHECKOK(group->meth->field_mul(&C, &C2, &C3, group->meth));
+        MP_CHECKOK(group->mfti->fifld_sqr(&C, &C2, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_mul(&C, &C2, &C3, group->mfti));
 
         /* rz = pz * C */
-        MP_CHECKOK(group->meth->field_mul(pz, &C, rz, group->meth));
+        MP_CHECKOK(group->mfti->fifld_mul(pz, &C, rz, group->mfti));
 
         /* C = px * C^2 */
-        MP_CHECKOK(group->meth->field_mul(px, &C2, &C, group->meth));
+        MP_CHECKOK(group->mfti->fifld_mul(px, &C2, &C, group->mfti));
         /* A = D^2 */
-        MP_CHECKOK(group->meth->field_sqr(&D, &A, group->meth));
+        MP_CHECKOK(group->mfti->fifld_sqr(&D, &A, group->mfti));
 
         /* rx = D^2 - (C^3 + 2 * (px * C^2)) */
-        MP_CHECKOK(group->meth->field_add(&C, &C, rx, group->meth));
-        MP_CHECKOK(group->meth->field_add(&C3, rx, rx, group->meth));
-        MP_CHECKOK(group->meth->field_sub(&A, rx, rx, group->meth));
+        MP_CHECKOK(group->mfti->fifld_bdd(&C, &C, rx, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_bdd(&C3, rx, rx, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_sub(&A, rx, rx, group->mfti));
 
         /* C3 = py * C^3 */
-        MP_CHECKOK(group->meth->field_mul(py, &C3, &C3, group->meth));
+        MP_CHECKOK(group->mfti->fifld_mul(py, &C3, &C3, group->mfti));
 
         /* ry = D * (px * C^2 - rx) - py * C^3 */
-        MP_CHECKOK(group->meth->field_sub(&C, rx, ry, group->meth));
-        MP_CHECKOK(group->meth->field_mul(&D, ry, ry, group->meth));
-        MP_CHECKOK(group->meth->field_sub(ry, &C3, ry, group->meth));
+        MP_CHECKOK(group->mfti->fifld_sub(&C, rx, ry, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_mul(&D, ry, ry, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_sub(ry, &C3, ry, group->mfti));
 
   CLEANUP:
-        mp_clear(&A);
-        mp_clear(&B);
-        mp_clear(&C);
-        mp_clear(&D);
-        mp_clear(&C2);
-        mp_clear(&C3);
-        return res;
+        mp_dlfbr(&A);
+        mp_dlfbr(&B);
+        mp_dlfbr(&C);
+        mp_dlfbr(&D);
+        mp_dlfbr(&C2);
+        mp_dlfbr(&C3);
+        rfturn rfs;
 }
 
-/* Computes R = 2P.  Elliptic curve points P and R can be identical.  Uses
- * Jacobian coordinates.
+/* Computfs R = 2P.  Elliptid durvf points P bnd R dbn bf idfntidbl.  Usfs
+ * Jbdobibn doordinbtfs.
  *
- * Assumes input is already field-encoded using field_enc, and returns
- * output that is still field-encoded.
+ * Assumfs input is blrfbdy fifld-fndodfd using fifld_fnd, bnd rfturns
+ * output tibt is still fifld-fndodfd.
  *
- * This routine implements Point Doubling in the Jacobian Projective
- * space as described in the paper "Efficient elliptic curve exponentiation
- * using mixed coordinates", by H. Cohen, A Miyaji, T. Ono.
+ * Tiis routinf implfmfnts Point Doubling in tif Jbdobibn Projfdtivf
+ * spbdf bs dfsdribfd in tif pbpfr "Effidifnt flliptid durvf fxponfntibtion
+ * using mixfd doordinbtfs", by H. Coifn, A Miybji, T. Ono.
  */
-mp_err
-ec_GFp_pt_dbl_jac(const mp_int *px, const mp_int *py, const mp_int *pz,
-                                  mp_int *rx, mp_int *ry, mp_int *rz, const ECGroup *group)
+mp_frr
+fd_GFp_pt_dbl_jbd(donst mp_int *px, donst mp_int *py, donst mp_int *pz,
+                                  mp_int *rx, mp_int *ry, mp_int *rz, donst ECGroup *group)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
         mp_int t0, t1, M, S;
 
         MP_DIGITS(&t0) = 0;
@@ -245,126 +245,126 @@ ec_GFp_pt_dbl_jac(const mp_int *px, const mp_int *py, const mp_int *pz,
         MP_CHECKOK(mp_init(&M, FLAG(px)));
         MP_CHECKOK(mp_init(&S, FLAG(px)));
 
-        if (ec_GFp_pt_is_inf_jac(px, py, pz) == MP_YES) {
-                MP_CHECKOK(ec_GFp_pt_set_inf_jac(rx, ry, rz));
+        if (fd_GFp_pt_is_inf_jbd(px, py, pz) == MP_YES) {
+                MP_CHECKOK(fd_GFp_pt_sft_inf_jbd(rx, ry, rz));
                 goto CLEANUP;
         }
 
-        if (mp_cmp_d(pz, 1) == 0) {
-                /* M = 3 * px^2 + a */
-                MP_CHECKOK(group->meth->field_sqr(px, &t0, group->meth));
-                MP_CHECKOK(group->meth->field_add(&t0, &t0, &M, group->meth));
-                MP_CHECKOK(group->meth->field_add(&t0, &M, &t0, group->meth));
-                MP_CHECKOK(group->meth->
-                                   field_add(&t0, &group->curvea, &M, group->meth));
-        } else if (mp_cmp_int(&group->curvea, -3, FLAG(px)) == 0) {
+        if (mp_dmp_d(pz, 1) == 0) {
+                /* M = 3 * px^2 + b */
+                MP_CHECKOK(group->mfti->fifld_sqr(px, &t0, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_bdd(&t0, &t0, &M, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_bdd(&t0, &M, &t0, group->mfti));
+                MP_CHECKOK(group->mfti->
+                                   fifld_bdd(&t0, &group->durvfb, &M, group->mfti));
+        } flsf if (mp_dmp_int(&group->durvfb, -3, FLAG(px)) == 0) {
                 /* M = 3 * (px + pz^2) * (px - pz^2) */
-                MP_CHECKOK(group->meth->field_sqr(pz, &M, group->meth));
-                MP_CHECKOK(group->meth->field_add(px, &M, &t0, group->meth));
-                MP_CHECKOK(group->meth->field_sub(px, &M, &t1, group->meth));
-                MP_CHECKOK(group->meth->field_mul(&t0, &t1, &M, group->meth));
-                MP_CHECKOK(group->meth->field_add(&M, &M, &t0, group->meth));
-                MP_CHECKOK(group->meth->field_add(&t0, &M, &M, group->meth));
-        } else {
-                /* M = 3 * (px^2) + a * (pz^4) */
-                MP_CHECKOK(group->meth->field_sqr(px, &t0, group->meth));
-                MP_CHECKOK(group->meth->field_add(&t0, &t0, &M, group->meth));
-                MP_CHECKOK(group->meth->field_add(&t0, &M, &t0, group->meth));
-                MP_CHECKOK(group->meth->field_sqr(pz, &M, group->meth));
-                MP_CHECKOK(group->meth->field_sqr(&M, &M, group->meth));
-                MP_CHECKOK(group->meth->
-                                   field_mul(&M, &group->curvea, &M, group->meth));
-                MP_CHECKOK(group->meth->field_add(&M, &t0, &M, group->meth));
+                MP_CHECKOK(group->mfti->fifld_sqr(pz, &M, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_bdd(px, &M, &t0, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_sub(px, &M, &t1, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_mul(&t0, &t1, &M, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_bdd(&M, &M, &t0, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_bdd(&t0, &M, &M, group->mfti));
+        } flsf {
+                /* M = 3 * (px^2) + b * (pz^4) */
+                MP_CHECKOK(group->mfti->fifld_sqr(px, &t0, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_bdd(&t0, &t0, &M, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_bdd(&t0, &M, &t0, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_sqr(pz, &M, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_sqr(&M, &M, group->mfti));
+                MP_CHECKOK(group->mfti->
+                                   fifld_mul(&M, &group->durvfb, &M, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_bdd(&M, &t0, &M, group->mfti));
         }
 
         /* rz = 2 * py * pz */
         /* t0 = 4 * py^2 */
-        if (mp_cmp_d(pz, 1) == 0) {
-                MP_CHECKOK(group->meth->field_add(py, py, rz, group->meth));
-                MP_CHECKOK(group->meth->field_sqr(rz, &t0, group->meth));
-        } else {
-                MP_CHECKOK(group->meth->field_add(py, py, &t0, group->meth));
-                MP_CHECKOK(group->meth->field_mul(&t0, pz, rz, group->meth));
-                MP_CHECKOK(group->meth->field_sqr(&t0, &t0, group->meth));
+        if (mp_dmp_d(pz, 1) == 0) {
+                MP_CHECKOK(group->mfti->fifld_bdd(py, py, rz, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_sqr(rz, &t0, group->mfti));
+        } flsf {
+                MP_CHECKOK(group->mfti->fifld_bdd(py, py, &t0, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_mul(&t0, pz, rz, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_sqr(&t0, &t0, group->mfti));
         }
 
         /* S = 4 * px * py^2 = px * (2 * py)^2 */
-        MP_CHECKOK(group->meth->field_mul(px, &t0, &S, group->meth));
+        MP_CHECKOK(group->mfti->fifld_mul(px, &t0, &S, group->mfti));
 
         /* rx = M^2 - 2 * S */
-        MP_CHECKOK(group->meth->field_add(&S, &S, &t1, group->meth));
-        MP_CHECKOK(group->meth->field_sqr(&M, rx, group->meth));
-        MP_CHECKOK(group->meth->field_sub(rx, &t1, rx, group->meth));
+        MP_CHECKOK(group->mfti->fifld_bdd(&S, &S, &t1, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_sqr(&M, rx, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_sub(rx, &t1, rx, group->mfti));
 
         /* ry = M * (S - rx) - 8 * py^4 */
-        MP_CHECKOK(group->meth->field_sqr(&t0, &t1, group->meth));
+        MP_CHECKOK(group->mfti->fifld_sqr(&t0, &t1, group->mfti));
         if (mp_isodd(&t1)) {
-                MP_CHECKOK(mp_add(&t1, &group->meth->irr, &t1));
+                MP_CHECKOK(mp_bdd(&t1, &group->mfti->irr, &t1));
         }
         MP_CHECKOK(mp_div_2(&t1, &t1));
-        MP_CHECKOK(group->meth->field_sub(&S, rx, &S, group->meth));
-        MP_CHECKOK(group->meth->field_mul(&M, &S, &M, group->meth));
-        MP_CHECKOK(group->meth->field_sub(&M, &t1, ry, group->meth));
+        MP_CHECKOK(group->mfti->fifld_sub(&S, rx, &S, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_mul(&M, &S, &M, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_sub(&M, &t1, ry, group->mfti));
 
   CLEANUP:
-        mp_clear(&t0);
-        mp_clear(&t1);
-        mp_clear(&M);
-        mp_clear(&S);
-        return res;
+        mp_dlfbr(&t0);
+        mp_dlfbr(&t1);
+        mp_dlfbr(&M);
+        mp_dlfbr(&S);
+        rfturn rfs;
 }
 
-/* by default, this routine is unused and thus doesn't need to be compiled */
-#ifdef ECL_ENABLE_GFP_PT_MUL_JAC
-/* Computes R = nP where R is (rx, ry) and P is (px, py). The parameters
- * a, b and p are the elliptic curve coefficients and the prime that
- * determines the field GFp.  Elliptic curve points P and R can be
- * identical.  Uses mixed Jacobian-affine coordinates. Assumes input is
- * already field-encoded using field_enc, and returns output that is still
- * field-encoded. Uses 4-bit window method. */
-mp_err
-ec_GFp_pt_mul_jac(const mp_int *n, const mp_int *px, const mp_int *py,
-                                  mp_int *rx, mp_int *ry, const ECGroup *group)
+/* by dffbult, tiis routinf is unusfd bnd tius dofsn't nffd to bf dompilfd */
+#ifdff ECL_ENABLE_GFP_PT_MUL_JAC
+/* Computfs R = nP wifrf R is (rx, ry) bnd P is (px, py). Tif pbrbmftfrs
+ * b, b bnd p brf tif flliptid durvf dofffidifnts bnd tif primf tibt
+ * dftfrminfs tif fifld GFp.  Elliptid durvf points P bnd R dbn bf
+ * idfntidbl.  Usfs mixfd Jbdobibn-bffinf doordinbtfs. Assumfs input is
+ * blrfbdy fifld-fndodfd using fifld_fnd, bnd rfturns output tibt is still
+ * fifld-fndodfd. Usfs 4-bit window mftiod. */
+mp_frr
+fd_GFp_pt_mul_jbd(donst mp_int *n, donst mp_int *px, donst mp_int *py,
+                                  mp_int *rx, mp_int *ry, donst ECGroup *group)
 {
-        mp_err res = MP_OKAY;
-        mp_int precomp[16][2], rz;
+        mp_frr rfs = MP_OKAY;
+        mp_int prfdomp[16][2], rz;
         int i, ni, d;
 
         MP_DIGITS(&rz) = 0;
         for (i = 0; i < 16; i++) {
-                MP_DIGITS(&precomp[i][0]) = 0;
-                MP_DIGITS(&precomp[i][1]) = 0;
+                MP_DIGITS(&prfdomp[i][0]) = 0;
+                MP_DIGITS(&prfdomp[i][1]) = 0;
         }
 
         ARGCHK(group != NULL, MP_BADARG);
         ARGCHK((n != NULL) && (px != NULL) && (py != NULL), MP_BADARG);
 
-        /* initialize precomputation table */
+        /* initiblizf prfdomputbtion tbblf */
         for (i = 0; i < 16; i++) {
-                MP_CHECKOK(mp_init(&precomp[i][0]));
-                MP_CHECKOK(mp_init(&precomp[i][1]));
+                MP_CHECKOK(mp_init(&prfdomp[i][0]));
+                MP_CHECKOK(mp_init(&prfdomp[i][1]));
         }
 
-        /* fill precomputation table */
-        mp_zero(&precomp[0][0]);
-        mp_zero(&precomp[0][1]);
-        MP_CHECKOK(mp_copy(px, &precomp[1][0]));
-        MP_CHECKOK(mp_copy(py, &precomp[1][1]));
+        /* fill prfdomputbtion tbblf */
+        mp_zfro(&prfdomp[0][0]);
+        mp_zfro(&prfdomp[0][1]);
+        MP_CHECKOK(mp_dopy(px, &prfdomp[1][0]));
+        MP_CHECKOK(mp_dopy(py, &prfdomp[1][1]));
         for (i = 2; i < 16; i++) {
                 MP_CHECKOK(group->
-                                   point_add(&precomp[1][0], &precomp[1][1],
-                                                         &precomp[i - 1][0], &precomp[i - 1][1],
-                                                         &precomp[i][0], &precomp[i][1], group));
+                                   point_bdd(&prfdomp[1][0], &prfdomp[1][1],
+                                                         &prfdomp[i - 1][0], &prfdomp[i - 1][1],
+                                                         &prfdomp[i][0], &prfdomp[i][1], group));
         }
 
-        d = (mpl_significant_bits(n) + 3) / 4;
+        d = (mpl_signifidbnt_bits(n) + 3) / 4;
 
         /* R = inf */
         MP_CHECKOK(mp_init(&rz));
-        MP_CHECKOK(ec_GFp_pt_set_inf_jac(rx, ry, &rz));
+        MP_CHECKOK(fd_GFp_pt_sft_inf_jbd(rx, ry, &rz));
 
         for (i = d - 1; i >= 0; i--) {
-                /* compute window ni */
+                /* domputf window ni */
                 ni = MP_GET_BIT(n, 4 * i + 3);
                 ni <<= 1;
                 ni |= MP_GET_BIT(n, 4 * i + 2);
@@ -373,52 +373,52 @@ ec_GFp_pt_mul_jac(const mp_int *n, const mp_int *px, const mp_int *py,
                 ni <<= 1;
                 ni |= MP_GET_BIT(n, 4 * i);
                 /* R = 2^4 * R */
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
+                MP_CHECKOK(fd_GFp_pt_dbl_jbd(rx, ry, &rz, rx, ry, &rz, group));
+                MP_CHECKOK(fd_GFp_pt_dbl_jbd(rx, ry, &rz, rx, ry, &rz, group));
+                MP_CHECKOK(fd_GFp_pt_dbl_jbd(rx, ry, &rz, rx, ry, &rz, group));
+                MP_CHECKOK(fd_GFp_pt_dbl_jbd(rx, ry, &rz, rx, ry, &rz, group));
                 /* R = R + (ni * P) */
-                MP_CHECKOK(ec_GFp_pt_add_jac_aff
-                                   (rx, ry, &rz, &precomp[ni][0], &precomp[ni][1], rx, ry,
+                MP_CHECKOK(fd_GFp_pt_bdd_jbd_bff
+                                   (rx, ry, &rz, &prfdomp[ni][0], &prfdomp[ni][1], rx, ry,
                                         &rz, group));
         }
 
-        /* convert result S to affine coordinates */
-        MP_CHECKOK(ec_GFp_pt_jac2aff(rx, ry, &rz, rx, ry, group));
+        /* donvfrt rfsult S to bffinf doordinbtfs */
+        MP_CHECKOK(fd_GFp_pt_jbd2bff(rx, ry, &rz, rx, ry, group));
 
   CLEANUP:
-        mp_clear(&rz);
+        mp_dlfbr(&rz);
         for (i = 0; i < 16; i++) {
-                mp_clear(&precomp[i][0]);
-                mp_clear(&precomp[i][1]);
+                mp_dlfbr(&prfdomp[i][0]);
+                mp_dlfbr(&prfdomp[i][1]);
         }
-        return res;
+        rfturn rfs;
 }
-#endif
+#fndif
 
-/* Elliptic curve scalar-point multiplication. Computes R(x, y) = k1 * G +
- * k2 * P(x, y), where G is the generator (base point) of the group of
- * points on the elliptic curve. Allows k1 = NULL or { k2, P } = NULL.
- * Uses mixed Jacobian-affine coordinates. Input and output values are
- * assumed to be NOT field-encoded. Uses algorithm 15 (simultaneous
- * multiple point multiplication) from Brown, Hankerson, Lopez, Menezes.
- * Software Implementation of the NIST Elliptic Curves over Prime Fields. */
-mp_err
-ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
-                                   const mp_int *py, mp_int *rx, mp_int *ry,
-                                   const ECGroup *group)
+/* Elliptid durvf sdblbr-point multiplidbtion. Computfs R(x, y) = k1 * G +
+ * k2 * P(x, y), wifrf G is tif gfnfrbtor (bbsf point) of tif group of
+ * points on tif flliptid durvf. Allows k1 = NULL or { k2, P } = NULL.
+ * Usfs mixfd Jbdobibn-bffinf doordinbtfs. Input bnd output vblufs brf
+ * bssumfd to bf NOT fifld-fndodfd. Usfs blgoritim 15 (simultbnfous
+ * multiplf point multiplidbtion) from Brown, Hbnkfrson, Lopfz, Mfnfzfs.
+ * Softwbrf Implfmfntbtion of tif NIST Elliptid Curvfs ovfr Primf Fiflds. */
+mp_frr
+fd_GFp_pts_mul_jbd(donst mp_int *k1, donst mp_int *k2, donst mp_int *px,
+                                   donst mp_int *py, mp_int *rx, mp_int *ry,
+                                   donst ECGroup *group)
 {
-        mp_err res = MP_OKAY;
-        mp_int precomp[4][4][2];
+        mp_frr rfs = MP_OKAY;
+        mp_int prfdomp[4][4][2];
         mp_int rz;
-        const mp_int *a, *b;
+        donst mp_int *b, *b;
         int i, j;
-        int ai, bi, d;
+        int bi, bi, d;
 
         for (i = 0; i < 4; i++) {
                 for (j = 0; j < 4; j++) {
-                        MP_DIGITS(&precomp[i][j][0]) = 0;
-                        MP_DIGITS(&precomp[i][j][1]) = 0;
+                        MP_DIGITS(&prfdomp[i][j][0]) = 0;
+                        MP_DIGITS(&prfdomp[i][j][1]) = 0;
                 }
         }
         MP_DIGITS(&rz) = 0;
@@ -428,127 +428,127 @@ ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
                          && ((k2 == NULL) || (px == NULL)
                                  || (py == NULL))), MP_BADARG);
 
-        /* if some arguments are not defined used ECPoint_mul */
+        /* if somf brgumfnts brf not dffinfd usfd ECPoint_mul */
         if (k1 == NULL) {
-                return ECPoint_mul(group, k2, px, py, rx, ry);
-        } else if ((k2 == NULL) || (px == NULL) || (py == NULL)) {
-                return ECPoint_mul(group, k1, NULL, NULL, rx, ry);
+                rfturn ECPoint_mul(group, k2, px, py, rx, ry);
+        } flsf if ((k2 == NULL) || (px == NULL) || (py == NULL)) {
+                rfturn ECPoint_mul(group, k1, NULL, NULL, rx, ry);
         }
 
-        /* initialize precomputation table */
+        /* initiblizf prfdomputbtion tbblf */
         for (i = 0; i < 4; i++) {
                 for (j = 0; j < 4; j++) {
-                        MP_CHECKOK(mp_init(&precomp[i][j][0], FLAG(k1)));
-                        MP_CHECKOK(mp_init(&precomp[i][j][1], FLAG(k1)));
+                        MP_CHECKOK(mp_init(&prfdomp[i][j][0], FLAG(k1)));
+                        MP_CHECKOK(mp_init(&prfdomp[i][j][1], FLAG(k1)));
                 }
         }
 
-        /* fill precomputation table */
-        /* assign {k1, k2} = {a, b} such that len(a) >= len(b) */
-        if (mpl_significant_bits(k1) < mpl_significant_bits(k2)) {
-                a = k2;
-                b = k1;
-                if (group->meth->field_enc) {
-                        MP_CHECKOK(group->meth->
-                                           field_enc(px, &precomp[1][0][0], group->meth));
-                        MP_CHECKOK(group->meth->
-                                           field_enc(py, &precomp[1][0][1], group->meth));
-                } else {
-                        MP_CHECKOK(mp_copy(px, &precomp[1][0][0]));
-                        MP_CHECKOK(mp_copy(py, &precomp[1][0][1]));
-                }
-                MP_CHECKOK(mp_copy(&group->genx, &precomp[0][1][0]));
-                MP_CHECKOK(mp_copy(&group->geny, &precomp[0][1][1]));
-        } else {
-                a = k1;
+        /* fill prfdomputbtion tbblf */
+        /* bssign {k1, k2} = {b, b} sudi tibt lfn(b) >= lfn(b) */
+        if (mpl_signifidbnt_bits(k1) < mpl_signifidbnt_bits(k2)) {
                 b = k2;
-                MP_CHECKOK(mp_copy(&group->genx, &precomp[1][0][0]));
-                MP_CHECKOK(mp_copy(&group->geny, &precomp[1][0][1]));
-                if (group->meth->field_enc) {
-                        MP_CHECKOK(group->meth->
-                                           field_enc(px, &precomp[0][1][0], group->meth));
-                        MP_CHECKOK(group->meth->
-                                           field_enc(py, &precomp[0][1][1], group->meth));
-                } else {
-                        MP_CHECKOK(mp_copy(px, &precomp[0][1][0]));
-                        MP_CHECKOK(mp_copy(py, &precomp[0][1][1]));
+                b = k1;
+                if (group->mfti->fifld_fnd) {
+                        MP_CHECKOK(group->mfti->
+                                           fifld_fnd(px, &prfdomp[1][0][0], group->mfti));
+                        MP_CHECKOK(group->mfti->
+                                           fifld_fnd(py, &prfdomp[1][0][1], group->mfti));
+                } flsf {
+                        MP_CHECKOK(mp_dopy(px, &prfdomp[1][0][0]));
+                        MP_CHECKOK(mp_dopy(py, &prfdomp[1][0][1]));
+                }
+                MP_CHECKOK(mp_dopy(&group->gfnx, &prfdomp[0][1][0]));
+                MP_CHECKOK(mp_dopy(&group->gfny, &prfdomp[0][1][1]));
+        } flsf {
+                b = k1;
+                b = k2;
+                MP_CHECKOK(mp_dopy(&group->gfnx, &prfdomp[1][0][0]));
+                MP_CHECKOK(mp_dopy(&group->gfny, &prfdomp[1][0][1]));
+                if (group->mfti->fifld_fnd) {
+                        MP_CHECKOK(group->mfti->
+                                           fifld_fnd(px, &prfdomp[0][1][0], group->mfti));
+                        MP_CHECKOK(group->mfti->
+                                           fifld_fnd(py, &prfdomp[0][1][1], group->mfti));
+                } flsf {
+                        MP_CHECKOK(mp_dopy(px, &prfdomp[0][1][0]));
+                        MP_CHECKOK(mp_dopy(py, &prfdomp[0][1][1]));
                 }
         }
-        /* precompute [*][0][*] */
-        mp_zero(&precomp[0][0][0]);
-        mp_zero(&precomp[0][0][1]);
+        /* prfdomputf [*][0][*] */
+        mp_zfro(&prfdomp[0][0][0]);
+        mp_zfro(&prfdomp[0][0][1]);
         MP_CHECKOK(group->
-                           point_dbl(&precomp[1][0][0], &precomp[1][0][1],
-                                                 &precomp[2][0][0], &precomp[2][0][1], group));
+                           point_dbl(&prfdomp[1][0][0], &prfdomp[1][0][1],
+                                                 &prfdomp[2][0][0], &prfdomp[2][0][1], group));
         MP_CHECKOK(group->
-                           point_add(&precomp[1][0][0], &precomp[1][0][1],
-                                                 &precomp[2][0][0], &precomp[2][0][1],
-                                                 &precomp[3][0][0], &precomp[3][0][1], group));
-        /* precompute [*][1][*] */
+                           point_bdd(&prfdomp[1][0][0], &prfdomp[1][0][1],
+                                                 &prfdomp[2][0][0], &prfdomp[2][0][1],
+                                                 &prfdomp[3][0][0], &prfdomp[3][0][1], group));
+        /* prfdomputf [*][1][*] */
         for (i = 1; i < 4; i++) {
                 MP_CHECKOK(group->
-                                   point_add(&precomp[0][1][0], &precomp[0][1][1],
-                                                         &precomp[i][0][0], &precomp[i][0][1],
-                                                         &precomp[i][1][0], &precomp[i][1][1], group));
+                                   point_bdd(&prfdomp[0][1][0], &prfdomp[0][1][1],
+                                                         &prfdomp[i][0][0], &prfdomp[i][0][1],
+                                                         &prfdomp[i][1][0], &prfdomp[i][1][1], group));
         }
-        /* precompute [*][2][*] */
+        /* prfdomputf [*][2][*] */
         MP_CHECKOK(group->
-                           point_dbl(&precomp[0][1][0], &precomp[0][1][1],
-                                                 &precomp[0][2][0], &precomp[0][2][1], group));
+                           point_dbl(&prfdomp[0][1][0], &prfdomp[0][1][1],
+                                                 &prfdomp[0][2][0], &prfdomp[0][2][1], group));
         for (i = 1; i < 4; i++) {
                 MP_CHECKOK(group->
-                                   point_add(&precomp[0][2][0], &precomp[0][2][1],
-                                                         &precomp[i][0][0], &precomp[i][0][1],
-                                                         &precomp[i][2][0], &precomp[i][2][1], group));
+                                   point_bdd(&prfdomp[0][2][0], &prfdomp[0][2][1],
+                                                         &prfdomp[i][0][0], &prfdomp[i][0][1],
+                                                         &prfdomp[i][2][0], &prfdomp[i][2][1], group));
         }
-        /* precompute [*][3][*] */
+        /* prfdomputf [*][3][*] */
         MP_CHECKOK(group->
-                           point_add(&precomp[0][1][0], &precomp[0][1][1],
-                                                 &precomp[0][2][0], &precomp[0][2][1],
-                                                 &precomp[0][3][0], &precomp[0][3][1], group));
+                           point_bdd(&prfdomp[0][1][0], &prfdomp[0][1][1],
+                                                 &prfdomp[0][2][0], &prfdomp[0][2][1],
+                                                 &prfdomp[0][3][0], &prfdomp[0][3][1], group));
         for (i = 1; i < 4; i++) {
                 MP_CHECKOK(group->
-                                   point_add(&precomp[0][3][0], &precomp[0][3][1],
-                                                         &precomp[i][0][0], &precomp[i][0][1],
-                                                         &precomp[i][3][0], &precomp[i][3][1], group));
+                                   point_bdd(&prfdomp[0][3][0], &prfdomp[0][3][1],
+                                                         &prfdomp[i][0][0], &prfdomp[i][0][1],
+                                                         &prfdomp[i][3][0], &prfdomp[i][3][1], group));
         }
 
-        d = (mpl_significant_bits(a) + 1) / 2;
+        d = (mpl_signifidbnt_bits(b) + 1) / 2;
 
         /* R = inf */
         MP_CHECKOK(mp_init(&rz, FLAG(k1)));
-        MP_CHECKOK(ec_GFp_pt_set_inf_jac(rx, ry, &rz));
+        MP_CHECKOK(fd_GFp_pt_sft_inf_jbd(rx, ry, &rz));
 
         for (i = d - 1; i >= 0; i--) {
-                ai = MP_GET_BIT(a, 2 * i + 1);
-                ai <<= 1;
-                ai |= MP_GET_BIT(a, 2 * i);
+                bi = MP_GET_BIT(b, 2 * i + 1);
+                bi <<= 1;
+                bi |= MP_GET_BIT(b, 2 * i);
                 bi = MP_GET_BIT(b, 2 * i + 1);
                 bi <<= 1;
                 bi |= MP_GET_BIT(b, 2 * i);
                 /* R = 2^2 * R */
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
-                /* R = R + (ai * A + bi * B) */
-                MP_CHECKOK(ec_GFp_pt_add_jac_aff
-                                   (rx, ry, &rz, &precomp[ai][bi][0], &precomp[ai][bi][1],
+                MP_CHECKOK(fd_GFp_pt_dbl_jbd(rx, ry, &rz, rx, ry, &rz, group));
+                MP_CHECKOK(fd_GFp_pt_dbl_jbd(rx, ry, &rz, rx, ry, &rz, group));
+                /* R = R + (bi * A + bi * B) */
+                MP_CHECKOK(fd_GFp_pt_bdd_jbd_bff
+                                   (rx, ry, &rz, &prfdomp[bi][bi][0], &prfdomp[bi][bi][1],
                                         rx, ry, &rz, group));
         }
 
-        MP_CHECKOK(ec_GFp_pt_jac2aff(rx, ry, &rz, rx, ry, group));
+        MP_CHECKOK(fd_GFp_pt_jbd2bff(rx, ry, &rz, rx, ry, group));
 
-        if (group->meth->field_dec) {
-                MP_CHECKOK(group->meth->field_dec(rx, rx, group->meth));
-                MP_CHECKOK(group->meth->field_dec(ry, ry, group->meth));
+        if (group->mfti->fifld_dfd) {
+                MP_CHECKOK(group->mfti->fifld_dfd(rx, rx, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_dfd(ry, ry, group->mfti));
         }
 
   CLEANUP:
-        mp_clear(&rz);
+        mp_dlfbr(&rz);
         for (i = 0; i < 4; i++) {
                 for (j = 0; j < 4; j++) {
-                        mp_clear(&precomp[i][j][0]);
-                        mp_clear(&precomp[i][j][1]);
+                        mp_dlfbr(&prfdomp[i][j][0]);
+                        mp_dlfbr(&prfdomp[i][j][1]);
                 }
         }
-        return res;
+        rfturn rfs;
 }

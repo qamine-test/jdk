@@ -1,255 +1,255 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.image.ImageConsumer;
-import java.awt.image.ColorModel;
-import java.util.Hashtable;
-import java.awt.Rectangle;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.util.Hbsitbblf;
+import jbvb.bwt.Rfdtbnglf;
 
 /**
- * An ImageFilter class for scaling images using the simplest algorithm.
- * This class extends the basic ImageFilter Class to scale an existing
- * image and provide a source for a new image containing the resampled
- * image.  The pixels in the source image are sampled to produce pixels
- * for an image of the specified size by replicating rows and columns of
- * pixels to scale up or omitting rows and columns of pixels to scale
+ * An ImbgfFiltfr dlbss for sdbling imbgfs using tif simplfst blgoritim.
+ * Tiis dlbss fxtfnds tif bbsid ImbgfFiltfr Clbss to sdblf bn fxisting
+ * imbgf bnd providf b sourdf for b nfw imbgf dontbining tif rfsbmplfd
+ * imbgf.  Tif pixfls in tif sourdf imbgf brf sbmplfd to produdf pixfls
+ * for bn imbgf of tif spfdififd sizf by rfplidbting rows bnd dolumns of
+ * pixfls to sdblf up or omitting rows bnd dolumns of pixfls to sdblf
  * down.
- * <p>It is meant to be used in conjunction with a FilteredImageSource
- * object to produce scaled versions of existing images.  Due to
- * implementation dependencies, there may be differences in pixel values
- * of an image filtered on different platforms.
+ * <p>It is mfbnt to bf usfd in donjundtion witi b FiltfrfdImbgfSourdf
+ * objfdt to produdf sdblfd vfrsions of fxisting imbgfs.  Duf to
+ * implfmfntbtion dfpfndfndifs, tifrf mby bf difffrfndfs in pixfl vblufs
+ * of bn imbgf filtfrfd on difffrfnt plbtforms.
  *
- * @see FilteredImageSource
- * @see ImageFilter
+ * @sff FiltfrfdImbgfSourdf
+ * @sff ImbgfFiltfr
  *
- * @author      Jim Graham
+ * @butior      Jim Grbibm
  */
-public class ReplicateScaleFilter extends ImageFilter {
+publid dlbss RfplidbtfSdblfFiltfr fxtfnds ImbgfFiltfr {
 
     /**
-     * The width of the source image.
+     * Tif widti of tif sourdf imbgf.
      */
-    protected int srcWidth;
+    protfdtfd int srdWidti;
 
     /**
-     * The height of the source image.
+     * Tif ifigit of tif sourdf imbgf.
      */
-    protected int srcHeight;
+    protfdtfd int srdHfigit;
 
     /**
-     * The target width to scale the image.
+     * Tif tbrgft widti to sdblf tif imbgf.
      */
-    protected int destWidth;
+    protfdtfd int dfstWidti;
 
     /**
-     * The target height to scale the image.
+     * Tif tbrgft ifigit to sdblf tif imbgf.
      */
-    protected int destHeight;
+    protfdtfd int dfstHfigit;
 
     /**
-     * An <code>int</code> array containing information about a
-     * row of pixels.
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * row of pixfls.
      */
-    protected int srcrows[];
+    protfdtfd int srdrows[];
 
     /**
-     * An <code>int</code> array containing information about a
-     * column of pixels.
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * dolumn of pixfls.
      */
-    protected int srccols[];
+    protfdtfd int srddols[];
 
     /**
-     * A <code>byte</code> array initialized with a size of
-     * {@link #destWidth} and used to deliver a row of pixel
-     * data to the {@link ImageConsumer}.
+     * A <dodf>bytf</dodf> brrby initiblizfd witi b sizf of
+     * {@link #dfstWidti} bnd usfd to dflivfr b row of pixfl
+     * dbtb to tif {@link ImbgfConsumfr}.
      */
-    protected Object outpixbuf;
+    protfdtfd Objfdt outpixbuf;
 
     /**
-     * Constructs a ReplicateScaleFilter that scales the pixels from
-     * its source Image as specified by the width and height parameters.
-     * @param width the target width to scale the image
-     * @param height the target height to scale the image
-     * @throws IllegalArgumentException if <code>width</code> equals
-     *         zero or <code>height</code> equals zero
+     * Construdts b RfplidbtfSdblfFiltfr tibt sdblfs tif pixfls from
+     * its sourdf Imbgf bs spfdififd by tif widti bnd ifigit pbrbmftfrs.
+     * @pbrbm widti tif tbrgft widti to sdblf tif imbgf
+     * @pbrbm ifigit tif tbrgft ifigit to sdblf tif imbgf
+     * @tirows IllfgblArgumfntExdfption if <dodf>widti</dodf> fqubls
+     *         zfro or <dodf>ifigit</dodf> fqubls zfro
      */
-    public ReplicateScaleFilter(int width, int height) {
-        if (width == 0 || height == 0) {
-            throw new IllegalArgumentException("Width ("+width+
-                                                ") and height ("+height+
-                                                ") must be non-zero");
+    publid RfplidbtfSdblfFiltfr(int widti, int ifigit) {
+        if (widti == 0 || ifigit == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Widti ("+widti+
+                                                ") bnd ifigit ("+ifigit+
+                                                ") must bf non-zfro");
         }
-        destWidth = width;
-        destHeight = height;
+        dfstWidti = widti;
+        dfstHfigit = ifigit;
     }
 
     /**
-     * Passes along the properties from the source object after adding a
-     * property indicating the scale applied.
-     * This method invokes <code>super.setProperties</code>,
-     * which might result in additional properties being added.
+     * Pbssfs blong tif propfrtifs from tif sourdf objfdt bftfr bdding b
+     * propfrty indidbting tif sdblf bpplifd.
+     * Tiis mftiod invokfs <dodf>supfr.sftPropfrtifs</dodf>,
+     * wiidi migit rfsult in bdditionbl propfrtifs bfing bddfd.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose pixels
-     * are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
      */
-    public void setProperties(Hashtable<?,?> props) {
-        @SuppressWarnings("unchecked")
-        Hashtable<Object,Object> p = (Hashtable<Object,Object>)props.clone();
-        String key = "rescale";
-        String val = destWidth + "x" + destHeight;
-        Object o = p.get(key);
-        if (o != null && o instanceof String) {
-            val = ((String) o) + ", " + val;
+    publid void sftPropfrtifs(Hbsitbblf<?,?> props) {
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<Objfdt,Objfdt> p = (Hbsitbblf<Objfdt,Objfdt>)props.dlonf();
+        String kfy = "rfsdblf";
+        String vbl = dfstWidti + "x" + dfstHfigit;
+        Objfdt o = p.gft(kfy);
+        if (o != null && o instbndfof String) {
+            vbl = ((String) o) + ", " + vbl;
         }
-        p.put(key, val);
-        super.setProperties(p);
+        p.put(kfy, vbl);
+        supfr.sftPropfrtifs(p);
     }
 
     /**
-     * Override the dimensions of the source image and pass the dimensions
-     * of the new scaled size to the ImageConsumer.
+     * Ovfrridf tif dimfnsions of tif sourdf imbgf bnd pbss tif dimfnsions
+     * of tif nfw sdblfd sizf to tif ImbgfConsumfr.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose pixels
-     * are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ImageConsumer
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
+     * @sff ImbgfConsumfr
      */
-    public void setDimensions(int w, int h) {
-        srcWidth = w;
-        srcHeight = h;
-        if (destWidth < 0) {
-            if (destHeight < 0) {
-                destWidth = srcWidth;
-                destHeight = srcHeight;
-            } else {
-                destWidth = srcWidth * destHeight / srcHeight;
+    publid void sftDimfnsions(int w, int i) {
+        srdWidti = w;
+        srdHfigit = i;
+        if (dfstWidti < 0) {
+            if (dfstHfigit < 0) {
+                dfstWidti = srdWidti;
+                dfstHfigit = srdHfigit;
+            } flsf {
+                dfstWidti = srdWidti * dfstHfigit / srdHfigit;
             }
-        } else if (destHeight < 0) {
-            destHeight = srcHeight * destWidth / srcWidth;
+        } flsf if (dfstHfigit < 0) {
+            dfstHfigit = srdHfigit * dfstWidti / srdWidti;
         }
-        consumer.setDimensions(destWidth, destHeight);
+        donsumfr.sftDimfnsions(dfstWidti, dfstHfigit);
     }
 
-    private void calculateMaps() {
-        srcrows = new int[destHeight + 1];
-        for (int y = 0; y <= destHeight; y++) {
-            srcrows[y] = (2 * y * srcHeight + srcHeight) / (2 * destHeight);
+    privbtf void dbldulbtfMbps() {
+        srdrows = nfw int[dfstHfigit + 1];
+        for (int y = 0; y <= dfstHfigit; y++) {
+            srdrows[y] = (2 * y * srdHfigit + srdHfigit) / (2 * dfstHfigit);
         }
-        srccols = new int[destWidth + 1];
-        for (int x = 0; x <= destWidth; x++) {
-            srccols[x] = (2 * x * srcWidth + srcWidth) / (2 * destWidth);
+        srddols = nfw int[dfstWidti + 1];
+        for (int x = 0; x <= dfstWidti; x++) {
+            srddols[x] = (2 * x * srdWidti + srdWidti) / (2 * dfstWidti);
         }
     }
 
     /**
-     * Choose which rows and columns of the delivered byte pixels are
-     * needed for the destination scaled image and pass through just
-     * those rows and columns that are needed, replicated as necessary.
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd bytf pixfls brf
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose pixels
-     * are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
      */
-    public void setPixels(int x, int y, int w, int h,
-                          ColorModel model, byte pixels[], int off,
-                          int scansize) {
-        if (srcrows == null || srccols == null) {
-            calculateMaps();
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          int sdbnsizf) {
+        if (srdrows == null || srddols == null) {
+            dbldulbtfMbps();
         }
         int sx, sy;
-        int dx1 = (2 * x * destWidth + srcWidth - 1) / (2 * srcWidth);
-        int dy1 = (2 * y * destHeight + srcHeight - 1) / (2 * srcHeight);
-        byte outpix[];
-        if (outpixbuf != null && outpixbuf instanceof byte[]) {
-            outpix = (byte[]) outpixbuf;
-        } else {
-            outpix = new byte[destWidth];
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        bytf outpix[];
+        if (outpixbuf != null && outpixbuf instbndfof bytf[]) {
+            outpix = (bytf[]) outpixbuf;
+        } flsf {
+            outpix = nfw bytf[dfstWidti];
             outpixbuf = outpix;
         }
-        for (int dy = dy1; (sy = srcrows[dy]) < y + h; dy++) {
-            int srcoff = off + scansize * (sy - y);
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+            int srdoff = off + sdbnsizf * (sy - y);
             int dx;
-            for (dx = dx1; (sx = srccols[dx]) < x + w; dx++) {
-                outpix[dx] = pixels[srcoff + sx - x];
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+                outpix[dx] = pixfls[srdoff + sx - x];
             }
             if (dx > dx1) {
-                consumer.setPixels(dx1, dy, dx - dx1, 1,
-                                   model, outpix, dx1, destWidth);
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                                   modfl, outpix, dx1, dfstWidti);
             }
         }
     }
 
     /**
-     * Choose which rows and columns of the delivered int pixels are
-     * needed for the destination scaled image and pass through just
-     * those rows and columns that are needed, replicated as necessary.
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd int pixfls brf
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose pixels
-     * are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
      */
-    public void setPixels(int x, int y, int w, int h,
-                          ColorModel model, int pixels[], int off,
-                          int scansize) {
-        if (srcrows == null || srccols == null) {
-            calculateMaps();
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
+        if (srdrows == null || srddols == null) {
+            dbldulbtfMbps();
         }
         int sx, sy;
-        int dx1 = (2 * x * destWidth + srcWidth - 1) / (2 * srcWidth);
-        int dy1 = (2 * y * destHeight + srcHeight - 1) / (2 * srcHeight);
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
         int outpix[];
-        if (outpixbuf != null && outpixbuf instanceof int[]) {
+        if (outpixbuf != null && outpixbuf instbndfof int[]) {
             outpix = (int[]) outpixbuf;
-        } else {
-            outpix = new int[destWidth];
+        } flsf {
+            outpix = nfw int[dfstWidti];
             outpixbuf = outpix;
         }
-        for (int dy = dy1; (sy = srcrows[dy]) < y + h; dy++) {
-            int srcoff = off + scansize * (sy - y);
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+            int srdoff = off + sdbnsizf * (sy - y);
             int dx;
-            for (dx = dx1; (sx = srccols[dx]) < x + w; dx++) {
-                outpix[dx] = pixels[srcoff + sx - x];
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+                outpix[dx] = pixfls[srdoff + sx - x];
             }
             if (dx > dx1) {
-                consumer.setPixels(dx1, dy, dx - dx1, 1,
-                                   model, outpix, dx1, destWidth);
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                                   modfl, outpix, dx1, dfstWidti);
             }
         }
     }

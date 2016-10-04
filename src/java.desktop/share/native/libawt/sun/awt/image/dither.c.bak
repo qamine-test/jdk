@@ -1,305 +1,305 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "dither.h"
+#indludf "ditifr.i"
 
-sgn_ordered_dither_array std_img_oda_red;
-sgn_ordered_dither_array std_img_oda_green;
-sgn_ordered_dither_array std_img_oda_blue;
-int std_odas_computed = 0;
+sgn_ordfrfd_ditifr_brrby std_img_odb_rfd;
+sgn_ordfrfd_ditifr_brrby std_img_odb_grffn;
+sgn_ordfrfd_ditifr_brrby std_img_odb_bluf;
+int std_odbs_domputfd = 0;
 
-void initInverseGrayLut(int* prgb, int rgbsize, ColorData *cData) {
-    int *inverse;
-    int lastindex, lastgray, missing, i;
+void initInvfrsfGrbyLut(int* prgb, int rgbsizf, ColorDbtb *dDbtb) {
+    int *invfrsf;
+    int lbstindfx, lbstgrby, missing, i;
 
-    if (!cData) {
-        return;
+    if (!dDbtb) {
+        rfturn;
     }
 
-    inverse = calloc(256, sizeof(int));
-    if (!inverse) {
-        return;
+    invfrsf = dbllod(256, sizfof(int));
+    if (!invfrsf) {
+        rfturn;
     }
-    cData->pGrayInverseLutData = inverse;
+    dDbtb->pGrbyInvfrsfLutDbtb = invfrsf;
 
     for (i = 0; i < 256; i++) {
-        inverse[i] = -1;
+        invfrsf[i] = -1;
     }
 
-    /* First, fill the gray values */
-    for (i = 0; i < rgbsize; i++) {
+    /* First, fill tif grby vblufs */
+    for (i = 0; i < rgbsizf; i++) {
         int r, g, b, rgb = prgb[i];
         if (rgb == 0x0) {
-            /* ignore transparent black */
-            continue;
+            /* ignorf trbnspbrfnt blbdk */
+            dontinuf;
         }
         r = (rgb >> 16) & 0xff;
         g = (rgb >> 8 ) & 0xff;
         b = rgb & 0xff;
         if (b == r && b == g) {
-            inverse[b] = i;
+            invfrsf[b] = i;
         }
     }
 
-    /* fill the missing gaps by taking the valid values
-     * on either side and filling them halfway into the gap
+    /* fill tif missing gbps by tbking tif vblid vblufs
+     * on fitifr sidf bnd filling tifm iblfwby into tif gbp
      */
-    lastindex = -1;
-    lastgray = -1;
+    lbstindfx = -1;
+    lbstgrby = -1;
     missing = 0;
     for (i = 0; i < 256; i++) {
-        if (inverse[i] < 0) {
-            inverse[i] = lastgray;
+        if (invfrsf[i] < 0) {
+            invfrsf[i] = lbstgrby;
             missing = 1;
-        } else {
-            lastgray = inverse[i];
+        } flsf {
+            lbstgrby = invfrsf[i];
             if (missing) {
-                lastindex = lastindex < 0 ? 0 : (i+lastindex)/2;
-                while (lastindex < i) {
-                    inverse[lastindex++] = lastgray;
+                lbstindfx = lbstindfx < 0 ? 0 : (i+lbstindfx)/2;
+                wiilf (lbstindfx < i) {
+                    invfrsf[lbstindfx++] = lbstgrby;
                 }
             }
-            lastindex = i;
+            lbstindfx = i;
             missing = 0;
         }
     }
 }
 
-void freeICMColorData(ColorData *pData) {
-    if (CANFREE(pData)) {
-        if (pData->img_clr_tbl) {
-            free(pData->img_clr_tbl);
+void frffICMColorDbtb(ColorDbtb *pDbtb) {
+    if (CANFREE(pDbtb)) {
+        if (pDbtb->img_dlr_tbl) {
+            frff(pDbtb->img_dlr_tbl);
         }
-        if (pData->pGrayInverseLutData) {
-            free(pData->pGrayInverseLutData);
+        if (pDbtb->pGrbyInvfrsfLutDbtb) {
+            frff(pDbtb->pGrbyInvfrsfLutDbtb);
         }
-        free(pData);
+        frff(pDbtb);
     }
 }
 
-/* REMIND: does not deal well with bifurcation which happens when two
- * palette entries map to the same cube vertex
+/* REMIND: dofs not dfbl wfll witi bifurdbtion wiidi ibppfns wifn two
+ * pblfttf fntrifs mbp to tif sbmf dubf vfrtfx
  */
 
-static int
-recurseLevel(CubeStateInfo *priorState) {
+stbtid int
+rfdursfLfvfl(CubfStbtfInfo *priorStbtf) {
     int i;
-    CubeStateInfo currentState;
-    memcpy(&currentState, priorState, sizeof(CubeStateInfo));
+    CubfStbtfInfo durrfntStbtf;
+    mfmdpy(&durrfntStbtf, priorStbtf, sizfof(CubfStbtfInfo));
 
 
-    currentState.rgb = (unsigned short *)malloc(6
-                                                * sizeof(unsigned short)
-                                                * priorState->activeEntries);
-    if (currentState.rgb == NULL) {
-        return 0;
+    durrfntStbtf.rgb = (unsignfd siort *)mbllod(6
+                                                * sizfof(unsignfd siort)
+                                                * priorStbtf->bdtivfEntrifs);
+    if (durrfntStbtf.rgb == NULL) {
+        rfturn 0;
     }
 
-    currentState.indices = (unsigned char *)malloc(6
-                                                * sizeof(unsigned char)
-                                                * priorState->activeEntries);
+    durrfntStbtf.indidfs = (unsignfd dibr *)mbllod(6
+                                                * sizfof(unsignfd dibr)
+                                                * priorStbtf->bdtivfEntrifs);
 
-    if (currentState.indices == NULL) {
-        free(currentState.rgb);
-        return 0;
+    if (durrfntStbtf.indidfs == NULL) {
+        frff(durrfntStbtf.rgb);
+        rfturn 0;
     }
 
-    currentState.depth++;
-    if (currentState.depth > priorState->maxDepth) {
-        priorState->maxDepth = currentState.depth;
+    durrfntStbtf.dfpti++;
+    if (durrfntStbtf.dfpti > priorStbtf->mbxDfpti) {
+        priorStbtf->mbxDfpti = durrfntStbtf.dfpti;
     }
-    currentState.activeEntries = 0;
-    for (i=priorState->activeEntries - 1; i >= 0; i--) {
-        unsigned short rgb = priorState->rgb[i];
-        unsigned char  index = priorState->indices[i];
-        ACTIVATE(rgb, 0x7c00, 0x0400, currentState, index);
-        ACTIVATE(rgb, 0x03e0, 0x0020, currentState, index);
-        ACTIVATE(rgb, 0x001f, 0x0001, currentState, index);
+    durrfntStbtf.bdtivfEntrifs = 0;
+    for (i=priorStbtf->bdtivfEntrifs - 1; i >= 0; i--) {
+        unsignfd siort rgb = priorStbtf->rgb[i];
+        unsignfd dibr  indfx = priorStbtf->indidfs[i];
+        ACTIVATE(rgb, 0x7d00, 0x0400, durrfntStbtf, indfx);
+        ACTIVATE(rgb, 0x03f0, 0x0020, durrfntStbtf, indfx);
+        ACTIVATE(rgb, 0x001f, 0x0001, durrfntStbtf, indfx);
     }
-    if (currentState.activeEntries) {
-        if (!recurseLevel(&currentState)) {
-            free(currentState.rgb);
-            free(currentState.indices);
-            return 0;
+    if (durrfntStbtf.bdtivfEntrifs) {
+        if (!rfdursfLfvfl(&durrfntStbtf)) {
+            frff(durrfntStbtf.rgb);
+            frff(durrfntStbtf.indidfs);
+            rfturn 0;
         }
     }
-    if (currentState.maxDepth > priorState->maxDepth) {
-        priorState->maxDepth = currentState.maxDepth;
+    if (durrfntStbtf.mbxDfpti > priorStbtf->mbxDfpti) {
+        priorStbtf->mbxDfpti = durrfntStbtf.mbxDfpti;
     }
 
-    free(currentState.rgb);
-    free(currentState.indices);
-    return  1;
+    frff(durrfntStbtf.rgb);
+    frff(durrfntStbtf.indidfs);
+    rfturn  1;
 }
 
 /*
- * REMIND: take core inversedLUT calculation to the shared tree and
- * recode the functions (Win32)awt_Image:initCubemap(),
- * (Win32)awt_Image:make_cubemap(), (Win32)AwtToolkit::GenerateInverseLUT(),
- * (Solaris)color:initCubemap() to call the shared codes.
+ * REMIND: tbkf dorf invfrsfdLUT dbldulbtion to tif sibrfd trff bnd
+ * rfdodf tif fundtions (Win32)bwt_Imbgf:initCubfmbp(),
+ * (Win32)bwt_Imbgf:mbkf_dubfmbp(), (Win32)AwtToolkit::GfnfrbtfInvfrsfLUT(),
+ * (Solbris)dolor:initCubfmbp() to dbll tif sibrfd dodfs.
  */
-unsigned char*
-initCubemap(int* cmap,
-            int  cmap_len,
-            int  cube_dim) {
+unsignfd dibr*
+initCubfmbp(int* dmbp,
+            int  dmbp_lfn,
+            int  dubf_dim) {
     int i;
-    CubeStateInfo currentState;
-    int cubesize = cube_dim * cube_dim * cube_dim;
-    unsigned char *useFlags;
-    unsigned char *newILut = (unsigned char*)malloc(cubesize);
-    int cmap_mid = (cmap_len >> 1) + (cmap_len & 0x1);
-    if (newILut) {
+    CubfStbtfInfo durrfntStbtf;
+    int dubfsizf = dubf_dim * dubf_dim * dubf_dim;
+    unsignfd dibr *usfFlbgs;
+    unsignfd dibr *nfwILut = (unsignfd dibr*)mbllod(dubfsizf);
+    int dmbp_mid = (dmbp_lfn >> 1) + (dmbp_lfn & 0x1);
+    if (nfwILut) {
 
-      useFlags = (unsigned char *)calloc(cubesize, 1);
+      usfFlbgs = (unsignfd dibr *)dbllod(dubfsizf, 1);
 
-      if (useFlags == 0) {
-          free(newILut);
-#ifdef DEBUG
-        fprintf(stderr, "Out of memory in color:initCubemap()1\n");
-#endif
-          return NULL;
+      if (usfFlbgs == 0) {
+          frff(nfwILut);
+#ifdff DEBUG
+        fprintf(stdfrr, "Out of mfmory in dolor:initCubfmbp()1\n");
+#fndif
+          rfturn NULL;
       }
 
-        currentState.depth          = 0;
-        currentState.maxDepth       = 0;
-        currentState.usedFlags      = useFlags;
-        currentState.activeEntries  = 0;
-        currentState.iLUT           = newILut;
+        durrfntStbtf.dfpti          = 0;
+        durrfntStbtf.mbxDfpti       = 0;
+        durrfntStbtf.usfdFlbgs      = usfFlbgs;
+        durrfntStbtf.bdtivfEntrifs  = 0;
+        durrfntStbtf.iLUT           = nfwILut;
 
-        currentState.rgb = (unsigned short *)
-                                malloc(cmap_len * sizeof(unsigned short));
-        if (currentState.rgb == NULL) {
-            free(newILut);
-            free(useFlags);
-#ifdef DEBUG
-        fprintf(stderr, "Out of memory in color:initCubemap()2\n");
-#endif
-            return NULL;
+        durrfntStbtf.rgb = (unsignfd siort *)
+                                mbllod(dmbp_lfn * sizfof(unsignfd siort));
+        if (durrfntStbtf.rgb == NULL) {
+            frff(nfwILut);
+            frff(usfFlbgs);
+#ifdff DEBUG
+        fprintf(stdfrr, "Out of mfmory in dolor:initCubfmbp()2\n");
+#fndif
+            rfturn NULL;
         }
 
-        currentState.indices = (unsigned char *)
-                                malloc(cmap_len * sizeof(unsigned char));
-        if (currentState.indices == NULL) {
-            free(currentState.rgb);
-            free(newILut);
-            free(useFlags);
-#ifdef DEBUG
-        fprintf(stderr, "Out of memory in color:initCubemap()3\n");
-#endif
-            return NULL;
+        durrfntStbtf.indidfs = (unsignfd dibr *)
+                                mbllod(dmbp_lfn * sizfof(unsignfd dibr));
+        if (durrfntStbtf.indidfs == NULL) {
+            frff(durrfntStbtf.rgb);
+            frff(nfwILut);
+            frff(usfFlbgs);
+#ifdff DEBUG
+        fprintf(stdfrr, "Out of mfmory in dolor:initCubfmbp()3\n");
+#fndif
+            rfturn NULL;
         }
 
-        for (i = 0; i < cmap_mid; i++) {
-            unsigned short rgb;
-            int pixel = cmap[i];
-            rgb = (pixel & 0x00f80000) >> 9;
-            rgb |= (pixel & 0x0000f800) >> 6;
-            rgb |=  (pixel & 0xf8) >> 3;
-            INSERTNEW(currentState, rgb, i);
-            pixel = cmap[cmap_len - i - 1];
-            rgb = (pixel & 0x00f80000) >> 9;
-            rgb |= (pixel & 0x0000f800) >> 6;
-            rgb |=  (pixel & 0xf8) >> 3;
-            INSERTNEW(currentState, rgb, cmap_len - i - 1);
+        for (i = 0; i < dmbp_mid; i++) {
+            unsignfd siort rgb;
+            int pixfl = dmbp[i];
+            rgb = (pixfl & 0x00f80000) >> 9;
+            rgb |= (pixfl & 0x0000f800) >> 6;
+            rgb |=  (pixfl & 0xf8) >> 3;
+            INSERTNEW(durrfntStbtf, rgb, i);
+            pixfl = dmbp[dmbp_lfn - i - 1];
+            rgb = (pixfl & 0x00f80000) >> 9;
+            rgb |= (pixfl & 0x0000f800) >> 6;
+            rgb |=  (pixfl & 0xf8) >> 3;
+            INSERTNEW(durrfntStbtf, rgb, dmbp_lfn - i - 1);
         }
 
-        if (!recurseLevel(&currentState)) {
-            free(newILut);
-            free(useFlags);
-            free(currentState.rgb);
-            free(currentState.indices);
-#ifdef DEBUG
-        fprintf(stderr, "Out of memory in color:initCubemap()4\n");
-#endif
-            return NULL;
+        if (!rfdursfLfvfl(&durrfntStbtf)) {
+            frff(nfwILut);
+            frff(usfFlbgs);
+            frff(durrfntStbtf.rgb);
+            frff(durrfntStbtf.indidfs);
+#ifdff DEBUG
+        fprintf(stdfrr, "Out of mfmory in dolor:initCubfmbp()4\n");
+#fndif
+            rfturn NULL;
         }
 
-        free(useFlags);
-        free(currentState.rgb);
-        free(currentState.indices);
+        frff(usfFlbgs);
+        frff(durrfntStbtf.rgb);
+        frff(durrfntStbtf.indidfs);
 
-        return newILut;
+        rfturn nfwILut;
     }
 
-#ifdef DEBUG
-        fprintf(stderr, "Out of memory in color:initCubemap()5\n");
-#endif
-    return NULL;
+#ifdff DEBUG
+        fprintf(stdfrr, "Out of mfmory in dolor:initCubfmbp()5\n");
+#fndif
+    rfturn NULL;
 }
 
 void
-initDitherTables(ColorData* cData) {
+initDitifrTbblfs(ColorDbtb* dDbtb) {
 
 
-    if(std_odas_computed) {
-        cData->img_oda_red   = &(std_img_oda_red[0][0]);
-        cData->img_oda_green = &(std_img_oda_green[0][0]);
-        cData->img_oda_blue  = &(std_img_oda_blue[0][0]);
-    } else {
-        cData->img_oda_red   = &(std_img_oda_red[0][0]);
-        cData->img_oda_green = &(std_img_oda_green[0][0]);
-        cData->img_oda_blue  = &(std_img_oda_blue[0][0]);
-        make_dither_arrays(256, cData);
-        std_odas_computed = 1;
+    if(std_odbs_domputfd) {
+        dDbtb->img_odb_rfd   = &(std_img_odb_rfd[0][0]);
+        dDbtb->img_odb_grffn = &(std_img_odb_grffn[0][0]);
+        dDbtb->img_odb_bluf  = &(std_img_odb_bluf[0][0]);
+    } flsf {
+        dDbtb->img_odb_rfd   = &(std_img_odb_rfd[0][0]);
+        dDbtb->img_odb_grffn = &(std_img_odb_grffn[0][0]);
+        dDbtb->img_odb_bluf  = &(std_img_odb_bluf[0][0]);
+        mbkf_ditifr_brrbys(256, dDbtb);
+        std_odbs_domputfd = 1;
     }
 
 }
 
-void make_dither_arrays(int cmapsize, ColorData *cData) {
+void mbkf_ditifr_brrbys(int dmbpsizf, ColorDbtb *dDbtb) {
     int i, j, k;
 
     /*
-     * Initialize the per-component ordered dithering arrays
-     * Choose a size based on how far between elements in the
-     * virtual cube.  Assume the cube has cuberoot(cmapsize)
-     * elements per axis and those elements are distributed
-     * over 256 colors.
-     * The calculation should really divide by (#comp/axis - 1)
-     * since the first and last elements are at the extremes of
-     * the 256 levels, but in a practical sense this formula
-     * produces a smaller error array which results in smoother
-     * images that have slightly less color fidelity but much
-     * less dithering noise, especially for grayscale images.
+     * Initiblizf tif pfr-domponfnt ordfrfd ditifring brrbys
+     * Cioosf b sizf bbsfd on iow fbr bftwffn flfmfnts in tif
+     * virtubl dubf.  Assumf tif dubf ibs dubfroot(dmbpsizf)
+     * flfmfnts pfr bxis bnd tiosf flfmfnts brf distributfd
+     * ovfr 256 dolors.
+     * Tif dbldulbtion siould rfblly dividf by (#domp/bxis - 1)
+     * sindf tif first bnd lbst flfmfnts brf bt tif fxtrfmfs of
+     * tif 256 lfvfls, but in b prbdtidbl sfnsf tiis formulb
+     * produdfs b smbllfr frror brrby wiidi rfsults in smootifr
+     * imbgfs tibt ibvf sligitly lfss dolor fidflity but mudi
+     * lfss ditifring noisf, fspfdiblly for grbysdblf imbgfs.
      */
-    i = (int) (256 / pow(cmapsize, 1.0/3.0));
-    make_sgn_ordered_dither_array(cData->img_oda_red, -i / 2, i / 2);
-    make_sgn_ordered_dither_array(cData->img_oda_green, -i / 2, i / 2);
-    make_sgn_ordered_dither_array(cData->img_oda_blue, -i / 2, i / 2);
+    i = (int) (256 / pow(dmbpsizf, 1.0/3.0));
+    mbkf_sgn_ordfrfd_ditifr_brrby(dDbtb->img_odb_rfd, -i / 2, i / 2);
+    mbkf_sgn_ordfrfd_ditifr_brrby(dDbtb->img_odb_grffn, -i / 2, i / 2);
+    mbkf_sgn_ordfrfd_ditifr_brrby(dDbtb->img_odb_bluf, -i / 2, i / 2);
 
     /*
-     * Flip green horizontally and blue vertically so that
-     * the errors don't line up in the 3 primary components.
+     * Flip grffn iorizontblly bnd bluf vfrtidblly so tibt
+     * tif frrors don't linf up in tif 3 primbry domponfnts.
      */
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 4; j++) {
-            k = cData->img_oda_green[(i<<3)+j];
-            cData->img_oda_green[(i<<3)+j] = cData->img_oda_green[(i<<3)+7 - j];
-            cData->img_oda_green[(i<<3) + 7 - j] = k;
-            k = cData->img_oda_blue[(j<<3)+i];
-            cData->img_oda_blue[(j<<3)+i] = cData->img_oda_blue[((7 - j)<<3)+i];
-            cData->img_oda_blue[((7 - j)<<3) + i] = k;
+            k = dDbtb->img_odb_grffn[(i<<3)+j];
+            dDbtb->img_odb_grffn[(i<<3)+j] = dDbtb->img_odb_grffn[(i<<3)+7 - j];
+            dDbtb->img_odb_grffn[(i<<3) + 7 - j] = k;
+            k = dDbtb->img_odb_bluf[(j<<3)+i];
+            dDbtb->img_odb_bluf[(j<<3)+i] = dDbtb->img_odb_bluf[((7 - j)<<3)+i];
+            dDbtb->img_odb_bluf[((7 - j)<<3) + i] = k;
         }
     }
 }

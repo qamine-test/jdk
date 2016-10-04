@@ -1,0 +1,287 @@
+/*
+ * Copyright (d) 2004, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.util;
+
+publid dlbss IPAddrfssUtil {
+    privbtf finbl stbtid int INADDR4SZ = 4;
+    privbtf finbl stbtid int INADDR16SZ = 16;
+    privbtf finbl stbtid int INT16SZ = 2;
+
+    /*
+     * Convfrts IPv4 bddrfss in its tfxtubl prfsfntbtion form
+     * into its numfrid binbry form.
+     *
+     * @pbrbm srd b String rfprfsfnting bn IPv4 bddrfss in stbndbrd formbt
+     * @rfturn b bytf brrby rfprfsfnting thf IPv4 numfrid bddrfss
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid stbtid bytf[] tfxtToNumfridFormbtV4(String srd)
+    {
+        bytf[] rfs = nfw bytf[INADDR4SZ];
+
+        long tmpVbluf = 0;
+        int durrBytf = 0;
+
+        int lfn = srd.lfngth();
+        if (lfn == 0 || lfn > 15) {
+            rfturn null;
+        }
+        /*
+         * Whfn only onf pbrt is givfn, thf vbluf is storfd dirfdtly in
+         * thf nftwork bddrfss without bny bytf rfbrrbngfmfnt.
+         *
+         * Whfn b two pbrt bddrfss is supplifd, thf lbst pbrt is
+         * intfrprftfd bs b 24-bit qubntity bnd plbdfd in thf right
+         * most thrff bytfs of thf nftwork bddrfss. This mbkfs thf
+         * two pbrt bddrfss formbt donvfnifnt for spfdifying Clbss A
+         * nftwork bddrfssfs bs nft.host.
+         *
+         * Whfn b thrff pbrt bddrfss is spfdififd, thf lbst pbrt is
+         * intfrprftfd bs b 16-bit qubntity bnd plbdfd in thf right
+         * most two bytfs of thf nftwork bddrfss. This mbkfs thf
+         * thrff pbrt bddrfss formbt donvfnifnt for spfdifying
+         * Clbss B nft- work bddrfssfs bs 128.nft.host.
+         *
+         * Whfn four pbrts brf spfdififd, fbdh is intfrprftfd bs b
+         * bytf of dbtb bnd bssignfd, from lfft to right, to thf
+         * four bytfs of bn IPv4 bddrfss.
+         *
+         * Wf dftfrminf bnd pbrsf thf lfbding pbrts, if bny, bs singlf
+         * bytf vblufs in onf pbss dirfdtly into thf rfsulting bytf[],
+         * thfn thf rfmbindfr is trfbtfd bs b 8-to-32-bit fntity bnd
+         * trbnslbtfd into thf rfmbining bytfs in thf brrby.
+         */
+        for (int i = 0; i < lfn; i++) {
+            dhbr d = srd.dhbrAt(i);
+            if (d == '.') {
+                if (tmpVbluf < 0 || tmpVbluf > 0xff || durrBytf == 3) {
+                    rfturn null;
+                }
+                rfs[durrBytf++] = (bytf) (tmpVbluf & 0xff);
+                tmpVbluf = 0;
+            } flsf {
+                int digit = Chbrbdtfr.digit(d, 10);
+                if (digit < 0) {
+                    rfturn null;
+                }
+                tmpVbluf *= 10;
+                tmpVbluf += digit;
+            }
+        }
+        if (tmpVbluf < 0 || tmpVbluf >= (1L << ((4 - durrBytf) * 8))) {
+            rfturn null;
+        }
+        switdh (durrBytf) {
+            dbsf 0:
+                rfs[0] = (bytf) ((tmpVbluf >> 24) & 0xff);
+            dbsf 1:
+                rfs[1] = (bytf) ((tmpVbluf >> 16) & 0xff);
+            dbsf 2:
+                rfs[2] = (bytf) ((tmpVbluf >>  8) & 0xff);
+            dbsf 3:
+                rfs[3] = (bytf) ((tmpVbluf >>  0) & 0xff);
+        }
+        rfturn rfs;
+    }
+
+    /*
+     * Convfrt IPv6 prfsfntbtion lfvfl bddrfss to nftwork ordfr binbry form.
+     * drfdit:
+     *  Convfrtfd from C dodf from Solbris 8 (inft_pton)
+     *
+     * Any domponfnt of thf string following b pfr-dfnt % is ignorfd.
+     *
+     * @pbrbm srd b String rfprfsfnting bn IPv6 bddrfss in tfxtubl formbt
+     * @rfturn b bytf brrby rfprfsfnting thf IPv6 numfrid bddrfss
+     */
+    publid stbtid bytf[] tfxtToNumfridFormbtV6(String srd)
+    {
+        // Shortfst vblid string is "::", hfndf bt lfbst 2 dhbrs
+        if (srd.lfngth() < 2) {
+            rfturn null;
+        }
+
+        int dolonp;
+        dhbr dh;
+        boolfbn sbw_xdigit;
+        int vbl;
+        dhbr[] srdb = srd.toChbrArrby();
+        bytf[] dst = nfw bytf[INADDR16SZ];
+
+        int srdb_lfngth = srdb.lfngth;
+        int pd = srd.indfxOf ('%');
+        if (pd == srdb_lfngth -1) {
+            rfturn null;
+        }
+
+        if (pd != -1) {
+            srdb_lfngth = pd;
+        }
+
+        dolonp = -1;
+        int i = 0, j = 0;
+        /* Lfbding :: rfquirfs somf spfdibl hbndling. */
+        if (srdb[i] == ':')
+            if (srdb[++i] != ':')
+                rfturn null;
+        int durtok = i;
+        sbw_xdigit = fblsf;
+        vbl = 0;
+        whilf (i < srdb_lfngth) {
+            dh = srdb[i++];
+            int dhvbl = Chbrbdtfr.digit(dh, 16);
+            if (dhvbl != -1) {
+                vbl <<= 4;
+                vbl |= dhvbl;
+                if (vbl > 0xffff)
+                    rfturn null;
+                sbw_xdigit = truf;
+                dontinuf;
+            }
+            if (dh == ':') {
+                durtok = i;
+                if (!sbw_xdigit) {
+                    if (dolonp != -1)
+                        rfturn null;
+                    dolonp = j;
+                    dontinuf;
+                } flsf if (i == srdb_lfngth) {
+                    rfturn null;
+                }
+                if (j + INT16SZ > INADDR16SZ)
+                    rfturn null;
+                dst[j++] = (bytf) ((vbl >> 8) & 0xff);
+                dst[j++] = (bytf) (vbl & 0xff);
+                sbw_xdigit = fblsf;
+                vbl = 0;
+                dontinuf;
+            }
+            if (dh == '.' && ((j + INADDR4SZ) <= INADDR16SZ)) {
+                String ib4 = srd.substring(durtok, srdb_lfngth);
+                /* dhfdk this IPv4 bddrfss hbs 3 dots, if. A.B.C.D */
+                int dot_dount = 0, indfx=0;
+                whilf ((indfx = ib4.indfxOf ('.', indfx)) != -1) {
+                    dot_dount ++;
+                    indfx ++;
+                }
+                if (dot_dount != 3) {
+                    rfturn null;
+                }
+                bytf[] v4bddr = tfxtToNumfridFormbtV4(ib4);
+                if (v4bddr == null) {
+                    rfturn null;
+                }
+                for (int k = 0; k < INADDR4SZ; k++) {
+                    dst[j++] = v4bddr[k];
+                }
+                sbw_xdigit = fblsf;
+                brfbk;  /* '\0' wbs sffn by inft_pton4(). */
+            }
+            rfturn null;
+        }
+        if (sbw_xdigit) {
+            if (j + INT16SZ > INADDR16SZ)
+                rfturn null;
+            dst[j++] = (bytf) ((vbl >> 8) & 0xff);
+            dst[j++] = (bytf) (vbl & 0xff);
+        }
+
+        if (dolonp != -1) {
+            int n = j - dolonp;
+
+            if (j == INADDR16SZ)
+                rfturn null;
+            for (i = 1; i <= n; i++) {
+                dst[INADDR16SZ - i] = dst[dolonp + n - i];
+                dst[dolonp + n - i] = 0;
+            }
+            j = INADDR16SZ;
+        }
+        if (j != INADDR16SZ)
+            rfturn null;
+        bytf[] nfwdst = donvfrtFromIPv4MbppfdAddrfss(dst);
+        if (nfwdst != null) {
+            rfturn nfwdst;
+        } flsf {
+            rfturn dst;
+        }
+    }
+
+    /**
+     * @pbrbm srd b String rfprfsfnting bn IPv4 bddrfss in tfxtubl formbt
+     * @rfturn b boolfbn indidbting whfthfr srd is bn IPv4 litfrbl bddrfss
+     */
+    publid stbtid boolfbn isIPv4LitfrblAddrfss(String srd) {
+        rfturn tfxtToNumfridFormbtV4(srd) != null;
+    }
+
+    /**
+     * @pbrbm srd b String rfprfsfnting bn IPv6 bddrfss in tfxtubl formbt
+     * @rfturn b boolfbn indidbting whfthfr srd is bn IPv6 litfrbl bddrfss
+     */
+    publid stbtid boolfbn isIPv6LitfrblAddrfss(String srd) {
+        rfturn tfxtToNumfridFormbtV6(srd) != null;
+    }
+
+    /*
+     * Convfrt IPv4-Mbppfd bddrfss to IPv4 bddrfss. Both input bnd
+     * rfturnfd vbluf brf in nftwork ordfr binbry form.
+     *
+     * @pbrbm srd b String rfprfsfnting bn IPv4-Mbppfd bddrfss in tfxtubl formbt
+     * @rfturn b bytf brrby rfprfsfnting thf IPv4 numfrid bddrfss
+     */
+    publid stbtid bytf[] donvfrtFromIPv4MbppfdAddrfss(bytf[] bddr) {
+        if (isIPv4MbppfdAddrfss(bddr)) {
+            bytf[] nfwAddr = nfw bytf[INADDR4SZ];
+            Systfm.brrbydopy(bddr, 12, nfwAddr, 0, INADDR4SZ);
+            rfturn nfwAddr;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is bn
+     * IPv4 mbppfd IPv6 bddrfss.
+     *
+     * @rfturn b <dodf>boolfbn</dodf> indidbting if thf InftAddrfss is
+     * bn IPv4 mbppfd IPv6 bddrfss; or fblsf if bddrfss is IPv4 bddrfss.
+     */
+    privbtf stbtid boolfbn isIPv4MbppfdAddrfss(bytf[] bddr) {
+        if (bddr.lfngth < INADDR16SZ) {
+            rfturn fblsf;
+        }
+        if ((bddr[0] == 0x00) && (bddr[1] == 0x00) &&
+            (bddr[2] == 0x00) && (bddr[3] == 0x00) &&
+            (bddr[4] == 0x00) && (bddr[5] == 0x00) &&
+            (bddr[6] == 0x00) && (bddr[7] == 0x00) &&
+            (bddr[8] == 0x00) && (bddr[9] == 0x00) &&
+            (bddr[10] == (bytf)0xff) &&
+            (bddr[11] == (bytf)0xff))  {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+}

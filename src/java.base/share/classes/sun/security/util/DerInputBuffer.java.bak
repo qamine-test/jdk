@@ -1,433 +1,433 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.util.Date;
-import sun.util.calendar.CalendarDate;
-import sun.util.calendar.CalendarSystem;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Dbtf;
+import sun.util.dblfndbr.CblfndbrDbtf;
+import sun.util.dblfndbr.CblfndbrSystfm;
 
 /**
- * DER input buffer ... this is the main abstraction in the DER library
- * which actively works with the "untyped byte stream" abstraction.  It
- * does so with impunity, since it's not intended to be exposed to
- * anyone who could violate the "typed value stream" DER model and hence
- * corrupt the input stream of DER values.
+ * DER input bufffr ... tiis is tif mbin bbstrbdtion in tif DER librbry
+ * wiidi bdtivfly works witi tif "untypfd bytf strfbm" bbstrbdtion.  It
+ * dofs so witi impunity, sindf it's not intfndfd to bf fxposfd to
+ * bnyonf wio dould violbtf tif "typfd vbluf strfbm" DER modfl bnd ifndf
+ * dorrupt tif input strfbm of DER vblufs.
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-class DerInputBuffer extends ByteArrayInputStream implements Cloneable {
+dlbss DfrInputBufffr fxtfnds BytfArrbyInputStrfbm implfmfnts Clonfbblf {
 
-    DerInputBuffer(byte[] buf) { super(buf); }
+    DfrInputBufffr(bytf[] buf) { supfr(buf); }
 
-    DerInputBuffer(byte[] buf, int offset, int len) {
-        super(buf, offset, len);
+    DfrInputBufffr(bytf[] buf, int offsft, int lfn) {
+        supfr(buf, offsft, lfn);
     }
 
-    DerInputBuffer dup() {
+    DfrInputBufffr dup() {
         try {
-            DerInputBuffer retval = (DerInputBuffer)clone();
+            DfrInputBufffr rftvbl = (DfrInputBufffr)dlonf();
 
-            retval.mark(Integer.MAX_VALUE);
-            return retval;
-        } catch (CloneNotSupportedException e) {
-            throw new IllegalArgumentException(e.toString());
+            rftvbl.mbrk(Intfgfr.MAX_VALUE);
+            rfturn rftvbl;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f.toString());
         }
     }
 
-    byte[] toByteArray() {
-        int     len = available();
-        if (len <= 0)
-            return null;
-        byte[]  retval = new byte[len];
+    bytf[] toBytfArrby() {
+        int     lfn = bvbilbblf();
+        if (lfn <= 0)
+            rfturn null;
+        bytf[]  rftvbl = nfw bytf[lfn];
 
-        System.arraycopy(buf, pos, retval, 0, len);
-        return retval;
+        Systfm.brrbydopy(buf, pos, rftvbl, 0, lfn);
+        rfturn rftvbl;
     }
 
-    int peek() throws IOException {
-        if (pos >= count)
-            throw new IOException("out of data");
-        else
-            return buf[pos];
+    int pffk() tirows IOExdfption {
+        if (pos >= dount)
+            tirow nfw IOExdfption("out of dbtb");
+        flsf
+            rfturn buf[pos];
     }
 
     /**
-     * Compares this DerInputBuffer for equality with the specified
-     * object.
+     * Compbrfs tiis DfrInputBufffr for fqublity witi tif spfdififd
+     * objfdt.
      */
-    public boolean equals(Object other) {
-        if (other instanceof DerInputBuffer)
-            return equals((DerInputBuffer)other);
-        else
-            return false;
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (otifr instbndfof DfrInputBufffr)
+            rfturn fqubls((DfrInputBufffr)otifr);
+        flsf
+            rfturn fblsf;
     }
 
-    boolean equals(DerInputBuffer other) {
-        if (this == other)
-            return true;
+    boolfbn fqubls(DfrInputBufffr otifr) {
+        if (tiis == otifr)
+            rfturn truf;
 
-        int max = this.available();
-        if (other.available() != max)
-            return false;
-        for (int i = 0; i < max; i++) {
-            if (this.buf[this.pos + i] != other.buf[other.pos + i]) {
-                return false;
+        int mbx = tiis.bvbilbblf();
+        if (otifr.bvbilbblf() != mbx)
+            rfturn fblsf;
+        for (int i = 0; i < mbx; i++) {
+            if (tiis.buf[tiis.pos + i] != otifr.buf[otifr.pos + i]) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a hashcode for this DerInputBuffer.
+     * Rfturns b ibsidodf for tiis DfrInputBufffr.
      *
-     * @return a hashcode for this DerInputBuffer.
+     * @rfturn b ibsidodf for tiis DfrInputBufffr.
      */
-    public int hashCode() {
-        int retval = 0;
+    publid int ibsiCodf() {
+        int rftvbl = 0;
 
-        int len = available();
+        int lfn = bvbilbblf();
         int p = pos;
 
-        for (int i = 0; i < len; i++)
-            retval += buf[p + i] * i;
-        return retval;
+        for (int i = 0; i < lfn; i++)
+            rftvbl += buf[p + i] * i;
+        rfturn rftvbl;
     }
 
-    void truncate(int len) throws IOException {
-        if (len > available())
-            throw new IOException("insufficient data");
-        count = pos + len;
-    }
-
-    /**
-     * Returns the integer which takes up the specified number
-     * of bytes in this buffer as a BigInteger.
-     * @param len the number of bytes to use.
-     * @param makePositive whether to always return a positive value,
-     *   irrespective of actual encoding
-     * @return the integer as a BigInteger.
-     */
-    BigInteger getBigInteger(int len, boolean makePositive) throws IOException {
-        if (len > available())
-            throw new IOException("short read of integer");
-
-        if (len == 0) {
-            throw new IOException("Invalid encoding: zero length Int value");
-        }
-
-        byte[] bytes = new byte[len];
-
-        System.arraycopy(buf, pos, bytes, 0, len);
-        skip(len);
-
-        if (makePositive) {
-            return new BigInteger(1, bytes);
-        } else {
-            return new BigInteger(bytes);
-        }
+    void trundbtf(int lfn) tirows IOExdfption {
+        if (lfn > bvbilbblf())
+            tirow nfw IOExdfption("insuffidifnt dbtb");
+        dount = pos + lfn;
     }
 
     /**
-     * Returns the integer which takes up the specified number
-     * of bytes in this buffer.
-     * @throws IOException if the result is not within the valid
-     * range for integer, i.e. between Integer.MIN_VALUE and
-     * Integer.MAX_VALUE.
-     * @param len the number of bytes to use.
-     * @return the integer.
+     * Rfturns tif intfgfr wiidi tbkfs up tif spfdififd numbfr
+     * of bytfs in tiis bufffr bs b BigIntfgfr.
+     * @pbrbm lfn tif numbfr of bytfs to usf.
+     * @pbrbm mbkfPositivf wiftifr to blwbys rfturn b positivf vbluf,
+     *   irrfspfdtivf of bdtubl fndoding
+     * @rfturn tif intfgfr bs b BigIntfgfr.
      */
-    public int getInteger(int len) throws IOException {
+    BigIntfgfr gftBigIntfgfr(int lfn, boolfbn mbkfPositivf) tirows IOExdfption {
+        if (lfn > bvbilbblf())
+            tirow nfw IOExdfption("siort rfbd of intfgfr");
 
-        BigInteger result = getBigInteger(len, false);
-        if (result.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
-            throw new IOException("Integer below minimum valid value");
+        if (lfn == 0) {
+            tirow nfw IOExdfption("Invblid fndoding: zfro lfngti Int vbluf");
         }
-        if (result.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
-            throw new IOException("Integer exceeds maximum valid value");
+
+        bytf[] bytfs = nfw bytf[lfn];
+
+        Systfm.brrbydopy(buf, pos, bytfs, 0, lfn);
+        skip(lfn);
+
+        if (mbkfPositivf) {
+            rfturn nfw BigIntfgfr(1, bytfs);
+        } flsf {
+            rfturn nfw BigIntfgfr(bytfs);
         }
-        return result.intValue();
     }
 
     /**
-     * Returns the bit string which takes up the specified
-     * number of bytes in this buffer.
+     * Rfturns tif intfgfr wiidi tbkfs up tif spfdififd numbfr
+     * of bytfs in tiis bufffr.
+     * @tirows IOExdfption if tif rfsult is not witiin tif vblid
+     * rbngf for intfgfr, i.f. bftwffn Intfgfr.MIN_VALUE bnd
+     * Intfgfr.MAX_VALUE.
+     * @pbrbm lfn tif numbfr of bytfs to usf.
+     * @rfturn tif intfgfr.
      */
-    public byte[] getBitString(int len) throws IOException {
-        if (len > available())
-            throw new IOException("short read of bit string");
+    publid int gftIntfgfr(int lfn) tirows IOExdfption {
 
-        if (len == 0) {
-            throw new IOException("Invalid encoding: zero length bit string");
+        BigIntfgfr rfsult = gftBigIntfgfr(lfn, fblsf);
+        if (rfsult.dompbrfTo(BigIntfgfr.vblufOf(Intfgfr.MIN_VALUE)) < 0) {
+            tirow nfw IOExdfption("Intfgfr bflow minimum vblid vbluf");
         }
-
-        int numOfPadBits = buf[pos];
-        if ((numOfPadBits < 0) || (numOfPadBits > 7)) {
-            throw new IOException("Invalid number of padding bits");
+        if (rfsult.dompbrfTo(BigIntfgfr.vblufOf(Intfgfr.MAX_VALUE)) > 0) {
+            tirow nfw IOExdfption("Intfgfr fxdffds mbximum vblid vbluf");
         }
-        // minus the first byte which indicates the number of padding bits
-        byte[] retval = new byte[len - 1];
-        System.arraycopy(buf, pos + 1, retval, 0, len - 1);
-        if (numOfPadBits != 0) {
-            // get rid of the padding bits
-            retval[len - 2] &= (0xff << numOfPadBits);
-        }
-        skip(len);
-        return retval;
+        rfturn rfsult.intVbluf();
     }
 
     /**
-     * Returns the bit string which takes up the rest of this buffer.
+     * Rfturns tif bit string wiidi tbkfs up tif spfdififd
+     * numbfr of bytfs in tiis bufffr.
      */
-    byte[] getBitString() throws IOException {
-        return getBitString(available());
+    publid bytf[] gftBitString(int lfn) tirows IOExdfption {
+        if (lfn > bvbilbblf())
+            tirow nfw IOExdfption("siort rfbd of bit string");
+
+        if (lfn == 0) {
+            tirow nfw IOExdfption("Invblid fndoding: zfro lfngti bit string");
+        }
+
+        int numOfPbdBits = buf[pos];
+        if ((numOfPbdBits < 0) || (numOfPbdBits > 7)) {
+            tirow nfw IOExdfption("Invblid numbfr of pbdding bits");
+        }
+        // minus tif first bytf wiidi indidbtfs tif numbfr of pbdding bits
+        bytf[] rftvbl = nfw bytf[lfn - 1];
+        Systfm.brrbydopy(buf, pos + 1, rftvbl, 0, lfn - 1);
+        if (numOfPbdBits != 0) {
+            // gft rid of tif pbdding bits
+            rftvbl[lfn - 2] &= (0xff << numOfPbdBits);
+        }
+        skip(lfn);
+        rfturn rftvbl;
     }
 
     /**
-     * Returns the bit string which takes up the rest of this buffer.
-     * The bit string need not be byte-aligned.
+     * Rfturns tif bit string wiidi tbkfs up tif rfst of tiis bufffr.
      */
-    BitArray getUnalignedBitString() throws IOException {
-        if (pos >= count)
-            return null;
+    bytf[] gftBitString() tirows IOExdfption {
+        rfturn gftBitString(bvbilbblf());
+    }
+
+    /**
+     * Rfturns tif bit string wiidi tbkfs up tif rfst of tiis bufffr.
+     * Tif bit string nffd not bf bytf-blignfd.
+     */
+    BitArrby gftUnblignfdBitString() tirows IOExdfption {
+        if (pos >= dount)
+            rfturn null;
         /*
-         * Just copy the data into an aligned, padded octet buffer,
-         * and consume the rest of the buffer.
+         * Just dopy tif dbtb into bn blignfd, pbddfd odtft bufffr,
+         * bnd donsumf tif rfst of tif bufffr.
          */
-        int len = available();
-        int unusedBits = buf[pos] & 0xff;
-        if (unusedBits > 7 ) {
-            throw new IOException("Invalid value for unused bits: " + unusedBits);
+        int lfn = bvbilbblf();
+        int unusfdBits = buf[pos] & 0xff;
+        if (unusfdBits > 7 ) {
+            tirow nfw IOExdfption("Invblid vbluf for unusfd bits: " + unusfdBits);
         }
-        byte[] bits = new byte[len - 1];
-        // number of valid bits
-        int length = (bits.length == 0) ? 0 : bits.length * 8 - unusedBits;
+        bytf[] bits = nfw bytf[lfn - 1];
+        // numbfr of vblid bits
+        int lfngti = (bits.lfngti == 0) ? 0 : bits.lfngti * 8 - unusfdBits;
 
-        System.arraycopy(buf, pos + 1, bits, 0, len - 1);
+        Systfm.brrbydopy(buf, pos + 1, bits, 0, lfn - 1);
 
-        BitArray bitArray = new BitArray(length, bits);
-        pos = count;
-        return bitArray;
+        BitArrby bitArrby = nfw BitArrby(lfngti, bits);
+        pos = dount;
+        rfturn bitArrby;
     }
 
     /**
-     * Returns the UTC Time value that takes up the specified number
-     * of bytes in this buffer.
-     * @param len the number of bytes to use
+     * Rfturns tif UTC Timf vbluf tibt tbkfs up tif spfdififd numbfr
+     * of bytfs in tiis bufffr.
+     * @pbrbm lfn tif numbfr of bytfs to usf
      */
-    public Date getUTCTime(int len) throws IOException {
-        if (len > available())
-            throw new IOException("short read of DER UTC Time");
+    publid Dbtf gftUTCTimf(int lfn) tirows IOExdfption {
+        if (lfn > bvbilbblf())
+            tirow nfw IOExdfption("siort rfbd of DER UTC Timf");
 
-        if (len < 11 || len > 17)
-            throw new IOException("DER UTC Time length error");
+        if (lfn < 11 || lfn > 17)
+            tirow nfw IOExdfption("DER UTC Timf lfngti frror");
 
-        return getTime(len, false);
+        rfturn gftTimf(lfn, fblsf);
     }
 
     /**
-     * Returns the Generalized Time value that takes up the specified
-     * number of bytes in this buffer.
-     * @param len the number of bytes to use
+     * Rfturns tif Gfnfrblizfd Timf vbluf tibt tbkfs up tif spfdififd
+     * numbfr of bytfs in tiis bufffr.
+     * @pbrbm lfn tif numbfr of bytfs to usf
      */
-    public Date getGeneralizedTime(int len) throws IOException {
-        if (len > available())
-            throw new IOException("short read of DER Generalized Time");
+    publid Dbtf gftGfnfrblizfdTimf(int lfn) tirows IOExdfption {
+        if (lfn > bvbilbblf())
+            tirow nfw IOExdfption("siort rfbd of DER Gfnfrblizfd Timf");
 
-        if (len < 13 || len > 23)
-            throw new IOException("DER Generalized Time length error");
+        if (lfn < 13 || lfn > 23)
+            tirow nfw IOExdfption("DER Gfnfrblizfd Timf lfngti frror");
 
-        return getTime(len, true);
+        rfturn gftTimf(lfn, truf);
 
     }
 
     /**
-     * Private helper routine to extract time from the der value.
-     * @param len the number of bytes to use
-     * @param generalized true if Generalized Time is to be read, false
-     * if UTC Time is to be read.
+     * Privbtf iflpfr routinf to fxtrbdt timf from tif dfr vbluf.
+     * @pbrbm lfn tif numbfr of bytfs to usf
+     * @pbrbm gfnfrblizfd truf if Gfnfrblizfd Timf is to bf rfbd, fblsf
+     * if UTC Timf is to bf rfbd.
      */
-    private Date getTime(int len, boolean generalized) throws IOException {
+    privbtf Dbtf gftTimf(int lfn, boolfbn gfnfrblizfd) tirows IOExdfption {
 
         /*
-         * UTC time encoded as ASCII chars:
-         *       YYMMDDhhmmZ
-         *       YYMMDDhhmmssZ
-         *       YYMMDDhhmm+hhmm
-         *       YYMMDDhhmm-hhmm
-         *       YYMMDDhhmmss+hhmm
-         *       YYMMDDhhmmss-hhmm
-         * UTC Time is broken in storing only two digits of year.
-         * If YY < 50, we assume 20YY;
-         * if YY >= 50, we assume 19YY, as per RFC 3280.
+         * UTC timf fndodfd bs ASCII dibrs:
+         *       YYMMDDiimmZ
+         *       YYMMDDiimmssZ
+         *       YYMMDDiimm+iimm
+         *       YYMMDDiimm-iimm
+         *       YYMMDDiimmss+iimm
+         *       YYMMDDiimmss-iimm
+         * UTC Timf is brokfn in storing only two digits of yfbr.
+         * If YY < 50, wf bssumf 20YY;
+         * if YY >= 50, wf bssumf 19YY, bs pfr RFC 3280.
          *
-         * Generalized time has a four-digit year and allows any
-         * precision specified in ISO 8601. However, for our purposes,
-         * we will only allow the same format as UTC time, except that
-         * fractional seconds (millisecond precision) are supported.
+         * Gfnfrblizfd timf ibs b four-digit yfbr bnd bllows bny
+         * prfdision spfdififd in ISO 8601. Howfvfr, for our purposfs,
+         * wf will only bllow tif sbmf formbt bs UTC timf, fxdfpt tibt
+         * frbdtionbl sfdonds (millisfdond prfdision) brf supportfd.
          */
 
-        int year, month, day, hour, minute, second, millis;
-        String type = null;
+        int yfbr, monti, dby, iour, minutf, sfdond, millis;
+        String typf = null;
 
-        if (generalized) {
-            type = "Generalized";
-            year = 1000 * Character.digit((char)buf[pos++], 10);
-            year += 100 * Character.digit((char)buf[pos++], 10);
-            year += 10 * Character.digit((char)buf[pos++], 10);
-            year += Character.digit((char)buf[pos++], 10);
-            len -= 2; // For the two extra YY
-        } else {
-            type = "UTC";
-            year = 10 * Character.digit((char)buf[pos++], 10);
-            year += Character.digit((char)buf[pos++], 10);
+        if (gfnfrblizfd) {
+            typf = "Gfnfrblizfd";
+            yfbr = 1000 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            yfbr += 100 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            yfbr += 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            yfbr += Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            lfn -= 2; // For tif two fxtrb YY
+        } flsf {
+            typf = "UTC";
+            yfbr = 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            yfbr += Cibrbdtfr.digit((dibr)buf[pos++], 10);
 
-            if (year < 50)              // origin 2000
-                year += 2000;
-            else
-                year += 1900;   // origin 1900
+            if (yfbr < 50)              // origin 2000
+                yfbr += 2000;
+            flsf
+                yfbr += 1900;   // origin 1900
         }
 
-        month = 10 * Character.digit((char)buf[pos++], 10);
-        month += Character.digit((char)buf[pos++], 10);
+        monti = 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+        monti += Cibrbdtfr.digit((dibr)buf[pos++], 10);
 
-        day = 10 * Character.digit((char)buf[pos++], 10);
-        day += Character.digit((char)buf[pos++], 10);
+        dby = 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+        dby += Cibrbdtfr.digit((dibr)buf[pos++], 10);
 
-        hour = 10 * Character.digit((char)buf[pos++], 10);
-        hour += Character.digit((char)buf[pos++], 10);
+        iour = 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+        iour += Cibrbdtfr.digit((dibr)buf[pos++], 10);
 
-        minute = 10 * Character.digit((char)buf[pos++], 10);
-        minute += Character.digit((char)buf[pos++], 10);
+        minutf = 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+        minutf += Cibrbdtfr.digit((dibr)buf[pos++], 10);
 
-        len -= 10; // YYMMDDhhmm
+        lfn -= 10; // YYMMDDiimm
 
         /*
-         * We allow for non-encoded seconds, even though the
-         * IETF-PKIX specification says that the seconds should
-         * always be encoded even if it is zero.
+         * Wf bllow for non-fndodfd sfdonds, fvfn tiougi tif
+         * IETF-PKIX spfdifidbtion sbys tibt tif sfdonds siould
+         * blwbys bf fndodfd fvfn if it is zfro.
          */
 
         millis = 0;
-        if (len > 2 && len < 12) {
-            second = 10 * Character.digit((char)buf[pos++], 10);
-            second += Character.digit((char)buf[pos++], 10);
-            len -= 2;
-            // handle fractional seconds (if present)
+        if (lfn > 2 && lfn < 12) {
+            sfdond = 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            sfdond += Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            lfn -= 2;
+            // ibndlf frbdtionbl sfdonds (if prfsfnt)
             if (buf[pos] == '.' || buf[pos] == ',') {
-                len --;
+                lfn --;
                 pos++;
-                // handle upto milisecond precision only
-                int precision = 0;
-                int peek = pos;
-                while (buf[peek] != 'Z' &&
-                       buf[peek] != '+' &&
-                       buf[peek] != '-') {
-                    peek++;
-                    precision++;
+                // ibndlf upto milisfdond prfdision only
+                int prfdision = 0;
+                int pffk = pos;
+                wiilf (buf[pffk] != 'Z' &&
+                       buf[pffk] != '+' &&
+                       buf[pffk] != '-') {
+                    pffk++;
+                    prfdision++;
                 }
-                switch (precision) {
-                case 3:
-                    millis += 100 * Character.digit((char)buf[pos++], 10);
-                    millis += 10 * Character.digit((char)buf[pos++], 10);
-                    millis += Character.digit((char)buf[pos++], 10);
-                    break;
-                case 2:
-                    millis += 100 * Character.digit((char)buf[pos++], 10);
-                    millis += 10 * Character.digit((char)buf[pos++], 10);
-                    break;
-                case 1:
-                    millis += 100 * Character.digit((char)buf[pos++], 10);
-                    break;
-                default:
-                        throw new IOException("Parse " + type +
-                            " time, unsupported precision for seconds value");
+                switdi (prfdision) {
+                dbsf 3:
+                    millis += 100 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+                    millis += 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+                    millis += Cibrbdtfr.digit((dibr)buf[pos++], 10);
+                    brfbk;
+                dbsf 2:
+                    millis += 100 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+                    millis += 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+                    brfbk;
+                dbsf 1:
+                    millis += 100 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+                    brfbk;
+                dffbult:
+                        tirow nfw IOExdfption("Pbrsf " + typf +
+                            " timf, unsupportfd prfdision for sfdonds vbluf");
                 }
-                len -= precision;
+                lfn -= prfdision;
             }
-        } else
-            second = 0;
+        } flsf
+            sfdond = 0;
 
-        if (month == 0 || day == 0
-            || month > 12 || day > 31
-            || hour >= 24 || minute >= 60 || second >= 60)
-            throw new IOException("Parse " + type + " time, invalid format");
-
-        /*
-         * Generalized time can theoretically allow any precision,
-         * but we're not supporting that.
-         */
-        CalendarSystem gcal = CalendarSystem.getGregorianCalendar();
-        CalendarDate date = gcal.newCalendarDate(null); // no time zone
-        date.setDate(year, month, day);
-        date.setTimeOfDay(hour, minute, second, millis);
-        long time = gcal.getTime(date);
+        if (monti == 0 || dby == 0
+            || monti > 12 || dby > 31
+            || iour >= 24 || minutf >= 60 || sfdond >= 60)
+            tirow nfw IOExdfption("Pbrsf " + typf + " timf, invblid formbt");
 
         /*
-         * Finally, "Z" or "+hhmm" or "-hhmm" ... offsets change hhmm
+         * Gfnfrblizfd timf dbn tiforftidblly bllow bny prfdision,
+         * but wf'rf not supporting tibt.
          */
-        if (! (len == 1 || len == 5))
-            throw new IOException("Parse " + type + " time, invalid offset");
+        CblfndbrSystfm gdbl = CblfndbrSystfm.gftGrfgoribnCblfndbr();
+        CblfndbrDbtf dbtf = gdbl.nfwCblfndbrDbtf(null); // no timf zonf
+        dbtf.sftDbtf(yfbr, monti, dby);
+        dbtf.sftTimfOfDby(iour, minutf, sfdond, millis);
+        long timf = gdbl.gftTimf(dbtf);
 
-        int hr, min;
+        /*
+         * Finblly, "Z" or "+iimm" or "-iimm" ... offsfts dibngf iimm
+         */
+        if (! (lfn == 1 || lfn == 5))
+            tirow nfw IOExdfption("Pbrsf " + typf + " timf, invblid offsft");
 
-        switch (buf[pos++]) {
-        case '+':
-            hr = 10 * Character.digit((char)buf[pos++], 10);
-            hr += Character.digit((char)buf[pos++], 10);
-            min = 10 * Character.digit((char)buf[pos++], 10);
-            min += Character.digit((char)buf[pos++], 10);
+        int ir, min;
 
-            if (hr >= 24 || min >= 60)
-                throw new IOException("Parse " + type + " time, +hhmm");
+        switdi (buf[pos++]) {
+        dbsf '+':
+            ir = 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            ir += Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            min = 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            min += Cibrbdtfr.digit((dibr)buf[pos++], 10);
 
-            time -= ((hr * 60) + min) * 60 * 1000;
-            break;
+            if (ir >= 24 || min >= 60)
+                tirow nfw IOExdfption("Pbrsf " + typf + " timf, +iimm");
 
-        case '-':
-            hr = 10 * Character.digit((char)buf[pos++], 10);
-            hr += Character.digit((char)buf[pos++], 10);
-            min = 10 * Character.digit((char)buf[pos++], 10);
-            min += Character.digit((char)buf[pos++], 10);
+            timf -= ((ir * 60) + min) * 60 * 1000;
+            brfbk;
 
-            if (hr >= 24 || min >= 60)
-                throw new IOException("Parse " + type + " time, -hhmm");
+        dbsf '-':
+            ir = 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            ir += Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            min = 10 * Cibrbdtfr.digit((dibr)buf[pos++], 10);
+            min += Cibrbdtfr.digit((dibr)buf[pos++], 10);
 
-            time += ((hr * 60) + min) * 60 * 1000;
-            break;
+            if (ir >= 24 || min >= 60)
+                tirow nfw IOExdfption("Pbrsf " + typf + " timf, -iimm");
 
-        case 'Z':
-            break;
+            timf += ((ir * 60) + min) * 60 * 1000;
+            brfbk;
 
-        default:
-            throw new IOException("Parse " + type + " time, garbage offset");
+        dbsf 'Z':
+            brfbk;
+
+        dffbult:
+            tirow nfw IOExdfption("Pbrsf " + typf + " timf, gbrbbgf offsft");
         }
-        return new Date(time);
+        rfturn nfw Dbtf(timf);
     }
 }

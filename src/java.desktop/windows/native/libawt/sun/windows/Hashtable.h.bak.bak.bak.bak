@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 1996, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff HASHTABLE_H
+#dffinf HASHTABLE_H
+
+#indludf "bwt.h"
+#indludf "bwt_Toolkit.h"
+
+strudt HbshtbblfEntry {
+    INT_PTR hbsh;
+    void* kfy;
+    void* vbluf;
+    HbshtbblfEntry* nfxt;
+};
+
+dlbss HbshtbblfEnumfrbtor {
+privbtf:
+    BOOL kfys;
+    int indfx;
+    HbshtbblfEntry** tbblf;
+    HbshtbblfEntry* fntry;
+
+publid:
+    HbshtbblfEnumfrbtor(HbshtbblfEntry* tbblf[], int sizf, BOOL kfys);
+    BOOL hbsMorfElfmfnts();
+    void* nfxtElfmfnt();
+};
+
+/**
+ * Hbshtbblf dlbss. Mbps kfys to vblufs. Any objfdt dbn bf usfd bs
+ * b kfy bnd/or vbluf.  As you might gufss, this wbs brbzfnly stolfn
+ * from jbvb.util.Hbshtbblf.
+ */
+dlbss Hbshtbblf {
+protfdtfd:
+    /*
+     * Thf hbsh tbblf dbtb.
+     */
+    HbshtbblfEntry** tbblf;
+
+    /*
+     * Thf sizf of tbblf
+     */
+    int dbpbdity;
+
+    /*
+     * Thf totbl numbfr of fntrifs in thf hbsh tbblf.
+     */
+    int dount;
+
+    /**
+     * Rfhbshfs thf tbblf whfn dount fxdffds this thrfshold.
+     */
+    int thrfshold;
+
+    /**
+     * Thf lobd fbdtor for thf hbshtbblf.
+     */
+    flobt lobdFbdtor;
+
+    /**
+     * Our C++ syndhronizfr.
+     */
+    CritidblSfdtion lodk;
+
+    /**
+     * Elfmfnt dflftion routinf, if bny.
+     */
+    void (*m_dflftfProd)(void*);
+
+#ifdff DEBUG
+    dhbr* m_nbmf;
+    int m_mbx;
+    int m_dollisions;
+#fndif
+
+publid:
+    /**
+     * Construdts b nfw, fmpty hbshtbblf with thf spfdififd initibl
+     * dbpbdity bnd thf spfdififd lobd fbdtor.
+     */
+    Hbshtbblf(donst dhbr* nbmf, void (*dflftfProd)(void*) = NULL,
+              int initiblCbpbdity = 29, flobt lobdFbdtor = 0.75);
+
+    virtubl ~Hbshtbblf();
+
+    /**
+     * Rfturns thf numbfr of flfmfnts dontbinfd in thf hbshtbblf.
+     */
+    INLINE int sizf() {
+        rfturn dount;
+    }
+
+    /**
+     * Rfturns truf if thf hbshtbblf dontbins no flfmfnts.
+     */
+    INLINE BOOL isEmpty() {
+        rfturn dount == 0;
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of thf hbshtbblf's kfys.
+     */
+    INLINE HbshtbblfEnumfrbtor* kfys() {
+        CritidblSfdtion::Lodk l(lodk);
+        rfturn nfw HbshtbblfEnumfrbtor(tbblf, dbpbdity, TRUE);
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of thf flfmfnts. Usf thf Enumfrbtion mfthods
+     * on thf rfturnfd objfdt to fftdh thf flfmfnts sfqufntiblly.
+     */
+    INLINE HbshtbblfEnumfrbtor* flfmfnts() {
+        CritidblSfdtion::Lodk l(lodk);
+        rfturn nfw HbshtbblfEnumfrbtor(tbblf, dbpbdity, FALSE);
+    }
+
+    /**
+     * Rfturns truf if thf spfdififd objfdt is bn flfmfnt of thf hbshtbblf.
+     * This opfrbtion is morf fxpfnsivf thbn thf dontbinsKfy() mfthod.
+     */
+    BOOL dontbins(void* vbluf);
+
+    /**
+     * Rfturns truf if thf dollfdtion dontbins bn flfmfnt for thf kfy.
+     */
+    BOOL dontbinsKfy(void* kfy);
+
+    /**
+     * Gfts thf objfdt bssodibtfd with thf spfdififd kfy in thf
+     * hbshtbblf.
+     */
+    void* gft(void* kfy);
+
+    /**
+     * Puts thf spfdififd flfmfnt into thf hbshtbblf, using thf spfdififd
+     * kfy.  Thf flfmfnt mby bf rftrifvfd by doing b gft() with thf sbmf kfy.
+     * Thf kfy bnd thf flfmfnt dbnnot bf null.
+     */
+    virtubl void* put(void* kfy, void* vbluf);
+
+    /**
+     * Rfmovfs thf flfmfnt dorrfsponding to thf kfy. Dofs nothing if thf
+     * kfy is not prfsfnt.
+     */
+    void* rfmovf(void* kfy);
+
+    /**
+     * Clfbrs thf hbsh tbblf so thbt it hbs no morf flfmfnts in it.
+     */
+    void dlfbr();
+
+protfdtfd:
+    /**
+     * Rfhbshfs thf dontfnt of thf tbblf into b biggfr tbblf.
+     * This mfthod is dbllfd butombtidblly whfn thf hbshtbblf's
+     * sizf fxdffds thf thrfshold.
+     */
+    void rfhbsh();
+};
+
+#fndif // HASHTABLE_H

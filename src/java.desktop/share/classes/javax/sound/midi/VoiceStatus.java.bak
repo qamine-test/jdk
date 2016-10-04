@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 1998, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
 
 /**
- * A <code>VoiceStatus</code> object contains information about the current
- * status of one of the voices produced by a {@link Synthesizer}.
+ * A <dodf>VoidfStbtus</dodf> objfdt dontbins informbtion bbout tif durrfnt
+ * stbtus of onf of tif voidfs produdfd by b {@link Syntifsizfr}.
  * <p>
- * MIDI synthesizers are generally capable of producing some maximum number of
- * simultaneous notes, also referred to as voices.  A voice is a stream
- * of successive single notes, and the process of assigning incoming MIDI notes to
- * specific voices is known as voice allocation.
- * However, the voice-allocation algorithm and the contents of each voice are
- * normally internal to a MIDI synthesizer and hidden from outside view.  One can, of
- * course, learn from MIDI messages which notes the synthesizer is playing, and
- * one might be able deduce something about the assignment of notes to voices.
- * But MIDI itself does not provide a means to report which notes a
- * synthesizer has assigned to which voice, nor even to report how many voices
- * the synthesizer is capable of synthesizing.
+ * MIDI syntifsizfrs brf gfnfrblly dbpbblf of produding somf mbximum numbfr of
+ * simultbnfous notfs, blso rfffrrfd to bs voidfs.  A voidf is b strfbm
+ * of suddfssivf singlf notfs, bnd tif prodfss of bssigning indoming MIDI notfs to
+ * spfdifid voidfs is known bs voidf bllodbtion.
+ * Howfvfr, tif voidf-bllodbtion blgoritim bnd tif dontfnts of fbdi voidf brf
+ * normblly intfrnbl to b MIDI syntifsizfr bnd iiddfn from outsidf vifw.  Onf dbn, of
+ * doursf, lfbrn from MIDI mfssbgfs wiidi notfs tif syntifsizfr is plbying, bnd
+ * onf migit bf bblf dfdudf somftiing bbout tif bssignmfnt of notfs to voidfs.
+ * But MIDI itsflf dofs not providf b mfbns to rfport wiidi notfs b
+ * syntifsizfr ibs bssignfd to wiidi voidf, nor fvfn to rfport iow mbny voidfs
+ * tif syntifsizfr is dbpbblf of syntifsizing.
  * <p>
- * In Java Sound, however, a
- * <code>Synthesizer</code> class can expose the contents of its voices through its
- * {@link Synthesizer#getVoiceStatus() getVoiceStatus()} method.
- * This behavior is recommended but optional;
- * synthesizers that don't expose their voice allocation simply return a
- * zero-length array. A <code>Synthesizer</code> that does report its voice status
- * should maintain this information at
- * all times for all of its voices, whether they are currently sounding or
- * not.  In other words, a given type of <code>Synthesizer</code> always has a fixed
- * number of voices, equal to the maximum number of simultaneous notes it is
- * capable of sounding.
+ * In Jbvb Sound, iowfvfr, b
+ * <dodf>Syntifsizfr</dodf> dlbss dbn fxposf tif dontfnts of its voidfs tirougi its
+ * {@link Syntifsizfr#gftVoidfStbtus() gftVoidfStbtus()} mftiod.
+ * Tiis bfibvior is rfdommfndfd but optionbl;
+ * syntifsizfrs tibt don't fxposf tifir voidf bllodbtion simply rfturn b
+ * zfro-lfngti brrby. A <dodf>Syntifsizfr</dodf> tibt dofs rfport its voidf stbtus
+ * siould mbintbin tiis informbtion bt
+ * bll timfs for bll of its voidfs, wiftifr tify brf durrfntly sounding or
+ * not.  In otifr words, b givfn typf of <dodf>Syntifsizfr</dodf> blwbys ibs b fixfd
+ * numbfr of voidfs, fqubl to tif mbximum numbfr of simultbnfous notfs it is
+ * dbpbblf of sounding.
  * <p>
- * <A NAME="description_of_active"></A>
- * If the voice is not currently processing a MIDI note, it
- * is considered inactive.  A voice is inactive when it has
- * been given no note-on commands, or when every note-on command received has
- * been terminated by a corresponding note-off (or by an "all notes off"
- * message).  For example, this happens when a synthesizer capable of playing 16
- * simultaneous notes is told to play a four-note chord; only
- * four voices are active in this case (assuming no earlier notes are still playing).
- * Usually, a voice whose status is reported as active is producing audible sound, but this
- * is not always true; it depends on the details of the instrument (that
- * is, the synthesis algorithm) and how long the note has been going on.
- * For example, a voice may be synthesizing the sound of a single hand-clap.  Because
- * this sound dies away so quickly, it may become inaudible before a note-off
- * message is received.  In such a situation, the voice is still considered active
- * even though no sound is currently being produced.
+ * <A NAME="dfsdription_of_bdtivf"></A>
+ * If tif voidf is not durrfntly prodfssing b MIDI notf, it
+ * is donsidfrfd inbdtivf.  A voidf is inbdtivf wifn it ibs
+ * bffn givfn no notf-on dommbnds, or wifn fvfry notf-on dommbnd rfdfivfd ibs
+ * bffn tfrminbtfd by b dorrfsponding notf-off (or by bn "bll notfs off"
+ * mfssbgf).  For fxbmplf, tiis ibppfns wifn b syntifsizfr dbpbblf of plbying 16
+ * simultbnfous notfs is told to plby b four-notf diord; only
+ * four voidfs brf bdtivf in tiis dbsf (bssuming no fbrlifr notfs brf still plbying).
+ * Usublly, b voidf wiosf stbtus is rfportfd bs bdtivf is produding budiblf sound, but tiis
+ * is not blwbys truf; it dfpfnds on tif dftbils of tif instrumfnt (tibt
+ * is, tif syntifsis blgoritim) bnd iow long tif notf ibs bffn going on.
+ * For fxbmplf, b voidf mby bf syntifsizing tif sound of b singlf ibnd-dlbp.  Bfdbusf
+ * tiis sound difs bwby so quidkly, it mby bfdomf inbudiblf bfforf b notf-off
+ * mfssbgf is rfdfivfd.  In sudi b situbtion, tif voidf is still donsidfrfd bdtivf
+ * fvfn tiougi no sound is durrfntly bfing produdfd.
  * <p>
- * Besides its active or inactive status, the <code>VoiceStatus</code> class
- * provides fields that reveal the voice's current MIDI channel, bank and
- * program number, MIDI note number, and MIDI volume.  All of these can
- * change during the course of a voice.  While the voice is inactive, each
- * of these fields has an unspecified value, so you should check the active
- * field first.
+ * Bfsidfs its bdtivf or inbdtivf stbtus, tif <dodf>VoidfStbtus</dodf> dlbss
+ * providfs fiflds tibt rfvfbl tif voidf's durrfnt MIDI dibnnfl, bbnk bnd
+ * progrbm numbfr, MIDI notf numbfr, bnd MIDI volumf.  All of tifsf dbn
+ * dibngf during tif doursf of b voidf.  Wiilf tif voidf is inbdtivf, fbdi
+ * of tifsf fiflds ibs bn unspfdififd vbluf, so you siould difdk tif bdtivf
+ * fifld first.
  *
- * @see Synthesizer#getMaxPolyphony
- * @see Synthesizer#getVoiceStatus
+ * @sff Syntifsizfr#gftMbxPolypiony
+ * @sff Syntifsizfr#gftVoidfStbtus
  *
- * @author David Rivas
- * @author Kara Kytle
+ * @butior Dbvid Rivbs
+ * @butior Kbrb Kytlf
  */
 
-public class VoiceStatus {
+publid dlbss VoidfStbtus {
 
 
     /**
-     * Indicates whether the voice is currently processing a MIDI note.
-     * See the explanation of
-     * <A HREF="#description_of_active">active and inactive voices</A>.
+     * Indidbtfs wiftifr tif voidf is durrfntly prodfssing b MIDI notf.
+     * Sff tif fxplbnbtion of
+     * <A HREF="#dfsdription_of_bdtivf">bdtivf bnd inbdtivf voidfs</A>.
      */
-    public boolean active = false;
+    publid boolfbn bdtivf = fblsf;
 
 
     /**
-     * The MIDI channel on which this voice is playing.  The value is a
-     * zero-based channel number if the voice is active, or
-     * unspecified if the voice is inactive.
+     * Tif MIDI dibnnfl on wiidi tiis voidf is plbying.  Tif vbluf is b
+     * zfro-bbsfd dibnnfl numbfr if tif voidf is bdtivf, or
+     * unspfdififd if tif voidf is inbdtivf.
      *
-     * @see MidiChannel
-     * @see #active
+     * @sff MidiCibnnfl
+     * @sff #bdtivf
      */
-    public int channel = 0;
+    publid int dibnnfl = 0;
 
 
     /**
-     * The bank number of the instrument that this voice is currently using.
-     * This is a number dictated by the MIDI bank-select message; it does not
-     * refer to a <code>SoundBank</code> object.
-     * The value ranges from 0 to 16383 if the voice is active, and is
-     * unspecified if the voice is inactive.
-     * @see Patch
-     * @see Soundbank
-     * @see #active
-     * @see MidiChannel#programChange(int, int)
+     * Tif bbnk numbfr of tif instrumfnt tibt tiis voidf is durrfntly using.
+     * Tiis is b numbfr didtbtfd by tif MIDI bbnk-sflfdt mfssbgf; it dofs not
+     * rfffr to b <dodf>SoundBbnk</dodf> objfdt.
+     * Tif vbluf rbngfs from 0 to 16383 if tif voidf is bdtivf, bnd is
+     * unspfdififd if tif voidf is inbdtivf.
+     * @sff Pbtdi
+     * @sff Soundbbnk
+     * @sff #bdtivf
+     * @sff MidiCibnnfl#progrbmCibngf(int, int)
      */
-    public int bank = 0;
+    publid int bbnk = 0;
 
 
     /**
-     * The program number of the instrument that this voice is currently using.
-     * The value ranges from 0 to 127 if the voice is active, and is
-     * unspecified if the voice is inactive.
+     * Tif progrbm numbfr of tif instrumfnt tibt tiis voidf is durrfntly using.
+     * Tif vbluf rbngfs from 0 to 127 if tif voidf is bdtivf, bnd is
+     * unspfdififd if tif voidf is inbdtivf.
      *
-     * @see MidiChannel#getProgram
-     * @see Patch
-     * @see #active
+     * @sff MidiCibnnfl#gftProgrbm
+     * @sff Pbtdi
+     * @sff #bdtivf
      */
-    public int program = 0;
+    publid int progrbm = 0;
 
 
     /**
-     * The MIDI note that this voice is playing.  The range for an active voice
-     * is from 0 to 127 in semitones, with 60 referring to Middle C.
-     * The value is unspecified if the voice is inactive.
+     * Tif MIDI notf tibt tiis voidf is plbying.  Tif rbngf for bn bdtivf voidf
+     * is from 0 to 127 in sfmitonfs, witi 60 rfffrring to Middlf C.
+     * Tif vbluf is unspfdififd if tif voidf is inbdtivf.
      *
-     * @see MidiChannel#noteOn
-     * @see #active
+     * @sff MidiCibnnfl#notfOn
+     * @sff #bdtivf
      */
-    public int note = 0;
+    publid int notf = 0;
 
 
     /**
-     * The current MIDI volume level for the voice.
-     * The value ranges from 0 to 127 if the voice is active, and is
-     * unspecified if the voice is inactive.
+     * Tif durrfnt MIDI volumf lfvfl for tif voidf.
+     * Tif vbluf rbngfs from 0 to 127 if tif voidf is bdtivf, bnd is
+     * unspfdififd if tif voidf is inbdtivf.
      * <p>
-     * Note that this value does not necessarily reflect
-     * the instantaneous level of the sound produced by this
-     * voice; that level is the result of  many contributing
-     * factors, including the current instrument and the
-     * shape of the amplitude envelope it produces.
+     * Notf tibt tiis vbluf dofs not nfdfssbrily rfflfdt
+     * tif instbntbnfous lfvfl of tif sound produdfd by tiis
+     * voidf; tibt lfvfl is tif rfsult of  mbny dontributing
+     * fbdtors, indluding tif durrfnt instrumfnt bnd tif
+     * sibpf of tif bmplitudf fnvflopf it produdfs.
      *
-     * @see #active
+     * @sff #bdtivf
      */
-    public int volume = 0;
+    publid int volumf = 0;
 }

@@ -1,841 +1,841 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  * ===========================================================================
- * (C) Copyright IBM Corp. 2000 All Rights Reserved.
+ * (C) Copyrigit IBM Corp. 2000 All Rigits Rfsfrvfd.
  * ===========================================================================
  */
 
-#define UNICODE
-#define _UNICODE
+#dffinf UNICODE
+#dffinf _UNICODE
 
-#include <windows.h>
-#include <stdio.h>
-#include <string.h>
-#define SECURITY_WIN32
-#include <security.h>
-#include <ntsecapi.h>
-#include <dsgetdc.h>
-#include <lmcons.h>
-#include <lmapibuf.h>
-#include <jni.h>
-#include <winsock.h>
+#indludf <windows.i>
+#indludf <stdio.i>
+#indludf <string.i>
+#dffinf SECURITY_WIN32
+#indludf <sfdurity.i>
+#indludf <ntsfdbpi.i>
+#indludf <dsgftdd.i>
+#indludf <lmdons.i>
+#indludf <lmbpibuf.i>
+#indludf <jni.i>
+#indludf <winsodk.i>
 
-#undef LSA_SUCCESS
-#define LSA_SUCCESS(Status) ((Status) >= 0)
-#define EXIT_FAILURE -1 // mdu
+#undff LSA_SUCCESS
+#dffinf LSA_SUCCESS(Stbtus) ((Stbtus) >= 0)
+#dffinf EXIT_FAILURE -1 // mdu
 
 /*
- * Library-wide static references
+ * Librbry-widf stbtid rfffrfndfs
  */
 
-jclass derValueClass = NULL;
-jclass ticketClass = NULL;
-jclass principalNameClass = NULL;
-jclass encryptionKeyClass = NULL;
-jclass ticketFlagsClass = NULL;
-jclass kerberosTimeClass = NULL;
-jclass javaLangStringClass = NULL;
+jdlbss dfrVblufClbss = NULL;
+jdlbss tidkftClbss = NULL;
+jdlbss prindipblNbmfClbss = NULL;
+jdlbss fndryptionKfyClbss = NULL;
+jdlbss tidkftFlbgsClbss = NULL;
+jdlbss kfrbfrosTimfClbss = NULL;
+jdlbss jbvbLbngStringClbss = NULL;
 
-jmethodID derValueConstructor = 0;
-jmethodID ticketConstructor = 0;
-jmethodID principalNameConstructor = 0;
-jmethodID encryptionKeyConstructor = 0;
-jmethodID ticketFlagsConstructor = 0;
-jmethodID kerberosTimeConstructor = 0;
-jmethodID krbcredsConstructor = 0;
+jmftiodID dfrVblufConstrudtor = 0;
+jmftiodID tidkftConstrudtor = 0;
+jmftiodID prindipblNbmfConstrudtor = 0;
+jmftiodID fndryptionKfyConstrudtor = 0;
+jmftiodID tidkftFlbgsConstrudtor = 0;
+jmftiodID kfrbfrosTimfConstrudtor = 0;
+jmftiodID krbdrfdsConstrudtor = 0;
 
 /*
- * Function prototypes for internal routines
+ * Fundtion prototypfs for intfrnbl routinfs
  *
  */
-BOOL native_debug = 0;
+BOOL nbtivf_dfbug = 0;
 
-BOOL PackageConnectLookup(PHANDLE,PULONG);
+BOOL PbdkbgfConnfdtLookup(PHANDLE,PULONG);
 
-NTSTATUS ConstructTicketRequest(UNICODE_STRING DomainName,
-                                PKERB_RETRIEVE_TKT_REQUEST *outRequest,
-                                ULONG *outSize);
+NTSTATUS ConstrudtTidkftRfqufst(UNICODE_STRING DombinNbmf,
+                                PKERB_RETRIEVE_TKT_REQUEST *outRfqufst,
+                                ULONG *outSizf);
 
-DWORD ConcatenateUnicodeStrings(UNICODE_STRING *pTarget,
-                                UNICODE_STRING Source1,
-                                UNICODE_STRING Source2);
+DWORD CondbtfnbtfUnidodfStrings(UNICODE_STRING *pTbrgft,
+                                UNICODE_STRING Sourdf1,
+                                UNICODE_STRING Sourdf2);
 
-VOID ShowNTError(LPSTR,NTSTATUS);
+VOID SiowNTError(LPSTR,NTSTATUS);
 
 VOID
-InitUnicodeString(
-    PUNICODE_STRING DestinationString,
-    PCWSTR SourceString OPTIONAL
+InitUnidodfString(
+    PUNICODE_STRING DfstinbtionString,
+    PCWSTR SourdfString OPTIONAL
 );
 
-jobject BuildTicket(JNIEnv *env, PUCHAR encodedTicket, ULONG encodedTicketSize);
+jobjfdt BuildTidkft(JNIEnv *fnv, PUCHAR fndodfdTidkft, ULONG fndodfdTidkftSizf);
 
 //mdu
-jobject BuildPrincipal(JNIEnv *env, PKERB_EXTERNAL_NAME principalName,
-                                UNICODE_STRING domainName);
+jobjfdt BuildPrindipbl(JNIEnv *fnv, PKERB_EXTERNAL_NAME prindipblNbmf,
+                                UNICODE_STRING dombinNbmf);
 
-jobject BuildEncryptionKey(JNIEnv *env, PKERB_CRYPTO_KEY cryptoKey);
-jobject BuildTicketFlags(JNIEnv *env, PULONG flags);
-jobject BuildKerberosTime(JNIEnv *env, PLARGE_INTEGER kerbtime);
+jobjfdt BuildEndryptionKfy(JNIEnv *fnv, PKERB_CRYPTO_KEY dryptoKfy);
+jobjfdt BuildTidkftFlbgs(JNIEnv *fnv, PULONG flbgs);
+jobjfdt BuildKfrbfrosTimf(JNIEnv *fnv, PLARGE_INTEGER kfrbtimf);
 
 /*
- * Class:     sun_security_krb5_KrbCreds
- * Method:    JNI_OnLoad
+ * Clbss:     sun_sfdurity_krb5_KrbCrfds
+ * Mftiod:    JNI_OnLobd
  */
 
-JNIEXPORT jint JNICALL JNI_OnLoad(
-        JavaVM  *jvm,
-        void    *reserved) {
+JNIEXPORT jint JNICALL JNI_OnLobd(
+        JbvbVM  *jvm,
+        void    *rfsfrvfd) {
 
-    jclass cls;
-    JNIEnv *env;
-    jfieldID fldDEBUG;
+    jdlbss dls;
+    JNIEnv *fnv;
+    jfifldID fldDEBUG;
 
-    if ((*jvm)->GetEnv(jvm, (void **)&env, JNI_VERSION_1_2)) {
-        return JNI_EVERSION; /* JNI version not supported */
+    if ((*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2)) {
+        rfturn JNI_EVERSION; /* JNI vfrsion not supportfd */
     }
 
-    cls = (*env)->FindClass(env,"sun/security/krb5/internal/Krb5");
-    if (cls == NULL) {
+    dls = (*fnv)->FindClbss(fnv,"sun/sfdurity/krb5/intfrnbl/Krb5");
+    if (dls == NULL) {
         printf("LSA: Couldn't find Krb5\n");
-        return JNI_ERR;
+        rfturn JNI_ERR;
     }
-    fldDEBUG = (*env)->GetStaticFieldID(env, cls, "DEBUG", "Z");
+    fldDEBUG = (*fnv)->GftStbtidFifldID(fnv, dls, "DEBUG", "Z");
     if (fldDEBUG == NULL) {
-        printf("LSA: Krb5 has no DEBUG field\n");
-        return JNI_ERR;
+        printf("LSA: Krb5 ibs no DEBUG fifld\n");
+        rfturn JNI_ERR;
     }
-    native_debug = (*env)->GetStaticBooleanField(env, cls, fldDEBUG);
+    nbtivf_dfbug = (*fnv)->GftStbtidBoolfbnFifld(fnv, dls, fldDEBUG);
 
-    cls = (*env)->FindClass(env,"sun/security/krb5/internal/Ticket");
+    dls = (*fnv)->FindClbss(fnv,"sun/sfdurity/krb5/intfrnbl/Tidkft");
 
-    if (cls == NULL) {
-        printf("LSA: Couldn't find Ticket\n");
-        return JNI_ERR;
+    if (dls == NULL) {
+        printf("LSA: Couldn't find Tidkft\n");
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Found Ticket\n");
-    }
-
-    ticketClass = (*env)->NewWeakGlobalRef(env,cls);
-    if (ticketClass == NULL) {
-        return JNI_ERR;
-    }
-    if (native_debug) {
-        printf("LSA: Made NewWeakGlobalRef\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Found Tidkft\n");
     }
 
-    cls = (*env)->FindClass(env, "sun/security/krb5/PrincipalName");
-
-    if (cls == NULL) {
-        printf("LSA: Couldn't find PrincipalName\n");
-        return JNI_ERR;
+    tidkftClbss = (*fnv)->NfwWfbkGlobblRff(fnv,dls);
+    if (tidkftClbss == NULL) {
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Found PrincipalName\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Mbdf NfwWfbkGlobblRff\n");
     }
 
-    principalNameClass = (*env)->NewWeakGlobalRef(env,cls);
-    if (principalNameClass == NULL) {
-        return JNI_ERR;
+    dls = (*fnv)->FindClbss(fnv, "sun/sfdurity/krb5/PrindipblNbmf");
+
+    if (dls == NULL) {
+        printf("LSA: Couldn't find PrindipblNbmf\n");
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Made NewWeakGlobalRef\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Found PrindipblNbmf\n");
     }
 
-    cls = (*env)->FindClass(env,"sun/security/util/DerValue");
-
-    if (cls == NULL) {
-        printf("LSA: Couldn't find DerValue\n");
-        return JNI_ERR;
+    prindipblNbmfClbss = (*fnv)->NfwWfbkGlobblRff(fnv,dls);
+    if (prindipblNbmfClbss == NULL) {
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Found DerValue\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Mbdf NfwWfbkGlobblRff\n");
     }
 
-    derValueClass = (*env)->NewWeakGlobalRef(env,cls);
-    if (derValueClass == NULL) {
-        return JNI_ERR;
+    dls = (*fnv)->FindClbss(fnv,"sun/sfdurity/util/DfrVbluf");
+
+    if (dls == NULL) {
+        printf("LSA: Couldn't find DfrVbluf\n");
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Made NewWeakGlobalRef\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Found DfrVbluf\n");
     }
 
-    cls = (*env)->FindClass(env,"sun/security/krb5/EncryptionKey");
-
-    if (cls == NULL) {
-        printf("LSA: Couldn't find EncryptionKey\n");
-        return JNI_ERR;
+    dfrVblufClbss = (*fnv)->NfwWfbkGlobblRff(fnv,dls);
+    if (dfrVblufClbss == NULL) {
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Found EncryptionKey\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Mbdf NfwWfbkGlobblRff\n");
     }
 
-    encryptionKeyClass = (*env)->NewWeakGlobalRef(env,cls);
-    if (encryptionKeyClass == NULL) {
-        return JNI_ERR;
+    dls = (*fnv)->FindClbss(fnv,"sun/sfdurity/krb5/EndryptionKfy");
+
+    if (dls == NULL) {
+        printf("LSA: Couldn't find EndryptionKfy\n");
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Made NewWeakGlobalRef\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Found EndryptionKfy\n");
     }
 
-    cls = (*env)->FindClass(env,"sun/security/krb5/internal/TicketFlags");
-
-    if (cls == NULL) {
-        printf("LSA: Couldn't find TicketFlags\n");
-        return JNI_ERR;
+    fndryptionKfyClbss = (*fnv)->NfwWfbkGlobblRff(fnv,dls);
+    if (fndryptionKfyClbss == NULL) {
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Found TicketFlags\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Mbdf NfwWfbkGlobblRff\n");
     }
 
-    ticketFlagsClass = (*env)->NewWeakGlobalRef(env,cls);
-    if (ticketFlagsClass == NULL) {
-        return JNI_ERR;
+    dls = (*fnv)->FindClbss(fnv,"sun/sfdurity/krb5/intfrnbl/TidkftFlbgs");
+
+    if (dls == NULL) {
+        printf("LSA: Couldn't find TidkftFlbgs\n");
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Made NewWeakGlobalRef\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Found TidkftFlbgs\n");
     }
 
-    cls = (*env)->FindClass(env,"sun/security/krb5/internal/KerberosTime");
-
-    if (cls == NULL) {
-        printf("LSA: Couldn't find KerberosTime\n");
-        return JNI_ERR;
+    tidkftFlbgsClbss = (*fnv)->NfwWfbkGlobblRff(fnv,dls);
+    if (tidkftFlbgsClbss == NULL) {
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Found KerberosTime\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Mbdf NfwWfbkGlobblRff\n");
     }
 
-    kerberosTimeClass = (*env)->NewWeakGlobalRef(env,cls);
-    if (kerberosTimeClass == NULL) {
-        return JNI_ERR;
+    dls = (*fnv)->FindClbss(fnv,"sun/sfdurity/krb5/intfrnbl/KfrbfrosTimf");
+
+    if (dls == NULL) {
+        printf("LSA: Couldn't find KfrbfrosTimf\n");
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Made NewWeakGlobalRef\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Found KfrbfrosTimf\n");
     }
 
-    cls = (*env)->FindClass(env,"java/lang/String");
+    kfrbfrosTimfClbss = (*fnv)->NfwWfbkGlobblRff(fnv,dls);
+    if (kfrbfrosTimfClbss == NULL) {
+        rfturn JNI_ERR;
+    }
+    if (nbtivf_dfbug) {
+        printf("LSA: Mbdf NfwWfbkGlobblRff\n");
+    }
 
-    if (cls == NULL) {
+    dls = (*fnv)->FindClbss(fnv,"jbvb/lbng/String");
+
+    if (dls == NULL) {
         printf("LSA: Couldn't find String\n");
-        return JNI_ERR;
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
+    if (nbtivf_dfbug) {
         printf("LSA: Found String\n");
     }
 
-    javaLangStringClass = (*env)->NewWeakGlobalRef(env,cls);
-    if (javaLangStringClass == NULL) {
-        return JNI_ERR;
+    jbvbLbngStringClbss = (*fnv)->NfwWfbkGlobblRff(fnv,dls);
+    if (jbvbLbngStringClbss == NULL) {
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Made NewWeakGlobalRef\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Mbdf NfwWfbkGlobblRff\n");
     }
 
-    derValueConstructor = (*env)->GetMethodID(env, derValueClass,
+    dfrVblufConstrudtor = (*fnv)->GftMftiodID(fnv, dfrVblufClbss,
                                             "<init>", "([B)V");
-    if (derValueConstructor == 0) {
-        printf("LSA: Couldn't find DerValue constructor\n");
-        return JNI_ERR;
+    if (dfrVblufConstrudtor == 0) {
+        printf("LSA: Couldn't find DfrVbluf donstrudtor\n");
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Found DerValue constructor\n");
-    }
-
-    ticketConstructor = (*env)->GetMethodID(env, ticketClass,
-                            "<init>", "(Lsun/security/util/DerValue;)V");
-    if (ticketConstructor == 0) {
-        printf("LSA: Couldn't find Ticket constructor\n");
-        return JNI_ERR;
-    }
-    if (native_debug) {
-        printf("LSA: Found Ticket constructor\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Found DfrVbluf donstrudtor\n");
     }
 
-    principalNameConstructor = (*env)->GetMethodID(env, principalNameClass,
-                        "<init>", "([Ljava/lang/String;Ljava/lang/String;)V");
-    if (principalNameConstructor == 0) {
-        printf("LSA: Couldn't find PrincipalName constructor\n");
-        return JNI_ERR;
+    tidkftConstrudtor = (*fnv)->GftMftiodID(fnv, tidkftClbss,
+                            "<init>", "(Lsun/sfdurity/util/DfrVbluf;)V");
+    if (tidkftConstrudtor == 0) {
+        printf("LSA: Couldn't find Tidkft donstrudtor\n");
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Found PrincipalName constructor\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Found Tidkft donstrudtor\n");
     }
 
-    encryptionKeyConstructor = (*env)->GetMethodID(env, encryptionKeyClass,
+    prindipblNbmfConstrudtor = (*fnv)->GftMftiodID(fnv, prindipblNbmfClbss,
+                        "<init>", "([Ljbvb/lbng/String;Ljbvb/lbng/String;)V");
+    if (prindipblNbmfConstrudtor == 0) {
+        printf("LSA: Couldn't find PrindipblNbmf donstrudtor\n");
+        rfturn JNI_ERR;
+    }
+    if (nbtivf_dfbug) {
+        printf("LSA: Found PrindipblNbmf donstrudtor\n");
+    }
+
+    fndryptionKfyConstrudtor = (*fnv)->GftMftiodID(fnv, fndryptionKfyClbss,
                                             "<init>", "(I[B)V");
-    if (encryptionKeyConstructor == 0) {
-        printf("LSA: Couldn't find EncryptionKey constructor\n");
-        return JNI_ERR;
+    if (fndryptionKfyConstrudtor == 0) {
+        printf("LSA: Couldn't find EndryptionKfy donstrudtor\n");
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Found EncryptionKey constructor\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Found EndryptionKfy donstrudtor\n");
     }
 
-    ticketFlagsConstructor = (*env)->GetMethodID(env, ticketFlagsClass,
+    tidkftFlbgsConstrudtor = (*fnv)->GftMftiodID(fnv, tidkftFlbgsClbss,
                                             "<init>", "(I[B)V");
-    if (ticketFlagsConstructor == 0) {
-        printf("LSA: Couldn't find TicketFlags constructor\n");
-        return JNI_ERR;
+    if (tidkftFlbgsConstrudtor == 0) {
+        printf("LSA: Couldn't find TidkftFlbgs donstrudtor\n");
+        rfturn JNI_ERR;
     }
-    if (native_debug) {
-        printf("LSA: Found TicketFlags constructor\n");
-    }
-
-    kerberosTimeConstructor = (*env)->GetMethodID(env, kerberosTimeClass,
-                                    "<init>", "(Ljava/lang/String;)V");
-    if (kerberosTimeConstructor == 0) {
-        printf("LSA: Couldn't find KerberosTime constructor\n");
-        return JNI_ERR;
-    }
-    if (native_debug) {
-        printf("LSA: Found KerberosTime constructor\n");
+    if (nbtivf_dfbug) {
+        printf("LSA: Found TidkftFlbgs donstrudtor\n");
     }
 
-    if (native_debug) {
-        printf("LSA: Finished OnLoad processing\n");
+    kfrbfrosTimfConstrudtor = (*fnv)->GftMftiodID(fnv, kfrbfrosTimfClbss,
+                                    "<init>", "(Ljbvb/lbng/String;)V");
+    if (kfrbfrosTimfConstrudtor == 0) {
+        printf("LSA: Couldn't find KfrbfrosTimf donstrudtor\n");
+        rfturn JNI_ERR;
+    }
+    if (nbtivf_dfbug) {
+        printf("LSA: Found KfrbfrosTimf donstrudtor\n");
     }
 
-    return JNI_VERSION_1_2;
+    if (nbtivf_dfbug) {
+        printf("LSA: Finisifd OnLobd prodfssing\n");
+    }
+
+    rfturn JNI_VERSION_1_2;
 }
 
 /*
- * Class:     sun_security_jgss_KrbCreds
- * Method:    JNI_OnUnload
+ * Clbss:     sun_sfdurity_jgss_KrbCrfds
+ * Mftiod:    JNI_OnUnlobd
  */
 
-JNIEXPORT void JNICALL JNI_OnUnload(
-        JavaVM  *jvm,
-        void    *reserved) {
+JNIEXPORT void JNICALL JNI_OnUnlobd(
+        JbvbVM  *jvm,
+        void    *rfsfrvfd) {
 
-    JNIEnv *env;
+    JNIEnv *fnv;
 
-    if ((*jvm)->GetEnv(jvm, (void **)&env, JNI_VERSION_1_2)) {
-        return; /* Nothing else we can do */
-    }
-
-    if (ticketClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,ticketClass);
-    }
-    if (derValueClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,derValueClass);
-    }
-    if (principalNameClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,principalNameClass);
-    }
-    if (encryptionKeyClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,encryptionKeyClass);
-    }
-    if (ticketFlagsClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,ticketFlagsClass);
-    }
-    if (kerberosTimeClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,kerberosTimeClass);
-    }
-    if (javaLangStringClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,javaLangStringClass);
+    if ((*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2)) {
+        rfturn; /* Notiing flsf wf dbn do */
     }
 
-    return;
+    if (tidkftClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,tidkftClbss);
+    }
+    if (dfrVblufClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,dfrVblufClbss);
+    }
+    if (prindipblNbmfClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,prindipblNbmfClbss);
+    }
+    if (fndryptionKfyClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,fndryptionKfyClbss);
+    }
+    if (tidkftFlbgsClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,tidkftFlbgsClbss);
+    }
+    if (kfrbfrosTimfClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,kfrbfrosTimfClbss);
+    }
+    if (jbvbLbngStringClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,jbvbLbngStringClbss);
+    }
+
+    rfturn;
 }
 
 /*
- * Class:     sun_security_krb5_Credentials
- * Method:    acquireDefaultNativeCreds
- * Signature: ([I])Lsun/security/krb5/Credentials;
+ * Clbss:     sun_sfdurity_krb5_Crfdfntibls
+ * Mftiod:    bdquirfDffbultNbtivfCrfds
+ * Signbturf: ([I])Lsun/sfdurity/krb5/Crfdfntibls;
  */
-JNIEXPORT jobject JNICALL Java_sun_security_krb5_Credentials_acquireDefaultNativeCreds(
-        JNIEnv *env,
-        jclass krbcredsClass,
-        jintArray jetypes) {
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_sfdurity_krb5_Crfdfntibls_bdquirfDffbultNbtivfCrfds(
+        JNIEnv *fnv,
+        jdlbss krbdrfdsClbss,
+        jintArrby jftypfs) {
 
-    KERB_QUERY_TKT_CACHE_REQUEST CacheRequest;
-    PKERB_RETRIEVE_TKT_RESPONSE TktCacheResponse = NULL;
-    PKERB_RETRIEVE_TKT_REQUEST pTicketRequest = NULL;
-    PKERB_RETRIEVE_TKT_RESPONSE pTicketResponse = NULL;
-    NTSTATUS Status, SubStatus;
-    ULONG requestSize = 0;
-    ULONG responseSize = 0;
-    ULONG rspSize = 0;
-    HANDLE LogonHandle = NULL;
-    ULONG PackageId;
-    jobject ticket, clientPrincipal, targetPrincipal, encryptionKey;
-    jobject ticketFlags, startTime, endTime, krbCreds = NULL;
-    jobject authTime, renewTillTime, hostAddresses = NULL;
-    KERB_EXTERNAL_TICKET *msticket;
+    KERB_QUERY_TKT_CACHE_REQUEST CbdifRfqufst;
+    PKERB_RETRIEVE_TKT_RESPONSE TktCbdifRfsponsf = NULL;
+    PKERB_RETRIEVE_TKT_REQUEST pTidkftRfqufst = NULL;
+    PKERB_RETRIEVE_TKT_RESPONSE pTidkftRfsponsf = NULL;
+    NTSTATUS Stbtus, SubStbtus;
+    ULONG rfqufstSizf = 0;
+    ULONG rfsponsfSizf = 0;
+    ULONG rspSizf = 0;
+    HANDLE LogonHbndlf = NULL;
+    ULONG PbdkbgfId;
+    jobjfdt tidkft, dlifntPrindipbl, tbrgftPrindipbl, fndryptionKfy;
+    jobjfdt tidkftFlbgs, stbrtTimf, fndTimf, krbCrfds = NULL;
+    jobjfdt butiTimf, rfnfwTillTimf, iostAddrfssfs = NULL;
+    KERB_EXTERNAL_TICKET *mstidkft;
     int found = 0;
-    FILETIME Now, EndTime, LocalEndTime;
+    FILETIME Now, EndTimf, LodblEndTimf;
 
-    int i, netypes;
-    jint *etypes = NULL;
+    int i, nftypfs;
+    jint *ftypfs = NULL;
 
-    while (TRUE) {
+    wiilf (TRUE) {
 
-        if (krbcredsConstructor == 0) {
-            krbcredsConstructor = (*env)->GetMethodID(env, krbcredsClass, "<init>",
-                    "(Lsun/security/krb5/internal/Ticket;"
-                    "Lsun/security/krb5/PrincipalName;"
-                    "Lsun/security/krb5/PrincipalName;"
-                    "Lsun/security/krb5/EncryptionKey;"
-                    "Lsun/security/krb5/internal/TicketFlags;"
-                    "Lsun/security/krb5/internal/KerberosTime;"
-                    "Lsun/security/krb5/internal/KerberosTime;"
-                    "Lsun/security/krb5/internal/KerberosTime;"
-                    "Lsun/security/krb5/internal/KerberosTime;"
-                    "Lsun/security/krb5/internal/HostAddresses;)V");
-            if (krbcredsConstructor == 0) {
-                printf("LSA: Couldn't find sun.security.krb5.Credentials constructor\n");
-                break;
+        if (krbdrfdsConstrudtor == 0) {
+            krbdrfdsConstrudtor = (*fnv)->GftMftiodID(fnv, krbdrfdsClbss, "<init>",
+                    "(Lsun/sfdurity/krb5/intfrnbl/Tidkft;"
+                    "Lsun/sfdurity/krb5/PrindipblNbmf;"
+                    "Lsun/sfdurity/krb5/PrindipblNbmf;"
+                    "Lsun/sfdurity/krb5/EndryptionKfy;"
+                    "Lsun/sfdurity/krb5/intfrnbl/TidkftFlbgs;"
+                    "Lsun/sfdurity/krb5/intfrnbl/KfrbfrosTimf;"
+                    "Lsun/sfdurity/krb5/intfrnbl/KfrbfrosTimf;"
+                    "Lsun/sfdurity/krb5/intfrnbl/KfrbfrosTimf;"
+                    "Lsun/sfdurity/krb5/intfrnbl/KfrbfrosTimf;"
+                    "Lsun/sfdurity/krb5/intfrnbl/HostAddrfssfs;)V");
+            if (krbdrfdsConstrudtor == 0) {
+                printf("LSA: Couldn't find sun.sfdurity.krb5.Crfdfntibls donstrudtor\n");
+                brfbk;
             }
         }
 
-        if (native_debug) {
-            printf("LSA: Found KrbCreds constructor\n");
+        if (nbtivf_dfbug) {
+            printf("LSA: Found KrbCrfds donstrudtor\n");
         }
 
         //
-        // Get the logon handle and package ID from the
-        // Kerberos package
+        // Gft tif logon ibndlf bnd pbdkbgf ID from tif
+        // Kfrbfros pbdkbgf
         //
-        if (!PackageConnectLookup(&LogonHandle, &PackageId))
-            break;
+        if (!PbdkbgfConnfdtLookup(&LogonHbndlf, &PbdkbgfId))
+            brfbk;
 
-        if (native_debug) {
-            printf("LSA: Got handle to Kerberos package\n");
+        if (nbtivf_dfbug) {
+            printf("LSA: Got ibndlf to Kfrbfros pbdkbgf\n");
         }
 
-        // Get the MS TGT from cache
-        CacheRequest.MessageType = KerbRetrieveTicketMessage;
-        CacheRequest.LogonId.LowPart = 0;
-        CacheRequest.LogonId.HighPart = 0;
+        // Gft tif MS TGT from dbdif
+        CbdifRfqufst.MfssbgfTypf = KfrbRftrifvfTidkftMfssbgf;
+        CbdifRfqufst.LogonId.LowPbrt = 0;
+        CbdifRfqufst.LogonId.HigiPbrt = 0;
 
-        Status = LsaCallAuthenticationPackage(
-                        LogonHandle,
-                        PackageId,
-                        &CacheRequest,
-                        sizeof(CacheRequest),
-                        &TktCacheResponse,
-                        &rspSize,
-                        &SubStatus
+        Stbtus = LsbCbllAutifntidbtionPbdkbgf(
+                        LogonHbndlf,
+                        PbdkbgfId,
+                        &CbdifRfqufst,
+                        sizfof(CbdifRfqufst),
+                        &TktCbdifRfsponsf,
+                        &rspSizf,
+                        &SubStbtus
                         );
 
-        if (native_debug) {
-            printf("LSA: Response size is %d\n", rspSize);
+        if (nbtivf_dfbug) {
+            printf("LSA: Rfsponsf sizf is %d\n", rspSizf);
         }
 
-        if (!LSA_SUCCESS(Status) || !LSA_SUCCESS(SubStatus)) {
-            if (!LSA_SUCCESS(Status)) {
-                ShowNTError("LsaCallAuthenticationPackage", Status);
-            } else {
-                ShowNTError("Protocol status", SubStatus);
+        if (!LSA_SUCCESS(Stbtus) || !LSA_SUCCESS(SubStbtus)) {
+            if (!LSA_SUCCESS(Stbtus)) {
+                SiowNTError("LsbCbllAutifntidbtionPbdkbgf", Stbtus);
+            } flsf {
+                SiowNTError("Protodol stbtus", SubStbtus);
             }
-            break;
+            brfbk;
         }
 
-        // got the native MS TGT
-        msticket = &(TktCacheResponse->Ticket);
+        // got tif nbtivf MS TGT
+        mstidkft = &(TktCbdifRfsponsf->Tidkft);
 
-        netypes = (*env)->GetArrayLength(env, jetypes);
-        etypes = (jint *) (*env)->GetIntArrayElements(env, jetypes, NULL);
+        nftypfs = (*fnv)->GftArrbyLfngti(fnv, jftypfs);
+        ftypfs = (jint *) (*fnv)->GftIntArrbyElfmfnts(fnv, jftypfs, NULL);
 
-        if (etypes == NULL) {
-            break;
+        if (ftypfs == NULL) {
+            brfbk;
         }
 
-        // check TGT validity
-        if (native_debug) {
-            printf("LSA: TICKET SessionKey KeyType is %d\n", msticket->SessionKey.KeyType);
+        // difdk TGT vblidity
+        if (nbtivf_dfbug) {
+            printf("LSA: TICKET SfssionKfy KfyTypf is %d\n", mstidkft->SfssionKfy.KfyTypf);
         }
 
-        if ((msticket->TicketFlags & KERB_TICKET_FLAGS_invalid) == 0) {
-            GetSystemTimeAsFileTime(&Now);
-            EndTime.dwLowDateTime = msticket->EndTime.LowPart;
-            EndTime.dwHighDateTime = msticket->EndTime.HighPart;
-            FileTimeToLocalFileTime(&EndTime, &LocalEndTime);
-            if (CompareFileTime(&Now, &LocalEndTime) < 0) {
-                for (i=0; i<netypes; i++) {
-                    if (etypes[i] == msticket->SessionKey.KeyType) {
+        if ((mstidkft->TidkftFlbgs & KERB_TICKET_FLAGS_invblid) == 0) {
+            GftSystfmTimfAsFilfTimf(&Now);
+            EndTimf.dwLowDbtfTimf = mstidkft->EndTimf.LowPbrt;
+            EndTimf.dwHigiDbtfTimf = mstidkft->EndTimf.HigiPbrt;
+            FilfTimfToLodblFilfTimf(&EndTimf, &LodblEndTimf);
+            if (CompbrfFilfTimf(&Now, &LodblEndTimf) < 0) {
+                for (i=0; i<nftypfs; i++) {
+                    if (ftypfs[i] == mstidkft->SfssionKfy.KfyTypf) {
                         found = 1;
-                        if (native_debug) {
-                            printf("LSA: Valid etype found: %d\n", etypes[i]);
+                        if (nbtivf_dfbug) {
+                            printf("LSA: Vblid ftypf found: %d\n", ftypfs[i]);
                         }
-                        break;
+                        brfbk;
                     }
                 }
             }
         }
 
         if (!found) {
-            if (native_debug) {
-                printf("LSA: MS TGT in cache is invalid/not supported; request new ticket\n");
+            if (nbtivf_dfbug) {
+                printf("LSA: MS TGT in dbdif is invblid/not supportfd; rfqufst nfw tidkft\n");
             }
 
-            // use domain to request Ticket
-            Status = ConstructTicketRequest(msticket->TargetDomainName,
-                                &pTicketRequest, &requestSize);
-            if (!LSA_SUCCESS(Status)) {
-                ShowNTError("ConstructTicketRequest status", Status);
-                break;
+            // usf dombin to rfqufst Tidkft
+            Stbtus = ConstrudtTidkftRfqufst(mstidkft->TbrgftDombinNbmf,
+                                &pTidkftRfqufst, &rfqufstSizf);
+            if (!LSA_SUCCESS(Stbtus)) {
+                SiowNTError("ConstrudtTidkftRfqufst stbtus", Stbtus);
+                brfbk;
             }
 
-            pTicketRequest->MessageType = KerbRetrieveEncodedTicketMessage;
-            pTicketRequest->CacheOptions = KERB_RETRIEVE_TICKET_DONT_USE_CACHE;
+            pTidkftRfqufst->MfssbgfTypf = KfrbRftrifvfEndodfdTidkftMfssbgf;
+            pTidkftRfqufst->CbdifOptions = KERB_RETRIEVE_TICKET_DONT_USE_CACHE;
 
-            for (i=0; i<netypes; i++) {
-                pTicketRequest->EncryptionType = etypes[i];
-                Status = LsaCallAuthenticationPackage(
-                            LogonHandle,
-                            PackageId,
-                            pTicketRequest,
-                            requestSize,
-                            &pTicketResponse,
-                            &responseSize,
-                            &SubStatus
+            for (i=0; i<nftypfs; i++) {
+                pTidkftRfqufst->EndryptionTypf = ftypfs[i];
+                Stbtus = LsbCbllAutifntidbtionPbdkbgf(
+                            LogonHbndlf,
+                            PbdkbgfId,
+                            pTidkftRfqufst,
+                            rfqufstSizf,
+                            &pTidkftRfsponsf,
+                            &rfsponsfSizf,
+                            &SubStbtus
                             );
 
-                if (native_debug) {
-                    printf("LSA: Response size is %d for %d\n", responseSize, etypes[i]);
+                if (nbtivf_dfbug) {
+                    printf("LSA: Rfsponsf sizf is %d for %d\n", rfsponsfSizf, ftypfs[i]);
                 }
 
-                if (!LSA_SUCCESS(Status) || !LSA_SUCCESS(SubStatus)) {
-                    if (!LSA_SUCCESS(Status)) {
-                        ShowNTError("LsaCallAuthenticationPackage", Status);
-                    } else {
-                        ShowNTError("Protocol status", SubStatus);
+                if (!LSA_SUCCESS(Stbtus) || !LSA_SUCCESS(SubStbtus)) {
+                    if (!LSA_SUCCESS(Stbtus)) {
+                        SiowNTError("LsbCbllAutifntidbtionPbdkbgf", Stbtus);
+                    } flsf {
+                        SiowNTError("Protodol stbtus", SubStbtus);
                     }
-                    continue;
+                    dontinuf;
                 }
 
-                // got the native MS Kerberos TGT
-                msticket = &(pTicketResponse->Ticket);
+                // got tif nbtivf MS Kfrbfros TGT
+                mstidkft = &(pTidkftRfsponsf->Tidkft);
 
-                if (msticket->SessionKey.KeyType != etypes[i]) {
-                    if (native_debug) {
-                        printf("LSA: Response etype is %d for %d. Retry.\n", msticket->SessionKey.KeyType, etypes[i]);
+                if (mstidkft->SfssionKfy.KfyTypf != ftypfs[i]) {
+                    if (nbtivf_dfbug) {
+                        printf("LSA: Rfsponsf ftypf is %d for %d. Rftry.\n", mstidkft->SfssionKfy.KfyTypf, ftypfs[i]);
                     }
-                    continue;
+                    dontinuf;
                 }
                 found = 1;
-                break;
+                brfbk;
             }
         }
 
-        if (etypes != NULL) {
-            (*env)->ReleaseIntArrayElements(env, jetypes, etypes, 0);
+        if (ftypfs != NULL) {
+            (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, jftypfs, ftypfs, 0);
         }
 
         /*
 
-        typedef struct _KERB_RETRIEVE_TKT_RESPONSE {
-            KERB_EXTERNAL_TICKET Ticket;
+        typfdff strudt _KERB_RETRIEVE_TKT_RESPONSE {
+            KERB_EXTERNAL_TICKET Tidkft;
         } KERB_RETRIEVE_TKT_RESPONSE, *PKERB_RETRIEVE_TKT_RESPONSE;
 
-        typedef struct _KERB_EXTERNAL_TICKET {
-            PKERB_EXTERNAL_NAME ServiceName;
-            PKERB_EXTERNAL_NAME TargetName;
-            PKERB_EXTERNAL_NAME ClientName;
-            UNICODE_STRING DomainName;
-            UNICODE_STRING TargetDomainName;
-            UNICODE_STRING AltTargetDomainName;
-            KERB_CRYPTO_KEY SessionKey;
-            ULONG TicketFlags;
-            ULONG Flags;
-            LARGE_INTEGER KeyExpirationTime;
-            LARGE_INTEGER StartTime;
-            LARGE_INTEGER EndTime;
-            LARGE_INTEGER RenewUntil;
-            LARGE_INTEGER TimeSkew;
-            ULONG EncodedTicketSize;
-            PUCHAR EncodedTicket; <========== Here's the good stuff
+        typfdff strudt _KERB_EXTERNAL_TICKET {
+            PKERB_EXTERNAL_NAME SfrvidfNbmf;
+            PKERB_EXTERNAL_NAME TbrgftNbmf;
+            PKERB_EXTERNAL_NAME ClifntNbmf;
+            UNICODE_STRING DombinNbmf;
+            UNICODE_STRING TbrgftDombinNbmf;
+            UNICODE_STRING AltTbrgftDombinNbmf;
+            KERB_CRYPTO_KEY SfssionKfy;
+            ULONG TidkftFlbgs;
+            ULONG Flbgs;
+            LARGE_INTEGER KfyExpirbtionTimf;
+            LARGE_INTEGER StbrtTimf;
+            LARGE_INTEGER EndTimf;
+            LARGE_INTEGER RfnfwUntil;
+            LARGE_INTEGER TimfSkfw;
+            ULONG EndodfdTidkftSizf;
+            PUCHAR EndodfdTidkft; <========== Hfrf's tif good stuff
         } KERB_EXTERNAL_TICKET, *PKERB_EXTERNAL_TICKET;
 
-        typedef struct _KERB_EXTERNAL_NAME {
-            SHORT NameType;
-            USHORT NameCount;
-            UNICODE_STRING Names[ANYSIZE_ARRAY];
+        typfdff strudt _KERB_EXTERNAL_NAME {
+            SHORT NbmfTypf;
+            USHORT NbmfCount;
+            UNICODE_STRING Nbmfs[ANYSIZE_ARRAY];
         } KERB_EXTERNAL_NAME, *PKERB_EXTERNAL_NAME;
 
-        typedef struct _LSA_UNICODE_STRING {
-            USHORT Length;
-            USHORT MaximumLength;
-            PWSTR  Buffer;
+        typfdff strudt _LSA_UNICODE_STRING {
+            USHORT Lfngti;
+            USHORT MbximumLfngti;
+            PWSTR  Bufffr;
         } LSA_UNICODE_STRING, *PLSA_UNICODE_STRING;
 
-        typedef LSA_UNICODE_STRING UNICODE_STRING, *PUNICODE_STRING;
+        typfdff LSA_UNICODE_STRING UNICODE_STRING, *PUNICODE_STRING;
 
-        typedef struct KERB_CRYPTO_KEY {
-            LONG KeyType;
-            ULONG Length;
-            PUCHAR Value;
+        typfdff strudt KERB_CRYPTO_KEY {
+            LONG KfyTypf;
+            ULONG Lfngti;
+            PUCHAR Vbluf;
         } KERB_CRYPTO_KEY, *PKERB_CRYPTO_KEY;
 
         */
         if (!found) {
-            break;
+            brfbk;
         }
 
-        // Build a com.sun.security.krb5.Ticket
-        ticket = BuildTicket(env, msticket->EncodedTicket,
-                                msticket->EncodedTicketSize);
-        if (ticket == NULL) {
-            break;
+        // Build b dom.sun.sfdurity.krb5.Tidkft
+        tidkft = BuildTidkft(fnv, mstidkft->EndodfdTidkft,
+                                mstidkft->EndodfdTidkftSizf);
+        if (tidkft == NULL) {
+            brfbk;
         }
-        // OK, have a Ticket, now need to get the client name
-        clientPrincipal = BuildPrincipal(env, msticket->ClientName,
-                                msticket->TargetDomainName); // mdu
-        if (clientPrincipal == NULL) {
-            break;
-        }
-
-        // and the "name" of tgt
-        targetPrincipal = BuildPrincipal(env, msticket->ServiceName,
-                        msticket->DomainName);
-        if (targetPrincipal == NULL) {
-            break;
+        // OK, ibvf b Tidkft, now nffd to gft tif dlifnt nbmf
+        dlifntPrindipbl = BuildPrindipbl(fnv, mstidkft->ClifntNbmf,
+                                mstidkft->TbrgftDombinNbmf); // mdu
+        if (dlifntPrindipbl == NULL) {
+            brfbk;
         }
 
-        // Get the encryption key
-        encryptionKey = BuildEncryptionKey(env, &(msticket->SessionKey));
-        if (encryptionKey == NULL) {
-            break;
+        // bnd tif "nbmf" of tgt
+        tbrgftPrindipbl = BuildPrindipbl(fnv, mstidkft->SfrvidfNbmf,
+                        mstidkft->DombinNbmf);
+        if (tbrgftPrindipbl == NULL) {
+            brfbk;
         }
 
-        // and the ticket flags
-        ticketFlags = BuildTicketFlags(env, &(msticket->TicketFlags));
-        if (ticketFlags == NULL) {
-            break;
+        // Gft tif fndryption kfy
+        fndryptionKfy = BuildEndryptionKfy(fnv, &(mstidkft->SfssionKfy));
+        if (fndryptionKfy == NULL) {
+            brfbk;
         }
 
-        // Get the start time
-        startTime = BuildKerberosTime(env, &(msticket->StartTime));
-        if (startTime == NULL) {
-            break;
+        // bnd tif tidkft flbgs
+        tidkftFlbgs = BuildTidkftFlbgs(fnv, &(mstidkft->TidkftFlbgs));
+        if (tidkftFlbgs == NULL) {
+            brfbk;
+        }
+
+        // Gft tif stbrt timf
+        stbrtTimf = BuildKfrbfrosTimf(fnv, &(mstidkft->StbrtTimf));
+        if (stbrtTimf == NULL) {
+            brfbk;
         }
 
         /*
-         * mdu: No point storing the eky expiration time in the auth
-         * time field. Set it to be same as startTime. Looks like
-         * windows does not have post-dated tickets.
+         * mdu: No point storing tif fky fxpirbtion timf in tif buti
+         * timf fifld. Sft it to bf sbmf bs stbrtTimf. Looks likf
+         * windows dofs not ibvf post-dbtfd tidkfts.
          */
-        authTime = startTime;
+        butiTimf = stbrtTimf;
 
-        // and the end time
-        endTime = BuildKerberosTime(env, &(msticket->EndTime));
-        if (endTime == NULL) {
-            break;
+        // bnd tif fnd timf
+        fndTimf = BuildKfrbfrosTimf(fnv, &(mstidkft->EndTimf));
+        if (fndTimf == NULL) {
+            brfbk;
         }
 
-        // Get the renew till time
-        renewTillTime = BuildKerberosTime(env, &(msticket->RenewUntil));
-        if (renewTillTime == NULL) {
-            break;
+        // Gft tif rfnfw till timf
+        rfnfwTillTimf = BuildKfrbfrosTimf(fnv, &(mstidkft->RfnfwUntil));
+        if (rfnfwTillTimf == NULL) {
+            brfbk;
         }
 
-        // and now go build a KrbCreds object
-        krbCreds = (*env)->NewObject(
-                env,
-                krbcredsClass,
-                krbcredsConstructor,
-                ticket,
-                clientPrincipal,
-                targetPrincipal,
-                encryptionKey,
-                ticketFlags,
-                authTime, // mdu
-                startTime,
-                endTime,
-                renewTillTime, //mdu
-                hostAddresses);
+        // bnd now go build b KrbCrfds objfdt
+        krbCrfds = (*fnv)->NfwObjfdt(
+                fnv,
+                krbdrfdsClbss,
+                krbdrfdsConstrudtor,
+                tidkft,
+                dlifntPrindipbl,
+                tbrgftPrindipbl,
+                fndryptionKfy,
+                tidkftFlbgs,
+                butiTimf, // mdu
+                stbrtTimf,
+                fndTimf,
+                rfnfwTillTimf, //mdu
+                iostAddrfssfs);
 
-        break;
-    } // end of WHILE. This WHILE will never loop.
+        brfbk;
+    } // fnd of WHILE. Tiis WHILE will nfvfr loop.
 
-    // clean up resources
-    if (TktCacheResponse != NULL) {
-        LsaFreeReturnBuffer(TktCacheResponse);
+    // dlfbn up rfsourdfs
+    if (TktCbdifRfsponsf != NULL) {
+        LsbFrffRfturnBufffr(TktCbdifRfsponsf);
     }
-    if (pTicketRequest) {
-        LocalFree(pTicketRequest);
+    if (pTidkftRfqufst) {
+        LodblFrff(pTidkftRfqufst);
     }
-    if (pTicketResponse != NULL) {
-        LsaFreeReturnBuffer(pTicketResponse);
+    if (pTidkftRfsponsf != NULL) {
+        LsbFrffRfturnBufffr(pTidkftRfsponsf);
     }
 
-    return krbCreds;
+    rfturn krbCrfds;
 }
 
-static NTSTATUS
-ConstructTicketRequest(UNICODE_STRING DomainName,
-                PKERB_RETRIEVE_TKT_REQUEST *outRequest, ULONG *outSize)
+stbtid NTSTATUS
+ConstrudtTidkftRfqufst(UNICODE_STRING DombinNbmf,
+                PKERB_RETRIEVE_TKT_REQUEST *outRfqufst, ULONG *outSizf)
 {
-    NTSTATUS Status;
-    UNICODE_STRING TargetPrefix;
-    USHORT TargetSize;
-    ULONG RequestSize;
-    ULONG Length;
-    PKERB_RETRIEVE_TKT_REQUEST pTicketRequest = NULL;
+    NTSTATUS Stbtus;
+    UNICODE_STRING TbrgftPrffix;
+    USHORT TbrgftSizf;
+    ULONG RfqufstSizf;
+    ULONG Lfngti;
+    PKERB_RETRIEVE_TKT_REQUEST pTidkftRfqufst = NULL;
 
-    *outRequest = NULL;
-    *outSize = 0;
-
-    //
-    // Set up the "krbtgt/" target prefix into a UNICODE_STRING so we
-    // can easily concatenate it later.
-    //
-
-    TargetPrefix.Buffer = L"krbtgt/";
-    Length = (ULONG)wcslen(TargetPrefix.Buffer) * sizeof(WCHAR);
-    TargetPrefix.Length = (USHORT)Length;
-    TargetPrefix.MaximumLength = TargetPrefix.Length;
+    *outRfqufst = NULL;
+    *outSizf = 0;
 
     //
-    // We will need to concatenate the "krbtgt/" prefix and the
-    // Logon Session's DnsDomainName into our request's target name.
-    //
-    // Therefore, first compute the necessary buffer size for that.
-    //
-    // Note that we might theoretically have integer overflow.
+    // Sft up tif "krbtgt/" tbrgft prffix into b UNICODE_STRING so wf
+    // dbn fbsily dondbtfnbtf it lbtfr.
     //
 
-    TargetSize = TargetPrefix.Length + DomainName.Length;
+    TbrgftPrffix.Bufffr = L"krbtgt/";
+    Lfngti = (ULONG)wdslfn(TbrgftPrffix.Bufffr) * sizfof(WCHAR);
+    TbrgftPrffix.Lfngti = (USHORT)Lfngti;
+    TbrgftPrffix.MbximumLfngti = TbrgftPrffix.Lfngti;
 
     //
-    // The ticket request buffer needs to be a single buffer.  That buffer
-    // needs to include the buffer for the target name.
+    // Wf will nffd to dondbtfnbtf tif "krbtgt/" prffix bnd tif
+    // Logon Sfssion's DnsDombinNbmf into our rfqufst's tbrgft nbmf.
+    //
+    // Tifrfforf, first domputf tif nfdfssbry bufffr sizf for tibt.
+    //
+    // Notf tibt wf migit tiforftidblly ibvf intfgfr ovfrflow.
     //
 
-    RequestSize = sizeof (*pTicketRequest) + TargetSize;
+    TbrgftSizf = TbrgftPrffix.Lfngti + DombinNbmf.Lfngti;
 
     //
-    // Allocate the request buffer and make sure it's zero-filled.
+    // Tif tidkft rfqufst bufffr nffds to bf b singlf bufffr.  Tibt bufffr
+    // nffds to indludf tif bufffr for tif tbrgft nbmf.
     //
 
-    pTicketRequest = (PKERB_RETRIEVE_TKT_REQUEST)
-                    LocalAlloc(LMEM_ZEROINIT, RequestSize);
-    if (!pTicketRequest)
-        return GetLastError();
+    RfqufstSizf = sizfof (*pTidkftRfqufst) + TbrgftSizf;
 
     //
-    // Concatenate the target prefix with the previous response's
-    // target domain.
+    // Allodbtf tif rfqufst bufffr bnd mbkf surf it's zfro-fillfd.
     //
 
-    pTicketRequest->TargetName.Length = 0;
-    pTicketRequest->TargetName.MaximumLength = TargetSize;
-    pTicketRequest->TargetName.Buffer = (PWSTR) (pTicketRequest + 1);
-    Status = ConcatenateUnicodeStrings(&(pTicketRequest->TargetName),
-                                    TargetPrefix,
-                                    DomainName);
-    *outRequest = pTicketRequest;
-    *outSize    = RequestSize;
-    return Status;
+    pTidkftRfqufst = (PKERB_RETRIEVE_TKT_REQUEST)
+                    LodblAllod(LMEM_ZEROINIT, RfqufstSizf);
+    if (!pTidkftRfqufst)
+        rfturn GftLbstError();
+
+    //
+    // Condbtfnbtf tif tbrgft prffix witi tif prfvious rfsponsf's
+    // tbrgft dombin.
+    //
+
+    pTidkftRfqufst->TbrgftNbmf.Lfngti = 0;
+    pTidkftRfqufst->TbrgftNbmf.MbximumLfngti = TbrgftSizf;
+    pTidkftRfqufst->TbrgftNbmf.Bufffr = (PWSTR) (pTidkftRfqufst + 1);
+    Stbtus = CondbtfnbtfUnidodfStrings(&(pTidkftRfqufst->TbrgftNbmf),
+                                    TbrgftPrffix,
+                                    DombinNbmf);
+    *outRfqufst = pTidkftRfqufst;
+    *outSizf    = RfqufstSizf;
+    rfturn Stbtus;
 }
 
 DWORD
-ConcatenateUnicodeStrings(
-    UNICODE_STRING *pTarget,
-    UNICODE_STRING Source1,
-    UNICODE_STRING Source2
+CondbtfnbtfUnidodfStrings(
+    UNICODE_STRING *pTbrgft,
+    UNICODE_STRING Sourdf1,
+    UNICODE_STRING Sourdf2
     )
 {
     //
-    // The buffers for Source1 and Source2 cannot overlap pTarget's
-    // buffer.  Source1.Length + Source2.Length must be <= 0xFFFF,
-    // otherwise we overflow...
+    // Tif bufffrs for Sourdf1 bnd Sourdf2 dbnnot ovfrlbp pTbrgft's
+    // bufffr.  Sourdf1.Lfngti + Sourdf2.Lfngti must bf <= 0xFFFF,
+    // otifrwisf wf ovfrflow...
     //
 
-    USHORT TotalSize = Source1.Length + Source2.Length;
-    PBYTE buffer = (PBYTE) pTarget->Buffer;
+    USHORT TotblSizf = Sourdf1.Lfngti + Sourdf2.Lfngti;
+    PBYTE bufffr = (PBYTE) pTbrgft->Bufffr;
 
-    if (TotalSize > pTarget->MaximumLength)
-        return ERROR_INSUFFICIENT_BUFFER;
+    if (TotblSizf > pTbrgft->MbximumLfngti)
+        rfturn ERROR_INSUFFICIENT_BUFFER;
 
-    pTarget->Length = TotalSize;
-    memcpy(buffer, Source1.Buffer, Source1.Length);
-    memcpy(buffer + Source1.Length, Source2.Buffer, Source2.Length);
-    return ERROR_SUCCESS;
+    pTbrgft->Lfngti = TotblSizf;
+    mfmdpy(bufffr, Sourdf1.Bufffr, Sourdf1.Lfngti);
+    mfmdpy(bufffr + Sourdf1.Lfngti, Sourdf2.Bufffr, Sourdf2.Lfngti);
+    rfturn ERROR_SUCCESS;
 }
 
 BOOL
-PackageConnectLookup(
-    HANDLE *pLogonHandle,
-    ULONG *pPackageId
+PbdkbgfConnfdtLookup(
+    HANDLE *pLogonHbndlf,
+    ULONG *pPbdkbgfId
     )
 {
-    LSA_STRING Name;
-    NTSTATUS Status;
+    LSA_STRING Nbmf;
+    NTSTATUS Stbtus;
 
-    Status = LsaConnectUntrusted(
-                pLogonHandle
+    Stbtus = LsbConnfdtUntrustfd(
+                pLogonHbndlf
                 );
 
-    if (!LSA_SUCCESS(Status))
+    if (!LSA_SUCCESS(Stbtus))
     {
-        ShowNTError("LsaConnectUntrusted", Status);
-        return FALSE;
+        SiowNTError("LsbConnfdtUntrustfd", Stbtus);
+        rfturn FALSE;
     }
 
-    Name.Buffer = MICROSOFT_KERBEROS_NAME_A;
-    Name.Length = (USHORT)strlen(Name.Buffer);
-    Name.MaximumLength = Name.Length + 1;
+    Nbmf.Bufffr = MICROSOFT_KERBEROS_NAME_A;
+    Nbmf.Lfngti = (USHORT)strlfn(Nbmf.Bufffr);
+    Nbmf.MbximumLfngti = Nbmf.Lfngti + 1;
 
-    Status = LsaLookupAuthenticationPackage(
-                *pLogonHandle,
-                &Name,
-                pPackageId
+    Stbtus = LsbLookupAutifntidbtionPbdkbgf(
+                *pLogonHbndlf,
+                &Nbmf,
+                pPbdkbgfId
                 );
 
-    if (!LSA_SUCCESS(Status))
+    if (!LSA_SUCCESS(Stbtus))
     {
-        ShowNTError("LsaLookupAuthenticationPackage", Status);
-        return FALSE;
+        SiowNTError("LsbLookupAutifntidbtionPbdkbgf", Stbtus);
+        rfturn FALSE;
     }
 
-    return TRUE;
+    rfturn TRUE;
 
 }
 
 VOID
-ShowLastError(
+SiowLbstError(
         LPSTR szAPI,
         DWORD dwError
         )
 {
-    #define MAX_MSG_SIZE 256
+    #dffinf MAX_MSG_SIZE 256
 
-    static WCHAR szMsgBuf[MAX_MSG_SIZE];
-    DWORD dwRes;
+    stbtid WCHAR szMsgBuf[MAX_MSG_SIZE];
+    DWORD dwRfs;
 
-    if (native_debug) {
-        printf("LSA: Error calling function %s: %lu\n", szAPI, dwError);
+    if (nbtivf_dfbug) {
+        printf("LSA: Error dblling fundtion %s: %lu\n", szAPI, dwError);
     }
 
-    dwRes = FormatMessage (
+    dwRfs = FormbtMfssbgf (
             FORMAT_MESSAGE_FROM_SYSTEM,
             NULL,
             dwError,
@@ -843,249 +843,249 @@ ShowLastError(
             szMsgBuf,
             MAX_MSG_SIZE,
             NULL);
-    if (native_debug) {
-        if (0 == dwRes) {
-            printf("LSA: FormatMessage failed with %d\n", GetLastError());
-            // ExitProcess(EXIT_FAILURE);
-        } else {
+    if (nbtivf_dfbug) {
+        if (0 == dwRfs) {
+            printf("LSA: FormbtMfssbgf fbilfd witi %d\n", GftLbstError());
+            // ExitProdfss(EXIT_FAILURE);
+        } flsf {
             printf("LSA: %S",szMsgBuf);
         }
     }
 }
 
 VOID
-ShowNTError(
+SiowNTError(
         LPSTR szAPI,
-        NTSTATUS Status
+        NTSTATUS Stbtus
         )
 {
     //
-    // Convert the NTSTATUS to Winerror. Then call ShowLastError().
+    // Convfrt tif NTSTATUS to Winfrror. Tifn dbll SiowLbstError().
     //
-    ShowLastError(szAPI, LsaNtStatusToWinError(Status));
+    SiowLbstError(szAPI, LsbNtStbtusToWinError(Stbtus));
 }
 
 VOID
-InitUnicodeString(
-        PUNICODE_STRING DestinationString,
-    PCWSTR SourceString OPTIONAL
+InitUnidodfString(
+        PUNICODE_STRING DfstinbtionString,
+    PCWSTR SourdfString OPTIONAL
     )
 {
-    ULONG Length;
+    ULONG Lfngti;
 
-    DestinationString->Buffer = (PWSTR)SourceString;
-    if (SourceString != NULL) {
-        Length = (ULONG)wcslen( SourceString ) * sizeof( WCHAR );
-        DestinationString->Length = (USHORT)Length;
-        DestinationString->MaximumLength = (USHORT)(Length + sizeof(UNICODE_NULL));
+    DfstinbtionString->Bufffr = (PWSTR)SourdfString;
+    if (SourdfString != NULL) {
+        Lfngti = (ULONG)wdslfn( SourdfString ) * sizfof( WCHAR );
+        DfstinbtionString->Lfngti = (USHORT)Lfngti;
+        DfstinbtionString->MbximumLfngti = (USHORT)(Lfngti + sizfof(UNICODE_NULL));
     }
-    else {
-        DestinationString->MaximumLength = 0;
-        DestinationString->Length = 0;
+    flsf {
+        DfstinbtionString->MbximumLfngti = 0;
+        DfstinbtionString->Lfngti = 0;
     }
 }
 
-jobject BuildTicket(JNIEnv *env, PUCHAR encodedTicket, ULONG encodedTicketSize) {
+jobjfdt BuildTidkft(JNIEnv *fnv, PUCHAR fndodfdTidkft, ULONG fndodfdTidkftSizf) {
 
-    /* To build a Ticket, we first need to build a DerValue out of the EncodedTicket.
-     * But before we can do that, we need to make a byte array out of the ET.
+    /* To build b Tidkft, wf first nffd to build b DfrVbluf out of tif EndodfdTidkft.
+     * But bfforf wf dbn do tibt, wf nffd to mbkf b bytf brrby out of tif ET.
      */
 
-    jobject derValue, ticket;
-    jbyteArray ary;
+    jobjfdt dfrVbluf, tidkft;
+    jbytfArrby bry;
 
-    ary = (*env)->NewByteArray(env,encodedTicketSize);
-    if ((*env)->ExceptionOccurred(env)) {
-        return (jobject) NULL;
+    bry = (*fnv)->NfwBytfArrby(fnv,fndodfdTidkftSizf);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        rfturn (jobjfdt) NULL;
     }
 
-    (*env)->SetByteArrayRegion(env, ary, (jsize) 0, encodedTicketSize,
-                                    (jbyte *)encodedTicket);
-    if ((*env)->ExceptionOccurred(env)) {
-        (*env)->DeleteLocalRef(env, ary);
-        return (jobject) NULL;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bry, (jsizf) 0, fndodfdTidkftSizf,
+                                    (jbytf *)fndodfdTidkft);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        (*fnv)->DflftfLodblRff(fnv, bry);
+        rfturn (jobjfdt) NULL;
     }
 
-    derValue = (*env)->NewObject(env, derValueClass, derValueConstructor, ary);
-    if ((*env)->ExceptionOccurred(env)) {
-        (*env)->DeleteLocalRef(env, ary);
-        return (jobject) NULL;
+    dfrVbluf = (*fnv)->NfwObjfdt(fnv, dfrVblufClbss, dfrVblufConstrudtor, bry);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        (*fnv)->DflftfLodblRff(fnv, bry);
+        rfturn (jobjfdt) NULL;
     }
 
-    (*env)->DeleteLocalRef(env, ary);
-    ticket = (*env)->NewObject(env, ticketClass, ticketConstructor, derValue);
-    if ((*env)->ExceptionOccurred(env)) {
-        (*env)->DeleteLocalRef(env, derValue);
-        return (jobject) NULL;
+    (*fnv)->DflftfLodblRff(fnv, bry);
+    tidkft = (*fnv)->NfwObjfdt(fnv, tidkftClbss, tidkftConstrudtor, dfrVbluf);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        (*fnv)->DflftfLodblRff(fnv, dfrVbluf);
+        rfturn (jobjfdt) NULL;
     }
-    (*env)->DeleteLocalRef(env, derValue);
-    return ticket;
+    (*fnv)->DflftfLodblRff(fnv, dfrVbluf);
+    rfturn tidkft;
 }
 
 // mdu
-jobject BuildPrincipal(JNIEnv *env, PKERB_EXTERNAL_NAME principalName,
-                                UNICODE_STRING domainName) {
+jobjfdt BuildPrindipbl(JNIEnv *fnv, PKERB_EXTERNAL_NAME prindipblNbmf,
+                                UNICODE_STRING dombinNbmf) {
 
     /*
-     * To build the Principal, we need to get the names out of
-     * this goofy MS structure
+     * To build tif Prindipbl, wf nffd to gft tif nbmfs out of
+     * tiis goofy MS strudturf
      */
-    jobject principal = NULL;
-    jobject realmStr = NULL;
-    jobjectArray stringArray;
-    jstring tempString;
-    int nameCount,i;
-    PUNICODE_STRING scanner;
-    WCHAR *realm;
-    ULONG realmLen;
+    jobjfdt prindipbl = NULL;
+    jobjfdt rfblmStr = NULL;
+    jobjfdtArrby stringArrby;
+    jstring tfmpString;
+    int nbmfCount,i;
+    PUNICODE_STRING sdbnnfr;
+    WCHAR *rfblm;
+    ULONG rfblmLfn;
 
-    realm = (WCHAR *) LocalAlloc(LMEM_ZEROINIT,
-            ((domainName.Length)*sizeof(WCHAR) + sizeof(UNICODE_NULL)));
-    wcsncpy(realm, domainName.Buffer, domainName.Length/sizeof(WCHAR));
+    rfblm = (WCHAR *) LodblAllod(LMEM_ZEROINIT,
+            ((dombinNbmf.Lfngti)*sizfof(WCHAR) + sizfof(UNICODE_NULL)));
+    wdsndpy(rfblm, dombinNbmf.Bufffr, dombinNbmf.Lfngti/sizfof(WCHAR));
 
-    if (native_debug) {
-        printf("LSA: Principal domain is %S\n", realm);
-        printf("LSA: Name type is %x\n", principalName->NameType);
-        printf("LSA: Name count is %x\n", principalName->NameCount);
+    if (nbtivf_dfbug) {
+        printf("LSA: Prindipbl dombin is %S\n", rfblm);
+        printf("LSA: Nbmf typf is %x\n", prindipblNbmf->NbmfTypf);
+        printf("LSA: Nbmf dount is %x\n", prindipblNbmf->NbmfCount);
     }
 
-    nameCount = principalName->NameCount;
-    stringArray = (*env)->NewObjectArray(env, nameCount,
-                            javaLangStringClass, NULL);
-    if (stringArray == NULL) {
-        if (native_debug) {
-            printf("LSA: Can't allocate String array for Principal\n");
+    nbmfCount = prindipblNbmf->NbmfCount;
+    stringArrby = (*fnv)->NfwObjfdtArrby(fnv, nbmfCount,
+                            jbvbLbngStringClbss, NULL);
+    if (stringArrby == NULL) {
+        if (nbtivf_dfbug) {
+            printf("LSA: Cbn't bllodbtf String brrby for Prindipbl\n");
         }
-        goto cleanup;
+        goto dlfbnup;
     }
 
-    for (i=0; i<nameCount; i++) {
-        // get the principal name
-        scanner = &(principalName->Names[i]);
+    for (i=0; i<nbmfCount; i++) {
+        // gft tif prindipbl nbmf
+        sdbnnfr = &(prindipblNbmf->Nbmfs[i]);
 
-        // OK, got a Char array, so construct a String
-        tempString = (*env)->NewString(env, (const jchar*)scanner->Buffer,
-                            scanner->Length/sizeof(WCHAR));
+        // OK, got b Cibr brrby, so donstrudt b String
+        tfmpString = (*fnv)->NfwString(fnv, (donst jdibr*)sdbnnfr->Bufffr,
+                            sdbnnfr->Lfngti/sizfof(WCHAR));
 
-        if (tempString == NULL) {
-            goto cleanup;
-        }
-
-        // Set the String into the StringArray
-        (*env)->SetObjectArrayElement(env, stringArray, i, tempString);
-
-        if ((*env)->ExceptionCheck(env)) {
-            goto cleanup;
+        if (tfmpString == NULL) {
+            goto dlfbnup;
         }
 
-        // Do I have to worry about storage reclamation here?
+        // Sft tif String into tif StringArrby
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, stringArrby, i, tfmpString);
+
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            goto dlfbnup;
+        }
+
+        // Do I ibvf to worry bbout storbgf rfdlbmbtion ifrf?
     }
-    // now set the realm in the principal
-    realmLen = (ULONG)wcslen((PWCHAR)realm);
-    realmStr = (*env)->NewString(env, (PWCHAR)realm, (USHORT)realmLen);
+    // now sft tif rfblm in tif prindipbl
+    rfblmLfn = (ULONG)wdslfn((PWCHAR)rfblm);
+    rfblmStr = (*fnv)->NfwString(fnv, (PWCHAR)rfblm, (USHORT)rfblmLfn);
 
-    if (realmStr == NULL) {
-        goto cleanup;
+    if (rfblmStr == NULL) {
+        goto dlfbnup;
     }
 
-    principal = (*env)->NewObject(env, principalNameClass,
-                    principalNameConstructor, stringArray, realmStr);
+    prindipbl = (*fnv)->NfwObjfdt(fnv, prindipblNbmfClbss,
+                    prindipblNbmfConstrudtor, stringArrby, rfblmStr);
 
-cleanup:
-    // free local resources
-    LocalFree(realm);
+dlfbnup:
+    // frff lodbl rfsourdfs
+    LodblFrff(rfblm);
 
-    return principal;
+    rfturn prindipbl;
 }
 
-jobject BuildEncryptionKey(JNIEnv *env, PKERB_CRYPTO_KEY cryptoKey) {
-    // First, need to build a byte array
-    jbyteArray ary;
-    jobject encryptionKey = NULL;
-    unsigned int i;
+jobjfdt BuildEndryptionKfy(JNIEnv *fnv, PKERB_CRYPTO_KEY dryptoKfy) {
+    // First, nffd to build b bytf brrby
+    jbytfArrby bry;
+    jobjfdt fndryptionKfy = NULL;
+    unsignfd int i;
 
-    for (i=0; i<cryptoKey->Length; i++) {
-        if (cryptoKey->Value[i]) break;
+    for (i=0; i<dryptoKfy->Lfngti; i++) {
+        if (dryptoKfy->Vbluf[i]) brfbk;
     }
-    if (i == cryptoKey->Length) {
-        if (native_debug) {
-            printf("LSA: Session key all zero. Stop.\n");
+    if (i == dryptoKfy->Lfngti) {
+        if (nbtivf_dfbug) {
+            printf("LSA: Sfssion kfy bll zfro. Stop.\n");
         }
-        return NULL;
+        rfturn NULL;
     }
 
-    ary = (*env)->NewByteArray(env,cryptoKey->Length);
-    (*env)->SetByteArrayRegion(env, ary, (jsize) 0, cryptoKey->Length,
-                                    (jbyte *)cryptoKey->Value);
-    if ((*env)->ExceptionOccurred(env)) {
-        (*env)->DeleteLocalRef(env, ary);
-    } else {
-        encryptionKey = (*env)->NewObject(env, encryptionKeyClass,
-                encryptionKeyConstructor, cryptoKey->KeyType, ary);
+    bry = (*fnv)->NfwBytfArrby(fnv,dryptoKfy->Lfngti);
+    (*fnv)->SftBytfArrbyRfgion(fnv, bry, (jsizf) 0, dryptoKfy->Lfngti,
+                                    (jbytf *)dryptoKfy->Vbluf);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        (*fnv)->DflftfLodblRff(fnv, bry);
+    } flsf {
+        fndryptionKfy = (*fnv)->NfwObjfdt(fnv, fndryptionKfyClbss,
+                fndryptionKfyConstrudtor, dryptoKfy->KfyTypf, bry);
     }
 
-    return encryptionKey;
+    rfturn fndryptionKfy;
 }
 
-jobject BuildTicketFlags(JNIEnv *env, PULONG flags) {
-    jobject ticketFlags = NULL;
-    jbyteArray ary;
+jobjfdt BuildTidkftFlbgs(JNIEnv *fnv, PULONG flbgs) {
+    jobjfdt tidkftFlbgs = NULL;
+    jbytfArrby bry;
     /*
-     * mdu: Convert the bytes to nework byte order before copying
-     * them to a Java byte array.
+     * mdu: Convfrt tif bytfs to nfwork bytf ordfr bfforf dopying
+     * tifm to b Jbvb bytf brrby.
      */
-    ULONG nlflags = htonl(*flags);
+    ULONG nlflbgs = itonl(*flbgs);
 
-    ary = (*env)->NewByteArray(env, sizeof(*flags));
-    (*env)->SetByteArrayRegion(env, ary, (jsize) 0, sizeof(*flags),
-                                    (jbyte *)&nlflags);
-    if ((*env)->ExceptionOccurred(env)) {
-        (*env)->DeleteLocalRef(env, ary);
-    } else {
-        ticketFlags = (*env)->NewObject(env, ticketFlagsClass,
-                ticketFlagsConstructor, sizeof(*flags)*8, ary);
+    bry = (*fnv)->NfwBytfArrby(fnv, sizfof(*flbgs));
+    (*fnv)->SftBytfArrbyRfgion(fnv, bry, (jsizf) 0, sizfof(*flbgs),
+                                    (jbytf *)&nlflbgs);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        (*fnv)->DflftfLodblRff(fnv, bry);
+    } flsf {
+        tidkftFlbgs = (*fnv)->NfwObjfdt(fnv, tidkftFlbgsClbss,
+                tidkftFlbgsConstrudtor, sizfof(*flbgs)*8, bry);
     }
 
-    return ticketFlags;
+    rfturn tidkftFlbgs;
 }
 
-jobject BuildKerberosTime(JNIEnv *env, PLARGE_INTEGER kerbtime) {
-    jobject kerberosTime = NULL;
-    jstring stringTime = NULL;
-    SYSTEMTIME systemTime;
-    WCHAR timeString[16];
-    WCHAR month[3];
-    WCHAR day[3];
-    WCHAR hour[3];
-    WCHAR minute[3];
-    WCHAR second[3];
+jobjfdt BuildKfrbfrosTimf(JNIEnv *fnv, PLARGE_INTEGER kfrbtimf) {
+    jobjfdt kfrbfrosTimf = NULL;
+    jstring stringTimf = NULL;
+    SYSTEMTIME systfmTimf;
+    WCHAR timfString[16];
+    WCHAR monti[3];
+    WCHAR dby[3];
+    WCHAR iour[3];
+    WCHAR minutf[3];
+    WCHAR sfdond[3];
 
-    if (FileTimeToSystemTime((FILETIME *)kerbtime, &systemTime)) {
-        // XXX Cannot use %02.2ld, because the leading 0 is ignored for integers.
-        // So, print them to strings, and then print them to the master string with a
-        // format pattern that makes it two digits and prefix with a 0 if necessary.
-        swprintf( (wchar_t *)month, 3, L"%2.2d", systemTime.wMonth);
-        swprintf( (wchar_t *)day, 3, L"%2.2d", systemTime.wDay);
-        swprintf( (wchar_t *)hour, 3, L"%2.2d", systemTime.wHour);
-        swprintf( (wchar_t *)minute, 3, L"%2.2d", systemTime.wMinute);
-        swprintf( (wchar_t *)second, 3, L"%2.2d", systemTime.wSecond);
-        swprintf( (wchar_t *)timeString, 16,
+    if (FilfTimfToSystfmTimf((FILETIME *)kfrbtimf, &systfmTimf)) {
+        // XXX Cbnnot usf %02.2ld, bfdbusf tif lfbding 0 is ignorfd for intfgfrs.
+        // So, print tifm to strings, bnd tifn print tifm to tif mbstfr string witi b
+        // formbt pbttfrn tibt mbkfs it two digits bnd prffix witi b 0 if nfdfssbry.
+        swprintf( (wdibr_t *)monti, 3, L"%2.2d", systfmTimf.wMonti);
+        swprintf( (wdibr_t *)dby, 3, L"%2.2d", systfmTimf.wDby);
+        swprintf( (wdibr_t *)iour, 3, L"%2.2d", systfmTimf.wHour);
+        swprintf( (wdibr_t *)minutf, 3, L"%2.2d", systfmTimf.wMinutf);
+        swprintf( (wdibr_t *)sfdond, 3, L"%2.2d", systfmTimf.wSfdond);
+        swprintf( (wdibr_t *)timfString, 16,
                 L"%ld%02.2s%02.2s%02.2s%02.2s%02.2sZ",
-                systemTime.wYear,
-                month,
-                day,
-                hour,
-                minute,
-                second );
-        if (native_debug) {
-            printf("LSA: %S\n", (wchar_t *)timeString);
+                systfmTimf.wYfbr,
+                monti,
+                dby,
+                iour,
+                minutf,
+                sfdond );
+        if (nbtivf_dfbug) {
+            printf("LSA: %S\n", (wdibr_t *)timfString);
         }
-        stringTime = (*env)->NewString(env, timeString,
-                (sizeof(timeString)/sizeof(WCHAR))-1);
-        if (stringTime != NULL) { // everything's OK so far
-            kerberosTime = (*env)->NewObject(env, kerberosTimeClass,
-                    kerberosTimeConstructor, stringTime);
+        stringTimf = (*fnv)->NfwString(fnv, timfString,
+                (sizfof(timfString)/sizfof(WCHAR))-1);
+        if (stringTimf != NULL) { // fvfrytiing's OK so fbr
+            kfrbfrosTimf = (*fnv)->NfwObjfdt(fnv, kfrbfrosTimfClbss,
+                    kfrbfrosTimfConstrudtor, stringTimf);
         }
     }
-    return kerberosTime;
+    rfturn kfrbfrosTimf;
 }

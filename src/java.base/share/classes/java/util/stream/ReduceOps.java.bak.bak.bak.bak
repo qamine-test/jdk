@@ -1,0 +1,761 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Objfdts;
+import jbvb.util.Optionbl;
+import jbvb.util.OptionblDoublf;
+import jbvb.util.OptionblInt;
+import jbvb.util.OptionblLong;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CountfdComplftfr;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.fundtion.DoublfBinbryOpfrbtor;
+import jbvb.util.fundtion.IntBinbryOpfrbtor;
+import jbvb.util.fundtion.LongBinbryOpfrbtor;
+import jbvb.util.fundtion.ObjDoublfConsumfr;
+import jbvb.util.fundtion.ObjIntConsumfr;
+import jbvb.util.fundtion.ObjLongConsumfr;
+import jbvb.util.fundtion.Supplifr;
+
+/**
+ * Fbdtory for drfbting instbndfs of {@dodf TfrminblOp} thbt implfmfnt
+ * rfdudtions.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss RfdudfOps {
+
+    privbtf RfdudfOps() { }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b fundtionbl rfdudf on
+     * rfffrfndf vblufs.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <U> thf typf of thf rfsult
+     * @pbrbm sffd thf idfntity flfmfnt for thf rfdudtion
+     * @pbrbm rfdudfr thf bddumulbting fundtion thbt indorporbtfs bn bdditionbl
+     *        input flfmfnt into thf rfsult
+     * @pbrbm dombinfr thf dombining fundtion thbt dombinfs two intfrmfdibtf
+     *        rfsults
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid <T, U> TfrminblOp<T, U>
+    mbkfRff(U sffd, BiFundtion<U, ? supfr T, U> rfdudfr, BinbryOpfrbtor<U> dombinfr) {
+        Objfdts.rfquirfNonNull(rfdudfr);
+        Objfdts.rfquirfNonNull(dombinfr);
+        dlbss RfdudingSink fxtfnds Box<U> implfmfnts AddumulbtingSink<T, U, RfdudingSink> {
+            @Ovfrridf
+            publid void bfgin(long sizf) {
+                stbtf = sffd;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                stbtf = rfdudfr.bpply(stbtf, t);
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                stbtf = dombinfr.bpply(stbtf, othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<T, U, RfdudingSink>(StrfbmShbpf.REFERENCE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b fundtionbl rfdudf on
+     * rfffrfndf vblufs produding bn optionbl rfffrfndf rfsult.
+     *
+     * @pbrbm <T> Thf typf of thf input flfmfnts, bnd thf typf of thf rfsult
+     * @pbrbm opfrbtor Thf rfduding fundtion
+     * @rfturn A {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid <T> TfrminblOp<T, Optionbl<T>>
+    mbkfRff(BinbryOpfrbtor<T> opfrbtor) {
+        Objfdts.rfquirfNonNull(opfrbtor);
+        dlbss RfdudingSink
+                implfmfnts AddumulbtingSink<T, Optionbl<T>, RfdudingSink> {
+            privbtf boolfbn fmpty;
+            privbtf T stbtf;
+
+            publid void bfgin(long sizf) {
+                fmpty = truf;
+                stbtf = null;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                if (fmpty) {
+                    fmpty = fblsf;
+                    stbtf = t;
+                } flsf {
+                    stbtf = opfrbtor.bpply(stbtf, t);
+                }
+            }
+
+            @Ovfrridf
+            publid Optionbl<T> gft() {
+                rfturn fmpty ? Optionbl.fmpty() : Optionbl.of(stbtf);
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                if (!othfr.fmpty)
+                    bddfpt(othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<T, Optionbl<T>, RfdudingSink>(StrfbmShbpf.REFERENCE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b mutbblf rfdudf on
+     * rfffrfndf vblufs.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <I> thf typf of thf intfrmfdibtf rfdudtion rfsult
+     * @pbrbm dollfdtor b {@dodf Collfdtor} dffining thf rfdudtion
+     * @rfturn b {@dodf RfdudfOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid <T, I> TfrminblOp<T, I>
+    mbkfRff(Collfdtor<? supfr T, I, ?> dollfdtor) {
+        Supplifr<I> supplifr = Objfdts.rfquirfNonNull(dollfdtor).supplifr();
+        BiConsumfr<I, ? supfr T> bddumulbtor = dollfdtor.bddumulbtor();
+        BinbryOpfrbtor<I> dombinfr = dollfdtor.dombinfr();
+        dlbss RfdudingSink fxtfnds Box<I>
+                implfmfnts AddumulbtingSink<T, I, RfdudingSink> {
+            @Ovfrridf
+            publid void bfgin(long sizf) {
+                stbtf = supplifr.gft();
+            }
+
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                bddumulbtor.bddfpt(stbtf, t);
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                stbtf = dombinfr.bpply(stbtf, othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<T, I, RfdudingSink>(StrfbmShbpf.REFERENCE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+
+            @Ovfrridf
+            publid int gftOpFlbgs() {
+                rfturn dollfdtor.dhbrbdtfristids().dontbins(Collfdtor.Chbrbdtfristids.UNORDERED)
+                       ? StrfbmOpFlbg.NOT_ORDERED
+                       : 0;
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b mutbblf rfdudf on
+     * rfffrfndf vblufs.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <R> thf typf of thf rfsult
+     * @pbrbm sffdFbdtory b fbdtory to produdf b nfw bbsf bddumulbtor
+     * @pbrbm bddumulbtor b fundtion to indorporbtf bn flfmfnt into bn
+     *        bddumulbtor
+     * @pbrbm rfdudfr b fundtion to dombinf bn bddumulbtor into bnothfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid <T, R> TfrminblOp<T, R>
+    mbkfRff(Supplifr<R> sffdFbdtory,
+            BiConsumfr<R, ? supfr T> bddumulbtor,
+            BiConsumfr<R,R> rfdudfr) {
+        Objfdts.rfquirfNonNull(sffdFbdtory);
+        Objfdts.rfquirfNonNull(bddumulbtor);
+        Objfdts.rfquirfNonNull(rfdudfr);
+        dlbss RfdudingSink fxtfnds Box<R>
+                implfmfnts AddumulbtingSink<T, R, RfdudingSink> {
+            @Ovfrridf
+            publid void bfgin(long sizf) {
+                stbtf = sffdFbdtory.gft();
+            }
+
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                bddumulbtor.bddfpt(stbtf, t);
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                rfdudfr.bddfpt(stbtf, othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<T, R, RfdudingSink>(StrfbmShbpf.REFERENCE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b fundtionbl rfdudf on
+     * {@dodf int} vblufs.
+     *
+     * @pbrbm idfntity thf idfntity for thf dombining fundtion
+     * @pbrbm opfrbtor thf dombining fundtion
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid TfrminblOp<Intfgfr, Intfgfr>
+    mbkfInt(int idfntity, IntBinbryOpfrbtor opfrbtor) {
+        Objfdts.rfquirfNonNull(opfrbtor);
+        dlbss RfdudingSink
+                implfmfnts AddumulbtingSink<Intfgfr, Intfgfr, RfdudingSink>, Sink.OfInt {
+            privbtf int stbtf;
+
+            @Ovfrridf
+            publid void bfgin(long sizf) {
+                stbtf = idfntity;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                stbtf = opfrbtor.bpplyAsInt(stbtf, t);
+            }
+
+            @Ovfrridf
+            publid Intfgfr gft() {
+                rfturn stbtf;
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                bddfpt(othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<Intfgfr, Intfgfr, RfdudingSink>(StrfbmShbpf.INT_VALUE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b fundtionbl rfdudf on
+     * {@dodf int} vblufs, produding bn optionbl intfgfr rfsult.
+     *
+     * @pbrbm opfrbtor thf dombining fundtion
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid TfrminblOp<Intfgfr, OptionblInt>
+    mbkfInt(IntBinbryOpfrbtor opfrbtor) {
+        Objfdts.rfquirfNonNull(opfrbtor);
+        dlbss RfdudingSink
+                implfmfnts AddumulbtingSink<Intfgfr, OptionblInt, RfdudingSink>, Sink.OfInt {
+            privbtf boolfbn fmpty;
+            privbtf int stbtf;
+
+            publid void bfgin(long sizf) {
+                fmpty = truf;
+                stbtf = 0;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                if (fmpty) {
+                    fmpty = fblsf;
+                    stbtf = t;
+                }
+                flsf {
+                    stbtf = opfrbtor.bpplyAsInt(stbtf, t);
+                }
+            }
+
+            @Ovfrridf
+            publid OptionblInt gft() {
+                rfturn fmpty ? OptionblInt.fmpty() : OptionblInt.of(stbtf);
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                if (!othfr.fmpty)
+                    bddfpt(othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<Intfgfr, OptionblInt, RfdudingSink>(StrfbmShbpf.INT_VALUE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b mutbblf rfdudf on
+     * {@dodf int} vblufs.
+     *
+     * @pbrbm <R> Thf typf of thf rfsult
+     * @pbrbm supplifr b fbdtory to produdf b nfw bddumulbtor of thf rfsult typf
+     * @pbrbm bddumulbtor b fundtion to indorporbtf bn int into bn
+     *        bddumulbtor
+     * @pbrbm dombinfr b fundtion to dombinf bn bddumulbtor into bnothfr
+     * @rfturn A {@dodf RfdudfOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid <R> TfrminblOp<Intfgfr, R>
+    mbkfInt(Supplifr<R> supplifr,
+            ObjIntConsumfr<R> bddumulbtor,
+            BinbryOpfrbtor<R> dombinfr) {
+        Objfdts.rfquirfNonNull(supplifr);
+        Objfdts.rfquirfNonNull(bddumulbtor);
+        Objfdts.rfquirfNonNull(dombinfr);
+        dlbss RfdudingSink fxtfnds Box<R>
+                implfmfnts AddumulbtingSink<Intfgfr, R, RfdudingSink>, Sink.OfInt {
+            @Ovfrridf
+            publid void bfgin(long sizf) {
+                stbtf = supplifr.gft();
+            }
+
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                bddumulbtor.bddfpt(stbtf, t);
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                stbtf = dombinfr.bpply(stbtf, othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<Intfgfr, R, RfdudingSink>(StrfbmShbpf.INT_VALUE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b fundtionbl rfdudf on
+     * {@dodf long} vblufs.
+     *
+     * @pbrbm idfntity thf idfntity for thf dombining fundtion
+     * @pbrbm opfrbtor thf dombining fundtion
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid TfrminblOp<Long, Long>
+    mbkfLong(long idfntity, LongBinbryOpfrbtor opfrbtor) {
+        Objfdts.rfquirfNonNull(opfrbtor);
+        dlbss RfdudingSink
+                implfmfnts AddumulbtingSink<Long, Long, RfdudingSink>, Sink.OfLong {
+            privbtf long stbtf;
+
+            @Ovfrridf
+            publid void bfgin(long sizf) {
+                stbtf = idfntity;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                stbtf = opfrbtor.bpplyAsLong(stbtf, t);
+            }
+
+            @Ovfrridf
+            publid Long gft() {
+                rfturn stbtf;
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                bddfpt(othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<Long, Long, RfdudingSink>(StrfbmShbpf.LONG_VALUE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b fundtionbl rfdudf on
+     * {@dodf long} vblufs, produding bn optionbl long rfsult.
+     *
+     * @pbrbm opfrbtor thf dombining fundtion
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid TfrminblOp<Long, OptionblLong>
+    mbkfLong(LongBinbryOpfrbtor opfrbtor) {
+        Objfdts.rfquirfNonNull(opfrbtor);
+        dlbss RfdudingSink
+                implfmfnts AddumulbtingSink<Long, OptionblLong, RfdudingSink>, Sink.OfLong {
+            privbtf boolfbn fmpty;
+            privbtf long stbtf;
+
+            publid void bfgin(long sizf) {
+                fmpty = truf;
+                stbtf = 0;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                if (fmpty) {
+                    fmpty = fblsf;
+                    stbtf = t;
+                }
+                flsf {
+                    stbtf = opfrbtor.bpplyAsLong(stbtf, t);
+                }
+            }
+
+            @Ovfrridf
+            publid OptionblLong gft() {
+                rfturn fmpty ? OptionblLong.fmpty() : OptionblLong.of(stbtf);
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                if (!othfr.fmpty)
+                    bddfpt(othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<Long, OptionblLong, RfdudingSink>(StrfbmShbpf.LONG_VALUE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b mutbblf rfdudf on
+     * {@dodf long} vblufs.
+     *
+     * @pbrbm <R> thf typf of thf rfsult
+     * @pbrbm supplifr b fbdtory to produdf b nfw bddumulbtor of thf rfsult typf
+     * @pbrbm bddumulbtor b fundtion to indorporbtf bn int into bn
+     *        bddumulbtor
+     * @pbrbm dombinfr b fundtion to dombinf bn bddumulbtor into bnothfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid <R> TfrminblOp<Long, R>
+    mbkfLong(Supplifr<R> supplifr,
+             ObjLongConsumfr<R> bddumulbtor,
+             BinbryOpfrbtor<R> dombinfr) {
+        Objfdts.rfquirfNonNull(supplifr);
+        Objfdts.rfquirfNonNull(bddumulbtor);
+        Objfdts.rfquirfNonNull(dombinfr);
+        dlbss RfdudingSink fxtfnds Box<R>
+                implfmfnts AddumulbtingSink<Long, R, RfdudingSink>, Sink.OfLong {
+            @Ovfrridf
+            publid void bfgin(long sizf) {
+                stbtf = supplifr.gft();
+            }
+
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                bddumulbtor.bddfpt(stbtf, t);
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                stbtf = dombinfr.bpply(stbtf, othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<Long, R, RfdudingSink>(StrfbmShbpf.LONG_VALUE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b fundtionbl rfdudf on
+     * {@dodf doublf} vblufs.
+     *
+     * @pbrbm idfntity thf idfntity for thf dombining fundtion
+     * @pbrbm opfrbtor thf dombining fundtion
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid TfrminblOp<Doublf, Doublf>
+    mbkfDoublf(doublf idfntity, DoublfBinbryOpfrbtor opfrbtor) {
+        Objfdts.rfquirfNonNull(opfrbtor);
+        dlbss RfdudingSink
+                implfmfnts AddumulbtingSink<Doublf, Doublf, RfdudingSink>, Sink.OfDoublf {
+            privbtf doublf stbtf;
+
+            @Ovfrridf
+            publid void bfgin(long sizf) {
+                stbtf = idfntity;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                stbtf = opfrbtor.bpplyAsDoublf(stbtf, t);
+            }
+
+            @Ovfrridf
+            publid Doublf gft() {
+                rfturn stbtf;
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                bddfpt(othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<Doublf, Doublf, RfdudingSink>(StrfbmShbpf.DOUBLE_VALUE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b fundtionbl rfdudf on
+     * {@dodf doublf} vblufs, produding bn optionbl doublf rfsult.
+     *
+     * @pbrbm opfrbtor thf dombining fundtion
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid TfrminblOp<Doublf, OptionblDoublf>
+    mbkfDoublf(DoublfBinbryOpfrbtor opfrbtor) {
+        Objfdts.rfquirfNonNull(opfrbtor);
+        dlbss RfdudingSink
+                implfmfnts AddumulbtingSink<Doublf, OptionblDoublf, RfdudingSink>, Sink.OfDoublf {
+            privbtf boolfbn fmpty;
+            privbtf doublf stbtf;
+
+            publid void bfgin(long sizf) {
+                fmpty = truf;
+                stbtf = 0;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                if (fmpty) {
+                    fmpty = fblsf;
+                    stbtf = t;
+                }
+                flsf {
+                    stbtf = opfrbtor.bpplyAsDoublf(stbtf, t);
+                }
+            }
+
+            @Ovfrridf
+            publid OptionblDoublf gft() {
+                rfturn fmpty ? OptionblDoublf.fmpty() : OptionblDoublf.of(stbtf);
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                if (!othfr.fmpty)
+                    bddfpt(othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<Doublf, OptionblDoublf, RfdudingSink>(StrfbmShbpf.DOUBLE_VALUE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt implfmfnts b mutbblf rfdudf on
+     * {@dodf doublf} vblufs.
+     *
+     * @pbrbm <R> thf typf of thf rfsult
+     * @pbrbm supplifr b fbdtory to produdf b nfw bddumulbtor of thf rfsult typf
+     * @pbrbm bddumulbtor b fundtion to indorporbtf bn int into bn
+     *        bddumulbtor
+     * @pbrbm dombinfr b fundtion to dombinf bn bddumulbtor into bnothfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf rfdudtion
+     */
+    publid stbtid <R> TfrminblOp<Doublf, R>
+    mbkfDoublf(Supplifr<R> supplifr,
+               ObjDoublfConsumfr<R> bddumulbtor,
+               BinbryOpfrbtor<R> dombinfr) {
+        Objfdts.rfquirfNonNull(supplifr);
+        Objfdts.rfquirfNonNull(bddumulbtor);
+        Objfdts.rfquirfNonNull(dombinfr);
+        dlbss RfdudingSink fxtfnds Box<R>
+                implfmfnts AddumulbtingSink<Doublf, R, RfdudingSink>, Sink.OfDoublf {
+            @Ovfrridf
+            publid void bfgin(long sizf) {
+                stbtf = supplifr.gft();
+            }
+
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                bddumulbtor.bddfpt(stbtf, t);
+            }
+
+            @Ovfrridf
+            publid void dombinf(RfdudingSink othfr) {
+                stbtf = dombinfr.bpply(stbtf, othfr.stbtf);
+            }
+        }
+        rfturn nfw RfdudfOp<Doublf, R, RfdudingSink>(StrfbmShbpf.DOUBLE_VALUE) {
+            @Ovfrridf
+            publid RfdudingSink mbkfSink() {
+                rfturn nfw RfdudingSink();
+            }
+        };
+    }
+
+    /**
+     * A typf of {@dodf TfrminblSink} thbt implfmfnts bn bssodibtivf rfduding
+     * opfrbtion on flfmfnts of typf {@dodf T} bnd produding b rfsult of typf
+     * {@dodf R}.
+     *
+     * @pbrbm <T> thf typf of input flfmfnt to thf dombining opfrbtion
+     * @pbrbm <R> thf rfsult typf
+     * @pbrbm <K> thf typf of thf {@dodf AddumulbtingSink}.
+     */
+    privbtf intfrfbdf AddumulbtingSink<T, R, K fxtfnds AddumulbtingSink<T, R, K>>
+            fxtfnds TfrminblSink<T, R> {
+        publid void dombinf(K othfr);
+    }
+
+    /**
+     * Stbtf box for b singlf stbtf flfmfnt, usfd bs b bbsf dlbss for
+     * {@dodf AddumulbtingSink} instbndfs
+     *
+     * @pbrbm <U> Thf typf of thf stbtf flfmfnt
+     */
+    privbtf stbtid bbstrbdt dlbss Box<U> {
+        U stbtf;
+
+        Box() {} // Avoid drfbtion of spfdibl bddfssor
+
+        publid U gft() {
+            rfturn stbtf;
+        }
+    }
+
+    /**
+     * A {@dodf TfrminblOp} thbt fvblubtfs b strfbm pipflinf bnd sfnds thf
+     * output into bn {@dodf AddumulbtingSink}, whidh pfrforms b rfdudf
+     * opfrbtion. Thf {@dodf AddumulbtingSink} must rfprfsfnt bn bssodibtivf
+     * rfduding opfrbtion.
+     *
+     * @pbrbm <T> thf output typf of thf strfbm pipflinf
+     * @pbrbm <R> thf rfsult typf of thf rfduding opfrbtion
+     * @pbrbm <S> thf typf of thf {@dodf AddumulbtingSink}
+     */
+    privbtf stbtid bbstrbdt dlbss RfdudfOp<T, R, S fxtfnds AddumulbtingSink<T, R, S>>
+            implfmfnts TfrminblOp<T, R> {
+        privbtf finbl StrfbmShbpf inputShbpf;
+
+        /**
+         * Crfbtf b {@dodf RfdudfOp} of thf spfdififd strfbm shbpf whidh usfs
+         * thf spfdififd {@dodf Supplifr} to drfbtf bddumulbting sinks.
+         *
+         * @pbrbm shbpf Thf shbpf of thf strfbm pipflinf
+         */
+        RfdudfOp(StrfbmShbpf shbpf) {
+            inputShbpf = shbpf;
+        }
+
+        publid bbstrbdt S mbkfSink();
+
+        @Ovfrridf
+        publid StrfbmShbpf inputShbpf() {
+            rfturn inputShbpf;
+        }
+
+        @Ovfrridf
+        publid <P_IN> R fvblubtfSfqufntibl(PipflinfHflpfr<T> hflpfr,
+                                           Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn hflpfr.wrbpAndCopyInto(mbkfSink(), splitfrbtor).gft();
+        }
+
+        @Ovfrridf
+        publid <P_IN> R fvblubtfPbrbllfl(PipflinfHflpfr<T> hflpfr,
+                                         Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw RfdudfTbsk<>(this, hflpfr, splitfrbtor).invokf().gft();
+        }
+    }
+
+    /**
+     * A {@dodf ForkJoinTbsk} for pfrforming b pbrbllfl rfdudf opfrbtion.
+     */
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid finbl dlbss RfdudfTbsk<P_IN, P_OUT, R,
+                                          S fxtfnds AddumulbtingSink<P_OUT, R, S>>
+            fxtfnds AbstrbdtTbsk<P_IN, P_OUT, S, RfdudfTbsk<P_IN, P_OUT, R, S>> {
+        privbtf finbl RfdudfOp<P_OUT, R, S> op;
+
+        RfdudfTbsk(RfdudfOp<P_OUT, R, S> op,
+                   PipflinfHflpfr<P_OUT> hflpfr,
+                   Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(hflpfr, splitfrbtor);
+            this.op = op;
+        }
+
+        RfdudfTbsk(RfdudfTbsk<P_IN, P_OUT, R, S> pbrfnt,
+                   Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(pbrfnt, splitfrbtor);
+            this.op = pbrfnt.op;
+        }
+
+        @Ovfrridf
+        protfdtfd RfdudfTbsk<P_IN, P_OUT, R, S> mbkfChild(Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw RfdudfTbsk<>(this, splitfrbtor);
+        }
+
+        @Ovfrridf
+        protfdtfd S doLfbf() {
+            rfturn hflpfr.wrbpAndCopyInto(op.mbkfSink(), splitfrbtor);
+        }
+
+        @Ovfrridf
+        publid void onComplftion(CountfdComplftfr<?> dbllfr) {
+            if (!isLfbf()) {
+                S lfftRfsult = lfftChild.gftLodblRfsult();
+                lfftRfsult.dombinf(rightChild.gftLodblRfsult());
+                sftLodblRfsult(lfftRfsult);
+            }
+            // GC splitfrbtor, lfft bnd right dhild
+            supfr.onComplftion(dbllfr);
+        }
+    }
+}

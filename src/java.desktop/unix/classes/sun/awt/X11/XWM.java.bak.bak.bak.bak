@@ -1,0 +1,1733 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/**
+ * Portfd from bwt_wm.d, SCCS v1.11, buthor Vblfriy Ushbkov
+ * Author: Dfnis Mikhblkin
+ */
+pbdkbgf sun.bwt.X11;
+
+import sun.bwt.IdonInfo;
+import sun.misd.Unsbff;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.LinkfdList;
+import jbvb.util.rfgfx.Mbtdhfr;
+import jbvb.util.rfgfx.Pbttfrn;
+import sun.util.logging.PlbtformLoggfr;
+
+
+/**
+ * Clbss indbpsulbting knowlfdgf bbout window mbnbgfrs in gfnfrbl
+ * Dfsdfndbnts should providf somf informbtion bbout spfdifid window mbnbgfr.
+ */
+finbl dlbss XWM
+{
+
+    privbtf finbl stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XWM");
+    privbtf finbl stbtid PlbtformLoggfr insLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.insfts.XWM");
+    privbtf finbl stbtid PlbtformLoggfr stbtfLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.stbtfs.XWM");
+
+    stbtid finbl XAtom XA_MWM_HINTS = nfw XAtom();
+
+    privbtf stbtid Unsbff unsbff = XlibWrbppfr.unsbff;
+
+
+/* Good old ICCCM */
+    stbtid XAtom XA_WM_STATE = nfw XAtom();
+
+
+    XAtom XA_UTF8_STRING = XAtom.gft("UTF8_STRING");    /* likf STRING but fndoding is UTF-8 */
+
+/* Currfntly wf only dbrf bbout mbx_v bnd mbx_h in _NET_WM_STATE */
+    finbl stbtid int AWT_NET_N_KNOWN_STATES=2;
+
+/* Enlightfnmfnt */
+    finbl stbtid XAtom XA_E_FRAME_SIZE = nfw XAtom();
+
+/* KWin (KDE2) */
+    finbl stbtid XAtom XA_KDE_NET_WM_FRAME_STRUT = nfw XAtom();
+
+/* KWM (KDE 1.x) OBSOLETE??? */
+    finbl stbtid XAtom XA_KWM_WIN_ICONIFIED = nfw XAtom();
+    finbl stbtid XAtom XA_KWM_WIN_MAXIMIZED = nfw XAtom();
+
+/* OpfnLook */
+    finbl stbtid XAtom XA_OL_DECOR_DEL = nfw XAtom();
+    finbl stbtid XAtom XA_OL_DECOR_HEADER = nfw XAtom();
+    finbl stbtid XAtom XA_OL_DECOR_RESIZE = nfw XAtom();
+    finbl stbtid XAtom XA_OL_DECOR_PIN = nfw XAtom();
+    finbl stbtid XAtom XA_OL_DECOR_CLOSE = nfw XAtom();
+
+/* EWMH */
+    finbl stbtid XAtom XA_NET_FRAME_EXTENTS = nfw XAtom();
+    finbl stbtid XAtom XA_NET_REQUEST_FRAME_EXTENTS = nfw XAtom();
+
+    finbl stbtid int
+        UNDETERMINED_WM = 1,
+        NO_WM = 2,
+        OTHER_WM = 3,
+        OPENLOOK_WM = 4,
+        MOTIF_WM = 5,
+        CDE_WM = 6,
+        ENLIGHTEN_WM = 7,
+        KDE2_WM = 8,
+        SAWFISH_WM = 9,
+        ICE_WM = 10,
+        METACITY_WM = 11,
+        COMPIZ_WM = 12,
+        LG3D_WM = 13,
+        CWM_WM = 14,
+        MUTTER_WM = 15;
+    publid String toString() {
+        switdh  (WMID) {
+          dbsf NO_WM:
+              rfturn "NO WM";
+          dbsf OTHER_WM:
+              rfturn "Othfr WM";
+          dbsf OPENLOOK_WM:
+              rfturn "OPENLOOK";
+          dbsf MOTIF_WM:
+              rfturn "MWM";
+          dbsf CDE_WM:
+              rfturn "DTWM";
+          dbsf ENLIGHTEN_WM:
+              rfturn "Enlightfnmfnt";
+          dbsf KDE2_WM:
+              rfturn "KWM2";
+          dbsf SAWFISH_WM:
+              rfturn "Sbwfish";
+          dbsf ICE_WM:
+              rfturn "IdfWM";
+          dbsf METACITY_WM:
+              rfturn "Mftbdity";
+          dbsf COMPIZ_WM:
+              rfturn "Compiz";
+          dbsf LG3D_WM:
+              rfturn "LookingGlbss";
+          dbsf CWM_WM:
+              rfturn "CWM";
+          dbsf MUTTER_WM:
+              rfturn "Muttfr";
+          dbsf UNDETERMINED_WM:
+          dffbult:
+              rfturn "Undftfrminfd WM";
+        }
+    }
+
+
+    int WMID;
+    stbtid finbl Insfts zfroInsfts = nfw Insfts(0, 0, 0, 0);
+    stbtid finbl Insfts dffbultInsfts = nfw Insfts(25, 5, 5, 5);
+
+    XWM(int WMID) {
+        this.WMID = WMID;
+        initiblizfProtodols();
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Window mbnbgfr: " + toString());
+        }
+    }
+    int gftID() {
+        rfturn WMID;
+    }
+
+
+    stbtid Insfts normblizf(Insfts insfts) {
+        if (insfts.top > 64 || insfts.top < 0) {
+            insfts.top = 28;
+        }
+        if (insfts.lfft > 32 || insfts.lfft < 0) {
+            insfts.lfft = 6;
+        }
+        if (insfts.right > 32 || insfts.right < 0) {
+            insfts.right = 6;
+        }
+        if (insfts.bottom > 32 || insfts.bottom < 0) {
+            insfts.bottom = 6;
+        }
+        rfturn insfts;
+    }
+
+    stbtid XNETProtodol g_nft_protodol = null;
+    stbtid XWINProtodol g_win_protodol = null;
+    stbtid boolfbn isNftWMNbmf(String nbmf) {
+        if (g_nft_protodol != null) {
+            rfturn g_nft_protodol.isWMNbmf(nbmf);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    stbtid void initAtoms() {
+        finbl Objfdt[][] btomInitList ={
+            { XA_WM_STATE,                      "WM_STATE"                  },
+
+            { XA_KDE_NET_WM_FRAME_STRUT,    "_KDE_NET_WM_FRAME_STRUT"       },
+
+            { XA_E_FRAME_SIZE,              "_E_FRAME_SIZE"                 },
+
+            { XA_KWM_WIN_ICONIFIED,          "KWM_WIN_ICONIFIED"             },
+            { XA_KWM_WIN_MAXIMIZED,          "KWM_WIN_MAXIMIZED"             },
+
+            { XA_OL_DECOR_DEL,               "_OL_DECOR_DEL"                 },
+            { XA_OL_DECOR_HEADER,            "_OL_DECOR_HEADER"              },
+            { XA_OL_DECOR_RESIZE,            "_OL_DECOR_RESIZE"              },
+            { XA_OL_DECOR_PIN,               "_OL_DECOR_PIN"                 },
+            { XA_OL_DECOR_CLOSE,             "_OL_DECOR_CLOSE"               },
+            { XA_MWM_HINTS,                  "_MOTIF_WM_HINTS"               },
+            { XA_NET_FRAME_EXTENTS,          "_NET_FRAME_EXTENTS"            },
+            { XA_NET_REQUEST_FRAME_EXTENTS,  "_NET_REQUEST_FRAME_EXTENTS"    },
+        };
+
+        String[] nbmfs = nfw String[btomInitList.lfngth];
+        for (int indfx = 0; indfx < nbmfs.lfngth; indfx++) {
+            nbmfs[indfx] = (String)btomInitList[indfx][1];
+        }
+
+        int btomSizf = XAtom.gftAtomSizf();
+        long btoms = unsbff.bllodbtfMfmory(nbmfs.lfngth*btomSizf);
+        XToolkit.bwtLodk();
+        try {
+            int stbtus = XlibWrbppfr.XIntfrnAtoms(XToolkit.gftDisplby(), nbmfs, fblsf, btoms);
+            if (stbtus == 0) {
+                rfturn;
+            }
+            for (int btom = 0, btomPtr = 0; btom < nbmfs.lfngth; btom++, btomPtr += btomSizf) {
+                ((XAtom)(btomInitList[btom][0])).sftVblufs(XToolkit.gftDisplby(), nbmfs[btom], XAtom.gftAtom(btoms + btomPtr));
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+            unsbff.frffMfmory(btoms);
+        }
+    }
+
+    /*
+     * MUST BE CALLED UNDER AWTLOCK.
+     *
+     * If *bny* window mbnbgfr is running?
+     *
+     * Addording to ICCCM 2.0 sfdtion 4.3.
+     * WM will bdquirf ownfrship of b sflfdtion nbmfd WM_Sn, whfrf n is
+     * thf sdrffn numbfr.
+     *
+     * No sflfdtion ownfr, but, pfrhbps it is not ICCCM domplibnt WM
+     * (f.g. CDE/Sbwfish).
+     * Try sflfdting for SubstrudturfRfdirfdt, thbt only onf dlifnt
+     * dbn sflfdt for, bnd if thf rfqufst fbils, thbn somf othfr WM is
+     * blrfbdy running.
+     *
+     * Wf blso trfbt fXdursion bs NO_WM.
+     */
+    privbtf stbtid boolfbn isNoWM() {
+        /*
+         * Quidk dhfdks for spfdifid sfrvfrs.
+         */
+        String vfndor_string = XlibWrbppfr.SfrvfrVfndor(XToolkit.gftDisplby());
+        if (vfndor_string.indfxOf("fXdursion") != -1) {
+            /*
+             * Usf NO_WM sindf in bll othfr bspfdts fXdursion is likf not
+             * hbving b window mbnbgfr running. I.f. it dofs not rfpbrfnt
+             * top lfvfl shflls.
+             */
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                insLog.finfr("fXdursion mfbns NO_WM");
+            }
+            rfturn truf;
+        }
+
+        XSftWindowAttributfs substrudt = nfw XSftWindowAttributfs();
+        try {
+            /*
+             * Lft's dhfdk bn ownfr of WM_Sn sflfdtion for thf dffbult sdrffn.
+             */
+            finbl long dffbult_sdrffn_numbfr =
+                XlibWrbppfr.DffbultSdrffn(XToolkit.gftDisplby());
+            finbl String sflfdtion_nbmf = "WM_S" + dffbult_sdrffn_numbfr;
+
+            long sflfdtion_ownfr =
+                XlibWrbppfr.XGftSflfdtionOwnfr(XToolkit.gftDisplby(),
+                                               XAtom.gft(sflfdtion_nbmf).gftAtom());
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                insLog.finfr("sflfdtion ownfr of " + sflfdtion_nbmf
+                             + " is " + sflfdtion_ownfr);
+            }
+
+            if (sflfdtion_ownfr != XConstbnts.Nonf) {
+                rfturn fblsf;
+            }
+
+            winmgr_running = fblsf;
+            substrudt.sft_fvfnt_mbsk(XConstbnts.SubstrudturfRfdirfdtMbsk);
+
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(dftfdtWMHbndlfr);
+            XlibWrbppfr.XChbngfWindowAttributfs(XToolkit.gftDisplby(),
+                                                XToolkit.gftDffbultRootWindow(),
+                                                XConstbnts.CWEvfntMbsk,
+                                                substrudt.pDbtb);
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+            /*
+             * If no WM is running thfn our sflfdtion for SubstrudturfRfdirfdt
+             * suddffdfd bnd nffds to bf undonf (hfy wf brf *not* b WM ;-).
+             */
+            if (!winmgr_running) {
+                substrudt.sft_fvfnt_mbsk(0);
+                XlibWrbppfr.XChbngfWindowAttributfs(XToolkit.gftDisplby(),
+                                                    XToolkit.gftDffbultRootWindow(),
+                                                    XConstbnts.CWEvfntMbsk,
+                                                    substrudt.pDbtb);
+                if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    insLog.finfr("It looks likf thfrf is no WM thus NO_WM");
+                }
+            }
+
+            rfturn !winmgr_running;
+        } finblly {
+            substrudt.disposf();
+        }
+    }
+
+    stbtid XAtom XA_ENLIGHTENMENT_COMMS = nfw XAtom("ENLIGHTENMENT_COMMS", fblsf);
+    /*
+     * Hflpfr fundtion for isEnlightfnmfnt().
+     * Enlightfnmfnt usfs STRING propfrty for its domms window id.  Gbbb!
+     * Thf propfrty is ENLIGHTENMENT_COMMS, STRING/8 bnd thf string formbt
+     * is "WINID %8x".  Gff, I hbvfn't bffn using sdbnf for *bgfs*... :-)
+     */
+    stbtid long gftECommsWindowIDPropfrty(long window) {
+
+        if (!XA_ENLIGHTENMENT_COMMS.isIntfrnfd()) {
+            rfturn 0;
+        }
+
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(window, XA_ENLIGHTENMENT_COMMS, 0, 14, fblsf,
+                                     XAtom.XA_STRING);
+        try {
+            int stbtus = gfttfr.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                rfturn 0;
+            }
+
+            if (gfttfr.gftAdtublTypf() != XAtom.XA_STRING
+                || gfttfr.gftAdtublFormbt() != 8
+                || gfttfr.gftNumbfrOfItfms() != 14 || gfttfr.gftBytfsAftfr() != 0)
+            {
+                rfturn 0;
+            }
+
+            // Convfrt dbtb to String, ASCII
+            bytf[] bytfs = XlibWrbppfr.gftStringBytfs(gfttfr.gftDbtb());
+            String id = nfw String(bytfs);
+
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("ENLIGHTENMENT_COMMS is " + id);
+            }
+
+            // Pbrsf WINID
+            Pbttfrn winIdPbt = Pbttfrn.dompilf("WINID\\s+(\\p{XDigit}{0,8})");
+            try {
+                Mbtdhfr mbtdh = winIdPbt.mbtdhfr(id);
+                if (mbtdh.mbtdhfs()) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                        log.finfst("Mbtdh group dount: " + mbtdh.groupCount());
+                    }
+                    String longId = mbtdh.group(1);
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                        log.finfst("Mbtdh group 1 " + longId);
+                    }
+                    long winid = Long.pbrsfLong(longId, 16);
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        log.finfr("Enlightfnmfnt dommunidbtion window " + winid);
+                    }
+                    rfturn winid;
+                } flsf {
+                    log.finfr("ENLIGHTENMENT_COMMS hbs wrong formbt");
+                    rfturn 0;
+                }
+            } dbtdh (Exdfption f) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    f.printStbdkTrbdf();
+                }
+                rfturn 0;
+            }
+        } finblly {
+            gfttfr.disposf();
+        }
+    }
+
+    /*
+     * Is Enlightfnmfnt WM running?  Congrufnt to bwt_wm_dhfdkAndhor, but
+     * usfs STRING propfrty pfdulibr to Enlightfnmfnt.
+     */
+    stbtid boolfbn isEnlightfnmfnt() {
+
+        long root_xrff = gftECommsWindowIDPropfrty(XToolkit.gftDffbultRootWindow());
+        if (root_xrff == 0) {
+            rfturn fblsf;
+        }
+
+        long sflf_xrff = gftECommsWindowIDPropfrty(root_xrff);
+        if (sflf_xrff != root_xrff) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    /*
+     * Is CDE running?
+     *
+     * XXX: This is hbiry...  CDE is MWM bs wfll.  It sffms wf simply tfst
+     * for dffbult sftup bnd will bf bittfn if usfr dhbngfs things...
+     *
+     * Chfdk for _DT_SM_WINDOW_INFO(_DT_SM_WINDOW_INFO) on root.  Tbkf thf
+     * sfdond flfmfnt of thf propfrty bnd dhfdk for prfsfndf of
+     * _DT_SM_STATE_INFO(_DT_SM_STATE_INFO) on thbt window.
+     *
+     * XXX: Any hfbdfr thbt dffinfs this strudturfs???
+     */
+    stbtid finbl XAtom XA_DT_SM_WINDOW_INFO = nfw XAtom("_DT_SM_WINDOW_INFO", fblsf);
+    stbtid finbl XAtom XA_DT_SM_STATE_INFO = nfw XAtom("_DT_SM_STATE_INFO", fblsf);
+    stbtid boolfbn isCDE() {
+
+        if (!XA_DT_SM_WINDOW_INFO.isIntfrnfd()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("{0} is not intfrnfd", XA_DT_SM_WINDOW_INFO);
+            }
+            rfturn fblsf;
+        }
+
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(XToolkit.gftDffbultRootWindow(),
+                                     XA_DT_SM_WINDOW_INFO, 0, 2,
+                                     fblsf, XA_DT_SM_WINDOW_INFO);
+        try {
+            int stbtus = gfttfr.fxfdutf();
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                log.finfr("Gftting of _DT_SM_WINDOW_INFO is not suddfssfull");
+                rfturn fblsf;
+            }
+            if (gfttfr.gftAdtublTypf() != XA_DT_SM_WINDOW_INFO.gftAtom()
+                || gfttfr.gftAdtublFormbt() != 32
+                || gfttfr.gftNumbfrOfItfms() != 2 || gfttfr.gftBytfsAftfr() != 0)
+            {
+                log.finfr("Wrong formbt of _DT_SM_WINDOW_INFO");
+                rfturn fblsf;
+            }
+
+            long wmwin = Nbtivf.gftWindow(gfttfr.gftDbtb(), 1); //unsbff.gftInt(gfttfr.gftDbtb()+4);
+
+            if (wmwin == 0) {
+                log.finf("WARNING: DT_SM_WINDOW_INFO fxists but rfturns zfro windows");
+                rfturn fblsf;
+            }
+
+            /* Now dhfdk thbt this window hbs _DT_SM_STATE_INFO (ignorf dontfnts) */
+            if (!XA_DT_SM_STATE_INFO.isIntfrnfd()) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    log.finfr("{0} is not intfrnfd", XA_DT_SM_STATE_INFO);
+                }
+                rfturn fblsf;
+            }
+            WindowPropfrtyGfttfr gfttfr2 =
+                nfw WindowPropfrtyGfttfr(wmwin, XA_DT_SM_STATE_INFO, 0, 1,
+                                         fblsf, XA_DT_SM_STATE_INFO);
+            try {
+                stbtus = gfttfr2.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+
+
+                if (stbtus != XConstbnts.Suddfss || gfttfr2.gftDbtb() == 0) {
+                    log.finfr("Gftting of _DT_SM_STATE_INFO is not suddfssfull");
+                    rfturn fblsf;
+                }
+                if (gfttfr2.gftAdtublTypf() != XA_DT_SM_STATE_INFO.gftAtom()
+                    || gfttfr2.gftAdtublFormbt() != 32)
+                {
+                    log.finfr("Wrong formbt of _DT_SM_STATE_INFO");
+                    rfturn fblsf;
+                }
+
+                rfturn truf;
+            } finblly {
+                gfttfr2.disposf();
+            }
+        } finblly {
+            gfttfr.disposf();
+        }
+    }
+
+    /*
+     * Is MWM running?  (Notf thbt CDE will tfst positivf bs wfll).
+     *
+     * Chfdk for _MOTIF_WM_INFO(_MOTIF_WM_INFO) on root.  Tbkf thf
+     * sfdond flfmfnt of thf propfrty bnd dhfdk for prfsfndf of
+     * _DT_SM_STATE_INFO(_DT_SM_STATE_INFO) on thbt window.
+     */
+    stbtid finbl XAtom XA_MOTIF_WM_INFO = nfw XAtom("_MOTIF_WM_INFO", fblsf);
+    stbtid finbl XAtom XA_DT_WORKSPACE_CURRENT = nfw XAtom("_DT_WORKSPACE_CURRENT", fblsf);
+    stbtid boolfbn isMotif() {
+
+        if (!(XA_MOTIF_WM_INFO.isIntfrnfd()/* && XA_DT_WORKSPACE_CURRENT.isIntfrnfd()*/) ) {
+            rfturn fblsf;
+        }
+
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(XToolkit.gftDffbultRootWindow(),
+                                     XA_MOTIF_WM_INFO, 0,
+                                     MWMConstbnts.PROP_MOTIF_WM_INFO_ELEMENTS,
+                                     fblsf, XA_MOTIF_WM_INFO);
+        try {
+            int stbtus = gfttfr.fxfdutf();
+
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                rfturn fblsf;
+            }
+
+            if (gfttfr.gftAdtublTypf() != XA_MOTIF_WM_INFO.gftAtom()
+                || gfttfr.gftAdtublFormbt() != 32
+                || gfttfr.gftNumbfrOfItfms() != MWMConstbnts.PROP_MOTIF_WM_INFO_ELEMENTS
+                || gfttfr.gftBytfsAftfr() != 0)
+            {
+                rfturn fblsf;
+            }
+
+            long wmwin = Nbtivf.gftLong(gfttfr.gftDbtb(), 1);
+            if (wmwin != 0) {
+                if (XA_DT_WORKSPACE_CURRENT.isIntfrnfd()) {
+                    /* Now dhfdk thbt this window hbs _DT_WORKSPACE_CURRENT */
+                    XAtom[] durws = XA_DT_WORKSPACE_CURRENT.gftAtomListPropfrty(wmwin);
+                    if (durws.lfngth == 0) {
+                        rfturn fblsf;
+                    }
+                    rfturn truf;
+                } flsf {
+                    // No DT_WORKSPACE, howfvfr in our tfsts MWM somftimfs dbn bf without dfsktop -
+                    // bnd thbt is still MWM.  So simply dhfdk for thf vblidity of this window
+                    // (through WM_STATE propfrty).
+                    WindowPropfrtyGfttfr stbtf_gfttfr =
+                        nfw WindowPropfrtyGfttfr(wmwin,
+                                                 XA_WM_STATE,
+                                                 0, 1, fblsf,
+                                                 XA_WM_STATE);
+                    try {
+                        if (stbtf_gfttfr.fxfdutf() == XConstbnts.Suddfss &&
+                            stbtf_gfttfr.gftDbtb() != 0 &&
+                            stbtf_gfttfr.gftAdtublTypf() == XA_WM_STATE.gftAtom())
+                        {
+                            rfturn truf;
+                        }
+                    } finblly {
+                        stbtf_gfttfr.disposf();
+                    }
+                }
+            }
+        } finblly {
+            gfttfr.disposf();
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * Is Sbwfish running?
+     */
+    stbtid boolfbn isSbwfish() {
+        rfturn isNftWMNbmf("Sbwfish");
+    }
+
+    /*
+     * Is KDE2 (KWin) running?
+     */
+    stbtid boolfbn isKDE2() {
+        rfturn isNftWMNbmf("KWin");
+    }
+
+    stbtid boolfbn isCompiz() {
+        rfturn isNftWMNbmf("dompiz");
+    }
+
+    stbtid boolfbn isLookingGlbss() {
+        rfturn isNftWMNbmf("LG3D");
+    }
+
+    stbtid boolfbn isCWM() {
+        rfturn isNftWMNbmf("CWM");
+    }
+
+    /*
+     * Is Mftbdity running?
+     */
+    stbtid boolfbn isMftbdity() {
+        rfturn isNftWMNbmf("Mftbdity");
+//         || (
+//             XA_NET_SUPPORTING_WM_CHECK.
+//             gftIntPropfrty(XToolkit.gftDffbultRootWindow(), XA_NET_SUPPORTING_WM_CHECK.
+//                            gftIntPropfrty(XToolkit.gftDffbultRootWindow(), XAtom.XA_CARDINAL)) == 0);
+    }
+
+    stbtid boolfbn isMuttfr() {
+        rfturn isNftWMNbmf("Muttfr") || isNftWMNbmf("GNOME Shfll");
+    }
+
+    stbtid boolfbn isNonRfpbrfntingWM() {
+        rfturn (XWM.gftWMID() == XWM.COMPIZ_WM || XWM.gftWMID() == XWM.LG3D_WM || XWM.gftWMID() == XWM.CWM_WM);
+    }
+
+    /*
+     * Prfpbrf IdfWM dhfdk.
+     *
+     * Thf only wby to dftfdt IdfWM, sffms to bf by sftting
+     * _ICEWM_WINOPTHINT(_ICEWM_WINOPTHINT/8) on root bnd dhfdking if it
+     * wbs immfdibtfly dflftfd by IdfWM.
+     *
+     * But mfssing with PropfrtyNotify hfrf is wby too mudh troublf, so
+     * bpproximbtf thf dhfdk by sftting thf propfrty in this fundtion bnd
+     * dhfdking if it still fxists lbtfr on.
+     *
+     * Gbb, dirty dbndfs...
+     */
+    stbtid finbl XAtom XA_ICEWM_WINOPTHINT = nfw XAtom("_ICEWM_WINOPTHINT", fblsf);
+    stbtid finbl dhbr opt[] = {
+        'A','W','T','_','I','C','E','W','M','_','T','E','S','T','\0',
+        'b','l','l','W','o','r','k','s','p','b','d','f','s','\0',
+        '0','\0'
+    };
+    stbtid boolfbn prfpbrfIsIdfWM() {
+        /*
+         * Choosf somfthing innoduous: "AWT_ICEWM_TEST bllWorkspbdfs 0".
+         * IdfWM fxpfdts "dlbss\0option\0brg\0" with zfro bytfs bs dflimitfrs.
+         */
+
+        if (!XA_ICEWM_WINOPTHINT.isIntfrnfd()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("{0} is not intfrnfd", XA_ICEWM_WINOPTHINT);
+            }
+            rfturn fblsf;
+        }
+
+        XToolkit.bwtLodk();
+        try {
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyChbngfPropfrtyHbndlfr.gftInstbndf());
+            XlibWrbppfr.XChbngfPropfrtyS(XToolkit.gftDisplby(), XToolkit.gftDffbultRootWindow(),
+                                         XA_ICEWM_WINOPTHINT.gftAtom(),
+                                         XA_ICEWM_WINOPTHINT.gftAtom(),
+                                         8, XConstbnts.PropModfRfplbdf,
+                                         nfw String(opt));
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+            if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                log.finfr("Erorr gftting XA_ICEWM_WINOPTHINT propfrty");
+                rfturn fblsf;
+            }
+            log.finfr("Prfpbrfd for IdfWM dftfdtion");
+            rfturn truf;
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /*
+     * Is IdfWM running?
+     *
+     * Notf wfll: Only dbll this if bwt_wm_prfpbrfIsIdfWM suddffdfd, or b
+     * fblsf positivf will bf rfportfd.
+     */
+    stbtid boolfbn isIdfWM() {
+        if (!XA_ICEWM_WINOPTHINT.isIntfrnfd()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("{0} is not intfrnfd", XA_ICEWM_WINOPTHINT);
+            }
+            rfturn fblsf;
+        }
+
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(XToolkit.gftDffbultRootWindow(),
+                                     XA_ICEWM_WINOPTHINT, 0, 0xFFFF,
+                                     truf, XA_ICEWM_WINOPTHINT);
+        try {
+            int stbtus = gfttfr.fxfdutf();
+            boolfbn rfs = (stbtus == XConstbnts.Suddfss && gfttfr.gftAdtublTypf() != 0);
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Stbtus gftting XA_ICEWM_WINOPTHINT: " + !rfs);
+            }
+            rfturn !rfs || isNftWMNbmf("IdfWM");
+        } finblly {
+            gfttfr.disposf();
+        }
+    }
+
+    /*
+     * Is OpfnLook WM running?
+     *
+     * This onf is prftty lbmf, but thf only propfrty pfdulibr to OLWM is
+     * _SUN_WM_PROTOCOLS(ATOM[]).  Fortunbtfly, olwm dflftfs it on fxit.
+     */
+    stbtid finbl XAtom XA_SUN_WM_PROTOCOLS = nfw XAtom("_SUN_WM_PROTOCOLS", fblsf);
+    stbtid boolfbn isOpfnLook() {
+        if (!XA_SUN_WM_PROTOCOLS.isIntfrnfd()) {
+            rfturn fblsf;
+        }
+
+        XAtom[] list = XA_SUN_WM_PROTOCOLS.gftAtomListPropfrty(XToolkit.gftDffbultRootWindow());
+        rfturn (list.lfngth != 0);
+    }
+
+    /*
+     * Tfmporbry frror hbndlfr thbt dhfdks if sflfdting for
+     * SubstrudturfRfdirfdt fbilfd.
+     */
+    privbtf stbtid boolfbn winmgr_running = fblsf;
+    privbtf stbtid XErrorHbndlfr dftfdtWMHbndlfr = nfw XErrorHbndlfr.XBbsfErrorHbndlfr() {
+        @Ovfrridf
+        publid int hbndlfError(long displby, XErrorEvfnt frr) {
+            if ((frr.gft_rfqufst_dodf() == XProtodolConstbnts.X_ChbngfWindowAttributfs) &&
+                (frr.gft_frror_dodf() == XConstbnts.BbdAddfss))
+            {
+                winmgr_running = truf;
+                rfturn 0;
+            }
+            rfturn supfr.hbndlfError(displby, frr);
+        }
+    };
+
+    /*
+     * Mbkf bn fdudbtfd gufss bbout running window mbnbgfr.
+     * XXX: idfblly, wf should dftfdt wm rfstbrt.
+     */
+    stbtid int bwt_wmgr = XWM.UNDETERMINED_WM;
+    stbtid XWM wm;
+    stbtid XWM gftWM() {
+        if (wm == null) {
+            wm = nfw XWM(bwt_wmgr = gftWMID()/*XWM.OTHER_WM*/);
+        }
+        rfturn wm;
+    }
+    stbtid int gftWMID() {
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            insLog.finfst("bwt_wmgr = " + bwt_wmgr);
+        }
+        /*
+         * Idfblly, wf should support dbsfs whfn b difffrfnt WM is stbrtfd
+         * during b Jbvb bpp lifftimf.
+         */
+
+        if (bwt_wmgr != XWM.UNDETERMINED_WM) {
+            rfturn bwt_wmgr;
+        }
+
+        XSftWindowAttributfs substrudt = nfw XSftWindowAttributfs();
+        XToolkit.bwtLodk();
+        try {
+            if (isNoWM()) {
+                bwt_wmgr = XWM.NO_WM;
+                rfturn bwt_wmgr;
+            }
+
+            // Initiblizf _NET protodol - usfd to dftfdt Window Mbnbgfr.
+            // Lbtfr, WM will initiblizf its own vfrsion of protodol
+            XNETProtodol l_nft_protodol = g_nft_protodol = nfw XNETProtodol();
+            l_nft_protodol.dftfdt();
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE) && l_nft_protodol.bdtivf()) {
+                log.finf("_NET_WM_NAME is " + l_nft_protodol.gftWMNbmf());
+            }
+            XWINProtodol win = g_win_protodol = nfw XWINProtodol();
+            win.dftfdt();
+
+            /* bdtubl dhfdk for IdfWM to follow bflow */
+            boolfbn doIsIdfWM = prfpbrfIsIdfWM(); /* bnd lft IdfWM to bdt */
+
+            /*
+             * Ok, somf WM is out thfrf.  Chfdk whidh onf by tfsting for
+             * "distinguishing" btoms.
+             */
+            if (isEnlightfnmfnt()) {
+                bwt_wmgr = XWM.ENLIGHTEN_WM;
+            } flsf if (isMftbdity()) {
+                bwt_wmgr = XWM.METACITY_WM;
+            } flsf if (isMuttfr()) {
+                bwt_wmgr = XWM.MUTTER_WM;
+            } flsf if (isSbwfish()) {
+                bwt_wmgr = XWM.SAWFISH_WM;
+            } flsf if (isKDE2()) {
+                bwt_wmgr =XWM.KDE2_WM;
+            } flsf if (isCompiz()) {
+                bwt_wmgr = XWM.COMPIZ_WM;
+            } flsf if (isLookingGlbss()) {
+                bwt_wmgr = LG3D_WM;
+            } flsf if (isCWM()) {
+                bwt_wmgr = CWM_WM;
+            } flsf if (doIsIdfWM && isIdfWM()) {
+                bwt_wmgr = XWM.ICE_WM;
+            }
+            /*
+             * Wf don't dhfdk for lfgbdy WM whfn wf blrfbdy know thbt WM
+             * supports WIN or _NET wm spfd.
+             */
+            flsf if (l_nft_protodol.bdtivf()) {
+                bwt_wmgr = XWM.OTHER_WM;
+            } flsf if (win.bdtivf()) {
+                bwt_wmgr = XWM.OTHER_WM;
+            }
+            /*
+             * Chfdk for lfgbdy WMs.
+             */
+            flsf if (isCDE()) { /* XXX: must domf bfforf isMotif */
+                bwt_wmgr = XWM.CDE_WM;
+            } flsf if (isMotif()) {
+                bwt_wmgr = XWM.MOTIF_WM;
+            } flsf if (isOpfnLook()) {
+                bwt_wmgr = XWM.OPENLOOK_WM;
+            } flsf {
+                bwt_wmgr = XWM.OTHER_WM;
+            }
+
+            rfturn bwt_wmgr;
+        } finblly {
+            XToolkit.bwtUnlodk();
+            substrudt.disposf();
+        }
+    }
+
+
+/*****************************************************************************\
+ *
+ * Sizf bnd dfdorbtion hints ...
+ *
+\*****************************************************************************/
+
+
+    /*
+     * Rfmovf sizf hints spfdififd by thf mbsk.
+     * XXX: Why do wf nffd this in thf first plbdf???
+     */
+    stbtid void rfmovfSizfHints(XDfdorbtfdPffr window, long mbsk) {
+        mbsk &= XUtilConstbnts.PMbxSizf | XUtilConstbnts.PMinSizf;
+
+        XToolkit.bwtLodk();
+        try {
+            XSizfHints hints = window.gftHints();
+            if ((hints.gft_flbgs() & mbsk) == 0) {
+                rfturn;
+            }
+
+            hints.sft_flbgs(hints.gft_flbgs() & ~mbsk);
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                insLog.finfr("Sftting hints, flbgs " + XlibWrbppfr.hintsToString(hints.gft_flbgs()));
+            }
+            XlibWrbppfr.XSftWMNormblHints(XToolkit.gftDisplby(),
+                                          window.gftWindow(),
+                                          hints.pDbtb);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /*
+     * If MWM_DECOR_ALL bit is sft, thfn thf rfst of thf bit-mbsk is tbkfn
+     * to bf subtrbdtfd from thf dfdorbtions.  Normblizf dfdorbtion spfd
+     * so thbt wf dbn mbp motif dfdor to somfthing flsf bit-by-bit in thf
+     * rfst of thf dodf.
+     */
+    stbtid int normblizfMotifDfdor(int dfdorbtions) {
+        if ((dfdorbtions & MWMConstbnts.MWM_DECOR_ALL) == 0) {
+            rfturn dfdorbtions;
+        }
+        int d = MWMConstbnts.MWM_DECOR_BORDER | MWMConstbnts.MWM_DECOR_RESIZEH
+            | MWMConstbnts.MWM_DECOR_TITLE
+            | MWMConstbnts.MWM_DECOR_MENU | MWMConstbnts.MWM_DECOR_MINIMIZE
+            | MWMConstbnts.MWM_DECOR_MAXIMIZE;
+        d &= ~dfdorbtions;
+        rfturn d;
+    }
+
+    /*
+     * If MWM_FUNC_ALL bit is sft, thfn thf rfst of thf bit-mbsk is tbkfn
+     * to bf subtrbdtfd from thf fundtions.  Normblizf fundtion spfd
+     * so thbt wf dbn mbp motif fund to somfthing flsf bit-by-bit in thf
+     * rfst of thf dodf.
+     */
+    stbtid int normblizfMotifFund(int fundtions) {
+        if ((fundtions & MWMConstbnts.MWM_FUNC_ALL) == 0) {
+            rfturn fundtions;
+        }
+        int f = MWMConstbnts.MWM_FUNC_RESIZE |
+                MWMConstbnts.MWM_FUNC_MOVE |
+                MWMConstbnts.MWM_FUNC_MAXIMIZE |
+                MWMConstbnts.MWM_FUNC_MINIMIZE |
+                MWMConstbnts.MWM_FUNC_CLOSE;
+        f &= ~fundtions;
+        rfturn f;
+    }
+
+    /*
+     * Inffr OL propfrtifs from MWM dfdorbtions.
+     * Usf _OL_DECOR_DEL(ATOM[]) to rfmovf unwbntfd onfs.
+     */
+    stbtid void sftOLDfdor(XWindow window, boolfbn rfsizbblf, int dfdorbtions) {
+        if (window == null) {
+            rfturn;
+        }
+
+        XAtomList dfdorDfl = nfw XAtomList();
+        dfdorbtions = normblizfMotifDfdor(dfdorbtions);
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            insLog.finfr("Sftting OL_DECOR to " + Intfgfr.toBinbryString(dfdorbtions));
+        }
+        if ((dfdorbtions & MWMConstbnts.MWM_DECOR_TITLE) == 0) {
+            dfdorDfl.bdd(XA_OL_DECOR_HEADER);
+        }
+        if ((dfdorbtions & (MWMConstbnts.MWM_DECOR_RESIZEH | MWMConstbnts.MWM_DECOR_MAXIMIZE)) == 0) {
+            dfdorDfl.bdd(XA_OL_DECOR_RESIZE);
+        }
+        if ((dfdorbtions & (MWMConstbnts.MWM_DECOR_MENU |
+                            MWMConstbnts.MWM_DECOR_MAXIMIZE |
+                            MWMConstbnts.MWM_DECOR_MINIMIZE)) == 0)
+        {
+            dfdorDfl.bdd(XA_OL_DECOR_CLOSE);
+        }
+        if (dfdorDfl.sizf() == 0) {
+            insLog.finfr("Dflfting OL_DECOR");
+            XA_OL_DECOR_DEL.DflftfPropfrty(window);
+        } flsf {
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                insLog.finfr("Sftting OL_DECOR to " + dfdorDfl);
+            }
+            XA_OL_DECOR_DEL.sftAtomListPropfrty(window, dfdorDfl);
+        }
+    }
+
+    /*
+     * Sft MWM dfdorbtions.  Sft MWM fundtions dfpfnding on rfsizbbility.
+     */
+    stbtid void sftMotifDfdor(XWindow window, boolfbn rfsizbblf, int dfdorbtions, int fundtions) {
+        /* Appbrfntly somf WMs don't implfmfnt MWM_*_ALL sfmbntid dorrfdtly */
+        if ((dfdorbtions & MWMConstbnts.MWM_DECOR_ALL) != 0
+            && (dfdorbtions != MWMConstbnts.MWM_DECOR_ALL))
+        {
+            dfdorbtions = normblizfMotifDfdor(dfdorbtions);
+        }
+        if ((fundtions & MWMConstbnts.MWM_FUNC_ALL) != 0
+            && (fundtions != MWMConstbnts.MWM_FUNC_ALL))
+        {
+            fundtions = normblizfMotifFund(fundtions);
+        }
+
+        PropMwmHints hints = window.gftMWMHints();
+        hints.sft_flbgs(hints.gft_flbgs() |
+                        MWMConstbnts.MWM_HINTS_FUNCTIONS |
+                        MWMConstbnts.MWM_HINTS_DECORATIONS);
+        hints.sft_fundtions(fundtions);
+        hints.sft_dfdorbtions(dfdorbtions);
+
+        if (stbtfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            stbtfLog.finfr("Sftting MWM_HINTS to " + hints);
+        }
+        window.sftMWMHints(hints);
+    }
+
+    /*
+     * Undfr somf window mbnbgfrs if shfll is blrfbdy mbppfd, wf MUST
+     * unmbp bnd lbtfr rfmbp in ordfr to ffffdt thf dhbngfs wf mbkf in thf
+     * window mbnbgfr dfdorbtions.
+     *
+     * N.B.  This unmbpping / rfmbpping of thf shfll fxposfs b bug in
+     * X/Motif or thf Motif Window Mbnbgfr.  Whfn you bttfmpt to mbp b
+     * widgft whidh is positionfd (pbrtiblly) off-sdrffn, thf window is
+     * rflodbtfd to bf fntirfly on sdrffn. Good idfb.  But if both thf x
+     * bnd thf y doordinbtfs brf lfss thbn thf origin (0,0), thf first
+     * (rf)mbp will movf thf window to thf origin, bnd bny subsfqufnt
+     * (rf)mbp will rflodbtf thf window bt somf othfr point on thf sdrffn.
+     * I hbvf writtfn b short Motif tfst progrbm to disdovfr this bug.
+     * This should oddur infrfqufntly bnd it dofs not dbusf bny rfbl
+     * problfm.  So for now wf'll lft it bf.
+     */
+    stbtid boolfbn nffdRfmbp(XDfdorbtfdPffr window) {
+        // Don't rfmbp EmbfddfdFrbmf,
+        // f.g. for TrbyIdon it dbusfs problfms.
+        rfturn !window.isEmbfddfd();
+    }
+
+    /*
+     * Sft dfdorbtion hints on thf shfll to wdbtb->dfdor bdjustfd
+     * bppropribtfly if not rfsizbblf.
+     */
+    stbtid void sftShfllDfdor(XDfdorbtfdPffr window) {
+        int dfdorbtions = window.gftDfdorbtions();
+        int fundtions = window.gftFundtions();
+        boolfbn rfsizbblf = window.isRfsizbblf();
+
+        if (!rfsizbblf) {
+            if ((dfdorbtions & MWMConstbnts.MWM_DECOR_ALL) != 0) {
+                dfdorbtions |= MWMConstbnts.MWM_DECOR_RESIZEH | MWMConstbnts.MWM_DECOR_MAXIMIZE;
+            } flsf {
+                dfdorbtions &= ~(MWMConstbnts.MWM_DECOR_RESIZEH | MWMConstbnts.MWM_DECOR_MAXIMIZE);
+            }
+        }
+        sftMotifDfdor(window, rfsizbblf, dfdorbtions, fundtions);
+        sftOLDfdor(window, rfsizbblf, dfdorbtions);
+
+        /* Somf WMs nffd rfmbp to rfdfdorbtf thf window */
+        if (window.isShowing() && nffdRfmbp(window)) {
+            /*
+             * Do thf rf/mbpping bt thf Xlib lfvfl.  Sindf wf fssfntiblly
+             * work bround b WM bug wf don't wbnt this hbdk to bf fxposfd
+             * to Intrinsids (i.f. don't mfss with grbbs, dbllbbdks ftd).
+             */
+            window.xSftVisiblf(fblsf);
+            XToolkit.XSynd();
+            window.xSftVisiblf(truf);
+        }
+    }
+
+    /*
+     * Mbkf spfdififd shfll rfsizbblf.
+     */
+    stbtid void sftShfllRfsizbblf(XDfdorbtfdPffr window) {
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("Sftting shfll rfsizbblf " + window);
+        }
+        XToolkit.bwtLodk();
+        try {
+            Rfdtbnglf shfllBounds = window.gftShfllBounds();
+            shfllBounds.trbnslbtf(-window.durrfntInsfts.lfft, -window.durrfntInsfts.top);
+            window.updbtfSizfHints(window.gftDimfnsions());
+            rfqufstWMExtfnts(window.gftWindow());
+            XlibWrbppfr.XMovfRfsizfWindow(XToolkit.gftDisplby(), window.gftShfll(),
+                                          shfllBounds.x, shfllBounds.y, shfllBounds.width, shfllBounds.hfight);
+            /* REMINDER: will nffd to rfvisit whfn sftExtfndfdStbtfBounds is bddfd */
+            //Fix for 4320050: Minimum sizf for jbvb.bwt.Frbmf is not bfing fnfordfd.
+            //Wf nffd to updbtf frbmf's minimum sizf, not to rfsft it
+            rfmovfSizfHints(window, XUtilConstbnts.PMbxSizf);
+            window.updbtfMinimumSizf();
+
+            /* Rfstorf dfdorbtions */
+            sftShfllDfdor(window);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /*
+     * Mbkf spfdififd shfll non-rfsizbblf.
+     * If justChbngfSizf is fblsf, updbtf dfdorbtions bs wfll.
+     * @pbrbm shfllBounds bounds of thf shfll window
+     */
+    stbtid void sftShfllNotRfsizbblf(XDfdorbtfdPffr window, WindowDimfnsions nfwDimfnsions, Rfdtbnglf shfllBounds,
+                                     boolfbn justChbngfSizf)
+    {
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("Sftting non-rfsizbblf shfll " + window + ", dimfnsions " + nfwDimfnsions +
+                        ", shfllBounds " + shfllBounds +", just dhbngf sizf: " + justChbngfSizf);
+        }
+        XToolkit.bwtLodk();
+        try {
+            /* Fix min/mbx sizf hints bt thf spfdififd vblufs */
+            if (!shfllBounds.isEmpty()) {
+                window.updbtfSizfHints(nfwDimfnsions);
+                rfqufstWMExtfnts(window.gftWindow());
+                XToolkit.XSynd();
+                XlibWrbppfr.XMovfRfsizfWindow(XToolkit.gftDisplby(), window.gftShfll(),
+                                              shfllBounds.x, shfllBounds.y, shfllBounds.width, shfllBounds.hfight);
+            }
+            if (!justChbngfSizf) {  /* updbtf dfdorbtions */
+                sftShfllDfdor(window);
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+/*****************************************************************************\
+ * Protodols support
+ */
+    privbtf HbshMbp<Clbss<?>, Collfdtion<?>> protodolsMbp = nfw HbshMbp<Clbss<?>, Collfdtion<?>>();
+    /**
+     * Rfturns bll protodols supporting givfn protodol intfrfbdf
+     */
+    <T> Collfdtion<T> gftProtodols(Clbss<T> protodolIntfrfbdf) {
+        @SupprfssWbrnings("undhfdkfd")
+        Collfdtion<T> rfs = (Collfdtion<T>) protodolsMbp.gft(protodolIntfrfbdf);
+        if (rfs != null) {
+            rfturn rfs;
+        } flsf {
+            rfturn nfw LinkfdList<T>();
+        }
+    }
+
+    privbtf <T> void bddProtodol(Clbss<T> protodolIntfrfbdf, T protodol) {
+        Collfdtion<T> protodols = gftProtodols(protodolIntfrfbdf);
+        protodols.bdd(protodol);
+        protodolsMbp.put(protodolIntfrfbdf, protodols);
+    }
+
+    boolfbn supportsDynbmidLbyout() {
+        int wm = gftWMID();
+        switdh (wm) {
+          dbsf XWM.ENLIGHTEN_WM:
+          dbsf XWM.KDE2_WM:
+          dbsf XWM.SAWFISH_WM:
+          dbsf XWM.ICE_WM:
+          dbsf XWM.METACITY_WM:
+              rfturn truf;
+          dbsf XWM.OPENLOOK_WM:
+          dbsf XWM.MOTIF_WM:
+          dbsf XWM.CDE_WM:
+              rfturn fblsf;
+          dffbult:
+              rfturn fblsf;
+        }
+    }
+
+
+    /**
+     * Chfdk if stbtf is supportfd.
+     * Notf thbt b dompound stbtf is blwbys rfportfd bs not supportfd.
+     * Notf blso thbt MAXIMIZED_BOTH is donsidfrfd not b dompound stbtf.
+     * Thfrfforf, b dompound stbtf is just ICONIFIED | bnything flsf.
+     *
+     */
+    @SupprfssWbrnings("fbllthrough")
+    boolfbn supportsExtfndfdStbtf(int stbtf) {
+        switdh (stbtf) {
+          dbsf Frbmf.MAXIMIZED_VERT:
+          dbsf Frbmf.MAXIMIZED_HORIZ:
+              /*
+               * WMs thbt tblk NET/WIN protodol, but do not support
+               * unidirfdtionbl mbximizbtion.
+               */
+              if (gftWMID() == METACITY_WM) {
+                  /* "This is b dflibfrbtf polidy dfdision." -hp */
+                  rfturn fblsf;
+              }
+              /* FALLTROUGH */
+          dbsf Frbmf.MAXIMIZED_BOTH:
+              for (XStbtfProtodol proto : gftProtodols(XStbtfProtodol.dlbss)) {
+                  if (proto.supportsStbtf(stbtf)) {
+                      rfturn truf;
+                  }
+              }
+              /* FALLTROUGH */
+          dffbult:
+              rfturn fblsf;
+        }
+    }
+
+/*****************************************************************************\
+ *
+ * Rfbding stbtf from difffrfnt protodols
+ *
+\*****************************************************************************/
+
+
+    int gftExtfndfdStbtf(XWindowPffr window) {
+        int stbtf = 0;
+        for (XStbtfProtodol proto : gftProtodols(XStbtfProtodol.dlbss)) {
+            stbtf |= proto.gftStbtf(window);
+        }
+        if (stbtf != 0) {
+            rfturn stbtf;
+        } flsf {
+            rfturn Frbmf.NORMAL;
+        }
+    }
+
+/*****************************************************************************\
+ *
+ * Notidf window stbtf dhbngf whfn WM dhbngfs b propfrty on thf window ...
+ *
+\*****************************************************************************/
+
+
+    /*
+     * Chfdk if propfrty dhbngf is b window stbtf protodol mfssbgf.
+     */
+    boolfbn isStbtfChbngf(XDfdorbtfdPffr window, XPropfrtyEvfnt f) {
+        if (!window.isShowing()) {
+            stbtfLog.finfr("Window is not showing");
+            rfturn fblsf;
+        }
+
+        int wm_stbtf = window.gftWMStbtf();
+        if (wm_stbtf == XUtilConstbnts.WithdrbwnStbtf) {
+            stbtfLog.finfr("WithdrbwnStbtf");
+            rfturn fblsf;
+        } flsf {
+            if (stbtfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                stbtfLog.finfr("Window WM_STATE is " + wm_stbtf);
+            }
+        }
+        boolfbn is_stbtf_dhbngf = fblsf;
+        if (f.gft_btom() == XA_WM_STATE.gftAtom()) {
+            is_stbtf_dhbngf = truf;
+        }
+
+        for (XStbtfProtodol proto : gftProtodols(XStbtfProtodol.dlbss)) {
+            is_stbtf_dhbngf |= proto.isStbtfChbngf(f);
+            if (stbtfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                stbtfLog.finfst(proto + ": is stbtf dhbngfd = " + is_stbtf_dhbngf);
+            }
+        }
+        rfturn is_stbtf_dhbngf;
+    }
+
+    /*
+     * Rfturns durrfnt stbtf (indluding fxtfndfd) of b givfn window.
+     */
+    int gftStbtf(XDfdorbtfdPffr window) {
+        int rfs = 0;
+        finbl int wm_stbtf = window.gftWMStbtf();
+        if (wm_stbtf == XUtilConstbnts.IdonidStbtf) {
+            rfs = Frbmf.ICONIFIED;
+        } flsf {
+            rfs = Frbmf.NORMAL;
+        }
+        rfs |= gftExtfndfdStbtf(window);
+        rfturn rfs;
+    }
+
+/*****************************************************************************\
+ *
+ * Sftting/dhbnging window stbtf ...
+ *
+\*****************************************************************************/
+
+    /**
+     * Movfs window to thf spfdififd lbyfr, lbyfr is onf of thf donstbnts dffinfd
+     * in XLbyfrProtodol
+     */
+    void sftLbyfr(XWindowPffr window, int lbyfr) {
+        for (XLbyfrProtodol proto : gftProtodols(XLbyfrProtodol.dlbss)) {
+            if (proto.supportsLbyfr(lbyfr)) {
+                proto.sftLbyfr(window, lbyfr);
+            }
+        }
+        XToolkit.XSynd();
+    }
+
+    void sftExtfndfdStbtf(XWindowPffr window, int stbtf) {
+        for (XStbtfProtodol proto : gftProtodols(XStbtfProtodol.dlbss)) {
+            if (proto.supportsStbtf(stbtf)) {
+                proto.sftStbtf(window, stbtf);
+                brfbk;
+            }
+        }
+
+        if (!window.isShowing()) {
+            /*
+             * Purgf KWM bits.
+             * Not rfblly tfstfd with KWM, only with WindowMbkfr.
+             */
+            XToolkit.bwtLodk();
+            try {
+                XlibWrbppfr.XDflftfPropfrty(XToolkit.gftDisplby(),
+                                            window.gftWindow(),
+                                            XA_KWM_WIN_ICONIFIED.gftAtom());
+                XlibWrbppfr.XDflftfPropfrty(XToolkit.gftDisplby(),
+                                            window.gftWindow(),
+                                            XA_KWM_WIN_MAXIMIZED.gftAtom());
+            }
+            finblly {
+                XToolkit.bwtUnlodk();
+            }
+        }
+        XToolkit.XSynd();
+    }
+
+
+    /*
+     * Work bround for 4775545.
+     *
+     * If WM fxits whilf thf top-lfvfl is shbdfd, thf shbdfd hint rfmbins
+     * on thf top-lfvfl propfrtifs.  Whfn WM rfstbrts bnd sffs thf shbdfd
+     * window it dbn rfpbrfnt it into b "prf-shbdfd" dfdorbtion frbmf
+     * (Mftbdity dofs), bnd our insfts logid will go drbzy, b/d it will
+     * sff b hugf nbgbtivf bottom insft.  Thfrf's no dlfbn solution for
+     * this, so lft's just bf wfbsfls bnd drop thf shbdfd hint if wf
+     * dftfdt thbt WM fxitfd.  NB: wf brf in for b rbdf dondition with WM
+     * rfstbrt hfrf.  NB2: f.g. WindowMbkfr sbvfs thf stbtf in b privbtf
+     * propfrty thbt this dodf knows nothing bbout, so this workbround is
+     * not ffffdtivf; othfr WMs might plby similbr tridks.
+     */
+    void unshbdfKludgf(XDfdorbtfdPffr window) {
+        bssfrt(window.isShowing());
+
+        for (XStbtfProtodol proto : gftProtodols(XStbtfProtodol.dlbss)) {
+            proto.unshbdfKludgf(window);
+        }
+        XToolkit.XSynd();
+    }
+
+    stbtid boolfbn initfd = fblsf;
+    stbtid void init() {
+        if (initfd) {
+            rfturn;
+        }
+
+        initAtoms();
+        gftWM();
+        initfd = truf;
+    }
+
+    void initiblizfProtodols() {
+        XNETProtodol nft_protodol = g_nft_protodol;
+        if (nft_protodol != null) {
+            if (!nft_protodol.bdtivf()) {
+                nft_protodol = null;
+            } flsf {
+                if (nft_protodol.doStbtfProtodol()) {
+                    bddProtodol(XStbtfProtodol.dlbss, nft_protodol);
+                }
+                if (nft_protodol.doLbyfrProtodol()) {
+                    bddProtodol(XLbyfrProtodol.dlbss, nft_protodol);
+                }
+            }
+        }
+
+        XWINProtodol win = g_win_protodol;
+        if (win != null) {
+            if (win.bdtivf()) {
+                if (win.doStbtfProtodol()) {
+                    bddProtodol(XStbtfProtodol.dlbss, win);
+                }
+                if (win.doLbyfrProtodol()) {
+                    bddProtodol(XLbyfrProtodol.dlbss, win);
+                }
+            }
+        }
+    }
+
+    HbshMbp<Clbss<?>, Insfts> storfdInsfts = nfw HbshMbp<>();
+    Insfts gufssInsfts(XDfdorbtfdPffr window) {
+        Insfts rfs = storfdInsfts.gft(window.gftClbss());
+        if (rfs == null) {
+            switdh (WMID) {
+              dbsf ENLIGHTEN_WM:
+                  rfs = nfw Insfts(19, 4, 4, 4);
+                  brfbk;
+              dbsf CDE_WM:
+                  rfs = nfw Insfts(28, 6, 6, 6);
+                  brfbk;
+              dbsf NO_WM:
+              dbsf LG3D_WM:
+                  rfs = zfroInsfts;
+                  brfbk;
+              dbsf MOTIF_WM:
+              dbsf OPENLOOK_WM:
+              dffbult:
+                  rfs = dffbultInsfts;
+            }
+        }
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            insLog.finfst("WM gufssfd insfts: " + rfs);
+        }
+        rfturn rfs;
+    }
+    /*
+     * Somf buggy WMs ignorf window grbvity whfn prodfssing
+     * ConfigurfRfqufst bnd position window bs if thf grbvity is Stbtid.
+     * Wf work bround this in MWindowPffr.pRfshbpf().
+     *
+     * Stbrting with 1.5 wf hbvf introdudfd bn Environmfnt vbribblf
+     * _JAVA_AWT_WM_STATIC_GRAVITY thbt dbn bf sft to indidbtf to Jbvb
+     * fxpliditly thbt thf WM hbs this bfhbviour, fxbmplf is FVWM.
+     */
+
+    stbtid int bwtWMStbtidGrbvity = -1;
+    stbtid boolfbn donfigurfGrbvityBuggy() {
+
+        if (bwtWMStbtidGrbvity == -1) {
+            bwtWMStbtidGrbvity = (XToolkit.gftEnv("_JAVA_AWT_WM_STATIC_GRAVITY") != null) ? 1 : 0;
+        }
+
+        if (bwtWMStbtidGrbvity == 1) {
+            rfturn truf;
+        }
+
+        switdh(gftWMID()) {
+          dbsf XWM.ICE_WM:
+              /*
+               * Sff bug #228981 bt IdfWM's SourdfForgf pbgfs.
+               * Lbtfst stbblf vfrsion 1.0.8-6 still hbs this problfm.
+               */
+              /**
+               * Vfrsion 1.2.2 dofsn't hbvf this problfm
+               */
+              // Dftfdt IdfWM vfrsion
+              if (g_nft_protodol != null) {
+                  String wm_nbmf = g_nft_protodol.gftWMNbmf();
+                  Pbttfrn pbt = Pbttfrn.dompilf("^IdfWM (\\d+)\\.(\\d+)\\.(\\d+).*$");
+                  try {
+                      Mbtdhfr mbtdh = pbt.mbtdhfr(wm_nbmf);
+                      if (mbtdh.mbtdhfs()) {
+                          int v1 = Intfgfr.pbrsfInt(mbtdh.group(1));
+                          int v2 = Intfgfr.pbrsfInt(mbtdh.group(2));
+                          int v3 = Intfgfr.pbrsfInt(mbtdh.group(3));
+                          rfturn !(v1 > 1 || (v1 == 1 && (v2 > 2 || (v2 == 2 && v3 >=2))));
+                      }
+                  } dbtdh (Exdfption f) {
+                      rfturn truf;
+                  }
+              }
+              rfturn truf;
+          dbsf XWM.ENLIGHTEN_WM:
+              /* At lfbst E16 is buggy. */
+              rfturn truf;
+          dffbult:
+              rfturn fblsf;
+        }
+    }
+
+    /*
+     * @rfturn if WM implfmfnts thf insfts propfrty - rfturns insfts with vblufs
+     * spfdififd in thbt propfrty, null othfrwisf.
+     */
+    publid stbtid Insfts gftInsftsFromExtfnts(long window) {
+        if (window == XConstbnts.Nonf) {
+            rfturn null;
+        }
+        XNETProtodol nft_protodol = gftWM().gftNETProtodol();
+        if (nft_protodol != null && nft_protodol.bdtivf()) {
+            Insfts insfts = gftInsftsFromProp(window, XA_NET_FRAME_EXTENTS);
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                insLog.finf("_NET_FRAME_EXTENTS: {0}", insfts);
+            }
+
+            if (insfts != null) {
+                rfturn insfts;
+            }
+        }
+        switdh(gftWMID()) {
+          dbsf XWM.KDE2_WM:
+              rfturn gftInsftsFromProp(window, XA_KDE_NET_WM_FRAME_STRUT);
+          dbsf XWM.ENLIGHTEN_WM:
+              rfturn gftInsftsFromProp(window, XA_E_FRAME_SIZE);
+          dffbult:
+              rfturn null;
+        }
+    }
+
+    /**
+     * Hflpfr fundtion rfbds propfrty of typf CARDINAL[4] = { lfft, right, top, bottom }
+     * bnd donvfrts it to Insfts objfdt.
+     */
+    publid stbtid Insfts gftInsftsFromProp(long window, XAtom btom) {
+        if (window == XConstbnts.Nonf) {
+            rfturn null;
+        }
+
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(window, btom,
+                                     0, 4, fblsf, XAtom.XA_CARDINAL);
+        try {
+            if (gfttfr.fxfdutf() != XConstbnts.Suddfss
+                || gfttfr.gftDbtb() == 0
+                || gfttfr.gftAdtublTypf() != XAtom.XA_CARDINAL
+                || gfttfr.gftAdtublFormbt() != 32)
+            {
+                rfturn null;
+            } flsf {
+                rfturn nfw Insfts((int)Nbtivf.gftCbrd32(gfttfr.gftDbtb(), 2), // top
+                                  (int)Nbtivf.gftCbrd32(gfttfr.gftDbtb(), 0), // lfft
+                                  (int)Nbtivf.gftCbrd32(gfttfr.gftDbtb(), 3), // bottom
+                                  (int)Nbtivf.gftCbrd32(gfttfr.gftDbtb(), 1)); // right
+            }
+        } finblly {
+            gfttfr.disposf();
+        }
+    }
+
+    /**
+     * Asks WM to fill Frbmf Extfnts (insfts) for thf window.
+     */
+    publid stbtid void rfqufstWMExtfnts(long window) {
+        if (window == XConstbnts.Nonf) { // not initiblizfd
+            rfturn;
+        }
+
+        log.finf("Rfqufsting FRAME_EXTENTS");
+
+        XClifntMfssbgfEvfnt msg = nfw XClifntMfssbgfEvfnt();
+        msg.zfro();
+        msg.sft_typf(XConstbnts.ClifntMfssbgf);
+        msg.sft_displby(XToolkit.gftDisplby());
+        msg.sft_window(window);
+        msg.sft_formbt(32);
+        XToolkit.bwtLodk();
+        try {
+            XNETProtodol nft_protodol = gftWM().gftNETProtodol();
+            if (nft_protodol != null && nft_protodol.bdtivf()) {
+                msg.sft_mfssbgf_typf(XA_NET_REQUEST_FRAME_EXTENTS.gftAtom());
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), XToolkit.gftDffbultRootWindow(),
+                                       fblsf,
+                                       XConstbnts.SubstrudturfRfdirfdtMbsk | XConstbnts.SubstrudturfNotifyMbsk,
+                                       msg.gftPDbtb());
+            }
+            if (gftWMID() == XWM.KDE2_WM) {
+                msg.sft_mfssbgf_typf(XA_KDE_NET_WM_FRAME_STRUT.gftAtom());
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), XToolkit.gftDffbultRootWindow(),
+                                       fblsf,
+                                       XConstbnts.SubstrudturfRfdirfdtMbsk | XConstbnts.SubstrudturfNotifyMbsk,
+                                       msg.gftPDbtb());
+            }
+            // XXX: should wf wbit for rfsponsf? XIfEvfnt() would bf usfful hfrf :)
+        } finblly {
+            XToolkit.bwtUnlodk();
+            msg.disposf();
+        }
+    }
+
+    /* syndTopLEvflPos() is nfdfssbry to insurf thbt thf window mbnbgfr hbs in
+     * fbdt movfd us to our finbl position rflbtivf to thf rfPbrfntfd WM window.
+     * Wf hbvf notfd b timing window whidh our shfll hbs not bffn movfd so wf
+     * sdrfw up thf insfts thinking thfy brf 0,0.  Wbit (for b limitfd pfriod of
+     * timf to lft thf WM hbvb b dhbndf to movf us.
+     * @pbrbm window window ID of thf shfll, bssuming it is thf window
+     * whidh will NOT hbvf zfro doordinbtfs bftfr thf domplftf
+     * rfpbrfnting
+     */
+    boolfbn syndTopLfvflPos(long window, XWindowAttributfs bttrs) {
+        int trifs = 0;
+        XToolkit.bwtLodk();
+        try {
+            do {
+                XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(), window, bttrs.pDbtb);
+                if (bttrs.gft_x() != 0 || bttrs.gft_y() != 0) {
+                    rfturn truf;
+                }
+                trifs++;
+                XToolkit.XSynd();
+            } whilf (trifs < 50);
+        }
+        finblly {
+            XToolkit.bwtUnlodk();
+        }
+        rfturn fblsf;
+    }
+
+    Insfts gftInsfts(XDfdorbtfdPffr win, long window, long pbrfnt) {
+        /*
+         * Unfortunbtfly thf dondfpt of "insfts" borrowfd to AWT
+         * from Win32 is *bbsolutfly*, *unbflifvbbly* forfign to
+         * X11.  Ffw WMs providf thf sizf of frbmf dfdor
+         * (i.f. insfts) in b propfrty thfy sft on thf dlifnt
+         * window, so wf dhfdk if wf dbn gft bwby with just
+         * pffking bt it.  [Futurf vfrsions of wm-spfd might bdd b
+         * stbndbrdizfd hint for this].
+         *
+         * Othfrwisf wf do somf spfdibl dbsing.  Adtublly thf
+         * fbllbbdk dodf ("dffbult" dbsf) sffms to dovfr most of
+         * thf fxisting WMs (modulo Rfpbrfnt/Configurf ordfr
+         * pfrhbps?).
+         *
+         * Fbllbbdk dodf trifs to bddount for thf two most dommon dbsfs:
+         *
+         * . singlf rfpbrfnting
+         *       pbrfnt window is thf WM frbmf
+         *       [twm, olwm, sbwfish]
+         *
+         * . doublf rfpbrfnting
+         *       pbrfnt is b lining fxbdtly thf sizf of thf dlifnt
+         *       grbndpb is thf WM frbmf
+         *       [mwm, f!, kwin, fvwm2 ... ]
+         */
+        Insfts dorrfdtWM = XWM.gftInsftsFromExtfnts(window);
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            insLog.finfr("Got insfts from propfrty: {0}", dorrfdtWM);
+        }
+
+        if (dorrfdtWM == null) {
+            dorrfdtWM = nfw Insfts(0,0,0,0);
+
+            dorrfdtWM.top = -1;
+            dorrfdtWM.lfft = -1;
+
+            XWindowAttributfs lwinAttr = nfw XWindowAttributfs();
+            XWindowAttributfs pbttr = nfw XWindowAttributfs();
+            try {
+                switdh (XWM.gftWMID()) {
+                  /* should'vf bffn donf in bwt_wm_gftInsftsFromProp */
+                  dbsf XWM.ENLIGHTEN_WM: {
+                      /* fnlightfnmfnt dofs doublf rfpbrfnting */
+                      syndTopLfvflPos(pbrfnt, lwinAttr);
+                      dorrfdtWM.lfft = lwinAttr.gft_x();
+                      dorrfdtWM.top = lwinAttr.gft_y();
+                      /*
+                       * Now gft thf bdtubl dimfnsions of thf pbrfnt window
+                       * rfsolvf thf difffrfndf.  Wf dbn't rfly on thf lfft
+                       * to bf fqubl to right or bottom...  Enlightmfnt
+                       * brfbks thbt bssumption.
+                       */
+                      XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                       XlibUtil.gftPbrfntWindow(pbrfnt),
+                                                       pbttr.pDbtb);
+                      dorrfdtWM.right = pbttr.gft_width() -
+                          (lwinAttr.gft_width() + dorrfdtWM.lfft);
+                      dorrfdtWM.bottom = pbttr.gft_hfight() -
+                          (lwinAttr.gft_hfight() + dorrfdtWM.top);
+
+                      brfbk;
+                  }
+                  dbsf XWM.ICE_WM: // for 1.2.2.
+                  dbsf XWM.KDE2_WM: /* should'vf bffn donf in gftInsftsFromProp */
+                  dbsf XWM.CDE_WM:
+                  dbsf XWM.MOTIF_WM: {
+                      /* thfsf brf doublf rfpbrfnting too */
+                      if (syndTopLfvflPos(pbrfnt, lwinAttr)) {
+                          dorrfdtWM.top = lwinAttr.gft_y();
+                          dorrfdtWM.lfft = lwinAttr.gft_x();
+                          dorrfdtWM.right = dorrfdtWM.lfft;
+                          dorrfdtWM.bottom = dorrfdtWM.lfft;
+                      } flsf {
+                          rfturn null;
+                      }
+                      brfbk;
+                  }
+                  dbsf XWM.SAWFISH_WM:
+                  dbsf XWM.OPENLOOK_WM: {
+                      /* singlf rfpbrfnting */
+                      syndTopLfvflPos(window, lwinAttr);
+                      dorrfdtWM.top    = lwinAttr.gft_y();
+                      dorrfdtWM.lfft   = lwinAttr.gft_x();
+                      dorrfdtWM.right  = dorrfdtWM.lfft;
+                      dorrfdtWM.bottom = dorrfdtWM.lfft;
+                      brfbk;
+                  }
+                  dbsf XWM.OTHER_WM:
+                  dffbult: {                /* this is vfry similbr to thf E! dbsf bbovf */
+                      if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                          insLog.finfst("Gftting dorrfdt insfts for OTHER_WM/dffbult, pbrfnt: {0}", pbrfnt);
+                      }
+                      syndTopLfvflPos(pbrfnt, lwinAttr);
+                      int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                                    window, lwinAttr.pDbtb);
+                      stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                                pbrfnt, pbttr.pDbtb);
+                      if (lwinAttr.gft_root() == pbrfnt) {
+                          insLog.finfst("our pbrfnt is root so insfts should bf zfro");
+                          dorrfdtWM = nfw Insfts(0, 0, 0, 0);
+                          brfbk;
+                      }
+
+                      /*
+                       * Chfdk for doublf-rfpbrfnting WM.
+                       *
+                       * If thf pbrfnt is fxbdtly thf sbmf sizf bs thf
+                       * top-lfvfl bssumf tbht it's thf "lining" window bnd
+                       * thbt thf grbndpbrfnt is thf bdtubl frbmf (NB: wf
+                       * hbvf blrfbdy hbndlfd undfdorbtfd windows).
+                       *
+                       * XXX: whbt bbout timing issufs thbt syndTopLfvflPos
+                       * is supposfd to work bround?
+                       */
+                      if (lwinAttr.gft_x() == 0 && lwinAttr.gft_y() == 0
+                          && lwinAttr.gft_width()+2*lwinAttr.gft_bordfr_width() == pbttr.gft_width()
+                          && lwinAttr.gft_hfight()+2*lwinAttr.gft_bordfr_width() == pbttr.gft_hfight())
+                      {
+                          if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                              insLog.finfst("Doublf rfpbrfnting dftfdtfd, pbttr({2})={0}, lwinAttr({3})={1}",
+                                        lwinAttr, pbttr, pbrfnt, window);
+                          }
+                          lwinAttr.sft_x(pbttr.gft_x());
+                          lwinAttr.sft_y(pbttr.gft_y());
+                          lwinAttr.sft_bordfr_width(lwinAttr.gft_bordfr_width()+pbttr.gft_bordfr_width());
+
+                          finbl long grbnd_pbrfnt = XlibUtil.gftPbrfntWindow(pbrfnt);
+
+                          if (grbnd_pbrfnt == lwinAttr.gft_root()) {
+                              // This is not doublf-rfpbrfnting in b
+                              // gfnfrbl sfnsf - wf simply don't hbvf
+                              // dorrfdt insfts - rfturn null to try to
+                              // gft insfts lbtfr
+                              rfturn null;
+                          } flsf {
+                              pbrfnt = grbnd_pbrfnt;
+                              XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                               pbrfnt,
+                                                               pbttr.pDbtb);
+                          }
+                      }
+                      /*
+                       * XXX: To bf bbsolutfly dorrfdt, wf'd nffd to tbkf
+                       * pbrfnt's bordfr-width into bddount too, but thf
+                       * rfst of thf dodf is hbppily unbwbrf bbout bordfr
+                       * widths bnd innfr/outfr distindtion, so for thf timf
+                       * bfing, just ignorf it.
+                       */
+                      if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                          insLog.finfst("Attrs bfforf dbldulbtion: pbttr({2})={0}, lwinAttr({3})={1}",
+                                    lwinAttr, pbttr, pbrfnt, window);
+                      }
+                      dorrfdtWM = nfw Insfts(lwinAttr.gft_y() + lwinAttr.gft_bordfr_width(),
+                                             lwinAttr.gft_x() + lwinAttr.gft_bordfr_width(),
+                                             pbttr.gft_hfight() - (lwinAttr.gft_y() + lwinAttr.gft_hfight() + 2*lwinAttr.gft_bordfr_width()),
+                                             pbttr.gft_width() -  (lwinAttr.gft_x() + lwinAttr.gft_width() + 2*lwinAttr.gft_bordfr_width()));
+                      brfbk;
+                  } /* dffbult */
+                } /* switdh (runningWM) */
+            } finblly {
+                lwinAttr.disposf();
+                pbttr.disposf();
+            }
+        }
+        if (storfdInsfts.gft(win.gftClbss()) == null) {
+            storfdInsfts.put(win.gftClbss(), dorrfdtWM);
+        }
+        rfturn dorrfdtWM;
+    }
+    boolfbn isDfsktopWindow( long w ) {
+        if (g_nft_protodol != null) {
+            XAtomList wtypf = XAtom.gft("_NET_WM_WINDOW_TYPE").gftAtomListPropfrtyList( w );
+            rfturn wtypf.dontbins( XAtom.gft("_NET_WM_WINDOW_TYPE_DESKTOP") );
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    publid XNETProtodol gftNETProtodol() {
+        rfturn g_nft_protodol;
+    }
+
+    /**
+     * Sfts _NET_WN_ICON propfrty on thf window using thf brrbys of
+     * rbstfr-dbtb for idons. If idons is null, rfmovfs _NET_WM_ICON
+     * propfrty.
+     * This mfthod invokfs XNETProtodol.sftWMIdon() for WMs thbt
+     * support NET protodol.
+     *
+     * @rfturn truf if hint wbs modififd suddfssfully, fblsf othfrwisf
+     */
+    publid boolfbn sftNftWMIdon(XWindowPffr window, jbvb.util.List<IdonInfo> idons) {
+        if (g_nft_protodol != null && g_nft_protodol.bdtivf()) {
+            g_nft_protodol.sftWMIdons(window, idons);
+            rfturn gftWMID() != ICE_WM;
+        }
+        rfturn fblsf;
+    }
+}

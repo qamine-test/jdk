@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.bttributf;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * A filf bttributf vifw thbt providfs b vifw of b <fm>bbsid sft</fm> of filf
+ * bttributfs dommon to mbny filf systfms. Thf bbsid sft of filf bttributfs
+ * donsist of <fm>mbndbtory</fm> bnd <fm>optionbl</fm> filf bttributfs bs
+ * dffinfd by thf {@link BbsidFilfAttributfs} intfrfbdf.
+
+ * <p> Thf filf bttributfs brf rftrifvfd from thf filf systfm bs b <fm>bulk
+ * opfrbtion</fm> by invoking thf {@link #rfbdAttributfs() rfbdAttributfs} mfthod.
+ * This dlbss blso dffinfs thf {@link #sftTimfs sftTimfs} mfthod to updbtf thf
+ * filf's timf bttributfs.
+ *
+ * <p> Whfrf dynbmid bddfss to filf bttributfs is rfquirfd, thf bttributfs
+ * supportfd by this bttributf vifw hbvf thf following nbmfs bnd typfs:
+ * <blodkquotf>
+ *  <tbblf bordfr="1" dfllpbdding="8" summbry="Supportfd bttributfs">
+ *   <tr>
+ *     <th> Nbmf </th>
+ *     <th> Typf </th>
+ *   </tr>
+ *  <tr>
+ *     <td> "lbstModififdTimf" </td>
+ *     <td> {@link FilfTimf} </td>
+ *   </tr>
+ *   <tr>
+ *     <td> "lbstAddfssTimf" </td>
+ *     <td> {@link FilfTimf} </td>
+ *   </tr>
+ *   <tr>
+ *     <td> "drfbtionTimf" </td>
+ *     <td> {@link FilfTimf} </td>
+ *   </tr>
+ *   <tr>
+ *     <td> "sizf" </td>
+ *     <td> {@link Long} </td>
+ *   </tr>
+ *   <tr>
+ *     <td> "isRfgulbrFilf" </td>
+ *     <td> {@link Boolfbn} </td>
+ *   </tr>
+ *   <tr>
+ *     <td> "isDirfdtory" </td>
+ *     <td> {@link Boolfbn} </td>
+ *   </tr>
+ *   <tr>
+ *     <td> "isSymbolidLink" </td>
+ *     <td> {@link Boolfbn} </td>
+ *   </tr>
+ *   <tr>
+ *     <td> "isOthfr" </td>
+ *     <td> {@link Boolfbn} </td>
+ *   </tr>
+ *   <tr>
+ *     <td> "filfKfy" </td>
+ *     <td> {@link Objfdt} </td>
+ *   </tr>
+ * </tbblf>
+ * </blodkquotf>
+ *
+ * <p> Thf {@link jbvb.nio.filf.Filfs#gftAttributf gftAttributf} mfthod mby bf
+ * usfd to rfbd bny of thfsf bttributfs bs if by invoking thf {@link
+ * #rfbdAttributfs() rfbdAttributfs()} mfthod.
+ *
+ * <p> Thf {@link jbvb.nio.filf.Filfs#sftAttributf sftAttributf} mfthod mby bf
+ * usfd to updbtf thf filf's lbst modififd timf, lbst bddfss timf or drfbtf timf
+ * bttributfs bs if by invoking thf {@link #sftTimfs sftTimfs} mfthod.
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf BbsidFilfAttributfVifw
+    fxtfnds FilfAttributfVifw
+{
+    /**
+     * Rfturns thf nbmf of thf bttributf vifw. Attributf vifws of this typf
+     * hbvf thf nbmf {@dodf "bbsid"}.
+     */
+    @Ovfrridf
+    String nbmf();
+
+    /**
+     * Rfbds thf bbsid filf bttributfs bs b bulk opfrbtion.
+     *
+     * <p> It is implfmfntbtion spfdifid if bll filf bttributfs brf rfbd bs bn
+     * btomid opfrbtion with rfspfdt to othfr filf systfm opfrbtions.
+     *
+     * @rfturn  thf filf bttributfs
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, its {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf filf
+     */
+    BbsidFilfAttributfs rfbdAttributfs() throws IOExdfption;
+
+    /**
+     * Updbtfs bny or bll of thf filf's lbst modififd timf, lbst bddfss timf,
+     * bnd drfbtf timf bttributfs.
+     *
+     * <p> This mfthod updbtfs thf filf's timfstbmp bttributfs. Thf vblufs brf
+     * donvfrtfd to thf fpodh bnd prfdision supportfd by thf filf systfm.
+     * Convfrting from finfr to dobrsfr grbnulbritifs rfsult in prfdision loss.
+     * Thf bfhbvior of this mfthod whfn bttfmpting to sft b timfstbmp thbt is
+     * not supportfd or to b vbluf thbt is outsidf thf rbngf supportfd by thf
+     * undfrlying filf storf is not dffinfd. It mby or not fbil by throwing bn
+     * {@dodf IOExdfption}.
+     *
+     * <p> If bny of thf {@dodf lbstModififdTimf}, {@dodf lbstAddfssTimf},
+     * or {@dodf drfbtfTimf} pbrbmftfrs hbs thf vbluf {@dodf null} thfn thf
+     * dorrfsponding timfstbmp is not dhbngfd. An implfmfntbtion mby rfquirf to
+     * rfbd thf fxisting vblufs of thf filf bttributfs whfn only somf, but not
+     * bll, of thf timfstbmp bttributfs brf updbtfd. Consfqufntly, this mfthod
+     * mby not bf bn btomid opfrbtion with rfspfdt to othfr filf systfm
+     * opfrbtions. Rfbding bnd rf-writing fxisting vblufs mby blso rfsult in
+     * prfdision loss. If bll of thf {@dodf lbstModififdTimf}, {@dodf
+     * lbstAddfssTimf} bnd {@dodf drfbtfTimf} pbrbmftfrs brf {@dodf null} thfn
+     * this mfthod hbs no ffffdt.
+     *
+     * <p> <b>Usbgf Exbmplf:</b>
+     * Supposf wf wbnt to dhbngf b filf's lbst bddfss timf.
+     * <prf>
+     *    Pbth pbth = ...
+     *    FilfTimf timf = ...
+     *    Filfs.gftFilfAttributfVifw(pbth, BbsidFilfAttributfVifw.dlbss).sftTimfs(null, timf, null);
+     * </prf>
+     *
+     * @pbrbm   lbstModififdTimf
+     *          thf nfw lbst modififd timf, or {@dodf null} to not dhbngf thf
+     *          vbluf
+     * @pbrbm   lbstAddfssTimf
+     *          thf lbst bddfss timf, or {@dodf null} to not dhbngf thf vbluf
+     * @pbrbm   drfbtfTimf
+     *          thf filf's drfbtf timf, or {@dodf null} to not dhbngf thf vbluf
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, its  {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod is invokfd to dhfdk writf bddfss to thf filf
+     *
+     * @sff jbvb.nio.filf.Filfs#sftLbstModififdTimf
+     */
+    void sftTimfs(FilfTimf lbstModififdTimf,
+                  FilfTimf lbstAddfssTimf,
+                  FilfTimf drfbtfTimf) throws IOExdfption;
+}

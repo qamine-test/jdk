@@ -1,0 +1,288 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+import jbvb.io.FiltfrInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+
+/**
+ * This dlbss implfmfnts b strfbm filtfr for undomprfssing dbtb in thf
+ * "dfflbtf" domprfssion formbt. It is blso usfd bs thf bbsis for othfr
+ * dfdomprfssion filtfrs, sudh bs GZIPInputStrfbm.
+ *
+ * @sff         Inflbtfr
+ * @buthor      Dbvid Connflly
+ */
+publid
+dlbss InflbtfrInputStrfbm fxtfnds FiltfrInputStrfbm {
+    /**
+     * Dfdomprfssor for this strfbm.
+     */
+    protfdtfd Inflbtfr inf;
+
+    /**
+     * Input bufffr for dfdomprfssion.
+     */
+    protfdtfd bytf[] buf;
+
+    /**
+     * Lfngth of input bufffr.
+     */
+    protfdtfd int lfn;
+
+    privbtf boolfbn dlosfd = fblsf;
+    // this flbg is sft to truf bftfr EOF hbs rfbdhfd
+    privbtf boolfbn rfbdhEOF = fblsf;
+
+    /**
+     * Chfdk to mbkf surf thbt this strfbm hbs not bffn dlosfd
+     */
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (dlosfd) {
+            throw nfw IOExdfption("Strfbm dlosfd");
+        }
+    }
+
+
+    /**
+     * Crfbtfs b nfw input strfbm with thf spfdififd dfdomprfssor bnd
+     * bufffr sizf.
+     * @pbrbm in thf input strfbm
+     * @pbrbm inf thf dfdomprfssor ("inflbtfr")
+     * @pbrbm sizf thf input bufffr sizf
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf sizf <= 0}
+     */
+    publid InflbtfrInputStrfbm(InputStrfbm in, Inflbtfr inf, int sizf) {
+        supfr(in);
+        if (in == null || inf == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if (sizf <= 0) {
+            throw nfw IllfgblArgumfntExdfption("bufffr sizf <= 0");
+        }
+        this.inf = inf;
+        buf = nfw bytf[sizf];
+    }
+
+    /**
+     * Crfbtfs b nfw input strfbm with thf spfdififd dfdomprfssor bnd b
+     * dffbult bufffr sizf.
+     * @pbrbm in thf input strfbm
+     * @pbrbm inf thf dfdomprfssor ("inflbtfr")
+     */
+    publid InflbtfrInputStrfbm(InputStrfbm in, Inflbtfr inf) {
+        this(in, inf, 512);
+    }
+
+    boolfbn usfsDffbultInflbtfr = fblsf;
+
+    /**
+     * Crfbtfs b nfw input strfbm with b dffbult dfdomprfssor bnd bufffr sizf.
+     * @pbrbm in thf input strfbm
+     */
+    publid InflbtfrInputStrfbm(InputStrfbm in) {
+        this(in, nfw Inflbtfr());
+        usfsDffbultInflbtfr = truf;
+    }
+
+    privbtf bytf[] singlfBytfBuf = nfw bytf[1];
+
+    /**
+     * Rfbds b bytf of undomprfssfd dbtb. This mfthod will blodk until
+     * fnough input is bvbilbblf for dfdomprfssion.
+     * @rfturn thf bytf rfbd, or -1 if fnd of domprfssfd input is rfbdhfd
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid int rfbd() throws IOExdfption {
+        fnsurfOpfn();
+        rfturn rfbd(singlfBytfBuf, 0, 1) == -1 ? -1 : Bytf.toUnsignfdInt(singlfBytfBuf[0]);
+    }
+
+    /**
+     * Rfbds undomprfssfd dbtb into bn brrby of bytfs. If <dodf>lfn</dodf> is not
+     * zfro, thf mfthod will blodk until somf input dbn bf dfdomprfssfd; othfrwisf,
+     * no bytfs brf rfbd bnd <dodf>0</dodf> is rfturnfd.
+     * @pbrbm b thf bufffr into whidh thf dbtb is rfbd
+     * @pbrbm off thf stbrt offsft in thf dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm lfn thf mbximum numbfr of bytfs rfbd
+     * @rfturn thf bdtubl numbfr of bytfs rfbd, or -1 if thf fnd of thf
+     *         domprfssfd input is rfbdhfd or b prfsft didtionbry is nffdfd
+     * @fxdfption  NullPointfrExdfption If <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr thbn
+     * <dodf>b.lfngth - off</dodf>
+     * @fxdfption ZipExdfption if b ZIP formbt frror hbs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+        fnsurfOpfn();
+        if (b == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngth - off) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn 0;
+        }
+        try {
+            int n;
+            whilf ((n = inf.inflbtf(b, off, lfn)) == 0) {
+                if (inf.finishfd() || inf.nffdsDidtionbry()) {
+                    rfbdhEOF = truf;
+                    rfturn -1;
+                }
+                if (inf.nffdsInput()) {
+                    fill();
+                }
+            }
+            rfturn n;
+        } dbtdh (DbtbFormbtExdfption f) {
+            String s = f.gftMfssbgf();
+            throw nfw ZipExdfption(s != null ? s : "Invblid ZLIB dbtb formbt");
+        }
+    }
+
+    /**
+     * Rfturns 0 bftfr EOF hbs bffn rfbdhfd, othfrwisf blwbys rfturn 1.
+     * <p>
+     * Progrbms should not dount on this mfthod to rfturn thf bdtubl numbfr
+     * of bytfs thbt dould bf rfbd without blodking.
+     *
+     * @rfturn     1 bfforf EOF bnd 0 bftfr EOF.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     *
+     */
+    publid int bvbilbblf() throws IOExdfption {
+        fnsurfOpfn();
+        if (rfbdhEOF) {
+            rfturn 0;
+        } flsf {
+            rfturn 1;
+        }
+    }
+
+    privbtf bytf[] b = nfw bytf[512];
+
+    /**
+     * Skips spfdififd numbfr of bytfs of undomprfssfd dbtb.
+     * @pbrbm n thf numbfr of bytfs to skip
+     * @rfturn thf bdtubl numbfr of bytfs skippfd.
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf n < 0}
+     */
+    publid long skip(long n) throws IOExdfption {
+        if (n < 0) {
+            throw nfw IllfgblArgumfntExdfption("nfgbtivf skip lfngth");
+        }
+        fnsurfOpfn();
+        int mbx = (int)Mbth.min(n, Intfgfr.MAX_VALUE);
+        int totbl = 0;
+        whilf (totbl < mbx) {
+            int lfn = mbx - totbl;
+            if (lfn > b.lfngth) {
+                lfn = b.lfngth;
+            }
+            lfn = rfbd(b, 0, lfn);
+            if (lfn == -1) {
+                rfbdhEOF = truf;
+                brfbk;
+            }
+            totbl += lfn;
+        }
+        rfturn totbl;
+    }
+
+    /**
+     * Closfs this input strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd
+     * with thf strfbm.
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid void dlosf() throws IOExdfption {
+        if (!dlosfd) {
+            if (usfsDffbultInflbtfr)
+                inf.fnd();
+            in.dlosf();
+            dlosfd = truf;
+        }
+    }
+
+    /**
+     * Fills input bufffr with morf dbtb to dfdomprfss.
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    protfdtfd void fill() throws IOExdfption {
+        fnsurfOpfn();
+        lfn = in.rfbd(buf, 0, buf.lfngth);
+        if (lfn == -1) {
+            throw nfw EOFExdfption("Unfxpfdtfd fnd of ZLIB input strfbm");
+        }
+        inf.sftInput(buf, 0, lfn);
+    }
+
+    /**
+     * Tfsts if this input strfbm supports thf <dodf>mbrk</dodf> bnd
+     * <dodf>rfsft</dodf> mfthods. Thf <dodf>mbrkSupportfd</dodf>
+     * mfthod of <dodf>InflbtfrInputStrfbm</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     *
+     * @rfturn  b <dodf>boolfbn</dodf> indidbting if this strfbm typf supports
+     *          thf <dodf>mbrk</dodf> bnd <dodf>rfsft</dodf> mfthods.
+     * @sff     jbvb.io.InputStrfbm#mbrk(int)
+     * @sff     jbvb.io.InputStrfbm#rfsft()
+     */
+    publid boolfbn mbrkSupportfd() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Mbrks thf durrfnt position in this input strfbm.
+     *
+     * <p> Thf <dodf>mbrk</dodf> mfthod of <dodf>InflbtfrInputStrfbm</dodf>
+     * dofs nothing.
+     *
+     * @pbrbm   rfbdlimit   thf mbximum limit of bytfs thbt dbn bf rfbd bfforf
+     *                      thf mbrk position bfdomfs invblid.
+     * @sff     jbvb.io.InputStrfbm#rfsft()
+     */
+    publid syndhronizfd void mbrk(int rfbdlimit) {
+    }
+
+    /**
+     * Rfpositions this strfbm to thf position bt thf timf thf
+     * <dodf>mbrk</dodf> mfthod wbs lbst dbllfd on this input strfbm.
+     *
+     * <p> Thf mfthod <dodf>rfsft</dodf> for dlbss
+     * <dodf>InflbtfrInputStrfbm</dodf> dofs nothing fxdfpt throw bn
+     * <dodf>IOExdfption</dodf>.
+     *
+     * @fxdfption  IOExdfption  if this mfthod is invokfd.
+     * @sff     jbvb.io.InputStrfbm#mbrk(int)
+     * @sff     jbvb.io.IOExdfption
+     */
+    publid syndhronizfd void rfsft() throws IOExdfption {
+        throw nfw IOExdfption("mbrk/rfsft not supportfd");
+    }
+}

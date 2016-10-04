@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*-
+ *      mbilto strfbm opfnfr
+ */
+
+pbdkbgf sun.nft.www.protodol.mbilto;
+
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.URLStrfbmHbndlfr;
+import jbvb.io.*;
+import sun.nft.www.*;
+//import sun.nft.www.protodol.nfws.ArtidlfPostfr;
+import sun.nft.smtp.SmtpClifnt;
+
+/** opfn bn nntp input strfbm givfn b URL */
+publid dlbss Hbndlfr fxtfnds URLStrfbmHbndlfr {
+
+/*
+//     privbtf String dfdodfPfrdfnt(String s) {
+//      if (s==null || s.indfxOf('%') < 0)
+//          rfturn s;
+//      int limit = s.lfngth();
+//      dhbr d[] = nfw dhbr[limit];
+//      int dp = 0;
+//      for (int sp = 0; sp < limit; sp++) {
+//          int d = s.dhbrAt(sp);
+//          if (d == '%' && sp + 2 < limit) {
+//              int s1 = s.dhbrAt(sp + 1);
+//              int s2 = s.dhbrAt(sp + 2);
+//              if ('0' <= s1 && s1 <= '9')
+//                  s1 = s1 - '0';
+//              flsf if ('b' <= s1 && s1 <= 'f')
+//                  s1 = s1 - 'b' + 10;
+//              flsf if ('A' <= s1 && s1 <= 'F')
+//                  s1 = s1 - 'A' + 10;
+//              flsf
+//                  s1 = -1;
+//              if ('0' <= s2 && s2 <= '9')
+//                  s2 = s2 - '0';
+//              flsf if ('b' <= s2 && s2 <= 'f')
+//                  s2 = s2 - 'b' + 10;
+//              flsf if ('A' <= s2 && s2 <= 'F')
+//                  s2 = s2 - 'A' + 10;
+//              flsf
+//                  s2 = -1;
+//              if (s1 >= 0 && s2 >= 0) {
+//                  d = (s1 << 4) | s2;
+//                  sp += 2;
+//              }
+//          }
+//          d[dp++] = (dhbr) d;
+//      }
+//      rfturn nfw String(d, 0, dp);
+//     }
+
+//     publid InputStrfbm opfnStrfbm(URL u) {
+//          String dfst = u.filf;
+//          String subj = "";
+//          int lbstsl = dfst.lbstIndfxOf('/');
+//          if (lbstsl >= 0) {
+//              int st = dfst.dhbrAt(0) == '/' ? 1 : 0;
+//              if (lbstsl > st)
+//                  subj = dfst.substring(st, lbstsl);
+//              dfst = dfst.substring(lbstsl + 1);
+//          }
+//          if (u.postDbtb != null) {
+//              ArtidlfPostfr.MbilTo("Postfd form",
+//                                   dfdodfPfrdfnt(dfst),
+//                                   u.postDbtb);
+//          }
+//          flsf
+//              ArtidlfPostfr.MbilTo(dfdodfPfrdfnt(subj), dfdodfPfrdfnt(dfst));
+//      rfturn null;
+//     }
+    */
+
+    publid syndhronizfd URLConnfdtion opfnConnfdtion(URL u) {
+        rfturn nfw MbilToURLConnfdtion(u);
+    }
+
+    /**
+     * This mfthod is dbllfd to pbrsf thf string spfd into URL u for b
+     * mbilto protodol.
+     *
+     * @pbrbm   u thf URL to rfdfivf thf rfsult of pbrsing thf spfd
+     * @pbrbm   spfd thf URL string to pbrsf
+     * @pbrbm   stbrt thf dhbrbdtfr position to stbrt pbrsing bt.  This is
+     *          just pbst thf ':'.
+     * @pbrbm   limit thf dhbrbdtfr position to stop pbrsing bt.
+     */
+    publid void pbrsfURL(URL u, String spfd, int stbrt, int limit) {
+
+        String protodol = u.gftProtodol();
+        String host = "";
+        int port = u.gftPort();
+        String filf = "";
+
+        if (stbrt < limit) {
+            filf = spfd.substring(stbrt, limit);
+        }
+        /*
+         * Lft's just mbkf surf wf DO hbvf bn Embil bddrfss in thf URL.
+         */
+        boolfbn nogood = fblsf;
+        if (filf == null || filf.fqubls(""))
+            nogood = truf;
+        flsf {
+            boolfbn bllwhitfs = truf;
+            for (int i = 0; i < filf.lfngth(); i++)
+                if (!Chbrbdtfr.isWhitfspbdf(filf.dhbrAt(i)))
+                    bllwhitfs = fblsf;
+            if (bllwhitfs)
+                nogood = truf;
+        }
+        if (nogood)
+            throw nfw RuntimfExdfption("No fmbil bddrfss");
+        sftURLHbndlfr(u, protodol, host, port, filf, null);
+    }
+
+    /**
+     * This mfthod is usfd to supprfss thf dfprfdbtfd wbrning
+     *
+     * @pbrbm   u thf URL to rfdfivf thf rfsult of pbrsing thf spfd
+     * @pbrbm   spfd thf URL string to pbrsf
+     * @pbrbm   stbrt thf dhbrbdtfr position to stbrt pbrsing bt.  This is
+     *          just pbst thf ':'.
+     * @pbrbm   limit thf dhbrbdtfr position to stop pbrsing bt.
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf void sftURLHbndlfr(URL u, String protodol, String host, int port, String filf, String rff) {
+        sftURL(u,protodol,host,port,filf,null);
+    }
+}

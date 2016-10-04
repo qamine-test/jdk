@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-#ifndef __MLIB_IMAGEDIVTABLES_H
-#define __MLIB_IMAGEDIVTABLES_H
+#ifndff __MLIB_IMAGEDIVTABLES_H
+#dffinf __MLIB_IMAGEDIVTABLES_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif /* __dplusplus */
 
-#ifdef __DIV_TABLE_DEFINED
+#ifdff __DIV_TABLE_DEFINED
 
-#ifdef __SUNPRO_C
-#pragma align 64 (mlib_div6_tab)
-#pragma align 64 (mlib_div1_tab)
-#pragma align 64 (mlib_HSL2RGB_L2)
-#pragma align 64 (mlib_HSL2RGB_F)
-#pragma align 64 (mlib_U82F32)
-#pragma align 64 (mlib_FlipAndFixRotateTable)
-#endif /* __SUNPRO_C */
+#ifdff __SUNPRO_C
+#prbgmb blign 64 (mlib_div6_tbb)
+#prbgmb blign 64 (mlib_div1_tbb)
+#prbgmb blign 64 (mlib_HSL2RGB_L2)
+#prbgmb blign 64 (mlib_HSL2RGB_F)
+#prbgmb blign 64 (mlib_U82F32)
+#prbgmb blign 64 (mlib_FlipAndFixRotbtfTbblf)
+#fndif /* __SUNPRO_C */
 
-const mlib_u16 mlib_div6_tab[];
-const mlib_u16 mlib_div1_tab[];
-const mlib_f32 mlib_HSL2RGB_L2[];
-const mlib_f32 mlib_HSL2RGB_F[];
-const mlib_f32 mlib_U82F32[];
-const mlib_d64 mlib_U82D64[];
-const mlib_u32 mlib_FlipAndFixRotateTable[];
+donst mlib_u16 mlib_div6_tbb[];
+donst mlib_u16 mlib_div1_tbb[];
+donst mlib_f32 mlib_HSL2RGB_L2[];
+donst mlib_f32 mlib_HSL2RGB_F[];
+donst mlib_f32 mlib_U82F32[];
+donst mlib_d64 mlib_U82D64[];
+donst mlib_u32 mlib_FlipAndFixRotbtfTbblf[];
 
-#else
+#flsf
 
-extern const mlib_u16 mlib_div6_tab[];
-extern const mlib_u16 mlib_div1_tab[];
-extern const mlib_f32 mlib_HSL2RGB_L2[];
-extern const mlib_f32 mlib_HSL2RGB_F[];
-extern const mlib_f32 mlib_U82F32[];
-extern const mlib_d64 mlib_U82D64[];
-extern const mlib_u32 mlib_FlipAndFixRotateTable[];
+fxtfrn donst mlib_u16 mlib_div6_tbb[];
+fxtfrn donst mlib_u16 mlib_div1_tbb[];
+fxtfrn donst mlib_f32 mlib_HSL2RGB_L2[];
+fxtfrn donst mlib_f32 mlib_HSL2RGB_F[];
+fxtfrn donst mlib_f32 mlib_U82F32[];
+fxtfrn donst mlib_d64 mlib_U82D64[];
+fxtfrn donst mlib_u32 mlib_FlipAndFixRotbtfTbblf[];
 
-#endif /* __DIV_TABLE_DEFINED */
+#fndif /* __DIV_TABLE_DEFINED */
 
-#ifdef __cplusplus
+#ifdff __dplusplus
 }
-#endif /* __cplusplus */
-#endif /* __MLIB_IMAGEDIVTABLES_H */
+#fndif /* __dplusplus */
+#fndif /* __MLIB_IMAGEDIVTABLES_H */
 
 /***************************************************************/

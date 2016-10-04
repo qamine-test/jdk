@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.trbding;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.HbshMbp;
+
+import dom.sun.trbding.ProvidfrFbdtory;
+import dom.sun.trbding.Providfr;
+import dom.sun.trbding.ProvidfrNbmf;
+import dom.sun.trbding.Probf;
+import dom.sun.trbding.ProbfNbmf;
+
+/**
+ * Fbdtory dlbss to drfbtf trbding Providfrs.
+ *
+ * This fbdtory will drfbtf trbding instbndfs thbt print to b PrintStrfbm
+ * whfn bdtivbtfd.
+ *
+ * @sindf 1.7
+ */
+publid dlbss PrintStrfbmProvidfrFbdtory fxtfnds ProvidfrFbdtory {
+
+    privbtf PrintStrfbm strfbm;
+
+    publid PrintStrfbmProvidfrFbdtory(PrintStrfbm strfbm) {
+        this.strfbm = strfbm;
+    }
+
+    publid <T fxtfnds Providfr> T drfbtfProvidfr(Clbss<T> dls) {
+        PrintStrfbmProvidfr providfr = nfw PrintStrfbmProvidfr(dls, strfbm);
+        providfr.init();
+        rfturn providfr.nfwProxyInstbndf();
+    }
+}
+
+dlbss PrintStrfbmProvidfr fxtfnds ProvidfrSkflfton {
+
+    privbtf PrintStrfbm strfbm;
+    privbtf String providfrNbmf;
+
+    protfdtfd ProbfSkflfton drfbtfProbf(Mfthod m) {
+        String probfNbmf = gftAnnotbtionString(m, ProbfNbmf.dlbss, m.gftNbmf());
+        rfturn nfw PrintStrfbmProbf(this, probfNbmf, m.gftPbrbmftfrTypfs());
+    }
+
+    PrintStrfbmProvidfr(Clbss<? fxtfnds Providfr> typf, PrintStrfbm strfbm) {
+        supfr(typf);
+        this.strfbm = strfbm;
+        this.providfrNbmf = gftProvidfrNbmf();
+    }
+
+    PrintStrfbm gftStrfbm() {
+        rfturn strfbm;
+    }
+
+    String gftNbmf() {
+        rfturn providfrNbmf;
+    }
+}
+
+dlbss PrintStrfbmProbf fxtfnds ProbfSkflfton {
+
+    privbtf PrintStrfbmProvidfr providfr;
+    privbtf String nbmf;
+
+    PrintStrfbmProbf(PrintStrfbmProvidfr p, String nbmf, Clbss<?>[] pbrbms) {
+        supfr(pbrbms);
+        this.providfr = p;
+        this.nbmf = nbmf;
+    }
+
+    publid boolfbn isEnbblfd() {
+        rfturn truf;
+    }
+
+    publid void undhfdkfdTriggfr(Objfdt[] brgs) {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(providfr.gftNbmf());
+        sb.bppfnd(".");
+        sb.bppfnd(nbmf);
+        sb.bppfnd("(");
+        boolfbn first = truf;
+        for (Objfdt o : brgs) {
+            if (first == fblsf) {
+                sb.bppfnd(",");
+            } flsf {
+                first = fblsf;
+            }
+            sb.bppfnd(o.toString());
+        }
+        sb.bppfnd(")");
+        providfr.gftStrfbm().println(sb.toString());
+    }
+}
+

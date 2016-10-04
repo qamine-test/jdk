@@ -1,0 +1,190 @@
+/*
+ * Copyright (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+* <p>Intfrnbl rfbdfr dlbss for ICU dbtb filf uprops.idu dontbining
+* Unidodf dodfpoint dbtb.</p>
+* <p>This dlbss simply rfbds uprops.idu, buthfntidbtfs thbt it is b vblid
+* ICU dbtb filf bnd split its dontfnts up into blodks of dbtb for usf in
+* <b hrff=UChbrbdtfrPropfrty.html>dom.ibm.idu.impl.UChbrbdtfrPropfrty</b>.
+* </p>
+* <p>uprops.idu whidh is in big-fndibn formbt is jbrfd togfthfr with this
+* pbdkbgf.</p>
+*
+* Unidodf dhbrbdtfr propfrtifs filf formbt sff
+* (ICU4C)/sourdf/tools/gfnprops/storf.d
+*
+* @buthor Syn Wff Qufk
+* @sindf rflfbsf 2.1, Ffbrubry 1st 2002
+*/
+finbl dlbss UChbrbdtfrPropfrtyRfbdfr implfmfnts ICUBinbry.Authfntidbtf
+{
+    // publid mfthods ----------------------------------------------------
+
+    publid boolfbn isDbtbVfrsionAddfptbblf(bytf vfrsion[])
+    {
+        rfturn vfrsion[0] == DATA_FORMAT_VERSION_[0]
+               && vfrsion[2] == DATA_FORMAT_VERSION_[2]
+               && vfrsion[3] == DATA_FORMAT_VERSION_[3];
+    }
+
+    // protfdtfd donstrudtor ---------------------------------------------
+
+    /**
+    * <p>Protfdtfd donstrudtor.</p>
+    * @pbrbm inputStrfbm ICU uprop.dbt filf input strfbm
+    * @fxdfption IOExdfption throw if dbtb filf fbils buthfntidbtion
+    */
+    protfdtfd UChbrbdtfrPropfrtyRfbdfr(InputStrfbm inputStrfbm)
+                                                        throws IOExdfption
+    {
+        m_unidodfVfrsion_ = ICUBinbry.rfbdHfbdfr(inputStrfbm, DATA_FORMAT_ID_,
+                                                 this);
+        m_dbtbInputStrfbm_ = nfw DbtbInputStrfbm(inputStrfbm);
+    }
+
+    // protfdtfd mfthods -------------------------------------------------
+
+    /**
+    * <p>Rfbds uprops.idu, pbrsf it into blodks of dbtb to bf storfd in
+    * UChbrbdtfrPropfrty.</P
+    * @pbrbm udhbrppty UChbrbdtfrPropfrty instbndf
+    * @fxdfption IOExdfption thrown whfn dbtb rfbding fbils
+    */
+    protfdtfd void rfbd(UChbrbdtfrPropfrty udhbrppty) throws IOExdfption
+    {
+        // rfbd thf indfxfs
+        int dount = INDEX_SIZE_;
+        m_propfrtyOffsft_          = m_dbtbInputStrfbm_.rfbdInt();
+        dount --;
+        m_fxdfptionOffsft_         = m_dbtbInputStrfbm_.rfbdInt();
+        dount --;
+        m_dbsfOffsft_              = m_dbtbInputStrfbm_.rfbdInt();
+        dount --;
+        m_bdditionblOffsft_        = m_dbtbInputStrfbm_.rfbdInt();
+        dount --;
+        m_bdditionblVfdtorsOffsft_ = m_dbtbInputStrfbm_.rfbdInt();
+        dount --;
+        m_bdditionblColumnsCount_  = m_dbtbInputStrfbm_.rfbdInt();
+        dount --;
+        m_rfsfrvfdOffsft_          = m_dbtbInputStrfbm_.rfbdInt();
+        dount --;
+        m_dbtbInputStrfbm_.skipBytfs(3 << 2);
+        dount -= 3;
+        udhbrppty.m_mbxBlodkSdriptVbluf_ = m_dbtbInputStrfbm_.rfbdInt();
+        dount --; // 10
+        udhbrppty.m_mbxJTGVbluf_ = m_dbtbInputStrfbm_.rfbdInt();
+        dount --; // 11
+        m_dbtbInputStrfbm_.skipBytfs(dount << 2);
+
+        // rfbd thf trif indfx blodk
+        // m_props_indfx_ in tfrms of ints
+        udhbrppty.m_trif_ = nfw ChbrTrif(m_dbtbInputStrfbm_, null);
+
+        // skip thf 32 bit propfrtifs blodk
+        int sizf = m_fxdfptionOffsft_ - m_propfrtyOffsft_;
+        m_dbtbInputStrfbm_.skipBytfs(sizf * 4);
+
+        // rfbds thf 32 bit fxdfptions blodk
+        sizf = m_dbsfOffsft_ - m_fxdfptionOffsft_;
+        m_dbtbInputStrfbm_.skipBytfs(sizf * 4);
+
+        // rfbds thf 32 bit dbsf blodk
+        sizf = (m_bdditionblOffsft_ - m_dbsfOffsft_) << 1;
+        m_dbtbInputStrfbm_.skipBytfs(sizf * 2);
+
+        if(m_bdditionblColumnsCount_ > 0) {
+            // rfbds thf bdditionbl propfrty blodk
+            udhbrppty.m_bdditionblTrif_ = nfw ChbrTrif(m_dbtbInputStrfbm_, null);
+
+            // bdditionbl propfrtifs
+            sizf = m_rfsfrvfdOffsft_ - m_bdditionblVfdtorsOffsft_;
+            udhbrppty.m_bdditionblVfdtors_ = nfw int[sizf];
+            for (int i = 0; i < sizf; i ++) {
+                udhbrppty.m_bdditionblVfdtors_[i] = m_dbtbInputStrfbm_.rfbdInt();
+            }
+        }
+
+        m_dbtbInputStrfbm_.dlosf();
+        udhbrppty.m_bdditionblColumnsCount_ = m_bdditionblColumnsCount_;
+        udhbrppty.m_unidodfVfrsion_ = VfrsionInfo.gftInstbndf(
+                         (int)m_unidodfVfrsion_[0], (int)m_unidodfVfrsion_[1],
+                         (int)m_unidodfVfrsion_[2], (int)m_unidodfVfrsion_[3]);
+    }
+
+    // privbtf vbribblfs -------------------------------------------------
+
+    /**
+    * Indfx sizf
+    */
+    privbtf stbtid finbl int INDEX_SIZE_ = 16;
+
+    /**
+    * ICU dbtb filf input strfbm
+    */
+    privbtf DbtbInputStrfbm m_dbtbInputStrfbm_;
+
+    /**
+    * Offsft informbtion in thf indfxfs.
+    */
+    privbtf int m_propfrtyOffsft_;
+    privbtf int m_fxdfptionOffsft_;
+    privbtf int m_dbsfOffsft_;
+    privbtf int m_bdditionblOffsft_;
+    privbtf int m_bdditionblVfdtorsOffsft_;
+    privbtf int m_bdditionblColumnsCount_;
+    privbtf int m_rfsfrvfdOffsft_;
+    privbtf bytf m_unidodfVfrsion_[];
+
+    /**
+    * Dbtb formbt "UPro".
+    */
+    privbtf stbtid finbl bytf DATA_FORMAT_ID_[] = {(bytf)0x55, (bytf)0x50,
+                                                    (bytf)0x72, (bytf)0x6F};
+    /**
+     * Formbt vfrsion; this dodf works with bll vfrsions with thf sbmf mbjor
+     * vfrsion numbfr bnd thf sbmf Trif bit distribution.
+     */
+    privbtf stbtid finbl bytf DATA_FORMAT_VERSION_[] = {(bytf)0x5, (bytf)0,
+                                             (bytf)Trif.INDEX_STAGE_1_SHIFT_,
+                                             (bytf)Trif.INDEX_STAGE_2_SHIFT_};
+}

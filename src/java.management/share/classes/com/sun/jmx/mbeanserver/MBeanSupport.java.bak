@@ -1,276 +1,276 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
 
-import javax.management.Attribute;
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import com.sun.jmx.mbeanserver.MXBeanMappingFactory;
-import sun.reflect.misc.ReflectUtil;
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.AttributfList;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InvblidAttributfVblufExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import dom.sun.jmx.mbfbnsfrvfr.MXBfbnMbppingFbdtory;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * Base class for MBeans.  There is one instance of this class for
- * every Standard MBean and every MXBean.  We try to limit the amount
- * of information per instance so we can handle very large numbers of
- * MBeans comfortably.
+ * Bbsf dlbss for MBfbns.  Tifrf is onf instbndf of tiis dlbss for
+ * fvfry Stbndbrd MBfbn bnd fvfry MXBfbn.  Wf try to limit tif bmount
+ * of informbtion pfr instbndf so wf dbn ibndlf vfry lbrgf numbfrs of
+ * MBfbns domfortbbly.
  *
- * @param <M> either Method or ConvertingMethod, for Standard MBeans
- * and MXBeans respectively.
+ * @pbrbm <M> fitifr Mftiod or ConvfrtingMftiod, for Stbndbrd MBfbns
+ * bnd MXBfbns rfspfdtivfly.
  *
- * @since 1.6
+ * @sindf 1.6
  */
 /*
- * We maintain a couple of caches to increase sharing between
- * different MBeans of the same type and also to reduce creation time
- * for the second and subsequent instances of the same type.
+ * Wf mbintbin b douplf of dbdifs to indrfbsf sibring bftwffn
+ * difffrfnt MBfbns of tif sbmf typf bnd blso to rfdudf drfbtion timf
+ * for tif sfdond bnd subsfqufnt instbndfs of tif sbmf typf.
  *
- * The first cache maps from an MBean interface to a PerInterface
- * object containing information parsed out of the interface.  The
- * interface is either a Standard MBean interface or an MXBean
- * interface, and there is one cache for each case.
+ * Tif first dbdif mbps from bn MBfbn intfrfbdf to b PfrIntfrfbdf
+ * objfdt dontbining informbtion pbrsfd out of tif intfrfbdf.  Tif
+ * intfrfbdf is fitifr b Stbndbrd MBfbn intfrfbdf or bn MXBfbn
+ * intfrfbdf, bnd tifrf is onf dbdif for fbdi dbsf.
  *
- * The PerInterface includes an MBeanInfo.  This contains the
- * attributes and operations parsed out of the interface's methods,
- * plus a basic Descriptor for the interface containing at least the
- * interfaceClassName field and any fields derived from annotations on
- * the interface.  This MBeanInfo can never be the MBeanInfo for any
- * actual MBean, because an MBeanInfo's getClassName() is the name of
- * a concrete class and we don't know what the class will be.
- * Furthermore a real MBeanInfo may need to add constructors and/or
- * notifications to the MBeanInfo.
+ * Tif PfrIntfrfbdf indludfs bn MBfbnInfo.  Tiis dontbins tif
+ * bttributfs bnd opfrbtions pbrsfd out of tif intfrfbdf's mftiods,
+ * plus b bbsid Dfsdriptor for tif intfrfbdf dontbining bt lfbst tif
+ * intfrfbdfClbssNbmf fifld bnd bny fiflds dfrivfd from bnnotbtions on
+ * tif intfrfbdf.  Tiis MBfbnInfo dbn nfvfr bf tif MBfbnInfo for bny
+ * bdtubl MBfbn, bfdbusf bn MBfbnInfo's gftClbssNbmf() is tif nbmf of
+ * b dondrftf dlbss bnd wf don't know wibt tif dlbss will bf.
+ * Furtifrmorf b rfbl MBfbnInfo mby nffd to bdd donstrudtors bnd/or
+ * notifidbtions to tif MBfbnInfo.
  *
- * The PerInterface also contains an MBeanDispatcher which is able to
- * route getAttribute, setAttribute, and invoke to the appropriate
- * method of the interface, including doing any necessary translation
- * of parameters and return values for MXBeans.
+ * Tif PfrIntfrfbdf blso dontbins bn MBfbnDispbtdifr wiidi is bblf to
+ * routf gftAttributf, sftAttributf, bnd invokf to tif bppropribtf
+ * mftiod of tif intfrfbdf, indluding doing bny nfdfssbry trbnslbtion
+ * of pbrbmftfrs bnd rfturn vblufs for MXBfbns.
  *
- * The PerInterface also contains the original Class for the interface.
+ * Tif PfrIntfrfbdf blso dontbins tif originbl Clbss for tif intfrfbdf.
  *
- * We need to be careful about references.  When there are no MBeans
- * with a given interface, there must not be any strong references to
- * the interface Class.  Otherwise it could never be garbage collected,
- * and neither could its ClassLoader or any other classes loaded by
- * its ClassLoader.  Therefore the cache must wrap the PerInterface
- * in a WeakReference.  Each instance of MBeanSupport has a strong
- * reference to its PerInterface, which prevents PerInterface instances
- * from being garbage-collected prematurely.
+ * Wf nffd to bf dbrfful bbout rfffrfndfs.  Wifn tifrf brf no MBfbns
+ * witi b givfn intfrfbdf, tifrf must not bf bny strong rfffrfndfs to
+ * tif intfrfbdf Clbss.  Otifrwisf it dould nfvfr bf gbrbbgf dollfdtfd,
+ * bnd nfitifr dould its ClbssLobdfr or bny otifr dlbssfs lobdfd by
+ * its ClbssLobdfr.  Tifrfforf tif dbdif must wrbp tif PfrIntfrfbdf
+ * in b WfbkRfffrfndf.  Ebdi instbndf of MBfbnSupport ibs b strong
+ * rfffrfndf to its PfrIntfrfbdf, wiidi prfvfnts PfrIntfrfbdf instbndfs
+ * from bfing gbrbbgf-dollfdtfd prfmbturfly.
  *
- * The second cache maps from a concrete class and an MBean interface
- * that that class implements to the MBeanInfo for that class and
- * interface.  (The ability to specify an interface separately comes
- * from the class StandardMBean.  MBeans registered directly in the
- * MBean Server will always have the same interface here.)
+ * Tif sfdond dbdif mbps from b dondrftf dlbss bnd bn MBfbn intfrfbdf
+ * tibt tibt dlbss implfmfnts to tif MBfbnInfo for tibt dlbss bnd
+ * intfrfbdf.  (Tif bbility to spfdify bn intfrfbdf sfpbrbtfly domfs
+ * from tif dlbss StbndbrdMBfbn.  MBfbns rfgistfrfd dirfdtly in tif
+ * MBfbn Sfrvfr will blwbys ibvf tif sbmf intfrfbdf ifrf.)
  *
- * The MBeanInfo in this second cache will be the MBeanInfo from the
- * PerInterface cache for the given itnerface, but with the
- * getClassName() having the concrete class's name, and the public
- * constructors based on the concrete class's constructors.  This
- * MBeanInfo can be shared between all instances of the concrete class
- * specifying the same interface, except instances that are
- * NotificationBroadcasters.  NotificationBroadcasters supply the
- * MBeanNotificationInfo[] in the MBeanInfo based on the instance
- * method NotificationBroadcaster.getNotificationInfo(), so two
- * instances of the same concrete class do not necessarily have the
- * same MBeanNotificationInfo[].  Currently we do not try to detect
- * when they do, although it would probably be worthwhile doing that
- * since it is a very common case.
+ * Tif MBfbnInfo in tiis sfdond dbdif will bf tif MBfbnInfo from tif
+ * PfrIntfrfbdf dbdif for tif givfn itnfrfbdf, but witi tif
+ * gftClbssNbmf() ibving tif dondrftf dlbss's nbmf, bnd tif publid
+ * donstrudtors bbsfd on tif dondrftf dlbss's donstrudtors.  Tiis
+ * MBfbnInfo dbn bf sibrfd bftwffn bll instbndfs of tif dondrftf dlbss
+ * spfdifying tif sbmf intfrfbdf, fxdfpt instbndfs tibt brf
+ * NotifidbtionBrobddbstfrs.  NotifidbtionBrobddbstfrs supply tif
+ * MBfbnNotifidbtionInfo[] in tif MBfbnInfo bbsfd on tif instbndf
+ * mftiod NotifidbtionBrobddbstfr.gftNotifidbtionInfo(), so two
+ * instbndfs of tif sbmf dondrftf dlbss do not nfdfssbrily ibvf tif
+ * sbmf MBfbnNotifidbtionInfo[].  Currfntly wf do not try to dftfdt
+ * wifn tify do, bltiougi it would probbbly bf wortiwiilf doing tibt
+ * sindf it is b vfry dommon dbsf.
  *
- * Standard MBeans additionally have the property that
- * getNotificationInfo() must in principle be called every time
- * getMBeanInfo() is called for the MBean, since the returned array is
- * allowed to change over time.  We attempt to reduce the cost of
- * doing this by detecting when the Standard MBean is a subclass of
- * NotificationBroadcasterSupport that does not override
- * getNotificationInfo(), meaning that the MBeanNotificationInfo[] is
- * the one that was supplied to the constructor.  MXBeans do not have
- * this problem because their getNotificationInfo() method is called
- * only once.
+ * Stbndbrd MBfbns bdditionblly ibvf tif propfrty tibt
+ * gftNotifidbtionInfo() must in prindiplf bf dbllfd fvfry timf
+ * gftMBfbnInfo() is dbllfd for tif MBfbn, sindf tif rfturnfd brrby is
+ * bllowfd to dibngf ovfr timf.  Wf bttfmpt to rfdudf tif dost of
+ * doing tiis by dftfdting wifn tif Stbndbrd MBfbn is b subdlbss of
+ * NotifidbtionBrobddbstfrSupport tibt dofs not ovfrridf
+ * gftNotifidbtionInfo(), mfbning tibt tif MBfbnNotifidbtionInfo[] is
+ * tif onf tibt wbs supplifd to tif donstrudtor.  MXBfbns do not ibvf
+ * tiis problfm bfdbusf tifir gftNotifidbtionInfo() mftiod is dbllfd
+ * only ondf.
  *
  */
-public abstract class MBeanSupport<M>
-        implements DynamicMBean2, MBeanRegistration {
+publid bbstrbdt dlbss MBfbnSupport<M>
+        implfmfnts DynbmidMBfbn2, MBfbnRfgistrbtion {
 
-    <T> MBeanSupport(T resource, Class<T> mbeanInterfaceType)
-            throws NotCompliantMBeanException {
-        if (mbeanInterfaceType == null)
-            throw new NotCompliantMBeanException("Null MBean interface");
-        if (!mbeanInterfaceType.isInstance(resource)) {
-            final String msg =
-                "Resource class " + resource.getClass().getName() +
-                " is not an instance of " + mbeanInterfaceType.getName();
-            throw new NotCompliantMBeanException(msg);
+    <T> MBfbnSupport(T rfsourdf, Clbss<T> mbfbnIntfrfbdfTypf)
+            tirows NotComplibntMBfbnExdfption {
+        if (mbfbnIntfrfbdfTypf == null)
+            tirow nfw NotComplibntMBfbnExdfption("Null MBfbn intfrfbdf");
+        if (!mbfbnIntfrfbdfTypf.isInstbndf(rfsourdf)) {
+            finbl String msg =
+                "Rfsourdf dlbss " + rfsourdf.gftClbss().gftNbmf() +
+                " is not bn instbndf of " + mbfbnIntfrfbdfTypf.gftNbmf();
+            tirow nfw NotComplibntMBfbnExdfption(msg);
         }
-        ReflectUtil.checkPackageAccess(mbeanInterfaceType);
-        this.resource = resource;
-        MBeanIntrospector<M> introspector = getMBeanIntrospector();
-        this.perInterface = introspector.getPerInterface(mbeanInterfaceType);
-        this.mbeanInfo = introspector.getMBeanInfo(resource, perInterface);
+        RfflfdtUtil.difdkPbdkbgfAddfss(mbfbnIntfrfbdfTypf);
+        tiis.rfsourdf = rfsourdf;
+        MBfbnIntrospfdtor<M> introspfdtor = gftMBfbnIntrospfdtor();
+        tiis.pfrIntfrfbdf = introspfdtor.gftPfrIntfrfbdf(mbfbnIntfrfbdfTypf);
+        tiis.mbfbnInfo = introspfdtor.gftMBfbnInfo(rfsourdf, pfrIntfrfbdf);
     }
 
-    /** Return the appropriate introspector for this type of MBean. */
-    abstract MBeanIntrospector<M> getMBeanIntrospector();
+    /** Rfturn tif bppropribtf introspfdtor for tiis typf of MBfbn. */
+    bbstrbdt MBfbnIntrospfdtor<M> gftMBfbnIntrospfdtor();
 
     /**
-     * Return a cookie for this MBean.  This cookie will be passed to
-     * MBean method invocations where it can supply additional information
-     * to the invocation.  For example, with MXBeans it can be used to
-     * supply the MXBeanLookup context for resolving inter-MXBean references.
+     * Rfturn b dookif for tiis MBfbn.  Tiis dookif will bf pbssfd to
+     * MBfbn mftiod invodbtions wifrf it dbn supply bdditionbl informbtion
+     * to tif invodbtion.  For fxbmplf, witi MXBfbns it dbn bf usfd to
+     * supply tif MXBfbnLookup dontfxt for rfsolving intfr-MXBfbn rfffrfndfs.
      */
-    abstract Object getCookie();
+    bbstrbdt Objfdt gftCookif();
 
-    public final boolean isMXBean() {
-        return perInterface.isMXBean();
+    publid finbl boolfbn isMXBfbn() {
+        rfturn pfrIntfrfbdf.isMXBfbn();
     }
 
-    // Methods that javax.management.StandardMBean should call from its
-    // preRegister and postRegister, given that it is not supposed to
-    // call the contained object's preRegister etc methods even if it has them
-    public abstract void register(MBeanServer mbs, ObjectName name)
-            throws Exception;
-    public abstract void unregister();
+    // Mftiods tibt jbvbx.mbnbgfmfnt.StbndbrdMBfbn siould dbll from its
+    // prfRfgistfr bnd postRfgistfr, givfn tibt it is not supposfd to
+    // dbll tif dontbinfd objfdt's prfRfgistfr ftd mftiods fvfn if it ibs tifm
+    publid bbstrbdt void rfgistfr(MBfbnSfrvfr mbs, ObjfdtNbmf nbmf)
+            tirows Exdfption;
+    publid bbstrbdt void unrfgistfr();
 
-    public final ObjectName preRegister(MBeanServer server, ObjectName name)
-            throws Exception {
-        if (resource instanceof MBeanRegistration)
-            name = ((MBeanRegistration) resource).preRegister(server, name);
-        return name;
+    publid finbl ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+            tirows Exdfption {
+        if (rfsourdf instbndfof MBfbnRfgistrbtion)
+            nbmf = ((MBfbnRfgistrbtion) rfsourdf).prfRfgistfr(sfrvfr, nbmf);
+        rfturn nbmf;
     }
 
-    public final void preRegister2(MBeanServer server, ObjectName name)
-            throws Exception {
-        register(server, name);
+    publid finbl void prfRfgistfr2(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+            tirows Exdfption {
+        rfgistfr(sfrvfr, nbmf);
     }
 
-    public final void registerFailed() {
-        unregister();
+    publid finbl void rfgistfrFbilfd() {
+        unrfgistfr();
     }
 
-    public final void postRegister(Boolean registrationDone) {
-        if (resource instanceof MBeanRegistration)
-            ((MBeanRegistration) resource).postRegister(registrationDone);
+    publid finbl void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        if (rfsourdf instbndfof MBfbnRfgistrbtion)
+            ((MBfbnRfgistrbtion) rfsourdf).postRfgistfr(rfgistrbtionDonf);
     }
 
-    public final void preDeregister() throws Exception {
-        if (resource instanceof MBeanRegistration)
-            ((MBeanRegistration) resource).preDeregister();
+    publid finbl void prfDfrfgistfr() tirows Exdfption {
+        if (rfsourdf instbndfof MBfbnRfgistrbtion)
+            ((MBfbnRfgistrbtion) rfsourdf).prfDfrfgistfr();
     }
 
-    public final void postDeregister() {
-        // Undo any work from registration.  We do this in postDeregister
-        // not preDeregister, because if the user preDeregister throws an
-        // exception then the MBean is not unregistered.
+    publid finbl void postDfrfgistfr() {
+        // Undo bny work from rfgistrbtion.  Wf do tiis in postDfrfgistfr
+        // not prfDfrfgistfr, bfdbusf if tif usfr prfDfrfgistfr tirows bn
+        // fxdfption tifn tif MBfbn is not unrfgistfrfd.
         try {
-            unregister();
-        } finally {
-            if (resource instanceof MBeanRegistration)
-                ((MBeanRegistration) resource).postDeregister();
+            unrfgistfr();
+        } finblly {
+            if (rfsourdf instbndfof MBfbnRfgistrbtion)
+                ((MBfbnRfgistrbtion) rfsourdf).postDfrfgistfr();
         }
     }
 
-    public final Object getAttribute(String attribute)
-            throws AttributeNotFoundException,
-                   MBeanException,
-                   ReflectionException {
-        return perInterface.getAttribute(resource, attribute, getCookie());
+    publid finbl Objfdt gftAttributf(String bttributf)
+            tirows AttributfNotFoundExdfption,
+                   MBfbnExdfption,
+                   RfflfdtionExdfption {
+        rfturn pfrIntfrfbdf.gftAttributf(rfsourdf, bttributf, gftCookif());
     }
 
-    public final AttributeList getAttributes(String[] attributes) {
-        final AttributeList result = new AttributeList(attributes.length);
-        for (String attrName : attributes) {
+    publid finbl AttributfList gftAttributfs(String[] bttributfs) {
+        finbl AttributfList rfsult = nfw AttributfList(bttributfs.lfngti);
+        for (String bttrNbmf : bttributfs) {
             try {
-                final Object attrValue = getAttribute(attrName);
-                result.add(new Attribute(attrName, attrValue));
-            } catch (Exception e) {
-                // OK: attribute is not included in returned list, per spec
-                // XXX: log the exception
+                finbl Objfdt bttrVbluf = gftAttributf(bttrNbmf);
+                rfsult.bdd(nfw Attributf(bttrNbmf, bttrVbluf));
+            } dbtdi (Exdfption f) {
+                // OK: bttributf is not indludfd in rfturnfd list, pfr spfd
+                // XXX: log tif fxdfption
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public final void setAttribute(Attribute attribute)
-            throws AttributeNotFoundException,
-                   InvalidAttributeValueException,
-                   MBeanException,
-                   ReflectionException {
-        final String name = attribute.getName();
-        final Object value = attribute.getValue();
-        perInterface.setAttribute(resource, name, value, getCookie());
+    publid finbl void sftAttributf(Attributf bttributf)
+            tirows AttributfNotFoundExdfption,
+                   InvblidAttributfVblufExdfption,
+                   MBfbnExdfption,
+                   RfflfdtionExdfption {
+        finbl String nbmf = bttributf.gftNbmf();
+        finbl Objfdt vbluf = bttributf.gftVbluf();
+        pfrIntfrfbdf.sftAttributf(rfsourdf, nbmf, vbluf, gftCookif());
     }
 
-    public final AttributeList setAttributes(AttributeList attributes) {
-        final AttributeList result = new AttributeList(attributes.size());
-        for (Object attrObj : attributes) {
-            // We can't use AttributeList.asList because it has side-effects
-            Attribute attr = (Attribute) attrObj;
+    publid finbl AttributfList sftAttributfs(AttributfList bttributfs) {
+        finbl AttributfList rfsult = nfw AttributfList(bttributfs.sizf());
+        for (Objfdt bttrObj : bttributfs) {
+            // Wf dbn't usf AttributfList.bsList bfdbusf it ibs sidf-ffffdts
+            Attributf bttr = (Attributf) bttrObj;
             try {
-                setAttribute(attr);
-                result.add(new Attribute(attr.getName(), attr.getValue()));
-            } catch (Exception e) {
-                // OK: attribute is not included in returned list, per spec
-                // XXX: log the exception
+                sftAttributf(bttr);
+                rfsult.bdd(nfw Attributf(bttr.gftNbmf(), bttr.gftVbluf()));
+            } dbtdi (Exdfption f) {
+                // OK: bttributf is not indludfd in rfturnfd list, pfr spfd
+                // XXX: log tif fxdfption
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public final Object invoke(String operation, Object[] params,
-                         String[] signature)
-            throws MBeanException, ReflectionException {
-        return perInterface.invoke(resource, operation, params, signature,
-                                   getCookie());
+    publid finbl Objfdt invokf(String opfrbtion, Objfdt[] pbrbms,
+                         String[] signbturf)
+            tirows MBfbnExdfption, RfflfdtionExdfption {
+        rfturn pfrIntfrfbdf.invokf(rfsourdf, opfrbtion, pbrbms, signbturf,
+                                   gftCookif());
     }
 
-    // Overridden by StandardMBeanSupport
-    public MBeanInfo getMBeanInfo() {
-        return mbeanInfo;
+    // Ovfrriddfn by StbndbrdMBfbnSupport
+    publid MBfbnInfo gftMBfbnInfo() {
+        rfturn mbfbnInfo;
     }
 
-    public final String getClassName() {
-        return resource.getClass().getName();
+    publid finbl String gftClbssNbmf() {
+        rfturn rfsourdf.gftClbss().gftNbmf();
     }
 
-    public final Object getResource() {
-        return resource;
+    publid finbl Objfdt gftRfsourdf() {
+        rfturn rfsourdf;
     }
 
-    public final Class<?> getMBeanInterface() {
-        return perInterface.getMBeanInterface();
+    publid finbl Clbss<?> gftMBfbnIntfrfbdf() {
+        rfturn pfrIntfrfbdf.gftMBfbnIntfrfbdf();
     }
 
-    private final MBeanInfo mbeanInfo;
-    private final Object resource;
-    private final PerInterface<M> perInterface;
+    privbtf finbl MBfbnInfo mbfbnInfo;
+    privbtf finbl Objfdt rfsourdf;
+    privbtf finbl PfrIntfrfbdf<M> pfrIntfrfbdf;
 }

@@ -1,394 +1,394 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
 
 /**
- * The <code>Action</code> interface provides a useful extension to the
- * <code>ActionListener</code>
- * interface in cases where the same functionality may be accessed by
- * several controls.
+ * Tif <dodf>Adtion</dodf> intfrfbdf providfs b usfful fxtfnsion to tif
+ * <dodf>AdtionListfnfr</dodf>
+ * intfrfbdf in dbsfs wifrf tif sbmf fundtionblity mby bf bddfssfd by
+ * sfvfrbl dontrols.
  * <p>
- * In addition to the <code>actionPerformed</code> method defined by the
- * <code>ActionListener</code> interface, this interface allows the
- * application to define, in a single place:
+ * In bddition to tif <dodf>bdtionPfrformfd</dodf> mftiod dffinfd by tif
+ * <dodf>AdtionListfnfr</dodf> intfrfbdf, tiis intfrfbdf bllows tif
+ * bpplidbtion to dffinf, in b singlf plbdf:
  * <ul>
- * <li>One or more text strings that describe the function. These strings
- *     can be used, for example, to display the flyover text for a button
- *     or to set the text in a menu item.
- * <li>One or more icons that depict the function. These icons can be used
- *     for the images in a menu control, or for composite entries in a more
- *     sophisticated user interface.
- * <li>The enabled/disabled state of the functionality. Instead of having
- *     to separately disable the menu item and the toolbar button, the
- *     application can disable the function that implements this interface.
- *     All components which are registered as listeners for the state change
- *     then know to disable event generation for that item and to modify the
- *     display accordingly.
+ * <li>Onf or morf tfxt strings tibt dfsdribf tif fundtion. Tifsf strings
+ *     dbn bf usfd, for fxbmplf, to displby tif flyovfr tfxt for b button
+ *     or to sft tif tfxt in b mfnu itfm.
+ * <li>Onf or morf idons tibt dfpidt tif fundtion. Tifsf idons dbn bf usfd
+ *     for tif imbgfs in b mfnu dontrol, or for dompositf fntrifs in b morf
+ *     sopiistidbtfd usfr intfrfbdf.
+ * <li>Tif fnbblfd/disbblfd stbtf of tif fundtionblity. Instfbd of ibving
+ *     to sfpbrbtfly disbblf tif mfnu itfm bnd tif toolbbr button, tif
+ *     bpplidbtion dbn disbblf tif fundtion tibt implfmfnts tiis intfrfbdf.
+ *     All domponfnts wiidi brf rfgistfrfd bs listfnfrs for tif stbtf dibngf
+ *     tifn know to disbblf fvfnt gfnfrbtion for tibt itfm bnd to modify tif
+ *     displby bddordingly.
  * </ul>
  * <p>
- * This interface can be added to an existing class or used to create an
- * adapter (typically, by subclassing <code>AbstractAction</code>).
- * The <code>Action</code> object
- * can then be added to multiple <code>Action</code>-aware containers
- * and connected to <code>Action</code>-capable
- * components. The GUI controls can then be activated or
- * deactivated all at once by invoking the <code>Action</code> object's
- * <code>setEnabled</code> method.
+ * Tiis intfrfbdf dbn bf bddfd to bn fxisting dlbss or usfd to drfbtf bn
+ * bdbptfr (typidblly, by subdlbssing <dodf>AbstrbdtAdtion</dodf>).
+ * Tif <dodf>Adtion</dodf> objfdt
+ * dbn tifn bf bddfd to multiplf <dodf>Adtion</dodf>-bwbrf dontbinfrs
+ * bnd donnfdtfd to <dodf>Adtion</dodf>-dbpbblf
+ * domponfnts. Tif GUI dontrols dbn tifn bf bdtivbtfd or
+ * dfbdtivbtfd bll bt ondf by invoking tif <dodf>Adtion</dodf> objfdt's
+ * <dodf>sftEnbblfd</dodf> mftiod.
  * <p>
- * Note that <code>Action</code> implementations tend to be more expensive
- * in terms of storage than a typical <code>ActionListener</code>,
- * which does not offer the benefits of centralized control of
- * functionality and broadcast of property changes.  For this reason,
- * you should take care to only use <code>Action</code>s where their benefits
- * are desired, and use simple <code>ActionListener</code>s elsewhere.
+ * Notf tibt <dodf>Adtion</dodf> implfmfntbtions tfnd to bf morf fxpfnsivf
+ * in tfrms of storbgf tibn b typidbl <dodf>AdtionListfnfr</dodf>,
+ * wiidi dofs not offfr tif bfnffits of dfntrblizfd dontrol of
+ * fundtionblity bnd brobddbst of propfrty dibngfs.  For tiis rfbson,
+ * you siould tbkf dbrf to only usf <dodf>Adtion</dodf>s wifrf tifir bfnffits
+ * brf dfsirfd, bnd usf simplf <dodf>AdtionListfnfr</dodf>s flsfwifrf.
  * <br>
  *
- * <h3><a name="buttonActions"></a>Swing Components Supporting <code>Action</code></h3>
+ * <i3><b nbmf="buttonAdtions"></b>Swing Componfnts Supporting <dodf>Adtion</dodf></i3>
  * <p>
- * Many of Swing's components have an <code>Action</code> property.  When
- * an <code>Action</code> is set on a component, the following things
- * happen:
+ * Mbny of Swing's domponfnts ibvf bn <dodf>Adtion</dodf> propfrty.  Wifn
+ * bn <dodf>Adtion</dodf> is sft on b domponfnt, tif following tiings
+ * ibppfn:
  * <ul>
- * <li>The <code>Action</code> is added as an <code>ActionListener</code> to
- *     the component.
- * <li>The component configures some of its properties to match the
- *      <code>Action</code>.
- * <li>The component installs a <code>PropertyChangeListener</code> on the
- *     <code>Action</code> so that the component can change its properties
- *     to reflect changes in the <code>Action</code>'s properties.
+ * <li>Tif <dodf>Adtion</dodf> is bddfd bs bn <dodf>AdtionListfnfr</dodf> to
+ *     tif domponfnt.
+ * <li>Tif domponfnt donfigurfs somf of its propfrtifs to mbtdi tif
+ *      <dodf>Adtion</dodf>.
+ * <li>Tif domponfnt instblls b <dodf>PropfrtyCibngfListfnfr</dodf> on tif
+ *     <dodf>Adtion</dodf> so tibt tif domponfnt dbn dibngf its propfrtifs
+ *     to rfflfdt dibngfs in tif <dodf>Adtion</dodf>'s propfrtifs.
  * </ul>
  * <p>
- * The following table describes the properties used by
- * <code>Swing</code> components that support <code>Actions</code>.
- * In the table, <em>button</em> refers to any
- * <code>AbstractButton</code> subclass, which includes not only
- * <code>JButton</code> but also classes such as
- * <code>JMenuItem</code>. Unless otherwise stated, a
- * <code>null</code> property value in an <code>Action</code> (or a
- * <code>Action</code> that is <code>null</code>) results in the
- * button's corresponding property being set to <code>null</code>.
+ * Tif following tbblf dfsdribfs tif propfrtifs usfd by
+ * <dodf>Swing</dodf> domponfnts tibt support <dodf>Adtions</dodf>.
+ * In tif tbblf, <fm>button</fm> rfffrs to bny
+ * <dodf>AbstrbdtButton</dodf> subdlbss, wiidi indludfs not only
+ * <dodf>JButton</dodf> but blso dlbssfs sudi bs
+ * <dodf>JMfnuItfm</dodf>. Unlfss otifrwisf stbtfd, b
+ * <dodf>null</dodf> propfrty vbluf in bn <dodf>Adtion</dodf> (or b
+ * <dodf>Adtion</dodf> tibt is <dodf>null</dodf>) rfsults in tif
+ * button's dorrfsponding propfrty bfing sft to <dodf>null</dodf>.
  *
- * <table border="1" cellpadding="1" cellspacing="0"
- *         summary="Supported Action properties">
- *  <tr valign="top"  align="left">
- *    <th style="background-color:#CCCCFF" align="left">Component Property
- *    <th style="background-color:#CCCCFF" align="left">Components
- *    <th style="background-color:#CCCCFF" align="left">Action Key
- *    <th style="background-color:#CCCCFF" align="left">Notes
- *  <tr valign="top"  align="left">
- *      <td><b><code>enabled</code></b>
+ * <tbblf bordfr="1" dfllpbdding="1" dfllspbding="0"
+ *         summbry="Supportfd Adtion propfrtifs">
+ *  <tr vblign="top"  blign="lfft">
+ *    <ti stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Componfnt Propfrty
+ *    <ti stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Componfnts
+ *    <ti stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Adtion Kfy
+ *    <ti stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Notfs
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>fnbblfd</dodf></b>
  *      <td>All
- *      <td>The <code>isEnabled</code> method
+ *      <td>Tif <dodf>isEnbblfd</dodf> mftiod
  *      <td>&nbsp;
- *  <tr valign="top"  align="left">
- *      <td><b><code>toolTipText</code></b>
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>toolTipTfxt</dodf></b>
  *      <td>All
- *      <td><code>SHORT_DESCRIPTION</code>
+ *      <td><dodf>SHORT_DESCRIPTION</dodf>
  *      <td>&nbsp;
- *  <tr valign="top"  align="left">
- *      <td><b><code>actionCommand</code></b>
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>bdtionCommbnd</dodf></b>
  *      <td>All
- *      <td><code>ACTION_COMMAND_KEY</code>
+ *      <td><dodf>ACTION_COMMAND_KEY</dodf>
  *      <td>&nbsp;
- *  <tr valign="top"  align="left">
- *      <td><b><code>mnemonic</code></b>
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>mnfmonid</dodf></b>
  *      <td>All buttons
- *      <td><code>MNEMONIC_KEY</code>
- *      <td>A <code>null</code> value or <code>Action</code> results in the
- *          button's <code>mnemonic</code> property being set to
- *          <code>'\0'</code>.
- *  <tr valign="top"  align="left">
- *      <td><b><code>text</code></b>
+ *      <td><dodf>MNEMONIC_KEY</dodf>
+ *      <td>A <dodf>null</dodf> vbluf or <dodf>Adtion</dodf> rfsults in tif
+ *          button's <dodf>mnfmonid</dodf> propfrty bfing sft to
+ *          <dodf>'\0'</dodf>.
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>tfxt</dodf></b>
  *      <td>All buttons
- *      <td><code>NAME</code>
- *      <td>If you do not want the text of the button to mirror that
- *          of the <code>Action</code>, set the property
- *          <code>hideActionText</code> to <code>true</code>.  If
- *          <code>hideActionText</code> is <code>true</code>, setting the
- *          <code>Action</code> changes the text of the button to
- *          <code>null</code> and any changes to <code>NAME</code>
- *          are ignored.  <code>hideActionText</code> is useful for
- *          tool bar buttons that typically only show an <code>Icon</code>.
- *          <code>JToolBar.add(Action)</code> sets the property to
- *          <code>true</code> if the <code>Action</code> has a
- *          non-<code>null</code> value for <code>LARGE_ICON_KEY</code> or
- *          <code>SMALL_ICON</code>.
- *  <tr valign="top"  align="left">
- *      <td><b><code>displayedMnemonicIndex</code></b>
+ *      <td><dodf>NAME</dodf>
+ *      <td>If you do not wbnt tif tfxt of tif button to mirror tibt
+ *          of tif <dodf>Adtion</dodf>, sft tif propfrty
+ *          <dodf>iidfAdtionTfxt</dodf> to <dodf>truf</dodf>.  If
+ *          <dodf>iidfAdtionTfxt</dodf> is <dodf>truf</dodf>, sftting tif
+ *          <dodf>Adtion</dodf> dibngfs tif tfxt of tif button to
+ *          <dodf>null</dodf> bnd bny dibngfs to <dodf>NAME</dodf>
+ *          brf ignorfd.  <dodf>iidfAdtionTfxt</dodf> is usfful for
+ *          tool bbr buttons tibt typidblly only siow bn <dodf>Idon</dodf>.
+ *          <dodf>JToolBbr.bdd(Adtion)</dodf> sfts tif propfrty to
+ *          <dodf>truf</dodf> if tif <dodf>Adtion</dodf> ibs b
+ *          non-<dodf>null</dodf> vbluf for <dodf>LARGE_ICON_KEY</dodf> or
+ *          <dodf>SMALL_ICON</dodf>.
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>displbyfdMnfmonidIndfx</dodf></b>
  *      <td>All buttons
- *      <td><code>DISPLAYED_MNEMONIC_INDEX_KEY</code>
- *      <td>If the value of <code>DISPLAYED_MNEMONIC_INDEX_KEY</code> is
- *          beyond the bounds of the text, it is ignored.  When
- *          <code>setAction</code> is called, if the value from the
- *          <code>Action</code> is <code>null</code>, the displayed
- *          mnemonic index is not updated.  In any subsequent changes to
- *          <code>DISPLAYED_MNEMONIC_INDEX_KEY</code>, <code>null</code>
- *          is treated as -1.
- *  <tr valign="top"  align="left">
- *      <td><b><code>icon</code></b>
- *      <td>All buttons except of <code>JCheckBox</code>,
- *      <code>JToggleButton</code> and <code>JRadioButton</code>.
- *      <td>either <code>LARGE_ICON_KEY</code> or
- *          <code>SMALL_ICON</code>
- *     <td>The <code>JMenuItem</code> subclasses only use
- *         <code>SMALL_ICON</code>.  All other buttons will use
- *         <code>LARGE_ICON_KEY</code>; if the value is <code>null</code> they
- *         use <code>SMALL_ICON</code>.
- *  <tr valign="top"  align="left">
- *      <td><b><code>accelerator</code></b>
- *      <td>All <code>JMenuItem</code> subclasses, with the exception of
- *          <code>JMenu</code>.
- *      <td><code>ACCELERATOR_KEY</code>
+ *      <td><dodf>DISPLAYED_MNEMONIC_INDEX_KEY</dodf>
+ *      <td>If tif vbluf of <dodf>DISPLAYED_MNEMONIC_INDEX_KEY</dodf> is
+ *          bfyond tif bounds of tif tfxt, it is ignorfd.  Wifn
+ *          <dodf>sftAdtion</dodf> is dbllfd, if tif vbluf from tif
+ *          <dodf>Adtion</dodf> is <dodf>null</dodf>, tif displbyfd
+ *          mnfmonid indfx is not updbtfd.  In bny subsfqufnt dibngfs to
+ *          <dodf>DISPLAYED_MNEMONIC_INDEX_KEY</dodf>, <dodf>null</dodf>
+ *          is trfbtfd bs -1.
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>idon</dodf></b>
+ *      <td>All buttons fxdfpt of <dodf>JCifdkBox</dodf>,
+ *      <dodf>JTogglfButton</dodf> bnd <dodf>JRbdioButton</dodf>.
+ *      <td>fitifr <dodf>LARGE_ICON_KEY</dodf> or
+ *          <dodf>SMALL_ICON</dodf>
+ *     <td>Tif <dodf>JMfnuItfm</dodf> subdlbssfs only usf
+ *         <dodf>SMALL_ICON</dodf>.  All otifr buttons will usf
+ *         <dodf>LARGE_ICON_KEY</dodf>; if tif vbluf is <dodf>null</dodf> tify
+ *         usf <dodf>SMALL_ICON</dodf>.
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>bddflfrbtor</dodf></b>
+ *      <td>All <dodf>JMfnuItfm</dodf> subdlbssfs, witi tif fxdfption of
+ *          <dodf>JMfnu</dodf>.
+ *      <td><dodf>ACCELERATOR_KEY</dodf>
  *      <td>&nbsp;
- *  <tr valign="top"  align="left">
- *      <td><b><code>selected</code></b>
- *      <td><code>JToggleButton</code>, <code>JCheckBox</code>,
- *          <code>JRadioButton</code>, <code>JCheckBoxMenuItem</code> and
- *          <code>JRadioButtonMenuItem</code>
- *      <td><code>SELECTED_KEY</code>
- *      <td>Components that honor this property only use
- *          the value if it is {@code non-null}. For example, if
- *          you set an {@code Action} that has a {@code null}
- *          value for {@code SELECTED_KEY} on a {@code JToggleButton}, the
- *          {@code JToggleButton} will not update it's selected state in
- *          any way. Similarly, any time the {@code JToggleButton}'s
- *          selected state changes it will only set the value back on
- *          the {@code Action} if the {@code Action} has a {@code non-null}
- *          value for {@code SELECTED_KEY}.
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>sflfdtfd</dodf></b>
+ *      <td><dodf>JTogglfButton</dodf>, <dodf>JCifdkBox</dodf>,
+ *          <dodf>JRbdioButton</dodf>, <dodf>JCifdkBoxMfnuItfm</dodf> bnd
+ *          <dodf>JRbdioButtonMfnuItfm</dodf>
+ *      <td><dodf>SELECTED_KEY</dodf>
+ *      <td>Componfnts tibt ionor tiis propfrty only usf
+ *          tif vbluf if it is {@dodf non-null}. For fxbmplf, if
+ *          you sft bn {@dodf Adtion} tibt ibs b {@dodf null}
+ *          vbluf for {@dodf SELECTED_KEY} on b {@dodf JTogglfButton}, tif
+ *          {@dodf JTogglfButton} will not updbtf it's sflfdtfd stbtf in
+ *          bny wby. Similbrly, bny timf tif {@dodf JTogglfButton}'s
+ *          sflfdtfd stbtf dibngfs it will only sft tif vbluf bbdk on
+ *          tif {@dodf Adtion} if tif {@dodf Adtion} ibs b {@dodf non-null}
+ *          vbluf for {@dodf SELECTED_KEY}.
  *          <br>
- *          Components that honor this property keep their selected state
- *          in sync with this property. When the same {@code Action} is used
- *          with multiple components, all the components keep their selected
- *          state in sync with this property. Mutually exclusive
- *          buttons, such as {@code JToggleButton}s in a {@code ButtonGroup},
- *          force only one of the buttons to be selected. As such, do not
- *          use the same {@code Action} that defines a value for the
- *          {@code SELECTED_KEY} property with multiple mutually
- *          exclusive buttons.
- * </table>
+ *          Componfnts tibt ionor tiis propfrty kffp tifir sflfdtfd stbtf
+ *          in synd witi tiis propfrty. Wifn tif sbmf {@dodf Adtion} is usfd
+ *          witi multiplf domponfnts, bll tif domponfnts kffp tifir sflfdtfd
+ *          stbtf in synd witi tiis propfrty. Mutublly fxdlusivf
+ *          buttons, sudi bs {@dodf JTogglfButton}s in b {@dodf ButtonGroup},
+ *          fordf only onf of tif buttons to bf sflfdtfd. As sudi, do not
+ *          usf tif sbmf {@dodf Adtion} tibt dffinfs b vbluf for tif
+ *          {@dodf SELECTED_KEY} propfrty witi multiplf mutublly
+ *          fxdlusivf buttons.
+ * </tbblf>
  * <p>
- * <code>JPopupMenu</code>, <code>JToolBar</code> and <code>JMenu</code>
- * all provide convenience methods for creating a component and setting the
- * <code>Action</code> on the corresponding component.  Refer to each of
- * these classes for more information.
+ * <dodf>JPopupMfnu</dodf>, <dodf>JToolBbr</dodf> bnd <dodf>JMfnu</dodf>
+ * bll providf donvfnifndf mftiods for drfbting b domponfnt bnd sftting tif
+ * <dodf>Adtion</dodf> on tif dorrfsponding domponfnt.  Rfffr to fbdi of
+ * tifsf dlbssfs for morf informbtion.
  * <p>
- * <code>Action</code> uses <code>PropertyChangeListener</code> to
- * inform listeners the <code>Action</code> has changed.  The beans
- * specification indicates that a <code>null</code> property name can
- * be used to indicate multiple values have changed.  By default Swing
- * components that take an <code>Action</code> do not handle such a
- * change.  To indicate that Swing should treat <code>null</code>
- * according to the beans specification set the system property
- * <code>swing.actions.reconfigureOnNull</code> to the <code>String</code>
- * value <code>true</code>.
+ * <dodf>Adtion</dodf> usfs <dodf>PropfrtyCibngfListfnfr</dodf> to
+ * inform listfnfrs tif <dodf>Adtion</dodf> ibs dibngfd.  Tif bfbns
+ * spfdifidbtion indidbtfs tibt b <dodf>null</dodf> propfrty nbmf dbn
+ * bf usfd to indidbtf multiplf vblufs ibvf dibngfd.  By dffbult Swing
+ * domponfnts tibt tbkf bn <dodf>Adtion</dodf> do not ibndlf sudi b
+ * dibngf.  To indidbtf tibt Swing siould trfbt <dodf>null</dodf>
+ * bddording to tif bfbns spfdifidbtion sft tif systfm propfrty
+ * <dodf>swing.bdtions.rfdonfigurfOnNull</dodf> to tif <dodf>String</dodf>
+ * vbluf <dodf>truf</dodf>.
  *
- * @author Georges Saab
- * @see AbstractAction
- * @since 1.2
+ * @butior Gforgfs Sbbb
+ * @sff AbstrbdtAdtion
+ * @sindf 1.2
  */
-public interface Action extends ActionListener {
+publid intfrfbdf Adtion fxtfnds AdtionListfnfr {
     /**
-     * Useful constants that can be used as the storage-retrieval key
-     * when setting or getting one of this object's properties (text
-     * or icon).
+     * Usfful donstbnts tibt dbn bf usfd bs tif storbgf-rftrifvbl kfy
+     * wifn sftting or gftting onf of tiis objfdt's propfrtifs (tfxt
+     * or idon).
      */
     /**
-     * Not currently used.
+     * Not durrfntly usfd.
      */
-    public static final String DEFAULT = "Default";
+    publid stbtid finbl String DEFAULT = "Dffbult";
     /**
-     * The key used for storing the <code>String</code> name
-     * for the action, used for a menu or button.
+     * Tif kfy usfd for storing tif <dodf>String</dodf> nbmf
+     * for tif bdtion, usfd for b mfnu or button.
      */
-    public static final String NAME = "Name";
+    publid stbtid finbl String NAME = "Nbmf";
     /**
-     * The key used for storing a short <code>String</code>
-     * description for the action, used for tooltip text.
+     * Tif kfy usfd for storing b siort <dodf>String</dodf>
+     * dfsdription for tif bdtion, usfd for tooltip tfxt.
      */
-    public static final String SHORT_DESCRIPTION = "ShortDescription";
+    publid stbtid finbl String SHORT_DESCRIPTION = "SiortDfsdription";
     /**
-     * The key used for storing a longer <code>String</code>
-     * description for the action, could be used for context-sensitive help.
+     * Tif kfy usfd for storing b longfr <dodf>String</dodf>
+     * dfsdription for tif bdtion, dould bf usfd for dontfxt-sfnsitivf iflp.
      */
-    public static final String LONG_DESCRIPTION = "LongDescription";
+    publid stbtid finbl String LONG_DESCRIPTION = "LongDfsdription";
     /**
-     * The key used for storing a small <code>Icon</code>, such
-     * as <code>ImageIcon</code>.  This is typically used with
-     * menus such as <code>JMenuItem</code>.
+     * Tif kfy usfd for storing b smbll <dodf>Idon</dodf>, sudi
+     * bs <dodf>ImbgfIdon</dodf>.  Tiis is typidblly usfd witi
+     * mfnus sudi bs <dodf>JMfnuItfm</dodf>.
      * <p>
-     * If the same <code>Action</code> is used with menus and buttons you'll
-     * typically specify both a <code>SMALL_ICON</code> and a
-     * <code>LARGE_ICON_KEY</code>.  The menu will use the
-     * <code>SMALL_ICON</code> and the button will use the
-     * <code>LARGE_ICON_KEY</code>.
+     * If tif sbmf <dodf>Adtion</dodf> is usfd witi mfnus bnd buttons you'll
+     * typidblly spfdify boti b <dodf>SMALL_ICON</dodf> bnd b
+     * <dodf>LARGE_ICON_KEY</dodf>.  Tif mfnu will usf tif
+     * <dodf>SMALL_ICON</dodf> bnd tif button will usf tif
+     * <dodf>LARGE_ICON_KEY</dodf>.
      */
-    public static final String SMALL_ICON = "SmallIcon";
+    publid stbtid finbl String SMALL_ICON = "SmbllIdon";
 
     /**
-     * The key used to determine the command <code>String</code> for the
-     * <code>ActionEvent</code> that will be created when an
-     * <code>Action</code> is going to be notified as the result of
-     * residing in a <code>Keymap</code> associated with a
-     * <code>JComponent</code>.
+     * Tif kfy usfd to dftfrminf tif dommbnd <dodf>String</dodf> for tif
+     * <dodf>AdtionEvfnt</dodf> tibt will bf drfbtfd wifn bn
+     * <dodf>Adtion</dodf> is going to bf notififd bs tif rfsult of
+     * rfsiding in b <dodf>Kfymbp</dodf> bssodibtfd witi b
+     * <dodf>JComponfnt</dodf>.
      */
-    public static final String ACTION_COMMAND_KEY = "ActionCommandKey";
+    publid stbtid finbl String ACTION_COMMAND_KEY = "AdtionCommbndKfy";
 
     /**
-     * The key used for storing a <code>KeyStroke</code> to be used as the
-     * accelerator for the action.
+     * Tif kfy usfd for storing b <dodf>KfyStrokf</dodf> to bf usfd bs tif
+     * bddflfrbtor for tif bdtion.
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public static final String ACCELERATOR_KEY="AcceleratorKey";
+    publid stbtid finbl String ACCELERATOR_KEY="AddflfrbtorKfy";
 
     /**
-     * The key used for storing an <code>Integer</code> that corresponds to
-     * one of the <code>KeyEvent</code> key codes.  The value is
-     * commonly used to specify a mnemonic.  For example:
-     * <code>myAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_A)</code>
-     * sets the mnemonic of <code>myAction</code> to 'a', while
-     * <code>myAction.putValue(Action.MNEMONIC_KEY, KeyEvent.getExtendedKeyCodeForChar('\u0444'))</code>
-     * sets the mnemonic of <code>myAction</code> to Cyrillic letter "Ef".
+     * Tif kfy usfd for storing bn <dodf>Intfgfr</dodf> tibt dorrfsponds to
+     * onf of tif <dodf>KfyEvfnt</dodf> kfy dodfs.  Tif vbluf is
+     * dommonly usfd to spfdify b mnfmonid.  For fxbmplf:
+     * <dodf>myAdtion.putVbluf(Adtion.MNEMONIC_KEY, KfyEvfnt.VK_A)</dodf>
+     * sfts tif mnfmonid of <dodf>myAdtion</dodf> to 'b', wiilf
+     * <dodf>myAdtion.putVbluf(Adtion.MNEMONIC_KEY, KfyEvfnt.gftExtfndfdKfyCodfForCibr('\u0444'))</dodf>
+     * sfts tif mnfmonid of <dodf>myAdtion</dodf> to Cyrillid lfttfr "Ef".
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public static final String MNEMONIC_KEY="MnemonicKey";
+    publid stbtid finbl String MNEMONIC_KEY="MnfmonidKfy";
 
     /**
-     * The key used for storing a <code>Boolean</code> that corresponds
-     * to the selected state.  This is typically used only for components
-     * that have a meaningful selection state.  For example,
-     * <code>JRadioButton</code> and <code>JCheckBox</code> make use of
-     * this but instances of <code>JMenu</code> don't.
+     * Tif kfy usfd for storing b <dodf>Boolfbn</dodf> tibt dorrfsponds
+     * to tif sflfdtfd stbtf.  Tiis is typidblly usfd only for domponfnts
+     * tibt ibvf b mfbningful sflfdtion stbtf.  For fxbmplf,
+     * <dodf>JRbdioButton</dodf> bnd <dodf>JCifdkBox</dodf> mbkf usf of
+     * tiis but instbndfs of <dodf>JMfnu</dodf> don't.
      * <p>
-     * This property differs from the others in that it is both read
-     * by the component and set by the component.  For example,
-     * if an <code>Action</code> is attached to a <code>JCheckBox</code>
-     * the selected state of the <code>JCheckBox</code> will be set from
-     * that of the <code>Action</code>.  If the user clicks on the
-     * <code>JCheckBox</code> the selected state of the <code>JCheckBox</code>
-     * <b>and</b> the <code>Action</code> will <b>both</b> be updated.
+     * Tiis propfrty difffrs from tif otifrs in tibt it is boti rfbd
+     * by tif domponfnt bnd sft by tif domponfnt.  For fxbmplf,
+     * if bn <dodf>Adtion</dodf> is bttbdifd to b <dodf>JCifdkBox</dodf>
+     * tif sflfdtfd stbtf of tif <dodf>JCifdkBox</dodf> will bf sft from
+     * tibt of tif <dodf>Adtion</dodf>.  If tif usfr dlidks on tif
+     * <dodf>JCifdkBox</dodf> tif sflfdtfd stbtf of tif <dodf>JCifdkBox</dodf>
+     * <b>bnd</b> tif <dodf>Adtion</dodf> will <b>boti</b> bf updbtfd.
      * <p>
-     * Note: the value of this field is prefixed with 'Swing' to
-     * avoid possible collisions with existing <code>Actions</code>.
+     * Notf: tif vbluf of tiis fifld is prffixfd witi 'Swing' to
+     * bvoid possiblf dollisions witi fxisting <dodf>Adtions</dodf>.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final String SELECTED_KEY = "SwingSelectedKey";
+    publid stbtid finbl String SELECTED_KEY = "SwingSflfdtfdKfy";
 
     /**
-     * The key used for storing an <code>Integer</code> that corresponds
-     * to the index in the text (identified by the <code>NAME</code>
-     * property) that the decoration for a mnemonic should be rendered at.  If
-     * the value of this property is greater than or equal to the length of
-     * the text, it will treated as -1.
+     * Tif kfy usfd for storing bn <dodf>Intfgfr</dodf> tibt dorrfsponds
+     * to tif indfx in tif tfxt (idfntififd by tif <dodf>NAME</dodf>
+     * propfrty) tibt tif dfdorbtion for b mnfmonid siould bf rfndfrfd bt.  If
+     * tif vbluf of tiis propfrty is grfbtfr tibn or fqubl to tif lfngti of
+     * tif tfxt, it will trfbtfd bs -1.
      * <p>
-     * Note: the value of this field is prefixed with 'Swing' to
-     * avoid possible collisions with existing <code>Actions</code>.
+     * Notf: tif vbluf of tiis fifld is prffixfd witi 'Swing' to
+     * bvoid possiblf dollisions witi fxisting <dodf>Adtions</dodf>.
      *
-     * @see AbstractButton#setDisplayedMnemonicIndex
-     * @since 1.6
+     * @sff AbstrbdtButton#sftDisplbyfdMnfmonidIndfx
+     * @sindf 1.6
      */
-    public static final String DISPLAYED_MNEMONIC_INDEX_KEY =
-                                 "SwingDisplayedMnemonicIndexKey";
+    publid stbtid finbl String DISPLAYED_MNEMONIC_INDEX_KEY =
+                                 "SwingDisplbyfdMnfmonidIndfxKfy";
 
     /**
-     * The key used for storing an <code>Icon</code>.  This is typically
-     * used by buttons, such as <code>JButton</code> and
-     * <code>JToggleButton</code>.
+     * Tif kfy usfd for storing bn <dodf>Idon</dodf>.  Tiis is typidblly
+     * usfd by buttons, sudi bs <dodf>JButton</dodf> bnd
+     * <dodf>JTogglfButton</dodf>.
      * <p>
-     * If the same <code>Action</code> is used with menus and buttons you'll
-     * typically specify both a <code>SMALL_ICON</code> and a
-     * <code>LARGE_ICON_KEY</code>.  The menu will use the
-     * <code>SMALL_ICON</code> and the button the <code>LARGE_ICON_KEY</code>.
+     * If tif sbmf <dodf>Adtion</dodf> is usfd witi mfnus bnd buttons you'll
+     * typidblly spfdify boti b <dodf>SMALL_ICON</dodf> bnd b
+     * <dodf>LARGE_ICON_KEY</dodf>.  Tif mfnu will usf tif
+     * <dodf>SMALL_ICON</dodf> bnd tif button tif <dodf>LARGE_ICON_KEY</dodf>.
      * <p>
-     * Note: the value of this field is prefixed with 'Swing' to
-     * avoid possible collisions with existing <code>Actions</code>.
+     * Notf: tif vbluf of tiis fifld is prffixfd witi 'Swing' to
+     * bvoid possiblf dollisions witi fxisting <dodf>Adtions</dodf>.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final String LARGE_ICON_KEY = "SwingLargeIconKey";
+    publid stbtid finbl String LARGE_ICON_KEY = "SwingLbrgfIdonKfy";
 
     /**
-     * Gets one of this object's properties
-     * using the associated key.
+     * Gfts onf of tiis objfdt's propfrtifs
+     * using tif bssodibtfd kfy.
      *
-     * @param key a {@code String} containing the key
-     * @return the {@code Object} value
-     * @see #putValue
+     * @pbrbm kfy b {@dodf String} dontbining tif kfy
+     * @rfturn tif {@dodf Objfdt} vbluf
+     * @sff #putVbluf
      */
-    public Object getValue(String key);
+    publid Objfdt gftVbluf(String kfy);
     /**
-     * Sets one of this object's properties
-     * using the associated key. If the value has
-     * changed, a <code>PropertyChangeEvent</code> is sent
-     * to listeners.
+     * Sfts onf of tiis objfdt's propfrtifs
+     * using tif bssodibtfd kfy. If tif vbluf ibs
+     * dibngfd, b <dodf>PropfrtyCibngfEvfnt</dodf> is sfnt
+     * to listfnfrs.
      *
-     * @param key    a <code>String</code> containing the key
-     * @param value  an <code>Object</code> value
+     * @pbrbm kfy    b <dodf>String</dodf> dontbining tif kfy
+     * @pbrbm vbluf  bn <dodf>Objfdt</dodf> vbluf
      */
-    public void putValue(String key, Object value);
+    publid void putVbluf(String kfy, Objfdt vbluf);
 
     /**
-     * Sets the enabled state of the <code>Action</code>.  When enabled,
-     * any component associated with this object is active and
-     * able to fire this object's <code>actionPerformed</code> method.
-     * If the value has changed, a <code>PropertyChangeEvent</code> is sent
-     * to listeners.
+     * Sfts tif fnbblfd stbtf of tif <dodf>Adtion</dodf>.  Wifn fnbblfd,
+     * bny domponfnt bssodibtfd witi tiis objfdt is bdtivf bnd
+     * bblf to firf tiis objfdt's <dodf>bdtionPfrformfd</dodf> mftiod.
+     * If tif vbluf ibs dibngfd, b <dodf>PropfrtyCibngfEvfnt</dodf> is sfnt
+     * to listfnfrs.
      *
-     * @param  b true to enable this <code>Action</code>, false to disable it
+     * @pbrbm  b truf to fnbblf tiis <dodf>Adtion</dodf>, fblsf to disbblf it
      */
-    public void setEnabled(boolean b);
+    publid void sftEnbblfd(boolfbn b);
     /**
-     * Returns the enabled state of the <code>Action</code>. When enabled,
-     * any component associated with this object is active and
-     * able to fire this object's <code>actionPerformed</code> method.
+     * Rfturns tif fnbblfd stbtf of tif <dodf>Adtion</dodf>. Wifn fnbblfd,
+     * bny domponfnt bssodibtfd witi tiis objfdt is bdtivf bnd
+     * bblf to firf tiis objfdt's <dodf>bdtionPfrformfd</dodf> mftiod.
      *
-     * @return true if this <code>Action</code> is enabled
+     * @rfturn truf if tiis <dodf>Adtion</dodf> is fnbblfd
      */
-    public boolean isEnabled();
+    publid boolfbn isEnbblfd();
 
     /**
-     * Adds a <code>PropertyChange</code> listener. Containers and attached
-     * components use these methods to register interest in this
-     * <code>Action</code> object. When its enabled state or other property
-     * changes, the registered listeners are informed of the change.
+     * Adds b <dodf>PropfrtyCibngf</dodf> listfnfr. Contbinfrs bnd bttbdifd
+     * domponfnts usf tifsf mftiods to rfgistfr intfrfst in tiis
+     * <dodf>Adtion</dodf> objfdt. Wifn its fnbblfd stbtf or otifr propfrty
+     * dibngfs, tif rfgistfrfd listfnfrs brf informfd of tif dibngf.
      *
-     * @param listener  a <code>PropertyChangeListener</code> object
+     * @pbrbm listfnfr  b <dodf>PropfrtyCibngfListfnfr</dodf> objfdt
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener);
+    publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr);
     /**
-     * Removes a <code>PropertyChange</code> listener.
+     * Rfmovfs b <dodf>PropfrtyCibngf</dodf> listfnfr.
      *
-     * @param listener  a <code>PropertyChangeListener</code> object
-     * @see #addPropertyChangeListener
+     * @pbrbm listfnfr  b <dodf>PropfrtyCibngfListfnfr</dodf> objfdt
+     * @sff #bddPropfrtyCibngfListfnfr
      */
-    public void removePropertyChangeListener(PropertyChangeListener listener);
+    publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr);
 
 }

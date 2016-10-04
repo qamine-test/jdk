@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code SecureRandom} class.
- * All the abstract methods in this class must be implemented by each
- * service provider who wishes to supply the implementation
- * of a cryptographically strong pseudo-random number generator.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif {@dodf SfdurfRbndom} dlbss.
+ * All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b dryptogrbpiidblly strong psfudo-rbndom numbfr gfnfrbtor.
  *
  *
- * @see SecureRandom
- * @since 1.2
+ * @sff SfdurfRbndom
+ * @sindf 1.2
  */
 
-public abstract class SecureRandomSpi implements java.io.Serializable {
+publid bbstrbdt dlbss SfdurfRbndomSpi implfmfnts jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -2991854161009191830L;
-
-    /**
-     * Reseeds this random object. The given seed supplements, rather than
-     * replaces, the existing seed. Thus, repeated calls are guaranteed
-     * never to reduce randomness.
-     *
-     * @param seed the seed.
-     */
-    protected abstract void engineSetSeed(byte[] seed);
+    privbtf stbtid finbl long sfriblVfrsionUID = -2991854161009191830L;
 
     /**
-     * Generates a user-specified number of random bytes.
+     * Rfsffds tiis rbndom objfdt. Tif givfn sffd supplfmfnts, rbtifr tibn
+     * rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls brf gubrbntffd
+     * nfvfr to rfdudf rbndomnfss.
      *
-     * <p> If a call to {@code engineSetSeed} had not occurred previously,
-     * the first call to this method forces this SecureRandom implementation
-     * to seed itself.  This self-seeding will not occur if
-     * {@code engineSetSeed} was previously called.
-     *
-     * @param bytes the array to be filled in with random bytes.
+     * @pbrbm sffd tif sffd.
      */
-    protected abstract void engineNextBytes(byte[] bytes);
+    protfdtfd bbstrbdt void fnginfSftSffd(bytf[] sffd);
 
     /**
-     * Returns the given number of seed bytes.  This call may be used to
-     * seed other random number generators.
+     * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
      *
-     * @param numBytes the number of seed bytes to generate.
+     * <p> If b dbll to {@dodf fnginfSftSffd} ibd not oddurrfd prfviously,
+     * tif first dbll to tiis mftiod fordfs tiis SfdurfRbndom implfmfntbtion
+     * to sffd itsflf.  Tiis sflf-sffding will not oddur if
+     * {@dodf fnginfSftSffd} wbs prfviously dbllfd.
      *
-     * @return the seed bytes.
+     * @pbrbm bytfs tif brrby to bf fillfd in witi rbndom bytfs.
      */
-     protected abstract byte[] engineGenerateSeed(int numBytes);
+    protfdtfd bbstrbdt void fnginfNfxtBytfs(bytf[] bytfs);
+
+    /**
+     * Rfturns tif givfn numbfr of sffd bytfs.  Tiis dbll mby bf usfd to
+     * sffd otifr rbndom numbfr gfnfrbtors.
+     *
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     *
+     * @rfturn tif sffd bytfs.
+     */
+     protfdtfd bbstrbdt bytf[] fnginfGfnfrbtfSffd(int numBytfs);
 }

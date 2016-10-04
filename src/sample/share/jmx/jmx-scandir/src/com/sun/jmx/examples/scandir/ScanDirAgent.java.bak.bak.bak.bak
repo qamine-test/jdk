@@ -1,0 +1,222 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
+
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.util.dondurrfnt.BlodkingQufuf;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.JMExdfption;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+
+/**
+ * <p>
+ * Thf <dodf>SdbnDirAgfnt</dodf> is thf Agfnt dlbss for thf <i>sdbndir</i>
+ * bpplidbtion.
+ * This dlbss dontbins thf {@link #mbin} mfthod to stbrt b stbndblonf
+ * <i>sdbndir</i> bpplidbtion.
+ * </p>
+ * <p>
+ * Thf {@link #mbin mbin()} mfthod simply rfgistfrs b {@link
+ * SdbnMbnbgfrMXBfbn} in thf plbtform MBfbnSfrvfr - sff {@link #init init},
+ * bnd thfn wbits for somfonf to dbll {@link SdbnMbnbgfrMXBfbn#dlosf dlosf}
+ * on thbt MBfbn.
+ * </p>
+ * <p>
+ * Whfn thf {@link SdbnMbnbgfrMXBfbn} stbtf is switdhfd to {@link
+ * SdbnMbnbgfrMXBfbn.SdbnStbtf#CLOSED CLOSED}, {@link #dlfbnup dlfbnup} is
+ * dbllfd, thf {@link SdbnMbnbgfrMXBfbn} is unrfgistfrfd, bnd thf bpplidbtion
+ * tfrminbtfs (i.f. thf mbin thrfbd domplftfs).
+ * </p>
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ **/
+publid dlbss SdbnDirAgfnt {
+
+    /**
+     * A loggfr for this dlbss.
+     **/
+    privbtf stbtid finbl Loggfr LOG =
+            Loggfr.gftLoggfr(SdbnDirAgfnt.dlbss.gftNbmf());
+
+    // Proxy to thf SdbnMbnbgfrMXBfbn - drfbtfd by init();
+    //
+    privbtf volbtilf SdbnMbnbgfrMXBfbn proxy = null;
+
+    // A qufuf to put rfdfivfd Notifidbtions.
+    //
+    privbtf finbl BlodkingQufuf<Notifidbtion> qufuf;
+
+    // A listfnfr thbt will put notifidbtions into thf qufuf.
+    //
+    privbtf finbl NotifidbtionListfnfr listfnfr;
+
+    /**
+     * Crfbtfs b nfw instbndf of SdbnDirAgfnt
+     * You will nffd to dbll {@link #init()} lbtfr on in ordfr to initiblizf
+     * thf bpplidbtion.
+     * @sff #mbin
+     **/
+    publid SdbnDirAgfnt() {
+        // Initiblizf thf notifidbtion qufuf
+        qufuf = nfw LinkfdBlodkingQufuf<Notifidbtion>();
+
+        // Crfbtfs thf listfnfr.
+        listfnfr = nfw NotifidbtionListfnfr() {
+            publid void hbndlfNotifidbtion(Notifidbtion notifidbtion,
+                                           Objfdt hbndbbdk) {
+                try {
+                    // Just put thf rfdfivfd notifidbtion in thf qufuf.
+                    // It will bf donsumfd lbtfr on by 'wbitForClosf()'
+                    //
+                    LOG.finfr("Qufuing rfdfivfd notifidbtion "+notifidbtion);
+                    qufuf.put(notifidbtion);
+                } dbtdh (IntfrruptfdExdfption fx) {
+                    // OK
+                }
+            }
+        };
+    }
+
+    /**
+     * Initiblizf thf bpplidbtion by rfgistfring b SdbnMbnbgfrMXBfbn in
+     * thf plbtform MBfbnSfrvfr
+     * @throws jbvb.io.IOExdfption Rfgistrbtion fbilfd for dommunidbtion-rflbtfd rfbsons.
+     * @throws jbvbx.mbnbgfmfnt.JMExdfption Rfgistrbtion fbilfd for JMX-rflbtfd rfbsons.
+     */
+    publid void init() throws IOExdfption, JMExdfption {
+
+        // Rfgistfrs thf SdbnMbnbgfrMXBfbn singlfton in thf
+        // plbtform MBfbnSfrvfr
+        //
+        proxy = SdbnMbnbgfr.rfgistfr();
+
+        // Rfgistfrs b NotifidbtionListfnfr with thf SdbnMbnbgfrMXBfbn in
+        // ordfr to rfdfivf stbtf dhbngfd notifidbtions.
+        //
+        ((NotifidbtionEmittfr)proxy).bddNotifidbtionListfnfr(listfnfr,null,null);
+    }
+
+    /**
+     * Clfbnup bftfr dlosf: unrfgistfr thf SdbnMbnbgfrMXBfbn singlfton.
+     * @throws jbvb.io.IOExdfption Clfbnup fbilfd for dommunidbtion-rflbtfd rfbsons.
+     * @throws jbvbx.mbnbgfmfnt.JMExdfption Clfbnup fbilfd for JMX-rflbtfd rfbsons.
+     */
+    publid void dlfbnup() throws IOExdfption, JMExdfption {
+        try {
+            ((NotifidbtionEmittfr)proxy).
+                    rfmovfNotifidbtionListfnfr(listfnfr,null,null);
+        } finblly {
+            MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+        }
+    }
+
+    /**
+     * Wbit for somfonf to dbll 'dlosf()' on thf SdbnMbnbgfrMXBfbn singlfton.
+     * Evfry timf its stbtf dhbngfs, thf SdbnMbnbgfrMXBfbn fmits b notifidbtion.
+     * Wf don't rfly on thf notifidbtion dontfnt (if wf wfrf using b rfmotf
+     * donnfdtion, wf dould miss somf notifidbtions) - wf simply usf thf
+     * stbtf dhbngf notifidbtions to rfbdt morf quidkly to stbtf dhbngfs.
+     * Wf do so simply by polling thf {@link BlodkingQufuf} in whidh our
+     * listfnfr is pushing notifidbtions, bnd dhfdking thf SdbnMbnbgfrMXBfbn
+     * stbtf fvfry timf thbt b notifidbtion is rfdfivfd.
+     * <p>
+     * Wf dbn do so bfdbusf wf know thbt ondf thf SdbnMbnbgfrMXBfbn stbtf is
+     * switdhfd to 'CLOSED', it will rfmbin 'CLOSED' whbtsofvfr. <br>
+     * Thfrfforf wf don't nffd to dondfrn oursflvfs with thf possibility of
+     * missing thf window in whidh thf SdbnMbnbgfrMXBfbn stbtf's will bf
+     * CLOSED, bfdbusf thbt pbrtidulbr window stbys opfnfd forfvfr.
+     * <p>
+     * Hbd wf wbntfd to wbit for 'RUNNING', wf would hbvf nffdfd to bpply
+     * b difffrfnt strbtfgy - f.g. by tbking into bddount thf bdtubl dontfnt
+     * of thf stbtf dhbngfd notifidbtions wf rfdfivfd.
+     * @throws jbvb.io.IOExdfption wbit fbilfd - b dommunidbtion problfm oddurrfd.
+     * @throws jbvbx.mbnbgfmfnt.JMExdfption wbit fbilfd - thf MBfbnSfrvfr thrfw bn fxdfption.
+     */
+    publid void wbitForClosf() throws IOExdfption, JMExdfption {
+
+        // Wbit until stbtf is dlosfd
+        whilf(proxy.gftStbtf() != SdbnStbtf.CLOSED ) {
+            try {
+                // Wbkf up bt lfbst fvfry 30 sfdonds - if wf missfd b
+                // notifidbtion - wf will bt lfbst gft b dhbndf to
+                // dbll gftStbtf(). 30 sfdonds is obviously quitf
+                // brbitrbry - if this wfrf b rfbl dbfmon - id'bf tfmptfd
+                // to wbit 30 minutfs - knowing thbt bny indoming
+                // notifidbtion will wbkf mf up bnywby.
+                // Notf: wf simply usf thf stbtf dhbngf notifidbtions to
+                // rfbdt morf quidkly to stbtf dhbngfs: sff jbvbdod bbovf.
+                //
+                qufuf.poll(30,TimfUnit.SECONDS);
+            } dbtdh (IntfrruptfdExdfption fx) {
+                // OK
+            }
+        }
+    }
+
+    /**
+     * Thf bgfnt's mbin: {@link #init rfgistfrs} b {@link SdbnMbnbgfrMXBfbn},
+     * {@link #wbitForClosf wbits} until its stbtf is {@link
+     * SdbnMbnbgfrMXBfbn.SdbnStbtf#CLOSED CLOSED}, {@link #dlfbnup dlfbnup}
+     * bnd fxits.
+     * @pbrbm brgs thf dommbnd linf brgumfnts - ignorfd
+     * @throws jbvb.io.IOExdfption A dommunidbtion problfm oddurrfd.
+     * @throws jbvbx.mbnbgfmfnt.JMExdfption A JMX problfm oddurrfd.
+     */
+    publid stbtid void mbin(String[] brgs)
+        throws IOExdfption, JMExdfption {
+        Systfm.out.println("Initiblizing SdbnMbnbgfr...");
+        finbl SdbnDirAgfnt bgfnt = nfw SdbnDirAgfnt();
+        bgfnt.init();
+        try {
+            Systfm.out.println("Wbiting for SdbnMbnbgfr to dlosf...");
+            bgfnt.wbitForClosf();
+        } finblly {
+            Systfm.out.println("Clfbning up...");
+            bgfnt.dlfbnup();
+        }
+    }
+}

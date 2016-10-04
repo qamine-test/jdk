@@ -1,0 +1,458 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.NoSudhObjfdtExdfption;
+import jbvb.lbng.rfflfdt.Proxy;
+import sun.rmi.sfrvfr.Util;
+
+/**
+ * Thf <dodf>RfmotfObjfdt</dodf> dlbss implfmfnts thf
+ * <dodf>jbvb.lbng.Objfdt</dodf> bfhbvior for rfmotf objfdts.
+ * <dodf>RfmotfObjfdt</dodf> providfs thf rfmotf sfmbntids of Objfdt by
+ * implfmfnting mfthods for hbshCodf, fqubls, bnd toString.
+ *
+ * @buthor      Ann Wollrbth
+ * @buthor      Lbird Dornin
+ * @buthor      Pftfr Jonfs
+ * @sindf       1.1
+ */
+publid bbstrbdt dlbss RfmotfObjfdt implfmfnts Rfmotf, jbvb.io.Sfriblizbblf {
+
+    /** Thf objfdt's rfmotf rfffrfndf. */
+    trbnsifnt protfdtfd RfmotfRff rff;
+
+    /** indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -3215090123894869218L;
+
+    /**
+     * Crfbtfs b rfmotf objfdt.
+     */
+    protfdtfd RfmotfObjfdt() {
+        rff = null;
+    }
+
+    /**
+     * Crfbtfs b rfmotf objfdt, initiblizfd with thf spfdififd rfmotf
+     * rfffrfndf.
+     * @pbrbm nfwrff rfmotf rfffrfndf
+     */
+    protfdtfd RfmotfObjfdt(RfmotfRff nfwrff) {
+        rff = nfwrff;
+    }
+
+    /**
+     * Rfturns thf rfmotf rfffrfndf for thf rfmotf objfdt.
+     *
+     * <p>Notf: Thf objfdt rfturnfd from this mfthod mby bf bn instbndf of
+     * bn implfmfntbtion-spfdifid dlbss.  Thf <dodf>RfmotfObjfdt</dodf>
+     * dlbss fnsurfs sfriblizbtion portbbility of its instbndfs' rfmotf
+     * rfffrfndfs through thf bfhbvior of its dustom
+     * <dodf>writfObjfdt</dodf> bnd <dodf>rfbdObjfdt</dodf> mfthods.  An
+     * instbndf of <dodf>RfmotfRff</dodf> should not bf sfriblizfd outsidf
+     * of its <dodf>RfmotfObjfdt</dodf> wrbppfr instbndf or thf rfsult mby
+     * bf unportbblf.
+     *
+     * @rfturn rfmotf rfffrfndf for thf rfmotf objfdt
+     * @sindf 1.2
+     */
+    publid RfmotfRff gftRff() {
+        rfturn rff;
+    }
+
+    /**
+     * Rfturns thf stub for thf rfmotf objfdt <dodf>obj</dodf> pbssfd
+     * bs b pbrbmftfr. This opfrbtion is only vblid <i>bftfr</i>
+     * thf objfdt hbs bffn fxportfd.
+     * @pbrbm obj thf rfmotf objfdt whosf stub is nffdfd
+     * @rfturn thf stub for thf rfmotf objfdt, <dodf>obj</dodf>.
+     * @fxdfption NoSudhObjfdtExdfption if thf stub for thf
+     * rfmotf objfdt dould not bf found.
+     * @sindf 1.2
+     */
+    publid stbtid Rfmotf toStub(Rfmotf obj) throws NoSudhObjfdtExdfption {
+        if (obj instbndfof RfmotfStub ||
+            (obj != null &&
+             Proxy.isProxyClbss(obj.gftClbss()) &&
+             Proxy.gftInvodbtionHbndlfr(obj) instbndfof
+             RfmotfObjfdtInvodbtionHbndlfr))
+        {
+            rfturn obj;
+        } flsf {
+            rfturn sun.rmi.trbnsport.ObjfdtTbblf.gftStub(obj);
+        }
+    }
+
+    /**
+     * Rfturns b hbshdodf for b rfmotf objfdt.  Two rfmotf objfdt stubs
+     * thbt rfffr to thf sbmf rfmotf objfdt will hbvf thf sbmf hbsh dodf
+     * (in ordfr to support rfmotf objfdts bs kfys in hbsh tbblfs).
+     *
+     * @sff             jbvb.util.Hbshtbblf
+     */
+    publid int hbshCodf() {
+        rfturn (rff == null) ? supfr.hbshCodf() : rff.rfmotfHbshCodf();
+    }
+
+    /**
+     * Compbrfs two rfmotf objfdts for fqublity.
+     * Rfturns b boolfbn thbt indidbtfs whfthfr this rfmotf objfdt is
+     * fquivblfnt to thf spfdififd Objfdt. This mfthod is usfd whfn b
+     * rfmotf objfdt is storfd in b hbshtbblf.
+     * If thf spfdififd Objfdt is not itsflf bn instbndf of RfmotfObjfdt,
+     * thfn this mfthod dflfgbtfs by rfturning thf rfsult of invoking thf
+     * <dodf>fqubls</dodf> mfthod of its pbrbmftfr with this rfmotf objfdt
+     * bs thf brgumfnt.
+     * @pbrbm   obj     thf Objfdt to dompbrf with
+     * @rfturn  truf if thfsf Objfdts brf fqubl; fblsf othfrwisf.
+     * @sff             jbvb.util.Hbshtbblf
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof RfmotfObjfdt) {
+            if (rff == null) {
+                rfturn obj == this;
+            } flsf {
+                rfturn rff.rfmotfEqubls(((RfmotfObjfdt)obj).rff);
+            }
+        } flsf if (obj != null) {
+            /*
+             * Fix for 4099660: if objfdt is not bn instbndf of RfmotfObjfdt,
+             * usf thf rfsult of its fqubls mfthod, to support symmftry is b
+             * rfmotf objfdt implfmfntbtion dlbss thbt dofs not fxtfnd
+             * RfmotfObjfdt wishfs to support fqublity with its stub objfdts.
+             */
+            rfturn obj.fqubls(this);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b String thbt rfprfsfnts thf vbluf of this rfmotf objfdt.
+     */
+    publid String toString() {
+        String dlbssnbmf = Util.gftUnqublififdNbmf(gftClbss());
+        rfturn (rff == null) ? dlbssnbmf :
+            dlbssnbmf + "[" + rff.rfmotfToString() + "]";
+    }
+
+    /**
+     * <dodf>writfObjfdt</dodf> for dustom sfriblizbtion.
+     *
+     * <p>This mfthod writfs this objfdt's sfriblizfd form for this dlbss
+     * bs follows:
+     *
+     * <p>Thf {@link RfmotfRff#gftRffClbss(jbvb.io.ObjfdtOutput) gftRffClbss}
+     * mfthod is invokfd on this objfdt's <dodf>rff</dodf> fifld
+     * to obtbin its fxtfrnbl rff typf nbmf.
+     * If thf vbluf rfturnfd by <dodf>gftRffClbss</dodf> wbs
+     * b non-<dodf>null</dodf> string of lfngth grfbtfr thbn zfro,
+     * thf <dodf>writfUTF</dodf> mfthod is invokfd on <dodf>out</dodf>
+     * with thf vbluf rfturnfd by <dodf>gftRffClbss</dodf>, bnd thfn
+     * thf <dodf>writfExtfrnbl</dodf> mfthod is invokfd on
+     * this objfdt's <dodf>rff</dodf> fifld pbssing <dodf>out</dodf>
+     * bs thf brgumfnt; othfrwisf,
+     * thf <dodf>writfUTF</dodf> mfthod is invokfd on <dodf>out</dodf>
+     * with b zfro-lfngth string (<dodf>""</dodf>), bnd thfn
+     * thf <dodf>writfObjfdt</dodf> mfthod is invokfd on <dodf>out</dodf>
+     * pbssing this objfdt's <dodf>rff</dodf> fifld bs thf brgumfnt.
+     *
+     * @sfriblDbtb
+     *
+     * Thf sfriblizfd dbtb for this dlbss domprisfs b string (writtfn with
+     * <dodf>ObjfdtOutput.writfUTF</dodf>) thbt is fithfr thf fxtfrnbl
+     * rff typf nbmf of thf dontbinfd <dodf>RfmotfRff</dodf> instbndf
+     * (thf <dodf>rff</dodf> fifld) or b zfro-lfngth string, followfd by
+     * fithfr thf fxtfrnbl form of thf <dodf>rff</dodf> fifld bs writtfn by
+     * its <dodf>writfExtfrnbl</dodf> mfthod if thf string wbs of non-zfro
+     * lfngth, or thf sfriblizfd form of thf <dodf>rff</dodf> fifld bs
+     * writtfn by pbssing it to thf sfriblizbtion strfbm's
+     * <dodf>writfObjfdt</dodf> if thf string wbs of zfro lfngth.
+     *
+     * <p>If this objfdt is bn instbndf of
+     * {@link RfmotfStub} or {@link RfmotfObjfdtInvodbtionHbndlfr}
+     * thbt wbs rfturnfd from bny of
+     * thf <dodf>UnidbstRfmotfObjfdt.fxportObjfdt</dodf> mfthods
+     * bnd dustom sodkft fbdtorifs brf not usfd,
+     * thf fxtfrnbl rff typf nbmf is <dodf>"UnidbstRff"</dodf>.
+     *
+     * If this objfdt is bn instbndf of
+     * <dodf>RfmotfStub</dodf> or <dodf>RfmotfObjfdtInvodbtionHbndlfr</dodf>
+     * thbt wbs rfturnfd from bny of
+     * thf <dodf>UnidbstRfmotfObjfdt.fxportObjfdt</dodf> mfthods
+     * bnd dustom sodkft fbdtorifs brf usfd,
+     * thf fxtfrnbl rff typf nbmf is <dodf>"UnidbstRff2"</dodf>.
+     *
+     * If this objfdt is bn instbndf of
+     * <dodf>RfmotfStub</dodf> or <dodf>RfmotfObjfdtInvodbtionHbndlfr</dodf>
+     * thbt wbs rfturnfd from bny of
+     * thf <dodf>jbvb.rmi.bdtivbtion.Adtivbtbblf.fxportObjfdt</dodf> mfthods,
+     * thf fxtfrnbl rff typf nbmf is <dodf>"AdtivbtbblfRff"</dodf>.
+     *
+     * If this objfdt is bn instbndf of
+     * <dodf>RfmotfStub</dodf> or <dodf>RfmotfObjfdtInvodbtionHbndlfr</dodf>
+     * thbt wbs rfturnfd from
+     * thf <dodf>RfmotfObjfdt.toStub</dodf> mfthod (bnd thf brgumfnt pbssfd
+     * to <dodf>toStub</dodf> wbs not itsflf b <dodf>RfmotfStub</dodf>),
+     * thf fxtfrnbl rff typf nbmf is b fundtion of how thf rfmotf objfdt
+     * pbssfd to <dodf>toStub</dodf> wbs fxportfd, bs dfsdribfd bbovf.
+     *
+     * If this objfdt is bn instbndf of
+     * <dodf>RfmotfStub</dodf> or <dodf>RfmotfObjfdtInvodbtionHbndlfr</dodf>
+     * thbt wbs originblly drfbtfd vib dfsfriblizbtion,
+     * thf fxtfrnbl rff typf nbmf is thf sbmf bs thbt whidh wbs rfbd
+     * whfn this objfdt wbs dfsfriblizfd.
+     *
+     * <p>If this objfdt is bn instbndf of
+     * <dodf>jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt</dodf> thbt dofs not
+     * usf dustom sodkft fbdtorifs,
+     * thf fxtfrnbl rff typf nbmf is <dodf>"UnidbstSfrvfrRff"</dodf>.
+     *
+     * If this objfdt is bn instbndf of
+     * <dodf>UnidbstRfmotfObjfdt</dodf> thbt dofs
+     * usf dustom sodkft fbdtorifs,
+     * thf fxtfrnbl rff typf nbmf is <dodf>"UnidbstSfrvfrRff2"</dodf>.
+     *
+     * <p>Following is thf dbtb thbt must bf writtfn by thf
+     * <dodf>writfExtfrnbl</dodf> mfthod bnd rfbd by thf
+     * <dodf>rfbdExtfrnbl</dodf> mfthod of <dodf>RfmotfRff</dodf>
+     * implfmfntbtion dlbssfs thbt dorrfspond to thf fbdh of thf
+     * dffinfd fxtfrnbl rff typf nbmfs:
+     *
+     * <p>For <dodf>"UnidbstRff"</dodf>:
+     *
+     * <ul>
+     *
+     * <li>thf hostnbmf of thf rfffrfndfd rfmotf objfdt,
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfUTF(String)}
+     *
+     * <li>thf port of thf rfffrfndfd rfmotf objfdt,
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfInt(int)}
+     *
+     * <li>thf dbtb writtfn bs b rfsult of dblling
+     * {link jbvb.rmi.sfrvfr.ObjID#writf(jbvb.io.ObjfdtOutput)}
+     * on thf <dodf>ObjID</dodf> instbndf dontbinfd in thf rfffrfndf
+     *
+     * <li>thf boolfbn vbluf <dodf>fblsf</dodf>,
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfBoolfbn(boolfbn)}
+     *
+     * </ul>
+     *
+     * <p>For <dodf>"UnidbstRff2"</dodf> with b
+     * <dodf>null</dodf> dlifnt sodkft fbdtory:
+     *
+     * <ul>
+     *
+     * <li>thf bytf vbluf <dodf>0x00</dodf>
+     * (indidbting <dodf>null</dodf> dlifnt sodkft fbdtory),
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfBytf(int)}
+     *
+     * <li>thf hostnbmf of thf rfffrfndfd rfmotf objfdt,
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfUTF(String)}
+     *
+     * <li>thf port of thf rfffrfndfd rfmotf objfdt,
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfInt(int)}
+     *
+     * <li>thf dbtb writtfn bs b rfsult of dblling
+     * {link jbvb.rmi.sfrvfr.ObjID#writf(jbvb.io.ObjfdtOutput)}
+     * on thf <dodf>ObjID</dodf> instbndf dontbinfd in thf rfffrfndf
+     *
+     * <li>thf boolfbn vbluf <dodf>fblsf</dodf>,
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfBoolfbn(boolfbn)}
+     *
+     * </ul>
+     *
+     * <p>For <dodf>"UnidbstRff2"</dodf> with b
+     * non-<dodf>null</dodf> dlifnt sodkft fbdtory:
+     *
+     * <ul>
+     *
+     * <li>thf bytf vbluf <dodf>0x01</dodf>
+     * (indidbting non-<dodf>null</dodf> dlifnt sodkft fbdtory),
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfBytf(int)}
+     *
+     * <li>thf hostnbmf of thf rfffrfndfd rfmotf objfdt,
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfUTF(String)}
+     *
+     * <li>thf port of thf rfffrfndfd rfmotf objfdt,
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfInt(int)}
+     *
+     * <li>b dlifnt sodkft fbdtory (objfdt of typf
+     * <dodf>jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory</dodf>),
+     * writtfn by pbssing it to bn invodbtion of
+     * <dodf>writfObjfdt</dodf> on thf strfbm instbndf
+     *
+     * <li>thf dbtb writtfn bs b rfsult of dblling
+     * {link jbvb.rmi.sfrvfr.ObjID#writf(jbvb.io.ObjfdtOutput)}
+     * on thf <dodf>ObjID</dodf> instbndf dontbinfd in thf rfffrfndf
+     *
+     * <li>thf boolfbn vbluf <dodf>fblsf</dodf>,
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfBoolfbn(boolfbn)}
+     *
+     * </ul>
+     *
+     * <p>For <dodf>"AdtivbtbblfRff"</dodf> with b
+     * <dodf>null</dodf> nfstfd rfmotf rfffrfndf:
+     *
+     * <ul>
+     *
+     * <li>bn instbndf of
+     * <dodf>jbvb.rmi.bdtivbtion.AdtivbtionID</dodf>,
+     * writtfn by pbssing it to bn invodbtion of
+     * <dodf>writfObjfdt</dodf> on thf strfbm instbndf
+     *
+     * <li>b zfro-lfngth string (<dodf>""</dodf>),
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfUTF(String)}
+     *
+     * </ul>
+     *
+     * <p>For <dodf>"AdtivbtbblfRff"</dodf> with b
+     * non-<dodf>null</dodf> nfstfd rfmotf rfffrfndf:
+     *
+     * <ul>
+     *
+     * <li>bn instbndf of
+     * <dodf>jbvb.rmi.bdtivbtion.AdtivbtionID</dodf>,
+     * writtfn by pbssing it to bn invodbtion of
+     * <dodf>writfObjfdt</dodf> on thf strfbm instbndf
+     *
+     * <li>thf fxtfrnbl rff typf nbmf of thf nfstfd rfmotf rfffrfndf,
+     * whidh must bf <dodf>"UnidbstRff2"</dodf>,
+     * writtfn by {@link jbvb.io.ObjfdtOutput#writfUTF(String)}
+     *
+     * <li>thf fxtfrnbl form of thf nfstfd rfmotf rfffrfndf,
+     * writtfn by invoking its <dodf>writfExtfrnbl</dodf> mfthod
+     * with thf strfbm instbndf
+     * (sff thf dfsdription of thf fxtfrnbl form for
+     * <dodf>"UnidbstRff2"</dodf> bbovf)
+     *
+     * </ul>
+     *
+     * <p>For <dodf>"UnidbstSfrvfrRff"</dodf> bnd
+     * <dodf>"UnidbstSfrvfrRff2"</dodf>, no dbtb is writtfn by thf
+     * <dodf>writfExtfrnbl</dodf> mfthod or rfbd by thf
+     * <dodf>rfbdExtfrnbl</dodf> mfthod.
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm out)
+        throws jbvb.io.IOExdfption, jbvb.lbng.ClbssNotFoundExdfption
+    {
+        if (rff == null) {
+            throw nfw jbvb.rmi.MbrshblExdfption("Invblid rfmotf objfdt");
+        } flsf {
+            String rffClbssNbmf = rff.gftRffClbss(out);
+            if (rffClbssNbmf == null || rffClbssNbmf.lfngth() == 0) {
+                /*
+                 * No rfffrfndf dlbss nbmf spfdififd, so sfriblizf
+                 * rfmotf rfffrfndf.
+                 */
+                out.writfUTF("");
+                out.writfObjfdt(rff);
+            } flsf {
+                /*
+                 * Built-in rfffrfndf dlbss spfdififd, so dflfgbtf
+                 * to rfffrfndf to writf out its fxtfrnbl form.
+                 */
+                out.writfUTF(rffClbssNbmf);
+                rff.writfExtfrnbl(out);
+            }
+        }
+    }
+
+    /**
+     * <dodf>rfbdObjfdt</dodf> for dustom sfriblizbtion.
+     *
+     * <p>This mfthod rfbds this objfdt's sfriblizfd form for this dlbss
+     * bs follows:
+     *
+     * <p>Thf <dodf>rfbdUTF</dodf> mfthod is invokfd on <dodf>in</dodf>
+     * to rfbd thf fxtfrnbl rff typf nbmf for thf <dodf>RfmotfRff</dodf>
+     * instbndf to bf fillfd in to this objfdt's <dodf>rff</dodf> fifld.
+     * If thf string rfturnfd by <dodf>rfbdUTF</dodf> hbs lfngth zfro,
+     * thf <dodf>rfbdObjfdt</dodf> mfthod is invokfd on <dodf>in</dodf>,
+     * bnd thbn thf vbluf rfturnfd by <dodf>rfbdObjfdt</dodf> is dbst to
+     * <dodf>RfmotfRff</dodf> bnd this objfdt's <dodf>rff</dodf> fifld is
+     * sft to thbt vbluf.
+     * Othfrwisf, this objfdt's <dodf>rff</dodf> fifld is sft to b
+     * <dodf>RfmotfRff</dodf> instbndf thbt is drfbtfd of bn
+     * implfmfntbtion-spfdifid dlbss dorrfsponding to thf fxtfrnbl rff
+     * typf nbmf rfturnfd by <dodf>rfbdUTF</dodf>, bnd thfn
+     * thf <dodf>rfbdExtfrnbl</dodf> mfthod is invokfd on
+     * this objfdt's <dodf>rff</dodf> fifld.
+     *
+     * <p>If thf fxtfrnbl rff typf nbmf is
+     * <dodf>"UnidbstRff"</dodf>, <dodf>"UnidbstSfrvfrRff"</dodf>,
+     * <dodf>"UnidbstRff2"</dodf>, <dodf>"UnidbstSfrvfrRff2"</dodf>,
+     * or <dodf>"AdtivbtbblfRff"</dodf>, b dorrfsponding
+     * implfmfntbtion-spfdifid dlbss must bf found, bnd its
+     * <dodf>rfbdExtfrnbl</dodf> mfthod must rfbd thf sfribl dbtb
+     * for thbt fxtfrnbl rff typf nbmf bs spfdififd to bf writtfn
+     * in thf <b>sfriblDbtb</b> dodumfntbtion for this dlbss.
+     * If thf fxtfrnbl rff typf nbmf is bny othfr string (of non-zfro
+     * lfngth), b <dodf>ClbssNotFoundExdfption</dodf> will bf thrown,
+     * unlfss thf implfmfntbtion providfs bn implfmfntbtion-spfdifid
+     * dlbss dorrfsponding to thbt fxtfrnbl rff typf nbmf, in whidh
+     * dbsf this objfdt's <dodf>rff</dodf> fifld will bf sft to bn
+     * instbndf of thbt implfmfntbtion-spfdifid dlbss.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+        throws jbvb.io.IOExdfption, jbvb.lbng.ClbssNotFoundExdfption
+    {
+        String rffClbssNbmf = in.rfbdUTF();
+        if (rffClbssNbmf == null || rffClbssNbmf.lfngth() == 0) {
+            /*
+             * No rfffrfndf dlbss nbmf spfdififd, so donstrudt
+             * rfmotf rfffrfndf from its sfriblizfd form.
+             */
+            rff = (RfmotfRff) in.rfbdObjfdt();
+        } flsf {
+            /*
+             * Built-in rfffrfndf dlbss spfdififd, so dflfgbtf to
+             * intfrnbl rfffrfndf dlbss to initiblizf its fiflds from
+             * its fxtfrnbl form.
+             */
+            String intfrnblRffClbssNbmf =
+                RfmotfRff.pbdkbgfPrffix + "." + rffClbssNbmf;
+            Clbss<?> rffClbss = Clbss.forNbmf(intfrnblRffClbssNbmf);
+            try {
+                rff = (RfmotfRff) rffClbss.nfwInstbndf();
+
+                /*
+                 * If this stfp fbils, bssumf wf found bn intfrnbl
+                 * dlbss thbt is not mfbnt to bf b sfriblizbblf rff
+                 * typf.
+                 */
+            } dbtdh (InstbntibtionExdfption f) {
+                throw nfw ClbssNotFoundExdfption(intfrnblRffClbssNbmf, f);
+            } dbtdh (IllfgblAddfssExdfption f) {
+                throw nfw ClbssNotFoundExdfption(intfrnblRffClbssNbmf, f);
+            } dbtdh (ClbssCbstExdfption f) {
+                throw nfw ClbssNotFoundExdfption(intfrnblRffClbssNbmf, f);
+            }
+            rff.rfbdExtfrnbl(in);
+        }
+    }
+}

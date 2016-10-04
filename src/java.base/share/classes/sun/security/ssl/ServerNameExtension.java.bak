@@ -1,282 +1,282 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibrsft.StbndbrdCibrsfts;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.Mbp;
 
-import javax.net.ssl.SNIHostName;
-import javax.net.ssl.SNIMatcher;
-import javax.net.ssl.SNIServerName;
-import javax.net.ssl.SSLProtocolException;
-import javax.net.ssl.StandardConstants;
+import jbvbx.nft.ssl.SNIHostNbmf;
+import jbvbx.nft.ssl.SNIMbtdifr;
+import jbvbx.nft.ssl.SNISfrvfrNbmf;
+import jbvbx.nft.ssl.SSLProtodolExdfption;
+import jbvbx.nft.ssl.StbndbrdConstbnts;
 
 /*
- * [RFC 4366/6066] To facilitate secure connections to servers that host
- * multiple 'virtual' servers at a single underlying network address, clients
- * MAY include an extension of type "server_name" in the (extended) client
- * hello.  The "extension_data" field of this extension SHALL contain
- * "ServerNameList" where:
+ * [RFC 4366/6066] To fbdilitbtf sfdurf donnfdtions to sfrvfrs tibt iost
+ * multiplf 'virtubl' sfrvfrs bt b singlf undfrlying nftwork bddrfss, dlifnts
+ * MAY indludf bn fxtfnsion of typf "sfrvfr_nbmf" in tif (fxtfndfd) dlifnt
+ * ifllo.  Tif "fxtfnsion_dbtb" fifld of tiis fxtfnsion SHALL dontbin
+ * "SfrvfrNbmfList" wifrf:
  *
- *     struct {
- *         NameType name_type;
- *         select (name_type) {
- *             case host_name: HostName;
- *         } name;
- *     } ServerName;
+ *     strudt {
+ *         NbmfTypf nbmf_typf;
+ *         sflfdt (nbmf_typf) {
+ *             dbsf iost_nbmf: HostNbmf;
+ *         } nbmf;
+ *     } SfrvfrNbmf;
  *
- *     enum {
- *         host_name(0), (255)
- *     } NameType;
+ *     fnum {
+ *         iost_nbmf(0), (255)
+ *     } NbmfTypf;
  *
- *     opaque HostName<1..2^16-1>;
+ *     opbquf HostNbmf<1..2^16-1>;
  *
- *     struct {
- *         ServerName server_name_list<1..2^16-1>
- *     } ServerNameList;
+ *     strudt {
+ *         SfrvfrNbmf sfrvfr_nbmf_list<1..2^16-1>
+ *     } SfrvfrNbmfList;
  */
-final class ServerNameExtension extends HelloExtension {
+finbl dlbss SfrvfrNbmfExtfnsion fxtfnds HflloExtfnsion {
 
-    // For backward compatibility, all future data structures associated with
-    // new NameTypes MUST begin with a 16-bit length field.
-    final static int NAME_HEADER_LENGTH = 3;    // NameType: 1 byte
-                                                // Name length: 2 bytes
-    private Map<Integer, SNIServerName> sniMap;
-    private int listLength;     // ServerNameList length
+    // For bbdkwbrd dompbtibility, bll futurf dbtb strudturfs bssodibtfd witi
+    // nfw NbmfTypfs MUST bfgin witi b 16-bit lfngti fifld.
+    finbl stbtid int NAME_HEADER_LENGTH = 3;    // NbmfTypf: 1 bytf
+                                                // Nbmf lfngti: 2 bytfs
+    privbtf Mbp<Intfgfr, SNISfrvfrNbmf> sniMbp;
+    privbtf int listLfngti;     // SfrvfrNbmfList lfngti
 
-    // constructor for ServerHello
-    ServerNameExtension() throws IOException {
-        super(ExtensionType.EXT_SERVER_NAME);
+    // donstrudtor for SfrvfrHfllo
+    SfrvfrNbmfExtfnsion() tirows IOExdfption {
+        supfr(ExtfnsionTypf.EXT_SERVER_NAME);
 
-        listLength = 0;
-        sniMap = Collections.<Integer, SNIServerName>emptyMap();
+        listLfngti = 0;
+        sniMbp = Collfdtions.<Intfgfr, SNISfrvfrNbmf>fmptyMbp();
     }
 
-    // constructor for ClientHello
-    ServerNameExtension(List<SNIServerName> serverNames)
-            throws IOException {
-        super(ExtensionType.EXT_SERVER_NAME);
+    // donstrudtor for ClifntHfllo
+    SfrvfrNbmfExtfnsion(List<SNISfrvfrNbmf> sfrvfrNbmfs)
+            tirows IOExdfption {
+        supfr(ExtfnsionTypf.EXT_SERVER_NAME);
 
-        listLength = 0;
-        sniMap = new LinkedHashMap<>();
-        for (SNIServerName serverName : serverNames) {
-            // check for duplicated server name type
-            if (sniMap.put(serverName.getType(), serverName) != null) {
-                // unlikely to happen, but in case ...
-                throw new RuntimeException(
-                    "Duplicated server name of type " + serverName.getType());
+        listLfngti = 0;
+        sniMbp = nfw LinkfdHbsiMbp<>();
+        for (SNISfrvfrNbmf sfrvfrNbmf : sfrvfrNbmfs) {
+            // difdk for duplidbtfd sfrvfr nbmf typf
+            if (sniMbp.put(sfrvfrNbmf.gftTypf(), sfrvfrNbmf) != null) {
+                // unlikfly to ibppfn, but in dbsf ...
+                tirow nfw RuntimfExdfption(
+                    "Duplidbtfd sfrvfr nbmf of typf " + sfrvfrNbmf.gftTypf());
             }
 
-            listLength += serverName.getEncoded().length + NAME_HEADER_LENGTH;
+            listLfngti += sfrvfrNbmf.gftEndodfd().lfngti + NAME_HEADER_LENGTH;
         }
 
-        // This constructor is used for ClientHello only.  Empty list is
-        // not allowed in client mode.
-        if (listLength == 0) {
-            throw new RuntimeException("The ServerNameList cannot be empty");
+        // Tiis donstrudtor is usfd for ClifntHfllo only.  Empty list is
+        // not bllowfd in dlifnt modf.
+        if (listLfngti == 0) {
+            tirow nfw RuntimfExdfption("Tif SfrvfrNbmfList dbnnot bf fmpty");
         }
     }
 
-    // constructor for ServerHello for parsing SNI extension
-    ServerNameExtension(HandshakeInStream s, int len)
-            throws IOException {
-        super(ExtensionType.EXT_SERVER_NAME);
+    // donstrudtor for SfrvfrHfllo for pbrsing SNI fxtfnsion
+    SfrvfrNbmfExtfnsion(HbndsibkfInStrfbm s, int lfn)
+            tirows IOExdfption {
+        supfr(ExtfnsionTypf.EXT_SERVER_NAME);
 
-        int remains = len;
-        if (len >= 2) {    // "server_name" extension in ClientHello
-            listLength = s.getInt16();     // ServerNameList length
-            if (listLength == 0 || listLength + 2 != len) {
-                throw new SSLProtocolException(
-                        "Invalid " + type + " extension");
+        int rfmbins = lfn;
+        if (lfn >= 2) {    // "sfrvfr_nbmf" fxtfnsion in ClifntHfllo
+            listLfngti = s.gftInt16();     // SfrvfrNbmfList lfngti
+            if (listLfngti == 0 || listLfngti + 2 != lfn) {
+                tirow nfw SSLProtodolExdfption(
+                        "Invblid " + typf + " fxtfnsion");
             }
 
-            remains -= 2;
-            sniMap = new LinkedHashMap<>();
-            while (remains > 0) {
-                int code = s.getInt8();       // NameType
+            rfmbins -= 2;
+            sniMbp = nfw LinkfdHbsiMbp<>();
+            wiilf (rfmbins > 0) {
+                int dodf = s.gftInt8();       // NbmfTypf
 
-                // HostName (length read in getBytes16);
-                byte[] encoded = s.getBytes16();
-                SNIServerName serverName;
-                switch (code) {
-                    case StandardConstants.SNI_HOST_NAME:
-                        if (encoded.length == 0) {
-                            throw new SSLProtocolException(
-                                "Empty HostName in server name indication");
+                // HostNbmf (lfngti rfbd in gftBytfs16);
+                bytf[] fndodfd = s.gftBytfs16();
+                SNISfrvfrNbmf sfrvfrNbmf;
+                switdi (dodf) {
+                    dbsf StbndbrdConstbnts.SNI_HOST_NAME:
+                        if (fndodfd.lfngti == 0) {
+                            tirow nfw SSLProtodolExdfption(
+                                "Empty HostNbmf in sfrvfr nbmf indidbtion");
                         }
                         try {
-                            serverName = new SNIHostName(encoded);
-                        } catch (IllegalArgumentException iae) {
-                            SSLProtocolException spe = new SSLProtocolException(
-                                "Illegal server name, type=host_name(" +
-                                code + "), name=" +
-                                (new String(encoded, StandardCharsets.UTF_8)) +
-                                ", value=" + Debug.toString(encoded));
-                            spe.initCause(iae);
-                            throw spe;
+                            sfrvfrNbmf = nfw SNIHostNbmf(fndodfd);
+                        } dbtdi (IllfgblArgumfntExdfption ibf) {
+                            SSLProtodolExdfption spf = nfw SSLProtodolExdfption(
+                                "Illfgbl sfrvfr nbmf, typf=iost_nbmf(" +
+                                dodf + "), nbmf=" +
+                                (nfw String(fndodfd, StbndbrdCibrsfts.UTF_8)) +
+                                ", vbluf=" + Dfbug.toString(fndodfd));
+                            spf.initCbusf(ibf);
+                            tirow spf;
                         }
-                        break;
-                    default:
+                        brfbk;
+                    dffbult:
                         try {
-                            serverName = new UnknownServerName(code, encoded);
-                        } catch (IllegalArgumentException iae) {
-                            SSLProtocolException spe = new SSLProtocolException(
-                                "Illegal server name, type=(" + code +
-                                "), value=" + Debug.toString(encoded));
-                            spe.initCause(iae);
-                            throw spe;
+                            sfrvfrNbmf = nfw UnknownSfrvfrNbmf(dodf, fndodfd);
+                        } dbtdi (IllfgblArgumfntExdfption ibf) {
+                            SSLProtodolExdfption spf = nfw SSLProtodolExdfption(
+                                "Illfgbl sfrvfr nbmf, typf=(" + dodf +
+                                "), vbluf=" + Dfbug.toString(fndodfd));
+                            spf.initCbusf(ibf);
+                            tirow spf;
                         }
                 }
-                // check for duplicated server name type
-                if (sniMap.put(serverName.getType(), serverName) != null) {
-                    throw new SSLProtocolException(
-                            "Duplicated server name of type " +
-                            serverName.getType());
+                // difdk for duplidbtfd sfrvfr nbmf typf
+                if (sniMbp.put(sfrvfrNbmf.gftTypf(), sfrvfrNbmf) != null) {
+                    tirow nfw SSLProtodolExdfption(
+                            "Duplidbtfd sfrvfr nbmf of typf " +
+                            sfrvfrNbmf.gftTypf());
                 }
 
-                remains -= encoded.length + NAME_HEADER_LENGTH;
+                rfmbins -= fndodfd.lfngti + NAME_HEADER_LENGTH;
             }
-        } else if (len == 0) {     // "server_name" extension in ServerHello
-            listLength = 0;
-            sniMap = Collections.<Integer, SNIServerName>emptyMap();
+        } flsf if (lfn == 0) {     // "sfrvfr_nbmf" fxtfnsion in SfrvfrHfllo
+            listLfngti = 0;
+            sniMbp = Collfdtions.<Intfgfr, SNISfrvfrNbmf>fmptyMbp();
         }
 
-        if (remains != 0) {
-            throw new SSLProtocolException("Invalid server_name extension");
+        if (rfmbins != 0) {
+            tirow nfw SSLProtodolExdfption("Invblid sfrvfr_nbmf fxtfnsion");
         }
     }
 
-    List<SNIServerName> getServerNames() {
-        if (sniMap != null && !sniMap.isEmpty()) {
-            return Collections.<SNIServerName>unmodifiableList(
-                                        new ArrayList<>(sniMap.values()));
+    List<SNISfrvfrNbmf> gftSfrvfrNbmfs() {
+        if (sniMbp != null && !sniMbp.isEmpty()) {
+            rfturn Collfdtions.<SNISfrvfrNbmf>unmodifibblfList(
+                                        nfw ArrbyList<>(sniMbp.vblufs()));
         }
 
-        return Collections.<SNIServerName>emptyList();
+        rfturn Collfdtions.<SNISfrvfrNbmf>fmptyList();
     }
 
     /*
-     * Is the extension recognized by the corresponding matcher?
+     * Is tif fxtfnsion rfdognizfd by tif dorrfsponding mbtdifr?
      *
-     * This method is used to check whether the server name indication can
-     * be recognized by the server name matchers.
+     * Tiis mftiod is usfd to difdk wiftifr tif sfrvfr nbmf indidbtion dbn
+     * bf rfdognizfd by tif sfrvfr nbmf mbtdifrs.
      *
-     * Per RFC 6066, if the server understood the ClientHello extension but
-     * does not recognize the server name, the server SHOULD take one of two
-     * actions: either abort the handshake by sending a fatal-level
-     * unrecognized_name(112) alert or continue the handshake.
+     * Pfr RFC 6066, if tif sfrvfr undfrstood tif ClifntHfllo fxtfnsion but
+     * dofs not rfdognizf tif sfrvfr nbmf, tif sfrvfr SHOULD tbkf onf of two
+     * bdtions: fitifr bbort tif ibndsibkf by sfnding b fbtbl-lfvfl
+     * unrfdognizfd_nbmf(112) blfrt or dontinuf tif ibndsibkf.
      *
-     * If there is an instance of SNIMatcher defined for a particular name
-     * type, it must be used to perform match operations on the server name.
+     * If tifrf is bn instbndf of SNIMbtdifr dffinfd for b pbrtidulbr nbmf
+     * typf, it must bf usfd to pfrform mbtdi opfrbtions on tif sfrvfr nbmf.
      */
-    boolean isMatched(Collection<SNIMatcher> matchers) {
-        if (sniMap != null && !sniMap.isEmpty()) {
-            for (SNIMatcher matcher : matchers) {
-                SNIServerName sniName = sniMap.get(matcher.getType());
-                if (sniName != null && (!matcher.matches(sniName))) {
-                    return false;
+    boolfbn isMbtdifd(Collfdtion<SNIMbtdifr> mbtdifrs) {
+        if (sniMbp != null && !sniMbp.isEmpty()) {
+            for (SNIMbtdifr mbtdifr : mbtdifrs) {
+                SNISfrvfrNbmf sniNbmf = sniMbp.gft(mbtdifr.gftTypf());
+                if (sniNbmf != null && (!mbtdifr.mbtdifs(sniNbmf))) {
+                    rfturn fblsf;
                 }
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
     /*
-     * Is the extension is identical to a server name list?
+     * Is tif fxtfnsion is idfntidbl to b sfrvfr nbmf list?
      *
-     * This method is used to check the server name indication during session
-     * resumption.
+     * Tiis mftiod is usfd to difdk tif sfrvfr nbmf indidbtion during sfssion
+     * rfsumption.
      *
-     * Per RFC 6066, when the server is deciding whether or not to accept a
-     * request to resume a session, the contents of a server_name extension
-     * MAY be used in the lookup of the session in the session cache.  The
-     * client SHOULD include the same server_name extension in the session
-     * resumption request as it did in the full handshake that established
-     * the session.  A server that implements this extension MUST NOT accept
-     * the request to resume the session if the server_name extension contains
-     * a different name.  Instead, it proceeds with a full handshake to
-     * establish a new session.  When resuming a session, the server MUST NOT
-     * include a server_name extension in the server hello.
+     * Pfr RFC 6066, wifn tif sfrvfr is dfdiding wiftifr or not to bddfpt b
+     * rfqufst to rfsumf b sfssion, tif dontfnts of b sfrvfr_nbmf fxtfnsion
+     * MAY bf usfd in tif lookup of tif sfssion in tif sfssion dbdif.  Tif
+     * dlifnt SHOULD indludf tif sbmf sfrvfr_nbmf fxtfnsion in tif sfssion
+     * rfsumption rfqufst bs it did in tif full ibndsibkf tibt fstbblisifd
+     * tif sfssion.  A sfrvfr tibt implfmfnts tiis fxtfnsion MUST NOT bddfpt
+     * tif rfqufst to rfsumf tif sfssion if tif sfrvfr_nbmf fxtfnsion dontbins
+     * b difffrfnt nbmf.  Instfbd, it prodffds witi b full ibndsibkf to
+     * fstbblisi b nfw sfssion.  Wifn rfsuming b sfssion, tif sfrvfr MUST NOT
+     * indludf b sfrvfr_nbmf fxtfnsion in tif sfrvfr ifllo.
      */
-    boolean isIdentical(List<SNIServerName> other) {
-        if (other.size() == sniMap.size()) {
-            for(SNIServerName sniInOther : other) {
-                SNIServerName sniName = sniMap.get(sniInOther.getType());
-                if (sniName == null || !sniInOther.equals(sniName)) {
-                    return false;
+    boolfbn isIdfntidbl(List<SNISfrvfrNbmf> otifr) {
+        if (otifr.sizf() == sniMbp.sizf()) {
+            for(SNISfrvfrNbmf sniInOtifr : otifr) {
+                SNISfrvfrNbmf sniNbmf = sniMbp.gft(sniInOtifr.gftTypf());
+                if (sniNbmf == null || !sniInOtifr.fqubls(sniNbmf)) {
+                    rfturn fblsf;
                 }
             }
 
-            return true;
+            rfturn truf;
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    int length() {
-        return listLength == 0 ? 4 : 6 + listLength;
+    @Ovfrridf
+    int lfngti() {
+        rfturn listLfngti == 0 ? 4 : 6 + listLfngti;
     }
 
-    @Override
-    void send(HandshakeOutStream s) throws IOException {
-        s.putInt16(type.id);
-        if (listLength == 0) {
-            s.putInt16(listLength);     // in ServerHello, empty extension_data
-        } else {
-            s.putInt16(listLength + 2); // length of extension_data
-            s.putInt16(listLength);     // length of ServerNameList
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        s.putInt16(typf.id);
+        if (listLfngti == 0) {
+            s.putInt16(listLfngti);     // in SfrvfrHfllo, fmpty fxtfnsion_dbtb
+        } flsf {
+            s.putInt16(listLfngti + 2); // lfngti of fxtfnsion_dbtb
+            s.putInt16(listLfngti);     // lfngti of SfrvfrNbmfList
 
-            for (SNIServerName sniName : sniMap.values()) {
-                s.putInt8(sniName.getType());         // server name type
-                s.putBytes16(sniName.getEncoded());   // server name value
+            for (SNISfrvfrNbmf sniNbmf : sniMbp.vblufs()) {
+                s.putInt8(sniNbmf.gftTypf());         // sfrvfr nbmf typf
+                s.putBytfs16(sniNbmf.gftEndodfd());   // sfrvfr nbmf vbluf
             }
         }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (SNIServerName sniName : sniMap.values()) {
-            sb.append("[" + sniName + "]");
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (SNISfrvfrNbmf sniNbmf : sniMbp.vblufs()) {
+            sb.bppfnd("[" + sniNbmf + "]");
         }
 
-        return "Extension " + type + ", server_name: " + sb;
+        rfturn "Extfnsion " + typf + ", sfrvfr_nbmf: " + sb;
     }
 
-    private static class UnknownServerName extends SNIServerName {
-        UnknownServerName(int code, byte[] encoded) {
-            super(code, encoded);
+    privbtf stbtid dlbss UnknownSfrvfrNbmf fxtfnds SNISfrvfrNbmf {
+        UnknownSfrvfrNbmf(int dodf, bytf[] fndodfd) {
+            supfr(dodf, fndodfd);
         }
     }
 

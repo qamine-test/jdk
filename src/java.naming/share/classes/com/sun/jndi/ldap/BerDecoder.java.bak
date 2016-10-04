@@ -1,334 +1,334 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.io.UnsupportedEncodingException;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
 /**
-  * A BER decoder. Contains methods to parse a BER buffer.
+  * A BER dfdodfr. Contbins mftiods to pbrsf b BER bufffr.
   *
-  * @author Jagane Sundar
-  * @author Vincent Ryan
+  * @butior Jbgbnf Sundbr
+  * @butior Vindfnt Rybn
   */
-public final class BerDecoder extends Ber {
+publid finbl dlbss BfrDfdodfr fxtfnds Bfr {
 
-    private int origOffset;  // The start point in buf to decode
+    privbtf int origOffsft;  // Tif stbrt point in buf to dfdodf
 
     /**
-     * Creates a BER decoder that reads bytes from the specified buffer.
+     * Crfbtfs b BER dfdodfr tibt rfbds bytfs from tif spfdififd bufffr.
      */
-    public BerDecoder(byte buf[], int offset, int bufsize) {
+    publid BfrDfdodfr(bytf buf[], int offsft, int bufsizf) {
 
-        this.buf = buf;         // shared buffer, be careful to use this class
-        this.bufsize = bufsize;
-        this.origOffset = offset;
+        tiis.buf = buf;         // sibrfd bufffr, bf dbrfful to usf tiis dlbss
+        tiis.bufsizf = bufsizf;
+        tiis.origOffsft = offsft;
 
-        reset();
+        rfsft();
     }
 
     /**
-     * Resets this decode to start parsing from the initial offset
-     * (ie., same state as after calling the constructor).
+     * Rfsfts tiis dfdodf to stbrt pbrsing from tif initibl offsft
+     * (if., sbmf stbtf bs bftfr dblling tif donstrudtor).
      */
-    public void reset() {
-        offset = origOffset;
+    publid void rfsft() {
+        offsft = origOffsft;
     }
 
     /**
-      * Returns the current parse position.
-      * It points to the byte that will be parsed next.
-      * Useful for parsing sequences.
+      * Rfturns tif durrfnt pbrsf position.
+      * It points to tif bytf tibt will bf pbrsfd nfxt.
+      * Usfful for pbrsing sfqufndfs.
       */
-    public int getParsePosition() {
-        return offset;
+    publid int gftPbrsfPosition() {
+        rfturn offsft;
     }
 
     /**
-      * Parses a possibly variable length field.
+      * Pbrsfs b possibly vbribblf lfngti fifld.
       */
-    public int parseLength() throws DecodeException {
+    publid int pbrsfLfngti() tirows DfdodfExdfption {
 
-        int lengthbyte = parseByte();
+        int lfngtibytf = pbrsfBytf();
 
-        if ((lengthbyte & 0x80) == 0x80) {
+        if ((lfngtibytf & 0x80) == 0x80) {
 
-            lengthbyte &= 0x7f;
+            lfngtibytf &= 0x7f;
 
-            if (lengthbyte == 0) {
-                throw new DecodeException(
-                    "Indefinite length not supported");
+            if (lfngtibytf == 0) {
+                tirow nfw DfdodfExdfption(
+                    "Indffinitf lfngti not supportfd");
             }
 
-            if (lengthbyte > 4) {
-                throw new DecodeException("encoding too long");
+            if (lfngtibytf > 4) {
+                tirow nfw DfdodfExdfption("fndoding too long");
             }
 
-            if (bufsize - offset < lengthbyte) {
-                throw new DecodeException("Insufficient data");
+            if (bufsizf - offsft < lfngtibytf) {
+                tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
             }
 
-            int retval = 0;
+            int rftvbl = 0;
 
-            for( int i = 0; i < lengthbyte; i++) {
-                retval = (retval << 8) + (buf[offset++] & 0xff);
+            for( int i = 0; i < lfngtibytf; i++) {
+                rftvbl = (rftvbl << 8) + (buf[offsft++] & 0xff);
             }
-            return retval;
-        } else {
-            return lengthbyte;
+            rfturn rftvbl;
+        } flsf {
+            rfturn lfngtibytf;
         }
     }
 
     /**
-     * Parses the next sequence in this BER buffer.
-     * @param rlen An array for returning size of the sequence in bytes. If null,
-     *          the size is not returned.
-     * @return The sequence's tag.
+     * Pbrsfs tif nfxt sfqufndf in tiis BER bufffr.
+     * @pbrbm rlfn An brrby for rfturning sizf of tif sfqufndf in bytfs. If null,
+     *          tif sizf is not rfturnfd.
+     * @rfturn Tif sfqufndf's tbg.
      */
-    public int parseSeq(int rlen[]) throws DecodeException {
+    publid int pbrsfSfq(int rlfn[]) tirows DfdodfExdfption {
 
-        int seq = parseByte();
-        int len = parseLength();
-        if (rlen != null) {
-            rlen[0] = len;
+        int sfq = pbrsfBytf();
+        int lfn = pbrsfLfngti();
+        if (rlfn != null) {
+            rlfn[0] = lfn;
         }
-        return seq;
+        rfturn sfq;
     }
 
     /**
-     * Used to skip bytes. Usually used when trying to recover from parse error.
-     * Don't need to be public right now?
-     * @param i The number of bytes to skip
+     * Usfd to skip bytfs. Usublly usfd wifn trying to rfdovfr from pbrsf frror.
+     * Don't nffd to bf publid rigit now?
+     * @pbrbm i Tif numbfr of bytfs to skip
      */
-    void seek(int i) throws DecodeException {
-        if (offset + i > bufsize || offset + i < 0) {
-            throw new DecodeException("array index out of bounds");
+    void sffk(int i) tirows DfdodfExdfption {
+        if (offsft + i > bufsizf || offsft + i < 0) {
+            tirow nfw DfdodfExdfption("brrby indfx out of bounds");
         }
-        offset += i;
+        offsft += i;
     }
 
     /**
-     * Parses the next byte in this BER buffer.
-     * @return The byte parsed.
+     * Pbrsfs tif nfxt bytf in tiis BER bufffr.
+     * @rfturn Tif bytf pbrsfd.
      */
-    public int parseByte() throws DecodeException {
-        if (bufsize - offset < 1) {
-            throw new DecodeException("Insufficient data");
+    publid int pbrsfBytf() tirows DfdodfExdfption {
+        if (bufsizf - offsft < 1) {
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
         }
-        return buf[offset++] & 0xff;
+        rfturn buf[offsft++] & 0xff;
     }
 
 
     /**
-     * Returns the next byte in this BER buffer without consuming it.
-     * @return The next byte.
+     * Rfturns tif nfxt bytf in tiis BER bufffr witiout donsuming it.
+     * @rfturn Tif nfxt bytf.
      */
-    public int peekByte() throws DecodeException {
-        if (bufsize - offset < 1) {
-            throw new DecodeException("Insufficient data");
+    publid int pffkBytf() tirows DfdodfExdfption {
+        if (bufsizf - offsft < 1) {
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
         }
-        return buf[offset] & 0xff;
+        rfturn buf[offsft] & 0xff;
     }
 
     /**
-     * Parses an ASN_BOOLEAN tagged integer from this BER buffer.
-     * @return true if the tagged integer is 0; false otherwise.
+     * Pbrsfs bn ASN_BOOLEAN tbggfd intfgfr from tiis BER bufffr.
+     * @rfturn truf if tif tbggfd intfgfr is 0; fblsf otifrwisf.
      */
-    public boolean parseBoolean() throws DecodeException {
-        return ((parseIntWithTag(ASN_BOOLEAN) == 0x00) ? false : true);
+    publid boolfbn pbrsfBoolfbn() tirows DfdodfExdfption {
+        rfturn ((pbrsfIntWitiTbg(ASN_BOOLEAN) == 0x00) ? fblsf : truf);
     }
 
     /**
-     * Parses an ASN_ENUMERATED tagged integer from this BER buffer.
-     * @return The tag of enumeration.
+     * Pbrsfs bn ASN_ENUMERATED tbggfd intfgfr from tiis BER bufffr.
+     * @rfturn Tif tbg of fnumfrbtion.
      */
-    public int parseEnumeration() throws DecodeException {
-        return parseIntWithTag(ASN_ENUMERATED);
+    publid int pbrsfEnumfrbtion() tirows DfdodfExdfption {
+        rfturn pbrsfIntWitiTbg(ASN_ENUMERATED);
     }
 
     /**
-     * Parses an ASN_INTEGER tagged integer from this BER buffer.
-     * @return The value of the integer.
+     * Pbrsfs bn ASN_INTEGER tbggfd intfgfr from tiis BER bufffr.
+     * @rfturn Tif vbluf of tif intfgfr.
      */
-    public int parseInt() throws DecodeException {
-        return parseIntWithTag(ASN_INTEGER);
+    publid int pbrsfInt() tirows DfdodfExdfption {
+        rfturn pbrsfIntWitiTbg(ASN_INTEGER);
     }
 
     /**
-      * Parses an integer that's preceded by a tag.
-      *<blockquote><pre>
-      * BER integer ::= tag length byte {byte}*
-      *</pre></blockquote>
+      * Pbrsfs bn intfgfr tibt's prfdfdfd by b tbg.
+      *<blodkquotf><prf>
+      * BER intfgfr ::= tbg lfngti bytf {bytf}*
+      *</prf></blodkquotf>
       */
-    private int parseIntWithTag(int tag) throws DecodeException {
+    privbtf int pbrsfIntWitiTbg(int tbg) tirows DfdodfExdfption {
 
 
-        if (parseByte() != tag) {
-            throw new DecodeException("Encountered ASN.1 tag " +
-                Integer.toString(buf[offset - 1] & 0xff) +
-                " (expected tag " + Integer.toString(tag) + ")");
+        if (pbrsfBytf() != tbg) {
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+                Intfgfr.toString(buf[offsft - 1] & 0xff) +
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
         }
 
-        int len = parseLength();
+        int lfn = pbrsfLfngti();
 
-        if (len > 4) {
-            throw new DecodeException("INTEGER too long");
-        } else if (len > bufsize - offset) {
-            throw new DecodeException("Insufficient data");
+        if (lfn > 4) {
+            tirow nfw DfdodfExdfption("INTEGER too long");
+        } flsf if (lfn > bufsizf - offsft) {
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
         }
 
-        byte fb = buf[offset++];
-        int value = 0;
+        bytf fb = buf[offsft++];
+        int vbluf = 0;
 
-        value = fb & 0x7F;
-        for( int i = 1 /* first byte already read */ ; i < len; i++) {
-            value <<= 8;
-            value |= (buf[offset++] & 0xff);
+        vbluf = fb & 0x7F;
+        for( int i = 1 /* first bytf blrfbdy rfbd */ ; i < lfn; i++) {
+            vbluf <<= 8;
+            vbluf |= (buf[offsft++] & 0xff);
         }
 
         if ((fb & 0x80) == 0x80) {
-            value = -value;
+            vbluf = -vbluf;
         }
 
-        return value;
+        rfturn vbluf;
     }
 
     /**
-      * Parses a string.
+      * Pbrsfs b string.
       */
-    public String parseString(boolean decodeUTF8) throws DecodeException {
-        return parseStringWithTag(ASN_SIMPLE_STRING, decodeUTF8, null);
+    publid String pbrsfString(boolfbn dfdodfUTF8) tirows DfdodfExdfption {
+        rfturn pbrsfStringWitiTbg(ASN_SIMPLE_STRING, dfdodfUTF8, null);
     }
 
     /**
-      * Parses a string of a given tag from this BER buffer.
-      *<blockquote><pre>
-      *BER simple string ::= tag length {byte}*
-      *</pre></blockquote>
-      * @param rlen An array for holding the relative parsed offset; if null
-      *  offset not set.
-      * @param decodeUTF8 If true, use UTF-8 when decoding the string; otherwise
-      * use ISO-Latin-1 (8859_1). Use true for LDAPv3; false for LDAPv2.
-      * @param tag The tag that precedes the string.
-      * @return The non-null parsed string.
+      * Pbrsfs b string of b givfn tbg from tiis BER bufffr.
+      *<blodkquotf><prf>
+      *BER simplf string ::= tbg lfngti {bytf}*
+      *</prf></blodkquotf>
+      * @pbrbm rlfn An brrby for iolding tif rflbtivf pbrsfd offsft; if null
+      *  offsft not sft.
+      * @pbrbm dfdodfUTF8 If truf, usf UTF-8 wifn dfdoding tif string; otifrwisf
+      * usf ISO-Lbtin-1 (8859_1). Usf truf for LDAPv3; fblsf for LDAPv2.
+      * @pbrbm tbg Tif tbg tibt prfdfdfs tif string.
+      * @rfturn Tif non-null pbrsfd string.
       */
-    public String parseStringWithTag(int tag, boolean decodeUTF8, int rlen[])
-        throws DecodeException {
+    publid String pbrsfStringWitiTbg(int tbg, boolfbn dfdodfUTF8, int rlfn[])
+        tirows DfdodfExdfption {
 
         int st;
-        int origOffset = offset;
+        int origOffsft = offsft;
 
-        if ((st = parseByte()) != tag) {
-            throw new DecodeException("Encountered ASN.1 tag " +
-                Integer.toString((byte)st) + " (expected tag " + tag + ")");
+        if ((st = pbrsfBytf()) != tbg) {
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+                Intfgfr.toString((bytf)st) + " (fxpfdtfd tbg " + tbg + ")");
         }
 
-        int len = parseLength();
+        int lfn = pbrsfLfngti();
 
-        if (len > bufsize - offset) {
-            throw new DecodeException("Insufficient data");
+        if (lfn > bufsizf - offsft) {
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
         }
 
-        String retstr;
-        if (len == 0) {
-            retstr = "";
-        } else {
-            byte[] buf2 = new byte[len];
+        String rftstr;
+        if (lfn == 0) {
+            rftstr = "";
+        } flsf {
+            bytf[] buf2 = nfw bytf[lfn];
 
-            System.arraycopy(buf, offset, buf2, 0, len);
-            if (decodeUTF8) {
+            Systfm.brrbydopy(buf, offsft, buf2, 0, lfn);
+            if (dfdodfUTF8) {
                 try {
-                    retstr = new String(buf2, "UTF8");
-                } catch (UnsupportedEncodingException e) {
-                    throw new DecodeException("UTF8 not available on platform");
+                    rftstr = nfw String(buf2, "UTF8");
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                    tirow nfw DfdodfExdfption("UTF8 not bvbilbblf on plbtform");
                 }
-            } else {
+            } flsf {
                 try {
-                    retstr = new String(buf2, "8859_1");
-                } catch (UnsupportedEncodingException e) {
-                    throw new DecodeException("8859_1 not available on platform");
+                    rftstr = nfw String(buf2, "8859_1");
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                    tirow nfw DfdodfExdfption("8859_1 not bvbilbblf on plbtform");
                 }
             }
-            offset += len;
+            offsft += lfn;
         }
 
-        if (rlen != null) {
-            rlen[0] = offset - origOffset;
+        if (rlfn != null) {
+            rlfn[0] = offsft - origOffsft;
         }
 
-        return retstr;
+        rfturn rftstr;
     }
 
     /**
-     * Parses an octet string of a given type(tag) from this BER buffer.
-     * <blockquote><pre>
-     * BER Binary Data of type "tag" ::= tag length {byte}*
-     *</pre></blockquote>
+     * Pbrsfs bn odtft string of b givfn typf(tbg) from tiis BER bufffr.
+     * <blodkquotf><prf>
+     * BER Binbry Dbtb of typf "tbg" ::= tbg lfngti {bytf}*
+     *</prf></blodkquotf>
      *
-     * @param tag The tag to look for.
-     * @param rlen An array for returning the relative parsed position. If null,
-     *          the relative parsed position is not returned.
-     * @return A non-null array containing the octet string.
-     * @throws DecodeException If the next byte in the BER buffer is not
-     * <tt>tag</tt>, or if length specified in the BER buffer exceeds the
-     * number of bytes left in the buffer.
+     * @pbrbm tbg Tif tbg to look for.
+     * @pbrbm rlfn An brrby for rfturning tif rflbtivf pbrsfd position. If null,
+     *          tif rflbtivf pbrsfd position is not rfturnfd.
+     * @rfturn A non-null brrby dontbining tif odtft string.
+     * @tirows DfdodfExdfption If tif nfxt bytf in tif BER bufffr is not
+     * <tt>tbg</tt>, or if lfngti spfdififd in tif BER bufffr fxdffds tif
+     * numbfr of bytfs lfft in tif bufffr.
      */
-    public byte[] parseOctetString(int tag, int rlen[]) throws DecodeException {
+    publid bytf[] pbrsfOdtftString(int tbg, int rlfn[]) tirows DfdodfExdfption {
 
-        int origOffset = offset;
+        int origOffsft = offsft;
         int st;
-        if ((st = parseByte()) != tag) {
+        if ((st = pbrsfBytf()) != tbg) {
 
-            throw new DecodeException("Encountered ASN.1 tag " +
-                Integer.toString(st) +
-                " (expected tag " + Integer.toString(tag) + ")");
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+                Intfgfr.toString(st) +
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
         }
 
-        int len = parseLength();
+        int lfn = pbrsfLfngti();
 
-        if (len > bufsize - offset) {
-            throw new DecodeException("Insufficient data");
+        if (lfn > bufsizf - offsft) {
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
         }
 
-        byte retarr[] = new byte[len];
-        if (len > 0) {
-            System.arraycopy(buf, offset, retarr, 0, len);
-            offset += len;
+        bytf rftbrr[] = nfw bytf[lfn];
+        if (lfn > 0) {
+            Systfm.brrbydopy(buf, offsft, rftbrr, 0, lfn);
+            offsft += lfn;
         }
 
-        if (rlen != null) {
-            rlen[0] = offset - origOffset;
+        if (rlfn != null) {
+            rlfn[0] = offsft - origOffsft;
         }
 
-        return retarr;
+        rfturn rftbrr;
     }
 
     /**
-     * Returns the number of unparsed bytes in this BER buffer.
+     * Rfturns tif numbfr of unpbrsfd bytfs in tiis BER bufffr.
      */
-    public int bytesLeft() {
-        return bufsize - offset;
+    publid int bytfsLfft() {
+        rfturn bufsizf - offsft;
     }
 }

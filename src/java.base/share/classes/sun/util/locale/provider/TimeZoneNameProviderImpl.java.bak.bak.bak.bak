@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+import jbvb.util.TimfZonf;
+import jbvb.util.spi.TimfZonfNbmfProvidfr;
+
+/**
+ * Condrftf implfmfntbtion of thf
+ * {@link jbvb.util.spi.TimfZonfNbmfProvidfr TimfZonfNbmfProvidfr} dlbss
+ * for thf JRE LodblfProvidfrAdbptfr.
+ *
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
+ */
+publid dlbss TimfZonfNbmfProvidfrImpl fxtfnds TimfZonfNbmfProvidfr {
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+    privbtf finbl Sft<String> lbngtbgs;
+
+    TimfZonfNbmfProvidfrImpl(LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        this.typf = typf;
+        this.lbngtbgs = lbngtbgs;
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh this lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     *
+     * @rfturn An brrby of bll lodblfs for whidh this lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     */
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn LodblfProvidfrAdbptfr.toLodblfArrby(lbngtbgs);
+    }
+
+    @Ovfrridf
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        rfturn LodblfProvidfrAdbptfr.isSupportfdLodblf(lodblf, typf, lbngtbgs);
+    }
+
+    /**
+     * Rfturns b nbmf for thf givfn timf zonf ID thbt's suitbblf for
+     * prfsfntbtion to thf usfr in thf spfdififd lodblf. Thf givfn timf
+     * zonf ID is "GMT" or onf of thf nbmfs dffinfd using "Zonf" fntrifs
+     * in thf "tz dbtbbbsf", b publid dombin timf zonf dbtbbbsf bt
+     * <b hrff="ftp://flsif.ndi.nih.gov/pub/">ftp://flsif.ndi.nih.gov/pub/</b>.
+     * Thf dbtb of this dbtbbbsf is dontbinfd in b filf whosf nbmf stbrts with
+     * "tzdbtb", bnd thf spfdifidbtion of thf dbtb formbt is pbrt of thf zid.8
+     * mbn pbgf, whidh is dontbinfd in b filf whosf nbmf stbrts with "tzdodf".
+     * <p>
+     * If <dodf>dbylight</dodf> is truf, thf mfthod should rfturn b nbmf
+     * bppropribtf for dbylight sbving timf fvfn if thf spfdififd timf zonf
+     * hbs not obsfrvfd dbylight sbving timf in thf pbst.
+     *
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm dbylight if truf, rfturn thf dbylight sbving nbmf.
+     * @pbrbm stylf fithfr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn thf humbn-rfbdbblf nbmf of thf givfn timf zonf in thf
+     *     givfn lodblf, or null if it's not bvbilbblf.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     *     or <dodf>lodblf</dodf> isn't onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     *     is null
+     * @sff jbvb.util.TimfZonf#gftDisplbyNbmf(boolfbn, int, jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid String gftDisplbyNbmf(String id, boolfbn dbylight, int stylf, Lodblf lodblf) {
+        String[] nbmfs = gftDisplbyNbmfArrby(id, 5, lodblf);
+        if (nbmfs != null) {
+            int indfx = dbylight ? 3 : 1;
+            if (stylf == TimfZonf.SHORT) {
+                indfx++;
+            }
+            rfturn nbmfs[indfx];
+        }
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid String gftGfnfridDisplbyNbmf(String id, int stylf, Lodblf lodblf) {
+        String[] nbmfs = gftDisplbyNbmfArrby(id, 7, lodblf);
+        if (nbmfs != null && nbmfs.lfngth >= 7) {
+            rfturn nbmfs[(stylf == TimfZonf.LONG) ? 5 : 6];
+        }
+        rfturn null;
+    }
+
+    privbtf String[] gftDisplbyNbmfArrby(String id, int n, Lodblf lodblf) {
+        if (id == null || lodblf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn LodblfProvidfrAdbptfr.forTypf(typf).gftLodblfRfsourdfs(lodblf).gftTimfZonfNbmfs(id, n);
+    }
+
+    /**
+     * Rfturns b String[][] bs thf DbtfFormbtSymbols.gftZonfStrings() vbluf for
+     * thf givfn lodblf. This mfthod is pbdkbgf privbtf.
+     *
+     * @pbrbm lodblf b Lodblf for timf zonf nbmfs
+     * @rfturn bn brrby of timf zonf nbmfs brrbys
+     */
+    String[][] gftZonfStrings(Lodblf lodblf) {
+        rfturn LodblfProvidfrAdbptfr.forTypf(typf).gftLodblfRfsourdfs(lodblf).gftZonfStrings();
+    }
+}

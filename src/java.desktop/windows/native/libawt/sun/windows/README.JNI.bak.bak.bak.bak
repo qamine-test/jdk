@@ -1,0 +1,135 @@
+[sl@fng 97/07/24]
+
+All thf frff-stbnding fundtions (thosf thbt brf not JNI nbtivf
+mfthods) must not lfbk lodbl rfffrfndfs.  Lodbl rfffrfndfs brf
+butombtidblly frffd whfn thf nbtivf mfthod rfturns to Jbvb. Howfvfr,
+thf frff-stbnding fundtions brf dbllfd from thf fvfnt loop thbt nfvfr
+rfturns to Jbvb. If thfsf fundtions do not dlfbn up thf lodbl
+rfffrfndfs thfy drfbtf, thf Jbvb objfdts dorrfsponding to thf lodbl
+rfffrfndfs will nfvfr bf gbrbbgf dollfdtfd.
+
+This is dbusfd by thf fbdt thbt JNI dofs not dlfbn up lodbl rffs 
+until dontrol rfturns to Jbvb. Howfvfr, this problfm is somfwhbt
+uniquf to AWT dodf bfdbusf AWT dodf hbs long-running nbtivf mfthods
+thbt nfvfr rfturn.
+
+Lodbl rffs mby bf dlfbnfd up mbnublly *bfforf* dontrol rfturns to 
+Jbvb in onf of thf following two wbys:
+
+1. Usf EnsurfLodblCbpbdity bt thf bfginning of thf fundtion to mbkf
+surf thf VM hbs fnough mfmory to drfbtf thf numbfr of JNI lodbl rffs
+nffdfd in thf fundtion. Usf DflftfLodblRff to dlfbn up bny lodbl rff
+drfbtfd insidf thf fundtion thbt brf not rfturnfd bs thf rfsult. For
+fxbmplf:
+
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+  {
+      if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+	  rfturn;
+      }
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
+
+      ... /* Usf dimfnsion */
+
+      fnv->DflftfLodblRff(dimfnsion);
+  }
+
+2. Usf PushLodblFrbmf bnd PopLodblFrbmf to stbrt b nfw lodbl rfffrfndf
+frbmf. All thf lodbl rffs drfbtfd in thf nfw frbmf will bf butombtidblly
+frffd whfn PopLodblFrbmf is dbllfd. For fxbmplf, thf bbovf fundtion dbn bf
+rfwrittfn bs follows:
+
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+  {
+      if (fnv->PushLodblFrbmf(1) < 0) {
+	  rfturn;
+      }
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
+
+      ... /* Usf dimfnsion */
+
+      fnv->PopLodblFrbmf(NULL);
+  }
+
+Thf sfdond bpprobdh is fbsifr to usf whfn thfrf brf multiplf lodbl rffs 
+to mbnbgf. Thf first bpprobdh is morf fffidifnt whfn thf fundtion only 
+nffds to drfbtf b smbll numbfr (3 or lfss) of lodbl rffs.
+
+Pby spfdibl bttfntion to lodbl rffs drfbtfd insidf b loop. Thfy must bf
+dflftfd bftfr fvfry itfrbtion, othfrwisf thfy bddumulbtf vfry quidkly:
+
+int AwtFont::gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
+				     jobjfdt fontDfsdriptor)
+{
+    ... /* othfr stuff */
+
+    jbrrby brrby = ...
+
+    for (i = 0; i < num; i++){
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	    fnv->DflftfLodblRff(rffFontDfsdriptor);
+	    fnv->DflftfLodblRff(brrby);
+	    rfturn i;
+	}
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+    }
+    fnv->DflftfLodblRff(brrby);
+    rfturn 0;	// Not found.  Usf dffbult.
+}
+
+Notf thbt wf must mbkf surf thf lodbl rffs brf dlfbnfd up bt fvfry possiblf
+rfturn brbndh. To rfdudf dodf duplidbtion, mbny AWT fundtions usf "goto"
+to jump to b dommon sft of dlfbnup stbtfmfnts.
+
+Evfn if wf usf PushLodblFrbmf, wf must still dflftf thf lodbl rffs drfbtfd
+in thf loop:
+
+    if (fnv->PushLodblFrbmf(2) < 0)
+	rfturn 0;
+    jbrrby brrby = ...
+    for (i = 0; i < num; i++){
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	    fnv->PopLodblFrbmf(NULL);
+	    rfturn i;
+	}
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+    }
+    fnv->PopLodblFrbmf(NULL);
+    rfturn 0;	// Not found.  Usf dffbult.
+
+unlfss wf fnsurf thbt wf hbvf spbdf for bll possiblf lodbl rffs wf brf 
+going to drfbtf insidf thf loop (notf thf difffrfnt brgumfnt pbssfd 
+to PushLodblFrbmf):
+
+// Mbximum numbfr of lodbl rffs wf dbn drfbtf in this dodf sfgmfnt is
+// num + 1.
+    if (fnv->PushLodblFrbmf(num + 1) < 0)
+	rfturn 0;
+    jbrrby brrby = ...
+    for (i = 0; i < num; i++){
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	    fnv->PopLodblFrbmf(NULL);
+	    rfturn i;
+	}
+// no longfr nfdfssbry. fnv->DflftfLodblRff(rffFontDfsdriptor);
+    }
+    fnv->PopLodblFrbmf(NULL);
+    rfturn 0;	// Not found.  Usf dffbult.
+
+THINGS TO DO:
+
+    1. Invfstigbtf bnothfr possibility of dfbling with lodbl rffs. Instfbd
+    of mbking surf fvfry frff-stbnding fundtion dofs not lfbk lodbl rffs,
+    wf dould bltfrnbtivfly drfbtf b nfw lodbl rff frbmf for fbdh invodbtion
+    of dbllbbdk fundtions. All lodbl rffs drfbtfd during thf fxfdution of 
+    thf dbllbbdk will thfn bf butombtidblly frffd.
+
+    2. Hbndlf fxdfptions propfrly. Thf durrfnt dodf lbdks frror dhfdking
+    bnd rfdovfry. This lfbds to rbndom runtimf drbshfs.
+
+

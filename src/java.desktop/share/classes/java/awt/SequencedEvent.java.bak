@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.util.LinkedList;
-import sun.awt.AWTAccessor;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import jbvb.util.LinkfdList;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
 
 /**
- * A mechanism for ensuring that a series of AWTEvents are executed in a
- * precise order, even across multiple AppContexts. The nested events will be
- * dispatched in the order in which their wrapping SequencedEvents were
- * constructed. The only exception to this rule is if the peer of the target of
- * the nested event was destroyed (with a call to Component.removeNotify)
- * before the wrapping SequencedEvent was able to be dispatched. In this case,
- * the nested event is never dispatched.
+ * A mfdibnism for fnsuring tibt b sfrifs of AWTEvfnts brf fxfdutfd in b
+ * prfdisf ordfr, fvfn bdross multiplf AppContfxts. Tif nfstfd fvfnts will bf
+ * dispbtdifd in tif ordfr in wiidi tifir wrbpping SfqufndfdEvfnts wfrf
+ * donstrudtfd. Tif only fxdfption to tiis rulf is if tif pffr of tif tbrgft of
+ * tif nfstfd fvfnt wbs dfstroyfd (witi b dbll to Componfnt.rfmovfNotify)
+ * bfforf tif wrbpping SfqufndfdEvfnt wbs bblf to bf dispbtdifd. In tiis dbsf,
+ * tif nfstfd fvfnt is nfvfr dispbtdifd.
  *
- * @author David Mendenhall
+ * @butior Dbvid Mfndfnibll
  */
-class SequencedEvent extends AWTEvent implements ActiveEvent {
+dlbss SfqufndfdEvfnt fxtfnds AWTEvfnt implfmfnts AdtivfEvfnt {
     /*
-     * serialVersionUID
+     * sfriblVfrsionUID
      */
-    private static final long serialVersionUID = 547742659238625067L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 547742659238625067L;
 
-    private static final int ID =
-        java.awt.event.FocusEvent.FOCUS_LAST + 1;
-    private static final LinkedList<SequencedEvent> list = new LinkedList<>();
+    privbtf stbtid finbl int ID =
+        jbvb.bwt.fvfnt.FodusEvfnt.FOCUS_LAST + 1;
+    privbtf stbtid finbl LinkfdList<SfqufndfdEvfnt> list = nfw LinkfdList<>();
 
-    private final AWTEvent nested;
-    private AppContext appContext;
-    private boolean disposed;
+    privbtf finbl AWTEvfnt nfstfd;
+    privbtf AppContfxt bppContfxt;
+    privbtf boolfbn disposfd;
 
-    static {
-        AWTAccessor.setSequencedEventAccessor(new AWTAccessor.SequencedEventAccessor() {
-            public AWTEvent getNested(AWTEvent sequencedEvent) {
-                return ((SequencedEvent)sequencedEvent).nested;
+    stbtid {
+        AWTAddfssor.sftSfqufndfdEvfntAddfssor(nfw AWTAddfssor.SfqufndfdEvfntAddfssor() {
+            publid AWTEvfnt gftNfstfd(AWTEvfnt sfqufndfdEvfnt) {
+                rfturn ((SfqufndfdEvfnt)sfqufndfdEvfnt).nfstfd;
             }
-            public boolean isSequencedEvent(AWTEvent event) {
-                return event instanceof SequencedEvent;
+            publid boolfbn isSfqufndfdEvfnt(AWTEvfnt fvfnt) {
+                rfturn fvfnt instbndfof SfqufndfdEvfnt;
             }
         });
     }
 
     /**
-     * Constructs a new SequencedEvent which will dispatch the specified
-     * nested event.
+     * Construdts b nfw SfqufndfdEvfnt wiidi will dispbtdi tif spfdififd
+     * nfstfd fvfnt.
      *
-     * @param nested the AWTEvent which this SequencedEvent's dispatch()
-     *        method will dispatch
+     * @pbrbm nfstfd tif AWTEvfnt wiidi tiis SfqufndfdEvfnt's dispbtdi()
+     *        mftiod will dispbtdi
      */
-    public SequencedEvent(AWTEvent nested) {
-        super(nested.getSource(), ID);
-        this.nested = nested;
-        // All AWTEvents that are wrapped in SequencedEvents are (at
-        // least currently) implicitly generated by the system
-        SunToolkit.setSystemGenerated(nested);
-        synchronized (SequencedEvent.class) {
-            list.add(this);
+    publid SfqufndfdEvfnt(AWTEvfnt nfstfd) {
+        supfr(nfstfd.gftSourdf(), ID);
+        tiis.nfstfd = nfstfd;
+        // All AWTEvfnts tibt brf wrbppfd in SfqufndfdEvfnts brf (bt
+        // lfbst durrfntly) impliditly gfnfrbtfd by tif systfm
+        SunToolkit.sftSystfmGfnfrbtfd(nfstfd);
+        syndironizfd (SfqufndfdEvfnt.dlbss) {
+            list.bdd(tiis);
         }
     }
 
     /**
-     * Dispatches the nested event after all previous nested events have been
-     * dispatched or disposed. If this method is invoked before all previous nested events
-     * have been dispatched, then this method blocks until such a point is
-     * reached.
-     * While waiting disposes nested events to disposed AppContext
+     * Dispbtdifs tif nfstfd fvfnt bftfr bll prfvious nfstfd fvfnts ibvf bffn
+     * dispbtdifd or disposfd. If tiis mftiod is invokfd bfforf bll prfvious nfstfd fvfnts
+     * ibvf bffn dispbtdifd, tifn tiis mftiod blodks until sudi b point is
+     * rfbdifd.
+     * Wiilf wbiting disposfs nfstfd fvfnts to disposfd AppContfxt
      *
-     * NOTE: Locking protocol.  Since dispose() can get EventQueue lock,
-     * dispatch() shall never call dispose() while holding the lock on the list,
-     * as EventQueue lock is held during dispatching.  The locks should be acquired
-     * in the same order.
+     * NOTE: Lodking protodol.  Sindf disposf() dbn gft EvfntQufuf lodk,
+     * dispbtdi() sibll nfvfr dbll disposf() wiilf iolding tif lodk on tif list,
+     * bs EvfntQufuf lodk is ifld during dispbtdiing.  Tif lodks siould bf bdquirfd
+     * in tif sbmf ordfr.
      */
-    public final void dispatch() {
+    publid finbl void dispbtdi() {
         try {
-            appContext = AppContext.getAppContext();
+            bppContfxt = AppContfxt.gftAppContfxt();
 
-            if (getFirst() != this) {
-                if (EventQueue.isDispatchThread()) {
-                    EventDispatchThread edt = (EventDispatchThread)
-                        Thread.currentThread();
-                    edt.pumpEvents(SentEvent.ID, new Conditional() {
-                        public boolean evaluate() {
-                            return !SequencedEvent.this.isFirstOrDisposed();
+            if (gftFirst() != tiis) {
+                if (EvfntQufuf.isDispbtdiTirfbd()) {
+                    EvfntDispbtdiTirfbd fdt = (EvfntDispbtdiTirfbd)
+                        Tirfbd.durrfntTirfbd();
+                    fdt.pumpEvfnts(SfntEvfnt.ID, nfw Conditionbl() {
+                        publid boolfbn fvblubtf() {
+                            rfturn !SfqufndfdEvfnt.tiis.isFirstOrDisposfd();
                         }
                     });
-                } else {
-                    while(!isFirstOrDisposed()) {
-                        synchronized (SequencedEvent.class) {
+                } flsf {
+                    wiilf(!isFirstOrDisposfd()) {
+                        syndironizfd (SfqufndfdEvfnt.dlbss) {
                             try {
-                                SequencedEvent.class.wait(1000);
-                            } catch (InterruptedException e) {
-                                break;
+                                SfqufndfdEvfnt.dlbss.wbit(1000);
+                            } dbtdi (IntfrruptfdExdfption f) {
+                                brfbk;
                             }
                         }
                     }
                 }
             }
 
-            if (!disposed) {
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                    setCurrentSequencedEvent(this);
-                Toolkit.getEventQueue().dispatchEvent(nested);
+            if (!disposfd) {
+                KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                    sftCurrfntSfqufndfdEvfnt(tiis);
+                Toolkit.gftEvfntQufuf().dispbtdiEvfnt(nfstfd);
             }
-        } finally {
-            dispose();
+        } finblly {
+            disposf();
         }
     }
 
     /**
-     * true only if event exists and nested source appContext is disposed.
+     * truf only if fvfnt fxists bnd nfstfd sourdf bppContfxt is disposfd.
      */
-    private final static boolean isOwnerAppContextDisposed(SequencedEvent se) {
-        if (se != null) {
-            Object target = se.nested.getSource();
-            if (target instanceof Component) {
-                return ((Component)target).appContext.isDisposed();
+    privbtf finbl stbtid boolfbn isOwnfrAppContfxtDisposfd(SfqufndfdEvfnt sf) {
+        if (sf != null) {
+            Objfdt tbrgft = sf.nfstfd.gftSourdf();
+            if (tbrgft instbndfof Componfnt) {
+                rfturn ((Componfnt)tbrgft).bppContfxt.isDisposfd();
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Sequenced events are dispatched in order, so we cannot dispatch
-     * until we are the first sequenced event in the queue (i.e. it's our
-     * turn).  But while we wait for our turn to dispatch, the event
-     * could have been disposed for a number of reasons.
+     * Sfqufndfd fvfnts brf dispbtdifd in ordfr, so wf dbnnot dispbtdi
+     * until wf brf tif first sfqufndfd fvfnt in tif qufuf (i.f. it's our
+     * turn).  But wiilf wf wbit for our turn to dispbtdi, tif fvfnt
+     * dould ibvf bffn disposfd for b numbfr of rfbsons.
      */
-    public final boolean isFirstOrDisposed() {
-        if (disposed) {
-            return true;
+    publid finbl boolfbn isFirstOrDisposfd() {
+        if (disposfd) {
+            rfturn truf;
         }
-        // getFirstWithContext can dispose this
-        return this == getFirstWithContext() || disposed;
+        // gftFirstWitiContfxt dbn disposf tiis
+        rfturn tiis == gftFirstWitiContfxt() || disposfd;
     }
 
-    private final synchronized static SequencedEvent getFirst() {
-        return list.getFirst();
+    privbtf finbl syndironizfd stbtid SfqufndfdEvfnt gftFirst() {
+        rfturn list.gftFirst();
     }
 
-    /* Disposes all events from disposed AppContext
-     * return first valid event
+    /* Disposfs bll fvfnts from disposfd AppContfxt
+     * rfturn first vblid fvfnt
      */
-    private final static SequencedEvent getFirstWithContext() {
-        SequencedEvent first = getFirst();
-        while(isOwnerAppContextDisposed(first)) {
-            first.dispose();
-            first = getFirst();
+    privbtf finbl stbtid SfqufndfdEvfnt gftFirstWitiContfxt() {
+        SfqufndfdEvfnt first = gftFirst();
+        wiilf(isOwnfrAppContfxtDisposfd(first)) {
+            first.disposf();
+            first = gftFirst();
         }
-        return first;
+        rfturn first;
     }
 
     /**
-     * Disposes of this instance. This method is invoked once the nested event
-     * has been dispatched and handled, or when the peer of the target of the
-     * nested event has been disposed with a call to Component.removeNotify.
+     * Disposfs of tiis instbndf. Tiis mftiod is invokfd ondf tif nfstfd fvfnt
+     * ibs bffn dispbtdifd bnd ibndlfd, or wifn tif pffr of tif tbrgft of tif
+     * nfstfd fvfnt ibs bffn disposfd witi b dbll to Componfnt.rfmovfNotify.
      *
-     * NOTE: Locking protocol.  Since SunToolkit.postEvent can get EventQueue lock,
-     * it shall never be called while holding the lock on the list,
-     * as EventQueue lock is held during dispatching and dispatch() will get
-     * lock on the list. The locks should be acquired in the same order.
+     * NOTE: Lodking protodol.  Sindf SunToolkit.postEvfnt dbn gft EvfntQufuf lodk,
+     * it sibll nfvfr bf dbllfd wiilf iolding tif lodk on tif list,
+     * bs EvfntQufuf lodk is ifld during dispbtdiing bnd dispbtdi() will gft
+     * lodk on tif list. Tif lodks siould bf bdquirfd in tif sbmf ordfr.
      */
-    final void dispose() {
-      synchronized (SequencedEvent.class) {
-            if (disposed) {
-                return;
+    finbl void disposf() {
+      syndironizfd (SfqufndfdEvfnt.dlbss) {
+            if (disposfd) {
+                rfturn;
             }
-            if (KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                    getCurrentSequencedEvent() == this) {
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                    setCurrentSequencedEvent(null);
+            if (KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                    gftCurrfntSfqufndfdEvfnt() == tiis) {
+                KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                    sftCurrfntSfqufndfdEvfnt(null);
             }
-            disposed = true;
+            disposfd = truf;
         }
-        // Wake myself up
-        if (appContext != null) {
-            SunToolkit.postEvent(appContext, new SentEvent());
+        // Wbkf mysflf up
+        if (bppContfxt != null) {
+            SunToolkit.postEvfnt(bppContfxt, nfw SfntEvfnt());
         }
 
-        SequencedEvent next = null;
+        SfqufndfdEvfnt nfxt = null;
 
-        synchronized (SequencedEvent.class) {
-          SequencedEvent.class.notifyAll();
+        syndironizfd (SfqufndfdEvfnt.dlbss) {
+          SfqufndfdEvfnt.dlbss.notifyAll();
 
-          if (list.getFirst() == this) {
-              list.removeFirst();
+          if (list.gftFirst() == tiis) {
+              list.rfmovfFirst();
 
               if (!list.isEmpty()) {
-                    next = list.getFirst();
+                    nfxt = list.gftFirst();
               }
-          } else {
-              list.remove(this);
+          } flsf {
+              list.rfmovf(tiis);
           }
       }
-        // Wake up waiting threads
-        if (next != null && next.appContext != null) {
-            SunToolkit.postEvent(next.appContext, new SentEvent());
+        // Wbkf up wbiting tirfbds
+        if (nfxt != null && nfxt.bppContfxt != null) {
+            SunToolkit.postEvfnt(nfxt.bppContfxt, nfw SfntEvfnt());
         }
     }
 }

@@ -1,0 +1,1061 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
+import jbvb.util.PrimitivfItfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.LongConsumfr;
+
+/**
+ * An ordfrfd dollfdtion of flfmfnts.  Elfmfnts dbn bf bddfd, but not rfmovfd.
+ * Gofs through b building phbsf, during whidh flfmfnts dbn bf bddfd, bnd b
+ * trbvfrsbl phbsf, during whidh flfmfnts dbn bf trbvfrsfd in ordfr but no
+ * furthfr modifidbtions brf possiblf.
+ *
+ * <p> Onf or morf brrbys brf usfd to storf flfmfnts. Thf usf of b multiplf
+ * brrbys hbs bfttfr pfrformbndf dhbrbdtfristids thbn b singlf brrby usfd by
+ * {@link ArrbyList}, bs whfn thf dbpbdity of thf list nffds to bf indrfbsfd
+ * no dopying of flfmfnts is rfquirfd.  This is usublly bfnffidibl in thf dbsf
+ * whfrf thf rfsults will bf trbvfrsfd b smbll numbfr of timfs.
+ *
+ * @pbrbm <E> thf typf of flfmfnts in this list
+ * @sindf 1.8
+ */
+dlbss SpinfdBufffr<E>
+        fxtfnds AbstrbdtSpinfdBufffr
+        implfmfnts Consumfr<E>, Itfrbblf<E> {
+
+    /*
+     * Wf optimistidblly hopf thbt bll thf dbtb will fit into thf first dhunk,
+     * so wf try to bvoid inflbting thf spinf[] bnd priorElfmfntCount[] brrbys
+     * prfmbturfly.  So mfthods must bf prfpbrfd to dfbl with thfsf brrbys bfing
+     * null.  If spinf is non-null, thfn spinfIndfx points to thf durrfnt dhunk
+     * within thf spinf, othfrwisf it is zfro.  Thf spinf bnd priorElfmfntCount
+     * brrbys brf blwbys thf sbmf sizf, bnd for bny i <= spinfIndfx,
+     * priorElfmfntCount[i] is thf sum of thf sizfs of bll thf prior dhunks.
+     *
+     * Thf durChunk pointfr is blwbys vblid.  Thf flfmfntIndfx is thf indfx of
+     * thf nfxt flfmfnt to bf writtfn in durChunk; this mby bf pbst thf fnd of
+     * durChunk so wf hbvf to dhfdk bfforf writing. Whfn wf inflbtf thf spinf
+     * brrby, durChunk bfdomfs thf first flfmfnt in it.  Whfn wf dlfbr thf
+     * bufffr, wf disdbrd bll dhunks fxdfpt thf first onf, whidh wf dlfbr,
+     * rfstoring it to thf initibl singlf-dhunk stbtf.
+     */
+
+    /**
+     * Chunk thbt wf'rf durrfntly writing into; mby or mby not bf blibsfd with
+     * thf first flfmfnt of thf spinf.
+     */
+    protfdtfd E[] durChunk;
+
+    /**
+     * All dhunks, or null if thfrf is only onf dhunk.
+     */
+    protfdtfd E[][] spinf;
+
+    /**
+     * Construdts bn fmpty list with thf spfdififd initibl dbpbdity.
+     *
+     * @pbrbm  initiblCbpbdity  thf initibl dbpbdity of thf list
+     * @throws IllfgblArgumfntExdfption if thf spfdififd initibl dbpbdity
+     *         is nfgbtivf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    SpinfdBufffr(int initiblCbpbdity) {
+        supfr(initiblCbpbdity);
+        durChunk = (E[]) nfw Objfdt[1 << initiblChunkPowfr];
+    }
+
+    /**
+     * Construdts bn fmpty list with bn initibl dbpbdity of sixtffn.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    SpinfdBufffr() {
+        supfr();
+        durChunk = (E[]) nfw Objfdt[1 << initiblChunkPowfr];
+    }
+
+    /**
+     * Rfturns thf durrfnt dbpbdity of thf bufffr
+     */
+    protfdtfd long dbpbdity() {
+        rfturn (spinfIndfx == 0)
+               ? durChunk.lfngth
+               : priorElfmfntCount[spinfIndfx] + spinf[spinfIndfx].lfngth;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void inflbtfSpinf() {
+        if (spinf == null) {
+            spinf = (E[][]) nfw Objfdt[MIN_SPINE_SIZE][];
+            priorElfmfntCount = nfw long[MIN_SPINE_SIZE];
+            spinf[0] = durChunk;
+        }
+    }
+
+    /**
+     * Ensurf thbt thf bufffr hbs bt lfbst dbpbdity to hold thf tbrgft sizf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    protfdtfd finbl void fnsurfCbpbdity(long tbrgftSizf) {
+        long dbpbdity = dbpbdity();
+        if (tbrgftSizf > dbpbdity) {
+            inflbtfSpinf();
+            for (int i=spinfIndfx+1; tbrgftSizf > dbpbdity; i++) {
+                if (i >= spinf.lfngth) {
+                    int nfwSpinfSizf = spinf.lfngth * 2;
+                    spinf = Arrbys.dopyOf(spinf, nfwSpinfSizf);
+                    priorElfmfntCount = Arrbys.dopyOf(priorElfmfntCount, nfwSpinfSizf);
+                }
+                int nfxtChunkSizf = dhunkSizf(i);
+                spinf[i] = (E[]) nfw Objfdt[nfxtChunkSizf];
+                priorElfmfntCount[i] = priorElfmfntCount[i-1] + spinf[i-1].lfngth;
+                dbpbdity += nfxtChunkSizf;
+            }
+        }
+    }
+
+    /**
+     * Fordf thf bufffr to indrfbsf its dbpbdity.
+     */
+    protfdtfd void indrfbsfCbpbdity() {
+        fnsurfCbpbdity(dbpbdity() + 1);
+    }
+
+    /**
+     * Rftrifvf thf flfmfnt bt thf spfdififd indfx.
+     */
+    publid E gft(long indfx) {
+        // @@@ dbn furthfr optimizf by dbdhing lbst sffn spinfIndfx,
+        // whidh is going to bf right most of thf timf
+
+        // Cbsts to int brf sbff sindf thf spinf brrby indfx is thf indfx minus
+        // thf prior flfmfnt dount from thf durrfnt spinf
+        if (spinfIndfx == 0) {
+            if (indfx < flfmfntIndfx)
+                rfturn durChunk[((int) indfx)];
+            flsf
+                throw nfw IndfxOutOfBoundsExdfption(Long.toString(indfx));
+        }
+
+        if (indfx >= dount())
+            throw nfw IndfxOutOfBoundsExdfption(Long.toString(indfx));
+
+        for (int j=0; j <= spinfIndfx; j++)
+            if (indfx < priorElfmfntCount[j] + spinf[j].lfngth)
+                rfturn spinf[j][((int) (indfx - priorElfmfntCount[j]))];
+
+        throw nfw IndfxOutOfBoundsExdfption(Long.toString(indfx));
+    }
+
+    /**
+     * Copy thf flfmfnts, stbrting bt thf spfdififd offsft, into thf spfdififd
+     * brrby.
+     */
+    publid void dopyInto(E[] brrby, int offsft) {
+        long finblOffsft = offsft + dount();
+        if (finblOffsft > brrby.lfngth || finblOffsft < offsft) {
+            throw nfw IndfxOutOfBoundsExdfption("dofs not fit");
+        }
+
+        if (spinfIndfx == 0)
+            Systfm.brrbydopy(durChunk, 0, brrby, offsft, flfmfntIndfx);
+        flsf {
+            // full dhunks
+            for (int i=0; i < spinfIndfx; i++) {
+                Systfm.brrbydopy(spinf[i], 0, brrby, offsft, spinf[i].lfngth);
+                offsft += spinf[i].lfngth;
+            }
+            if (flfmfntIndfx > 0)
+                Systfm.brrbydopy(durChunk, 0, brrby, offsft, flfmfntIndfx);
+        }
+    }
+
+    /**
+     * Crfbtf b nfw brrby using thf spfdififd brrby fbdtory, bnd dopy thf
+     * flfmfnts into it.
+     */
+    publid E[] bsArrby(IntFundtion<E[]> brrbyFbdtory) {
+        long sizf = dount();
+        if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+            throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+        E[] rfsult = brrbyFbdtory.bpply((int) sizf);
+        dopyInto(rfsult, 0);
+        rfturn rfsult;
+    }
+
+    @Ovfrridf
+    publid void dlfbr() {
+        if (spinf != null) {
+            durChunk = spinf[0];
+            for (int i=0; i<durChunk.lfngth; i++)
+                durChunk[i] = null;
+            spinf = null;
+            priorElfmfntCount = null;
+        }
+        flsf {
+            for (int i=0; i<flfmfntIndfx; i++)
+                durChunk[i] = null;
+        }
+        flfmfntIndfx = 0;
+        spinfIndfx = 0;
+    }
+
+    @Ovfrridf
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn Splitfrbtors.itfrbtor(splitfrbtor());
+    }
+
+    @Ovfrridf
+    publid void forEbdh(Consumfr<? supfr E> donsumfr) {
+        // domplftfd dhunks, if bny
+        for (int j = 0; j < spinfIndfx; j++)
+            for (E t : spinf[j])
+                donsumfr.bddfpt(t);
+
+        // durrfnt dhunk
+        for (int i=0; i<flfmfntIndfx; i++)
+            donsumfr.bddfpt(durChunk[i]);
+    }
+
+    @Ovfrridf
+    publid void bddfpt(E f) {
+        if (flfmfntIndfx == durChunk.lfngth) {
+            inflbtfSpinf();
+            if (spinfIndfx+1 >= spinf.lfngth || spinf[spinfIndfx+1] == null)
+                indrfbsfCbpbdity();
+            flfmfntIndfx = 0;
+            ++spinfIndfx;
+            durChunk = spinf[spinfIndfx];
+        }
+        durChunk[flfmfntIndfx++] = f;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        List<E> list = nfw ArrbyList<>();
+        forEbdh(list::bdd);
+        rfturn "SpinfdBufffr:" + list.toString();
+    }
+
+    privbtf stbtid finbl int SPLITERATOR_CHARACTERISTICS
+            = Splitfrbtor.SIZED | Splitfrbtor.ORDERED | Splitfrbtor.SUBSIZED;
+
+    /**
+     * Rfturn b {@link Splitfrbtor} dfsdribing thf dontfnts of thf bufffr.
+     */
+    publid Splitfrbtor<E> splitfrbtor() {
+        dlbss Splitr implfmfnts Splitfrbtor<E> {
+            // Thf durrfnt spinf indfx
+            int splSpinfIndfx;
+
+            // Lbst spinf indfx
+            finbl int lbstSpinfIndfx;
+
+            // Thf durrfnt flfmfnt indfx into thf durrfnt spinf
+            int splElfmfntIndfx;
+
+            // Lbst spinf's lbst flfmfnt indfx + 1
+            finbl int lbstSpinfElfmfntFfndf;
+
+            // Whfn splSpinfIndfx >= lbstSpinfIndfx bnd
+            // splElfmfntIndfx >= lbstSpinfElfmfntFfndf thfn
+            // this splitfrbtor is fully trbvfrsfd
+            // tryAdvbndf dbn sft splSpinfIndfx > spinfIndfx if thf lbst spinf is full
+
+            // Thf durrfnt spinf brrby
+            E[] splChunk;
+
+            Splitr(int firstSpinfIndfx, int lbstSpinfIndfx,
+                   int firstSpinfElfmfntIndfx, int lbstSpinfElfmfntFfndf) {
+                this.splSpinfIndfx = firstSpinfIndfx;
+                this.lbstSpinfIndfx = lbstSpinfIndfx;
+                this.splElfmfntIndfx = firstSpinfElfmfntIndfx;
+                this.lbstSpinfElfmfntFfndf = lbstSpinfElfmfntFfndf;
+                bssfrt spinf != null || firstSpinfIndfx == 0 && lbstSpinfIndfx == 0;
+                splChunk = (spinf == null) ? durChunk : spinf[firstSpinfIndfx];
+            }
+
+            @Ovfrridf
+            publid long fstimbtfSizf() {
+                rfturn (splSpinfIndfx == lbstSpinfIndfx)
+                       ? (long) lbstSpinfElfmfntFfndf - splElfmfntIndfx
+                       : // # of flfmfnts prior to fnd -
+                       priorElfmfntCount[lbstSpinfIndfx] + lbstSpinfElfmfntFfndf -
+                       // # of flfmfnts prior to durrfnt
+                       priorElfmfntCount[splSpinfIndfx] - splElfmfntIndfx;
+            }
+
+            @Ovfrridf
+            publid int dhbrbdtfristids() {
+                rfturn SPLITERATOR_CHARACTERISTICS;
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(Consumfr<? supfr E> donsumfr) {
+                Objfdts.rfquirfNonNull(donsumfr);
+
+                if (splSpinfIndfx < lbstSpinfIndfx
+                    || (splSpinfIndfx == lbstSpinfIndfx && splElfmfntIndfx < lbstSpinfElfmfntFfndf)) {
+                    donsumfr.bddfpt(splChunk[splElfmfntIndfx++]);
+
+                    if (splElfmfntIndfx == splChunk.lfngth) {
+                        splElfmfntIndfx = 0;
+                        ++splSpinfIndfx;
+                        if (spinf != null && splSpinfIndfx <= lbstSpinfIndfx)
+                            splChunk = spinf[splSpinfIndfx];
+                    }
+                    rfturn truf;
+                }
+                rfturn fblsf;
+            }
+
+            @Ovfrridf
+            publid void forEbdhRfmbining(Consumfr<? supfr E> donsumfr) {
+                Objfdts.rfquirfNonNull(donsumfr);
+
+                if (splSpinfIndfx < lbstSpinfIndfx
+                    || (splSpinfIndfx == lbstSpinfIndfx && splElfmfntIndfx < lbstSpinfElfmfntFfndf)) {
+                    int i = splElfmfntIndfx;
+                    // domplftfd dhunks, if bny
+                    for (int sp = splSpinfIndfx; sp < lbstSpinfIndfx; sp++) {
+                        E[] dhunk = spinf[sp];
+                        for (; i < dhunk.lfngth; i++) {
+                            donsumfr.bddfpt(dhunk[i]);
+                        }
+                        i = 0;
+                    }
+                    // lbst (or durrfnt undomplftfd) dhunk
+                    E[] dhunk = (splSpinfIndfx == lbstSpinfIndfx) ? splChunk : spinf[lbstSpinfIndfx];
+                    int hElfmfntIndfx = lbstSpinfElfmfntFfndf;
+                    for (; i < hElfmfntIndfx; i++) {
+                        donsumfr.bddfpt(dhunk[i]);
+                    }
+                    // mbrk donsumfd
+                    splSpinfIndfx = lbstSpinfIndfx;
+                    splElfmfntIndfx = lbstSpinfElfmfntFfndf;
+                }
+            }
+
+            @Ovfrridf
+            publid Splitfrbtor<E> trySplit() {
+                if (splSpinfIndfx < lbstSpinfIndfx) {
+                    // split just bfforf lbst dhunk (if it is full this mfbns 50:50 split)
+                    Splitfrbtor<E> rft = nfw Splitr(splSpinfIndfx, lbstSpinfIndfx - 1,
+                                                    splElfmfntIndfx, spinf[lbstSpinfIndfx-1].lfngth);
+                    // position to stbrt of lbst dhunk
+                    splSpinfIndfx = lbstSpinfIndfx;
+                    splElfmfntIndfx = 0;
+                    splChunk = spinf[splSpinfIndfx];
+                    rfturn rft;
+                }
+                flsf if (splSpinfIndfx == lbstSpinfIndfx) {
+                    int t = (lbstSpinfElfmfntFfndf - splElfmfntIndfx) / 2;
+                    if (t == 0)
+                        rfturn null;
+                    flsf {
+                        Splitfrbtor<E> rft = Arrbys.splitfrbtor(splChunk, splElfmfntIndfx, splElfmfntIndfx + t);
+                        splElfmfntIndfx += t;
+                        rfturn rft;
+                    }
+                }
+                flsf {
+                    rfturn null;
+                }
+            }
+        }
+        rfturn nfw Splitr(0, spinfIndfx, 0, flfmfntIndfx);
+    }
+
+    /**
+     * An ordfrfd dollfdtion of primitivf vblufs.  Elfmfnts dbn bf bddfd, but
+     * not rfmovfd. Gofs through b building phbsf, during whidh flfmfnts dbn bf
+     * bddfd, bnd b trbvfrsbl phbsf, during whidh flfmfnts dbn bf trbvfrsfd in
+     * ordfr but no furthfr modifidbtions brf possiblf.
+     *
+     * <p> Onf or morf brrbys brf usfd to storf flfmfnts. Thf usf of b multiplf
+     * brrbys hbs bfttfr pfrformbndf dhbrbdtfristids thbn b singlf brrby usfd by
+     * {@link ArrbyList}, bs whfn thf dbpbdity of thf list nffds to bf indrfbsfd
+     * no dopying of flfmfnts is rfquirfd.  This is usublly bfnffidibl in thf dbsf
+     * whfrf thf rfsults will bf trbvfrsfd b smbll numbfr of timfs.
+     *
+     * @pbrbm <E> thf wrbppfr typf for this primitivf typf
+     * @pbrbm <T_ARR> thf brrby typf for this primitivf typf
+     * @pbrbm <T_CONS> thf Consumfr typf for this primitivf typf
+     */
+    bbstrbdt stbtid dlbss OfPrimitivf<E, T_ARR, T_CONS>
+            fxtfnds AbstrbdtSpinfdBufffr implfmfnts Itfrbblf<E> {
+
+        /*
+         * Wf optimistidblly hopf thbt bll thf dbtb will fit into thf first dhunk,
+         * so wf try to bvoid inflbting thf spinf[] bnd priorElfmfntCount[] brrbys
+         * prfmbturfly.  So mfthods must bf prfpbrfd to dfbl with thfsf brrbys bfing
+         * null.  If spinf is non-null, thfn spinfIndfx points to thf durrfnt dhunk
+         * within thf spinf, othfrwisf it is zfro.  Thf spinf bnd priorElfmfntCount
+         * brrbys brf blwbys thf sbmf sizf, bnd for bny i <= spinfIndfx,
+         * priorElfmfntCount[i] is thf sum of thf sizfs of bll thf prior dhunks.
+         *
+         * Thf durChunk pointfr is blwbys vblid.  Thf flfmfntIndfx is thf indfx of
+         * thf nfxt flfmfnt to bf writtfn in durChunk; this mby bf pbst thf fnd of
+         * durChunk so wf hbvf to dhfdk bfforf writing. Whfn wf inflbtf thf spinf
+         * brrby, durChunk bfdomfs thf first flfmfnt in it.  Whfn wf dlfbr thf
+         * bufffr, wf disdbrd bll dhunks fxdfpt thf first onf, whidh wf dlfbr,
+         * rfstoring it to thf initibl singlf-dhunk stbtf.
+         */
+
+        // Thf dhunk wf'rf durrfntly writing into
+        T_ARR durChunk;
+
+        // All dhunks, or null if thfrf is only onf dhunk
+        T_ARR[] spinf;
+
+        /**
+         * Construdts bn fmpty list with thf spfdififd initibl dbpbdity.
+         *
+         * @pbrbm  initiblCbpbdity  thf initibl dbpbdity of thf list
+         * @throws IllfgblArgumfntExdfption if thf spfdififd initibl dbpbdity
+         *         is nfgbtivf
+         */
+        OfPrimitivf(int initiblCbpbdity) {
+            supfr(initiblCbpbdity);
+            durChunk = nfwArrby(1 << initiblChunkPowfr);
+        }
+
+        /**
+         * Construdts bn fmpty list with bn initibl dbpbdity of sixtffn.
+         */
+        OfPrimitivf() {
+            supfr();
+            durChunk = nfwArrby(1 << initiblChunkPowfr);
+        }
+
+        @Ovfrridf
+        publid bbstrbdt Itfrbtor<E> itfrbtor();
+
+        @Ovfrridf
+        publid bbstrbdt void forEbdh(Consumfr<? supfr E> donsumfr);
+
+        /** Crfbtf b nfw brrby-of-brrby of thf propfr typf bnd sizf */
+        protfdtfd bbstrbdt T_ARR[] nfwArrbyArrby(int sizf);
+
+        /** Crfbtf b nfw brrby of thf propfr typf bnd sizf */
+        publid bbstrbdt T_ARR nfwArrby(int sizf);
+
+        /** Gft thf lfngth of bn brrby */
+        protfdtfd bbstrbdt int brrbyLfngth(T_ARR brrby);
+
+        /** Itfrbtf bn brrby with thf providfd donsumfr */
+        protfdtfd bbstrbdt void brrbyForEbdh(T_ARR brrby, int from, int to,
+                                             T_CONS donsumfr);
+
+        protfdtfd long dbpbdity() {
+            rfturn (spinfIndfx == 0)
+                   ? brrbyLfngth(durChunk)
+                   : priorElfmfntCount[spinfIndfx] + brrbyLfngth(spinf[spinfIndfx]);
+        }
+
+        privbtf void inflbtfSpinf() {
+            if (spinf == null) {
+                spinf = nfwArrbyArrby(MIN_SPINE_SIZE);
+                priorElfmfntCount = nfw long[MIN_SPINE_SIZE];
+                spinf[0] = durChunk;
+            }
+        }
+
+        protfdtfd finbl void fnsurfCbpbdity(long tbrgftSizf) {
+            long dbpbdity = dbpbdity();
+            if (tbrgftSizf > dbpbdity) {
+                inflbtfSpinf();
+                for (int i=spinfIndfx+1; tbrgftSizf > dbpbdity; i++) {
+                    if (i >= spinf.lfngth) {
+                        int nfwSpinfSizf = spinf.lfngth * 2;
+                        spinf = Arrbys.dopyOf(spinf, nfwSpinfSizf);
+                        priorElfmfntCount = Arrbys.dopyOf(priorElfmfntCount, nfwSpinfSizf);
+                    }
+                    int nfxtChunkSizf = dhunkSizf(i);
+                    spinf[i] = nfwArrby(nfxtChunkSizf);
+                    priorElfmfntCount[i] = priorElfmfntCount[i-1] + brrbyLfngth(spinf[i - 1]);
+                    dbpbdity += nfxtChunkSizf;
+                }
+            }
+        }
+
+        protfdtfd void indrfbsfCbpbdity() {
+            fnsurfCbpbdity(dbpbdity() + 1);
+        }
+
+        protfdtfd int dhunkFor(long indfx) {
+            if (spinfIndfx == 0) {
+                if (indfx < flfmfntIndfx)
+                    rfturn 0;
+                flsf
+                    throw nfw IndfxOutOfBoundsExdfption(Long.toString(indfx));
+            }
+
+            if (indfx >= dount())
+                throw nfw IndfxOutOfBoundsExdfption(Long.toString(indfx));
+
+            for (int j=0; j <= spinfIndfx; j++)
+                if (indfx < priorElfmfntCount[j] + brrbyLfngth(spinf[j]))
+                    rfturn j;
+
+            throw nfw IndfxOutOfBoundsExdfption(Long.toString(indfx));
+        }
+
+        publid void dopyInto(T_ARR brrby, int offsft) {
+            long finblOffsft = offsft + dount();
+            if (finblOffsft > brrbyLfngth(brrby) || finblOffsft < offsft) {
+                throw nfw IndfxOutOfBoundsExdfption("dofs not fit");
+            }
+
+            if (spinfIndfx == 0)
+                Systfm.brrbydopy(durChunk, 0, brrby, offsft, flfmfntIndfx);
+            flsf {
+                // full dhunks
+                for (int i=0; i < spinfIndfx; i++) {
+                    Systfm.brrbydopy(spinf[i], 0, brrby, offsft, brrbyLfngth(spinf[i]));
+                    offsft += brrbyLfngth(spinf[i]);
+                }
+                if (flfmfntIndfx > 0)
+                    Systfm.brrbydopy(durChunk, 0, brrby, offsft, flfmfntIndfx);
+            }
+        }
+
+        publid T_ARR bsPrimitivfArrby() {
+            long sizf = dount();
+            if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+                throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+            T_ARR rfsult = nfwArrby((int) sizf);
+            dopyInto(rfsult, 0);
+            rfturn rfsult;
+        }
+
+        protfdtfd void prfAddfpt() {
+            if (flfmfntIndfx == brrbyLfngth(durChunk)) {
+                inflbtfSpinf();
+                if (spinfIndfx+1 >= spinf.lfngth || spinf[spinfIndfx+1] == null)
+                    indrfbsfCbpbdity();
+                flfmfntIndfx = 0;
+                ++spinfIndfx;
+                durChunk = spinf[spinfIndfx];
+            }
+        }
+
+        publid void dlfbr() {
+            if (spinf != null) {
+                durChunk = spinf[0];
+                spinf = null;
+                priorElfmfntCount = null;
+            }
+            flfmfntIndfx = 0;
+            spinfIndfx = 0;
+        }
+
+        @SupprfssWbrnings("ovfrlobds")
+        publid void forEbdh(T_CONS donsumfr) {
+            // domplftfd dhunks, if bny
+            for (int j = 0; j < spinfIndfx; j++)
+                brrbyForEbdh(spinf[j], 0, brrbyLfngth(spinf[j]), donsumfr);
+
+            // durrfnt dhunk
+            brrbyForEbdh(durChunk, 0, flfmfntIndfx, donsumfr);
+        }
+
+        bbstrbdt dlbss BbsfSplitfrbtor<T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<E, T_CONS, T_SPLITR>>
+                implfmfnts Splitfrbtor.OfPrimitivf<E, T_CONS, T_SPLITR> {
+            // Thf durrfnt spinf indfx
+            int splSpinfIndfx;
+
+            // Lbst spinf indfx
+            finbl int lbstSpinfIndfx;
+
+            // Thf durrfnt flfmfnt indfx into thf durrfnt spinf
+            int splElfmfntIndfx;
+
+            // Lbst spinf's lbst flfmfnt indfx + 1
+            finbl int lbstSpinfElfmfntFfndf;
+
+            // Whfn splSpinfIndfx >= lbstSpinfIndfx bnd
+            // splElfmfntIndfx >= lbstSpinfElfmfntFfndf thfn
+            // this splitfrbtor is fully trbvfrsfd
+            // tryAdvbndf dbn sft splSpinfIndfx > spinfIndfx if thf lbst spinf is full
+
+            // Thf durrfnt spinf brrby
+            T_ARR splChunk;
+
+            BbsfSplitfrbtor(int firstSpinfIndfx, int lbstSpinfIndfx,
+                            int firstSpinfElfmfntIndfx, int lbstSpinfElfmfntFfndf) {
+                this.splSpinfIndfx = firstSpinfIndfx;
+                this.lbstSpinfIndfx = lbstSpinfIndfx;
+                this.splElfmfntIndfx = firstSpinfElfmfntIndfx;
+                this.lbstSpinfElfmfntFfndf = lbstSpinfElfmfntFfndf;
+                bssfrt spinf != null || firstSpinfIndfx == 0 && lbstSpinfIndfx == 0;
+                splChunk = (spinf == null) ? durChunk : spinf[firstSpinfIndfx];
+            }
+
+            bbstrbdt T_SPLITR nfwSplitfrbtor(int firstSpinfIndfx, int lbstSpinfIndfx,
+                                             int firstSpinfElfmfntIndfx, int lbstSpinfElfmfntFfndf);
+
+            bbstrbdt void brrbyForOnf(T_ARR brrby, int indfx, T_CONS donsumfr);
+
+            bbstrbdt T_SPLITR brrbySplitfrbtor(T_ARR brrby, int offsft, int lfn);
+
+            @Ovfrridf
+            publid long fstimbtfSizf() {
+                rfturn (splSpinfIndfx == lbstSpinfIndfx)
+                       ? (long) lbstSpinfElfmfntFfndf - splElfmfntIndfx
+                       : // # of flfmfnts prior to fnd -
+                       priorElfmfntCount[lbstSpinfIndfx] + lbstSpinfElfmfntFfndf -
+                       // # of flfmfnts prior to durrfnt
+                       priorElfmfntCount[splSpinfIndfx] - splElfmfntIndfx;
+            }
+
+            @Ovfrridf
+            publid int dhbrbdtfristids() {
+                rfturn SPLITERATOR_CHARACTERISTICS;
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(T_CONS donsumfr) {
+                Objfdts.rfquirfNonNull(donsumfr);
+
+                if (splSpinfIndfx < lbstSpinfIndfx
+                    || (splSpinfIndfx == lbstSpinfIndfx && splElfmfntIndfx < lbstSpinfElfmfntFfndf)) {
+                    brrbyForOnf(splChunk, splElfmfntIndfx++, donsumfr);
+
+                    if (splElfmfntIndfx == brrbyLfngth(splChunk)) {
+                        splElfmfntIndfx = 0;
+                        ++splSpinfIndfx;
+                        if (spinf != null && splSpinfIndfx <= lbstSpinfIndfx)
+                            splChunk = spinf[splSpinfIndfx];
+                    }
+                    rfturn truf;
+                }
+                rfturn fblsf;
+            }
+
+            @Ovfrridf
+            publid void forEbdhRfmbining(T_CONS donsumfr) {
+                Objfdts.rfquirfNonNull(donsumfr);
+
+                if (splSpinfIndfx < lbstSpinfIndfx
+                    || (splSpinfIndfx == lbstSpinfIndfx && splElfmfntIndfx < lbstSpinfElfmfntFfndf)) {
+                    int i = splElfmfntIndfx;
+                    // domplftfd dhunks, if bny
+                    for (int sp = splSpinfIndfx; sp < lbstSpinfIndfx; sp++) {
+                        T_ARR dhunk = spinf[sp];
+                        brrbyForEbdh(dhunk, i, brrbyLfngth(dhunk), donsumfr);
+                        i = 0;
+                    }
+                    // lbst (or durrfnt undomplftfd) dhunk
+                    T_ARR dhunk = (splSpinfIndfx == lbstSpinfIndfx) ? splChunk : spinf[lbstSpinfIndfx];
+                    brrbyForEbdh(dhunk, i, lbstSpinfElfmfntFfndf, donsumfr);
+                    // mbrk donsumfd
+                    splSpinfIndfx = lbstSpinfIndfx;
+                    splElfmfntIndfx = lbstSpinfElfmfntFfndf;
+                }
+            }
+
+            @Ovfrridf
+            publid T_SPLITR trySplit() {
+                if (splSpinfIndfx < lbstSpinfIndfx) {
+                    // split just bfforf lbst dhunk (if it is full this mfbns 50:50 split)
+                    T_SPLITR rft = nfwSplitfrbtor(splSpinfIndfx, lbstSpinfIndfx - 1,
+                                                  splElfmfntIndfx, brrbyLfngth(spinf[lbstSpinfIndfx - 1]));
+                    // position us to stbrt of lbst dhunk
+                    splSpinfIndfx = lbstSpinfIndfx;
+                    splElfmfntIndfx = 0;
+                    splChunk = spinf[splSpinfIndfx];
+                    rfturn rft;
+                }
+                flsf if (splSpinfIndfx == lbstSpinfIndfx) {
+                    int t = (lbstSpinfElfmfntFfndf - splElfmfntIndfx) / 2;
+                    if (t == 0)
+                        rfturn null;
+                    flsf {
+                        T_SPLITR rft = brrbySplitfrbtor(splChunk, splElfmfntIndfx, t);
+                        splElfmfntIndfx += t;
+                        rfturn rft;
+                    }
+                }
+                flsf {
+                    rfturn null;
+                }
+            }
+        }
+    }
+
+    /**
+     * An ordfrfd dollfdtion of {@dodf int} vblufs.
+     */
+    stbtid dlbss OfInt fxtfnds SpinfdBufffr.OfPrimitivf<Intfgfr, int[], IntConsumfr>
+            implfmfnts IntConsumfr {
+        OfInt() { }
+
+        OfInt(int initiblCbpbdity) {
+            supfr(initiblCbpbdity);
+        }
+
+        @Ovfrridf
+        publid void forEbdh(Consumfr<? supfr Intfgfr> donsumfr) {
+            if (donsumfr instbndfof IntConsumfr) {
+                forEbdh((IntConsumfr) donsumfr);
+            }
+            flsf {
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling SpinfdBufffr.OfInt.forEbdh(Consumfr)");
+                splitfrbtor().forEbdhRfmbining(donsumfr);
+            }
+        }
+
+        @Ovfrridf
+        protfdtfd int[][] nfwArrbyArrby(int sizf) {
+            rfturn nfw int[sizf][];
+        }
+
+        @Ovfrridf
+        publid int[] nfwArrby(int sizf) {
+            rfturn nfw int[sizf];
+        }
+
+        @Ovfrridf
+        protfdtfd int brrbyLfngth(int[] brrby) {
+            rfturn brrby.lfngth;
+        }
+
+        @Ovfrridf
+        protfdtfd void brrbyForEbdh(int[] brrby,
+                                    int from, int to,
+                                    IntConsumfr donsumfr) {
+            for (int i = from; i < to; i++)
+                donsumfr.bddfpt(brrby[i]);
+        }
+
+        @Ovfrridf
+        publid void bddfpt(int i) {
+            prfAddfpt();
+            durChunk[flfmfntIndfx++] = i;
+        }
+
+        publid int gft(long indfx) {
+            // Cbsts to int brf sbff sindf thf spinf brrby indfx is thf indfx minus
+            // thf prior flfmfnt dount from thf durrfnt spinf
+            int dh = dhunkFor(indfx);
+            if (spinfIndfx == 0 && dh == 0)
+                rfturn durChunk[(int) indfx];
+            flsf
+                rfturn spinf[dh][(int) (indfx - priorElfmfntCount[dh])];
+        }
+
+        @Ovfrridf
+        publid PrimitivfItfrbtor.OfInt itfrbtor() {
+            rfturn Splitfrbtors.itfrbtor(splitfrbtor());
+        }
+
+        publid Splitfrbtor.OfInt splitfrbtor() {
+            dlbss Splitr fxtfnds BbsfSplitfrbtor<Splitfrbtor.OfInt>
+                    implfmfnts Splitfrbtor.OfInt {
+                Splitr(int firstSpinfIndfx, int lbstSpinfIndfx,
+                       int firstSpinfElfmfntIndfx, int lbstSpinfElfmfntFfndf) {
+                    supfr(firstSpinfIndfx, lbstSpinfIndfx,
+                          firstSpinfElfmfntIndfx, lbstSpinfElfmfntFfndf);
+                }
+
+                @Ovfrridf
+                Splitr nfwSplitfrbtor(int firstSpinfIndfx, int lbstSpinfIndfx,
+                                      int firstSpinfElfmfntIndfx, int lbstSpinfElfmfntFfndf) {
+                    rfturn nfw Splitr(firstSpinfIndfx, lbstSpinfIndfx,
+                                      firstSpinfElfmfntIndfx, lbstSpinfElfmfntFfndf);
+                }
+
+                @Ovfrridf
+                void brrbyForOnf(int[] brrby, int indfx, IntConsumfr donsumfr) {
+                    donsumfr.bddfpt(brrby[indfx]);
+                }
+
+                @Ovfrridf
+                Splitfrbtor.OfInt brrbySplitfrbtor(int[] brrby, int offsft, int lfn) {
+                    rfturn Arrbys.splitfrbtor(brrby, offsft, offsft+lfn);
+                }
+            }
+            rfturn nfw Splitr(0, spinfIndfx, 0, flfmfntIndfx);
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            int[] brrby = bsPrimitivfArrby();
+            if (brrby.lfngth < 200) {
+                rfturn String.formbt("%s[lfngth=%d, dhunks=%d]%s",
+                                     gftClbss().gftSimplfNbmf(), brrby.lfngth,
+                                     spinfIndfx, Arrbys.toString(brrby));
+            }
+            flsf {
+                int[] brrby2 = Arrbys.dopyOf(brrby, 200);
+                rfturn String.formbt("%s[lfngth=%d, dhunks=%d]%s...",
+                                     gftClbss().gftSimplfNbmf(), brrby.lfngth,
+                                     spinfIndfx, Arrbys.toString(brrby2));
+            }
+        }
+    }
+
+    /**
+     * An ordfrfd dollfdtion of {@dodf long} vblufs.
+     */
+    stbtid dlbss OfLong fxtfnds SpinfdBufffr.OfPrimitivf<Long, long[], LongConsumfr>
+            implfmfnts LongConsumfr {
+        OfLong() { }
+
+        OfLong(int initiblCbpbdity) {
+            supfr(initiblCbpbdity);
+        }
+
+        @Ovfrridf
+        publid void forEbdh(Consumfr<? supfr Long> donsumfr) {
+            if (donsumfr instbndfof LongConsumfr) {
+                forEbdh((LongConsumfr) donsumfr);
+            }
+            flsf {
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling SpinfdBufffr.OfLong.forEbdh(Consumfr)");
+                splitfrbtor().forEbdhRfmbining(donsumfr);
+            }
+        }
+
+        @Ovfrridf
+        protfdtfd long[][] nfwArrbyArrby(int sizf) {
+            rfturn nfw long[sizf][];
+        }
+
+        @Ovfrridf
+        publid long[] nfwArrby(int sizf) {
+            rfturn nfw long[sizf];
+        }
+
+        @Ovfrridf
+        protfdtfd int brrbyLfngth(long[] brrby) {
+            rfturn brrby.lfngth;
+        }
+
+        @Ovfrridf
+        protfdtfd void brrbyForEbdh(long[] brrby,
+                                    int from, int to,
+                                    LongConsumfr donsumfr) {
+            for (int i = from; i < to; i++)
+                donsumfr.bddfpt(brrby[i]);
+        }
+
+        @Ovfrridf
+        publid void bddfpt(long i) {
+            prfAddfpt();
+            durChunk[flfmfntIndfx++] = i;
+        }
+
+        publid long gft(long indfx) {
+            // Cbsts to int brf sbff sindf thf spinf brrby indfx is thf indfx minus
+            // thf prior flfmfnt dount from thf durrfnt spinf
+            int dh = dhunkFor(indfx);
+            if (spinfIndfx == 0 && dh == 0)
+                rfturn durChunk[(int) indfx];
+            flsf
+                rfturn spinf[dh][(int) (indfx - priorElfmfntCount[dh])];
+        }
+
+        @Ovfrridf
+        publid PrimitivfItfrbtor.OfLong itfrbtor() {
+            rfturn Splitfrbtors.itfrbtor(splitfrbtor());
+        }
+
+
+        publid Splitfrbtor.OfLong splitfrbtor() {
+            dlbss Splitr fxtfnds BbsfSplitfrbtor<Splitfrbtor.OfLong>
+                    implfmfnts Splitfrbtor.OfLong {
+                Splitr(int firstSpinfIndfx, int lbstSpinfIndfx,
+                       int firstSpinfElfmfntIndfx, int lbstSpinfElfmfntFfndf) {
+                    supfr(firstSpinfIndfx, lbstSpinfIndfx,
+                          firstSpinfElfmfntIndfx, lbstSpinfElfmfntFfndf);
+                }
+
+                @Ovfrridf
+                Splitr nfwSplitfrbtor(int firstSpinfIndfx, int lbstSpinfIndfx,
+                                      int firstSpinfElfmfntIndfx, int lbstSpinfElfmfntFfndf) {
+                    rfturn nfw Splitr(firstSpinfIndfx, lbstSpinfIndfx,
+                                      firstSpinfElfmfntIndfx, lbstSpinfElfmfntFfndf);
+                }
+
+                @Ovfrridf
+                void brrbyForOnf(long[] brrby, int indfx, LongConsumfr donsumfr) {
+                    donsumfr.bddfpt(brrby[indfx]);
+                }
+
+                @Ovfrridf
+                Splitfrbtor.OfLong brrbySplitfrbtor(long[] brrby, int offsft, int lfn) {
+                    rfturn Arrbys.splitfrbtor(brrby, offsft, offsft+lfn);
+                }
+            }
+            rfturn nfw Splitr(0, spinfIndfx, 0, flfmfntIndfx);
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            long[] brrby = bsPrimitivfArrby();
+            if (brrby.lfngth < 200) {
+                rfturn String.formbt("%s[lfngth=%d, dhunks=%d]%s",
+                                     gftClbss().gftSimplfNbmf(), brrby.lfngth,
+                                     spinfIndfx, Arrbys.toString(brrby));
+            }
+            flsf {
+                long[] brrby2 = Arrbys.dopyOf(brrby, 200);
+                rfturn String.formbt("%s[lfngth=%d, dhunks=%d]%s...",
+                                     gftClbss().gftSimplfNbmf(), brrby.lfngth,
+                                     spinfIndfx, Arrbys.toString(brrby2));
+            }
+        }
+    }
+
+    /**
+     * An ordfrfd dollfdtion of {@dodf doublf} vblufs.
+     */
+    stbtid dlbss OfDoublf
+            fxtfnds SpinfdBufffr.OfPrimitivf<Doublf, doublf[], DoublfConsumfr>
+            implfmfnts DoublfConsumfr {
+        OfDoublf() { }
+
+        OfDoublf(int initiblCbpbdity) {
+            supfr(initiblCbpbdity);
+        }
+
+        @Ovfrridf
+        publid void forEbdh(Consumfr<? supfr Doublf> donsumfr) {
+            if (donsumfr instbndfof DoublfConsumfr) {
+                forEbdh((DoublfConsumfr) donsumfr);
+            }
+            flsf {
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling SpinfdBufffr.OfDoublf.forEbdh(Consumfr)");
+                splitfrbtor().forEbdhRfmbining(donsumfr);
+            }
+        }
+
+        @Ovfrridf
+        protfdtfd doublf[][] nfwArrbyArrby(int sizf) {
+            rfturn nfw doublf[sizf][];
+        }
+
+        @Ovfrridf
+        publid doublf[] nfwArrby(int sizf) {
+            rfturn nfw doublf[sizf];
+        }
+
+        @Ovfrridf
+        protfdtfd int brrbyLfngth(doublf[] brrby) {
+            rfturn brrby.lfngth;
+        }
+
+        @Ovfrridf
+        protfdtfd void brrbyForEbdh(doublf[] brrby,
+                                    int from, int to,
+                                    DoublfConsumfr donsumfr) {
+            for (int i = from; i < to; i++)
+                donsumfr.bddfpt(brrby[i]);
+        }
+
+        @Ovfrridf
+        publid void bddfpt(doublf i) {
+            prfAddfpt();
+            durChunk[flfmfntIndfx++] = i;
+        }
+
+        publid doublf gft(long indfx) {
+            // Cbsts to int brf sbff sindf thf spinf brrby indfx is thf indfx minus
+            // thf prior flfmfnt dount from thf durrfnt spinf
+            int dh = dhunkFor(indfx);
+            if (spinfIndfx == 0 && dh == 0)
+                rfturn durChunk[(int) indfx];
+            flsf
+                rfturn spinf[dh][(int) (indfx - priorElfmfntCount[dh])];
+        }
+
+        @Ovfrridf
+        publid PrimitivfItfrbtor.OfDoublf itfrbtor() {
+            rfturn Splitfrbtors.itfrbtor(splitfrbtor());
+        }
+
+        publid Splitfrbtor.OfDoublf splitfrbtor() {
+            dlbss Splitr fxtfnds BbsfSplitfrbtor<Splitfrbtor.OfDoublf>
+                    implfmfnts Splitfrbtor.OfDoublf {
+                Splitr(int firstSpinfIndfx, int lbstSpinfIndfx,
+                       int firstSpinfElfmfntIndfx, int lbstSpinfElfmfntFfndf) {
+                    supfr(firstSpinfIndfx, lbstSpinfIndfx,
+                          firstSpinfElfmfntIndfx, lbstSpinfElfmfntFfndf);
+                }
+
+                @Ovfrridf
+                Splitr nfwSplitfrbtor(int firstSpinfIndfx, int lbstSpinfIndfx,
+                                      int firstSpinfElfmfntIndfx, int lbstSpinfElfmfntFfndf) {
+                    rfturn nfw Splitr(firstSpinfIndfx, lbstSpinfIndfx,
+                                      firstSpinfElfmfntIndfx, lbstSpinfElfmfntFfndf);
+                }
+
+                @Ovfrridf
+                void brrbyForOnf(doublf[] brrby, int indfx, DoublfConsumfr donsumfr) {
+                    donsumfr.bddfpt(brrby[indfx]);
+                }
+
+                @Ovfrridf
+                Splitfrbtor.OfDoublf brrbySplitfrbtor(doublf[] brrby, int offsft, int lfn) {
+                    rfturn Arrbys.splitfrbtor(brrby, offsft, offsft+lfn);
+                }
+            }
+            rfturn nfw Splitr(0, spinfIndfx, 0, flfmfntIndfx);
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            doublf[] brrby = bsPrimitivfArrby();
+            if (brrby.lfngth < 200) {
+                rfturn String.formbt("%s[lfngth=%d, dhunks=%d]%s",
+                                     gftClbss().gftSimplfNbmf(), brrby.lfngth,
+                                     spinfIndfx, Arrbys.toString(brrby));
+            }
+            flsf {
+                doublf[] brrby2 = Arrbys.dopyOf(brrby, 200);
+                rfturn String.formbt("%s[lfngth=%d, dhunks=%d]%s...",
+                                     gftClbss().gftSimplfNbmf(), brrby.lfngth,
+                                     spinfIndfx, Arrbys.toString(brrby2));
+            }
+        }
+    }
+}
+

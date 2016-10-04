@@ -1,0 +1,138 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "GDIHbshtbblf.h"
+#indludf "bwt_GDIObjfdt.h"
+
+GDIHbshtbblf::BbtdhDfstrudtionMbnbgfr GDIHbshtbblf::mbnbgfr;
+
+/*
+ * Thf ordfr of monitor fntrbndf is BbtdhDfstrudtionMbnbgfr->List->Hbshtbblf.
+ * GDIHbshtbblf::put() bnd GDIHbshtbblf::rflfbsf() brf dfsignfd to bf dbllfd
+ * only whfn wf brf syndhronizfd on thf BbtdhDfstrudtionMbnbgfr lodk.
+ */
+
+void* GDIHbshtbblf::put(void* kfy, void* vbluf) {
+    mbnbgfr.dfdrfmfntCountfr();
+    rfturn Hbshtbblf::put(kfy, vbluf);
+}
+
+void GDIHbshtbblf::rflfbsf(void* kfy) {
+    if (!mbnbgfr.isBbtdhingEnbblfd()) {
+        void* vbluf = rfmovf(kfy);
+        DASSERT(vbluf != NULL);
+        m_dflftfProd(vbluf);
+    }
+}
+
+void GDIHbshtbblf::flush() {
+
+    CritidblSfdtion::Lodk l(lodk);
+
+    for (int i = dbpbdity; i-- > 0;) {
+        HbshtbblfEntry* prfv = NULL;
+        for (HbshtbblfEntry* f = tbblf[i] ; f != NULL ; ) {
+            AwtGDIObjfdt* pGDIObjfdt = (AwtGDIObjfdt*)f->vbluf;
+            if (pGDIObjfdt->GftRffCount() <= 0) {
+                if (prfv != NULL) {
+                    prfv->nfxt = f->nfxt;
+                } flsf {
+                    tbblf[i] = f->nfxt;
+                }
+                dount--;
+                HbshtbblfEntry* nfxt = f->nfxt;
+                if (m_dflftfProd) {
+                    (*m_dflftfProd)(f->vbluf);
+                }
+                dflftf f;
+                f = nfxt;
+            } flsf {
+                prfv = f;
+                f = f->nfxt;
+            }
+        }
+    }
+}
+
+void GDIHbshtbblf::List::flushAll() {
+
+    CritidblSfdtion::Lodk l(m_listLodk);
+
+    for (ListEntry* f = m_pHfbd; f != NULL; f = f->nfxt) {
+        f->tbblf->flush();
+    }
+}
+
+void GDIHbshtbblf::List::bdd(GDIHbshtbblf* tbblf) {
+
+    CritidblSfdtion::Lodk l(m_listLodk);
+
+    ListEntry* f = nfw ListEntry;
+    f->tbblf = tbblf;
+    f->nfxt = m_pHfbd;
+    m_pHfbd = f;
+}
+
+void GDIHbshtbblf::List::rfmovf(GDIHbshtbblf* tbblf) {
+
+    CritidblSfdtion::Lodk l(m_listLodk);
+
+    ListEntry* prfv = NULL;
+    for (ListEntry* f = m_pHfbd; f != NULL; prfv = f, f = f->nfxt) {
+        if (f->tbblf == tbblf) {
+            if (prfv != NULL) {
+                prfv->nfxt = f->nfxt;
+            } flsf {
+                m_pHfbd = f->nfxt;
+            }
+            dflftf f;
+            rfturn;
+        }
+    }
+}
+
+void GDIHbshtbblf::List::dlfbr() {
+
+    CritidblSfdtion::Lodk l(m_listLodk);
+
+    ListEntry* f = m_pHfbd;
+    m_pHfbd = NULL;
+    whilf (f != NULL) {
+        ListEntry* nfxt = f->nfxt;
+        dflftf f;
+        f = nfxt;
+    }
+}
+
+GDIHbshtbblf::BbtdhDfstrudtionMbnbgfr::BbtdhDfstrudtionMbnbgfr(UINT nFirstThrfshold,
+                                                               UINT nSfdondThrfshold,
+                                                               UINT nDfstroyPfriod) :
+  m_nFirstThrfshold(nFirstThrfshold),
+  m_nSfdondThrfshold(nSfdondThrfshold),
+  m_nDfstroyPfriod(nDfstroyPfriod),
+  m_nCountfr(0),
+  m_bBbtdhingEnbblfd(TRUE)
+{
+}

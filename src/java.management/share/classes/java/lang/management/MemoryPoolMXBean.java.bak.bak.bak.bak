@@ -1,0 +1,643 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+/**
+ * Thf mbnbgfmfnt intfrfbdf for b mfmory pool.  A mfmory pool
+ * rfprfsfnts thf mfmory rfsourdf mbnbgfd by thf Jbvb virtubl mbdhinf
+ * bnd is mbnbgfd by onf or morf {@link MfmoryMbnbgfrMXBfbn mfmory mbnbgfrs}.
+ *
+ * <p> A Jbvb virtubl mbdhinf hbs onf or morf instbndfs of thf
+ * implfmfntbtion dlbss of this intfrfbdf.  An instbndf
+ * implfmfnting this intfrfbdf is
+ * bn <b hrff="MbnbgfmfntFbdtory.html#MXBfbn">MXBfbn</b>
+ * thbt dbn bf obtbinfd by dblling
+ * thf {@link MbnbgfmfntFbdtory#gftMfmoryPoolMXBfbns} mfthod or
+ * from thf {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>} mfthod.
+ *
+ * <p>Thf <tt>ObjfdtNbmf</tt> for uniqufly idfntifying thf MXBfbn for
+ * b mfmory pool within bn <tt>MBfbnSfrvfr</tt> is:
+ * <blodkquotf>
+ *    {@link MbnbgfmfntFbdtory#MEMORY_POOL_MXBEAN_DOMAIN_TYPE
+ *    <tt>jbvb.lbng:typf=MfmoryPool</tt>}<tt>,nbmf=</tt><i>pool's nbmf</i>
+ * </blodkquotf>
+ *
+ * It dbn bf obtbinfd by dblling thf
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mfthod.
+ *
+ * <h3>Mfmory Typf</h3>
+ * <p>Thf Jbvb virtubl mbdhinf hbs b hfbp for objfdt bllodbtion bnd blso
+ * mbintbins non-hfbp mfmory for thf mfthod brfb bnd thf Jbvb virtubl
+ * mbdhinf fxfdution.  Thf Jbvb virtubl mbdhinf dbn hbvf onf or morf
+ * mfmory pools.  Ebdh mfmory pool rfprfsfnts b mfmory brfb
+ * of onf of thf following typfs:
+ * <ul>
+ *   <li>{@link MfmoryTypf#HEAP hfbp}</li>
+ *   <li>{@link MfmoryTypf#NON_HEAP non-hfbp}</li>
+ * </ul>
+ *
+ * <h3>Mfmory Usbgf Monitoring</h3>
+ *
+ * A mfmory pool hbs thf following bttributfs:
+ * <ul>
+ *   <li><b hrff="#Usbgf">Mfmory usbgf</b></li>
+ *   <li><b hrff="#PfbkUsbgf">Pfbk mfmory usbgf</b></li>
+ *   <li><b hrff="#UsbgfThrfshold">Usbgf Thrfshold</b></li>
+ *   <li><b hrff="#CollfdtionThrfshold">Collfdtion Usbgf Thrfshold</b>
+ *       (only supportfd by somf <fm>gbrbbgf-dollfdtfd</fm> mfmory pools)</li>
+ * </ul>
+ *
+ * <h3><b nbmf="Usbgf">1. Mfmory Usbgf</b></h3>
+ *
+ * Thf {@link #gftUsbgf} mfthod providfs bn fstimbtf
+ * of thf durrfnt usbgf of b mfmory pool.
+ * For b gbrbbgf-dollfdtfd mfmory pool, thf bmount of usfd mfmory
+ * indludfs thf mfmory oddupifd by bll objfdts in thf pool
+ * indluding both <fm>rfbdhbblf</fm> bnd <fm>unrfbdhbblf</fm> objfdts.
+ *
+ * <p>In gfnfrbl, this mfthod is b lightwfight opfrbtion for gftting
+ * bn bpproximbtf mfmory usbgf.  For somf mfmory pools, for fxbmplf,
+ * whfn objfdts brf not pbdkfd dontiguously, this mfthod mby bf
+ * bn fxpfnsivf opfrbtion thbt rfquirfs somf domputbtion to dftfrminf
+ * thf durrfnt mfmory usbgf.  An implfmfntbtion should dodumfnt whfn
+ * this is thf dbsf.
+ *
+ * <h3><b nbmf="PfbkUsbgf">2. Pfbk Mfmory Usbgf</b></h3>
+ *
+ * Thf Jbvb virtubl mbdhinf mbintbins thf pfbk mfmory usbgf of b mfmory
+ * pool sindf thf virtubl mbdhinf wbs stbrtfd or thf pfbk wbs rfsft.
+ * Thf pfbk mfmory usbgf is rfturnfd by thf {@link #gftPfbkUsbgf} mfthod
+ * bnd rfsft by dblling thf {@link #rfsftPfbkUsbgf} mfthod.
+ *
+ * <h3><b nbmf="UsbgfThrfshold">3. Usbgf Thrfshold</b></h3>
+ *
+ * Ebdh mfmory pool hbs b mbnbgfbblf bttributf
+ * dbllfd thf <i>usbgf thrfshold</i> whidh hbs b dffbult vbluf supplifd
+ * by thf Jbvb virtubl mbdhinf.  Thf dffbult vbluf is plbtform-dfpfndfnt.
+ * Thf usbgf thrfshold dbn bf sft vib thf
+ * {@link #sftUsbgfThrfshold sftUsbgfThrfshold} mfthod.
+ * If thf thrfshold is sft to b positivf vbluf, thf usbgf thrfshold drossing
+ * dhfdking is fnbblfd in this mfmory pool.
+ * If thf usbgf thrfshold is sft to zfro, usbgf
+ * thrfshold drossing dhfdking on this mfmory pool is disbblfd.
+ * Thf {@link MfmoryPoolMXBfbn#isUsbgfThrfsholdSupportfd} mfthod dbn
+ * bf usfd to dftfrminf if this fundtionblity is supportfd.
+ * <p>
+ * A Jbvb virtubl mbdhinf pfrforms usbgf thrfshold drossing dhfdking on b
+ * mfmory pool bbsis bt its bfst bppropribtf timf, typidblly,
+ * bt gbrbbgf dollfdtion timf.
+ * Ebdh mfmory pool mbintbins b {@link #gftUsbgfThrfsholdCount
+ * usbgf thrfshold dount} thbt will gft indrfmfntfd
+ * fvfry timf whfn thf Jbvb virtubl mbdhinf
+ * dftfdts thbt thf mfmory pool usbgf is drossing thf thrfshold.
+ * <p>
+ * This mbnbgfbblf usbgf thrfshold bttributf is dfsignfd for monitoring thf
+ * indrfbsing trfnd of mfmory usbgf with low ovfrhfbd.
+ * Usbgf thrfshold mby not bf bppropribtf for somf mfmory pools.
+ * For fxbmplf, b gfnfrbtionbl gbrbbgf dollfdtor, b dommon gbrbbgf dollfdtion
+ * blgorithm usfd in mbny Jbvb virtubl mbdhinf implfmfntbtions,
+ * mbnbgfs two or morf gfnfrbtions sfgrfgbting objfdts by bgf.
+ * Most of thf objfdts brf bllodbtfd in
+ * thf <fm>youngfst gfnfrbtion</fm> (sby b nursfry mfmory pool).
+ * Thf nursfry mfmory pool is dfsignfd to bf fillfd up bnd
+ * dollfdting thf nursfry mfmory pool will frff most of its mfmory spbdf
+ * sindf it is fxpfdtfd to dontbin mostly short-livfd objfdts
+ * bnd mostly brf unrfbdhbblf bt gbrbbgf dollfdtion timf.
+ * In this dbsf, it is morf bppropribtf for thf nursfry mfmory pool
+ * not to support b usbgf thrfshold.  In bddition,
+ * if thf dost of bn objfdt bllodbtion
+ * in onf mfmory pool is vfry low (for fxbmplf, just btomid pointfr fxdhbngf),
+ * thf Jbvb virtubl mbdhinf would probbbly not support thf usbgf thrfshold
+ * for thbt mfmory pool sindf thf ovfrhfbd in dompbring thf usbgf with
+ * thf thrfshold is highfr thbn thf dost of objfdt bllodbtion.
+ *
+ * <p>
+ * Thf mfmory usbgf of thf systfm dbn bf monitorfd using
+ * <b hrff="#Polling">polling</b> or
+ * <b hrff="#ThrfsholdNotifidbtion">thrfshold notifidbtion</b> mfdhbnisms.
+ *
+ * <ol typf="b">
+ *   <li><b nbmf="Polling"><b>Polling</b></b>
+ *       <p>
+ *       An bpplidbtion dbn dontinuously monitor its mfmory usbgf
+ *       by dblling fithfr thf {@link #gftUsbgf} mfthod for bll
+ *       mfmory pools or thf {@link #isUsbgfThrfsholdExdffdfd} mfthod
+ *       for thosf mfmory pools thbt support b usbgf thrfshold.
+ *       Bflow is fxbmplf dodf thbt hbs b thrfbd dfdidbtfd for
+ *       tbsk distribution bnd prodfssing.  At fvfry intfrvbl,
+ *       it will dftfrminf if it should rfdfivf bnd prodfss nfw tbsks bbsfd
+ *       on its mfmory usbgf.  If thf mfmory usbgf fxdffds its usbgf thrfshold,
+ *       it will rfdistributf bll outstbnding tbsks to othfr VMs bnd
+ *       stop rfdfiving nfw tbsks until thf mfmory usbgf rfturns
+ *       bflow its usbgf thrfshold.
+ *
+ *       <prf>
+ *       // Assumf thf usbgf thrfshold is supportfd for this pool.
+ *       // Sft thf thrfshold to myThrfshold bbovf whidh no nfw tbsks
+ *       // should bf tbkfn.
+ *       pool.sftUsbgfThrfshold(myThrfshold);
+ *       ....
+ *
+ *       boolfbn lowMfmory = fblsf;
+ *       whilf (truf) {
+ *          if (pool.isUsbgfThrfsholdExdffdfd()) {
+ *              // potfntibl low mfmory, so rfdistributf tbsks to othfr VMs
+ *              lowMfmory = truf;
+ *              rfdistributfTbsks();
+ *              // stop rfdfiving nfw tbsks
+ *              stopRfdfivingTbsks();
+ *          } flsf {
+ *              if (lowMfmory) {
+ *                  // rfsumf rfdfiving tbsks
+ *                  lowMfmory = fblsf;
+ *                  rfsumfRfdfivingTbsks();
+ *              }
+ *              // prodfssing outstbnding tbsk
+ *              ...
+ *          }
+ *          // slffp for somftimf
+ *          try {
+ *              Thrfbd.slffp(somftimf);
+ *          } dbtdh (IntfrruptfdExdfption f) {
+ *              ...
+ *          }
+ *       }
+ *       </prf>
+ *
+ * <hr>
+ *       Thf bbovf fxbmplf dofs not difffrfntibtf thf dbsf whfrf
+ *       thf mfmory usbgf hbs tfmporbrily droppfd bflow thf usbgf thrfshold
+ *       from thf dbsf whfrf thf mfmory usbgf rfmbins bbovf thf thrfshold
+ *       bftwffn two itfrbtions.  Thf usbgf thrfshold dount rfturnfd by
+ *       thf {@link #gftUsbgfThrfsholdCount} mfthod
+ *       dbn bf usfd to dftfrminf
+ *       if thf mfmory usbgf hbs rfturnfd bflow thf thrfshold
+ *       bftwffn two polls.
+ *       <p>
+ *       Bflow shows bnothfr fxbmplf thbt tbkfs somf bdtion if b
+ *       mfmory pool is undfr low mfmory bnd ignorfs thf mfmory usbgf
+ *       dhbngfs during thf bdtion prodfssing timf.
+ *
+ *       <prf>
+ *       // Assumf thf usbgf thrfshold is supportfd for this pool.
+ *       // Sft thf thrfshold to myThrfshold whidh dftfrminfs if
+ *       // thf bpplidbtion will tbkf somf bdtion undfr low mfmory dondition.
+ *       pool.sftUsbgfThrfshold(myThrfshold);
+ *
+ *       int prfvCrossingCount = 0;
+ *       whilf (truf) {
+ *           // A busy loop to dftfdt whfn thf mfmory usbgf
+ *           // hbs fxdffdfd thf thrfshold.
+ *           whilf (!pool.isUsbgfThrfsholdExdffdfd() ||
+ *                  pool.gftUsbgfThrfsholdCount() == prfvCrossingCount) {
+ *               try {
+ *                   Thrfbd.slffp(somftimf)
+ *               } dbtdh (IntfrruptExdfption f) {
+ *                   ....
+ *               }
+ *           }
+ *
+ *           // Do somf prodfssing sudh bs dhfdk for mfmory usbgf
+ *           // bnd issuf b wbrning
+ *           ....
+ *
+ *           // Gfts thf durrfnt thrfshold dount. Thf busy loop will thfn
+ *           // ignorf bny drossing of thrfshold hbppfns during thf prodfssing.
+ *           prfvCrossingCount = pool.gftUsbgfThrfsholdCount();
+ *       }
+ *       </prf><hr>
+ *   </li>
+ *   <li><b nbmf="ThrfsholdNotifidbtion"><b>Usbgf Thrfshold Notifidbtions</b></b>
+ *       <p>
+ *       Usbgf thrfshold notifidbtion will bf fmittfd by {@link MfmoryMXBfbn}.
+ *       Whfn thf Jbvb virtubl mbdhinf dftfdts thbt thf mfmory usbgf of
+ *       b mfmory pool hbs rfbdhfd or fxdffdfd thf usbgf thrfshold
+ *       thf virtubl mbdhinf will triggfr thf <tt>MfmoryMXBfbn</tt> to fmit bn
+ *       {@link MfmoryNotifidbtionInfo#MEMORY_THRESHOLD_EXCEEDED
+ *       usbgf thrfshold fxdffdfd notifidbtion}.
+ *       Anothfr usbgf thrfshold fxdffdfd notifidbtion will not bf
+ *       gfnfrbtfd until thf usbgf hbs fbllfn bflow thf thrfshold bnd
+ *       thfn fxdffdfd it bgbin.
+ *       <p>
+ *       Bflow is bn fxbmplf dodf implfmfnting thf sbmf logid bs thf
+ *       first fxbmplf bbovf but using thf usbgf thrfshold notifidbtion
+ *       mfdhbnism to dftfdt low mfmory donditions instfbd of polling.
+ *       In this fxbmplf dodf, upon rfdfiving notifidbtion, thf notifidbtion
+ *       listfnfr notififs bnothfr thrfbd to pfrform thf bdtubl bdtion
+ *       sudh bs to rfdistributf outstbnding tbsks, stop rfdfiving tbsks,
+ *       or rfsumf rfdfiving tbsks.
+ *       Thf <tt>hbndlfNotifidbtion</tt> mfthod should bf dfsignfd to
+ *       do b vfry minimbl bmount of work bnd rfturn without dflby to bvoid
+ *       dbusing dflby in dflivfring subsfqufnt notifidbtions.  Timf-donsuming
+ *       bdtions should bf pfrformfd by b sfpbrbtf thrfbd.
+ *       Thf notifidbtion listfnfr mby bf invokfd by multiplf thrfbds
+ *       dondurrfntly; so thf tbsks pfrformfd by thf listfnfr
+ *       should bf propfrly syndhronizfd.
+ *
+ *       <prf>
+ *       dlbss MyListfnfr implfmfnts jbvbx.mbnbgfmfnt.NotifidbtionListfnfr {
+ *            publid void hbndlfNotifidbtion(Notifidbtion notifidbtion, Objfdt hbndbbdk)  {
+ *                String notifTypf = notifidbtion.gftTypf();
+ *                if (notifTypf.fqubls(MfmoryNotifidbtionInfo.MEMORY_THRESHOLD_EXCEEDED)) {
+ *                    // potfntibl low mfmory, notify bnothfr thrfbd
+ *                    // to rfdistributf outstbnding tbsks to othfr VMs
+ *                    // bnd stop rfdfiving nfw tbsks.
+ *                    lowMfmory = truf;
+ *                    notifyAnothfrThrfbd(lowMfmory);
+ *                }
+ *            }
+ *       }
+ *
+ *       // Rfgistfr MyListfnfr with MfmoryMXBfbn
+ *       MfmoryMXBfbn mbfbn = MbnbgfmfntFbdtory.gftMfmoryMXBfbn();
+ *       NotifidbtionEmittfr fmittfr = (NotifidbtionEmittfr) mbfbn;
+ *       MyListfnfr listfnfr = nfw MyListfnfr();
+ *       fmittfr.bddNotifidbtionListfnfr(listfnfr, null, null);
+ *
+ *       // Assumf this pool supports b usbgf thrfshold.
+ *       // Sft thf thrfshold to myThrfshold bbovf whidh no nfw tbsks
+ *       // should bf tbkfn.
+ *       pool.sftUsbgfThrfshold(myThrfshold);
+ *
+ *       // Usbgf thrfshold dftfdtion is fnbblfd bnd notifidbtion will bf
+ *       // hbndlfd by MyListfnfr.  Continuf for othfr prodfssing.
+ *       ....
+ *
+ *       </prf>
+ * <hr>
+ *       <p>
+ *       Thfrf is no gubrbntff bbout whfn thf <tt>MfmoryMXBfbn</tt> will fmit
+ *       b thrfshold notifidbtion bnd whfn thf notifidbtion will bf dflivfrfd.
+ *       Whfn b notifidbtion listfnfr is invokfd, thf mfmory usbgf of
+ *       thf mfmory pool mby hbvf drossfd thf usbgf thrfshold morf
+ *       thbn ondf.
+ *       Thf {@link MfmoryNotifidbtionInfo#gftCount} mfthod rfturns thf numbfr
+ *       of timfs thbt thf mfmory usbgf hbs drossfd thf usbgf thrfshold
+ *       bt thf point in timf whfn thf notifidbtion wbs donstrudtfd.
+ *       It dbn bf dompbrfd with thf durrfnt usbgf thrfshold dount rfturnfd
+ *       by thf {@link #gftUsbgfThrfsholdCount} mfthod to dftfrminf if
+ *       sudh situbtion hbs oddurrfd.
+ *   </li>
+ * </ol>
+ *
+ * <h3><b nbmf="CollfdtionThrfshold">4. Collfdtion Usbgf Thrfshold</b></h3>
+ *
+ * Collfdtion usbgf thrfshold is b mbnbgfbblf bttributf only bpplidbblf
+ * to somf gbrbbgf-dollfdtfd mfmory pools.
+ * Aftfr b Jbvb virtubl mbdhinf hbs fxpfndfd fffort in rfdlbiming mfmory
+ * spbdf by rfdydling unusfd objfdts in b mfmory pool bt gbrbbgf dollfdtion
+ * timf, somf numbfr of bytfs in thf mfmory pools thbt brf gbrbbgfd
+ * dollfdtfd will still bf in usf.  Thf dollfdtion usbgf thrfshold
+ * bllows b vbluf to bf sft for this numbfr of bytfs sudh
+ * thbt if thf thrfshold is fxdffdfd,
+ * b {@link MfmoryNotifidbtionInfo#MEMORY_THRESHOLD_EXCEEDED
+ * dollfdtion usbgf thrfshold fxdffdfd notifidbtion}
+ * will bf fmittfd by thf {@link MfmoryMXBfbn}.
+ * In bddition, thf {@link #gftCollfdtionUsbgfThrfsholdCount
+ * dollfdtion usbgf thrfshold dount} will thfn bf indrfmfntfd.
+ *
+ * <p>
+ * Thf {@link MfmoryPoolMXBfbn#isCollfdtionUsbgfThrfsholdSupportfd} mfthod dbn
+ * bf usfd to dftfrminf if this fundtionblity is supportfd.
+ *
+ * <p>
+ * A Jbvb virtubl mbdhinf pfrforms dollfdtion usbgf thrfshold dhfdking
+ * on b mfmory pool bbsis.  This dhfdking is fnbblfd if thf dollfdtion
+ * usbgf thrfshold is sft to b positivf vbluf.
+ * If thf dollfdtion usbgf thrfshold is sft to zfro, this dhfdking
+ * is disbblfd on this mfmory pool.  Dffbult vbluf is zfro.
+ * Thf Jbvb virtubl mbdhinf pfrforms thf dollfdtion usbgf thrfshold
+ * dhfdking bt gbrbbgf dollfdtion timf.
+ *
+ * <p>
+ * Somf gbrbbgf-dollfdtfd mfmory pools mby
+ * dhoosf not to support thf dollfdtion usbgf thrfshold.  For fxbmplf,
+ * b mfmory pool is only mbnbgfd by b dontinuous dondurrfnt gbrbbgf
+ * dollfdtor.  Objfdts dbn bf bllodbtfd in this mfmory pool by somf thrfbd
+ * whilf thf unusfd objfdts brf rfdlbimfd by thf dondurrfnt gbrbbgf
+ * dollfdtor simultbnfously.  Unlfss thfrf is b wfll-dffinfd
+ * gbrbbgf dollfdtion timf whidh is thf bfst bppropribtf timf
+ * to dhfdk thf mfmory usbgf, thf dollfdtion usbgf thrfshold should not
+ * bf supportfd.
+ *
+ * <p>
+ * Thf dollfdtion usbgf thrfshold is dfsignfd for monitoring thf mfmory usbgf
+ * bftfr thf Jbvb virtubl mbdhinf hbs fxpfndfd fffort in rfdlbiming
+ * mfmory spbdf.  Thf dollfdtion usbgf dould blso bf monitorfd
+ * by thf polling bnd thrfshold notifidbtion mfdhbnism
+ * dfsdribfd bbovf for thf <b hrff="#UsbgfThrfshold">usbgf thrfshold</b>
+ * in b similbr fbshion.
+ *
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b hrff="pbdkbgf-summbry.html#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ */
+publid intfrfbdf MfmoryPoolMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
+    /**
+     * Rfturns thf nbmf rfprfsfnting this mfmory pool.
+     *
+     * @rfturn thf nbmf of this mfmory pool.
+     */
+    publid String gftNbmf();
+
+    /**
+     * Rfturns thf typf of this mfmory pool.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>MfmoryTypf</tt> is <tt>String</tt>
+     * bnd thf vbluf is thf nbmf of thf <tt>MfmoryTypf</tt>.
+     *
+     * @rfturn thf typf of this mfmory pool.
+     */
+    publid MfmoryTypf gftTypf();
+
+    /**
+     * Rfturns bn fstimbtf of thf mfmory usbgf of this mfmory pool.
+     * This mfthod rfturns <tt>null</tt>
+     * if this mfmory pool is not vblid (i.f. no longfr fxists).
+     *
+     * <p>
+     * This mfthod rfqufsts thf Jbvb virtubl mbdhinf to mbkf
+     * b bfst-fffort fstimbtf of thf durrfnt mfmory usbgf of this
+     * mfmory pool. For somf mfmory pools, this mfthod mby bf bn
+     * fxpfnsivf opfrbtion thbt rfquirfs somf domputbtion to dftfrminf
+     * thf fstimbtf.  An implfmfntbtion should dodumfnt whfn
+     * this is thf dbsf.
+     *
+     * <p>This mfthod is dfsignfd for usf in monitoring systfm
+     * mfmory usbgf bnd dftfdting low mfmory dondition.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>MfmoryUsbgf</tt> is
+     * <tt>CompositfDbtb</tt> with bttributfs bs spfdififd in
+     * {@link MfmoryUsbgf#from MfmoryUsbgf}.
+     *
+     * @rfturn b {@link MfmoryUsbgf} objfdt; or <tt>null</tt> if
+     * this pool not vblid.
+     */
+    publid MfmoryUsbgf gftUsbgf();
+
+    /**
+     * Rfturns thf pfbk mfmory usbgf of this mfmory pool sindf thf
+     * Jbvb virtubl mbdhinf wbs stbrtfd or sindf thf pfbk wbs rfsft.
+     * This mfthod rfturns <tt>null</tt>
+     * if this mfmory pool is not vblid (i.f. no longfr fxists).
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>MfmoryUsbgf</tt> is
+     * <tt>CompositfDbtb</tt> with bttributfs bs spfdififd in
+     * {@link MfmoryUsbgf#from MfmoryUsbgf}.
+     *
+     * @rfturn b {@link MfmoryUsbgf} objfdt rfprfsfnting thf pfbk
+     * mfmory usbgf; or <tt>null</tt> if this pool is not vblid.
+     *
+     */
+    publid MfmoryUsbgf gftPfbkUsbgf();
+
+    /**
+     * Rfsfts thf pfbk mfmory usbgf stbtistid of this mfmory pool
+     * to thf durrfnt mfmory usbgf.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("dontrol").
+     */
+    publid void rfsftPfbkUsbgf();
+
+    /**
+     * Tfsts if this mfmory pool is vblid in thf Jbvb virtubl
+     * mbdhinf.  A mfmory pool bfdomfs invblid ondf thf Jbvb virtubl
+     * mbdhinf rfmovfs it from thf mfmory systfm.
+     *
+     * @rfturn <tt>truf</tt> if thf mfmory pool is vblid in thf running
+     *              Jbvb virtubl mbdhinf;
+     *         <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isVblid();
+
+    /**
+     * Rfturns thf nbmf of mfmory mbnbgfrs thbt mbnbgfs this mfmory pool.
+     * Ebdh mfmory pool will bf mbnbgfd by bt lfbst onf mfmory mbnbgfr.
+     *
+     * @rfturn bn brrby of <tt>String</tt> objfdts, fbdh is thf nbmf of
+     * b mfmory mbnbgfr mbnbging this mfmory pool.
+     */
+    publid String[] gftMfmoryMbnbgfrNbmfs();
+
+    /**
+     * Rfturns thf usbgf thrfshold vbluf of this mfmory pool in bytfs.
+     * Ebdh mfmory pool hbs b plbtform-dfpfndfnt dffbult thrfshold vbluf.
+     * Thf durrfnt usbgf thrfshold dbn bf dhbngfd vib thf
+     * {@link #sftUsbgfThrfshold sftUsbgfThrfshold} mfthod.
+     *
+     * @rfturn thf usbgf thrfshold vbluf of this mfmory pool in bytfs.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if this mfmory pool
+     *         dofs not support b usbgf thrfshold.
+     *
+     * @sff #isUsbgfThrfsholdSupportfd
+     */
+    publid long gftUsbgfThrfshold();
+
+    /**
+     * Sfts thf thrfshold of this mfmory pool to thf givfn <tt>thrfshold</tt>
+     * vbluf if this mfmory pool supports thf usbgf thrfshold.
+     * Thf usbgf thrfshold drossing dhfdking is fnbblfd in this mfmory pool
+     * if thf thrfshold is sft to b positivf vbluf.
+     * Thf usbgf thrfshold drossing dhfdking is disbblfd
+     * if it is sft to zfro.
+     *
+     * @pbrbm thrfshold thf nfw thrfshold vbluf in bytfs. Must bf non-nfgbtivf.
+     *
+     * @throws IllfgblArgumfntExdfption if <tt>thrfshold</tt> is nfgbtivf
+     *         or grfbtfr thbn thf mbximum bmount of mfmory for
+     *         this mfmory pool if dffinfd.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if this mfmory pool
+     *         dofs not support b usbgf thrfshold.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("dontrol").
+     *
+     * @sff #isUsbgfThrfsholdSupportfd
+     * @sff <b hrff="#UsbgfThrfshold">Usbgf thrfshold</b>
+     */
+    publid void sftUsbgfThrfshold(long thrfshold);
+
+    /**
+     * Tfsts if thf mfmory usbgf of this mfmory pool
+     * rfbdhfs or fxdffds its usbgf thrfshold vbluf.
+     *
+     * @rfturn <tt>truf</tt> if thf mfmory usbgf of
+     * this mfmory pool rfbdhfs or fxdffds thf thrfshold vbluf;
+     * <tt>fblsf</tt> othfrwisf.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if this mfmory pool
+     *         dofs not support b usbgf thrfshold.
+     */
+    publid boolfbn isUsbgfThrfsholdExdffdfd();
+
+    /**
+     * Rfturns thf numbfr of timfs thbt thf mfmory usbgf hbs drossfd
+     * thf usbgf thrfshold.
+     *
+     * @rfturn thf numbfr of timfs thbt thf mfmory usbgf
+     * hbs drossfd its usbgf thrfshold vbluf.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if this mfmory pool
+     * dofs not support b usbgf thrfshold.
+     */
+    publid long gftUsbgfThrfsholdCount();
+
+    /**
+     * Tfsts if this mfmory pool supports usbgf thrfshold.
+     *
+     * @rfturn <tt>truf</tt> if this mfmory pool supports usbgf thrfshold;
+     * <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isUsbgfThrfsholdSupportfd();
+
+    /**
+     * Rfturns thf dollfdtion usbgf thrfshold vbluf of this mfmory pool
+     * in bytfs.  Thf dffbult vbluf is zfro. Thf dollfdtion usbgf
+     * thrfshold dbn bf dhbngfd vib thf
+     * {@link #sftCollfdtionUsbgfThrfshold sftCollfdtionUsbgfThrfshold} mfthod.
+     *
+     * @rfturn thf dollfdtion usbgf thrfshold of this mfmory pool in bytfs.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if this mfmory pool
+     *         dofs not support b dollfdtion usbgf thrfshold.
+     *
+     * @sff #isCollfdtionUsbgfThrfsholdSupportfd
+     */
+    publid long gftCollfdtionUsbgfThrfshold();
+
+    /**
+     * Sfts thf dollfdtion usbgf thrfshold of this mfmory pool to
+     * thf givfn <tt>thrfshold</tt> vbluf.
+     * Whfn this thrfshold is sft to positivf, thf Jbvb virtubl mbdhinf
+     * will dhfdk thf mfmory usbgf bt its bfst bppropribtf timf bftfr it hbs
+     * fxpfndfd fffort in rfdydling unusfd objfdts in this mfmory pool.
+     * <p>
+     * Thf dollfdtion usbgf thrfshold drossing dhfdking is fnbblfd
+     * in this mfmory pool if thf thrfshold is sft to b positivf vbluf.
+     * Thf dollfdtion usbgf thrfshold drossing dhfdking is disbblfd
+     * if it is sft to zfro.
+     *
+     * @pbrbm thrfshold thf nfw dollfdtion usbgf thrfshold vbluf in bytfs.
+     *              Must bf non-nfgbtivf.
+     *
+     * @throws IllfgblArgumfntExdfption if <tt>thrfshold</tt> is nfgbtivf
+     *         or grfbtfr thbn thf mbximum bmount of mfmory for
+     *         this mfmory pool if dffinfd.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if this mfmory pool
+     *         dofs not support b dollfdtion usbgf thrfshold.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("dontrol").
+     *
+     * @sff #isCollfdtionUsbgfThrfsholdSupportfd
+     * @sff <b hrff="#CollfdtionThrfshold">Collfdtion usbgf thrfshold</b>
+     */
+    publid void sftCollfdtionUsbgfThrfshold(long thrfshold);
+
+    /**
+     * Tfsts if thf mfmory usbgf of this mfmory pool bftfr
+     * thf most rfdfnt dollfdtion on whidh thf Jbvb virtubl
+     * mbdhinf hbs fxpfndfd fffort hbs rfbdhfd or
+     * fxdffdfd its dollfdtion usbgf thrfshold.
+     * This mfthod dofs not rfqufst thf Jbvb virtubl
+     * mbdhinf to pfrform bny gbrbbgf dollfdtion othfr thbn its normbl
+     * butombtid mfmory mbnbgfmfnt.
+     *
+     * @rfturn <tt>truf</tt> if thf mfmory usbgf of this mfmory pool
+     * rfbdhfs or fxdffds thf dollfdtion usbgf thrfshold vbluf
+     * in thf most rfdfnt dollfdtion;
+     * <tt>fblsf</tt> othfrwisf.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if this mfmory pool
+     *         dofs not support b usbgf thrfshold.
+     */
+    publid boolfbn isCollfdtionUsbgfThrfsholdExdffdfd();
+
+    /**
+     * Rfturns thf numbfr of timfs thbt thf Jbvb virtubl mbdhinf
+     * hbs dftfdtfd thbt thf mfmory usbgf hbs rfbdhfd or
+     * fxdffdfd thf dollfdtion usbgf thrfshold.
+     *
+     * @rfturn thf numbfr of timfs thbt thf mfmory
+     * usbgf hbs rfbdhfd or fxdffdfd thf dollfdtion usbgf thrfshold.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if this mfmory pool
+     *         dofs not support b dollfdtion usbgf thrfshold.
+     *
+     * @sff #isCollfdtionUsbgfThrfsholdSupportfd
+     */
+    publid long gftCollfdtionUsbgfThrfsholdCount();
+
+    /**
+     * Rfturns thf mfmory usbgf bftfr thf Jbvb virtubl mbdhinf
+     * most rfdfntly fxpfndfd fffort in rfdydling unusfd objfdts
+     * in this mfmory pool.
+     * This mfthod dofs not rfqufst thf Jbvb virtubl
+     * mbdhinf to pfrform bny gbrbbgf dollfdtion othfr thbn its normbl
+     * butombtid mfmory mbnbgfmfnt.
+     * This mfthod rfturns <tt>null</tt> if thf Jbvb virtubl
+     * mbdhinf dofs not support this mfthod.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>MfmoryUsbgf</tt> is
+     * <tt>CompositfDbtb</tt> with bttributfs bs spfdififd in
+     * {@link MfmoryUsbgf#from MfmoryUsbgf}.
+     *
+     * @rfturn b {@link MfmoryUsbgf} rfprfsfnting thf mfmory usbgf of
+     * this mfmory pool bftfr thf Jbvb virtubl mbdhinf most rfdfntly
+     * fxpfndfd fffort in rfdydling unusfd objfdts;
+     * <tt>null</tt> if this mfthod is not supportfd.
+     */
+    publid MfmoryUsbgf gftCollfdtionUsbgf();
+
+    /**
+     * Tfsts if this mfmory pool supports b dollfdtion usbgf thrfshold.
+     *
+     * @rfturn <tt>truf</tt> if this mfmory pool supports thf
+     * dollfdtion usbgf thrfshold; <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isCollfdtionUsbgfThrfsholdSupportfd();
+}

@@ -1,1454 +1,1454 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Insets;
-import java.awt.Dimension;
-import java.awt.KeyboardFocusManager;
-import java.awt.KeyEventPostProcessor;
-import java.awt.Toolkit;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Font;
+import jbvb.bwt.Color;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.KfybobrdFodusMbnbgfr;
+import jbvb.bwt.KfyEvfntPostProdfssor;
+import jbvb.bwt.Toolkit;
 
-import java.awt.event.KeyEvent;
+import jbvb.bwt.fvfnt.KfyEvfnt;
 
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControllfr;
 
-import javax.swing.plaf.ComponentUI;
-import javax.swing.border.Border;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.bordfr.Bordfr;
 
-import javax.swing.event.SwingPropertyChangeSupport;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.fvfnt.SwingPropfrtyCibngfSupport;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
-import java.io.Serializable;
-import java.io.File;
-import java.io.FileInputStream;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
 
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.util.Locale;
+import jbvb.util.ArrbyList;
+import jbvb.util.Propfrtifs;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
 
-import sun.awt.SunToolkit;
-import sun.awt.OSInfo;
-import sun.security.action.GetPropertyAction;
-import sun.swing.SwingUtilities2;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import sun.awt.AppContext;
-import sun.awt.AWTAccessor;
+import sun.bwt.SunToolkit;
+import sun.bwt.OSInfo;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.swing.SwingUtilitifs2;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.util.HbsiMbp;
+import sun.bwt.AppContfxt;
+import sun.bwt.AWTAddfssor;
 
 
 /**
- * {@code UIManager} manages the current look and feel, the set of
- * available look and feels, {@code PropertyChangeListeners} that
- * are notified when the look and feel changes, look and feel defaults, and
- * convenience methods for obtaining various default values.
+ * {@dodf UIMbnbgfr} mbnbgfs tif durrfnt look bnd fffl, tif sft of
+ * bvbilbblf look bnd fffls, {@dodf PropfrtyCibngfListfnfrs} tibt
+ * brf notififd wifn tif look bnd fffl dibngfs, look bnd fffl dffbults, bnd
+ * donvfnifndf mftiods for obtbining vbrious dffbult vblufs.
  *
- * <h3>Specifying the look and feel</h3>
+ * <i3>Spfdifying tif look bnd fffl</i3>
  *
- * The look and feel can be specified in two distinct ways: by
- * specifying the fully qualified name of the class for the look and
- * feel, or by creating an instance of {@code LookAndFeel} and passing
- * it to {@code setLookAndFeel}. The following example illustrates
- * setting the look and feel to the system look and feel:
- * <pre>
- *   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
- * </pre>
- * The following example illustrates setting the look and feel based on
- * class name:
- * <pre>
- *   UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
- * </pre>
- * Once the look and feel has been changed it is imperative to invoke
- * {@code updateUI} on all {@code JComponents}. The method {@link
- * SwingUtilities#updateComponentTreeUI} makes it easy to apply {@code
- * updateUI} to a containment hierarchy. Refer to it for
- * details. The exact behavior of not invoking {@code
- * updateUI} after changing the look and feel is
- * unspecified. It is very possible to receive unexpected exceptions,
- * painting problems, or worse.
+ * Tif look bnd fffl dbn bf spfdififd in two distindt wbys: by
+ * spfdifying tif fully qublififd nbmf of tif dlbss for tif look bnd
+ * fffl, or by drfbting bn instbndf of {@dodf LookAndFffl} bnd pbssing
+ * it to {@dodf sftLookAndFffl}. Tif following fxbmplf illustrbtfs
+ * sftting tif look bnd fffl to tif systfm look bnd fffl:
+ * <prf>
+ *   UIMbnbgfr.sftLookAndFffl(UIMbnbgfr.gftSystfmLookAndFfflClbssNbmf());
+ * </prf>
+ * Tif following fxbmplf illustrbtfs sftting tif look bnd fffl bbsfd on
+ * dlbss nbmf:
+ * <prf>
+ *   UIMbnbgfr.sftLookAndFffl("jbvbx.swing.plbf.mftbl.MftblLookAndFffl");
+ * </prf>
+ * Ondf tif look bnd fffl ibs bffn dibngfd it is impfrbtivf to invokf
+ * {@dodf updbtfUI} on bll {@dodf JComponfnts}. Tif mftiod {@link
+ * SwingUtilitifs#updbtfComponfntTrffUI} mbkfs it fbsy to bpply {@dodf
+ * updbtfUI} to b dontbinmfnt iifrbrdiy. Rfffr to it for
+ * dftbils. Tif fxbdt bfibvior of not invoking {@dodf
+ * updbtfUI} bftfr dibnging tif look bnd fffl is
+ * unspfdififd. It is vfry possiblf to rfdfivf unfxpfdtfd fxdfptions,
+ * pbinting problfms, or worsf.
  *
- * <h3>Default look and feel</h3>
+ * <i3>Dffbult look bnd fffl</i3>
  *
- * The class used for the default look and feel is chosen in the following
- * manner:
+ * Tif dlbss usfd for tif dffbult look bnd fffl is diosfn in tif following
+ * mbnnfr:
  * <ol>
- *   <li>If the system property <code>swing.defaultlaf</code> is
- *       {@code non-null}, use its value as the default look and feel class
- *       name.
- *   <li>If the {@link java.util.Properties} file <code>swing.properties</code>
- *       exists and contains the key <code>swing.defaultlaf</code>,
- *       use its value as the default look and feel class name. The location
- *       that is checked for <code>swing.properties</code> may vary depending
- *       upon the implementation of the Java platform. Typically the
- *       <code>swing.properties</code> file is located in the <code>lib</code>
- *       subdirectory of the Java installation directory.
- *       Refer to the release notes of the implementation being used for
- *       further details.
- *   <li>Otherwise use the cross platform look and feel.
+ *   <li>If tif systfm propfrty <dodf>swing.dffbultlbf</dodf> is
+ *       {@dodf non-null}, usf its vbluf bs tif dffbult look bnd fffl dlbss
+ *       nbmf.
+ *   <li>If tif {@link jbvb.util.Propfrtifs} filf <dodf>swing.propfrtifs</dodf>
+ *       fxists bnd dontbins tif kfy <dodf>swing.dffbultlbf</dodf>,
+ *       usf its vbluf bs tif dffbult look bnd fffl dlbss nbmf. Tif lodbtion
+ *       tibt is difdkfd for <dodf>swing.propfrtifs</dodf> mby vbry dfpfnding
+ *       upon tif implfmfntbtion of tif Jbvb plbtform. Typidblly tif
+ *       <dodf>swing.propfrtifs</dodf> filf is lodbtfd in tif <dodf>lib</dodf>
+ *       subdirfdtory of tif Jbvb instbllbtion dirfdtory.
+ *       Rfffr to tif rflfbsf notfs of tif implfmfntbtion bfing usfd for
+ *       furtifr dftbils.
+ *   <li>Otifrwisf usf tif dross plbtform look bnd fffl.
  * </ol>
  *
- * <h3>Defaults</h3>
+ * <i3>Dffbults</i3>
  *
- * {@code UIManager} manages three sets of {@code UIDefaults}. In order, they
- * are:
+ * {@dodf UIMbnbgfr} mbnbgfs tirff sfts of {@dodf UIDffbults}. In ordfr, tify
+ * brf:
  * <ol>
- *   <li>Developer defaults. With few exceptions Swing does not
- *       alter the developer defaults; these are intended to be modified
- *       and used by the developer.
- *   <li>Look and feel defaults. The look and feel defaults are
- *       supplied by the look and feel at the time it is installed as the
- *       current look and feel ({@code setLookAndFeel()} is invoked). The
- *       look and feel defaults can be obtained using the {@code
- *       getLookAndFeelDefaults()} method.
- *   <li>System defaults. The system defaults are provided by Swing.
+ *   <li>Dfvflopfr dffbults. Witi ffw fxdfptions Swing dofs not
+ *       bltfr tif dfvflopfr dffbults; tifsf brf intfndfd to bf modififd
+ *       bnd usfd by tif dfvflopfr.
+ *   <li>Look bnd fffl dffbults. Tif look bnd fffl dffbults brf
+ *       supplifd by tif look bnd fffl bt tif timf it is instbllfd bs tif
+ *       durrfnt look bnd fffl ({@dodf sftLookAndFffl()} is invokfd). Tif
+ *       look bnd fffl dffbults dbn bf obtbinfd using tif {@dodf
+ *       gftLookAndFfflDffbults()} mftiod.
+ *   <li>Systfm dffbults. Tif systfm dffbults brf providfd by Swing.
  * </ol>
- * Invoking any of the various {@code get} methods
- * results in checking each of the defaults, in order, returning
- * the first {@code non-null} value. For example, invoking
- * {@code UIManager.getString("Table.foreground")} results in first
- * checking developer defaults. If the developer defaults contain
- * a value for {@code "Table.foreground"} it is returned, otherwise
- * the look and feel defaults are checked, followed by the system defaults.
+ * Invoking bny of tif vbrious {@dodf gft} mftiods
+ * rfsults in difdking fbdi of tif dffbults, in ordfr, rfturning
+ * tif first {@dodf non-null} vbluf. For fxbmplf, invoking
+ * {@dodf UIMbnbgfr.gftString("Tbblf.forfground")} rfsults in first
+ * difdking dfvflopfr dffbults. If tif dfvflopfr dffbults dontbin
+ * b vbluf for {@dodf "Tbblf.forfground"} it is rfturnfd, otifrwisf
+ * tif look bnd fffl dffbults brf difdkfd, followfd by tif systfm dffbults.
  * <p>
- * It's important to note that {@code getDefaults} returns a custom
- * instance of {@code UIDefaults} with this resolution logic built into it.
- * For example, {@code UIManager.getDefaults().getString("Table.foreground")}
- * is equivalent to {@code UIManager.getString("Table.foreground")}. Both
- * resolve using the algorithm just described. In many places the
- * documentation uses the word defaults to refer to the custom instance
- * of {@code UIDefaults} with the resolution logic as previously described.
+ * It's importbnt to notf tibt {@dodf gftDffbults} rfturns b dustom
+ * instbndf of {@dodf UIDffbults} witi tiis rfsolution logid built into it.
+ * For fxbmplf, {@dodf UIMbnbgfr.gftDffbults().gftString("Tbblf.forfground")}
+ * is fquivblfnt to {@dodf UIMbnbgfr.gftString("Tbblf.forfground")}. Boti
+ * rfsolvf using tif blgoritim just dfsdribfd. In mbny plbdfs tif
+ * dodumfntbtion usfs tif word dffbults to rfffr to tif dustom instbndf
+ * of {@dodf UIDffbults} witi tif rfsolution logid bs prfviously dfsdribfd.
  * <p>
- * When the look and feel is changed, {@code UIManager} alters only the
- * look and feel defaults; the developer and system defaults are not
- * altered by the {@code UIManager} in any way.
+ * Wifn tif look bnd fffl is dibngfd, {@dodf UIMbnbgfr} bltfrs only tif
+ * look bnd fffl dffbults; tif dfvflopfr bnd systfm dffbults brf not
+ * bltfrfd by tif {@dodf UIMbnbgfr} in bny wby.
  * <p>
- * The set of defaults a particular look and feel supports is defined
- * and documented by that look and feel. In addition, each look and
- * feel, or {@code ComponentUI} provided by a look and feel, may
- * access the defaults at different times in their life cycle. Some
- * look and feels may aggressively look up defaults, so that changing a
- * default may not have an effect after installing the look and feel.
- * Other look and feels may lazily access defaults so that a change to
- * the defaults may effect an existing look and feel. Finally, other look
- * and feels might not configure themselves from the defaults table in
- * any way. None-the-less it is usually the case that a look and feel
- * expects certain defaults, so that in general
- * a {@code ComponentUI} provided by one look and feel will not
- * work with another look and feel.
+ * Tif sft of dffbults b pbrtidulbr look bnd fffl supports is dffinfd
+ * bnd dodumfntfd by tibt look bnd fffl. In bddition, fbdi look bnd
+ * fffl, or {@dodf ComponfntUI} providfd by b look bnd fffl, mby
+ * bddfss tif dffbults bt difffrfnt timfs in tifir liff dydlf. Somf
+ * look bnd fffls mby bggrfssivfly look up dffbults, so tibt dibnging b
+ * dffbult mby not ibvf bn ffffdt bftfr instblling tif look bnd fffl.
+ * Otifr look bnd fffls mby lbzily bddfss dffbults so tibt b dibngf to
+ * tif dffbults mby ffffdt bn fxisting look bnd fffl. Finblly, otifr look
+ * bnd fffls migit not donfigurf tifmsflvfs from tif dffbults tbblf in
+ * bny wby. Nonf-tif-lfss it is usublly tif dbsf tibt b look bnd fffl
+ * fxpfdts dfrtbin dffbults, so tibt in gfnfrbl
+ * b {@dodf ComponfntUI} providfd by onf look bnd fffl will not
+ * work witi bnotifr look bnd fffl.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Thomas Ball
- * @author Hans Muller
- * @since 1.2
+ * @butior Tiombs Bbll
+ * @butior Hbns Mullfr
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class UIManager implements Serializable
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss UIMbnbgfr implfmfnts Sfriblizbblf
 {
     /**
-     * This class defines the state managed by the <code>UIManager</code>.  For
-     * Swing applications the fields in this class could just as well
-     * be static members of <code>UIManager</code> however we give them
-     * "AppContext"
-     * scope instead so that applets (and potentially multiple lightweight
-     * applications running in a single VM) have their own state. For example,
-     * an applet can alter its look and feel, see <code>setLookAndFeel</code>.
-     * Doing so has no affect on other applets (or the browser).
+     * Tiis dlbss dffinfs tif stbtf mbnbgfd by tif <dodf>UIMbnbgfr</dodf>.  For
+     * Swing bpplidbtions tif fiflds in tiis dlbss dould just bs wfll
+     * bf stbtid mfmbfrs of <dodf>UIMbnbgfr</dodf> iowfvfr wf givf tifm
+     * "AppContfxt"
+     * sdopf instfbd so tibt bpplfts (bnd potfntiblly multiplf ligitwfigit
+     * bpplidbtions running in b singlf VM) ibvf tifir own stbtf. For fxbmplf,
+     * bn bpplft dbn bltfr its look bnd fffl, sff <dodf>sftLookAndFffl</dodf>.
+     * Doing so ibs no bfffdt on otifr bpplfts (or tif browsfr).
      */
-    private static class LAFState
+    privbtf stbtid dlbss LAFStbtf
     {
-        Properties swingProps;
-        private UIDefaults[] tables = new UIDefaults[2];
+        Propfrtifs swingProps;
+        privbtf UIDffbults[] tbblfs = nfw UIDffbults[2];
 
-        boolean initialized = false;
-        boolean focusPolicyInitialized = false;
-        MultiUIDefaults multiUIDefaults = new MultiUIDefaults(tables);
-        LookAndFeel lookAndFeel;
-        LookAndFeel multiLookAndFeel = null;
-        Vector<LookAndFeel> auxLookAndFeels = null;
-        SwingPropertyChangeSupport changeSupport;
+        boolfbn initiblizfd = fblsf;
+        boolfbn fodusPolidyInitiblizfd = fblsf;
+        MultiUIDffbults multiUIDffbults = nfw MultiUIDffbults(tbblfs);
+        LookAndFffl lookAndFffl;
+        LookAndFffl multiLookAndFffl = null;
+        Vfdtor<LookAndFffl> buxLookAndFffls = null;
+        SwingPropfrtyCibngfSupport dibngfSupport;
 
-        LookAndFeelInfo[] installedLAFs;
+        LookAndFfflInfo[] instbllfdLAFs;
 
-        UIDefaults getLookAndFeelDefaults() { return tables[0]; }
-        void setLookAndFeelDefaults(UIDefaults x) { tables[0] = x; }
+        UIDffbults gftLookAndFfflDffbults() { rfturn tbblfs[0]; }
+        void sftLookAndFfflDffbults(UIDffbults x) { tbblfs[0] = x; }
 
-        UIDefaults getSystemDefaults() { return tables[1]; }
-        void setSystemDefaults(UIDefaults x) { tables[1] = x; }
+        UIDffbults gftSystfmDffbults() { rfturn tbblfs[1]; }
+        void sftSystfmDffbults(UIDffbults x) { tbblfs[1] = x; }
 
         /**
-         * Returns the SwingPropertyChangeSupport for the current
-         * AppContext.  If <code>create</code> is a true, a non-null
-         * <code>SwingPropertyChangeSupport</code> will be returned, if
-         * <code>create</code> is false and this has not been invoked
-         * with true, null will be returned.
+         * Rfturns tif SwingPropfrtyCibngfSupport for tif durrfnt
+         * AppContfxt.  If <dodf>drfbtf</dodf> is b truf, b non-null
+         * <dodf>SwingPropfrtyCibngfSupport</dodf> will bf rfturnfd, if
+         * <dodf>drfbtf</dodf> is fblsf bnd tiis ibs not bffn invokfd
+         * witi truf, null will bf rfturnfd.
          */
-        public synchronized SwingPropertyChangeSupport
-                                 getPropertyChangeSupport(boolean create) {
-            if (create && changeSupport == null) {
-                changeSupport = new SwingPropertyChangeSupport(
-                                         UIManager.class);
+        publid syndironizfd SwingPropfrtyCibngfSupport
+                                 gftPropfrtyCibngfSupport(boolfbn drfbtf) {
+            if (drfbtf && dibngfSupport == null) {
+                dibngfSupport = nfw SwingPropfrtyCibngfSupport(
+                                         UIMbnbgfr.dlbss);
             }
-            return changeSupport;
+            rfturn dibngfSupport;
         }
     }
 
 
 
 
-    /* Lock object used in place of class object for synchronization. (4187686)
+    /* Lodk objfdt usfd in plbdf of dlbss objfdt for syndironizbtion. (4187686)
      */
-    private static final Object classLock = new Object();
+    privbtf stbtid finbl Objfdt dlbssLodk = nfw Objfdt();
 
     /**
-     * Return the <code>LAFState</code> object, lazily create one if necessary.
-     * All access to the <code>LAFState</code> fields is done via this method,
-     * for example:
-     * <pre>
-     *     getLAFState().initialized = true;
-     * </pre>
+     * Rfturn tif <dodf>LAFStbtf</dodf> objfdt, lbzily drfbtf onf if nfdfssbry.
+     * All bddfss to tif <dodf>LAFStbtf</dodf> fiflds is donf vib tiis mftiod,
+     * for fxbmplf:
+     * <prf>
+     *     gftLAFStbtf().initiblizfd = truf;
+     * </prf>
      */
-    private static LAFState getLAFState() {
-        LAFState rv = (LAFState)SwingUtilities.appContextGet(
-                SwingUtilities2.LAF_STATE_KEY);
+    privbtf stbtid LAFStbtf gftLAFStbtf() {
+        LAFStbtf rv = (LAFStbtf)SwingUtilitifs.bppContfxtGft(
+                SwingUtilitifs2.LAF_STATE_KEY);
         if (rv == null) {
-            synchronized (classLock) {
-                rv = (LAFState)SwingUtilities.appContextGet(
-                        SwingUtilities2.LAF_STATE_KEY);
+            syndironizfd (dlbssLodk) {
+                rv = (LAFStbtf)SwingUtilitifs.bppContfxtGft(
+                        SwingUtilitifs2.LAF_STATE_KEY);
                 if (rv == null) {
-                    SwingUtilities.appContextPut(
-                            SwingUtilities2.LAF_STATE_KEY,
-                            (rv = new LAFState()));
+                    SwingUtilitifs.bppContfxtPut(
+                            SwingUtilitifs2.LAF_STATE_KEY,
+                            (rv = nfw LAFStbtf()));
                 }
             }
         }
-        return rv;
+        rfturn rv;
     }
 
 
-    /* Keys used in the <code>swing.properties</code> properties file.
-     * See loadUserProperties(), initialize().
+    /* Kfys usfd in tif <dodf>swing.propfrtifs</dodf> propfrtifs filf.
+     * Sff lobdUsfrPropfrtifs(), initiblizf().
      */
 
-    private static final String defaultLAFKey = "swing.defaultlaf";
-    private static final String auxiliaryLAFsKey = "swing.auxiliarylaf";
-    private static final String multiplexingLAFKey = "swing.plaf.multiplexinglaf";
-    private static final String installedLAFsKey = "swing.installedlafs";
-    private static final String disableMnemonicKey = "swing.disablenavaids";
+    privbtf stbtid finbl String dffbultLAFKfy = "swing.dffbultlbf";
+    privbtf stbtid finbl String buxilibryLAFsKfy = "swing.buxilibrylbf";
+    privbtf stbtid finbl String multiplfxingLAFKfy = "swing.plbf.multiplfxinglbf";
+    privbtf stbtid finbl String instbllfdLAFsKfy = "swing.instbllfdlbfs";
+    privbtf stbtid finbl String disbblfMnfmonidKfy = "swing.disbblfnbvbids";
 
     /**
-     * Return a <code>swing.properties</code> file key for the attribute of specified
-     * look and feel.  The attr is either "name" or "class", a typical
-     * key would be: "swing.installedlaf.windows.name"
+     * Rfturn b <dodf>swing.propfrtifs</dodf> filf kfy for tif bttributf of spfdififd
+     * look bnd fffl.  Tif bttr is fitifr "nbmf" or "dlbss", b typidbl
+     * kfy would bf: "swing.instbllfdlbf.windows.nbmf"
      */
-    private static String makeInstalledLAFKey(String laf, String attr) {
-        return "swing.installedlaf." + laf + "." + attr;
+    privbtf stbtid String mbkfInstbllfdLAFKfy(String lbf, String bttr) {
+        rfturn "swing.instbllfdlbf." + lbf + "." + bttr;
     }
 
     /**
-     * The location of the <code>swing.properties</code> property file is
-     * implementation-specific.
-     * It is typically located in the <code>lib</code> subdirectory of the Java
-     * installation directory. This method returns a bogus filename
-     * if <code>java.home</code> isn't defined.
+     * Tif lodbtion of tif <dodf>swing.propfrtifs</dodf> propfrty filf is
+     * implfmfntbtion-spfdifid.
+     * It is typidblly lodbtfd in tif <dodf>lib</dodf> subdirfdtory of tif Jbvb
+     * instbllbtion dirfdtory. Tiis mftiod rfturns b bogus filfnbmf
+     * if <dodf>jbvb.iomf</dodf> isn't dffinfd.
      */
-    private static String makeSwingPropertiesFilename() {
-        String sep = File.separator;
-        // No need to wrap this in a doPrivileged as it's called from
-        // a doPrivileged.
-        String javaHome = System.getProperty("java.home");
-        if (javaHome == null) {
-            javaHome = "<java.home undefined>";
+    privbtf stbtid String mbkfSwingPropfrtifsFilfnbmf() {
+        String sfp = Filf.sfpbrbtor;
+        // No nffd to wrbp tiis in b doPrivilfgfd bs it's dbllfd from
+        // b doPrivilfgfd.
+        String jbvbHomf = Systfm.gftPropfrty("jbvb.iomf");
+        if (jbvbHomf == null) {
+            jbvbHomf = "<jbvb.iomf undffinfd>";
         }
-        return javaHome + sep + "lib" + sep + "swing.properties";
+        rfturn jbvbHomf + sfp + "lib" + sfp + "swing.propfrtifs";
     }
 
 
     /**
-     * Provides a little information about an installed
-     * <code>LookAndFeel</code> for the sake of configuring a menu or
-     * for initial application set up.
+     * Providfs b littlf informbtion bbout bn instbllfd
+     * <dodf>LookAndFffl</dodf> for tif sbkf of donfiguring b mfnu or
+     * for initibl bpplidbtion sft up.
      *
-     * @see UIManager#getInstalledLookAndFeels
-     * @see LookAndFeel
+     * @sff UIMbnbgfr#gftInstbllfdLookAndFffls
+     * @sff LookAndFffl
      */
-    public static class LookAndFeelInfo {
-        private String name;
-        private String className;
+    publid stbtid dlbss LookAndFfflInfo {
+        privbtf String nbmf;
+        privbtf String dlbssNbmf;
 
         /**
-         * Constructs a <code>UIManager</code>s
-         * <code>LookAndFeelInfo</code> object.
+         * Construdts b <dodf>UIMbnbgfr</dodf>s
+         * <dodf>LookAndFfflInfo</dodf> objfdt.
          *
-         * @param name      a <code>String</code> specifying the name of
-         *                      the look and feel
-         * @param className a <code>String</code> specifying the name of
-         *                      the class that implements the look and feel
+         * @pbrbm nbmf      b <dodf>String</dodf> spfdifying tif nbmf of
+         *                      tif look bnd fffl
+         * @pbrbm dlbssNbmf b <dodf>String</dodf> spfdifying tif nbmf of
+         *                      tif dlbss tibt implfmfnts tif look bnd fffl
          */
-        public LookAndFeelInfo(String name, String className) {
-            this.name = name;
-            this.className = className;
+        publid LookAndFfflInfo(String nbmf, String dlbssNbmf) {
+            tiis.nbmf = nbmf;
+            tiis.dlbssNbmf = dlbssNbmf;
         }
 
         /**
-         * Returns the name of the look and feel in a form suitable
-         * for a menu or other presentation
-         * @return a <code>String</code> containing the name
-         * @see LookAndFeel#getName
+         * Rfturns tif nbmf of tif look bnd fffl in b form suitbblf
+         * for b mfnu or otifr prfsfntbtion
+         * @rfturn b <dodf>String</dodf> dontbining tif nbmf
+         * @sff LookAndFffl#gftNbmf
          */
-        public String getName() {
-            return name;
+        publid String gftNbmf() {
+            rfturn nbmf;
         }
 
         /**
-         * Returns the name of the class that implements this look and feel.
-         * @return the name of the class that implements this
-         *              <code>LookAndFeel</code>
-         * @see LookAndFeel
+         * Rfturns tif nbmf of tif dlbss tibt implfmfnts tiis look bnd fffl.
+         * @rfturn tif nbmf of tif dlbss tibt implfmfnts tiis
+         *              <dodf>LookAndFffl</dodf>
+         * @sff LookAndFffl
          */
-        public String getClassName() {
-            return className;
+        publid String gftClbssNbmf() {
+            rfturn dlbssNbmf;
         }
 
         /**
-         * Returns a string that displays and identifies this
-         * object's properties.
+         * Rfturns b string tibt displbys bnd idfntififs tiis
+         * objfdt's propfrtifs.
          *
-         * @return a <code>String</code> representation of this object
+         * @rfturn b <dodf>String</dodf> rfprfsfntbtion of tiis objfdt
          */
-        public String toString() {
-            return getClass().getName() + "[" + getName() + " " + getClassName() + "]";
+        publid String toString() {
+            rfturn gftClbss().gftNbmf() + "[" + gftNbmf() + " " + gftClbssNbmf() + "]";
         }
     }
 
 
     /**
-     * The default value of <code>installedLAFS</code> is used when no
-     * <code>swing.properties</code>
-     * file is available or if the file doesn't contain a "swing.installedlafs"
-     * property.
+     * Tif dffbult vbluf of <dodf>instbllfdLAFS</dodf> is usfd wifn no
+     * <dodf>swing.propfrtifs</dodf>
+     * filf is bvbilbblf or if tif filf dofsn't dontbin b "swing.instbllfdlbfs"
+     * propfrty.
      *
-     * @see #initializeInstalledLAFs
+     * @sff #initiblizfInstbllfdLAFs
      */
-    private static LookAndFeelInfo[] installedLAFs;
+    privbtf stbtid LookAndFfflInfo[] instbllfdLAFs;
 
-    static {
-        ArrayList<LookAndFeelInfo> iLAFs = new ArrayList<LookAndFeelInfo>(4);
-        iLAFs.add(new LookAndFeelInfo(
-                      "Metal", "javax.swing.plaf.metal.MetalLookAndFeel"));
-        iLAFs.add(new LookAndFeelInfo(
-                      "Nimbus", "javax.swing.plaf.nimbus.NimbusLookAndFeel"));
-        iLAFs.add(new LookAndFeelInfo("CDE/Motif",
-                  "com.sun.java.swing.plaf.motif.MotifLookAndFeel"));
+    stbtid {
+        ArrbyList<LookAndFfflInfo> iLAFs = nfw ArrbyList<LookAndFfflInfo>(4);
+        iLAFs.bdd(nfw LookAndFfflInfo(
+                      "Mftbl", "jbvbx.swing.plbf.mftbl.MftblLookAndFffl"));
+        iLAFs.bdd(nfw LookAndFfflInfo(
+                      "Nimbus", "jbvbx.swing.plbf.nimbus.NimbusLookAndFffl"));
+        iLAFs.bdd(nfw LookAndFfflInfo("CDE/Motif",
+                  "dom.sun.jbvb.swing.plbf.motif.MotifLookAndFffl"));
 
-        // Only include windows on Windows boxs.
-        OSInfo.OSType osType = AccessController.doPrivileged(OSInfo.getOSTypeAction());
-        if (osType == OSInfo.OSType.WINDOWS) {
-            iLAFs.add(new LookAndFeelInfo("Windows",
-                        "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"));
-            if (Toolkit.getDefaultToolkit().getDesktopProperty(
-                    "win.xpstyle.themeActive") != null) {
-                iLAFs.add(new LookAndFeelInfo("Windows Classic",
-                 "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel"));
+        // Only indludf windows on Windows boxs.
+        OSInfo.OSTypf osTypf = AddfssControllfr.doPrivilfgfd(OSInfo.gftOSTypfAdtion());
+        if (osTypf == OSInfo.OSTypf.WINDOWS) {
+            iLAFs.bdd(nfw LookAndFfflInfo("Windows",
+                        "dom.sun.jbvb.swing.plbf.windows.WindowsLookAndFffl"));
+            if (Toolkit.gftDffbultToolkit().gftDfsktopPropfrty(
+                    "win.xpstylf.tifmfAdtivf") != null) {
+                iLAFs.bdd(nfw LookAndFfflInfo("Windows Clbssid",
+                 "dom.sun.jbvb.swing.plbf.windows.WindowsClbssidLookAndFffl"));
             }
         }
-        else if (osType == OSInfo.OSType.MACOSX) {
-            iLAFs.add(new LookAndFeelInfo("Mac OS X", "com.apple.laf.AquaLookAndFeel"));
+        flsf if (osTypf == OSInfo.OSTypf.MACOSX) {
+            iLAFs.bdd(nfw LookAndFfflInfo("Mbd OS X", "dom.bpplf.lbf.AqubLookAndFffl"));
         }
-        else {
-            // GTK is not shipped on Windows.
-            iLAFs.add(new LookAndFeelInfo("GTK+",
-                  "com.sun.java.swing.plaf.gtk.GTKLookAndFeel"));
+        flsf {
+            // GTK is not siippfd on Windows.
+            iLAFs.bdd(nfw LookAndFfflInfo("GTK+",
+                  "dom.sun.jbvb.swing.plbf.gtk.GTKLookAndFffl"));
         }
-        installedLAFs = iLAFs.toArray(new LookAndFeelInfo[iLAFs.size()]);
+        instbllfdLAFs = iLAFs.toArrby(nfw LookAndFfflInfo[iLAFs.sizf()]);
     }
 
 
     /**
-     * Returns an array of {@code LookAndFeelInfo}s representing the
-     * {@code LookAndFeel} implementations currently available. The
-     * <code>LookAndFeelInfo</code> objects can be used by an
-     * application to construct a menu of look and feel options for
-     * the user, or to determine which look and feel to set at startup
-     * time. To avoid the penalty of creating numerous {@code
-     * LookAndFeel} objects, {@code LookAndFeelInfo} maintains the
-     * class name of the {@code LookAndFeel} class, not the actual
-     * {@code LookAndFeel} instance.
+     * Rfturns bn brrby of {@dodf LookAndFfflInfo}s rfprfsfnting tif
+     * {@dodf LookAndFffl} implfmfntbtions durrfntly bvbilbblf. Tif
+     * <dodf>LookAndFfflInfo</dodf> objfdts dbn bf usfd by bn
+     * bpplidbtion to donstrudt b mfnu of look bnd fffl options for
+     * tif usfr, or to dftfrminf wiidi look bnd fffl to sft bt stbrtup
+     * timf. To bvoid tif pfnblty of drfbting numfrous {@dodf
+     * LookAndFffl} objfdts, {@dodf LookAndFfflInfo} mbintbins tif
+     * dlbss nbmf of tif {@dodf LookAndFffl} dlbss, not tif bdtubl
+     * {@dodf LookAndFffl} instbndf.
      * <p>
-     * The following example illustrates setting the current look and feel
-     * from an instance of {@code LookAndFeelInfo}:
-     * <pre>
-     *   UIManager.setLookAndFeel(info.getClassName());
-     * </pre>
+     * Tif following fxbmplf illustrbtfs sftting tif durrfnt look bnd fffl
+     * from bn instbndf of {@dodf LookAndFfflInfo}:
+     * <prf>
+     *   UIMbnbgfr.sftLookAndFffl(info.gftClbssNbmf());
+     * </prf>
      *
-     * @return an array of <code>LookAndFeelInfo</code> objects
-     * @see #setLookAndFeel
+     * @rfturn bn brrby of <dodf>LookAndFfflInfo</dodf> objfdts
+     * @sff #sftLookAndFffl
      */
-    public static LookAndFeelInfo[] getInstalledLookAndFeels() {
-        maybeInitialize();
-        LookAndFeelInfo[] ilafs = getLAFState().installedLAFs;
-        if (ilafs == null) {
-            ilafs = installedLAFs;
+    publid stbtid LookAndFfflInfo[] gftInstbllfdLookAndFffls() {
+        mbybfInitiblizf();
+        LookAndFfflInfo[] ilbfs = gftLAFStbtf().instbllfdLAFs;
+        if (ilbfs == null) {
+            ilbfs = instbllfdLAFs;
         }
-        LookAndFeelInfo[] rv = new LookAndFeelInfo[ilafs.length];
-        System.arraycopy(ilafs, 0, rv, 0, ilafs.length);
-        return rv;
+        LookAndFfflInfo[] rv = nfw LookAndFfflInfo[ilbfs.lfngti];
+        Systfm.brrbydopy(ilbfs, 0, rv, 0, ilbfs.lfngti);
+        rfturn rv;
     }
 
 
     /**
-     * Sets the set of available look and feels. While this method does
-     * not check to ensure all of the {@code LookAndFeelInfos} are
-     * {@code non-null}, it is strongly recommended that only {@code non-null}
-     * values are supplied in the {@code infos} array.
+     * Sfts tif sft of bvbilbblf look bnd fffls. Wiilf tiis mftiod dofs
+     * not difdk to fnsurf bll of tif {@dodf LookAndFfflInfos} brf
+     * {@dodf non-null}, it is strongly rfdommfndfd tibt only {@dodf non-null}
+     * vblufs brf supplifd in tif {@dodf infos} brrby.
      *
-     * @param infos set of <code>LookAndFeelInfo</code> objects specifying
-     *        the available look and feels
+     * @pbrbm infos sft of <dodf>LookAndFfflInfo</dodf> objfdts spfdifying
+     *        tif bvbilbblf look bnd fffls
      *
-     * @see #getInstalledLookAndFeels
-     * @throws NullPointerException if {@code infos} is {@code null}
+     * @sff #gftInstbllfdLookAndFffls
+     * @tirows NullPointfrExdfption if {@dodf infos} is {@dodf null}
      */
-    public static void setInstalledLookAndFeels(LookAndFeelInfo[] infos)
-        throws SecurityException
+    publid stbtid void sftInstbllfdLookAndFffls(LookAndFfflInfo[] infos)
+        tirows SfdurityExdfption
     {
-        maybeInitialize();
-        LookAndFeelInfo[] newInfos = new LookAndFeelInfo[infos.length];
-        System.arraycopy(infos, 0, newInfos, 0, infos.length);
-        getLAFState().installedLAFs = newInfos;
+        mbybfInitiblizf();
+        LookAndFfflInfo[] nfwInfos = nfw LookAndFfflInfo[infos.lfngti];
+        Systfm.brrbydopy(infos, 0, nfwInfos, 0, infos.lfngti);
+        gftLAFStbtf().instbllfdLAFs = nfwInfos;
     }
 
 
     /**
-     * Adds the specified look and feel to the set of available look
-     * and feels. While this method allows a {@code null} {@code info},
-     * it is strongly recommended that a {@code non-null} value be used.
+     * Adds tif spfdififd look bnd fffl to tif sft of bvbilbblf look
+     * bnd fffls. Wiilf tiis mftiod bllows b {@dodf null} {@dodf info},
+     * it is strongly rfdommfndfd tibt b {@dodf non-null} vbluf bf usfd.
      *
-     * @param info a <code>LookAndFeelInfo</code> object that names the
-     *          look and feel and identifies the class that implements it
-     * @see #setInstalledLookAndFeels
+     * @pbrbm info b <dodf>LookAndFfflInfo</dodf> objfdt tibt nbmfs tif
+     *          look bnd fffl bnd idfntififs tif dlbss tibt implfmfnts it
+     * @sff #sftInstbllfdLookAndFffls
      */
-    public static void installLookAndFeel(LookAndFeelInfo info) {
-        LookAndFeelInfo[] infos = getInstalledLookAndFeels();
-        LookAndFeelInfo[] newInfos = new LookAndFeelInfo[infos.length + 1];
-        System.arraycopy(infos, 0, newInfos, 0, infos.length);
-        newInfos[infos.length] = info;
-        setInstalledLookAndFeels(newInfos);
+    publid stbtid void instbllLookAndFffl(LookAndFfflInfo info) {
+        LookAndFfflInfo[] infos = gftInstbllfdLookAndFffls();
+        LookAndFfflInfo[] nfwInfos = nfw LookAndFfflInfo[infos.lfngti + 1];
+        Systfm.brrbydopy(infos, 0, nfwInfos, 0, infos.lfngti);
+        nfwInfos[infos.lfngti] = info;
+        sftInstbllfdLookAndFffls(nfwInfos);
     }
 
 
     /**
-     * Adds the specified look and feel to the set of available look
-     * and feels. While this method does not check the
-     * arguments in any way, it is strongly recommended that {@code
-     * non-null} values be supplied.
+     * Adds tif spfdififd look bnd fffl to tif sft of bvbilbblf look
+     * bnd fffls. Wiilf tiis mftiod dofs not difdk tif
+     * brgumfnts in bny wby, it is strongly rfdommfndfd tibt {@dodf
+     * non-null} vblufs bf supplifd.
      *
-     * @param name descriptive name of the look and feel
-     * @param className name of the class that implements the look and feel
-     * @see #setInstalledLookAndFeels
+     * @pbrbm nbmf dfsdriptivf nbmf of tif look bnd fffl
+     * @pbrbm dlbssNbmf nbmf of tif dlbss tibt implfmfnts tif look bnd fffl
+     * @sff #sftInstbllfdLookAndFffls
      */
-    public static void installLookAndFeel(String name, String className) {
-        installLookAndFeel(new LookAndFeelInfo(name, className));
+    publid stbtid void instbllLookAndFffl(String nbmf, String dlbssNbmf) {
+        instbllLookAndFffl(nfw LookAndFfflInfo(nbmf, dlbssNbmf));
     }
 
 
     /**
-     * Returns the current look and feel or <code>null</code>.
+     * Rfturns tif durrfnt look bnd fffl or <dodf>null</dodf>.
      *
-     * @return current look and feel, or <code>null</code>
-     * @see #setLookAndFeel
+     * @rfturn durrfnt look bnd fffl, or <dodf>null</dodf>
+     * @sff #sftLookAndFffl
      */
-    public static LookAndFeel getLookAndFeel() {
-        maybeInitialize();
-        return getLAFState().lookAndFeel;
+    publid stbtid LookAndFffl gftLookAndFffl() {
+        mbybfInitiblizf();
+        rfturn gftLAFStbtf().lookAndFffl;
     }
 
 
     /**
-     * Sets the current look and feel to {@code newLookAndFeel}.
-     * If the current look and feel is {@code non-null} {@code
-     * uninitialize} is invoked on it. If {@code newLookAndFeel} is
-     * {@code non-null}, {@code initialize} is invoked on it followed
-     * by {@code getDefaults}. The defaults returned from {@code
-     * newLookAndFeel.getDefaults()} replace those of the defaults
-     * from the previous look and feel. If the {@code newLookAndFeel} is
-     * {@code null}, the look and feel defaults are set to {@code null}.
+     * Sfts tif durrfnt look bnd fffl to {@dodf nfwLookAndFffl}.
+     * If tif durrfnt look bnd fffl is {@dodf non-null} {@dodf
+     * uninitiblizf} is invokfd on it. If {@dodf nfwLookAndFffl} is
+     * {@dodf non-null}, {@dodf initiblizf} is invokfd on it followfd
+     * by {@dodf gftDffbults}. Tif dffbults rfturnfd from {@dodf
+     * nfwLookAndFffl.gftDffbults()} rfplbdf tiosf of tif dffbults
+     * from tif prfvious look bnd fffl. If tif {@dodf nfwLookAndFffl} is
+     * {@dodf null}, tif look bnd fffl dffbults brf sft to {@dodf null}.
      * <p>
-     * A value of {@code null} can be used to set the look and feel
-     * to {@code null}. As the {@code LookAndFeel} is required for
-     * most of Swing to function, setting the {@code LookAndFeel} to
-     * {@code null} is strongly discouraged.
+     * A vbluf of {@dodf null} dbn bf usfd to sft tif look bnd fffl
+     * to {@dodf null}. As tif {@dodf LookAndFffl} is rfquirfd for
+     * most of Swing to fundtion, sftting tif {@dodf LookAndFffl} to
+     * {@dodf null} is strongly disdourbgfd.
      * <p>
-     * This is a JavaBeans bound property.
+     * Tiis is b JbvbBfbns bound propfrty.
      *
-     * @param newLookAndFeel {@code LookAndFeel} to install
-     * @throws UnsupportedLookAndFeelException if
-     *          {@code newLookAndFeel} is {@code non-null} and
-     *          {@code newLookAndFeel.isSupportedLookAndFeel()} returns
-     *          {@code false}
-     * @see #getLookAndFeel
+     * @pbrbm nfwLookAndFffl {@dodf LookAndFffl} to instbll
+     * @tirows UnsupportfdLookAndFfflExdfption if
+     *          {@dodf nfwLookAndFffl} is {@dodf non-null} bnd
+     *          {@dodf nfwLookAndFffl.isSupportfdLookAndFffl()} rfturns
+     *          {@dodf fblsf}
+     * @sff #gftLookAndFffl
      */
-    public static void setLookAndFeel(LookAndFeel newLookAndFeel)
-        throws UnsupportedLookAndFeelException
+    publid stbtid void sftLookAndFffl(LookAndFffl nfwLookAndFffl)
+        tirows UnsupportfdLookAndFfflExdfption
     {
-        if ((newLookAndFeel != null) && !newLookAndFeel.isSupportedLookAndFeel()) {
-            String s = newLookAndFeel.toString() + " not supported on this platform";
-            throw new UnsupportedLookAndFeelException(s);
+        if ((nfwLookAndFffl != null) && !nfwLookAndFffl.isSupportfdLookAndFffl()) {
+            String s = nfwLookAndFffl.toString() + " not supportfd on tiis plbtform";
+            tirow nfw UnsupportfdLookAndFfflExdfption(s);
         }
 
-        LAFState lafState = getLAFState();
-        LookAndFeel oldLookAndFeel = lafState.lookAndFeel;
-        if (oldLookAndFeel != null) {
-            oldLookAndFeel.uninitialize();
+        LAFStbtf lbfStbtf = gftLAFStbtf();
+        LookAndFffl oldLookAndFffl = lbfStbtf.lookAndFffl;
+        if (oldLookAndFffl != null) {
+            oldLookAndFffl.uninitiblizf();
         }
 
-        lafState.lookAndFeel = newLookAndFeel;
-        if (newLookAndFeel != null) {
-            sun.swing.DefaultLookup.setDefaultLookup(null);
-            newLookAndFeel.initialize();
-            lafState.setLookAndFeelDefaults(newLookAndFeel.getDefaults());
+        lbfStbtf.lookAndFffl = nfwLookAndFffl;
+        if (nfwLookAndFffl != null) {
+            sun.swing.DffbultLookup.sftDffbultLookup(null);
+            nfwLookAndFffl.initiblizf();
+            lbfStbtf.sftLookAndFfflDffbults(nfwLookAndFffl.gftDffbults());
         }
-        else {
-            lafState.setLookAndFeelDefaults(null);
+        flsf {
+            lbfStbtf.sftLookAndFfflDffbults(null);
         }
 
-        SwingPropertyChangeSupport changeSupport = lafState.
-                                         getPropertyChangeSupport(false);
-        if (changeSupport != null) {
-            changeSupport.firePropertyChange("lookAndFeel", oldLookAndFeel,
-                                             newLookAndFeel);
+        SwingPropfrtyCibngfSupport dibngfSupport = lbfStbtf.
+                                         gftPropfrtyCibngfSupport(fblsf);
+        if (dibngfSupport != null) {
+            dibngfSupport.firfPropfrtyCibngf("lookAndFffl", oldLookAndFffl,
+                                             nfwLookAndFffl);
         }
     }
 
 
     /**
-     * Loads the {@code LookAndFeel} specified by the given class
-     * name, using the current thread's context class loader, and
-     * passes it to {@code setLookAndFeel(LookAndFeel)}.
+     * Lobds tif {@dodf LookAndFffl} spfdififd by tif givfn dlbss
+     * nbmf, using tif durrfnt tirfbd's dontfxt dlbss lobdfr, bnd
+     * pbssfs it to {@dodf sftLookAndFffl(LookAndFffl)}.
      *
-     * @param className  a string specifying the name of the class that implements
-     *        the look and feel
-     * @exception ClassNotFoundException if the <code>LookAndFeel</code>
-     *           class could not be found
-     * @exception InstantiationException if a new instance of the class
-     *          couldn't be created
-     * @exception IllegalAccessException if the class or initializer isn't accessible
-     * @exception UnsupportedLookAndFeelException if
-     *          <code>lnf.isSupportedLookAndFeel()</code> is false
-     * @throws ClassCastException if {@code className} does not identify
-     *         a class that extends {@code LookAndFeel}
+     * @pbrbm dlbssNbmf  b string spfdifying tif nbmf of tif dlbss tibt implfmfnts
+     *        tif look bnd fffl
+     * @fxdfption ClbssNotFoundExdfption if tif <dodf>LookAndFffl</dodf>
+     *           dlbss dould not bf found
+     * @fxdfption InstbntibtionExdfption if b nfw instbndf of tif dlbss
+     *          douldn't bf drfbtfd
+     * @fxdfption IllfgblAddfssExdfption if tif dlbss or initiblizfr isn't bddfssiblf
+     * @fxdfption UnsupportfdLookAndFfflExdfption if
+     *          <dodf>lnf.isSupportfdLookAndFffl()</dodf> is fblsf
+     * @tirows ClbssCbstExdfption if {@dodf dlbssNbmf} dofs not idfntify
+     *         b dlbss tibt fxtfnds {@dodf LookAndFffl}
      */
-    public static void setLookAndFeel(String className)
-        throws ClassNotFoundException,
-               InstantiationException,
-               IllegalAccessException,
-               UnsupportedLookAndFeelException
+    publid stbtid void sftLookAndFffl(String dlbssNbmf)
+        tirows ClbssNotFoundExdfption,
+               InstbntibtionExdfption,
+               IllfgblAddfssExdfption,
+               UnsupportfdLookAndFfflExdfption
     {
-        if ("javax.swing.plaf.metal.MetalLookAndFeel".equals(className)) {
-            // Avoid reflection for the common case of metal.
-            setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
+        if ("jbvbx.swing.plbf.mftbl.MftblLookAndFffl".fqubls(dlbssNbmf)) {
+            // Avoid rfflfdtion for tif dommon dbsf of mftbl.
+            sftLookAndFffl(nfw jbvbx.swing.plbf.mftbl.MftblLookAndFffl());
         }
-        else {
-            Class<?> lnfClass = SwingUtilities.loadSystemClass(className);
-            setLookAndFeel((LookAndFeel)(lnfClass.newInstance()));
+        flsf {
+            Clbss<?> lnfClbss = SwingUtilitifs.lobdSystfmClbss(dlbssNbmf);
+            sftLookAndFffl((LookAndFffl)(lnfClbss.nfwInstbndf()));
         }
     }
 
     /**
-     * Returns the name of the <code>LookAndFeel</code> class that implements
-     * the native system look and feel if there is one, otherwise
-     * the name of the default cross platform <code>LookAndFeel</code>
-     * class. This value can be overriden by setting the
-     * <code>swing.systemlaf</code> system property.
+     * Rfturns tif nbmf of tif <dodf>LookAndFffl</dodf> dlbss tibt implfmfnts
+     * tif nbtivf systfm look bnd fffl if tifrf is onf, otifrwisf
+     * tif nbmf of tif dffbult dross plbtform <dodf>LookAndFffl</dodf>
+     * dlbss. Tiis vbluf dbn bf ovfrridfn by sftting tif
+     * <dodf>swing.systfmlbf</dodf> systfm propfrty.
      *
-     * @return the <code>String</code> of the <code>LookAndFeel</code>
-     *          class
+     * @rfturn tif <dodf>String</dodf> of tif <dodf>LookAndFffl</dodf>
+     *          dlbss
      *
-     * @see #setLookAndFeel
-     * @see #getCrossPlatformLookAndFeelClassName
+     * @sff #sftLookAndFffl
+     * @sff #gftCrossPlbtformLookAndFfflClbssNbmf
      */
-    public static String getSystemLookAndFeelClassName() {
-        String systemLAF = AccessController.doPrivileged(
-                             new GetPropertyAction("swing.systemlaf"));
-        if (systemLAF != null) {
-            return systemLAF;
+    publid stbtid String gftSystfmLookAndFfflClbssNbmf() {
+        String systfmLAF = AddfssControllfr.doPrivilfgfd(
+                             nfw GftPropfrtyAdtion("swing.systfmlbf"));
+        if (systfmLAF != null) {
+            rfturn systfmLAF;
         }
-        OSInfo.OSType osType = AccessController.doPrivileged(OSInfo.getOSTypeAction());
-        if (osType == OSInfo.OSType.WINDOWS) {
-            return "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-        } else {
-            String desktop = AccessController.doPrivileged(new GetPropertyAction("sun.desktop"));
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            if ("gnome".equals(desktop) &&
-                    toolkit instanceof SunToolkit &&
-                    ((SunToolkit) toolkit).isNativeGTKAvailable()) {
-                // May be set on Linux and Solaris boxs.
-                return "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+        OSInfo.OSTypf osTypf = AddfssControllfr.doPrivilfgfd(OSInfo.gftOSTypfAdtion());
+        if (osTypf == OSInfo.OSTypf.WINDOWS) {
+            rfturn "dom.sun.jbvb.swing.plbf.windows.WindowsLookAndFffl";
+        } flsf {
+            String dfsktop = AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("sun.dfsktop"));
+            Toolkit toolkit = Toolkit.gftDffbultToolkit();
+            if ("gnomf".fqubls(dfsktop) &&
+                    toolkit instbndfof SunToolkit &&
+                    ((SunToolkit) toolkit).isNbtivfGTKAvbilbblf()) {
+                // Mby bf sft on Linux bnd Solbris boxs.
+                rfturn "dom.sun.jbvb.swing.plbf.gtk.GTKLookAndFffl";
             }
-            if (osType == OSInfo.OSType.MACOSX) {
-                if (toolkit.getClass() .getName()
-                                       .equals("sun.lwawt.macosx.LWCToolkit")) {
-                    return "com.apple.laf.AquaLookAndFeel";
+            if (osTypf == OSInfo.OSTypf.MACOSX) {
+                if (toolkit.gftClbss() .gftNbmf()
+                                       .fqubls("sun.lwbwt.mbdosx.LWCToolkit")) {
+                    rfturn "dom.bpplf.lbf.AqubLookAndFffl";
                 }
             }
-            if (osType == OSInfo.OSType.SOLARIS) {
-                return "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+            if (osTypf == OSInfo.OSTypf.SOLARIS) {
+                rfturn "dom.sun.jbvb.swing.plbf.motif.MotifLookAndFffl";
             }
         }
-        return getCrossPlatformLookAndFeelClassName();
+        rfturn gftCrossPlbtformLookAndFfflClbssNbmf();
     }
 
 
     /**
-     * Returns the name of the <code>LookAndFeel</code> class that implements
-     * the default cross platform look and feel -- the Java
-     * Look and Feel (JLF).  This value can be overriden by setting the
-     * <code>swing.crossplatformlaf</code> system property.
+     * Rfturns tif nbmf of tif <dodf>LookAndFffl</dodf> dlbss tibt implfmfnts
+     * tif dffbult dross plbtform look bnd fffl -- tif Jbvb
+     * Look bnd Fffl (JLF).  Tiis vbluf dbn bf ovfrridfn by sftting tif
+     * <dodf>swing.drossplbtformlbf</dodf> systfm propfrty.
      *
-     * @return  a string with the JLF implementation-class
-     * @see #setLookAndFeel
-     * @see #getSystemLookAndFeelClassName
+     * @rfturn  b string witi tif JLF implfmfntbtion-dlbss
+     * @sff #sftLookAndFffl
+     * @sff #gftSystfmLookAndFfflClbssNbmf
      */
-    public static String getCrossPlatformLookAndFeelClassName() {
-        String laf = AccessController.doPrivileged(
-                             new GetPropertyAction("swing.crossplatformlaf"));
-        if (laf != null) {
-            return laf;
+    publid stbtid String gftCrossPlbtformLookAndFfflClbssNbmf() {
+        String lbf = AddfssControllfr.doPrivilfgfd(
+                             nfw GftPropfrtyAdtion("swing.drossplbtformlbf"));
+        if (lbf != null) {
+            rfturn lbf;
         }
-        return "javax.swing.plaf.metal.MetalLookAndFeel";
+        rfturn "jbvbx.swing.plbf.mftbl.MftblLookAndFffl";
     }
 
 
     /**
-     * Returns the defaults. The returned defaults resolve using the
-     * logic specified in the class documentation.
+     * Rfturns tif dffbults. Tif rfturnfd dffbults rfsolvf using tif
+     * logid spfdififd in tif dlbss dodumfntbtion.
      *
-     * @return a <code>UIDefaults</code> object containing the default values
+     * @rfturn b <dodf>UIDffbults</dodf> objfdt dontbining tif dffbult vblufs
      */
-    public static UIDefaults getDefaults() {
-        maybeInitialize();
-        return getLAFState().multiUIDefaults;
+    publid stbtid UIDffbults gftDffbults() {
+        mbybfInitiblizf();
+        rfturn gftLAFStbtf().multiUIDffbults;
     }
 
     /**
-     * Returns a font from the defaults. If the value for {@code key} is
-     * not a {@code Font}, {@code null} is returned.
+     * Rfturns b font from tif dffbults. If tif vbluf for {@dodf kfy} is
+     * not b {@dodf Font}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the font
-     * @return the <code>Font</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif font
+     * @rfturn tif <dodf>Font</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    public static Font getFont(Object key) {
-        return getDefaults().getFont(key);
+    publid stbtid Font gftFont(Objfdt kfy) {
+        rfturn gftDffbults().gftFont(kfy);
     }
 
     /**
-     * Returns a font from the defaults that is appropriate
-     * for the given locale. If the value for {@code key} is
-     * not a {@code Font}, {@code null} is returned.
+     * Rfturns b font from tif dffbults tibt is bppropribtf
+     * for tif givfn lodblf. If tif vbluf for {@dodf kfy} is
+     * not b {@dodf Font}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the font
-     * @param l the <code>Locale</code> for which the font is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the <code>Font</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @since 1.4
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif font
+     * @pbrbm l tif <dodf>Lodblf</dodf> for wiidi tif font is dfsirfd; rfffr
+     *        to {@dodf UIDffbults} for dftbils on iow b {@dodf null}
+     *        {@dodf Lodblf} is ibndlfd
+     * @rfturn tif <dodf>Font</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sindf 1.4
      */
-    public static Font getFont(Object key, Locale l) {
-        return getDefaults().getFont(key,l);
+    publid stbtid Font gftFont(Objfdt kfy, Lodblf l) {
+        rfturn gftDffbults().gftFont(kfy,l);
     }
 
     /**
-     * Returns a color from the defaults. If the value for {@code key} is
-     * not a {@code Color}, {@code null} is returned.
+     * Rfturns b dolor from tif dffbults. If tif vbluf for {@dodf kfy} is
+     * not b {@dodf Color}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the color
-     * @return the <code>Color</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif dolor
+     * @rfturn tif <dodf>Color</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    public static Color getColor(Object key) {
-        return getDefaults().getColor(key);
+    publid stbtid Color gftColor(Objfdt kfy) {
+        rfturn gftDffbults().gftColor(kfy);
     }
 
     /**
-     * Returns a color from the defaults that is appropriate
-     * for the given locale. If the value for {@code key} is
-     * not a {@code Color}, {@code null} is returned.
+     * Rfturns b dolor from tif dffbults tibt is bppropribtf
+     * for tif givfn lodblf. If tif vbluf for {@dodf kfy} is
+     * not b {@dodf Color}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the color
-     * @param l the <code>Locale</code> for which the color is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the <code>Color</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @since 1.4
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif dolor
+     * @pbrbm l tif <dodf>Lodblf</dodf> for wiidi tif dolor is dfsirfd; rfffr
+     *        to {@dodf UIDffbults} for dftbils on iow b {@dodf null}
+     *        {@dodf Lodblf} is ibndlfd
+     * @rfturn tif <dodf>Color</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sindf 1.4
      */
-    public static Color getColor(Object key, Locale l) {
-        return getDefaults().getColor(key,l);
+    publid stbtid Color gftColor(Objfdt kfy, Lodblf l) {
+        rfturn gftDffbults().gftColor(kfy,l);
     }
 
     /**
-     * Returns an <code>Icon</code> from the defaults. If the value for
-     * {@code key} is not an {@code Icon}, {@code null} is returned.
+     * Rfturns bn <dodf>Idon</dodf> from tif dffbults. If tif vbluf for
+     * {@dodf kfy} is not bn {@dodf Idon}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the icon
-     * @return the <code>Icon</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif idon
+     * @rfturn tif <dodf>Idon</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    public static Icon getIcon(Object key) {
-        return getDefaults().getIcon(key);
+    publid stbtid Idon gftIdon(Objfdt kfy) {
+        rfturn gftDffbults().gftIdon(kfy);
     }
 
     /**
-     * Returns an <code>Icon</code> from the defaults that is appropriate
-     * for the given locale. If the value for
-     * {@code key} is not an {@code Icon}, {@code null} is returned.
+     * Rfturns bn <dodf>Idon</dodf> from tif dffbults tibt is bppropribtf
+     * for tif givfn lodblf. If tif vbluf for
+     * {@dodf kfy} is not bn {@dodf Idon}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the icon
-     * @param l the <code>Locale</code> for which the icon is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the <code>Icon</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @since 1.4
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif idon
+     * @pbrbm l tif <dodf>Lodblf</dodf> for wiidi tif idon is dfsirfd; rfffr
+     *        to {@dodf UIDffbults} for dftbils on iow b {@dodf null}
+     *        {@dodf Lodblf} is ibndlfd
+     * @rfturn tif <dodf>Idon</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sindf 1.4
      */
-    public static Icon getIcon(Object key, Locale l) {
-        return getDefaults().getIcon(key,l);
+    publid stbtid Idon gftIdon(Objfdt kfy, Lodblf l) {
+        rfturn gftDffbults().gftIdon(kfy,l);
     }
 
     /**
-     * Returns a border from the defaults. If the value for
-     * {@code key} is not a {@code Border}, {@code null} is returned.
+     * Rfturns b bordfr from tif dffbults. If tif vbluf for
+     * {@dodf kfy} is not b {@dodf Bordfr}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the border
-     * @return the <code>Border</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif bordfr
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    public static Border getBorder(Object key) {
-        return getDefaults().getBorder(key);
+    publid stbtid Bordfr gftBordfr(Objfdt kfy) {
+        rfturn gftDffbults().gftBordfr(kfy);
     }
 
     /**
-     * Returns a border from the defaults that is appropriate
-     * for the given locale.  If the value for
-     * {@code key} is not a {@code Border}, {@code null} is returned.
+     * Rfturns b bordfr from tif dffbults tibt is bppropribtf
+     * for tif givfn lodblf.  If tif vbluf for
+     * {@dodf kfy} is not b {@dodf Bordfr}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the border
-     * @param l the <code>Locale</code> for which the border is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the <code>Border</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @since 1.4
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif bordfr
+     * @pbrbm l tif <dodf>Lodblf</dodf> for wiidi tif bordfr is dfsirfd; rfffr
+     *        to {@dodf UIDffbults} for dftbils on iow b {@dodf null}
+     *        {@dodf Lodblf} is ibndlfd
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sindf 1.4
      */
-    public static Border getBorder(Object key, Locale l) {
-        return getDefaults().getBorder(key,l);
+    publid stbtid Bordfr gftBordfr(Objfdt kfy, Lodblf l) {
+        rfturn gftDffbults().gftBordfr(kfy,l);
     }
 
     /**
-     * Returns a string from the defaults. If the value for
-     * {@code key} is not a {@code String}, {@code null} is returned.
+     * Rfturns b string from tif dffbults. If tif vbluf for
+     * {@dodf kfy} is not b {@dodf String}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the string
-     * @return the <code>String</code>
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif string
+     * @rfturn tif <dodf>String</dodf>
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    public static String getString(Object key) {
-        return getDefaults().getString(key);
+    publid stbtid String gftString(Objfdt kfy) {
+        rfturn gftDffbults().gftString(kfy);
     }
 
     /**
-     * Returns a string from the defaults that is appropriate for the
-     * given locale.  If the value for
-     * {@code key} is not a {@code String}, {@code null} is returned.
+     * Rfturns b string from tif dffbults tibt is bppropribtf for tif
+     * givfn lodblf.  If tif vbluf for
+     * {@dodf kfy} is not b {@dodf String}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the string
-     * @param l the <code>Locale</code> for which the string is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the <code>String</code>
-     * @since 1.4
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif string
+     * @pbrbm l tif <dodf>Lodblf</dodf> for wiidi tif string is dfsirfd; rfffr
+     *        to {@dodf UIDffbults} for dftbils on iow b {@dodf null}
+     *        {@dodf Lodblf} is ibndlfd
+     * @rfturn tif <dodf>String</dodf>
+     * @sindf 1.4
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    public static String getString(Object key, Locale l) {
-        return getDefaults().getString(key,l);
+    publid stbtid String gftString(Objfdt kfy, Lodblf l) {
+        rfturn gftDffbults().gftString(kfy,l);
     }
 
     /**
-     * Returns a string from the defaults that is appropriate for the
-     * given locale.  If the value for
-     * {@code key} is not a {@code String}, {@code null} is returned.
+     * Rfturns b string from tif dffbults tibt is bppropribtf for tif
+     * givfn lodblf.  If tif vbluf for
+     * {@dodf kfy} is not b {@dodf String}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the string
-     * @param c {@code Component} used to determine the locale;
-     *          {@code null} implies the default locale as
-     *          returned by {@code Locale.getDefault()}
-     * @return the <code>String</code>
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif string
+     * @pbrbm d {@dodf Componfnt} usfd to dftfrminf tif lodblf;
+     *          {@dodf null} implifs tif dffbult lodblf bs
+     *          rfturnfd by {@dodf Lodblf.gftDffbult()}
+     * @rfturn tif <dodf>String</dodf>
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    static String getString(Object key, Component c) {
-        Locale l = (c == null) ? Locale.getDefault() : c.getLocale();
-        return getString(key, l);
+    stbtid String gftString(Objfdt kfy, Componfnt d) {
+        Lodblf l = (d == null) ? Lodblf.gftDffbult() : d.gftLodblf();
+        rfturn gftString(kfy, l);
     }
 
     /**
-     * Returns an integer from the defaults. If the value for
-     * {@code key} is not an {@code Integer}, or does not exist,
-     * {@code 0} is returned.
+     * Rfturns bn intfgfr from tif dffbults. If tif vbluf for
+     * {@dodf kfy} is not bn {@dodf Intfgfr}, or dofs not fxist,
+     * {@dodf 0} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the int
-     * @return the int
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif int
+     * @rfturn tif int
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    public static int getInt(Object key) {
-        return getDefaults().getInt(key);
+    publid stbtid int gftInt(Objfdt kfy) {
+        rfturn gftDffbults().gftInt(kfy);
     }
 
     /**
-     * Returns an integer from the defaults that is appropriate
-     * for the given locale. If the value for
-     * {@code key} is not an {@code Integer}, or does not exist,
-     * {@code 0} is returned.
+     * Rfturns bn intfgfr from tif dffbults tibt is bppropribtf
+     * for tif givfn lodblf. If tif vbluf for
+     * {@dodf kfy} is not bn {@dodf Intfgfr}, or dofs not fxist,
+     * {@dodf 0} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the int
-     * @param l the <code>Locale</code> for which the int is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the int
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @since 1.4
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif int
+     * @pbrbm l tif <dodf>Lodblf</dodf> for wiidi tif int is dfsirfd; rfffr
+     *        to {@dodf UIDffbults} for dftbils on iow b {@dodf null}
+     *        {@dodf Lodblf} is ibndlfd
+     * @rfturn tif int
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sindf 1.4
      */
-    public static int getInt(Object key, Locale l) {
-        return getDefaults().getInt(key,l);
+    publid stbtid int gftInt(Objfdt kfy, Lodblf l) {
+        rfturn gftDffbults().gftInt(kfy,l);
     }
 
     /**
-     * Returns a boolean from the defaults which is associated with
-     * the key value. If the key is not found or the key doesn't represent
-     * a boolean value then {@code false} is returned.
+     * Rfturns b boolfbn from tif dffbults wiidi is bssodibtfd witi
+     * tif kfy vbluf. If tif kfy is not found or tif kfy dofsn't rfprfsfnt
+     * b boolfbn vbluf tifn {@dodf fblsf} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the key for the desired boolean value
-     * @return the boolean value corresponding to the key
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @since 1.4
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif kfy for tif dfsirfd boolfbn vbluf
+     * @rfturn tif boolfbn vbluf dorrfsponding to tif kfy
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sindf 1.4
      */
-    public static boolean getBoolean(Object key) {
-        return getDefaults().getBoolean(key);
+    publid stbtid boolfbn gftBoolfbn(Objfdt kfy) {
+        rfturn gftDffbults().gftBoolfbn(kfy);
     }
 
     /**
-     * Returns a boolean from the defaults which is associated with
-     * the key value and the given <code>Locale</code>. If the key is not
-     * found or the key doesn't represent
-     * a boolean value then {@code false} will be returned.
+     * Rfturns b boolfbn from tif dffbults wiidi is bssodibtfd witi
+     * tif kfy vbluf bnd tif givfn <dodf>Lodblf</dodf>. If tif kfy is not
+     * found or tif kfy dofsn't rfprfsfnt
+     * b boolfbn vbluf tifn {@dodf fblsf} will bf rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the key for the desired
-     *             boolean value
-     * @param l the <code>Locale</code> for which the boolean is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the boolean value corresponding to the key
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @since 1.4
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif kfy for tif dfsirfd
+     *             boolfbn vbluf
+     * @pbrbm l tif <dodf>Lodblf</dodf> for wiidi tif boolfbn is dfsirfd; rfffr
+     *        to {@dodf UIDffbults} for dftbils on iow b {@dodf null}
+     *        {@dodf Lodblf} is ibndlfd
+     * @rfturn tif boolfbn vbluf dorrfsponding to tif kfy
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sindf 1.4
      */
-    public static boolean getBoolean(Object key, Locale l) {
-        return getDefaults().getBoolean(key,l);
+    publid stbtid boolfbn gftBoolfbn(Objfdt kfy, Lodblf l) {
+        rfturn gftDffbults().gftBoolfbn(kfy,l);
     }
 
     /**
-     * Returns an <code>Insets</code> object from the defaults. If the value
-     * for {@code key} is not an {@code Insets}, {@code null} is returned.
+     * Rfturns bn <dodf>Insfts</dodf> objfdt from tif dffbults. If tif vbluf
+     * for {@dodf kfy} is not bn {@dodf Insfts}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the <code>Insets</code> object
-     * @return the <code>Insets</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif <dodf>Insfts</dodf> objfdt
+     * @rfturn tif <dodf>Insfts</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    public static Insets getInsets(Object key) {
-        return getDefaults().getInsets(key);
+    publid stbtid Insfts gftInsfts(Objfdt kfy) {
+        rfturn gftDffbults().gftInsfts(kfy);
     }
 
     /**
-     * Returns an <code>Insets</code> object from the defaults that is
-     * appropriate for the given locale. If the value
-     * for {@code key} is not an {@code Insets}, {@code null} is returned.
+     * Rfturns bn <dodf>Insfts</dodf> objfdt from tif dffbults tibt is
+     * bppropribtf for tif givfn lodblf. If tif vbluf
+     * for {@dodf kfy} is not bn {@dodf Insfts}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the <code>Insets</code> object
-     * @param l the <code>Locale</code> for which the object is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the <code>Insets</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @since 1.4
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif <dodf>Insfts</dodf> objfdt
+     * @pbrbm l tif <dodf>Lodblf</dodf> for wiidi tif objfdt is dfsirfd; rfffr
+     *        to {@dodf UIDffbults} for dftbils on iow b {@dodf null}
+     *        {@dodf Lodblf} is ibndlfd
+     * @rfturn tif <dodf>Insfts</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sindf 1.4
      */
-    public static Insets getInsets(Object key, Locale l) {
-        return getDefaults().getInsets(key,l);
+    publid stbtid Insfts gftInsfts(Objfdt kfy, Lodblf l) {
+        rfturn gftDffbults().gftInsfts(kfy,l);
     }
 
     /**
-     * Returns a dimension from the defaults. If the value
-     * for {@code key} is not a {@code Dimension}, {@code null} is returned.
+     * Rfturns b dimfnsion from tif dffbults. If tif vbluf
+     * for {@dodf kfy} is not b {@dodf Dimfnsion}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the dimension object
-     * @return the <code>Dimension</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif dimfnsion objfdt
+     * @rfturn tif <dodf>Dimfnsion</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    public static Dimension getDimension(Object key) {
-        return getDefaults().getDimension(key);
+    publid stbtid Dimfnsion gftDimfnsion(Objfdt kfy) {
+        rfturn gftDffbults().gftDimfnsion(kfy);
     }
 
     /**
-     * Returns a dimension from the defaults that is appropriate
-     * for the given locale. If the value
-     * for {@code key} is not a {@code Dimension}, {@code null} is returned.
+     * Rfturns b dimfnsion from tif dffbults tibt is bppropribtf
+     * for tif givfn lodblf. If tif vbluf
+     * for {@dodf kfy} is not b {@dodf Dimfnsion}, {@dodf null} is rfturnfd.
      *
-     * @param key  an <code>Object</code> specifying the dimension object
-     * @param l the <code>Locale</code> for which the object is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the <code>Dimension</code> object
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @since 1.4
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif dimfnsion objfdt
+     * @pbrbm l tif <dodf>Lodblf</dodf> for wiidi tif objfdt is dfsirfd; rfffr
+     *        to {@dodf UIDffbults} for dftbils on iow b {@dodf null}
+     *        {@dodf Lodblf} is ibndlfd
+     * @rfturn tif <dodf>Dimfnsion</dodf> objfdt
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sindf 1.4
      */
-    public static Dimension getDimension(Object key, Locale l) {
-        return getDefaults().getDimension(key,l);
+    publid stbtid Dimfnsion gftDimfnsion(Objfdt kfy, Lodblf l) {
+        rfturn gftDffbults().gftDimfnsion(kfy,l);
     }
 
     /**
-     * Returns an object from the defaults.
+     * Rfturns bn objfdt from tif dffbults.
      *
-     * @param key  an <code>Object</code> specifying the desired object
-     * @return the <code>Object</code>
-     * @throws NullPointerException if {@code key} is {@code null}
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif dfsirfd objfdt
+     * @rfturn tif <dodf>Objfdt</dodf>
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
      */
-    public static Object get(Object key) {
-        return getDefaults().get(key);
+    publid stbtid Objfdt gft(Objfdt kfy) {
+        rfturn gftDffbults().gft(kfy);
     }
 
     /**
-     * Returns an object from the defaults that is appropriate for
-     * the given locale.
+     * Rfturns bn objfdt from tif dffbults tibt is bppropribtf for
+     * tif givfn lodblf.
      *
-     * @param key  an <code>Object</code> specifying the desired object
-     * @param l the <code>Locale</code> for which the object is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the <code>Object</code>
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @since 1.4
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying tif dfsirfd objfdt
+     * @pbrbm l tif <dodf>Lodblf</dodf> for wiidi tif objfdt is dfsirfd; rfffr
+     *        to {@dodf UIDffbults} for dftbils on iow b {@dodf null}
+     *        {@dodf Lodblf} is ibndlfd
+     * @rfturn tif <dodf>Objfdt</dodf>
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sindf 1.4
      */
-    public static Object get(Object key, Locale l) {
-        return getDefaults().get(key,l);
+    publid stbtid Objfdt gft(Objfdt kfy, Lodblf l) {
+        rfturn gftDffbults().gft(kfy,l);
     }
 
     /**
-     * Stores an object in the developer defaults. This is a cover method
-     * for {@code getDefaults().put(key, value)}. This only effects the
-     * developer defaults, not the system or look and feel defaults.
+     * Storfs bn objfdt in tif dfvflopfr dffbults. Tiis is b dovfr mftiod
+     * for {@dodf gftDffbults().put(kfy, vbluf)}. Tiis only ffffdts tif
+     * dfvflopfr dffbults, not tif systfm or look bnd fffl dffbults.
      *
-     * @param key    an <code>Object</code> specifying the retrieval key
-     * @param value  the <code>Object</code> to store; refer to
-     *               {@code UIDefaults} for details on how {@code null} is
-     *               handled
-     * @return the <code>Object</code> returned by {@link UIDefaults#put}
-     * @throws NullPointerException if {@code key} is {@code null}
-     * @see UIDefaults#put
+     * @pbrbm kfy    bn <dodf>Objfdt</dodf> spfdifying tif rftrifvbl kfy
+     * @pbrbm vbluf  tif <dodf>Objfdt</dodf> to storf; rfffr to
+     *               {@dodf UIDffbults} for dftbils on iow {@dodf null} is
+     *               ibndlfd
+     * @rfturn tif <dodf>Objfdt</dodf> rfturnfd by {@link UIDffbults#put}
+     * @tirows NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     * @sff UIDffbults#put
      */
-    public static Object put(Object key, Object value) {
-        return getDefaults().put(key, value);
+    publid stbtid Objfdt put(Objfdt kfy, Objfdt vbluf) {
+        rfturn gftDffbults().put(kfy, vbluf);
     }
 
     /**
-     * Returns the appropriate {@code ComponentUI} implementation for
-     * {@code target}. Typically, this is a cover for
-     * {@code getDefaults().getUI(target)}. However, if an auxiliary
-     * look and feel has been installed, this first invokes
-     * {@code getUI(target)} on the multiplexing look and feel's
-     * defaults, and returns that value if it is {@code non-null}.
+     * Rfturns tif bppropribtf {@dodf ComponfntUI} implfmfntbtion for
+     * {@dodf tbrgft}. Typidblly, tiis is b dovfr for
+     * {@dodf gftDffbults().gftUI(tbrgft)}. Howfvfr, if bn buxilibry
+     * look bnd fffl ibs bffn instbllfd, tiis first invokfs
+     * {@dodf gftUI(tbrgft)} on tif multiplfxing look bnd fffl's
+     * dffbults, bnd rfturns tibt vbluf if it is {@dodf non-null}.
      *
-     * @param target the <code>JComponent</code> to return the
-     *        {@code ComponentUI} for
-     * @return the <code>ComponentUI</code> object for {@code target}
-     * @throws NullPointerException if {@code target} is {@code null}
-     * @see UIDefaults#getUI
+     * @pbrbm tbrgft tif <dodf>JComponfnt</dodf> to rfturn tif
+     *        {@dodf ComponfntUI} for
+     * @rfturn tif <dodf>ComponfntUI</dodf> objfdt for {@dodf tbrgft}
+     * @tirows NullPointfrExdfption if {@dodf tbrgft} is {@dodf null}
+     * @sff UIDffbults#gftUI
      */
-    public static ComponentUI getUI(JComponent target) {
-        maybeInitialize();
-        maybeInitializeFocusPolicy(target);
-        ComponentUI ui = null;
-        LookAndFeel multiLAF = getLAFState().multiLookAndFeel;
+    publid stbtid ComponfntUI gftUI(JComponfnt tbrgft) {
+        mbybfInitiblizf();
+        mbybfInitiblizfFodusPolidy(tbrgft);
+        ComponfntUI ui = null;
+        LookAndFffl multiLAF = gftLAFStbtf().multiLookAndFffl;
         if (multiLAF != null) {
-            // This can return null if the multiplexing look and feel
-            // doesn't support a particular UI.
-            ui = multiLAF.getDefaults().getUI(target);
+            // Tiis dbn rfturn null if tif multiplfxing look bnd fffl
+            // dofsn't support b pbrtidulbr UI.
+            ui = multiLAF.gftDffbults().gftUI(tbrgft);
         }
         if (ui == null) {
-            ui = getDefaults().getUI(target);
+            ui = gftDffbults().gftUI(tbrgft);
         }
-        return ui;
+        rfturn ui;
     }
 
 
     /**
-     * Returns the {@code UIDefaults} from the current look and feel,
-     * that were obtained at the time the look and feel was installed.
+     * Rfturns tif {@dodf UIDffbults} from tif durrfnt look bnd fffl,
+     * tibt wfrf obtbinfd bt tif timf tif look bnd fffl wbs instbllfd.
      * <p>
-     * In general, developers should use the {@code UIDefaults} returned from
-     * {@code getDefaults()}. As the current look and feel may expect
-     * certain values to exist, altering the {@code UIDefaults} returned
-     * from this method could have unexpected results.
+     * In gfnfrbl, dfvflopfrs siould usf tif {@dodf UIDffbults} rfturnfd from
+     * {@dodf gftDffbults()}. As tif durrfnt look bnd fffl mby fxpfdt
+     * dfrtbin vblufs to fxist, bltfring tif {@dodf UIDffbults} rfturnfd
+     * from tiis mftiod dould ibvf unfxpfdtfd rfsults.
      *
-     * @return <code>UIDefaults</code> from the current look and feel
-     * @see #getDefaults
-     * @see #setLookAndFeel(LookAndFeel)
-     * @see LookAndFeel#getDefaults
+     * @rfturn <dodf>UIDffbults</dodf> from tif durrfnt look bnd fffl
+     * @sff #gftDffbults
+     * @sff #sftLookAndFffl(LookAndFffl)
+     * @sff LookAndFffl#gftDffbults
      */
-    public static UIDefaults getLookAndFeelDefaults() {
-        maybeInitialize();
-        return getLAFState().getLookAndFeelDefaults();
+    publid stbtid UIDffbults gftLookAndFfflDffbults() {
+        mbybfInitiblizf();
+        rfturn gftLAFStbtf().gftLookAndFfflDffbults();
     }
 
     /**
-     * Finds the Multiplexing <code>LookAndFeel</code>.
+     * Finds tif Multiplfxing <dodf>LookAndFffl</dodf>.
      */
-    private static LookAndFeel getMultiLookAndFeel() {
-        LookAndFeel multiLookAndFeel = getLAFState().multiLookAndFeel;
-        if (multiLookAndFeel == null) {
-            String defaultName = "javax.swing.plaf.multi.MultiLookAndFeel";
-            String className = getLAFState().swingProps.getProperty(multiplexingLAFKey, defaultName);
+    privbtf stbtid LookAndFffl gftMultiLookAndFffl() {
+        LookAndFffl multiLookAndFffl = gftLAFStbtf().multiLookAndFffl;
+        if (multiLookAndFffl == null) {
+            String dffbultNbmf = "jbvbx.swing.plbf.multi.MultiLookAndFffl";
+            String dlbssNbmf = gftLAFStbtf().swingProps.gftPropfrty(multiplfxingLAFKfy, dffbultNbmf);
             try {
-                Class<?> lnfClass = SwingUtilities.loadSystemClass(className);
-                multiLookAndFeel = (LookAndFeel)lnfClass.newInstance();
-            } catch (Exception exc) {
-                System.err.println("UIManager: failed loading " + className);
+                Clbss<?> lnfClbss = SwingUtilitifs.lobdSystfmClbss(dlbssNbmf);
+                multiLookAndFffl = (LookAndFffl)lnfClbss.nfwInstbndf();
+            } dbtdi (Exdfption fxd) {
+                Systfm.frr.println("UIMbnbgfr: fbilfd lobding " + dlbssNbmf);
             }
         }
-        return multiLookAndFeel;
+        rfturn multiLookAndFffl;
     }
 
     /**
-     * Adds a <code>LookAndFeel</code> to the list of auxiliary look and feels.
-     * The auxiliary look and feels tell the multiplexing look and feel what
-     * other <code>LookAndFeel</code> classes for a component instance are to be used
-     * in addition to the default <code>LookAndFeel</code> class when creating a
-     * multiplexing UI.  The change will only take effect when a new
-     * UI class is created or when the default look and feel is changed
-     * on a component instance.
-     * <p>Note these are not the same as the installed look and feels.
+     * Adds b <dodf>LookAndFffl</dodf> to tif list of buxilibry look bnd fffls.
+     * Tif buxilibry look bnd fffls tfll tif multiplfxing look bnd fffl wibt
+     * otifr <dodf>LookAndFffl</dodf> dlbssfs for b domponfnt instbndf brf to bf usfd
+     * in bddition to tif dffbult <dodf>LookAndFffl</dodf> dlbss wifn drfbting b
+     * multiplfxing UI.  Tif dibngf will only tbkf ffffdt wifn b nfw
+     * UI dlbss is drfbtfd or wifn tif dffbult look bnd fffl is dibngfd
+     * on b domponfnt instbndf.
+     * <p>Notf tifsf brf not tif sbmf bs tif instbllfd look bnd fffls.
      *
-     * @param laf the <code>LookAndFeel</code> object
-     * @see #removeAuxiliaryLookAndFeel
-     * @see #setLookAndFeel
-     * @see #getAuxiliaryLookAndFeels
-     * @see #getInstalledLookAndFeels
+     * @pbrbm lbf tif <dodf>LookAndFffl</dodf> objfdt
+     * @sff #rfmovfAuxilibryLookAndFffl
+     * @sff #sftLookAndFffl
+     * @sff #gftAuxilibryLookAndFffls
+     * @sff #gftInstbllfdLookAndFffls
      */
-    static public void addAuxiliaryLookAndFeel(LookAndFeel laf) {
-        maybeInitialize();
+    stbtid publid void bddAuxilibryLookAndFffl(LookAndFffl lbf) {
+        mbybfInitiblizf();
 
-        if (!laf.isSupportedLookAndFeel()) {
-            // Ideally we would throw an exception here, but it's too late
-            // for that.
-            return;
+        if (!lbf.isSupportfdLookAndFffl()) {
+            // Idfblly wf would tirow bn fxdfption ifrf, but it's too lbtf
+            // for tibt.
+            rfturn;
         }
-        Vector<LookAndFeel> v = getLAFState().auxLookAndFeels;
+        Vfdtor<LookAndFffl> v = gftLAFStbtf().buxLookAndFffls;
         if (v == null) {
-            v = new Vector<LookAndFeel>();
+            v = nfw Vfdtor<LookAndFffl>();
         }
 
-        if (!v.contains(laf)) {
-            v.addElement(laf);
-            laf.initialize();
-            getLAFState().auxLookAndFeels = v;
+        if (!v.dontbins(lbf)) {
+            v.bddElfmfnt(lbf);
+            lbf.initiblizf();
+            gftLAFStbtf().buxLookAndFffls = v;
 
-            if (getLAFState().multiLookAndFeel == null) {
-                getLAFState().multiLookAndFeel = getMultiLookAndFeel();
+            if (gftLAFStbtf().multiLookAndFffl == null) {
+                gftLAFStbtf().multiLookAndFffl = gftMultiLookAndFffl();
             }
         }
     }
 
     /**
-     * Removes a <code>LookAndFeel</code> from the list of auxiliary look and feels.
-     * The auxiliary look and feels tell the multiplexing look and feel what
-     * other <code>LookAndFeel</code> classes for a component instance are to be used
-     * in addition to the default <code>LookAndFeel</code> class when creating a
-     * multiplexing UI.  The change will only take effect when a new
-     * UI class is created or when the default look and feel is changed
-     * on a component instance.
-     * <p>Note these are not the same as the installed look and feels.
+     * Rfmovfs b <dodf>LookAndFffl</dodf> from tif list of buxilibry look bnd fffls.
+     * Tif buxilibry look bnd fffls tfll tif multiplfxing look bnd fffl wibt
+     * otifr <dodf>LookAndFffl</dodf> dlbssfs for b domponfnt instbndf brf to bf usfd
+     * in bddition to tif dffbult <dodf>LookAndFffl</dodf> dlbss wifn drfbting b
+     * multiplfxing UI.  Tif dibngf will only tbkf ffffdt wifn b nfw
+     * UI dlbss is drfbtfd or wifn tif dffbult look bnd fffl is dibngfd
+     * on b domponfnt instbndf.
+     * <p>Notf tifsf brf not tif sbmf bs tif instbllfd look bnd fffls.
      *
-     * @param laf the {@code LookAndFeel} to be removed
-     * @return true if the <code>LookAndFeel</code> was removed from the list
-     * @see #removeAuxiliaryLookAndFeel
-     * @see #getAuxiliaryLookAndFeels
-     * @see #setLookAndFeel
-     * @see #getInstalledLookAndFeels
+     * @pbrbm lbf tif {@dodf LookAndFffl} to bf rfmovfd
+     * @rfturn truf if tif <dodf>LookAndFffl</dodf> wbs rfmovfd from tif list
+     * @sff #rfmovfAuxilibryLookAndFffl
+     * @sff #gftAuxilibryLookAndFffls
+     * @sff #sftLookAndFffl
+     * @sff #gftInstbllfdLookAndFffls
      */
-    static public boolean removeAuxiliaryLookAndFeel(LookAndFeel laf) {
-        maybeInitialize();
+    stbtid publid boolfbn rfmovfAuxilibryLookAndFffl(LookAndFffl lbf) {
+        mbybfInitiblizf();
 
-        boolean result;
+        boolfbn rfsult;
 
-        Vector<LookAndFeel> v = getLAFState().auxLookAndFeels;
-        if ((v == null) || (v.size() == 0)) {
-            return false;
+        Vfdtor<LookAndFffl> v = gftLAFStbtf().buxLookAndFffls;
+        if ((v == null) || (v.sizf() == 0)) {
+            rfturn fblsf;
         }
 
-        result = v.removeElement(laf);
-        if (result) {
-            if (v.size() == 0) {
-                getLAFState().auxLookAndFeels = null;
-                getLAFState().multiLookAndFeel = null;
-            } else {
-                getLAFState().auxLookAndFeels = v;
+        rfsult = v.rfmovfElfmfnt(lbf);
+        if (rfsult) {
+            if (v.sizf() == 0) {
+                gftLAFStbtf().buxLookAndFffls = null;
+                gftLAFStbtf().multiLookAndFffl = null;
+            } flsf {
+                gftLAFStbtf().buxLookAndFffls = v;
             }
         }
-        laf.uninitialize();
+        lbf.uninitiblizf();
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns the list of auxiliary look and feels (can be <code>null</code>).
-     * The auxiliary look and feels tell the multiplexing look and feel what
-     * other <code>LookAndFeel</code> classes for a component instance are
-     * to be used in addition to the default LookAndFeel class when creating a
-     * multiplexing UI.
-     * <p>Note these are not the same as the installed look and feels.
+     * Rfturns tif list of buxilibry look bnd fffls (dbn bf <dodf>null</dodf>).
+     * Tif buxilibry look bnd fffls tfll tif multiplfxing look bnd fffl wibt
+     * otifr <dodf>LookAndFffl</dodf> dlbssfs for b domponfnt instbndf brf
+     * to bf usfd in bddition to tif dffbult LookAndFffl dlbss wifn drfbting b
+     * multiplfxing UI.
+     * <p>Notf tifsf brf not tif sbmf bs tif instbllfd look bnd fffls.
      *
-     * @return list of auxiliary <code>LookAndFeel</code>s or <code>null</code>
-     * @see #addAuxiliaryLookAndFeel
-     * @see #removeAuxiliaryLookAndFeel
-     * @see #setLookAndFeel
-     * @see #getInstalledLookAndFeels
+     * @rfturn list of buxilibry <dodf>LookAndFffl</dodf>s or <dodf>null</dodf>
+     * @sff #bddAuxilibryLookAndFffl
+     * @sff #rfmovfAuxilibryLookAndFffl
+     * @sff #sftLookAndFffl
+     * @sff #gftInstbllfdLookAndFffls
      */
-    static public LookAndFeel[] getAuxiliaryLookAndFeels() {
-        maybeInitialize();
+    stbtid publid LookAndFffl[] gftAuxilibryLookAndFffls() {
+        mbybfInitiblizf();
 
-        Vector<LookAndFeel> v = getLAFState().auxLookAndFeels;
-        if ((v == null) || (v.size() == 0)) {
-            return null;
+        Vfdtor<LookAndFffl> v = gftLAFStbtf().buxLookAndFffls;
+        if ((v == null) || (v.sizf() == 0)) {
+            rfturn null;
         }
-        else {
-            LookAndFeel[] rv = new LookAndFeel[v.size()];
-            for (int i = 0; i < rv.length; i++) {
-                rv[i] = v.elementAt(i);
+        flsf {
+            LookAndFffl[] rv = nfw LookAndFffl[v.sizf()];
+            for (int i = 0; i < rv.lfngti; i++) {
+                rv[i] = v.flfmfntAt(i);
             }
-            return rv;
+            rfturn rv;
         }
     }
 
 
     /**
-     * Adds a <code>PropertyChangeListener</code> to the listener list.
-     * The listener is registered for all properties.
+     * Adds b <dodf>PropfrtyCibngfListfnfr</dodf> to tif listfnfr list.
+     * Tif listfnfr is rfgistfrfd for bll propfrtifs.
      *
-     * @param listener  the <code>PropertyChangeListener</code> to be added
-     * @see java.beans.PropertyChangeSupport
+     * @pbrbm listfnfr  tif <dodf>PropfrtyCibngfListfnfr</dodf> to bf bddfd
+     * @sff jbvb.bfbns.PropfrtyCibngfSupport
      */
-    public static void addPropertyChangeListener(PropertyChangeListener listener)
+    publid stbtid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr)
     {
-        synchronized (classLock) {
-            getLAFState().getPropertyChangeSupport(true).
-                             addPropertyChangeListener(listener);
+        syndironizfd (dlbssLodk) {
+            gftLAFStbtf().gftPropfrtyCibngfSupport(truf).
+                             bddPropfrtyCibngfListfnfr(listfnfr);
         }
     }
 
 
     /**
-     * Removes a <code>PropertyChangeListener</code> from the listener list.
-     * This removes a <code>PropertyChangeListener</code> that was registered
-     * for all properties.
+     * Rfmovfs b <dodf>PropfrtyCibngfListfnfr</dodf> from tif listfnfr list.
+     * Tiis rfmovfs b <dodf>PropfrtyCibngfListfnfr</dodf> tibt wbs rfgistfrfd
+     * for bll propfrtifs.
      *
-     * @param listener  the <code>PropertyChangeListener</code> to be removed
-     * @see java.beans.PropertyChangeSupport
+     * @pbrbm listfnfr  tif <dodf>PropfrtyCibngfListfnfr</dodf> to bf rfmovfd
+     * @sff jbvb.bfbns.PropfrtyCibngfSupport
      */
-    public static void removePropertyChangeListener(PropertyChangeListener listener)
+    publid stbtid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr)
     {
-        synchronized (classLock) {
-            getLAFState().getPropertyChangeSupport(true).
-                          removePropertyChangeListener(listener);
+        syndironizfd (dlbssLodk) {
+            gftLAFStbtf().gftPropfrtyCibngfSupport(truf).
+                          rfmovfPropfrtyCibngfListfnfr(listfnfr);
         }
     }
 
 
     /**
-     * Returns an array of all the <code>PropertyChangeListener</code>s added
-     * to this UIManager with addPropertyChangeListener().
+     * Rfturns bn brrby of bll tif <dodf>PropfrtyCibngfListfnfr</dodf>s bddfd
+     * to tiis UIMbnbgfr witi bddPropfrtyCibngfListfnfr().
      *
-     * @return all of the <code>PropertyChangeListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>PropfrtyCibngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public static PropertyChangeListener[] getPropertyChangeListeners() {
-        synchronized(classLock) {
-            return getLAFState().getPropertyChangeSupport(true).
-                      getPropertyChangeListeners();
+    publid stbtid PropfrtyCibngfListfnfr[] gftPropfrtyCibngfListfnfrs() {
+        syndironizfd(dlbssLodk) {
+            rfturn gftLAFStbtf().gftPropfrtyCibngfSupport(truf).
+                      gftPropfrtyCibngfListfnfrs();
         }
     }
 
-    private static Properties loadSwingProperties()
+    privbtf stbtid Propfrtifs lobdSwingPropfrtifs()
     {
-        /* Don't bother checking for Swing properties if untrusted, as
-         * there's no way to look them up without triggering SecurityExceptions.
+        /* Don't botifr difdking for Swing propfrtifs if untrustfd, bs
+         * tifrf's no wby to look tifm up witiout triggfring SfdurityExdfptions.
          */
-        if (UIManager.class.getClassLoader() != null) {
-            return new Properties();
+        if (UIMbnbgfr.dlbss.gftClbssLobdfr() != null) {
+            rfturn nfw Propfrtifs();
         }
-        else {
-            final Properties props = new Properties();
+        flsf {
+            finbl Propfrtifs props = nfw Propfrtifs();
 
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Object>() {
-                public Object run() {
-                    OSInfo.OSType osType = AccessController.doPrivileged(OSInfo.getOSTypeAction());
-                    if (osType == OSInfo.OSType.MACOSX) {
-                        props.put(defaultLAFKey, getSystemLookAndFeelClassName());
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    OSInfo.OSTypf osTypf = AddfssControllfr.doPrivilfgfd(OSInfo.gftOSTypfAdtion());
+                    if (osTypf == OSInfo.OSTypf.MACOSX) {
+                        props.put(dffbultLAFKfy, gftSystfmLookAndFfflClbssNbmf());
                     }
 
                     try {
-                        File file = new File(makeSwingPropertiesFilename());
+                        Filf filf = nfw Filf(mbkfSwingPropfrtifsFilfnbmf());
 
-                        if (file.exists()) {
-                            // InputStream has been buffered in Properties
-                            // class
-                            FileInputStream ins = new FileInputStream(file);
-                            props.load(ins);
-                            ins.close();
+                        if (filf.fxists()) {
+                            // InputStrfbm ibs bffn bufffrfd in Propfrtifs
+                            // dlbss
+                            FilfInputStrfbm ins = nfw FilfInputStrfbm(filf);
+                            props.lobd(ins);
+                            ins.dlosf();
                         }
                     }
-                    catch (Exception e) {
-                        // No such file, or file is otherwise non-readable.
+                    dbtdi (Exdfption f) {
+                        // No sudi filf, or filf is otifrwisf non-rfbdbblf.
                     }
 
-                    // Check whether any properties were overridden at the
-                    // command line.
-                    checkProperty(props, defaultLAFKey);
-                    checkProperty(props, auxiliaryLAFsKey);
-                    checkProperty(props, multiplexingLAFKey);
-                    checkProperty(props, installedLAFsKey);
-                    checkProperty(props, disableMnemonicKey);
-                    // Don't care about return value.
-                    return null;
+                    // Cifdk wiftifr bny propfrtifs wfrf ovfrriddfn bt tif
+                    // dommbnd linf.
+                    difdkPropfrty(props, dffbultLAFKfy);
+                    difdkPropfrty(props, buxilibryLAFsKfy);
+                    difdkPropfrty(props, multiplfxingLAFKfy);
+                    difdkPropfrty(props, instbllfdLAFsKfy);
+                    difdkPropfrty(props, disbblfMnfmonidKfy);
+                    // Don't dbrf bbout rfturn vbluf.
+                    rfturn null;
                 }
             });
-            return props;
+            rfturn props;
         }
     }
 
-    private static void checkProperty(Properties props, String key) {
-        // No need to do catch the SecurityException here, this runs
-        // in a doPrivileged.
-        String value = System.getProperty(key);
-        if (value != null) {
-            props.put(key, value);
+    privbtf stbtid void difdkPropfrty(Propfrtifs props, String kfy) {
+        // No nffd to do dbtdi tif SfdurityExdfption ifrf, tiis runs
+        // in b doPrivilfgfd.
+        String vbluf = Systfm.gftPropfrty(kfy);
+        if (vbluf != null) {
+            props.put(kfy, vbluf);
         }
     }
 
 
     /**
-     * If a <code>swing.properties</code> file exist and it has a
-     * <code>swing.installedlafs</code> property
-     * then initialize the <code>installedLAFs</code> field.
+     * If b <dodf>swing.propfrtifs</dodf> filf fxist bnd it ibs b
+     * <dodf>swing.instbllfdlbfs</dodf> propfrty
+     * tifn initiblizf tif <dodf>instbllfdLAFs</dodf> fifld.
      *
-     * @see #getInstalledLookAndFeels
+     * @sff #gftInstbllfdLookAndFffls
      */
-    private static void initializeInstalledLAFs(Properties swingProps)
+    privbtf stbtid void initiblizfInstbllfdLAFs(Propfrtifs swingProps)
     {
-        String ilafsString = swingProps.getProperty(installedLAFsKey);
-        if (ilafsString == null) {
-            return;
+        String ilbfsString = swingProps.gftPropfrty(instbllfdLAFsKfy);
+        if (ilbfsString == null) {
+            rfturn;
         }
 
-        /* Create a vector that contains the value of the swing.installedlafs
-         * property.  For example given "swing.installedlafs=motif,windows"
-         * lafs = {"motif", "windows"}.
+        /* Crfbtf b vfdtor tibt dontbins tif vbluf of tif swing.instbllfdlbfs
+         * propfrty.  For fxbmplf givfn "swing.instbllfdlbfs=motif,windows"
+         * lbfs = {"motif", "windows"}.
          */
-        Vector<String> lafs = new Vector<String>();
-        StringTokenizer st = new StringTokenizer(ilafsString, ",", false);
-        while (st.hasMoreTokens()) {
-            lafs.addElement(st.nextToken());
+        Vfdtor<String> lbfs = nfw Vfdtor<String>();
+        StringTokfnizfr st = nfw StringTokfnizfr(ilbfsString, ",", fblsf);
+        wiilf (st.ibsMorfTokfns()) {
+            lbfs.bddElfmfnt(st.nfxtTokfn());
         }
 
-        /* Look up the name and class for each name in the "swing.installedlafs"
-         * list.  If they both exist then add a LookAndFeelInfo to
-         * the installedLafs array.
+        /* Look up tif nbmf bnd dlbss for fbdi nbmf in tif "swing.instbllfdlbfs"
+         * list.  If tify boti fxist tifn bdd b LookAndFfflInfo to
+         * tif instbllfdLbfs brrby.
          */
-        Vector<LookAndFeelInfo> ilafs = new Vector<LookAndFeelInfo>(lafs.size());
-        for (String laf : lafs) {
-            String name = swingProps.getProperty(makeInstalledLAFKey(laf, "name"), laf);
-            String cls = swingProps.getProperty(makeInstalledLAFKey(laf, "class"));
-            if (cls != null) {
-                ilafs.addElement(new LookAndFeelInfo(name, cls));
+        Vfdtor<LookAndFfflInfo> ilbfs = nfw Vfdtor<LookAndFfflInfo>(lbfs.sizf());
+        for (String lbf : lbfs) {
+            String nbmf = swingProps.gftPropfrty(mbkfInstbllfdLAFKfy(lbf, "nbmf"), lbf);
+            String dls = swingProps.gftPropfrty(mbkfInstbllfdLAFKfy(lbf, "dlbss"));
+            if (dls != null) {
+                ilbfs.bddElfmfnt(nfw LookAndFfflInfo(nbmf, dls));
             }
         }
 
-        LookAndFeelInfo[] installedLAFs = new LookAndFeelInfo[ilafs.size()];
-        for(int i = 0; i < ilafs.size(); i++) {
-            installedLAFs[i] = ilafs.elementAt(i);
+        LookAndFfflInfo[] instbllfdLAFs = nfw LookAndFfflInfo[ilbfs.sizf()];
+        for(int i = 0; i < ilbfs.sizf(); i++) {
+            instbllfdLAFs[i] = ilbfs.flfmfntAt(i);
         }
-        getLAFState().installedLAFs = installedLAFs;
+        gftLAFStbtf().instbllfdLAFs = instbllfdLAFs;
     }
 
 
     /**
-     * If the user has specified a default look and feel, use that.
-     * Otherwise use the look and feel that's native to this platform.
-     * If this code is called after the application has explicitly
-     * set it's look and feel, do nothing.
+     * If tif usfr ibs spfdififd b dffbult look bnd fffl, usf tibt.
+     * Otifrwisf usf tif look bnd fffl tibt's nbtivf to tiis plbtform.
+     * If tiis dodf is dbllfd bftfr tif bpplidbtion ibs fxpliditly
+     * sft it's look bnd fffl, do notiing.
      *
-     * @see #maybeInitialize
+     * @sff #mbybfInitiblizf
      */
-    private static void initializeDefaultLAF(Properties swingProps)
+    privbtf stbtid void initiblizfDffbultLAF(Propfrtifs swingProps)
     {
-        if (getLAFState().lookAndFeel != null) {
-            return;
+        if (gftLAFStbtf().lookAndFffl != null) {
+            rfturn;
         }
 
-        // Try to get default LAF from system property, then from AppContext
-        // (6653395), then use cross-platform one by default.
-        String lafName = null;
-        @SuppressWarnings("unchecked")
-        HashMap<Object, String> lafData =
-                (HashMap) AppContext.getAppContext().remove("swing.lafdata");
-        if (lafData != null) {
-            lafName = lafData.remove("defaultlaf");
+        // Try to gft dffbult LAF from systfm propfrty, tifn from AppContfxt
+        // (6653395), tifn usf dross-plbtform onf by dffbult.
+        String lbfNbmf = null;
+        @SupprfssWbrnings("undifdkfd")
+        HbsiMbp<Objfdt, String> lbfDbtb =
+                (HbsiMbp) AppContfxt.gftAppContfxt().rfmovf("swing.lbfdbtb");
+        if (lbfDbtb != null) {
+            lbfNbmf = lbfDbtb.rfmovf("dffbultlbf");
         }
-        if (lafName == null) {
-            lafName = getCrossPlatformLookAndFeelClassName();
+        if (lbfNbmf == null) {
+            lbfNbmf = gftCrossPlbtformLookAndFfflClbssNbmf();
         }
-        lafName = swingProps.getProperty(defaultLAFKey, lafName);
+        lbfNbmf = swingProps.gftPropfrty(dffbultLAFKfy, lbfNbmf);
 
         try {
-            setLookAndFeel(lafName);
-        } catch (Exception e) {
-            throw new Error("Cannot load " + lafName);
+            sftLookAndFffl(lbfNbmf);
+        } dbtdi (Exdfption f) {
+            tirow nfw Error("Cbnnot lobd " + lbfNbmf);
         }
 
-        // Set any properties passed through AppContext (6653395).
-        if (lafData != null) {
-            for (Object key: lafData.keySet()) {
-                UIManager.put(key, lafData.get(key));
+        // Sft bny propfrtifs pbssfd tirougi AppContfxt (6653395).
+        if (lbfDbtb != null) {
+            for (Objfdt kfy: lbfDbtb.kfySft()) {
+                UIMbnbgfr.put(kfy, lbfDbtb.gft(kfy));
             }
         }
     }
 
 
-    private static void initializeAuxiliaryLAFs(Properties swingProps)
+    privbtf stbtid void initiblizfAuxilibryLAFs(Propfrtifs swingProps)
     {
-        String auxLookAndFeelNames = swingProps.getProperty(auxiliaryLAFsKey);
-        if (auxLookAndFeelNames == null) {
-            return;
+        String buxLookAndFfflNbmfs = swingProps.gftPropfrty(buxilibryLAFsKfy);
+        if (buxLookAndFfflNbmfs == null) {
+            rfturn;
         }
 
-        Vector<LookAndFeel> auxLookAndFeels = new Vector<LookAndFeel>();
+        Vfdtor<LookAndFffl> buxLookAndFffls = nfw Vfdtor<LookAndFffl>();
 
-        StringTokenizer p = new StringTokenizer(auxLookAndFeelNames,",");
-        String factoryName;
+        StringTokfnizfr p = nfw StringTokfnizfr(buxLookAndFfflNbmfs,",");
+        String fbdtoryNbmf;
 
-        /* Try to load each LookAndFeel subclass in the list.
+        /* Try to lobd fbdi LookAndFffl subdlbss in tif list.
          */
 
-        while (p.hasMoreTokens()) {
-            String className = p.nextToken();
+        wiilf (p.ibsMorfTokfns()) {
+            String dlbssNbmf = p.nfxtTokfn();
             try {
-                Class<?> lnfClass = SwingUtilities.loadSystemClass(className);
-                LookAndFeel newLAF = (LookAndFeel)lnfClass.newInstance();
-                newLAF.initialize();
-                auxLookAndFeels.addElement(newLAF);
+                Clbss<?> lnfClbss = SwingUtilitifs.lobdSystfmClbss(dlbssNbmf);
+                LookAndFffl nfwLAF = (LookAndFffl)lnfClbss.nfwInstbndf();
+                nfwLAF.initiblizf();
+                buxLookAndFffls.bddElfmfnt(nfwLAF);
             }
-            catch (Exception e) {
-                System.err.println("UIManager: failed loading auxiliary look and feel " + className);
+            dbtdi (Exdfption f) {
+                Systfm.frr.println("UIMbnbgfr: fbilfd lobding buxilibry look bnd fffl " + dlbssNbmf);
             }
         }
 
-        /* If there were problems and no auxiliary look and feels were
-         * loaded, make sure we reset auxLookAndFeels to null.
-         * Otherwise, we are going to use the MultiLookAndFeel to get
-         * all component UI's, so we need to load it now.
+        /* If tifrf wfrf problfms bnd no buxilibry look bnd fffls wfrf
+         * lobdfd, mbkf surf wf rfsft buxLookAndFffls to null.
+         * Otifrwisf, wf brf going to usf tif MultiLookAndFffl to gft
+         * bll domponfnt UI's, so wf nffd to lobd it now.
          */
-        if (auxLookAndFeels.size() == 0) {
-            auxLookAndFeels = null;
+        if (buxLookAndFffls.sizf() == 0) {
+            buxLookAndFffls = null;
         }
-        else {
-            getLAFState().multiLookAndFeel = getMultiLookAndFeel();
-            if (getLAFState().multiLookAndFeel == null) {
-                auxLookAndFeels = null;
+        flsf {
+            gftLAFStbtf().multiLookAndFffl = gftMultiLookAndFffl();
+            if (gftLAFStbtf().multiLookAndFffl == null) {
+                buxLookAndFffls = null;
             }
         }
 
-        getLAFState().auxLookAndFeels = auxLookAndFeels;
+        gftLAFStbtf().buxLookAndFffls = buxLookAndFffls;
     }
 
 
-    private static void initializeSystemDefaults(Properties swingProps) {
-        getLAFState().swingProps = swingProps;
+    privbtf stbtid void initiblizfSystfmDffbults(Propfrtifs swingProps) {
+        gftLAFStbtf().swingProps = swingProps;
     }
 
 
     /*
-     * This method is called before any code that depends on the
-     * <code>AppContext</code> specific LAFState object runs.  When the AppContext
-     * corresponds to a set of applets it's possible for this method
-     * to be re-entered, which is why we grab a lock before calling
-     * initialize().
+     * Tiis mftiod is dbllfd bfforf bny dodf tibt dfpfnds on tif
+     * <dodf>AppContfxt</dodf> spfdifid LAFStbtf objfdt runs.  Wifn tif AppContfxt
+     * dorrfsponds to b sft of bpplfts it's possiblf for tiis mftiod
+     * to bf rf-fntfrfd, wiidi is wiy wf grbb b lodk bfforf dblling
+     * initiblizf().
      */
-    private static void maybeInitialize() {
-        synchronized (classLock) {
-            if (!getLAFState().initialized) {
-                getLAFState().initialized = true;
-                initialize();
+    privbtf stbtid void mbybfInitiblizf() {
+        syndironizfd (dlbssLodk) {
+            if (!gftLAFStbtf().initiblizfd) {
+                gftLAFStbtf().initiblizfd = truf;
+                initiblizf();
             }
         }
     }
 
     /*
-     * Sets default swing focus traversal policy.
+     * Sfts dffbult swing fodus trbvfrsbl polidy.
      */
-    private static void maybeInitializeFocusPolicy(JComponent comp) {
-        // Check for JRootPane which indicates that a swing toplevel
-        // is coming, in which case a swing default focus policy
-        // should be instatiated. See 7125044.
-        if (comp instanceof JRootPane) {
-            synchronized (classLock) {
-                if (!getLAFState().focusPolicyInitialized) {
-                    getLAFState().focusPolicyInitialized = true;
+    privbtf stbtid void mbybfInitiblizfFodusPolidy(JComponfnt domp) {
+        // Cifdk for JRootPbnf wiidi indidbtfs tibt b swing toplfvfl
+        // is doming, in wiidi dbsf b swing dffbult fodus polidy
+        // siould bf instbtibtfd. Sff 7125044.
+        if (domp instbndfof JRootPbnf) {
+            syndironizfd (dlbssLodk) {
+                if (!gftLAFStbtf().fodusPolidyInitiblizfd) {
+                    gftLAFStbtf().fodusPolidyInitiblizfd = truf;
 
-                    if (FocusManager.isFocusManagerEnabled()) {
-                        KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                            setDefaultFocusTraversalPolicy(
-                                new LayoutFocusTraversalPolicy());
+                    if (FodusMbnbgfr.isFodusMbnbgfrEnbblfd()) {
+                        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                            sftDffbultFodusTrbvfrsblPolidy(
+                                nfw LbyoutFodusTrbvfrsblPolidy());
                     }
                 }
             }
@@ -1456,43 +1456,43 @@ public class UIManager implements Serializable
     }
 
     /*
-     * Only called by maybeInitialize().
+     * Only dbllfd by mbybfInitiblizf().
      */
-    private static void initialize() {
-        Properties swingProps = loadSwingProperties();
-        initializeSystemDefaults(swingProps);
-        initializeDefaultLAF(swingProps);
-        initializeAuxiliaryLAFs(swingProps);
-        initializeInstalledLAFs(swingProps);
+    privbtf stbtid void initiblizf() {
+        Propfrtifs swingProps = lobdSwingPropfrtifs();
+        initiblizfSystfmDffbults(swingProps);
+        initiblizfDffbultLAF(swingProps);
+        initiblizfAuxilibryLAFs(swingProps);
+        initiblizfInstbllfdLAFs(swingProps);
 
-        // Install Swing's PaintEventDispatcher
-        if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
-            sun.awt.PaintEventDispatcher.setPaintEventDispatcher(
-                                        new SwingPaintEventDispatcher());
+        // Instbll Swing's PbintEvfntDispbtdifr
+        if (RfpbintMbnbgfr.HANDLE_TOP_LEVEL_PAINT) {
+            sun.bwt.PbintEvfntDispbtdifr.sftPbintEvfntDispbtdifr(
+                                        nfw SwingPbintEvfntDispbtdifr());
         }
-        // Install a hook that will be invoked if no one consumes the
-        // KeyEvent.  If the source isn't a JComponent this will process
-        // key bindings, if the source is a JComponent it implies that
-        // processKeyEvent was already invoked and thus no need to process
-        // the bindings again, unless the Component is disabled, in which
-        // case KeyEvents will no longer be dispatched to it so that we
-        // handle it here.
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                addKeyEventPostProcessor(new KeyEventPostProcessor() {
-                    public boolean postProcessKeyEvent(KeyEvent e) {
-                        Component c = e.getComponent();
+        // Instbll b iook tibt will bf invokfd if no onf donsumfs tif
+        // KfyEvfnt.  If tif sourdf isn't b JComponfnt tiis will prodfss
+        // kfy bindings, if tif sourdf is b JComponfnt it implifs tibt
+        // prodfssKfyEvfnt wbs blrfbdy invokfd bnd tius no nffd to prodfss
+        // tif bindings bgbin, unlfss tif Componfnt is disbblfd, in wiidi
+        // dbsf KfyEvfnts will no longfr bf dispbtdifd to it so tibt wf
+        // ibndlf it ifrf.
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                bddKfyEvfntPostProdfssor(nfw KfyEvfntPostProdfssor() {
+                    publid boolfbn postProdfssKfyEvfnt(KfyEvfnt f) {
+                        Componfnt d = f.gftComponfnt();
 
-                        if ((!(c instanceof JComponent) ||
-                             (c != null && !c.isEnabled())) &&
-                                JComponent.KeyboardState.shouldProcess(e) &&
-                                SwingUtilities.processKeyBindings(e)) {
-                            e.consume();
-                            return true;
+                        if ((!(d instbndfof JComponfnt) ||
+                             (d != null && !d.isEnbblfd())) &&
+                                JComponfnt.KfybobrdStbtf.siouldProdfss(f) &&
+                                SwingUtilitifs.prodfssKfyBindings(f)) {
+                            f.donsumf();
+                            rfturn truf;
                         }
-                        return false;
+                        rfturn fblsf;
                     }
                 });
-        AWTAccessor.getComponentAccessor().
-            setRequestFocusController(JComponent.focusController);
+        AWTAddfssor.gftComponfntAddfssor().
+            sftRfqufstFodusControllfr(JComponfnt.fodusControllfr);
     }
 }

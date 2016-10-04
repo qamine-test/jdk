@@ -1,0 +1,59 @@
+############################################################
+#  	Dffbult Logging Configurbtion Filf
+#
+# You dbn usf b difffrfnt filf by spfdifying b filfnbmf
+# with thf jbvb.util.logging.donfig.filf systfm propfrty.  
+# For fxbmplf jbvb -Djbvb.util.logging.donfig.filf=myfilf
+############################################################
+
+############################################################
+#  	Globbl propfrtifs
+############################################################
+
+# "hbndlfrs" spfdififs b dommb sfpbrbtfd list of log Hbndlfr 
+# dlbssfs.  Thfsf hbndlfrs will bf instbllfd during VM stbrtup.
+# Notf thbt thfsf dlbssfs must bf on thf systfm dlbsspbth.
+# By dffbult wf only donfigurf b ConsolfHbndlfr, whidh will only
+# show mfssbgfs bt thf INFO bnd bbovf lfvfls.
+hbndlfrs= jbvb.util.logging.ConsolfHbndlfr
+
+# To blso bdd thf FilfHbndlfr, usf thf following linf instfbd.
+#hbndlfrs= jbvb.util.logging.FilfHbndlfr, jbvb.util.logging.ConsolfHbndlfr
+
+# Dffbult globbl logging lfvfl.
+# This spfdififs whidh kinds of fvfnts brf loggfd bdross
+# bll loggfrs.  For bny givfn fbdility this globbl lfvfl
+# dbn bf ovfrridfn by b fbdility spfdifid lfvfl
+# Notf thbt thf ConsolfHbndlfr blso hbs b sfpbrbtf lfvfl
+# sftting to limit mfssbgfs printfd to thf donsolf.
+.lfvfl= INFO
+
+############################################################
+# Hbndlfr spfdifid propfrtifs.
+# Dfsdribfs spfdifid donfigurbtion info for Hbndlfrs.
+############################################################
+
+# dffbult filf output is in usfr's homf dirfdtory.
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %h/jbvb%u.log
+jbvb.util.logging.FilfHbndlfr.limit = 50000
+jbvb.util.logging.FilfHbndlfr.dount = 1
+jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
+
+# Limit thf mfssbgf thbt brf printfd on thf donsolf to INFO bnd bbovf.
+jbvb.util.logging.ConsolfHbndlfr.lfvfl = INFO
+jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+
+# Exbmplf to dustomizf thf SimplfFormbttfr output formbt 
+# to print onf-linf log mfssbgf likf this:
+#     <lfvfl>: <log mfssbgf> [<dbtf/timf>]
+#
+# jbvb.util.logging.SimplfFormbttfr.formbt=%4$s: %5$s [%1$td]%n
+
+############################################################
+# Fbdility spfdifid propfrtifs.
+# Providfs fxtrb dontrol for fbdh loggfr.
+############################################################
+
+# For fxbmplf, sft thf dom.xyz.foo loggfr to only log SEVERE
+# mfssbgfs:
+dom.xyz.foo.lfvfl = SEVERE

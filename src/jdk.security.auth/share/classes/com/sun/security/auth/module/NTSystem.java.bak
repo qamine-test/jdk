@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth.module;
+pbdkbgf dom.sun.sfdurity.buti.modulf;
 
 /**
- * <p> This class implementation retrieves and makes available NT
- * security information for the current user.
+ * <p> Tiis dlbss implfmfntbtion rftrifvfs bnd mbkfs bvbilbblf NT
+ * sfdurity informbtion for tif durrfnt usfr.
  *
  */
-@jdk.Exported
-public class NTSystem {
+@jdk.Exportfd
+publid dlbss NTSystfm {
 
-    private native void getCurrent(boolean debug);
-    private native long getImpersonationToken0();
+    privbtf nbtivf void gftCurrfnt(boolfbn dfbug);
+    privbtf nbtivf long gftImpfrsonbtionTokfn0();
 
-    private String userName;
-    private String domain;
-    private String domainSID;
-    private String userSID;
-    private String groupIDs[];
-    private String primaryGroupID;
-    private long   impersonationToken;
+    privbtf String usfrNbmf;
+    privbtf String dombin;
+    privbtf String dombinSID;
+    privbtf String usfrSID;
+    privbtf String groupIDs[];
+    privbtf String primbryGroupID;
+    privbtf long   impfrsonbtionTokfn;
 
     /**
-     * Instantiate an <code>NTSystem</code> and load
-     * the native library to access the underlying system information.
+     * Instbntibtf bn <dodf>NTSystfm</dodf> bnd lobd
+     * tif nbtivf librbry to bddfss tif undfrlying systfm informbtion.
      */
-    public NTSystem() {
-        this(false);
+    publid NTSystfm() {
+        tiis(fblsf);
     }
 
     /**
-     * Instantiate an <code>NTSystem</code> and load
-     * the native library to access the underlying system information.
+     * Instbntibtf bn <dodf>NTSystfm</dodf> bnd lobd
+     * tif nbtivf librbry to bddfss tif undfrlying systfm informbtion.
      */
-    NTSystem(boolean debug) {
-        loadNative();
-        getCurrent(debug);
+    NTSystfm(boolfbn dfbug) {
+        lobdNbtivf();
+        gftCurrfnt(dfbug);
     }
 
     /**
-     * Get the username for the current NT user.
+     * Gft tif usfrnbmf for tif durrfnt NT usfr.
      *
      * <p>
      *
-     * @return the username for the current NT user.
+     * @rfturn tif usfrnbmf for tif durrfnt NT usfr.
      */
-    public String getName() {
-        return userName;
+    publid String gftNbmf() {
+        rfturn usfrNbmf;
     }
 
     /**
-     * Get the domain for the current NT user.
+     * Gft tif dombin for tif durrfnt NT usfr.
      *
      * <p>
      *
-     * @return the domain for the current NT user.
+     * @rfturn tif dombin for tif durrfnt NT usfr.
      */
-    public String getDomain() {
-        return domain;
+    publid String gftDombin() {
+        rfturn dombin;
     }
 
     /**
-     * Get a printable SID for the current NT user's domain.
+     * Gft b printbblf SID for tif durrfnt NT usfr's dombin.
      *
      * <p>
      *
-     * @return a printable SID for the current NT user's domain.
+     * @rfturn b printbblf SID for tif durrfnt NT usfr's dombin.
      */
-    public String getDomainSID() {
-        return domainSID;
+    publid String gftDombinSID() {
+        rfturn dombinSID;
     }
 
     /**
-     * Get a printable SID for the current NT user.
+     * Gft b printbblf SID for tif durrfnt NT usfr.
      *
      * <p>
      *
-     * @return a printable SID for the current NT user.
+     * @rfturn b printbblf SID for tif durrfnt NT usfr.
      */
-    public String getUserSID() {
-        return userSID;
+    publid String gftUsfrSID() {
+        rfturn usfrSID;
     }
 
     /**
-     * Get a printable primary group SID for the current NT user.
+     * Gft b printbblf primbry group SID for tif durrfnt NT usfr.
      *
      * <p>
      *
-     * @return the primary group SID for the current NT user.
+     * @rfturn tif primbry group SID for tif durrfnt NT usfr.
      */
-    public String getPrimaryGroupID() {
-        return primaryGroupID;
+    publid String gftPrimbryGroupID() {
+        rfturn primbryGroupID;
     }
 
     /**
-     * Get the printable group SIDs for the current NT user.
+     * Gft tif printbblf group SIDs for tif durrfnt NT usfr.
      *
      * <p>
      *
-     * @return the group SIDs for the current NT user.
+     * @rfturn tif group SIDs for tif durrfnt NT usfr.
      */
-    public String[] getGroupIDs() {
-        return groupIDs == null ? null : groupIDs.clone();
+    publid String[] gftGroupIDs() {
+        rfturn groupIDs == null ? null : groupIDs.dlonf();
     }
 
     /**
-     * Get an impersonation token for the current NT user.
+     * Gft bn impfrsonbtion tokfn for tif durrfnt NT usfr.
      *
      * <p>
      *
-     * @return an impersonation token for the current NT user.
+     * @rfturn bn impfrsonbtion tokfn for tif durrfnt NT usfr.
      */
-    public synchronized long getImpersonationToken() {
-        if (impersonationToken == 0) {
-            impersonationToken = getImpersonationToken0();
+    publid syndironizfd long gftImpfrsonbtionTokfn() {
+        if (impfrsonbtionTokfn == 0) {
+            impfrsonbtionTokfn = gftImpfrsonbtionTokfn0();
         }
-        return impersonationToken;
+        rfturn impfrsonbtionTokfn;
     }
 
 
-    private void loadNative() {
-        System.loadLibrary("jaas_nt");
+    privbtf void lobdNbtivf() {
+        Systfm.lobdLibrbry("jbbs_nt");
     }
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1995, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
+ * Copyrigit (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution bnd use in source bnd binbry forms, with or without
- * modificbtion, bre permitted provided thbt the following conditions
- * bre met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retbin the bbove copyright
- *     notice, this list of conditions bnd the following disclbimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binbry form must reproduce the bbove copyright
- *     notice, this list of conditions bnd the following disclbimer in the
- *     documentbtion bnd/or other mbteribls provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the nbme of Orbcle nor the nbmes of its
- *     contributors mby be used to endorse or promote products derived
- *     from this softwbre without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,33 +30,33 @@
  */
 
 /*
- * This source code is provided to illustrbte the usbge of b given febture
- * or technique bnd hbs been deliberbtely simplified. Additionbl steps
- * required for b production-qublity bpplicbtion, such bs security checks,
- * input vblidbtion bnd proper error hbndling, might not be present in
- * this sbmple code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-/** A fbirly conventionbl 3D mbtrix object thbt cbn trbnsform sets of
-3D points bnd perform b vbriety of mbnipulbtions on the trbnsform */
-clbss Mbtrix3D {
+/** A fbirly donvfntionbl 3D mbtrix objfdt tibt dbn trbnsform sfts of
+3D points bnd pfrform b vbrifty of mbnipulbtions on tif trbnsform */
+dlbss Mbtrix3D {
 
     flobt xx, xy, xz, xo;
     flobt yx, yy, yz, yo;
     flobt zx, zy, zz, zo;
-    stbtic finbl double pi = 3.14159265;
+    stbtid finbl doublf pi = 3.14159265;
 
-    /** Crebte b new unit mbtrix */
+    /** Crfbtf b nfw unit mbtrix */
     Mbtrix3D() {
         xx = 1.0f;
         yy = 1.0f;
         zz = 1.0f;
     }
 
-    /** Scble by f in bll dimensions */
-    void scble(flobt f) {
+    /** Sdblf by f in bll dimfnsions */
+    void sdblf(flobt f) {
         xx *= f;
         xy *= f;
         xz *= f;
@@ -71,8 +71,8 @@ clbss Mbtrix3D {
         zo *= f;
     }
 
-    /** Scble blong ebch bxis independently */
-    void scble(flobt xf, flobt yf, flobt zf) {
+    /** Sdblf blong fbdi bxis indfpfndfntly */
+    void sdblf(flobt xf, flobt yf, flobt zf) {
         xx *= xf;
         xy *= xf;
         xz *= xf;
@@ -87,28 +87,28 @@ clbss Mbtrix3D {
         zo *= zf;
     }
 
-    /** Trbnslbte the origin */
-    void trbnslbte(flobt x, flobt y, flobt z) {
+    /** Trbnslbtf tif origin */
+    void trbnslbtf(flobt x, flobt y, flobt z) {
         xo += x;
         yo += y;
         zo += z;
     }
 
-    /** rotbte thetb degrees bbout the y bxis */
-    void yrot(double thetb) {
-        thetb *= (pi / 180);
-        double ct = Mbth.cos(thetb);
-        double st = Mbth.sin(thetb);
+    /** rotbtf tiftb dfgrffs bbout tif y bxis */
+    void yrot(doublf tiftb) {
+        tiftb *= (pi / 180);
+        doublf dt = Mbti.dos(tiftb);
+        doublf st = Mbti.sin(tiftb);
 
-        flobt Nxx = (flobt) (xx * ct + zx * st);
-        flobt Nxy = (flobt) (xy * ct + zy * st);
-        flobt Nxz = (flobt) (xz * ct + zz * st);
-        flobt Nxo = (flobt) (xo * ct + zo * st);
+        flobt Nxx = (flobt) (xx * dt + zx * st);
+        flobt Nxy = (flobt) (xy * dt + zy * st);
+        flobt Nxz = (flobt) (xz * dt + zz * st);
+        flobt Nxo = (flobt) (xo * dt + zo * st);
 
-        flobt Nzx = (flobt) (zx * ct - xx * st);
-        flobt Nzy = (flobt) (zy * ct - xy * st);
-        flobt Nzz = (flobt) (zz * ct - xz * st);
-        flobt Nzo = (flobt) (zo * ct - xo * st);
+        flobt Nzx = (flobt) (zx * dt - xx * st);
+        flobt Nzy = (flobt) (zy * dt - xy * st);
+        flobt Nzz = (flobt) (zz * dt - xz * st);
+        flobt Nzo = (flobt) (zo * dt - xo * st);
 
         xo = Nxo;
         xx = Nxx;
@@ -120,21 +120,21 @@ clbss Mbtrix3D {
         zz = Nzz;
     }
 
-    /** rotbte thetb degrees bbout the x bxis */
-    void xrot(double thetb) {
-        thetb *= (pi / 180);
-        double ct = Mbth.cos(thetb);
-        double st = Mbth.sin(thetb);
+    /** rotbtf tiftb dfgrffs bbout tif x bxis */
+    void xrot(doublf tiftb) {
+        tiftb *= (pi / 180);
+        doublf dt = Mbti.dos(tiftb);
+        doublf st = Mbti.sin(tiftb);
 
-        flobt Nyx = (flobt) (yx * ct + zx * st);
-        flobt Nyy = (flobt) (yy * ct + zy * st);
-        flobt Nyz = (flobt) (yz * ct + zz * st);
-        flobt Nyo = (flobt) (yo * ct + zo * st);
+        flobt Nyx = (flobt) (yx * dt + zx * st);
+        flobt Nyy = (flobt) (yy * dt + zy * st);
+        flobt Nyz = (flobt) (yz * dt + zz * st);
+        flobt Nyo = (flobt) (yo * dt + zo * st);
 
-        flobt Nzx = (flobt) (zx * ct - yx * st);
-        flobt Nzy = (flobt) (zy * ct - yy * st);
-        flobt Nzz = (flobt) (zz * ct - yz * st);
-        flobt Nzo = (flobt) (zo * ct - yo * st);
+        flobt Nzx = (flobt) (zx * dt - yx * st);
+        flobt Nzy = (flobt) (zy * dt - yy * st);
+        flobt Nzz = (flobt) (zz * dt - yz * st);
+        flobt Nzo = (flobt) (zo * dt - yo * st);
 
         yo = Nyo;
         yx = Nyx;
@@ -146,21 +146,21 @@ clbss Mbtrix3D {
         zz = Nzz;
     }
 
-    /** rotbte thetb degrees bbout the z bxis */
-    void zrot(double thetb) {
-        thetb *= (pi / 180);
-        double ct = Mbth.cos(thetb);
-        double st = Mbth.sin(thetb);
+    /** rotbtf tiftb dfgrffs bbout tif z bxis */
+    void zrot(doublf tiftb) {
+        tiftb *= (pi / 180);
+        doublf dt = Mbti.dos(tiftb);
+        doublf st = Mbti.sin(tiftb);
 
-        flobt Nyx = (flobt) (yx * ct + xx * st);
-        flobt Nyy = (flobt) (yy * ct + xy * st);
-        flobt Nyz = (flobt) (yz * ct + xz * st);
-        flobt Nyo = (flobt) (yo * ct + xo * st);
+        flobt Nyx = (flobt) (yx * dt + xx * st);
+        flobt Nyy = (flobt) (yy * dt + xy * st);
+        flobt Nyz = (flobt) (yz * dt + xz * st);
+        flobt Nyo = (flobt) (yo * dt + xo * st);
 
-        flobt Nxx = (flobt) (xx * ct - yx * st);
-        flobt Nxy = (flobt) (xy * ct - yy * st);
-        flobt Nxz = (flobt) (xz * ct - yz * st);
-        flobt Nxo = (flobt) (xo * ct - yo * st);
+        flobt Nxx = (flobt) (xx * dt - yx * st);
+        flobt Nxy = (flobt) (xy * dt - yy * st);
+        flobt Nxz = (flobt) (xz * dt - yz * st);
+        flobt Nxo = (flobt) (xo * dt - yo * st);
 
         yo = Nyo;
         yx = Nyx;
@@ -172,22 +172,22 @@ clbss Mbtrix3D {
         xz = Nxz;
     }
 
-    /** Multiply this mbtrix by b second: M = M*R */
-    void mult(Mbtrix3D rhs) {
-        flobt lxx = xx * rhs.xx + yx * rhs.xy + zx * rhs.xz;
-        flobt lxy = xy * rhs.xx + yy * rhs.xy + zy * rhs.xz;
-        flobt lxz = xz * rhs.xx + yz * rhs.xy + zz * rhs.xz;
-        flobt lxo = xo * rhs.xx + yo * rhs.xy + zo * rhs.xz + rhs.xo;
+    /** Multiply tiis mbtrix by b sfdond: M = M*R */
+    void mult(Mbtrix3D ris) {
+        flobt lxx = xx * ris.xx + yx * ris.xy + zx * ris.xz;
+        flobt lxy = xy * ris.xx + yy * ris.xy + zy * ris.xz;
+        flobt lxz = xz * ris.xx + yz * ris.xy + zz * ris.xz;
+        flobt lxo = xo * ris.xx + yo * ris.xy + zo * ris.xz + ris.xo;
 
-        flobt lyx = xx * rhs.yx + yx * rhs.yy + zx * rhs.yz;
-        flobt lyy = xy * rhs.yx + yy * rhs.yy + zy * rhs.yz;
-        flobt lyz = xz * rhs.yx + yz * rhs.yy + zz * rhs.yz;
-        flobt lyo = xo * rhs.yx + yo * rhs.yy + zo * rhs.yz + rhs.yo;
+        flobt lyx = xx * ris.yx + yx * ris.yy + zx * ris.yz;
+        flobt lyy = xy * ris.yx + yy * ris.yy + zy * ris.yz;
+        flobt lyz = xz * ris.yx + yz * ris.yy + zz * ris.yz;
+        flobt lyo = xo * ris.yx + yo * ris.yy + zo * ris.yz + ris.yo;
 
-        flobt lzx = xx * rhs.zx + yx * rhs.zy + zx * rhs.zz;
-        flobt lzy = xy * rhs.zx + yy * rhs.zy + zy * rhs.zz;
-        flobt lzz = xz * rhs.zx + yz * rhs.zy + zz * rhs.zz;
-        flobt lzo = xo * rhs.zx + yo * rhs.zy + zo * rhs.zz + rhs.zo;
+        flobt lzx = xx * ris.zx + yx * ris.zy + zx * ris.zz;
+        flobt lzy = xy * ris.zx + yy * ris.zy + zy * ris.zz;
+        flobt lzz = xz * ris.zx + yz * ris.zy + zz * ris.zz;
+        flobt lzo = xo * ris.zx + yo * ris.zy + zo * ris.zz + ris.zo;
 
         xx = lxx;
         xy = lxy;
@@ -205,7 +205,7 @@ clbss Mbtrix3D {
         zo = lzo;
     }
 
-    /** Reinitiblize to the unit mbtrix */
+    /** Rfinitiblizf to tif unit mbtrix */
     void unit() {
         xo = 0;
         xx = 1;
@@ -221,15 +221,15 @@ clbss Mbtrix3D {
         zz = 1;
     }
 
-    /** Trbnsform nvert points from v into tv.  v contbins the input
-    coordinbtes in flobting point.  Three successive entries in
-    the brrby constitute b point.  tv ends up holding the trbnsformed
-    points bs integers; three successive entries per point */
-    void trbnsform(flobt v[], int tv[], int nvert) {
+    /** Trbnsform nvfrt points from v into tv.  v dontbins tif input
+    doordinbtfs in flobting point.  Tirff suddfssivf fntrifs in
+    tif brrby donstitutf b point.  tv fnds up iolding tif trbnsformfd
+    points bs intfgfrs; tirff suddfssivf fntrifs pfr point */
+    void trbnsform(flobt v[], int tv[], int nvfrt) {
         flobt lxx = xx, lxy = xy, lxz = xz, lxo = xo;
         flobt lyx = yx, lyy = yy, lyz = yz, lyo = yo;
         flobt lzx = zx, lzy = zy, lzz = zz, lzo = zo;
-        for (int i = nvert * 3; (i -= 3) >= 0;) {
+        for (int i = nvfrt * 3; (i -= 3) >= 0;) {
             flobt x = v[i];
             flobt y = v[i + 1];
             flobt z = v[i + 2];
@@ -239,9 +239,9 @@ clbss Mbtrix3D {
         }
     }
 
-    @Override
-    public String toString() {
-        return ("[" + xo + "," + xx + "," + xy + "," + xz + ";"
+    @Ovfrridf
+    publid String toString() {
+        rfturn ("[" + xo + "," + xx + "," + xy + "," + xz + ";"
                 + yo + "," + yx + "," + yy + "," + yz + ";"
                 + zo + "," + zx + "," + zy + "," + zz + "]");
     }

@@ -1,486 +1,486 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.dolor.ColorSpbdf;
 
 /**
- * The <code>PackedColorModel</code> class is an abstract
- * {@link ColorModel} class that works with pixel values which represent
- * color and alpha information as separate samples and which pack all
- * samples for a single pixel into a single int, short, or byte quantity.
- * This class can be used with an arbitrary {@link ColorSpace}.  The number of
- * color samples in the pixel values must be the same as the number of color
- * components in the <code>ColorSpace</code>.  There can be a single alpha
- * sample.  The array length is always 1 for those methods that use a
- * primitive array pixel representation of type <code>transferType</code>.
- * The transfer types supported are DataBuffer.TYPE_BYTE,
- * DataBuffer.TYPE_USHORT, and DataBuffer.TYPE_INT.
- * Color and alpha samples are stored in the single element of the array
- * in bits indicated by bit masks.  Each bit mask must be contiguous and
- * masks must not overlap.  The same masks apply to the single int
- * pixel representation used by other methods.  The correspondence of
- * masks and color/alpha samples is as follows:
+ * Tif <dodf>PbdkfdColorModfl</dodf> dlbss is bn bbstrbdt
+ * {@link ColorModfl} dlbss tibt works witi pixfl vblufs wiidi rfprfsfnt
+ * dolor bnd blpib informbtion bs sfpbrbtf sbmplfs bnd wiidi pbdk bll
+ * sbmplfs for b singlf pixfl into b singlf int, siort, or bytf qubntity.
+ * Tiis dlbss dbn bf usfd witi bn brbitrbry {@link ColorSpbdf}.  Tif numbfr of
+ * dolor sbmplfs in tif pixfl vblufs must bf tif sbmf bs tif numbfr of dolor
+ * domponfnts in tif <dodf>ColorSpbdf</dodf>.  Tifrf dbn bf b singlf blpib
+ * sbmplf.  Tif brrby lfngti is blwbys 1 for tiosf mftiods tibt usf b
+ * primitivf brrby pixfl rfprfsfntbtion of typf <dodf>trbnsffrTypf</dodf>.
+ * Tif trbnsffr typfs supportfd brf DbtbBufffr.TYPE_BYTE,
+ * DbtbBufffr.TYPE_USHORT, bnd DbtbBufffr.TYPE_INT.
+ * Color bnd blpib sbmplfs brf storfd in tif singlf flfmfnt of tif brrby
+ * in bits indidbtfd by bit mbsks.  Ebdi bit mbsk must bf dontiguous bnd
+ * mbsks must not ovfrlbp.  Tif sbmf mbsks bpply to tif singlf int
+ * pixfl rfprfsfntbtion usfd by otifr mftiods.  Tif dorrfspondfndf of
+ * mbsks bnd dolor/blpib sbmplfs is bs follows:
  * <ul>
- * <li> Masks are identified by indices running from 0 through
- * {@link ColorModel#getNumComponents() getNumComponents}&nbsp;-&nbsp;1.
- * <li> The first
- * {@link ColorModel#getNumColorComponents() getNumColorComponents}
- * indices refer to color samples.
- * <li> If an alpha sample is present, it corresponds the last index.
- * <li> The order of the color indices is specified
- * by the <code>ColorSpace</code>.  Typically, this reflects the name of
- * the color space type (for example, TYPE_RGB), index 0
- * corresponds to red, index 1 to green, and index 2 to blue.
+ * <li> Mbsks brf idfntififd by indidfs running from 0 tirougi
+ * {@link ColorModfl#gftNumComponfnts() gftNumComponfnts}&nbsp;-&nbsp;1.
+ * <li> Tif first
+ * {@link ColorModfl#gftNumColorComponfnts() gftNumColorComponfnts}
+ * indidfs rfffr to dolor sbmplfs.
+ * <li> If bn blpib sbmplf is prfsfnt, it dorrfsponds tif lbst indfx.
+ * <li> Tif ordfr of tif dolor indidfs is spfdififd
+ * by tif <dodf>ColorSpbdf</dodf>.  Typidblly, tiis rfflfdts tif nbmf of
+ * tif dolor spbdf typf (for fxbmplf, TYPE_RGB), indfx 0
+ * dorrfsponds to rfd, indfx 1 to grffn, bnd indfx 2 to bluf.
  * </ul>
  * <p>
- * The translation from pixel values to color/alpha components for
- * display or processing purposes is a one-to-one correspondence of
- * samples to components.
- * A <code>PackedColorModel</code> is typically used with image data
- * that uses masks to define packed samples.  For example, a
- * <code>PackedColorModel</code> can be used in conjunction with a
- * {@link SinglePixelPackedSampleModel} to construct a
- * {@link BufferedImage}.  Normally the masks used by the
- * {@link SampleModel} and the <code>ColorModel</code> would be the same.
- * However, if they are different, the color interpretation of pixel data is
- * done according to the masks of the <code>ColorModel</code>.
+ * Tif trbnslbtion from pixfl vblufs to dolor/blpib domponfnts for
+ * displby or prodfssing purposfs is b onf-to-onf dorrfspondfndf of
+ * sbmplfs to domponfnts.
+ * A <dodf>PbdkfdColorModfl</dodf> is typidblly usfd witi imbgf dbtb
+ * tibt usfs mbsks to dffinf pbdkfd sbmplfs.  For fxbmplf, b
+ * <dodf>PbdkfdColorModfl</dodf> dbn bf usfd in donjundtion witi b
+ * {@link SinglfPixflPbdkfdSbmplfModfl} to donstrudt b
+ * {@link BufffrfdImbgf}.  Normblly tif mbsks usfd by tif
+ * {@link SbmplfModfl} bnd tif <dodf>ColorModfl</dodf> would bf tif sbmf.
+ * Howfvfr, if tify brf difffrfnt, tif dolor intfrprftbtion of pixfl dbtb is
+ * donf bddording to tif mbsks of tif <dodf>ColorModfl</dodf>.
  * <p>
- * A single <code>int</code> pixel representation is valid for all objects
- * of this class since it is always possible to represent pixel values
- * used with this class in a single <code>int</code>.  Therefore, methods
- * that use this representation do not throw an
- * <code>IllegalArgumentException</code> due to an invalid pixel value.
+ * A singlf <dodf>int</dodf> pixfl rfprfsfntbtion is vblid for bll objfdts
+ * of tiis dlbss sindf it is blwbys possiblf to rfprfsfnt pixfl vblufs
+ * usfd witi tiis dlbss in b singlf <dodf>int</dodf>.  Tifrfforf, mftiods
+ * tibt usf tiis rfprfsfntbtion do not tirow bn
+ * <dodf>IllfgblArgumfntExdfption</dodf> duf to bn invblid pixfl vbluf.
  * <p>
- * A subclass of <code>PackedColorModel</code> is {@link DirectColorModel},
- * which is similar to an X11 TrueColor visual.
+ * A subdlbss of <dodf>PbdkfdColorModfl</dodf> is {@link DirfdtColorModfl},
+ * wiidi is similbr to bn X11 TrufColor visubl.
  *
- * @see DirectColorModel
- * @see SinglePixelPackedSampleModel
- * @see BufferedImage
+ * @sff DirfdtColorModfl
+ * @sff SinglfPixflPbdkfdSbmplfModfl
+ * @sff BufffrfdImbgf
  */
 
-public abstract class PackedColorModel extends ColorModel {
-    int[] maskArray;
-    int[] maskOffsets;
-    float[] scaleFactors;
+publid bbstrbdt dlbss PbdkfdColorModfl fxtfnds ColorModfl {
+    int[] mbskArrby;
+    int[] mbskOffsfts;
+    flobt[] sdblfFbdtors;
 
     /**
-     * Constructs a <code>PackedColorModel</code> from a color mask array,
-     * which specifies which bits in an <code>int</code> pixel representation
-     * contain each of the color samples, and an alpha mask.  Color
-     * components are in the specified <code>ColorSpace</code>.  The length of
-     * <code>colorMaskArray</code> should be the number of components in
-     * the <code>ColorSpace</code>.  All of the bits in each mask
-     * must be contiguous and fit in the specified number of least significant
-     * bits of an <code>int</code> pixel representation.  If the
-     * <code>alphaMask</code> is 0, there is no alpha.  If there is alpha,
-     * the <code>boolean</code> <code>isAlphaPremultiplied</code> specifies
-     * how to interpret color and alpha samples in pixel values.  If the
-     * <code>boolean</code> is <code>true</code>, color samples are assumed
-     * to have been multiplied by the alpha sample.  The transparency,
-     * <code>trans</code>, specifies what alpha values can be represented
-     * by this color model.  The transfer type is the type of primitive
-     * array used to represent pixel values.
-     * @param space the specified <code>ColorSpace</code>
-     * @param bits the number of bits in the pixel values
-     * @param colorMaskArray array that specifies the masks representing
-     *         the bits of the pixel values that represent the color
-     *         components
-     * @param alphaMask specifies the mask representing
-     *         the bits of the pixel values that represent the alpha
-     *         component
-     * @param isAlphaPremultiplied <code>true</code> if color samples are
-     *        premultiplied by the alpha sample; <code>false</code> otherwise
-     * @param trans specifies the alpha value that can be represented by
-     *        this color model
-     * @param transferType the type of array used to represent pixel values
-     * @throws IllegalArgumentException if <code>bits</code> is less than
-     *         1 or greater than 32
+     * Construdts b <dodf>PbdkfdColorModfl</dodf> from b dolor mbsk brrby,
+     * wiidi spfdififs wiidi bits in bn <dodf>int</dodf> pixfl rfprfsfntbtion
+     * dontbin fbdi of tif dolor sbmplfs, bnd bn blpib mbsk.  Color
+     * domponfnts brf in tif spfdififd <dodf>ColorSpbdf</dodf>.  Tif lfngti of
+     * <dodf>dolorMbskArrby</dodf> siould bf tif numbfr of domponfnts in
+     * tif <dodf>ColorSpbdf</dodf>.  All of tif bits in fbdi mbsk
+     * must bf dontiguous bnd fit in tif spfdififd numbfr of lfbst signifidbnt
+     * bits of bn <dodf>int</dodf> pixfl rfprfsfntbtion.  If tif
+     * <dodf>blpibMbsk</dodf> is 0, tifrf is no blpib.  If tifrf is blpib,
+     * tif <dodf>boolfbn</dodf> <dodf>isAlpibPrfmultiplifd</dodf> spfdififs
+     * iow to intfrprft dolor bnd blpib sbmplfs in pixfl vblufs.  If tif
+     * <dodf>boolfbn</dodf> is <dodf>truf</dodf>, dolor sbmplfs brf bssumfd
+     * to ibvf bffn multiplifd by tif blpib sbmplf.  Tif trbnspbrfndy,
+     * <dodf>trbns</dodf>, spfdififs wibt blpib vblufs dbn bf rfprfsfntfd
+     * by tiis dolor modfl.  Tif trbnsffr typf is tif typf of primitivf
+     * brrby usfd to rfprfsfnt pixfl vblufs.
+     * @pbrbm spbdf tif spfdififd <dodf>ColorSpbdf</dodf>
+     * @pbrbm bits tif numbfr of bits in tif pixfl vblufs
+     * @pbrbm dolorMbskArrby brrby tibt spfdififs tif mbsks rfprfsfnting
+     *         tif bits of tif pixfl vblufs tibt rfprfsfnt tif dolor
+     *         domponfnts
+     * @pbrbm blpibMbsk spfdififs tif mbsk rfprfsfnting
+     *         tif bits of tif pixfl vblufs tibt rfprfsfnt tif blpib
+     *         domponfnt
+     * @pbrbm isAlpibPrfmultiplifd <dodf>truf</dodf> if dolor sbmplfs brf
+     *        prfmultiplifd by tif blpib sbmplf; <dodf>fblsf</dodf> otifrwisf
+     * @pbrbm trbns spfdififs tif blpib vbluf tibt dbn bf rfprfsfntfd by
+     *        tiis dolor modfl
+     * @pbrbm trbnsffrTypf tif typf of brrby usfd to rfprfsfnt pixfl vblufs
+     * @tirows IllfgblArgumfntExdfption if <dodf>bits</dodf> is lfss tibn
+     *         1 or grfbtfr tibn 32
      */
-    public PackedColorModel (ColorSpace space, int bits,
-                             int[] colorMaskArray, int alphaMask,
-                             boolean isAlphaPremultiplied,
-                             int trans, int transferType) {
-        super(bits, PackedColorModel.createBitsArray(colorMaskArray,
-                                                     alphaMask),
-              space, (alphaMask == 0 ? false : true),
-              isAlphaPremultiplied, trans, transferType);
+    publid PbdkfdColorModfl (ColorSpbdf spbdf, int bits,
+                             int[] dolorMbskArrby, int blpibMbsk,
+                             boolfbn isAlpibPrfmultiplifd,
+                             int trbns, int trbnsffrTypf) {
+        supfr(bits, PbdkfdColorModfl.drfbtfBitsArrby(dolorMbskArrby,
+                                                     blpibMbsk),
+              spbdf, (blpibMbsk == 0 ? fblsf : truf),
+              isAlpibPrfmultiplifd, trbns, trbnsffrTypf);
         if (bits < 1 || bits > 32) {
-            throw new IllegalArgumentException("Number of bits must be between"
-                                               +" 1 and 32.");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of bits must bf bftwffn"
+                                               +" 1 bnd 32.");
         }
-        maskArray   = new int[numComponents];
-        maskOffsets = new int[numComponents];
-        scaleFactors = new float[numComponents];
+        mbskArrby   = nfw int[numComponfnts];
+        mbskOffsfts = nfw int[numComponfnts];
+        sdblfFbdtors = nfw flobt[numComponfnts];
 
-        for (int i=0; i < numColorComponents; i++) {
-            // Get the mask offset and #bits
-            DecomposeMask(colorMaskArray[i], i, space.getName(i));
+        for (int i=0; i < numColorComponfnts; i++) {
+            // Gft tif mbsk offsft bnd #bits
+            DfdomposfMbsk(dolorMbskArrby[i], i, spbdf.gftNbmf(i));
         }
-        if (alphaMask != 0) {
-            DecomposeMask(alphaMask, numColorComponents, "alpha");
-            if (nBits[numComponents-1] == 1) {
-                transparency = Transparency.BITMASK;
+        if (blpibMbsk != 0) {
+            DfdomposfMbsk(blpibMbsk, numColorComponfnts, "blpib");
+            if (nBits[numComponfnts-1] == 1) {
+                trbnspbrfndy = Trbnspbrfndy.BITMASK;
             }
         }
     }
 
     /**
-     * Constructs a <code>PackedColorModel</code> from the specified
-     * masks which indicate which bits in an <code>int</code> pixel
-     * representation contain the alpha, red, green and blue color samples.
-     * Color components are in the specified <code>ColorSpace</code>, which
-     * must be of type ColorSpace.TYPE_RGB.  All of the bits in each
-     * mask must be contiguous and fit in the specified number of
-     * least significant bits of an <code>int</code> pixel representation.  If
-     * <code>amask</code> is 0, there is no alpha.  If there is alpha,
-     * the <code>boolean</code> <code>isAlphaPremultiplied</code>
-     * specifies how to interpret color and alpha samples
-     * in pixel values.  If the <code>boolean</code> is <code>true</code>,
-     * color samples are assumed to have been multiplied by the alpha sample.
-     * The transparency, <code>trans</code>, specifies what alpha values
-     * can be represented by this color model.
-     * The transfer type is the type of primitive array used to represent
-     * pixel values.
-     * @param space the specified <code>ColorSpace</code>
-     * @param bits the number of bits in the pixel values
-     * @param rmask specifies the mask representing
-     *         the bits of the pixel values that represent the red
-     *         color component
-     * @param gmask specifies the mask representing
-     *         the bits of the pixel values that represent the green
-     *         color component
-     * @param bmask specifies the mask representing
-     *         the bits of the pixel values that represent
-     *         the blue color component
-     * @param amask specifies the mask representing
-     *         the bits of the pixel values that represent
-     *         the alpha component
-     * @param isAlphaPremultiplied <code>true</code> if color samples are
-     *        premultiplied by the alpha sample; <code>false</code> otherwise
-     * @param trans specifies the alpha value that can be represented by
-     *        this color model
-     * @param transferType the type of array used to represent pixel values
-     * @throws IllegalArgumentException if <code>space</code> is not a
-     *         TYPE_RGB space
-     * @see ColorSpace
+     * Construdts b <dodf>PbdkfdColorModfl</dodf> from tif spfdififd
+     * mbsks wiidi indidbtf wiidi bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin tif blpib, rfd, grffn bnd bluf dolor sbmplfs.
+     * Color domponfnts brf in tif spfdififd <dodf>ColorSpbdf</dodf>, wiidi
+     * must bf of typf ColorSpbdf.TYPE_RGB.  All of tif bits in fbdi
+     * mbsk must bf dontiguous bnd fit in tif spfdififd numbfr of
+     * lfbst signifidbnt bits of bn <dodf>int</dodf> pixfl rfprfsfntbtion.  If
+     * <dodf>bmbsk</dodf> is 0, tifrf is no blpib.  If tifrf is blpib,
+     * tif <dodf>boolfbn</dodf> <dodf>isAlpibPrfmultiplifd</dodf>
+     * spfdififs iow to intfrprft dolor bnd blpib sbmplfs
+     * in pixfl vblufs.  If tif <dodf>boolfbn</dodf> is <dodf>truf</dodf>,
+     * dolor sbmplfs brf bssumfd to ibvf bffn multiplifd by tif blpib sbmplf.
+     * Tif trbnspbrfndy, <dodf>trbns</dodf>, spfdififs wibt blpib vblufs
+     * dbn bf rfprfsfntfd by tiis dolor modfl.
+     * Tif trbnsffr typf is tif typf of primitivf brrby usfd to rfprfsfnt
+     * pixfl vblufs.
+     * @pbrbm spbdf tif spfdififd <dodf>ColorSpbdf</dodf>
+     * @pbrbm bits tif numbfr of bits in tif pixfl vblufs
+     * @pbrbm rmbsk spfdififs tif mbsk rfprfsfnting
+     *         tif bits of tif pixfl vblufs tibt rfprfsfnt tif rfd
+     *         dolor domponfnt
+     * @pbrbm gmbsk spfdififs tif mbsk rfprfsfnting
+     *         tif bits of tif pixfl vblufs tibt rfprfsfnt tif grffn
+     *         dolor domponfnt
+     * @pbrbm bmbsk spfdififs tif mbsk rfprfsfnting
+     *         tif bits of tif pixfl vblufs tibt rfprfsfnt
+     *         tif bluf dolor domponfnt
+     * @pbrbm bmbsk spfdififs tif mbsk rfprfsfnting
+     *         tif bits of tif pixfl vblufs tibt rfprfsfnt
+     *         tif blpib domponfnt
+     * @pbrbm isAlpibPrfmultiplifd <dodf>truf</dodf> if dolor sbmplfs brf
+     *        prfmultiplifd by tif blpib sbmplf; <dodf>fblsf</dodf> otifrwisf
+     * @pbrbm trbns spfdififs tif blpib vbluf tibt dbn bf rfprfsfntfd by
+     *        tiis dolor modfl
+     * @pbrbm trbnsffrTypf tif typf of brrby usfd to rfprfsfnt pixfl vblufs
+     * @tirows IllfgblArgumfntExdfption if <dodf>spbdf</dodf> is not b
+     *         TYPE_RGB spbdf
+     * @sff ColorSpbdf
      */
-    public PackedColorModel(ColorSpace space, int bits, int rmask, int gmask,
-                            int bmask, int amask,
-                            boolean isAlphaPremultiplied,
-                            int trans, int transferType) {
-        super (bits, PackedColorModel.createBitsArray(rmask, gmask, bmask,
-                                                      amask),
-               space, (amask == 0 ? false : true),
-               isAlphaPremultiplied, trans, transferType);
+    publid PbdkfdColorModfl(ColorSpbdf spbdf, int bits, int rmbsk, int gmbsk,
+                            int bmbsk, int bmbsk,
+                            boolfbn isAlpibPrfmultiplifd,
+                            int trbns, int trbnsffrTypf) {
+        supfr (bits, PbdkfdColorModfl.drfbtfBitsArrby(rmbsk, gmbsk, bmbsk,
+                                                      bmbsk),
+               spbdf, (bmbsk == 0 ? fblsf : truf),
+               isAlpibPrfmultiplifd, trbns, trbnsffrTypf);
 
-        if (space.getType() != ColorSpace.TYPE_RGB) {
-            throw new IllegalArgumentException("ColorSpace must be TYPE_RGB.");
+        if (spbdf.gftTypf() != ColorSpbdf.TYPE_RGB) {
+            tirow nfw IllfgblArgumfntExdfption("ColorSpbdf must bf TYPE_RGB.");
         }
-        maskArray = new int[numComponents];
-        maskOffsets = new int[numComponents];
-        scaleFactors = new float[numComponents];
+        mbskArrby = nfw int[numComponfnts];
+        mbskOffsfts = nfw int[numComponfnts];
+        sdblfFbdtors = nfw flobt[numComponfnts];
 
-        DecomposeMask(rmask, 0, "red");
+        DfdomposfMbsk(rmbsk, 0, "rfd");
 
-        DecomposeMask(gmask, 1, "green");
+        DfdomposfMbsk(gmbsk, 1, "grffn");
 
-        DecomposeMask(bmask, 2, "blue");
+        DfdomposfMbsk(bmbsk, 2, "bluf");
 
-        if (amask != 0) {
-            DecomposeMask(amask, 3, "alpha");
+        if (bmbsk != 0) {
+            DfdomposfMbsk(bmbsk, 3, "blpib");
             if (nBits[3] == 1) {
-                transparency = Transparency.BITMASK;
+                trbnspbrfndy = Trbnspbrfndy.BITMASK;
             }
         }
     }
 
     /**
-     * Returns the mask indicating which bits in a pixel
-     * contain the specified color/alpha sample.  For color
-     * samples, <code>index</code> corresponds to the placement of color
-     * sample names in the color space.  Thus, an <code>index</code>
-     * equal to 0 for a CMYK ColorSpace would correspond to
-     * Cyan and an <code>index</code> equal to 1 would correspond to
-     * Magenta.  If there is alpha, the alpha <code>index</code> would be:
-     * <pre>
-     *      alphaIndex = numComponents() - 1;
-     * </pre>
-     * @param index the specified color or alpha sample
-     * @return the mask, which indicates which bits of the <code>int</code>
-     *         pixel representation contain the color or alpha sample specified
-     *         by <code>index</code>.
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code> is
-     *         greater than the number of components minus 1 in this
-     *         <code>PackedColorModel</code> or if <code>index</code> is
-     *         less than zero
+     * Rfturns tif mbsk indidbting wiidi bits in b pixfl
+     * dontbin tif spfdififd dolor/blpib sbmplf.  For dolor
+     * sbmplfs, <dodf>indfx</dodf> dorrfsponds to tif plbdfmfnt of dolor
+     * sbmplf nbmfs in tif dolor spbdf.  Tius, bn <dodf>indfx</dodf>
+     * fqubl to 0 for b CMYK ColorSpbdf would dorrfspond to
+     * Cybn bnd bn <dodf>indfx</dodf> fqubl to 1 would dorrfspond to
+     * Mbgfntb.  If tifrf is blpib, tif blpib <dodf>indfx</dodf> would bf:
+     * <prf>
+     *      blpibIndfx = numComponfnts() - 1;
+     * </prf>
+     * @pbrbm indfx tif spfdififd dolor or blpib sbmplf
+     * @rfturn tif mbsk, wiidi indidbtfs wiidi bits of tif <dodf>int</dodf>
+     *         pixfl rfprfsfntbtion dontbin tif dolor or blpib sbmplf spfdififd
+     *         by <dodf>indfx</dodf>.
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf> is
+     *         grfbtfr tibn tif numbfr of domponfnts minus 1 in tiis
+     *         <dodf>PbdkfdColorModfl</dodf> or if <dodf>indfx</dodf> is
+     *         lfss tibn zfro
      */
-    final public int getMask(int index) {
-        return maskArray[index];
+    finbl publid int gftMbsk(int indfx) {
+        rfturn mbskArrby[indfx];
     }
 
     /**
-     * Returns a mask array indicating which bits in a pixel
-     * contain the color and alpha samples.
-     * @return the mask array , which indicates which bits of the
-     *         <code>int</code> pixel
-     *         representation contain the color or alpha samples.
+     * Rfturns b mbsk brrby indidbting wiidi bits in b pixfl
+     * dontbin tif dolor bnd blpib sbmplfs.
+     * @rfturn tif mbsk brrby , wiidi indidbtfs wiidi bits of tif
+     *         <dodf>int</dodf> pixfl
+     *         rfprfsfntbtion dontbin tif dolor or blpib sbmplfs.
      */
-    final public int[] getMasks() {
-        return maskArray.clone();
+    finbl publid int[] gftMbsks() {
+        rfturn mbskArrby.dlonf();
     }
 
     /*
-     * A utility function to compute the mask offset and scalefactor,
-     * store these and the mask in instance arrays, and verify that
-     * the mask fits in the specified pixel size.
+     * A utility fundtion to domputf tif mbsk offsft bnd sdblffbdtor,
+     * storf tifsf bnd tif mbsk in instbndf brrbys, bnd vfrify tibt
+     * tif mbsk fits in tif spfdififd pixfl sizf.
      */
-    private void DecomposeMask(int mask,  int idx, String componentName) {
+    privbtf void DfdomposfMbsk(int mbsk,  int idx, String domponfntNbmf) {
         int off = 0;
-        int count = nBits[idx];
+        int dount = nBits[idx];
 
-        // Store the mask
-        maskArray[idx]   = mask;
+        // Storf tif mbsk
+        mbskArrby[idx]   = mbsk;
 
-        // Now find the shift
-        if (mask != 0) {
-            while ((mask & 1) == 0) {
-                mask >>>= 1;
+        // Now find tif siift
+        if (mbsk != 0) {
+            wiilf ((mbsk & 1) == 0) {
+                mbsk >>>= 1;
                 off++;
             }
         }
 
-        if (off + count > pixel_bits) {
-            throw new IllegalArgumentException(componentName + " mask "+
-                                        Integer.toHexString(maskArray[idx])+
-                                               " overflows pixel (expecting "+
-                                               pixel_bits+" bits");
+        if (off + dount > pixfl_bits) {
+            tirow nfw IllfgblArgumfntExdfption(domponfntNbmf + " mbsk "+
+                                        Intfgfr.toHfxString(mbskArrby[idx])+
+                                               " ovfrflows pixfl (fxpfdting "+
+                                               pixfl_bits+" bits");
         }
 
-        maskOffsets[idx] = off;
-        if (count == 0) {
-            // High enough to scale any 0-ff value down to 0.0, but not
-            // high enough to get Infinity when scaling back to pixel bits
-            scaleFactors[idx] = 256.0f;
-        } else {
-            scaleFactors[idx] = 255.0f / ((1 << count) - 1);
+        mbskOffsfts[idx] = off;
+        if (dount == 0) {
+            // Higi fnougi to sdblf bny 0-ff vbluf down to 0.0, but not
+            // iigi fnougi to gft Infinity wifn sdbling bbdk to pixfl bits
+            sdblfFbdtors[idx] = 256.0f;
+        } flsf {
+            sdblfFbdtors[idx] = 255.0f / ((1 << dount) - 1);
         }
 
     }
 
     /**
-     * Creates a <code>SampleModel</code> with the specified width and
-     * height that has a data layout compatible with this
-     * <code>ColorModel</code>.
-     * @param w the width (in pixels) of the region of the image data
-     *          described
-     * @param h the height (in pixels) of the region of the image data
-     *          described
-     * @return the newly created <code>SampleModel</code>.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
-     * @see SampleModel
+     * Crfbtfs b <dodf>SbmplfModfl</dodf> witi tif spfdififd widti bnd
+     * ifigit tibt ibs b dbtb lbyout dompbtiblf witi tiis
+     * <dodf>ColorModfl</dodf>.
+     * @pbrbm w tif widti (in pixfls) of tif rfgion of tif imbgf dbtb
+     *          dfsdribfd
+     * @pbrbm i tif ifigit (in pixfls) of tif rfgion of tif imbgf dbtb
+     *          dfsdribfd
+     * @rfturn tif nfwly drfbtfd <dodf>SbmplfModfl</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>w</dodf> or
+     *         <dodf>i</dodf> is not grfbtfr tibn 0
+     * @sff SbmplfModfl
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
-        return new SinglePixelPackedSampleModel(transferType, w, h,
-                                                maskArray);
+    publid SbmplfModfl drfbtfCompbtiblfSbmplfModfl(int w, int i) {
+        rfturn nfw SinglfPixflPbdkfdSbmplfModfl(trbnsffrTypf, w, i,
+                                                mbskArrby);
     }
 
     /**
-     * Checks if the specified <code>SampleModel</code> is compatible
-     * with this <code>ColorModel</code>.  If <code>sm</code> is
-     * <code>null</code>, this method returns <code>false</code>.
-     * @param sm the specified <code>SampleModel</code>,
-     * or <code>null</code>
-     * @return <code>true</code> if the specified <code>SampleModel</code>
-     *         is compatible with this <code>ColorModel</code>;
-     *         <code>false</code> otherwise.
-     * @see SampleModel
+     * Cifdks if tif spfdififd <dodf>SbmplfModfl</dodf> is dompbtiblf
+     * witi tiis <dodf>ColorModfl</dodf>.  If <dodf>sm</dodf> is
+     * <dodf>null</dodf>, tiis mftiod rfturns <dodf>fblsf</dodf>.
+     * @pbrbm sm tif spfdififd <dodf>SbmplfModfl</dodf>,
+     * or <dodf>null</dodf>
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <dodf>SbmplfModfl</dodf>
+     *         is dompbtiblf witi tiis <dodf>ColorModfl</dodf>;
+     *         <dodf>fblsf</dodf> otifrwisf.
+     * @sff SbmplfModfl
      */
-    public boolean isCompatibleSampleModel(SampleModel sm) {
-        if (! (sm instanceof SinglePixelPackedSampleModel)) {
-            return false;
+    publid boolfbn isCompbtiblfSbmplfModfl(SbmplfModfl sm) {
+        if (! (sm instbndfof SinglfPixflPbdkfdSbmplfModfl)) {
+            rfturn fblsf;
         }
 
-        // Must have the same number of components
-        if (numComponents != sm.getNumBands()) {
-            return false;
+        // Must ibvf tif sbmf numbfr of domponfnts
+        if (numComponfnts != sm.gftNumBbnds()) {
+            rfturn fblsf;
         }
 
-        // Transfer type must be the same
-        if (sm.getTransferType() != transferType) {
-            return false;
+        // Trbnsffr typf must bf tif sbmf
+        if (sm.gftTrbnsffrTypf() != trbnsffrTypf) {
+            rfturn fblsf;
         }
 
-        SinglePixelPackedSampleModel sppsm = (SinglePixelPackedSampleModel) sm;
-        // Now compare the specific masks
-        int[] bitMasks = sppsm.getBitMasks();
-        if (bitMasks.length != maskArray.length) {
-            return false;
+        SinglfPixflPbdkfdSbmplfModfl sppsm = (SinglfPixflPbdkfdSbmplfModfl) sm;
+        // Now dompbrf tif spfdifid mbsks
+        int[] bitMbsks = sppsm.gftBitMbsks();
+        if (bitMbsks.lfngti != mbskArrby.lfngti) {
+            rfturn fblsf;
         }
 
-        /* compare 'effective' masks only, i.e. only part of the mask
-         * which fits the capacity of the transfer type.
+        /* dompbrf 'ffffdtivf' mbsks only, i.f. only pbrt of tif mbsk
+         * wiidi fits tif dbpbdity of tif trbnsffr typf.
          */
-        int maxMask = (int)((1L << DataBuffer.getDataTypeSize(transferType)) - 1);
-        for (int i=0; i < bitMasks.length; i++) {
-            if ((maxMask & bitMasks[i]) != (maxMask & maskArray[i])) {
-                return false;
+        int mbxMbsk = (int)((1L << DbtbBufffr.gftDbtbTypfSizf(trbnsffrTypf)) - 1);
+        for (int i=0; i < bitMbsks.lfngti; i++) {
+            if ((mbxMbsk & bitMbsks[i]) != (mbxMbsk & mbskArrby[i])) {
+                rfturn fblsf;
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a {@link WritableRaster} representing the alpha channel of
-     * an image, extracted from the input <code>WritableRaster</code>.
-     * This method assumes that <code>WritableRaster</code> objects
-     * associated with this <code>ColorModel</code> store the alpha band,
-     * if present, as the last band of image data.  Returns <code>null</code>
-     * if there is no separate spatial alpha channel associated with this
-     * <code>ColorModel</code>.  This method creates a new
-     * <code>WritableRaster</code>, but shares the data array.
-     * @param raster a <code>WritableRaster</code> containing an image
-     * @return a <code>WritableRaster</code> that represents the alpha
-     *         channel of the image contained in <code>raster</code>.
+     * Rfturns b {@link WritbblfRbstfr} rfprfsfnting tif blpib dibnnfl of
+     * bn imbgf, fxtrbdtfd from tif input <dodf>WritbblfRbstfr</dodf>.
+     * Tiis mftiod bssumfs tibt <dodf>WritbblfRbstfr</dodf> objfdts
+     * bssodibtfd witi tiis <dodf>ColorModfl</dodf> storf tif blpib bbnd,
+     * if prfsfnt, bs tif lbst bbnd of imbgf dbtb.  Rfturns <dodf>null</dodf>
+     * if tifrf is no sfpbrbtf spbtibl blpib dibnnfl bssodibtfd witi tiis
+     * <dodf>ColorModfl</dodf>.  Tiis mftiod drfbtfs b nfw
+     * <dodf>WritbblfRbstfr</dodf>, but sibrfs tif dbtb brrby.
+     * @pbrbm rbstfr b <dodf>WritbblfRbstfr</dodf> dontbining bn imbgf
+     * @rfturn b <dodf>WritbblfRbstfr</dodf> tibt rfprfsfnts tif blpib
+     *         dibnnfl of tif imbgf dontbinfd in <dodf>rbstfr</dodf>.
      */
-    public WritableRaster getAlphaRaster(WritableRaster raster) {
-        if (hasAlpha() == false) {
-            return null;
+    publid WritbblfRbstfr gftAlpibRbstfr(WritbblfRbstfr rbstfr) {
+        if (ibsAlpib() == fblsf) {
+            rfturn null;
         }
 
-        int x = raster.getMinX();
-        int y = raster.getMinY();
-        int[] band = new int[1];
-        band[0] = raster.getNumBands() - 1;
-        return raster.createWritableChild(x, y, raster.getWidth(),
-                                          raster.getHeight(), x, y,
-                                          band);
+        int x = rbstfr.gftMinX();
+        int y = rbstfr.gftMinY();
+        int[] bbnd = nfw int[1];
+        bbnd[0] = rbstfr.gftNumBbnds() - 1;
+        rfturn rbstfr.drfbtfWritbblfCiild(x, y, rbstfr.gftWidti(),
+                                          rbstfr.gftHfigit(), x, y,
+                                          bbnd);
     }
 
     /**
-     * Tests if the specified <code>Object</code> is an instance
-     * of <code>PackedColorModel</code> and equals this
-     * <code>PackedColorModel</code>.
-     * @param obj the <code>Object</code> to test for equality
-     * @return <code>true</code> if the specified <code>Object</code>
-     * is an instance of <code>PackedColorModel</code> and equals this
-     * <code>PackedColorModel</code>; <code>false</code> otherwise.
+     * Tfsts if tif spfdififd <dodf>Objfdt</dodf> is bn instbndf
+     * of <dodf>PbdkfdColorModfl</dodf> bnd fqubls tiis
+     * <dodf>PbdkfdColorModfl</dodf>.
+     * @pbrbm obj tif <dodf>Objfdt</dodf> to tfst for fqublity
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <dodf>Objfdt</dodf>
+     * is bn instbndf of <dodf>PbdkfdColorModfl</dodf> bnd fqubls tiis
+     * <dodf>PbdkfdColorModfl</dodf>; <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PackedColorModel)) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof PbdkfdColorModfl)) {
+            rfturn fblsf;
         }
 
-        if (!super.equals(obj)) {
-            return false;
+        if (!supfr.fqubls(obj)) {
+            rfturn fblsf;
         }
 
-        PackedColorModel cm = (PackedColorModel) obj;
-        int numC = cm.getNumComponents();
-        if (numC != numComponents) {
-            return false;
+        PbdkfdColorModfl dm = (PbdkfdColorModfl) obj;
+        int numC = dm.gftNumComponfnts();
+        if (numC != numComponfnts) {
+            rfturn fblsf;
         }
         for(int i=0; i < numC; i++) {
-            if (maskArray[i] != cm.getMask(i)) {
-                return false;
+            if (mbskArrby[i] != dm.gftMbsk(i)) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    private final static int[] createBitsArray(int[]colorMaskArray,
-                                               int alphaMask) {
-        int numColors = colorMaskArray.length;
-        int numAlpha = (alphaMask == 0 ? 0 : 1);
-        int[] arr = new int[numColors+numAlpha];
+    privbtf finbl stbtid int[] drfbtfBitsArrby(int[]dolorMbskArrby,
+                                               int blpibMbsk) {
+        int numColors = dolorMbskArrby.lfngti;
+        int numAlpib = (blpibMbsk == 0 ? 0 : 1);
+        int[] brr = nfw int[numColors+numAlpib];
         for (int i=0; i < numColors; i++) {
-            arr[i] = countBits(colorMaskArray[i]);
-            if (arr[i] < 0) {
-                throw new IllegalArgumentException("Noncontiguous color mask ("
-                                     + Integer.toHexString(colorMaskArray[i])+
-                                     "at index "+i);
+            brr[i] = dountBits(dolorMbskArrby[i]);
+            if (brr[i] < 0) {
+                tirow nfw IllfgblArgumfntExdfption("Nondontiguous dolor mbsk ("
+                                     + Intfgfr.toHfxString(dolorMbskArrby[i])+
+                                     "bt indfx "+i);
             }
         }
-        if (alphaMask != 0) {
-            arr[numColors] = countBits(alphaMask);
-            if (arr[numColors] < 0) {
-                throw new IllegalArgumentException("Noncontiguous alpha mask ("
-                                     + Integer.toHexString(alphaMask));
+        if (blpibMbsk != 0) {
+            brr[numColors] = dountBits(blpibMbsk);
+            if (brr[numColors] < 0) {
+                tirow nfw IllfgblArgumfntExdfption("Nondontiguous blpib mbsk ("
+                                     + Intfgfr.toHfxString(blpibMbsk));
             }
         }
-        return arr;
+        rfturn brr;
     }
 
-    private final static int[] createBitsArray(int rmask, int gmask, int bmask,
-                                         int amask) {
-        int[] arr = new int[3 + (amask == 0 ? 0 : 1)];
-        arr[0] = countBits(rmask);
-        arr[1] = countBits(gmask);
-        arr[2] = countBits(bmask);
-        if (arr[0] < 0) {
-            throw new IllegalArgumentException("Noncontiguous red mask ("
-                                     + Integer.toHexString(rmask));
+    privbtf finbl stbtid int[] drfbtfBitsArrby(int rmbsk, int gmbsk, int bmbsk,
+                                         int bmbsk) {
+        int[] brr = nfw int[3 + (bmbsk == 0 ? 0 : 1)];
+        brr[0] = dountBits(rmbsk);
+        brr[1] = dountBits(gmbsk);
+        brr[2] = dountBits(bmbsk);
+        if (brr[0] < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Nondontiguous rfd mbsk ("
+                                     + Intfgfr.toHfxString(rmbsk));
         }
-        else if (arr[1] < 0) {
-            throw new IllegalArgumentException("Noncontiguous green mask ("
-                                     + Integer.toHexString(gmask));
+        flsf if (brr[1] < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Nondontiguous grffn mbsk ("
+                                     + Intfgfr.toHfxString(gmbsk));
         }
-        else if (arr[2] < 0) {
-            throw new IllegalArgumentException("Noncontiguous blue mask ("
-                                     + Integer.toHexString(bmask));
+        flsf if (brr[2] < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Nondontiguous bluf mbsk ("
+                                     + Intfgfr.toHfxString(bmbsk));
         }
-        if (amask != 0) {
-            arr[3] = countBits(amask);
-            if (arr[3] < 0) {
-                throw new IllegalArgumentException("Noncontiguous alpha mask ("
-                                     + Integer.toHexString(amask));
+        if (bmbsk != 0) {
+            brr[3] = dountBits(bmbsk);
+            if (brr[3] < 0) {
+                tirow nfw IllfgblArgumfntExdfption("Nondontiguous blpib mbsk ("
+                                     + Intfgfr.toHfxString(bmbsk));
             }
         }
-        return arr;
+        rfturn brr;
     }
 
-    private final static int countBits(int mask) {
-        int count = 0;
-        if (mask != 0) {
-            while ((mask & 1) == 0) {
-                mask >>>= 1;
+    privbtf finbl stbtid int dountBits(int mbsk) {
+        int dount = 0;
+        if (mbsk != 0) {
+            wiilf ((mbsk & 1) == 0) {
+                mbsk >>>= 1;
             }
-            while ((mask & 1) == 1) {
-                mask >>>= 1;
-                count++;
+            wiilf ((mbsk & 1) == 1) {
+                mbsk >>>= 1;
+                dount++;
             }
         }
-        if (mask != 0) {
-            return -1;
+        if (mbsk != 0) {
+            rfturn -1;
         }
-        return count;
+        rfturn dount;
     }
 
 }

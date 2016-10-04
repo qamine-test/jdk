@@ -1,0 +1,284 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import sun.swing.DffbultLookup;
+
+/**
+ * Providfs thf Synth L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JOptionPbnf}.
+ *
+ * @buthor Jbmfs Gosling
+ * @buthor Sdott Violft
+ * @buthor Amy Fowlfr
+ * @sindf 1.7
+ */
+publid dlbss SynthOptionPbnfUI fxtfnds BbsidOptionPbnfUI implfmfnts
+                                PropfrtyChbngfListfnfr, SynthUI {
+    privbtf SynthStylf stylf;
+
+    /**
+     * Crfbtfs b nfw UI objfdt for thf givfn domponfnt.
+     *
+     * @pbrbm x domponfnt to drfbtf UI objfdt for
+     * @rfturn thf UI objfdt
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw SynthOptionPbnfUI();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        updbtfStylf(optionPbnf);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        optionPbnf.bddPropfrtyChbngfListfnfr(this);
+    }
+
+    privbtf void updbtfStylf(JComponfnt d) {
+        SynthContfxt dontfxt = gftContfxt(d, ENABLED);
+        SynthStylf oldStylf = stylf;
+
+        stylf = SynthLookAndFffl.updbtfStylf(dontfxt, this);
+        if (stylf != oldStylf) {
+            minimumSizf = (Dimfnsion)stylf.gft(dontfxt,
+                                               "OptionPbnf.minimumSizf");
+            if (minimumSizf == null) {
+                minimumSizf = nfw Dimfnsion(262, 90);
+            }
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
+            }
+        }
+        dontfxt.disposf();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SynthContfxt dontfxt = gftContfxt(optionPbnf, ENABLED);
+
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        optionPbnf.rfmovfPropfrtyChbngfListfnfr(this);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void instbllComponfnts() {
+        optionPbnf.bdd(drfbtfMfssbgfArfb());
+
+        Contbinfr sfpbrbtor = drfbtfSfpbrbtor();
+        if (sfpbrbtor != null) {
+            optionPbnf.bdd(sfpbrbtor);
+            SynthContfxt dontfxt = gftContfxt(optionPbnf, ENABLED);
+            optionPbnf.bdd(Box.drfbtfVfrtidblStrut(dontfxt.gftStylf().
+                       gftInt(dontfxt, "OptionPbnf.sfpbrbtorPbdding", 6)));
+            dontfxt.disposf();
+        }
+        optionPbnf.bdd(drfbtfButtonArfb());
+        optionPbnf.bpplyComponfntOrifntbtion(optionPbnf.gftComponfntOrifntbtion());
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid SynthContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, gftComponfntStbtf(d));
+    }
+
+    privbtf SynthContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SynthContfxt.gftContfxt(d, stylf, stbtf);
+    }
+
+    privbtf int gftComponfntStbtf(JComponfnt d) {
+        rfturn SynthLookAndFffl.gftComponfntStbtf(d);
+    }
+
+    /**
+     * Notififs this UI dflfgbtf to rfpbint thf spfdififd domponfnt.
+     * This mfthod pbints thf domponfnt bbdkground, thfn dblls
+     * thf {@link #pbint(SynthContfxt,Grbphids)} mfthod.
+     *
+     * <p>In gfnfrbl, this mfthod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf should rfsidf in thf {@dodf pbint} mfthod.
+     *
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @pbrbm d thf domponfnt bfing pbintfd
+     * @sff #pbint(SynthContfxt,Grbphids)
+     */
+    @Ovfrridf
+    publid void updbtf(Grbphids g, JComponfnt d) {
+        SynthContfxt dontfxt = gftContfxt(d);
+
+        SynthLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintOptionPbnfBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidth(), d.gftHfight());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
+    }
+
+    /**
+     * Pbints thf spfdififd domponfnt bddording to thf Look bnd Fffl.
+     * <p>This mfthod is not usfd by Synth Look bnd Fffl.
+     * Pbinting is hbndlfd by thf {@link #pbint(SynthContfxt,Grbphids)} mfthod.
+     *
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @pbrbm d thf domponfnt bfing pbintfd
+     * @sff #pbint(SynthContfxt,Grbphids)
+     */
+    @Ovfrridf
+    publid void pbint(Grbphids g, JComponfnt d) {
+        SynthContfxt dontfxt = gftContfxt(d);
+
+        pbint(dontfxt, g);
+        dontfxt.disposf();
+    }
+
+    /**
+     * Pbints thf spfdififd domponfnt. This implfmfntbtion dofs nothing.
+     *
+     * @pbrbm dontfxt dontfxt for thf domponfnt bfing pbintfd
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbphids,JComponfnt)
+     */
+    protfdtfd void pbint(SynthContfxt dontfxt, Grbphids g) {
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void pbintBordfr(SynthContfxt dontfxt, Grbphids g, int x,
+                            int y, int w, int h) {
+        dontfxt.gftPbintfr().pbintOptionPbnfBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+        if (SynthLookAndFffl.shouldUpdbtfStylf(f)) {
+            updbtfStylf((JOptionPbnf)f.gftSourdf());
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd boolfbn gftSizfButtonsToSbmfWidth() {
+        rfturn DffbultLookup.gftBoolfbn(optionPbnf, this,
+                                        "OptionPbnf.sbmfSizfButtons", truf);
+    }
+
+    /**
+     * Cbllfd from {@link #instbllComponfnts} to drfbtf b {@dodf Contbinfr}
+     * dontbining thf body of thf mfssbgf. Thf idon is thf drfbtfd by dblling
+     * {@link #bddIdon}.
+     */
+    @Ovfrridf
+    protfdtfd Contbinfr drfbtfMfssbgfArfb() {
+        JPbnfl top = nfw JPbnfl();
+        top.sftNbmf("OptionPbnf.mfssbgfArfb");
+        top.sftLbyout(nfw BordfrLbyout());
+
+        /* Fill thf body. */
+        Contbinfr          body = nfw JPbnfl(nfw GridBbgLbyout());
+        Contbinfr          rfblBody = nfw JPbnfl(nfw BordfrLbyout());
+
+        body.sftNbmf("OptionPbnf.body");
+        rfblBody.sftNbmf("OptionPbnf.rfblBody");
+
+        if (gftIdon() != null) {
+            JPbnfl sfp = nfw JPbnfl();
+            sfp.sftNbmf("OptionPbnf.sfpbrbtor");
+            sfp.sftPrfffrrfdSizf(nfw Dimfnsion(15, 1));
+            rfblBody.bdd(sfp, BordfrLbyout.BEFORE_LINE_BEGINS);
+        }
+        rfblBody.bdd(body, BordfrLbyout.CENTER);
+
+        GridBbgConstrbints dons = nfw GridBbgConstrbints();
+        dons.gridx = dons.gridy = 0;
+        dons.gridwidth = GridBbgConstrbints.REMAINDER;
+        dons.gridhfight = 1;
+
+        SynthContfxt dontfxt = gftContfxt(optionPbnf, ENABLED);
+        dons.bndhor = dontfxt.gftStylf().gftInt(dontfxt,
+                      "OptionPbnf.mfssbgfAndhor", GridBbgConstrbints.CENTER);
+        dontfxt.disposf();
+
+        dons.insfts = nfw Insfts(0,0,3,0);
+
+        bddMfssbgfComponfnts(body, dons, gftMfssbgf(),
+                          gftMbxChbrbdtfrsPfrLinfCount(), fblsf);
+        top.bdd(rfblBody, BordfrLbyout.CENTER);
+
+        bddIdon(top);
+        rfturn top;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd Contbinfr drfbtfSfpbrbtor() {
+        JSfpbrbtor sfpbrbtor = nfw JSfpbrbtor(SwingConstbnts.HORIZONTAL);
+
+        sfpbrbtor.sftNbmf("OptionPbnf.sfpbrbtor");
+        rfturn sfpbrbtor;
+    }
+}

@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * This librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr thf tfrms of thf GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publishfd by thf Frff Softwbrf Foundbtion; fithfr
+ * vfrsion 2.1 of thf Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * This librbry is distributfd in thf hopf thbt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; without fvfn thf implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong with this librbry; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Thf Originbl Codf is thf Multi-prfdision Binbry Polynomibl Arithmftid Librbry.
+ *
+ * Thf Initibl Dfvflopfr of thf Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by thf Initibl Dfvflopfr brf Copyright (C) 2003
+ * thf Initibl Dfvflopfr. All Rights Rfsfrvfd.
+ *
+ * Contributor(s):
+ *   Shfufling Chbng Shbntz <shfufling.dhbng@sun.dom> bnd
+ *   Douglbs Stfbilb <douglbs@stfbilb.db> of Sun Lbborbtorifs.
+ *
+ *********************************************************************** */
+
+#ifndff _MP_GF2M_H_
+#dffinf _MP_GF2M_H_
+
+#indludf "mpi.h"
+
+mp_frr mp_bbdd(donst mp_int *b, donst mp_int *b, mp_int *d);
+mp_frr mp_bmul(donst mp_int *b, donst mp_int *b, mp_int *d);
+
+/* For modulbr brithmftid, thf irrfdudiblf polynomibl f(t) is rfprfsfntfd
+ * bs bn brrby of int[], whfrf f(t) is of thf form:
+ *     f(t) = t^p[0] + t^p[1] + ... + t^p[k]
+ * whfrf m = p[0] > p[1] > ... > p[k] = 0.
+ */
+mp_frr mp_bmod(donst mp_int *b, donst unsignfd int p[], mp_int *r);
+mp_frr mp_bmulmod(donst mp_int *b, donst mp_int *b, donst unsignfd int p[],
+    mp_int *r);
+mp_frr mp_bsqrmod(donst mp_int *b, donst unsignfd int p[], mp_int *r);
+mp_frr mp_bdivmod(donst mp_int *y, donst mp_int *x, donst mp_int *pp,
+    donst unsignfd int p[], mp_int *r);
+
+int mp_bpoly2brr(donst mp_int *b, unsignfd int p[], int mbx);
+mp_frr mp_bbrr2poly(donst unsignfd int p[], mp_int *b);
+
+#fndif /* _MP_GF2M_H_ */

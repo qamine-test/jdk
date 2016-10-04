@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.security.cert.PolicyQualifierInfo;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.PolidyQublififrInfo;
+import jbvb.util.Collfdtions;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdHbsiSft;
+import jbvb.util.Sft;
 
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
 /**
- * PolicyInformation is the class that contains a specific certificate policy
- * that is part of the CertificatePoliciesExtension. A
- * CertificatePolicyExtension value consists of a vector of these objects.
+ * PolidyInformbtion is tif dlbss tibt dontbins b spfdifid dfrtifidbtf polidy
+ * tibt is pbrt of tif CfrtifidbtfPolidifsExtfnsion. A
+ * CfrtifidbtfPolidyExtfnsion vbluf donsists of b vfdtor of tifsf objfdts.
  * <p>
- * The ASN.1 syntax for PolicyInformation (IMPLICIT tagging is defined in the
- * module definition):
- * <pre>
+ * Tif ASN.1 syntbx for PolidyInformbtion (IMPLICIT tbgging is dffinfd in tif
+ * modulf dffinition):
+ * <prf>
  *
- * PolicyInformation ::= SEQUENCE {
- *      policyIdentifier   CertPolicyId,
- *      policyQualifiers   SEQUENCE SIZE (1..MAX) OF
- *                              PolicyQualifierInfo OPTIONAL }
+ * PolidyInformbtion ::= SEQUENCE {
+ *      polidyIdfntififr   CfrtPolidyId,
+ *      polidyQublififrs   SEQUENCE SIZE (1..MAX) OF
+ *                              PolidyQublififrInfo OPTIONAL }
  *
- * CertPolicyId ::= OBJECT IDENTIFIER
+ * CfrtPolidyId ::= OBJECT IDENTIFIER
  *
- * PolicyQualifierInfo ::= SEQUENCE {
- *      policyQualifierId  PolicyQualifierId,
- *      qualifier          ANY DEFINED BY policyQualifierId }
- * </pre>
+ * PolidyQublififrInfo ::= SEQUENCE {
+ *      polidyQublififrId  PolidyQublififrId,
+ *      qublififr          ANY DEFINED BY polidyQublififrId }
+ * </prf>
  *
- * @author Sean Mullan
- * @author Anne Anderson
- * @since       1.4
+ * @butior Sfbn Mullbn
+ * @butior Annf Andfrson
+ * @sindf       1.4
  */
-public class PolicyInformation {
+publid dlbss PolidyInformbtion {
 
-    // Attribute names
-    public static final String NAME       = "PolicyInformation";
-    public static final String ID         = "id";
-    public static final String QUALIFIERS = "qualifiers";
+    // Attributf nbmfs
+    publid stbtid finbl String NAME       = "PolidyInformbtion";
+    publid stbtid finbl String ID         = "id";
+    publid stbtid finbl String QUALIFIERS = "qublififrs";
 
-    /* The policy OID */
-    private CertificatePolicyId policyIdentifier;
+    /* Tif polidy OID */
+    privbtf CfrtifidbtfPolidyId polidyIdfntififr;
 
-    /* A Set of java.security.cert.PolicyQualifierInfo objects */
-    private Set<PolicyQualifierInfo> policyQualifiers;
+    /* A Sft of jbvb.sfdurity.dfrt.PolidyQublififrInfo objfdts */
+    privbtf Sft<PolidyQublififrInfo> polidyQublififrs;
 
     /**
-     * Create an instance of PolicyInformation
+     * Crfbtf bn instbndf of PolidyInformbtion
      *
-     * @param policyIdentifier the policyIdentifier as a
-     *          CertificatePolicyId
-     * @param policyQualifiers a Set of PolicyQualifierInfo objects.
-     *          Must not be NULL. Specify an empty Set for no qualifiers.
-     * @exception IOException on decoding errors.
+     * @pbrbm polidyIdfntififr tif polidyIdfntififr bs b
+     *          CfrtifidbtfPolidyId
+     * @pbrbm polidyQublififrs b Sft of PolidyQublififrInfo objfdts.
+     *          Must not bf NULL. Spfdify bn fmpty Sft for no qublififrs.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public PolicyInformation(CertificatePolicyId policyIdentifier,
-            Set<PolicyQualifierInfo> policyQualifiers) throws IOException {
-        if (policyQualifiers == null) {
-            throw new NullPointerException("policyQualifiers is null");
+    publid PolidyInformbtion(CfrtifidbtfPolidyId polidyIdfntififr,
+            Sft<PolidyQublififrInfo> polidyQublififrs) tirows IOExdfption {
+        if (polidyQublififrs == null) {
+            tirow nfw NullPointfrExdfption("polidyQublififrs is null");
         }
-        this.policyQualifiers =
-            new LinkedHashSet<PolicyQualifierInfo>(policyQualifiers);
-        this.policyIdentifier = policyIdentifier;
+        tiis.polidyQublififrs =
+            nfw LinkfdHbsiSft<PolidyQublififrInfo>(polidyQublififrs);
+        tiis.polidyIdfntififr = polidyIdfntififr;
     }
 
     /**
-     * Create an instance of PolicyInformation, decoding from
-     * the passed DerValue.
+     * Crfbtf bn instbndf of PolidyInformbtion, dfdoding from
+     * tif pbssfd DfrVbluf.
      *
-     * @param val the DerValue to construct the PolicyInformation from.
-     * @exception IOException on decoding errors.
+     * @pbrbm vbl tif DfrVbluf to donstrudt tif PolidyInformbtion from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public PolicyInformation(DerValue val) throws IOException {
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding of PolicyInformation");
+    publid PolidyInformbtion(DfrVbluf vbl) tirows IOExdfption {
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding of PolidyInformbtion");
         }
-        policyIdentifier = new CertificatePolicyId(val.data.getDerValue());
-        if (val.data.available() != 0) {
-            policyQualifiers = new LinkedHashSet<PolicyQualifierInfo>();
-            DerValue opt = val.data.getDerValue();
-            if (opt.tag != DerValue.tag_Sequence)
-                throw new IOException("Invalid encoding of PolicyInformation");
-            if (opt.data.available() == 0)
-                throw new IOException("No data available in policyQualifiers");
-            while (opt.data.available() != 0)
-                policyQualifiers.add(new PolicyQualifierInfo
-                        (opt.data.getDerValue().toByteArray()));
-        } else {
-            policyQualifiers = Collections.emptySet();
-        }
-    }
-
-    /**
-     * Compare this PolicyInformation with another object for equality
-     *
-     * @param other object to be compared with this
-     * @return true iff the PolicyInformation objects match
-     */
-    public boolean equals(Object other) {
-        if (!(other instanceof PolicyInformation))
-            return false;
-        PolicyInformation piOther = (PolicyInformation)other;
-
-        if (!policyIdentifier.equals(piOther.getPolicyIdentifier()))
-            return false;
-
-        return policyQualifiers.equals(piOther.getPolicyQualifiers());
-    }
-
-    /**
-     * Returns the hash code for this PolicyInformation.
-     *
-     * @return a hash code value.
-     */
-    public int hashCode() {
-        int myhash = 37 + policyIdentifier.hashCode();
-        myhash = 37 * myhash + policyQualifiers.hashCode();
-        return myhash;
-    }
-
-    /**
-     * Return the policyIdentifier value
-     *
-     * @return The CertificatePolicyId object containing
-     *     the policyIdentifier (not a copy).
-     */
-    public CertificatePolicyId getPolicyIdentifier() {
-        return policyIdentifier;
-    }
-
-    /**
-     * Return the policyQualifiers value
-     *
-     * @return a Set of PolicyQualifierInfo objects associated
-     *    with this certificate policy (not a copy).
-     *    Returns an empty Set if there are no qualifiers.
-     *    Never returns null.
-     */
-    public Set<PolicyQualifierInfo> getPolicyQualifiers() {
-        return policyQualifiers;
-    }
-
-    /**
-     * Get the attribute value.
-     */
-    public Object get(String name) throws IOException {
-        if (name.equalsIgnoreCase(ID)) {
-            return policyIdentifier;
-        } else if (name.equalsIgnoreCase(QUALIFIERS)) {
-            return policyQualifiers;
-        } else {
-            throw new IOException("Attribute name [" + name +
-                "] not recognized by PolicyInformation.");
+        polidyIdfntififr = nfw CfrtifidbtfPolidyId(vbl.dbtb.gftDfrVbluf());
+        if (vbl.dbtb.bvbilbblf() != 0) {
+            polidyQublififrs = nfw LinkfdHbsiSft<PolidyQublififrInfo>();
+            DfrVbluf opt = vbl.dbtb.gftDfrVbluf();
+            if (opt.tbg != DfrVbluf.tbg_Sfqufndf)
+                tirow nfw IOExdfption("Invblid fndoding of PolidyInformbtion");
+            if (opt.dbtb.bvbilbblf() == 0)
+                tirow nfw IOExdfption("No dbtb bvbilbblf in polidyQublififrs");
+            wiilf (opt.dbtb.bvbilbblf() != 0)
+                polidyQublififrs.bdd(nfw PolidyQublififrInfo
+                        (opt.dbtb.gftDfrVbluf().toBytfArrby()));
+        } flsf {
+            polidyQublififrs = Collfdtions.fmptySft();
         }
     }
 
     /**
-     * Set the attribute value.
+     * Compbrf tiis PolidyInformbtion witi bnotifr objfdt for fqublity
+     *
+     * @pbrbm otifr objfdt to bf dompbrfd witi tiis
+     * @rfturn truf iff tif PolidyInformbtion objfdts mbtdi
      */
-    @SuppressWarnings("unchecked") // Checked with instanceof
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(ID)) {
-            if (obj instanceof CertificatePolicyId)
-                policyIdentifier = (CertificatePolicyId)obj;
-            else
-                throw new IOException("Attribute value must be instance " +
-                    "of CertificatePolicyId.");
-        } else if (name.equalsIgnoreCase(QUALIFIERS)) {
-            if (policyIdentifier == null) {
-                throw new IOException("Attribute must have a " +
-                    "CertificatePolicyIdentifier value before " +
-                    "PolicyQualifierInfo can be set.");
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (!(otifr instbndfof PolidyInformbtion))
+            rfturn fblsf;
+        PolidyInformbtion piOtifr = (PolidyInformbtion)otifr;
+
+        if (!polidyIdfntififr.fqubls(piOtifr.gftPolidyIdfntififr()))
+            rfturn fblsf;
+
+        rfturn polidyQublififrs.fqubls(piOtifr.gftPolidyQublififrs());
+    }
+
+    /**
+     * Rfturns tif ibsi dodf for tiis PolidyInformbtion.
+     *
+     * @rfturn b ibsi dodf vbluf.
+     */
+    publid int ibsiCodf() {
+        int myibsi = 37 + polidyIdfntififr.ibsiCodf();
+        myibsi = 37 * myibsi + polidyQublififrs.ibsiCodf();
+        rfturn myibsi;
+    }
+
+    /**
+     * Rfturn tif polidyIdfntififr vbluf
+     *
+     * @rfturn Tif CfrtifidbtfPolidyId objfdt dontbining
+     *     tif polidyIdfntififr (not b dopy).
+     */
+    publid CfrtifidbtfPolidyId gftPolidyIdfntififr() {
+        rfturn polidyIdfntififr;
+    }
+
+    /**
+     * Rfturn tif polidyQublififrs vbluf
+     *
+     * @rfturn b Sft of PolidyQublififrInfo objfdts bssodibtfd
+     *    witi tiis dfrtifidbtf polidy (not b dopy).
+     *    Rfturns bn fmpty Sft if tifrf brf no qublififrs.
+     *    Nfvfr rfturns null.
+     */
+    publid Sft<PolidyQublififrInfo> gftPolidyQublififrs() {
+        rfturn polidyQublififrs;
+    }
+
+    /**
+     * Gft tif bttributf vbluf.
+     */
+    publid Objfdt gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(ID)) {
+            rfturn polidyIdfntififr;
+        } flsf if (nbmf.fqublsIgnorfCbsf(QUALIFIERS)) {
+            rfturn polidyQublififrs;
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by PolidyInformbtion.");
+        }
+    }
+
+    /**
+     * Sft tif bttributf vbluf.
+     */
+    @SupprfssWbrnings("undifdkfd") // Cifdkfd witi instbndfof
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(ID)) {
+            if (obj instbndfof CfrtifidbtfPolidyId)
+                polidyIdfntififr = (CfrtifidbtfPolidyId)obj;
+            flsf
+                tirow nfw IOExdfption("Attributf vbluf must bf instbndf " +
+                    "of CfrtifidbtfPolidyId.");
+        } flsf if (nbmf.fqublsIgnorfCbsf(QUALIFIERS)) {
+            if (polidyIdfntififr == null) {
+                tirow nfw IOExdfption("Attributf must ibvf b " +
+                    "CfrtifidbtfPolidyIdfntififr vbluf bfforf " +
+                    "PolidyQublififrInfo dbn bf sft.");
             }
-            if (obj instanceof Set) {
-                Iterator<?> i = ((Set<?>)obj).iterator();
-                while (i.hasNext()) {
-                    Object obj1 = i.next();
-                    if (!(obj1 instanceof PolicyQualifierInfo)) {
-                        throw new IOException("Attribute value must be a" +
-                                    "Set of PolicyQualifierInfo objects.");
+            if (obj instbndfof Sft) {
+                Itfrbtor<?> i = ((Sft<?>)obj).itfrbtor();
+                wiilf (i.ibsNfxt()) {
+                    Objfdt obj1 = i.nfxt();
+                    if (!(obj1 instbndfof PolidyQublififrInfo)) {
+                        tirow nfw IOExdfption("Attributf vbluf must bf b" +
+                                    "Sft of PolidyQublififrInfo objfdts.");
                     }
                 }
-                policyQualifiers = (Set<PolicyQualifierInfo>) obj;
-            } else {
-                throw new IOException("Attribute value must be of type Set.");
+                polidyQublififrs = (Sft<PolidyQublififrInfo>) obj;
+            } flsf {
+                tirow nfw IOExdfption("Attributf vbluf must bf of typf Sft.");
             }
-        } else {
-            throw new IOException("Attribute name [" + name +
-                "] not recognized by PolicyInformation");
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by PolidyInformbtion");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Dflftf tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(QUALIFIERS)) {
-            policyQualifiers = Collections.emptySet();
-        } else if (name.equalsIgnoreCase(ID)) {
-            throw new IOException("Attribute ID may not be deleted from " +
-                "PolicyInformation.");
-        } else {
-            //ID may not be deleted
-            throw new IOException("Attribute name [" + name +
-                "] not recognized by PolicyInformation.");
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(QUALIFIERS)) {
+            polidyQublififrs = Collfdtions.fmptySft();
+        } flsf if (nbmf.fqublsIgnorfCbsf(ID)) {
+            tirow nfw IOExdfption("Attributf ID mby not bf dflftfd from " +
+                "PolidyInformbtion.");
+        } flsf {
+            //ID mby not bf dflftfd
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by PolidyInformbtion.");
         }
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(ID);
-        elements.addElement(QUALIFIERS);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(ID);
+        flfmfnts.bddElfmfnt(QUALIFIERS);
 
-        return elements.elements();
+        rfturn flfmfnts.flfmfnts();
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return NAME;
+    publid String gftNbmf() {
+        rfturn NAME;
     }
 
     /**
-     * Return a printable representation of the PolicyInformation.
+     * Rfturn b printbblf rfprfsfntbtion of tif PolidyInformbtion.
      */
-    public String toString() {
-        StringBuilder s = new StringBuilder("  [" + policyIdentifier.toString());
-        s.append(policyQualifiers + "  ]\n");
-        return s.toString();
+    publid String toString() {
+        StringBuildfr s = nfw StringBuildfr("  [" + polidyIdfntififr.toString());
+        s.bppfnd(polidyQublififrs + "  ]\n");
+        rfturn s.toString();
     }
 
     /**
-     * Write the PolicyInformation to the DerOutputStream.
+     * Writf tif PolidyInformbtion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        policyIdentifier.encode(tmp);
-        if (!policyQualifiers.isEmpty()) {
-            DerOutputStream tmp2 = new DerOutputStream();
-            for (PolicyQualifierInfo pq : policyQualifiers) {
-                tmp2.write(pq.getEncoded());
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        polidyIdfntififr.fndodf(tmp);
+        if (!polidyQublififrs.isEmpty()) {
+            DfrOutputStrfbm tmp2 = nfw DfrOutputStrfbm();
+            for (PolidyQublififrInfo pq : polidyQublififrs) {
+                tmp2.writf(pq.gftEndodfd());
             }
-            tmp.write(DerValue.tag_Sequence, tmp2);
+            tmp.writf(DfrVbluf.tbg_Sfqufndf, tmp2);
         }
-        out.write(DerValue.tag_Sequence, tmp);
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
     }
 }

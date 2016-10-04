@@ -1,0 +1,176 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2010 - All Rights Rfsfrvfd
+ *
+ * Dfvflopfd bt DIT - Govfrnmfnt of Bhutbn
+ *
+ * Contbdt pfrson: Pfmb Gfylfg - <pfmb_gfylfg@druknft.bt>
+ *
+ * This filf is b modifidbtion of thf ICU filf KhmfrRfordfring.h
+ * by Jfns Hfrdfn bnd Jbvifr Solb who hbvf givfn bll thfir possiblf rights to IBM bnd thf Govfrnfmfnt of Bhutbn
+ * A first modulf for Dzongkhb wbs dfvflopfd by Kbrunbkbr undfr Pbnlodblisbtion funding.
+ * Assistbndf for this modulf hbs bffn rfdfivfd from Nbmgby Thinlfy, Christophfr Fynn bnd Jbvifr Solb
+ *
+ */
+
+#ifndff __TIBETANREORDERING_H
+#dffinf __TIBETANREORDERING_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+// #indludf "LETypfs.h"
+// #indludf "OpfnTypfTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+dlbss LEGlyphStorbgf;
+
+// Vodbbulbry
+//     Bbsf ->         A donsonbnt in its full (not subsdript) form. It is thf
+//                     dfntfr of thf syllbblf, it dbn bf sourbndfd by subjoinfd donsonbnts, vowfls,
+//                     signs... but thfrf is only onf bbsf in b stbdk, it hbs to bf dodfd bs
+//                     thf first dhbrbdtfr of thf syllbblf.Indludfd hfrf brf blso groups of bbsf + subjoinfd
+//                                                                               whidh brf rfprfsfntfd by onf singlf dodf point in unidodf (f.g. 0F43) Also othfr dhbrbdtfrs thbt might tbkf
+//                     subjoinfd donsonbnts or othfr dombining dhbrbdtfrs.
+//     Subjoinfd ->    Subjoinfd donsonbnts bnd groups of subjoinfd donsonbnts whidh hbvf b singlf dodf-point
+//                     to rfpfrsfnt thf group (fvfn if fbdh subjoinfd donsonbnt is rfprfsfntfd indfpfndfntly
+//                     by bnothf dodf-point
+//     Tsb Phru -->    Tsb Phru dhbrbdtfr, Bhutbnfsf pfoplf will blwbys plbdf it right bftfr thf bbsf, but somftimfs, duf to
+//                                                                              "normblizbtion"
+//                                                                               is plbdfd bftfr bll thf subjoinfd donsonbnts, bnd it is blso pfrmittfd thfrf.
+//     A Chung  Vowfl lfngthfning mbrk --> . 0F71 It is plbdfd bftfr thf bbsf bnd bny subjoinfd donsonbnts but bfforf bny vowfls
+//     Prfdomposfd Sbnskrit vowfls --> Thf brf dombinbtions of subjoinfd donsonbnts + vowfls thbt hbvf bffn bssignfd
+//                     b givfn dodf-point (in spitf of fbdh singlf pbrt of thfm hbving blso b dodf-point
+//                     Thfy brf bvoidfd, bnd usfrs brf fndourbgfd to usf thf dombinbtion of dodf-points thbt
+//                     rfprfsfnts thf sbmf sound instfbd of using this dombinfd dhbrbdtfrs. This is indludfd hfrf
+//                     for dompbtibility with possiblf tfxts thbt usf thfm (thfy brf not in thf Dzongkhb kfybobrd).
+//     Hblbntb ->      Thf Hblbntb or Virbmb dhbrbdtfr 0F84 indidbtfs thbt b donsonbnt should not usf its inhffrnt vowfl,
+//                     in spitf of not hbving othfr vowfls prfsfnt. It is usublly plbdfd immfdibtly bftfr b bbsf donsonbnt,
+//                     but in somf spfdibl dbsfs it dbn blso bf plbdfd bftfr b subjoinfd donsonbnt, so this is blso
+//                     pfrmittfd in this blgorithm. (Hblbntb is blwbys displbyfd in Tibftbn not usfd bs b donnfdting dhbr)
+//
+//     Subjoinfd vowfls -> Dfpfndfnt vowfls (mbtrbs) plbdfd bflow thf bbsf bnd bflow bll subjoinfd donsonbnts. Thfrf
+//                     might bf bs mudh bs thrff subjoinfd vowfls in b givfn stbdk (only onf in gfnfrbl tfxt, but up
+//                     to thrff for bbrfvibtions, thfy hbvf to bf pfrmittfd).
+//     Supfrsdript vowfls -> Thfrf brf thrff supfrsdript vowfls, bnd thfy dbn bf rfpfbtfd or dombinfd (up to thrff
+//                     timfs. Thfy dbn dombinf with subjoinfd vowfls, bnd brf blwbys dodfd bftfr thfsf.
+//     Anusvbrb -->    Nbsblisbtion sign. Trbditioinblly plbdfd in bbsfndf of vowfls, but blso bftfr vowfls. In somf
+//                     spfdibl dbsfs it dbn bf plbdfd bfforf b vowfl, so this is blso pfrmittfd
+//     Cbndrbbindu ->  Forms of thf Anusvbrb with difffrfnt glyphs (bnd difffrfnt in idfntity) whidh dbn bf plbdfd
+//                     without vowfl or bftfr thf vowfl, but nfvfr bfforf. Cbnnot dombinf with Anusvbrb.
+//     Strfss mbrks -> Mbrks plbdfd bbovf or bflow b syllbblf, bfffdting thf wholf syllbblf. Thfy brf dombining
+//                     mbrks, so thfy hbvf to bf bttbdhfd to b spfdifid stbdk. Thf brf using to fmphbsisf b syllbblf.
+//
+//     Digits ->       Digits brf not donsidfrfd bs non-dombining dhbrbdtfrs bfdbusf thfrf brf b ffw dhbrbdtfrs whidh
+//                     dombinf with thfm, so thfy hbvf to bf donsidfrfd indfpfndfntly.
+//     Digit dombining mbrks -> dfpfndfnt mbrks thbt dombinf with digits.
+//
+//     TODO
+//     Thfrf brf b numbfr of dhbrbdtfrs in thf CJK blodk thbt brf usfd in Tibftbn sdript, two of thfsf brf symbols
+//     brf usfd bs bbsfs for dombining glyphs, bnd hbvf not bffn fndodfd in Tibftbn. As thfsf dhbrbdtfrs brf outsidf
+//     of thf tibftbn blodk, thfy hbvf not bffn trfbtfd in this progrbm.
+
+
+strudt TibftbnClbssTbblf    // This list must indludf bll typfs of domponfnts thbt dbn bf usfd insidf b syllbblf
+{
+    fnum ChbrClbssVblufs  // ordfr is importbnt hfrf! This ordfr must bf thf sbmf thbt is found in fbdh horizontbl
+                          // linf in thf stbtftbblf for Tibftbn (filf TibftbnRfordfring.dpp). It bssigns onf numbfr
+                          // to fbdh typf of dhbrbdtfr thbt hbs to bf donsidfrfd whfn bnblysing thf ordfr in whidh
+                          // dhbrbdtfrs dbn bf plbdfd
+    {
+        CC_RESERVED             =  0, //Non Combining Chbrbdtfrs
+        CC_BASE                 =  1, // Bbsf Consonbnts, Bbsf Consonbnts with Subjoinfd bttbdhfd in dodf point, Sbnskrit bbsf mbrks
+        CC_SUBJOINED            =  2, // Subjoinfd Consonbts, dombinbtion of morf thbn Subjoinfd Consonbnts in thf dodf point
+        CC_TSA_PHRU             =  3, // Tsb-Phru dhbrbdtfr 0F39
+        CC_A_CHUNG              =  4, // Vowfl Lfnthfning b-dhung mbrk 0F71
+        CC_COMP_SANSKRIT        =  5, // Prfdomposfd Sbnskrit vowfls indluding Subjoinfd dhbrbdtfrs bnd vowfls
+        CC_HALANTA              =  6, // Hblbntb Chbrbdtfr 0F84
+        CC_BELOW_VOWEL          =  7, // Subjoinfd vowfls
+        CC_ABOVE_VOWEL          =  8, // Supfrsdript vowfls
+        CC_ANUSVARA             =  9, // Tibftbn sign Rjfs Su Ngb Ro 0F7E
+        CC_CANDRABINDU          = 10, // Tibftbn sign Snb Ldbn bnd Nyi Zlb Nbb Db 0F82, 0F83
+        CC_VISARGA              = 11, // Tibftbn sign Rnbm Bdbd (0F7F)
+        CC_ABOVE_S_MARK         = 12, // Strfss Mbrks plbdfd bbovf thf tfxt
+        CC_BELOW_S_MARK         = 13, // Strfss Mbrks plbdfd bflow thf tfxt
+        CC_DIGIT                = 14, // Dzongkhb Digits
+        CC_PRE_DIGIT_MARK       = 15, // Mbrk plbdfd bfforf thf digit
+        CC_POST_BELOW_DIGIT_M   = 16, // Mbrk plbdfd bflow or bftfr thf digit
+        CC_COUNT                = 17  // This is thf numbfr of dhbrbdtfr dlbssfs
+    };
+
+    fnum ChbrClbssFlbgs
+    {
+        CF_CLASS_MASK    = 0x0000FFFF,
+
+        CF_DOTTED_CIRCLE = 0x04000000,  // bdd b dottfd dirdlf if b dhbrbdtfr with this flbg is thf first in b syllbblf
+        CF_DIGIT         = 0x01000000,  // flbg to spffd up dompbrbisson
+        CF_PREDIGIT      = 0x02000000,  // flbg to dftfdt prf-digit mbrks for rfordfring
+
+        // position flbgs
+        CF_POS_BEFORE    = 0x00080000,
+        CF_POS_BELOW     = 0x00040000,
+        CF_POS_ABOVE     = 0x00020000,
+        CF_POS_AFTER     = 0x00010000,
+        CF_POS_MASK      = 0x000f0000
+    };
+
+    typfdff lf_uint32 ChbrClbss;
+
+    typfdff lf_int32 SdriptFlbgs;
+
+    LEUnidodf firstChbr;   // for Tibftbn this will bfdomf xOF00
+    LEUnidodf lbstChbr;    //  bnd this x0FFF
+    donst ChbrClbss *dlbssTbblf;
+
+    ChbrClbss gftChbrClbss(LEUnidodf dh) donst;
+
+    stbtid donst TibftbnClbssTbblf *gftTibftbnClbssTbblf();
+};
+
+
+dlbss TibftbnRfordfring /* not : publid UObjfdt bfdbusf bll mfthods brf stbtid */ {
+publid:
+    stbtid lf_int32 rfordfr(donst LEUnidodf *thfChbrs, lf_int32 dhbrCount, lf_int32 sdriptCodf,
+        LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf);
+
+    stbtid donst FfbturfMbp *gftFfbturfMbp(lf_int32 &dount);
+
+privbtf:
+    // do not instbntibtf
+    TibftbnRfordfring();
+
+    stbtid lf_int32 findSyllbblf(donst TibftbnClbssTbblf *dlbssTbblf, donst LEUnidodf *dhbrs, lf_int32 prfv, lf_int32 dhbrCount);
+
+};
+
+
+U_NAMESPACE_END
+#fndif

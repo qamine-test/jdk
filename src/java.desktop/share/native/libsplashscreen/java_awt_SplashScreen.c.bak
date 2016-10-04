@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "splashscreen_impl.h"
-#include <jlong_md.h>
-#include <jni.h>
-#include <jni_util.h>
-#include <sizecalc.h>
+#indludf "splbsisdrffn_impl.i"
+#indludf <jlong_md.i>
+#indludf <jni.i>
+#indludf <jni_util.i>
+#indludf <sizfdbld.i>
 
 JNIEXPORT jint JNICALL
-JNI_OnLoad(JavaVM * vm, void *reserved)
+JNI_OnLobd(JbvbVM * vm, void *rfsfrvfd)
 {
-    return JNI_VERSION_1_2;
+    rfturn JNI_VERSION_1_2;
 }
 
-/* FIXME: safe_ExceptionOccured, why and how? */
+/* FIXME: sbff_ExdfptionOddurfd, wiy bnd iow? */
 
 /*
-* Class:     java_awt_SplashScreen
-* Method:    _update
-* Signature: (J[IIIIII)V
+* Clbss:     jbvb_bwt_SplbsiSdrffn
+* Mftiod:    _updbtf
+* Signbturf: (J[IIIIII)V
 */
 JNIEXPORT void JNICALL
-Java_java_awt_SplashScreen__1update(JNIEnv * env, jclass thisClass,
-                                    jlong jsplash, jintArray data,
-                                    jint x, jint y, jint width, jint height,
-                                    jint stride)
+Jbvb_jbvb_bwt_SplbsiSdrffn__1updbtf(JNIEnv * fnv, jdlbss tiisClbss,
+                                    jlong jsplbsi, jintArrby dbtb,
+                                    jint x, jint y, jint widti, jint ifigit,
+                                    jint stridf)
 {
-    Splash *splash = (Splash *) jlong_to_ptr(jsplash);
-    int dataSize;
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+    int dbtbSizf;
 
-    if (!splash) {
-        return;
+    if (!splbsi) {
+        rfturn;
     }
-    SplashLock(splash);
-    dataSize = (*env)->GetArrayLength(env, data);
-    if (splash->overlayData) {
-        free(splash->overlayData);
+    SplbsiLodk(splbsi);
+    dbtbSizf = (*fnv)->GftArrbyLfngti(fnv, dbtb);
+    if (splbsi->ovfrlbyDbtb) {
+        frff(splbsi->ovfrlbyDbtb);
     }
-    splash->overlayData = SAFE_SIZE_ARRAY_ALLOC(malloc, dataSize, sizeof(rgbquad_t));
-    if (splash->overlayData) {
-        /* we need a copy anyway, so we'll be using GetIntArrayRegion */
-        (*env)->GetIntArrayRegion(env, data, 0, dataSize,
-            (jint *) splash->overlayData);
-        initFormat(&splash->overlayFormat, 0xFF0000, 0xFF00, 0xFF, 0xFF000000);
-        initRect(&splash->overlayRect, x, y, width, height, 1,
-            stride * sizeof(rgbquad_t), splash->overlayData,
-            &splash->overlayFormat);
-        SplashUpdate(splash);
+    splbsi->ovfrlbyDbtb = SAFE_SIZE_ARRAY_ALLOC(mbllod, dbtbSizf, sizfof(rgbqubd_t));
+    if (splbsi->ovfrlbyDbtb) {
+        /* wf nffd b dopy bnywby, so wf'll bf using GftIntArrbyRfgion */
+        (*fnv)->GftIntArrbyRfgion(fnv, dbtb, 0, dbtbSizf,
+            (jint *) splbsi->ovfrlbyDbtb);
+        initFormbt(&splbsi->ovfrlbyFormbt, 0xFF0000, 0xFF00, 0xFF, 0xFF000000);
+        initRfdt(&splbsi->ovfrlbyRfdt, x, y, widti, ifigit, 1,
+            stridf * sizfof(rgbqubd_t), splbsi->ovfrlbyDbtb,
+            &splbsi->ovfrlbyFormbt);
+        SplbsiUpdbtf(splbsi);
     }
-    SplashUnlock(splash);
+    SplbsiUnlodk(splbsi);
 }
 
 
 /*
-* Class:     java_awt_SplashScreen
-* Method:    _isVisible
-* Signature: (J)Z
+* Clbss:     jbvb_bwt_SplbsiSdrffn
+* Mftiod:    _isVisiblf
+* Signbturf: (J)Z
 */
-JNIEXPORT jboolean JNICALL
-Java_java_awt_SplashScreen__1isVisible(JNIEnv * env, jclass thisClass,
-                                       jlong jsplash)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_bwt_SplbsiSdrffn__1isVisiblf(JNIEnv * fnv, jdlbss tiisClbss,
+                                       jlong jsplbsi)
 {
-    Splash *splash = (Splash *) jlong_to_ptr(jsplash);
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
 
-    if (!splash) {
-        return JNI_FALSE;
+    if (!splbsi) {
+        rfturn JNI_FALSE;
     }
-    return splash->isVisible>0 ? JNI_TRUE : JNI_FALSE;
+    rfturn splbsi->isVisiblf>0 ? JNI_TRUE : JNI_FALSE;
 }
 
 /*
-* Class:     java_awt_SplashScreen
-* Method:    _getBounds
-* Signature: (J)Ljava/awt/Rectangle;
+* Clbss:     jbvb_bwt_SplbsiSdrffn
+* Mftiod:    _gftBounds
+* Signbturf: (J)Ljbvb/bwt/Rfdtbnglf;
 */
-JNIEXPORT jobject JNICALL
-Java_java_awt_SplashScreen__1getBounds(JNIEnv * env, jclass thisClass,
-                                       jlong jsplash)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_bwt_SplbsiSdrffn__1gftBounds(JNIEnv * fnv, jdlbss tiisClbss,
+                                       jlong jsplbsi)
 {
-    Splash *splash = (Splash *) jlong_to_ptr(jsplash);
-    static jclass clazz = NULL;
-    static jmethodID mid = NULL;
-    jobject bounds = NULL;
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+    stbtid jdlbss dlbzz = NULL;
+    stbtid jmftiodID mid = NULL;
+    jobjfdt bounds = NULL;
 
-    if (!splash) {
-        return NULL;
+    if (!splbsi) {
+        rfturn NULL;
     }
-    SplashLock(splash);
-    if (!clazz) {
-        clazz = (*env)->FindClass(env, "java/awt/Rectangle");
-        if (clazz) {
-            clazz = (*env)->NewGlobalRef(env, clazz);
+    SplbsiLodk(splbsi);
+    if (!dlbzz) {
+        dlbzz = (*fnv)->FindClbss(fnv, "jbvb/bwt/Rfdtbnglf");
+        if (dlbzz) {
+            dlbzz = (*fnv)->NfwGlobblRff(fnv, dlbzz);
         }
     }
-    if (clazz && !mid) {
-        mid = (*env)->GetMethodID(env, clazz, "<init>", "(IIII)V");
+    if (dlbzz && !mid) {
+        mid = (*fnv)->GftMftiodID(fnv, dlbzz, "<init>", "(IIII)V");
     }
-    if (clazz && mid) {
-        bounds = (*env)->NewObject(env, clazz, mid, splash->x, splash->y,
-            splash->width, splash->height);
-        if ((*env)->ExceptionOccurred(env)) {
+    if (dlbzz && mid) {
+        bounds = (*fnv)->NfwObjfdt(fnv, dlbzz, mid, splbsi->x, splbsi->y,
+            splbsi->widti, splbsi->ifigit);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
             bounds = NULL;
-            (*env)->ExceptionDescribe(env);
-            (*env)->ExceptionClear(env);
+            (*fnv)->ExdfptionDfsdribf(fnv);
+            (*fnv)->ExdfptionClfbr(fnv);
         }
     }
-    SplashUnlock(splash);
-    return bounds;
+    SplbsiUnlodk(splbsi);
+    rfturn bounds;
 }
 
 /*
-* Class:     java_awt_SplashScreen
-* Method:    _getInstance
-* Signature: ()J
+* Clbss:     jbvb_bwt_SplbsiSdrffn
+* Mftiod:    _gftInstbndf
+* Signbturf: ()J
 */
 JNIEXPORT jlong JNICALL
-Java_java_awt_SplashScreen__1getInstance(JNIEnv * env, jclass thisClass)
+Jbvb_jbvb_bwt_SplbsiSdrffn__1gftInstbndf(JNIEnv * fnv, jdlbss tiisClbss)
 {
-    return ptr_to_jlong(SplashGetInstance());
+    rfturn ptr_to_jlong(SplbsiGftInstbndf());
 }
 
 /*
-* Class:     java_awt_SplashScreen
-* Method:    _close
-* Signature: (J)V
+* Clbss:     jbvb_bwt_SplbsiSdrffn
+* Mftiod:    _dlosf
+* Signbturf: (J)V
 */
 JNIEXPORT void JNICALL
-Java_java_awt_SplashScreen__1close(JNIEnv * env, jclass thisClass,
-                                   jlong jsplash)
+Jbvb_jbvb_bwt_SplbsiSdrffn__1dlosf(JNIEnv * fnv, jdlbss tiisClbss,
+                                   jlong jsplbsi)
 {
-    Splash *splash = (Splash *) jlong_to_ptr(jsplash);
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
 
-    if (!splash) {
-        return;
+    if (!splbsi) {
+        rfturn;
     }
-    SplashLock(splash);
-    SplashClosePlatform(splash);
-    SplashUnlock(splash);
+    SplbsiLodk(splbsi);
+    SplbsiClosfPlbtform(splbsi);
+    SplbsiUnlodk(splbsi);
 }
 
 /*
- * Class:     java_awt_SplashScreen
- * Method:    _getImageFileName
- * Signature: (J)Ljava/lang/String;
+ * Clbss:     jbvb_bwt_SplbsiSdrffn
+ * Mftiod:    _gftImbgfFilfNbmf
+ * Signbturf: (J)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_java_awt_SplashScreen__1getImageFileName
-    (JNIEnv * env, jclass thisClass, jlong jsplash)
+JNIEXPORT jstring JNICALL Jbvb_jbvb_bwt_SplbsiSdrffn__1gftImbgfFilfNbmf
+    (JNIEnv * fnv, jdlbss tiisClbss, jlong jsplbsi)
 {
-    Splash *splash = (Splash *) jlong_to_ptr(jsplash);
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
 
 
-    if (!splash || !splash->fileName) {
-        return NULL;
+    if (!splbsi || !splbsi->filfNbmf) {
+        rfturn NULL;
     }
-    /* splash->fileName is of type char*, but in fact it contains jchars */
-    return (*env)->NewString(env, (const jchar*)splash->fileName,
-                             splash->fileNameLen);
+    /* splbsi->filfNbmf is of typf dibr*, but in fbdt it dontbins jdibrs */
+    rfturn (*fnv)->NfwString(fnv, (donst jdibr*)splbsi->filfNbmf,
+                             splbsi->filfNbmfLfn);
 }
 
 /*
- * Class:     java_awt_SplashScreen
- * Method:    _getImageJarName
- * Signature: (J)Ljava/lang/String;
+ * Clbss:     jbvb_bwt_SplbsiSdrffn
+ * Mftiod:    _gftImbgfJbrNbmf
+ * Signbturf: (J)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_java_awt_SplashScreen__1getImageJarName
-  (JNIEnv * env, jclass thisClass, jlong jsplash)
+JNIEXPORT jstring JNICALL Jbvb_jbvb_bwt_SplbsiSdrffn__1gftImbgfJbrNbmf
+  (JNIEnv * fnv, jdlbss tiisClbss, jlong jsplbsi)
 {
-    Splash *splash = (Splash *) jlong_to_ptr(jsplash);
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
 
-    if (!splash || !splash->jarName) {
-        return NULL;
+    if (!splbsi || !splbsi->jbrNbmf) {
+        rfturn NULL;
     }
-    /* splash->jarName is of type char*, but in fact it contains jchars */
-    return (*env)->NewString(env, (const jchar*)splash->jarName,
-                             splash->jarNameLen);
+    /* splbsi->jbrNbmf is of typf dibr*, but in fbdt it dontbins jdibrs */
+    rfturn (*fnv)->NfwString(fnv, (donst jdibr*)splbsi->jbrNbmf,
+                             splbsi->jbrNbmfLfn);
 }
 
 /*
- * Class:     java_awt_SplashScreen
- * Method:    _setImageData
- * Signature: (J[B)Z
+ * Clbss:     jbvb_bwt_SplbsiSdrffn
+ * Mftiod:    _sftImbgfDbtb
+ * Signbturf: (J[B)Z
  */
-JNIEXPORT jboolean JNICALL Java_java_awt_SplashScreen__1setImageData
-  (JNIEnv * env, jclass thisClass, jlong jsplash, jbyteArray data)
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_bwt_SplbsiSdrffn__1sftImbgfDbtb
+  (JNIEnv * fnv, jdlbss tiisClbss, jlong jsplbsi, jbytfArrby dbtb)
 {
-    Splash *splash = (Splash *) jlong_to_ptr(jsplash);
-    int size, rc;
-    jbyte* pBytes;
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+    int sizf, rd;
+    jbytf* pBytfs;
 
-    if (!splash) {
-        return JNI_FALSE;
+    if (!splbsi) {
+        rfturn JNI_FALSE;
     }
-    pBytes = (*env)->GetByteArrayElements(env, data, NULL);
-    CHECK_NULL_RETURN(pBytes, JNI_FALSE);
-    size = (*env)->GetArrayLength(env, data);
-    rc = SplashLoadMemory(pBytes, size);
-    (*env)->ReleaseByteArrayElements(env, data, pBytes, JNI_ABORT);
-    return rc ? JNI_TRUE : JNI_FALSE;
+    pBytfs = (*fnv)->GftBytfArrbyElfmfnts(fnv, dbtb, NULL);
+    CHECK_NULL_RETURN(pBytfs, JNI_FALSE);
+    sizf = (*fnv)->GftArrbyLfngti(fnv, dbtb);
+    rd = SplbsiLobdMfmory(pBytfs, sizf);
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, dbtb, pBytfs, JNI_ABORT);
+    rfturn rd ? JNI_TRUE : JNI_FALSE;
 }
 
 /*
- * Class:     java_awt_SplashScreen
- * Method:    _getScaleFactor
- * Signature: (J)F
+ * Clbss:     jbvb_bwt_SplbsiSdrffn
+ * Mftiod:    _gftSdblfFbdtor
+ * Signbturf: (J)F
  */
-JNIEXPORT jfloat JNICALL Java_java_awt_SplashScreen__1getScaleFactor
-(JNIEnv *env, jclass thisClass, jlong jsplash)
+JNIEXPORT jflobt JNICALL Jbvb_jbvb_bwt_SplbsiSdrffn__1gftSdblfFbdtor
+(JNIEnv *fnv, jdlbss tiisClbss, jlong jsplbsi)
 {
-    Splash *splash = (Splash *) jlong_to_ptr(jsplash);
-    if (!splash) {
-        return 1;
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+    if (!splbsi) {
+        rfturn 1;
     }
-    return splash->scaleFactor;
+    rfturn splbsi->sdblfFbdtor;
 }

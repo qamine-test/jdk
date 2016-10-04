@@ -1,458 +1,458 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pisces;
+pbdkbgf sun.jbvb2d.pisdfs;
 
-import java.util.Arrays;
-import static java.lang.Math.PI;
-import static java.lang.Math.cos;
-import static java.lang.Math.sqrt;
-import static java.lang.Math.cbrt;
-import static java.lang.Math.acos;
+import jbvb.util.Arrbys;
+import stbtid jbvb.lbng.Mbti.PI;
+import stbtid jbvb.lbng.Mbti.dos;
+import stbtid jbvb.lbng.Mbti.sqrt;
+import stbtid jbvb.lbng.Mbti.dbrt;
+import stbtid jbvb.lbng.Mbti.bdos;
 
 
-final class Helpers {
-    private Helpers() {
-        throw new Error("This is a non instantiable class");
+finbl dlbss Hflpfrs {
+    privbtf Hflpfrs() {
+        tirow nfw Error("Tiis is b non instbntibblf dlbss");
     }
 
-    static boolean within(final float x, final float y, final float err) {
-        final float d = y - x;
-        return (d <= err && d >= -err);
+    stbtid boolfbn witiin(finbl flobt x, finbl flobt y, finbl flobt frr) {
+        finbl flobt d = y - x;
+        rfturn (d <= frr && d >= -frr);
     }
 
-    static boolean within(final double x, final double y, final double err) {
-        final double d = y - x;
-        return (d <= err && d >= -err);
+    stbtid boolfbn witiin(finbl doublf x, finbl doublf y, finbl doublf frr) {
+        finbl doublf d = y - x;
+        rfturn (d <= frr && d >= -frr);
     }
 
-    static int quadraticRoots(final float a, final float b,
-                              final float c, float[] zeroes, final int off)
+    stbtid int qubdrbtidRoots(finbl flobt b, finbl flobt b,
+                              finbl flobt d, flobt[] zfrofs, finbl int off)
     {
-        int ret = off;
-        float t;
-        if (a != 0f) {
-            final float dis = b*b - 4*a*c;
+        int rft = off;
+        flobt t;
+        if (b != 0f) {
+            finbl flobt dis = b*b - 4*b*d;
             if (dis > 0) {
-                final float sqrtDis = (float)Math.sqrt(dis);
-                // depending on the sign of b we use a slightly different
-                // algorithm than the traditional one to find one of the roots
-                // so we can avoid adding numbers of different signs (which
-                // might result in loss of precision).
+                finbl flobt sqrtDis = (flobt)Mbti.sqrt(dis);
+                // dfpfnding on tif sign of b wf usf b sligitly difffrfnt
+                // blgoritim tibn tif trbditionbl onf to find onf of tif roots
+                // so wf dbn bvoid bdding numbfrs of difffrfnt signs (wiidi
+                // migit rfsult in loss of prfdision).
                 if (b >= 0) {
-                    zeroes[ret++] = (2 * c) / (-b - sqrtDis);
-                    zeroes[ret++] = (-b - sqrtDis) / (2 * a);
-                } else {
-                    zeroes[ret++] = (-b + sqrtDis) / (2 * a);
-                    zeroes[ret++] = (2 * c) / (-b + sqrtDis);
+                    zfrofs[rft++] = (2 * d) / (-b - sqrtDis);
+                    zfrofs[rft++] = (-b - sqrtDis) / (2 * b);
+                } flsf {
+                    zfrofs[rft++] = (-b + sqrtDis) / (2 * b);
+                    zfrofs[rft++] = (2 * d) / (-b + sqrtDis);
                 }
-            } else if (dis == 0f) {
-                t = (-b) / (2 * a);
-                zeroes[ret++] = t;
+            } flsf if (dis == 0f) {
+                t = (-b) / (2 * b);
+                zfrofs[rft++] = t;
             }
-        } else {
+        } flsf {
             if (b != 0f) {
-                t = (-c) / b;
-                zeroes[ret++] = t;
+                t = (-d) / b;
+                zfrofs[rft++] = t;
             }
         }
-        return ret - off;
+        rfturn rft - off;
     }
 
-    // find the roots of g(t) = d*t^3 + a*t^2 + b*t + c in [A,B)
-    static int cubicRootsInAB(float d, float a, float b, float c,
-                              float[] pts, final int off,
-                              final float A, final float B)
+    // find tif roots of g(t) = d*t^3 + b*t^2 + b*t + d in [A,B)
+    stbtid int dubidRootsInAB(flobt d, flobt b, flobt b, flobt d,
+                              flobt[] pts, finbl int off,
+                              finbl flobt A, finbl flobt B)
     {
         if (d == 0) {
-            int num = quadraticRoots(a, b, c, pts, off);
-            return filterOutNotInAB(pts, off, num, A, B) - off;
+            int num = qubdrbtidRoots(b, b, d, pts, off);
+            rfturn filtfrOutNotInAB(pts, off, num, A, B) - off;
         }
-        // From Graphics Gems:
-        // http://tog.acm.org/resources/GraphicsGems/gems/Roots3And4.c
-        // (also from awt.geom.CubicCurve2D. But here we don't need as
-        // much accuracy and we don't want to create arrays so we use
-        // our own customized version).
+        // From Grbpiids Gfms:
+        // ittp://tog.bdm.org/rfsourdfs/GrbpiidsGfms/gfms/Roots3And4.d
+        // (blso from bwt.gfom.CubidCurvf2D. But ifrf wf don't nffd bs
+        // mudi bddurbdy bnd wf don't wbnt to drfbtf brrbys so wf usf
+        // our own dustomizfd vfrsion).
 
-        /* normal form: x^3 + ax^2 + bx + c = 0 */
-        a /= d;
+        /* normbl form: x^3 + bx^2 + bx + d = 0 */
         b /= d;
-        c /= d;
+        b /= d;
+        d /= d;
 
-        //  substitute x = y - A/3 to eliminate quadratic term:
+        //  substitutf x = y - A/3 to fliminbtf qubdrbtid tfrm:
         //     x^3 +Px + Q = 0
         //
-        // Since we actually need P/3 and Q/2 for all of the
-        // calculations that follow, we will calculate
+        // Sindf wf bdtublly nffd P/3 bnd Q/2 for bll of tif
+        // dbldulbtions tibt follow, wf will dbldulbtf
         // p = P/3
         // q = Q/2
-        // instead and use those values for simplicity of the code.
-        double sq_A = a * a;
-        double p = 1.0/3 * (-1.0/3 * sq_A + b);
-        double q = 1.0/2 * (2.0/27 * a * sq_A - 1.0/3 * a * b + c);
+        // instfbd bnd usf tiosf vblufs for simplidity of tif dodf.
+        doublf sq_A = b * b;
+        doublf p = 1.0/3 * (-1.0/3 * sq_A + b);
+        doublf q = 1.0/2 * (2.0/27 * b * sq_A - 1.0/3 * b * b + d);
 
-        /* use Cardano's formula */
+        /* usf Cbrdbno's formulb */
 
-        double cb_p = p * p * p;
-        double D = q * q + cb_p;
+        doublf db_p = p * p * p;
+        doublf D = q * q + db_p;
 
         int num;
         if (D < 0) {
-            // see: http://en.wikipedia.org/wiki/Cubic_function#Trigonometric_.28and_hyperbolic.29_method
-            final double phi = 1.0/3 * acos(-q / sqrt(-cb_p));
-            final double t = 2 * sqrt(-p);
+            // sff: ittp://fn.wikipfdib.org/wiki/Cubid_fundtion#Trigonomftrid_.28bnd_iypfrbolid.29_mftiod
+            finbl doublf pii = 1.0/3 * bdos(-q / sqrt(-db_p));
+            finbl doublf t = 2 * sqrt(-p);
 
-            pts[ off+0 ] =  (float)( t * cos(phi));
-            pts[ off+1 ] =  (float)(-t * cos(phi + PI / 3));
-            pts[ off+2 ] =  (float)(-t * cos(phi - PI / 3));
+            pts[ off+0 ] =  (flobt)( t * dos(pii));
+            pts[ off+1 ] =  (flobt)(-t * dos(pii + PI / 3));
+            pts[ off+2 ] =  (flobt)(-t * dos(pii - PI / 3));
             num = 3;
-        } else {
-            final double sqrt_D = sqrt(D);
-            final double u = cbrt(sqrt_D - q);
-            final double v = - cbrt(sqrt_D + q);
+        } flsf {
+            finbl doublf sqrt_D = sqrt(D);
+            finbl doublf u = dbrt(sqrt_D - q);
+            finbl doublf v = - dbrt(sqrt_D + q);
 
-            pts[ off ] = (float)(u + v);
+            pts[ off ] = (flobt)(u + v);
             num = 1;
 
-            if (within(D, 0, 1e-8)) {
+            if (witiin(D, 0, 1f-8)) {
                 pts[off+1] = -(pts[off] / 2);
                 num = 2;
             }
         }
 
-        final float sub = 1.0f/3 * a;
+        finbl flobt sub = 1.0f/3 * b;
 
         for (int i = 0; i < num; ++i) {
             pts[ off+i ] -= sub;
         }
 
-        return filterOutNotInAB(pts, off, num, A, B) - off;
+        rfturn filtfrOutNotInAB(pts, off, num, A, B) - off;
     }
 
-    // These use a hardcoded factor of 2 for increasing sizes. Perhaps this
-    // should be provided as an argument.
-    static float[] widenArray(float[] in, final int cursize, final int numToAdd) {
-        if (in.length >= cursize + numToAdd) {
-            return in;
+    // Tifsf usf b ibrddodfd fbdtor of 2 for indrfbsing sizfs. Pfribps tiis
+    // siould bf providfd bs bn brgumfnt.
+    stbtid flobt[] widfnArrby(flobt[] in, finbl int dursizf, finbl int numToAdd) {
+        if (in.lfngti >= dursizf + numToAdd) {
+            rfturn in;
         }
-        return Arrays.copyOf(in, 2 * (cursize + numToAdd));
+        rfturn Arrbys.dopyOf(in, 2 * (dursizf + numToAdd));
     }
 
-    static int[] widenArray(int[] in, final int cursize, final int numToAdd) {
-        if (in.length >= cursize + numToAdd) {
-            return in;
+    stbtid int[] widfnArrby(int[] in, finbl int dursizf, finbl int numToAdd) {
+        if (in.lfngti >= dursizf + numToAdd) {
+            rfturn in;
         }
-        return Arrays.copyOf(in, 2 * (cursize + numToAdd));
+        rfturn Arrbys.dopyOf(in, 2 * (dursizf + numToAdd));
     }
 
-    static float evalCubic(final float a, final float b,
-                           final float c, final float d,
-                           final float t)
+    stbtid flobt fvblCubid(finbl flobt b, finbl flobt b,
+                           finbl flobt d, finbl flobt d,
+                           finbl flobt t)
     {
-        return t * (t * (t * a + b) + c) + d;
+        rfturn t * (t * (t * b + b) + d) + d;
     }
 
-    static float evalQuad(final float a, final float b,
-                          final float c, final float t)
+    stbtid flobt fvblQubd(finbl flobt b, finbl flobt b,
+                          finbl flobt d, finbl flobt t)
     {
-        return t * (t * a + b) + c;
+        rfturn t * (t * b + b) + d;
     }
 
-    // returns the index 1 past the last valid element remaining after filtering
-    static int filterOutNotInAB(float[] nums, final int off, final int len,
-                                final float a, final float b)
+    // rfturns tif indfx 1 pbst tif lbst vblid flfmfnt rfmbining bftfr filtfring
+    stbtid int filtfrOutNotInAB(flobt[] nums, finbl int off, finbl int lfn,
+                                finbl flobt b, finbl flobt b)
     {
-        int ret = off;
-        for (int i = off; i < off + len; i++) {
-            if (nums[i] >= a && nums[i] < b) {
-                nums[ret++] = nums[i];
+        int rft = off;
+        for (int i = off; i < off + lfn; i++) {
+            if (nums[i] >= b && nums[i] < b) {
+                nums[rft++] = nums[i];
             }
         }
-        return ret;
+        rfturn rft;
     }
 
-    static float polyLineLength(float[] poly, final int off, final int nCoords) {
-        assert nCoords % 2 == 0 && poly.length >= off + nCoords : "";
-        float acc = 0;
+    stbtid flobt polyLinfLfngti(flobt[] poly, finbl int off, finbl int nCoords) {
+        bssfrt nCoords % 2 == 0 && poly.lfngti >= off + nCoords : "";
+        flobt bdd = 0;
         for (int i = off + 2; i < off + nCoords; i += 2) {
-            acc += linelen(poly[i], poly[i+1], poly[i-2], poly[i-1]);
+            bdd += linflfn(poly[i], poly[i+1], poly[i-2], poly[i-1]);
         }
-        return acc;
+        rfturn bdd;
     }
 
-    static float linelen(float x1, float y1, float x2, float y2) {
-        final float dx = x2 - x1;
-        final float dy = y2 - y1;
-        return (float)Math.sqrt(dx*dx + dy*dy);
+    stbtid flobt linflfn(flobt x1, flobt y1, flobt x2, flobt y2) {
+        finbl flobt dx = x2 - x1;
+        finbl flobt dy = y2 - y1;
+        rfturn (flobt)Mbti.sqrt(dx*dx + dy*dy);
     }
 
-    static void subdivide(float[] src, int srcoff, float[] left, int leftoff,
-                          float[] right, int rightoff, int type)
+    stbtid void subdividf(flobt[] srd, int srdoff, flobt[] lfft, int lfftoff,
+                          flobt[] rigit, int rigitoff, int typf)
     {
-        switch(type) {
-        case 6:
-            Helpers.subdivideQuad(src, srcoff, left, leftoff, right, rightoff);
-            break;
-        case 8:
-            Helpers.subdivideCubic(src, srcoff, left, leftoff, right, rightoff);
-            break;
-        default:
-            throw new InternalError("Unsupported curve type");
+        switdi(typf) {
+        dbsf 6:
+            Hflpfrs.subdividfQubd(srd, srdoff, lfft, lfftoff, rigit, rigitoff);
+            brfbk;
+        dbsf 8:
+            Hflpfrs.subdividfCubid(srd, srdoff, lfft, lfftoff, rigit, rigitoff);
+            brfbk;
+        dffbult:
+            tirow nfw IntfrnblError("Unsupportfd durvf typf");
         }
     }
 
-    static void isort(float[] a, int off, int len) {
-        for (int i = off + 1; i < off + len; i++) {
-            float ai = a[i];
+    stbtid void isort(flobt[] b, int off, int lfn) {
+        for (int i = off + 1; i < off + lfn; i++) {
+            flobt bi = b[i];
             int j = i - 1;
-            for (; j >= off && a[j] > ai; j--) {
-                a[j+1] = a[j];
+            for (; j >= off && b[j] > bi; j--) {
+                b[j+1] = b[j];
             }
-            a[j+1] = ai;
+            b[j+1] = bi;
         }
     }
 
-    // Most of these are copied from classes in java.awt.geom because we need
-    // float versions of these functions, and Line2D, CubicCurve2D,
-    // QuadCurve2D don't provide them.
+    // Most of tifsf brf dopifd from dlbssfs in jbvb.bwt.gfom bfdbusf wf nffd
+    // flobt vfrsions of tifsf fundtions, bnd Linf2D, CubidCurvf2D,
+    // QubdCurvf2D don't providf tifm.
     /**
-     * Subdivides the cubic curve specified by the coordinates
-     * stored in the <code>src</code> array at indices <code>srcoff</code>
-     * through (<code>srcoff</code>&nbsp;+&nbsp;7) and stores the
-     * resulting two subdivided curves into the two result arrays at the
-     * corresponding indices.
-     * Either or both of the <code>left</code> and <code>right</code>
-     * arrays may be <code>null</code> or a reference to the same array
-     * as the <code>src</code> array.
-     * Note that the last point in the first subdivided curve is the
-     * same as the first point in the second subdivided curve. Thus,
-     * it is possible to pass the same array for <code>left</code>
-     * and <code>right</code> and to use offsets, such as <code>rightoff</code>
-     * equals (<code>leftoff</code> + 6), in order
-     * to avoid allocating extra storage for this common point.
-     * @param src the array holding the coordinates for the source curve
-     * @param srcoff the offset into the array of the beginning of the
-     * the 6 source coordinates
-     * @param left the array for storing the coordinates for the first
-     * half of the subdivided curve
-     * @param leftoff the offset into the array of the beginning of the
-     * the 6 left coordinates
-     * @param right the array for storing the coordinates for the second
-     * half of the subdivided curve
-     * @param rightoff the offset into the array of the beginning of the
-     * the 6 right coordinates
-     * @since 1.7
+     * Subdividfs tif dubid durvf spfdififd by tif doordinbtfs
+     * storfd in tif <dodf>srd</dodf> brrby bt indidfs <dodf>srdoff</dodf>
+     * tirougi (<dodf>srdoff</dodf>&nbsp;+&nbsp;7) bnd storfs tif
+     * rfsulting two subdividfd durvfs into tif two rfsult brrbys bt tif
+     * dorrfsponding indidfs.
+     * Eitifr or boti of tif <dodf>lfft</dodf> bnd <dodf>rigit</dodf>
+     * brrbys mby bf <dodf>null</dodf> or b rfffrfndf to tif sbmf brrby
+     * bs tif <dodf>srd</dodf> brrby.
+     * Notf tibt tif lbst point in tif first subdividfd durvf is tif
+     * sbmf bs tif first point in tif sfdond subdividfd durvf. Tius,
+     * it is possiblf to pbss tif sbmf brrby for <dodf>lfft</dodf>
+     * bnd <dodf>rigit</dodf> bnd to usf offsfts, sudi bs <dodf>rigitoff</dodf>
+     * fqubls (<dodf>lfftoff</dodf> + 6), in ordfr
+     * to bvoid bllodbting fxtrb storbgf for tiis dommon point.
+     * @pbrbm srd tif brrby iolding tif doordinbtfs for tif sourdf durvf
+     * @pbrbm srdoff tif offsft into tif brrby of tif bfginning of tif
+     * tif 6 sourdf doordinbtfs
+     * @pbrbm lfft tif brrby for storing tif doordinbtfs for tif first
+     * iblf of tif subdividfd durvf
+     * @pbrbm lfftoff tif offsft into tif brrby of tif bfginning of tif
+     * tif 6 lfft doordinbtfs
+     * @pbrbm rigit tif brrby for storing tif doordinbtfs for tif sfdond
+     * iblf of tif subdividfd durvf
+     * @pbrbm rigitoff tif offsft into tif brrby of tif bfginning of tif
+     * tif 6 rigit doordinbtfs
+     * @sindf 1.7
      */
-    static void subdivideCubic(float src[], int srcoff,
-                               float left[], int leftoff,
-                               float right[], int rightoff)
+    stbtid void subdividfCubid(flobt srd[], int srdoff,
+                               flobt lfft[], int lfftoff,
+                               flobt rigit[], int rigitoff)
     {
-        float x1 = src[srcoff + 0];
-        float y1 = src[srcoff + 1];
-        float ctrlx1 = src[srcoff + 2];
-        float ctrly1 = src[srcoff + 3];
-        float ctrlx2 = src[srcoff + 4];
-        float ctrly2 = src[srcoff + 5];
-        float x2 = src[srcoff + 6];
-        float y2 = src[srcoff + 7];
-        if (left != null) {
-            left[leftoff + 0] = x1;
-            left[leftoff + 1] = y1;
+        flobt x1 = srd[srdoff + 0];
+        flobt y1 = srd[srdoff + 1];
+        flobt dtrlx1 = srd[srdoff + 2];
+        flobt dtrly1 = srd[srdoff + 3];
+        flobt dtrlx2 = srd[srdoff + 4];
+        flobt dtrly2 = srd[srdoff + 5];
+        flobt x2 = srd[srdoff + 6];
+        flobt y2 = srd[srdoff + 7];
+        if (lfft != null) {
+            lfft[lfftoff + 0] = x1;
+            lfft[lfftoff + 1] = y1;
         }
-        if (right != null) {
-            right[rightoff + 6] = x2;
-            right[rightoff + 7] = y2;
+        if (rigit != null) {
+            rigit[rigitoff + 6] = x2;
+            rigit[rigitoff + 7] = y2;
         }
-        x1 = (x1 + ctrlx1) / 2.0f;
-        y1 = (y1 + ctrly1) / 2.0f;
-        x2 = (x2 + ctrlx2) / 2.0f;
-        y2 = (y2 + ctrly2) / 2.0f;
-        float centerx = (ctrlx1 + ctrlx2) / 2.0f;
-        float centery = (ctrly1 + ctrly2) / 2.0f;
-        ctrlx1 = (x1 + centerx) / 2.0f;
-        ctrly1 = (y1 + centery) / 2.0f;
-        ctrlx2 = (x2 + centerx) / 2.0f;
-        ctrly2 = (y2 + centery) / 2.0f;
-        centerx = (ctrlx1 + ctrlx2) / 2.0f;
-        centery = (ctrly1 + ctrly2) / 2.0f;
-        if (left != null) {
-            left[leftoff + 2] = x1;
-            left[leftoff + 3] = y1;
-            left[leftoff + 4] = ctrlx1;
-            left[leftoff + 5] = ctrly1;
-            left[leftoff + 6] = centerx;
-            left[leftoff + 7] = centery;
+        x1 = (x1 + dtrlx1) / 2.0f;
+        y1 = (y1 + dtrly1) / 2.0f;
+        x2 = (x2 + dtrlx2) / 2.0f;
+        y2 = (y2 + dtrly2) / 2.0f;
+        flobt dfntfrx = (dtrlx1 + dtrlx2) / 2.0f;
+        flobt dfntfry = (dtrly1 + dtrly2) / 2.0f;
+        dtrlx1 = (x1 + dfntfrx) / 2.0f;
+        dtrly1 = (y1 + dfntfry) / 2.0f;
+        dtrlx2 = (x2 + dfntfrx) / 2.0f;
+        dtrly2 = (y2 + dfntfry) / 2.0f;
+        dfntfrx = (dtrlx1 + dtrlx2) / 2.0f;
+        dfntfry = (dtrly1 + dtrly2) / 2.0f;
+        if (lfft != null) {
+            lfft[lfftoff + 2] = x1;
+            lfft[lfftoff + 3] = y1;
+            lfft[lfftoff + 4] = dtrlx1;
+            lfft[lfftoff + 5] = dtrly1;
+            lfft[lfftoff + 6] = dfntfrx;
+            lfft[lfftoff + 7] = dfntfry;
         }
-        if (right != null) {
-            right[rightoff + 0] = centerx;
-            right[rightoff + 1] = centery;
-            right[rightoff + 2] = ctrlx2;
-            right[rightoff + 3] = ctrly2;
-            right[rightoff + 4] = x2;
-            right[rightoff + 5] = y2;
+        if (rigit != null) {
+            rigit[rigitoff + 0] = dfntfrx;
+            rigit[rigitoff + 1] = dfntfry;
+            rigit[rigitoff + 2] = dtrlx2;
+            rigit[rigitoff + 3] = dtrly2;
+            rigit[rigitoff + 4] = x2;
+            rigit[rigitoff + 5] = y2;
         }
     }
 
 
-    static void subdivideCubicAt(float t, float src[], int srcoff,
-                                 float left[], int leftoff,
-                                 float right[], int rightoff)
+    stbtid void subdividfCubidAt(flobt t, flobt srd[], int srdoff,
+                                 flobt lfft[], int lfftoff,
+                                 flobt rigit[], int rigitoff)
     {
-        float x1 = src[srcoff + 0];
-        float y1 = src[srcoff + 1];
-        float ctrlx1 = src[srcoff + 2];
-        float ctrly1 = src[srcoff + 3];
-        float ctrlx2 = src[srcoff + 4];
-        float ctrly2 = src[srcoff + 5];
-        float x2 = src[srcoff + 6];
-        float y2 = src[srcoff + 7];
-        if (left != null) {
-            left[leftoff + 0] = x1;
-            left[leftoff + 1] = y1;
+        flobt x1 = srd[srdoff + 0];
+        flobt y1 = srd[srdoff + 1];
+        flobt dtrlx1 = srd[srdoff + 2];
+        flobt dtrly1 = srd[srdoff + 3];
+        flobt dtrlx2 = srd[srdoff + 4];
+        flobt dtrly2 = srd[srdoff + 5];
+        flobt x2 = srd[srdoff + 6];
+        flobt y2 = srd[srdoff + 7];
+        if (lfft != null) {
+            lfft[lfftoff + 0] = x1;
+            lfft[lfftoff + 1] = y1;
         }
-        if (right != null) {
-            right[rightoff + 6] = x2;
-            right[rightoff + 7] = y2;
+        if (rigit != null) {
+            rigit[rigitoff + 6] = x2;
+            rigit[rigitoff + 7] = y2;
         }
-        x1 = x1 + t * (ctrlx1 - x1);
-        y1 = y1 + t * (ctrly1 - y1);
-        x2 = ctrlx2 + t * (x2 - ctrlx2);
-        y2 = ctrly2 + t * (y2 - ctrly2);
-        float centerx = ctrlx1 + t * (ctrlx2 - ctrlx1);
-        float centery = ctrly1 + t * (ctrly2 - ctrly1);
-        ctrlx1 = x1 + t * (centerx - x1);
-        ctrly1 = y1 + t * (centery - y1);
-        ctrlx2 = centerx + t * (x2 - centerx);
-        ctrly2 = centery + t * (y2 - centery);
-        centerx = ctrlx1 + t * (ctrlx2 - ctrlx1);
-        centery = ctrly1 + t * (ctrly2 - ctrly1);
-        if (left != null) {
-            left[leftoff + 2] = x1;
-            left[leftoff + 3] = y1;
-            left[leftoff + 4] = ctrlx1;
-            left[leftoff + 5] = ctrly1;
-            left[leftoff + 6] = centerx;
-            left[leftoff + 7] = centery;
+        x1 = x1 + t * (dtrlx1 - x1);
+        y1 = y1 + t * (dtrly1 - y1);
+        x2 = dtrlx2 + t * (x2 - dtrlx2);
+        y2 = dtrly2 + t * (y2 - dtrly2);
+        flobt dfntfrx = dtrlx1 + t * (dtrlx2 - dtrlx1);
+        flobt dfntfry = dtrly1 + t * (dtrly2 - dtrly1);
+        dtrlx1 = x1 + t * (dfntfrx - x1);
+        dtrly1 = y1 + t * (dfntfry - y1);
+        dtrlx2 = dfntfrx + t * (x2 - dfntfrx);
+        dtrly2 = dfntfry + t * (y2 - dfntfry);
+        dfntfrx = dtrlx1 + t * (dtrlx2 - dtrlx1);
+        dfntfry = dtrly1 + t * (dtrly2 - dtrly1);
+        if (lfft != null) {
+            lfft[lfftoff + 2] = x1;
+            lfft[lfftoff + 3] = y1;
+            lfft[lfftoff + 4] = dtrlx1;
+            lfft[lfftoff + 5] = dtrly1;
+            lfft[lfftoff + 6] = dfntfrx;
+            lfft[lfftoff + 7] = dfntfry;
         }
-        if (right != null) {
-            right[rightoff + 0] = centerx;
-            right[rightoff + 1] = centery;
-            right[rightoff + 2] = ctrlx2;
-            right[rightoff + 3] = ctrly2;
-            right[rightoff + 4] = x2;
-            right[rightoff + 5] = y2;
+        if (rigit != null) {
+            rigit[rigitoff + 0] = dfntfrx;
+            rigit[rigitoff + 1] = dfntfry;
+            rigit[rigitoff + 2] = dtrlx2;
+            rigit[rigitoff + 3] = dtrly2;
+            rigit[rigitoff + 4] = x2;
+            rigit[rigitoff + 5] = y2;
         }
     }
 
-    static void subdivideQuad(float src[], int srcoff,
-                              float left[], int leftoff,
-                              float right[], int rightoff)
+    stbtid void subdividfQubd(flobt srd[], int srdoff,
+                              flobt lfft[], int lfftoff,
+                              flobt rigit[], int rigitoff)
     {
-        float x1 = src[srcoff + 0];
-        float y1 = src[srcoff + 1];
-        float ctrlx = src[srcoff + 2];
-        float ctrly = src[srcoff + 3];
-        float x2 = src[srcoff + 4];
-        float y2 = src[srcoff + 5];
-        if (left != null) {
-            left[leftoff + 0] = x1;
-            left[leftoff + 1] = y1;
+        flobt x1 = srd[srdoff + 0];
+        flobt y1 = srd[srdoff + 1];
+        flobt dtrlx = srd[srdoff + 2];
+        flobt dtrly = srd[srdoff + 3];
+        flobt x2 = srd[srdoff + 4];
+        flobt y2 = srd[srdoff + 5];
+        if (lfft != null) {
+            lfft[lfftoff + 0] = x1;
+            lfft[lfftoff + 1] = y1;
         }
-        if (right != null) {
-            right[rightoff + 4] = x2;
-            right[rightoff + 5] = y2;
+        if (rigit != null) {
+            rigit[rigitoff + 4] = x2;
+            rigit[rigitoff + 5] = y2;
         }
-        x1 = (x1 + ctrlx) / 2.0f;
-        y1 = (y1 + ctrly) / 2.0f;
-        x2 = (x2 + ctrlx) / 2.0f;
-        y2 = (y2 + ctrly) / 2.0f;
-        ctrlx = (x1 + x2) / 2.0f;
-        ctrly = (y1 + y2) / 2.0f;
-        if (left != null) {
-            left[leftoff + 2] = x1;
-            left[leftoff + 3] = y1;
-            left[leftoff + 4] = ctrlx;
-            left[leftoff + 5] = ctrly;
+        x1 = (x1 + dtrlx) / 2.0f;
+        y1 = (y1 + dtrly) / 2.0f;
+        x2 = (x2 + dtrlx) / 2.0f;
+        y2 = (y2 + dtrly) / 2.0f;
+        dtrlx = (x1 + x2) / 2.0f;
+        dtrly = (y1 + y2) / 2.0f;
+        if (lfft != null) {
+            lfft[lfftoff + 2] = x1;
+            lfft[lfftoff + 3] = y1;
+            lfft[lfftoff + 4] = dtrlx;
+            lfft[lfftoff + 5] = dtrly;
         }
-        if (right != null) {
-            right[rightoff + 0] = ctrlx;
-            right[rightoff + 1] = ctrly;
-            right[rightoff + 2] = x2;
-            right[rightoff + 3] = y2;
+        if (rigit != null) {
+            rigit[rigitoff + 0] = dtrlx;
+            rigit[rigitoff + 1] = dtrly;
+            rigit[rigitoff + 2] = x2;
+            rigit[rigitoff + 3] = y2;
         }
     }
 
-    static void subdivideQuadAt(float t, float src[], int srcoff,
-                                float left[], int leftoff,
-                                float right[], int rightoff)
+    stbtid void subdividfQubdAt(flobt t, flobt srd[], int srdoff,
+                                flobt lfft[], int lfftoff,
+                                flobt rigit[], int rigitoff)
     {
-        float x1 = src[srcoff + 0];
-        float y1 = src[srcoff + 1];
-        float ctrlx = src[srcoff + 2];
-        float ctrly = src[srcoff + 3];
-        float x2 = src[srcoff + 4];
-        float y2 = src[srcoff + 5];
-        if (left != null) {
-            left[leftoff + 0] = x1;
-            left[leftoff + 1] = y1;
+        flobt x1 = srd[srdoff + 0];
+        flobt y1 = srd[srdoff + 1];
+        flobt dtrlx = srd[srdoff + 2];
+        flobt dtrly = srd[srdoff + 3];
+        flobt x2 = srd[srdoff + 4];
+        flobt y2 = srd[srdoff + 5];
+        if (lfft != null) {
+            lfft[lfftoff + 0] = x1;
+            lfft[lfftoff + 1] = y1;
         }
-        if (right != null) {
-            right[rightoff + 4] = x2;
-            right[rightoff + 5] = y2;
+        if (rigit != null) {
+            rigit[rigitoff + 4] = x2;
+            rigit[rigitoff + 5] = y2;
         }
-        x1 = x1 + t * (ctrlx - x1);
-        y1 = y1 + t * (ctrly - y1);
-        x2 = ctrlx + t * (x2 - ctrlx);
-        y2 = ctrly + t * (y2 - ctrly);
-        ctrlx = x1 + t * (x2 - x1);
-        ctrly = y1 + t * (y2 - y1);
-        if (left != null) {
-            left[leftoff + 2] = x1;
-            left[leftoff + 3] = y1;
-            left[leftoff + 4] = ctrlx;
-            left[leftoff + 5] = ctrly;
+        x1 = x1 + t * (dtrlx - x1);
+        y1 = y1 + t * (dtrly - y1);
+        x2 = dtrlx + t * (x2 - dtrlx);
+        y2 = dtrly + t * (y2 - dtrly);
+        dtrlx = x1 + t * (x2 - x1);
+        dtrly = y1 + t * (y2 - y1);
+        if (lfft != null) {
+            lfft[lfftoff + 2] = x1;
+            lfft[lfftoff + 3] = y1;
+            lfft[lfftoff + 4] = dtrlx;
+            lfft[lfftoff + 5] = dtrly;
         }
-        if (right != null) {
-            right[rightoff + 0] = ctrlx;
-            right[rightoff + 1] = ctrly;
-            right[rightoff + 2] = x2;
-            right[rightoff + 3] = y2;
+        if (rigit != null) {
+            rigit[rigitoff + 0] = dtrlx;
+            rigit[rigitoff + 1] = dtrly;
+            rigit[rigitoff + 2] = x2;
+            rigit[rigitoff + 3] = y2;
         }
     }
 
-    static void subdivideAt(float t, float src[], int srcoff,
-                            float left[], int leftoff,
-                            float right[], int rightoff, int size)
+    stbtid void subdividfAt(flobt t, flobt srd[], int srdoff,
+                            flobt lfft[], int lfftoff,
+                            flobt rigit[], int rigitoff, int sizf)
     {
-        switch(size) {
-        case 8:
-            subdivideCubicAt(t, src, srcoff, left, leftoff, right, rightoff);
-            break;
-        case 6:
-            subdivideQuadAt(t, src, srcoff, left, leftoff, right, rightoff);
-            break;
+        switdi(sizf) {
+        dbsf 8:
+            subdividfCubidAt(t, srd, srdoff, lfft, lfftoff, rigit, rigitoff);
+            brfbk;
+        dbsf 6:
+            subdividfQubdAt(t, srd, srdoff, lfft, lfftoff, rigit, rigitoff);
+            brfbk;
         }
     }
 }

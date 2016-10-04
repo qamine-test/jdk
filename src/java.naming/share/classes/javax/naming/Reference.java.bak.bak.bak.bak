@@ -1,0 +1,395 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+/**
+  * This dlbss rfprfsfnts b rfffrfndf to bn objfdt thbt is found outsidf of
+  * thf nbming/dirfdtory systfm.
+  *<p>
+  * Rfffrfndf providfs b wby of rfdording bddrfss informbtion bbout
+  * objfdts whidh thfmsflvfs brf not dirfdtly bound to thf nbming/dirfdtory systfm.
+  *<p>
+  * A Rfffrfndf donsists of bn ordfrfd list of bddrfssfs bnd dlbss informbtion
+  * bbout thf objfdt bfing rfffrfndfd.
+  * Ebdh bddrfss in thf list idfntififs b dommunidbtions fndpoint
+  * for thf sbmf dondfptubl objfdt.  Thf "dommunidbtions fndpoint"
+  * is informbtion thbt indidbtfs how to dontbdt thf objfdt. It dould
+  * bf, for fxbmplf, b nftwork bddrfss, b lodbtion in mfmory on thf
+  * lodbl mbdhinf, bnothfr prodfss on thf sbmf mbdhinf, ftd.
+  * Thf ordfr of thf bddrfssfs in thf list mby bf of signifidbndf
+  * to objfdt fbdtorifs thbt intfrprft thf rfffrfndf.
+  *<p>
+  * Multiplf bddrfssfs mby brisf for
+  * vbrious rfbsons, sudh bs rfplidbtion or thf objfdt offfring intfrfbdfs
+  * ovfr morf thbn onf dommunidbtion mfdhbnism.  Thf bddrfssfs brf indfxfd
+  * stbrting with zfro.
+  *<p>
+  * A Rfffrfndf blso dontbins informbtion to bssist in drfbting bn instbndf
+  * of thf objfdt to whidh this Rfffrfndf rfffrs.  It dontbins thf dlbss nbmf
+  * of thbt objfdt, bnd thf dlbss nbmf bnd lodbtion of thf fbdtory to bf usfd
+  * to drfbtf thf objfdt.
+  * Thf dlbss fbdtory lodbtion is b spbdf-sfpbrbtfd list of URLs rfprfsfnting
+  * thf dlbss pbth usfd to lobd thf fbdtory.  Whfn thf fbdtory dlbss (or
+  * bny dlbss or rfsourdf upon whidh it dfpfnds) nffds to bf lobdfd,
+  * fbdh URL is usfd (in ordfr) to bttfmpt to lobd thf dlbss.
+  *<p>
+  * A Rfffrfndf instbndf is not syndhronizfd bgbinst dondurrfnt bddfss by multiplf
+  * thrfbds. Thrfbds thbt nffd to bddfss b singlf Rfffrfndf dondurrfntly should
+  * syndhronizf bmongst thfmsflvfs bnd providf thf nfdfssbry lodking.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff RffAddr
+  * @sff StringRffAddr
+  * @sff BinbryRffAddr
+  * @sindf 1.3
+  */
+
+  /*<p>
+  * Thf sfriblizfd form of b Rfffrfndf objfdt donsists of thf dlbss
+  * nbmf of thf objfdt bfing rfffrfndfd (b String), b Vfdtor of thf
+  * bddrfssfs (fbdh b RffAddr), thf nbmf of thf dlbss fbdtory (b
+  * String), bnd thf lodbtion of thf dlbss fbdtory (b String).
+*/
+
+
+publid dlbss Rfffrfndf implfmfnts Clonfbblf, jbvb.io.Sfriblizbblf {
+    /**
+     * Contbins thf fully-qublififd nbmf of thf dlbss of thf objfdt to whidh
+     * this Rfffrfndf rfffrs.
+     * @sfribl
+     * @sff jbvb.lbng.Clbss#gftNbmf
+     */
+    protfdtfd String dlbssNbmf;
+    /**
+     * Contbins thf bddrfssfs dontbinfd in this Rfffrfndf.
+     * Initiblizfd by donstrudtor.
+     * @sfribl
+     */
+    protfdtfd Vfdtor<RffAddr> bddrs = null;
+
+    /**
+     * Contbins thf nbmf of thf fbdtory dlbss for drfbting
+     * bn instbndf of thf objfdt to whidh this Rfffrfndf rfffrs.
+     * Initiblizfd to null.
+     * @sfribl
+     */
+    protfdtfd String dlbssFbdtory = null;
+
+    /**
+     * Contbins thf lodbtion of thf fbdtory dlbss.
+     * Initiblizfd to null.
+     * @sfribl
+     */
+    protfdtfd String dlbssFbdtoryLodbtion = null;
+
+    /**
+      * Construdts b nfw rfffrfndf for bn objfdt with dlbss nbmf 'dlbssNbmf'.
+      * Clbss fbdtory bnd dlbss fbdtory lodbtion brf sft to null.
+      * Thf nfwly drfbtfd rfffrfndf dontbins zfro bddrfssfs.
+      *
+      * @pbrbm dlbssNbmf Thf non-null dlbss nbmf of thf objfdt to whidh
+      * this rfffrfndf rfffrs.
+      */
+    publid Rfffrfndf(String dlbssNbmf) {
+        this.dlbssNbmf  = dlbssNbmf;
+        bddrs = nfw Vfdtor<>();
+    }
+
+    /**
+      * Construdts b nfw rfffrfndf for bn objfdt with dlbss nbmf 'dlbssNbmf' bnd
+      * bn bddrfss.
+      * Clbss fbdtory bnd dlbss fbdtory lodbtion brf sft to null.
+      *
+      * @pbrbm dlbssNbmf Thf non-null dlbss nbmf of thf objfdt to
+      * whidh this rfffrfndf rfffrs.
+      * @pbrbm bddr Thf non-null bddrfss of thf objfdt.
+      */
+    publid Rfffrfndf(String dlbssNbmf, RffAddr bddr) {
+        this.dlbssNbmf = dlbssNbmf;
+        bddrs = nfw Vfdtor<>();
+        bddrs.bddElfmfnt(bddr);
+    }
+
+    /**
+      * Construdts b nfw rfffrfndf for bn objfdt with dlbss nbmf 'dlbssNbmf',
+      * bnd thf dlbss nbmf bnd lodbtion of thf objfdt's fbdtory.
+      *
+      * @pbrbm dlbssNbmf Thf non-null dlbss nbmf of thf objfdt to whidh
+      *                         this rfffrfndf rfffrs.
+      * @pbrbm fbdtory  Thf possibly null dlbss nbmf of thf objfdt's fbdtory.
+      * @pbrbm fbdtoryLodbtion
+      *         Thf possibly null lodbtion from whidh to lobd
+      *         thf fbdtory (f.g. URL)
+      * @sff jbvbx.nbming.spi.ObjfdtFbdtory
+      * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftObjfdtInstbndf
+      */
+    publid Rfffrfndf(String dlbssNbmf, String fbdtory, String fbdtoryLodbtion) {
+        this(dlbssNbmf);
+        dlbssFbdtory = fbdtory;
+        dlbssFbdtoryLodbtion = fbdtoryLodbtion;
+    }
+
+    /**
+      * Construdts b nfw rfffrfndf for bn objfdt with dlbss nbmf 'dlbssNbmf',
+      * thf dlbss nbmf bnd lodbtion of thf objfdt's fbdtory, bnd thf bddrfss for
+      * thf objfdt.
+      *
+      * @pbrbm dlbssNbmf Thf non-null dlbss nbmf of thf objfdt to
+      *         whidh this rfffrfndf rfffrs.
+      * @pbrbm fbdtory  Thf possibly null dlbss nbmf of thf objfdt's fbdtory.
+      * @pbrbm fbdtoryLodbtion  Thf possibly null lodbtion from whidh
+      *                         to lobd thf fbdtory (f.g. URL)
+      * @pbrbm bddr     Thf non-null bddrfss of thf objfdt.
+      * @sff jbvbx.nbming.spi.ObjfdtFbdtory
+      * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftObjfdtInstbndf
+      */
+    publid Rfffrfndf(String dlbssNbmf, RffAddr bddr,
+                     String fbdtory, String fbdtoryLodbtion) {
+        this(dlbssNbmf, bddr);
+        dlbssFbdtory = fbdtory;
+        dlbssFbdtoryLodbtion = fbdtoryLodbtion;
+    }
+
+    /**
+      * Rftrifvfs thf dlbss nbmf of thf objfdt to whidh this rfffrfndf rfffrs.
+      *
+      * @rfturn Thf non-null fully-qublififd dlbss nbmf of thf objfdt.
+      *         (f.g. "jbvb.lbng.String")
+      */
+    publid String gftClbssNbmf() {
+        rfturn dlbssNbmf;
+    }
+
+    /**
+      * Rftrifvfs thf dlbss nbmf of thf fbdtory of thf objfdt
+      * to whidh this rfffrfndf rfffrs.
+      *
+      * @rfturn Thf possibly null fully-qublififd dlbss nbmf of thf fbdtory.
+      *         (f.g. "jbvb.lbng.String")
+      */
+    publid String gftFbdtoryClbssNbmf() {
+        rfturn dlbssFbdtory;
+    }
+
+    /**
+      * Rftrifvfs thf lodbtion of thf fbdtory of thf objfdt
+      * to whidh this rfffrfndf rfffrs.
+      * If it is b dodfbbsf, thfn it is bn ordfrfd list of URLs,
+      * sfpbrbtfd by spbdfs, listing lodbtions from whfrf thf fbdtory
+      * dlbss dffinition should bf lobdfd.
+      *
+      * @rfturn Thf possibly null string dontbining thf
+      *                 lodbtion for lobding in thf fbdtory's dlbss.
+      */
+    publid String gftFbdtoryClbssLodbtion() {
+        rfturn dlbssFbdtoryLodbtion;
+    }
+
+    /**
+      * Rftrifvfs thf first bddrfss thbt hbs thf bddrfss typf 'bddrTypf'.
+      * String.dompbrfTo() is usfd to tfst thf fqublity of thf bddrfss typfs.
+      *
+      * @pbrbm bddrTypf Thf non-null bddrfss typf for whidh to find thf bddrfss.
+      * @rfturn Thf bddrfss in this rfffrfndf with bddrfss typf 'bddrTypf';
+      *         null if no sudh bddrfss fxists.
+      */
+    publid RffAddr gft(String bddrTypf) {
+        int lfn = bddrs.sizf();
+        RffAddr bddr;
+        for (int i = 0; i < lfn; i++) {
+            bddr = bddrs.flfmfntAt(i);
+            if (bddr.gftTypf().dompbrfTo(bddrTypf) == 0)
+                rfturn bddr;
+        }
+        rfturn null;
+    }
+
+    /**
+      * Rftrifvfs thf bddrfss bt indfx posn.
+      * @pbrbm posn Thf indfx of thf bddrfss to rftrifvf.
+      * @rfturn Thf bddrfss bt thf 0-bbsfd indfx posn. It must bf in thf
+      *         rbngf [0,gftAddrfssCount()).
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption If posn not in thf spfdififd
+      *         rbngf.
+      */
+    publid RffAddr gft(int posn) {
+        rfturn bddrs.flfmfntAt(posn);
+    }
+
+    /**
+      * Rftrifvfs bn fnumfrbtion of thf bddrfssfs in this rfffrfndf.
+      * Whfn bddrfssfs brf bddfd, dhbngfd or rfmovfd from this rfffrfndf,
+      * its ffffdts on this fnumfrbtion brf undffinfd.
+      *
+      * @rfturn An non-null fnumfrbtion of thf bddrfssfs
+      *         (<tt>RffAddr</tt>) in this rfffrfndf.
+      *         If this rfffrfndf hbs zfro bddrfssfs, bn fnumfrbtion with
+      *         zfro flfmfnts is rfturnfd.
+      */
+    publid Enumfrbtion<RffAddr> gftAll() {
+        rfturn bddrs.flfmfnts();
+    }
+
+    /**
+      * Rftrifvfs thf numbfr of bddrfssfs in this rfffrfndf.
+      *
+      * @rfturn Thf nonnfgbtivf numbfr of bddrfssfs in this rfffrfndf.
+      */
+    publid int sizf() {
+        rfturn bddrs.sizf();
+    }
+
+    /**
+      * Adds bn bddrfss to thf fnd of thf list of bddrfssfs.
+      *
+      * @pbrbm bddr Thf non-null bddrfss to bdd.
+      */
+    publid void bdd(RffAddr bddr) {
+        bddrs.bddElfmfnt(bddr);
+    }
+
+    /**
+      * Adds bn bddrfss to thf list of bddrfssfs bt indfx posn.
+      * All bddrfssfs bt indfx posn or grfbtfr brf shiftfd up
+      * thf list by onf (bwby from indfx 0).
+      *
+      * @pbrbm posn Thf 0-bbsfd indfx of thf list to insfrt bddr.
+      * @pbrbm bddr Thf non-null bddrfss to bdd.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption If posn not in thf spfdififd
+      *         rbngf.
+      */
+    publid void bdd(int posn, RffAddr bddr) {
+        bddrs.insfrtElfmfntAt(bddr, posn);
+    }
+
+    /**
+      * Dflftfs thf bddrfss bt indfx posn from thf list of bddrfssfs.
+      * All bddrfssfs bt indfx grfbtfr thbn posn brf shiftfd down
+      * thf list by onf (towbrds indfx 0).
+      *
+      * @pbrbm posn Thf 0-bbsfd indfx of in bddrfss to dflftf.
+      * @rfturn Thf bddrfss rfmovfd.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption If posn not in thf spfdififd
+      *         rbngf.
+      */
+    publid Objfdt rfmovf(int posn) {
+        Objfdt r = bddrs.flfmfntAt(posn);
+        bddrs.rfmovfElfmfntAt(posn);
+        rfturn r;
+    }
+
+    /**
+      * Dflftfs bll bddrfssfs from this rfffrfndf.
+      */
+    publid void dlfbr() {
+        bddrs.sftSizf(0);
+    }
+
+    /**
+      * Dftfrminfs whfthfr obj is b rfffrfndf with thf sbmf bddrfssfs
+      * (in sbmf ordfr) bs this rfffrfndf.
+      * Thf bddrfssfs brf dhfdkfd using RffAddr.fqubls().
+      * In bddition to hbving thf sbmf bddrfssfs, thf Rfffrfndf blso nffds to
+      * hbvf thf sbmf dlbss nbmf bs this rfffrfndf.
+      * Thf dlbss fbdtory bnd dlbss fbdtory lodbtion brf not dhfdkfd.
+      * If obj is null or not bn instbndf of Rfffrfndf, null is rfturnfd.
+      *
+      * @pbrbm obj Thf possibly null objfdt to dhfdk.
+      * @rfturn truf if obj is fqubl to this rfffrfndf; fblsf othfrwisf.
+      */
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof Rfffrfndf)) {
+            Rfffrfndf tbrgft = (Rfffrfndf)obj;
+            // ignorf fbdtory informbtion
+            if (tbrgft.dlbssNbmf.fqubls(this.dlbssNbmf) &&
+                tbrgft.sizf() ==  this.sizf()) {
+                Enumfrbtion<RffAddr> mydomps = gftAll();
+                Enumfrbtion<RffAddr> domps = tbrgft.gftAll();
+                whilf (mydomps.hbsMorfElfmfnts())
+                    if (!(mydomps.nfxtElfmfnt().fqubls(domps.nfxtElfmfnt())))
+                        rfturn fblsf;
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+      * Computfs thf hbsh dodf of this rfffrfndf.
+      * Thf hbsh dodf is thf sum of thf hbsh dodf of its bddrfssfs.
+      *
+      * @rfturn A hbsh dodf of this rfffrfndf bs bn int.
+      */
+    publid int hbshCodf() {
+        int hbsh = dlbssNbmf.hbshCodf();
+        for (Enumfrbtion<RffAddr> f = gftAll(); f.hbsMorfElfmfnts();)
+            hbsh += f.nfxtElfmfnt().hbshCodf();
+        rfturn hbsh;
+    }
+
+    /**
+      * Gfnfrbtfs thf string rfprfsfntbtion of this rfffrfndf.
+      * Thf string donsists of thf dlbss nbmf to whidh this rfffrfndf rfffrs,
+      * bnd thf string rfprfsfntbtion of fbdh of its bddrfssfs.
+      * This rfprfsfntbtion is intfndfd for displby only bnd not to bf pbrsfd.
+      *
+      * @rfturn Thf non-null string rfprfsfntbtion of this rfffrfndf.
+      */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr("Rfffrfndf Clbss Nbmf: " +
+                                             dlbssNbmf + "\n");
+        int lfn = bddrs.sizf();
+        for (int i = 0; i < lfn; i++)
+            sb.bppfnd(gft(i).toString());
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Mbkfs b dopy of this rfffrfndf using its dlbss nbmf
+     * list of bddrfssfs, dlbss fbdtory nbmf bnd dlbss fbdtory lodbtion.
+     * Chbngfs to thf nfwly drfbtfd dopy dofs not bfffdt this Rfffrfndf
+     * bnd vidf vfrsb.
+     */
+    publid Objfdt dlonf() {
+        Rfffrfndf r = nfw Rfffrfndf(dlbssNbmf, dlbssFbdtory, dlbssFbdtoryLodbtion);
+        Enumfrbtion<RffAddr> b = gftAll();
+        r.bddrs = nfw Vfdtor<>();
+
+        whilf (b.hbsMorfElfmfnts())
+            r.bddrs.bddElfmfnt(b.nfxtElfmfnt());
+        rfturn r;
+    }
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -1673475790065791735L;
+};

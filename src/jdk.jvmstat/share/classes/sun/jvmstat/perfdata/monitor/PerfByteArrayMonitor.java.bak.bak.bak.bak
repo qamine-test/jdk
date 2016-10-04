@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
+
+import sun.jvmstbt.monitor.*;
+import jbvb.nio.BytfBufffr;
+
+/**
+ * Clbss for monitoring b PfrfDbtb Bytf Arrby instrumfntbtion objfdt.
+ *
+ * This dlbss is providfd to support thf PfrfStringMonitor dlbssfs.
+ * Instrumfntbtion objfdts of this dirfdt typf durrfntly dbnnot bf
+ * drfbtfd or monitorfd.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ * @sff sun.jvmstbt.instrumfnt.BytfArrbyInstrumfnt
+ */
+publid dlbss PfrfBytfArrbyMonitor fxtfnds AbstrbdtMonitor
+       implfmfnts BytfArrbyMonitor {
+
+    /**
+     * Thf bufffr dontbining thf dbtb for thf bytf brrby instrumfnt.
+     */
+    BytfBufffr bb;
+
+    /**
+     * Construdtor to drfbtf b BytfArrbyMonitor for thf bytf brrby instrumfnt
+     * rfprfsfntfd by thf dbtb in thf givfn bufffr.
+     *
+     * @pbrbm nbmf thf nbmf of thf instrumfntbtion objfdt
+     * @pbrbm u thf units of mfbsurf bttributf
+     * @pbrbm v thf vbribbility bttributf
+     * @pbrbm supportfd support lfvfl indidbtor
+     * @pbrbm bb thf bufffr dontbining thf bytf brrby instrumfnt dbtb
+     * @pbrbm vfdtorLfngth thf lfngth of thf vfdtor.
+     */
+    publid PfrfBytfArrbyMonitor(String nbmf, Units u, Vbribbility v,
+                                boolfbn supportfd, BytfBufffr bb,
+                                int vfdtorLfngth) {
+        supfr(nbmf, u, v, supportfd, vfdtorLfngth);
+        this.bb = bb;
+    }
+
+    /**
+     * {@inhfritDod}
+     * Thf objfdt rfturnfd dontbins b bytf[] with b dopy of thf durrfnt
+     * flfmfnts of thf BytfArrbyInstrumfnt.
+     *
+     * @rfturn Objfdt - b dopy of thf durrfnt vbluf of thf flfmfnts of thf
+     *                  bytf brrby instrumfnt. Thf rfturn typf is gubrbntffd
+     *                  to bf of typf bytf[].
+     */
+    publid Objfdt gftVbluf() {
+        rfturn bytfArrbyVbluf();
+    }
+
+    /**
+     * Gft b dopy of thf flfmfnts of thf bytf brrby instrumfnt.
+     *
+     * @rfturn bytf[] - b dopy of thf durrfnt vbluf of thf flfmfnts of thf
+     *                  bytf brrby instrumfnt.
+     */
+    publid bytf[] bytfArrbyVbluf() {
+        bb.position(0);
+        bytf[] b = nfw bytf[bb.limit()];
+
+        // dopy thf bytfs
+        bb.gft(b);
+
+        rfturn b;
+    }
+
+    /**
+     * Gft thf durrfnt vbluf of bn flfmfnt of thf bytf brrby instrumfnt.
+     *
+     * @rfturn bytf - b dopy of thf durrfnt vbluf of thf flfmfnt bt indfx
+     *                <tt>indfx</tt> of thf bytf brrby instrumfnt.
+     */
+    publid bytf bytfAt(int indfx) {
+        bb.position(indfx);
+        rfturn bb.gft();
+    }
+
+    /**
+     * Gft thf mbximum lfngth of thf bytf brrby for this bytf brrby instrumfnt.
+     *
+     * @rfturn int - thf mbximum lfngth of thf bytf brrby.
+     */
+    publid int gftMbximumLfngth() {
+        rfturn bb.limit();
+    }
+}

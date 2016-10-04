@@ -1,744 +1,744 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.security.AccessControlException;
-import sun.security.util.SecurityConstants;
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.AddfssControlExdfption;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * Factory and utility methods for {@link Executor}, {@link
- * ExecutorService}, {@link ScheduledExecutorService}, {@link
- * ThreadFactory}, and {@link Callable} classes defined in this
- * package. This class supports the following kinds of methods:
+ * Fbdtory bnd utility mftiods for {@link Exfdutor}, {@link
+ * ExfdutorSfrvidf}, {@link SdifdulfdExfdutorSfrvidf}, {@link
+ * TirfbdFbdtory}, bnd {@link Cbllbblf} dlbssfs dffinfd in tiis
+ * pbdkbgf. Tiis dlbss supports tif following kinds of mftiods:
  *
  * <ul>
- *   <li> Methods that create and return an {@link ExecutorService}
- *        set up with commonly useful configuration settings.
- *   <li> Methods that create and return a {@link ScheduledExecutorService}
- *        set up with commonly useful configuration settings.
- *   <li> Methods that create and return a "wrapped" ExecutorService, that
- *        disables reconfiguration by making implementation-specific methods
- *        inaccessible.
- *   <li> Methods that create and return a {@link ThreadFactory}
- *        that sets newly created threads to a known state.
- *   <li> Methods that create and return a {@link Callable}
- *        out of other closure-like forms, so they can be used
- *        in execution methods requiring {@code Callable}.
+ *   <li> Mftiods tibt drfbtf bnd rfturn bn {@link ExfdutorSfrvidf}
+ *        sft up witi dommonly usfful donfigurbtion sfttings.
+ *   <li> Mftiods tibt drfbtf bnd rfturn b {@link SdifdulfdExfdutorSfrvidf}
+ *        sft up witi dommonly usfful donfigurbtion sfttings.
+ *   <li> Mftiods tibt drfbtf bnd rfturn b "wrbppfd" ExfdutorSfrvidf, tibt
+ *        disbblfs rfdonfigurbtion by mbking implfmfntbtion-spfdifid mftiods
+ *        inbddfssiblf.
+ *   <li> Mftiods tibt drfbtf bnd rfturn b {@link TirfbdFbdtory}
+ *        tibt sfts nfwly drfbtfd tirfbds to b known stbtf.
+ *   <li> Mftiods tibt drfbtf bnd rfturn b {@link Cbllbblf}
+ *        out of otifr dlosurf-likf forms, so tify dbn bf usfd
+ *        in fxfdution mftiods rfquiring {@dodf Cbllbblf}.
  * </ul>
  *
- * @since 1.5
- * @author Doug Lea
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public class Executors {
+publid dlbss Exfdutors {
 
     /**
-     * Creates a thread pool that reuses a fixed number of threads
-     * operating off a shared unbounded queue.  At any point, at most
-     * {@code nThreads} threads will be active processing tasks.
-     * If additional tasks are submitted when all threads are active,
-     * they will wait in the queue until a thread is available.
-     * If any thread terminates due to a failure during execution
-     * prior to shutdown, a new one will take its place if needed to
-     * execute subsequent tasks.  The threads in the pool will exist
-     * until it is explicitly {@link ExecutorService#shutdown shutdown}.
+     * Crfbtfs b tirfbd pool tibt rfusfs b fixfd numbfr of tirfbds
+     * opfrbting off b sibrfd unboundfd qufuf.  At bny point, bt most
+     * {@dodf nTirfbds} tirfbds will bf bdtivf prodfssing tbsks.
+     * If bdditionbl tbsks brf submittfd wifn bll tirfbds brf bdtivf,
+     * tify will wbit in tif qufuf until b tirfbd is bvbilbblf.
+     * If bny tirfbd tfrminbtfs duf to b fbilurf during fxfdution
+     * prior to siutdown, b nfw onf will tbkf its plbdf if nffdfd to
+     * fxfdutf subsfqufnt tbsks.  Tif tirfbds in tif pool will fxist
+     * until it is fxpliditly {@link ExfdutorSfrvidf#siutdown siutdown}.
      *
-     * @param nThreads the number of threads in the pool
-     * @return the newly created thread pool
-     * @throws IllegalArgumentException if {@code nThreads <= 0}
+     * @pbrbm nTirfbds tif numbfr of tirfbds in tif pool
+     * @rfturn tif nfwly drfbtfd tirfbd pool
+     * @tirows IllfgblArgumfntExdfption if {@dodf nTirfbds <= 0}
      */
-    public static ExecutorService newFixedThreadPool(int nThreads) {
-        return new ThreadPoolExecutor(nThreads, nThreads,
-                                      0L, TimeUnit.MILLISECONDS,
-                                      new LinkedBlockingQueue<Runnable>());
+    publid stbtid ExfdutorSfrvidf nfwFixfdTirfbdPool(int nTirfbds) {
+        rfturn nfw TirfbdPoolExfdutor(nTirfbds, nTirfbds,
+                                      0L, TimfUnit.MILLISECONDS,
+                                      nfw LinkfdBlodkingQufuf<Runnbblf>());
     }
 
     /**
-     * Creates a thread pool that maintains enough threads to support
-     * the given parallelism level, and may use multiple queues to
-     * reduce contention. The parallelism level corresponds to the
-     * maximum number of threads actively engaged in, or available to
-     * engage in, task processing. The actual number of threads may
-     * grow and shrink dynamically. A work-stealing pool makes no
-     * guarantees about the order in which submitted tasks are
-     * executed.
+     * Crfbtfs b tirfbd pool tibt mbintbins fnougi tirfbds to support
+     * tif givfn pbrbllflism lfvfl, bnd mby usf multiplf qufufs to
+     * rfdudf dontfntion. Tif pbrbllflism lfvfl dorrfsponds to tif
+     * mbximum numbfr of tirfbds bdtivfly fngbgfd in, or bvbilbblf to
+     * fngbgf in, tbsk prodfssing. Tif bdtubl numbfr of tirfbds mby
+     * grow bnd sirink dynbmidblly. A work-stfbling pool mbkfs no
+     * gubrbntffs bbout tif ordfr in wiidi submittfd tbsks brf
+     * fxfdutfd.
      *
-     * @param parallelism the targeted parallelism level
-     * @return the newly created thread pool
-     * @throws IllegalArgumentException if {@code parallelism <= 0}
-     * @since 1.8
+     * @pbrbm pbrbllflism tif tbrgftfd pbrbllflism lfvfl
+     * @rfturn tif nfwly drfbtfd tirfbd pool
+     * @tirows IllfgblArgumfntExdfption if {@dodf pbrbllflism <= 0}
+     * @sindf 1.8
      */
-    public static ExecutorService newWorkStealingPool(int parallelism) {
-        return new ForkJoinPool
-            (parallelism,
-             ForkJoinPool.defaultForkJoinWorkerThreadFactory,
-             null, true);
+    publid stbtid ExfdutorSfrvidf nfwWorkStfblingPool(int pbrbllflism) {
+        rfturn nfw ForkJoinPool
+            (pbrbllflism,
+             ForkJoinPool.dffbultForkJoinWorkfrTirfbdFbdtory,
+             null, truf);
     }
 
     /**
-     * Creates a work-stealing thread pool using all
-     * {@link Runtime#availableProcessors available processors}
-     * as its target parallelism level.
-     * @return the newly created thread pool
-     * @see #newWorkStealingPool(int)
-     * @since 1.8
+     * Crfbtfs b work-stfbling tirfbd pool using bll
+     * {@link Runtimf#bvbilbblfProdfssors bvbilbblf prodfssors}
+     * bs its tbrgft pbrbllflism lfvfl.
+     * @rfturn tif nfwly drfbtfd tirfbd pool
+     * @sff #nfwWorkStfblingPool(int)
+     * @sindf 1.8
      */
-    public static ExecutorService newWorkStealingPool() {
-        return new ForkJoinPool
-            (Runtime.getRuntime().availableProcessors(),
-             ForkJoinPool.defaultForkJoinWorkerThreadFactory,
-             null, true);
+    publid stbtid ExfdutorSfrvidf nfwWorkStfblingPool() {
+        rfturn nfw ForkJoinPool
+            (Runtimf.gftRuntimf().bvbilbblfProdfssors(),
+             ForkJoinPool.dffbultForkJoinWorkfrTirfbdFbdtory,
+             null, truf);
     }
 
     /**
-     * Creates a thread pool that reuses a fixed number of threads
-     * operating off a shared unbounded queue, using the provided
-     * ThreadFactory to create new threads when needed.  At any point,
-     * at most {@code nThreads} threads will be active processing
-     * tasks.  If additional tasks are submitted when all threads are
-     * active, they will wait in the queue until a thread is
-     * available.  If any thread terminates due to a failure during
-     * execution prior to shutdown, a new one will take its place if
-     * needed to execute subsequent tasks.  The threads in the pool will
-     * exist until it is explicitly {@link ExecutorService#shutdown
-     * shutdown}.
+     * Crfbtfs b tirfbd pool tibt rfusfs b fixfd numbfr of tirfbds
+     * opfrbting off b sibrfd unboundfd qufuf, using tif providfd
+     * TirfbdFbdtory to drfbtf nfw tirfbds wifn nffdfd.  At bny point,
+     * bt most {@dodf nTirfbds} tirfbds will bf bdtivf prodfssing
+     * tbsks.  If bdditionbl tbsks brf submittfd wifn bll tirfbds brf
+     * bdtivf, tify will wbit in tif qufuf until b tirfbd is
+     * bvbilbblf.  If bny tirfbd tfrminbtfs duf to b fbilurf during
+     * fxfdution prior to siutdown, b nfw onf will tbkf its plbdf if
+     * nffdfd to fxfdutf subsfqufnt tbsks.  Tif tirfbds in tif pool will
+     * fxist until it is fxpliditly {@link ExfdutorSfrvidf#siutdown
+     * siutdown}.
      *
-     * @param nThreads the number of threads in the pool
-     * @param threadFactory the factory to use when creating new threads
-     * @return the newly created thread pool
-     * @throws NullPointerException if threadFactory is null
-     * @throws IllegalArgumentException if {@code nThreads <= 0}
+     * @pbrbm nTirfbds tif numbfr of tirfbds in tif pool
+     * @pbrbm tirfbdFbdtory tif fbdtory to usf wifn drfbting nfw tirfbds
+     * @rfturn tif nfwly drfbtfd tirfbd pool
+     * @tirows NullPointfrExdfption if tirfbdFbdtory is null
+     * @tirows IllfgblArgumfntExdfption if {@dodf nTirfbds <= 0}
      */
-    public static ExecutorService newFixedThreadPool(int nThreads, ThreadFactory threadFactory) {
-        return new ThreadPoolExecutor(nThreads, nThreads,
-                                      0L, TimeUnit.MILLISECONDS,
-                                      new LinkedBlockingQueue<Runnable>(),
-                                      threadFactory);
+    publid stbtid ExfdutorSfrvidf nfwFixfdTirfbdPool(int nTirfbds, TirfbdFbdtory tirfbdFbdtory) {
+        rfturn nfw TirfbdPoolExfdutor(nTirfbds, nTirfbds,
+                                      0L, TimfUnit.MILLISECONDS,
+                                      nfw LinkfdBlodkingQufuf<Runnbblf>(),
+                                      tirfbdFbdtory);
     }
 
     /**
-     * Creates an Executor that uses a single worker thread operating
-     * off an unbounded queue. (Note however that if this single
-     * thread terminates due to a failure during execution prior to
-     * shutdown, a new one will take its place if needed to execute
-     * subsequent tasks.)  Tasks are guaranteed to execute
-     * sequentially, and no more than one task will be active at any
-     * given time. Unlike the otherwise equivalent
-     * {@code newFixedThreadPool(1)} the returned executor is
-     * guaranteed not to be reconfigurable to use additional threads.
+     * Crfbtfs bn Exfdutor tibt usfs b singlf workfr tirfbd opfrbting
+     * off bn unboundfd qufuf. (Notf iowfvfr tibt if tiis singlf
+     * tirfbd tfrminbtfs duf to b fbilurf during fxfdution prior to
+     * siutdown, b nfw onf will tbkf its plbdf if nffdfd to fxfdutf
+     * subsfqufnt tbsks.)  Tbsks brf gubrbntffd to fxfdutf
+     * sfqufntiblly, bnd no morf tibn onf tbsk will bf bdtivf bt bny
+     * givfn timf. Unlikf tif otifrwisf fquivblfnt
+     * {@dodf nfwFixfdTirfbdPool(1)} tif rfturnfd fxfdutor is
+     * gubrbntffd not to bf rfdonfigurbblf to usf bdditionbl tirfbds.
      *
-     * @return the newly created single-threaded Executor
+     * @rfturn tif nfwly drfbtfd singlf-tirfbdfd Exfdutor
      */
-    public static ExecutorService newSingleThreadExecutor() {
-        return new FinalizableDelegatedExecutorService
-            (new ThreadPoolExecutor(1, 1,
-                                    0L, TimeUnit.MILLISECONDS,
-                                    new LinkedBlockingQueue<Runnable>()));
+    publid stbtid ExfdutorSfrvidf nfwSinglfTirfbdExfdutor() {
+        rfturn nfw FinblizbblfDflfgbtfdExfdutorSfrvidf
+            (nfw TirfbdPoolExfdutor(1, 1,
+                                    0L, TimfUnit.MILLISECONDS,
+                                    nfw LinkfdBlodkingQufuf<Runnbblf>()));
     }
 
     /**
-     * Creates an Executor that uses a single worker thread operating
-     * off an unbounded queue, and uses the provided ThreadFactory to
-     * create a new thread when needed. Unlike the otherwise
-     * equivalent {@code newFixedThreadPool(1, threadFactory)} the
-     * returned executor is guaranteed not to be reconfigurable to use
-     * additional threads.
+     * Crfbtfs bn Exfdutor tibt usfs b singlf workfr tirfbd opfrbting
+     * off bn unboundfd qufuf, bnd usfs tif providfd TirfbdFbdtory to
+     * drfbtf b nfw tirfbd wifn nffdfd. Unlikf tif otifrwisf
+     * fquivblfnt {@dodf nfwFixfdTirfbdPool(1, tirfbdFbdtory)} tif
+     * rfturnfd fxfdutor is gubrbntffd not to bf rfdonfigurbblf to usf
+     * bdditionbl tirfbds.
      *
-     * @param threadFactory the factory to use when creating new
-     * threads
+     * @pbrbm tirfbdFbdtory tif fbdtory to usf wifn drfbting nfw
+     * tirfbds
      *
-     * @return the newly created single-threaded Executor
-     * @throws NullPointerException if threadFactory is null
+     * @rfturn tif nfwly drfbtfd singlf-tirfbdfd Exfdutor
+     * @tirows NullPointfrExdfption if tirfbdFbdtory is null
      */
-    public static ExecutorService newSingleThreadExecutor(ThreadFactory threadFactory) {
-        return new FinalizableDelegatedExecutorService
-            (new ThreadPoolExecutor(1, 1,
-                                    0L, TimeUnit.MILLISECONDS,
-                                    new LinkedBlockingQueue<Runnable>(),
-                                    threadFactory));
+    publid stbtid ExfdutorSfrvidf nfwSinglfTirfbdExfdutor(TirfbdFbdtory tirfbdFbdtory) {
+        rfturn nfw FinblizbblfDflfgbtfdExfdutorSfrvidf
+            (nfw TirfbdPoolExfdutor(1, 1,
+                                    0L, TimfUnit.MILLISECONDS,
+                                    nfw LinkfdBlodkingQufuf<Runnbblf>(),
+                                    tirfbdFbdtory));
     }
 
     /**
-     * Creates a thread pool that creates new threads as needed, but
-     * will reuse previously constructed threads when they are
-     * available.  These pools will typically improve the performance
-     * of programs that execute many short-lived asynchronous tasks.
-     * Calls to {@code execute} will reuse previously constructed
-     * threads if available. If no existing thread is available, a new
-     * thread will be created and added to the pool. Threads that have
-     * not been used for sixty seconds are terminated and removed from
-     * the cache. Thus, a pool that remains idle for long enough will
-     * not consume any resources. Note that pools with similar
-     * properties but different details (for example, timeout parameters)
-     * may be created using {@link ThreadPoolExecutor} constructors.
+     * Crfbtfs b tirfbd pool tibt drfbtfs nfw tirfbds bs nffdfd, but
+     * will rfusf prfviously donstrudtfd tirfbds wifn tify brf
+     * bvbilbblf.  Tifsf pools will typidblly improvf tif pfrformbndf
+     * of progrbms tibt fxfdutf mbny siort-livfd bsyndironous tbsks.
+     * Cblls to {@dodf fxfdutf} will rfusf prfviously donstrudtfd
+     * tirfbds if bvbilbblf. If no fxisting tirfbd is bvbilbblf, b nfw
+     * tirfbd will bf drfbtfd bnd bddfd to tif pool. Tirfbds tibt ibvf
+     * not bffn usfd for sixty sfdonds brf tfrminbtfd bnd rfmovfd from
+     * tif dbdif. Tius, b pool tibt rfmbins idlf for long fnougi will
+     * not donsumf bny rfsourdfs. Notf tibt pools witi similbr
+     * propfrtifs but difffrfnt dftbils (for fxbmplf, timfout pbrbmftfrs)
+     * mby bf drfbtfd using {@link TirfbdPoolExfdutor} donstrudtors.
      *
-     * @return the newly created thread pool
+     * @rfturn tif nfwly drfbtfd tirfbd pool
      */
-    public static ExecutorService newCachedThreadPool() {
-        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-                                      60L, TimeUnit.SECONDS,
-                                      new SynchronousQueue<Runnable>());
+    publid stbtid ExfdutorSfrvidf nfwCbdifdTirfbdPool() {
+        rfturn nfw TirfbdPoolExfdutor(0, Intfgfr.MAX_VALUE,
+                                      60L, TimfUnit.SECONDS,
+                                      nfw SyndironousQufuf<Runnbblf>());
     }
 
     /**
-     * Creates a thread pool that creates new threads as needed, but
-     * will reuse previously constructed threads when they are
-     * available, and uses the provided
-     * ThreadFactory to create new threads when needed.
-     * @param threadFactory the factory to use when creating new threads
-     * @return the newly created thread pool
-     * @throws NullPointerException if threadFactory is null
+     * Crfbtfs b tirfbd pool tibt drfbtfs nfw tirfbds bs nffdfd, but
+     * will rfusf prfviously donstrudtfd tirfbds wifn tify brf
+     * bvbilbblf, bnd usfs tif providfd
+     * TirfbdFbdtory to drfbtf nfw tirfbds wifn nffdfd.
+     * @pbrbm tirfbdFbdtory tif fbdtory to usf wifn drfbting nfw tirfbds
+     * @rfturn tif nfwly drfbtfd tirfbd pool
+     * @tirows NullPointfrExdfption if tirfbdFbdtory is null
      */
-    public static ExecutorService newCachedThreadPool(ThreadFactory threadFactory) {
-        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-                                      60L, TimeUnit.SECONDS,
-                                      new SynchronousQueue<Runnable>(),
-                                      threadFactory);
+    publid stbtid ExfdutorSfrvidf nfwCbdifdTirfbdPool(TirfbdFbdtory tirfbdFbdtory) {
+        rfturn nfw TirfbdPoolExfdutor(0, Intfgfr.MAX_VALUE,
+                                      60L, TimfUnit.SECONDS,
+                                      nfw SyndironousQufuf<Runnbblf>(),
+                                      tirfbdFbdtory);
     }
 
     /**
-     * Creates a single-threaded executor that can schedule commands
-     * to run after a given delay, or to execute periodically.
-     * (Note however that if this single
-     * thread terminates due to a failure during execution prior to
-     * shutdown, a new one will take its place if needed to execute
-     * subsequent tasks.)  Tasks are guaranteed to execute
-     * sequentially, and no more than one task will be active at any
-     * given time. Unlike the otherwise equivalent
-     * {@code newScheduledThreadPool(1)} the returned executor is
-     * guaranteed not to be reconfigurable to use additional threads.
-     * @return the newly created scheduled executor
+     * Crfbtfs b singlf-tirfbdfd fxfdutor tibt dbn sdifdulf dommbnds
+     * to run bftfr b givfn dflby, or to fxfdutf pfriodidblly.
+     * (Notf iowfvfr tibt if tiis singlf
+     * tirfbd tfrminbtfs duf to b fbilurf during fxfdution prior to
+     * siutdown, b nfw onf will tbkf its plbdf if nffdfd to fxfdutf
+     * subsfqufnt tbsks.)  Tbsks brf gubrbntffd to fxfdutf
+     * sfqufntiblly, bnd no morf tibn onf tbsk will bf bdtivf bt bny
+     * givfn timf. Unlikf tif otifrwisf fquivblfnt
+     * {@dodf nfwSdifdulfdTirfbdPool(1)} tif rfturnfd fxfdutor is
+     * gubrbntffd not to bf rfdonfigurbblf to usf bdditionbl tirfbds.
+     * @rfturn tif nfwly drfbtfd sdifdulfd fxfdutor
      */
-    public static ScheduledExecutorService newSingleThreadScheduledExecutor() {
-        return new DelegatedScheduledExecutorService
-            (new ScheduledThreadPoolExecutor(1));
+    publid stbtid SdifdulfdExfdutorSfrvidf nfwSinglfTirfbdSdifdulfdExfdutor() {
+        rfturn nfw DflfgbtfdSdifdulfdExfdutorSfrvidf
+            (nfw SdifdulfdTirfbdPoolExfdutor(1));
     }
 
     /**
-     * Creates a single-threaded executor that can schedule commands
-     * to run after a given delay, or to execute periodically.  (Note
-     * however that if this single thread terminates due to a failure
-     * during execution prior to shutdown, a new one will take its
-     * place if needed to execute subsequent tasks.)  Tasks are
-     * guaranteed to execute sequentially, and no more than one task
-     * will be active at any given time. Unlike the otherwise
-     * equivalent {@code newScheduledThreadPool(1, threadFactory)}
-     * the returned executor is guaranteed not to be reconfigurable to
-     * use additional threads.
-     * @param threadFactory the factory to use when creating new
-     * threads
-     * @return a newly created scheduled executor
-     * @throws NullPointerException if threadFactory is null
+     * Crfbtfs b singlf-tirfbdfd fxfdutor tibt dbn sdifdulf dommbnds
+     * to run bftfr b givfn dflby, or to fxfdutf pfriodidblly.  (Notf
+     * iowfvfr tibt if tiis singlf tirfbd tfrminbtfs duf to b fbilurf
+     * during fxfdution prior to siutdown, b nfw onf will tbkf its
+     * plbdf if nffdfd to fxfdutf subsfqufnt tbsks.)  Tbsks brf
+     * gubrbntffd to fxfdutf sfqufntiblly, bnd no morf tibn onf tbsk
+     * will bf bdtivf bt bny givfn timf. Unlikf tif otifrwisf
+     * fquivblfnt {@dodf nfwSdifdulfdTirfbdPool(1, tirfbdFbdtory)}
+     * tif rfturnfd fxfdutor is gubrbntffd not to bf rfdonfigurbblf to
+     * usf bdditionbl tirfbds.
+     * @pbrbm tirfbdFbdtory tif fbdtory to usf wifn drfbting nfw
+     * tirfbds
+     * @rfturn b nfwly drfbtfd sdifdulfd fxfdutor
+     * @tirows NullPointfrExdfption if tirfbdFbdtory is null
      */
-    public static ScheduledExecutorService newSingleThreadScheduledExecutor(ThreadFactory threadFactory) {
-        return new DelegatedScheduledExecutorService
-            (new ScheduledThreadPoolExecutor(1, threadFactory));
+    publid stbtid SdifdulfdExfdutorSfrvidf nfwSinglfTirfbdSdifdulfdExfdutor(TirfbdFbdtory tirfbdFbdtory) {
+        rfturn nfw DflfgbtfdSdifdulfdExfdutorSfrvidf
+            (nfw SdifdulfdTirfbdPoolExfdutor(1, tirfbdFbdtory));
     }
 
     /**
-     * Creates a thread pool that can schedule commands to run after a
-     * given delay, or to execute periodically.
-     * @param corePoolSize the number of threads to keep in the pool,
-     * even if they are idle
-     * @return a newly created scheduled thread pool
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
+     * Crfbtfs b tirfbd pool tibt dbn sdifdulf dommbnds to run bftfr b
+     * givfn dflby, or to fxfdutf pfriodidblly.
+     * @pbrbm dorfPoolSizf tif numbfr of tirfbds to kffp in tif pool,
+     * fvfn if tify brf idlf
+     * @rfturn b nfwly drfbtfd sdifdulfd tirfbd pool
+     * @tirows IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
      */
-    public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize) {
-        return new ScheduledThreadPoolExecutor(corePoolSize);
+    publid stbtid SdifdulfdExfdutorSfrvidf nfwSdifdulfdTirfbdPool(int dorfPoolSizf) {
+        rfturn nfw SdifdulfdTirfbdPoolExfdutor(dorfPoolSizf);
     }
 
     /**
-     * Creates a thread pool that can schedule commands to run after a
-     * given delay, or to execute periodically.
-     * @param corePoolSize the number of threads to keep in the pool,
-     * even if they are idle
-     * @param threadFactory the factory to use when the executor
-     * creates a new thread
-     * @return a newly created scheduled thread pool
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
-     * @throws NullPointerException if threadFactory is null
+     * Crfbtfs b tirfbd pool tibt dbn sdifdulf dommbnds to run bftfr b
+     * givfn dflby, or to fxfdutf pfriodidblly.
+     * @pbrbm dorfPoolSizf tif numbfr of tirfbds to kffp in tif pool,
+     * fvfn if tify brf idlf
+     * @pbrbm tirfbdFbdtory tif fbdtory to usf wifn tif fxfdutor
+     * drfbtfs b nfw tirfbd
+     * @rfturn b nfwly drfbtfd sdifdulfd tirfbd pool
+     * @tirows IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
+     * @tirows NullPointfrExdfption if tirfbdFbdtory is null
      */
-    public static ScheduledExecutorService newScheduledThreadPool(
-            int corePoolSize, ThreadFactory threadFactory) {
-        return new ScheduledThreadPoolExecutor(corePoolSize, threadFactory);
+    publid stbtid SdifdulfdExfdutorSfrvidf nfwSdifdulfdTirfbdPool(
+            int dorfPoolSizf, TirfbdFbdtory tirfbdFbdtory) {
+        rfturn nfw SdifdulfdTirfbdPoolExfdutor(dorfPoolSizf, tirfbdFbdtory);
     }
 
     /**
-     * Returns an object that delegates all defined {@link
-     * ExecutorService} methods to the given executor, but not any
-     * other methods that might otherwise be accessible using
-     * casts. This provides a way to safely "freeze" configuration and
-     * disallow tuning of a given concrete implementation.
-     * @param executor the underlying implementation
-     * @return an {@code ExecutorService} instance
-     * @throws NullPointerException if executor null
+     * Rfturns bn objfdt tibt dflfgbtfs bll dffinfd {@link
+     * ExfdutorSfrvidf} mftiods to tif givfn fxfdutor, but not bny
+     * otifr mftiods tibt migit otifrwisf bf bddfssiblf using
+     * dbsts. Tiis providfs b wby to sbffly "frffzf" donfigurbtion bnd
+     * disbllow tuning of b givfn dondrftf implfmfntbtion.
+     * @pbrbm fxfdutor tif undfrlying implfmfntbtion
+     * @rfturn bn {@dodf ExfdutorSfrvidf} instbndf
+     * @tirows NullPointfrExdfption if fxfdutor null
      */
-    public static ExecutorService unconfigurableExecutorService(ExecutorService executor) {
-        if (executor == null)
-            throw new NullPointerException();
-        return new DelegatedExecutorService(executor);
+    publid stbtid ExfdutorSfrvidf undonfigurbblfExfdutorSfrvidf(ExfdutorSfrvidf fxfdutor) {
+        if (fxfdutor == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn nfw DflfgbtfdExfdutorSfrvidf(fxfdutor);
     }
 
     /**
-     * Returns an object that delegates all defined {@link
-     * ScheduledExecutorService} methods to the given executor, but
-     * not any other methods that might otherwise be accessible using
-     * casts. This provides a way to safely "freeze" configuration and
-     * disallow tuning of a given concrete implementation.
-     * @param executor the underlying implementation
-     * @return a {@code ScheduledExecutorService} instance
-     * @throws NullPointerException if executor null
+     * Rfturns bn objfdt tibt dflfgbtfs bll dffinfd {@link
+     * SdifdulfdExfdutorSfrvidf} mftiods to tif givfn fxfdutor, but
+     * not bny otifr mftiods tibt migit otifrwisf bf bddfssiblf using
+     * dbsts. Tiis providfs b wby to sbffly "frffzf" donfigurbtion bnd
+     * disbllow tuning of b givfn dondrftf implfmfntbtion.
+     * @pbrbm fxfdutor tif undfrlying implfmfntbtion
+     * @rfturn b {@dodf SdifdulfdExfdutorSfrvidf} instbndf
+     * @tirows NullPointfrExdfption if fxfdutor null
      */
-    public static ScheduledExecutorService unconfigurableScheduledExecutorService(ScheduledExecutorService executor) {
-        if (executor == null)
-            throw new NullPointerException();
-        return new DelegatedScheduledExecutorService(executor);
+    publid stbtid SdifdulfdExfdutorSfrvidf undonfigurbblfSdifdulfdExfdutorSfrvidf(SdifdulfdExfdutorSfrvidf fxfdutor) {
+        if (fxfdutor == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn nfw DflfgbtfdSdifdulfdExfdutorSfrvidf(fxfdutor);
     }
 
     /**
-     * Returns a default thread factory used to create new threads.
-     * This factory creates all new threads used by an Executor in the
-     * same {@link ThreadGroup}. If there is a {@link
-     * java.lang.SecurityManager}, it uses the group of {@link
-     * System#getSecurityManager}, else the group of the thread
-     * invoking this {@code defaultThreadFactory} method. Each new
-     * thread is created as a non-daemon thread with priority set to
-     * the smaller of {@code Thread.NORM_PRIORITY} and the maximum
-     * priority permitted in the thread group.  New threads have names
-     * accessible via {@link Thread#getName} of
-     * <em>pool-N-thread-M</em>, where <em>N</em> is the sequence
-     * number of this factory, and <em>M</em> is the sequence number
-     * of the thread created by this factory.
-     * @return a thread factory
+     * Rfturns b dffbult tirfbd fbdtory usfd to drfbtf nfw tirfbds.
+     * Tiis fbdtory drfbtfs bll nfw tirfbds usfd by bn Exfdutor in tif
+     * sbmf {@link TirfbdGroup}. If tifrf is b {@link
+     * jbvb.lbng.SfdurityMbnbgfr}, it usfs tif group of {@link
+     * Systfm#gftSfdurityMbnbgfr}, flsf tif group of tif tirfbd
+     * invoking tiis {@dodf dffbultTirfbdFbdtory} mftiod. Ebdi nfw
+     * tirfbd is drfbtfd bs b non-dbfmon tirfbd witi priority sft to
+     * tif smbllfr of {@dodf Tirfbd.NORM_PRIORITY} bnd tif mbximum
+     * priority pfrmittfd in tif tirfbd group.  Nfw tirfbds ibvf nbmfs
+     * bddfssiblf vib {@link Tirfbd#gftNbmf} of
+     * <fm>pool-N-tirfbd-M</fm>, wifrf <fm>N</fm> is tif sfqufndf
+     * numbfr of tiis fbdtory, bnd <fm>M</fm> is tif sfqufndf numbfr
+     * of tif tirfbd drfbtfd by tiis fbdtory.
+     * @rfturn b tirfbd fbdtory
      */
-    public static ThreadFactory defaultThreadFactory() {
-        return new DefaultThreadFactory();
+    publid stbtid TirfbdFbdtory dffbultTirfbdFbdtory() {
+        rfturn nfw DffbultTirfbdFbdtory();
     }
 
     /**
-     * Returns a thread factory used to create new threads that
-     * have the same permissions as the current thread.
-     * This factory creates threads with the same settings as {@link
-     * Executors#defaultThreadFactory}, additionally setting the
-     * AccessControlContext and contextClassLoader of new threads to
-     * be the same as the thread invoking this
-     * {@code privilegedThreadFactory} method.  A new
-     * {@code privilegedThreadFactory} can be created within an
-     * {@link AccessController#doPrivileged AccessController.doPrivileged}
-     * action setting the current thread's access control context to
-     * create threads with the selected permission settings holding
-     * within that action.
+     * Rfturns b tirfbd fbdtory usfd to drfbtf nfw tirfbds tibt
+     * ibvf tif sbmf pfrmissions bs tif durrfnt tirfbd.
+     * Tiis fbdtory drfbtfs tirfbds witi tif sbmf sfttings bs {@link
+     * Exfdutors#dffbultTirfbdFbdtory}, bdditionblly sftting tif
+     * AddfssControlContfxt bnd dontfxtClbssLobdfr of nfw tirfbds to
+     * bf tif sbmf bs tif tirfbd invoking tiis
+     * {@dodf privilfgfdTirfbdFbdtory} mftiod.  A nfw
+     * {@dodf privilfgfdTirfbdFbdtory} dbn bf drfbtfd witiin bn
+     * {@link AddfssControllfr#doPrivilfgfd AddfssControllfr.doPrivilfgfd}
+     * bdtion sftting tif durrfnt tirfbd's bddfss dontrol dontfxt to
+     * drfbtf tirfbds witi tif sflfdtfd pfrmission sfttings iolding
+     * witiin tibt bdtion.
      *
-     * <p>Note that while tasks running within such threads will have
-     * the same access control and class loader settings as the
-     * current thread, they need not have the same {@link
-     * java.lang.ThreadLocal} or {@link
-     * java.lang.InheritableThreadLocal} values. If necessary,
-     * particular values of thread locals can be set or reset before
-     * any task runs in {@link ThreadPoolExecutor} subclasses using
-     * {@link ThreadPoolExecutor#beforeExecute(Thread, Runnable)}.
-     * Also, if it is necessary to initialize worker threads to have
-     * the same InheritableThreadLocal settings as some other
-     * designated thread, you can create a custom ThreadFactory in
-     * which that thread waits for and services requests to create
-     * others that will inherit its values.
+     * <p>Notf tibt wiilf tbsks running witiin sudi tirfbds will ibvf
+     * tif sbmf bddfss dontrol bnd dlbss lobdfr sfttings bs tif
+     * durrfnt tirfbd, tify nffd not ibvf tif sbmf {@link
+     * jbvb.lbng.TirfbdLodbl} or {@link
+     * jbvb.lbng.InifritbblfTirfbdLodbl} vblufs. If nfdfssbry,
+     * pbrtidulbr vblufs of tirfbd lodbls dbn bf sft or rfsft bfforf
+     * bny tbsk runs in {@link TirfbdPoolExfdutor} subdlbssfs using
+     * {@link TirfbdPoolExfdutor#bfforfExfdutf(Tirfbd, Runnbblf)}.
+     * Also, if it is nfdfssbry to initiblizf workfr tirfbds to ibvf
+     * tif sbmf InifritbblfTirfbdLodbl sfttings bs somf otifr
+     * dfsignbtfd tirfbd, you dbn drfbtf b dustom TirfbdFbdtory in
+     * wiidi tibt tirfbd wbits for bnd sfrvidfs rfqufsts to drfbtf
+     * otifrs tibt will inifrit its vblufs.
      *
-     * @return a thread factory
-     * @throws AccessControlException if the current access control
-     * context does not have permission to both get and set context
-     * class loader
+     * @rfturn b tirfbd fbdtory
+     * @tirows AddfssControlExdfption if tif durrfnt bddfss dontrol
+     * dontfxt dofs not ibvf pfrmission to boti gft bnd sft dontfxt
+     * dlbss lobdfr
      */
-    public static ThreadFactory privilegedThreadFactory() {
-        return new PrivilegedThreadFactory();
+    publid stbtid TirfbdFbdtory privilfgfdTirfbdFbdtory() {
+        rfturn nfw PrivilfgfdTirfbdFbdtory();
     }
 
     /**
-     * Returns a {@link Callable} object that, when
-     * called, runs the given task and returns the given result.  This
-     * can be useful when applying methods requiring a
-     * {@code Callable} to an otherwise resultless action.
-     * @param task the task to run
-     * @param result the result to return
-     * @param <T> the type of the result
-     * @return a callable object
-     * @throws NullPointerException if task null
+     * Rfturns b {@link Cbllbblf} objfdt tibt, wifn
+     * dbllfd, runs tif givfn tbsk bnd rfturns tif givfn rfsult.  Tiis
+     * dbn bf usfful wifn bpplying mftiods rfquiring b
+     * {@dodf Cbllbblf} to bn otifrwisf rfsultlfss bdtion.
+     * @pbrbm tbsk tif tbsk to run
+     * @pbrbm rfsult tif rfsult to rfturn
+     * @pbrbm <T> tif typf of tif rfsult
+     * @rfturn b dbllbblf objfdt
+     * @tirows NullPointfrExdfption if tbsk null
      */
-    public static <T> Callable<T> callable(Runnable task, T result) {
-        if (task == null)
-            throw new NullPointerException();
-        return new RunnableAdapter<T>(task, result);
+    publid stbtid <T> Cbllbblf<T> dbllbblf(Runnbblf tbsk, T rfsult) {
+        if (tbsk == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn nfw RunnbblfAdbptfr<T>(tbsk, rfsult);
     }
 
     /**
-     * Returns a {@link Callable} object that, when
-     * called, runs the given task and returns {@code null}.
-     * @param task the task to run
-     * @return a callable object
-     * @throws NullPointerException if task null
+     * Rfturns b {@link Cbllbblf} objfdt tibt, wifn
+     * dbllfd, runs tif givfn tbsk bnd rfturns {@dodf null}.
+     * @pbrbm tbsk tif tbsk to run
+     * @rfturn b dbllbblf objfdt
+     * @tirows NullPointfrExdfption if tbsk null
      */
-    public static Callable<Object> callable(Runnable task) {
-        if (task == null)
-            throw new NullPointerException();
-        return new RunnableAdapter<Object>(task, null);
+    publid stbtid Cbllbblf<Objfdt> dbllbblf(Runnbblf tbsk) {
+        if (tbsk == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn nfw RunnbblfAdbptfr<Objfdt>(tbsk, null);
     }
 
     /**
-     * Returns a {@link Callable} object that, when
-     * called, runs the given privileged action and returns its result.
-     * @param action the privileged action to run
-     * @return a callable object
-     * @throws NullPointerException if action null
+     * Rfturns b {@link Cbllbblf} objfdt tibt, wifn
+     * dbllfd, runs tif givfn privilfgfd bdtion bnd rfturns its rfsult.
+     * @pbrbm bdtion tif privilfgfd bdtion to run
+     * @rfturn b dbllbblf objfdt
+     * @tirows NullPointfrExdfption if bdtion null
      */
-    public static Callable<Object> callable(final PrivilegedAction<?> action) {
-        if (action == null)
-            throw new NullPointerException();
-        return new Callable<Object>() {
-            public Object call() { return action.run(); }};
+    publid stbtid Cbllbblf<Objfdt> dbllbblf(finbl PrivilfgfdAdtion<?> bdtion) {
+        if (bdtion == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn nfw Cbllbblf<Objfdt>() {
+            publid Objfdt dbll() { rfturn bdtion.run(); }};
     }
 
     /**
-     * Returns a {@link Callable} object that, when
-     * called, runs the given privileged exception action and returns
-     * its result.
-     * @param action the privileged exception action to run
-     * @return a callable object
-     * @throws NullPointerException if action null
+     * Rfturns b {@link Cbllbblf} objfdt tibt, wifn
+     * dbllfd, runs tif givfn privilfgfd fxdfption bdtion bnd rfturns
+     * its rfsult.
+     * @pbrbm bdtion tif privilfgfd fxdfption bdtion to run
+     * @rfturn b dbllbblf objfdt
+     * @tirows NullPointfrExdfption if bdtion null
      */
-    public static Callable<Object> callable(final PrivilegedExceptionAction<?> action) {
-        if (action == null)
-            throw new NullPointerException();
-        return new Callable<Object>() {
-            public Object call() throws Exception { return action.run(); }};
+    publid stbtid Cbllbblf<Objfdt> dbllbblf(finbl PrivilfgfdExdfptionAdtion<?> bdtion) {
+        if (bdtion == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn nfw Cbllbblf<Objfdt>() {
+            publid Objfdt dbll() tirows Exdfption { rfturn bdtion.run(); }};
     }
 
     /**
-     * Returns a {@link Callable} object that will, when called,
-     * execute the given {@code callable} under the current access
-     * control context. This method should normally be invoked within
-     * an {@link AccessController#doPrivileged AccessController.doPrivileged}
-     * action to create callables that will, if possible, execute
-     * under the selected permission settings holding within that
-     * action; or if not possible, throw an associated {@link
-     * AccessControlException}.
-     * @param callable the underlying task
-     * @param <T> the type of the callable's result
-     * @return a callable object
-     * @throws NullPointerException if callable null
+     * Rfturns b {@link Cbllbblf} objfdt tibt will, wifn dbllfd,
+     * fxfdutf tif givfn {@dodf dbllbblf} undfr tif durrfnt bddfss
+     * dontrol dontfxt. Tiis mftiod siould normblly bf invokfd witiin
+     * bn {@link AddfssControllfr#doPrivilfgfd AddfssControllfr.doPrivilfgfd}
+     * bdtion to drfbtf dbllbblfs tibt will, if possiblf, fxfdutf
+     * undfr tif sflfdtfd pfrmission sfttings iolding witiin tibt
+     * bdtion; or if not possiblf, tirow bn bssodibtfd {@link
+     * AddfssControlExdfption}.
+     * @pbrbm dbllbblf tif undfrlying tbsk
+     * @pbrbm <T> tif typf of tif dbllbblf's rfsult
+     * @rfturn b dbllbblf objfdt
+     * @tirows NullPointfrExdfption if dbllbblf null
      */
-    public static <T> Callable<T> privilegedCallable(Callable<T> callable) {
-        if (callable == null)
-            throw new NullPointerException();
-        return new PrivilegedCallable<T>(callable);
+    publid stbtid <T> Cbllbblf<T> privilfgfdCbllbblf(Cbllbblf<T> dbllbblf) {
+        if (dbllbblf == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn nfw PrivilfgfdCbllbblf<T>(dbllbblf);
     }
 
     /**
-     * Returns a {@link Callable} object that will, when called,
-     * execute the given {@code callable} under the current access
-     * control context, with the current context class loader as the
-     * context class loader. This method should normally be invoked
-     * within an
-     * {@link AccessController#doPrivileged AccessController.doPrivileged}
-     * action to create callables that will, if possible, execute
-     * under the selected permission settings holding within that
-     * action; or if not possible, throw an associated {@link
-     * AccessControlException}.
+     * Rfturns b {@link Cbllbblf} objfdt tibt will, wifn dbllfd,
+     * fxfdutf tif givfn {@dodf dbllbblf} undfr tif durrfnt bddfss
+     * dontrol dontfxt, witi tif durrfnt dontfxt dlbss lobdfr bs tif
+     * dontfxt dlbss lobdfr. Tiis mftiod siould normblly bf invokfd
+     * witiin bn
+     * {@link AddfssControllfr#doPrivilfgfd AddfssControllfr.doPrivilfgfd}
+     * bdtion to drfbtf dbllbblfs tibt will, if possiblf, fxfdutf
+     * undfr tif sflfdtfd pfrmission sfttings iolding witiin tibt
+     * bdtion; or if not possiblf, tirow bn bssodibtfd {@link
+     * AddfssControlExdfption}.
      *
-     * @param callable the underlying task
-     * @param <T> the type of the callable's result
-     * @return a callable object
-     * @throws NullPointerException if callable null
-     * @throws AccessControlException if the current access control
-     * context does not have permission to both set and get context
-     * class loader
+     * @pbrbm dbllbblf tif undfrlying tbsk
+     * @pbrbm <T> tif typf of tif dbllbblf's rfsult
+     * @rfturn b dbllbblf objfdt
+     * @tirows NullPointfrExdfption if dbllbblf null
+     * @tirows AddfssControlExdfption if tif durrfnt bddfss dontrol
+     * dontfxt dofs not ibvf pfrmission to boti sft bnd gft dontfxt
+     * dlbss lobdfr
      */
-    public static <T> Callable<T> privilegedCallableUsingCurrentClassLoader(Callable<T> callable) {
-        if (callable == null)
-            throw new NullPointerException();
-        return new PrivilegedCallableUsingCurrentClassLoader<T>(callable);
+    publid stbtid <T> Cbllbblf<T> privilfgfdCbllbblfUsingCurrfntClbssLobdfr(Cbllbblf<T> dbllbblf) {
+        if (dbllbblf == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn nfw PrivilfgfdCbllbblfUsingCurrfntClbssLobdfr<T>(dbllbblf);
     }
 
-    // Non-public classes supporting the public methods
+    // Non-publid dlbssfs supporting tif publid mftiods
 
     /**
-     * A callable that runs given task and returns given result
+     * A dbllbblf tibt runs givfn tbsk bnd rfturns givfn rfsult
      */
-    static final class RunnableAdapter<T> implements Callable<T> {
-        final Runnable task;
-        final T result;
-        RunnableAdapter(Runnable task, T result) {
-            this.task = task;
-            this.result = result;
+    stbtid finbl dlbss RunnbblfAdbptfr<T> implfmfnts Cbllbblf<T> {
+        finbl Runnbblf tbsk;
+        finbl T rfsult;
+        RunnbblfAdbptfr(Runnbblf tbsk, T rfsult) {
+            tiis.tbsk = tbsk;
+            tiis.rfsult = rfsult;
         }
-        public T call() {
-            task.run();
-            return result;
+        publid T dbll() {
+            tbsk.run();
+            rfturn rfsult;
         }
     }
 
     /**
-     * A callable that runs under established access control settings
+     * A dbllbblf tibt runs undfr fstbblisifd bddfss dontrol sfttings
      */
-    static final class PrivilegedCallable<T> implements Callable<T> {
-        private final Callable<T> task;
-        private final AccessControlContext acc;
+    stbtid finbl dlbss PrivilfgfdCbllbblf<T> implfmfnts Cbllbblf<T> {
+        privbtf finbl Cbllbblf<T> tbsk;
+        privbtf finbl AddfssControlContfxt bdd;
 
-        PrivilegedCallable(Callable<T> task) {
-            this.task = task;
-            this.acc = AccessController.getContext();
+        PrivilfgfdCbllbblf(Cbllbblf<T> tbsk) {
+            tiis.tbsk = tbsk;
+            tiis.bdd = AddfssControllfr.gftContfxt();
         }
 
-        public T call() throws Exception {
+        publid T dbll() tirows Exdfption {
             try {
-                return AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<T>() {
-                        public T run() throws Exception {
-                            return task.call();
+                rfturn AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<T>() {
+                        publid T run() tirows Exdfption {
+                            rfturn tbsk.dbll();
                         }
-                    }, acc);
-            } catch (PrivilegedActionException e) {
-                throw e.getException();
+                    }, bdd);
+            } dbtdi (PrivilfgfdAdtionExdfption f) {
+                tirow f.gftExdfption();
             }
         }
     }
 
     /**
-     * A callable that runs under established access control settings and
-     * current ClassLoader
+     * A dbllbblf tibt runs undfr fstbblisifd bddfss dontrol sfttings bnd
+     * durrfnt ClbssLobdfr
      */
-    static final class PrivilegedCallableUsingCurrentClassLoader<T> implements Callable<T> {
-        private final Callable<T> task;
-        private final AccessControlContext acc;
-        private final ClassLoader ccl;
+    stbtid finbl dlbss PrivilfgfdCbllbblfUsingCurrfntClbssLobdfr<T> implfmfnts Cbllbblf<T> {
+        privbtf finbl Cbllbblf<T> tbsk;
+        privbtf finbl AddfssControlContfxt bdd;
+        privbtf finbl ClbssLobdfr ddl;
 
-        PrivilegedCallableUsingCurrentClassLoader(Callable<T> task) {
-            SecurityManager sm = System.getSecurityManager();
+        PrivilfgfdCbllbblfUsingCurrfntClbssLobdfr(Cbllbblf<T> tbsk) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                // Calls to getContextClassLoader from this class
-                // never trigger a security check, but we check
-                // whether our callers have this permission anyways.
-                sm.checkPermission(SecurityConstants.GET_CLASSLOADER_PERMISSION);
+                // Cblls to gftContfxtClbssLobdfr from tiis dlbss
+                // nfvfr triggfr b sfdurity difdk, but wf difdk
+                // wiftifr our dbllfrs ibvf tiis pfrmission bnywbys.
+                sm.difdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
 
-                // Whether setContextClassLoader turns out to be necessary
-                // or not, we fail fast if permission is not available.
-                sm.checkPermission(new RuntimePermission("setContextClassLoader"));
+                // Wiftifr sftContfxtClbssLobdfr turns out to bf nfdfssbry
+                // or not, wf fbil fbst if pfrmission is not bvbilbblf.
+                sm.difdkPfrmission(nfw RuntimfPfrmission("sftContfxtClbssLobdfr"));
             }
-            this.task = task;
-            this.acc = AccessController.getContext();
-            this.ccl = Thread.currentThread().getContextClassLoader();
+            tiis.tbsk = tbsk;
+            tiis.bdd = AddfssControllfr.gftContfxt();
+            tiis.ddl = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
         }
 
-        public T call() throws Exception {
+        publid T dbll() tirows Exdfption {
             try {
-                return AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<T>() {
-                        public T run() throws Exception {
-                            Thread t = Thread.currentThread();
-                            ClassLoader cl = t.getContextClassLoader();
-                            if (ccl == cl) {
-                                return task.call();
-                            } else {
-                                t.setContextClassLoader(ccl);
+                rfturn AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<T>() {
+                        publid T run() tirows Exdfption {
+                            Tirfbd t = Tirfbd.durrfntTirfbd();
+                            ClbssLobdfr dl = t.gftContfxtClbssLobdfr();
+                            if (ddl == dl) {
+                                rfturn tbsk.dbll();
+                            } flsf {
+                                t.sftContfxtClbssLobdfr(ddl);
                                 try {
-                                    return task.call();
-                                } finally {
-                                    t.setContextClassLoader(cl);
+                                    rfturn tbsk.dbll();
+                                } finblly {
+                                    t.sftContfxtClbssLobdfr(dl);
                                 }
                             }
                         }
-                    }, acc);
-            } catch (PrivilegedActionException e) {
-                throw e.getException();
+                    }, bdd);
+            } dbtdi (PrivilfgfdAdtionExdfption f) {
+                tirow f.gftExdfption();
             }
         }
     }
 
     /**
-     * The default thread factory
+     * Tif dffbult tirfbd fbdtory
      */
-    static class DefaultThreadFactory implements ThreadFactory {
-        private static final AtomicInteger poolNumber = new AtomicInteger(1);
-        private final ThreadGroup group;
-        private final AtomicInteger threadNumber = new AtomicInteger(1);
-        private final String namePrefix;
+    stbtid dlbss DffbultTirfbdFbdtory implfmfnts TirfbdFbdtory {
+        privbtf stbtid finbl AtomidIntfgfr poolNumbfr = nfw AtomidIntfgfr(1);
+        privbtf finbl TirfbdGroup group;
+        privbtf finbl AtomidIntfgfr tirfbdNumbfr = nfw AtomidIntfgfr(1);
+        privbtf finbl String nbmfPrffix;
 
-        DefaultThreadFactory() {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() :
-                                  Thread.currentThread().getThreadGroup();
-            namePrefix = "pool-" +
-                          poolNumber.getAndIncrement() +
-                         "-thread-";
+        DffbultTirfbdFbdtory() {
+            SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
+            group = (s != null) ? s.gftTirfbdGroup() :
+                                  Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+            nbmfPrffix = "pool-" +
+                          poolNumbfr.gftAndIndrfmfnt() +
+                         "-tirfbd-";
         }
 
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(group, r,
-                                  namePrefix + threadNumber.getAndIncrement(),
+        publid Tirfbd nfwTirfbd(Runnbblf r) {
+            Tirfbd t = nfw Tirfbd(group, r,
+                                  nbmfPrffix + tirfbdNumbfr.gftAndIndrfmfnt(),
                                   0);
-            if (t.isDaemon())
-                t.setDaemon(false);
-            if (t.getPriority() != Thread.NORM_PRIORITY)
-                t.setPriority(Thread.NORM_PRIORITY);
-            return t;
+            if (t.isDbfmon())
+                t.sftDbfmon(fblsf);
+            if (t.gftPriority() != Tirfbd.NORM_PRIORITY)
+                t.sftPriority(Tirfbd.NORM_PRIORITY);
+            rfturn t;
         }
     }
 
     /**
-     * Thread factory capturing access control context and class loader
+     * Tirfbd fbdtory dbpturing bddfss dontrol dontfxt bnd dlbss lobdfr
      */
-    static class PrivilegedThreadFactory extends DefaultThreadFactory {
-        private final AccessControlContext acc;
-        private final ClassLoader ccl;
+    stbtid dlbss PrivilfgfdTirfbdFbdtory fxtfnds DffbultTirfbdFbdtory {
+        privbtf finbl AddfssControlContfxt bdd;
+        privbtf finbl ClbssLobdfr ddl;
 
-        PrivilegedThreadFactory() {
-            super();
-            SecurityManager sm = System.getSecurityManager();
+        PrivilfgfdTirfbdFbdtory() {
+            supfr();
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                // Calls to getContextClassLoader from this class
-                // never trigger a security check, but we check
-                // whether our callers have this permission anyways.
-                sm.checkPermission(SecurityConstants.GET_CLASSLOADER_PERMISSION);
+                // Cblls to gftContfxtClbssLobdfr from tiis dlbss
+                // nfvfr triggfr b sfdurity difdk, but wf difdk
+                // wiftifr our dbllfrs ibvf tiis pfrmission bnywbys.
+                sm.difdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
 
-                // Fail fast
-                sm.checkPermission(new RuntimePermission("setContextClassLoader"));
+                // Fbil fbst
+                sm.difdkPfrmission(nfw RuntimfPfrmission("sftContfxtClbssLobdfr"));
             }
-            this.acc = AccessController.getContext();
-            this.ccl = Thread.currentThread().getContextClassLoader();
+            tiis.bdd = AddfssControllfr.gftContfxt();
+            tiis.ddl = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
         }
 
-        public Thread newThread(final Runnable r) {
-            return super.newThread(new Runnable() {
-                public void run() {
-                    AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                        public Void run() {
-                            Thread.currentThread().setContextClassLoader(ccl);
+        publid Tirfbd nfwTirfbd(finbl Runnbblf r) {
+            rfturn supfr.nfwTirfbd(nfw Runnbblf() {
+                publid void run() {
+                    AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            Tirfbd.durrfntTirfbd().sftContfxtClbssLobdfr(ddl);
                             r.run();
-                            return null;
+                            rfturn null;
                         }
-                    }, acc);
+                    }, bdd);
                 }
             });
         }
     }
 
     /**
-     * A wrapper class that exposes only the ExecutorService methods
-     * of an ExecutorService implementation.
+     * A wrbppfr dlbss tibt fxposfs only tif ExfdutorSfrvidf mftiods
+     * of bn ExfdutorSfrvidf implfmfntbtion.
      */
-    static class DelegatedExecutorService extends AbstractExecutorService {
-        private final ExecutorService e;
-        DelegatedExecutorService(ExecutorService executor) { e = executor; }
-        public void execute(Runnable command) { e.execute(command); }
-        public void shutdown() { e.shutdown(); }
-        public List<Runnable> shutdownNow() { return e.shutdownNow(); }
-        public boolean isShutdown() { return e.isShutdown(); }
-        public boolean isTerminated() { return e.isTerminated(); }
-        public boolean awaitTermination(long timeout, TimeUnit unit)
-            throws InterruptedException {
-            return e.awaitTermination(timeout, unit);
+    stbtid dlbss DflfgbtfdExfdutorSfrvidf fxtfnds AbstrbdtExfdutorSfrvidf {
+        privbtf finbl ExfdutorSfrvidf f;
+        DflfgbtfdExfdutorSfrvidf(ExfdutorSfrvidf fxfdutor) { f = fxfdutor; }
+        publid void fxfdutf(Runnbblf dommbnd) { f.fxfdutf(dommbnd); }
+        publid void siutdown() { f.siutdown(); }
+        publid List<Runnbblf> siutdownNow() { rfturn f.siutdownNow(); }
+        publid boolfbn isSiutdown() { rfturn f.isSiutdown(); }
+        publid boolfbn isTfrminbtfd() { rfturn f.isTfrminbtfd(); }
+        publid boolfbn bwbitTfrminbtion(long timfout, TimfUnit unit)
+            tirows IntfrruptfdExdfption {
+            rfturn f.bwbitTfrminbtion(timfout, unit);
         }
-        public Future<?> submit(Runnable task) {
-            return e.submit(task);
+        publid Futurf<?> submit(Runnbblf tbsk) {
+            rfturn f.submit(tbsk);
         }
-        public <T> Future<T> submit(Callable<T> task) {
-            return e.submit(task);
+        publid <T> Futurf<T> submit(Cbllbblf<T> tbsk) {
+            rfturn f.submit(tbsk);
         }
-        public <T> Future<T> submit(Runnable task, T result) {
-            return e.submit(task, result);
+        publid <T> Futurf<T> submit(Runnbblf tbsk, T rfsult) {
+            rfturn f.submit(tbsk, rfsult);
         }
-        public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
-            throws InterruptedException {
-            return e.invokeAll(tasks);
+        publid <T> List<Futurf<T>> invokfAll(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks)
+            tirows IntfrruptfdExdfption {
+            rfturn f.invokfAll(tbsks);
         }
-        public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
-                                             long timeout, TimeUnit unit)
-            throws InterruptedException {
-            return e.invokeAll(tasks, timeout, unit);
+        publid <T> List<Futurf<T>> invokfAll(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                                             long timfout, TimfUnit unit)
+            tirows IntfrruptfdExdfption {
+            rfturn f.invokfAll(tbsks, timfout, unit);
         }
-        public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
-            throws InterruptedException, ExecutionException {
-            return e.invokeAny(tasks);
+        publid <T> T invokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks)
+            tirows IntfrruptfdExdfption, ExfdutionExdfption {
+            rfturn f.invokfAny(tbsks);
         }
-        public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
-                               long timeout, TimeUnit unit)
-            throws InterruptedException, ExecutionException, TimeoutException {
-            return e.invokeAny(tasks, timeout, unit);
+        publid <T> T invokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                               long timfout, TimfUnit unit)
+            tirows IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption {
+            rfturn f.invokfAny(tbsks, timfout, unit);
         }
     }
 
-    static class FinalizableDelegatedExecutorService
-        extends DelegatedExecutorService {
-        FinalizableDelegatedExecutorService(ExecutorService executor) {
-            super(executor);
+    stbtid dlbss FinblizbblfDflfgbtfdExfdutorSfrvidf
+        fxtfnds DflfgbtfdExfdutorSfrvidf {
+        FinblizbblfDflfgbtfdExfdutorSfrvidf(ExfdutorSfrvidf fxfdutor) {
+            supfr(fxfdutor);
         }
-        protected void finalize() {
-            super.shutdown();
+        protfdtfd void finblizf() {
+            supfr.siutdown();
         }
     }
 
     /**
-     * A wrapper class that exposes only the ScheduledExecutorService
-     * methods of a ScheduledExecutorService implementation.
+     * A wrbppfr dlbss tibt fxposfs only tif SdifdulfdExfdutorSfrvidf
+     * mftiods of b SdifdulfdExfdutorSfrvidf implfmfntbtion.
      */
-    static class DelegatedScheduledExecutorService
-            extends DelegatedExecutorService
-            implements ScheduledExecutorService {
-        private final ScheduledExecutorService e;
-        DelegatedScheduledExecutorService(ScheduledExecutorService executor) {
-            super(executor);
-            e = executor;
+    stbtid dlbss DflfgbtfdSdifdulfdExfdutorSfrvidf
+            fxtfnds DflfgbtfdExfdutorSfrvidf
+            implfmfnts SdifdulfdExfdutorSfrvidf {
+        privbtf finbl SdifdulfdExfdutorSfrvidf f;
+        DflfgbtfdSdifdulfdExfdutorSfrvidf(SdifdulfdExfdutorSfrvidf fxfdutor) {
+            supfr(fxfdutor);
+            f = fxfdutor;
         }
-        public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-            return e.schedule(command, delay, unit);
+        publid SdifdulfdFuturf<?> sdifdulf(Runnbblf dommbnd, long dflby, TimfUnit unit) {
+            rfturn f.sdifdulf(dommbnd, dflby, unit);
         }
-        public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
-            return e.schedule(callable, delay, unit);
+        publid <V> SdifdulfdFuturf<V> sdifdulf(Cbllbblf<V> dbllbblf, long dflby, TimfUnit unit) {
+            rfturn f.sdifdulf(dbllbblf, dflby, unit);
         }
-        public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-            return e.scheduleAtFixedRate(command, initialDelay, period, unit);
+        publid SdifdulfdFuturf<?> sdifdulfAtFixfdRbtf(Runnbblf dommbnd, long initiblDflby, long pfriod, TimfUnit unit) {
+            rfturn f.sdifdulfAtFixfdRbtf(dommbnd, initiblDflby, pfriod, unit);
         }
-        public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-            return e.scheduleWithFixedDelay(command, initialDelay, delay, unit);
+        publid SdifdulfdFuturf<?> sdifdulfWitiFixfdDflby(Runnbblf dommbnd, long initiblDflby, long dflby, TimfUnit unit) {
+            rfturn f.sdifdulfWitiFixfdDflby(dommbnd, initiblDflby, dflby, unit);
         }
     }
 
-    /** Cannot instantiate. */
-    private Executors() {}
+    /** Cbnnot instbntibtf. */
+    privbtf Exfdutors() {}
 }

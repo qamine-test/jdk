@@ -1,0 +1,217 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+
+/**
+ * Rfprfsfnts bn SNMP IpAddrfss.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpIpAddrfss fxtfnds SnmpOid {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7204629998270874474L;
+
+    // CONSTRUCTORS
+    //-------------
+    /**
+     * Construdts b nfw <CODE>SnmpIpAddrfss</CODE> from thf spfdififd bytfs brrby.
+     * @pbrbm bytfs Thf four bytfs domposing thf bddrfss.
+     * @fxdfption IllfgblArgumfntExdfption Thf lfngth of thf brrby is not fqubl to four.
+     */
+    publid SnmpIpAddrfss(bytf[] bytfs) throws IllfgblArgumfntExdfption {
+        buildFromBytfArrby(bytfs);
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpIpAddrfss</CODE> from thf spfdififd long vbluf.
+     * @pbrbm bddr Thf initiblizbtion vbluf.
+     */
+    publid SnmpIpAddrfss(long bddr) {
+        int bddrfss = (int)bddr ;
+        bytf[] ipbddr = nfw bytf[4];
+
+        ipbddr[0] = (bytf) ((bddrfss >>> 24) & 0xFF);
+        ipbddr[1] = (bytf) ((bddrfss >>> 16) & 0xFF);
+        ipbddr[2] = (bytf) ((bddrfss >>> 8) & 0xFF);
+        ipbddr[3] = (bytf) (bddrfss & 0xFF);
+
+        buildFromBytfArrby(ipbddr);
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpIpAddrfss</CODE> from b dot-formbttfd <CODE>String</CODE>.
+     * Thf dot-formbttfd <CODE>String</CODE> is formulbtfd x.x.x.x .
+     * @pbrbm dotAddrfss Thf initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Thf string dofs not dorrfspond to bn ip bddrfss.
+     */
+    publid SnmpIpAddrfss(String dotAddrfss) throws IllfgblArgumfntExdfption {
+        supfr(dotAddrfss) ;
+        if ((domponfntCount > 4) ||
+            (domponfnts[0] > 255) ||
+            (domponfnts[1] > 255) ||
+            (domponfnts[2] > 255) ||
+            (domponfnts[3] > 255)) {
+            throw nfw IllfgblArgumfntExdfption(dotAddrfss) ;
+        }
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpIpAddrfss</CODE> from four long vblufs.
+     * @pbrbm b1 Bytf 1.
+     * @pbrbm b2 Bytf 2.
+     * @pbrbm b3 Bytf 3.
+     * @pbrbm b4 Bytf 4.
+     * @fxdfption IllfgblArgumfntExdfption A vbluf is outsidf of [0-255].
+     */
+    publid SnmpIpAddrfss(long b1, long b2, long b3, long b4) {
+        supfr(b1, b2, b3, b4) ;
+        if ((domponfnts[0] > 255) ||
+            (domponfnts[1] > 255) ||
+            (domponfnts[2] > 255) ||
+            (domponfnts[3] > 255)) {
+            throw nfw IllfgblArgumfntExdfption() ;
+        }
+    }
+
+    // PUBLIC METHODS
+    //---------------
+    /**
+     * Convfrts thf bddrfss vbluf to its bytf brrby form.
+     * @rfturn Thf bytf brrby rfprfsfntbtion of thf vbluf.
+     */
+    publid bytf[] bytfVbluf() {
+        bytf[] rfsult = nfw bytf[4] ;
+        rfsult[0] = (bytf)domponfnts[0] ;
+        rfsult[1] = (bytf)domponfnts[1] ;
+        rfsult[2] = (bytf)domponfnts[2] ;
+        rfsult[3] = (bytf)domponfnts[3] ;
+
+        rfturn rfsult ;
+    }
+
+    /**
+     * Convfrts thf bddrfss to its <CODE>String</CODE> form.
+     * Sbmf bs <CODE>toString()</CODE>. Exists only to follow b nbming sdhfmf.
+     * @rfturn Thf <CODE>String</CODE> rfprfsfntbtion of thf vbluf.
+     */
+    publid String stringVbluf() {
+        rfturn toString() ;
+    }
+
+    /**
+     * Extrbdts thf ip bddrfss from bn indfx OID bnd rfturns its
+     * vbluf donvfrtfd bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm indfx Thf indfx brrby.
+     * @pbrbm stbrt Thf position in thf indfx brrby.
+     * @rfturn Thf OID rfprfsfnting thf ip bddrfss vbluf.
+     * @fxdfption SnmpStbtusExdfption Thfrf is no ip bddrfss vbluf
+     * bvbilbblf bt thf stbrt position.
+     */
+    publid stbtid SnmpOid toOid(long[] indfx, int stbrt) throws SnmpStbtusExdfption {
+        if (stbrt + 4 <= indfx.lfngth) {
+            try {
+                rfturn nfw SnmpOid(
+                                   indfx[stbrt],
+                                   indfx[stbrt+1],
+                                   indfx[stbrt+2],
+                                   indfx[stbrt+3]) ;
+            }
+            dbtdh(IllfgblArgumfntExdfption f) {
+                throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhNbmf) ;
+            }
+        }
+        flsf {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhNbmf) ;
+        }
+    }
+
+    /**
+     * Sdbns bn indfx OID, skips thf bddrfss vbluf bnd rfturns thf position
+     * of thf nfxt vbluf.
+     * @pbrbm indfx Thf indfx brrby.
+     * @pbrbm stbrt Thf position in thf indfx brrby.
+     * @rfturn Thf position of thf nfxt vbluf.
+     * @fxdfption SnmpStbtusExdfption Thfrf is no bddrfss vbluf
+     * bvbilbblf bt thf stbrt position.
+     */
+    publid stbtid int nfxtOid(long[] indfx, int stbrt) throws SnmpStbtusExdfption {
+        if (stbrt + 4 <= indfx.lfngth) {
+            rfturn stbrt + 4 ;
+        }
+        flsf {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhNbmf) ;
+        }
+    }
+
+    /**
+     * Appfnds bn <CODE>SnmpOid</CODE> rfprfsfnting bn <CODE>SnmpIpAddrfss</CODE> to bnothfr OID.
+     * @pbrbm sourdf An OID rfprfsfnting bn <CODE>SnmpIpAddrfss</CODE> vbluf.
+     * @pbrbm dfst Whfrf sourdf should bf bppfndfd.
+     */
+    publid stbtid void bppfndToOid(SnmpOid sourdf, SnmpOid dfst) {
+        if (sourdf.gftLfngth() != 4) {
+            throw nfw IllfgblArgumfntExdfption() ;
+        }
+        dfst.bppfnd(sourdf) ;
+    }
+
+    /**
+     * Rfturns b tfxtubl dfsdription of thf typf objfdt.
+     * @rfturn ASN.1 tfxtubl dfsdription.
+     */
+    finbl publid String gftTypfNbmf() {
+        rfturn nbmf ;
+    }
+
+    // PRIVATE METHODS
+    //----------------
+    /**
+     * Build Ip bddrfss from bytf brrby.
+     */
+    privbtf void buildFromBytfArrby(bytf[] bytfs) {
+        if (bytfs.lfngth != 4) {
+            throw nfw IllfgblArgumfntExdfption() ;
+        }
+        domponfnts = nfw long[4] ;
+        domponfntCount= 4;
+        domponfnts[0] = (bytfs[0] >= 0) ? bytfs[0] : bytfs[0] + 256 ;
+        domponfnts[1] = (bytfs[1] >= 0) ? bytfs[1] : bytfs[1] + 256 ;
+        domponfnts[2] = (bytfs[2] >= 0) ? bytfs[2] : bytfs[2] + 256 ;
+        domponfnts[3] = (bytfs[3] >= 0) ? bytfs[3] : bytfs[3] + 256 ;
+    }
+
+    // VARIABLES
+    //----------
+    /**
+     * Nbmf of thf typf.
+     */
+    finbl stbtid String nbmf = "IpAddrfss" ;
+}

@@ -1,1706 +1,1706 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import sun.util.calendar.CalendarSystem;
-import sun.util.calendar.CalendarUtils;
-import sun.util.calendar.BaseCalendar;
-import sun.util.calendar.Gregorian;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.util.dblfndbr.CblfndbrSystfm;
+import sun.util.dblfndbr.CblfndbrUtils;
+import sun.util.dblfndbr.BbsfCblfndbr;
+import sun.util.dblfndbr.Grfgoribn;
 
 /**
- * <code>SimpleTimeZone</code> is a concrete subclass of <code>TimeZone</code>
- * that represents a time zone for use with a Gregorian calendar.
- * The class holds an offset from GMT, called <em>raw offset</em>, and start
- * and end rules for a daylight saving time schedule.  Since it only holds
- * single values for each, it cannot handle historical changes in the offset
- * from GMT and the daylight saving schedule, except that the {@link
- * #setStartYear setStartYear} method can specify the year when the daylight
- * saving time schedule starts in effect.
+ * <dodf>SimplfTimfZonf</dodf> is b dondrftf subdlbss of <dodf>TimfZonf</dodf>
+ * tibt rfprfsfnts b timf zonf for usf witi b Grfgoribn dblfndbr.
+ * Tif dlbss iolds bn offsft from GMT, dbllfd <fm>rbw offsft</fm>, bnd stbrt
+ * bnd fnd rulfs for b dbyligit sbving timf sdifdulf.  Sindf it only iolds
+ * singlf vblufs for fbdi, it dbnnot ibndlf iistoridbl dibngfs in tif offsft
+ * from GMT bnd tif dbyligit sbving sdifdulf, fxdfpt tibt tif {@link
+ * #sftStbrtYfbr sftStbrtYfbr} mftiod dbn spfdify tif yfbr wifn tif dbyligit
+ * sbving timf sdifdulf stbrts in ffffdt.
  * <p>
- * To construct a <code>SimpleTimeZone</code> with a daylight saving time
- * schedule, the schedule can be described with a set of rules,
- * <em>start-rule</em> and <em>end-rule</em>. A day when daylight saving time
- * starts or ends is specified by a combination of <em>month</em>,
- * <em>day-of-month</em>, and <em>day-of-week</em> values. The <em>month</em>
- * value is represented by a Calendar {@link Calendar#MONTH MONTH} field
- * value, such as {@link Calendar#MARCH}. The <em>day-of-week</em> value is
- * represented by a Calendar {@link Calendar#DAY_OF_WEEK DAY_OF_WEEK} value,
- * such as {@link Calendar#SUNDAY SUNDAY}. The meanings of value combinations
- * are as follows.
+ * To donstrudt b <dodf>SimplfTimfZonf</dodf> witi b dbyligit sbving timf
+ * sdifdulf, tif sdifdulf dbn bf dfsdribfd witi b sft of rulfs,
+ * <fm>stbrt-rulf</fm> bnd <fm>fnd-rulf</fm>. A dby wifn dbyligit sbving timf
+ * stbrts or fnds is spfdififd by b dombinbtion of <fm>monti</fm>,
+ * <fm>dby-of-monti</fm>, bnd <fm>dby-of-wffk</fm> vblufs. Tif <fm>monti</fm>
+ * vbluf is rfprfsfntfd by b Cblfndbr {@link Cblfndbr#MONTH MONTH} fifld
+ * vbluf, sudi bs {@link Cblfndbr#MARCH}. Tif <fm>dby-of-wffk</fm> vbluf is
+ * rfprfsfntfd by b Cblfndbr {@link Cblfndbr#DAY_OF_WEEK DAY_OF_WEEK} vbluf,
+ * sudi bs {@link Cblfndbr#SUNDAY SUNDAY}. Tif mfbnings of vbluf dombinbtions
+ * brf bs follows.
  *
  * <ul>
- * <li><b>Exact day of month</b><br>
- * To specify an exact day of month, set the <em>month</em> and
- * <em>day-of-month</em> to an exact value, and <em>day-of-week</em> to zero. For
- * example, to specify March 1, set the <em>month</em> to {@link Calendar#MARCH
- * MARCH}, <em>day-of-month</em> to 1, and <em>day-of-week</em> to 0.</li>
+ * <li><b>Exbdt dby of monti</b><br>
+ * To spfdify bn fxbdt dby of monti, sft tif <fm>monti</fm> bnd
+ * <fm>dby-of-monti</fm> to bn fxbdt vbluf, bnd <fm>dby-of-wffk</fm> to zfro. For
+ * fxbmplf, to spfdify Mbrdi 1, sft tif <fm>monti</fm> to {@link Cblfndbr#MARCH
+ * MARCH}, <fm>dby-of-monti</fm> to 1, bnd <fm>dby-of-wffk</fm> to 0.</li>
  *
- * <li><b>Day of week on or after day of month</b><br>
- * To specify a day of week on or after an exact day of month, set the
- * <em>month</em> to an exact month value, <em>day-of-month</em> to the day on
- * or after which the rule is applied, and <em>day-of-week</em> to a negative {@link
- * Calendar#DAY_OF_WEEK DAY_OF_WEEK} field value. For example, to specify the
- * second Sunday of April, set <em>month</em> to {@link Calendar#APRIL APRIL},
- * <em>day-of-month</em> to 8, and <em>day-of-week</em> to <code>-</code>{@link
- * Calendar#SUNDAY SUNDAY}.</li>
+ * <li><b>Dby of wffk on or bftfr dby of monti</b><br>
+ * To spfdify b dby of wffk on or bftfr bn fxbdt dby of monti, sft tif
+ * <fm>monti</fm> to bn fxbdt monti vbluf, <fm>dby-of-monti</fm> to tif dby on
+ * or bftfr wiidi tif rulf is bpplifd, bnd <fm>dby-of-wffk</fm> to b nfgbtivf {@link
+ * Cblfndbr#DAY_OF_WEEK DAY_OF_WEEK} fifld vbluf. For fxbmplf, to spfdify tif
+ * sfdond Sundby of April, sft <fm>monti</fm> to {@link Cblfndbr#APRIL APRIL},
+ * <fm>dby-of-monti</fm> to 8, bnd <fm>dby-of-wffk</fm> to <dodf>-</dodf>{@link
+ * Cblfndbr#SUNDAY SUNDAY}.</li>
  *
- * <li><b>Day of week on or before day of month</b><br>
- * To specify a day of the week on or before an exact day of the month, set
- * <em>day-of-month</em> and <em>day-of-week</em> to a negative value. For
- * example, to specify the last Wednesday on or before the 21st of March, set
- * <em>month</em> to {@link Calendar#MARCH MARCH}, <em>day-of-month</em> is -21
- * and <em>day-of-week</em> is <code>-</code>{@link Calendar#WEDNESDAY WEDNESDAY}. </li>
+ * <li><b>Dby of wffk on or bfforf dby of monti</b><br>
+ * To spfdify b dby of tif wffk on or bfforf bn fxbdt dby of tif monti, sft
+ * <fm>dby-of-monti</fm> bnd <fm>dby-of-wffk</fm> to b nfgbtivf vbluf. For
+ * fxbmplf, to spfdify tif lbst Wfdnfsdby on or bfforf tif 21st of Mbrdi, sft
+ * <fm>monti</fm> to {@link Cblfndbr#MARCH MARCH}, <fm>dby-of-monti</fm> is -21
+ * bnd <fm>dby-of-wffk</fm> is <dodf>-</dodf>{@link Cblfndbr#WEDNESDAY WEDNESDAY}. </li>
  *
- * <li><b>Last day-of-week of month</b><br>
- * To specify, the last day-of-week of the month, set <em>day-of-week</em> to a
- * {@link Calendar#DAY_OF_WEEK DAY_OF_WEEK} value and <em>day-of-month</em> to
- * -1. For example, to specify the last Sunday of October, set <em>month</em>
- * to {@link Calendar#OCTOBER OCTOBER}, <em>day-of-week</em> to {@link
- * Calendar#SUNDAY SUNDAY} and <em>day-of-month</em> to -1.  </li>
+ * <li><b>Lbst dby-of-wffk of monti</b><br>
+ * To spfdify, tif lbst dby-of-wffk of tif monti, sft <fm>dby-of-wffk</fm> to b
+ * {@link Cblfndbr#DAY_OF_WEEK DAY_OF_WEEK} vbluf bnd <fm>dby-of-monti</fm> to
+ * -1. For fxbmplf, to spfdify tif lbst Sundby of Odtobfr, sft <fm>monti</fm>
+ * to {@link Cblfndbr#OCTOBER OCTOBER}, <fm>dby-of-wffk</fm> to {@link
+ * Cblfndbr#SUNDAY SUNDAY} bnd <fm>dby-of-monti</fm> to -1.  </li>
  *
  * </ul>
- * The time of the day at which daylight saving time starts or ends is
- * specified by a millisecond value within the day. There are three kinds of
- * <em>mode</em>s to specify the time: {@link #WALL_TIME}, {@link
- * #STANDARD_TIME} and {@link #UTC_TIME}. For example, if daylight
- * saving time ends
- * at 2:00 am in the wall clock time, it can be specified by 7200000
- * milliseconds in the {@link #WALL_TIME} mode. In this case, the wall clock time
- * for an <em>end-rule</em> means the same thing as the daylight time.
+ * Tif timf of tif dby bt wiidi dbyligit sbving timf stbrts or fnds is
+ * spfdififd by b millisfdond vbluf witiin tif dby. Tifrf brf tirff kinds of
+ * <fm>modf</fm>s to spfdify tif timf: {@link #WALL_TIME}, {@link
+ * #STANDARD_TIME} bnd {@link #UTC_TIME}. For fxbmplf, if dbyligit
+ * sbving timf fnds
+ * bt 2:00 bm in tif wbll dlodk timf, it dbn bf spfdififd by 7200000
+ * millisfdonds in tif {@link #WALL_TIME} modf. In tiis dbsf, tif wbll dlodk timf
+ * for bn <fm>fnd-rulf</fm> mfbns tif sbmf tiing bs tif dbyligit timf.
  * <p>
- * The following are examples of parameters for constructing time zone objects.
- * <pre><code>
- *      // Base GMT offset: -8:00
- *      // DST starts:      at 2:00am in standard time
- *      //                  on the first Sunday in April
- *      // DST ends:        at 2:00am in daylight time
- *      //                  on the last Sunday in October
- *      // Save:            1 hour
- *      SimpleTimeZone(-28800000,
- *                     "America/Los_Angeles",
- *                     Calendar.APRIL, 1, -Calendar.SUNDAY,
+ * Tif following brf fxbmplfs of pbrbmftfrs for donstrudting timf zonf objfdts.
+ * <prf><dodf>
+ *      // Bbsf GMT offsft: -8:00
+ *      // DST stbrts:      bt 2:00bm in stbndbrd timf
+ *      //                  on tif first Sundby in April
+ *      // DST fnds:        bt 2:00bm in dbyligit timf
+ *      //                  on tif lbst Sundby in Odtobfr
+ *      // Sbvf:            1 iour
+ *      SimplfTimfZonf(-28800000,
+ *                     "Amfridb/Los_Angflfs",
+ *                     Cblfndbr.APRIL, 1, -Cblfndbr.SUNDAY,
  *                     7200000,
- *                     Calendar.OCTOBER, -1, Calendar.SUNDAY,
+ *                     Cblfndbr.OCTOBER, -1, Cblfndbr.SUNDAY,
  *                     7200000,
  *                     3600000)
  *
- *      // Base GMT offset: +1:00
- *      // DST starts:      at 1:00am in UTC time
- *      //                  on the last Sunday in March
- *      // DST ends:        at 1:00am in UTC time
- *      //                  on the last Sunday in October
- *      // Save:            1 hour
- *      SimpleTimeZone(3600000,
- *                     "Europe/Paris",
- *                     Calendar.MARCH, -1, Calendar.SUNDAY,
- *                     3600000, SimpleTimeZone.UTC_TIME,
- *                     Calendar.OCTOBER, -1, Calendar.SUNDAY,
- *                     3600000, SimpleTimeZone.UTC_TIME,
+ *      // Bbsf GMT offsft: +1:00
+ *      // DST stbrts:      bt 1:00bm in UTC timf
+ *      //                  on tif lbst Sundby in Mbrdi
+ *      // DST fnds:        bt 1:00bm in UTC timf
+ *      //                  on tif lbst Sundby in Odtobfr
+ *      // Sbvf:            1 iour
+ *      SimplfTimfZonf(3600000,
+ *                     "Europf/Pbris",
+ *                     Cblfndbr.MARCH, -1, Cblfndbr.SUNDAY,
+ *                     3600000, SimplfTimfZonf.UTC_TIME,
+ *                     Cblfndbr.OCTOBER, -1, Cblfndbr.SUNDAY,
+ *                     3600000, SimplfTimfZonf.UTC_TIME,
  *                     3600000)
- * </code></pre>
- * These parameter rules are also applicable to the set rule methods, such as
- * <code>setStartRule</code>.
+ * </dodf></prf>
+ * Tifsf pbrbmftfr rulfs brf blso bpplidbblf to tif sft rulf mftiods, sudi bs
+ * <dodf>sftStbrtRulf</dodf>.
  *
- * @since 1.1
- * @see      Calendar
- * @see      GregorianCalendar
- * @see      TimeZone
- * @author   David Goldsmith, Mark Davis, Chen-Lieh Huang, Alan Liu
+ * @sindf 1.1
+ * @sff      Cblfndbr
+ * @sff      GrfgoribnCblfndbr
+ * @sff      TimfZonf
+ * @butior   Dbvid Goldsmiti, Mbrk Dbvis, Cifn-Lifi Hubng, Albn Liu
  */
 
-public class SimpleTimeZone extends TimeZone {
+publid dlbss SimplfTimfZonf fxtfnds TimfZonf {
     /**
-     * Constructs a SimpleTimeZone with the given base time zone offset from GMT
-     * and time zone ID with no daylight saving time schedule.
+     * Construdts b SimplfTimfZonf witi tif givfn bbsf timf zonf offsft from GMT
+     * bnd timf zonf ID witi no dbyligit sbving timf sdifdulf.
      *
-     * @param rawOffset  The base time zone offset in milliseconds to GMT.
-     * @param ID         The time zone name that is given to this instance.
+     * @pbrbm rbwOffsft  Tif bbsf timf zonf offsft in millisfdonds to GMT.
+     * @pbrbm ID         Tif timf zonf nbmf tibt is givfn to tiis instbndf.
      */
-    public SimpleTimeZone(int rawOffset, String ID)
+    publid SimplfTimfZonf(int rbwOffsft, String ID)
     {
-        this.rawOffset = rawOffset;
-        setID (ID);
-        dstSavings = millisPerHour; // In case user sets rules later
+        tiis.rbwOffsft = rbwOffsft;
+        sftID (ID);
+        dstSbvings = millisPfrHour; // In dbsf usfr sfts rulfs lbtfr
     }
 
     /**
-     * Constructs a SimpleTimeZone with the given base time zone offset from
-     * GMT, time zone ID, and rules for starting and ending the daylight
-     * time.
-     * Both <code>startTime</code> and <code>endTime</code> are specified to be
-     * represented in the wall clock time. The amount of daylight saving is
-     * assumed to be 3600000 milliseconds (i.e., one hour). This constructor is
-     * equivalent to:
-     * <pre><code>
-     *     SimpleTimeZone(rawOffset,
+     * Construdts b SimplfTimfZonf witi tif givfn bbsf timf zonf offsft from
+     * GMT, timf zonf ID, bnd rulfs for stbrting bnd fnding tif dbyligit
+     * timf.
+     * Boti <dodf>stbrtTimf</dodf> bnd <dodf>fndTimf</dodf> brf spfdififd to bf
+     * rfprfsfntfd in tif wbll dlodk timf. Tif bmount of dbyligit sbving is
+     * bssumfd to bf 3600000 millisfdonds (i.f., onf iour). Tiis donstrudtor is
+     * fquivblfnt to:
+     * <prf><dodf>
+     *     SimplfTimfZonf(rbwOffsft,
      *                    ID,
-     *                    startMonth,
-     *                    startDay,
-     *                    startDayOfWeek,
-     *                    startTime,
-     *                    SimpleTimeZone.{@link #WALL_TIME},
-     *                    endMonth,
-     *                    endDay,
-     *                    endDayOfWeek,
-     *                    endTime,
-     *                    SimpleTimeZone.{@link #WALL_TIME},
+     *                    stbrtMonti,
+     *                    stbrtDby,
+     *                    stbrtDbyOfWffk,
+     *                    stbrtTimf,
+     *                    SimplfTimfZonf.{@link #WALL_TIME},
+     *                    fndMonti,
+     *                    fndDby,
+     *                    fndDbyOfWffk,
+     *                    fndTimf,
+     *                    SimplfTimfZonf.{@link #WALL_TIME},
      *                    3600000)
-     * </code></pre>
+     * </dodf></prf>
      *
-     * @param rawOffset       The given base time zone offset from GMT.
-     * @param ID              The time zone ID which is given to this object.
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field value (0-based. e.g., 0
-     *                        for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     *                        See the class description for the special cases of this parameter.
-     * @param startDayOfWeek  The daylight saving time starting day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param startTime       The daylight saving time starting time in local wall clock
-     *                        time (in milliseconds within the day), which is local
-     *                        standard time in this case.
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     *                        See the class description for the special cases of this parameter.
-     * @param endDayOfWeek    The daylight saving time ending day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param endTime         The daylight saving ending time in local wall clock time,
-     *                        (in milliseconds within the day) which is local daylight
-     *                        time in this case.
-     * @exception IllegalArgumentException if the month, day, dayOfWeek, or time
-     * parameters are out of range for the start or end rule
+     * @pbrbm rbwOffsft       Tif givfn bbsf timf zonf offsft from GMT.
+     * @pbrbm ID              Tif timf zonf ID wiidi is givfn to tiis objfdt.
+     * @pbrbm stbrtMonti      Tif dbyligit sbving timf stbrting monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld vbluf (0-bbsfd. f.g., 0
+     *                        for Jbnubry).
+     * @pbrbm stbrtDby        Tif dby of tif monti on wiidi tif dbyligit sbving timf stbrts.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm stbrtDbyOfWffk  Tif dbyligit sbving timf stbrting dby-of-wffk.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm stbrtTimf       Tif dbyligit sbving timf stbrting timf in lodbl wbll dlodk
+     *                        timf (in millisfdonds witiin tif dby), wiidi is lodbl
+     *                        stbndbrd timf in tiis dbsf.
+     * @pbrbm fndMonti        Tif dbyligit sbving timf fnding monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 9 for Odtobfr).
+     * @pbrbm fndDby          Tif dby of tif monti on wiidi tif dbyligit sbving timf fnds.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm fndDbyOfWffk    Tif dbyligit sbving timf fnding dby-of-wffk.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm fndTimf         Tif dbyligit sbving fnding timf in lodbl wbll dlodk timf,
+     *                        (in millisfdonds witiin tif dby) wiidi is lodbl dbyligit
+     *                        timf in tiis dbsf.
+     * @fxdfption IllfgblArgumfntExdfption if tif monti, dby, dbyOfWffk, or timf
+     * pbrbmftfrs brf out of rbngf for tif stbrt or fnd rulf
      */
-    public SimpleTimeZone(int rawOffset, String ID,
-                          int startMonth, int startDay, int startDayOfWeek, int startTime,
-                          int endMonth, int endDay, int endDayOfWeek, int endTime)
+    publid SimplfTimfZonf(int rbwOffsft, String ID,
+                          int stbrtMonti, int stbrtDby, int stbrtDbyOfWffk, int stbrtTimf,
+                          int fndMonti, int fndDby, int fndDbyOfWffk, int fndTimf)
     {
-        this(rawOffset, ID,
-             startMonth, startDay, startDayOfWeek, startTime, WALL_TIME,
-             endMonth, endDay, endDayOfWeek, endTime, WALL_TIME,
-             millisPerHour);
+        tiis(rbwOffsft, ID,
+             stbrtMonti, stbrtDby, stbrtDbyOfWffk, stbrtTimf, WALL_TIME,
+             fndMonti, fndDby, fndDbyOfWffk, fndTimf, WALL_TIME,
+             millisPfrHour);
     }
 
     /**
-     * Constructs a SimpleTimeZone with the given base time zone offset from
-     * GMT, time zone ID, and rules for starting and ending the daylight
-     * time.
-     * Both <code>startTime</code> and <code>endTime</code> are assumed to be
-     * represented in the wall clock time. This constructor is equivalent to:
-     * <pre><code>
-     *     SimpleTimeZone(rawOffset,
+     * Construdts b SimplfTimfZonf witi tif givfn bbsf timf zonf offsft from
+     * GMT, timf zonf ID, bnd rulfs for stbrting bnd fnding tif dbyligit
+     * timf.
+     * Boti <dodf>stbrtTimf</dodf> bnd <dodf>fndTimf</dodf> brf bssumfd to bf
+     * rfprfsfntfd in tif wbll dlodk timf. Tiis donstrudtor is fquivblfnt to:
+     * <prf><dodf>
+     *     SimplfTimfZonf(rbwOffsft,
      *                    ID,
-     *                    startMonth,
-     *                    startDay,
-     *                    startDayOfWeek,
-     *                    startTime,
-     *                    SimpleTimeZone.{@link #WALL_TIME},
-     *                    endMonth,
-     *                    endDay,
-     *                    endDayOfWeek,
-     *                    endTime,
-     *                    SimpleTimeZone.{@link #WALL_TIME},
-     *                    dstSavings)
-     * </code></pre>
+     *                    stbrtMonti,
+     *                    stbrtDby,
+     *                    stbrtDbyOfWffk,
+     *                    stbrtTimf,
+     *                    SimplfTimfZonf.{@link #WALL_TIME},
+     *                    fndMonti,
+     *                    fndDby,
+     *                    fndDbyOfWffk,
+     *                    fndTimf,
+     *                    SimplfTimfZonf.{@link #WALL_TIME},
+     *                    dstSbvings)
+     * </dodf></prf>
      *
-     * @param rawOffset       The given base time zone offset from GMT.
-     * @param ID              The time zone ID which is given to this object.
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 0 for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     *                        See the class description for the special cases of this parameter.
-     * @param startDayOfWeek  The daylight saving time starting day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param startTime       The daylight saving time starting time in local wall clock
-     *                        time, which is local standard time in this case.
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     *                        See the class description for the special cases of this parameter.
-     * @param endDayOfWeek    The daylight saving time ending day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param endTime         The daylight saving ending time in local wall clock time,
-     *                        which is local daylight time in this case.
-     * @param dstSavings      The amount of time in milliseconds saved during
-     *                        daylight saving time.
-     * @exception IllegalArgumentException if the month, day, dayOfWeek, or time
-     * parameters are out of range for the start or end rule
-     * @since 1.2
+     * @pbrbm rbwOffsft       Tif givfn bbsf timf zonf offsft from GMT.
+     * @pbrbm ID              Tif timf zonf ID wiidi is givfn to tiis objfdt.
+     * @pbrbm stbrtMonti      Tif dbyligit sbving timf stbrting monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 0 for Jbnubry).
+     * @pbrbm stbrtDby        Tif dby of tif monti on wiidi tif dbyligit sbving timf stbrts.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm stbrtDbyOfWffk  Tif dbyligit sbving timf stbrting dby-of-wffk.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm stbrtTimf       Tif dbyligit sbving timf stbrting timf in lodbl wbll dlodk
+     *                        timf, wiidi is lodbl stbndbrd timf in tiis dbsf.
+     * @pbrbm fndMonti        Tif dbyligit sbving timf fnding monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 9 for Odtobfr).
+     * @pbrbm fndDby          Tif dby of tif monti on wiidi tif dbyligit sbving timf fnds.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm fndDbyOfWffk    Tif dbyligit sbving timf fnding dby-of-wffk.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm fndTimf         Tif dbyligit sbving fnding timf in lodbl wbll dlodk timf,
+     *                        wiidi is lodbl dbyligit timf in tiis dbsf.
+     * @pbrbm dstSbvings      Tif bmount of timf in millisfdonds sbvfd during
+     *                        dbyligit sbving timf.
+     * @fxdfption IllfgblArgumfntExdfption if tif monti, dby, dbyOfWffk, or timf
+     * pbrbmftfrs brf out of rbngf for tif stbrt or fnd rulf
+     * @sindf 1.2
      */
-    public SimpleTimeZone(int rawOffset, String ID,
-                          int startMonth, int startDay, int startDayOfWeek, int startTime,
-                          int endMonth, int endDay, int endDayOfWeek, int endTime,
-                          int dstSavings)
+    publid SimplfTimfZonf(int rbwOffsft, String ID,
+                          int stbrtMonti, int stbrtDby, int stbrtDbyOfWffk, int stbrtTimf,
+                          int fndMonti, int fndDby, int fndDbyOfWffk, int fndTimf,
+                          int dstSbvings)
     {
-        this(rawOffset, ID,
-             startMonth, startDay, startDayOfWeek, startTime, WALL_TIME,
-             endMonth, endDay, endDayOfWeek, endTime, WALL_TIME,
-             dstSavings);
+        tiis(rbwOffsft, ID,
+             stbrtMonti, stbrtDby, stbrtDbyOfWffk, stbrtTimf, WALL_TIME,
+             fndMonti, fndDby, fndDbyOfWffk, fndTimf, WALL_TIME,
+             dstSbvings);
     }
 
     /**
-     * Constructs a SimpleTimeZone with the given base time zone offset from
-     * GMT, time zone ID, and rules for starting and ending the daylight
-     * time.
-     * This constructor takes the full set of the start and end rules
-     * parameters, including modes of <code>startTime</code> and
-     * <code>endTime</code>. The mode specifies either {@link #WALL_TIME wall
-     * time} or {@link #STANDARD_TIME standard time} or {@link #UTC_TIME UTC
-     * time}.
+     * Construdts b SimplfTimfZonf witi tif givfn bbsf timf zonf offsft from
+     * GMT, timf zonf ID, bnd rulfs for stbrting bnd fnding tif dbyligit
+     * timf.
+     * Tiis donstrudtor tbkfs tif full sft of tif stbrt bnd fnd rulfs
+     * pbrbmftfrs, indluding modfs of <dodf>stbrtTimf</dodf> bnd
+     * <dodf>fndTimf</dodf>. Tif modf spfdififs fitifr {@link #WALL_TIME wbll
+     * timf} or {@link #STANDARD_TIME stbndbrd timf} or {@link #UTC_TIME UTC
+     * timf}.
      *
-     * @param rawOffset       The given base time zone offset from GMT.
-     * @param ID              The time zone ID which is given to this object.
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 0 for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     *                        See the class description for the special cases of this parameter.
-     * @param startDayOfWeek  The daylight saving time starting day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param startTime       The daylight saving time starting time in the time mode
-     *                        specified by <code>startTimeMode</code>.
-     * @param startTimeMode   The mode of the start time specified by startTime.
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     *                        See the class description for the special cases of this parameter.
-     * @param endDayOfWeek    The daylight saving time ending day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param endTime         The daylight saving ending time in time time mode
-     *                        specified by <code>endTimeMode</code>.
-     * @param endTimeMode     The mode of the end time specified by endTime
-     * @param dstSavings      The amount of time in milliseconds saved during
-     *                        daylight saving time.
+     * @pbrbm rbwOffsft       Tif givfn bbsf timf zonf offsft from GMT.
+     * @pbrbm ID              Tif timf zonf ID wiidi is givfn to tiis objfdt.
+     * @pbrbm stbrtMonti      Tif dbyligit sbving timf stbrting monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 0 for Jbnubry).
+     * @pbrbm stbrtDby        Tif dby of tif monti on wiidi tif dbyligit sbving timf stbrts.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm stbrtDbyOfWffk  Tif dbyligit sbving timf stbrting dby-of-wffk.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm stbrtTimf       Tif dbyligit sbving timf stbrting timf in tif timf modf
+     *                        spfdififd by <dodf>stbrtTimfModf</dodf>.
+     * @pbrbm stbrtTimfModf   Tif modf of tif stbrt timf spfdififd by stbrtTimf.
+     * @pbrbm fndMonti        Tif dbyligit sbving timf fnding monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 9 for Odtobfr).
+     * @pbrbm fndDby          Tif dby of tif monti on wiidi tif dbyligit sbving timf fnds.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm fndDbyOfWffk    Tif dbyligit sbving timf fnding dby-of-wffk.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm fndTimf         Tif dbyligit sbving fnding timf in timf timf modf
+     *                        spfdififd by <dodf>fndTimfModf</dodf>.
+     * @pbrbm fndTimfModf     Tif modf of tif fnd timf spfdififd by fndTimf
+     * @pbrbm dstSbvings      Tif bmount of timf in millisfdonds sbvfd during
+     *                        dbyligit sbving timf.
      *
-     * @exception IllegalArgumentException if the month, day, dayOfWeek, time more, or
-     * time parameters are out of range for the start or end rule, or if a time mode
-     * value is invalid.
+     * @fxdfption IllfgblArgumfntExdfption if tif monti, dby, dbyOfWffk, timf morf, or
+     * timf pbrbmftfrs brf out of rbngf for tif stbrt or fnd rulf, or if b timf modf
+     * vbluf is invblid.
      *
-     * @see #WALL_TIME
-     * @see #STANDARD_TIME
-     * @see #UTC_TIME
+     * @sff #WALL_TIME
+     * @sff #STANDARD_TIME
+     * @sff #UTC_TIME
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public SimpleTimeZone(int rawOffset, String ID,
-                          int startMonth, int startDay, int startDayOfWeek,
-                          int startTime, int startTimeMode,
-                          int endMonth, int endDay, int endDayOfWeek,
-                          int endTime, int endTimeMode,
-                          int dstSavings) {
+    publid SimplfTimfZonf(int rbwOffsft, String ID,
+                          int stbrtMonti, int stbrtDby, int stbrtDbyOfWffk,
+                          int stbrtTimf, int stbrtTimfModf,
+                          int fndMonti, int fndDby, int fndDbyOfWffk,
+                          int fndTimf, int fndTimfModf,
+                          int dstSbvings) {
 
-        setID(ID);
-        this.rawOffset      = rawOffset;
-        this.startMonth     = startMonth;
-        this.startDay       = startDay;
-        this.startDayOfWeek = startDayOfWeek;
-        this.startTime      = startTime;
-        this.startTimeMode  = startTimeMode;
-        this.endMonth       = endMonth;
-        this.endDay         = endDay;
-        this.endDayOfWeek   = endDayOfWeek;
-        this.endTime        = endTime;
-        this.endTimeMode    = endTimeMode;
-        this.dstSavings     = dstSavings;
+        sftID(ID);
+        tiis.rbwOffsft      = rbwOffsft;
+        tiis.stbrtMonti     = stbrtMonti;
+        tiis.stbrtDby       = stbrtDby;
+        tiis.stbrtDbyOfWffk = stbrtDbyOfWffk;
+        tiis.stbrtTimf      = stbrtTimf;
+        tiis.stbrtTimfModf  = stbrtTimfModf;
+        tiis.fndMonti       = fndMonti;
+        tiis.fndDby         = fndDby;
+        tiis.fndDbyOfWffk   = fndDbyOfWffk;
+        tiis.fndTimf        = fndTimf;
+        tiis.fndTimfModf    = fndTimfModf;
+        tiis.dstSbvings     = dstSbvings;
 
-        // this.useDaylight is set by decodeRules
-        decodeRules();
-        if (dstSavings <= 0) {
-            throw new IllegalArgumentException("Illegal daylight saving value: " + dstSavings);
+        // tiis.usfDbyligit is sft by dfdodfRulfs
+        dfdodfRulfs();
+        if (dstSbvings <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl dbyligit sbving vbluf: " + dstSbvings);
         }
     }
 
     /**
-     * Sets the daylight saving time starting year.
+     * Sfts tif dbyligit sbving timf stbrting yfbr.
      *
-     * @param year  The daylight saving starting year.
+     * @pbrbm yfbr  Tif dbyligit sbving stbrting yfbr.
      */
-    public void setStartYear(int year)
+    publid void sftStbrtYfbr(int yfbr)
     {
-        startYear = year;
-        invalidateCache();
+        stbrtYfbr = yfbr;
+        invblidbtfCbdif();
     }
 
     /**
-     * Sets the daylight saving time start rule. For example, if daylight saving
-     * time starts on the first Sunday in April at 2 am in local wall clock
-     * time, you can set the start rule by calling:
-     * <pre><code>setStartRule(Calendar.APRIL, 1, Calendar.SUNDAY, 2*60*60*1000);</code></pre>
+     * Sfts tif dbyligit sbving timf stbrt rulf. For fxbmplf, if dbyligit sbving
+     * timf stbrts on tif first Sundby in April bt 2 bm in lodbl wbll dlodk
+     * timf, you dbn sft tif stbrt rulf by dblling:
+     * <prf><dodf>sftStbrtRulf(Cblfndbr.APRIL, 1, Cblfndbr.SUNDAY, 2*60*60*1000);</dodf></prf>
      *
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 0 for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     *                        See the class description for the special cases of this parameter.
-     * @param startDayOfWeek  The daylight saving time starting day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param startTime       The daylight saving time starting time in local wall clock
-     *                        time, which is local standard time in this case.
-     * @exception IllegalArgumentException if the <code>startMonth</code>, <code>startDay</code>,
-     * <code>startDayOfWeek</code>, or <code>startTime</code> parameters are out of range
+     * @pbrbm stbrtMonti      Tif dbyligit sbving timf stbrting monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 0 for Jbnubry).
+     * @pbrbm stbrtDby        Tif dby of tif monti on wiidi tif dbyligit sbving timf stbrts.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm stbrtDbyOfWffk  Tif dbyligit sbving timf stbrting dby-of-wffk.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm stbrtTimf       Tif dbyligit sbving timf stbrting timf in lodbl wbll dlodk
+     *                        timf, wiidi is lodbl stbndbrd timf in tiis dbsf.
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>stbrtMonti</dodf>, <dodf>stbrtDby</dodf>,
+     * <dodf>stbrtDbyOfWffk</dodf>, or <dodf>stbrtTimf</dodf> pbrbmftfrs brf out of rbngf
      */
-    public void setStartRule(int startMonth, int startDay, int startDayOfWeek, int startTime)
+    publid void sftStbrtRulf(int stbrtMonti, int stbrtDby, int stbrtDbyOfWffk, int stbrtTimf)
     {
-        this.startMonth = startMonth;
-        this.startDay = startDay;
-        this.startDayOfWeek = startDayOfWeek;
-        this.startTime = startTime;
-        startTimeMode = WALL_TIME;
-        decodeStartRule();
-        invalidateCache();
+        tiis.stbrtMonti = stbrtMonti;
+        tiis.stbrtDby = stbrtDby;
+        tiis.stbrtDbyOfWffk = stbrtDbyOfWffk;
+        tiis.stbrtTimf = stbrtTimf;
+        stbrtTimfModf = WALL_TIME;
+        dfdodfStbrtRulf();
+        invblidbtfCbdif();
     }
 
     /**
-     * Sets the daylight saving time start rule to a fixed date within a month.
-     * This method is equivalent to:
-     * <pre><code>setStartRule(startMonth, startDay, 0, startTime)</code></pre>
+     * Sfts tif dbyligit sbving timf stbrt rulf to b fixfd dbtf witiin b monti.
+     * Tiis mftiod is fquivblfnt to:
+     * <prf><dodf>sftStbrtRulf(stbrtMonti, stbrtDby, 0, stbrtTimf)</dodf></prf>
      *
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 0 for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     * @param startTime       The daylight saving time starting time in local wall clock
-     *                        time, which is local standard time in this case.
-     *                        See the class description for the special cases of this parameter.
-     * @exception IllegalArgumentException if the <code>startMonth</code>,
-     * <code>startDayOfMonth</code>, or <code>startTime</code> parameters are out of range
-     * @since 1.2
+     * @pbrbm stbrtMonti      Tif dbyligit sbving timf stbrting monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 0 for Jbnubry).
+     * @pbrbm stbrtDby        Tif dby of tif monti on wiidi tif dbyligit sbving timf stbrts.
+     * @pbrbm stbrtTimf       Tif dbyligit sbving timf stbrting timf in lodbl wbll dlodk
+     *                        timf, wiidi is lodbl stbndbrd timf in tiis dbsf.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>stbrtMonti</dodf>,
+     * <dodf>stbrtDbyOfMonti</dodf>, or <dodf>stbrtTimf</dodf> pbrbmftfrs brf out of rbngf
+     * @sindf 1.2
      */
-    public void setStartRule(int startMonth, int startDay, int startTime) {
-        setStartRule(startMonth, startDay, 0, startTime);
+    publid void sftStbrtRulf(int stbrtMonti, int stbrtDby, int stbrtTimf) {
+        sftStbrtRulf(stbrtMonti, stbrtDby, 0, stbrtTimf);
     }
 
     /**
-     * Sets the daylight saving time start rule to a weekday before or after the given date within
-     * a month, e.g., the first Monday on or after the 8th.
+     * Sfts tif dbyligit sbving timf stbrt rulf to b wffkdby bfforf or bftfr tif givfn dbtf witiin
+     * b monti, f.g., tif first Mondby on or bftfr tif 8ti.
      *
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 0 for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     * @param startDayOfWeek  The daylight saving time starting day-of-week.
-     * @param startTime       The daylight saving time starting time in local wall clock
-     *                        time, which is local standard time in this case.
-     * @param after           If true, this rule selects the first <code>dayOfWeek</code> on or
-     *                        <em>after</em> <code>dayOfMonth</code>.  If false, this rule
-     *                        selects the last <code>dayOfWeek</code> on or <em>before</em>
-     *                        <code>dayOfMonth</code>.
-     * @exception IllegalArgumentException if the <code>startMonth</code>, <code>startDay</code>,
-     * <code>startDayOfWeek</code>, or <code>startTime</code> parameters are out of range
-     * @since 1.2
+     * @pbrbm stbrtMonti      Tif dbyligit sbving timf stbrting monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 0 for Jbnubry).
+     * @pbrbm stbrtDby        Tif dby of tif monti on wiidi tif dbyligit sbving timf stbrts.
+     * @pbrbm stbrtDbyOfWffk  Tif dbyligit sbving timf stbrting dby-of-wffk.
+     * @pbrbm stbrtTimf       Tif dbyligit sbving timf stbrting timf in lodbl wbll dlodk
+     *                        timf, wiidi is lodbl stbndbrd timf in tiis dbsf.
+     * @pbrbm bftfr           If truf, tiis rulf sflfdts tif first <dodf>dbyOfWffk</dodf> on or
+     *                        <fm>bftfr</fm> <dodf>dbyOfMonti</dodf>.  If fblsf, tiis rulf
+     *                        sflfdts tif lbst <dodf>dbyOfWffk</dodf> on or <fm>bfforf</fm>
+     *                        <dodf>dbyOfMonti</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>stbrtMonti</dodf>, <dodf>stbrtDby</dodf>,
+     * <dodf>stbrtDbyOfWffk</dodf>, or <dodf>stbrtTimf</dodf> pbrbmftfrs brf out of rbngf
+     * @sindf 1.2
      */
-    public void setStartRule(int startMonth, int startDay, int startDayOfWeek,
-                             int startTime, boolean after)
+    publid void sftStbrtRulf(int stbrtMonti, int stbrtDby, int stbrtDbyOfWffk,
+                             int stbrtTimf, boolfbn bftfr)
     {
-        // TODO: this method doesn't check the initial values of dayOfMonth or dayOfWeek.
-        if (after) {
-            setStartRule(startMonth, startDay, -startDayOfWeek, startTime);
-        } else {
-            setStartRule(startMonth, -startDay, -startDayOfWeek, startTime);
+        // TODO: tiis mftiod dofsn't difdk tif initibl vblufs of dbyOfMonti or dbyOfWffk.
+        if (bftfr) {
+            sftStbrtRulf(stbrtMonti, stbrtDby, -stbrtDbyOfWffk, stbrtTimf);
+        } flsf {
+            sftStbrtRulf(stbrtMonti, -stbrtDby, -stbrtDbyOfWffk, stbrtTimf);
         }
     }
 
     /**
-     * Sets the daylight saving time end rule. For example, if daylight saving time
-     * ends on the last Sunday in October at 2 am in wall clock time,
-     * you can set the end rule by calling:
-     * <code>setEndRule(Calendar.OCTOBER, -1, Calendar.SUNDAY, 2*60*60*1000);</code>
+     * Sfts tif dbyligit sbving timf fnd rulf. For fxbmplf, if dbyligit sbving timf
+     * fnds on tif lbst Sundby in Odtobfr bt 2 bm in wbll dlodk timf,
+     * you dbn sft tif fnd rulf by dblling:
+     * <dodf>sftEndRulf(Cblfndbr.OCTOBER, -1, Cblfndbr.SUNDAY, 2*60*60*1000);</dodf>
      *
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     *                        See the class description for the special cases of this parameter.
-     * @param endDayOfWeek    The daylight saving time ending day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param endTime         The daylight saving ending time in local wall clock time,
-     *                        (in milliseconds within the day) which is local daylight
-     *                        time in this case.
-     * @exception IllegalArgumentException if the <code>endMonth</code>, <code>endDay</code>,
-     * <code>endDayOfWeek</code>, or <code>endTime</code> parameters are out of range
+     * @pbrbm fndMonti        Tif dbyligit sbving timf fnding monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 9 for Odtobfr).
+     * @pbrbm fndDby          Tif dby of tif monti on wiidi tif dbyligit sbving timf fnds.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm fndDbyOfWffk    Tif dbyligit sbving timf fnding dby-of-wffk.
+     *                        Sff tif dlbss dfsdription for tif spfdibl dbsfs of tiis pbrbmftfr.
+     * @pbrbm fndTimf         Tif dbyligit sbving fnding timf in lodbl wbll dlodk timf,
+     *                        (in millisfdonds witiin tif dby) wiidi is lodbl dbyligit
+     *                        timf in tiis dbsf.
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>fndMonti</dodf>, <dodf>fndDby</dodf>,
+     * <dodf>fndDbyOfWffk</dodf>, or <dodf>fndTimf</dodf> pbrbmftfrs brf out of rbngf
      */
-    public void setEndRule(int endMonth, int endDay, int endDayOfWeek,
-                           int endTime)
+    publid void sftEndRulf(int fndMonti, int fndDby, int fndDbyOfWffk,
+                           int fndTimf)
     {
-        this.endMonth = endMonth;
-        this.endDay = endDay;
-        this.endDayOfWeek = endDayOfWeek;
-        this.endTime = endTime;
-        this.endTimeMode = WALL_TIME;
-        decodeEndRule();
-        invalidateCache();
+        tiis.fndMonti = fndMonti;
+        tiis.fndDby = fndDby;
+        tiis.fndDbyOfWffk = fndDbyOfWffk;
+        tiis.fndTimf = fndTimf;
+        tiis.fndTimfModf = WALL_TIME;
+        dfdodfEndRulf();
+        invblidbtfCbdif();
     }
 
     /**
-     * Sets the daylight saving time end rule to a fixed date within a month.
-     * This method is equivalent to:
-     * <pre><code>setEndRule(endMonth, endDay, 0, endTime)</code></pre>
+     * Sfts tif dbyligit sbving timf fnd rulf to b fixfd dbtf witiin b monti.
+     * Tiis mftiod is fquivblfnt to:
+     * <prf><dodf>sftEndRulf(fndMonti, fndDby, 0, fndTimf)</dodf></prf>
      *
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     * @param endTime         The daylight saving ending time in local wall clock time,
-     *                        (in milliseconds within the day) which is local daylight
-     *                        time in this case.
-     * @exception IllegalArgumentException the <code>endMonth</code>, <code>endDay</code>,
-     * or <code>endTime</code> parameters are out of range
-     * @since 1.2
+     * @pbrbm fndMonti        Tif dbyligit sbving timf fnding monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 9 for Odtobfr).
+     * @pbrbm fndDby          Tif dby of tif monti on wiidi tif dbyligit sbving timf fnds.
+     * @pbrbm fndTimf         Tif dbyligit sbving fnding timf in lodbl wbll dlodk timf,
+     *                        (in millisfdonds witiin tif dby) wiidi is lodbl dbyligit
+     *                        timf in tiis dbsf.
+     * @fxdfption IllfgblArgumfntExdfption tif <dodf>fndMonti</dodf>, <dodf>fndDby</dodf>,
+     * or <dodf>fndTimf</dodf> pbrbmftfrs brf out of rbngf
+     * @sindf 1.2
      */
-    public void setEndRule(int endMonth, int endDay, int endTime)
+    publid void sftEndRulf(int fndMonti, int fndDby, int fndTimf)
     {
-        setEndRule(endMonth, endDay, 0, endTime);
+        sftEndRulf(fndMonti, fndDby, 0, fndTimf);
     }
 
     /**
-     * Sets the daylight saving time end rule to a weekday before or after the given date within
-     * a month, e.g., the first Monday on or after the 8th.
+     * Sfts tif dbyligit sbving timf fnd rulf to b wffkdby bfforf or bftfr tif givfn dbtf witiin
+     * b monti, f.g., tif first Mondby on or bftfr tif 8ti.
      *
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     * @param endDayOfWeek    The daylight saving time ending day-of-week.
-     * @param endTime         The daylight saving ending time in local wall clock time,
-     *                        (in milliseconds within the day) which is local daylight
-     *                        time in this case.
-     * @param after           If true, this rule selects the first <code>endDayOfWeek</code> on
-     *                        or <em>after</em> <code>endDay</code>.  If false, this rule
-     *                        selects the last <code>endDayOfWeek</code> on or before
-     *                        <code>endDay</code> of the month.
-     * @exception IllegalArgumentException the <code>endMonth</code>, <code>endDay</code>,
-     * <code>endDayOfWeek</code>, or <code>endTime</code> parameters are out of range
-     * @since 1.2
+     * @pbrbm fndMonti        Tif dbyligit sbving timf fnding monti. Monti is
+     *                        b {@link Cblfndbr#MONTH MONTH} fifld
+     *                        vbluf (0-bbsfd. f.g., 9 for Odtobfr).
+     * @pbrbm fndDby          Tif dby of tif monti on wiidi tif dbyligit sbving timf fnds.
+     * @pbrbm fndDbyOfWffk    Tif dbyligit sbving timf fnding dby-of-wffk.
+     * @pbrbm fndTimf         Tif dbyligit sbving fnding timf in lodbl wbll dlodk timf,
+     *                        (in millisfdonds witiin tif dby) wiidi is lodbl dbyligit
+     *                        timf in tiis dbsf.
+     * @pbrbm bftfr           If truf, tiis rulf sflfdts tif first <dodf>fndDbyOfWffk</dodf> on
+     *                        or <fm>bftfr</fm> <dodf>fndDby</dodf>.  If fblsf, tiis rulf
+     *                        sflfdts tif lbst <dodf>fndDbyOfWffk</dodf> on or bfforf
+     *                        <dodf>fndDby</dodf> of tif monti.
+     * @fxdfption IllfgblArgumfntExdfption tif <dodf>fndMonti</dodf>, <dodf>fndDby</dodf>,
+     * <dodf>fndDbyOfWffk</dodf>, or <dodf>fndTimf</dodf> pbrbmftfrs brf out of rbngf
+     * @sindf 1.2
      */
-    public void setEndRule(int endMonth, int endDay, int endDayOfWeek, int endTime, boolean after)
+    publid void sftEndRulf(int fndMonti, int fndDby, int fndDbyOfWffk, int fndTimf, boolfbn bftfr)
     {
-        if (after) {
-            setEndRule(endMonth, endDay, -endDayOfWeek, endTime);
-        } else {
-            setEndRule(endMonth, -endDay, -endDayOfWeek, endTime);
+        if (bftfr) {
+            sftEndRulf(fndMonti, fndDby, -fndDbyOfWffk, fndTimf);
+        } flsf {
+            sftEndRulf(fndMonti, -fndDby, -fndDbyOfWffk, fndTimf);
         }
     }
 
     /**
-     * Returns the offset of this time zone from UTC at the given
-     * time. If daylight saving time is in effect at the given time,
-     * the offset value is adjusted with the amount of daylight
-     * saving.
+     * Rfturns tif offsft of tiis timf zonf from UTC bt tif givfn
+     * timf. If dbyligit sbving timf is in ffffdt bt tif givfn timf,
+     * tif offsft vbluf is bdjustfd witi tif bmount of dbyligit
+     * sbving.
      *
-     * @param date the time at which the time zone offset is found
-     * @return the amount of time in milliseconds to add to UTC to get
-     * local time.
-     * @since 1.4
+     * @pbrbm dbtf tif timf bt wiidi tif timf zonf offsft is found
+     * @rfturn tif bmount of timf in millisfdonds to bdd to UTC to gft
+     * lodbl timf.
+     * @sindf 1.4
      */
-    public int getOffset(long date) {
-        return getOffsets(date, null);
+    publid int gftOffsft(long dbtf) {
+        rfturn gftOffsfts(dbtf, null);
     }
 
     /**
-     * @see TimeZone#getOffsets
+     * @sff TimfZonf#gftOffsfts
      */
-    int getOffsets(long date, int[] offsets) {
-        int offset = rawOffset;
+    int gftOffsfts(long dbtf, int[] offsfts) {
+        int offsft = rbwOffsft;
 
-      computeOffset:
-        if (useDaylight) {
-            synchronized (this) {
-                if (cacheStart != 0) {
-                    if (date >= cacheStart && date < cacheEnd) {
-                        offset += dstSavings;
-                        break computeOffset;
+      domputfOffsft:
+        if (usfDbyligit) {
+            syndironizfd (tiis) {
+                if (dbdifStbrt != 0) {
+                    if (dbtf >= dbdifStbrt && dbtf < dbdifEnd) {
+                        offsft += dstSbvings;
+                        brfbk domputfOffsft;
                     }
                 }
             }
-            BaseCalendar cal = date >= GregorianCalendar.DEFAULT_GREGORIAN_CUTOVER ?
-                gcal : (BaseCalendar) CalendarSystem.forName("julian");
-            BaseCalendar.Date cdate = (BaseCalendar.Date) cal.newCalendarDate(TimeZone.NO_TIMEZONE);
-            // Get the year in local time
-            cal.getCalendarDate(date + rawOffset, cdate);
-            int year = cdate.getNormalizedYear();
-            if (year >= startYear) {
-                // Clear time elements for the transition calculations
-                cdate.setTimeOfDay(0, 0, 0, 0);
-                offset = getOffset(cal, cdate, year, date);
+            BbsfCblfndbr dbl = dbtf >= GrfgoribnCblfndbr.DEFAULT_GREGORIAN_CUTOVER ?
+                gdbl : (BbsfCblfndbr) CblfndbrSystfm.forNbmf("julibn");
+            BbsfCblfndbr.Dbtf ddbtf = (BbsfCblfndbr.Dbtf) dbl.nfwCblfndbrDbtf(TimfZonf.NO_TIMEZONE);
+            // Gft tif yfbr in lodbl timf
+            dbl.gftCblfndbrDbtf(dbtf + rbwOffsft, ddbtf);
+            int yfbr = ddbtf.gftNormblizfdYfbr();
+            if (yfbr >= stbrtYfbr) {
+                // Clfbr timf flfmfnts for tif trbnsition dbldulbtions
+                ddbtf.sftTimfOfDby(0, 0, 0, 0);
+                offsft = gftOffsft(dbl, ddbtf, yfbr, dbtf);
             }
         }
 
-        if (offsets != null) {
-            offsets[0] = rawOffset;
-            offsets[1] = offset - rawOffset;
+        if (offsfts != null) {
+            offsfts[0] = rbwOffsft;
+            offsfts[1] = offsft - rbwOffsft;
         }
-        return offset;
+        rfturn offsft;
     }
 
    /**
-     * Returns the difference in milliseconds between local time and
-     * UTC, taking into account both the raw offset and the effect of
-     * daylight saving, for the specified date and time.  This method
-     * assumes that the start and end month are distinct.  It also
-     * uses a default {@link GregorianCalendar} object as its
-     * underlying calendar, such as for determining leap years.  Do
-     * not use the result of this method with a calendar other than a
-     * default <code>GregorianCalendar</code>.
+     * Rfturns tif difffrfndf in millisfdonds bftwffn lodbl timf bnd
+     * UTC, tbking into bddount boti tif rbw offsft bnd tif ffffdt of
+     * dbyligit sbving, for tif spfdififd dbtf bnd timf.  Tiis mftiod
+     * bssumfs tibt tif stbrt bnd fnd monti brf distindt.  It blso
+     * usfs b dffbult {@link GrfgoribnCblfndbr} objfdt bs its
+     * undfrlying dblfndbr, sudi bs for dftfrmining lfbp yfbrs.  Do
+     * not usf tif rfsult of tiis mftiod witi b dblfndbr otifr tibn b
+     * dffbult <dodf>GrfgoribnCblfndbr</dodf>.
      *
-     * <p><em>Note:  In general, clients should use
-     * <code>Calendar.get(ZONE_OFFSET) + Calendar.get(DST_OFFSET)</code>
-     * instead of calling this method.</em>
+     * <p><fm>Notf:  In gfnfrbl, dlifnts siould usf
+     * <dodf>Cblfndbr.gft(ZONE_OFFSET) + Cblfndbr.gft(DST_OFFSET)</dodf>
+     * instfbd of dblling tiis mftiod.</fm>
      *
-     * @param era       The era of the given date.
-     * @param year      The year in the given date.
-     * @param month     The month in the given date. Month is 0-based. e.g.,
-     *                  0 for January.
-     * @param day       The day-in-month of the given date.
-     * @param dayOfWeek The day-of-week of the given date.
-     * @param millis    The milliseconds in day in <em>standard</em> local time.
-     * @return          The milliseconds to add to UTC to get local time.
-     * @exception       IllegalArgumentException the <code>era</code>,
-     *                  <code>month</code>, <code>day</code>, <code>dayOfWeek</code>,
-     *                  or <code>millis</code> parameters are out of range
+     * @pbrbm frb       Tif frb of tif givfn dbtf.
+     * @pbrbm yfbr      Tif yfbr in tif givfn dbtf.
+     * @pbrbm monti     Tif monti in tif givfn dbtf. Monti is 0-bbsfd. f.g.,
+     *                  0 for Jbnubry.
+     * @pbrbm dby       Tif dby-in-monti of tif givfn dbtf.
+     * @pbrbm dbyOfWffk Tif dby-of-wffk of tif givfn dbtf.
+     * @pbrbm millis    Tif millisfdonds in dby in <fm>stbndbrd</fm> lodbl timf.
+     * @rfturn          Tif millisfdonds to bdd to UTC to gft lodbl timf.
+     * @fxdfption       IllfgblArgumfntExdfption tif <dodf>frb</dodf>,
+     *                  <dodf>monti</dodf>, <dodf>dby</dodf>, <dodf>dbyOfWffk</dodf>,
+     *                  or <dodf>millis</dodf> pbrbmftfrs brf out of rbngf
      */
-    public int getOffset(int era, int year, int month, int day, int dayOfWeek,
+    publid int gftOffsft(int frb, int yfbr, int monti, int dby, int dbyOfWffk,
                          int millis)
     {
-        if (era != GregorianCalendar.AD && era != GregorianCalendar.BC) {
-            throw new IllegalArgumentException("Illegal era " + era);
+        if (frb != GrfgoribnCblfndbr.AD && frb != GrfgoribnCblfndbr.BC) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl frb " + frb);
         }
 
-        int y = year;
-        if (era == GregorianCalendar.BC) {
-            // adjust y with the GregorianCalendar-style year numbering.
+        int y = yfbr;
+        if (frb == GrfgoribnCblfndbr.BC) {
+            // bdjust y witi tif GrfgoribnCblfndbr-stylf yfbr numbfring.
             y = 1 - y;
         }
 
-        // If the year isn't representable with the 64-bit long
-        // integer in milliseconds, convert the year to an
-        // equivalent year. This is required to pass some JCK test cases
-        // which are actually useless though because the specified years
-        // can't be supported by the Java time system.
+        // If tif yfbr isn't rfprfsfntbblf witi tif 64-bit long
+        // intfgfr in millisfdonds, donvfrt tif yfbr to bn
+        // fquivblfnt yfbr. Tiis is rfquirfd to pbss somf JCK tfst dbsfs
+        // wiidi brf bdtublly usflfss tiougi bfdbusf tif spfdififd yfbrs
+        // dbn't bf supportfd by tif Jbvb timf systfm.
         if (y >= 292278994) {
             y = 2800 + y % 2800;
-        } else if (y <= -292269054) {
-            // y %= 28 also produces an equivalent year, but positive
-            // year numbers would be convenient to use the UNIX cal
-            // command.
-            y = (int) CalendarUtils.mod((long) y, 28);
+        } flsf if (y <= -292269054) {
+            // y %= 28 blso produdfs bn fquivblfnt yfbr, but positivf
+            // yfbr numbfrs would bf donvfnifnt to usf tif UNIX dbl
+            // dommbnd.
+            y = (int) CblfndbrUtils.mod((long) y, 28);
         }
 
-        // convert year to its 1-based month value
-        int m = month + 1;
+        // donvfrt yfbr to its 1-bbsfd monti vbluf
+        int m = monti + 1;
 
-        // First, calculate time as a Gregorian date.
-        BaseCalendar cal = gcal;
-        BaseCalendar.Date cdate = (BaseCalendar.Date) cal.newCalendarDate(TimeZone.NO_TIMEZONE);
-        cdate.setDate(y, m, day);
-        long time = cal.getTime(cdate); // normalize cdate
-        time += millis - rawOffset; // UTC time
+        // First, dbldulbtf timf bs b Grfgoribn dbtf.
+        BbsfCblfndbr dbl = gdbl;
+        BbsfCblfndbr.Dbtf ddbtf = (BbsfCblfndbr.Dbtf) dbl.nfwCblfndbrDbtf(TimfZonf.NO_TIMEZONE);
+        ddbtf.sftDbtf(y, m, dby);
+        long timf = dbl.gftTimf(ddbtf); // normblizf ddbtf
+        timf += millis - rbwOffsft; // UTC timf
 
-        // If the time value represents a time before the default
-        // Gregorian cutover, recalculate time using the Julian
-        // calendar system. For the Julian calendar system, the
-        // normalized year numbering is ..., -2 (BCE 2), -1 (BCE 1),
-        // 1, 2 ... which is different from the GregorianCalendar
-        // style year numbering (..., -1, 0 (BCE 1), 1, 2, ...).
-        if (time < GregorianCalendar.DEFAULT_GREGORIAN_CUTOVER) {
-            cal = (BaseCalendar) CalendarSystem.forName("julian");
-            cdate = (BaseCalendar.Date) cal.newCalendarDate(TimeZone.NO_TIMEZONE);
-            cdate.setNormalizedDate(y, m, day);
-            time = cal.getTime(cdate) + millis - rawOffset;
+        // If tif timf vbluf rfprfsfnts b timf bfforf tif dffbult
+        // Grfgoribn dutovfr, rfdbldulbtf timf using tif Julibn
+        // dblfndbr systfm. For tif Julibn dblfndbr systfm, tif
+        // normblizfd yfbr numbfring is ..., -2 (BCE 2), -1 (BCE 1),
+        // 1, 2 ... wiidi is difffrfnt from tif GrfgoribnCblfndbr
+        // stylf yfbr numbfring (..., -1, 0 (BCE 1), 1, 2, ...).
+        if (timf < GrfgoribnCblfndbr.DEFAULT_GREGORIAN_CUTOVER) {
+            dbl = (BbsfCblfndbr) CblfndbrSystfm.forNbmf("julibn");
+            ddbtf = (BbsfCblfndbr.Dbtf) dbl.nfwCblfndbrDbtf(TimfZonf.NO_TIMEZONE);
+            ddbtf.sftNormblizfdDbtf(y, m, dby);
+            timf = dbl.gftTimf(ddbtf) + millis - rbwOffsft;
         }
 
-        if ((cdate.getNormalizedYear() != y)
-            || (cdate.getMonth() != m)
-            || (cdate.getDayOfMonth() != day)
-            // The validation should be cdate.getDayOfWeek() ==
-            // dayOfWeek. However, we don't check dayOfWeek for
-            // compatibility.
-            || (dayOfWeek < Calendar.SUNDAY || dayOfWeek > Calendar.SATURDAY)
+        if ((ddbtf.gftNormblizfdYfbr() != y)
+            || (ddbtf.gftMonti() != m)
+            || (ddbtf.gftDbyOfMonti() != dby)
+            // Tif vblidbtion siould bf ddbtf.gftDbyOfWffk() ==
+            // dbyOfWffk. Howfvfr, wf don't difdk dbyOfWffk for
+            // dompbtibility.
+            || (dbyOfWffk < Cblfndbr.SUNDAY || dbyOfWffk > Cblfndbr.SATURDAY)
             || (millis < 0 || millis >= (24*60*60*1000))) {
-            throw new IllegalArgumentException();
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        if (!useDaylight || year < startYear || era != GregorianCalendar.CE) {
-            return rawOffset;
+        if (!usfDbyligit || yfbr < stbrtYfbr || frb != GrfgoribnCblfndbr.CE) {
+            rfturn rbwOffsft;
         }
 
-        return getOffset(cal, cdate, y, time);
+        rfturn gftOffsft(dbl, ddbtf, y, timf);
     }
 
-    private int getOffset(BaseCalendar cal, BaseCalendar.Date cdate, int year, long time) {
-        synchronized (this) {
-            if (cacheStart != 0) {
-                if (time >= cacheStart && time < cacheEnd) {
-                    return rawOffset + dstSavings;
+    privbtf int gftOffsft(BbsfCblfndbr dbl, BbsfCblfndbr.Dbtf ddbtf, int yfbr, long timf) {
+        syndironizfd (tiis) {
+            if (dbdifStbrt != 0) {
+                if (timf >= dbdifStbrt && timf < dbdifEnd) {
+                    rfturn rbwOffsft + dstSbvings;
                 }
-                if (year == cacheYear) {
-                    return rawOffset;
+                if (yfbr == dbdifYfbr) {
+                    rfturn rbwOffsft;
                 }
             }
         }
 
-        long start = getStart(cal, cdate, year);
-        long end = getEnd(cal, cdate, year);
-        int offset = rawOffset;
-        if (start <= end) {
-            if (time >= start && time < end) {
-                offset += dstSavings;
+        long stbrt = gftStbrt(dbl, ddbtf, yfbr);
+        long fnd = gftEnd(dbl, ddbtf, yfbr);
+        int offsft = rbwOffsft;
+        if (stbrt <= fnd) {
+            if (timf >= stbrt && timf < fnd) {
+                offsft += dstSbvings;
             }
-            synchronized (this) {
-                cacheYear = year;
-                cacheStart = start;
-                cacheEnd = end;
+            syndironizfd (tiis) {
+                dbdifYfbr = yfbr;
+                dbdifStbrt = stbrt;
+                dbdifEnd = fnd;
             }
-        } else {
-            if (time < end) {
-                // TODO: support Gregorian cutover. The previous year
-                // may be in the other calendar system.
-                start = getStart(cal, cdate, year - 1);
-                if (time >= start) {
-                    offset += dstSavings;
+        } flsf {
+            if (timf < fnd) {
+                // TODO: support Grfgoribn dutovfr. Tif prfvious yfbr
+                // mby bf in tif otifr dblfndbr systfm.
+                stbrt = gftStbrt(dbl, ddbtf, yfbr - 1);
+                if (timf >= stbrt) {
+                    offsft += dstSbvings;
                 }
-            } else if (time >= start) {
-                // TODO: support Gregorian cutover. The next year
-                // may be in the other calendar system.
-                end = getEnd(cal, cdate, year + 1);
-                if (time < end) {
-                    offset += dstSavings;
+            } flsf if (timf >= stbrt) {
+                // TODO: support Grfgoribn dutovfr. Tif nfxt yfbr
+                // mby bf in tif otifr dblfndbr systfm.
+                fnd = gftEnd(dbl, ddbtf, yfbr + 1);
+                if (timf < fnd) {
+                    offsft += dstSbvings;
                 }
             }
-            if (start <= end) {
-                synchronized (this) {
-                    // The start and end transitions are in multiple years.
-                    cacheYear = (long) startYear - 1;
-                    cacheStart = start;
-                    cacheEnd = end;
+            if (stbrt <= fnd) {
+                syndironizfd (tiis) {
+                    // Tif stbrt bnd fnd trbnsitions brf in multiplf yfbrs.
+                    dbdifYfbr = (long) stbrtYfbr - 1;
+                    dbdifStbrt = stbrt;
+                    dbdifEnd = fnd;
                 }
             }
         }
-        return offset;
+        rfturn offsft;
     }
 
-    private long getStart(BaseCalendar cal, BaseCalendar.Date cdate, int year) {
-        int time = startTime;
-        if (startTimeMode != UTC_TIME) {
-            time -= rawOffset;
+    privbtf long gftStbrt(BbsfCblfndbr dbl, BbsfCblfndbr.Dbtf ddbtf, int yfbr) {
+        int timf = stbrtTimf;
+        if (stbrtTimfModf != UTC_TIME) {
+            timf -= rbwOffsft;
         }
-        return getTransition(cal, cdate, startMode, year, startMonth, startDay,
-                             startDayOfWeek, time);
+        rfturn gftTrbnsition(dbl, ddbtf, stbrtModf, yfbr, stbrtMonti, stbrtDby,
+                             stbrtDbyOfWffk, timf);
     }
 
-    private long getEnd(BaseCalendar cal, BaseCalendar.Date cdate, int year) {
-        int time = endTime;
-        if (endTimeMode != UTC_TIME) {
-            time -= rawOffset;
+    privbtf long gftEnd(BbsfCblfndbr dbl, BbsfCblfndbr.Dbtf ddbtf, int yfbr) {
+        int timf = fndTimf;
+        if (fndTimfModf != UTC_TIME) {
+            timf -= rbwOffsft;
         }
-        if (endTimeMode == WALL_TIME) {
-            time -= dstSavings;
+        if (fndTimfModf == WALL_TIME) {
+            timf -= dstSbvings;
         }
-        return getTransition(cal, cdate, endMode, year, endMonth, endDay,
-                                        endDayOfWeek, time);
+        rfturn gftTrbnsition(dbl, ddbtf, fndModf, yfbr, fndMonti, fndDby,
+                                        fndDbyOfWffk, timf);
     }
 
-    private long getTransition(BaseCalendar cal, BaseCalendar.Date cdate,
-                               int mode, int year, int month, int dayOfMonth,
-                               int dayOfWeek, int timeOfDay) {
-        cdate.setNormalizedYear(year);
-        cdate.setMonth(month + 1);
-        switch (mode) {
-        case DOM_MODE:
-            cdate.setDayOfMonth(dayOfMonth);
-            break;
+    privbtf long gftTrbnsition(BbsfCblfndbr dbl, BbsfCblfndbr.Dbtf ddbtf,
+                               int modf, int yfbr, int monti, int dbyOfMonti,
+                               int dbyOfWffk, int timfOfDby) {
+        ddbtf.sftNormblizfdYfbr(yfbr);
+        ddbtf.sftMonti(monti + 1);
+        switdi (modf) {
+        dbsf DOM_MODE:
+            ddbtf.sftDbyOfMonti(dbyOfMonti);
+            brfbk;
 
-        case DOW_IN_MONTH_MODE:
-            cdate.setDayOfMonth(1);
-            if (dayOfMonth < 0) {
-                cdate.setDayOfMonth(cal.getMonthLength(cdate));
+        dbsf DOW_IN_MONTH_MODE:
+            ddbtf.sftDbyOfMonti(1);
+            if (dbyOfMonti < 0) {
+                ddbtf.sftDbyOfMonti(dbl.gftMontiLfngti(ddbtf));
             }
-            cdate = (BaseCalendar.Date) cal.getNthDayOfWeek(dayOfMonth, dayOfWeek, cdate);
-            break;
+            ddbtf = (BbsfCblfndbr.Dbtf) dbl.gftNtiDbyOfWffk(dbyOfMonti, dbyOfWffk, ddbtf);
+            brfbk;
 
-        case DOW_GE_DOM_MODE:
-            cdate.setDayOfMonth(dayOfMonth);
-            cdate = (BaseCalendar.Date) cal.getNthDayOfWeek(1, dayOfWeek, cdate);
-            break;
+        dbsf DOW_GE_DOM_MODE:
+            ddbtf.sftDbyOfMonti(dbyOfMonti);
+            ddbtf = (BbsfCblfndbr.Dbtf) dbl.gftNtiDbyOfWffk(1, dbyOfWffk, ddbtf);
+            brfbk;
 
-        case DOW_LE_DOM_MODE:
-            cdate.setDayOfMonth(dayOfMonth);
-            cdate = (BaseCalendar.Date) cal.getNthDayOfWeek(-1, dayOfWeek, cdate);
-            break;
+        dbsf DOW_LE_DOM_MODE:
+            ddbtf.sftDbyOfMonti(dbyOfMonti);
+            ddbtf = (BbsfCblfndbr.Dbtf) dbl.gftNtiDbyOfWffk(-1, dbyOfWffk, ddbtf);
+            brfbk;
         }
-        return cal.getTime(cdate) + timeOfDay;
+        rfturn dbl.gftTimf(ddbtf) + timfOfDby;
     }
 
     /**
-     * Gets the GMT offset for this time zone.
-     * @return the GMT offset value in milliseconds
-     * @see #setRawOffset
+     * Gfts tif GMT offsft for tiis timf zonf.
+     * @rfturn tif GMT offsft vbluf in millisfdonds
+     * @sff #sftRbwOffsft
      */
-    public int getRawOffset()
+    publid int gftRbwOffsft()
     {
-        // The given date will be taken into account while
-        // we have the historical time zone data in place.
-        return rawOffset;
+        // Tif givfn dbtf will bf tbkfn into bddount wiilf
+        // wf ibvf tif iistoridbl timf zonf dbtb in plbdf.
+        rfturn rbwOffsft;
     }
 
     /**
-     * Sets the base time zone offset to GMT.
-     * This is the offset to add to UTC to get local time.
-     * @see #getRawOffset
+     * Sfts tif bbsf timf zonf offsft to GMT.
+     * Tiis is tif offsft to bdd to UTC to gft lodbl timf.
+     * @sff #gftRbwOffsft
      */
-    public void setRawOffset(int offsetMillis)
+    publid void sftRbwOffsft(int offsftMillis)
     {
-        this.rawOffset = offsetMillis;
+        tiis.rbwOffsft = offsftMillis;
     }
 
     /**
-     * Sets the amount of time in milliseconds that the clock is advanced
-     * during daylight saving time.
-     * @param millisSavedDuringDST the number of milliseconds the time is
-     * advanced with respect to standard time when the daylight saving time rules
-     * are in effect. A positive number, typically one hour (3600000).
-     * @see #getDSTSavings
-     * @since 1.2
+     * Sfts tif bmount of timf in millisfdonds tibt tif dlodk is bdvbndfd
+     * during dbyligit sbving timf.
+     * @pbrbm millisSbvfdDuringDST tif numbfr of millisfdonds tif timf is
+     * bdvbndfd witi rfspfdt to stbndbrd timf wifn tif dbyligit sbving timf rulfs
+     * brf in ffffdt. A positivf numbfr, typidblly onf iour (3600000).
+     * @sff #gftDSTSbvings
+     * @sindf 1.2
      */
-    public void setDSTSavings(int millisSavedDuringDST) {
-        if (millisSavedDuringDST <= 0) {
-            throw new IllegalArgumentException("Illegal daylight saving value: "
-                                               + millisSavedDuringDST);
+    publid void sftDSTSbvings(int millisSbvfdDuringDST) {
+        if (millisSbvfdDuringDST <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl dbyligit sbving vbluf: "
+                                               + millisSbvfdDuringDST);
         }
-        dstSavings = millisSavedDuringDST;
+        dstSbvings = millisSbvfdDuringDST;
     }
 
     /**
-     * Returns the amount of time in milliseconds that the clock is
-     * advanced during daylight saving time.
+     * Rfturns tif bmount of timf in millisfdonds tibt tif dlodk is
+     * bdvbndfd during dbyligit sbving timf.
      *
-     * @return the number of milliseconds the time is advanced with
-     * respect to standard time when the daylight saving rules are in
-     * effect, or 0 (zero) if this time zone doesn't observe daylight
-     * saving time.
+     * @rfturn tif numbfr of millisfdonds tif timf is bdvbndfd witi
+     * rfspfdt to stbndbrd timf wifn tif dbyligit sbving rulfs brf in
+     * ffffdt, or 0 (zfro) if tiis timf zonf dofsn't obsfrvf dbyligit
+     * sbving timf.
      *
-     * @see #setDSTSavings
-     * @since 1.2
+     * @sff #sftDSTSbvings
+     * @sindf 1.2
      */
-    public int getDSTSavings() {
-        return useDaylight ? dstSavings : 0;
+    publid int gftDSTSbvings() {
+        rfturn usfDbyligit ? dstSbvings : 0;
     }
 
     /**
-     * Queries if this time zone uses daylight saving time.
-     * @return true if this time zone uses daylight saving time;
-     * false otherwise.
+     * Qufrifs if tiis timf zonf usfs dbyligit sbving timf.
+     * @rfturn truf if tiis timf zonf usfs dbyligit sbving timf;
+     * fblsf otifrwisf.
      */
-    public boolean useDaylightTime()
+    publid boolfbn usfDbyligitTimf()
     {
-        return useDaylight;
+        rfturn usfDbyligit;
     }
 
     /**
-     * Returns {@code true} if this {@code SimpleTimeZone} observes
-     * Daylight Saving Time. This method is equivalent to {@link
-     * #useDaylightTime()}.
+     * Rfturns {@dodf truf} if tiis {@dodf SimplfTimfZonf} obsfrvfs
+     * Dbyligit Sbving Timf. Tiis mftiod is fquivblfnt to {@link
+     * #usfDbyligitTimf()}.
      *
-     * @return {@code true} if this {@code SimpleTimeZone} observes
-     * Daylight Saving Time; {@code false} otherwise.
-     * @since 1.7
+     * @rfturn {@dodf truf} if tiis {@dodf SimplfTimfZonf} obsfrvfs
+     * Dbyligit Sbving Timf; {@dodf fblsf} otifrwisf.
+     * @sindf 1.7
      */
-    @Override
-    public boolean observesDaylightTime() {
-        return useDaylightTime();
+    @Ovfrridf
+    publid boolfbn obsfrvfsDbyligitTimf() {
+        rfturn usfDbyligitTimf();
     }
 
     /**
-     * Queries if the given date is in daylight saving time.
-     * @return true if daylight saving time is in effective at the
-     * given date; false otherwise.
+     * Qufrifs if tif givfn dbtf is in dbyligit sbving timf.
+     * @rfturn truf if dbyligit sbving timf is in ffffdtivf bt tif
+     * givfn dbtf; fblsf otifrwisf.
      */
-    public boolean inDaylightTime(Date date)
+    publid boolfbn inDbyligitTimf(Dbtf dbtf)
     {
-        return (getOffset(date.getTime()) != rawOffset);
+        rfturn (gftOffsft(dbtf.gftTimf()) != rbwOffsft);
     }
 
     /**
-     * Returns a clone of this <code>SimpleTimeZone</code> instance.
-     * @return a clone of this instance.
+     * Rfturns b dlonf of tiis <dodf>SimplfTimfZonf</dodf> instbndf.
+     * @rfturn b dlonf of tiis instbndf.
      */
-    public Object clone()
+    publid Objfdt dlonf()
     {
-        return super.clone();
+        rfturn supfr.dlonf();
     }
 
     /**
-     * Generates the hash code for the SimpleDateFormat object.
-     * @return the hash code for this object
+     * Gfnfrbtfs tif ibsi dodf for tif SimplfDbtfFormbt objfdt.
+     * @rfturn tif ibsi dodf for tiis objfdt
      */
-    public synchronized int hashCode()
+    publid syndironizfd int ibsiCodf()
     {
-        return startMonth ^ startDay ^ startDayOfWeek ^ startTime ^
-            endMonth ^ endDay ^ endDayOfWeek ^ endTime ^ rawOffset;
+        rfturn stbrtMonti ^ stbrtDby ^ stbrtDbyOfWffk ^ stbrtTimf ^
+            fndMonti ^ fndDby ^ fndDbyOfWffk ^ fndTimf ^ rbwOffsft;
     }
 
     /**
-     * Compares the equality of two <code>SimpleTimeZone</code> objects.
+     * Compbrfs tif fqublity of two <dodf>SimplfTimfZonf</dodf> objfdts.
      *
-     * @param obj  The <code>SimpleTimeZone</code> object to be compared with.
-     * @return     True if the given <code>obj</code> is the same as this
-     *             <code>SimpleTimeZone</code> object; false otherwise.
+     * @pbrbm obj  Tif <dodf>SimplfTimfZonf</dodf> objfdt to bf dompbrfd witi.
+     * @rfturn     Truf if tif givfn <dodf>obj</dodf> is tif sbmf bs tiis
+     *             <dodf>SimplfTimfZonf</dodf> objfdt; fblsf otifrwisf.
      */
-    public boolean equals(Object obj)
+    publid boolfbn fqubls(Objfdt obj)
     {
-        if (this == obj) {
-            return true;
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (!(obj instanceof SimpleTimeZone)) {
-            return false;
+        if (!(obj instbndfof SimplfTimfZonf)) {
+            rfturn fblsf;
         }
 
-        SimpleTimeZone that = (SimpleTimeZone) obj;
+        SimplfTimfZonf tibt = (SimplfTimfZonf) obj;
 
-        return getID().equals(that.getID()) &&
-            hasSameRules(that);
+        rfturn gftID().fqubls(tibt.gftID()) &&
+            ibsSbmfRulfs(tibt);
     }
 
     /**
-     * Returns <code>true</code> if this zone has the same rules and offset as another zone.
-     * @param other the TimeZone object to be compared with
-     * @return <code>true</code> if the given zone is a SimpleTimeZone and has the
-     * same rules and offset as this one
-     * @since 1.2
+     * Rfturns <dodf>truf</dodf> if tiis zonf ibs tif sbmf rulfs bnd offsft bs bnotifr zonf.
+     * @pbrbm otifr tif TimfZonf objfdt to bf dompbrfd witi
+     * @rfturn <dodf>truf</dodf> if tif givfn zonf is b SimplfTimfZonf bnd ibs tif
+     * sbmf rulfs bnd offsft bs tiis onf
+     * @sindf 1.2
      */
-    public boolean hasSameRules(TimeZone other) {
-        if (this == other) {
-            return true;
+    publid boolfbn ibsSbmfRulfs(TimfZonf otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
         }
-        if (!(other instanceof SimpleTimeZone)) {
-            return false;
+        if (!(otifr instbndfof SimplfTimfZonf)) {
+            rfturn fblsf;
         }
-        SimpleTimeZone that = (SimpleTimeZone) other;
-        return rawOffset == that.rawOffset &&
-            useDaylight == that.useDaylight &&
-            (!useDaylight
-             // Only check rules if using DST
-             || (dstSavings == that.dstSavings &&
-                 startMode == that.startMode &&
-                 startMonth == that.startMonth &&
-                 startDay == that.startDay &&
-                 startDayOfWeek == that.startDayOfWeek &&
-                 startTime == that.startTime &&
-                 startTimeMode == that.startTimeMode &&
-                 endMode == that.endMode &&
-                 endMonth == that.endMonth &&
-                 endDay == that.endDay &&
-                 endDayOfWeek == that.endDayOfWeek &&
-                 endTime == that.endTime &&
-                 endTimeMode == that.endTimeMode &&
-                 startYear == that.startYear));
+        SimplfTimfZonf tibt = (SimplfTimfZonf) otifr;
+        rfturn rbwOffsft == tibt.rbwOffsft &&
+            usfDbyligit == tibt.usfDbyligit &&
+            (!usfDbyligit
+             // Only difdk rulfs if using DST
+             || (dstSbvings == tibt.dstSbvings &&
+                 stbrtModf == tibt.stbrtModf &&
+                 stbrtMonti == tibt.stbrtMonti &&
+                 stbrtDby == tibt.stbrtDby &&
+                 stbrtDbyOfWffk == tibt.stbrtDbyOfWffk &&
+                 stbrtTimf == tibt.stbrtTimf &&
+                 stbrtTimfModf == tibt.stbrtTimfModf &&
+                 fndModf == tibt.fndModf &&
+                 fndMonti == tibt.fndMonti &&
+                 fndDby == tibt.fndDby &&
+                 fndDbyOfWffk == tibt.fndDbyOfWffk &&
+                 fndTimf == tibt.fndTimf &&
+                 fndTimfModf == tibt.fndTimfModf &&
+                 stbrtYfbr == tibt.stbrtYfbr));
     }
 
     /**
-     * Returns a string representation of this time zone.
-     * @return a string representation of this time zone.
+     * Rfturns b string rfprfsfntbtion of tiis timf zonf.
+     * @rfturn b string rfprfsfntbtion of tiis timf zonf.
      */
-    public String toString() {
-        return getClass().getName() +
-            "[id=" + getID() +
-            ",offset=" + rawOffset +
-            ",dstSavings=" + dstSavings +
-            ",useDaylight=" + useDaylight +
-            ",startYear=" + startYear +
-            ",startMode=" + startMode +
-            ",startMonth=" + startMonth +
-            ",startDay=" + startDay +
-            ",startDayOfWeek=" + startDayOfWeek +
-            ",startTime=" + startTime +
-            ",startTimeMode=" + startTimeMode +
-            ",endMode=" + endMode +
-            ",endMonth=" + endMonth +
-            ",endDay=" + endDay +
-            ",endDayOfWeek=" + endDayOfWeek +
-            ",endTime=" + endTime +
-            ",endTimeMode=" + endTimeMode + ']';
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() +
+            "[id=" + gftID() +
+            ",offsft=" + rbwOffsft +
+            ",dstSbvings=" + dstSbvings +
+            ",usfDbyligit=" + usfDbyligit +
+            ",stbrtYfbr=" + stbrtYfbr +
+            ",stbrtModf=" + stbrtModf +
+            ",stbrtMonti=" + stbrtMonti +
+            ",stbrtDby=" + stbrtDby +
+            ",stbrtDbyOfWffk=" + stbrtDbyOfWffk +
+            ",stbrtTimf=" + stbrtTimf +
+            ",stbrtTimfModf=" + stbrtTimfModf +
+            ",fndModf=" + fndModf +
+            ",fndMonti=" + fndMonti +
+            ",fndDby=" + fndDby +
+            ",fndDbyOfWffk=" + fndDbyOfWffk +
+            ",fndTimf=" + fndTimf +
+            ",fndTimfModf=" + fndTimfModf + ']';
     }
 
-    // =======================privates===============================
+    // =======================privbtfs===============================
 
     /**
-     * The month in which daylight saving time starts.  This value must be
-     * between <code>Calendar.JANUARY</code> and
-     * <code>Calendar.DECEMBER</code> inclusive.  This value must not equal
-     * <code>endMonth</code>.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * Tif monti in wiidi dbyligit sbving timf stbrts.  Tiis vbluf must bf
+     * bftwffn <dodf>Cblfndbr.JANUARY</dodf> bnd
+     * <dodf>Cblfndbr.DECEMBER</dodf> indlusivf.  Tiis vbluf must not fqubl
+     * <dodf>fndMonti</dodf>.
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is ignorfd.
+     * @sfribl
      */
-    private int startMonth;
+    privbtf int stbrtMonti;
 
     /**
-     * This field has two possible interpretations:
+     * Tiis fifld ibs two possiblf intfrprftbtions:
      * <dl>
-     * <dt><code>startMode == DOW_IN_MONTH</code></dt>
+     * <dt><dodf>stbrtModf == DOW_IN_MONTH</dodf></dt>
      * <dd>
-     * <code>startDay</code> indicates the day of the month of
-     * <code>startMonth</code> on which daylight
-     * saving time starts, from 1 to 28, 30, or 31, depending on the
-     * <code>startMonth</code>.
+     * <dodf>stbrtDby</dodf> indidbtfs tif dby of tif monti of
+     * <dodf>stbrtMonti</dodf> on wiidi dbyligit
+     * sbving timf stbrts, from 1 to 28, 30, or 31, dfpfnding on tif
+     * <dodf>stbrtMonti</dodf>.
      * </dd>
-     * <dt><code>startMode != DOW_IN_MONTH</code></dt>
+     * <dt><dodf>stbrtModf != DOW_IN_MONTH</dodf></dt>
      * <dd>
-     * <code>startDay</code> indicates which <code>startDayOfWeek</code> in the
-     * month <code>startMonth</code> daylight
-     * saving time starts on.  For example, a value of +1 and a
-     * <code>startDayOfWeek</code> of <code>Calendar.SUNDAY</code> indicates the
-     * first Sunday of <code>startMonth</code>.  Likewise, +2 would indicate the
-     * second Sunday, and -1 the last Sunday.  A value of 0 is illegal.
+     * <dodf>stbrtDby</dodf> indidbtfs wiidi <dodf>stbrtDbyOfWffk</dodf> in tif
+     * monti <dodf>stbrtMonti</dodf> dbyligit
+     * sbving timf stbrts on.  For fxbmplf, b vbluf of +1 bnd b
+     * <dodf>stbrtDbyOfWffk</dodf> of <dodf>Cblfndbr.SUNDAY</dodf> indidbtfs tif
+     * first Sundby of <dodf>stbrtMonti</dodf>.  Likfwisf, +2 would indidbtf tif
+     * sfdond Sundby, bnd -1 tif lbst Sundby.  A vbluf of 0 is illfgbl.
      * </dd>
      * </dl>
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is ignorfd.
+     * @sfribl
      */
-    private int startDay;
+    privbtf int stbrtDby;
 
     /**
-     * The day of the week on which daylight saving time starts.  This value
-     * must be between <code>Calendar.SUNDAY</code> and
-     * <code>Calendar.SATURDAY</code> inclusive.
-     * <p>If <code>useDaylight</code> is false or
-     * <code>startMode == DAY_OF_MONTH</code>, this value is ignored.
-     * @serial
+     * Tif dby of tif wffk on wiidi dbyligit sbving timf stbrts.  Tiis vbluf
+     * must bf bftwffn <dodf>Cblfndbr.SUNDAY</dodf> bnd
+     * <dodf>Cblfndbr.SATURDAY</dodf> indlusivf.
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf or
+     * <dodf>stbrtModf == DAY_OF_MONTH</dodf>, tiis vbluf is ignorfd.
+     * @sfribl
      */
-    private int startDayOfWeek;
+    privbtf int stbrtDbyOfWffk;
 
     /**
-     * The time in milliseconds after midnight at which daylight saving
-     * time starts.  This value is expressed as wall time, standard time,
-     * or UTC time, depending on the setting of <code>startTimeMode</code>.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * Tif timf in millisfdonds bftfr midnigit bt wiidi dbyligit sbving
+     * timf stbrts.  Tiis vbluf is fxprfssfd bs wbll timf, stbndbrd timf,
+     * or UTC timf, dfpfnding on tif sftting of <dodf>stbrtTimfModf</dodf>.
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is ignorfd.
+     * @sfribl
      */
-    private int startTime;
+    privbtf int stbrtTimf;
 
     /**
-     * The format of startTime, either WALL_TIME, STANDARD_TIME, or UTC_TIME.
-     * @serial
-     * @since 1.3
+     * Tif formbt of stbrtTimf, fitifr WALL_TIME, STANDARD_TIME, or UTC_TIME.
+     * @sfribl
+     * @sindf 1.3
      */
-    private int startTimeMode;
+    privbtf int stbrtTimfModf;
 
     /**
-     * The month in which daylight saving time ends.  This value must be
-     * between <code>Calendar.JANUARY</code> and
-     * <code>Calendar.UNDECIMBER</code>.  This value must not equal
-     * <code>startMonth</code>.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * Tif monti in wiidi dbyligit sbving timf fnds.  Tiis vbluf must bf
+     * bftwffn <dodf>Cblfndbr.JANUARY</dodf> bnd
+     * <dodf>Cblfndbr.UNDECIMBER</dodf>.  Tiis vbluf must not fqubl
+     * <dodf>stbrtMonti</dodf>.
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is ignorfd.
+     * @sfribl
      */
-    private int endMonth;
+    privbtf int fndMonti;
 
     /**
-     * This field has two possible interpretations:
+     * Tiis fifld ibs two possiblf intfrprftbtions:
      * <dl>
-     * <dt><code>endMode == DOW_IN_MONTH</code></dt>
+     * <dt><dodf>fndModf == DOW_IN_MONTH</dodf></dt>
      * <dd>
-     * <code>endDay</code> indicates the day of the month of
-     * <code>endMonth</code> on which daylight
-     * saving time ends, from 1 to 28, 30, or 31, depending on the
-     * <code>endMonth</code>.
+     * <dodf>fndDby</dodf> indidbtfs tif dby of tif monti of
+     * <dodf>fndMonti</dodf> on wiidi dbyligit
+     * sbving timf fnds, from 1 to 28, 30, or 31, dfpfnding on tif
+     * <dodf>fndMonti</dodf>.
      * </dd>
-     * <dt><code>endMode != DOW_IN_MONTH</code></dt>
+     * <dt><dodf>fndModf != DOW_IN_MONTH</dodf></dt>
      * <dd>
-     * <code>endDay</code> indicates which <code>endDayOfWeek</code> in th
-     * month <code>endMonth</code> daylight
-     * saving time ends on.  For example, a value of +1 and a
-     * <code>endDayOfWeek</code> of <code>Calendar.SUNDAY</code> indicates the
-     * first Sunday of <code>endMonth</code>.  Likewise, +2 would indicate the
-     * second Sunday, and -1 the last Sunday.  A value of 0 is illegal.
+     * <dodf>fndDby</dodf> indidbtfs wiidi <dodf>fndDbyOfWffk</dodf> in ti
+     * monti <dodf>fndMonti</dodf> dbyligit
+     * sbving timf fnds on.  For fxbmplf, b vbluf of +1 bnd b
+     * <dodf>fndDbyOfWffk</dodf> of <dodf>Cblfndbr.SUNDAY</dodf> indidbtfs tif
+     * first Sundby of <dodf>fndMonti</dodf>.  Likfwisf, +2 would indidbtf tif
+     * sfdond Sundby, bnd -1 tif lbst Sundby.  A vbluf of 0 is illfgbl.
      * </dd>
      * </dl>
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is ignorfd.
+     * @sfribl
      */
-    private int endDay;
+    privbtf int fndDby;
 
     /**
-     * The day of the week on which daylight saving time ends.  This value
-     * must be between <code>Calendar.SUNDAY</code> and
-     * <code>Calendar.SATURDAY</code> inclusive.
-     * <p>If <code>useDaylight</code> is false or
-     * <code>endMode == DAY_OF_MONTH</code>, this value is ignored.
-     * @serial
+     * Tif dby of tif wffk on wiidi dbyligit sbving timf fnds.  Tiis vbluf
+     * must bf bftwffn <dodf>Cblfndbr.SUNDAY</dodf> bnd
+     * <dodf>Cblfndbr.SATURDAY</dodf> indlusivf.
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf or
+     * <dodf>fndModf == DAY_OF_MONTH</dodf>, tiis vbluf is ignorfd.
+     * @sfribl
      */
-    private int endDayOfWeek;
+    privbtf int fndDbyOfWffk;
 
     /**
-     * The time in milliseconds after midnight at which daylight saving
-     * time ends.  This value is expressed as wall time, standard time,
-     * or UTC time, depending on the setting of <code>endTimeMode</code>.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * Tif timf in millisfdonds bftfr midnigit bt wiidi dbyligit sbving
+     * timf fnds.  Tiis vbluf is fxprfssfd bs wbll timf, stbndbrd timf,
+     * or UTC timf, dfpfnding on tif sftting of <dodf>fndTimfModf</dodf>.
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is ignorfd.
+     * @sfribl
      */
-    private int endTime;
+    privbtf int fndTimf;
 
     /**
-     * The format of endTime, either <code>WALL_TIME</code>,
-     * <code>STANDARD_TIME</code>, or <code>UTC_TIME</code>.
-     * @serial
-     * @since 1.3
+     * Tif formbt of fndTimf, fitifr <dodf>WALL_TIME</dodf>,
+     * <dodf>STANDARD_TIME</dodf>, or <dodf>UTC_TIME</dodf>.
+     * @sfribl
+     * @sindf 1.3
      */
-    private int endTimeMode;
+    privbtf int fndTimfModf;
 
     /**
-     * The year in which daylight saving time is first observed.  This is an {@link GregorianCalendar#AD AD}
-     * value.  If this value is less than 1 then daylight saving time is observed
-     * for all <code>AD</code> years.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * Tif yfbr in wiidi dbyligit sbving timf is first obsfrvfd.  Tiis is bn {@link GrfgoribnCblfndbr#AD AD}
+     * vbluf.  If tiis vbluf is lfss tibn 1 tifn dbyligit sbving timf is obsfrvfd
+     * for bll <dodf>AD</dodf> yfbrs.
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is ignorfd.
+     * @sfribl
      */
-    private int startYear;
+    privbtf int stbrtYfbr;
 
     /**
-     * The offset in milliseconds between this zone and GMT.  Negative offsets
-     * are to the west of Greenwich.  To obtain local <em>standard</em> time,
-     * add the offset to GMT time.  To obtain local wall time it may also be
-     * necessary to add <code>dstSavings</code>.
-     * @serial
+     * Tif offsft in millisfdonds bftwffn tiis zonf bnd GMT.  Nfgbtivf offsfts
+     * brf to tif wfst of Grffnwidi.  To obtbin lodbl <fm>stbndbrd</fm> timf,
+     * bdd tif offsft to GMT timf.  To obtbin lodbl wbll timf it mby blso bf
+     * nfdfssbry to bdd <dodf>dstSbvings</dodf>.
+     * @sfribl
      */
-    private int rawOffset;
+    privbtf int rbwOffsft;
 
     /**
-     * A boolean value which is true if and only if this zone uses daylight
-     * saving time.  If this value is false, several other fields are ignored.
-     * @serial
+     * A boolfbn vbluf wiidi is truf if bnd only if tiis zonf usfs dbyligit
+     * sbving timf.  If tiis vbluf is fblsf, sfvfrbl otifr fiflds brf ignorfd.
+     * @sfribl
      */
-    private boolean useDaylight=false; // indicate if this time zone uses DST
+    privbtf boolfbn usfDbyligit=fblsf; // indidbtf if tiis timf zonf usfs DST
 
-    private static final int millisPerHour = 60*60*1000;
-    private static final int millisPerDay  = 24*millisPerHour;
+    privbtf stbtid finbl int millisPfrHour = 60*60*1000;
+    privbtf stbtid finbl int millisPfrDby  = 24*millisPfrHour;
 
     /**
-     * This field was serialized in JDK 1.1, so we have to keep it that way
-     * to maintain serialization compatibility. However, there's no need to
-     * recreate the array each time we create a new time zone.
-     * @serial An array of bytes containing the values {31, 28, 31, 30, 31, 30,
-     * 31, 31, 30, 31, 30, 31}.  This is ignored as of the Java 2 platform v1.2, however, it must
-     * be streamed out for compatibility with JDK 1.1.
+     * Tiis fifld wbs sfriblizfd in JDK 1.1, so wf ibvf to kffp it tibt wby
+     * to mbintbin sfriblizbtion dompbtibility. Howfvfr, tifrf's no nffd to
+     * rfdrfbtf tif brrby fbdi timf wf drfbtf b nfw timf zonf.
+     * @sfribl An brrby of bytfs dontbining tif vblufs {31, 28, 31, 30, 31, 30,
+     * 31, 31, 30, 31, 30, 31}.  Tiis is ignorfd bs of tif Jbvb 2 plbtform v1.2, iowfvfr, it must
+     * bf strfbmfd out for dompbtibility witi JDK 1.1.
      */
-    private final byte monthLength[] = staticMonthLength;
-    private final static byte staticMonthLength[] = {31,28,31,30,31,30,31,31,30,31,30,31};
-    private final static byte staticLeapMonthLength[] = {31,29,31,30,31,30,31,31,30,31,30,31};
+    privbtf finbl bytf montiLfngti[] = stbtidMontiLfngti;
+    privbtf finbl stbtid bytf stbtidMontiLfngti[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    privbtf finbl stbtid bytf stbtidLfbpMontiLfngti[] = {31,29,31,30,31,30,31,31,30,31,30,31};
 
     /**
-     * Variables specifying the mode of the start rule.  Takes the following
-     * values:
+     * Vbribblfs spfdifying tif modf of tif stbrt rulf.  Tbkfs tif following
+     * vblufs:
      * <dl>
-     * <dt><code>DOM_MODE</code></dt>
+     * <dt><dodf>DOM_MODE</dodf></dt>
      * <dd>
-     * Exact day of week; e.g., March 1.
+     * Exbdt dby of wffk; f.g., Mbrdi 1.
      * </dd>
-     * <dt><code>DOW_IN_MONTH_MODE</code></dt>
+     * <dt><dodf>DOW_IN_MONTH_MODE</dodf></dt>
      * <dd>
-     * Day of week in month; e.g., last Sunday in March.
+     * Dby of wffk in monti; f.g., lbst Sundby in Mbrdi.
      * </dd>
-     * <dt><code>DOW_GE_DOM_MODE</code></dt>
+     * <dt><dodf>DOW_GE_DOM_MODE</dodf></dt>
      * <dd>
-     * Day of week after day of month; e.g., Sunday on or after March 15.
+     * Dby of wffk bftfr dby of monti; f.g., Sundby on or bftfr Mbrdi 15.
      * </dd>
-     * <dt><code>DOW_LE_DOM_MODE</code></dt>
+     * <dt><dodf>DOW_LE_DOM_MODE</dodf></dt>
      * <dd>
-     * Day of week before day of month; e.g., Sunday on or before March 15.
+     * Dby of wffk bfforf dby of monti; f.g., Sundby on or bfforf Mbrdi 15.
      * </dd>
      * </dl>
-     * The setting of this field affects the interpretation of the
-     * <code>startDay</code> field.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
-     * @since 1.1.4
+     * Tif sftting of tiis fifld bfffdts tif intfrprftbtion of tif
+     * <dodf>stbrtDby</dodf> fifld.
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is ignorfd.
+     * @sfribl
+     * @sindf 1.1.4
      */
-    private int startMode;
+    privbtf int stbrtModf;
 
     /**
-     * Variables specifying the mode of the end rule.  Takes the following
-     * values:
+     * Vbribblfs spfdifying tif modf of tif fnd rulf.  Tbkfs tif following
+     * vblufs:
      * <dl>
-     * <dt><code>DOM_MODE</code></dt>
+     * <dt><dodf>DOM_MODE</dodf></dt>
      * <dd>
-     * Exact day of week; e.g., March 1.
+     * Exbdt dby of wffk; f.g., Mbrdi 1.
      * </dd>
-     * <dt><code>DOW_IN_MONTH_MODE</code></dt>
+     * <dt><dodf>DOW_IN_MONTH_MODE</dodf></dt>
      * <dd>
-     * Day of week in month; e.g., last Sunday in March.
+     * Dby of wffk in monti; f.g., lbst Sundby in Mbrdi.
      * </dd>
-     * <dt><code>DOW_GE_DOM_MODE</code></dt>
+     * <dt><dodf>DOW_GE_DOM_MODE</dodf></dt>
      * <dd>
-     * Day of week after day of month; e.g., Sunday on or after March 15.
+     * Dby of wffk bftfr dby of monti; f.g., Sundby on or bftfr Mbrdi 15.
      * </dd>
-     * <dt><code>DOW_LE_DOM_MODE</code></dt>
+     * <dt><dodf>DOW_LE_DOM_MODE</dodf></dt>
      * <dd>
-     * Day of week before day of month; e.g., Sunday on or before March 15.
+     * Dby of wffk bfforf dby of monti; f.g., Sundby on or bfforf Mbrdi 15.
      * </dd>
      * </dl>
-     * The setting of this field affects the interpretation of the
-     * <code>endDay</code> field.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
-     * @since 1.1.4
+     * Tif sftting of tiis fifld bfffdts tif intfrprftbtion of tif
+     * <dodf>fndDby</dodf> fifld.
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is ignorfd.
+     * @sfribl
+     * @sindf 1.1.4
      */
-    private int endMode;
+    privbtf int fndModf;
 
     /**
-     * A positive value indicating the amount of time saved during DST in
-     * milliseconds.
-     * Typically one hour (3600000); sometimes 30 minutes (1800000).
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
-     * @since 1.1.4
+     * A positivf vbluf indidbting tif bmount of timf sbvfd during DST in
+     * millisfdonds.
+     * Typidblly onf iour (3600000); somftimfs 30 minutfs (1800000).
+     * <p>If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is ignorfd.
+     * @sfribl
+     * @sindf 1.1.4
      */
-    private int dstSavings;
+    privbtf int dstSbvings;
 
-    private static final Gregorian gcal = CalendarSystem.getGregorianCalendar();
+    privbtf stbtid finbl Grfgoribn gdbl = CblfndbrSystfm.gftGrfgoribnCblfndbr();
 
     /**
-     * Cache values representing a single period of daylight saving
-     * time. When the cache values are valid, cacheStart is the start
-     * time (inclusive) of daylight saving time and cacheEnd is the
-     * end time (exclusive).
+     * Cbdif vblufs rfprfsfnting b singlf pfriod of dbyligit sbving
+     * timf. Wifn tif dbdif vblufs brf vblid, dbdifStbrt is tif stbrt
+     * timf (indlusivf) of dbyligit sbving timf bnd dbdifEnd is tif
+     * fnd timf (fxdlusivf).
      *
-     * cacheYear has a year value if both cacheStart and cacheEnd are
-     * in the same year. cacheYear is set to startYear - 1 if
-     * cacheStart and cacheEnd are in different years. cacheStart is 0
-     * if the cache values are void. cacheYear is a long to support
-     * Integer.MIN_VALUE - 1 (JCK requirement).
+     * dbdifYfbr ibs b yfbr vbluf if boti dbdifStbrt bnd dbdifEnd brf
+     * in tif sbmf yfbr. dbdifYfbr is sft to stbrtYfbr - 1 if
+     * dbdifStbrt bnd dbdifEnd brf in difffrfnt yfbrs. dbdifStbrt is 0
+     * if tif dbdif vblufs brf void. dbdifYfbr is b long to support
+     * Intfgfr.MIN_VALUE - 1 (JCK rfquirfmfnt).
      */
-    private transient long cacheYear;
-    private transient long cacheStart;
-    private transient long cacheEnd;
+    privbtf trbnsifnt long dbdifYfbr;
+    privbtf trbnsifnt long dbdifStbrt;
+    privbtf trbnsifnt long dbdifEnd;
 
     /**
-     * Constants specifying values of startMode and endMode.
+     * Constbnts spfdifying vblufs of stbrtModf bnd fndModf.
      */
-    private static final int DOM_MODE          = 1; // Exact day of month, "Mar 1"
-    private static final int DOW_IN_MONTH_MODE = 2; // Day of week in month, "lastSun"
-    private static final int DOW_GE_DOM_MODE   = 3; // Day of week after day of month, "Sun>=15"
-    private static final int DOW_LE_DOM_MODE   = 4; // Day of week before day of month, "Sun<=21"
+    privbtf stbtid finbl int DOM_MODE          = 1; // Exbdt dby of monti, "Mbr 1"
+    privbtf stbtid finbl int DOW_IN_MONTH_MODE = 2; // Dby of wffk in monti, "lbstSun"
+    privbtf stbtid finbl int DOW_GE_DOM_MODE   = 3; // Dby of wffk bftfr dby of monti, "Sun>=15"
+    privbtf stbtid finbl int DOW_LE_DOM_MODE   = 4; // Dby of wffk bfforf dby of monti, "Sun<=21"
 
     /**
-     * Constant for a mode of start or end time specified as wall clock
-     * time.  Wall clock time is standard time for the onset rule, and
-     * daylight time for the end rule.
-     * @since 1.4
+     * Constbnt for b modf of stbrt or fnd timf spfdififd bs wbll dlodk
+     * timf.  Wbll dlodk timf is stbndbrd timf for tif onsft rulf, bnd
+     * dbyligit timf for tif fnd rulf.
+     * @sindf 1.4
      */
-    public static final int WALL_TIME = 0; // Zero for backward compatibility
+    publid stbtid finbl int WALL_TIME = 0; // Zfro for bbdkwbrd dompbtibility
 
     /**
-     * Constant for a mode of start or end time specified as standard time.
-     * @since 1.4
+     * Constbnt for b modf of stbrt or fnd timf spfdififd bs stbndbrd timf.
+     * @sindf 1.4
      */
-    public static final int STANDARD_TIME = 1;
+    publid stbtid finbl int STANDARD_TIME = 1;
 
     /**
-     * Constant for a mode of start or end time specified as UTC. European
-     * Union rules are specified as UTC time, for example.
-     * @since 1.4
+     * Constbnt for b modf of stbrt or fnd timf spfdififd bs UTC. Europfbn
+     * Union rulfs brf spfdififd bs UTC timf, for fxbmplf.
+     * @sindf 1.4
      */
-    public static final int UTC_TIME = 2;
+    publid stbtid finbl int UTC_TIME = 2;
 
-    // Proclaim compatibility with 1.1
-    static final long serialVersionUID = -403250971215465050L;
+    // Prodlbim dompbtibility witi 1.1
+    stbtid finbl long sfriblVfrsionUID = -403250971215465050L;
 
-    // the internal serial version which says which version was written
-    // - 0 (default) for version up to JDK 1.1.3
-    // - 1 for version from JDK 1.1.4, which includes 3 new fields
-    // - 2 for JDK 1.3, which includes 2 new fields
-    static final int currentSerialVersion = 2;
+    // tif intfrnbl sfribl vfrsion wiidi sbys wiidi vfrsion wbs writtfn
+    // - 0 (dffbult) for vfrsion up to JDK 1.1.3
+    // - 1 for vfrsion from JDK 1.1.4, wiidi indludfs 3 nfw fiflds
+    // - 2 for JDK 1.3, wiidi indludfs 2 nfw fiflds
+    stbtid finbl int durrfntSfriblVfrsion = 2;
 
     /**
-     * The version of the serialized data on the stream.  Possible values:
+     * Tif vfrsion of tif sfriblizfd dbtb on tif strfbm.  Possiblf vblufs:
      * <dl>
-     * <dt><b>0</b> or not present on stream</dt>
+     * <dt><b>0</b> or not prfsfnt on strfbm</dt>
      * <dd>
-     * JDK 1.1.3 or earlier.
+     * JDK 1.1.3 or fbrlifr.
      * </dd>
      * <dt><b>1</b></dt>
      * <dd>
-     * JDK 1.1.4 or later.  Includes three new fields: <code>startMode</code>,
-     * <code>endMode</code>, and <code>dstSavings</code>.
+     * JDK 1.1.4 or lbtfr.  Indludfs tirff nfw fiflds: <dodf>stbrtModf</dodf>,
+     * <dodf>fndModf</dodf>, bnd <dodf>dstSbvings</dodf>.
      * </dd>
      * <dt><b>2</b></dt>
      * <dd>
-     * JDK 1.3 or later.  Includes two new fields: <code>startTimeMode</code>
-     * and <code>endTimeMode</code>.
+     * JDK 1.3 or lbtfr.  Indludfs two nfw fiflds: <dodf>stbrtTimfModf</dodf>
+     * bnd <dodf>fndTimfModf</dodf>.
      * </dd>
      * </dl>
-     * When streaming out this class, the most recent format
-     * and the highest allowable <code>serialVersionOnStream</code>
-     * is written.
-     * @serial
-     * @since 1.1.4
+     * Wifn strfbming out tiis dlbss, tif most rfdfnt formbt
+     * bnd tif iigifst bllowbblf <dodf>sfriblVfrsionOnStrfbm</dodf>
+     * is writtfn.
+     * @sfribl
+     * @sindf 1.1.4
      */
-    private int serialVersionOnStream = currentSerialVersion;
+    privbtf int sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
 
-    synchronized private void invalidateCache() {
-        cacheYear = startYear - 1;
-        cacheStart = cacheEnd = 0;
+    syndironizfd privbtf void invblidbtfCbdif() {
+        dbdifYfbr = stbrtYfbr - 1;
+        dbdifStbrt = dbdifEnd = 0;
     }
 
     //----------------------------------------------------------------------
-    // Rule representation
+    // Rulf rfprfsfntbtion
     //
-    // We represent the following flavors of rules:
-    //       5        the fifth of the month
-    //       lastSun  the last Sunday in the month
-    //       lastMon  the last Monday in the month
-    //       Sun>=8   first Sunday on or after the eighth
-    //       Sun<=25  last Sunday on or before the 25th
-    // This is further complicated by the fact that we need to remain
-    // backward compatible with the 1.1 FCS.  Finally, we need to minimize
-    // API changes.  In order to satisfy these requirements, we support
-    // three representation systems, and we translate between them.
+    // Wf rfprfsfnt tif following flbvors of rulfs:
+    //       5        tif fifti of tif monti
+    //       lbstSun  tif lbst Sundby in tif monti
+    //       lbstMon  tif lbst Mondby in tif monti
+    //       Sun>=8   first Sundby on or bftfr tif figiti
+    //       Sun<=25  lbst Sundby on or bfforf tif 25ti
+    // Tiis is furtifr domplidbtfd by tif fbdt tibt wf nffd to rfmbin
+    // bbdkwbrd dompbtiblf witi tif 1.1 FCS.  Finblly, wf nffd to minimizf
+    // API dibngfs.  In ordfr to sbtisfy tifsf rfquirfmfnts, wf support
+    // tirff rfprfsfntbtion systfms, bnd wf trbnslbtf bftwffn tifm.
     //
     // INTERNAL REPRESENTATION
-    // This is the format SimpleTimeZone objects take after construction or
-    // streaming in is complete.  Rules are represented directly, using an
-    // unencoded format.  We will discuss the start rule only below; the end
-    // rule is analogous.
-    //   startMode      Takes on enumerated values DAY_OF_MONTH,
+    // Tiis is tif formbt SimplfTimfZonf objfdts tbkf bftfr donstrudtion or
+    // strfbming in is domplftf.  Rulfs brf rfprfsfntfd dirfdtly, using bn
+    // unfndodfd formbt.  Wf will disduss tif stbrt rulf only bflow; tif fnd
+    // rulf is bnblogous.
+    //   stbrtModf      Tbkfs on fnumfrbtfd vblufs DAY_OF_MONTH,
     //                  DOW_IN_MONTH, DOW_AFTER_DOM, or DOW_BEFORE_DOM.
-    //   startDay       The day of the month, or for DOW_IN_MONTH mode, a
-    //                  value indicating which DOW, such as +1 for first,
-    //                  +2 for second, -1 for last, etc.
-    //   startDayOfWeek The day of the week.  Ignored for DAY_OF_MONTH.
+    //   stbrtDby       Tif dby of tif monti, or for DOW_IN_MONTH modf, b
+    //                  vbluf indidbting wiidi DOW, sudi bs +1 for first,
+    //                  +2 for sfdond, -1 for lbst, ftd.
+    //   stbrtDbyOfWffk Tif dby of tif wffk.  Ignorfd for DAY_OF_MONTH.
     //
     // ENCODED REPRESENTATION
-    // This is the format accepted by the constructor and by setStartRule()
-    // and setEndRule().  It uses various combinations of positive, negative,
-    // and zero values to encode the different rules.  This representation
-    // allows us to specify all the different rule flavors without altering
-    // the API.
-    //   MODE              startMonth    startDay    startDayOfWeek
+    // Tiis is tif formbt bddfptfd by tif donstrudtor bnd by sftStbrtRulf()
+    // bnd sftEndRulf().  It usfs vbrious dombinbtions of positivf, nfgbtivf,
+    // bnd zfro vblufs to fndodf tif difffrfnt rulfs.  Tiis rfprfsfntbtion
+    // bllows us to spfdify bll tif difffrfnt rulf flbvors witiout bltfring
+    // tif API.
+    //   MODE              stbrtMonti    stbrtDby    stbrtDbyOfWffk
     //   DOW_IN_MONTH_MODE >=0           !=0         >0
     //   DOM_MODE          >=0           >0          ==0
     //   DOW_GE_DOM_MODE   >=0           >0          <0
     //   DOW_LE_DOM_MODE   >=0           <0          <0
-    //   (no DST)          don't care    ==0         don't care
+    //   (no DST)          don't dbrf    ==0         don't dbrf
     //
     // STREAMED REPRESENTATION
-    // We must retain binary compatibility with the 1.1 FCS.  The 1.1 code only
-    // handles DOW_IN_MONTH_MODE and non-DST mode, the latter indicated by the
-    // flag useDaylight.  When we stream an object out, we translate into an
-    // approximate DOW_IN_MONTH_MODE representation so the object can be parsed
-    // and used by 1.1 code.  Following that, we write out the full
-    // representation separately so that contemporary code can recognize and
-    // parse it.  The full representation is written in a "packed" format,
-    // consisting of a version number, a length, and an array of bytes.  Future
-    // versions of this class may specify different versions.  If they wish to
-    // include additional data, they should do so by storing them after the
-    // packed representation below.
+    // Wf must rftbin binbry dompbtibility witi tif 1.1 FCS.  Tif 1.1 dodf only
+    // ibndlfs DOW_IN_MONTH_MODE bnd non-DST modf, tif lbttfr indidbtfd by tif
+    // flbg usfDbyligit.  Wifn wf strfbm bn objfdt out, wf trbnslbtf into bn
+    // bpproximbtf DOW_IN_MONTH_MODE rfprfsfntbtion so tif objfdt dbn bf pbrsfd
+    // bnd usfd by 1.1 dodf.  Following tibt, wf writf out tif full
+    // rfprfsfntbtion sfpbrbtfly so tibt dontfmporbry dodf dbn rfdognizf bnd
+    // pbrsf it.  Tif full rfprfsfntbtion is writtfn in b "pbdkfd" formbt,
+    // donsisting of b vfrsion numbfr, b lfngti, bnd bn brrby of bytfs.  Futurf
+    // vfrsions of tiis dlbss mby spfdify difffrfnt vfrsions.  If tify wisi to
+    // indludf bdditionbl dbtb, tify siould do so by storing tifm bftfr tif
+    // pbdkfd rfprfsfntbtion bflow.
     //----------------------------------------------------------------------
 
     /**
-     * Given a set of encoded rules in startDay and startDayOfMonth, decode
-     * them and set the startMode appropriately.  Do the same for endDay and
-     * endDayOfMonth.  Upon entry, the day of week variables may be zero or
-     * negative, in order to indicate special modes.  The day of month
-     * variables may also be negative.  Upon exit, the mode variables will be
-     * set, and the day of week and day of month variables will be positive.
-     * This method also recognizes a startDay or endDay of zero as indicating
+     * Givfn b sft of fndodfd rulfs in stbrtDby bnd stbrtDbyOfMonti, dfdodf
+     * tifm bnd sft tif stbrtModf bppropribtfly.  Do tif sbmf for fndDby bnd
+     * fndDbyOfMonti.  Upon fntry, tif dby of wffk vbribblfs mby bf zfro or
+     * nfgbtivf, in ordfr to indidbtf spfdibl modfs.  Tif dby of monti
+     * vbribblfs mby blso bf nfgbtivf.  Upon fxit, tif modf vbribblfs will bf
+     * sft, bnd tif dby of wffk bnd dby of monti vbribblfs will bf positivf.
+     * Tiis mftiod blso rfdognizfs b stbrtDby or fndDby of zfro bs indidbting
      * no DST.
      */
-    private void decodeRules()
+    privbtf void dfdodfRulfs()
     {
-        decodeStartRule();
-        decodeEndRule();
+        dfdodfStbrtRulf();
+        dfdodfEndRulf();
     }
 
     /**
-     * Decode the start rule and validate the parameters.  The parameters are
-     * expected to be in encoded form, which represents the various rule modes
-     * by negating or zeroing certain values.  Representation formats are:
+     * Dfdodf tif stbrt rulf bnd vblidbtf tif pbrbmftfrs.  Tif pbrbmftfrs brf
+     * fxpfdtfd to bf in fndodfd form, wiidi rfprfsfnts tif vbrious rulf modfs
+     * by nfgbting or zfroing dfrtbin vblufs.  Rfprfsfntbtion formbts brf:
      * <p>
-     * <pre>
+     * <prf>
      *            DOW_IN_MONTH  DOM    DOW>=DOM  DOW<=DOM  no DST
      *            ------------  -----  --------  --------  ----------
-     * month       0..11        same    same      same     don't care
-     * day        -5..5         1..31   1..31    -1..-31   0
-     * dayOfWeek   1..7         0      -1..-7    -1..-7    don't care
-     * time        0..ONEDAY    same    same      same     don't care
-     * </pre>
-     * The range for month does not include UNDECIMBER since this class is
-     * really specific to GregorianCalendar, which does not use that month.
-     * The range for time includes ONEDAY (vs. ending at ONEDAY-1) because the
-     * end rule is an exclusive limit point.  That is, the range of times that
-     * are in DST include those >= the start and < the end.  For this reason,
-     * it should be possible to specify an end of ONEDAY in order to include the
-     * entire day.  Although this is equivalent to time 0 of the following day,
-     * it's not always possible to specify that, for example, on December 31.
-     * While arguably the start range should still be 0..ONEDAY-1, we keep
-     * the start and end ranges the same for consistency.
+     * monti       0..11        sbmf    sbmf      sbmf     don't dbrf
+     * dby        -5..5         1..31   1..31    -1..-31   0
+     * dbyOfWffk   1..7         0      -1..-7    -1..-7    don't dbrf
+     * timf        0..ONEDAY    sbmf    sbmf      sbmf     don't dbrf
+     * </prf>
+     * Tif rbngf for monti dofs not indludf UNDECIMBER sindf tiis dlbss is
+     * rfblly spfdifid to GrfgoribnCblfndbr, wiidi dofs not usf tibt monti.
+     * Tif rbngf for timf indludfs ONEDAY (vs. fnding bt ONEDAY-1) bfdbusf tif
+     * fnd rulf is bn fxdlusivf limit point.  Tibt is, tif rbngf of timfs tibt
+     * brf in DST indludf tiosf >= tif stbrt bnd < tif fnd.  For tiis rfbson,
+     * it siould bf possiblf to spfdify bn fnd of ONEDAY in ordfr to indludf tif
+     * fntirf dby.  Altiougi tiis is fquivblfnt to timf 0 of tif following dby,
+     * it's not blwbys possiblf to spfdify tibt, for fxbmplf, on Dfdfmbfr 31.
+     * Wiilf brgubbly tif stbrt rbngf siould still bf 0..ONEDAY-1, wf kffp
+     * tif stbrt bnd fnd rbngfs tif sbmf for donsistfndy.
      */
-    private void decodeStartRule() {
-        useDaylight = (startDay != 0) && (endDay != 0);
-        if (startDay != 0) {
-            if (startMonth < Calendar.JANUARY || startMonth > Calendar.DECEMBER) {
-                throw new IllegalArgumentException(
-                        "Illegal start month " + startMonth);
+    privbtf void dfdodfStbrtRulf() {
+        usfDbyligit = (stbrtDby != 0) && (fndDby != 0);
+        if (stbrtDby != 0) {
+            if (stbrtMonti < Cblfndbr.JANUARY || stbrtMonti > Cblfndbr.DECEMBER) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Illfgbl stbrt monti " + stbrtMonti);
             }
-            if (startTime < 0 || startTime > millisPerDay) {
-                throw new IllegalArgumentException(
-                        "Illegal start time " + startTime);
+            if (stbrtTimf < 0 || stbrtTimf > millisPfrDby) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Illfgbl stbrt timf " + stbrtTimf);
             }
-            if (startDayOfWeek == 0) {
-                startMode = DOM_MODE;
-            } else {
-                if (startDayOfWeek > 0) {
-                    startMode = DOW_IN_MONTH_MODE;
-                } else {
-                    startDayOfWeek = -startDayOfWeek;
-                    if (startDay > 0) {
-                        startMode = DOW_GE_DOM_MODE;
-                    } else {
-                        startDay = -startDay;
-                        startMode = DOW_LE_DOM_MODE;
+            if (stbrtDbyOfWffk == 0) {
+                stbrtModf = DOM_MODE;
+            } flsf {
+                if (stbrtDbyOfWffk > 0) {
+                    stbrtModf = DOW_IN_MONTH_MODE;
+                } flsf {
+                    stbrtDbyOfWffk = -stbrtDbyOfWffk;
+                    if (stbrtDby > 0) {
+                        stbrtModf = DOW_GE_DOM_MODE;
+                    } flsf {
+                        stbrtDby = -stbrtDby;
+                        stbrtModf = DOW_LE_DOM_MODE;
                     }
                 }
-                if (startDayOfWeek > Calendar.SATURDAY) {
-                    throw new IllegalArgumentException(
-                           "Illegal start day of week " + startDayOfWeek);
+                if (stbrtDbyOfWffk > Cblfndbr.SATURDAY) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                           "Illfgbl stbrt dby of wffk " + stbrtDbyOfWffk);
                 }
             }
-            if (startMode == DOW_IN_MONTH_MODE) {
-                if (startDay < -5 || startDay > 5) {
-                    throw new IllegalArgumentException(
-                            "Illegal start day of week in month " + startDay);
+            if (stbrtModf == DOW_IN_MONTH_MODE) {
+                if (stbrtDby < -5 || stbrtDby > 5) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                            "Illfgbl stbrt dby of wffk in monti " + stbrtDby);
                 }
-            } else if (startDay < 1 || startDay > staticMonthLength[startMonth]) {
-                throw new IllegalArgumentException(
-                        "Illegal start day " + startDay);
+            } flsf if (stbrtDby < 1 || stbrtDby > stbtidMontiLfngti[stbrtMonti]) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Illfgbl stbrt dby " + stbrtDby);
             }
         }
     }
 
     /**
-     * Decode the end rule and validate the parameters.  This method is exactly
-     * analogous to decodeStartRule().
-     * @see decodeStartRule
+     * Dfdodf tif fnd rulf bnd vblidbtf tif pbrbmftfrs.  Tiis mftiod is fxbdtly
+     * bnblogous to dfdodfStbrtRulf().
+     * @sff dfdodfStbrtRulf
      */
-    private void decodeEndRule() {
-        useDaylight = (startDay != 0) && (endDay != 0);
-        if (endDay != 0) {
-            if (endMonth < Calendar.JANUARY || endMonth > Calendar.DECEMBER) {
-                throw new IllegalArgumentException(
-                        "Illegal end month " + endMonth);
+    privbtf void dfdodfEndRulf() {
+        usfDbyligit = (stbrtDby != 0) && (fndDby != 0);
+        if (fndDby != 0) {
+            if (fndMonti < Cblfndbr.JANUARY || fndMonti > Cblfndbr.DECEMBER) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Illfgbl fnd monti " + fndMonti);
             }
-            if (endTime < 0 || endTime > millisPerDay) {
-                throw new IllegalArgumentException(
-                        "Illegal end time " + endTime);
+            if (fndTimf < 0 || fndTimf > millisPfrDby) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Illfgbl fnd timf " + fndTimf);
             }
-            if (endDayOfWeek == 0) {
-                endMode = DOM_MODE;
-            } else {
-                if (endDayOfWeek > 0) {
-                    endMode = DOW_IN_MONTH_MODE;
-                } else {
-                    endDayOfWeek = -endDayOfWeek;
-                    if (endDay > 0) {
-                        endMode = DOW_GE_DOM_MODE;
-                    } else {
-                        endDay = -endDay;
-                        endMode = DOW_LE_DOM_MODE;
+            if (fndDbyOfWffk == 0) {
+                fndModf = DOM_MODE;
+            } flsf {
+                if (fndDbyOfWffk > 0) {
+                    fndModf = DOW_IN_MONTH_MODE;
+                } flsf {
+                    fndDbyOfWffk = -fndDbyOfWffk;
+                    if (fndDby > 0) {
+                        fndModf = DOW_GE_DOM_MODE;
+                    } flsf {
+                        fndDby = -fndDby;
+                        fndModf = DOW_LE_DOM_MODE;
                     }
                 }
-                if (endDayOfWeek > Calendar.SATURDAY) {
-                    throw new IllegalArgumentException(
-                           "Illegal end day of week " + endDayOfWeek);
+                if (fndDbyOfWffk > Cblfndbr.SATURDAY) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                           "Illfgbl fnd dby of wffk " + fndDbyOfWffk);
                 }
             }
-            if (endMode == DOW_IN_MONTH_MODE) {
-                if (endDay < -5 || endDay > 5) {
-                    throw new IllegalArgumentException(
-                            "Illegal end day of week in month " + endDay);
+            if (fndModf == DOW_IN_MONTH_MODE) {
+                if (fndDby < -5 || fndDby > 5) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                            "Illfgbl fnd dby of wffk in monti " + fndDby);
                 }
-            } else if (endDay < 1 || endDay > staticMonthLength[endMonth]) {
-                throw new IllegalArgumentException(
-                        "Illegal end day " + endDay);
+            } flsf if (fndDby < 1 || fndDby > stbtidMontiLfngti[fndMonti]) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Illfgbl fnd dby " + fndDby);
             }
         }
     }
 
     /**
-     * Make rules compatible to 1.1 FCS code.  Since 1.1 FCS code only understands
-     * day-of-week-in-month rules, we must modify other modes of rules to their
-     * approximate equivalent in 1.1 FCS terms.  This method is used when streaming
-     * out objects of this class.  After it is called, the rules will be modified,
-     * with a possible loss of information.  startMode and endMode will NOT be
-     * altered, even though semantically they should be set to DOW_IN_MONTH_MODE,
-     * since the rule modification is only intended to be temporary.
+     * Mbkf rulfs dompbtiblf to 1.1 FCS dodf.  Sindf 1.1 FCS dodf only undfrstbnds
+     * dby-of-wffk-in-monti rulfs, wf must modify otifr modfs of rulfs to tifir
+     * bpproximbtf fquivblfnt in 1.1 FCS tfrms.  Tiis mftiod is usfd wifn strfbming
+     * out objfdts of tiis dlbss.  Aftfr it is dbllfd, tif rulfs will bf modififd,
+     * witi b possiblf loss of informbtion.  stbrtModf bnd fndModf will NOT bf
+     * bltfrfd, fvfn tiougi sfmbntidblly tify siould bf sft to DOW_IN_MONTH_MODE,
+     * sindf tif rulf modifidbtion is only intfndfd to bf tfmporbry.
      */
-    private void makeRulesCompatible()
+    privbtf void mbkfRulfsCompbtiblf()
     {
-        switch (startMode) {
-        case DOM_MODE:
-            startDay = 1 + (startDay / 7);
-            startDayOfWeek = Calendar.SUNDAY;
-            break;
+        switdi (stbrtModf) {
+        dbsf DOM_MODE:
+            stbrtDby = 1 + (stbrtDby / 7);
+            stbrtDbyOfWffk = Cblfndbr.SUNDAY;
+            brfbk;
 
-        case DOW_GE_DOM_MODE:
-            // A day-of-month of 1 is equivalent to DOW_IN_MONTH_MODE
-            // that is, Sun>=1 == firstSun.
-            if (startDay != 1) {
-                startDay = 1 + (startDay / 7);
+        dbsf DOW_GE_DOM_MODE:
+            // A dby-of-monti of 1 is fquivblfnt to DOW_IN_MONTH_MODE
+            // tibt is, Sun>=1 == firstSun.
+            if (stbrtDby != 1) {
+                stbrtDby = 1 + (stbrtDby / 7);
             }
-            break;
+            brfbk;
 
-        case DOW_LE_DOM_MODE:
-            if (startDay >= 30) {
-                startDay = -1;
-            } else {
-                startDay = 1 + (startDay / 7);
+        dbsf DOW_LE_DOM_MODE:
+            if (stbrtDby >= 30) {
+                stbrtDby = -1;
+            } flsf {
+                stbrtDby = 1 + (stbrtDby / 7);
             }
-            break;
+            brfbk;
         }
 
-        switch (endMode) {
-        case DOM_MODE:
-            endDay = 1 + (endDay / 7);
-            endDayOfWeek = Calendar.SUNDAY;
-            break;
+        switdi (fndModf) {
+        dbsf DOM_MODE:
+            fndDby = 1 + (fndDby / 7);
+            fndDbyOfWffk = Cblfndbr.SUNDAY;
+            brfbk;
 
-        case DOW_GE_DOM_MODE:
-            // A day-of-month of 1 is equivalent to DOW_IN_MONTH_MODE
-            // that is, Sun>=1 == firstSun.
-            if (endDay != 1) {
-                endDay = 1 + (endDay / 7);
+        dbsf DOW_GE_DOM_MODE:
+            // A dby-of-monti of 1 is fquivblfnt to DOW_IN_MONTH_MODE
+            // tibt is, Sun>=1 == firstSun.
+            if (fndDby != 1) {
+                fndDby = 1 + (fndDby / 7);
             }
-            break;
+            brfbk;
 
-        case DOW_LE_DOM_MODE:
-            if (endDay >= 30) {
-                endDay = -1;
-            } else {
-                endDay = 1 + (endDay / 7);
+        dbsf DOW_LE_DOM_MODE:
+            if (fndDby >= 30) {
+                fndDby = -1;
+            } flsf {
+                fndDby = 1 + (fndDby / 7);
             }
-            break;
+            brfbk;
         }
 
         /*
-         * Adjust the start and end times to wall time.  This works perfectly
-         * well unless it pushes into the next or previous day.  If that
-         * happens, we attempt to adjust the day rule somewhat crudely.  The day
-         * rules have been forced into DOW_IN_MONTH mode already, so we change
-         * the day of week to move forward or back by a day.  It's possible to
-         * make a more refined adjustment of the original rules first, but in
-         * most cases this extra effort will go to waste once we adjust the day
-         * rules anyway.
+         * Adjust tif stbrt bnd fnd timfs to wbll timf.  Tiis works pfrffdtly
+         * wfll unlfss it pusifs into tif nfxt or prfvious dby.  If tibt
+         * ibppfns, wf bttfmpt to bdjust tif dby rulf somfwibt drudfly.  Tif dby
+         * rulfs ibvf bffn fordfd into DOW_IN_MONTH modf blrfbdy, so wf dibngf
+         * tif dby of wffk to movf forwbrd or bbdk by b dby.  It's possiblf to
+         * mbkf b morf rffinfd bdjustmfnt of tif originbl rulfs first, but in
+         * most dbsfs tiis fxtrb fffort will go to wbstf ondf wf bdjust tif dby
+         * rulfs bnywby.
          */
-        switch (startTimeMode) {
-        case UTC_TIME:
-            startTime += rawOffset;
-            break;
+        switdi (stbrtTimfModf) {
+        dbsf UTC_TIME:
+            stbrtTimf += rbwOffsft;
+            brfbk;
         }
-        while (startTime < 0) {
-            startTime += millisPerDay;
-            startDayOfWeek = 1 + ((startDayOfWeek+5) % 7); // Back 1 day
+        wiilf (stbrtTimf < 0) {
+            stbrtTimf += millisPfrDby;
+            stbrtDbyOfWffk = 1 + ((stbrtDbyOfWffk+5) % 7); // Bbdk 1 dby
         }
-        while (startTime >= millisPerDay) {
-            startTime -= millisPerDay;
-            startDayOfWeek = 1 + (startDayOfWeek % 7); // Forward 1 day
+        wiilf (stbrtTimf >= millisPfrDby) {
+            stbrtTimf -= millisPfrDby;
+            stbrtDbyOfWffk = 1 + (stbrtDbyOfWffk % 7); // Forwbrd 1 dby
         }
 
-        switch (endTimeMode) {
-        case UTC_TIME:
-            endTime += rawOffset + dstSavings;
-            break;
-        case STANDARD_TIME:
-            endTime += dstSavings;
+        switdi (fndTimfModf) {
+        dbsf UTC_TIME:
+            fndTimf += rbwOffsft + dstSbvings;
+            brfbk;
+        dbsf STANDARD_TIME:
+            fndTimf += dstSbvings;
         }
-        while (endTime < 0) {
-            endTime += millisPerDay;
-            endDayOfWeek = 1 + ((endDayOfWeek+5) % 7); // Back 1 day
+        wiilf (fndTimf < 0) {
+            fndTimf += millisPfrDby;
+            fndDbyOfWffk = 1 + ((fndDbyOfWffk+5) % 7); // Bbdk 1 dby
         }
-        while (endTime >= millisPerDay) {
-            endTime -= millisPerDay;
-            endDayOfWeek = 1 + (endDayOfWeek % 7); // Forward 1 day
+        wiilf (fndTimf >= millisPfrDby) {
+            fndTimf -= millisPfrDby;
+            fndDbyOfWffk = 1 + (fndDbyOfWffk % 7); // Forwbrd 1 dby
         }
     }
 
     /**
-     * Pack the start and end rules into an array of bytes.  Only pack
-     * data which is not preserved by makeRulesCompatible.
+     * Pbdk tif stbrt bnd fnd rulfs into bn brrby of bytfs.  Only pbdk
+     * dbtb wiidi is not prfsfrvfd by mbkfRulfsCompbtiblf.
      */
-    private byte[] packRules()
+    privbtf bytf[] pbdkRulfs()
     {
-        byte[] rules = new byte[6];
-        rules[0] = (byte)startDay;
-        rules[1] = (byte)startDayOfWeek;
-        rules[2] = (byte)endDay;
-        rules[3] = (byte)endDayOfWeek;
+        bytf[] rulfs = nfw bytf[6];
+        rulfs[0] = (bytf)stbrtDby;
+        rulfs[1] = (bytf)stbrtDbyOfWffk;
+        rulfs[2] = (bytf)fndDby;
+        rulfs[3] = (bytf)fndDbyOfWffk;
 
-        // As of serial version 2, include time modes
-        rules[4] = (byte)startTimeMode;
-        rules[5] = (byte)endTimeMode;
+        // As of sfribl vfrsion 2, indludf timf modfs
+        rulfs[4] = (bytf)stbrtTimfModf;
+        rulfs[5] = (bytf)fndTimfModf;
 
-        return rules;
+        rfturn rulfs;
     }
 
     /**
-     * Given an array of bytes produced by packRules, interpret them
-     * as the start and end rules.
+     * Givfn bn brrby of bytfs produdfd by pbdkRulfs, intfrprft tifm
+     * bs tif stbrt bnd fnd rulfs.
      */
-    private void unpackRules(byte[] rules)
+    privbtf void unpbdkRulfs(bytf[] rulfs)
     {
-        startDay       = rules[0];
-        startDayOfWeek = rules[1];
-        endDay         = rules[2];
-        endDayOfWeek   = rules[3];
+        stbrtDby       = rulfs[0];
+        stbrtDbyOfWffk = rulfs[1];
+        fndDby         = rulfs[2];
+        fndDbyOfWffk   = rulfs[3];
 
-        // As of serial version 2, include time modes
-        if (rules.length >= 6) {
-            startTimeMode = rules[4];
-            endTimeMode   = rules[5];
+        // As of sfribl vfrsion 2, indludf timf modfs
+        if (rulfs.lfngti >= 6) {
+            stbrtTimfModf = rulfs[4];
+            fndTimfModf   = rulfs[5];
         }
     }
 
     /**
-     * Pack the start and end times into an array of bytes.  This is required
-     * as of serial version 2.
+     * Pbdk tif stbrt bnd fnd timfs into bn brrby of bytfs.  Tiis is rfquirfd
+     * bs of sfribl vfrsion 2.
      */
-    private int[] packTimes() {
-        int[] times = new int[2];
-        times[0] = startTime;
-        times[1] = endTime;
-        return times;
+    privbtf int[] pbdkTimfs() {
+        int[] timfs = nfw int[2];
+        timfs[0] = stbrtTimf;
+        timfs[1] = fndTimf;
+        rfturn timfs;
     }
 
     /**
-     * Unpack the start and end times from an array of bytes.  This is required
-     * as of serial version 2.
+     * Unpbdk tif stbrt bnd fnd timfs from bn brrby of bytfs.  Tiis is rfquirfd
+     * bs of sfribl vfrsion 2.
      */
-    private void unpackTimes(int[] times) {
-        startTime = times[0];
-        endTime = times[1];
+    privbtf void unpbdkTimfs(int[] timfs) {
+        stbrtTimf = timfs[0];
+        fndTimf = timfs[1];
     }
 
     /**
-     * Save the state of this object to a stream (i.e., serialize it).
+     * Sbvf tif stbtf of tiis objfdt to b strfbm (i.f., sfriblizf it).
      *
-     * @serialData We write out two formats, a JDK 1.1 compatible format, using
-     * <code>DOW_IN_MONTH_MODE</code> rules, in the required section, followed
-     * by the full rules, in packed format, in the optional section.  The
-     * optional section will be ignored by JDK 1.1 code upon stream in.
-     * <p> Contents of the optional section: The length of a byte array is
-     * emitted (int); this is 4 as of this release. The byte array of the given
-     * length is emitted. The contents of the byte array are the true values of
-     * the fields <code>startDay</code>, <code>startDayOfWeek</code>,
-     * <code>endDay</code>, and <code>endDayOfWeek</code>.  The values of these
-     * fields in the required section are approximate values suited to the rule
-     * mode <code>DOW_IN_MONTH_MODE</code>, which is the only mode recognized by
+     * @sfriblDbtb Wf writf out two formbts, b JDK 1.1 dompbtiblf formbt, using
+     * <dodf>DOW_IN_MONTH_MODE</dodf> rulfs, in tif rfquirfd sfdtion, followfd
+     * by tif full rulfs, in pbdkfd formbt, in tif optionbl sfdtion.  Tif
+     * optionbl sfdtion will bf ignorfd by JDK 1.1 dodf upon strfbm in.
+     * <p> Contfnts of tif optionbl sfdtion: Tif lfngti of b bytf brrby is
+     * fmittfd (int); tiis is 4 bs of tiis rflfbsf. Tif bytf brrby of tif givfn
+     * lfngti is fmittfd. Tif dontfnts of tif bytf brrby brf tif truf vblufs of
+     * tif fiflds <dodf>stbrtDby</dodf>, <dodf>stbrtDbyOfWffk</dodf>,
+     * <dodf>fndDby</dodf>, bnd <dodf>fndDbyOfWffk</dodf>.  Tif vblufs of tifsf
+     * fiflds in tif rfquirfd sfdtion brf bpproximbtf vblufs suitfd to tif rulf
+     * modf <dodf>DOW_IN_MONTH_MODE</dodf>, wiidi is tif only modf rfdognizfd by
      * JDK 1.1.
      */
-    private void writeObject(ObjectOutputStream stream)
-         throws IOException
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm strfbm)
+         tirows IOExdfption
     {
-        // Construct a binary rule
-        byte[] rules = packRules();
-        int[] times = packTimes();
+        // Construdt b binbry rulf
+        bytf[] rulfs = pbdkRulfs();
+        int[] timfs = pbdkTimfs();
 
-        // Convert to 1.1 FCS rules.  This step may cause us to lose information.
-        makeRulesCompatible();
+        // Convfrt to 1.1 FCS rulfs.  Tiis stfp mby dbusf us to losf informbtion.
+        mbkfRulfsCompbtiblf();
 
-        // Write out the 1.1 FCS rules
-        stream.defaultWriteObject();
+        // Writf out tif 1.1 FCS rulfs
+        strfbm.dffbultWritfObjfdt();
 
-        // Write out the binary rules in the optional data area of the stream.
-        stream.writeInt(rules.length);
-        stream.write(rules);
-        stream.writeObject(times);
+        // Writf out tif binbry rulfs in tif optionbl dbtb brfb of tif strfbm.
+        strfbm.writfInt(rulfs.lfngti);
+        strfbm.writf(rulfs);
+        strfbm.writfObjfdt(timfs);
 
-        // Recover the original rules.  This recovers the information lost
-        // by makeRulesCompatible.
-        unpackRules(rules);
-        unpackTimes(times);
+        // Rfdovfr tif originbl rulfs.  Tiis rfdovfrs tif informbtion lost
+        // by mbkfRulfsCompbtiblf.
+        unpbdkRulfs(rulfs);
+        unpbdkTimfs(timfs);
     }
 
     /**
-     * Reconstitute this object from a stream (i.e., deserialize it).
+     * Rfdonstitutf tiis objfdt from b strfbm (i.f., dfsfriblizf it).
      *
-     * We handle both JDK 1.1
-     * binary formats and full formats with a packed byte array.
+     * Wf ibndlf boti JDK 1.1
+     * binbry formbts bnd full formbts witi b pbdkfd bytf brrby.
      */
-    private void readObject(ObjectInputStream stream)
-         throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+         tirows IOExdfption, ClbssNotFoundExdfption
     {
-        stream.defaultReadObject();
+        strfbm.dffbultRfbdObjfdt();
 
-        if (serialVersionOnStream < 1) {
-            // Fix a bug in the 1.1 SimpleTimeZone code -- namely,
-            // startDayOfWeek and endDayOfWeek were usually uninitialized.  We can't do
-            // too much, so we assume SUNDAY, which actually works most of the time.
-            if (startDayOfWeek == 0) {
-                startDayOfWeek = Calendar.SUNDAY;
+        if (sfriblVfrsionOnStrfbm < 1) {
+            // Fix b bug in tif 1.1 SimplfTimfZonf dodf -- nbmfly,
+            // stbrtDbyOfWffk bnd fndDbyOfWffk wfrf usublly uninitiblizfd.  Wf dbn't do
+            // too mudi, so wf bssumf SUNDAY, wiidi bdtublly works most of tif timf.
+            if (stbrtDbyOfWffk == 0) {
+                stbrtDbyOfWffk = Cblfndbr.SUNDAY;
             }
-            if (endDayOfWeek == 0) {
-                endDayOfWeek = Calendar.SUNDAY;
+            if (fndDbyOfWffk == 0) {
+                fndDbyOfWffk = Cblfndbr.SUNDAY;
             }
 
-            // The variables dstSavings, startMode, and endMode are post-1.1, so they
-            // won't be present if we're reading from a 1.1 stream.  Fix them up.
-            startMode = endMode = DOW_IN_MONTH_MODE;
-            dstSavings = millisPerHour;
-        } else {
-            // For 1.1.4, in addition to the 3 new instance variables, we also
-            // store the actual rules (which have not be made compatible with 1.1)
-            // in the optional area.  Read them in here and parse them.
-            int length = stream.readInt();
-            byte[] rules = new byte[length];
-            stream.readFully(rules);
-            unpackRules(rules);
+            // Tif vbribblfs dstSbvings, stbrtModf, bnd fndModf brf post-1.1, so tify
+            // won't bf prfsfnt if wf'rf rfbding from b 1.1 strfbm.  Fix tifm up.
+            stbrtModf = fndModf = DOW_IN_MONTH_MODE;
+            dstSbvings = millisPfrHour;
+        } flsf {
+            // For 1.1.4, in bddition to tif 3 nfw instbndf vbribblfs, wf blso
+            // storf tif bdtubl rulfs (wiidi ibvf not bf mbdf dompbtiblf witi 1.1)
+            // in tif optionbl brfb.  Rfbd tifm in ifrf bnd pbrsf tifm.
+            int lfngti = strfbm.rfbdInt();
+            bytf[] rulfs = nfw bytf[lfngti];
+            strfbm.rfbdFully(rulfs);
+            unpbdkRulfs(rulfs);
         }
 
-        if (serialVersionOnStream >= 2) {
-            int[] times = (int[]) stream.readObject();
-            unpackTimes(times);
+        if (sfriblVfrsionOnStrfbm >= 2) {
+            int[] timfs = (int[]) strfbm.rfbdObjfdt();
+            unpbdkTimfs(timfs);
         }
 
-        serialVersionOnStream = currentSerialVersion;
+        sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
     }
 }

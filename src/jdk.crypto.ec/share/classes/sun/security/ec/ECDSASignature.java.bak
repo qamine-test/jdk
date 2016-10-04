@@ -1,431 +1,431 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ec;
+pbdkbgf sun.sfdurity.fd;
 
-import java.nio.ByteBuffer;
-import java.math.BigInteger;
+import jbvb.nio.BytfBufffr;
+import jbvb.mbti.BigIntfgfr;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
 
-import sun.security.jca.JCAUtil;
-import sun.security.util.*;
+import sun.sfdurity.jdb.JCAUtil;
+import sun.sfdurity.util.*;
 
 /**
- * ECDSA signature implementation. This class currently supports the
- * following algorithm names:
+ * ECDSA signbturf implfmfntbtion. Tiis dlbss durrfntly supports tif
+ * following blgoritim nbmfs:
  *
- *   . "NONEwithECDSA"
- *   . "SHA1withECDSA"
- *   . "SHA224withECDSA"
- *   . "SHA256withECDSA"
- *   . "SHA384withECDSA"
- *   . "SHA512withECDSA"
+ *   . "NONEwitiECDSA"
+ *   . "SHA1witiECDSA"
+ *   . "SHA224witiECDSA"
+ *   . "SHA256witiECDSA"
+ *   . "SHA384witiECDSA"
+ *   . "SHA512witiECDSA"
  *
- * @since   1.7
+ * @sindf   1.7
  */
-abstract class ECDSASignature extends SignatureSpi {
+bbstrbdt dlbss ECDSASignbturf fxtfnds SignbturfSpi {
 
-    // message digest implementation we use
-    private final MessageDigest messageDigest;
+    // mfssbgf digfst implfmfntbtion wf usf
+    privbtf finbl MfssbgfDigfst mfssbgfDigfst;
 
-    // supplied entropy
-    private SecureRandom random;
+    // supplifd fntropy
+    privbtf SfdurfRbndom rbndom;
 
-    // flag indicating whether the digest has been reset
-    private boolean needsReset;
+    // flbg indidbting wiftifr tif digfst ibs bffn rfsft
+    privbtf boolfbn nffdsRfsft;
 
-    // private key, if initialized for signing
-    private ECPrivateKey privateKey;
+    // privbtf kfy, if initiblizfd for signing
+    privbtf ECPrivbtfKfy privbtfKfy;
 
-    // public key, if initialized for verifying
-    private ECPublicKey publicKey;
+    // publid kfy, if initiblizfd for vfrifying
+    privbtf ECPublidKfy publidKfy;
 
     /**
-     * Constructs a new ECDSASignature. Used by Raw subclass.
+     * Construdts b nfw ECDSASignbturf. Usfd by Rbw subdlbss.
      *
-     * @exception ProviderException if the native ECC library is unavailable.
+     * @fxdfption ProvidfrExdfption if tif nbtivf ECC librbry is unbvbilbblf.
      */
-    ECDSASignature() {
-        messageDigest = null;
+    ECDSASignbturf() {
+        mfssbgfDigfst = null;
     }
 
     /**
-     * Constructs a new ECDSASignature. Used by subclasses.
+     * Construdts b nfw ECDSASignbturf. Usfd by subdlbssfs.
      */
-    ECDSASignature(String digestName) {
+    ECDSASignbturf(String digfstNbmf) {
         try {
-            messageDigest = MessageDigest.getInstance(digestName);
-        } catch (NoSuchAlgorithmException e) {
-            throw new ProviderException(e);
+            mfssbgfDigfst = MfssbgfDigfst.gftInstbndf(digfstNbmf);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            tirow nfw ProvidfrExdfption(f);
         }
-        needsReset = false;
+        nffdsRfsft = fblsf;
     }
 
-    // Nested class for NONEwithECDSA signatures
-    public static final class Raw extends ECDSASignature {
+    // Nfstfd dlbss for NONEwitiECDSA signbturfs
+    publid stbtid finbl dlbss Rbw fxtfnds ECDSASignbturf {
 
-        // the longest supported digest is 512 bits (SHA-512)
-        private static final int RAW_ECDSA_MAX = 64;
+        // tif longfst supportfd digfst is 512 bits (SHA-512)
+        privbtf stbtid finbl int RAW_ECDSA_MAX = 64;
 
-        private final byte[] precomputedDigest;
-        private int offset = 0;
+        privbtf finbl bytf[] prfdomputfdDigfst;
+        privbtf int offsft = 0;
 
-        public Raw() {
-            precomputedDigest = new byte[RAW_ECDSA_MAX];
+        publid Rbw() {
+            prfdomputfdDigfst = nfw bytf[RAW_ECDSA_MAX];
         }
 
-        // Stores the precomputed message digest value.
-        @Override
-        protected void engineUpdate(byte b) throws SignatureException {
-            if (offset >= precomputedDigest.length) {
-                offset = RAW_ECDSA_MAX + 1;
-                return;
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        @Ovfrridf
+        protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+            if (offsft >= prfdomputfdDigfst.lfngti) {
+                offsft = RAW_ECDSA_MAX + 1;
+                rfturn;
             }
-            precomputedDigest[offset++] = b;
+            prfdomputfdDigfst[offsft++] = b;
         }
 
-        // Stores the precomputed message digest value.
-        @Override
-        protected void engineUpdate(byte[] b, int off, int len)
-                throws SignatureException {
-            if (offset >= precomputedDigest.length) {
-                offset = RAW_ECDSA_MAX + 1;
-                return;
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        @Ovfrridf
+        protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+                tirows SignbturfExdfption {
+            if (offsft >= prfdomputfdDigfst.lfngti) {
+                offsft = RAW_ECDSA_MAX + 1;
+                rfturn;
             }
-            System.arraycopy(b, off, precomputedDigest, offset, len);
-            offset += len;
+            Systfm.brrbydopy(b, off, prfdomputfdDigfst, offsft, lfn);
+            offsft += lfn;
         }
 
-        // Stores the precomputed message digest value.
-        @Override
-        protected void engineUpdate(ByteBuffer byteBuffer) {
-            int len = byteBuffer.remaining();
-            if (len <= 0) {
-                return;
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        @Ovfrridf
+        protfdtfd void fnginfUpdbtf(BytfBufffr bytfBufffr) {
+            int lfn = bytfBufffr.rfmbining();
+            if (lfn <= 0) {
+                rfturn;
             }
-            if (offset + len >= precomputedDigest.length) {
-                offset = RAW_ECDSA_MAX + 1;
-                return;
+            if (offsft + lfn >= prfdomputfdDigfst.lfngti) {
+                offsft = RAW_ECDSA_MAX + 1;
+                rfturn;
             }
-            byteBuffer.get(precomputedDigest, offset, len);
-            offset += len;
+            bytfBufffr.gft(prfdomputfdDigfst, offsft, lfn);
+            offsft += lfn;
         }
 
-        @Override
-        protected void resetDigest(){
-            offset = 0;
+        @Ovfrridf
+        protfdtfd void rfsftDigfst(){
+            offsft = 0;
         }
 
-        // Returns the precomputed message digest value.
-        @Override
-        protected byte[] getDigestValue() throws SignatureException {
-            if (offset > RAW_ECDSA_MAX) {
-                throw new SignatureException("Message digest is too long");
+        // Rfturns tif prfdomputfd mfssbgf digfst vbluf.
+        @Ovfrridf
+        protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+            if (offsft > RAW_ECDSA_MAX) {
+                tirow nfw SignbturfExdfption("Mfssbgf digfst is too long");
 
             }
-            byte[] result = new byte[offset];
-            System.arraycopy(precomputedDigest, 0, result, 0, offset);
-            offset = 0;
+            bytf[] rfsult = nfw bytf[offsft];
+            Systfm.brrbydopy(prfdomputfdDigfst, 0, rfsult, 0, offsft);
+            offsft = 0;
 
-            return result;
+            rfturn rfsult;
         }
     }
 
-    // Nested class for SHA1withECDSA signatures
-    public static final class SHA1 extends ECDSASignature {
-        public SHA1() {
-            super("SHA1");
+    // Nfstfd dlbss for SHA1witiECDSA signbturfs
+    publid stbtid finbl dlbss SHA1 fxtfnds ECDSASignbturf {
+        publid SHA1() {
+            supfr("SHA1");
         }
     }
 
-    // Nested class for SHA224withECDSA signatures
-    public static final class SHA224 extends ECDSASignature {
-        public SHA224() {
-           super("SHA-224");
+    // Nfstfd dlbss for SHA224witiECDSA signbturfs
+    publid stbtid finbl dlbss SHA224 fxtfnds ECDSASignbturf {
+        publid SHA224() {
+           supfr("SHA-224");
         }
     }
 
-    // Nested class for SHA256withECDSA signatures
-    public static final class SHA256 extends ECDSASignature {
-        public SHA256() {
-            super("SHA-256");
+    // Nfstfd dlbss for SHA256witiECDSA signbturfs
+    publid stbtid finbl dlbss SHA256 fxtfnds ECDSASignbturf {
+        publid SHA256() {
+            supfr("SHA-256");
         }
     }
 
-    // Nested class for SHA384withECDSA signatures
-    public static final class SHA384 extends ECDSASignature {
-        public SHA384() {
-            super("SHA-384");
+    // Nfstfd dlbss for SHA384witiECDSA signbturfs
+    publid stbtid finbl dlbss SHA384 fxtfnds ECDSASignbturf {
+        publid SHA384() {
+            supfr("SHA-384");
         }
     }
 
-    // Nested class for SHA512withECDSA signatures
-    public static final class SHA512 extends ECDSASignature {
-        public SHA512() {
-            super("SHA-512");
+    // Nfstfd dlbss for SHA512witiECDSA signbturfs
+    publid stbtid finbl dlbss SHA512 fxtfnds ECDSASignbturf {
+        publid SHA512() {
+            supfr("SHA-512");
         }
     }
 
-    // initialize for verification. See JCA doc
-    @Override
-    protected void engineInitVerify(PublicKey publicKey)
-            throws InvalidKeyException {
-        this.publicKey = (ECPublicKey) ECKeyFactory.toECKey(publicKey);
+    // initiblizf for vfrifidbtion. Sff JCA dod
+    @Ovfrridf
+    protfdtfd void fnginfInitVfrify(PublidKfy publidKfy)
+            tirows InvblidKfyExdfption {
+        tiis.publidKfy = (ECPublidKfy) ECKfyFbdtory.toECKfy(publidKfy);
 
-        // Should check that the supplied key is appropriate for signature
-        // algorithm (e.g. P-256 for SHA256withECDSA)
-        this.privateKey = null;
-        resetDigest();
+        // Siould difdk tibt tif supplifd kfy is bppropribtf for signbturf
+        // blgoritim (f.g. P-256 for SHA256witiECDSA)
+        tiis.privbtfKfy = null;
+        rfsftDigfst();
     }
 
-    // initialize for signing. See JCA doc
-    @Override
-    protected void engineInitSign(PrivateKey privateKey)
-            throws InvalidKeyException {
-        engineInitSign(privateKey, null);
+    // initiblizf for signing. Sff JCA dod
+    @Ovfrridf
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy)
+            tirows InvblidKfyExdfption {
+        fnginfInitSign(privbtfKfy, null);
     }
 
-    // initialize for signing. See JCA doc
-    @Override
-    protected void engineInitSign(PrivateKey privateKey, SecureRandom random)
-            throws InvalidKeyException {
-        this.privateKey = (ECPrivateKey) ECKeyFactory.toECKey(privateKey);
+    // initiblizf for signing. Sff JCA dod
+    @Ovfrridf
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption {
+        tiis.privbtfKfy = (ECPrivbtfKfy) ECKfyFbdtory.toECKfy(privbtfKfy);
 
-        // Should check that the supplied key is appropriate for signature
-        // algorithm (e.g. P-256 for SHA256withECDSA)
-        this.publicKey = null;
-        this.random = random;
-        resetDigest();
+        // Siould difdk tibt tif supplifd kfy is bppropribtf for signbturf
+        // blgoritim (f.g. P-256 for SHA256witiECDSA)
+        tiis.publidKfy = null;
+        tiis.rbndom = rbndom;
+        rfsftDigfst();
     }
 
     /**
-     * Resets the message digest if needed.
+     * Rfsfts tif mfssbgf digfst if nffdfd.
      */
-    protected void resetDigest() {
-        if (needsReset) {
-            if (messageDigest != null) {
-                messageDigest.reset();
+    protfdtfd void rfsftDigfst() {
+        if (nffdsRfsft) {
+            if (mfssbgfDigfst != null) {
+                mfssbgfDigfst.rfsft();
             }
-            needsReset = false;
+            nffdsRfsft = fblsf;
         }
     }
 
     /**
-     * Returns the message digest value.
+     * Rfturns tif mfssbgf digfst vbluf.
      */
-    protected byte[] getDigestValue() throws SignatureException {
-        needsReset = false;
-        return messageDigest.digest();
+    protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+        nffdsRfsft = fblsf;
+        rfturn mfssbgfDigfst.digfst();
     }
 
-    // update the signature with the plaintext data. See JCA doc
-    @Override
-    protected void engineUpdate(byte b) throws SignatureException {
-        messageDigest.update(b);
-        needsReset = true;
+    // updbtf tif signbturf witi tif plbintfxt dbtb. Sff JCA dod
+    @Ovfrridf
+    protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+        mfssbgfDigfst.updbtf(b);
+        nffdsRfsft = truf;
     }
 
-    // update the signature with the plaintext data. See JCA doc
-    @Override
-    protected void engineUpdate(byte[] b, int off, int len)
-            throws SignatureException {
-        messageDigest.update(b, off, len);
-        needsReset = true;
+    // updbtf tif signbturf witi tif plbintfxt dbtb. Sff JCA dod
+    @Ovfrridf
+    protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+            tirows SignbturfExdfption {
+        mfssbgfDigfst.updbtf(b, off, lfn);
+        nffdsRfsft = truf;
     }
 
-    // update the signature with the plaintext data. See JCA doc
-    @Override
-    protected void engineUpdate(ByteBuffer byteBuffer) {
-        int len = byteBuffer.remaining();
-        if (len <= 0) {
-            return;
+    // updbtf tif signbturf witi tif plbintfxt dbtb. Sff JCA dod
+    @Ovfrridf
+    protfdtfd void fnginfUpdbtf(BytfBufffr bytfBufffr) {
+        int lfn = bytfBufffr.rfmbining();
+        if (lfn <= 0) {
+            rfturn;
         }
 
-        messageDigest.update(byteBuffer);
-        needsReset = true;
+        mfssbgfDigfst.updbtf(bytfBufffr);
+        nffdsRfsft = truf;
     }
 
-    // sign the data and return the signature. See JCA doc
-    @Override
-    protected byte[] engineSign() throws SignatureException {
-        byte[] s = privateKey.getS().toByteArray();
-        ECParameterSpec params = privateKey.getParams();
+    // sign tif dbtb bnd rfturn tif signbturf. Sff JCA dod
+    @Ovfrridf
+    protfdtfd bytf[] fnginfSign() tirows SignbturfExdfption {
+        bytf[] s = privbtfKfy.gftS().toBytfArrby();
+        ECPbrbmftfrSpfd pbrbms = privbtfKfy.gftPbrbms();
         // DER OID
-        byte[] encodedParams = ECUtil.encodeECParameterSpec(null, params);
-        int keySize = params.getCurve().getField().getFieldSize();
+        bytf[] fndodfdPbrbms = ECUtil.fndodfECPbrbmftfrSpfd(null, pbrbms);
+        int kfySizf = pbrbms.gftCurvf().gftFifld().gftFifldSizf();
 
-        // seed is twice the key size (in bytes) plus 1
-        byte[] seed = new byte[(((keySize + 7) >> 3) + 1) * 2];
-        if (random == null) {
-            random = JCAUtil.getSecureRandom();
+        // sffd is twidf tif kfy sizf (in bytfs) plus 1
+        bytf[] sffd = nfw bytf[(((kfySizf + 7) >> 3) + 1) * 2];
+        if (rbndom == null) {
+            rbndom = JCAUtil.gftSfdurfRbndom();
         }
-        random.nextBytes(seed);
+        rbndom.nfxtBytfs(sffd);
 
         try {
 
-            return encodeSignature(
-                signDigest(getDigestValue(), s, encodedParams, seed));
+            rfturn fndodfSignbturf(
+                signDigfst(gftDigfstVbluf(), s, fndodfdPbrbms, sffd));
 
-        } catch (GeneralSecurityException e) {
-            throw new SignatureException("Could not sign data", e);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw SignbturfExdfption("Could not sign dbtb", f);
         }
     }
 
-    // verify the data and return the result. See JCA doc
-    @Override
-    protected boolean engineVerify(byte[] signature) throws SignatureException {
+    // vfrify tif dbtb bnd rfturn tif rfsult. Sff JCA dod
+    @Ovfrridf
+    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf) tirows SignbturfExdfption {
 
-        byte[] w;
-        ECParameterSpec params = publicKey.getParams();
+        bytf[] w;
+        ECPbrbmftfrSpfd pbrbms = publidKfy.gftPbrbms();
         // DER OID
-        byte[] encodedParams = ECUtil.encodeECParameterSpec(null, params);
+        bytf[] fndodfdPbrbms = ECUtil.fndodfECPbrbmftfrSpfd(null, pbrbms);
 
-        if (publicKey instanceof ECPublicKeyImpl) {
-            w = ((ECPublicKeyImpl)publicKey).getEncodedPublicValue();
-        } else { // instanceof ECPublicKey
-            w = ECUtil.encodePoint(publicKey.getW(), params.getCurve());
+        if (publidKfy instbndfof ECPublidKfyImpl) {
+            w = ((ECPublidKfyImpl)publidKfy).gftEndodfdPublidVbluf();
+        } flsf { // instbndfof ECPublidKfy
+            w = ECUtil.fndodfPoint(publidKfy.gftW(), pbrbms.gftCurvf());
         }
 
         try {
 
-            return verifySignedDigest(
-                decodeSignature(signature), getDigestValue(), w, encodedParams);
+            rfturn vfrifySignfdDigfst(
+                dfdodfSignbturf(signbturf), gftDigfstVbluf(), w, fndodfdPbrbms);
 
-        } catch (GeneralSecurityException e) {
-            throw new SignatureException("Could not verify signature", e);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw SignbturfExdfption("Could not vfrify signbturf", f);
         }
     }
 
-    // set parameter, not supported. See JCA doc
-    @Override
-    @Deprecated
-    protected void engineSetParameter(String param, Object value)
-            throws InvalidParameterException {
-        throw new UnsupportedOperationException("setParameter() not supported");
+    // sft pbrbmftfr, not supportfd. Sff JCA dod
+    @Ovfrridf
+    @Dfprfdbtfd
+    protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+            tirows InvblidPbrbmftfrExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("sftPbrbmftfr() not supportfd");
     }
 
-    // get parameter, not supported. See JCA doc
-    @Override
-    @Deprecated
-    protected Object engineGetParameter(String param)
-            throws InvalidParameterException {
-        throw new UnsupportedOperationException("getParameter() not supported");
+    // gft pbrbmftfr, not supportfd. Sff JCA dod
+    @Ovfrridf
+    @Dfprfdbtfd
+    protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+            tirows InvblidPbrbmftfrExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("gftPbrbmftfr() not supportfd");
     }
 
-    // Convert the concatenation of R and S into their DER encoding
-    private byte[] encodeSignature(byte[] signature) throws SignatureException {
+    // Convfrt tif dondbtfnbtion of R bnd S into tifir DER fndoding
+    privbtf bytf[] fndodfSignbturf(bytf[] signbturf) tirows SignbturfExdfption {
 
         try {
 
-            int n = signature.length >> 1;
-            byte[] bytes = new byte[n];
-            System.arraycopy(signature, 0, bytes, 0, n);
-            BigInteger r = new BigInteger(1, bytes);
-            System.arraycopy(signature, n, bytes, 0, n);
-            BigInteger s = new BigInteger(1, bytes);
+            int n = signbturf.lfngti >> 1;
+            bytf[] bytfs = nfw bytf[n];
+            Systfm.brrbydopy(signbturf, 0, bytfs, 0, n);
+            BigIntfgfr r = nfw BigIntfgfr(1, bytfs);
+            Systfm.brrbydopy(signbturf, n, bytfs, 0, n);
+            BigIntfgfr s = nfw BigIntfgfr(1, bytfs);
 
-            DerOutputStream out = new DerOutputStream(signature.length + 10);
-            out.putInteger(r);
-            out.putInteger(s);
-            DerValue result =
-                new DerValue(DerValue.tag_Sequence, out.toByteArray());
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm(signbturf.lfngti + 10);
+            out.putIntfgfr(r);
+            out.putIntfgfr(s);
+            DfrVbluf rfsult =
+                nfw DfrVbluf(DfrVbluf.tbg_Sfqufndf, out.toBytfArrby());
 
-            return result.toByteArray();
+            rfturn rfsult.toBytfArrby();
 
-        } catch (Exception e) {
-            throw new SignatureException("Could not encode signature", e);
+        } dbtdi (Exdfption f) {
+            tirow nfw SignbturfExdfption("Could not fndodf signbturf", f);
         }
     }
 
-    // Convert the DER encoding of R and S into a concatenation of R and S
-    private byte[] decodeSignature(byte[] signature) throws SignatureException {
+    // Convfrt tif DER fndoding of R bnd S into b dondbtfnbtion of R bnd S
+    privbtf bytf[] dfdodfSignbturf(bytf[] signbturf) tirows SignbturfExdfption {
 
         try {
-            DerInputStream in = new DerInputStream(signature);
-            DerValue[] values = in.getSequence(2);
-            BigInteger r = values[0].getPositiveBigInteger();
-            BigInteger s = values[1].getPositiveBigInteger();
-            // trim leading zeroes
-            byte[] rBytes = trimZeroes(r.toByteArray());
-            byte[] sBytes = trimZeroes(s.toByteArray());
-            int k = Math.max(rBytes.length, sBytes.length);
-            // r and s each occupy half the array
-            byte[] result = new byte[k << 1];
-            System.arraycopy(rBytes, 0, result, k - rBytes.length,
-                rBytes.length);
-            System.arraycopy(sBytes, 0, result, result.length - sBytes.length,
-                sBytes.length);
-            return result;
+            DfrInputStrfbm in = nfw DfrInputStrfbm(signbturf);
+            DfrVbluf[] vblufs = in.gftSfqufndf(2);
+            BigIntfgfr r = vblufs[0].gftPositivfBigIntfgfr();
+            BigIntfgfr s = vblufs[1].gftPositivfBigIntfgfr();
+            // trim lfbding zfrofs
+            bytf[] rBytfs = trimZfrofs(r.toBytfArrby());
+            bytf[] sBytfs = trimZfrofs(s.toBytfArrby());
+            int k = Mbti.mbx(rBytfs.lfngti, sBytfs.lfngti);
+            // r bnd s fbdi oddupy iblf tif brrby
+            bytf[] rfsult = nfw bytf[k << 1];
+            Systfm.brrbydopy(rBytfs, 0, rfsult, k - rBytfs.lfngti,
+                rBytfs.lfngti);
+            Systfm.brrbydopy(sBytfs, 0, rfsult, rfsult.lfngti - sBytfs.lfngti,
+                sBytfs.lfngti);
+            rfturn rfsult;
 
-        } catch (Exception e) {
-            throw new SignatureException("Could not decode signature", e);
+        } dbtdi (Exdfption f) {
+            tirow nfw SignbturfExdfption("Could not dfdodf signbturf", f);
         }
     }
 
-    // trim leading (most significant) zeroes from the result
-    private static byte[] trimZeroes(byte[] b) {
+    // trim lfbding (most signifidbnt) zfrofs from tif rfsult
+    privbtf stbtid bytf[] trimZfrofs(bytf[] b) {
         int i = 0;
-        while ((i < b.length - 1) && (b[i] == 0)) {
+        wiilf ((i < b.lfngti - 1) && (b[i] == 0)) {
             i++;
         }
         if (i == 0) {
-            return b;
+            rfturn b;
         }
-        byte[] t = new byte[b.length - i];
-        System.arraycopy(b, i, t, 0, t.length);
-        return t;
+        bytf[] t = nfw bytf[b.lfngti - i];
+        Systfm.brrbydopy(b, i, t, 0, t.lfngti);
+        rfturn t;
     }
 
     /**
-     * Signs the digest using the private key.
+     * Signs tif digfst using tif privbtf kfy.
      *
-     * @param digest the digest to be signed.
-     * @param s the private key's S value.
-     * @param encodedParams the curve's DER encoded object identifier.
-     * @param seed the random seed.
+     * @pbrbm digfst tif digfst to bf signfd.
+     * @pbrbm s tif privbtf kfy's S vbluf.
+     * @pbrbm fndodfdPbrbms tif durvf's DER fndodfd objfdt idfntififr.
+     * @pbrbm sffd tif rbndom sffd.
      *
-     * @return byte[] the signature.
+     * @rfturn bytf[] tif signbturf.
      */
-    private static native byte[] signDigest(byte[] digest, byte[] s,
-        byte[] encodedParams, byte[] seed) throws GeneralSecurityException;
+    privbtf stbtid nbtivf bytf[] signDigfst(bytf[] digfst, bytf[] s,
+        bytf[] fndodfdPbrbms, bytf[] sffd) tirows GfnfrblSfdurityExdfption;
 
     /**
-     * Verifies the signed digest using the public key.
+     * Vfrififs tif signfd digfst using tif publid kfy.
      *
-     * @param signedDigest the signature to be verified. It is encoded
-     *        as a concatenation of the key's R and S values.
-     * @param digest the digest to be used.
-     * @param w the public key's W point (in uncompressed form).
-     * @param encodedParams the curve's DER encoded object identifier.
+     * @pbrbm signfdDigfst tif signbturf to bf vfrififd. It is fndodfd
+     *        bs b dondbtfnbtion of tif kfy's R bnd S vblufs.
+     * @pbrbm digfst tif digfst to bf usfd.
+     * @pbrbm w tif publid kfy's W point (in undomprfssfd form).
+     * @pbrbm fndodfdPbrbms tif durvf's DER fndodfd objfdt idfntififr.
      *
-     * @return boolean true if the signature is successfully verified.
+     * @rfturn boolfbn truf if tif signbturf is suddfssfully vfrififd.
      */
-    private static native boolean verifySignedDigest(byte[] signature,
-        byte[] digest, byte[] w, byte[] encodedParams)
-            throws GeneralSecurityException;
+    privbtf stbtid nbtivf boolfbn vfrifySignfdDigfst(bytf[] signbturf,
+        bytf[] digfst, bytf[] w, bytf[] fndodfdPbrbms)
+            tirows GfnfrblSfdurityExdfption;
 }

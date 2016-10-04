@@ -1,0 +1,438 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2008-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.formbt;
+
+import jbvb.timf.ZonfId;
+import jbvb.timf.dhrono.Chronology;
+import jbvb.timf.dhrono.IsoChronology;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.util.ArrbyList;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.fundtion.Consumfr;
+
+/**
+ * Contfxt objfdt usfd during dbtf bnd timf pbrsing.
+ * <p>
+ * This dlbss rfprfsfnts thf durrfnt stbtf of thf pbrsf.
+ * It hbs thf bbility to storf bnd rftrifvf thf pbrsfd vblufs bnd mbnbgf optionbl sfgmfnts.
+ * It blso providfs kfy informbtion to thf pbrsing mfthods.
+ * <p>
+ * Ondf pbrsing is domplftf, thf {@link #toUnrfsolvfd()} is usfd to obtbin thf unrfsolvfd
+ * rfsult dbtb. Thf {@link #toRfsolvfd()} is usfd to obtbin thf rfsolvfd rfsult.
+ *
+ * @implSpfd
+ * This dlbss is b mutbblf dontfxt intfndfd for usf from b singlf thrfbd.
+ * Usbgf of thf dlbss is thrfbd-sbff within stbndbrd pbrsing bs b nfw instbndf of this dlbss
+ * is butombtidblly drfbtfd for fbdh pbrsf bnd pbrsing is singlf-thrfbdfd
+ *
+ * @sindf 1.8
+ */
+finbl dlbss DbtfTimfPbrsfContfxt {
+
+    /**
+     * Thf formbttfr, not null.
+     */
+    privbtf DbtfTimfFormbttfr formbttfr;
+    /**
+     * Whfthfr to pbrsf using dbsf sfnsitivfly.
+     */
+    privbtf boolfbn dbsfSfnsitivf = truf;
+    /**
+     * Whfthfr to pbrsf using stridt rulfs.
+     */
+    privbtf boolfbn stridt = truf;
+    /**
+     * Thf list of pbrsfd dbtb.
+     */
+    privbtf finbl ArrbyList<Pbrsfd> pbrsfd = nfw ArrbyList<>();
+    /**
+     * List of Consumfrs<Chronology> to bf notififd if thf Chronology dhbngfs.
+     */
+    privbtf ArrbyList<Consumfr<Chronology>> dhronoListfnfrs = null;
+
+    /**
+     * Crfbtfs b nfw instbndf of thf dontfxt.
+     *
+     * @pbrbm formbttfr  thf formbttfr dontrolling thf pbrsf, not null
+     */
+    DbtfTimfPbrsfContfxt(DbtfTimfFormbttfr formbttfr) {
+        supfr();
+        this.formbttfr = formbttfr;
+        pbrsfd.bdd(nfw Pbrsfd());
+    }
+
+    /**
+     * Crfbtfs b dopy of this dontfxt.
+     * This rftbins thf dbsf sfnsitivf bnd stridt flbgs.
+     */
+    DbtfTimfPbrsfContfxt dopy() {
+        DbtfTimfPbrsfContfxt nfwContfxt = nfw DbtfTimfPbrsfContfxt(formbttfr);
+        nfwContfxt.dbsfSfnsitivf = dbsfSfnsitivf;
+        nfwContfxt.stridt = stridt;
+        rfturn nfwContfxt;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf lodblf.
+     * <p>
+     * This lodblf is usfd to dontrol lodblizbtion in thf pbrsf fxdfpt
+     * whfrf lodblizbtion is dontrollfd by thf DfdimblStylf.
+     *
+     * @rfturn thf lodblf, not null
+     */
+    Lodblf gftLodblf() {
+        rfturn formbttfr.gftLodblf();
+    }
+
+    /**
+     * Gfts thf DfdimblStylf.
+     * <p>
+     * Thf DfdimblStylf dontrols thf numfrid pbrsing.
+     *
+     * @rfturn thf DfdimblStylf, not null
+     */
+    DfdimblStylf gftDfdimblStylf() {
+        rfturn formbttfr.gftDfdimblStylf();
+    }
+
+    /**
+     * Gfts thf ffffdtivf dhronology during pbrsing.
+     *
+     * @rfturn thf ffffdtivf pbrsing dhronology, not null
+     */
+    Chronology gftEfffdtivfChronology() {
+        Chronology dhrono = durrfntPbrsfd().dhrono;
+        if (dhrono == null) {
+            dhrono = formbttfr.gftChronology();
+            if (dhrono == null) {
+                dhrono = IsoChronology.INSTANCE;
+            }
+        }
+        rfturn dhrono;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if pbrsing is dbsf sfnsitivf.
+     *
+     * @rfturn truf if pbrsing is dbsf sfnsitivf, fblsf if dbsf insfnsitivf
+     */
+    boolfbn isCbsfSfnsitivf() {
+        rfturn dbsfSfnsitivf;
+    }
+
+    /**
+     * Sfts whfthfr thf pbrsing is dbsf sfnsitivf or not.
+     *
+     * @pbrbm dbsfSfnsitivf  dhbngfs thf pbrsing to bf dbsf sfnsitivf or not from now on
+     */
+    void sftCbsfSfnsitivf(boolfbn dbsfSfnsitivf) {
+        this.dbsfSfnsitivf = dbsfSfnsitivf;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Hflpfr to dompbrf two {@dodf ChbrSfqufndf} instbndfs.
+     * This usfs {@link #isCbsfSfnsitivf()}.
+     *
+     * @pbrbm ds1  thf first dhbrbdtfr sfqufndf, not null
+     * @pbrbm offsft1  thf offsft into thf first sfqufndf, vblid
+     * @pbrbm ds2  thf sfdond dhbrbdtfr sfqufndf, not null
+     * @pbrbm offsft2  thf offsft into thf sfdond sfqufndf, vblid
+     * @pbrbm lfngth  thf lfngth to dhfdk, vblid
+     * @rfturn truf if fqubl
+     */
+    boolfbn subSfqufndfEqubls(ChbrSfqufndf ds1, int offsft1, ChbrSfqufndf ds2, int offsft2, int lfngth) {
+        if (offsft1 + lfngth > ds1.lfngth() || offsft2 + lfngth > ds2.lfngth()) {
+            rfturn fblsf;
+        }
+        if (isCbsfSfnsitivf()) {
+            for (int i = 0; i < lfngth; i++) {
+                dhbr dh1 = ds1.dhbrAt(offsft1 + i);
+                dhbr dh2 = ds2.dhbrAt(offsft2 + i);
+                if (dh1 != dh2) {
+                    rfturn fblsf;
+                }
+            }
+        } flsf {
+            for (int i = 0; i < lfngth; i++) {
+                dhbr dh1 = ds1.dhbrAt(offsft1 + i);
+                dhbr dh2 = ds2.dhbrAt(offsft2 + i);
+                if (dh1 != dh2 && Chbrbdtfr.toUppfrCbsf(dh1) != Chbrbdtfr.toUppfrCbsf(dh2) &&
+                        Chbrbdtfr.toLowfrCbsf(dh1) != Chbrbdtfr.toLowfrCbsf(dh2)) {
+                    rfturn fblsf;
+                }
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Hflpfr to dompbrf two {@dodf dhbr}.
+     * This usfs {@link #isCbsfSfnsitivf()}.
+     *
+     * @pbrbm dh1  thf first dhbrbdtfr
+     * @pbrbm dh2  thf sfdond dhbrbdtfr
+     * @rfturn truf if fqubl
+     */
+    boolfbn dhbrEqubls(dhbr dh1, dhbr dh2) {
+        if (isCbsfSfnsitivf()) {
+            rfturn dh1 == dh2;
+        }
+        rfturn dhbrEqublsIgnorfCbsf(dh1, dh2);
+    }
+
+    /**
+     * Compbrfs two dhbrbdtfrs ignoring dbsf.
+     *
+     * @pbrbm d1  thf first
+     * @pbrbm d2  thf sfdond
+     * @rfturn truf if fqubl
+     */
+    stbtid boolfbn dhbrEqublsIgnorfCbsf(dhbr d1, dhbr d2) {
+        rfturn d1 == d2 ||
+                Chbrbdtfr.toUppfrCbsf(d1) == Chbrbdtfr.toUppfrCbsf(d2) ||
+                Chbrbdtfr.toLowfrCbsf(d1) == Chbrbdtfr.toLowfrCbsf(d2);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if pbrsing is stridt.
+     * <p>
+     * Stridt pbrsing rfquirfs fxbdt mbtdhing of thf tfxt bnd sign stylfs.
+     *
+     * @rfturn truf if pbrsing is stridt, fblsf if lfnifnt
+     */
+    boolfbn isStridt() {
+        rfturn stridt;
+    }
+
+    /**
+     * Sfts whfthfr pbrsing is stridt or lfnifnt.
+     *
+     * @pbrbm stridt  dhbngfs thf pbrsing to bf stridt or lfnifnt from now on
+     */
+    void sftStridt(boolfbn stridt) {
+        this.stridt = stridt;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Stbrts thf pbrsing of bn optionbl sfgmfnt of thf input.
+     */
+    void stbrtOptionbl() {
+        pbrsfd.bdd(durrfntPbrsfd().dopy());
+    }
+
+    /**
+     * Ends thf pbrsing of bn optionbl sfgmfnt of thf input.
+     *
+     * @pbrbm suddfssful  whfthfr thf optionbl sfgmfnt wbs suddfssfully pbrsfd
+     */
+    void fndOptionbl(boolfbn suddfssful) {
+        if (suddfssful) {
+            pbrsfd.rfmovf(pbrsfd.sizf() - 2);
+        } flsf {
+            pbrsfd.rfmovf(pbrsfd.sizf() - 1);
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf durrfntly bdtivf tfmporbl objfdts.
+     *
+     * @rfturn thf durrfnt tfmporbl objfdts, not null
+     */
+    privbtf Pbrsfd durrfntPbrsfd() {
+        rfturn pbrsfd.gft(pbrsfd.sizf() - 1);
+    }
+
+    /**
+     * Gfts thf unrfsolvfd rfsult of thf pbrsf.
+     *
+     * @rfturn thf rfsult of thf pbrsf, not null
+     */
+    Pbrsfd toUnrfsolvfd() {
+        rfturn durrfntPbrsfd();
+    }
+
+    /**
+     * Gfts thf rfsolvfd rfsult of thf pbrsf.
+     *
+     * @rfturn thf rfsult of thf pbrsf, not null
+     */
+    TfmporblAddfssor toRfsolvfd(RfsolvfrStylf rfsolvfrStylf, Sft<TfmporblFifld> rfsolvfrFiflds) {
+        Pbrsfd pbrsfd = durrfntPbrsfd();
+        pbrsfd.dhrono = gftEfffdtivfChronology();
+        pbrsfd.zonf = (pbrsfd.zonf != null ? pbrsfd.zonf : formbttfr.gftZonf());
+        rfturn pbrsfd.rfsolvf(rfsolvfrStylf, rfsolvfrFiflds);
+    }
+
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf first vbluf thbt wbs pbrsfd for thf spfdififd fifld.
+     * <p>
+     * This sfbrdhfs thf rfsults of thf pbrsf, rfturning thf first vbluf found
+     * for thf spfdififd fifld. No bttfmpt is mbdf to dfrivf b vbluf.
+     * Thf fifld mby hbvf bn out of rbngf vbluf.
+     * For fxbmplf, thf dby-of-month might bf sft to 50, or thf hour to 1000.
+     *
+     * @pbrbm fifld  thf fifld to qufry from thf mbp, null rfturns null
+     * @rfturn thf vbluf mbppfd to thf spfdififd fifld, null if fifld wbs not pbrsfd
+     */
+    Long gftPbrsfd(TfmporblFifld fifld) {
+        rfturn durrfntPbrsfd().fifldVblufs.gft(fifld);
+    }
+
+    /**
+     * Storfs thf pbrsfd fifld.
+     * <p>
+     * This storfs b fifld-vbluf pbir thbt hbs bffn pbrsfd.
+     * Thf vbluf storfd mby bf out of rbngf for thf fifld - no dhfdks brf pfrformfd.
+     *
+     * @pbrbm fifld  thf fifld to sft in thf fifld-vbluf mbp, not null
+     * @pbrbm vbluf  thf vbluf to sft in thf fifld-vbluf mbp
+     * @pbrbm frrorPos  thf position of thf fifld bfing pbrsfd
+     * @pbrbm suddfssPos  thf position bftfr thf fifld bfing pbrsfd
+     * @rfturn thf nfw position
+     */
+    int sftPbrsfdFifld(TfmporblFifld fifld, long vbluf, int frrorPos, int suddfssPos) {
+        Objfdts.rfquirfNonNull(fifld, "fifld");
+        Long old = durrfntPbrsfd().fifldVblufs.put(fifld, vbluf);
+        rfturn (old != null && old.longVbluf() != vbluf) ? ~frrorPos : suddfssPos;
+    }
+
+    /**
+     * Storfs thf pbrsfd dhronology.
+     * <p>
+     * This storfs thf dhronology thbt hbs bffn pbrsfd.
+     * No vblidbtion is pfrformfd othfr thbn fnsuring it is not null.
+     * <p>
+     * Thf list of listfnfrs is dopifd bnd dlfbrfd so thbt fbdh
+     * listfnfr is dbllfd only ondf.  A listfnfr dbn bdd itsflf bgbin
+     * if it nffds to bf notififd of futurf dhbngfs.
+     *
+     * @pbrbm dhrono  thf pbrsfd dhronology, not null
+     */
+    void sftPbrsfd(Chronology dhrono) {
+        Objfdts.rfquirfNonNull(dhrono, "dhrono");
+        durrfntPbrsfd().dhrono = dhrono;
+        if (dhronoListfnfrs != null && !dhronoListfnfrs.isEmpty()) {
+            @SupprfssWbrnings({"rbwtypfs", "undhfdkfd"})
+            Consumfr<Chronology>[] tmp = nfw Consumfr[1];
+            Consumfr<Chronology>[] listfnfrs = dhronoListfnfrs.toArrby(tmp);
+            dhronoListfnfrs.dlfbr();
+            for (Consumfr<Chronology> l : listfnfrs) {
+                l.bddfpt(dhrono);
+            }
+        }
+    }
+
+    /**
+     * Adds b Consumfr<Chronology> to thf list of listfnfrs to bf notififd
+     * if thf Chronology dhbngfs.
+     * @pbrbm listfnfr b Consumfr<Chronology> to bf dbllfd whfn Chronology dhbngfs
+     */
+    void bddChronoChbngfdListfnfr(Consumfr<Chronology> listfnfr) {
+        if (dhronoListfnfrs == null) {
+            dhronoListfnfrs = nfw ArrbyList<Consumfr<Chronology>>();
+        }
+        dhronoListfnfrs.bdd(listfnfr);
+    }
+
+    /**
+     * Storfs thf pbrsfd zonf.
+     * <p>
+     * This storfs thf zonf thbt hbs bffn pbrsfd.
+     * No vblidbtion is pfrformfd othfr thbn fnsuring it is not null.
+     *
+     * @pbrbm zonf  thf pbrsfd zonf, not null
+     */
+    void sftPbrsfd(ZonfId zonf) {
+        Objfdts.rfquirfNonNull(zonf, "zonf");
+        durrfntPbrsfd().zonf = zonf;
+    }
+
+    /**
+     * Storfs thf pbrsfd lfbp sfdond.
+     */
+    void sftPbrsfdLfbpSfdond() {
+        durrfntPbrsfd().lfbpSfdond = truf;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b string vfrsion of thf dontfxt for dfbugging.
+     *
+     * @rfturn b string rfprfsfntbtion of thf dontfxt dbtb, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn durrfntPbrsfd().toString();
+    }
+
+}

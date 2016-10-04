@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss AssignAddExprfssion fxtfnds AssignOpExprfssion {
+    /**
+     * Construdtor
+     */
+    publid AssignAddExprfssion(long whfrf, Exprfssion lfft, Exprfssion right) {
+        supfr(ASGADD, whfrf, lfft, right);
+    }
+
+
+    /**
+     * Thf dost of inlining this stbtfmfnt
+     */
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+        rfturn typf.isTypf(TC_CLASS) ? 25 : supfr.dostInlinf(thrfsh, fnv, dtx);
+    }
+
+    /**
+     * Codf
+     */
+    void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, boolfbn vblNffdfd) {
+        if (itypf.isTypf(TC_CLASS)) {
+            // Crfbtf dodf for     String += <vbluf>
+            try {
+                // Crfbtf nfw string bufffr.
+                Typf brgTypfs[] = {Typf.tString};
+                ClbssDfdlbrbtion d =
+                    fnv.gftClbssDfdlbrbtion(idJbvbLbngStringBufffr);
+
+                if (updbtfr == null) {
+
+                    // No bddfss mfthod is nffdfd.
+
+                    bsm.bdd(whfrf, opd_nfw, d);
+                    bsm.bdd(whfrf, opd_dup);
+                    // stbdk: ...<bufffr><bufffr>
+                    int dfpth = lfft.dodfLVbluf(fnv, dtx, bsm);
+                    dodfDup(fnv, dtx, bsm, dfpth, 2); // dopy pbst 2 string bufffrs
+                    // stbdk: ...[<gfttfr brgs>]<bufffr><bufffr>[<gfttfr brgs>]
+                    // whfrf <bufffr> isn't yft initiblizfd, bnd thf <gfttfr brgs>
+                    // hbs lfngth dfpth bnd is whbtfvfr is nffdfd to gft/sft thf
+                    // vbluf
+                    lfft.dodfLobd(fnv, dtx, bsm);
+                    lfft.fnsurfString(fnv, dtx, bsm);  // Why is this nffdfd?
+                    // stbdk: ...[<gfttfr brgs>]<bufffr><bufffr><string>
+                    // dbll .<init>(String)
+                    ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+                    MfmbfrDffinition f = d.gftClbssDffinition(fnv)
+                        .mbtdhMfthod(fnv, sourdfClbss,
+                                     idInit, brgTypfs);
+                    bsm.bdd(whfrf, opd_invokfspfdibl, f);
+                    // stbdk: ...[<gfttfr brgs>]<initiblizfd bufffr>
+                    // .bppfnd(vbluf).toString()
+                    right.dodfAppfnd(fnv, dtx, bsm, d, fblsf);
+                    f = d.gftClbssDffinition(fnv)
+                        .mbtdhMfthod(fnv, sourdfClbss, idToString);
+                    bsm.bdd(whfrf, opd_invokfvirtubl, f);
+                    // stbdk: ...[<gfttfr brgs>]<string>
+                    // dup thf string pbst thf <gfttfr brgs>, if nfdfssbry.
+                    if (vblNffdfd) {
+                        dodfDup(fnv, dtx, bsm, Typf.tString.stbdkSizf(), dfpth);
+                        // stbdk: ...<string>[<gfttfr brgs>]<string>
+                    }
+                    // storf
+                    lfft.dodfStorf(fnv, dtx, bsm);
+
+                } flsf {
+
+                    // Addfss mfthod is rfquirfd.
+                    // (Hbndling this dbsf fixfs 4102566.)
+
+                    updbtfr.stbrtUpdbtf(fnv, dtx, bsm, fblsf);
+                    // stbdk: ...[<gfttfr brgs>]<string>
+                    lfft.fnsurfString(fnv, dtx, bsm);  // Why is this nffdfd?
+                    bsm.bdd(whfrf, opd_nfw, d);
+                    // stbdk: ...[<gfttfr brgs>]<string><bufffr>
+                    bsm.bdd(whfrf, opd_dup_x1);
+                    // stbdk: ...[<gfttfr brgs>]<bufffr><string><bufffr>
+                    bsm.bdd(whfrf, opd_swbp);
+                    // stbdk: ...[<gfttfr brgs>]<bufffr><bufffr><string>
+                    // dbll .<init>(String)
+                    ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+                    MfmbfrDffinition f = d.gftClbssDffinition(fnv)
+                        .mbtdhMfthod(fnv, sourdfClbss,
+                                     idInit, brgTypfs);
+                    bsm.bdd(whfrf, opd_invokfspfdibl, f);
+                    // stbdk: ...[<gfttfr brgs>]<initiblizfd bufffr>
+                    // .bppfnd(vbluf).toString()
+                    right.dodfAppfnd(fnv, dtx, bsm, d, fblsf);
+                    f = d.gftClbssDffinition(fnv)
+                        .mbtdhMfthod(fnv, sourdfClbss, idToString);
+                    bsm.bdd(whfrf, opd_invokfvirtubl, f);
+                    // stbdk: .. [<gfttfr brgs>]<string>
+                    updbtfr.finishUpdbtf(fnv, dtx, bsm, vblNffdfd);
+
+                }
+
+            } dbtdh (ClbssNotFound f) {
+                throw nfw CompilfrError(f);
+            } dbtdh (AmbiguousMfmbfr f) {
+                throw nfw CompilfrError(f);
+            }
+        } flsf {
+            supfr.dodf(fnv, dtx, bsm, vblNffdfd);
+        }
+    }
+
+    /**
+     * Codf
+     */
+    void dodfOpfrbtion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        bsm.bdd(whfrf, opd_ibdd + itypf.gftTypfCodfOffsft());
+    }
+}

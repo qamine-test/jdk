@@ -1,0 +1,431 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.bwt.Window;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+
+/**
+ * A low-lfvfl fvfnt thbt indidbtfs thbt b window hbs dhbngfd its stbtus. This
+ * low-lfvfl fvfnt is gfnfrbtfd by b Window objfdt whfn it is opfnfd, dlosfd,
+ * bdtivbtfd, dfbdtivbtfd, idonififd, or dfidonififd, or whfn fodus is
+ * trbnsffrfd into or out of thf Window.
+ * <P>
+ * Thf fvfnt is pbssfd to fvfry <dodf>WindowListfnfr</dodf>
+ * or <dodf>WindowAdbptfr</dodf> objfdt whidh rfgistfrfd to rfdfivf sudh
+ * fvfnts using thf window's <dodf>bddWindowListfnfr</dodf> mfthod.
+ * (<dodf>WindowAdbptfr</dodf> objfdts implfmfnt thf
+ * <dodf>WindowListfnfr</dodf> intfrfbdf.) Ebdh sudh listfnfr objfdt
+ * gfts this <dodf>WindowEvfnt</dodf> whfn thf fvfnt oddurs.
+ * <p>
+ * An unspfdififd bfhbvior will bf dbusfd if thf {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf WindowEvfnt} instbndf is not
+ * in thf rbngf from {@dodf WINDOW_FIRST} to {@dodf WINDOW_LAST}.
+ *
+ * @buthor Cbrl Quinn
+ * @buthor Amy Fowlfr
+ *
+ * @sff WindowAdbptfr
+ * @sff WindowListfnfr
+ * @sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/windowlistfnfr.html">Tutoribl: Writing b Window Listfnfr</b>
+ *
+ * @sindf 1.1
+ */
+publid dlbss WindowEvfnt fxtfnds ComponfntEvfnt {
+
+    /**
+     * Thf first numbfr in thf rbngf of ids usfd for window fvfnts.
+     */
+    publid stbtid finbl int WINDOW_FIRST        = 200;
+
+    /**
+     * Thf window opfnfd fvfnt.  This fvfnt is dflivfrfd only
+     * thf first timf b window is mbdf visiblf.
+     */
+    @Nbtivf publid stbtid finbl int WINDOW_OPENED       = WINDOW_FIRST; // 200
+
+    /**
+     * Thf "window is dlosing" fvfnt. This fvfnt is dflivfrfd whfn
+     * thf usfr bttfmpts to dlosf thf window from thf window's systfm mfnu.
+     * If thf progrbm dofs not fxpliditly hidf or disposf thf window
+     * whilf prodfssing this fvfnt, thf window dlosf opfrbtion will bf
+     * dbndfllfd.
+     */
+    @Nbtivf publid stbtid finbl int WINDOW_CLOSING      = 1 + WINDOW_FIRST; //Evfnt.WINDOW_DESTROY
+
+    /**
+     * Thf window dlosfd fvfnt. This fvfnt is dflivfrfd bftfr thf displbybblf
+     * window hbs bffn dlosfd bs thf rfsult of b dbll to disposf.
+     * @sff jbvb.bwt.Componfnt#isDisplbybblf
+     * @sff Window#disposf
+     */
+    @Nbtivf publid stbtid finbl int WINDOW_CLOSED       = 2 + WINDOW_FIRST;
+
+    /**
+     * Thf window idonififd fvfnt. This fvfnt is dflivfrfd whfn
+     * thf window hbs bffn dhbngfd from b normbl to b minimizfd stbtf.
+     * For mbny plbtforms, b minimizfd window is displbyfd bs
+     * thf idon spfdififd in thf window's idonImbgf propfrty.
+     * @sff jbvb.bwt.Frbmf#sftIdonImbgf
+     */
+    @Nbtivf publid stbtid finbl int WINDOW_ICONIFIED    = 3 + WINDOW_FIRST; //Evfnt.WINDOW_ICONIFY
+
+    /**
+     * Thf window dfidonififd fvfnt typf. This fvfnt is dflivfrfd whfn
+     * thf window hbs bffn dhbngfd from b minimizfd to b normbl stbtf.
+     */
+    @Nbtivf publid stbtid finbl int WINDOW_DEICONIFIED  = 4 + WINDOW_FIRST; //Evfnt.WINDOW_DEICONIFY
+
+    /**
+     * Thf window-bdtivbtfd fvfnt typf. This fvfnt is dflivfrfd whfn thf Window
+     * bfdomfs thf bdtivf Window. Only b Frbmf or b Diblog dbn bf thf bdtivf
+     * Window. Thf nbtivf windowing systfm mby dfnotf thf bdtivf Window or its
+     * dhildrfn with spfdibl dfdorbtions, sudh bs b highlightfd titlf bbr. Thf
+     * bdtivf Window is blwbys fithfr thf fodusfd Window, or thf first Frbmf or
+     * Diblog thbt is bn ownfr of thf fodusfd Window.
+     */
+    @Nbtivf publid stbtid finbl int WINDOW_ACTIVATED    = 5 + WINDOW_FIRST;
+
+    /**
+     * Thf window-dfbdtivbtfd fvfnt typf. This fvfnt is dflivfrfd whfn thf
+     * Window is no longfr thf bdtivf Window. Only b Frbmf or b Diblog dbn bf
+     * thf bdtivf Window. Thf nbtivf windowing systfm mby dfnotf thf bdtivf
+     * Window or its dhildrfn with spfdibl dfdorbtions, sudh bs b highlightfd
+     * titlf bbr. Thf bdtivf Window is blwbys fithfr thf fodusfd Window, or thf
+     * first Frbmf or Diblog thbt is bn ownfr of thf fodusfd Window.
+     */
+    @Nbtivf publid stbtid finbl int WINDOW_DEACTIVATED  = 6 + WINDOW_FIRST;
+
+    /**
+     * Thf window-gbinfd-fodus fvfnt typf. This fvfnt is dflivfrfd whfn thf
+     * Window bfdomfs thf fodusfd Window, whidh mfbns thbt thf Window, or onf
+     * of its subdomponfnts, will rfdfivf kfybobrd fvfnts.
+     */
+    @Nbtivf publid stbtid finbl int WINDOW_GAINED_FOCUS = 7 + WINDOW_FIRST;
+
+    /**
+     * Thf window-lost-fodus fvfnt typf. This fvfnt is dflivfrfd whfn b Window
+     * is no longfr thf fodusfd Window, whidh mfbns kfybobrd fvfnts will no
+     * longfr bf dflivfrfd to thf Window or bny of its subdomponfnts.
+     */
+    @Nbtivf publid stbtid finbl int WINDOW_LOST_FOCUS   = 8 + WINDOW_FIRST;
+
+    /**
+     * Thf window-stbtf-dhbngfd fvfnt typf.  This fvfnt is dflivfrfd
+     * whfn b Window's stbtf is dhbngfd by virtuf of it bfing
+     * idonififd, mbximizfd ftd.
+     * @sindf 1.4
+     */
+    @Nbtivf publid stbtid finbl int WINDOW_STATE_CHANGED = 9 + WINDOW_FIRST;
+
+    /**
+     * Thf lbst numbfr in thf rbngf of ids usfd for window fvfnts.
+     */
+    publid stbtid finbl int WINDOW_LAST         = WINDOW_STATE_CHANGED;
+
+    /**
+     * Thf othfr Window involvfd in this fodus or bdtivbtion dhbngf. For b
+     * WINDOW_ACTIVATED or WINDOW_GAINED_FOCUS fvfnt, this is thf Window thbt
+     * lost bdtivbtion or fodus. For b WINDOW_DEACTIVATED or WINDOW_LOST_FOCUS
+     * fvfnt, this is thf Window thbt gbinfd bdtivbtion or fodus. For bny othfr
+     * typf of WindowEvfnt, or if thf fodus or bdtivbtion dhbngf oddurs with b
+     * nbtivf bpplidbtion, b Jbvb bpplidbtion in b difffrfnt VM, or with no
+     * othfr Window, null is rfturnfd.
+     *
+     * @sff #gftOppositfWindow
+     * @sindf 1.4
+     */
+    trbnsifnt Window oppositf;
+
+    /**
+     * TBS
+     */
+    int oldStbtf;
+    int nfwStbtf;
+
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -1567959133147912127L;
+
+
+    /**
+     * Construdts b <dodf>WindowEvfnt</dodf> objfdt.
+     * <p>This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf    Thf <dodf>Window</dodf> objfdt
+     *                    thbt originbtfd thf fvfnt
+     * @pbrbm id        An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link WindowEvfnt}
+     * @pbrbm oppositf  Thf othfr window involvfd in thf fodus or bdtivbtion
+     *                      dhbngf, or <dodf>null</dodf>
+     * @pbrbm oldStbtf  Prfvious stbtf of thf window for window stbtf dhbngf fvfnt.
+     *                  Sff {@dodf #gftOldStbtf()} for bllowbblf vblufs
+     * @pbrbm nfwStbtf  Nfw stbtf of thf window for window stbtf dhbngf fvfnt.
+     *                  Sff {@dodf #gftNfwStbtf()} for bllowbblf vblufs
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftWindow()
+     * @sff #gftID()
+     * @sff #gftOppositfWindow()
+     * @sff #gftOldStbtf()
+     * @sff #gftNfwStbtf()
+     * @sindf 1.4
+     */
+    publid WindowEvfnt(Window sourdf, int id, Window oppositf,
+                       int oldStbtf, int nfwStbtf)
+    {
+        supfr(sourdf, id);
+        this.oppositf = oppositf;
+        this.oldStbtf = oldStbtf;
+        this.nfwStbtf = nfwStbtf;
+    }
+
+    /**
+     * Construdts b <dodf>WindowEvfnt</dodf> objfdt with thf
+     * spfdififd oppositf <dodf>Window</dodf>. Thf oppositf
+     * <dodf>Window</dodf> is thf othfr <dodf>Window</dodf>
+     * involvfd in this fodus or bdtivbtion dhbngf.
+     * For b <dodf>WINDOW_ACTIVATED</dodf> or
+     * <dodf>WINDOW_GAINED_FOCUS</dodf> fvfnt, this is thf
+     * <dodf>Window</dodf> thbt lost bdtivbtion or fodus.
+     * For b <dodf>WINDOW_DEACTIVATED</dodf> or
+     * <dodf>WINDOW_LOST_FOCUS</dodf> fvfnt, this is thf
+     * <dodf>Window</dodf> thbt gbinfd bdtivbtion or fodus.
+     * If this fodus dhbngf oddurs with b nbtivf bpplidbtion, with b
+     * Jbvb bpplidbtion in b difffrfnt VM, or with no othfr
+     * <dodf>Window</dodf>, thfn thf oppositf Window is <dodf>null</dodf>.
+     * <p>This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf     Thf <dodf>Window</dodf> objfdt thbt
+     *                   originbtfd thf fvfnt
+     * @pbrbm id        An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link WindowEvfnt}.
+     *                  It is fxpfdtfd thbt this donstrudtor will not
+     *                  bf usfd for othfr thfn
+     *                  {@dodf WINDOW_ACTIVATED},{@dodf WINDOW_DEACTIVATED},
+     *                  {@dodf WINDOW_GAINED_FOCUS}, or {@dodf WINDOW_LOST_FOCUS}.
+     *                  {@dodf WindowEvfnt} typfs,
+     *                  bfdbusf thf oppositf <dodf>Window</dodf> of othfr fvfnt typfs
+     *                  will blwbys bf {@dodf null}.
+     * @pbrbm oppositf   Thf othfr <dodf>Window</dodf> involvfd in thf
+     *                   fodus or bdtivbtion dhbngf, or <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftWindow()
+     * @sff #gftID()
+     * @sff #gftOppositfWindow()
+     * @sindf 1.4
+     */
+    publid WindowEvfnt(Window sourdf, int id, Window oppositf) {
+        this(sourdf, id, oppositf, 0, 0);
+    }
+
+    /**
+     * Construdts b <dodf>WindowEvfnt</dodf> objfdt with thf spfdififd
+     * prfvious bnd nfw window stbtfs.
+     * <p>This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf    Thf <dodf>Window</dodf> objfdt
+     *                  thbt originbtfd thf fvfnt
+     * @pbrbm id        An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link WindowEvfnt}.
+     *                  It is fxpfdtfd thbt this donstrudtor will not
+     *                  bf usfd for othfr thfn
+     *                  {@dodf WINDOW_STATE_CHANGED}
+     *                  {@dodf WindowEvfnt}
+     *                  typfs, bfdbusf thf prfvious bnd nfw window
+     *                  stbtfs brf mfbninglfss for othfr fvfnt typfs.
+     * @pbrbm oldStbtf  An intfgfr rfprfsfnting thf prfvious window stbtf.
+     *                  Sff {@dodf #gftOldStbtf()} for bllowbblf vblufs
+     * @pbrbm nfwStbtf  An intfgfr rfprfsfnting thf nfw window stbtf.
+     *                  Sff {@dodf #gftNfwStbtf()} for bllowbblf vblufs
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftWindow()
+     * @sff #gftID()
+     * @sff #gftOldStbtf()
+     * @sff #gftNfwStbtf()
+     * @sindf 1.4
+     */
+    publid WindowEvfnt(Window sourdf, int id, int oldStbtf, int nfwStbtf) {
+        this(sourdf, id, null, oldStbtf, nfwStbtf);
+    }
+
+    /**
+     * Construdts b <dodf>WindowEvfnt</dodf> objfdt.
+     * <p>This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf Thf <dodf>Window</dodf> objfdt thbt originbtfd thf fvfnt
+     * @pbrbm id     An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link WindowEvfnt}.
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftWindow()
+     * @sff #gftID()
+     */
+    publid WindowEvfnt(Window sourdf, int id) {
+        this(sourdf, id, null, 0, 0);
+    }
+
+    /**
+     * Rfturns thf originbtor of thf fvfnt.
+     *
+     * @rfturn thf Window objfdt thbt originbtfd thf fvfnt
+     */
+    publid Window gftWindow() {
+        rfturn (sourdf instbndfof Window) ? (Window)sourdf : null;
+    }
+
+    /**
+     * Rfturns thf othfr Window involvfd in this fodus or bdtivbtion dhbngf.
+     * For b WINDOW_ACTIVATED or WINDOW_GAINED_FOCUS fvfnt, this is thf Window
+     * thbt lost bdtivbtion or fodus. For b WINDOW_DEACTIVATED or
+     * WINDOW_LOST_FOCUS fvfnt, this is thf Window thbt gbinfd bdtivbtion or
+     * fodus. For bny othfr typf of WindowEvfnt, or if thf fodus or bdtivbtion
+     * dhbngf oddurs with b nbtivf bpplidbtion, with b Jbvb bpplidbtion in b
+     * difffrfnt VM or dontfxt, or with no othfr Window, null is rfturnfd.
+     *
+     * @rfturn thf othfr Window involvfd in thf fodus or bdtivbtion dhbngf, or
+     *         null
+     * @sindf 1.4
+     */
+    publid Window gftOppositfWindow() {
+        if (oppositf == null) {
+            rfturn null;
+        }
+
+        rfturn (SunToolkit.tbrgftToAppContfxt(oppositf) ==
+                AppContfxt.gftAppContfxt())
+            ? oppositf
+            : null;
+    }
+
+    /**
+     * For <dodf>WINDOW_STATE_CHANGED</dodf> fvfnts rfturns thf
+     * prfvious stbtf of thf window. Thf stbtf is
+     * rfprfsfntfd bs b bitwisf mbsk.
+     * <ul>
+     * <li><dodf>NORMAL</dodf>
+     * <br>Indidbtfs thbt no stbtf bits brf sft.
+     * <li><dodf>ICONIFIED</dodf>
+     * <li><dodf>MAXIMIZED_HORIZ</dodf>
+     * <li><dodf>MAXIMIZED_VERT</dodf>
+     * <li><dodf>MAXIMIZED_BOTH</dodf>
+     * <br>Condbtfnbtfs <dodf>MAXIMIZED_HORIZ</dodf>
+     * bnd <dodf>MAXIMIZED_VERT</dodf>.
+     * </ul>
+     *
+     * @rfturn b bitwisf mbsk of thf prfvious window stbtf
+     * @sff jbvb.bwt.Frbmf#gftExtfndfdStbtf()
+     * @sindf 1.4
+     */
+    publid int gftOldStbtf() {
+        rfturn oldStbtf;
+    }
+
+    /**
+     * For <dodf>WINDOW_STATE_CHANGED</dodf> fvfnts rfturns thf
+     * nfw stbtf of thf window. Thf stbtf is
+     * rfprfsfntfd bs b bitwisf mbsk.
+     * <ul>
+     * <li><dodf>NORMAL</dodf>
+     * <br>Indidbtfs thbt no stbtf bits brf sft.
+     * <li><dodf>ICONIFIED</dodf>
+     * <li><dodf>MAXIMIZED_HORIZ</dodf>
+     * <li><dodf>MAXIMIZED_VERT</dodf>
+     * <li><dodf>MAXIMIZED_BOTH</dodf>
+     * <br>Condbtfnbtfs <dodf>MAXIMIZED_HORIZ</dodf>
+     * bnd <dodf>MAXIMIZED_VERT</dodf>.
+     * </ul>
+     *
+     * @rfturn b bitwisf mbsk of thf nfw window stbtf
+     * @sff jbvb.bwt.Frbmf#gftExtfndfdStbtf()
+     * @sindf 1.4
+     */
+    publid int gftNfwStbtf() {
+        rfturn nfwStbtf;
+    }
+
+    /**
+     * Rfturns b pbrbmftfr string idfntifying this fvfnt.
+     * This mfthod is usfful for fvfnt-logging bnd for dfbugging.
+     *
+     * @rfturn b string idfntifying thf fvfnt bnd its bttributfs
+     */
+    publid String pbrbmString() {
+        String typfStr;
+        switdh(id) {
+          dbsf WINDOW_OPENED:
+              typfStr = "WINDOW_OPENED";
+              brfbk;
+          dbsf WINDOW_CLOSING:
+              typfStr = "WINDOW_CLOSING";
+              brfbk;
+          dbsf WINDOW_CLOSED:
+              typfStr = "WINDOW_CLOSED";
+              brfbk;
+          dbsf WINDOW_ICONIFIED:
+              typfStr = "WINDOW_ICONIFIED";
+              brfbk;
+          dbsf WINDOW_DEICONIFIED:
+              typfStr = "WINDOW_DEICONIFIED";
+              brfbk;
+          dbsf WINDOW_ACTIVATED:
+              typfStr = "WINDOW_ACTIVATED";
+              brfbk;
+          dbsf WINDOW_DEACTIVATED:
+              typfStr = "WINDOW_DEACTIVATED";
+              brfbk;
+          dbsf WINDOW_GAINED_FOCUS:
+              typfStr = "WINDOW_GAINED_FOCUS";
+              brfbk;
+          dbsf WINDOW_LOST_FOCUS:
+              typfStr = "WINDOW_LOST_FOCUS";
+              brfbk;
+          dbsf WINDOW_STATE_CHANGED:
+              typfStr = "WINDOW_STATE_CHANGED";
+              brfbk;
+          dffbult:
+              typfStr = "unknown typf";
+        }
+        typfStr += ",oppositf=" + gftOppositfWindow()
+            + ",oldStbtf=" + oldStbtf + ",nfwStbtf=" + nfwStbtf;
+
+        rfturn typfStr;
+    }
+}

@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.net.*;
-import java.io.*;
-import java.nio.*;
-import java.security.*;
-import java.nio.channels.*;
-import java.util.*;
-import java.util.concurrent.*;
-import javax.net.ssl.*;
-import com.sun.net.httpserver.*;
-import com.sun.net.httpserver.spi.*;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.sfdurity.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvbx.nft.ssl.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
 
-public class HttpServerImpl extends HttpServer {
+publid dlbss HttpSfrvfrImpl fxtfnds HttpSfrvfr {
 
-    ServerImpl server;
+    SfrvfrImpl sfrvfr;
 
-    HttpServerImpl () throws IOException {
-        this (new InetSocketAddress(80), 0);
+    HttpSfrvfrImpl () tirows IOExdfption {
+        tiis (nfw InftSodkftAddrfss(80), 0);
     }
 
-    HttpServerImpl (
-        InetSocketAddress addr, int backlog
-    ) throws IOException {
-        server = new ServerImpl (this, "http", addr, backlog);
+    HttpSfrvfrImpl (
+        InftSodkftAddrfss bddr, int bbdklog
+    ) tirows IOExdfption {
+        sfrvfr = nfw SfrvfrImpl (tiis, "ittp", bddr, bbdklog);
     }
 
-    public void bind (InetSocketAddress addr, int backlog) throws IOException {
-        server.bind (addr, backlog);
+    publid void bind (InftSodkftAddrfss bddr, int bbdklog) tirows IOExdfption {
+        sfrvfr.bind (bddr, bbdklog);
     }
 
-    public void start () {
-        server.start();
+    publid void stbrt () {
+        sfrvfr.stbrt();
     }
 
-    public void setExecutor (Executor executor) {
-        server.setExecutor(executor);
+    publid void sftExfdutor (Exfdutor fxfdutor) {
+        sfrvfr.sftExfdutor(fxfdutor);
     }
 
-    public Executor getExecutor () {
-        return server.getExecutor();
+    publid Exfdutor gftExfdutor () {
+        rfturn sfrvfr.gftExfdutor();
     }
 
-    public void stop (int delay) {
-        server.stop (delay);
+    publid void stop (int dflby) {
+        sfrvfr.stop (dflby);
     }
 
-    public HttpContextImpl createContext (String path, HttpHandler handler) {
-        return server.createContext (path, handler);
+    publid HttpContfxtImpl drfbtfContfxt (String pbti, HttpHbndlfr ibndlfr) {
+        rfturn sfrvfr.drfbtfContfxt (pbti, ibndlfr);
     }
 
-    public HttpContextImpl createContext (String path) {
-        return server.createContext (path);
+    publid HttpContfxtImpl drfbtfContfxt (String pbti) {
+        rfturn sfrvfr.drfbtfContfxt (pbti);
     }
 
-    public void removeContext (String path) throws IllegalArgumentException {
-        server.removeContext (path);
+    publid void rfmovfContfxt (String pbti) tirows IllfgblArgumfntExdfption {
+        sfrvfr.rfmovfContfxt (pbti);
     }
 
-    public void removeContext (HttpContext context) throws IllegalArgumentException {
-        server.removeContext (context);
+    publid void rfmovfContfxt (HttpContfxt dontfxt) tirows IllfgblArgumfntExdfption {
+        sfrvfr.rfmovfContfxt (dontfxt);
     }
 
-    public InetSocketAddress getAddress() {
-        return server.getAddress();
+    publid InftSodkftAddrfss gftAddrfss() {
+        rfturn sfrvfr.gftAddrfss();
     }
 }

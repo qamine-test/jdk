@@ -1,395 +1,395 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
 
 /**
-  * This class represents a reference to an object that is found outside of
-  * the naming/directory system.
+  * Tiis dlbss rfprfsfnts b rfffrfndf to bn objfdt tibt is found outsidf of
+  * tif nbming/dirfdtory systfm.
   *<p>
-  * Reference provides a way of recording address information about
-  * objects which themselves are not directly bound to the naming/directory system.
+  * Rfffrfndf providfs b wby of rfdording bddrfss informbtion bbout
+  * objfdts wiidi tifmsflvfs brf not dirfdtly bound to tif nbming/dirfdtory systfm.
   *<p>
-  * A Reference consists of an ordered list of addresses and class information
-  * about the object being referenced.
-  * Each address in the list identifies a communications endpoint
-  * for the same conceptual object.  The "communications endpoint"
-  * is information that indicates how to contact the object. It could
-  * be, for example, a network address, a location in memory on the
-  * local machine, another process on the same machine, etc.
-  * The order of the addresses in the list may be of significance
-  * to object factories that interpret the reference.
+  * A Rfffrfndf donsists of bn ordfrfd list of bddrfssfs bnd dlbss informbtion
+  * bbout tif objfdt bfing rfffrfndfd.
+  * Ebdi bddrfss in tif list idfntififs b dommunidbtions fndpoint
+  * for tif sbmf dondfptubl objfdt.  Tif "dommunidbtions fndpoint"
+  * is informbtion tibt indidbtfs iow to dontbdt tif objfdt. It dould
+  * bf, for fxbmplf, b nftwork bddrfss, b lodbtion in mfmory on tif
+  * lodbl mbdiinf, bnotifr prodfss on tif sbmf mbdiinf, ftd.
+  * Tif ordfr of tif bddrfssfs in tif list mby bf of signifidbndf
+  * to objfdt fbdtorifs tibt intfrprft tif rfffrfndf.
   *<p>
-  * Multiple addresses may arise for
-  * various reasons, such as replication or the object offering interfaces
-  * over more than one communication mechanism.  The addresses are indexed
-  * starting with zero.
+  * Multiplf bddrfssfs mby brisf for
+  * vbrious rfbsons, sudi bs rfplidbtion or tif objfdt offfring intfrfbdfs
+  * ovfr morf tibn onf dommunidbtion mfdibnism.  Tif bddrfssfs brf indfxfd
+  * stbrting witi zfro.
   *<p>
-  * A Reference also contains information to assist in creating an instance
-  * of the object to which this Reference refers.  It contains the class name
-  * of that object, and the class name and location of the factory to be used
-  * to create the object.
-  * The class factory location is a space-separated list of URLs representing
-  * the class path used to load the factory.  When the factory class (or
-  * any class or resource upon which it depends) needs to be loaded,
-  * each URL is used (in order) to attempt to load the class.
+  * A Rfffrfndf blso dontbins informbtion to bssist in drfbting bn instbndf
+  * of tif objfdt to wiidi tiis Rfffrfndf rfffrs.  It dontbins tif dlbss nbmf
+  * of tibt objfdt, bnd tif dlbss nbmf bnd lodbtion of tif fbdtory to bf usfd
+  * to drfbtf tif objfdt.
+  * Tif dlbss fbdtory lodbtion is b spbdf-sfpbrbtfd list of URLs rfprfsfnting
+  * tif dlbss pbti usfd to lobd tif fbdtory.  Wifn tif fbdtory dlbss (or
+  * bny dlbss or rfsourdf upon wiidi it dfpfnds) nffds to bf lobdfd,
+  * fbdi URL is usfd (in ordfr) to bttfmpt to lobd tif dlbss.
   *<p>
-  * A Reference instance is not synchronized against concurrent access by multiple
-  * threads. Threads that need to access a single Reference concurrently should
-  * synchronize amongst themselves and provide the necessary locking.
+  * A Rfffrfndf instbndf is not syndironizfd bgbinst dondurrfnt bddfss by multiplf
+  * tirfbds. Tirfbds tibt nffd to bddfss b singlf Rfffrfndf dondurrfntly siould
+  * syndironizf bmongst tifmsflvfs bnd providf tif nfdfssbry lodking.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see RefAddr
-  * @see StringRefAddr
-  * @see BinaryRefAddr
-  * @since 1.3
+  * @sff RffAddr
+  * @sff StringRffAddr
+  * @sff BinbryRffAddr
+  * @sindf 1.3
   */
 
   /*<p>
-  * The serialized form of a Reference object consists of the class
-  * name of the object being referenced (a String), a Vector of the
-  * addresses (each a RefAddr), the name of the class factory (a
-  * String), and the location of the class factory (a String).
+  * Tif sfriblizfd form of b Rfffrfndf objfdt donsists of tif dlbss
+  * nbmf of tif objfdt bfing rfffrfndfd (b String), b Vfdtor of tif
+  * bddrfssfs (fbdi b RffAddr), tif nbmf of tif dlbss fbdtory (b
+  * String), bnd tif lodbtion of tif dlbss fbdtory (b String).
 */
 
 
-public class Reference implements Cloneable, java.io.Serializable {
+publid dlbss Rfffrfndf implfmfnts Clonfbblf, jbvb.io.Sfriblizbblf {
     /**
-     * Contains the fully-qualified name of the class of the object to which
-     * this Reference refers.
-     * @serial
-     * @see java.lang.Class#getName
+     * Contbins tif fully-qublififd nbmf of tif dlbss of tif objfdt to wiidi
+     * tiis Rfffrfndf rfffrs.
+     * @sfribl
+     * @sff jbvb.lbng.Clbss#gftNbmf
      */
-    protected String className;
+    protfdtfd String dlbssNbmf;
     /**
-     * Contains the addresses contained in this Reference.
-     * Initialized by constructor.
-     * @serial
+     * Contbins tif bddrfssfs dontbinfd in tiis Rfffrfndf.
+     * Initiblizfd by donstrudtor.
+     * @sfribl
      */
-    protected Vector<RefAddr> addrs = null;
+    protfdtfd Vfdtor<RffAddr> bddrs = null;
 
     /**
-     * Contains the name of the factory class for creating
-     * an instance of the object to which this Reference refers.
-     * Initialized to null.
-     * @serial
+     * Contbins tif nbmf of tif fbdtory dlbss for drfbting
+     * bn instbndf of tif objfdt to wiidi tiis Rfffrfndf rfffrs.
+     * Initiblizfd to null.
+     * @sfribl
      */
-    protected String classFactory = null;
+    protfdtfd String dlbssFbdtory = null;
 
     /**
-     * Contains the location of the factory class.
-     * Initialized to null.
-     * @serial
+     * Contbins tif lodbtion of tif fbdtory dlbss.
+     * Initiblizfd to null.
+     * @sfribl
      */
-    protected String classFactoryLocation = null;
+    protfdtfd String dlbssFbdtoryLodbtion = null;
 
     /**
-      * Constructs a new reference for an object with class name 'className'.
-      * Class factory and class factory location are set to null.
-      * The newly created reference contains zero addresses.
+      * Construdts b nfw rfffrfndf for bn objfdt witi dlbss nbmf 'dlbssNbmf'.
+      * Clbss fbdtory bnd dlbss fbdtory lodbtion brf sft to null.
+      * Tif nfwly drfbtfd rfffrfndf dontbins zfro bddrfssfs.
       *
-      * @param className The non-null class name of the object to which
-      * this reference refers.
+      * @pbrbm dlbssNbmf Tif non-null dlbss nbmf of tif objfdt to wiidi
+      * tiis rfffrfndf rfffrs.
       */
-    public Reference(String className) {
-        this.className  = className;
-        addrs = new Vector<>();
+    publid Rfffrfndf(String dlbssNbmf) {
+        tiis.dlbssNbmf  = dlbssNbmf;
+        bddrs = nfw Vfdtor<>();
     }
 
     /**
-      * Constructs a new reference for an object with class name 'className' and
-      * an address.
-      * Class factory and class factory location are set to null.
+      * Construdts b nfw rfffrfndf for bn objfdt witi dlbss nbmf 'dlbssNbmf' bnd
+      * bn bddrfss.
+      * Clbss fbdtory bnd dlbss fbdtory lodbtion brf sft to null.
       *
-      * @param className The non-null class name of the object to
-      * which this reference refers.
-      * @param addr The non-null address of the object.
+      * @pbrbm dlbssNbmf Tif non-null dlbss nbmf of tif objfdt to
+      * wiidi tiis rfffrfndf rfffrs.
+      * @pbrbm bddr Tif non-null bddrfss of tif objfdt.
       */
-    public Reference(String className, RefAddr addr) {
-        this.className = className;
-        addrs = new Vector<>();
-        addrs.addElement(addr);
+    publid Rfffrfndf(String dlbssNbmf, RffAddr bddr) {
+        tiis.dlbssNbmf = dlbssNbmf;
+        bddrs = nfw Vfdtor<>();
+        bddrs.bddElfmfnt(bddr);
     }
 
     /**
-      * Constructs a new reference for an object with class name 'className',
-      * and the class name and location of the object's factory.
+      * Construdts b nfw rfffrfndf for bn objfdt witi dlbss nbmf 'dlbssNbmf',
+      * bnd tif dlbss nbmf bnd lodbtion of tif objfdt's fbdtory.
       *
-      * @param className The non-null class name of the object to which
-      *                         this reference refers.
-      * @param factory  The possibly null class name of the object's factory.
-      * @param factoryLocation
-      *         The possibly null location from which to load
-      *         the factory (e.g. URL)
-      * @see javax.naming.spi.ObjectFactory
-      * @see javax.naming.spi.NamingManager#getObjectInstance
+      * @pbrbm dlbssNbmf Tif non-null dlbss nbmf of tif objfdt to wiidi
+      *                         tiis rfffrfndf rfffrs.
+      * @pbrbm fbdtory  Tif possibly null dlbss nbmf of tif objfdt's fbdtory.
+      * @pbrbm fbdtoryLodbtion
+      *         Tif possibly null lodbtion from wiidi to lobd
+      *         tif fbdtory (f.g. URL)
+      * @sff jbvbx.nbming.spi.ObjfdtFbdtory
+      * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftObjfdtInstbndf
       */
-    public Reference(String className, String factory, String factoryLocation) {
-        this(className);
-        classFactory = factory;
-        classFactoryLocation = factoryLocation;
+    publid Rfffrfndf(String dlbssNbmf, String fbdtory, String fbdtoryLodbtion) {
+        tiis(dlbssNbmf);
+        dlbssFbdtory = fbdtory;
+        dlbssFbdtoryLodbtion = fbdtoryLodbtion;
     }
 
     /**
-      * Constructs a new reference for an object with class name 'className',
-      * the class name and location of the object's factory, and the address for
-      * the object.
+      * Construdts b nfw rfffrfndf for bn objfdt witi dlbss nbmf 'dlbssNbmf',
+      * tif dlbss nbmf bnd lodbtion of tif objfdt's fbdtory, bnd tif bddrfss for
+      * tif objfdt.
       *
-      * @param className The non-null class name of the object to
-      *         which this reference refers.
-      * @param factory  The possibly null class name of the object's factory.
-      * @param factoryLocation  The possibly null location from which
-      *                         to load the factory (e.g. URL)
-      * @param addr     The non-null address of the object.
-      * @see javax.naming.spi.ObjectFactory
-      * @see javax.naming.spi.NamingManager#getObjectInstance
+      * @pbrbm dlbssNbmf Tif non-null dlbss nbmf of tif objfdt to
+      *         wiidi tiis rfffrfndf rfffrs.
+      * @pbrbm fbdtory  Tif possibly null dlbss nbmf of tif objfdt's fbdtory.
+      * @pbrbm fbdtoryLodbtion  Tif possibly null lodbtion from wiidi
+      *                         to lobd tif fbdtory (f.g. URL)
+      * @pbrbm bddr     Tif non-null bddrfss of tif objfdt.
+      * @sff jbvbx.nbming.spi.ObjfdtFbdtory
+      * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftObjfdtInstbndf
       */
-    public Reference(String className, RefAddr addr,
-                     String factory, String factoryLocation) {
-        this(className, addr);
-        classFactory = factory;
-        classFactoryLocation = factoryLocation;
+    publid Rfffrfndf(String dlbssNbmf, RffAddr bddr,
+                     String fbdtory, String fbdtoryLodbtion) {
+        tiis(dlbssNbmf, bddr);
+        dlbssFbdtory = fbdtory;
+        dlbssFbdtoryLodbtion = fbdtoryLodbtion;
     }
 
     /**
-      * Retrieves the class name of the object to which this reference refers.
+      * Rftrifvfs tif dlbss nbmf of tif objfdt to wiidi tiis rfffrfndf rfffrs.
       *
-      * @return The non-null fully-qualified class name of the object.
-      *         (e.g. "java.lang.String")
+      * @rfturn Tif non-null fully-qublififd dlbss nbmf of tif objfdt.
+      *         (f.g. "jbvb.lbng.String")
       */
-    public String getClassName() {
-        return className;
+    publid String gftClbssNbmf() {
+        rfturn dlbssNbmf;
     }
 
     /**
-      * Retrieves the class name of the factory of the object
-      * to which this reference refers.
+      * Rftrifvfs tif dlbss nbmf of tif fbdtory of tif objfdt
+      * to wiidi tiis rfffrfndf rfffrs.
       *
-      * @return The possibly null fully-qualified class name of the factory.
-      *         (e.g. "java.lang.String")
+      * @rfturn Tif possibly null fully-qublififd dlbss nbmf of tif fbdtory.
+      *         (f.g. "jbvb.lbng.String")
       */
-    public String getFactoryClassName() {
-        return classFactory;
+    publid String gftFbdtoryClbssNbmf() {
+        rfturn dlbssFbdtory;
     }
 
     /**
-      * Retrieves the location of the factory of the object
-      * to which this reference refers.
-      * If it is a codebase, then it is an ordered list of URLs,
-      * separated by spaces, listing locations from where the factory
-      * class definition should be loaded.
+      * Rftrifvfs tif lodbtion of tif fbdtory of tif objfdt
+      * to wiidi tiis rfffrfndf rfffrs.
+      * If it is b dodfbbsf, tifn it is bn ordfrfd list of URLs,
+      * sfpbrbtfd by spbdfs, listing lodbtions from wifrf tif fbdtory
+      * dlbss dffinition siould bf lobdfd.
       *
-      * @return The possibly null string containing the
-      *                 location for loading in the factory's class.
+      * @rfturn Tif possibly null string dontbining tif
+      *                 lodbtion for lobding in tif fbdtory's dlbss.
       */
-    public String getFactoryClassLocation() {
-        return classFactoryLocation;
+    publid String gftFbdtoryClbssLodbtion() {
+        rfturn dlbssFbdtoryLodbtion;
     }
 
     /**
-      * Retrieves the first address that has the address type 'addrType'.
-      * String.compareTo() is used to test the equality of the address types.
+      * Rftrifvfs tif first bddrfss tibt ibs tif bddrfss typf 'bddrTypf'.
+      * String.dompbrfTo() is usfd to tfst tif fqublity of tif bddrfss typfs.
       *
-      * @param addrType The non-null address type for which to find the address.
-      * @return The address in this reference with address type 'addrType';
-      *         null if no such address exists.
+      * @pbrbm bddrTypf Tif non-null bddrfss typf for wiidi to find tif bddrfss.
+      * @rfturn Tif bddrfss in tiis rfffrfndf witi bddrfss typf 'bddrTypf';
+      *         null if no sudi bddrfss fxists.
       */
-    public RefAddr get(String addrType) {
-        int len = addrs.size();
-        RefAddr addr;
-        for (int i = 0; i < len; i++) {
-            addr = addrs.elementAt(i);
-            if (addr.getType().compareTo(addrType) == 0)
-                return addr;
+    publid RffAddr gft(String bddrTypf) {
+        int lfn = bddrs.sizf();
+        RffAddr bddr;
+        for (int i = 0; i < lfn; i++) {
+            bddr = bddrs.flfmfntAt(i);
+            if (bddr.gftTypf().dompbrfTo(bddrTypf) == 0)
+                rfturn bddr;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-      * Retrieves the address at index posn.
-      * @param posn The index of the address to retrieve.
-      * @return The address at the 0-based index posn. It must be in the
-      *         range [0,getAddressCount()).
-      * @exception ArrayIndexOutOfBoundsException If posn not in the specified
-      *         range.
+      * Rftrifvfs tif bddrfss bt indfx posn.
+      * @pbrbm posn Tif indfx of tif bddrfss to rftrifvf.
+      * @rfturn Tif bddrfss bt tif 0-bbsfd indfx posn. It must bf in tif
+      *         rbngf [0,gftAddrfssCount()).
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption If posn not in tif spfdififd
+      *         rbngf.
       */
-    public RefAddr get(int posn) {
-        return addrs.elementAt(posn);
+    publid RffAddr gft(int posn) {
+        rfturn bddrs.flfmfntAt(posn);
     }
 
     /**
-      * Retrieves an enumeration of the addresses in this reference.
-      * When addresses are added, changed or removed from this reference,
-      * its effects on this enumeration are undefined.
+      * Rftrifvfs bn fnumfrbtion of tif bddrfssfs in tiis rfffrfndf.
+      * Wifn bddrfssfs brf bddfd, dibngfd or rfmovfd from tiis rfffrfndf,
+      * its ffffdts on tiis fnumfrbtion brf undffinfd.
       *
-      * @return An non-null enumeration of the addresses
-      *         (<tt>RefAddr</tt>) in this reference.
-      *         If this reference has zero addresses, an enumeration with
-      *         zero elements is returned.
+      * @rfturn An non-null fnumfrbtion of tif bddrfssfs
+      *         (<tt>RffAddr</tt>) in tiis rfffrfndf.
+      *         If tiis rfffrfndf ibs zfro bddrfssfs, bn fnumfrbtion witi
+      *         zfro flfmfnts is rfturnfd.
       */
-    public Enumeration<RefAddr> getAll() {
-        return addrs.elements();
+    publid Enumfrbtion<RffAddr> gftAll() {
+        rfturn bddrs.flfmfnts();
     }
 
     /**
-      * Retrieves the number of addresses in this reference.
+      * Rftrifvfs tif numbfr of bddrfssfs in tiis rfffrfndf.
       *
-      * @return The nonnegative number of addresses in this reference.
+      * @rfturn Tif nonnfgbtivf numbfr of bddrfssfs in tiis rfffrfndf.
       */
-    public int size() {
-        return addrs.size();
+    publid int sizf() {
+        rfturn bddrs.sizf();
     }
 
     /**
-      * Adds an address to the end of the list of addresses.
+      * Adds bn bddrfss to tif fnd of tif list of bddrfssfs.
       *
-      * @param addr The non-null address to add.
+      * @pbrbm bddr Tif non-null bddrfss to bdd.
       */
-    public void add(RefAddr addr) {
-        addrs.addElement(addr);
+    publid void bdd(RffAddr bddr) {
+        bddrs.bddElfmfnt(bddr);
     }
 
     /**
-      * Adds an address to the list of addresses at index posn.
-      * All addresses at index posn or greater are shifted up
-      * the list by one (away from index 0).
+      * Adds bn bddrfss to tif list of bddrfssfs bt indfx posn.
+      * All bddrfssfs bt indfx posn or grfbtfr brf siiftfd up
+      * tif list by onf (bwby from indfx 0).
       *
-      * @param posn The 0-based index of the list to insert addr.
-      * @param addr The non-null address to add.
-      * @exception ArrayIndexOutOfBoundsException If posn not in the specified
-      *         range.
+      * @pbrbm posn Tif 0-bbsfd indfx of tif list to insfrt bddr.
+      * @pbrbm bddr Tif non-null bddrfss to bdd.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption If posn not in tif spfdififd
+      *         rbngf.
       */
-    public void add(int posn, RefAddr addr) {
-        addrs.insertElementAt(addr, posn);
+    publid void bdd(int posn, RffAddr bddr) {
+        bddrs.insfrtElfmfntAt(bddr, posn);
     }
 
     /**
-      * Deletes the address at index posn from the list of addresses.
-      * All addresses at index greater than posn are shifted down
-      * the list by one (towards index 0).
+      * Dflftfs tif bddrfss bt indfx posn from tif list of bddrfssfs.
+      * All bddrfssfs bt indfx grfbtfr tibn posn brf siiftfd down
+      * tif list by onf (towbrds indfx 0).
       *
-      * @param posn The 0-based index of in address to delete.
-      * @return The address removed.
-      * @exception ArrayIndexOutOfBoundsException If posn not in the specified
-      *         range.
+      * @pbrbm posn Tif 0-bbsfd indfx of in bddrfss to dflftf.
+      * @rfturn Tif bddrfss rfmovfd.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption If posn not in tif spfdififd
+      *         rbngf.
       */
-    public Object remove(int posn) {
-        Object r = addrs.elementAt(posn);
-        addrs.removeElementAt(posn);
-        return r;
+    publid Objfdt rfmovf(int posn) {
+        Objfdt r = bddrs.flfmfntAt(posn);
+        bddrs.rfmovfElfmfntAt(posn);
+        rfturn r;
     }
 
     /**
-      * Deletes all addresses from this reference.
+      * Dflftfs bll bddrfssfs from tiis rfffrfndf.
       */
-    public void clear() {
-        addrs.setSize(0);
+    publid void dlfbr() {
+        bddrs.sftSizf(0);
     }
 
     /**
-      * Determines whether obj is a reference with the same addresses
-      * (in same order) as this reference.
-      * The addresses are checked using RefAddr.equals().
-      * In addition to having the same addresses, the Reference also needs to
-      * have the same class name as this reference.
-      * The class factory and class factory location are not checked.
-      * If obj is null or not an instance of Reference, null is returned.
+      * Dftfrminfs wiftifr obj is b rfffrfndf witi tif sbmf bddrfssfs
+      * (in sbmf ordfr) bs tiis rfffrfndf.
+      * Tif bddrfssfs brf difdkfd using RffAddr.fqubls().
+      * In bddition to ibving tif sbmf bddrfssfs, tif Rfffrfndf blso nffds to
+      * ibvf tif sbmf dlbss nbmf bs tiis rfffrfndf.
+      * Tif dlbss fbdtory bnd dlbss fbdtory lodbtion brf not difdkfd.
+      * If obj is null or not bn instbndf of Rfffrfndf, null is rfturnfd.
       *
-      * @param obj The possibly null object to check.
-      * @return true if obj is equal to this reference; false otherwise.
+      * @pbrbm obj Tif possibly null objfdt to difdk.
+      * @rfturn truf if obj is fqubl to tiis rfffrfndf; fblsf otifrwisf.
       */
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof Reference)) {
-            Reference target = (Reference)obj;
-            // ignore factory information
-            if (target.className.equals(this.className) &&
-                target.size() ==  this.size()) {
-                Enumeration<RefAddr> mycomps = getAll();
-                Enumeration<RefAddr> comps = target.getAll();
-                while (mycomps.hasMoreElements())
-                    if (!(mycomps.nextElement().equals(comps.nextElement())))
-                        return false;
-                return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof Rfffrfndf)) {
+            Rfffrfndf tbrgft = (Rfffrfndf)obj;
+            // ignorf fbdtory informbtion
+            if (tbrgft.dlbssNbmf.fqubls(tiis.dlbssNbmf) &&
+                tbrgft.sizf() ==  tiis.sizf()) {
+                Enumfrbtion<RffAddr> mydomps = gftAll();
+                Enumfrbtion<RffAddr> domps = tbrgft.gftAll();
+                wiilf (mydomps.ibsMorfElfmfnts())
+                    if (!(mydomps.nfxtElfmfnt().fqubls(domps.nfxtElfmfnt())))
+                        rfturn fblsf;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-      * Computes the hash code of this reference.
-      * The hash code is the sum of the hash code of its addresses.
+      * Computfs tif ibsi dodf of tiis rfffrfndf.
+      * Tif ibsi dodf is tif sum of tif ibsi dodf of its bddrfssfs.
       *
-      * @return A hash code of this reference as an int.
+      * @rfturn A ibsi dodf of tiis rfffrfndf bs bn int.
       */
-    public int hashCode() {
-        int hash = className.hashCode();
-        for (Enumeration<RefAddr> e = getAll(); e.hasMoreElements();)
-            hash += e.nextElement().hashCode();
-        return hash;
+    publid int ibsiCodf() {
+        int ibsi = dlbssNbmf.ibsiCodf();
+        for (Enumfrbtion<RffAddr> f = gftAll(); f.ibsMorfElfmfnts();)
+            ibsi += f.nfxtElfmfnt().ibsiCodf();
+        rfturn ibsi;
     }
 
     /**
-      * Generates the string representation of this reference.
-      * The string consists of the class name to which this reference refers,
-      * and the string representation of each of its addresses.
-      * This representation is intended for display only and not to be parsed.
+      * Gfnfrbtfs tif string rfprfsfntbtion of tiis rfffrfndf.
+      * Tif string donsists of tif dlbss nbmf to wiidi tiis rfffrfndf rfffrs,
+      * bnd tif string rfprfsfntbtion of fbdi of its bddrfssfs.
+      * Tiis rfprfsfntbtion is intfndfd for displby only bnd not to bf pbrsfd.
       *
-      * @return The non-null string representation of this reference.
+      * @rfturn Tif non-null string rfprfsfntbtion of tiis rfffrfndf.
       */
-    public String toString() {
-        StringBuilder sb = new StringBuilder("Reference Class Name: " +
-                                             className + "\n");
-        int len = addrs.size();
-        for (int i = 0; i < len; i++)
-            sb.append(get(i).toString());
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr("Rfffrfndf Clbss Nbmf: " +
+                                             dlbssNbmf + "\n");
+        int lfn = bddrs.sizf();
+        for (int i = 0; i < lfn; i++)
+            sb.bppfnd(gft(i).toString());
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /**
-     * Makes a copy of this reference using its class name
-     * list of addresses, class factory name and class factory location.
-     * Changes to the newly created copy does not affect this Reference
-     * and vice versa.
+     * Mbkfs b dopy of tiis rfffrfndf using its dlbss nbmf
+     * list of bddrfssfs, dlbss fbdtory nbmf bnd dlbss fbdtory lodbtion.
+     * Cibngfs to tif nfwly drfbtfd dopy dofs not bfffdt tiis Rfffrfndf
+     * bnd vidf vfrsb.
      */
-    public Object clone() {
-        Reference r = new Reference(className, classFactory, classFactoryLocation);
-        Enumeration<RefAddr> a = getAll();
-        r.addrs = new Vector<>();
+    publid Objfdt dlonf() {
+        Rfffrfndf r = nfw Rfffrfndf(dlbssNbmf, dlbssFbdtory, dlbssFbdtoryLodbtion);
+        Enumfrbtion<RffAddr> b = gftAll();
+        r.bddrs = nfw Vfdtor<>();
 
-        while (a.hasMoreElements())
-            r.addrs.addElement(a.nextElement());
-        return r;
+        wiilf (b.ibsMorfElfmfnts())
+            r.bddrs.bddElfmfnt(b.nfxtElfmfnt());
+        rfturn r;
     }
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = -1673475790065791735L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1673475790065791735L;
 };

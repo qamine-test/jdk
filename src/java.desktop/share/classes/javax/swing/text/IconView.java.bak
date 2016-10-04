@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.*;
-import javax.swing.Icon;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvbx.swing.Idon;
+import jbvbx.swing.fvfnt.*;
 
 /**
- * Icon decorator that implements the view interface.  The
- * entire element is used to represent the icon.  This acts
- * as a gateway from the display-only View implementations to
- * interactive lightweight icons (that is, it allows icons
- * to be embedded into the View hierarchy.  The parent of the icon
- * is the container that is handed out by the associated view
- * factory.
+ * Idon dfdorbtor tibt implfmfnts tif vifw intfrfbdf.  Tif
+ * fntirf flfmfnt is usfd to rfprfsfnt tif idon.  Tiis bdts
+ * bs b gbtfwby from tif displby-only Vifw implfmfntbtions to
+ * intfrbdtivf ligitwfigit idons (tibt is, it bllows idons
+ * to bf fmbfddfd into tif Vifw iifrbrdiy.  Tif pbrfnt of tif idon
+ * is tif dontbinfr tibt is ibndfd out by tif bssodibtfd vifw
+ * fbdtory.
  *
- * @author Timothy Prinzing
+ * @butior Timotiy Prinzing
  */
-public class IconView extends View  {
+publid dlbss IdonVifw fxtfnds Vifw  {
 
     /**
-     * Creates a new icon view that represents an element.
+     * Crfbtfs b nfw idon vifw tibt rfprfsfnts bn flfmfnt.
      *
-     * @param elem the element to create a view for
+     * @pbrbm flfm tif flfmfnt to drfbtf b vifw for
      */
-    public IconView(Element elem) {
-        super(elem);
-        AttributeSet attr = elem.getAttributes();
-        c = StyleConstants.getIcon(attr);
+    publid IdonVifw(Elfmfnt flfm) {
+        supfr(flfm);
+        AttributfSft bttr = flfm.gftAttributfs();
+        d = StylfConstbnts.gftIdon(bttr);
     }
 
-    // --- View methods ---------------------------------------------
+    // --- Vifw mftiods ---------------------------------------------
 
     /**
-     * Paints the icon.
-     * The real paint behavior occurs naturally from the association
-     * that the icon has with its parent container (the same
-     * container hosting this view), so this simply allows us to
-     * position the icon properly relative to the view.  Since
-     * the coordinate system for the view is simply the parent
-     * containers, positioning the child icon is easy.
+     * Pbints tif idon.
+     * Tif rfbl pbint bfibvior oddurs nbturblly from tif bssodibtion
+     * tibt tif idon ibs witi its pbrfnt dontbinfr (tif sbmf
+     * dontbinfr iosting tiis vifw), so tiis simply bllows us to
+     * position tif idon propfrly rflbtivf to tif vifw.  Sindf
+     * tif doordinbtf systfm for tif vifw is simply tif pbrfnt
+     * dontbinfrs, positioning tif diild idon is fbsy.
      *
-     * @param g the rendering surface to use
-     * @param a the allocated region to render into
-     * @see View#paint
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @sff Vifw#pbint
      */
-    public void paint(Graphics g, Shape a) {
-        Rectangle alloc = a.getBounds();
-        c.paintIcon(getContainer(), g, alloc.x, alloc.y);
+    publid void pbint(Grbpiids g, Sibpf b) {
+        Rfdtbnglf bllod = b.gftBounds();
+        d.pbintIdon(gftContbinfr(), g, bllod.x, bllod.y);
     }
 
     /**
-     * Determines the preferred span for this view along an
-     * axis.
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return  the span the view would like to be rendered into
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @exception IllegalArgumentException for an invalid axis
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn  tif spbn tif vifw would likf to bf rfndfrfd into
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis
      */
-    public float getPreferredSpan(int axis) {
-        switch (axis) {
-        case View.X_AXIS:
-            return c.getIconWidth();
-        case View.Y_AXIS:
-            return c.getIconHeight();
-        default:
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        switdi (bxis) {
+        dbsf Vifw.X_AXIS:
+            rfturn d.gftIdonWidti();
+        dbsf Vifw.Y_AXIS:
+            rfturn d.gftIdonHfigit();
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
         }
     }
 
     /**
-     * Determines the desired alignment for this view along an
-     * axis.  This is implemented to give the alignment to the
-     * bottom of the icon along the y axis, and the default
-     * along the x axis.
+     * Dftfrminfs tif dfsirfd blignmfnt for tiis vifw blong bn
+     * bxis.  Tiis is implfmfntfd to givf tif blignmfnt to tif
+     * bottom of tif idon blong tif y bxis, bnd tif dffbult
+     * blong tif x bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return the desired alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f.  This should be
-     *   a value between 0.0 and 1.0 where 0 indicates alignment at the
-     *   origin and 1.0 indicates alignment to the full span
-     *   away from the origin.  An alignment of 0.5 would be the
-     *   center of the view.
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn tif dfsirfd blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f.  Tiis siould bf
+     *   b vbluf bftwffn 0.0 bnd 1.0 wifrf 0 indidbtfs blignmfnt bt tif
+     *   origin bnd 1.0 indidbtfs blignmfnt to tif full spbn
+     *   bwby from tif origin.  An blignmfnt of 0.5 would bf tif
+     *   dfntfr of tif vifw.
      */
-    public float getAlignment(int axis) {
-        switch (axis) {
-        case View.Y_AXIS:
-            return 1;
-        default:
-            return super.getAlignment(axis);
+    publid flobt gftAlignmfnt(int bxis) {
+        switdi (bxis) {
+        dbsf Vifw.Y_AXIS:
+            rfturn 1;
+        dffbult:
+            rfturn supfr.gftAlignmfnt(bxis);
         }
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.
      *
-     * @param pos the position to convert &gt;= 0
-     * @param a the allocated region to render into
-     * @return the bounding box of the given position
-     * @exception BadLocationException  if the given position does not
-     *   represent a valid location in the associated document
-     * @see View#modelToView
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif bounding box of tif givfn position
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
      */
-    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-        int p0 = getStartOffset();
-        int p1 = getEndOffset();
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+        int p0 = gftStbrtOffsft();
+        int p1 = gftEndOffsft();
         if ((pos >= p0) && (pos <= p1)) {
-            Rectangle r = a.getBounds();
+            Rfdtbnglf r = b.gftBounds();
             if (pos == p1) {
-                r.x += r.width;
+                r.x += r.widti;
             }
-            r.width = 0;
-            return r;
+            r.widti = 0;
+            rfturn r;
         }
-        throw new BadLocationException(pos + " not in range " + p0 + "," + p1, pos);
+        tirow nfw BbdLodbtionExdfption(pos + " not in rbngf " + p0 + "," + p1, pos);
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param a the allocated region to render into
-     * @return the location within the model that best represents the
-     *  given point of view &gt;= 0
-     * @see View#viewToModel
+     * @pbrbm x tif X doordinbtf &gt;= 0
+     * @pbrbm y tif Y doordinbtf &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point of vifw &gt;= 0
+     * @sff Vifw#vifwToModfl
      */
-    public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
-        Rectangle alloc = (Rectangle) a;
-        if (x < alloc.x + (alloc.width / 2)) {
-            bias[0] = Position.Bias.Forward;
-            return getStartOffset();
+    publid int vifwToModfl(flobt x, flobt y, Sibpf b, Position.Bibs[] bibs) {
+        Rfdtbnglf bllod = (Rfdtbnglf) b;
+        if (x < bllod.x + (bllod.widti / 2)) {
+            bibs[0] = Position.Bibs.Forwbrd;
+            rfturn gftStbrtOffsft();
         }
-        bias[0] = Position.Bias.Backward;
-        return getEndOffset();
+        bibs[0] = Position.Bibs.Bbdkwbrd;
+        rfturn gftEndOffsft();
     }
 
-    // --- member variables ------------------------------------------------
+    // --- mfmbfr vbribblfs ------------------------------------------------
 
-    private Icon c;
+    privbtf Idon d;
 }

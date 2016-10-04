@@ -1,282 +1,282 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * A <code>ByteArrayInputStream</code> contains
- * an internal buffer that contains bytes that
- * may be read from the stream. An internal
- * counter keeps track of the next byte to
- * be supplied by the <code>read</code> method.
+ * A <dodf>BytfArrbyInputStrfbm</dodf> dontbins
+ * bn intfrnbl bufffr tibt dontbins bytfs tibt
+ * mby bf rfbd from tif strfbm. An intfrnbl
+ * dountfr kffps trbdk of tif nfxt bytf to
+ * bf supplifd by tif <dodf>rfbd</dodf> mftiod.
  * <p>
- * Closing a <tt>ByteArrayInputStream</tt> has no effect. The methods in
- * this class can be called after the stream has been closed without
- * generating an <tt>IOException</tt>.
+ * Closing b <tt>BytfArrbyInputStrfbm</tt> ibs no ffffdt. Tif mftiods in
+ * tiis dlbss dbn bf dbllfd bftfr tif strfbm ibs bffn dlosfd witiout
+ * gfnfrbting bn <tt>IOExdfption</tt>.
  *
- * @author  Arthur van Hoff
- * @see     java.io.StringBufferInputStream
- * @since   1.0
+ * @butior  Artiur vbn Hoff
+ * @sff     jbvb.io.StringBufffrInputStrfbm
+ * @sindf   1.0
  */
-public
-class ByteArrayInputStream extends InputStream {
+publid
+dlbss BytfArrbyInputStrfbm fxtfnds InputStrfbm {
 
     /**
-     * An array of bytes that was provided
-     * by the creator of the stream. Elements <code>buf[0]</code>
-     * through <code>buf[count-1]</code> are the
-     * only bytes that can ever be read from the
-     * stream;  element <code>buf[pos]</code> is
-     * the next byte to be read.
+     * An brrby of bytfs tibt wbs providfd
+     * by tif drfbtor of tif strfbm. Elfmfnts <dodf>buf[0]</dodf>
+     * tirougi <dodf>buf[dount-1]</dodf> brf tif
+     * only bytfs tibt dbn fvfr bf rfbd from tif
+     * strfbm;  flfmfnt <dodf>buf[pos]</dodf> is
+     * tif nfxt bytf to bf rfbd.
      */
-    protected byte buf[];
+    protfdtfd bytf buf[];
 
     /**
-     * The index of the next character to read from the input stream buffer.
-     * This value should always be nonnegative
-     * and not larger than the value of <code>count</code>.
-     * The next byte to be read from the input stream buffer
-     * will be <code>buf[pos]</code>.
+     * Tif indfx of tif nfxt dibrbdtfr to rfbd from tif input strfbm bufffr.
+     * Tiis vbluf siould blwbys bf nonnfgbtivf
+     * bnd not lbrgfr tibn tif vbluf of <dodf>dount</dodf>.
+     * Tif nfxt bytf to bf rfbd from tif input strfbm bufffr
+     * will bf <dodf>buf[pos]</dodf>.
      */
-    protected int pos;
+    protfdtfd int pos;
 
     /**
-     * The currently marked position in the stream.
-     * ByteArrayInputStream objects are marked at position zero by
-     * default when constructed.  They may be marked at another
-     * position within the buffer by the <code>mark()</code> method.
-     * The current buffer position is set to this point by the
-     * <code>reset()</code> method.
+     * Tif durrfntly mbrkfd position in tif strfbm.
+     * BytfArrbyInputStrfbm objfdts brf mbrkfd bt position zfro by
+     * dffbult wifn donstrudtfd.  Tify mby bf mbrkfd bt bnotifr
+     * position witiin tif bufffr by tif <dodf>mbrk()</dodf> mftiod.
+     * Tif durrfnt bufffr position is sft to tiis point by tif
+     * <dodf>rfsft()</dodf> mftiod.
      * <p>
-     * If no mark has been set, then the value of mark is the offset
-     * passed to the constructor (or 0 if the offset was not supplied).
+     * If no mbrk ibs bffn sft, tifn tif vbluf of mbrk is tif offsft
+     * pbssfd to tif donstrudtor (or 0 if tif offsft wbs not supplifd).
      *
-     * @since   1.1
+     * @sindf   1.1
      */
-    protected int mark = 0;
+    protfdtfd int mbrk = 0;
 
     /**
-     * The index one greater than the last valid character in the input
-     * stream buffer.
-     * This value should always be nonnegative
-     * and not larger than the length of <code>buf</code>.
-     * It  is one greater than the position of
-     * the last byte within <code>buf</code> that
-     * can ever be read  from the input stream buffer.
+     * Tif indfx onf grfbtfr tibn tif lbst vblid dibrbdtfr in tif input
+     * strfbm bufffr.
+     * Tiis vbluf siould blwbys bf nonnfgbtivf
+     * bnd not lbrgfr tibn tif lfngti of <dodf>buf</dodf>.
+     * It  is onf grfbtfr tibn tif position of
+     * tif lbst bytf witiin <dodf>buf</dodf> tibt
+     * dbn fvfr bf rfbd  from tif input strfbm bufffr.
      */
-    protected int count;
+    protfdtfd int dount;
 
     /**
-     * Creates a <code>ByteArrayInputStream</code>
-     * so that it  uses <code>buf</code> as its
-     * buffer array.
-     * The buffer array is not copied.
-     * The initial value of <code>pos</code>
-     * is <code>0</code> and the initial value
-     * of  <code>count</code> is the length of
-     * <code>buf</code>.
+     * Crfbtfs b <dodf>BytfArrbyInputStrfbm</dodf>
+     * so tibt it  usfs <dodf>buf</dodf> bs its
+     * bufffr brrby.
+     * Tif bufffr brrby is not dopifd.
+     * Tif initibl vbluf of <dodf>pos</dodf>
+     * is <dodf>0</dodf> bnd tif initibl vbluf
+     * of  <dodf>dount</dodf> is tif lfngti of
+     * <dodf>buf</dodf>.
      *
-     * @param   buf   the input buffer.
+     * @pbrbm   buf   tif input bufffr.
      */
-    public ByteArrayInputStream(byte buf[]) {
-        this.buf = buf;
-        this.pos = 0;
-        this.count = buf.length;
+    publid BytfArrbyInputStrfbm(bytf buf[]) {
+        tiis.buf = buf;
+        tiis.pos = 0;
+        tiis.dount = buf.lfngti;
     }
 
     /**
-     * Creates <code>ByteArrayInputStream</code>
-     * that uses <code>buf</code> as its
-     * buffer array. The initial value of <code>pos</code>
-     * is <code>offset</code> and the initial value
-     * of <code>count</code> is the minimum of <code>offset+length</code>
-     * and <code>buf.length</code>.
-     * The buffer array is not copied. The buffer's mark is
-     * set to the specified offset.
+     * Crfbtfs <dodf>BytfArrbyInputStrfbm</dodf>
+     * tibt usfs <dodf>buf</dodf> bs its
+     * bufffr brrby. Tif initibl vbluf of <dodf>pos</dodf>
+     * is <dodf>offsft</dodf> bnd tif initibl vbluf
+     * of <dodf>dount</dodf> is tif minimum of <dodf>offsft+lfngti</dodf>
+     * bnd <dodf>buf.lfngti</dodf>.
+     * Tif bufffr brrby is not dopifd. Tif bufffr's mbrk is
+     * sft to tif spfdififd offsft.
      *
-     * @param   buf      the input buffer.
-     * @param   offset   the offset in the buffer of the first byte to read.
-     * @param   length   the maximum number of bytes to read from the buffer.
+     * @pbrbm   buf      tif input bufffr.
+     * @pbrbm   offsft   tif offsft in tif bufffr of tif first bytf to rfbd.
+     * @pbrbm   lfngti   tif mbximum numbfr of bytfs to rfbd from tif bufffr.
      */
-    public ByteArrayInputStream(byte buf[], int offset, int length) {
-        this.buf = buf;
-        this.pos = offset;
-        this.count = Math.min(offset + length, buf.length);
-        this.mark = offset;
+    publid BytfArrbyInputStrfbm(bytf buf[], int offsft, int lfngti) {
+        tiis.buf = buf;
+        tiis.pos = offsft;
+        tiis.dount = Mbti.min(offsft + lfngti, buf.lfngti);
+        tiis.mbrk = offsft;
     }
 
     /**
-     * Reads the next byte of data from this input stream. The value
-     * byte is returned as an <code>int</code> in the range
-     * <code>0</code> to <code>255</code>. If no byte is available
-     * because the end of the stream has been reached, the value
-     * <code>-1</code> is returned.
+     * Rfbds tif nfxt bytf of dbtb from tiis input strfbm. Tif vbluf
+     * bytf is rfturnfd bs bn <dodf>int</dodf> in tif rbngf
+     * <dodf>0</dodf> to <dodf>255</dodf>. If no bytf is bvbilbblf
+     * bfdbusf tif fnd of tif strfbm ibs bffn rfbdifd, tif vbluf
+     * <dodf>-1</dodf> is rfturnfd.
      * <p>
-     * This <code>read</code> method
-     * cannot block.
+     * Tiis <dodf>rfbd</dodf> mftiod
+     * dbnnot blodk.
      *
-     * @return  the next byte of data, or <code>-1</code> if the end of the
-     *          stream has been reached.
+     * @rfturn  tif nfxt bytf of dbtb, or <dodf>-1</dodf> if tif fnd of tif
+     *          strfbm ibs bffn rfbdifd.
      */
-    public synchronized int read() {
-        return (pos < count) ? (buf[pos++] & 0xff) : -1;
+    publid syndironizfd int rfbd() {
+        rfturn (pos < dount) ? (buf[pos++] & 0xff) : -1;
     }
 
     /**
-     * Reads up to <code>len</code> bytes of data into an array of bytes
-     * from this input stream.
-     * If <code>pos</code> equals <code>count</code>,
-     * then <code>-1</code> is returned to indicate
-     * end of file. Otherwise, the  number <code>k</code>
-     * of bytes read is equal to the smaller of
-     * <code>len</code> and <code>count-pos</code>.
-     * If <code>k</code> is positive, then bytes
-     * <code>buf[pos]</code> through <code>buf[pos+k-1]</code>
-     * are copied into <code>b[off]</code>  through
-     * <code>b[off+k-1]</code> in the manner performed
-     * by <code>System.arraycopy</code>. The
-     * value <code>k</code> is added into <code>pos</code>
-     * and <code>k</code> is returned.
+     * Rfbds up to <dodf>lfn</dodf> bytfs of dbtb into bn brrby of bytfs
+     * from tiis input strfbm.
+     * If <dodf>pos</dodf> fqubls <dodf>dount</dodf>,
+     * tifn <dodf>-1</dodf> is rfturnfd to indidbtf
+     * fnd of filf. Otifrwisf, tif  numbfr <dodf>k</dodf>
+     * of bytfs rfbd is fqubl to tif smbllfr of
+     * <dodf>lfn</dodf> bnd <dodf>dount-pos</dodf>.
+     * If <dodf>k</dodf> is positivf, tifn bytfs
+     * <dodf>buf[pos]</dodf> tirougi <dodf>buf[pos+k-1]</dodf>
+     * brf dopifd into <dodf>b[off]</dodf>  tirougi
+     * <dodf>b[off+k-1]</dodf> in tif mbnnfr pfrformfd
+     * by <dodf>Systfm.brrbydopy</dodf>. Tif
+     * vbluf <dodf>k</dodf> is bddfd into <dodf>pos</dodf>
+     * bnd <dodf>k</dodf> is rfturnfd.
      * <p>
-     * This <code>read</code> method cannot block.
+     * Tiis <dodf>rfbd</dodf> mftiod dbnnot blodk.
      *
-     * @param   b     the buffer into which the data is read.
-     * @param   off   the start offset in the destination array <code>b</code>
-     * @param   len   the maximum number of bytes read.
-     * @return  the total number of bytes read into the buffer, or
-     *          <code>-1</code> if there is no more data because the end of
-     *          the stream has been reached.
-     * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
-     * <code>b.length - off</code>
+     * @pbrbm   b     tif bufffr into wiidi tif dbtb is rfbd.
+     * @pbrbm   off   tif stbrt offsft in tif dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm   lfn   tif mbximum numbfr of bytfs rfbd.
+     * @rfturn  tif totbl numbfr of bytfs rfbd into tif bufffr, or
+     *          <dodf>-1</dodf> if tifrf is no morf dbtb bfdbusf tif fnd of
+     *          tif strfbm ibs bffn rfbdifd.
+     * @fxdfption  NullPointfrExdfption If <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr tibn
+     * <dodf>b.lfngti - off</dodf>
      */
-    public synchronized int read(byte b[], int off, int len) {
+    publid syndironizfd int rfbd(bytf b[], int off, int lfn) {
         if (b == null) {
-            throw new NullPointerException();
-        } else if (off < 0 || len < 0 || len > b.length - off) {
-            throw new IndexOutOfBoundsException();
+            tirow nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngti - off) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
 
-        if (pos >= count) {
-            return -1;
+        if (pos >= dount) {
+            rfturn -1;
         }
 
-        int avail = count - pos;
-        if (len > avail) {
-            len = avail;
+        int bvbil = dount - pos;
+        if (lfn > bvbil) {
+            lfn = bvbil;
         }
-        if (len <= 0) {
-            return 0;
+        if (lfn <= 0) {
+            rfturn 0;
         }
-        System.arraycopy(buf, pos, b, off, len);
-        pos += len;
-        return len;
+        Systfm.brrbydopy(buf, pos, b, off, lfn);
+        pos += lfn;
+        rfturn lfn;
     }
 
     /**
-     * Skips <code>n</code> bytes of input from this input stream. Fewer
-     * bytes might be skipped if the end of the input stream is reached.
-     * The actual number <code>k</code>
-     * of bytes to be skipped is equal to the smaller
-     * of <code>n</code> and  <code>count-pos</code>.
-     * The value <code>k</code> is added into <code>pos</code>
-     * and <code>k</code> is returned.
+     * Skips <dodf>n</dodf> bytfs of input from tiis input strfbm. Ffwfr
+     * bytfs migit bf skippfd if tif fnd of tif input strfbm is rfbdifd.
+     * Tif bdtubl numbfr <dodf>k</dodf>
+     * of bytfs to bf skippfd is fqubl to tif smbllfr
+     * of <dodf>n</dodf> bnd  <dodf>dount-pos</dodf>.
+     * Tif vbluf <dodf>k</dodf> is bddfd into <dodf>pos</dodf>
+     * bnd <dodf>k</dodf> is rfturnfd.
      *
-     * @param   n   the number of bytes to be skipped.
-     * @return  the actual number of bytes skipped.
+     * @pbrbm   n   tif numbfr of bytfs to bf skippfd.
+     * @rfturn  tif bdtubl numbfr of bytfs skippfd.
      */
-    public synchronized long skip(long n) {
-        long k = count - pos;
+    publid syndironizfd long skip(long n) {
+        long k = dount - pos;
         if (n < k) {
             k = n < 0 ? 0 : n;
         }
 
         pos += k;
-        return k;
+        rfturn k;
     }
 
     /**
-     * Returns the number of remaining bytes that can be read (or skipped over)
-     * from this input stream.
+     * Rfturns tif numbfr of rfmbining bytfs tibt dbn bf rfbd (or skippfd ovfr)
+     * from tiis input strfbm.
      * <p>
-     * The value returned is <code>count&nbsp;- pos</code>,
-     * which is the number of bytes remaining to be read from the input buffer.
+     * Tif vbluf rfturnfd is <dodf>dount&nbsp;- pos</dodf>,
+     * wiidi is tif numbfr of bytfs rfmbining to bf rfbd from tif input bufffr.
      *
-     * @return  the number of remaining bytes that can be read (or skipped
-     *          over) from this input stream without blocking.
+     * @rfturn  tif numbfr of rfmbining bytfs tibt dbn bf rfbd (or skippfd
+     *          ovfr) from tiis input strfbm witiout blodking.
      */
-    public synchronized int available() {
-        return count - pos;
+    publid syndironizfd int bvbilbblf() {
+        rfturn dount - pos;
     }
 
     /**
-     * Tests if this <code>InputStream</code> supports mark/reset. The
-     * <code>markSupported</code> method of <code>ByteArrayInputStream</code>
-     * always returns <code>true</code>.
+     * Tfsts if tiis <dodf>InputStrfbm</dodf> supports mbrk/rfsft. Tif
+     * <dodf>mbrkSupportfd</dodf> mftiod of <dodf>BytfArrbyInputStrfbm</dodf>
+     * blwbys rfturns <dodf>truf</dodf>.
      *
-     * @since   1.1
+     * @sindf   1.1
      */
-    public boolean markSupported() {
-        return true;
+    publid boolfbn mbrkSupportfd() {
+        rfturn truf;
     }
 
     /**
-     * Set the current marked position in the stream.
-     * ByteArrayInputStream objects are marked at position zero by
-     * default when constructed.  They may be marked at another
-     * position within the buffer by this method.
+     * Sft tif durrfnt mbrkfd position in tif strfbm.
+     * BytfArrbyInputStrfbm objfdts brf mbrkfd bt position zfro by
+     * dffbult wifn donstrudtfd.  Tify mby bf mbrkfd bt bnotifr
+     * position witiin tif bufffr by tiis mftiod.
      * <p>
-     * If no mark has been set, then the value of the mark is the
-     * offset passed to the constructor (or 0 if the offset was not
-     * supplied).
+     * If no mbrk ibs bffn sft, tifn tif vbluf of tif mbrk is tif
+     * offsft pbssfd to tif donstrudtor (or 0 if tif offsft wbs not
+     * supplifd).
      *
-     * <p> Note: The <code>readAheadLimit</code> for this class
-     *  has no meaning.
+     * <p> Notf: Tif <dodf>rfbdAifbdLimit</dodf> for tiis dlbss
+     *  ibs no mfbning.
      *
-     * @since   1.1
+     * @sindf   1.1
      */
-    public void mark(int readAheadLimit) {
-        mark = pos;
+    publid void mbrk(int rfbdAifbdLimit) {
+        mbrk = pos;
     }
 
     /**
-     * Resets the buffer to the marked position.  The marked position
-     * is 0 unless another position was marked or an offset was specified
-     * in the constructor.
+     * Rfsfts tif bufffr to tif mbrkfd position.  Tif mbrkfd position
+     * is 0 unlfss bnotifr position wbs mbrkfd or bn offsft wbs spfdififd
+     * in tif donstrudtor.
      */
-    public synchronized void reset() {
-        pos = mark;
+    publid syndironizfd void rfsft() {
+        pos = mbrk;
     }
 
     /**
-     * Closing a <tt>ByteArrayInputStream</tt> has no effect. The methods in
-     * this class can be called after the stream has been closed without
-     * generating an <tt>IOException</tt>.
+     * Closing b <tt>BytfArrbyInputStrfbm</tt> ibs no ffffdt. Tif mftiods in
+     * tiis dlbss dbn bf dbllfd bftfr tif strfbm ibs bffn dlosfd witiout
+     * gfnfrbting bn <tt>IOExdfption</tt>.
      */
-    public void close() throws IOException {
+    publid void dlosf() tirows IOExdfption {
     }
 
 }

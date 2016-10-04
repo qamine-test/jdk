@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <jni.h>
-#include <jlong.h>
-#include <jni_util.h>
-#include "sun_java2d_pipe_BufferedRenderPipe.h"
-#include "sun_java2d_pipe_BufferedOpCodes.h"
-#include "SpanIterator.h"
-#include "Trace.h"
+#indludf <jni.i>
+#indludf <jlong.i>
+#indludf <jni_util.i>
+#indludf "sun_jbvb2d_pipf_BufffrfdRfndfrPipf.i"
+#indludf "sun_jbvb2d_pipf_BufffrfdOpCodfs.i"
+#indludf "SpbnItfrbtor.i"
+#indludf "Trbdf.i"
 
-/* The "header" consists of a jint opcode and a jint span count value */
-#define INTS_PER_HEADER  2
-#define BYTES_PER_HEADER 8
+/* Tif "ifbdfr" donsists of b jint opdodf bnd b jint spbn dount vbluf */
+#dffinf INTS_PER_HEADER  2
+#dffinf BYTES_PER_HEADER 8
 
-#define BYTES_PER_SPAN sun_java2d_pipe_BufferedRenderPipe_BYTES_PER_SPAN
+#dffinf BYTES_PER_SPAN sun_jbvb2d_pipf_BufffrfdRfndfrPipf_BYTES_PER_SPAN
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_pipe_BufferedRenderPipe_fillSpans
-    (JNIEnv *env, jobject pipe,
-     jobject rq, jlong buf,
+Jbvb_sun_jbvb2d_pipf_BufffrfdRfndfrPipf_fillSpbns
+    (JNIEnv *fnv, jobjfdt pipf,
+     jobjfdt rq, jlong buf,
      jint bpos, jint limit,
-     jobject si, jlong pIterator,
-     jint transx, jint transy)
+     jobjfdt si, jlong pItfrbtor,
+     jint trbnsx, jint trbnsy)
 {
-    SpanIteratorFuncs *pFuncs = (SpanIteratorFuncs *)jlong_to_ptr(pIterator);
-    void *srData;
-    jint spanbox[4];
-    jint spanCount = 0;
-    jint remainingBytes, remainingSpans;
-    unsigned char *bbuf;
+    SpbnItfrbtorFunds *pFunds = (SpbnItfrbtorFunds *)jlong_to_ptr(pItfrbtor);
+    void *srDbtb;
+    jint spbnbox[4];
+    jint spbnCount = 0;
+    jint rfmbiningBytfs, rfmbiningSpbns;
+    unsignfd dibr *bbuf;
     jint *ibuf;
     jint ipos;
-    jboolean hasException;
+    jboolfbn ibsExdfption;
 
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "BufferedRenderPipe_fillSpans: bpos=%d limit=%d",
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "BufffrfdRfndfrPipf_fillSpbns: bpos=%d limit=%d",
                 bpos, limit);
 
-    if (JNU_IsNull(env, rq)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "BufferedRenderPipe_fillSpans: rq is null");
-        return bpos;
+    if (JNU_IsNull(fnv, rq)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "BufffrfdRfndfrPipf_fillSpbns: rq is null");
+        rfturn bpos;
     }
 
-    if (JNU_IsNull(env, si)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "BufferedRenderPipe_fillSpans: span iterator is null");
-        return bpos;
+    if (JNU_IsNull(fnv, si)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "BufffrfdRfndfrPipf_fillSpbns: spbn itfrbtor is null");
+        rfturn bpos;
     }
 
-    if (pFuncs == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "BufferedRenderPipe_fillSpans: native iterator not supplied");
-        return bpos;
+    if (pFunds == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "BufffrfdRfndfrPipf_fillSpbns: nbtivf itfrbtor not supplifd");
+        rfturn bpos;
     }
 
-    bbuf = (unsigned char *)jlong_to_ptr(buf);
+    bbuf = (unsignfd dibr *)jlong_to_ptr(buf);
     if (bbuf == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "BufferedRenderPipe_fillSpans: cannot get direct buffer address");
-        return bpos;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "BufffrfdRfndfrPipf_fillSpbns: dbnnot gft dirfdt bufffr bddrfss");
+        rfturn bpos;
     }
 
-    // adjust the int pointer to the current buffer position
+    // bdjust tif int pointfr to tif durrfnt bufffr position
     ibuf = (jint *)(bbuf + bpos);
 
-    // start new operation
-    ibuf[0] = sun_java2d_pipe_BufferedOpCodes_FILL_SPANS;
-    ibuf[1] = 0; // placeholder for the span count
+    // stbrt nfw opfrbtion
+    ibuf[0] = sun_jbvb2d_pipf_BufffrfdOpCodfs_FILL_SPANS;
+    ibuf[1] = 0; // plbdfioldfr for tif spbn dount
 
-    // skip the opcode and span count
+    // skip tif opdodf bnd spbn dount
     ipos = INTS_PER_HEADER;
-    bpos += BYTES_PER_HEADER; // skip the opcode and span count
+    bpos += BYTES_PER_HEADER; // skip tif opdodf bnd spbn dount
 
-    remainingBytes = limit - bpos;
-    remainingSpans = remainingBytes / BYTES_PER_SPAN;
+    rfmbiningBytfs = limit - bpos;
+    rfmbiningSpbns = rfmbiningBytfs / BYTES_PER_SPAN;
 
-    srData = (*pFuncs->open)(env, si);
-    while ((*pFuncs->nextSpan)(srData, spanbox)) {
-        if (remainingSpans == 0) {
-            // fill in span count
-            ibuf[1] = spanCount;
+    srDbtb = (*pFunds->opfn)(fnv, si);
+    wiilf ((*pFunds->nfxtSpbn)(srDbtb, spbnbox)) {
+        if (rfmbiningSpbns == 0) {
+            // fill in spbn dount
+            ibuf[1] = spbnCount;
 
-            // flush the queue
-            JNU_CallMethodByName(env, &hasException, rq, "flushNow", "(I)V", bpos);
-            if (hasException) {
-                break;
+            // flusi tif qufuf
+            JNU_CbllMftiodByNbmf(fnv, &ibsExdfption, rq, "flusiNow", "(I)V", bpos);
+            if (ibsExdfption) {
+                brfbk;
             }
 
-            // now start a new operation
+            // now stbrt b nfw opfrbtion
             ibuf = (jint *)bbuf;
-            ibuf[0] = sun_java2d_pipe_BufferedOpCodes_FILL_SPANS;
-            ibuf[1] = 0; // placeholder for the span count
+            ibuf[0] = sun_jbvb2d_pipf_BufffrfdOpCodfs_FILL_SPANS;
+            ibuf[1] = 0; // plbdfioldfr for tif spbn dount
 
-            // skip the opcode and span count
+            // skip tif opdodf bnd spbn dount
             ipos = INTS_PER_HEADER;
             bpos = BYTES_PER_HEADER;
 
-            // calculate new limits
-            remainingBytes = limit - bpos;
-            remainingSpans = remainingBytes / BYTES_PER_SPAN;
-            spanCount = 0;
+            // dbldulbtf nfw limits
+            rfmbiningBytfs = limit - bpos;
+            rfmbiningSpbns = rfmbiningBytfs / BYTES_PER_SPAN;
+            spbnCount = 0;
         }
 
-        // enqueue span
-        ibuf[ipos++] = spanbox[0] + transx; // x1
-        ibuf[ipos++] = spanbox[1] + transy; // y1
-        ibuf[ipos++] = spanbox[2] + transx; // x2
-        ibuf[ipos++] = spanbox[3] + transy; // y2
+        // fnqufuf spbn
+        ibuf[ipos++] = spbnbox[0] + trbnsx; // x1
+        ibuf[ipos++] = spbnbox[1] + trbnsy; // y1
+        ibuf[ipos++] = spbnbox[2] + trbnsx; // x2
+        ibuf[ipos++] = spbnbox[3] + trbnsy; // y2
 
-        // update positions
+        // updbtf positions
         bpos += BYTES_PER_SPAN;
-        spanCount++;
-        remainingSpans--;
+        spbnCount++;
+        rfmbiningSpbns--;
     }
-    (*pFuncs->close)(env, srData);
+    (*pFunds->dlosf)(fnv, srDbtb);
 
-    // fill in span count
-    ibuf[1] = spanCount;
+    // fill in spbn dount
+    ibuf[1] = spbnCount;
 
-    // return the current byte position
-    return bpos;
+    // rfturn tif durrfnt bytf position
+    rfturn bpos;
 }

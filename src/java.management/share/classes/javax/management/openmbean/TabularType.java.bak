@@ -1,380 +1,380 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 
-// java import
+// jbvb import
 //
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
 
 // jmx import
 //
 
 
 /**
- * The <code>TabularType</code> class is the <i> open type</i> class
- * whose instances describe the types of {@link TabularData TabularData} values.
+ * Tif <dodf>TbbulbrTypf</dodf> dlbss is tif <i> opfn typf</i> dlbss
+ * wiosf instbndfs dfsdribf tif typfs of {@link TbbulbrDbtb TbbulbrDbtb} vblufs.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class TabularType extends OpenType<TabularData> {
+publid dlbss TbbulbrTypf fxtfnds OpfnTypf<TbbulbrDbtb> {
 
-    /* Serial version */
-    static final long serialVersionUID = 6554071860220659261L;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = 6554071860220659261L;
 
 
     /**
-     * @serial The composite type of rows
+     * @sfribl Tif dompositf typf of rows
      */
-    private CompositeType  rowType;
+    privbtf CompositfTypf  rowTypf;
 
     /**
-     * @serial The items used to index each row element, kept in the order the user gave
-     *         This is an unmodifiable {@link ArrayList}
+     * @sfribl Tif itfms usfd to indfx fbdi row flfmfnt, kfpt in tif ordfr tif usfr gbvf
+     *         Tiis is bn unmodifibblf {@link ArrbyList}
      */
-    private List<String> indexNames;
+    privbtf List<String> indfxNbmfs;
 
 
-    private transient Integer myHashCode = null; // As this instance is immutable, these two values
-    private transient String  myToString = null; // need only be calculated once.
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null; // As tiis instbndf is immutbblf, tifsf two vblufs
+    privbtf trbnsifnt String  myToString = null; // nffd only bf dbldulbtfd ondf.
 
 
-    /* *** Constructor *** */
+    /* *** Construdtor *** */
 
     /**
-     * Constructs a <code>TabularType</code> instance, checking for the validity of the given parameters.
-     * The validity constraints are described below for each parameter.
+     * Construdts b <dodf>TbbulbrTypf</dodf> instbndf, difdking for tif vblidity of tif givfn pbrbmftfrs.
+     * Tif vblidity donstrbints brf dfsdribfd bflow for fbdi pbrbmftfr.
      * <p>
-     * The Java class name of tabular data values this tabular type represents
-     * (ie the class name returned by the {@link OpenType#getClassName() getClassName} method)
-     * is set to the string value returned by <code>TabularData.class.getName()</code>.
+     * Tif Jbvb dlbss nbmf of tbbulbr dbtb vblufs tiis tbbulbr typf rfprfsfnts
+     * (if tif dlbss nbmf rfturnfd by tif {@link OpfnTypf#gftClbssNbmf() gftClbssNbmf} mftiod)
+     * is sft to tif string vbluf rfturnfd by <dodf>TbbulbrDbtb.dlbss.gftNbmf()</dodf>.
      *
-     * @param  typeName  The name given to the tabular type this instance represents; cannot be a null or empty string.
+     * @pbrbm  typfNbmf  Tif nbmf givfn to tif tbbulbr typf tiis instbndf rfprfsfnts; dbnnot bf b null or fmpty string.
      * <br>&nbsp;
-     * @param  description  The human readable description of the tabular type this instance represents;
-     *                      cannot be a null or empty string.
+     * @pbrbm  dfsdription  Tif iumbn rfbdbblf dfsdription of tif tbbulbr typf tiis instbndf rfprfsfnts;
+     *                      dbnnot bf b null or fmpty string.
      * <br>&nbsp;
-     * @param  rowType  The type of the row elements of tabular data values described by this tabular type instance;
-     *                  cannot be null.
+     * @pbrbm  rowTypf  Tif typf of tif row flfmfnts of tbbulbr dbtb vblufs dfsdribfd by tiis tbbulbr typf instbndf;
+     *                  dbnnot bf null.
      * <br>&nbsp;
-     * @param  indexNames  The names of the items the values of which are used to uniquely index each row element in the
-     *                     tabular data values described by this tabular type instance;
-     *                     cannot be null or empty. Each element should be an item name defined in <var>rowType</var>
-     *                     (no null or empty string allowed).
-     *                     It is important to note that the <b>order</b> of the item names in <var>indexNames</var>
-     *                     is used by the methods {@link TabularData#get(java.lang.Object[]) get} and
-     *                     {@link TabularData#remove(java.lang.Object[]) remove} of class
-     *                     <code>TabularData</code> to match their array of values parameter to items.
+     * @pbrbm  indfxNbmfs  Tif nbmfs of tif itfms tif vblufs of wiidi brf usfd to uniqufly indfx fbdi row flfmfnt in tif
+     *                     tbbulbr dbtb vblufs dfsdribfd by tiis tbbulbr typf instbndf;
+     *                     dbnnot bf null or fmpty. Ebdi flfmfnt siould bf bn itfm nbmf dffinfd in <vbr>rowTypf</vbr>
+     *                     (no null or fmpty string bllowfd).
+     *                     It is importbnt to notf tibt tif <b>ordfr</b> of tif itfm nbmfs in <vbr>indfxNbmfs</vbr>
+     *                     is usfd by tif mftiods {@link TbbulbrDbtb#gft(jbvb.lbng.Objfdt[]) gft} bnd
+     *                     {@link TbbulbrDbtb#rfmovf(jbvb.lbng.Objfdt[]) rfmovf} of dlbss
+     *                     <dodf>TbbulbrDbtb</dodf> to mbtdi tifir brrby of vblufs pbrbmftfr to itfms.
      * <br>&nbsp;
-     * @throws IllegalArgumentException  if <var>rowType</var> is null,
-     *                                   or <var>indexNames</var> is a null or empty array,
-     *                                   or an element in <var>indexNames</var> is a null or empty string,
-     *                                   or <var>typeName</var> or <var>description</var> is a null or empty string.
+     * @tirows IllfgblArgumfntExdfption  if <vbr>rowTypf</vbr> is null,
+     *                                   or <vbr>indfxNbmfs</vbr> is b null or fmpty brrby,
+     *                                   or bn flfmfnt in <vbr>indfxNbmfs</vbr> is b null or fmpty string,
+     *                                   or <vbr>typfNbmf</vbr> or <vbr>dfsdription</vbr> is b null or fmpty string.
      * <br>&nbsp;
-     * @throws OpenDataException  if an element's value of <var>indexNames</var>
-     *                            is not an item name defined in <var>rowType</var>.
+     * @tirows OpfnDbtbExdfption  if bn flfmfnt's vbluf of <vbr>indfxNbmfs</vbr>
+     *                            is not bn itfm nbmf dffinfd in <vbr>rowTypf</vbr>.
      */
-    public TabularType(String         typeName,
-                       String         description,
-                       CompositeType  rowType,
-                       String[]       indexNames) throws OpenDataException {
+    publid TbbulbrTypf(String         typfNbmf,
+                       String         dfsdription,
+                       CompositfTypf  rowTypf,
+                       String[]       indfxNbmfs) tirows OpfnDbtbExdfption {
 
-        // Check and initialize state defined by parent.
+        // Cifdk bnd initiblizf stbtf dffinfd by pbrfnt.
         //
-        super(TabularData.class.getName(), typeName, description, false);
+        supfr(TbbulbrDbtb.dlbss.gftNbmf(), typfNbmf, dfsdription, fblsf);
 
-        // Check rowType is not null
+        // Cifdk rowTypf is not null
         //
-        if (rowType == null) {
-            throw new IllegalArgumentException("Argument rowType cannot be null.");
+        if (rowTypf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt rowTypf dbnnot bf null.");
         }
 
-        // Check indexNames is neither null nor empty and does not contain any null element or empty string
+        // Cifdk indfxNbmfs is nfitifr null nor fmpty bnd dofs not dontbin bny null flfmfnt or fmpty string
         //
-        checkForNullElement(indexNames, "indexNames");
-        checkForEmptyString(indexNames, "indexNames");
+        difdkForNullElfmfnt(indfxNbmfs, "indfxNbmfs");
+        difdkForEmptyString(indfxNbmfs, "indfxNbmfs");
 
-        // Check all indexNames values are valid item names for rowType
+        // Cifdk bll indfxNbmfs vblufs brf vblid itfm nbmfs for rowTypf
         //
-        for (int i=0; i<indexNames.length; i++) {
-            if ( ! rowType.containsKey(indexNames[i]) ) {
-                throw new OpenDataException("Argument's element value indexNames["+ i +"]=\""+ indexNames[i] +
-                                            "\" is not a valid item name for rowType.");
+        for (int i=0; i<indfxNbmfs.lfngti; i++) {
+            if ( ! rowTypf.dontbinsKfy(indfxNbmfs[i]) ) {
+                tirow nfw OpfnDbtbExdfption("Argumfnt's flfmfnt vbluf indfxNbmfs["+ i +"]=\""+ indfxNbmfs[i] +
+                                            "\" is not b vblid itfm nbmf for rowTypf.");
             }
         }
 
-        // initialize rowType
+        // initiblizf rowTypf
         //
-        this.rowType    = rowType;
+        tiis.rowTypf    = rowTypf;
 
-        // initialize indexNames (copy content so that subsequent
-        // modifs to the array referenced by the indexNames parameter
-        // have no impact)
+        // initiblizf indfxNbmfs (dopy dontfnt so tibt subsfqufnt
+        // modifs to tif brrby rfffrfndfd by tif indfxNbmfs pbrbmftfr
+        // ibvf no impbdt)
         //
-        List<String> tmpList = new ArrayList<String>(indexNames.length + 1);
-        for (int i=0; i<indexNames.length; i++) {
-            tmpList.add(indexNames[i]);
+        List<String> tmpList = nfw ArrbyList<String>(indfxNbmfs.lfngti + 1);
+        for (int i=0; i<indfxNbmfs.lfngti; i++) {
+            tmpList.bdd(indfxNbmfs[i]);
         }
-        this.indexNames = Collections.unmodifiableList(tmpList);
+        tiis.indfxNbmfs = Collfdtions.unmodifibblfList(tmpList);
     }
 
     /**
-     * Checks that Object[] arg is neither null nor empty (ie length==0)
-     * and that it does not contain any null element.
+     * Cifdks tibt Objfdt[] brg is nfitifr null nor fmpty (if lfngti==0)
+     * bnd tibt it dofs not dontbin bny null flfmfnt.
      */
-    private static void checkForNullElement(Object[] arg, String argName) {
-        if ( (arg == null) || (arg.length == 0) ) {
-            throw new IllegalArgumentException("Argument "+ argName +"[] cannot be null or empty.");
+    privbtf stbtid void difdkForNullElfmfnt(Objfdt[] brg, String brgNbmf) {
+        if ( (brg == null) || (brg.lfngti == 0) ) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt "+ brgNbmf +"[] dbnnot bf null or fmpty.");
         }
-        for (int i=0; i<arg.length; i++) {
-            if (arg[i] == null) {
-                throw new IllegalArgumentException("Argument's element "+ argName +"["+ i +"] cannot be null.");
-            }
-        }
-    }
-
-    /**
-     * Checks that String[] does not contain any empty (or blank characters only) string.
-     */
-    private static void checkForEmptyString(String[] arg, String argName) {
-        for (int i=0; i<arg.length; i++) {
-            if (arg[i].trim().equals("")) {
-                throw new IllegalArgumentException("Argument's element "+ argName +"["+ i +"] cannot be an empty string.");
+        for (int i=0; i<brg.lfngti; i++) {
+            if (brg[i] == null) {
+                tirow nfw IllfgblArgumfntExdfption("Argumfnt's flfmfnt "+ brgNbmf +"["+ i +"] dbnnot bf null.");
             }
         }
     }
 
+    /**
+     * Cifdks tibt String[] dofs not dontbin bny fmpty (or blbnk dibrbdtfrs only) string.
+     */
+    privbtf stbtid void difdkForEmptyString(String[] brg, String brgNbmf) {
+        for (int i=0; i<brg.lfngti; i++) {
+            if (brg[i].trim().fqubls("")) {
+                tirow nfw IllfgblArgumfntExdfption("Argumfnt's flfmfnt "+ brgNbmf +"["+ i +"] dbnnot bf bn fmpty string.");
+            }
+        }
+    }
 
-    /* *** Tabular type specific information methods *** */
+
+    /* *** Tbbulbr typf spfdifid informbtion mftiods *** */
 
     /**
-     * Returns the type of the row elements of tabular data values
-     * described by this <code>TabularType</code> instance.
+     * Rfturns tif typf of tif row flfmfnts of tbbulbr dbtb vblufs
+     * dfsdribfd by tiis <dodf>TbbulbrTypf</dodf> instbndf.
      *
-     * @return the type of each row.
+     * @rfturn tif typf of fbdi row.
      */
-    public CompositeType getRowType() {
+    publid CompositfTypf gftRowTypf() {
 
-        return rowType;
+        rfturn rowTypf;
     }
 
     /**
-     * <p>Returns, in the same order as was given to this instance's
-     * constructor, an unmodifiable List of the names of the items the
-     * values of which are used to uniquely index each row element of
-     * tabular data values described by this <code>TabularType</code>
-     * instance.</p>
+     * <p>Rfturns, in tif sbmf ordfr bs wbs givfn to tiis instbndf's
+     * donstrudtor, bn unmodifibblf List of tif nbmfs of tif itfms tif
+     * vblufs of wiidi brf usfd to uniqufly indfx fbdi row flfmfnt of
+     * tbbulbr dbtb vblufs dfsdribfd by tiis <dodf>TbbulbrTypf</dodf>
+     * instbndf.</p>
      *
-     * @return a List of String representing the names of the index
-     * items.
+     * @rfturn b List of String rfprfsfnting tif nbmfs of tif indfx
+     * itfms.
      *
      */
-    public List<String> getIndexNames() {
+    publid List<String> gftIndfxNbmfs() {
 
-        return indexNames;
+        rfturn indfxNbmfs;
     }
 
     /**
-     * Tests whether <var>obj</var> is a value which could be
-     * described by this <code>TabularType</code> instance.
+     * Tfsts wiftifr <vbr>obj</vbr> is b vbluf wiidi dould bf
+     * dfsdribfd by tiis <dodf>TbbulbrTypf</dodf> instbndf.
      *
-     * <p>If <var>obj</var> is null or is not an instance of
-     * <code>javax.management.openmbean.TabularData</code>,
-     * <code>isValue</code> returns <code>false</code>.</p>
+     * <p>If <vbr>obj</vbr> is null or is not bn instbndf of
+     * <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb</dodf>,
+     * <dodf>isVbluf</dodf> rfturns <dodf>fblsf</dodf>.</p>
      *
-     * <p>If <var>obj</var> is an instance of
-     * <code>javax.management.openmbean.TabularData</code>, say {@code
-     * td}, the result is true if this {@code TabularType} is
-     * <em>assignable from</em> {@link TabularData#getTabularType()
-     * td.getTabularType()}, as defined in {@link
-     * CompositeType#isValue CompositeType.isValue}.</p>
+     * <p>If <vbr>obj</vbr> is bn instbndf of
+     * <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb</dodf>, sby {@dodf
+     * td}, tif rfsult is truf if tiis {@dodf TbbulbrTypf} is
+     * <fm>bssignbblf from</fm> {@link TbbulbrDbtb#gftTbbulbrTypf()
+     * td.gftTbbulbrTypf()}, bs dffinfd in {@link
+     * CompositfTypf#isVbluf CompositfTypf.isVbluf}.</p>
      *
-     * @param obj the value whose open type is to be tested for
-     * compatibility with this <code>TabularType</code> instance.
+     * @pbrbm obj tif vbluf wiosf opfn typf is to bf tfstfd for
+     * dompbtibility witi tiis <dodf>TbbulbrTypf</dodf> instbndf.
      *
-     * @return <code>true</code> if <var>obj</var> is a value for this
-     * tabular type, <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if <vbr>obj</vbr> is b vbluf for tiis
+     * tbbulbr typf, <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isValue(Object obj) {
+    publid boolfbn isVbluf(Objfdt obj) {
 
-        // if obj is null or not a TabularData, return false
+        // if obj is null or not b TbbulbrDbtb, rfturn fblsf
         //
-        if (!(obj instanceof TabularData))
-            return false;
+        if (!(obj instbndfof TbbulbrDbtb))
+            rfturn fblsf;
 
-        // if obj is not a TabularData, return false
+        // if obj is not b TbbulbrDbtb, rfturn fblsf
         //
-        TabularData value = (TabularData) obj;
-        TabularType valueType = value.getTabularType();
-        return isAssignableFrom(valueType);
+        TbbulbrDbtb vbluf = (TbbulbrDbtb) obj;
+        TbbulbrTypf vblufTypf = vbluf.gftTbbulbrTypf();
+        rfturn isAssignbblfFrom(vblufTypf);
     }
 
-    @Override
-    boolean isAssignableFrom(OpenType<?> ot) {
-        if (!(ot instanceof TabularType))
-            return false;
-        TabularType tt = (TabularType) ot;
-        if (!getTypeName().equals(tt.getTypeName()) ||
-                !getIndexNames().equals(tt.getIndexNames()))
-            return false;
-        return getRowType().isAssignableFrom(tt.getRowType());
+    @Ovfrridf
+    boolfbn isAssignbblfFrom(OpfnTypf<?> ot) {
+        if (!(ot instbndfof TbbulbrTypf))
+            rfturn fblsf;
+        TbbulbrTypf tt = (TbbulbrTypf) ot;
+        if (!gftTypfNbmf().fqubls(tt.gftTypfNbmf()) ||
+                !gftIndfxNbmfs().fqubls(tt.gftIndfxNbmfs()))
+            rfturn fblsf;
+        rfturn gftRowTypf().isAssignbblfFrom(tt.gftRowTypf());
     }
 
 
-    /* *** Methods overriden from class Object *** */
+    /* *** Mftiods ovfrridfn from dlbss Objfdt *** */
 
     /**
-     * Compares the specified <code>obj</code> parameter with this <code>TabularType</code> instance for equality.
+     * Compbrfs tif spfdififd <dodf>obj</dodf> pbrbmftfr witi tiis <dodf>TbbulbrTypf</dodf> instbndf for fqublity.
      * <p>
-     * Two <code>TabularType</code> instances are equal if and only if all of the following statements are true:
+     * Two <dodf>TbbulbrTypf</dodf> instbndfs brf fqubl if bnd only if bll of tif following stbtfmfnts brf truf:
      * <ul>
-     * <li>their type names are equal</li>
-     * <li>their row types are equal</li>
-     * <li>they use the same index names, in the same order</li>
+     * <li>tifir typf nbmfs brf fqubl</li>
+     * <li>tifir row typfs brf fqubl</li>
+     * <li>tify usf tif sbmf indfx nbmfs, in tif sbmf ordfr</li>
      * </ul>
      * <br>&nbsp;
-     * @param  obj  the object to be compared for equality with this <code>TabularType</code> instance;
-     *              if <var>obj</var> is <code>null</code>, <code>equals</code> returns <code>false</code>.
+     * @pbrbm  obj  tif objfdt to bf dompbrfd for fqublity witi tiis <dodf>TbbulbrTypf</dodf> instbndf;
+     *              if <vbr>obj</vbr> is <dodf>null</dodf>, <dodf>fqubls</dodf> rfturns <dodf>fblsf</dodf>.
      *
-     * @return  <code>true</code> if the specified object is equal to this <code>TabularType</code> instance.
+     * @rfturn  <dodf>truf</dodf> if tif spfdififd objfdt is fqubl to tiis <dodf>TbbulbrTypf</dodf> instbndf.
      */
-    public boolean equals(Object obj) {
+    publid boolfbn fqubls(Objfdt obj) {
 
-        // if obj is null, return false
+        // if obj is null, rfturn fblsf
         //
         if (obj == null) {
-            return false;
+            rfturn fblsf;
         }
 
-        // if obj is not a TabularType, return false
+        // if obj is not b TbbulbrTypf, rfturn fblsf
         //
-        TabularType other;
+        TbbulbrTypf otifr;
         try {
-            other = (TabularType) obj;
-        } catch (ClassCastException e) {
-            return false;
+            otifr = (TbbulbrTypf) obj;
+        } dbtdi (ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
 
-        // Now, really test for equality between this TabularType instance and the other:
+        // Now, rfblly tfst for fqublity bftwffn tiis TbbulbrTypf instbndf bnd tif otifr:
         //
 
-        // their names should be equal
-        if ( ! this.getTypeName().equals(other.getTypeName()) ) {
-            return false;
+        // tifir nbmfs siould bf fqubl
+        if ( ! tiis.gftTypfNbmf().fqubls(otifr.gftTypfNbmf()) ) {
+            rfturn fblsf;
         }
 
-        // their row types should be equal
-        if ( ! this.rowType.equals(other.rowType) ) {
-            return false;
+        // tifir row typfs siould bf fqubl
+        if ( ! tiis.rowTypf.fqubls(otifr.rowTypf) ) {
+            rfturn fblsf;
         }
 
-        // their index names should be equal and in the same order (ensured by List.equals())
-        if ( ! this.indexNames.equals(other.indexNames) ) {
-            return false;
+        // tifir indfx nbmfs siould bf fqubl bnd in tif sbmf ordfr (fnsurfd by List.fqubls())
+        if ( ! tiis.indfxNbmfs.fqubls(otifr.indfxNbmfs) ) {
+            rfturn fblsf;
         }
 
-        // All tests for equality were successfull
+        // All tfsts for fqublity wfrf suddfssfull
         //
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the hash code value for this <code>TabularType</code> instance.
+     * Rfturns tif ibsi dodf vbluf for tiis <dodf>TbbulbrTypf</dodf> instbndf.
      * <p>
-     * The hash code of a <code>TabularType</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: name, row type, index names).
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>TabularType</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * Tif ibsi dodf of b <dodf>TbbulbrTypf</dodf> instbndf is tif sum of tif ibsi dodfs
+     * of bll flfmfnts of informbtion usfd in <dodf>fqubls</dodf> dompbrisons
+     * (if: nbmf, row typf, indfx nbmfs).
+     * Tiis fnsurfs tibt <dodf> t1.fqubls(t2) </dodf> implifs tibt <dodf> t1.ibsiCodf()==t2.ibsiCodf() </dodf>
+     * for bny two <dodf>TbbulbrTypf</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.
      * <p>
-     * As <code>TabularType</code> instances are immutable, the hash code for this instance is calculated once,
-     * on the first call to <code>hashCode</code>, and then the same value is returned for subsequent calls.
+     * As <dodf>TbbulbrTypf</dodf> instbndfs brf immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * on tif first dbll to <dodf>ibsiCodf</dodf>, bnd tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.
      *
-     * @return  the hash code value for this <code>TabularType</code> instance
+     * @rfturn  tif ibsi dodf vbluf for tiis <dodf>TbbulbrTypf</dodf> instbndf
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        // Calculate the hash code value if it has not yet been done (ie 1st call to hashCode())
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf (if 1st dbll to ibsiCodf())
         //
-        if (myHashCode == null) {
-            int value = 0;
-            value += this.getTypeName().hashCode();
-            value += this.rowType.hashCode();
-            for (String index : indexNames)
-                value += index.hashCode();
-            myHashCode = Integer.valueOf(value);
+        if (myHbsiCodf == null) {
+            int vbluf = 0;
+            vbluf += tiis.gftTypfNbmf().ibsiCodf();
+            vbluf += tiis.rowTypf.ibsiCodf();
+            for (String indfx : indfxNbmfs)
+                vbluf += indfx.ibsiCodf();
+            myHbsiCodf = Intfgfr.vblufOf(vbluf);
         }
 
-        // return always the same hash code for this instance (immutable)
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
         //
-        return myHashCode.intValue();
+        rfturn myHbsiCodf.intVbluf();
     }
 
     /**
-     * Returns a string representation of this <code>TabularType</code> instance.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>TbbulbrTypf</dodf> instbndf.
      * <p>
-     * The string representation consists of the name of this class (ie <code>javax.management.openmbean.TabularType</code>),
-     * the type name for this instance, the row type string representation of this instance,
-     * and the index names of this instance.
+     * Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss (if <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrTypf</dodf>),
+     * tif typf nbmf for tiis instbndf, tif row typf string rfprfsfntbtion of tiis instbndf,
+     * bnd tif indfx nbmfs of tiis instbndf.
      * <p>
-     * As <code>TabularType</code> instances are immutable, the string representation for this instance is calculated once,
-     * on the first call to <code>toString</code>, and then the same value is returned for subsequent calls.
+     * As <dodf>TbbulbrTypf</dodf> instbndfs brf immutbblf, tif string rfprfsfntbtion for tiis instbndf is dbldulbtfd ondf,
+     * on tif first dbll to <dodf>toString</dodf>, bnd tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.
      *
-     * @return  a string representation of this <code>TabularType</code> instance
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>TbbulbrTypf</dodf> instbndf
      */
-    public String toString() {
+    publid String toString() {
 
-        // Calculate the string representation if it has not yet been done (ie 1st call to toString())
+        // Cbldulbtf tif string rfprfsfntbtion if it ibs not yft bffn donf (if 1st dbll to toString())
         //
         if (myToString == null) {
-            final StringBuilder result = new StringBuilder()
-                .append(this.getClass().getName())
-                .append("(name=")
-                .append(getTypeName())
-                .append(",rowType=")
-                .append(rowType.toString())
-                .append(",indexNames=(");
-            String sep = "";
-            for (String index : indexNames) {
-                result.append(sep).append(index);
-                sep = ",";
+            finbl StringBuildfr rfsult = nfw StringBuildfr()
+                .bppfnd(tiis.gftClbss().gftNbmf())
+                .bppfnd("(nbmf=")
+                .bppfnd(gftTypfNbmf())
+                .bppfnd(",rowTypf=")
+                .bppfnd(rowTypf.toString())
+                .bppfnd(",indfxNbmfs=(");
+            String sfp = "";
+            for (String indfx : indfxNbmfs) {
+                rfsult.bppfnd(sfp).bppfnd(indfx);
+                sfp = ",";
             }
-            result.append("))");
-            myToString = result.toString();
+            rfsult.bppfnd("))");
+            myToString = rfsult.toString();
         }
 
-        // return always the same string representation for this instance (immutable)
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis instbndf (immutbblf)
         //
-        return myToString;
+        rfturn myToString;
     }
 
 }

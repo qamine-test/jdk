@@ -1,0 +1,67 @@
+/*
+ * Copyright (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf;
+
+
+/**
+ * This intfrfbdf is usfd to mbrk objfdts drfbtfd by ComponfntUI dflfgbtfs.
+ * Thf <dodf>ComponfntUI.instbllUI()</dodf> bnd
+ * <dodf>ComponfntUI.uninstbllUI()</dodf> mfthods dbn usf this intfrfbdf
+ * to dfdidf if b propfrtifs vbluf hbs bffn ovfrriddfn.  For fxbmplf, thf
+ * JList dfllRfndfrfr propfrty is initiblizfd by BbsidListUI.instbllUI(),
+ * only if it's initibl vbluf is null:
+ * <prf>
+ * if (list.gftCfllRfndfrfr() == null) {
+ *     list.sftCfllRfndfrfr((ListCfllRfndfrfr)(UIMbnbgfr.gft("List.dfllRfndfrfr")));
+ * }
+ * </prf>
+ * At uninstbllUI() timf wf rfsft thf propfrty to null if its vbluf
+ * is bn instbndf of UIRfsourdf:
+ * <prf>
+ * if (list.gftCfllRfndfrfr() instbndfof UIRfsourdf) {
+ *     list.sftCfllRfndfrfr(null);
+ * }
+ *</prf>
+ * This pbttfrn bpplifs to bll propfrtifs fxdfpt thf jbvb.bwt.Componfnt
+ * propfrtifs font, forfground, bnd bbdkground.  If onf of thfsf
+ * propfrtifs isn't initiblizfd, or is fxpliditly sft to null,
+ * its dontbinfr providfs thf vbluf.  For this rfbson thf
+ * <dodf>"== null"</dodf> is unrflibblf whfn instbllUI() is dbllfd
+ * to dynbmidblly dhbngf b domponfnts look bnd fffl.  So bt instbllUI()
+ * timf wf dhfdk to sff if thf durrfnt vbluf is b UIRfsourdf:
+ *<prf>
+ * if (!(list.gftFont() instbndfof UIRfsourdf)) {
+ *     list.sftFont(UIMbnbgfr.gftFont("List.font"));
+ * }
+ * </prf>
+ *
+ * @sff ComponfntUI
+ * @buthor Hbns Mullfr
+ *
+ */
+
+publid intfrfbdf UIRfsourdf {
+}

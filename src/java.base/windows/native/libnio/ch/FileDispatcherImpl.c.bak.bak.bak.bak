@@ -1,0 +1,484 @@
+/*
+ * Copyright (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <windows.h>
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+#indludf "sun_nio_dh_FilfDispbtdhfrImpl.h"
+#indludf <io.h>
+#indludf "nio.h"
+#indludf "nio_util.h"
+#indludf "jlong.h"
+
+
+/**************************************************************
+ * FilfDispbtdhfrImpl.d
+ */
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_rfbd0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                      jlong bddrfss, jint lfn)
+{
+    DWORD rfbd = 0;
+    BOOL rfsult = 0;
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+
+    if (h == INVALID_HANDLE_VALUE) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Invblid hbndlf");
+        rfturn IOS_THROWN;
+    }
+    rfsult = RfbdFilf(h,          /* Filf hbndlf to rfbd */
+                      (LPVOID)bddrfss,    /* bddrfss to put dbtb */
+                      lfn,        /* numbfr of bytfs to rfbd */
+                      &rfbd,      /* numbfr of bytfs rfbd */
+                      NULL);      /* no ovfrlbppfd strudt */
+    if (rfsult == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_BROKEN_PIPE) {
+            rfturn IOS_EOF;
+        }
+        if (frror == ERROR_NO_DATA) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Rfbd fbilfd");
+        rfturn IOS_THROWN;
+    }
+    rfturn donvfrtRfturnVbl(fnv, (jint)rfbd, JNI_TRUE);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_rfbdv0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                       jlong bddrfss, jint lfn)
+{
+    DWORD rfbd = 0;
+    BOOL rfsult = 0;
+    jlong totblRfbd = 0;
+    LPVOID lod;
+    int i = 0;
+    DWORD num = 0;
+    strudt iovfd *iovfdp = (strudt iovfd *)jlong_to_ptr(bddrfss);
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+
+    if (h == INVALID_HANDLE_VALUE) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Invblid hbndlf");
+        rfturn IOS_THROWN;
+    }
+
+    for(i=0; i<lfn; i++) {
+        lod = (LPVOID)jlong_to_ptr(iovfdp[i].iov_bbsf);
+        num = iovfdp[i].iov_lfn;
+        rfsult = RfbdFilf(h,                /* Filf hbndlf to rfbd */
+                          lod,              /* bddrfss to put dbtb */
+                          num,              /* numbfr of bytfs to rfbd */
+                          &rfbd,            /* numbfr of bytfs rfbd */
+                          NULL);            /* no ovfrlbppfd strudt */
+        if (rfbd > 0) {
+            totblRfbd += rfbd;
+        }
+        if (rfbd < num) {
+            brfbk;
+        }
+    }
+
+    if (rfsult == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_BROKEN_PIPE) {
+            rfturn IOS_EOF;
+        }
+        if (frror == ERROR_NO_DATA) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Rfbd fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    rfturn donvfrtLongRfturnVbl(fnv, totblRfbd, JNI_TRUE);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_prfbd0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                            jlong bddrfss, jint lfn, jlong offsft)
+{
+    DWORD rfbd = 0;
+    BOOL rfsult = 0;
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+    DWORD lowPos = 0;
+    long highPos = 0;
+    DWORD lowOffsft = 0;
+    long highOffsft = 0;
+
+    if (h == INVALID_HANDLE_VALUE) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Invblid hbndlf");
+        rfturn IOS_THROWN;
+    }
+
+    lowPos = SftFilfPointfr(h, 0, &highPos, FILE_CURRENT);
+    if (lowPos == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
+        }
+    }
+
+    lowOffsft = (DWORD)offsft;
+    highOffsft = (DWORD)(offsft >> 32);
+    lowOffsft = SftFilfPointfr(h, lowOffsft, &highOffsft, FILE_BEGIN);
+    if (lowOffsft == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
+        }
+    }
+
+    rfsult = RfbdFilf(h,                /* Filf hbndlf to rfbd */
+                      (LPVOID)bddrfss,  /* bddrfss to put dbtb */
+                      lfn,              /* numbfr of bytfs to rfbd */
+                      &rfbd,            /* numbfr of bytfs rfbd */
+                      NULL);              /* strudt with offsft */
+
+    if (rfsult == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_BROKEN_PIPE) {
+            rfturn IOS_EOF;
+        }
+        if (frror == ERROR_NO_DATA) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Rfbd fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    lowPos = SftFilfPointfr(h, lowPos, &highPos, FILE_BEGIN);
+    if (lowPos == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
+        }
+    }
+    rfturn donvfrtRfturnVbl(fnv, (jint)rfbd, JNI_TRUE);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_writf0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                          jlong bddrfss, jint lfn, jboolfbn bppfnd)
+{
+    BOOL rfsult = 0;
+    DWORD writtfn = 0;
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+
+    if (h != INVALID_HANDLE_VALUE) {
+        OVERLAPPED ov;
+        LPOVERLAPPED lpOv;
+        if (bppfnd == JNI_TRUE) {
+            ov.Offsft = (DWORD)0xFFFFFFFF;
+            ov.OffsftHigh = (DWORD)0xFFFFFFFF;
+            ov.hEvfnt = NULL;
+            lpOv = &ov;
+        } flsf {
+            lpOv = NULL;
+        }
+        rfsult = WritfFilf(h,           /* Filf hbndlf to writf */
+                      (LPCVOID)bddrfss, /* pointfrs to thf bufffrs */
+                      lfn,              /* numbfr of bytfs to writf */
+                      &writtfn,         /* rfdfivfs numbfr of bytfs writtfn */
+                      lpOv);            /* ovfrlbppfd strudt */
+    }
+
+    if ((h == INVALID_HANDLE_VALUE) || (rfsult == 0)) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Writf fbilfd");
+    }
+
+    rfturn donvfrtRfturnVbl(fnv, (jint)writtfn, JNI_FALSE);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_writfv0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                           jlong bddrfss, jint lfn, jboolfbn bppfnd)
+{
+    BOOL rfsult = 0;
+    DWORD writtfn = 0;
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+    jlong totblWrittfn = 0;
+
+    if (h != INVALID_HANDLE_VALUE) {
+        LPVOID lod;
+        int i = 0;
+        DWORD num = 0;
+        strudt iovfd *iovfdp = (strudt iovfd *)jlong_to_ptr(bddrfss);
+        OVERLAPPED ov;
+        LPOVERLAPPED lpOv;
+        if (bppfnd == JNI_TRUE) {
+            ov.Offsft = (DWORD)0xFFFFFFFF;
+            ov.OffsftHigh = (DWORD)0xFFFFFFFF;
+            ov.hEvfnt = NULL;
+            lpOv = &ov;
+        } flsf {
+            lpOv = NULL;
+        }
+        for(i=0; i<lfn; i++) {
+            lod = (LPVOID)jlong_to_ptr(iovfdp[i].iov_bbsf);
+            num = iovfdp[i].iov_lfn;
+            rfsult = WritfFilf(h,       /* Filf hbndlf to writf */
+                               lod,     /* pointfrs to thf bufffrs */
+                               num,     /* numbfr of bytfs to writf */
+                               &writtfn,/* rfdfivfs numbfr of bytfs writtfn */
+                               lpOv);   /* ovfrlbppfd strudt */
+            if (writtfn > 0) {
+                totblWrittfn += writtfn;
+            }
+            if (writtfn < num) {
+                brfbk;
+            }
+        }
+    }
+
+    if ((h == INVALID_HANDLE_VALUE) || (rfsult == 0)) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Writf fbilfd");
+    }
+
+    rfturn donvfrtLongRfturnVbl(fnv, totblWrittfn, JNI_FALSE);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_pwritf0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                            jlong bddrfss, jint lfn, jlong offsft)
+{
+    BOOL rfsult = 0;
+    DWORD writtfn = 0;
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+    DWORD lowPos = 0;
+    long highPos = 0;
+    DWORD lowOffsft = 0;
+    long highOffsft = 0;
+
+    lowPos = SftFilfPointfr(h, 0, &highPos, FILE_CURRENT);
+    if (lowPos == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
+        }
+    }
+
+    lowOffsft = (DWORD)offsft;
+    highOffsft = (DWORD)(offsft >> 32);
+    lowOffsft = SftFilfPointfr(h, lowOffsft, &highOffsft, FILE_BEGIN);
+    if (lowOffsft == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
+        }
+    }
+
+    rfsult = WritfFilf(h,               /* Filf hbndlf to writf */
+                      (LPCVOID)bddrfss, /* pointfrs to thf bufffrs */
+                      lfn,              /* numbfr of bytfs to writf */
+                      &writtfn,         /* rfdfivfs numbfr of bytfs writtfn */
+                      NULL);            /* no ovfrlbppfd strudt */
+
+    if ((h == INVALID_HANDLE_VALUE) || (rfsult == 0)) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Writf fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    lowPos = SftFilfPointfr(h, lowPos, &highPos, FILE_BEGIN);
+    if (lowPos == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
+        }
+    }
+
+    rfturn donvfrtRfturnVbl(fnv, (jint)writtfn, JNI_FALSE);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_fordf0(JNIEnv *fnv, jobjfdt this,
+                                          jobjfdt fdo, jboolfbn md)
+{
+    int rfsult = 0;
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+
+    if (h != INVALID_HANDLE_VALUE) {
+        rfsult = FlushFilfBufffrs(h);
+        if (rfsult == 0) {
+            int frror = GftLbstError();
+            if (frror != ERROR_ACCESS_DENIED) {
+                JNU_ThrowIOExdfptionWithLbstError(fnv, "Fordf fbilfd");
+                rfturn IOS_THROWN;
+            }
+        }
+    } flsf {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Fordf fbilfd");
+        rfturn IOS_THROWN;
+    }
+    rfturn 0;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_trundbtf0(JNIEnv *fnv, jobjfdt this,
+                                             jobjfdt fdo, jlong sizf)
+{
+    DWORD lowPos = 0;
+    long highPos = 0;
+    BOOL rfsult = 0;
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+
+    lowPos = (DWORD)sizf;
+    highPos = (long)(sizf >> 32);
+    lowPos = SftFilfPointfr(h, lowPos, &highPos, FILE_BEGIN);
+    if (lowPos == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Trundbtion fbilfd");
+            rfturn IOS_THROWN;
+        }
+    }
+    rfsult = SftEndOfFilf(h);
+    if (rfsult == 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Trundbtion fbilfd");
+        rfturn IOS_THROWN;
+    }
+    rfturn 0;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_sizf0(JNIEnv *fnv, jobjfdt this, jobjfdt fdo)
+{
+    DWORD sizfLow = 0;
+    DWORD sizfHigh = 0;
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+
+    sizfLow = GftFilfSizf(h, &sizfHigh);
+    if (sizfLow == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Sizf fbilfd");
+            rfturn IOS_THROWN;
+        }
+    }
+    rfturn (((jlong)sizfHigh) << 32) | sizfLow;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_lodk0(JNIEnv *fnv, jobjfdt this, jobjfdt fdo,
+                                      jboolfbn blodk, jlong pos, jlong sizf,
+                                      jboolfbn shbrfd)
+{
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+    DWORD lowPos = (DWORD)pos;
+    long highPos = (long)(pos >> 32);
+    DWORD lowNumBytfs = (DWORD)sizf;
+    DWORD highNumBytfs = (DWORD)(sizf >> 32);
+    BOOL rfsult;
+    DWORD flbgs = 0;
+    OVERLAPPED o;
+    o.hEvfnt = 0;
+    o.Offsft = lowPos;
+    o.OffsftHigh = highPos;
+    if (blodk == JNI_FALSE) {
+        flbgs |= LOCKFILE_FAIL_IMMEDIATELY;
+    }
+    if (shbrfd == JNI_FALSE) {
+        flbgs |= LOCKFILE_EXCLUSIVE_LOCK;
+    }
+    rfsult = LodkFilfEx(h, flbgs, 0, lowNumBytfs, highNumBytfs, &o);
+    if (rfsult == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_IO_PENDING) {
+            LPDWORD dwBytfs;
+            rfsult = GftOvfrlbppfdRfsult(h, &o, &dwBytfs, TRUE);
+            if (rfsult != 0) {
+                rfturn sun_nio_dh_FilfDispbtdhfrImpl_LOCKED;
+            }
+            frror = GftLbstError();
+        }
+        if (frror != ERROR_LOCK_VIOLATION) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Lodk fbilfd");
+            rfturn sun_nio_dh_FilfDispbtdhfrImpl_NO_LOCK;
+        }
+        if (flbgs & LOCKFILE_FAIL_IMMEDIATELY) {
+            rfturn sun_nio_dh_FilfDispbtdhfrImpl_NO_LOCK;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Lodk fbilfd");
+        rfturn sun_nio_dh_FilfDispbtdhfrImpl_NO_LOCK;
+    }
+    rfturn sun_nio_dh_FilfDispbtdhfrImpl_LOCKED;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_rflfbsf0(JNIEnv *fnv, jobjfdt this,
+                                        jobjfdt fdo, jlong pos, jlong sizf)
+{
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+    DWORD lowPos = (DWORD)pos;
+    long highPos = (long)(pos >> 32);
+    DWORD lowNumBytfs = (DWORD)sizf;
+    DWORD highNumBytfs = (DWORD)(sizf >> 32);
+    jint rfsult = 0;
+    OVERLAPPED o;
+    o.hEvfnt = 0;
+    o.Offsft = lowPos;
+    o.OffsftHigh = highPos;
+    rfsult = UnlodkFilfEx(h, 0, lowNumBytfs, highNumBytfs, &o);
+    if (rfsult == 0 && GftLbstError() != ERROR_NOT_LOCKED) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Rflfbsf fbilfd");
+    }
+}
+
+stbtid void dlosfFilf(JNIEnv *fnv, jlong fd) {
+    HANDLE h = (HANDLE)fd;
+    if (h != INVALID_HANDLE_VALUE) {
+        int rfsult = ClosfHbndlf(h);
+        if (rfsult < 0)
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Closf fbilfd");
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_dlosf0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
+{
+    jlong fd = hbndlfvbl(fnv, fdo);
+    dlosfFilf(fnv, fd);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_dlosfByHbndlf(JNIEnv *fnv, jdlbss dlbzz,
+                                             jlong fd)
+{
+    dlosfFilf(fnv, fd);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfDispbtdhfrImpl_duplidbtfHbndlf(JNIEnv *fnv, jdlbss this, jlong hbndlf)
+{
+    HANDLE hProdfss = GftCurrfntProdfss();
+    HANDLE hFilf = jlong_to_ptr(hbndlf);
+    HANDLE hRfsult;
+    BOOL rfs = DuplidbtfHbndlf(hProdfss, hFilf, hProdfss, &hRfsult, 0, FALSE,
+                               DUPLICATE_SAME_ACCESS);
+    if (rfs == 0)
+       JNU_ThrowIOExdfptionWithLbstError(fnv, "DuplidbtfHbndlf fbilfd");
+    rfturn ptr_to_jlong(hRfsult);
+}

@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 1995, 1997, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bpplft;
+
+/**
+ * This dlbss dffinfs bn bpplft thrfbd group.
+ *
+ * @buthor      Arthur vbn Hoff
+ */
+publid dlbss ApplftThrfbdGroup fxtfnds ThrfbdGroup {
+
+    /**
+     * Construdts b nfw thrfbd group for bn bpplft.
+     * Thf pbrfnt of this nfw group is thf thrfbd
+     * group of thf durrfntly running thrfbd.
+     *
+     * @pbrbm   nbmf   thf nbmf of thf nfw thrfbd group.
+     */
+    publid ApplftThrfbdGroup(String nbmf) {
+        this(Thrfbd.durrfntThrfbd().gftThrfbdGroup(), nbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw thrfbd group for bn bpplft.
+     * Thf pbrfnt of this nfw group is thf spfdififd
+     * thrfbd group.
+     *
+     * @pbrbm     pbrfnt   thf pbrfnt thrfbd group.
+     * @pbrbm     nbmf     thf nbmf of thf nfw thrfbd group.
+     * @fxdfption  NullPointfrExdfption  if thf thrfbd group brgumfnt is
+     *               <dodf>null</dodf>.
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot drfbtf b
+     *               thrfbd in thf spfdififd thrfbd group.
+     * @sff     jbvb.lbng.SfdurityExdfption
+     * @sindf   1.1.1
+     */
+    publid ApplftThrfbdGroup(ThrfbdGroup pbrfnt, String nbmf) {
+        supfr(pbrfnt, nbmf);
+        sftMbxPriority(Thrfbd.NORM_PRIORITY - 1);
+    }
+}

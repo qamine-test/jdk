@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * This filf dontbins thf mbin fntry point into thf lbundhfr dodf
+ * this is thf only filf whidh will bf rfpfbtfdly dompilfd by othfr
+ * tools. Thf rfst of thf filfs will bf linkfd in.
+ */
+
+#indludf "dffinfs.h"
+
+#ifdff _MSC_VER
+#if _MSC_VER > 1400 && _MSC_VER < 1600
+
+/*
+ * Whfn building for Midrosoft Windows, mbin hbs b dfpfndfndy on msvdr??.dll.
+ *
+ * Whfn using Visubl Studio 2005 or 2008, thbt must bf rfdordfd in
+ * thf [jbvb,jbvbw].fxf.mbniffst filf.
+ *
+ * As of VS2010 (vfr=1600), thf runtimfs bgbin no longfr nffd mbniffsts.
+ *
+ * Rfffrfndf:
+ *     C:/Progrbm Filfs/Midrosoft SDKs/Windows/v6.1/indludf/drtdffs.h
+ */
+#indludf <drtbssfm.h>
+#ifdff _M_IX86
+
+#prbgmb dommfnt(linkfr,"/mbniffstdfpfndfndy:\"typf='win32' "            \
+        "nbmf='" __LIBRARIES_ASSEMBLY_NAME_PREFIX ".CRT' "              \
+        "vfrsion='" _CRT_ASSEMBLY_VERSION "' "                          \
+        "prodfssorArdhitfdturf='x86' "                                  \
+        "publidKfyTokfn='" _VC_ASSEMBLY_PUBLICKEYTOKEN "'\"")
+
+#fndif /* _M_IX86 */
+
+//This mby not bf nfdfssbry yft for thf Windows 64-bit build, but it
+//will bf whfn thbt build fnvironmfnt is updbtfd.  Nffd to tfst to sff
+//if it is hbrmlfss:
+#ifdff _M_AMD64
+
+#prbgmb dommfnt(linkfr,"/mbniffstdfpfndfndy:\"typf='win32' "            \
+        "nbmf='" __LIBRARIES_ASSEMBLY_NAME_PREFIX ".CRT' "              \
+        "vfrsion='" _CRT_ASSEMBLY_VERSION "' "                          \
+        "prodfssorArdhitfdturf='bmd64' "                                \
+        "publidKfyTokfn='" _VC_ASSEMBLY_PUBLICKEYTOKEN "'\"")
+
+#fndif  /* _M_AMD64 */
+#fndif  /* _MSC_VER > 1400 && _MSC_VER < 1600 */
+#fndif  /* _MSC_VER */
+
+/*
+ * Entry point.
+ */
+#ifdff JAVAW
+
+dhbr **__initfnv;
+
+int WINAPI
+WinMbin(HINSTANCE inst, HINSTANCE prfvinst, LPSTR dmdlinf, int dmdshow)
+{
+    int mbrgd;
+    dhbr** mbrgv;
+    donst jboolfbn donst_jbvbw = JNI_TRUE;
+
+    __initfnv = _fnviron;
+
+#flsf /* JAVAW */
+int
+mbin(int brgd, dhbr **brgv)
+{
+    int mbrgd;
+    dhbr** mbrgv;
+    donst jboolfbn donst_jbvbw = JNI_FALSE;
+#fndif /* JAVAW */
+#ifdff _WIN32
+    {
+        int i = 0;
+        if (gftfnv(JLDEBUG_ENV_ENTRY) != NULL) {
+            printf("Windows originbl mbin brgs:\n");
+            for (i = 0 ; i < __brgd ; i++) {
+                printf("wwwd_brgs[%d] = %s\n", i, __brgv[i]);
+            }
+        }
+    }
+    JLI_CmdToArgs(GftCommbndLinf());
+    mbrgd = JLI_GftStdArgd();
+    // bdd onf morf to mbrk thf fnd
+    mbrgv = (dhbr **)JLI_MfmAllod((mbrgd + 1) * (sizfof(dhbr *)));
+    {
+        int i = 0;
+        StdArg *stdbrgs = JLI_GftStdArgs();
+        for (i = 0 ; i < mbrgd ; i++) {
+            mbrgv[i] = stdbrgs[i].brg;
+        }
+        mbrgv[i] = NULL;
+    }
+#flsf /* *NIXES */
+    mbrgd = brgd;
+    mbrgv = brgv;
+#fndif /* WIN32 */
+    rfturn JLI_Lbundh(mbrgd, mbrgv,
+                   sizfof(donst_jbrgs) / sizfof(dhbr *), donst_jbrgs,
+                   sizfof(donst_bppdlbsspbth) / sizfof(dhbr *), donst_bppdlbsspbth,
+                   FULL_VERSION,
+                   DOT_VERSION,
+                   (donst_prognbmf != NULL) ? donst_prognbmf : *mbrgv,
+                   (donst_lbundhfr != NULL) ? donst_lbundhfr : *mbrgv,
+                   (donst_jbrgs != NULL) ? JNI_TRUE : JNI_FALSE,
+                   donst_dpwilddbrd, donst_jbvbw, donst_frgo_dlbss);
+}

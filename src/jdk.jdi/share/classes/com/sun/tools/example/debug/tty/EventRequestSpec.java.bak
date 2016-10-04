@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
 
-import com.sun.jdi.*;
-import com.sun.jdi.request.EventRequest;
-import com.sun.jdi.request.ExceptionRequest;
-import com.sun.jdi.request.ClassPrepareRequest;
-import com.sun.jdi.event.ClassPrepareEvent;
-import java.util.ArrayList;
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.EvfntRfqufst;
+import dom.sun.jdi.rfqufst.ExdfptionRfqufst;
+import dom.sun.jdi.rfqufst.ClbssPrfpbrfRfqufst;
+import dom.sun.jdi.fvfnt.ClbssPrfpbrfEvfnt;
+import jbvb.util.ArrbyList;
 
-abstract class EventRequestSpec {
+bbstrbdt dlbss EvfntRfqufstSpfd {
 
-    final ReferenceTypeSpec refSpec;
+    finbl RfffrfndfTypfSpfd rffSpfd;
 
-    int suspendPolicy = EventRequest.SUSPEND_ALL;
+    int suspfndPolidy = EvfntRfqufst.SUSPEND_ALL;
 
-    EventRequest resolved = null;
-    ClassPrepareRequest prepareRequest = null;
+    EvfntRfqufst rfsolvfd = null;
+    ClbssPrfpbrfRfqufst prfpbrfRfqufst = null;
 
-    EventRequestSpec(ReferenceTypeSpec refSpec) {
-        this.refSpec = refSpec;
+    EvfntRfqufstSpfd(RfffrfndfTypfSpfd rffSpfd) {
+        tiis.rffSpfd = rffSpfd;
     }
 
     /**
-     * The 'refType' is known to match, return the EventRequest.
+     * Tif 'rffTypf' is known to mbtdi, rfturn tif EvfntRfqufst.
      */
-    abstract EventRequest resolveEventRequest(ReferenceType refType)
-                                           throws Exception;
+    bbstrbdt EvfntRfqufst rfsolvfEvfntRfqufst(RfffrfndfTypf rffTypf)
+                                           tirows Exdfption;
 
     /**
-     * @return If this EventRequestSpec matches the 'refType'
-     * return the cooresponding EventRequest.  Otherwise
-     * return null.
+     * @rfturn If tiis EvfntRfqufstSpfd mbtdifs tif 'rffTypf'
+     * rfturn tif doorfsponding EvfntRfqufst.  Otifrwisf
+     * rfturn null.
      */
-    synchronized EventRequest resolve(ClassPrepareEvent event) throws Exception {
-        if ((resolved == null) &&
-            (prepareRequest != null) &&
-            prepareRequest.equals(event.request())) {
+    syndironizfd EvfntRfqufst rfsolvf(ClbssPrfpbrfEvfnt fvfnt) tirows Exdfption {
+        if ((rfsolvfd == null) &&
+            (prfpbrfRfqufst != null) &&
+            prfpbrfRfqufst.fqubls(fvfnt.rfqufst())) {
 
-            resolved = resolveEventRequest(event.referenceType());
-            prepareRequest.disable();
-            Env.vm().eventRequestManager().deleteEventRequest(prepareRequest);
-            prepareRequest = null;
+            rfsolvfd = rfsolvfEvfntRfqufst(fvfnt.rfffrfndfTypf());
+            prfpbrfRfqufst.disbblf();
+            Env.vm().fvfntRfqufstMbnbgfr().dflftfEvfntRfqufst(prfpbrfRfqufst);
+            prfpbrfRfqufst = null;
 
-            if (refSpec instanceof PatternReferenceTypeSpec) {
-                PatternReferenceTypeSpec prs = (PatternReferenceTypeSpec)refSpec;
-                if (! prs.isUnique()){
+            if (rffSpfd instbndfof PbttfrnRfffrfndfTypfSpfd) {
+                PbttfrnRfffrfndfTypfSpfd prs = (PbttfrnRfffrfndfTypfSpfd)rffSpfd;
+                if (! prs.isUniquf()){
                     /*
-                     * Class pattern event requests are never
-                     * considered "resolved", since future class loads
-                     * might also match.
-                     * Create and enable a new ClassPrepareRequest to
-                     * keep trying to resolve.
+                     * Clbss pbttfrn fvfnt rfqufsts brf nfvfr
+                     * donsidfrfd "rfsolvfd", sindf futurf dlbss lobds
+                     * migit blso mbtdi.
+                     * Crfbtf bnd fnbblf b nfw ClbssPrfpbrfRfqufst to
+                     * kffp trying to rfsolvf.
                      */
-                    resolved = null;
-                    prepareRequest = refSpec.createPrepareRequest();
-                    prepareRequest.enable();
+                    rfsolvfd = null;
+                    prfpbrfRfqufst = rffSpfd.drfbtfPrfpbrfRfqufst();
+                    prfpbrfRfqufst.fnbblf();
                 }
             }
         }
-        return resolved;
+        rfturn rfsolvfd;
     }
 
-    synchronized void remove() {
-        if (isResolved()) {
-            Env.vm().eventRequestManager().deleteEventRequest(resolved());
+    syndironizfd void rfmovf() {
+        if (isRfsolvfd()) {
+            Env.vm().fvfntRfqufstMbnbgfr().dflftfEvfntRfqufst(rfsolvfd());
         }
-        if (refSpec instanceof PatternReferenceTypeSpec) {
-            PatternReferenceTypeSpec prs = (PatternReferenceTypeSpec)refSpec;
-            if (! prs.isUnique()){
+        if (rffSpfd instbndfof PbttfrnRfffrfndfTypfSpfd) {
+            PbttfrnRfffrfndfTypfSpfd prs = (PbttfrnRfffrfndfTypfSpfd)rffSpfd;
+            if (! prs.isUniquf()){
                 /*
-                 * This is a class pattern.  Track down and delete
-                 * all EventRequests matching this spec.
-                 * Note: Class patterns apply only to ExceptionRequests,
-                 * so that is all we need to examine.
+                 * Tiis is b dlbss pbttfrn.  Trbdk down bnd dflftf
+                 * bll EvfntRfqufsts mbtdiing tiis spfd.
+                 * Notf: Clbss pbttfrns bpply only to ExdfptionRfqufsts,
+                 * so tibt is bll wf nffd to fxbminf.
                  */
-                ArrayList<ExceptionRequest> deleteList = new ArrayList<ExceptionRequest>();
-                for (ExceptionRequest er :
-                         Env.vm().eventRequestManager().exceptionRequests()) {
-                    if (prs.matches(er.exception())) {
-                        deleteList.add (er);
+                ArrbyList<ExdfptionRfqufst> dflftfList = nfw ArrbyList<ExdfptionRfqufst>();
+                for (ExdfptionRfqufst fr :
+                         Env.vm().fvfntRfqufstMbnbgfr().fxdfptionRfqufsts()) {
+                    if (prs.mbtdifs(fr.fxdfption())) {
+                        dflftfList.bdd (fr);
                     }
                 }
-                Env.vm().eventRequestManager().deleteEventRequests(deleteList);
+                Env.vm().fvfntRfqufstMbnbgfr().dflftfEvfntRfqufsts(dflftfList);
             }
         }
     }
 
-    private EventRequest resolveAgainstPreparedClasses() throws Exception {
-        for (ReferenceType refType : Env.vm().allClasses()) {
-            if (refType.isPrepared() && refSpec.matches(refType)) {
-                resolved = resolveEventRequest(refType);
+    privbtf EvfntRfqufst rfsolvfAgbinstPrfpbrfdClbssfs() tirows Exdfption {
+        for (RfffrfndfTypf rffTypf : Env.vm().bllClbssfs()) {
+            if (rffTypf.isPrfpbrfd() && rffSpfd.mbtdifs(rffTypf)) {
+                rfsolvfd = rfsolvfEvfntRfqufst(rffTypf);
             }
         }
-        return resolved;
+        rfturn rfsolvfd;
     }
 
-    synchronized EventRequest resolveEagerly() throws Exception {
+    syndironizfd EvfntRfqufst rfsolvfEbgfrly() tirows Exdfption {
         try {
-            if (resolved == null) {
+            if (rfsolvfd == null) {
                 /*
-                 * Not resolved.  Schedule a prepare request so we
-                 * can resolve later.
+                 * Not rfsolvfd.  Sdifdulf b prfpbrf rfqufst so wf
+                 * dbn rfsolvf lbtfr.
                  */
-                prepareRequest = refSpec.createPrepareRequest();
-                prepareRequest.enable();
+                prfpbrfRfqufst = rffSpfd.drfbtfPrfpbrfRfqufst();
+                prfpbrfRfqufst.fnbblf();
 
-                // Try to resolve in case the class is already loaded.
-                resolveAgainstPreparedClasses();
-                if (resolved != null) {
-                    prepareRequest.disable();
-                    Env.vm().eventRequestManager().deleteEventRequest(prepareRequest);
-                    prepareRequest = null;
+                // Try to rfsolvf in dbsf tif dlbss is blrfbdy lobdfd.
+                rfsolvfAgbinstPrfpbrfdClbssfs();
+                if (rfsolvfd != null) {
+                    prfpbrfRfqufst.disbblf();
+                    Env.vm().fvfntRfqufstMbnbgfr().dflftfEvfntRfqufst(prfpbrfRfqufst);
+                    prfpbrfRfqufst = null;
                 }
             }
-            if (refSpec instanceof PatternReferenceTypeSpec) {
-                PatternReferenceTypeSpec prs = (PatternReferenceTypeSpec)refSpec;
-                if (! prs.isUnique()){
+            if (rffSpfd instbndfof PbttfrnRfffrfndfTypfSpfd) {
+                PbttfrnRfffrfndfTypfSpfd prs = (PbttfrnRfffrfndfTypfSpfd)rffSpfd;
+                if (! prs.isUniquf()){
                     /*
-                     * Class pattern event requests are never
-                     * considered "resolved", since future class loads
-                     * might also match.  Create a new
-                     * ClassPrepareRequest if necessary and keep
-                     * trying to resolve.
+                     * Clbss pbttfrn fvfnt rfqufsts brf nfvfr
+                     * donsidfrfd "rfsolvfd", sindf futurf dlbss lobds
+                     * migit blso mbtdi.  Crfbtf b nfw
+                     * ClbssPrfpbrfRfqufst if nfdfssbry bnd kffp
+                     * trying to rfsolvf.
                      */
-                    resolved = null;
-                    if (prepareRequest == null) {
-                        prepareRequest = refSpec.createPrepareRequest();
-                        prepareRequest.enable();
+                    rfsolvfd = null;
+                    if (prfpbrfRfqufst == null) {
+                        prfpbrfRfqufst = rffSpfd.drfbtfPrfpbrfRfqufst();
+                        prfpbrfRfqufst.fnbblf();
                     }
                 }
             }
-        } catch (VMNotConnectedException e) {
-            // Do nothing. Another resolve will be attempted when the
-            // VM is started.
+        } dbtdi (VMNotConnfdtfdExdfption f) {
+            // Do notiing. Anotifr rfsolvf will bf bttfmptfd wifn tif
+            // VM is stbrtfd.
         }
-        return resolved;
+        rfturn rfsolvfd;
     }
 
     /**
-     * @return the eventRequest this spec has been resolved to,
-     * null if so far unresolved.
+     * @rfturn tif fvfntRfqufst tiis spfd ibs bffn rfsolvfd to,
+     * null if so fbr unrfsolvfd.
      */
-    EventRequest resolved() {
-        return resolved;
+    EvfntRfqufst rfsolvfd() {
+        rfturn rfsolvfd;
     }
 
     /**
-     * @return true if this spec has been resolved.
+     * @rfturn truf if tiis spfd ibs bffn rfsolvfd.
      */
-    boolean isResolved() {
-        return resolved != null;
+    boolfbn isRfsolvfd() {
+        rfturn rfsolvfd != null;
     }
 
-    protected boolean isJavaIdentifier(String s) {
-        if (s.length() == 0) {
-            return false;
+    protfdtfd boolfbn isJbvbIdfntififr(String s) {
+        if (s.lfngti() == 0) {
+            rfturn fblsf;
         }
 
-        int cp = s.codePointAt(0);
-        if (! Character.isJavaIdentifierStart(cp)) {
-            return false;
+        int dp = s.dodfPointAt(0);
+        if (! Cibrbdtfr.isJbvbIdfntififrStbrt(dp)) {
+            rfturn fblsf;
         }
 
-        for (int i = Character.charCount(cp); i < s.length(); i += Character.charCount(cp)) {
-            cp = s.codePointAt(i);
-            if (! Character.isJavaIdentifierPart(cp)) {
-                return false;
+        for (int i = Cibrbdtfr.dibrCount(dp); i < s.lfngti(); i += Cibrbdtfr.dibrCount(dp)) {
+            dp = s.dodfPointAt(i);
+            if (! Cibrbdtfr.isJbvbIdfntififrPbrt(dp)) {
+                rfturn fblsf;
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
-    String errorMessageFor(Exception e) {
-        if (e instanceof IllegalArgumentException) {
-            return (MessageOutput.format("Invalid command syntax"));
-        } else if (e instanceof RuntimeException) {
-            // A runtime exception that we were not expecting
-            throw (RuntimeException)e;
-        } else {
-            return (MessageOutput.format("Internal error; unable to set",
-                                         this.refSpec.toString()));
+    String frrorMfssbgfFor(Exdfption f) {
+        if (f instbndfof IllfgblArgumfntExdfption) {
+            rfturn (MfssbgfOutput.formbt("Invblid dommbnd syntbx"));
+        } flsf if (f instbndfof RuntimfExdfption) {
+            // A runtimf fxdfption tibt wf wfrf not fxpfdting
+            tirow (RuntimfExdfption)f;
+        } flsf {
+            rfturn (MfssbgfOutput.formbt("Intfrnbl frror; unbblf to sft",
+                                         tiis.rffSpfd.toString()));
         }
     }
 }

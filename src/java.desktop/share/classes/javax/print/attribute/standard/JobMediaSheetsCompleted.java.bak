@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.IntfgfrSyntbx;
+import jbvbx.print.bttributf.PrintJobAttributf;
 
 /**
- * Class JobMediaSheetsCompleted is an integer valued printing attribute class
- * that specifies the number of media sheets which have completed marking and
- * stacking for the entire job so far, whether those sheets have been processed
- * on one side or on both.
+ * Clbss JobMfdibSifftsComplftfd is bn intfgfr vblufd printing bttributf dlbss
+ * tibt spfdififs tif numbfr of mfdib siffts wiidi ibvf domplftfd mbrking bnd
+ * stbdking for tif fntirf job so fbr, wiftifr tiosf siffts ibvf bffn prodfssfd
+ * on onf sidf or on boti.
  * <P>
- * The JobMediaSheetsCompleted attribute describes the progress of the job. This
- * attribute is intended to be a counter. That is, the JobMediaSheetsCompleted
- * value for a job that has not started processing must be 0. When the job's
- * {@link JobState JobState} is PROCESSING or PROCESSING_STOPPED, the
- * JobMediaSheetsCompleted value is intended to increase as the job is
- * processed; it indicates the amount of the job that has been processed at the
- * time the Print Job's attribute set is queried or at the time a print job
- * event is reported. When the job enters the COMPLETED, CANCELED, or ABORTED
- * states, the JobMediaSheetsCompleted value is the final value for the job.
+ * Tif JobMfdibSifftsComplftfd bttributf dfsdribfs tif progrfss of tif job. Tiis
+ * bttributf is intfndfd to bf b dountfr. Tibt is, tif JobMfdibSifftsComplftfd
+ * vbluf for b job tibt ibs not stbrtfd prodfssing must bf 0. Wifn tif job's
+ * {@link JobStbtf JobStbtf} is PROCESSING or PROCESSING_STOPPED, tif
+ * JobMfdibSifftsComplftfd vbluf is intfndfd to indrfbsf bs tif job is
+ * prodfssfd; it indidbtfs tif bmount of tif job tibt ibs bffn prodfssfd bt tif
+ * timf tif Print Job's bttributf sft is qufrifd or bt tif timf b print job
+ * fvfnt is rfportfd. Wifn tif job fntfrs tif COMPLETED, CANCELED, or ABORTED
+ * stbtfs, tif JobMfdibSifftsComplftfd vbluf is tif finbl vbluf for tif job.
  * <P>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> Tif intfgfr vbluf givfs tif IPP intfgfr vbluf. Tif
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs tif IPP bttributf
+ * nbmf.
  *
- * @see JobMediaSheets
- * @see JobMediaSheetsSupported
- * @see JobKOctetsProcessed
- * @see JobImpressionsCompleted
+ * @sff JobMfdibSiffts
+ * @sff JobMfdibSifftsSupportfd
+ * @sff JobKOdtftsProdfssfd
+ * @sff JobImprfssionsComplftfd
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class JobMediaSheetsCompleted extends IntegerSyntax
-        implements PrintJobAttribute {
+publid finbl dlbss JobMfdibSifftsComplftfd fxtfnds IntfgfrSyntbx
+        implfmfnts PrintJobAttributf {
 
 
-    private static final long serialVersionUID = 1739595973810840475L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1739595973810840475L;
 
     /**
-     * Construct a new job media sheets completed attribute with the given
-     * integer value.
+     * Construdt b nfw job mfdib siffts domplftfd bttributf witi tif givfn
+     * intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      *
-     * @exception  IllegalArgumentException
-     *   (Unchecked exception) Thrown if <CODE>value</CODE> is less than 0.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *   (Undifdkfd fxdfption) Tirown if <CODE>vbluf</CODE> is lfss tibn 0.
      */
-    public JobMediaSheetsCompleted(int value) {
-        super (value, 0, Integer.MAX_VALUE);
+    publid JobMfdibSifftsComplftfd(int vbluf) {
+        supfr (vbluf, 0, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * Returns whether this job media sheets completed attribute is equivalent
-     * to the passed in object. To be equivalent, all of the following
-     * conditions must be true:
+     * Rfturns wiftifr tiis job mfdib siffts domplftfd bttributf is fquivblfnt
+     * to tif pbssfd in objfdt. To bf fquivblfnt, bll of tif following
+     * donditions must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobMediaSheetsCompleted.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss JobMfdibSifftsComplftfd.
      * <LI>
-     * This job media sheets completed attribute's value and
-     * <CODE>object</CODE>'s value are equal.
+     * Tiis job mfdib siffts domplftfd bttributf's vbluf bnd
+     * <CODE>objfdt</CODE>'s vbluf brf fqubl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job media
-     *          sheets completed attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis job mfdib
+     *          siffts domplftfd bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return (super.equals (object) &&
-                object instanceof JobMediaSheetsCompleted);
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls (objfdt) &&
+                objfdt instbndfof JobMfdibSifftsComplftfd);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class JobMediaSheetsCompleted, the category is class
-     * JobMediaSheetsCompleted itself.
+     * For dlbss JobMfdibSifftsComplftfd, tif dbtfgory is dlbss
+     * JobMfdibSifftsComplftfd itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobMediaSheetsCompleted.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobMfdibSifftsComplftfd.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class JobMediaSheetsCompleted, the category name is
-     * <CODE>"job-media-sheets-completed"</CODE>.
+     * For dlbss JobMfdibSifftsComplftfd, tif dbtfgory nbmf is
+     * <CODE>"job-mfdib-siffts-domplftfd"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "job-media-sheets-completed";
+    publid finbl String gftNbmf() {
+        rfturn "job-mfdib-siffts-domplftfd";
     }
 }

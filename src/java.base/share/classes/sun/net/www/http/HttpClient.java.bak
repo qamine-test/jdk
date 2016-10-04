@@ -1,1013 +1,1013 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.http;
+pbdkbgf sun.nft.www.ittp;
 
-import java.io.*;
-import java.net.*;
-import java.util.Locale;
-import sun.net.NetworkClient;
-import sun.net.ProgressSource;
-import sun.net.www.MessageHeader;
-import sun.net.www.HeaderParser;
-import sun.net.www.MeteredStream;
-import sun.net.www.ParseUtil;
-import sun.net.www.protocol.http.HttpURLConnection;
-import sun.util.logging.PlatformLogger;
-import static sun.net.www.protocol.http.HttpURLConnection.TunnelState.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.util.Lodblf;
+import sun.nft.NftworkClifnt;
+import sun.nft.ProgrfssSourdf;
+import sun.nft.www.MfssbgfHfbdfr;
+import sun.nft.www.HfbdfrPbrsfr;
+import sun.nft.www.MftfrfdStrfbm;
+import sun.nft.www.PbrsfUtil;
+import sun.nft.www.protodol.ittp.HttpURLConnfdtion;
+import sun.util.logging.PlbtformLoggfr;
+import stbtid sun.nft.www.protodol.ittp.HttpURLConnfdtion.TunnflStbtf.*;
 
 /**
- * @author Herb Jellinek
- * @author Dave Brown
+ * @butior Hfrb Jfllinfk
+ * @butior Dbvf Brown
  */
-public class HttpClient extends NetworkClient {
-    // whether this httpclient comes from the cache
-    protected boolean cachedHttpClient = false;
+publid dlbss HttpClifnt fxtfnds NftworkClifnt {
+    // wiftifr tiis ittpdlifnt domfs from tif dbdif
+    protfdtfd boolfbn dbdifdHttpClifnt = fblsf;
 
-    protected boolean inCache;
+    protfdtfd boolfbn inCbdif;
 
-    // Http requests we send
-    MessageHeader requests;
+    // Http rfqufsts wf sfnd
+    MfssbgfHfbdfr rfqufsts;
 
-    // Http data we send with the headers
-    PosterOutputStream poster = null;
+    // Http dbtb wf sfnd witi tif ifbdfrs
+    PostfrOutputStrfbm postfr = null;
 
-    // true if we are in streaming mode (fixed length or chunked)
-    boolean streaming;
+    // truf if wf brf in strfbming modf (fixfd lfngti or diunkfd)
+    boolfbn strfbming;
 
-    // if we've had one io error
-    boolean failedOnce = false;
+    // if wf'vf ibd onf io frror
+    boolfbn fbilfdOndf = fblsf;
 
-    /** Response code for CONTINUE */
-    private boolean ignoreContinue = true;
-    private static final int    HTTP_CONTINUE = 100;
+    /** Rfsponsf dodf for CONTINUE */
+    privbtf boolfbn ignorfContinuf = truf;
+    privbtf stbtid finbl int    HTTP_CONTINUE = 100;
 
-    /** Default port number for http daemons. REMIND: make these private */
-    static final int    httpPortNumber = 80;
+    /** Dffbult port numbfr for ittp dbfmons. REMIND: mbkf tifsf privbtf */
+    stbtid finbl int    ittpPortNumbfr = 80;
 
-    /** return default port number (subclasses may override) */
-    protected int getDefaultPort () { return httpPortNumber; }
+    /** rfturn dffbult port numbfr (subdlbssfs mby ovfrridf) */
+    protfdtfd int gftDffbultPort () { rfturn ittpPortNumbfr; }
 
-    static private int getDefaultPort(String proto) {
-        if ("http".equalsIgnoreCase(proto))
-            return 80;
-        if ("https".equalsIgnoreCase(proto))
-            return 443;
-        return -1;
+    stbtid privbtf int gftDffbultPort(String proto) {
+        if ("ittp".fqublsIgnorfCbsf(proto))
+            rfturn 80;
+        if ("ittps".fqublsIgnorfCbsf(proto))
+            rfturn 443;
+        rfturn -1;
     }
 
-    /* All proxying (generic as well as instance-specific) may be
-     * disabled through use of this flag
+    /* All proxying (gfnfrid bs wfll bs instbndf-spfdifid) mby bf
+     * disbblfd tirougi usf of tiis flbg
      */
-    protected boolean proxyDisabled;
+    protfdtfd boolfbn proxyDisbblfd;
 
-    // are we using proxy in this instance?
-    public boolean usingProxy = false;
-    // target host, port for the URL
-    protected String host;
-    protected int port;
+    // brf wf using proxy in tiis instbndf?
+    publid boolfbn usingProxy = fblsf;
+    // tbrgft iost, port for tif URL
+    protfdtfd String iost;
+    protfdtfd int port;
 
-    /* where we cache currently open, persistent connections */
-    protected static KeepAliveCache kac = new KeepAliveCache();
+    /* wifrf wf dbdif durrfntly opfn, pfrsistfnt donnfdtions */
+    protfdtfd stbtid KffpAlivfCbdif kbd = nfw KffpAlivfCbdif();
 
-    private static boolean keepAliveProp = true;
+    privbtf stbtid boolfbn kffpAlivfProp = truf;
 
-    // retryPostProp is true by default so as to preserve behavior
-    // from previous releases.
-    private static boolean retryPostProp = true;
+    // rftryPostProp is truf by dffbult so bs to prfsfrvf bfibvior
+    // from prfvious rflfbsfs.
+    privbtf stbtid boolfbn rftryPostProp = truf;
 
-    volatile boolean keepingAlive = false;     /* this is a keep-alive connection */
-    int keepAliveConnections = -1;    /* number of keep-alives left */
+    volbtilf boolfbn kffpingAlivf = fblsf;     /* tiis is b kffp-blivf donnfdtion */
+    int kffpAlivfConnfdtions = -1;    /* numbfr of kffp-blivfs lfft */
 
-    /**Idle timeout value, in milliseconds. Zero means infinity,
-     * iff keepingAlive=true.
-     * Unfortunately, we can't always believe this one.  If I'm connected
-     * through a Netscape proxy to a server that sent me a keep-alive
-     * time of 15 sec, the proxy unilaterally terminates my connection
-     * after 5 sec.  So we have to hard code our effective timeout to
-     * 4 sec for the case where we're using a proxy. *SIGH*
+    /**Idlf timfout vbluf, in millisfdonds. Zfro mfbns infinity,
+     * iff kffpingAlivf=truf.
+     * Unfortunbtfly, wf dbn't blwbys bflifvf tiis onf.  If I'm donnfdtfd
+     * tirougi b Nftsdbpf proxy to b sfrvfr tibt sfnt mf b kffp-blivf
+     * timf of 15 sfd, tif proxy unilbtfrblly tfrminbtfs my donnfdtion
+     * bftfr 5 sfd.  So wf ibvf to ibrd dodf our ffffdtivf timfout to
+     * 4 sfd for tif dbsf wifrf wf'rf using b proxy. *SIGH*
      */
-    int keepAliveTimeout = 0;
+    int kffpAlivfTimfout = 0;
 
-    /** whether the response is to be cached */
-    private CacheRequest cacheRequest = null;
+    /** wiftifr tif rfsponsf is to bf dbdifd */
+    privbtf CbdifRfqufst dbdifRfqufst = null;
 
-    /** Url being fetched. */
-    protected URL       url;
+    /** Url bfing fftdifd. */
+    protfdtfd URL       url;
 
-    /* if set, the client will be reused and must not be put in cache */
-    public boolean reuse = false;
+    /* if sft, tif dlifnt will bf rfusfd bnd must not bf put in dbdif */
+    publid boolfbn rfusf = fblsf;
 
-    // Traffic capture tool, if configured. See HttpCapture class for info
-    private HttpCapture capture = null;
+    // Trbffid dbpturf tool, if donfigurfd. Sff HttpCbpturf dlbss for info
+    privbtf HttpCbpturf dbpturf = null;
 
-    private static final PlatformLogger logger = HttpURLConnection.getHttpLogger();
-    private static void logFinest(String msg) {
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
-            logger.finest(msg);
+    privbtf stbtid finbl PlbtformLoggfr loggfr = HttpURLConnfdtion.gftHttpLoggfr();
+    privbtf stbtid void logFinfst(String msg) {
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst(msg);
         }
     }
 
     /**
-     * A NOP method kept for backwards binary compatibility
-     * @deprecated -- system properties are no longer cached.
+     * A NOP mftiod kfpt for bbdkwbrds binbry dompbtibility
+     * @dfprfdbtfd -- systfm propfrtifs brf no longfr dbdifd.
      */
-    @Deprecated
-    public static synchronized void resetProperties() {
+    @Dfprfdbtfd
+    publid stbtid syndironizfd void rfsftPropfrtifs() {
     }
 
-    int getKeepAliveTimeout() {
-        return keepAliveTimeout;
+    int gftKffpAlivfTimfout() {
+        rfturn kffpAlivfTimfout;
     }
 
-    static {
-        String keepAlive = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("http.keepAlive"));
+    stbtid {
+        String kffpAlivf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("ittp.kffpAlivf"));
 
-        String retryPost = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.net.http.retryPost"));
+        String rftryPost = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.nft.ittp.rftryPost"));
 
-        if (keepAlive != null) {
-            keepAliveProp = Boolean.valueOf(keepAlive).booleanValue();
-        } else {
-            keepAliveProp = true;
+        if (kffpAlivf != null) {
+            kffpAlivfProp = Boolfbn.vblufOf(kffpAlivf).boolfbnVbluf();
+        } flsf {
+            kffpAlivfProp = truf;
         }
 
-        if (retryPost != null) {
-            retryPostProp = Boolean.valueOf(retryPost).booleanValue();
-        } else
-            retryPostProp = true;
+        if (rftryPost != null) {
+            rftryPostProp = Boolfbn.vblufOf(rftryPost).boolfbnVbluf();
+        } flsf
+            rftryPostProp = truf;
 
     }
 
     /**
-     * @return true iff http keep alive is set (i.e. enabled).  Defaults
-     *          to true if the system property http.keepAlive isn't set.
+     * @rfturn truf iff ittp kffp blivf is sft (i.f. fnbblfd).  Dffbults
+     *          to truf if tif systfm propfrty ittp.kffpAlivf isn't sft.
      */
-    public boolean getHttpKeepAliveSet() {
-        return keepAliveProp;
+    publid boolfbn gftHttpKffpAlivfSft() {
+        rfturn kffpAlivfProp;
     }
 
 
-    protected HttpClient() {
+    protfdtfd HttpClifnt() {
     }
 
-    private HttpClient(URL url)
-    throws IOException {
-        this(url, (String)null, -1, false);
+    privbtf HttpClifnt(URL url)
+    tirows IOExdfption {
+        tiis(url, (String)null, -1, fblsf);
     }
 
-    protected HttpClient(URL url,
-                         boolean proxyDisabled) throws IOException {
-        this(url, null, -1, proxyDisabled);
+    protfdtfd HttpClifnt(URL url,
+                         boolfbn proxyDisbblfd) tirows IOExdfption {
+        tiis(url, null, -1, proxyDisbblfd);
     }
 
-    /* This package-only CTOR should only be used for FTP piggy-backed on HTTP
-     * HTTP URL's that use this won't take advantage of keep-alive.
-     * Additionally, this constructor may be used as a last resort when the
-     * first HttpClient gotten through New() failed (probably b/c of a
-     * Keep-Alive mismatch).
+    /* Tiis pbdkbgf-only CTOR siould only bf usfd for FTP piggy-bbdkfd on HTTP
+     * HTTP URL's tibt usf tiis won't tbkf bdvbntbgf of kffp-blivf.
+     * Additionblly, tiis donstrudtor mby bf usfd bs b lbst rfsort wifn tif
+     * first HttpClifnt gottfn tirougi Nfw() fbilfd (probbbly b/d of b
+     * Kffp-Alivf mismbtdi).
      *
-     * XXX That documentation is wrong ... it's not package-private any more
+     * XXX Tibt dodumfntbtion is wrong ... it's not pbdkbgf-privbtf bny morf
      */
-    public HttpClient(URL url, String proxyHost, int proxyPort)
-    throws IOException {
-        this(url, proxyHost, proxyPort, false);
+    publid HttpClifnt(URL url, String proxyHost, int proxyPort)
+    tirows IOExdfption {
+        tiis(url, proxyHost, proxyPort, fblsf);
     }
 
-    protected HttpClient(URL url, Proxy p, int to) throws IOException {
+    protfdtfd HttpClifnt(URL url, Proxy p, int to) tirows IOExdfption {
         proxy = (p == null) ? Proxy.NO_PROXY : p;
-        this.host = url.getHost();
-        this.url = url;
-        port = url.getPort();
+        tiis.iost = url.gftHost();
+        tiis.url = url;
+        port = url.gftPort();
         if (port == -1) {
-            port = getDefaultPort();
+            port = gftDffbultPort();
         }
-        setConnectTimeout(to);
+        sftConnfdtTimfout(to);
 
-        capture = HttpCapture.getCapture(url);
-        openServer();
+        dbpturf = HttpCbpturf.gftCbpturf(url);
+        opfnSfrvfr();
     }
 
-    static protected Proxy newHttpProxy(String proxyHost, int proxyPort,
+    stbtid protfdtfd Proxy nfwHttpProxy(String proxyHost, int proxyPort,
                                       String proto) {
         if (proxyHost == null || proto == null)
-            return Proxy.NO_PROXY;
-        int pport = proxyPort < 0 ? getDefaultPort(proto) : proxyPort;
-        InetSocketAddress saddr = InetSocketAddress.createUnresolved(proxyHost, pport);
-        return new Proxy(Proxy.Type.HTTP, saddr);
+            rfturn Proxy.NO_PROXY;
+        int pport = proxyPort < 0 ? gftDffbultPort(proto) : proxyPort;
+        InftSodkftAddrfss sbddr = InftSodkftAddrfss.drfbtfUnrfsolvfd(proxyHost, pport);
+        rfturn nfw Proxy(Proxy.Typf.HTTP, sbddr);
     }
 
     /*
-     * This constructor gives "ultimate" flexibility, including the ability
-     * to bypass implicit proxying.  Sometimes we need to be using tunneling
-     * (transport or network level) instead of proxying (application level),
-     * for example when we don't want the application level data to become
-     * visible to third parties.
+     * Tiis donstrudtor givfs "ultimbtf" flfxibility, indluding tif bbility
+     * to bypbss implidit proxying.  Somftimfs wf nffd to bf using tunnfling
+     * (trbnsport or nftwork lfvfl) instfbd of proxying (bpplidbtion lfvfl),
+     * for fxbmplf wifn wf don't wbnt tif bpplidbtion lfvfl dbtb to bfdomf
+     * visiblf to tiird pbrtifs.
      *
-     * @param url               the URL to which we're connecting
-     * @param proxy             proxy to use for this URL (e.g. forwarding)
-     * @param proxyPort         proxy port to use for this URL
-     * @param proxyDisabled     true to disable default proxying
+     * @pbrbm url               tif URL to wiidi wf'rf donnfdting
+     * @pbrbm proxy             proxy to usf for tiis URL (f.g. forwbrding)
+     * @pbrbm proxyPort         proxy port to usf for tiis URL
+     * @pbrbm proxyDisbblfd     truf to disbblf dffbult proxying
      */
-    private HttpClient(URL url, String proxyHost, int proxyPort,
-                       boolean proxyDisabled)
-        throws IOException {
-        this(url, proxyDisabled ? Proxy.NO_PROXY :
-             newHttpProxy(proxyHost, proxyPort, "http"), -1);
+    privbtf HttpClifnt(URL url, String proxyHost, int proxyPort,
+                       boolfbn proxyDisbblfd)
+        tirows IOExdfption {
+        tiis(url, proxyDisbblfd ? Proxy.NO_PROXY :
+             nfwHttpProxy(proxyHost, proxyPort, "ittp"), -1);
     }
 
-    public HttpClient(URL url, String proxyHost, int proxyPort,
-                       boolean proxyDisabled, int to)
-        throws IOException {
-        this(url, proxyDisabled ? Proxy.NO_PROXY :
-             newHttpProxy(proxyHost, proxyPort, "http"), to);
+    publid HttpClifnt(URL url, String proxyHost, int proxyPort,
+                       boolfbn proxyDisbblfd, int to)
+        tirows IOExdfption {
+        tiis(url, proxyDisbblfd ? Proxy.NO_PROXY :
+             nfwHttpProxy(proxyHost, proxyPort, "ittp"), to);
     }
 
-    /* This class has no public constructor for HTTP.  This method is used to
-     * get an HttpClient to the specified URL.  If there's currently an
-     * active HttpClient to that server/port, you'll get that one.
+    /* Tiis dlbss ibs no publid donstrudtor for HTTP.  Tiis mftiod is usfd to
+     * gft bn HttpClifnt to tif spfdififd URL.  If tifrf's durrfntly bn
+     * bdtivf HttpClifnt to tibt sfrvfr/port, you'll gft tibt onf.
      */
-    public static HttpClient New(URL url)
-    throws IOException {
-        return HttpClient.New(url, Proxy.NO_PROXY, -1, true, null);
+    publid stbtid HttpClifnt Nfw(URL url)
+    tirows IOExdfption {
+        rfturn HttpClifnt.Nfw(url, Proxy.NO_PROXY, -1, truf, null);
     }
 
-    public static HttpClient New(URL url, boolean useCache)
-        throws IOException {
-        return HttpClient.New(url, Proxy.NO_PROXY, -1, useCache, null);
+    publid stbtid HttpClifnt Nfw(URL url, boolfbn usfCbdif)
+        tirows IOExdfption {
+        rfturn HttpClifnt.Nfw(url, Proxy.NO_PROXY, -1, usfCbdif, null);
     }
 
-    public static HttpClient New(URL url, Proxy p, int to, boolean useCache,
-        HttpURLConnection httpuc) throws IOException
+    publid stbtid HttpClifnt Nfw(URL url, Proxy p, int to, boolfbn usfCbdif,
+        HttpURLConnfdtion ittpud) tirows IOExdfption
     {
         if (p == null) {
             p = Proxy.NO_PROXY;
         }
-        HttpClient ret = null;
-        /* see if one's already around */
-        if (useCache) {
-            ret = kac.get(url, null);
-            if (ret != null && httpuc != null &&
-                httpuc.streaming() &&
-                httpuc.getRequestMethod() == "POST") {
-                if (!ret.available()) {
-                    ret.inCache = false;
-                    ret.closeServer();
-                    ret = null;
+        HttpClifnt rft = null;
+        /* sff if onf's blrfbdy bround */
+        if (usfCbdif) {
+            rft = kbd.gft(url, null);
+            if (rft != null && ittpud != null &&
+                ittpud.strfbming() &&
+                ittpud.gftRfqufstMftiod() == "POST") {
+                if (!rft.bvbilbblf()) {
+                    rft.inCbdif = fblsf;
+                    rft.dlosfSfrvfr();
+                    rft = null;
                 }
             }
 
-            if (ret != null) {
-                if ((ret.proxy != null && ret.proxy.equals(p)) ||
-                    (ret.proxy == null && p == null)) {
-                    synchronized (ret) {
-                        ret.cachedHttpClient = true;
-                        assert ret.inCache;
-                        ret.inCache = false;
-                        if (httpuc != null && ret.needsTunneling())
-                            httpuc.setTunnelState(TUNNELING);
-                        logFinest("KeepAlive stream retrieved from the cache, " + ret);
+            if (rft != null) {
+                if ((rft.proxy != null && rft.proxy.fqubls(p)) ||
+                    (rft.proxy == null && p == null)) {
+                    syndironizfd (rft) {
+                        rft.dbdifdHttpClifnt = truf;
+                        bssfrt rft.inCbdif;
+                        rft.inCbdif = fblsf;
+                        if (ittpud != null && rft.nffdsTunnfling())
+                            ittpud.sftTunnflStbtf(TUNNELING);
+                        logFinfst("KffpAlivf strfbm rftrifvfd from tif dbdif, " + rft);
                     }
-                } else {
-                    // We cannot return this connection to the cache as it's
-                    // KeepAliveTimeout will get reset. We simply close the connection.
-                    // This should be fine as it is very rare that a connection
-                    // to the same host will not use the same proxy.
-                    synchronized(ret) {
-                        ret.inCache = false;
-                        ret.closeServer();
+                } flsf {
+                    // Wf dbnnot rfturn tiis donnfdtion to tif dbdif bs it's
+                    // KffpAlivfTimfout will gft rfsft. Wf simply dlosf tif donnfdtion.
+                    // Tiis siould bf finf bs it is vfry rbrf tibt b donnfdtion
+                    // to tif sbmf iost will not usf tif sbmf proxy.
+                    syndironizfd(rft) {
+                        rft.inCbdif = fblsf;
+                        rft.dlosfSfrvfr();
                     }
-                    ret = null;
+                    rft = null;
                 }
             }
         }
-        if (ret == null) {
-            ret = new HttpClient(url, p, to);
-        } else {
-            SecurityManager security = System.getSecurityManager();
-            if (security != null) {
-                if (ret.proxy == Proxy.NO_PROXY || ret.proxy == null) {
-                    security.checkConnect(InetAddress.getByName(url.getHost()).getHostAddress(), url.getPort());
-                } else {
-                    security.checkConnect(url.getHost(), url.getPort());
+        if (rft == null) {
+            rft = nfw HttpClifnt(url, p, to);
+        } flsf {
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                if (rft.proxy == Proxy.NO_PROXY || rft.proxy == null) {
+                    sfdurity.difdkConnfdt(InftAddrfss.gftByNbmf(url.gftHost()).gftHostAddrfss(), url.gftPort());
+                } flsf {
+                    sfdurity.difdkConnfdt(url.gftHost(), url.gftPort());
                 }
             }
-            ret.url = url;
+            rft.url = url;
         }
-        return ret;
+        rfturn rft;
     }
 
-    public static HttpClient New(URL url, Proxy p, int to,
-        HttpURLConnection httpuc) throws IOException
+    publid stbtid HttpClifnt Nfw(URL url, Proxy p, int to,
+        HttpURLConnfdtion ittpud) tirows IOExdfption
     {
-        return New(url, p, to, true, httpuc);
+        rfturn Nfw(url, p, to, truf, ittpud);
     }
 
-    public static HttpClient New(URL url, String proxyHost, int proxyPort,
-                                 boolean useCache)
-        throws IOException {
-        return New(url, newHttpProxy(proxyHost, proxyPort, "http"),
-            -1, useCache, null);
+    publid stbtid HttpClifnt Nfw(URL url, String proxyHost, int proxyPort,
+                                 boolfbn usfCbdif)
+        tirows IOExdfption {
+        rfturn Nfw(url, nfwHttpProxy(proxyHost, proxyPort, "ittp"),
+            -1, usfCbdif, null);
     }
 
-    public static HttpClient New(URL url, String proxyHost, int proxyPort,
-                                 boolean useCache, int to,
-                                 HttpURLConnection httpuc)
-        throws IOException {
-        return New(url, newHttpProxy(proxyHost, proxyPort, "http"),
-            to, useCache, httpuc);
+    publid stbtid HttpClifnt Nfw(URL url, String proxyHost, int proxyPort,
+                                 boolfbn usfCbdif, int to,
+                                 HttpURLConnfdtion ittpud)
+        tirows IOExdfption {
+        rfturn Nfw(url, nfwHttpProxy(proxyHost, proxyPort, "ittp"),
+            to, usfCbdif, ittpud);
     }
 
-    /* return it to the cache as still usable, if:
-     * 1) It's keeping alive, AND
-     * 2) It still has some connections left, AND
-     * 3) It hasn't had a error (PrintStream.checkError())
-     * 4) It hasn't timed out
+    /* rfturn it to tif dbdif bs still usbblf, if:
+     * 1) It's kffping blivf, AND
+     * 2) It still ibs somf donnfdtions lfft, AND
+     * 3) It ibsn't ibd b frror (PrintStrfbm.difdkError())
+     * 4) It ibsn't timfd out
      *
-     * If this client is not keepingAlive, it should have been
-     * removed from the cache in the parseHeaders() method.
+     * If tiis dlifnt is not kffpingAlivf, it siould ibvf bffn
+     * rfmovfd from tif dbdif in tif pbrsfHfbdfrs() mftiod.
      */
 
-    public void finished() {
-        if (reuse) /* will be reused */
-            return;
-        keepAliveConnections--;
-        poster = null;
-        if (keepAliveConnections > 0 && isKeepingAlive() &&
-               !(serverOutput.checkError())) {
-            /* This connection is keepingAlive && still valid.
-             * Return it to the cache.
+    publid void finisifd() {
+        if (rfusf) /* will bf rfusfd */
+            rfturn;
+        kffpAlivfConnfdtions--;
+        postfr = null;
+        if (kffpAlivfConnfdtions > 0 && isKffpingAlivf() &&
+               !(sfrvfrOutput.difdkError())) {
+            /* Tiis donnfdtion is kffpingAlivf && still vblid.
+             * Rfturn it to tif dbdif.
              */
-            putInKeepAliveCache();
-        } else {
-            closeServer();
+            putInKffpAlivfCbdif();
+        } flsf {
+            dlosfSfrvfr();
         }
     }
 
-    protected synchronized boolean available() {
-        boolean available = true;
+    protfdtfd syndironizfd boolfbn bvbilbblf() {
+        boolfbn bvbilbblf = truf;
         int old = -1;
 
         try {
             try {
-                old = serverSocket.getSoTimeout();
-                serverSocket.setSoTimeout(1);
-                BufferedInputStream tmpbuf =
-                        new BufferedInputStream(serverSocket.getInputStream());
-                int r = tmpbuf.read();
+                old = sfrvfrSodkft.gftSoTimfout();
+                sfrvfrSodkft.sftSoTimfout(1);
+                BufffrfdInputStrfbm tmpbuf =
+                        nfw BufffrfdInputStrfbm(sfrvfrSodkft.gftInputStrfbm());
+                int r = tmpbuf.rfbd();
                 if (r == -1) {
-                    logFinest("HttpClient.available(): " +
-                            "read returned -1: not available");
-                    available = false;
+                    logFinfst("HttpClifnt.bvbilbblf(): " +
+                            "rfbd rfturnfd -1: not bvbilbblf");
+                    bvbilbblf = fblsf;
                 }
-            } catch (SocketTimeoutException e) {
-                logFinest("HttpClient.available(): " +
-                        "SocketTimeout: its available");
-            } finally {
+            } dbtdi (SodkftTimfoutExdfption f) {
+                logFinfst("HttpClifnt.bvbilbblf(): " +
+                        "SodkftTimfout: its bvbilbblf");
+            } finblly {
                 if (old != -1)
-                    serverSocket.setSoTimeout(old);
+                    sfrvfrSodkft.sftSoTimfout(old);
             }
-        } catch (IOException e) {
-            logFinest("HttpClient.available(): " +
-                        "SocketException: not available");
-            available = false;
+        } dbtdi (IOExdfption f) {
+            logFinfst("HttpClifnt.bvbilbblf(): " +
+                        "SodkftExdfption: not bvbilbblf");
+            bvbilbblf = fblsf;
         }
-        return available;
+        rfturn bvbilbblf;
     }
 
-    protected synchronized void putInKeepAliveCache() {
-        if (inCache) {
-            assert false : "Duplicate put to keep alive cache";
-            return;
+    protfdtfd syndironizfd void putInKffpAlivfCbdif() {
+        if (inCbdif) {
+            bssfrt fblsf : "Duplidbtf put to kffp blivf dbdif";
+            rfturn;
         }
-        inCache = true;
-        kac.put(url, null, this);
+        inCbdif = truf;
+        kbd.put(url, null, tiis);
     }
 
-    protected synchronized boolean isInKeepAliveCache() {
-        return inCache;
+    protfdtfd syndironizfd boolfbn isInKffpAlivfCbdif() {
+        rfturn inCbdif;
     }
 
     /*
-     * Close an idle connection to this URL (if it exists in the
-     * cache).
+     * Closf bn idlf donnfdtion to tiis URL (if it fxists in tif
+     * dbdif).
      */
-    public void closeIdleConnection() {
-        HttpClient http = kac.get(url, null);
-        if (http != null) {
-            http.closeServer();
+    publid void dlosfIdlfConnfdtion() {
+        HttpClifnt ittp = kbd.gft(url, null);
+        if (ittp != null) {
+            ittp.dlosfSfrvfr();
         }
     }
 
-    /* We're very particular here about what our InputStream to the server
-     * looks like for reasons that are apparent if you can decipher the
-     * method parseHTTP().  That's why this method is overidden from the
-     * superclass.
+    /* Wf'rf vfry pbrtidulbr ifrf bbout wibt our InputStrfbm to tif sfrvfr
+     * looks likf for rfbsons tibt brf bppbrfnt if you dbn dfdipifr tif
+     * mftiod pbrsfHTTP().  Tibt's wiy tiis mftiod is ovfriddfn from tif
+     * supfrdlbss.
      */
-    @Override
-    public void openServer(String server, int port) throws IOException {
-        serverSocket = doConnect(server, port);
+    @Ovfrridf
+    publid void opfnSfrvfr(String sfrvfr, int port) tirows IOExdfption {
+        sfrvfrSodkft = doConnfdt(sfrvfr, port);
         try {
-            OutputStream out = serverSocket.getOutputStream();
-            if (capture != null) {
-                out = new HttpCaptureOutputStream(out, capture);
+            OutputStrfbm out = sfrvfrSodkft.gftOutputStrfbm();
+            if (dbpturf != null) {
+                out = nfw HttpCbpturfOutputStrfbm(out, dbpturf);
             }
-            serverOutput = new PrintStream(
-                new BufferedOutputStream(out),
-                                         false, encoding);
-        } catch (UnsupportedEncodingException e) {
-            throw new InternalError(encoding+" encoding not found", e);
+            sfrvfrOutput = nfw PrintStrfbm(
+                nfw BufffrfdOutputStrfbm(out),
+                                         fblsf, fndoding);
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            tirow nfw IntfrnblError(fndoding+" fndoding not found", f);
         }
-        serverSocket.setTcpNoDelay(true);
+        sfrvfrSodkft.sftTdpNoDflby(truf);
     }
 
     /*
-     * Returns true if the http request should be tunneled through proxy.
-     * An example where this is the case is Https.
+     * Rfturns truf if tif ittp rfqufst siould bf tunnflfd tirougi proxy.
+     * An fxbmplf wifrf tiis is tif dbsf is Https.
      */
-    public boolean needsTunneling() {
-        return false;
+    publid boolfbn nffdsTunnfling() {
+        rfturn fblsf;
     }
 
     /*
-     * Returns true if this httpclient is from cache
+     * Rfturns truf if tiis ittpdlifnt is from dbdif
      */
-    public synchronized boolean isCachedConnection() {
-        return cachedHttpClient;
+    publid syndironizfd boolfbn isCbdifdConnfdtion() {
+        rfturn dbdifdHttpClifnt;
     }
 
     /*
-     * Finish any work left after the socket connection is
-     * established.  In the normal http case, it's a NO-OP. Subclass
-     * may need to override this. An example is Https, where for
-     * direct connection to the origin server, ssl handshake needs to
-     * be done; for proxy tunneling, the socket needs to be converted
-     * into an SSL socket before ssl handshake can take place.
+     * Finisi bny work lfft bftfr tif sodkft donnfdtion is
+     * fstbblisifd.  In tif normbl ittp dbsf, it's b NO-OP. Subdlbss
+     * mby nffd to ovfrridf tiis. An fxbmplf is Https, wifrf for
+     * dirfdt donnfdtion to tif origin sfrvfr, ssl ibndsibkf nffds to
+     * bf donf; for proxy tunnfling, tif sodkft nffds to bf donvfrtfd
+     * into bn SSL sodkft bfforf ssl ibndsibkf dbn tbkf plbdf.
      */
-    public void afterConnect() throws IOException, UnknownHostException {
-        // NO-OP. Needs to be overwritten by HttpsClient
+    publid void bftfrConnfdt() tirows IOExdfption, UnknownHostExdfption {
+        // NO-OP. Nffds to bf ovfrwrittfn by HttpsClifnt
     }
 
     /*
-     * call openServer in a privileged block
+     * dbll opfnSfrvfr in b privilfgfd blodk
      */
-    private synchronized void privilegedOpenServer(final InetSocketAddress server)
-         throws IOException
+    privbtf syndironizfd void privilfgfdOpfnSfrvfr(finbl InftSodkftAddrfss sfrvfr)
+         tirows IOExdfption
     {
         try {
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedExceptionAction<Void>() {
-                    public Void run() throws IOException {
-                    openServer(server.getHostString(), server.getPort());
-                    return null;
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Void>() {
+                    publid Void run() tirows IOExdfption {
+                    opfnSfrvfr(sfrvfr.gftHostString(), sfrvfr.gftPort());
+                    rfturn null;
                 }
             });
-        } catch (java.security.PrivilegedActionException pae) {
-            throw (IOException) pae.getException();
+        } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            tirow (IOExdfption) pbf.gftExdfption();
         }
     }
 
     /*
-     * call super.openServer
+     * dbll supfr.opfnSfrvfr
      */
-    private void superOpenServer(final String proxyHost,
-                                 final int proxyPort)
-        throws IOException, UnknownHostException
+    privbtf void supfrOpfnSfrvfr(finbl String proxyHost,
+                                 finbl int proxyPort)
+        tirows IOExdfption, UnknownHostExdfption
     {
-        super.openServer(proxyHost, proxyPort);
+        supfr.opfnSfrvfr(proxyHost, proxyPort);
     }
 
     /*
      */
-    protected synchronized void openServer() throws IOException {
+    protfdtfd syndironizfd void opfnSfrvfr() tirows IOExdfption {
 
-        SecurityManager security = System.getSecurityManager();
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
 
-        if (security != null) {
-            security.checkConnect(host, port);
+        if (sfdurity != null) {
+            sfdurity.difdkConnfdt(iost, port);
         }
 
-        if (keepingAlive) { // already opened
-            return;
+        if (kffpingAlivf) { // blrfbdy opfnfd
+            rfturn;
         }
 
-        if (url.getProtocol().equals("http") ||
-            url.getProtocol().equals("https") ) {
+        if (url.gftProtodol().fqubls("ittp") ||
+            url.gftProtodol().fqubls("ittps") ) {
 
-            if ((proxy != null) && (proxy.type() == Proxy.Type.HTTP)) {
-                sun.net.www.URLConnection.setProxiedHost(host);
-                privilegedOpenServer((InetSocketAddress) proxy.address());
-                usingProxy = true;
-                return;
-            } else {
-                // make direct connection
-                openServer(host, port);
-                usingProxy = false;
-                return;
+            if ((proxy != null) && (proxy.typf() == Proxy.Typf.HTTP)) {
+                sun.nft.www.URLConnfdtion.sftProxifdHost(iost);
+                privilfgfdOpfnSfrvfr((InftSodkftAddrfss) proxy.bddrfss());
+                usingProxy = truf;
+                rfturn;
+            } flsf {
+                // mbkf dirfdt donnfdtion
+                opfnSfrvfr(iost, port);
+                usingProxy = fblsf;
+                rfturn;
             }
 
-        } else {
-            /* we're opening some other kind of url, most likely an
+        } flsf {
+            /* wf'rf opfning somf otifr kind of url, most likfly bn
              * ftp url.
              */
-            if ((proxy != null) && (proxy.type() == Proxy.Type.HTTP)) {
-                sun.net.www.URLConnection.setProxiedHost(host);
-                privilegedOpenServer((InetSocketAddress) proxy.address());
-                usingProxy = true;
-                return;
-            } else {
-                // make direct connection
-                super.openServer(host, port);
-                usingProxy = false;
-                return;
+            if ((proxy != null) && (proxy.typf() == Proxy.Typf.HTTP)) {
+                sun.nft.www.URLConnfdtion.sftProxifdHost(iost);
+                privilfgfdOpfnSfrvfr((InftSodkftAddrfss) proxy.bddrfss());
+                usingProxy = truf;
+                rfturn;
+            } flsf {
+                // mbkf dirfdt donnfdtion
+                supfr.opfnSfrvfr(iost, port);
+                usingProxy = fblsf;
+                rfturn;
             }
         }
     }
 
-    public String getURLFile() throws IOException {
+    publid String gftURLFilf() tirows IOExdfption {
 
-        String fileName;
+        String filfNbmf;
 
         /**
-         * proxyDisabled is set by subclass HttpsClient!
+         * proxyDisbblfd is sft by subdlbss HttpsClifnt!
          */
-        if (usingProxy && !proxyDisabled) {
-            // Do not use URLStreamHandler.toExternalForm as the fragment
-            // should not be part of the RequestURI. It should be an
-            // absolute URI which does not have a fragment part.
-            StringBuilder result = new StringBuilder(128);
-            result.append(url.getProtocol());
-            result.append(":");
-            if (url.getAuthority() != null && url.getAuthority().length() > 0) {
-                result.append("//");
-                result.append(url.getAuthority());
+        if (usingProxy && !proxyDisbblfd) {
+            // Do not usf URLStrfbmHbndlfr.toExtfrnblForm bs tif frbgmfnt
+            // siould not bf pbrt of tif RfqufstURI. It siould bf bn
+            // bbsolutf URI wiidi dofs not ibvf b frbgmfnt pbrt.
+            StringBuildfr rfsult = nfw StringBuildfr(128);
+            rfsult.bppfnd(url.gftProtodol());
+            rfsult.bppfnd(":");
+            if (url.gftAutiority() != null && url.gftAutiority().lfngti() > 0) {
+                rfsult.bppfnd("//");
+                rfsult.bppfnd(url.gftAutiority());
             }
-            if (url.getPath() != null) {
-                result.append(url.getPath());
+            if (url.gftPbti() != null) {
+                rfsult.bppfnd(url.gftPbti());
             }
-            if (url.getQuery() != null) {
-                result.append('?');
-                result.append(url.getQuery());
+            if (url.gftQufry() != null) {
+                rfsult.bppfnd('?');
+                rfsult.bppfnd(url.gftQufry());
             }
 
-            fileName = result.toString();
-        } else {
-            fileName = url.getFile();
+            filfNbmf = rfsult.toString();
+        } flsf {
+            filfNbmf = url.gftFilf();
 
-            if ((fileName == null) || (fileName.length() == 0)) {
-                fileName = "/";
-            } else if (fileName.charAt(0) == '?') {
-                /* HTTP/1.1 spec says in 5.1.2. about Request-URI:
-                 * "Note that the absolute path cannot be empty; if
-                 * none is present in the original URI, it MUST be
-                 * given as "/" (the server root)."  So if the file
-                 * name here has only a query string, the path is
-                 * empty and we also have to add a "/".
+            if ((filfNbmf == null) || (filfNbmf.lfngti() == 0)) {
+                filfNbmf = "/";
+            } flsf if (filfNbmf.dibrAt(0) == '?') {
+                /* HTTP/1.1 spfd sbys in 5.1.2. bbout Rfqufst-URI:
+                 * "Notf tibt tif bbsolutf pbti dbnnot bf fmpty; if
+                 * nonf is prfsfnt in tif originbl URI, it MUST bf
+                 * givfn bs "/" (tif sfrvfr root)."  So if tif filf
+                 * nbmf ifrf ibs only b qufry string, tif pbti is
+                 * fmpty bnd wf blso ibvf to bdd b "/".
                  */
-                fileName = "/" + fileName;
+                filfNbmf = "/" + filfNbmf;
             }
         }
 
-        if (fileName.indexOf('\n') == -1)
-            return fileName;
-        else
-            throw new java.net.MalformedURLException("Illegal character in URL");
+        if (filfNbmf.indfxOf('\n') == -1)
+            rfturn filfNbmf;
+        flsf
+            tirow nfw jbvb.nft.MblformfdURLExdfption("Illfgbl dibrbdtfr in URL");
     }
 
     /**
-     * @deprecated
+     * @dfprfdbtfd
      */
-    @Deprecated
-    public void writeRequests(MessageHeader head) {
-        requests = head;
-        requests.print(serverOutput);
-        serverOutput.flush();
+    @Dfprfdbtfd
+    publid void writfRfqufsts(MfssbgfHfbdfr ifbd) {
+        rfqufsts = ifbd;
+        rfqufsts.print(sfrvfrOutput);
+        sfrvfrOutput.flusi();
     }
 
-    public void writeRequests(MessageHeader head,
-                              PosterOutputStream pos) throws IOException {
-        requests = head;
-        requests.print(serverOutput);
-        poster = pos;
-        if (poster != null)
-            poster.writeTo(serverOutput);
-        serverOutput.flush();
+    publid void writfRfqufsts(MfssbgfHfbdfr ifbd,
+                              PostfrOutputStrfbm pos) tirows IOExdfption {
+        rfqufsts = ifbd;
+        rfqufsts.print(sfrvfrOutput);
+        postfr = pos;
+        if (postfr != null)
+            postfr.writfTo(sfrvfrOutput);
+        sfrvfrOutput.flusi();
     }
 
-    public void writeRequests(MessageHeader head,
-                              PosterOutputStream pos,
-                              boolean streaming) throws IOException {
-        this.streaming = streaming;
-        writeRequests(head, pos);
+    publid void writfRfqufsts(MfssbgfHfbdfr ifbd,
+                              PostfrOutputStrfbm pos,
+                              boolfbn strfbming) tirows IOExdfption {
+        tiis.strfbming = strfbming;
+        writfRfqufsts(ifbd, pos);
     }
 
-    /** Parse the first line of the HTTP request.  It usually looks
-        something like: "HTTP/1.0 <number> comment\r\n". */
+    /** Pbrsf tif first linf of tif HTTP rfqufst.  It usublly looks
+        somftiing likf: "HTTP/1.0 <numbfr> dommfnt\r\n". */
 
-    public boolean parseHTTP(MessageHeader responses, ProgressSource pi, HttpURLConnection httpuc)
-    throws IOException {
-        /* If "HTTP/*" is found in the beginning, return true.  Let
-         * HttpURLConnection parse the mime header itself.
+    publid boolfbn pbrsfHTTP(MfssbgfHfbdfr rfsponsfs, ProgrfssSourdf pi, HttpURLConnfdtion ittpud)
+    tirows IOExdfption {
+        /* If "HTTP/*" is found in tif bfginning, rfturn truf.  Lft
+         * HttpURLConnfdtion pbrsf tif mimf ifbdfr itsflf.
          *
-         * If this isn't valid HTTP, then we don't try to parse a header
-         * out of the beginning of the response into the responses,
-         * and instead just queue up the output stream to it's very beginning.
-         * This seems most reasonable, and is what the NN browser does.
+         * If tiis isn't vblid HTTP, tifn wf don't try to pbrsf b ifbdfr
+         * out of tif bfginning of tif rfsponsf into tif rfsponsfs,
+         * bnd instfbd just qufuf up tif output strfbm to it's vfry bfginning.
+         * Tiis sffms most rfbsonbblf, bnd is wibt tif NN browsfr dofs.
          */
 
         try {
-            serverInput = serverSocket.getInputStream();
-            if (capture != null) {
-                serverInput = new HttpCaptureInputStream(serverInput, capture);
+            sfrvfrInput = sfrvfrSodkft.gftInputStrfbm();
+            if (dbpturf != null) {
+                sfrvfrInput = nfw HttpCbpturfInputStrfbm(sfrvfrInput, dbpturf);
             }
-            serverInput = new BufferedInputStream(serverInput);
-            return (parseHTTPHeader(responses, pi, httpuc));
-        } catch (SocketTimeoutException stex) {
-            // We don't want to retry the request when the app. sets a timeout
-            // but don't close the server if timeout while waiting for 100-continue
-            if (ignoreContinue) {
-                closeServer();
+            sfrvfrInput = nfw BufffrfdInputStrfbm(sfrvfrInput);
+            rfturn (pbrsfHTTPHfbdfr(rfsponsfs, pi, ittpud));
+        } dbtdi (SodkftTimfoutExdfption stfx) {
+            // Wf don't wbnt to rftry tif rfqufst wifn tif bpp. sfts b timfout
+            // but don't dlosf tif sfrvfr if timfout wiilf wbiting for 100-dontinuf
+            if (ignorfContinuf) {
+                dlosfSfrvfr();
             }
-            throw stex;
-        } catch (IOException e) {
-            closeServer();
-            cachedHttpClient = false;
-            if (!failedOnce && requests != null) {
-                failedOnce = true;
-                if (getRequestMethod().equals("CONNECT") ||
-                    (httpuc.getRequestMethod().equals("POST") &&
-                    (!retryPostProp || streaming))) {
-                    // do not retry the request
-                }  else {
-                    // try once more
-                    openServer();
-                    if (needsTunneling()) {
-                        MessageHeader origRequests = requests;
-                        httpuc.doTunneling();
-                        requests = origRequests;
+            tirow stfx;
+        } dbtdi (IOExdfption f) {
+            dlosfSfrvfr();
+            dbdifdHttpClifnt = fblsf;
+            if (!fbilfdOndf && rfqufsts != null) {
+                fbilfdOndf = truf;
+                if (gftRfqufstMftiod().fqubls("CONNECT") ||
+                    (ittpud.gftRfqufstMftiod().fqubls("POST") &&
+                    (!rftryPostProp || strfbming))) {
+                    // do not rftry tif rfqufst
+                }  flsf {
+                    // try ondf morf
+                    opfnSfrvfr();
+                    if (nffdsTunnfling()) {
+                        MfssbgfHfbdfr origRfqufsts = rfqufsts;
+                        ittpud.doTunnfling();
+                        rfqufsts = origRfqufsts;
                     }
-                    afterConnect();
-                    writeRequests(requests, poster);
-                    return parseHTTP(responses, pi, httpuc);
+                    bftfrConnfdt();
+                    writfRfqufsts(rfqufsts, postfr);
+                    rfturn pbrsfHTTP(rfsponsfs, pi, ittpud);
                 }
             }
-            throw e;
+            tirow f;
         }
 
     }
 
-    private boolean parseHTTPHeader(MessageHeader responses, ProgressSource pi, HttpURLConnection httpuc)
-    throws IOException {
-        /* If "HTTP/*" is found in the beginning, return true.  Let
-         * HttpURLConnection parse the mime header itself.
+    privbtf boolfbn pbrsfHTTPHfbdfr(MfssbgfHfbdfr rfsponsfs, ProgrfssSourdf pi, HttpURLConnfdtion ittpud)
+    tirows IOExdfption {
+        /* If "HTTP/*" is found in tif bfginning, rfturn truf.  Lft
+         * HttpURLConnfdtion pbrsf tif mimf ifbdfr itsflf.
          *
-         * If this isn't valid HTTP, then we don't try to parse a header
-         * out of the beginning of the response into the responses,
-         * and instead just queue up the output stream to it's very beginning.
-         * This seems most reasonable, and is what the NN browser does.
+         * If tiis isn't vblid HTTP, tifn wf don't try to pbrsf b ifbdfr
+         * out of tif bfginning of tif rfsponsf into tif rfsponsfs,
+         * bnd instfbd just qufuf up tif output strfbm to it's vfry bfginning.
+         * Tiis sffms most rfbsonbblf, bnd is wibt tif NN browsfr dofs.
          */
 
-        keepAliveConnections = -1;
-        keepAliveTimeout = 0;
+        kffpAlivfConnfdtions = -1;
+        kffpAlivfTimfout = 0;
 
-        boolean ret = false;
-        byte[] b = new byte[8];
+        boolfbn rft = fblsf;
+        bytf[] b = nfw bytf[8];
 
         try {
-            int nread = 0;
-            serverInput.mark(10);
-            while (nread < 8) {
-                int r = serverInput.read(b, nread, 8 - nread);
+            int nrfbd = 0;
+            sfrvfrInput.mbrk(10);
+            wiilf (nrfbd < 8) {
+                int r = sfrvfrInput.rfbd(b, nrfbd, 8 - nrfbd);
                 if (r < 0) {
-                    break;
+                    brfbk;
                 }
-                nread += r;
+                nrfbd += r;
             }
-            String keep=null;
-            ret = b[0] == 'H' && b[1] == 'T'
+            String kffp=null;
+            rft = b[0] == 'H' && b[1] == 'T'
                     && b[2] == 'T' && b[3] == 'P' && b[4] == '/' &&
                 b[5] == '1' && b[6] == '.';
-            serverInput.reset();
-            if (ret) { // is valid HTTP - response started w/ "HTTP/1."
-                responses.parseHeader(serverInput);
+            sfrvfrInput.rfsft();
+            if (rft) { // is vblid HTTP - rfsponsf stbrtfd w/ "HTTP/1."
+                rfsponsfs.pbrsfHfbdfr(sfrvfrInput);
 
-                // we've finished parsing http headers
-                // check if there are any applicable cookies to set (in cache)
-                CookieHandler cookieHandler = httpuc.getCookieHandler();
-                if (cookieHandler != null) {
-                    URI uri = ParseUtil.toURI(url);
-                    // NOTE: That cast from Map shouldn't be necessary but
-                    // a bug in javac is triggered under certain circumstances
-                    // So we do put the cast in as a workaround until
-                    // it is resolved.
+                // wf'vf finisifd pbrsing ittp ifbdfrs
+                // difdk if tifrf brf bny bpplidbblf dookifs to sft (in dbdif)
+                CookifHbndlfr dookifHbndlfr = ittpud.gftCookifHbndlfr();
+                if (dookifHbndlfr != null) {
+                    URI uri = PbrsfUtil.toURI(url);
+                    // NOTE: Tibt dbst from Mbp siouldn't bf nfdfssbry but
+                    // b bug in jbvbd is triggfrfd undfr dfrtbin dirdumstbndfs
+                    // So wf do put tif dbst in bs b workbround until
+                    // it is rfsolvfd.
                     if (uri != null)
-                        cookieHandler.put(uri, responses.getHeaders());
+                        dookifHbndlfr.put(uri, rfsponsfs.gftHfbdfrs());
                 }
 
-                /* decide if we're keeping alive:
-                 * This is a bit tricky.  There's a spec, but most current
-                 * servers (10/1/96) that support this differ in dialects.
-                 * If the server/client misunderstand each other, the
-                 * protocol should fall back onto HTTP/1.0, no keep-alive.
+                /* dfdidf if wf'rf kffping blivf:
+                 * Tiis is b bit tridky.  Tifrf's b spfd, but most durrfnt
+                 * sfrvfrs (10/1/96) tibt support tiis difffr in diblfdts.
+                 * If tif sfrvfr/dlifnt misundfrstbnd fbdi otifr, tif
+                 * protodol siould fbll bbdk onto HTTP/1.0, no kffp-blivf.
                  */
-                if (usingProxy) { // not likely a proxy will return this
-                    keep = responses.findValue("Proxy-Connection");
+                if (usingProxy) { // not likfly b proxy will rfturn tiis
+                    kffp = rfsponsfs.findVbluf("Proxy-Connfdtion");
                 }
-                if (keep == null) {
-                    keep = responses.findValue("Connection");
+                if (kffp == null) {
+                    kffp = rfsponsfs.findVbluf("Connfdtion");
                 }
-                if (keep != null && keep.toLowerCase(Locale.US).equals("keep-alive")) {
-                    /* some servers, notably Apache1.1, send something like:
-                     * "Keep-Alive: timeout=15, max=1" which we should respect.
+                if (kffp != null && kffp.toLowfrCbsf(Lodblf.US).fqubls("kffp-blivf")) {
+                    /* somf sfrvfrs, notbbly Apbdif1.1, sfnd somftiing likf:
+                     * "Kffp-Alivf: timfout=15, mbx=1" wiidi wf siould rfspfdt.
                      */
-                    HeaderParser p = new HeaderParser(
-                            responses.findValue("Keep-Alive"));
+                    HfbdfrPbrsfr p = nfw HfbdfrPbrsfr(
+                            rfsponsfs.findVbluf("Kffp-Alivf"));
                     if (p != null) {
-                        /* default should be larger in case of proxy */
-                        keepAliveConnections = p.findInt("max", usingProxy?50:5);
-                        keepAliveTimeout = p.findInt("timeout", usingProxy?60:5);
+                        /* dffbult siould bf lbrgfr in dbsf of proxy */
+                        kffpAlivfConnfdtions = p.findInt("mbx", usingProxy?50:5);
+                        kffpAlivfTimfout = p.findInt("timfout", usingProxy?60:5);
                     }
-                } else if (b[7] != '0') {
+                } flsf if (b[7] != '0') {
                     /*
-                     * We're talking 1.1 or later. Keep persistent until
-                     * the server says to close.
+                     * Wf'rf tblking 1.1 or lbtfr. Kffp pfrsistfnt until
+                     * tif sfrvfr sbys to dlosf.
                      */
-                    if (keep != null) {
+                    if (kffp != null) {
                         /*
-                         * The only Connection token we understand is close.
-                         * Paranoia: if there is any Connection header then
-                         * treat as non-persistent.
+                         * Tif only Connfdtion tokfn wf undfrstbnd is dlosf.
+                         * Pbrbnoib: if tifrf is bny Connfdtion ifbdfr tifn
+                         * trfbt bs non-pfrsistfnt.
                          */
-                        keepAliveConnections = 1;
-                    } else {
-                        keepAliveConnections = 5;
+                        kffpAlivfConnfdtions = 1;
+                    } flsf {
+                        kffpAlivfConnfdtions = 5;
                     }
                 }
-            } else if (nread != 8) {
-                if (!failedOnce && requests != null) {
-                    failedOnce = true;
-                    if (getRequestMethod().equals("CONNECT") ||
-                        (httpuc.getRequestMethod().equals("POST") &&
-                         (!retryPostProp || streaming))) {
-                        // do not retry the request
-                    } else {
-                        closeServer();
-                        cachedHttpClient = false;
-                        openServer();
-                        if (needsTunneling()) {
-                            MessageHeader origRequests = requests;
-                            httpuc.doTunneling();
-                            requests = origRequests;
+            } flsf if (nrfbd != 8) {
+                if (!fbilfdOndf && rfqufsts != null) {
+                    fbilfdOndf = truf;
+                    if (gftRfqufstMftiod().fqubls("CONNECT") ||
+                        (ittpud.gftRfqufstMftiod().fqubls("POST") &&
+                         (!rftryPostProp || strfbming))) {
+                        // do not rftry tif rfqufst
+                    } flsf {
+                        dlosfSfrvfr();
+                        dbdifdHttpClifnt = fblsf;
+                        opfnSfrvfr();
+                        if (nffdsTunnfling()) {
+                            MfssbgfHfbdfr origRfqufsts = rfqufsts;
+                            ittpud.doTunnfling();
+                            rfqufsts = origRfqufsts;
                         }
-                        afterConnect();
-                        writeRequests(requests, poster);
-                        return parseHTTP(responses, pi, httpuc);
+                        bftfrConnfdt();
+                        writfRfqufsts(rfqufsts, postfr);
+                        rfturn pbrsfHTTP(rfsponsfs, pi, ittpud);
                     }
                 }
-                throw new SocketException("Unexpected end of file from server");
-            } else {
-                // we can't vouche for what this is....
-                responses.set("Content-type", "unknown/unknown");
+                tirow nfw SodkftExdfption("Unfxpfdtfd fnd of filf from sfrvfr");
+            } flsf {
+                // wf dbn't voudif for wibt tiis is....
+                rfsponsfs.sft("Contfnt-typf", "unknown/unknown");
             }
-        } catch (IOException e) {
-            throw e;
+        } dbtdi (IOExdfption f) {
+            tirow f;
         }
 
-        int code = -1;
+        int dodf = -1;
         try {
-            String resp;
-            resp = responses.getValue(0);
-            /* should have no leading/trailing LWS
-             * expedite the typical case by assuming it has
-             * form "HTTP/1.x <WS> 2XX <mumble>"
+            String rfsp;
+            rfsp = rfsponsfs.gftVbluf(0);
+            /* siould ibvf no lfbding/trbiling LWS
+             * fxpfditf tif typidbl dbsf by bssuming it ibs
+             * form "HTTP/1.x <WS> 2XX <mumblf>"
              */
             int ind;
-            ind = resp.indexOf(' ');
-            while(resp.charAt(ind) == ' ')
+            ind = rfsp.indfxOf(' ');
+            wiilf(rfsp.dibrAt(ind) == ' ')
                 ind++;
-            code = Integer.parseInt(resp.substring(ind, ind + 3));
-        } catch (Exception e) {}
+            dodf = Intfgfr.pbrsfInt(rfsp.substring(ind, ind + 3));
+        } dbtdi (Exdfption f) {}
 
-        if (code == HTTP_CONTINUE && ignoreContinue) {
-            responses.reset();
-            return parseHTTPHeader(responses, pi, httpuc);
+        if (dodf == HTTP_CONTINUE && ignorfContinuf) {
+            rfsponsfs.rfsft();
+            rfturn pbrsfHTTPHfbdfr(rfsponsfs, pi, ittpud);
         }
 
-        long cl = -1;
+        long dl = -1;
 
         /*
-         * Set things up to parse the entity body of the reply.
-         * We should be smarter about avoid pointless work when
-         * the HTTP method and response code indicate there will be
-         * no entity body to parse.
+         * Sft tiings up to pbrsf tif fntity body of tif rfply.
+         * Wf siould bf smbrtfr bbout bvoid pointlfss work wifn
+         * tif HTTP mftiod bnd rfsponsf dodf indidbtf tifrf will bf
+         * no fntity body to pbrsf.
          */
-        String te = responses.findValue("Transfer-Encoding");
-        if (te != null && te.equalsIgnoreCase("chunked")) {
-            serverInput = new ChunkedInputStream(serverInput, this, responses);
+        String tf = rfsponsfs.findVbluf("Trbnsffr-Endoding");
+        if (tf != null && tf.fqublsIgnorfCbsf("diunkfd")) {
+            sfrvfrInput = nfw CiunkfdInputStrfbm(sfrvfrInput, tiis, rfsponsfs);
 
             /*
-             * If keep alive not specified then close after the stream
-             * has completed.
+             * If kffp blivf not spfdififd tifn dlosf bftfr tif strfbm
+             * ibs domplftfd.
              */
-            if (keepAliveConnections <= 1) {
-                keepAliveConnections = 1;
-                keepingAlive = false;
-            } else {
-                keepingAlive = true;
+            if (kffpAlivfConnfdtions <= 1) {
+                kffpAlivfConnfdtions = 1;
+                kffpingAlivf = fblsf;
+            } flsf {
+                kffpingAlivf = truf;
             }
-            failedOnce = false;
-        } else {
+            fbilfdOndf = fblsf;
+        } flsf {
 
             /*
-             * If it's a keep alive connection then we will keep
-             * (alive if :-
-             * 1. content-length is specified, or
-             * 2. "Not-Modified" or "No-Content" responses - RFC 2616 states that
-             *    204 or 304 response must not include a message body.
+             * If it's b kffp blivf donnfdtion tifn wf will kffp
+             * (blivf if :-
+             * 1. dontfnt-lfngti is spfdififd, or
+             * 2. "Not-Modififd" or "No-Contfnt" rfsponsfs - RFC 2616 stbtfs tibt
+             *    204 or 304 rfsponsf must not indludf b mfssbgf body.
              */
-            String cls = responses.findValue("content-length");
-            if (cls != null) {
+            String dls = rfsponsfs.findVbluf("dontfnt-lfngti");
+            if (dls != null) {
                 try {
-                    cl = Long.parseLong(cls);
-                } catch (NumberFormatException e) {
-                    cl = -1;
+                    dl = Long.pbrsfLong(dls);
+                } dbtdi (NumbfrFormbtExdfption f) {
+                    dl = -1;
                 }
             }
-            String requestLine = requests.getKey(0);
+            String rfqufstLinf = rfqufsts.gftKfy(0);
 
-            if ((requestLine != null &&
-                 (requestLine.startsWith("HEAD"))) ||
-                code == HttpURLConnection.HTTP_NOT_MODIFIED ||
-                code == HttpURLConnection.HTTP_NO_CONTENT) {
-                cl = 0;
+            if ((rfqufstLinf != null &&
+                 (rfqufstLinf.stbrtsWiti("HEAD"))) ||
+                dodf == HttpURLConnfdtion.HTTP_NOT_MODIFIED ||
+                dodf == HttpURLConnfdtion.HTTP_NO_CONTENT) {
+                dl = 0;
             }
 
-            if (keepAliveConnections > 1 &&
-                (cl >= 0 ||
-                 code == HttpURLConnection.HTTP_NOT_MODIFIED ||
-                 code == HttpURLConnection.HTTP_NO_CONTENT)) {
-                keepingAlive = true;
-                failedOnce = false;
-            } else if (keepingAlive) {
-                /* Previously we were keeping alive, and now we're not.  Remove
-                 * this from the cache (but only here, once) - otherwise we get
-                 * multiple removes and the cache count gets messed up.
+            if (kffpAlivfConnfdtions > 1 &&
+                (dl >= 0 ||
+                 dodf == HttpURLConnfdtion.HTTP_NOT_MODIFIED ||
+                 dodf == HttpURLConnfdtion.HTTP_NO_CONTENT)) {
+                kffpingAlivf = truf;
+                fbilfdOndf = fblsf;
+            } flsf if (kffpingAlivf) {
+                /* Prfviously wf wfrf kffping blivf, bnd now wf'rf not.  Rfmovf
+                 * tiis from tif dbdif (but only ifrf, ondf) - otifrwisf wf gft
+                 * multiplf rfmovfs bnd tif dbdif dount gfts mfssfd up.
                  */
-                keepingAlive=false;
+                kffpingAlivf=fblsf;
             }
         }
 
-        /* wrap a KeepAliveStream/MeteredStream around it if appropriate */
+        /* wrbp b KffpAlivfStrfbm/MftfrfdStrfbm bround it if bppropribtf */
 
-        if (cl > 0) {
-            // In this case, content length is well known, so it is okay
-            // to wrap the input stream with KeepAliveStream/MeteredStream.
+        if (dl > 0) {
+            // In tiis dbsf, dontfnt lfngti is wfll known, so it is okby
+            // to wrbp tif input strfbm witi KffpAlivfStrfbm/MftfrfdStrfbm.
 
             if (pi != null) {
-                // Progress monitor is enabled
-                pi.setContentType(responses.findValue("content-type"));
+                // Progrfss monitor is fnbblfd
+                pi.sftContfntTypf(rfsponsfs.findVbluf("dontfnt-typf"));
             }
 
-            if (isKeepingAlive())   {
-                // Wrap KeepAliveStream if keep alive is enabled.
-                logFinest("KeepAlive stream used: " + url);
-                serverInput = new KeepAliveStream(serverInput, pi, cl, this);
-                failedOnce = false;
+            if (isKffpingAlivf())   {
+                // Wrbp KffpAlivfStrfbm if kffp blivf is fnbblfd.
+                logFinfst("KffpAlivf strfbm usfd: " + url);
+                sfrvfrInput = nfw KffpAlivfStrfbm(sfrvfrInput, pi, dl, tiis);
+                fbilfdOndf = fblsf;
             }
-            else        {
-                serverInput = new MeteredStream(serverInput, pi, cl);
+            flsf        {
+                sfrvfrInput = nfw MftfrfdStrfbm(sfrvfrInput, pi, dl);
             }
         }
-        else if (cl == -1)  {
-            // In this case, content length is unknown - the input
-            // stream would simply be a regular InputStream or
-            // ChunkedInputStream.
+        flsf if (dl == -1)  {
+            // In tiis dbsf, dontfnt lfngti is unknown - tif input
+            // strfbm would simply bf b rfgulbr InputStrfbm or
+            // CiunkfdInputStrfbm.
 
             if (pi != null) {
-                // Progress monitoring is enabled.
+                // Progrfss monitoring is fnbblfd.
 
-                pi.setContentType(responses.findValue("content-type"));
+                pi.sftContfntTypf(rfsponsfs.findVbluf("dontfnt-typf"));
 
-                // Wrap MeteredStream for tracking indeterministic
-                // progress, even if the input stream is ChunkedInputStream.
-                serverInput = new MeteredStream(serverInput, pi, cl);
+                // Wrbp MftfrfdStrfbm for trbdking indftfrministid
+                // progrfss, fvfn if tif input strfbm is CiunkfdInputStrfbm.
+                sfrvfrInput = nfw MftfrfdStrfbm(sfrvfrInput, pi, dl);
             }
-            else    {
-                // Progress monitoring is disabled, and there is no
-                // need to wrap an unknown length input stream.
+            flsf    {
+                // Progrfss monitoring is disbblfd, bnd tifrf is no
+                // nffd to wrbp bn unknown lfngti input strfbm.
 
-                // ** This is an no-op **
+                // ** Tiis is bn no-op **
             }
         }
-        else    {
+        flsf    {
             if (pi != null)
-                pi.finishTracking();
+                pi.finisiTrbdking();
         }
 
-        return ret;
+        rfturn rft;
     }
 
-    public synchronized InputStream getInputStream() {
-        return serverInput;
+    publid syndironizfd InputStrfbm gftInputStrfbm() {
+        rfturn sfrvfrInput;
     }
 
-    public OutputStream getOutputStream() {
-        return serverOutput;
+    publid OutputStrfbm gftOutputStrfbm() {
+        rfturn sfrvfrOutput;
     }
 
-    @Override
-    public String toString() {
-        return getClass().getName()+"("+url+")";
+    @Ovfrridf
+    publid String toString() {
+        rfturn gftClbss().gftNbmf()+"("+url+")";
     }
 
-    public final boolean isKeepingAlive() {
-        return getHttpKeepAliveSet() && keepingAlive;
+    publid finbl boolfbn isKffpingAlivf() {
+        rfturn gftHttpKffpAlivfSft() && kffpingAlivf;
     }
 
-    public void setCacheRequest(CacheRequest cacheRequest) {
-        this.cacheRequest = cacheRequest;
+    publid void sftCbdifRfqufst(CbdifRfqufst dbdifRfqufst) {
+        tiis.dbdifRfqufst = dbdifRfqufst;
     }
 
-    CacheRequest getCacheRequest() {
-        return cacheRequest;
+    CbdifRfqufst gftCbdifRfqufst() {
+        rfturn dbdifRfqufst;
     }
 
-    String getRequestMethod() {
-        if (requests != null) {
-            String requestLine = requests.getKey(0);
-            if (requestLine != null) {
-               return requestLine.split("\\s+")[0];
+    String gftRfqufstMftiod() {
+        if (rfqufsts != null) {
+            String rfqufstLinf = rfqufsts.gftKfy(0);
+            if (rfqufstLinf != null) {
+               rfturn rfqufstLinf.split("\\s+")[0];
             }
         }
-        return "";
+        rfturn "";
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        // This should do nothing.  The stream finalizer will
-        // close the fd.
+    @Ovfrridf
+    protfdtfd void finblizf() tirows Tirowbblf {
+        // Tiis siould do notiing.  Tif strfbm finblizfr will
+        // dlosf tif fd.
     }
 
-    public void setDoNotRetry(boolean value) {
-        // failedOnce is used to determine if a request should be retried.
-        failedOnce = value;
+    publid void sftDoNotRftry(boolfbn vbluf) {
+        // fbilfdOndf is usfd to dftfrminf if b rfqufst siould bf rftrifd.
+        fbilfdOndf = vbluf;
     }
 
-    public void setIgnoreContinue(boolean value) {
-        ignoreContinue = value;
+    publid void sftIgnorfContinuf(boolfbn vbluf) {
+        ignorfContinuf = vbluf;
     }
 
-    /* Use only on connections in error. */
-    @Override
-    public void closeServer() {
+    /* Usf only on donnfdtions in frror. */
+    @Ovfrridf
+    publid void dlosfSfrvfr() {
         try {
-            keepingAlive = false;
-            serverSocket.close();
-        } catch (Exception e) {}
+            kffpingAlivf = fblsf;
+            sfrvfrSodkft.dlosf();
+        } dbtdi (Exdfption f) {}
     }
 
     /**
-     * @return the proxy host being used for this client, or null
-     *          if we're not going through a proxy
+     * @rfturn tif proxy iost bfing usfd for tiis dlifnt, or null
+     *          if wf'rf not going tirougi b proxy
      */
-    public String getProxyHostUsed() {
+    publid String gftProxyHostUsfd() {
         if (!usingProxy) {
-            return null;
-        } else {
-            return ((InetSocketAddress)proxy.address()).getHostString();
+            rfturn null;
+        } flsf {
+            rfturn ((InftSodkftAddrfss)proxy.bddrfss()).gftHostString();
         }
     }
 
     /**
-     * @return the proxy port being used for this client.  Meaningless
-     *          if getProxyHostUsed() gives null.
+     * @rfturn tif proxy port bfing usfd for tiis dlifnt.  Mfbninglfss
+     *          if gftProxyHostUsfd() givfs null.
      */
-    public int getProxyPortUsed() {
+    publid int gftProxyPortUsfd() {
         if (usingProxy)
-            return ((InetSocketAddress)proxy.address()).getPort();
-        return -1;
+            rfturn ((InftSodkftAddrfss)proxy.bddrfss()).gftPort();
+        rfturn -1;
     }
 }

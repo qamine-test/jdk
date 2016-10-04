@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+/**
+ * Rfprfsfnts b <CODE>gft-bulk</CODE> PDU bs dffinfd in RFC 1448.
+ * <P>
+ * You will not usublly nffd to usf this dlbss, fxdfpt if you
+ * dfdidf to implfmfnt your own
+ * {@link dom.sun.jmx.snmp.SnmpPduFbdtory SnmpPduFbdtory} objfdt.
+ * <P>
+ * Thf <CODE>SnmpPduBulk</CODE> fxtfnds {@link dom.sun.jmx.snmp.SnmpPduPbdkft SnmpPduPbdkft}
+ * bnd dffinfs bttributfs spfdifid to thf <CODE>gft-bulk</CODE> PDU (sff RFC 1448).
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpPduBulk fxtfnds SnmpPduPbdkft
+    implfmfnts SnmpPduBulkTypf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -7431306775883371046L;
+
+    /**
+     * Thf <CODE>non-rfpfbtfrs</CODE> vbluf.
+     * @sfribl
+     */
+    publid int            nonRfpfbtfrs ;
+
+
+    /**
+     * Thf <CODE>mbx-rfpftitions</CODE> vbluf.
+     * @sfribl
+     */
+    publid int            mbxRfpftitions ;
+
+
+    /**
+     * Builds b nfw <CODE>gft-bulk</CODE> PDU.
+     * <BR><CODE>typf</CODE> bnd <CODE>vfrsion</CODE> fiflds brf initiblizfd with
+     * {@link dom.sun.jmx.snmp.SnmpDffinitions#pduGftBulkRfqufstPdu pduGftBulkRfqufstPdu}
+     * bnd {@link dom.sun.jmx.snmp.SnmpDffinitions#snmpVfrsionTwo snmpVfrsionTwo}.
+     */
+    publid SnmpPduBulk() {
+        typf = pduGftBulkRfqufstPdu ;
+        vfrsion = snmpVfrsionTwo ;
+    }
+    /**
+     * Implfmfnts thf <CODE>SnmpPduBulkTypf</CODE> intfrfbdf.
+     *
+     * @sindf 1.5
+     */
+    publid void sftMbxRfpftitions(int i) {
+        mbxRfpftitions = i;
+    }
+    /**
+     * Implfmfnts thf <CODE>SnmpPduBulkTypf</CODE> intfrfbdf.
+     *
+     * @sindf 1.5
+     */
+    publid void sftNonRfpfbtfrs(int i) {
+        nonRfpfbtfrs = i;
+    }
+    /**
+     * Implfmfnts thf <CODE>SnmpPduBulkTypf</CODE> intfrfbdf.
+     *
+     * @sindf 1.5
+     */
+    publid int gftMbxRfpftitions() { rfturn mbxRfpftitions; }
+    /**
+     * Implfmfnts thf <CODE>SnmpPduBulkTypf</CODE> intfrfbdf.
+     *
+     * @sindf 1.5
+     */
+    publid int gftNonRfpfbtfrs() { rfturn nonRfpfbtfrs; }
+    /**
+     * Implfmfnts thf <CODE>SnmpAdkPdu</CODE> intfrfbdf.
+     *
+     * @sindf 1.5
+     */
+    publid SnmpPdu gftRfsponsfPdu() {
+        SnmpPduRfqufst rfsult = nfw SnmpPduRfqufst();
+        rfsult.bddrfss = bddrfss;
+        rfsult.port = port;
+        rfsult.vfrsion = vfrsion;
+        rfsult.dommunity = dommunity;
+        rfsult.typf = SnmpDffinitions.pduGftRfsponsfPdu;
+        rfsult.rfqufstId = rfqufstId;
+        rfsult.frrorStbtus = SnmpDffinitions.snmpRspNoError;
+        rfsult.frrorIndfx = 0;
+
+        rfturn rfsult;
+    }
+}

@@ -1,159 +1,159 @@
 '\" t
-.\"  Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Bbsic Tools
-.\"     Title: jdeps.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jdfps.1
 .\"
 .if n .pl 99999
-.TH jdeps 1 "21 November 2013" "JDK 8" "Bbsic Tools"
+.TH jdfps 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jdeps \- Jbvb clbss dependency bnblyzer\&.
+jdfps \- Jbvb dlbss dfpfndfndy bnblyzfr\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjdeps\fR [\fIoptions\fR] \fIclbsses\fR \&.\&.\&.
+\fBjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-Commbnd-line options\&. See Options\&.
+Commbnd-linf options\&. Sff Options\&.
 .TP     
-\fIclbsses\fR
-Nbme of the clbsses to bnblyze\&. You cbn specify b clbss thbt cbn be found in the clbss pbth, by its file nbme, b directory, or b JAR file\&.
+\fIdlbssfs\fR
+Nbmf of tif dlbssfs to bnblyzf\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf, b dirfdtory, or b JAR filf\&.
 .SH DESCRIPTION    
-The \fI\fR\f3jdeps\fR commbnd shows the pbckbge-level or clbss-level dependencies of Jbvb clbss files\&. The input clbss cbn be b pbth nbme to b \f3\&.clbss\fR file, b directory, b JAR file, or it cbn be b fully qublified clbss nbme to bnblyze bll clbss files\&. The options determine the output\&. By defbult, \f3jdeps\fR outputs the dependencies to the system output\&. It cbn generbte the dependencies in DOT lbngubge (see the \f3-dotoutput\fR option)\&.
+Tif \fI\fR\f3jdfps\fR dommbnd siows tif pbdkbgf-lfvfl or dlbss-lfvfl dfpfndfndifs of Jbvb dlbss filfs\&. Tif input dlbss dbn bf b pbti nbmf to b \f3\&.dlbss\fR filf, b dirfdtory, b JAR filf, or it dbn bf b fully qublififd dlbss nbmf to bnblyzf bll dlbss filfs\&. Tif options dftfrminf tif output\&. By dffbult, \f3jdfps\fR outputs tif dfpfndfndifs to tif systfm output\&. It dbn gfnfrbtf tif dfpfndfndifs in DOT lbngubgf (sff tif \f3-dotoutput\fR option)\&.
 .SH OPTIONS    
 .TP
 -dotoutput <\fIdir\fR>
 .br
-Destinbtion directory for DOT file output\&. If specified, \f3jdeps\fR will generbte one dot file per ebch bnblyzed brchive nbmed <\fIbrchive-file-nbme\fR>\&.dot listing the dependencies, bnd blso b summbry file nbmed summbry\&.dot listing the dependencies bmong the brchives\&.
+Dfstinbtion dirfdtory for DOT filf output\&. If spfdififd, \f3jdfps\fR will gfnfrbtf onf dot filf pfr fbdi bnblyzfd brdiivf nbmfd <\fIbrdiivf-filf-nbmf\fR>\&.dot listing tif dfpfndfndifs, bnd blso b summbry filf nbmfd summbry\&.dot listing tif dfpfndfndifs bmong tif brdiivfs\&.
 .TP
 -s, -summbry
 .br
-Prints dependency summbry only\&.
+Prints dfpfndfndy summbry only\&.
 .TP
--v, -verbose
+-v, -vfrbosf
 .br
-Prints bll clbss-level dependencies\&.
+Prints bll dlbss-lfvfl dfpfndfndifs\&.
 .TP
--verbose:pbckbge
+-vfrbosf:pbdkbgf
 .br
-Prints pbckbge-level dependencies excluding dependencies within the sbme brchive\&.
+Prints pbdkbgf-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
 .TP
--verbose:clbss
+-vfrbosf:dlbss
 .br
-Prints clbss-level dependencies excluding dependencies within the sbme brchive\&.
+Prints dlbss-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
 .TP
--cp <\fIpbth\fR>, -clbsspbth <\fIpbth\fR>
+-dp <\fIpbti\fR>, -dlbsspbti <\fIpbti\fR>
 .br
-Specifies where to find clbss files\&.
+Spfdififs wifrf to find dlbss filfs\&.
 
-See blso Setting the Clbss Pbth\&.
+Sff blso Sftting tif Clbss Pbti\&.
 .TP
--p <\fIpkg nbme\fR>, -pbckbge <\fIpkg nbme\fR>
+-p <\fIpkg nbmf\fR>, -pbdkbgf <\fIpkg nbmf\fR>
 .br
-Finds dependencies in the specified pbckbge\&. You cbn specify this option multiple times for different pbckbges\&. The \f3-p\fR bnd \f3-e\fR options bre mutublly exclusive\&.
+Finds dfpfndfndifs in tif spfdififd pbdkbgf\&. You dbn spfdify tiis option multiplf timfs for difffrfnt pbdkbgfs\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
 .TP
--e <\fIregex\fR>, -regex <\fIregex\fR>
+-f <\fIrfgfx\fR>, -rfgfx <\fIrfgfx\fR>
 .br
-Finds dependencies in pbckbges mbtching the specified regulbr expression pbttern\&. The \f3-p\fR bnd \f3-e\fR options bre mutublly exclusive\&.
+Finds dfpfndfndifs in pbdkbgfs mbtdiing tif spfdififd rfgulbr fxprfssion pbttfrn\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
 .TP
--include <\fIregex\fR>
+-indludf <\fIrfgfx\fR>
 .br
-Restricts bnblysis to clbsses mbtching pbttern\&. This option filters the list of clbsses to be bnblyzed\&. It cbn be used together with \f3-p\fR bnd \f3-e\fR which bpply pbttern to the dependencies\&.
+Rfstridts bnblysis to dlbssfs mbtdiing pbttfrn\&. Tiis option filtfrs tif list of dlbssfs to bf bnblyzfd\&. It dbn bf usfd togftifr witi \f3-p\fR bnd \f3-f\fR wiidi bpply pbttfrn to tif dfpfndfndifs\&.
 .TP
--jdkinternbls
+-jdkintfrnbls
 .br
-Finds clbss-level dependences in JDK internbl APIs\&. By defbult, it bnblyzes bll clbsses specified in the \f3-clbsspbth\fR option bnd in input files unless you specified the \f3-include\fR option\&. You cbnnot use this option with the \f3-p\fR, \f3-e\fR, bnd \f3-s\fR options\&.
+Finds dlbss-lfvfl dfpfndfndfs in JDK intfrnbl APIs\&. By dffbult, it bnblyzfs bll dlbssfs spfdififd in tif \f3-dlbsspbti\fR option bnd in input filfs unlfss you spfdififd tif \f3-indludf\fR option\&. You dbnnot usf tiis option witi tif \f3-p\fR, \f3-f\fR, bnd \f3-s\fR options\&.
 
-\fIWbrning\fR: JDK internbl APIs mby not be bccessible in upcoming relebses\&.
+\fIWbrning\fR: JDK intfrnbl APIs mby not bf bddfssiblf in updoming rflfbsfs\&.
 .TP
--P, -profile
+-P, -profilf
 .br
-Shows profile or the file contbining b pbckbge\&.
+Siows profilf or tif filf dontbining b pbdkbgf\&.
 .TP
 -bpionly
 .br
-Restricts bnblysis to APIs, for exbmple, dependences from the signbture of \f3public\fR bnd \f3protected\fR members of public clbsses including field type, method pbrbmeter types, returned type, bnd checked exception types\&.
+Rfstridts bnblysis to APIs, for fxbmplf, dfpfndfndfs from tif signbturf of \f3publid\fR bnd \f3protfdtfd\fR mfmbfrs of publid dlbssfs indluding fifld typf, mftiod pbrbmftfr typfs, rfturnfd typf, bnd difdkfd fxdfption typfs\&.
 .TP
--R, -recursive
+-R, -rfdursivf
 .br
-Recursively trbverses bll dependencies\&.
+Rfdursivfly trbvfrsfs bll dfpfndfndifs\&.
 .TP
--version
+-vfrsion
 .br
-Prints version informbtion\&.
+Prints vfrsion informbtion\&.
 .TP
--h, -?, -help
+-i, -?, -iflp
 .br
-Prints help messbge for \f3jdeps\fR\&.
+Prints iflp mfssbgf for \f3jdfps\fR\&.
 .SH EXAMPLES    
-Anblyzing the dependencies of Notepbd\&.jbr\&.
+Anblyzing tif dfpfndfndifs of Notfpbd\&.jbr\&.
 .sp     
 .nf     
-\f3$ jdeps demo/jfc/Notepbd/Notepbd\&.jbr\fP
+\f3$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3demo/jfc/Notepbd/Notepbd\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr\fP
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
 .fi     
 .nf     
-\f3   <unnbmed> (Notepbd\&.jbr)\fP
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.bwt                                           \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.bwt\&.event                                     \fP
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.bebns                                         \fP
+\f3      \-> jbvb\&.bfbns                                         \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.io                                            \fP
@@ -162,7 +162,7 @@ Anblyzing the dependencies of Notepbd\&.jbr\&.
 \f3      \-> jbvb\&.lbng                                          \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.net                                           \fP
+\f3      \-> jbvb\&.nft                                           \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.util                                          \fP
@@ -174,16 +174,16 @@ Anblyzing the dependencies of Notepbd\&.jbr\&.
 \f3      \-> jbvbx\&.swing                                        \fP
 .fi     
 .nf     
-\f3      \-> jbvbx\&.swing\&.border                                 \fP
+\f3      \-> jbvbx\&.swing\&.bordfr                                 \fP
 .fi     
 .nf     
-\f3      \-> jbvbx\&.swing\&.event                                  \fP
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  \fP
 .fi     
 .nf     
-\f3      \-> jbvbx\&.swing\&.text                                   \fP
+\f3      \-> jbvbx\&.swing\&.tfxt                                   \fP
 .fi     
 .nf     
-\f3      \-> jbvbx\&.swing\&.tree                                   \fP
+\f3      \-> jbvbx\&.swing\&.trff                                   \fP
 .fi     
 .nf     
 \f3      \-> jbvbx\&.swing\&.undo  \fP
@@ -192,55 +192,55 @@ Anblyzing the dependencies of Notepbd\&.jbr\&.
 \f3\fP
 .fi     
 .sp     
-Use -P or -profile option to show on which profile thbt Notepbd depends\&.
+Usf -P or -profilf option to siow on wiidi profilf tibt Notfpbd dfpfnds\&.
 .sp     
 .nf     
-\f3$ jdeps \-profile demo/jfc/Notepbd/Notepbd\&.jbr \fP
+\f3$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr \fP
 .fi     
 .nf     
-\f3demo/jfc/Notepbd/Notepbd\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr (Full JRE)\fP
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)\fP
 .fi     
 .nf     
-\f3   <unnbmed> (Notepbd\&.jbr)\fP
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.bwt                                           Full JRE\fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.bwt\&.event                                     Full JRE\fP
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE\fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.bebns                                         Full JRE\fP
+\f3      \-> jbvb\&.bfbns                                         Full JRE\fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.io                                            compbct1\fP
+\f3      \-> jbvb\&.io                                            dompbdt1\fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.lbng                                          compbct1\fP
+\f3      \-> jbvb\&.lbng                                          dompbdt1\fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.net                                           compbct1\fP
+\f3      \-> jbvb\&.nft                                           dompbdt1\fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.util                                          compbct1\fP
+\f3      \-> jbvb\&.util                                          dompbdt1\fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.util\&.logging                                  compbct1\fP
+\f3      \-> jbvb\&.util\&.logging                                  dompbdt1\fP
 .fi     
 .nf     
 \f3      \-> jbvbx\&.swing                                        Full JRE\fP
 .fi     
 .nf     
-\f3      \-> jbvbx\&.swing\&.border                                 Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.bordfr                                 Full JRE\fP
 .fi     
 .nf     
-\f3      \-> jbvbx\&.swing\&.event                                  Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE\fP
 .fi     
 .nf     
-\f3      \-> jbvbx\&.swing\&.text                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.tfxt                                   Full JRE\fP
 .fi     
 .nf     
-\f3      \-> jbvbx\&.swing\&.tree                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.trff                                   Full JRE\fP
 .fi     
 .nf     
 \f3      \-> jbvbx\&.swing\&.undo                                   Full JRE\fP
@@ -249,16 +249,16 @@ Use -P or -profile option to show on which profile thbt Notepbd depends\&.
 \f3\fP
 .fi     
 .sp     
-Anblyzing the immedibte dependencies of b specific clbss in b given clbsspbth, for exbmple the \f3com\&.sun\&.tools\&.jdeps\&.Mbin\fR clbss in the tools\&.jbr file\&.
+Anblyzing tif immfdibtf dfpfndfndifs of b spfdifid dlbss in b givfn dlbsspbti, for fxbmplf tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss in tif tools\&.jbr filf\&.
 .sp     
 .nf     
-\f3$ jdeps \-cp lib/tools\&.jbr com\&.sun\&.tools\&.jdeps\&.Mbin\fP
+\f3$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
 .fi     
 .nf     
-\f3lib/tools\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
 .fi     
 .nf     
-\f3   com\&.sun\&.tools\&.jdeps (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.io                                            \fP
@@ -270,49 +270,49 @@ Anblyzing the immedibte dependencies of b specific clbss in b given clbsspbth, f
 \f3\fP
 .fi     
 .sp     
-Use the \f3-verbose:clbss\fR option to find clbss-level dependencies or use the \f3-v\fR or \f3-verbose\fR option to include dependencies from the sbme JAR file\&.
+Usf tif \f3-vfrbosf:dlbss\fR option to find dlbss-lfvfl dfpfndfndifs or usf tif \f3-v\fR or \f3-vfrbosf\fR option to indludf dfpfndfndifs from tif sbmf JAR filf\&.
 .sp     
 .nf     
-\f3$ jdeps \-verbose:clbss \-cp lib/tools\&.jbr com\&.sun\&.tools\&.jdeps\&.Mbin\fP
+\f3$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3lib/tools\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
 .fi     
 .nf     
-\f3   com\&.sun\&.tools\&.jdeps\&.Mbin (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)\fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.io\&.PrintWriter                                \fP
+\f3      \-> jbvb\&.io\&.PrintWritfr                                \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.lbng\&.Exception                                \fP
+\f3      \-> jbvb\&.lbng\&.Exdfption                                \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.lbng\&.Object                                   \fP
+\f3      \-> jbvb\&.lbng\&.Objfdt                                   \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.lbng\&.String                                   \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.lbng\&.System \fP
+\f3      \-> jbvb\&.lbng\&.Systfm \fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Use the \f3-R\fR or \f3-recursive\fR option to bnblyze the trbnsitive dependencies of the \f3com\&.sun\&.tools\&.jdeps\&.Mbin\fR clbss\&.
+Usf tif \f3-R\fR or \f3-rfdursivf\fR option to bnblyzf tif trbnsitivf dfpfndfndifs of tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss\&.
 .sp     
 .nf     
-\f3$ jdeps \-R \-cp lib/tools\&.jbr com\&.sun\&.tools\&.jdeps\&.Mbin\fP
+\f3$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
 .fi     
 .nf     
-\f3lib/tools\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
 .fi     
 .nf     
-\f3   com\&.sun\&.tools\&.clbssfile (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)\fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.io                                            \fP
@@ -321,22 +321,22 @@ Use the \f3-R\fR or \f3-recursive\fR option to bnblyze the trbnsitive dependenci
 \f3      \-> jbvb\&.lbng                                          \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.lbng\&.reflect                                  \fP
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.nio\&.chbrset                                   \fP
+\f3      \-> jbvb\&.nio\&.dibrsft                                   \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.nio\&.file                                      \fP
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.util                                          \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.util\&.regex                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
 .fi     
 .nf     
-\f3   com\&.sun\&.tools\&.jdeps (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.io                                            \fP
@@ -345,13 +345,13 @@ Use the \f3-R\fR or \f3-recursive\fR option to bnblyze the trbnsitive dependenci
 \f3      \-> jbvb\&.lbng                                          \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.nio\&.file                                      \fP
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.nio\&.file\&.bttribute                            \fP
+\f3      \-> jbvb\&.nio\&.filf\&.bttributf                            \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.text                                          \fP
+\f3      \-> jbvb\&.tfxt                                          \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.util                                          \fP
@@ -360,16 +360,16 @@ Use the \f3-R\fR or \f3-recursive\fR option to bnblyze the trbnsitive dependenci
 \f3      \-> jbvb\&.util\&.jbr                                      \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.util\&.regex                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.util\&.zip                                      \fP
 .fi     
 .nf     
-\f3/usr/jbvb/jre/lib/jce\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr\fP
+\f3/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
 .fi     
 .nf     
-\f3   jbvbx\&.crypto (jce\&.jbr)\fP
+\f3   jbvbx\&.drypto (jdf\&.jbr)\fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.io                                            \fP
@@ -378,133 +378,133 @@ Use the \f3-R\fR or \f3-recursive\fR option to bnblyze the trbnsitive dependenci
 \f3      \-> jbvb\&.lbng                                          \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.lbng\&.reflect                                  \fP
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.net                                           \fP
+\f3      \-> jbvb\&.nft                                           \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.nio                                           \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.security                                      \fP
+\f3      \-> jbvb\&.sfdurity                                      \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.security\&.cert                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.dfrt                                 \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.security\&.spec                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.util                                          \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.util\&.concurrent                               \fP
+\f3      \-> jbvb\&.util\&.dondurrfnt                               \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.util\&.jbr                                      \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.util\&.regex                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.util\&.zip                                      \fP
 .fi     
 .nf     
-\f3      \-> jbvbx\&.security\&.buth                                \fP
+\f3      \-> jbvbx\&.sfdurity\&.buti                                \fP
 .fi     
 .nf     
-\f3      \-> sun\&.security\&.jcb                                   JDK internbl API (rt\&.jbr)\fP
+\f3      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)\fP
 .fi     
 .nf     
-\f3      \-> sun\&.security\&.util                                  JDK internbl API (rt\&.jbr)\fP
+\f3      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)\fP
 .fi     
 .nf     
-\f3   jbvbx\&.crypto\&.spec (jce\&.jbr)\fP
+\f3   jbvbx\&.drypto\&.spfd (jdf\&.jbr)\fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.lbng                                          \fP
 .fi     
 .nf     
-\f3      \-> jbvb\&.security\&.spec                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
 .fi     
 .nf     
 \f3      \-> jbvb\&.util                                          \fP
 .fi     
 .nf     
-\f3/usr/jbvb/jre/lib/rt\&.jbr \-> /usr/jbvb/jre/lib/jce\&.jbr\fP
+\f3/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr\fP
 .fi     
 .nf     
-\f3   jbvb\&.security (rt\&.jbr)\fP
+\f3   jbvb\&.sfdurity (rt\&.jbr)\fP
 .fi     
 .nf     
-\f3      \-> jbvbx\&.crypto\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.sp     
-Generbte dot files of the dependencies of Notepbd demo\&.
-.sp     
-.nf     
-\f3$ jdeps \-dotoutput dot demo/jfc/Notepbd/Notepbd\&.jbr\fP
+\f3      \-> jbvbx\&.drypto\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-\f3jdeps\fR will crebte one dot file for ebch given JAR file nbmed <\fIfilenbme\fR>\&.dot in the dot directory specified in the \f3-dotoutput\fR option, bnd blso b summbry file nbmed summbry\&.dot thbt will list the dependencies bmong the JAR files
+Gfnfrbtf dot filfs of tif dfpfndfndifs of Notfpbd dfmo\&.
 .sp     
 .nf     
-\f3$ cbt dot/Notepbd\&.jbr\&.dot \fP
+\f3$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
 .fi     
 .nf     
-\f3digrbph "Notepbd\&.jbr" {\fP
+\f3\fP
+.fi     
+.sp     
+\f3jdfps\fR will drfbtf onf dot filf for fbdi givfn JAR filf nbmfd <\fIfilfnbmf\fR>\&.dot in tif dot dirfdtory spfdififd in tif \f3-dotoutput\fR option, bnd blso b summbry filf nbmfd summbry\&.dot tibt will list tif dfpfndfndifs bmong tif JAR filfs
+.sp     
+.nf     
+\f3$ dbt dot/Notfpbd\&.jbr\&.dot \fP
 .fi     
 .nf     
-\f3    // Pbth: demo/jfc/Notepbd/Notepbd\&.jbr\fP
+\f3digrbpi "Notfpbd\&.jbr" {\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvb\&.bwt";\fP
+\f3    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvb\&.bwt\&.event";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvb\&.bebns";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvb\&.io";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvb\&.lbng";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.io";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvb\&.net";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.lbng";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvb\&.util";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.nft";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvb\&.util\&.logging";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing\&.border";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing\&.event";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing\&.text";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing\&.tree";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";\fP
 .fi     
 .nf     
-\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing\&.undo";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";\fP
 .fi     
 .nf     
 \f3}\fP
@@ -513,13 +513,13 @@ Generbte dot files of the dependencies of Notepbd demo\&.
 \f3\fP
 .fi     
 .nf     
-\f3$ cbt dot/summbry\&.dot\fP
+\f3$ dbt dot/summbry\&.dot\fP
 .fi     
 .nf     
-\f3digrbph "summbry" {\fP
+\f3digrbpi "summbry" {\fP
 .fi     
 .nf     
-\f3   "Notepbd\&.jbr"                  \-> "rt\&.jbr";\fP
+\f3   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";\fP
 .fi     
 .nf     
 \f3}\fP

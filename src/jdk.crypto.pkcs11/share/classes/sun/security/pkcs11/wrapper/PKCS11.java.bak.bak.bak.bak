@@ -1,0 +1,1824 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+
+/* Copyright  (d) 2002 Grbz Univfrsity of Tfdhnology. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd  providfd thbt thf following donditions brf mft:
+ *
+ * 1. Rfdistributions of  sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ * 2. Rfdistributions in  binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ * 3. Thf fnd-usfr dodumfntbtion indludfd with thf rfdistribution, if bny, must
+ *    indludf thf following bdknowlfdgmfnt:
+ *
+ *    "This produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdhnology."
+ *
+ *    Altfrnbtfly, this bdknowlfdgmfnt mby bppfbr in thf softwbrf itsflf, if
+ *    bnd whfrfvfr sudh third-pbrty bdknowlfdgmfnts normblly bppfbr.
+ *
+ * 4. Thf nbmfs "Grbz Univfrsity of Tfdhnology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdhnology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without prior writtfn pfrmission.
+ *
+ * 5. Produdts dfrivfd from this softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in thfir nbmf, without prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdhnology.
+ *
+ *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
+ *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ *  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LICENSOR BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ *  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ *  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ *  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY  OF SUCH DAMAGE.
+ */
+
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
+
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+/**
+ * This is thf dffbult implfmfntbtion of thf PKCS11 intfrfbdf. IT donnfdts to
+ * thf pkds11wrbppfr.dll filf, whidh is thf nbtivf pbrt of this librbry.
+ * Thf strbngf bnd bwkwbrd looking initiblizbtion wbs dhosfn to bvoid dblling
+ * lobdLibrbry from b stbtid initiblizbtion blodk, bfdbusf this would domplidbtf
+ * thf usf in bpplfts.
+ *
+ * @buthor Kbrl Sdhfibflhoffr <Kbrl.Sdhfibflhoffr@ibik.bt>
+ * @buthor Mbrtin Sdhlbffffr <sdhlbfff@sbox.tugrbz.bt>
+ * @invbribnts (pkds11ModulfPbth_ <> null)
+ */
+publid dlbss PKCS11 {
+
+    /**
+     * Thf nbmf of thf nbtivf pbrt of thf wrbppfr; i.f. thf filfnbmf without
+     * thf fxtfnsion (f.g. ".DLL" or ".so").
+     */
+    privbtf stbtid finbl String PKCS11_WRAPPER = "j2pkds11";
+
+    stbtid {
+        // dbnnot usf LobdLibrbryAdtion bfdbusf thbt would mbkf thf nbtivf
+        // librbry bvbilbblf to thf bootdlbsslobdfr, but wf run in thf
+        // fxtfnsion dlbsslobdfr.
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                Systfm.lobdLibrbry(PKCS11_WRAPPER);
+                rfturn null;
+            }
+        });
+        initiblizfLibrbry();
+    }
+
+    publid stbtid void lobdNbtivf() {
+        // dummy mfthod thbt dbn bf dbllfd to mbkf surf thf nbtivf
+        // portion hbs bffn lobdfd. bdtubl lobding hbppfns in thf
+        // stbtid initiblizfr, hfndf this mfthod is fmpty.
+    }
+
+    /**
+     * Thf PKCS#11 modulf to donnfdt to. This is thf PKCS#11 drivfr of thf tokfn;
+     * f.g. pk2priv.dll.
+     */
+    privbtf finbl String pkds11ModulfPbth;
+
+    privbtf long pNbtivfDbtb;
+
+    /**
+     * This mfthod dofs thf initiblizbtion of thf nbtivf librbry. It is dbllfd
+     * fxbdtly ondf for this dlbss.
+     *
+     * @prfdonditions
+     * @postdonditions
+     */
+    privbtf stbtid nbtivf void initiblizfLibrbry();
+
+    // XXX
+    /**
+     * This mfthod dofs thf finblizbtion of thf nbtivf librbry. It is dbllfd
+     * fxbdtly ondf for this dlbss. Thf librbry usfs this mfthod for b dlfbn-up
+     * of bny rfsourdfs.
+     *
+     * @prfdonditions
+     * @postdonditions
+     */
+    privbtf stbtid nbtivf void finblizfLibrbry();
+
+    privbtf stbtid finbl Mbp<String,PKCS11> modulfMbp =
+        nfw HbshMbp<String,PKCS11>();
+
+    /**
+     * Connfdts to thf PKCS#11 drivfr givfn. Thf filfnbmf must dontbin thf
+     * pbth, if thf drivfr is not in thf systfm's sfbrdh pbth.
+     *
+     * @pbrbm pkds11ModulfPbth thf PKCS#11 librbry pbth
+     * @prfdonditions (pkds11ModulfPbth <> null)
+     * @postdonditions
+     */
+    PKCS11(String pkds11ModulfPbth, String fundtionListNbmf)
+            throws IOExdfption {
+        donnfdt(pkds11ModulfPbth, fundtionListNbmf);
+        this.pkds11ModulfPbth = pkds11ModulfPbth;
+    }
+
+    publid stbtid syndhronizfd PKCS11 gftInstbndf(String pkds11ModulfPbth,
+            String fundtionList, CK_C_INITIALIZE_ARGS pInitArgs,
+            boolfbn omitInitiblizf) throws IOExdfption, PKCS11Exdfption {
+        // wf mby only dbll C_Initiblizf ondf pfr nbtivf .so/.dll
+        // so kffp b dbdhf using thf (non-dbnonidblizfd!) pbth
+        PKCS11 pkds11 = modulfMbp.gft(pkds11ModulfPbth);
+        if (pkds11 == null) {
+            if ((pInitArgs != null)
+                    && ((pInitArgs.flbgs & CKF_OS_LOCKING_OK) != 0)) {
+                pkds11 = nfw PKCS11(pkds11ModulfPbth, fundtionList);
+            } flsf {
+                pkds11 = nfw SyndhronizfdPKCS11(pkds11ModulfPbth, fundtionList);
+            }
+            if (omitInitiblizf == fblsf) {
+                try {
+                    pkds11.C_Initiblizf(pInitArgs);
+                } dbtdh (PKCS11Exdfption f) {
+                    // ignorf blrfbdy-initiblizfd frror dodf
+                    // rfthrow bll othfr frrors
+                    if (f.gftErrorCodf() != CKR_CRYPTOKI_ALREADY_INITIALIZED) {
+                        throw f;
+                    }
+                }
+            }
+            modulfMbp.put(pkds11ModulfPbth, pkds11);
+        }
+        rfturn pkds11;
+    }
+
+    /**
+     * Connfdts this objfdt to thf spfdififd PKCS#11 librbry. This mfthod is for
+     * intfrnbl usf only.
+     * Dfdlbrfd privbtf, bfdbusf indorrfdt hbndling mby rfsult in frrors in thf
+     * nbtivf pbrt.
+     *
+     * @pbrbm pkds11ModulfPbth Thf PKCS#11 librbry pbth.
+     * @prfdonditions (pkds11ModulfPbth <> null)
+     * @postdonditions
+     */
+    privbtf nbtivf void donnfdt(String pkds11ModulfPbth, String fundtionListNbmf)
+            throws IOExdfption;
+
+    /**
+     * Disdonnfdts thf PKCS#11 librbry from this objfdt. Aftfr dblling this
+     * mfthod, this objfdt is no longfr donnfdtfd to b nbtivf PKCS#11 modulf
+     * bnd bny subsfqufnt dblls to C_ mfthods will fbil. This mfthod is for
+     * intfrnbl usf only.
+     * Dfdlbrfd privbtf, bfdbusf indorrfdt hbndling mby rfsult in frrors in thf
+     * nbtivf pbrt.
+     *
+     * @prfdonditions
+     * @postdonditions
+     */
+    privbtf nbtivf void disdonnfdt();
+
+
+    // Implfmfntbtion of PKCS11 mfthods dflfgbtfd to nbtivf pkds11wrbppfr librbry
+
+/* *****************************************************************************
+ * Gfnfrbl-purposf
+ ******************************************************************************/
+
+    /**
+     * C_Initiblizf initiblizfs thf Cryptoki librbry.
+     * (Gfnfrbl-purposf)
+     *
+     * @pbrbm pInitArgs if pInitArgs is not NULL it gfts dbstfd to
+     *         CK_C_INITIALIZE_ARGS_PTR bnd dfrfffrfndfd
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pInitArgs)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    nbtivf void C_Initiblizf(Objfdt pInitArgs) throws PKCS11Exdfption;
+
+    /**
+     * C_Finblizf indidbtfs thbt bn bpplidbtion is donf with thf
+     * Cryptoki librbry
+     * (Gfnfrbl-purposf)
+     *
+     * @pbrbm pRfsfrvfd is rfsfrvfd. Should bf NULL_PTR
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pRfsfrvfd)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pRfsfrvfd == null)
+     * @postdonditions
+     */
+    publid nbtivf void C_Finblizf(Objfdt pRfsfrvfd) throws PKCS11Exdfption;
+
+
+    /**
+     * C_GftInfo rfturns gfnfrbl informbtion bbout Cryptoki.
+     * (Gfnfrbl-purposf)
+     *
+     * @rfturn thf informbtion.
+     *         (PKCS#11 pbrbm: CK_INFO_PTR pInfo)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf CK_INFO C_GftInfo() throws PKCS11Exdfption;
+
+
+/* *****************************************************************************
+ * Slot bnd tokfn mbnbgfmfnt
+ ******************************************************************************/
+
+    /**
+     * C_GftSlotList obtbins b list of slots in thf systfm.
+     * (Slot bnd tokfn mbnbgfmfnt)
+     *
+     * @pbrbm tokfnPrfsfnt if truf only Slot IDs with b tokfn brf rfturnfd
+     *         (PKCS#11 pbrbm: CK_BBOOL tokfnPrfsfnt)
+     * @rfturn b long brrby of slot IDs bnd numbfr of Slot IDs
+     *         (PKCS#11 pbrbm: CK_SLOT_ID_PTR pSlotList, CK_ULONG_PTR pulCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf long[] C_GftSlotList(boolfbn tokfnPrfsfnt)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_GftSlotInfo obtbins informbtion bbout b pbrtidulbr slot in
+     * thf systfm.
+     * (Slot bnd tokfn mbnbgfmfnt)
+     *
+     * @pbrbm slotID thf ID of thf slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @rfturn thf slot informbtion
+     *         (PKCS#11 pbrbm: CK_SLOT_INFO_PTR pInfo)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf CK_SLOT_INFO C_GftSlotInfo(long slotID) throws PKCS11Exdfption;
+
+
+    /**
+     * C_GftTokfnInfo obtbins informbtion bbout b pbrtidulbr tokfn
+     * in thf systfm.
+     * (Slot bnd tokfn mbnbgfmfnt)
+     *
+     * @pbrbm slotID ID of thf tokfn's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @rfturn thf tokfn informbtion
+     *         (PKCS#11 pbrbm: CK_TOKEN_INFO_PTR pInfo)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf CK_TOKEN_INFO C_GftTokfnInfo(long slotID)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_GftMfdhbnismList obtbins b list of mfdhbnism typfs
+     * supportfd by b tokfn.
+     * (Slot bnd tokfn mbnbgfmfnt)
+     *
+     * @pbrbm slotID ID of thf tokfn's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @rfturn b long brrby of mfdhbnism typfs bnd numbfr of mfdhbnism typfs
+     *         (PKCS#11 pbrbm: CK_MECHANISM_TYPE_PTR pMfdhbnismList,
+     *                         CK_ULONG_PTR pulCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf long[] C_GftMfdhbnismList(long slotID) throws PKCS11Exdfption;
+
+
+    /**
+     * C_GftMfdhbnismInfo obtbins informbtion bbout b pbrtidulbr
+     * mfdhbnism possibly supportfd by b tokfn.
+     * (Slot bnd tokfn mbnbgfmfnt)
+     *
+     * @pbrbm slotID ID of thf tokfn's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @pbrbm typf typf of mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_TYPE typf)
+     * @rfturn thf mfdhbnism info
+     *         (PKCS#11 pbrbm: CK_MECHANISM_INFO_PTR pInfo)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf CK_MECHANISM_INFO C_GftMfdhbnismInfo(long slotID, long typf)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_InitTokfn initiblizfs b tokfn.
+     * (Slot bnd tokfn mbnbgfmfnt)
+     *
+     * @pbrbm slotID ID of thf tokfn's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @pbrbm pPin thf SO's initibl PIN bnd thf lfngth in bytfs of thf PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pPin, CK_ULONG ulPinLfn)
+     * @pbrbm pLbbfl 32-bytf tokfn lbbfl (blbnk pbddfd)
+     *         (PKCS#11 pbrbm: CK_UTF8CHAR_PTR pLbbfl)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+//    publid nbtivf void C_InitTokfn(long slotID, dhbr[] pPin, dhbr[] pLbbfl)
+//            throws PKCS11Exdfption;
+
+
+    /**
+     * C_InitPIN initiblizfs thf normbl usfr's PIN.
+     * (Slot bnd tokfn mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pPin thf normbl usfr's PIN bnd thf lfngth in bytfs of thf PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pPin, CK_ULONG ulPinLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+//    publid nbtivf void C_InitPIN(long hSfssion, dhbr[] pPin)
+//            throws PKCS11Exdfption;
+
+
+    /**
+     * C_SftPIN modififs thf PIN of thf usfr who is loggfd in.
+     * (Slot bnd tokfn mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pOldPin thf old PIN bnd thf lfngth of thf old PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pOldPin, CK_ULONG ulOldLfn)
+     * @pbrbm pNfwPin thf nfw PIN bnd thf lfngth of thf nfw PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pNfwPin, CK_ULONG ulNfwLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+//    publid nbtivf void C_SftPIN(long hSfssion, dhbr[] pOldPin, dhbr[] pNfwPin)
+//            throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Sfssion mbnbgfmfnt
+ ******************************************************************************/
+
+    /**
+     * C_OpfnSfssion opfns b sfssion bftwffn bn bpplidbtion bnd b
+     * tokfn.
+     * (Sfssion mbnbgfmfnt)
+     *
+     * @pbrbm slotID thf slot's ID
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @pbrbm flbgs of CK_SESSION_INFO
+     *         (PKCS#11 pbrbm: CK_FLAGS flbgs)
+     * @pbrbm pApplidbtion pbssfd to dbllbbdk
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pApplidbtion)
+     * @pbrbm Notify thf dbllbbdk fundtion
+     *         (PKCS#11 pbrbm: CK_NOTIFY Notify)
+     * @rfturn thf sfssion hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE_PTR phSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf long C_OpfnSfssion(long slotID, long flbgs,
+            Objfdt pApplidbtion, CK_NOTIFY Notify) throws PKCS11Exdfption;
+
+
+    /**
+     * C_ClosfSfssion dlosfs b sfssion bftwffn bn bpplidbtion bnd b
+     * tokfn.
+     * (Sfssion mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_ClosfSfssion(long hSfssion) throws PKCS11Exdfption;
+
+
+    /**
+     * C_ClosfAllSfssions dlosfs bll sfssions with b tokfn.
+     * (Sfssion mbnbgfmfnt)
+     *
+     * @pbrbm slotID thf ID of thf tokfn's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+//    publid nbtivf void C_ClosfAllSfssions(long slotID) throws PKCS11Exdfption;
+
+
+    /**
+     * C_GftSfssionInfo obtbins informbtion bbout thf sfssion.
+     * (Sfssion mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @rfturn thf sfssion info
+     *         (PKCS#11 pbrbm: CK_SESSION_INFO_PTR pInfo)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf CK_SESSION_INFO C_GftSfssionInfo(long hSfssion)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_GftOpfrbtionStbtf obtbins thf stbtf of thf dryptogrbphid opfrbtion
+     * in b sfssion.
+     * (Sfssion mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @rfturn thf stbtf bnd thf stbtf lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pOpfrbtionStbtf,
+     *                         CK_ULONG_PTR pulOpfrbtionStbtfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf bytf[] C_GftOpfrbtionStbtf(long hSfssion)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_SftOpfrbtionStbtf rfstorfs thf stbtf of thf dryptogrbphid
+     * opfrbtion in b sfssion.
+     * (Sfssion mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pOpfrbtionStbtf thf stbtf bnd thf stbtf lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pOpfrbtionStbtf,
+     *                         CK_ULONG ulOpfrbtionStbtfLfn)
+     * @pbrbm hEndryptionKfy fn/dfdryption kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hEndryptionKfy)
+     * @pbrbm hAuthfntidbtionKfy sign/vfrify kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hAuthfntidbtionKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_SftOpfrbtionStbtf(long hSfssion, bytf[] pOpfrbtionStbtf,
+            long hEndryptionKfy, long hAuthfntidbtionKfy) throws PKCS11Exdfption;
+
+
+    /**
+     * C_Login logs b usfr into b tokfn.
+     * (Sfssion mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm usfrTypf thf usfr typf
+     *         (PKCS#11 pbrbm: CK_USER_TYPE usfrTypf)
+     * @pbrbm pPin thf usfr's PIN bnd thf lfngth of thf PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pPin, CK_ULONG ulPinLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_Login(long hSfssion, long usfrTypf, dhbr[] pPin)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_Logout logs b usfr out from b tokfn.
+     * (Sfssion mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_Logout(long hSfssion) throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Objfdt mbnbgfmfnt
+ ******************************************************************************/
+
+    /**
+     * C_CrfbtfObjfdt drfbtfs b nfw objfdt.
+     * (Objfdt mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pTfmplbtf thf objfdt's tfmplbtf bnd numbfr of bttributfs in
+     *         tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @rfturn thf objfdt's hbndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phObjfdt)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf long C_CrfbtfObjfdt(long hSfssion, CK_ATTRIBUTE[] pTfmplbtf)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_CopyObjfdt dopifs bn objfdt, drfbting b nfw objfdt for thf
+     * dopy.
+     * (Objfdt mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm hObjfdt thf objfdt's hbndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hObjfdt)
+     * @pbrbm pTfmplbtf thf tfmplbtf for thf nfw objfdt bnd numbfr of bttributfs
+     *         in tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @rfturn thf hbndlf of thf dopy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phNfwObjfdt)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf long C_CopyObjfdt(long hSfssion, long hObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption;
+
+
+    /**
+     * C_DfstroyObjfdt dfstroys bn objfdt.
+     * (Objfdt mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm hObjfdt thf objfdt's hbndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hObjfdt)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_DfstroyObjfdt(long hSfssion, long hObjfdt)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_GftObjfdtSizf gfts thf sizf of bn objfdt in bytfs.
+     * (Objfdt mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm hObjfdt thf objfdt's hbndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hObjfdt)
+     * @rfturn thf sizf of thf objfdt
+     *         (PKCS#11 pbrbm: CK_ULONG_PTR pulSizf)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+//    publid nbtivf long C_GftObjfdtSizf(long hSfssion, long hObjfdt)
+//            throws PKCS11Exdfption;
+
+
+    /**
+     * C_GftAttributfVbluf obtbins thf vbluf of onf or morf objfdt
+     * bttributfs. Thf tfmplbtf bttributfs blso rfdfivf thf vblufs.
+     * (Objfdt mbnbgfmfnt)
+     * notf: in PKCS#11 pTfmplbtf bnd thf rfsult tfmplbtf brf thf sbmf
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm hObjfdt thf objfdt's hbndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hObjfdt)
+     * @pbrbm pTfmplbtf spfdififs thf bttributfs bnd numbfr of bttributfs to gft
+     *                  Thf tfmplbtf bttributfs blso rfdfivf thf vblufs.
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pTfmplbtf <> null)
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf void C_GftAttributfVbluf(long hSfssion, long hObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption;
+
+
+    /**
+     * C_SftAttributfVbluf modififs thf vbluf of onf or morf objfdt
+     * bttributfs
+     * (Objfdt mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm hObjfdt thf objfdt's hbndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hObjfdt)
+     * @pbrbm pTfmplbtf spfdififs thf bttributfs bnd vblufs to gft; numbfr of
+     *         bttributfs in thf tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pTfmplbtf <> null)
+     * @postdonditions
+     */
+    publid nbtivf void C_SftAttributfVbluf(long hSfssion, long hObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption;
+
+
+    /**
+     * C_FindObjfdtsInit initiblizfs b sfbrdh for tokfn bnd sfssion
+     * objfdts thbt mbtdh b tfmplbtf.
+     * (Objfdt mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pTfmplbtf thf objfdt's bttributf vblufs to mbtdh bnd thf numbfr of
+     *         bttributfs in sfbrdh tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_FindObjfdtsInit(long hSfssion, CK_ATTRIBUTE[] pTfmplbtf)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_FindObjfdts dontinufs b sfbrdh for tokfn bnd sfssion
+     * objfdts thbt mbtdh b tfmplbtf, obtbining bdditionbl objfdt
+     * hbndlfs.
+     * (Objfdt mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm ulMbxObjfdtCount thf mbx. objfdt hbndlfs to gft
+     *         (PKCS#11 pbrbm: CK_ULONG ulMbxObjfdtCount)
+     * @rfturn thf objfdt's hbndlfs bnd thf bdtubl numbfr of objfdts rfturnfd
+     *         (PKCS#11 pbrbm: CK_ULONG_PTR pulObjfdtCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf long[] C_FindObjfdts(long hSfssion, long ulMbxObjfdtCount)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_FindObjfdtsFinbl finishfs b sfbrdh for tokfn bnd sfssion
+     * objfdts.
+     * (Objfdt mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_FindObjfdtsFinbl(long hSfssion) throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Endryption bnd dfdryption
+ ******************************************************************************/
+
+    /**
+     * C_EndryptInit initiblizfs bn fndryption opfrbtion.
+     * (Endryption bnd dfdryption)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf fndryption mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm hKfy thf hbndlf of thf fndryption kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_EndryptInit(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hKfy) throws PKCS11Exdfption;
+
+
+    /**
+     * C_Endrypt fndrypts singlf-pbrt dbtb.
+     * (Endryption bnd dfdryption)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pDbtb thf dbtb to gft fndryptfd bnd thf dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLfn)
+     * @rfturn thf fndryptfd dbtb bnd thf fndryptfd dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdDbtb,
+     *                         CK_ULONG_PTR pulEndryptfdDbtbLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pDbtb <> null)
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf int C_Endrypt(long hSfssion, bytf[] in, int inOfs, int inLfn,
+            bytf[] out, int outOfs, int outLfn) throws PKCS11Exdfption;
+
+
+    /**
+     * C_EndryptUpdbtf dontinufs b multiplf-pbrt fndryption
+     * opfrbtion.
+     * (Endryption bnd dfdryption)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pPbrt thf dbtb pbrt to gft fndryptfd bnd thf dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @rfturn thf fndryptfd dbtb pbrt bnd thf fndryptfd dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+                             CK_ULONG_PTR pulEndryptfdPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
+     */
+    publid nbtivf int C_EndryptUpdbtf(long hSfssion, long dirfdtIn, bytf[] in,
+            int inOfs, int inLfn, long dirfdtOut, bytf[] out, int outOfs,
+            int outLfn) throws PKCS11Exdfption;
+
+
+    /**
+     * C_EndryptFinbl finishfs b multiplf-pbrt fndryption
+     * opfrbtion.
+     * (Endryption bnd dfdryption)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @rfturn thf lbst fndryptfd dbtb pbrt bnd thf lbst dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pLbstEndryptfdPbrt,
+                             CK_ULONG_PTR pulLbstEndryptfdPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf int C_EndryptFinbl(long hSfssion, long dirfdtOut, bytf[] out,
+            int outOfs, int outLfn) throws PKCS11Exdfption;
+
+
+    /**
+     * C_DfdryptInit initiblizfs b dfdryption opfrbtion.
+     * (Endryption bnd dfdryption)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf dfdryption mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm hKfy thf hbndlf of thf dfdryption kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_DfdryptInit(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hKfy) throws PKCS11Exdfption;
+
+
+    /**
+     * C_Dfdrypt dfdrypts fndryptfd dbtb in b singlf pbrt.
+     * (Endryption bnd dfdryption)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pEndryptfdDbtb thf fndryptfd dbtb to gft dfdryptfd bnd thf
+     *         fndryptfd dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdDbtb,
+     *                         CK_ULONG ulEndryptfdDbtbLfn)
+     * @rfturn thf dfdryptfd dbtb bnd thf dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG_PTR pulDbtbLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pEndryptfdPbrt <> null)
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf int C_Dfdrypt(long hSfssion, bytf[] in, int inOfs, int inLfn,
+            bytf[] out, int outOfs, int outLfn) throws PKCS11Exdfption;
+
+
+    /**
+     * C_DfdryptUpdbtf dontinufs b multiplf-pbrt dfdryption
+     * opfrbtion.
+     * (Endryption bnd dfdryption)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pEndryptfdPbrt thf fndryptfd dbtb pbrt to gft dfdryptfd bnd thf
+     *         fndryptfd dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+     *                         CK_ULONG ulEndryptfdPbrtLfn)
+     * @rfturn thf dfdryptfd dbtb pbrt bnd thf dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG_PTR pulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pEndryptfdPbrt <> null)
+     * @postdonditions
+     */
+    publid nbtivf int C_DfdryptUpdbtf(long hSfssion, long dirfdtIn, bytf[] in,
+            int inOfs, int inLfn, long dirfdtOut, bytf[] out, int outOfs,
+            int outLfn) throws PKCS11Exdfption;
+
+
+    /**
+     * C_DfdryptFinbl finishfs b multiplf-pbrt dfdryption
+     * opfrbtion.
+     * (Endryption bnd dfdryption)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @rfturn thf lbst dfdryptfd dbtb pbrt bnd thf lbst dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pLbstPbrt,
+     *                         CK_ULONG_PTR pulLbstPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf int C_DfdryptFinbl(long hSfssion, long dirfdtOut, bytf[] out,
+            int outOfs, int outLfn) throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Mfssbgf digfsting
+ ******************************************************************************/
+
+    /**
+     * C_DigfstInit initiblizfs b mfssbgf-digfsting opfrbtion.
+     * (Mfssbgf digfsting)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf digfsting mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_DigfstInit(long hSfssion, CK_MECHANISM pMfdhbnism)
+            throws PKCS11Exdfption;
+
+
+    // notf thbt C_DigfstSinglf dofs not fxist in PKCS#11
+    // wf dombinfd thf C_DigfstInit bnd C_Digfst into b singlf fundtion
+    // to sbvf on Jbvb<->C trbnsitions bnd sbvf 5-10% on smbll digfsts
+    // this mbdf thf C_Digfst mfthod rfdundbnt, it hbs bffn rfmovfd
+    /**
+     * C_Digfst digfsts dbtb in b singlf pbrt.
+     * (Mfssbgf digfsting)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm dbtb thf dbtb to gft digfstfd bnd thf dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLfn)
+     * @rfturn thf mfssbgf digfst bnd thf lfngth of thf mfssbgf digfst
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDigfst, CK_ULONG_PTR pulDigfstLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (dbtb <> null)
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf int C_DigfstSinglf(long hSfssion, CK_MECHANISM pMfdhbnism,
+            bytf[] in, int inOfs, int inLfn, bytf[] digfst, int digfstOfs,
+            int digfstLfn) throws PKCS11Exdfption;
+
+
+    /**
+     * C_DigfstUpdbtf dontinufs b multiplf-pbrt mfssbgf-digfsting
+     * opfrbtion.
+     * (Mfssbgf digfsting)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pPbrt thf dbtb to gft digfstfd bnd thf dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
+     */
+    publid nbtivf void C_DigfstUpdbtf(long hSfssion, long dirfdtIn, bytf[] in,
+            int inOfs, int inLfn) throws PKCS11Exdfption;
+
+
+    /**
+     * C_DigfstKfy dontinufs b multi-pbrt mfssbgf-digfsting
+     * opfrbtion, by digfsting thf vbluf of b sfdrft kfy bs pbrt of
+     * thf dbtb blrfbdy digfstfd.
+     * (Mfssbgf digfsting)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm hKfy thf hbndlf of thf sfdrft kfy to bf digfstfd
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_DigfstKfy(long hSfssion, long hKfy)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_DigfstFinbl finishfs b multiplf-pbrt mfssbgf-digfsting
+     * opfrbtion.
+     * (Mfssbgf digfsting)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @rfturn thf mfssbgf digfst bnd thf lfngth of thf mfssbgf digfst
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDigfst, CK_ULONG_PTR pulDigfstLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf int C_DigfstFinbl(long hSfssion, bytf[] pDigfst, int digfstOfs,
+            int digfstLfn) throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Signing bnd MACing
+ ******************************************************************************/
+
+    /**
+     * C_SignInit initiblizfs b signbturf (privbtf kfy fndryption)
+     * opfrbtion, whfrf thf signbturf is (will bf) bn bppfndix to
+     * thf dbtb, bnd plbintfxt dbnnot bf rfdovfrfd from thf
+     * signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf signbturf mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm hKfy thf hbndlf of thf signbturf kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_SignInit(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hKfy) throws PKCS11Exdfption;
+
+
+    /**
+     * C_Sign signs (fndrypts with privbtf kfy) dbtb in b singlf
+     * pbrt, whfrf thf signbturf is (will bf) bn bppfndix to thf
+     * dbtb, bnd plbintfxt dbnnot bf rfdovfrfd from thf signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pDbtb thf dbtb to sign bnd thf dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLfn)
+     * @rfturn thf signbturf bnd thf signbturf's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf,
+     *                         CK_ULONG_PTR pulSignbturfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pDbtb <> null)
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf bytf[] C_Sign(long hSfssion, bytf[] pDbtb)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_SignUpdbtf dontinufs b multiplf-pbrt signbturf opfrbtion,
+     * whfrf thf signbturf is (will bf) bn bppfndix to thf dbtb,
+     * bnd plbintfxt dbnnot bf rfdovfrfd from thf signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pPbrt thf dbtb pbrt to sign bnd thf dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
+     */
+    publid nbtivf void C_SignUpdbtf(long hSfssion, long dirfdtIn, bytf[] in,
+            int inOfs, int inLfn) throws PKCS11Exdfption;
+
+
+    /**
+     * C_SignFinbl finishfs b multiplf-pbrt signbturf opfrbtion,
+     * rfturning thf signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @rfturn thf signbturf bnd thf signbturf's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf,
+     *                         CK_ULONG_PTR pulSignbturfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf bytf[] C_SignFinbl(long hSfssion, int fxpfdtfdLfn)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_SignRfdovfrInit initiblizfs b signbturf opfrbtion, whfrf
+     * thf dbtb dbn bf rfdovfrfd from thf signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf signbturf mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm hKfy thf hbndlf of thf signbturf kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_SignRfdovfrInit(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hKfy) throws PKCS11Exdfption;
+
+
+    /**
+     * C_SignRfdovfr signs dbtb in b singlf opfrbtion, whfrf thf
+     * dbtb dbn bf rfdovfrfd from thf signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pDbtb thf dbtb to sign bnd thf dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLfn)
+     * @rfturn thf signbturf bnd thf signbturf's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf,
+     *                         CK_ULONG_PTR pulSignbturfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pDbtb <> null)
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf int C_SignRfdovfr(long hSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOufs, int outLfn)
+            throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Vfrifying signbturfs bnd MACs
+ ******************************************************************************/
+
+    /**
+     * C_VfrifyInit initiblizfs b vfrifidbtion opfrbtion, whfrf thf
+     * signbturf is bn bppfndix to thf dbtb, bnd plbintfxt dbnnot
+     * dbnnot bf rfdovfrfd from thf signbturf (f.g. DSA).
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf vfrifidbtion mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm hKfy thf hbndlf of thf vfrifidbtion kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_VfrifyInit(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hKfy) throws PKCS11Exdfption;
+
+
+    /**
+     * C_Vfrify vfrififs b signbturf in b singlf-pbrt opfrbtion,
+     * whfrf thf signbturf is bn bppfndix to thf dbtb, bnd plbintfxt
+     * dbnnot bf rfdovfrfd from thf signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pDbtb thf signfd dbtb bnd thf signfd dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLfn)
+     * @pbrbm pSignbturf thf signbturf to vfrify bnd thf signbturf's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf, CK_ULONG ulSignbturfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pDbtb <> null) bnd (pSignbturf <> null)
+     * @postdonditions
+     */
+    publid nbtivf void C_Vfrify(long hSfssion, bytf[] pDbtb, bytf[] pSignbturf)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_VfrifyUpdbtf dontinufs b multiplf-pbrt vfrifidbtion
+     * opfrbtion, whfrf thf signbturf is bn bppfndix to thf dbtb,
+     * bnd plbintfxt dbnnot bf rfdovfrfd from thf signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pPbrt thf signfd dbtb pbrt bnd thf signfd dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
+     */
+    publid nbtivf void C_VfrifyUpdbtf(long hSfssion, long dirfdtIn, bytf[] in,
+            int inOfs, int inLfn) throws PKCS11Exdfption;
+
+
+    /**
+     * C_VfrifyFinbl finishfs b multiplf-pbrt vfrifidbtion
+     * opfrbtion, dhfdking thf signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pSignbturf thf signbturf to vfrify bnd thf signbturf's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf, CK_ULONG ulSignbturfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pSignbturf <> null)
+     * @postdonditions
+     */
+    publid nbtivf void C_VfrifyFinbl(long hSfssion, bytf[] pSignbturf)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_VfrifyRfdovfrInit initiblizfs b signbturf vfrifidbtion
+     * opfrbtion, whfrf thf dbtb is rfdovfrfd from thf signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf vfrifidbtion mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm hKfy thf hbndlf of thf vfrifidbtion kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf void C_VfrifyRfdovfrInit(long hSfssion,
+            CK_MECHANISM pMfdhbnism, long hKfy) throws PKCS11Exdfption;
+
+
+    /**
+     * C_VfrifyRfdovfr vfrififs b signbturf in b singlf-pbrt
+     * opfrbtion, whfrf thf dbtb is rfdovfrfd from thf signbturf.
+     * (Signing bnd MACing)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pSignbturf thf signbturf to vfrify bnd thf signbturf's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf, CK_ULONG ulSignbturfLfn)
+     * @rfturn thf rfdovfrfd dbtb bnd thf rfdovfrfd dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG_PTR pulDbtbLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pSignbturf <> null)
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf int C_VfrifyRfdovfr(long hSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOufs, int outLfn)
+            throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Dubl-fundtion dryptogrbphid opfrbtions
+ ******************************************************************************/
+
+    /**
+     * C_DigfstEndryptUpdbtf dontinufs b multiplf-pbrt digfsting
+     * bnd fndryption opfrbtion.
+     * (Dubl-fundtion dryptogrbphid opfrbtions)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pPbrt thf dbtb pbrt to digfst bnd to fndrypt bnd thf dbtb's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @rfturn thf digfstfd bnd fndryptfd dbtb pbrt bnd thf dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+     *                         CK_ULONG_PTR pulEndryptfdPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
+     */
+//    publid nbtivf bytf[] C_DigfstEndryptUpdbtf(long hSfssion, bytf[] pPbrt)
+//            throws PKCS11Exdfption;
+
+
+    /**
+     * C_DfdryptDigfstUpdbtf dontinufs b multiplf-pbrt dfdryption bnd
+     * digfsting opfrbtion.
+     * (Dubl-fundtion dryptogrbphid opfrbtions)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pEndryptfdPbrt thf fndryptfd dbtb pbrt to dfdrypt bnd to digfst
+     *         bnd fndryptfd dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+     *                         CK_ULONG ulEndryptfdPbrtLfn)
+     * @rfturn thf dfdryptfd bnd digfstfd dbtb pbrt bnd thf dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG_PTR pulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pEndryptfdPbrt <> null)
+     * @postdonditions
+     */
+//    publid nbtivf bytf[] C_DfdryptDigfstUpdbtf(long hSfssion,
+//            bytf[] pEndryptfdPbrt) throws PKCS11Exdfption;
+
+
+    /**
+     * C_SignEndryptUpdbtf dontinufs b multiplf-pbrt signing bnd
+     * fndryption opfrbtion.
+     * (Dubl-fundtion dryptogrbphid opfrbtions)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pPbrt thf dbtb pbrt to sign bnd to fndrypt bnd thf dbtb pbrt's
+     *         lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @rfturn thf signfd bnd fndryptfd dbtb pbrt bnd thf dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+     *                         CK_ULONG_PTR pulEndryptfdPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
+     */
+//    publid nbtivf bytf[] C_SignEndryptUpdbtf(long hSfssion, bytf[] pPbrt)
+//            throws PKCS11Exdfption;
+
+
+    /**
+     * C_DfdryptVfrifyUpdbtf dontinufs b multiplf-pbrt dfdryption bnd
+     * vfrify opfrbtion.
+     * (Dubl-fundtion dryptogrbphid opfrbtions)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pEndryptfdPbrt thf fndryptfd dbtb pbrt to dfdrypt bnd to vfrify
+     *         bnd thf dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+     *                         CK_ULONG ulEndryptfdPbrtLfn)
+     * @rfturn thf dfdryptfd bnd vfrififd dbtb pbrt bnd thf dbtb pbrt's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG_PTR pulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pEndryptfdPbrt <> null)
+     * @postdonditions
+     */
+//    publid nbtivf bytf[] C_DfdryptVfrifyUpdbtf(long hSfssion,
+//            bytf[] pEndryptfdPbrt) throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Kfy mbnbgfmfnt
+ ******************************************************************************/
+
+    /**
+     * C_GfnfrbtfKfy gfnfrbtfs b sfdrft kfy, drfbting b nfw kfy
+     * objfdt.
+     * (Kfy mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf kfy gfnfrbtion mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm pTfmplbtf thf tfmplbtf for thf nfw kfy bnd thf numbfr of
+     *         bttributfs in thf tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @rfturn thf hbndlf of thf nfw kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf long C_GfnfrbtfKfy(long hSfssion, CK_MECHANISM pMfdhbnism,
+            CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption;
+
+
+    /**
+     * C_GfnfrbtfKfyPbir gfnfrbtfs b publid-kfy/privbtf-kfy pbir,
+     * drfbting nfw kfy objfdts.
+     * (Kfy mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf kfy gfnfrbtion mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm pPublidKfyTfmplbtf thf tfmplbtf for thf nfw publid kfy bnd thf
+     *         numbfr of bttributfs in thf tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pPublidKfyTfmplbtf,
+     *                         CK_ULONG ulPublidKfyAttributfCount)
+     * @pbrbm pPrivbtfKfyTfmplbtf thf tfmplbtf for thf nfw privbtf kfy bnd thf
+     *         numbfr of bttributfs in thf tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pPrivbtfKfyTfmplbtf
+     *                         CK_ULONG ulPrivbtfKfyAttributfCount)
+     * @rfturn b long brrby with fxbdtly two flfmfnts bnd thf publid kfy hbndlf
+     *         bs thf first flfmfnt bnd thf privbtf kfy hbndlf bs thf sfdond
+     *         flfmfnt
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phPublidKfy,
+     *                         CK_OBJECT_HANDLE_PTR phPrivbtfKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pMfdhbnism <> null)
+     * @postdonditions (rfsult <> null) bnd (rfsult.lfngth == 2)
+     */
+    publid nbtivf long[] C_GfnfrbtfKfyPbir(long hSfssion,
+            CK_MECHANISM pMfdhbnism, CK_ATTRIBUTE[] pPublidKfyTfmplbtf,
+            CK_ATTRIBUTE[] pPrivbtfKfyTfmplbtf) throws PKCS11Exdfption;
+
+
+
+    /**
+     * C_WrbpKfy wrbps (i.f., fndrypts) b kfy.
+     * (Kfy mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf wrbpping mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm hWrbppingKfy thf hbndlf of thf wrbpping kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hWrbppingKfy)
+     * @pbrbm hKfy thf hbndlf of thf kfy to bf wrbppfd
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKfy)
+     * @rfturn thf wrbppfd kfy bnd thf lfngth of thf wrbppfd kfy
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pWrbppfdKfy,
+     *                         CK_ULONG_PTR pulWrbppfdKfyLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf bytf[] C_WrbpKfy(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hWrbppingKfy, long hKfy) throws PKCS11Exdfption;
+
+
+    /**
+     * C_UnwrbpKfy unwrbps (dfdrypts) b wrbppfd kfy, drfbting b nfw
+     * kfy objfdt.
+     * (Kfy mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf unwrbpping mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm hUnwrbppingKfy thf hbndlf of thf unwrbpping kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hUnwrbppingKfy)
+     * @pbrbm pWrbppfdKfy thf wrbppfd kfy to unwrbp bnd thf wrbppfd kfy's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pWrbppfdKfy, CK_ULONG ulWrbppfdKfyLfn)
+     * @pbrbm pTfmplbtf thf tfmplbtf for thf nfw kfy bnd thf numbfr of
+     *         bttributfs in thf tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @rfturn thf hbndlf of thf unwrbppfd kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pWrbppfdKfy <> null)
+     * @postdonditions
+     */
+    publid nbtivf long C_UnwrbpKfy(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hUnwrbppingKfy, bytf[] pWrbppfdKfy, CK_ATTRIBUTE[] pTfmplbtf)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_DfrivfKfy dfrivfs b kfy from b bbsf kfy, drfbting b nfw kfy
+     * objfdt.
+     * (Kfy mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pMfdhbnism thf kfy dfrivbtion mfdhbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdhbnism)
+     * @pbrbm hBbsfKfy thf hbndlf of thf bbsf kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hBbsfKfy)
+     * @pbrbm pTfmplbtf thf tfmplbtf for thf nfw kfy bnd thf numbfr of
+     *         bttributfs in thf tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @rfturn thf hbndlf of thf dfrivfd kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+    publid nbtivf long C_DfrivfKfy(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hBbsfKfy, CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Rbndom numbfr gfnfrbtion
+ ******************************************************************************/
+
+    /**
+     * C_SffdRbndom mixfs bdditionbl sffd mbtfribl into thf tokfn's
+     * rbndom numbfr gfnfrbtor.
+     * (Rbndom numbfr gfnfrbtion)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm pSffd thf sffd mbtfribl bnd thf sffd mbtfribl's lfngth
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSffd, CK_ULONG ulSffdLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pSffd <> null)
+     * @postdonditions
+     */
+    publid nbtivf void C_SffdRbndom(long hSfssion, bytf[] pSffd)
+            throws PKCS11Exdfption;
+
+
+    /**
+     * C_GfnfrbtfRbndom gfnfrbtfs rbndom dbtb.
+     * (Rbndom numbfr gfnfrbtion)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @pbrbm RbndomDbtb rfdfivfs thf rbndom dbtb bnd thf lfngth of RbndomDbtb
+     *         is thf lfngth of rbndom dbtb to bf gfnfrbtfd
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pRbndomDbtb, CK_ULONG ulRbndomLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (rbndomDbtb <> null)
+     * @postdonditions
+     */
+    publid nbtivf void C_GfnfrbtfRbndom(long hSfssion, bytf[] rbndomDbtb)
+            throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Pbrbllfl fundtion mbnbgfmfnt
+ ******************************************************************************/
+
+    /**
+     * C_GftFundtionStbtus is b lfgbdy fundtion; it obtbins bn
+     * updbtfd stbtus of b fundtion running in pbrbllfl with bn
+     * bpplidbtion.
+     * (Pbrbllfl fundtion mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+//    publid nbtivf void C_GftFundtionStbtus(long hSfssion)
+//            throws PKCS11Exdfption;
+
+
+    /**
+     * C_CbndflFundtion is b lfgbdy fundtion; it dbndfls b fundtion
+     * running in pbrbllfl.
+     * (Pbrbllfl fundtion mbnbgfmfnt)
+     *
+     * @pbrbm hSfssion thf sfssion's hbndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
+     */
+//    publid nbtivf void C_CbndflFundtion(long hSfssion) throws PKCS11Exdfption;
+
+
+
+/* *****************************************************************************
+ * Fundtions bddfd in for Cryptoki Vfrsion 2.01 or lbtfr
+ ******************************************************************************/
+
+    /**
+     * C_WbitForSlotEvfnt wbits for b slot fvfnt (tokfn insfrtion,
+     * rfmovbl, ftd.) to oddur.
+     * (Gfnfrbl-purposf)
+     *
+     * @pbrbm flbgs blodking/nonblodking flbg
+     *         (PKCS#11 pbrbm: CK_FLAGS flbgs)
+     * @pbrbm pRfsfrvfd rfsfrvfd. Should bf null
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pRfsfrvfd)
+     * @rfturn thf slot ID whfrf thf fvfnt oddurrfd
+     *         (PKCS#11 pbrbm: CK_SLOT_ID_PTR pSlot)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns othfr vbluf thbn CKR_OK.
+     * @prfdonditions (pRsfrvfd == null)
+     * @postdonditions
+     */
+//    publid nbtivf long C_WbitForSlotEvfnt(long flbgs, Objfdt pRsfrvfd)
+//            throws PKCS11Exdfption;
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of this objfdt.
+     *
+     * @rfturn Thf string rfprfsfntbtion of objfdt
+     */
+    publid String toString() {
+        rfturn "Modulf nbmf: " + pkds11ModulfPbth;
+    }
+
+    /**
+     * Cblls disdonnfdt() to dlfbnup thf nbtivf pbrt of thf wrbppfr. Ondf this
+     * mfthod is dbllfd, this objfdt dbnnot bf usfd bny longfr. Any subsfqufnt
+     * dbll to b C_* mfthod will rfsult in b runtimf fxdfption.
+     *
+     * @fxdfption Throwbblf If finblizbtion fbils.
+     */
+    protfdtfd void finblizf() throws Throwbblf {
+        disdonnfdt();
+    }
+
+// PKCS11 subdlbss thbt hbs bll mfthods syndhronizfd bnd dflfgbting to thf
+// pbrfnt. Usfd for tokfns thbt only support singlf thrfbdfd bddfss
+stbtid dlbss SyndhronizfdPKCS11 fxtfnds PKCS11 {
+
+    SyndhronizfdPKCS11(String pkds11ModulfPbth, String fundtionListNbmf)
+            throws IOExdfption {
+        supfr(pkds11ModulfPbth, fundtionListNbmf);
+    }
+
+    syndhronizfd void C_Initiblizf(Objfdt pInitArgs) throws PKCS11Exdfption {
+        supfr.C_Initiblizf(pInitArgs);
+    }
+
+    publid syndhronizfd void C_Finblizf(Objfdt pRfsfrvfd)
+            throws PKCS11Exdfption {
+        supfr.C_Finblizf(pRfsfrvfd);
+    }
+
+    publid syndhronizfd CK_INFO C_GftInfo() throws PKCS11Exdfption {
+        rfturn supfr.C_GftInfo();
+    }
+
+    publid syndhronizfd long[] C_GftSlotList(boolfbn tokfnPrfsfnt)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_GftSlotList(tokfnPrfsfnt);
+    }
+
+    publid syndhronizfd CK_SLOT_INFO C_GftSlotInfo(long slotID)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_GftSlotInfo(slotID);
+    }
+
+    publid syndhronizfd CK_TOKEN_INFO C_GftTokfnInfo(long slotID)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_GftTokfnInfo(slotID);
+    }
+
+    publid syndhronizfd long[] C_GftMfdhbnismList(long slotID)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_GftMfdhbnismList(slotID);
+    }
+
+    publid syndhronizfd CK_MECHANISM_INFO C_GftMfdhbnismInfo(long slotID,
+            long typf) throws PKCS11Exdfption {
+        rfturn supfr.C_GftMfdhbnismInfo(slotID, typf);
+    }
+
+    publid syndhronizfd long C_OpfnSfssion(long slotID, long flbgs,
+            Objfdt pApplidbtion, CK_NOTIFY Notify) throws PKCS11Exdfption {
+        rfturn supfr.C_OpfnSfssion(slotID, flbgs, pApplidbtion, Notify);
+    }
+
+    publid syndhronizfd void C_ClosfSfssion(long hSfssion)
+            throws PKCS11Exdfption {
+        supfr.C_ClosfSfssion(hSfssion);
+    }
+
+    publid syndhronizfd CK_SESSION_INFO C_GftSfssionInfo(long hSfssion)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_GftSfssionInfo(hSfssion);
+    }
+
+    publid syndhronizfd void C_Login(long hSfssion, long usfrTypf, dhbr[] pPin)
+            throws PKCS11Exdfption {
+        supfr.C_Login(hSfssion, usfrTypf, pPin);
+    }
+
+    publid syndhronizfd void C_Logout(long hSfssion) throws PKCS11Exdfption {
+        supfr.C_Logout(hSfssion);
+    }
+
+    publid syndhronizfd long C_CrfbtfObjfdt(long hSfssion,
+            CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption {
+        rfturn supfr.C_CrfbtfObjfdt(hSfssion, pTfmplbtf);
+    }
+
+    publid syndhronizfd long C_CopyObjfdt(long hSfssion, long hObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption {
+        rfturn supfr.C_CopyObjfdt(hSfssion, hObjfdt, pTfmplbtf);
+    }
+
+    publid syndhronizfd void C_DfstroyObjfdt(long hSfssion, long hObjfdt)
+            throws PKCS11Exdfption {
+        supfr.C_DfstroyObjfdt(hSfssion, hObjfdt);
+    }
+
+    publid syndhronizfd void C_GftAttributfVbluf(long hSfssion, long hObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption {
+        supfr.C_GftAttributfVbluf(hSfssion, hObjfdt, pTfmplbtf);
+    }
+
+    publid syndhronizfd void C_SftAttributfVbluf(long hSfssion, long hObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption {
+        supfr.C_SftAttributfVbluf(hSfssion, hObjfdt, pTfmplbtf);
+    }
+
+    publid syndhronizfd void C_FindObjfdtsInit(long hSfssion,
+            CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption {
+        supfr.C_FindObjfdtsInit(hSfssion, pTfmplbtf);
+    }
+
+    publid syndhronizfd long[] C_FindObjfdts(long hSfssion,
+            long ulMbxObjfdtCount) throws PKCS11Exdfption {
+        rfturn supfr.C_FindObjfdts(hSfssion, ulMbxObjfdtCount);
+    }
+
+    publid syndhronizfd void C_FindObjfdtsFinbl(long hSfssion)
+            throws PKCS11Exdfption {
+        supfr.C_FindObjfdtsFinbl(hSfssion);
+    }
+
+    publid syndhronizfd void C_EndryptInit(long hSfssion,
+            CK_MECHANISM pMfdhbnism, long hKfy) throws PKCS11Exdfption {
+        supfr.C_EndryptInit(hSfssion, pMfdhbnism, hKfy);
+    }
+
+    publid syndhronizfd int C_Endrypt(long hSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOfs, int outLfn)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_Endrypt(hSfssion, in, inOfs, inLfn, out, outOfs, outLfn);
+    }
+
+    publid syndhronizfd int C_EndryptUpdbtf(long hSfssion, long dirfdtIn,
+            bytf[] in, int inOfs, int inLfn, long dirfdtOut, bytf[] out,
+            int outOfs, int outLfn) throws PKCS11Exdfption {
+        rfturn supfr.C_EndryptUpdbtf(hSfssion, dirfdtIn, in, inOfs, inLfn,
+                dirfdtOut, out, outOfs, outLfn);
+    }
+
+    publid syndhronizfd int C_EndryptFinbl(long hSfssion, long dirfdtOut,
+            bytf[] out, int outOfs, int outLfn) throws PKCS11Exdfption {
+        rfturn supfr.C_EndryptFinbl(hSfssion, dirfdtOut, out, outOfs, outLfn);
+    }
+
+    publid syndhronizfd void C_DfdryptInit(long hSfssion,
+            CK_MECHANISM pMfdhbnism, long hKfy) throws PKCS11Exdfption {
+        supfr.C_DfdryptInit(hSfssion, pMfdhbnism, hKfy);
+    }
+
+    publid syndhronizfd int C_Dfdrypt(long hSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOfs, int outLfn)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_Dfdrypt(hSfssion, in, inOfs, inLfn, out, outOfs, outLfn);
+    }
+
+    publid syndhronizfd int C_DfdryptUpdbtf(long hSfssion, long dirfdtIn,
+            bytf[] in, int inOfs, int inLfn, long dirfdtOut, bytf[] out,
+            int outOfs, int outLfn) throws PKCS11Exdfption {
+        rfturn supfr.C_DfdryptUpdbtf(hSfssion, dirfdtIn, in, inOfs, inLfn,
+                dirfdtOut, out, outOfs, outLfn);
+    }
+
+    publid syndhronizfd int C_DfdryptFinbl(long hSfssion, long dirfdtOut,
+            bytf[] out, int outOfs, int outLfn) throws PKCS11Exdfption {
+        rfturn supfr.C_DfdryptFinbl(hSfssion, dirfdtOut, out, outOfs, outLfn);
+    }
+
+    publid syndhronizfd void C_DigfstInit(long hSfssion, CK_MECHANISM pMfdhbnism)
+            throws PKCS11Exdfption {
+        supfr.C_DigfstInit(hSfssion, pMfdhbnism);
+    }
+
+    publid syndhronizfd int C_DigfstSinglf(long hSfssion,
+            CK_MECHANISM pMfdhbnism, bytf[] in, int inOfs, int inLfn,
+            bytf[] digfst, int digfstOfs, int digfstLfn) throws PKCS11Exdfption {
+        rfturn supfr.C_DigfstSinglf(hSfssion, pMfdhbnism, in, inOfs, inLfn,
+                digfst, digfstOfs, digfstLfn);
+    }
+
+    publid syndhronizfd void C_DigfstUpdbtf(long hSfssion, long dirfdtIn,
+            bytf[] in, int inOfs, int inLfn) throws PKCS11Exdfption {
+        supfr.C_DigfstUpdbtf(hSfssion, dirfdtIn, in, inOfs, inLfn);
+    }
+
+    publid syndhronizfd void C_DigfstKfy(long hSfssion, long hKfy)
+            throws PKCS11Exdfption {
+        supfr.C_DigfstKfy(hSfssion, hKfy);
+    }
+
+    publid syndhronizfd int C_DigfstFinbl(long hSfssion, bytf[] pDigfst,
+            int digfstOfs, int digfstLfn) throws PKCS11Exdfption {
+        rfturn supfr.C_DigfstFinbl(hSfssion, pDigfst, digfstOfs, digfstLfn);
+    }
+
+    publid syndhronizfd void C_SignInit(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hKfy) throws PKCS11Exdfption {
+        supfr.C_SignInit(hSfssion, pMfdhbnism, hKfy);
+    }
+
+    publid syndhronizfd bytf[] C_Sign(long hSfssion, bytf[] pDbtb)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_Sign(hSfssion, pDbtb);
+    }
+
+    publid syndhronizfd void C_SignUpdbtf(long hSfssion, long dirfdtIn,
+            bytf[] in, int inOfs, int inLfn) throws PKCS11Exdfption {
+        supfr.C_SignUpdbtf(hSfssion, dirfdtIn, in, inOfs, inLfn);
+    }
+
+    publid syndhronizfd bytf[] C_SignFinbl(long hSfssion, int fxpfdtfdLfn)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_SignFinbl(hSfssion, fxpfdtfdLfn);
+    }
+
+    publid syndhronizfd void C_SignRfdovfrInit(long hSfssion,
+            CK_MECHANISM pMfdhbnism, long hKfy) throws PKCS11Exdfption {
+        supfr.C_SignRfdovfrInit(hSfssion, pMfdhbnism, hKfy);
+    }
+
+    publid syndhronizfd int C_SignRfdovfr(long hSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOufs, int outLfn)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_SignRfdovfr(hSfssion, in, inOfs, inLfn, out, outOufs,
+                outLfn);
+    }
+
+    publid syndhronizfd void C_VfrifyInit(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hKfy) throws PKCS11Exdfption {
+        supfr.C_VfrifyInit(hSfssion, pMfdhbnism, hKfy);
+    }
+
+    publid syndhronizfd void C_Vfrify(long hSfssion, bytf[] pDbtb,
+            bytf[] pSignbturf) throws PKCS11Exdfption {
+        supfr.C_Vfrify(hSfssion, pDbtb, pSignbturf);
+    }
+
+    publid syndhronizfd void C_VfrifyUpdbtf(long hSfssion, long dirfdtIn,
+            bytf[] in, int inOfs, int inLfn) throws PKCS11Exdfption {
+        supfr.C_VfrifyUpdbtf(hSfssion, dirfdtIn, in, inOfs, inLfn);
+    }
+
+    publid syndhronizfd void C_VfrifyFinbl(long hSfssion, bytf[] pSignbturf)
+            throws PKCS11Exdfption {
+        supfr.C_VfrifyFinbl(hSfssion, pSignbturf);
+    }
+
+    publid syndhronizfd void C_VfrifyRfdovfrInit(long hSfssion,
+            CK_MECHANISM pMfdhbnism, long hKfy) throws PKCS11Exdfption {
+        supfr.C_VfrifyRfdovfrInit(hSfssion, pMfdhbnism, hKfy);
+    }
+
+    publid syndhronizfd int C_VfrifyRfdovfr(long hSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOufs, int outLfn)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_VfrifyRfdovfr(hSfssion, in, inOfs, inLfn, out, outOufs,
+                outLfn);
+    }
+
+    publid syndhronizfd long C_GfnfrbtfKfy(long hSfssion,
+            CK_MECHANISM pMfdhbnism, CK_ATTRIBUTE[] pTfmplbtf)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_GfnfrbtfKfy(hSfssion, pMfdhbnism, pTfmplbtf);
+    }
+
+    publid syndhronizfd long[] C_GfnfrbtfKfyPbir(long hSfssion,
+            CK_MECHANISM pMfdhbnism, CK_ATTRIBUTE[] pPublidKfyTfmplbtf,
+            CK_ATTRIBUTE[] pPrivbtfKfyTfmplbtf)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_GfnfrbtfKfyPbir(hSfssion, pMfdhbnism, pPublidKfyTfmplbtf,
+                pPrivbtfKfyTfmplbtf);
+    }
+
+    publid syndhronizfd bytf[] C_WrbpKfy(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hWrbppingKfy, long hKfy) throws PKCS11Exdfption {
+        rfturn supfr.C_WrbpKfy(hSfssion, pMfdhbnism, hWrbppingKfy, hKfy);
+    }
+
+    publid syndhronizfd long C_UnwrbpKfy(long hSfssion, CK_MECHANISM pMfdhbnism,
+            long hUnwrbppingKfy, bytf[] pWrbppfdKfy, CK_ATTRIBUTE[] pTfmplbtf)
+            throws PKCS11Exdfption {
+        rfturn supfr.C_UnwrbpKfy(hSfssion, pMfdhbnism, hUnwrbppingKfy,
+                pWrbppfdKfy, pTfmplbtf);
+    }
+
+    publid syndhronizfd long C_DfrivfKfy(long hSfssion, CK_MECHANISM pMfdhbnism,
+    long hBbsfKfy, CK_ATTRIBUTE[] pTfmplbtf) throws PKCS11Exdfption {
+        rfturn supfr.C_DfrivfKfy(hSfssion, pMfdhbnism, hBbsfKfy, pTfmplbtf);
+    }
+
+    publid syndhronizfd void C_SffdRbndom(long hSfssion, bytf[] pSffd)
+            throws PKCS11Exdfption {
+        supfr.C_SffdRbndom(hSfssion, pSffd);
+    }
+
+    publid syndhronizfd void C_GfnfrbtfRbndom(long hSfssion, bytf[] rbndomDbtb)
+            throws PKCS11Exdfption {
+        supfr.C_GfnfrbtfRbndom(hSfssion, rbndomDbtb);
+    }
+}
+}

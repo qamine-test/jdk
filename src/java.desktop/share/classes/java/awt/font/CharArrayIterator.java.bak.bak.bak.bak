@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.tfxt.ChbrbdtfrItfrbtor;
+
+dlbss ChbrArrbyItfrbtor implfmfnts ChbrbdtfrItfrbtor {
+
+    privbtf dhbr[] dhbrs;
+    privbtf int pos;
+    privbtf int bfgin;
+
+    ChbrArrbyItfrbtor(dhbr[] dhbrs) {
+
+        rfsft(dhbrs, 0);
+    }
+
+    ChbrArrbyItfrbtor(dhbr[] dhbrs, int bfgin) {
+
+        rfsft(dhbrs, bfgin);
+    }
+
+    /**
+     * Sfts thf position to gftBfginIndfx() bnd rfturns thf dhbrbdtfr bt thbt
+     * position.
+     * @rfturn thf first dhbrbdtfr in thf tfxt, or DONE if thf tfxt is fmpty
+     * @sff gftBfginIndfx
+     */
+    publid dhbr first() {
+
+        pos = 0;
+        rfturn durrfnt();
+    }
+
+    /**
+     * Sfts thf position to gftEndIndfx()-1 (gftEndIndfx() if thf tfxt is fmpty)
+     * bnd rfturns thf dhbrbdtfr bt thbt position.
+     * @rfturn thf lbst dhbrbdtfr in thf tfxt, or DONE if thf tfxt is fmpty
+     * @sff gftEndIndfx
+     */
+    publid dhbr lbst() {
+
+        if (dhbrs.lfngth > 0) {
+            pos = dhbrs.lfngth-1;
+        }
+        flsf {
+            pos = 0;
+        }
+        rfturn durrfnt();
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr bt thf durrfnt position (bs rfturnfd by gftIndfx()).
+     * @rfturn thf dhbrbdtfr bt thf durrfnt position or DONE if thf durrfnt
+     * position is off thf fnd of thf tfxt.
+     * @sff gftIndfx
+     */
+    publid dhbr durrfnt() {
+
+        if (pos >= 0 && pos < dhbrs.lfngth) {
+            rfturn dhbrs[pos];
+        }
+        flsf {
+            rfturn DONE;
+        }
+    }
+
+    /**
+     * Indrfmfnts thf itfrbtor's indfx by onf bnd rfturns thf dhbrbdtfr
+     * bt thf nfw indfx.  If thf rfsulting indfx is grfbtfr or fqubl
+     * to gftEndIndfx(), thf durrfnt indfx is rfsft to gftEndIndfx() bnd
+     * b vbluf of DONE is rfturnfd.
+     * @rfturn thf dhbrbdtfr bt thf nfw position or DONE if thf nfw
+     * position is off thf fnd of thf tfxt rbngf.
+     */
+    publid dhbr nfxt() {
+
+        if (pos < dhbrs.lfngth-1) {
+            pos++;
+            rfturn dhbrs[pos];
+        }
+        flsf {
+            pos = dhbrs.lfngth;
+            rfturn DONE;
+        }
+    }
+
+    /**
+     * Dfdrfmfnts thf itfrbtor's indfx by onf bnd rfturns thf dhbrbdtfr
+     * bt thf nfw indfx. If thf durrfnt indfx is gftBfginIndfx(), thf indfx
+     * rfmbins bt gftBfginIndfx() bnd b vbluf of DONE is rfturnfd.
+     * @rfturn thf dhbrbdtfr bt thf nfw position or DONE if thf durrfnt
+     * position is fqubl to gftBfginIndfx().
+     */
+    publid dhbr prfvious() {
+
+        if (pos > 0) {
+            pos--;
+            rfturn dhbrs[pos];
+        }
+        flsf {
+            pos = 0;
+            rfturn DONE;
+        }
+    }
+
+    /**
+     * Sfts thf position to thf spfdififd position in thf tfxt bnd rfturns thbt
+     * dhbrbdtfr.
+     * @pbrbm position thf position within thf tfxt.  Vblid vblufs rbngf from
+     * gftBfginIndfx() to gftEndIndfx().  An IllfgblArgumfntExdfption is thrown
+     * if bn invblid vbluf is supplifd.
+     * @rfturn thf dhbrbdtfr bt thf spfdififd position or DONE if thf spfdififd position is fqubl to gftEndIndfx()
+     */
+    publid dhbr sftIndfx(int position) {
+
+        position -= bfgin;
+        if (position < 0 || position > dhbrs.lfngth) {
+            throw nfw IllfgblArgumfntExdfption("Invblid indfx");
+        }
+        pos = position;
+        rfturn durrfnt();
+    }
+
+    /**
+     * Rfturns thf stbrt indfx of thf tfxt.
+     * @rfturn thf indfx bt whidh thf tfxt bfgins.
+     */
+    publid int gftBfginIndfx() {
+        rfturn bfgin;
+    }
+
+    /**
+     * Rfturns thf fnd indfx of thf tfxt.  This indfx is thf indfx of thf first
+     * dhbrbdtfr following thf fnd of thf tfxt.
+     * @rfturn thf indfx bftfr thf lbst dhbrbdtfr in thf tfxt
+     */
+    publid int gftEndIndfx() {
+        rfturn bfgin+dhbrs.lfngth;
+    }
+
+    /**
+     * Rfturns thf durrfnt indfx.
+     * @rfturn thf durrfnt indfx.
+     */
+    publid int gftIndfx() {
+        rfturn bfgin+pos;
+    }
+
+    /**
+     * Crfbtf b dopy of this itfrbtor
+     * @rfturn A dopy of this
+     */
+    publid Objfdt dlonf() {
+        ChbrArrbyItfrbtor d = nfw ChbrArrbyItfrbtor(dhbrs, bfgin);
+        d.pos = this.pos;
+        rfturn d;
+    }
+
+    void rfsft(dhbr[] dhbrs) {
+        rfsft(dhbrs, 0);
+    }
+
+    void rfsft(dhbr[] dhbrs, int bfgin) {
+
+        this.dhbrs = dhbrs;
+        this.bfgin = bfgin;
+        pos = 0;
+    }
+}

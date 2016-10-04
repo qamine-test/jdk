@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
 /**
  *
- * The representation (mapping) in the Java programming language of an SQL ROWID
- * value. An SQL ROWID is a built-in type, a value of which can be thought of as
- * an address  for its identified row in a database table. Whether that address
- * is logical or, in any  respects, physical is determined by its originating data
- * source.
+ * Tif rfprfsfntbtion (mbpping) in tif Jbvb progrbmming lbngubgf of bn SQL ROWID
+ * vbluf. An SQL ROWID is b built-in typf, b vbluf of wiidi dbn bf tiougit of bs
+ * bn bddrfss  for its idfntififd row in b dbtbbbsf tbblf. Wiftifr tibt bddrfss
+ * is logidbl or, in bny  rfspfdts, piysidbl is dftfrminfd by its originbting dbtb
+ * sourdf.
  * <p>
- * Methods in the interfaces <code>ResultSet</code>, <code>CallableStatement</code>,
- * and <code>PreparedStatement</code>, such as <code>getRowId</code> and <code>setRowId</code>
- * allow a programmer to access a SQL <code>ROWID</code>  value. The <code>RowId</code>
- * interface provides a method
- * for representing the value of the <code>ROWID</code> as a byte array or as a
- * <code>String</code>.
+ * Mftiods in tif intfrfbdfs <dodf>RfsultSft</dodf>, <dodf>CbllbblfStbtfmfnt</dodf>,
+ * bnd <dodf>PrfpbrfdStbtfmfnt</dodf>, sudi bs <dodf>gftRowId</dodf> bnd <dodf>sftRowId</dodf>
+ * bllow b progrbmmfr to bddfss b SQL <dodf>ROWID</dodf>  vbluf. Tif <dodf>RowId</dodf>
+ * intfrfbdf providfs b mftiod
+ * for rfprfsfnting tif vbluf of tif <dodf>ROWID</dodf> bs b bytf brrby or bs b
+ * <dodf>String</dodf>.
  * <p>
- * The method <code>getRowIdLifetime</code> in the interface <code>DatabaseMetaData</code>,
- * can be used
- * to determine if a <code>RowId</code> object remains valid for the duration of the transaction in
- * which  the <code>RowId</code> was created, the duration of the session in which
- * the <code>RowId</code> was created,
- * or, effectively, for as long as its identified row is not deleted. In addition
- * to specifying the duration of its valid lifetime outside its originating data
- * source, <code>getRowIdLifetime</code> specifies the duration of a <code>ROWID</code>
- * value's valid lifetime
- * within its originating data source. In this, it differs from a large object,
- * because there is no limit on the valid lifetime of a large  object within its
- * originating data source.
+ * Tif mftiod <dodf>gftRowIdLifftimf</dodf> in tif intfrfbdf <dodf>DbtbbbsfMftbDbtb</dodf>,
+ * dbn bf usfd
+ * to dftfrminf if b <dodf>RowId</dodf> objfdt rfmbins vblid for tif durbtion of tif trbnsbdtion in
+ * wiidi  tif <dodf>RowId</dodf> wbs drfbtfd, tif durbtion of tif sfssion in wiidi
+ * tif <dodf>RowId</dodf> wbs drfbtfd,
+ * or, ffffdtivfly, for bs long bs its idfntififd row is not dflftfd. In bddition
+ * to spfdifying tif durbtion of its vblid lifftimf outsidf its originbting dbtb
+ * sourdf, <dodf>gftRowIdLifftimf</dodf> spfdififs tif durbtion of b <dodf>ROWID</dodf>
+ * vbluf's vblid lifftimf
+ * witiin its originbting dbtb sourdf. In tiis, it difffrs from b lbrgf objfdt,
+ * bfdbusf tifrf is no limit on tif vblid lifftimf of b lbrgf  objfdt witiin its
+ * originbting dbtb sourdf.
  * <p>
- * All methods on the <code>RowId</code> interface must be fully implemented if the
- * JDBC driver supports the data type.
+ * All mftiods on tif <dodf>RowId</dodf> intfrfbdf must bf fully implfmfntfd if tif
+ * JDBC drivfr supports tif dbtb typf.
  *
- * @see java.sql.DatabaseMetaData
- * @since 1.6
+ * @sff jbvb.sql.DbtbbbsfMftbDbtb
+ * @sindf 1.6
  */
 
-public interface RowId {
+publid intfrfbdf RowId {
     /**
-     * Compares this <code>RowId</code> to the specified object. The result is
-     * <code>true</code> if and only if the argument is not null and is a RowId
-     * object that represents the same ROWID as  this object.
+     * Compbrfs tiis <dodf>RowId</dodf> to tif spfdififd objfdt. Tif rfsult is
+     * <dodf>truf</dodf> if bnd only if tif brgumfnt is not null bnd is b RowId
+     * objfdt tibt rfprfsfnts tif sbmf ROWID bs  tiis objfdt.
      * <p>
-     * It is important
-     * to consider both the origin and the valid lifetime of a <code>RowId</code>
-     * when comparing it to another <code>RowId</code>. If both are valid, and
-     * both are from the same table on the same data source, then if they are equal
-     * they identify
-     * the same row; if one or more is no longer guaranteed to be valid, or if
-     * they originate from different data sources, or different tables on the
-     * same data source, they  may be equal but still
-     * not identify the same row.
+     * It is importbnt
+     * to donsidfr boti tif origin bnd tif vblid lifftimf of b <dodf>RowId</dodf>
+     * wifn dompbring it to bnotifr <dodf>RowId</dodf>. If boti brf vblid, bnd
+     * boti brf from tif sbmf tbblf on tif sbmf dbtb sourdf, tifn if tify brf fqubl
+     * tify idfntify
+     * tif sbmf row; if onf or morf is no longfr gubrbntffd to bf vblid, or if
+     * tify originbtf from difffrfnt dbtb sourdfs, or difffrfnt tbblfs on tif
+     * sbmf dbtb sourdf, tify  mby bf fqubl but still
+     * not idfntify tif sbmf row.
      *
-     * @param obj the <code>Object</code> to compare this <code>RowId</code> object
-     *     against.
-     * @return true if the <code>RowId</code>s are equal; false otherwise
-     * @since 1.6
+     * @pbrbm obj tif <dodf>Objfdt</dodf> to dompbrf tiis <dodf>RowId</dodf> objfdt
+     *     bgbinst.
+     * @rfturn truf if tif <dodf>RowId</dodf>s brf fqubl; fblsf otifrwisf
+     * @sindf 1.6
      */
-    boolean equals(Object obj);
+    boolfbn fqubls(Objfdt obj);
 
     /**
-     * Returns an array of bytes representing the value of the SQL <code>ROWID</code>
-     * designated by this <code>java.sql.RowId</code> object.
+     * Rfturns bn brrby of bytfs rfprfsfnting tif vbluf of tif SQL <dodf>ROWID</dodf>
+     * dfsignbtfd by tiis <dodf>jbvb.sql.RowId</dodf> objfdt.
      *
-     * @return an array of bytes, whose length is determined by the driver supplying
-     *     the connection, representing the value of the ROWID designated by this
-     *     java.sql.RowId object.
+     * @rfturn bn brrby of bytfs, wiosf lfngti is dftfrminfd by tif drivfr supplying
+     *     tif donnfdtion, rfprfsfnting tif vbluf of tif ROWID dfsignbtfd by tiis
+     *     jbvb.sql.RowId objfdt.
      */
-     byte[] getBytes();
+     bytf[] gftBytfs();
 
      /**
-      * Returns a String representing the value of the SQL ROWID designated by this
-      * <code>java.sql.RowId</code> object.
+      * Rfturns b String rfprfsfnting tif vbluf of tif SQL ROWID dfsignbtfd by tiis
+      * <dodf>jbvb.sql.RowId</dodf> objfdt.
       * <p>
-      *Like <code>java.sql.Date.toString()</code>
-      * returns the contents of its DATE as the <code>String</code> "2004-03-17"
-      * rather than as  DATE literal in SQL (which would have been the <code>String</code>
+      *Likf <dodf>jbvb.sql.Dbtf.toString()</dodf>
+      * rfturns tif dontfnts of its DATE bs tif <dodf>String</dodf> "2004-03-17"
+      * rbtifr tibn bs  DATE litfrbl in SQL (wiidi would ibvf bffn tif <dodf>String</dodf>
       * DATE "2004-03-17"), toString()
-      * returns the contents of its ROWID in a form specific to the driver supplying
-      * the connection, and possibly not as a <code>ROWID</code> literal.
+      * rfturns tif dontfnts of its ROWID in b form spfdifid to tif drivfr supplying
+      * tif donnfdtion, bnd possibly not bs b <dodf>ROWID</dodf> litfrbl.
       *
-      * @return a String whose format is determined by the driver supplying the
-      *     connection, representing the value of the <code>ROWID</code> designated
-      *     by this <code>java.sql.RowId</code>  object.
+      * @rfturn b String wiosf formbt is dftfrminfd by tif drivfr supplying tif
+      *     donnfdtion, rfprfsfnting tif vbluf of tif <dodf>ROWID</dodf> dfsignbtfd
+      *     by tiis <dodf>jbvb.sql.RowId</dodf>  objfdt.
       */
      String toString();
 
      /**
-      * Returns a hash code value of this <code>RowId</code> object.
+      * Rfturns b ibsi dodf vbluf of tiis <dodf>RowId</dodf> objfdt.
       *
-      * @return a hash code for the <code>RowId</code>
+      * @rfturn b ibsi dodf for tif <dodf>RowId</dodf>
       */
-     int hashCode();
+     int ibsiCodf();
 
 }

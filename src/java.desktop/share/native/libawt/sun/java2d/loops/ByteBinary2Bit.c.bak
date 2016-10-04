@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "ByteBinary2Bit.h"
+#indludf "BytfBinbry2Bit.i"
 
-#include "IntArgb.h"
+#indludf "IntArgb.i"
 
 /*
- * This file declares, registers, and defines the various graphics
- * primitive loops to manipulate surfaces of type "ByteBinary2Bit".
+ * Tiis filf dfdlbrfs, rfgistfrs, bnd dffinfs tif vbrious grbpiids
+ * primitivf loops to mbnipulbtf surfbdfs of typf "BytfBinbry2Bit".
  *
- * See also LoopMacros.h
+ * Sff blso LoopMbdros.i
  */
 
-RegisterFunc RegisterByteBinary2Bit;
+RfgistfrFund RfgistfrBytfBinbry2Bit;
 
-DECLARE_SOLID_FILLRECT(ByteBinary2Bit);
-DECLARE_SOLID_FILLSPANS(ByteBinary2Bit);
-DECLARE_SOLID_DRAWLINE(ByteBinary2Bit);
-DECLARE_XOR_FILLRECT(ByteBinary2Bit);
-DECLARE_XOR_FILLSPANS(ByteBinary2Bit);
-DECLARE_XOR_DRAWLINE(ByteBinary2Bit);
-DECLARE_SOLID_DRAWGLYPHLIST(ByteBinary2Bit);
-DECLARE_SOLID_DRAWGLYPHLISTAA(ByteBinary2Bit);
-DECLARE_XOR_DRAWGLYPHLIST(ByteBinary2Bit);
+DECLARE_SOLID_FILLRECT(BytfBinbry2Bit);
+DECLARE_SOLID_FILLSPANS(BytfBinbry2Bit);
+DECLARE_SOLID_DRAWLINE(BytfBinbry2Bit);
+DECLARE_XOR_FILLRECT(BytfBinbry2Bit);
+DECLARE_XOR_FILLSPANS(BytfBinbry2Bit);
+DECLARE_XOR_DRAWLINE(BytfBinbry2Bit);
+DECLARE_SOLID_DRAWGLYPHLIST(BytfBinbry2Bit);
+DECLARE_SOLID_DRAWGLYPHLISTAA(BytfBinbry2Bit);
+DECLARE_XOR_DRAWGLYPHLIST(BytfBinbry2Bit);
 
-DECLARE_CONVERT_BLIT(ByteBinary2Bit, ByteBinary2Bit);
-DECLARE_CONVERT_BLIT(ByteBinary2Bit, IntArgb);
-DECLARE_CONVERT_BLIT(IntArgb, ByteBinary2Bit);
-DECLARE_XOR_BLIT(IntArgb, ByteBinary2Bit);
+DECLARE_CONVERT_BLIT(BytfBinbry2Bit, BytfBinbry2Bit);
+DECLARE_CONVERT_BLIT(BytfBinbry2Bit, IntArgb);
+DECLARE_CONVERT_BLIT(IntArgb, BytfBinbry2Bit);
+DECLARE_XOR_BLIT(IntArgb, BytfBinbry2Bit);
 
-DECLARE_ALPHA_MASKBLIT(ByteBinary2Bit, IntArgb);
-DECLARE_ALPHA_MASKBLIT(IntArgb, ByteBinary2Bit);
-DECLARE_ALPHA_MASKFILL(ByteBinary2Bit);
+DECLARE_ALPHA_MASKBLIT(BytfBinbry2Bit, IntArgb);
+DECLARE_ALPHA_MASKBLIT(IntArgb, BytfBinbry2Bit);
+DECLARE_ALPHA_MASKFILL(BytfBinbry2Bit);
 
-NativePrimitive ByteBinary2BitPrimitives[] = {
-    REGISTER_SOLID_FILLRECT(ByteBinary2Bit),
-    REGISTER_SOLID_FILLSPANS(ByteBinary2Bit),
-    REGISTER_SOLID_LINE_PRIMITIVES(ByteBinary2Bit),
-    REGISTER_XOR_FILLRECT(ByteBinary2Bit),
-    REGISTER_XOR_FILLSPANS(ByteBinary2Bit),
-    REGISTER_XOR_LINE_PRIMITIVES(ByteBinary2Bit),
-    REGISTER_SOLID_DRAWGLYPHLIST(ByteBinary2Bit),
-    REGISTER_SOLID_DRAWGLYPHLISTAA(ByteBinary2Bit),
-    REGISTER_XOR_DRAWGLYPHLIST(ByteBinary2Bit),
+NbtivfPrimitivf BytfBinbry2BitPrimitivfs[] = {
+    REGISTER_SOLID_FILLRECT(BytfBinbry2Bit),
+    REGISTER_SOLID_FILLSPANS(BytfBinbry2Bit),
+    REGISTER_SOLID_LINE_PRIMITIVES(BytfBinbry2Bit),
+    REGISTER_XOR_FILLRECT(BytfBinbry2Bit),
+    REGISTER_XOR_FILLSPANS(BytfBinbry2Bit),
+    REGISTER_XOR_LINE_PRIMITIVES(BytfBinbry2Bit),
+    REGISTER_SOLID_DRAWGLYPHLIST(BytfBinbry2Bit),
+    REGISTER_SOLID_DRAWGLYPHLISTAA(BytfBinbry2Bit),
+    REGISTER_XOR_DRAWGLYPHLIST(BytfBinbry2Bit),
 
-    REGISTER_CONVERT_BLIT(ByteBinary2Bit, ByteBinary2Bit),
-    REGISTER_CONVERT_BLIT(ByteBinary2Bit, IntArgb),
-    REGISTER_CONVERT_BLIT(IntArgb, ByteBinary2Bit),
-    REGISTER_XOR_BLIT(IntArgb, ByteBinary2Bit),
+    REGISTER_CONVERT_BLIT(BytfBinbry2Bit, BytfBinbry2Bit),
+    REGISTER_CONVERT_BLIT(BytfBinbry2Bit, IntArgb),
+    REGISTER_CONVERT_BLIT(IntArgb, BytfBinbry2Bit),
+    REGISTER_XOR_BLIT(IntArgb, BytfBinbry2Bit),
 
-    REGISTER_ALPHA_MASKBLIT(ByteBinary2Bit, IntArgb),
-    REGISTER_ALPHA_MASKBLIT(IntArgb, ByteBinary2Bit),
-    REGISTER_ALPHA_MASKFILL(ByteBinary2Bit),
+    REGISTER_ALPHA_MASKBLIT(BytfBinbry2Bit, IntArgb),
+    REGISTER_ALPHA_MASKBLIT(IntArgb, BytfBinbry2Bit),
+    REGISTER_ALPHA_MASKFILL(BytfBinbry2Bit),
 };
 
-jboolean RegisterByteBinary2Bit(JNIEnv *env)
+jboolfbn RfgistfrBytfBinbry2Bit(JNIEnv *fnv)
 {
-    return RegisterPrimitives(env, ByteBinary2BitPrimitives,
-                              ArraySize(ByteBinary2BitPrimitives));
+    rfturn RfgistfrPrimitivfs(fnv, BytfBinbry2BitPrimitivfs,
+                              ArrbySizf(BytfBinbry2BitPrimitivfs));
 }
 
-DEFINE_BYTE_BINARY_SOLID_FILLRECT(ByteBinary2Bit)
+DEFINE_BYTE_BINARY_SOLID_FILLRECT(BytfBinbry2Bit)
 
-DEFINE_BYTE_BINARY_SOLID_FILLSPANS(ByteBinary2Bit)
+DEFINE_BYTE_BINARY_SOLID_FILLSPANS(BytfBinbry2Bit)
 
-DEFINE_BYTE_BINARY_SOLID_DRAWLINE(ByteBinary2Bit)
+DEFINE_BYTE_BINARY_SOLID_DRAWLINE(BytfBinbry2Bit)
 
-DEFINE_BYTE_BINARY_XOR_FILLRECT(ByteBinary2Bit)
+DEFINE_BYTE_BINARY_XOR_FILLRECT(BytfBinbry2Bit)
 
-DEFINE_BYTE_BINARY_XOR_FILLSPANS(ByteBinary2Bit)
+DEFINE_BYTE_BINARY_XOR_FILLSPANS(BytfBinbry2Bit)
 
-DEFINE_BYTE_BINARY_XOR_DRAWLINE(ByteBinary2Bit)
+DEFINE_BYTE_BINARY_XOR_DRAWLINE(BytfBinbry2Bit)
 
-DEFINE_BYTE_BINARY_SOLID_DRAWGLYPHLIST(ByteBinary2Bit)
+DEFINE_BYTE_BINARY_SOLID_DRAWGLYPHLIST(BytfBinbry2Bit)
 
-DEFINE_BYTE_BINARY_SOLID_DRAWGLYPHLISTAA(ByteBinary2Bit, 3ByteRgb)
+DEFINE_BYTE_BINARY_SOLID_DRAWGLYPHLISTAA(BytfBinbry2Bit, 3BytfRgb)
 
-DEFINE_BYTE_BINARY_XOR_DRAWGLYPHLIST(ByteBinary2Bit)
+DEFINE_BYTE_BINARY_XOR_DRAWGLYPHLIST(BytfBinbry2Bit)
 
-DEFINE_BYTE_BINARY_CONVERT_BLIT(ByteBinary2Bit, ByteBinary2Bit, 1IntRgb)
+DEFINE_BYTE_BINARY_CONVERT_BLIT(BytfBinbry2Bit, BytfBinbry2Bit, 1IntRgb)
 
-DEFINE_BYTE_BINARY_CONVERT_BLIT(ByteBinary2Bit, IntArgb, 1IntArgb)
+DEFINE_BYTE_BINARY_CONVERT_BLIT(BytfBinbry2Bit, IntArgb, 1IntArgb)
 
-DEFINE_BYTE_BINARY_CONVERT_BLIT(IntArgb, ByteBinary2Bit, 1IntRgb)
+DEFINE_BYTE_BINARY_CONVERT_BLIT(IntArgb, BytfBinbry2Bit, 1IntRgb)
 
-DEFINE_BYTE_BINARY_XOR_BLIT(IntArgb, ByteBinary2Bit)
+DEFINE_BYTE_BINARY_XOR_BLIT(IntArgb, BytfBinbry2Bit)
 
-DEFINE_BYTE_BINARY_ALPHA_MASKBLIT(ByteBinary2Bit, IntArgb, 4ByteArgb)
+DEFINE_BYTE_BINARY_ALPHA_MASKBLIT(BytfBinbry2Bit, IntArgb, 4BytfArgb)
 
-DEFINE_BYTE_BINARY_ALPHA_MASKBLIT(IntArgb, ByteBinary2Bit, 4ByteArgb)
+DEFINE_BYTE_BINARY_ALPHA_MASKBLIT(IntArgb, BytfBinbry2Bit, 4BytfArgb)
 
-DEFINE_BYTE_BINARY_ALPHA_MASKFILL(ByteBinary2Bit, 4ByteArgb)
+DEFINE_BYTE_BINARY_ALPHA_MASKFILL(BytfBinbry2Bit, 4BytfArgb)

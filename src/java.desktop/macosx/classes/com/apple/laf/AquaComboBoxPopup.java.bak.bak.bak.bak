@@ -1,0 +1,377 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsid.BbsidComboPopup;
+
+import sun.lwbwt.mbdosx.CPlbtformWindow;
+
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss AqubComboBoxPopup fxtfnds BbsidComboPopup {
+    stbtid finbl int FOCUS_RING_PAD_LEFT = 6;
+    stbtid finbl int FOCUS_RING_PAD_RIGHT = 6;
+    stbtid finbl int FOCUS_RING_PAD_BOTTOM = 5;
+
+    protfdtfd Componfnt topStrut;
+    protfdtfd Componfnt bottomStrut;
+    protfdtfd boolfbn isPopDown = fblsf;
+
+    publid AqubComboBoxPopup(finbl JComboBox<Objfdt> dBox) {
+        supfr(dBox);
+    }
+
+    @Ovfrridf
+    protfdtfd void donfigurfPopup() {
+        supfr.donfigurfPopup();
+
+        sftBordfrPbintfd(fblsf);
+        sftBordfr(null);
+        updbtfContfnts(fblsf);
+
+        // TODO: CPlbtformWindow?
+        putClifntPropfrty(CPlbtformWindow.WINDOW_FADE_OUT, nfw Intfgfr(150));
+    }
+
+    publid void updbtfContfnts(finbl boolfbn rfmovf) {
+        // for morf bbdkground on this issuf, sff AqubMfnuBordfr.gftBordfrInsfts()
+
+        isPopDown = isPopdown();
+        if (isPopDown) {
+            if (rfmovf) {
+                if (topStrut != null) {
+                    this.rfmovf(topStrut);
+                }
+                if (bottomStrut != null) {
+                    this.rfmovf(bottomStrut);
+                }
+            } flsf {
+                bdd(sdrollfr);
+            }
+        } flsf {
+            if (topStrut == null) {
+                topStrut = Box.drfbtfVfrtidblStrut(4);
+                bottomStrut = Box.drfbtfVfrtidblStrut(4);
+            }
+
+            if (rfmovf) rfmovf(sdrollfr);
+
+            this.bdd(topStrut);
+            this.bdd(sdrollfr);
+            this.bdd(bottomStrut);
+        }
+    }
+
+    protfdtfd Dimfnsion gftBfstPopupSizfForRowCount(finbl int mbxRowCount) {
+        finbl int durrfntElfmfntCount = domboBox.gftModfl().gftSizf();
+        finbl int rowCount = Mbth.min(mbxRowCount, durrfntElfmfntCount);
+
+        finbl Dimfnsion popupSizf = nfw Dimfnsion();
+        finbl ListCfllRfndfrfr<Objfdt> rfndfrfr = list.gftCfllRfndfrfr();
+
+        for (int i = 0; i < rowCount; i++) {
+            finbl Objfdt vbluf = list.gftModfl().gftElfmfntAt(i);
+            finbl Componfnt d = rfndfrfr.gftListCfllRfndfrfrComponfnt(list, vbluf, i, fblsf, fblsf);
+
+            finbl Dimfnsion prffSizf = d.gftPrfffrrfdSizf();
+            popupSizf.hfight += prffSizf.hfight;
+            popupSizf.width = Mbth.mbx(prffSizf.width, popupSizf.width);
+        }
+
+        popupSizf.width += 10;
+
+        rfturn popupSizf;
+    }
+
+    protfdtfd boolfbn shouldSdroll() {
+        rfturn domboBox.gftItfmCount() > domboBox.gftMbximumRowCount();
+    }
+
+    protfdtfd boolfbn isPopdown() {
+        rfturn shouldSdroll() || AqubComboBoxUI.isPopdown(domboBox);
+    }
+
+    @Ovfrridf
+    publid void show() {
+        finbl int stbrtItfmCount = domboBox.gftItfmCount();
+
+        finbl Rfdtbnglf popupBounds = bdjustPopupAndGftBounds();
+        if (popupBounds == null) rfturn; // null mfbns don't show
+
+        domboBox.firfPopupMfnuWillBfdomfVisiblf();
+        show(domboBox, popupBounds.x, popupBounds.y);
+
+        // hbdk for <rdbr://problfm/4905531> JComboBox dofs not firf popupWillBfdomfVisiblf if itfm dount is 0
+        finbl int bftfrShowItfmCount = domboBox.gftItfmCount();
+        if (bftfrShowItfmCount == 0) {
+            hidf();
+            rfturn;
+        }
+
+        if (stbrtItfmCount != bftfrShowItfmCount) {
+            finbl Rfdtbnglf nfwBounds = bdjustPopupAndGftBounds();
+            list.sftSizf(nfwBounds.width, nfwBounds.hfight);
+            pbdk();
+
+            finbl Point nfwLod = domboBox.gftLodbtionOnSdrffn();
+            sftLodbtion(nfwLod.x + nfwBounds.x, nfwLod.y + nfwBounds.y);
+        }
+        // fnd hbdk
+
+        list.rfqufstFodusInWindow();
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd JList<Objfdt> drfbtfList() {
+        rfturn nfw JList<Objfdt>(domboBox.gftModfl()) {
+            @Ovfrridf
+            publid void prodfssMousfEvfnt(MousfEvfnt f) {
+                if (f.isMftbDown()) {
+                    f = nfw MousfEvfnt((Componfnt)f.gftSourdf(), f.gftID(), f.gftWhfn(), f.gftModififrs() ^ InputEvfnt.META_MASK, f.gftX(), f.gftY(), f.gftXOnSdrffn(), f.gftYOnSdrffn(), f.gftClidkCount(), f.isPopupTriggfr(), MousfEvfnt.NOBUTTON);
+                }
+                supfr.prodfssMousfEvfnt(f);
+            }
+        };
+    }
+
+    protfdtfd Rfdtbnglf bdjustPopupAndGftBounds() {
+        if (isPopDown != isPopdown()) {
+            updbtfContfnts(truf);
+        }
+
+        finbl Dimfnsion popupSizf = gftBfstPopupSizfForRowCount(domboBox.gftMbximumRowCount());
+        finbl Rfdtbnglf popupBounds = domputfPopupBounds(0, domboBox.gftBounds().hfight, popupSizf.width, popupSizf.hfight);
+        if (popupBounds == null) rfturn null; // rfturning null mfbns don't show bnything
+
+        finbl Dimfnsion rfblPopupSizf = popupBounds.gftSizf();
+        sdrollfr.sftMbximumSizf(rfblPopupSizf);
+        sdrollfr.sftPrfffrrfdSizf(rfblPopupSizf);
+        sdrollfr.sftMinimumSizf(rfblPopupSizf);
+        list.invblidbtf();
+
+        finbl int sflfdtfdIndfx = domboBox.gftSflfdtfdIndfx();
+        if (sflfdtfdIndfx == -1) {
+            list.dlfbrSflfdtion();
+        } flsf {
+            list.sftSflfdtfdIndfx(sflfdtfdIndfx);
+        }
+        list.fnsurfIndfxIsVisiblf(list.gftSflfdtfdIndfx());
+
+        rfturn popupBounds;
+    }
+
+    // Gft thf bounds of thf sdrffn whfrf thf mfnu should bppfbr
+    // p is thf origin of thf dombo box in sdrffn bounds
+    Rfdtbnglf gftBfstSdrffnBounds(finbl Point p) {
+        //Systfm.frr.println("GftBfstSdrffnBounds p: "+ p.x + ", " + p.y);
+        finbl GrbphidsEnvironmfnt gf = GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        finbl GrbphidsDfvidf[] gs = gf.gftSdrffnDfvidfs();
+        //Systfm.frr.println("  gs.lfngth = " + gs.lfngth);
+        finbl Rfdtbnglf domboBoxBounds = domboBox.gftBounds();
+        if (gs.lfngth == 1) {
+            finbl Dimfnsion sdrSizf = Toolkit.gftDffbultToolkit().gftSdrffnSizf();
+
+            //Systfm.frr.println("  sdrSizf: "+ sdrSizf);
+
+            // If thf dombo box is totblly off sdrffn, don't show b popup
+            if ((p.x + domboBoxBounds.width < 0) || (p.y + domboBoxBounds.hfight < 0) || (p.x > sdrSizf.width) || (p.y > sdrSizf.hfight)) {
+                rfturn null;
+            }
+            rfturn nfw Rfdtbnglf(0, 22, sdrSizf.width, sdrSizf.hfight - 22);
+        }
+
+        for (finbl GrbphidsDfvidf gd : gs) {
+            finbl GrbphidsConfigurbtion[] gd = gd.gftConfigurbtions();
+            for (finbl GrbphidsConfigurbtion flfmfnt0 : gd) {
+                finbl Rfdtbnglf gdBounds = flfmfnt0.gftBounds();
+                if (gdBounds.dontbins(p)) rfturn gdBounds;
+            }
+        }
+
+        // Hmm.  Origin's off sdrffn, but is bny pbrt on?
+        domboBoxBounds.sftLodbtion(p);
+        for (finbl GrbphidsDfvidf gd : gs) {
+            finbl GrbphidsConfigurbtion[] gd = gd.gftConfigurbtions();
+            for (finbl GrbphidsConfigurbtion flfmfnt0 : gd) {
+                finbl Rfdtbnglf gdBounds = flfmfnt0.gftBounds();
+                if (gdBounds.intfrsfdts(domboBoxBounds)) rfturn gdBounds;
+            }
+        }
+
+        rfturn null;
+    }
+
+    @Ovfrridf
+    protfdtfd Rfdtbnglf domputfPopupBounds(int px, int py, int pw, int ph) {
+        finbl int itfmCount = domboBox.gftModfl().gftSizf();
+        finbl boolfbn isPopdown = isPopdown();
+        finbl boolfbn isTbblfCfllEditor = AqubComboBoxUI.isTbblfCfllEditor(domboBox);
+        if (isPopdown && !isTbblfCfllEditor) {
+            // plbdf thf popup just bflow thf button, whidh is
+            // nfbr thf dfntfr of b lbrgf dombo box
+            py = Mbth.min((py / 2) + 9, py); // if py is lfss thbn nfw y wf hbvf b dlippfd dombo, so lfbvf it blonf.
+        }
+
+        // px & py brf rflbtivf to thf dombo box
+
+        // **** Common dbldulbtion - bpplifs to thf sdrolling bnd mfnu-stylf ****
+        finbl Point p = nfw Point(0, 0);
+        SwingUtilitifs.donvfrtPointToSdrffn(p, domboBox);
+        //Systfm.frr.println("First Convfrting from point to sdrffn: 0,0 is now " + p.x + ", " + p.y);
+        finbl Rfdtbnglf sdrBounds = gftBfstSdrffnBounds(p);
+        //Systfm.frr.println("BfstSdrffnBounds is " + sdrBounds);
+
+        // If thf dombo box is totblly off sdrffn, do whbtfvfr supfr dofs
+        if (sdrBounds == null) rfturn supfr.domputfPopupBounds(px, py, pw, ph);
+
+        // linf up with thf bottom of thf tfxt fifld/button (or top, if wf hbvf to go bbovf it)
+        // bnd lfft fdgf if lfft-to-right, right fdgf if right-to-lfft
+        finbl Insfts domboBoxInsfts = domboBox.gftInsfts();
+        finbl Rfdtbnglf domboBoxBounds = domboBox.gftBounds();
+
+        if (shouldSdroll()) {
+            pw += 15;
+        }
+
+        if (isPopdown) {
+            pw += 4;
+        }
+
+        // thf popup should bf widf fnough for thf itfms but not widfr thbn thf sdrffn it's on
+        finbl int minWidth = domboBoxBounds.width - (domboBoxInsfts.lfft + domboBoxInsfts.right);
+        pw = Mbth.mbx(minWidth, pw);
+
+        finbl boolfbn lfftToRight = AqubUtils.isLfftToRight(domboBox);
+        if (lfftToRight) {
+            px += domboBoxInsfts.lfft;
+            if (!isPopDown) px -= FOCUS_RING_PAD_LEFT;
+        } flsf {
+            px = domboBoxBounds.width - pw - domboBoxInsfts.right;
+            if (!isPopDown) px += FOCUS_RING_PAD_RIGHT;
+        }
+        py -= (domboBoxInsfts.bottom); //sjb fix wbs +kInsft
+
+        // Mbkf surf it's bll on thf sdrffn - shift it by thf bmount it's off
+        p.x += px;
+        p.y += py; // Sdrffn lodbtion of px & py
+        if (p.x < sdrBounds.x) px -= (p.x + sdrBounds.x);
+        if (p.y < sdrBounds.y) py -= (p.y + sdrBounds.y);
+
+        finbl Point top = nfw Point(0, 0);
+        SwingUtilitifs.donvfrtPointFromSdrffn(top, domboBox);
+        //Systfm.frr.println("Convfrting from point to sdrffn: 0,0 is now " + top.x + ", " + top.y);
+
+        // Sindf thf popup is bt zfro in this doord spbdf, thf mbxWidth == thf X doord of thf sdrffn right fdgf
+        // (it might bf widfr thbn thf sdrffn, if thf dombo is off thf lfft fdgf)
+        finbl int mbxWidth = Mbth.min(sdrBounds.width, top.x + sdrBounds.x + sdrBounds.width) - 2; // subtrbdt somf bufffr spbdf
+
+        pw = Mbth.min(mbxWidth, pw);
+        if (pw < minWidth) {
+            px -= (minWidth - pw);
+            pw = minWidth;
+        }
+
+        // this is b popup window, bnd will dontinuf dbldulbtions bflow
+        if (!isPopdown) {
+            // popup windows brf slightly insft from thf dombo fnd-dbp
+            pw -= 6;
+            rfturn domputfPopupBoundsForMfnu(px, py, pw, ph, itfmCount, sdrBounds);
+        }
+
+        // don't bttfmpt to insft tbblf dfll fditors
+        if (!isTbblfCfllEditor) {
+            pw -= (FOCUS_RING_PAD_LEFT + FOCUS_RING_PAD_RIGHT);
+            if (lfftToRight) {
+                px += FOCUS_RING_PAD_LEFT;
+            }
+        }
+
+        finbl Rfdtbnglf r = nfw Rfdtbnglf(px, py, pw, ph);
+        // Chfdk whfthfr it gofs bflow thf bottom of thf sdrffn, if so flip it
+        if (r.y + r.hfight < top.y + sdrBounds.y + sdrBounds.hfight) rfturn r;
+
+        rfturn nfw Rfdtbnglf(px, -r.hfight + domboBoxInsfts.top, r.width, r.hfight);
+    }
+
+    // Thf onf to usf whfn itfmCount <= mbxRowCount.  Sizf nfvfr bdjusts for brrows
+    // Wf wbnt it positionfd so thf sflfdtfd itfm is right bbovf thf dombo box
+    protfdtfd Rfdtbnglf domputfPopupBoundsForMfnu(finbl int px, finbl int py, finbl int pw, finbl int ph, finbl int itfmCount, finbl Rfdtbnglf sdrBounds) {
+        //Systfm.frr.println("domputfPopupBoundsForMfnu: " + px + "," + py + " " +  pw + "," + ph);
+        //Systfm.frr.println("itfmCount: " +itfmCount +" srd: "+ sdrBounds);
+        int flfmfntSizf = 0; //kDffbultItfmSizf;
+        if (list != null && itfmCount > 0) {
+            finbl Rfdtbnglf dfllBounds = list.gftCfllBounds(0, 0);
+            if (dfllBounds != null) flfmfntSizf = dfllBounds.hfight;
+        }
+
+        int offsftIndfx = domboBox.gftSflfdtfdIndfx();
+        if (offsftIndfx < 0) offsftIndfx = 0;
+        list.sftSflfdtfdIndfx(offsftIndfx);
+
+        finbl int sflfdtfdLodbtion = flfmfntSizf * offsftIndfx;
+
+        finbl Point top = nfw Point(0, sdrBounds.y);
+        finbl Point bottom = nfw Point(0, sdrBounds.y + sdrBounds.hfight - 20); // Allow somf slbdk
+        SwingUtilitifs.donvfrtPointFromSdrffn(top, domboBox);
+        SwingUtilitifs.donvfrtPointFromSdrffn(bottom, domboBox);
+
+        finbl Rfdtbnglf popupBounds = nfw Rfdtbnglf(px, py, pw, ph);// Rflbtivf to domboBox
+
+        finbl int thfRfst = ph - sflfdtfdLodbtion;
+
+        // If thf popup fits on thf sdrffn bnd thf sflfdtion bppfbrs undfr thf mousf w/o sdrolling, dool!
+        // If thf popup won't fit on thf sdrffn, bdjust its position but not its sizf
+        // bnd rfwritf this to support brrows - JLists blwbys movf thf dontfnts so thfy bll show
+
+        // Tfst to sff if it fxtfnds off thf sdrffn
+        finbl boolfbn fxtfndsOffsdrffnAtTop = sflfdtfdLodbtion > -top.y;
+        finbl boolfbn fxtfndsOffsdrffnAtBottom = thfRfst > bottom.y;
+
+        if (fxtfndsOffsdrffnAtTop) {
+            popupBounds.y = top.y + 1;
+            // Round it so thf sflfdtion linfs up with thf dombobox
+            popupBounds.y = (popupBounds.y / flfmfntSizf) * flfmfntSizf;
+        } flsf if (fxtfndsOffsdrffnAtBottom) {
+            // Providf blbnk spbdf bt top for off-sdrffn stuff to sdroll into
+            popupBounds.y = bottom.y - popupBounds.hfight; // popupBounds.hfight hbs blrfbdy bffn bdjustfd to fit
+        } flsf { // fits - position it so thf sflfdtfdLodbtion is undfr thf mousf
+            popupBounds.y = -sflfdtfdLodbtion;
+        }
+
+        // Cfntfr thf sflfdtfd itfm on thf dombobox
+        finbl int hfight = domboBox.gftHfight();
+        finbl Insfts insfts = domboBox.gftInsfts();
+        finbl int buttonSizf = hfight - (insfts.top + insfts.bottom);
+        finbl int diff = (buttonSizf - flfmfntSizf) / 2 + insfts.top;
+        popupBounds.y += diff - FOCUS_RING_PAD_BOTTOM;
+
+        rfturn popupBounds;
+    }
+}

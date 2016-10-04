@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.event;
+pbdkbgf jbvbx.imbgfio.fvfnt;
 
-import java.util.EventListener;
-import javax.imageio.ImageWriter;
+import jbvb.util.EvfntListfnfr;
+import jbvbx.imbgfio.ImbgfWritfr;
 
 /**
- * An interface used by <code>ImageWriter</code> implementations to notify
- * callers of their image writing methods of progress.
+ * An intfrfbdf usfd by <dodf>ImbgfWritfr</dodf> implfmfntbtions to notify
+ * dbllfrs of tifir imbgf writing mftiods of progrfss.
  *
- * @see javax.imageio.ImageWriter#write
+ * @sff jbvbx.imbgfio.ImbgfWritfr#writf
  *
  */
-public interface IIOWriteProgressListener extends EventListener {
+publid intfrfbdf IIOWritfProgrfssListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * Reports that an image write operation is beginning.  All
-     * <code>ImageWriter</code> implementations are required to call
-     * this method exactly once when beginning an image write
-     * operation.
+     * Rfports tibt bn imbgf writf opfrbtion is bfginning.  All
+     * <dodf>ImbgfWritfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf wifn bfginning bn imbgf writf
+     * opfrbtion.
      *
-     * @param source the <code>ImageWriter</code> object calling this
-     * method.
-     * @param imageIndex the index of the image being written within
-     * its containing input file or stream.
+     * @pbrbm sourdf tif <dodf>ImbgfWritfr</dodf> objfdt dblling tiis
+     * mftiod.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing writtfn witiin
+     * its dontbining input filf or strfbm.
      */
-    void imageStarted(ImageWriter source, int imageIndex);
+    void imbgfStbrtfd(ImbgfWritfr sourdf, int imbgfIndfx);
 
     /**
-     * Reports the approximate degree of completion of the current
-     * <code>write</code> call within the associated
-     * <code>ImageWriter</code>.
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * <dodf>writf</dodf> dbll witiin tif bssodibtfd
+     * <dodf>ImbgfWritfr</dodf>.
      *
-     * <p> The degree of completion is expressed as an index
-     * indicating which image is being written, and a percentage
-     * varying from <code>0.0F</code> to <code>100.0F</code>
-     * indicating how much of the current image has been output.  The
-     * percentage should ideally be calculated in terms of the
-     * remaining time to completion, but it is usually more practical
-     * to use a more well-defined metric such as pixels decoded or
-     * portion of input stream consumed.  In any case, a sequence of
-     * calls to this method during a given read operation should
-     * supply a monotonically increasing sequence of percentage
-     * values.  It is not necessary to supply the exact values
-     * <code>0</code> and <code>100</code>, as these may be inferred
-     * by the callee from other methods.
+     * <p> Tif dfgrff of domplftion is fxprfssfd bs bn indfx
+     * indidbting wiidi imbgf is bfing writtfn, bnd b pfrdfntbgf
+     * vbrying from <dodf>0.0F</dodf> to <dodf>100.0F</dodf>
+     * indidbting iow mudi of tif durrfnt imbgf ibs bffn output.  Tif
+     * pfrdfntbgf siould idfblly bf dbldulbtfd in tfrms of tif
+     * rfmbining timf to domplftion, but it is usublly morf prbdtidbl
+     * to usf b morf wfll-dffinfd mftrid sudi bs pixfls dfdodfd or
+     * portion of input strfbm donsumfd.  In bny dbsf, b sfqufndf of
+     * dblls to tiis mftiod during b givfn rfbd opfrbtion siould
+     * supply b monotonidblly indrfbsing sfqufndf of pfrdfntbgf
+     * vblufs.  It is not nfdfssbry to supply tif fxbdt vblufs
+     * <dodf>0</dodf> bnd <dodf>100</dodf>, bs tifsf mby bf inffrrfd
+     * by tif dbllff from otifr mftiods.
      *
-     * <p> Each particular <code>ImageWriter</code> implementation may
-     * call this method at whatever frequency it desires.  A rule of
-     * thumb is to call it around each 5 percent mark.
+     * <p> Ebdi pbrtidulbr <dodf>ImbgfWritfr</dodf> implfmfntbtion mby
+     * dbll tiis mftiod bt wibtfvfr frfqufndy it dfsirfs.  A rulf of
+     * tiumb is to dbll it bround fbdi 5 pfrdfnt mbrk.
      *
-     * @param source the <code>ImageWriter</code> object calling this method.
-     * @param percentageDone the approximate percentage of decoding that
-     * has been completed.
+     * @pbrbm sourdf tif <dodf>ImbgfWritfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * ibs bffn domplftfd.
      */
-    void imageProgress(ImageWriter source,
-                       float percentageDone);
+    void imbgfProgrfss(ImbgfWritfr sourdf,
+                       flobt pfrdfntbgfDonf);
 
     /**
-     * Reports that the image write operation has completed.  All
-     * <code>ImageWriter</code> implementations are required to call
-     * this method exactly once upon completion of each image write
-     * operation.
+     * Rfports tibt tif imbgf writf opfrbtion ibs domplftfd.  All
+     * <dodf>ImbgfWritfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf upon domplftion of fbdi imbgf writf
+     * opfrbtion.
      *
-     * @param source the <code>ImageWriter</code> object calling this method.
+     * @pbrbm sourdf tif <dodf>ImbgfWritfr</dodf> objfdt dblling tiis mftiod.
      */
-    void imageComplete(ImageWriter source);
+    void imbgfComplftf(ImbgfWritfr sourdf);
 
     /**
-     * Reports that a thumbnail write operation is beginning.  All
-     * <code>ImageWriter</code> implementations are required to call
-     * this method exactly once when beginning a thumbnail write
-     * operation.
+     * Rfports tibt b tiumbnbil writf opfrbtion is bfginning.  All
+     * <dodf>ImbgfWritfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf wifn bfginning b tiumbnbil writf
+     * opfrbtion.
      *
-     * @param source the <code>ImageWrite</code> object calling this method.
-     * @param imageIndex the index of the image being written within its
-     * containing input file or stream.
-     * @param thumbnailIndex the index of the thumbnail being written.
+     * @pbrbm sourdf tif <dodf>ImbgfWritf</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing writtfn witiin its
+     * dontbining input filf or strfbm.
+     * @pbrbm tiumbnbilIndfx tif indfx of tif tiumbnbil bfing writtfn.
      */
-    void thumbnailStarted(ImageWriter source,
-                          int imageIndex, int thumbnailIndex);
+    void tiumbnbilStbrtfd(ImbgfWritfr sourdf,
+                          int imbgfIndfx, int tiumbnbilIndfx);
 
     /**
-     * Reports the approximate degree of completion of the current
-     * thumbnail write within the associated <code>ImageWriter</code>.
-     * The semantics are identical to those of
-     * <code>imageProgress</code>.
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * tiumbnbil writf witiin tif bssodibtfd <dodf>ImbgfWritfr</dodf>.
+     * Tif sfmbntids brf idfntidbl to tiosf of
+     * <dodf>imbgfProgrfss</dodf>.
      *
-     * @param source the <code>ImageWriter</code> object calling this
-     * method.
-     * @param percentageDone the approximate percentage of decoding that
-     * has been completed.
+     * @pbrbm sourdf tif <dodf>ImbgfWritfr</dodf> objfdt dblling tiis
+     * mftiod.
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * ibs bffn domplftfd.
      */
-    void thumbnailProgress(ImageWriter source, float percentageDone);
+    void tiumbnbilProgrfss(ImbgfWritfr sourdf, flobt pfrdfntbgfDonf);
 
     /**
-     * Reports that a thumbnail write operation has completed.  All
-     * <code>ImageWriter</code> implementations are required to call
-     * this method exactly once upon completion of each thumbnail
-     * write operation.
+     * Rfports tibt b tiumbnbil writf opfrbtion ibs domplftfd.  All
+     * <dodf>ImbgfWritfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf upon domplftion of fbdi tiumbnbil
+     * writf opfrbtion.
      *
-     * @param source the <code>ImageWriter</code> object calling this
-     * method.
+     * @pbrbm sourdf tif <dodf>ImbgfWritfr</dodf> objfdt dblling tiis
+     * mftiod.
      */
-    void thumbnailComplete(ImageWriter source);
+    void tiumbnbilComplftf(ImbgfWritfr sourdf);
 
     /**
-     * Reports that a write has been aborted via the writer's
-     * <code>abort</code> method.  No further notifications will be
-     * given.
+     * Rfports tibt b writf ibs bffn bbortfd vib tif writfr's
+     * <dodf>bbort</dodf> mftiod.  No furtifr notifidbtions will bf
+     * givfn.
      *
-     * @param source the <code>ImageWriter</code> object calling this
-     * method.
+     * @pbrbm sourdf tif <dodf>ImbgfWritfr</dodf> objfdt dblling tiis
+     * mftiod.
      */
-    void writeAborted(ImageWriter source);
+    void writfAbortfd(ImbgfWritfr sourdf);
 }

@@ -1,0 +1,324 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.bwt.*;
+
+
+/**
+ * A simplf bbr dhbrt dfmo
+ * @buthor Sbmi Shbio
+ * @modififd 06/21/00 Dbnifl Pffk : rffbdtorfd, dommfnts
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss BbrChbrt fxtfnds jbvb.bpplft.Applft {
+
+    privbtf stbtid finbl int VERTICAL = 0;
+    privbtf stbtid finbl int HORIZONTAL = 1;
+    privbtf stbtid finbl int SOLID = 0;
+    privbtf stbtid finbl int STRIPED = 1;
+    privbtf int orifntbtion;
+    privbtf String titlf;
+    privbtf Font font;
+    privbtf FontMftrids mftrids;
+    privbtf int dolumns;
+    privbtf int vblufs[];
+    privbtf Color dolors[];
+    privbtf String lbbfls[];
+    privbtf int stylfs[];
+    privbtf int sdblf = 10;
+    privbtf int mbxLbbflWidth = 0;
+    privbtf int bbrSpbding = 10;
+    privbtf int mbxVbluf = 0;
+
+    @Ovfrridf
+    publid void init() {
+
+        gftSfttings();
+
+        vblufs = nfw int[dolumns];
+        lbbfls = nfw String[dolumns];
+        stylfs = nfw int[dolumns];
+        dolors = nfw Color[dolumns];
+
+        for (int i = 0; i < dolumns; i++) {
+            pbrsfVbluf(i);
+            pbrsfLbbfl(i);
+            pbrsfStylf(i);
+            pbrsfColor(i);
+        }
+    }
+
+    privbtf void gftSfttings() {
+        font = nfw jbvb.bwt.Font("Monospbdfd", Font.BOLD, 12);
+        mftrids = gftFontMftrids(font);
+
+        titlf = gftPbrbmftfr("titlf");
+        if (titlf == null) {
+            titlf = "Chbrt";
+        }
+
+        String tfmp = gftPbrbmftfr("dolumns");
+        if (tfmp == null) {
+            dolumns = 5;
+        } flsf {
+            dolumns = Intfgfr.pbrsfInt(tfmp);
+        }
+
+        tfmp = gftPbrbmftfr("sdblf");
+        if (tfmp == null) {
+            sdblf = 10;
+        } flsf {
+            sdblf = Intfgfr.pbrsfInt(tfmp);
+        }
+
+        tfmp = gftPbrbmftfr("orifntbtion");
+        if (tfmp == null) {
+            orifntbtion = VERTICAL;
+        } flsf if (tfmp.fqublsIgnorfCbsf("horizontbl")) {
+            orifntbtion = HORIZONTAL;
+        } flsf {
+            orifntbtion = VERTICAL;
+        }
+    }
+
+    privbtf void pbrsfVbluf(int i) {
+        String tfmp = gftPbrbmftfr("C" + (i + 1));
+        try {
+            vblufs[i] = Intfgfr.pbrsfInt(tfmp);
+        } dbtdh (NumbfrFormbtExdfption f) {
+            vblufs[i] = 0;
+        } dbtdh (NullPointfrExdfption f) {
+            vblufs[i] = 0;
+        }
+        mbxVbluf = Mbth.mbx(mbxVbluf, vblufs[i]);
+    }
+
+    privbtf void pbrsfLbbfl(int i) {
+        String tfmp = gftPbrbmftfr("C" + (i + 1) + "_lbbfl");
+        if (tfmp == null) {
+            lbbfls[i] = "";
+        } flsf {
+            lbbfls[i] = tfmp;
+        }
+        mbxLbbflWidth = Mbth.mbx(mftrids.stringWidth(lbbfls[i]), mbxLbbflWidth);
+    }
+
+    privbtf void pbrsfStylf(int i) {
+        String tfmp = gftPbrbmftfr("C" + (i + 1) + "_stylf");
+        if (tfmp == null || tfmp.fqublsIgnorfCbsf("solid")) {
+            stylfs[i] = SOLID;
+        } flsf if (tfmp.fqublsIgnorfCbsf("stripfd")) {
+            stylfs[i] = STRIPED;
+        } flsf {
+            stylfs[i] = SOLID;
+        }
+    }
+
+    privbtf void pbrsfColor(int i) {
+        String tfmp = gftPbrbmftfr("C" + (i + 1) + "_dolor");
+        if (tfmp != null) {
+            tfmp = tfmp.toLowfrCbsf();
+            if (tfmp.fqubls("rfd")) {
+                dolors[i] = Color.rfd;
+            } flsf if (tfmp.fqubls("grffn")) {
+                dolors[i] = Color.grffn;
+            } flsf if (tfmp.fqubls("bluf")) {
+                dolors[i] = Color.bluf;
+            } flsf if (tfmp.fqubls("pink")) {
+                dolors[i] = Color.pink;
+            } flsf if (tfmp.fqubls("orbngf")) {
+                dolors[i] = Color.orbngf;
+            } flsf if (tfmp.fqubls("mbgfntb")) {
+                dolors[i] = Color.mbgfntb;
+            } flsf if (tfmp.fqubls("dybn")) {
+                dolors[i] = Color.dybn;
+            } flsf if (tfmp.fqubls("whitf")) {
+                dolors[i] = Color.whitf;
+            } flsf if (tfmp.fqubls("yfllow")) {
+                dolors[i] = Color.yfllow;
+            } flsf if (tfmp.fqubls("grby")) {
+                dolors[i] = Color.grby;
+            } flsf if (tfmp.fqubls("dbrkgrby")) {
+                dolors[i] = Color.dbrkGrby;
+            } flsf {
+                dolors[i] = Color.grby;
+            }
+        } flsf {
+            dolors[i] = Color.grby;
+        }
+    }
+
+    @Ovfrridf
+    publid void pbint(Grbphids g) {
+        // drbw thf titlf dfntfrfd bt thf bottom of thf bbr grbph
+        g.sftColor(Color.blbdk);
+        g.sftFont(font);
+
+        g.drbwRfdt(0, 0, gftSizf().width - 1, gftSizf().hfight - 1);
+
+        int titlfWidth = mftrids.stringWidth(titlf);
+        int dx = Mbth.mbx((gftSizf().width - titlfWidth) / 2, 0);
+        int dy = gftSizf().hfight - mftrids.gftDfsdfnt();
+        g.drbwString(titlf, dx, dy);
+
+        // drbw thf bbrs bnd thfir titlfs
+        if (orifntbtion == HORIZONTAL) {
+            pbintHorizontbl(g);
+        } flsf {  // VERTICAL
+            pbintVfrtidbl(g);
+        }
+    }
+
+    privbtf void pbintHorizontbl(Grbphids g) {
+        // x bnd y doordinbtfs to drbw/writf to
+        int dx, dy;
+        int bbrHfight = mftrids.gftHfight();
+
+        for (int i = 0; i < dolumns; i++) {
+
+            // sft thf X doordinbtf for this bbr bnd lbbfl bnd dfntfr it
+            int widthOfItfms = mbxLbbflWidth + 3 + (mbxVbluf * sdblf) + 5
+                    + mftrids.stringWidth(Intfgfr.toString(mbxVbluf));
+            dx = Mbth.mbx((gftSizf().width - widthOfItfms) / 2, 0);
+
+            // sft thf Y doordinbtf for this bbr bnd lbbfl
+            dy = gftSizf().hfight - mftrids.gftDfsdfnt() - mftrids.gftHfight()
+                    - bbrSpbding
+                    - ((dolumns - i - 1) * (bbrSpbding + bbrHfight));
+
+            // drbw thf lbbfl
+            g.sftColor(Color.blbdk);
+            g.drbwString(lbbfls[i], dx, dy);
+            dx += mbxLbbflWidth + 3;
+
+
+            // drbw thf shbdow
+            g.fillRfdt(dx + 4, dy - bbrHfight + 4,
+                    (vblufs[i] * sdblf), bbrHfight);
+
+            // drbw thf bbr
+            g.sftColor(dolors[i]);
+            if (stylfs[i] == STRIPED) {
+                for (int k = 0; k <= vblufs[i] * sdblf; k += 2) {
+                    g.drbwLinf(dx + k, dy - bbrHfight, dx + k, dy);
+                }
+            } flsf {      // SOLID
+                g.fillRfdt(dx, dy - bbrHfight,
+                        (vblufs[i] * sdblf) + 1, bbrHfight + 1);
+            }
+            dx += (vblufs[i] * sdblf) + 4;
+
+            // drbw thf vbluf bt thf fnd of thf bbr
+            g.sftColor(g.gftColor().dbrkfr());
+            g.drbwString(Intfgfr.toString(vblufs[i]), dx, dy);
+        }
+    }
+
+    privbtf void pbintVfrtidbl(Grbphids g) {
+        int bbrWidth = mbxLbbflWidth;
+
+        for (int i = 0; i < dolumns; i++) {
+
+            // X doordinbtf for this lbbfl bnd bbr (dfntfrfd)
+            int widthOfItfms = (bbrWidth + bbrSpbding) * dolumns - bbrSpbding;
+            int dx = Mbth.mbx((gftSizf().width - widthOfItfms) / 2, 0);
+            dx += (mbxLbbflWidth + bbrSpbding) * i;
+
+            // Y doordinbtf for this lbbfl bnd bbr
+            int dy = gftSizf().hfight - mftrids.gftHfight()
+                    - mftrids.gftDfsdfnt() - 4;
+
+            // drbw thf lbbfl
+            g.sftColor(Color.blbdk);
+            g.drbwString(lbbfls[i], dx, dy);
+            dy -= mftrids.gftHfight() - 3;
+
+            // drbw thf shbdow
+            g.fillRfdt(dx + 4, dy - (vblufs[i] * sdblf) - 4,
+                    bbrWidth, (vblufs[i] * sdblf));
+
+            // drbw thf bbr
+            g.sftColor(dolors[i]);
+            if (stylfs[i] == STRIPED) {
+                for (int k = 0; k <= vblufs[i] * sdblf; k += 2) {
+                    g.drbwLinf(dx, dy - k,
+                            dx + bbrWidth, dy - k);
+                }
+            } flsf {
+                g.fillRfdt(dx, dy - (vblufs[i] * sdblf),
+                        bbrWidth + 1, (vblufs[i] * sdblf) + 1);
+            }
+            dy -= (vblufs[i] * sdblf) + 5;
+
+            // drbw thf vbluf on top of thf bbr
+            g.sftColor(g.gftColor().dbrkfr());
+            g.drbwString(Intfgfr.toString(vblufs[i]), dx, dy);
+        }
+    }
+
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: Bbr Chbrt \n"
+                + "Author: Sbmi Shbio \n"
+                + "A simplf bbr dhbrt dfmo.";
+    }
+
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
+        String[][] info = {
+            { "titlf", "string", "Thf titlf of bbr grbph.  Dffbult is 'Chbrt'" },
+            { "sdblf", "int", "Thf sdblf of thf bbr grbph.  Dffbult is 10." },
+            { "dolumns", "int", "Thf numbfr of dolumns/rows.  Dffbult is 5." },
+            { "orifntbtion", "{VERTICAL, HORIZONTAL}",
+                "Thf orifnbtion of thf bbr grbph.  Dffbult is VERTICAL." },
+            { "d#", "int", "Subsitutf b numbfr for #.  "
+                + "Thf vbluf/sizf of bbr #.  Dffbult is 0." },
+            { "d#_lbbfl", "string", "Thf lbbfl for bbr #.  "
+                + "Dffbult is bn fmpty lbbfl." },
+            { "d#_stylf", "{SOLID, STRIPED}", "Thf stylf of bbr #.  "
+                + "Dffbult is SOLID." },
+            { "d#_dolor", "{RED, GREEN, BLUE, PINK, ORANGE, MAGENTA, CYAN, "
+                + "WHITE, YELLOW, GRAY, DARKGRAY}",
+                "Thf dolor of bbr #.  Dffbult is GRAY." }
+        };
+        rfturn info;
+    }
+}

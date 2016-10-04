@@ -1,1080 +1,1080 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import sun.invoke.util.BytecodeDescriptor;
-import sun.invoke.util.VerifyAccess;
+import sun.invokf.util.BytfdodfDfsdriptor;
+import sun.invokf.util.VfrifyAddfss;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Member;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import static java.lang.invoke.MethodHandleNatives.Constants.*;
-import static java.lang.invoke.MethodHandleStatics.*;
-import java.util.Objects;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Mfmbfr;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfNbtivfs.Constbnts.*;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*;
+import jbvb.util.Objfdts;
 
 /**
- * A {@code MemberName} is a compact symbolic datum which fully characterizes
- * a method or field reference.
- * A member name refers to a field, method, constructor, or member type.
- * Every member name has a simple name (a string) and a type (either a Class or MethodType).
- * A member name may also have a non-null declaring class, or it may be simply
- * a naked name/type pair.
- * A member name may also have non-zero modifier flags.
- * Finally, a member name may be either resolved or unresolved.
- * If it is resolved, the existence of the named
+ * A {@dodf MfmbfrNbmf} is b dompbdt symbolid dbtum wiidi fully dibrbdtfrizfs
+ * b mftiod or fifld rfffrfndf.
+ * A mfmbfr nbmf rfffrs to b fifld, mftiod, donstrudtor, or mfmbfr typf.
+ * Evfry mfmbfr nbmf ibs b simplf nbmf (b string) bnd b typf (fitifr b Clbss or MftiodTypf).
+ * A mfmbfr nbmf mby blso ibvf b non-null dfdlbring dlbss, or it mby bf simply
+ * b nbkfd nbmf/typf pbir.
+ * A mfmbfr nbmf mby blso ibvf non-zfro modififr flbgs.
+ * Finblly, b mfmbfr nbmf mby bf fitifr rfsolvfd or unrfsolvfd.
+ * If it is rfsolvfd, tif fxistfndf of tif nbmfd
  * <p>
- * Whether resolved or not, a member name provides no access rights or
- * invocation capability to its possessor.  It is merely a compact
- * representation of all symbolic information necessary to link to
- * and properly use the named member.
+ * Wiftifr rfsolvfd or not, b mfmbfr nbmf providfs no bddfss rigits or
+ * invodbtion dbpbbility to its possfssor.  It is mfrfly b dompbdt
+ * rfprfsfntbtion of bll symbolid informbtion nfdfssbry to link to
+ * bnd propfrly usf tif nbmfd mfmbfr.
  * <p>
- * When resolved, a member name's internal implementation may include references to JVM metadata.
- * This representation is stateless and only decriptive.
- * It provides no private information and no capability to use the member.
+ * Wifn rfsolvfd, b mfmbfr nbmf's intfrnbl implfmfntbtion mby indludf rfffrfndfs to JVM mftbdbtb.
+ * Tiis rfprfsfntbtion is stbtflfss bnd only dfdriptivf.
+ * It providfs no privbtf informbtion bnd no dbpbbility to usf tif mfmbfr.
  * <p>
- * By contrast, a {@linkplain java.lang.reflect.Method} contains fuller information
- * about the internals of a method (except its bytecodes) and also
- * allows invocation.  A MemberName is much lighter than a Method,
- * since it contains about 7 fields to the 16 of Method (plus its sub-arrays),
- * and those seven fields omit much of the information in Method.
- * @author jrose
+ * By dontrbst, b {@linkplbin jbvb.lbng.rfflfdt.Mftiod} dontbins fullfr informbtion
+ * bbout tif intfrnbls of b mftiod (fxdfpt its bytfdodfs) bnd blso
+ * bllows invodbtion.  A MfmbfrNbmf is mudi ligitfr tibn b Mftiod,
+ * sindf it dontbins bbout 7 fiflds to tif 16 of Mftiod (plus its sub-brrbys),
+ * bnd tiosf sfvfn fiflds omit mudi of tif informbtion in Mftiod.
+ * @butior jrosf
  */
-/*non-public*/ final class MemberName implements Member, Cloneable {
-    private Class<?> clazz;       // class in which the method is defined
-    private String   name;        // may be null if not yet materialized
-    private Object   type;        // may be null if not yet materialized
-    private int      flags;       // modifier bits; see reflect.Modifier
-    //@Injected JVM_Method* vmtarget;
-    //@Injected int         vmindex;
-    private Object   resolution;  // if null, this guy is resolved
+/*non-publid*/ finbl dlbss MfmbfrNbmf implfmfnts Mfmbfr, Clonfbblf {
+    privbtf Clbss<?> dlbzz;       // dlbss in wiidi tif mftiod is dffinfd
+    privbtf String   nbmf;        // mby bf null if not yft mbtfriblizfd
+    privbtf Objfdt   typf;        // mby bf null if not yft mbtfriblizfd
+    privbtf int      flbgs;       // modififr bits; sff rfflfdt.Modififr
+    //@Injfdtfd JVM_Mftiod* vmtbrgft;
+    //@Injfdtfd int         vmindfx;
+    privbtf Objfdt   rfsolution;  // if null, tiis guy is rfsolvfd
 
-    /** Return the declaring class of this member.
-     *  In the case of a bare name and type, the declaring class will be null.
+    /** Rfturn tif dfdlbring dlbss of tiis mfmbfr.
+     *  In tif dbsf of b bbrf nbmf bnd typf, tif dfdlbring dlbss will bf null.
      */
-    public Class<?> getDeclaringClass() {
-        return clazz;
+    publid Clbss<?> gftDfdlbringClbss() {
+        rfturn dlbzz;
     }
 
-    /** Utility method producing the class loader of the declaring class. */
-    public ClassLoader getClassLoader() {
-        return clazz.getClassLoader();
+    /** Utility mftiod produding tif dlbss lobdfr of tif dfdlbring dlbss. */
+    publid ClbssLobdfr gftClbssLobdfr() {
+        rfturn dlbzz.gftClbssLobdfr();
     }
 
-    /** Return the simple name of this member.
-     *  For a type, it is the same as {@link Class#getSimpleName}.
-     *  For a method or field, it is the simple name of the member.
-     *  For a constructor, it is always {@code "&lt;init&gt;"}.
+    /** Rfturn tif simplf nbmf of tiis mfmbfr.
+     *  For b typf, it is tif sbmf bs {@link Clbss#gftSimplfNbmf}.
+     *  For b mftiod or fifld, it is tif simplf nbmf of tif mfmbfr.
+     *  For b donstrudtor, it is blwbys {@dodf "&lt;init&gt;"}.
      */
-    public String getName() {
-        if (name == null) {
-            expandFromVM();
-            if (name == null) {
-                return null;
+    publid String gftNbmf() {
+        if (nbmf == null) {
+            fxpbndFromVM();
+            if (nbmf == null) {
+                rfturn null;
             }
         }
-        return name;
+        rfturn nbmf;
     }
 
-    public MethodType getMethodOrFieldType() {
-        if (isInvocable())
-            return getMethodType();
-        if (isGetter())
-            return MethodType.methodType(getFieldType());
-        if (isSetter())
-            return MethodType.methodType(void.class, getFieldType());
-        throw new InternalError("not a method or field: "+this);
+    publid MftiodTypf gftMftiodOrFifldTypf() {
+        if (isInvodbblf())
+            rfturn gftMftiodTypf();
+        if (isGfttfr())
+            rfturn MftiodTypf.mftiodTypf(gftFifldTypf());
+        if (isSfttfr())
+            rfturn MftiodTypf.mftiodTypf(void.dlbss, gftFifldTypf());
+        tirow nfw IntfrnblError("not b mftiod or fifld: "+tiis);
     }
 
-    /** Return the declared type of this member, which
-     *  must be a method or constructor.
+    /** Rfturn tif dfdlbrfd typf of tiis mfmbfr, wiidi
+     *  must bf b mftiod or donstrudtor.
      */
-    public MethodType getMethodType() {
-        if (type == null) {
-            expandFromVM();
-            if (type == null) {
-                return null;
+    publid MftiodTypf gftMftiodTypf() {
+        if (typf == null) {
+            fxpbndFromVM();
+            if (typf == null) {
+                rfturn null;
             }
         }
-        if (!isInvocable()) {
-            throw newIllegalArgumentException("not invocable, no method type");
+        if (!isInvodbblf()) {
+            tirow nfwIllfgblArgumfntExdfption("not invodbblf, no mftiod typf");
         }
 
         {
-            // Get a snapshot of type which doesn't get changed by racing threads.
-            final Object type = this.type;
-            if (type instanceof MethodType) {
-                return (MethodType) type;
+            // Gft b snbpsiot of typf wiidi dofsn't gft dibngfd by rbding tirfbds.
+            finbl Objfdt typf = tiis.typf;
+            if (typf instbndfof MftiodTypf) {
+                rfturn (MftiodTypf) typf;
             }
         }
 
-        // type is not a MethodType yet.  Convert it thread-safely.
-        synchronized (this) {
-            if (type instanceof String) {
-                String sig = (String) type;
-                MethodType res = MethodType.fromMethodDescriptorString(sig, getClassLoader());
-                type = res;
-            } else if (type instanceof Object[]) {
-                Object[] typeInfo = (Object[]) type;
-                Class<?>[] ptypes = (Class<?>[]) typeInfo[1];
-                Class<?> rtype = (Class<?>) typeInfo[0];
-                MethodType res = MethodType.methodType(rtype, ptypes);
-                type = res;
+        // typf is not b MftiodTypf yft.  Convfrt it tirfbd-sbffly.
+        syndironizfd (tiis) {
+            if (typf instbndfof String) {
+                String sig = (String) typf;
+                MftiodTypf rfs = MftiodTypf.fromMftiodDfsdriptorString(sig, gftClbssLobdfr());
+                typf = rfs;
+            } flsf if (typf instbndfof Objfdt[]) {
+                Objfdt[] typfInfo = (Objfdt[]) typf;
+                Clbss<?>[] ptypfs = (Clbss<?>[]) typfInfo[1];
+                Clbss<?> rtypf = (Clbss<?>) typfInfo[0];
+                MftiodTypf rfs = MftiodTypf.mftiodTypf(rtypf, ptypfs);
+                typf = rfs;
             }
-            // Make sure type is a MethodType for racing threads.
-            assert type instanceof MethodType : "bad method type " + type;
+            // Mbkf surf typf is b MftiodTypf for rbding tirfbds.
+            bssfrt typf instbndfof MftiodTypf : "bbd mftiod typf " + typf;
         }
-        return (MethodType) type;
+        rfturn (MftiodTypf) typf;
     }
 
-    /** Return the actual type under which this method or constructor must be invoked.
-     *  For non-static methods or constructors, this is the type with a leading parameter,
-     *  a reference to declaring class.  For static methods, it is the same as the declared type.
+    /** Rfturn tif bdtubl typf undfr wiidi tiis mftiod or donstrudtor must bf invokfd.
+     *  For non-stbtid mftiods or donstrudtors, tiis is tif typf witi b lfbding pbrbmftfr,
+     *  b rfffrfndf to dfdlbring dlbss.  For stbtid mftiods, it is tif sbmf bs tif dfdlbrfd typf.
      */
-    public MethodType getInvocationType() {
-        MethodType itype = getMethodOrFieldType();
-        if (isConstructor() && getReferenceKind() == REF_newInvokeSpecial)
-            return itype.changeReturnType(clazz);
-        if (!isStatic())
-            return itype.insertParameterTypes(0, clazz);
-        return itype;
+    publid MftiodTypf gftInvodbtionTypf() {
+        MftiodTypf itypf = gftMftiodOrFifldTypf();
+        if (isConstrudtor() && gftRfffrfndfKind() == REF_nfwInvokfSpfdibl)
+            rfturn itypf.dibngfRfturnTypf(dlbzz);
+        if (!isStbtid())
+            rfturn itypf.insfrtPbrbmftfrTypfs(0, dlbzz);
+        rfturn itypf;
     }
 
-    /** Utility method producing the parameter types of the method type. */
-    public Class<?>[] getParameterTypes() {
-        return getMethodType().parameterArray();
+    /** Utility mftiod produding tif pbrbmftfr typfs of tif mftiod typf. */
+    publid Clbss<?>[] gftPbrbmftfrTypfs() {
+        rfturn gftMftiodTypf().pbrbmftfrArrby();
     }
 
-    /** Utility method producing the return type of the method type. */
-    public Class<?> getReturnType() {
-        return getMethodType().returnType();
+    /** Utility mftiod produding tif rfturn typf of tif mftiod typf. */
+    publid Clbss<?> gftRfturnTypf() {
+        rfturn gftMftiodTypf().rfturnTypf();
     }
 
-    /** Return the declared type of this member, which
-     *  must be a field or type.
-     *  If it is a type member, that type itself is returned.
+    /** Rfturn tif dfdlbrfd typf of tiis mfmbfr, wiidi
+     *  must bf b fifld or typf.
+     *  If it is b typf mfmbfr, tibt typf itsflf is rfturnfd.
      */
-    public Class<?> getFieldType() {
-        if (type == null) {
-            expandFromVM();
-            if (type == null) {
-                return null;
+    publid Clbss<?> gftFifldTypf() {
+        if (typf == null) {
+            fxpbndFromVM();
+            if (typf == null) {
+                rfturn null;
             }
         }
-        if (isInvocable()) {
-            throw newIllegalArgumentException("not a field or nested class, no simple type");
+        if (isInvodbblf()) {
+            tirow nfwIllfgblArgumfntExdfption("not b fifld or nfstfd dlbss, no simplf typf");
         }
 
         {
-            // Get a snapshot of type which doesn't get changed by racing threads.
-            final Object type = this.type;
-            if (type instanceof Class<?>) {
-                return (Class<?>) type;
+            // Gft b snbpsiot of typf wiidi dofsn't gft dibngfd by rbding tirfbds.
+            finbl Objfdt typf = tiis.typf;
+            if (typf instbndfof Clbss<?>) {
+                rfturn (Clbss<?>) typf;
             }
         }
 
-        // type is not a Class yet.  Convert it thread-safely.
-        synchronized (this) {
-            if (type instanceof String) {
-                String sig = (String) type;
-                MethodType mtype = MethodType.fromMethodDescriptorString("()"+sig, getClassLoader());
-                Class<?> res = mtype.returnType();
-                type = res;
+        // typf is not b Clbss yft.  Convfrt it tirfbd-sbffly.
+        syndironizfd (tiis) {
+            if (typf instbndfof String) {
+                String sig = (String) typf;
+                MftiodTypf mtypf = MftiodTypf.fromMftiodDfsdriptorString("()"+sig, gftClbssLobdfr());
+                Clbss<?> rfs = mtypf.rfturnTypf();
+                typf = rfs;
             }
-            // Make sure type is a Class for racing threads.
-            assert type instanceof Class<?> : "bad field type " + type;
+            // Mbkf surf typf is b Clbss for rbding tirfbds.
+            bssfrt typf instbndfof Clbss<?> : "bbd fifld typf " + typf;
         }
-        return (Class<?>) type;
+        rfturn (Clbss<?>) typf;
     }
 
-    /** Utility method to produce either the method type or field type of this member. */
-    public Object getType() {
-        return (isInvocable() ? getMethodType() : getFieldType());
+    /** Utility mftiod to produdf fitifr tif mftiod typf or fifld typf of tiis mfmbfr. */
+    publid Objfdt gftTypf() {
+        rfturn (isInvodbblf() ? gftMftiodTypf() : gftFifldTypf());
     }
 
-    /** Utility method to produce the signature of this member,
-     *  used within the class file format to describe its type.
+    /** Utility mftiod to produdf tif signbturf of tiis mfmbfr,
+     *  usfd witiin tif dlbss filf formbt to dfsdribf its typf.
      */
-    public String getSignature() {
-        if (type == null) {
-            expandFromVM();
-            if (type == null) {
-                return null;
+    publid String gftSignbturf() {
+        if (typf == null) {
+            fxpbndFromVM();
+            if (typf == null) {
+                rfturn null;
             }
         }
-        if (isInvocable())
-            return BytecodeDescriptor.unparse(getMethodType());
-        else
-            return BytecodeDescriptor.unparse(getFieldType());
+        if (isInvodbblf())
+            rfturn BytfdodfDfsdriptor.unpbrsf(gftMftiodTypf());
+        flsf
+            rfturn BytfdodfDfsdriptor.unpbrsf(gftFifldTypf());
     }
 
-    /** Return the modifier flags of this member.
-     *  @see java.lang.reflect.Modifier
+    /** Rfturn tif modififr flbgs of tiis mfmbfr.
+     *  @sff jbvb.lbng.rfflfdt.Modififr
      */
-    public int getModifiers() {
-        return (flags & RECOGNIZED_MODIFIERS);
+    publid int gftModififrs() {
+        rfturn (flbgs & RECOGNIZED_MODIFIERS);
     }
 
-    /** Return the reference kind of this member, or zero if none.
+    /** Rfturn tif rfffrfndf kind of tiis mfmbfr, or zfro if nonf.
      */
-    public byte getReferenceKind() {
-        return (byte) ((flags >>> MN_REFERENCE_KIND_SHIFT) & MN_REFERENCE_KIND_MASK);
+    publid bytf gftRfffrfndfKind() {
+        rfturn (bytf) ((flbgs >>> MN_REFERENCE_KIND_SHIFT) & MN_REFERENCE_KIND_MASK);
     }
-    private boolean referenceKindIsConsistent() {
-        byte refKind = getReferenceKind();
-        if (refKind == REF_NONE)  return isType();
-        if (isField()) {
-            assert(staticIsConsistent());
-            assert(MethodHandleNatives.refKindIsField(refKind));
-        } else if (isConstructor()) {
-            assert(refKind == REF_newInvokeSpecial || refKind == REF_invokeSpecial);
-        } else if (isMethod()) {
-            assert(staticIsConsistent());
-            assert(MethodHandleNatives.refKindIsMethod(refKind));
-            if (clazz.isInterface())
-                assert(refKind == REF_invokeInterface ||
-                       refKind == REF_invokeStatic    ||
-                       refKind == REF_invokeSpecial   ||
-                       refKind == REF_invokeVirtual && isObjectPublicMethod());
-        } else {
-            assert(false);
+    privbtf boolfbn rfffrfndfKindIsConsistfnt() {
+        bytf rffKind = gftRfffrfndfKind();
+        if (rffKind == REF_NONE)  rfturn isTypf();
+        if (isFifld()) {
+            bssfrt(stbtidIsConsistfnt());
+            bssfrt(MftiodHbndlfNbtivfs.rffKindIsFifld(rffKind));
+        } flsf if (isConstrudtor()) {
+            bssfrt(rffKind == REF_nfwInvokfSpfdibl || rffKind == REF_invokfSpfdibl);
+        } flsf if (isMftiod()) {
+            bssfrt(stbtidIsConsistfnt());
+            bssfrt(MftiodHbndlfNbtivfs.rffKindIsMftiod(rffKind));
+            if (dlbzz.isIntfrfbdf())
+                bssfrt(rffKind == REF_invokfIntfrfbdf ||
+                       rffKind == REF_invokfStbtid    ||
+                       rffKind == REF_invokfSpfdibl   ||
+                       rffKind == REF_invokfVirtubl && isObjfdtPublidMftiod());
+        } flsf {
+            bssfrt(fblsf);
         }
-        return true;
+        rfturn truf;
     }
-    private boolean isObjectPublicMethod() {
-        if (clazz == Object.class)  return true;
-        MethodType mtype = getMethodType();
-        if (name.equals("toString") && mtype.returnType() == String.class && mtype.parameterCount() == 0)
-            return true;
-        if (name.equals("hashCode") && mtype.returnType() == int.class && mtype.parameterCount() == 0)
-            return true;
-        if (name.equals("equals") && mtype.returnType() == boolean.class && mtype.parameterCount() == 1 && mtype.parameterType(0) == Object.class)
-            return true;
-        return false;
+    privbtf boolfbn isObjfdtPublidMftiod() {
+        if (dlbzz == Objfdt.dlbss)  rfturn truf;
+        MftiodTypf mtypf = gftMftiodTypf();
+        if (nbmf.fqubls("toString") && mtypf.rfturnTypf() == String.dlbss && mtypf.pbrbmftfrCount() == 0)
+            rfturn truf;
+        if (nbmf.fqubls("ibsiCodf") && mtypf.rfturnTypf() == int.dlbss && mtypf.pbrbmftfrCount() == 0)
+            rfturn truf;
+        if (nbmf.fqubls("fqubls") && mtypf.rfturnTypf() == boolfbn.dlbss && mtypf.pbrbmftfrCount() == 1 && mtypf.pbrbmftfrTypf(0) == Objfdt.dlbss)
+            rfturn truf;
+        rfturn fblsf;
     }
-    /*non-public*/ boolean referenceKindIsConsistentWith(int originalRefKind) {
-        int refKind = getReferenceKind();
-        if (refKind == originalRefKind)  return true;
-        switch (originalRefKind) {
-        case REF_invokeInterface:
-            // Looking up an interface method, can get (e.g.) Object.hashCode
-            assert(refKind == REF_invokeVirtual ||
-                   refKind == REF_invokeSpecial) : this;
-            return true;
-        case REF_invokeVirtual:
-        case REF_newInvokeSpecial:
-            // Looked up a virtual, can get (e.g.) final String.hashCode.
-            assert(refKind == REF_invokeSpecial) : this;
-            return true;
+    /*non-publid*/ boolfbn rfffrfndfKindIsConsistfntWiti(int originblRffKind) {
+        int rffKind = gftRfffrfndfKind();
+        if (rffKind == originblRffKind)  rfturn truf;
+        switdi (originblRffKind) {
+        dbsf REF_invokfIntfrfbdf:
+            // Looking up bn intfrfbdf mftiod, dbn gft (f.g.) Objfdt.ibsiCodf
+            bssfrt(rffKind == REF_invokfVirtubl ||
+                   rffKind == REF_invokfSpfdibl) : tiis;
+            rfturn truf;
+        dbsf REF_invokfVirtubl:
+        dbsf REF_nfwInvokfSpfdibl:
+            // Lookfd up b virtubl, dbn gft (f.g.) finbl String.ibsiCodf.
+            bssfrt(rffKind == REF_invokfSpfdibl) : tiis;
+            rfturn truf;
         }
-        assert(false) : this+" != "+MethodHandleNatives.refKindName((byte)originalRefKind);
-        return true;
+        bssfrt(fblsf) : tiis+" != "+MftiodHbndlfNbtivfs.rffKindNbmf((bytf)originblRffKind);
+        rfturn truf;
     }
-    private boolean staticIsConsistent() {
-        byte refKind = getReferenceKind();
-        return MethodHandleNatives.refKindIsStatic(refKind) == isStatic() || getModifiers() == 0;
+    privbtf boolfbn stbtidIsConsistfnt() {
+        bytf rffKind = gftRfffrfndfKind();
+        rfturn MftiodHbndlfNbtivfs.rffKindIsStbtid(rffKind) == isStbtid() || gftModififrs() == 0;
     }
-    private boolean vminfoIsConsistent() {
-        byte refKind = getReferenceKind();
-        assert(isResolved());  // else don't call
-        Object vminfo = MethodHandleNatives.getMemberVMInfo(this);
-        assert(vminfo instanceof Object[]);
-        long vmindex = (Long) ((Object[])vminfo)[0];
-        Object vmtarget = ((Object[])vminfo)[1];
-        if (MethodHandleNatives.refKindIsField(refKind)) {
-            assert(vmindex >= 0) : vmindex + ":" + this;
-            assert(vmtarget instanceof Class);
-        } else {
-            if (MethodHandleNatives.refKindDoesDispatch(refKind))
-                assert(vmindex >= 0) : vmindex + ":" + this;
-            else
-                assert(vmindex < 0) : vmindex;
-            assert(vmtarget instanceof MemberName) : vmtarget + " in " + this;
+    privbtf boolfbn vminfoIsConsistfnt() {
+        bytf rffKind = gftRfffrfndfKind();
+        bssfrt(isRfsolvfd());  // flsf don't dbll
+        Objfdt vminfo = MftiodHbndlfNbtivfs.gftMfmbfrVMInfo(tiis);
+        bssfrt(vminfo instbndfof Objfdt[]);
+        long vmindfx = (Long) ((Objfdt[])vminfo)[0];
+        Objfdt vmtbrgft = ((Objfdt[])vminfo)[1];
+        if (MftiodHbndlfNbtivfs.rffKindIsFifld(rffKind)) {
+            bssfrt(vmindfx >= 0) : vmindfx + ":" + tiis;
+            bssfrt(vmtbrgft instbndfof Clbss);
+        } flsf {
+            if (MftiodHbndlfNbtivfs.rffKindDofsDispbtdi(rffKind))
+                bssfrt(vmindfx >= 0) : vmindfx + ":" + tiis;
+            flsf
+                bssfrt(vmindfx < 0) : vmindfx;
+            bssfrt(vmtbrgft instbndfof MfmbfrNbmf) : vmtbrgft + " in " + tiis;
         }
-        return true;
+        rfturn truf;
     }
 
-    private MemberName changeReferenceKind(byte refKind, byte oldKind) {
-        assert(getReferenceKind() == oldKind);
-        assert(MethodHandleNatives.refKindIsValid(refKind));
-        flags += (((int)refKind - oldKind) << MN_REFERENCE_KIND_SHIFT);
-//        if (isConstructor() && refKind != REF_newInvokeSpecial)
-//            flags += (IS_METHOD - IS_CONSTRUCTOR);
-//        else if (refKind == REF_newInvokeSpecial && isMethod())
-//            flags += (IS_CONSTRUCTOR - IS_METHOD);
-        return this;
+    privbtf MfmbfrNbmf dibngfRfffrfndfKind(bytf rffKind, bytf oldKind) {
+        bssfrt(gftRfffrfndfKind() == oldKind);
+        bssfrt(MftiodHbndlfNbtivfs.rffKindIsVblid(rffKind));
+        flbgs += (((int)rffKind - oldKind) << MN_REFERENCE_KIND_SHIFT);
+//        if (isConstrudtor() && rffKind != REF_nfwInvokfSpfdibl)
+//            flbgs += (IS_METHOD - IS_CONSTRUCTOR);
+//        flsf if (rffKind == REF_nfwInvokfSpfdibl && isMftiod())
+//            flbgs += (IS_CONSTRUCTOR - IS_METHOD);
+        rfturn tiis;
     }
 
-    private boolean testFlags(int mask, int value) {
-        return (flags & mask) == value;
+    privbtf boolfbn tfstFlbgs(int mbsk, int vbluf) {
+        rfturn (flbgs & mbsk) == vbluf;
     }
-    private boolean testAllFlags(int mask) {
-        return testFlags(mask, mask);
+    privbtf boolfbn tfstAllFlbgs(int mbsk) {
+        rfturn tfstFlbgs(mbsk, mbsk);
     }
-    private boolean testAnyFlags(int mask) {
-        return !testFlags(mask, 0);
+    privbtf boolfbn tfstAnyFlbgs(int mbsk) {
+        rfturn !tfstFlbgs(mbsk, 0);
     }
 
-    /** Utility method to query if this member is a method handle invocation (invoke or invokeExact). */
-    public boolean isMethodHandleInvoke() {
-        final int bits = MH_INVOKE_MODS;
-        final int negs = Modifier.STATIC;
-        if (testFlags(bits | negs, bits) &&
-            clazz == MethodHandle.class) {
-            return isMethodHandleInvokeName(name);
+    /** Utility mftiod to qufry if tiis mfmbfr is b mftiod ibndlf invodbtion (invokf or invokfExbdt). */
+    publid boolfbn isMftiodHbndlfInvokf() {
+        finbl int bits = MH_INVOKE_MODS;
+        finbl int nfgs = Modififr.STATIC;
+        if (tfstFlbgs(bits | nfgs, bits) &&
+            dlbzz == MftiodHbndlf.dlbss) {
+            rfturn isMftiodHbndlfInvokfNbmf(nbmf);
         }
-        return false;
+        rfturn fblsf;
     }
-    public static boolean isMethodHandleInvokeName(String name) {
-        return name.equals("invoke") || name.equals("invokeExact");
+    publid stbtid boolfbn isMftiodHbndlfInvokfNbmf(String nbmf) {
+        rfturn nbmf.fqubls("invokf") || nbmf.fqubls("invokfExbdt");
     }
-    private static final int MH_INVOKE_MODS = Modifier.NATIVE | Modifier.FINAL | Modifier.PUBLIC;
+    privbtf stbtid finbl int MH_INVOKE_MODS = Modififr.NATIVE | Modififr.FINAL | Modififr.PUBLIC;
 
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isStatic() {
-        return Modifier.isStatic(flags);
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr. */
+    publid boolfbn isStbtid() {
+        rfturn Modififr.isStbtid(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isPublic() {
-        return Modifier.isPublic(flags);
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr. */
+    publid boolfbn isPublid() {
+        rfturn Modififr.isPublid(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isPrivate() {
-        return Modifier.isPrivate(flags);
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr. */
+    publid boolfbn isPrivbtf() {
+        rfturn Modififr.isPrivbtf(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isProtected() {
-        return Modifier.isProtected(flags);
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr. */
+    publid boolfbn isProtfdtfd() {
+        rfturn Modififr.isProtfdtfd(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isFinal() {
-        return Modifier.isFinal(flags);
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr. */
+    publid boolfbn isFinbl() {
+        rfturn Modififr.isFinbl(flbgs);
     }
-    /** Utility method to query whether this member or its defining class is final. */
-    public boolean canBeStaticallyBound() {
-        return Modifier.isFinal(flags | clazz.getModifiers());
+    /** Utility mftiod to qufry wiftifr tiis mfmbfr or its dffining dlbss is finbl. */
+    publid boolfbn dbnBfStbtidbllyBound() {
+        rfturn Modififr.isFinbl(flbgs | dlbzz.gftModififrs());
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isVolatile() {
-        return Modifier.isVolatile(flags);
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr. */
+    publid boolfbn isVolbtilf() {
+        rfturn Modififr.isVolbtilf(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isAbstract() {
-        return Modifier.isAbstract(flags);
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr. */
+    publid boolfbn isAbstrbdt() {
+        rfturn Modififr.isAbstrbdt(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isNative() {
-        return Modifier.isNative(flags);
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr. */
+    publid boolfbn isNbtivf() {
+        rfturn Modififr.isNbtivf(flbgs);
     }
-    // let the rest (native, volatile, transient, etc.) be tested via Modifier.isFoo
+    // lft tif rfst (nbtivf, volbtilf, trbnsifnt, ftd.) bf tfstfd vib Modififr.isFoo
 
-    // unofficial modifier flags, used by HotSpot:
-    static final int BRIDGE    = 0x00000040;
-    static final int VARARGS   = 0x00000080;
-    static final int SYNTHETIC = 0x00001000;
-    static final int ANNOTATION= 0x00002000;
-    static final int ENUM      = 0x00004000;
-    /** Utility method to query the modifier flags of this member; returns false if the member is not a method. */
-    public boolean isBridge() {
-        return testAllFlags(IS_METHOD | BRIDGE);
+    // unoffidibl modififr flbgs, usfd by HotSpot:
+    stbtid finbl int BRIDGE    = 0x00000040;
+    stbtid finbl int VARARGS   = 0x00000080;
+    stbtid finbl int SYNTHETIC = 0x00001000;
+    stbtid finbl int ANNOTATION= 0x00002000;
+    stbtid finbl int ENUM      = 0x00004000;
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr; rfturns fblsf if tif mfmbfr is not b mftiod. */
+    publid boolfbn isBridgf() {
+        rfturn tfstAllFlbgs(IS_METHOD | BRIDGE);
     }
-    /** Utility method to query the modifier flags of this member; returns false if the member is not a method. */
-    public boolean isVarargs() {
-        return testAllFlags(VARARGS) && isInvocable();
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr; rfturns fblsf if tif mfmbfr is not b mftiod. */
+    publid boolfbn isVbrbrgs() {
+        rfturn tfstAllFlbgs(VARARGS) && isInvodbblf();
     }
-    /** Utility method to query the modifier flags of this member; returns false if the member is not a method. */
-    public boolean isSynthetic() {
-        return testAllFlags(SYNTHETIC);
-    }
-
-    static final String CONSTRUCTOR_NAME = "<init>";  // the ever-popular
-
-    // modifiers exported by the JVM:
-    static final int RECOGNIZED_MODIFIERS = 0xFFFF;
-
-    // private flags, not part of RECOGNIZED_MODIFIERS:
-    static final int
-            IS_METHOD        = MN_IS_METHOD,        // method (not constructor)
-            IS_CONSTRUCTOR   = MN_IS_CONSTRUCTOR,   // constructor
-            IS_FIELD         = MN_IS_FIELD,         // field
-            IS_TYPE          = MN_IS_TYPE,          // nested type
-            CALLER_SENSITIVE = MN_CALLER_SENSITIVE; // @CallerSensitive annotation detected
-
-    static final int ALL_ACCESS = Modifier.PUBLIC | Modifier.PRIVATE | Modifier.PROTECTED;
-    static final int ALL_KINDS = IS_METHOD | IS_CONSTRUCTOR | IS_FIELD | IS_TYPE;
-    static final int IS_INVOCABLE = IS_METHOD | IS_CONSTRUCTOR;
-    static final int IS_FIELD_OR_METHOD = IS_METHOD | IS_FIELD;
-    static final int SEARCH_ALL_SUPERS = MN_SEARCH_SUPERCLASSES | MN_SEARCH_INTERFACES;
-
-    /** Utility method to query whether this member is a method or constructor. */
-    public boolean isInvocable() {
-        return testAnyFlags(IS_INVOCABLE);
-    }
-    /** Utility method to query whether this member is a method, constructor, or field. */
-    public boolean isFieldOrMethod() {
-        return testAnyFlags(IS_FIELD_OR_METHOD);
-    }
-    /** Query whether this member is a method. */
-    public boolean isMethod() {
-        return testAllFlags(IS_METHOD);
-    }
-    /** Query whether this member is a constructor. */
-    public boolean isConstructor() {
-        return testAllFlags(IS_CONSTRUCTOR);
-    }
-    /** Query whether this member is a field. */
-    public boolean isField() {
-        return testAllFlags(IS_FIELD);
-    }
-    /** Query whether this member is a type. */
-    public boolean isType() {
-        return testAllFlags(IS_TYPE);
-    }
-    /** Utility method to query whether this member is neither public, private, nor protected. */
-    public boolean isPackage() {
-        return !testAnyFlags(ALL_ACCESS);
-    }
-    /** Query whether this member has a CallerSensitive annotation. */
-    public boolean isCallerSensitive() {
-        return testAllFlags(CALLER_SENSITIVE);
+    /** Utility mftiod to qufry tif modififr flbgs of tiis mfmbfr; rfturns fblsf if tif mfmbfr is not b mftiod. */
+    publid boolfbn isSyntiftid() {
+        rfturn tfstAllFlbgs(SYNTHETIC);
     }
 
-    /** Utility method to query whether this member is accessible from a given lookup class. */
-    public boolean isAccessibleFrom(Class<?> lookupClass) {
-        return VerifyAccess.isMemberAccessible(this.getDeclaringClass(), this.getDeclaringClass(), flags,
-                                               lookupClass, ALL_ACCESS|MethodHandles.Lookup.PACKAGE);
+    stbtid finbl String CONSTRUCTOR_NAME = "<init>";  // tif fvfr-populbr
+
+    // modififrs fxportfd by tif JVM:
+    stbtid finbl int RECOGNIZED_MODIFIERS = 0xFFFF;
+
+    // privbtf flbgs, not pbrt of RECOGNIZED_MODIFIERS:
+    stbtid finbl int
+            IS_METHOD        = MN_IS_METHOD,        // mftiod (not donstrudtor)
+            IS_CONSTRUCTOR   = MN_IS_CONSTRUCTOR,   // donstrudtor
+            IS_FIELD         = MN_IS_FIELD,         // fifld
+            IS_TYPE          = MN_IS_TYPE,          // nfstfd typf
+            CALLER_SENSITIVE = MN_CALLER_SENSITIVE; // @CbllfrSfnsitivf bnnotbtion dftfdtfd
+
+    stbtid finbl int ALL_ACCESS = Modififr.PUBLIC | Modififr.PRIVATE | Modififr.PROTECTED;
+    stbtid finbl int ALL_KINDS = IS_METHOD | IS_CONSTRUCTOR | IS_FIELD | IS_TYPE;
+    stbtid finbl int IS_INVOCABLE = IS_METHOD | IS_CONSTRUCTOR;
+    stbtid finbl int IS_FIELD_OR_METHOD = IS_METHOD | IS_FIELD;
+    stbtid finbl int SEARCH_ALL_SUPERS = MN_SEARCH_SUPERCLASSES | MN_SEARCH_INTERFACES;
+
+    /** Utility mftiod to qufry wiftifr tiis mfmbfr is b mftiod or donstrudtor. */
+    publid boolfbn isInvodbblf() {
+        rfturn tfstAnyFlbgs(IS_INVOCABLE);
+    }
+    /** Utility mftiod to qufry wiftifr tiis mfmbfr is b mftiod, donstrudtor, or fifld. */
+    publid boolfbn isFifldOrMftiod() {
+        rfturn tfstAnyFlbgs(IS_FIELD_OR_METHOD);
+    }
+    /** Qufry wiftifr tiis mfmbfr is b mftiod. */
+    publid boolfbn isMftiod() {
+        rfturn tfstAllFlbgs(IS_METHOD);
+    }
+    /** Qufry wiftifr tiis mfmbfr is b donstrudtor. */
+    publid boolfbn isConstrudtor() {
+        rfturn tfstAllFlbgs(IS_CONSTRUCTOR);
+    }
+    /** Qufry wiftifr tiis mfmbfr is b fifld. */
+    publid boolfbn isFifld() {
+        rfturn tfstAllFlbgs(IS_FIELD);
+    }
+    /** Qufry wiftifr tiis mfmbfr is b typf. */
+    publid boolfbn isTypf() {
+        rfturn tfstAllFlbgs(IS_TYPE);
+    }
+    /** Utility mftiod to qufry wiftifr tiis mfmbfr is nfitifr publid, privbtf, nor protfdtfd. */
+    publid boolfbn isPbdkbgf() {
+        rfturn !tfstAnyFlbgs(ALL_ACCESS);
+    }
+    /** Qufry wiftifr tiis mfmbfr ibs b CbllfrSfnsitivf bnnotbtion. */
+    publid boolfbn isCbllfrSfnsitivf() {
+        rfturn tfstAllFlbgs(CALLER_SENSITIVE);
     }
 
-    /** Initialize a query.   It is not resolved. */
-    private void init(Class<?> defClass, String name, Object type, int flags) {
-        // defining class is allowed to be null (for a naked name/type pair)
-        //name.toString();  // null check
-        //type.equals(type);  // null check
-        // fill in fields:
-        this.clazz = defClass;
-        this.name = name;
-        this.type = type;
-        this.flags = flags;
-        assert(testAnyFlags(ALL_KINDS));
-        assert(this.resolution == null);  // nobody should have touched this yet
-        //assert(referenceKindIsConsistent());  // do this after resolution
+    /** Utility mftiod to qufry wiftifr tiis mfmbfr is bddfssiblf from b givfn lookup dlbss. */
+    publid boolfbn isAddfssiblfFrom(Clbss<?> lookupClbss) {
+        rfturn VfrifyAddfss.isMfmbfrAddfssiblf(tiis.gftDfdlbringClbss(), tiis.gftDfdlbringClbss(), flbgs,
+                                               lookupClbss, ALL_ACCESS|MftiodHbndlfs.Lookup.PACKAGE);
+    }
+
+    /** Initiblizf b qufry.   It is not rfsolvfd. */
+    privbtf void init(Clbss<?> dffClbss, String nbmf, Objfdt typf, int flbgs) {
+        // dffining dlbss is bllowfd to bf null (for b nbkfd nbmf/typf pbir)
+        //nbmf.toString();  // null difdk
+        //typf.fqubls(typf);  // null difdk
+        // fill in fiflds:
+        tiis.dlbzz = dffClbss;
+        tiis.nbmf = nbmf;
+        tiis.typf = typf;
+        tiis.flbgs = flbgs;
+        bssfrt(tfstAnyFlbgs(ALL_KINDS));
+        bssfrt(tiis.rfsolution == null);  // nobody siould ibvf toudifd tiis yft
+        //bssfrt(rfffrfndfKindIsConsistfnt());  // do tiis bftfr rfsolution
     }
 
     /**
-     * Calls down to the VM to fill in the fields.  This method is
-     * synchronized to avoid racing calls.
+     * Cblls down to tif VM to fill in tif fiflds.  Tiis mftiod is
+     * syndironizfd to bvoid rbding dblls.
      */
-    private void expandFromVM() {
-        if (type != null) {
-            return;
+    privbtf void fxpbndFromVM() {
+        if (typf != null) {
+            rfturn;
         }
-        if (!isResolved()) {
-            return;
+        if (!isRfsolvfd()) {
+            rfturn;
         }
-        MethodHandleNatives.expand(this);
+        MftiodHbndlfNbtivfs.fxpbnd(tiis);
     }
 
-    // Capturing information from the Core Reflection API:
-    private static int flagsMods(int flags, int mods, byte refKind) {
-        assert((flags & RECOGNIZED_MODIFIERS) == 0);
-        assert((mods & ~RECOGNIZED_MODIFIERS) == 0);
-        assert((refKind & ~MN_REFERENCE_KIND_MASK) == 0);
-        return flags | mods | (refKind << MN_REFERENCE_KIND_SHIFT);
+    // Cbpturing informbtion from tif Corf Rfflfdtion API:
+    privbtf stbtid int flbgsMods(int flbgs, int mods, bytf rffKind) {
+        bssfrt((flbgs & RECOGNIZED_MODIFIERS) == 0);
+        bssfrt((mods & ~RECOGNIZED_MODIFIERS) == 0);
+        bssfrt((rffKind & ~MN_REFERENCE_KIND_MASK) == 0);
+        rfturn flbgs | mods | (rffKind << MN_REFERENCE_KIND_SHIFT);
     }
-    /** Create a name for the given reflected method.  The resulting name will be in a resolved state. */
-    public MemberName(Method m) {
-        this(m, false);
+    /** Crfbtf b nbmf for tif givfn rfflfdtfd mftiod.  Tif rfsulting nbmf will bf in b rfsolvfd stbtf. */
+    publid MfmbfrNbmf(Mftiod m) {
+        tiis(m, fblsf);
     }
-    @SuppressWarnings("LeakingThisInConstructor")
-    public MemberName(Method m, boolean wantSpecial) {
-        m.getClass();  // NPE check
-        // fill in vmtarget, vmindex while we have m in hand:
-        MethodHandleNatives.init(this, m);
-        if (clazz == null) {  // MHN.init failed
-            if (m.getDeclaringClass() == MethodHandle.class &&
-                isMethodHandleInvokeName(m.getName())) {
-                // The JVM did not reify this signature-polymorphic instance.
-                // Need a special case here.
-                // See comments on MethodHandleNatives.linkMethod.
-                MethodType type = MethodType.methodType(m.getReturnType(), m.getParameterTypes());
-                int flags = flagsMods(IS_METHOD, m.getModifiers(), REF_invokeVirtual);
-                init(MethodHandle.class, m.getName(), type, flags);
-                if (isMethodHandleInvoke())
-                    return;
+    @SupprfssWbrnings("LfbkingTiisInConstrudtor")
+    publid MfmbfrNbmf(Mftiod m, boolfbn wbntSpfdibl) {
+        m.gftClbss();  // NPE difdk
+        // fill in vmtbrgft, vmindfx wiilf wf ibvf m in ibnd:
+        MftiodHbndlfNbtivfs.init(tiis, m);
+        if (dlbzz == null) {  // MHN.init fbilfd
+            if (m.gftDfdlbringClbss() == MftiodHbndlf.dlbss &&
+                isMftiodHbndlfInvokfNbmf(m.gftNbmf())) {
+                // Tif JVM did not rfify tiis signbturf-polymorpiid instbndf.
+                // Nffd b spfdibl dbsf ifrf.
+                // Sff dommfnts on MftiodHbndlfNbtivfs.linkMftiod.
+                MftiodTypf typf = MftiodTypf.mftiodTypf(m.gftRfturnTypf(), m.gftPbrbmftfrTypfs());
+                int flbgs = flbgsMods(IS_METHOD, m.gftModififrs(), REF_invokfVirtubl);
+                init(MftiodHbndlf.dlbss, m.gftNbmf(), typf, flbgs);
+                if (isMftiodHbndlfInvokf())
+                    rfturn;
             }
-            throw new LinkageError(m.toString());
+            tirow nfw LinkbgfError(m.toString());
         }
-        assert(isResolved() && this.clazz != null);
-        this.name = m.getName();
-        if (this.type == null)
-            this.type = new Object[] { m.getReturnType(), m.getParameterTypes() };
-        if (wantSpecial) {
-            if (isAbstract())
-                throw new AbstractMethodError(this.toString());
-            if (getReferenceKind() == REF_invokeVirtual)
-                changeReferenceKind(REF_invokeSpecial, REF_invokeVirtual);
-            else if (getReferenceKind() == REF_invokeInterface)
-                // invokeSpecial on a default method
-                changeReferenceKind(REF_invokeSpecial, REF_invokeInterface);
+        bssfrt(isRfsolvfd() && tiis.dlbzz != null);
+        tiis.nbmf = m.gftNbmf();
+        if (tiis.typf == null)
+            tiis.typf = nfw Objfdt[] { m.gftRfturnTypf(), m.gftPbrbmftfrTypfs() };
+        if (wbntSpfdibl) {
+            if (isAbstrbdt())
+                tirow nfw AbstrbdtMftiodError(tiis.toString());
+            if (gftRfffrfndfKind() == REF_invokfVirtubl)
+                dibngfRfffrfndfKind(REF_invokfSpfdibl, REF_invokfVirtubl);
+            flsf if (gftRfffrfndfKind() == REF_invokfIntfrfbdf)
+                // invokfSpfdibl on b dffbult mftiod
+                dibngfRfffrfndfKind(REF_invokfSpfdibl, REF_invokfIntfrfbdf);
         }
     }
-    public MemberName asSpecial() {
-        switch (getReferenceKind()) {
-        case REF_invokeSpecial:     return this;
-        case REF_invokeVirtual:     return clone().changeReferenceKind(REF_invokeSpecial, REF_invokeVirtual);
-        case REF_invokeInterface:   return clone().changeReferenceKind(REF_invokeSpecial, REF_invokeInterface);
-        case REF_newInvokeSpecial:  return clone().changeReferenceKind(REF_invokeSpecial, REF_newInvokeSpecial);
+    publid MfmbfrNbmf bsSpfdibl() {
+        switdi (gftRfffrfndfKind()) {
+        dbsf REF_invokfSpfdibl:     rfturn tiis;
+        dbsf REF_invokfVirtubl:     rfturn dlonf().dibngfRfffrfndfKind(REF_invokfSpfdibl, REF_invokfVirtubl);
+        dbsf REF_invokfIntfrfbdf:   rfturn dlonf().dibngfRfffrfndfKind(REF_invokfSpfdibl, REF_invokfIntfrfbdf);
+        dbsf REF_nfwInvokfSpfdibl:  rfturn dlonf().dibngfRfffrfndfKind(REF_invokfSpfdibl, REF_nfwInvokfSpfdibl);
         }
-        throw new IllegalArgumentException(this.toString());
+        tirow nfw IllfgblArgumfntExdfption(tiis.toString());
     }
-    /** If this MN is not REF_newInvokeSpecial, return a clone with that ref. kind.
-     *  In that case it must already be REF_invokeSpecial.
+    /** If tiis MN is not REF_nfwInvokfSpfdibl, rfturn b dlonf witi tibt rff. kind.
+     *  In tibt dbsf it must blrfbdy bf REF_invokfSpfdibl.
      */
-    public MemberName asConstructor() {
-        switch (getReferenceKind()) {
-        case REF_invokeSpecial:     return clone().changeReferenceKind(REF_newInvokeSpecial, REF_invokeSpecial);
-        case REF_newInvokeSpecial:  return this;
+    publid MfmbfrNbmf bsConstrudtor() {
+        switdi (gftRfffrfndfKind()) {
+        dbsf REF_invokfSpfdibl:     rfturn dlonf().dibngfRfffrfndfKind(REF_nfwInvokfSpfdibl, REF_invokfSpfdibl);
+        dbsf REF_nfwInvokfSpfdibl:  rfturn tiis;
         }
-        throw new IllegalArgumentException(this.toString());
+        tirow nfw IllfgblArgumfntExdfption(tiis.toString());
     }
-    /** If this MN is a REF_invokeSpecial, return a clone with the "normal" kind
-     *  REF_invokeVirtual; also switch either to REF_invokeInterface if clazz.isInterface.
-     *  The end result is to get a fully virtualized version of the MN.
-     *  (Note that resolving in the JVM will sometimes devirtualize, changing
-     *  REF_invokeVirtual of a final to REF_invokeSpecial, and REF_invokeInterface
-     *  in some corner cases to either of the previous two; this transform
-     *  undoes that change under the assumption that it occurred.)
+    /** If tiis MN is b REF_invokfSpfdibl, rfturn b dlonf witi tif "normbl" kind
+     *  REF_invokfVirtubl; blso switdi fitifr to REF_invokfIntfrfbdf if dlbzz.isIntfrfbdf.
+     *  Tif fnd rfsult is to gft b fully virtublizfd vfrsion of tif MN.
+     *  (Notf tibt rfsolving in tif JVM will somftimfs dfvirtublizf, dibnging
+     *  REF_invokfVirtubl of b finbl to REF_invokfSpfdibl, bnd REF_invokfIntfrfbdf
+     *  in somf dornfr dbsfs to fitifr of tif prfvious two; tiis trbnsform
+     *  undofs tibt dibngf undfr tif bssumption tibt it oddurrfd.)
      */
-    public MemberName asNormalOriginal() {
-        byte normalVirtual = clazz.isInterface() ? REF_invokeInterface : REF_invokeVirtual;
-        byte refKind = getReferenceKind();
-        byte newRefKind = refKind;
-        MemberName result = this;
-        switch (refKind) {
-        case REF_invokeInterface:
-        case REF_invokeVirtual:
-        case REF_invokeSpecial:
-            newRefKind = normalVirtual;
-            break;
+    publid MfmbfrNbmf bsNormblOriginbl() {
+        bytf normblVirtubl = dlbzz.isIntfrfbdf() ? REF_invokfIntfrfbdf : REF_invokfVirtubl;
+        bytf rffKind = gftRfffrfndfKind();
+        bytf nfwRffKind = rffKind;
+        MfmbfrNbmf rfsult = tiis;
+        switdi (rffKind) {
+        dbsf REF_invokfIntfrfbdf:
+        dbsf REF_invokfVirtubl:
+        dbsf REF_invokfSpfdibl:
+            nfwRffKind = normblVirtubl;
+            brfbk;
         }
-        if (newRefKind == refKind)
-            return this;
-        result = clone().changeReferenceKind(newRefKind, refKind);
-        assert(this.referenceKindIsConsistentWith(result.getReferenceKind()));
-        return result;
+        if (nfwRffKind == rffKind)
+            rfturn tiis;
+        rfsult = dlonf().dibngfRfffrfndfKind(nfwRffKind, rffKind);
+        bssfrt(tiis.rfffrfndfKindIsConsistfntWiti(rfsult.gftRfffrfndfKind()));
+        rfturn rfsult;
     }
-    /** Create a name for the given reflected constructor.  The resulting name will be in a resolved state. */
-    @SuppressWarnings("LeakingThisInConstructor")
-    public MemberName(Constructor<?> ctor) {
-        ctor.getClass();  // NPE check
-        // fill in vmtarget, vmindex while we have ctor in hand:
-        MethodHandleNatives.init(this, ctor);
-        assert(isResolved() && this.clazz != null);
-        this.name = CONSTRUCTOR_NAME;
-        if (this.type == null)
-            this.type = new Object[] { void.class, ctor.getParameterTypes() };
+    /** Crfbtf b nbmf for tif givfn rfflfdtfd donstrudtor.  Tif rfsulting nbmf will bf in b rfsolvfd stbtf. */
+    @SupprfssWbrnings("LfbkingTiisInConstrudtor")
+    publid MfmbfrNbmf(Construdtor<?> dtor) {
+        dtor.gftClbss();  // NPE difdk
+        // fill in vmtbrgft, vmindfx wiilf wf ibvf dtor in ibnd:
+        MftiodHbndlfNbtivfs.init(tiis, dtor);
+        bssfrt(isRfsolvfd() && tiis.dlbzz != null);
+        tiis.nbmf = CONSTRUCTOR_NAME;
+        if (tiis.typf == null)
+            tiis.typf = nfw Objfdt[] { void.dlbss, dtor.gftPbrbmftfrTypfs() };
     }
-    /** Create a name for the given reflected field.  The resulting name will be in a resolved state.
+    /** Crfbtf b nbmf for tif givfn rfflfdtfd fifld.  Tif rfsulting nbmf will bf in b rfsolvfd stbtf.
      */
-    public MemberName(Field fld) {
-        this(fld, false);
+    publid MfmbfrNbmf(Fifld fld) {
+        tiis(fld, fblsf);
     }
-    @SuppressWarnings("LeakingThisInConstructor")
-    public MemberName(Field fld, boolean makeSetter) {
-        fld.getClass();  // NPE check
-        // fill in vmtarget, vmindex while we have fld in hand:
-        MethodHandleNatives.init(this, fld);
-        assert(isResolved() && this.clazz != null);
-        this.name = fld.getName();
-        this.type = fld.getType();
-        assert((REF_putStatic - REF_getStatic) == (REF_putField - REF_getField));
-        byte refKind = this.getReferenceKind();
-        assert(refKind == (isStatic() ? REF_getStatic : REF_getField));
-        if (makeSetter) {
-            changeReferenceKind((byte)(refKind + (REF_putStatic - REF_getStatic)), refKind);
+    @SupprfssWbrnings("LfbkingTiisInConstrudtor")
+    publid MfmbfrNbmf(Fifld fld, boolfbn mbkfSfttfr) {
+        fld.gftClbss();  // NPE difdk
+        // fill in vmtbrgft, vmindfx wiilf wf ibvf fld in ibnd:
+        MftiodHbndlfNbtivfs.init(tiis, fld);
+        bssfrt(isRfsolvfd() && tiis.dlbzz != null);
+        tiis.nbmf = fld.gftNbmf();
+        tiis.typf = fld.gftTypf();
+        bssfrt((REF_putStbtid - REF_gftStbtid) == (REF_putFifld - REF_gftFifld));
+        bytf rffKind = tiis.gftRfffrfndfKind();
+        bssfrt(rffKind == (isStbtid() ? REF_gftStbtid : REF_gftFifld));
+        if (mbkfSfttfr) {
+            dibngfRfffrfndfKind((bytf)(rffKind + (REF_putStbtid - REF_gftStbtid)), rffKind);
         }
     }
-    public boolean isGetter() {
-        return MethodHandleNatives.refKindIsGetter(getReferenceKind());
+    publid boolfbn isGfttfr() {
+        rfturn MftiodHbndlfNbtivfs.rffKindIsGfttfr(gftRfffrfndfKind());
     }
-    public boolean isSetter() {
-        return MethodHandleNatives.refKindIsSetter(getReferenceKind());
+    publid boolfbn isSfttfr() {
+        rfturn MftiodHbndlfNbtivfs.rffKindIsSfttfr(gftRfffrfndfKind());
     }
-    public MemberName asSetter() {
-        byte refKind = getReferenceKind();
-        assert(MethodHandleNatives.refKindIsGetter(refKind));
-        assert((REF_putStatic - REF_getStatic) == (REF_putField - REF_getField));
-        byte setterRefKind = (byte)(refKind + (REF_putField - REF_getField));
-        return clone().changeReferenceKind(setterRefKind, refKind);
+    publid MfmbfrNbmf bsSfttfr() {
+        bytf rffKind = gftRfffrfndfKind();
+        bssfrt(MftiodHbndlfNbtivfs.rffKindIsGfttfr(rffKind));
+        bssfrt((REF_putStbtid - REF_gftStbtid) == (REF_putFifld - REF_gftFifld));
+        bytf sfttfrRffKind = (bytf)(rffKind + (REF_putFifld - REF_gftFifld));
+        rfturn dlonf().dibngfRfffrfndfKind(sfttfrRffKind, rffKind);
     }
-    /** Create a name for the given class.  The resulting name will be in a resolved state. */
-    public MemberName(Class<?> type) {
-        init(type.getDeclaringClass(), type.getSimpleName(), type,
-                flagsMods(IS_TYPE, type.getModifiers(), REF_NONE));
-        initResolved(true);
+    /** Crfbtf b nbmf for tif givfn dlbss.  Tif rfsulting nbmf will bf in b rfsolvfd stbtf. */
+    publid MfmbfrNbmf(Clbss<?> typf) {
+        init(typf.gftDfdlbringClbss(), typf.gftSimplfNbmf(), typf,
+                flbgsMods(IS_TYPE, typf.gftModififrs(), REF_NONE));
+        initRfsolvfd(truf);
     }
 
     /**
-     * Create a name for a signature-polymorphic invoker.
-     * This is a placeholder for a signature-polymorphic instance
-     * (of MH.invokeExact, etc.) that the JVM does not reify.
-     * See comments on {@link MethodHandleNatives#linkMethod}.
+     * Crfbtf b nbmf for b signbturf-polymorpiid invokfr.
+     * Tiis is b plbdfioldfr for b signbturf-polymorpiid instbndf
+     * (of MH.invokfExbdt, ftd.) tibt tif JVM dofs not rfify.
+     * Sff dommfnts on {@link MftiodHbndlfNbtivfs#linkMftiod}.
      */
-    static MemberName makeMethodHandleInvoke(String name, MethodType type) {
-        return makeMethodHandleInvoke(name, type, MH_INVOKE_MODS | SYNTHETIC);
+    stbtid MfmbfrNbmf mbkfMftiodHbndlfInvokf(String nbmf, MftiodTypf typf) {
+        rfturn mbkfMftiodHbndlfInvokf(nbmf, typf, MH_INVOKE_MODS | SYNTHETIC);
     }
-    static MemberName makeMethodHandleInvoke(String name, MethodType type, int mods) {
-        MemberName mem = new MemberName(MethodHandle.class, name, type, REF_invokeVirtual);
-        mem.flags |= mods;  // it's not resolved, but add these modifiers anyway
-        assert(mem.isMethodHandleInvoke()) : mem;
-        return mem;
+    stbtid MfmbfrNbmf mbkfMftiodHbndlfInvokf(String nbmf, MftiodTypf typf, int mods) {
+        MfmbfrNbmf mfm = nfw MfmbfrNbmf(MftiodHbndlf.dlbss, nbmf, typf, REF_invokfVirtubl);
+        mfm.flbgs |= mods;  // it's not rfsolvfd, but bdd tifsf modififrs bnywby
+        bssfrt(mfm.isMftiodHbndlfInvokf()) : mfm;
+        rfturn mfm;
     }
 
-    // bare-bones constructor; the JVM will fill it in
-    MemberName() { }
+    // bbrf-bonfs donstrudtor; tif JVM will fill it in
+    MfmbfrNbmf() { }
 
-    // locally useful cloner
-    @Override protected MemberName clone() {
+    // lodblly usfful dlonfr
+    @Ovfrridf protfdtfd MfmbfrNbmf dlonf() {
         try {
-            return (MemberName) super.clone();
-        } catch (CloneNotSupportedException ex) {
-            throw newInternalError(ex);
+            rfturn (MfmbfrNbmf) supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+            tirow nfwIntfrnblError(fx);
         }
      }
 
-    /** Get the definition of this member name.
-     *  This may be in a super-class of the declaring class of this member.
+    /** Gft tif dffinition of tiis mfmbfr nbmf.
+     *  Tiis mby bf in b supfr-dlbss of tif dfdlbring dlbss of tiis mfmbfr.
      */
-    public MemberName getDefinition() {
-        if (!isResolved())  throw new IllegalStateException("must be resolved: "+this);
-        if (isType())  return this;
-        MemberName res = this.clone();
-        res.clazz = null;
-        res.type = null;
-        res.name = null;
-        res.resolution = res;
-        res.expandFromVM();
-        assert(res.getName().equals(this.getName()));
-        return res;
+    publid MfmbfrNbmf gftDffinition() {
+        if (!isRfsolvfd())  tirow nfw IllfgblStbtfExdfption("must bf rfsolvfd: "+tiis);
+        if (isTypf())  rfturn tiis;
+        MfmbfrNbmf rfs = tiis.dlonf();
+        rfs.dlbzz = null;
+        rfs.typf = null;
+        rfs.nbmf = null;
+        rfs.rfsolution = rfs;
+        rfs.fxpbndFromVM();
+        bssfrt(rfs.gftNbmf().fqubls(tiis.gftNbmf()));
+        rfturn rfs;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(clazz, getReferenceKind(), name, getType());
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Objfdts.ibsi(dlbzz, gftRfffrfndfKind(), nbmf, gftTypf());
     }
-    @Override
-    public boolean equals(Object that) {
-        return (that instanceof MemberName && this.equals((MemberName)that));
-    }
-
-    /** Decide if two member names have exactly the same symbolic content.
-     *  Does not take into account any actual class members, so even if
-     *  two member names resolve to the same actual member, they may
-     *  be distinct references.
-     */
-    public boolean equals(MemberName that) {
-        if (this == that)  return true;
-        if (that == null)  return false;
-        return this.clazz == that.clazz
-                && this.getReferenceKind() == that.getReferenceKind()
-                && Objects.equals(this.name, that.name)
-                && Objects.equals(this.getType(), that.getType());
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt tibt) {
+        rfturn (tibt instbndfof MfmbfrNbmf && tiis.fqubls((MfmbfrNbmf)tibt));
     }
 
-    // Construction from symbolic parts, for queries:
-    /** Create a field or type name from the given components:
-     *  Declaring class, name, type, reference kind.
-     *  The declaring class may be supplied as null if this is to be a bare name and type.
-     *  The resulting name will in an unresolved state.
+    /** Dfdidf if two mfmbfr nbmfs ibvf fxbdtly tif sbmf symbolid dontfnt.
+     *  Dofs not tbkf into bddount bny bdtubl dlbss mfmbfrs, so fvfn if
+     *  two mfmbfr nbmfs rfsolvf to tif sbmf bdtubl mfmbfr, tify mby
+     *  bf distindt rfffrfndfs.
      */
-    public MemberName(Class<?> defClass, String name, Class<?> type, byte refKind) {
-        init(defClass, name, type, flagsMods(IS_FIELD, 0, refKind));
-        initResolved(false);
+    publid boolfbn fqubls(MfmbfrNbmf tibt) {
+        if (tiis == tibt)  rfturn truf;
+        if (tibt == null)  rfturn fblsf;
+        rfturn tiis.dlbzz == tibt.dlbzz
+                && tiis.gftRfffrfndfKind() == tibt.gftRfffrfndfKind()
+                && Objfdts.fqubls(tiis.nbmf, tibt.nbmf)
+                && Objfdts.fqubls(tiis.gftTypf(), tibt.gftTypf());
     }
-    /** Create a field or type name from the given components:  Declaring class, name, type.
-     *  The declaring class may be supplied as null if this is to be a bare name and type.
-     *  The modifier flags default to zero.
-     *  The resulting name will in an unresolved state.
+
+    // Construdtion from symbolid pbrts, for qufrifs:
+    /** Crfbtf b fifld or typf nbmf from tif givfn domponfnts:
+     *  Dfdlbring dlbss, nbmf, typf, rfffrfndf kind.
+     *  Tif dfdlbring dlbss mby bf supplifd bs null if tiis is to bf b bbrf nbmf bnd typf.
+     *  Tif rfsulting nbmf will in bn unrfsolvfd stbtf.
      */
-    public MemberName(Class<?> defClass, String name, Class<?> type, Void unused) {
-        this(defClass, name, type, REF_NONE);
-        initResolved(false);
+    publid MfmbfrNbmf(Clbss<?> dffClbss, String nbmf, Clbss<?> typf, bytf rffKind) {
+        init(dffClbss, nbmf, typf, flbgsMods(IS_FIELD, 0, rffKind));
+        initRfsolvfd(fblsf);
     }
-    /** Create a method or constructor name from the given components:  Declaring class, name, type, modifiers.
-     *  It will be a constructor if and only if the name is {@code "&lt;init&gt;"}.
-     *  The declaring class may be supplied as null if this is to be a bare name and type.
-     *  The last argument is optional, a boolean which requests REF_invokeSpecial.
-     *  The resulting name will in an unresolved state.
+    /** Crfbtf b fifld or typf nbmf from tif givfn domponfnts:  Dfdlbring dlbss, nbmf, typf.
+     *  Tif dfdlbring dlbss mby bf supplifd bs null if tiis is to bf b bbrf nbmf bnd typf.
+     *  Tif modififr flbgs dffbult to zfro.
+     *  Tif rfsulting nbmf will in bn unrfsolvfd stbtf.
      */
-    public MemberName(Class<?> defClass, String name, MethodType type, byte refKind) {
-        int initFlags = (name != null && name.equals(CONSTRUCTOR_NAME) ? IS_CONSTRUCTOR : IS_METHOD);
-        init(defClass, name, type, flagsMods(initFlags, 0, refKind));
-        initResolved(false);
+    publid MfmbfrNbmf(Clbss<?> dffClbss, String nbmf, Clbss<?> typf, Void unusfd) {
+        tiis(dffClbss, nbmf, typf, REF_NONE);
+        initRfsolvfd(fblsf);
     }
-    /** Create a method, constructor, or field name from the given components:
-     *  Reference kind, declaring class, name, type.
+    /** Crfbtf b mftiod or donstrudtor nbmf from tif givfn domponfnts:  Dfdlbring dlbss, nbmf, typf, modififrs.
+     *  It will bf b donstrudtor if bnd only if tif nbmf is {@dodf "&lt;init&gt;"}.
+     *  Tif dfdlbring dlbss mby bf supplifd bs null if tiis is to bf b bbrf nbmf bnd typf.
+     *  Tif lbst brgumfnt is optionbl, b boolfbn wiidi rfqufsts REF_invokfSpfdibl.
+     *  Tif rfsulting nbmf will in bn unrfsolvfd stbtf.
      */
-    public MemberName(byte refKind, Class<?> defClass, String name, Object type) {
-        int kindFlags;
-        if (MethodHandleNatives.refKindIsField(refKind)) {
-            kindFlags = IS_FIELD;
-            if (!(type instanceof Class))
-                throw newIllegalArgumentException("not a field type");
-        } else if (MethodHandleNatives.refKindIsMethod(refKind)) {
-            kindFlags = IS_METHOD;
-            if (!(type instanceof MethodType))
-                throw newIllegalArgumentException("not a method type");
-        } else if (refKind == REF_newInvokeSpecial) {
-            kindFlags = IS_CONSTRUCTOR;
-            if (!(type instanceof MethodType) ||
-                !CONSTRUCTOR_NAME.equals(name))
-                throw newIllegalArgumentException("not a constructor type or name");
-        } else {
-            throw newIllegalArgumentException("bad reference kind "+refKind);
+    publid MfmbfrNbmf(Clbss<?> dffClbss, String nbmf, MftiodTypf typf, bytf rffKind) {
+        int initFlbgs = (nbmf != null && nbmf.fqubls(CONSTRUCTOR_NAME) ? IS_CONSTRUCTOR : IS_METHOD);
+        init(dffClbss, nbmf, typf, flbgsMods(initFlbgs, 0, rffKind));
+        initRfsolvfd(fblsf);
+    }
+    /** Crfbtf b mftiod, donstrudtor, or fifld nbmf from tif givfn domponfnts:
+     *  Rfffrfndf kind, dfdlbring dlbss, nbmf, typf.
+     */
+    publid MfmbfrNbmf(bytf rffKind, Clbss<?> dffClbss, String nbmf, Objfdt typf) {
+        int kindFlbgs;
+        if (MftiodHbndlfNbtivfs.rffKindIsFifld(rffKind)) {
+            kindFlbgs = IS_FIELD;
+            if (!(typf instbndfof Clbss))
+                tirow nfwIllfgblArgumfntExdfption("not b fifld typf");
+        } flsf if (MftiodHbndlfNbtivfs.rffKindIsMftiod(rffKind)) {
+            kindFlbgs = IS_METHOD;
+            if (!(typf instbndfof MftiodTypf))
+                tirow nfwIllfgblArgumfntExdfption("not b mftiod typf");
+        } flsf if (rffKind == REF_nfwInvokfSpfdibl) {
+            kindFlbgs = IS_CONSTRUCTOR;
+            if (!(typf instbndfof MftiodTypf) ||
+                !CONSTRUCTOR_NAME.fqubls(nbmf))
+                tirow nfwIllfgblArgumfntExdfption("not b donstrudtor typf or nbmf");
+        } flsf {
+            tirow nfwIllfgblArgumfntExdfption("bbd rfffrfndf kind "+rffKind);
         }
-        init(defClass, name, type, flagsMods(kindFlags, 0, refKind));
-        initResolved(false);
+        init(dffClbss, nbmf, typf, flbgsMods(kindFlbgs, 0, rffKind));
+        initRfsolvfd(fblsf);
     }
-    /** Query whether this member name is resolved to a non-static, non-final method.
+    /** Qufry wiftifr tiis mfmbfr nbmf is rfsolvfd to b non-stbtid, non-finbl mftiod.
      */
-    public boolean hasReceiverTypeDispatch() {
-        return MethodHandleNatives.refKindDoesDispatch(getReferenceKind());
+    publid boolfbn ibsRfdfivfrTypfDispbtdi() {
+        rfturn MftiodHbndlfNbtivfs.rffKindDofsDispbtdi(gftRfffrfndfKind());
     }
 
-    /** Query whether this member name is resolved.
-     *  A resolved member name is one for which the JVM has found
-     *  a method, constructor, field, or type binding corresponding exactly to the name.
-     *  (Document?)
+    /** Qufry wiftifr tiis mfmbfr nbmf is rfsolvfd.
+     *  A rfsolvfd mfmbfr nbmf is onf for wiidi tif JVM ibs found
+     *  b mftiod, donstrudtor, fifld, or typf binding dorrfsponding fxbdtly to tif nbmf.
+     *  (Dodumfnt?)
      */
-    public boolean isResolved() {
-        return resolution == null;
+    publid boolfbn isRfsolvfd() {
+        rfturn rfsolution == null;
     }
 
-    private void initResolved(boolean isResolved) {
-        assert(this.resolution == null);  // not initialized yet!
-        if (!isResolved)
-            this.resolution = this;
-        assert(isResolved() == isResolved);
+    privbtf void initRfsolvfd(boolfbn isRfsolvfd) {
+        bssfrt(tiis.rfsolution == null);  // not initiblizfd yft!
+        if (!isRfsolvfd)
+            tiis.rfsolution = tiis;
+        bssfrt(isRfsolvfd() == isRfsolvfd);
     }
 
-    void checkForTypeAlias() {
-        if (isInvocable()) {
-            MethodType type;
-            if (this.type instanceof MethodType)
-                type = (MethodType) this.type;
-            else
-                this.type = type = getMethodType();
-            if (type.erase() == type)  return;
-            if (VerifyAccess.isTypeVisible(type, clazz))  return;
-            throw new LinkageError("bad method type alias: "+type+" not visible from "+clazz);
-        } else {
-            Class<?> type;
-            if (this.type instanceof Class<?>)
-                type = (Class<?>) this.type;
-            else
-                this.type = type = getFieldType();
-            if (VerifyAccess.isTypeVisible(type, clazz))  return;
-            throw new LinkageError("bad field type alias: "+type+" not visible from "+clazz);
+    void difdkForTypfAlibs() {
+        if (isInvodbblf()) {
+            MftiodTypf typf;
+            if (tiis.typf instbndfof MftiodTypf)
+                typf = (MftiodTypf) tiis.typf;
+            flsf
+                tiis.typf = typf = gftMftiodTypf();
+            if (typf.frbsf() == typf)  rfturn;
+            if (VfrifyAddfss.isTypfVisiblf(typf, dlbzz))  rfturn;
+            tirow nfw LinkbgfError("bbd mftiod typf blibs: "+typf+" not visiblf from "+dlbzz);
+        } flsf {
+            Clbss<?> typf;
+            if (tiis.typf instbndfof Clbss<?>)
+                typf = (Clbss<?>) tiis.typf;
+            flsf
+                tiis.typf = typf = gftFifldTypf();
+            if (VfrifyAddfss.isTypfVisiblf(typf, dlbzz))  rfturn;
+            tirow nfw LinkbgfError("bbd fifld typf blibs: "+typf+" not visiblf from "+dlbzz);
         }
     }
 
 
-    /** Produce a string form of this member name.
-     *  For types, it is simply the type's own string (as reported by {@code toString}).
-     *  For fields, it is {@code "DeclaringClass.name/type"}.
-     *  For methods and constructors, it is {@code "DeclaringClass.name(ptype...)rtype"}.
-     *  If the declaring class is null, the prefix {@code "DeclaringClass."} is omitted.
-     *  If the member is unresolved, a prefix {@code "*."} is prepended.
+    /** Produdf b string form of tiis mfmbfr nbmf.
+     *  For typfs, it is simply tif typf's own string (bs rfportfd by {@dodf toString}).
+     *  For fiflds, it is {@dodf "DfdlbringClbss.nbmf/typf"}.
+     *  For mftiods bnd donstrudtors, it is {@dodf "DfdlbringClbss.nbmf(ptypf...)rtypf"}.
+     *  If tif dfdlbring dlbss is null, tif prffix {@dodf "DfdlbringClbss."} is omittfd.
+     *  If tif mfmbfr is unrfsolvfd, b prffix {@dodf "*."} is prfpfndfd.
      */
-    @SuppressWarnings("LocalVariableHidesMemberVariable")
-    @Override
-    public String toString() {
-        if (isType())
-            return type.toString();  // class java.lang.String
-        // else it is a field, method, or constructor
-        StringBuilder buf = new StringBuilder();
-        if (getDeclaringClass() != null) {
-            buf.append(getName(clazz));
-            buf.append('.');
+    @SupprfssWbrnings("LodblVbribblfHidfsMfmbfrVbribblf")
+    @Ovfrridf
+    publid String toString() {
+        if (isTypf())
+            rfturn typf.toString();  // dlbss jbvb.lbng.String
+        // flsf it is b fifld, mftiod, or donstrudtor
+        StringBuildfr buf = nfw StringBuildfr();
+        if (gftDfdlbringClbss() != null) {
+            buf.bppfnd(gftNbmf(dlbzz));
+            buf.bppfnd('.');
         }
-        String name = getName();
-        buf.append(name == null ? "*" : name);
-        Object type = getType();
-        if (!isInvocable()) {
-            buf.append('/');
-            buf.append(type == null ? "*" : getName(type));
-        } else {
-            buf.append(type == null ? "(*)*" : getName(type));
+        String nbmf = gftNbmf();
+        buf.bppfnd(nbmf == null ? "*" : nbmf);
+        Objfdt typf = gftTypf();
+        if (!isInvodbblf()) {
+            buf.bppfnd('/');
+            buf.bppfnd(typf == null ? "*" : gftNbmf(typf));
+        } flsf {
+            buf.bppfnd(typf == null ? "(*)*" : gftNbmf(typf));
         }
-        byte refKind = getReferenceKind();
-        if (refKind != REF_NONE) {
-            buf.append('/');
-            buf.append(MethodHandleNatives.refKindName(refKind));
+        bytf rffKind = gftRfffrfndfKind();
+        if (rffKind != REF_NONE) {
+            buf.bppfnd('/');
+            buf.bppfnd(MftiodHbndlfNbtivfs.rffKindNbmf(rffKind));
         }
-        //buf.append("#").append(System.identityHashCode(this));
-        return buf.toString();
+        //buf.bppfnd("#").bppfnd(Systfm.idfntityHbsiCodf(tiis));
+        rfturn buf.toString();
     }
-    private static String getName(Object obj) {
-        if (obj instanceof Class<?>)
-            return ((Class<?>)obj).getName();
-        return String.valueOf(obj);
+    privbtf stbtid String gftNbmf(Objfdt obj) {
+        if (obj instbndfof Clbss<?>)
+            rfturn ((Clbss<?>)obj).gftNbmf();
+        rfturn String.vblufOf(obj);
     }
 
-    public IllegalAccessException makeAccessException(String message, Object from) {
-        message = message + ": "+ toString();
-        if (from != null)  message += ", from " + from;
-        return new IllegalAccessException(message);
+    publid IllfgblAddfssExdfption mbkfAddfssExdfption(String mfssbgf, Objfdt from) {
+        mfssbgf = mfssbgf + ": "+ toString();
+        if (from != null)  mfssbgf += ", from " + from;
+        rfturn nfw IllfgblAddfssExdfption(mfssbgf);
     }
-    private String message() {
-        if (isResolved())
-            return "no access";
-        else if (isConstructor())
-            return "no such constructor";
-        else if (isMethod())
-            return "no such method";
-        else
-            return "no such field";
+    privbtf String mfssbgf() {
+        if (isRfsolvfd())
+            rfturn "no bddfss";
+        flsf if (isConstrudtor())
+            rfturn "no sudi donstrudtor";
+        flsf if (isMftiod())
+            rfturn "no sudi mftiod";
+        flsf
+            rfturn "no sudi fifld";
     }
-    public ReflectiveOperationException makeAccessException() {
-        String message = message() + ": "+ toString();
-        ReflectiveOperationException ex;
-        if (isResolved() || !(resolution instanceof NoSuchMethodError ||
-                              resolution instanceof NoSuchFieldError))
-            ex = new IllegalAccessException(message);
-        else if (isConstructor())
-            ex = new NoSuchMethodException(message);
-        else if (isMethod())
-            ex = new NoSuchMethodException(message);
-        else
-            ex = new NoSuchFieldException(message);
-        if (resolution instanceof Throwable)
-            ex.initCause((Throwable) resolution);
-        return ex;
+    publid RfflfdtivfOpfrbtionExdfption mbkfAddfssExdfption() {
+        String mfssbgf = mfssbgf() + ": "+ toString();
+        RfflfdtivfOpfrbtionExdfption fx;
+        if (isRfsolvfd() || !(rfsolution instbndfof NoSudiMftiodError ||
+                              rfsolution instbndfof NoSudiFifldError))
+            fx = nfw IllfgblAddfssExdfption(mfssbgf);
+        flsf if (isConstrudtor())
+            fx = nfw NoSudiMftiodExdfption(mfssbgf);
+        flsf if (isMftiod())
+            fx = nfw NoSudiMftiodExdfption(mfssbgf);
+        flsf
+            fx = nfw NoSudiFifldExdfption(mfssbgf);
+        if (rfsolution instbndfof Tirowbblf)
+            fx.initCbusf((Tirowbblf) rfsolution);
+        rfturn fx;
     }
 
-    /** Actually making a query requires an access check. */
-    /*non-public*/ static Factory getFactory() {
-        return Factory.INSTANCE;
+    /** Adtublly mbking b qufry rfquirfs bn bddfss difdk. */
+    /*non-publid*/ stbtid Fbdtory gftFbdtory() {
+        rfturn Fbdtory.INSTANCE;
     }
-    /** A factory type for resolving member names with the help of the VM.
-     *  TBD: Define access-safe public constructors for this factory.
+    /** A fbdtory typf for rfsolving mfmbfr nbmfs witi tif iflp of tif VM.
+     *  TBD: Dffinf bddfss-sbff publid donstrudtors for tiis fbdtory.
      */
-    /*non-public*/ static class Factory {
-        private Factory() { } // singleton pattern
-        static Factory INSTANCE = new Factory();
+    /*non-publid*/ stbtid dlbss Fbdtory {
+        privbtf Fbdtory() { } // singlfton pbttfrn
+        stbtid Fbdtory INSTANCE = nfw Fbdtory();
 
-        private static int ALLOWED_FLAGS = ALL_KINDS;
+        privbtf stbtid int ALLOWED_FLAGS = ALL_KINDS;
 
-        /// Queries
-        List<MemberName> getMembers(Class<?> defc,
-                String matchName, Object matchType,
-                int matchFlags, Class<?> lookupClass) {
-            matchFlags &= ALLOWED_FLAGS;
-            String matchSig = null;
-            if (matchType != null) {
-                matchSig = BytecodeDescriptor.unparse(matchType);
-                if (matchSig.startsWith("("))
-                    matchFlags &= ~(ALL_KINDS & ~IS_INVOCABLE);
-                else
-                    matchFlags &= ~(ALL_KINDS & ~IS_FIELD);
+        /// Qufrifs
+        List<MfmbfrNbmf> gftMfmbfrs(Clbss<?> dffd,
+                String mbtdiNbmf, Objfdt mbtdiTypf,
+                int mbtdiFlbgs, Clbss<?> lookupClbss) {
+            mbtdiFlbgs &= ALLOWED_FLAGS;
+            String mbtdiSig = null;
+            if (mbtdiTypf != null) {
+                mbtdiSig = BytfdodfDfsdriptor.unpbrsf(mbtdiTypf);
+                if (mbtdiSig.stbrtsWiti("("))
+                    mbtdiFlbgs &= ~(ALL_KINDS & ~IS_INVOCABLE);
+                flsf
+                    mbtdiFlbgs &= ~(ALL_KINDS & ~IS_FIELD);
             }
-            final int BUF_MAX = 0x2000;
-            int len1 = matchName == null ? 10 : matchType == null ? 4 : 1;
-            MemberName[] buf = newMemberBuffer(len1);
-            int totalCount = 0;
-            ArrayList<MemberName[]> bufs = null;
+            finbl int BUF_MAX = 0x2000;
+            int lfn1 = mbtdiNbmf == null ? 10 : mbtdiTypf == null ? 4 : 1;
+            MfmbfrNbmf[] buf = nfwMfmbfrBufffr(lfn1);
+            int totblCount = 0;
+            ArrbyList<MfmbfrNbmf[]> bufs = null;
             int bufCount = 0;
             for (;;) {
-                bufCount = MethodHandleNatives.getMembers(defc,
-                        matchName, matchSig, matchFlags,
-                        lookupClass,
-                        totalCount, buf);
-                if (bufCount <= buf.length) {
+                bufCount = MftiodHbndlfNbtivfs.gftMfmbfrs(dffd,
+                        mbtdiNbmf, mbtdiSig, mbtdiFlbgs,
+                        lookupClbss,
+                        totblCount, buf);
+                if (bufCount <= buf.lfngti) {
                     if (bufCount < 0)  bufCount = 0;
-                    totalCount += bufCount;
-                    break;
+                    totblCount += bufCount;
+                    brfbk;
                 }
-                // JVM returned to us with an intentional overflow!
-                totalCount += buf.length;
-                int excess = bufCount - buf.length;
-                if (bufs == null)  bufs = new ArrayList<>(1);
-                bufs.add(buf);
-                int len2 = buf.length;
-                len2 = Math.max(len2, excess);
-                len2 = Math.max(len2, totalCount / 4);
-                buf = newMemberBuffer(Math.min(BUF_MAX, len2));
+                // JVM rfturnfd to us witi bn intfntionbl ovfrflow!
+                totblCount += buf.lfngti;
+                int fxdfss = bufCount - buf.lfngti;
+                if (bufs == null)  bufs = nfw ArrbyList<>(1);
+                bufs.bdd(buf);
+                int lfn2 = buf.lfngti;
+                lfn2 = Mbti.mbx(lfn2, fxdfss);
+                lfn2 = Mbti.mbx(lfn2, totblCount / 4);
+                buf = nfwMfmbfrBufffr(Mbti.min(BUF_MAX, lfn2));
             }
-            ArrayList<MemberName> result = new ArrayList<>(totalCount);
+            ArrbyList<MfmbfrNbmf> rfsult = nfw ArrbyList<>(totblCount);
             if (bufs != null) {
-                for (MemberName[] buf0 : bufs) {
-                    Collections.addAll(result, buf0);
+                for (MfmbfrNbmf[] buf0 : bufs) {
+                    Collfdtions.bddAll(rfsult, buf0);
                 }
             }
-            result.addAll(Arrays.asList(buf).subList(0, bufCount));
-            // Signature matching is not the same as type matching, since
-            // one signature might correspond to several types.
-            // So if matchType is a Class or MethodType, refilter the results.
-            if (matchType != null && matchType != matchSig) {
-                for (Iterator<MemberName> it = result.iterator(); it.hasNext();) {
-                    MemberName m = it.next();
-                    if (!matchType.equals(m.getType()))
-                        it.remove();
+            rfsult.bddAll(Arrbys.bsList(buf).subList(0, bufCount));
+            // Signbturf mbtdiing is not tif sbmf bs typf mbtdiing, sindf
+            // onf signbturf migit dorrfspond to sfvfrbl typfs.
+            // So if mbtdiTypf is b Clbss or MftiodTypf, rffiltfr tif rfsults.
+            if (mbtdiTypf != null && mbtdiTypf != mbtdiSig) {
+                for (Itfrbtor<MfmbfrNbmf> it = rfsult.itfrbtor(); it.ibsNfxt();) {
+                    MfmbfrNbmf m = it.nfxt();
+                    if (!mbtdiTypf.fqubls(m.gftTypf()))
+                        it.rfmovf();
                 }
             }
-            return result;
+            rfturn rfsult;
         }
-        /** Produce a resolved version of the given member.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  If lookup fails or access is not permitted, null is returned.
-         *  Otherwise a fresh copy of the given member is returned, with modifier bits filled in.
+        /** Produdf b rfsolvfd vfrsion of tif givfn mfmbfr.
+         *  Supfr typfs brf sfbrdifd (for inifritfd mfmbfrs) if {@dodf sfbrdiSupfrs} is truf.
+         *  Addfss difdking is pfrformfd on bfiblf of tif givfn {@dodf lookupClbss}.
+         *  If lookup fbils or bddfss is not pfrmittfd, null is rfturnfd.
+         *  Otifrwisf b frfsi dopy of tif givfn mfmbfr is rfturnfd, witi modififr bits fillfd in.
          */
-        private MemberName resolve(byte refKind, MemberName ref, Class<?> lookupClass) {
-            MemberName m = ref.clone();  // JVM will side-effect the ref
-            assert(refKind == m.getReferenceKind());
+        privbtf MfmbfrNbmf rfsolvf(bytf rffKind, MfmbfrNbmf rff, Clbss<?> lookupClbss) {
+            MfmbfrNbmf m = rff.dlonf();  // JVM will sidf-ffffdt tif rff
+            bssfrt(rffKind == m.gftRfffrfndfKind());
             try {
-                m = MethodHandleNatives.resolve(m, lookupClass);
-                m.checkForTypeAlias();
-                m.resolution = null;
-            } catch (LinkageError ex) {
-                // JVM reports that the "bytecode behavior" would get an error
-                assert(!m.isResolved());
-                m.resolution = ex;
-                return m;
+                m = MftiodHbndlfNbtivfs.rfsolvf(m, lookupClbss);
+                m.difdkForTypfAlibs();
+                m.rfsolution = null;
+            } dbtdi (LinkbgfError fx) {
+                // JVM rfports tibt tif "bytfdodf bfibvior" would gft bn frror
+                bssfrt(!m.isRfsolvfd());
+                m.rfsolution = fx;
+                rfturn m;
             }
-            assert(m.referenceKindIsConsistent());
-            m.initResolved(true);
-            assert(m.vminfoIsConsistent());
-            return m;
+            bssfrt(m.rfffrfndfKindIsConsistfnt());
+            m.initRfsolvfd(truf);
+            bssfrt(m.vminfoIsConsistfnt());
+            rfturn m;
         }
-        /** Produce a resolved version of the given member.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  If lookup fails or access is not permitted, a {@linkplain ReflectiveOperationException} is thrown.
-         *  Otherwise a fresh copy of the given member is returned, with modifier bits filled in.
+        /** Produdf b rfsolvfd vfrsion of tif givfn mfmbfr.
+         *  Supfr typfs brf sfbrdifd (for inifritfd mfmbfrs) if {@dodf sfbrdiSupfrs} is truf.
+         *  Addfss difdking is pfrformfd on bfiblf of tif givfn {@dodf lookupClbss}.
+         *  If lookup fbils or bddfss is not pfrmittfd, b {@linkplbin RfflfdtivfOpfrbtionExdfption} is tirown.
+         *  Otifrwisf b frfsi dopy of tif givfn mfmbfr is rfturnfd, witi modififr bits fillfd in.
          */
-        public
-        <NoSuchMemberException extends ReflectiveOperationException>
-        MemberName resolveOrFail(byte refKind, MemberName m, Class<?> lookupClass,
-                                 Class<NoSuchMemberException> nsmClass)
-                throws IllegalAccessException, NoSuchMemberException {
-            MemberName result = resolve(refKind, m, lookupClass);
-            if (result.isResolved())
-                return result;
-            ReflectiveOperationException ex = result.makeAccessException();
-            if (ex instanceof IllegalAccessException)  throw (IllegalAccessException) ex;
-            throw nsmClass.cast(ex);
+        publid
+        <NoSudiMfmbfrExdfption fxtfnds RfflfdtivfOpfrbtionExdfption>
+        MfmbfrNbmf rfsolvfOrFbil(bytf rffKind, MfmbfrNbmf m, Clbss<?> lookupClbss,
+                                 Clbss<NoSudiMfmbfrExdfption> nsmClbss)
+                tirows IllfgblAddfssExdfption, NoSudiMfmbfrExdfption {
+            MfmbfrNbmf rfsult = rfsolvf(rffKind, m, lookupClbss);
+            if (rfsult.isRfsolvfd())
+                rfturn rfsult;
+            RfflfdtivfOpfrbtionExdfption fx = rfsult.mbkfAddfssExdfption();
+            if (fx instbndfof IllfgblAddfssExdfption)  tirow (IllfgblAddfssExdfption) fx;
+            tirow nsmClbss.dbst(fx);
         }
-        /** Produce a resolved version of the given member.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  If lookup fails or access is not permitted, return null.
-         *  Otherwise a fresh copy of the given member is returned, with modifier bits filled in.
+        /** Produdf b rfsolvfd vfrsion of tif givfn mfmbfr.
+         *  Supfr typfs brf sfbrdifd (for inifritfd mfmbfrs) if {@dodf sfbrdiSupfrs} is truf.
+         *  Addfss difdking is pfrformfd on bfiblf of tif givfn {@dodf lookupClbss}.
+         *  If lookup fbils or bddfss is not pfrmittfd, rfturn null.
+         *  Otifrwisf b frfsi dopy of tif givfn mfmbfr is rfturnfd, witi modififr bits fillfd in.
          */
-        public
-        MemberName resolveOrNull(byte refKind, MemberName m, Class<?> lookupClass) {
-            MemberName result = resolve(refKind, m, lookupClass);
-            if (result.isResolved())
-                return result;
-            return null;
+        publid
+        MfmbfrNbmf rfsolvfOrNull(bytf rffKind, MfmbfrNbmf m, Clbss<?> lookupClbss) {
+            MfmbfrNbmf rfsult = rfsolvf(rffKind, m, lookupClbss);
+            if (rfsult.isRfsolvfd())
+                rfturn rfsult;
+            rfturn null;
         }
-        /** Return a list of all methods defined by the given class.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Rfturn b list of bll mftiods dffinfd by tif givfn dlbss.
+         *  Supfr typfs brf sfbrdifd (for inifritfd mfmbfrs) if {@dodf sfbrdiSupfrs} is truf.
+         *  Addfss difdking is pfrformfd on bfiblf of tif givfn {@dodf lookupClbss}.
+         *  Inbddfssiblf mfmbfrs brf not bddfd to tif lbst.
          */
-        public List<MemberName> getMethods(Class<?> defc, boolean searchSupers,
-                Class<?> lookupClass) {
-            return getMethods(defc, searchSupers, null, null, lookupClass);
+        publid List<MfmbfrNbmf> gftMftiods(Clbss<?> dffd, boolfbn sfbrdiSupfrs,
+                Clbss<?> lookupClbss) {
+            rfturn gftMftiods(dffd, sfbrdiSupfrs, null, null, lookupClbss);
         }
-        /** Return a list of matching methods defined by the given class.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Returned methods will match the name (if not null) and the type (if not null).
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Rfturn b list of mbtdiing mftiods dffinfd by tif givfn dlbss.
+         *  Supfr typfs brf sfbrdifd (for inifritfd mfmbfrs) if {@dodf sfbrdiSupfrs} is truf.
+         *  Rfturnfd mftiods will mbtdi tif nbmf (if not null) bnd tif typf (if not null).
+         *  Addfss difdking is pfrformfd on bfiblf of tif givfn {@dodf lookupClbss}.
+         *  Inbddfssiblf mfmbfrs brf not bddfd to tif lbst.
          */
-        public List<MemberName> getMethods(Class<?> defc, boolean searchSupers,
-                String name, MethodType type, Class<?> lookupClass) {
-            int matchFlags = IS_METHOD | (searchSupers ? SEARCH_ALL_SUPERS : 0);
-            return getMembers(defc, name, type, matchFlags, lookupClass);
+        publid List<MfmbfrNbmf> gftMftiods(Clbss<?> dffd, boolfbn sfbrdiSupfrs,
+                String nbmf, MftiodTypf typf, Clbss<?> lookupClbss) {
+            int mbtdiFlbgs = IS_METHOD | (sfbrdiSupfrs ? SEARCH_ALL_SUPERS : 0);
+            rfturn gftMfmbfrs(dffd, nbmf, typf, mbtdiFlbgs, lookupClbss);
         }
-        /** Return a list of all constructors defined by the given class.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Rfturn b list of bll donstrudtors dffinfd by tif givfn dlbss.
+         *  Addfss difdking is pfrformfd on bfiblf of tif givfn {@dodf lookupClbss}.
+         *  Inbddfssiblf mfmbfrs brf not bddfd to tif lbst.
          */
-        public List<MemberName> getConstructors(Class<?> defc, Class<?> lookupClass) {
-            return getMembers(defc, null, null, IS_CONSTRUCTOR, lookupClass);
+        publid List<MfmbfrNbmf> gftConstrudtors(Clbss<?> dffd, Clbss<?> lookupClbss) {
+            rfturn gftMfmbfrs(dffd, null, null, IS_CONSTRUCTOR, lookupClbss);
         }
-        /** Return a list of all fields defined by the given class.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Rfturn b list of bll fiflds dffinfd by tif givfn dlbss.
+         *  Supfr typfs brf sfbrdifd (for inifritfd mfmbfrs) if {@dodf sfbrdiSupfrs} is truf.
+         *  Addfss difdking is pfrformfd on bfiblf of tif givfn {@dodf lookupClbss}.
+         *  Inbddfssiblf mfmbfrs brf not bddfd to tif lbst.
          */
-        public List<MemberName> getFields(Class<?> defc, boolean searchSupers,
-                Class<?> lookupClass) {
-            return getFields(defc, searchSupers, null, null, lookupClass);
+        publid List<MfmbfrNbmf> gftFiflds(Clbss<?> dffd, boolfbn sfbrdiSupfrs,
+                Clbss<?> lookupClbss) {
+            rfturn gftFiflds(dffd, sfbrdiSupfrs, null, null, lookupClbss);
         }
-        /** Return a list of all fields defined by the given class.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Returned fields will match the name (if not null) and the type (if not null).
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Rfturn b list of bll fiflds dffinfd by tif givfn dlbss.
+         *  Supfr typfs brf sfbrdifd (for inifritfd mfmbfrs) if {@dodf sfbrdiSupfrs} is truf.
+         *  Rfturnfd fiflds will mbtdi tif nbmf (if not null) bnd tif typf (if not null).
+         *  Addfss difdking is pfrformfd on bfiblf of tif givfn {@dodf lookupClbss}.
+         *  Inbddfssiblf mfmbfrs brf not bddfd to tif lbst.
          */
-        public List<MemberName> getFields(Class<?> defc, boolean searchSupers,
-                String name, Class<?> type, Class<?> lookupClass) {
-            int matchFlags = IS_FIELD | (searchSupers ? SEARCH_ALL_SUPERS : 0);
-            return getMembers(defc, name, type, matchFlags, lookupClass);
+        publid List<MfmbfrNbmf> gftFiflds(Clbss<?> dffd, boolfbn sfbrdiSupfrs,
+                String nbmf, Clbss<?> typf, Clbss<?> lookupClbss) {
+            int mbtdiFlbgs = IS_FIELD | (sfbrdiSupfrs ? SEARCH_ALL_SUPERS : 0);
+            rfturn gftMfmbfrs(dffd, nbmf, typf, mbtdiFlbgs, lookupClbss);
         }
-        /** Return a list of all nested types defined by the given class.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Rfturn b list of bll nfstfd typfs dffinfd by tif givfn dlbss.
+         *  Supfr typfs brf sfbrdifd (for inifritfd mfmbfrs) if {@dodf sfbrdiSupfrs} is truf.
+         *  Addfss difdking is pfrformfd on bfiblf of tif givfn {@dodf lookupClbss}.
+         *  Inbddfssiblf mfmbfrs brf not bddfd to tif lbst.
          */
-        public List<MemberName> getNestedTypes(Class<?> defc, boolean searchSupers,
-                Class<?> lookupClass) {
-            int matchFlags = IS_TYPE | (searchSupers ? SEARCH_ALL_SUPERS : 0);
-            return getMembers(defc, null, null, matchFlags, lookupClass);
+        publid List<MfmbfrNbmf> gftNfstfdTypfs(Clbss<?> dffd, boolfbn sfbrdiSupfrs,
+                Clbss<?> lookupClbss) {
+            int mbtdiFlbgs = IS_TYPE | (sfbrdiSupfrs ? SEARCH_ALL_SUPERS : 0);
+            rfturn gftMfmbfrs(dffd, null, null, mbtdiFlbgs, lookupClbss);
         }
-        private static MemberName[] newMemberBuffer(int length) {
-            MemberName[] buf = new MemberName[length];
-            // fill the buffer with dummy structs for the JVM to fill in
-            for (int i = 0; i < length; i++)
-                buf[i] = new MemberName();
-            return buf;
+        privbtf stbtid MfmbfrNbmf[] nfwMfmbfrBufffr(int lfngti) {
+            MfmbfrNbmf[] buf = nfw MfmbfrNbmf[lfngti];
+            // fill tif bufffr witi dummy strudts for tif JVM to fill in
+            for (int i = 0; i < lfngti; i++)
+                buf[i] = nfw MfmbfrNbmf();
+            rfturn buf;
         }
     }
 
-//    static {
-//        System.out.println("Hello world!  My methods are:");
-//        System.out.println(Factory.INSTANCE.getMethods(MemberName.class, true, null));
+//    stbtid {
+//        Systfm.out.println("Hfllo world!  My mftiods brf:");
+//        Systfm.out.println(Fbdtory.INSTANCE.gftMftiods(MfmbfrNbmf.dlbss, truf, null));
 //    }
 }

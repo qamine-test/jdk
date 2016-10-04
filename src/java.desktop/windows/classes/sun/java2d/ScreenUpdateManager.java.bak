@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import sun.awt.Win32GraphicsConfig;
-import sun.awt.windows.WComponentPeer;
-import sun.java2d.d3d.D3DScreenUpdateManager;
-import sun.java2d.windows.WindowsFlags;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids2D;
+import sun.bwt.Win32GrbpiidsConfig;
+import sun.bwt.windows.WComponfntPffr;
+import sun.jbvb2d.d3d.D3DSdrffnUpdbtfMbnbgfr;
+import sun.jbvb2d.windows.WindowsFlbgs;
 
 /**
- * This class handles the creation of on-screen surfaces and
- * corresponding graphics objects.
+ * Tiis dlbss ibndlfs tif drfbtion of on-sdrffn surfbdfs bnd
+ * dorrfsponding grbpiids objfdts.
  *
- * By default it delegates the surface creation to the
- * particular GraphicsConfiguration classes.
+ * By dffbult it dflfgbtfs tif surfbdf drfbtion to tif
+ * pbrtidulbr GrbpiidsConfigurbtion dlbssfs.
  */
-public class ScreenUpdateManager {
-    private static ScreenUpdateManager theInstance;
+publid dlbss SdrffnUpdbtfMbnbgfr {
+    privbtf stbtid SdrffnUpdbtfMbnbgfr tifInstbndf;
 
-    protected ScreenUpdateManager() {
+    protfdtfd SdrffnUpdbtfMbnbgfr() {
     }
 
     /**
-     * Creates a SunGraphics2D object for the surface,
-     * given the parameters.
+     * Crfbtfs b SunGrbpiids2D objfdt for tif surfbdf,
+     * givfn tif pbrbmftfrs.
      *
-     * @param sd surface data for which a graphics is to be created
-     * @param peer peer which owns the surface
-     * @param fgColor fg color to be used in the graphics
-     * @param bgColor bg color to be used in the graphics
-     * @param font font to be used in the graphics
-     * @return a SunGraphics2D object for rendering to the passed surface
+     * @pbrbm sd surfbdf dbtb for wiidi b grbpiids is to bf drfbtfd
+     * @pbrbm pffr pffr wiidi owns tif surfbdf
+     * @pbrbm fgColor fg dolor to bf usfd in tif grbpiids
+     * @pbrbm bgColor bg dolor to bf usfd in tif grbpiids
+     * @pbrbm font font to bf usfd in tif grbpiids
+     * @rfturn b SunGrbpiids2D objfdt for rfndfring to tif pbssfd surfbdf
      */
-    public synchronized Graphics2D createGraphics(SurfaceData sd,
-            WComponentPeer peer, Color fgColor, Color bgColor, Font font)
+    publid syndironizfd Grbpiids2D drfbtfGrbpiids(SurfbdfDbtb sd,
+            WComponfntPffr pffr, Color fgColor, Color bgColor, Font font)
     {
-        return new SunGraphics2D(sd, fgColor, bgColor, font);
+        rfturn nfw SunGrbpiids2D(sd, fgColor, bgColor, font);
     }
 
     /**
-     * Creates and returns the surface for the peer. This surface becomes
-     * managed by this manager. To remove the surface from the managed list
-     * {@code}dropScreenSurface(SurfaceData){@code} will need to be called.
+     * Crfbtfs bnd rfturns tif surfbdf for tif pffr. Tiis surfbdf bfdomfs
+     * mbnbgfd by tiis mbnbgfr. To rfmovf tif surfbdf from tif mbnbgfd list
+     * {@dodf}dropSdrffnSurfbdf(SurfbdfDbtb){@dodf} will nffd to bf dbllfd.
      *
-     * The default implementation delegates surface creation
-     * to the passed in GraphicsConfiguration object.
+     * Tif dffbult implfmfntbtion dflfgbtfs surfbdf drfbtion
+     * to tif pbssfd in GrbpiidsConfigurbtion objfdt.
      *
-     * @param gc graphics configuration for which the surface is to be created
-     * @param peer peer for which the onscreen surface is to be created
-     * @param bbNum number of back-buffers requested for this peer
-     * @param isResize whether this surface is being created in response to
-     * a component resize event
-     * @return a SurfaceData to be used for on-screen rendering for this peer.
-     * @see #dropScreenSurface(SurfaceData)
+     * @pbrbm gd grbpiids donfigurbtion for wiidi tif surfbdf is to bf drfbtfd
+     * @pbrbm pffr pffr for wiidi tif onsdrffn surfbdf is to bf drfbtfd
+     * @pbrbm bbNum numbfr of bbdk-bufffrs rfqufstfd for tiis pffr
+     * @pbrbm isRfsizf wiftifr tiis surfbdf is bfing drfbtfd in rfsponsf to
+     * b domponfnt rfsizf fvfnt
+     * @rfturn b SurfbdfDbtb to bf usfd for on-sdrffn rfndfring for tiis pffr.
+     * @sff #dropSdrffnSurfbdf(SurfbdfDbtb)
      */
-    public SurfaceData createScreenSurface(Win32GraphicsConfig gc,
-                                           WComponentPeer peer, int bbNum,
-                                           boolean isResize)
+    publid SurfbdfDbtb drfbtfSdrffnSurfbdf(Win32GrbpiidsConfig gd,
+                                           WComponfntPffr pffr, int bbNum,
+                                           boolfbn isRfsizf)
     {
-        return gc.createSurfaceData(peer, bbNum);
+        rfturn gd.drfbtfSurfbdfDbtb(pffr, bbNum);
     }
 
     /**
-     * Drops the passed surface from the list of managed surfaces.
+     * Drops tif pbssfd surfbdf from tif list of mbnbgfd surfbdfs.
      *
-     * Nothing happens if the surface wasn't managed by this manager.
+     * Notiing ibppfns if tif surfbdf wbsn't mbnbgfd by tiis mbnbgfr.
      *
-     * @param sd SurfaceData to be removed from the list of managed surfaces
+     * @pbrbm sd SurfbdfDbtb to bf rfmovfd from tif list of mbnbgfd surfbdfs
      */
-    public void dropScreenSurface(SurfaceData sd) {}
+    publid void dropSdrffnSurfbdf(SurfbdfDbtb sd) {}
 
     /**
-     * Returns a replacement SurfaceData for the invalid passed one.
+     * Rfturns b rfplbdfmfnt SurfbdfDbtb for tif invblid pbssfd onf.
      *
-     * This method should be used by SurfaceData's created by
-     * the ScreenUpdateManager for providing replacement surfaces.
+     * Tiis mftiod siould bf usfd by SurfbdfDbtb's drfbtfd by
+     * tif SdrffnUpdbtfMbnbgfr for providing rfplbdfmfnt surfbdfs.
      *
-     * @param peer to which the old surface belongs
-     * @param oldsd the old (invalid) surface to get replaced
-     * @return a replacement surface
-     * @see sun.java2d.d3d.D3DSurfaceData.D3DWindowSurfaceData#getReplacement()
-     * @see sun.java2d.windows.GDIWindowSurfaceData#getReplacement()
+     * @pbrbm pffr to wiidi tif old surfbdf bflongs
+     * @pbrbm oldsd tif old (invblid) surfbdf to gft rfplbdfd
+     * @rfturn b rfplbdfmfnt surfbdf
+     * @sff sun.jbvb2d.d3d.D3DSurfbdfDbtb.D3DWindowSurfbdfDbtb#gftRfplbdfmfnt()
+     * @sff sun.jbvb2d.windows.GDIWindowSurfbdfDbtb#gftRfplbdfmfnt()
      */
-    public SurfaceData getReplacementScreenSurface(WComponentPeer peer,
-                                                   SurfaceData oldsd)
+    publid SurfbdfDbtb gftRfplbdfmfntSdrffnSurfbdf(WComponfntPffr pffr,
+                                                   SurfbdfDbtb oldsd)
     {
-        SurfaceData surfaceData = peer.getSurfaceData();
-        if (surfaceData == null || surfaceData.isValid()) {
-            return surfaceData;
+        SurfbdfDbtb surfbdfDbtb = pffr.gftSurfbdfDbtb();
+        if (surfbdfDbtb == null || surfbdfDbtb.isVblid()) {
+            rfturn surfbdfDbtb;
         }
-        peer.replaceSurfaceData();
-        return peer.getSurfaceData();
+        pffr.rfplbdfSurfbdfDbtb();
+        rfturn pffr.gftSurfbdfDbtb();
     }
 
     /**
-     * Returns an (singleton) instance of the screen surfaces
-     * manager class.
-     * @return instance of onscreen surfaces manager
+     * Rfturns bn (singlfton) instbndf of tif sdrffn surfbdfs
+     * mbnbgfr dlbss.
+     * @rfturn instbndf of onsdrffn surfbdfs mbnbgfr
      */
-    public static synchronized ScreenUpdateManager getInstance() {
-        if (theInstance == null) {
-            if (WindowsFlags.isD3DEnabled()) {
-                theInstance = new D3DScreenUpdateManager();
-            } else {
-                theInstance = new ScreenUpdateManager();
+    publid stbtid syndironizfd SdrffnUpdbtfMbnbgfr gftInstbndf() {
+        if (tifInstbndf == null) {
+            if (WindowsFlbgs.isD3DEnbblfd()) {
+                tifInstbndf = nfw D3DSdrffnUpdbtfMbnbgfr();
+            } flsf {
+                tifInstbndf = nfw SdrffnUpdbtfMbnbgfr();
             }
         }
-        return theInstance;
+        rfturn tifInstbndf;
     }
 }

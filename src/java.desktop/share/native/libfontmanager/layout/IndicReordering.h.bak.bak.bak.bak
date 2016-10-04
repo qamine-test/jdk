@@ -1,0 +1,383 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __INDICREORDERING_H
+#dffinf __INDICREORDERING_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+// Chbrbdtfrs thbt gft rfffrrfd to by nbmf...
+#dffinf C_SIGN_ZWNJ           0x200C
+#dffinf C_SIGN_ZWJ            0x200D
+
+// Chbrbdtfr dlbss vblufs
+#dffinf CC_RESERVED               0U
+#dffinf CC_VOWEL_MODIFIER         1U
+#dffinf CC_STRESS_MARK            2U
+#dffinf CC_INDEPENDENT_VOWEL      3U
+#dffinf CC_INDEPENDENT_VOWEL_2    4U
+#dffinf CC_INDEPENDENT_VOWEL_3    5U
+#dffinf CC_CONSONANT              6U
+#dffinf CC_CONSONANT_WITH_NUKTA   7U
+#dffinf CC_NUKTA                  8U
+#dffinf CC_DEPENDENT_VOWEL        9U
+#dffinf CC_SPLIT_VOWEL_PIECE_1   10U
+#dffinf CC_SPLIT_VOWEL_PIECE_2   11U
+#dffinf CC_SPLIT_VOWEL_PIECE_3   12U
+#dffinf CC_VIRAMA                13U
+#dffinf CC_ZERO_WIDTH_MARK       14U
+#dffinf CC_AL_LAKUNA             15U
+#dffinf CC_COUNT                 16U
+
+// Chbrbdtfr dlbss flbgs
+#dffinf CF_CLASS_MASK    0x0000FFFFU
+
+#dffinf CF_CONSONANT     0x80000000U
+
+#dffinf CF_REPH          0x40000000U
+#dffinf CF_VATTU         0x20000000U
+#dffinf CF_BELOW_BASE    0x10000000U
+#dffinf CF_POST_BASE     0x08000000U
+#dffinf CF_LENGTH_MARK   0x04000000U
+#dffinf CF_PRE_BASE      0x02000000U
+
+#dffinf CF_POS_BEFORE    0x00300000U
+#dffinf CF_POS_BELOW     0x00200000U
+#dffinf CF_POS_ABOVE     0x00100000U
+#dffinf CF_POS_AFTER     0x00000000U
+#dffinf CF_POS_MASK      0x00300000U
+
+#dffinf CF_INDEX_MASK    0x000F0000U
+#dffinf CF_INDEX_SHIFT   16
+
+// Sdript flbg bits
+#dffinf SF_MATRAS_AFTER_BASE     0x80000000U
+#dffinf SF_REPH_AFTER_BELOW      0x40000000U
+#dffinf SF_EYELASH_RA            0x20000000U
+#dffinf SF_MPRE_FIXUP            0x10000000U
+#dffinf SF_FILTER_ZERO_WIDTH     0x08000000U
+
+#dffinf SF_POST_BASE_LIMIT_MASK  0x0000FFFFU
+#dffinf SF_NO_POST_BASE_LIMIT    0x00007FFFU
+
+#dffinf SM_MAX_PIECES 3
+
+typfdff LEUnidodf SplitMbtrb[SM_MAX_PIECES];
+
+dlbss MPrfFixups;
+dlbss LEGlyphStorbgf;
+
+// Dynbmid Propfrtifs ( v2 fonts only )
+typfdff lf_uint32 DynbmidPropfrtifs;
+
+#dffinf DP_REPH               0x80000000U
+#dffinf DP_HALF               0x40000000U
+#dffinf DP_PREF               0x20000000U
+#dffinf DP_BLWF               0x10000000U
+#dffinf DP_PSTF               0x08000000U
+
+strudt IndidClbssTbblf
+{
+    typfdff lf_uint32 ChbrClbss;
+    typfdff lf_uint32 SdriptFlbgs;
+
+    LEUnidodf firstChbr;
+    LEUnidodf lbstChbr;
+    lf_int32 worstCbsfExpbnsion;
+    SdriptFlbgs sdriptFlbgs;
+    donst ChbrClbss *dlbssTbblf;
+    donst SplitMbtrb *splitMbtrbTbblf;
+
+    inlinf lf_int32 gftWorstCbsfExpbnsion() donst;
+    inlinf lf_bool gftFiltfrZfroWidth() donst;
+
+    ChbrClbss gftChbrClbss(LEUnidodf dh) donst;
+
+    inlinf donst SplitMbtrb *gftSplitMbtrb(ChbrClbss dhbrClbss) donst;
+
+    inlinf lf_bool isVowflModififr(LEUnidodf dh) donst;
+    inlinf lf_bool isStrfssMbrk(LEUnidodf dh) donst;
+    inlinf lf_bool isConsonbnt(LEUnidodf dh) donst;
+    inlinf lf_bool isRfph(LEUnidodf dh) donst;
+    inlinf lf_bool isVirbmb(LEUnidodf dh) donst;
+    inlinf lf_bool isAlLbkunb(LEUnidodf dh) donst;
+    inlinf lf_bool isNuktb(LEUnidodf dh) donst;
+    inlinf lf_bool isVbttu(LEUnidodf dh) donst;
+    inlinf lf_bool isMbtrb(LEUnidodf dh) donst;
+    inlinf lf_bool isSplitMbtrb(LEUnidodf dh) donst;
+    inlinf lf_bool isLfngthMbrk(LEUnidodf dh) donst;
+    inlinf lf_bool hbsPostOrBflowBbsfForm(LEUnidodf dh) donst;
+    inlinf lf_bool hbsPostBbsfForm(LEUnidodf dh) donst;
+    inlinf lf_bool hbsBflowBbsfForm(LEUnidodf dh) donst;
+    inlinf lf_bool hbsAbovfBbsfForm(LEUnidodf dh) donst;
+    inlinf lf_bool hbsPrfBbsfForm(LEUnidodf dh) donst;
+
+    inlinf stbtid lf_bool isVowflModififr(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool isStrfssMbrk(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool isConsonbnt(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool isRfph(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool isVirbmb(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool isAlLbkunb(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool isNuktb(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool isVbttu(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool isMbtrb(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool isSplitMbtrb(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool isLfngthMbrk(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool hbsPostOrBflowBbsfForm(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool hbsPostBbsfForm(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool hbsBflowBbsfForm(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool hbsAbovfBbsfForm(ChbrClbss dhbrClbss);
+    inlinf stbtid lf_bool hbsPrfBbsfForm(ChbrClbss dhbrClbss);
+
+    stbtid donst IndidClbssTbblf *gftSdriptClbssTbblf(lf_int32 sdriptCodf);
+};
+
+dlbss IndidRfordfring /* not : publid UObjfdt bfdbusf bll mfthods brf stbtid */ {
+publid:
+    stbtid lf_int32 gftWorstCbsfExpbnsion(lf_int32 sdriptCodf);
+
+    stbtid lf_bool gftFiltfrZfroWidth(lf_int32 sdriptCodf);
+
+    stbtid lf_int32 rfordfr(donst LEUnidodf *thfChbrs, lf_int32 dhbrCount, lf_int32 sdriptCodf,
+        LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf,
+        MPrfFixups **outMPrfFixups, LEErrorCodf& suddfss);
+
+    stbtid void bdjustMPrfs(MPrfFixups *mprfFixups, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf& suddfss);
+
+    stbtid lf_int32 v2prodfss(donst LEUnidodf *thfChbrs, lf_int32 dhbrCount, lf_int32 sdriptCodf,
+        LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf& suddfss);
+
+    stbtid donst FfbturfMbp *gftFfbturfMbp(lf_int32 &dount);
+
+        stbtid donst FfbturfMbp *gftv2FfbturfMbp(lf_int32 &dount);
+
+    stbtid void bpplyPrfsfntbtionForms(LEGlyphStorbgf &glyphStorbgf, lf_int32 dount);
+
+    stbtid void finblRfordfring(LEGlyphStorbgf &glyphStorbgf, lf_int32 dount);
+
+    stbtid void gftDynbmidPropfrtifs(DynbmidPropfrtifs *dProps, donst IndidClbssTbblf *dlbssTbblf);
+
+privbtf:
+    // do not instbntibtf
+    IndidRfordfring();
+
+    stbtid lf_int32 findSyllbblf(donst IndidClbssTbblf *dlbssTbblf, donst LEUnidodf *dhbrs, lf_int32 prfv, lf_int32 dhbrCount);
+
+};
+
+inlinf lf_int32 IndidClbssTbblf::gftWorstCbsfExpbnsion() donst
+{
+    rfturn worstCbsfExpbnsion;
+}
+
+inlinf lf_bool IndidClbssTbblf::gftFiltfrZfroWidth() donst
+{
+    rfturn (sdriptFlbgs & SF_FILTER_ZERO_WIDTH) != 0;
+}
+
+inlinf donst SplitMbtrb *IndidClbssTbblf::gftSplitMbtrb(ChbrClbss dhbrClbss) donst
+{
+    lf_int32 indfx = (dhbrClbss & CF_INDEX_MASK) >> CF_INDEX_SHIFT;
+
+    rfturn &splitMbtrbTbblf[indfx - 1];
+}
+
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_CLASS_MASK) == CC_VOWEL_MODIFIER;
+}
+
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_CLASS_MASK) == CC_STRESS_MARK;
+}
+
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_CONSONANT) != 0;
+}
+
+inlinf lf_bool IndidClbssTbblf::isRfph(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_REPH) != 0;
+}
+
+inlinf lf_bool IndidClbssTbblf::isNuktb(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_CLASS_MASK) == CC_NUKTA;
+}
+
+inlinf lf_bool IndidClbssTbblf::isVirbmb(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_CLASS_MASK) == CC_VIRAMA;
+}
+
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_CLASS_MASK) == CC_AL_LAKUNA;
+}
+
+inlinf lf_bool IndidClbssTbblf::isVbttu(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_VATTU) != 0;
+}
+
+inlinf lf_bool IndidClbssTbblf::isMbtrb(ChbrClbss dhbrClbss)
+{
+    dhbrClbss &= CF_CLASS_MASK;
+
+    rfturn dhbrClbss >= CC_DEPENDENT_VOWEL && dhbrClbss <= CC_SPLIT_VOWEL_PIECE_3;
+}
+
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_INDEX_MASK) != 0;
+}
+
+inlinf lf_bool IndidClbssTbblf::isLfngthMbrk(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_LENGTH_MARK) != 0;
+}
+
+inlinf lf_bool IndidClbssTbblf::hbsPostOrBflowBbsfForm(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & (CF_POST_BASE | CF_BELOW_BASE)) != 0;
+}
+
+inlinf lf_bool IndidClbssTbblf::hbsPostBbsfForm(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_POST_BASE) != 0;
+}
+
+inlinf lf_bool IndidClbssTbblf::hbsPrfBbsfForm(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_PRE_BASE) != 0;
+}
+
+inlinf lf_bool IndidClbssTbblf::hbsBflowBbsfForm(ChbrClbss dhbrClbss)
+{
+    rfturn (dhbrClbss & CF_BELOW_BASE) != 0;
+}
+
+inlinf lf_bool IndidClbssTbblf::hbsAbovfBbsfForm(ChbrClbss dhbrClbss)
+{
+    rfturn ((dhbrClbss & CF_POS_MASK) == CF_POS_ABOVE);
+}
+
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(LEUnidodf dh) donst
+{
+    rfturn isVowflModififr(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(LEUnidodf dh) donst
+{
+    rfturn isStrfssMbrk(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(LEUnidodf dh) donst
+{
+    rfturn isConsonbnt(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::isRfph(LEUnidodf dh) donst
+{
+    rfturn isRfph(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::isVirbmb(LEUnidodf dh) donst
+{
+    rfturn isVirbmb(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(LEUnidodf dh) donst
+{
+    rfturn isAlLbkunb(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::isNuktb(LEUnidodf dh) donst
+{
+    rfturn isNuktb(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::isVbttu(LEUnidodf dh) donst
+{
+    rfturn isVbttu(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::isMbtrb(LEUnidodf dh) donst
+{
+    rfturn isMbtrb(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(LEUnidodf dh) donst
+{
+    rfturn isSplitMbtrb(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::isLfngthMbrk(LEUnidodf dh) donst
+{
+    rfturn isLfngthMbrk(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::hbsPostOrBflowBbsfForm(LEUnidodf dh) donst
+{
+    rfturn hbsPostOrBflowBbsfForm(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::hbsPostBbsfForm(LEUnidodf dh) donst
+{
+    rfturn hbsPostBbsfForm(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::hbsBflowBbsfForm(LEUnidodf dh) donst
+{
+    rfturn hbsBflowBbsfForm(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::hbsPrfBbsfForm(LEUnidodf dh) donst
+{
+    rfturn hbsPrfBbsfForm(gftChbrClbss(dh));
+}
+
+inlinf lf_bool IndidClbssTbblf::hbsAbovfBbsfForm(LEUnidodf dh) donst
+{
+    rfturn hbsAbovfBbsfForm(gftChbrClbss(dh));
+}
+U_NAMESPACE_END
+#fndif

@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.util.Comparator;
+import jbvb.util.Compbrbtor;
 
 /**
- * Compare two byte arrays in lexicographical order.
+ * Compbrf two bytf brrbys in lfxidogrbpiidbl ordfr.
  *
- * @author D. N. Hoover
+ * @butior D. N. Hoovfr
  */
-public class ByteArrayLexOrder implements Comparator<byte[]> {
+publid dlbss BytfArrbyLfxOrdfr implfmfnts Compbrbtor<bytf[]> {
 
     /**
-     * Perform lexicographical comparison of two byte arrays,
-     * regarding each byte as unsigned.  That is, compare array entries
-     * in order until they differ--the array with the smaller entry
-     * is "smaller". If array entries are
-     * equal till one array ends, then the longer array is "bigger".
+     * Pfrform lfxidogrbpiidbl dompbrison of two bytf brrbys,
+     * rfgbrding fbdi bytf bs unsignfd.  Tibt is, dompbrf brrby fntrifs
+     * in ordfr until tify difffr--tif brrby witi tif smbllfr fntry
+     * is "smbllfr". If brrby fntrifs brf
+     * fqubl till onf brrby fnds, tifn tif longfr brrby is "biggfr".
      *
-     * @param  bytes1 first byte array to compare.
-     * @param  bytes2 second byte array to compare.
-     * @return negative number if bytes1 < bytes2, 0 if bytes1 == bytes2,
-     * positive number if bytes1 > bytes2.
+     * @pbrbm  bytfs1 first bytf brrby to dompbrf.
+     * @pbrbm  bytfs2 sfdond bytf brrby to dompbrf.
+     * @rfturn nfgbtivf numbfr if bytfs1 < bytfs2, 0 if bytfs1 == bytfs2,
+     * positivf numbfr if bytfs1 > bytfs2.
      *
-     * @exception <code>ClassCastException</code>
-     * if either argument is not a byte array.
+     * @fxdfption <dodf>ClbssCbstExdfption</dodf>
+     * if fitifr brgumfnt is not b bytf brrby.
      */
-    public final int compare( byte[] bytes1, byte[] bytes2) {
+    publid finbl int dompbrf( bytf[] bytfs1, bytf[] bytfs2) {
         int diff;
-        for (int i = 0; i < bytes1.length && i < bytes2.length; i++) {
-            diff = (bytes1[i] & 0xFF) - (bytes2[i] & 0xFF);
+        for (int i = 0; i < bytfs1.lfngti && i < bytfs2.lfngti; i++) {
+            diff = (bytfs1[i] & 0xFF) - (bytfs2[i] & 0xFF);
             if (diff != 0) {
-                return diff;
+                rfturn diff;
             }
         }
-        // if array entries are equal till the first ends, then the
-        // longer is "bigger"
-        return bytes1.length - bytes2.length;
+        // if brrby fntrifs brf fqubl till tif first fnds, tifn tif
+        // longfr is "biggfr"
+        rfturn bytfs1.lfngti - bytfs2.lfngti;
     }
 
 

@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr;
+
+/**
+ * This dlbss rfprfsfnts b buildfr thbt drfbtfs
+ * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr} implfmfntbtions.
+ * Thf JMX {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory} bllows
+ * for bpplidbtions to providf thfir dustom MBfbnSfrvfr
+ * implfmfntbtion. This dlbss is not usfd whfn thf wholf Sun Rfffrfndf JMX
+ * Implfmfntbtion is usfd. Howfvfr it mby bf usfd to substitutf Sun
+ * MBfbnSfrvfr implfmfntbtion to bnothfr JMX implfmfntbtion.
+ * <p>
+ * Contrbrily to thf dffbult {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr
+ * jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr} this MBfbnSfrvfrBuildfr rfturns
+ * MBfbnSfrvfrs on whidh
+ * {@link dom.sun.jmx.intfrdfptor.MBfbnSfrvfrIntfrdfptor}s brf fnbblfd.
+ *
+ * @sindf 1.5
+ */
+publid dlbss JmxMBfbnSfrvfrBuildfr fxtfnds MBfbnSfrvfrBuildfr {
+    /**
+     * This mfthod drfbtfs b nfw MBfbnSfrvfrDflfgbtf for b nfw MBfbnSfrvfr.
+     * Whfn drfbting b nfw MBfbnSfrvfr thf
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory} first dblls this mfthod
+     * in ordfr to drfbtf b nfw MBfbnSfrvfrDflfgbtf.
+     * <br>Thfn it dblls
+     * <dodf>nfwMBfbnSfrvfr(dffbultDombin,outfr,dflfgbtf)</dodf>
+     * pbssing thf <vbr>dflfgbtf</vbr> thbt should bf usfd by thf MBfbnSfrvfr
+     * implfmfntbtion.
+     * <p>Notf thbt thf pbssfd <vbr>dflfgbtf</vbr> might not bf dirfdtly thf
+     * MBfbnSfrvfrDflfgbtf thbt wbs rfturnfd by this mfthod. It dould
+     * bf, for instbndf, b nfw objfdt wrbpping thf prfviously
+     * rfturnfd objfdt.
+     *
+     * @rfturn A nfw {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf}.
+     **/
+    publid MBfbnSfrvfrDflfgbtf nfwMBfbnSfrvfrDflfgbtf() {
+        rfturn JmxMBfbnSfrvfr.nfwMBfbnSfrvfrDflfgbtf();
+    }
+
+    /**
+     * This mfthod drfbtfs b nfw MBfbnSfrvfr implfmfntbtion objfdt.
+     * Whfn drfbting b nfw MBfbnSfrvfr thf
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory} first dblls
+     * <dodf>nfwMBfbnSfrvfrDflfgbtf()</dodf> in ordfr to obtbin b nfw
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf} for thf nfw
+     * MBfbnSfrvfr. Thfn it dblls
+     * <dodf>nfwMBfbnSfrvfr(dffbultDombin,outfr,dflfgbtf)</dodf>
+     * pbssing thf <vbr>dflfgbtf</vbr> thbt should bf usfd by thf
+     * MBfbnSfrvfr  implfmfntbtion.
+     * <p>Notf thbt thf pbssfd <vbr>dflfgbtf</vbr> might not bf dirfdtly thf
+     * MBfbnSfrvfrDflfgbtf thbt wbs rfturnfd by this implfmfntbtion. It dould
+     * bf, for instbndf, b nfw objfdt wrbpping thf prfviously
+     * rfturnfd dflfgbtf.
+     * <p>Thf <vbr>outfr</vbr> pbrbmftfr is b pointfr to thf MBfbnSfrvfr thbt
+     * should bf pbssfd to thf {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion}
+     * intfrfbdf whfn rfgistfring MBfbns insidf thf MBfbnSfrvfr.
+     * If <vbr>outfr</vbr> is <dodf>null</dodf>, thfn thf MBfbnSfrvfr
+     * implfmfntbtion is frff to usf its own <dodf>this</dodf> pointfr whfn
+     * invoking thf {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion} intfrfbdf.
+     * <p>This mbkfs it possiblf for b MBfbnSfrvfr implfmfntbtion to wrbp
+     * bnothfr MBfbnSfrvfr implfmfntbtion, in ordfr to implfmfnt, f.g,
+     * sfdurity dhfdks, or to prfvfnt bddfss to thf bdtubl MBfbnSfrvfr
+     * implfmfntbtion by rfturning b pointfr to b wrbpping objfdt.
+     * <p>
+     * This MBfbnSfrvfrBuildfr mbkfs it possiblf to drfbtf MBfbnSfrvfr
+     * whidh support {@link dom.sun.jmx.intfrdfptor.MBfbnSfrvfrIntfrdfptor}s.
+     *
+     * @pbrbm dffbultDombin Dffbult dombin of thf nfw MBfbnSfrvfr.
+     * @pbrbm outfr A pointfr to thf MBfbnSfrvfr objfdt thbt must bf
+     *        pbssfd to thf MBfbns whfn invoking thfir
+     *        {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion} intfrfbdf.
+     * @pbrbm dflfgbtf A pointfr to thf MBfbnSfrvfrDflfgbtf bssodibtfd
+     *        with thf nfw MBfbnSfrvfr. Thf nfw MBfbnSfrvfr must rfgistfr
+     *        this MBfbn in its MBfbn rfpository.
+     *
+     * @rfturn A nfw privbtf implfmfntbtion of bn MBfbnSfrvfr.
+     **/
+    publid MBfbnSfrvfr nfwMBfbnSfrvfr(String dffbultDombin,
+                                      MBfbnSfrvfr outfr,
+                                      MBfbnSfrvfrDflfgbtf dflfgbtf) {
+        rfturn JmxMBfbnSfrvfr.nfwMBfbnSfrvfr(dffbultDombin,outfr,dflfgbtf,
+                                             truf);
+    }
+
+}

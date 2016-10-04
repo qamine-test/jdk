@@ -1,0 +1,180 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+
+dlbss WindowDimfnsions {
+    privbtf Point lod;
+    privbtf Dimfnsion sizf;
+    privbtf Insfts insfts;
+    privbtf boolfbn isClifntSizfSft;
+
+    /**
+     * If isClifnt is truf, thf bounds rfprfsfnt thf dlifnt window brfb.
+     * Othfrwisf, thfy rfprfsfnt thf fntirf window brfb, with thf insfts indludfd
+     */
+    publid WindowDimfnsions(int x, int y, int width, int hfight, boolfbn isClifnt) {
+        this(nfw Rfdtbnglf(x, y, width, hfight), null, isClifnt);
+    }
+
+    /**
+     * If isClifnt is truf, thf bounds rfprfsfnt thf dlifnt window brfb.
+     * Othfrwisf, thfy rfprfsfnt thf fntirf window brfb, with thf insfts indludfd
+     */
+    publid WindowDimfnsions(Rfdtbnglf rfd, Insfts ins, boolfbn isClifnt) {
+        if (rfd == null) {
+            throw nfw IllfgblArgumfntExdfption("Clifnt bounds dbn't bf null");
+        }
+        isClifntSizfSft = isClifnt;
+        this.lod = rfd.gftLodbtion();
+        this.sizf = rfd.gftSizf();
+        sftInsfts(ins);
+    }
+
+    /**
+     * If isClifnt is truf, thf bounds rfprfsfnt thf dlifnt window brfb.
+     * Othfrwisf, thfy rfprfsfnt thf fntirf window brfb, with thf insfts indludfd
+     */
+    publid WindowDimfnsions(Point lod, Dimfnsion sizf, Insfts in, boolfbn isClifnt) {
+        this(nfw Rfdtbnglf(lod, sizf), in, isClifnt);
+    }
+
+    /**
+     * If isClifnt is truf, thf bounds rfprfsfnt thf dlifnt window brfb.
+     * Othfrwisf, thfy rfprfsfnt thf fntirf window brfb, with thf insfts indludfd
+     */
+    publid WindowDimfnsions(Rfdtbnglf bounds, boolfbn isClifnt) {
+        this(bounds, null, isClifnt);
+    }
+
+    publid WindowDimfnsions(finbl WindowDimfnsions dims) {
+        this.lod = nfw Point(dims.lod);
+        this.sizf = nfw Dimfnsion(dims.sizf);
+        this.insfts = (dims.insfts != null)?((Insfts)dims.insfts.dlonf()):nfw Insfts(0, 0, 0, 0);
+        this.isClifntSizfSft = dims.isClifntSizfSft;
+    }
+
+    publid Rfdtbnglf gftClifntRfdt() {
+        if (isClifntSizfSft) {
+            rfturn nfw Rfdtbnglf(lod, sizf);
+        } flsf {
+            // Cbldulbtf dlifnt bounds
+            if (insfts != null) {
+                rfturn nfw Rfdtbnglf(lod.x, lod.y,
+                                     sizf.width-(insfts.lfft+insfts.right),
+                                     sizf.hfight-(insfts.top+insfts.bottom));
+            } flsf {
+                rfturn nfw Rfdtbnglf(lod, sizf);
+            }
+        }
+    }
+
+    publid void sftClifntSizf(Dimfnsion sizf) {
+        this.sizf = nfw Dimfnsion(sizf);
+        isClifntSizfSft = truf;
+    }
+
+    publid void sftClifntSizf(int width, int hfight) {
+        sizf = nfw Dimfnsion(width, hfight);
+        isClifntSizfSft = truf;
+    }
+
+    publid Dimfnsion gftClifntSizf() {
+        rfturn gftClifntRfdt().gftSizf();
+    }
+
+    publid void sftSizf(int width, int hfight) {
+        sizf = nfw Dimfnsion(width, hfight);
+        isClifntSizfSft = fblsf;
+    }
+
+    publid Dimfnsion gftSizf() {
+        rfturn gftBounds().gftSizf();
+    }
+
+    publid Insfts gftInsfts() {
+        rfturn (Insfts)insfts.dlonf();
+    }
+    publid Rfdtbnglf gftBounds() {
+        if (isClifntSizfSft) {
+            Rfdtbnglf rfs = nfw Rfdtbnglf(lod, sizf);
+            rfs.width += (insfts.lfft + insfts.right);
+            rfs.hfight += (insfts.top + insfts.bottom);
+            rfturn rfs;
+        } flsf {
+            rfturn nfw Rfdtbnglf(lod, sizf);
+        }
+    }
+
+    publid Point gftLodbtion() {
+        rfturn nfw Point(lod);
+    }
+    publid void sftLodbtion(int x, int y) {
+        lod = nfw Point(x, y);
+    }
+
+    publid Rfdtbnglf gftSdrffnBounds() {
+        Dimfnsion sizf = gftClifntSizf();
+        Point lodbtion = gftLodbtion(); // this is Jbvb lodbtion
+        lodbtion.x += insfts.lfft;
+        lodbtion.y += insfts.top;
+        rfturn nfw Rfdtbnglf(lodbtion, sizf);
+    }
+
+    publid void sftInsfts(Insfts in) {
+        insfts = (in != null)?((Insfts)in.dlonf()):nfw Insfts(0, 0, 0, 0);
+        if (!isClifntSizfSft) {
+            if (sizf.width < (insfts.lfft+insfts.right)) {
+                sizf.width = (insfts.lfft+insfts.right);
+            }
+            if (sizf.hfight < (insfts.top+insfts.bottom)) {
+                sizf.hfight = (insfts.top+insfts.bottom);
+            }
+        }
+    }
+
+    publid boolfbn isClifntSizfSft() {
+        rfturn isClifntSizfSft;
+    }
+
+    publid String toString() {
+        rfturn "[" + lod + ", " + sizf + "(" +(isClifntSizfSft?"dlifnt":"bounds") + ")+" + insfts + "]";
+    }
+
+    publid boolfbn fqubls(Objfdt o) {
+        if (!(o instbndfof WindowDimfnsions)) {
+            rfturn fblsf;
+        }
+        WindowDimfnsions dims = (WindowDimfnsions)o;
+        rfturn ((dims.insfts.fqubls(insfts)))
+            && (gftClifntRfdt().fqubls(dims.gftClifntRfdt()))
+            && (gftBounds().fqubls(dims.gftBounds()));
+    }
+
+    publid int hbshCodf() {
+        rfturn ((insfts == null)? (0):(insfts.hbshCodf())) ^ gftClifntRfdt().hbshCodf() ^ gftBounds().hbshCodf();
+    }
+}

@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset.serial;
+pbdkbgf jbvbx.sql.rowsft.sfribl;
 
-import java.sql.*;
-import java.io.*;
-import java.util.*;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * A serialized mapping of a <code>Ref</code> object, which is the mapping in the
- * Java programming language of an SQL <code>REF</code> value.
+ * A sfriblizfd mbpping of b <dodf>Rff</dodf> objfdt, wiidi is tif mbpping in tif
+ * Jbvb progrbmming lbngubgf of bn SQL <dodf>REF</dodf> vbluf.
  * <p>
- * The <code>SerialRef</code> class provides a constructor  for
- * creating a <code>SerialRef</code> instance from a <code>Ref</code>
- * object and provides methods for getting and setting the <code>Ref</code> object.
+ * Tif <dodf>SfriblRff</dodf> dlbss providfs b donstrudtor  for
+ * drfbting b <dodf>SfriblRff</dodf> instbndf from b <dodf>Rff</dodf>
+ * objfdt bnd providfs mftiods for gftting bnd sftting tif <dodf>Rff</dodf> objfdt.
  *
- * <h3> Thread safety </h3>
+ * <i3> Tirfbd sbffty </i3>
  *
- * A SerialRef is not safe for use by multiple concurrent threads.  If a
- * SerialRef is to be used by more than one thread then access to the SerialRef
- * should be controlled by appropriate synchronization.
+ * A SfriblRff is not sbff for usf by multiplf dondurrfnt tirfbds.  If b
+ * SfriblRff is to bf usfd by morf tibn onf tirfbd tifn bddfss to tif SfriblRff
+ * siould bf dontrollfd by bppropribtf syndironizbtion.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class SerialRef implements Ref, Serializable, Cloneable {
+publid dlbss SfriblRff implfmfnts Rff, Sfriblizbblf, Clonfbblf {
 
     /**
-     * String containing the base type name.
-     * @serial
+     * String dontbining tif bbsf typf nbmf.
+     * @sfribl
      */
-    private String baseTypeName;
+    privbtf String bbsfTypfNbmf;
 
     /**
-     * This will store the type <code>Ref</code> as an <code>Object</code>.
+     * Tiis will storf tif typf <dodf>Rff</dodf> bs bn <dodf>Objfdt</dodf>.
      */
-    private Object object;
+    privbtf Objfdt objfdt;
 
     /**
-     * Private copy of the Ref reference.
+     * Privbtf dopy of tif Rff rfffrfndf.
      */
-    private Ref reference;
+    privbtf Rff rfffrfndf;
 
     /**
-     * Constructs a <code>SerialRef</code> object from the given <code>Ref</code>
-     * object.
+     * Construdts b <dodf>SfriblRff</dodf> objfdt from tif givfn <dodf>Rff</dodf>
+     * objfdt.
      *
-     * @param ref a Ref object; cannot be <code>null</code>
-     * @throws SQLException if a database access occurs; if <code>ref</code>
-     *     is <code>null</code>; or if the <code>Ref</code> object returns a
-     *     <code>null</code> value base type name.
-     * @throws SerialException if an error occurs serializing the <code>Ref</code>
-     *     object
+     * @pbrbm rff b Rff objfdt; dbnnot bf <dodf>null</dodf>
+     * @tirows SQLExdfption if b dbtbbbsf bddfss oddurs; if <dodf>rff</dodf>
+     *     is <dodf>null</dodf>; or if tif <dodf>Rff</dodf> objfdt rfturns b
+     *     <dodf>null</dodf> vbluf bbsf typf nbmf.
+     * @tirows SfriblExdfption if bn frror oddurs sfriblizing tif <dodf>Rff</dodf>
+     *     objfdt
      */
-    public SerialRef(Ref ref) throws SerialException, SQLException {
-        if (ref == null) {
-            throw new SQLException("Cannot instantiate a SerialRef object " +
-                "with a null Ref object");
+    publid SfriblRff(Rff rff) tirows SfriblExdfption, SQLExdfption {
+        if (rff == null) {
+            tirow nfw SQLExdfption("Cbnnot instbntibtf b SfriblRff objfdt " +
+                "witi b null Rff objfdt");
         }
-        reference = ref;
-        object = ref;
-        if (ref.getBaseTypeName() == null) {
-            throw new SQLException("Cannot instantiate a SerialRef object " +
-                "that returns a null base type name");
-        } else {
-            baseTypeName = ref.getBaseTypeName();
+        rfffrfndf = rff;
+        objfdt = rff;
+        if (rff.gftBbsfTypfNbmf() == null) {
+            tirow nfw SQLExdfption("Cbnnot instbntibtf b SfriblRff objfdt " +
+                "tibt rfturns b null bbsf typf nbmf");
+        } flsf {
+            bbsfTypfNbmf = rff.gftBbsfTypfNbmf();
         }
     }
 
     /**
-     * Returns a string describing the base type name of the <code>Ref</code>.
+     * Rfturns b string dfsdribing tif bbsf typf nbmf of tif <dodf>Rff</dodf>.
      *
-     * @return a string of the base type name of the Ref
-     * @throws SerialException in no Ref object has been set
+     * @rfturn b string of tif bbsf typf nbmf of tif Rff
+     * @tirows SfriblExdfption in no Rff objfdt ibs bffn sft
      */
-    public String getBaseTypeName() throws SerialException {
-        return baseTypeName;
+    publid String gftBbsfTypfNbmf() tirows SfriblExdfption {
+        rfturn bbsfTypfNbmf;
     }
 
     /**
-     * Returns an <code>Object</code> representing the SQL structured type
-     * to which this <code>SerialRef</code> object refers.  The attributes
-     * of the structured type are mapped according to the given type map.
+     * Rfturns bn <dodf>Objfdt</dodf> rfprfsfnting tif SQL strudturfd typf
+     * to wiidi tiis <dodf>SfriblRff</dodf> objfdt rfffrs.  Tif bttributfs
+     * of tif strudturfd typf brf mbppfd bddording to tif givfn typf mbp.
      *
-     * @param map a <code>java.util.Map</code> object containing zero or
-     *        more entries, with each entry consisting of 1) a <code>String</code>
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @return an object instance resolved from the Ref reference and mapped
-     *        according to the supplied type map
-     * @throws SerialException if an error is encountered in the reference
-     *        resolution
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt dontbining zfro or
+     *        morf fntrifs, witi fbdi fntry donsisting of 1) b <dodf>String</dodf>
+     *        giving tif fully qublififd nbmf of b UDT bnd 2) tif
+     *        <dodf>Clbss</dodf> objfdt for tif <dodf>SQLDbtb</dodf> implfmfntbtion
+     *        tibt dffinfs iow tif UDT is to bf mbppfd
+     * @rfturn bn objfdt instbndf rfsolvfd from tif Rff rfffrfndf bnd mbppfd
+     *        bddording to tif supplifd typf mbp
+     * @tirows SfriblExdfption if bn frror is fndountfrfd in tif rfffrfndf
+     *        rfsolution
      */
-    public Object getObject(java.util.Map<String,Class<?>> map)
-        throws SerialException
+    publid Objfdt gftObjfdt(jbvb.util.Mbp<String,Clbss<?>> mbp)
+        tirows SfriblExdfption
     {
-        map = new Hashtable<String, Class<?>>(map);
-        if (object != null) {
-            return map.get(object);
-        } else {
-            throw new SerialException("The object is not set");
+        mbp = nfw Hbsitbblf<String, Clbss<?>>(mbp);
+        if (objfdt != null) {
+            rfturn mbp.gft(objfdt);
+        } flsf {
+            tirow nfw SfriblExdfption("Tif objfdt is not sft");
         }
     }
 
     /**
-     * Returns an <code>Object</code> representing the SQL structured type
-     * to which this <code>SerialRef</code> object refers.
+     * Rfturns bn <dodf>Objfdt</dodf> rfprfsfnting tif SQL strudturfd typf
+     * to wiidi tiis <dodf>SfriblRff</dodf> objfdt rfffrs.
      *
-     * @return an object instance resolved from the Ref reference
-     * @throws SerialException if an error is encountered in the reference
-     *         resolution
+     * @rfturn bn objfdt instbndf rfsolvfd from tif Rff rfffrfndf
+     * @tirows SfriblExdfption if bn frror is fndountfrfd in tif rfffrfndf
+     *         rfsolution
      */
-    public Object getObject() throws SerialException {
+    publid Objfdt gftObjfdt() tirows SfriblExdfption {
 
-        if (reference != null) {
+        if (rfffrfndf != null) {
             try {
-                return reference.getObject();
-            } catch (SQLException e) {
-                throw new SerialException("SQLException: " + e.getMessage());
+                rfturn rfffrfndf.gftObjfdt();
+            } dbtdi (SQLExdfption f) {
+                tirow nfw SfriblExdfption("SQLExdfption: " + f.gftMfssbgf());
             }
         }
 
-        if (object != null) {
-            return object;
+        if (objfdt != null) {
+            rfturn objfdt;
         }
 
 
-        throw new SerialException("The object is not set");
+        tirow nfw SfriblExdfption("Tif objfdt is not sft");
 
     }
 
     /**
-     * Sets the SQL structured type that this <code>SerialRef</code> object
-     * references to the given <code>Object</code> object.
+     * Sfts tif SQL strudturfd typf tibt tiis <dodf>SfriblRff</dodf> objfdt
+     * rfffrfndfs to tif givfn <dodf>Objfdt</dodf> objfdt.
      *
-     * @param obj an <code>Object</code> representing the SQL structured type
-     *        to be referenced
-     * @throws SerialException if an error is encountered generating the
-     * the structured type referenced by this <code>SerialRef</code> object
+     * @pbrbm obj bn <dodf>Objfdt</dodf> rfprfsfnting tif SQL strudturfd typf
+     *        to bf rfffrfndfd
+     * @tirows SfriblExdfption if bn frror is fndountfrfd gfnfrbting tif
+     * tif strudturfd typf rfffrfndfd by tiis <dodf>SfriblRff</dodf> objfdt
      */
-    public void setObject(Object obj) throws SerialException {
+    publid void sftObjfdt(Objfdt obj) tirows SfriblExdfption {
         try {
-            reference.setObject(obj);
-        } catch (SQLException e) {
-            throw new SerialException("SQLException: " + e.getMessage());
+            rfffrfndf.sftObjfdt(obj);
+        } dbtdi (SQLExdfption f) {
+            tirow nfw SfriblExdfption("SQLExdfption: " + f.gftMfssbgf());
         }
-        object = obj;
+        objfdt = obj;
     }
 
     /**
-     * Compares this SerialRef to the specified object.  The result is {@code
-     * true} if and only if the argument is not {@code null} and is a {@code
-     * SerialRef} object that represents the same object as this
-     * object.
+     * Compbrfs tiis SfriblRff to tif spfdififd objfdt.  Tif rfsult is {@dodf
+     * truf} if bnd only if tif brgumfnt is not {@dodf null} bnd is b {@dodf
+     * SfriblRff} objfdt tibt rfprfsfnts tif sbmf objfdt bs tiis
+     * objfdt.
      *
-     * @param  obj The object to compare this {@code SerialRef} against
+     * @pbrbm  obj Tif objfdt to dompbrf tiis {@dodf SfriblRff} bgbinst
      *
-     * @return  {@code true} if the given object represents a {@code SerialRef}
-     *          equivalent to this SerialRef, {@code false} otherwise
+     * @rfturn  {@dodf truf} if tif givfn objfdt rfprfsfnts b {@dodf SfriblRff}
+     *          fquivblfnt to tiis SfriblRff, {@dodf fblsf} otifrwisf
      *
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if(obj instanceof SerialRef) {
-            SerialRef ref = (SerialRef)obj;
-            return baseTypeName.equals(ref.baseTypeName) &&
-                    object.equals(ref.object);
+        if(obj instbndfof SfriblRff) {
+            SfriblRff rff = (SfriblRff)obj;
+            rfturn bbsfTypfNbmf.fqubls(rff.bbsfTypfNbmf) &&
+                    objfdt.fqubls(rff.objfdt);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code for this {@code SerialRef}.
-     * @return  a hash code value for this object.
+     * Rfturns b ibsi dodf for tiis {@dodf SfriblRff}.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-        return (31 + object.hashCode()) * 31 + baseTypeName.hashCode();
+    publid int ibsiCodf() {
+        rfturn (31 + objfdt.ibsiCodf()) * 31 + bbsfTypfNbmf.ibsiCodf();
     }
 
     /**
-     * Returns a clone of this {@code SerialRef}.
-     * The underlying {@code Ref} object will be set to null.
+     * Rfturns b dlonf of tiis {@dodf SfriblRff}.
+     * Tif undfrlying {@dodf Rff} objfdt will bf sft to null.
      *
-     * @return  a clone of this SerialRef
+     * @rfturn  b dlonf of tiis SfriblRff
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            SerialRef ref = (SerialRef) super.clone();
-            ref.reference = null;
-            return ref;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+            SfriblRff rff = (SfriblRff) supfr.dlonf();
+            rff.rfffrfndf = null;
+            rfturn rff;
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError();
         }
 
     }
 
     /**
-     * readObject is called to restore the state of the SerialRef from
-     * a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SfriblRff from
+     * b strfbm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
-        ObjectInputStream.GetField fields = s.readFields();
-        object = fields.get("object", null);
-        baseTypeName = (String) fields.get("baseTypeName", null);
-        reference = (Ref) fields.get("reference", null);
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+        objfdt = fiflds.gft("objfdt", null);
+        bbsfTypfNbmf = (String) fiflds.gft("bbsfTypfNbmf", null);
+        rfffrfndf = (Rff) fiflds.gft("rfffrfndf", null);
     }
 
     /**
-     * writeObject is called to save the state of the SerialRef
-     * to a stream.
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif SfriblRff
+     * to b strfbm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("baseTypeName", baseTypeName);
-        fields.put("object", object);
-        // Note: this check to see if it is an instance of Serializable
-        // is for backwards compatibiity
-        fields.put("reference", reference instanceof Serializable ? reference : null);
-        s.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("bbsfTypfNbmf", bbsfTypfNbmf);
+        fiflds.put("objfdt", objfdt);
+        // Notf: tiis difdk to sff if it is bn instbndf of Sfriblizbblf
+        // is for bbdkwbrds dompbtibiity
+        fiflds.put("rfffrfndf", rfffrfndf instbndfof Sfriblizbblf ? rfffrfndf : null);
+        s.writfFiflds();
     }
 
     /**
-     * The identifier that assists in the serialization of this <code>SerialRef</code>
-     * object.
+     * Tif idfntififr tibt bssists in tif sfriblizbtion of tiis <dodf>SfriblRff</dodf>
+     * objfdt.
      */
-    static final long serialVersionUID = -4727123500609662274L;
+    stbtid finbl long sfriblVfrsionUID = -4727123500609662274L;
 
 
 }

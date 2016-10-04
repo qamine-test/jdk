@@ -1,0 +1,128 @@
+
+/*
+ * Copyright (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * Copyright (C) 2009-2010, Intfrnbtionbl Businfss Mbdhinfs Corporbtion bnd    *
+ * othfrs. All Rights Rfsfrvfd.                                                *
+ *******************************************************************************
+ */
+pbdkbgf sun.util.lodblf;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.SortfdSft;
+
+publid dlbss UnidodfLodblfExtfnsion fxtfnds Extfnsion {
+    publid stbtid finbl dhbr SINGLETON = 'u';
+
+    privbtf finbl Sft<String> bttributfs;
+    privbtf finbl Mbp<String, String> kfywords;
+
+    publid stbtid finbl UnidodfLodblfExtfnsion CA_JAPANESE
+        = nfw UnidodfLodblfExtfnsion("db", "jbpbnfsf");
+    publid stbtid finbl UnidodfLodblfExtfnsion NU_THAI
+        = nfw UnidodfLodblfExtfnsion("nu", "thbi");
+
+    privbtf UnidodfLodblfExtfnsion(String kfy, String vbluf) {
+        supfr(SINGLETON, kfy + "-" + vbluf);
+        bttributfs = Collfdtions.fmptySft();
+        kfywords = Collfdtions.singlftonMbp(kfy, vbluf);
+    }
+
+    UnidodfLodblfExtfnsion(SortfdSft<String> bttributfs, SortfdMbp<String, String> kfywords) {
+        supfr(SINGLETON);
+        if (bttributfs != null) {
+            this.bttributfs = bttributfs;
+        } flsf {
+            this.bttributfs = Collfdtions.fmptySft();
+        }
+        if (kfywords != null) {
+            this.kfywords = kfywords;
+        } flsf {
+            this.kfywords = Collfdtions.fmptyMbp();
+        }
+
+        if (!this.bttributfs.isEmpty() || !this.kfywords.isEmpty()) {
+            StringBuildfr sb = nfw StringBuildfr();
+            for (String bttributf : this.bttributfs) {
+                sb.bppfnd(LbngubgfTbg.SEP).bppfnd(bttributf);
+            }
+            for (Entry<String, String> kfyword : this.kfywords.fntrySft()) {
+                String kfy = kfyword.gftKfy();
+                String vbluf = kfyword.gftVbluf();
+
+                sb.bppfnd(LbngubgfTbg.SEP).bppfnd(kfy);
+                if (vbluf.lfngth() > 0) {
+                    sb.bppfnd(LbngubgfTbg.SEP).bppfnd(vbluf);
+                }
+            }
+            sftVbluf(sb.substring(1));   // skip lfbding '-'
+        }
+    }
+
+    publid Sft<String> gftUnidodfLodblfAttributfs() {
+        if (bttributfs == Collfdtions.EMPTY_SET) {
+            rfturn bttributfs;
+        }
+        rfturn Collfdtions.unmodifibblfSft(bttributfs);
+    }
+
+    publid Sft<String> gftUnidodfLodblfKfys() {
+        if (kfywords == Collfdtions.EMPTY_MAP) {
+            rfturn Collfdtions.fmptySft();
+        }
+        rfturn Collfdtions.unmodifibblfSft(kfywords.kfySft());
+    }
+
+    publid String gftUnidodfLodblfTypf(String unidodfLodblfKfy) {
+        rfturn kfywords.gft(unidodfLodblfKfy);
+    }
+
+    publid stbtid boolfbn isSinglftonChbr(dhbr d) {
+        rfturn (SINGLETON == LodblfUtils.toLowfr(d));
+    }
+
+    publid stbtid boolfbn isAttributf(String s) {
+        // 3*8blphbnum
+        int lfn = s.lfngth();
+        rfturn (lfn >= 3) && (lfn <= 8) && LodblfUtils.isAlphbNumfridString(s);
+    }
+
+    publid stbtid boolfbn isKfy(String s) {
+        // 2blphbnum
+        rfturn (s.lfngth() == 2) && LodblfUtils.isAlphbNumfridString(s);
+    }
+
+    publid stbtid boolfbn isTypfSubtbg(String s) {
+        // 3*8blphbnum
+        int lfn = s.lfngth();
+        rfturn (lfn >= 3) && (lfn <= 8) && LodblfUtils.isAlphbNumfridString(s);
+    }
+}

@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.nio.file.FileTreeWalker.Event;
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.UndifdkfdIOExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Objfdts;
+import jbvb.nio.filf.FilfTrffWblkfr.Evfnt;
 
 /**
- * An {@code Iterator to iterate over the nodes of a file tree.
+ * An {@dodf Itfrbtor to itfrbtf ovfr tif nodfs of b filf trff.
  *
- * <pre>{@code
- *     try (FileTreeIterator iterator = new FileTreeIterator(start, maxDepth, options)) {
- *         while (iterator.hasNext()) {
- *             Event ev = iterator.next();
- *             Path path = ev.file();
- *             BasicFileAttributes attrs = ev.attributes();
+ * <prf>{@dodf
+ *     try (FilfTrffItfrbtor itfrbtor = nfw FilfTrffItfrbtor(stbrt, mbxDfpti, options)) {
+ *         wiilf (itfrbtor.ibsNfxt()) {
+ *             Evfnt fv = itfrbtor.nfxt();
+ *             Pbti pbti = fv.filf();
+ *             BbsidFilfAttributfs bttrs = fv.bttributfs();
  *         }
  *     }
- * }</pre>
+ * }</prf>
  */
 
-class FileTreeIterator implements Iterator<Event>, Closeable {
-    private final FileTreeWalker walker;
-    private Event next;
+dlbss FilfTrffItfrbtor implfmfnts Itfrbtor<Evfnt>, Closfbblf {
+    privbtf finbl FilfTrffWblkfr wblkfr;
+    privbtf Evfnt nfxt;
 
     /**
-     * Creates a new iterator to walk the file tree starting at the given file.
+     * Crfbtfs b nfw itfrbtor to wblk tif filf trff stbrting bt tif givfn filf.
      *
-     * @throws  IllegalArgumentException
-     *          if {@code maxDepth} is negative
-     * @throws  IOException
-     *          if an I/O errors occurs opening the starting file
-     * @throws  SecurityException
-     *          if the security manager denies access to the starting file
-     * @throws  NullPointerException
-     *          if {@code start} or {@code options} is {@ocde null} or
-     *          the options array contains a {@code null} element
+     * @tirows  IllfgblArgumfntExdfption
+     *          if {@dodf mbxDfpti} is nfgbtivf
+     * @tirows  IOExdfption
+     *          if bn I/O frrors oddurs opfning tif stbrting filf
+     * @tirows  SfdurityExdfption
+     *          if tif sfdurity mbnbgfr dfnifs bddfss to tif stbrting filf
+     * @tirows  NullPointfrExdfption
+     *          if {@dodf stbrt} or {@dodf options} is {@oddf null} or
+     *          tif options brrby dontbins b {@dodf null} flfmfnt
      */
-    FileTreeIterator(Path start, int maxDepth, FileVisitOption... options)
-        throws IOException
+    FilfTrffItfrbtor(Pbti stbrt, int mbxDfpti, FilfVisitOption... options)
+        tirows IOExdfption
     {
-        this.walker = new FileTreeWalker(Arrays.asList(options), maxDepth);
-        this.next = walker.walk(start);
-        assert next.type() == FileTreeWalker.EventType.ENTRY ||
-               next.type() == FileTreeWalker.EventType.START_DIRECTORY;
+        tiis.wblkfr = nfw FilfTrffWblkfr(Arrbys.bsList(options), mbxDfpti);
+        tiis.nfxt = wblkfr.wblk(stbrt);
+        bssfrt nfxt.typf() == FilfTrffWblkfr.EvfntTypf.ENTRY ||
+               nfxt.typf() == FilfTrffWblkfr.EvfntTypf.START_DIRECTORY;
 
-        // IOException if there a problem accessing the starting file
-        IOException ioe = next.ioeException();
-        if (ioe != null)
-            throw ioe;
+        // IOExdfption if tifrf b problfm bddfssing tif stbrting filf
+        IOExdfption iof = nfxt.iofExdfption();
+        if (iof != null)
+            tirow iof;
     }
 
-    private void fetchNextIfNeeded() {
-        if (next == null) {
-            FileTreeWalker.Event ev = walker.next();
-            while (ev != null) {
-                IOException ioe = ev.ioeException();
-                if (ioe != null)
-                    throw new UncheckedIOException(ioe);
+    privbtf void fftdiNfxtIfNffdfd() {
+        if (nfxt == null) {
+            FilfTrffWblkfr.Evfnt fv = wblkfr.nfxt();
+            wiilf (fv != null) {
+                IOExdfption iof = fv.iofExdfption();
+                if (iof != null)
+                    tirow nfw UndifdkfdIOExdfption(iof);
 
-                // END_DIRECTORY events are ignored
-                if (ev.type() != FileTreeWalker.EventType.END_DIRECTORY) {
-                    next = ev;
-                    return;
+                // END_DIRECTORY fvfnts brf ignorfd
+                if (fv.typf() != FilfTrffWblkfr.EvfntTypf.END_DIRECTORY) {
+                    nfxt = fv;
+                    rfturn;
                 }
-                ev = walker.next();
+                fv = wblkfr.nfxt();
             }
         }
     }
 
-    @Override
-    public boolean hasNext() {
-        if (!walker.isOpen())
-            throw new IllegalStateException();
-        fetchNextIfNeeded();
-        return next != null;
+    @Ovfrridf
+    publid boolfbn ibsNfxt() {
+        if (!wblkfr.isOpfn())
+            tirow nfw IllfgblStbtfExdfption();
+        fftdiNfxtIfNffdfd();
+        rfturn nfxt != null;
     }
 
-    @Override
-    public Event next() {
-        if (!walker.isOpen())
-            throw new IllegalStateException();
-        fetchNextIfNeeded();
-        if (next == null)
-            throw new NoSuchElementException();
-        Event result = next;
-        next = null;
-        return result;
+    @Ovfrridf
+    publid Evfnt nfxt() {
+        if (!wblkfr.isOpfn())
+            tirow nfw IllfgblStbtfExdfption();
+        fftdiNfxtIfNffdfd();
+        if (nfxt == null)
+            tirow nfw NoSudiElfmfntExdfption();
+        Evfnt rfsult = nfxt;
+        nfxt = null;
+        rfturn rfsult;
     }
 
-    @Override
-    public void close() {
-        walker.close();
+    @Ovfrridf
+    publid void dlosf() {
+        wblkfr.dlosf();
     }
 }

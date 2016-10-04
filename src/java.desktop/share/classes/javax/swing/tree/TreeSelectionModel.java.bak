@@ -1,346 +1,346 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.tree;
+pbdkbgf jbvbx.swing.trff;
 
-import javax.swing.event.*;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
 /**
-  * This interface represents the current state of the selection for
-  * the tree component.
-  * For information and examples of using tree selection models,
-  * see <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>
-  * in <em>The Java Tutorial.</em>
+  * Tiis intfrfbdf rfprfsfnts tif durrfnt stbtf of tif sflfdtion for
+  * tif trff domponfnt.
+  * For informbtion bnd fxbmplfs of using trff sflfdtion modfls,
+  * sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.itml">How to Usf Trffs</b>
+  * in <fm>Tif Jbvb Tutoribl.</fm>
   *
   * <p>
-  * The state of the tree selection is characterized by
-  * a set of TreePaths, and optionally a set of integers. The mapping
-  * from TreePath to integer is done by way of an instance of RowMapper.
-  * It is not necessary for a TreeSelectionModel to have a RowMapper to
-  * correctly operate, but without a RowMapper <code>getSelectionRows</code>
-  * will return null.
-  *
-  * <p>
-  *
-  * A TreeSelectionModel can be configured to allow only one
-  * path (<code>SINGLE_TREE_SELECTION</code>) a number of
-  * contiguous paths (<code>CONTIGUOUS_TREE_SELECTION</code>) or a number of
-  * discontiguous paths (<code>DISCONTIGUOUS_TREE_SELECTION</code>).
-  * A <code>RowMapper</code> is used to determine if TreePaths are
-  * contiguous.
-  * In the absence of a RowMapper <code>CONTIGUOUS_TREE_SELECTION</code> and
-  * <code>DISCONTIGUOUS_TREE_SELECTION</code> behave the same, that is they
-  * allow any number of paths to be contained in the TreeSelectionModel.
+  * Tif stbtf of tif trff sflfdtion is dibrbdtfrizfd by
+  * b sft of TrffPbtis, bnd optionblly b sft of intfgfrs. Tif mbpping
+  * from TrffPbti to intfgfr is donf by wby of bn instbndf of RowMbppfr.
+  * It is not nfdfssbry for b TrffSflfdtionModfl to ibvf b RowMbppfr to
+  * dorrfdtly opfrbtf, but witiout b RowMbppfr <dodf>gftSflfdtionRows</dodf>
+  * will rfturn null.
   *
   * <p>
   *
-  * For a selection model of <code>CONTIGUOUS_TREE_SELECTION</code> any
-  * time the paths are changed (<code>setSelectionPath</code>,
-  * <code>addSelectionPath</code> ...) the TreePaths are again checked to
-  * make they are contiguous. A check of the TreePaths can also be forced
-  * by invoking <code>resetRowSelection</code>. How a set of discontiguous
-  * TreePaths is mapped to a contiguous set is left to implementors of
-  * this interface to enforce a particular policy.
+  * A TrffSflfdtionModfl dbn bf donfigurfd to bllow only onf
+  * pbti (<dodf>SINGLE_TREE_SELECTION</dodf>) b numbfr of
+  * dontiguous pbtis (<dodf>CONTIGUOUS_TREE_SELECTION</dodf>) or b numbfr of
+  * disdontiguous pbtis (<dodf>DISCONTIGUOUS_TREE_SELECTION</dodf>).
+  * A <dodf>RowMbppfr</dodf> is usfd to dftfrminf if TrffPbtis brf
+  * dontiguous.
+  * In tif bbsfndf of b RowMbppfr <dodf>CONTIGUOUS_TREE_SELECTION</dodf> bnd
+  * <dodf>DISCONTIGUOUS_TREE_SELECTION</dodf> bfibvf tif sbmf, tibt is tify
+  * bllow bny numbfr of pbtis to bf dontbinfd in tif TrffSflfdtionModfl.
   *
   * <p>
   *
-  * Implementations should combine duplicate TreePaths that are
-  * added to the selection. For example, the following code
-  * <pre>
-  *   TreePath[] paths = new TreePath[] { treePath, treePath };
-  *   treeSelectionModel.setSelectionPaths(paths);
-  * </pre>
-  * should result in only one path being selected:
-  * <code>treePath</code>, and
-  * not two copies of <code>treePath</code>.
+  * For b sflfdtion modfl of <dodf>CONTIGUOUS_TREE_SELECTION</dodf> bny
+  * timf tif pbtis brf dibngfd (<dodf>sftSflfdtionPbti</dodf>,
+  * <dodf>bddSflfdtionPbti</dodf> ...) tif TrffPbtis brf bgbin difdkfd to
+  * mbkf tify brf dontiguous. A difdk of tif TrffPbtis dbn blso bf fordfd
+  * by invoking <dodf>rfsftRowSflfdtion</dodf>. How b sft of disdontiguous
+  * TrffPbtis is mbppfd to b dontiguous sft is lfft to implfmfntors of
+  * tiis intfrfbdf to fnfordf b pbrtidulbr polidy.
   *
   * <p>
   *
-  * The lead TreePath is the last path that was added (or set). The lead
-  * row is then the row that corresponds to the TreePath as determined
-  * from the RowMapper.
+  * Implfmfntbtions siould dombinf duplidbtf TrffPbtis tibt brf
+  * bddfd to tif sflfdtion. For fxbmplf, tif following dodf
+  * <prf>
+  *   TrffPbti[] pbtis = nfw TrffPbti[] { trffPbti, trffPbti };
+  *   trffSflfdtionModfl.sftSflfdtionPbtis(pbtis);
+  * </prf>
+  * siould rfsult in only onf pbti bfing sflfdtfd:
+  * <dodf>trffPbti</dodf>, bnd
+  * not two dopifs of <dodf>trffPbti</dodf>.
   *
-  * @author Scott Violet
+  * <p>
+  *
+  * Tif lfbd TrffPbti is tif lbst pbti tibt wbs bddfd (or sft). Tif lfbd
+  * row is tifn tif row tibt dorrfsponds to tif TrffPbti bs dftfrminfd
+  * from tif RowMbppfr.
+  *
+  * @butior Sdott Violft
   */
 
-public interface TreeSelectionModel
+publid intfrfbdf TrffSflfdtionModfl
 {
-    /** Selection can only contain one path at a time. */
-    public static final int               SINGLE_TREE_SELECTION = 1;
+    /** Sflfdtion dbn only dontbin onf pbti bt b timf. */
+    publid stbtid finbl int               SINGLE_TREE_SELECTION = 1;
 
-    /** Selection can only be contiguous. This will only be enforced if
-     * a RowMapper instance is provided. That is, if no RowMapper is set
-     * this behaves the same as DISCONTIGUOUS_TREE_SELECTION. */
-    public static final int               CONTIGUOUS_TREE_SELECTION = 2;
+    /** Sflfdtion dbn only bf dontiguous. Tiis will only bf fnfordfd if
+     * b RowMbppfr instbndf is providfd. Tibt is, if no RowMbppfr is sft
+     * tiis bfibvfs tif sbmf bs DISCONTIGUOUS_TREE_SELECTION. */
+    publid stbtid finbl int               CONTIGUOUS_TREE_SELECTION = 2;
 
-    /** Selection can contain any number of items that are not necessarily
-     * contiguous. */
-    public static final int               DISCONTIGUOUS_TREE_SELECTION = 4;
+    /** Sflfdtion dbn dontbin bny numbfr of itfms tibt brf not nfdfssbrily
+     * dontiguous. */
+    publid stbtid finbl int               DISCONTIGUOUS_TREE_SELECTION = 4;
 
     /**
-     * Sets the selection model, which must be one of SINGLE_TREE_SELECTION,
+     * Sfts tif sflfdtion modfl, wiidi must bf onf of SINGLE_TREE_SELECTION,
      * CONTIGUOUS_TREE_SELECTION or DISCONTIGUOUS_TREE_SELECTION.
      * <p>
-     * This may change the selection if the current selection is not valid
-     * for the new mode. For example, if three TreePaths are
-     * selected when the mode is changed to <code>SINGLE_TREE_SELECTION</code>,
-     * only one TreePath will remain selected. It is up to the particular
-     * implementation to decide what TreePath remains selected.
+     * Tiis mby dibngf tif sflfdtion if tif durrfnt sflfdtion is not vblid
+     * for tif nfw modf. For fxbmplf, if tirff TrffPbtis brf
+     * sflfdtfd wifn tif modf is dibngfd to <dodf>SINGLE_TREE_SELECTION</dodf>,
+     * only onf TrffPbti will rfmbin sflfdtfd. It is up to tif pbrtidulbr
+     * implfmfntbtion to dfdidf wibt TrffPbti rfmbins sflfdtfd.
      *
-     * @param   mode    selection mode to be set
+     * @pbrbm   modf    sflfdtion modf to bf sft
      */
-    void setSelectionMode(int mode);
+    void sftSflfdtionModf(int modf);
 
     /**
-     * Returns the current selection mode, one of
-     * <code>SINGLE_TREE_SELECTION</code>,
-     * <code>CONTIGUOUS_TREE_SELECTION</code> or
-     * <code>DISCONTIGUOUS_TREE_SELECTION</code>.
+     * Rfturns tif durrfnt sflfdtion modf, onf of
+     * <dodf>SINGLE_TREE_SELECTION</dodf>,
+     * <dodf>CONTIGUOUS_TREE_SELECTION</dodf> or
+     * <dodf>DISCONTIGUOUS_TREE_SELECTION</dodf>.
      *
-     * @return          the current selection mode
+     * @rfturn          tif durrfnt sflfdtion modf
      */
-    int getSelectionMode();
+    int gftSflfdtionModf();
 
     /**
-      * Sets the selection to path. If this represents a change, then
-      * the TreeSelectionListeners are notified. If <code>path</code> is
-      * null, this has the same effect as invoking <code>clearSelection</code>.
+      * Sfts tif sflfdtion to pbti. If tiis rfprfsfnts b dibngf, tifn
+      * tif TrffSflfdtionListfnfrs brf notififd. If <dodf>pbti</dodf> is
+      * null, tiis ibs tif sbmf ffffdt bs invoking <dodf>dlfbrSflfdtion</dodf>.
       *
-      * @param  path    new path to select
+      * @pbrbm  pbti    nfw pbti to sflfdt
       */
-    void setSelectionPath(TreePath path);
+    void sftSflfdtionPbti(TrffPbti pbti);
 
     /**
-      * Sets the selection to path. If this represents a change, then
-      * the TreeSelectionListeners are notified. If <code>paths</code> is
-      * null, this has the same effect as invoking <code>clearSelection</code>.
+      * Sfts tif sflfdtion to pbti. If tiis rfprfsfnts b dibngf, tifn
+      * tif TrffSflfdtionListfnfrs brf notififd. If <dodf>pbtis</dodf> is
+      * null, tiis ibs tif sbmf ffffdt bs invoking <dodf>dlfbrSflfdtion</dodf>.
       *
-      * @param  paths   new selection
+      * @pbrbm  pbtis   nfw sflfdtion
       */
-    void setSelectionPaths(TreePath[] paths);
+    void sftSflfdtionPbtis(TrffPbti[] pbtis);
 
     /**
-      * Adds path to the current selection. If path is not currently
-      * in the selection the TreeSelectionListeners are notified. This has
-      * no effect if <code>path</code> is null.
+      * Adds pbti to tif durrfnt sflfdtion. If pbti is not durrfntly
+      * in tif sflfdtion tif TrffSflfdtionListfnfrs brf notififd. Tiis ibs
+      * no ffffdt if <dodf>pbti</dodf> is null.
       *
-      * @param  path    the new path to add to the current selection
+      * @pbrbm  pbti    tif nfw pbti to bdd to tif durrfnt sflfdtion
       */
-    void addSelectionPath(TreePath path);
+    void bddSflfdtionPbti(TrffPbti pbti);
 
     /**
-      * Adds paths to the current selection.  If any of the paths in
-      * paths are not currently in the selection the TreeSelectionListeners
-      * are notified. This has
-      * no effect if <code>paths</code> is null.
+      * Adds pbtis to tif durrfnt sflfdtion.  If bny of tif pbtis in
+      * pbtis brf not durrfntly in tif sflfdtion tif TrffSflfdtionListfnfrs
+      * brf notififd. Tiis ibs
+      * no ffffdt if <dodf>pbtis</dodf> is null.
       *
-      * @param  paths   the new paths to add to the current selection
+      * @pbrbm  pbtis   tif nfw pbtis to bdd to tif durrfnt sflfdtion
       */
-    void addSelectionPaths(TreePath[] paths);
+    void bddSflfdtionPbtis(TrffPbti[] pbtis);
 
     /**
-      * Removes path from the selection. If path is in the selection
-      * The TreeSelectionListeners are notified. This has no effect if
-      * <code>path</code> is null.
+      * Rfmovfs pbti from tif sflfdtion. If pbti is in tif sflfdtion
+      * Tif TrffSflfdtionListfnfrs brf notififd. Tiis ibs no ffffdt if
+      * <dodf>pbti</dodf> is null.
       *
-      * @param  path    the path to remove from the selection
+      * @pbrbm  pbti    tif pbti to rfmovf from tif sflfdtion
       */
-    void removeSelectionPath(TreePath path);
+    void rfmovfSflfdtionPbti(TrffPbti pbti);
 
     /**
-      * Removes paths from the selection.  If any of the paths in
-      * <code>paths</code>
-      * are in the selection, the TreeSelectionListeners are notified.
-      * This method has no effect if <code>paths</code> is null.
+      * Rfmovfs pbtis from tif sflfdtion.  If bny of tif pbtis in
+      * <dodf>pbtis</dodf>
+      * brf in tif sflfdtion, tif TrffSflfdtionListfnfrs brf notififd.
+      * Tiis mftiod ibs no ffffdt if <dodf>pbtis</dodf> is null.
       *
-      * @param  paths   the path to remove from the selection
+      * @pbrbm  pbtis   tif pbti to rfmovf from tif sflfdtion
       */
-    void removeSelectionPaths(TreePath[] paths);
+    void rfmovfSflfdtionPbtis(TrffPbti[] pbtis);
 
     /**
-      * Returns the first path in the selection. How first is defined is
-      * up to implementors, and may not necessarily be the TreePath with
-      * the smallest integer value as determined from the
-      * <code>RowMapper</code>.
+      * Rfturns tif first pbti in tif sflfdtion. How first is dffinfd is
+      * up to implfmfntors, bnd mby not nfdfssbrily bf tif TrffPbti witi
+      * tif smbllfst intfgfr vbluf bs dftfrminfd from tif
+      * <dodf>RowMbppfr</dodf>.
       *
-      * @return         the first path in the selection
+      * @rfturn         tif first pbti in tif sflfdtion
       */
-    TreePath getSelectionPath();
+    TrffPbti gftSflfdtionPbti();
 
     /**
-      * Returns the paths in the selection. This will return null (or an
-      * empty array) if nothing is currently selected.
+      * Rfturns tif pbtis in tif sflfdtion. Tiis will rfturn null (or bn
+      * fmpty brrby) if notiing is durrfntly sflfdtfd.
       *
-      * @return         the paths in the selection
+      * @rfturn         tif pbtis in tif sflfdtion
       */
-    TreePath[] getSelectionPaths();
+    TrffPbti[] gftSflfdtionPbtis();
 
     /**
-     * Returns the number of paths that are selected.
+     * Rfturns tif numbfr of pbtis tibt brf sflfdtfd.
      *
-     * @return          the number of paths that are selected
+     * @rfturn          tif numbfr of pbtis tibt brf sflfdtfd
      */
-    int getSelectionCount();
+    int gftSflfdtionCount();
 
     /**
-      * Returns true if the path, <code>path</code>, is in the current
-      * selection.
+      * Rfturns truf if tif pbti, <dodf>pbti</dodf>, is in tif durrfnt
+      * sflfdtion.
       *
-      * @param  path    the path to be loked for
-      * @return         whether the {@code path} is in the current selection
+      * @pbrbm  pbti    tif pbti to bf lokfd for
+      * @rfturn         wiftifr tif {@dodf pbti} is in tif durrfnt sflfdtion
       */
-    boolean isPathSelected(TreePath path);
+    boolfbn isPbtiSflfdtfd(TrffPbti pbti);
 
     /**
-      * Returns true if the selection is currently empty.
+      * Rfturns truf if tif sflfdtion is durrfntly fmpty.
       *
-      * @return         whether the selection is currently empty
+      * @rfturn         wiftifr tif sflfdtion is durrfntly fmpty
       */
-    boolean isSelectionEmpty();
+    boolfbn isSflfdtionEmpty();
 
     /**
-      * Empties the current selection.  If this represents a change in the
-      * current selection, the selection listeners are notified.
+      * Emptifs tif durrfnt sflfdtion.  If tiis rfprfsfnts b dibngf in tif
+      * durrfnt sflfdtion, tif sflfdtion listfnfrs brf notififd.
       */
-    void clearSelection();
+    void dlfbrSflfdtion();
 
     /**
-     * Sets the RowMapper instance. This instance is used to determine
-     * the row for a particular TreePath.
+     * Sfts tif RowMbppfr instbndf. Tiis instbndf is usfd to dftfrminf
+     * tif row for b pbrtidulbr TrffPbti.
      *
-     * @param   newMapper   RowMapper to be set
+     * @pbrbm   nfwMbppfr   RowMbppfr to bf sft
      */
-    void setRowMapper(RowMapper newMapper);
+    void sftRowMbppfr(RowMbppfr nfwMbppfr);
 
     /**
-     * Returns the RowMapper instance that is able to map a TreePath to a
+     * Rfturns tif RowMbppfr instbndf tibt is bblf to mbp b TrffPbti to b
      * row.
      *
-     * @return          the RowMapper instance that is able to map a TreePath
-     *                  to a row
+     * @rfturn          tif RowMbppfr instbndf tibt is bblf to mbp b TrffPbti
+     *                  to b row
      */
-    RowMapper getRowMapper();
+    RowMbppfr gftRowMbppfr();
 
     /**
-      * Returns all of the currently selected rows. This will return
-      * null (or an empty array) if there are no selected TreePaths or
-      * a RowMapper has not been set.
+      * Rfturns bll of tif durrfntly sflfdtfd rows. Tiis will rfturn
+      * null (or bn fmpty brrby) if tifrf brf no sflfdtfd TrffPbtis or
+      * b RowMbppfr ibs not bffn sft.
       *
-      * @return         all of the currently selected rows
+      * @rfturn         bll of tif durrfntly sflfdtfd rows
       */
-    int[] getSelectionRows();
+    int[] gftSflfdtionRows();
 
     /**
-     * Returns the smallest value obtained from the RowMapper for the
-     * current set of selected TreePaths. If nothing is selected,
-     * or there is no RowMapper, this will return -1.
+     * Rfturns tif smbllfst vbluf obtbinfd from tif RowMbppfr for tif
+     * durrfnt sft of sflfdtfd TrffPbtis. If notiing is sflfdtfd,
+     * or tifrf is no RowMbppfr, tiis will rfturn -1.
      *
-     * @return          the smallest value obtained from the RowMapper
-     *                  for the current set of selected TreePaths
+     * @rfturn          tif smbllfst vbluf obtbinfd from tif RowMbppfr
+     *                  for tif durrfnt sft of sflfdtfd TrffPbtis
       */
-    int getMinSelectionRow();
+    int gftMinSflfdtionRow();
 
     /**
-     * Returns the largest value obtained from the RowMapper for the
-     * current set of selected TreePaths. If nothing is selected,
-     * or there is no RowMapper, this will return -1.
+     * Rfturns tif lbrgfst vbluf obtbinfd from tif RowMbppfr for tif
+     * durrfnt sft of sflfdtfd TrffPbtis. If notiing is sflfdtfd,
+     * or tifrf is no RowMbppfr, tiis will rfturn -1.
      *
-     * @return          the largest value obtained from the RowMapper
-     *                  for the current set of selected TreePaths
+     * @rfturn          tif lbrgfst vbluf obtbinfd from tif RowMbppfr
+     *                  for tif durrfnt sft of sflfdtfd TrffPbtis
       */
-    int getMaxSelectionRow();
+    int gftMbxSflfdtionRow();
 
     /**
-      * Returns true if the row identified by <code>row</code> is selected.
+      * Rfturns truf if tif row idfntififd by <dodf>row</dodf> is sflfdtfd.
       *
-      * @param  row     row to check
-      * @return         whether the row is selected
+      * @pbrbm  row     row to difdk
+      * @rfturn         wiftifr tif row is sflfdtfd
       */
-    boolean isRowSelected(int row);
+    boolfbn isRowSflfdtfd(int row);
 
     /**
-     * Updates this object's mapping from TreePaths to rows. This should
-     * be invoked when the mapping from TreePaths to integers has changed
-     * (for example, a node has been expanded).
+     * Updbtfs tiis objfdt's mbpping from TrffPbtis to rows. Tiis siould
+     * bf invokfd wifn tif mbpping from TrffPbtis to intfgfrs ibs dibngfd
+     * (for fxbmplf, b nodf ibs bffn fxpbndfd).
      * <p>
-     * You do not normally have to call this; JTree and its associated
-     * listeners will invoke this for you. If you are implementing your own
-     * view class, then you will have to invoke this.
+     * You do not normblly ibvf to dbll tiis; JTrff bnd its bssodibtfd
+     * listfnfrs will invokf tiis for you. If you brf implfmfnting your own
+     * vifw dlbss, tifn you will ibvf to invokf tiis.
      */
-    void resetRowSelection();
+    void rfsftRowSflfdtion();
 
     /**
-     * Returns the lead selection index. That is the last index that was
-     * added.
+     * Rfturns tif lfbd sflfdtion indfx. Tibt is tif lbst indfx tibt wbs
+     * bddfd.
      *
-     * @return          the lead selection index
+     * @rfturn          tif lfbd sflfdtion indfx
      */
-    int getLeadSelectionRow();
+    int gftLfbdSflfdtionRow();
 
     /**
-     * Returns the last path that was added. This may differ from the
-     * leadSelectionPath property maintained by the JTree.
+     * Rfturns tif lbst pbti tibt wbs bddfd. Tiis mby difffr from tif
+     * lfbdSflfdtionPbti propfrty mbintbinfd by tif JTrff.
      *
-     * @return          the last path that was added
+     * @rfturn          tif lbst pbti tibt wbs bddfd
      */
-    TreePath getLeadSelectionPath();
+    TrffPbti gftLfbdSflfdtionPbti();
 
     /**
-     * Adds a PropertyChangeListener to the listener list.
-     * The listener is registered for all properties.
+     * Adds b PropfrtyCibngfListfnfr to tif listfnfr list.
+     * Tif listfnfr is rfgistfrfd for bll propfrtifs.
      * <p>
-     * A PropertyChangeEvent will get fired when the selection mode
-     * changes.
+     * A PropfrtyCibngfEvfnt will gft firfd wifn tif sflfdtion modf
+     * dibngfs.
      *
-     * @param   listener    the PropertyChangeListener to be added
+     * @pbrbm   listfnfr    tif PropfrtyCibngfListfnfr to bf bddfd
      */
-    void addPropertyChangeListener(PropertyChangeListener listener);
+    void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr);
 
     /**
-     * Removes a PropertyChangeListener from the listener list.
-     * This removes a PropertyChangeListener that was registered
-     * for all properties.
+     * Rfmovfs b PropfrtyCibngfListfnfr from tif listfnfr list.
+     * Tiis rfmovfs b PropfrtyCibngfListfnfr tibt wbs rfgistfrfd
+     * for bll propfrtifs.
      *
-     * @param   listener    the PropertyChangeListener to be removed
+     * @pbrbm   listfnfr    tif PropfrtyCibngfListfnfr to bf rfmovfd
      */
-    void removePropertyChangeListener(PropertyChangeListener listener);
+    void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr);
 
     /**
-      * Adds x to the list of listeners that are notified each time the
-      * set of selected TreePaths changes.
+      * Adds x to tif list of listfnfrs tibt brf notififd fbdi timf tif
+      * sft of sflfdtfd TrffPbtis dibngfs.
       *
-      * @param  x       the new listener to be added
+      * @pbrbm  x       tif nfw listfnfr to bf bddfd
       */
-    void addTreeSelectionListener(TreeSelectionListener x);
+    void bddTrffSflfdtionListfnfr(TrffSflfdtionListfnfr x);
 
     /**
-      * Removes x from the list of listeners that are notified each time
-      * the set of selected TreePaths changes.
+      * Rfmovfs x from tif list of listfnfrs tibt brf notififd fbdi timf
+      * tif sft of sflfdtfd TrffPbtis dibngfs.
       *
-      * @param  x       the listener to remove
+      * @pbrbm  x       tif listfnfr to rfmovf
       */
-    void removeTreeSelectionListener(TreeSelectionListener x);
+    void rfmovfTrffSflfdtionListfnfr(TrffSflfdtionListfnfr x);
 }

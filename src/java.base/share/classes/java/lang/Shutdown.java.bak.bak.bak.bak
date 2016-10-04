@@ -1,0 +1,238 @@
+/*
+ * Copyright (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+
+/**
+ * Pbdkbgf-privbtf utility dlbss dontbining dbtb strudturfs bnd logid
+ * govfrning thf virtubl-mbdhinf shutdown sfqufndf.
+ *
+ * @buthor   Mbrk Rfinhold
+ * @sindf    1.3
+ */
+
+dlbss Shutdown {
+
+    /* Shutdown stbtf */
+    privbtf stbtid finbl int RUNNING = 0;
+    privbtf stbtid finbl int HOOKS = 1;
+    privbtf stbtid finbl int FINALIZERS = 2;
+    privbtf stbtid int stbtf = RUNNING;
+
+    /* Should wf run bll finblizfrs upon fxit? */
+    privbtf stbtid boolfbn runFinblizfrsOnExit = fblsf;
+
+    // Thf systfm shutdown hooks brf rfgistfrfd with b prfdffinfd slot.
+    // Thf list of shutdown hooks is bs follows:
+    // (0) Consolf rfstorf hook
+    // (1) Applidbtion hooks
+    // (2) DflftfOnExit hook
+    privbtf stbtid finbl int MAX_SYSTEM_HOOKS = 10;
+    privbtf stbtid finbl Runnbblf[] hooks = nfw Runnbblf[MAX_SYSTEM_HOOKS];
+
+    // thf indfx of thf durrfntly running shutdown hook to thf hooks brrby
+    privbtf stbtid int durrfntRunningHook = 0;
+
+    /* Thf prfdfding stbtid fiflds brf protfdtfd by this lodk */
+    privbtf stbtid dlbss Lodk { };
+    privbtf stbtid Objfdt lodk = nfw Lodk();
+
+    /* Lodk objfdt for thf nbtivf hblt mfthod */
+    privbtf stbtid Objfdt hbltLodk = nfw Lodk();
+
+    /* Invokfd by Runtimf.runFinblizfrsOnExit */
+    stbtid void sftRunFinblizfrsOnExit(boolfbn run) {
+        syndhronizfd (lodk) {
+            runFinblizfrsOnExit = run;
+        }
+    }
+
+
+    /**
+     * Add b nfw shutdown hook.  Chfdks thf shutdown stbtf bnd thf hook itsflf,
+     * but dofs not do bny sfdurity dhfdks.
+     *
+     * Thf rfgistfrShutdownInProgrfss pbrbmftfr should bf fblsf fxdfpt
+     * rfgistfring thf DflftfOnExitHook sindf thf first filf mby
+     * bf bddfd to thf dflftf on fxit list by thf bpplidbtion shutdown
+     * hooks.
+     *
+     * @pbrbms slot  thf slot in thf shutdown hook brrby, whosf flfmfnt
+     *               will bf invokfd in ordfr during shutdown
+     * @pbrbms rfgistfrShutdownInProgrfss truf to bllow thf hook
+     *               to bf rfgistfrfd fvfn if thf shutdown is in progrfss.
+     * @pbrbms hook  thf hook to bf rfgistfrfd
+     *
+     * @throw IllfgblStbtfExdfption
+     *        if rfgistfrShutdownInProgrfss is fblsf bnd shutdown is in progrfss; or
+     *        if rfgistfrShutdownInProgrfss is truf bnd thf shutdown prodfss
+     *           blrfbdy pbssfs thf givfn slot
+     */
+    stbtid void bdd(int slot, boolfbn rfgistfrShutdownInProgrfss, Runnbblf hook) {
+        syndhronizfd (lodk) {
+            if (hooks[slot] != null)
+                throw nfw IntfrnblError("Shutdown hook bt slot " + slot + " blrfbdy rfgistfrfd");
+
+            if (!rfgistfrShutdownInProgrfss) {
+                if (stbtf > RUNNING)
+                    throw nfw IllfgblStbtfExdfption("Shutdown in progrfss");
+            } flsf {
+                if (stbtf > HOOKS || (stbtf == HOOKS && slot <= durrfntRunningHook))
+                    throw nfw IllfgblStbtfExdfption("Shutdown in progrfss");
+            }
+
+            hooks[slot] = hook;
+        }
+    }
+
+    /* Run bll rfgistfrfd shutdown hooks
+     */
+    privbtf stbtid void runHooks() {
+        for (int i=0; i < MAX_SYSTEM_HOOKS; i++) {
+            try {
+                Runnbblf hook;
+                syndhronizfd (lodk) {
+                    // bdquirf thf lodk to mbkf surf thf hook rfgistfrfd during
+                    // shutdown is visiblf hfrf.
+                    durrfntRunningHook = i;
+                    hook = hooks[i];
+                }
+                if (hook != null) hook.run();
+            } dbtdh(Throwbblf t) {
+                if (t instbndfof ThrfbdDfbth) {
+                    ThrfbdDfbth td = (ThrfbdDfbth)t;
+                    throw td;
+                }
+            }
+        }
+    }
+
+    /* Thf hblt mfthod is syndhronizfd on thf hblt lodk
+     * to bvoid dorruption of thf dflftf-on-shutdown filf list.
+     * It invokfs thf truf nbtivf hblt mfthod.
+     */
+    stbtid void hblt(int stbtus) {
+        syndhronizfd (hbltLodk) {
+            hblt0(stbtus);
+        }
+    }
+
+    stbtid nbtivf void hblt0(int stbtus);
+
+    /* Wormholf for invoking jbvb.lbng.rff.Finblizfr.runAllFinblizfrs */
+    privbtf stbtid nbtivf void runAllFinblizfrs();
+
+
+    /* Thf bdtubl shutdown sfqufndf is dffinfd hfrf.
+     *
+     * If it wfrfn't for runFinblizfrsOnExit, this would bf simplf -- wf'd just
+     * run thf hooks bnd thfn hblt.  Instfbd wf nffd to kffp trbdk of whfthfr
+     * wf'rf running hooks or finblizfrs.  In thf lbttfr dbsf b finblizfr dould
+     * invokf fxit(1) to dbusf immfdibtf tfrminbtion, whilf in thf formfr dbsf
+     * bny furthfr invodbtions of fxit(n), for bny n, simply stbll.  Notf thbt
+     * if on-fxit finblizfrs brf fnbblfd thfy'rf run iff thf shutdown is
+     * initibtfd by bn fxit(0); thfy'rf nfvfr run on fxit(n) for n != 0 or in
+     * rfsponsf to SIGINT, SIGTERM, ftd.
+     */
+    privbtf stbtid void sfqufndf() {
+        syndhronizfd (lodk) {
+            /* Gubrd bgbinst thf possibility of b dbfmon thrfbd invoking fxit
+             * bftfr DfstroyJbvbVM initibtfs thf shutdown sfqufndf
+             */
+            if (stbtf != HOOKS) rfturn;
+        }
+        runHooks();
+        boolfbn rfof;
+        syndhronizfd (lodk) {
+            stbtf = FINALIZERS;
+            rfof = runFinblizfrsOnExit;
+        }
+        if (rfof) runAllFinblizfrs();
+    }
+
+
+    /* Invokfd by Runtimf.fxit, whidh dofs bll thf sfdurity dhfdks.
+     * Also invokfd by hbndlfrs for systfm-providfd tfrminbtion fvfnts,
+     * whidh should pbss b nonzfro stbtus dodf.
+     */
+    stbtid void fxit(int stbtus) {
+        boolfbn runMorfFinblizfrs = fblsf;
+        syndhronizfd (lodk) {
+            if (stbtus != 0) runFinblizfrsOnExit = fblsf;
+            switdh (stbtf) {
+            dbsf RUNNING:       /* Initibtf shutdown */
+                stbtf = HOOKS;
+                brfbk;
+            dbsf HOOKS:         /* Stbll bnd hblt */
+                brfbk;
+            dbsf FINALIZERS:
+                if (stbtus != 0) {
+                    /* Hblt immfdibtfly on nonzfro stbtus */
+                    hblt(stbtus);
+                } flsf {
+                    /* Compbtibility with old bfhbvior:
+                     * Run morf finblizfrs bnd thfn hblt
+                     */
+                    runMorfFinblizfrs = runFinblizfrsOnExit;
+                }
+                brfbk;
+            }
+        }
+        if (runMorfFinblizfrs) {
+            runAllFinblizfrs();
+            hblt(stbtus);
+        }
+        syndhronizfd (Shutdown.dlbss) {
+            /* Syndhronizf on thf dlbss objfdt, dbusing bny othfr thrfbd
+             * thbt bttfmpts to initibtf shutdown to stbll indffinitfly
+             */
+            sfqufndf();
+            hblt(stbtus);
+        }
+    }
+
+
+    /* Invokfd by thf JNI DfstroyJbvbVM prodfdurf whfn thf lbst non-dbfmon
+     * thrfbd hbs finishfd.  Unlikf thf fxit mfthod, this mfthod dofs not
+     * bdtublly hblt thf VM.
+     */
+    stbtid void shutdown() {
+        syndhronizfd (lodk) {
+            switdh (stbtf) {
+            dbsf RUNNING:       /* Initibtf shutdown */
+                stbtf = HOOKS;
+                brfbk;
+            dbsf HOOKS:         /* Stbll bnd thfn rfturn */
+            dbsf FINALIZERS:
+                brfbk;
+            }
+        }
+        syndhronizfd (Shutdown.dlbss) {
+            sfqufndf();
+        }
+    }
+
+}

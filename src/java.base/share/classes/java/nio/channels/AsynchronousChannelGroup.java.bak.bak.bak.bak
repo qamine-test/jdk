@@ -1,0 +1,343 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.nio.dhbnnfls.spi.AsyndhronousChbnnflProvidfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.ThrfbdFbdtory;
+import jbvb.util.dondurrfnt.TimfUnit;
+
+/**
+ * A grouping of bsyndhronous dhbnnfls for thf purposf of rfsourdf shbring.
+ *
+ * <p> An bsyndhronous dhbnnfl group fndbpsulbtfs thf mfdhbnids rfquirfd to
+ * hbndlf thf domplftion of I/O opfrbtions initibtfd by {@link AsyndhronousChbnnfl
+ * bsyndhronous dhbnnfls} thbt brf bound to thf group. A group hbs bn bssodibtfd
+ * thrfbd pool to whidh tbsks brf submittfd to hbndlf I/O fvfnts bnd dispbtdh to
+ * {@link ComplftionHbndlfr domplftion-hbndlfrs} thbt donsumf thf rfsult of
+ * bsyndhronous opfrbtions pfrformfd on dhbnnfls in thf group. In bddition to
+ * hbndling I/O fvfnts, thf poolfd thrfbds mby blso fxfdutf othfr tbsks rfquirfd
+ * to support thf fxfdution of bsyndhronous I/O opfrbtions.
+ *
+ * <p> An bsyndhronous dhbnnfl group is drfbtfd by invoking thf {@link
+ * #withFixfdThrfbdPool withFixfdThrfbdPool} or {@link #withCbdhfdThrfbdPool
+ * withCbdhfdThrfbdPool} mfthods dffinfd hfrf. Chbnnfls brf bound to b group by
+ * spfdifying thf group whfn donstrudting thf dhbnnfl. Thf bssodibtfd thrfbd
+ * pool is <fm>ownfd</fm> by thf group; tfrminbtion of thf group rfsults in thf
+ * shutdown of thf bssodibtfd thrfbd pool.
+ *
+ * <p> In bddition to groups drfbtfd fxpliditly, thf Jbvb virtubl mbdhinf
+ * mbintbins b systfm-widf <fm>dffbult group</fm> thbt is donstrudtfd
+ * butombtidblly. Asyndhronous dhbnnfls thbt do not spfdify b group bt
+ * donstrudtion timf brf bound to thf dffbult group. Thf dffbult group hbs bn
+ * bssodibtfd thrfbd pool thbt drfbtfs nfw thrfbds bs nffdfd. Thf dffbult group
+ * mby bf donfigurfd by mfbns of systfm propfrtifs dffinfd in thf tbblf bflow.
+ * Whfrf thf {@link jbvb.util.dondurrfnt.ThrfbdFbdtory ThrfbdFbdtory} for thf
+ * dffbult group is not donfigurfd thfn thf poolfd thrfbds of thf dffbult group
+ * brf {@link Thrfbd#isDbfmon dbfmon} thrfbds.
+ *
+ * <tbblf bordfr summbry="Systfm propfrtifs">
+ *   <tr>
+ *     <th>Systfm propfrty</th>
+ *     <th>Dfsdription</th>
+ *   </tr>
+ *   <tr>
+ *     <td> {@dodf jbvb.nio.dhbnnfls.DffbultThrfbdPool.thrfbdFbdtory} </td>
+ *     <td> Thf vbluf of this propfrty is tbkfn to bf thf fully-qublififd nbmf
+ *     of b dondrftf {@link jbvb.util.dondurrfnt.ThrfbdFbdtory ThrfbdFbdtory}
+ *     dlbss. Thf dlbss is lobdfd using thf systfm dlbss lobdfr bnd instbntibtfd.
+ *     Thf fbdtory's {@link jbvb.util.dondurrfnt.ThrfbdFbdtory#nfwThrfbd
+ *     nfwThrfbd} mfthod is invokfd to drfbtf fbdh thrfbd for thf dffbult
+ *     group's thrfbd pool. If thf prodfss to lobd bnd instbntibtf thf vbluf
+ *     of thf propfrty fbils thfn bn unspfdififd frror is thrown during thf
+ *     donstrudtion of thf dffbult group. </td>
+ *   </tr>
+ *   <tr>
+ *     <td> {@dodf jbvb.nio.dhbnnfls.DffbultThrfbdPool.initiblSizf} </td>
+ *     <td> Thf vbluf of thf {@dodf initiblSizf} pbrbmftfr for thf dffbult
+ *     group (sff {@link #withCbdhfdThrfbdPool withCbdhfdThrfbdPool}).
+ *     Thf vbluf of thf propfrty is tbkfn to bf thf {@dodf String}
+ *     rfprfsfntbtion of bn {@dodf Intfgfr} thbt is thf initibl sizf pbrbmftfr.
+ *     If thf vbluf dbnnot bf pbrsfd bs bn {@dodf Intfgfr} it dbusfs bn
+ *     unspfdififd frror to bf thrown during thf donstrudtion of thf dffbult
+ *     group. </td>
+ *   </tr>
+ * </tbblf>
+ *
+ * <b nbmf="thrfbding"></b><h2>Thrfbding</h2>
+ *
+ * <p> Thf domplftion hbndlfr for bn I/O opfrbtion initibtfd on b dhbnnfl bound
+ * to b group is gubrbntffd to bf invokfd by onf of thf poolfd thrfbds in thf
+ * group. This fnsurfs thbt thf domplftion hbndlfr is run by b thrfbd with thf
+ * fxpfdtfd <fm>idfntity</fm>.
+ *
+ * <p> Whfrf bn I/O opfrbtion domplftfs immfdibtfly, bnd thf initibting thrfbd
+ * is onf of thf poolfd thrfbds in thf group thfn thf domplftion hbndlfr mby
+ * bf invokfd dirfdtly by thf initibting thrfbd. To bvoid stbdk ovfrflow, bn
+ * implfmfntbtion mby imposf b limit bs to thf numbfr of bdtivbtions on thf
+ * thrfbd stbdk. Somf I/O opfrbtions mby prohibit invoking thf domplftion
+ * hbndlfr dirfdtly by thf initibting thrfbd (sff {@link
+ * AsyndhronousSfrvfrSodkftChbnnfl#bddfpt(Objfdt,ComplftionHbndlfr) bddfpt}).
+ *
+ * <b nbmf="shutdown"></b><h2>Shutdown bnd Tfrminbtion</h2>
+ *
+ * <p> Thf {@link #shutdown() shutdown} mfthod is usfd to initibtf bn <fm>ordfrly
+ * shutdown</fm> of b group. An ordfrly shutdown mbrks thf group bs shutdown;
+ * furthfr bttfmpts to donstrudt b dhbnnfl thbt binds to thf group will throw
+ * {@link ShutdownChbnnflGroupExdfption}. Whfthfr or not b group is shutdown dbn
+ * bf tfstfd using thf {@link #isShutdown() isShutdown} mfthod. Ondf shutdown,
+ * thf group <fm>tfrminbtfs</fm> whfn bll bsyndhronous dhbnnfls thbt brf bound to
+ * thf group brf dlosfd, bll bdtivfly fxfduting domplftion hbndlfrs hbvf run to
+ * domplftion, bnd rfsourdfs usfd by thf group brf rflfbsfd. No bttfmpt is mbdf
+ * to stop or intfrrupt thrfbds thbt brf fxfduting domplftion hbndlfrs. Thf
+ * {@link #isTfrminbtfd() isTfrminbtfd} mfthod is usfd to tfst if thf group hbs
+ * tfrminbtfd, bnd thf {@link #bwbitTfrminbtion bwbitTfrminbtion} mfthod dbn bf
+ * usfd to blodk until thf group hbs tfrminbtfd.
+ *
+ * <p> Thf {@link #shutdownNow() shutdownNow} mfthod dbn bf usfd to initibtf b
+ * <fm>fordfful shutdown</fm> of thf group. In bddition to thf bdtions pfrformfd
+ * by bn ordfrly shutdown, thf {@dodf shutdownNow} mfthod dlosfs bll opfn dhbnnfls
+ * in thf group bs if by invoking thf {@link AsyndhronousChbnnfl#dlosf dlosf}
+ * mfthod.
+ *
+ * @sindf 1.7
+ *
+ * @sff AsyndhronousSodkftChbnnfl#opfn(AsyndhronousChbnnflGroup)
+ * @sff AsyndhronousSfrvfrSodkftChbnnfl#opfn(AsyndhronousChbnnflGroup)
+ */
+
+publid bbstrbdt dlbss AsyndhronousChbnnflGroup {
+    privbtf finbl AsyndhronousChbnnflProvidfr providfr;
+
+    /**
+     * Initiblizf b nfw instbndf of this dlbss.
+     *
+     * @pbrbm   providfr
+     *          Thf bsyndhronous dhbnnfl providfr for this group
+     */
+    protfdtfd AsyndhronousChbnnflGroup(AsyndhronousChbnnflProvidfr providfr) {
+        this.providfr = providfr;
+    }
+
+    /**
+     * Rfturns thf providfr thbt drfbtfd this dhbnnfl group.
+     *
+     * @rfturn  Thf providfr thbt drfbtfd this dhbnnfl group
+     */
+    publid finbl AsyndhronousChbnnflProvidfr providfr() {
+        rfturn providfr;
+    }
+
+    /**
+     * Crfbtfs bn bsyndhronous dhbnnfl group with b fixfd thrfbd pool.
+     *
+     * <p> Thf rfsulting bsyndhronous dhbnnfl group rfusfs b fixfd numbfr of
+     * thrfbds. At bny point, bt most {@dodf nThrfbds} thrfbds will bf bdtivf
+     * prodfssing tbsks thbt brf submittfd to hbndlf I/O fvfnts bnd dispbtdh
+     * domplftion rfsults for opfrbtions initibtfd on bsyndhronous dhbnnfls in
+     * thf group.
+     *
+     * <p> Thf group is drfbtfd by invoking thf {@link
+     * AsyndhronousChbnnflProvidfr#opfnAsyndhronousChbnnflGroup(int,ThrfbdFbdtory)
+     * opfnAsyndhronousChbnnflGroup(int,ThrfbdFbdtory)} mfthod of thf systfm-widf
+     * dffbult {@link AsyndhronousChbnnflProvidfr} objfdt.
+     *
+     * @pbrbm   nThrfbds
+     *          Thf numbfr of thrfbds in thf pool
+     * @pbrbm   thrfbdFbdtory
+     *          Thf fbdtory to usf whfn drfbting nfw thrfbds
+     *
+     * @rfturn  A nfw bsyndhronous dhbnnfl group
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If {@dodf nThrfbds <= 0}
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid stbtid AsyndhronousChbnnflGroup withFixfdThrfbdPool(int nThrfbds,
+                                                               ThrfbdFbdtory thrfbdFbdtory)
+        throws IOExdfption
+    {
+        rfturn AsyndhronousChbnnflProvidfr.providfr()
+            .opfnAsyndhronousChbnnflGroup(nThrfbds, thrfbdFbdtory);
+    }
+
+    /**
+     * Crfbtfs bn bsyndhronous dhbnnfl group with b givfn thrfbd pool thbt
+     * drfbtfs nfw thrfbds bs nffdfd.
+     *
+     * <p> Thf {@dodf fxfdutor} pbrbmftfr is bn {@dodf ExfdutorSfrvidf} thbt
+     * drfbtfs nfw thrfbds bs nffdfd to fxfdutf tbsks thbt brf submittfd to
+     * hbndlf I/O fvfnts bnd dispbtdh domplftion rfsults for opfrbtions initibtfd
+     * on bsyndhronous dhbnnfls in thf group. It mby rfusf prfviously donstrudtfd
+     * thrfbds whfn thfy brf bvbilbblf.
+     *
+     * <p> Thf {@dodf initiblSizf} pbrbmftfr mby bf usfd by thf implfmfntbtion
+     * bs b <fm>hint</fm> bs to thf initibl numbfr of tbsks it mby submit. For
+     * fxbmplf, it mby bf usfd to indidbtf thf initibl numbfr of thrfbds thbt
+     * wbit on I/O fvfnts.
+     *
+     * <p> Thf fxfdutor is intfndfd to bf usfd fxdlusivfly by thf rfsulting
+     * bsyndhronous dhbnnfl group. Tfrminbtion of thf group rfsults in thf
+     * ordfrly  {@link ExfdutorSfrvidf#shutdown shutdown} of thf fxfdutor
+     * sfrvidf. Shutting down thf fxfdutor sfrvidf by othfr mfbns rfsults in
+     * unspfdififd bfhbvior.
+     *
+     * <p> Thf group is drfbtfd by invoking thf {@link
+     * AsyndhronousChbnnflProvidfr#opfnAsyndhronousChbnnflGroup(ExfdutorSfrvidf,int)
+     * opfnAsyndhronousChbnnflGroup(ExfdutorSfrvidf,int)} mfthod of thf systfm-widf
+     * dffbult {@link AsyndhronousChbnnflProvidfr} objfdt.
+     *
+     * @pbrbm   fxfdutor
+     *          Thf thrfbd pool for thf rfsulting group
+     * @pbrbm   initiblSizf
+     *          A vbluf {@dodf >=0} or b nfgbtivf vbluf for implfmfntbtion
+     *          spfdifid dffbult
+     *
+     * @rfturn  A nfw bsyndhronous dhbnnfl group
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     *
+     * @sff jbvb.util.dondurrfnt.Exfdutors#nfwCbdhfdThrfbdPool
+     */
+    publid stbtid AsyndhronousChbnnflGroup withCbdhfdThrfbdPool(ExfdutorSfrvidf fxfdutor,
+                                                                int initiblSizf)
+        throws IOExdfption
+    {
+        rfturn AsyndhronousChbnnflProvidfr.providfr()
+            .opfnAsyndhronousChbnnflGroup(fxfdutor, initiblSizf);
+    }
+
+    /**
+     * Crfbtfs bn bsyndhronous dhbnnfl group with b givfn thrfbd pool.
+     *
+     * <p> Thf {@dodf fxfdutor} pbrbmftfr is bn {@dodf ExfdutorSfrvidf} thbt
+     * fxfdutfs tbsks submittfd to dispbtdh domplftion rfsults for opfrbtions
+     * initibtfd on bsyndhronous dhbnnfls in thf group.
+     *
+     * <p> Cbrf should bf tbkfn whfn donfiguring thf fxfdutor sfrvidf. It
+     * should support <fm>dirfdt hbndoff</fm> or <fm>unboundfd qufuing</fm> of
+     * submittfd tbsks, bnd thf thrfbd thbt invokfs thf {@link
+     * ExfdutorSfrvidf#fxfdutf fxfdutf} mfthod should nfvfr invokf thf tbsk
+     * dirfdtly. An implfmfntbtion mby mbndbtf bdditionbl donstrbints.
+     *
+     * <p> Thf fxfdutor is intfndfd to bf usfd fxdlusivfly by thf rfsulting
+     * bsyndhronous dhbnnfl group. Tfrminbtion of thf group rfsults in thf
+     * ordfrly  {@link ExfdutorSfrvidf#shutdown shutdown} of thf fxfdutor
+     * sfrvidf. Shutting down thf fxfdutor sfrvidf by othfr mfbns rfsults in
+     * unspfdififd bfhbvior.
+     *
+     * <p> Thf group is drfbtfd by invoking thf {@link
+     * AsyndhronousChbnnflProvidfr#opfnAsyndhronousChbnnflGroup(ExfdutorSfrvidf,int)
+     * opfnAsyndhronousChbnnflGroup(ExfdutorSfrvidf,int)} mfthod of thf systfm-widf
+     * dffbult {@link AsyndhronousChbnnflProvidfr} objfdt with bn {@dodf
+     * initiblSizf} of {@dodf 0}.
+     *
+     * @pbrbm   fxfdutor
+     *          Thf thrfbd pool for thf rfsulting group
+     *
+     * @rfturn  A nfw bsyndhronous dhbnnfl group
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid stbtid AsyndhronousChbnnflGroup withThrfbdPool(ExfdutorSfrvidf fxfdutor)
+        throws IOExdfption
+    {
+        rfturn AsyndhronousChbnnflProvidfr.providfr()
+            .opfnAsyndhronousChbnnflGroup(fxfdutor, 0);
+    }
+
+    /**
+     * Tflls whfthfr or not this bsyndhronous dhbnnfl group is shutdown.
+     *
+     * @rfturn  {@dodf truf} if this bsyndhronous dhbnnfl group is shutdown or
+     *          hbs bffn mbrkfd for shutdown.
+     */
+    publid bbstrbdt boolfbn isShutdown();
+
+    /**
+     * Tflls whfthfr or not this group hbs tfrminbtfd.
+     *
+     * <p> Whfrf this mfthod rfturns {@dodf truf}, thfn thf bssodibtfd thrfbd
+     * pool hbs blso {@link ExfdutorSfrvidf#isTfrminbtfd tfrminbtfd}.
+     *
+     * @rfturn  {@dodf truf} if this group hbs tfrminbtfd
+     */
+    publid bbstrbdt boolfbn isTfrminbtfd();
+
+    /**
+     * Initibtfs bn ordfrly shutdown of thf group.
+     *
+     * <p> This mfthod mbrks thf group bs shutdown. Furthfr bttfmpts to donstrudt
+     * dhbnnfl thbt binds to this group will throw {@link ShutdownChbnnflGroupExdfption}.
+     * Thf group tfrminbtfs whfn bll bsyndhronous dhbnnfls in thf group brf
+     * dlosfd, bll bdtivfly fxfduting domplftion hbndlfrs hbvf run to domplftion,
+     * bnd bll rfsourdfs hbvf bffn rflfbsfd. This mfthod hbs no ffffdt if thf
+     * group is blrfbdy shutdown.
+     */
+    publid bbstrbdt void shutdown();
+
+    /**
+     * Shuts down thf group bnd dlosfs bll opfn dhbnnfls in thf group.
+     *
+     * <p> In bddition to thf bdtions pfrformfd by thf {@link #shutdown() shutdown}
+     * mfthod, this mfthod invokfs thf {@link AsyndhronousChbnnfl#dlosf dlosf}
+     * mfthod on bll opfn dhbnnfls in thf group. This mfthod dofs not bttfmpt to
+     * stop or intfrrupt thrfbds thbt brf fxfduting domplftion hbndlfrs. Thf
+     * group tfrminbtfs whfn bll bdtivfly fxfduting domplftion hbndlfrs hbvf run
+     * to domplftion bnd bll rfsourdfs hbvf bffn rflfbsfd. This mfthod mby bf
+     * invokfd bt bny timf. If somf othfr thrfbd hbs blrfbdy invokfd it, thfn
+     * bnothfr invodbtion will blodk until thf first invodbtion is domplftf,
+     * bftfr whidh it will rfturn without ffffdt.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt void shutdownNow() throws IOExdfption;
+
+    /**
+     * Awbits tfrminbtion of thf group.
+
+     * <p> This mfthod blodks until thf group hbs tfrminbtfd, or thf timfout
+     * oddurs, or thf durrfnt thrfbd is intfrruptfd, whidhfvfr hbppfns first.
+     *
+     * @pbrbm   timfout
+     *          Thf mbximum timf to wbit, or zfro or lfss to not wbit
+     * @pbrbm   unit
+     *          Thf timf unit of thf timfout brgumfnt
+     *
+     * @rfturn  {@dodf truf} if thf group hbs tfrminbtfd; {@dodf fblsf} if thf
+     *          timfout flbpsfd bfforf tfrminbtion
+     *
+     * @throws  IntfrruptfdExdfption
+     *          If intfrruptfd whilf wbiting
+     */
+    publid bbstrbdt boolfbn bwbitTfrminbtion(long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption;
+}

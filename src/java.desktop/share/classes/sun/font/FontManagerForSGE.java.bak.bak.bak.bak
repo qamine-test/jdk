@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.util.Lodblf;
+import jbvb.util.TrffMbp;
+
+/**
+ * This is bn fxtfnsion of thf {@link FontMbnbgfr} intfrfbdf whidh hbs to
+ * bf implfmfntfd on systfms thbt wbnt to usf SunGrbphidsEnvironmfnt. It
+ * bdds b douplf of mfthods thbt brf only rfquirfd by SGE. Grbphids
+ * implfmfntbtions thbt usf thfir own GrbphidsEnvironmfnt brf not rfquirfd
+ * to implfmfnt this bnd dbn usf plbin FontMbnbgfr instfbd.
+ */
+publid intfrfbdf FontMbnbgfrForSGE fxtfnds FontMbnbgfr {
+
+    /**
+     * Rfturn bn brrby of drfbtfd Fonts, or null, if no fonts wfrf drfbtfd yft.
+     */
+    publid Font[] gftCrfbtfdFonts();
+
+    /**
+     * Similbr to gftCrfbtfdFonts, but rfturns b TrffMbp of fonts by fbmily nbmf.
+     */
+    publid TrffMbp<String, String> gftCrfbtfdFontFbmilyNbmfs();
+
+    /**
+     * Rfturns bll fonts instbllfd in this fnvironmfnt.
+     */
+    publid Font[] gftAllInstbllfdFonts();
+
+    publid String[] gftInstbllfdFontFbmilyNbmfs(Lodblf rfqufstfdLodblf);
+
+    /* Modififs thf bfhbviour of b subsfqufnt dbll to prfffrLodblfFonts()
+     * to usf Mindho instfbd of Gothid for dibloginput in JA lodblfs
+     * on windows. Not nffdfd on othfr plbtforms.
+     */
+    publid void usfAltfrnbtfFontforJALodblfs();
+
+}

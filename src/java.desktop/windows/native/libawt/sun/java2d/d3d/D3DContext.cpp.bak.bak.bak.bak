@@ -1,0 +1,1902 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "D3DPipflinf.h"
+#indludf "jlong.h"
+
+#indludf "GrbphidsPrimitivfMgr.h"
+#indludf "D3DContfxt.h"
+#indludf "D3DSurfbdfDbtb.h"
+#indludf "D3DBufImgOps.h"
+#indludf "D3DPbints.h"
+#indludf "D3DRfndfrQufuf.h"
+#indludf "D3DShbdfrs.h"
+#indludf "D3DTfxtRfndfrfr.h"
+#indludf "D3DPipflinfMbnbgfr.h"
+#indludf "D3DGlyphCbdhf.h"
+
+typfdff strudt {
+    D3DBLEND srd;
+    D3DBLEND dst;
+} D3DBlfndRulf;
+
+/**
+ * This tbblf dontbins thf stbndbrd blfnding rulfs (or Portfr-Duff dompositing
+ * fbdtors) usfd in SftRfndfrStbtf(), indfxfd by thf rulf donstbnts from thf
+ * AlphbCompositf dlbss.
+ */
+D3DBlfndRulf StdBlfndRulfs[] = {
+    { D3DBLEND_ZERO,         D3DBLEND_ZERO        }, /* 0 - Nothing      */
+    { D3DBLEND_ZERO,         D3DBLEND_ZERO        }, /* 1 - RULE_Clfbr   */
+    { D3DBLEND_ONE,          D3DBLEND_ZERO        }, /* 2 - RULE_Srd     */
+    { D3DBLEND_ONE,          D3DBLEND_INVSRCALPHA }, /* 3 - RULE_SrdOvfr */
+    { D3DBLEND_INVDESTALPHA, D3DBLEND_ONE         }, /* 4 - RULE_DstOvfr */
+    { D3DBLEND_DESTALPHA,    D3DBLEND_ZERO        }, /* 5 - RULE_SrdIn   */
+    { D3DBLEND_ZERO,         D3DBLEND_SRCALPHA    }, /* 6 - RULE_DstIn   */
+    { D3DBLEND_INVDESTALPHA, D3DBLEND_ZERO        }, /* 7 - RULE_SrdOut  */
+    { D3DBLEND_ZERO,         D3DBLEND_INVSRCALPHA }, /* 8 - RULE_DstOut  */
+    { D3DBLEND_ZERO,         D3DBLEND_ONE         }, /* 9 - RULE_Dst     */
+    { D3DBLEND_DESTALPHA,    D3DBLEND_INVSRCALPHA }, /*10 - RULE_SrdAtop */
+    { D3DBLEND_INVDESTALPHA, D3DBLEND_SRCALPHA    }, /*11 - RULE_DstAtop */
+    { D3DBLEND_INVDESTALPHA, D3DBLEND_INVSRCALPHA }, /*12 - RULE_AlphbXor*/
+};
+
+void
+D3DUtils_SftOrthoMbtrixOffCfntfrLH(D3DMATRIX *m,
+                                   flobt width, flobt hfight)
+{
+    ZfroMfmory(m, sizfof(D3DMATRIX));
+    m->_11 =  2.0f/width;
+    m->_22 = -2.0f/hfight;
+    m->_33 =  0.5f;
+    m->_44 =  1.0f;
+
+    m->_41 = -1.0f;
+    m->_42 =  1.0f;
+    m->_43 =  0.5f;
+}
+
+void
+D3DUtils_SftIdfntityMbtrix(D3DMATRIX *m)
+{
+    m->_12 = m->_13 = m->_14 = m->_21 = m->_23 = m->_24 = 0.0f;
+    m->_31 = m->_32 = m->_34 = m->_41 = m->_42 = m->_43 = 0.0f;
+    m->_11 = m->_22 = m->_33 = m->_44 = 1.0f;
+}
+
+// thf following mfthods brf dopifs of thf AffinfTrbnsform's dlbss
+// dorrfsponding mfthods, with thfsf dhbngfs to thf indfxfs:
+// 00 -> 11
+// 11 -> 22
+// 01 -> 21
+// 10 -> 12
+// 02 -> 41
+// 12 -> 42
+
+void
+D3DUtils_2DCondbtfnbtfM(D3DMATRIX *m, D3DMATRIX *m1)
+{
+    flobt M0, M1;
+    flobt T00, T10, T01, T11;
+    flobt T02, T12;
+
+    T00 = m1->_11; T01 = m1->_21; T02 = m1->_41;
+    T10 = m1->_12; T11 = m1->_22; T12 = m1->_42;
+
+    M0 = m->_11;
+    M1 = m->_21;
+    m->_11  = T00 * M0 + T10 * M1;
+    m->_21  = T01 * M0 + T11 * M1;
+    m->_41 += T02 * M0 + T12 * M1;
+
+    M0 = m->_12;
+    M1 = m->_22;
+    m->_12  = T00 * M0 + T10 * M1;
+    m->_22  = T01 * M0 + T11 * M1;
+    m->_42 += T02 * M0 + T12 * M1;
+}
+
+#ifdff UPDATE_TX
+
+void
+D3DUtils_2DSdblfM(D3DMATRIX *m, flobt sx, flobt sy)
+{
+    m->_11 *= sx;
+    m->_22 *= sy;
+}
+
+void
+D3DUtils_2DInvfrtM(D3DMATRIX *m)
+{
+    flobt M11, M21, M41;
+    flobt M12, M22, M42;
+    flobt dft;
+
+    M11 = m->_11; M21 = m->_21; M41 = m->_41;
+    M12 = m->_12; M22 = m->_22; M42 = m->_42;
+    dft = M11 * M22 - M21 * M12;
+    if (fbbs(dft) <= 0.0000000001f) {
+        mfmsft(m, 0, sizfof(D3DMATRIX));
+        rfturn;
+    }
+    m->_11 =  M22 / dft;
+    m->_12 = -M12 / dft;
+    m->_21 = -M21 / dft;
+    m->_22 =  M11 / dft;
+    m->_41 = (M21 * M42 - M22 * M41) / dft;
+    m->_42 = (M12 * M41 - M11 * M42) / dft;
+}
+
+void
+D3DUtils_2DTrbnslbtfM(D3DMATRIX *m, flobt tx, flobt ty)
+{
+    m->_41 = tx * m->_11 + ty * m->_21 + m->_41;
+    m->_42 = tx * m->_12 + ty * m->_22 + m->_42;
+}
+
+void
+D3DUtils_2DTrbnsformXY(D3DMATRIX *m, flobt *px, flobt *py)
+{
+    flobt x = *px;
+    flobt y = *py;
+
+    *px = x * m->_11 + y * m->_21 + m->_41;
+    *py = x * m->_12 + y * m->_22 + m->_42;
+}
+
+void
+D3DUtils_2DInvfrsfTrbnsformXY(D3DMATRIX *m, flobt *px, flobt *py)
+{
+    flobt x = *px, y = *py;
+
+    x -= m->_41;
+    y -= m->_42;
+
+    flobt dft = m->_11 * m->_22 - m->_21 * m->_12;
+    if (fbbs(dft) < 0.0000000001f) {
+        *px = 0.0f;
+        *py = 0.0f;
+    } flsf {
+        *px = (x * m->_22 - y * m->_21) / dft;
+        *py = (y * m->_11 - x * m->_12) / dft;
+    }
+}
+
+#fndif // UPDATE_TX
+
+stbtid void
+D3DContfxt_DisposfShbdfr(jlong progrbmID)
+{
+    IDirfdt3DPixflShbdfr9 *shbdfr =
+        (IDirfdt3DPixflShbdfr9 *)jlong_to_ptr(progrbmID);
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt_DisposfShbdfr");
+
+    SAFE_RELEASE(shbdfr);
+}
+
+// stbtid
+HRESULT
+D3DContfxt::CrfbtfInstbndf(IDirfdt3D9 *pd3d9, UINT bdbptfr, D3DContfxt **ppCtx)
+{
+    HRESULT rfs;
+    *ppCtx = nfw D3DContfxt(pd3d9, bdbptfr);
+    if (FAILED(rfs = (*ppCtx)->InitContfxt())) {
+        dflftf *ppCtx;
+        *ppCtx = NULL;
+    }
+    rfturn rfs;
+}
+
+D3DContfxt::D3DContfxt(IDirfdt3D9 *pd3d, UINT bdbptfr)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::D3DContfxt");
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  pd3d=0x%x", pd3d);
+    pd3dObjfdt = pd3d;
+    pd3dDfvidf = NULL;
+    bdbptfrOrdinbl = bdbptfr;
+
+    pRfsourdfMgr = NULL;
+    pMbskCbdhf = NULL;
+    pVCbdhfr = NULL;
+
+    pSyndQufry = NULL;
+    pSyndRTRfs = NULL;
+    pStbtfBlodk = NULL;
+
+    D3DC_INIT_SHADER_LIST(donvolvfProgrbms,   MAX_CONVOLVE);
+    D3DC_INIT_SHADER_LIST(rfsdblfProgrbms,    MAX_RESCALE);
+    D3DC_INIT_SHADER_LIST(lookupProgrbms,     MAX_LOOKUP);
+    D3DC_INIT_SHADER_LIST(bbsidGrbdProgrbms,  4);
+    D3DC_INIT_SHADER_LIST(linfbrGrbdProgrbms, 8);
+    D3DC_INIT_SHADER_LIST(rbdiblGrbdProgrbms, 8);
+
+    pLCDGlyphCbdhf= NULL;
+    pGrbysdblfGlyphCbdhf= NULL;
+    lddTfxtProgrbm = NULL;
+    bbPgrbmProgrbm = NULL;
+
+    dontfxtCbps = CAPS_EMPTY;
+    bBfginSdfnfPfnding = FALSE;
+
+    ZfroMfmory(&dfvCbps, sizfof(D3DCAPS9));
+    ZfroMfmory(&durPbrbms, sizfof(durPbrbms));
+
+    fxtrbAlphb = 1.0f;
+}
+
+void D3DContfxt::RflfbsfDffPoolRfsourdfs()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RflfbsfDffPoolRfsourdfs");
+
+    EndSdfnf();
+
+    D3DPipflinfMbnbgfr::NotifyAdbptfrEvfntListfnfrs(dfvCbps.AdbptfrOrdinbl,
+                                                    DEVICE_RESET);
+
+    dontfxtCbps = CAPS_EMPTY;
+
+    SAFE_RELEASE(pSyndQufry);
+    SAFE_RELEASE(pStbtfBlodk);
+
+    if (pVCbdhfr != NULL) {
+        pVCbdhfr->RflfbsfDffPoolRfsourdfs();
+    }
+    if (pMbskCbdhf != NULL) {
+        pMbskCbdhf->RflfbsfDffPoolRfsourdfs();
+    }
+    if (pLCDGlyphCbdhf != NULL) {
+        pLCDGlyphCbdhf->RflfbsfDffPoolRfsourdfs();
+    }
+    if (pGrbysdblfGlyphCbdhf != NULL) {
+        pGrbysdblfGlyphCbdhf->RflfbsfDffPoolRfsourdfs();
+    }
+    if (pRfsourdfMgr != NULL) {
+        if (pSyndRTRfs != NULL) {
+            pRfsourdfMgr->RflfbsfRfsourdf(pSyndRTRfs);
+            pSyndRTRfs = NULL;
+        }
+        pRfsourdfMgr->RflfbsfDffPoolRfsourdfs();
+    }
+    ZfroMfmory(lbstTfxturf, sizfof(lbstTfxturf));
+    ZfroMfmory(lbstTfxturfColorStbtf, sizfof(lbstTfxturfColorStbtf));
+}
+
+void D3DContfxt::RflfbsfContfxtRfsourdfs()
+{
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DContfxt::RflfbsfContfxtRfsourdfs: pd3dDfvidf = 0x%x",
+                pd3dDfvidf);
+
+    RflfbsfDffPoolRfsourdfs();
+
+    D3DPipflinfMbnbgfr::NotifyAdbptfrEvfntListfnfrs(dfvCbps.AdbptfrOrdinbl,
+                                                    DEVICE_DISPOSED);
+
+    // disposf shbdfr lists
+    ShbdfrList_Disposf(&donvolvfProgrbms);
+    ShbdfrList_Disposf(&rfsdblfProgrbms);
+    ShbdfrList_Disposf(&lookupProgrbms);
+    ShbdfrList_Disposf(&bbsidGrbdProgrbms);
+    ShbdfrList_Disposf(&linfbrGrbdProgrbms);
+    ShbdfrList_Disposf(&rbdiblGrbdProgrbms);
+
+    SAFE_DELETE(pLCDGlyphCbdhf);
+    SAFE_DELETE(pGrbysdblfGlyphCbdhf);
+
+    SAFE_RELEASE(lddTfxtProgrbm);
+    SAFE_RELEASE(bbPgrbmProgrbm);
+
+    SAFE_DELETE(pVCbdhfr);
+    SAFE_DELETE(pMbskCbdhf);
+    SAFE_DELETE(pRfsourdfMgr);
+}
+
+D3DContfxt::~D3DContfxt() {
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "~D3DContfxt: pd3dDfvidf=0x%x, pd3dObjfdt =0x%x",
+                pd3dDfvidf, pd3dObjfdt);
+    RflfbsfContfxtRfsourdfs();
+    SAFE_RELEASE(pd3dDfvidf);
+}
+
+HRESULT
+D3DContfxt::InitDfvidf(IDirfdt3DDfvidf9 *pd3dDfvidf)
+{
+    HRESULT rfs = S_OK;
+
+    pd3dDfvidf->GftDfvidfCbps(&dfvCbps);
+
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+                   "D3DContfxt::InitDfvidf: dfvidf %d", bdbptfrOrdinbl);
+
+    // disbblf somf of thf unnffdfd bnd dostly d3d fundtionblity
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_CULLMODE, D3DCULL_NONE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_SPECULARENABLE, FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_LIGHTING,  FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_CLIPPING,  FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZENABLE, D3DZB_FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZWRITEENABLE, D3DZB_FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_COLORVERTEX, FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_STENCILENABLE, FALSE);
+
+    // sft thf dffbult tfxturf bddrfssing modf
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+
+    // REMIND: dhfdk supportfd filtfrs with
+    // IDirfdt3D9::ChfdkDfvidfFormbt with D3DUSAGE_QUERY_FILTER
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+
+    // thfsf stbtfs nfvfr dhbngf
+    pd3dDfvidf->SftTfxturfStbgfStbtf(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(1, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(1, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+
+    // init thf brrby of lbtfst tfxturfs
+    ZfroMfmory(lbstTfxturf, sizfof(lbstTfxturf));
+    ZfroMfmory(lbstTfxturfColorStbtf, sizfof(lbstTfxturfColorStbtf));
+
+    opStbtf = STATE_CHANGE;
+
+    if (pRfsourdfMgr == NULL) {
+        rfs = D3DRfsourdfMbnbgfr::CrfbtfInstbndf(this, &pRfsourdfMgr);
+    } flsf {
+        rfs = pRfsourdfMgr->Init(this);
+    }
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    if (pVCbdhfr == NULL) {
+        rfs = D3DVfrtfxCbdhfr::CrfbtfInstbndf(this, &pVCbdhfr);
+    } flsf {
+        rfs = pVCbdhfr->Init(this);
+    }
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    if (pMbskCbdhf == NULL) {
+        rfs = D3DMbskCbdhf::CrfbtfInstbndf(this, &pMbskCbdhf);
+    } flsf{
+        rfs = pMbskCbdhf->Init(this);
+    }
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    if (pLCDGlyphCbdhf != NULL) {
+        if (FAILED(rfs = pLCDGlyphCbdhf->Init(this))) {
+            // wf dbn livf without thf dbdhf
+            SAFE_DELETE(pLCDGlyphCbdhf);
+            rfs = S_OK;
+        }
+    }
+
+    if (pGrbysdblfGlyphCbdhf != NULL) {
+        if (FAILED(rfs = pGrbysdblfGlyphCbdhf->Init(this))) {
+            // wf dbn livf without thf dbdhf
+            SAFE_DELETE(pGrbysdblfGlyphCbdhf);
+            rfs = S_OK;
+        }
+    }
+
+    D3DMATRIX tx;
+    D3DUtils_SftIdfntityMbtrix(&tx);
+    pd3dDfvidf->SftTrbnsform(D3DTS_WORLD, &tx);
+    bIsIdfntityTx = TRUE;
+
+    if (pSyndQufry == NULL) {
+        // this is bllowfd to fbil, do not propbgbtf thf frror
+        if (FAILED(pd3dDfvidf->CrfbtfQufry(D3DQUERYTYPE_EVENT, &pSyndQufry))) {
+            J2dRlsTrbdfLn(J2D_TRACE_WARNING,
+                          "D3DContfxt::InitDfvidf: synd qufry not bvbilbblf");
+            pSyndQufry = NULL;
+        }
+    }
+    if (pSyndRTRfs == NULL) {
+        D3DFORMAT formbt;
+        if (FAILED(GftRfsourdfMbnbgfr()->
+                   CrfbtfRTSurfbdf(32, 32, TRUE, TRUE, &formbt, &pSyndRTRfs))) {
+            J2dRlsTrbdfLn(J2D_TRACE_WARNING,
+                          "D3DContfxt::InitDfvidf: "
+                          "frror drfbting synd surfbdf");
+        }
+    }
+
+    bBfginSdfnfPfnding = FALSE;
+
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+                   "D3DContfxt::InitDffidf: suddfssfully initiblizfd dfvidf %d",
+                   bdbptfrOrdinbl);
+
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::ChfdkAndRfsftDfvidf()
+{
+    HRESULT rfs = E_FAIL;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::ChfdkAndRfsftDfvidf");
+
+    if (pd3dDfvidf != NULL) {
+        if (FAILED(rfs = pd3dDfvidf->TfstCoopfrbtivfLfvfl())) {
+            if (rfs == D3DERR_DEVICELOST) {
+                J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  dfvidf %d is still lost",
+                            bdbptfrOrdinbl);
+                // nothing to bf donf hfrf, wbit for D3DERR_DEVICENOTRESET
+                rfturn rfs;
+            } flsf if (rfs == D3DERR_DEVICENOTRESET) {
+                J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  dfvidf %d nffds to bf rfsft",
+                            bdbptfrOrdinbl);
+                rfs = RfsftContfxt();
+            } flsf {
+                // somf unfxpfdtfd frror
+                DfbugPrintD3DError(rfs, "D3DContfxt::ChfdkAndRfsftDfvidf: "\
+                                   "unknown frror %x from TfstCoopfrbtivfLfvfl");
+            }
+        } flsf {
+            J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  dfvidf %d is not lost",
+                        bdbptfrOrdinbl);
+        }
+    } flsf {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  null dfvidf");
+    }
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::RfsftContfxt()
+{
+    HRESULT rfs = E_FAIL;
+
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RfsftContfxt");
+    if (pd3dDfvidf != NULL) {
+        D3DPRESENT_PARAMETERS nfwPbrbms;
+
+        nfwPbrbms = durPbrbms;
+
+        if (nfwPbrbms.Windowfd) {
+            // rfsft to thf durrfnt displby modf if wf'rf windowfd,
+            // othfrwisf to thf displby modf wf wfrf in whfn thf dfvidf
+            // wbs lost
+            nfwPbrbms.BbdkBufffrFormbt = D3DFMT_UNKNOWN;
+            nfwPbrbms.FullSdrffn_RffrfshRbtfInHz = 0;
+            nfwPbrbms.BbdkBufffrWidth = 0;
+            nfwPbrbms.BbdkBufffrHfight = 0;
+        }
+        rfs = ConfigurfContfxt(&nfwPbrbms);
+    }
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::ConfigurfContfxt(D3DPRESENT_PARAMETERS *pNfwPbrbms)
+{
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO, "D3DContfxt::ConfigurfContfxt dfvidf %d",
+                   bdbptfrOrdinbl);
+    HRESULT rfs = S_OK;
+    D3DFORMAT stfndilFormbt;
+    HWND fodusHWND = D3DPipflinfMbnbgfr::GftInstbndf()->GftCurrfntFodusWindow();
+    D3DDEVTYPE dfvTypf = D3DPipflinfMbnbgfr::GftInstbndf()->GftDfvidfTypf();
+    // this is nffdfd so thbt wf dbn find thf stfndil bufffr formbt
+    if (pNfwPbrbms->BbdkBufffrFormbt == D3DFMT_UNKNOWN) {
+        D3DDISPLAYMODE dm;
+
+        pd3dObjfdt->GftAdbptfrDisplbyModf(bdbptfrOrdinbl, &dm);
+        pNfwPbrbms->BbdkBufffrFormbt = dm.Formbt;
+    }
+
+    stfndilFormbt =
+        D3DPipflinfMbnbgfr::GftInstbndf()->GftMbtdhingDfpthStfndilFormbt(
+            bdbptfrOrdinbl,
+            pNfwPbrbms->BbdkBufffrFormbt, pNfwPbrbms->BbdkBufffrFormbt);
+
+    pNfwPbrbms->EnbblfAutoDfpthStfndil = TRUE;
+    pNfwPbrbms->AutoDfpthStfndilFormbt = stfndilFormbt;
+
+    // do not sft dfvidf window in thf windowfd modf, wf usf bdditionbl
+    // swbp dhbins for rfndfring, thf dffbult dhbin is not usfd. othfrwisf
+    // our sdrbtdh fodus window will bf mbdf visiblf
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  windowfd=%d",pNfwPbrbms->Windowfd);
+    if (pNfwPbrbms->Windowfd) {
+        pNfwPbrbms->hDfvidfWindow = (HWND)0;
+    }
+
+    // Thf fodus window mby dhbngf whfn wf'rf fntfring/fxiting thf full-sdrffn
+    // modf. It mby fithfr bf sft to thf dffbult fodus window (whfn thfrf brf
+    // no morf dfvidfs in fs modf), or to fs window for bnothfr dfvidf
+    // in fs modf. Sff D3DPipflinfMbnbgfr::GftCurrfntFodusWindow.
+    if (pd3dDfvidf != NULL) {
+        D3DDEVICE_CREATION_PARAMETERS dPbrbms;
+        pd3dDfvidf->GftCrfbtionPbrbmftfrs(&dPbrbms);
+        if (dPbrbms.hFodusWindow != fodusHWND) {
+            J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                       "  fodus window dhbngfd, nffd to rfdrfbtf thf dfvidf");
+
+            // if fs -> windowfd, first fxit fs, thfn rfdrfbtf, othfrwisf
+            // thf sdrffn might bf lfft in b difffrfnt displby modf
+            if (pNfwPbrbms->Windowfd && !durPbrbms.Windowfd) {
+                J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                            "  fxiting full-sdrffn modf, rfsft thf dfvidf");
+                durPbrbms.Windowfd = FALSE;
+                RflfbsfDffPoolRfsourdfs();
+                rfs = pd3dDfvidf->Rfsft(&durPbrbms);
+
+                if (FAILED(rfs)) {
+                    DfbugPrintD3DError(rfs, "D3DContfxt::ConfigurfContfxt: "\
+                                       "dound not rfsft thf dfvidf");
+                }
+            }
+
+            // notf thbt hfrf wf should rflfbsf bll dfvidf rfsourdfs, not only
+            // thos in thf dffbult pool sindf thf dfvidf is rflfbsfd
+            RflfbsfContfxtRfsourdfs();
+            SAFE_RELEASE(pd3dDfvidf);
+        }
+    }
+
+    if (pd3dDfvidf != NULL) {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  rfsftting thf dfvidf");
+
+        RflfbsfDffPoolRfsourdfs();
+
+        if (pNfwPbrbms->PrfsfntbtionIntfrvbl == D3DPRESENT_INTERVAL_IMMEDIATE &&
+            !IsImmfdibtfIntfrvblSupportfd())
+        {
+            pNfwPbrbms->PrfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_DEFAULT;
+        }
+
+        rfs = pd3dDfvidf->Rfsft(pNfwPbrbms);
+        if (FAILED(rfs)) {
+            DfbugPrintD3DError(rfs,
+                "D3DContfxt::ConfigurfContfxt: dound not rfsft thf dfvidf");
+            rfturn rfs;
+        }
+        J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+            "D3DContfxt::ConfigurfContfxt: suddfssfully rfsft dfvidf: %d",
+            bdbptfrOrdinbl);
+    } flsf {
+        D3DCAPS9 d3dCbps;
+        DWORD dwBfhbviorFlbgs;
+
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  drfbting b nfw dfvidf");
+
+        if (FAILED(rfs = pd3dObjfdt->GftDfvidfCbps(bdbptfrOrdinbl,
+                                                   dfvTypf, &d3dCbps)))
+        {
+            DfbugPrintD3DError(rfs,
+                "D3DContfxt::ConfigurfContfxt: fbilfd to gft dbps");
+            rfturn rfs;
+        }
+
+        if (pNfwPbrbms->PrfsfntbtionIntfrvbl == D3DPRESENT_INTERVAL_IMMEDIATE &&
+            !(d3dCbps.PrfsfntbtionIntfrvbls & D3DPRESENT_INTERVAL_IMMEDIATE))
+        {
+            pNfwPbrbms->PrfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_DEFAULT;
+        }
+
+        // not prfsfrving fpu dontrol word dould dbusf issufs (4860749)
+        dwBfhbviorFlbgs = D3DCREATE_FPU_PRESERVE;
+
+        J2dRlsTrbdf(J2D_TRACE_VERBOSE,
+                    "[V] dwBfhbviorFlbgs=D3DCREATE_FPU_PRESERVE|");
+        if (d3dCbps.DfvCbps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) {
+            J2dRlsTrbdf(J2D_TRACE_VERBOSE,
+                        "D3DCREATE_HARDWARE_VERTEXPROCESSING");
+            dwBfhbviorFlbgs |= D3DCREATE_HARDWARE_VERTEXPROCESSING;
+        } flsf {
+            J2dRlsTrbdf(J2D_TRACE_VERBOSE,
+                        "D3DCREATE_SOFTWARE_VERTEXPROCESSING");
+            dwBfhbviorFlbgs |= D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+        }
+        // Hbndling fodus dhbngfs by oursflvfs provfd to bf problfmbtid,
+        // so wf'rf rfvfrting bbdk to D3D hbndling
+        // dwBfhbviorFlbgs |= D3DCREATE_NOWINDOWCHANGES;
+        J2dRlsTrbdf(J2D_TRACE_VERBOSE,"\n");
+
+        if (FAILED(rfs = pd3dObjfdt->CrfbtfDfvidf(bdbptfrOrdinbl, dfvTypf,
+                                                  fodusHWND,
+                                                  dwBfhbviorFlbgs,
+                                                  pNfwPbrbms, &pd3dDfvidf)))
+        {
+            DfbugPrintD3DError(rfs,
+                "D3DContfxt::ConfigurfContfxt: frror drfbting d3d dfvidf");
+            rfturn rfs;
+        }
+        J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+            "D3DContfxt::ConfigurfContfxt: suddfssfully drfbtfd dfvidf: %d",
+            bdbptfrOrdinbl);
+        bIsHWRbstfrizfr = (dfvTypf == D3DDEVTYPE_HAL);
+    }
+
+    durPbrbms = *pNfwPbrbms;
+    // during thf drfbtion of thf dfvidf d3d modififs this fifld, wf rfsft
+    // it bbdk to 0
+    durPbrbms.Flbgs = 0;
+
+    if (FAILED(rfs = InitDfvidf(pd3dDfvidf))) {
+        RflfbsfContfxtRfsourdfs();
+        rfturn rfs;
+    }
+
+    rfs = InitContfxtCbps();
+
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::InitContfxt()
+{
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO, "D3DContfxt::InitContfxt dfvidf %d",
+                   bdbptfrOrdinbl);
+
+    D3DPRESENT_PARAMETERS pbrbms;
+    ZfroMfmory(&pbrbms, sizfof(D3DPRESENT_PARAMETERS));
+
+    pbrbms.hDfvidfWindow = 0;
+    pbrbms.Windowfd = TRUE;
+    pbrbms.BbdkBufffrCount = 1;
+    pbrbms.BbdkBufffrFormbt = D3DFMT_UNKNOWN;
+    pbrbms.SwbpEfffdt = D3DSWAPEFFECT_DISCARD;
+    pbrbms.PrfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_DEFAULT;
+
+    rfturn ConfigurfContfxt(&pbrbms);
+}
+
+HRESULT
+D3DContfxt::Synd()
+{
+    HRESULT rfs = S_OK;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::Synd");
+
+    if (pSyndQufry != NULL) {
+        J2dTrbdf(J2D_TRACE_VERBOSE, "  flushing thf dfvidf qufuf..");
+        whilf (S_FALSE ==
+               (rfs = pSyndQufry->GftDbtb(NULL, 0, D3DGETDATA_FLUSH))) ;
+        J2dTrbdf(J2D_TRACE_VERBOSE, ".. donf\n");
+    }
+    if (pSyndRTRfs != NULL) {
+        D3DLOCKED_RECT lr;
+        IDirfdt3DSurfbdf9 *pSurfbdf = pSyndRTRfs->GftSurfbdf();
+        if (SUCCEEDED(pSurfbdf->LodkRfdt(&lr, NULL, D3DLOCK_NOSYSLOCK))) {
+            pSurfbdf->UnlodkRfdt();
+        }
+    }
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::SbvfStbtf()
+{
+    HRESULT rfs;
+
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, S_OK);
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::SbvfStbtf");
+
+    FlushVfrtfxQufuf();
+    UpdbtfStbtf(STATE_CHANGE);
+
+    if (pStbtfBlodk != NULL) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DContfxt::SbvfStbtf: fxisting stbtf blodk!");
+        SAFE_RELEASE(pStbtfBlodk);
+    }
+
+    if (SUCCEEDED(rfs =
+            pd3dDfvidf->CrfbtfStbtfBlodk(D3DSBT_ALL, &pStbtfBlodk)))
+    {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  drfbtfd stbtf blodk");
+    } flsf {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DContfxt::SbvfStbtf: fbilfd to drfbtf stbtf blodk");
+    }
+    ZfroMfmory(lbstTfxturf, sizfof(lbstTfxturf));
+
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::RfstorfStbtf()
+{
+    HRESULT rfs = S_OK;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RfstorfStbtf");
+
+    FlushVfrtfxQufuf();
+    UpdbtfStbtf(STATE_CHANGE);
+
+    if (pStbtfBlodk != NULL) {
+        if (SUCCEEDED(rfs = pStbtfBlodk->Apply())) {
+            J2dTrbdfLn(J2D_TRACE_VERBOSE, "  rfstorfd dfvidf stbtf");
+        } flsf {
+            J2dTrbdfLn(J2D_TRACE_WARNING,
+                       "D3DContfxt::RfstorfStbtf: fbilfd to rfstorf stbtf");
+        }
+        SAFE_RELEASE(pStbtfBlodk);
+    } flsf {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DContfxt::RfstorfStbtf: fmpty stbtf blodk!");
+    }
+    ZfroMfmory(lbstTfxturf, sizfof(lbstTfxturf));
+
+    rfturn rfs;
+}
+
+#dffinf POINT_FILTER_CAP (D3DPTFILTERCAPS_MAGFPOINT|D3DPTFILTERCAPS_MINFPOINT)
+#dffinf LINEAR_FILTER_CAP (D3DPTFILTERCAPS_MAGFLINEAR|D3DPTFILTERCAPS_MINFLINEAR)
+
+BOOL
+D3DContfxt::IsStrftdhRfdtFiltfringSupportfd(D3DTEXTUREFILTERTYPE fTypf)
+{
+    if (fTypf == D3DTEXF_POINT) {
+        rfturn ((dfvCbps.StrftdhRfdtFiltfrCbps & POINT_FILTER_CAP) != 0);
+    }
+    if (fTypf == D3DTEXF_LINEAR) {
+        rfturn ((dfvCbps.StrftdhRfdtFiltfrCbps & LINEAR_FILTER_CAP) != 0);
+    }
+    rfturn FALSE;
+}
+
+BOOL
+D3DContfxt::IsTfxturfFiltfringSupportfd(D3DTEXTUREFILTERTYPE fTypf)
+{
+    if (fTypf == D3DTEXF_POINT) {
+        rfturn ((dfvCbps.TfxturfFiltfrCbps & POINT_FILTER_CAP) != 0);
+    }
+    if (fTypf == D3DTEXF_LINEAR) {
+        rfturn ((dfvCbps.TfxturfFiltfrCbps & LINEAR_FILTER_CAP) != 0);
+    }
+    rfturn FALSE;
+}
+
+BOOL
+D3DContfxt::IsTfxturfFormbtSupportfd(D3DFORMAT formbt, DWORD usbgf)
+{
+    HRESULT hr = pd3dObjfdt->ChfdkDfvidfFormbt(bdbptfrOrdinbl,
+                                               dfvCbps.DfvidfTypf,
+                                               durPbrbms.BbdkBufffrFormbt,
+                                               usbgf,
+                                               D3DRTYPE_TEXTURE,
+                                               formbt);
+    rfturn SUCCEEDED( hr );
+}
+
+BOOL
+D3DContfxt::IsDfpthStfndilBufffrOk(D3DSURFACE_DESC *pTbrgftDfsd)
+{
+    IDirfdt3DSurfbdf9 *pStfndil;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::IsDfpthStfndilBufffrOk");
+
+    if (SUCCEEDED(pd3dDfvidf->GftDfpthStfndilSurfbdf(&pStfndil))) {
+        D3DSURFACE_DESC dfsdStfndil;
+        pStfndil->GftDfsd(&dfsdStfndil);
+        pStfndil->Rflfbsf();
+
+        D3DDISPLAYMODE dm;
+        rfturn
+            (SUCCEEDED(pd3dDfvidf->GftDisplbyModf(0, &dm)) &&
+             pTbrgftDfsd->Width <= dfsdStfndil.Width &&
+             pTbrgftDfsd->Hfight <= dfsdStfndil.Hfight &&
+             SUCCEEDED(pd3dObjfdt->ChfdkDfpthStfndilMbtdh(
+                   bdbptfrOrdinbl,
+                   dfvCbps.DfvidfTypf,
+                   dm.Formbt, pTbrgftDfsd->Formbt,
+                   dfsdStfndil.Formbt)));
+    }
+    J2dTrbdfLn(J2D_TRACE_VERBOSE,
+        "  durrfnt stfndil bufffr is not dompbtiblf with nfw Rfndfr Tbrgft");
+
+    rfturn fblsf;
+}
+
+
+
+HRESULT
+D3DContfxt::InitDfpthStfndilBufffr(D3DSURFACE_DESC *pTbrgftDfsd)
+{
+    HRESULT rfs;
+    IDirfdt3DSurfbdf9 *pBB;
+    D3DDISPLAYMODE dm;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::InitDfpthStfndilBufffr");
+
+    if (FAILED(rfs = pd3dDfvidf->GftDisplbyModf(0, &dm))) {
+        rfturn rfs;
+    }
+
+    D3DFORMAT nfwFormbt =
+        D3DPipflinfMbnbgfr::GftInstbndf()->GftMbtdhingDfpthStfndilFormbt(
+            bdbptfrOrdinbl, dm.Formbt, pTbrgftDfsd->Formbt);
+
+    rfs = pd3dDfvidf->CrfbtfDfpthStfndilSurfbdf(
+        pTbrgftDfsd->Width, pTbrgftDfsd->Hfight,
+        nfwFormbt, D3DMULTISAMPLE_NONE, 0, fblsf, &pBB, 0);
+    if (SUCCEEDED(rfs)) {
+        rfs = pd3dDfvidf->SftDfpthStfndilSurfbdf(pBB);
+        pBB->Rflfbsf();
+    }
+
+    rfturn rfs;
+}
+
+
+HRESULT
+D3DContfxt::SftRfndfrTbrgft(IDirfdt3DSurfbdf9 *pSurfbdf)
+{
+    stbtid D3DMATRIX tx;
+    HRESULT rfs;
+    D3DSURFACE_DESC dfsdNfw;
+    IDirfdt3DSurfbdf9 *pCurrfntTbrgft;
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DContfxt::SftRfndfrTbrgft: pSurfbdf=0x%x",
+                pSurfbdf);
+
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, E_FAIL);
+    RETURN_STATUS_IF_NULL(pSurfbdf, E_FAIL);
+
+    pSurfbdf->GftDfsd(&dfsdNfw);
+
+    if (SUCCEEDED(rfs = pd3dDfvidf->GftRfndfrTbrgft(0, &pCurrfntTbrgft))) {
+        if (pCurrfntTbrgft != pSurfbdf) {
+            FlushVfrtfxQufuf();
+            if (FAILED(rfs = pd3dDfvidf->SftRfndfrTbrgft(0, pSurfbdf))) {
+                DfbugPrintD3DError(rfs, "D3DContfxt::SftRfndfrTbrgft: "\
+                                        "frror sftting rfndfr tbrgft");
+                SAFE_RELEASE(pCurrfntTbrgft);
+                rfturn rfs;
+            }
+
+            if (!IsDfpthStfndilBufffrOk(&dfsdNfw)) {
+                if (FAILED(rfs = InitDfpthStfndilBufffr(&dfsdNfw))) {
+                    SAFE_RELEASE(pCurrfntTbrgft);
+                    rfturn rfs;
+                }
+            }
+        }
+        SAFE_RELEASE(pCurrfntTbrgft);
+    }
+    // wf sft thf trbnsform fvfn if thf rfndfr tbrgft didn't dhbngf;
+    // this is bfdbusf in somf dbsfs (fs modf) wf usf thf dffbult SwbpChbin of
+    // thf dfvidf, bnd its rfndfr tbrgft will bf thf sbmf bs thf dfvidf's, bnd
+    // wf hbvf to sft thf mbtrix dorrfdtly. This shouldn't bf b pfrformbndf
+    // issuf bs rfndfr tbrgft dhbngfs brf rflbtivfly rbrf
+    D3DUtils_SftOrthoMbtrixOffCfntfrLH(&tx,
+                       (flobt)dfsdNfw.Width,
+                       (flobt)dfsdNfw.Hfight);
+    pd3dDfvidf->SftTrbnsform(D3DTS_PROJECTION, &tx);
+
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  durrfnt rfndfr tbrgft=0x%x", pSurfbdf);
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::RfsftTrbnsform()
+{
+    HRESULT rfs = S_OK;
+    D3DMATRIX tx;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RfsftTrbnsform");
+    if (pd3dDfvidf == NULL) {
+        rfturn E_FAIL;
+    }
+
+    // no nffd for stbtf dhbngf, just flush thf qufuf
+    FlushVfrtfxQufuf();
+
+    D3DUtils_SftIdfntityMbtrix(&tx);
+    if (FAILED(rfs = pd3dDfvidf->SftTrbnsform(D3DTS_WORLD, &tx))) {
+        DfbugPrintD3DError(rfs, "D3DContfxt::SftTrbnsform fbilfd");
+    }
+    bIsIdfntityTx = TRUE;
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::SftTrbnsform(jdoublf m00, jdoublf m10,
+                         jdoublf m01, jdoublf m11,
+                         jdoublf m02, jdoublf m12)
+{
+    HRESULT rfs = S_OK;
+    D3DMATRIX tx, tx1;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::SftTrbnsform");
+    if (pd3dDfvidf == NULL) {
+        rfturn E_FAIL;
+    }
+
+    // no nffd for stbtf dhbngf, just flush thf qufuf
+    FlushVfrtfxQufuf();
+
+    // In ordfr to dorrfdtly mbp tfxfls to pixfls wf nffd to
+    // bdjust gfomftry by -0.5f in thf trbnsformfd spbdf.
+    // In ordfr to do thbt wf first drfbtf b trbnslbtfd mbtrix
+    // bnd thfn dondbtfnbtf it with thf world trbnsform.
+    //
+    // Notf thbt wf only usf non-id trbnsform with DrbwTfxturf,
+    // thf rfst is rfndfrfd prf-trbnsformfd.
+    //
+    // Thf idfntity trbnsform for tfxturfs is hbndlfd in
+    // D3DVfrtfxCbdhfr::DrbwTfxturf() bfdbusf shifting by -0.5 for id
+    // trbnsform brfbks linfs rfndfring.
+
+    ZfroMfmory(&tx1, sizfof(D3DMATRIX));
+
+    tx1._11 = (flobt)m00;
+    tx1._12 = (flobt)m10;
+    tx1._21 = (flobt)m01;
+    tx1._22 = (flobt)m11;
+    tx1._41 = (flobt)m02;
+    tx1._42 = (flobt)m12;
+
+    tx1._33 = 1.0f;
+    tx1._44 = 1.0f;
+
+    D3DUtils_SftIdfntityMbtrix(&tx);
+    tx._41 = -0.5f;
+    tx._42 = -0.5f;
+    D3DUtils_2DCondbtfnbtfM(&tx, &tx1);
+
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                "  %5f %5f %5f %5f", tx._11, tx._12, tx._13, tx._14);
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                "  %5f %5f %5f %5f", tx._21, tx._22, tx._23, tx._24);
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                "  %5f %5f %5f %5f", tx._31, tx._32, tx._33, tx._34);
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                "  %5f %5f %5f %5f", tx._41, tx._42, tx._43, tx._44);
+    if (FAILED(rfs = pd3dDfvidf->SftTrbnsform(D3DTS_WORLD, &tx))) {
+        DfbugPrintD3DError(rfs, "D3DContfxt::SftTrbnsform fbilfd");
+    }
+    bIsIdfntityTx = FALSE;
+
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::SftRfdtClip(int x1, int y1, int x2, int y2)
+{
+    HRESULT rfs = S_OK;
+    D3DSURFACE_DESC dfsd;
+    IDirfdt3DSurfbdf9 *pCurrfntTbrgft;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::SftRfdtClip");
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                "  x1=%-4d y1=%-4d x2=%-4d y2=%-4d",
+                x1, y1, x2, y2);
+
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, E_FAIL);
+
+    // no nffd for stbtf dhbngf, just flush thf qufuf
+    FlushVfrtfxQufuf();
+
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZENABLE, D3DZB_FALSE);
+
+    rfs = pd3dDfvidf->GftRfndfrTbrgft(0, &pCurrfntTbrgft);
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    pCurrfntTbrgft->GftDfsd(&dfsd);
+    SAFE_RELEASE(pCurrfntTbrgft);
+
+    if (x1 <= 0 && y1 <= 0 &&
+        (UINT)x2 >= dfsd.Width && (UINT)y2 >= dfsd.Hfight)
+    {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                   "  disbbling dlip (== rfndfr tbrgft dimfnsions)");
+        rfturn pd3dDfvidf->SftRfndfrStbtf(D3DRS_SCISSORTESTENABLE, FALSE);
+    }
+
+    // dlip to thf dimfnsions of thf tbrgft surfbdf, othfrwisf
+    // SftSdissorRfdt will fbil
+    if (x1 < 0)                 x1 = 0;
+    if (y1 < 0)                 y1 = 0;
+    if ((UINT)x2 > dfsd.Width)  x2 = dfsd.Width;
+    if ((UINT)y2 > dfsd.Hfight) y2 = dfsd.Hfight;
+    if (x1 > x2)                x2 = x1 = 0;
+    if (y1 > y2)                y2 = y1 = 0;
+    RECT nfwRfdt = { x1, y1, x2, y2 };
+    if (SUCCEEDED(rfs = pd3dDfvidf->SftSdissorRfdt(&nfwRfdt))) {
+        rfs = pd3dDfvidf->SftRfndfrStbtf(D3DRS_SCISSORTESTENABLE, TRUE);
+    } flsf {
+        DfbugPrintD3DError(rfs, "Error sftting sdissor rfdt");
+        J2dRlsTrbdfLn4(J2D_TRACE_ERROR,
+                       "  x1=%-4d y1=%-4d x2=%-4d y2=%-4d",
+                       x1, y1, x2, y2);
+    }
+
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::RfsftClip()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RfsftClip");
+    // no nffd for stbtf dhbngf, just flush thf qufuf
+    FlushVfrtfxQufuf();
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_SCISSORTESTENABLE, FALSE);
+    rfturn pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZENABLE, D3DZB_FALSE);
+}
+
+ClipTypf
+D3DContfxt::GftClipTypf()
+{
+    // REMIND: this mfthod dould bf optimizfd: wf dould kffp thf
+    // dlip stbtf bround whfn rf/sftting thf dlip instfbd of bsking
+    // fvfry timf.
+    DWORD zEnbblfd = 0;
+    DWORD stEnbblfd = 0;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::GftClipTypf");
+    pd3dDfvidf->GftRfndfrStbtf(D3DRS_SCISSORTESTENABLE, &stEnbblfd);
+    if (stEnbblfd) {
+        rfturn CLIP_RECT;
+    }
+    pd3dDfvidf->GftRfndfrStbtf(D3DRS_ZENABLE, &zEnbblfd);
+    if (zEnbblfd) {
+        rfturn CLIP_SHAPE;
+    }
+    rfturn CLIP_NONE;
+}
+
+
+/**
+ * This mfthod bssumfs thbt ::SftRfndfrTbrgft hbs blrfbdy
+ * bffn dbllfd. SftRfndfrTbrgft drfbtfs bnd bttbdhfs b
+ * dfpth bufffr to thf tbrgft surfbdf prior to sftting it
+ * bs tbrgft surfbdf to thf dfvidf.
+ */
+DWORD dwAlphbSt, dwSrdBlfndSt, dwDfstBlfndSt;
+D3DMATRIX tx, idTx;
+
+HRESULT
+D3DContfxt::BfginShbpfClip()
+{
+    HRESULT rfs = S_OK;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::BfginShbpfClip");
+
+    UpdbtfStbtf(STATE_CHANGE);
+
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_SCISSORTESTENABLE, FALSE);
+
+    // sbvf blphb blfnding stbtf
+    pd3dDfvidf->GftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, &dwAlphbSt);
+    pd3dDfvidf->GftRfndfrStbtf(D3DRS_SRCBLEND, &dwSrdBlfndSt);
+    pd3dDfvidf->GftRfndfrStbtf(D3DRS_DESTBLEND, &dwDfstBlfndSt);
+
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, TRUE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_SRCBLEND, D3DBLEND_ZERO);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
+    pd3dDfvidf->GftTrbnsform(D3DTS_WORLD, &tx);
+    D3DUtils_SftIdfntityMbtrix(&idTx);
+    // trbnslbtf thf dlip spbns by 1.0f in z dirfdtion so thbt thf
+    // dlip spbns brf rfndfrfd to thf z bufffr
+    idTx._43 = 1.0f;
+    pd3dDfvidf->SftTrbnsform(D3DTS_WORLD, &idTx);
+
+    // Thf dfpth bufffr is first dlfbrfd with zfrofs, whidh is thf fbrthfst
+    // plbnf from thf vifwfr (our projfdtion mbtrix is bn invfrsfd orthogonbl
+    // trbnsform).
+    // To sft thf dlip wf'll rfndfr thf dlip spbns with Z doordinbtfs of 1.0f
+    // (thf dlosfst to thf vifwfr). Sindf bll rfndfring primitivfs
+    // hbvf thfir vfrtidfs' Z doordinbtf sft to 0.0, thfy will ffffdtivfly bf
+    // dlippfd bfdbusf thf Z dfpth tfst for thfm will fbil (vfrtfx with 1.0
+    // dfpth is dlosfr thbn thf onf with 0.0f)
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZENABLE, D3DZB_TRUE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZWRITEENABLE, TRUE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+    pd3dDfvidf->Clfbr(0, NULL, D3DCLEAR_ZBUFFER, 0L, 0.0f, 0x0L);
+
+    //rfs = BfginSdfnf(STATE_SHAPE_CLIPOP);
+
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::EndShbpfClip()
+{
+    HRESULT rfs;
+
+    // no nffd for stbtf dhbngf, just flush thf qufuf
+    rfs = FlushVfrtfxQufuf();
+
+    // rfstorf blphb blfnding stbtf
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, dwAlphbSt);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_SRCBLEND, dwSrdBlfndSt);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_DESTBLEND, dwDfstBlfndSt);
+
+    // rfsorf thf trbnsform
+    pd3dDfvidf->SftTrbnsform(D3DTS_WORLD, &tx);
+
+    // Enbblf thf dfpth bufffr.
+    // Wf disbblf furthfr updbtfs to thf dfpth bufffr: it should only
+    // bf updbtfd in SftClip mfthod.
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZWRITEENABLE, FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZFUNC, D3DCMP_LESS);
+
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::UplobdTilfToTfxturf(D3DRfsourdf *pTfxturfRfs, void *pixfls,
+                                jint dstx, jint dsty,
+                                jint srdx, jint srdy,
+                                jint srdWidth, jint srdHfight,
+                                jint srdStridf,
+                                TilfFormbt srdFormbt,
+                                jint *pPixflsToudhfdL,
+                                jint* pPixflsToudhfdR)
+{
+#ifndff PtrAddBytfs
+#dffinf PtrAddBytfs(p, b)               ((void *) (((intptr_t) (p)) + (b)))
+#dffinf PtrCoord(p, x, xind, y, yind)   PtrAddBytfs(p, (y)*(yind) + (x)*(xind))
+#fndif // PtrAddBytfs
+
+    HRESULT rfs = S_OK;
+    IDirfdt3DTfxturf9 *pTfxturf = pTfxturfRfs->GftTfxturf();
+    D3DSURFACE_DESC *pDfsd = pTfxturfRfs->GftDfsd();
+    RECT r = { dstx, dsty, dstx+srdWidth, dsty+srdHfight };
+    RECT *pR = &r;
+    D3DLOCKED_RECT lodkfdRfdt;
+    DWORD dwLodkFlbgs = D3DLOCK_NOSYSLOCK;
+    // thfsf brf only dountfd for LCD glyph uplobds
+    jint pixflsToudhfdL = 0, pixflsToudhfdR = 0;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::UplobdTilfToTfxturf");
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+        " rfdt={%-4d, %-4d, %-4d, %-4d}",
+        r.lfft, r.top, r.right, r.bottom);
+
+    if (pDfsd->Usbgf == D3DUSAGE_DYNAMIC) {
+        // it is sbff to lodk with disdbrd bfdbusf wf don't dbrf bbout thf
+        // dontfnts of dynbmid tfxturfs bnd dstx,dsty for this dbsf is
+        // blwbys 0,0 bfdbusf wf brf uplobding into b tilf tfxturf
+        dwLodkFlbgs |= D3DLOCK_DISCARD;
+        pR = NULL;
+    }
+
+    if (FAILED(rfs = pTfxturf->LodkRfdt(0, &lodkfdRfdt, pR, dwLodkFlbgs))) {
+        DfbugPrintD3DError(rfs,
+            "D3DContfxt::UplobdImbgfToTfxturf: dould "\
+            "not lodk tfxturf");
+        rfturn rfs;
+    }
+
+    if (srdFormbt == TILEFMT_1BYTE_ALPHA) {
+        // fithfr b MbskFill tilf, or b grbysdblf glyph
+        if (pDfsd->Formbt == D3DFMT_A8) {
+            void *pSrdPixfls = PtrCoord(pixfls, srdx, 1, srdy, srdStridf);
+            void *pDstPixfls = lodkfdRfdt.pBits;
+            do {
+                mfmdpy(pDstPixfls, pSrdPixfls, srdWidth);
+                pSrdPixfls = PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdh);
+            } whilf (--srdHfight > 0);
+        }
+        flsf if (pDfsd->Formbt == D3DFMT_A8R8G8B8) {
+            jubytf *pSrdPixfls = (jubytf*)
+                PtrCoord(pixfls, srdx, 1, srdy, srdStridf);
+            jint *pDstPixfls = (jint*)lodkfdRfdt.pBits;
+            for (int yy = 0; yy < srdHfight; yy++) {
+                for (int xx = 0; xx < srdWidth; xx++) {
+                    // only nffd to sft thf blphb dhbnnfl (thf D3D tfxturf
+                    // stbtf will bf sftup in this dbsf to rfplidbtf thf
+                    // blphb dhbnnfl bs nffdfd)
+                    pDstPixfls[xx] = pSrdPixfls[xx] << 24;
+                }
+                pSrdPixfls = (jubytf*)PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = (jint*)PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdh);
+            }
+        }
+    } flsf if (srdFormbt == TILEFMT_3BYTE_RGB) {
+        // LCD glyph with RGB ordfr
+        if (pDfsd->Formbt == D3DFMT_R8G8B8) {
+            jubytf *pSrdPixfls = (jubytf*)
+                PtrCoord(pixfls, srdx, 3, srdy, srdStridf);
+            jubytf *pDstPixfls = (jubytf*)lodkfdRfdt.pBits;
+            for (int yy = 0; yy < srdHfight; yy++) {
+                for (int xx = 0; xx < srdWidth*3; xx+=3) {
+                    // blphb dhbnnfl is ignorfd in this dbsf
+                    // (notf thbt this is bbdkwbrds from whbt onf might
+                    // fxpfdt; it bppfbrs thbt D3DFMT_R8G8B8 is bdtublly
+                    // lbid out in BGR ordfr in mfmory)
+                    pDstPixfls[xx+0] = pSrdPixfls[xx+2];
+                    pDstPixfls[xx+1] = pSrdPixfls[xx+1];
+                    pDstPixfls[xx+2] = pSrdPixfls[xx+0];
+                }
+                pixflsToudhfdL +=
+                    (pDstPixfls[0+0]|pDstPixfls[0+1]|pDstPixfls[0+2]) ? 1 : 0;
+                jint i = 3*(srdWidth-1);
+                pixflsToudhfdR +=
+                    (pDstPixfls[i+0]|pDstPixfls[i+1]|pDstPixfls[i+2]) ? 1 : 0;
+
+                pSrdPixfls = (jubytf*)PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = (jubytf*)PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdh);
+            }
+        }
+        flsf if (pDfsd->Formbt == D3DFMT_A8R8G8B8) {
+            jubytf *pSrdPixfls = (jubytf*)
+                PtrCoord(pixfls, srdx, 3, srdy, srdStridf);
+            jint *pDstPixfls = (jint*)lodkfdRfdt.pBits;
+            for (int yy = 0; yy < srdHfight; yy++) {
+                for (int dx = 0, sx = 0; dx < srdWidth; dx++, sx+=3) {
+                    // blphb dhbnnfl is ignorfd in this dbsf
+                    jubytf r = pSrdPixfls[sx+0];
+                    jubytf g = pSrdPixfls[sx+1];
+                    jubytf b = pSrdPixfls[sx+2];
+                    pDstPixfls[dx] = (r << 16) | (g << 8) | (b);
+                }
+                pixflsToudhfdL += (pDstPixfls[0]          ? 1 : 0);
+                pixflsToudhfdR += (pDstPixfls[srdWidth-1] ? 1 : 0);
+
+                pSrdPixfls = (jubytf*)PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = (jint*)PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdh);
+            }
+        }
+    } flsf if (srdFormbt == TILEFMT_3BYTE_BGR) {
+        // LCD glyph with BGR ordfr
+        if (pDfsd->Formbt == D3DFMT_R8G8B8) {
+            void *pSrdPixfls = PtrCoord(pixfls, srdx, 3, srdy, srdStridf);
+            void *pDstPixfls = lodkfdRfdt.pBits;
+            jubytf *pbDst;
+            do {
+                // blphb dhbnnfl is ignorfd in this dbsf
+                // (notf thbt this is bbdkwbrds from whbt onf might
+                // fxpfdt; it bppfbrs thbt D3DFMT_R8G8B8 is bdtublly
+                // lbid out in BGR ordfr in mfmory)
+                mfmdpy(pDstPixfls, pSrdPixfls, srdWidth * 3);
+
+                pbDst = (jubytf*)pDstPixfls;
+                pixflsToudhfdL +=(pbDst[0+0]|pbDst[0+1]|pbDst[0+2]) ? 1 : 0;
+                jint i = 3*(srdWidth-1);
+                pixflsToudhfdR +=(pbDst[i+0]|pbDst[i+1]|pbDst[i+2]) ? 1 : 0;
+
+                pSrdPixfls = PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdh);
+            } whilf (--srdHfight > 0);
+        }
+        flsf if (pDfsd->Formbt == D3DFMT_A8R8G8B8) {
+            jubytf *pSrdPixfls = (jubytf*)
+                PtrCoord(pixfls, srdx, 3, srdy, srdStridf);
+            jint *pDstPixfls = (jint*)lodkfdRfdt.pBits;
+            for (int yy = 0; yy < srdHfight; yy++) {
+                for (int dx = 0, sx = 0; dx < srdWidth; dx++, sx+=3) {
+                    // blphb dhbnnfl is ignorfd in this dbsf
+                    jubytf b = pSrdPixfls[sx+0];
+                    jubytf g = pSrdPixfls[sx+1];
+                    jubytf r = pSrdPixfls[sx+2];
+                    pDstPixfls[dx] = (r << 16) | (g << 8) | (b);
+                }
+                pixflsToudhfdL += (pDstPixfls[0]          ? 1 : 0);
+                pixflsToudhfdR += (pDstPixfls[srdWidth-1] ? 1 : 0);
+
+                pSrdPixfls = (jubytf*)PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = (jint*)PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdh);
+            }
+        }
+    } flsf if (srdFormbt == TILEFMT_4BYTE_ARGB_PRE) {
+        // MbskBlit tilf
+        if (pDfsd->Formbt == D3DFMT_A8R8G8B8) {
+            void *pSrdPixfls = PtrCoord(pixfls, srdx, 4, srdy, srdStridf);
+            void *pDstPixfls = lodkfdRfdt.pBits;
+            do {
+                mfmdpy(pDstPixfls, pSrdPixfls, srdWidth * 4);
+                pSrdPixfls = PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdh);
+            } whilf (--srdHfight > 0);
+        }
+    } flsf {
+        // should not hbppfn, no-op just in dbsf...
+    }
+
+    if (pPixflsToudhfdL) {
+        *pPixflsToudhfdL  = pixflsToudhfdL;
+    }
+    if (pPixflsToudhfdR) {
+        *pPixflsToudhfdR = pixflsToudhfdR;
+    }
+
+    rfturn pTfxturf->UnlodkRfdt(0);
+}
+
+HRESULT
+D3DContfxt::InitLCDGlyphCbdhf()
+{
+    if (pLCDGlyphCbdhf == NULL) {
+        rfturn D3DGlyphCbdhf::CrfbtfInstbndf(this, CACHE_LCD, &pLCDGlyphCbdhf);
+    }
+    rfturn S_OK;
+}
+
+HRESULT
+D3DContfxt::InitGrbysdblfGlyphCbdhf()
+{
+    if (pGrbysdblfGlyphCbdhf == NULL) {
+        rfturn D3DGlyphCbdhf::CrfbtfInstbndf(this, CACHE_GRAY,
+                                             &pGrbysdblfGlyphCbdhf);
+    }
+    rfturn S_OK;
+}
+
+HRESULT
+D3DContfxt::RfsftCompositf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RfsftCompositf");
+
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, E_FAIL);
+
+    HRESULT rfs = UpdbtfStbtf(STATE_CHANGE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, FALSE);
+    fxtrbAlphb = 1.0f;
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::SftAlphbCompositf(jint rulf, jflobt fb, jint flbgs)
+{
+    HRESULT rfs;
+    J2dTrbdfLn3(J2D_TRACE_INFO,
+                "D3DContfxt::SftAlphbCompositf: rulf=%-1d fb=%f flbgs=%d",
+                rulf, fb, flbgs);
+
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, E_FAIL);
+
+    rfs = UpdbtfStbtf(STATE_CHANGE);
+
+    // wf dbn sbffly disbblf blfnding whfn:
+    //   - domp is SrdNoEb or SrdOvfrNoEb, bnd
+    //   - thf sourdf is opbquf
+    // (turning off blfnding dbn hbvf b lbrgf positivf impbdt on pfrformbndf)
+    if ((rulf == RULE_Srd || rulf == RULE_SrdOvfr) &&
+        (fb == 1.0f) &&
+        (flbgs & D3DC_SRC_IS_OPAQUE))
+    {
+        J2dTrbdfLn1(J2D_TRACE_VERBOSE,
+                    "  disbbling blphb domp rulf=%-1d fb=1.0 srd=opq)", rulf);
+        pd3dDfvidf->SftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, FALSE);
+    } flsf {
+        J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                    "  fnbbling blphb domp (rulf=%-1d fb=%f)", rulf, fb);
+        pd3dDfvidf->SftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, TRUE);
+
+        pd3dDfvidf->SftRfndfrStbtf(D3DRS_SRCBLEND,
+                                   StdBlfndRulfs[rulf].srd);
+        pd3dDfvidf->SftRfndfrStbtf(D3DRS_DESTBLEND,
+                                   StdBlfndRulfs[rulf].dst);
+    }
+
+    fxtrbAlphb = fb;
+    rfturn rfs;
+}
+
+#ifdff UPDATE_TX
+
+// Notf: this mfthod of bdjusting pixfl to tfxfl mbpping provfd to bf
+// diffidult to pfrffdt. Thf durrfnt vbribtion works grfbt for id,
+// sdblf (indluding bll kinds of flips) trbnsforms, but not still not
+// for gfnfrid trbnsforms.
+//
+// Sindf wf durrfntly only do DrbwTfxturf with non-id trbnsform wf instfbd
+// bdjust thf gfomftry (sff D3DVfrtfxCbdhfr::DrbwTfxturf(), SftTrbnsform())
+//
+// In ordfr to fnbblf this dodf pbth UpdbtfTfxturfTrbnsforms nffds to
+// bf dbllfd in SftTfxturf(), SftTrbnsform() bnd RfsftTrbnform().
+HRESULT
+D3DContfxt::UpdbtfTfxturfTrbnsforms(DWORD dwSbmplfrToUpdbtf)
+{
+    HRESULT rfs = S_OK;
+    DWORD dwSbmplfr, dwMbxSbmplfr;
+
+    if (dwSbmplfrToUpdbtf == -1) {
+        // updbtf bll usfd sbmplfrs, dwMbxSbmplfr will bf sft to mbx
+        dwSbmplfr = 0;
+        dwSbmplfr = MAX_USED_TEXTURE_SAMPLER;
+        J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::UpdbtfTfxturfTrbnsforms: "\
+                                   "updbting bll sbmplfrs");
+    } flsf {
+        // updbtf only givfn sbmplfr, dwMbxSbmplfr will bf sft to it bs wfll
+        dwSbmplfr = dwSbmplfrToUpdbtf;
+        dwMbxSbmplfr = dwSbmplfrToUpdbtf;
+        J2dTrbdfLn1(J2D_TRACE_INFO, "D3DContfxt::UpdbtfTfxturfTrbnsforms: "\
+                                    "updbting sbmplfr %d", dwSbmplfr);
+    }
+
+    do {
+        D3DTRANSFORMSTATETYPE stbtf =
+            (D3DTRANSFORMSTATETYPE)(D3DTS_TEXTURE0 + dwSbmplfr);
+        IDirfdt3DTfxturf9 *pTfxturf = lbstTfxturf[dwSbmplfr];
+
+        if (pTfxturf != NULL) {
+            D3DMATRIX mt, tx;
+            D3DSURFACE_DESC tfxDfsd;
+
+            pd3dDfvidf->GftTrbnsform(D3DTS_WORLD, &tx);
+            J2dTrbdfLn4(10,
+                        "  %5f %5f %5f %5f", tx._11, tx._12, tx._13, tx._14);
+            J2dTrbdfLn4(10,
+                        "  %5f %5f %5f %5f", tx._21, tx._22, tx._23, tx._24);
+            J2dTrbdfLn4(10,
+                        "  %5f %5f %5f %5f", tx._31, tx._32, tx._33, tx._34);
+            J2dTrbdfLn4(10,
+                        "  %5f %5f %5f %5f", tx._41, tx._42, tx._43, tx._44);
+
+            // this formulb works for sdblfs bnd flips
+            if (tx._11 == 0.0f) {
+                tx._11 = tx._12;
+            }
+            if (tx._22 == 0.0f) {
+                tx._22 = tx._21;
+            }
+
+            pTfxturf->GftLfvflDfsd(0, &tfxDfsd);
+
+            // shift by .5 tfxfl, but tbkf into bddount
+            // thf sdblf fbdtor of thf dfvidf trbnsform
+
+            // REMIND: this bpprobdh is not fntirfly dorrfdt,
+            // bs it only tbkfs into bddount thf sdblf of thf dfvidf
+            // trbnsform.
+            mt._31 = (1.0f / (2.0f * tfxDfsd.Width  * tx._11));
+            mt._32 = (1.0f / (2.0f * tfxDfsd.Hfight * tx._22));
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  offsfts: tx=%f ty=%f",
+                        mt._31, mt._32);
+
+            pd3dDfvidf->SftTfxturfStbgfStbtf(dwSbmplfr,
+                                             D3DTSS_TEXTURETRANSFORMFLAGS,
+                                             D3DTTFF_COUNT2);
+            rfs = pd3dDfvidf->SftTrbnsform(stbtf, &mt);
+        } flsf {
+            rfs = pd3dDfvidf->SftTfxturfStbgfStbtf(dwSbmplfr,
+                                                   D3DTSS_TEXTURETRANSFORMFLAGS,
+                                                   D3DTTFF_DISABLE);
+        }
+        dwSbmplfr++;
+    } whilf (dwSbmplfr <= dwMbxSbmplfr);
+
+    rfturn rfs;
+}
+#fndif // UPDATE_TX
+
+/**
+ * Wf go into thf pbins of mbintbining thf list of sft tfxturfs
+ * instfbd of just dblling GftTfxturf() bnd dompbring thf old onf
+ * with thf nfw onf bfdbusf it's bdtublly notidfbbly slowfr to dbll
+ * GftTfxturf() (notf thbt wf'd hbvf to thfn dbll Rflfbsf() on thf
+ * tfxturf sindf GftTfxturf() indrfbsfs tfxturf's rff. dount).
+ */
+HRESULT
+D3DContfxt::SftTfxturf(IDirfdt3DTfxturf9 *pTfxturf, DWORD dwSbmplfr)
+{
+    HRESULT rfs = S_OK;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::SftTfxturf");
+
+    if (dwSbmplfr < 0 || dwSbmplfr > MAX_USED_TEXTURE_SAMPLER) {
+        J2dTrbdfLn1(J2D_TRACE_ERROR,
+                    "D3DContfxt::SftTfxturf: indorrfdt sbmplfr: %d", dwSbmplfr);
+        rfturn E_FAIL;
+    }
+    if (lbstTfxturf[dwSbmplfr] != pTfxturf) {
+        if (FAILED(rfs = FlushVfrtfxQufuf())) {
+            rfturn rfs;
+        }
+        J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                    "  nfw tfxturf=0x%x on sbmplfr %d", pTfxturf, dwSbmplfr);
+        rfs = pd3dDfvidf->SftTfxturf(dwSbmplfr, pTfxturf);
+        if (SUCCEEDED(rfs)) {
+            lbstTfxturf[dwSbmplfr] = pTfxturf;
+            // REMIND: sff dommfnt bt UpdbtfTfxturfTrbnsforms
+#ifdff UPDATE_TX
+            rfs = UpdbtfTfxturfTrbnsforms(dwSbmplfr);
+#fndif
+        }  flsf {
+            lbstTfxturf[dwSbmplfr] = NULL;
+        }
+    }
+    rfturn rfs;
+}
+
+HRESULT
+D3DContfxt::UpdbtfTfxturfColorStbtf(DWORD dwStbtf, DWORD dwSbmplfr)
+{
+    HRESULT rfs = S_OK;
+
+    if (dwStbtf != lbstTfxturfColorStbtf[dwSbmplfr]) {
+        rfs = pd3dDfvidf->SftTfxturfStbgfStbtf(dwSbmplfr,
+                                               D3DTSS_ALPHAARG1, dwStbtf);
+        rfs = pd3dDfvidf->SftTfxturfStbgfStbtf(dwSbmplfr,
+                                               D3DTSS_COLORARG1, dwStbtf);
+        lbstTfxturfColorStbtf[dwSbmplfr] = dwStbtf;
+    }
+
+    rfturn rfs;
+}
+
+HRESULT /*NOLOCK*/
+D3DContfxt::UpdbtfStbtf(jbytf nfwStbtf)
+{
+    HRESULT rfs = S_OK;
+
+    if (opStbtf == nfwStbtf) {
+        // Thf op is thf sbmf bs lbst timf, so wf dbn rfturn immfdibtfly.
+        rfturn rfs;
+    } flsf if (opStbtf != STATE_CHANGE) {
+        rfs = FlushVfrtfxQufuf();
+    }
+
+    switdh (opStbtf) {
+    dbsf STATE_MASKOP:
+        pMbskCbdhf->Disbblf();
+        brfbk;
+    dbsf STATE_GLYPHOP:
+        D3DTR_DisbblfGlyphVfrtfxCbdhf(this);
+        brfbk;
+    dbsf STATE_TEXTUREOP:
+        // optimizbtion: dfrtbin stbtf dhbngfs (thosf mbrkfd STATE_CHANGE)
+        // brf bllowfd whilf tfxturing is fnbblfd.
+        // In this dbsf, wf dbn bllow prfviousOp to rfmbin bs it is bnd
+        // thfn rfturn fbrly.
+        if (nfwStbtf == STATE_CHANGE) {
+            rfturn rfs;
+        }
+        // REMIND: not nfdfssbry if wf brf switdhing to MASKOP or GLYPHOP
+        // (or b domplfx pbint, for thbt mbttfr), but would thbt bf b
+        // worthwhilf optimizbtion?
+        SftTfxturf(NULL);
+        brfbk;
+    dbsf STATE_AAPGRAMOP:
+        rfs = DisbblfAAPbrbllflogrbmProgrbm();
+        brfbk;
+    dffbult:
+        brfbk;
+    }
+
+    switdh (nfwStbtf) {
+    dbsf STATE_MASKOP:
+        pMbskCbdhf->Enbblf();
+        UpdbtfTfxturfColorStbtf(D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
+        brfbk;
+    dbsf STATE_GLYPHOP:
+        D3DTR_EnbblfGlyphVfrtfxCbdhf(this);
+        UpdbtfTfxturfColorStbtf(D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
+        brfbk;
+    dbsf STATE_TEXTUREOP:
+        UpdbtfTfxturfColorStbtf(D3DTA_TEXTURE);
+        brfbk;
+    dbsf STATE_AAPGRAMOP:
+        rfs = EnbblfAAPbrbllflogrbmProgrbm();
+        brfbk;
+    dffbult:
+        brfbk;
+    }
+
+    opStbtf = nfwStbtf;
+
+    rfturn rfs;
+}
+
+HRESULT D3DContfxt::FlushVfrtfxQufuf()
+{
+    if (pVCbdhfr != NULL) {
+        rfturn pVCbdhfr->Rfndfr();
+    }
+    rfturn E_FAIL;
+}
+
+HRESULT D3DContfxt::BfginSdfnf(jbytf nfwStbtf)
+{
+    if (!pd3dDfvidf) {
+        rfturn E_FAIL;
+    } flsf {
+        UpdbtfStbtf(nfwStbtf);
+        if (!bBfginSdfnfPfnding) {
+            bBfginSdfnfPfnding = TRUE;
+            HRESULT rfs = pd3dDfvidf->BfginSdfnf();
+            J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::BfginSdfnf");
+            if (FAILED(rfs)) {
+                // this will dbusf dontfxt rfinitiblizbtion
+                opStbtf = STATE_CHANGE;
+            }
+            rfturn rfs;
+        }
+        rfturn S_OK;
+    }
+}
+
+HRESULT D3DContfxt::EndSdfnf() {
+    if (bBfginSdfnfPfnding) {
+        FlushVfrtfxQufuf();
+        bBfginSdfnfPfnding = FALSE;
+        J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::EndSdfnf");
+        rfturn pd3dDfvidf->EndSdfnf();
+    }
+    rfturn S_OK;
+}
+
+/**
+ * Compilfs bnd links thf givfn frbgmfnt shbdfr progrbm.  If
+ * suddfssful, this fundtion rfturns b hbndlf to thf nfwly drfbtfd shbdfr
+ * progrbm; othfrwisf rfturns 0.
+ */
+IDirfdt3DPixflShbdfr9 *D3DContfxt::CrfbtfFrbgmfntProgrbm(DWORD **shbdfrs,
+                                                       ShbdfrList *progrbms,
+                                                       jint flbgs)
+{
+    DWORD *sourdfCodf;
+    IDirfdt3DPixflShbdfr9 *pProgrbm;
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DContfxt::CrfbtfFrbgmfntProgrbm: flbgs=%d",
+                flbgs);
+
+    sourdfCodf = shbdfrs[flbgs];
+    if (FAILED(pd3dDfvidf->CrfbtfPixflShbdfr(sourdfCodf, &pProgrbm))) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "D3DContfxt::CrfbtfFrbgmfntProgrbm: frror drfbting progrbm");
+        rfturn NULL;
+    }
+
+    // bdd it to thf dbdhf
+    ShbdfrList_AddProgrbm(progrbms, ptr_to_jlong(pProgrbm),
+                          0 /*unusfd*/, 0 /*unusfd*/, flbgs);
+
+    rfturn pProgrbm;
+}
+
+/**
+ * Lodbtfs bnd fnbblfs b frbgmfnt progrbm givfn b list of shbdfr progrbms
+ * (ShbdfrInfos), using this dontfxt's stbtf bnd flbgs bs sfbrdh
+ * pbrbmftfrs.  Thf "flbgs" pbrbmftfr is b bitwisf-or'd vbluf thbt hflps
+ * difffrfntibtf onf progrbm for bnothfr; thf intfrprftbtion of this vbluf
+ * vbrifs dfpfnding on thf typf of shbdfr (BufImgOp, Pbint, ftd) but hfrf
+ * it is only usfd to find bnothfr ShbdfrInfo with thbt sbmf "flbgs" vbluf.
+ */
+HRESULT D3DContfxt::EnbblfFrbgmfntProgrbm(DWORD **shbdfrs,
+                                          ShbdfrList *progrbmList,
+                                          jint flbgs)
+{
+    HRESULT rfs;
+    jlong progrbmID;
+    IDirfdt3DPixflShbdfr9 *pProgrbm;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::EnbblfFrbgmfntProgrbm");
+
+    progrbmID =
+        ShbdfrList_FindProgrbm(progrbmList,
+                               0 /*unusfd*/, 0 /*unusfd*/, flbgs);
+
+    pProgrbm = (IDirfdt3DPixflShbdfr9 *)jlong_to_ptr(progrbmID);
+    if (pProgrbm == NULL) {
+        pProgrbm = CrfbtfFrbgmfntProgrbm(shbdfrs, progrbmList, flbgs);
+        if (pProgrbm == NULL) {
+            rfturn E_FAIL;
+        }
+    }
+
+    if (FAILED(rfs = pd3dDfvidf->SftPixflShbdfr(pProgrbm))) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "D3DContfxt::EnbblfFrbgmfntProgrbm: frror sftting pixfl shbdfr");
+        rfturn rfs;
+    }
+
+    rfturn S_OK;
+}
+
+HRESULT D3DContfxt::EnbblfBbsidGrbdifntProgrbm(jint flbgs)
+{
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)grbdShbdfrs,
+                                 &bbsidGrbdProgrbms, flbgs);
+}
+
+HRESULT D3DContfxt::EnbblfLinfbrGrbdifntProgrbm(jint flbgs)
+{
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)linfbrShbdfrs,
+                                 &linfbrGrbdProgrbms, flbgs);
+}
+
+HRESULT D3DContfxt::EnbblfRbdiblGrbdifntProgrbm(jint flbgs)
+{
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)rbdiblShbdfrs,
+                                 &rbdiblGrbdProgrbms, flbgs);
+}
+
+HRESULT D3DContfxt::EnbblfConvolvfProgrbm(jint flbgs)
+{
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)donvolvfShbdfrs,
+                                 &donvolvfProgrbms, flbgs);
+}
+
+HRESULT D3DContfxt::EnbblfRfsdblfProgrbm(jint flbgs)
+{
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)rfsdblfShbdfrs,
+                                 &rfsdblfProgrbms, flbgs);
+}
+
+HRESULT D3DContfxt::EnbblfLookupProgrbm(jint flbgs)
+{
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)lookupShbdfrs,
+                                 &lookupProgrbms, flbgs);
+}
+
+HRESULT D3DContfxt::EnbblfLCDTfxtProgrbm()
+{
+    HRESULT rfs;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::EnbblfLCDTfxtProgrbm");
+
+    if (lddTfxtProgrbm == NULL) {
+        if (FAILED(rfs = pd3dDfvidf->CrfbtfPixflShbdfr(lddtfxt0,
+                                                       &lddTfxtProgrbm)))
+        {
+            rfturn rfs;
+        }
+    }
+
+    if (FAILED(rfs = pd3dDfvidf->SftPixflShbdfr(lddTfxtProgrbm))) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "D3DContfxt::EnbblfLCDTfxtProgrbm: frror sftting pixfl shbdfr");
+        rfturn rfs;
+    }
+
+    rfturn S_OK;
+}
+
+HRESULT D3DContfxt::EnbblfAAPbrbllflogrbmProgrbm()
+{
+    HRESULT rfs;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::EnbblfAAPbrbllflogrbmProgrbm");
+
+    if (bbPgrbmProgrbm == NULL) {
+        if (FAILED(rfs = pd3dDfvidf->CrfbtfPixflShbdfr(bbpgrbm0,
+                                                       &bbPgrbmProgrbm))) {
+            DfbugPrintD3DError(rfs, "D3DContfxt::EnbblfAAPbrbllflogrbmProgrbm: "
+                               "frror drfbting pixfl shbdfr");
+            rfturn rfs;
+        }
+    }
+
+    if (FAILED(rfs = pd3dDfvidf->SftPixflShbdfr(bbPgrbmProgrbm))) {
+        DfbugPrintD3DError(rfs, "D3DContfxt::EnbblfAAPbrbllflogrbmProgrbm: "
+                           "frror sftting pixfl shbdfr");
+        rfturn rfs;
+    }
+
+    rfturn S_OK;
+}
+
+HRESULT D3DContfxt::DisbblfAAPbrbllflogrbmProgrbm()
+{
+    HRESULT rfs;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::DisbblfAAPbrbllflogrbmProgrbm");
+
+    if (bbPgrbmProgrbm != NULL) {
+        if (FAILED(rfs = pd3dDfvidf->SftPixflShbdfr(NULL))) {
+            DfbugPrintD3DError(rfs,
+                               "D3DContfxt::DisbblfAAPbrbllflogrbmProgrbm: "
+                               "frror dlfbring pixfl shbdfr");
+            rfturn rfs;
+        }
+    }
+
+    rfturn S_OK;
+}
+
+BOOL D3DContfxt::IsAlphbRTSurfbdfSupportfd()
+{
+    HRESULT rfs = pd3dObjfdt->ChfdkDfvidfFormbt(bdbptfrOrdinbl,
+            dfvCbps.DfvidfTypf,
+            durPbrbms.BbdkBufffrFormbt,
+            D3DUSAGE_RENDERTARGET,
+            D3DRTYPE_SURFACE,
+            D3DFMT_A8R8G8B8);
+    rfturn SUCCEEDED(rfs);
+}
+
+BOOL D3DContfxt::IsAlphbRTTSupportfd()
+{
+    HRESULT rfs = pd3dObjfdt->ChfdkDfvidfFormbt(bdbptfrOrdinbl,
+            dfvCbps.DfvidfTypf,
+            durPbrbms.BbdkBufffrFormbt,
+            D3DUSAGE_RENDERTARGET,
+            D3DRTYPE_TEXTURE,
+            D3DFMT_A8R8G8B8);
+    rfturn SUCCEEDED(rfs);
+}
+
+BOOL D3DContfxt::IsOpbqufRTTSupportfd()
+{
+    HRESULT rfs = pd3dObjfdt->ChfdkDfvidfFormbt(bdbptfrOrdinbl,
+            dfvCbps.DfvidfTypf,
+            durPbrbms.BbdkBufffrFormbt,
+            D3DUSAGE_RENDERTARGET,
+            D3DRTYPE_TEXTURE,
+            durPbrbms.BbdkBufffrFormbt);
+    rfturn SUCCEEDED(rfs);
+}
+
+HRESULT D3DContfxt::InitContfxtCbps() {
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::InitContfxtCbps");
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  dbps for bdbptfr %d :", bdbptfrOrdinbl);
+
+    if (pd3dDfvidf == NULL || pd3dObjfdt == NULL) {
+        dontfxtCbps = CAPS_EMPTY;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_EMPTY");
+        rfturn E_FAIL;
+    }
+
+    dontfxtCbps = CAPS_DEVICE_OK;
+    J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_DEVICE_OK");
+
+    if (IsAlphbRTSurfbdfSupportfd()) {
+        dontfxtCbps |= CAPS_RT_PLAIN_ALPHA;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_PLAIN_ALPHA");
+    }
+    if (IsAlphbRTTSupportfd()) {
+        dontfxtCbps |= CAPS_RT_TEXTURE_ALPHA;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_TEXTURE_ALPHA");
+    }
+    if (IsOpbqufRTTSupportfd()) {
+        dontfxtCbps |= CAPS_RT_TEXTURE_OPAQUE;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_TEXTURE_OPAQUE");
+    }
+    if (IsPixflShbdfr20Supportfd()) {
+        dontfxtCbps |= CAPS_LCD_SHADER | CAPS_BIOP_SHADER | CAPS_PS20;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE,
+                      "  | CAPS_LCD_SHADER | CAPS_BIOP_SHADER | CAPS_PS20");
+        // Prf-PS3.0 vidfo bobrds brf vfry slow with thf AA shbdfr, so
+        // wf will rfquirf PS30 hw fvfn though thf shbdfr is dompilfd for 2.0b
+//        if (IsGrbdifntInstrudtionExtfnsionSupportfd()) {
+//            dontfxtCbps |= CAPS_AA_SHADER;
+//            J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_AA_SHADER");
+//        }
+    }
+    if (IsPixflShbdfr30Supportfd()) {
+        if ((dontfxtCbps & CAPS_AA_SHADER) == 0) {
+            // This flbg wbs not blrfbdy mfntionfd bbovf...
+            J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_AA_SHADER");
+        }
+        dontfxtCbps |= CAPS_PS30 | CAPS_AA_SHADER;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_PS30");
+    }
+    if (IsMultiTfxturingSupportfd()) {
+        dontfxtCbps |= CAPS_MULTITEXTURE;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_MULTITEXTURE");
+    }
+    if (!IsPow2TfxturfsOnly()) {
+        dontfxtCbps |= CAPS_TEXNONPOW2;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_TEXNONPOW2");
+    }
+    if (!IsSqubrfTfxturfsOnly()) {
+        dontfxtCbps |= CAPS_TEXNONSQUARE;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_TEXNONSQUARE");
+    }
+    rfturn S_OK;
+}

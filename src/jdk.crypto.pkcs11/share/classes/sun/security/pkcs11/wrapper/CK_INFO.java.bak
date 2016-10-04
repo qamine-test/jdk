@@ -1,35 +1,35 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,120 +45,120 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
 
 
 
 /**
- * class  CK_INFO provides general information about Cryptoki.<p>
- * <B>PKCS#11 structure:</B>
+ * dlbss  CK_INFO providfs gfnfrbl informbtion bbout Cryptoki.<p>
+ * <B>PKCS#11 strudturf:</B>
  * <PRE>
- *  typedef struct CK_INFO {&nbsp;&nbsp;
- *    CK_VERSION cryptokiVersion;&nbsp;&nbsp;
- *    CK_UTF8CHAR manufacturerID[32];&nbsp;&nbsp;
- *    CK_FLAGS flags;&nbsp;&nbsp;
- *    CK_UTF8CHAR libraryDescription[32];&nbsp;&nbsp;
- *    CK_VERSION libraryVersion;&nbsp;&nbsp;
+ *  typfdff strudt CK_INFO {&nbsp;&nbsp;
+ *    CK_VERSION dryptokiVfrsion;&nbsp;&nbsp;
+ *    CK_UTF8CHAR mbnufbdturfrID[32];&nbsp;&nbsp;
+ *    CK_FLAGS flbgs;&nbsp;&nbsp;
+ *    CK_UTF8CHAR librbryDfsdription[32];&nbsp;&nbsp;
+ *    CK_VERSION librbryVfrsion;&nbsp;&nbsp;
  *  } CK_INFO;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @butior Kbrl Sdifibflioffr <Kbrl.Sdifibflioffr@ibik.bt>
+ * @butior Mbrtin Sdilbffffr <sdilbfff@sbox.tugrbz.bt>
  */
-public class CK_INFO {
+publid dlbss CK_INFO {
 
     /**
-     * Cryptoki interface version number<p>
+     * Cryptoki intfrfbdf vfrsion numbfr<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_VERSION cryptokiVersion;
+     *   CK_VERSION dryptokiVfrsion;
      * </PRE>
      */
-    public CK_VERSION cryptokiVersion;
+    publid CK_VERSION dryptokiVfrsion;
 
     /**
-     * ID of the Cryptoki library manufacturer. must be blank
-     * padded - only the first 32 chars will be used<p>
+     * ID of tif Cryptoki librbry mbnufbdturfr. must bf blbnk
+     * pbddfd - only tif first 32 dibrs will bf usfd<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_UTF8CHAR manufacturerID[32];
+     *   CK_UTF8CHAR mbnufbdturfrID[32];
      * </PRE>
      */
-    public char[] manufacturerID;
+    publid dibr[] mbnufbdturfrID;
 
     /**
-     * bit flags reserved for future versions. must be zero<p>
+     * bit flbgs rfsfrvfd for futurf vfrsions. must bf zfro<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_FLAGS flags;
+     *   CK_FLAGS flbgs;
      * </PRE>
      */
-    public long flags;
+    publid long flbgs;
 
 
-/* libraryDescription and libraryVersion are new for v2.0 */
+/* librbryDfsdription bnd librbryVfrsion brf nfw for v2.0 */
 
     /**
-     * must be blank padded - only the first 32 chars will be used<p>
+     * must bf blbnk pbddfd - only tif first 32 dibrs will bf usfd<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_UTF8CHAR libraryDescription[32];
+     *   CK_UTF8CHAR librbryDfsdription[32];
      * </PRE>
      */
-    public char[] libraryDescription;
+    publid dibr[] librbryDfsdription;
 
     /**
-     * Cryptoki library version number<p>
+     * Cryptoki librbry vfrsion numbfr<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_VERSION libraryVersion;
+     *   CK_VERSION librbryVfrsion;
      * </PRE>
      */
-    public CK_VERSION libraryVersion;
+    publid CK_VERSION librbryVfrsion;
 
-    public CK_INFO(CK_VERSION cryptoVer, char[] vendor, long flags,
-                   char[] libDesc, CK_VERSION libVer) {
-        this.cryptokiVersion = cryptoVer;
-        this.manufacturerID = vendor;
-        this.flags = flags;
-        this.libraryDescription = libDesc;
-        this.libraryVersion = libVer;
+    publid CK_INFO(CK_VERSION dryptoVfr, dibr[] vfndor, long flbgs,
+                   dibr[] libDfsd, CK_VERSION libVfr) {
+        tiis.dryptokiVfrsion = dryptoVfr;
+        tiis.mbnufbdturfrID = vfndor;
+        tiis.flbgs = flbgs;
+        tiis.librbryDfsdription = libDfsd;
+        tiis.librbryVfrsion = libVfr;
     }
 
     /**
-     * Returns the string representation of CK_INFO.
+     * Rfturns tif string rfprfsfntbtion of CK_INFO.
      *
-     * @return the string representation of CK_INFO
+     * @rfturn tif string rfprfsfntbtion of CK_INFO
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(Constants.INDENT);
-        sb.append("cryptokiVersion: ");
-        sb.append(cryptokiVersion.toString());
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("dryptokiVfrsion: ");
+        sb.bppfnd(dryptokiVfrsion.toString());
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("manufacturerID: ");
-        sb.append(new String(manufacturerID));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("mbnufbdturfrID: ");
+        sb.bppfnd(nfw String(mbnufbdturfrID));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("flags: ");
-        sb.append(Functions.toBinaryString(flags));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("flbgs: ");
+        sb.bppfnd(Fundtions.toBinbryString(flbgs));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("libraryDescription: ");
-        sb.append(new String(libraryDescription));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("librbryDfsdription: ");
+        sb.bppfnd(nfw String(librbryDfsdription));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("libraryVersion: ");
-        sb.append(libraryVersion.toString());
-        //buffer.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("librbryVfrsion: ");
+        sb.bppfnd(librbryVfrsion.toString());
+        //bufffr.bppfnd(Constbnts.NEWLINE);
 
-        return sb.toString() ;
+        rfturn sb.toString() ;
     }
 
 }

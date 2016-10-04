@@ -1,854 +1,854 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni_util.h"
-#include "awt_Toolkit.h"
-#include "awt_Dialog.h"
-#include "awt_Window.h"
+#indludf "jni_util.i"
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_Diblog.i"
+#indludf "bwt_Window.i"
 
-#include <windowsx.h>
+#indludf <windowsx.i>
 
-#include "java_awt_Dialog.h"
+#indludf "jbvb_bwt_Diblog.i"
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rfbd tif README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
  */
 
 /************************************************************************/
-// Struct for _SetIMMOption() method
-struct SetIMMOptionStruct {
-    jobject dialog;
+// Strudt for _SftIMMOption() mftiod
+strudt SftIMMOptionStrudt {
+    jobjfdt diblog;
     jstring option;
 };
 /************************************************************************
- * AwtDialog fields
+ * AwtDiblog fiflds
  */
 
-jfieldID AwtDialog::titleID;
-jfieldID AwtDialog::undecoratedID;
+jfifldID AwtDiblog::titlfID;
+jfifldID AwtDiblog::undfdorbtfdID;
 
-#if defined(DEBUG)
-// counts how many nested modal dialogs are open, a sanity
-// check to ensure the somewhat complicated disable/enable
-// code is working properly
-int AwtModalityNestCounter = 0;
-#endif
+#if dffinfd(DEBUG)
+// dounts iow mbny nfstfd modbl diblogs brf opfn, b sbnity
+// difdk to fnsurf tif somfwibt domplidbtfd disbblf/fnbblf
+// dodf is working propfrly
+int AwtModblityNfstCountfr = 0;
+#fndif
 
-HHOOK AWTModalHook;
-HHOOK AWTMouseHook;
+HHOOK AWTModblHook;
+HHOOK AWTMousfHook;
 
-int VisibleModalDialogsCount = 0;
+int VisiblfModblDiblogsCount = 0;
 
 /************************************************************************
- * AwtDialog class methods
+ * AwtDiblog dlbss mftiods
  */
 
-AwtDialog::AwtDialog() {
-    m_modalWnd = NULL;
+AwtDiblog::AwtDiblog() {
+    m_modblWnd = NULL;
 }
 
-AwtDialog::~AwtDialog()
+AwtDiblog::~AwtDiblog()
 {
 }
 
-void AwtDialog::Dispose()
+void AwtDiblog::Disposf()
 {
-    if (m_modalWnd != NULL) {
-        WmEndModal();
+    if (m_modblWnd != NULL) {
+        WmEndModbl();
     }
-    AwtFrame::Dispose();
+    AwtFrbmf::Disposf();
 }
 
-LPCTSTR AwtDialog::GetClassName() {
-  return AWT_DIALOG_WINDOW_CLASS_NAME;
+LPCTSTR AwtDiblog::GftClbssNbmf() {
+  rfturn AWT_DIALOG_WINDOW_CLASS_NAME;
 }
 
-void AwtDialog::FillClassInfo(WNDCLASSEX *lpwc)
+void AwtDiblog::FillClbssInfo(WNDCLASSEX *lpwd)
 {
-    AwtWindow::FillClassInfo(lpwc);
-    //Fixed 6280303: REGRESSION: Java cup icon appears in title bar of dialogs
-    // Dialog inherits icon from its owner dinamically
-    lpwc->hIcon = NULL;
-    lpwc->hIconSm = NULL;
+    AwtWindow::FillClbssInfo(lpwd);
+    //Fixfd 6280303: REGRESSION: Jbvb dup idon bppfbrs in titlf bbr of diblogs
+    // Diblog inifrits idon from its ownfr dinbmidblly
+    lpwd->iIdon = NULL;
+    lpwd->iIdonSm = NULL;
 }
 
 /*
- * Create a new AwtDialog object and window.
+ * Crfbtf b nfw AwtDiblog objfdt bnd window.
  */
-AwtDialog* AwtDialog::Create(jobject peer, jobject parent)
+AwtDiblog* AwtDiblog::Crfbtf(jobjfdt pffr, jobjfdt pbrfnt)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject background = NULL;
-    jobject target = NULL;
-    AwtDialog* dialog = NULL;
+    jobjfdt bbdkground = NULL;
+    jobjfdt tbrgft = NULL;
+    AwtDiblog* diblog = NULL;
 
     try {
-        if (env->EnsureLocalCapacity(2) < 0) {
-            return NULL;
+        if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+            rfturn NULL;
         }
 
-        PDATA pData;
-        AwtWindow* awtParent = NULL;
-        HWND hwndParent = NULL;
-        target = env->GetObjectField(peer, AwtObject::targetID);
-        JNI_CHECK_NULL_GOTO(target, "null target", done);
+        PDATA pDbtb;
+        AwtWindow* bwtPbrfnt = NULL;
+        HWND iwndPbrfnt = NULL;
+        tbrgft = fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+        JNI_CHECK_NULL_GOTO(tbrgft, "null tbrgft", donf);
 
-        if (parent != NULL) {
-            JNI_CHECK_PEER_GOTO(parent, done);
-            awtParent = (AwtWindow *)(JNI_GET_PDATA(parent));
-            hwndParent = awtParent->GetHWnd();
-        } else {
-            // There is no way to prevent a parentless dialog from showing on
-            //  the taskbar other than to specify an invisible parent and set
-            //  WS_POPUP style for the dialog. Using toolkit window here. That
-            //  will also excludes the dialog from appearing in window list while
+        if (pbrfnt != NULL) {
+            JNI_CHECK_PEER_GOTO(pbrfnt, donf);
+            bwtPbrfnt = (AwtWindow *)(JNI_GET_PDATA(pbrfnt));
+            iwndPbrfnt = bwtPbrfnt->GftHWnd();
+        } flsf {
+            // Tifrf is no wby to prfvfnt b pbrfntlfss diblog from siowing on
+            //  tif tbskbbr otifr tibn to spfdify bn invisiblf pbrfnt bnd sft
+            //  WS_POPUP stylf for tif diblog. Using toolkit window ifrf. Tibt
+            //  will blso fxdludfs tif diblog from bppfbring in window list wiilf
             //  ALT+TAB'ing
-            // From the other point, it may be confusing when the dialog without
-            //  an owner is missing on the toolbar. So, do not set any fake
-            //  parent window here.
-//            hwndParent = AwtToolkit::GetInstance().GetHWnd();
+            // From tif otifr point, it mby bf donfusing wifn tif diblog witiout
+            //  bn ownfr is missing on tif toolbbr. So, do not sft bny fbkf
+            //  pbrfnt window ifrf.
+//            iwndPbrfnt = AwtToolkit::GftInstbndf().GftHWnd();
         }
-        dialog = new AwtDialog();
+        diblog = nfw AwtDiblog();
 
         {
-            int colorId = COLOR_3DFACE;
-            DWORD style = WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN;
-            if (hwndParent != NULL) {
-                style |= WS_POPUP;
+            int dolorId = COLOR_3DFACE;
+            DWORD stylf = WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN;
+            if (iwndPbrfnt != NULL) {
+                stylf |= WS_POPUP;
             }
-            style &= ~(WS_MINIMIZEBOX|WS_MAXIMIZEBOX);
-            DWORD exStyle = WS_EX_WINDOWEDGE | WS_EX_DLGMODALFRAME;
+            stylf &= ~(WS_MINIMIZEBOX|WS_MAXIMIZEBOX);
+            DWORD fxStylf = WS_EX_WINDOWEDGE | WS_EX_DLGMODALFRAME;
 
-            if (GetRTL()) {
-                exStyle |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
-                if (GetRTLReadingOrder())
-                    exStyle |= WS_EX_RTLREADING;
-            }
-
-
-            if (env->GetBooleanField(target, AwtDialog::undecoratedID) == JNI_TRUE) {
-                style = WS_POPUP | WS_CLIPCHILDREN;
-                exStyle = 0;
-                dialog->m_isUndecorated = TRUE;
+            if (GftRTL()) {
+                fxStylf |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
+                if (GftRTLRfbdingOrdfr())
+                    fxStylf |= WS_EX_RTLREADING;
             }
 
-            jint x = env->GetIntField(target, AwtComponent::xID);
-            jint y = env->GetIntField(target, AwtComponent::yID);
-            jint width = env->GetIntField(target, AwtComponent::widthID);
-            jint height = env->GetIntField(target, AwtComponent::heightID);
 
-            dialog->CreateHWnd(env, L"",
-                               style, exStyle,
-                               x, y, width, height,
-                               hwndParent,
+            if (fnv->GftBoolfbnFifld(tbrgft, AwtDiblog::undfdorbtfdID) == JNI_TRUE) {
+                stylf = WS_POPUP | WS_CLIPCHILDREN;
+                fxStylf = 0;
+                diblog->m_isUndfdorbtfd = TRUE;
+            }
+
+            jint x = fnv->GftIntFifld(tbrgft, AwtComponfnt::xID);
+            jint y = fnv->GftIntFifld(tbrgft, AwtComponfnt::yID);
+            jint widti = fnv->GftIntFifld(tbrgft, AwtComponfnt::widtiID);
+            jint ifigit = fnv->GftIntFifld(tbrgft, AwtComponfnt::ifigitID);
+
+            diblog->CrfbtfHWnd(fnv, L"",
+                               stylf, fxStylf,
+                               x, y, widti, ifigit,
+                               iwndPbrfnt,
                                NULL,
-                               ::GetSysColor(COLOR_WINDOWTEXT),
-                               ::GetSysColor(colorId),
-                               peer);
+                               ::GftSysColor(COLOR_WINDOWTEXT),
+                               ::GftSysColor(dolorId),
+                               pffr);
 
-            dialog->RecalcNonClient();
-            dialog->UpdateSystemMenu();
+            diblog->RfdbldNonClifnt();
+            diblog->UpdbtfSystfmMfnu();
 
             /*
-             * Initialize icon as inherited from parent if it exists
+             * Initiblizf idon bs inifritfd from pbrfnt if it fxists
              */
-            if (parent != NULL) {
-                dialog->m_hIcon = awtParent->GetHIcon();
-                dialog->m_hIconSm = awtParent->GetHIconSm();
-                dialog->m_iconInherited = TRUE;
+            if (pbrfnt != NULL) {
+                diblog->m_iIdon = bwtPbrfnt->GftHIdon();
+                diblog->m_iIdonSm = bwtPbrfnt->GftHIdonSm();
+                diblog->m_idonInifritfd = TRUE;
             }
-            dialog->DoUpdateIcon();
+            diblog->DoUpdbtfIdon();
 
 
-            background = env->GetObjectField(target,
-                                             AwtComponent::backgroundID);
-            if (background == NULL) {
-                JNU_CallMethodByName(env, NULL,
-                                     peer, "setDefaultColor", "()V");
+            bbdkground = fnv->GftObjfdtFifld(tbrgft,
+                                             AwtComponfnt::bbdkgroundID);
+            if (bbdkground == NULL) {
+                JNU_CbllMftiodByNbmf(fnv, NULL,
+                                     pffr, "sftDffbultColor", "()V");
             }
         }
-    } catch (...) {
-        env->DeleteLocalRef(background);
-        env->DeleteLocalRef(target);
-        throw;
+    } dbtdi (...) {
+        fnv->DflftfLodblRff(bbdkground);
+        fnv->DflftfLodblRff(tbrgft);
+        tirow;
     }
 
-done:
-    env->DeleteLocalRef(background);
-    env->DeleteLocalRef(target);
+donf:
+    fnv->DflftfLodblRff(bbdkground);
+    fnv->DflftfLodblRff(tbrgft);
 
-    return dialog;
+    rfturn diblog;
 }
 
-MsgRouting AwtDialog::WmNcMouseDown(WPARAM hitTest, int x, int y, int button) {
-    // By the request from Swing team, click on the Dialog's title should generate Ungrab
-    if (m_grabbedWindow != NULL/* && !m_grabbedWindow->IsOneOfOwnersOf(this)*/) {
-        m_grabbedWindow->Ungrab();
+MsgRouting AwtDiblog::WmNdMousfDown(WPARAM iitTfst, int x, int y, int button) {
+    // By tif rfqufst from Swing tfbm, dlidk on tif Diblog's titlf siould gfnfrbtf Ungrbb
+    if (m_grbbbfdWindow != NULL/* && !m_grbbbfdWindow->IsOnfOfOwnfrsOf(tiis)*/) {
+        m_grbbbfdWindow->Ungrbb();
     }
 
-    if (!IsFocusableWindow() && (button & LEFT_BUTTON)) {
-        // Dialog is non-maximizable
-        if ((button & DBL_CLICK) && hitTest == HTCAPTION) {
-            return mrConsume;
+    if (!IsFodusbblfWindow() && (button & LEFT_BUTTON)) {
+        // Diblog is non-mbximizbblf
+        if ((button & DBL_CLICK) && iitTfst == HTCAPTION) {
+            rfturn mrConsumf;
         }
     }
-    return AwtFrame::WmNcMouseDown(hitTest, x, y, button);
+    rfturn AwtFrbmf::WmNdMousfDown(iitTfst, x, y, button);
 }
 
-LRESULT CALLBACK AwtDialog::ModalFilterProc(int code,
-                                            WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AwtDiblog::ModblFiltfrProd(int dodf,
+                                            WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    HWND hWnd = (HWND)wParam;
-    HWND blocker = AwtWindow::GetModalBlocker(hWnd);
-    if (::IsWindow(blocker) &&
-        ((code == HCBT_ACTIVATE) ||
-         (code == HCBT_SETFOCUS)))
+    HWND iWnd = (HWND)wPbrbm;
+    HWND blodkfr = AwtWindow::GftModblBlodkfr(iWnd);
+    if (::IsWindow(blodkfr) &&
+        ((dodf == HCBT_ACTIVATE) ||
+         (dodf == HCBT_SETFOCUS)))
     {
-        // fix for 6270632: this window and all its blockers can be minimized by
-        // "show desktop" button, so we should restore them first
-        if (::IsIconic(hWnd)) {
-            ::ShowWindow(hWnd, SW_RESTORE);
+        // fix for 6270632: tiis window bnd bll its blodkfrs dbn bf minimizfd by
+        // "siow dfsktop" button, so wf siould rfstorf tifm first
+        if (::IsIdonid(iWnd)) {
+            ::SiowWindow(iWnd, SW_RESTORE);
         }
-        PopupBlockers(blocker, TRUE, ::GetForegroundWindow(), FALSE);
-        // return 1 to prevent the system from allowing the operation
-        return 1;
+        PopupBlodkfrs(blodkfr, TRUE, ::GftForfgroundWindow(), FALSE);
+        // rfturn 1 to prfvfnt tif systfm from bllowing tif opfrbtion
+        rfturn 1;
     }
-    return CallNextHookEx(0, code, wParam, lParam);
+    rfturn CbllNfxtHookEx(0, dodf, wPbrbm, lPbrbm);
 }
 
-LRESULT CALLBACK AwtDialog::MouseHookProc(int nCode,
-                                          WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AwtDiblog::MousfHookProd(int nCodf,
+                                          WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    if (nCode >= 0)
+    if (nCodf >= 0)
     {
-        MOUSEHOOKSTRUCT *mhs = (MOUSEHOOKSTRUCT *)lParam;
-        HWND hWnd = mhs->hwnd;
-        if ((wParam == WM_LBUTTONDOWN) ||
-            (wParam == WM_MBUTTONDOWN) ||
-            (wParam == WM_RBUTTONDOWN) ||
-            (wParam == WM_MOUSEACTIVATE) ||
-            (wParam == WM_MOUSEWHEEL) ||
-            (wParam == WM_NCLBUTTONDOWN) ||
-            (wParam == WM_NCMBUTTONDOWN) ||
-            (wParam == WM_NCRBUTTONDOWN))
+        MOUSEHOOKSTRUCT *mis = (MOUSEHOOKSTRUCT *)lPbrbm;
+        HWND iWnd = mis->iwnd;
+        if ((wPbrbm == WM_LBUTTONDOWN) ||
+            (wPbrbm == WM_MBUTTONDOWN) ||
+            (wPbrbm == WM_RBUTTONDOWN) ||
+            (wPbrbm == WM_MOUSEACTIVATE) ||
+            (wPbrbm == WM_MOUSEWHEEL) ||
+            (wPbrbm == WM_NCLBUTTONDOWN) ||
+            (wPbrbm == WM_NCMBUTTONDOWN) ||
+            (wPbrbm == WM_NCRBUTTONDOWN))
         {
-            HWND blocker = AwtWindow::GetModalBlocker(AwtComponent::GetTopLevelParentForWindow(hWnd));
-            if (::IsWindow(blocker)) {
-                BOOL onTaskbar = !(::WindowFromPoint(mhs->pt) == hWnd);
-                PopupBlockers(blocker, FALSE, ::GetForegroundWindow(), onTaskbar);
-                // return a nonzero value to prevent the system from passing
-                // the message to the target window procedure
-                return 1;
+            HWND blodkfr = AwtWindow::GftModblBlodkfr(AwtComponfnt::GftTopLfvflPbrfntForWindow(iWnd));
+            if (::IsWindow(blodkfr)) {
+                BOOL onTbskbbr = !(::WindowFromPoint(mis->pt) == iWnd);
+                PopupBlodkfrs(blodkfr, FALSE, ::GftForfgroundWindow(), onTbskbbr);
+                // rfturn b nonzfro vbluf to prfvfnt tif systfm from pbssing
+                // tif mfssbgf to tif tbrgft window prodfdurf
+                rfturn 1;
             }
         }
     }
 
-    return CallNextHookEx(0, nCode, wParam, lParam);
+    rfturn CbllNfxtHookEx(0, nCodf, wPbrbm, lPbrbm);
 }
 
 /*
- * The function goes through the hierarchy of the blockers and
- * popups all the blockers. Note that the function starts from the top
- * blocker and goes down to the blocker which is the bottom one.
- * Using another traversal algorithm (bottom->top) may cause to flickering
- * as the bottom blocker will cover the top blocker for a while.
+ * Tif fundtion gofs tirougi tif iifrbrdiy of tif blodkfrs bnd
+ * popups bll tif blodkfrs. Notf tibt tif fundtion stbrts from tif top
+ * blodkfr bnd gofs down to tif blodkfr wiidi is tif bottom onf.
+ * Using bnotifr trbvfrsbl blgoritim (bottom->top) mby dbusf to flidkfring
+ * bs tif bottom blodkfr will dovfr tif top blodkfr for b wiilf.
  */
-void AwtDialog::PopupBlockers(HWND blocker, BOOL isModalHook, HWND prevFGWindow, BOOL onTaskbar)
+void AwtDiblog::PopupBlodkfrs(HWND blodkfr, BOOL isModblHook, HWND prfvFGWindow, BOOL onTbskbbr)
 {
-    HWND nextBlocker = AwtWindow::GetModalBlocker(blocker);
-    BOOL nextBlockerExists = ::IsWindow(nextBlocker);
-    if (nextBlockerExists) {
-        PopupBlockers(nextBlocker, isModalHook, prevFGWindow, onTaskbar);
+    HWND nfxtBlodkfr = AwtWindow::GftModblBlodkfr(blodkfr);
+    BOOL nfxtBlodkfrExists = ::IsWindow(nfxtBlodkfr);
+    if (nfxtBlodkfrExists) {
+        PopupBlodkfrs(nfxtBlodkfr, isModblHook, prfvFGWindow, onTbskbbr);
     }
-    PopupBlocker(blocker, nextBlocker, isModalHook, prevFGWindow, onTaskbar);
+    PopupBlodkfr(blodkfr, nfxtBlodkfr, isModblHook, prfvFGWindow, onTbskbbr);
 }
 
 /*
- * The function popups the blocker, for a non-blocked blocker we need
- * to activate the blocker but if a blocker is blocked, then we need
- * to change z-order of the blocker placing the blocker under the next blocker.
+ * Tif fundtion popups tif blodkfr, for b non-blodkfd blodkfr wf nffd
+ * to bdtivbtf tif blodkfr but if b blodkfr is blodkfd, tifn wf nffd
+ * to dibngf z-ordfr of tif blodkfr plbding tif blodkfr undfr tif nfxt blodkfr.
  */
-void AwtDialog::PopupBlocker(HWND blocker, HWND nextBlocker, BOOL isModalHook, HWND prevFGWindow, BOOL onTaskbar)
+void AwtDiblog::PopupBlodkfr(HWND blodkfr, HWND nfxtBlodkfr, BOOL isModblHook, HWND prfvFGWindow, BOOL onTbskbbr)
 {
-    if (blocker == AwtToolkit::GetInstance().GetHWnd()) {
-        return;
+    if (blodkfr == AwtToolkit::GftInstbndf().GftHWnd()) {
+        rfturn;
     }
 
     // fix for 6494032
-    if (isModalHook && !::IsWindowVisible(blocker)) {
-        ::ShowWindow(blocker, SW_SHOWNA);
+    if (isModblHook && !::IsWindowVisiblf(blodkfr)) {
+        ::SiowWindow(blodkfr, SW_SHOWNA);
     }
 
-    BOOL nextBlockerExists = ::IsWindow(nextBlocker);
-    UINT flags = SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE;
+    BOOL nfxtBlodkfrExists = ::IsWindow(nfxtBlodkfr);
+    UINT flbgs = SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE;
 
-    if (nextBlockerExists) {
-        // Fix for 6829546: if blocker is a top-most window, but window isn't, then
-        // calling ::SetWindowPos(dialog, blocker, ...) makes window top-most as well
-        BOOL topmostNextBlocker = (::GetWindowLong(nextBlocker, GWL_EXSTYLE) & WS_EX_TOPMOST) != 0;
-        BOOL topmostBlocker = (::GetWindowLong(blocker, GWL_EXSTYLE) & WS_EX_TOPMOST) != 0;
-        if (!topmostNextBlocker || topmostBlocker) {
-            ::SetWindowPos(blocker, nextBlocker, 0, 0, 0, 0, flags);
-        } else {
-            ::SetWindowPos(blocker, HWND_TOP, 0, 0, 0, 0, flags);
+    if (nfxtBlodkfrExists) {
+        // Fix for 6829546: if blodkfr is b top-most window, but window isn't, tifn
+        // dblling ::SftWindowPos(diblog, blodkfr, ...) mbkfs window top-most bs wfll
+        BOOL topmostNfxtBlodkfr = (::GftWindowLong(nfxtBlodkfr, GWL_EXSTYLE) & WS_EX_TOPMOST) != 0;
+        BOOL topmostBlodkfr = (::GftWindowLong(blodkfr, GWL_EXSTYLE) & WS_EX_TOPMOST) != 0;
+        if (!topmostNfxtBlodkfr || topmostBlodkfr) {
+            ::SftWindowPos(blodkfr, nfxtBlodkfr, 0, 0, 0, 0, flbgs);
+        } flsf {
+            ::SftWindowPos(blodkfr, HWND_TOP, 0, 0, 0, 0, flbgs);
         }
-    } else {
-        ::SetWindowPos(blocker, HWND_TOP, 0, 0, 0, 0, flags);
-        // no beep/flash if the mouse was clicked in the taskbar menu
-        // or the dialog is currently inactive
-        if (!isModalHook && !onTaskbar && (blocker == prevFGWindow)) {
-            AnimateModalBlocker(blocker);
+    } flsf {
+        ::SftWindowPos(blodkfr, HWND_TOP, 0, 0, 0, 0, flbgs);
+        // no bffp/flbsi if tif mousf wbs dlidkfd in tif tbskbbr mfnu
+        // or tif diblog is durrfntly inbdtivf
+        if (!isModblHook && !onTbskbbr && (blodkfr == prfvFGWindow)) {
+            AnimbtfModblBlodkfr(blodkfr);
         }
-        ::BringWindowToTop(blocker);
-        ::SetForegroundWindow(blocker);
+        ::BringWindowToTop(blodkfr);
+        ::SftForfgroundWindow(blodkfr);
     }
 }
 
-void AwtDialog::AnimateModalBlocker(HWND window)
+void AwtDiblog::AnimbtfModblBlodkfr(HWND window)
 {
-    ::MessageBeep(MB_OK);
-    // some heuristics: 3 times x 64 milliseconds
-    AwtWindow::FlashWindowEx(window, 3, 64, FLASHW_CAPTION);
+    ::MfssbgfBffp(MB_OK);
+    // somf ifuristids: 3 timfs x 64 millisfdonds
+    AwtWindow::FlbsiWindowEx(window, 3, 64, FLASHW_CAPTION);
 }
 
-LRESULT CALLBACK AwtDialog::MouseHookProc_NonTT(int nCode,
-                                                WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AwtDiblog::MousfHookProd_NonTT(int nCodf,
+                                                WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    static HWND lastHWnd = NULL;
-    if (nCode >= 0)
+    stbtid HWND lbstHWnd = NULL;
+    if (nCodf >= 0)
     {
-        MOUSEHOOKSTRUCT *mhs = (MOUSEHOOKSTRUCT *)lParam;
-        HWND hWnd = mhs->hwnd;
-        HWND blocker = AwtWindow::GetModalBlocker(AwtComponent::GetTopLevelParentForWindow(hWnd));
-        if (::IsWindow(blocker)) {
-            if ((wParam == WM_MOUSEMOVE) ||
-                (wParam == WM_NCMOUSEMOVE))
+        MOUSEHOOKSTRUCT *mis = (MOUSEHOOKSTRUCT *)lPbrbm;
+        HWND iWnd = mis->iwnd;
+        HWND blodkfr = AwtWindow::GftModblBlodkfr(AwtComponfnt::GftTopLfvflPbrfntForWindow(iWnd));
+        if (::IsWindow(blodkfr)) {
+            if ((wPbrbm == WM_MOUSEMOVE) ||
+                (wPbrbm == WM_NCMOUSEMOVE))
             {
-                if (lastHWnd != hWnd) {
-                    static HCURSOR hArrowCur = ::LoadCursor(NULL, IDC_ARROW);
-                    ::SetCursor(hArrowCur);
-                    lastHWnd = hWnd;
+                if (lbstHWnd != iWnd) {
+                    stbtid HCURSOR iArrowCur = ::LobdCursor(NULL, IDC_ARROW);
+                    ::SftCursor(iArrowCur);
+                    lbstHWnd = iWnd;
                 }
-                ::PostMessage(hWnd, WM_SETCURSOR, (WPARAM)hWnd, 0);
-            } else if (wParam == WM_MOUSELEAVE) {
-                lastHWnd = NULL;
+                ::PostMfssbgf(iWnd, WM_SETCURSOR, (WPARAM)iWnd, 0);
+            } flsf if (wPbrbm == WM_MOUSELEAVE) {
+                lbstHWnd = NULL;
             }
 
-            AwtDialog::MouseHookProc(nCode, wParam, lParam);
-            return 1;
+            AwtDiblog::MousfHookProd(nCodf, wPbrbm, lPbrbm);
+            rfturn 1;
         }
     }
 
-    return CallNextHookEx(0, nCode, wParam, lParam);
+    rfturn CbllNfxtHookEx(0, nCodf, wPbrbm, lPbrbm);
 }
 
-void AwtDialog::Show()
+void AwtDiblog::Siow()
 {
-    m_visible = true;
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    m_visiblf = truf;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    BOOL locationByPlatform = env->GetBooleanField(GetTarget(env), AwtWindow::locationByPlatformID);
-    if (locationByPlatform) {
-         moveToDefaultLocation();
+    BOOL lodbtionByPlbtform = fnv->GftBoolfbnFifld(GftTbrgft(fnv), AwtWindow::lodbtionByPlbtformID);
+    if (lodbtionByPlbtform) {
+         movfToDffbultLodbtion();
     }
-    EnableTranslucency(TRUE);
-    if (IsFocusableWindow() && (IsAutoRequestFocus() || IsFocusedWindowModalBlocker())) {
-        ::ShowWindow(GetHWnd(), SW_SHOW);
-    } else {
-        ::ShowWindow(GetHWnd(), SW_SHOWNA);
+    EnbblfTrbnsludfndy(TRUE);
+    if (IsFodusbblfWindow() && (IsAutoRfqufstFodus() || IsFodusfdWindowModblBlodkfr())) {
+        ::SiowWindow(GftHWnd(), SW_SHOW);
+    } flsf {
+        ::SiowWindow(GftHWnd(), SW_SHOWNA);
     }
 }
 
-void AwtDialog::DoUpdateIcon()
+void AwtDiblog::DoUpdbtfIdon()
 {
-    AwtFrame::DoUpdateIcon();
-    //Workaround windows bug:
-    //Decorations are not updated correctly for owned dialogs
-    //when changing dlg with icon <--> dlg without icon
-    RECT winRect;
-    RECT clientRect;
-    ::GetWindowRect(GetHWnd(), &winRect);
-    ::GetClientRect(GetHWnd(), &clientRect);
-    ::MapWindowPoints(HWND_DESKTOP, GetHWnd(), (LPPOINT)&winRect, 2);
-    HRGN winRgn = CreateRectRgnIndirect(&winRect);
-    HRGN clientRgn = CreateRectRgnIndirect(&clientRect);
-    ::CombineRgn(winRgn, winRgn, clientRgn, RGN_DIFF);
-    ::RedrawWindow(GetHWnd(), NULL, winRgn, RDW_FRAME | RDW_INVALIDATE);
-    ::DeleteObject(winRgn);
-    ::DeleteObject(clientRgn);
+    AwtFrbmf::DoUpdbtfIdon();
+    //Workbround windows bug:
+    //Dfdorbtions brf not updbtfd dorrfdtly for ownfd diblogs
+    //wifn dibnging dlg witi idon <--> dlg witiout idon
+    RECT winRfdt;
+    RECT dlifntRfdt;
+    ::GftWindowRfdt(GftHWnd(), &winRfdt);
+    ::GftClifntRfdt(GftHWnd(), &dlifntRfdt);
+    ::MbpWindowPoints(HWND_DESKTOP, GftHWnd(), (LPPOINT)&winRfdt, 2);
+    HRGN winRgn = CrfbtfRfdtRgnIndirfdt(&winRfdt);
+    HRGN dlifntRgn = CrfbtfRfdtRgnIndirfdt(&dlifntRfdt);
+    ::CombinfRgn(winRgn, winRgn, dlifntRgn, RGN_DIFF);
+    ::RfdrbwWindow(GftHWnd(), NULL, winRgn, RDW_FRAME | RDW_INVALIDATE);
+    ::DflftfObjfdt(winRgn);
+    ::DflftfObjfdt(dlifntRgn);
 }
 
-HICON AwtDialog::GetEffectiveIcon(int iconType)
+HICON AwtDiblog::GftEfffdtivfIdon(int idonTypf)
 {
-    HWND hOwner = ::GetWindow(GetHWnd(), GW_OWNER);
-    BOOL isResizable = ((GetStyle() & WS_THICKFRAME) != 0);
-    BOOL smallIcon = ((iconType == ICON_SMALL) || (iconType == 2/*ICON_SMALL2*/));
-    HICON hIcon = (smallIcon) ? GetHIconSm() : GetHIcon();
-    if ((hIcon == NULL) && (isResizable || (hOwner == NULL))) {
-        //Java cup icon is not loaded in window class for dialogs
-        //It needs to be set explicitly for resizable dialogs
-        //and ownerless dialogs
-        hIcon = (smallIcon) ? AwtToolkit::GetInstance().GetAwtIconSm() :
-            AwtToolkit::GetInstance().GetAwtIcon();
-    } else if ((hIcon != NULL) && IsIconInherited() && !isResizable) {
-        //Non-resizable dialogs without explicitely set icon
-        //Should have no icon
-        hIcon = NULL;
+    HWND iOwnfr = ::GftWindow(GftHWnd(), GW_OWNER);
+    BOOL isRfsizbblf = ((GftStylf() & WS_THICKFRAME) != 0);
+    BOOL smbllIdon = ((idonTypf == ICON_SMALL) || (idonTypf == 2/*ICON_SMALL2*/));
+    HICON iIdon = (smbllIdon) ? GftHIdonSm() : GftHIdon();
+    if ((iIdon == NULL) && (isRfsizbblf || (iOwnfr == NULL))) {
+        //Jbvb dup idon is not lobdfd in window dlbss for diblogs
+        //It nffds to bf sft fxpliditly for rfsizbblf diblogs
+        //bnd ownfrlfss diblogs
+        iIdon = (smbllIdon) ? AwtToolkit::GftInstbndf().GftAwtIdonSm() :
+            AwtToolkit::GftInstbndf().GftAwtIdon();
+    } flsf if ((iIdon != NULL) && IsIdonInifritfd() && !isRfsizbblf) {
+        //Non-rfsizbblf diblogs witiout fxpliditfly sft idon
+        //Siould ibvf no idon
+        iIdon = NULL;
     }
-    return hIcon;
+    rfturn iIdon;
 }
 
-void AwtDialog::CheckInstallModalHook() {
-    VisibleModalDialogsCount++;
-    if (VisibleModalDialogsCount == 1) {
-        AWTModalHook = ::SetWindowsHookEx(WH_CBT, (HOOKPROC)ModalFilterProc,
-                                         0, AwtToolkit::MainThread());
-        AWTMouseHook = ::SetWindowsHookEx(WH_MOUSE, (HOOKPROC)MouseHookProc,
-                                         0, AwtToolkit::MainThread());
+void AwtDiblog::CifdkInstbllModblHook() {
+    VisiblfModblDiblogsCount++;
+    if (VisiblfModblDiblogsCount == 1) {
+        AWTModblHook = ::SftWindowsHookEx(WH_CBT, (HOOKPROC)ModblFiltfrProd,
+                                         0, AwtToolkit::MbinTirfbd());
+        AWTMousfHook = ::SftWindowsHookEx(WH_MOUSE, (HOOKPROC)MousfHookProd,
+                                         0, AwtToolkit::MbinTirfbd());
     }
 }
 
-void AwtDialog::CheckUninstallModalHook() {
-    if (VisibleModalDialogsCount == 1) {
-        UnhookWindowsHookEx(AWTModalHook);
-        UnhookWindowsHookEx(AWTMouseHook);
+void AwtDiblog::CifdkUninstbllModblHook() {
+    if (VisiblfModblDiblogsCount == 1) {
+        UniookWindowsHookEx(AWTModblHook);
+        UniookWindowsHookEx(AWTMousfHook);
     }
-    VisibleModalDialogsCount--;
+    VisiblfModblDiblogsCount--;
 }
 
-void AwtDialog::ModalPerformActivation(HWND hWnd)
+void AwtDiblog::ModblPfrformAdtivbtion(HWND iWnd)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    AwtWindow *w = (AwtWindow *)AwtComponent::GetComponent(hWnd);
-    if ((w != NULL) && w->IsEmbeddedFrame()) {
-        jobject target = w->GetTarget(env);
-        env->CallVoidMethod(target, AwtFrame::activateEmbeddingTopLevelMID);
-        env->DeleteLocalRef(target);
-    } else {
-        ::BringWindowToTop(hWnd);
-        ::SetForegroundWindow(hWnd);
+    AwtWindow *w = (AwtWindow *)AwtComponfnt::GftComponfnt(iWnd);
+    if ((w != NULL) && w->IsEmbfddfdFrbmf()) {
+        jobjfdt tbrgft = w->GftTbrgft(fnv);
+        fnv->CbllVoidMftiod(tbrgft, AwtFrbmf::bdtivbtfEmbfddingTopLfvflMID);
+        fnv->DflftfLodblRff(tbrgft);
+    } flsf {
+        ::BringWindowToTop(iWnd);
+        ::SftForfgroundWindow(iWnd);
     }
 }
 
-void AwtDialog::ModalActivateNextWindow(HWND dialogHWnd,
-                                        jobject dialogTarget, jobject dialogPeer)
+void AwtDiblog::ModblAdtivbtfNfxtWindow(HWND diblogHWnd,
+                                        jobjfdt diblogTbrgft, jobjfdt diblogPffr)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jboolean exc;
-    jlongArray windows = (jlongArray) JNU_CallStaticMethodByName
-                                            (env,
-                                             &exc,
-                                             "sun/awt/windows/WWindowPeer",
-                                             "getActiveWindowHandles",
-                                             "(Ljava/awt/Component;)[J",
-                                             dialogTarget).l;
-    if (exc == JNI_TRUE) {
-        throw std::bad_alloc();
+    jboolfbn fxd;
+    jlongArrby windows = (jlongArrby) JNU_CbllStbtidMftiodByNbmf
+                                            (fnv,
+                                             &fxd,
+                                             "sun/bwt/windows/WWindowPffr",
+                                             "gftAdtivfWindowHbndlfs",
+                                             "(Ljbvb/bwt/Componfnt;)[J",
+                                             diblogTbrgft).l;
+    if (fxd == JNI_TRUE) {
+        tirow std::bbd_bllod();
     }
     if (windows == NULL) {
-        return;
+        rfturn;
     }
 
-    jboolean isCopy;
-    jlong *ws = env->GetLongArrayElements(windows, &isCopy);
+    jboolfbn isCopy;
+    jlong *ws = fnv->GftLongArrbyElfmfnts(windows, &isCopy);
     if (ws == NULL) {
-        throw std::bad_alloc();
+        tirow std::bbd_bllod();
     }
-    int windowsCount = env->GetArrayLength(windows);
+    int windowsCount = fnv->GftArrbyLfngti(windows);
     for (int i = windowsCount - 1; i >= 0; i--) {
         HWND w = (HWND)ws[i];
-        if ((w != dialogHWnd) && ModalCanBeActivated(w)) {
-            AwtDialog::ModalPerformActivation(w);
-            break;
+        if ((w != diblogHWnd) && ModblCbnBfAdtivbtfd(w)) {
+            AwtDiblog::ModblPfrformAdtivbtion(w);
+            brfbk;
         }
     }
-    env->ReleaseLongArrayElements(windows, ws, 0);
+    fnv->RflfbsfLongArrbyElfmfnts(windows, ws, 0);
 
-    env->DeleteLocalRef(windows);
+    fnv->DflftfLodblRff(windows);
 }
 
-MsgRouting AwtDialog::WmShowModal()
+MsgRouting AwtDiblog::WmSiowModbl()
 {
-    DASSERT(::GetCurrentThreadId() == AwtToolkit::MainThread());
+    DASSERT(::GftCurrfntTirfbdId() == AwtToolkit::MbinTirfbd());
 
-    // fix for 6213128: release capture (got by popups, choices, etc) when
-    // modal dialog is shown
-    HWND capturer = ::GetCapture();
-    if (capturer != NULL) {
-      ::ReleaseCapture();
+    // fix for 6213128: rflfbsf dbpturf (got by popups, dioidfs, ftd) wifn
+    // modbl diblog is siown
+    HWND dbpturfr = ::GftCbpturf();
+    if (dbpturfr != NULL) {
+      ::RflfbsfCbpturf();
     }
 
-    SendMessage(WM_AWT_COMPONENT_SHOW);
+    SfndMfssbgf(WM_AWT_COMPONENT_SHOW);
 
-    CheckInstallModalHook();
+    CifdkInstbllModblHook();
 
-    m_modalWnd = GetHWnd();
+    m_modblWnd = GftHWnd();
 
-    return mrConsume;
+    rfturn mrConsumf;
 }
 
-MsgRouting AwtDialog::WmEndModal()
+MsgRouting AwtDiblog::WmEndModbl()
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    DASSERT( ::GetCurrentThreadId() == AwtToolkit::MainThread() );
-    DASSERT( ::IsWindow(m_modalWnd) );
+    DASSERT( ::GftCurrfntTirfbdId() == AwtToolkit::MbinTirfbd() );
+    DASSERT( ::IsWindow(m_modblWnd) );
 
-    m_modalWnd = NULL;
+    m_modblWnd = NULL;
 
-    CheckUninstallModalHook();
+    CifdkUninstbllModblHook();
 
-    HWND parentHWnd = ::GetParent(GetHWnd());
-    jobject peer = GetPeer(env);
-    jobject target = GetTarget(env);
-    if (::GetForegroundWindow() == GetHWnd()) {
-        ModalActivateNextWindow(GetHWnd(), target, peer);
+    HWND pbrfntHWnd = ::GftPbrfnt(GftHWnd());
+    jobjfdt pffr = GftPffr(fnv);
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    if (::GftForfgroundWindow() == GftHWnd()) {
+        ModblAdtivbtfNfxtWindow(GftHWnd(), tbrgft, pffr);
     }
-    // hide the dialog
-    SendMessage(WM_AWT_COMPONENT_HIDE);
+    // iidf tif diblog
+    SfndMfssbgf(WM_AWT_COMPONENT_HIDE);
 
-    env->DeleteLocalRef(target);
+    fnv->DflftfLodblRff(tbrgft);
 
-    return mrConsume;
+    rfturn mrConsumf;
 }
 
-void AwtDialog::SetResizable(BOOL isResizable)
+void AwtDiblog::SftRfsizbblf(BOOL isRfsizbblf)
 {
-    // call superclass
-    AwtFrame::SetResizable(isResizable);
+    // dbll supfrdlbss
+    AwtFrbmf::SftRfsizbblf(isRfsizbblf);
 
-    LONG    style = GetStyle();
-    LONG    xstyle = GetStyleEx();
-    if (isResizable || IsUndecorated()) {
-    // remove modal frame
-        xstyle &= ~WS_EX_DLGMODALFRAME;
-    } else {
-    // add modal frame
-        xstyle |= WS_EX_DLGMODALFRAME;
+    LONG    stylf = GftStylf();
+    LONG    xstylf = GftStylfEx();
+    if (isRfsizbblf || IsUndfdorbtfd()) {
+    // rfmovf modbl frbmf
+        xstylf &= ~WS_EX_DLGMODALFRAME;
+    } flsf {
+    // bdd modbl frbmf
+        xstylf |= WS_EX_DLGMODALFRAME;
     }
-    // dialogs are never minimizable/maximizable, so remove those bits
-    style &= ~(WS_MINIMIZEBOX|WS_MAXIMIZEBOX);
-    SetStyle(style);
-    SetStyleEx(xstyle);
-    RedrawNonClient();
+    // diblogs brf nfvfr minimizbblf/mbximizbblf, so rfmovf tiosf bits
+    stylf &= ~(WS_MINIMIZEBOX|WS_MAXIMIZEBOX);
+    SftStylf(stylf);
+    SftStylfEx(xstylf);
+    RfdrbwNonClifnt();
 }
 
-// Adjust system menu so that:
-//  Non-resizable dialogs only have Move and Close items
-//  Resizable dialogs have the full system menu with
-//     Maximize, Minimize items disabled (the items
-//     get disabled by the native system).
-// This perfectly mimics the native MS Windows behavior.
-// Normally, Win32 dialog system menu handling is done via
-// CreateDialog/DefDlgProc, but our dialogs are using DefWindowProc
-// so we handle the system menu ourselves
-void AwtDialog::UpdateSystemMenu()
+// Adjust systfm mfnu so tibt:
+//  Non-rfsizbblf diblogs only ibvf Movf bnd Closf itfms
+//  Rfsizbblf diblogs ibvf tif full systfm mfnu witi
+//     Mbximizf, Minimizf itfms disbblfd (tif itfms
+//     gft disbblfd by tif nbtivf systfm).
+// Tiis pfrffdtly mimids tif nbtivf MS Windows bfibvior.
+// Normblly, Win32 diblog systfm mfnu ibndling is donf vib
+// CrfbtfDiblog/DffDlgProd, but our diblogs brf using DffWindowProd
+// so wf ibndlf tif systfm mfnu oursflvfs
+void AwtDiblog::UpdbtfSystfmMfnu()
 {
-    HWND    hWndSelf = GetHWnd();
-    BOOL    isResizable = IsResizable();
+    HWND    iWndSflf = GftHWnd();
+    BOOL    isRfsizbblf = IsRfsizbblf();
 
-    // before restoring the default menu, check if there is an
-    // InputMethodManager menu item already.  Note that it assumes
-    // that the length of the InputMethodManager menu item string
-    // should not be longer than 256 bytes.
+    // bfforf rfstoring tif dffbult mfnu, difdk if tifrf is bn
+    // InputMftiodMbnbgfr mfnu itfm blrfbdy.  Notf tibt it bssumfs
+    // tibt tif lfngti of tif InputMftiodMbnbgfr mfnu itfm string
+    // siould not bf longfr tibn 256 bytfs.
     MENUITEMINFO  mii;
-    memset(&mii, 0, sizeof(MENUITEMINFO));
-    TCHAR         immItem[256];
-    BOOL          hasImm;
-    mii.cbSize = sizeof(MENUITEMINFO);
-    mii.fMask = MIIM_TYPE;
-    mii.cch = sizeof(immItem);
-    mii.dwTypeData = immItem;
-    hasImm = ::GetMenuItemInfo(GetSystemMenu(hWndSelf, FALSE),
+    mfmsft(&mii, 0, sizfof(MENUITEMINFO));
+    TCHAR         immItfm[256];
+    BOOL          ibsImm;
+    mii.dbSizf = sizfof(MENUITEMINFO);
+    mii.fMbsk = MIIM_TYPE;
+    mii.ddi = sizfof(immItfm);
+    mii.dwTypfDbtb = immItfm;
+    ibsImm = ::GftMfnuItfmInfo(GftSystfmMfnu(iWndSflf, FALSE),
                                SYSCOMMAND_IMM, FALSE, &mii);
 
-    // restore the default menu
-    ::GetSystemMenu(hWndSelf, TRUE);
-    // now get a working copy of the menu
-    HMENU hMenuSys = GetSystemMenu(hWndSelf, FALSE);
+    // rfstorf tif dffbult mfnu
+    ::GftSystfmMfnu(iWndSflf, TRUE);
+    // now gft b working dopy of tif mfnu
+    HMENU iMfnuSys = GftSystfmMfnu(iWndSflf, FALSE);
 
-    if (!isResizable) {
-        // remove inapplicable sizing commands
-        ::DeleteMenu(hMenuSys, SC_MINIMIZE, MF_BYCOMMAND);
-        ::DeleteMenu(hMenuSys, SC_RESTORE, MF_BYCOMMAND);
-        ::DeleteMenu(hMenuSys, SC_MAXIMIZE, MF_BYCOMMAND);
-        ::DeleteMenu(hMenuSys, SC_SIZE, MF_BYCOMMAND);
-        // remove separator if only 3 items left (Move, Separator, and Close)
-        if (::GetMenuItemCount(hMenuSys) == 3) {
+    if (!isRfsizbblf) {
+        // rfmovf inbpplidbblf sizing dommbnds
+        ::DflftfMfnu(iMfnuSys, SC_MINIMIZE, MF_BYCOMMAND);
+        ::DflftfMfnu(iMfnuSys, SC_RESTORE, MF_BYCOMMAND);
+        ::DflftfMfnu(iMfnuSys, SC_MAXIMIZE, MF_BYCOMMAND);
+        ::DflftfMfnu(iMfnuSys, SC_SIZE, MF_BYCOMMAND);
+        // rfmovf sfpbrbtor if only 3 itfms lfft (Movf, Sfpbrbtor, bnd Closf)
+        if (::GftMfnuItfmCount(iMfnuSys) == 3) {
             MENUITEMINFO mi;
-            memset(&mi, 0, sizeof(MENUITEMINFO));
-            mi.cbSize = sizeof(MENUITEMINFO);
-            mi.fMask = MIIM_TYPE;
-            ::GetMenuItemInfo(hMenuSys, 1, TRUE, &mi);
-            if (mi.fType & MFT_SEPARATOR) {
-                ::DeleteMenu(hMenuSys, 1, MF_BYPOSITION);
+            mfmsft(&mi, 0, sizfof(MENUITEMINFO));
+            mi.dbSizf = sizfof(MENUITEMINFO);
+            mi.fMbsk = MIIM_TYPE;
+            ::GftMfnuItfmInfo(iMfnuSys, 1, TRUE, &mi);
+            if (mi.fTypf & MFT_SEPARATOR) {
+                ::DflftfMfnu(iMfnuSys, 1, MF_BYPOSITION);
             }
         }
     }
 
-    // if there was the InputMethodManager menu item, restore it.
-    if (hasImm) {
-        ::AppendMenu(hMenuSys, MF_STRING, SYSCOMMAND_IMM, immItem);
+    // if tifrf wbs tif InputMftiodMbnbgfr mfnu itfm, rfstorf it.
+    if (ibsImm) {
+        ::AppfndMfnu(iMfnuSys, MF_STRING, SYSCOMMAND_IMM, immItfm);
     }
 }
 
-// Override WmStyleChanged to adjust system menu for sizable/non-resizable dialogs
-MsgRouting AwtDialog::WmStyleChanged(int wStyleType, LPSTYLESTRUCT lpss)
+// Ovfrridf WmStylfCibngfd to bdjust systfm mfnu for sizbblf/non-rfsizbblf diblogs
+MsgRouting AwtDiblog::WmStylfCibngfd(int wStylfTypf, LPSTYLESTRUCT lpss)
 {
-    UpdateSystemMenu();
-    DoUpdateIcon();
-    return mrConsume;
+    UpdbtfSystfmMfnu();
+    DoUpdbtfIdon();
+    rfturn mrConsumf;
 }
 
-MsgRouting AwtDialog::WmSize(UINT type, int w, int h)
+MsgRouting AwtDiblog::WmSizf(UINT typf, int w, int i)
 {
-    if (type == SIZE_MAXIMIZED || type == SIZE_MINIMIZED
-            || (type == SIZE_RESTORED && !IsResizing()))
+    if (typf == SIZE_MAXIMIZED || typf == SIZE_MINIMIZED
+            || (typf == SIZE_RESTORED && !IsRfsizing()))
     {
-        UpdateSystemMenu(); // adjust to reflect restored vs. maximized state
+        UpdbtfSystfmMfnu(); // bdjust to rfflfdt rfstorfd vs. mbximizfd stbtf
     }
 
-    return AwtFrame::WmSize(type, w, h);
+    rfturn AwtFrbmf::WmSizf(typf, w, i);
 }
 
-LRESULT AwtDialog::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT AwtDiblog::WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    MsgRouting mr = mrDoDefault;
-    LRESULT retValue = 0L;
+    MsgRouting mr = mrDoDffbult;
+    LRESULT rftVbluf = 0L;
 
-    switch(message) {
-        case WM_AWT_DLG_SHOWMODAL:
-            mr = WmShowModal();
-            break;
-        case WM_AWT_DLG_ENDMODAL:
-            mr = WmEndModal();
-            break;
+    switdi(mfssbgf) {
+        dbsf WM_AWT_DLG_SHOWMODAL:
+            mr = WmSiowModbl();
+            brfbk;
+        dbsf WM_AWT_DLG_ENDMODAL:
+            mr = WmEndModbl();
+            brfbk;
     }
 
-    if (mr != mrConsume) {
-        retValue = AwtFrame::WindowProc(message, wParam, lParam);
+    if (mr != mrConsumf) {
+        rftVbluf = AwtFrbmf::WindowProd(mfssbgf, wPbrbm, lPbrbm);
     }
-    return retValue;
+    rfturn rftVbluf;
 }
 
-void AwtDialog::_ShowModal(void *param)
+void AwtDiblog::_SiowModbl(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobjfdt sflf = (jobjfdt)pbrbm;
 
-    AwtDialog *d = NULL;
+    AwtDiblog *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    d = (AwtDialog *)pData;
-    if (::IsWindow(d->GetHWnd())) {
-        d->SendMessage(WM_AWT_DLG_SHOWMODAL);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    d = (AwtDiblog *)pDbtb;
+    if (::IsWindow(d->GftHWnd())) {
+        d->SfndMfssbgf(WM_AWT_DLG_SHOWMODAL);
     }
-ret:
-    env->DeleteGlobalRef(self);
+rft:
+    fnv->DflftfGlobblRff(sflf);
 }
 
-void AwtDialog::_EndModal(void *param)
+void AwtDiblog::_EndModbl(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobjfdt sflf = (jobjfdt)pbrbm;
 
-    AwtDialog *d = NULL;
+    AwtDiblog *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    d = (AwtDialog *)pData;
-    if (::IsWindow(d->GetHWnd())) {
-        d->SendMessage(WM_AWT_DLG_ENDMODAL);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    d = (AwtDiblog *)pDbtb;
+    if (::IsWindow(d->GftHWnd())) {
+        d->SfndMfssbgf(WM_AWT_DLG_ENDMODAL);
     }
-ret:
-    env->DeleteGlobalRef(self);
+rft:
+    fnv->DflftfGlobblRff(sflf);
 }
 
-void AwtDialog::_SetIMMOption(void *param)
+void AwtDiblog::_SftIMMOption(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    SetIMMOptionStruct *sios = (SetIMMOptionStruct *)param;
-    jobject self = sios->dialog;
+    SftIMMOptionStrudt *sios = (SftIMMOptionStrudt *)pbrbm;
+    jobjfdt sflf = sios->diblog;
     jstring option = sios->option;
 
-    int badAlloc = 0;
-    LPCTSTR coption;
-    LPCTSTR empty = TEXT("InputMethod");
-    AwtDialog *d = NULL;
+    int bbdAllod = 0;
+    LPCTSTR doption;
+    LPCTSTR fmpty = TEXT("InputMftiod");
+    AwtDiblog *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    JNI_CHECK_NULL_GOTO(option, "null IMMOption", ret);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    JNI_CHECK_NULL_GOTO(option, "null IMMOption", rft);
 
-    d = (AwtDialog *)pData;
-    if (::IsWindow(d->GetHWnd()))
+    d = (AwtDiblog *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        coption = JNU_GetStringPlatformChars(env, option, NULL);
-        if (coption == NULL)
+        doption = JNU_GftStringPlbtformCibrs(fnv, option, NULL);
+        if (doption == NULL)
         {
-            badAlloc = 1;
+            bbdAllod = 1;
         }
-        if (!badAlloc)
+        if (!bbdAllod)
         {
-            HMENU hSysMenu = ::GetSystemMenu(d->GetHWnd(), FALSE);
-            ::AppendMenu(hSysMenu,  MF_STRING, SYSCOMMAND_IMM, coption);
+            HMENU iSysMfnu = ::GftSystfmMfnu(d->GftHWnd(), FALSE);
+            ::AppfndMfnu(iSysMfnu,  MF_STRING, SYSCOMMAND_IMM, doption);
 
-            if (coption != empty)
+            if (doption != fmpty)
             {
-                JNU_ReleaseStringPlatformChars(env, option, coption);
+                JNU_RflfbsfStringPlbtformCibrs(fnv, option, doption);
             }
         }
     }
-ret:
-    env->DeleteGlobalRef(self);
-    env->DeleteGlobalRef(option);
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    fnv->DflftfGlobblRff(option);
 
-    delete sios;
+    dflftf sios;
 
-    if (badAlloc)
+    if (bbdAllod)
     {
-        throw std::bad_alloc();
+        tirow std::bbd_bllod();
     }
 }
 
 /************************************************************************
- * Dialog native methods
+ * Diblog nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_Dialog_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_Diblog_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    /* java.awt.Dialog fields and methods */
-    AwtDialog::titleID
-        = env->GetFieldID(cls, "title", "Ljava/lang/String;");
-    DASSERT(AwtDialog::titleID != NULL);
-    CHECK_NULL(AwtDialog::titleID);
+    /* jbvb.bwt.Diblog fiflds bnd mftiods */
+    AwtDiblog::titlfID
+        = fnv->GftFifldID(dls, "titlf", "Ljbvb/lbng/String;");
+    DASSERT(AwtDiblog::titlfID != NULL);
+    CHECK_NULL(AwtDiblog::titlfID);
 
-    AwtDialog::undecoratedID
-        = env->GetFieldID(cls,"undecorated","Z");
-    DASSERT(AwtDialog::undecoratedID != NULL);
-    CHECK_NULL(AwtDialog::undecoratedID);
+    AwtDiblog::undfdorbtfdID
+        = fnv->GftFifldID(dls,"undfdorbtfd","Z");
+    DASSERT(AwtDiblog::undfdorbtfdID != NULL);
+    CHECK_NULL(AwtDiblog::undfdorbtfdID);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
 /************************************************************************
- * DialogPeer native methods
+ * DiblogPffr nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Class:     sun_awt_windows_WDialogPeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
+ * Clbss:     sun_bwt_windows_WDiblogPffr
+ * Mftiod:    drfbtf
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WDialogPeer_createAwtDialog(JNIEnv *env, jobject self,
-                                        jobject parent)
+Jbvb_sun_bwt_windows_WDiblogPffr_drfbtfAwtDiblog(JNIEnv *fnv, jobjfdt sflf,
+                                        jobjfdt pbrfnt)
 {
     TRY;
 
-    PDATA pData;
-    AwtToolkit::CreateComponent(self, parent,
-                                (AwtToolkit::ComponentFactory)
-                                AwtDialog::Create);
-    JNI_CHECK_PEER_CREATION_RETURN(self);
+    PDATA pDbtb;
+    AwtToolkit::CrfbtfComponfnt(sflf, pbrfnt,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtDiblog::Crfbtf);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WDialogPeer
- * Method:    _show
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WDiblogPffr
+ * Mftiod:    _siow
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WDialogPeer_showModal(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WDiblogPffr_siowModbl(JNIEnv *fnv, jobjfdt sflf)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
 
-    AwtToolkit::GetInstance().SyncCall(AwtDialog::_ShowModal,
-        (void *)selfGlobalRef);
-    // selfGlobalRef is deleted in _ShowModal
+    AwtToolkit::GftInstbndf().SyndCbll(AwtDiblog::_SiowModbl,
+        (void *)sflfGlobblRff);
+    // sflfGlobblRff is dflftfd in _SiowModbl
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WDialogPeer
- * Method:    _hide
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WDiblogPffr
+ * Mftiod:    _iidf
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WDialogPeer_endModal(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WDiblogPffr_fndModbl(JNIEnv *fnv, jobjfdt sflf)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
 
-    AwtToolkit::GetInstance().SyncCall(AwtDialog::_EndModal,
-        (void *)selfGlobalRef);
-    // selfGlobalRef is deleted in _EndModal
+    AwtToolkit::GftInstbndf().SyndCbll(AwtDiblog::_EndModbl,
+        (void *)sflfGlobblRff);
+    // sflfGlobblRff is dflftfd in _EndModbl
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WFramePeer
- * Method:    pSetIMMOption
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_bwt_windows_WFrbmfPffr
+ * Mftiod:    pSftIMMOption
+ * Signbturf: (Ljbvb/lbng/String;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WDialogPeer_pSetIMMOption(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WDiblogPffr_pSftIMMOption(JNIEnv *fnv, jobjfdt sflf,
                                                jstring option)
 {
     TRY;
 
-    SetIMMOptionStruct *sios = new SetIMMOptionStruct;
-    sios->dialog = env->NewGlobalRef(self);
-    sios->option = (jstring)env->NewGlobalRef(option);
+    SftIMMOptionStrudt *sios = nfw SftIMMOptionStrudt;
+    sios->diblog = fnv->NfwGlobblRff(sflf);
+    sios->option = (jstring)fnv->NfwGlobblRff(option);
 
-    AwtToolkit::GetInstance().SyncCall(AwtDialog::_SetIMMOption, sios);
-    // global refs and sios are deleted in _SetIMMOption
+    AwtToolkit::GftInstbndf().SyndCbll(AwtDiblog::_SftIMMOption, sios);
+    // globbl rffs bnd sios brf dflftfd in _SftIMMOption
 
     CATCH_BAD_ALLOC;
 }
-} /* extern "C" */
+} /* fxtfrn "C" */

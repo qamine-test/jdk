@@ -1,545 +1,545 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi.request;
+pbdkbgf dom.sun.jdi.rfqufst;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * Manages the creation and deletion of {@link EventRequest}s. A single
- * implementor of this interface exists in a particuar VM and
- * is accessed through {@link VirtualMachine#eventRequestManager()}
+ * Mbnbgfs tif drfbtion bnd dflftion of {@link EvfntRfqufst}s. A singlf
+ * implfmfntor of tiis intfrfbdf fxists in b pbrtidubr VM bnd
+ * is bddfssfd tirougi {@link VirtublMbdiinf#fvfntRfqufstMbnbgfr()}
  *
- * @see EventRequest
- * @see com.sun.jdi.event.Event
- * @see BreakpointRequest
- * @see com.sun.jdi.event.BreakpointEvent
- * @see VirtualMachine
+ * @sff EvfntRfqufst
+ * @sff dom.sun.jdi.fvfnt.Evfnt
+ * @sff BrfbkpointRfqufst
+ * @sff dom.sun.jdi.fvfnt.BrfbkpointEvfnt
+ * @sff VirtublMbdiinf
  *
- * @author Robert Field
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @sindf  1.3
  */
 
-@jdk.Exported
-public interface EventRequestManager extends Mirror {
+@jdk.Exportfd
+publid intfrfbdf EvfntRfqufstMbnbgfr fxtfnds Mirror {
 
     /**
-     * Creates a new disabled {@link ClassPrepareRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link ClbssPrfpbrfRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * @return the created {@link ClassPrepareRequest}
+     * @rfturn tif drfbtfd {@link ClbssPrfpbrfRfqufst}
      */
-    ClassPrepareRequest createClassPrepareRequest();
+    ClbssPrfpbrfRfqufst drfbtfClbssPrfpbrfRfqufst();
 
     /**
-     * Creates a new disabled {@link ClassUnloadRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link ClbssUnlobdRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * @return the created {@link ClassUnloadRequest}
+     * @rfturn tif drfbtfd {@link ClbssUnlobdRfqufst}
      */
-    ClassUnloadRequest createClassUnloadRequest();
+    ClbssUnlobdRfqufst drfbtfClbssUnlobdRfqufst();
 
     /**
-     * Creates a new disabled {@link ThreadStartRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link TirfbdStbrtRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * @return the created {@link ThreadStartRequest}
+     * @rfturn tif drfbtfd {@link TirfbdStbrtRfqufst}
      */
-    ThreadStartRequest createThreadStartRequest();
+    TirfbdStbrtRfqufst drfbtfTirfbdStbrtRfqufst();
 
     /**
-     * Creates a new disabled {@link ThreadDeathRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link TirfbdDfbtiRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * @return the created {@link ThreadDeathRequest}
+     * @rfturn tif drfbtfd {@link TirfbdDfbtiRfqufst}
      */
-    ThreadDeathRequest createThreadDeathRequest();
+    TirfbdDfbtiRfqufst drfbtfTirfbdDfbtiRfqufst();
 
     /**
-     * Creates a new disabled {@link ExceptionRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link ExdfptionRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      * <P>
-     * A specific exception type and its subclasses can be selected
-     * for exception events. Caught exceptions,  uncaught exceptions,
-     * or both can be selected. Note, however, that
-     * at the time an exception is thrown, it is not always
-     * possible to determine whether it is truly caught. See
-     * {@link com.sun.jdi.event.ExceptionEvent#catchLocation} for
-     * details.
-     * @param refType If non-null, specifies that exceptions which are
-     *                instances of refType will be reported. Note: this
-     *                will include instances of sub-types.  If null,
-     *                all instances will be reported
-     * @param notifyCaught If true, caught exceptions will be reported.
-     * @param notifyUncaught If true, uncaught exceptions will be reported.
+     * A spfdifid fxdfption typf bnd its subdlbssfs dbn bf sflfdtfd
+     * for fxdfption fvfnts. Cbugit fxdfptions,  undbugit fxdfptions,
+     * or boti dbn bf sflfdtfd. Notf, iowfvfr, tibt
+     * bt tif timf bn fxdfption is tirown, it is not blwbys
+     * possiblf to dftfrminf wiftifr it is truly dbugit. Sff
+     * {@link dom.sun.jdi.fvfnt.ExdfptionEvfnt#dbtdiLodbtion} for
+     * dftbils.
+     * @pbrbm rffTypf If non-null, spfdififs tibt fxdfptions wiidi brf
+     *                instbndfs of rffTypf will bf rfportfd. Notf: tiis
+     *                will indludf instbndfs of sub-typfs.  If null,
+     *                bll instbndfs will bf rfportfd
+     * @pbrbm notifyCbugit If truf, dbugit fxdfptions will bf rfportfd.
+     * @pbrbm notifyUndbugit If truf, undbugit fxdfptions will bf rfportfd.
      *
-     * @return the created {@link ExceptionRequest}
+     * @rfturn tif drfbtfd {@link ExdfptionRfqufst}
      */
-    ExceptionRequest createExceptionRequest(ReferenceType refType,
-                                            boolean notifyCaught,
-                                            boolean notifyUncaught);
+    ExdfptionRfqufst drfbtfExdfptionRfqufst(RfffrfndfTypf rffTypf,
+                                            boolfbn notifyCbugit,
+                                            boolfbn notifyUndbugit);
 
     /**
-     * Creates a new disabled {@link MethodEntryRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link MftiodEntryRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * @return the created {@link MethodEntryRequest}
+     * @rfturn tif drfbtfd {@link MftiodEntryRfqufst}
      */
-    MethodEntryRequest createMethodEntryRequest();
+    MftiodEntryRfqufst drfbtfMftiodEntryRfqufst();
 
     /**
-     * Creates a new disabled {@link MethodExitRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link MftiodExitRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * @return the created {@link MethodExitRequest}
+     * @rfturn tif drfbtfd {@link MftiodExitRfqufst}
      */
-    MethodExitRequest createMethodExitRequest();
+    MftiodExitRfqufst drfbtfMftiodExitRfqufst();
 
      /**
-     * Creates a new disabled {@link MonitorContendedEnterRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link MonitorContfndfdEntfrRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canRequestMonitorEvents()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnRfqufstMonitorEvfnts()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return the created {@link MonitorContendedEnterRequest}
-     * @throws java.lang.UnsupportedOperationException if
-     * the target VM does not support this
-     * operation.
+     * @rfturn tif drfbtfd {@link MonitorContfndfdEntfrRfqufst}
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft VM dofs not support tiis
+     * opfrbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    MonitorContendedEnterRequest createMonitorContendedEnterRequest();
+    MonitorContfndfdEntfrRfqufst drfbtfMonitorContfndfdEntfrRfqufst();
 
     /**
-     * Creates a new disabled {@link MonitorContendedEnteredRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link MonitorContfndfdEntfrfdRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canRequestMonitorEvents()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnRfqufstMonitorEvfnts()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return the created {@link MonitorContendedEnteredRequest}
-     * @throws java.lang.UnsupportedOperationException if
-     * the target VM does not support this
-     * operation.
+     * @rfturn tif drfbtfd {@link MonitorContfndfdEntfrfdRfqufst}
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft VM dofs not support tiis
+     * opfrbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
 
-    MonitorContendedEnteredRequest createMonitorContendedEnteredRequest();
+    MonitorContfndfdEntfrfdRfqufst drfbtfMonitorContfndfdEntfrfdRfqufst();
 
     /**
-     * Creates a new disabled {@link MonitorWaitRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link MonitorWbitRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canRequestMonitorEvents()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnRfqufstMonitorEvfnts()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return the created {@link MonitorWaitRequest}
-     * @throws java.lang.UnsupportedOperationException if
-     * the target VM does not support this
-     * operation.
+     * @rfturn tif drfbtfd {@link MonitorWbitRfqufst}
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft VM dofs not support tiis
+     * opfrbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    MonitorWaitRequest createMonitorWaitRequest();
+    MonitorWbitRfqufst drfbtfMonitorWbitRfqufst();
 
     /**
-     * Creates a new disabled {@link MonitorWaitedRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link MonitorWbitfdRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canRequestMonitorEvents()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnRfqufstMonitorEvfnts()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return the created {@link MonitorWaitedRequest}
-     * @throws java.lang.UnsupportedOperationException if
-     * the target VM does not support this
-     * operation.
+     * @rfturn tif drfbtfd {@link MonitorWbitfdRfqufst}
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft VM dofs not support tiis
+     * opfrbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    MonitorWaitedRequest createMonitorWaitedRequest();
+    MonitorWbitfdRfqufst drfbtfMonitorWbitfdRfqufst();
 
     /**
-     * Creates a new disabled {@link StepRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link StfpRfqufst}.
+     * Tif nfw fvfnt rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      * <p>
-     * The returned request will control stepping only in the specified
-     * <code>thread</code>; all other threads will be unaffected.
-     * A <code>size</code>value of {@link com.sun.jdi.request.StepRequest#STEP_MIN} will generate a
-     * step event each time the code index changes. It represents the
-     * smallest step size available and often maps to the instruction
-     * level.
-     * A <code>size</code> value of {@link com.sun.jdi.request.StepRequest#STEP_LINE} will generate a
-     * step event each time the source line changes unless line number information is not available,
-     * in which case a STEP_MIN will be done instead.  For example, no line number information is
-     * available during the execution of a method that has been rendered obsolete by
-     * by a {@link com.sun.jdi.VirtualMachine#redefineClasses} operation.
-     * A <code>depth</code> value of {@link com.sun.jdi.request.StepRequest#STEP_INTO} will generate
-     * step events in any called methods.  A <code>depth</code> value
-     * of {@link com.sun.jdi.request.StepRequest#STEP_OVER} restricts step events to the current frame
-     * or caller frames. A <code>depth</code> value of {@link com.sun.jdi.request.StepRequest#STEP_OUT}
-     * restricts step events to caller frames only. All depth
-     * restrictions are relative to the call stack immediately before the
-     * step takes place.
+     * Tif rfturnfd rfqufst will dontrol stfpping only in tif spfdififd
+     * <dodf>tirfbd</dodf>; bll otifr tirfbds will bf unbfffdtfd.
+     * A <dodf>sizf</dodf>vbluf of {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_MIN} will gfnfrbtf b
+     * stfp fvfnt fbdi timf tif dodf indfx dibngfs. It rfprfsfnts tif
+     * smbllfst stfp sizf bvbilbblf bnd oftfn mbps to tif instrudtion
+     * lfvfl.
+     * A <dodf>sizf</dodf> vbluf of {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_LINE} will gfnfrbtf b
+     * stfp fvfnt fbdi timf tif sourdf linf dibngfs unlfss linf numbfr informbtion is not bvbilbblf,
+     * in wiidi dbsf b STEP_MIN will bf donf instfbd.  For fxbmplf, no linf numbfr informbtion is
+     * bvbilbblf during tif fxfdution of b mftiod tibt ibs bffn rfndfrfd obsolftf by
+     * by b {@link dom.sun.jdi.VirtublMbdiinf#rfdffinfClbssfs} opfrbtion.
+     * A <dodf>dfpti</dodf> vbluf of {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_INTO} will gfnfrbtf
+     * stfp fvfnts in bny dbllfd mftiods.  A <dodf>dfpti</dodf> vbluf
+     * of {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_OVER} rfstridts stfp fvfnts to tif durrfnt frbmf
+     * or dbllfr frbmfs. A <dodf>dfpti</dodf> vbluf of {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_OUT}
+     * rfstridts stfp fvfnts to dbllfr frbmfs only. All dfpti
+     * rfstridtions brf rflbtivf to tif dbll stbdk immfdibtfly bfforf tif
+     * stfp tbkfs plbdf.
      * <p>
-     * Only one pending step request is allowed per thread.
+     * Only onf pfnding stfp rfqufst is bllowfd pfr tirfbd.
      * <p>
-     * Note that a typical debugger will want to cancel stepping
-     * after the first step is detected.  Thus a next line method
-     * would do the following:
-     * <code>
-     * <pre>
-     *     EventRequestManager mgr = myVM.{@link VirtualMachine#eventRequestManager eventRequestManager}();
-     *     StepRequest request = mgr.createStepRequest(myThread,
-     *                                                 StepRequest.{@link StepRequest#STEP_LINE STEP_LINE},
-     *                                                 StepRequest.{@link StepRequest#STEP_OVER STEP_OVER});
-     *     request.{@link EventRequest#addCountFilter addCountFilter}(1);  // next step only
-     *     request.enable();
-     *     myVM.{@link VirtualMachine#resume resume}();
-     * </pre>
-     * </code>
+     * Notf tibt b typidbl dfbuggfr will wbnt to dbndfl stfpping
+     * bftfr tif first stfp is dftfdtfd.  Tius b nfxt linf mftiod
+     * would do tif following:
+     * <dodf>
+     * <prf>
+     *     EvfntRfqufstMbnbgfr mgr = myVM.{@link VirtublMbdiinf#fvfntRfqufstMbnbgfr fvfntRfqufstMbnbgfr}();
+     *     StfpRfqufst rfqufst = mgr.drfbtfStfpRfqufst(myTirfbd,
+     *                                                 StfpRfqufst.{@link StfpRfqufst#STEP_LINE STEP_LINE},
+     *                                                 StfpRfqufst.{@link StfpRfqufst#STEP_OVER STEP_OVER});
+     *     rfqufst.{@link EvfntRfqufst#bddCountFiltfr bddCountFiltfr}(1);  // nfxt stfp only
+     *     rfqufst.fnbblf();
+     *     myVM.{@link VirtublMbdiinf#rfsumf rfsumf}();
+     * </prf>
+     * </dodf>
      *
-     * @param thread the thread in which to step
-     * @param depth the step depth
-     * @param size the step size
-     * @return the created {@link StepRequest}
-     * @throws DuplicateRequestException if there is already a pending
-     * step request for the specified thread.
-     * @throws IllegalArgumentException if the size or depth arguments
-     * contain illegal values.
+     * @pbrbm tirfbd tif tirfbd in wiidi to stfp
+     * @pbrbm dfpti tif stfp dfpti
+     * @pbrbm sizf tif stfp sizf
+     * @rfturn tif drfbtfd {@link StfpRfqufst}
+     * @tirows DuplidbtfRfqufstExdfption if tifrf is blrfbdy b pfnding
+     * stfp rfqufst for tif spfdififd tirfbd.
+     * @tirows IllfgblArgumfntExdfption if tif sizf or dfpti brgumfnts
+     * dontbin illfgbl vblufs.
      */
-    StepRequest createStepRequest(ThreadReference thread,
-                                  int size,
-                                  int depth);
+    StfpRfqufst drfbtfStfpRfqufst(TirfbdRfffrfndf tirfbd,
+                                  int sizf,
+                                  int dfpti);
 
     /**
-     * Creates a new disabled {@link BreakpointRequest}.
-     * The given {@link Location} must have a valid
-     * (that is, non-negative) code index. The new
-     * breakpoint is added to the list managed by this
-     * EventRequestManager. Multiple breakpoints at the
-     * same location are permitted. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link BrfbkpointRfqufst}.
+     * Tif givfn {@link Lodbtion} must ibvf b vblid
+     * (tibt is, non-nfgbtivf) dodf indfx. Tif nfw
+     * brfbkpoint is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Multiplf brfbkpoints bt tif
+     * sbmf lodbtion brf pfrmittfd. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      *
-     * @param location the location of the new breakpoint.
-     * @return the created {@link BreakpointRequest}
-     * @throws NativeMethodException if location is within a native method.
+     * @pbrbm lodbtion tif lodbtion of tif nfw brfbkpoint.
+     * @rfturn tif drfbtfd {@link BrfbkpointRfqufst}
+     * @tirows NbtivfMftiodExdfption if lodbtion is witiin b nbtivf mftiod.
      */
-    BreakpointRequest createBreakpointRequest(Location location);
+    BrfbkpointRfqufst drfbtfBrfbkpointRfqufst(Lodbtion lodbtion);
 
     /**
-     * Creates a new disabled watchpoint which watches accesses to the
-     * specified field. The new
-     * watchpoint is added to the list managed by this
-     * EventRequestManager. Multiple watchpoints on the
-     * same field are permitted.
-     * Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd wbtdipoint wiidi wbtdifs bddfssfs to tif
+     * spfdififd fifld. Tif nfw
+     * wbtdipoint is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Multiplf wbtdipoints on tif
+     * sbmf fifld brf pfrmittfd.
+     * Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      * <P>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canWatchFieldAccess()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnWbtdiFifldAddfss()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @param field the field to watch
-     * @return the created watchpoint
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
+     * @pbrbm fifld tif fifld to wbtdi
+     * @rfturn tif drfbtfd wbtdipoint
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion.
      */
-    AccessWatchpointRequest createAccessWatchpointRequest(Field field);
+    AddfssWbtdipointRfqufst drfbtfAddfssWbtdipointRfqufst(Fifld fifld);
 
     /**
-     * Creates a new disabled watchpoint which watches accesses to the
-     * specified field. The new
-     * watchpoint is added to the list managed by this
-     * EventRequestManager. Multiple watchpoints on the
-     * same field are permitted.
-     * Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd wbtdipoint wiidi wbtdifs bddfssfs to tif
+     * spfdififd fifld. Tif nfw
+     * wbtdipoint is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Multiplf wbtdipoints on tif
+     * sbmf fifld brf pfrmittfd.
+     * Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      * <P>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canWatchFieldModification()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnWbtdiFifldModifidbtion()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @param field the field to watch
-     * @return the created watchpoint
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
+     * @pbrbm fifld tif fifld to wbtdi
+     * @rfturn tif drfbtfd wbtdipoint
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion.
      */
-    ModificationWatchpointRequest createModificationWatchpointRequest(Field field);
+    ModifidbtionWbtdipointRfqufst drfbtfModifidbtionWbtdipointRfqufst(Fifld fifld);
 
     /**
-     * Creates a new disabled {@link VMDeathRequest}.
-     * The new request is added to the list managed by this
-     * EventRequestManager.
-     * Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crfbtfs b nfw disbblfd {@link VMDfbtiRfqufst}.
+     * Tif nfw rfqufst is bddfd to tif list mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr.
+     * Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf tiis fvfnt rfqufst.
      * <P>
-     * This request (if enabled) will cause a
-     * {@link com.sun.jdi.event.VMDeathEvent}
-     * to be sent on termination of the target VM.
+     * Tiis rfqufst (if fnbblfd) will dbusf b
+     * {@link dom.sun.jdi.fvfnt.VMDfbtiEvfnt}
+     * to bf sfnt on tfrminbtion of tif tbrgft VM.
      * <P>
-     * A VMDeathRequest with a suspend policy of
-     * {@link EventRequest#SUSPEND_ALL SUSPEND_ALL}
-     * can be used to assure processing of incoming
-     * {@link EventRequest#SUSPEND_NONE SUSPEND_NONE} or
-     * {@link EventRequest#SUSPEND_EVENT_THREAD SUSPEND_EVENT_THREAD}
-     * events before VM death.  If all event processing is being
-     * done in the same thread as event sets are being read,
-     * enabling the request is all that is needed since the VM
-     * will be suspended until the {@link com.sun.jdi.event.EventSet}
-     * containing the {@link com.sun.jdi.event.VMDeathEvent}
-     * is resumed.
+     * A VMDfbtiRfqufst witi b suspfnd polidy of
+     * {@link EvfntRfqufst#SUSPEND_ALL SUSPEND_ALL}
+     * dbn bf usfd to bssurf prodfssing of indoming
+     * {@link EvfntRfqufst#SUSPEND_NONE SUSPEND_NONE} or
+     * {@link EvfntRfqufst#SUSPEND_EVENT_THREAD SUSPEND_EVENT_THREAD}
+     * fvfnts bfforf VM dfbti.  If bll fvfnt prodfssing is bfing
+     * donf in tif sbmf tirfbd bs fvfnt sfts brf bfing rfbd,
+     * fnbbling tif rfqufst is bll tibt is nffdfd sindf tif VM
+     * will bf suspfndfd until tif {@link dom.sun.jdi.fvfnt.EvfntSft}
+     * dontbining tif {@link dom.sun.jdi.fvfnt.VMDfbtiEvfnt}
+     * is rfsumfd.
      * <P>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canRequestVMDeathEvent()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnRfqufstVMDfbtiEvfnt()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return the created request
-     * @throws java.lang.UnsupportedOperationException if
-     * the target VM does not support this
-     * operation.
+     * @rfturn tif drfbtfd rfqufst
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft VM dofs not support tiis
+     * opfrbtion.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    VMDeathRequest createVMDeathRequest();
+    VMDfbtiRfqufst drfbtfVMDfbtiRfqufst();
 
     /**
-     * Removes an eventRequest. The eventRequest is disabled and
-     * the removed from the requests managed by this
-     * EventRequestManager. Once the eventRequest is deleted, no
-     * operations (for example, {@link EventRequest#setEnabled})
-     * are permitted - attempts to do so will generally cause an
-     * {@link InvalidRequestStateException}.
-     * No other eventRequests are effected.
+     * Rfmovfs bn fvfntRfqufst. Tif fvfntRfqufst is disbblfd bnd
+     * tif rfmovfd from tif rfqufsts mbnbgfd by tiis
+     * EvfntRfqufstMbnbgfr. Ondf tif fvfntRfqufst is dflftfd, no
+     * opfrbtions (for fxbmplf, {@link EvfntRfqufst#sftEnbblfd})
+     * brf pfrmittfd - bttfmpts to do so will gfnfrblly dbusf bn
+     * {@link InvblidRfqufstStbtfExdfption}.
+     * No otifr fvfntRfqufsts brf ffffdtfd.
      * <P>
-     * Because this method changes the underlying lists of event
-     * requests, attempting to directly delete from a list returned
-     * by a request accessor (e.g. below):
+     * Bfdbusf tiis mftiod dibngfs tif undfrlying lists of fvfnt
+     * rfqufsts, bttfmpting to dirfdtly dflftf from b list rfturnfd
+     * by b rfqufst bddfssor (f.g. bflow):
      * <PRE>
-     *   Iterator iter = requestManager.stepRequests().iterator();
-     *   while (iter.hasNext()) {
-     *      requestManager.deleteEventRequest(iter.next());
+     *   Itfrbtor itfr = rfqufstMbnbgfr.stfpRfqufsts().itfrbtor();
+     *   wiilf (itfr.ibsNfxt()) {
+     *      rfqufstMbnbgfr.dflftfEvfntRfqufst(itfr.nfxt());
      *  }
      * </PRE>
-     * may cause a {@link java.util.ConcurrentModificationException}.
-     * Instead use
-     * {@link #deleteEventRequests(List) deleteEventRequests(List)}
-     * or copy the list before iterating.
+     * mby dbusf b {@link jbvb.util.CondurrfntModifidbtionExdfption}.
+     * Instfbd usf
+     * {@link #dflftfEvfntRfqufsts(List) dflftfEvfntRfqufsts(List)}
+     * or dopy tif list bfforf itfrbting.
      *
-     * @param eventRequest the eventRequest to remove
+     * @pbrbm fvfntRfqufst tif fvfntRfqufst to rfmovf
      */
-    void deleteEventRequest(EventRequest eventRequest);
+    void dflftfEvfntRfqufst(EvfntRfqufst fvfntRfqufst);
 
     /**
-     * Removes a list of {@link EventRequest}s.
+     * Rfmovfs b list of {@link EvfntRfqufst}s.
      *
-     * @see #deleteEventRequest(EventRequest)
+     * @sff #dflftfEvfntRfqufst(EvfntRfqufst)
      *
-     * @param eventRequests the list of eventRequests to remove
+     * @pbrbm fvfntRfqufsts tif list of fvfntRfqufsts to rfmovf
      */
-    void deleteEventRequests(List<? extends EventRequest> eventRequests);
+    void dflftfEvfntRfqufsts(List<? fxtfnds EvfntRfqufst> fvfntRfqufsts);
 
     /**
-     * Remove all breakpoints managed by this EventRequestManager.
+     * Rfmovf bll brfbkpoints mbnbgfd by tiis EvfntRfqufstMbnbgfr.
      *
-     * @see #deleteEventRequest(EventRequest)
+     * @sff #dflftfEvfntRfqufst(EvfntRfqufst)
      */
-    void deleteAllBreakpoints();
+    void dflftfAllBrfbkpoints();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled step requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link StepRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd stfp rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif bll {@link StfpRfqufst} objfdts.
      */
-    List<StepRequest> stepRequests();
+    List<StfpRfqufst> stfpRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled class prepare requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ClassPrepareRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd dlbss prfpbrf rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif bll {@link ClbssPrfpbrfRfqufst} objfdts.
      */
-    List<ClassPrepareRequest> classPrepareRequests();
+    List<ClbssPrfpbrfRfqufst> dlbssPrfpbrfRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled class unload requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ClassUnloadRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd dlbss unlobd rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif bll {@link ClbssUnlobdRfqufst} objfdts.
      */
-    List<ClassUnloadRequest> classUnloadRequests();
+    List<ClbssUnlobdRfqufst> dlbssUnlobdRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled thread start requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ThreadStartRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd tirfbd stbrt rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif bll {@link TirfbdStbrtRfqufst} objfdts.
      */
-    List<ThreadStartRequest> threadStartRequests();
+    List<TirfbdStbrtRfqufst> tirfbdStbrtRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled thread death requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ThreadDeathRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd tirfbd dfbti rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif bll {@link TirfbdDfbtiRfqufst} objfdts.
      */
-    List<ThreadDeathRequest> threadDeathRequests();
+    List<TirfbdDfbtiRfqufst> tirfbdDfbtiRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled exception requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ExceptionRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd fxdfption rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif bll {@link ExdfptionRfqufst} objfdts.
      */
-    List<ExceptionRequest> exceptionRequests();
+    List<ExdfptionRfqufst> fxdfptionRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled breakpoint requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link BreakpointRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd brfbkpoint rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif list of bll {@link BrfbkpointRfqufst} objfdts.
      */
-    List<BreakpointRequest> breakpointRequests();
+    List<BrfbkpointRfqufst> brfbkpointRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled access
-     * watchpoint requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link AccessWatchpointRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd bddfss
+     * wbtdipoint rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif bll {@link AddfssWbtdipointRfqufst} objfdts.
      */
-    List<AccessWatchpointRequest> accessWatchpointRequests();
+    List<AddfssWbtdipointRfqufst> bddfssWbtdipointRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled modification
-     * watchpoint requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ModificationWatchpointRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd modifidbtion
+     * wbtdipoint rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif bll {@link ModifidbtionWbtdipointRfqufst} objfdts.
      */
-    List<ModificationWatchpointRequest> modificationWatchpointRequests();
+    List<ModifidbtionWbtdipointRfqufst> modifidbtionWbtdipointRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled method entry requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MethodEntryRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd mftiod fntry rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif list of bll {@link MftiodEntryRfqufst} objfdts.
      */
-    List<MethodEntryRequest> methodEntryRequests();
+    List<MftiodEntryRfqufst> mftiodEntryRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled method exit requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MethodExitRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd mftiod fxit rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif list of bll {@link MftiodExitRfqufst} objfdts.
      */
-    List<MethodExitRequest> methodExitRequests();
+    List<MftiodExitRfqufst> mftiodExitRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled monitor contended enter requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MonitorContendedEnterRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd monitor dontfndfd fntfr rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif list of bll {@link MonitorContfndfdEntfrRfqufst} objfdts.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    List<MonitorContendedEnterRequest> monitorContendedEnterRequests();
+    List<MonitorContfndfdEntfrRfqufst> monitorContfndfdEntfrRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled monitor contended entered requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MonitorContendedEnteredRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd monitor dontfndfd fntfrfd rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif list of bll {@link MonitorContfndfdEntfrfdRfqufst} objfdts.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    List<MonitorContendedEnteredRequest> monitorContendedEnteredRequests();
+    List<MonitorContfndfdEntfrfdRfqufst> monitorContfndfdEntfrfdRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled monitor wait requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MonitorWaitRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd monitor wbit rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif list of bll {@link MonitorWbitRfqufst} objfdts.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    List<MonitorWaitRequest> monitorWaitRequests();
+    List<MonitorWbitRfqufst> monitorWbitRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled monitor waited requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MonitorWaitedRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd monitor wbitfd rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn tif list of bll {@link MonitorWbitfdRfqufst} objfdts.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    List<MonitorWaitedRequest> monitorWaitedRequests();
+    List<MonitorWbitfdRfqufst> monitorWbitfdRfqufsts();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled VM death requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * Note: the unsolicited VMDeathEvent does not have a
-     * corresponding request.
-     * @return the list of all {@link VMDeathRequest} objects.
+     * Rfturn bn unmodifibblf list of tif fnbblfd bnd disbblfd VM dfbti rfqufsts.
+     * Tiis list is b livf vifw of tifsf rfqufsts bnd tius dibngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * Notf: tif unsoliditfd VMDfbtiEvfnt dofs not ibvf b
+     * dorrfsponding rfqufst.
+     * @rfturn tif list of bll {@link VMDfbtiRfqufst} objfdts.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    List<VMDeathRequest> vmDeathRequests();
+    List<VMDfbtiRfqufst> vmDfbtiRfqufsts();
 }

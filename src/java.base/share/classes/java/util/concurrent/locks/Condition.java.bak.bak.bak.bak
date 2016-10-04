@@ -1,0 +1,487 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.lodks;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.Dbtf;
+
+/**
+ * {@dodf Condition} fbdtors out thf {@dodf Objfdt} monitor
+ * mfthods ({@link Objfdt#wbit() wbit}, {@link Objfdt#notify notify}
+ * bnd {@link Objfdt#notifyAll notifyAll}) into distindt objfdts to
+ * givf thf ffffdt of hbving multiplf wbit-sfts pfr objfdt, by
+ * dombining thfm with thf usf of brbitrbry {@link Lodk} implfmfntbtions.
+ * Whfrf b {@dodf Lodk} rfplbdfs thf usf of {@dodf syndhronizfd} mfthods
+ * bnd stbtfmfnts, b {@dodf Condition} rfplbdfs thf usf of thf Objfdt
+ * monitor mfthods.
+ *
+ * <p>Conditions (blso known bs <fm>dondition qufufs</fm> or
+ * <fm>dondition vbribblfs</fm>) providf b mfbns for onf thrfbd to
+ * suspfnd fxfdution (to &quot;wbit&quot;) until notififd by bnothfr
+ * thrfbd thbt somf stbtf dondition mby now bf truf.  Bfdbusf bddfss
+ * to this shbrfd stbtf informbtion oddurs in difffrfnt thrfbds, it
+ * must bf protfdtfd, so b lodk of somf form is bssodibtfd with thf
+ * dondition. Thf kfy propfrty thbt wbiting for b dondition providfs
+ * is thbt it <fm>btomidblly</fm> rflfbsfs thf bssodibtfd lodk bnd
+ * suspfnds thf durrfnt thrfbd, just likf {@dodf Objfdt.wbit}.
+ *
+ * <p>A {@dodf Condition} instbndf is intrinsidblly bound to b lodk.
+ * To obtbin b {@dodf Condition} instbndf for b pbrtidulbr {@link Lodk}
+ * instbndf usf its {@link Lodk#nfwCondition nfwCondition()} mfthod.
+ *
+ * <p>As bn fxbmplf, supposf wf hbvf b boundfd bufffr whidh supports
+ * {@dodf put} bnd {@dodf tbkf} mfthods.  If b
+ * {@dodf tbkf} is bttfmptfd on bn fmpty bufffr, thfn thf thrfbd will blodk
+ * until bn itfm bfdomfs bvbilbblf; if b {@dodf put} is bttfmptfd on b
+ * full bufffr, thfn thf thrfbd will blodk until b spbdf bfdomfs bvbilbblf.
+ * Wf would likf to kffp wbiting {@dodf put} thrfbds bnd {@dodf tbkf}
+ * thrfbds in sfpbrbtf wbit-sfts so thbt wf dbn usf thf optimizbtion of
+ * only notifying b singlf thrfbd bt b timf whfn itfms or spbdfs bfdomf
+ * bvbilbblf in thf bufffr. This dbn bf bdhifvfd using two
+ * {@link Condition} instbndfs.
+ * <prf>
+ * dlbss BoundfdBufffr {
+ *   <b>finbl Lodk lodk = nfw RffntrbntLodk();</b>
+ *   finbl Condition notFull  = <b>lodk.nfwCondition(); </b>
+ *   finbl Condition notEmpty = <b>lodk.nfwCondition(); </b>
+ *
+ *   finbl Objfdt[] itfms = nfw Objfdt[100];
+ *   int putptr, tbkfptr, dount;
+ *
+ *   publid void put(Objfdt x) throws IntfrruptfdExdfption {
+ *     <b>lodk.lodk();
+ *     try {</b>
+ *       whilf (dount == itfms.lfngth)
+ *         <b>notFull.bwbit();</b>
+ *       itfms[putptr] = x;
+ *       if (++putptr == itfms.lfngth) putptr = 0;
+ *       ++dount;
+ *       <b>notEmpty.signbl();</b>
+ *     <b>} finblly {
+ *       lodk.unlodk();
+ *     }</b>
+ *   }
+ *
+ *   publid Objfdt tbkf() throws IntfrruptfdExdfption {
+ *     <b>lodk.lodk();
+ *     try {</b>
+ *       whilf (dount == 0)
+ *         <b>notEmpty.bwbit();</b>
+ *       Objfdt x = itfms[tbkfptr];
+ *       if (++tbkfptr == itfms.lfngth) tbkfptr = 0;
+ *       --dount;
+ *       <b>notFull.signbl();</b>
+ *       rfturn x;
+ *     <b>} finblly {
+ *       lodk.unlodk();
+ *     }</b>
+ *   }
+ * }
+ * </prf>
+ *
+ * (Thf {@link jbvb.util.dondurrfnt.ArrbyBlodkingQufuf} dlbss providfs
+ * this fundtionblity, so thfrf is no rfbson to implfmfnt this
+ * sbmplf usbgf dlbss.)
+ *
+ * <p>A {@dodf Condition} implfmfntbtion dbn providf bfhbvior bnd sfmbntids
+ * thbt is
+ * difffrfnt from thbt of thf {@dodf Objfdt} monitor mfthods, sudh bs
+ * gubrbntffd ordfring for notifidbtions, or not rfquiring b lodk to bf hfld
+ * whfn pfrforming notifidbtions.
+ * If bn implfmfntbtion providfs sudh spfdiblizfd sfmbntids thfn thf
+ * implfmfntbtion must dodumfnt thosf sfmbntids.
+ *
+ * <p>Notf thbt {@dodf Condition} instbndfs brf just normbl objfdts bnd dbn
+ * thfmsflvfs bf usfd bs thf tbrgft in b {@dodf syndhronizfd} stbtfmfnt,
+ * bnd dbn hbvf thfir own monitor {@link Objfdt#wbit wbit} bnd
+ * {@link Objfdt#notify notifidbtion} mfthods invokfd.
+ * Adquiring thf monitor lodk of b {@dodf Condition} instbndf, or using its
+ * monitor mfthods, hbs no spfdififd rflbtionship with bdquiring thf
+ * {@link Lodk} bssodibtfd with thbt {@dodf Condition} or thf usf of its
+ * {@linkplbin #bwbit wbiting} bnd {@linkplbin #signbl signblling} mfthods.
+ * It is rfdommfndfd thbt to bvoid donfusion you nfvfr usf {@dodf Condition}
+ * instbndfs in this wby, fxdfpt pfrhbps within thfir own implfmfntbtion.
+ *
+ * <p>Exdfpt whfrf notfd, pbssing b {@dodf null} vbluf for bny pbrbmftfr
+ * will rfsult in b {@link NullPointfrExdfption} bfing thrown.
+ *
+ * <h3>Implfmfntbtion Considfrbtions</h3>
+ *
+ * <p>Whfn wbiting upon b {@dodf Condition}, b &quot;<fm>spurious
+ * wbkfup</fm>&quot; is pfrmittfd to oddur, in
+ * gfnfrbl, bs b dondfssion to thf undfrlying plbtform sfmbntids.
+ * This hbs littlf prbdtidbl impbdt on most bpplidbtion progrbms bs b
+ * {@dodf Condition} should blwbys bf wbitfd upon in b loop, tfsting
+ * thf stbtf prfdidbtf thbt is bfing wbitfd for.  An implfmfntbtion is
+ * frff to rfmovf thf possibility of spurious wbkfups but it is
+ * rfdommfndfd thbt bpplidbtions progrbmmfrs blwbys bssumf thbt thfy dbn
+ * oddur bnd so blwbys wbit in b loop.
+ *
+ * <p>Thf thrff forms of dondition wbiting
+ * (intfrruptiblf, non-intfrruptiblf, bnd timfd) mby difffr in thfir fbsf of
+ * implfmfntbtion on somf plbtforms bnd in thfir pfrformbndf dhbrbdtfristids.
+ * In pbrtidulbr, it mby bf diffidult to providf thfsf ffbturfs bnd mbintbin
+ * spfdifid sfmbntids sudh bs ordfring gubrbntffs.
+ * Furthfr, thf bbility to intfrrupt thf bdtubl suspfnsion of thf thrfbd mby
+ * not blwbys bf ffbsiblf to implfmfnt on bll plbtforms.
+ *
+ * <p>Consfqufntly, bn implfmfntbtion is not rfquirfd to dffinf fxbdtly thf
+ * sbmf gubrbntffs or sfmbntids for bll thrff forms of wbiting, nor is it
+ * rfquirfd to support intfrruption of thf bdtubl suspfnsion of thf thrfbd.
+ *
+ * <p>An implfmfntbtion is rfquirfd to
+ * dlfbrly dodumfnt thf sfmbntids bnd gubrbntffs providfd by fbdh of thf
+ * wbiting mfthods, bnd whfn bn implfmfntbtion dofs support intfrruption of
+ * thrfbd suspfnsion thfn it must obfy thf intfrruption sfmbntids bs dffinfd
+ * in this intfrfbdf.
+ *
+ * <p>As intfrruption gfnfrblly implifs dbndfllbtion, bnd dhfdks for
+ * intfrruption brf oftfn infrfqufnt, bn implfmfntbtion dbn fbvor rfsponding
+ * to bn intfrrupt ovfr normbl mfthod rfturn. This is truf fvfn if it dbn bf
+ * shown thbt thf intfrrupt oddurrfd bftfr bnothfr bdtion thbt mby hbvf
+ * unblodkfd thf thrfbd. An implfmfntbtion should dodumfnt this bfhbvior.
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ */
+publid intfrfbdf Condition {
+
+    /**
+     * Cbusfs thf durrfnt thrfbd to wbit until it is signbllfd or
+     * {@linkplbin Thrfbd#intfrrupt intfrruptfd}.
+     *
+     * <p>Thf lodk bssodibtfd with this {@dodf Condition} is btomidblly
+     * rflfbsfd bnd thf durrfnt thrfbd bfdomfs disbblfd for thrfbd sdhfduling
+     * purposfs bnd lifs dormbnt until <fm>onf</fm> of four things hbppfns:
+     * <ul>
+     * <li>Somf othfr thrfbd invokfs thf {@link #signbl} mfthod for this
+     * {@dodf Condition} bnd thf durrfnt thrfbd hbppfns to bf dhosfn bs thf
+     * thrfbd to bf bwbkfnfd; or
+     * <li>Somf othfr thrfbd invokfs thf {@link #signblAll} mfthod for this
+     * {@dodf Condition}; or
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts} thf
+     * durrfnt thrfbd, bnd intfrruption of thrfbd suspfnsion is supportfd; or
+     * <li>A &quot;<fm>spurious wbkfup</fm>&quot; oddurs.
+     * </ul>
+     *
+     * <p>In bll dbsfs, bfforf this mfthod dbn rfturn thf durrfnt thrfbd must
+     * rf-bdquirf thf lodk bssodibtfd with this dondition. Whfn thf
+     * thrfbd rfturns it is <fm>gubrbntffd</fm> to hold this lodk.
+     *
+     * <p>If thf durrfnt thrfbd:
+     * <ul>
+     * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod; or
+     * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf wbiting
+     * bnd intfrruption of thrfbd suspfnsion is supportfd,
+     * </ul>
+     * thfn {@link IntfrruptfdExdfption} is thrown bnd thf durrfnt thrfbd's
+     * intfrruptfd stbtus is dlfbrfd. It is not spfdififd, in thf first
+     * dbsf, whfthfr or not thf tfst for intfrruption oddurs bfforf thf lodk
+     * is rflfbsfd.
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>Thf durrfnt thrfbd is bssumfd to hold thf lodk bssodibtfd with this
+     * {@dodf Condition} whfn this mfthod is dbllfd.
+     * It is up to thf implfmfntbtion to dftfrminf if this is
+     * thf dbsf bnd if not, how to rfspond. Typidblly, bn fxdfption will bf
+     * thrown (sudh bs {@link IllfgblMonitorStbtfExdfption}) bnd thf
+     * implfmfntbtion must dodumfnt thbt fbdt.
+     *
+     * <p>An implfmfntbtion dbn fbvor rfsponding to bn intfrrupt ovfr normbl
+     * mfthod rfturn in rfsponsf to b signbl. In thbt dbsf thf implfmfntbtion
+     * must fnsurf thbt thf signbl is rfdirfdtfd to bnothfr wbiting thrfbd, if
+     * thfrf is onf.
+     *
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
+     *         (bnd intfrruption of thrfbd suspfnsion is supportfd)
+     */
+    void bwbit() throws IntfrruptfdExdfption;
+
+    /**
+     * Cbusfs thf durrfnt thrfbd to wbit until it is signbllfd.
+     *
+     * <p>Thf lodk bssodibtfd with this dondition is btomidblly
+     * rflfbsfd bnd thf durrfnt thrfbd bfdomfs disbblfd for thrfbd sdhfduling
+     * purposfs bnd lifs dormbnt until <fm>onf</fm> of thrff things hbppfns:
+     * <ul>
+     * <li>Somf othfr thrfbd invokfs thf {@link #signbl} mfthod for this
+     * {@dodf Condition} bnd thf durrfnt thrfbd hbppfns to bf dhosfn bs thf
+     * thrfbd to bf bwbkfnfd; or
+     * <li>Somf othfr thrfbd invokfs thf {@link #signblAll} mfthod for this
+     * {@dodf Condition}; or
+     * <li>A &quot;<fm>spurious wbkfup</fm>&quot; oddurs.
+     * </ul>
+     *
+     * <p>In bll dbsfs, bfforf this mfthod dbn rfturn thf durrfnt thrfbd must
+     * rf-bdquirf thf lodk bssodibtfd with this dondition. Whfn thf
+     * thrfbd rfturns it is <fm>gubrbntffd</fm> to hold this lodk.
+     *
+     * <p>If thf durrfnt thrfbd's intfrruptfd stbtus is sft whfn it fntfrs
+     * this mfthod, or it is {@linkplbin Thrfbd#intfrrupt intfrruptfd}
+     * whilf wbiting, it will dontinuf to wbit until signbllfd. Whfn it finblly
+     * rfturns from this mfthod its intfrruptfd stbtus will still
+     * bf sft.
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>Thf durrfnt thrfbd is bssumfd to hold thf lodk bssodibtfd with this
+     * {@dodf Condition} whfn this mfthod is dbllfd.
+     * It is up to thf implfmfntbtion to dftfrminf if this is
+     * thf dbsf bnd if not, how to rfspond. Typidblly, bn fxdfption will bf
+     * thrown (sudh bs {@link IllfgblMonitorStbtfExdfption}) bnd thf
+     * implfmfntbtion must dodumfnt thbt fbdt.
+     */
+    void bwbitUnintfrruptibly();
+
+    /**
+     * Cbusfs thf durrfnt thrfbd to wbit until it is signbllfd or intfrruptfd,
+     * or thf spfdififd wbiting timf flbpsfs.
+     *
+     * <p>Thf lodk bssodibtfd with this dondition is btomidblly
+     * rflfbsfd bnd thf durrfnt thrfbd bfdomfs disbblfd for thrfbd sdhfduling
+     * purposfs bnd lifs dormbnt until <fm>onf</fm> of fivf things hbppfns:
+     * <ul>
+     * <li>Somf othfr thrfbd invokfs thf {@link #signbl} mfthod for this
+     * {@dodf Condition} bnd thf durrfnt thrfbd hbppfns to bf dhosfn bs thf
+     * thrfbd to bf bwbkfnfd; or
+     * <li>Somf othfr thrfbd invokfs thf {@link #signblAll} mfthod for this
+     * {@dodf Condition}; or
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts} thf
+     * durrfnt thrfbd, bnd intfrruption of thrfbd suspfnsion is supportfd; or
+     * <li>Thf spfdififd wbiting timf flbpsfs; or
+     * <li>A &quot;<fm>spurious wbkfup</fm>&quot; oddurs.
+     * </ul>
+     *
+     * <p>In bll dbsfs, bfforf this mfthod dbn rfturn thf durrfnt thrfbd must
+     * rf-bdquirf thf lodk bssodibtfd with this dondition. Whfn thf
+     * thrfbd rfturns it is <fm>gubrbntffd</fm> to hold this lodk.
+     *
+     * <p>If thf durrfnt thrfbd:
+     * <ul>
+     * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod; or
+     * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf wbiting
+     * bnd intfrruption of thrfbd suspfnsion is supportfd,
+     * </ul>
+     * thfn {@link IntfrruptfdExdfption} is thrown bnd thf durrfnt thrfbd's
+     * intfrruptfd stbtus is dlfbrfd. It is not spfdififd, in thf first
+     * dbsf, whfthfr or not thf tfst for intfrruption oddurs bfforf thf lodk
+     * is rflfbsfd.
+     *
+     * <p>Thf mfthod rfturns bn fstimbtf of thf numbfr of nbnosfdonds
+     * rfmbining to wbit givfn thf supplifd {@dodf nbnosTimfout}
+     * vbluf upon rfturn, or b vbluf lfss thbn or fqubl to zfro if it
+     * timfd out. This vbluf dbn bf usfd to dftfrminf whfthfr bnd how
+     * long to rf-wbit in dbsfs whfrf thf wbit rfturns but bn bwbitfd
+     * dondition still dofs not hold. Typidbl usfs of this mfthod tbkf
+     * thf following form:
+     *
+     *  <prf> {@dodf
+     * boolfbn bMfthod(long timfout, TimfUnit unit) {
+     *   long nbnos = unit.toNbnos(timfout);
+     *   lodk.lodk();
+     *   try {
+     *     whilf (!donditionBfingWbitfdFor()) {
+     *       if (nbnos <= 0L)
+     *         rfturn fblsf;
+     *       nbnos = thfCondition.bwbitNbnos(nbnos);
+     *     }
+     *     // ...
+     *   } finblly {
+     *     lodk.unlodk();
+     *   }
+     * }}</prf>
+     *
+     * <p>Dfsign notf: This mfthod rfquirfs b nbnosfdond brgumfnt so
+     * bs to bvoid trundbtion frrors in rfporting rfmbining timfs.
+     * Sudh prfdision loss would mbkf it diffidult for progrbmmfrs to
+     * fnsurf thbt totbl wbiting timfs brf not systfmbtidblly shortfr
+     * thbn spfdififd whfn rf-wbits oddur.
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>Thf durrfnt thrfbd is bssumfd to hold thf lodk bssodibtfd with this
+     * {@dodf Condition} whfn this mfthod is dbllfd.
+     * It is up to thf implfmfntbtion to dftfrminf if this is
+     * thf dbsf bnd if not, how to rfspond. Typidblly, bn fxdfption will bf
+     * thrown (sudh bs {@link IllfgblMonitorStbtfExdfption}) bnd thf
+     * implfmfntbtion must dodumfnt thbt fbdt.
+     *
+     * <p>An implfmfntbtion dbn fbvor rfsponding to bn intfrrupt ovfr normbl
+     * mfthod rfturn in rfsponsf to b signbl, or ovfr indidbting thf flbpsf
+     * of thf spfdififd wbiting timf. In fithfr dbsf thf implfmfntbtion
+     * must fnsurf thbt thf signbl is rfdirfdtfd to bnothfr wbiting thrfbd, if
+     * thfrf is onf.
+     *
+     * @pbrbm nbnosTimfout thf mbximum timf to wbit, in nbnosfdonds
+     * @rfturn bn fstimbtf of thf {@dodf nbnosTimfout} vbluf minus
+     *         thf timf spfnt wbiting upon rfturn from this mfthod.
+     *         A positivf vbluf mby bf usfd bs thf brgumfnt to b
+     *         subsfqufnt dbll to this mfthod to finish wbiting out
+     *         thf dfsirfd timf.  A vbluf lfss thbn or fqubl to zfro
+     *         indidbtfs thbt no timf rfmbins.
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
+     *         (bnd intfrruption of thrfbd suspfnsion is supportfd)
+     */
+    long bwbitNbnos(long nbnosTimfout) throws IntfrruptfdExdfption;
+
+    /**
+     * Cbusfs thf durrfnt thrfbd to wbit until it is signbllfd or intfrruptfd,
+     * or thf spfdififd wbiting timf flbpsfs. This mfthod is bfhbviorblly
+     * fquivblfnt to:
+     *  <prf> {@dodf bwbitNbnos(unit.toNbnos(timf)) > 0}</prf>
+     *
+     * @pbrbm timf thf mbximum timf to wbit
+     * @pbrbm unit thf timf unit of thf {@dodf timf} brgumfnt
+     * @rfturn {@dodf fblsf} if thf wbiting timf dftfdtbbly flbpsfd
+     *         bfforf rfturn from thf mfthod, flsf {@dodf truf}
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
+     *         (bnd intfrruption of thrfbd suspfnsion is supportfd)
+     */
+    boolfbn bwbit(long timf, TimfUnit unit) throws IntfrruptfdExdfption;
+
+    /**
+     * Cbusfs thf durrfnt thrfbd to wbit until it is signbllfd or intfrruptfd,
+     * or thf spfdififd dfbdlinf flbpsfs.
+     *
+     * <p>Thf lodk bssodibtfd with this dondition is btomidblly
+     * rflfbsfd bnd thf durrfnt thrfbd bfdomfs disbblfd for thrfbd sdhfduling
+     * purposfs bnd lifs dormbnt until <fm>onf</fm> of fivf things hbppfns:
+     * <ul>
+     * <li>Somf othfr thrfbd invokfs thf {@link #signbl} mfthod for this
+     * {@dodf Condition} bnd thf durrfnt thrfbd hbppfns to bf dhosfn bs thf
+     * thrfbd to bf bwbkfnfd; or
+     * <li>Somf othfr thrfbd invokfs thf {@link #signblAll} mfthod for this
+     * {@dodf Condition}; or
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts} thf
+     * durrfnt thrfbd, bnd intfrruption of thrfbd suspfnsion is supportfd; or
+     * <li>Thf spfdififd dfbdlinf flbpsfs; or
+     * <li>A &quot;<fm>spurious wbkfup</fm>&quot; oddurs.
+     * </ul>
+     *
+     * <p>In bll dbsfs, bfforf this mfthod dbn rfturn thf durrfnt thrfbd must
+     * rf-bdquirf thf lodk bssodibtfd with this dondition. Whfn thf
+     * thrfbd rfturns it is <fm>gubrbntffd</fm> to hold this lodk.
+     *
+     *
+     * <p>If thf durrfnt thrfbd:
+     * <ul>
+     * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod; or
+     * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf wbiting
+     * bnd intfrruption of thrfbd suspfnsion is supportfd,
+     * </ul>
+     * thfn {@link IntfrruptfdExdfption} is thrown bnd thf durrfnt thrfbd's
+     * intfrruptfd stbtus is dlfbrfd. It is not spfdififd, in thf first
+     * dbsf, whfthfr or not thf tfst for intfrruption oddurs bfforf thf lodk
+     * is rflfbsfd.
+     *
+     *
+     * <p>Thf rfturn vbluf indidbtfs whfthfr thf dfbdlinf hbs flbpsfd,
+     * whidh dbn bf usfd bs follows:
+     *  <prf> {@dodf
+     * boolfbn bMfthod(Dbtf dfbdlinf) {
+     *   boolfbn stillWbiting = truf;
+     *   lodk.lodk();
+     *   try {
+     *     whilf (!donditionBfingWbitfdFor()) {
+     *       if (!stillWbiting)
+     *         rfturn fblsf;
+     *       stillWbiting = thfCondition.bwbitUntil(dfbdlinf);
+     *     }
+     *     // ...
+     *   } finblly {
+     *     lodk.unlodk();
+     *   }
+     * }}</prf>
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>Thf durrfnt thrfbd is bssumfd to hold thf lodk bssodibtfd with this
+     * {@dodf Condition} whfn this mfthod is dbllfd.
+     * It is up to thf implfmfntbtion to dftfrminf if this is
+     * thf dbsf bnd if not, how to rfspond. Typidblly, bn fxdfption will bf
+     * thrown (sudh bs {@link IllfgblMonitorStbtfExdfption}) bnd thf
+     * implfmfntbtion must dodumfnt thbt fbdt.
+     *
+     * <p>An implfmfntbtion dbn fbvor rfsponding to bn intfrrupt ovfr normbl
+     * mfthod rfturn in rfsponsf to b signbl, or ovfr indidbting thf pbssing
+     * of thf spfdififd dfbdlinf. In fithfr dbsf thf implfmfntbtion
+     * must fnsurf thbt thf signbl is rfdirfdtfd to bnothfr wbiting thrfbd, if
+     * thfrf is onf.
+     *
+     * @pbrbm dfbdlinf thf bbsolutf timf to wbit until
+     * @rfturn {@dodf fblsf} if thf dfbdlinf hbs flbpsfd upon rfturn, flsf
+     *         {@dodf truf}
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
+     *         (bnd intfrruption of thrfbd suspfnsion is supportfd)
+     */
+    boolfbn bwbitUntil(Dbtf dfbdlinf) throws IntfrruptfdExdfption;
+
+    /**
+     * Wbkfs up onf wbiting thrfbd.
+     *
+     * <p>If bny thrfbds brf wbiting on this dondition thfn onf
+     * is sflfdtfd for wbking up. Thbt thrfbd must thfn rf-bdquirf thf
+     * lodk bfforf rfturning from {@dodf bwbit}.
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>An implfmfntbtion mby (bnd typidblly dofs) rfquirf thbt thf
+     * durrfnt thrfbd hold thf lodk bssodibtfd with this {@dodf
+     * Condition} whfn this mfthod is dbllfd. Implfmfntbtions must
+     * dodumfnt this prfdondition bnd bny bdtions tbkfn if thf lodk is
+     * not hfld. Typidblly, bn fxdfption sudh bs {@link
+     * IllfgblMonitorStbtfExdfption} will bf thrown.
+     */
+    void signbl();
+
+    /**
+     * Wbkfs up bll wbiting thrfbds.
+     *
+     * <p>If bny thrfbds brf wbiting on this dondition thfn thfy brf
+     * bll wokfn up. Ebdh thrfbd must rf-bdquirf thf lodk bfforf it dbn
+     * rfturn from {@dodf bwbit}.
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>An implfmfntbtion mby (bnd typidblly dofs) rfquirf thbt thf
+     * durrfnt thrfbd hold thf lodk bssodibtfd with this {@dodf
+     * Condition} whfn this mfthod is dbllfd. Implfmfntbtions must
+     * dodumfnt this prfdondition bnd bny bdtions tbkfn if thf lodk is
+     * not hfld. Typidblly, bn fxdfption sudh bs {@link
+     * IllfgblMonitorStbtfExdfption} will bf thrown.
+     */
+    void signblAll();
+}

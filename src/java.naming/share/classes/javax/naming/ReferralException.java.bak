@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
-import java.util.Hashtable;
+import jbvb.util.Hbsitbblf;
 
 /**
- * This abstract class is used to represent a referral exception,
- * which is generated in response to a <em>referral</em>
- * such as that returned by LDAP v3 servers.
+ * Tiis bbstrbdt dlbss is usfd to rfprfsfnt b rfffrrbl fxdfption,
+ * wiidi is gfnfrbtfd in rfsponsf to b <fm>rfffrrbl</fm>
+ * sudi bs tibt rfturnfd by LDAP v3 sfrvfrs.
  * <p>
- * A service provider provides
- * a subclass of <tt>ReferralException</tt> by providing implementations
- * for <tt>getReferralInfo()</tt> and <tt>getReferralContext()</tt> (and appropriate
- * constructors and/or corresponding "set" methods).
+ * A sfrvidf providfr providfs
+ * b subdlbss of <tt>RfffrrblExdfption</tt> by providing implfmfntbtions
+ * for <tt>gftRfffrrblInfo()</tt> bnd <tt>gftRfffrrblContfxt()</tt> (bnd bppropribtf
+ * donstrudtors bnd/or dorrfsponding "sft" mftiods).
  * <p>
- * The following code sample shows how <tt>ReferralException</tt> can be used.
- * <blockquote>{@code
- *      while (true) {
+ * Tif following dodf sbmplf siows iow <tt>RfffrrblExdfption</tt> dbn bf usfd.
+ * <blodkquotf>{@dodf
+ *      wiilf (truf) {
  *          try {
- *              bindings = ctx.listBindings(name);
- *              while (bindings.hasMore()) {
- *                  b = bindings.next();
+ *              bindings = dtx.listBindings(nbmf);
+ *              wiilf (bindings.ibsMorf()) {
+ *                  b = bindings.nfxt();
  *                  ...
  *              }
- *              break;
- *          } catch (ReferralException e) {
- *              ctx = e.getReferralContext();
+ *              brfbk;
+ *          } dbtdi (RfffrrblExdfption f) {
+ *              dtx = f.gftRfffrrblContfxt();
  *          }
  *      }
- * }</blockquote>
+ * }</blodkquotf>
  *<p>
- * <tt>ReferralException</tt> is an abstract class. Concrete implementations
- * determine its synchronization and serialization properties.
+ * <tt>RfffrrblExdfption</tt> is bn bbstrbdt dlbss. Condrftf implfmfntbtions
+ * dftfrminf its syndironizbtion bnd sfriblizbtion propfrtifs.
  *<p>
- * An environment parameter passed to the <tt>getReferralContext()</tt>
- * method is owned by the caller.
- * The service provider will not modify the object or keep a reference to it,
- * but may keep a reference to a clone of it.
+ * An fnvironmfnt pbrbmftfr pbssfd to tif <tt>gftRfffrrblContfxt()</tt>
+ * mftiod is ownfd by tif dbllfr.
+ * Tif sfrvidf providfr will not modify tif objfdt or kffp b rfffrfndf to it,
+ * but mby kffp b rfffrfndf to b dlonf of it.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
  *
- * @since 1.3
+ * @sindf 1.3
  *
  */
 
-public abstract class ReferralException extends NamingException {
+publid bbstrbdt dlbss RfffrrblExdfption fxtfnds NbmingExdfption {
     /**
-     * Constructs a new instance of ReferralException using the
-     * explanation supplied. All other fields are set to null.
+     * Construdts b nfw instbndf of RfffrrblExdfption using tif
+     * fxplbnbtion supplifd. All otifr fiflds brf sft to null.
      *
-     * @param   explanation     Additional detail about this exception. Can be null.
-     * @see java.lang.Throwable#getMessage
+     * @pbrbm   fxplbnbtion     Additionbl dftbil bbout tiis fxdfption. Cbn bf null.
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
      */
-    protected ReferralException(String explanation) {
-        super(explanation);
+    protfdtfd RfffrrblExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
     }
 
     /**
-      * Constructs a new instance of ReferralException.
-      * All fields are set to null.
+      * Construdts b nfw instbndf of RfffrrblExdfption.
+      * All fiflds brf sft to null.
       */
-    protected ReferralException() {
-        super();
+    protfdtfd RfffrrblExdfption() {
+        supfr();
     }
 
     /**
-     * Retrieves information (such as URLs) related to this referral.
-     * The program may examine or display this information
-     * to the user to determine whether to continue with the referral,
-     * or to determine additional information needs to be supplied in order
-     * to continue with the referral.
+     * Rftrifvfs informbtion (sudi bs URLs) rflbtfd to tiis rfffrrbl.
+     * Tif progrbm mby fxbminf or displby tiis informbtion
+     * to tif usfr to dftfrminf wiftifr to dontinuf witi tif rfffrrbl,
+     * or to dftfrminf bdditionbl informbtion nffds to bf supplifd in ordfr
+     * to dontinuf witi tif rfffrrbl.
      *
-     * @return Non-null referral information related to this referral.
+     * @rfturn Non-null rfffrrbl informbtion rflbtfd to tiis rfffrrbl.
      */
-    public abstract Object getReferralInfo();
+    publid bbstrbdt Objfdt gftRfffrrblInfo();
 
     /**
-     * Retrieves the context at which to continue the method.
-     * Regardless of whether a referral is encountered directly during a
-     * context operation, or indirectly, for example, during a search
-     * enumeration, the referral exception should provide a context
-     * at which to continue the operation. The referral context is
-     * created using the environment properties of the context
-     * that threw the ReferralException.
+     * Rftrifvfs tif dontfxt bt wiidi to dontinuf tif mftiod.
+     * Rfgbrdlfss of wiftifr b rfffrrbl is fndountfrfd dirfdtly during b
+     * dontfxt opfrbtion, or indirfdtly, for fxbmplf, during b sfbrdi
+     * fnumfrbtion, tif rfffrrbl fxdfption siould providf b dontfxt
+     * bt wiidi to dontinuf tif opfrbtion. Tif rfffrrbl dontfxt is
+     * drfbtfd using tif fnvironmfnt propfrtifs of tif dontfxt
+     * tibt tirfw tif RfffrrblExdfption.
      *
      *<p>
-     * To continue the operation, the client program should re-invoke
-     * the method using the same arguments as the original invocation.
+     * To dontinuf tif opfrbtion, tif dlifnt progrbm siould rf-invokf
+     * tif mftiod using tif sbmf brgumfnts bs tif originbl invodbtion.
      *
-     * @return The non-null context at which to continue the method.
-     * @exception NamingException If a naming exception was encountered.
-     * Call either <tt>retryReferral()</tt> or <tt>skipReferral()</tt>
-     * to continue processing referrals.
+     * @rfturn Tif non-null dontfxt bt wiidi to dontinuf tif mftiod.
+     * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+     * Cbll fitifr <tt>rftryRfffrrbl()</tt> or <tt>skipRfffrrbl()</tt>
+     * to dontinuf prodfssing rfffrrbls.
      */
-    public abstract Context getReferralContext() throws NamingException;
+    publid bbstrbdt Contfxt gftRfffrrblContfxt() tirows NbmingExdfption;
 
     /**
-     * Retrieves the context at which to continue the method using
-     * environment properties.
-     * Regardless of whether a referral is encountered directly during a
-     * context operation, or indirectly, for example, during a search
-     * enumeration, the referral exception should provide a context
-     * at which to continue the operation.
+     * Rftrifvfs tif dontfxt bt wiidi to dontinuf tif mftiod using
+     * fnvironmfnt propfrtifs.
+     * Rfgbrdlfss of wiftifr b rfffrrbl is fndountfrfd dirfdtly during b
+     * dontfxt opfrbtion, or indirfdtly, for fxbmplf, during b sfbrdi
+     * fnumfrbtion, tif rfffrrbl fxdfption siould providf b dontfxt
+     * bt wiidi to dontinuf tif opfrbtion.
      *<p>
-     * The referral context is created using <tt>env</tt> as its environment
-     * properties.
-     * This method should be used instead of the no-arg overloaded form
-     * when the caller needs to use different environment properties for
-     * the referral context. It might need to do this, for example, when
-     * it needs to supply different authentication information to the referred
-     * server in order to create the referral context.
+     * Tif rfffrrbl dontfxt is drfbtfd using <tt>fnv</tt> bs its fnvironmfnt
+     * propfrtifs.
+     * Tiis mftiod siould bf usfd instfbd of tif no-brg ovfrlobdfd form
+     * wifn tif dbllfr nffds to usf difffrfnt fnvironmfnt propfrtifs for
+     * tif rfffrrbl dontfxt. It migit nffd to do tiis, for fxbmplf, wifn
+     * it nffds to supply difffrfnt butifntidbtion informbtion to tif rfffrrfd
+     * sfrvfr in ordfr to drfbtf tif rfffrrbl dontfxt.
      *<p>
-     * To continue the operation, the client program should re-invoke
-     * the method using the same arguments as the original invocation.
+     * To dontinuf tif opfrbtion, tif dlifnt progrbm siould rf-invokf
+     * tif mftiod using tif sbmf brgumfnts bs tif originbl invodbtion.
      *
-     * @param env The possibly null environment to use when retrieving the
-     *          referral context. If null, no environment properties will be used.
+     * @pbrbm fnv Tif possibly null fnvironmfnt to usf wifn rftrifving tif
+     *          rfffrrbl dontfxt. If null, no fnvironmfnt propfrtifs will bf usfd.
      *
-     * @return The non-null context at which to continue the method.
-     * @exception NamingException If a naming exception was encountered.
-     * Call either <tt>retryReferral()</tt> or <tt>skipReferral()</tt>
-     * to continue processing referrals.
+     * @rfturn Tif non-null dontfxt bt wiidi to dontinuf tif mftiod.
+     * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+     * Cbll fitifr <tt>rftryRfffrrbl()</tt> or <tt>skipRfffrrbl()</tt>
+     * to dontinuf prodfssing rfffrrbls.
      */
-    public abstract Context
-        getReferralContext(Hashtable<?,?> env)
-        throws NamingException;
+    publid bbstrbdt Contfxt
+        gftRfffrrblContfxt(Hbsitbblf<?,?> fnv)
+        tirows NbmingExdfption;
 
     /**
-     * Discards the referral about to be processed.
-     * A call to this method should be followed by a call to
-     * <code>getReferralContext</code> to allow the processing of
-     * other referrals to continue.
-     * The following code fragment shows a typical usage pattern.
-     * <blockquote><pre>
-     *  } catch (ReferralException e) {
-     *      if (!shallIFollow(e.getReferralInfo())) {
-     *          if (!e.skipReferral()) {
-     *              return;
+     * Disdbrds tif rfffrrbl bbout to bf prodfssfd.
+     * A dbll to tiis mftiod siould bf followfd by b dbll to
+     * <dodf>gftRfffrrblContfxt</dodf> to bllow tif prodfssing of
+     * otifr rfffrrbls to dontinuf.
+     * Tif following dodf frbgmfnt siows b typidbl usbgf pbttfrn.
+     * <blodkquotf><prf>
+     *  } dbtdi (RfffrrblExdfption f) {
+     *      if (!sibllIFollow(f.gftRfffrrblInfo())) {
+     *          if (!f.skipRfffrrbl()) {
+     *              rfturn;
      *          }
      *      }
-     *      ctx = e.getReferralContext();
+     *      dtx = f.gftRfffrrblContfxt();
      *  }
-     * </pre></blockquote>
+     * </prf></blodkquotf>
      *
-     * @return true If more referral processing is pending; false otherwise.
+     * @rfturn truf If morf rfffrrbl prodfssing is pfnding; fblsf otifrwisf.
      */
-    public abstract boolean skipReferral();
+    publid bbstrbdt boolfbn skipRfffrrbl();
 
     /**
-     * Retries the referral currently being processed.
-     * A call to this method should be followed by a call to
-     * <code>getReferralContext</code> to allow the current
-     * referral to be retried.
-     * The following code fragment shows a typical usage pattern.
-     * <blockquote><pre>
-     *  } catch (ReferralException e) {
-     *      while (true) {
+     * Rftrifs tif rfffrrbl durrfntly bfing prodfssfd.
+     * A dbll to tiis mftiod siould bf followfd by b dbll to
+     * <dodf>gftRfffrrblContfxt</dodf> to bllow tif durrfnt
+     * rfffrrbl to bf rftrifd.
+     * Tif following dodf frbgmfnt siows b typidbl usbgf pbttfrn.
+     * <blodkquotf><prf>
+     *  } dbtdi (RfffrrblExdfption f) {
+     *      wiilf (truf) {
      *          try {
-     *              ctx = e.getReferralContext(env);
-     *              break;
-     *          } catch (NamingException ne) {
-     *              if (! shallIRetry()) {
-     *                  return;
+     *              dtx = f.gftRfffrrblContfxt(fnv);
+     *              brfbk;
+     *          } dbtdi (NbmingExdfption nf) {
+     *              if (! sibllIRftry()) {
+     *                  rfturn;
      *              }
-     *              // modify environment properties (env), if necessary
-     *              e.retryReferral();
+     *              // modify fnvironmfnt propfrtifs (fnv), if nfdfssbry
+     *              f.rftryRfffrrbl();
      *          }
      *      }
      *  }
-     * </pre></blockquote>
+     * </prf></blodkquotf>
      *
      */
-    public abstract void retryReferral();
+    publid bbstrbdt void rftryRfffrrbl();
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = -2881363844695698876L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2881363844695698876L;
 }

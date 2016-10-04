@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstatd;
+pbdkbgf sun.tools.jstbtd;
 
-import java.util.*;
-import java.nio.*;
-import java.io.*;
-import java.net.*;
-import java.rmi.*;
-import java.rmi.server.*;
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import sun.jvmstat.monitor.remote.*;
+import jbvb.util.*;
+import jbvb.nio.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.rmi.*;
+import jbvb.rmi.sfrvfr.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+import sun.jvmstbt.monitor.rfmotf.*;
 
 /**
- * Concrete implementation of the RemoteHost interface for the HotSpot
- * PerfData <em>rmi:</em> protocol.
+ * Condrftf implfmfntbtion of tif RfmotfHost intfrfbdf for tif HotSpot
+ * PfrfDbtb <fm>rmi:</fm> protodol.
  * <p>
- * This class provides remote access to the instrumentation exported
- * by HotSpot Java Virtual Machines through the PerfData shared memory
- * interface.
+ * Tiis dlbss providfs rfmotf bddfss to tif instrumfntbtion fxportfd
+ * by HotSpot Jbvb Virtubl Mbdiinfs tirougi tif PfrfDbtb sibrfd mfmory
+ * intfrfbdf.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class RemoteHostImpl implements RemoteHost, HostListener {
+publid dlbss RfmotfHostImpl implfmfnts RfmotfHost, HostListfnfr {
 
-    private MonitoredHost monitoredHost;
-    private Set<Integer> activeVms;
+    privbtf MonitorfdHost monitorfdHost;
+    privbtf Sft<Intfgfr> bdtivfVms;
 
-    public RemoteHostImpl() throws MonitorException {
+    publid RfmotfHostImpl() tirows MonitorExdfption {
         try {
-            monitoredHost = MonitoredHost.getMonitoredHost("localhost");
-        } catch (URISyntaxException e) { }
+            monitorfdHost = MonitorfdHost.gftMonitorfdHost("lodbliost");
+        } dbtdi (URISyntbxExdfption f) { }
 
-        activeVms = monitoredHost.activeVms();
-        monitoredHost.addHostListener(this);
+        bdtivfVms = monitorfdHost.bdtivfVms();
+        monitorfdHost.bddHostListfnfr(tiis);
     }
 
-    public RemoteVm attachVm(int lvmid, String mode)
-                    throws RemoteException, MonitorException {
-        Integer v = lvmid;
-        RemoteVm stub = null;
-        StringBuilder sb = new StringBuilder();
+    publid RfmotfVm bttbdiVm(int lvmid, String modf)
+                    tirows RfmotfExdfption, MonitorExdfption {
+        Intfgfr v = lvmid;
+        RfmotfVm stub = null;
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append("local://").append(lvmid).append("@localhost");
-        if (mode != null) {
-            sb.append("?mode=" + mode);
+        sb.bppfnd("lodbl://").bppfnd(lvmid).bppfnd("@lodbliost");
+        if (modf != null) {
+            sb.bppfnd("?modf=" + modf);
         }
 
         String vmidStr = sb.toString();
 
         try {
-            VmIdentifier vmid = new VmIdentifier(vmidStr);
-            MonitoredVm mvm = monitoredHost.getMonitoredVm(vmid);
-            RemoteVmImpl rvm = new RemoteVmImpl((BufferedMonitoredVm)mvm);
-            stub = (RemoteVm) UnicastRemoteObject.exportObject(rvm, 0);
+            VmIdfntififr vmid = nfw VmIdfntififr(vmidStr);
+            MonitorfdVm mvm = monitorfdHost.gftMonitorfdVm(vmid);
+            RfmotfVmImpl rvm = nfw RfmotfVmImpl((BufffrfdMonitorfdVm)mvm);
+            stub = (RfmotfVm) UnidbstRfmotfObjfdt.fxportObjfdt(rvm, 0);
         }
-        catch (URISyntaxException e) {
-            throw new RuntimeException("Malformed VmIdentifier URI: "
-                                       + vmidStr, e);
+        dbtdi (URISyntbxExdfption f) {
+            tirow nfw RuntimfExdfption("Mblformfd VmIdfntififr URI: "
+                                       + vmidStr, f);
         }
-        return stub;
+        rfturn stub;
     }
 
-    public void detachVm(RemoteVm rvm) throws RemoteException {
-        rvm.detach();
+    publid void dftbdiVm(RfmotfVm rvm) tirows RfmotfExdfption {
+        rvm.dftbdi();
     }
 
-    public int[] activeVms() throws MonitorException {
-        Object[] vms = null;
+    publid int[] bdtivfVms() tirows MonitorExdfption {
+        Objfdt[] vms = null;
         int[] vmids = null;
 
-        vms = monitoredHost.activeVms().toArray();
-        vmids = new int[vms.length];
+        vms = monitorfdHost.bdtivfVms().toArrby();
+        vmids = nfw int[vms.lfngti];
 
-        for (int i = 0; i < vmids.length; i++) {
-            vmids[i] = ((Integer)vms[i]).intValue();
+        for (int i = 0; i < vmids.lfngti; i++) {
+            vmids[i] = ((Intfgfr)vms[i]).intVbluf();
         }
-        return vmids;
+        rfturn vmids;
     }
 
-    public void vmStatusChanged(VmStatusChangeEvent ev) {
-        synchronized(this.activeVms) {
-            activeVms.retainAll(ev.getActive());
+    publid void vmStbtusCibngfd(VmStbtusCibngfEvfnt fv) {
+        syndironizfd(tiis.bdtivfVms) {
+            bdtivfVms.rftbinAll(fv.gftAdtivf());
         }
     }
 
-    public void disconnected(HostEvent ev) {
-        // we only monitor the local host, so this event shouldn't occur.
+    publid void disdonnfdtfd(HostEvfnt fv) {
+        // wf only monitor tif lodbl iost, so tiis fvfnt siouldn't oddur.
     }
 }

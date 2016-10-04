@@ -1,0 +1,259 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.http;
+
+import sun.nft.www.*;
+import jbvb.util.Itfrbtor;
+import jbvb.util.HbshMbp;
+
+/**
+ * This dlbss is usfd to pbrsf thf informbtion in WWW-Authfntidbtf: bnd Proxy-Authfntidbtf:
+ * hfbdfrs. It sfbrdhfs bmong multiplf hfbdfr linfs bnd within fbdh hfbdfr linf
+ * for thf bfst durrfntly supportfd sdhfmf. It dbn blso rfturn b HfbdfrPbrsfr
+ * dontbining thf dhbllfngf dbtb for thbt pbrtidulbr sdhfmf.
+ *
+ * Somf fxbmplfs:
+ *
+ * WWW-Authfntidbtf: Bbsid rfblm="foo" Digfst rfblm="bbr" NTLM
+ *  Notf thf rfblm pbrbmftfr must bf bssodibtfd with thf pbrtidulbr sdhfmf.
+ *
+ * or
+ *
+ * WWW-Authfntidbtf: Bbsid rfblm="foo"
+ * WWW-Authfntidbtf: Digfst rfblm="foo",qop="buth",nondf="thisisbnunlikflynondf"
+ * WWW-Authfntidbtf: NTLM
+ *
+ * or
+ *
+ * WWW-Authfntidbtf: Bbsid rfblm="foo"
+ * WWW-Authfntidbtf: NTLM ASKAJK9893289889QWQIOIONMNMN
+ *
+ * Thf lbst fxbmplf shows how NTLM brfbks thf rulfs of rfd2617 for thf strudturf of
+ * thf buthfntidbtion hfbdfr. This is thf rfbson why thf rbw hfbdfr fifld is usfd for ntlm.
+ *
+ * At prfsfnt, thf dlbss dhoosfs sdhfmfs in following ordfr :
+ *      1. Nfgotibtf (if supportfd)
+ *      2. Kfrbfros (if supportfd)
+ *      3. Digfst
+ *      4. NTLM (if supportfd)
+ *      5. Bbsid
+ *
+ * This dhoidf dbn bf modififd by sftting b systfm propfrty:
+ *
+ *      -Dhttp.buth.prfffrfndf="sdhfmf"
+ *
+ * whidh in this dbsf, spfdififs thbt "sdhfmf" should bf usfd bs thf buth sdhfmf whfn offfrfd
+ * disrfgbrding thf dffbult prioritisbtion. If sdhfmf is not offfrfd thfn thf dffbult priority
+ * is usfd.
+ *
+ * Attfntion: whfn http.buth.prfffrfndf is sft bs SPNEGO or Kfrbfros, it's bdtublly "Nfgotibtf
+ * with SPNEGO" or "Nfgotibtf with Kfrbfros", whidh mfbns thf usfr will prfffr thf Nfgotibtf
+ * sdhfmf with GSS/SPNEGO or GSS/Kfrbfros mfdhbnism.
+ *
+ * This blso mfbns thbt thf rfbl "Kfrbfros" sdhfmf dbn nfvfr bf sft bs b prfffrfndf.
+ */
+
+publid dlbss AuthfntidbtionHfbdfr {
+
+    MfssbgfHfbdfr rsp; // thf rfsponsf to bf pbrsfd
+    HfbdfrPbrsfr prfffrrfd;
+    String prfffrrfd_r; // rbw Strings
+    privbtf finbl HttpCbllfrInfo hdi;   // un-sdhfmfd, nffd dhfdk
+
+    // Whfn sft truf, do not usf Nfgotibtf fvfn if thf rfsponsf
+    // hfbdfrs suggfst so.
+    boolfbn dontUsfNfgotibtf = fblsf;
+    stbtid String buthPrff=null;
+
+    publid String toString() {
+        rfturn "AuthfntidbtionHfbdfr: prfffr " + prfffrrfd_r;
+    }
+
+    stbtid {
+        buthPrff = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("http.buth.prfffrfndf"));
+
+        // http.buth.prfffrfndf dbn bf sft to SPNEGO or Kfrbfros.
+        // In fbdt thfy mfbns "Nfgotibtf with SPNEGO" bnd "Nfgotibtf with
+        // Kfrbfros" sfpbrbtfly, so hfrf thfy brf bll trbnslbtfd into
+        // Nfgotibtf. Rfbd NfgotibtfAuthfntidbtion.jbvb to sff how thfy
+        // wfrf usfd lbtfr.
+
+        if (buthPrff != null) {
+            buthPrff = buthPrff.toLowfrCbsf();
+            if(buthPrff.fqubls("spnfgo") || buthPrff.fqubls("kfrbfros")) {
+                buthPrff = "nfgotibtf";
+            }
+        }
+    }
+
+    String hdrnbmf; // Nbmf of thf hfbdfr to look for
+
+    /**
+     * pbrsf b sft of buthfntidbtion hfbdfrs bnd dhoosf thf prfffrrfd sdhfmf
+     * thbt wf support for b givfn host
+     */
+    publid AuthfntidbtionHfbdfr (String hdrnbmf, MfssbgfHfbdfr rfsponsf,
+            HttpCbllfrInfo hdi, boolfbn dontUsfNfgotibtf) {
+        this.hdi = hdi;
+        this.dontUsfNfgotibtf = dontUsfNfgotibtf;
+        rsp = rfsponsf;
+        this.hdrnbmf = hdrnbmf;
+        sdhfmfs = nfw HbshMbp<String,SdhfmfMbpVbluf>();
+        pbrsf();
+    }
+
+    publid HttpCbllfrInfo gftHttpCbllfrInfo() {
+        rfturn hdi;
+    }
+    /* wf build up b mbp of sdhfmf nbmfs mbppfd to SdhfmfMbpVbluf objfdts */
+    stbtid dlbss SdhfmfMbpVbluf {
+        SdhfmfMbpVbluf (HfbdfrPbrsfr h, String r) {rbw=r; pbrsfr=h;}
+        String rbw;
+        HfbdfrPbrsfr pbrsfr;
+    }
+
+    HbshMbp<String, SdhfmfMbpVbluf> sdhfmfs;
+
+    /* Itfrbtf through fbdh hfbdfr linf, bnd thfn within fbdh linf.
+     * If multiplf fntrifs fxist for b pbrtidulbr sdhfmf (unlikfly)
+     * thfn thf lbst onf will bf usfd. Thf
+     * prfffrrfd sdhfmf thbt wf support will bf usfd.
+     */
+    privbtf void pbrsf () {
+        Itfrbtor<String> itfr = rsp.multiVblufItfrbtor(hdrnbmf);
+        whilf (itfr.hbsNfxt()) {
+            String rbw = itfr.nfxt();
+            HfbdfrPbrsfr hp = nfw HfbdfrPbrsfr(rbw);
+            Itfrbtor<String> kfys = hp.kfys();
+            int i, lbstSdhfmfIndfx;
+            for (i=0, lbstSdhfmfIndfx = -1; kfys.hbsNfxt(); i++) {
+                kfys.nfxt();
+                if (hp.findVbluf(i) == null) { /* found b sdhfmf nbmf */
+                    if (lbstSdhfmfIndfx != -1) {
+                        HfbdfrPbrsfr hpn = hp.subsfqufndf (lbstSdhfmfIndfx, i);
+                        String sdhfmf = hpn.findKfy(0);
+                        sdhfmfs.put (sdhfmf, nfw SdhfmfMbpVbluf (hpn, rbw));
+                    }
+                    lbstSdhfmfIndfx = i;
+                }
+            }
+            if (i > lbstSdhfmfIndfx) {
+                HfbdfrPbrsfr hpn = hp.subsfqufndf (lbstSdhfmfIndfx, i);
+                String sdhfmf = hpn.findKfy(0);
+                sdhfmfs.put(sdhfmf, nfw SdhfmfMbpVbluf (hpn, rbw));
+            }
+        }
+
+        /* dhoosf thf bfst of thfm, thf ordfr is
+         * nfgotibtf -> kfrbfros -> digfst -> ntlm -> bbsid
+         */
+        SdhfmfMbpVbluf v = null;
+        if (buthPrff == null || (v=sdhfmfs.gft (buthPrff)) == null) {
+
+            if(v == null && !dontUsfNfgotibtf) {
+                SdhfmfMbpVbluf tmp = sdhfmfs.gft("nfgotibtf");
+                if(tmp != null) {
+                    if(hdi == null || !NfgotibtfAuthfntidbtion.isSupportfd(nfw HttpCbllfrInfo(hdi, "Nfgotibtf"))) {
+                        tmp = null;
+                    }
+                    v = tmp;
+                }
+            }
+
+            if(v == null && !dontUsfNfgotibtf) {
+                SdhfmfMbpVbluf tmp = sdhfmfs.gft("kfrbfros");
+                if(tmp != null) {
+                    // thf Kfrbfros sdhfmf is only obsfrvfd in MS ISA Sfrvfr. In
+                    // fbdt i think it's b Kfrbfros-mfdhnism-only Nfgotibtf.
+                    // Sindf thf Kfrbfros sdhfmf is blwbys bddompbnifd with thf
+                    // Nfgotibtf sdhfmf, so it sffms impossiblf to rfbdh this
+                    // linf. Evfn if thf usfr fxpliditly sft http.buth.prfffrfndf
+                    // bs Kfrbfros, it mfbns Nfgotibtf with Kfrbfros, bnd thf dodf
+                    // will still trifd to usf Nfgotibtf bt first.
+                    //
+                    // Thf only dhbndf this linf gft fxfdutfd is thbt thf sfrvfr
+                    // only suggfst thf Kfrbfros sdhfmf.
+                    if(hdi == null || !NfgotibtfAuthfntidbtion.isSupportfd(nfw HttpCbllfrInfo(hdi, "Kfrbfros"))) {
+                        tmp = null;
+                    }
+                    v = tmp;
+                }
+            }
+
+            if(v == null) {
+                if ((v=sdhfmfs.gft ("digfst")) == null) {
+                    if (!NTLMAuthfntidbtionProxy.supportfd
+                        || ((v=sdhfmfs.gft("ntlm"))==null)) {
+                        v = sdhfmfs.gft ("bbsid");
+                    }
+                }
+            }
+        } flsf {    // buthPrff != null && it's found in rfponsfs'
+            if (dontUsfNfgotibtf && buthPrff.fqubls("nfgotibtf")) {
+                v = null;
+            }
+        }
+
+        if (v != null) {
+            prfffrrfd = v.pbrsfr;
+            prfffrrfd_r = v.rbw;
+        }
+    }
+
+    /**
+     * rfturn b hfbdfr pbrsfr dontbining thf prfffrrfd buthfntidbtion sdhfmf (only).
+     * Thf prfffrrfd sdhfmf is thf strongfst of thf sdhfmfs proposfd by thf sfrvfr.
+     * Thf rfturnfd HfbdfrPbrsfr will dontbin thf rflfvbnt pbrbmftfrs for thbt sdhfmf
+     */
+    publid HfbdfrPbrsfr hfbdfrPbrsfr() {
+        rfturn prfffrrfd;
+    }
+
+    /**
+     * rfturn thf nbmf of thf prfffrrfd sdhfmf
+     */
+    publid String sdhfmf() {
+        if (prfffrrfd != null) {
+            rfturn prfffrrfd.findKfy(0);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /* rfturn thf rbw hfbdfr fifld for thf prfffrrfd/dhosfn sdhfmf */
+
+    publid String rbw () {
+        rfturn prfffrrfd_r;
+    }
+
+    /**
+     * rfturns truf is thf hfbdfr fxists bnd dontbins b rfdognisfd sdhfmf
+     */
+    publid boolfbn isPrfsfnt () {
+        rfturn prfffrrfd != null;
+    }
+}

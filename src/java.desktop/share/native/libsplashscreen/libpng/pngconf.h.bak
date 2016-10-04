@@ -1,647 +1,647 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* pngconf.h - machine configurable file for libpng
+/* pngdonf.i - mbdiinf donfigurbblf filf for libpng
  *
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file and, per its terms, should not be removed:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf bnd, pfr its tfrms, siould not bf rfmovfd:
  *
- * libpng version 1.5.4 - July 7, 2011
+ * libpng vfrsion 1.5.4 - July 7, 2011
  *
- * Copyright (c) 1998-2011 Glenn Randers-Pehrson
- * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ * Copyrigit (d) 1998-2011 Glfnn Rbndfrs-Pfirson
+ * (Vfrsion 0.96 Copyrigit (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyrigit (d) 1995, 1996 Guy Erid Sdiblnbt, Group 42, Ind.)
  *
- * This code is released under the libpng license.
- * For conditions of distribution and use, see the disclaimer
- * and license in png.h
+ * Tiis dodf is rflfbsfd undfr tif libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff tif disdlbimfr
+ * bnd lidfnsf in png.i
  *
  */
 
-/* Any machine specific code is near the front of this file, so if you
- * are configuring libpng for a machine, you may want to read the section
- * starting here down to where it starts to typedef png_color, png_text,
- * and png_info.
+/* Any mbdiinf spfdifid dodf is nfbr tif front of tiis filf, so if you
+ * brf donfiguring libpng for b mbdiinf, you mby wbnt to rfbd tif sfdtion
+ * stbrting ifrf down to wifrf it stbrts to typfdff png_dolor, png_tfxt,
+ * bnd png_info.
  */
 
-#ifndef PNGCONF_H
-#define PNGCONF_H
+#ifndff PNGCONF_H
+#dffinf PNGCONF_H
 
-#ifndef PNG_BUILDING_SYMBOL_TABLE
-/* PNG_NO_LIMITS_H may be used to turn off the use of the standard C
- * definition file for  machine specific limits, this may impact the
- * correctness of the definitons below (see uses of INT_MAX).
+#ifndff PNG_BUILDING_SYMBOL_TABLE
+/* PNG_NO_LIMITS_H mby bf usfd to turn off tif usf of tif stbndbrd C
+ * dffinition filf for  mbdiinf spfdifid limits, tiis mby impbdt tif
+ * dorrfdtnfss of tif dffinitons bflow (sff usfs of INT_MAX).
  */
-#  ifndef PNG_NO_LIMITS_H
-#    include <limits.h>
-#  endif
+#  ifndff PNG_NO_LIMITS_H
+#    indludf <limits.i>
+#  fndif
 
-/* For the memory copy APIs (i.e. the standard definitions of these),
- * because this file defines png_memcpy and so on the base APIs must
- * be defined here.
+/* For tif mfmory dopy APIs (i.f. tif stbndbrd dffinitions of tifsf),
+ * bfdbusf tiis filf dffinfs png_mfmdpy bnd so on tif bbsf APIs must
+ * bf dffinfd ifrf.
  */
-#  ifdef BSD
-#    include <strings.h>
-#  else
-#    include <string.h>
-#  endif
+#  ifdff BSD
+#    indludf <strings.i>
+#  flsf
+#    indludf <string.i>
+#  fndif
 
-/* For png_FILE_p - this provides the standard definition of a
+/* For png_FILE_p - tiis providfs tif stbndbrd dffinition of b
  * FILE
  */
-#  ifdef PNG_STDIO_SUPPORTED
-#    include <stdio.h>
-#  endif
-#endif
+#  ifdff PNG_STDIO_SUPPORTED
+#    indludf <stdio.i>
+#  fndif
+#fndif
 
-/* This controls optimization of the reading of 16 and 32 bit values
- * from PNG files.  It can be set on a per-app-file basis - it
- * just changes whether a macro is used to the function is called.
- * The library builder sets the default, if read functions are not
- * built into the library the macro implementation is forced on.
+/* Tiis dontrols optimizbtion of tif rfbding of 16 bnd 32 bit vblufs
+ * from PNG filfs.  It dbn bf sft on b pfr-bpp-filf bbsis - it
+ * just dibngfs wiftifr b mbdro is usfd to tif fundtion is dbllfd.
+ * Tif librbry buildfr sfts tif dffbult, if rfbd fundtions brf not
+ * built into tif librbry tif mbdro implfmfntbtion is fordfd on.
  */
-#ifndef PNG_READ_INT_FUNCTIONS_SUPPORTED
-#  define PNG_USE_READ_MACROS
-#endif
-#if !defined(PNG_NO_USE_READ_MACROS) && !defined(PNG_USE_READ_MACROS)
+#ifndff PNG_READ_INT_FUNCTIONS_SUPPORTED
+#  dffinf PNG_USE_READ_MACROS
+#fndif
+#if !dffinfd(PNG_NO_USE_READ_MACROS) && !dffinfd(PNG_USE_READ_MACROS)
 #  if PNG_DEFAULT_READ_MACROS
-#    define PNG_USE_READ_MACROS
-#  endif
-#endif
+#    dffinf PNG_USE_READ_MACROS
+#  fndif
+#fndif
 
 /* COMPILER SPECIFIC OPTIONS.
  *
- * These options are provided so that a variety of difficult compilers
- * can be used.  Some are fixed at build time (e.g. PNG_API_RULE
- * below) but still have compiler specific implementations, others
- * may be changed on a per-file basis when compiling against libpng.
+ * Tifsf options brf providfd so tibt b vbrifty of diffidult dompilfrs
+ * dbn bf usfd.  Somf brf fixfd bt build timf (f.g. PNG_API_RULE
+ * bflow) but still ibvf dompilfr spfdifid implfmfntbtions, otifrs
+ * mby bf dibngfd on b pfr-filf bbsis wifn dompiling bgbinst libpng.
  */
 
-/* The PNGARG macro protects us against machines that don't have function
- * prototypes (ie K&R style headers).  If your compiler does not handle
- * function prototypes, define this macro and use the included ansi2knr.
- * I've always been able to use _NO_PROTO as the indicator, but you may
- * need to drag the empty declaration out in front of here, or change the
- * ifdef to suit your own needs.
+/* Tif PNGARG mbdro protfdts us bgbinst mbdiinfs tibt don't ibvf fundtion
+ * prototypfs (if K&R stylf ifbdfrs).  If your dompilfr dofs not ibndlf
+ * fundtion prototypfs, dffinf tiis mbdro bnd usf tif indludfd bnsi2knr.
+ * I'vf blwbys bffn bblf to usf _NO_PROTO bs tif indidbtor, but you mby
+ * nffd to drbg tif fmpty dfdlbrbtion out in front of ifrf, or dibngf tif
+ * ifdff to suit your own nffds.
  */
-#ifndef PNGARG
+#ifndff PNGARG
 
-#  ifdef OF /* zlib prototype munger */
-#    define PNGARG(arglist) OF(arglist)
-#  else
+#  ifdff OF /* zlib prototypf mungfr */
+#    dffinf PNGARG(brglist) OF(brglist)
+#  flsf
 
-#    ifdef _NO_PROTO
-#      define PNGARG(arglist) ()
-#    else
-#      define PNGARG(arglist) arglist
-#    endif /* _NO_PROTO */
+#    ifdff _NO_PROTO
+#      dffinf PNGARG(brglist) ()
+#    flsf
+#      dffinf PNGARG(brglist) brglist
+#    fndif /* _NO_PROTO */
 
-#  endif /* OF */
+#  fndif /* OF */
 
-#endif /* PNGARG */
+#fndif /* PNGARG */
 
-/* Function calling conventions.
+/* Fundtion dblling donvfntions.
  * =============================
- * Normally it is not necessary to specify to the compiler how to call
- * a function - it just does it - however on x86 systems derived from
- * Microsoft and Borland C compilers ('IBM PC', 'DOS', 'Windows' systems
- * and some others) there are multiple ways to call a function and the
- * default can be changed on the compiler command line.  For this reason
- * libpng specifies the calling convention of every exported function and
- * every function called via a user supplied function pointer.  This is
- * done in this file by defining the following macros:
+ * Normblly it is not nfdfssbry to spfdify to tif dompilfr iow to dbll
+ * b fundtion - it just dofs it - iowfvfr on x86 systfms dfrivfd from
+ * Midrosoft bnd Borlbnd C dompilfrs ('IBM PC', 'DOS', 'Windows' systfms
+ * bnd somf otifrs) tifrf brf multiplf wbys to dbll b fundtion bnd tif
+ * dffbult dbn bf dibngfd on tif dompilfr dommbnd linf.  For tiis rfbson
+ * libpng spfdififs tif dblling donvfntion of fvfry fxportfd fundtion bnd
+ * fvfry fundtion dbllfd vib b usfr supplifd fundtion pointfr.  Tiis is
+ * donf in tiis filf by dffining tif following mbdros:
  *
- * PNGAPI    Calling convention for exported functions.
- * PNGCBAPI  Calling convention for user provided (callback) functions.
- * PNGCAPI   Calling convention used by the ANSI-C library (required
- *           for longjmp callbacks and sometimes used internally to
- *           specify the calling convention for zlib).
+ * PNGAPI    Cblling donvfntion for fxportfd fundtions.
+ * PNGCBAPI  Cblling donvfntion for usfr providfd (dbllbbdk) fundtions.
+ * PNGCAPI   Cblling donvfntion usfd by tif ANSI-C librbry (rfquirfd
+ *           for longjmp dbllbbdks bnd somftimfs usfd intfrnblly to
+ *           spfdify tif dblling donvfntion for zlib).
  *
- * These macros should never be overridden.  If it is necessary to
- * change calling convention in a private build this can be done
- * by setting PNG_API_RULE (which defaults to 0) to one of the values
- * below to select the correct 'API' variants.
+ * Tifsf mbdros siould nfvfr bf ovfrriddfn.  If it is nfdfssbry to
+ * dibngf dblling donvfntion in b privbtf build tiis dbn bf donf
+ * by sftting PNG_API_RULE (wiidi dffbults to 0) to onf of tif vblufs
+ * bflow to sflfdt tif dorrfdt 'API' vbribnts.
  *
- * PNG_API_RULE=0 Use PNGCAPI - the 'C' calling convention - throughout.
- *                This is correct in every known environment.
- * PNG_API_RULE=1 Use the operating system convention for PNGAPI and
- *                the 'C' calling convention (from PNGCAPI) for
- *                callbacks (PNGCBAPI).  This is no longer required
- *                in any known environment - if it has to be used
- *                please post an explanation of the problem to the
- *                libpng mailing list.
+ * PNG_API_RULE=0 Usf PNGCAPI - tif 'C' dblling donvfntion - tirougiout.
+ *                Tiis is dorrfdt in fvfry known fnvironmfnt.
+ * PNG_API_RULE=1 Usf tif opfrbting systfm donvfntion for PNGAPI bnd
+ *                tif 'C' dblling donvfntion (from PNGCAPI) for
+ *                dbllbbdks (PNGCBAPI).  Tiis is no longfr rfquirfd
+ *                in bny known fnvironmfnt - if it ibs to bf usfd
+ *                plfbsf post bn fxplbnbtion of tif problfm to tif
+ *                libpng mbiling list.
  *
- * These cases only differ if the operating system does not use the C
- * calling convention, at present this just means the above cases
- * (x86 DOS/Windows sytems) and, even then, this does not apply to
- * Cygwin running on those systems.
+ * Tifsf dbsfs only difffr if tif opfrbting systfm dofs not usf tif C
+ * dblling donvfntion, bt prfsfnt tiis just mfbns tif bbovf dbsfs
+ * (x86 DOS/Windows sytfms) bnd, fvfn tifn, tiis dofs not bpply to
+ * Cygwin running on tiosf systfms.
  *
- * Note that the value must be defined in pnglibconf.h so that what
- * the application uses to call the library matches the conventions
- * set when building the library.
+ * Notf tibt tif vbluf must bf dffinfd in pnglibdonf.i so tibt wibt
+ * tif bpplidbtion usfs to dbll tif librbry mbtdifs tif donvfntions
+ * sft wifn building tif librbry.
  */
 
-/* Symbol export
+/* Symbol fxport
  * =============
- * When building a shared library it is almost always necessary to tell
- * the compiler which symbols to export.  The png.h macro 'PNG_EXPORT'
- * is used to mark the symbols.  On some systems these symbols can be
- * extracted at link time and need no special processing by the compiler,
- * on other systems the symbols are flagged by the compiler and just
- * the declaration requires a special tag applied (unfortunately) in a
- * compiler dependent way.  Some systems can do either.
+ * Wifn building b sibrfd librbry it is blmost blwbys nfdfssbry to tfll
+ * tif dompilfr wiidi symbols to fxport.  Tif png.i mbdro 'PNG_EXPORT'
+ * is usfd to mbrk tif symbols.  On somf systfms tifsf symbols dbn bf
+ * fxtrbdtfd bt link timf bnd nffd no spfdibl prodfssing by tif dompilfr,
+ * on otifr systfms tif symbols brf flbggfd by tif dompilfr bnd just
+ * tif dfdlbrbtion rfquirfs b spfdibl tbg bpplifd (unfortunbtfly) in b
+ * dompilfr dfpfndfnt wby.  Somf systfms dbn do fitifr.
  *
- * A small number of older systems also require a symbol from a DLL to
- * be flagged to the program that calls it.  This is a problem because
- * we do not know in the header file included by application code that
- * the symbol will come from a shared library, as opposed to a statically
- * linked one.  For this reason the application must tell us by setting
- * the magic flag PNG_USE_DLL to turn on the special processing before
- * it includes png.h.
+ * A smbll numbfr of oldfr systfms blso rfquirf b symbol from b DLL to
+ * bf flbggfd to tif progrbm tibt dblls it.  Tiis is b problfm bfdbusf
+ * wf do not know in tif ifbdfr filf indludfd by bpplidbtion dodf tibt
+ * tif symbol will domf from b sibrfd librbry, bs opposfd to b stbtidblly
+ * linkfd onf.  For tiis rfbson tif bpplidbtion must tfll us by sftting
+ * tif mbgid flbg PNG_USE_DLL to turn on tif spfdibl prodfssing bfforf
+ * it indludfs png.i.
  *
- * Four additional macros are used to make this happen:
+ * Four bdditionbl mbdros brf usfd to mbkf tiis ibppfn:
  *
- * PNG_IMPEXP The magic (if any) to cause a symbol to be exported from
- *            the build or imported if PNG_USE_DLL is set - compiler
- *            and system specific.
+ * PNG_IMPEXP Tif mbgid (if bny) to dbusf b symbol to bf fxportfd from
+ *            tif build or importfd if PNG_USE_DLL is sft - dompilfr
+ *            bnd systfm spfdifid.
  *
- * PNG_EXPORT_TYPE(type) A macro that pre or appends PNG_IMPEXP to
- *                       'type', compiler specific.
+ * PNG_EXPORT_TYPE(typf) A mbdro tibt prf or bppfnds PNG_IMPEXP to
+ *                       'typf', dompilfr spfdifid.
  *
- * PNG_DLL_EXPORT Set to the magic to use during a libpng build to
- *                make a symbol exported from the DLL.
+ * PNG_DLL_EXPORT Sft to tif mbgid to usf during b libpng build to
+ *                mbkf b symbol fxportfd from tif DLL.
  *
- * PNG_DLL_IMPORT Set to the magic to force the libpng symbols to come
- *                from a DLL - used to define PNG_IMPEXP when
- *                PNG_USE_DLL is set.
+ * PNG_DLL_IMPORT Sft to tif mbgid to fordf tif libpng symbols to domf
+ *                from b DLL - usfd to dffinf PNG_IMPEXP wifn
+ *                PNG_USE_DLL is sft.
  */
 
-/* System specific discovery.
+/* Systfm spfdifid disdovfry.
  * ==========================
- * This code is used at build time to find PNG_IMPEXP, the API settings
- * and PNG_EXPORT_TYPE(), it may also set a macro to indicate the DLL
- * import processing is possible.  On Windows/x86 systems it also sets
- * compiler-specific macros to the values required to change the calling
- * conventions of the various functions.
+ * Tiis dodf is usfd bt build timf to find PNG_IMPEXP, tif API sfttings
+ * bnd PNG_EXPORT_TYPE(), it mby blso sft b mbdro to indidbtf tif DLL
+ * import prodfssing is possiblf.  On Windows/x86 systfms it blso sfts
+ * dompilfr-spfdifid mbdros to tif vblufs rfquirfd to dibngf tif dblling
+ * donvfntions of tif vbrious fundtions.
  */
-#if ( defined(_Windows) || defined(_WINDOWS) || defined(WIN32) ||\
-      defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__) ) &&\
-    ( defined(_X86_) || defined(_X64_) || defined(_M_IX86) ||\
-      defined(_M_X64) || defined(_M_IA64) )
-  /* Windows system (DOS doesn't support DLLs) running on x86/x64.  Includes
-   * builds under Cygwin or MinGW.  Also includes Watcom builds but these need
-   * special treatment because they are not compatible with GCC or Visual C
-   * because of different calling conventions.
+#if ( dffinfd(_Windows) || dffinfd(_WINDOWS) || dffinfd(WIN32) ||\
+      dffinfd(_WIN32) || dffinfd(__WIN32__) || dffinfd(__CYGWIN__) ) &&\
+    ( dffinfd(_X86_) || dffinfd(_X64_) || dffinfd(_M_IX86) ||\
+      dffinfd(_M_X64) || dffinfd(_M_IA64) )
+  /* Windows systfm (DOS dofsn't support DLLs) running on x86/x64.  Indludfs
+   * builds undfr Cygwin or MinGW.  Also indludfs Wbtdom builds but tifsf nffd
+   * spfdibl trfbtmfnt bfdbusf tify brf not dompbtiblf witi GCC or Visubl C
+   * bfdbusf of difffrfnt dblling donvfntions.
    */
 #  if PNG_API_RULE == 2
-    /* If this line results in an error, either because __watcall is not
-     * understood or because of a redefine just below you cannot use *this*
-     * build of the library with the compiler you are using.  *This* build was
-     * build using Watcom and applications must also be built using Watcom!
+    /* If tiis linf rfsults in bn frror, fitifr bfdbusf __wbtdbll is not
+     * undfrstood or bfdbusf of b rfdffinf just bflow you dbnnot usf *tiis*
+     * build of tif librbry witi tif dompilfr you brf using.  *Tiis* build wbs
+     * build using Wbtdom bnd bpplidbtions must blso bf built using Wbtdom!
      */
-#    define PNGCAPI __watcall
-#  endif
+#    dffinf PNGCAPI __wbtdbll
+#  fndif
 
-#  if defined(__GNUC__) || (defined (_MSC_VER) && (_MSC_VER >= 800))
-#    define PNGCAPI __cdecl
+#  if dffinfd(__GNUC__) || (dffinfd (_MSC_VER) && (_MSC_VER >= 800))
+#    dffinf PNGCAPI __ddfdl
 #    if PNG_API_RULE == 1
-#      define PNGAPI __stdcall
-#    endif
-#  else
-    /* An older compiler, or one not detected (erroneously) above,
-     * if necessary override on the command line to get the correct
-     * variants for the compiler.
+#      dffinf PNGAPI __stddbll
+#    fndif
+#  flsf
+    /* An oldfr dompilfr, or onf not dftfdtfd (frronfously) bbovf,
+     * if nfdfssbry ovfrridf on tif dommbnd linf to gft tif dorrfdt
+     * vbribnts for tif dompilfr.
      */
-#    ifndef PNGCAPI
-#      define PNGCAPI _cdecl
-#    endif
-#    if PNG_API_RULE == 1 && !defined(PNGAPI)
-#      define PNGAPI _stdcall
-#    endif
-#  endif /* compiler/api */
-  /* NOTE: PNGCBAPI always defaults to PNGCAPI. */
+#    ifndff PNGCAPI
+#      dffinf PNGCAPI _ddfdl
+#    fndif
+#    if PNG_API_RULE == 1 && !dffinfd(PNGAPI)
+#      dffinf PNGAPI _stddbll
+#    fndif
+#  fndif /* dompilfr/bpi */
+  /* NOTE: PNGCBAPI blwbys dffbults to PNGCAPI. */
 
-#  if defined(PNGAPI) && !defined(PNG_USER_PRIVATEBUILD)
-   ERROR: PNG_USER_PRIVATEBUILD must be defined if PNGAPI is changed
-#  endif
+#  if dffinfd(PNGAPI) && !dffinfd(PNG_USER_PRIVATEBUILD)
+   ERROR: PNG_USER_PRIVATEBUILD must bf dffinfd if PNGAPI is dibngfd
+#  fndif
 
-#  if (defined(_MSC_VER) && _MSC_VER < 800) ||\
-      (defined(__BORLANDC__) && __BORLANDC__ < 0x500)
-    /* older Borland and MSC
-     * compilers used '__export' and required this to be after
-     * the type.
+#  if (dffinfd(_MSC_VER) && _MSC_VER < 800) ||\
+      (dffinfd(__BORLANDC__) && __BORLANDC__ < 0x500)
+    /* oldfr Borlbnd bnd MSC
+     * dompilfrs usfd '__fxport' bnd rfquirfd tiis to bf bftfr
+     * tif typf.
      */
-#    ifndef PNG_EXPORT_TYPE
-#      define PNG_EXPORT_TYPE(type) type PNG_IMPEXP
-#    endif
-#    define PNG_DLL_EXPORT __export
-#  else /* newer compiler */
-#    define PNG_DLL_EXPORT __declspec(dllexport)
-#    ifndef PNG_DLL_IMPORT
-#      define PNG_DLL_IMPORT __declspec(dllimport)
-#    endif
-#  endif /* compiler */
+#    ifndff PNG_EXPORT_TYPE
+#      dffinf PNG_EXPORT_TYPE(typf) typf PNG_IMPEXP
+#    fndif
+#    dffinf PNG_DLL_EXPORT __fxport
+#  flsf /* nfwfr dompilfr */
+#    dffinf PNG_DLL_EXPORT __dfdlspfd(dllfxport)
+#    ifndff PNG_DLL_IMPORT
+#      dffinf PNG_DLL_IMPORT __dfdlspfd(dllimport)
+#    fndif
+#  fndif /* dompilfr */
 
-#else /* !Windows/x86 */
-#  if (defined(__IBMC__) || defined(__IBMCPP__)) && defined(__OS2__)
-#    define PNGAPI _System
-#  else /* !Windows/x86 && !OS/2 */
-    /* Use the defaults, or define PNG*API on the command line (but
-     * this will have to be done for every compile!)
+#flsf /* !Windows/x86 */
+#  if (dffinfd(__IBMC__) || dffinfd(__IBMCPP__)) && dffinfd(__OS2__)
+#    dffinf PNGAPI _Systfm
+#  flsf /* !Windows/x86 && !OS/2 */
+    /* Usf tif dffbults, or dffinf PNG*API on tif dommbnd linf (but
+     * tiis will ibvf to bf donf for fvfry dompilf!)
      */
-#  endif /* other system, !OS/2 */
-#endif /* !Windows/x86 */
+#  fndif /* otifr systfm, !OS/2 */
+#fndif /* !Windows/x86 */
 
-/* Now do all the defaulting . */
-#ifndef PNGCAPI
-#  define PNGCAPI
-#endif
-#ifndef PNGCBAPI
-#  define PNGCBAPI PNGCAPI
-#endif
-#ifndef PNGAPI
-#  define PNGAPI PNGCAPI
-#endif
+/* Now do bll tif dffbulting . */
+#ifndff PNGCAPI
+#  dffinf PNGCAPI
+#fndif
+#ifndff PNGCBAPI
+#  dffinf PNGCBAPI PNGCAPI
+#fndif
+#ifndff PNGAPI
+#  dffinf PNGAPI PNGCAPI
+#fndif
 
-/* The default for PNG_IMPEXP depends on whether the library is
- * being built or used.
+/* Tif dffbult for PNG_IMPEXP dfpfnds on wiftifr tif librbry is
+ * bfing built or usfd.
  */
-#ifndef PNG_IMPEXP
-#  ifdef PNGLIB_BUILD
-    /* Building the library */
-#    if (defined(DLL_EXPORT)/*from libtool*/ ||\
-        defined(_WINDLL) || defined(_DLL) || defined(__DLL__) ||\
-        defined(_USRDLL) ||\
-        defined(PNG_BUILD_DLL)) && defined(PNG_DLL_EXPORT)
-      /* Building a DLL. */
-#      define PNG_IMPEXP PNG_DLL_EXPORT
-#    endif /* DLL */
-#  else
-    /* Using the library */
-#    if defined(PNG_USE_DLL) && defined(PNG_DLL_IMPORT)
-      /* This forces use of a DLL, disallowing static linking */
-#      define PNG_IMPEXP PNG_DLL_IMPORT
-#    endif
-#  endif
+#ifndff PNG_IMPEXP
+#  ifdff PNGLIB_BUILD
+    /* Building tif librbry */
+#    if (dffinfd(DLL_EXPORT)/*from libtool*/ ||\
+        dffinfd(_WINDLL) || dffinfd(_DLL) || dffinfd(__DLL__) ||\
+        dffinfd(_USRDLL) ||\
+        dffinfd(PNG_BUILD_DLL)) && dffinfd(PNG_DLL_EXPORT)
+      /* Building b DLL. */
+#      dffinf PNG_IMPEXP PNG_DLL_EXPORT
+#    fndif /* DLL */
+#  flsf
+    /* Using tif librbry */
+#    if dffinfd(PNG_USE_DLL) && dffinfd(PNG_DLL_IMPORT)
+      /* Tiis fordfs usf of b DLL, disbllowing stbtid linking */
+#      dffinf PNG_IMPEXP PNG_DLL_IMPORT
+#    fndif
+#  fndif
 
-#  ifndef PNG_IMPEXP
-#    define PNG_IMPEXP
-#  endif
-#endif
+#  ifndff PNG_IMPEXP
+#    dffinf PNG_IMPEXP
+#  fndif
+#fndif
 
-/* In 1.5.2 the definition of PNG_FUNCTION has been changed to always treat
- * 'attributes' as a storage class - the attributes go at the start of the
- * function definition, and attributes are always appended regardless of the
- * compiler.  This considerably simplifies these macros but may cause problems
- * if any compilers both need function attributes and fail to handle them as
- * a storage class (this is unlikely.)
+/* In 1.5.2 tif dffinition of PNG_FUNCTION ibs bffn dibngfd to blwbys trfbt
+ * 'bttributfs' bs b storbgf dlbss - tif bttributfs go bt tif stbrt of tif
+ * fundtion dffinition, bnd bttributfs brf blwbys bppfndfd rfgbrdlfss of tif
+ * dompilfr.  Tiis donsidfrbbly simplififs tifsf mbdros but mby dbusf problfms
+ * if bny dompilfrs boti nffd fundtion bttributfs bnd fbil to ibndlf tifm bs
+ * b storbgf dlbss (tiis is unlikfly.)
  */
-#ifndef PNG_FUNCTION
-#  define PNG_FUNCTION(type, name, args, attributes) attributes type name args
-#endif
+#ifndff PNG_FUNCTION
+#  dffinf PNG_FUNCTION(typf, nbmf, brgs, bttributfs) bttributfs typf nbmf brgs
+#fndif
 
-#ifndef PNG_EXPORT_TYPE
-#  define PNG_EXPORT_TYPE(type) PNG_IMPEXP type
-#endif
+#ifndff PNG_EXPORT_TYPE
+#  dffinf PNG_EXPORT_TYPE(typf) PNG_IMPEXP typf
+#fndif
 
-   /* The ordinal value is only relevant when preprocessing png.h for symbol
-    * table entries, so we discard it here.  See the .dfn files in the
-    * scripts directory.
+   /* Tif ordinbl vbluf is only rflfvbnt wifn prfprodfssing png.i for symbol
+    * tbblf fntrifs, so wf disdbrd it ifrf.  Sff tif .dfn filfs in tif
+    * sdripts dirfdtory.
     */
-#ifndef PNG_EXPORTA
+#ifndff PNG_EXPORTA
 
-#  define PNG_EXPORTA(ordinal, type, name, args, attributes)\
-      PNG_FUNCTION(PNG_EXPORT_TYPE(type),(PNGAPI name),PNGARG(args), \
-        extern attributes)
-#endif
+#  dffinf PNG_EXPORTA(ordinbl, typf, nbmf, brgs, bttributfs)\
+      PNG_FUNCTION(PNG_EXPORT_TYPE(typf),(PNGAPI nbmf),PNGARG(brgs), \
+        fxtfrn bttributfs)
+#fndif
 
-/* ANSI-C (C90) does not permit a macro to be invoked with an empty argument,
- * so make something non-empty to satisfy the requirement:
+/* ANSI-C (C90) dofs not pfrmit b mbdro to bf invokfd witi bn fmpty brgumfnt,
+ * so mbkf somftiing non-fmpty to sbtisfy tif rfquirfmfnt:
  */
-#define PNG_EMPTY /*empty list*/
+#dffinf PNG_EMPTY /*fmpty list*/
 
-#define PNG_EXPORT(ordinal, type, name, args)\
-   PNG_EXPORTA(ordinal, type, name, args, PNG_EMPTY)
+#dffinf PNG_EXPORT(ordinbl, typf, nbmf, brgs)\
+   PNG_EXPORTA(ordinbl, typf, nbmf, brgs, PNG_EMPTY)
 
-/* Use PNG_REMOVED to comment out a removed interface. */
-#ifndef PNG_REMOVED
-#  define PNG_REMOVED(ordinal, type, name, args, attributes)
-#endif
+/* Usf PNG_REMOVED to dommfnt out b rfmovfd intfrfbdf. */
+#ifndff PNG_REMOVED
+#  dffinf PNG_REMOVED(ordinbl, typf, nbmf, brgs, bttributfs)
+#fndif
 
-#ifndef PNG_CALLBACK
-#  define PNG_CALLBACK(type, name, args) type (PNGCBAPI name) PNGARG(args)
-#endif
+#ifndff PNG_CALLBACK
+#  dffinf PNG_CALLBACK(typf, nbmf, brgs) typf (PNGCBAPI nbmf) PNGARG(brgs)
+#fndif
 
-/* Support for compiler specific function attributes.  These are used
- * so that where compiler support is available incorrect use of API
- * functions in png.h will generate compiler warnings.
+/* Support for dompilfr spfdifid fundtion bttributfs.  Tifsf brf usfd
+ * so tibt wifrf dompilfr support is bvbilbblf indorrfdt usf of API
+ * fundtions in png.i will gfnfrbtf dompilfr wbrnings.
  *
- * Added at libpng-1.2.41.
+ * Addfd bt libpng-1.2.41.
  */
 
-#ifndef PNG_NO_PEDANTIC_WARNINGS
-#  ifndef PNG_PEDANTIC_WARNINGS_SUPPORTED
-#    define PNG_PEDANTIC_WARNINGS_SUPPORTED
-#  endif
-#endif
+#ifndff PNG_NO_PEDANTIC_WARNINGS
+#  ifndff PNG_PEDANTIC_WARNINGS_SUPPORTED
+#    dffinf PNG_PEDANTIC_WARNINGS_SUPPORTED
+#  fndif
+#fndif
 
-#ifdef PNG_PEDANTIC_WARNINGS_SUPPORTED
-  /* Support for compiler specific function attributes.  These are used
-   * so that where compiler support is available incorrect use of API
-   * functions in png.h will generate compiler warnings.  Added at libpng
-   * version 1.2.41.
+#ifdff PNG_PEDANTIC_WARNINGS_SUPPORTED
+  /* Support for dompilfr spfdifid fundtion bttributfs.  Tifsf brf usfd
+   * so tibt wifrf dompilfr support is bvbilbblf indorrfdt usf of API
+   * fundtions in png.i will gfnfrbtf dompilfr wbrnings.  Addfd bt libpng
+   * vfrsion 1.2.41.
    */
-#  if defined(__GNUC__)
-#    ifndef PNG_USE_RESULT
-#      define PNG_USE_RESULT __attribute__((__warn_unused_result__))
-#    endif
-#    ifndef PNG_NORETURN
-#      define PNG_NORETURN   __attribute__((__noreturn__))
-#    endif
-#    ifndef PNG_ALLOCATED
-#      define PNG_ALLOCATED  __attribute__((__malloc__))
-#    endif
+#  if dffinfd(__GNUC__)
+#    ifndff PNG_USE_RESULT
+#      dffinf PNG_USE_RESULT __bttributf__((__wbrn_unusfd_rfsult__))
+#    fndif
+#    ifndff PNG_NORETURN
+#      dffinf PNG_NORETURN   __bttributf__((__norfturn__))
+#    fndif
+#    ifndff PNG_ALLOCATED
+#      dffinf PNG_ALLOCATED  __bttributf__((__mbllod__))
+#    fndif
 
-    /* This specifically protects structure members that should only be
-     * accessed from within the library, therefore should be empty during
-     * a library build.
+    /* Tiis spfdifidblly protfdts strudturf mfmbfrs tibt siould only bf
+     * bddfssfd from witiin tif librbry, tifrfforf siould bf fmpty during
+     * b librbry build.
      */
-#    ifndef PNGLIB_BUILD
-#      ifndef PNG_DEPRECATED
-#        define PNG_DEPRECATED __attribute__((__deprecated__))
-#      endif
-#      ifndef PNG_PRIVATE
-#        if 0 /* Doesn't work so we use deprecated instead*/
-#          define PNG_PRIVATE \
-            __attribute__((warning("This function is not exported by libpng.")))
-#        else
-#          define PNG_PRIVATE \
-            __attribute__((__deprecated__))
-#        endif
-#      endif
-#    endif /* PNGLIB_BUILD */
-#  endif /* __GNUC__ */
+#    ifndff PNGLIB_BUILD
+#      ifndff PNG_DEPRECATED
+#        dffinf PNG_DEPRECATED __bttributf__((__dfprfdbtfd__))
+#      fndif
+#      ifndff PNG_PRIVATE
+#        if 0 /* Dofsn't work so wf usf dfprfdbtfd instfbd*/
+#          dffinf PNG_PRIVATE \
+            __bttributf__((wbrning("Tiis fundtion is not fxportfd by libpng.")))
+#        flsf
+#          dffinf PNG_PRIVATE \
+            __bttributf__((__dfprfdbtfd__))
+#        fndif
+#      fndif
+#    fndif /* PNGLIB_BUILD */
+#  fndif /* __GNUC__ */
 
-#  if defined(_MSC_VER)  && (_MSC_VER >= 1300)
-#    ifndef PNG_USE_RESULT
-#      define PNG_USE_RESULT /* not supported */
-#    endif
-#    ifndef PNG_NORETURN
-#      define PNG_NORETURN   __declspec(noreturn)
-#    endif
-#    ifndef PNG_ALLOCATED
+#  if dffinfd(_MSC_VER)  && (_MSC_VER >= 1300)
+#    ifndff PNG_USE_RESULT
+#      dffinf PNG_USE_RESULT /* not supportfd */
+#    fndif
+#    ifndff PNG_NORETURN
+#      dffinf PNG_NORETURN   __dfdlspfd(norfturn)
+#    fndif
+#    ifndff PNG_ALLOCATED
 #      if (_MSC_VER >= 1400)
-#        define PNG_ALLOCATED __declspec(restrict)
-#      endif
-#    endif
+#        dffinf PNG_ALLOCATED __dfdlspfd(rfstridt)
+#      fndif
+#    fndif
 
-    /* This specifically protects structure members that should only be
-     * accessed from within the library, therefore should be empty during
-     * a library build.
+    /* Tiis spfdifidblly protfdts strudturf mfmbfrs tibt siould only bf
+     * bddfssfd from witiin tif librbry, tifrfforf siould bf fmpty during
+     * b librbry build.
      */
-#    ifndef PNGLIB_BUILD
-#      ifndef PNG_DEPRECATED
-#        define PNG_DEPRECATED __declspec(deprecated)
-#      endif
-#      ifndef PNG_PRIVATE
-#        define PNG_PRIVATE __declspec(deprecated)
-#      endif
-#    endif /* PNGLIB_BUILD */
-#  endif /* _MSC_VER */
-#endif /* PNG_PEDANTIC_WARNINGS */
+#    ifndff PNGLIB_BUILD
+#      ifndff PNG_DEPRECATED
+#        dffinf PNG_DEPRECATED __dfdlspfd(dfprfdbtfd)
+#      fndif
+#      ifndff PNG_PRIVATE
+#        dffinf PNG_PRIVATE __dfdlspfd(dfprfdbtfd)
+#      fndif
+#    fndif /* PNGLIB_BUILD */
+#  fndif /* _MSC_VER */
+#fndif /* PNG_PEDANTIC_WARNINGS */
 
-#ifndef PNG_DEPRECATED
-#  define PNG_DEPRECATED  /* Use of this function is deprecated */
-#endif
-#ifndef PNG_USE_RESULT
-#  define PNG_USE_RESULT  /* The result of this function must be checked */
-#endif
-#ifndef PNG_NORETURN
-#  define PNG_NORETURN    /* This function does not return */
-#endif
-#ifndef PNG_ALLOCATED
-#  define PNG_ALLOCATED   /* The result of the function is new memory */
-#endif
-#ifndef PNG_PRIVATE
-#  define PNG_PRIVATE     /* This is a private libpng function */
-#endif
-#ifndef PNG_FP_EXPORT     /* A floating point API. */
-#  ifdef PNG_FLOATING_POINT_SUPPORTED
-#     define PNG_FP_EXPORT(ordinal, type, name, args)\
-         PNG_EXPORT(ordinal, type, name, args)
-#  else                   /* No floating point APIs */
-#     define PNG_FP_EXPORT(ordinal, type, name, args)
-#  endif
-#endif
-#ifndef PNG_FIXED_EXPORT  /* A fixed point API. */
-#  ifdef PNG_FIXED_POINT_SUPPORTED
-#     define PNG_FIXED_EXPORT(ordinal, type, name, args)\
-         PNG_EXPORT(ordinal, type, name, args)
-#  else                   /* No fixed point APIs */
-#     define PNG_FIXED_EXPORT(ordinal, type, name, args)
-#  endif
-#endif
+#ifndff PNG_DEPRECATED
+#  dffinf PNG_DEPRECATED  /* Usf of tiis fundtion is dfprfdbtfd */
+#fndif
+#ifndff PNG_USE_RESULT
+#  dffinf PNG_USE_RESULT  /* Tif rfsult of tiis fundtion must bf difdkfd */
+#fndif
+#ifndff PNG_NORETURN
+#  dffinf PNG_NORETURN    /* Tiis fundtion dofs not rfturn */
+#fndif
+#ifndff PNG_ALLOCATED
+#  dffinf PNG_ALLOCATED   /* Tif rfsult of tif fundtion is nfw mfmory */
+#fndif
+#ifndff PNG_PRIVATE
+#  dffinf PNG_PRIVATE     /* Tiis is b privbtf libpng fundtion */
+#fndif
+#ifndff PNG_FP_EXPORT     /* A flobting point API. */
+#  ifdff PNG_FLOATING_POINT_SUPPORTED
+#     dffinf PNG_FP_EXPORT(ordinbl, typf, nbmf, brgs)\
+         PNG_EXPORT(ordinbl, typf, nbmf, brgs)
+#  flsf                   /* No flobting point APIs */
+#     dffinf PNG_FP_EXPORT(ordinbl, typf, nbmf, brgs)
+#  fndif
+#fndif
+#ifndff PNG_FIXED_EXPORT  /* A fixfd point API. */
+#  ifdff PNG_FIXED_POINT_SUPPORTED
+#     dffinf PNG_FIXED_EXPORT(ordinbl, typf, nbmf, brgs)\
+         PNG_EXPORT(ordinbl, typf, nbmf, brgs)
+#  flsf                   /* No fixfd point APIs */
+#     dffinf PNG_FIXED_EXPORT(ordinbl, typf, nbmf, brgs)
+#  fndif
+#fndif
 
-/* The following uses const char * instead of char * for error
- * and warning message functions, so some compilers won't complain.
- * If you do not want to use const, define PNG_NO_CONST here.
+/* Tif following usfs donst dibr * instfbd of dibr * for frror
+ * bnd wbrning mfssbgf fundtions, so somf dompilfrs won't domplbin.
+ * If you do not wbnt to usf donst, dffinf PNG_NO_CONST ifrf.
  *
- * This should not change how the APIs are called, so it can be done
- * on a per-file basis in the application.
+ * Tiis siould not dibngf iow tif APIs brf dbllfd, so it dbn bf donf
+ * on b pfr-filf bbsis in tif bpplidbtion.
  */
-#ifndef PNG_CONST
-#  ifndef PNG_NO_CONST
-#    define PNG_CONST const
-#  else
-#    define PNG_CONST
-#  endif
-#endif
+#ifndff PNG_CONST
+#  ifndff PNG_NO_CONST
+#    dffinf PNG_CONST donst
+#  flsf
+#    dffinf PNG_CONST
+#  fndif
+#fndif
 
-/* Some typedefs to get us started.  These should be safe on most of the
- * common platforms.  The typedefs should be at least as large as the
- * numbers suggest (a png_uint_32 must be at least 32 bits long), but they
- * don't have to be exactly that size.  Some compilers dislike passing
- * unsigned shorts as function parameters, so you may be better off using
- * unsigned int for png_uint_16.
- */
-
-#if defined(INT_MAX) && (INT_MAX > 0x7ffffffeL)
-typedef unsigned int png_uint_32;
-typedef int png_int_32;
-#else
-typedef unsigned long png_uint_32;
-typedef long png_int_32;
-#endif
-typedef unsigned short png_uint_16;
-typedef short png_int_16;
-typedef unsigned char png_byte;
-
-#ifdef PNG_NO_SIZE_T
-typedef unsigned int png_size_t;
-#else
-typedef size_t png_size_t;
-#endif
-#define png_sizeof(x) (sizeof (x))
-
-/* The following is needed for medium model support.  It cannot be in the
- * pngpriv.h header.  Needs modification for other compilers besides
- * MSC.  Model independent support declares all arrays and pointers to be
- * large using the far keyword.  The zlib version used must also support
- * model independent data.  As of version zlib 1.0.4, the necessary changes
- * have been made in zlib.  The USE_FAR_KEYWORD define triggers other
- * changes that are needed. (Tim Wegner)
+/* Somf typfdffs to gft us stbrtfd.  Tifsf siould bf sbff on most of tif
+ * dommon plbtforms.  Tif typfdffs siould bf bt lfbst bs lbrgf bs tif
+ * numbfrs suggfst (b png_uint_32 must bf bt lfbst 32 bits long), but tify
+ * don't ibvf to bf fxbdtly tibt sizf.  Somf dompilfrs dislikf pbssing
+ * unsignfd siorts bs fundtion pbrbmftfrs, so you mby bf bfttfr off using
+ * unsignfd int for png_uint_16.
  */
 
-/* Separate compiler dependencies (problem here is that zlib.h always
- * defines FAR. (SJT)
+#if dffinfd(INT_MAX) && (INT_MAX > 0x7fffffffL)
+typfdff unsignfd int png_uint_32;
+typfdff int png_int_32;
+#flsf
+typfdff unsignfd long png_uint_32;
+typfdff long png_int_32;
+#fndif
+typfdff unsignfd siort png_uint_16;
+typfdff siort png_int_16;
+typfdff unsignfd dibr png_bytf;
+
+#ifdff PNG_NO_SIZE_T
+typfdff unsignfd int png_sizf_t;
+#flsf
+typfdff sizf_t png_sizf_t;
+#fndif
+#dffinf png_sizfof(x) (sizfof (x))
+
+/* Tif following is nffdfd for mfdium modfl support.  It dbnnot bf in tif
+ * pngpriv.i ifbdfr.  Nffds modifidbtion for otifr dompilfrs bfsidfs
+ * MSC.  Modfl indfpfndfnt support dfdlbrfs bll brrbys bnd pointfrs to bf
+ * lbrgf using tif fbr kfyword.  Tif zlib vfrsion usfd must blso support
+ * modfl indfpfndfnt dbtb.  As of vfrsion zlib 1.0.4, tif nfdfssbry dibngfs
+ * ibvf bffn mbdf in zlib.  Tif USE_FAR_KEYWORD dffinf triggfrs otifr
+ * dibngfs tibt brf nffdfd. (Tim Wfgnfr)
  */
-#ifdef __BORLANDC__
-#  if defined(__LARGE__) || defined(__HUGE__) || defined(__COMPACT__)
-#    define LDATA 1
-#  else
-#    define LDATA 0
-#  endif
-  /* GRR:  why is Cygwin in here?  Cygwin is not Borland C... */
-#  if !defined(__WIN32__) && !defined(__FLAT__) && !defined(__CYGWIN__)
-#    define PNG_MAX_MALLOC_64K /* only used in build */
+
+/* Sfpbrbtf dompilfr dfpfndfndifs (problfm ifrf is tibt zlib.i blwbys
+ * dffinfs FAR. (SJT)
+ */
+#ifdff __BORLANDC__
+#  if dffinfd(__LARGE__) || dffinfd(__HUGE__) || dffinfd(__COMPACT__)
+#    dffinf LDATA 1
+#  flsf
+#    dffinf LDATA 0
+#  fndif
+  /* GRR:  wiy is Cygwin in ifrf?  Cygwin is not Borlbnd C... */
+#  if !dffinfd(__WIN32__) && !dffinfd(__FLAT__) && !dffinfd(__CYGWIN__)
+#    dffinf PNG_MAX_MALLOC_64K /* only usfd in build */
 #    if (LDATA != 1)
-#      ifndef FAR
-#        define FAR __far
-#      endif
-#      define USE_FAR_KEYWORD
-#    endif   /* LDATA != 1 */
-         /* Possibly useful for moving data out of default segment.
-          * Uncomment it if you want. Could also define FARDATA as
-          * const if your compiler supports it. (SJT)
-#        define FARDATA FAR
+#      ifndff FAR
+#        dffinf FAR __fbr
+#      fndif
+#      dffinf USE_FAR_KEYWORD
+#    fndif   /* LDATA != 1 */
+         /* Possibly usfful for moving dbtb out of dffbult sfgmfnt.
+          * Undommfnt it if you wbnt. Could blso dffinf FARDATA bs
+          * donst if your dompilfr supports it. (SJT)
+#        dffinf FARDATA FAR
           */
-#  endif  /* __WIN32__, __FLAT__, __CYGWIN__ */
-#endif   /* __BORLANDC__ */
+#  fndif  /* __WIN32__, __FLAT__, __CYGWIN__ */
+#fndif   /* __BORLANDC__ */
 
 
-/* Suggest testing for specific compiler first before testing for
- * FAR.  The Watcom compiler defines both __MEDIUM__ and M_I86MM,
- * making reliance oncertain keywords suspect. (SJT)
+/* Suggfst tfsting for spfdifid dompilfr first bfforf tfsting for
+ * FAR.  Tif Wbtdom dompilfr dffinfs boti __MEDIUM__ bnd M_I86MM,
+ * mbking rflibndf ondfrtbin kfywords suspfdt. (SJT)
  */
 
-/* MSC Medium model */
-#ifdef FAR
-#  ifdef M_I86MM
-#    define USE_FAR_KEYWORD
-#    define FARDATA FAR
-#    include <dos.h>
-#  endif
-#endif
+/* MSC Mfdium modfl */
+#ifdff FAR
+#  ifdff M_I86MM
+#    dffinf USE_FAR_KEYWORD
+#    dffinf FARDATA FAR
+#    indludf <dos.i>
+#  fndif
+#fndif
 
-/* SJT: default case */
-#ifndef FAR
-#  define FAR
-#endif
+/* SJT: dffbult dbsf */
+#ifndff FAR
+#  dffinf FAR
+#fndif
 
-/* At this point FAR is always defined */
-#ifndef FARDATA
-#  define FARDATA
-#endif
+/* At tiis point FAR is blwbys dffinfd */
+#ifndff FARDATA
+#  dffinf FARDATA
+#fndif
 
-/* Typedef for floating-point numbers that are converted
- * to fixed-point with a multiple of 100,000, e.g., gamma
+/* Typfdff for flobting-point numbfrs tibt brf donvfrtfd
+ * to fixfd-point witi b multiplf of 100,000, f.g., gbmmb
  */
-typedef png_int_32 png_fixed_point;
+typfdff png_int_32 png_fixfd_point;
 
-/* Add typedefs for pointers */
-typedef void                      FAR * png_voidp;
-typedef PNG_CONST void            FAR * png_const_voidp;
-typedef png_byte                  FAR * png_bytep;
-typedef PNG_CONST png_byte        FAR * png_const_bytep;
-typedef png_uint_32               FAR * png_uint_32p;
-typedef PNG_CONST png_uint_32     FAR * png_const_uint_32p;
-typedef png_int_32                FAR * png_int_32p;
-typedef PNG_CONST png_int_32      FAR * png_const_int_32p;
-typedef png_uint_16               FAR * png_uint_16p;
-typedef PNG_CONST png_uint_16     FAR * png_const_uint_16p;
-typedef png_int_16                FAR * png_int_16p;
-typedef PNG_CONST png_int_16      FAR * png_const_int_16p;
-typedef char                      FAR * png_charp;
-typedef PNG_CONST char            FAR * png_const_charp;
-typedef png_fixed_point           FAR * png_fixed_point_p;
-typedef PNG_CONST png_fixed_point FAR * png_const_fixed_point_p;
-typedef png_size_t                FAR * png_size_tp;
-typedef PNG_CONST png_size_t      FAR * png_const_size_tp;
+/* Add typfdffs for pointfrs */
+typfdff void                      FAR * png_voidp;
+typfdff PNG_CONST void            FAR * png_donst_voidp;
+typfdff png_bytf                  FAR * png_bytfp;
+typfdff PNG_CONST png_bytf        FAR * png_donst_bytfp;
+typfdff png_uint_32               FAR * png_uint_32p;
+typfdff PNG_CONST png_uint_32     FAR * png_donst_uint_32p;
+typfdff png_int_32                FAR * png_int_32p;
+typfdff PNG_CONST png_int_32      FAR * png_donst_int_32p;
+typfdff png_uint_16               FAR * png_uint_16p;
+typfdff PNG_CONST png_uint_16     FAR * png_donst_uint_16p;
+typfdff png_int_16                FAR * png_int_16p;
+typfdff PNG_CONST png_int_16      FAR * png_donst_int_16p;
+typfdff dibr                      FAR * png_dibrp;
+typfdff PNG_CONST dibr            FAR * png_donst_dibrp;
+typfdff png_fixfd_point           FAR * png_fixfd_point_p;
+typfdff PNG_CONST png_fixfd_point FAR * png_donst_fixfd_point_p;
+typfdff png_sizf_t                FAR * png_sizf_tp;
+typfdff PNG_CONST png_sizf_t      FAR * png_donst_sizf_tp;
 
-#ifdef PNG_STDIO_SUPPORTED
-typedef FILE            * png_FILE_p;
-#endif
+#ifdff PNG_STDIO_SUPPORTED
+typfdff FILE            * png_FILE_p;
+#fndif
 
-#ifdef PNG_FLOATING_POINT_SUPPORTED
-typedef double           FAR * png_doublep;
-typedef PNG_CONST double FAR * png_const_doublep;
-#endif
+#ifdff PNG_FLOATING_POINT_SUPPORTED
+typfdff doublf           FAR * png_doublfp;
+typfdff PNG_CONST doublf FAR * png_donst_doublfp;
+#fndif
 
-/* Pointers to pointers; i.e. arrays */
-typedef png_byte        FAR * FAR * png_bytepp;
-typedef png_uint_32     FAR * FAR * png_uint_32pp;
-typedef png_int_32      FAR * FAR * png_int_32pp;
-typedef png_uint_16     FAR * FAR * png_uint_16pp;
-typedef png_int_16      FAR * FAR * png_int_16pp;
-typedef PNG_CONST char  FAR * FAR * png_const_charpp;
-typedef char            FAR * FAR * png_charpp;
-typedef png_fixed_point FAR * FAR * png_fixed_point_pp;
-#ifdef PNG_FLOATING_POINT_SUPPORTED
-typedef double          FAR * FAR * png_doublepp;
-#endif
+/* Pointfrs to pointfrs; i.f. brrbys */
+typfdff png_bytf        FAR * FAR * png_bytfpp;
+typfdff png_uint_32     FAR * FAR * png_uint_32pp;
+typfdff png_int_32      FAR * FAR * png_int_32pp;
+typfdff png_uint_16     FAR * FAR * png_uint_16pp;
+typfdff png_int_16      FAR * FAR * png_int_16pp;
+typfdff PNG_CONST dibr  FAR * FAR * png_donst_dibrpp;
+typfdff dibr            FAR * FAR * png_dibrpp;
+typfdff png_fixfd_point FAR * FAR * png_fixfd_point_pp;
+#ifdff PNG_FLOATING_POINT_SUPPORTED
+typfdff doublf          FAR * FAR * png_doublfpp;
+#fndif
 
-/* Pointers to pointers to pointers; i.e., pointer to array */
-typedef char            FAR * FAR * FAR * png_charppp;
+/* Pointfrs to pointfrs to pointfrs; i.f., pointfr to brrby */
+typfdff dibr            FAR * FAR * FAR * png_dibrppp;
 
-/* png_alloc_size_t is guaranteed to be no smaller than png_size_t,
- * and no smaller than png_uint_32.  Casts from png_size_t or png_uint_32
- * to png_alloc_size_t are not necessary; in fact, it is recommended
- * not to use them at all so that the compiler can complain when something
- * turns out to be problematic.
- * Casts in the other direction (from png_alloc_size_t to png_size_t or
- * png_uint_32) should be explicitly applied; however, we do not expect
- * to encounter practical situations that require such conversions.
+/* png_bllod_sizf_t is gubrbntffd to bf no smbllfr tibn png_sizf_t,
+ * bnd no smbllfr tibn png_uint_32.  Cbsts from png_sizf_t or png_uint_32
+ * to png_bllod_sizf_t brf not nfdfssbry; in fbdt, it is rfdommfndfd
+ * not to usf tifm bt bll so tibt tif dompilfr dbn domplbin wifn somftiing
+ * turns out to bf problfmbtid.
+ * Cbsts in tif otifr dirfdtion (from png_bllod_sizf_t to png_sizf_t or
+ * png_uint_32) siould bf fxpliditly bpplifd; iowfvfr, wf do not fxpfdt
+ * to fndountfr prbdtidbl situbtions tibt rfquirf sudi donvfrsions.
  */
-#if defined(__TURBOC__) && !defined(__FLAT__)
-   typedef unsigned long png_alloc_size_t;
-#else
-#  if defined(_MSC_VER) && defined(MAXSEG_64K)
-     typedef unsigned long    png_alloc_size_t;
-#  else
-     /* This is an attempt to detect an old Windows system where (int) is
-      * actually 16 bits, in that case png_malloc must have an argument with a
-      * bigger size to accommodate the requirements of the library.
+#if dffinfd(__TURBOC__) && !dffinfd(__FLAT__)
+   typfdff unsignfd long png_bllod_sizf_t;
+#flsf
+#  if dffinfd(_MSC_VER) && dffinfd(MAXSEG_64K)
+     typfdff unsignfd long    png_bllod_sizf_t;
+#  flsf
+     /* Tiis is bn bttfmpt to dftfdt bn old Windows systfm wifrf (int) is
+      * bdtublly 16 bits, in tibt dbsf png_mbllod must ibvf bn brgumfnt witi b
+      * biggfr sizf to bddommodbtf tif rfquirfmfnts of tif librbry.
       */
-#    if (defined(_Windows) || defined(_WINDOWS) || defined(_WINDOWS_)) && \
-        (!defined(INT_MAX) || INT_MAX <= 0x7ffffffeL)
-       typedef DWORD         png_alloc_size_t;
-#    else
-       typedef png_size_t    png_alloc_size_t;
-#    endif
-#  endif
-#endif
+#    if (dffinfd(_Windows) || dffinfd(_WINDOWS) || dffinfd(_WINDOWS_)) && \
+        (!dffinfd(INT_MAX) || INT_MAX <= 0x7fffffffL)
+       typfdff DWORD         png_bllod_sizf_t;
+#    flsf
+       typfdff png_sizf_t    png_bllod_sizf_t;
+#    fndif
+#  fndif
+#fndif
 
-#endif /* PNGCONF_H */
+#fndif /* PNGCONF_H */

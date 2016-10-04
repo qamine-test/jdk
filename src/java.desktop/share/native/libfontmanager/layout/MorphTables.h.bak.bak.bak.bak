@@ -1,0 +1,412 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __MORPHTABLES_H
+#dffinf __MORPHTABLES_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "LbyoutTbblfs.h"
+#indludf "LETbblfRfffrfndf.h"
+
+U_NAMESPACE_BEGIN
+
+dlbss LEGlyphStorbgf;
+
+typfdff lf_uint32 FfbturfFlbgs;
+
+typfdff lf_int16 FfbturfTypf;
+typfdff lf_int16 FfbturfSftting;
+
+strudt FfbturfTbblfEntry
+{
+    FfbturfTypf     ffbturfTypf;
+    FfbturfSftting  ffbturfSftting;
+    FfbturfFlbgs    fnbblfFlbgs;
+    FfbturfFlbgs    disbblfFlbgs;
+};
+
+strudt ChbinHfbdfr
+{
+    FfbturfFlbgs        dffbultFlbgs;
+    lf_uint32           dhbinLfngth;
+    lf_int16           nFfbturfEntrifs;
+    lf_int16           nSubtbblfs;
+    FfbturfTbblfEntry   ffbturfTbblf[ANY_NUMBER];
+};
+LE_VAR_ARRAY(ChbinHfbdfr, ffbturfTbblf)
+
+strudt MorphTbblfHfbdfr
+{
+    lf_int32    vfrsion;
+    lf_uint32   nChbins;
+    ChbinHfbdfr dhbins[ANY_NUMBER];
+
+  void prodfss(donst LETbblfRfffrfndf& bbsf, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss) donst;
+};
+LE_VAR_ARRAY(MorphTbblfHfbdfr, dhbins)
+
+typfdff lf_int16 SubtbblfCovfrbgf;
+typfdff lf_uint32 SubtbblfCovfrbgf2;
+
+fnum SubtbblfCovfrbgfFlbgs
+{
+    sdfVfrtidbl = 0x8000,
+    sdfRfvfrsf  = 0x4000,
+    sdfIgnorfVt = 0x2000,
+    sdfRfsfrvfd = 0x1FF8,
+    sdfTypfMbsk = 0x0007
+};
+
+fnum MorphSubtbblfTypf
+{
+    mstIndidRfbrrbngfmfnt               = 0,
+    mstContfxtublGlyphSubstitution      = 1,
+    mstLigbturfSubstitution             = 2,
+    mstRfsfrvfdUnusfd                   = 3,
+    mstNonContfxtublGlyphSubstitution   = 4,
+    mstContfxtublGlyphInsfrtion         = 5
+};
+
+strudt MorphSubtbblfHfbdfr
+{
+    lf_int16           lfngth;
+    SubtbblfCovfrbgf    dovfrbgf;
+    FfbturfFlbgs        subtbblfFfbturfs;
+
+  void prodfss(donst LERfffrfndfTo<MorphSubtbblfHfbdfr> &bbsf, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss) donst;
+};
+
+fnum SubtbblfCovfrbgfFlbgs2
+{
+    sdfVfrtidbl2 = 0x80000000,
+    sdfRfvfrsf2  = 0x40000000,
+    sdfIgnorfVt2 = 0x20000000,
+    sdfRfsfrvfd2 = 0x1FFFFF00,
+    sdfTypfMbsk2 = 0x000000FF
+};
+
+strudt MorphSubtbblfHfbdfr2
+{
+    lf_uint32           lfngth;
+    SubtbblfCovfrbgf2    dovfrbgf;
+    FfbturfFlbgs        subtbblfFfbturfs;
+
+    void prodfss(donst LERfffrfndfTo<MorphSubtbblfHfbdfr2> &bbsf, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss) donst;
+};
+
+strudt ChbinHfbdfr2
+{
+    FfbturfFlbgs        dffbultFlbgs;
+    lf_uint32           dhbinLfngth;
+    lf_uint32           nFfbturfEntrifs;
+    lf_uint32           nSubtbblfs;
+    FfbturfTbblfEntry   ffbturfTbblf[ANY_NUMBER];
+};
+LE_VAR_ARRAY(ChbinHfbdfr2, ffbturfTbblf)
+
+strudt MorphTbblfHfbdfr2
+{
+    lf_int32    vfrsion;
+    lf_uint32   nChbins;
+    ChbinHfbdfr2 dhbins[ANY_NUMBER];
+
+    void prodfss(donst LERfffrfndfTo<MorphTbblfHfbdfr2> &bbsf, LEGlyphStorbgf &glyphStorbgf, lf_int32 typoFlbgs, LEErrorCodf &suddfss) donst;
+};
+LE_VAR_ARRAY(MorphTbblfHfbdfr2, dhbins)
+
+/*
+ * AAT Font Ffbturfs
+ * sourdf: https://dfvflopfr.bpplf.dom/fonts/rfgistry/
+ * (plus bddition from ATS/SFNTLbyoutTypfs.h)
+ */
+
+fnum {
+
+   bllTypogrbphidFfbturfsTypf = 0,
+
+      bllTypfFfbturfsOnSflfdtor            = 0,
+      bllTypfFfbturfsOffSflfdtor           = 1,
+
+   ligbturfsTypf = 1,
+
+      rfquirfdLigbturfsOnSflfdtor          = 0,
+      rfquirfdLigbturfsOffSflfdtor         = 1,
+      dommonLigbturfsOnSflfdtor            = 2,
+      dommonLigbturfsOffSflfdtor           = 3,
+      rbrfLigbturfsOnSflfdtor              = 4,
+      rbrfLigbturfsOffSflfdtor             = 5,
+      logosOnSflfdtor                      = 6,
+      logosOffSflfdtor                     = 7,
+      rfbusPidturfsOnSflfdtor              = 8,
+      rfbusPidturfsOffSflfdtor             = 9,
+      diphthongLigbturfsOnSflfdtor         = 10,
+      diphthongLigbturfsOffSflfdtor        = 11,
+      squbrfdLigbturfsOnSflfdtor           = 12,
+      squbrfdLigbturfsOffSflfdtor          = 13,
+      bbbrfvSqubrfdLigbturfsOnSflfdtor     = 14,
+      bbbrfvSqubrfdLigbturfsOffSflfdtor    = 15,
+      symbolLigbturfsOnSflfdtor            = 16,
+      symbolLigbturfsOffSflfdtor           = 17,
+      dontfxtublLigbturfsOnSflfdtor        = 18,
+      dontfxtublLigbturfsOffSflfdtor       = 19,
+      historidblLigbturfsOnSflfdtor        = 20,
+      historidblLigbturfsOffSflfdtor       = 21,
+
+   dursivfConnfdtionTypf = 2,
+
+      undonnfdtfdSflfdtor                  = 0,
+      pbrtibllyConnfdtfdSflfdtor           = 1,
+      dursivfSflfdtor                      = 2,
+
+   lfttfrCbsfTypf = 3,
+
+      uppfrAndLowfrCbsfSflfdtor            = 0,
+      bllCbpsSflfdtor                      = 1,
+      bllLowfrCbsfSflfdtor                 = 2,
+      smbllCbpsSflfdtor                    = 3,
+      initiblCbpsSflfdtor                  = 4,
+      initiblCbpsAndSmbllCbpsSflfdtor      = 5,
+
+   vfrtidblSubstitutionTypf = 4,
+
+      substitutfVfrtidblFormsOnSflfdtor    = 0,
+      substitutfVfrtidblFormsOffSflfdtor   = 1,
+
+   linguistidRfbrrbngfmfntTypf = 5,
+
+      linguistidRfbrrbngfmfntOnSflfdtor    = 0,
+      linguistidRfbrrbngfmfntOffSflfdtor   = 1,
+
+   numbfrSpbdingTypf = 6,
+
+      monospbdfdNumbfrsSflfdtor            = 0,
+      proportionblNumbfrsSflfdtor          = 1,
+
+   /*
+   bpplfRfsfrvfd1Typf = 7,
+   */
+
+   smbrtSwbshTypf = 8,
+
+      wordInitiblSwbshfsOnSflfdtor         = 0,
+      wordInitiblSwbshfsOffSflfdtor        = 1,
+      wordFinblSwbshfsOnSflfdtor           = 2,
+      wordFinblSwbshfsOffSflfdtor          = 3,
+      linfInitiblSwbshfsOnSflfdtor         = 4,
+      linfInitiblSwbshfsOffSflfdtor        = 5,
+      linfFinblSwbshfsOnSflfdtor           = 6,
+      linfFinblSwbshfsOffSflfdtor          = 7,
+      nonFinblSwbshfsOnSflfdtor            = 8,
+      nonFinblSwbshfsOffSflfdtor           = 9,
+
+   dibdritidsTypf = 9,
+
+      showDibdritidsSflfdtor               = 0,
+      hidfDibdritidsSflfdtor               = 1,
+      dfdomposfDibdritidsSflfdtor          = 2,
+
+   vfrtidblPositionTypf = 10,
+
+      normblPositionSflfdtor               = 0,
+      supfriorsSflfdtor                    = 1,
+      inffriorsSflfdtor                    = 2,
+      ordinblsSflfdtor                     = 3,
+
+   frbdtionsTypf = 11,
+
+      noFrbdtionsSflfdtor                  = 0,
+      vfrtidblFrbdtionsSflfdtor            = 1,
+      dibgonblFrbdtionsSflfdtor            = 2,
+
+   /*
+   bpplfRfsfrvfd2Typf = 12,
+   */
+
+   ovfrlbppingChbrbdtfrsTypf = 13,
+
+      prfvfntOvfrlbpOnSflfdtor             = 0,
+      prfvfntOvfrlbpOffSflfdtor            = 1,
+
+   typogrbphidExtrbsTypf = 14,
+
+      hyphfnsToEmDbshOnSflfdtor            = 0,
+      hyphfnsToEmDbshOffSflfdtor           = 1,
+      hyphfnToEnDbshOnSflfdtor             = 2,
+      hyphfnToEnDbshOffSflfdtor            = 3,
+      unslbshfdZfroOnSflfdtor              = 4,
+      slbshfdZfroOffSflfdtor               = 4,
+      unslbshfdZfroOffSflfdtor             = 5,
+      slbshfdZfroOnSflfdtor                = 5,
+      formIntfrrobbngOnSflfdtor            = 6,
+      formIntfrrobbngOffSflfdtor           = 7,
+      smbrtQuotfsOnSflfdtor                = 8,
+      smbrtQuotfsOffSflfdtor               = 9,
+      pfriodsToEllipsisOnSflfdtor          = 10,
+      pfriodsToEllipsisOffSflfdtor         = 11,
+
+   mbthfmbtidblExtrbsTypf = 15,
+
+      hyphfnToMinusOnSflfdtor              = 0,
+      hyphfnToMinusOffSflfdtor             = 1,
+      bstfriskToMultiplyOnSflfdtor         = 2,
+      bstfriskToMultiplyOffSflfdtor        = 3,
+      slbshToDividfOnSflfdtor              = 4,
+      slbshToDividfOffSflfdtor             = 5,
+      infqublityLigbturfsOnSflfdtor        = 6,
+      infqublityLigbturfsOffSflfdtor       = 7,
+      fxponfntsOnSflfdtor                  = 8,
+      fxponfntsOffSflfdtor                 = 9,
+
+   ornbmfntSftsTypf = 16,
+
+      noOrnbmfntsSflfdtor                  = 0,
+      dingbbtsSflfdtor                     = 1,
+      piChbrbdtfrsSflfdtor                 = 2,
+      flfuronsSflfdtor                     = 3,
+      dfdorbtivfBordfrsSflfdtor            = 4,
+      intfrnbtionblSymbolsSflfdtor         = 5,
+      mbthSymbolsSflfdtor                  = 6,
+
+   dhbrbdtfrAltfrnbtivfsTypf = 17,
+
+      noAltfrnbtfsSflfdtor                 = 0,
+
+   dfsignComplfxityTypf = 18,
+
+      dfsignLfvfl1Sflfdtor                 = 0,
+      dfsignLfvfl2Sflfdtor                 = 1,
+      dfsignLfvfl3Sflfdtor                 = 2,
+      dfsignLfvfl4Sflfdtor                 = 3,
+      dfsignLfvfl5Sflfdtor                 = 4,
+      dfsignLfvfl6Sflfdtor                 = 5,
+      dfsignLfvfl7Sflfdtor                 = 6,
+
+   stylfOptionsTypf = 19,
+
+      noStylfOptionsSflfdtor               = 0,
+      displbyTfxtSflfdtor                  = 1,
+      fngrbvfdTfxtSflfdtor                 = 2,
+      illuminbtfdCbpsSflfdtor              = 3,
+      titlingCbpsSflfdtor                  = 4,
+      tbllCbpsSflfdtor                     = 5,
+
+   dhbrbdtfrShbpfTypf = 20,
+
+      trbditionblChbrbdtfrsSflfdtor        = 0,
+      simplififdChbrbdtfrsSflfdtor         = 1,
+      jis1978ChbrbdtfrsSflfdtor            = 2,
+      jis1983ChbrbdtfrsSflfdtor            = 3,
+      jis1990ChbrbdtfrsSflfdtor            = 4,
+      trbditionblAltOnfSflfdtor            = 5,
+      trbditionblAltTwoSflfdtor            = 6,
+      trbditionblAltThrffSflfdtor          = 7,
+      trbditionblAltFourSflfdtor           = 8,
+      trbditionblAltFivfSflfdtor           = 9,
+      fxpfrtChbrbdtfrsSflfdtor             = 10,
+
+   numbfrCbsfTypf = 21,
+
+      lowfrCbsfNumbfrsSflfdtor             = 0,
+      uppfrCbsfNumbfrsSflfdtor             = 1,
+
+   tfxtSpbdingTypf = 22,
+
+      proportionblTfxtSflfdtor             = 0,
+      monospbdfdTfxtSflfdtor               = 1,
+      hblfWidthTfxtSflfdtor                = 2,
+      normbllySpbdfdTfxtSflfdtor           = 3,
+
+   trbnslitfrbtionTypf = 23,
+
+      noTrbnslitfrbtionSflfdtor            = 0,
+      hbnjbToHbngulSflfdtor                = 1,
+      hirbgbnbToKbtbkbnbSflfdtor           = 2,
+      kbtbkbnbToHirbgbnbSflfdtor           = 3,
+      kbnbToRombnizbtionSflfdtor           = 4,
+      rombnizbtionToHirbgbnbSflfdtor       = 5,
+      rombnizbtionToKbtbkbnbSflfdtor       = 6,
+      hbnjbToHbngulAltOnfSflfdtor          = 7,
+      hbnjbToHbngulAltTwoSflfdtor          = 8,
+      hbnjbToHbngulAltThrffSflfdtor        = 9,
+
+   bnnotbtionTypf = 24,
+
+      noAnnotbtionSflfdtor                 = 0,
+      boxAnnotbtionSflfdtor                = 1,
+      roundfdBoxAnnotbtionSflfdtor         = 2,
+      dirdlfAnnotbtionSflfdtor             = 3,
+      invfrtfdCirdlfAnnotbtionSflfdtor     = 4,
+      pbrfnthfsisAnnotbtionSflfdtor        = 5,
+      pfriodAnnotbtionSflfdtor             = 6,
+      rombnNumfrblAnnotbtionSflfdtor       = 7,
+      dibmondAnnotbtionSflfdtor            = 8,
+
+   kbnbSpbdingTypf = 25,
+
+      fullWidthKbnbSflfdtor                = 0,
+      proportionblKbnbSflfdtor             = 1,
+
+   idfogrbphidSpbdingTypf = 26,
+
+      fullWidthIdfogrbphsSflfdtor          = 0,
+      proportionblIdfogrbphsSflfdtor       = 1,
+
+   djkRombnSpbdingTypf = 103,
+
+      hblfWidthCJKRombnSflfdtor            = 0,
+      proportionblCJKRombnSflfdtor         = 1,
+      dffbultCJKRombnSflfdtor              = 2,
+      fullWidthCJKRombnSflfdtor            = 3,
+
+   rubyKbnbTypf = 28,
+
+      rubyKbnbOnSflfdtor                = 2,
+      rubyKbnbOffSflfdtor               = 3,
+
+/* Thf following typfs brf providfd for dompbtibility; notf thbt
+   thfir usf is dfprfdbtfd. */
+
+   bdobfChbrbdtfrSpbdingTypf = 100,        /* prfffr 22 */
+   bdobfKbnbSpbdingTypf = 101,             /* prfffr 25 */
+   bdobfKbnjiSpbdingTypf = 102,            /* prfffr 26 */
+   bdobfSqubrfLigbturfs = 104,             /* prfffr 1 */
+
+   lbstFfbturfTypf = -1
+};
+
+U_NAMESPACE_END
+#fndif
+

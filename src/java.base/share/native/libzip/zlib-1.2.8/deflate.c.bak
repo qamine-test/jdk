@@ -1,1991 +1,1991 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* deflate.c -- compress data using the deflation algorithm
- * Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* dfflbtf.d -- domprfss dbtb using tif dfflbtion blgoritim
+ * Copyrigit (C) 1995-2013 Jfbn-loup Gbilly bnd Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
 /*
  *  ALGORITHM
  *
- *      The "deflation" process depends on being able to identify portions
- *      of the input text which are identical to earlier input (within a
- *      sliding window trailing behind the input currently being processed).
+ *      Tif "dfflbtion" prodfss dfpfnds on bfing bblf to idfntify portions
+ *      of tif input tfxt wiidi brf idfntidbl to fbrlifr input (witiin b
+ *      sliding window trbiling bfiind tif input durrfntly bfing prodfssfd).
  *
- *      The most straightforward technique turns out to be the fastest for
- *      most input files: try all possible matches and select the longest.
- *      The key feature of this algorithm is that insertions into the string
- *      dictionary are very simple and thus fast, and deletions are avoided
- *      completely. Insertions are performed at each input character, whereas
- *      string matches are performed only when the previous match ends. So it
- *      is preferable to spend more time in matches to allow very fast string
- *      insertions and avoid deletions. The matching algorithm for small
- *      strings is inspired from that of Rabin & Karp. A brute force approach
- *      is used to find longer strings when a small match has been found.
- *      A similar algorithm is used in comic (by Jan-Mark Wams) and freeze
- *      (by Leonid Broukhis).
- *         A previous version of this file used a more sophisticated algorithm
- *      (by Fiala and Greene) which is guaranteed to run in linear amortized
- *      time, but has a larger average cost, uses more memory and is patented.
- *      However the F&G algorithm may be faster for some highly redundant
- *      files if the parameter max_chain_length (described below) is too large.
+ *      Tif most strbigitforwbrd tfdiniquf turns out to bf tif fbstfst for
+ *      most input filfs: try bll possiblf mbtdifs bnd sflfdt tif longfst.
+ *      Tif kfy ffbturf of tiis blgoritim is tibt insfrtions into tif string
+ *      didtionbry brf vfry simplf bnd tius fbst, bnd dflftions brf bvoidfd
+ *      domplftfly. Insfrtions brf pfrformfd bt fbdi input dibrbdtfr, wifrfbs
+ *      string mbtdifs brf pfrformfd only wifn tif prfvious mbtdi fnds. So it
+ *      is prfffrbblf to spfnd morf timf in mbtdifs to bllow vfry fbst string
+ *      insfrtions bnd bvoid dflftions. Tif mbtdiing blgoritim for smbll
+ *      strings is inspirfd from tibt of Rbbin & Kbrp. A brutf fordf bpprobdi
+ *      is usfd to find longfr strings wifn b smbll mbtdi ibs bffn found.
+ *      A similbr blgoritim is usfd in domid (by Jbn-Mbrk Wbms) bnd frffzf
+ *      (by Lfonid Broukiis).
+ *         A prfvious vfrsion of tiis filf usfd b morf sopiistidbtfd blgoritim
+ *      (by Fiblb bnd Grffnf) wiidi is gubrbntffd to run in linfbr bmortizfd
+ *      timf, but ibs b lbrgfr bvfrbgf dost, usfs morf mfmory bnd is pbtfntfd.
+ *      Howfvfr tif F&G blgoritim mby bf fbstfr for somf iigily rfdundbnt
+ *      filfs if tif pbrbmftfr mbx_dibin_lfngti (dfsdribfd bflow) is too lbrgf.
  *
  *  ACKNOWLEDGEMENTS
  *
- *      The idea of lazy evaluation of matches is due to Jan-Mark Wams, and
- *      I found it in 'freeze' written by Leonid Broukhis.
- *      Thanks to many people for bug reports and testing.
+ *      Tif idfb of lbzy fvblubtion of mbtdifs is duf to Jbn-Mbrk Wbms, bnd
+ *      I found it in 'frffzf' writtfn by Lfonid Broukiis.
+ *      Tibnks to mbny pfoplf for bug rfports bnd tfsting.
  *
  *  REFERENCES
  *
- *      Deutsch, L.P.,"DEFLATE Compressed Data Format Specification".
- *      Available in http://tools.ietf.org/html/rfc1951
+ *      Dfutsdi, L.P.,"DEFLATE Comprfssfd Dbtb Formbt Spfdifidbtion".
+ *      Avbilbblf in ittp://tools.iftf.org/itml/rfd1951
  *
- *      A description of the Rabin and Karp algorithm is given in the book
- *         "Algorithms" by R. Sedgewick, Addison-Wesley, p252.
+ *      A dfsdription of tif Rbbin bnd Kbrp blgoritim is givfn in tif book
+ *         "Algoritims" by R. Sfdgfwidk, Addison-Wfslfy, p252.
  *
- *      Fiala,E.R., and Greene,D.H.
- *         Data Compression with Finite Windows, Comm.ACM, 32,4 (1989) 490-595
+ *      Fiblb,E.R., bnd Grffnf,D.H.
+ *         Dbtb Comprfssion witi Finitf Windows, Comm.ACM, 32,4 (1989) 490-595
  *
  */
 
 /* @(#) $Id$ */
 
-#include "deflate.h"
+#indludf "dfflbtf.i"
 
-const char deflate_copyright[] =
-   " deflate 1.2.8 Copyright 1995-2013 Jean-loup Gailly and Mark Adler ";
+donst dibr dfflbtf_dopyrigit[] =
+   " dfflbtf 1.2.8 Copyrigit 1995-2013 Jfbn-loup Gbilly bnd Mbrk Adlfr ";
 /*
-  If you use the zlib library in a product, an acknowledgment is welcome
-  in the documentation of your product. If for some reason you cannot
-  include such an acknowledgment, I would appreciate that you keep this
-  copyright string in the executable of your product.
+  If you usf tif zlib librbry in b produdt, bn bdknowlfdgmfnt is wfldomf
+  in tif dodumfntbtion of your produdt. If for somf rfbson you dbnnot
+  indludf sudi bn bdknowlfdgmfnt, I would bpprfdibtf tibt you kffp tiis
+  dopyrigit string in tif fxfdutbblf of your produdt.
  */
 
 /* ===========================================================================
- *  Function prototypes.
+ *  Fundtion prototypfs.
  */
-typedef enum {
-    need_more,      /* block not completed, need more input or more output */
-    block_done,     /* block flush performed */
-    finish_started, /* finish started, need only more output at next deflate */
-    finish_done     /* finish done, accept no more input or output */
-} block_state;
+typfdff fnum {
+    nffd_morf,      /* blodk not domplftfd, nffd morf input or morf output */
+    blodk_donf,     /* blodk flusi pfrformfd */
+    finisi_stbrtfd, /* finisi stbrtfd, nffd only morf output bt nfxt dfflbtf */
+    finisi_donf     /* finisi donf, bddfpt no morf input or output */
+} blodk_stbtf;
 
-typedef block_state (*compress_func) OF((deflate_state *s, int flush));
-/* Compression function. Returns the block state after the call. */
+typfdff blodk_stbtf (*domprfss_fund) OF((dfflbtf_stbtf *s, int flusi));
+/* Comprfssion fundtion. Rfturns tif blodk stbtf bftfr tif dbll. */
 
-local void fill_window    OF((deflate_state *s));
-local block_state deflate_stored OF((deflate_state *s, int flush));
-local block_state deflate_fast   OF((deflate_state *s, int flush));
-#ifndef FASTEST
-local block_state deflate_slow   OF((deflate_state *s, int flush));
-#endif
-local block_state deflate_rle    OF((deflate_state *s, int flush));
-local block_state deflate_huff   OF((deflate_state *s, int flush));
-local void lm_init        OF((deflate_state *s));
-local void putShortMSB    OF((deflate_state *s, uInt b));
-local void flush_pending  OF((z_streamp strm));
-local int read_buf        OF((z_streamp strm, Bytef *buf, unsigned size));
-#ifdef ASMV
-      void match_init OF((void)); /* asm code initialization */
-      uInt longest_match  OF((deflate_state *s, IPos cur_match));
-#else
-local uInt longest_match  OF((deflate_state *s, IPos cur_match));
-#endif
+lodbl void fill_window    OF((dfflbtf_stbtf *s));
+lodbl blodk_stbtf dfflbtf_storfd OF((dfflbtf_stbtf *s, int flusi));
+lodbl blodk_stbtf dfflbtf_fbst   OF((dfflbtf_stbtf *s, int flusi));
+#ifndff FASTEST
+lodbl blodk_stbtf dfflbtf_slow   OF((dfflbtf_stbtf *s, int flusi));
+#fndif
+lodbl blodk_stbtf dfflbtf_rlf    OF((dfflbtf_stbtf *s, int flusi));
+lodbl blodk_stbtf dfflbtf_iuff   OF((dfflbtf_stbtf *s, int flusi));
+lodbl void lm_init        OF((dfflbtf_stbtf *s));
+lodbl void putSiortMSB    OF((dfflbtf_stbtf *s, uInt b));
+lodbl void flusi_pfnding  OF((z_strfbmp strm));
+lodbl int rfbd_buf        OF((z_strfbmp strm, Bytff *buf, unsignfd sizf));
+#ifdff ASMV
+      void mbtdi_init OF((void)); /* bsm dodf initiblizbtion */
+      uInt longfst_mbtdi  OF((dfflbtf_stbtf *s, IPos dur_mbtdi));
+#flsf
+lodbl uInt longfst_mbtdi  OF((dfflbtf_stbtf *s, IPos dur_mbtdi));
+#fndif
 
-#ifdef DEBUG
-local  void check_match OF((deflate_state *s, IPos start, IPos match,
-                            int length));
-#endif
+#ifdff DEBUG
+lodbl  void difdk_mbtdi OF((dfflbtf_stbtf *s, IPos stbrt, IPos mbtdi,
+                            int lfngti));
+#fndif
 
 /* ===========================================================================
- * Local data
+ * Lodbl dbtb
  */
 
-#define NIL 0
-/* Tail of hash chains */
+#dffinf NIL 0
+/* Tbil of ibsi dibins */
 
-#ifndef TOO_FAR
-#  define TOO_FAR 4096
-#endif
-/* Matches of length 3 are discarded if their distance exceeds TOO_FAR */
+#ifndff TOO_FAR
+#  dffinf TOO_FAR 4096
+#fndif
+/* Mbtdifs of lfngti 3 brf disdbrdfd if tifir distbndf fxdffds TOO_FAR */
 
-/* Values for max_lazy_match, good_match and max_chain_length, depending on
- * the desired pack level (0..9). The values given below have been tuned to
- * exclude worst case performance for pathological files. Better values may be
- * found for specific files.
+/* Vblufs for mbx_lbzy_mbtdi, good_mbtdi bnd mbx_dibin_lfngti, dfpfnding on
+ * tif dfsirfd pbdk lfvfl (0..9). Tif vblufs givfn bflow ibvf bffn tunfd to
+ * fxdludf worst dbsf pfrformbndf for pbtiologidbl filfs. Bfttfr vblufs mby bf
+ * found for spfdifid filfs.
  */
-typedef struct config_s {
-   ush good_length; /* reduce lazy search above this match length */
-   ush max_lazy;    /* do not perform lazy search above this match length */
-   ush nice_length; /* quit search above this match length */
-   ush max_chain;
-   compress_func func;
-} config;
+typfdff strudt donfig_s {
+   usi good_lfngti; /* rfdudf lbzy sfbrdi bbovf tiis mbtdi lfngti */
+   usi mbx_lbzy;    /* do not pfrform lbzy sfbrdi bbovf tiis mbtdi lfngti */
+   usi nidf_lfngti; /* quit sfbrdi bbovf tiis mbtdi lfngti */
+   usi mbx_dibin;
+   domprfss_fund fund;
+} donfig;
 
-#ifdef FASTEST
-local const config configuration_table[2] = {
-/*      good lazy nice chain */
-/* 0 */ {0,    0,  0,    0, deflate_stored},  /* store only */
-/* 1 */ {4,    4,  8,    4, deflate_fast}}; /* max speed, no lazy matches */
-#else
-local const config configuration_table[10] = {
-/*      good lazy nice chain */
-/* 0 */ {0,    0,  0,    0, deflate_stored},  /* store only */
-/* 1 */ {4,    4,  8,    4, deflate_fast}, /* max speed, no lazy matches */
-/* 2 */ {4,    5, 16,    8, deflate_fast},
-/* 3 */ {4,    6, 32,   32, deflate_fast},
+#ifdff FASTEST
+lodbl donst donfig donfigurbtion_tbblf[2] = {
+/*      good lbzy nidf dibin */
+/* 0 */ {0,    0,  0,    0, dfflbtf_storfd},  /* storf only */
+/* 1 */ {4,    4,  8,    4, dfflbtf_fbst}}; /* mbx spffd, no lbzy mbtdifs */
+#flsf
+lodbl donst donfig donfigurbtion_tbblf[10] = {
+/*      good lbzy nidf dibin */
+/* 0 */ {0,    0,  0,    0, dfflbtf_storfd},  /* storf only */
+/* 1 */ {4,    4,  8,    4, dfflbtf_fbst}, /* mbx spffd, no lbzy mbtdifs */
+/* 2 */ {4,    5, 16,    8, dfflbtf_fbst},
+/* 3 */ {4,    6, 32,   32, dfflbtf_fbst},
 
-/* 4 */ {4,    4, 16,   16, deflate_slow},  /* lazy matches */
-/* 5 */ {8,   16, 32,   32, deflate_slow},
-/* 6 */ {8,   16, 128, 128, deflate_slow},
-/* 7 */ {8,   32, 128, 256, deflate_slow},
-/* 8 */ {32, 128, 258, 1024, deflate_slow},
-/* 9 */ {32, 258, 258, 4096, deflate_slow}}; /* max compression */
-#endif
+/* 4 */ {4,    4, 16,   16, dfflbtf_slow},  /* lbzy mbtdifs */
+/* 5 */ {8,   16, 32,   32, dfflbtf_slow},
+/* 6 */ {8,   16, 128, 128, dfflbtf_slow},
+/* 7 */ {8,   32, 128, 256, dfflbtf_slow},
+/* 8 */ {32, 128, 258, 1024, dfflbtf_slow},
+/* 9 */ {32, 258, 258, 4096, dfflbtf_slow}}; /* mbx domprfssion */
+#fndif
 
-/* Note: the deflate() code requires max_lazy >= MIN_MATCH and max_chain >= 4
- * For deflate_fast() (levels <= 3) good is ignored and lazy has a different
- * meaning.
+/* Notf: tif dfflbtf() dodf rfquirfs mbx_lbzy >= MIN_MATCH bnd mbx_dibin >= 4
+ * For dfflbtf_fbst() (lfvfls <= 3) good is ignorfd bnd lbzy ibs b difffrfnt
+ * mfbning.
  */
 
-#define EQUAL 0
-/* result of memcmp for equal strings */
+#dffinf EQUAL 0
+/* rfsult of mfmdmp for fqubl strings */
 
-#ifndef NO_DUMMY_DECL
-struct static_tree_desc_s {int dummy;}; /* for buggy compilers */
-#endif
+#ifndff NO_DUMMY_DECL
+strudt stbtid_trff_dfsd_s {int dummy;}; /* for buggy dompilfrs */
+#fndif
 
-/* rank Z_BLOCK between Z_NO_FLUSH and Z_PARTIAL_FLUSH */
-#define RANK(f) (((f) << 1) - ((f) > 4 ? 9 : 0))
+/* rbnk Z_BLOCK bftwffn Z_NO_FLUSH bnd Z_PARTIAL_FLUSH */
+#dffinf RANK(f) (((f) << 1) - ((f) > 4 ? 9 : 0))
 
 /* ===========================================================================
- * Update a hash value with the given input byte
- * IN  assertion: all calls to to UPDATE_HASH are made with consecutive
- *    input characters, so that a running hash key can be computed from the
- *    previous key instead of complete recalculation each time.
+ * Updbtf b ibsi vbluf witi tif givfn input bytf
+ * IN  bssfrtion: bll dblls to to UPDATE_HASH brf mbdf witi donsfdutivf
+ *    input dibrbdtfrs, so tibt b running ibsi kfy dbn bf domputfd from tif
+ *    prfvious kfy instfbd of domplftf rfdbldulbtion fbdi timf.
  */
-#define UPDATE_HASH(s,h,c) (h = (((h)<<s->hash_shift) ^ (c)) & s->hash_mask)
+#dffinf UPDATE_HASH(s,i,d) (i = (((i)<<s->ibsi_siift) ^ (d)) & s->ibsi_mbsk)
 
 
 /* ===========================================================================
- * Insert string str in the dictionary and set match_head to the previous head
- * of the hash chain (the most recent string with same hash key). Return
- * the previous length of the hash chain.
- * If this file is compiled with -DFASTEST, the compression level is forced
- * to 1, and no hash chains are maintained.
- * IN  assertion: all calls to to INSERT_STRING are made with consecutive
- *    input characters and the first MIN_MATCH bytes of str are valid
- *    (except for the last MIN_MATCH-1 bytes of the input file).
+ * Insfrt string str in tif didtionbry bnd sft mbtdi_ifbd to tif prfvious ifbd
+ * of tif ibsi dibin (tif most rfdfnt string witi sbmf ibsi kfy). Rfturn
+ * tif prfvious lfngti of tif ibsi dibin.
+ * If tiis filf is dompilfd witi -DFASTEST, tif domprfssion lfvfl is fordfd
+ * to 1, bnd no ibsi dibins brf mbintbinfd.
+ * IN  bssfrtion: bll dblls to to INSERT_STRING brf mbdf witi donsfdutivf
+ *    input dibrbdtfrs bnd tif first MIN_MATCH bytfs of str brf vblid
+ *    (fxdfpt for tif lbst MIN_MATCH-1 bytfs of tif input filf).
  */
-#ifdef FASTEST
-#define INSERT_STRING(s, str, match_head) \
-   (UPDATE_HASH(s, s->ins_h, s->window[(str) + (MIN_MATCH-1)]), \
-    match_head = s->head[s->ins_h], \
-    s->head[s->ins_h] = (Pos)(str))
-#else
-#define INSERT_STRING(s, str, match_head) \
-   (UPDATE_HASH(s, s->ins_h, s->window[(str) + (MIN_MATCH-1)]), \
-    match_head = s->prev[(str) & s->w_mask] = s->head[s->ins_h], \
-    s->head[s->ins_h] = (Pos)(str))
-#endif
+#ifdff FASTEST
+#dffinf INSERT_STRING(s, str, mbtdi_ifbd) \
+   (UPDATE_HASH(s, s->ins_i, s->window[(str) + (MIN_MATCH-1)]), \
+    mbtdi_ifbd = s->ifbd[s->ins_i], \
+    s->ifbd[s->ins_i] = (Pos)(str))
+#flsf
+#dffinf INSERT_STRING(s, str, mbtdi_ifbd) \
+   (UPDATE_HASH(s, s->ins_i, s->window[(str) + (MIN_MATCH-1)]), \
+    mbtdi_ifbd = s->prfv[(str) & s->w_mbsk] = s->ifbd[s->ins_i], \
+    s->ifbd[s->ins_i] = (Pos)(str))
+#fndif
 
 /* ===========================================================================
- * Initialize the hash table (avoiding 64K overflow for 16 bit systems).
- * prev[] will be initialized on the fly.
+ * Initiblizf tif ibsi tbblf (bvoiding 64K ovfrflow for 16 bit systfms).
+ * prfv[] will bf initiblizfd on tif fly.
  */
-#define CLEAR_HASH(s) \
-    s->head[s->hash_size-1] = NIL; \
-    zmemzero((Bytef *)s->head, (unsigned)(s->hash_size-1)*sizeof(*s->head));
+#dffinf CLEAR_HASH(s) \
+    s->ifbd[s->ibsi_sizf-1] = NIL; \
+    zmfmzfro((Bytff *)s->ifbd, (unsignfd)(s->ibsi_sizf-1)*sizfof(*s->ifbd));
 
 /* ========================================================================= */
-int ZEXPORT deflateInit_(strm, level, version, stream_size)
-    z_streamp strm;
-    int level;
-    const char *version;
-    int stream_size;
+int ZEXPORT dfflbtfInit_(strm, lfvfl, vfrsion, strfbm_sizf)
+    z_strfbmp strm;
+    int lfvfl;
+    donst dibr *vfrsion;
+    int strfbm_sizf;
 {
-    return deflateInit2_(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL,
-                         Z_DEFAULT_STRATEGY, version, stream_size);
-    /* To do: ignore strm->next_in if we use it as window */
+    rfturn dfflbtfInit2_(strm, lfvfl, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL,
+                         Z_DEFAULT_STRATEGY, vfrsion, strfbm_sizf);
+    /* To do: ignorf strm->nfxt_in if wf usf it bs window */
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-                  version, stream_size)
-    z_streamp strm;
-    int  level;
-    int  method;
+int ZEXPORT dfflbtfInit2_(strm, lfvfl, mftiod, windowBits, mfmLfvfl, strbtfgy,
+                  vfrsion, strfbm_sizf)
+    z_strfbmp strm;
+    int  lfvfl;
+    int  mftiod;
     int  windowBits;
-    int  memLevel;
-    int  strategy;
-    const char *version;
-    int stream_size;
+    int  mfmLfvfl;
+    int  strbtfgy;
+    donst dibr *vfrsion;
+    int strfbm_sizf;
 {
-    deflate_state *s;
-    int wrap = 1;
-    static const char my_version[] = ZLIB_VERSION;
+    dfflbtf_stbtf *s;
+    int wrbp = 1;
+    stbtid donst dibr my_vfrsion[] = ZLIB_VERSION;
 
-    ushf *overlay;
-    /* We overlay pending_buf and d_buf+l_buf. This works since the average
-     * output size for (length,distance) codes is <= 24 bits.
+    usif *ovfrlby;
+    /* Wf ovfrlby pfnding_buf bnd d_buf+l_buf. Tiis works sindf tif bvfrbgf
+     * output sizf for (lfngti,distbndf) dodfs is <= 24 bits.
      */
 
-    if (version == Z_NULL || version[0] != my_version[0] ||
-        stream_size != sizeof(z_stream)) {
-        return Z_VERSION_ERROR;
+    if (vfrsion == Z_NULL || vfrsion[0] != my_vfrsion[0] ||
+        strfbm_sizf != sizfof(z_strfbm)) {
+        rfturn Z_VERSION_ERROR;
     }
-    if (strm == Z_NULL) return Z_STREAM_ERROR;
+    if (strm == Z_NULL) rfturn Z_STREAM_ERROR;
 
     strm->msg = Z_NULL;
-    if (strm->zalloc == (alloc_func)0) {
-#ifdef Z_SOLO
-        return Z_STREAM_ERROR;
-#else
-        strm->zalloc = zcalloc;
-        strm->opaque = (voidpf)0;
-#endif
+    if (strm->zbllod == (bllod_fund)0) {
+#ifdff Z_SOLO
+        rfturn Z_STREAM_ERROR;
+#flsf
+        strm->zbllod = zdbllod;
+        strm->opbquf = (voidpf)0;
+#fndif
     }
-    if (strm->zfree == (free_func)0)
-#ifdef Z_SOLO
-        return Z_STREAM_ERROR;
-#else
-        strm->zfree = zcfree;
-#endif
+    if (strm->zfrff == (frff_fund)0)
+#ifdff Z_SOLO
+        rfturn Z_STREAM_ERROR;
+#flsf
+        strm->zfrff = zdfrff;
+#fndif
 
-#ifdef FASTEST
-    if (level != 0) level = 1;
-#else
-    if (level == Z_DEFAULT_COMPRESSION) level = 6;
-#endif
+#ifdff FASTEST
+    if (lfvfl != 0) lfvfl = 1;
+#flsf
+    if (lfvfl == Z_DEFAULT_COMPRESSION) lfvfl = 6;
+#fndif
 
-    if (windowBits < 0) { /* suppress zlib wrapper */
-        wrap = 0;
+    if (windowBits < 0) { /* supprfss zlib wrbppfr */
+        wrbp = 0;
         windowBits = -windowBits;
     }
-#ifdef GZIP
-    else if (windowBits > 15) {
-        wrap = 2;       /* write gzip wrapper instead */
+#ifdff GZIP
+    flsf if (windowBits > 15) {
+        wrbp = 2;       /* writf gzip wrbppfr instfbd */
         windowBits -= 16;
     }
-#endif
-    if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method != Z_DEFLATED ||
-        windowBits < 8 || windowBits > 15 || level < 0 || level > 9 ||
-        strategy < 0 || strategy > Z_FIXED) {
-        return Z_STREAM_ERROR;
+#fndif
+    if (mfmLfvfl < 1 || mfmLfvfl > MAX_MEM_LEVEL || mftiod != Z_DEFLATED ||
+        windowBits < 8 || windowBits > 15 || lfvfl < 0 || lfvfl > 9 ||
+        strbtfgy < 0 || strbtfgy > Z_FIXED) {
+        rfturn Z_STREAM_ERROR;
     }
-    if (windowBits == 8) windowBits = 9;  /* until 256-byte window bug fixed */
-    s = (deflate_state *) ZALLOC(strm, 1, sizeof(deflate_state));
-    if (s == Z_NULL) return Z_MEM_ERROR;
-    strm->state = (struct internal_state FAR *)s;
+    if (windowBits == 8) windowBits = 9;  /* until 256-bytf window bug fixfd */
+    s = (dfflbtf_stbtf *) ZALLOC(strm, 1, sizfof(dfflbtf_stbtf));
+    if (s == Z_NULL) rfturn Z_MEM_ERROR;
+    strm->stbtf = (strudt intfrnbl_stbtf FAR *)s;
     s->strm = strm;
 
-    s->wrap = wrap;
-    s->gzhead = Z_NULL;
+    s->wrbp = wrbp;
+    s->gzifbd = Z_NULL;
     s->w_bits = windowBits;
-    s->w_size = 1 << s->w_bits;
-    s->w_mask = s->w_size - 1;
+    s->w_sizf = 1 << s->w_bits;
+    s->w_mbsk = s->w_sizf - 1;
 
-    s->hash_bits = memLevel + 7;
-    s->hash_size = 1 << s->hash_bits;
-    s->hash_mask = s->hash_size - 1;
-    s->hash_shift =  ((s->hash_bits+MIN_MATCH-1)/MIN_MATCH);
+    s->ibsi_bits = mfmLfvfl + 7;
+    s->ibsi_sizf = 1 << s->ibsi_bits;
+    s->ibsi_mbsk = s->ibsi_sizf - 1;
+    s->ibsi_siift =  ((s->ibsi_bits+MIN_MATCH-1)/MIN_MATCH);
 
-    s->window = (Bytef *) ZALLOC(strm, s->w_size, 2*sizeof(Byte));
-    s->prev   = (Posf *)  ZALLOC(strm, s->w_size, sizeof(Pos));
-    s->head   = (Posf *)  ZALLOC(strm, s->hash_size, sizeof(Pos));
+    s->window = (Bytff *) ZALLOC(strm, s->w_sizf, 2*sizfof(Bytf));
+    s->prfv   = (Posf *)  ZALLOC(strm, s->w_sizf, sizfof(Pos));
+    s->ifbd   = (Posf *)  ZALLOC(strm, s->ibsi_sizf, sizfof(Pos));
 
-    s->high_water = 0;      /* nothing written to s->window yet */
+    s->iigi_wbtfr = 0;      /* notiing writtfn to s->window yft */
 
-    s->lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
+    s->lit_bufsizf = 1 << (mfmLfvfl + 6); /* 16K flfmfnts by dffbult */
 
-    overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
-    s->pending_buf = (uchf *) overlay;
-    s->pending_buf_size = (ulg)s->lit_bufsize * (sizeof(ush)+2L);
+    ovfrlby = (usif *) ZALLOC(strm, s->lit_bufsizf, sizfof(usi)+2);
+    s->pfnding_buf = (udif *) ovfrlby;
+    s->pfnding_buf_sizf = (ulg)s->lit_bufsizf * (sizfof(usi)+2L);
 
-    if (s->window == Z_NULL || s->prev == Z_NULL || s->head == Z_NULL ||
-        s->pending_buf == Z_NULL) {
-        s->status = FINISH_STATE;
+    if (s->window == Z_NULL || s->prfv == Z_NULL || s->ifbd == Z_NULL ||
+        s->pfnding_buf == Z_NULL) {
+        s->stbtus = FINISH_STATE;
         strm->msg = ERR_MSG(Z_MEM_ERROR);
-        deflateEnd (strm);
-        return Z_MEM_ERROR;
+        dfflbtfEnd (strm);
+        rfturn Z_MEM_ERROR;
     }
-    s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
-    s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
+    s->d_buf = ovfrlby + s->lit_bufsizf/sizfof(usi);
+    s->l_buf = s->pfnding_buf + (1+sizfof(usi))*s->lit_bufsizf;
 
-    s->level = level;
-    s->strategy = strategy;
-    s->method = (Byte)method;
+    s->lfvfl = lfvfl;
+    s->strbtfgy = strbtfgy;
+    s->mftiod = (Bytf)mftiod;
 
-    return deflateReset(strm);
+    rfturn dfflbtfRfsft(strm);
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateSetDictionary (strm, dictionary, dictLength)
-    z_streamp strm;
-    const Bytef *dictionary;
-    uInt  dictLength;
+int ZEXPORT dfflbtfSftDidtionbry (strm, didtionbry, didtLfngti)
+    z_strfbmp strm;
+    donst Bytff *didtionbry;
+    uInt  didtLfngti;
 {
-    deflate_state *s;
+    dfflbtf_stbtf *s;
     uInt str, n;
-    int wrap;
-    unsigned avail;
-    z_const unsigned char *next;
+    int wrbp;
+    unsignfd bvbil;
+    z_donst unsignfd dibr *nfxt;
 
-    if (strm == Z_NULL || strm->state == Z_NULL || dictionary == Z_NULL)
-        return Z_STREAM_ERROR;
-    s = strm->state;
-    wrap = s->wrap;
-    if (wrap == 2 || (wrap == 1 && s->status != INIT_STATE) || s->lookahead)
-        return Z_STREAM_ERROR;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL || didtionbry == Z_NULL)
+        rfturn Z_STREAM_ERROR;
+    s = strm->stbtf;
+    wrbp = s->wrbp;
+    if (wrbp == 2 || (wrbp == 1 && s->stbtus != INIT_STATE) || s->lookbifbd)
+        rfturn Z_STREAM_ERROR;
 
-    /* when using zlib wrappers, compute Adler-32 for provided dictionary */
-    if (wrap == 1)
-        strm->adler = adler32(strm->adler, dictionary, dictLength);
-    s->wrap = 0;                    /* avoid computing Adler-32 in read_buf */
+    /* wifn using zlib wrbppfrs, domputf Adlfr-32 for providfd didtionbry */
+    if (wrbp == 1)
+        strm->bdlfr = bdlfr32(strm->bdlfr, didtionbry, didtLfngti);
+    s->wrbp = 0;                    /* bvoid domputing Adlfr-32 in rfbd_buf */
 
-    /* if dictionary would fill window, just replace the history */
-    if (dictLength >= s->w_size) {
-        if (wrap == 0) {            /* already empty otherwise */
+    /* if didtionbry would fill window, just rfplbdf tif iistory */
+    if (didtLfngti >= s->w_sizf) {
+        if (wrbp == 0) {            /* blrfbdy fmpty otifrwisf */
             CLEAR_HASH(s);
-            s->strstart = 0;
-            s->block_start = 0L;
-            s->insert = 0;
+            s->strstbrt = 0;
+            s->blodk_stbrt = 0L;
+            s->insfrt = 0;
         }
-        dictionary += dictLength - s->w_size;  /* use the tail */
-        dictLength = s->w_size;
+        didtionbry += didtLfngti - s->w_sizf;  /* usf tif tbil */
+        didtLfngti = s->w_sizf;
     }
 
-    /* insert dictionary into window and hash */
-    avail = strm->avail_in;
-    next = strm->next_in;
-    strm->avail_in = dictLength;
-    strm->next_in = (z_const Bytef *)dictionary;
+    /* insfrt didtionbry into window bnd ibsi */
+    bvbil = strm->bvbil_in;
+    nfxt = strm->nfxt_in;
+    strm->bvbil_in = didtLfngti;
+    strm->nfxt_in = (z_donst Bytff *)didtionbry;
     fill_window(s);
-    while (s->lookahead >= MIN_MATCH) {
-        str = s->strstart;
-        n = s->lookahead - (MIN_MATCH-1);
+    wiilf (s->lookbifbd >= MIN_MATCH) {
+        str = s->strstbrt;
+        n = s->lookbifbd - (MIN_MATCH-1);
         do {
-            UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]);
-#ifndef FASTEST
-            s->prev[str & s->w_mask] = s->head[s->ins_h];
-#endif
-            s->head[s->ins_h] = (Pos)str;
+            UPDATE_HASH(s, s->ins_i, s->window[str + MIN_MATCH-1]);
+#ifndff FASTEST
+            s->prfv[str & s->w_mbsk] = s->ifbd[s->ins_i];
+#fndif
+            s->ifbd[s->ins_i] = (Pos)str;
             str++;
-        } while (--n);
-        s->strstart = str;
-        s->lookahead = MIN_MATCH-1;
+        } wiilf (--n);
+        s->strstbrt = str;
+        s->lookbifbd = MIN_MATCH-1;
         fill_window(s);
     }
-    s->strstart += s->lookahead;
-    s->block_start = (long)s->strstart;
-    s->insert = s->lookahead;
-    s->lookahead = 0;
-    s->match_length = s->prev_length = MIN_MATCH-1;
-    s->match_available = 0;
-    strm->next_in = next;
-    strm->avail_in = avail;
-    s->wrap = wrap;
-    return Z_OK;
+    s->strstbrt += s->lookbifbd;
+    s->blodk_stbrt = (long)s->strstbrt;
+    s->insfrt = s->lookbifbd;
+    s->lookbifbd = 0;
+    s->mbtdi_lfngti = s->prfv_lfngti = MIN_MATCH-1;
+    s->mbtdi_bvbilbblf = 0;
+    strm->nfxt_in = nfxt;
+    strm->bvbil_in = bvbil;
+    s->wrbp = wrbp;
+    rfturn Z_OK;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateResetKeep (strm)
-    z_streamp strm;
+int ZEXPORT dfflbtfRfsftKffp (strm)
+    z_strfbmp strm;
 {
-    deflate_state *s;
+    dfflbtf_stbtf *s;
 
-    if (strm == Z_NULL || strm->state == Z_NULL ||
-        strm->zalloc == (alloc_func)0 || strm->zfree == (free_func)0) {
-        return Z_STREAM_ERROR;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL ||
+        strm->zbllod == (bllod_fund)0 || strm->zfrff == (frff_fund)0) {
+        rfturn Z_STREAM_ERROR;
     }
 
-    strm->total_in = strm->total_out = 0;
-    strm->msg = Z_NULL; /* use zfree if we ever allocate msg dynamically */
-    strm->data_type = Z_UNKNOWN;
+    strm->totbl_in = strm->totbl_out = 0;
+    strm->msg = Z_NULL; /* usf zfrff if wf fvfr bllodbtf msg dynbmidblly */
+    strm->dbtb_typf = Z_UNKNOWN;
 
-    s = (deflate_state *)strm->state;
-    s->pending = 0;
-    s->pending_out = s->pending_buf;
+    s = (dfflbtf_stbtf *)strm->stbtf;
+    s->pfnding = 0;
+    s->pfnding_out = s->pfnding_buf;
 
-    if (s->wrap < 0) {
-        s->wrap = -s->wrap; /* was made negative by deflate(..., Z_FINISH); */
+    if (s->wrbp < 0) {
+        s->wrbp = -s->wrbp; /* wbs mbdf nfgbtivf by dfflbtf(..., Z_FINISH); */
     }
-    s->status = s->wrap ? INIT_STATE : BUSY_STATE;
-    strm->adler =
-#ifdef GZIP
-        s->wrap == 2 ? crc32(0L, Z_NULL, 0) :
-#endif
-        adler32(0L, Z_NULL, 0);
-    s->last_flush = Z_NO_FLUSH;
+    s->stbtus = s->wrbp ? INIT_STATE : BUSY_STATE;
+    strm->bdlfr =
+#ifdff GZIP
+        s->wrbp == 2 ? drd32(0L, Z_NULL, 0) :
+#fndif
+        bdlfr32(0L, Z_NULL, 0);
+    s->lbst_flusi = Z_NO_FLUSH;
 
     _tr_init(s);
 
-    return Z_OK;
+    rfturn Z_OK;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateReset (strm)
-    z_streamp strm;
+int ZEXPORT dfflbtfRfsft (strm)
+    z_strfbmp strm;
 {
-    int ret;
+    int rft;
 
-    ret = deflateResetKeep(strm);
-    if (ret == Z_OK)
-        lm_init(strm->state);
-    return ret;
+    rft = dfflbtfRfsftKffp(strm);
+    if (rft == Z_OK)
+        lm_init(strm->stbtf);
+    rfturn rft;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateSetHeader (strm, head)
-    z_streamp strm;
-    gz_headerp head;
+int ZEXPORT dfflbtfSftHfbdfr (strm, ifbd)
+    z_strfbmp strm;
+    gz_ifbdfrp ifbd;
 {
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
-    if (strm->state->wrap != 2) return Z_STREAM_ERROR;
-    strm->state->gzhead = head;
-    return Z_OK;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    if (strm->stbtf->wrbp != 2) rfturn Z_STREAM_ERROR;
+    strm->stbtf->gzifbd = ifbd;
+    rfturn Z_OK;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflatePending (strm, pending, bits)
-    unsigned *pending;
+int ZEXPORT dfflbtfPfnding (strm, pfnding, bits)
+    unsignfd *pfnding;
     int *bits;
-    z_streamp strm;
+    z_strfbmp strm;
 {
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
-    if (pending != Z_NULL)
-        *pending = strm->state->pending;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    if (pfnding != Z_NULL)
+        *pfnding = strm->stbtf->pfnding;
     if (bits != Z_NULL)
-        *bits = strm->state->bi_valid;
-    return Z_OK;
+        *bits = strm->stbtf->bi_vblid;
+    rfturn Z_OK;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflatePrime (strm, bits, value)
-    z_streamp strm;
+int ZEXPORT dfflbtfPrimf (strm, bits, vbluf)
+    z_strfbmp strm;
     int bits;
-    int value;
+    int vbluf;
 {
-    deflate_state *s;
+    dfflbtf_stbtf *s;
     int put;
 
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
-    s = strm->state;
-    if ((Bytef *)(s->d_buf) < s->pending_out + ((Buf_size + 7) >> 3))
-        return Z_BUF_ERROR;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    s = strm->stbtf;
+    if ((Bytff *)(s->d_buf) < s->pfnding_out + ((Buf_sizf + 7) >> 3))
+        rfturn Z_BUF_ERROR;
     do {
-        put = Buf_size - s->bi_valid;
+        put = Buf_sizf - s->bi_vblid;
         if (put > bits)
             put = bits;
-        s->bi_buf |= (ush)((value & ((1 << put) - 1)) << s->bi_valid);
-        s->bi_valid += put;
-        _tr_flush_bits(s);
-        value >>= put;
+        s->bi_buf |= (usi)((vbluf & ((1 << put) - 1)) << s->bi_vblid);
+        s->bi_vblid += put;
+        _tr_flusi_bits(s);
+        vbluf >>= put;
         bits -= put;
-    } while (bits);
-    return Z_OK;
+    } wiilf (bits);
+    rfturn Z_OK;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateParams(strm, level, strategy)
-    z_streamp strm;
-    int level;
-    int strategy;
+int ZEXPORT dfflbtfPbrbms(strm, lfvfl, strbtfgy)
+    z_strfbmp strm;
+    int lfvfl;
+    int strbtfgy;
 {
-    deflate_state *s;
-    compress_func func;
-    int err = Z_OK;
+    dfflbtf_stbtf *s;
+    domprfss_fund fund;
+    int frr = Z_OK;
 
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
-    s = strm->state;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    s = strm->stbtf;
 
-#ifdef FASTEST
-    if (level != 0) level = 1;
-#else
-    if (level == Z_DEFAULT_COMPRESSION) level = 6;
-#endif
-    if (level < 0 || level > 9 || strategy < 0 || strategy > Z_FIXED) {
-        return Z_STREAM_ERROR;
+#ifdff FASTEST
+    if (lfvfl != 0) lfvfl = 1;
+#flsf
+    if (lfvfl == Z_DEFAULT_COMPRESSION) lfvfl = 6;
+#fndif
+    if (lfvfl < 0 || lfvfl > 9 || strbtfgy < 0 || strbtfgy > Z_FIXED) {
+        rfturn Z_STREAM_ERROR;
     }
-    func = configuration_table[s->level].func;
+    fund = donfigurbtion_tbblf[s->lfvfl].fund;
 
-    if ((strategy != s->strategy || func != configuration_table[level].func) &&
-        strm->total_in != 0) {
-        /* Flush the last buffer: */
-        err = deflate(strm, Z_BLOCK);
-        if (err == Z_BUF_ERROR && s->pending == 0)
-            err = Z_OK;
+    if ((strbtfgy != s->strbtfgy || fund != donfigurbtion_tbblf[lfvfl].fund) &&
+        strm->totbl_in != 0) {
+        /* Flusi tif lbst bufffr: */
+        frr = dfflbtf(strm, Z_BLOCK);
+        if (frr == Z_BUF_ERROR && s->pfnding == 0)
+            frr = Z_OK;
     }
-    if (s->level != level) {
-        s->level = level;
-        s->max_lazy_match   = configuration_table[level].max_lazy;
-        s->good_match       = configuration_table[level].good_length;
-        s->nice_match       = configuration_table[level].nice_length;
-        s->max_chain_length = configuration_table[level].max_chain;
+    if (s->lfvfl != lfvfl) {
+        s->lfvfl = lfvfl;
+        s->mbx_lbzy_mbtdi   = donfigurbtion_tbblf[lfvfl].mbx_lbzy;
+        s->good_mbtdi       = donfigurbtion_tbblf[lfvfl].good_lfngti;
+        s->nidf_mbtdi       = donfigurbtion_tbblf[lfvfl].nidf_lfngti;
+        s->mbx_dibin_lfngti = donfigurbtion_tbblf[lfvfl].mbx_dibin;
     }
-    s->strategy = strategy;
-    return err;
+    s->strbtfgy = strbtfgy;
+    rfturn frr;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateTune(strm, good_length, max_lazy, nice_length, max_chain)
-    z_streamp strm;
-    int good_length;
-    int max_lazy;
-    int nice_length;
-    int max_chain;
+int ZEXPORT dfflbtfTunf(strm, good_lfngti, mbx_lbzy, nidf_lfngti, mbx_dibin)
+    z_strfbmp strm;
+    int good_lfngti;
+    int mbx_lbzy;
+    int nidf_lfngti;
+    int mbx_dibin;
 {
-    deflate_state *s;
+    dfflbtf_stbtf *s;
 
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
-    s = strm->state;
-    s->good_match = good_length;
-    s->max_lazy_match = max_lazy;
-    s->nice_match = nice_length;
-    s->max_chain_length = max_chain;
-    return Z_OK;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    s = strm->stbtf;
+    s->good_mbtdi = good_lfngti;
+    s->mbx_lbzy_mbtdi = mbx_lbzy;
+    s->nidf_mbtdi = nidf_lfngti;
+    s->mbx_dibin_lfngti = mbx_dibin;
+    rfturn Z_OK;
 }
 
 /* =========================================================================
- * For the default windowBits of 15 and memLevel of 8, this function returns
- * a close to exact, as well as small, upper bound on the compressed size.
- * They are coded as constants here for a reason--if the #define's are
- * changed, then this function needs to be changed as well.  The return
- * value for 15 and 8 only works for those exact settings.
+ * For tif dffbult windowBits of 15 bnd mfmLfvfl of 8, tiis fundtion rfturns
+ * b dlosf to fxbdt, bs wfll bs smbll, uppfr bound on tif domprfssfd sizf.
+ * Tify brf dodfd bs donstbnts ifrf for b rfbson--if tif #dffinf's brf
+ * dibngfd, tifn tiis fundtion nffds to bf dibngfd bs wfll.  Tif rfturn
+ * vbluf for 15 bnd 8 only works for tiosf fxbdt sfttings.
  *
- * For any setting other than those defaults for windowBits and memLevel,
- * the value returned is a conservative worst case for the maximum expansion
- * resulting from using fixed blocks instead of stored blocks, which deflate
- * can emit on compressed data for some combinations of the parameters.
+ * For bny sftting otifr tibn tiosf dffbults for windowBits bnd mfmLfvfl,
+ * tif vbluf rfturnfd is b donsfrvbtivf worst dbsf for tif mbximum fxpbnsion
+ * rfsulting from using fixfd blodks instfbd of storfd blodks, wiidi dfflbtf
+ * dbn fmit on domprfssfd dbtb for somf dombinbtions of tif pbrbmftfrs.
  *
- * This function could be more sophisticated to provide closer upper bounds for
- * every combination of windowBits and memLevel.  But even the conservative
- * upper bound of about 14% expansion does not seem onerous for output buffer
- * allocation.
+ * Tiis fundtion dould bf morf sopiistidbtfd to providf dlosfr uppfr bounds for
+ * fvfry dombinbtion of windowBits bnd mfmLfvfl.  But fvfn tif donsfrvbtivf
+ * uppfr bound of bbout 14% fxpbnsion dofs not sffm onfrous for output bufffr
+ * bllodbtion.
  */
-uLong ZEXPORT deflateBound(strm, sourceLen)
-    z_streamp strm;
-    uLong sourceLen;
+uLong ZEXPORT dfflbtfBound(strm, sourdfLfn)
+    z_strfbmp strm;
+    uLong sourdfLfn;
 {
-    deflate_state *s;
-    uLong complen, wraplen;
-    Bytef *str;
+    dfflbtf_stbtf *s;
+    uLong domplfn, wrbplfn;
+    Bytff *str;
 
-    /* conservative upper bound for compressed data */
-    complen = sourceLen +
-              ((sourceLen + 7) >> 3) + ((sourceLen + 63) >> 6) + 5;
+    /* donsfrvbtivf uppfr bound for domprfssfd dbtb */
+    domplfn = sourdfLfn +
+              ((sourdfLfn + 7) >> 3) + ((sourdfLfn + 63) >> 6) + 5;
 
-    /* if can't get parameters, return conservative bound plus zlib wrapper */
-    if (strm == Z_NULL || strm->state == Z_NULL)
-        return complen + 6;
+    /* if dbn't gft pbrbmftfrs, rfturn donsfrvbtivf bound plus zlib wrbppfr */
+    if (strm == Z_NULL || strm->stbtf == Z_NULL)
+        rfturn domplfn + 6;
 
-    /* compute wrapper length */
-    s = strm->state;
-    switch (s->wrap) {
-    case 0:                                 /* raw deflate */
-        wraplen = 0;
-        break;
-    case 1:                                 /* zlib wrapper */
-        wraplen = 6 + (s->strstart ? 4 : 0);
-        break;
-    case 2:                                 /* gzip wrapper */
-        wraplen = 18;
-        if (s->gzhead != Z_NULL) {          /* user-supplied gzip header */
-            if (s->gzhead->extra != Z_NULL)
-                wraplen += 2 + s->gzhead->extra_len;
-            str = s->gzhead->name;
+    /* domputf wrbppfr lfngti */
+    s = strm->stbtf;
+    switdi (s->wrbp) {
+    dbsf 0:                                 /* rbw dfflbtf */
+        wrbplfn = 0;
+        brfbk;
+    dbsf 1:                                 /* zlib wrbppfr */
+        wrbplfn = 6 + (s->strstbrt ? 4 : 0);
+        brfbk;
+    dbsf 2:                                 /* gzip wrbppfr */
+        wrbplfn = 18;
+        if (s->gzifbd != Z_NULL) {          /* usfr-supplifd gzip ifbdfr */
+            if (s->gzifbd->fxtrb != Z_NULL)
+                wrbplfn += 2 + s->gzifbd->fxtrb_lfn;
+            str = s->gzifbd->nbmf;
             if (str != Z_NULL)
                 do {
-                    wraplen++;
-                } while (*str++);
-            str = s->gzhead->comment;
+                    wrbplfn++;
+                } wiilf (*str++);
+            str = s->gzifbd->dommfnt;
             if (str != Z_NULL)
                 do {
-                    wraplen++;
-                } while (*str++);
-            if (s->gzhead->hcrc)
-                wraplen += 2;
+                    wrbplfn++;
+                } wiilf (*str++);
+            if (s->gzifbd->idrd)
+                wrbplfn += 2;
         }
-        break;
-    default:                                /* for compiler happiness */
-        wraplen = 6;
+        brfbk;
+    dffbult:                                /* for dompilfr ibppinfss */
+        wrbplfn = 6;
     }
 
-    /* if not default parameters, return conservative bound */
-    if (s->w_bits != 15 || s->hash_bits != 8 + 7)
-        return complen + wraplen;
+    /* if not dffbult pbrbmftfrs, rfturn donsfrvbtivf bound */
+    if (s->w_bits != 15 || s->ibsi_bits != 8 + 7)
+        rfturn domplfn + wrbplfn;
 
-    /* default settings: return tight bound for that case */
-    return sourceLen + (sourceLen >> 12) + (sourceLen >> 14) +
-           (sourceLen >> 25) + 13 - 6 + wraplen;
+    /* dffbult sfttings: rfturn tigit bound for tibt dbsf */
+    rfturn sourdfLfn + (sourdfLfn >> 12) + (sourdfLfn >> 14) +
+           (sourdfLfn >> 25) + 13 - 6 + wrbplfn;
 }
 
 /* =========================================================================
- * Put a short in the pending buffer. The 16-bit value is put in MSB order.
- * IN assertion: the stream state is correct and there is enough room in
- * pending_buf.
+ * Put b siort in tif pfnding bufffr. Tif 16-bit vbluf is put in MSB ordfr.
+ * IN bssfrtion: tif strfbm stbtf is dorrfdt bnd tifrf is fnougi room in
+ * pfnding_buf.
  */
-local void putShortMSB (s, b)
-    deflate_state *s;
+lodbl void putSiortMSB (s, b)
+    dfflbtf_stbtf *s;
     uInt b;
 {
-    put_byte(s, (Byte)(b >> 8));
-    put_byte(s, (Byte)(b & 0xff));
+    put_bytf(s, (Bytf)(b >> 8));
+    put_bytf(s, (Bytf)(b & 0xff));
 }
 
 /* =========================================================================
- * Flush as much pending output as possible. All deflate() output goes
- * through this function so some applications may wish to modify it
- * to avoid allocating a large strm->next_out buffer and copying into it.
- * (See also read_buf()).
+ * Flusi bs mudi pfnding output bs possiblf. All dfflbtf() output gofs
+ * tirougi tiis fundtion so somf bpplidbtions mby wisi to modify it
+ * to bvoid bllodbting b lbrgf strm->nfxt_out bufffr bnd dopying into it.
+ * (Sff blso rfbd_buf()).
  */
-local void flush_pending(strm)
-    z_streamp strm;
+lodbl void flusi_pfnding(strm)
+    z_strfbmp strm;
 {
-    unsigned len;
-    deflate_state *s = strm->state;
+    unsignfd lfn;
+    dfflbtf_stbtf *s = strm->stbtf;
 
-    _tr_flush_bits(s);
-    len = s->pending;
-    if (len > strm->avail_out) len = strm->avail_out;
-    if (len == 0) return;
+    _tr_flusi_bits(s);
+    lfn = s->pfnding;
+    if (lfn > strm->bvbil_out) lfn = strm->bvbil_out;
+    if (lfn == 0) rfturn;
 
-    zmemcpy(strm->next_out, s->pending_out, len);
-    strm->next_out  += len;
-    s->pending_out  += len;
-    strm->total_out += len;
-    strm->avail_out  -= len;
-    s->pending -= len;
-    if (s->pending == 0) {
-        s->pending_out = s->pending_buf;
+    zmfmdpy(strm->nfxt_out, s->pfnding_out, lfn);
+    strm->nfxt_out  += lfn;
+    s->pfnding_out  += lfn;
+    strm->totbl_out += lfn;
+    strm->bvbil_out  -= lfn;
+    s->pfnding -= lfn;
+    if (s->pfnding == 0) {
+        s->pfnding_out = s->pfnding_buf;
     }
 }
 
 /* ========================================================================= */
-int ZEXPORT deflate (strm, flush)
-    z_streamp strm;
-    int flush;
+int ZEXPORT dfflbtf (strm, flusi)
+    z_strfbmp strm;
+    int flusi;
 {
-    int old_flush; /* value of flush param for previous deflate call */
-    deflate_state *s;
+    int old_flusi; /* vbluf of flusi pbrbm for prfvious dfflbtf dbll */
+    dfflbtf_stbtf *s;
 
-    if (strm == Z_NULL || strm->state == Z_NULL ||
-        flush > Z_BLOCK || flush < 0) {
-        return Z_STREAM_ERROR;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL ||
+        flusi > Z_BLOCK || flusi < 0) {
+        rfturn Z_STREAM_ERROR;
     }
-    s = strm->state;
+    s = strm->stbtf;
 
-    if (strm->next_out == Z_NULL ||
-        (strm->next_in == Z_NULL && strm->avail_in != 0) ||
-        (s->status == FINISH_STATE && flush != Z_FINISH)) {
+    if (strm->nfxt_out == Z_NULL ||
+        (strm->nfxt_in == Z_NULL && strm->bvbil_in != 0) ||
+        (s->stbtus == FINISH_STATE && flusi != Z_FINISH)) {
         ERR_RETURN(strm, Z_STREAM_ERROR);
     }
-    if (strm->avail_out == 0) ERR_RETURN(strm, Z_BUF_ERROR);
+    if (strm->bvbil_out == 0) ERR_RETURN(strm, Z_BUF_ERROR);
 
-    s->strm = strm; /* just in case */
-    old_flush = s->last_flush;
-    s->last_flush = flush;
+    s->strm = strm; /* just in dbsf */
+    old_flusi = s->lbst_flusi;
+    s->lbst_flusi = flusi;
 
-    /* Write the header */
-    if (s->status == INIT_STATE) {
-#ifdef GZIP
-        if (s->wrap == 2) {
-            strm->adler = crc32(0L, Z_NULL, 0);
-            put_byte(s, 31);
-            put_byte(s, 139);
-            put_byte(s, 8);
-            if (s->gzhead == Z_NULL) {
-                put_byte(s, 0);
-                put_byte(s, 0);
-                put_byte(s, 0);
-                put_byte(s, 0);
-                put_byte(s, 0);
-                put_byte(s, s->level == 9 ? 2 :
-                            (s->strategy >= Z_HUFFMAN_ONLY || s->level < 2 ?
+    /* Writf tif ifbdfr */
+    if (s->stbtus == INIT_STATE) {
+#ifdff GZIP
+        if (s->wrbp == 2) {
+            strm->bdlfr = drd32(0L, Z_NULL, 0);
+            put_bytf(s, 31);
+            put_bytf(s, 139);
+            put_bytf(s, 8);
+            if (s->gzifbd == Z_NULL) {
+                put_bytf(s, 0);
+                put_bytf(s, 0);
+                put_bytf(s, 0);
+                put_bytf(s, 0);
+                put_bytf(s, 0);
+                put_bytf(s, s->lfvfl == 9 ? 2 :
+                            (s->strbtfgy >= Z_HUFFMAN_ONLY || s->lfvfl < 2 ?
                              4 : 0));
-                put_byte(s, OS_CODE);
-                s->status = BUSY_STATE;
+                put_bytf(s, OS_CODE);
+                s->stbtus = BUSY_STATE;
             }
-            else {
-                put_byte(s, (s->gzhead->text ? 1 : 0) +
-                            (s->gzhead->hcrc ? 2 : 0) +
-                            (s->gzhead->extra == Z_NULL ? 0 : 4) +
-                            (s->gzhead->name == Z_NULL ? 0 : 8) +
-                            (s->gzhead->comment == Z_NULL ? 0 : 16)
+            flsf {
+                put_bytf(s, (s->gzifbd->tfxt ? 1 : 0) +
+                            (s->gzifbd->idrd ? 2 : 0) +
+                            (s->gzifbd->fxtrb == Z_NULL ? 0 : 4) +
+                            (s->gzifbd->nbmf == Z_NULL ? 0 : 8) +
+                            (s->gzifbd->dommfnt == Z_NULL ? 0 : 16)
                         );
-                put_byte(s, (Byte)(s->gzhead->time & 0xff));
-                put_byte(s, (Byte)((s->gzhead->time >> 8) & 0xff));
-                put_byte(s, (Byte)((s->gzhead->time >> 16) & 0xff));
-                put_byte(s, (Byte)((s->gzhead->time >> 24) & 0xff));
-                put_byte(s, s->level == 9 ? 2 :
-                            (s->strategy >= Z_HUFFMAN_ONLY || s->level < 2 ?
+                put_bytf(s, (Bytf)(s->gzifbd->timf & 0xff));
+                put_bytf(s, (Bytf)((s->gzifbd->timf >> 8) & 0xff));
+                put_bytf(s, (Bytf)((s->gzifbd->timf >> 16) & 0xff));
+                put_bytf(s, (Bytf)((s->gzifbd->timf >> 24) & 0xff));
+                put_bytf(s, s->lfvfl == 9 ? 2 :
+                            (s->strbtfgy >= Z_HUFFMAN_ONLY || s->lfvfl < 2 ?
                              4 : 0));
-                put_byte(s, s->gzhead->os & 0xff);
-                if (s->gzhead->extra != Z_NULL) {
-                    put_byte(s, s->gzhead->extra_len & 0xff);
-                    put_byte(s, (s->gzhead->extra_len >> 8) & 0xff);
+                put_bytf(s, s->gzifbd->os & 0xff);
+                if (s->gzifbd->fxtrb != Z_NULL) {
+                    put_bytf(s, s->gzifbd->fxtrb_lfn & 0xff);
+                    put_bytf(s, (s->gzifbd->fxtrb_lfn >> 8) & 0xff);
                 }
-                if (s->gzhead->hcrc)
-                    strm->adler = crc32(strm->adler, s->pending_buf,
-                                        s->pending);
-                s->gzindex = 0;
-                s->status = EXTRA_STATE;
+                if (s->gzifbd->idrd)
+                    strm->bdlfr = drd32(strm->bdlfr, s->pfnding_buf,
+                                        s->pfnding);
+                s->gzindfx = 0;
+                s->stbtus = EXTRA_STATE;
             }
         }
-        else
-#endif
+        flsf
+#fndif
         {
-            uInt header = (Z_DEFLATED + ((s->w_bits-8)<<4)) << 8;
-            uInt level_flags;
+            uInt ifbdfr = (Z_DEFLATED + ((s->w_bits-8)<<4)) << 8;
+            uInt lfvfl_flbgs;
 
-            if (s->strategy >= Z_HUFFMAN_ONLY || s->level < 2)
-                level_flags = 0;
-            else if (s->level < 6)
-                level_flags = 1;
-            else if (s->level == 6)
-                level_flags = 2;
-            else
-                level_flags = 3;
-            header |= (level_flags << 6);
-            if (s->strstart != 0) header |= PRESET_DICT;
-            header += 31 - (header % 31);
+            if (s->strbtfgy >= Z_HUFFMAN_ONLY || s->lfvfl < 2)
+                lfvfl_flbgs = 0;
+            flsf if (s->lfvfl < 6)
+                lfvfl_flbgs = 1;
+            flsf if (s->lfvfl == 6)
+                lfvfl_flbgs = 2;
+            flsf
+                lfvfl_flbgs = 3;
+            ifbdfr |= (lfvfl_flbgs << 6);
+            if (s->strstbrt != 0) ifbdfr |= PRESET_DICT;
+            ifbdfr += 31 - (ifbdfr % 31);
 
-            s->status = BUSY_STATE;
-            putShortMSB(s, header);
+            s->stbtus = BUSY_STATE;
+            putSiortMSB(s, ifbdfr);
 
-            /* Save the adler32 of the preset dictionary: */
-            if (s->strstart != 0) {
-                putShortMSB(s, (uInt)(strm->adler >> 16));
-                putShortMSB(s, (uInt)(strm->adler & 0xffff));
+            /* Sbvf tif bdlfr32 of tif prfsft didtionbry: */
+            if (s->strstbrt != 0) {
+                putSiortMSB(s, (uInt)(strm->bdlfr >> 16));
+                putSiortMSB(s, (uInt)(strm->bdlfr & 0xffff));
             }
-            strm->adler = adler32(0L, Z_NULL, 0);
+            strm->bdlfr = bdlfr32(0L, Z_NULL, 0);
         }
     }
-#ifdef GZIP
-    if (s->status == EXTRA_STATE) {
-        if (s->gzhead->extra != Z_NULL) {
-            uInt beg = s->pending;  /* start of bytes to update crc */
+#ifdff GZIP
+    if (s->stbtus == EXTRA_STATE) {
+        if (s->gzifbd->fxtrb != Z_NULL) {
+            uInt bfg = s->pfnding;  /* stbrt of bytfs to updbtf drd */
 
-            while (s->gzindex < (s->gzhead->extra_len & 0xffff)) {
-                if (s->pending == s->pending_buf_size) {
-                    if (s->gzhead->hcrc && s->pending > beg)
-                        strm->adler = crc32(strm->adler, s->pending_buf + beg,
-                                            s->pending - beg);
-                    flush_pending(strm);
-                    beg = s->pending;
-                    if (s->pending == s->pending_buf_size)
-                        break;
+            wiilf (s->gzindfx < (s->gzifbd->fxtrb_lfn & 0xffff)) {
+                if (s->pfnding == s->pfnding_buf_sizf) {
+                    if (s->gzifbd->idrd && s->pfnding > bfg)
+                        strm->bdlfr = drd32(strm->bdlfr, s->pfnding_buf + bfg,
+                                            s->pfnding - bfg);
+                    flusi_pfnding(strm);
+                    bfg = s->pfnding;
+                    if (s->pfnding == s->pfnding_buf_sizf)
+                        brfbk;
                 }
-                put_byte(s, s->gzhead->extra[s->gzindex]);
-                s->gzindex++;
+                put_bytf(s, s->gzifbd->fxtrb[s->gzindfx]);
+                s->gzindfx++;
             }
-            if (s->gzhead->hcrc && s->pending > beg)
-                strm->adler = crc32(strm->adler, s->pending_buf + beg,
-                                    s->pending - beg);
-            if (s->gzindex == s->gzhead->extra_len) {
-                s->gzindex = 0;
-                s->status = NAME_STATE;
+            if (s->gzifbd->idrd && s->pfnding > bfg)
+                strm->bdlfr = drd32(strm->bdlfr, s->pfnding_buf + bfg,
+                                    s->pfnding - bfg);
+            if (s->gzindfx == s->gzifbd->fxtrb_lfn) {
+                s->gzindfx = 0;
+                s->stbtus = NAME_STATE;
             }
         }
-        else
-            s->status = NAME_STATE;
+        flsf
+            s->stbtus = NAME_STATE;
     }
-    if (s->status == NAME_STATE) {
-        if (s->gzhead->name != Z_NULL) {
-            uInt beg = s->pending;  /* start of bytes to update crc */
-            int val;
+    if (s->stbtus == NAME_STATE) {
+        if (s->gzifbd->nbmf != Z_NULL) {
+            uInt bfg = s->pfnding;  /* stbrt of bytfs to updbtf drd */
+            int vbl;
 
             do {
-                if (s->pending == s->pending_buf_size) {
-                    if (s->gzhead->hcrc && s->pending > beg)
-                        strm->adler = crc32(strm->adler, s->pending_buf + beg,
-                                            s->pending - beg);
-                    flush_pending(strm);
-                    beg = s->pending;
-                    if (s->pending == s->pending_buf_size) {
-                        val = 1;
-                        break;
+                if (s->pfnding == s->pfnding_buf_sizf) {
+                    if (s->gzifbd->idrd && s->pfnding > bfg)
+                        strm->bdlfr = drd32(strm->bdlfr, s->pfnding_buf + bfg,
+                                            s->pfnding - bfg);
+                    flusi_pfnding(strm);
+                    bfg = s->pfnding;
+                    if (s->pfnding == s->pfnding_buf_sizf) {
+                        vbl = 1;
+                        brfbk;
                     }
                 }
-                val = s->gzhead->name[s->gzindex++];
-                put_byte(s, val);
-            } while (val != 0);
-            if (s->gzhead->hcrc && s->pending > beg)
-                strm->adler = crc32(strm->adler, s->pending_buf + beg,
-                                    s->pending - beg);
-            if (val == 0) {
-                s->gzindex = 0;
-                s->status = COMMENT_STATE;
+                vbl = s->gzifbd->nbmf[s->gzindfx++];
+                put_bytf(s, vbl);
+            } wiilf (vbl != 0);
+            if (s->gzifbd->idrd && s->pfnding > bfg)
+                strm->bdlfr = drd32(strm->bdlfr, s->pfnding_buf + bfg,
+                                    s->pfnding - bfg);
+            if (vbl == 0) {
+                s->gzindfx = 0;
+                s->stbtus = COMMENT_STATE;
             }
         }
-        else
-            s->status = COMMENT_STATE;
+        flsf
+            s->stbtus = COMMENT_STATE;
     }
-    if (s->status == COMMENT_STATE) {
-        if (s->gzhead->comment != Z_NULL) {
-            uInt beg = s->pending;  /* start of bytes to update crc */
-            int val;
+    if (s->stbtus == COMMENT_STATE) {
+        if (s->gzifbd->dommfnt != Z_NULL) {
+            uInt bfg = s->pfnding;  /* stbrt of bytfs to updbtf drd */
+            int vbl;
 
             do {
-                if (s->pending == s->pending_buf_size) {
-                    if (s->gzhead->hcrc && s->pending > beg)
-                        strm->adler = crc32(strm->adler, s->pending_buf + beg,
-                                            s->pending - beg);
-                    flush_pending(strm);
-                    beg = s->pending;
-                    if (s->pending == s->pending_buf_size) {
-                        val = 1;
-                        break;
+                if (s->pfnding == s->pfnding_buf_sizf) {
+                    if (s->gzifbd->idrd && s->pfnding > bfg)
+                        strm->bdlfr = drd32(strm->bdlfr, s->pfnding_buf + bfg,
+                                            s->pfnding - bfg);
+                    flusi_pfnding(strm);
+                    bfg = s->pfnding;
+                    if (s->pfnding == s->pfnding_buf_sizf) {
+                        vbl = 1;
+                        brfbk;
                     }
                 }
-                val = s->gzhead->comment[s->gzindex++];
-                put_byte(s, val);
-            } while (val != 0);
-            if (s->gzhead->hcrc && s->pending > beg)
-                strm->adler = crc32(strm->adler, s->pending_buf + beg,
-                                    s->pending - beg);
-            if (val == 0)
-                s->status = HCRC_STATE;
+                vbl = s->gzifbd->dommfnt[s->gzindfx++];
+                put_bytf(s, vbl);
+            } wiilf (vbl != 0);
+            if (s->gzifbd->idrd && s->pfnding > bfg)
+                strm->bdlfr = drd32(strm->bdlfr, s->pfnding_buf + bfg,
+                                    s->pfnding - bfg);
+            if (vbl == 0)
+                s->stbtus = HCRC_STATE;
         }
-        else
-            s->status = HCRC_STATE;
+        flsf
+            s->stbtus = HCRC_STATE;
     }
-    if (s->status == HCRC_STATE) {
-        if (s->gzhead->hcrc) {
-            if (s->pending + 2 > s->pending_buf_size)
-                flush_pending(strm);
-            if (s->pending + 2 <= s->pending_buf_size) {
-                put_byte(s, (Byte)(strm->adler & 0xff));
-                put_byte(s, (Byte)((strm->adler >> 8) & 0xff));
-                strm->adler = crc32(0L, Z_NULL, 0);
-                s->status = BUSY_STATE;
+    if (s->stbtus == HCRC_STATE) {
+        if (s->gzifbd->idrd) {
+            if (s->pfnding + 2 > s->pfnding_buf_sizf)
+                flusi_pfnding(strm);
+            if (s->pfnding + 2 <= s->pfnding_buf_sizf) {
+                put_bytf(s, (Bytf)(strm->bdlfr & 0xff));
+                put_bytf(s, (Bytf)((strm->bdlfr >> 8) & 0xff));
+                strm->bdlfr = drd32(0L, Z_NULL, 0);
+                s->stbtus = BUSY_STATE;
             }
         }
-        else
-            s->status = BUSY_STATE;
+        flsf
+            s->stbtus = BUSY_STATE;
     }
-#endif
+#fndif
 
-    /* Flush as much pending output as possible */
-    if (s->pending != 0) {
-        flush_pending(strm);
-        if (strm->avail_out == 0) {
-            /* Since avail_out is 0, deflate will be called again with
-             * more output space, but possibly with both pending and
-             * avail_in equal to zero. There won't be anything to do,
-             * but this is not an error situation so make sure we
-             * return OK instead of BUF_ERROR at next call of deflate:
+    /* Flusi bs mudi pfnding output bs possiblf */
+    if (s->pfnding != 0) {
+        flusi_pfnding(strm);
+        if (strm->bvbil_out == 0) {
+            /* Sindf bvbil_out is 0, dfflbtf will bf dbllfd bgbin witi
+             * morf output spbdf, but possibly witi boti pfnding bnd
+             * bvbil_in fqubl to zfro. Tifrf won't bf bnytiing to do,
+             * but tiis is not bn frror situbtion so mbkf surf wf
+             * rfturn OK instfbd of BUF_ERROR bt nfxt dbll of dfflbtf:
              */
-            s->last_flush = -1;
-            return Z_OK;
+            s->lbst_flusi = -1;
+            rfturn Z_OK;
         }
 
-    /* Make sure there is something to do and avoid duplicate consecutive
-     * flushes. For repeated and useless calls with Z_FINISH, we keep
-     * returning Z_STREAM_END instead of Z_BUF_ERROR.
+    /* Mbkf surf tifrf is somftiing to do bnd bvoid duplidbtf donsfdutivf
+     * flusifs. For rfpfbtfd bnd usflfss dblls witi Z_FINISH, wf kffp
+     * rfturning Z_STREAM_END instfbd of Z_BUF_ERROR.
      */
-    } else if (strm->avail_in == 0 && RANK(flush) <= RANK(old_flush) &&
-               flush != Z_FINISH) {
+    } flsf if (strm->bvbil_in == 0 && RANK(flusi) <= RANK(old_flusi) &&
+               flusi != Z_FINISH) {
         ERR_RETURN(strm, Z_BUF_ERROR);
     }
 
-    /* User must not provide more input after the first FINISH: */
-    if (s->status == FINISH_STATE && strm->avail_in != 0) {
+    /* Usfr must not providf morf input bftfr tif first FINISH: */
+    if (s->stbtus == FINISH_STATE && strm->bvbil_in != 0) {
         ERR_RETURN(strm, Z_BUF_ERROR);
     }
 
-    /* Start a new block or continue the current one.
+    /* Stbrt b nfw blodk or dontinuf tif durrfnt onf.
      */
-    if (strm->avail_in != 0 || s->lookahead != 0 ||
-        (flush != Z_NO_FLUSH && s->status != FINISH_STATE)) {
-        block_state bstate;
+    if (strm->bvbil_in != 0 || s->lookbifbd != 0 ||
+        (flusi != Z_NO_FLUSH && s->stbtus != FINISH_STATE)) {
+        blodk_stbtf bstbtf;
 
-        bstate = s->strategy == Z_HUFFMAN_ONLY ? deflate_huff(s, flush) :
-                    (s->strategy == Z_RLE ? deflate_rle(s, flush) :
-                        (*(configuration_table[s->level].func))(s, flush));
+        bstbtf = s->strbtfgy == Z_HUFFMAN_ONLY ? dfflbtf_iuff(s, flusi) :
+                    (s->strbtfgy == Z_RLE ? dfflbtf_rlf(s, flusi) :
+                        (*(donfigurbtion_tbblf[s->lfvfl].fund))(s, flusi));
 
-        if (bstate == finish_started || bstate == finish_done) {
-            s->status = FINISH_STATE;
+        if (bstbtf == finisi_stbrtfd || bstbtf == finisi_donf) {
+            s->stbtus = FINISH_STATE;
         }
-        if (bstate == need_more || bstate == finish_started) {
-            if (strm->avail_out == 0) {
-                s->last_flush = -1; /* avoid BUF_ERROR next call, see above */
+        if (bstbtf == nffd_morf || bstbtf == finisi_stbrtfd) {
+            if (strm->bvbil_out == 0) {
+                s->lbst_flusi = -1; /* bvoid BUF_ERROR nfxt dbll, sff bbovf */
             }
-            return Z_OK;
-            /* If flush != Z_NO_FLUSH && avail_out == 0, the next call
-             * of deflate should use the same flush parameter to make sure
-             * that the flush is complete. So we don't have to output an
-             * empty block here, this will be done at next call. This also
-             * ensures that for a very small output buffer, we emit at most
-             * one empty block.
+            rfturn Z_OK;
+            /* If flusi != Z_NO_FLUSH && bvbil_out == 0, tif nfxt dbll
+             * of dfflbtf siould usf tif sbmf flusi pbrbmftfr to mbkf surf
+             * tibt tif flusi is domplftf. So wf don't ibvf to output bn
+             * fmpty blodk ifrf, tiis will bf donf bt nfxt dbll. Tiis blso
+             * fnsurfs tibt for b vfry smbll output bufffr, wf fmit bt most
+             * onf fmpty blodk.
              */
         }
-        if (bstate == block_done) {
-            if (flush == Z_PARTIAL_FLUSH) {
-                _tr_align(s);
-            } else if (flush != Z_BLOCK) { /* FULL_FLUSH or SYNC_FLUSH */
-                _tr_stored_block(s, (char*)0, 0L, 0);
-                /* For a full flush, this empty block will be recognized
-                 * as a special marker by inflate_sync().
+        if (bstbtf == blodk_donf) {
+            if (flusi == Z_PARTIAL_FLUSH) {
+                _tr_blign(s);
+            } flsf if (flusi != Z_BLOCK) { /* FULL_FLUSH or SYNC_FLUSH */
+                _tr_storfd_blodk(s, (dibr*)0, 0L, 0);
+                /* For b full flusi, tiis fmpty blodk will bf rfdognizfd
+                 * bs b spfdibl mbrkfr by inflbtf_synd().
                  */
-                if (flush == Z_FULL_FLUSH) {
-                    CLEAR_HASH(s);             /* forget history */
-                    if (s->lookahead == 0) {
-                        s->strstart = 0;
-                        s->block_start = 0L;
-                        s->insert = 0;
+                if (flusi == Z_FULL_FLUSH) {
+                    CLEAR_HASH(s);             /* forgft iistory */
+                    if (s->lookbifbd == 0) {
+                        s->strstbrt = 0;
+                        s->blodk_stbrt = 0L;
+                        s->insfrt = 0;
                     }
                 }
             }
-            flush_pending(strm);
-            if (strm->avail_out == 0) {
-              s->last_flush = -1; /* avoid BUF_ERROR at next call, see above */
-              return Z_OK;
+            flusi_pfnding(strm);
+            if (strm->bvbil_out == 0) {
+              s->lbst_flusi = -1; /* bvoid BUF_ERROR bt nfxt dbll, sff bbovf */
+              rfturn Z_OK;
             }
         }
     }
-    Assert(strm->avail_out > 0, "bug2");
+    Assfrt(strm->bvbil_out > 0, "bug2");
 
-    if (flush != Z_FINISH) return Z_OK;
-    if (s->wrap <= 0) return Z_STREAM_END;
+    if (flusi != Z_FINISH) rfturn Z_OK;
+    if (s->wrbp <= 0) rfturn Z_STREAM_END;
 
-    /* Write the trailer */
-#ifdef GZIP
-    if (s->wrap == 2) {
-        put_byte(s, (Byte)(strm->adler & 0xff));
-        put_byte(s, (Byte)((strm->adler >> 8) & 0xff));
-        put_byte(s, (Byte)((strm->adler >> 16) & 0xff));
-        put_byte(s, (Byte)((strm->adler >> 24) & 0xff));
-        put_byte(s, (Byte)(strm->total_in & 0xff));
-        put_byte(s, (Byte)((strm->total_in >> 8) & 0xff));
-        put_byte(s, (Byte)((strm->total_in >> 16) & 0xff));
-        put_byte(s, (Byte)((strm->total_in >> 24) & 0xff));
+    /* Writf tif trbilfr */
+#ifdff GZIP
+    if (s->wrbp == 2) {
+        put_bytf(s, (Bytf)(strm->bdlfr & 0xff));
+        put_bytf(s, (Bytf)((strm->bdlfr >> 8) & 0xff));
+        put_bytf(s, (Bytf)((strm->bdlfr >> 16) & 0xff));
+        put_bytf(s, (Bytf)((strm->bdlfr >> 24) & 0xff));
+        put_bytf(s, (Bytf)(strm->totbl_in & 0xff));
+        put_bytf(s, (Bytf)((strm->totbl_in >> 8) & 0xff));
+        put_bytf(s, (Bytf)((strm->totbl_in >> 16) & 0xff));
+        put_bytf(s, (Bytf)((strm->totbl_in >> 24) & 0xff));
     }
-    else
-#endif
+    flsf
+#fndif
     {
-        putShortMSB(s, (uInt)(strm->adler >> 16));
-        putShortMSB(s, (uInt)(strm->adler & 0xffff));
+        putSiortMSB(s, (uInt)(strm->bdlfr >> 16));
+        putSiortMSB(s, (uInt)(strm->bdlfr & 0xffff));
     }
-    flush_pending(strm);
-    /* If avail_out is zero, the application will call deflate again
-     * to flush the rest.
+    flusi_pfnding(strm);
+    /* If bvbil_out is zfro, tif bpplidbtion will dbll dfflbtf bgbin
+     * to flusi tif rfst.
      */
-    if (s->wrap > 0) s->wrap = -s->wrap; /* write the trailer only once! */
-    return s->pending != 0 ? Z_OK : Z_STREAM_END;
+    if (s->wrbp > 0) s->wrbp = -s->wrbp; /* writf tif trbilfr only ondf! */
+    rfturn s->pfnding != 0 ? Z_OK : Z_STREAM_END;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateEnd (strm)
-    z_streamp strm;
+int ZEXPORT dfflbtfEnd (strm)
+    z_strfbmp strm;
 {
-    int status;
+    int stbtus;
 
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
 
-    status = strm->state->status;
-    if (status != INIT_STATE &&
-        status != EXTRA_STATE &&
-        status != NAME_STATE &&
-        status != COMMENT_STATE &&
-        status != HCRC_STATE &&
-        status != BUSY_STATE &&
-        status != FINISH_STATE) {
-      return Z_STREAM_ERROR;
+    stbtus = strm->stbtf->stbtus;
+    if (stbtus != INIT_STATE &&
+        stbtus != EXTRA_STATE &&
+        stbtus != NAME_STATE &&
+        stbtus != COMMENT_STATE &&
+        stbtus != HCRC_STATE &&
+        stbtus != BUSY_STATE &&
+        stbtus != FINISH_STATE) {
+      rfturn Z_STREAM_ERROR;
     }
 
-    /* Deallocate in reverse order of allocations: */
-    TRY_FREE(strm, strm->state->pending_buf);
-    TRY_FREE(strm, strm->state->head);
-    TRY_FREE(strm, strm->state->prev);
-    TRY_FREE(strm, strm->state->window);
+    /* Dfbllodbtf in rfvfrsf ordfr of bllodbtions: */
+    TRY_FREE(strm, strm->stbtf->pfnding_buf);
+    TRY_FREE(strm, strm->stbtf->ifbd);
+    TRY_FREE(strm, strm->stbtf->prfv);
+    TRY_FREE(strm, strm->stbtf->window);
 
-    ZFREE(strm, strm->state);
-    strm->state = Z_NULL;
+    ZFREE(strm, strm->stbtf);
+    strm->stbtf = Z_NULL;
 
-    return status == BUSY_STATE ? Z_DATA_ERROR : Z_OK;
+    rfturn stbtus == BUSY_STATE ? Z_DATA_ERROR : Z_OK;
 }
 
 /* =========================================================================
- * Copy the source state to the destination state.
- * To simplify the source, this is not supported for 16-bit MSDOS (which
- * doesn't have enough memory anyway to duplicate compression states).
+ * Copy tif sourdf stbtf to tif dfstinbtion stbtf.
+ * To simplify tif sourdf, tiis is not supportfd for 16-bit MSDOS (wiidi
+ * dofsn't ibvf fnougi mfmory bnywby to duplidbtf domprfssion stbtfs).
  */
-int ZEXPORT deflateCopy (dest, source)
-    z_streamp dest;
-    z_streamp source;
+int ZEXPORT dfflbtfCopy (dfst, sourdf)
+    z_strfbmp dfst;
+    z_strfbmp sourdf;
 {
-#ifdef MAXSEG_64K
-    return Z_STREAM_ERROR;
-#else
-    deflate_state *ds;
-    deflate_state *ss;
-    ushf *overlay;
+#ifdff MAXSEG_64K
+    rfturn Z_STREAM_ERROR;
+#flsf
+    dfflbtf_stbtf *ds;
+    dfflbtf_stbtf *ss;
+    usif *ovfrlby;
 
 
-    if (source == Z_NULL || dest == Z_NULL || source->state == Z_NULL) {
-        return Z_STREAM_ERROR;
+    if (sourdf == Z_NULL || dfst == Z_NULL || sourdf->stbtf == Z_NULL) {
+        rfturn Z_STREAM_ERROR;
     }
 
-    ss = source->state;
+    ss = sourdf->stbtf;
 
-    zmemcpy((voidpf)dest, (voidpf)source, sizeof(z_stream));
+    zmfmdpy((voidpf)dfst, (voidpf)sourdf, sizfof(z_strfbm));
 
-    ds = (deflate_state *) ZALLOC(dest, 1, sizeof(deflate_state));
-    if (ds == Z_NULL) return Z_MEM_ERROR;
-    dest->state = (struct internal_state FAR *) ds;
-    zmemcpy((voidpf)ds, (voidpf)ss, sizeof(deflate_state));
-    ds->strm = dest;
+    ds = (dfflbtf_stbtf *) ZALLOC(dfst, 1, sizfof(dfflbtf_stbtf));
+    if (ds == Z_NULL) rfturn Z_MEM_ERROR;
+    dfst->stbtf = (strudt intfrnbl_stbtf FAR *) ds;
+    zmfmdpy((voidpf)ds, (voidpf)ss, sizfof(dfflbtf_stbtf));
+    ds->strm = dfst;
 
-    ds->window = (Bytef *) ZALLOC(dest, ds->w_size, 2*sizeof(Byte));
-    ds->prev   = (Posf *)  ZALLOC(dest, ds->w_size, sizeof(Pos));
-    ds->head   = (Posf *)  ZALLOC(dest, ds->hash_size, sizeof(Pos));
-    overlay = (ushf *) ZALLOC(dest, ds->lit_bufsize, sizeof(ush)+2);
-    ds->pending_buf = (uchf *) overlay;
+    ds->window = (Bytff *) ZALLOC(dfst, ds->w_sizf, 2*sizfof(Bytf));
+    ds->prfv   = (Posf *)  ZALLOC(dfst, ds->w_sizf, sizfof(Pos));
+    ds->ifbd   = (Posf *)  ZALLOC(dfst, ds->ibsi_sizf, sizfof(Pos));
+    ovfrlby = (usif *) ZALLOC(dfst, ds->lit_bufsizf, sizfof(usi)+2);
+    ds->pfnding_buf = (udif *) ovfrlby;
 
-    if (ds->window == Z_NULL || ds->prev == Z_NULL || ds->head == Z_NULL ||
-        ds->pending_buf == Z_NULL) {
-        deflateEnd (dest);
-        return Z_MEM_ERROR;
+    if (ds->window == Z_NULL || ds->prfv == Z_NULL || ds->ifbd == Z_NULL ||
+        ds->pfnding_buf == Z_NULL) {
+        dfflbtfEnd (dfst);
+        rfturn Z_MEM_ERROR;
     }
-    /* following zmemcpy do not work for 16-bit MSDOS */
-    zmemcpy(ds->window, ss->window, ds->w_size * 2 * sizeof(Byte));
-    zmemcpy((voidpf)ds->prev, (voidpf)ss->prev, ds->w_size * sizeof(Pos));
-    zmemcpy((voidpf)ds->head, (voidpf)ss->head, ds->hash_size * sizeof(Pos));
-    zmemcpy(ds->pending_buf, ss->pending_buf, (uInt)ds->pending_buf_size);
+    /* following zmfmdpy do not work for 16-bit MSDOS */
+    zmfmdpy(ds->window, ss->window, ds->w_sizf * 2 * sizfof(Bytf));
+    zmfmdpy((voidpf)ds->prfv, (voidpf)ss->prfv, ds->w_sizf * sizfof(Pos));
+    zmfmdpy((voidpf)ds->ifbd, (voidpf)ss->ifbd, ds->ibsi_sizf * sizfof(Pos));
+    zmfmdpy(ds->pfnding_buf, ss->pfnding_buf, (uInt)ds->pfnding_buf_sizf);
 
-    ds->pending_out = ds->pending_buf + (ss->pending_out - ss->pending_buf);
-    ds->d_buf = overlay + ds->lit_bufsize/sizeof(ush);
-    ds->l_buf = ds->pending_buf + (1+sizeof(ush))*ds->lit_bufsize;
+    ds->pfnding_out = ds->pfnding_buf + (ss->pfnding_out - ss->pfnding_buf);
+    ds->d_buf = ovfrlby + ds->lit_bufsizf/sizfof(usi);
+    ds->l_buf = ds->pfnding_buf + (1+sizfof(usi))*ds->lit_bufsizf;
 
-    ds->l_desc.dyn_tree = ds->dyn_ltree;
-    ds->d_desc.dyn_tree = ds->dyn_dtree;
-    ds->bl_desc.dyn_tree = ds->bl_tree;
+    ds->l_dfsd.dyn_trff = ds->dyn_ltrff;
+    ds->d_dfsd.dyn_trff = ds->dyn_dtrff;
+    ds->bl_dfsd.dyn_trff = ds->bl_trff;
 
-    return Z_OK;
-#endif /* MAXSEG_64K */
+    rfturn Z_OK;
+#fndif /* MAXSEG_64K */
 }
 
 /* ===========================================================================
- * Read a new buffer from the current input stream, update the adler32
- * and total number of bytes read.  All deflate() input goes through
- * this function so some applications may wish to modify it to avoid
- * allocating a large strm->next_in buffer and copying from it.
- * (See also flush_pending()).
+ * Rfbd b nfw bufffr from tif durrfnt input strfbm, updbtf tif bdlfr32
+ * bnd totbl numbfr of bytfs rfbd.  All dfflbtf() input gofs tirougi
+ * tiis fundtion so somf bpplidbtions mby wisi to modify it to bvoid
+ * bllodbting b lbrgf strm->nfxt_in bufffr bnd dopying from it.
+ * (Sff blso flusi_pfnding()).
  */
-local int read_buf(strm, buf, size)
-    z_streamp strm;
-    Bytef *buf;
-    unsigned size;
+lodbl int rfbd_buf(strm, buf, sizf)
+    z_strfbmp strm;
+    Bytff *buf;
+    unsignfd sizf;
 {
-    unsigned len = strm->avail_in;
+    unsignfd lfn = strm->bvbil_in;
 
-    if (len > size) len = size;
-    if (len == 0) return 0;
+    if (lfn > sizf) lfn = sizf;
+    if (lfn == 0) rfturn 0;
 
-    strm->avail_in  -= len;
+    strm->bvbil_in  -= lfn;
 
-    zmemcpy(buf, strm->next_in, len);
-    if (strm->state->wrap == 1) {
-        strm->adler = adler32(strm->adler, buf, len);
+    zmfmdpy(buf, strm->nfxt_in, lfn);
+    if (strm->stbtf->wrbp == 1) {
+        strm->bdlfr = bdlfr32(strm->bdlfr, buf, lfn);
     }
-#ifdef GZIP
-    else if (strm->state->wrap == 2) {
-        strm->adler = crc32(strm->adler, buf, len);
+#ifdff GZIP
+    flsf if (strm->stbtf->wrbp == 2) {
+        strm->bdlfr = drd32(strm->bdlfr, buf, lfn);
     }
-#endif
-    strm->next_in  += len;
-    strm->total_in += len;
+#fndif
+    strm->nfxt_in  += lfn;
+    strm->totbl_in += lfn;
 
-    return (int)len;
+    rfturn (int)lfn;
 }
 
 /* ===========================================================================
- * Initialize the "longest match" routines for a new zlib stream
+ * Initiblizf tif "longfst mbtdi" routinfs for b nfw zlib strfbm
  */
-local void lm_init (s)
-    deflate_state *s;
+lodbl void lm_init (s)
+    dfflbtf_stbtf *s;
 {
-    s->window_size = (ulg)2L*s->w_size;
+    s->window_sizf = (ulg)2L*s->w_sizf;
 
     CLEAR_HASH(s);
 
-    /* Set the default configuration parameters:
+    /* Sft tif dffbult donfigurbtion pbrbmftfrs:
      */
-    s->max_lazy_match   = configuration_table[s->level].max_lazy;
-    s->good_match       = configuration_table[s->level].good_length;
-    s->nice_match       = configuration_table[s->level].nice_length;
-    s->max_chain_length = configuration_table[s->level].max_chain;
+    s->mbx_lbzy_mbtdi   = donfigurbtion_tbblf[s->lfvfl].mbx_lbzy;
+    s->good_mbtdi       = donfigurbtion_tbblf[s->lfvfl].good_lfngti;
+    s->nidf_mbtdi       = donfigurbtion_tbblf[s->lfvfl].nidf_lfngti;
+    s->mbx_dibin_lfngti = donfigurbtion_tbblf[s->lfvfl].mbx_dibin;
 
-    s->strstart = 0;
-    s->block_start = 0L;
-    s->lookahead = 0;
-    s->insert = 0;
-    s->match_length = s->prev_length = MIN_MATCH-1;
-    s->match_available = 0;
-    s->ins_h = 0;
-#ifndef FASTEST
-#ifdef ASMV
-    match_init(); /* initialize the asm code */
-#endif
-#endif
+    s->strstbrt = 0;
+    s->blodk_stbrt = 0L;
+    s->lookbifbd = 0;
+    s->insfrt = 0;
+    s->mbtdi_lfngti = s->prfv_lfngti = MIN_MATCH-1;
+    s->mbtdi_bvbilbblf = 0;
+    s->ins_i = 0;
+#ifndff FASTEST
+#ifdff ASMV
+    mbtdi_init(); /* initiblizf tif bsm dodf */
+#fndif
+#fndif
 }
 
-#ifndef FASTEST
+#ifndff FASTEST
 /* ===========================================================================
- * Set match_start to the longest match starting at the given string and
- * return its length. Matches shorter or equal to prev_length are discarded,
- * in which case the result is equal to prev_length and match_start is
- * garbage.
- * IN assertions: cur_match is the head of the hash chain for the current
- *   string (strstart) and its distance is <= MAX_DIST, and prev_length >= 1
- * OUT assertion: the match length is not greater than s->lookahead.
+ * Sft mbtdi_stbrt to tif longfst mbtdi stbrting bt tif givfn string bnd
+ * rfturn its lfngti. Mbtdifs siortfr or fqubl to prfv_lfngti brf disdbrdfd,
+ * in wiidi dbsf tif rfsult is fqubl to prfv_lfngti bnd mbtdi_stbrt is
+ * gbrbbgf.
+ * IN bssfrtions: dur_mbtdi is tif ifbd of tif ibsi dibin for tif durrfnt
+ *   string (strstbrt) bnd its distbndf is <= MAX_DIST, bnd prfv_lfngti >= 1
+ * OUT bssfrtion: tif mbtdi lfngti is not grfbtfr tibn s->lookbifbd.
  */
-#ifndef ASMV
-/* For 80x86 and 680x0, an optimized version will be provided in match.asm or
- * match.S. The code will be functionally equivalent.
+#ifndff ASMV
+/* For 80x86 bnd 680x0, bn optimizfd vfrsion will bf providfd in mbtdi.bsm or
+ * mbtdi.S. Tif dodf will bf fundtionblly fquivblfnt.
  */
-local uInt longest_match(s, cur_match)
-    deflate_state *s;
-    IPos cur_match;                             /* current match */
+lodbl uInt longfst_mbtdi(s, dur_mbtdi)
+    dfflbtf_stbtf *s;
+    IPos dur_mbtdi;                             /* durrfnt mbtdi */
 {
-    unsigned chain_length = s->max_chain_length;/* max hash chain length */
-    register Bytef *scan = s->window + s->strstart; /* current string */
-    register Bytef *match;                       /* matched string */
-    register int len;                           /* length of current match */
-    int best_len = s->prev_length;              /* best match length so far */
-    int nice_match = s->nice_match;             /* stop if match long enough */
-    IPos limit = s->strstart > (IPos)MAX_DIST(s) ?
-        s->strstart - (IPos)MAX_DIST(s) : NIL;
-    /* Stop when cur_match becomes <= limit. To simplify the code,
-     * we prevent matches with the string of window index 0.
+    unsignfd dibin_lfngti = s->mbx_dibin_lfngti;/* mbx ibsi dibin lfngti */
+    rfgistfr Bytff *sdbn = s->window + s->strstbrt; /* durrfnt string */
+    rfgistfr Bytff *mbtdi;                       /* mbtdifd string */
+    rfgistfr int lfn;                           /* lfngti of durrfnt mbtdi */
+    int bfst_lfn = s->prfv_lfngti;              /* bfst mbtdi lfngti so fbr */
+    int nidf_mbtdi = s->nidf_mbtdi;             /* stop if mbtdi long fnougi */
+    IPos limit = s->strstbrt > (IPos)MAX_DIST(s) ?
+        s->strstbrt - (IPos)MAX_DIST(s) : NIL;
+    /* Stop wifn dur_mbtdi bfdomfs <= limit. To simplify tif dodf,
+     * wf prfvfnt mbtdifs witi tif string of window indfx 0.
      */
-    Posf *prev = s->prev;
-    uInt wmask = s->w_mask;
+    Posf *prfv = s->prfv;
+    uInt wmbsk = s->w_mbsk;
 
-#ifdef UNALIGNED_OK
-    /* Compare two bytes at a time. Note: this is not always beneficial.
-     * Try with and without -DUNALIGNED_OK to check.
+#ifdff UNALIGNED_OK
+    /* Compbrf two bytfs bt b timf. Notf: tiis is not blwbys bfnffidibl.
+     * Try witi bnd witiout -DUNALIGNED_OK to difdk.
      */
-    register Bytef *strend = s->window + s->strstart + MAX_MATCH - 1;
-    register ush scan_start = *(ushf*)scan;
-    register ush scan_end   = *(ushf*)(scan+best_len-1);
-#else
-    register Bytef *strend = s->window + s->strstart + MAX_MATCH;
-    register Byte scan_end1  = scan[best_len-1];
-    register Byte scan_end   = scan[best_len];
-#endif
+    rfgistfr Bytff *strfnd = s->window + s->strstbrt + MAX_MATCH - 1;
+    rfgistfr usi sdbn_stbrt = *(usif*)sdbn;
+    rfgistfr usi sdbn_fnd   = *(usif*)(sdbn+bfst_lfn-1);
+#flsf
+    rfgistfr Bytff *strfnd = s->window + s->strstbrt + MAX_MATCH;
+    rfgistfr Bytf sdbn_fnd1  = sdbn[bfst_lfn-1];
+    rfgistfr Bytf sdbn_fnd   = sdbn[bfst_lfn];
+#fndif
 
-    /* The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
-     * It is easy to get rid of this optimization if necessary.
+    /* Tif dodf is optimizfd for HASH_BITS >= 8 bnd MAX_MATCH-2 multiplf of 16.
+     * It is fbsy to gft rid of tiis optimizbtion if nfdfssbry.
      */
-    Assert(s->hash_bits >= 8 && MAX_MATCH == 258, "Code too clever");
+    Assfrt(s->ibsi_bits >= 8 && MAX_MATCH == 258, "Codf too dlfvfr");
 
-    /* Do not waste too much time if we already have a good match: */
-    if (s->prev_length >= s->good_match) {
-        chain_length >>= 2;
+    /* Do not wbstf too mudi timf if wf blrfbdy ibvf b good mbtdi: */
+    if (s->prfv_lfngti >= s->good_mbtdi) {
+        dibin_lfngti >>= 2;
     }
-    /* Do not look for matches beyond the end of the input. This is necessary
-     * to make deflate deterministic.
+    /* Do not look for mbtdifs bfyond tif fnd of tif input. Tiis is nfdfssbry
+     * to mbkf dfflbtf dftfrministid.
      */
-    if ((uInt)nice_match > s->lookahead) nice_match = s->lookahead;
+    if ((uInt)nidf_mbtdi > s->lookbifbd) nidf_mbtdi = s->lookbifbd;
 
-    Assert((ulg)s->strstart <= s->window_size-MIN_LOOKAHEAD, "need lookahead");
+    Assfrt((ulg)s->strstbrt <= s->window_sizf-MIN_LOOKAHEAD, "nffd lookbifbd");
 
     do {
-        Assert(cur_match < s->strstart, "no future");
-        match = s->window + cur_match;
+        Assfrt(dur_mbtdi < s->strstbrt, "no futurf");
+        mbtdi = s->window + dur_mbtdi;
 
-        /* Skip to next match if the match length cannot increase
-         * or if the match length is less than 2.  Note that the checks below
-         * for insufficient lookahead only occur occasionally for performance
-         * reasons.  Therefore uninitialized memory will be accessed, and
-         * conditional jumps will be made that depend on those values.
-         * However the length of the match is limited to the lookahead, so
-         * the output of deflate is not affected by the uninitialized values.
+        /* Skip to nfxt mbtdi if tif mbtdi lfngti dbnnot indrfbsf
+         * or if tif mbtdi lfngti is lfss tibn 2.  Notf tibt tif difdks bflow
+         * for insuffidifnt lookbifbd only oddur oddbsionblly for pfrformbndf
+         * rfbsons.  Tifrfforf uninitiblizfd mfmory will bf bddfssfd, bnd
+         * donditionbl jumps will bf mbdf tibt dfpfnd on tiosf vblufs.
+         * Howfvfr tif lfngti of tif mbtdi is limitfd to tif lookbifbd, so
+         * tif output of dfflbtf is not bfffdtfd by tif uninitiblizfd vblufs.
          */
-#if (defined(UNALIGNED_OK) && MAX_MATCH == 258)
-        /* This code assumes sizeof(unsigned short) == 2. Do not use
-         * UNALIGNED_OK if your compiler uses a different size.
+#if (dffinfd(UNALIGNED_OK) && MAX_MATCH == 258)
+        /* Tiis dodf bssumfs sizfof(unsignfd siort) == 2. Do not usf
+         * UNALIGNED_OK if your dompilfr usfs b difffrfnt sizf.
          */
-        if (*(ushf*)(match+best_len-1) != scan_end ||
-            *(ushf*)match != scan_start) continue;
+        if (*(usif*)(mbtdi+bfst_lfn-1) != sdbn_fnd ||
+            *(usif*)mbtdi != sdbn_stbrt) dontinuf;
 
-        /* It is not necessary to compare scan[2] and match[2] since they are
-         * always equal when the other bytes match, given that the hash keys
-         * are equal and that HASH_BITS >= 8. Compare 2 bytes at a time at
-         * strstart+3, +5, ... up to strstart+257. We check for insufficient
-         * lookahead only every 4th comparison; the 128th check will be made
-         * at strstart+257. If MAX_MATCH-2 is not a multiple of 8, it is
-         * necessary to put more guard bytes at the end of the window, or
-         * to check more often for insufficient lookahead.
+        /* It is not nfdfssbry to dompbrf sdbn[2] bnd mbtdi[2] sindf tify brf
+         * blwbys fqubl wifn tif otifr bytfs mbtdi, givfn tibt tif ibsi kfys
+         * brf fqubl bnd tibt HASH_BITS >= 8. Compbrf 2 bytfs bt b timf bt
+         * strstbrt+3, +5, ... up to strstbrt+257. Wf difdk for insuffidifnt
+         * lookbifbd only fvfry 4ti dompbrison; tif 128ti difdk will bf mbdf
+         * bt strstbrt+257. If MAX_MATCH-2 is not b multiplf of 8, it is
+         * nfdfssbry to put morf gubrd bytfs bt tif fnd of tif window, or
+         * to difdk morf oftfn for insuffidifnt lookbifbd.
          */
-        Assert(scan[2] == match[2], "scan[2]?");
-        scan++, match++;
+        Assfrt(sdbn[2] == mbtdi[2], "sdbn[2]?");
+        sdbn++, mbtdi++;
         do {
-        } while (*(ushf*)(scan+=2) == *(ushf*)(match+=2) &&
-                 *(ushf*)(scan+=2) == *(ushf*)(match+=2) &&
-                 *(ushf*)(scan+=2) == *(ushf*)(match+=2) &&
-                 *(ushf*)(scan+=2) == *(ushf*)(match+=2) &&
-                 scan < strend);
-        /* The funny "do {}" generates better code on most compilers */
+        } wiilf (*(usif*)(sdbn+=2) == *(usif*)(mbtdi+=2) &&
+                 *(usif*)(sdbn+=2) == *(usif*)(mbtdi+=2) &&
+                 *(usif*)(sdbn+=2) == *(usif*)(mbtdi+=2) &&
+                 *(usif*)(sdbn+=2) == *(usif*)(mbtdi+=2) &&
+                 sdbn < strfnd);
+        /* Tif funny "do {}" gfnfrbtfs bfttfr dodf on most dompilfrs */
 
-        /* Here, scan <= window+strstart+257 */
-        Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
-        if (*scan == *match) scan++;
+        /* Hfrf, sdbn <= window+strstbrt+257 */
+        Assfrt(sdbn <= s->window+(unsignfd)(s->window_sizf-1), "wild sdbn");
+        if (*sdbn == *mbtdi) sdbn++;
 
-        len = (MAX_MATCH - 1) - (int)(strend-scan);
-        scan = strend - (MAX_MATCH-1);
+        lfn = (MAX_MATCH - 1) - (int)(strfnd-sdbn);
+        sdbn = strfnd - (MAX_MATCH-1);
 
-#else /* UNALIGNED_OK */
+#flsf /* UNALIGNED_OK */
 
-        if (match[best_len]   != scan_end  ||
-            match[best_len-1] != scan_end1 ||
-            *match            != *scan     ||
-            *++match          != scan[1])      continue;
+        if (mbtdi[bfst_lfn]   != sdbn_fnd  ||
+            mbtdi[bfst_lfn-1] != sdbn_fnd1 ||
+            *mbtdi            != *sdbn     ||
+            *++mbtdi          != sdbn[1])      dontinuf;
 
-        /* The check at best_len-1 can be removed because it will be made
-         * again later. (This heuristic is not always a win.)
-         * It is not necessary to compare scan[2] and match[2] since they
-         * are always equal when the other bytes match, given that
-         * the hash keys are equal and that HASH_BITS >= 8.
+        /* Tif difdk bt bfst_lfn-1 dbn bf rfmovfd bfdbusf it will bf mbdf
+         * bgbin lbtfr. (Tiis ifuristid is not blwbys b win.)
+         * It is not nfdfssbry to dompbrf sdbn[2] bnd mbtdi[2] sindf tify
+         * brf blwbys fqubl wifn tif otifr bytfs mbtdi, givfn tibt
+         * tif ibsi kfys brf fqubl bnd tibt HASH_BITS >= 8.
          */
-        scan += 2, match++;
-        Assert(*scan == *match, "match[2]?");
+        sdbn += 2, mbtdi++;
+        Assfrt(*sdbn == *mbtdi, "mbtdi[2]?");
 
-        /* We check for insufficient lookahead only every 8th comparison;
-         * the 256th check will be made at strstart+258.
+        /* Wf difdk for insuffidifnt lookbifbd only fvfry 8ti dompbrison;
+         * tif 256ti difdk will bf mbdf bt strstbrt+258.
          */
         do {
-        } while (*++scan == *++match && *++scan == *++match &&
-                 *++scan == *++match && *++scan == *++match &&
-                 *++scan == *++match && *++scan == *++match &&
-                 *++scan == *++match && *++scan == *++match &&
-                 scan < strend);
+        } wiilf (*++sdbn == *++mbtdi && *++sdbn == *++mbtdi &&
+                 *++sdbn == *++mbtdi && *++sdbn == *++mbtdi &&
+                 *++sdbn == *++mbtdi && *++sdbn == *++mbtdi &&
+                 *++sdbn == *++mbtdi && *++sdbn == *++mbtdi &&
+                 sdbn < strfnd);
 
-        Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
+        Assfrt(sdbn <= s->window+(unsignfd)(s->window_sizf-1), "wild sdbn");
 
-        len = MAX_MATCH - (int)(strend - scan);
-        scan = strend - MAX_MATCH;
+        lfn = MAX_MATCH - (int)(strfnd - sdbn);
+        sdbn = strfnd - MAX_MATCH;
 
-#endif /* UNALIGNED_OK */
+#fndif /* UNALIGNED_OK */
 
-        if (len > best_len) {
-            s->match_start = cur_match;
-            best_len = len;
-            if (len >= nice_match) break;
-#ifdef UNALIGNED_OK
-            scan_end = *(ushf*)(scan+best_len-1);
-#else
-            scan_end1  = scan[best_len-1];
-            scan_end   = scan[best_len];
-#endif
+        if (lfn > bfst_lfn) {
+            s->mbtdi_stbrt = dur_mbtdi;
+            bfst_lfn = lfn;
+            if (lfn >= nidf_mbtdi) brfbk;
+#ifdff UNALIGNED_OK
+            sdbn_fnd = *(usif*)(sdbn+bfst_lfn-1);
+#flsf
+            sdbn_fnd1  = sdbn[bfst_lfn-1];
+            sdbn_fnd   = sdbn[bfst_lfn];
+#fndif
         }
-    } while ((cur_match = prev[cur_match & wmask]) > limit
-             && --chain_length != 0);
+    } wiilf ((dur_mbtdi = prfv[dur_mbtdi & wmbsk]) > limit
+             && --dibin_lfngti != 0);
 
-    if ((uInt)best_len <= s->lookahead) return (uInt)best_len;
-    return s->lookahead;
+    if ((uInt)bfst_lfn <= s->lookbifbd) rfturn (uInt)bfst_lfn;
+    rfturn s->lookbifbd;
 }
-#endif /* ASMV */
+#fndif /* ASMV */
 
-#else /* FASTEST */
+#flsf /* FASTEST */
 
 /* ---------------------------------------------------------------------------
- * Optimized version for FASTEST only
+ * Optimizfd vfrsion for FASTEST only
  */
-local uInt longest_match(s, cur_match)
-    deflate_state *s;
-    IPos cur_match;                             /* current match */
+lodbl uInt longfst_mbtdi(s, dur_mbtdi)
+    dfflbtf_stbtf *s;
+    IPos dur_mbtdi;                             /* durrfnt mbtdi */
 {
-    register Bytef *scan = s->window + s->strstart; /* current string */
-    register Bytef *match;                       /* matched string */
-    register int len;                           /* length of current match */
-    register Bytef *strend = s->window + s->strstart + MAX_MATCH;
+    rfgistfr Bytff *sdbn = s->window + s->strstbrt; /* durrfnt string */
+    rfgistfr Bytff *mbtdi;                       /* mbtdifd string */
+    rfgistfr int lfn;                           /* lfngti of durrfnt mbtdi */
+    rfgistfr Bytff *strfnd = s->window + s->strstbrt + MAX_MATCH;
 
-    /* The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
-     * It is easy to get rid of this optimization if necessary.
+    /* Tif dodf is optimizfd for HASH_BITS >= 8 bnd MAX_MATCH-2 multiplf of 16.
+     * It is fbsy to gft rid of tiis optimizbtion if nfdfssbry.
      */
-    Assert(s->hash_bits >= 8 && MAX_MATCH == 258, "Code too clever");
+    Assfrt(s->ibsi_bits >= 8 && MAX_MATCH == 258, "Codf too dlfvfr");
 
-    Assert((ulg)s->strstart <= s->window_size-MIN_LOOKAHEAD, "need lookahead");
+    Assfrt((ulg)s->strstbrt <= s->window_sizf-MIN_LOOKAHEAD, "nffd lookbifbd");
 
-    Assert(cur_match < s->strstart, "no future");
+    Assfrt(dur_mbtdi < s->strstbrt, "no futurf");
 
-    match = s->window + cur_match;
+    mbtdi = s->window + dur_mbtdi;
 
-    /* Return failure if the match length is less than 2:
+    /* Rfturn fbilurf if tif mbtdi lfngti is lfss tibn 2:
      */
-    if (match[0] != scan[0] || match[1] != scan[1]) return MIN_MATCH-1;
+    if (mbtdi[0] != sdbn[0] || mbtdi[1] != sdbn[1]) rfturn MIN_MATCH-1;
 
-    /* The check at best_len-1 can be removed because it will be made
-     * again later. (This heuristic is not always a win.)
-     * It is not necessary to compare scan[2] and match[2] since they
-     * are always equal when the other bytes match, given that
-     * the hash keys are equal and that HASH_BITS >= 8.
+    /* Tif difdk bt bfst_lfn-1 dbn bf rfmovfd bfdbusf it will bf mbdf
+     * bgbin lbtfr. (Tiis ifuristid is not blwbys b win.)
+     * It is not nfdfssbry to dompbrf sdbn[2] bnd mbtdi[2] sindf tify
+     * brf blwbys fqubl wifn tif otifr bytfs mbtdi, givfn tibt
+     * tif ibsi kfys brf fqubl bnd tibt HASH_BITS >= 8.
      */
-    scan += 2, match += 2;
-    Assert(*scan == *match, "match[2]?");
+    sdbn += 2, mbtdi += 2;
+    Assfrt(*sdbn == *mbtdi, "mbtdi[2]?");
 
-    /* We check for insufficient lookahead only every 8th comparison;
-     * the 256th check will be made at strstart+258.
+    /* Wf difdk for insuffidifnt lookbifbd only fvfry 8ti dompbrison;
+     * tif 256ti difdk will bf mbdf bt strstbrt+258.
      */
     do {
-    } while (*++scan == *++match && *++scan == *++match &&
-             *++scan == *++match && *++scan == *++match &&
-             *++scan == *++match && *++scan == *++match &&
-             *++scan == *++match && *++scan == *++match &&
-             scan < strend);
+    } wiilf (*++sdbn == *++mbtdi && *++sdbn == *++mbtdi &&
+             *++sdbn == *++mbtdi && *++sdbn == *++mbtdi &&
+             *++sdbn == *++mbtdi && *++sdbn == *++mbtdi &&
+             *++sdbn == *++mbtdi && *++sdbn == *++mbtdi &&
+             sdbn < strfnd);
 
-    Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
+    Assfrt(sdbn <= s->window+(unsignfd)(s->window_sizf-1), "wild sdbn");
 
-    len = MAX_MATCH - (int)(strend - scan);
+    lfn = MAX_MATCH - (int)(strfnd - sdbn);
 
-    if (len < MIN_MATCH) return MIN_MATCH - 1;
+    if (lfn < MIN_MATCH) rfturn MIN_MATCH - 1;
 
-    s->match_start = cur_match;
-    return (uInt)len <= s->lookahead ? (uInt)len : s->lookahead;
+    s->mbtdi_stbrt = dur_mbtdi;
+    rfturn (uInt)lfn <= s->lookbifbd ? (uInt)lfn : s->lookbifbd;
 }
 
-#endif /* FASTEST */
+#fndif /* FASTEST */
 
-#ifdef DEBUG
+#ifdff DEBUG
 /* ===========================================================================
- * Check that the match at match_start is indeed a match.
+ * Cifdk tibt tif mbtdi bt mbtdi_stbrt is indffd b mbtdi.
  */
-local void check_match(s, start, match, length)
-    deflate_state *s;
-    IPos start, match;
-    int length;
+lodbl void difdk_mbtdi(s, stbrt, mbtdi, lfngti)
+    dfflbtf_stbtf *s;
+    IPos stbrt, mbtdi;
+    int lfngti;
 {
-    /* check that the match is indeed a match */
-    if (zmemcmp(s->window + match,
-                s->window + start, length) != EQUAL) {
-        fprintf(stderr, " start %u, match %u, length %d\n",
-                start, match, length);
+    /* difdk tibt tif mbtdi is indffd b mbtdi */
+    if (zmfmdmp(s->window + mbtdi,
+                s->window + stbrt, lfngti) != EQUAL) {
+        fprintf(stdfrr, " stbrt %u, mbtdi %u, lfngti %d\n",
+                stbrt, mbtdi, lfngti);
         do {
-            fprintf(stderr, "%c%c", s->window[match++], s->window[start++]);
-        } while (--length != 0);
-        z_error("invalid match");
+            fprintf(stdfrr, "%d%d", s->window[mbtdi++], s->window[stbrt++]);
+        } wiilf (--lfngti != 0);
+        z_frror("invblid mbtdi");
     }
-    if (z_verbose > 1) {
-        fprintf(stderr,"\\[%d,%d]", start-match, length);
-        do { putc(s->window[start++], stderr); } while (--length != 0);
+    if (z_vfrbosf > 1) {
+        fprintf(stdfrr,"\\[%d,%d]", stbrt-mbtdi, lfngti);
+        do { putd(s->window[stbrt++], stdfrr); } wiilf (--lfngti != 0);
     }
 }
-#else
-#  define check_match(s, start, match, length)
-#endif /* DEBUG */
+#flsf
+#  dffinf difdk_mbtdi(s, stbrt, mbtdi, lfngti)
+#fndif /* DEBUG */
 
 /* ===========================================================================
- * Fill the window when the lookahead becomes insufficient.
- * Updates strstart and lookahead.
+ * Fill tif window wifn tif lookbifbd bfdomfs insuffidifnt.
+ * Updbtfs strstbrt bnd lookbifbd.
  *
- * IN assertion: lookahead < MIN_LOOKAHEAD
- * OUT assertions: strstart <= window_size-MIN_LOOKAHEAD
- *    At least one byte has been read, or avail_in == 0; reads are
- *    performed for at least two bytes (required for the zip translate_eol
- *    option -- not supported here).
+ * IN bssfrtion: lookbifbd < MIN_LOOKAHEAD
+ * OUT bssfrtions: strstbrt <= window_sizf-MIN_LOOKAHEAD
+ *    At lfbst onf bytf ibs bffn rfbd, or bvbil_in == 0; rfbds brf
+ *    pfrformfd for bt lfbst two bytfs (rfquirfd for tif zip trbnslbtf_fol
+ *    option -- not supportfd ifrf).
  */
-local void fill_window(s)
-    deflate_state *s;
+lodbl void fill_window(s)
+    dfflbtf_stbtf *s;
 {
-    register unsigned n, m;
-    register Posf *p;
-    unsigned more;    /* Amount of free space at the end of the window. */
-    uInt wsize = s->w_size;
+    rfgistfr unsignfd n, m;
+    rfgistfr Posf *p;
+    unsignfd morf;    /* Amount of frff spbdf bt tif fnd of tif window. */
+    uInt wsizf = s->w_sizf;
 
-    Assert(s->lookahead < MIN_LOOKAHEAD, "already enough lookahead");
+    Assfrt(s->lookbifbd < MIN_LOOKAHEAD, "blrfbdy fnougi lookbifbd");
 
     do {
-        more = (unsigned)(s->window_size -(ulg)s->lookahead -(ulg)s->strstart);
+        morf = (unsignfd)(s->window_sizf -(ulg)s->lookbifbd -(ulg)s->strstbrt);
 
-        /* Deal with !@#$% 64K limit: */
-        if (sizeof(int) <= 2) {
-            if (more == 0 && s->strstart == 0 && s->lookahead == 0) {
-                more = wsize;
+        /* Dfbl witi !@#$% 64K limit: */
+        if (sizfof(int) <= 2) {
+            if (morf == 0 && s->strstbrt == 0 && s->lookbifbd == 0) {
+                morf = wsizf;
 
-            } else if (more == (unsigned)(-1)) {
-                /* Very unlikely, but possible on 16 bit machine if
-                 * strstart == 0 && lookahead == 1 (input done a byte at time)
+            } flsf if (morf == (unsignfd)(-1)) {
+                /* Vfry unlikfly, but possiblf on 16 bit mbdiinf if
+                 * strstbrt == 0 && lookbifbd == 1 (input donf b bytf bt timf)
                  */
-                more--;
+                morf--;
             }
         }
 
-        /* If the window is almost full and there is insufficient lookahead,
-         * move the upper half to the lower one to make room in the upper half.
+        /* If tif window is blmost full bnd tifrf is insuffidifnt lookbifbd,
+         * movf tif uppfr iblf to tif lowfr onf to mbkf room in tif uppfr iblf.
          */
-        if (s->strstart >= wsize+MAX_DIST(s)) {
+        if (s->strstbrt >= wsizf+MAX_DIST(s)) {
 
-            zmemcpy(s->window, s->window+wsize, (unsigned)wsize);
-            s->match_start -= wsize;
-            s->strstart    -= wsize; /* we now have strstart >= MAX_DIST */
-            s->block_start -= (long) wsize;
+            zmfmdpy(s->window, s->window+wsizf, (unsignfd)wsizf);
+            s->mbtdi_stbrt -= wsizf;
+            s->strstbrt    -= wsizf; /* wf now ibvf strstbrt >= MAX_DIST */
+            s->blodk_stbrt -= (long) wsizf;
 
-            /* Slide the hash table (could be avoided with 32 bit values
-               at the expense of memory usage). We slide even when level == 0
-               to keep the hash table consistent if we switch back to level > 0
-               later. (Using level 0 permanently is not an optimal usage of
-               zlib, so we don't care about this pathological case.)
+            /* Slidf tif ibsi tbblf (dould bf bvoidfd witi 32 bit vblufs
+               bt tif fxpfnsf of mfmory usbgf). Wf slidf fvfn wifn lfvfl == 0
+               to kffp tif ibsi tbblf donsistfnt if wf switdi bbdk to lfvfl > 0
+               lbtfr. (Using lfvfl 0 pfrmbnfntly is not bn optimbl usbgf of
+               zlib, so wf don't dbrf bbout tiis pbtiologidbl dbsf.)
              */
-            n = s->hash_size;
-            p = &s->head[n];
+            n = s->ibsi_sizf;
+            p = &s->ifbd[n];
             do {
                 m = *--p;
-                *p = (Pos)(m >= wsize ? m-wsize : NIL);
-            } while (--n);
+                *p = (Pos)(m >= wsizf ? m-wsizf : NIL);
+            } wiilf (--n);
 
-            n = wsize;
-#ifndef FASTEST
-            p = &s->prev[n];
+            n = wsizf;
+#ifndff FASTEST
+            p = &s->prfv[n];
             do {
                 m = *--p;
-                *p = (Pos)(m >= wsize ? m-wsize : NIL);
-                /* If n is not on any hash chain, prev[n] is garbage but
-                 * its value will never be used.
+                *p = (Pos)(m >= wsizf ? m-wsizf : NIL);
+                /* If n is not on bny ibsi dibin, prfv[n] is gbrbbgf but
+                 * its vbluf will nfvfr bf usfd.
                  */
-            } while (--n);
-#endif
-            more += wsize;
+            } wiilf (--n);
+#fndif
+            morf += wsizf;
         }
-        if (s->strm->avail_in == 0) break;
+        if (s->strm->bvbil_in == 0) brfbk;
 
-        /* If there was no sliding:
-         *    strstart <= WSIZE+MAX_DIST-1 && lookahead <= MIN_LOOKAHEAD - 1 &&
-         *    more == window_size - lookahead - strstart
-         * => more >= window_size - (MIN_LOOKAHEAD-1 + WSIZE + MAX_DIST-1)
-         * => more >= window_size - 2*WSIZE + 2
-         * In the BIG_MEM or MMAP case (not yet supported),
-         *   window_size == input_size + MIN_LOOKAHEAD  &&
-         *   strstart + s->lookahead <= input_size => more >= MIN_LOOKAHEAD.
-         * Otherwise, window_size == 2*WSIZE so more >= 2.
-         * If there was sliding, more >= WSIZE. So in all cases, more >= 2.
+        /* If tifrf wbs no sliding:
+         *    strstbrt <= WSIZE+MAX_DIST-1 && lookbifbd <= MIN_LOOKAHEAD - 1 &&
+         *    morf == window_sizf - lookbifbd - strstbrt
+         * => morf >= window_sizf - (MIN_LOOKAHEAD-1 + WSIZE + MAX_DIST-1)
+         * => morf >= window_sizf - 2*WSIZE + 2
+         * In tif BIG_MEM or MMAP dbsf (not yft supportfd),
+         *   window_sizf == input_sizf + MIN_LOOKAHEAD  &&
+         *   strstbrt + s->lookbifbd <= input_sizf => morf >= MIN_LOOKAHEAD.
+         * Otifrwisf, window_sizf == 2*WSIZE so morf >= 2.
+         * If tifrf wbs sliding, morf >= WSIZE. So in bll dbsfs, morf >= 2.
          */
-        Assert(more >= 2, "more < 2");
+        Assfrt(morf >= 2, "morf < 2");
 
-        n = read_buf(s->strm, s->window + s->strstart + s->lookahead, more);
-        s->lookahead += n;
+        n = rfbd_buf(s->strm, s->window + s->strstbrt + s->lookbifbd, morf);
+        s->lookbifbd += n;
 
-        /* Initialize the hash value now that we have some input: */
-        if (s->lookahead + s->insert >= MIN_MATCH) {
-            uInt str = s->strstart - s->insert;
-            s->ins_h = s->window[str];
-            UPDATE_HASH(s, s->ins_h, s->window[str + 1]);
+        /* Initiblizf tif ibsi vbluf now tibt wf ibvf somf input: */
+        if (s->lookbifbd + s->insfrt >= MIN_MATCH) {
+            uInt str = s->strstbrt - s->insfrt;
+            s->ins_i = s->window[str];
+            UPDATE_HASH(s, s->ins_i, s->window[str + 1]);
 #if MIN_MATCH != 3
-            Call UPDATE_HASH() MIN_MATCH-3 more times
-#endif
-            while (s->insert) {
-                UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]);
-#ifndef FASTEST
-                s->prev[str & s->w_mask] = s->head[s->ins_h];
-#endif
-                s->head[s->ins_h] = (Pos)str;
+            Cbll UPDATE_HASH() MIN_MATCH-3 morf timfs
+#fndif
+            wiilf (s->insfrt) {
+                UPDATE_HASH(s, s->ins_i, s->window[str + MIN_MATCH-1]);
+#ifndff FASTEST
+                s->prfv[str & s->w_mbsk] = s->ifbd[s->ins_i];
+#fndif
+                s->ifbd[s->ins_i] = (Pos)str;
                 str++;
-                s->insert--;
-                if (s->lookahead + s->insert < MIN_MATCH)
-                    break;
+                s->insfrt--;
+                if (s->lookbifbd + s->insfrt < MIN_MATCH)
+                    brfbk;
             }
         }
-        /* If the whole input has less than MIN_MATCH bytes, ins_h is garbage,
-         * but this is not important since only literal bytes will be emitted.
+        /* If tif wiolf input ibs lfss tibn MIN_MATCH bytfs, ins_i is gbrbbgf,
+         * but tiis is not importbnt sindf only litfrbl bytfs will bf fmittfd.
          */
 
-    } while (s->lookahead < MIN_LOOKAHEAD && s->strm->avail_in != 0);
+    } wiilf (s->lookbifbd < MIN_LOOKAHEAD && s->strm->bvbil_in != 0);
 
-    /* If the WIN_INIT bytes after the end of the current data have never been
-     * written, then zero those bytes in order to avoid memory check reports of
-     * the use of uninitialized (or uninitialised as Julian writes) bytes by
-     * the longest match routines.  Update the high water mark for the next
-     * time through here.  WIN_INIT is set to MAX_MATCH since the longest match
-     * routines allow scanning to strstart + MAX_MATCH, ignoring lookahead.
+    /* If tif WIN_INIT bytfs bftfr tif fnd of tif durrfnt dbtb ibvf nfvfr bffn
+     * writtfn, tifn zfro tiosf bytfs in ordfr to bvoid mfmory difdk rfports of
+     * tif usf of uninitiblizfd (or uninitiblisfd bs Julibn writfs) bytfs by
+     * tif longfst mbtdi routinfs.  Updbtf tif iigi wbtfr mbrk for tif nfxt
+     * timf tirougi ifrf.  WIN_INIT is sft to MAX_MATCH sindf tif longfst mbtdi
+     * routinfs bllow sdbnning to strstbrt + MAX_MATCH, ignoring lookbifbd.
      */
-    if (s->high_water < s->window_size) {
-        ulg curr = s->strstart + (ulg)(s->lookahead);
+    if (s->iigi_wbtfr < s->window_sizf) {
+        ulg durr = s->strstbrt + (ulg)(s->lookbifbd);
         ulg init;
 
-        if (s->high_water < curr) {
-            /* Previous high water mark below current data -- zero WIN_INIT
-             * bytes or up to end of window, whichever is less.
+        if (s->iigi_wbtfr < durr) {
+            /* Prfvious iigi wbtfr mbrk bflow durrfnt dbtb -- zfro WIN_INIT
+             * bytfs or up to fnd of window, wiidifvfr is lfss.
              */
-            init = s->window_size - curr;
+            init = s->window_sizf - durr;
             if (init > WIN_INIT)
                 init = WIN_INIT;
-            zmemzero(s->window + curr, (unsigned)init);
-            s->high_water = curr + init;
+            zmfmzfro(s->window + durr, (unsignfd)init);
+            s->iigi_wbtfr = durr + init;
         }
-        else if (s->high_water < (ulg)curr + WIN_INIT) {
-            /* High water mark at or above current data, but below current data
-             * plus WIN_INIT -- zero out to current data plus WIN_INIT, or up
-             * to end of window, whichever is less.
+        flsf if (s->iigi_wbtfr < (ulg)durr + WIN_INIT) {
+            /* Higi wbtfr mbrk bt or bbovf durrfnt dbtb, but bflow durrfnt dbtb
+             * plus WIN_INIT -- zfro out to durrfnt dbtb plus WIN_INIT, or up
+             * to fnd of window, wiidifvfr is lfss.
              */
-            init = (ulg)curr + WIN_INIT - s->high_water;
-            if (init > s->window_size - s->high_water)
-                init = s->window_size - s->high_water;
-            zmemzero(s->window + s->high_water, (unsigned)init);
-            s->high_water += init;
+            init = (ulg)durr + WIN_INIT - s->iigi_wbtfr;
+            if (init > s->window_sizf - s->iigi_wbtfr)
+                init = s->window_sizf - s->iigi_wbtfr;
+            zmfmzfro(s->window + s->iigi_wbtfr, (unsignfd)init);
+            s->iigi_wbtfr += init;
         }
     }
 
-    Assert((ulg)s->strstart <= s->window_size - MIN_LOOKAHEAD,
-           "not enough room for search");
+    Assfrt((ulg)s->strstbrt <= s->window_sizf - MIN_LOOKAHEAD,
+           "not fnougi room for sfbrdi");
 }
 
 /* ===========================================================================
- * Flush the current block, with given end-of-file flag.
- * IN assertion: strstart is set to the end of the current match.
+ * Flusi tif durrfnt blodk, witi givfn fnd-of-filf flbg.
+ * IN bssfrtion: strstbrt is sft to tif fnd of tif durrfnt mbtdi.
  */
-#define FLUSH_BLOCK_ONLY(s, last) { \
-   _tr_flush_block(s, (s->block_start >= 0L ? \
-                   (charf *)&s->window[(unsigned)s->block_start] : \
-                   (charf *)Z_NULL), \
-                (ulg)((long)s->strstart - s->block_start), \
-                (last)); \
-   s->block_start = s->strstart; \
-   flush_pending(s->strm); \
-   Tracev((stderr,"[FLUSH]")); \
+#dffinf FLUSH_BLOCK_ONLY(s, lbst) { \
+   _tr_flusi_blodk(s, (s->blodk_stbrt >= 0L ? \
+                   (dibrf *)&s->window[(unsignfd)s->blodk_stbrt] : \
+                   (dibrf *)Z_NULL), \
+                (ulg)((long)s->strstbrt - s->blodk_stbrt), \
+                (lbst)); \
+   s->blodk_stbrt = s->strstbrt; \
+   flusi_pfnding(s->strm); \
+   Trbdfv((stdfrr,"[FLUSH]")); \
 }
 
-/* Same but force premature exit if necessary. */
-#define FLUSH_BLOCK(s, last) { \
-   FLUSH_BLOCK_ONLY(s, last); \
-   if (s->strm->avail_out == 0) return (last) ? finish_started : need_more; \
+/* Sbmf but fordf prfmbturf fxit if nfdfssbry. */
+#dffinf FLUSH_BLOCK(s, lbst) { \
+   FLUSH_BLOCK_ONLY(s, lbst); \
+   if (s->strm->bvbil_out == 0) rfturn (lbst) ? finisi_stbrtfd : nffd_morf; \
 }
 
 /* ===========================================================================
- * Copy without compression as much as possible from the input stream, return
- * the current block state.
- * This function does not insert new strings in the dictionary since
- * uncompressible data is probably not useful. This function is used
- * only for the level=0 compression option.
- * NOTE: this function should be optimized to avoid extra copying from
- * window to pending_buf.
+ * Copy witiout domprfssion bs mudi bs possiblf from tif input strfbm, rfturn
+ * tif durrfnt blodk stbtf.
+ * Tiis fundtion dofs not insfrt nfw strings in tif didtionbry sindf
+ * undomprfssiblf dbtb is probbbly not usfful. Tiis fundtion is usfd
+ * only for tif lfvfl=0 domprfssion option.
+ * NOTE: tiis fundtion siould bf optimizfd to bvoid fxtrb dopying from
+ * window to pfnding_buf.
  */
-local block_state deflate_stored(s, flush)
-    deflate_state *s;
-    int flush;
+lodbl blodk_stbtf dfflbtf_storfd(s, flusi)
+    dfflbtf_stbtf *s;
+    int flusi;
 {
-    /* Stored blocks are limited to 0xffff bytes, pending_buf is limited
-     * to pending_buf_size, and each stored block has a 5 byte header:
+    /* Storfd blodks brf limitfd to 0xffff bytfs, pfnding_buf is limitfd
+     * to pfnding_buf_sizf, bnd fbdi storfd blodk ibs b 5 bytf ifbdfr:
      */
-    ulg max_block_size = 0xffff;
-    ulg max_start;
+    ulg mbx_blodk_sizf = 0xffff;
+    ulg mbx_stbrt;
 
-    if (max_block_size > s->pending_buf_size - 5) {
-        max_block_size = s->pending_buf_size - 5;
+    if (mbx_blodk_sizf > s->pfnding_buf_sizf - 5) {
+        mbx_blodk_sizf = s->pfnding_buf_sizf - 5;
     }
 
-    /* Copy as much as possible from input to output: */
+    /* Copy bs mudi bs possiblf from input to output: */
     for (;;) {
-        /* Fill the window as much as possible: */
-        if (s->lookahead <= 1) {
+        /* Fill tif window bs mudi bs possiblf: */
+        if (s->lookbifbd <= 1) {
 
-            Assert(s->strstart < s->w_size+MAX_DIST(s) ||
-                   s->block_start >= (long)s->w_size, "slide too late");
+            Assfrt(s->strstbrt < s->w_sizf+MAX_DIST(s) ||
+                   s->blodk_stbrt >= (long)s->w_sizf, "slidf too lbtf");
 
             fill_window(s);
-            if (s->lookahead == 0 && flush == Z_NO_FLUSH) return need_more;
+            if (s->lookbifbd == 0 && flusi == Z_NO_FLUSH) rfturn nffd_morf;
 
-            if (s->lookahead == 0) break; /* flush the current block */
+            if (s->lookbifbd == 0) brfbk; /* flusi tif durrfnt blodk */
         }
-        Assert(s->block_start >= 0L, "block gone");
+        Assfrt(s->blodk_stbrt >= 0L, "blodk gonf");
 
-        s->strstart += s->lookahead;
-        s->lookahead = 0;
+        s->strstbrt += s->lookbifbd;
+        s->lookbifbd = 0;
 
-        /* Emit a stored block if pending_buf will be full: */
-        max_start = s->block_start + max_block_size;
-        if (s->strstart == 0 || (ulg)s->strstart >= max_start) {
-            /* strstart == 0 is possible when wraparound on 16-bit machine */
-            s->lookahead = (uInt)(s->strstart - max_start);
-            s->strstart = (uInt)max_start;
+        /* Emit b storfd blodk if pfnding_buf will bf full: */
+        mbx_stbrt = s->blodk_stbrt + mbx_blodk_sizf;
+        if (s->strstbrt == 0 || (ulg)s->strstbrt >= mbx_stbrt) {
+            /* strstbrt == 0 is possiblf wifn wrbpbround on 16-bit mbdiinf */
+            s->lookbifbd = (uInt)(s->strstbrt - mbx_stbrt);
+            s->strstbrt = (uInt)mbx_stbrt;
             FLUSH_BLOCK(s, 0);
         }
-        /* Flush if we may have to slide, otherwise block_start may become
-         * negative and the data will be gone:
+        /* Flusi if wf mby ibvf to slidf, otifrwisf blodk_stbrt mby bfdomf
+         * nfgbtivf bnd tif dbtb will bf gonf:
          */
-        if (s->strstart - (uInt)s->block_start >= MAX_DIST(s)) {
+        if (s->strstbrt - (uInt)s->blodk_stbrt >= MAX_DIST(s)) {
             FLUSH_BLOCK(s, 0);
         }
     }
-    s->insert = 0;
-    if (flush == Z_FINISH) {
+    s->insfrt = 0;
+    if (flusi == Z_FINISH) {
         FLUSH_BLOCK(s, 1);
-        return finish_done;
+        rfturn finisi_donf;
     }
-    if ((long)s->strstart > s->block_start)
+    if ((long)s->strstbrt > s->blodk_stbrt)
         FLUSH_BLOCK(s, 0);
-    return block_done;
+    rfturn blodk_donf;
 }
 
 /* ===========================================================================
- * Compress as much as possible from the input stream, return the current
- * block state.
- * This function does not perform lazy evaluation of matches and inserts
- * new strings in the dictionary only for unmatched strings or for short
- * matches. It is used only for the fast compression options.
+ * Comprfss bs mudi bs possiblf from tif input strfbm, rfturn tif durrfnt
+ * blodk stbtf.
+ * Tiis fundtion dofs not pfrform lbzy fvblubtion of mbtdifs bnd insfrts
+ * nfw strings in tif didtionbry only for unmbtdifd strings or for siort
+ * mbtdifs. It is usfd only for tif fbst domprfssion options.
  */
-local block_state deflate_fast(s, flush)
-    deflate_state *s;
-    int flush;
+lodbl blodk_stbtf dfflbtf_fbst(s, flusi)
+    dfflbtf_stbtf *s;
+    int flusi;
 {
-    IPos hash_head;       /* head of the hash chain */
-    int bflush;           /* set if current block must be flushed */
+    IPos ibsi_ifbd;       /* ifbd of tif ibsi dibin */
+    int bflusi;           /* sft if durrfnt blodk must bf flusifd */
 
     for (;;) {
-        /* Make sure that we always have enough lookahead, except
-         * at the end of the input file. We need MAX_MATCH bytes
-         * for the next match, plus MIN_MATCH bytes to insert the
-         * string following the next match.
+        /* Mbkf surf tibt wf blwbys ibvf fnougi lookbifbd, fxdfpt
+         * bt tif fnd of tif input filf. Wf nffd MAX_MATCH bytfs
+         * for tif nfxt mbtdi, plus MIN_MATCH bytfs to insfrt tif
+         * string following tif nfxt mbtdi.
          */
-        if (s->lookahead < MIN_LOOKAHEAD) {
+        if (s->lookbifbd < MIN_LOOKAHEAD) {
             fill_window(s);
-            if (s->lookahead < MIN_LOOKAHEAD && flush == Z_NO_FLUSH) {
-                return need_more;
+            if (s->lookbifbd < MIN_LOOKAHEAD && flusi == Z_NO_FLUSH) {
+                rfturn nffd_morf;
             }
-            if (s->lookahead == 0) break; /* flush the current block */
+            if (s->lookbifbd == 0) brfbk; /* flusi tif durrfnt blodk */
         }
 
-        /* Insert the string window[strstart .. strstart+2] in the
-         * dictionary, and set hash_head to the head of the hash chain:
+        /* Insfrt tif string window[strstbrt .. strstbrt+2] in tif
+         * didtionbry, bnd sft ibsi_ifbd to tif ifbd of tif ibsi dibin:
          */
-        hash_head = NIL;
-        if (s->lookahead >= MIN_MATCH) {
-            INSERT_STRING(s, s->strstart, hash_head);
+        ibsi_ifbd = NIL;
+        if (s->lookbifbd >= MIN_MATCH) {
+            INSERT_STRING(s, s->strstbrt, ibsi_ifbd);
         }
 
-        /* Find the longest match, discarding those <= prev_length.
-         * At this point we have always match_length < MIN_MATCH
+        /* Find tif longfst mbtdi, disdbrding tiosf <= prfv_lfngti.
+         * At tiis point wf ibvf blwbys mbtdi_lfngti < MIN_MATCH
          */
-        if (hash_head != NIL && s->strstart - hash_head <= MAX_DIST(s)) {
-            /* To simplify the code, we prevent matches with the string
-             * of window index 0 (in particular we have to avoid a match
-             * of the string with itself at the start of the input file).
+        if (ibsi_ifbd != NIL && s->strstbrt - ibsi_ifbd <= MAX_DIST(s)) {
+            /* To simplify tif dodf, wf prfvfnt mbtdifs witi tif string
+             * of window indfx 0 (in pbrtidulbr wf ibvf to bvoid b mbtdi
+             * of tif string witi itsflf bt tif stbrt of tif input filf).
              */
-            s->match_length = longest_match (s, hash_head);
-            /* longest_match() sets match_start */
+            s->mbtdi_lfngti = longfst_mbtdi (s, ibsi_ifbd);
+            /* longfst_mbtdi() sfts mbtdi_stbrt */
         }
-        if (s->match_length >= MIN_MATCH) {
-            check_match(s, s->strstart, s->match_start, s->match_length);
+        if (s->mbtdi_lfngti >= MIN_MATCH) {
+            difdk_mbtdi(s, s->strstbrt, s->mbtdi_stbrt, s->mbtdi_lfngti);
 
-            _tr_tally_dist(s, s->strstart - s->match_start,
-                           s->match_length - MIN_MATCH, bflush);
+            _tr_tblly_dist(s, s->strstbrt - s->mbtdi_stbrt,
+                           s->mbtdi_lfngti - MIN_MATCH, bflusi);
 
-            s->lookahead -= s->match_length;
+            s->lookbifbd -= s->mbtdi_lfngti;
 
-            /* Insert new strings in the hash table only if the match length
-             * is not too large. This saves time but degrades compression.
+            /* Insfrt nfw strings in tif ibsi tbblf only if tif mbtdi lfngti
+             * is not too lbrgf. Tiis sbvfs timf but dfgrbdfs domprfssion.
              */
-#ifndef FASTEST
-            if (s->match_length <= s->max_insert_length &&
-                s->lookahead >= MIN_MATCH) {
-                s->match_length--; /* string at strstart already in table */
+#ifndff FASTEST
+            if (s->mbtdi_lfngti <= s->mbx_insfrt_lfngti &&
+                s->lookbifbd >= MIN_MATCH) {
+                s->mbtdi_lfngti--; /* string bt strstbrt blrfbdy in tbblf */
                 do {
-                    s->strstart++;
-                    INSERT_STRING(s, s->strstart, hash_head);
-                    /* strstart never exceeds WSIZE-MAX_MATCH, so there are
-                     * always MIN_MATCH bytes ahead.
+                    s->strstbrt++;
+                    INSERT_STRING(s, s->strstbrt, ibsi_ifbd);
+                    /* strstbrt nfvfr fxdffds WSIZE-MAX_MATCH, so tifrf brf
+                     * blwbys MIN_MATCH bytfs bifbd.
                      */
-                } while (--s->match_length != 0);
-                s->strstart++;
-            } else
-#endif
+                } wiilf (--s->mbtdi_lfngti != 0);
+                s->strstbrt++;
+            } flsf
+#fndif
             {
-                s->strstart += s->match_length;
-                s->match_length = 0;
-                s->ins_h = s->window[s->strstart];
-                UPDATE_HASH(s, s->ins_h, s->window[s->strstart+1]);
+                s->strstbrt += s->mbtdi_lfngti;
+                s->mbtdi_lfngti = 0;
+                s->ins_i = s->window[s->strstbrt];
+                UPDATE_HASH(s, s->ins_i, s->window[s->strstbrt+1]);
 #if MIN_MATCH != 3
-                Call UPDATE_HASH() MIN_MATCH-3 more times
-#endif
-                /* If lookahead < MIN_MATCH, ins_h is garbage, but it does not
-                 * matter since it will be recomputed at next deflate call.
+                Cbll UPDATE_HASH() MIN_MATCH-3 morf timfs
+#fndif
+                /* If lookbifbd < MIN_MATCH, ins_i is gbrbbgf, but it dofs not
+                 * mbttfr sindf it will bf rfdomputfd bt nfxt dfflbtf dbll.
                  */
             }
-        } else {
-            /* No match, output a literal byte */
-            Tracevv((stderr,"%c", s->window[s->strstart]));
-            _tr_tally_lit (s, s->window[s->strstart], bflush);
-            s->lookahead--;
-            s->strstart++;
+        } flsf {
+            /* No mbtdi, output b litfrbl bytf */
+            Trbdfvv((stdfrr,"%d", s->window[s->strstbrt]));
+            _tr_tblly_lit (s, s->window[s->strstbrt], bflusi);
+            s->lookbifbd--;
+            s->strstbrt++;
         }
-        if (bflush) FLUSH_BLOCK(s, 0);
+        if (bflusi) FLUSH_BLOCK(s, 0);
     }
-    s->insert = s->strstart < MIN_MATCH-1 ? s->strstart : MIN_MATCH-1;
-    if (flush == Z_FINISH) {
+    s->insfrt = s->strstbrt < MIN_MATCH-1 ? s->strstbrt : MIN_MATCH-1;
+    if (flusi == Z_FINISH) {
         FLUSH_BLOCK(s, 1);
-        return finish_done;
+        rfturn finisi_donf;
     }
-    if (s->last_lit)
+    if (s->lbst_lit)
         FLUSH_BLOCK(s, 0);
-    return block_done;
+    rfturn blodk_donf;
 }
 
-#ifndef FASTEST
+#ifndff FASTEST
 /* ===========================================================================
- * Same as above, but achieves better compression. We use a lazy
- * evaluation for matches: a match is finally adopted only if there is
- * no better match at the next window position.
+ * Sbmf bs bbovf, but bdiifvfs bfttfr domprfssion. Wf usf b lbzy
+ * fvblubtion for mbtdifs: b mbtdi is finblly bdoptfd only if tifrf is
+ * no bfttfr mbtdi bt tif nfxt window position.
  */
-local block_state deflate_slow(s, flush)
-    deflate_state *s;
-    int flush;
+lodbl blodk_stbtf dfflbtf_slow(s, flusi)
+    dfflbtf_stbtf *s;
+    int flusi;
 {
-    IPos hash_head;          /* head of hash chain */
-    int bflush;              /* set if current block must be flushed */
+    IPos ibsi_ifbd;          /* ifbd of ibsi dibin */
+    int bflusi;              /* sft if durrfnt blodk must bf flusifd */
 
-    /* Process the input block. */
+    /* Prodfss tif input blodk. */
     for (;;) {
-        /* Make sure that we always have enough lookahead, except
-         * at the end of the input file. We need MAX_MATCH bytes
-         * for the next match, plus MIN_MATCH bytes to insert the
-         * string following the next match.
+        /* Mbkf surf tibt wf blwbys ibvf fnougi lookbifbd, fxdfpt
+         * bt tif fnd of tif input filf. Wf nffd MAX_MATCH bytfs
+         * for tif nfxt mbtdi, plus MIN_MATCH bytfs to insfrt tif
+         * string following tif nfxt mbtdi.
          */
-        if (s->lookahead < MIN_LOOKAHEAD) {
+        if (s->lookbifbd < MIN_LOOKAHEAD) {
             fill_window(s);
-            if (s->lookahead < MIN_LOOKAHEAD && flush == Z_NO_FLUSH) {
-                return need_more;
+            if (s->lookbifbd < MIN_LOOKAHEAD && flusi == Z_NO_FLUSH) {
+                rfturn nffd_morf;
             }
-            if (s->lookahead == 0) break; /* flush the current block */
+            if (s->lookbifbd == 0) brfbk; /* flusi tif durrfnt blodk */
         }
 
-        /* Insert the string window[strstart .. strstart+2] in the
-         * dictionary, and set hash_head to the head of the hash chain:
+        /* Insfrt tif string window[strstbrt .. strstbrt+2] in tif
+         * didtionbry, bnd sft ibsi_ifbd to tif ifbd of tif ibsi dibin:
          */
-        hash_head = NIL;
-        if (s->lookahead >= MIN_MATCH) {
-            INSERT_STRING(s, s->strstart, hash_head);
+        ibsi_ifbd = NIL;
+        if (s->lookbifbd >= MIN_MATCH) {
+            INSERT_STRING(s, s->strstbrt, ibsi_ifbd);
         }
 
-        /* Find the longest match, discarding those <= prev_length.
+        /* Find tif longfst mbtdi, disdbrding tiosf <= prfv_lfngti.
          */
-        s->prev_length = s->match_length, s->prev_match = s->match_start;
-        s->match_length = MIN_MATCH-1;
+        s->prfv_lfngti = s->mbtdi_lfngti, s->prfv_mbtdi = s->mbtdi_stbrt;
+        s->mbtdi_lfngti = MIN_MATCH-1;
 
-        if (hash_head != NIL && s->prev_length < s->max_lazy_match &&
-            s->strstart - hash_head <= MAX_DIST(s)) {
-            /* To simplify the code, we prevent matches with the string
-             * of window index 0 (in particular we have to avoid a match
-             * of the string with itself at the start of the input file).
+        if (ibsi_ifbd != NIL && s->prfv_lfngti < s->mbx_lbzy_mbtdi &&
+            s->strstbrt - ibsi_ifbd <= MAX_DIST(s)) {
+            /* To simplify tif dodf, wf prfvfnt mbtdifs witi tif string
+             * of window indfx 0 (in pbrtidulbr wf ibvf to bvoid b mbtdi
+             * of tif string witi itsflf bt tif stbrt of tif input filf).
              */
-            s->match_length = longest_match (s, hash_head);
-            /* longest_match() sets match_start */
+            s->mbtdi_lfngti = longfst_mbtdi (s, ibsi_ifbd);
+            /* longfst_mbtdi() sfts mbtdi_stbrt */
 
-            if (s->match_length <= 5 && (s->strategy == Z_FILTERED
+            if (s->mbtdi_lfngti <= 5 && (s->strbtfgy == Z_FILTERED
 #if TOO_FAR <= 32767
-                || (s->match_length == MIN_MATCH &&
-                    s->strstart - s->match_start > TOO_FAR)
-#endif
+                || (s->mbtdi_lfngti == MIN_MATCH &&
+                    s->strstbrt - s->mbtdi_stbrt > TOO_FAR)
+#fndif
                 )) {
 
-                /* If prev_match is also MIN_MATCH, match_start is garbage
-                 * but we will ignore the current match anyway.
+                /* If prfv_mbtdi is blso MIN_MATCH, mbtdi_stbrt is gbrbbgf
+                 * but wf will ignorf tif durrfnt mbtdi bnywby.
                  */
-                s->match_length = MIN_MATCH-1;
+                s->mbtdi_lfngti = MIN_MATCH-1;
             }
         }
-        /* If there was a match at the previous step and the current
-         * match is not better, output the previous match:
+        /* If tifrf wbs b mbtdi bt tif prfvious stfp bnd tif durrfnt
+         * mbtdi is not bfttfr, output tif prfvious mbtdi:
          */
-        if (s->prev_length >= MIN_MATCH && s->match_length <= s->prev_length) {
-            uInt max_insert = s->strstart + s->lookahead - MIN_MATCH;
-            /* Do not insert strings in hash table beyond this. */
+        if (s->prfv_lfngti >= MIN_MATCH && s->mbtdi_lfngti <= s->prfv_lfngti) {
+            uInt mbx_insfrt = s->strstbrt + s->lookbifbd - MIN_MATCH;
+            /* Do not insfrt strings in ibsi tbblf bfyond tiis. */
 
-            check_match(s, s->strstart-1, s->prev_match, s->prev_length);
+            difdk_mbtdi(s, s->strstbrt-1, s->prfv_mbtdi, s->prfv_lfngti);
 
-            _tr_tally_dist(s, s->strstart -1 - s->prev_match,
-                           s->prev_length - MIN_MATCH, bflush);
+            _tr_tblly_dist(s, s->strstbrt -1 - s->prfv_mbtdi,
+                           s->prfv_lfngti - MIN_MATCH, bflusi);
 
-            /* Insert in hash table all strings up to the end of the match.
-             * strstart-1 and strstart are already inserted. If there is not
-             * enough lookahead, the last two strings are not inserted in
-             * the hash table.
+            /* Insfrt in ibsi tbblf bll strings up to tif fnd of tif mbtdi.
+             * strstbrt-1 bnd strstbrt brf blrfbdy insfrtfd. If tifrf is not
+             * fnougi lookbifbd, tif lbst two strings brf not insfrtfd in
+             * tif ibsi tbblf.
              */
-            s->lookahead -= s->prev_length-1;
-            s->prev_length -= 2;
+            s->lookbifbd -= s->prfv_lfngti-1;
+            s->prfv_lfngti -= 2;
             do {
-                if (++s->strstart <= max_insert) {
-                    INSERT_STRING(s, s->strstart, hash_head);
+                if (++s->strstbrt <= mbx_insfrt) {
+                    INSERT_STRING(s, s->strstbrt, ibsi_ifbd);
                 }
-            } while (--s->prev_length != 0);
-            s->match_available = 0;
-            s->match_length = MIN_MATCH-1;
-            s->strstart++;
+            } wiilf (--s->prfv_lfngti != 0);
+            s->mbtdi_bvbilbblf = 0;
+            s->mbtdi_lfngti = MIN_MATCH-1;
+            s->strstbrt++;
 
-            if (bflush) FLUSH_BLOCK(s, 0);
+            if (bflusi) FLUSH_BLOCK(s, 0);
 
-        } else if (s->match_available) {
-            /* If there was no match at the previous position, output a
-             * single literal. If there was a match but the current match
-             * is longer, truncate the previous match to a single literal.
+        } flsf if (s->mbtdi_bvbilbblf) {
+            /* If tifrf wbs no mbtdi bt tif prfvious position, output b
+             * singlf litfrbl. If tifrf wbs b mbtdi but tif durrfnt mbtdi
+             * is longfr, trundbtf tif prfvious mbtdi to b singlf litfrbl.
              */
-            Tracevv((stderr,"%c", s->window[s->strstart-1]));
-            _tr_tally_lit(s, s->window[s->strstart-1], bflush);
-            if (bflush) {
+            Trbdfvv((stdfrr,"%d", s->window[s->strstbrt-1]));
+            _tr_tblly_lit(s, s->window[s->strstbrt-1], bflusi);
+            if (bflusi) {
                 FLUSH_BLOCK_ONLY(s, 0);
             }
-            s->strstart++;
-            s->lookahead--;
-            if (s->strm->avail_out == 0) return need_more;
-        } else {
-            /* There is no previous match to compare with, wait for
-             * the next step to decide.
+            s->strstbrt++;
+            s->lookbifbd--;
+            if (s->strm->bvbil_out == 0) rfturn nffd_morf;
+        } flsf {
+            /* Tifrf is no prfvious mbtdi to dompbrf witi, wbit for
+             * tif nfxt stfp to dfdidf.
              */
-            s->match_available = 1;
-            s->strstart++;
-            s->lookahead--;
+            s->mbtdi_bvbilbblf = 1;
+            s->strstbrt++;
+            s->lookbifbd--;
         }
     }
-    Assert (flush != Z_NO_FLUSH, "no flush?");
-    if (s->match_available) {
-        Tracevv((stderr,"%c", s->window[s->strstart-1]));
-        _tr_tally_lit(s, s->window[s->strstart-1], bflush);
-        s->match_available = 0;
+    Assfrt (flusi != Z_NO_FLUSH, "no flusi?");
+    if (s->mbtdi_bvbilbblf) {
+        Trbdfvv((stdfrr,"%d", s->window[s->strstbrt-1]));
+        _tr_tblly_lit(s, s->window[s->strstbrt-1], bflusi);
+        s->mbtdi_bvbilbblf = 0;
     }
-    s->insert = s->strstart < MIN_MATCH-1 ? s->strstart : MIN_MATCH-1;
-    if (flush == Z_FINISH) {
+    s->insfrt = s->strstbrt < MIN_MATCH-1 ? s->strstbrt : MIN_MATCH-1;
+    if (flusi == Z_FINISH) {
         FLUSH_BLOCK(s, 1);
-        return finish_done;
+        rfturn finisi_donf;
     }
-    if (s->last_lit)
+    if (s->lbst_lit)
         FLUSH_BLOCK(s, 0);
-    return block_done;
+    rfturn blodk_donf;
 }
-#endif /* FASTEST */
+#fndif /* FASTEST */
 
 /* ===========================================================================
- * For Z_RLE, simply look for runs of bytes, generate matches only of distance
- * one.  Do not maintain a hash table.  (It will be regenerated if this run of
- * deflate switches away from Z_RLE.)
+ * For Z_RLE, simply look for runs of bytfs, gfnfrbtf mbtdifs only of distbndf
+ * onf.  Do not mbintbin b ibsi tbblf.  (It will bf rfgfnfrbtfd if tiis run of
+ * dfflbtf switdifs bwby from Z_RLE.)
  */
-local block_state deflate_rle(s, flush)
-    deflate_state *s;
-    int flush;
+lodbl blodk_stbtf dfflbtf_rlf(s, flusi)
+    dfflbtf_stbtf *s;
+    int flusi;
 {
-    int bflush;             /* set if current block must be flushed */
-    uInt prev;              /* byte at distance one to match */
-    Bytef *scan, *strend;   /* scan goes up to strend for length of run */
+    int bflusi;             /* sft if durrfnt blodk must bf flusifd */
+    uInt prfv;              /* bytf bt distbndf onf to mbtdi */
+    Bytff *sdbn, *strfnd;   /* sdbn gofs up to strfnd for lfngti of run */
 
     for (;;) {
-        /* Make sure that we always have enough lookahead, except
-         * at the end of the input file. We need MAX_MATCH bytes
-         * for the longest run, plus one for the unrolled loop.
+        /* Mbkf surf tibt wf blwbys ibvf fnougi lookbifbd, fxdfpt
+         * bt tif fnd of tif input filf. Wf nffd MAX_MATCH bytfs
+         * for tif longfst run, plus onf for tif unrollfd loop.
          */
-        if (s->lookahead <= MAX_MATCH) {
+        if (s->lookbifbd <= MAX_MATCH) {
             fill_window(s);
-            if (s->lookahead <= MAX_MATCH && flush == Z_NO_FLUSH) {
-                return need_more;
+            if (s->lookbifbd <= MAX_MATCH && flusi == Z_NO_FLUSH) {
+                rfturn nffd_morf;
             }
-            if (s->lookahead == 0) break; /* flush the current block */
+            if (s->lookbifbd == 0) brfbk; /* flusi tif durrfnt blodk */
         }
 
-        /* See how many times the previous byte repeats */
-        s->match_length = 0;
-        if (s->lookahead >= MIN_MATCH && s->strstart > 0) {
-            scan = s->window + s->strstart - 1;
-            prev = *scan;
-            if (prev == *++scan && prev == *++scan && prev == *++scan) {
-                strend = s->window + s->strstart + MAX_MATCH;
+        /* Sff iow mbny timfs tif prfvious bytf rfpfbts */
+        s->mbtdi_lfngti = 0;
+        if (s->lookbifbd >= MIN_MATCH && s->strstbrt > 0) {
+            sdbn = s->window + s->strstbrt - 1;
+            prfv = *sdbn;
+            if (prfv == *++sdbn && prfv == *++sdbn && prfv == *++sdbn) {
+                strfnd = s->window + s->strstbrt + MAX_MATCH;
                 do {
-                } while (prev == *++scan && prev == *++scan &&
-                         prev == *++scan && prev == *++scan &&
-                         prev == *++scan && prev == *++scan &&
-                         prev == *++scan && prev == *++scan &&
-                         scan < strend);
-                s->match_length = MAX_MATCH - (int)(strend - scan);
-                if (s->match_length > s->lookahead)
-                    s->match_length = s->lookahead;
+                } wiilf (prfv == *++sdbn && prfv == *++sdbn &&
+                         prfv == *++sdbn && prfv == *++sdbn &&
+                         prfv == *++sdbn && prfv == *++sdbn &&
+                         prfv == *++sdbn && prfv == *++sdbn &&
+                         sdbn < strfnd);
+                s->mbtdi_lfngti = MAX_MATCH - (int)(strfnd - sdbn);
+                if (s->mbtdi_lfngti > s->lookbifbd)
+                    s->mbtdi_lfngti = s->lookbifbd;
             }
-            Assert(scan <= s->window+(uInt)(s->window_size-1), "wild scan");
+            Assfrt(sdbn <= s->window+(uInt)(s->window_sizf-1), "wild sdbn");
         }
 
-        /* Emit match if have run of MIN_MATCH or longer, else emit literal */
-        if (s->match_length >= MIN_MATCH) {
-            check_match(s, s->strstart, s->strstart - 1, s->match_length);
+        /* Emit mbtdi if ibvf run of MIN_MATCH or longfr, flsf fmit litfrbl */
+        if (s->mbtdi_lfngti >= MIN_MATCH) {
+            difdk_mbtdi(s, s->strstbrt, s->strstbrt - 1, s->mbtdi_lfngti);
 
-            _tr_tally_dist(s, 1, s->match_length - MIN_MATCH, bflush);
+            _tr_tblly_dist(s, 1, s->mbtdi_lfngti - MIN_MATCH, bflusi);
 
-            s->lookahead -= s->match_length;
-            s->strstart += s->match_length;
-            s->match_length = 0;
-        } else {
-            /* No match, output a literal byte */
-            Tracevv((stderr,"%c", s->window[s->strstart]));
-            _tr_tally_lit (s, s->window[s->strstart], bflush);
-            s->lookahead--;
-            s->strstart++;
+            s->lookbifbd -= s->mbtdi_lfngti;
+            s->strstbrt += s->mbtdi_lfngti;
+            s->mbtdi_lfngti = 0;
+        } flsf {
+            /* No mbtdi, output b litfrbl bytf */
+            Trbdfvv((stdfrr,"%d", s->window[s->strstbrt]));
+            _tr_tblly_lit (s, s->window[s->strstbrt], bflusi);
+            s->lookbifbd--;
+            s->strstbrt++;
         }
-        if (bflush) FLUSH_BLOCK(s, 0);
+        if (bflusi) FLUSH_BLOCK(s, 0);
     }
-    s->insert = 0;
-    if (flush == Z_FINISH) {
+    s->insfrt = 0;
+    if (flusi == Z_FINISH) {
         FLUSH_BLOCK(s, 1);
-        return finish_done;
+        rfturn finisi_donf;
     }
-    if (s->last_lit)
+    if (s->lbst_lit)
         FLUSH_BLOCK(s, 0);
-    return block_done;
+    rfturn blodk_donf;
 }
 
 /* ===========================================================================
- * For Z_HUFFMAN_ONLY, do not look for matches.  Do not maintain a hash table.
- * (It will be regenerated if this run of deflate switches away from Huffman.)
+ * For Z_HUFFMAN_ONLY, do not look for mbtdifs.  Do not mbintbin b ibsi tbblf.
+ * (It will bf rfgfnfrbtfd if tiis run of dfflbtf switdifs bwby from Huffmbn.)
  */
-local block_state deflate_huff(s, flush)
-    deflate_state *s;
-    int flush;
+lodbl blodk_stbtf dfflbtf_iuff(s, flusi)
+    dfflbtf_stbtf *s;
+    int flusi;
 {
-    int bflush;             /* set if current block must be flushed */
+    int bflusi;             /* sft if durrfnt blodk must bf flusifd */
 
     for (;;) {
-        /* Make sure that we have a literal to write. */
-        if (s->lookahead == 0) {
+        /* Mbkf surf tibt wf ibvf b litfrbl to writf. */
+        if (s->lookbifbd == 0) {
             fill_window(s);
-            if (s->lookahead == 0) {
-                if (flush == Z_NO_FLUSH)
-                    return need_more;
-                break;      /* flush the current block */
+            if (s->lookbifbd == 0) {
+                if (flusi == Z_NO_FLUSH)
+                    rfturn nffd_morf;
+                brfbk;      /* flusi tif durrfnt blodk */
             }
         }
 
-        /* Output a literal byte */
-        s->match_length = 0;
-        Tracevv((stderr,"%c", s->window[s->strstart]));
-        _tr_tally_lit (s, s->window[s->strstart], bflush);
-        s->lookahead--;
-        s->strstart++;
-        if (bflush) FLUSH_BLOCK(s, 0);
+        /* Output b litfrbl bytf */
+        s->mbtdi_lfngti = 0;
+        Trbdfvv((stdfrr,"%d", s->window[s->strstbrt]));
+        _tr_tblly_lit (s, s->window[s->strstbrt], bflusi);
+        s->lookbifbd--;
+        s->strstbrt++;
+        if (bflusi) FLUSH_BLOCK(s, 0);
     }
-    s->insert = 0;
-    if (flush == Z_FINISH) {
+    s->insfrt = 0;
+    if (flusi == Z_FINISH) {
         FLUSH_BLOCK(s, 1);
-        return finish_done;
+        rfturn finisi_donf;
     }
-    if (s->last_lit)
+    if (s->lbst_lit)
         FLUSH_BLOCK(s, 0);
-    return block_done;
+    rfturn blodk_donf;
 }

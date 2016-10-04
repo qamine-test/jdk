@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.io.*;
+import jbvb.util.Lodblf;
+
+import jbvb.sfdurity.spfd.PKCS8EndodfdKfySpfd;
+import jbvb.sfdurity.spfd.X509EndodfdKfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+
+import jbvbx.drypto.SfdrftKfyFbdtory;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+
+/**
+ * Stbndbrdizfd rfprfsfntbtion for sfriblizfd Kfy objfdts.
+ *
+ * <p>
+ *
+ * Notf thbt b sfriblizfd Kfy mby dontbin sfnsitivf informbtion
+ * whidh should not bf fxposfd in untrustfd fnvironmfnts.  Sff thf
+ * <b hrff="../../../plbtform/sfriblizbtion/spfd/sfdurity.html">
+ * Sfdurity Appfndix</b>
+ * of thf Sfriblizbtion Spfdifidbtion for morf informbtion.
+ *
+ * @sff Kfy
+ * @sff KfyFbdtory
+ * @sff jbvbx.drypto.spfd.SfdrftKfySpfd
+ * @sff jbvb.sfdurity.spfd.X509EndodfdKfySpfd
+ * @sff jbvb.sfdurity.spfd.PKCS8EndodfdKfySpfd
+ *
+ * @sindf 1.5
+ */
+
+publid dlbss KfyRfp implfmfnts Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4757683898830641853L;
+
+    /**
+     * Kfy typf.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid fnum Typf {
+
+        /** Typf for sfdrft kfys. */
+        SECRET,
+
+        /** Typf for publid kfys. */
+        PUBLIC,
+
+        /** Typf for privbtf kfys. */
+        PRIVATE,
+
+    }
+
+    privbtf stbtid finbl String PKCS8 = "PKCS#8";
+    privbtf stbtid finbl String X509 = "X.509";
+    privbtf stbtid finbl String RAW = "RAW";
+
+    /**
+     * Eithfr onf of Typf.SECRET, Typf.PUBLIC, or Typf.PRIVATE
+     *
+     * @sfribl
+     */
+    privbtf Typf typf;
+
+    /**
+     * Thf Kfy blgorithm
+     *
+     * @sfribl
+     */
+    privbtf String blgorithm;
+
+    /**
+     * Thf Kfy fndoding formbt
+     *
+     * @sfribl
+     */
+    privbtf String formbt;
+
+    /**
+     * Thf fndodfd Kfy bytfs
+     *
+     * @sfribl
+     */
+    privbtf bytf[] fndodfd;
+
+    /**
+     * Construdt thf bltfrnbtf Kfy dlbss.
+     *
+     * <p>
+     *
+     * @pbrbm typf fithfr onf of Typf.SECRET, Typf.PUBLIC, or Typf.PRIVATE
+     * @pbrbm blgorithm thf blgorithm rfturnfd from
+     *          {@dodf Kfy.gftAlgorithm()}
+     * @pbrbm formbt thf fndoding formbt rfturnfd from
+     *          {@dodf Kfy.gftFormbt()}
+     * @pbrbm fndodfd thf fndodfd bytfs rfturnfd from
+     *          {@dodf Kfy.gftEndodfd()}
+     *
+     * @fxdfption NullPointfrExdfption
+     *          if typf is {@dodf null},
+     *          if blgorithm is {@dodf null},
+     *          if formbt is {@dodf null},
+     *          or if fndodfd is {@dodf null}
+     */
+    publid KfyRfp(Typf typf, String blgorithm,
+                String formbt, bytf[] fndodfd) {
+
+        if (typf == null || blgorithm == null ||
+            formbt == null || fndodfd == null) {
+            throw nfw NullPointfrExdfption("invblid null input(s)");
+        }
+
+        this.typf = typf;
+        this.blgorithm = blgorithm;
+        this.formbt = formbt.toUppfrCbsf(Lodblf.ENGLISH);
+        this.fndodfd = fndodfd.dlonf();
+    }
+
+    /**
+     * Rfsolvf thf Kfy objfdt.
+     *
+     * <p> This mfthod supports thrff Typf/formbt dombinbtions:
+     * <ul>
+     * <li> Typf.SECRET/"RAW" - rfturns b SfdrftKfySpfd objfdt
+     * donstrudtfd using fndodfd kfy bytfs bnd blgorithm
+     * <li> Typf.PUBLIC/"X.509" - gfts b KfyFbdtory instbndf for
+     * thf kfy blgorithm, donstrudts bn X509EndodfdKfySpfd with thf
+     * fndodfd kfy bytfs, bnd gfnfrbtfs b publid kfy from thf spfd
+     * <li> Typf.PRIVATE/"PKCS#8" - gfts b KfyFbdtory instbndf for
+     * thf kfy blgorithm, donstrudts b PKCS8EndodfdKfySpfd with thf
+     * fndodfd kfy bytfs, bnd gfnfrbtfs b privbtf kfy from thf spfd
+     * </ul>
+     *
+     * <p>
+     *
+     * @rfturn thf rfsolvfd Kfy objfdt
+     *
+     * @fxdfption ObjfdtStrfbmExdfption if thf Typf/formbt
+     *  dombinbtion is unrfdognizfd, if thf blgorithm, kfy formbt, or
+     *  fndodfd kfy bytfs brf unrfdognizfd/invblid, of if thf
+     *  rfsolution of thf kfy fbils for bny rfbson
+     */
+    protfdtfd Objfdt rfbdRfsolvf() throws ObjfdtStrfbmExdfption {
+        try {
+            if (typf == Typf.SECRET && RAW.fqubls(formbt)) {
+                rfturn nfw SfdrftKfySpfd(fndodfd, blgorithm);
+            } flsf if (typf == Typf.PUBLIC && X509.fqubls(formbt)) {
+                KfyFbdtory f = KfyFbdtory.gftInstbndf(blgorithm);
+                rfturn f.gfnfrbtfPublid(nfw X509EndodfdKfySpfd(fndodfd));
+            } flsf if (typf == Typf.PRIVATE && PKCS8.fqubls(formbt)) {
+                KfyFbdtory f = KfyFbdtory.gftInstbndf(blgorithm);
+                rfturn f.gfnfrbtfPrivbtf(nfw PKCS8EndodfdKfySpfd(fndodfd));
+            } flsf {
+                throw nfw NotSfriblizbblfExdfption
+                        ("unrfdognizfd typf/formbt dombinbtion: " +
+                        typf + "/" + formbt);
+            }
+        } dbtdh (NotSfriblizbblfExdfption nsf) {
+            throw nsf;
+        } dbtdh (Exdfption f) {
+            NotSfriblizbblfExdfption nsf = nfw NotSfriblizbblfExdfption
+                                        ("jbvb.sfdurity.Kfy: " +
+                                        "[" + typf + "] " +
+                                        "[" + blgorithm + "] " +
+                                        "[" + formbt + "]");
+            nsf.initCbusf(f);
+            throw nsf;
+        }
+    }
+}

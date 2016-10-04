@@ -1,486 +1,486 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.relation;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
 
-import static com.sun.jmx.defaults.JmxProperties.RELATION_LOGGER;
-import static com.sun.jmx.mbeanserver.Util.cast;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.RELATION_LOGGER;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.dbst;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
 
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControllfr;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.logging.Lfvfl;
 
 /**
- * A RelationTypeSupport object implements the RelationType interface.
- * <P>It represents a relation type, providing role information for each role
- * expected to be supported in every relation of that type.
+ * A RflbtionTypfSupport objfdt implfmfnts tif RflbtionTypf intfrfbdf.
+ * <P>It rfprfsfnts b rflbtion typf, providing rolf informbtion for fbdi rolf
+ * fxpfdtfd to bf supportfd in fvfry rflbtion of tibt typf.
  *
- * <P>A relation type includes a relation type name and a list of
- * role infos (represented by RoleInfo objects).
+ * <P>A rflbtion typf indludfs b rflbtion typf nbmf bnd b list of
+ * rolf infos (rfprfsfntfd by RolfInfo objfdts).
  *
- * <P>A relation type has to be declared in the Relation Service:
- * <P>- either using the createRelationType() method, where a RelationTypeSupport
- * object will be created and kept in the Relation Service
- * <P>- either using the addRelationType() method where the user has to create
- * an object implementing the RelationType interface, and this object will be
- * used as representing a relation type in the Relation Service.
+ * <P>A rflbtion typf ibs to bf dfdlbrfd in tif Rflbtion Sfrvidf:
+ * <P>- fitifr using tif drfbtfRflbtionTypf() mftiod, wifrf b RflbtionTypfSupport
+ * objfdt will bf drfbtfd bnd kfpt in tif Rflbtion Sfrvidf
+ * <P>- fitifr using tif bddRflbtionTypf() mftiod wifrf tif usfr ibs to drfbtf
+ * bn objfdt implfmfnting tif RflbtionTypf intfrfbdf, bnd tiis objfdt will bf
+ * usfd bs rfprfsfnting b rflbtion typf in tif Rflbtion Sfrvidf.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>4611072955724144607L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>4611072955724144607L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class RelationTypeSupport implements RelationType {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss RflbtionTypfSupport implfmfnts RflbtionTypf {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -8179019472410837190L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -8179019472410837190L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = 4611072955724144607L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = 4611072955724144607L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("myTypeName", String.class),
-      new ObjectStreamField("myRoleName2InfoMap", HashMap.class),
-      new ObjectStreamField("myIsInRelServFlg", boolean.class)
+      nfw ObjfdtStrfbmFifld("myTypfNbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("myRolfNbmf2InfoMbp", HbsiMbp.dlbss),
+      nfw ObjfdtStrfbmFifld("myIsInRflSfrvFlg", boolfbn.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("typeName", String.class),
-      new ObjectStreamField("roleName2InfoMap", Map.class),
-      new ObjectStreamField("isInRelationService", boolean.class)
+      nfw ObjfdtStrfbmFifld("typfNbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("rolfNbmf2InfoMbp", Mbp.dlbss),
+      nfw ObjfdtStrfbmFifld("isInRflbtionSfrvidf", boolfbn.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField typeName String Relation type name
-     * @serialField roleName2InfoMap Map {@link Map} holding the mapping:
-     *              &lt;role name ({@link String})&gt; -&gt; &lt;role info ({@link RoleInfo} object)&gt;
-     * @serialField isInRelationService boolean Flag specifying whether the relation type has been declared in the
-     *              Relation Service (so can no longer be updated)
+     * @sfriblFifld typfNbmf String Rflbtion typf nbmf
+     * @sfriblFifld rolfNbmf2InfoMbp Mbp {@link Mbp} iolding tif mbpping:
+     *              &lt;rolf nbmf ({@link String})&gt; -&gt; &lt;rolf info ({@link RolfInfo} objfdt)&gt;
+     * @sfriblFifld isInRflbtionSfrvidf boolfbn Flbg spfdifying wiftifr tif rflbtion typf ibs bffn dfdlbrfd in tif
+     *              Rflbtion Sfrvidf (so dbn no longfr bf updbtfd)
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK : Too bbd, no dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     //
-    // Private members
+    // Privbtf mfmbfrs
     //
 
     /**
-     * @serial Relation type name
+     * @sfribl Rflbtion typf nbmf
      */
-    private String typeName = null;
+    privbtf String typfNbmf = null;
 
     /**
-     * @serial {@link Map} holding the mapping:
-     *           &lt;role name ({@link String})&gt; -&gt; &lt;role info ({@link RoleInfo} object)&gt;
+     * @sfribl {@link Mbp} iolding tif mbpping:
+     *           &lt;rolf nbmf ({@link String})&gt; -&gt; &lt;rolf info ({@link RolfInfo} objfdt)&gt;
      */
-    private Map<String,RoleInfo> roleName2InfoMap =
-        new HashMap<String,RoleInfo>();
+    privbtf Mbp<String,RolfInfo> rolfNbmf2InfoMbp =
+        nfw HbsiMbp<String,RolfInfo>();
 
     /**
-     * @serial Flag specifying whether the relation type has been declared in the
-     *         Relation Service (so can no longer be updated)
+     * @sfribl Flbg spfdifying wiftifr tif rflbtion typf ibs bffn dfdlbrfd in tif
+     *         Rflbtion Sfrvidf (so dbn no longfr bf updbtfd)
      */
-    private boolean isInRelationService = false;
+    privbtf boolfbn isInRflbtionSfrvidf = fblsf;
 
     //
-    // Constructors
+    // Construdtors
     //
 
     /**
-     * Constructor where all role definitions are dynamically created and
-     * passed as parameter.
+     * Construdtor wifrf bll rolf dffinitions brf dynbmidblly drfbtfd bnd
+     * pbssfd bs pbrbmftfr.
      *
-     * @param relationTypeName  Name of relation type
-     * @param roleInfoArray  List of role definitions (RoleInfo objects)
+     * @pbrbm rflbtionTypfNbmf  Nbmf of rflbtion typf
+     * @pbrbm rolfInfoArrby  List of rolf dffinitions (RolfInfo objfdts)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception InvalidRelationTypeException  if:
-     * <P>- the same name has been used for two different roles
-     * <P>- no role info provided
-     * <P>- one null role info provided
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption InvblidRflbtionTypfExdfption  if:
+     * <P>- tif sbmf nbmf ibs bffn usfd for two difffrfnt rolfs
+     * <P>- no rolf info providfd
+     * <P>- onf null rolf info providfd
      */
-    public RelationTypeSupport(String relationTypeName,
-                            RoleInfo[] roleInfoArray)
-        throws IllegalArgumentException,
-               InvalidRelationTypeException {
+    publid RflbtionTypfSupport(String rflbtionTypfNbmf,
+                            RolfInfo[] rolfInfoArrby)
+        tirows IllfgblArgumfntExdfption,
+               InvblidRflbtionTypfExdfption {
 
-        if (relationTypeName == null || roleInfoArray == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (rflbtionTypfNbmf == null || rolfInfoArrby == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        RELATION_LOGGER.entering(RelationTypeSupport.class.getName(),
-                "RelationTypeSupport", relationTypeName);
+        RELATION_LOGGER.fntfring(RflbtionTypfSupport.dlbss.gftNbmf(),
+                "RflbtionTypfSupport", rflbtionTypfNbmf);
 
-        // Can throw InvalidRelationTypeException, ClassNotFoundException
-        // and NotCompliantMBeanException
-        initMembers(relationTypeName, roleInfoArray);
+        // Cbn tirow InvblidRflbtionTypfExdfption, ClbssNotFoundExdfption
+        // bnd NotComplibntMBfbnExdfption
+        initMfmbfrs(rflbtionTypfNbmf, rolfInfoArrby);
 
-        RELATION_LOGGER.exiting(RelationTypeSupport.class.getName(),
-                "RelationTypeSupport");
-        return;
+        RELATION_LOGGER.fxiting(RflbtionTypfSupport.dlbss.gftNbmf(),
+                "RflbtionTypfSupport");
+        rfturn;
     }
 
     /**
-     * Constructor to be used for subclasses.
+     * Construdtor to bf usfd for subdlbssfs.
      *
-     * @param relationTypeName  Name of relation type.
+     * @pbrbm rflbtionTypfNbmf  Nbmf of rflbtion typf.
      *
-     * @exception IllegalArgumentException  if null parameter.
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr.
      */
-    protected RelationTypeSupport(String relationTypeName)
+    protfdtfd RflbtionTypfSupport(String rflbtionTypfNbmf)
     {
-        if (relationTypeName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (rflbtionTypfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        RELATION_LOGGER.entering(RelationTypeSupport.class.getName(),
-                "RelationTypeSupport", relationTypeName);
+        RELATION_LOGGER.fntfring(RflbtionTypfSupport.dlbss.gftNbmf(),
+                "RflbtionTypfSupport", rflbtionTypfNbmf);
 
-        typeName = relationTypeName;
+        typfNbmf = rflbtionTypfNbmf;
 
-        RELATION_LOGGER.exiting(RelationTypeSupport.class.getName(),
-                "RelationTypeSupport");
-        return;
+        RELATION_LOGGER.fxiting(RflbtionTypfSupport.dlbss.gftNbmf(),
+                "RflbtionTypfSupport");
+        rfturn;
     }
 
     //
-    // Accessors
+    // Addfssors
     //
 
     /**
-     * Returns the relation type name.
+     * Rfturns tif rflbtion typf nbmf.
      *
-     * @return the relation type name.
+     * @rfturn tif rflbtion typf nbmf.
      */
-    public String getRelationTypeName() {
-        return typeName;
+    publid String gftRflbtionTypfNbmf() {
+        rfturn typfNbmf;
     }
 
     /**
-     * Returns the list of role definitions (ArrayList of RoleInfo objects).
+     * Rfturns tif list of rolf dffinitions (ArrbyList of RolfInfo objfdts).
      */
-    public List<RoleInfo> getRoleInfos() {
-        return new ArrayList<RoleInfo>(roleName2InfoMap.values());
+    publid List<RolfInfo> gftRolfInfos() {
+        rfturn nfw ArrbyList<RolfInfo>(rolfNbmf2InfoMbp.vblufs());
     }
 
     /**
-     * Returns the role info (RoleInfo object) for the given role info name
+     * Rfturns tif rolf info (RolfInfo objfdt) for tif givfn rolf info nbmf
      * (null if not found).
      *
-     * @param roleInfoName  role info name
+     * @pbrbm rolfInfoNbmf  rolf info nbmf
      *
-     * @return RoleInfo object providing role definition
-     * does not exist
+     * @rfturn RolfInfo objfdt providing rolf dffinition
+     * dofs not fxist
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RoleInfoNotFoundException  if no role info with that name in
-     * relation type.
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RolfInfoNotFoundExdfption  if no rolf info witi tibt nbmf in
+     * rflbtion typf.
      */
-    public RoleInfo getRoleInfo(String roleInfoName)
-        throws IllegalArgumentException,
-               RoleInfoNotFoundException {
+    publid RolfInfo gftRolfInfo(String rolfInfoNbmf)
+        tirows IllfgblArgumfntExdfption,
+               RolfInfoNotFoundExdfption {
 
-        if (roleInfoName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (rolfInfoNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        RELATION_LOGGER.entering(RelationTypeSupport.class.getName(),
-                "getRoleInfo", roleInfoName);
+        RELATION_LOGGER.fntfring(RflbtionTypfSupport.dlbss.gftNbmf(),
+                "gftRolfInfo", rolfInfoNbmf);
 
-        // No null RoleInfo allowed, so use get()
-        RoleInfo result = roleName2InfoMap.get(roleInfoName);
+        // No null RolfInfo bllowfd, so usf gft()
+        RolfInfo rfsult = rolfNbmf2InfoMbp.gft(rolfInfoNbmf);
 
-        if (result == null) {
-            StringBuilder excMsgStrB = new StringBuilder();
-            String excMsg = "No role info for role ";
-            excMsgStrB.append(excMsg);
-            excMsgStrB.append(roleInfoName);
-            throw new RoleInfoNotFoundException(excMsgStrB.toString());
+        if (rfsult == null) {
+            StringBuildfr fxdMsgStrB = nfw StringBuildfr();
+            String fxdMsg = "No rolf info for rolf ";
+            fxdMsgStrB.bppfnd(fxdMsg);
+            fxdMsgStrB.bppfnd(rolfInfoNbmf);
+            tirow nfw RolfInfoNotFoundExdfption(fxdMsgStrB.toString());
         }
 
-        RELATION_LOGGER.exiting(RelationTypeSupport.class.getName(),
-                "getRoleInfo");
-        return result;
+        RELATION_LOGGER.fxiting(RflbtionTypfSupport.dlbss.gftNbmf(),
+                "gftRolfInfo");
+        rfturn rfsult;
     }
 
     //
-    // Misc
+    // Misd
     //
 
     /**
-     * Add a role info.
-     * This method of course should not be used after the creation of the
-     * relation type, because updating it would invalidate that the relations
-     * created associated to that type still conform to it.
-     * Can throw a RuntimeException if trying to update a relation type
-     * declared in the Relation Service.
+     * Add b rolf info.
+     * Tiis mftiod of doursf siould not bf usfd bftfr tif drfbtion of tif
+     * rflbtion typf, bfdbusf updbting it would invblidbtf tibt tif rflbtions
+     * drfbtfd bssodibtfd to tibt typf still donform to it.
+     * Cbn tirow b RuntimfExdfption if trying to updbtf b rflbtion typf
+     * dfdlbrfd in tif Rflbtion Sfrvidf.
      *
-     * @param roleInfo  role info to be added.
+     * @pbrbm rolfInfo  rolf info to bf bddfd.
      *
-     * @exception IllegalArgumentException  if null parameter.
-     * @exception InvalidRelationTypeException  if there is already a role
-     *  info in current relation type with the same name.
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr.
+     * @fxdfption InvblidRflbtionTypfExdfption  if tifrf is blrfbdy b rolf
+     *  info in durrfnt rflbtion typf witi tif sbmf nbmf.
      */
-    protected void addRoleInfo(RoleInfo roleInfo)
-        throws IllegalArgumentException,
-               InvalidRelationTypeException {
+    protfdtfd void bddRolfInfo(RolfInfo rolfInfo)
+        tirows IllfgblArgumfntExdfption,
+               InvblidRflbtionTypfExdfption {
 
-        if (roleInfo == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (rolfInfo == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        RELATION_LOGGER.entering(RelationTypeSupport.class.getName(),
-                "addRoleInfo", roleInfo);
+        RELATION_LOGGER.fntfring(RflbtionTypfSupport.dlbss.gftNbmf(),
+                "bddRolfInfo", rolfInfo);
 
-        if (isInRelationService) {
-            // Trying to update a declared relation type
-            String excMsg = "Relation type cannot be updated as it is declared in the Relation Service.";
-            throw new RuntimeException(excMsg);
+        if (isInRflbtionSfrvidf) {
+            // Trying to updbtf b dfdlbrfd rflbtion typf
+            String fxdMsg = "Rflbtion typf dbnnot bf updbtfd bs it is dfdlbrfd in tif Rflbtion Sfrvidf.";
+            tirow nfw RuntimfExdfption(fxdMsg);
         }
 
-        String roleName = roleInfo.getName();
+        String rolfNbmf = rolfInfo.gftNbmf();
 
-        // Checks if the role info has already been described
-        if (roleName2InfoMap.containsKey(roleName)) {
-            StringBuilder excMsgStrB = new StringBuilder();
-            String excMsg = "Two role infos provided for role ";
-            excMsgStrB.append(excMsg);
-            excMsgStrB.append(roleName);
-            throw new InvalidRelationTypeException(excMsgStrB.toString());
+        // Cifdks if tif rolf info ibs blrfbdy bffn dfsdribfd
+        if (rolfNbmf2InfoMbp.dontbinsKfy(rolfNbmf)) {
+            StringBuildfr fxdMsgStrB = nfw StringBuildfr();
+            String fxdMsg = "Two rolf infos providfd for rolf ";
+            fxdMsgStrB.bppfnd(fxdMsg);
+            fxdMsgStrB.bppfnd(rolfNbmf);
+            tirow nfw InvblidRflbtionTypfExdfption(fxdMsgStrB.toString());
         }
 
-        roleName2InfoMap.put(roleName, new RoleInfo(roleInfo));
+        rolfNbmf2InfoMbp.put(rolfNbmf, nfw RolfInfo(rolfInfo));
 
-        RELATION_LOGGER.exiting(RelationTypeSupport.class.getName(),
-                "addRoleInfo");
-        return;
+        RELATION_LOGGER.fxiting(RflbtionTypfSupport.dlbss.gftNbmf(),
+                "bddRolfInfo");
+        rfturn;
     }
 
-    // Sets the internal flag to specify that the relation type has been
-    // declared in the Relation Service
-    void setRelationServiceFlag(boolean flag) {
-        isInRelationService = flag;
-        return;
+    // Sfts tif intfrnbl flbg to spfdify tibt tif rflbtion typf ibs bffn
+    // dfdlbrfd in tif Rflbtion Sfrvidf
+    void sftRflbtionSfrvidfFlbg(boolfbn flbg) {
+        isInRflbtionSfrvidf = flbg;
+        rfturn;
     }
 
-    // Initializes the members, i.e. type name and role info list.
+    // Initiblizfs tif mfmbfrs, i.f. typf nbmf bnd rolf info list.
     //
-    // -param relationTypeName  Name of relation type
-    // -param roleInfoArray  List of role definitions (RoleInfo objects)
+    // -pbrbm rflbtionTypfNbmf  Nbmf of rflbtion typf
+    // -pbrbm rolfInfoArrby  List of rolf dffinitions (RolfInfo objfdts)
     //
-    // -exception IllegalArgumentException  if null parameter
-    // -exception InvalidRelationTypeException  If:
-    //  - the same name has been used for two different roles
-    //  - no role info provided
-    //  - one null role info provided
-    private void initMembers(String relationTypeName,
-                             RoleInfo[] roleInfoArray)
-        throws IllegalArgumentException,
-               InvalidRelationTypeException {
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+    // -fxdfption InvblidRflbtionTypfExdfption  If:
+    //  - tif sbmf nbmf ibs bffn usfd for two difffrfnt rolfs
+    //  - no rolf info providfd
+    //  - onf null rolf info providfd
+    privbtf void initMfmbfrs(String rflbtionTypfNbmf,
+                             RolfInfo[] rolfInfoArrby)
+        tirows IllfgblArgumfntExdfption,
+               InvblidRflbtionTypfExdfption {
 
-        if (relationTypeName == null || roleInfoArray == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (rflbtionTypfNbmf == null || rolfInfoArrby == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        RELATION_LOGGER.entering(RelationTypeSupport.class.getName(),
-                "initMembers", relationTypeName);
+        RELATION_LOGGER.fntfring(RflbtionTypfSupport.dlbss.gftNbmf(),
+                "initMfmbfrs", rflbtionTypfNbmf);
 
-        typeName = relationTypeName;
+        typfNbmf = rflbtionTypfNbmf;
 
-        // Verifies role infos before setting them
-        // Can throw InvalidRelationTypeException
-        checkRoleInfos(roleInfoArray);
+        // Vfrififs rolf infos bfforf sftting tifm
+        // Cbn tirow InvblidRflbtionTypfExdfption
+        difdkRolfInfos(rolfInfoArrby);
 
-        for (int i = 0; i < roleInfoArray.length; i++) {
-            RoleInfo currRoleInfo = roleInfoArray[i];
-            roleName2InfoMap.put(currRoleInfo.getName(),
-                                 new RoleInfo(currRoleInfo));
+        for (int i = 0; i < rolfInfoArrby.lfngti; i++) {
+            RolfInfo durrRolfInfo = rolfInfoArrby[i];
+            rolfNbmf2InfoMbp.put(durrRolfInfo.gftNbmf(),
+                                 nfw RolfInfo(durrRolfInfo));
         }
 
-        RELATION_LOGGER.exiting(RelationTypeSupport.class.getName(),
-                "initMembers");
-        return;
+        RELATION_LOGGER.fxiting(RflbtionTypfSupport.dlbss.gftNbmf(),
+                "initMfmbfrs");
+        rfturn;
     }
 
-    // Checks the given RoleInfo array to verify that:
-    // - the array is not empty
-    // - it does not contain a null element
-    // - a given role name is used only for one RoleInfo
+    // Cifdks tif givfn RolfInfo brrby to vfrify tibt:
+    // - tif brrby is not fmpty
+    // - it dofs not dontbin b null flfmfnt
+    // - b givfn rolf nbmf is usfd only for onf RolfInfo
     //
-    // -param roleInfoArray  array to be checked
+    // -pbrbm rolfInfoArrby  brrby to bf difdkfd
     //
-    // -exception IllegalArgumentException
-    // -exception InvalidRelationTypeException  If:
-    //  - the same name has been used for two different roles
-    //  - no role info provided
-    //  - one null role info provided
-    static void checkRoleInfos(RoleInfo[] roleInfoArray)
-        throws IllegalArgumentException,
-               InvalidRelationTypeException {
+    // -fxdfption IllfgblArgumfntExdfption
+    // -fxdfption InvblidRflbtionTypfExdfption  If:
+    //  - tif sbmf nbmf ibs bffn usfd for two difffrfnt rolfs
+    //  - no rolf info providfd
+    //  - onf null rolf info providfd
+    stbtid void difdkRolfInfos(RolfInfo[] rolfInfoArrby)
+        tirows IllfgblArgumfntExdfption,
+               InvblidRflbtionTypfExdfption {
 
-        if (roleInfoArray == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (rolfInfoArrby == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        if (roleInfoArray.length == 0) {
-            // No role info provided
-            String excMsg = "No role info provided.";
-            throw new InvalidRelationTypeException(excMsg);
+        if (rolfInfoArrby.lfngti == 0) {
+            // No rolf info providfd
+            String fxdMsg = "No rolf info providfd.";
+            tirow nfw InvblidRflbtionTypfExdfption(fxdMsg);
         }
 
 
-        Set<String> roleNames = new HashSet<String>();
+        Sft<String> rolfNbmfs = nfw HbsiSft<String>();
 
-        for (int i = 0; i < roleInfoArray.length; i++) {
-            RoleInfo currRoleInfo = roleInfoArray[i];
+        for (int i = 0; i < rolfInfoArrby.lfngti; i++) {
+            RolfInfo durrRolfInfo = rolfInfoArrby[i];
 
-            if (currRoleInfo == null) {
-                String excMsg = "Null role info provided.";
-                throw new InvalidRelationTypeException(excMsg);
+            if (durrRolfInfo == null) {
+                String fxdMsg = "Null rolf info providfd.";
+                tirow nfw InvblidRflbtionTypfExdfption(fxdMsg);
             }
 
-            String roleName = currRoleInfo.getName();
+            String rolfNbmf = durrRolfInfo.gftNbmf();
 
-            // Checks if the role info has already been described
-            if (roleNames.contains(roleName)) {
-                StringBuilder excMsgStrB = new StringBuilder();
-                String excMsg = "Two role infos provided for role ";
-                excMsgStrB.append(excMsg);
-                excMsgStrB.append(roleName);
-                throw new InvalidRelationTypeException(excMsgStrB.toString());
+            // Cifdks if tif rolf info ibs blrfbdy bffn dfsdribfd
+            if (rolfNbmfs.dontbins(rolfNbmf)) {
+                StringBuildfr fxdMsgStrB = nfw StringBuildfr();
+                String fxdMsg = "Two rolf infos providfd for rolf ";
+                fxdMsgStrB.bppfnd(fxdMsg);
+                fxdMsgStrB.bppfnd(rolfNbmf);
+                tirow nfw InvblidRflbtionTypfExdfption(fxdMsgStrB.toString());
             }
-            roleNames.add(roleName);
+            rolfNbmfs.bdd(rolfNbmf);
         }
 
-        return;
+        rfturn;
     }
 
 
     /**
-     * Deserializes a {@link RelationTypeSupport} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link RflbtionTypfSupport} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
       {
-        // Read an object serialized in the old serial form
+        // Rfbd bn objfdt sfriblizfd in tif old sfribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        typeName = (String) fields.get("myTypeName", null);
-        if (fields.defaulted("myTypeName"))
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        typfNbmf = (String) fiflds.gft("myTypfNbmf", null);
+        if (fiflds.dffbultfd("myTypfNbmf"))
         {
-          throw new NullPointerException("myTypeName");
+          tirow nfw NullPointfrExdfption("myTypfNbmf");
         }
-        roleName2InfoMap = cast(fields.get("myRoleName2InfoMap", null));
-        if (fields.defaulted("myRoleName2InfoMap"))
+        rolfNbmf2InfoMbp = dbst(fiflds.gft("myRolfNbmf2InfoMbp", null));
+        if (fiflds.dffbultfd("myRolfNbmf2InfoMbp"))
         {
-          throw new NullPointerException("myRoleName2InfoMap");
+          tirow nfw NullPointfrExdfption("myRolfNbmf2InfoMbp");
         }
-        isInRelationService = fields.get("myIsInRelServFlg", false);
-        if (fields.defaulted("myIsInRelServFlg"))
+        isInRflbtionSfrvidf = fiflds.gft("myIsInRflSfrvFlg", fblsf);
+        if (fiflds.dffbultfd("myIsInRflSfrvFlg"))
         {
-          throw new NullPointerException("myIsInRelServFlg");
+          tirow nfw NullPointfrExdfption("myIsInRflSfrvFlg");
         }
       }
-      else
+      flsf
       {
-        // Read an object serialized in the new serial form
+        // Rfbd bn objfdt sfriblizfd in tif nfw sfribl form
         //
-        in.defaultReadObject();
+        in.dffbultRfbdObjfdt();
       }
     }
 
 
     /**
-     * Serializes a {@link RelationTypeSupport} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link RflbtionTypfSupport} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-      if (compat)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+      if (dompbt)
       {
-        // Serializes this instance in the old serial form
+        // Sfriblizfs tiis instbndf in tif old sfribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("myTypeName", typeName);
-        fields.put("myRoleName2InfoMap", roleName2InfoMap);
-        fields.put("myIsInRelServFlg", isInRelationService);
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("myTypfNbmf", typfNbmf);
+        fiflds.put("myRolfNbmf2InfoMbp", rolfNbmf2InfoMbp);
+        fiflds.put("myIsInRflSfrvFlg", isInRflbtionSfrvidf);
+        out.writfFiflds();
       }
-      else
+      flsf
       {
-        // Serializes this instance in the new serial form
+        // Sfriblizfs tiis instbndf in tif nfw sfribl form
         //
-        out.defaultWriteObject();
+        out.dffbultWritfObjfdt();
       }
     }
 }

@@ -1,0 +1,584 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb bnd Josh Blodh with bssistbndf from mfmbfrs of
+ * JCP JSR-166 Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd
+ * bt http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * A linfbr dollfdtion thbt supports flfmfnt insfrtion bnd rfmovbl bt
+ * both fnds.  Thf nbmf <i>dfquf</i> is short for "doublf fndfd qufuf"
+ * bnd is usublly pronoundfd "dfdk".  Most {@dodf Dfquf}
+ * implfmfntbtions plbdf no fixfd limits on thf numbfr of flfmfnts
+ * thfy mby dontbin, but this intfrfbdf supports dbpbdity-rfstridtfd
+ * dfqufs bs wfll bs thosf with no fixfd sizf limit.
+ *
+ * <p>This intfrfbdf dffinfs mfthods to bddfss thf flfmfnts bt both
+ * fnds of thf dfquf.  Mfthods brf providfd to insfrt, rfmovf, bnd
+ * fxbminf thf flfmfnt.  Ebdh of thfsf mfthods fxists in two forms:
+ * onf throws bn fxdfption if thf opfrbtion fbils, thf othfr rfturns b
+ * spfdibl vbluf (fithfr {@dodf null} or {@dodf fblsf}, dfpfnding on
+ * thf opfrbtion).  Thf lbttfr form of thf insfrt opfrbtion is
+ * dfsignfd spfdifidblly for usf with dbpbdity-rfstridtfd
+ * {@dodf Dfquf} implfmfntbtions; in most implfmfntbtions, insfrt
+ * opfrbtions dbnnot fbil.
+ *
+ * <p>Thf twflvf mfthods dfsdribfd bbovf brf summbrizfd in thf
+ * following tbblf:
+ *
+ * <tbblf BORDER CELLPADDING=3 CELLSPACING=1>
+ * <dbption>Summbry of Dfquf mfthods</dbption>
+ *  <tr>
+ *    <td></td>
+ *    <td ALIGN=CENTER COLSPAN = 2> <b>First Elfmfnt (Hfbd)</b></td>
+ *    <td ALIGN=CENTER COLSPAN = 2> <b>Lbst Elfmfnt (Tbil)</b></td>
+ *  </tr>
+ *  <tr>
+ *    <td></td>
+ *    <td ALIGN=CENTER><fm>Throws fxdfption</fm></td>
+ *    <td ALIGN=CENTER><fm>Spfdibl vbluf</fm></td>
+ *    <td ALIGN=CENTER><fm>Throws fxdfption</fm></td>
+ *    <td ALIGN=CENTER><fm>Spfdibl vbluf</fm></td>
+ *  </tr>
+ *  <tr>
+ *    <td><b>Insfrt</b></td>
+ *    <td>{@link Dfquf#bddFirst bddFirst(f)}</td>
+ *    <td>{@link Dfquf#offfrFirst offfrFirst(f)}</td>
+ *    <td>{@link Dfquf#bddLbst bddLbst(f)}</td>
+ *    <td>{@link Dfquf#offfrLbst offfrLbst(f)}</td>
+ *  </tr>
+ *  <tr>
+ *    <td><b>Rfmovf</b></td>
+ *    <td>{@link Dfquf#rfmovfFirst rfmovfFirst()}</td>
+ *    <td>{@link Dfquf#pollFirst pollFirst()}</td>
+ *    <td>{@link Dfquf#rfmovfLbst rfmovfLbst()}</td>
+ *    <td>{@link Dfquf#pollLbst pollLbst()}</td>
+ *  </tr>
+ *  <tr>
+ *    <td><b>Exbminf</b></td>
+ *    <td>{@link Dfquf#gftFirst gftFirst()}</td>
+ *    <td>{@link Dfquf#pffkFirst pffkFirst()}</td>
+ *    <td>{@link Dfquf#gftLbst gftLbst()}</td>
+ *    <td>{@link Dfquf#pffkLbst pffkLbst()}</td>
+ *  </tr>
+ * </tbblf>
+ *
+ * <p>This intfrfbdf fxtfnds thf {@link Qufuf} intfrfbdf.  Whfn b dfquf is
+ * usfd bs b qufuf, FIFO (First-In-First-Out) bfhbvior rfsults.  Elfmfnts brf
+ * bddfd bt thf fnd of thf dfquf bnd rfmovfd from thf bfginning.  Thf mfthods
+ * inhfritfd from thf {@dodf Qufuf} intfrfbdf brf prfdisfly fquivblfnt to
+ * {@dodf Dfquf} mfthods bs indidbtfd in thf following tbblf:
+ *
+ * <tbblf BORDER CELLPADDING=3 CELLSPACING=1>
+ * <dbption>Compbrison of Qufuf bnd Dfquf mfthods</dbption>
+ *  <tr>
+ *    <td ALIGN=CENTER> <b>{@dodf Qufuf} Mfthod</b></td>
+ *    <td ALIGN=CENTER> <b>Equivblfnt {@dodf Dfquf} Mfthod</b></td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link jbvb.util.Qufuf#bdd bdd(f)}</td>
+ *    <td>{@link #bddLbst bddLbst(f)}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link jbvb.util.Qufuf#offfr offfr(f)}</td>
+ *    <td>{@link #offfrLbst offfrLbst(f)}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link jbvb.util.Qufuf#rfmovf rfmovf()}</td>
+ *    <td>{@link #rfmovfFirst rfmovfFirst()}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link jbvb.util.Qufuf#poll poll()}</td>
+ *    <td>{@link #pollFirst pollFirst()}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link jbvb.util.Qufuf#flfmfnt flfmfnt()}</td>
+ *    <td>{@link #gftFirst gftFirst()}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link jbvb.util.Qufuf#pffk pffk()}</td>
+ *    <td>{@link #pffk pffkFirst()}</td>
+ *  </tr>
+ * </tbblf>
+ *
+ * <p>Dfqufs dbn blso bf usfd bs LIFO (Lbst-In-First-Out) stbdks.  This
+ * intfrfbdf should bf usfd in prfffrfndf to thf lfgbdy {@link Stbdk} dlbss.
+ * Whfn b dfquf is usfd bs b stbdk, flfmfnts brf pushfd bnd poppfd from thf
+ * bfginning of thf dfquf.  Stbdk mfthods brf prfdisfly fquivblfnt to
+ * {@dodf Dfquf} mfthods bs indidbtfd in thf tbblf bflow:
+ *
+ * <tbblf BORDER CELLPADDING=3 CELLSPACING=1>
+ * <dbption>Compbrison of Stbdk bnd Dfquf mfthods</dbption>
+ *  <tr>
+ *    <td ALIGN=CENTER> <b>Stbdk Mfthod</b></td>
+ *    <td ALIGN=CENTER> <b>Equivblfnt {@dodf Dfquf} Mfthod</b></td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link #push push(f)}</td>
+ *    <td>{@link #bddFirst bddFirst(f)}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link #pop pop()}</td>
+ *    <td>{@link #rfmovfFirst rfmovfFirst()}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link #pffk pffk()}</td>
+ *    <td>{@link #pffkFirst pffkFirst()}</td>
+ *  </tr>
+ * </tbblf>
+ *
+ * <p>Notf thbt thf {@link #pffk pffk} mfthod works fqublly wfll whfn
+ * b dfquf is usfd bs b qufuf or b stbdk; in fithfr dbsf, flfmfnts brf
+ * drbwn from thf bfginning of thf dfquf.
+ *
+ * <p>This intfrfbdf providfs two mfthods to rfmovf intfrior
+ * flfmfnts, {@link #rfmovfFirstOddurrfndf rfmovfFirstOddurrfndf} bnd
+ * {@link #rfmovfLbstOddurrfndf rfmovfLbstOddurrfndf}.
+ *
+ * <p>Unlikf thf {@link List} intfrfbdf, this intfrfbdf dofs not
+ * providf support for indfxfd bddfss to flfmfnts.
+ *
+ * <p>Whilf {@dodf Dfquf} implfmfntbtions brf not stridtly rfquirfd
+ * to prohibit thf insfrtion of null flfmfnts, thfy brf strongly
+ * fndourbgfd to do so.  Usfrs of bny {@dodf Dfquf} implfmfntbtions
+ * thbt do bllow null flfmfnts brf strongly fndourbgfd <i>not</i> to
+ * tbkf bdvbntbgf of thf bbility to insfrt nulls.  This is so bfdbusf
+ * {@dodf null} is usfd bs b spfdibl rfturn vbluf by vbrious mfthods
+ * to indidbtfd thbt thf dfquf is fmpty.
+ *
+ * <p>{@dodf Dfquf} implfmfntbtions gfnfrblly do not dffinf
+ * flfmfnt-bbsfd vfrsions of thf {@dodf fqubls} bnd {@dodf hbshCodf}
+ * mfthods, but instfbd inhfrit thf idfntity-bbsfd vfrsions from dlbss
+ * {@dodf Objfdt}.
+ *
+ * <p>This intfrfbdf is b mfmbfr of thf <b
+ * hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html"> Jbvb Collfdtions
+ * Frbmfwork</b>.
+ *
+ * @buthor Doug Lfb
+ * @buthor Josh Blodh
+ * @sindf  1.6
+ * @pbrbm <E> thf typf of flfmfnts hfld in this dollfdtion
+ */
+publid intfrfbdf Dfquf<E> fxtfnds Qufuf<E> {
+    /**
+     * Insfrts thf spfdififd flfmfnt bt thf front of this dfquf if it is
+     * possiblf to do so immfdibtfly without violbting dbpbdity rfstridtions,
+     * throwing bn {@dodf IllfgblStbtfExdfption} if no spbdf is durrfntly
+     * bvbilbblf.  Whfn using b dbpbdity-rfstridtfd dfquf, it is gfnfrblly
+     * prfffrbblf to usf mfthod {@link #offfrFirst}.
+     *
+     * @pbrbm f thf flfmfnt to bdd
+     * @throws IllfgblStbtfExdfption if thf flfmfnt dbnnot bf bddfd bt this
+     *         timf duf to dbpbdity rfstridtions
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this dfquf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this dfquf
+     */
+    void bddFirst(E f);
+
+    /**
+     * Insfrts thf spfdififd flfmfnt bt thf fnd of this dfquf if it is
+     * possiblf to do so immfdibtfly without violbting dbpbdity rfstridtions,
+     * throwing bn {@dodf IllfgblStbtfExdfption} if no spbdf is durrfntly
+     * bvbilbblf.  Whfn using b dbpbdity-rfstridtfd dfquf, it is gfnfrblly
+     * prfffrbblf to usf mfthod {@link #offfrLbst}.
+     *
+     * <p>This mfthod is fquivblfnt to {@link #bdd}.
+     *
+     * @pbrbm f thf flfmfnt to bdd
+     * @throws IllfgblStbtfExdfption if thf flfmfnt dbnnot bf bddfd bt this
+     *         timf duf to dbpbdity rfstridtions
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this dfquf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this dfquf
+     */
+    void bddLbst(E f);
+
+    /**
+     * Insfrts thf spfdififd flfmfnt bt thf front of this dfquf unlfss it would
+     * violbtf dbpbdity rfstridtions.  Whfn using b dbpbdity-rfstridtfd dfquf,
+     * this mfthod is gfnfrblly prfffrbblf to thf {@link #bddFirst} mfthod,
+     * whidh dbn fbil to insfrt bn flfmfnt only by throwing bn fxdfption.
+     *
+     * @pbrbm f thf flfmfnt to bdd
+     * @rfturn {@dodf truf} if thf flfmfnt wbs bddfd to this dfquf, flsf
+     *         {@dodf fblsf}
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this dfquf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this dfquf
+     */
+    boolfbn offfrFirst(E f);
+
+    /**
+     * Insfrts thf spfdififd flfmfnt bt thf fnd of this dfquf unlfss it would
+     * violbtf dbpbdity rfstridtions.  Whfn using b dbpbdity-rfstridtfd dfquf,
+     * this mfthod is gfnfrblly prfffrbblf to thf {@link #bddLbst} mfthod,
+     * whidh dbn fbil to insfrt bn flfmfnt only by throwing bn fxdfption.
+     *
+     * @pbrbm f thf flfmfnt to bdd
+     * @rfturn {@dodf truf} if thf flfmfnt wbs bddfd to this dfquf, flsf
+     *         {@dodf fblsf}
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this dfquf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this dfquf
+     */
+    boolfbn offfrLbst(E f);
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf first flfmfnt of this dfquf.  This mfthod
+     * difffrs from {@link #pollFirst pollFirst} only in thbt it throws bn
+     * fxdfption if this dfquf is fmpty.
+     *
+     * @rfturn thf hfbd of this dfquf
+     * @throws NoSudhElfmfntExdfption if this dfquf is fmpty
+     */
+    E rfmovfFirst();
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf lbst flfmfnt of this dfquf.  This mfthod
+     * difffrs from {@link #pollLbst pollLbst} only in thbt it throws bn
+     * fxdfption if this dfquf is fmpty.
+     *
+     * @rfturn thf tbil of this dfquf
+     * @throws NoSudhElfmfntExdfption if this dfquf is fmpty
+     */
+    E rfmovfLbst();
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf first flfmfnt of this dfquf,
+     * or rfturns {@dodf null} if this dfquf is fmpty.
+     *
+     * @rfturn thf hfbd of this dfquf, or {@dodf null} if this dfquf is fmpty
+     */
+    E pollFirst();
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf lbst flfmfnt of this dfquf,
+     * or rfturns {@dodf null} if this dfquf is fmpty.
+     *
+     * @rfturn thf tbil of this dfquf, or {@dodf null} if this dfquf is fmpty
+     */
+    E pollLbst();
+
+    /**
+     * Rftrifvfs, but dofs not rfmovf, thf first flfmfnt of this dfquf.
+     *
+     * This mfthod difffrs from {@link #pffkFirst pffkFirst} only in thbt it
+     * throws bn fxdfption if this dfquf is fmpty.
+     *
+     * @rfturn thf hfbd of this dfquf
+     * @throws NoSudhElfmfntExdfption if this dfquf is fmpty
+     */
+    E gftFirst();
+
+    /**
+     * Rftrifvfs, but dofs not rfmovf, thf lbst flfmfnt of this dfquf.
+     * This mfthod difffrs from {@link #pffkLbst pffkLbst} only in thbt it
+     * throws bn fxdfption if this dfquf is fmpty.
+     *
+     * @rfturn thf tbil of this dfquf
+     * @throws NoSudhElfmfntExdfption if this dfquf is fmpty
+     */
+    E gftLbst();
+
+    /**
+     * Rftrifvfs, but dofs not rfmovf, thf first flfmfnt of this dfquf,
+     * or rfturns {@dodf null} if this dfquf is fmpty.
+     *
+     * @rfturn thf hfbd of this dfquf, or {@dodf null} if this dfquf is fmpty
+     */
+    E pffkFirst();
+
+    /**
+     * Rftrifvfs, but dofs not rfmovf, thf lbst flfmfnt of this dfquf,
+     * or rfturns {@dodf null} if this dfquf is fmpty.
+     *
+     * @rfturn thf tbil of this dfquf, or {@dodf null} if this dfquf is fmpty
+     */
+    E pffkLbst();
+
+    /**
+     * Rfmovfs thf first oddurrfndf of thf spfdififd flfmfnt from this dfquf.
+     * If thf dfquf dofs not dontbin thf flfmfnt, it is undhbngfd.
+     * Morf formblly, rfmovfs thf first flfmfnt {@dodf f} sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>
+     * (if sudh bn flfmfnt fxists).
+     * Rfturns {@dodf truf} if this dfquf dontbinfd thf spfdififd flfmfnt
+     * (or fquivblfntly, if this dfquf dhbngfd bs b rfsult of thf dbll).
+     *
+     * @pbrbm o flfmfnt to bf rfmovfd from this dfquf, if prfsfnt
+     * @rfturn {@dodf truf} if bn flfmfnt wbs rfmovfd bs b rfsult of this dbll
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         is indompbtiblf with this dfquf
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    boolfbn rfmovfFirstOddurrfndf(Objfdt o);
+
+    /**
+     * Rfmovfs thf lbst oddurrfndf of thf spfdififd flfmfnt from this dfquf.
+     * If thf dfquf dofs not dontbin thf flfmfnt, it is undhbngfd.
+     * Morf formblly, rfmovfs thf lbst flfmfnt {@dodf f} sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>
+     * (if sudh bn flfmfnt fxists).
+     * Rfturns {@dodf truf} if this dfquf dontbinfd thf spfdififd flfmfnt
+     * (or fquivblfntly, if this dfquf dhbngfd bs b rfsult of thf dbll).
+     *
+     * @pbrbm o flfmfnt to bf rfmovfd from this dfquf, if prfsfnt
+     * @rfturn {@dodf truf} if bn flfmfnt wbs rfmovfd bs b rfsult of this dbll
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         is indompbtiblf with this dfquf
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    boolfbn rfmovfLbstOddurrfndf(Objfdt o);
+
+    // *** Qufuf mfthods ***
+
+    /**
+     * Insfrts thf spfdififd flfmfnt into thf qufuf rfprfsfntfd by this dfquf
+     * (in othfr words, bt thf tbil of this dfquf) if it is possiblf to do so
+     * immfdibtfly without violbting dbpbdity rfstridtions, rfturning
+     * {@dodf truf} upon suddfss bnd throwing bn
+     * {@dodf IllfgblStbtfExdfption} if no spbdf is durrfntly bvbilbblf.
+     * Whfn using b dbpbdity-rfstridtfd dfquf, it is gfnfrblly prfffrbblf to
+     * usf {@link #offfr(Objfdt) offfr}.
+     *
+     * <p>This mfthod is fquivblfnt to {@link #bddLbst}.
+     *
+     * @pbrbm f thf flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @throws IllfgblStbtfExdfption if thf flfmfnt dbnnot bf bddfd bt this
+     *         timf duf to dbpbdity rfstridtions
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this dfquf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this dfquf
+     */
+    boolfbn bdd(E f);
+
+    /**
+     * Insfrts thf spfdififd flfmfnt into thf qufuf rfprfsfntfd by this dfquf
+     * (in othfr words, bt thf tbil of this dfquf) if it is possiblf to do so
+     * immfdibtfly without violbting dbpbdity rfstridtions, rfturning
+     * {@dodf truf} upon suddfss bnd {@dodf fblsf} if no spbdf is durrfntly
+     * bvbilbblf.  Whfn using b dbpbdity-rfstridtfd dfquf, this mfthod is
+     * gfnfrblly prfffrbblf to thf {@link #bdd} mfthod, whidh dbn fbil to
+     * insfrt bn flfmfnt only by throwing bn fxdfption.
+     *
+     * <p>This mfthod is fquivblfnt to {@link #offfrLbst}.
+     *
+     * @pbrbm f thf flfmfnt to bdd
+     * @rfturn {@dodf truf} if thf flfmfnt wbs bddfd to this dfquf, flsf
+     *         {@dodf fblsf}
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this dfquf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this dfquf
+     */
+    boolfbn offfr(E f);
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf hfbd of thf qufuf rfprfsfntfd by this dfquf
+     * (in othfr words, thf first flfmfnt of this dfquf).
+     * This mfthod difffrs from {@link #poll poll} only in thbt it throws bn
+     * fxdfption if this dfquf is fmpty.
+     *
+     * <p>This mfthod is fquivblfnt to {@link #rfmovfFirst()}.
+     *
+     * @rfturn thf hfbd of thf qufuf rfprfsfntfd by this dfquf
+     * @throws NoSudhElfmfntExdfption if this dfquf is fmpty
+     */
+    E rfmovf();
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf hfbd of thf qufuf rfprfsfntfd by this dfquf
+     * (in othfr words, thf first flfmfnt of this dfquf), or rfturns
+     * {@dodf null} if this dfquf is fmpty.
+     *
+     * <p>This mfthod is fquivblfnt to {@link #pollFirst()}.
+     *
+     * @rfturn thf first flfmfnt of this dfquf, or {@dodf null} if
+     *         this dfquf is fmpty
+     */
+    E poll();
+
+    /**
+     * Rftrifvfs, but dofs not rfmovf, thf hfbd of thf qufuf rfprfsfntfd by
+     * this dfquf (in othfr words, thf first flfmfnt of this dfquf).
+     * This mfthod difffrs from {@link #pffk pffk} only in thbt it throws bn
+     * fxdfption if this dfquf is fmpty.
+     *
+     * <p>This mfthod is fquivblfnt to {@link #gftFirst()}.
+     *
+     * @rfturn thf hfbd of thf qufuf rfprfsfntfd by this dfquf
+     * @throws NoSudhElfmfntExdfption if this dfquf is fmpty
+     */
+    E flfmfnt();
+
+    /**
+     * Rftrifvfs, but dofs not rfmovf, thf hfbd of thf qufuf rfprfsfntfd by
+     * this dfquf (in othfr words, thf first flfmfnt of this dfquf), or
+     * rfturns {@dodf null} if this dfquf is fmpty.
+     *
+     * <p>This mfthod is fquivblfnt to {@link #pffkFirst()}.
+     *
+     * @rfturn thf hfbd of thf qufuf rfprfsfntfd by this dfquf, or
+     *         {@dodf null} if this dfquf is fmpty
+     */
+    E pffk();
+
+
+    // *** Stbdk mfthods ***
+
+    /**
+     * Pushfs bn flfmfnt onto thf stbdk rfprfsfntfd by this dfquf (in othfr
+     * words, bt thf hfbd of this dfquf) if it is possiblf to do so
+     * immfdibtfly without violbting dbpbdity rfstridtions, throwing bn
+     * {@dodf IllfgblStbtfExdfption} if no spbdf is durrfntly bvbilbblf.
+     *
+     * <p>This mfthod is fquivblfnt to {@link #bddFirst}.
+     *
+     * @pbrbm f thf flfmfnt to push
+     * @throws IllfgblStbtfExdfption if thf flfmfnt dbnnot bf bddfd bt this
+     *         timf duf to dbpbdity rfstridtions
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this dfquf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this dfquf
+     */
+    void push(E f);
+
+    /**
+     * Pops bn flfmfnt from thf stbdk rfprfsfntfd by this dfquf.  In othfr
+     * words, rfmovfs bnd rfturns thf first flfmfnt of this dfquf.
+     *
+     * <p>This mfthod is fquivblfnt to {@link #rfmovfFirst()}.
+     *
+     * @rfturn thf flfmfnt bt thf front of this dfquf (whidh is thf top
+     *         of thf stbdk rfprfsfntfd by this dfquf)
+     * @throws NoSudhElfmfntExdfption if this dfquf is fmpty
+     */
+    E pop();
+
+
+    // *** Collfdtion mfthods ***
+
+    /**
+     * Rfmovfs thf first oddurrfndf of thf spfdififd flfmfnt from this dfquf.
+     * If thf dfquf dofs not dontbin thf flfmfnt, it is undhbngfd.
+     * Morf formblly, rfmovfs thf first flfmfnt {@dodf f} sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>
+     * (if sudh bn flfmfnt fxists).
+     * Rfturns {@dodf truf} if this dfquf dontbinfd thf spfdififd flfmfnt
+     * (or fquivblfntly, if this dfquf dhbngfd bs b rfsult of thf dbll).
+     *
+     * <p>This mfthod is fquivblfnt to {@link #rfmovfFirstOddurrfndf(Objfdt)}.
+     *
+     * @pbrbm o flfmfnt to bf rfmovfd from this dfquf, if prfsfnt
+     * @rfturn {@dodf truf} if bn flfmfnt wbs rfmovfd bs b rfsult of this dbll
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         is indompbtiblf with this dfquf
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    boolfbn rfmovf(Objfdt o);
+
+    /**
+     * Rfturns {@dodf truf} if this dfquf dontbins thf spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if this dfquf dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>.
+     *
+     * @pbrbm o flfmfnt whosf prfsfndf in this dfquf is to bf tfstfd
+     * @rfturn {@dodf truf} if this dfquf dontbins thf spfdififd flfmfnt
+     * @throws ClbssCbstExdfption if thf typf of thf spfdififd flfmfnt
+     *         is indompbtiblf with this dfquf
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         dfquf dofs not pfrmit null flfmfnts
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    boolfbn dontbins(Objfdt o);
+
+    /**
+     * Rfturns thf numbfr of flfmfnts in this dfquf.
+     *
+     * @rfturn thf numbfr of flfmfnts in this dfquf
+     */
+    publid int sizf();
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts in this dfquf in propfr sfqufndf.
+     * Thf flfmfnts will bf rfturnfd in ordfr from first (hfbd) to lbst (tbil).
+     *
+     * @rfturn bn itfrbtor ovfr thf flfmfnts in this dfquf in propfr sfqufndf
+     */
+    Itfrbtor<E> itfrbtor();
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts in this dfquf in rfvfrsf
+     * sfqufntibl ordfr.  Thf flfmfnts will bf rfturnfd in ordfr from
+     * lbst (tbil) to first (hfbd).
+     *
+     * @rfturn bn itfrbtor ovfr thf flfmfnts in this dfquf in rfvfrsf
+     * sfqufndf
+     */
+    Itfrbtor<E> dfsdfndingItfrbtor();
+
+}

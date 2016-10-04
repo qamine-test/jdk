@@ -1,0 +1,114 @@
+'\" t
+.\"  Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Troublfshooting Tools
+.\"     Titlf: jdmd.1
+.\"
+.if n .pl 99999
+.TH jdmd 1 "21 Novfmbfr 2013" "JDK 8" "Troublfshooting Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jdmd \- Sfnds dibgnostid dommbnd rfqufsts to b running Jbvb Virtubl Mbdhinf (JVM)\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjdmd\fR [\fB\-l\fR|\fB\-h\fR|\fB\-hflp\fR]
+.fi     
+.nf     
+
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fBPfrfCountfr\&.print\fR
+.fi     
+.nf     
+
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fB\-f\fR \fIfilfnbmf\fR
+.fi     
+.nf     
+
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
+.fi     
+.sp     
+.SH DESCRIPTION    
+Thf \f3jdmd\fR utility is usfd to sfnd dibgnostid dommbnd rfqufsts to thf JVM\&. It must bf usfd on thf sbmf mbdhinf on whidh thf JVM is running, bnd hbvf thf sbmf ffffdtivf usfr bnd group idfntififrs thbt wfrf usfd to lbundh thf JVM\&.
+.PP
+\fINotf:\fR To invokf dibgnostid dommbnds from b rfmotf mbdhinf or with difffrfnt idfntifrs, you dbn usf thf \f3dom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fR intfrfbdf\&. For morf informbtion bbout thf \f3DibgnostidCommbndMBfbn\fR intfrfbdf, sff thf API dodumfntbtion bt http://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.html
+.PP
+If you run \f3jdmd\fR without brgumfnts or with thf \f3-l\fR option, it prints thf list of running Jbvb prodfss idfntififrs with thf mbin dlbss bnd dommbnd-linf brgumfnts thbt wfrf usfd to lbundh thf prodfss\&. Running \f3jdmd\fR with thf \f3-h\fR or \f3-hflp\fR option prints thf tool\(dqs hflp mfssbgf\&.
+.PP
+If you spfdify thf prodfssfs idfntififr (\fIpid\fR) or thf mbin dlbss (\fImbin-dlbss\fR) bs thf first brgumfnt, \f3jdmd\fR sfnds thf dibgnostid dommbnd rfqufst to thf Jbvb prodfss with thf spfdififd idfntififr or to bll Jbvb prodfssfs with thf spfdififd nbmf of thf mbin dlbss\&. You dbn blso sfnd thf dibgnostid dommbnd rfqufst to bll bvbilbblf Jbvb prodfssfs by spfdifying \f30\fR bs thf prodfss idfntififr\&. Usf onf of thf following bs thf dibgnostid dommbnd rfqufst:
+.TP     
+Pfrfdountfr\&.print
+Prints thf pfrformbndf dountfrs bvbilbblf for thf spfdififd Jbvb prodfss\&. Thf list of pfrformbndf dountfrs might vbry with thf Jbvb prodfss\&.
+.TP
+-f \fIfilfnbmf\fR
+.br
+Thf nbmf of thf filf from whidh to rfbd dibgnostid dommbnds bnd sfnd thfm to thf spfdififd Jbvb prodfss\&. Usfd only with thf \f3-f\fR option\&. Ebdh dommbnd in thf filf must bf writtfn on b singlf linf\&. Linfs stbrting with b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of thf filf fnds whfn bll linfs hbvf bffn rfbd or whfn b linf dontbining thf \f3stop\fR kfyword is rfbd\&.
+.TP     
+\fIdommbnd\fR [\fIbrgumfnts\fR]
+Thf dommbnd to bf sfnt to thf spfdififd Jbvb prodfss\&. Thf list of bvbilbblf dibgnostid dommbnds for b givfn prodfss dbn bf obtbinfd by sfnding thf \f3hflp\fR dommbnd to this prodfss\&. Ebdh dibgnostid dommbnd hbs its own sft of brgumfnts\&. To sff thf dfsdription, syntbx, bnd b list of bvbilbblf brgumfnts for b dommbnd, usf thf nbmf of thf dommbnd bs thf brgumfnt for thf \f3hflp\fR dommbnd\&.
+
+\fINotf:\fR If bny brgumfnts dontbin spbdfs, you must surround thfm with singlf or doublf quotbtion mbrks (\f3\&'\fR or \f3"\fR)\&. In bddition, you must fsdbpf singlf or doublf quotbtion mbrks with b bbdkslbsh (\f3\f\fR) to prfvfnt thf opfrbting systfm shfll from prodfssing quotbtion mbrks\&. Altfrnbtivfly, you dbn surround thfsf brgumfnts with singlf quotbtion mbrks bnd thfn with doublf quotbtion mbrks (or with doublf quotbtion mbrks bnd thfn with singlf quotbtion mbrks)\&.
+.SH OPTIONS    
+Options brf mutublly fxdlusivf\&.
+.TP
+-f \fIfilfnbmf\fR
+.br
+Rfbds dommbnds from thf spfdififd filf\&. This option dbn bf usfd only if you spfdify thf prodfss idfntififr or thf mbin dlbss bs thf first brgumfnt\&. Ebdh dommbnd in thf filf must bf writtfn on b singlf linf\&. Linfs stbrting with b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of thf filf fnds whfn bll linfs hbvf bffn rfbd or whfn b linf dontbining thf \f3stop\fR kfyword is rfbd\&.
+.TP
+-h, -hflp
+.br
+Prints b hflp mfssbgf\&.
+.TP
+-l
+.br
+Prints thf list of running Jbvb prodfssfs idfntififrs with thf mbin dlbss bnd dommbnd-linf brgumfnts\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jps(1)
+.RE
+.br
+'pl 8.5i
+'bp

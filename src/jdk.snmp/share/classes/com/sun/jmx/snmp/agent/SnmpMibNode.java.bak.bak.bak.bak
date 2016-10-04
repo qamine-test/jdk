@@ -1,0 +1,406 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+/**
+ * Thf <CODE>SnmpMibNodf</CODE> dlbss rfprfsfnts b nodf in bn SNMP MIB.
+ * <P>
+ * This dlbss is usfd intfrnblly bnd by thf dlbss gfnfrbtfd by
+ * <CODE>mibgfn</CODE>.
+ * You should not nffd to usf this dlbss dirfdtly.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpMibNodf implfmfnts Sfriblizbblf {
+
+    // ---------------------------------------------------------------------
+    // PUBLIC METHODS
+    //----------------------------------------------------------------------
+
+    /**
+     * Gft thf nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * b brbndh lfbding to b subgroub, or b tbblf.
+     *
+     * @pbrbm id Id wf stbrt from looking for thf nfxt.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        This objfdt is bllodbtfd through thf <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdh indoming SNMP rfqufst.
+     *
+     * @rfturn Thf nfxt id in this group.
+     *
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr thf givfn id.
+     */
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb)
+        throws SnmpStbtusExdfption {
+        rfturn gftNfxtIdfntififr(vbrList,id);
+    }
+
+    /**
+     * Gft thf nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * b brbndh lfbding to b subgroub, or b tbblf, possibly skipping ovfr
+     * thosf brds thbt must not or dbnnot bf rfturnfd.
+     *
+     * Cblls {@link #gftNfxtVbrId(long,jbvb.lbng.Objfdt)} until
+     * {@link #skipVbribblf(long,jbvb.lbng.Objfdt,int)} rfturns fblsf.
+     *
+     * @pbrbm id Id wf stbrt from looking for thf nfxt.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        This objfdt is bllodbtfd through thf <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdh indoming SNMP rfqufst.
+     * @pbrbm pduVfrsion Protodol vfrsion of thf originbl rfqufst PDU.
+     *
+     * @rfturn Thf nfxt id in this group whidh dbn bf rfturnfd using
+     *         thf givfn PDU's protodol vfrsion.
+     *
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr thf givfn id.
+     */
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb, int pduVfrsion)
+        throws SnmpStbtusExdfption {
+        long vbrid=id;
+        do {
+            vbrid = gftNfxtVbrId(vbrid,usfrDbtb);
+        } whilf (skipVbribblf(vbrid,usfrDbtb,pduVfrsion));
+
+        rfturn vbrid;
+    }
+
+    /**
+     * Hook for subdlbssfs.
+     * Thf dffbult implfmfntbtion of this mfthod is to blwbys rfturn
+     * fblsf. Subdlbssfs should rfdffinf this mfthod so thbt it rfturns
+     * truf whfn:
+     * <ul><li>thf vbribblf is b lfbf thbt is not instbntibtfd,</li>
+     * <li>or thf vbribblf is b lfbf whosf typf dbnnot bf rfturnfd by thbt
+     *     vfrsion of thf protodol (f.g. bn Countfr64 with SNMPv1).</li>
+     * </ul>
+     *
+     * @pbrbm id Id wf stbrt from looking for thf nfxt.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        This objfdt is bllodbtfd through thf <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdh indoming SNMP rfqufst.
+     * @pbrbm pduVfrsion Protodol vfrsion of thf originbl rfqufst PDU.
+     *
+     * @rfturn truf if thf vbribblf must bf skippfd by thf gft-nfxt
+     *         blgorithm.
+     */
+    protfdtfd boolfbn skipVbribblf(long id, Objfdt usfrDbtb, int pduVfrsion) {
+        rfturn fblsf;
+    }
+
+    /**
+     * Find thf nodf whidh hbndlfs b vbrbind, bnd rfgistfr it in thf
+     * SnmpRfqufstTrff. This mfthod is b purf intfrnbl mfthod. You should
+     * nfvfr try to dbll it dirfdtly.
+     *
+     * @pbrbm vbrbind  Thf vbrbind to bf hbndlfd
+     *
+     * @pbrbm oid      Thf OID brrby fxtrbdtfd from thf vbrbind
+     *
+     * @pbrbm dfpth    Thf dfpth rfbdhfd in thf OID bt this stfp of thf
+     *                 prodfssing.
+     *
+     * @pbrbm hbndlfrs Thf Hbshtbblf in whidh thf vbrbind will bf rfgistfrfd
+     *                 with its hbndling nodf. This hbshtbblf dontbins
+     *                 <CODE>SnmpRfqufstTrff.Hbndlfr</CODE> itfms.
+     *
+     * @fxdfption SnmpStbtusExdfption No hbndling nodf wbs found.
+     **/
+    void findHbndlingNodf(SnmpVbrBind vbrbind,
+                          long[] oid, int dfpth,
+                          SnmpRfqufstTrff hbndlfrs)
+        throws SnmpStbtusExdfption {
+        throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+    }
+
+    /**
+     * Find thf nodf whidh hbndlfs thf lfbf thbt immfdibtfly follows thf
+     * givfn vbrbind OID, bnd rfgistfr thf it in thf SnmpRfqufstTrff.
+     * This mfthod is b purf intfrnbl mfthod. You should nfvfr try to dbll
+     * it dirfdtly.
+     *
+     * @pbrbm vbrbind  Thf vbrbind to bf hbndlfd
+     *
+     * @pbrbm oid      Thf OID brrby fxtrbdtfd from thf vbrbind
+     *
+     * @pbrbm dfpth    Thf dfpth rfbdhfd in thf OID bt this stfp of thf
+     *                 prodfssing.
+     *
+     * @pbrbm hbndlfrs Thf Hbshtbblf in whidh thf vbrbind will bf rfgistfrfd
+     *                 with its hbndling nodf. This hbshtbblf dontbins
+     *                 SnmpRfqufstTrff.Hbndlfr itfms.
+     *
+     * @rfturn Thf SnmpOid of thf nfxt lfbf.
+     *
+     * @fxdfption SnmpStbtusExdfption No hbndling nodf wbs found.
+     **/
+    long[] findNfxtHbndlingNodf(SnmpVbrBind vbrbind,
+                                 long[] oid, int pos, int dfpth,
+                                 SnmpRfqufstTrff hbndlfrs, AdmChfdkfr dhfdkfr)
+        throws SnmpStbtusExdfption {
+        throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+    }
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>gft</CODE> opfrbtion.
+     *
+     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs.
+     * <p>
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
+     *  thf MIB nodf.
+     */
+    publid bbstrbdt void gft(SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>sft</CODE> opfrbtion.
+     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs.
+     * <p>
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
+     *  thf MIB nodf.
+     */
+    publid bbstrbdt void sft(SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>dhfdk</CODE> opfrbtion.
+     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
+     * dhfdks bftwffn thf difffrfnt vblufs providfd in thf vbrbind list.
+     * <p>
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
+     *  thf MIB nodf.
+     */
+    publid bbstrbdt void dhfdk(SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Sorts thf spfdififd intfgfr brrby.
+     *
+     * @pbrbm brrby An intfgfr brrby.
+     */
+    stbtid publid void sort(int brrby[]) {
+        QuidkSort(brrby, 0, brrby.lfngth - 1);
+    }
+
+    /**
+     * Computfs thf root OID of thf MIB.
+     */
+    publid void gftRootOid(Vfdtor<Intfgfr> rfsult) {
+        rfturn;
+    }
+
+    //----------------------------------------------------------------------
+    // PACKAGE METHODS
+    //----------------------------------------------------------------------
+
+    /**
+     * This is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
+     * blgorithm.  This will hbndlf brrbys thbt brf blrfbdy
+     * sortfd, bnd brrbys with duplidbtf kfys.
+     *
+     * If you think of b onf dimfnsionbl brrby bs going from
+     * thf lowfst indfx on thf lfft to thf highfst indfx on thf right
+     * thfn thf pbrbmftfrs to this fundtion brf lowfst indfx or
+     * lfft bnd highfst indfx or right.  Thf first timf you dbll
+     * this fundtion it will bf with thf pbrbmftfrs 0, b.lfngth - 1.
+     *
+     * @pbrbm b An intfgfr brrby.
+     * @pbrbm lo0 Lfft boundbry of brrby pbrtition.
+     * @pbrbm hi0 Right boundbry of brrby pbrtition.
+     */
+    stbtid void QuidkSort(int b[], int lo0, int hi0) {
+        int lo = lo0;
+        int hi = hi0;
+        int mid;
+
+        if ( hi0 > lo0) {
+
+            /* Arbitrbrily fstbblishing pbrtition flfmfnt bs thf midpoint of
+             * thf brrby.
+             */
+            mid = b[ ( lo0 + hi0 ) / 2 ];
+
+            // loop through thf brrby until indidfs dross
+            whilf( lo <= hi ) {
+                /* find thf first flfmfnt thbt is grfbtfr thbn or fqubl to
+                 * thf pbrtition flfmfnt stbrting from thf lfft Indfx.
+                 */
+                whilf( ( lo < hi0 )  && ( b[lo] < mid ))
+                    ++lo;
+
+                /* find bn flfmfnt thbt is smbllfr thbn or fqubl to
+                 * thf pbrtition flfmfnt stbrting from thf right Indfx.
+                 */
+                whilf( ( hi > lo0 ) && ( b[hi] > mid ))
+                    --hi;
+
+                // if thf indfxfs hbvf not drossfd, swbp
+                if( lo <= hi ) {
+                    swbp(b, lo, hi);
+                    ++lo;
+                    --hi;
+                }
+            }
+
+            /* If thf right indfx hbs not rfbdhfd thf lfft sidf of brrby
+             * must now sort thf lfft pbrtition.
+             */
+            if( lo0 < hi )
+                QuidkSort( b, lo0, hi );
+
+            /* If thf lfft indfx hbs not rfbdhfd thf right sidf of brrby
+             * must now sort thf right pbrtition.
+             */
+            if( lo < hi0 )
+                QuidkSort( b, lo, hi0 );
+
+        }
+    }
+
+    //----------------------------------------------------------------------
+    // PROTECTED METHODS
+    //----------------------------------------------------------------------
+
+    /**
+     * This will givf thf first flfmfnt grfbtfr thbn <CODE>vbluf</CODE>
+     * in b sortfd brrby.
+     * If thfrf is no flfmfnt of thf brrby grfbtfr thbn <CODE>vbluf</CODE>,
+     * thf mfthod will throw b <CODE>SnmpStbtusExdfption</CODE>.
+     *
+     * @pbrbm tbblf A sortfd intfgfr brrby.
+     *
+     * @pbrbm vbluf Thf grfbtfst vbluf.
+     *
+     * @fxdfption SnmpStbtusExdfption If thfrf is no flfmfnt grfbtfr thbn
+     *     <CODE>vbluf</CODE>.
+     */
+    finbl stbtid protfdtfd int gftNfxtIdfntififr(int tbblf[], long vbluf)
+        throws SnmpStbtusExdfption {
+
+        finbl int[] b = tbblf;
+        finbl int vbl= (int) vbluf;
+
+        if (b == null) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        }
+
+        int low= 0;
+        int mbx= b.lfngth;
+        int durr= low + (mbx-low)/2;
+        int flmt= 0;
+
+        // Bbsid dhfdk
+        //
+        if (mbx < 1) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        }
+
+        if (b[mbx-1] <= vbl) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        }
+
+        whilf (low <= mbx) {
+            flmt= b[durr];
+            if (vbl == flmt) {
+                // Wf nfd to gft thf nfxt indfx ...
+                //
+                durr++;
+                rfturn b[durr];
+            }
+            if (flmt < vbl) {
+                low= durr +1;
+            } flsf {
+                mbx= durr -1;
+            }
+            durr= low + (mbx-low)/2;
+        }
+        rfturn b[durr];
+    }
+
+
+    //----------------------------------------------------------------------
+    // PRIVATE METHODS
+    //----------------------------------------------------------------------
+
+    finbl stbtid privbtf void swbp(int b[], int i, int j) {
+        int T;
+        T = b[i];
+        b[i] = b[j];
+        b[j] = T;
+    }
+
+    //----------------------------------------------------------------------
+    // PROTECTED VARIABLES
+    //----------------------------------------------------------------------
+
+    /**
+     * Contbins thf list of vbribblf idfntififrs.
+     */
+    protfdtfd int[] vbrList;
+}

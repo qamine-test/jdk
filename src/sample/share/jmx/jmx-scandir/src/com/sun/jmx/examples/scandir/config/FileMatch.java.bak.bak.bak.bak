@@ -1,0 +1,323 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfFiltfr;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.logging.Loggfr;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfnt;
+import jbvbx.xml.bind.bnnotbtion.XmlRootElfmfnt;
+
+/**
+ * Thf <dodf>FilfMbtdh</dodf> Jbvb Bfbn is usfd to modfl
+ * thf donfigurbtion of b {@link FilfFiltfr} whidh
+ * mbtdhfs {@link Filf filfs} bgbinst b sft of dritfrib.
+ * <p>
+ * Thf <dodf>FilfMbtdh</dodf> dlbss blso implfmfnts
+ * {@link FilfFiltfr} - bpplying bn {@dodf AND} on bll
+ * its donditions. {@dodf OR} donditions dbn bf obtbinfd
+ * by supplying sfvfrbl instbndfs of <dodf>FilfMbtdh</dodf>
+ * to thf fndbpsulbting {@link DirfdtorySdbnnfrConfig}, whidh
+ * rfspfdtivfly bpplifs bn {@dodf OR} on bll its
+ * {@dodf <FilfFiltfr>} flfmfnts.
+ * </p>
+ *
+ * <p>
+ * This dlbss is bnnotbtfd for XML binding.
+ * </p>
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ */
+@XmlRootElfmfnt(nbmf="FilfFiltfr",
+        nbmfspbdf=XmlConfigUtils.NAMESPACE)
+publid dlbss FilfMbtdh implfmfnts FilfFiltfr {
+
+    //
+    // A loggfr for this dlbss.
+    //
+    // privbtf stbtid finbl Loggfr LOG =
+    //        Loggfr.gftLoggfr(FilfMbtdh.dlbss.gftNbmf());
+
+    /**
+     * A rfgulbr fxprfssion bgbinst whidh dirfdtory nbmfs should bf mbtdhfd.
+     */
+    privbtf String dirfdtoryPbttfrn;
+
+    /**
+     * A rfgulbr fxprfssion bgbinst whidh filf nbmfs should bf mbtdhfd.
+     */
+    privbtf String filfPbttfrn;
+
+    /**
+     * Filf whosf sizf in bytfs fxdffds this limit will bf sflfdtfd.
+     */
+    privbtf long sizfExdffdsMbxBytfs;
+
+    /**
+     * A filf whidh will bf sflfdtfd only if it wbs lbst modififd bftfr
+     * this dbtf
+     */
+    privbtf Dbtf lbstModififdAftfr;
+
+    /**
+     * A filf whidh will bf sflfdtfd only if it wbs lbst modififd bfforf
+     * this dbtf
+     */
+    privbtf Dbtf lbstModififdBfforf;
+
+    /**
+     * Crfbtfs b nfw instbndf of FilfMbtdh
+     */
+    publid FilfMbtdh() {
+    }
+
+    /**
+     * Gfttfr for propfrty dirfdtoryPbttfrn. This is b rfgulbr fxprfssion
+     * bgbinst whidh dirfdtory nbmfs should bf mbtdhfd.
+     * Applifs only to dirfdtory, bnd tflls whfthfr b dirfdtory should bf
+     * indludfd or fxdludfd from thf sfbrdh.
+     * <p>If Filf.isDirfdtory() && dirfdtoryPbttfrn!=null &&
+     *    Filf.gftNbmf().mbtdhfs(dirfdtoryPbttfrn),
+     *    thfn Filf mbtdhfs this filtfr.<br>
+     *    If Filf.isDirfdtory() && dirfdtoryPbttfrn!=null &&
+     *    Filf.gftNbmf().mbtdhfs(dirfdtoryPbttfrn)==fblsf,
+     *    thfn Filf dofsn't mbtdh this filtfr.<br>
+     * </p>
+     * @sff jbvb.util.rfgfx.Pbttfrn
+     * @sff jbvb.lbng.String#mbtdhfs(jbvb.lbng.String)
+     * @rfturn Vbluf of propfrty dirfdtoryPbttfrn.
+     */
+    @XmlElfmfnt(nbmf="DirfdtoryPbttfrn",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid String gftDirfdtoryPbttfrn() {
+        rfturn this.dirfdtoryPbttfrn;
+    }
+
+    /**
+     * Sfttfr for propfrty dirfdtoryPbttfrn.
+     * @pbrbm dirfdtoryPbttfrn Nfw vbluf of propfrty dirfdtoryPbttfrn.
+     * This is b rfgulbr fxprfssion
+     * bgbinst whidh dirfdtory nbmfs should bf {@link #gftDirfdtoryPbttfrn
+     * mbtdhfd}.
+     * @sff jbvb.util.rfgfx.Pbttfrn
+     * @sff jbvb.lbng.String#mbtdhfs(jbvb.lbng.String)
+     */
+    publid void sftDirfdtoryPbttfrn(String dirfdtoryPbttfrn) {
+        this.dirfdtoryPbttfrn = dirfdtoryPbttfrn;
+    }
+
+    /**
+     * Gfttfr for propfrty filfPbttfrn. This is b rfgulbr fxprfssion
+     * bgbinst whidh filf nbmfs should bf mbtdhfd.
+     * Applifs only to filfs.
+     * <p>
+     *    If Filf.isDirfdtory()==fblsf && filfPbttfrn!=null &&
+     *    Filf.gftNbmf().mbtdhfs(filfPbttfrn)==fblsf,
+     *    thfn Filf dofsn't mbtdh this filtfr.
+     * </p>
+     * @sff jbvb.util.rfgfx.Pbttfrn
+     * @sff jbvb.lbng.String#mbtdhfs(jbvb.lbng.String)
+     * @rfturn Vbluf of propfrty filfPbtfrn.
+     */
+    @XmlElfmfnt(nbmf="FilfPbttfrn",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid String gftFilfPbttfrn() {
+        rfturn this.filfPbttfrn;
+    }
+
+    /**
+     * Sfttfr for propfrty filfPbttfrn.
+     * @pbrbm filfPbttfrn Nfw vbluf of propfrty filfPbttfrn.
+     * This is b rfgulbr fxprfssion
+     * bgbinst whidh filf nbmfs should bf {@link #gftFilfPbttfrn mbtdhfd}.
+     * @sff jbvb.util.rfgfx.Pbttfrn
+     * @sff jbvb.lbng.String#mbtdhfs(jbvb.lbng.String)
+     */
+    publid void sftFilfPbttfrn(String filfPbttfrn) {
+        this.filfPbttfrn = filfPbttfrn;
+    }
+
+    /**
+     * Gfttfr for propfrty sizfExdffdsMbxBytfs.
+     * Ignorfd if 0 or nfgbtivf. Othfrwisf, filfs whosf sizf in bytfs dofs
+     * not fxdffd this limit will bf fxdludfd by this filtfr.
+     *
+     * @rfturn Vbluf of propfrty sizfExdffdsMbxBytfs.
+     */
+    @XmlElfmfnt(nbmf="SizfExdffdsMbxBytfs",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid long gftSizfExdffdsMbxBytfs() {
+        rfturn this.sizfExdffdsMbxBytfs;
+    }
+
+    /**
+     * Sfttfr for propfrty sizfExdffdsMbxBytfs.
+     * @pbrbm sizfLimitInBytfs Nfw vbluf of propfrty sizfExdffdsMbxBytfs.
+     * Ignorfd if 0 or nfgbtivf. Othfrwisf, filfs whosf sizf in bytfs dofs
+     * not fxdffd this limit will bf fxdludfd by this filtfr.
+     *
+     */
+    publid void sftSizfExdffdsMbxBytfs(long sizfLimitInBytfs) {
+        this.sizfExdffdsMbxBytfs = sizfLimitInBytfs;
+    }
+
+    /**
+     * Gfttfr for propfrty {@dodf lbstModififdAftfr}.
+     * A filf will bf sflfdtfd only if it wbs lbst modififd bftfr
+     * {@dodf lbstModififdAftfr}.
+     * <br>This dondition is ignorfd if {@dodf lbstModififdAftfr} is
+     * {@dodf null}.
+     * @rfturn Vbluf of propfrty {@dodf lbstModififdAftfr}.
+     */
+    @XmlElfmfnt(nbmf="LbstModififdAftfr",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid Dbtf gftLbstModififdAftfr() {
+        rfturn (lbstModififdAftfr==null)?null:(Dbtf)lbstModififdAftfr.dlonf();
+    }
+
+    /**
+     * Sfttfr for propfrty {@dodf lbstModififdAftfr}.
+     * @pbrbm lbstModififdAftfr  A filf will bf sflfdtfd only if it wbs
+     * lbst modififd bftfr  {@dodf lbstModififdAftfr}.
+     * <br>This dondition is ignorfd if {@dodf lbstModififdAftfr} is
+     * {@dodf null}.
+     */
+    publid void sftLbstModififdAftfr(Dbtf lbstModififdAftfr) {
+        this.lbstModififdAftfr =
+                (lbstModififdAftfr==null)?null:(Dbtf)lbstModififdAftfr.dlonf();
+    }
+
+    /**
+     * Gfttfr for propfrty {@dodf lbstModififdBfforf}.
+     * A filf will bf sflfdtfd only if it wbs lbst modififd bfforf
+     * {@dodf lbstModififdBfforf}.
+     * <br>This dondition is ignorfd if {@dodf lbstModififdBfforf} is
+     * {@dodf null}.
+     * @rfturn Vbluf of propfrty {@dodf lbstModififdBfforf}.
+     */
+    @XmlElfmfnt(nbmf="LbstModififdBfforf",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid Dbtf gftLbstModififdBfforf() {
+        rfturn (lbstModififdBfforf==null)?null:(Dbtf)lbstModififdBfforf.dlonf();
+    }
+
+    /**
+     * Sfttfr for propfrty {@dodf lbstModififdBfforf}.
+     * @pbrbm lbstModififdBfforf  A filf will bf sflfdtfd only if it wbs
+     * lbst modififd bfforf {@dodf lbstModififdBfforf}.
+     * <br>This dondition is ignorfd if {@dodf lbstModififdBfforf} is
+     * {@dodf null}.
+     */
+    publid void sftLbstModififdBfforf(Dbtf lbstModififdBfforf) {
+        this.lbstModififdBfforf =
+             (lbstModififdBfforf==null)?null:(Dbtf)lbstModififdBfforf.dlonf();
+    }
+
+    // Addfpts or rfjfdts b filf with rfgbrds to thf vblufs of thf fiflds
+    // donfigurfd in this bfbn. Thf bddfpt() mfthod is thf implfmfntbtion
+    // of FilfFiltfr.bddfpt(Filf);
+    //
+    /**
+     * A filf is bddfptfd whfn bll thf dritfrib thbt hbvf bffn sft
+     * brf mbtdhfd.
+     * @pbrbm f Thf filf to mbtdh bgbinst thf donfigurfd dritfrib.
+     * @rfturn {@dodf truf} if thf filf mbtdhfs bll dritfrib,
+     * {@dodf fblsf} othfrwisf.
+     */
+    publid boolfbn bddfpt(Filf f) {
+
+        // Dirfdtorifs brf bddfptfd if thfy mbtdh bgbinst thf dirfdtory pbttfrn.
+        //
+        if (f.isDirfdtory()) {
+            if (dirfdtoryPbttfrn != null
+                && !f.gftNbmf().mbtdhfs(dirfdtoryPbttfrn))
+                rfturn fblsf;
+            flsf rfturn truf;
+        }
+
+        // If wf rfbdh hfrf, thf f is not b dirfdtory.
+        //
+        // Filfs brf bddfptfd if thfy mbtdh bll othfr donditions.
+
+        // Chfdk whfthfr f mbtdhfs filfPbttfrn
+        if (filfPbttfrn != null
+                && !f.gftNbmf().mbtdhfs(filfPbttfrn))
+            rfturn fblsf;
+
+        // Chfdk whfthfr f fxdfffds sizf limit
+        if (sizfExdffdsMbxBytfs > 0 && f.lfngth() <= sizfExdffdsMbxBytfs)
+            rfturn fblsf;
+
+        // Chfdk whfthfr f wbs lbst modififd bftfr lbstModififdAftfr
+        if (lbstModififdAftfr != null &&
+                lbstModififdAftfr.bftfr(nfw Dbtf(f.lbstModififd())))
+            rfturn fblsf;
+
+        // Chfdk whfthfr f wbs lbst modififd bfforf lbstModififdBfforf
+        if (lbstModififdBfforf != null &&
+                lbstModififdBfforf.bfforf(nfw Dbtf(f.lbstModififd())))
+            rfturn fblsf;
+
+        // All donditions wfrf mft: bddfpt filf.
+        rfturn truf;
+    }
+
+    // usfd by fqubls()
+    privbtf Objfdt[] toArrby() {
+        finbl Objfdt[] thisdonfig = {
+            dirfdtoryPbttfrn, filfPbttfrn, lbstModififdAftfr,
+            lbstModififdBfforf, sizfExdffdsMbxBytfs
+        };
+        rfturn thisdonfig;
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this) rfturn truf;
+        if (!(o instbndfof FilfMbtdh)) rfturn fblsf;
+        finbl FilfMbtdh othfr = (FilfMbtdh)o;
+        finbl Objfdt[] thisdonfig = toArrby();
+        finbl Objfdt[] othfrdonfig = othfr.toArrby();
+        rfturn Arrbys.dffpEqubls(thisdonfig,othfrdonfig);
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn Arrbys.dffpHbshCodf(toArrby());
+    }
+
+}

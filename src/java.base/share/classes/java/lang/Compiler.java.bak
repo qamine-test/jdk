@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
 /**
- * The {@code Compiler} class is provided to support Java-to-native-code
- * compilers and related services. By design, the {@code Compiler} class does
- * nothing; it serves as a placeholder for a JIT compiler implementation.
+ * Tif {@dodf Compilfr} dlbss is providfd to support Jbvb-to-nbtivf-dodf
+ * dompilfrs bnd rflbtfd sfrvidfs. By dfsign, tif {@dodf Compilfr} dlbss dofs
+ * notiing; it sfrvfs bs b plbdfioldfr for b JIT dompilfr implfmfntbtion.
  *
- * <p> When the Java Virtual Machine first starts, it determines if the system
- * property {@code java.compiler} exists. (System properties are accessible
- * through {@link System#getProperty(String)} and {@link
- * System#getProperty(String, String)}.  If so, it is assumed to be the name of
- * a library (with a platform-dependent exact location and type); {@link
- * System#loadLibrary} is called to load that library. If this loading
- * succeeds, the function named {@code java_lang_Compiler_start()} in that
- * library is called.
+ * <p> Wifn tif Jbvb Virtubl Mbdiinf first stbrts, it dftfrminfs if tif systfm
+ * propfrty {@dodf jbvb.dompilfr} fxists. (Systfm propfrtifs brf bddfssiblf
+ * tirougi {@link Systfm#gftPropfrty(String)} bnd {@link
+ * Systfm#gftPropfrty(String, String)}.  If so, it is bssumfd to bf tif nbmf of
+ * b librbry (witi b plbtform-dfpfndfnt fxbdt lodbtion bnd typf); {@link
+ * Systfm#lobdLibrbry} is dbllfd to lobd tibt librbry. If tiis lobding
+ * suddffds, tif fundtion nbmfd {@dodf jbvb_lbng_Compilfr_stbrt()} in tibt
+ * librbry is dbllfd.
  *
- * <p> If no compiler is available, these methods do nothing.
+ * <p> If no dompilfr is bvbilbblf, tifsf mftiods do notiing.
  *
- * @author  Frank Yellin
- * @since   1.0
+ * @butior  Frbnk Yfllin
+ * @sindf   1.0
  */
-public final class Compiler  {
-    private Compiler() {}               // don't make instances
+publid finbl dlbss Compilfr  {
+    privbtf Compilfr() {}               // don't mbkf instbndfs
 
-    private static native void initialize();
+    privbtf stbtid nbtivf void initiblizf();
 
-    private static native void registerNatives();
+    privbtf stbtid nbtivf void rfgistfrNbtivfs();
 
-    static {
-        registerNatives();
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    boolean loaded = false;
-                    String jit = System.getProperty("java.compiler");
-                    if ((jit != null) && (!jit.equals("NONE")) &&
-                        (!jit.equals("")))
+    stbtid {
+        rfgistfrNbtivfs();
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    boolfbn lobdfd = fblsf;
+                    String jit = Systfm.gftPropfrty("jbvb.dompilfr");
+                    if ((jit != null) && (!jit.fqubls("NONE")) &&
+                        (!jit.fqubls("")))
                     {
                         try {
-                            System.loadLibrary(jit);
-                            initialize();
-                            loaded = true;
-                        } catch (UnsatisfiedLinkError e) {
-                            System.err.println("Warning: JIT compiler \"" +
-                              jit + "\" not found. Will use interpreter.");
+                            Systfm.lobdLibrbry(jit);
+                            initiblizf();
+                            lobdfd = truf;
+                        } dbtdi (UnsbtisfifdLinkError f) {
+                            Systfm.frr.println("Wbrning: JIT dompilfr \"" +
+                              jit + "\" not found. Will usf intfrprftfr.");
                         }
                     }
-                    String info = System.getProperty("java.vm.info");
-                    if (loaded) {
-                        System.setProperty("java.vm.info", info + ", " + jit);
-                    } else {
-                        System.setProperty("java.vm.info", info + ", nojit");
+                    String info = Systfm.gftPropfrty("jbvb.vm.info");
+                    if (lobdfd) {
+                        Systfm.sftPropfrty("jbvb.vm.info", info + ", " + jit);
+                    } flsf {
+                        Systfm.sftPropfrty("jbvb.vm.info", info + ", nojit");
                     }
-                    return null;
+                    rfturn null;
                 }
             });
     }
 
     /**
-     * Compiles the specified class.
+     * Compilfs tif spfdififd dlbss.
      *
-     * @param  clazz
-     *         A class
+     * @pbrbm  dlbzz
+     *         A dlbss
      *
-     * @return  {@code true} if the compilation succeeded; {@code false} if the
-     *          compilation failed or no compiler is available
+     * @rfturn  {@dodf truf} if tif dompilbtion suddffdfd; {@dodf fblsf} if tif
+     *          dompilbtion fbilfd or no dompilfr is bvbilbblf
      *
-     * @throws  NullPointerException
-     *          If {@code clazz} is {@code null}
+     * @tirows  NullPointfrExdfption
+     *          If {@dodf dlbzz} is {@dodf null}
      */
-    public static native boolean compileClass(Class<?> clazz);
+    publid stbtid nbtivf boolfbn dompilfClbss(Clbss<?> dlbzz);
 
     /**
-     * Compiles all classes whose name matches the specified string.
+     * Compilfs bll dlbssfs wiosf nbmf mbtdifs tif spfdififd string.
      *
-     * @param  string
-     *         The name of the classes to compile
+     * @pbrbm  string
+     *         Tif nbmf of tif dlbssfs to dompilf
      *
-     * @return  {@code true} if the compilation succeeded; {@code false} if the
-     *          compilation failed or no compiler is available
+     * @rfturn  {@dodf truf} if tif dompilbtion suddffdfd; {@dodf fblsf} if tif
+     *          dompilbtion fbilfd or no dompilfr is bvbilbblf
      *
-     * @throws  NullPointerException
-     *          If {@code string} is {@code null}
+     * @tirows  NullPointfrExdfption
+     *          If {@dodf string} is {@dodf null}
      */
-    public static native boolean compileClasses(String string);
+    publid stbtid nbtivf boolfbn dompilfClbssfs(String string);
 
     /**
-     * Examines the argument type and its fields and perform some documented
-     * operation.  No specific operations are required.
+     * Exbminfs tif brgumfnt typf bnd its fiflds bnd pfrform somf dodumfntfd
+     * opfrbtion.  No spfdifid opfrbtions brf rfquirfd.
      *
-     * @param  any
-     *         An argument
+     * @pbrbm  bny
+     *         An brgumfnt
      *
-     * @return  A compiler-specific value, or {@code null} if no compiler is
-     *          available
+     * @rfturn  A dompilfr-spfdifid vbluf, or {@dodf null} if no dompilfr is
+     *          bvbilbblf
      *
-     * @throws  NullPointerException
-     *          If {@code any} is {@code null}
+     * @tirows  NullPointfrExdfption
+     *          If {@dodf bny} is {@dodf null}
      */
-    public static native Object command(Object any);
+    publid stbtid nbtivf Objfdt dommbnd(Objfdt bny);
 
     /**
-     * Cause the Compiler to resume operation.
+     * Cbusf tif Compilfr to rfsumf opfrbtion.
      */
-    public static native void enable();
+    publid stbtid nbtivf void fnbblf();
 
     /**
-     * Cause the Compiler to cease operation.
+     * Cbusf tif Compilfr to dfbsf opfrbtion.
      */
-    public static native void disable();
+    publid stbtid nbtivf void disbblf();
 }

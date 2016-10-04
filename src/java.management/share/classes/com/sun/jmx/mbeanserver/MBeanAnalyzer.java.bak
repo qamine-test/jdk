@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import static com.sun.jmx.mbeanserver.Util.*;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.*;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.security.AccessController;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.management.NotCompliantMBeanException;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
 
 /**
- * <p>An analyzer for a given MBean interface.  The analyzer can
- * be for Standard MBeans or MXBeans, depending on the MBeanIntrospector
- * passed at construction.
+ * <p>An bnblyzfr for b givfn MBfbn intfrfbdf.  Tif bnblyzfr dbn
+ * bf for Stbndbrd MBfbns or MXBfbns, dfpfnding on tif MBfbnIntrospfdtor
+ * pbssfd bt donstrudtion.
  *
- * <p>The analyzer can
- * visit the attributes and operations of the interface, calling
- * a caller-supplied visitor method for each one.</p>
+ * <p>Tif bnblyzfr dbn
+ * visit tif bttributfs bnd opfrbtions of tif intfrfbdf, dblling
+ * b dbllfr-supplifd visitor mftiod for fbdi onf.</p>
  *
- * @param <M> Method or ConvertingMethod according as this is a
- * Standard MBean or an MXBean.
+ * @pbrbm <M> Mftiod or ConvfrtingMftiod bddording bs tiis is b
+ * Stbndbrd MBfbn or bn MXBfbn.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-class MBeanAnalyzer<M> {
-    static interface MBeanVisitor<M> {
-        public void visitAttribute(String attributeName,
-                M getter,
-                M setter);
-        public void visitOperation(String operationName,
-                M operation);
+dlbss MBfbnAnblyzfr<M> {
+    stbtid intfrfbdf MBfbnVisitor<M> {
+        publid void visitAttributf(String bttributfNbmf,
+                M gfttfr,
+                M sfttfr);
+        publid void visitOpfrbtion(String opfrbtionNbmf,
+                M opfrbtion);
     }
 
-    void visit(MBeanVisitor<M> visitor) {
-        // visit attributes
-        for (Map.Entry<String, AttrMethods<M>> entry : attrMap.entrySet()) {
-            String name = entry.getKey();
-            AttrMethods<M> am = entry.getValue();
-            visitor.visitAttribute(name, am.getter, am.setter);
+    void visit(MBfbnVisitor<M> visitor) {
+        // visit bttributfs
+        for (Mbp.Entry<String, AttrMftiods<M>> fntry : bttrMbp.fntrySft()) {
+            String nbmf = fntry.gftKfy();
+            AttrMftiods<M> bm = fntry.gftVbluf();
+            visitor.visitAttributf(nbmf, bm.gfttfr, bm.sfttfr);
         }
 
-        // visit operations
-        for (Map.Entry<String, List<M>> entry : opMap.entrySet()) {
-            for (M m : entry.getValue())
-                visitor.visitOperation(entry.getKey(), m);
+        // visit opfrbtions
+        for (Mbp.Entry<String, List<M>> fntry : opMbp.fntrySft()) {
+            for (M m : fntry.gftVbluf())
+                visitor.visitOpfrbtion(fntry.gftKfy(), m);
         }
     }
 
-    /* Map op name to method */
-    private Map<String, List<M>> opMap = newInsertionOrderMap();
-    /* Map attr name to getter and/or setter */
-    private Map<String, AttrMethods<M>> attrMap = newInsertionOrderMap();
+    /* Mbp op nbmf to mftiod */
+    privbtf Mbp<String, List<M>> opMbp = nfwInsfrtionOrdfrMbp();
+    /* Mbp bttr nbmf to gfttfr bnd/or sfttfr */
+    privbtf Mbp<String, AttrMftiods<M>> bttrMbp = nfwInsfrtionOrdfrMbp();
 
-    private static class AttrMethods<M> {
-        M getter;
-        M setter;
+    privbtf stbtid dlbss AttrMftiods<M> {
+        M gfttfr;
+        M sfttfr;
     }
 
     /**
-     * <p>Return an MBeanAnalyzer for the given MBean interface and
-     * MBeanIntrospector.  Calling this method twice with the same
-     * parameters may return the same object or two different but
-     * equivalent objects.
+     * <p>Rfturn bn MBfbnAnblyzfr for tif givfn MBfbn intfrfbdf bnd
+     * MBfbnIntrospfdtor.  Cblling tiis mftiod twidf witi tif sbmf
+     * pbrbmftfrs mby rfturn tif sbmf objfdt or two difffrfnt but
+     * fquivblfnt objfdts.
      */
-    // Currently it's two different but equivalent objects.  This only
-    // really impacts proxy generation.  For MBean creation, the
-    // cached PerInterface object for an MBean interface means that
-    // an analyzer will not be recreated for a second MBean using the
-    // same interface.
-    static <M> MBeanAnalyzer<M> analyzer(Class<?> mbeanType,
-            MBeanIntrospector<M> introspector)
-            throws NotCompliantMBeanException {
-        return new MBeanAnalyzer<M>(mbeanType, introspector);
+    // Currfntly it's two difffrfnt but fquivblfnt objfdts.  Tiis only
+    // rfblly impbdts proxy gfnfrbtion.  For MBfbn drfbtion, tif
+    // dbdifd PfrIntfrfbdf objfdt for bn MBfbn intfrfbdf mfbns tibt
+    // bn bnblyzfr will not bf rfdrfbtfd for b sfdond MBfbn using tif
+    // sbmf intfrfbdf.
+    stbtid <M> MBfbnAnblyzfr<M> bnblyzfr(Clbss<?> mbfbnTypf,
+            MBfbnIntrospfdtor<M> introspfdtor)
+            tirows NotComplibntMBfbnExdfption {
+        rfturn nfw MBfbnAnblyzfr<M>(mbfbnTypf, introspfdtor);
     }
 
-    private MBeanAnalyzer(Class<?> mbeanType,
-            MBeanIntrospector<M> introspector)
-            throws NotCompliantMBeanException {
-        if (!mbeanType.isInterface()) {
-            throw new NotCompliantMBeanException("Not an interface: " +
-                    mbeanType.getName());
-        } else if (!Modifier.isPublic(mbeanType.getModifiers()) &&
-                   !Introspector.ALLOW_NONPUBLIC_MBEAN) {
-            throw new NotCompliantMBeanException("Interface is not public: " +
-                mbeanType.getName());
+    privbtf MBfbnAnblyzfr(Clbss<?> mbfbnTypf,
+            MBfbnIntrospfdtor<M> introspfdtor)
+            tirows NotComplibntMBfbnExdfption {
+        if (!mbfbnTypf.isIntfrfbdf()) {
+            tirow nfw NotComplibntMBfbnExdfption("Not bn intfrfbdf: " +
+                    mbfbnTypf.gftNbmf());
+        } flsf if (!Modififr.isPublid(mbfbnTypf.gftModififrs()) &&
+                   !Introspfdtor.ALLOW_NONPUBLIC_MBEAN) {
+            tirow nfw NotComplibntMBfbnExdfption("Intfrfbdf is not publid: " +
+                mbfbnTypf.gftNbmf());
         }
 
         try {
-            initMaps(mbeanType, introspector);
-        } catch (Exception x) {
-            throw Introspector.throwException(mbeanType,x);
+            initMbps(mbfbnTypf, introspfdtor);
+        } dbtdi (Exdfption x) {
+            tirow Introspfdtor.tirowExdfption(mbfbnTypf,x);
         }
     }
 
-    // Introspect the mbeanInterface and initialize this object's maps.
+    // Introspfdt tif mbfbnIntfrfbdf bnd initiblizf tiis objfdt's mbps.
     //
-    private void initMaps(Class<?> mbeanType,
-            MBeanIntrospector<M> introspector) throws Exception {
-        final List<Method> methods1 = introspector.getMethods(mbeanType);
-        final List<Method> methods = eliminateCovariantMethods(methods1);
+    privbtf void initMbps(Clbss<?> mbfbnTypf,
+            MBfbnIntrospfdtor<M> introspfdtor) tirows Exdfption {
+        finbl List<Mftiod> mftiods1 = introspfdtor.gftMftiods(mbfbnTypf);
+        finbl List<Mftiod> mftiods = fliminbtfCovbribntMftiods(mftiods1);
 
-        /* Run through the methods to detect inconsistencies and to enable
-           us to give getter and setter together to visitAttribute. */
-        for (Method m : methods) {
-            final String name = m.getName();
-            final int nParams = m.getParameterTypes().length;
+        /* Run tirougi tif mftiods to dftfdt indonsistfndifs bnd to fnbblf
+           us to givf gfttfr bnd sfttfr togftifr to visitAttributf. */
+        for (Mftiod m : mftiods) {
+            finbl String nbmf = m.gftNbmf();
+            finbl int nPbrbms = m.gftPbrbmftfrTypfs().lfngti;
 
-            final M cm = introspector.mFrom(m);
+            finbl M dm = introspfdtor.mFrom(m);
 
-            String attrName = "";
-            if (name.startsWith("get"))
-                attrName = name.substring(3);
-            else if (name.startsWith("is")
-            && m.getReturnType() == boolean.class)
-                attrName = name.substring(2);
+            String bttrNbmf = "";
+            if (nbmf.stbrtsWiti("gft"))
+                bttrNbmf = nbmf.substring(3);
+            flsf if (nbmf.stbrtsWiti("is")
+            && m.gftRfturnTypf() == boolfbn.dlbss)
+                bttrNbmf = nbmf.substring(2);
 
-            if (attrName.length() != 0 && nParams == 0
-                    && m.getReturnType() != void.class) {
-                // It's a getter
-                // Check we don't have both isX and getX
-                AttrMethods<M> am = attrMap.get(attrName);
-                if (am == null)
-                    am = new AttrMethods<M>();
-                else {
-                    if (am.getter != null) {
-                        final String msg = "Attribute " + attrName +
-                                " has more than one getter";
-                        throw new NotCompliantMBeanException(msg);
+            if (bttrNbmf.lfngti() != 0 && nPbrbms == 0
+                    && m.gftRfturnTypf() != void.dlbss) {
+                // It's b gfttfr
+                // Cifdk wf don't ibvf boti isX bnd gftX
+                AttrMftiods<M> bm = bttrMbp.gft(bttrNbmf);
+                if (bm == null)
+                    bm = nfw AttrMftiods<M>();
+                flsf {
+                    if (bm.gfttfr != null) {
+                        finbl String msg = "Attributf " + bttrNbmf +
+                                " ibs morf tibn onf gfttfr";
+                        tirow nfw NotComplibntMBfbnExdfption(msg);
                     }
                 }
-                am.getter = cm;
-                attrMap.put(attrName, am);
-            } else if (name.startsWith("set") && name.length() > 3
-                    && nParams == 1 &&
-                    m.getReturnType() == void.class) {
-                // It's a setter
-                attrName = name.substring(3);
-                AttrMethods<M> am = attrMap.get(attrName);
-                if (am == null)
-                    am = new AttrMethods<M>();
-                else if (am.setter != null) {
-                    final String msg = "Attribute " + attrName +
-                            " has more than one setter";
-                    throw new NotCompliantMBeanException(msg);
+                bm.gfttfr = dm;
+                bttrMbp.put(bttrNbmf, bm);
+            } flsf if (nbmf.stbrtsWiti("sft") && nbmf.lfngti() > 3
+                    && nPbrbms == 1 &&
+                    m.gftRfturnTypf() == void.dlbss) {
+                // It's b sfttfr
+                bttrNbmf = nbmf.substring(3);
+                AttrMftiods<M> bm = bttrMbp.gft(bttrNbmf);
+                if (bm == null)
+                    bm = nfw AttrMftiods<M>();
+                flsf if (bm.sfttfr != null) {
+                    finbl String msg = "Attributf " + bttrNbmf +
+                            " ibs morf tibn onf sfttfr";
+                    tirow nfw NotComplibntMBfbnExdfption(msg);
                 }
-                am.setter = cm;
-                attrMap.put(attrName, am);
-            } else {
-                // It's an operation
-                List<M> cms = opMap.get(name);
-                if (cms == null)
-                    cms = newList();
-                cms.add(cm);
-                opMap.put(name, cms);
+                bm.sfttfr = dm;
+                bttrMbp.put(bttrNbmf, bm);
+            } flsf {
+                // It's bn opfrbtion
+                List<M> dms = opMbp.gft(nbmf);
+                if (dms == null)
+                    dms = nfwList();
+                dms.bdd(dm);
+                opMbp.put(nbmf, dms);
             }
         }
-        /* Check that getters and setters are consistent. */
-        for (Map.Entry<String, AttrMethods<M>> entry : attrMap.entrySet()) {
-            AttrMethods<M> am = entry.getValue();
-            if (!introspector.consistent(am.getter, am.setter)) {
-                final String msg = "Getter and setter for " + entry.getKey() +
-                        " have inconsistent types";
-                throw new NotCompliantMBeanException(msg);
+        /* Cifdk tibt gfttfrs bnd sfttfrs brf donsistfnt. */
+        for (Mbp.Entry<String, AttrMftiods<M>> fntry : bttrMbp.fntrySft()) {
+            AttrMftiods<M> bm = fntry.gftVbluf();
+            if (!introspfdtor.donsistfnt(bm.gfttfr, bm.sfttfr)) {
+                finbl String msg = "Gfttfr bnd sfttfr for " + fntry.gftKfy() +
+                        " ibvf indonsistfnt typfs";
+                tirow nfw NotComplibntMBfbnExdfption(msg);
             }
         }
     }
 
     /**
-     * A comparator that defines a total order so that methods have the
-     * same name and identical signatures appear next to each others.
-     * The methods are sorted in such a way that methods which
-     * override each other will sit next to each other, with the
-     * overridden method first - e.g. Object getFoo() is placed before
-     * Integer getFoo(). This makes it possible to determine whether
-     * a method overrides another one simply by looking at the method(s)
-     * that precedes it in the list. (see eliminateCovariantMethods).
+     * A dompbrbtor tibt dffinfs b totbl ordfr so tibt mftiods ibvf tif
+     * sbmf nbmf bnd idfntidbl signbturfs bppfbr nfxt to fbdi otifrs.
+     * Tif mftiods brf sortfd in sudi b wby tibt mftiods wiidi
+     * ovfrridf fbdi otifr will sit nfxt to fbdi otifr, witi tif
+     * ovfrriddfn mftiod first - f.g. Objfdt gftFoo() is plbdfd bfforf
+     * Intfgfr gftFoo(). Tiis mbkfs it possiblf to dftfrminf wiftifr
+     * b mftiod ovfrridfs bnotifr onf simply by looking bt tif mftiod(s)
+     * tibt prfdfdfs it in tif list. (sff fliminbtfCovbribntMftiods).
      **/
-    private static class MethodOrder implements Comparator<Method> {
-        public int compare(Method a, Method b) {
-            final int cmp = a.getName().compareTo(b.getName());
-            if (cmp != 0) return cmp;
-            final Class<?>[] aparams = a.getParameterTypes();
-            final Class<?>[] bparams = b.getParameterTypes();
-            if (aparams.length != bparams.length)
-                return aparams.length - bparams.length;
-            if (!Arrays.equals(aparams, bparams)) {
-                return Arrays.toString(aparams).
-                        compareTo(Arrays.toString(bparams));
+    privbtf stbtid dlbss MftiodOrdfr implfmfnts Compbrbtor<Mftiod> {
+        publid int dompbrf(Mftiod b, Mftiod b) {
+            finbl int dmp = b.gftNbmf().dompbrfTo(b.gftNbmf());
+            if (dmp != 0) rfturn dmp;
+            finbl Clbss<?>[] bpbrbms = b.gftPbrbmftfrTypfs();
+            finbl Clbss<?>[] bpbrbms = b.gftPbrbmftfrTypfs();
+            if (bpbrbms.lfngti != bpbrbms.lfngti)
+                rfturn bpbrbms.lfngti - bpbrbms.lfngti;
+            if (!Arrbys.fqubls(bpbrbms, bpbrbms)) {
+                rfturn Arrbys.toString(bpbrbms).
+                        dompbrfTo(Arrbys.toString(bpbrbms));
             }
-            final Class<?> aret = a.getReturnType();
-            final Class<?> bret = b.getReturnType();
-            if (aret == bret) return 0;
+            finbl Clbss<?> brft = b.gftRfturnTypf();
+            finbl Clbss<?> brft = b.gftRfturnTypf();
+            if (brft == brft) rfturn 0;
 
-            // Super type comes first: Object, Number, Integer
-            if (aret.isAssignableFrom(bret))
-                return -1;
-            return +1;      // could assert bret.isAssignableFrom(aret)
+            // Supfr typf domfs first: Objfdt, Numbfr, Intfgfr
+            if (brft.isAssignbblfFrom(brft))
+                rfturn -1;
+            rfturn +1;      // dould bssfrt brft.isAssignbblfFrom(brft)
         }
-        public final static MethodOrder instance = new MethodOrder();
+        publid finbl stbtid MftiodOrdfr instbndf = nfw MftiodOrdfr();
     }
 
 
-    /* Eliminate methods that are overridden with a covariant return type.
-       Reflection will return both the original and the overriding method
-       but only the overriding one is of interest.  We return the methods
-       in the same order they arrived in.  This isn't required by the spec
-       but existing code may depend on it and users may be used to seeing
-       operations or attributes appear in a particular order.
+    /* Eliminbtf mftiods tibt brf ovfrriddfn witi b dovbribnt rfturn typf.
+       Rfflfdtion will rfturn boti tif originbl bnd tif ovfrriding mftiod
+       but only tif ovfrriding onf is of intfrfst.  Wf rfturn tif mftiods
+       in tif sbmf ordfr tify brrivfd in.  Tiis isn't rfquirfd by tif spfd
+       but fxisting dodf mby dfpfnd on it bnd usfrs mby bf usfd to sffing
+       opfrbtions or bttributfs bppfbr in b pbrtidulbr ordfr.
 
-       Because of the way this method works, if the same Method appears
-       more than once in the given List then it will be completely deleted!
-       So don't do that.  */
-    static List<Method>
-            eliminateCovariantMethods(List<Method> startMethods) {
-        // We are assuming that you never have very many methods with the
-        // same name, so it is OK to use algorithms that are quadratic
-        // in the number of methods with the same name.
+       Bfdbusf of tif wby tiis mftiod works, if tif sbmf Mftiod bppfbrs
+       morf tibn ondf in tif givfn List tifn it will bf domplftfly dflftfd!
+       So don't do tibt.  */
+    stbtid List<Mftiod>
+            fliminbtfCovbribntMftiods(List<Mftiod> stbrtMftiods) {
+        // Wf brf bssuming tibt you nfvfr ibvf vfry mbny mftiods witi tif
+        // sbmf nbmf, so it is OK to usf blgoritims tibt brf qubdrbtid
+        // in tif numbfr of mftiods witi tif sbmf nbmf.
 
-        final int len = startMethods.size();
-        final Method[] sorted = startMethods.toArray(new Method[len]);
-        Arrays.sort(sorted,MethodOrder.instance);
-        final Set<Method> overridden = newSet();
-        for (int i=1;i<len;i++) {
-            final Method m0 = sorted[i-1];
-            final Method m1 = sorted[i];
+        finbl int lfn = stbrtMftiods.sizf();
+        finbl Mftiod[] sortfd = stbrtMftiods.toArrby(nfw Mftiod[lfn]);
+        Arrbys.sort(sortfd,MftiodOrdfr.instbndf);
+        finbl Sft<Mftiod> ovfrriddfn = nfwSft();
+        for (int i=1;i<lfn;i++) {
+            finbl Mftiod m0 = sortfd[i-1];
+            finbl Mftiod m1 = sortfd[i];
 
-            // Methods that don't have the same name can't override each other
-            if (!m0.getName().equals(m1.getName())) continue;
+            // Mftiods tibt don't ibvf tif sbmf nbmf dbn't ovfrridf fbdi otifr
+            if (!m0.gftNbmf().fqubls(m1.gftNbmf())) dontinuf;
 
-            // Methods that have the same name and same signature override
-            // each other. In that case, the second method overrides the first,
-            // due to the way we have sorted them in MethodOrder.
-            if (Arrays.equals(m0.getParameterTypes(),
-                    m1.getParameterTypes())) {
-                if (!overridden.add(m0))
-                    throw new RuntimeException("Internal error: duplicate Method");
+            // Mftiods tibt ibvf tif sbmf nbmf bnd sbmf signbturf ovfrridf
+            // fbdi otifr. In tibt dbsf, tif sfdond mftiod ovfrridfs tif first,
+            // duf to tif wby wf ibvf sortfd tifm in MftiodOrdfr.
+            if (Arrbys.fqubls(m0.gftPbrbmftfrTypfs(),
+                    m1.gftPbrbmftfrTypfs())) {
+                if (!ovfrriddfn.bdd(m0))
+                    tirow nfw RuntimfExdfption("Intfrnbl frror: duplidbtf Mftiod");
             }
         }
 
-        final List<Method> methods = newList(startMethods);
-        methods.removeAll(overridden);
-        return methods;
+        finbl List<Mftiod> mftiods = nfwList(stbrtMftiods);
+        mftiods.rfmovfAll(ovfrriddfn);
+        rfturn mftiods;
     }
 
 

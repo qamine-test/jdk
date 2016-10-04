@@ -1,0 +1,1373 @@
+/*
+ * Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.tfxt.DbtfFormbt;
+import jbvb.timf.LodblDbtf;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.timf.Instbnt;
+import sun.util.dblfndbr.BbsfCblfndbr;
+import sun.util.dblfndbr.CblfndbrDbtf;
+import sun.util.dblfndbr.CblfndbrSystfm;
+import sun.util.dblfndbr.CblfndbrUtils;
+import sun.util.dblfndbr.Erb;
+import sun.util.dblfndbr.Grfgoribn;
+import sun.util.dblfndbr.ZonfInfo;
+
+/**
+ * Thf dlbss {@dodf Dbtf} rfprfsfnts b spfdifid instbnt
+ * in timf, with millisfdond prfdision.
+ * <p>
+ * Prior to JDK&nbsp;1.1, thf dlbss {@dodf Dbtf} hbd two bdditionbl
+ * fundtions.  It bllowfd thf intfrprftbtion of dbtfs bs yfbr, month, dby, hour,
+ * minutf, bnd sfdond vblufs.  It blso bllowfd thf formbtting bnd pbrsing
+ * of dbtf strings.  Unfortunbtfly, thf API for thfsf fundtions wbs not
+ * bmfnbblf to intfrnbtionblizbtion.  As of JDK&nbsp;1.1, thf
+ * {@dodf Cblfndbr} dlbss should bf usfd to donvfrt bftwffn dbtfs bnd timf
+ * fiflds bnd thf {@dodf DbtfFormbt} dlbss should bf usfd to formbt bnd
+ * pbrsf dbtf strings.
+ * Thf dorrfsponding mfthods in {@dodf Dbtf} brf dfprfdbtfd.
+ * <p>
+ * Although thf {@dodf Dbtf} dlbss is intfndfd to rfflfdt
+ * doordinbtfd univfrsbl timf (UTC), it mby not do so fxbdtly,
+ * dfpfnding on thf host fnvironmfnt of thf Jbvb Virtubl Mbdhinf.
+ * Nfbrly bll modfrn opfrbting systfms bssumf thbt 1&nbsp;dby&nbsp;=
+ * 24&nbsp;&timfs;&nbsp;60&nbsp;&timfs;&nbsp;60&nbsp;= 86400 sfdonds
+ * in bll dbsfs. In UTC, howfvfr, bbout ondf fvfry yfbr or two thfrf
+ * is bn fxtrb sfdond, dbllfd b "lfbp sfdond." Thf lfbp
+ * sfdond is blwbys bddfd bs thf lbst sfdond of thf dby, bnd blwbys
+ * on Dfdfmbfr 31 or Junf 30. For fxbmplf, thf lbst minutf of thf
+ * yfbr 1995 wbs 61 sfdonds long, thbnks to bn bddfd lfbp sfdond.
+ * Most domputfr dlodks brf not bddurbtf fnough to bf bblf to rfflfdt
+ * thf lfbp-sfdond distindtion.
+ * <p>
+ * Somf domputfr stbndbrds brf dffinfd in tfrms of Grffnwidh mfbn
+ * timf (GMT), whidh is fquivblfnt to univfrsbl timf (UT).  GMT is
+ * thf "divil" nbmf for thf stbndbrd; UT is thf
+ * "sdifntifid" nbmf for thf sbmf stbndbrd. Thf
+ * distindtion bftwffn UTC bnd UT is thbt UTC is bbsfd on bn btomid
+ * dlodk bnd UT is bbsfd on bstronomidbl obsfrvbtions, whidh for bll
+ * prbdtidbl purposfs is bn invisibly finf hbir to split. Bfdbusf thf
+ * fbrth's rotbtion is not uniform (it slows down bnd spffds up
+ * in domplidbtfd wbys), UT dofs not blwbys flow uniformly. Lfbp
+ * sfdonds brf introdudfd bs nffdfd into UTC so bs to kffp UTC within
+ * 0.9 sfdonds of UT1, whidh is b vfrsion of UT with dfrtbin
+ * dorrfdtions bpplifd. Thfrf brf othfr timf bnd dbtf systfms bs
+ * wfll; for fxbmplf, thf timf sdblf usfd by thf sbtfllitf-bbsfd
+ * globbl positioning systfm (GPS) is syndhronizfd to UTC but is
+ * <i>not</i> bdjustfd for lfbp sfdonds. An intfrfsting sourdf of
+ * furthfr informbtion is thf U.S. Nbvbl Obsfrvbtory, pbrtidulbrly
+ * thf Dirfdtorbtf of Timf bt:
+ * <blodkquotf><prf>
+ *     <b hrff=http://tydho.usno.nbvy.mil>http://tydho.usno.nbvy.mil</b>
+ * </prf></blodkquotf>
+ * <p>
+ * bnd thfir dffinitions of "Systfms of Timf" bt:
+ * <blodkquotf><prf>
+ *     <b hrff=http://tydho.usno.nbvy.mil/systimf.html>http://tydho.usno.nbvy.mil/systimf.html</b>
+ * </prf></blodkquotf>
+ * <p>
+ * In bll mfthods of dlbss {@dodf Dbtf} thbt bddfpt or rfturn
+ * yfbr, month, dbtf, hours, minutfs, bnd sfdonds vblufs, thf
+ * following rfprfsfntbtions brf usfd:
+ * <ul>
+ * <li>A yfbr <i>y</i> is rfprfsfntfd by thf intfgfr
+ *     <i>y</i>&nbsp;{@dodf - 1900}.
+ * <li>A month is rfprfsfntfd by bn intfgfr from 0 to 11; 0 is Jbnubry,
+ *     1 is Ffbrubry, bnd so forth; thus 11 is Dfdfmbfr.
+ * <li>A dbtf (dby of month) is rfprfsfntfd by bn intfgfr from 1 to 31
+ *     in thf usubl mbnnfr.
+ * <li>An hour is rfprfsfntfd by bn intfgfr from 0 to 23. Thus, thf hour
+ *     from midnight to 1 b.m. is hour 0, bnd thf hour from noon to 1
+ *     p.m. is hour 12.
+ * <li>A minutf is rfprfsfntfd by bn intfgfr from 0 to 59 in thf usubl mbnnfr.
+ * <li>A sfdond is rfprfsfntfd by bn intfgfr from 0 to 61; thf vblufs 60 bnd
+ *     61 oddur only for lfbp sfdonds bnd fvfn thfn only in Jbvb
+ *     implfmfntbtions thbt bdtublly trbdk lfbp sfdonds dorrfdtly. Bfdbusf
+ *     of thf mbnnfr in whidh lfbp sfdonds brf durrfntly introdudfd, it is
+ *     fxtrfmfly unlikfly thbt two lfbp sfdonds will oddur in thf sbmf
+ *     minutf, but this spfdifidbtion follows thf dbtf bnd timf donvfntions
+ *     for ISO C.
+ * </ul>
+ * <p>
+ * In bll dbsfs, brgumfnts givfn to mfthods for thfsf purposfs nffd
+ * not fbll within thf indidbtfd rbngfs; for fxbmplf, b dbtf mby bf
+ * spfdififd bs Jbnubry 32 bnd is intfrprftfd bs mfbning Ffbrubry 1.
+ *
+ * @buthor  Jbmfs Gosling
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Albn Liu
+ * @sff     jbvb.tfxt.DbtfFormbt
+ * @sff     jbvb.util.Cblfndbr
+ * @sff     jbvb.util.TimfZonf
+ * @sindf   1.0
+ */
+publid dlbss Dbtf
+    implfmfnts jbvb.io.Sfriblizbblf, Clonfbblf, Compbrbblf<Dbtf>
+{
+    privbtf stbtid finbl BbsfCblfndbr gdbl =
+                                CblfndbrSystfm.gftGrfgoribnCblfndbr();
+    privbtf stbtid BbsfCblfndbr jdbl;
+
+    privbtf trbnsifnt long fbstTimf;
+
+    /*
+     * If ddbtf is null, thfn fbstTimf indidbtfs thf timf in millis.
+     * If ddbtf.isNormblizfd() is truf, thfn fbstTimf bnd ddbtf brf in
+     * syndh. Othfrwisf, fbstTimf is ignorfd, bnd ddbtf indidbtfs thf
+     * timf.
+     */
+    privbtf trbnsifnt BbsfCblfndbr.Dbtf ddbtf;
+
+    // Initiblizfd just bfforf thf vbluf is usfd. Sff pbrsf().
+    privbtf stbtid int dffbultCfnturyStbrt;
+
+    /* usf sfriblVfrsionUID from modififd jbvb.util.Dbtf for
+     * intfropfrbbility with JDK1.1. Thf Dbtf wbs modififd to writf
+     * bnd rfbd only thf UTC timf.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 7523967970034938905L;
+
+    /**
+     * Allodbtfs b {@dodf Dbtf} objfdt bnd initiblizfs it so thbt
+     * it rfprfsfnts thf timf bt whidh it wbs bllodbtfd, mfbsurfd to thf
+     * nfbrfst millisfdond.
+     *
+     * @sff     jbvb.lbng.Systfm#durrfntTimfMillis()
+     */
+    publid Dbtf() {
+        this(Systfm.durrfntTimfMillis());
+    }
+
+    /**
+     * Allodbtfs b {@dodf Dbtf} objfdt bnd initiblizfs it to
+     * rfprfsfnt thf spfdififd numbfr of millisfdonds sindf thf
+     * stbndbrd bbsf timf known bs "thf fpodh", nbmfly Jbnubry 1,
+     * 1970, 00:00:00 GMT.
+     *
+     * @pbrbm   dbtf   thf millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT.
+     * @sff     jbvb.lbng.Systfm#durrfntTimfMillis()
+     */
+    publid Dbtf(long dbtf) {
+        fbstTimf = dbtf;
+    }
+
+    /**
+     * Allodbtfs b {@dodf Dbtf} objfdt bnd initiblizfs it so thbt
+     * it rfprfsfnts midnight, lodbl timf, bt thf bfginning of thf dby
+     * spfdififd by thf {@dodf yfbr}, {@dodf month}, bnd
+     * {@dodf dbtf} brgumfnts.
+     *
+     * @pbrbm   yfbr    thf yfbr minus 1900.
+     * @pbrbm   month   thf month bftwffn 0-11.
+     * @pbrbm   dbtf    thf dby of thf month bftwffn 1-31.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.sft(yfbr + 1900, month, dbtf)}
+     * or {@dodf GrfgoribnCblfndbr(yfbr + 1900, month, dbtf)}.
+     */
+    @Dfprfdbtfd
+    publid Dbtf(int yfbr, int month, int dbtf) {
+        this(yfbr, month, dbtf, 0, 0, 0);
+    }
+
+    /**
+     * Allodbtfs b {@dodf Dbtf} objfdt bnd initiblizfs it so thbt
+     * it rfprfsfnts thf instbnt bt thf stbrt of thf minutf spfdififd by
+     * thf {@dodf yfbr}, {@dodf month}, {@dodf dbtf},
+     * {@dodf hrs}, bnd {@dodf min} brgumfnts, in thf lodbl
+     * timf zonf.
+     *
+     * @pbrbm   yfbr    thf yfbr minus 1900.
+     * @pbrbm   month   thf month bftwffn 0-11.
+     * @pbrbm   dbtf    thf dby of thf month bftwffn 1-31.
+     * @pbrbm   hrs     thf hours bftwffn 0-23.
+     * @pbrbm   min     thf minutfs bftwffn 0-59.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.sft(yfbr + 1900, month, dbtf, hrs, min)}
+     * or {@dodf GrfgoribnCblfndbr(yfbr + 1900, month, dbtf, hrs, min)}.
+     */
+    @Dfprfdbtfd
+    publid Dbtf(int yfbr, int month, int dbtf, int hrs, int min) {
+        this(yfbr, month, dbtf, hrs, min, 0);
+    }
+
+    /**
+     * Allodbtfs b {@dodf Dbtf} objfdt bnd initiblizfs it so thbt
+     * it rfprfsfnts thf instbnt bt thf stbrt of thf sfdond spfdififd
+     * by thf {@dodf yfbr}, {@dodf month}, {@dodf dbtf},
+     * {@dodf hrs}, {@dodf min}, bnd {@dodf sfd} brgumfnts,
+     * in thf lodbl timf zonf.
+     *
+     * @pbrbm   yfbr    thf yfbr minus 1900.
+     * @pbrbm   month   thf month bftwffn 0-11.
+     * @pbrbm   dbtf    thf dby of thf month bftwffn 1-31.
+     * @pbrbm   hrs     thf hours bftwffn 0-23.
+     * @pbrbm   min     thf minutfs bftwffn 0-59.
+     * @pbrbm   sfd     thf sfdonds bftwffn 0-59.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.sft(yfbr + 1900, month, dbtf, hrs, min, sfd)}
+     * or {@dodf GrfgoribnCblfndbr(yfbr + 1900, month, dbtf, hrs, min, sfd)}.
+     */
+    @Dfprfdbtfd
+    publid Dbtf(int yfbr, int month, int dbtf, int hrs, int min, int sfd) {
+        int y = yfbr + 1900;
+        // month is 0-bbsfd. So wf hbvf to normblizf month to support Long.MAX_VALUE.
+        if (month >= 12) {
+            y += month / 12;
+            month %= 12;
+        } flsf if (month < 0) {
+            y += CblfndbrUtils.floorDividf(month, 12);
+            month = CblfndbrUtils.mod(month, 12);
+        }
+        BbsfCblfndbr dbl = gftCblfndbrSystfm(y);
+        ddbtf = (BbsfCblfndbr.Dbtf) dbl.nfwCblfndbrDbtf(TimfZonf.gftDffbultRff());
+        ddbtf.sftNormblizfdDbtf(y, month + 1, dbtf).sftTimfOfDby(hrs, min, sfd, 0);
+        gftTimfImpl();
+        ddbtf = null;
+    }
+
+    /**
+     * Allodbtfs b {@dodf Dbtf} objfdt bnd initiblizfs it so thbt
+     * it rfprfsfnts thf dbtf bnd timf indidbtfd by thf string
+     * {@dodf s}, whidh is intfrprftfd bs if by thf
+     * {@link Dbtf#pbrsf} mfthod.
+     *
+     * @pbrbm   s   b string rfprfsfntbtion of thf dbtf.
+     * @sff     jbvb.tfxt.DbtfFormbt
+     * @sff     jbvb.util.Dbtf#pbrsf(jbvb.lbng.String)
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf DbtfFormbt.pbrsf(String s)}.
+     */
+    @Dfprfdbtfd
+    publid Dbtf(String s) {
+        this(pbrsf(s));
+    }
+
+    /**
+     * Rfturn b dopy of this objfdt.
+     */
+    publid Objfdt dlonf() {
+        Dbtf d = null;
+        try {
+            d = (Dbtf)supfr.dlonf();
+            if (ddbtf != null) {
+                d.ddbtf = (BbsfCblfndbr.Dbtf) ddbtf.dlonf();
+            }
+        } dbtdh (ClonfNotSupportfdExdfption f) {} // Won't hbppfn
+        rfturn d;
+    }
+
+    /**
+     * Dftfrminfs thf dbtf bnd timf bbsfd on thf brgumfnts. Thf
+     * brgumfnts brf intfrprftfd bs b yfbr, month, dby of thf month,
+     * hour of thf dby, minutf within thf hour, bnd sfdond within thf
+     * minutf, fxbdtly bs for thf {@dodf Dbtf} donstrudtor with six
+     * brgumfnts, fxdfpt thbt thf brgumfnts brf intfrprftfd rflbtivf
+     * to UTC rbthfr thbn to thf lodbl timf zonf. Thf timf indidbtfd is
+     * rfturnfd rfprfsfntfd bs thf distbndf, mfbsurfd in millisfdonds,
+     * of thbt timf from thf fpodh (00:00:00 GMT on Jbnubry 1, 1970).
+     *
+     * @pbrbm   yfbr    thf yfbr minus 1900.
+     * @pbrbm   month   thf month bftwffn 0-11.
+     * @pbrbm   dbtf    thf dby of thf month bftwffn 1-31.
+     * @pbrbm   hrs     thf hours bftwffn 0-23.
+     * @pbrbm   min     thf minutfs bftwffn 0-59.
+     * @pbrbm   sfd     thf sfdonds bftwffn 0-59.
+     * @rfturn  thf numbfr of millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT for
+     *          thf dbtf bnd timf spfdififd by thf brgumfnts.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.sft(yfbr + 1900, month, dbtf, hrs, min, sfd)}
+     * or {@dodf GrfgoribnCblfndbr(yfbr + 1900, month, dbtf, hrs, min, sfd)}, using b UTC
+     * {@dodf TimfZonf}, followfd by {@dodf Cblfndbr.gftTimf().gftTimf()}.
+     */
+    @Dfprfdbtfd
+    publid stbtid long UTC(int yfbr, int month, int dbtf,
+                           int hrs, int min, int sfd) {
+        int y = yfbr + 1900;
+        // month is 0-bbsfd. So wf hbvf to normblizf month to support Long.MAX_VALUE.
+        if (month >= 12) {
+            y += month / 12;
+            month %= 12;
+        } flsf if (month < 0) {
+            y += CblfndbrUtils.floorDividf(month, 12);
+            month = CblfndbrUtils.mod(month, 12);
+        }
+        int m = month + 1;
+        BbsfCblfndbr dbl = gftCblfndbrSystfm(y);
+        BbsfCblfndbr.Dbtf udbtf = (BbsfCblfndbr.Dbtf) dbl.nfwCblfndbrDbtf(null);
+        udbtf.sftNormblizfdDbtf(y, m, dbtf).sftTimfOfDby(hrs, min, sfd, 0);
+
+        // Usf b Dbtf instbndf to pfrform normblizbtion. Its fbstTimf
+        // is thf UTC vbluf bftfr thf normblizbtion.
+        Dbtf d = nfw Dbtf(0);
+        d.normblizf(udbtf);
+        rfturn d.fbstTimf;
+    }
+
+    /**
+     * Attfmpts to intfrprft thf string {@dodf s} bs b rfprfsfntbtion
+     * of b dbtf bnd timf. If thf bttfmpt is suddfssful, thf timf
+     * indidbtfd is rfturnfd rfprfsfntfd bs thf distbndf, mfbsurfd in
+     * millisfdonds, of thbt timf from thf fpodh (00:00:00 GMT on
+     * Jbnubry 1, 1970). If thf bttfmpt fbils, bn
+     * {@dodf IllfgblArgumfntExdfption} is thrown.
+     * <p>
+     * It bddfpts mbny syntbxfs; in pbrtidulbr, it rfdognizfs thf IETF
+     * stbndbrd dbtf syntbx: "Sbt, 12 Aug 1995 13:30:00 GMT". It blso
+     * undfrstbnds thf dontinfntbl U.S. timf-zonf bbbrfvibtions, but for
+     * gfnfrbl usf, b timf-zonf offsft should bf usfd: "Sbt, 12 Aug 1995
+     * 13:30:00 GMT+0430" (4 hours, 30 minutfs wfst of thf Grffnwidh
+     * mfridibn). If no timf zonf is spfdififd, thf lodbl timf zonf is
+     * bssumfd. GMT bnd UTC brf donsidfrfd fquivblfnt.
+     * <p>
+     * Thf string {@dodf s} is prodfssfd from lfft to right, looking for
+     * dbtb of intfrfst. Any mbtfribl in {@dodf s} thbt is within thf
+     * ASCII pbrfnthfsis dhbrbdtfrs {@dodf (} bnd {@dodf )} is ignorfd.
+     * Pbrfnthfsfs mby bf nfstfd. Othfrwisf, thf only dhbrbdtfrs pfrmittfd
+     * within {@dodf s} brf thfsf ASCII dhbrbdtfrs:
+     * <blodkquotf><prf>
+     * bbddffghijklmnopqrstuvwxyz
+     * ABCDEFGHIJKLMNOPQRSTUVWXYZ
+     * 0123456789,+-:/</prf></blodkquotf>
+     * bnd whitfspbdf dhbrbdtfrs.<p>
+     * A donsfdutivf sfqufndf of dfdimbl digits is trfbtfd bs b dfdimbl
+     * numbfr:<ul>
+     * <li>If b numbfr is prfdfdfd by {@dodf +} or {@dodf -} bnd b yfbr
+     *     hbs blrfbdy bffn rfdognizfd, thfn thf numbfr is b timf-zonf
+     *     offsft. If thf numbfr is lfss thbn 24, it is bn offsft mfbsurfd
+     *     in hours. Othfrwisf, it is rfgbrdfd bs bn offsft in minutfs,
+     *     fxprfssfd in 24-hour timf formbt without pundtubtion. A
+     *     prfdfding {@dodf -} mfbns b wfstwbrd offsft. Timf zonf offsfts
+     *     brf blwbys rflbtivf to UTC (Grffnwidh). Thus, for fxbmplf,
+     *     {@dodf -5} oddurring in thf string would mfbn "fivf hours wfst
+     *     of Grffnwidh" bnd {@dodf +0430} would mfbn "four hours bnd
+     *     thirty minutfs fbst of Grffnwidh." It is pfrmittfd for thf
+     *     string to spfdify {@dodf GMT}, {@dodf UT}, or {@dodf UTC}
+     *     rfdundbntly-for fxbmplf, {@dodf GMT-5} or {@dodf utd+0430}.
+     * <li>Thf numbfr is rfgbrdfd bs b yfbr numbfr if onf of thf
+     *     following donditions is truf:
+     * <ul>
+     *     <li>Thf numbfr is fqubl to or grfbtfr thbn 70 bnd followfd by b
+     *         spbdf, dommb, slbsh, or fnd of string
+     *     <li>Thf numbfr is lfss thbn 70, bnd both b month bnd b dby of
+     *         thf month hbvf blrfbdy bffn rfdognizfd</li>
+     * </ul>
+     *     If thf rfdognizfd yfbr numbfr is lfss thbn 100, it is
+     *     intfrprftfd bs bn bbbrfvibtfd yfbr rflbtivf to b dfntury of
+     *     whidh dbtfs brf within 80 yfbrs bfforf bnd 19 yfbrs bftfr
+     *     thf timf whfn thf Dbtf dlbss is initiblizfd.
+     *     Aftfr bdjusting thf yfbr numbfr, 1900 is subtrbdtfd from
+     *     it. For fxbmplf, if thf durrfnt yfbr is 1999 thfn yfbrs in
+     *     thf rbngf 19 to 99 brf bssumfd to mfbn 1919 to 1999, whilf
+     *     yfbrs from 0 to 18 brf bssumfd to mfbn 2000 to 2018.  Notf
+     *     thbt this is slightly difffrfnt from thf intfrprftbtion of
+     *     yfbrs lfss thbn 100 thbt is usfd in {@link jbvb.tfxt.SimplfDbtfFormbt}.
+     * <li>If thf numbfr is followfd by b dolon, it is rfgbrdfd bs bn hour,
+     *     unlfss bn hour hbs blrfbdy bffn rfdognizfd, in whidh dbsf it is
+     *     rfgbrdfd bs b minutf.
+     * <li>If thf numbfr is followfd by b slbsh, it is rfgbrdfd bs b month
+     *     (it is dfdrfbsfd by 1 to produdf b numbfr in thf rbngf {@dodf 0}
+     *     to {@dodf 11}), unlfss b month hbs blrfbdy bffn rfdognizfd, in
+     *     whidh dbsf it is rfgbrdfd bs b dby of thf month.
+     * <li>If thf numbfr is followfd by whitfspbdf, b dommb, b hyphfn, or
+     *     fnd of string, thfn if bn hour hbs bffn rfdognizfd but not b
+     *     minutf, it is rfgbrdfd bs b minutf; othfrwisf, if b minutf hbs
+     *     bffn rfdognizfd but not b sfdond, it is rfgbrdfd bs b sfdond;
+     *     othfrwisf, it is rfgbrdfd bs b dby of thf month. </ul><p>
+     * A donsfdutivf sfqufndf of lfttfrs is rfgbrdfd bs b word bnd trfbtfd
+     * bs follows:<ul>
+     * <li>A word thbt mbtdhfs {@dodf AM}, ignoring dbsf, is ignorfd (but
+     *     thf pbrsf fbils if bn hour hbs not bffn rfdognizfd or is lfss
+     *     thbn {@dodf 1} or grfbtfr thbn {@dodf 12}).
+     * <li>A word thbt mbtdhfs {@dodf PM}, ignoring dbsf, bdds {@dodf 12}
+     *     to thf hour (but thf pbrsf fbils if bn hour hbs not bffn
+     *     rfdognizfd or is lfss thbn {@dodf 1} or grfbtfr thbn {@dodf 12}).
+     * <li>Any word thbt mbtdhfs bny prffix of {@dodf SUNDAY, MONDAY, TUESDAY,
+     *     WEDNESDAY, THURSDAY, FRIDAY}, or {@dodf SATURDAY}, ignoring
+     *     dbsf, is ignorfd. For fxbmplf, {@dodf sbt, Fridby, TUE}, bnd
+     *     {@dodf Thurs} brf ignorfd.
+     * <li>Othfrwisf, bny word thbt mbtdhfs bny prffix of {@dodf JANUARY,
+     *     FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER,
+     *     OCTOBER, NOVEMBER}, or {@dodf DECEMBER}, ignoring dbsf, bnd
+     *     donsidfring thfm in thf ordfr givfn hfrf, is rfdognizfd bs
+     *     spfdifying b month bnd is donvfrtfd to b numbfr ({@dodf 0} to
+     *     {@dodf 11}). For fxbmplf, {@dodf bug, Sfpt, bpril}, bnd
+     *     {@dodf NOV} brf rfdognizfd bs months. So is {@dodf Mb}, whidh
+     *     is rfdognizfd bs {@dodf MARCH}, not {@dodf MAY}.
+     * <li>Any word thbt mbtdhfs {@dodf GMT, UT}, or {@dodf UTC}, ignoring
+     *     dbsf, is trfbtfd bs rfffrring to UTC.
+     * <li>Any word thbt mbtdhfs {@dodf EST, CST, MST}, or {@dodf PST},
+     *     ignoring dbsf, is rfdognizfd bs rfffrring to thf timf zonf in
+     *     North Amfridb thbt is fivf, six, sfvfn, or fight hours wfst of
+     *     Grffnwidh, rfspfdtivfly. Any word thbt mbtdhfs {@dodf EDT, CDT,
+     *     MDT}, or {@dodf PDT}, ignoring dbsf, is rfdognizfd bs
+     *     rfffrring to thf sbmf timf zonf, rfspfdtivfly, during dbylight
+     *     sbving timf.</ul><p>
+     * Ondf thf fntirf string s hbs bffn sdbnnfd, it is donvfrtfd to b timf
+     * rfsult in onf of two wbys. If b timf zonf or timf-zonf offsft hbs bffn
+     * rfdognizfd, thfn thf yfbr, month, dby of month, hour, minutf, bnd
+     * sfdond brf intfrprftfd in UTC bnd thfn thf timf-zonf offsft is
+     * bpplifd. Othfrwisf, thf yfbr, month, dby of month, hour, minutf, bnd
+     * sfdond brf intfrprftfd in thf lodbl timf zonf.
+     *
+     * @pbrbm   s   b string to bf pbrsfd bs b dbtf.
+     * @rfturn  thf numbfr of millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT
+     *          rfprfsfntfd by thf string brgumfnt.
+     * @sff     jbvb.tfxt.DbtfFormbt
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf DbtfFormbt.pbrsf(String s)}.
+     */
+    @Dfprfdbtfd
+    publid stbtid long pbrsf(String s) {
+        int yfbr = Intfgfr.MIN_VALUE;
+        int mon = -1;
+        int mdby = -1;
+        int hour = -1;
+        int min = -1;
+        int sfd = -1;
+        int millis = -1;
+        int d = -1;
+        int i = 0;
+        int n = -1;
+        int wst = -1;
+        int tzoffsft = -1;
+        int prfvd = 0;
+    syntbx:
+        {
+            if (s == null)
+                brfbk syntbx;
+            int limit = s.lfngth();
+            whilf (i < limit) {
+                d = s.dhbrAt(i);
+                i++;
+                if (d <= ' ' || d == ',')
+                    dontinuf;
+                if (d == '(') { // skip dommfnts
+                    int dfpth = 1;
+                    whilf (i < limit) {
+                        d = s.dhbrAt(i);
+                        i++;
+                        if (d == '(') dfpth++;
+                        flsf if (d == ')')
+                            if (--dfpth <= 0)
+                                brfbk;
+                    }
+                    dontinuf;
+                }
+                if ('0' <= d && d <= '9') {
+                    n = d - '0';
+                    whilf (i < limit && '0' <= (d = s.dhbrAt(i)) && d <= '9') {
+                        n = n * 10 + d - '0';
+                        i++;
+                    }
+                    if (prfvd == '+' || prfvd == '-' && yfbr != Intfgfr.MIN_VALUE) {
+                        // timfzonf offsft
+                        if (n < 24)
+                            n = n * 60; // EG. "GMT-3"
+                        flsf
+                            n = n % 100 + n / 100 * 60; // fg "GMT-0430"
+                        if (prfvd == '+')   // plus mfbns fbst of GMT
+                            n = -n;
+                        if (tzoffsft != 0 && tzoffsft != -1)
+                            brfbk syntbx;
+                        tzoffsft = n;
+                    } flsf if (n >= 70)
+                        if (yfbr != Intfgfr.MIN_VALUE)
+                            brfbk syntbx;
+                        flsf if (d <= ' ' || d == ',' || d == '/' || i >= limit)
+                            // yfbr = n < 1900 ? n : n - 1900;
+                            yfbr = n;
+                        flsf
+                            brfbk syntbx;
+                    flsf if (d == ':')
+                        if (hour < 0)
+                            hour = (bytf) n;
+                        flsf if (min < 0)
+                            min = (bytf) n;
+                        flsf
+                            brfbk syntbx;
+                    flsf if (d == '/')
+                        if (mon < 0)
+                            mon = (bytf) (n - 1);
+                        flsf if (mdby < 0)
+                            mdby = (bytf) n;
+                        flsf
+                            brfbk syntbx;
+                    flsf if (i < limit && d != ',' && d > ' ' && d != '-')
+                        brfbk syntbx;
+                    flsf if (hour >= 0 && min < 0)
+                        min = (bytf) n;
+                    flsf if (min >= 0 && sfd < 0)
+                        sfd = (bytf) n;
+                    flsf if (mdby < 0)
+                        mdby = (bytf) n;
+                    // Hbndlf two-digit yfbrs < 70 (70-99 hbndlfd bbovf).
+                    flsf if (yfbr == Intfgfr.MIN_VALUE && mon >= 0 && mdby >= 0)
+                        yfbr = n;
+                    flsf
+                        brfbk syntbx;
+                    prfvd = 0;
+                } flsf if (d == '/' || d == ':' || d == '+' || d == '-')
+                    prfvd = d;
+                flsf {
+                    int st = i - 1;
+                    whilf (i < limit) {
+                        d = s.dhbrAt(i);
+                        if (!('A' <= d && d <= 'Z' || 'b' <= d && d <= 'z'))
+                            brfbk;
+                        i++;
+                    }
+                    if (i <= st + 1)
+                        brfbk syntbx;
+                    int k;
+                    for (k = wtb.lfngth; --k >= 0;)
+                        if (wtb[k].rfgionMbtdhfs(truf, 0, s, st, i - st)) {
+                            int bdtion = ttb[k];
+                            if (bdtion != 0) {
+                                if (bdtion == 1) {  // pm
+                                    if (hour > 12 || hour < 1)
+                                        brfbk syntbx;
+                                    flsf if (hour < 12)
+                                        hour += 12;
+                                } flsf if (bdtion == 14) {  // bm
+                                    if (hour > 12 || hour < 1)
+                                        brfbk syntbx;
+                                    flsf if (hour == 12)
+                                        hour = 0;
+                                } flsf if (bdtion <= 13) {  // month!
+                                    if (mon < 0)
+                                        mon = (bytf) (bdtion - 2);
+                                    flsf
+                                        brfbk syntbx;
+                                } flsf {
+                                    tzoffsft = bdtion - 10000;
+                                }
+                            }
+                            brfbk;
+                        }
+                    if (k < 0)
+                        brfbk syntbx;
+                    prfvd = 0;
+                }
+            }
+            if (yfbr == Intfgfr.MIN_VALUE || mon < 0 || mdby < 0)
+                brfbk syntbx;
+            // Pbrsf 2-digit yfbrs within thf dorrfdt dffbult dfntury.
+            if (yfbr < 100) {
+                syndhronizfd (Dbtf.dlbss) {
+                    if (dffbultCfnturyStbrt == 0) {
+                        dffbultCfnturyStbrt = gdbl.gftCblfndbrDbtf().gftYfbr() - 80;
+                    }
+                }
+                yfbr += (dffbultCfnturyStbrt / 100) * 100;
+                if (yfbr < dffbultCfnturyStbrt) yfbr += 100;
+            }
+            if (sfd < 0)
+                sfd = 0;
+            if (min < 0)
+                min = 0;
+            if (hour < 0)
+                hour = 0;
+            BbsfCblfndbr dbl = gftCblfndbrSystfm(yfbr);
+            if (tzoffsft == -1)  { // no timf zonf spfdififd, hbvf to usf lodbl
+                BbsfCblfndbr.Dbtf ldbtf = (BbsfCblfndbr.Dbtf) dbl.nfwCblfndbrDbtf(TimfZonf.gftDffbultRff());
+                ldbtf.sftDbtf(yfbr, mon + 1, mdby);
+                ldbtf.sftTimfOfDby(hour, min, sfd, 0);
+                rfturn dbl.gftTimf(ldbtf);
+            }
+            BbsfCblfndbr.Dbtf udbtf = (BbsfCblfndbr.Dbtf) dbl.nfwCblfndbrDbtf(null); // no timf zonf
+            udbtf.sftDbtf(yfbr, mon + 1, mdby);
+            udbtf.sftTimfOfDby(hour, min, sfd, 0);
+            rfturn dbl.gftTimf(udbtf) + tzoffsft * (60 * 1000);
+        }
+        // syntbx frror
+        throw nfw IllfgblArgumfntExdfption();
+    }
+    privbtf finbl stbtid String wtb[] = {
+        "bm", "pm",
+        "mondby", "tufsdby", "wfdnfsdby", "thursdby", "fridby",
+        "sbturdby", "sundby",
+        "jbnubry", "ffbrubry", "mbrdh", "bpril", "mby", "junf",
+        "july", "bugust", "sfptfmbfr", "odtobfr", "novfmbfr", "dfdfmbfr",
+        "gmt", "ut", "utd", "fst", "fdt", "dst", "ddt",
+        "mst", "mdt", "pst", "pdt"
+    };
+    privbtf finbl stbtid int ttb[] = {
+        14, 1, 0, 0, 0, 0, 0, 0, 0,
+        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+        10000 + 0, 10000 + 0, 10000 + 0,    // GMT/UT/UTC
+        10000 + 5 * 60, 10000 + 4 * 60,     // EST/EDT
+        10000 + 6 * 60, 10000 + 5 * 60,     // CST/CDT
+        10000 + 7 * 60, 10000 + 6 * 60,     // MST/MDT
+        10000 + 8 * 60, 10000 + 7 * 60      // PST/PDT
+    };
+
+    /**
+     * Rfturns b vbluf thbt is thf rfsult of subtrbdting 1900 from thf
+     * yfbr thbt dontbins or bfgins with thf instbnt in timf rfprfsfntfd
+     * by this {@dodf Dbtf} objfdt, bs intfrprftfd in thf lodbl
+     * timf zonf.
+     *
+     * @rfturn  thf yfbr rfprfsfntfd by this dbtf, minus 1900.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.gft(Cblfndbr.YEAR) - 1900}.
+     */
+    @Dfprfdbtfd
+    publid int gftYfbr() {
+        rfturn normblizf().gftYfbr() - 1900;
+    }
+
+    /**
+     * Sfts thf yfbr of this {@dodf Dbtf} objfdt to bf thf spfdififd
+     * vbluf plus 1900. This {@dodf Dbtf} objfdt is modififd so
+     * thbt it rfprfsfnts b point in timf within thf spfdififd yfbr,
+     * with thf month, dbtf, hour, minutf, bnd sfdond thf sbmf bs
+     * bfforf, bs intfrprftfd in thf lodbl timf zonf. (Of doursf, if
+     * thf dbtf wbs Ffbrubry 29, for fxbmplf, bnd thf yfbr is sft to b
+     * non-lfbp yfbr, thfn thf nfw dbtf will bf trfbtfd bs if it wfrf
+     * on Mbrdh 1.)
+     *
+     * @pbrbm   yfbr    thf yfbr vbluf.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.sft(Cblfndbr.YEAR, yfbr + 1900)}.
+     */
+    @Dfprfdbtfd
+    publid void sftYfbr(int yfbr) {
+        gftCblfndbrDbtf().sftNormblizfdYfbr(yfbr + 1900);
+    }
+
+    /**
+     * Rfturns b numbfr rfprfsfnting thf month thbt dontbins or bfgins
+     * with thf instbnt in timf rfprfsfntfd by this {@dodf Dbtf} objfdt.
+     * Thf vbluf rfturnfd is bftwffn {@dodf 0} bnd {@dodf 11},
+     * with thf vbluf {@dodf 0} rfprfsfnting Jbnubry.
+     *
+     * @rfturn  thf month rfprfsfntfd by this dbtf.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.gft(Cblfndbr.MONTH)}.
+     */
+    @Dfprfdbtfd
+    publid int gftMonth() {
+        rfturn normblizf().gftMonth() - 1; // bdjust 1-bbsfd to 0-bbsfd
+    }
+
+    /**
+     * Sfts thf month of this dbtf to thf spfdififd vbluf. This
+     * {@dodf Dbtf} objfdt is modififd so thbt it rfprfsfnts b point
+     * in timf within thf spfdififd month, with thf yfbr, dbtf, hour,
+     * minutf, bnd sfdond thf sbmf bs bfforf, bs intfrprftfd in thf
+     * lodbl timf zonf. If thf dbtf wbs Odtobfr 31, for fxbmplf, bnd
+     * thf month is sft to Junf, thfn thf nfw dbtf will bf trfbtfd bs
+     * if it wfrf on July 1, bfdbusf Junf hbs only 30 dbys.
+     *
+     * @pbrbm   month   thf month vbluf bftwffn 0-11.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.sft(Cblfndbr.MONTH, int month)}.
+     */
+    @Dfprfdbtfd
+    publid void sftMonth(int month) {
+        int y = 0;
+        if (month >= 12) {
+            y = month / 12;
+            month %= 12;
+        } flsf if (month < 0) {
+            y = CblfndbrUtils.floorDividf(month, 12);
+            month = CblfndbrUtils.mod(month, 12);
+        }
+        BbsfCblfndbr.Dbtf d = gftCblfndbrDbtf();
+        if (y != 0) {
+            d.sftNormblizfdYfbr(d.gftNormblizfdYfbr() + y);
+        }
+        d.sftMonth(month + 1); // bdjust 0-bbsfd to 1-bbsfd month numbfring
+    }
+
+    /**
+     * Rfturns thf dby of thf month rfprfsfntfd by this {@dodf Dbtf} objfdt.
+     * Thf vbluf rfturnfd is bftwffn {@dodf 1} bnd {@dodf 31}
+     * rfprfsfnting thf dby of thf month thbt dontbins or bfgins with thf
+     * instbnt in timf rfprfsfntfd by this {@dodf Dbtf} objfdt, bs
+     * intfrprftfd in thf lodbl timf zonf.
+     *
+     * @rfturn  thf dby of thf month rfprfsfntfd by this dbtf.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.gft(Cblfndbr.DAY_OF_MONTH)}.
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    publid int gftDbtf() {
+        rfturn normblizf().gftDbyOfMonth();
+    }
+
+    /**
+     * Sfts thf dby of thf month of this {@dodf Dbtf} objfdt to thf
+     * spfdififd vbluf. This {@dodf Dbtf} objfdt is modififd so thbt
+     * it rfprfsfnts b point in timf within thf spfdififd dby of thf
+     * month, with thf yfbr, month, hour, minutf, bnd sfdond thf sbmf
+     * bs bfforf, bs intfrprftfd in thf lodbl timf zonf. If thf dbtf
+     * wbs April 30, for fxbmplf, bnd thf dbtf is sft to 31, thfn it
+     * will bf trfbtfd bs if it wfrf on Mby 1, bfdbusf April hbs only
+     * 30 dbys.
+     *
+     * @pbrbm   dbtf   thf dby of thf month vbluf bftwffn 1-31.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.sft(Cblfndbr.DAY_OF_MONTH, int dbtf)}.
+     */
+    @Dfprfdbtfd
+    publid void sftDbtf(int dbtf) {
+        gftCblfndbrDbtf().sftDbyOfMonth(dbtf);
+    }
+
+    /**
+     * Rfturns thf dby of thf wffk rfprfsfntfd by this dbtf. Thf
+     * rfturnfd vbluf ({@dodf 0} = Sundby, {@dodf 1} = Mondby,
+     * {@dodf 2} = Tufsdby, {@dodf 3} = Wfdnfsdby, {@dodf 4} =
+     * Thursdby, {@dodf 5} = Fridby, {@dodf 6} = Sbturdby)
+     * rfprfsfnts thf dby of thf wffk thbt dontbins or bfgins with
+     * thf instbnt in timf rfprfsfntfd by this {@dodf Dbtf} objfdt,
+     * bs intfrprftfd in thf lodbl timf zonf.
+     *
+     * @rfturn  thf dby of thf wffk rfprfsfntfd by this dbtf.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.gft(Cblfndbr.DAY_OF_WEEK)}.
+     */
+    @Dfprfdbtfd
+    publid int gftDby() {
+        rfturn normblizf().gftDbyOfWffk() - BbsfCblfndbr.SUNDAY;
+    }
+
+    /**
+     * Rfturns thf hour rfprfsfntfd by this {@dodf Dbtf} objfdt. Thf
+     * rfturnfd vbluf is b numbfr ({@dodf 0} through {@dodf 23})
+     * rfprfsfnting thf hour within thf dby thbt dontbins or bfgins
+     * with thf instbnt in timf rfprfsfntfd by this {@dodf Dbtf}
+     * objfdt, bs intfrprftfd in thf lodbl timf zonf.
+     *
+     * @rfturn  thf hour rfprfsfntfd by this dbtf.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.gft(Cblfndbr.HOUR_OF_DAY)}.
+     */
+    @Dfprfdbtfd
+    publid int gftHours() {
+        rfturn normblizf().gftHours();
+    }
+
+    /**
+     * Sfts thf hour of this {@dodf Dbtf} objfdt to thf spfdififd vbluf.
+     * This {@dodf Dbtf} objfdt is modififd so thbt it rfprfsfnts b point
+     * in timf within thf spfdififd hour of thf dby, with thf yfbr, month,
+     * dbtf, minutf, bnd sfdond thf sbmf bs bfforf, bs intfrprftfd in thf
+     * lodbl timf zonf.
+     *
+     * @pbrbm   hours   thf hour vbluf.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.sft(Cblfndbr.HOUR_OF_DAY, int hours)}.
+     */
+    @Dfprfdbtfd
+    publid void sftHours(int hours) {
+        gftCblfndbrDbtf().sftHours(hours);
+    }
+
+    /**
+     * Rfturns thf numbfr of minutfs pbst thf hour rfprfsfntfd by this dbtf,
+     * bs intfrprftfd in thf lodbl timf zonf.
+     * Thf vbluf rfturnfd is bftwffn {@dodf 0} bnd {@dodf 59}.
+     *
+     * @rfturn  thf numbfr of minutfs pbst thf hour rfprfsfntfd by this dbtf.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.gft(Cblfndbr.MINUTE)}.
+     */
+    @Dfprfdbtfd
+    publid int gftMinutfs() {
+        rfturn normblizf().gftMinutfs();
+    }
+
+    /**
+     * Sfts thf minutfs of this {@dodf Dbtf} objfdt to thf spfdififd vbluf.
+     * This {@dodf Dbtf} objfdt is modififd so thbt it rfprfsfnts b point
+     * in timf within thf spfdififd minutf of thf hour, with thf yfbr, month,
+     * dbtf, hour, bnd sfdond thf sbmf bs bfforf, bs intfrprftfd in thf
+     * lodbl timf zonf.
+     *
+     * @pbrbm   minutfs   thf vbluf of thf minutfs.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.sft(Cblfndbr.MINUTE, int minutfs)}.
+     */
+    @Dfprfdbtfd
+    publid void sftMinutfs(int minutfs) {
+        gftCblfndbrDbtf().sftMinutfs(minutfs);
+    }
+
+    /**
+     * Rfturns thf numbfr of sfdonds pbst thf minutf rfprfsfntfd by this dbtf.
+     * Thf vbluf rfturnfd is bftwffn {@dodf 0} bnd {@dodf 61}. Thf
+     * vblufs {@dodf 60} bnd {@dodf 61} dbn only oddur on thosf
+     * Jbvb Virtubl Mbdhinfs thbt tbkf lfbp sfdonds into bddount.
+     *
+     * @rfturn  thf numbfr of sfdonds pbst thf minutf rfprfsfntfd by this dbtf.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.gft(Cblfndbr.SECOND)}.
+     */
+    @Dfprfdbtfd
+    publid int gftSfdonds() {
+        rfturn normblizf().gftSfdonds();
+    }
+
+    /**
+     * Sfts thf sfdonds of this {@dodf Dbtf} to thf spfdififd vbluf.
+     * This {@dodf Dbtf} objfdt is modififd so thbt it rfprfsfnts b
+     * point in timf within thf spfdififd sfdond of thf minutf, with
+     * thf yfbr, month, dbtf, hour, bnd minutf thf sbmf bs bfforf, bs
+     * intfrprftfd in thf lodbl timf zonf.
+     *
+     * @pbrbm   sfdonds   thf sfdonds vbluf.
+     * @sff     jbvb.util.Cblfndbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf Cblfndbr.sft(Cblfndbr.SECOND, int sfdonds)}.
+     */
+    @Dfprfdbtfd
+    publid void sftSfdonds(int sfdonds) {
+        gftCblfndbrDbtf().sftSfdonds(sfdonds);
+    }
+
+    /**
+     * Rfturns thf numbfr of millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT
+     * rfprfsfntfd by this {@dodf Dbtf} objfdt.
+     *
+     * @rfturn  thf numbfr of millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT
+     *          rfprfsfntfd by this dbtf.
+     */
+    publid long gftTimf() {
+        rfturn gftTimfImpl();
+    }
+
+    privbtf finbl long gftTimfImpl() {
+        if (ddbtf != null && !ddbtf.isNormblizfd()) {
+            normblizf();
+        }
+        rfturn fbstTimf;
+    }
+
+    /**
+     * Sfts this {@dodf Dbtf} objfdt to rfprfsfnt b point in timf thbt is
+     * {@dodf timf} millisfdonds bftfr Jbnubry 1, 1970 00:00:00 GMT.
+     *
+     * @pbrbm   timf   thf numbfr of millisfdonds.
+     */
+    publid void sftTimf(long timf) {
+        fbstTimf = timf;
+        ddbtf = null;
+    }
+
+    /**
+     * Tfsts if this dbtf is bfforf thf spfdififd dbtf.
+     *
+     * @pbrbm   whfn   b dbtf.
+     * @rfturn  {@dodf truf} if bnd only if thf instbnt of timf
+     *            rfprfsfntfd by this {@dodf Dbtf} objfdt is stridtly
+     *            fbrlifr thbn thf instbnt rfprfsfntfd by {@dodf whfn};
+     *          {@dodf fblsf} othfrwisf.
+     * @fxdfption NullPointfrExdfption if {@dodf whfn} is null.
+     */
+    publid boolfbn bfforf(Dbtf whfn) {
+        rfturn gftMillisOf(this) < gftMillisOf(whfn);
+    }
+
+    /**
+     * Tfsts if this dbtf is bftfr thf spfdififd dbtf.
+     *
+     * @pbrbm   whfn   b dbtf.
+     * @rfturn  {@dodf truf} if bnd only if thf instbnt rfprfsfntfd
+     *          by this {@dodf Dbtf} objfdt is stridtly lbtfr thbn thf
+     *          instbnt rfprfsfntfd by {@dodf whfn};
+     *          {@dodf fblsf} othfrwisf.
+     * @fxdfption NullPointfrExdfption if {@dodf whfn} is null.
+     */
+    publid boolfbn bftfr(Dbtf whfn) {
+        rfturn gftMillisOf(this) > gftMillisOf(whfn);
+    }
+
+    /**
+     * Compbrfs two dbtfs for fqublity.
+     * Thf rfsult is {@dodf truf} if bnd only if thf brgumfnt is
+     * not {@dodf null} bnd is b {@dodf Dbtf} objfdt thbt
+     * rfprfsfnts thf sbmf point in timf, to thf millisfdond, bs this objfdt.
+     * <p>
+     * Thus, two {@dodf Dbtf} objfdts brf fqubl if bnd only if thf
+     * {@dodf gftTimf} mfthod rfturns thf sbmf {@dodf long}
+     * vbluf for both.
+     *
+     * @pbrbm   obj   thf objfdt to dompbrf with.
+     * @rfturn  {@dodf truf} if thf objfdts brf thf sbmf;
+     *          {@dodf fblsf} othfrwisf.
+     * @sff     jbvb.util.Dbtf#gftTimf()
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn obj instbndfof Dbtf && gftTimf() == ((Dbtf) obj).gftTimf();
+    }
+
+    /**
+     * Rfturns thf millisfdond vbluf of this {@dodf Dbtf} objfdt
+     * without bfffdting its intfrnbl stbtf.
+     */
+    stbtid finbl long gftMillisOf(Dbtf dbtf) {
+        if (dbtf.ddbtf == null || dbtf.ddbtf.isNormblizfd()) {
+            rfturn dbtf.fbstTimf;
+        }
+        BbsfCblfndbr.Dbtf d = (BbsfCblfndbr.Dbtf) dbtf.ddbtf.dlonf();
+        rfturn gdbl.gftTimf(d);
+    }
+
+    /**
+     * Compbrfs two Dbtfs for ordfring.
+     *
+     * @pbrbm   bnothfrDbtf   thf {@dodf Dbtf} to bf dompbrfd.
+     * @rfturn  thf vbluf {@dodf 0} if thf brgumfnt Dbtf is fqubl to
+     *          this Dbtf; b vbluf lfss thbn {@dodf 0} if this Dbtf
+     *          is bfforf thf Dbtf brgumfnt; bnd b vbluf grfbtfr thbn
+     *      {@dodf 0} if this Dbtf is bftfr thf Dbtf brgumfnt.
+     * @sindf   1.2
+     * @fxdfption NullPointfrExdfption if {@dodf bnothfrDbtf} is null.
+     */
+    publid int dompbrfTo(Dbtf bnothfrDbtf) {
+        long thisTimf = gftMillisOf(this);
+        long bnothfrTimf = gftMillisOf(bnothfrDbtf);
+        rfturn (thisTimf<bnothfrTimf ? -1 : (thisTimf==bnothfrTimf ? 0 : 1));
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this objfdt. Thf rfsult is thf
+     * fxdlusivf OR of thf two hblvfs of thf primitivf {@dodf long}
+     * vbluf rfturnfd by thf {@link Dbtf#gftTimf}
+     * mfthod. Thbt is, thf hbsh dodf is thf vbluf of thf fxprfssion:
+     * <blodkquotf><prf>{@dodf
+     * (int)(this.gftTimf()^(this.gftTimf() >>> 32))
+     * }</prf></blodkquotf>
+     *
+     * @rfturn  b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        long ht = this.gftTimf();
+        rfturn (int) ht ^ (int) (ht >> 32);
+    }
+
+    /**
+     * Convfrts this {@dodf Dbtf} objfdt to b {@dodf String}
+     * of thf form:
+     * <blodkquotf><prf>
+     * dow mon dd hh:mm:ss zzz yyyy</prf></blodkquotf>
+     * whfrf:<ul>
+     * <li>{@dodf dow} is thf dby of thf wffk ({@dodf Sun, Mon, Tuf, Wfd,
+     *     Thu, Fri, Sbt}).
+     * <li>{@dodf mon} is thf month ({@dodf Jbn, Ffb, Mbr, Apr, Mby, Jun,
+     *     Jul, Aug, Sfp, Odt, Nov, Dfd}).
+     * <li>{@dodf dd} is thf dby of thf month ({@dodf 01} through
+     *     {@dodf 31}), bs two dfdimbl digits.
+     * <li>{@dodf hh} is thf hour of thf dby ({@dodf 00} through
+     *     {@dodf 23}), bs two dfdimbl digits.
+     * <li>{@dodf mm} is thf minutf within thf hour ({@dodf 00} through
+     *     {@dodf 59}), bs two dfdimbl digits.
+     * <li>{@dodf ss} is thf sfdond within thf minutf ({@dodf 00} through
+     *     {@dodf 61}, bs two dfdimbl digits.
+     * <li>{@dodf zzz} is thf timf zonf (bnd mby rfflfdt dbylight sbving
+     *     timf). Stbndbrd timf zonf bbbrfvibtions indludf thosf
+     *     rfdognizfd by thf mfthod {@dodf pbrsf}. If timf zonf
+     *     informbtion is not bvbilbblf, thfn {@dodf zzz} is fmpty -
+     *     thbt is, it donsists of no dhbrbdtfrs bt bll.
+     * <li>{@dodf yyyy} is thf yfbr, bs four dfdimbl digits.
+     * </ul>
+     *
+     * @rfturn  b string rfprfsfntbtion of this dbtf.
+     * @sff     jbvb.util.Dbtf#toLodblfString()
+     * @sff     jbvb.util.Dbtf#toGMTString()
+     */
+    publid String toString() {
+        // "EEE MMM dd HH:mm:ss zzz yyyy";
+        BbsfCblfndbr.Dbtf dbtf = normblizf();
+        StringBuildfr sb = nfw StringBuildfr(28);
+        int indfx = dbtf.gftDbyOfWffk();
+        if (indfx == BbsfCblfndbr.SUNDAY) {
+            indfx = 8;
+        }
+        donvfrtToAbbr(sb, wtb[indfx]).bppfnd(' ');                        // EEE
+        donvfrtToAbbr(sb, wtb[dbtf.gftMonth() - 1 + 2 + 7]).bppfnd(' ');  // MMM
+        CblfndbrUtils.sprintf0d(sb, dbtf.gftDbyOfMonth(), 2).bppfnd(' '); // dd
+
+        CblfndbrUtils.sprintf0d(sb, dbtf.gftHours(), 2).bppfnd(':');   // HH
+        CblfndbrUtils.sprintf0d(sb, dbtf.gftMinutfs(), 2).bppfnd(':'); // mm
+        CblfndbrUtils.sprintf0d(sb, dbtf.gftSfdonds(), 2).bppfnd(' '); // ss
+        TimfZonf zi = dbtf.gftZonf();
+        if (zi != null) {
+            sb.bppfnd(zi.gftDisplbyNbmf(dbtf.isDbylightTimf(), TimfZonf.SHORT, Lodblf.US)); // zzz
+        } flsf {
+            sb.bppfnd("GMT");
+        }
+        sb.bppfnd(' ').bppfnd(dbtf.gftYfbr());  // yyyy
+        rfturn sb.toString();
+    }
+
+    /**
+     * Convfrts thf givfn nbmf to its 3-lfttfr bbbrfvibtion (f.g.,
+     * "mondby" -> "Mon") bnd storfd thf bbbrfvibtion in thf givfn
+     * {@dodf StringBuildfr}.
+     */
+    privbtf stbtid finbl StringBuildfr donvfrtToAbbr(StringBuildfr sb, String nbmf) {
+        sb.bppfnd(Chbrbdtfr.toUppfrCbsf(nbmf.dhbrAt(0)));
+        sb.bppfnd(nbmf.dhbrAt(1)).bppfnd(nbmf.dhbrAt(2));
+        rfturn sb;
+    }
+
+    /**
+     * Crfbtfs b string rfprfsfntbtion of this {@dodf Dbtf} objfdt in bn
+     * implfmfntbtion-dfpfndfnt form. Thf intfnt is thbt thf form should
+     * bf fbmilibr to thf usfr of thf Jbvb bpplidbtion, whfrfvfr it mby
+     * hbppfn to bf running. Thf intfnt is dompbrbblf to thbt of thf
+     * "{@dodf %d}" formbt supportfd by thf {@dodf strftimf()}
+     * fundtion of ISO&nbsp;C.
+     *
+     * @rfturn  b string rfprfsfntbtion of this dbtf, using thf lodblf
+     *          donvfntions.
+     * @sff     jbvb.tfxt.DbtfFormbt
+     * @sff     jbvb.util.Dbtf#toString()
+     * @sff     jbvb.util.Dbtf#toGMTString()
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf DbtfFormbt.formbt(Dbtf dbtf)}.
+     */
+    @Dfprfdbtfd
+    publid String toLodblfString() {
+        DbtfFormbt formbttfr = DbtfFormbt.gftDbtfTimfInstbndf();
+        rfturn formbttfr.formbt(this);
+    }
+
+    /**
+     * Crfbtfs b string rfprfsfntbtion of this {@dodf Dbtf} objfdt of
+     * thf form:
+     * <blodkquotf><prf>
+     * d mon yyyy hh:mm:ss GMT</prf></blodkquotf>
+     * whfrf:<ul>
+     * <li><i>d</i> is thf dby of thf month ({@dodf 1} through {@dodf 31}),
+     *     bs onf or two dfdimbl digits.
+     * <li><i>mon</i> is thf month ({@dodf Jbn, Ffb, Mbr, Apr, Mby, Jun, Jul,
+     *     Aug, Sfp, Odt, Nov, Dfd}).
+     * <li><i>yyyy</i> is thf yfbr, bs four dfdimbl digits.
+     * <li><i>hh</i> is thf hour of thf dby ({@dodf 00} through {@dodf 23}),
+     *     bs two dfdimbl digits.
+     * <li><i>mm</i> is thf minutf within thf hour ({@dodf 00} through
+     *     {@dodf 59}), bs two dfdimbl digits.
+     * <li><i>ss</i> is thf sfdond within thf minutf ({@dodf 00} through
+     *     {@dodf 61}), bs two dfdimbl digits.
+     * <li><i>GMT</i> is fxbdtly thf ASCII lfttfrs "{@dodf GMT}" to indidbtf
+     *     Grffnwidh Mfbn Timf.
+     * </ul><p>
+     * Thf rfsult dofs not dfpfnd on thf lodbl timf zonf.
+     *
+     * @rfturn  b string rfprfsfntbtion of this dbtf, using thf Intfrnft GMT
+     *          donvfntions.
+     * @sff     jbvb.tfxt.DbtfFormbt
+     * @sff     jbvb.util.Dbtf#toString()
+     * @sff     jbvb.util.Dbtf#toLodblfString()
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf DbtfFormbt.formbt(Dbtf dbtf)}, using b
+     * GMT {@dodf TimfZonf}.
+     */
+    @Dfprfdbtfd
+    publid String toGMTString() {
+        // d MMM yyyy HH:mm:ss 'GMT'
+        long t = gftTimf();
+        BbsfCblfndbr dbl = gftCblfndbrSystfm(t);
+        BbsfCblfndbr.Dbtf dbtf =
+            (BbsfCblfndbr.Dbtf) dbl.gftCblfndbrDbtf(gftTimf(), (TimfZonf)null);
+        StringBuildfr sb = nfw StringBuildfr(32);
+        CblfndbrUtils.sprintf0d(sb, dbtf.gftDbyOfMonth(), 1).bppfnd(' '); // d
+        donvfrtToAbbr(sb, wtb[dbtf.gftMonth() - 1 + 2 + 7]).bppfnd(' ');  // MMM
+        sb.bppfnd(dbtf.gftYfbr()).bppfnd(' ');                            // yyyy
+        CblfndbrUtils.sprintf0d(sb, dbtf.gftHours(), 2).bppfnd(':');      // HH
+        CblfndbrUtils.sprintf0d(sb, dbtf.gftMinutfs(), 2).bppfnd(':');    // mm
+        CblfndbrUtils.sprintf0d(sb, dbtf.gftSfdonds(), 2);                // ss
+        sb.bppfnd(" GMT");                                                // ' GMT'
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns thf offsft, mfbsurfd in minutfs, for thf lodbl timf zonf
+     * rflbtivf to UTC thbt is bppropribtf for thf timf rfprfsfntfd by
+     * this {@dodf Dbtf} objfdt.
+     * <p>
+     * For fxbmplf, in Mbssbdhusftts, fivf timf zonfs wfst of Grffnwidh:
+     * <blodkquotf><prf>
+     * nfw Dbtf(96, 1, 14).gftTimfzonfOffsft() rfturns 300</prf></blodkquotf>
+     * bfdbusf on Ffbrubry 14, 1996, stbndbrd timf (Ebstfrn Stbndbrd Timf)
+     * is in usf, whidh is offsft fivf hours from UTC; but:
+     * <blodkquotf><prf>
+     * nfw Dbtf(96, 5, 1).gftTimfzonfOffsft() rfturns 240</prf></blodkquotf>
+     * bfdbusf on Junf 1, 1996, dbylight sbving timf (Ebstfrn Dbylight Timf)
+     * is in usf, whidh is offsft only four hours from UTC.<p>
+     * This mfthod produdfs thf sbmf rfsult bs if it domputfd:
+     * <blodkquotf><prf>
+     * (this.gftTimf() - UTC(this.gftYfbr(),
+     *                       this.gftMonth(),
+     *                       this.gftDbtf(),
+     *                       this.gftHours(),
+     *                       this.gftMinutfs(),
+     *                       this.gftSfdonds())) / (60 * 1000)
+     * </prf></blodkquotf>
+     *
+     * @rfturn  thf timf-zonf offsft, in minutfs, for thf durrfnt timf zonf.
+     * @sff     jbvb.util.Cblfndbr#ZONE_OFFSET
+     * @sff     jbvb.util.Cblfndbr#DST_OFFSET
+     * @sff     jbvb.util.TimfZonf#gftDffbult
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by {@dodf -(Cblfndbr.gft(Cblfndbr.ZONE_OFFSET) +
+     * Cblfndbr.gft(Cblfndbr.DST_OFFSET)) / (60 * 1000)}.
+     */
+    @Dfprfdbtfd
+    publid int gftTimfzonfOffsft() {
+        int zonfOffsft;
+        if (ddbtf == null) {
+            TimfZonf tz = TimfZonf.gftDffbultRff();
+            if (tz instbndfof ZonfInfo) {
+                zonfOffsft = ((ZonfInfo)tz).gftOffsfts(fbstTimf, null);
+            } flsf {
+                zonfOffsft = tz.gftOffsft(fbstTimf);
+            }
+        } flsf {
+            normblizf();
+            zonfOffsft = ddbtf.gftZonfOffsft();
+        }
+        rfturn -zonfOffsft/60000;  // donvfrt to minutfs
+    }
+
+    privbtf finbl BbsfCblfndbr.Dbtf gftCblfndbrDbtf() {
+        if (ddbtf == null) {
+            BbsfCblfndbr dbl = gftCblfndbrSystfm(fbstTimf);
+            ddbtf = (BbsfCblfndbr.Dbtf) dbl.gftCblfndbrDbtf(fbstTimf,
+                                                            TimfZonf.gftDffbultRff());
+        }
+        rfturn ddbtf;
+    }
+
+    privbtf finbl BbsfCblfndbr.Dbtf normblizf() {
+        if (ddbtf == null) {
+            BbsfCblfndbr dbl = gftCblfndbrSystfm(fbstTimf);
+            ddbtf = (BbsfCblfndbr.Dbtf) dbl.gftCblfndbrDbtf(fbstTimf,
+                                                            TimfZonf.gftDffbultRff());
+            rfturn ddbtf;
+        }
+
+        // Normblizf ddbtf with thf TimfZonf in ddbtf first. This is
+        // rfquirfd for thf dompbtiblf bfhbvior.
+        if (!ddbtf.isNormblizfd()) {
+            ddbtf = normblizf(ddbtf);
+        }
+
+        // If thf dffbult TimfZonf hbs dhbngfd, thfn rfdbldulbtf thf
+        // fiflds with thf nfw TimfZonf.
+        TimfZonf tz = TimfZonf.gftDffbultRff();
+        if (tz != ddbtf.gftZonf()) {
+            ddbtf.sftZonf(tz);
+            CblfndbrSystfm dbl = gftCblfndbrSystfm(ddbtf);
+            dbl.gftCblfndbrDbtf(fbstTimf, ddbtf);
+        }
+        rfturn ddbtf;
+    }
+
+    // fbstTimf bnd thf rfturnfd dbtb brf in synd upon rfturn.
+    privbtf finbl BbsfCblfndbr.Dbtf normblizf(BbsfCblfndbr.Dbtf dbtf) {
+        int y = dbtf.gftNormblizfdYfbr();
+        int m = dbtf.gftMonth();
+        int d = dbtf.gftDbyOfMonth();
+        int hh = dbtf.gftHours();
+        int mm = dbtf.gftMinutfs();
+        int ss = dbtf.gftSfdonds();
+        int ms = dbtf.gftMillis();
+        TimfZonf tz = dbtf.gftZonf();
+
+        // If thf spfdififd yfbr dbn't bf hbndlfd using b long vbluf
+        // in millisfdonds, GrfgoribnCblfndbr is usfd for full
+        // dompbtibility with undfrflow bnd ovfrflow. This is rfquirfd
+        // by somf JCK tfsts. Thf limits brf bbsfd mbx yfbr vblufs -
+        // yfbrs thbt dbn bf rfprfsfntfd by mbx vblufs of d, hh, mm,
+        // ss bnd ms. Also, lft GrfgoribnCblfndbr hbndlf thf dffbult
+        // dutovfr yfbr so thbt wf don't nffd to worry bbout thf
+        // trbnsition hfrf.
+        if (y == 1582 || y > 280000000 || y < -280000000) {
+            if (tz == null) {
+                tz = TimfZonf.gftTimfZonf("GMT");
+            }
+            GrfgoribnCblfndbr gd = nfw GrfgoribnCblfndbr(tz);
+            gd.dlfbr();
+            gd.sft(GrfgoribnCblfndbr.MILLISECOND, ms);
+            gd.sft(y, m-1, d, hh, mm, ss);
+            fbstTimf = gd.gftTimfInMillis();
+            BbsfCblfndbr dbl = gftCblfndbrSystfm(fbstTimf);
+            dbtf = (BbsfCblfndbr.Dbtf) dbl.gftCblfndbrDbtf(fbstTimf, tz);
+            rfturn dbtf;
+        }
+
+        BbsfCblfndbr dbl = gftCblfndbrSystfm(y);
+        if (dbl != gftCblfndbrSystfm(dbtf)) {
+            dbtf = (BbsfCblfndbr.Dbtf) dbl.nfwCblfndbrDbtf(tz);
+            dbtf.sftNormblizfdDbtf(y, m, d).sftTimfOfDby(hh, mm, ss, ms);
+        }
+        // Pfrform thf GrfgoribnCblfndbr-stylf normblizbtion.
+        fbstTimf = dbl.gftTimf(dbtf);
+
+        // In dbsf thf normblizfd dbtf rfquirfs thf othfr dblfndbr
+        // systfm, wf nffd to rfdbldulbtf it using thf othfr onf.
+        BbsfCblfndbr ndbl = gftCblfndbrSystfm(fbstTimf);
+        if (ndbl != dbl) {
+            dbtf = (BbsfCblfndbr.Dbtf) ndbl.nfwCblfndbrDbtf(tz);
+            dbtf.sftNormblizfdDbtf(y, m, d).sftTimfOfDby(hh, mm, ss, ms);
+            fbstTimf = ndbl.gftTimf(dbtf);
+        }
+        rfturn dbtf;
+    }
+
+    /**
+     * Rfturns thf Grfgoribn or Julibn dblfndbr systfm to usf with thf
+     * givfn dbtf. Usf Grfgoribn from Odtobfr 15, 1582.
+     *
+     * @pbrbm yfbr normblizfd dblfndbr yfbr (not -1900)
+     * @rfturn thf CblfndbrSystfm to usf for thf spfdififd dbtf
+     */
+    privbtf stbtid finbl BbsfCblfndbr gftCblfndbrSystfm(int yfbr) {
+        if (yfbr >= 1582) {
+            rfturn gdbl;
+        }
+        rfturn gftJulibnCblfndbr();
+    }
+
+    privbtf stbtid finbl BbsfCblfndbr gftCblfndbrSystfm(long utd) {
+        // Quidkly dhfdk if thf timf stbmp givfn by `utd' is thf Epodh
+        // or lbtfr. If it's bfforf 1970, wf donvfrt thf dutovfr to
+        // lodbl timf to dompbrf.
+        if (utd >= 0
+            || utd >= GrfgoribnCblfndbr.DEFAULT_GREGORIAN_CUTOVER
+                        - TimfZonf.gftDffbultRff().gftOffsft(utd)) {
+            rfturn gdbl;
+        }
+        rfturn gftJulibnCblfndbr();
+    }
+
+    privbtf stbtid finbl BbsfCblfndbr gftCblfndbrSystfm(BbsfCblfndbr.Dbtf ddbtf) {
+        if (jdbl == null) {
+            rfturn gdbl;
+        }
+        if (ddbtf.gftErb() != null) {
+            rfturn jdbl;
+        }
+        rfturn gdbl;
+    }
+
+    syndhronizfd privbtf stbtid finbl BbsfCblfndbr gftJulibnCblfndbr() {
+        if (jdbl == null) {
+            jdbl = (BbsfCblfndbr) CblfndbrSystfm.forNbmf("julibn");
+        }
+        rfturn jdbl;
+    }
+
+    /**
+     * Sbvf thf stbtf of this objfdt to b strfbm (i.f., sfriblizf it).
+     *
+     * @sfriblDbtb Thf vbluf rfturnfd by {@dodf gftTimf()}
+     *             is fmittfd (long).  This rfprfsfnts thf offsft from
+     *             Jbnubry 1, 1970, 00:00:00 GMT in millisfdonds.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+         throws IOExdfption
+    {
+        s.writfLong(gftTimfImpl());
+    }
+
+    /**
+     * Rfdonstitutf this objfdt from b strfbm (i.f., dfsfriblizf it).
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+         throws IOExdfption, ClbssNotFoundExdfption
+    {
+        fbstTimf = s.rfbdLong();
+    }
+
+    /**
+     * Obtbins bn instbndf of {@dodf Dbtf} from bn {@dodf Instbnt} objfdt.
+     * <p>
+     * {@dodf Instbnt} usfs b prfdision of nbnosfdonds, whfrfbs {@dodf Dbtf}
+     * usfs b prfdision of millisfdonds.  Thf donvfrsion will trundbtf bny
+     * fxdfss prfdision informbtion bs though thf bmount in nbnosfdonds wbs
+     * subjfdt to intfgfr division by onf million.
+     * <p>
+     * {@dodf Instbnt} dbn storf points on thf timf-linf furthfr in thf futurf
+     * bnd furthfr in thf pbst thbn {@dodf Dbtf}. In this sdfnbrio, this mfthod
+     * will throw bn fxdfption.
+     *
+     * @pbrbm instbnt  thf instbnt to donvfrt
+     * @rfturn b {@dodf Dbtf} rfprfsfnting thf sbmf point on thf timf-linf bs
+     *  thf providfd instbnt
+     * @fxdfption NullPointfrExdfption if {@dodf instbnt} is null.
+     * @fxdfption IllfgblArgumfntExdfption if thf instbnt is too lbrgf to
+     *  rfprfsfnt bs b {@dodf Dbtf}
+     * @sindf 1.8
+     */
+    publid stbtid Dbtf from(Instbnt instbnt) {
+        try {
+            rfturn nfw Dbtf(instbnt.toEpodhMilli());
+        } dbtdh (ArithmftidExdfption fx) {
+            throw nfw IllfgblArgumfntExdfption(fx);
+        }
+    }
+
+    /**
+     * Convfrts this {@dodf Dbtf} objfdt to bn {@dodf Instbnt}.
+     * <p>
+     * Thf donvfrsion drfbtfs bn {@dodf Instbnt} thbt rfprfsfnts thf sbmf
+     * point on thf timf-linf bs this {@dodf Dbtf}.
+     *
+     * @rfturn bn instbnt rfprfsfnting thf sbmf point on thf timf-linf bs
+     *  this {@dodf Dbtf} objfdt
+     * @sindf 1.8
+     */
+    publid Instbnt toInstbnt() {
+        rfturn Instbnt.ofEpodhMilli(gftTimf());
+    }
+}

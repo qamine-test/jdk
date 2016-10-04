@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.modfl;
 
-import com.sun.tools.hat.internal.util.Misc;
+import dom.sun.tools.ibt.intfrnbl.util.Misd;
 
 /**
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
 
 
 /**
- * Represents a member of the rootset, that is, one of the objects that
- * the GC starts from when marking reachable objects.
+ * Rfprfsfnts b mfmbfr of tif rootsft, tibt is, onf of tif objfdts tibt
+ * tif GC stbrts from wifn mbrking rfbdibblf objfdts.
  */
 
-public class Root {
+publid dlbss Root {
 
-    private long id;            // ID of the JavaThing we refer to
-    private long refererId;     // Thread or Class responsible for this, or 0
-    private int index = -1;             // Index in Snapshot.roots
-    private int type;
-    private String description;
-    private JavaHeapObject referer = null;
-    private StackTrace stackTrace = null;
+    privbtf long id;            // ID of tif JbvbTiing wf rfffr to
+    privbtf long rfffrfrId;     // Tirfbd or Clbss rfsponsiblf for tiis, or 0
+    privbtf int indfx = -1;             // Indfx in Snbpsiot.roots
+    privbtf int typf;
+    privbtf String dfsdription;
+    privbtf JbvbHfbpObjfdt rfffrfr = null;
+    privbtf StbdkTrbdf stbdkTrbdf = null;
 
-    // Values for type.  Higher values are more interesting -- see getType().
-    // See also getTypeName()
-    public final static int INVALID_TYPE = 0;
-    public final static int UNKNOWN = 1;
-    public final static int SYSTEM_CLASS = 2;
+    // Vblufs for typf.  Higifr vblufs brf morf intfrfsting -- sff gftTypf().
+    // Sff blso gftTypfNbmf()
+    publid finbl stbtid int INVALID_TYPE = 0;
+    publid finbl stbtid int UNKNOWN = 1;
+    publid finbl stbtid int SYSTEM_CLASS = 2;
 
-    public final static int NATIVE_LOCAL = 3;
-    public final static int NATIVE_STATIC = 4;
-    public final static int THREAD_BLOCK = 5;
-    public final static int BUSY_MONITOR = 6;
-    public final static int JAVA_LOCAL = 7;
-    public final static int NATIVE_STACK = 8;
-    public final static int JAVA_STATIC = 9;
+    publid finbl stbtid int NATIVE_LOCAL = 3;
+    publid finbl stbtid int NATIVE_STATIC = 4;
+    publid finbl stbtid int THREAD_BLOCK = 5;
+    publid finbl stbtid int BUSY_MONITOR = 6;
+    publid finbl stbtid int JAVA_LOCAL = 7;
+    publid finbl stbtid int NATIVE_STACK = 8;
+    publid finbl stbtid int JAVA_STATIC = 9;
 
 
-    public Root(long id, long refererId, int type, String description) {
-        this(id, refererId, type, description, null);
+    publid Root(long id, long rfffrfrId, int typf, String dfsdription) {
+        tiis(id, rfffrfrId, typf, dfsdription, null);
     }
 
 
-    public Root(long id, long refererId, int type, String description,
-                StackTrace stackTrace) {
-        this.id = id;
-        this.refererId = refererId;
-        this.type = type;
-        this.description = description;
-        this.stackTrace = stackTrace;
+    publid Root(long id, long rfffrfrId, int typf, String dfsdription,
+                StbdkTrbdf stbdkTrbdf) {
+        tiis.id = id;
+        tiis.rfffrfrId = rfffrfrId;
+        tiis.typf = typf;
+        tiis.dfsdription = dfsdription;
+        tiis.stbdkTrbdf = stbdkTrbdf;
     }
 
-    public long getId() {
-        return id;
+    publid long gftId() {
+        rfturn id;
     }
 
-    public String getIdString() {
-        return Misc.toHex(id);
+    publid String gftIdString() {
+        rfturn Misd.toHfx(id);
     }
 
-    public String getDescription() {
-        if ("".equals(description)) {
-            return getTypeName() + " Reference";
-        } else {
-            return description;
+    publid String gftDfsdription() {
+        if ("".fqubls(dfsdription)) {
+            rfturn gftTypfNbmf() + " Rfffrfndf";
+        } flsf {
+            rfturn dfsdription;
         }
     }
 
     /**
-     * Return type.  We guarantee that more interesting roots will have
-     * a type that is numerically higher.
+     * Rfturn typf.  Wf gubrbntff tibt morf intfrfsting roots will ibvf
+     * b typf tibt is numfridblly iigifr.
      */
-    public int getType() {
-        return type;
+    publid int gftTypf() {
+        rfturn typf;
     }
 
-    public String getTypeName() {
-        switch(type) {
-            case INVALID_TYPE:          return "Invalid (?!?)";
-            case UNKNOWN:               return "Unknown";
-            case SYSTEM_CLASS:          return "System Class";
-            case NATIVE_LOCAL:          return "JNI Local";
-            case NATIVE_STATIC:         return "JNI Global";
-            case THREAD_BLOCK:          return "Thread Block";
-            case BUSY_MONITOR:          return "Busy Monitor";
-            case JAVA_LOCAL:            return "Java Local";
-            case NATIVE_STACK:          return "Native Stack (possibly Java local)";
-            case JAVA_STATIC:           return "Java Static";
-            default:                    return "??";
+    publid String gftTypfNbmf() {
+        switdi(typf) {
+            dbsf INVALID_TYPE:          rfturn "Invblid (?!?)";
+            dbsf UNKNOWN:               rfturn "Unknown";
+            dbsf SYSTEM_CLASS:          rfturn "Systfm Clbss";
+            dbsf NATIVE_LOCAL:          rfturn "JNI Lodbl";
+            dbsf NATIVE_STATIC:         rfturn "JNI Globbl";
+            dbsf THREAD_BLOCK:          rfturn "Tirfbd Blodk";
+            dbsf BUSY_MONITOR:          rfturn "Busy Monitor";
+            dbsf JAVA_LOCAL:            rfturn "Jbvb Lodbl";
+            dbsf NATIVE_STACK:          rfturn "Nbtivf Stbdk (possibly Jbvb lodbl)";
+            dbsf JAVA_STATIC:           rfturn "Jbvb Stbtid";
+            dffbult:                    rfturn "??";
         }
     }
 
     /**
-     * Given two Root instances, return the one that is most interesting.
+     * Givfn two Root instbndfs, rfturn tif onf tibt is most intfrfsting.
      */
-    public Root mostInteresting(Root other) {
-        if (other.type > this.type) {
-            return other;
-        } else {
-            return this;
+    publid Root mostIntfrfsting(Root otifr) {
+        if (otifr.typf > tiis.typf) {
+            rfturn otifr;
+        } flsf {
+            rfturn tiis;
         }
     }
 
     /**
-     * Get the object that's responsible for this root, if there is one.
-     * This will be null, a Thread object, or a Class object.
+     * Gft tif objfdt tibt's rfsponsiblf for tiis root, if tifrf is onf.
+     * Tiis will bf null, b Tirfbd objfdt, or b Clbss objfdt.
      */
-    public JavaHeapObject getReferer() {
-        return referer;
+    publid JbvbHfbpObjfdt gftRfffrfr() {
+        rfturn rfffrfr;
     }
 
     /**
-     * @return the stack trace responsible for this root, or null if there
-     * is none.
+     * @rfturn tif stbdk trbdf rfsponsiblf for tiis root, or null if tifrf
+     * is nonf.
      */
-    public StackTrace getStackTrace() {
-        return stackTrace;
+    publid StbdkTrbdf gftStbdkTrbdf() {
+        rfturn stbdkTrbdf;
     }
 
     /**
-     * @return The index of this root in Snapshot.roots
+     * @rfturn Tif indfx of tiis root in Snbpsiot.roots
      */
-    public int getIndex() {
-        return index;
+    publid int gftIndfx() {
+        rfturn indfx;
     }
 
-    void resolve(Snapshot ss) {
-        if (refererId != 0) {
-            referer = ss.findThing(refererId);
+    void rfsolvf(Snbpsiot ss) {
+        if (rfffrfrId != 0) {
+            rfffrfr = ss.findTiing(rfffrfrId);
         }
-        if (stackTrace != null) {
-            stackTrace.resolve(ss);
+        if (stbdkTrbdf != null) {
+            stbdkTrbdf.rfsolvf(ss);
         }
     }
 
-    void setIndex(int i) {
-        index = i;
+    void sftIndfx(int i) {
+        indfx = i;
     }
 
 }

@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_PALETTE_H
-#define AWT_PALETTE_H
+#ifndff AWT_PALETTE_H
+#dffinf AWT_PALETTE_H
 
-#include "awt_Win32GraphicsDevice.h"
+#indludf "bwt_Win32GrbpiidsDfvidf.i"
 
-#define CMAPSIZE        256     // number of colors to use in default cmap
+#dffinf CMAPSIZE        256     // numbfr of dolors to usf in dffbult dmbp
 
-#define GS_NOTGRAY      0       // screen is not grayscale
-#define GS_INDEXGRAY    1       // screen is 8-bit indexed with several
-                                //  gray colormap entries
-#define GS_STATICGRAY   2       // screen is 8-bit with 256 gray values
-                                // from 0 to 255 (no index table used)
-#define GS_NONLINGRAY   3       /* screen is 8-bit with 256 gray values
-                                   in non-monotonic order */
+#dffinf GS_NOTGRAY      0       // sdrffn is not grbysdblf
+#dffinf GS_INDEXGRAY    1       // sdrffn is 8-bit indfxfd witi sfvfrbl
+                                //  grby dolormbp fntrifs
+#dffinf GS_STATICGRAY   2       // sdrffn is 8-bit witi 256 grby vblufs
+                                // from 0 to 255 (no indfx tbblf usfd)
+#dffinf GS_NONLINGRAY   3       /* sdrffn is 8-bit witi 256 grby vblufs
+                                   in non-monotonid ordfr */
 
-class AwtWin32GraphicsDevice;
+dlbss AwtWin32GrbpiidsDfvidf;
 
-class AwtPalette {
+dlbss AwtPblfttf {
 
-public:
-    HPALETTE                Select(HDC hDC);
+publid:
+    HPALETTE                Sflfdt(HDC iDC);
 
-    void                    Realize(HDC hDC);
+    void                    Rfblizf(HDC iDC);
 
-    HPALETTE                GetPalette() { return logicalPalette; }
+    HPALETTE                GftPblfttf() { rfturn logidblPblfttf; }
 
-    static void             DisableCustomPalette();
+    stbtid void             DisbblfCustomPblfttf();
 
-    static BOOL             UseCustomPalette();
+    stbtid BOOL             UsfCustomPblfttf();
 
-                            AwtPalette(AwtWin32GraphicsDevice *device);
+                            AwtPblfttf(AwtWin32GrbpiidsDfvidf *dfvidf);
 
-    static int              FetchPaletteEntries(HDC hDC, PALETTEENTRY* pPalEntries);
-    int                     GetGSType(PALETTEENTRY* pPalEntries);
+    stbtid int              FftdiPblfttfEntrifs(HDC iDC, PALETTEENTRY* pPblEntrifs);
+    int                     GftGSTypf(PALETTEENTRY* pPblEntrifs);
 
-    BOOL                    Update();
-    void                    UpdateLogical();
+    BOOL                    Updbtf();
+    void                    UpdbtfLogidbl();
 
-    unsigned int            *GetSystemEntries() {return systemEntries; }
-    unsigned int            *GetLogicalEntries() {return logicalEntries; }
-    unsigned char           *GetSystemInverseLUT() { return systemInverseLUT; }
+    unsignfd int            *GftSystfmEntrifs() {rfturn systfmEntrifs; }
+    unsignfd int            *GftLogidblEntrifs() {rfturn logidblEntrifs; }
+    unsignfd dibr           *GftSystfmInvfrsfLUT() { rfturn systfmInvfrsfLUT; }
 
-private:
-    static BOOL             m_useCustomPalette;
+privbtf:
+    stbtid BOOL             m_usfCustomPblfttf;
 
-    unsigned int            logicalEntries[256];
-    unsigned int            systemEntries[256];
-    PALETTEENTRY            systemEntriesWin32[256];  // cached to eliminate
-                                              // copying it when unnec.
-    int                     numSystemEntries;
-    HPALETTE                logicalPalette;
+    unsignfd int            logidblEntrifs[256];
+    unsignfd int            systfmEntrifs[256];
+    PALETTEENTRY            systfmEntrifsWin32[256];  // dbdifd to fliminbtf
+                                              // dopying it wifn unnfd.
+    int                     numSystfmEntrifs;
+    HPALETTE                logidblPblfttf;
 
-    AwtWin32GraphicsDevice  *device;
-    unsigned char           *systemInverseLUT;
+    AwtWin32GrbpiidsDfvidf  *dfvidf;
+    unsignfd dibr           *systfmInvfrsfLUT;
 
     /**
-     * This custom palette is derived from the IE palette.
-     * Previously, we used a custom palette that used a patented
-     * algorithm for getting an evently distributed color space.
-     * But given the realites of desktop and web graphics, it seems
-     * more important to use a more standard palette, especially one
-     * that agrees with the predominant browser.  The browser uses
-     * a slightly modified 6x6x6 colorcube plus a gray ramp plus a
-     * few other colors.  We still flash with Netscape, but we end
-     * up using a very similar palette (Netscape uses a 6x6x6 color
-     * cube as well); the entries are just in different places (thus
-     * the flash).
-     * Another possible solution to use a standard palette would be
-     * to use the CreateHalftonePalette() call of win32.  This gives
-     * us the IE palette on win98, but totally different palettes on
-     * different versions of Windows.  We should at least use the same
-     * colors on different flavors of the same platform...
-     * The values coded below should be used for entries 10 through
-     * 245 of our custom palette.  Entries 0-9 and 246-255 should be
-     * retrieved from the current system palette, to ensure that we
-     * are working well with the current desktop palette.
+     * Tiis dustom pblfttf is dfrivfd from tif IE pblfttf.
+     * Prfviously, wf usfd b dustom pblfttf tibt usfd b pbtfntfd
+     * blgoritim for gftting bn fvfntly distributfd dolor spbdf.
+     * But givfn tif rfblitfs of dfsktop bnd wfb grbpiids, it sffms
+     * morf importbnt to usf b morf stbndbrd pblfttf, fspfdiblly onf
+     * tibt bgrffs witi tif prfdominbnt browsfr.  Tif browsfr usfs
+     * b sligitly modififd 6x6x6 dolordubf plus b grby rbmp plus b
+     * ffw otifr dolors.  Wf still flbsi witi Nftsdbpf, but wf fnd
+     * up using b vfry similbr pblfttf (Nftsdbpf usfs b 6x6x6 dolor
+     * dubf bs wfll); tif fntrifs brf just in difffrfnt plbdfs (tius
+     * tif flbsi).
+     * Anotifr possiblf solution to usf b stbndbrd pblfttf would bf
+     * to usf tif CrfbtfHblftonfPblfttf() dbll of win32.  Tiis givfs
+     * us tif IE pblfttf on win98, but totblly difffrfnt pblfttfs on
+     * difffrfnt vfrsions of Windows.  Wf siould bt lfbst usf tif sbmf
+     * dolors on difffrfnt flbvors of tif sbmf plbtform...
+     * Tif vblufs dodfd bflow siould bf usfd for fntrifs 10 tirougi
+     * 245 of our dustom pblfttf.  Entrifs 0-9 bnd 246-255 siould bf
+     * rftrifvfd from tif durrfnt systfm pblfttf, to fnsurf tibt wf
+     * brf working wfll witi tif durrfnt dfsktop pblfttf.
      *
-     * The palette is initialized in awt_CustomPaletteDef.h
+     * Tif pblfttf is initiblizfd in bwt_CustomPblfttfDff.i
      */
-    static PALETTEENTRY     customPalette[236];
+    stbtid PALETTEENTRY     dustomPblfttf[236];
 };
 
 
 
-#endif AWT_PALETTE_H
+#fndif AWT_PALETTE_H

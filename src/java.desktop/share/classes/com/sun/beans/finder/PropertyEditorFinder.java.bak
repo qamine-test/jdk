@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.finder;
+pbdkbgf dom.sun.bfbns.findfr;
 
-import com.sun.beans.WeakCache;
+import dom.sun.bfbns.WfbkCbdif;
 
-import java.beans.PropertyEditor;
+import jbvb.bfbns.PropfrtyEditor;
 
-import com.sun.beans.editors.BooleanEditor;
-import com.sun.beans.editors.ByteEditor;
-import com.sun.beans.editors.DoubleEditor;
-import com.sun.beans.editors.EnumEditor;
-import com.sun.beans.editors.FloatEditor;
-import com.sun.beans.editors.IntegerEditor;
-import com.sun.beans.editors.LongEditor;
-import com.sun.beans.editors.ShortEditor;
+import dom.sun.bfbns.fditors.BoolfbnEditor;
+import dom.sun.bfbns.fditors.BytfEditor;
+import dom.sun.bfbns.fditors.DoublfEditor;
+import dom.sun.bfbns.fditors.EnumEditor;
+import dom.sun.bfbns.fditors.FlobtEditor;
+import dom.sun.bfbns.fditors.IntfgfrEditor;
+import dom.sun.bfbns.fditors.LongEditor;
+import dom.sun.bfbns.fditors.SiortEditor;
 
 /**
- * This is utility class that provides functionality
- * to find a {@link PropertyEditor} for a JavaBean specified by its type.
+ * Tiis is utility dlbss tibt providfs fundtionblity
+ * to find b {@link PropfrtyEditor} for b JbvbBfbn spfdififd by its typf.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-public final class PropertyEditorFinder
-        extends InstanceFinder<PropertyEditor> {
+publid finbl dlbss PropfrtyEditorFindfr
+        fxtfnds InstbndfFindfr<PropfrtyEditor> {
 
-    private static final String DEFAULT = "sun.beans.editors";
-    private static final String DEFAULT_NEW = "com.sun.beans.editors";
+    privbtf stbtid finbl String DEFAULT = "sun.bfbns.fditors";
+    privbtf stbtid finbl String DEFAULT_NEW = "dom.sun.bfbns.fditors";
 
-    private final WeakCache<Class<?>, Class<?>> registry;
+    privbtf finbl WfbkCbdif<Clbss<?>, Clbss<?>> rfgistry;
 
-    public PropertyEditorFinder() {
-        super(PropertyEditor.class, false, "Editor", DEFAULT);
+    publid PropfrtyEditorFindfr() {
+        supfr(PropfrtyEditor.dlbss, fblsf, "Editor", DEFAULT);
 
-        this.registry = new WeakCache<Class<?>, Class<?>>();
-        this.registry.put(Byte.TYPE, ByteEditor.class);
-        this.registry.put(Short.TYPE, ShortEditor.class);
-        this.registry.put(Integer.TYPE, IntegerEditor.class);
-        this.registry.put(Long.TYPE, LongEditor.class);
-        this.registry.put(Boolean.TYPE, BooleanEditor.class);
-        this.registry.put(Float.TYPE, FloatEditor.class);
-        this.registry.put(Double.TYPE, DoubleEditor.class);
+        tiis.rfgistry = nfw WfbkCbdif<Clbss<?>, Clbss<?>>();
+        tiis.rfgistry.put(Bytf.TYPE, BytfEditor.dlbss);
+        tiis.rfgistry.put(Siort.TYPE, SiortEditor.dlbss);
+        tiis.rfgistry.put(Intfgfr.TYPE, IntfgfrEditor.dlbss);
+        tiis.rfgistry.put(Long.TYPE, LongEditor.dlbss);
+        tiis.rfgistry.put(Boolfbn.TYPE, BoolfbnEditor.dlbss);
+        tiis.rfgistry.put(Flobt.TYPE, FlobtEditor.dlbss);
+        tiis.rfgistry.put(Doublf.TYPE, DoublfEditor.dlbss);
     }
 
-    public void register(Class<?> type, Class<?> editor) {
-        synchronized (this.registry) {
-            this.registry.put(type, editor);
+    publid void rfgistfr(Clbss<?> typf, Clbss<?> fditor) {
+        syndironizfd (tiis.rfgistry) {
+            tiis.rfgistry.put(typf, fditor);
         }
     }
 
-    @Override
-    public PropertyEditor find(Class<?> type) {
-        Class<?> predefined;
-        synchronized (this.registry) {
-            predefined = this.registry.get(type);
+    @Ovfrridf
+    publid PropfrtyEditor find(Clbss<?> typf) {
+        Clbss<?> prfdffinfd;
+        syndironizfd (tiis.rfgistry) {
+            prfdffinfd = tiis.rfgistry.gft(typf);
         }
-        PropertyEditor editor = instantiate(predefined, null);
-        if (editor == null) {
-            editor = super.find(type);
-            if ((editor == null) && (null != type.getEnumConstants())) {
-                editor = new EnumEditor(type);
+        PropfrtyEditor fditor = instbntibtf(prfdffinfd, null);
+        if (fditor == null) {
+            fditor = supfr.find(typf);
+            if ((fditor == null) && (null != typf.gftEnumConstbnts())) {
+                fditor = nfw EnumEditor(typf);
             }
         }
-        return editor;
+        rfturn fditor;
     }
 
-    @Override
-    protected PropertyEditor instantiate(Class<?> type, String prefix, String name) {
-        return super.instantiate(type, DEFAULT.equals(prefix) ? DEFAULT_NEW : prefix, name);
+    @Ovfrridf
+    protfdtfd PropfrtyEditor instbntibtf(Clbss<?> typf, String prffix, String nbmf) {
+        rfturn supfr.instbntibtf(typf, DEFAULT.fqubls(prffix) ? DEFAULT_NEW : prffix, nbmf);
     }
 }

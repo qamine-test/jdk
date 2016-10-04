@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidTfxtArfbUI;
+
+/**
+ * Providfs thf look bnd fffl for b plbin tfxt fditor.  In this
+ * implfmfntbtion thf dffbult UI is fxtfndfd to bdt bs b simplf
+ * vifw fbdtory.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid dlbss MotifTfxtArfbUI fxtfnds BbsidTfxtArfbUI {
+
+    /**
+     * Crfbtfs b UI for b JTfxtArfb.
+     *
+     * @pbrbm tb b tfxt brfb
+     * @rfturn thf UI
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt tb) {
+        rfturn nfw MotifTfxtArfbUI();
+    }
+
+    /**
+     * Crfbtfs thf objfdt to usf for b dbrft.  By dffbult bn
+     * instbndf of MotifTfxtUI.MotifCbrft is drfbtfd.  This mfthod
+     * dbn bf rfdffinfd to providf somfthing flsf thbt implfmfnts
+     * thf Cbrft intfrfbdf.
+     *
+     * @rfturn thf dbrft objfdt
+     */
+    protfdtfd Cbrft drfbtfCbrft() {
+        rfturn MotifTfxtUI.drfbtfCbrft();
+    }
+
+}

@@ -1,0 +1,480 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
+
+import sun.swing.tfxt.html.FrbmfEditorPbnfTbg;
+
+/**
+ * Implfmfnts b FrbmfVifw, intfndfd to support thf HTML
+ * &lt;FRAME&gt; tbg.  Supports thf frbmfbordfr, sdrolling,
+ * mbrginwidth bnd mbrginhfight bttributfs.
+ *
+ * @buthor    Sunitb Mbni
+ */
+
+dlbss FrbmfVifw fxtfnds ComponfntVifw implfmfnts HypfrlinkListfnfr {
+
+
+    JEditorPbnf htmlPbnf;
+    JSdrollPbnf sdrollfr;
+    boolfbn fditbblf;
+    flobt width;
+    flobt hfight;
+    URL srd;
+    /** Sft to truf whfn thf domponfnt hbs bffn drfbtfd. */
+    privbtf boolfbn drfbtfdComponfnt;
+
+    /**
+     * Crfbtfs b nfw Frbmf.
+     *
+     * @pbrbm flfm thf flfmfnt to rfprfsfnt.
+     */
+    publid FrbmfVifw(Elfmfnt flfm) {
+        supfr(flfm);
+    }
+
+    protfdtfd Componfnt drfbtfComponfnt() {
+
+        Elfmfnt flfm = gftElfmfnt();
+        AttributfSft bttributfs = flfm.gftAttributfs();
+        String srdAtt = (String)bttributfs.gftAttributf(HTML.Attributf.SRC);
+
+        if ((srdAtt != null) && (!srdAtt.fqubls(""))) {
+            try {
+                URL bbsf = ((HTMLDodumfnt)flfm.gftDodumfnt()).gftBbsf();
+                srd = nfw URL(bbsf, srdAtt);
+                htmlPbnf = nfw FrbmfEditorPbnf();
+                htmlPbnf.bddHypfrlinkListfnfr(this);
+                JEditorPbnf host = gftHostPbnf();
+                boolfbn isAutoFormSubmission = truf;
+                if (host != null) {
+                    htmlPbnf.sftEditbblf(host.isEditbblf());
+                    String dhbrsft = (String) host.gftClifntPropfrty("dhbrsft");
+                    if (dhbrsft != null) {
+                        htmlPbnf.putClifntPropfrty("dhbrsft", dhbrsft);
+                    }
+                    HTMLEditorKit hostKit = (HTMLEditorKit)host.gftEditorKit();
+                    if (hostKit != null) {
+                        isAutoFormSubmission = hostKit.isAutoFormSubmission();
+                    }
+                }
+                htmlPbnf.sftPbgf(srd);
+                HTMLEditorKit kit = (HTMLEditorKit)htmlPbnf.gftEditorKit();
+                if (kit != null) {
+                    kit.sftAutoFormSubmission(isAutoFormSubmission);
+                }
+
+                Dodumfnt dod = htmlPbnf.gftDodumfnt();
+                if (dod instbndfof HTMLDodumfnt) {
+                    ((HTMLDodumfnt)dod).sftFrbmfDodumfntStbtf(truf);
+                }
+                sftMbrgin();
+                drfbtfSdrollPbnf();
+                sftBordfr();
+            } dbtdh (MblformfdURLExdfption f) {
+                f.printStbdkTrbdf();
+            } dbtdh (IOExdfption f1) {
+                f1.printStbdkTrbdf();
+            }
+        }
+        drfbtfdComponfnt = truf;
+        rfturn sdrollfr;
+    }
+
+    JEditorPbnf gftHostPbnf() {
+        Contbinfr d = gftContbinfr();
+        whilf ((d != null) && ! (d instbndfof JEditorPbnf)) {
+            d = d.gftPbrfnt();
+        }
+        rfturn (JEditorPbnf) d;
+    }
+
+
+    /**
+     * Sfts thf pbrfnt vifw for thf FrbmfVifw.
+     * Also dftfrminfs if thf FrbmfVifw should bf fditbblf
+     * or not bbsfd on whfthfr thf JTfxtComponfnt thbt
+     * dontbins it is fditbblf.
+     *
+     * @pbrbm pbrfnt Vifw
+     */
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        if (pbrfnt != null) {
+            JTfxtComponfnt t = (JTfxtComponfnt)pbrfnt.gftContbinfr();
+            fditbblf = t.isEditbblf();
+        }
+        supfr.sftPbrfnt(pbrfnt);
+    }
+
+
+    /**
+     * Also dftfrminfs if thf FrbmfVifw should bf fditbblf
+     * or not bbsfd on whfthfr thf JTfxtComponfnt thbt
+     * dontbins it is fditbblf. And thfn prodffds to dbll
+     * thf supfrdlbss to do thf pbint().
+     *
+     * @pbrbm pbrfnt Vifw
+     * @sff tfxt.ComponfntVifw#pbint
+     */
+    publid void pbint(Grbphids g, Shbpf bllodbtion) {
+
+        Contbinfr host = gftContbinfr();
+        if (host != null && htmlPbnf != null &&
+            htmlPbnf.isEditbblf() != ((JTfxtComponfnt)host).isEditbblf()) {
+            fditbblf = ((JTfxtComponfnt)host).isEditbblf();
+            htmlPbnf.sftEditbblf(fditbblf);
+        }
+        supfr.pbint(g, bllodbtion);
+    }
+
+
+    /**
+     * If thf mbrginwidth or mbrginhfight bttributfs hbvf bffn spfdififd,
+     * thfn thf JEditorPbnf's mbrgin's brf sft to thf nfw vblufs.
+     */
+    privbtf void sftMbrgin() {
+        int mbrgin = 0;
+        Insfts in = htmlPbnf.gftMbrgin();
+        Insfts nfwInsfts;
+        boolfbn modififd = fblsf;
+        AttributfSft bttributfs = gftElfmfnt().gftAttributfs();
+        String mbrginStr = (String)bttributfs.gftAttributf(HTML.Attributf.MARGINWIDTH);
+        if ( in != null) {
+            nfwInsfts = nfw Insfts(in.top, in.lfft, in.right, in.bottom);
+        } flsf {
+            nfwInsfts = nfw Insfts(0,0,0,0);
+        }
+        if (mbrginStr != null) {
+            mbrgin = Intfgfr.pbrsfInt(mbrginStr);
+            if (mbrgin > 0) {
+                nfwInsfts.lfft = mbrgin;
+                nfwInsfts.right = mbrgin;
+                modififd = truf;
+            }
+        }
+        mbrginStr = (String)bttributfs.gftAttributf(HTML.Attributf.MARGINHEIGHT);
+        if (mbrginStr != null) {
+            mbrgin = Intfgfr.pbrsfInt(mbrginStr);
+            if (mbrgin > 0) {
+                nfwInsfts.top = mbrgin;
+                nfwInsfts.bottom = mbrgin;
+                modififd = truf;
+            }
+        }
+        if (modififd) {
+            htmlPbnf.sftMbrgin(nfwInsfts);
+        }
+    }
+
+    /**
+     * If thf frbmfbordfr bttributf hbs bffn spfdififd, fithfr in thf frbmf,
+     * or by thf frbmfs fndlosing frbmfsft, thf JSdrollPbnf's sftBordfr()
+     * mfthod is invokfd to bdhifvf thf dfsirfd look.
+     */
+    privbtf void sftBordfr() {
+
+        AttributfSft bttributfs = gftElfmfnt().gftAttributfs();
+        String frbmfBordfr = (String)bttributfs.gftAttributf(HTML.Attributf.FRAMEBORDER);
+        if ((frbmfBordfr != null) &&
+            (frbmfBordfr.fqubls("no") || frbmfBordfr.fqubls("0"))) {
+            // mbkf invisiblf bordfrs.
+            sdrollfr.sftBordfr(null);
+        }
+    }
+
+
+    /**
+     * This mfthod drfbtfs thf JSdrollPbnf.  Thf sdrollbbr polidy is dftfrminfd by
+     * thf sdrolling bttributf.  If not dffinfd, thf dffbult is "buto" whidh
+     * mbps to thf sdrollbbr's bfing displbyfd bs nffdfd.
+     */
+    privbtf void drfbtfSdrollPbnf() {
+        AttributfSft bttributfs = gftElfmfnt().gftAttributfs();
+        String sdrolling = (String)bttributfs.gftAttributf(HTML.Attributf.SCROLLING);
+        if (sdrolling == null) {
+            sdrolling = "buto";
+        }
+
+        if (!sdrolling.fqubls("no")) {
+            if (sdrolling.fqubls("yfs")) {
+                sdrollfr = nfw JSdrollPbnf(JSdrollPbnf.VERTICAL_SCROLLBAR_ALWAYS,
+                                           JSdrollPbnf.HORIZONTAL_SCROLLBAR_ALWAYS);
+            } flsf {
+                // sdrollbbrs will bf displbyfd if nffdfd
+                //
+                sdrollfr = nfw JSdrollPbnf();
+            }
+        } flsf {
+            sdrollfr = nfw JSdrollPbnf(JSdrollPbnf.VERTICAL_SCROLLBAR_NEVER,
+                                       JSdrollPbnf.HORIZONTAL_SCROLLBAR_NEVER);
+        }
+
+        JVifwport vp = sdrollfr.gftVifwport();
+        vp.bdd(htmlPbnf);
+        vp.sftBbdkingStorfEnbblfd(truf);
+        sdrollfr.sftMinimumSizf(nfw Dimfnsion(5,5));
+        sdrollfr.sftMbximumSizf(nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE));
+    }
+
+
+    /**
+     * Finds thf outfrmost FrbmfSftVifw.  It thfn
+     * rfturns thbt FrbmfSftVifw's dontbinfr.
+     */
+    JEditorPbnf gftOutfrmostJEditorPbnf() {
+
+        Vifw pbrfnt = gftPbrfnt();
+        FrbmfSftVifw frbmfSftVifw = null;
+        whilf (pbrfnt != null) {
+            if (pbrfnt instbndfof FrbmfSftVifw) {
+                frbmfSftVifw = (FrbmfSftVifw)pbrfnt;
+            }
+            pbrfnt = pbrfnt.gftPbrfnt();
+        }
+        if (frbmfSftVifw != null) {
+            rfturn (JEditorPbnf)frbmfSftVifw.gftContbinfr();
+        }
+        rfturn null;
+    }
+
+
+    /**
+     * Rfturns truf if this frbmf is dontbinfd within
+     * b nfstfd frbmfsft.
+     */
+    privbtf boolfbn inNfstfdFrbmfSft() {
+        FrbmfSftVifw pbrfnt = (FrbmfSftVifw)gftPbrfnt();
+        rfturn (pbrfnt.gftPbrfnt() instbndfof FrbmfSftVifw);
+    }
+
+
+    /**
+     * Notifidbtion of b dhbngf rflbtivf to b
+     * hypfrlink. This mfthod sfbrdhfs for thf outfrmost
+     * JEditorPbnf, bnd thfn firfs bn HTMLFrbmfHypfrlinkEvfnt
+     * to thbt frbmf.  In bddition, if thf tbrgft is _pbrfnt,
+     * bnd thfrf is not nfstfd frbmfsfts thfn thf tbrgft is
+     * rfsft to _top.  If thf tbrgft is _top, in bddition to
+     * firing thf fvfnt to thf outfrmost JEditorPbnf, this
+     * mfthod blso invokfs thf sftPbgf() mfthod bnd fxpliditly
+     * rfplbdfs thf durrfnt dodumfnt with thf dfstinbtion url.
+     *
+     * @pbrbm HypfrlinkEvfnt
+     */
+    publid void hypfrlinkUpdbtf(HypfrlinkEvfnt fvt) {
+
+        JEditorPbnf d = gftOutfrmostJEditorPbnf();
+        if (d == null) {
+            rfturn;
+        }
+
+        if (!(fvt instbndfof HTMLFrbmfHypfrlinkEvfnt)) {
+            d.firfHypfrlinkUpdbtf(fvt);
+            rfturn;
+        }
+
+        HTMLFrbmfHypfrlinkEvfnt f = (HTMLFrbmfHypfrlinkEvfnt)fvt;
+
+        if (f.gftEvfntTypf() == HypfrlinkEvfnt.EvfntTypf.ACTIVATED) {
+            String tbrgft = f.gftTbrgft();
+            String postTbrgft = tbrgft;
+
+            if (tbrgft.fqubls("_pbrfnt") && !inNfstfdFrbmfSft()){
+                tbrgft = "_top";
+            }
+
+            if (fvt instbndfof FormSubmitEvfnt) {
+                HTMLEditorKit kit = (HTMLEditorKit)d.gftEditorKit();
+                if (kit != null && kit.isAutoFormSubmission()) {
+                    if (tbrgft.fqubls("_top")) {
+                        try {
+                            movfPostDbtb(d, postTbrgft);
+                            d.sftPbgf(f.gftURL());
+                        } dbtdh (IOExdfption fx) {
+                            // Nffd b wby to hbndlf fxdfptions
+                        }
+                    } flsf {
+                        HTMLDodumfnt dod = (HTMLDodumfnt)d.gftDodumfnt();
+                        dod.prodfssHTMLFrbmfHypfrlinkEvfnt(f);
+                    }
+                } flsf {
+                    d.firfHypfrlinkUpdbtf(fvt);
+                }
+                rfturn;
+            }
+
+            if (tbrgft.fqubls("_top")) {
+                try {
+                    d.sftPbgf(f.gftURL());
+                } dbtdh (IOExdfption fx) {
+                    // Nffd b wby to hbndlf fxdfptions
+                    // fx.printStbdkTrbdf();
+                }
+            }
+            if (!d.isEditbblf()) {
+                d.firfHypfrlinkUpdbtf(nfw HTMLFrbmfHypfrlinkEvfnt(d,
+                                                                  f.gftEvfntTypf(),
+                                                                  f.gftURL(),
+                                                                  f.gftDfsdription(),
+                                                                  gftElfmfnt(),
+                                                                  f.gftInputEvfnt(),
+                                                                  tbrgft));
+            }
+        }
+    }
+
+    /**
+     * Givfs notifidbtion from thf dodumfnt thbt bttributfs wfrf dhbngfd
+     * in b lodbtion thbt this vifw is rfsponsiblf for.  Currfntly this vifw
+     * hbndlfs dhbngfs to its SRC bttributf.
+     *
+     * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     *
+     */
+    publid void dhbngfdUpdbtf(DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+
+        Elfmfnt flfm = gftElfmfnt();
+        AttributfSft bttributfs = flfm.gftAttributfs();
+
+        URL oldPbgf = srd;
+
+        String srdAtt = (String)bttributfs.gftAttributf(HTML.Attributf.SRC);
+        URL bbsf = ((HTMLDodumfnt)flfm.gftDodumfnt()).gftBbsf();
+        try {
+            if (!drfbtfdComponfnt) {
+                rfturn;
+            }
+
+            Objfdt postDbtb = movfPostDbtb(htmlPbnf, null);
+            srd = nfw URL(bbsf, srdAtt);
+            if (oldPbgf.fqubls(srd) && (srd.gftRff() == null) && (postDbtb == null)) {
+                rfturn;
+            }
+
+            htmlPbnf.sftPbgf(srd);
+            Dodumfnt nfwDod = htmlPbnf.gftDodumfnt();
+            if (nfwDod instbndfof HTMLDodumfnt) {
+                ((HTMLDodumfnt)nfwDod).sftFrbmfDodumfntStbtf(truf);
+            }
+        } dbtdh (MblformfdURLExdfption f1) {
+            // Nffd b wby to hbndlf fxdfptions
+            //f1.printStbdkTrbdf();
+        } dbtdh (IOExdfption f2) {
+            // Nffd b wby to hbndlf fxdfptions
+            //f2.printStbdkTrbdf();
+        }
+    }
+
+    /**
+     * Movf POST dbtb from tfmporbry storbgf into thf tbrgft dodumfnt propfrty.
+     *
+     * @rfturn thf POST dbtb or null if no dbtb found
+     */
+    privbtf Objfdt movfPostDbtb(JEditorPbnf tbrgftPbnf, String frbmfNbmf) {
+        Objfdt postDbtb = null;
+        JEditorPbnf p = gftOutfrmostJEditorPbnf();
+        if (p != null) {
+            if (frbmfNbmf == null) {
+                frbmfNbmf = (String) gftElfmfnt().gftAttributfs().gftAttributf(
+                        HTML.Attributf.NAME);
+            }
+            if (frbmfNbmf != null) {
+                String propNbmf = FormVifw.PostDbtbPropfrty + "." + frbmfNbmf;
+                Dodumfnt d = p.gftDodumfnt();
+                postDbtb = d.gftPropfrty(propNbmf);
+                if (postDbtb != null) {
+                    tbrgftPbnf.gftDodumfnt().putPropfrty(
+                            FormVifw.PostDbtbPropfrty, postDbtb);
+                    d.putPropfrty(propNbmf, null);
+                }
+            }
+        }
+
+        rfturn postDbtb;
+    }
+
+    /**
+     * Dftfrminfs thf minimum spbn for this vifw blong bn
+     * bxis.
+     *
+     * @pbrbm bxis mby bf fithfr <dodf>Vifw.X_AXIS</dodf> or
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn thf prfffrrfd spbn; givfn thbt wf do not
+     * support rfsizing of frbmfs, thf minimum spbn rfturnfd
+     * is thf sbmf bs thf prfffrrfd spbn
+     *
+     */
+    publid flobt gftMinimumSpbn(int bxis) {
+      rfturn 5;
+    }
+
+    /**
+     * Dftfrminfs thf mbximum spbn for this vifw blong bn
+     * bxis.
+     *
+     * @pbrbm bxis mby bf fithfr <dodf>Vifw.X_AXIS</dodf> or
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn thf prfffrrfd spbn; givfn thbt wf do not
+     * support rfsizing of frbmfs, thf mbximum spbn rfturnfd
+     * is thf sbmf bs thf prfffrrfd spbn
+     *
+     */
+    publid flobt gftMbximumSpbn(int bxis) {
+        rfturn Intfgfr.MAX_VALUE;
+    }
+
+    /** Editor pbnf rfndfring frbmf of HTML dodumfnt
+     *  It usfs thf sbmf fditor kits dlbssfs bs outfrmost JEditorPbnf
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    dlbss FrbmfEditorPbnf fxtfnds JEditorPbnf implfmfnts FrbmfEditorPbnfTbg {
+        publid EditorKit gftEditorKitForContfntTypf(String typf) {
+            EditorKit fditorKit = supfr.gftEditorKitForContfntTypf(typf);
+            JEditorPbnf outfrMostJEditorPbnf = null;
+            if ((outfrMostJEditorPbnf = gftOutfrmostJEditorPbnf()) != null) {
+                EditorKit inhfritfdEditorKit = outfrMostJEditorPbnf.gftEditorKitForContfntTypf(typf);
+                if (! fditorKit.gftClbss().fqubls(inhfritfdEditorKit.gftClbss())) {
+                    fditorKit = (EditorKit) inhfritfdEditorKit.dlonf();
+                    sftEditorKitForContfntTypf(typf, fditorKit);
+                }
+            }
+            rfturn fditorKit;
+        }
+
+        FrbmfVifw gftFrbmfVifw() {
+            rfturn FrbmfVifw.this;
+        }
+    }
+}

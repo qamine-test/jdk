@@ -1,305 +1,305 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.multi;
+pbdkbgf jbvbx.swing.plbf.multi;
 
-import java.util.Vector;
-import java.lang.reflect.Method;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvb.util.Vfdtor;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * <p>A multiplexing look and feel that allows more than one UI
- * to be associated with a component at the same time.
- * The primary look and feel is called
- * the <em>default</em> look and feel,
- * and the other look and feels are called <em>auxiliary</em>.
+ * <p>A multiplfxing look bnd fffl tibt bllows morf tibn onf UI
+ * to bf bssodibtfd witi b domponfnt bt tif sbmf timf.
+ * Tif primbry look bnd fffl is dbllfd
+ * tif <fm>dffbult</fm> look bnd fffl,
+ * bnd tif otifr look bnd fffls brf dbllfd <fm>buxilibry</fm>.
  * <p>
  *
- * For further information, see
- * <a href="doc-files/multi_tsc.html" target="_top">Using the
- * Multiplexing Look and Feel.</a>
+ * For furtifr informbtion, sff
+ * <b irff="dod-filfs/multi_tsd.itml" tbrgft="_top">Using tif
+ * Multiplfxing Look bnd Fffl.</b>
  *
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see UIManager#addAuxiliaryLookAndFeel
- * @see javax.swing.plaf.multi
+ * @sff UIMbnbgfr#bddAuxilibryLookAndFffl
+ * @sff jbvbx.swing.plbf.multi
  *
- * @author Willie Walker
+ * @butior Willif Wblkfr
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MultiLookAndFeel extends LookAndFeel {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MultiLookAndFffl fxtfnds LookAndFffl {
 
 //////////////////////////////
-// LookAndFeel methods
+// LookAndFffl mftiods
 //////////////////////////////
 
     /**
-     * Returns a string, suitable for use in menus,
-     * that identifies this look and feel.
+     * Rfturns b string, suitbblf for usf in mfnus,
+     * tibt idfntififs tiis look bnd fffl.
      *
-     * @return a string such as "Multiplexing Look and Feel"
+     * @rfturn b string sudi bs "Multiplfxing Look bnd Fffl"
      */
-    public String getName() {
-        return "Multiplexing Look and Feel";
+    publid String gftNbmf() {
+        rfturn "Multiplfxing Look bnd Fffl";
     }
 
     /**
-     * Returns a string, suitable for use by applications/services,
-     * that identifies this look and feel.
+     * Rfturns b string, suitbblf for usf by bpplidbtions/sfrvidfs,
+     * tibt idfntififs tiis look bnd fffl.
      *
-     * @return "Multiplex"
+     * @rfturn "Multiplfx"
      */
-    public String getID() {
-        return "Multiplex";
+    publid String gftID() {
+        rfturn "Multiplfx";
     }
 
     /**
-     * Returns a one-line description of this look and feel.
+     * Rfturns b onf-linf dfsdription of tiis look bnd fffl.
      *
-     * @return a descriptive string such as "Allows multiple UI instances per component instance"
+     * @rfturn b dfsdriptivf string sudi bs "Allows multiplf UI instbndfs pfr domponfnt instbndf"
      */
-    public String getDescription() {
-        return "Allows multiple UI instances per component instance";
+    publid String gftDfsdription() {
+        rfturn "Allows multiplf UI instbndfs pfr domponfnt instbndf";
     }
 
     /**
-     * Returns <code>false</code>;
-     * this look and feel is not native to any platform.
+     * Rfturns <dodf>fblsf</dodf>;
+     * tiis look bnd fffl is not nbtivf to bny plbtform.
      *
-     * @return <code>false</code>
+     * @rfturn <dodf>fblsf</dodf>
      */
-    public boolean isNativeLookAndFeel() {
-        return false;
+    publid boolfbn isNbtivfLookAndFffl() {
+        rfturn fblsf;
     }
 
     /**
-     * Returns <code>true</code>;
-     * every platform permits this look and feel.
+     * Rfturns <dodf>truf</dodf>;
+     * fvfry plbtform pfrmits tiis look bnd fffl.
      *
-     * @return <code>true</code>
+     * @rfturn <dodf>truf</dodf>
      */
-    public boolean isSupportedLookAndFeel() {
-        return true;
+    publid boolfbn isSupportfdLookAndFffl() {
+        rfturn truf;
     }
 
     /**
-     * Creates, initializes, and returns
-     * the look and feel specific defaults.
-     * For this look and feel,
-     * the defaults consist solely of
-     * mappings of UI class IDs
-     * (such as "ButtonUI")
-     * to <code>ComponentUI</code> class names
-     * (such as "javax.swing.plaf.multi.MultiButtonUI").
+     * Crfbtfs, initiblizfs, bnd rfturns
+     * tif look bnd fffl spfdifid dffbults.
+     * For tiis look bnd fffl,
+     * tif dffbults donsist solfly of
+     * mbppings of UI dlbss IDs
+     * (sudi bs "ButtonUI")
+     * to <dodf>ComponfntUI</dodf> dlbss nbmfs
+     * (sudi bs "jbvbx.swing.plbf.multi.MultiButtonUI").
      *
-     * @return an initialized <code>UIDefaults</code> object
-     * @see javax.swing.JComponent#getUIClassID
+     * @rfturn bn initiblizfd <dodf>UIDffbults</dodf> objfdt
+     * @sff jbvbx.swing.JComponfnt#gftUIClbssID
      */
-    public UIDefaults getDefaults() {
-        String packageName = "javax.swing.plaf.multi.Multi";
-        Object[] uiDefaults = {
-                   "ButtonUI", packageName + "ButtonUI",
-         "CheckBoxMenuItemUI", packageName + "MenuItemUI",
-                 "CheckBoxUI", packageName + "ButtonUI",
-             "ColorChooserUI", packageName + "ColorChooserUI",
-                 "ComboBoxUI", packageName + "ComboBoxUI",
-              "DesktopIconUI", packageName + "DesktopIconUI",
-              "DesktopPaneUI", packageName + "DesktopPaneUI",
-               "EditorPaneUI", packageName + "TextUI",
-              "FileChooserUI", packageName + "FileChooserUI",
-       "FormattedTextFieldUI", packageName + "TextUI",
-            "InternalFrameUI", packageName + "InternalFrameUI",
-                    "LabelUI", packageName + "LabelUI",
-                     "ListUI", packageName + "ListUI",
-                  "MenuBarUI", packageName + "MenuBarUI",
-                 "MenuItemUI", packageName + "MenuItemUI",
-                     "MenuUI", packageName + "MenuItemUI",
-               "OptionPaneUI", packageName + "OptionPaneUI",
-                    "PanelUI", packageName + "PanelUI",
-            "PasswordFieldUI", packageName + "TextUI",
-       "PopupMenuSeparatorUI", packageName + "SeparatorUI",
-                "PopupMenuUI", packageName + "PopupMenuUI",
-              "ProgressBarUI", packageName + "ProgressBarUI",
-      "RadioButtonMenuItemUI", packageName + "MenuItemUI",
-              "RadioButtonUI", packageName + "ButtonUI",
-                 "RootPaneUI", packageName + "RootPaneUI",
-                "ScrollBarUI", packageName + "ScrollBarUI",
-               "ScrollPaneUI", packageName + "ScrollPaneUI",
-                "SeparatorUI", packageName + "SeparatorUI",
-                   "SliderUI", packageName + "SliderUI",
-                  "SpinnerUI", packageName + "SpinnerUI",
-                "SplitPaneUI", packageName + "SplitPaneUI",
-               "TabbedPaneUI", packageName + "TabbedPaneUI",
-              "TableHeaderUI", packageName + "TableHeaderUI",
-                    "TableUI", packageName + "TableUI",
-                 "TextAreaUI", packageName + "TextUI",
-                "TextFieldUI", packageName + "TextUI",
-                 "TextPaneUI", packageName + "TextUI",
-             "ToggleButtonUI", packageName + "ButtonUI",
-         "ToolBarSeparatorUI", packageName + "SeparatorUI",
-                  "ToolBarUI", packageName + "ToolBarUI",
-                  "ToolTipUI", packageName + "ToolTipUI",
-                     "TreeUI", packageName + "TreeUI",
-                 "ViewportUI", packageName + "ViewportUI",
+    publid UIDffbults gftDffbults() {
+        String pbdkbgfNbmf = "jbvbx.swing.plbf.multi.Multi";
+        Objfdt[] uiDffbults = {
+                   "ButtonUI", pbdkbgfNbmf + "ButtonUI",
+         "CifdkBoxMfnuItfmUI", pbdkbgfNbmf + "MfnuItfmUI",
+                 "CifdkBoxUI", pbdkbgfNbmf + "ButtonUI",
+             "ColorCioosfrUI", pbdkbgfNbmf + "ColorCioosfrUI",
+                 "ComboBoxUI", pbdkbgfNbmf + "ComboBoxUI",
+              "DfsktopIdonUI", pbdkbgfNbmf + "DfsktopIdonUI",
+              "DfsktopPbnfUI", pbdkbgfNbmf + "DfsktopPbnfUI",
+               "EditorPbnfUI", pbdkbgfNbmf + "TfxtUI",
+              "FilfCioosfrUI", pbdkbgfNbmf + "FilfCioosfrUI",
+       "FormbttfdTfxtFifldUI", pbdkbgfNbmf + "TfxtUI",
+            "IntfrnblFrbmfUI", pbdkbgfNbmf + "IntfrnblFrbmfUI",
+                    "LbbflUI", pbdkbgfNbmf + "LbbflUI",
+                     "ListUI", pbdkbgfNbmf + "ListUI",
+                  "MfnuBbrUI", pbdkbgfNbmf + "MfnuBbrUI",
+                 "MfnuItfmUI", pbdkbgfNbmf + "MfnuItfmUI",
+                     "MfnuUI", pbdkbgfNbmf + "MfnuItfmUI",
+               "OptionPbnfUI", pbdkbgfNbmf + "OptionPbnfUI",
+                    "PbnflUI", pbdkbgfNbmf + "PbnflUI",
+            "PbsswordFifldUI", pbdkbgfNbmf + "TfxtUI",
+       "PopupMfnuSfpbrbtorUI", pbdkbgfNbmf + "SfpbrbtorUI",
+                "PopupMfnuUI", pbdkbgfNbmf + "PopupMfnuUI",
+              "ProgrfssBbrUI", pbdkbgfNbmf + "ProgrfssBbrUI",
+      "RbdioButtonMfnuItfmUI", pbdkbgfNbmf + "MfnuItfmUI",
+              "RbdioButtonUI", pbdkbgfNbmf + "ButtonUI",
+                 "RootPbnfUI", pbdkbgfNbmf + "RootPbnfUI",
+                "SdrollBbrUI", pbdkbgfNbmf + "SdrollBbrUI",
+               "SdrollPbnfUI", pbdkbgfNbmf + "SdrollPbnfUI",
+                "SfpbrbtorUI", pbdkbgfNbmf + "SfpbrbtorUI",
+                   "SlidfrUI", pbdkbgfNbmf + "SlidfrUI",
+                  "SpinnfrUI", pbdkbgfNbmf + "SpinnfrUI",
+                "SplitPbnfUI", pbdkbgfNbmf + "SplitPbnfUI",
+               "TbbbfdPbnfUI", pbdkbgfNbmf + "TbbbfdPbnfUI",
+              "TbblfHfbdfrUI", pbdkbgfNbmf + "TbblfHfbdfrUI",
+                    "TbblfUI", pbdkbgfNbmf + "TbblfUI",
+                 "TfxtArfbUI", pbdkbgfNbmf + "TfxtUI",
+                "TfxtFifldUI", pbdkbgfNbmf + "TfxtUI",
+                 "TfxtPbnfUI", pbdkbgfNbmf + "TfxtUI",
+             "TogglfButtonUI", pbdkbgfNbmf + "ButtonUI",
+         "ToolBbrSfpbrbtorUI", pbdkbgfNbmf + "SfpbrbtorUI",
+                  "ToolBbrUI", pbdkbgfNbmf + "ToolBbrUI",
+                  "ToolTipUI", pbdkbgfNbmf + "ToolTipUI",
+                     "TrffUI", pbdkbgfNbmf + "TrffUI",
+                 "VifwportUI", pbdkbgfNbmf + "VifwportUI",
         };
 
-        UIDefaults table = new MultiUIDefaults(uiDefaults.length / 2, 0.75f);
-        table.putDefaults(uiDefaults);
-        return table;
+        UIDffbults tbblf = nfw MultiUIDffbults(uiDffbults.lfngti / 2, 0.75f);
+        tbblf.putDffbults(uiDffbults);
+        rfturn tbblf;
     }
 
 ///////////////////////////////
-// Utility methods for the UI's
+// Utility mftiods for tif UI's
 ///////////////////////////////
 
     /**
-     * Creates the <code>ComponentUI</code> objects
-     * required to present
-     * the <code>target</code> component,
-     * placing the objects in the <code>uis</code> vector and
-     * returning the
-     * <code>ComponentUI</code> object
-     * that best represents the component's UI.
-     * This method finds the <code>ComponentUI</code> objects
+     * Crfbtfs tif <dodf>ComponfntUI</dodf> objfdts
+     * rfquirfd to prfsfnt
+     * tif <dodf>tbrgft</dodf> domponfnt,
+     * plbding tif objfdts in tif <dodf>uis</dodf> vfdtor bnd
+     * rfturning tif
+     * <dodf>ComponfntUI</dodf> objfdt
+     * tibt bfst rfprfsfnts tif domponfnt's UI.
+     * Tiis mftiod finds tif <dodf>ComponfntUI</dodf> objfdts
      * by invoking
-     * <code>getDefaults().getUI(target)</code> on each
-     * default and auxiliary look and feel currently in use.
-     * The first UI object this method adds
-     * to the <code>uis</code> vector
-     * is for the default look and feel.
+     * <dodf>gftDffbults().gftUI(tbrgft)</dodf> on fbdi
+     * dffbult bnd buxilibry look bnd fffl durrfntly in usf.
+     * Tif first UI objfdt tiis mftiod bdds
+     * to tif <dodf>uis</dodf> vfdtor
+     * is for tif dffbult look bnd fffl.
      * <p>
-     * This method is invoked by the <code>createUI</code> method
-     * of <code>MultiXxxxUI</code> classes.
+     * Tiis mftiod is invokfd by tif <dodf>drfbtfUI</dodf> mftiod
+     * of <dodf>MultiXxxxUI</dodf> dlbssfs.
      *
-     * @param mui the <code>ComponentUI</code> object
-     *            that represents the complete UI
-     *            for the <code>target</code> component;
-     *            this should be an instance
-     *            of one of the <code>MultiXxxxUI</code> classes
-     * @param uis a <code>Vector</code>;
-     *            generally this is the <code>uis</code> field
-     *            of the <code>mui</code> argument
-     * @param target a component whose UI is represented by <code>mui</code>
+     * @pbrbm mui tif <dodf>ComponfntUI</dodf> objfdt
+     *            tibt rfprfsfnts tif domplftf UI
+     *            for tif <dodf>tbrgft</dodf> domponfnt;
+     *            tiis siould bf bn instbndf
+     *            of onf of tif <dodf>MultiXxxxUI</dodf> dlbssfs
+     * @pbrbm uis b <dodf>Vfdtor</dodf>;
+     *            gfnfrblly tiis is tif <dodf>uis</dodf> fifld
+     *            of tif <dodf>mui</dodf> brgumfnt
+     * @pbrbm tbrgft b domponfnt wiosf UI is rfprfsfntfd by <dodf>mui</dodf>
      *
-     * @return <code>mui</code> if the component has any auxiliary UI objects;
-     *         otherwise, returns the UI object for the default look and feel
-     *         or <code>null</code> if the default UI object couldn't be found
+     * @rfturn <dodf>mui</dodf> if tif domponfnt ibs bny buxilibry UI objfdts;
+     *         otifrwisf, rfturns tif UI objfdt for tif dffbult look bnd fffl
+     *         or <dodf>null</dodf> if tif dffbult UI objfdt douldn't bf found
      *
-     * @see javax.swing.UIManager#getAuxiliaryLookAndFeels
-     * @see javax.swing.UIDefaults#getUI
-     * @see MultiButtonUI#uis
-     * @see MultiButtonUI#createUI
+     * @sff jbvbx.swing.UIMbnbgfr#gftAuxilibryLookAndFffls
+     * @sff jbvbx.swing.UIDffbults#gftUI
+     * @sff MultiButtonUI#uis
+     * @sff MultiButtonUI#drfbtfUI
      */
-    public static ComponentUI createUIs(ComponentUI mui,
-                                        Vector<ComponentUI> uis,
-                                        JComponent  target) {
-        ComponentUI ui;
+    publid stbtid ComponfntUI drfbtfUIs(ComponfntUI mui,
+                                        Vfdtor<ComponfntUI> uis,
+                                        JComponfnt  tbrgft) {
+        ComponfntUI ui;
 
-        // Make sure we can at least get the default UI
+        // Mbkf surf wf dbn bt lfbst gft tif dffbult UI
         //
-        ui = UIManager.getDefaults().getUI(target);
+        ui = UIMbnbgfr.gftDffbults().gftUI(tbrgft);
         if (ui != null) {
-            uis.addElement(ui);
-            LookAndFeel[] auxiliaryLookAndFeels;
-            auxiliaryLookAndFeels = UIManager.getAuxiliaryLookAndFeels();
-            if (auxiliaryLookAndFeels != null) {
-                for (int i = 0; i < auxiliaryLookAndFeels.length; i++) {
-                    ui = auxiliaryLookAndFeels[i].getDefaults().getUI(target);
+            uis.bddElfmfnt(ui);
+            LookAndFffl[] buxilibryLookAndFffls;
+            buxilibryLookAndFffls = UIMbnbgfr.gftAuxilibryLookAndFffls();
+            if (buxilibryLookAndFffls != null) {
+                for (int i = 0; i < buxilibryLookAndFffls.lfngti; i++) {
+                    ui = buxilibryLookAndFffls[i].gftDffbults().gftUI(tbrgft);
                     if (ui != null) {
-                        uis.addElement(ui);
+                        uis.bddElfmfnt(ui);
                     }
                 }
             }
-        } else {
-            return null;
+        } flsf {
+            rfturn null;
         }
 
-        // Don't bother returning the multiplexing UI if all we did was
-        // get a UI from just the default look and feel.
+        // Don't botifr rfturning tif multiplfxing UI if bll wf did wbs
+        // gft b UI from just tif dffbult look bnd fffl.
         //
-        if (uis.size() == 1) {
-            return uis.elementAt(0);
-        } else {
-            return mui;
+        if (uis.sizf() == 1) {
+            rfturn uis.flfmfntAt(0);
+        } flsf {
+            rfturn mui;
         }
     }
 
     /**
-     * Creates an array,
-     * populates it with UI objects from the passed-in vector,
-     * and returns the array.
-     * If <code>uis</code> is null,
-     * this method returns an array with zero elements.
-     * If <code>uis</code> is an empty vector,
-     * this method returns <code>null</code>.
-     * A run-time error occurs if any objects in the <code>uis</code> vector
-     * are not of type <code>ComponentUI</code>.
+     * Crfbtfs bn brrby,
+     * populbtfs it witi UI objfdts from tif pbssfd-in vfdtor,
+     * bnd rfturns tif brrby.
+     * If <dodf>uis</dodf> is null,
+     * tiis mftiod rfturns bn brrby witi zfro flfmfnts.
+     * If <dodf>uis</dodf> is bn fmpty vfdtor,
+     * tiis mftiod rfturns <dodf>null</dodf>.
+     * A run-timf frror oddurs if bny objfdts in tif <dodf>uis</dodf> vfdtor
+     * brf not of typf <dodf>ComponfntUI</dodf>.
      *
-     * @param uis a vector containing <code>ComponentUI</code> objects
-     * @return an array equivalent to the passed-in vector
+     * @pbrbm uis b vfdtor dontbining <dodf>ComponfntUI</dodf> objfdts
+     * @rfturn bn brrby fquivblfnt to tif pbssfd-in vfdtor
      *
      */
-    protected static ComponentUI[] uisToArray(Vector<? extends ComponentUI> uis) {
+    protfdtfd stbtid ComponfntUI[] uisToArrby(Vfdtor<? fxtfnds ComponfntUI> uis) {
         if (uis == null) {
-            return new ComponentUI[0];
-        } else {
-            int count = uis.size();
-            if (count > 0) {
-                ComponentUI[] u = new ComponentUI[count];
-                for (int i = 0; i < count; i++) {
-                    u[i] = uis.elementAt(i);
+            rfturn nfw ComponfntUI[0];
+        } flsf {
+            int dount = uis.sizf();
+            if (dount > 0) {
+                ComponfntUI[] u = nfw ComponfntUI[dount];
+                for (int i = 0; i < dount; i++) {
+                    u[i] = uis.flfmfntAt(i);
                 }
-                return u;
-            } else {
-                return null;
+                rfturn u;
+            } flsf {
+                rfturn null;
             }
         }
     }
 }
 
 /**
- * We want the Multiplexing LookAndFeel to be quiet and fallback
- * gracefully if it cannot find a UI.  This class overrides the
- * getUIError method of UIDefaults, which is the method that
- * emits error messages when it cannot find a UI class in the
+ * Wf wbnt tif Multiplfxing LookAndFffl to bf quift bnd fbllbbdk
+ * grbdffully if it dbnnot find b UI.  Tiis dlbss ovfrridfs tif
+ * gftUIError mftiod of UIDffbults, wiidi is tif mftiod tibt
+ * fmits frror mfssbgfs wifn it dbnnot find b UI dlbss in tif
  * LAF.
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class MultiUIDefaults extends UIDefaults {
-    MultiUIDefaults(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor);
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss MultiUIDffbults fxtfnds UIDffbults {
+    MultiUIDffbults(int initiblCbpbdity, flobt lobdFbdtor) {
+        supfr(initiblCbpbdity, lobdFbdtor);
     }
-    protected void getUIError(String msg) {
-        System.err.println("Multiplexing LAF:  " + msg);
+    protfdtfd void gftUIError(String msg) {
+        Systfm.frr.println("Multiplfxing LAF:  " + msg);
     }
 }

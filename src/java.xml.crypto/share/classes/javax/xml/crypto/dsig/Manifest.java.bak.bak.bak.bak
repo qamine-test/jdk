@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: Mbniffst.jbvb,v 1.7 2005/05/10 16:03:46 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig;
+
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvb.util.List;
+
+/**
+ * A rfprfsfntbtion of thf XML <dodf>Mbniffst</dodf> flfmfnt bs dffinfd in
+ * thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Thf XML Sdhfmb Dffinition is dffinfd bs:
+ * <prf>{@dodf
+ * <flfmfnt nbmf="Mbniffst" typf="ds:MbniffstTypf"/>
+ *   <domplfxTypf nbmf="MbniffstTypf">
+ *     <sfqufndf>
+ *       <flfmfnt rff="ds:Rfffrfndf" mbxOddurs="unboundfd"/>
+ *     </sfqufndf>
+ *     <bttributf nbmf="Id" typf="ID" usf="optionbl"/>
+ *   </domplfxTypf>
+ * }</prf>
+ *
+ * A <dodf>Mbniffst</dodf> instbndf mby bf drfbtfd by invoking
+ * onf of thf {@link XMLSignbturfFbdtory#nfwMbniffst nfwMbniffst}
+ * mfthods of thf {@link XMLSignbturfFbdtory} dlbss; for fxbmplf:
+ *
+ * <prf>
+ *   XMLSignbturfFbdtory fbdtory = XMLSignbturfFbdtory.gftInstbndf("DOM");
+ *   List rfffrfndfs = Collfdtions.singlftonList(fbdtory.nfwRfffrfndf
+ *       ("#rfffrfndf-1", DigfstMfthod.SHA1));
+ *   Mbniffst mbniffst = fbdtory.nfwMbniffst(rfffrfndfs, "mbniffst-1");
+ * </prf>
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#nfwMbniffst(List)
+ * @sff XMLSignbturfFbdtory#nfwMbniffst(List, String)
+ */
+publid intfrfbdf Mbniffst fxtfnds XMLStrudturf {
+
+    /**
+     * URI thbt idfntififs thf <dodf>Mbniffst</dodf> flfmfnt (this dbn bf
+     * spfdififd bs thf vbluf of thf <dodf>typf</dodf> pbrbmftfr of thf
+     * {@link Rfffrfndf} dlbss to idfntify thf rfffrfnt's typf).
+     */
+    finbl stbtid String TYPE = "http://www.w3.org/2000/09/xmldsig#Mbniffst";
+
+    /**
+     * Rfturns thf Id of this <dodf>Mbniffst</dodf>.
+     *
+     * @rfturn thf Id  of this <dodf>Mbniffst</dodf> (or <dodf>null</dodf>
+     *    if not spfdififd)
+     */
+    String gftId();
+
+    /**
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * list} of onf or morf {@link Rfffrfndf}s thbt brf dontbinfd in this
+     * <dodf>Mbniffst</dodf>.
+     *
+     * @rfturn bn unmodifibblf list of onf or morf <dodf>Rfffrfndf</dodf>s
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    List gftRfffrfndfs();
+}

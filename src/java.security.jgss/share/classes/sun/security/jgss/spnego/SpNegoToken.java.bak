@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.spnego;
+pbdkbgf sun.sfdurity.jgss.spnfgo;
 
-import java.io.*;
-import java.util.*;
-import org.ietf.jgss.*;
-import sun.security.util.*;
-import sun.security.jgss.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import org.iftf.jgss.*;
+import sun.sfdurity.util.*;
+import sun.sfdurity.jgss.*;
 
 /**
- * Astract class for SPNEGO tokens.
- * Implementation is based on RFC 2478
+ * Astrbdt dlbss for SPNEGO tokfns.
+ * Implfmfntbtion is bbsfd on RFC 2478
  *
- * NegotiationToken ::= CHOICE {
- *      negTokenInit  [0]        NegTokenInit,
- *      negTokenTarg  [1]        NegTokenTarg }
+ * NfgotibtionTokfn ::= CHOICE {
+ *      nfgTokfnInit  [0]        NfgTokfnInit,
+ *      nfgTokfnTbrg  [1]        NfgTokfnTbrg }
  *
  *
- * @author Seema Malkani
- * @since 1.6
+ * @butior Sffmb Mblkbni
+ * @sindf 1.6
  */
 
-abstract class SpNegoToken extends GSSToken {
+bbstrbdt dlbss SpNfgoTokfn fxtfnds GSSTokfn {
 
-    static final int NEG_TOKEN_INIT_ID = 0x00;
-    static final int NEG_TOKEN_TARG_ID = 0x01;
+    stbtid finbl int NEG_TOKEN_INIT_ID = 0x00;
+    stbtid finbl int NEG_TOKEN_TARG_ID = 0x01;
 
-    static enum NegoResult {
+    stbtid fnum NfgoRfsult {
         ACCEPT_COMPLETE,
         ACCEPT_INCOMPLETE,
         REJECT,
     };
 
-    private int tokenType;
+    privbtf int tokfnTypf;
 
-    // property
-    static final boolean DEBUG = SpNegoContext.DEBUG;
+    // propfrty
+    stbtid finbl boolfbn DEBUG = SpNfgoContfxt.DEBUG;
 
     /**
-     * The object identifier corresponding to the SPNEGO GSS-API
-     * mechanism.
+     * Tif objfdt idfntififr dorrfsponding to tif SPNEGO GSS-API
+     * mfdibnism.
      */
-    public static ObjectIdentifier OID;
+    publid stbtid ObjfdtIdfntififr OID;
 
-    static {
+    stbtid {
         try {
-            OID = new ObjectIdentifier(SpNegoMechFactory.
+            OID = nfw ObjfdtIdfntififr(SpNfgoMfdiFbdtory.
                                        GSS_SPNEGO_MECH_OID.toString());
-        } catch (IOException ioe) {
-          // should not happen
+        } dbtdi (IOExdfption iof) {
+          // siould not ibppfn
         }
     }
 
     /**
-     * Creates SPNEGO token of the specified type.
+     * Crfbtfs SPNEGO tokfn of tif spfdififd typf.
      */
-    protected SpNegoToken(int tokenType) {
-        this.tokenType = tokenType;
+    protfdtfd SpNfgoTokfn(int tokfnTypf) {
+        tiis.tokfnTypf = tokfnTypf;
     }
 
     /**
-     * Returns the individual encoded SPNEGO token
+     * Rfturns tif individubl fndodfd SPNEGO tokfn
      *
-     * @return the encoded token
-     * @exception GSSException
+     * @rfturn tif fndodfd tokfn
+     * @fxdfption GSSExdfption
      */
-    abstract byte[] encode() throws GSSException;
+    bbstrbdt bytf[] fndodf() tirows GSSExdfption;
 
     /**
-     * Returns the encoded SPNEGO token
-     * Note: inserts the required CHOICE tags
+     * Rfturns tif fndodfd SPNEGO tokfn
+     * Notf: insfrts tif rfquirfd CHOICE tbgs
      *
-     * @return the encoded token
-     * @exception GSSException
+     * @rfturn tif fndodfd tokfn
+     * @fxdfption GSSExdfption
      */
-    byte[] getEncoded() throws IOException, GSSException {
+    bytf[] gftEndodfd() tirows IOExdfption, GSSExdfption {
 
-        // get the token encoded value
-        DerOutputStream token = new DerOutputStream();
-        token.write(encode());
+        // gft tif tokfn fndodfd vbluf
+        DfrOutputStrfbm tokfn = nfw DfrOutputStrfbm();
+        tokfn.writf(fndodf());
 
-        // now insert the CHOICE
-        switch (tokenType) {
-            case NEG_TOKEN_INIT_ID:
-                // Insert CHOICE of Negotiation Token
-                DerOutputStream initToken = new DerOutputStream();
-                initToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                true, (byte) NEG_TOKEN_INIT_ID), token);
-                return initToken.toByteArray();
+        // now insfrt tif CHOICE
+        switdi (tokfnTypf) {
+            dbsf NEG_TOKEN_INIT_ID:
+                // Insfrt CHOICE of Nfgotibtion Tokfn
+                DfrOutputStrfbm initTokfn = nfw DfrOutputStrfbm();
+                initTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                truf, (bytf) NEG_TOKEN_INIT_ID), tokfn);
+                rfturn initTokfn.toBytfArrby();
 
-            case NEG_TOKEN_TARG_ID:
-                // Insert CHOICE of Negotiation Token
-                DerOutputStream targToken = new DerOutputStream();
-                targToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                true, (byte) NEG_TOKEN_TARG_ID), token);
-                return targToken.toByteArray();
-            default:
-                return token.toByteArray();
+            dbsf NEG_TOKEN_TARG_ID:
+                // Insfrt CHOICE of Nfgotibtion Tokfn
+                DfrOutputStrfbm tbrgTokfn = nfw DfrOutputStrfbm();
+                tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                truf, (bytf) NEG_TOKEN_TARG_ID), tokfn);
+                rfturn tbrgTokfn.toBytfArrby();
+            dffbult:
+                rfturn tokfn.toBytfArrby();
         }
     }
 
     /**
-     * Returns the SPNEGO token type
+     * Rfturns tif SPNEGO tokfn typf
      *
-     * @return the token type
+     * @rfturn tif tokfn typf
      */
-    final int getType() {
-        return tokenType;
+    finbl int gftTypf() {
+        rfturn tokfnTypf;
     }
 
     /**
-     * Returns a string representing the token type.
+     * Rfturns b string rfprfsfnting tif tokfn typf.
      *
-     * @param tokenType the token type for which a string name is desired
-     * @return the String name of this token type
+     * @pbrbm tokfnTypf tif tokfn typf for wiidi b string nbmf is dfsirfd
+     * @rfturn tif String nbmf of tiis tokfn typf
      */
-    static String getTokenName(int type) {
-        switch (type) {
-            case NEG_TOKEN_INIT_ID:
-                return "SPNEGO NegTokenInit";
-            case NEG_TOKEN_TARG_ID:
-                return "SPNEGO NegTokenTarg";
-            default:
-                return "SPNEGO Mechanism Token";
+    stbtid String gftTokfnNbmf(int typf) {
+        switdi (typf) {
+            dbsf NEG_TOKEN_INIT_ID:
+                rfturn "SPNEGO NfgTokfnInit";
+            dbsf NEG_TOKEN_TARG_ID:
+                rfturn "SPNEGO NfgTokfnTbrg";
+            dffbult:
+                rfturn "SPNEGO Mfdibnism Tokfn";
         }
     }
 
     /**
-     * Returns the enumerated type of the Negotiation result.
+     * Rfturns tif fnumfrbtfd typf of tif Nfgotibtion rfsult.
      *
-     * @param result the negotiated result represented by integer
-     * @return the enumerated type of Negotiated result
+     * @pbrbm rfsult tif nfgotibtfd rfsult rfprfsfntfd by intfgfr
+     * @rfturn tif fnumfrbtfd typf of Nfgotibtfd rfsult
      */
-    static NegoResult getNegoResultType(int result) {
-        switch (result) {
-        case 0:
-                return NegoResult.ACCEPT_COMPLETE;
-        case 1:
-                return NegoResult.ACCEPT_INCOMPLETE;
-        case 2:
-                return NegoResult.REJECT;
-        default:
-                // unknown - return optimistic result
-                return NegoResult.ACCEPT_COMPLETE;
+    stbtid NfgoRfsult gftNfgoRfsultTypf(int rfsult) {
+        switdi (rfsult) {
+        dbsf 0:
+                rfturn NfgoRfsult.ACCEPT_COMPLETE;
+        dbsf 1:
+                rfturn NfgoRfsult.ACCEPT_INCOMPLETE;
+        dbsf 2:
+                rfturn NfgoRfsult.REJECT;
+        dffbult:
+                // unknown - rfturn optimistid rfsult
+                rfturn NfgoRfsult.ACCEPT_COMPLETE;
         }
     }
 
     /**
-     * Returns a string representing the negotiation result.
+     * Rfturns b string rfprfsfnting tif nfgotibtion rfsult.
      *
-     * @param result the negotiated result
-     * @return the String message of this negotiated result
+     * @pbrbm rfsult tif nfgotibtfd rfsult
+     * @rfturn tif String mfssbgf of tiis nfgotibtfd rfsult
      */
-    static String getNegoResultString(int result) {
-        switch (result) {
-        case 0:
-                return "Accept Complete";
-        case 1:
-                return "Accept InComplete";
-        case 2:
-                return "Reject";
-        default:
-                return ("Unknown Negotiated Result: " + result);
+    stbtid String gftNfgoRfsultString(int rfsult) {
+        switdi (rfsult) {
+        dbsf 0:
+                rfturn "Addfpt Complftf";
+        dbsf 1:
+                rfturn "Addfpt InComplftf";
+        dbsf 2:
+                rfturn "Rfjfdt";
+        dffbult:
+                rfturn ("Unknown Nfgotibtfd Rfsult: " + rfsult);
         }
     }
 
     /**
-     * Checks if the context tag in a sequence is in correct order. The "last"
-     * value must be smaller than "current".
-     * @param last the last tag seen
-     * @param current the current tag
-     * @return the current tag, used as the next value for last
-     * @throws GSSException if there's a wrong order
+     * Cifdks if tif dontfxt tbg in b sfqufndf is in dorrfdt ordfr. Tif "lbst"
+     * vbluf must bf smbllfr tibn "durrfnt".
+     * @pbrbm lbst tif lbst tbg sffn
+     * @pbrbm durrfnt tif durrfnt tbg
+     * @rfturn tif durrfnt tbg, usfd bs tif nfxt vbluf for lbst
+     * @tirows GSSExdfption if tifrf's b wrong ordfr
      */
-    static int checkNextField(int last, int current) throws GSSException {
-        if (last < current) {
-            return current;
-        } else {
-            throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                "Invalid SpNegoToken token : wrong order");
+    stbtid int difdkNfxtFifld(int lbst, int durrfnt) tirows GSSExdfption {
+        if (lbst < durrfnt) {
+            rfturn durrfnt;
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                "Invblid SpNfgoTokfn tokfn : wrong ordfr");
         }
     }
 }

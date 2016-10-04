@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote.rmi;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
 
-import java.io.IOException;
-import java.rmi.Remote;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Map;
-import java.util.Collections;
-import javax.security.auth.Subject;
+import jbvb.io.IOExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Mbp;
+import jbvb.util.Collfdtions;
+import jbvbx.sfdurity.buti.Subjfdt;
 
-import com.sun.jmx.remote.internal.IIOPHelper;
+import dom.sun.jmx.rfmotf.intfrnbl.IIOPHflpfr;
 
 /**
- * <p>An {@link RMIServerImpl} that is exported through IIOP and that
- * creates client connections as RMI objects exported through IIOP.
- * User code does not usually reference this class directly.</p>
+ * <p>An {@link RMISfrvfrImpl} tibt is fxportfd tirougi IIOP bnd tibt
+ * drfbtfs dlifnt donnfdtions bs RMI objfdts fxportfd tirougi IIOP.
+ * Usfr dodf dofs not usublly rfffrfndf tiis dlbss dirfdtly.</p>
  *
- * @see RMIServerImpl
+ * @sff RMISfrvfrImpl
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class RMIIIOPServerImpl extends RMIServerImpl {
+publid dlbss RMIIIOPSfrvfrImpl fxtfnds RMISfrvfrImpl {
     /**
-     * <p>Creates a new {@link RMIServerImpl}.</p>
+     * <p>Crfbtfs b nfw {@link RMISfrvfrImpl}.</p>
      *
-     * @param env the environment containing attributes for the new
-     * <code>RMIServerImpl</code>.  Can be null, which is equivalent
-     * to an empty Map.
+     * @pbrbm fnv tif fnvironmfnt dontbining bttributfs for tif nfw
+     * <dodf>RMISfrvfrImpl</dodf>.  Cbn bf null, wiidi is fquivblfnt
+     * to bn fmpty Mbp.
      *
-     * @exception IOException if the RMI object cannot be created.
+     * @fxdfption IOExdfption if tif RMI objfdt dbnnot bf drfbtfd.
      */
-    public RMIIIOPServerImpl(Map<String,?> env)
-            throws IOException {
-        super(env);
+    publid RMIIIOPSfrvfrImpl(Mbp<String,?> fnv)
+            tirows IOExdfption {
+        supfr(fnv);
 
-        this.env = (env == null) ? Collections.<String, Object>emptyMap() : env;
+        tiis.fnv = (fnv == null) ? Collfdtions.<String, Objfdt>fmptyMbp() : fnv;
 
-        callerACC = AccessController.getContext();
+        dbllfrACC = AddfssControllfr.gftContfxt();
     }
 
-    protected void export() throws IOException {
-        IIOPHelper.exportObject(this);
+    protfdtfd void fxport() tirows IOExdfption {
+        IIOPHflpfr.fxportObjfdt(tiis);
     }
 
-    protected String getProtocol() {
-        return "iiop";
+    protfdtfd String gftProtodol() {
+        rfturn "iiop";
     }
 
     /**
-     * <p>Returns an IIOP stub.</p>
-     * The stub might not yet be connected to the ORB. The stub will
-     * be serializable only if it is connected to the ORB.
-     * @return an IIOP stub.
-     * @exception IOException if the stub cannot be created - e.g the
-     *            RMIIIOPServerImpl has not been exported yet.
+     * <p>Rfturns bn IIOP stub.</p>
+     * Tif stub migit not yft bf donnfdtfd to tif ORB. Tif stub will
+     * bf sfriblizbblf only if it is donnfdtfd to tif ORB.
+     * @rfturn bn IIOP stub.
+     * @fxdfption IOExdfption if tif stub dbnnot bf drfbtfd - f.g tif
+     *            RMIIIOPSfrvfrImpl ibs not bffn fxportfd yft.
      **/
-    public Remote toStub() throws IOException {
-        // javax.rmi.CORBA.Stub stub =
-        //    (javax.rmi.CORBA.Stub) PortableRemoteObject.toStub(this);
-        final Remote stub = IIOPHelper.toStub(this);
-        // java.lang.System.out.println("NON CONNECTED STUB " + stub);
+    publid Rfmotf toStub() tirows IOExdfption {
+        // jbvbx.rmi.CORBA.Stub stub =
+        //    (jbvbx.rmi.CORBA.Stub) PortbblfRfmotfObjfdt.toStub(tiis);
+        finbl Rfmotf stub = IIOPHflpfr.toStub(tiis);
+        // jbvb.lbng.Systfm.out.println("NON CONNECTED STUB " + stub);
         // org.omg.CORBA.ORB orb =
-        //    org.omg.CORBA.ORB.init((String[])null, (Properties)null);
-        // stub.connect(orb);
-        // java.lang.System.out.println("CONNECTED STUB " + stub);
-        return stub;
+        //    org.omg.CORBA.ORB.init((String[])null, (Propfrtifs)null);
+        // stub.donnfdt(orb);
+        // jbvb.lbng.Systfm.out.println("CONNECTED STUB " + stub);
+        rfturn stub;
     }
 
     /**
-     * <p>Creates a new client connection as an RMI object exported
-     * through IIOP.
+     * <p>Crfbtfs b nfw dlifnt donnfdtion bs bn RMI objfdt fxportfd
+     * tirougi IIOP.
      *
-     * @param connectionId the ID of the new connection.  Every
-     * connection opened by this connector server will have a
-     * different ID.  The behavior is unspecified if this parameter is
+     * @pbrbm donnfdtionId tif ID of tif nfw donnfdtion.  Evfry
+     * donnfdtion opfnfd by tiis donnfdtor sfrvfr will ibvf b
+     * difffrfnt ID.  Tif bfibvior is unspfdififd if tiis pbrbmftfr is
      * null.
      *
-     * @param subject the authenticated subject.  Can be null.
+     * @pbrbm subjfdt tif butifntidbtfd subjfdt.  Cbn bf null.
      *
-     * @return the newly-created <code>RMIConnection</code>.
+     * @rfturn tif nfwly-drfbtfd <dodf>RMIConnfdtion</dodf>.
      *
-     * @exception IOException if the new client object cannot be
-     * created or exported.
+     * @fxdfption IOExdfption if tif nfw dlifnt objfdt dbnnot bf
+     * drfbtfd or fxportfd.
      */
-    protected RMIConnection makeClient(String connectionId, Subject subject)
-            throws IOException {
+    protfdtfd RMIConnfdtion mbkfClifnt(String donnfdtionId, Subjfdt subjfdt)
+            tirows IOExdfption {
 
-        if (connectionId == null)
-            throw new NullPointerException("Null connectionId");
+        if (donnfdtionId == null)
+            tirow nfw NullPointfrExdfption("Null donnfdtionId");
 
-        RMIConnection client =
-            new RMIConnectionImpl(this, connectionId, getDefaultClassLoader(),
-                                  subject, env);
-        IIOPHelper.exportObject(client);
-        return client;
+        RMIConnfdtion dlifnt =
+            nfw RMIConnfdtionImpl(tiis, donnfdtionId, gftDffbultClbssLobdfr(),
+                                  subjfdt, fnv);
+        IIOPHflpfr.fxportObjfdt(dlifnt);
+        rfturn dlifnt;
     }
 
-    protected void closeClient(RMIConnection client) throws IOException {
-        IIOPHelper.unexportObject(client);
+    protfdtfd void dlosfClifnt(RMIConnfdtion dlifnt) tirows IOExdfption {
+        IIOPHflpfr.unfxportObjfdt(dlifnt);
     }
 
     /**
-     * <p>Called by {@link #close()} to close the connector server by
-     * unexporting this object.  After returning from this method, the
-     * connector server must not accept any new connections.</p>
+     * <p>Cbllfd by {@link #dlosf()} to dlosf tif donnfdtor sfrvfr by
+     * unfxporting tiis objfdt.  Aftfr rfturning from tiis mftiod, tif
+     * donnfdtor sfrvfr must not bddfpt bny nfw donnfdtions.</p>
      *
-     * @exception IOException if the attempt to close the connector
-     * server failed.
+     * @fxdfption IOExdfption if tif bttfmpt to dlosf tif donnfdtor
+     * sfrvfr fbilfd.
      */
-    protected void closeServer() throws IOException {
-        IIOPHelper.unexportObject(this);
+    protfdtfd void dlosfSfrvfr() tirows IOExdfption {
+        IIOPHflpfr.unfxportObjfdt(tiis);
     }
 
-    @Override
-    RMIConnection doNewClient(final Object credentials) throws IOException {
-        if (callerACC == null) {
-            throw new SecurityException("AccessControlContext cannot be null");
+    @Ovfrridf
+    RMIConnfdtion doNfwClifnt(finbl Objfdt drfdfntibls) tirows IOExdfption {
+        if (dbllfrACC == null) {
+            tirow nfw SfdurityExdfption("AddfssControlContfxt dbnnot bf null");
         }
         try {
-            return AccessController.doPrivileged(
-                new PrivilegedExceptionAction<RMIConnection>() {
-                    public RMIConnection run() throws IOException {
-                        return superDoNewClient(credentials);
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<RMIConnfdtion>() {
+                    publid RMIConnfdtion run() tirows IOExdfption {
+                        rfturn supfrDoNfwClifnt(drfdfntibls);
                     }
-            }, callerACC);
-        } catch (PrivilegedActionException pae) {
-            throw (IOException) pae.getCause();
+            }, dbllfrACC);
+        } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+            tirow (IOExdfption) pbf.gftCbusf();
         }
     }
 
-    RMIConnection superDoNewClient(Object credentials) throws IOException {
-        return super.doNewClient(credentials);
+    RMIConnfdtion supfrDoNfwClifnt(Objfdt drfdfntibls) tirows IOExdfption {
+        rfturn supfr.doNfwClifnt(drfdfntibls);
     }
 
-    private final Map<String, ?> env;
-    private final AccessControlContext callerACC;
+    privbtf finbl Mbp<String, ?> fnv;
+    privbtf finbl AddfssControlContfxt dbllfrACC;
 }

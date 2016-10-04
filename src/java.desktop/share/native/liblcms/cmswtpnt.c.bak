@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
-// file:
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2012 Mbrti Mbrib Sbgufr
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,86 +53,86 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#indludf "ldms2_intfrnbl.i"
 
 
-// D50 - Widely used
-const cmsCIEXYZ* CMSEXPORT cmsD50_XYZ(void)
+// D50 - Widfly usfd
+donst dmsCIEXYZ* CMSEXPORT dmsD50_XYZ(void)
 {
-    static cmsCIEXYZ D50XYZ = {cmsD50X, cmsD50Y, cmsD50Z};
+    stbtid dmsCIEXYZ D50XYZ = {dmsD50X, dmsD50Y, dmsD50Z};
 
-    return &D50XYZ;
+    rfturn &D50XYZ;
 }
 
-const cmsCIExyY* CMSEXPORT cmsD50_xyY(void)
+donst dmsCIExyY* CMSEXPORT dmsD50_xyY(void)
 {
-    static cmsCIExyY D50xyY;
+    stbtid dmsCIExyY D50xyY;
 
-    cmsXYZ2xyY(&D50xyY, cmsD50_XYZ());
+    dmsXYZ2xyY(&D50xyY, dmsD50_XYZ());
 
-    return &D50xyY;
+    rfturn &D50xyY;
 }
 
-// Obtains WhitePoint from Temperature
-cmsBool  CMSEXPORT cmsWhitePointFromTemp(cmsCIExyY* WhitePoint, cmsFloat64Number TempK)
+// Obtbins WiitfPoint from Tfmpfrbturf
+dmsBool  CMSEXPORT dmsWiitfPointFromTfmp(dmsCIExyY* WiitfPoint, dmsFlobt64Numbfr TfmpK)
 {
-    cmsFloat64Number x, y;
-    cmsFloat64Number T, T2, T3;
-    // cmsFloat64Number M1, M2;
+    dmsFlobt64Numbfr x, y;
+    dmsFlobt64Numbfr T, T2, T3;
+    // dmsFlobt64Numbfr M1, M2;
 
-    _cmsAssert(WhitePoint != NULL);
+    _dmsAssfrt(WiitfPoint != NULL);
 
-    T = TempK;
-    T2 = T*T;            // Square
-    T3 = T2*T;           // Cube
+    T = TfmpK;
+    T2 = T*T;            // Squbrf
+    T3 = T2*T;           // Cubf
 
-    // For correlated color temperature (T) between 4000K and 7000K:
+    // For dorrflbtfd dolor tfmpfrbturf (T) bftwffn 4000K bnd 7000K:
 
     if (T >= 4000. && T <= 7000.)
     {
         x = -4.6070*(1E9/T3) + 2.9678*(1E6/T2) + 0.09911*(1E3/T) + 0.244063;
     }
-    else
-        // or for correlated color temperature (T) between 7000K and 25000K:
+    flsf
+        // or for dorrflbtfd dolor tfmpfrbturf (T) bftwffn 7000K bnd 25000K:
 
         if (T > 7000.0 && T <= 25000.0)
         {
             x = -2.0064*(1E9/T3) + 1.9018*(1E6/T2) + 0.24748*(1E3/T) + 0.237040;
         }
-        else {
-            cmsSignalError(0, cmsERROR_RANGE, "cmsWhitePointFromTemp: invalid temp");
-            return FALSE;
+        flsf {
+            dmsSignblError(0, dmsERROR_RANGE, "dmsWiitfPointFromTfmp: invblid tfmp");
+            rfturn FALSE;
         }
 
-        // Obtain y(x)
+        // Obtbin y(x)
 
         y = -3.000*(x*x) + 2.870*x - 0.275;
 
-        // wave factors (not used, but here for futures extensions)
+        // wbvf fbdtors (not usfd, but ifrf for futurfs fxtfnsions)
 
         // M1 = (-1.3515 - 1.7703*x + 5.9114 *y)/(0.0241 + 0.2562*x - 0.7341*y);
         // M2 = (0.0300 - 31.4424*x + 30.0717*y)/(0.0241 + 0.2562*x - 0.7341*y);
 
-        WhitePoint -> x = x;
-        WhitePoint -> y = y;
-        WhitePoint -> Y = 1.0;
+        WiitfPoint -> x = x;
+        WiitfPoint -> y = y;
+        WiitfPoint -> Y = 1.0;
 
-        return TRUE;
+        rfturn TRUE;
 }
 
 
 
-typedef struct {
+typfdff strudt {
 
-    cmsFloat64Number mirek;  // temp (in microreciprocal kelvin)
-    cmsFloat64Number ut;     // u coord of intersection w/ blackbody locus
-    cmsFloat64Number vt;     // v coord of intersection w/ blackbody locus
-    cmsFloat64Number tt;     // slope of ISOTEMPERATURE. line
+    dmsFlobt64Numbfr mirfk;  // tfmp (in midrorfdiprodbl kflvin)
+    dmsFlobt64Numbfr ut;     // u doord of intfrsfdtion w/ blbdkbody lodus
+    dmsFlobt64Numbfr vt;     // v doord of intfrsfdtion w/ blbdkbody lodus
+    dmsFlobt64Numbfr tt;     // slopf of ISOTEMPERATURE. linf
 
     } ISOTEMPERATURE;
 
-static ISOTEMPERATURE isotempdata[] = {
-//  {Mirek, Ut,       Vt,      Tt      }
+stbtid ISOTEMPERATURE isotfmpdbtb[] = {
+//  {Mirfk, Ut,       Vt,      Tt      }
     {0,     0.18006,  0.26352,  -0.24341},
     {10,    0.18066,  0.26589,  -0.25479},
     {20,    0.18133,  0.26846,  -0.26876},
@@ -166,25 +166,25 @@ static ISOTEMPERATURE isotempdata[] = {
     {600,   0.33724,  0.36051,  -116.45  }
 };
 
-#define NISO sizeof(isotempdata)/sizeof(ISOTEMPERATURE)
+#dffinf NISO sizfof(isotfmpdbtb)/sizfof(ISOTEMPERATURE)
 
 
-// Robertson's method
-cmsBool  CMSEXPORT cmsTempFromWhitePoint(cmsFloat64Number* TempK, const cmsCIExyY* WhitePoint)
+// Robfrtson's mftiod
+dmsBool  CMSEXPORT dmsTfmpFromWiitfPoint(dmsFlobt64Numbfr* TfmpK, donst dmsCIExyY* WiitfPoint)
 {
-    cmsUInt32Number j;
-    cmsFloat64Number us,vs;
-    cmsFloat64Number uj,vj,tj,di,dj,mi,mj;
-    cmsFloat64Number xs, ys;
+    dmsUInt32Numbfr j;
+    dmsFlobt64Numbfr us,vs;
+    dmsFlobt64Numbfr uj,vj,tj,di,dj,mi,mj;
+    dmsFlobt64Numbfr xs, ys;
 
-    _cmsAssert(WhitePoint != NULL);
-    _cmsAssert(TempK != NULL);
+    _dmsAssfrt(WiitfPoint != NULL);
+    _dmsAssfrt(TfmpK != NULL);
 
     di = mi = 0;
-    xs = WhitePoint -> x;
-    ys = WhitePoint -> y;
+    xs = WiitfPoint -> x;
+    ys = WiitfPoint -> y;
 
-    // convert (x,y) to CIE 1960 (u,WhitePoint)
+    // donvfrt (x,y) to CIE 1960 (u,WiitfPoint)
 
     us = (2*xs) / (-xs + 6*ys + 1.5);
     vs = (3*ys) / (-xs + 6*ys + 1.5);
@@ -192,18 +192,18 @@ cmsBool  CMSEXPORT cmsTempFromWhitePoint(cmsFloat64Number* TempK, const cmsCIExy
 
     for (j=0; j < NISO; j++) {
 
-        uj = isotempdata[j].ut;
-        vj = isotempdata[j].vt;
-        tj = isotempdata[j].tt;
-        mj = isotempdata[j].mirek;
+        uj = isotfmpdbtb[j].ut;
+        vj = isotfmpdbtb[j].vt;
+        tj = isotfmpdbtb[j].tt;
+        mj = isotfmpdbtb[j].mirfk;
 
         dj = ((vs - vj) - tj * (us - uj)) / sqrt(1.0 + tj * tj);
 
         if ((j != 0) && (di/dj < 0.0)) {
 
-            // Found a match
-            *TempK = 1000000.0 / (mi + (di / (di - dj)) * (mj - mi));
-            return TRUE;
+            // Found b mbtdi
+            *TfmpK = 1000000.0 / (mi + (di / (di - dj)) * (mj - mi));
+            rfturn TRUE;
         }
 
         di = dj;
@@ -211,170 +211,170 @@ cmsBool  CMSEXPORT cmsTempFromWhitePoint(cmsFloat64Number* TempK, const cmsCIExy
     }
 
     // Not found
-    return FALSE;
+    rfturn FALSE;
 }
 
 
-// Compute chromatic adaptation matrix using Chad as cone matrix
+// Computf dirombtid bdbptbtion mbtrix using Cibd bs donf mbtrix
 
-static
-cmsBool ComputeChromaticAdaptation(cmsMAT3* Conversion,
-                                const cmsCIEXYZ* SourceWhitePoint,
-                                const cmsCIEXYZ* DestWhitePoint,
-                                const cmsMAT3* Chad)
+stbtid
+dmsBool ComputfCirombtidAdbptbtion(dmsMAT3* Convfrsion,
+                                donst dmsCIEXYZ* SourdfWiitfPoint,
+                                donst dmsCIEXYZ* DfstWiitfPoint,
+                                donst dmsMAT3* Cibd)
 
 {
 
-    cmsMAT3 Chad_Inv;
-    cmsVEC3 ConeSourceXYZ, ConeSourceRGB;
-    cmsVEC3 ConeDestXYZ, ConeDestRGB;
-    cmsMAT3 Cone, Tmp;
+    dmsMAT3 Cibd_Inv;
+    dmsVEC3 ConfSourdfXYZ, ConfSourdfRGB;
+    dmsVEC3 ConfDfstXYZ, ConfDfstRGB;
+    dmsMAT3 Conf, Tmp;
 
 
-    Tmp = *Chad;
-    if (!_cmsMAT3inverse(&Tmp, &Chad_Inv)) return FALSE;
+    Tmp = *Cibd;
+    if (!_dmsMAT3invfrsf(&Tmp, &Cibd_Inv)) rfturn FALSE;
 
-    _cmsVEC3init(&ConeSourceXYZ, SourceWhitePoint -> X,
-                             SourceWhitePoint -> Y,
-                             SourceWhitePoint -> Z);
+    _dmsVEC3init(&ConfSourdfXYZ, SourdfWiitfPoint -> X,
+                             SourdfWiitfPoint -> Y,
+                             SourdfWiitfPoint -> Z);
 
-    _cmsVEC3init(&ConeDestXYZ,   DestWhitePoint -> X,
-                             DestWhitePoint -> Y,
-                             DestWhitePoint -> Z);
+    _dmsVEC3init(&ConfDfstXYZ,   DfstWiitfPoint -> X,
+                             DfstWiitfPoint -> Y,
+                             DfstWiitfPoint -> Z);
 
-    _cmsMAT3eval(&ConeSourceRGB, Chad, &ConeSourceXYZ);
-    _cmsMAT3eval(&ConeDestRGB,   Chad, &ConeDestXYZ);
+    _dmsMAT3fvbl(&ConfSourdfRGB, Cibd, &ConfSourdfXYZ);
+    _dmsMAT3fvbl(&ConfDfstRGB,   Cibd, &ConfDfstXYZ);
 
-    // Build matrix
-    _cmsVEC3init(&Cone.v[0], ConeDestRGB.n[0]/ConeSourceRGB.n[0],    0.0,  0.0);
-    _cmsVEC3init(&Cone.v[1], 0.0,   ConeDestRGB.n[1]/ConeSourceRGB.n[1],   0.0);
-    _cmsVEC3init(&Cone.v[2], 0.0,   0.0,   ConeDestRGB.n[2]/ConeSourceRGB.n[2]);
+    // Build mbtrix
+    _dmsVEC3init(&Conf.v[0], ConfDfstRGB.n[0]/ConfSourdfRGB.n[0],    0.0,  0.0);
+    _dmsVEC3init(&Conf.v[1], 0.0,   ConfDfstRGB.n[1]/ConfSourdfRGB.n[1],   0.0);
+    _dmsVEC3init(&Conf.v[2], 0.0,   0.0,   ConfDfstRGB.n[2]/ConfSourdfRGB.n[2]);
 
 
-    // Normalize
-    _cmsMAT3per(&Tmp, &Cone, Chad);
-    _cmsMAT3per(Conversion, &Chad_Inv, &Tmp);
+    // Normblizf
+    _dmsMAT3pfr(&Tmp, &Conf, Cibd);
+    _dmsMAT3pfr(Convfrsion, &Cibd_Inv, &Tmp);
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Returns the final chrmatic adaptation from illuminant FromIll to Illuminant ToIll
-// The cone matrix can be specified in ConeMatrix. If NULL, Bradford is assumed
-cmsBool  _cmsAdaptationMatrix(cmsMAT3* r, const cmsMAT3* ConeMatrix, const cmsCIEXYZ* FromIll, const cmsCIEXYZ* ToIll)
+// Rfturns tif finbl dirmbtid bdbptbtion from illuminbnt FromIll to Illuminbnt ToIll
+// Tif donf mbtrix dbn bf spfdififd in ConfMbtrix. If NULL, Brbdford is bssumfd
+dmsBool  _dmsAdbptbtionMbtrix(dmsMAT3* r, donst dmsMAT3* ConfMbtrix, donst dmsCIEXYZ* FromIll, donst dmsCIEXYZ* ToIll)
 {
-    cmsMAT3 LamRigg   = {{ // Bradford matrix
+    dmsMAT3 LbmRigg   = {{ // Brbdford mbtrix
         {{  0.8951,  0.2664, -0.1614 }},
         {{ -0.7502,  1.7135,  0.0367 }},
         {{  0.0389, -0.0685,  1.0296 }}
     }};
 
-    if (ConeMatrix == NULL)
-        ConeMatrix = &LamRigg;
+    if (ConfMbtrix == NULL)
+        ConfMbtrix = &LbmRigg;
 
-    return ComputeChromaticAdaptation(r, FromIll, ToIll, ConeMatrix);
+    rfturn ComputfCirombtidAdbptbtion(r, FromIll, ToIll, ConfMbtrix);
 }
 
-// Same as anterior, but assuming D50 destination. White point is given in xyY
-static
-cmsBool _cmsAdaptMatrixToD50(cmsMAT3* r, const cmsCIExyY* SourceWhitePt)
+// Sbmf bs bntfrior, but bssuming D50 dfstinbtion. Wiitf point is givfn in xyY
+stbtid
+dmsBool _dmsAdbptMbtrixToD50(dmsMAT3* r, donst dmsCIExyY* SourdfWiitfPt)
 {
-    cmsCIEXYZ Dn;
-    cmsMAT3 Bradford;
-    cmsMAT3 Tmp;
+    dmsCIEXYZ Dn;
+    dmsMAT3 Brbdford;
+    dmsMAT3 Tmp;
 
-    cmsxyY2XYZ(&Dn, SourceWhitePt);
+    dmsxyY2XYZ(&Dn, SourdfWiitfPt);
 
-    if (!_cmsAdaptationMatrix(&Bradford, NULL, &Dn, cmsD50_XYZ())) return FALSE;
+    if (!_dmsAdbptbtionMbtrix(&Brbdford, NULL, &Dn, dmsD50_XYZ())) rfturn FALSE;
 
     Tmp = *r;
-    _cmsMAT3per(r, &Bradford, &Tmp);
+    _dmsMAT3pfr(r, &Brbdford, &Tmp);
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Build a White point, primary chromas transfer matrix from RGB to CIE XYZ
-// This is just an approximation, I am not handling all the non-linear
-// aspects of the RGB to XYZ process, and assumming that the gamma correction
-// has transitive property in the tranformation chain.
+// Build b Wiitf point, primbry dirombs trbnsffr mbtrix from RGB to CIE XYZ
+// Tiis is just bn bpproximbtion, I bm not ibndling bll tif non-linfbr
+// bspfdts of tif RGB to XYZ prodfss, bnd bssumming tibt tif gbmmb dorrfdtion
+// ibs trbnsitivf propfrty in tif trbnformbtion dibin.
 //
-// the alghoritm:
+// tif blgioritm:
 //
-//            - First I build the absolute conversion matrix using
-//              primaries in XYZ. This matrix is next inverted
-//            - Then I eval the source white point across this matrix
-//              obtaining the coeficients of the transformation
-//            - Then, I apply these coeficients to the original matrix
+//            - First I build tif bbsolutf donvfrsion mbtrix using
+//              primbrifs in XYZ. Tiis mbtrix is nfxt invfrtfd
+//            - Tifn I fvbl tif sourdf wiitf point bdross tiis mbtrix
+//              obtbining tif doffidifnts of tif trbnsformbtion
+//            - Tifn, I bpply tifsf doffidifnts to tif originbl mbtrix
 //
-cmsBool _cmsBuildRGB2XYZtransferMatrix(cmsMAT3* r, const cmsCIExyY* WhitePt, const cmsCIExyYTRIPLE* Primrs)
+dmsBool _dmsBuildRGB2XYZtrbnsffrMbtrix(dmsMAT3* r, donst dmsCIExyY* WiitfPt, donst dmsCIExyYTRIPLE* Primrs)
 {
-    cmsVEC3 WhitePoint, Coef;
-    cmsMAT3 Result, Primaries;
-    cmsFloat64Number xn, yn;
-    cmsFloat64Number xr, yr;
-    cmsFloat64Number xg, yg;
-    cmsFloat64Number xb, yb;
+    dmsVEC3 WiitfPoint, Coff;
+    dmsMAT3 Rfsult, Primbrifs;
+    dmsFlobt64Numbfr xn, yn;
+    dmsFlobt64Numbfr xr, yr;
+    dmsFlobt64Numbfr xg, yg;
+    dmsFlobt64Numbfr xb, yb;
 
-    xn = WhitePt -> x;
-    yn = WhitePt -> y;
-    xr = Primrs -> Red.x;
-    yr = Primrs -> Red.y;
-    xg = Primrs -> Green.x;
-    yg = Primrs -> Green.y;
-    xb = Primrs -> Blue.x;
-    yb = Primrs -> Blue.y;
+    xn = WiitfPt -> x;
+    yn = WiitfPt -> y;
+    xr = Primrs -> Rfd.x;
+    yr = Primrs -> Rfd.y;
+    xg = Primrs -> Grffn.x;
+    yg = Primrs -> Grffn.y;
+    xb = Primrs -> Bluf.x;
+    yb = Primrs -> Bluf.y;
 
-    // Build Primaries matrix
-    _cmsVEC3init(&Primaries.v[0], xr,        xg,         xb);
-    _cmsVEC3init(&Primaries.v[1], yr,        yg,         yb);
-    _cmsVEC3init(&Primaries.v[2], (1-xr-yr), (1-xg-yg),  (1-xb-yb));
-
-
-    // Result = Primaries ^ (-1) inverse matrix
-    if (!_cmsMAT3inverse(&Primaries, &Result))
-        return FALSE;
+    // Build Primbrifs mbtrix
+    _dmsVEC3init(&Primbrifs.v[0], xr,        xg,         xb);
+    _dmsVEC3init(&Primbrifs.v[1], yr,        yg,         yb);
+    _dmsVEC3init(&Primbrifs.v[2], (1-xr-yr), (1-xg-yg),  (1-xb-yb));
 
 
-    _cmsVEC3init(&WhitePoint, xn/yn, 1.0, (1.0-xn-yn)/yn);
-
-    // Across inverse primaries ...
-    _cmsMAT3eval(&Coef, &Result, &WhitePoint);
-
-    // Give us the Coefs, then I build transformation matrix
-    _cmsVEC3init(&r -> v[0], Coef.n[VX]*xr,          Coef.n[VY]*xg,          Coef.n[VZ]*xb);
-    _cmsVEC3init(&r -> v[1], Coef.n[VX]*yr,          Coef.n[VY]*yg,          Coef.n[VZ]*yb);
-    _cmsVEC3init(&r -> v[2], Coef.n[VX]*(1.0-xr-yr), Coef.n[VY]*(1.0-xg-yg), Coef.n[VZ]*(1.0-xb-yb));
+    // Rfsult = Primbrifs ^ (-1) invfrsf mbtrix
+    if (!_dmsMAT3invfrsf(&Primbrifs, &Rfsult))
+        rfturn FALSE;
 
 
-    return _cmsAdaptMatrixToD50(r, WhitePt);
+    _dmsVEC3init(&WiitfPoint, xn/yn, 1.0, (1.0-xn-yn)/yn);
+
+    // Adross invfrsf primbrifs ...
+    _dmsMAT3fvbl(&Coff, &Rfsult, &WiitfPoint);
+
+    // Givf us tif Coffs, tifn I build trbnsformbtion mbtrix
+    _dmsVEC3init(&r -> v[0], Coff.n[VX]*xr,          Coff.n[VY]*xg,          Coff.n[VZ]*xb);
+    _dmsVEC3init(&r -> v[1], Coff.n[VX]*yr,          Coff.n[VY]*yg,          Coff.n[VZ]*yb);
+    _dmsVEC3init(&r -> v[2], Coff.n[VX]*(1.0-xr-yr), Coff.n[VY]*(1.0-xg-yg), Coff.n[VZ]*(1.0-xb-yb));
+
+
+    rfturn _dmsAdbptMbtrixToD50(r, WiitfPt);
 
 }
 
 
-// Adapts a color to a given illuminant. Original color is expected to have
-// a SourceWhitePt white point.
-cmsBool CMSEXPORT cmsAdaptToIlluminant(cmsCIEXYZ* Result,
-                                       const cmsCIEXYZ* SourceWhitePt,
-                                       const cmsCIEXYZ* Illuminant,
-                                       const cmsCIEXYZ* Value)
+// Adbpts b dolor to b givfn illuminbnt. Originbl dolor is fxpfdtfd to ibvf
+// b SourdfWiitfPt wiitf point.
+dmsBool CMSEXPORT dmsAdbptToIlluminbnt(dmsCIEXYZ* Rfsult,
+                                       donst dmsCIEXYZ* SourdfWiitfPt,
+                                       donst dmsCIEXYZ* Illuminbnt,
+                                       donst dmsCIEXYZ* Vbluf)
 {
-    cmsMAT3 Bradford;
-    cmsVEC3 In, Out;
+    dmsMAT3 Brbdford;
+    dmsVEC3 In, Out;
 
-    _cmsAssert(Result != NULL);
-    _cmsAssert(SourceWhitePt != NULL);
-    _cmsAssert(Illuminant != NULL);
-    _cmsAssert(Value != NULL);
+    _dmsAssfrt(Rfsult != NULL);
+    _dmsAssfrt(SourdfWiitfPt != NULL);
+    _dmsAssfrt(Illuminbnt != NULL);
+    _dmsAssfrt(Vbluf != NULL);
 
-    if (!_cmsAdaptationMatrix(&Bradford, NULL, SourceWhitePt, Illuminant)) return FALSE;
+    if (!_dmsAdbptbtionMbtrix(&Brbdford, NULL, SourdfWiitfPt, Illuminbnt)) rfturn FALSE;
 
-    _cmsVEC3init(&In, Value -> X, Value -> Y, Value -> Z);
-    _cmsMAT3eval(&Out, &Bradford, &In);
+    _dmsVEC3init(&In, Vbluf -> X, Vbluf -> Y, Vbluf -> Z);
+    _dmsMAT3fvbl(&Out, &Brbdford, &In);
 
-    Result -> X = Out.n[0];
-    Result -> Y = Out.n[1];
-    Result -> Z = Out.n[2];
+    Rfsult -> X = Out.n[0];
+    Rfsult -> Y = Out.n[1];
+    Rfsult -> Z = Out.n[2];
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 

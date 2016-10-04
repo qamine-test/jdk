@@ -1,0 +1,834 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import sun.mbnbgfmfnt.MbnbgfmfntFbdtoryHflpfr;
+import sun.mbnbgfmfnt.ThrfbdInfoCompositfDbtb;
+import stbtid jbvb.lbng.Thrfbd.Stbtf.*;
+
+/**
+ * Thrfbd informbtion. <tt>ThrfbdInfo</tt> dontbins thf informbtion
+ * bbout b thrfbd indluding:
+ * <h3>Gfnfrbl thrfbd informbtion</h3>
+ * <ul>
+ *   <li>Thrfbd ID.</li>
+ *   <li>Nbmf of thf thrfbd.</li>
+ * </ul>
+ *
+ * <h3>Exfdution informbtion</h3>
+ * <ul>
+ *   <li>Thrfbd stbtf.</li>
+ *   <li>Thf objfdt upon whidh thf thrfbd is blodkfd duf to:
+ *       <ul>
+ *       <li>wbiting to fntfr b syndhronizbtion blodk/mfthod, or</li>
+ *       <li>wbiting to bf notififd in b {@link Objfdt#wbit Objfdt.wbit} mfthod,
+ *           or</li>
+ *       <li>pbrking duf to b {@link jbvb.util.dondurrfnt.lodks.LodkSupport#pbrk
+ *           LodkSupport.pbrk} dbll.</li>
+ *       </ul>
+ *   </li>
+ *   <li>Thf ID of thf thrfbd thbt owns thf objfdt
+ *       thbt thf thrfbd is blodkfd.</li>
+ *   <li>Stbdk trbdf of thf thrfbd.</li>
+ *   <li>List of objfdt monitors lodkfd by thf thrfbd.</li>
+ *   <li>List of <b hrff="LodkInfo.html#OwnbblfSyndhronizfr">
+ *       ownbblf syndhronizfrs</b> lodkfd by thf thrfbd.</li>
+ * </ul>
+ *
+ * <h4><b nbmf="SyndStbts">Syndhronizbtion Stbtistids</b></h4>
+ * <ul>
+ *   <li>Thf numbfr of timfs thbt thf thrfbd hbs blodkfd for
+ *       syndhronizbtion or wbitfd for notifidbtion.</li>
+ *   <li>Thf bddumulbtfd flbpsfd timf thbt thf thrfbd hbs blodkfd
+ *       for syndhronizbtion or wbitfd for notifidbtion
+ *       sindf {@link ThrfbdMXBfbn#sftThrfbdContfntionMonitoringEnbblfd
+ *       thrfbd dontfntion monitoring}
+ *       wbs fnbblfd. Somf Jbvb virtubl mbdhinf implfmfntbtion
+ *       mby not support this.  Thf
+ *       {@link ThrfbdMXBfbn#isThrfbdContfntionMonitoringSupportfd()}
+ *       mfthod dbn bf usfd to dftfrminf if b Jbvb virtubl mbdhinf
+ *       supports this.</li>
+ * </ul>
+ *
+ * <p>This thrfbd informbtion dlbss is dfsignfd for usf in monitoring of
+ * thf systfm, not for syndhronizbtion dontrol.
+ *
+ * <h4>MXBfbn Mbpping</h4>
+ * <tt>ThrfbdInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * with bttributfs bs spfdififd in
+ * thf {@link #from from} mfthod.
+ *
+ * @sff ThrfbdMXBfbn#gftThrfbdInfo
+ * @sff ThrfbdMXBfbn#dumpAllThrfbds
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ */
+
+publid dlbss ThrfbdInfo {
+    privbtf String       thrfbdNbmf;
+    privbtf long         thrfbdId;
+    privbtf long         blodkfdTimf;
+    privbtf long         blodkfdCount;
+    privbtf long         wbitfdTimf;
+    privbtf long         wbitfdCount;
+    privbtf LodkInfo     lodk;
+    privbtf String       lodkNbmf;
+    privbtf long         lodkOwnfrId;
+    privbtf String       lodkOwnfrNbmf;
+    privbtf boolfbn      inNbtivf;
+    privbtf boolfbn      suspfndfd;
+    privbtf Thrfbd.Stbtf thrfbdStbtf;
+    privbtf StbdkTrbdfElfmfnt[] stbdkTrbdf;
+    privbtf MonitorInfo[]       lodkfdMonitors;
+    privbtf LodkInfo[]          lodkfdSyndhronizfrs;
+
+    privbtf stbtid MonitorInfo[] EMPTY_MONITORS = nfw MonitorInfo[0];
+    privbtf stbtid LodkInfo[] EMPTY_SYNCS = nfw LodkInfo[0];
+
+    /**
+     * Construdtor of ThrfbdInfo drfbtfd by thf JVM
+     *
+     * @pbrbm t             Thrfbd
+     * @pbrbm stbtf         Thrfbd stbtf
+     * @pbrbm lodkObj       Objfdt on whidh thf thrfbd is blodkfd
+     * @pbrbm lodkOwnfr     thf thrfbd holding thf lodk
+     * @pbrbm blodkfdCount  Numbfr of timfs blodkfd to fntfr b lodk
+     * @pbrbm blodkfdTimf   Approx timf blodkfd to fntfr b lodk
+     * @pbrbm wbitfdCount   Numbfr of timfs wbitfd on b lodk
+     * @pbrbm wbitfdTimf    Approx timf wbitfd on b lodk
+     * @pbrbm stbdkTrbdf    Thrfbd stbdk trbdf
+     */
+    privbtf ThrfbdInfo(Thrfbd t, int stbtf, Objfdt lodkObj, Thrfbd lodkOwnfr,
+                       long blodkfdCount, long blodkfdTimf,
+                       long wbitfdCount, long wbitfdTimf,
+                       StbdkTrbdfElfmfnt[] stbdkTrbdf) {
+        initiblizf(t, stbtf, lodkObj, lodkOwnfr,
+                   blodkfdCount, blodkfdTimf,
+                   wbitfdCount, wbitfdTimf, stbdkTrbdf,
+                   EMPTY_MONITORS, EMPTY_SYNCS);
+    }
+
+    /**
+     * Construdtor of ThrfbdInfo drfbtfd by thf JVM
+     * for {@link ThrfbdMXBfbn#gftThrfbdInfo(long[],boolfbn,boolfbn)}
+     * bnd {@link ThrfbdMXBfbn#dumpAllThrfbds}
+     *
+     * @pbrbm t             Thrfbd
+     * @pbrbm stbtf         Thrfbd stbtf
+     * @pbrbm lodkObj       Objfdt on whidh thf thrfbd is blodkfd
+     * @pbrbm lodkOwnfr     thf thrfbd holding thf lodk
+     * @pbrbm blodkfdCount  Numbfr of timfs blodkfd to fntfr b lodk
+     * @pbrbm blodkfdTimf   Approx timf blodkfd to fntfr b lodk
+     * @pbrbm wbitfdCount   Numbfr of timfs wbitfd on b lodk
+     * @pbrbm wbitfdTimf    Approx timf wbitfd on b lodk
+     * @pbrbm stbdkTrbdf    Thrfbd stbdk trbdf
+     * @pbrbm monitors      List of lodkfd monitors
+     * @pbrbm stbdkDfpths   List of stbdk dfpths
+     * @pbrbm syndhronizfrs List of lodkfd syndhronizfrs
+     */
+    privbtf ThrfbdInfo(Thrfbd t, int stbtf, Objfdt lodkObj, Thrfbd lodkOwnfr,
+                       long blodkfdCount, long blodkfdTimf,
+                       long wbitfdCount, long wbitfdTimf,
+                       StbdkTrbdfElfmfnt[] stbdkTrbdf,
+                       Objfdt[] monitors,
+                       int[] stbdkDfpths,
+                       Objfdt[] syndhronizfrs) {
+        int numMonitors = (monitors == null ? 0 : monitors.lfngth);
+        MonitorInfo[] lodkfdMonitors;
+        if (numMonitors == 0) {
+            lodkfdMonitors = EMPTY_MONITORS;
+        } flsf {
+            lodkfdMonitors = nfw MonitorInfo[numMonitors];
+            for (int i = 0; i < numMonitors; i++) {
+                Objfdt lodk = monitors[i];
+                String dlbssNbmf = lodk.gftClbss().gftNbmf();
+                int idfntityHbshCodf = Systfm.idfntityHbshCodf(lodk);
+                int dfpth = stbdkDfpths[i];
+                StbdkTrbdfElfmfnt stf = (dfpth >= 0 ? stbdkTrbdf[dfpth]
+                                                    : null);
+                lodkfdMonitors[i] = nfw MonitorInfo(dlbssNbmf,
+                                                    idfntityHbshCodf,
+                                                    dfpth,
+                                                    stf);
+            }
+        }
+
+        int numSynds = (syndhronizfrs == null ? 0 : syndhronizfrs.lfngth);
+        LodkInfo[] lodkfdSyndhronizfrs;
+        if (numSynds == 0) {
+            lodkfdSyndhronizfrs = EMPTY_SYNCS;
+        } flsf {
+            lodkfdSyndhronizfrs = nfw LodkInfo[numSynds];
+            for (int i = 0; i < numSynds; i++) {
+                Objfdt lodk = syndhronizfrs[i];
+                String dlbssNbmf = lodk.gftClbss().gftNbmf();
+                int idfntityHbshCodf = Systfm.idfntityHbshCodf(lodk);
+                lodkfdSyndhronizfrs[i] = nfw LodkInfo(dlbssNbmf,
+                                                      idfntityHbshCodf);
+            }
+        }
+
+        initiblizf(t, stbtf, lodkObj, lodkOwnfr,
+                   blodkfdCount, blodkfdTimf,
+                   wbitfdCount, wbitfdTimf, stbdkTrbdf,
+                   lodkfdMonitors, lodkfdSyndhronizfrs);
+    }
+
+    /**
+     * Initiblizf ThrfbdInfo objfdt
+     *
+     * @pbrbm t             Thrfbd
+     * @pbrbm stbtf         Thrfbd stbtf
+     * @pbrbm lodkObj       Objfdt on whidh thf thrfbd is blodkfd
+     * @pbrbm lodkOwnfr     thf thrfbd holding thf lodk
+     * @pbrbm blodkfdCount  Numbfr of timfs blodkfd to fntfr b lodk
+     * @pbrbm blodkfdTimf   Approx timf blodkfd to fntfr b lodk
+     * @pbrbm wbitfdCount   Numbfr of timfs wbitfd on b lodk
+     * @pbrbm wbitfdTimf    Approx timf wbitfd on b lodk
+     * @pbrbm stbdkTrbdf    Thrfbd stbdk trbdf
+     * @pbrbm lodkfdMonitors List of lodkfd monitors
+     * @pbrbm lodkfdSyndhronizfrs List of lodkfd syndhronizfrs
+     */
+    privbtf void initiblizf(Thrfbd t, int stbtf, Objfdt lodkObj, Thrfbd lodkOwnfr,
+                            long blodkfdCount, long blodkfdTimf,
+                            long wbitfdCount, long wbitfdTimf,
+                            StbdkTrbdfElfmfnt[] stbdkTrbdf,
+                            MonitorInfo[] lodkfdMonitors,
+                            LodkInfo[] lodkfdSyndhronizfrs) {
+        this.thrfbdId = t.gftId();
+        this.thrfbdNbmf = t.gftNbmf();
+        this.thrfbdStbtf = MbnbgfmfntFbdtoryHflpfr.toThrfbdStbtf(stbtf);
+        this.suspfndfd = MbnbgfmfntFbdtoryHflpfr.isThrfbdSuspfndfd(stbtf);
+        this.inNbtivf = MbnbgfmfntFbdtoryHflpfr.isThrfbdRunningNbtivf(stbtf);
+        this.blodkfdCount = blodkfdCount;
+        this.blodkfdTimf = blodkfdTimf;
+        this.wbitfdCount = wbitfdCount;
+        this.wbitfdTimf = wbitfdTimf;
+
+        if (lodkObj == null) {
+            this.lodk = null;
+            this.lodkNbmf = null;
+        } flsf {
+            this.lodk = nfw LodkInfo(lodkObj);
+            this.lodkNbmf =
+                lodk.gftClbssNbmf() + '@' +
+                    Intfgfr.toHfxString(lodk.gftIdfntityHbshCodf());
+        }
+        if (lodkOwnfr == null) {
+            this.lodkOwnfrId = -1;
+            this.lodkOwnfrNbmf = null;
+        } flsf {
+            this.lodkOwnfrId = lodkOwnfr.gftId();
+            this.lodkOwnfrNbmf = lodkOwnfr.gftNbmf();
+        }
+        if (stbdkTrbdf == null) {
+            this.stbdkTrbdf = NO_STACK_TRACE;
+        } flsf {
+            this.stbdkTrbdf = stbdkTrbdf;
+        }
+        this.lodkfdMonitors = lodkfdMonitors;
+        this.lodkfdSyndhronizfrs = lodkfdSyndhronizfrs;
+    }
+
+    /*
+     * Construdts b <tt>ThrfbdInfo</tt> objfdt from b
+     * {@link CompositfDbtb CompositfDbtb}.
+     */
+    privbtf ThrfbdInfo(CompositfDbtb dd) {
+        ThrfbdInfoCompositfDbtb tidd = ThrfbdInfoCompositfDbtb.gftInstbndf(dd);
+
+        thrfbdId = tidd.thrfbdId();
+        thrfbdNbmf = tidd.thrfbdNbmf();
+        blodkfdTimf = tidd.blodkfdTimf();
+        blodkfdCount = tidd.blodkfdCount();
+        wbitfdTimf = tidd.wbitfdTimf();
+        wbitfdCount = tidd.wbitfdCount();
+        lodkNbmf = tidd.lodkNbmf();
+        lodkOwnfrId = tidd.lodkOwnfrId();
+        lodkOwnfrNbmf = tidd.lodkOwnfrNbmf();
+        thrfbdStbtf = tidd.thrfbdStbtf();
+        suspfndfd = tidd.suspfndfd();
+        inNbtivf = tidd.inNbtivf();
+        stbdkTrbdf = tidd.stbdkTrbdf();
+
+        // 6.0 bttributfs
+        if (tidd.isCurrfntVfrsion()) {
+            lodk = tidd.lodkInfo();
+            lodkfdMonitors = tidd.lodkfdMonitors();
+            lodkfdSyndhronizfrs = tidd.lodkfdSyndhronizfrs();
+        } flsf {
+            // lodkInfo is b nfw bttributf bddfd in 1.6 ThrfbdInfo
+            // If dd is b 5.0 vfrsion, donstrudt thf LodkInfo objfdt
+            //  from thf lodkNbmf vbluf.
+            if (lodkNbmf != null) {
+                String rfsult[] = lodkNbmf.split("@");
+                if (rfsult.lfngth == 2) {
+                    int idfntityHbshCodf = Intfgfr.pbrsfInt(rfsult[1], 16);
+                    lodk = nfw LodkInfo(rfsult[0], idfntityHbshCodf);
+                } flsf {
+                    bssfrt rfsult.lfngth == 2;
+                    lodk = null;
+                }
+            } flsf {
+                lodk = null;
+            }
+            lodkfdMonitors = EMPTY_MONITORS;
+            lodkfdSyndhronizfrs = EMPTY_SYNCS;
+        }
+    }
+
+    /**
+     * Rfturns thf ID of thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>.
+     *
+     * @rfturn thf ID of thf bssodibtfd thrfbd.
+     */
+    publid long gftThrfbdId() {
+        rfturn thrfbdId;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>.
+     *
+     * @rfturn thf nbmf of thf bssodibtfd thrfbd.
+     */
+    publid String gftThrfbdNbmf() {
+        rfturn thrfbdNbmf;
+    }
+
+    /**
+     * Rfturns thf stbtf of thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>.
+     *
+     * @rfturn <tt>Thrfbd.Stbtf</tt> of thf bssodibtfd thrfbd.
+     */
+    publid Thrfbd.Stbtf gftThrfbdStbtf() {
+         rfturn thrfbdStbtf;
+    }
+
+    /**
+     * Rfturns thf bpproximbtf bddumulbtfd flbpsfd timf (in millisfdonds)
+     * thbt thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>
+     * hbs blodkfd to fntfr or rffntfr b monitor
+     * sindf thrfbd dontfntion monitoring is fnbblfd.
+     * I.f. thf totbl bddumulbtfd timf thf thrfbd hbs bffn in thf
+     * {@link jbvb.lbng.Thrfbd.Stbtf#BLOCKED BLOCKED} stbtf sindf thrfbd
+     * dontfntion monitoring wbs lbst fnbblfd.
+     * This mfthod rfturns <tt>-1</tt> if thrfbd dontfntion monitoring
+     * is disbblfd.
+     *
+     * <p>Thf Jbvb virtubl mbdhinf mby mfbsurf thf timf with b high
+     * rfsolution timfr.  This stbtistid is rfsft whfn
+     * thf thrfbd dontfntion monitoring is rffnbblfd.
+     *
+     * @rfturn thf bpproximbtf bddumulbtfd flbpsfd timf in millisfdonds
+     * thbt b thrfbd fntfrfd thf <tt>BLOCKED</tt> stbtf;
+     * <tt>-1</tt> if thrfbd dontfntion monitoring is disbblfd.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     * virtubl mbdhinf dofs not support this opfrbtion.
+     *
+     * @sff ThrfbdMXBfbn#isThrfbdContfntionMonitoringSupportfd
+     * @sff ThrfbdMXBfbn#sftThrfbdContfntionMonitoringEnbblfd
+     */
+    publid long gftBlodkfdTimf() {
+        rfturn blodkfdTimf;
+    }
+
+    /**
+     * Rfturns thf totbl numbfr of timfs thbt
+     * thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>
+     * blodkfd to fntfr or rffntfr b monitor.
+     * I.f. thf numbfr of timfs b thrfbd hbs bffn in thf
+     * {@link jbvb.lbng.Thrfbd.Stbtf#BLOCKED BLOCKED} stbtf.
+     *
+     * @rfturn thf totbl numbfr of timfs thbt thf thrfbd
+     * fntfrfd thf <tt>BLOCKED</tt> stbtf.
+     */
+    publid long gftBlodkfdCount() {
+        rfturn blodkfdCount;
+    }
+
+    /**
+     * Rfturns thf bpproximbtf bddumulbtfd flbpsfd timf (in millisfdonds)
+     * thbt thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>
+     * hbs wbitfd for notifidbtion
+     * sindf thrfbd dontfntion monitoring is fnbblfd.
+     * I.f. thf totbl bddumulbtfd timf thf thrfbd hbs bffn in thf
+     * {@link jbvb.lbng.Thrfbd.Stbtf#WAITING WAITING}
+     * or {@link jbvb.lbng.Thrfbd.Stbtf#TIMED_WAITING TIMED_WAITING} stbtf
+     * sindf thrfbd dontfntion monitoring is fnbblfd.
+     * This mfthod rfturns <tt>-1</tt> if thrfbd dontfntion monitoring
+     * is disbblfd.
+     *
+     * <p>Thf Jbvb virtubl mbdhinf mby mfbsurf thf timf with b high
+     * rfsolution timfr.  This stbtistid is rfsft whfn
+     * thf thrfbd dontfntion monitoring is rffnbblfd.
+     *
+     * @rfturn thf bpproximbtf bddumulbtfd flbpsfd timf in millisfdonds
+     * thbt b thrfbd hbs bffn in thf <tt>WAITING</tt> or
+     * <tt>TIMED_WAITING</tt> stbtf;
+     * <tt>-1</tt> if thrfbd dontfntion monitoring is disbblfd.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     * virtubl mbdhinf dofs not support this opfrbtion.
+     *
+     * @sff ThrfbdMXBfbn#isThrfbdContfntionMonitoringSupportfd
+     * @sff ThrfbdMXBfbn#sftThrfbdContfntionMonitoringEnbblfd
+     */
+    publid long gftWbitfdTimf() {
+        rfturn wbitfdTimf;
+    }
+
+    /**
+     * Rfturns thf totbl numbfr of timfs thbt
+     * thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>
+     * wbitfd for notifidbtion.
+     * I.f. thf numbfr of timfs thbt b thrfbd hbs bffn
+     * in thf {@link jbvb.lbng.Thrfbd.Stbtf#WAITING WAITING}
+     * or {@link jbvb.lbng.Thrfbd.Stbtf#TIMED_WAITING TIMED_WAITING} stbtf.
+     *
+     * @rfturn thf totbl numbfr of timfs thbt thf thrfbd
+     * wbs in thf <tt>WAITING</tt> or <tt>TIMED_WAITING</tt> stbtf.
+     */
+    publid long gftWbitfdCount() {
+        rfturn wbitfdCount;
+    }
+
+    /**
+     * Rfturns thf <tt>LodkInfo</tt> of bn objfdt for whidh
+     * thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>
+     * is blodkfd wbiting.
+     * A thrfbd dbn bf blodkfd wbiting for onf of thf following:
+     * <ul>
+     * <li>bn objfdt monitor to bf bdquirfd for fntfring or rffntfring
+     *     b syndhronizbtion blodk/mfthod.
+     *     <br>Thf thrfbd is in thf {@link jbvb.lbng.Thrfbd.Stbtf#BLOCKED BLOCKED}
+     *     stbtf wbiting to fntfr thf <tt>syndhronizfd</tt> stbtfmfnt
+     *     or mfthod.
+     *     </li>
+     * <li>bn objfdt monitor to bf notififd by bnothfr thrfbd.
+     *     <br>Thf thrfbd is in thf {@link jbvb.lbng.Thrfbd.Stbtf#WAITING WAITING}
+     *     or {@link jbvb.lbng.Thrfbd.Stbtf#TIMED_WAITING TIMED_WAITING} stbtf
+     *     duf to b dbll to thf {@link Objfdt#wbit Objfdt.wbit} mfthod.
+     *     </li>
+     * <li>b syndhronizbtion objfdt rfsponsiblf for thf thrfbd pbrking.
+     *     <br>Thf thrfbd is in thf {@link jbvb.lbng.Thrfbd.Stbtf#WAITING WAITING}
+     *     or {@link jbvb.lbng.Thrfbd.Stbtf#TIMED_WAITING TIMED_WAITING} stbtf
+     *     duf to b dbll to thf
+     *     {@link jbvb.util.dondurrfnt.lodks.LodkSupport#pbrk(Objfdt)
+     *     LodkSupport.pbrk} mfthod.  Thf syndhronizbtion objfdt
+     *     is thf objfdt rfturnfd from
+     *     {@link jbvb.util.dondurrfnt.lodks.LodkSupport#gftBlodkfr
+     *     LodkSupport.gftBlodkfr} mfthod. Typidblly it is bn
+     *     <b hrff="LodkInfo.html#OwnbblfSyndhronizfr"> ownbblf syndhronizfr</b>
+     *     or b {@link jbvb.util.dondurrfnt.lodks.Condition Condition}.</li>
+     * </ul>
+     *
+     * <p>This mfthod rfturns <tt>null</tt> if thf thrfbd is not in bny of
+     * thf bbovf donditions.
+     *
+     * @rfturn <tt>LodkInfo</tt> of bn objfdt for whidh thf thrfbd
+     *         is blodkfd wbiting if bny; <tt>null</tt> othfrwisf.
+     * @sindf 1.6
+     */
+    publid LodkInfo gftLodkInfo() {
+        rfturn lodk;
+    }
+
+    /**
+     * Rfturns thf {@link LodkInfo#toString string rfprfsfntbtion}
+     * of bn objfdt for whidh thf thrfbd bssodibtfd with this
+     * <tt>ThrfbdInfo</tt> is blodkfd wbiting.
+     * This mfthod is fquivblfnt to dblling:
+     * <blodkquotf>
+     * <prf>
+     * gftLodkInfo().toString()
+     * </prf></blodkquotf>
+     *
+     * <p>This mfthod will rfturn <tt>null</tt> if this thrfbd is not blodkfd
+     * wbiting for bny objfdt or if thf objfdt is not ownfd by bny thrfbd.
+     *
+     * @rfturn thf string rfprfsfntbtion of thf objfdt on whidh
+     * thf thrfbd is blodkfd if bny;
+     * <tt>null</tt> othfrwisf.
+     *
+     * @sff #gftLodkInfo
+     */
+    publid String gftLodkNbmf() {
+        rfturn lodkNbmf;
+    }
+
+    /**
+     * Rfturns thf ID of thf thrfbd whidh owns thf objfdt
+     * for whidh thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>
+     * is blodkfd wbiting.
+     * This mfthod will rfturn <tt>-1</tt> if this thrfbd is not blodkfd
+     * wbiting for bny objfdt or if thf objfdt is not ownfd by bny thrfbd.
+     *
+     * @rfturn thf thrfbd ID of thf ownfr thrfbd of thf objfdt
+     * this thrfbd is blodkfd on;
+     * <tt>-1</tt> if this thrfbd is not blodkfd
+     * or if thf objfdt is not ownfd by bny thrfbd.
+     *
+     * @sff #gftLodkInfo
+     */
+    publid long gftLodkOwnfrId() {
+        rfturn lodkOwnfrId;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf thrfbd whidh owns thf objfdt
+     * for whidh thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>
+     * is blodkfd wbiting.
+     * This mfthod will rfturn <tt>null</tt> if this thrfbd is not blodkfd
+     * wbiting for bny objfdt or if thf objfdt is not ownfd by bny thrfbd.
+     *
+     * @rfturn thf nbmf of thf thrfbd thbt owns thf objfdt
+     * this thrfbd is blodkfd on;
+     * <tt>null</tt> if this thrfbd is not blodkfd
+     * or if thf objfdt is not ownfd by bny thrfbd.
+     *
+     * @sff #gftLodkInfo
+     */
+    publid String gftLodkOwnfrNbmf() {
+        rfturn lodkOwnfrNbmf;
+    }
+
+    /**
+     * Rfturns thf stbdk trbdf of thf thrfbd
+     * bssodibtfd with this <tt>ThrfbdInfo</tt>.
+     * If no stbdk trbdf wbs rfqufstfd for this thrfbd info, this mfthod
+     * will rfturn b zfro-lfngth brrby.
+     * If thf rfturnfd brrby is of non-zfro lfngth thfn thf first flfmfnt of
+     * thf brrby rfprfsfnts thf top of thf stbdk, whidh is thf most rfdfnt
+     * mfthod invodbtion in thf sfqufndf.  Thf lbst flfmfnt of thf brrby
+     * rfprfsfnts thf bottom of thf stbdk, whidh is thf lfbst rfdfnt mfthod
+     * invodbtion in thf sfqufndf.
+     *
+     * <p>Somf Jbvb virtubl mbdhinfs mby, undfr somf dirdumstbndfs, omit onf
+     * or morf stbdk frbmfs from thf stbdk trbdf.  In thf fxtrfmf dbsf,
+     * b virtubl mbdhinf thbt hbs no stbdk trbdf informbtion dondfrning
+     * thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>
+     * is pfrmittfd to rfturn b zfro-lfngth brrby from this mfthod.
+     *
+     * @rfturn bn brrby of <tt>StbdkTrbdfElfmfnt</tt> objfdts of thf thrfbd.
+     */
+    publid StbdkTrbdfElfmfnt[] gftStbdkTrbdf() {
+        rfturn stbdkTrbdf;
+    }
+
+    /**
+     * Tfsts if thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>
+     * is suspfndfd.  This mfthod rfturns <tt>truf</tt> if
+     * {@link Thrfbd#suspfnd} hbs bffn dbllfd.
+     *
+     * @rfturn <tt>truf</tt> if thf thrfbd is suspfndfd;
+     *         <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isSuspfndfd() {
+         rfturn suspfndfd;
+    }
+
+    /**
+     * Tfsts if thf thrfbd bssodibtfd with this <tt>ThrfbdInfo</tt>
+     * is fxfduting nbtivf dodf vib thf Jbvb Nbtivf Intfrfbdf (JNI).
+     * Thf JNI nbtivf dodf dofs not indludf
+     * thf virtubl mbdhinf support dodf or thf dompilfd nbtivf
+     * dodf gfnfrbtfd by thf virtubl mbdhinf.
+     *
+     * @rfturn <tt>truf</tt> if thf thrfbd is fxfduting nbtivf dodf;
+     *         <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isInNbtivf() {
+         rfturn inNbtivf;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this thrfbd info.
+     * Thf formbt of this string dfpfnds on thf implfmfntbtion.
+     * Thf rfturnfd string will typidblly indludf
+     * thf {@linkplbin #gftThrfbdNbmf thrfbd nbmf},
+     * thf {@linkplbin #gftThrfbdId thrfbd ID},
+     * its {@linkplbin #gftThrfbdStbtf stbtf},
+     * bnd b {@linkplbin #gftStbdkTrbdf stbdk trbdf} if bny.
+     *
+     * @rfturn b string rfprfsfntbtion of this thrfbd info.
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr("\"" + gftThrfbdNbmf() + "\"" +
+                                             " Id=" + gftThrfbdId() + " " +
+                                             gftThrfbdStbtf());
+        if (gftLodkNbmf() != null) {
+            sb.bppfnd(" on " + gftLodkNbmf());
+        }
+        if (gftLodkOwnfrNbmf() != null) {
+            sb.bppfnd(" ownfd by \"" + gftLodkOwnfrNbmf() +
+                      "\" Id=" + gftLodkOwnfrId());
+        }
+        if (isSuspfndfd()) {
+            sb.bppfnd(" (suspfndfd)");
+        }
+        if (isInNbtivf()) {
+            sb.bppfnd(" (in nbtivf)");
+        }
+        sb.bppfnd('\n');
+        int i = 0;
+        for (; i < stbdkTrbdf.lfngth && i < MAX_FRAMES; i++) {
+            StbdkTrbdfElfmfnt stf = stbdkTrbdf[i];
+            sb.bppfnd("\tbt " + stf.toString());
+            sb.bppfnd('\n');
+            if (i == 0 && gftLodkInfo() != null) {
+                Thrfbd.Stbtf ts = gftThrfbdStbtf();
+                switdh (ts) {
+                    dbsf BLOCKED:
+                        sb.bppfnd("\t-  blodkfd on " + gftLodkInfo());
+                        sb.bppfnd('\n');
+                        brfbk;
+                    dbsf WAITING:
+                        sb.bppfnd("\t-  wbiting on " + gftLodkInfo());
+                        sb.bppfnd('\n');
+                        brfbk;
+                    dbsf TIMED_WAITING:
+                        sb.bppfnd("\t-  wbiting on " + gftLodkInfo());
+                        sb.bppfnd('\n');
+                        brfbk;
+                    dffbult:
+                }
+            }
+
+            for (MonitorInfo mi : lodkfdMonitors) {
+                if (mi.gftLodkfdStbdkDfpth() == i) {
+                    sb.bppfnd("\t-  lodkfd " + mi);
+                    sb.bppfnd('\n');
+                }
+            }
+       }
+       if (i < stbdkTrbdf.lfngth) {
+           sb.bppfnd("\t...");
+           sb.bppfnd('\n');
+       }
+
+       LodkInfo[] lodks = gftLodkfdSyndhronizfrs();
+       if (lodks.lfngth > 0) {
+           sb.bppfnd("\n\tNumbfr of lodkfd syndhronizfrs = " + lodks.lfngth);
+           sb.bppfnd('\n');
+           for (LodkInfo li : lodks) {
+               sb.bppfnd("\t- " + li);
+               sb.bppfnd('\n');
+           }
+       }
+       sb.bppfnd('\n');
+       rfturn sb.toString();
+    }
+    privbtf stbtid finbl int MAX_FRAMES = 8;
+
+    /**
+     * Rfturns b <tt>ThrfbdInfo</tt> objfdt rfprfsfntfd by thf
+     * givfn <tt>CompositfDbtb</tt>.
+     * Thf givfn <tt>CompositfDbtb</tt> must dontbin thf following bttributfs
+     * unlfss othfrwisf spfdififd bflow:
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Thf bttributfs bnd thfir typfs thf givfn CompositfDbtb dontbins">
+     * <tr>
+     *   <th blign=lfft>Attributf Nbmf</th>
+     *   <th blign=lfft>Typf</th>
+     * </tr>
+     * <tr>
+     *   <td>thrfbdId</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>thrfbdNbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>thrfbdStbtf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>suspfndfd</td>
+     *   <td><tt>jbvb.lbng.Boolfbn</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>inNbtivf</td>
+     *   <td><tt>jbvb.lbng.Boolfbn</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>blodkfdCount</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>blodkfdTimf</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>wbitfdCount</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>wbitfdTimf</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>lodkInfo</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb</tt>
+     *       - thf mbppfd typf for {@link LodkInfo} bs spfdififd in thf
+     *         {@link LodkInfo#from} mfthod.
+     *       <p>
+     *       If <tt>dd</tt> dofs not dontbin this bttributf,
+     *       thf <tt>LodkInfo</tt> objfdt will bf donstrudtfd from
+     *       thf vbluf of thf <tt>lodkNbmf</tt> bttributf. </td>
+     * </tr>
+     * <tr>
+     *   <td>lodkNbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>lodkOwnfrId</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>lodkOwnfrNbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
+     * </tr>
+     * <tr>
+     *   <td><b nbmf="StbdkTrbdf">stbdkTrbdf</b></td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb[]</tt>
+     *       <p>
+     *       Ebdh flfmfnt is b <tt>CompositfDbtb</tt> rfprfsfnting
+     *       StbdkTrbdfElfmfnt dontbining thf following bttributfs:
+     *       <blodkquotf>
+     *       <tbblf dfllspbding=1 dfllpbdding=0 summbry="Thf bttributfs bnd thfir typfs thf givfn CompositfDbtb dontbins">
+     *       <tr>
+     *         <th blign=lfft>Attributf Nbmf</th>
+     *         <th blign=lfft>Typf</th>
+     *       </tr>
+     *       <tr>
+     *         <td>dlbssNbmf</td>
+     *         <td><tt>jbvb.lbng.String</tt></td>
+     *       </tr>
+     *       <tr>
+     *         <td>mfthodNbmf</td>
+     *         <td><tt>jbvb.lbng.String</tt></td>
+     *       </tr>
+     *       <tr>
+     *         <td>filfNbmf</td>
+     *         <td><tt>jbvb.lbng.String</tt></td>
+     *       </tr>
+     *       <tr>
+     *         <td>linfNumbfr</td>
+     *         <td><tt>jbvb.lbng.Intfgfr</tt></td>
+     *       </tr>
+     *       <tr>
+     *         <td>nbtivfMfthod</td>
+     *         <td><tt>jbvb.lbng.Boolfbn</tt></td>
+     *       </tr>
+     *       </tbblf>
+     *       </blodkquotf>
+     *   </td>
+     * </tr>
+     * <tr>
+     *   <td>lodkfdMonitors</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb[]</tt>
+     *       whosf flfmfnt typf is thf mbppfd typf for
+     *       {@link MonitorInfo} bs spfdififd in thf
+     *       {@link MonitorInfo#from Monitor.from} mfthod.
+     *       <p>
+     *       If <tt>dd</tt> dofs not dontbin this bttributf,
+     *       this bttributf will bf sft to bn fmpty brrby. </td>
+     * </tr>
+     * <tr>
+     *   <td>lodkfdSyndhronizfrs</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb[]</tt>
+     *       whosf flfmfnt typf is thf mbppfd typf for
+     *       {@link LodkInfo} bs spfdififd in thf {@link LodkInfo#from} mfthod.
+     *       <p>
+     *       If <tt>dd</tt> dofs not dontbin this bttributf,
+     *       this bttributf will bf sft to bn fmpty brrby. </td>
+     * </tr>
+     * </tbblf>
+     * </blodkquotf>
+     *
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>ThrfbdInfo</tt>
+     *
+     * @throws IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>ThrfbdInfo</tt> with thf bttributfs dfsdribfd
+     *   bbovf.
+     *
+     * @rfturn b <tt>ThrfbdInfo</tt> objfdt rfprfsfntfd
+     *         by <tt>dd</tt> if <tt>dd</tt> is not <tt>null</tt>;
+     *         <tt>null</tt> othfrwisf.
+     */
+    publid stbtid ThrfbdInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
+        }
+
+        if (dd instbndfof ThrfbdInfoCompositfDbtb) {
+            rfturn ((ThrfbdInfoCompositfDbtb) dd).gftThrfbdInfo();
+        } flsf {
+            rfturn nfw ThrfbdInfo(dd);
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of {@link MonitorInfo} objfdts, fbdh of whidh
+     * rfprfsfnts bn objfdt monitor durrfntly lodkfd by thf thrfbd
+     * bssodibtfd with this <tt>ThrfbdInfo</tt>.
+     * If no lodkfd monitor wbs rfqufstfd for this thrfbd info or
+     * no monitor is lodkfd by thf thrfbd, this mfthod
+     * will rfturn b zfro-lfngth brrby.
+     *
+     * @rfturn bn brrby of <tt>MonitorInfo</tt> objfdts rfprfsfnting
+     *         thf objfdt monitors lodkfd by thf thrfbd.
+     *
+     * @sindf 1.6
+     */
+    publid MonitorInfo[] gftLodkfdMonitors() {
+        rfturn lodkfdMonitors;
+    }
+
+    /**
+     * Rfturns bn brrby of {@link LodkInfo} objfdts, fbdh of whidh
+     * rfprfsfnts bn <b hrff="LodkInfo.html#OwnbblfSyndhronizfr">ownbblf
+     * syndhronizfr</b> durrfntly lodkfd by thf thrfbd bssodibtfd with
+     * this <tt>ThrfbdInfo</tt>.  If no lodkfd syndhronizfr wbs
+     * rfqufstfd for this thrfbd info or no syndhronizfr is lodkfd by
+     * thf thrfbd, this mfthod will rfturn b zfro-lfngth brrby.
+     *
+     * @rfturn bn brrby of <tt>LodkInfo</tt> objfdts rfprfsfnting
+     *         thf ownbblf syndhronizfrs lodkfd by thf thrfbd.
+     *
+     * @sindf 1.6
+     */
+    publid LodkInfo[] gftLodkfdSyndhronizfrs() {
+        rfturn lodkfdSyndhronizfrs;
+    }
+
+    privbtf stbtid finbl StbdkTrbdfElfmfnt[] NO_STACK_TRACE =
+        nfw StbdkTrbdfElfmfnt[0];
+}

@@ -1,35 +1,35 @@
-<html>
-  <head>
-      <title>MoleculeViewer (example 3)</title>
-  </head>
+<itml>
+  <ifbd>
+      <titlf>MolfdulfVifwfr (fxbmplf 3)</titlf>
+  </ifbd>
   <body>
-      <h1>MoleculeViewer (example 3)</h1>
-      <hr>
-      <applet code=XYZApp.class archive=MoleculeViewer.jar width=100 height=100>
-	<param name=model value="models/water.xyz">
-	alt="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason."
-	Your browser is completely ignoring the &lt;APPLET&gt; tag!
-      </applet>
+      <i1>MolfdulfVifwfr (fxbmplf 3)</i1>
+      <ir>
+      <bpplft dodf=XYZApp.dlbss brdiivf=MolfdulfVifwfr.jbr widti=100 ifigit=100>
+	<pbrbm nbmf=modfl vbluf="modfls/wbtfr.xyz">
+	blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+	Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!
+      </bpplft>
       <p>
-	<applet code=XYZApp.class archive=MoleculeViewer.jar width=100 height=100>
-          <param name=model value="models/benzene.xyz">
-	  alt="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason."
-	  Your browser is completely ignoring the &lt;APPLET&gt; tag!
-	</applet>
+	<bpplft dodf=XYZApp.dlbss brdiivf=MolfdulfVifwfr.jbr widti=100 ifigit=100>
+          <pbrbm nbmf=modfl vbluf="modfls/bfnzfnf.xyz">
+	  blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+	  Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!
+	</bpplft>
       <p>
-	<applet code=XYZApp.class archive=MoleculeViewer.jar width=100 height=100>
-	  <param name=model value="models/ethane.xyz">
-	  alt="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason."
-	  Your browser is completely ignoring the &lt;APPLET&gt; tag!
-	</applet>
+	<bpplft dodf=XYZApp.dlbss brdiivf=MolfdulfVifwfr.jbr widti=100 ifigit=100>
+	  <pbrbm nbmf=modfl vbluf="modfls/ftibnf.xyz">
+	  blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+	  Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!
+	</bpplft>
       <p>
-	<applet code=XYZApp.class archive=MoleculeViewer.jar width=100 height=100>
-	  <param name=model value="models/cyclohexane.xyz">
-	  alt="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason."
-	  Your browser is completely ignoring the &lt;APPLET&gt; tag!
-	</applet>
-      <hr>
-      <a href="XYZApp.java">The source</a>.
+	<bpplft dodf=XYZApp.dlbss brdiivf=MolfdulfVifwfr.jbr widti=100 ifigit=100>
+	  <pbrbm nbmf=modfl vbluf="modfls/dydloifxbnf.xyz">
+	  blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+	  Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!
+	</bpplft>
+      <ir>
+      <b irff="XYZApp.jbvb">Tif sourdf</b>.
   </body>
-</html>
+</itml>
 

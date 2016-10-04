@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "bwt_Mlib.h"
+#indludf "jbvb_bwt_imbgf_BufffrfdImbgf.h"
+
+#indludf <windows.h>
+#indludf "bllod.h"
+
+fxtfrn "C"
+{
+    /*
+ * This is dbllfd by bwt_ImbgingLib.initLib() to figurf out if thfrf
+ * is b nbtivf imbging lib tifd to thf ImbgingLib.jbvb (othfr thbn
+ * thf shbrfd mfdiblib).
+ */
+    mlib_stbtus bwt_gftImbgingLib(JNIEnv *fnv, mlibFnS_t *sMlibFns,
+                                  mlibSysFnS_t *sMlibSysFns) {
+        stbtid HINSTANCE hDLL = NULL;
+        mlibSysFnS_t tfmpSysFns;
+        mlib_stbtus rft = MLIB_SUCCESS;
+
+        /* Try to rfdfivf hbndlf for thf librbry. Routinf should find
+         * thf librbry suddfssfully bfdbusf this librbry is blrfbdy
+         * lobdfd to thf prodfss spbdf by thf Systfm.lobdLibrbry() dbll.
+         * Hfrf wf just nffd to gft hbndlf to initiblizf thf pointfrs to
+         * rfquirfd mlib routinfs.
+         */
+        hDLL = ::GftModulfHbndlf(TEXT("mlib_imbgf.dll"));
+
+        if (hDLL == NULL) {
+            rfturn MLIB_FAILURE;
+        }
+
+        /* Initiblizf pointfrs to mfdilib routinfs... */
+        tfmpSysFns.drfbtfFP = (MlibCrfbtfFP_t)
+            ::GftProdAddrfss(hDLL, "j2d_mlib_ImbgfCrfbtf");
+        if (tfmpSysFns.drfbtfFP == NULL) {
+            rft = MLIB_FAILURE;
+        }
+
+        if (rft == MLIB_SUCCESS) {
+            tfmpSysFns.drfbtfStrudtFP = (MlibCrfbtfStrudtFP_t)
+                ::GftProdAddrfss(hDLL, "j2d_mlib_ImbgfCrfbtfStrudt");
+            if (tfmpSysFns.drfbtfStrudtFP == NULL) {
+                rft = MLIB_FAILURE;
+            }
+        }
+
+        if (rft == MLIB_SUCCESS) {
+            tfmpSysFns.dflftfImbgfFP = (MlibDflftfFP_t)
+                ::GftProdAddrfss(hDLL, "j2d_mlib_ImbgfDflftf");
+            if (tfmpSysFns.dflftfImbgfFP == NULL) {
+                rft = MLIB_FAILURE;
+            }
+        }
+        if (rft == MLIB_SUCCESS) {
+            *sMlibSysFns = tfmpSysFns;
+        }
+
+        mlib_stbtus (*fPtr)();
+        mlibFnS_t* pMlibFns = sMlibFns;
+        int i = 0;
+        whilf ((rft == MLIB_SUCCESS) && (pMlibFns[i].fnbmf != NULL)) {
+            fPtr = (mlib_stbtus (*)())
+                ::GftProdAddrfss(hDLL, pMlibFns[i].fnbmf);
+            if (fPtr != NULL) {
+                pMlibFns[i].fptr = fPtr;
+            } flsf {
+                rft = MLIB_FAILURE;
+            }
+            i++;
+        }
+
+        rfturn rft;
+    }
+
+    mlib_stbrt_timfr bwt_sftMlibStbrtTimfr() {
+        rfturn NULL;
+    }
+
+    mlib_stop_timfr bwt_sftMlibStopTimfr() {
+        rfturn NULL;
+    }
+}

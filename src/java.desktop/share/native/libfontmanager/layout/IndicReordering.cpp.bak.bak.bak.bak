@@ -1,0 +1,1264 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2009 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "OpfnTypfUtilitifs.h"
+#indludf "IndidRfordfring.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "MPrfFixups.h"
+
+U_NAMESPACE_BEGIN
+
+#dffinf lodlFfbturfTbg LE_LOCL_FEATURE_TAG
+#dffinf initFfbturfTbg LE_INIT_FEATURE_TAG
+#dffinf nuktFfbturfTbg LE_NUKT_FEATURE_TAG
+#dffinf bkhnFfbturfTbg LE_AKHN_FEATURE_TAG
+#dffinf rphfFfbturfTbg LE_RPHF_FEATURE_TAG
+#dffinf rkrfFfbturfTbg LE_RKRF_FEATURE_TAG
+#dffinf blwfFfbturfTbg LE_BLWF_FEATURE_TAG
+#dffinf hblfFfbturfTbg LE_HALF_FEATURE_TAG
+#dffinf pstfFfbturfTbg LE_PSTF_FEATURE_TAG
+#dffinf vbtuFfbturfTbg LE_VATU_FEATURE_TAG
+#dffinf prfsFfbturfTbg LE_PRES_FEATURE_TAG
+#dffinf blwsFfbturfTbg LE_BLWS_FEATURE_TAG
+#dffinf bbvsFfbturfTbg LE_ABVS_FEATURE_TAG
+#dffinf pstsFfbturfTbg LE_PSTS_FEATURE_TAG
+#dffinf hblnFfbturfTbg LE_HALN_FEATURE_TAG
+#dffinf djdtFfbturfTbg LE_CJCT_FEATURE_TAG
+#dffinf blwmFfbturfTbg LE_BLWM_FEATURE_TAG
+#dffinf bbvmFfbturfTbg LE_ABVM_FEATURE_TAG
+#dffinf distFfbturfTbg LE_DIST_FEATURE_TAG
+#dffinf dbltFfbturfTbg LE_CALT_FEATURE_TAG
+#dffinf kfrnFfbturfTbg LE_KERN_FEATURE_TAG
+
+#dffinf lodlFfbturfMbsk 0x80000000UL
+#dffinf rphfFfbturfMbsk 0x40000000UL
+#dffinf blwfFfbturfMbsk 0x20000000UL
+#dffinf hblfFfbturfMbsk 0x10000000UL
+#dffinf pstfFfbturfMbsk 0x08000000UL
+#dffinf nuktFfbturfMbsk 0x04000000UL
+#dffinf bkhnFfbturfMbsk 0x02000000UL
+#dffinf vbtuFfbturfMbsk 0x01000000UL
+#dffinf prfsFfbturfMbsk 0x00800000UL
+#dffinf blwsFfbturfMbsk 0x00400000UL
+#dffinf bbvsFfbturfMbsk 0x00200000UL
+#dffinf pstsFfbturfMbsk 0x00100000UL
+#dffinf hblnFfbturfMbsk 0x00080000UL
+#dffinf blwmFfbturfMbsk 0x00040000UL
+#dffinf bbvmFfbturfMbsk 0x00020000UL
+#dffinf distFfbturfMbsk 0x00010000UL
+#dffinf initFfbturfMbsk 0x00008000UL
+#dffinf djdtFfbturfMbsk 0x00004000UL
+#dffinf rkrfFfbturfMbsk 0x00002000UL
+#dffinf dbltFfbturfMbsk 0x00001000UL
+#dffinf kfrnFfbturfMbsk 0x00000800UL
+
+// Syllbblf strudturf bits
+#dffinf bbsfConsonbntMbsk       0x00000400UL
+#dffinf donsonbntMbsk           0x00000200UL
+#dffinf hblfConsonbntMbsk       0x00000100UL
+#dffinf rfphConsonbntMbsk       0x00000080UL
+#dffinf mbtrbMbsk               0x00000040UL
+#dffinf vowflModififrMbsk       0x00000020UL
+#dffinf mbrkPositionMbsk        0x00000018UL
+
+#dffinf postBbsfPosition        0x00000000UL
+#dffinf prfBbsfPosition         0x00000008UL
+#dffinf bbovfBbsfPosition       0x00000010UL
+#dffinf bflowBbsfPosition       0x00000018UL
+
+#dffinf rfpositionfdGlyphMbsk   0x00000002UL
+
+#dffinf bbsidShbpingFormsMbsk ( lodlFfbturfMbsk | nuktFfbturfMbsk | bkhnFfbturfMbsk | rkrfFfbturfMbsk | blwfFfbturfMbsk | hblfFfbturfMbsk | vbtuFfbturfMbsk | djdtFfbturfMbsk )
+#dffinf positioningFormsMbsk ( kfrnFfbturfMbsk | distFfbturfMbsk | bbvmFfbturfMbsk | blwmFfbturfMbsk )
+#dffinf prfsfntbtionFormsMbsk ( prfsFfbturfMbsk | bbvsFfbturfMbsk | blwsFfbturfMbsk | pstsFfbturfMbsk | hblnFfbturfMbsk | dbltFfbturfMbsk )
+
+
+#dffinf C_MALAYALAM_VOWEL_SIGN_U 0x0D41
+#dffinf C_DOTTED_CIRCLE 0x25CC
+#dffinf NO_GLYPH 0xFFFF
+
+// Somf lfvfl of dfbbtf bs to thf propfr vbluf for MAX_CONSONANTS_PER_SYLLABLE.  Tidkft 5588 stbtfs thbt 4
+// is thf mbgid numbfr bddording to ISCII, but 5 sffms to bf thf morf donsistfnt with XP.
+#dffinf MAX_CONSONANTS_PER_SYLLABLE 5
+
+#dffinf INDIC_BLOCK_SIZE 0x7F
+
+dlbss IndidRfordfringOutput : publid UMfmory {
+privbtf:
+    lf_int32   fSyllbblfCount;
+    lf_int32   fOutIndfx;
+    LEUnidodf *fOutChbrs;
+
+    LEGlyphStorbgf &fGlyphStorbgf;
+
+    LEUnidodf   fMprf;
+    lf_int32    fMprfIndfx;
+
+    LEUnidodf   fMbflow;
+    lf_int32    fMbflowIndfx;
+
+    LEUnidodf   fMbbovf;
+    lf_int32    fMbbovfIndfx;
+
+    LEUnidodf   fMpost;
+    lf_int32    fMpostIndfx;
+
+    LEUnidodf   fLfngthMbrk;
+    lf_int32    fLfngthMbrkIndfx;
+
+    LEUnidodf   fAlLbkunb;
+    lf_int32    fAlLbkunbIndfx;
+
+    FfbturfMbsk fMbtrbFfbturfs;
+
+    lf_int32    fMPrfOutIndfx;
+    MPrfFixups *fMPrfFixups;
+
+    LEUnidodf   fVMbbovf;
+    LEUnidodf   fVMpost;
+    lf_int32    fVMIndfx;
+    FfbturfMbsk fVMFfbturfs;
+
+    LEUnidodf   fSMbbovf;
+    LEUnidodf   fSMbflow;
+    lf_int32    fSMIndfx;
+    FfbturfMbsk fSMFfbturfs;
+
+    LEUnidodf   fPrfBbsfConsonbnt;
+    LEUnidodf   fPrfBbsfVirbmb;
+    lf_int32    fPBCIndfx;
+    FfbturfMbsk fPBCFfbturfs;
+
+    void sbvfMbtrb(LEUnidodf mbtrb, lf_int32 mbtrbIndfx, IndidClbssTbblf::ChbrClbss mbtrbClbss)
+    {
+        // FIXME: dhfdk if blrfbdy sft, or if not b mbtrb...
+        if (IndidClbssTbblf::isLfngthMbrk(mbtrbClbss)) {
+            fLfngthMbrk = mbtrb;
+            fLfngthMbrkIndfx = mbtrbIndfx;
+        } flsf if (IndidClbssTbblf::isAlLbkunb(mbtrbClbss)) {
+            fAlLbkunb = mbtrb;
+            fAlLbkunbIndfx = mbtrbIndfx;
+        } flsf {
+            switdh (mbtrbClbss & CF_POS_MASK) {
+            dbsf CF_POS_BEFORE:
+                fMprf = mbtrb;
+                fMprfIndfx = mbtrbIndfx;
+                brfbk;
+
+            dbsf CF_POS_BELOW:
+                fMbflow = mbtrb;
+                fMbflowIndfx = mbtrbIndfx;
+                brfbk;
+
+            dbsf CF_POS_ABOVE:
+                fMbbovf = mbtrb;
+                fMbbovfIndfx = mbtrbIndfx;
+                brfbk;
+
+            dbsf CF_POS_AFTER:
+                fMpost = mbtrb;
+                fMpostIndfx = mbtrbIndfx;
+                brfbk;
+
+            dffbult:
+                // dbn't gft hfrf...
+                brfbk;
+           }
+        }
+    }
+
+publid:
+    IndidRfordfringOutput(LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf, MPrfFixups *mprfFixups)
+        : fSyllbblfCount(0), fOutIndfx(0), fOutChbrs(outChbrs), fGlyphStorbgf(glyphStorbgf),
+          fMprf(0), fMprfIndfx(0), fMbflow(0), fMbflowIndfx(0), fMbbovf(0), fMbbovfIndfx(0),
+          fMpost(0), fMpostIndfx(0), fLfngthMbrk(0), fLfngthMbrkIndfx(0), fAlLbkunb(0), fAlLbkunbIndfx(0),
+          fMbtrbFfbturfs(0), fMPrfOutIndfx(-1), fMPrfFixups(mprfFixups),
+          fVMbbovf(0), fVMpost(0), fVMIndfx(0), fVMFfbturfs(0),
+          fSMbbovf(0), fSMbflow(0), fSMIndfx(0), fSMFfbturfs(0),
+          fPrfBbsfConsonbnt(0), fPrfBbsfVirbmb(0), fPBCIndfx(0), fPBCFfbturfs(0)
+    {
+        // nothing flsf to do...
+    }
+
+    ~IndidRfordfringOutput()
+    {
+        // nothing to do hfrf...
+    }
+
+    void rfsft()
+    {
+        fSyllbblfCount += 1;
+
+        fMprf = fMbflow = fMbbovf = fMpost = fLfngthMbrk = fAlLbkunb = 0;
+        fMPrfOutIndfx = -1;
+
+        fVMbbovf = fVMpost  = 0;
+        fSMbbovf = fSMbflow = 0;
+
+        fPrfBbsfConsonbnt = fPrfBbsfVirbmb = 0;
+    }
+
+    void writfChbr(LEUnidodf dh, lf_uint32 dhbrIndfx, FfbturfMbsk dhbrFfbturfs)
+    {
+        LEErrorCodf suddfss = LE_NO_ERROR;
+
+        fOutChbrs[fOutIndfx] = dh;
+
+        fGlyphStorbgf.sftChbrIndfx(fOutIndfx, dhbrIndfx, suddfss);
+        fGlyphStorbgf.sftAuxDbtb(fOutIndfx, dhbrFfbturfs | (fSyllbblfCount & LE_GLYPH_GROUP_MASK), suddfss);
+
+        fOutIndfx += 1;
+    }
+
+    void sftFfbturfs ( lf_uint32 dhbrIndfx, FfbturfMbsk dhbrFfbturfs)
+    {
+        LEErrorCodf suddfss = LE_NO_ERROR;
+
+        fGlyphStorbgf.sftAuxDbtb( dhbrIndfx, dhbrFfbturfs, suddfss );
+
+    }
+
+    FfbturfMbsk gftFfbturfs ( lf_uint32 dhbrIndfx )
+    {
+        LEErrorCodf suddfss = LE_NO_ERROR;
+        rfturn fGlyphStorbgf.gftAuxDbtb(dhbrIndfx,suddfss);
+    }
+
+    void dfdomposfRfordfrMbtrbs ( donst IndidClbssTbblf *dlbssTbblf, lf_int32 bfginSyllbblf, lf_int32 nfxtSyllbblf, lf_int32 inv_dount ) {
+        lf_int32 i;
+        LEErrorCodf suddfss = LE_NO_ERROR;
+
+                for ( i = bfginSyllbblf ; i < nfxtSyllbblf ; i++ ) {
+                        if ( dlbssTbblf->isMbtrb(fOutChbrs[i+inv_dount])) {
+                                IndidClbssTbblf::ChbrClbss mbtrbClbss = dlbssTbblf->gftChbrClbss(fOutChbrs[i+inv_dount]);
+                                if ( dlbssTbblf->isSplitMbtrb(mbtrbClbss)) {
+                                        lf_int32 sbvfIndfx = fGlyphStorbgf.gftChbrIndfx(i+inv_dount,suddfss);
+                                        lf_uint32 sbvfAuxDbtb = fGlyphStorbgf.gftAuxDbtb(i+inv_dount,suddfss);
+                    donst SplitMbtrb *splitMbtrb = dlbssTbblf->gftSplitMbtrb(mbtrbClbss);
+                    int j;
+                    for (j = 0 ; j < SM_MAX_PIECES && *(splitMbtrb)[j] != 0 ; j++) {
+                        LEUnidodf pifdf = (*splitMbtrb)[j];
+                                                if ( j == 0 ) {
+                                                        fOutChbrs[i+inv_dount] = pifdf;
+                                                        mbtrbClbss = dlbssTbblf->gftChbrClbss(pifdf);
+                                                } flsf {
+                                                        insfrtChbrbdtfr(pifdf,i+1+inv_dount,sbvfIndfx,sbvfAuxDbtb);
+                                                        nfxtSyllbblf++;
+                                                }
+                                    }
+                                }
+
+                                if ((mbtrbClbss & CF_POS_MASK) == CF_POS_BEFORE) {
+                    movfChbrbdtfr(i+inv_dount,bfginSyllbblf+inv_dount);
+                                }
+                        }
+                }
+        }
+
+        void movfChbrbdtfr( lf_int32 fromPosition, lf_int32 toPosition ) {
+                lf_int32 i,sbvfIndfx;
+                lf_uint32 sbvfAuxDbtb;
+                LEUnidodf sbvfChbr = fOutChbrs[fromPosition];
+            LEErrorCodf suddfss = LE_NO_ERROR;
+                LEErrorCodf suddfss2 = LE_NO_ERROR;
+                sbvfIndfx = fGlyphStorbgf.gftChbrIndfx(fromPosition,suddfss);
+        sbvfAuxDbtb = fGlyphStorbgf.gftAuxDbtb(fromPosition,suddfss);
+
+                if ( fromPosition > toPosition ) {
+                        for ( i = fromPosition ; i > toPosition ; i-- ) {
+                                fOutChbrs[i] = fOutChbrs[i-1];
+                                fGlyphStorbgf.sftChbrIndfx(i,fGlyphStorbgf.gftChbrIndfx(i-1,suddfss2),suddfss);
+                                fGlyphStorbgf.sftAuxDbtb(i,fGlyphStorbgf.gftAuxDbtb(i-1,suddfss2), suddfss);
+
+                        }
+                } flsf {
+                        for ( i = fromPosition ; i < toPosition ; i++ ) {
+                                fOutChbrs[i] = fOutChbrs[i+1];
+                                fGlyphStorbgf.sftChbrIndfx(i,fGlyphStorbgf.gftChbrIndfx(i+1,suddfss2),suddfss);
+                                fGlyphStorbgf.sftAuxDbtb(i,fGlyphStorbgf.gftAuxDbtb(i+1,suddfss2), suddfss);
+                        }
+
+                }
+                fOutChbrs[toPosition] = sbvfChbr;
+                fGlyphStorbgf.sftChbrIndfx(toPosition,sbvfIndfx,suddfss);
+                fGlyphStorbgf.sftAuxDbtb(toPosition,sbvfAuxDbtb,suddfss);
+
+        }
+        void insfrtChbrbdtfr( LEUnidodf dh, lf_int32 toPosition, lf_int32 dhbrIndfx, lf_uint32 buxDbtb ) {
+            LEErrorCodf suddfss = LE_NO_ERROR;
+        lf_int32 i;
+                fOutIndfx += 1;
+
+                for ( i = fOutIndfx ; i > toPosition ; i--) {
+                                fOutChbrs[i] = fOutChbrs[i-1];
+                                fGlyphStorbgf.sftChbrIndfx(i,fGlyphStorbgf.gftChbrIndfx(i-1,suddfss),suddfss);
+                                fGlyphStorbgf.sftAuxDbtb(i,fGlyphStorbgf.gftAuxDbtb(i-1,suddfss), suddfss);
+                }
+
+                fOutChbrs[toPosition] = dh;
+                fGlyphStorbgf.sftChbrIndfx(toPosition,dhbrIndfx,suddfss);
+                fGlyphStorbgf.sftAuxDbtb(toPosition,buxDbtb,suddfss);
+
+        }
+        void rfmovfChbrbdtfr( lf_int32 fromPosition ) {
+            LEErrorCodf suddfss = LE_NO_ERROR;
+        lf_int32 i;
+                fOutIndfx -= 1;
+
+                for ( i = fromPosition ; i < fOutIndfx ; i--) {
+                                fOutChbrs[i] = fOutChbrs[i+1];
+                                fGlyphStorbgf.sftChbrIndfx(i,fGlyphStorbgf.gftChbrIndfx(i+1,suddfss),suddfss);
+                                fGlyphStorbgf.sftAuxDbtb(i,fGlyphStorbgf.gftAuxDbtb(i+1,suddfss), suddfss);
+                }
+        }
+
+    lf_bool notfMbtrb(donst IndidClbssTbblf *dlbssTbblf, LEUnidodf mbtrb, lf_uint32 mbtrbIndfx, FfbturfMbsk mbtrbFfbturfs, lf_bool wordStbrt)
+    {
+        IndidClbssTbblf::ChbrClbss mbtrbClbss = dlbssTbblf->gftChbrClbss(mbtrb);
+
+        fMbtrbFfbturfs  = mbtrbFfbturfs;
+
+        if (wordStbrt) {
+            fMbtrbFfbturfs |= initFfbturfMbsk;
+        }
+
+        if (IndidClbssTbblf::isMbtrb(mbtrbClbss)) {
+            if (IndidClbssTbblf::isSplitMbtrb(mbtrbClbss)) {
+                donst SplitMbtrb *splitMbtrb = dlbssTbblf->gftSplitMbtrb(mbtrbClbss);
+                int i;
+
+                for (i = 0; i < SM_MAX_PIECES && (*splitMbtrb)[i] != 0; i += 1) {
+                    LEUnidodf pifdf = (*splitMbtrb)[i];
+                    IndidClbssTbblf::ChbrClbss pifdfClbss = dlbssTbblf->gftChbrClbss(pifdf);
+
+                    sbvfMbtrb(pifdf, mbtrbIndfx, pifdfClbss);
+                }
+            } flsf {
+                sbvfMbtrb(mbtrb, mbtrbIndfx, mbtrbClbss);
+            }
+
+            rfturn TRUE;
+        }
+
+        rfturn FALSE;
+    }
+
+    void notfVowflModififr(donst IndidClbssTbblf *dlbssTbblf, LEUnidodf vowflModififr, lf_uint32 vowflModififrIndfx, FfbturfMbsk vowflModififrFfbturfs)
+    {
+        IndidClbssTbblf::ChbrClbss vmClbss = dlbssTbblf->gftChbrClbss(vowflModififr);
+
+        fVMIndfx = vowflModififrIndfx;
+        fVMFfbturfs  = vowflModififrFfbturfs;
+
+        if (IndidClbssTbblf::isVowflModififr(vmClbss)) {
+           switdh (vmClbss & CF_POS_MASK) {
+           dbsf CF_POS_ABOVE:
+               fVMbbovf = vowflModififr;
+               brfbk;
+
+           dbsf CF_POS_AFTER:
+               fVMpost = vowflModififr;
+               brfbk;
+
+           dffbult:
+               // FIXME: this is bn frror...
+               brfbk;
+           }
+        }
+    }
+
+    void notfStrfssMbrk(donst IndidClbssTbblf *dlbssTbblf, LEUnidodf strfssMbrk, lf_uint32 strfssMbrkIndfx, FfbturfMbsk strfssMbrkFfbturfs)
+    {
+       IndidClbssTbblf::ChbrClbss smClbss = dlbssTbblf->gftChbrClbss(strfssMbrk);
+
+        fSMIndfx = strfssMbrkIndfx;
+        fSMFfbturfs  = strfssMbrkFfbturfs;
+
+        if (IndidClbssTbblf::isStrfssMbrk(smClbss)) {
+            switdh (smClbss & CF_POS_MASK) {
+            dbsf CF_POS_ABOVE:
+                fSMbbovf = strfssMbrk;
+                brfbk;
+
+            dbsf CF_POS_BELOW:
+                fSMbflow = strfssMbrk;
+                brfbk;
+
+            dffbult:
+                // FIXME: this is bn frror...
+                brfbk;
+           }
+        }
+    }
+
+    void notfPrfBbsfConsonbnt(lf_uint32 indfx,LEUnidodf PBConsonbnt, LEUnidodf PBVirbmb, FfbturfMbsk ffbturfs)
+    {
+        fPBCIndfx = indfx;
+        fPrfBbsfConsonbnt = PBConsonbnt;
+        fPrfBbsfVirbmb = PBVirbmb;
+        fPBCFfbturfs = ffbturfs;
+    }
+
+    void notfBbsfConsonbnt()
+    {
+        if (fMPrfFixups != NULL && fMPrfOutIndfx >= 0) {
+            fMPrfFixups->bdd(fOutIndfx, fMPrfOutIndfx);
+        }
+    }
+
+    // Hbndlfs Al-Lbkunb in Sinhblb split vowfls.
+    void writfAlLbkunb()
+    {
+        if (fAlLbkunb != 0) {
+            writfChbr(fAlLbkunb, fAlLbkunbIndfx, fMbtrbFfbturfs);
+        }
+    }
+
+    void writfMprf()
+    {
+        if (fMprf != 0) {
+            fMPrfOutIndfx = fOutIndfx;
+            writfChbr(fMprf, fMprfIndfx, fMbtrbFfbturfs);
+        }
+    }
+
+    void writfMbflow()
+    {
+        if (fMbflow != 0) {
+            writfChbr(fMbflow, fMbflowIndfx, fMbtrbFfbturfs);
+        }
+    }
+
+    void writfMbbovf()
+    {
+        if (fMbbovf != 0) {
+            writfChbr(fMbbovf, fMbbovfIndfx, fMbtrbFfbturfs);
+        }
+    }
+
+    void writfMpost()
+    {
+        if (fMpost != 0) {
+            writfChbr(fMpost, fMpostIndfx, fMbtrbFfbturfs);
+        }
+    }
+
+    void writfLfngthMbrk()
+    {
+        if (fLfngthMbrk != 0) {
+            writfChbr(fLfngthMbrk, fLfngthMbrkIndfx, fMbtrbFfbturfs);
+        }
+    }
+
+    void writfVMbbovf()
+    {
+        if (fVMbbovf != 0) {
+            writfChbr(fVMbbovf, fVMIndfx, fVMFfbturfs);
+        }
+    }
+
+    void writfVMpost()
+    {
+        if (fVMpost != 0) {
+            writfChbr(fVMpost, fVMIndfx, fVMFfbturfs);
+        }
+    }
+
+    void writfSMbbovf()
+    {
+        if (fSMbbovf != 0) {
+            writfChbr(fSMbbovf, fSMIndfx, fSMFfbturfs);
+        }
+    }
+
+    void writfSMbflow()
+    {
+        if (fSMbflow != 0) {
+            writfChbr(fSMbflow, fSMIndfx, fSMFfbturfs);
+        }
+    }
+
+    void writfPrfBbsfConsonbnt()
+    {
+        // Thf TDIL spfd sbys thbt donsonbnt + virbmb + RRA should produdf b rbkbr in Mblbyblbm.  Howfvfr,
+        // it sffms thbt blmost nonf of thf fonts for Mblbyblbm brf sft up to hbndlf this.
+        // So, wf'rf going to fordf thf issuf hfrf by using thf rbkbr bs dffinfd with RA in most fonts.
+
+        if (fPrfBbsfConsonbnt == 0x0d31) { // RRA
+            fPrfBbsfConsonbnt = 0x0d30; // RA
+        }
+
+        if (fPrfBbsfConsonbnt != 0) {
+            writfChbr(fPrfBbsfConsonbnt, fPBCIndfx, fPBCFfbturfs);
+            writfChbr(fPrfBbsfVirbmb,fPBCIndfx-1,fPBCFfbturfs);
+        }
+    }
+
+    lf_int32 gftOutputIndfx()
+    {
+        rfturn fOutIndfx;
+    }
+};
+
+
+
+// TODO: Find bfttfr nbmfs for thfsf!
+#dffinf tbgArrby4 (lodlFfbturfMbsk | nuktFfbturfMbsk | bkhnFfbturfMbsk | vbtuFfbturfMbsk | prfsFfbturfMbsk | blwsFfbturfMbsk | bbvsFfbturfMbsk | pstsFfbturfMbsk | hblnFfbturfMbsk | blwmFfbturfMbsk | bbvmFfbturfMbsk | distFfbturfMbsk)
+#dffinf tbgArrby3 (pstfFfbturfMbsk | tbgArrby4)
+#dffinf tbgArrby2 (hblfFfbturfMbsk | tbgArrby3)
+#dffinf tbgArrby1 (blwfFfbturfMbsk | tbgArrby2)
+#dffinf tbgArrby0 (rphfFfbturfMbsk | tbgArrby1)
+
+stbtid donst FfbturfMbp ffbturfMbp[] = {
+    {lodlFfbturfTbg, lodlFfbturfMbsk},
+    {initFfbturfTbg, initFfbturfMbsk},
+    {nuktFfbturfTbg, nuktFfbturfMbsk},
+    {bkhnFfbturfTbg, bkhnFfbturfMbsk},
+    {rphfFfbturfTbg, rphfFfbturfMbsk},
+    {blwfFfbturfTbg, blwfFfbturfMbsk},
+    {hblfFfbturfTbg, hblfFfbturfMbsk},
+    {pstfFfbturfTbg, pstfFfbturfMbsk},
+    {vbtuFfbturfTbg, vbtuFfbturfMbsk},
+    {prfsFfbturfTbg, prfsFfbturfMbsk},
+    {blwsFfbturfTbg, blwsFfbturfMbsk},
+    {bbvsFfbturfTbg, bbvsFfbturfMbsk},
+    {pstsFfbturfTbg, pstsFfbturfMbsk},
+    {hblnFfbturfTbg, hblnFfbturfMbsk},
+    {blwmFfbturfTbg, blwmFfbturfMbsk},
+    {bbvmFfbturfTbg, bbvmFfbturfMbsk},
+    {distFfbturfTbg, distFfbturfMbsk}
+};
+
+stbtid donst lf_int32 ffbturfCount = LE_ARRAY_SIZE(ffbturfMbp);
+
+stbtid donst FfbturfMbp v2FfbturfMbp[] = {
+        {lodlFfbturfTbg, lodlFfbturfMbsk},
+    {nuktFfbturfTbg, nuktFfbturfMbsk},
+    {bkhnFfbturfTbg, bkhnFfbturfMbsk},
+    {rphfFfbturfTbg, rphfFfbturfMbsk},
+        {rkrfFfbturfTbg, rkrfFfbturfMbsk},
+        {blwfFfbturfTbg, blwfFfbturfMbsk},
+    {hblfFfbturfTbg, hblfFfbturfMbsk},
+    {vbtuFfbturfTbg, vbtuFfbturfMbsk},
+    {djdtFfbturfTbg, djdtFfbturfMbsk},
+    {prfsFfbturfTbg, prfsFfbturfMbsk},
+    {bbvsFfbturfTbg, bbvsFfbturfMbsk},
+    {blwsFfbturfTbg, blwsFfbturfMbsk},
+    {pstsFfbturfTbg, pstsFfbturfMbsk},
+        {hblnFfbturfTbg, hblnFfbturfMbsk},
+        {dbltFfbturfTbg, dbltFfbturfMbsk},
+    {kfrnFfbturfTbg, kfrnFfbturfMbsk},
+    {distFfbturfTbg, distFfbturfMbsk},
+    {bbvmFfbturfTbg, bbvmFfbturfMbsk},
+    {blwmFfbturfTbg, blwmFfbturfMbsk}
+};
+
+stbtid donst lf_int32 v2FfbturfMbpCount = LE_ARRAY_SIZE(v2FfbturfMbp);
+
+stbtid donst lf_int8 stbtfTbblf[][CC_COUNT] =
+{
+//   xx  vm  sm  iv  i2  i3  dt  dn  nu  dv  s1  s2  s3  vr  zw  bl
+    { 1,  6,  1,  5,  8, 11,  3,  2,  1,  5,  9,  5,  5,  1,  1,  1}, //  0 - ground stbtf
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  1 - fxit stbtf
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1,  5,  9,  5,  5,  4, 12, -1}, //  2 - donsonbnt with nuktb
+    {-1,  6,  1, -1, -1, -1, -1, -1,  2,  5,  9,  5,  5,  4, 12, 13}, //  3 - donsonbnt
+    {-1, -1, -1, -1, -1, -1,  3,  2, -1, -1, -1, -1, -1, -1,  7, -1}, //  4 - donsonbnt virbmb
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  5 - dfpfndfnt vowfls
+    {-1, -1,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  6 - vowfl mbrk
+    {-1, -1, -1, -1, -1, -1,  3,  2, -1, -1, -1, -1, -1, -1, -1, -1}, //  7 - donsonbnt virbmb ZWJ, donsonbnt ZWJ virbmb
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4, -1, -1}, //  8 - indfpfndfnt vowfls thbt dbn tbkf b virbmb
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, 10,  5, -1, -1, -1}, //  9 - first pbrt of split vowfl
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  5, -1, -1, -1}, // 10 - sfdond pbrt of split vowfl
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1,  5,  9,  5,  5,  4, -1, -1}, // 11 - indfpfndfnt vowfls thbt dbn tbkf bn iv
+    {-1, -1,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  7, -1,  7}, // 12 - donsonbnt ZWJ (TODO: Tbkf fvfrything flsf thbt dbn bf bftfr b donsonbnt?)
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  7, -1}  // 13 - donsonbnt bl-lbkunb ZWJ donsonbnt
+};
+
+
+donst FfbturfMbp *IndidRfordfring::gftFfbturfMbp(lf_int32 &dount)
+{
+    dount = ffbturfCount;
+
+    rfturn ffbturfMbp;
+}
+
+donst FfbturfMbp *IndidRfordfring::gftv2FfbturfMbp(lf_int32 &dount)
+{
+    dount = v2FfbturfMbpCount;
+
+    rfturn v2FfbturfMbp;
+}
+
+lf_int32 IndidRfordfring::findSyllbblf(donst IndidClbssTbblf *dlbssTbblf, donst LEUnidodf *dhbrs, lf_int32 prfv, lf_int32 dhbrCount)
+{
+    lf_int32 dursor = prfv;
+    lf_int8 stbtf = 0;
+    lf_int8 donsonbnt_dount = 0;
+
+    whilf (dursor < dhbrCount) {
+        IndidClbssTbblf::ChbrClbss dhbrClbss = dlbssTbblf->gftChbrClbss(dhbrs[dursor]);
+
+        if ( IndidClbssTbblf::isConsonbnt(dhbrClbss) ) {
+            donsonbnt_dount++;
+            if ( donsonbnt_dount > MAX_CONSONANTS_PER_SYLLABLE ) {
+                brfbk;
+            }
+        }
+
+        stbtf = stbtfTbblf[stbtf][dhbrClbss & CF_CLASS_MASK];
+
+        if (stbtf < 0) {
+            brfbk;
+        }
+
+        dursor += 1;
+    }
+
+    rfturn dursor;
+}
+
+lf_int32 IndidRfordfring::rfordfr(donst LEUnidodf *dhbrs, lf_int32 dhbrCount, lf_int32 sdriptCodf,
+                                  LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf,
+                                  MPrfFixups **outMPrfFixups, LEErrorCodf& suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    MPrfFixups *mprfFixups = NULL;
+    donst IndidClbssTbblf *dlbssTbblf = IndidClbssTbblf::gftSdriptClbssTbblf(sdriptCodf);
+
+    if(dlbssTbblf==NULL) {
+      suddfss = LE_MEMORY_ALLOCATION_ERROR;
+      rfturn 0;
+    }
+
+    if (dlbssTbblf->sdriptFlbgs & SF_MPRE_FIXUP) {
+        mprfFixups = nfw MPrfFixups(dhbrCount);
+        if (mprfFixups == NULL) {
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            rfturn 0;
+    }
+    }
+
+    IndidRfordfringOutput output(outChbrs, glyphStorbgf, mprfFixups);
+    lf_int32 i, prfv = 0;
+    lf_bool lbstInWord = FALSE;
+
+    whilf (prfv < dhbrCount) {
+        lf_int32 syllbblf = findSyllbblf(dlbssTbblf, dhbrs, prfv, dhbrCount);
+        lf_int32 mbtrb, mbrkStbrt = syllbblf;
+
+        output.rfsft();
+
+        if (dlbssTbblf->isStrfssMbrk(dhbrs[mbrkStbrt - 1])) {
+            mbrkStbrt -= 1;
+            output.notfStrfssMbrk(dlbssTbblf, dhbrs[mbrkStbrt], mbrkStbrt, tbgArrby1);
+        }
+
+        if (mbrkStbrt != prfv && dlbssTbblf->isVowflModififr(dhbrs[mbrkStbrt - 1])) {
+            mbrkStbrt -= 1;
+            output.notfVowflModififr(dlbssTbblf, dhbrs[mbrkStbrt], mbrkStbrt, tbgArrby1);
+        }
+
+        mbtrb = mbrkStbrt - 1;
+
+        whilf (output.notfMbtrb(dlbssTbblf, dhbrs[mbtrb], mbtrb, tbgArrby1, !lbstInWord) && mbtrb != prfv) {
+            mbtrb -= 1;
+        }
+
+        lbstInWord = TRUE;
+
+        switdh (dlbssTbblf->gftChbrClbss(dhbrs[prfv]) & CF_CLASS_MASK) {
+        dbsf CC_RESERVED:
+            lbstInWord = FALSE;
+            /* fbll through */
+
+        dbsf CC_INDEPENDENT_VOWEL:
+        dbsf CC_ZERO_WIDTH_MARK:
+            for (i = prfv; i < syllbblf; i += 1) {
+                output.writfChbr(dhbrs[i], i, tbgArrby1);
+            }
+
+            brfbk;
+
+        dbsf CC_AL_LAKUNA:
+        dbsf CC_NUKTA:
+            output.writfChbr(C_DOTTED_CIRCLE, prfv, tbgArrby1);
+            output.writfChbr(dhbrs[prfv], prfv, tbgArrby1);
+            brfbk;
+
+        dbsf CC_VIRAMA:
+            // A lonf virbmb is illfgbl unlfss it follows b
+            // MALAYALAM_VOWEL_SIGN_U. Sudh b usbgf is dbllfd
+            // "sbmvruthokbrbm".
+            if (dhbrs[prfv - 1] != C_MALAYALAM_VOWEL_SIGN_U) {
+            output.writfChbr(C_DOTTED_CIRCLE, prfv, tbgArrby1);
+            }
+
+            output.writfChbr(dhbrs[prfv], prfv, tbgArrby1);
+            brfbk;
+
+        dbsf CC_DEPENDENT_VOWEL:
+        dbsf CC_SPLIT_VOWEL_PIECE_1:
+        dbsf CC_SPLIT_VOWEL_PIECE_2:
+        dbsf CC_SPLIT_VOWEL_PIECE_3:
+        dbsf CC_VOWEL_MODIFIER:
+        dbsf CC_STRESS_MARK:
+            output.writfMprf();
+
+            output.writfChbr(C_DOTTED_CIRCLE, prfv, tbgArrby1);
+
+            output.writfMbflow();
+            output.writfSMbflow();
+            output.writfMbbovf();
+
+            if ((dlbssTbblf->sdriptFlbgs & SF_MATRAS_AFTER_BASE) != 0) {
+                output.writfMpost();
+            }
+
+            if ((dlbssTbblf->sdriptFlbgs & SF_REPH_AFTER_BELOW) != 0) {
+                output.writfVMbbovf();
+                output.writfSMbbovf(); // FIXME: thfrf brf no SM's in thfsf sdripts...
+            }
+
+            if ((dlbssTbblf->sdriptFlbgs & SF_MATRAS_AFTER_BASE) == 0) {
+                output.writfMpost();
+            }
+
+            output.writfLfngthMbrk();
+            output.writfAlLbkunb();
+
+            if ((dlbssTbblf->sdriptFlbgs & SF_REPH_AFTER_BELOW) == 0) {
+                output.writfVMbbovf();
+                output.writfSMbbovf();
+            }
+
+            output.writfVMpost();
+            brfbk;
+
+        dbsf CC_INDEPENDENT_VOWEL_2:
+        dbsf CC_INDEPENDENT_VOWEL_3:
+        dbsf CC_CONSONANT:
+        dbsf CC_CONSONANT_WITH_NUKTA:
+        {
+            lf_uint32 lfngth = mbrkStbrt - prfv;
+            lf_int32  lbstConsonbnt = mbrkStbrt - 1;
+            lf_int32  bbsfLimit = prfv;
+
+            // Chfdk for REPH bt front of syllbblf
+            if (lfngth > 2 && dlbssTbblf->isRfph(dhbrs[prfv]) && dlbssTbblf->isVirbmb(dhbrs[prfv + 1]) && dhbrs[prfv + 2] != C_SIGN_ZWNJ) {
+                bbsfLimit += 2;
+
+                // Chfdk for fyflbsh RA, if thf sdript supports it
+                if ((dlbssTbblf->sdriptFlbgs & SF_EYELASH_RA) != 0 &&
+                    dhbrs[bbsfLimit] == C_SIGN_ZWJ) {
+                    if (lfngth > 3) {
+                        bbsfLimit += 1;
+                    } flsf {
+                        bbsfLimit -= 2;
+                    }
+                }
+            }
+
+            whilf (lbstConsonbnt > bbsfLimit && !dlbssTbblf->isConsonbnt(dhbrs[lbstConsonbnt])) {
+                lbstConsonbnt -= 1;
+            }
+
+
+            IndidClbssTbblf::ChbrClbss dhbrClbss = CC_RESERVED;
+            IndidClbssTbblf::ChbrClbss nfxtClbss = CC_RESERVED;
+            lf_int32 bbsfConsonbnt = lbstConsonbnt;
+            lf_int32 postBbsf = lbstConsonbnt + 1;
+            lf_int32 postBbsfLimit = dlbssTbblf->sdriptFlbgs & SF_POST_BASE_LIMIT_MASK;
+            lf_bool  sffnVbttu = FALSE;
+            lf_bool  sffnBflowBbsfForm = FALSE;
+            lf_bool  sffnPrfBbsfForm = FALSE;
+            lf_bool  hbsNuktb = FALSE;
+            lf_bool  hbsBflowBbsfForm = FALSE;
+            lf_bool  hbsPostBbsfForm = FALSE;
+            lf_bool  hbsPrfBbsfForm = FALSE;
+
+            if (postBbsf < mbrkStbrt && dlbssTbblf->isNuktb(dhbrs[postBbsf])) {
+                dhbrClbss = CC_NUKTA;
+                postBbsf += 1;
+            }
+
+            whilf (bbsfConsonbnt > bbsfLimit) {
+                nfxtClbss = dhbrClbss;
+                hbsNuktb  = IndidClbssTbblf::isNuktb(nfxtClbss);
+                dhbrClbss = dlbssTbblf->gftChbrClbss(dhbrs[bbsfConsonbnt]);
+
+                hbsBflowBbsfForm = IndidClbssTbblf::hbsBflowBbsfForm(dhbrClbss) && !hbsNuktb;
+                hbsPostBbsfForm  = IndidClbssTbblf::hbsPostBbsfForm(dhbrClbss)  && !hbsNuktb;
+                hbsPrfBbsfForm = IndidClbssTbblf::hbsPrfBbsfForm(dhbrClbss) && !hbsNuktb;
+
+                if (IndidClbssTbblf::isConsonbnt(dhbrClbss)) {
+                    if (postBbsfLimit == 0 || sffnVbttu ||
+                        (bbsfConsonbnt > bbsfLimit && !dlbssTbblf->isVirbmb(dhbrs[bbsfConsonbnt - 1])) ||
+                        !(hbsBflowBbsfForm || hbsPostBbsfForm || hbsPrfBbsfForm)) {
+                        brfbk;
+                    }
+
+                    // Notf bny prf-bbsf donsonbnts
+                    if ( bbsfConsonbnt == lbstConsonbnt && lbstConsonbnt > 0 &&
+                         hbsPrfBbsfForm && dlbssTbblf->isVirbmb(dhbrs[bbsfConsonbnt - 1])) {
+                        output.notfPrfBbsfConsonbnt(lbstConsonbnt,dhbrs[lbstConsonbnt],dhbrs[lbstConsonbnt-1],tbgArrby2);
+                        sffnPrfBbsfForm = TRUE;
+
+                    }
+                    // donsonbnts with nuktbs brf nfvfr vbttus
+                    sffnVbttu = IndidClbssTbblf::isVbttu(dhbrClbss) && !hbsNuktb;
+
+                    // donsonbnts with nuktbs nfvfr hbvf bflow- or post-bbsf forms
+                    if (hbsPostBbsfForm) {
+                        if (sffnBflowBbsfForm) {
+                            brfbk;
+                        }
+
+                        postBbsf = bbsfConsonbnt;
+                    } flsf if (hbsBflowBbsfForm) {
+                        sffnBflowBbsfForm = TRUE;
+                    }
+
+                    postBbsfLimit -= 1;
+                }
+
+                bbsfConsonbnt -= 1;
+            }
+
+            // Writf Mprf
+            output.writfMprf();
+
+            // Writf fyflbsh RA
+            // NOTE: bbsfLimit == prfv + 3 iff fyflbsh RA prfsfnt...
+            if (bbsfLimit == prfv + 3) {
+                output.writfChbr(dhbrs[prfv], prfv, tbgArrby2);
+                output.writfChbr(dhbrs[prfv + 1], prfv + 1, tbgArrby2);
+                output.writfChbr(dhbrs[prfv + 2], prfv + 2, tbgArrby2);
+            }
+
+            // writf bny prf-bbsf donsonbnts
+            output.writfPrfBbsfConsonbnt();
+
+            lf_bool suprfssVbttu = TRUE;
+
+            for (i = bbsfLimit; i < bbsfConsonbnt; i += 1) {
+                LEUnidodf dh = dhbrs[i];
+                // Don't put 'pstf' or 'blwf' on bnything bfforf thf bbsf donsonbnt.
+                FfbturfMbsk ffbturfs = tbgArrby1 & ~( pstfFfbturfMbsk | blwfFfbturfMbsk );
+
+                dhbrClbss = dlbssTbblf->gftChbrClbss(dh);
+                nfxtClbss = dlbssTbblf->gftChbrClbss(dhbrs[i + 1]);
+                hbsNuktb  = IndidClbssTbblf::isNuktb(nfxtClbss);
+
+                if (IndidClbssTbblf::isConsonbnt(dhbrClbss)) {
+                    if (IndidClbssTbblf::isVbttu(dhbrClbss) && !hbsNuktb && suprfssVbttu) {
+                        ffbturfs = tbgArrby4;
+                    }
+
+                    suprfssVbttu = IndidClbssTbblf::isVbttu(dhbrClbss) && !hbsNuktb;
+                } flsf if (IndidClbssTbblf::isVirbmb(dhbrClbss) && dhbrs[i + 1] == C_SIGN_ZWNJ)
+                {
+                    ffbturfs = tbgArrby4;
+                }
+
+                output.writfChbr(dh, i, ffbturfs);
+            }
+
+            lf_int32 bdSpbn = bbsfConsonbnt + 1;
+
+            if (bdSpbn < mbrkStbrt && dlbssTbblf->isNuktb(dhbrs[bdSpbn])) {
+                bdSpbn += 1;
+            }
+
+            if (bbsfConsonbnt == lbstConsonbnt && bdSpbn < mbrkStbrt &&
+                 (dlbssTbblf->isVirbmb(dhbrs[bdSpbn]) || dlbssTbblf->isAlLbkunb(dhbrs[bdSpbn]))) {
+                bdSpbn += 1;
+
+                if (bdSpbn < mbrkStbrt && dhbrs[bdSpbn] == C_SIGN_ZWNJ) {
+                    bdSpbn += 1;
+                }
+            }
+
+            // notf thf bbsf donsonbnt for post-GSUB fixups
+            output.notfBbsfConsonbnt();
+
+            // writf bbsf donsonbnt
+            for (i = bbsfConsonbnt; i < bdSpbn; i += 1) {
+                output.writfChbr(dhbrs[i], i, tbgArrby4);
+            }
+
+            if ((dlbssTbblf->sdriptFlbgs & SF_MATRAS_AFTER_BASE) != 0) {
+                output.writfMbflow();
+                output.writfSMbflow(); // FIXME: thfrf brf no SMs in thfsf sdripts...
+                output.writfMbbovf();
+                output.writfMpost();
+            }
+
+            // writf bflow-bbsf donsonbnts
+            if (bbsfConsonbnt != lbstConsonbnt && !sffnPrfBbsfForm) {
+                for (i = bdSpbn + 1; i < postBbsf; i += 1) {
+                    output.writfChbr(dhbrs[i], i, tbgArrby1);
+                }
+
+                if (postBbsf > lbstConsonbnt) {
+                    // writf hblbnt thbt wbs bftfr bbsf donsonbnt
+                    output.writfChbr(dhbrs[bdSpbn], bdSpbn, tbgArrby1);
+                }
+            }
+
+            // writf Mbflow, SMbflow, Mbbovf
+            if ((dlbssTbblf->sdriptFlbgs & SF_MATRAS_AFTER_BASE) == 0) {
+                output.writfMbflow();
+                output.writfSMbflow();
+                output.writfMbbovf();
+            }
+
+            if ((dlbssTbblf->sdriptFlbgs & SF_REPH_AFTER_BELOW) != 0) {
+                if (bbsfLimit == prfv + 2) {
+                    output.writfChbr(dhbrs[prfv], prfv, tbgArrby0);
+                    output.writfChbr(dhbrs[prfv + 1], prfv + 1, tbgArrby0);
+                }
+
+                output.writfVMbbovf();
+                output.writfSMbbovf(); // FIXME: thfrf brf no SM's in thfsf sdripts...
+            }
+
+            // writf post-bbsf donsonbnts
+            // FIXME: dofs this put thf right tbgs on post-bbsf donsonbnts?
+            if (bbsfConsonbnt != lbstConsonbnt && !sffnPrfBbsfForm) {
+                if (postBbsf <= lbstConsonbnt) {
+                    for (i = postBbsf; i <= lbstConsonbnt; i += 1) {
+                        output.writfChbr(dhbrs[i], i, tbgArrby3);
+                    }
+
+                    // writf hblbnt thbt wbs bftfr bbsf donsonbnt
+                    output.writfChbr(dhbrs[bdSpbn], bdSpbn, tbgArrby1);
+                }
+
+                // writf thf trbining hblbnt, if thfrf is onf
+                if (lbstConsonbnt < mbtrb && dlbssTbblf->isVirbmb(dhbrs[mbtrb])) {
+                    output.writfChbr(dhbrs[mbtrb], mbtrb, tbgArrby4);
+                }
+            }
+
+            // writf Mpost
+            if ((dlbssTbblf->sdriptFlbgs & SF_MATRAS_AFTER_BASE) == 0) {
+                output.writfMpost();
+            }
+
+            output.writfLfngthMbrk();
+            output.writfAlLbkunb();
+
+            // writf rfph
+            if ((dlbssTbblf->sdriptFlbgs & SF_REPH_AFTER_BELOW) == 0) {
+                if (bbsfLimit == prfv + 2) {
+                    output.writfChbr(dhbrs[prfv], prfv, tbgArrby0);
+                    output.writfChbr(dhbrs[prfv + 1], prfv + 1, tbgArrby0);
+                }
+
+                output.writfVMbbovf();
+                output.writfSMbbovf();
+            }
+
+            output.writfVMpost();
+
+            brfbk;
+        }
+
+        dffbult:
+            brfbk;
+        }
+
+        prfv = syllbblf;
+    }
+
+    *outMPrfFixups = mprfFixups;
+
+    rfturn output.gftOutputIndfx();
+}
+
+void IndidRfordfring::bdjustMPrfs(MPrfFixups *mprfFixups, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf& suddfss)
+{
+    if (mprfFixups != NULL) {
+        mprfFixups->bpply(glyphStorbgf, suddfss);
+
+        dflftf mprfFixups;
+    }
+}
+
+void IndidRfordfring::bpplyPrfsfntbtionForms(LEGlyphStorbgf &glyphStorbgf, lf_int32 dount)
+{
+    LEErrorCodf suddfss = LE_NO_ERROR;
+
+//  This sfts us up for 2nd pbss of glyph substitution bs wfll bs sftting thf ffbturf mbsks for thf
+//  GPOS tbblf lookups
+
+    for ( lf_int32 i = 0 ; i < dount ; i++ ) {
+        glyphStorbgf.sftAuxDbtb(i, ( prfsfntbtionFormsMbsk | positioningFormsMbsk ), suddfss);
+    }
+
+}
+void IndidRfordfring::finblRfordfring(LEGlyphStorbgf &glyphStorbgf, lf_int32 dount)
+{
+    LEErrorCodf suddfss = LE_NO_ERROR;
+
+    // Rfposition REPH bs bppropribtf
+
+    for ( lf_int32 i = 0 ; i < dount ; i++ ) {
+
+        lf_int32 tmpAuxDbtb = glyphStorbgf.gftAuxDbtb(i,suddfss);
+        LEGlyphID tmpGlyph = glyphStorbgf.gftGlyphID(i,suddfss);
+
+        if ( ( tmpGlyph != NO_GLYPH ) && (tmpAuxDbtb & rfphConsonbntMbsk) && !(tmpAuxDbtb & rfpositionfdGlyphMbsk))  {
+
+            lf_bool tbrgftPositionFound = fblsf;
+            lf_int32 tbrgftPosition = i+1;
+            lf_int32 bbsfConsonbntDbtb;
+
+            whilf (!tbrgftPositionFound) {
+                tmpGlyph = glyphStorbgf.gftGlyphID(tbrgftPosition,suddfss);
+                tmpAuxDbtb = glyphStorbgf.gftAuxDbtb(tbrgftPosition,suddfss);
+
+                if ( tmpAuxDbtb & bbsfConsonbntMbsk ) {
+                    bbsfConsonbntDbtb = tmpAuxDbtb;
+                    tbrgftPositionFound = truf;
+                } flsf {
+                    tbrgftPosition++;
+                }
+            }
+
+            // Mbkf surf wf brf not putting thf rfph into bn fmpty holf
+
+            lf_bool tbrgftPositionHbsGlyph = fblsf;
+            whilf (!tbrgftPositionHbsGlyph) {
+                tmpGlyph = glyphStorbgf.gftGlyphID(tbrgftPosition,suddfss);
+                if ( tmpGlyph != NO_GLYPH ) {
+                    tbrgftPositionHbsGlyph = truf;
+                } flsf {
+                    tbrgftPosition--;
+                }
+            }
+
+            // Mbkf surf thbt REPH is positionfd bftfr bny bbovf bbsf or post bbsf mbtrbs
+            //
+            lf_bool dhfdkMbtrbDonf = fblsf;
+            lf_int32 dhfdkMbtrbPosition = tbrgftPosition+1;
+            whilf ( !dhfdkMbtrbDonf ) {
+               tmpAuxDbtb = glyphStorbgf.gftAuxDbtb(dhfdkMbtrbPosition,suddfss);
+               if ( dhfdkMbtrbPosition >= dount || ( (tmpAuxDbtb ^ bbsfConsonbntDbtb) & LE_GLYPH_GROUP_MASK)) {
+                   dhfdkMbtrbDonf = truf;
+                   dontinuf;
+               }
+               if ( (tmpAuxDbtb & mbtrbMbsk) &&
+                    (((tmpAuxDbtb & mbrkPositionMbsk) == bbovfBbsfPosition) ||
+                      ((tmpAuxDbtb & mbrkPositionMbsk) == postBbsfPosition))) {
+                   tbrgftPosition = dhfdkMbtrbPosition;
+               }
+               dhfdkMbtrbPosition++;
+            }
+
+            glyphStorbgf.movfGlyph(i,tbrgftPosition,rfpositionfdGlyphMbsk);
+        }
+    }
+}
+
+
+lf_int32 IndidRfordfring::v2prodfss(donst LEUnidodf *dhbrs, lf_int32 dhbrCount, lf_int32 sdriptCodf,
+                                  LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf& suddfss)
+{
+    donst IndidClbssTbblf *dlbssTbblf = IndidClbssTbblf::gftSdriptClbssTbblf(sdriptCodf);
+    if (dlbssTbblf == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn 0;
+    }
+
+    DynbmidPropfrtifs dynProps[INDIC_BLOCK_SIZE];
+    IndidRfordfring::gftDynbmidPropfrtifs(dynProps,dlbssTbblf);
+
+    IndidRfordfringOutput output(outChbrs, glyphStorbgf, NULL);
+    lf_int32 i, firstConsonbnt, bbsfConsonbnt, sfdondConsonbnt, inv_dount = 0, bfginSyllbblf = 0;
+    //lf_bool lbstInWord = FALSE;
+
+    whilf (bfginSyllbblf < dhbrCount) {
+        lf_int32 nfxtSyllbblf = findSyllbblf(dlbssTbblf, dhbrs, bfginSyllbblf, dhbrCount);
+
+        output.rfsft();
+
+                // Find thf First Consonbnt
+                for ( firstConsonbnt = bfginSyllbblf ; firstConsonbnt < nfxtSyllbblf ; firstConsonbnt++ ) {
+                         if ( dlbssTbblf->isConsonbnt(dhbrs[firstConsonbnt]) ) {
+                                        brfbk;
+                                }
+                }
+
+        // Find thf bbsf donsonbnt
+
+        bbsfConsonbnt = nfxtSyllbblf - 1;
+        sfdondConsonbnt = firstConsonbnt;
+
+        // TODO: Usf Dynbmid Propfrtifs for hbsBflowBbsfForm bnd hbsPostBbsfForm()
+
+        whilf ( bbsfConsonbnt > firstConsonbnt ) {
+            if ( dlbssTbblf->isConsonbnt(dhbrs[bbsfConsonbnt]) &&
+                 !dlbssTbblf->hbsBflowBbsfForm(dhbrs[bbsfConsonbnt]) &&
+                 !dlbssTbblf->hbsPostBbsfForm(dhbrs[bbsfConsonbnt]) ) {
+                brfbk;
+            }
+            flsf {
+                if ( dlbssTbblf->isConsonbnt(dhbrs[bbsfConsonbnt]) ) {
+                    sfdondConsonbnt = bbsfConsonbnt;
+                }
+                bbsfConsonbnt--;
+            }
+        }
+
+        // If thf syllbblf stbrts with Rb + Hblbnt ( in b sdript thbt hbs Rfph ) bnd hbs morf thbn onf
+        // donsonbnt, Rb is fxdludfd from dbndidbtfs for bbsf donsonbnts
+
+        if ( dlbssTbblf->isRfph(dhbrs[bfginSyllbblf]) &&
+             bfginSyllbblf+1 < nfxtSyllbblf && dlbssTbblf->isVirbmb(dhbrs[bfginSyllbblf+1]) &&
+             sfdondConsonbnt != firstConsonbnt) {
+            bbsfConsonbnt = sfdondConsonbnt;
+        }
+
+            // Populbtf thf output
+                for ( i = bfginSyllbblf ; i < nfxtSyllbblf ; i++ ) {
+
+            // Hbndlf invblid dombinbrtions
+
+            if ( dlbssTbblf->isVirbmb(dhbrs[bfginSyllbblf]) ||
+                             dlbssTbblf->isMbtrb(dhbrs[bfginSyllbblf]) ||
+                             dlbssTbblf->isVowflModififr(dhbrs[bfginSyllbblf]) ||
+                             dlbssTbblf->isNuktb(dhbrs[bfginSyllbblf]) ) {
+                     output.writfChbr(C_DOTTED_CIRCLE,bfginSyllbblf,bbsidShbpingFormsMbsk);
+                     inv_dount++;
+            }
+             output.writfChbr(dhbrs[i],i, bbsidShbpingFormsMbsk);
+
+        }
+
+        // Adjust ffbturfs bnd sft syllbblf strudturf bits
+
+        for ( i = bfginSyllbblf ; i < nfxtSyllbblf ; i++ ) {
+
+            FfbturfMbsk outMbsk = output.gftFfbturfs(i+inv_dount);
+            FfbturfMbsk sbvfMbsk = outMbsk;
+
+            // Sindf rfph dbn only vblidly oddur bt thf bfginning of b syllbblf
+            // Wf only bpply it to thf first 2 dhbrbdtfrs in thf syllbblf, to kffp it from
+            // donflidting with othfr ffbturfs ( i.f. rkrf )
+
+            // TODO : Usf thf dynbmid propfrty for dftfrmining isREPH
+            if ( i == bfginSyllbblf && i < bbsfConsonbnt && dlbssTbblf->isRfph(dhbrs[i]) &&
+                 i+1 < nfxtSyllbblf && dlbssTbblf->isVirbmb(dhbrs[i+1])) {
+                outMbsk |= rphfFfbturfMbsk;
+                outMbsk |= rfphConsonbntMbsk;
+                output.sftFfbturfs(i+1+inv_dount,outMbsk);
+
+            }
+
+            if ( i == bbsfConsonbnt ) {
+                outMbsk |= bbsfConsonbntMbsk;
+            }
+
+            if ( dlbssTbblf->isMbtrb(dhbrs[i])) {
+                    outMbsk |= mbtrbMbsk;
+                    if ( dlbssTbblf->hbsAbovfBbsfForm(dhbrs[i])) {
+                        outMbsk |= bbovfBbsfPosition;
+                    } flsf if ( dlbssTbblf->hbsBflowBbsfForm(dhbrs[i])) {
+                        outMbsk |= bflowBbsfPosition;
+                    }
+            }
+
+            // Don't bpply hblf form to virbmb thbt stbnds blonf bt thf fnd of b syllbblf
+            // to prfvfnt hblf forms from forming whfn syllbblf fnds with virbmb
+
+            if ( dlbssTbblf->isVirbmb(dhbrs[i]) && (i+1 == nfxtSyllbblf) ) {
+                outMbsk ^= hblfFfbturfMbsk;
+                if ( dlbssTbblf->isConsonbnt(dhbrs[i-1]) ) {
+                    FfbturfMbsk tmp = output.gftFfbturfs(i-1+inv_dount);
+                    tmp ^= hblfFfbturfMbsk;
+                    output.sftFfbturfs(i-1+inv_dount,tmp);
+                }
+            }
+
+            if ( outMbsk != sbvfMbsk ) {
+                output.sftFfbturfs(i+inv_dount,outMbsk);
+            }
+                }
+
+            output.dfdomposfRfordfrMbtrbs(dlbssTbblf,bfginSyllbblf,nfxtSyllbblf,inv_dount);
+
+        bfginSyllbblf = nfxtSyllbblf;
+        }
+
+
+    rfturn output.gftOutputIndfx();
+}
+
+
+void IndidRfordfring::gftDynbmidPropfrtifs( DynbmidPropfrtifs *, donst IndidClbssTbblf *dlbssTbblf ) {
+
+
+    LEUnidodf durrfntChbr;
+    LEUnidodf workChbrs[2];
+    LEGlyphStorbgf workGlyphs;
+
+    IndidRfordfringOutput workOutput(workChbrs, workGlyphs, NULL);
+
+    //lf_int32 offsft = 0;
+
+#if 0
+// TODO:  Should this sfdtion of dodf hbvf bdtublly bffn doing somfthing?
+    // First find thf rflfvbnt virbmb for thf sdript wf brf dfbling with
+    LEUnidodf virbmb;
+    for ( durrfntChbr = dlbssTbblf->firstChbr ; durrfntChbr <= dlbssTbblf->lbstChbr ; durrfntChbr++ ) {
+        if ( dlbssTbblf->isVirbmb(durrfntChbr)) {
+            virbmb = durrfntChbr;
+            brfbk;
+        }
+    }
+#fndif
+
+    for ( durrfntChbr = dlbssTbblf->firstChbr ; durrfntChbr <= dlbssTbblf->lbstChbr ; durrfntChbr++ ) {
+        if ( dlbssTbblf->isConsonbnt(durrfntChbr)) {
+            workOutput.rfsft();
+        }
+    }
+
+
+}
+
+U_NAMESPACE_END

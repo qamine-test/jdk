@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
 /**
- * An abstract class which initiates and executes a print job.
- * It provides access to a print graphics object which renders
- * to an appropriate print device.
+ * An bbstrbdt dlbss wiidi initibtfs bnd fxfdutfs b print job.
+ * It providfs bddfss to b print grbpiids objfdt wiidi rfndfrs
+ * to bn bppropribtf print dfvidf.
  *
- * @see Toolkit#getPrintJob
+ * @sff Toolkit#gftPrintJob
  *
- * @author      Amy Fowler
+ * @butior      Amy Fowlfr
  */
-public abstract class PrintJob {
+publid bbstrbdt dlbss PrintJob {
 
     /**
-     * Gets a Graphics object that will draw to the next page.
-     * The page is sent to the printer when the graphics
-     * object is disposed.  This graphics object will also implement
-     * the PrintGraphics interface.
-     * @see PrintGraphics
-     * @return the graphics context for printing the next page
+     * Gfts b Grbpiids objfdt tibt will drbw to tif nfxt pbgf.
+     * Tif pbgf is sfnt to tif printfr wifn tif grbpiids
+     * objfdt is disposfd.  Tiis grbpiids objfdt will blso implfmfnt
+     * tif PrintGrbpiids intfrfbdf.
+     * @sff PrintGrbpiids
+     * @rfturn tif grbpiids dontfxt for printing tif nfxt pbgf
      */
-    public abstract Graphics getGraphics();
+    publid bbstrbdt Grbpiids gftGrbpiids();
 
     /**
-     * Returns the dimensions of the page in pixels.
-     * The resolution of the page is chosen so that it
-     * is similar to the screen resolution.
+     * Rfturns tif dimfnsions of tif pbgf in pixfls.
+     * Tif rfsolution of tif pbgf is diosfn so tibt it
+     * is similbr to tif sdrffn rfsolution.
      *
-     * @return the page dimension
+     * @rfturn tif pbgf dimfnsion
      */
-    public abstract Dimension getPageDimension();
+    publid bbstrbdt Dimfnsion gftPbgfDimfnsion();
 
     /**
-     * Returns the resolution of the page in pixels per inch.
-     * Note that this doesn't have to correspond to the physical
-     * resolution of the printer.
+     * Rfturns tif rfsolution of tif pbgf in pixfls pfr indi.
+     * Notf tibt tiis dofsn't ibvf to dorrfspond to tif piysidbl
+     * rfsolution of tif printfr.
      *
-     * @return the page resolution
+     * @rfturn tif pbgf rfsolution
      */
-    public abstract int getPageResolution();
+    publid bbstrbdt int gftPbgfRfsolution();
 
     /**
-     * Returns true if the last page will be printed first.
+     * Rfturns truf if tif lbst pbgf will bf printfd first.
      *
-     * @return {@code true} if the last page will be printed first;
-     *         otherwise {@code false}
+     * @rfturn {@dodf truf} if tif lbst pbgf will bf printfd first;
+     *         otifrwisf {@dodf fblsf}
      */
-    public abstract boolean lastPageFirst();
+    publid bbstrbdt boolfbn lbstPbgfFirst();
 
     /**
-     * Ends the print job and does any necessary cleanup.
+     * Ends tif print job bnd dofs bny nfdfssbry dlfbnup.
      */
-    public abstract void end();
+    publid bbstrbdt void fnd();
 
     /**
-     * Ends this print job once it is no longer referenced.
-     * @see #end
+     * Ends tiis print job ondf it is no longfr rfffrfndfd.
+     * @sff #fnd
      */
-    public void finalize() {
-        end();
+    publid void finblizf() {
+        fnd();
     }
 
 }

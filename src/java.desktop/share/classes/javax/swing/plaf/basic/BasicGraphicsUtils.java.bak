@@ -1,389 +1,389 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import javax.swing.*;
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
+import jbvbx.swing.*;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
 
 /**
- * Convenient util class.
+ * Convfnifnt util dlbss.
  *
- * @author Hans Muller
+ * @butior Hbns Mullfr
  */
-public class BasicGraphicsUtils
+publid dlbss BbsidGrbpiidsUtils
 {
 
-    private static final Insets GROOVE_INSETS = new Insets(2, 2, 2, 2);
-    private static final Insets ETCHED_INSETS = new Insets(2, 2, 2, 2);
+    privbtf stbtid finbl Insfts GROOVE_INSETS = nfw Insfts(2, 2, 2, 2);
+    privbtf stbtid finbl Insfts ETCHED_INSETS = nfw Insfts(2, 2, 2, 2);
 
     /**
-     * Draws an etched rectangle.
+     * Drbws bn ftdifd rfdtbnglf.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y an Y coordinate
-     * @param w a width
-     * @param h a height
-     * @param shadow a color of shadow
-     * @param darkShadow a color of dark shadow
-     * @param highlight a color highlighting
-     * @param lightHighlight a color of light highlighting
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     * @pbrbm w b widti
+     * @pbrbm i b ifigit
+     * @pbrbm sibdow b dolor of sibdow
+     * @pbrbm dbrkSibdow b dolor of dbrk sibdow
+     * @pbrbm iigiligit b dolor iigiligiting
+     * @pbrbm ligitHigiligit b dolor of ligit iigiligiting
      */
-    public static void drawEtchedRect(Graphics g, int x, int y, int w, int h,
-                                      Color shadow, Color darkShadow,
-                                      Color highlight, Color lightHighlight)
+    publid stbtid void drbwEtdifdRfdt(Grbpiids g, int x, int y, int w, int i,
+                                      Color sibdow, Color dbrkSibdow,
+                                      Color iigiligit, Color ligitHigiligit)
     {
-        Color oldColor = g.getColor();  // Make no net change to g
-        g.translate(x, y);
+        Color oldColor = g.gftColor();  // Mbkf no nft dibngf to g
+        g.trbnslbtf(x, y);
 
-        g.setColor(shadow);
-        g.drawLine(0, 0, w-1, 0);      // outer border, top
-        g.drawLine(0, 1, 0, h-2);      // outer border, left
+        g.sftColor(sibdow);
+        g.drbwLinf(0, 0, w-1, 0);      // outfr bordfr, top
+        g.drbwLinf(0, 1, 0, i-2);      // outfr bordfr, lfft
 
-        g.setColor(darkShadow);
-        g.drawLine(1, 1, w-3, 1);      // inner border, top
-        g.drawLine(1, 2, 1, h-3);      // inner border, left
+        g.sftColor(dbrkSibdow);
+        g.drbwLinf(1, 1, w-3, 1);      // innfr bordfr, top
+        g.drbwLinf(1, 2, 1, i-3);      // innfr bordfr, lfft
 
-        g.setColor(lightHighlight);
-        g.drawLine(w-1, 0, w-1, h-1);  // outer border, bottom
-        g.drawLine(0, h-1, w-1, h-1);  // outer border, right
+        g.sftColor(ligitHigiligit);
+        g.drbwLinf(w-1, 0, w-1, i-1);  // outfr bordfr, bottom
+        g.drbwLinf(0, i-1, w-1, i-1);  // outfr bordfr, rigit
 
-        g.setColor(highlight);
-        g.drawLine(w-2, 1, w-2, h-3);  // inner border, right
-        g.drawLine(1, h-2, w-2, h-2);  // inner border, bottom
+        g.sftColor(iigiligit);
+        g.drbwLinf(w-2, 1, w-2, i-3);  // innfr bordfr, rigit
+        g.drbwLinf(1, i-2, w-2, i-2);  // innfr bordfr, bottom
 
-        g.translate(-x, -y);
-        g.setColor(oldColor);
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
     }
 
 
     /**
-     * Returns the amount of space taken up by a border drawn by
-     * <code>drawEtchedRect()</code>
+     * Rfturns tif bmount of spbdf tbkfn up by b bordfr drbwn by
+     * <dodf>drbwEtdifdRfdt()</dodf>
      *
-     * @return  the inset of an etched rect
+     * @rfturn  tif insft of bn ftdifd rfdt
      */
-    public static Insets getEtchedInsets() {
-        return ETCHED_INSETS;
+    publid stbtid Insfts gftEtdifdInsfts() {
+        rfturn ETCHED_INSETS;
     }
 
 
     /**
-     * Draws a groove.
+     * Drbws b groovf.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y an Y coordinate
-     * @param w a width
-     * @param h a height
-     * @param shadow a color of shadow
-     * @param highlight a color highlighting
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     * @pbrbm w b widti
+     * @pbrbm i b ifigit
+     * @pbrbm sibdow b dolor of sibdow
+     * @pbrbm iigiligit b dolor iigiligiting
      */
-    public static void drawGroove(Graphics g, int x, int y, int w, int h,
-                                  Color shadow, Color highlight)
+    publid stbtid void drbwGroovf(Grbpiids g, int x, int y, int w, int i,
+                                  Color sibdow, Color iigiligit)
     {
-        Color oldColor = g.getColor();  // Make no net change to g
-        g.translate(x, y);
+        Color oldColor = g.gftColor();  // Mbkf no nft dibngf to g
+        g.trbnslbtf(x, y);
 
-        g.setColor(shadow);
-        g.drawRect(0, 0, w-2, h-2);
+        g.sftColor(sibdow);
+        g.drbwRfdt(0, 0, w-2, i-2);
 
-        g.setColor(highlight);
-        g.drawLine(1, h-3, 1, 1);
-        g.drawLine(1, 1, w-3, 1);
+        g.sftColor(iigiligit);
+        g.drbwLinf(1, i-3, 1, 1);
+        g.drbwLinf(1, 1, w-3, 1);
 
-        g.drawLine(0, h-1, w-1, h-1);
-        g.drawLine(w-1, h-1, w-1, 0);
+        g.drbwLinf(0, i-1, w-1, i-1);
+        g.drbwLinf(w-1, i-1, w-1, 0);
 
-        g.translate(-x, -y);
-        g.setColor(oldColor);
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
     }
 
     /**
-     * Returns the amount of space taken up by a border drawn by
-     * <code>drawGroove()</code>
+     * Rfturns tif bmount of spbdf tbkfn up by b bordfr drbwn by
+     * <dodf>drbwGroovf()</dodf>
      *
-     * @return  the inset of a groove border
+     * @rfturn  tif insft of b groovf bordfr
      */
-    public static Insets getGrooveInsets() {
-        return GROOVE_INSETS;
+    publid stbtid Insfts gftGroovfInsfts() {
+        rfturn GROOVE_INSETS;
     }
 
 
     /**
-     * Draws a bezel.
+     * Drbws b bfzfl.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y an Y coordinate
-     * @param w a width
-     * @param h a height
-     * @param isPressed is component pressed
-     * @param isDefault is default drawing
-     * @param shadow a color of shadow
-     * @param darkShadow a color of dark shadow
-     * @param highlight a color highlighting
-     * @param lightHighlight a color of light highlighting
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     * @pbrbm w b widti
+     * @pbrbm i b ifigit
+     * @pbrbm isPrfssfd is domponfnt prfssfd
+     * @pbrbm isDffbult is dffbult drbwing
+     * @pbrbm sibdow b dolor of sibdow
+     * @pbrbm dbrkSibdow b dolor of dbrk sibdow
+     * @pbrbm iigiligit b dolor iigiligiting
+     * @pbrbm ligitHigiligit b dolor of ligit iigiligiting
      */
-    public static void drawBezel(Graphics g, int x, int y, int w, int h,
-                                 boolean isPressed, boolean isDefault,
-                                 Color shadow, Color darkShadow,
-                                 Color highlight, Color lightHighlight)
+    publid stbtid void drbwBfzfl(Grbpiids g, int x, int y, int w, int i,
+                                 boolfbn isPrfssfd, boolfbn isDffbult,
+                                 Color sibdow, Color dbrkSibdow,
+                                 Color iigiligit, Color ligitHigiligit)
     {
-        Color oldColor = g.getColor();  // Make no net change to g
-        g.translate(x, y);
+        Color oldColor = g.gftColor();  // Mbkf no nft dibngf to g
+        g.trbnslbtf(x, y);
 
-        if (isPressed && isDefault) {
-            g.setColor(darkShadow);
-            g.drawRect(0, 0, w - 1, h - 1);
-            g.setColor(shadow);
-            g.drawRect(1, 1, w - 3, h - 3);
-        } else if (isPressed) {
-            drawLoweredBezel(g, x, y, w, h,
-                             shadow, darkShadow, highlight, lightHighlight);
-        } else if (isDefault) {
-            g.setColor(darkShadow);
-            g.drawRect(0, 0, w-1, h-1);
+        if (isPrfssfd && isDffbult) {
+            g.sftColor(dbrkSibdow);
+            g.drbwRfdt(0, 0, w - 1, i - 1);
+            g.sftColor(sibdow);
+            g.drbwRfdt(1, 1, w - 3, i - 3);
+        } flsf if (isPrfssfd) {
+            drbwLowfrfdBfzfl(g, x, y, w, i,
+                             sibdow, dbrkSibdow, iigiligit, ligitHigiligit);
+        } flsf if (isDffbult) {
+            g.sftColor(dbrkSibdow);
+            g.drbwRfdt(0, 0, w-1, i-1);
 
-            g.setColor(lightHighlight);
-            g.drawLine(1, 1, 1, h-3);
-            g.drawLine(2, 1, w-3, 1);
+            g.sftColor(ligitHigiligit);
+            g.drbwLinf(1, 1, 1, i-3);
+            g.drbwLinf(2, 1, w-3, 1);
 
-            g.setColor(highlight);
-            g.drawLine(2, 2, 2, h-4);
-            g.drawLine(3, 2, w-4, 2);
+            g.sftColor(iigiligit);
+            g.drbwLinf(2, 2, 2, i-4);
+            g.drbwLinf(3, 2, w-4, 2);
 
-            g.setColor(shadow);
-            g.drawLine(2, h-3, w-3, h-3);
-            g.drawLine(w-3, 2, w-3, h-4);
+            g.sftColor(sibdow);
+            g.drbwLinf(2, i-3, w-3, i-3);
+            g.drbwLinf(w-3, 2, w-3, i-4);
 
-            g.setColor(darkShadow);
-            g.drawLine(1, h-2, w-2, h-2);
-            g.drawLine(w-2, h-2, w-2, 1);
-        } else {
-            g.setColor(lightHighlight);
-            g.drawLine(0, 0, 0, h-1);
-            g.drawLine(1, 0, w-2, 0);
+            g.sftColor(dbrkSibdow);
+            g.drbwLinf(1, i-2, w-2, i-2);
+            g.drbwLinf(w-2, i-2, w-2, 1);
+        } flsf {
+            g.sftColor(ligitHigiligit);
+            g.drbwLinf(0, 0, 0, i-1);
+            g.drbwLinf(1, 0, w-2, 0);
 
-            g.setColor(highlight);
-            g.drawLine(1, 1, 1, h-3);
-            g.drawLine(2, 1, w-3, 1);
+            g.sftColor(iigiligit);
+            g.drbwLinf(1, 1, 1, i-3);
+            g.drbwLinf(2, 1, w-3, 1);
 
-            g.setColor(shadow);
-            g.drawLine(1, h-2, w-2, h-2);
-            g.drawLine(w-2, 1, w-2, h-3);
+            g.sftColor(sibdow);
+            g.drbwLinf(1, i-2, w-2, i-2);
+            g.drbwLinf(w-2, 1, w-2, i-3);
 
-            g.setColor(darkShadow);
-            g.drawLine(0, h-1, w-1, h-1);
-            g.drawLine(w-1, h-1, w-1, 0);
+            g.sftColor(dbrkSibdow);
+            g.drbwLinf(0, i-1, w-1, i-1);
+            g.drbwLinf(w-1, i-1, w-1, 0);
         }
-        g.translate(-x, -y);
-        g.setColor(oldColor);
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
     }
 
     /**
-     * Draws a lowered bezel.
+     * Drbws b lowfrfd bfzfl.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y an Y coordinate
-     * @param w a width
-     * @param h a height
-     * @param shadow a color of shadow
-     * @param darkShadow a color of dark shadow
-     * @param highlight a color highlighting
-     * @param lightHighlight a color of light highlighting
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     * @pbrbm w b widti
+     * @pbrbm i b ifigit
+     * @pbrbm sibdow b dolor of sibdow
+     * @pbrbm dbrkSibdow b dolor of dbrk sibdow
+     * @pbrbm iigiligit b dolor iigiligiting
+     * @pbrbm ligitHigiligit b dolor of ligit iigiligiting
      */
-    public static void drawLoweredBezel(Graphics g, int x, int y, int w, int h,
-                                        Color shadow, Color darkShadow,
-                                        Color highlight, Color lightHighlight)  {
-        g.setColor(darkShadow);
-        g.drawLine(0, 0, 0, h-1);
-        g.drawLine(1, 0, w-2, 0);
+    publid stbtid void drbwLowfrfdBfzfl(Grbpiids g, int x, int y, int w, int i,
+                                        Color sibdow, Color dbrkSibdow,
+                                        Color iigiligit, Color ligitHigiligit)  {
+        g.sftColor(dbrkSibdow);
+        g.drbwLinf(0, 0, 0, i-1);
+        g.drbwLinf(1, 0, w-2, 0);
 
-        g.setColor(shadow);
-        g.drawLine(1, 1, 1, h-2);
-        g.drawLine(1, 1, w-3, 1);
+        g.sftColor(sibdow);
+        g.drbwLinf(1, 1, 1, i-2);
+        g.drbwLinf(1, 1, w-3, 1);
 
-        g.setColor(lightHighlight);
-        g.drawLine(0, h-1, w-1, h-1);
-        g.drawLine(w-1, h-1, w-1, 0);
+        g.sftColor(ligitHigiligit);
+        g.drbwLinf(0, i-1, w-1, i-1);
+        g.drbwLinf(w-1, i-1, w-1, 0);
 
-        g.setColor(highlight);
-        g.drawLine(1, h-2, w-2, h-2);
-        g.drawLine(w-2, h-2, w-2, 1);
+        g.sftColor(iigiligit);
+        g.drbwLinf(1, i-2, w-2, i-2);
+        g.drbwLinf(w-2, i-2, w-2, 1);
      }
 
 
     /**
-     * Draw a string with the graphics {@code g} at location (x,y)
-     * just like {@code g.drawString} would. The first occurrence
-     * of {@code underlineChar} in text will be underlined.
-     * The matching algorithm is not case sensitive.
+     * Drbw b string witi tif grbpiids {@dodf g} bt lodbtion (x,y)
+     * just likf {@dodf g.drbwString} would. Tif first oddurrfndf
+     * of {@dodf undfrlinfCibr} in tfxt will bf undfrlinfd.
+     * Tif mbtdiing blgoritim is not dbsf sfnsitivf.
      *
-     * @param g an instance of {@code Graphics}
-     * @param text a text
-     * @param underlinedChar an underlined char
-     * @param x an X coordinate
-     * @param y an Y coordinate
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm tfxt b tfxt
+     * @pbrbm undfrlinfdCibr bn undfrlinfd dibr
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
      */
-    public static void drawString(Graphics g,String text,int underlinedChar,int x,int y) {
-        int index=-1;
+    publid stbtid void drbwString(Grbpiids g,String tfxt,int undfrlinfdCibr,int x,int y) {
+        int indfx=-1;
 
-        if (underlinedChar != '\0') {
-            char uc = Character.toUpperCase((char)underlinedChar);
-            char lc = Character.toLowerCase((char)underlinedChar);
-            int uci = text.indexOf(uc);
-            int lci = text.indexOf(lc);
+        if (undfrlinfdCibr != '\0') {
+            dibr ud = Cibrbdtfr.toUppfrCbsf((dibr)undfrlinfdCibr);
+            dibr ld = Cibrbdtfr.toLowfrCbsf((dibr)undfrlinfdCibr);
+            int udi = tfxt.indfxOf(ud);
+            int ldi = tfxt.indfxOf(ld);
 
-            if(uci == -1) {
-                index = lci;
+            if(udi == -1) {
+                indfx = ldi;
             }
-            else if(lci == -1) {
-                index = uci;
+            flsf if(ldi == -1) {
+                indfx = udi;
             }
-            else {
-                index = (lci < uci) ? lci : uci;
+            flsf {
+                indfx = (ldi < udi) ? ldi : udi;
             }
         }
-        drawStringUnderlineCharAt(g, text, index, x, y);
+        drbwStringUndfrlinfCibrAt(g, tfxt, indfx, x, y);
     }
 
     /**
-     * Draw a string with the graphics <code>g</code> at location
-     * (<code>x</code>, <code>y</code>)
-     * just like <code>g.drawString</code> would.
-     * The character at index <code>underlinedIndex</code>
-     * in text will be underlined. If <code>index</code> is beyond the
-     * bounds of <code>text</code> (including &lt; 0), nothing will be
-     * underlined.
+     * Drbw b string witi tif grbpiids <dodf>g</dodf> bt lodbtion
+     * (<dodf>x</dodf>, <dodf>y</dodf>)
+     * just likf <dodf>g.drbwString</dodf> would.
+     * Tif dibrbdtfr bt indfx <dodf>undfrlinfdIndfx</dodf>
+     * in tfxt will bf undfrlinfd. If <dodf>indfx</dodf> is bfyond tif
+     * bounds of <dodf>tfxt</dodf> (indluding &lt; 0), notiing will bf
+     * undfrlinfd.
      *
-     * @param g Graphics to draw with
-     * @param text String to draw
-     * @param underlinedIndex Index of character in text to underline
-     * @param x x coordinate to draw at
-     * @param y y coordinate to draw at
-     * @since 1.4
+     * @pbrbm g Grbpiids to drbw witi
+     * @pbrbm tfxt String to drbw
+     * @pbrbm undfrlinfdIndfx Indfx of dibrbdtfr in tfxt to undfrlinf
+     * @pbrbm x x doordinbtf to drbw bt
+     * @pbrbm y y doordinbtf to drbw bt
+     * @sindf 1.4
      */
-    public static void drawStringUnderlineCharAt(Graphics g, String text,
-                           int underlinedIndex, int x,int y) {
-        SwingUtilities2.drawStringUnderlineCharAt(null, g, text,
-                underlinedIndex, x, y);
+    publid stbtid void drbwStringUndfrlinfCibrAt(Grbpiids g, String tfxt,
+                           int undfrlinfdIndfx, int x,int y) {
+        SwingUtilitifs2.drbwStringUndfrlinfCibrAt(null, g, tfxt,
+                undfrlinfdIndfx, x, y);
     }
 
     /**
-     * Draws dashed rectangle.
+     * Drbws dbsifd rfdtbnglf.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y an Y coordinate
-     * @param width a width of rectangle
-     * @param height a height of rectangle
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     * @pbrbm widti b widti of rfdtbnglf
+     * @pbrbm ifigit b ifigit of rfdtbnglf
      */
-    public static void drawDashedRect(Graphics g,int x,int y,int width,int height) {
+    publid stbtid void drbwDbsifdRfdt(Grbpiids g,int x,int y,int widti,int ifigit) {
         int vx,vy;
 
-        // draw upper and lower horizontal dashes
-        for (vx = x; vx < (x + width); vx+=2) {
-            g.fillRect(vx, y, 1, 1);
-            g.fillRect(vx, y + height-1, 1, 1);
+        // drbw uppfr bnd lowfr iorizontbl dbsifs
+        for (vx = x; vx < (x + widti); vx+=2) {
+            g.fillRfdt(vx, y, 1, 1);
+            g.fillRfdt(vx, y + ifigit-1, 1, 1);
         }
 
-        // draw left and right vertical dashes
-        for (vy = y; vy < (y + height); vy+=2) {
-            g.fillRect(x, vy, 1, 1);
-            g.fillRect(x+width-1, vy, 1, 1);
+        // drbw lfft bnd rigit vfrtidbl dbsifs
+        for (vy = y; vy < (y + ifigit); vy+=2) {
+            g.fillRfdt(x, vy, 1, 1);
+            g.fillRfdt(x+widti-1, vy, 1, 1);
         }
     }
 
     /**
-     * Returns the preferred size of the button.
+     * Rfturns tif prfffrrfd sizf of tif button.
      *
-     * @param b an instance of {@code AbstractButton}
-     * @param textIconGap a gap between text and icon
-     * @return the preferred size of the button
+     * @pbrbm b bn instbndf of {@dodf AbstrbdtButton}
+     * @pbrbm tfxtIdonGbp b gbp bftwffn tfxt bnd idon
+     * @rfturn tif prfffrrfd sizf of tif button
      */
-    public static Dimension getPreferredButtonSize(AbstractButton b, int textIconGap)
+    publid stbtid Dimfnsion gftPrfffrrfdButtonSizf(AbstrbdtButton b, int tfxtIdonGbp)
     {
-        if(b.getComponentCount() > 0) {
-            return null;
+        if(b.gftComponfntCount() > 0) {
+            rfturn null;
         }
 
-        Icon icon = b.getIcon();
-        String text = b.getText();
+        Idon idon = b.gftIdon();
+        String tfxt = b.gftTfxt();
 
-        Font font = b.getFont();
-        FontMetrics fm = b.getFontMetrics(font);
+        Font font = b.gftFont();
+        FontMftrids fm = b.gftFontMftrids(font);
 
-        Rectangle iconR = new Rectangle();
-        Rectangle textR = new Rectangle();
-        Rectangle viewR = new Rectangle(Short.MAX_VALUE, Short.MAX_VALUE);
+        Rfdtbnglf idonR = nfw Rfdtbnglf();
+        Rfdtbnglf tfxtR = nfw Rfdtbnglf();
+        Rfdtbnglf vifwR = nfw Rfdtbnglf(Siort.MAX_VALUE, Siort.MAX_VALUE);
 
-        SwingUtilities.layoutCompoundLabel(
-            b, fm, text, icon,
-            b.getVerticalAlignment(), b.getHorizontalAlignment(),
-            b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
-            viewR, iconR, textR, (text == null ? 0 : textIconGap)
+        SwingUtilitifs.lbyoutCompoundLbbfl(
+            b, fm, tfxt, idon,
+            b.gftVfrtidblAlignmfnt(), b.gftHorizontblAlignmfnt(),
+            b.gftVfrtidblTfxtPosition(), b.gftHorizontblTfxtPosition(),
+            vifwR, idonR, tfxtR, (tfxt == null ? 0 : tfxtIdonGbp)
         );
 
-        /* The preferred size of the button is the size of
-         * the text and icon rectangles plus the buttons insets.
+        /* Tif prfffrrfd sizf of tif button is tif sizf of
+         * tif tfxt bnd idon rfdtbnglfs plus tif buttons insfts.
          */
 
-        Rectangle r = iconR.union(textR);
+        Rfdtbnglf r = idonR.union(tfxtR);
 
-        Insets insets = b.getInsets();
-        r.width += insets.left + insets.right;
-        r.height += insets.top + insets.bottom;
+        Insfts insfts = b.gftInsfts();
+        r.widti += insfts.lfft + insfts.rigit;
+        r.ifigit += insfts.top + insfts.bottom;
 
-        return r.getSize();
+        rfturn r.gftSizf();
     }
 
     /*
-     * Convenience function for determining ComponentOrientation.  Helps us
-     * avoid having Munge directives throughout the code.
+     * Convfnifndf fundtion for dftfrmining ComponfntOrifntbtion.  Hflps us
+     * bvoid ibving Mungf dirfdtivfs tirougiout tif dodf.
      */
-    static boolean isLeftToRight( Component c ) {
-        return c.getComponentOrientation().isLeftToRight();
+    stbtid boolfbn isLfftToRigit( Componfnt d ) {
+        rfturn d.gftComponfntOrifntbtion().isLfftToRigit();
     }
 
-    static boolean isMenuShortcutKeyDown(InputEvent event) {
-        return (event.getModifiers() &
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0;
+    stbtid boolfbn isMfnuSiortdutKfyDown(InputEvfnt fvfnt) {
+        rfturn (fvfnt.gftModififrs() &
+                Toolkit.gftDffbultToolkit().gftMfnuSiortdutKfyMbsk()) != 0;
     }
 }

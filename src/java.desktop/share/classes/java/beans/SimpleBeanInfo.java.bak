@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
 /**
- * This is a support class to make it easier for people to provide
- * BeanInfo classes.
+ * Tiis is b support dlbss to mbkf it fbsifr for pfoplf to providf
+ * BfbnInfo dlbssfs.
  * <p>
- * It defaults to providing "noop" information, and can be selectively
- * overriden to provide more explicit information on chosen topics.
- * When the introspector sees the "noop" values, it will apply low
- * level introspection and design patterns to automatically analyze
- * the target bean.
+ * It dffbults to providing "noop" informbtion, bnd dbn bf sflfdtivfly
+ * ovfrridfn to providf morf fxplidit informbtion on diosfn topids.
+ * Wifn tif introspfdtor sffs tif "noop" vblufs, it will bpply low
+ * lfvfl introspfdtion bnd dfsign pbttfrns to butombtidblly bnblyzf
+ * tif tbrgft bfbn.
  *
- * @since 1.1
+ * @sindf 1.1
  */
 
-public class SimpleBeanInfo implements BeanInfo {
+publid dlbss SimplfBfbnInfo implfmfnts BfbnInfo {
 
     /**
-     * Deny knowledge about the class and customizer of the bean.
-     * You can override this if you wish to provide explicit info.
+     * Dfny knowlfdgf bbout tif dlbss bnd dustomizfr of tif bfbn.
+     * You dbn ovfrridf tiis if you wisi to providf fxplidit info.
      */
-    public BeanDescriptor getBeanDescriptor() {
-        return null;
+    publid BfbnDfsdriptor gftBfbnDfsdriptor() {
+        rfturn null;
     }
 
     /**
-     * Deny knowledge of properties. You can override this
-     * if you wish to provide explicit property info.
+     * Dfny knowlfdgf of propfrtifs. You dbn ovfrridf tiis
+     * if you wisi to providf fxplidit propfrty info.
      */
-    public PropertyDescriptor[] getPropertyDescriptors() {
-        return null;
+    publid PropfrtyDfsdriptor[] gftPropfrtyDfsdriptors() {
+        rfturn null;
     }
 
     /**
-     * Deny knowledge of a default property. You can override this
-     * if you wish to define a default property for the bean.
+     * Dfny knowlfdgf of b dffbult propfrty. You dbn ovfrridf tiis
+     * if you wisi to dffinf b dffbult propfrty for tif bfbn.
      */
-    public int getDefaultPropertyIndex() {
-        return -1;
+    publid int gftDffbultPropfrtyIndfx() {
+        rfturn -1;
     }
 
     /**
-     * Deny knowledge of event sets. You can override this
-     * if you wish to provide explicit event set info.
+     * Dfny knowlfdgf of fvfnt sfts. You dbn ovfrridf tiis
+     * if you wisi to providf fxplidit fvfnt sft info.
      */
-    public EventSetDescriptor[] getEventSetDescriptors() {
-        return null;
+    publid EvfntSftDfsdriptor[] gftEvfntSftDfsdriptors() {
+        rfturn null;
     }
 
     /**
-     * Deny knowledge of a default event. You can override this
-     * if you wish to define a default event for the bean.
+     * Dfny knowlfdgf of b dffbult fvfnt. You dbn ovfrridf tiis
+     * if you wisi to dffinf b dffbult fvfnt for tif bfbn.
      */
-    public int getDefaultEventIndex() {
-        return -1;
+    publid int gftDffbultEvfntIndfx() {
+        rfturn -1;
     }
 
     /**
-     * Deny knowledge of methods. You can override this
-     * if you wish to provide explicit method info.
+     * Dfny knowlfdgf of mftiods. You dbn ovfrridf tiis
+     * if you wisi to providf fxplidit mftiod info.
      */
-    public MethodDescriptor[] getMethodDescriptors() {
-        return null;
+    publid MftiodDfsdriptor[] gftMftiodDfsdriptors() {
+        rfturn null;
     }
 
     /**
-     * Claim there are no other relevant BeanInfo objects.  You
-     * may override this if you want to (for example) return a
-     * BeanInfo for a base class.
+     * Clbim tifrf brf no otifr rflfvbnt BfbnInfo objfdts.  You
+     * mby ovfrridf tiis if you wbnt to (for fxbmplf) rfturn b
+     * BfbnInfo for b bbsf dlbss.
      */
-    public BeanInfo[] getAdditionalBeanInfo() {
-        return null;
+    publid BfbnInfo[] gftAdditionblBfbnInfo() {
+        rfturn null;
     }
 
     /**
-     * Claim there are no icons available.  You can override
-     * this if you want to provide icons for your bean.
+     * Clbim tifrf brf no idons bvbilbblf.  You dbn ovfrridf
+     * tiis if you wbnt to providf idons for your bfbn.
      */
-    public java.awt.Image getIcon(int iconKind) {
-        return null;
+    publid jbvb.bwt.Imbgf gftIdon(int idonKind) {
+        rfturn null;
     }
 
     /**
-     * This is a utility method to help in loading icon images.
-     * It takes the name of a resource file associated with the
-     * current object's class file and loads an image object
-     * from that file.  Typically images will be GIFs.
+     * Tiis is b utility mftiod to iflp in lobding idon imbgfs.
+     * It tbkfs tif nbmf of b rfsourdf filf bssodibtfd witi tif
+     * durrfnt objfdt's dlbss filf bnd lobds bn imbgf objfdt
+     * from tibt filf.  Typidblly imbgfs will bf GIFs.
      *
-     * @param resourceName  A pathname relative to the directory
-     *          holding the class file of the current class.  For example,
-     *          "wombat.gif".
-     * @return  an image object.  May be null if the load failed.
+     * @pbrbm rfsourdfNbmf  A pbtinbmf rflbtivf to tif dirfdtory
+     *          iolding tif dlbss filf of tif durrfnt dlbss.  For fxbmplf,
+     *          "wombbt.gif".
+     * @rfturn  bn imbgf objfdt.  Mby bf null if tif lobd fbilfd.
      */
-    public java.awt.Image loadImage(final String resourceName) {
+    publid jbvb.bwt.Imbgf lobdImbgf(finbl String rfsourdfNbmf) {
         try {
-            final Class<?> c = getClass();
-            java.awt.image.ImageProducer ip = (java.awt.image.ImageProducer)
-                java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Object>() {
-                    public Object run() {
-                        java.net.URL url;
-                        if ((url = c.getResource(resourceName)) == null) {
-                            return null;
-                        } else {
+            finbl Clbss<?> d = gftClbss();
+            jbvb.bwt.imbgf.ImbgfProdudfr ip = (jbvb.bwt.imbgf.ImbgfProdudfr)
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                    publid Objfdt run() {
+                        jbvb.nft.URL url;
+                        if ((url = d.gftRfsourdf(rfsourdfNbmf)) == null) {
+                            rfturn null;
+                        } flsf {
                             try {
-                                return url.getContent();
-                            } catch (java.io.IOException ioe) {
-                                return null;
+                                rfturn url.gftContfnt();
+                            } dbtdi (jbvb.io.IOExdfption iof) {
+                                rfturn null;
                             }
                         }
                     }
             });
 
             if (ip == null)
-                return null;
-            java.awt.Toolkit tk = java.awt.Toolkit.getDefaultToolkit();
-            return tk.createImage(ip);
-        } catch (Exception ex) {
-            return null;
+                rfturn null;
+            jbvb.bwt.Toolkit tk = jbvb.bwt.Toolkit.gftDffbultToolkit();
+            rfturn tk.drfbtfImbgf(ip);
+        } dbtdi (Exdfption fx) {
+            rfturn null;
         }
     }
 

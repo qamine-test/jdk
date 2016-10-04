@@ -1,319 +1,319 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing;
+pbdkbgf sun.swing;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
-import java.text.MessageFormat;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.lang.reflect.InvocationTargetException;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrJob;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
 
 /**
- * The {@code PrintingStatus} provides a dialog that displays progress
- * of the printing job and provides a way to abort it
+ * Tif {@dodf PrintingStbtus} providfs b diblog tibt displbys progrfss
+ * of tif printing job bnd providfs b wby to bbort it
  * <p/>
- * Methods of these class are thread safe, although most Swing methods
- * are not. Please see
- * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
- * in Swing</A> for more information.
+ * Mftiods of tifsf dlbss brf tirfbd sbff, bltiougi most Swing mftiods
+ * brf not. Plfbsf sff
+ * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+ * in Swing</A> for morf informbtion.
  *
- * @author Alexander Potochkin
- * @since 1.6
+ * @butior Alfxbndfr Potodikin
+ * @sindf 1.6
  */
 
-public class PrintingStatus {
+publid dlbss PrintingStbtus {
 
-    private final PrinterJob job;
-    private final Component parent;
-    private JDialog abortDialog;
+    privbtf finbl PrintfrJob job;
+    privbtf finbl Componfnt pbrfnt;
+    privbtf JDiblog bbortDiblog;
 
-    private JButton abortButton;
-    private JLabel statusLabel;
-    private MessageFormat statusFormat;
-    private final AtomicBoolean isAborted = new AtomicBoolean(false);
+    privbtf JButton bbortButton;
+    privbtf JLbbfl stbtusLbbfl;
+    privbtf MfssbgfFormbt stbtusFormbt;
+    privbtf finbl AtomidBoolfbn isAbortfd = nfw AtomidBoolfbn(fblsf);
 
-    // the action that will abort printing
-    @SuppressWarnings("serial") // anonymous class
-    private final Action abortAction = new AbstractAction() {
-        public void actionPerformed(ActionEvent ae) {
-            if (!isAborted.get()) {
-                isAborted.set(true);
+    // tif bdtion tibt will bbort printing
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf finbl Adtion bbortAdtion = nfw AbstrbdtAdtion() {
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+            if (!isAbortfd.gft()) {
+                isAbortfd.sft(truf);
 
-                // update the status abortDialog to indicate aborting
-                abortButton.setEnabled(false);
-                abortDialog.setTitle(
-                    UIManager.getString("PrintingDialog.titleAbortingText"));
-                statusLabel.setText(
-                    UIManager.getString("PrintingDialog.contentAbortingText"));
+                // updbtf tif stbtus bbortDiblog to indidbtf bborting
+                bbortButton.sftEnbblfd(fblsf);
+                bbortDiblog.sftTitlf(
+                    UIMbnbgfr.gftString("PrintingDiblog.titlfAbortingTfxt"));
+                stbtusLbbfl.sftTfxt(
+                    UIMbnbgfr.gftString("PrintingDiblog.dontfntAbortingTfxt"));
 
-                // cancel the PrinterJob
-                job.cancel();
+                // dbndfl tif PrintfrJob
+                job.dbndfl();
             }
         }
     };
 
-    private final WindowAdapter closeListener = new WindowAdapter() {
-        public void windowClosing(WindowEvent we) {
-            abortAction.actionPerformed(null);
+    privbtf finbl WindowAdbptfr dlosfListfnfr = nfw WindowAdbptfr() {
+        publid void windowClosing(WindowEvfnt wf) {
+            bbortAdtion.bdtionPfrformfd(null);
         }
     };
 
     /**
-     * Creates PrintingStatus instance
+     * Crfbtfs PrintingStbtus instbndf
      *
-     * @param parent a <code>Component</code> object to be used
-     *               as parent component for PrintingStatus dialog
-     * @param job    a <code>PrinterJob</code> object to be cancelled
-     *               using this <code>PrintingStatus</code> dialog
-     * @return a <code>PrintingStatus</code> object
+     * @pbrbm pbrfnt b <dodf>Componfnt</dodf> objfdt to bf usfd
+     *               bs pbrfnt domponfnt for PrintingStbtus diblog
+     * @pbrbm job    b <dodf>PrintfrJob</dodf> objfdt to bf dbndfllfd
+     *               using tiis <dodf>PrintingStbtus</dodf> diblog
+     * @rfturn b <dodf>PrintingStbtus</dodf> objfdt
      */
-    public static PrintingStatus
-            createPrintingStatus(Component parent, PrinterJob job) {
-        return new PrintingStatus(parent, job);
+    publid stbtid PrintingStbtus
+            drfbtfPrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+        rfturn nfw PrintingStbtus(pbrfnt, job);
     }
 
-    protected PrintingStatus(Component parent, PrinterJob job) {
-        this.job = job;
-        this.parent = parent;
+    protfdtfd PrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+        tiis.job = job;
+        tiis.pbrfnt = pbrfnt;
     }
 
-    private void init() {
-        // prepare the status JOptionPane
-        String progressTitle =
-            UIManager.getString("PrintingDialog.titleProgressText");
+    privbtf void init() {
+        // prfpbrf tif stbtus JOptionPbnf
+        String progrfssTitlf =
+            UIMbnbgfr.gftString("PrintingDiblog.titlfProgrfssTfxt");
 
-        String dialogInitialContent =
-            UIManager.getString("PrintingDialog.contentInitialText");
+        String diblogInitiblContfnt =
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntInitiblTfxt");
 
-        // this one's a MessageFormat since it must include the page
-        // number in its text
-        statusFormat = new MessageFormat(
-            UIManager.getString("PrintingDialog.contentProgressText"));
+        // tiis onf's b MfssbgfFormbt sindf it must indludf tif pbgf
+        // numbfr in its tfxt
+        stbtusFormbt = nfw MfssbgfFormbt(
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntProgrfssTfxt"));
 
-        String abortText =
-            UIManager.getString("PrintingDialog.abortButtonText");
-        String abortTooltip =
-            UIManager.getString("PrintingDialog.abortButtonToolTipText");
-        int abortMnemonic =
-            getInt("PrintingDialog.abortButtonMnemonic", -1);
-        int abortMnemonicIndex =
-            getInt("PrintingDialog.abortButtonDisplayedMnemonicIndex", -1);
+        String bbortTfxt =
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonTfxt");
+        String bbortTooltip =
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonToolTipTfxt");
+        int bbortMnfmonid =
+            gftInt("PrintingDiblog.bbortButtonMnfmonid", -1);
+        int bbortMnfmonidIndfx =
+            gftInt("PrintingDiblog.bbortButtonDisplbyfdMnfmonidIndfx", -1);
 
-        abortButton = new JButton(abortText);
-        abortButton.addActionListener(abortAction);
+        bbortButton = nfw JButton(bbortTfxt);
+        bbortButton.bddAdtionListfnfr(bbortAdtion);
 
-        abortButton.setToolTipText(abortTooltip);
-        if (abortMnemonic != -1) {
-            abortButton.setMnemonic(abortMnemonic);
+        bbortButton.sftToolTipTfxt(bbortTooltip);
+        if (bbortMnfmonid != -1) {
+            bbortButton.sftMnfmonid(bbortMnfmonid);
         }
-        if (abortMnemonicIndex != -1) {
-            abortButton.setDisplayedMnemonicIndex(abortMnemonicIndex);
+        if (bbortMnfmonidIndfx != -1) {
+            bbortButton.sftDisplbyfdMnfmonidIndfx(bbortMnfmonidIndfx);
         }
-        statusLabel = new JLabel(dialogInitialContent);
-        JOptionPane abortPane = new JOptionPane(statusLabel,
-            JOptionPane.INFORMATION_MESSAGE,
-            JOptionPane.DEFAULT_OPTION,
-            null, new Object[]{abortButton},
-            abortButton);
-        abortPane.getActionMap().put("close", abortAction);
+        stbtusLbbfl = nfw JLbbfl(diblogInitiblContfnt);
+        JOptionPbnf bbortPbnf = nfw JOptionPbnf(stbtusLbbfl,
+            JOptionPbnf.INFORMATION_MESSAGE,
+            JOptionPbnf.DEFAULT_OPTION,
+            null, nfw Objfdt[]{bbortButton},
+            bbortButton);
+        bbortPbnf.gftAdtionMbp().put("dlosf", bbortAdtion);
 
-        // The dialog should be centered over the viewport if the table is in one
-        if (parent != null && parent.getParent() instanceof JViewport) {
-            abortDialog =
-                    abortPane.createDialog(parent.getParent(), progressTitle);
-        } else {
-            abortDialog = abortPane.createDialog(parent, progressTitle);
+        // Tif diblog siould bf dfntfrfd ovfr tif vifwport if tif tbblf is in onf
+        if (pbrfnt != null && pbrfnt.gftPbrfnt() instbndfof JVifwport) {
+            bbortDiblog =
+                    bbortPbnf.drfbtfDiblog(pbrfnt.gftPbrfnt(), progrfssTitlf);
+        } flsf {
+            bbortDiblog = bbortPbnf.drfbtfDiblog(pbrfnt, progrfssTitlf);
         }
-        // clicking the X button should not hide the dialog
-        abortDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-        abortDialog.addWindowListener(closeListener);
+        // dlidking tif X button siould not iidf tif diblog
+        bbortDiblog.sftDffbultClosfOpfrbtion(JDiblog.DO_NOTHING_ON_CLOSE);
+        bbortDiblog.bddWindowListfnfr(dlosfListfnfr);
     }
 
     /**
-     * Shows PrintingStatus dialog.
-     * if dialog is modal this method returns only
-     * after <code>dispose()</code> was called otherwise returns immediately
+     * Siows PrintingStbtus diblog.
+     * if diblog is modbl tiis mftiod rfturns only
+     * bftfr <dodf>disposf()</dodf> wbs dbllfd otifrwisf rfturns immfdibtfly
      *
-     * @param isModal <code>true</code> this dialog should be modal;
-     *                <code>false</code> otherwise.
-     * @see #dispose
+     * @pbrbm isModbl <dodf>truf</dodf> tiis diblog siould bf modbl;
+     *                <dodf>fblsf</dodf> otifrwisf.
+     * @sff #disposf
      */
-    public void showModal(final boolean isModal) {
-        if (SwingUtilities.isEventDispatchThread()) {
-            showModalOnEDT(isModal);
-        } else {
+    publid void siowModbl(finbl boolfbn isModbl) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+            siowModblOnEDT(isModbl);
+        } flsf {
             try {
-                SwingUtilities.invokeAndWait(new Runnable() {
-                    public void run() {
-                        showModalOnEDT(isModal);
+                SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                    publid void run() {
+                        siowModblOnEDT(isModbl);
                     }
                 });
-            } catch(InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch(InvocationTargetException e) {
-                Throwable cause = e.getCause();
-                if (cause instanceof RuntimeException) {
-                   throw (RuntimeException) cause;
-                } else if (cause instanceof Error) {
-                   throw (Error) cause;
-                } else {
-                   throw new RuntimeException(cause);
+            } dbtdi(IntfrruptfdExdfption f) {
+                tirow nfw RuntimfExdfption(f);
+            } dbtdi(InvodbtionTbrgftExdfption f) {
+                Tirowbblf dbusf = f.gftCbusf();
+                if (dbusf instbndfof RuntimfExdfption) {
+                   tirow (RuntimfExdfption) dbusf;
+                } flsf if (dbusf instbndfof Error) {
+                   tirow (Error) dbusf;
+                } flsf {
+                   tirow nfw RuntimfExdfption(dbusf);
                 }
             }
         }
     }
 
     /**
-     * The EDT part of the showModal method.
+     * Tif EDT pbrt of tif siowModbl mftiod.
      *
-     * This method is to be called on the EDT only.
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
      */
-    private void showModalOnEDT(boolean isModal) {
-        assert SwingUtilities.isEventDispatchThread();
+    privbtf void siowModblOnEDT(boolfbn isModbl) {
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
         init();
-        abortDialog.setModal(isModal);
-        abortDialog.setVisible(true);
+        bbortDiblog.sftModbl(isModbl);
+        bbortDiblog.sftVisiblf(truf);
     }
 
     /**
-     * Disposes modal PrintingStatus dialog
+     * Disposfs modbl PrintingStbtus diblog
      *
-     * @see #showModal(boolean)
+     * @sff #siowModbl(boolfbn)
      */
-    public void dispose() {
-        if (SwingUtilities.isEventDispatchThread()) {
-            disposeOnEDT();
-        } else {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    disposeOnEDT();
+    publid void disposf() {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+            disposfOnEDT();
+        } flsf {
+            SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    disposfOnEDT();
                 }
             });
         }
     }
 
     /**
-     * The EDT part of the dispose method.
+     * Tif EDT pbrt of tif disposf mftiod.
      *
-     * This method is to be called on the EDT only.
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
      */
-    private void disposeOnEDT() {
-        assert SwingUtilities.isEventDispatchThread();
-        if (abortDialog != null) {
-            abortDialog.removeWindowListener(closeListener);
-            abortDialog.dispose();
-            abortDialog = null;
+    privbtf void disposfOnEDT() {
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        if (bbortDiblog != null) {
+            bbortDiblog.rfmovfWindowListfnfr(dlosfListfnfr);
+            bbortDiblog.disposf();
+            bbortDiblog = null;
         }
     }
 
     /**
-     * Returns whether the printng was aborted using this PrintingStatus
+     * Rfturns wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
      *
-     * @return whether the printng was aborted using this PrintingStatus
+     * @rfturn wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
      */
-    public boolean isAborted() {
-        return isAborted.get();
+    publid boolfbn isAbortfd() {
+        rfturn isAbortfd.gft();
     }
 
     /**
-     * Returns printable which is used to track the current page being
-     * printed in this PrintingStatus
+     * Rfturns printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     * printfd in tiis PrintingStbtus
      *
-     * @param printable to be used to create notification printable
-     * @return printable which is used to track the current page being
-     *         printed in this PrintingStatus
-     * @throws NullPointerException if <code>printable</code> is <code>null</code>
+     * @pbrbm printbblf to bf usfd to drfbtf notifidbtion printbblf
+     * @rfturn printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     *         printfd in tiis PrintingStbtus
+     * @tirows NullPointfrExdfption if <dodf>printbblf</dodf> is <dodf>null</dodf>
      */
-    public Printable createNotificationPrintable(Printable printable) {
-        return new NotificationPrintable(printable);
+    publid Printbblf drfbtfNotifidbtionPrintbblf(Printbblf printbblf) {
+        rfturn nfw NotifidbtionPrintbblf(printbblf);
     }
 
-    private class NotificationPrintable implements Printable {
-        private final Printable printDelegatee;
+    privbtf dlbss NotifidbtionPrintbblf implfmfnts Printbblf {
+        privbtf finbl Printbblf printDflfgbtff;
 
-        public NotificationPrintable(Printable delegatee) {
-            if (delegatee == null) {
-                throw new NullPointerException("Printable is null");
+        publid NotifidbtionPrintbblf(Printbblf dflfgbtff) {
+            if (dflfgbtff == null) {
+                tirow nfw NullPointfrExdfption("Printbblf is null");
             }
-            this.printDelegatee = delegatee;
+            tiis.printDflfgbtff = dflfgbtff;
         }
 
-        public int print(final Graphics graphics,
-                         final PageFormat pageFormat, final int pageIndex)
-                throws PrinterException {
+        publid int print(finbl Grbpiids grbpiids,
+                         finbl PbgfFormbt pbgfFormbt, finbl int pbgfIndfx)
+                tirows PrintfrExdfption {
 
-            final int retVal =
-                printDelegatee.print(graphics, pageFormat, pageIndex);
-            if (retVal != NO_SUCH_PAGE && !isAborted()) {
-                if (SwingUtilities.isEventDispatchThread()) {
-                    updateStatusOnEDT(pageIndex);
-                } else {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            updateStatusOnEDT(pageIndex);
+            finbl int rftVbl =
+                printDflfgbtff.print(grbpiids, pbgfFormbt, pbgfIndfx);
+            if (rftVbl != NO_SUCH_PAGE && !isAbortfd()) {
+                if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+                    updbtfStbtusOnEDT(pbgfIndfx);
+                } flsf {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                        publid void run() {
+                            updbtfStbtusOnEDT(pbgfIndfx);
                         }
                     });
                 }
             }
-            return retVal;
+            rfturn rftVbl;
         }
 
         /**
-         * The EDT part of the print method.
+         * Tif EDT pbrt of tif print mftiod.
          *
-         * This method is to be called on the EDT only.
+         * Tiis mftiod is to bf dbllfd on tif EDT only.
          */
-        private void updateStatusOnEDT(int pageIndex) {
-            assert SwingUtilities.isEventDispatchThread();
-            Object[] pageNumber = new Object[]{
-                pageIndex + 1};
-            statusLabel.setText(statusFormat.format(pageNumber));
+        privbtf void updbtfStbtusOnEDT(int pbgfIndfx) {
+            bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+            Objfdt[] pbgfNumbfr = nfw Objfdt[]{
+                pbgfIndfx + 1};
+            stbtusLbbfl.sftTfxt(stbtusFormbt.formbt(pbgfNumbfr));
         }
     }
 
     /**
-     * Duplicated from UIManager to make it visible
+     * Duplidbtfd from UIMbnbgfr to mbkf it visiblf
      */
-    static int getInt(Object key, int defaultValue) {
-        Object value = UIManager.get(key);
-        if (value instanceof Integer) {
-            return ((Integer) value).intValue();
+    stbtid int gftInt(Objfdt kfy, int dffbultVbluf) {
+        Objfdt vbluf = UIMbnbgfr.gft(kfy);
+        if (vbluf instbndfof Intfgfr) {
+            rfturn ((Intfgfr) vbluf).intVbluf();
         }
-        if (value instanceof String) {
+        if (vbluf instbndfof String) {
             try {
-                return Integer.parseInt((String) value);
-            } catch(NumberFormatException nfe) {
+                rfturn Intfgfr.pbrsfInt((String) vbluf);
+            } dbtdi(NumbfrFormbtExdfption nff) {
             }
         }
-        return defaultValue;
+        rfturn dffbultVbluf;
     }
 }

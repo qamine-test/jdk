@@ -1,281 +1,281 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset.serial;
+pbdkbgf jbvbx.sql.rowsft.sfribl;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.Arrays;
-import java.util.Vector;
-import javax.sql.rowset.RowSetWarning;
-import sun.reflect.CallerSensitive;
-import sun.reflect.Reflection;
-import sun.reflect.misc.ReflectUtil;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.Arrbys;
+import jbvb.util.Vfdtor;
+import jbvbx.sql.rowsft.RowSftWbrning;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * A serializable mapping in the Java programming language of an SQL
- * <code>JAVA_OBJECT</code> value. Assuming the Java object
- * implements the <code>Serializable</code> interface, this class simply wraps the
- * serialization process.
+ * A sfriblizbblf mbpping in tif Jbvb progrbmming lbngubgf of bn SQL
+ * <dodf>JAVA_OBJECT</dodf> vbluf. Assuming tif Jbvb objfdt
+ * implfmfnts tif <dodf>Sfriblizbblf</dodf> intfrfbdf, tiis dlbss simply wrbps tif
+ * sfriblizbtion prodfss.
  * <P>
- * If however, the serialization is not possible because
- * the Java object is not immediately serializable, this class will
- * attempt to serialize all non-static members to permit the object
- * state to be serialized.
- * Static or transient fields cannot be serialized; an attempt to serialize
- * them will result in a <code>SerialException</code> object being thrown.
+ * If iowfvfr, tif sfriblizbtion is not possiblf bfdbusf
+ * tif Jbvb objfdt is not immfdibtfly sfriblizbblf, tiis dlbss will
+ * bttfmpt to sfriblizf bll non-stbtid mfmbfrs to pfrmit tif objfdt
+ * stbtf to bf sfriblizfd.
+ * Stbtid or trbnsifnt fiflds dbnnot bf sfriblizfd; bn bttfmpt to sfriblizf
+ * tifm will rfsult in b <dodf>SfriblExdfption</dodf> objfdt bfing tirown.
  *
- * <h3> Thread safety </h3>
+ * <i3> Tirfbd sbffty </i3>
  *
- * A SerialJavaObject is not safe for use by multiple concurrent threads.  If a
- * SerialJavaObject is to be used by more than one thread then access to the
- * SerialJavaObject should be controlled by appropriate synchronization.
+ * A SfriblJbvbObjfdt is not sbff for usf by multiplf dondurrfnt tirfbds.  If b
+ * SfriblJbvbObjfdt is to bf usfd by morf tibn onf tirfbd tifn bddfss to tif
+ * SfriblJbvbObjfdt siould bf dontrollfd by bppropribtf syndironizbtion.
  *
- * @author Jonathan Bruce
- * @since 1.5
+ * @butior Jonbtibn Brudf
+ * @sindf 1.5
  */
-public class SerialJavaObject implements Serializable, Cloneable {
+publid dlbss SfriblJbvbObjfdt implfmfnts Sfriblizbblf, Clonfbblf {
 
     /**
-     * Placeholder for object to be serialized.
+     * Plbdfioldfr for objfdt to bf sfriblizfd.
      */
-    private Object obj;
+    privbtf Objfdt obj;
 
 
    /**
-    * Placeholder for all fields in the <code>JavaObject</code> being serialized.
+    * Plbdfioldfr for bll fiflds in tif <dodf>JbvbObjfdt</dodf> bfing sfriblizfd.
     */
-    private transient Field[] fields;
+    privbtf trbnsifnt Fifld[] fiflds;
 
     /**
-     * Constructor for <code>SerialJavaObject</code> helper class.
+     * Construdtor for <dodf>SfriblJbvbObjfdt</dodf> iflpfr dlbss.
      *
-     * @param obj the Java <code>Object</code> to be serialized
-     * @throws SerialException if the object is found not to be serializable
+     * @pbrbm obj tif Jbvb <dodf>Objfdt</dodf> to bf sfriblizfd
+     * @tirows SfriblExdfption if tif objfdt is found not to bf sfriblizbblf
      */
-    public SerialJavaObject(Object obj) throws SerialException {
+    publid SfriblJbvbObjfdt(Objfdt obj) tirows SfriblExdfption {
 
-        // if any static fields are found, an exception
-        // should be thrown
+        // if bny stbtid fiflds brf found, bn fxdfption
+        // siould bf tirown
 
 
-        // get Class. Object instance should always be available
-        Class<?> c = obj.getClass();
+        // gft Clbss. Objfdt instbndf siould blwbys bf bvbilbblf
+        Clbss<?> d = obj.gftClbss();
 
-        // determine if object implements Serializable i/f
-        if (!(obj instanceof java.io.Serializable)) {
-            setWarning(new RowSetWarning("Warning, the object passed to the constructor does not implement Serializable"));
+        // dftfrminf if objfdt implfmfnts Sfriblizbblf i/f
+        if (!(obj instbndfof jbvb.io.Sfriblizbblf)) {
+            sftWbrning(nfw RowSftWbrning("Wbrning, tif objfdt pbssfd to tif donstrudtor dofs not implfmfnt Sfriblizbblf"));
         }
 
-        // can only determine public fields (obviously). If
-        // any of these are static, this should invalidate
-        // the action of attempting to persist these fields
-        // in a serialized form
-        fields = c.getFields();
+        // dbn only dftfrminf publid fiflds (obviously). If
+        // bny of tifsf brf stbtid, tiis siould invblidbtf
+        // tif bdtion of bttfmpting to pfrsist tifsf fiflds
+        // in b sfriblizfd form
+        fiflds = d.gftFiflds();
 
-        if (hasStaticFields(fields)) {
-            throw new SerialException("Located static fields in " +
-                "object instance. Cannot serialize");
+        if (ibsStbtidFiflds(fiflds)) {
+            tirow nfw SfriblExdfption("Lodbtfd stbtid fiflds in " +
+                "objfdt instbndf. Cbnnot sfriblizf");
         }
 
-        this.obj = obj;
+        tiis.obj = obj;
     }
 
     /**
-     * Returns an <code>Object</code> that is a copy of this <code>SerialJavaObject</code>
-     * object.
+     * Rfturns bn <dodf>Objfdt</dodf> tibt is b dopy of tiis <dodf>SfriblJbvbObjfdt</dodf>
+     * objfdt.
      *
-     * @return a copy of this <code>SerialJavaObject</code> object as an
-     *         <code>Object</code> in the Java programming language
-     * @throws SerialException if the instance is corrupt
+     * @rfturn b dopy of tiis <dodf>SfriblJbvbObjfdt</dodf> objfdt bs bn
+     *         <dodf>Objfdt</dodf> in tif Jbvb progrbmming lbngubgf
+     * @tirows SfriblExdfption if tif instbndf is dorrupt
      */
-    public Object getObject() throws SerialException {
-        return this.obj;
+    publid Objfdt gftObjfdt() tirows SfriblExdfption {
+        rfturn tiis.obj;
     }
 
     /**
-     * Returns an array of <code>Field</code> objects that contains each
-     * field of the object that this helper class is serializing.
+     * Rfturns bn brrby of <dodf>Fifld</dodf> objfdts tibt dontbins fbdi
+     * fifld of tif objfdt tibt tiis iflpfr dlbss is sfriblizing.
      *
-     * @return an array of <code>Field</code> objects
-     * @throws SerialException if an error is encountered accessing
-     * the serialized object
-     * @throws  SecurityException  If a security manager, <i>s</i>, is present
-     * and the caller's class loader is not the same as or an
-     * ancestor of the class loader for the class of the
-     * {@linkplain #getObject object} being serialized
-     * and invocation of {@link SecurityManager#checkPackageAccess
-     * s.checkPackageAccess()} denies access to the package
-     * of that class.
-     * @see Class#getFields
+     * @rfturn bn brrby of <dodf>Fifld</dodf> objfdts
+     * @tirows SfriblExdfption if bn frror is fndountfrfd bddfssing
+     * tif sfriblizfd objfdt
+     * @tirows  SfdurityExdfption  If b sfdurity mbnbgfr, <i>s</i>, is prfsfnt
+     * bnd tif dbllfr's dlbss lobdfr is not tif sbmf bs or bn
+     * bndfstor of tif dlbss lobdfr for tif dlbss of tif
+     * {@linkplbin #gftObjfdt objfdt} bfing sfriblizfd
+     * bnd invodbtion of {@link SfdurityMbnbgfr#difdkPbdkbgfAddfss
+     * s.difdkPbdkbgfAddfss()} dfnifs bddfss to tif pbdkbgf
+     * of tibt dlbss.
+     * @sff Clbss#gftFiflds
      */
-    @CallerSensitive
-    public Field[] getFields() throws SerialException {
-        if (fields != null) {
-            Class<?> c = this.obj.getClass();
-            SecurityManager sm = System.getSecurityManager();
+    @CbllfrSfnsitivf
+    publid Fifld[] gftFiflds() tirows SfriblExdfption {
+        if (fiflds != null) {
+            Clbss<?> d = tiis.obj.gftClbss();
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
                 /*
-                 * Check if the caller is allowed to access the specified class's package.
-                 * If access is denied, throw a SecurityException.
+                 * Cifdk if tif dbllfr is bllowfd to bddfss tif spfdififd dlbss's pbdkbgf.
+                 * If bddfss is dfnifd, tirow b SfdurityExdfption.
                  */
-                Class<?> caller = sun.reflect.Reflection.getCallerClass();
-                if (ReflectUtil.needsPackageAccessCheck(caller.getClassLoader(),
-                                                        c.getClassLoader())) {
-                    ReflectUtil.checkPackageAccess(c);
+                Clbss<?> dbllfr = sun.rfflfdt.Rfflfdtion.gftCbllfrClbss();
+                if (RfflfdtUtil.nffdsPbdkbgfAddfssCifdk(dbllfr.gftClbssLobdfr(),
+                                                        d.gftClbssLobdfr())) {
+                    RfflfdtUtil.difdkPbdkbgfAddfss(d);
                 }
             }
-            return c.getFields();
-        } else {
-            throw new SerialException("SerialJavaObject does not contain" +
-                " a serialized object instance");
+            rfturn d.gftFiflds();
+        } flsf {
+            tirow nfw SfriblExdfption("SfriblJbvbObjfdt dofs not dontbin" +
+                " b sfriblizfd objfdt instbndf");
         }
     }
 
     /**
-     * The identifier that assists in the serialization of this
-     * <code>SerialJavaObject</code> object.
+     * Tif idfntififr tibt bssists in tif sfriblizbtion of tiis
+     * <dodf>SfriblJbvbObjfdt</dodf> objfdt.
      */
-    static final long serialVersionUID = -1465795139032831023L;
+    stbtid finbl long sfriblVfrsionUID = -1465795139032831023L;
 
     /**
-     * A container for the warnings issued on this <code>SerialJavaObject</code>
-     * object. When there are multiple warnings, each warning is chained to the
-     * previous warning.
+     * A dontbinfr for tif wbrnings issufd on tiis <dodf>SfriblJbvbObjfdt</dodf>
+     * objfdt. Wifn tifrf brf multiplf wbrnings, fbdi wbrning is dibinfd to tif
+     * prfvious wbrning.
      */
-    Vector<RowSetWarning> chain;
+    Vfdtor<RowSftWbrning> dibin;
 
     /**
-     * Compares this SerialJavaObject to the specified object.
-     * The result is {@code true} if and only if the argument
-     * is not {@code null} and is a {@code SerialJavaObject}
-     * object that is identical to this object
+     * Compbrfs tiis SfriblJbvbObjfdt to tif spfdififd objfdt.
+     * Tif rfsult is {@dodf truf} if bnd only if tif brgumfnt
+     * is not {@dodf null} bnd is b {@dodf SfriblJbvbObjfdt}
+     * objfdt tibt is idfntidbl to tiis objfdt
      *
-     * @param  o The object to compare this {@code SerialJavaObject} against
+     * @pbrbm  o Tif objfdt to dompbrf tiis {@dodf SfriblJbvbObjfdt} bgbinst
      *
-     * @return  {@code true} if the given object represents a {@code SerialJavaObject}
-     *          equivalent to this SerialJavaObject, {@code false} otherwise
+     * @rfturn  {@dodf truf} if tif givfn objfdt rfprfsfnts b {@dodf SfriblJbvbObjfdt}
+     *          fquivblfnt to tiis SfriblJbvbObjfdt, {@dodf fblsf} otifrwisf
      *
      */
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) {
+            rfturn truf;
         }
-        if (o instanceof SerialJavaObject) {
-            SerialJavaObject sjo = (SerialJavaObject) o;
-            return obj.equals(sjo.obj);
+        if (o instbndfof SfriblJbvbObjfdt) {
+            SfriblJbvbObjfdt sjo = (SfriblJbvbObjfdt) o;
+            rfturn obj.fqubls(sjo.obj);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code for this SerialJavaObject. The hash code for a
-     * {@code SerialJavaObject} object is taken as the hash code of
-     * the {@code Object} it stores
+     * Rfturns b ibsi dodf for tiis SfriblJbvbObjfdt. Tif ibsi dodf for b
+     * {@dodf SfriblJbvbObjfdt} objfdt is tbkfn bs tif ibsi dodf of
+     * tif {@dodf Objfdt} it storfs
      *
-     * @return  a hash code value for this object.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-        return 31 + obj.hashCode();
+    publid int ibsiCodf() {
+        rfturn 31 + obj.ibsiCodf();
     }
 
     /**
-     * Returns a clone of this {@code SerialJavaObject}.
+     * Rfturns b dlonf of tiis {@dodf SfriblJbvbObjfdt}.
      *
-     * @return  a clone of this SerialJavaObject
+     * @rfturn  b dlonf of tiis SfriblJbvbObjfdt
      */
 
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            SerialJavaObject sjo = (SerialJavaObject) super.clone();
-            sjo.fields = Arrays.copyOf(fields, fields.length);
-            if (chain != null)
-                sjo.chain = new Vector<>(chain);
-            return sjo;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+            SfriblJbvbObjfdt sjo = (SfriblJbvbObjfdt) supfr.dlonf();
+            sjo.fiflds = Arrbys.dopyOf(fiflds, fiflds.lfngti);
+            if (dibin != null)
+                sjo.dibin = nfw Vfdtor<>(dibin);
+            rfturn sjo;
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError();
         }
     }
 
     /**
-     * Registers the given warning.
+     * Rfgistfrs tif givfn wbrning.
      */
-    private void setWarning(RowSetWarning e) {
-        if (chain == null) {
-            chain = new Vector<>();
+    privbtf void sftWbrning(RowSftWbrning f) {
+        if (dibin == null) {
+            dibin = nfw Vfdtor<>();
         }
-        chain.add(e);
+        dibin.bdd(f);
     }
 
     /**
-     * readObject is called to restore the state of the {@code SerialJavaObject}
-     * from a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif {@dodf SfriblJbvbObjfdt}
+     * from b strfbm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-        ObjectInputStream.GetField fields1 = s.readFields();
-        @SuppressWarnings("unchecked")
-        Vector<RowSetWarning> tmp = (Vector<RowSetWarning>)fields1.get("chain", null);
+        ObjfdtInputStrfbm.GftFifld fiflds1 = s.rfbdFiflds();
+        @SupprfssWbrnings("undifdkfd")
+        Vfdtor<RowSftWbrning> tmp = (Vfdtor<RowSftWbrning>)fiflds1.gft("dibin", null);
         if (tmp != null)
-            chain = new Vector<>(tmp);
+            dibin = nfw Vfdtor<>(tmp);
 
-        obj = fields1.get("obj", null);
+        obj = fiflds1.gft("obj", null);
         if (obj != null) {
-            fields = obj.getClass().getFields();
-            if(hasStaticFields(fields))
-                throw new IOException("Located static fields in " +
-                "object instance. Cannot serialize");
-        } else {
-            throw new IOException("Object cannot be null!");
+            fiflds = obj.gftClbss().gftFiflds();
+            if(ibsStbtidFiflds(fiflds))
+                tirow nfw IOExdfption("Lodbtfd stbtid fiflds in " +
+                "objfdt instbndf. Cbnnot sfriblizf");
+        } flsf {
+            tirow nfw IOExdfption("Objfdt dbnnot bf null!");
         }
 
     }
 
     /**
-     * writeObject is called to save the state of the {@code SerialJavaObject}
-     * to a stream.
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif {@dodf SfriblJbvbObjfdt}
+     * to b strfbm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException {
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("obj", obj);
-        fields.put("chain", chain);
-        s.writeFields();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            tirows IOExdfption {
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("obj", obj);
+        fiflds.put("dibin", dibin);
+        s.writfFiflds();
     }
 
     /*
-     * Check to see if there are any Static Fields in this object
+     * Cifdk to sff if tifrf brf bny Stbtid Fiflds in tiis objfdt
      */
-    private static boolean hasStaticFields(Field[] fields) {
-        for (Field field : fields) {
-            if ( field.getModifiers() == Modifier.STATIC) {
-                return true;
+    privbtf stbtid boolfbn ibsStbtidFiflds(Fifld[] fiflds) {
+        for (Fifld fifld : fiflds) {
+            if ( fifld.gftModififrs() == Modififr.STATIC) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 }

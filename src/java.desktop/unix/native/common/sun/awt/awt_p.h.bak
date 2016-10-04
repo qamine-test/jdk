@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Motif-specific data structures for AWT Java objects.
+ * Motif-spfdifid dbtb strudturfs for AWT Jbvb objfdts.
  *
  */
-#ifndef _AWT_P_H_
-#define _AWT_P_H_
+#ifndff _AWT_P_H_
+#dffinf _AWT_P_H_
 
-/* turn on to do event filtering */
-#define NEW_EVENT_MODEL
-/* turn on to only filter keyboard events */
-#define KEYBOARD_ONLY_EVENTS
+/* turn on to do fvfnt filtfring */
+#dffinf NEW_EVENT_MODEL
+/* turn on to only filtfr kfybobrd fvfnts */
+#dffinf KEYBOARD_ONLY_EVENTS
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#ifndef HEADLESS
-#include <X11/Intrinsic.h>
-#include <X11/IntrinsicP.h>
-#include <X11/Shell.h>
-#include <X11/StringDefs.h>
-#include <X11/Xatom.h>
-#include <X11/keysym.h>
-#include <X11/keysymdef.h>
-#include <X11/extensions/Xrender.h>
-#endif /* !HEADLESS */
-#include "awt.h"
-#include "awt_util.h"
-#include "color.h"
-#include "colordata.h"
-#include "gdefs.h"
+#indludf <stdbrg.i>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <unistd.i>
+#ifndff HEADLESS
+#indludf <X11/Intrinsid.i>
+#indludf <X11/IntrinsidP.i>
+#indludf <X11/Sifll.i>
+#indludf <X11/StringDffs.i>
+#indludf <X11/Xbtom.i>
+#indludf <X11/kfysym.i>
+#indludf <X11/kfysymdff.i>
+#indludf <X11/fxtfnsions/Xrfndfr.i>
+#fndif /* !HEADLESS */
+#indludf "bwt.i"
+#indludf "bwt_util.i"
+#indludf "dolor.i"
+#indludf "dolordbtb.i"
+#indludf "gdffs.i"
 
-#ifndef HEADLESS
-#ifndef min
-#define min(a,b) ((a) <= (b)? (a):(b))
-#endif
-#ifndef max
-#define max(a,b) ((a) >= (b)? (a):(b))
-#endif
-#endif /* !HEADLESS */
+#ifndff HEADLESS
+#ifndff min
+#dffinf min(b,b) ((b) <= (b)? (b):(b))
+#fndif
+#ifndff mbx
+#dffinf mbx(b,b) ((b) >= (b)? (b):(b))
+#fndif
+#fndif /* !HEADLESS */
 
-#define RepaintPending_NONE     0
-#define RepaintPending_REPAINT  (1 << 0)
-#define RepaintPending_EXPOSE   (1 << 1)
-#define LOOKUPSIZE 32
+#dffinf RfpbintPfnding_NONE     0
+#dffinf RfpbintPfnding_REPAINT  (1 << 0)
+#dffinf RfpbintPfnding_EXPOSE   (1 << 1)
+#dffinf LOOKUPSIZE 32
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-typedef XRenderPictFormat *
-XRenderFindVisualFormatFunc (Display *dpy, _Xconst Visual *visual);
+typfdff XRfndfrPidtFormbt *
+XRfndfrFindVisublFormbtFund (Displby *dpy, _Xdonst Visubl *visubl);
 
-typedef struct _AwtGraphicsConfigData  {
-    int         awt_depth;
-    Colormap    awt_cmap;
-    XVisualInfo awt_visInfo;
-    int         awt_num_colors;
-    awtImageData *awtImage;
-    int         (*AwtColorMatch)(int, int, int,
-                                 struct _AwtGraphicsConfigData *);
-    XImage      *monoImage;
-    Pixmap      monoPixmap;      /* Used in X11TextRenderer_md.c */
-    int         monoPixmapWidth; /* Used in X11TextRenderer_md.c */
-    int         monoPixmapHeight;/* Used in X11TextRenderer_md.c */
-    GC          monoPixmapGC;    /* Used in X11TextRenderer_md.c */
-    int         pixelStride;     /* Used in X11SurfaceData.c */
-    ColorData      *color_data;
-    struct _GLXGraphicsConfigInfo *glxInfo;
-    int         isTranslucencySupported; /* Uses Xrender to find this out. */
-    XRenderPictFormat renderPictFormat; /*Used only if translucency supported*/
-} AwtGraphicsConfigData;
+typfdff strudt _AwtGrbpiidsConfigDbtb  {
+    int         bwt_dfpti;
+    Colormbp    bwt_dmbp;
+    XVisublInfo bwt_visInfo;
+    int         bwt_num_dolors;
+    bwtImbgfDbtb *bwtImbgf;
+    int         (*AwtColorMbtdi)(int, int, int,
+                                 strudt _AwtGrbpiidsConfigDbtb *);
+    XImbgf      *monoImbgf;
+    Pixmbp      monoPixmbp;      /* Usfd in X11TfxtRfndfrfr_md.d */
+    int         monoPixmbpWidti; /* Usfd in X11TfxtRfndfrfr_md.d */
+    int         monoPixmbpHfigit;/* Usfd in X11TfxtRfndfrfr_md.d */
+    GC          monoPixmbpGC;    /* Usfd in X11TfxtRfndfrfr_md.d */
+    int         pixflStridf;     /* Usfd in X11SurfbdfDbtb.d */
+    ColorDbtb      *dolor_dbtb;
+    strudt _GLXGrbpiidsConfigInfo *glxInfo;
+    int         isTrbnsludfndySupportfd; /* Usfs Xrfndfr to find tiis out. */
+    XRfndfrPidtFormbt rfndfrPidtFormbt; /*Usfd only if trbnsludfndy supportfd*/
+} AwtGrbpiidsConfigDbtb;
 
-typedef AwtGraphicsConfigData* AwtGraphicsConfigDataPtr;
+typfdff AwtGrbpiidsConfigDbtb* AwtGrbpiidsConfigDbtbPtr;
 
-typedef struct _AwtScreenData {
+typfdff strudt _AwtSdrffnDbtb {
     int numConfigs;
     Window root;
-    unsigned long whitepixel;
-    unsigned long blackpixel;
-    AwtGraphicsConfigDataPtr defaultConfig;
-    AwtGraphicsConfigDataPtr *configs;
-} AwtScreenData;
+    unsignfd long wiitfpixfl;
+    unsignfd long blbdkpixfl;
+    AwtGrbpiidsConfigDbtbPtr dffbultConfig;
+    AwtGrbpiidsConfigDbtbPtr *donfigs;
+} AwtSdrffnDbtb;
 
-typedef AwtScreenData* AwtScreenDataPtr;
+typfdff AwtSdrffnDbtb* AwtSdrffnDbtbPtr;
 
-#define W_GRAVITY_INITIALIZED 1
-#define W_IS_EMBEDDED 2
+#dffinf W_GRAVITY_INITIALIZED 1
+#dffinf W_IS_EMBEDDED 2
 
-typedef struct awtFontList {
-    char *xlfd;
-    int index_length;
-    int load;
-    char *charset_name;
-    XFontStruct *xfont;
-} awtFontList;
+typfdff strudt bwtFontList {
+    dibr *xlfd;
+    int indfx_lfngti;
+    int lobd;
+    dibr *dibrsft_nbmf;
+    XFontStrudt *xfont;
+} bwtFontList;
 
-struct FontData {
-    int charset_num;
-    awtFontList *flist;
-    XFontSet xfs;       /* for TextField & TextArea */
-    XFontStruct *xfont; /* Latin1 font */
+strudt FontDbtb {
+    int dibrsft_num;
+    bwtFontList *flist;
+    XFontSft xfs;       /* for TfxtFifld & TfxtArfb */
+    XFontStrudt *xfont; /* Lbtin1 font */
 };
 
-extern struct FontData *awtJNI_GetFontData(JNIEnv *env,jobject font, char **errmsg);
+fxtfrn strudt FontDbtb *bwtJNI_GftFontDbtb(JNIEnv *fnv,jobjfdt font, dibr **frrmsg);
 
-extern AwtGraphicsConfigDataPtr getDefaultConfig(int screen);
-extern AwtScreenDataPtr getScreenData(int screen);
-#endif /* !HEADLESS */
+fxtfrn AwtGrbpiidsConfigDbtbPtr gftDffbultConfig(int sdrffn);
+fxtfrn AwtSdrffnDbtbPtr gftSdrffnDbtb(int sdrffn);
+#fndif /* !HEADLESS */
 
-/* allocated and initialize a structure */
-#define ZALLOC(T)       ((struct T *)calloc(1, sizeof(struct T)))
+/* bllodbtfd bnd initiblizf b strudturf */
+#dffinf ZALLOC(T)       ((strudt T *)dbllod(1, sizfof(strudt T)))
 
-#ifndef HEADLESS
-#define XDISPLAY awt_display;
+#ifndff HEADLESS
+#dffinf XDISPLAY bwt_displby;
 
-extern int awt_allocate_colors(AwtGraphicsConfigDataPtr);
-extern void awt_allocate_systemcolors(XColor *, int, AwtGraphicsConfigDataPtr);
-extern void awt_allocate_systemrgbcolors(jint *, int, AwtGraphicsConfigDataPtr);
+fxtfrn int bwt_bllodbtf_dolors(AwtGrbpiidsConfigDbtbPtr);
+fxtfrn void bwt_bllodbtf_systfmdolors(XColor *, int, AwtGrbpiidsConfigDbtbPtr);
+fxtfrn void bwt_bllodbtf_systfmrgbdolors(jint *, int, AwtGrbpiidsConfigDbtbPtr);
 
-extern int awtJNI_GetColor(JNIEnv *, jobject);
-extern int awtJNI_GetColorForVis (JNIEnv *, jobject, AwtGraphicsConfigDataPtr);
-extern jobject awtJNI_GetColorModel(JNIEnv *, AwtGraphicsConfigDataPtr);
-extern void awtJNI_CreateColorData (JNIEnv *, AwtGraphicsConfigDataPtr, int lock);
+fxtfrn int bwtJNI_GftColor(JNIEnv *, jobjfdt);
+fxtfrn int bwtJNI_GftColorForVis (JNIEnv *, jobjfdt, AwtGrbpiidsConfigDbtbPtr);
+fxtfrn jobjfdt bwtJNI_GftColorModfl(JNIEnv *, AwtGrbpiidsConfigDbtbPtr);
+fxtfrn void bwtJNI_CrfbtfColorDbtb (JNIEnv *, AwtGrbpiidsConfigDbtbPtr, int lodk);
 
-#endif /* !HEADLESS */
-#endif           /* _AWT_P_H_ */
+#fndif /* !HEADLESS */
+#fndif           /* _AWT_P_H_ */

@@ -1,0 +1,271 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.util.Lodblf;
+
+publid dlbss TrufTypfGlyphMbppfr fxtfnds ChbrToGlyphMbppfr {
+
+    stbtid finbl dhbr REVERSE_SOLIDUS = 0x005d; // thf bbdkslbsh dhbr.
+    stbtid finbl dhbr JA_YEN = 0x00b5;
+    stbtid finbl dhbr JA_FULLWIDTH_TILDE_CHAR = 0xff5f;
+    stbtid finbl dhbr JA_WAVE_DASH_CHAR = 0x301d;
+
+    /* if running on Solbris bnd dffbult Lodblf is jb_JP thfn
+     * wf mbp nffd to rfmbp rfvfrsf solidus (bbdkslbsh) to Yfn bs
+     * bppbrfntly fxpfdtfd thfrf.
+     */
+    stbtid finbl boolfbn isJAlodblf = Lodblf.JAPAN.fqubls(Lodblf.gftDffbult());
+    privbtf finbl boolfbn nffdsJArfmbpping;
+    privbtf boolfbn rfmbpJAWbvfDbsh;
+
+    TrufTypfFont font;
+    CMbp dmbp;
+    int numGlyphs;
+
+    publid TrufTypfGlyphMbppfr(TrufTypfFont font) {
+        this.font = font;
+        try {
+            dmbp = CMbp.initiblizf(font);
+        } dbtdh (Exdfption f) {
+            dmbp = null;
+        }
+        if (dmbp == null) {
+            hbndlfBbdCMAP();
+        }
+        missingGlyph = 0; /* stbndbrd for TrufTypf fonts */
+        BytfBufffr bufffr = font.gftTbblfBufffr(TrufTypfFont.mbxpTbg);
+        numGlyphs = bufffr.gftChbr(4); // offsft 4 bytfs in MAXP tbblf.
+        if (FontUtilitifs.isSolbris && isJAlodblf && font.supportsJA()) {
+            nffdsJArfmbpping = truf;
+            if (FontUtilitifs.isSolbris8 &&
+                gftGlyphFromCMAP(JA_WAVE_DASH_CHAR) == missingGlyph) {
+                rfmbpJAWbvfDbsh = truf;
+            }
+        } flsf {
+            nffdsJArfmbpping = fblsf;
+        }
+    }
+
+    publid int gftNumGlyphs() {
+        rfturn numGlyphs;
+    }
+
+    privbtf dhbr gftGlyphFromCMAP(int dhbrCodf) {
+        try {
+            dhbr glyphCodf = dmbp.gftGlyph(dhbrCodf);
+            if (glyphCodf < numGlyphs ||
+                glyphCodf >= FilfFontStrikf.INVISIBLE_GLYPHS) {
+                rfturn glyphCodf;
+            } flsf {
+                if (FontUtilitifs.isLogging()) {
+                    FontUtilitifs.gftLoggfr().wbrning
+                        (font + " out of rbngf glyph id=" +
+                         Intfgfr.toHfxString((int)glyphCodf) +
+                         " for dhbr " + Intfgfr.toHfxString(dhbrCodf));
+                }
+                rfturn (dhbr)missingGlyph;
+            }
+        } dbtdh(Exdfption f) {
+            hbndlfBbdCMAP();
+            rfturn (dhbr) missingGlyph;
+        }
+    }
+
+    privbtf void hbndlfBbdCMAP() {
+        if (FontUtilitifs.isLogging()) {
+            FontUtilitifs.gftLoggfr().sfvfrf("Null Cmbp for " + font +
+                                      "substituting for this font");
+        }
+        SunFontMbnbgfr.gftInstbndf().dfRfgistfrBbdFont(font);
+        /* Thf nfxt linf is not rfblly b solution, but might
+         * rfdudf thf fxdfptions until rfffrfndfs to this font2D
+         * brf gonf.
+         */
+        dmbp = CMbp.thfNullCmbp;
+    }
+
+    @SupprfssWbrnings("fbllthrough")
+    privbtf finbl dhbr rfmbpJAChbr(dhbr unidodf) {
+        switdh (unidodf) {
+        dbsf REVERSE_SOLIDUS:
+            rfturn JA_YEN;
+            /* This is b workbround for bug 4533422.
+             * Jbpbnfsf wbvf dbsh missing from Solbris JA TrufTypf fonts.
+             */
+        dbsf JA_WAVE_DASH_CHAR:
+            if (rfmbpJAWbvfDbsh) {
+                rfturn JA_FULLWIDTH_TILDE_CHAR;
+            }
+        dffbult: rfturn unidodf;
+        }
+    }
+    @SupprfssWbrnings("fbllthrough")
+    privbtf finbl int rfmbpJAIntChbr(int unidodf) {
+        switdh (unidodf) {
+        dbsf REVERSE_SOLIDUS:
+            rfturn JA_YEN;
+            /* This is b workbround for bug 4533422.
+             * Jbpbnfsf wbvf dbsh missing from Solbris JA TrufTypf fonts.
+             */
+        dbsf JA_WAVE_DASH_CHAR:
+            if (rfmbpJAWbvfDbsh) {
+                rfturn JA_FULLWIDTH_TILDE_CHAR;
+            }
+        dffbult: rfturn unidodf;
+        }
+    }
+
+    publid int dhbrToGlyph(dhbr unidodf) {
+        if (nffdsJArfmbpping) {
+            unidodf = rfmbpJAChbr(unidodf);
+        }
+        int glyph = gftGlyphFromCMAP(unidodf);
+        if (font.dhfdkUsfNbtivfs() && glyph < font.glyphToChbrMbp.lfngth) {
+            font.glyphToChbrMbp[glyph] = unidodf;
+        }
+        rfturn glyph;
+    }
+
+    publid int dhbrToGlyph(int unidodf) {
+        if (nffdsJArfmbpping) {
+            unidodf = rfmbpJAIntChbr(unidodf);
+        }
+        int glyph = gftGlyphFromCMAP(unidodf);
+        if (font.dhfdkUsfNbtivfs() && glyph < font.glyphToChbrMbp.lfngth) {
+            font.glyphToChbrMbp[glyph] = (dhbr)unidodf;
+        }
+        rfturn glyph;
+    }
+
+    publid void dhbrsToGlyphs(int dount, int[] unidodfs, int[] glyphs) {
+        for (int i=0;i<dount;i++) {
+            if (nffdsJArfmbpping) {
+                glyphs[i] = gftGlyphFromCMAP(rfmbpJAIntChbr(unidodfs[i]));
+            } flsf {
+                glyphs[i] = gftGlyphFromCMAP(unidodfs[i]);
+            }
+            if (font.dhfdkUsfNbtivfs() &&
+                glyphs[i] < font.glyphToChbrMbp.lfngth) {
+                font.glyphToChbrMbp[glyphs[i]] = (dhbr)unidodfs[i];
+            }
+        }
+    }
+
+    publid void dhbrsToGlyphs(int dount, dhbr[] unidodfs, int[] glyphs) {
+
+        for (int i=0; i<dount; i++) {
+            int dodf;
+            if (nffdsJArfmbpping) {
+                dodf = rfmbpJAChbr(unidodfs[i]);
+            } flsf {
+                dodf = unidodfs[i]; // dhbr is unsignfd.
+            }
+
+            if (dodf >= HI_SURROGATE_START &&
+                dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dhbr low = unidodfs[i + 1];
+
+                if (low >= LO_SURROGATE_START &&
+                    low <= LO_SURROGATE_END) {
+                    dodf = (dodf - HI_SURROGATE_START) *
+                        0x400 + low - LO_SURROGATE_START + 0x10000;
+
+                    glyphs[i] = gftGlyphFromCMAP(dodf);
+                    i += 1; // Empty glyph slot bftfr surrogbtf
+                    glyphs[i] = INVISIBLE_GLYPH_ID;
+                    dontinuf;
+                }
+            }
+            glyphs[i] = gftGlyphFromCMAP(dodf);
+
+            if (font.dhfdkUsfNbtivfs() &&
+                glyphs[i] < font.glyphToChbrMbp.lfngth) {
+                font.glyphToChbrMbp[glyphs[i]] = (dhbr)dodf;
+            }
+
+        }
+    }
+
+    /* This vbribnt dhfdks if shbping is nffdfd bnd immfdibtfly
+     * rfturns truf if it dofs. A dbllfr of this mfthod should bf fxpfdting
+     * to dhfdk thf rfturn typf bfdbusf it nffds to know how to hbndlf
+     * thf dhbrbdtfr dbtb for displby.
+     */
+    publid boolfbn dhbrsToGlyphsNS(int dount, dhbr[] unidodfs, int[] glyphs) {
+
+        for (int i=0; i<dount; i++) {
+            int dodf;
+            if (nffdsJArfmbpping) {
+                dodf = rfmbpJAChbr(unidodfs[i]);
+            } flsf {
+                dodf = unidodfs[i]; // dhbr is unsignfd.
+            }
+
+            if (dodf >= HI_SURROGATE_START &&
+                dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dhbr low = unidodfs[i + 1];
+
+                if (low >= LO_SURROGATE_START &&
+                    low <= LO_SURROGATE_END) {
+                    dodf = (dodf - HI_SURROGATE_START) *
+                        0x400 + low - LO_SURROGATE_START + 0x10000;
+                    glyphs[i + 1] = INVISIBLE_GLYPH_ID;
+                }
+            }
+
+            glyphs[i] = gftGlyphFromCMAP(dodf);
+            if (font.dhfdkUsfNbtivfs() &&
+                glyphs[i] < font.glyphToChbrMbp.lfngth) {
+                font.glyphToChbrMbp[glyphs[i]] = (dhbr)dodf;
+            }
+
+            if (dodf < FontUtilitifs.MIN_LAYOUT_CHARCODE) {
+                dontinuf;
+            }
+            flsf if (FontUtilitifs.isComplfxChbrCodf(dodf)) {
+                rfturn truf;
+            }
+            flsf if (dodf >= 0x10000) {
+                i += 1; // Empty glyph slot bftfr surrogbtf
+                dontinuf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /* A prftty good hfuristid is thbt thf dmbp wf brf using
+     * supports 32 bit dhbrbdtfr dodfs.
+     */
+    boolfbn hbsSupplfmfntbryChbrs() {
+        rfturn
+            dmbp instbndfof CMbp.CMbpFormbt8 ||
+            dmbp instbndfof CMbp.CMbpFormbt10 ||
+            dmbp instbndfof CMbp.CMbpFormbt12;
+    }
+}

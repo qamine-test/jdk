@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2006, 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2006, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+# modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+# brf mft:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+#     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,16 +29,16 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-all: jinvoker.dll invoked.class invoker.exe
+bll: jinvokfr.dll invokfd.dlbss invokfr.fxf
 
-jinvoker.dll: jinvoker.obj Makefile
-	cl /LD /o jinvoker.dll jinvoker.obj
+jinvokfr.dll: jinvokfr.obj Mbkffilf
+	dl /LD /o jinvokfr.dll jinvokfr.obj
 
-jinvoker.obj: jinvoker.cpp jinvokerExp.h Makefile
-	cl /Fojinvoker.obj /DJINVOKEREEXPORT /c jinvoker.cpp
+jinvokfr.obj: jinvokfr.dpp jinvokfrExp.i Mbkffilf
+	dl /Fojinvokfr.obj /DJINVOKEREEXPORT /d jinvokfr.dpp
 
-invoked.class: invoked.java Makefile
-	javac invoked.java
+invokfd.dlbss: invokfd.jbvb Mbkffilf
+	jbvbd invokfd.jbvb
 
-invoker.exe: invoker.cs Makefile
-	csc /unsafe invoker.cs
+invokfr.fxf: invokfr.ds Mbkffilf
+	dsd /unsbff invokfr.ds

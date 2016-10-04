@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.buth.modulf;
+
+/**
+ * <p> This dlbss implfmfntbtion rftrifvfs bnd mbkfs bvbilbblf NT
+ * sfdurity informbtion for thf durrfnt usfr.
+ *
+ */
+@jdk.Exportfd
+publid dlbss NTSystfm {
+
+    privbtf nbtivf void gftCurrfnt(boolfbn dfbug);
+    privbtf nbtivf long gftImpfrsonbtionTokfn0();
+
+    privbtf String usfrNbmf;
+    privbtf String dombin;
+    privbtf String dombinSID;
+    privbtf String usfrSID;
+    privbtf String groupIDs[];
+    privbtf String primbryGroupID;
+    privbtf long   impfrsonbtionTokfn;
+
+    /**
+     * Instbntibtf bn <dodf>NTSystfm</dodf> bnd lobd
+     * thf nbtivf librbry to bddfss thf undfrlying systfm informbtion.
+     */
+    publid NTSystfm() {
+        this(fblsf);
+    }
+
+    /**
+     * Instbntibtf bn <dodf>NTSystfm</dodf> bnd lobd
+     * thf nbtivf librbry to bddfss thf undfrlying systfm informbtion.
+     */
+    NTSystfm(boolfbn dfbug) {
+        lobdNbtivf();
+        gftCurrfnt(dfbug);
+    }
+
+    /**
+     * Gft thf usfrnbmf for thf durrfnt NT usfr.
+     *
+     * <p>
+     *
+     * @rfturn thf usfrnbmf for thf durrfnt NT usfr.
+     */
+    publid String gftNbmf() {
+        rfturn usfrNbmf;
+    }
+
+    /**
+     * Gft thf dombin for thf durrfnt NT usfr.
+     *
+     * <p>
+     *
+     * @rfturn thf dombin for thf durrfnt NT usfr.
+     */
+    publid String gftDombin() {
+        rfturn dombin;
+    }
+
+    /**
+     * Gft b printbblf SID for thf durrfnt NT usfr's dombin.
+     *
+     * <p>
+     *
+     * @rfturn b printbblf SID for thf durrfnt NT usfr's dombin.
+     */
+    publid String gftDombinSID() {
+        rfturn dombinSID;
+    }
+
+    /**
+     * Gft b printbblf SID for thf durrfnt NT usfr.
+     *
+     * <p>
+     *
+     * @rfturn b printbblf SID for thf durrfnt NT usfr.
+     */
+    publid String gftUsfrSID() {
+        rfturn usfrSID;
+    }
+
+    /**
+     * Gft b printbblf primbry group SID for thf durrfnt NT usfr.
+     *
+     * <p>
+     *
+     * @rfturn thf primbry group SID for thf durrfnt NT usfr.
+     */
+    publid String gftPrimbryGroupID() {
+        rfturn primbryGroupID;
+    }
+
+    /**
+     * Gft thf printbblf group SIDs for thf durrfnt NT usfr.
+     *
+     * <p>
+     *
+     * @rfturn thf group SIDs for thf durrfnt NT usfr.
+     */
+    publid String[] gftGroupIDs() {
+        rfturn groupIDs == null ? null : groupIDs.dlonf();
+    }
+
+    /**
+     * Gft bn impfrsonbtion tokfn for thf durrfnt NT usfr.
+     *
+     * <p>
+     *
+     * @rfturn bn impfrsonbtion tokfn for thf durrfnt NT usfr.
+     */
+    publid syndhronizfd long gftImpfrsonbtionTokfn() {
+        if (impfrsonbtionTokfn == 0) {
+            impfrsonbtionTokfn = gftImpfrsonbtionTokfn0();
+        }
+        rfturn impfrsonbtionTokfn;
+    }
+
+
+    privbtf void lobdNbtivf() {
+        Systfm.lobdLibrbry("jbbs_nt");
+    }
+}

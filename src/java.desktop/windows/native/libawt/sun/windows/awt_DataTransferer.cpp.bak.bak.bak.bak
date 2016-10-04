@@ -1,0 +1,881 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf "bwt_DbtbTrbnsffrfr.h"
+#indludf "bwt_DnDDT.h"
+#indludf "bwt_TfxtComponfnt.h"
+#indludf <shlobj.h>
+#indludf <shfllbpi.h>
+#indludf <sun_bwt_windows_WDbtbTrbnsffrfr.h>
+
+#indludf "lodblf_str.h"
+
+#dffinf GALLOCFLG (GMEM_DDESHARE | GMEM_MOVEABLE | GMEM_ZEROINIT)
+#dffinf WIN_TO_JAVA_PIXEL(r, g, b) (0xFF000000 | (r) << 16 | (g) << 8  | (b) << 0)
+
+DECLARE_JAVA_CLASS(dbtbTrbnsffrfrClbzz, "sun/bwt/dbtbtrbnsffr/DbtbTrbnsffrfr");
+
+jobjfdt
+AwtDbtbTrbnsffrfr::GftDbtbTrbnsffrfr(JNIEnv* fnv) {
+    DECLARE_STATIC_OBJECT_JAVA_METHOD(gftInstbndfMfthodID, dbtbTrbnsffrfrClbzz,
+                                      "gftInstbndf",
+                                      "()Lsun/bwt/dbtbtrbnsffr/DbtbTrbnsffrfr;");
+    rfturn fnv->CbllStbtidObjfdtMfthod(dlbzz, gftInstbndfMfthodID);
+}
+
+jbytfArrby
+AwtDbtbTrbnsffrfr::ConvfrtDbtb(JNIEnv* fnv, jobjfdt sourdf, jobjfdt dontfnts,
+                               jlong formbt, jobjfdt formbtMbp) {
+    jobjfdt trbnsffrfr = GftDbtbTrbnsffrfr(fnv);
+
+    if (!JNU_IsNull(fnv, trbnsffrfr)) {
+        jbytfArrby rft = NULL;
+        DECLARE_OBJECT_JAVA_METHOD(donvfrtDbtbMfthodID, dbtbTrbnsffrfrClbzz,
+                                   "donvfrtDbtb",
+                                   "(Ljbvb/lbng/Objfdt;Ljbvb/bwt/dbtbtrbnsffr/Trbnsffrbblf;JLjbvb/util/Mbp;Z)[B");
+
+        rft = (jbytfArrby)fnv->CbllObjfdtMfthod(trbnsffrfr, donvfrtDbtbMfthodID,
+                                                sourdf, dontfnts, formbt,
+                                                formbtMbp, AwtToolkit::IsMbinThrfbd());
+
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
+        }
+
+        fnv->DflftfLodblRff(trbnsffrfr);
+
+        rfturn rft;
+    } flsf {
+        rfturn NULL;
+    }
+}
+
+jobjfdt
+AwtDbtbTrbnsffrfr::CondbtDbtb(JNIEnv* fnv, jobjfdt obj1, jobjfdt obj2) {
+    jobjfdt trbnsffrfr = GftDbtbTrbnsffrfr(fnv);
+
+    if (!JNU_IsNull(fnv, trbnsffrfr)) {
+        jobjfdt rft = NULL;
+        DECLARE_OBJECT_JAVA_METHOD(dondbtDbtbMfthodID, dbtbTrbnsffrfrClbzz,
+                                   "dondbtDbtb",
+                                   "(Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)Ljbvb/lbng/Objfdt;");
+
+        rft = fnv->CbllObjfdtMfthod(trbnsffrfr, dondbtDbtbMfthodID, obj1, obj2);
+
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
+        }
+
+        fnv->DflftfLodblRff(trbnsffrfr);
+
+        rfturn rft;
+    } flsf {
+        rfturn NULL;
+    }
+}
+
+/**
+ * This routinf rftrifvfs pblfttf fntrifs from fnhbndfd mftbfilf or
+ * b logidbl dolor pblfttf, builds bppropribtf LOGPALETTE strudturf,
+ * writfs it into b drfbtfd Jbvb bytf brrby bnd rfturns b lodbl
+ * rfffrfndf to thf brrby.
+ * This routinf is usfd for imbgf dbtb trbnsffr.
+ *
+ * @pbrbm hGdiObj - b hbndlf to thf GDI objfdt to rftrifvf pblfttf fntrifs from,
+ *        it dbn bf b hbndlf to fithfr b logidbl dolor pblfttf (OBJ_PAL typf)
+ *        or bn fnhbndfd mftbfilf (OBJ_ENHMETAFILE). If it is nfithfr of thfsf
+ *        typfs thf routinf fbils(sff bFbilSbff).
+ * @pbrbm dwGdiObjTypf - b typf of thf pbssfd GDI objfdt. It should bf spfdififd
+ *        if thf typf of thf pbssfd GDI objfdt is known to thf dbllfr. Othfrwisf
+ *        pbss 0.
+ * @pbrbm bFbilSbff - if FALSE, thf routinf will rfturn NULL in dbsf of fbilurf,
+ *        othfrwisf it will rfturn bn brrby with fmpty LOGPALETTE strudturf
+ *        in dbsf of fbilurf.
+ * @rfturn b lodbl rfffrfndf to Jbvb bytf brrby whidh dontbins LOGPALETTE
+ *        strudturf whidh dffinfs b logidbl dolor pblfttf or b pblfttf of
+ *        bn fnhbndfd mftbfilf.
+ */
+jbytfArrby
+AwtDbtbTrbnsffrfr::GftPblfttfBytfs(HGDIOBJ hGdiObj, DWORD dwGdiObjTypf,
+                                   BOOL bFbilSbff) {
+
+    if (hGdiObj == NULL) {
+        dwGdiObjTypf = 0;
+    } flsf if (dwGdiObjTypf == 0) {
+        dwGdiObjTypf = ::GftObjfdtTypf(hGdiObj);
+    } flsf {
+        DASSERT(::GftObjfdtTypf(hGdiObj) == dwGdiObjTypf);
+    }
+
+    if (!bFbilSbff && dwGdiObjTypf == 0) {
+        rfturn NULL;
+    }
+
+    UINT nEntrifs = 0;
+
+    switdh (dwGdiObjTypf) {
+    dbsf OBJ_PAL:
+        nEntrifs =
+            ::GftPblfttfEntrifs((HPALETTE)hGdiObj, 0, 0, NULL);
+        brfbk;
+    dbsf OBJ_ENHMETAFILE:
+        nEntrifs =
+            ::GftEnhMftbFilfPblfttfEntrifs((HENHMETAFILE)hGdiObj, 0, NULL);
+        brfbk;
+    }
+
+    if (!bFbilSbff && (nEntrifs == 0 || nEntrifs == GDI_ERROR)) {
+        rfturn NULL;
+    }
+
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jsizf sizf = sizfof(LOGPALETTE) + nEntrifs * sizfof(PALETTEENTRY);
+
+    jbytfArrby pblfttfBytfs = fnv->NfwBytfArrby(sizf);
+    if (JNU_IsNull(fnv, pblfttfBytfs)) {
+        throw std::bbd_bllod();
+    }
+
+    LOGPALETTE* pLogPblfttf =
+        (LOGPALETTE*)fnv->GftPrimitivfArrbyCritidbl(pblfttfBytfs, NULL);
+    PALETTEENTRY* pPblEntrifs = (PALETTEENTRY*)pLogPblfttf->pblPblEntry;
+
+    pLogPblfttf->pblVfrsion = 0x300;
+    pLogPblfttf->pblNumEntrifs = nEntrifs;
+
+    switdh (dwGdiObjTypf) {
+    dbsf OBJ_PAL:
+        VERIFY(::GftPblfttfEntrifs((HPALETTE)hGdiObj, 0, nEntrifs,
+                                   pPblEntrifs) == nEntrifs);
+        brfbk;
+    dbsf OBJ_ENHMETAFILE:
+        VERIFY(::GftEnhMftbFilfPblfttfEntrifs((HENHMETAFILE)hGdiObj, nEntrifs,
+                                              pPblEntrifs) == nEntrifs);
+        brfbk;
+    }
+
+    fnv->RflfbsfPrimitivfArrbyCritidbl(pblfttfBytfs, pLogPblfttf, 0);
+
+    rfturn pblfttfBytfs;
+}
+
+jbytfArrby
+AwtDbtbTrbnsffrfr::LCIDToTfxtEndoding(JNIEnv *fnv, LCID ldid) {
+    LANGID lbngID = LANGIDFROMLCID(ldid);
+    donst dhbr *fndoding = gftEndodingFromLbngID(lbngID);
+
+    // Wbrning C4244.
+    // Cbst SIZE_T (__int64 on 64-bit/unsignfd int on 32-bit)
+    // to jsizf (long).
+    // Wf bssumf thbt thf fndoding nbmf lfngth dbnnot fxdffd INT_MAX.
+    jsizf lfngth = (jsizf)strlfn(fndoding);
+
+    jbytfArrby rftvbl = fnv->NfwBytfArrby(lfngth);
+    if (rftvbl == NULL) {
+        throw std::bbd_bllod();
+    }
+    fnv->SftBytfArrbyRfgion(rftvbl, 0, lfngth, (jbytf *)fndoding);
+    frff((void *)fndoding);
+    rfturn rftvbl;
+}
+
+stbtid VOID CALLBACK
+IdlfFund() {
+    /*
+     * Fix for 4485987 bnd 4669873.
+     * If IdlfFund is b noop, thf sfdondbry mfssbgf pump oddbsionblly oddupifs
+     * bll prodfssor timf bnd dbusfs drbg frffzfs. GftQufufStbtus is nffdfd to
+     * mbrk bll mfssbgfs thbt brf durrfntly in thf qufuf bs old, othfrwisf
+     * WbitMfssbgf will rfturn immfdibtflly bs wf sflfdtivfly gft mfssbgfs from
+     * thf qufuf.
+     */
+    ::WbitMfssbgf();
+    ::GftQufufStbtus(QS_ALLINPUT);
+}
+
+stbtid BOOL CALLBACK
+PffkMfssbgfFund(MSG& msg) {
+    rfturn ::PffkMfssbgf(&msg, NULL, WM_QUIT, WM_QUIT, PM_REMOVE) ||
+           ::PffkMfssbgf(&msg, NULL, WM_AWT_INVOKE_METHOD, WM_AWT_INVOKE_METHOD, PM_REMOVE) ||
+           ::PffkMfssbgf(&msg, NULL, WM_PAINT, WM_PAINT, PM_REMOVE);
+}
+
+void
+AwtDbtbTrbnsffrfr::SfdondbryMfssbgfLoop() {
+    DASSERT(AwtToolkit::MbinThrfbd() == ::GftCurrfntThrfbdId());
+
+    AwtToolkit::GftInstbndf().MfssbgfLoop(IdlfFund,
+                                          PffkMfssbgfFund);
+}
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     sun_bwt_dbtbtrbnsffr_DbtbTrbnsffrfr
+ * Mfthod:    drbqQufryFilf
+ * Signbturf: ([B)[Ljbvb/lbng/String;
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsffrfr_drbgQufryFilf
+    (JNIEnv *fnv, jobjfdt obj, jbytfArrby bytfs)
+{
+    TRY;
+
+    /*
+     * Fix for thf BugTrbq ID 4327064 - intfr-jvm DnD drbshfs thf droping jvm.
+     * On Win9X DrbgQufryFilf() dofsn't bddfpt b pointfr to thf lodbl hflp bs thf first
+     * brgumfnt, so wf should dump thf bits into globbl mfmory.
+     */
+    UINT sizf = fnv->GftArrbyLfngth(bytfs);
+    HGLOBAL hglobbl = NULL;
+    jbytf *bBytfs = NULL;
+    HDROP hdrop = NULL;
+    LPTSTR bufffr = NULL;
+
+    hglobbl = ::GlobblAllod(GALLOCFLG, sizf);
+
+    if (hglobbl == NULL) {
+        throw std::bbd_bllod();
+    }
+
+    try {
+
+        bBytfs = (jbytf*)::GlobblLodk(hglobbl);
+        fnv->GftBytfArrbyRfgion(bytfs, 0, sizf, bBytfs);
+
+        hdrop = (HDROP)bBytfs;
+
+        UINT nFilfnbmfs = ::DrbgQufryFilf(hdrop, 0xFFFFFFFF, NULL, 0);
+
+        jdlbss str_dlbzz = fnv->FindClbss("jbvb/lbng/String");
+        DASSERT(str_dlbzz != NULL);
+        if (str_dlbzz == NULL) {
+           throw std::bbd_bllod();
+        }
+        jobjfdtArrby filfnbmfs = fnv->NfwObjfdtArrby(nFilfnbmfs, str_dlbzz,
+                                                     NULL);
+        if (filfnbmfs == NULL) {
+            throw std::bbd_bllod();
+        }
+
+        UINT bufsizf = 512; // in dhbrbdtfrs, not in bytfs
+        bufffr = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, bufsizf, sizfof(TCHAR));
+
+        for (UINT i = 0; i < nFilfnbmfs; i++) {
+            UINT sizf = ::DrbgQufryFilf(hdrop, i, NULL, 0);
+            if (sizf > bufsizf) {
+                bufsizf = sizf;
+                bufffr = (LPTSTR)SAFE_SIZE_ARRAY_REALLOC(sbff_Rfbllod, bufffr, bufsizf, sizfof(TCHAR));
+            }
+            ::DrbgQufryFilf(hdrop, i, bufffr, bufsizf);
+
+            jstring nbmf = JNU_NfwStringPlbtform(fnv, bufffr);
+            if (nbmf == NULL) {
+                throw std::bbd_bllod();
+            }
+
+            fnv->SftObjfdtArrbyElfmfnt(filfnbmfs, i, nbmf);
+        }
+
+        frff(bufffr);
+        ::GlobblUnlodk(hglobbl);
+        ::GlobblFrff(hglobbl);
+        rfturn filfnbmfs;
+
+    } dbtdh (std::bbd_bllod&) {
+        frff(bufffr);
+        ::GlobblUnlodk(hglobbl);
+        ::GlobblFrff(hglobbl);
+        throw;
+    }
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsffrfr
+ * Mfthod:    plbtformImbgfBytfsToImbgfDbtb
+ * Signbturf: ([BI)[I
+ */
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsffrfr_plbtformImbgfBytfsToImbgfDbtb(
+    JNIEnv *fnv, jobjfdt sflf, jbytfArrby bytfs, jlong formbt) {
+
+    TRY;
+
+    HDC hdd = NULL;
+
+    LOGPALETTE* pLogPblfttf = NULL;
+    WORD uPblfttfEntrifs = 0;
+    SIZE_T uOffsft = 0;
+    HPALETTE hPblfttf = NULL;
+    HPALETTE hOldPblfttf = NULL;
+
+    BITMAPINFO* pSrdBmi = NULL;
+    BITMAPINFOHEADER* pSrdBmih = NULL;
+    LPVOID pSrdBits = NULL;
+    BITMAPINFO* pDstBmi = NULL;
+    BITMAPINFOHEADER* pDstBmih = NULL;
+    LPVOID pDstBits = NULL;
+
+    LPBYTE lpEnhMftbFilfBits = NULL;
+    HENHMETAFILE hEnhMftbFilf = NULL;
+
+    HBITMAP hDibSfdtion = NULL;
+    HBITMAP hOldBitmbp = NULL;
+    jintArrby bufffr = NULL;
+    LONG width = 0;
+    LONG hfight = 0;
+    int numPixfls = 0;
+
+    if (JNU_IsNull(fnv, bytfs)) {
+        rfturn NULL;
+    }
+
+    jsizf sizf = fnv->GftArrbyLfngth(bytfs);
+    if (sizf == 0) {
+        rfturn NULL;
+    }
+
+    jbytf* bBytfs = (jbytf*)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizf, sizfof(jbytf));
+
+    try {
+
+        fnv->GftBytfArrbyRfgion(bytfs, 0, sizf, bBytfs);
+
+        pLogPblfttf = (LOGPALETTE*)bBytfs;
+        uPblfttfEntrifs = pLogPblfttf->pblNumEntrifs;
+        uOffsft = sizfof(LOGPALETTE) + uPblfttfEntrifs * sizfof(PALETTEENTRY);
+        DASSERT(uOffsft < (SIZE_T)sizf);
+
+        if (uPblfttfEntrifs == 0) {
+            pLogPblfttf = NULL;
+        }
+
+        hdd = ::CrfbtfCompbtiblfDC(NULL);
+        if (hdd == NULL) {
+            frff(bBytfs);
+            rfturn NULL;
+        }
+
+        switdh (formbt) {
+        dbsf CF_DIB:
+
+            pSrdBmi = (BITMAPINFO*)((LPSTR)bBytfs + uOffsft);
+            pSrdBmih = &pSrdBmi->bmiHfbdfr;
+
+            width = pSrdBmih->biWidth;
+            hfight = bbs(pSrdBmih->biHfight);
+
+            {
+                DWORD nColorEntrifs = 0;
+
+                switdh (pSrdBmih->biBitCount) {
+                dbsf  0: nColorEntrifs = 0; brfbk;
+                dbsf  1: nColorEntrifs = 2; brfbk;
+                dbsf  4:
+                dbsf  8:
+                    nColorEntrifs = (pSrdBmih->biClrUsfd != 0) ?
+                        pSrdBmih->biClrUsfd : (1 << pSrdBmih->biBitCount);
+                    brfbk;
+                dbsf 16:
+                dbsf 24:
+                dbsf 32:
+                    nColorEntrifs = pSrdBmih->biClrUsfd;
+                    // If biBitCount is 16 or 32 bnd biComprfssion is
+                    // BI_BITFIELDS thf dolor tbblf will bf prffixfd with
+                    // thrff DWORD dolor mbsks.
+                    if (pSrdBmih->biComprfssion == BI_BITFIELDS &&
+                        (pSrdBmih->biBitCount == 16 ||
+                         pSrdBmih->biBitCount == 32)) {
+                        nColorEntrifs += 3;
+                    }
+                    brfbk;
+                dffbult:
+                    // Thf hfbdfr is probbbly dorruptfd.
+                    // Fbil immfdibtflly to bvoid mfmory bddfss violbtion.
+                    frff(bBytfs);
+                    ::DflftfDC(hdd);
+                    rfturn NULL;
+                }
+
+                pSrdBits = (LPSTR)pSrdBmi + pSrdBmih->biSizf
+                    + nColorEntrifs * sizfof(RGBQUAD);
+            }
+            brfbk;
+        dbsf CF_ENHMETAFILE:
+        dbsf CF_METAFILEPICT:
+            lpEnhMftbFilfBits = (BYTE*)bBytfs + uOffsft;
+            // Wbrning C4244. sizf is jsizf, uOffsft is SIZE_T.
+            // Wf bssfrt thbt sizf > uOffsft, so it is sbff to dbst to jsizf.
+            hEnhMftbFilf = ::SftEnhMftbFilfBits(sizf - (jsizf)uOffsft,
+                                                lpEnhMftbFilfBits);
+            DASSERT(hEnhMftbFilf != NULL);
+
+            {
+                UINT uHfbdfrSizf =
+                    ::GftEnhMftbFilfHfbdfr(hEnhMftbFilf, 0, NULL);
+                DASSERT(uHfbdfrSizf != 0);
+                ENHMETAHEADER* lpfmh = (ENHMETAHEADER*)sbff_Mbllod(uHfbdfrSizf);
+                VERIFY(::GftEnhMftbFilfHfbdfr(hEnhMftbFilf, uHfbdfrSizf,
+                                              lpfmh) == uHfbdfrSizf);
+                LPRECTL lpFrbmf = &lpfmh->rdlFrbmf;
+                POINT p = { bbs(lpFrbmf->right - lpFrbmf->lfft),
+                            bbs(lpFrbmf->bottom - lpFrbmf->top) };
+                VERIFY(::SbvfDC(hdd));
+                VERIFY(::SftMbpModf(hdd, MM_HIMETRIC));
+                VERIFY(::LPtoDP(hdd, &p, 1));
+                VERIFY(::RfstorfDC(hdd, -1));
+                width = p.x;
+                hfight = -p.y;
+
+                frff(lpfmh);
+            }
+            brfbk;
+        dffbult:
+            DASSERT(FALSE); // Othfr formbts brf not supportfd yft.
+            frff(bBytfs);
+            ::DflftfDC(hdd);
+            rfturn NULL;
+        }
+
+        // JNI dofsn't bllow to storf morf thbn INT_MAX in b singlf brrby.
+        // Wf rfport donvfrsion fbilurf in this dbsf.
+        if (width * hfight > INT_MAX) {
+            frff(bBytfs);
+            ::DflftfDC(hdd);
+            rfturn NULL;
+        }
+
+        numPixfls = width * hfight;
+
+        if (pLogPblfttf != NULL) {
+            hPblfttf = ::CrfbtfPblfttf(pLogPblfttf);
+            if (hPblfttf == NULL) {
+                frff(bBytfs);
+                ::DflftfDC(hdd);
+                rfturn NULL;
+            }
+            hOldPblfttf = ::SflfdtPblfttf(hdd, hPblfttf, FALSE);
+            ::RfblizfPblfttf(hdd);
+        }
+
+        // bllodbtf mfmory for BITMAPINFO
+        pDstBmi = (BITMAPINFO *)sbff_Cbllod(1, sizfof(BITMAPINFO));
+        pDstBmih = &pDstBmi->bmiHfbdfr;
+
+        stbtid donst int BITS_PER_PIXEL = 32;
+
+        // prfpbrf BITMAPINFO for b 32-bit RGB bitmbp
+        pDstBmih->biSizf = sizfof(BITMAPINFOHEADER);
+        pDstBmih->biWidth = width;
+        pDstBmih->biHfight = -hfight; // nfgbtivf hfight mfbns b top-down DIB
+        pDstBmih->biPlbnfs = 1;
+        pDstBmih->biBitCount = BITS_PER_PIXEL;
+        pDstBmih->biComprfssion = BI_RGB;
+        // NOTE: MSDN sbys thbt biSizfImbgf mby bf sft to 0 for BI_RGB bitmbps,
+        // but this dbusfs CrfbtfDIBSfdtion to bllodbtf zfro-sizf mfmory blodk
+        // for DIB dbtb. It works okby whfn biSizfImbgf is fxpliditly spfdififd.
+        pDstBmih->biSizfImbgf = width * hfight * (BITS_PER_PIXEL >> 3);
+
+        hDibSfdtion = ::CrfbtfDIBSfdtion(hdd, (BITMAPINFO*)pDstBmi,
+                                         DIB_RGB_COLORS, &pDstBits,
+                                         NULL, 0);
+
+        if (hDibSfdtion == NULL) {
+            frff(pDstBmi); pDstBmi = NULL;
+            if (hPblfttf != NULL) {
+                VERIFY(::SflfdtPblfttf(hdd, hOldPblfttf, FALSE) != NULL);
+                hOldPblfttf = NULL;
+                VERIFY(::DflftfObjfdt(hPblfttf)); hPblfttf = NULL;
+            }
+            VERIFY(::DflftfDC(hdd)); hdd = NULL;
+            frff(bBytfs); bBytfs = NULL;
+
+            JNU_ThrowIOExdfption(fnv, "fbilfd to gft drop dbtb");
+            rfturn NULL;
+        }
+
+        hOldBitmbp = (HBITMAP)::SflfdtObjfdt(hdd, hDibSfdtion);
+        DASSERT(hOldBitmbp != NULL);
+
+        switdh (formbt) {
+        dbsf CF_DIB:
+            VERIFY(::StrftdhDIBits(hdd,
+                                   0, 0, width, hfight,
+                                   0, 0, width, hfight,
+                                   pSrdBits, pSrdBmi,
+                                   DIB_RGB_COLORS, SRCCOPY) != GDI_ERROR);
+            brfbk;
+        dbsf CF_ENHMETAFILE:
+        dbsf CF_METAFILEPICT: {
+            RECT rfdt = { 0, 0, width, hfight };
+
+            VERIFY(::PlbyEnhMftbFilf(hdd, hEnhMftbFilf, &rfdt));
+            VERIFY(::DflftfEnhMftbFilf(hEnhMftbFilf)); hEnhMftbFilf = NULL;
+            brfbk;
+        }
+        dffbult:
+            // Othfr formbts brf not supportfd yft.
+            DASSERT(FALSE);
+            brfbk;
+        }
+
+        // donvfrt Win32 pixfl formbt (BGRX) to Jbvb formbt (ARGB)
+        DASSERT(sizfof(jint) == sizfof(RGBQUAD));
+        RGBQUAD* prgbq = (RGBQUAD*)pDstBits;
+        for(int nPixfl = 0; nPixfl < numPixfls; nPixfl++, prgbq++) {
+            jint jpixfl = WIN_TO_JAVA_PIXEL(prgbq->rgbRfd,
+                                            prgbq->rgbGrffn,
+                                            prgbq->rgbBluf);
+            // stuff thf 32-bit pixfl bbdk into thf 32-bit RGBQUAD
+            *prgbq = *((RGBQUAD*)(&jpixfl));
+        }
+
+        bufffr = fnv->NfwIntArrby(numPixfls + 2);
+        if (bufffr == NULL) {
+            throw std::bbd_bllod();
+        }
+
+        // dopy pixfls into Jbvb brrby
+        fnv->SftIntArrbyRfgion(bufffr, 0, numPixfls, (jint*)pDstBits);
+
+        // dopy dimfnsions into Jbvb brrby
+        fnv->SftIntArrbyRfgion(bufffr, numPixfls, 1, (jint*)&width);
+        fnv->SftIntArrbyRfgion(bufffr, numPixfls + 1, 1, (jint*)&hfight);
+
+        VERIFY(::SflfdtObjfdt(hdd, hOldBitmbp) != NULL); hOldBitmbp = NULL;
+        VERIFY(::DflftfObjfdt(hDibSfdtion)); hDibSfdtion = NULL;
+        frff(pDstBmi); pDstBmi = NULL;
+        if (hPblfttf != NULL) {
+            VERIFY(::SflfdtPblfttf(hdd, hOldPblfttf, FALSE) != NULL);
+            hOldPblfttf = NULL;
+            VERIFY(::DflftfObjfdt(hPblfttf)); hPblfttf = NULL;
+        }
+        VERIFY(::DflftfDC(hdd)); hdd = NULL;
+        frff(bBytfs); bBytfs = NULL;
+    } dbtdh (...) {
+        if (hdd != NULL && hOldBitmbp != NULL) {
+            VERIFY(::SflfdtObjfdt(hdd, hOldBitmbp) != NULL); hOldBitmbp = NULL;
+        }
+        if (hDibSfdtion != NULL) {
+            VERIFY(::DflftfObjfdt(hDibSfdtion)); hDibSfdtion = NULL;
+        }
+        if (pDstBmi != NULL) {
+            frff(pDstBmi); pDstBmi = NULL;
+        }
+        if (hPblfttf != NULL) {
+            if (hdd != NULL) {
+                VERIFY(::SflfdtPblfttf(hdd, hOldPblfttf, FALSE) != NULL);
+                hOldPblfttf = NULL;
+            }
+            VERIFY(::DflftfObjfdt(hPblfttf)); hPblfttf = NULL;
+        }
+        if (hdd != NULL) {
+            VERIFY(::DflftfDC(hdd)); hdd = NULL;
+        }
+        if (hEnhMftbFilf != NULL) {
+            VERIFY(::DflftfEnhMftbFilf(hEnhMftbFilf)); hEnhMftbFilf = NULL;
+        }
+        if (bBytfs != NULL) {
+            frff(bBytfs); bBytfs = NULL;
+        }
+        throw;
+    }
+
+    rfturn bufffr;
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsffrfr
+ * Mfthod:    imbgfDbtbToPlbtformImbgfBytfs
+ * Signbturf: ([BIII)[B
+ */
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsffrfr_imbgfDbtbToPlbtformImbgfBytfs(JNIEnv *fnv,
+                                               jobjfdt sflf, jbytfArrby imbgfDbtb,
+                                               jint width, jint hfight,
+                                               jlong formbt) {
+
+    TRY;
+
+    if (JNU_IsNull(fnv, imbgfDbtb)) {
+        rfturn NULL;
+    }
+
+    UINT sizf = fnv->GftArrbyLfngth(imbgfDbtb);
+    if (sizf == 0) {
+        rfturn NULL;
+    }
+
+    // In thf pbssfd imbgfDbtb brrby bll linfs brf pbddfd with zfrofs fxdfpt for
+    // thf lbst onf, so wf hbvf to bdd onf pbd sizf hfrf.
+    int mod = (width * 3) % 4;
+    int pbd = mod > 0 ? 4 - mod : 0;
+    int nBytfs = sizfof(BITMAPINFO) + sizf + pbd;
+    BITMAPINFO* pinfo = (BITMAPINFO*)sbff_Cbllod(1, nBytfs);
+
+    stbtid donst int BITS_PER_PIXEL = 24;
+
+    // prfpbrf BITMAPINFO for b 24-bit BGR bitmbp
+    pinfo->bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+    pinfo->bmiHfbdfr.biWidth = width;
+    pinfo->bmiHfbdfr.biHfight = hfight; // positivf hfight mfbns b bottom-up DIB
+    pinfo->bmiHfbdfr.biPlbnfs = 1;
+    pinfo->bmiHfbdfr.biBitCount = BITS_PER_PIXEL;
+    pinfo->bmiHfbdfr.biComprfssion = BI_RGB;
+    // NOTE: MSDN sbys thbt biSizfImbgf mby bf sft to 0 for BI_RGB bitmbps,
+    // but somf progrbms (f.g. Imbging for Windows NT by Wbng Lbborbtorifs)
+    // don't hbndlf sudh DIBs dorrfdtly, so wf spfdify thf sizf fxpliditly.
+    pinfo->bmiHfbdfr.biSizfImbgf = sizf + pbd;
+
+    jbytf *brrby = (jbytf*)((LPSTR)pinfo + sizfof(BITMAPINFOHEADER));
+    fnv->GftBytfArrbyRfgion(imbgfDbtb, 0, sizf, brrby);
+    HRESULT hr = S_OK;
+
+    jbytfArrby bytfs = NULL;
+    switdh (formbt) {
+    dbsf CF_DIB:
+        bytfs = fnv->NfwBytfArrby(nBytfs);
+        if( NULL == bytfs ) {
+            hr = E_OUTOFMEMORY;
+        } flsf {
+            fnv->SftBytfArrbyRfgion(bytfs, 0, nBytfs, (jbytf*)pinfo);
+        }
+        brfbk;
+    dbsf CF_ENHMETAFILE:
+    {
+        HDC hdd = ::GftDC(NULL);
+        if( NULL == hdd) {
+            hr = HRESULT_FROM_WIN32(::GftLbstError());
+        } flsf {
+            POINT p = { width, hfight };
+            //Wf brf trying to support dontfxt-indfpfndfnt mftbfilf.
+            //To implfmfnt it wf hbvf to sflfdt dorrfdt MM_HIMETRIC mbp modf.
+            VERIFY(::SftMbpModf(hdd, MM_HIMETRIC));
+            VERIFY(::DPtoLP(hdd, &p, 1));
+            //In bddordbndf with CrfbtfEnhMftbFilf dodumfntbtion thf rfdtbnglf hbvf to
+            //bf normbl (lfft <= right, top <= bottom)
+            RECT r = { min(0, p.x), min(0, p.y), mbx(0, p.x), mbx(0, p.y) };
+            //Duf to invfrsfd row ordfr in sourdf bitmbp thf dfstinbtion
+            //hfight hbvf to bf nfgbtivf.
+            HDC hfmfdd = ::CrfbtfEnhMftbFilf(NULL, NULL, &r, NULL);
+            if( NULL == hfmfdd) {
+                hr = HRESULT_FROM_WIN32(::GftLbstError());
+            } flsf {
+                int iMFHfight = r.bottom - r.top;
+                int iMFWidth = r.right - r.lfft;
+                VERIFY(::SftMbpModf(hfmfdd, MM_HIMETRIC));
+                if( GDI_ERROR == ::StrftdhDIBits(hfmfdd,
+                    0, iMFHfight, iMFWidth, -iMFHfight,
+                    0, 0, width, hfight,
+                    (LPVOID)brrby, pinfo,
+                    DIB_RGB_COLORS, SRCCOPY))
+                {
+                    hr = HRESULT_FROM_WIN32(::GftLbstError());
+                }
+                HENHMETAFILE hfmf = ::ClosfEnhMftbFilf(hfmfdd);
+                if( NULL == hfmf) {
+                    hr = HRESULT_FROM_WIN32(::GftLbstError());
+                } flsf {
+                    if(SUCCEEDED(hr)){
+                        UINT uEmfSizf = ::GftEnhMftbFilfBits(hfmf, 0, NULL);
+                        if( 0 == uEmfSizf) {
+                            hr = HRESULT_FROM_WIN32(::GftLbstError());
+                        } flsf {
+                            LPBYTE lpbEmfBufffr = NULL;
+                            try {
+                                lpbEmfBufffr = (LPBYTE)sbff_Mbllod(uEmfSizf);
+                                VERIFY(::GftEnhMftbFilfBits(hfmf, uEmfSizf,
+                                                            lpbEmfBufffr) == uEmfSizf);
+                                bytfs = fnv->NfwBytfArrby(uEmfSizf);
+                                if(NULL == bytfs) {
+                                    hr = E_OUTOFMEMORY;
+                                } flsf {
+                                    fnv->SftBytfArrbyRfgion(bytfs, 0, uEmfSizf, (jbytf*)lpbEmfBufffr);
+                                }
+                            } dbtdh (std::bbd_bllod &) {
+                                hr = E_OUTOFMEMORY;
+                            }
+                            frff(lpbEmfBufffr);
+                        }
+                    }
+                    VERIFY(::DflftfEnhMftbFilf(hfmf));
+                }
+            }
+            VERIFY(::RflfbsfDC(NULL, hdd));
+        }
+        brfbk;
+    }
+    dbsf CF_METAFILEPICT:
+    {
+        HDC hdd = ::GftDC(NULL);
+        if( NULL == hdd) {
+            hr = HRESULT_FROM_WIN32(::GftLbstError());
+        } flsf {
+            POINT p = { width, hfight };
+            VERIFY(::SftMbpModf(hdd, MM_HIMETRIC));
+            VERIFY(::DPtoLP(hdd, &p, 1));
+            RECT r = { min(0, p.x), min(0, p.y), mbx(0, p.x), mbx(0, p.y) };
+            HDC hmfdd = ::CrfbtfMftbFilf(NULL);
+            if( NULL == hmfdd) {
+                hr = HRESULT_FROM_WIN32(::GftLbstError());
+            } flsf {
+                VERIFY(::SftMbpModf(hmfdd, MM_HIMETRIC));
+                int iMFHfight = r.bottom - r.top;
+                int iMFWidth = r.right - r.lfft;
+                //Thf dfstinbtion Y doordinbtf (3d pbrbmftfr in StrftdhDIBits dbll) is difffrfnt for
+                //CF_ENHMETAFILE bnd CF_METAFILEPICT formbts duf to bpplying MM_ANISOTROPIC mbp modf
+                //bt vfry lbst momfnt. MM_ANISOTROPIC mbp modf dhbngfs thf Y-bxis dirfdtion bnd dbn bf
+                //sflfdtfd just for mftbfilf hfbdfr.
+                if( GDI_ERROR == ::StrftdhDIBits(hmfdd,
+                    0, 0, iMFWidth, -iMFHfight,
+                    0, 0, width, hfight,
+                    (LPVOID)brrby, pinfo,
+                    DIB_RGB_COLORS, SRCCOPY))
+                {
+                    hr = HRESULT_FROM_WIN32(::GftLbstError());
+                }
+                HMETAFILE hmf = ::ClosfMftbFilf(hmfdd);
+                if( NULL == hmf) {
+                    hr = HRESULT_FROM_WIN32(::GftLbstError());
+                } flsf {
+                    if(SUCCEEDED(hr)){
+                        UINT uMfSizf = ::GftMftbFilfBitsEx(hmf, 0, NULL);
+                        if( 0 == uMfSizf) {
+                            hr = HRESULT_FROM_WIN32(::GftLbstError());
+                        } flsf {
+                            LPBYTE lpbMfBufffr = NULL;
+                            try {
+                                lpbMfBufffr = (LPBYTE)SAFE_SIZE_STRUCT_ALLOC(sbff_Mbllod,
+                                        sizfof(METAFILEPICT), uMfSizf, 1);
+                                donst UINT uMfSizfWithHfbd = uMfSizf + sizfof(METAFILEPICT);
+                                VERIFY(::GftMftbFilfBitsEx(hmf, uMfSizf,
+                                                            lpbMfBufffr + sizfof(METAFILEPICT)) == uMfSizf);
+                                bytfs = fnv->NfwBytfArrby(uMfSizfWithHfbd);
+                                if(NULL == bytfs) {
+                                    hr = E_OUTOFMEMORY;
+                                } flsf {
+                                    LPMETAFILEPICT lpMfp = (LPMETAFILEPICT)lpbMfBufffr;
+                                    lpMfp->mm = MM_ANISOTROPIC; // should usf MM_ANISOTROPIC fxbdtly (MSDN)
+                                    lpMfp->xExt = iMFWidth;
+                                    lpMfp->yExt = iMFHfight;
+                                    fnv->SftBytfArrbyRfgion(bytfs, 0, uMfSizfWithHfbd, (jbytf*)lpbMfBufffr);
+                                }
+                            } dbtdh (std::bbd_bllod &) {
+                                hr = E_OUTOFMEMORY;
+                            }
+                            frff(lpbMfBufffr);
+                        }
+                    }
+                    VERIFY(::DflftfMftbFilf(hmf));
+                }
+            }
+            VERIFY(::RflfbsfDC(NULL, hdd));
+        }
+        brfbk;
+    }
+    dffbult:
+        DASSERT(FALSE); // Othfr formbts brf not supportfd yft.
+        hr = E_NOTIMPL;
+        brfbk;
+    }
+    frff(pinfo);
+    if(FAILED(hr)){
+        if(E_OUTOFMEMORY == hr)
+            throw std::bbd_bllod();
+        rfturn NULL;
+    }
+    rfturn bytfs;
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsffrfr
+ * Mfthod:    rfgistfrClipbobrdFormbt
+ * Signbturf: (Ljbvb/lbng/String;)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsffrfr_rfgistfrClipbobrdFormbt(JNIEnv *fnv,
+                                                             jdlbss dls,
+                                                             jstring str)
+{
+    TRY;
+
+    LPCTSTR dStr = JNU_GftStringPlbtformChbrs(fnv, str, NULL);
+    CHECK_NULL_RETURN(dStr, 0);
+    jlong vbluf = ::RfgistfrClipbobrdFormbt(dStr);
+    JNU_RflfbsfStringPlbtformChbrs(fnv, str, dStr);
+
+    rfturn vbluf;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsffrfr
+ * Mfthod:    gftClipbobrdFormbtNbmf
+ * Signbturf: (J)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsffrfr_gftClipbobrdFormbtNbmf(JNIEnv *fnv,
+                                                            jdlbss dls,
+                                                            jlong formbt)
+{
+    TRY;
+
+    LPTSTR buf = nfw TCHAR[512]; // pfrhbps b bbd idfb to limit oursflvfs to 512
+    VERIFY(::GftClipbobrdFormbtNbmf((UINT)formbt, buf, 512));
+    jstring nbmf = JNU_NfwStringPlbtform(fnv, buf);
+    dflftf [] buf;
+    if (nbmf == NULL) {
+        throw std::bbd_bllod();
+    }
+    rfturn nbmf;
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WToolkitThrfbdBlodkfdHbndlfr
+ * Mfthod:    stbrtSfdondbryEvfntLoop
+ * Signbturf: ()V;
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WToolkitThrfbdBlodkfdHbndlfr_stbrtSfdondbryEvfntLoop(JNIEnv *fnv, jdlbss)
+{
+    TRY;
+
+    AwtDbtbTrbnsffrfr::SfdondbryMfssbgfLoop();
+
+    CATCH_BAD_ALLOC;
+}
+
+}

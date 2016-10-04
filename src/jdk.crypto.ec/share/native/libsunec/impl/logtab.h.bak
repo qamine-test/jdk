@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the Netscape security libraries.
+ * Tif Originbl Codf is tif Nftsdbpf sfdurity librbrifs.
  *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1994-2000
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Nftsdbpf Communidbtions Corporbtion.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 1994-2000
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Dr Vipul Gupta <vipul.gupta@sun.com>, Sun Microsystems Laboratories
+ *   Dr Vipul Guptb <vipul.guptb@sun.dom>, Sun Midrosystfms Lbborbtorifs
  *
  *********************************************************************** */
 
-#ifndef _LOGTAB_H
-#define _LOGTAB_H
+#ifndff _LOGTAB_H
+#dffinf _LOGTAB_H
 
-const float s_logv_2[] = {
+donst flobt s_logv_2[] = {
    0.000000000f, 0.000000000f, 1.000000000f, 0.630929754f,  /*  0  1  2  3 */
    0.500000000f, 0.430676558f, 0.386852807f, 0.356207187f,  /*  4  5  6  7 */
    0.333333333f, 0.315464877f, 0.301029996f, 0.289064826f,  /*  8  9 10 11 */
@@ -58,4 +58,4 @@ const float s_logv_2[] = {
    0.166666667f
 };
 
-#endif /* _LOGTAB_H */
+#fndif /* _LOGTAB_H */

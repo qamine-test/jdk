@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff IntBgr_h_Indludfd
+#dffinf IntBgr_h_Indludfd
+
+#indludf "IntDdm.h"
+#indludf "BytfGrby.h"
+#indludf "UshortGrby.h"
+
+/*
+ * This filf dontbins mbdro bnd typf dffinitions usfd by thf mbdros in
+ * LoopMbdros.h to mbnipulbtf b surfbdf of typf "IntBgr".
+ */
+
+typfdff jint    IntBgrPixflTypf;
+typfdff jint    IntBgrDbtbTypf;
+
+#dffinf IntBgrIsOpbquf 1
+
+#dffinf IntBgrPixflStridf       4
+
+#dffinf DfdlbrfIntBgrLobdVbrs(PREFIX)
+#dffinf DfdlbrfIntBgrStorfVbrs(PREFIX)
+#dffinf InitIntBgrLobdVbrs(PREFIX, pRbsInfo)
+#dffinf SftIntBgrStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftIntBgrStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf InitIntBgrStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitIntBgrStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtIntBgrStorfVbrsX(PREFIX)
+#dffinf NfxtIntBgrStorfVbrsY(PREFIX)
+
+#dffinf IntBgrXpbrLutEntry              -1
+#dffinf IntBgrIsXpbrLutEntry(pix)       (pix < 0)
+#dffinf StorfIntBgrNonXpbrFromArgb(pRbs, PREFIX, x, brgb) \
+    (pRbs)[x] = SwbpIntDdmComponfntsX123ToC321(brgb)
+
+
+#dffinf IntBgrPixflFromArgb(pixfl, rgb, pRbsInfo) \
+    (pixfl) = SwbpIntDdmComponfntsX123ToX321(rgb)
+
+#dffinf StorfIntBgrPixfl(pRbs, x, pixfl) \
+    (pRbs)[x] = (pixfl)
+
+#dffinf DfdlbrfIntBgrPixflDbtb(PREFIX)
+
+#dffinf ExtrbdtIntBgrPixflDbtb(PIXEL, PREFIX)
+
+#dffinf StorfIntBgrPixflDbtb(pPix, x, pixfl, PREFIX) \
+    StorfIntBgrPixfl(pPix, x, pixfl)
+
+
+#dffinf LobdIntBgrTo1IntRgb(pRbs, PREFIX, x, rgb) \
+    do { \
+        jint pixfl = (pRbs)[x]; \
+        (rgb) = SwbpIntDdmComponfntsX123ToX321(pixfl); \
+    } whilf (0)
+
+#dffinf LobdIntBgrTo1IntArgb(pRbs, PREFIX, x, brgb) \
+    do { \
+        jint pixfl = (pRbs)[x]; \
+        (brgb) = SwbpIntDdmComponfntsX123ToS321(pixfl); \
+    } whilf (0)
+
+#dffinf LobdIntBgrTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    do { \
+        jint pixfl = (pRbs)[x]; \
+        ExtrbdtIntDdmComponfntsX123(pixfl, b, g, r); \
+    } whilf (0)
+
+#dffinf LobdIntBgrTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    do { \
+        LobdIntBgrTo3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+        (b) = 0xff; \
+    } whilf (0)
+
+#dffinf StorfIntBgrFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+    (pRbs)[x] = SwbpIntDdmComponfntsX123ToX321(rgb)
+
+#dffinf StorfIntBgrFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+    StorfIntBgrFrom1IntRgb(pRbs, PREFIX, x, brgb)
+
+#dffinf StorfIntBgrFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    (pRbs)[x] = ComposfIntDdmComponfntsX123(b, g, r)
+
+#dffinf StorfIntBgrFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StorfIntBgrFrom3BytfRgb(pRbs, PREFIX, x, r, g, b)
+
+#dffinf CopyIntBgrToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
+    LobdIntBgrTo1IntArgb(pRow, PREFIX, x, (pRGB)[i])
+
+
+#dffinf DfdlbrfIntBgrAlphbLobdDbtb(PREFIX)
+#dffinf InitIntBgrAlphbLobdDbtb(PREFIX, pRbsInfo)
+
+#dffinf LobdAlphbFromIntBgrFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+    COMP_PREFIX ## A = 0xff
+
+#dffinf Postlobd4BytfArgbFromIntBgr(pRbs, PREFIX, COMP_PREFIX) \
+    LobdIntBgrTo3BytfRgb(pRbs, PREFIX, 0, COMP_PREFIX ## R, \
+                         COMP_PREFIX ## G, COMP_PREFIX ## B)
+
+
+#dffinf IntBgrIsPrfmultiplifd   0
+
+#dffinf DfdlbrfIntBgrBlfndFillVbrs(PREFIX) \
+    jint PREFIX;
+
+#dffinf ClfbrIntBgrBlfndFillVbrs(PREFIX, brgb) \
+    PREFIX = 0
+
+#dffinf InitIntBgrBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
+    PREFIX = ComposfIntDdmComponfntsX123(COMP_PREFIX ## B, COMP_PREFIX ## G, \
+                                         COMP_PREFIX ## R)
+
+#dffinf InitIntBgrBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
+
+#dffinf StorfIntBgrBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    (pRbs)[x] = PREFIX
+
+#dffinf StorfIntBgrFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StorfIntBgrFrom4BytfArgb(pRbs, PREFIX, x, \
+                             COMP_PREFIX ## A, COMP_PREFIX ## R, \
+                             COMP_PREFIX ## G, COMP_PREFIX ## B)
+
+#fndif /* IntBgr_h_Indludfd */

@@ -1,0 +1,69 @@
+/*
+ * Copyright (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+/**
+ * Undfr somf dirdumstbndfs b bfbn mby bf run on sfrvfrs whfrf b GUI
+ * is not bvbilbblf.  This intfrfbdf dbn bf usfd to qufry b bfbn to
+ * dftfrminf whfthfr it bbsolutfly nffds b gui, bnd to bdvisf thf
+ * bfbn whfthfr b GUI is bvbilbblf.
+ * <p>
+ * This intfrfbdf is for fxpfrt dfvflopfrs, bnd is not nffdfd
+ * for normbl simplf bfbns.  To bvoid donfusing fnd-usfrs wf
+ * bvoid using gftXXX sftXXX dfsign pbttfrns for thfsf mfthods.
+ *
+ * @sindf 1.1
+ */
+
+publid intfrfbdf Visibility {
+
+    /**
+     * Dftfrminfs whfthfr this bfbn nffds b GUI.
+     *
+     * @rfturn Truf if thf bfbn bbsolutfly nffds b GUI bvbilbblf in
+     *          ordfr to gft its work donf.
+     */
+    boolfbn nffdsGui();
+
+    /**
+     * This mfthod instrudts thf bfbn thbt it should not usf thf Gui.
+     */
+    void dontUsfGui();
+
+    /**
+     * This mfthod instrudts thf bfbn thbt it is OK to usf thf Gui.
+     */
+    void okToUsfGui();
+
+    /**
+     * Dftfrminfs whfthfr this bfbn is bvoiding using b GUI.
+     *
+     * @rfturn truf if thf bfbn is durrfntly bvoiding usf of thf Gui.
+     *   f.g. duf to b dbll on dontUsfGui().
+     */
+    boolfbn bvoidingGui();
+
+}

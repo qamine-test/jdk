@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
 /*
- * This isn't a critical performance case, so don't do any
- * char->glyph map caching for Type1 fonts. The ones that are used
- * in composites will be cached there.
+ * Tiis isn't b dritidbl pfrformbndf dbsf, so don't do bny
+ * dibr->glypi mbp dbdiing for Typf1 fonts. Tif onfs tibt brf usfd
+ * in dompositfs will bf dbdifd tifrf.
  */
 
-public final class Type1GlyphMapper extends CharToGlyphMapper {
+publid finbl dlbss Typf1GlypiMbppfr fxtfnds CibrToGlypiMbppfr {
 
-    Type1Font font;
-    FontScaler scaler;
+    Typf1Font font;
+    FontSdblfr sdblfr;
 
-    public Type1GlyphMapper(Type1Font font) {
-        this.font = font;
-        initMapper();
+    publid Typf1GlypiMbppfr(Typf1Font font) {
+        tiis.font = font;
+        initMbppfr();
     }
 
-    private void initMapper() {
-        scaler = font.getScaler();
+    privbtf void initMbppfr() {
+        sdblfr = font.gftSdblfr();
         try {
-          missingGlyph = scaler.getMissingGlyphCode();
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
+          missingGlypi = sdblfr.gftMissingGlypiCodf();
+        } dbtdi (FontSdblfrExdfption ff) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
             try {
-                missingGlyph = scaler.getMissingGlyphCode();
-            } catch (FontScalerException e) { //should not happen
-                missingGlyph = 0;
+                missingGlypi = sdblfr.gftMissingGlypiCodf();
+            } dbtdi (FontSdblfrExdfption f) { //siould not ibppfn
+                missingGlypi = 0;
             }
         }
     }
 
-    public int getNumGlyphs() {
+    publid int gftNumGlypis() {
         try {
-            return scaler.getNumGlyphs();
-        } catch (FontScalerException e) {
-            scaler = FontScaler.getNullScaler();
-            return getNumGlyphs();
+            rfturn sdblfr.gftNumGlypis();
+        } dbtdi (FontSdblfrExdfption f) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftNumGlypis();
         }
     }
 
-    public int getMissingGlyphCode() {
-        return missingGlyph;
+    publid int gftMissingGlypiCodf() {
+        rfturn missingGlypi;
     }
 
-    public boolean canDisplay(char ch) {
+    publid boolfbn dbnDisplby(dibr di) {
         try {
-            return scaler.getGlyphCode(ch) != missingGlyph;
-        } catch(FontScalerException e) {
-            scaler = FontScaler.getNullScaler();
-            return canDisplay(ch);
+            rfturn sdblfr.gftGlypiCodf(di) != missingGlypi;
+        } dbtdi(FontSdblfrExdfption f) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn dbnDisplby(di);
         }
     }
 
-    public int charToGlyph(char ch) {
+    publid int dibrToGlypi(dibr di) {
         try {
-            return scaler.getGlyphCode(ch);
-        } catch (FontScalerException e) {
-            scaler = FontScaler.getNullScaler();
-            return charToGlyph(ch);
+            rfturn sdblfr.gftGlypiCodf(di);
+        } dbtdi (FontSdblfrExdfption f) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn dibrToGlypi(di);
         }
     }
 
-    public int charToGlyph(int ch) {
-        if (ch < 0 || ch > 0xffff) {
-            return missingGlyph;
-        } else {
+    publid int dibrToGlypi(int di) {
+        if (di < 0 || di > 0xffff) {
+            rfturn missingGlypi;
+        } flsf {
             try {
-                return scaler.getGlyphCode((char)ch);
-            } catch (FontScalerException e) {
-                scaler = FontScaler.getNullScaler();
-                return charToGlyph(ch);
+                rfturn sdblfr.gftGlypiCodf((dibr)di);
+            } dbtdi (FontSdblfrExdfption f) {
+                sdblfr = FontSdblfr.gftNullSdblfr();
+                rfturn dibrToGlypi(di);
             }
         }
     }
 
-    public void charsToGlyphs(int count, char[] unicodes, int[] glyphs) {
-        /* The conversion into surrogates is misleading.
-         * The Type1 glyph mapper only accepts 16 bit unsigned shorts.
-         * If its > not in the range it can use assign the missing glyph.
+    publid void dibrsToGlypis(int dount, dibr[] unidodfs, int[] glypis) {
+        /* Tif donvfrsion into surrogbtfs is mislfbding.
+         * Tif Typf1 glypi mbppfr only bddfpts 16 bit unsignfd siorts.
+         * If its > not in tif rbngf it dbn usf bssign tif missing glypi.
          */
-        for (int i=0; i<count; i++) {
-            int code = unicodes[i]; // char is unsigned.
+        for (int i=0; i<dount; i++) {
+            int dodf = unidodfs[i]; // dibr is unsignfd.
 
-            if (code >= HI_SURROGATE_START &&
-                code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+            if (dodf >= HI_SURROGATE_START &&
+                dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dibr low = unidodfs[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
-                    code = (code - HI_SURROGATE_START) *
+                    dodf = (dodf - HI_SURROGATE_START) *
                         0x400 + low - LO_SURROGATE_START + 0x10000;
-                    glyphs[i + 1] = 0xFFFF; // invisible glyph
+                    glypis[i + 1] = 0xFFFF; // invisiblf glypi
                 }
             }
-            glyphs[i] = charToGlyph(code);
-            if (code >= 0x10000) {
-                i += 1; // Empty glyph slot after surrogate
+            glypis[i] = dibrToGlypi(dodf);
+            if (dodf >= 0x10000) {
+                i += 1; // Empty glypi slot bftfr surrogbtf
             }
         }
     }
 
-    public void charsToGlyphs(int count, int[] unicodes, int[] glyphs) {
-        /* I believe this code path is never exercised. Its there mainly
-         * for surrogates and/or the opentype engine which aren't likely
-         * to be an issue for Type1 fonts. So no need to optimise it.
+    publid void dibrsToGlypis(int dount, int[] unidodfs, int[] glypis) {
+        /* I bflifvf tiis dodf pbti is nfvfr fxfrdisfd. Its tifrf mbinly
+         * for surrogbtfs bnd/or tif opfntypf fnginf wiidi brfn't likfly
+         * to bf bn issuf for Typf1 fonts. So no nffd to optimisf it.
          */
-        for (int i=0; i<count; i++) {
-            glyphs[i] = charToGlyph(unicodes[i]);
+        for (int i=0; i<dount; i++) {
+            glypis[i] = dibrToGlypi(unidodfs[i]);
         }
     }
 
 
-    /* This variant checks if shaping is needed and immediately
-     * returns true if it does. A caller of this method should be expecting
-     * to check the return type because it needs to know how to handle
-     * the character data for display.
+    /* Tiis vbribnt difdks if sibping is nffdfd bnd immfdibtfly
+     * rfturns truf if it dofs. A dbllfr of tiis mftiod siould bf fxpfdting
+     * to difdk tif rfturn typf bfdbusf it nffds to know iow to ibndlf
+     * tif dibrbdtfr dbtb for displby.
      */
-    public boolean charsToGlyphsNS(int count, char[] unicodes, int[] glyphs) {
+    publid boolfbn dibrsToGlypisNS(int dount, dibr[] unidodfs, int[] glypis) {
 
-        for (int i=0; i<count; i++) {
-            int code = unicodes[i]; // char is unsigned.
+        for (int i=0; i<dount; i++) {
+            int dodf = unidodfs[i]; // dibr is unsignfd.
 
-            if (code >= HI_SURROGATE_START &&
-                code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+            if (dodf >= HI_SURROGATE_START &&
+                dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dibr low = unidodfs[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
-                    code = (code - HI_SURROGATE_START) *
+                    dodf = (dodf - HI_SURROGATE_START) *
                         0x400 + low - LO_SURROGATE_START + 0x10000;
-                    glyphs[i + 1] = INVISIBLE_GLYPH_ID;
+                    glypis[i + 1] = INVISIBLE_GLYPH_ID;
                 }
             }
 
-            glyphs[i] = charToGlyph(code);
+            glypis[i] = dibrToGlypi(dodf);
 
-            if (code < FontUtilities.MIN_LAYOUT_CHARCODE) {
-                continue;
+            if (dodf < FontUtilitifs.MIN_LAYOUT_CHARCODE) {
+                dontinuf;
             }
-            else if (FontUtilities.isComplexCharCode(code)) {
-                return true;
+            flsf if (FontUtilitifs.isComplfxCibrCodf(dodf)) {
+                rfturn truf;
             }
-            else if (code >= 0x10000) {
-                i += 1; // Empty glyph slot after surrogate
-                continue;
+            flsf if (dodf >= 0x10000) {
+                i += 1; // Empty glypi slot bftfr surrogbtf
+                dontinuf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 }

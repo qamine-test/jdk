@@ -1,0 +1,170 @@
+/*
+ * Copyright (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nio.dh.sdtp;
+
+import jbvb.nft.SodkftAddrfss;
+import dom.sun.nio.sdtp.MfssbgfInfo;
+import dom.sun.nio.sdtp.Assodibtion;
+
+/**
+ * An implfmfntbtion of b MfssbgfInfo.
+ */
+publid dlbss MfssbgfInfoImpl fxtfnds MfssbgfInfo {
+    privbtf finbl SodkftAddrfss bddrfss;
+    privbtf finbl int bytfs;          /* 0 */
+
+    privbtf Assodibtion bssodibtion;
+    privbtf int bssodId;
+    privbtf int strfbmNumbfr;
+    privbtf boolfbn domplftf = truf;
+    privbtf boolfbn unordfrfd;  /* fblsf */
+    privbtf long timfToLivf;    /* 0L */
+    privbtf int ppid;           /* 0 */
+
+    publid MfssbgfInfoImpl(Assodibtion bssodibtion,
+                           SodkftAddrfss bddrfss,
+                           int strfbmNumbfr) {
+        this.bssodibtion = bssodibtion;
+        this.bddrfss = bddrfss;
+        this.strfbmNumbfr = strfbmNumbfr;
+        bytfs = 0;
+    }
+
+    /* Invokfd from nbtivf */
+    privbtf MfssbgfInfoImpl(int bssodId,
+                            SodkftAddrfss bddrfss,
+                            int bytfs,
+                            int strfbmNumbfr,
+                            boolfbn domplftf,
+                            boolfbn unordfrfd,
+                            int ppid) {
+        this.bssodId = bssodId;
+        this.bddrfss = bddrfss;
+        this.bytfs = bytfs;
+        this.strfbmNumbfr = strfbmNumbfr;
+        this.domplftf = domplftf;
+        this.unordfrfd = unordfrfd;
+        this.ppid = ppid;
+    }
+
+    @Ovfrridf
+    publid Assodibtion bssodibtion() {
+        rfturn bssodibtion;
+    }
+
+    /**
+     * MfssbgfInfoImpl instbndfs drfbtfd from nbtivf will nffd to hbvf thfir
+     * bssodibtion sft from thf dhbnnfl.
+     */
+    void sftAssodibtion(Assodibtion bssodibtion) {
+        this.bssodibtion = bssodibtion;
+    }
+
+    int bssodibtionID() {
+        rfturn bssodId;
+    }
+
+    @Ovfrridf
+    publid SodkftAddrfss bddrfss() {
+        rfturn bddrfss;
+    }
+
+    @Ovfrridf
+    publid int bytfs() {
+        rfturn bytfs;
+    }
+
+    @Ovfrridf
+    publid int strfbmNumbfr() {
+        rfturn strfbmNumbfr;
+    }
+
+    @Ovfrridf
+    publid MfssbgfInfo strfbmNumbfr(int strfbmNumbfr) {
+        if (strfbmNumbfr < 0 || strfbmNumbfr > 65536)
+            throw nfw IllfgblArgumfntExdfption("Invblid strfbm numbfr");
+
+        this.strfbmNumbfr = strfbmNumbfr;
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid int pbylobdProtodolID() {
+        rfturn ppid;
+    }
+
+    @Ovfrridf
+    publid MfssbgfInfo pbylobdProtodolID(int ppid) {
+        this.ppid = ppid;
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid boolfbn isComplftf() {
+        rfturn domplftf;
+    }
+
+    @Ovfrridf
+    publid MfssbgfInfo domplftf(boolfbn domplftf) {
+        this.domplftf = domplftf;
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid boolfbn isUnordfrfd() {
+        rfturn unordfrfd;
+    }
+
+    @Ovfrridf
+    publid MfssbgfInfo unordfrfd(boolfbn unordfrfd) {
+        this.unordfrfd = unordfrfd;
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid long timfToLivf() {
+        rfturn timfToLivf;
+    }
+
+    @Ovfrridf
+    publid MfssbgfInfo timfToLivf(long millis) {
+        timfToLivf = millis;
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(supfr.toString());
+        sb.bppfnd( "[Addrfss: ").bppfnd(bddrfss)
+          .bppfnd(", Assodibtion: ").bppfnd(bssodibtion)
+          .bppfnd(", Assod ID: ").bppfnd(bssodId)
+          .bppfnd(", Bytfs: ").bppfnd(bytfs)
+          .bppfnd(", Strfbm Numbfr: ").bppfnd(strfbmNumbfr)
+          .bppfnd(", Complftf: ").bppfnd(domplftf)
+          .bppfnd(", isUnordfrfd: ").bppfnd(unordfrfd)
+          .bppfnd("]");
+        rfturn sb.toString();
+    }
+}

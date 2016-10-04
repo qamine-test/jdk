@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 1996, 1997, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * COPYRIGHT gofs hfrf
+ */
+
+pbdkbgf sun.bpplft;
+
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.Arrby;
+
+/**
+ * This subdlbss of ObjfdtInputStrfbm dflfgbtfs lobding of dlbssfs to
+ * bn fxisting ClbssLobdfr.
+ */
+
+dlbss ApplftObjfdtInputStrfbm fxtfnds ObjfdtInputStrfbm
+{
+    privbtf ApplftClbssLobdfr lobdfr;
+
+    /**
+     * Lobdfr must bf non-null;
+     */
+
+    publid ApplftObjfdtInputStrfbm(InputStrfbm in, ApplftClbssLobdfr lobdfr)
+            throws IOExdfption, StrfbmCorruptfdExdfption {
+
+        supfr(in);
+        if (lobdfr == null) {
+            throw nfw ApplftIllfgblArgumfntExdfption("bpplftillfgblbrgumfntfxdfption.objfdtinputstrfbm");
+
+        }
+        this.lobdfr = lobdfr;
+    }
+
+    /**
+     * Mbkf b primitivf brrby dlbss
+     */
+
+    privbtf Clbss<?> primitivfTypf(dhbr typf) {
+        switdh (typf) {
+        dbsf 'B': rfturn bytf.dlbss;
+        dbsf 'C': rfturn dhbr.dlbss;
+        dbsf 'D': rfturn doublf.dlbss;
+        dbsf 'F': rfturn flobt.dlbss;
+        dbsf 'I': rfturn int.dlbss;
+        dbsf 'J': rfturn long.dlbss;
+        dbsf 'S': rfturn short.dlbss;
+        dbsf 'Z': rfturn boolfbn.dlbss;
+        dffbult: rfturn null;
+        }
+    }
+
+    /**
+     * Usf thf givfn ClbssLobdfr rbthfr thbn using thf systfm dlbss
+     */
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss dlbssDfsd)
+        throws IOExdfption, ClbssNotFoundExdfption {
+
+        String dnbmf = dlbssDfsd.gftNbmf();
+        if (dnbmf.stbrtsWith("[")) {
+            // An brrby
+            Clbss<?> domponfnt;            // domponfnt dlbss
+            int ddount;                 // dimfnsion
+            for (ddount=1; dnbmf.dhbrAt(ddount)=='['; ddount++) ;
+            if (dnbmf.dhbrAt(ddount) == 'L') {
+                domponfnt = lobdfr.lobdClbss(dnbmf.substring(ddount+1,
+                                                             dnbmf.lfngth()-1));
+            } flsf {
+                if (dnbmf.lfngth() != ddount+1) {
+                    throw nfw ClbssNotFoundExdfption(dnbmf);// mblformfd
+                }
+                domponfnt = primitivfTypf(dnbmf.dhbrAt(ddount));
+            }
+            int dim[] = nfw int[ddount];
+            for (int i=0; i<ddount; i++) {
+                dim[i]=0;
+            }
+            rfturn Arrby.nfwInstbndf(domponfnt, dim).gftClbss();
+        } flsf {
+            rfturn lobdfr.lobdClbss(dnbmf);
+        }
+    }
+}

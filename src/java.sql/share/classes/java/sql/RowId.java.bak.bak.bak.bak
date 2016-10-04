@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ *
+ * Thf rfprfsfntbtion (mbpping) in thf Jbvb progrbmming lbngubgf of bn SQL ROWID
+ * vbluf. An SQL ROWID is b built-in typf, b vbluf of whidh dbn bf thought of bs
+ * bn bddrfss  for its idfntififd row in b dbtbbbsf tbblf. Whfthfr thbt bddrfss
+ * is logidbl or, in bny  rfspfdts, physidbl is dftfrminfd by its originbting dbtb
+ * sourdf.
+ * <p>
+ * Mfthods in thf intfrfbdfs <dodf>RfsultSft</dodf>, <dodf>CbllbblfStbtfmfnt</dodf>,
+ * bnd <dodf>PrfpbrfdStbtfmfnt</dodf>, sudh bs <dodf>gftRowId</dodf> bnd <dodf>sftRowId</dodf>
+ * bllow b progrbmmfr to bddfss b SQL <dodf>ROWID</dodf>  vbluf. Thf <dodf>RowId</dodf>
+ * intfrfbdf providfs b mfthod
+ * for rfprfsfnting thf vbluf of thf <dodf>ROWID</dodf> bs b bytf brrby or bs b
+ * <dodf>String</dodf>.
+ * <p>
+ * Thf mfthod <dodf>gftRowIdLifftimf</dodf> in thf intfrfbdf <dodf>DbtbbbsfMftbDbtb</dodf>,
+ * dbn bf usfd
+ * to dftfrminf if b <dodf>RowId</dodf> objfdt rfmbins vblid for thf durbtion of thf trbnsbdtion in
+ * whidh  thf <dodf>RowId</dodf> wbs drfbtfd, thf durbtion of thf sfssion in whidh
+ * thf <dodf>RowId</dodf> wbs drfbtfd,
+ * or, ffffdtivfly, for bs long bs its idfntififd row is not dflftfd. In bddition
+ * to spfdifying thf durbtion of its vblid lifftimf outsidf its originbting dbtb
+ * sourdf, <dodf>gftRowIdLifftimf</dodf> spfdififs thf durbtion of b <dodf>ROWID</dodf>
+ * vbluf's vblid lifftimf
+ * within its originbting dbtb sourdf. In this, it difffrs from b lbrgf objfdt,
+ * bfdbusf thfrf is no limit on thf vblid lifftimf of b lbrgf  objfdt within its
+ * originbting dbtb sourdf.
+ * <p>
+ * All mfthods on thf <dodf>RowId</dodf> intfrfbdf must bf fully implfmfntfd if thf
+ * JDBC drivfr supports thf dbtb typf.
+ *
+ * @sff jbvb.sql.DbtbbbsfMftbDbtb
+ * @sindf 1.6
+ */
+
+publid intfrfbdf RowId {
+    /**
+     * Compbrfs this <dodf>RowId</dodf> to thf spfdififd objfdt. Thf rfsult is
+     * <dodf>truf</dodf> if bnd only if thf brgumfnt is not null bnd is b RowId
+     * objfdt thbt rfprfsfnts thf sbmf ROWID bs  this objfdt.
+     * <p>
+     * It is importbnt
+     * to donsidfr both thf origin bnd thf vblid lifftimf of b <dodf>RowId</dodf>
+     * whfn dompbring it to bnothfr <dodf>RowId</dodf>. If both brf vblid, bnd
+     * both brf from thf sbmf tbblf on thf sbmf dbtb sourdf, thfn if thfy brf fqubl
+     * thfy idfntify
+     * thf sbmf row; if onf or morf is no longfr gubrbntffd to bf vblid, or if
+     * thfy originbtf from difffrfnt dbtb sourdfs, or difffrfnt tbblfs on thf
+     * sbmf dbtb sourdf, thfy  mby bf fqubl but still
+     * not idfntify thf sbmf row.
+     *
+     * @pbrbm obj thf <dodf>Objfdt</dodf> to dompbrf this <dodf>RowId</dodf> objfdt
+     *     bgbinst.
+     * @rfturn truf if thf <dodf>RowId</dodf>s brf fqubl; fblsf othfrwisf
+     * @sindf 1.6
+     */
+    boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Rfturns bn brrby of bytfs rfprfsfnting thf vbluf of thf SQL <dodf>ROWID</dodf>
+     * dfsignbtfd by this <dodf>jbvb.sql.RowId</dodf> objfdt.
+     *
+     * @rfturn bn brrby of bytfs, whosf lfngth is dftfrminfd by thf drivfr supplying
+     *     thf donnfdtion, rfprfsfnting thf vbluf of thf ROWID dfsignbtfd by this
+     *     jbvb.sql.RowId objfdt.
+     */
+     bytf[] gftBytfs();
+
+     /**
+      * Rfturns b String rfprfsfnting thf vbluf of thf SQL ROWID dfsignbtfd by this
+      * <dodf>jbvb.sql.RowId</dodf> objfdt.
+      * <p>
+      *Likf <dodf>jbvb.sql.Dbtf.toString()</dodf>
+      * rfturns thf dontfnts of its DATE bs thf <dodf>String</dodf> "2004-03-17"
+      * rbthfr thbn bs  DATE litfrbl in SQL (whidh would hbvf bffn thf <dodf>String</dodf>
+      * DATE "2004-03-17"), toString()
+      * rfturns thf dontfnts of its ROWID in b form spfdifid to thf drivfr supplying
+      * thf donnfdtion, bnd possibly not bs b <dodf>ROWID</dodf> litfrbl.
+      *
+      * @rfturn b String whosf formbt is dftfrminfd by thf drivfr supplying thf
+      *     donnfdtion, rfprfsfnting thf vbluf of thf <dodf>ROWID</dodf> dfsignbtfd
+      *     by this <dodf>jbvb.sql.RowId</dodf>  objfdt.
+      */
+     String toString();
+
+     /**
+      * Rfturns b hbsh dodf vbluf of this <dodf>RowId</dodf> objfdt.
+      *
+      * @rfturn b hbsh dodf for thf <dodf>RowId</dodf>
+      */
+     int hbshCodf();
+
+}

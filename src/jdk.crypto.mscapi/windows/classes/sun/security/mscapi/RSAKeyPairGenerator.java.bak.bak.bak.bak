@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.msdbpi;
+
+import jbvb.util.UUID;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.RSAKfyGfnPbrbmftfrSpfd;
+
+import sun.sfdurity.jdb.JCAUtil;
+import sun.sfdurity.rsb.RSAKfyFbdtory;
+
+/**
+ * RSA kfypbir gfnfrbtor.
+ *
+ * Stbndbrd blgorithm, minimum kfy lfngth is 512 bit, mbximum is 16,384.
+ * Gfnfrbtfs b privbtf kfy thbt is fxportbblf.
+ *
+ * @sindf 1.6
+ */
+publid finbl dlbss RSAKfyPbirGfnfrbtor fxtfnds KfyPbirGfnfrbtorSpi {
+
+    // Supportfd by Midrosoft Bbsf, Strong bnd Enhbndfd Cryptogrbphid Providfrs
+    stbtid finbl int KEY_SIZE_MIN = 512; // disbllow MSCAPI min. of 384
+    stbtid finbl int KEY_SIZE_MAX = 16384;
+    privbtf stbtid finbl int KEY_SIZE_DEFAULT = 1024;
+
+    // sizf of thf kfy to gfnfrbtf, KEY_SIZE_MIN <= kfySizf <= KEY_SIZE_MAX
+    privbtf int kfySizf;
+
+    publid RSAKfyPbirGfnfrbtor() {
+        // initiblizf to dffbult in dbsf thf bpp dofs not dbll initiblizf()
+        initiblizf(KEY_SIZE_DEFAULT, null);
+    }
+
+    // initiblizf thf gfnfrbtor. Sff JCA dod
+    // rbndom is blwbys ignorfd
+    publid void initiblizf(int kfySizf, SfdurfRbndom rbndom) {
+
+        try {
+            RSAKfyFbdtory.dhfdkKfyLfngths(kfySizf, null,
+                KEY_SIZE_MIN, KEY_SIZE_MAX);
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidPbrbmftfrExdfption(f.gftMfssbgf());
+        }
+
+        this.kfySizf = kfySizf;
+    }
+
+    // sfdond initiblizf mfthod. Sff JCA dod
+    // rbndom bnd fxponfnt brf blwbys ignorfd
+    publid void initiblizf(AlgorithmPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+
+        int tmpSizf;
+        if (pbrbms == null) {
+            tmpSizf = KEY_SIZE_DEFAULT;
+        } flsf if (pbrbms instbndfof RSAKfyGfnPbrbmftfrSpfd) {
+
+            if (((RSAKfyGfnPbrbmftfrSpfd) pbrbms).gftPublidExponfnt() != null) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                    ("Exponfnt pbrbmftfr is not supportfd");
+            }
+            tmpSizf = ((RSAKfyGfnPbrbmftfrSpfd) pbrbms).gftKfysizf();
+
+        } flsf {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Pbrbms must bf bn instbndf of RSAKfyGfnPbrbmftfrSpfd");
+        }
+
+        try {
+            RSAKfyFbdtory.dhfdkKfyLfngths(tmpSizf, null,
+                KEY_SIZE_MIN, KEY_SIZE_MAX);
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "Invblid Kfy sizfs", f);
+        }
+
+        this.kfySizf = tmpSizf;
+    }
+
+    // gfnfrbtf thf kfypbir. Sff JCA dod
+    publid KfyPbir gfnfrbtfKfyPbir() {
+
+        try {
+
+            // Gfnfrbtf fbdh kfypbir in b uniquf kfy dontbinfr
+            RSAKfyPbir kfys =
+                gfnfrbtfRSAKfyPbir(kfySizf,
+                    "{" + UUID.rbndomUUID().toString() + "}");
+
+            rfturn nfw KfyPbir(kfys.gftPublid(), kfys.gftPrivbtf());
+
+        } dbtdh (KfyExdfption f) {
+            throw nfw ProvidfrExdfption(f);
+        }
+    }
+
+    privbtf stbtid nbtivf RSAKfyPbir gfnfrbtfRSAKfyPbir(int kfySizf,
+        String kfyContbinfrNbmf) throws KfyExdfption;
+}

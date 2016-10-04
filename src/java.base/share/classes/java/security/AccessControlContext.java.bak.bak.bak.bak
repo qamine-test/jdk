@@ -1,0 +1,940 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+
+/**
+ * An AddfssControlContfxt is usfd to mbkf systfm rfsourdf bddfss dfdisions
+ * bbsfd on thf dontfxt it fndbpsulbtfs.
+ *
+ * <p>Morf spfdifidblly, it fndbpsulbtfs b dontfxt bnd
+ * hbs b singlf mfthod, {@dodf dhfdkPfrmission},
+ * thbt is fquivblfnt to thf {@dodf dhfdkPfrmission} mfthod
+ * in thf AddfssControllfr dlbss, with onf difffrfndf: Thf AddfssControlContfxt
+ * {@dodf dhfdkPfrmission} mfthod mbkfs bddfss dfdisions bbsfd on thf
+ * dontfxt it fndbpsulbtfs,
+ * rbthfr thbn thbt of thf durrfnt fxfdution thrfbd.
+ *
+ * <p>Thus, thf purposf of AddfssControlContfxt is for thosf situbtions whfrf
+ * b sfdurity dhfdk thbt should bf mbdf within b givfn dontfxt
+ * bdtublly nffds to bf donf from within b
+ * <i>difffrfnt</i> dontfxt (for fxbmplf, from within b workfr thrfbd).
+ *
+ * <p> An AddfssControlContfxt is drfbtfd by dblling thf
+ * {@dodf AddfssControllfr.gftContfxt} mfthod.
+ * Thf {@dodf gftContfxt} mfthod tbkfs b "snbpshot"
+ * of thf durrfnt dblling dontfxt, bnd plbdfs
+ * it in bn AddfssControlContfxt objfdt, whidh it rfturns. A sbmplf dbll is
+ * thf following:
+ *
+ * <prf>
+ *   AddfssControlContfxt bdd = AddfssControllfr.gftContfxt()
+ * </prf>
+ *
+ * <p>
+ * Codf within b difffrfnt dontfxt dbn subsfqufntly dbll thf
+ * {@dodf dhfdkPfrmission} mfthod on thf
+ * prfviously-sbvfd AddfssControlContfxt objfdt. A sbmplf dbll is thf
+ * following:
+ *
+ * <prf>
+ *   bdd.dhfdkPfrmission(pfrmission)
+ * </prf>
+ *
+ * @sff AddfssControllfr
+ *
+ * @buthor Rolbnd Sdhfmfrs
+ */
+
+publid finbl dlbss AddfssControlContfxt {
+
+    privbtf ProtfdtionDombin dontfxt[];
+    // isPrivilfgfd bnd isAuthorizfd brf rfffrfndfd by thf VM - do not rfmovf
+    // or dhbngf thfir nbmfs
+    privbtf boolfbn isPrivilfgfd;
+    privbtf boolfbn isAuthorizfd = fblsf;
+
+    // Notf: This fifld is dirfdtly usfd by thf virtubl mbdhinf
+    // nbtivf dodfs. Don't toudh it.
+    privbtf AddfssControlContfxt privilfgfdContfxt;
+
+    privbtf DombinCombinfr dombinfr = null;
+
+    // limitfd privilfgf sdopf
+    privbtf Pfrmission pfrmissions[];
+    privbtf AddfssControlContfxt pbrfnt;
+    privbtf boolfbn isWrbppfd;
+
+    // is donstrbinfd by limitfd privilfgf sdopf?
+    privbtf boolfbn isLimitfd;
+    privbtf ProtfdtionDombin limitfdContfxt[];
+
+    privbtf stbtid boolfbn dfbugInit = fblsf;
+    privbtf stbtid Dfbug dfbug = null;
+
+    stbtid Dfbug gftDfbug()
+    {
+        if (dfbugInit)
+            rfturn dfbug;
+        flsf {
+            if (Polidy.isSft()) {
+                dfbug = Dfbug.gftInstbndf("bddfss");
+                dfbugInit = truf;
+            }
+            rfturn dfbug;
+        }
+    }
+
+    /**
+     * Crfbtf bn AddfssControlContfxt with thf givfn brrby of ProtfdtionDombins.
+     * Contfxt must not bf null. Duplidbtf dombins will bf rfmovfd from thf
+     * dontfxt.
+     *
+     * @pbrbm dontfxt thf ProtfdtionDombins bssodibtfd with this dontfxt.
+     * Thf non-duplidbtf dombins brf dopifd from thf brrby. Subsfqufnt
+     * dhbngfs to thf brrby will not bfffdt this AddfssControlContfxt.
+     * @throws NullPointfrExdfption if {@dodf dontfxt} is {@dodf null}
+     */
+    publid AddfssControlContfxt(ProtfdtionDombin dontfxt[])
+    {
+        if (dontfxt.lfngth == 0) {
+            this.dontfxt = null;
+        } flsf if (dontfxt.lfngth == 1) {
+            if (dontfxt[0] != null) {
+                this.dontfxt = dontfxt.dlonf();
+            } flsf {
+                this.dontfxt = null;
+            }
+        } flsf {
+            List<ProtfdtionDombin> v = nfw ArrbyList<>(dontfxt.lfngth);
+            for (int i =0; i< dontfxt.lfngth; i++) {
+                if ((dontfxt[i] != null) &&  (!v.dontbins(dontfxt[i])))
+                    v.bdd(dontfxt[i]);
+            }
+            if (!v.isEmpty()) {
+                this.dontfxt = nfw ProtfdtionDombin[v.sizf()];
+                this.dontfxt = v.toArrby(this.dontfxt);
+            }
+        }
+    }
+
+    /**
+     * Crfbtf b nfw {@dodf AddfssControlContfxt} with thf givfn
+     * {@dodf AddfssControlContfxt} bnd {@dodf DombinCombinfr}.
+     * This donstrudtor bssodibtfs thf providfd
+     * {@dodf DombinCombinfr} with thf providfd
+     * {@dodf AddfssControlContfxt}.
+     *
+     * <p>
+     *
+     * @pbrbm bdd thf {@dodf AddfssControlContfxt} bssodibtfd
+     *          with thf providfd {@dodf DombinCombinfr}.
+     *
+     * @pbrbm dombinfr thf {@dodf DombinCombinfr} to bf bssodibtfd
+     *          with thf providfd {@dodf AddfssControlContfxt}.
+     *
+     * @fxdfption NullPointfrExdfption if thf providfd
+     *          {@dodf dontfxt} is {@dodf null}.
+     *
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr is instbllfd bnd thf
+     *          dbllfr dofs not hbvf thf "drfbtfAddfssControlContfxt"
+     *          {@link SfdurityPfrmission}
+     * @sindf 1.3
+     */
+    publid AddfssControlContfxt(AddfssControlContfxt bdd,
+                                DombinCombinfr dombinfr) {
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(SfdurityConstbnts.CREATE_ACC_PERMISSION);
+            this.isAuthorizfd = truf;
+        }
+
+        this.dontfxt = bdd.dontfxt;
+
+        // wf do not nffd to run thf dombinf mfthod on thf
+        // providfd ACC.  it wbs blrfbdy "dombinfd" whfn thf
+        // dontfxt wbs originblly rftrifvfd.
+        //
+        // bt this point in timf, wf simply throw bwby thf old
+        // dombinfr bnd usf thf nfwly providfd onf.
+        this.dombinfr = dombinfr;
+    }
+
+    /**
+     * pbdkbgf privbtf for AddfssControllfr
+     *
+     * This "brgumfnt wrbppfr" dontfxt will bf pbssfd bs thf bdtubl dontfxt
+     * pbrbmftfr on bn intfrnbl doPrivilfgfd() dbll usfd in thf implfmfntbtion.
+     */
+    AddfssControlContfxt(ProtfdtionDombin dbllfr, DombinCombinfr dombinfr,
+        AddfssControlContfxt pbrfnt, AddfssControlContfxt dontfxt,
+        Pfrmission[] pfrms)
+    {
+        /*
+         * Combinf thf dombins from thf doPrivilfgfd() dontfxt into our
+         * wrbppfr dontfxt, if nfdfssbry.
+         */
+        ProtfdtionDombin[] dbllfrPDs = null;
+        if (dbllfr != null) {
+             dbllfrPDs = nfw ProtfdtionDombin[] { dbllfr };
+        }
+        if (dontfxt != null) {
+            if (dombinfr != null) {
+                this.dontfxt = dombinfr.dombinf(dbllfrPDs, dontfxt.dontfxt);
+            } flsf {
+                this.dontfxt = dombinf(dbllfrPDs, dontfxt.dontfxt);
+            }
+        } flsf {
+            /*
+             * Cbll dombinfr fvfn if thfrf is sffmingly nothing to dombinf.
+             */
+            if (dombinfr != null) {
+                this.dontfxt = dombinfr.dombinf(dbllfrPDs, null);
+            } flsf {
+                this.dontfxt = dombinf(dbllfrPDs, null);
+            }
+        }
+        this.dombinfr = dombinfr;
+
+        Pfrmission[] tmp = null;
+        if (pfrms != null) {
+            tmp = nfw Pfrmission[pfrms.lfngth];
+            for (int i=0; i < pfrms.lfngth; i++) {
+                if (pfrms[i] == null) {
+                    throw nfw NullPointfrExdfption("pfrmission dbn't bf null");
+                }
+
+                /*
+                 * An AllPfrmission brgumfnt is fquivblfnt to dblling
+                 * doPrivilfgfd() without bny limit pfrmissions.
+                 */
+                if (pfrms[i].gftClbss() == AllPfrmission.dlbss) {
+                    pbrfnt = null;
+                }
+                tmp[i] = pfrms[i];
+            }
+        }
+
+        /*
+         * For b doPrivilfgfd() with limitfd privilfgf sdopf, initiblizf
+         * thf rflfvbnt fiflds.
+         *
+         * Thf limitfdContfxt fifld dontbins thf union of bll dombins whidh
+         * brf fndlosfd by this limitfd privilfgf sdopf. In othfr words,
+         * it dontbins bll of thf dombins whidh dould potfntiblly bf dhfdkfd
+         * if nonf of thf limiting pfrmissions implifd b rfqufstfd pfrmission.
+         */
+        if (pbrfnt != null) {
+            this.limitfdContfxt = dombinf(pbrfnt.dontfxt, pbrfnt.limitfdContfxt);
+            this.isLimitfd = truf;
+            this.isWrbppfd = truf;
+            this.pfrmissions = tmp;
+            this.pbrfnt = pbrfnt;
+            this.privilfgfdContfxt = dontfxt; // usfd in dhfdkPfrmission2()
+        }
+        this.isAuthorizfd = truf;
+    }
+
+
+    /**
+     * pbdkbgf privbtf donstrudtor for AddfssControllfr.gftContfxt()
+     */
+
+    AddfssControlContfxt(ProtfdtionDombin dontfxt[],
+                         boolfbn isPrivilfgfd)
+    {
+        this.dontfxt = dontfxt;
+        this.isPrivilfgfd = isPrivilfgfd;
+        this.isAuthorizfd = truf;
+    }
+
+    /**
+     * Construdtor for JbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf()
+     */
+    AddfssControlContfxt(ProtfdtionDombin[] dontfxt,
+                         AddfssControlContfxt privilfgfdContfxt)
+    {
+        this.dontfxt = dontfxt;
+        this.privilfgfdContfxt = privilfgfdContfxt;
+        this.isPrivilfgfd = truf;
+    }
+
+    /**
+     * Rfturns this dontfxt's dontfxt.
+     */
+    ProtfdtionDombin[] gftContfxt() {
+        rfturn dontfxt;
+    }
+
+    /**
+     * Rfturns truf if this dontfxt is privilfgfd.
+     */
+    boolfbn isPrivilfgfd()
+    {
+        rfturn isPrivilfgfd;
+    }
+
+    /**
+     * gft thf bssignfd dombinfr from thf privilfgfd or inhfritfd dontfxt
+     */
+    DombinCombinfr gftAssignfdCombinfr() {
+        AddfssControlContfxt bdd;
+        if (isPrivilfgfd) {
+            bdd = privilfgfdContfxt;
+        } flsf {
+            bdd = AddfssControllfr.gftInhfritfdAddfssControlContfxt();
+        }
+        if (bdd != null) {
+            rfturn bdd.dombinfr;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Gft thf {@dodf DombinCombinfr} bssodibtfd with this
+     * {@dodf AddfssControlContfxt}.
+     *
+     * <p>
+     *
+     * @rfturn thf {@dodf DombinCombinfr} bssodibtfd with this
+     *          {@dodf AddfssControlContfxt}, or {@dodf null}
+     *          if thfrf is nonf.
+     *
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr is instbllfd bnd
+     *          thf dbllfr dofs not hbvf thf "gftDombinCombinfr"
+     *          {@link SfdurityPfrmission}
+     * @sindf 1.3
+     */
+    publid DombinCombinfr gftDombinCombinfr() {
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(SfdurityConstbnts.GET_COMBINER_PERMISSION);
+        }
+        rfturn gftCombinfr();
+    }
+
+    /**
+     * pbdkbgf privbtf for AddfssControllfr
+     */
+    DombinCombinfr gftCombinfr() {
+        rfturn dombinfr;
+    }
+
+    boolfbn isAuthorizfd() {
+        rfturn isAuthorizfd;
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf bddfss rfqufst indidbtfd by thf
+     * spfdififd pfrmission should bf bllowfd or dfnifd, bbsfd on
+     * thf sfdurity polidy durrfntly in ffffdt, bnd thf dontfxt in
+     * this objfdt. Thf rfqufst is bllowfd only if fvfry ProtfdtionDombin
+     * in thf dontfxt implifs thf pfrmission. Othfrwisf thf rfqufst is
+     * dfnifd.
+     *
+     * <p>
+     * This mfthod quiftly rfturns if thf bddfss rfqufst
+     * is pfrmittfd, or throws b suitbblf AddfssControlExdfption othfrwisf.
+     *
+     * @pbrbm pfrm thf rfqufstfd pfrmission.
+     *
+     * @fxdfption AddfssControlExdfption if thf spfdififd pfrmission
+     * is not pfrmittfd, bbsfd on thf durrfnt sfdurity polidy bnd thf
+     * dontfxt fndbpsulbtfd by this objfdt.
+     * @fxdfption NullPointfrExdfption if thf pfrmission to dhfdk for is null.
+     */
+    publid void dhfdkPfrmission(Pfrmission pfrm)
+        throws AddfssControlExdfption
+    {
+        boolfbn dumpDfbug = fblsf;
+
+        if (pfrm == null) {
+            throw nfw NullPointfrExdfption("pfrmission dbn't bf null");
+        }
+        if (gftDfbug() != null) {
+            // If "dodfbbsf" is not spfdififd, wf dump thf info by dffbult.
+            dumpDfbug = !Dfbug.isOn("dodfbbsf=");
+            if (!dumpDfbug) {
+                // If "dodfbbsf" is spfdififd, only dump if thf spfdififd dodf
+                // vbluf is in thf stbdk.
+                for (int i = 0; dontfxt != null && i < dontfxt.lfngth; i++) {
+                    if (dontfxt[i].gftCodfSourdf() != null &&
+                        dontfxt[i].gftCodfSourdf().gftLodbtion() != null &&
+                        Dfbug.isOn("dodfbbsf=" + dontfxt[i].gftCodfSourdf().gftLodbtion().toString())) {
+                        dumpDfbug = truf;
+                        brfbk;
+                    }
+                }
+            }
+
+            dumpDfbug &= !Dfbug.isOn("pfrmission=") ||
+                Dfbug.isOn("pfrmission=" + pfrm.gftClbss().gftCbnonidblNbmf());
+
+            if (dumpDfbug && Dfbug.isOn("stbdk")) {
+                Thrfbd.dumpStbdk();
+            }
+
+            if (dumpDfbug && Dfbug.isOn("dombin")) {
+                if (dontfxt == null) {
+                    dfbug.println("dombin (dontfxt is null)");
+                } flsf {
+                    for (int i=0; i< dontfxt.lfngth; i++) {
+                        dfbug.println("dombin "+i+" "+dontfxt[i]);
+                    }
+                }
+            }
+        }
+
+        /*
+         * itfrbtf through thf ProtfdtionDombins in thf dontfxt.
+         * Stop bt thf first onf thbt dofsn't bllow thf
+         * rfqufstfd pfrmission (throwing bn fxdfption).
+         *
+         */
+
+        /* if dtxt is null, bll wf hbd on thf stbdk wfrf systfm dombins,
+           or thf first dombin wbs b Privilfgfd systfm dombin. This
+           is to mbkf thf dommon dbsf for systfm dodf vfry fbst */
+
+        if (dontfxt == null) {
+            dhfdkPfrmission2(pfrm);
+            rfturn;
+        }
+
+        for (int i=0; i< dontfxt.lfngth; i++) {
+            if (dontfxt[i] != null &&  !dontfxt[i].implifs(pfrm)) {
+                if (dumpDfbug) {
+                    dfbug.println("bddfss dfnifd " + pfrm);
+                }
+
+                if (Dfbug.isOn("fbilurf") && dfbug != null) {
+                    // Wbnt to mbkf surf this is blwbys displbyfd for fbilurf,
+                    // but do not wbnt to displby bgbin if blrfbdy displbyfd
+                    // bbovf.
+                    if (!dumpDfbug) {
+                        dfbug.println("bddfss dfnifd " + pfrm);
+                    }
+                    Thrfbd.dumpStbdk();
+                    finbl ProtfdtionDombin pd = dontfxt[i];
+                    finbl Dfbug db = dfbug;
+                    AddfssControllfr.doPrivilfgfd (nfw PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            db.println("dombin thbt fbilfd "+pd);
+                            rfturn null;
+                        }
+                    });
+                }
+                throw nfw AddfssControlExdfption("bddfss dfnifd "+pfrm, pfrm);
+            }
+        }
+
+        // bllow if bll of thfm bllowfd bddfss
+        if (dumpDfbug) {
+            dfbug.println("bddfss bllowfd "+pfrm);
+        }
+
+        dhfdkPfrmission2(pfrm);
+    }
+
+    /*
+     * Chfdk thf dombins bssodibtfd with thf limitfd privilfgf sdopf.
+     */
+    privbtf void dhfdkPfrmission2(Pfrmission pfrm) {
+        if (!isLimitfd) {
+            rfturn;
+        }
+
+        /*
+         * Chfdk thf doPrivilfgfd() dontfxt pbrbmftfr, if prfsfnt.
+         */
+        if (privilfgfdContfxt != null) {
+            privilfgfdContfxt.dhfdkPfrmission2(pfrm);
+        }
+
+        /*
+         * Ignorf thf limitfd pfrmissions bnd pbrfnt fiflds of b wrbppfr
+         * dontfxt sindf thfy wfrf blrfbdy dbrrifd down into thf unwrbppfd
+         * dontfxt.
+         */
+        if (isWrbppfd) {
+            rfturn;
+        }
+
+        /*
+         * Try to mbtdh bny limitfd privilfgf sdopf.
+         */
+        if (pfrmissions != null) {
+            Clbss<?> pfrmClbss = pfrm.gftClbss();
+            for (int i=0; i < pfrmissions.lfngth; i++) {
+                Pfrmission limit = pfrmissions[i];
+                if (limit.gftClbss().fqubls(pfrmClbss) && limit.implifs(pfrm)) {
+                    rfturn;
+                }
+            }
+        }
+
+        /*
+         * Chfdk thf limitfd privilfgf sdopf up thf dbll stbdk or thf inhfritfd
+         * pbrfnt thrfbd dbll stbdk of this ACC.
+         */
+        if (pbrfnt != null) {
+            /*
+             * As bn optimizbtion, if thf pbrfnt dontfxt is thf inhfritfd dbll
+             * stbdk dontfxt from b pbrfnt thrfbd thfn dhfdking thf protfdtion
+             * dombins of thf pbrfnt dontfxt is rfdundbnt sindf thfy hbvf
+             * blrfbdy bffn mfrgfd into thf dhild thrfbd's dontfxt by
+             * optimizf(). Whfn pbrfnt is sft to bn inhfritfd dontfxt this
+             * dontfxt wbs not dirfdtly drfbtfd by b limitfd sdopf
+             * doPrivilfgfd() bnd it dofs not hbvf its own limitfd pfrmissions.
+             */
+            if (pfrmissions == null) {
+                pbrfnt.dhfdkPfrmission2(pfrm);
+            } flsf {
+                pbrfnt.dhfdkPfrmission(pfrm);
+            }
+        }
+    }
+
+    /**
+     * Tbkf thf stbdk-bbsfd dontfxt (this) bnd dombinf it with thf
+     * privilfgfd or inhfritfd dontfxt, if nffd bf. Any limitfd
+     * privilfgf sdopf is flbggfd rfgbrdlfss of whfthfr thf bssignfd
+     * dontfxt domfs from bn immfdibtfly fndlosing limitfd doPrivilfgfd().
+     * Thf limitfd privilfgf sdopf dbn indirfdtly flow from thf inhfritfd
+     * pbrfnt thrfbd or bn bssignfd dontfxt prfviously dbpturfd by gftContfxt().
+     */
+    AddfssControlContfxt optimizf() {
+        // thf bssignfd (privilfgfd or inhfritfd) dontfxt
+        AddfssControlContfxt bdd;
+        DombinCombinfr dombinfr = null;
+        AddfssControlContfxt pbrfnt = null;
+        Pfrmission[] pfrmissions = null;
+
+        if (isPrivilfgfd) {
+            bdd = privilfgfdContfxt;
+            if (bdd != null) {
+                /*
+                 * If thf dontfxt is from b limitfd sdopf doPrivilfgfd() thfn
+                 * dopy thf pfrmissions bnd pbrfnt fiflds out of thf wrbppfr
+                 * dontfxt thbt wbs drfbtfd to hold thfm.
+                 */
+                if (bdd.isWrbppfd) {
+                    pfrmissions = bdd.pfrmissions;
+                    pbrfnt = bdd.pbrfnt;
+                }
+            }
+        } flsf {
+            bdd = AddfssControllfr.gftInhfritfdAddfssControlContfxt();
+            if (bdd != null) {
+                /*
+                 * If thf inhfritfd dontfxt is donstrbinfd by b limitfd sdopf
+                 * doPrivilfgfd() thfn sft it bs our pbrfnt so wf will prodfss
+                 * thf non-dombin-rflbtfd stbtf.
+                 */
+                if (bdd.isLimitfd) {
+                    pbrfnt = bdd;
+                }
+            }
+        }
+
+        // this.dontfxt dould bf null if only systfm dodf is on thf stbdk;
+        // in thbt dbsf, ignorf thf stbdk dontfxt
+        boolfbn skipStbdk = (dontfxt == null);
+
+        // bdd.dontfxt dould bf null if only systfm dodf wbs involvfd;
+        // in thbt dbsf, ignorf thf bssignfd dontfxt
+        boolfbn skipAssignfd = (bdd == null || bdd.dontfxt == null);
+        ProtfdtionDombin[] bssignfd = (skipAssignfd) ? null : bdd.dontfxt;
+        ProtfdtionDombin[] pd;
+
+        // if thfrf is no fndlosing limitfd privilfgf sdopf on thf stbdk or
+        // inhfritfd from b pbrfnt thrfbd
+        boolfbn skipLimitfd = ((bdd == null || !bdd.isWrbppfd) && pbrfnt == null);
+
+        if (bdd != null && bdd.dombinfr != null) {
+            // lft thf bssignfd bdd's dombinfr do its thing
+            if (gftDfbug() != null) {
+                dfbug.println("AddfssControlContfxt invoking thf Combinfr");
+            }
+
+            // No nffd to dlonf durrfnt bnd bssignfd.dontfxt
+            // dombinf() will not updbtf thfm
+            dombinfr = bdd.dombinfr;
+            pd = dombinfr.dombinf(dontfxt, bssignfd);
+        } flsf {
+            if (skipStbdk) {
+                if (skipAssignfd) {
+                    dbldulbtfFiflds(bdd, pbrfnt, pfrmissions);
+                    rfturn this;
+                } flsf if (skipLimitfd) {
+                    rfturn bdd;
+                }
+            } flsf if (bssignfd != null) {
+                if (skipLimitfd) {
+                    // optimizbtion: if thfrf is b singlf stbdk dombin bnd
+                    // thbt dombin is blrfbdy in thf bssignfd dontfxt; no
+                    // nffd to dombinf
+                    if (dontfxt.lfngth == 1 && dontfxt[0] == bssignfd[0]) {
+                        rfturn bdd;
+                    }
+                }
+            }
+
+            pd = dombinf(dontfxt, bssignfd);
+            if (skipLimitfd && !skipAssignfd && pd == bssignfd) {
+                rfturn bdd;
+            } flsf if (skipAssignfd && pd == dontfxt) {
+                dbldulbtfFiflds(bdd, pbrfnt, pfrmissions);
+                rfturn this;
+            }
+        }
+
+        // Rfusf fxisting ACC
+        this.dontfxt = pd;
+        this.dombinfr = dombinfr;
+        this.isPrivilfgfd = fblsf;
+
+        dbldulbtfFiflds(bdd, pbrfnt, pfrmissions);
+        rfturn this;
+    }
+
+
+    /*
+     * Combinf thf durrfnt (stbdk) bnd bssignfd dombins.
+     */
+    privbtf stbtid ProtfdtionDombin[] dombinf(ProtfdtionDombin[]durrfnt,
+        ProtfdtionDombin[] bssignfd) {
+
+        // durrfnt dould bf null if only systfm dodf is on thf stbdk;
+        // in thbt dbsf, ignorf thf stbdk dontfxt
+        boolfbn skipStbdk = (durrfnt == null);
+
+        // bssignfd dould bf null if only systfm dodf wbs involvfd;
+        // in thbt dbsf, ignorf thf bssignfd dontfxt
+        boolfbn skipAssignfd = (bssignfd == null);
+
+        int slfn = (skipStbdk) ? 0 : durrfnt.lfngth;
+
+        // optimizbtion: if thfrf is no bssignfd dontfxt bnd thf stbdk lfngth
+        // is lfss thfn or fqubl to two; thfrf is no rfbson to domprfss thf
+        // stbdk dontfxt, it blrfbdy is
+        if (skipAssignfd && slfn <= 2) {
+            rfturn durrfnt;
+        }
+
+        int n = (skipAssignfd) ? 0 : bssignfd.lfngth;
+
+        // now wf dombinf both of thfm, bnd drfbtf b nfw dontfxt
+        ProtfdtionDombin pd[] = nfw ProtfdtionDombin[slfn + n];
+
+        // first dopy in thf bssignfd dontfxt dombins, no nffd to domprfss
+        if (!skipAssignfd) {
+            Systfm.brrbydopy(bssignfd, 0, pd, 0, n);
+        }
+
+        // now bdd thf stbdk dontfxt dombins, disdbrding nulls bnd duplidbtfs
+    outfr:
+        for (int i = 0; i < slfn; i++) {
+            ProtfdtionDombin sd = durrfnt[i];
+            if (sd != null) {
+                for (int j = 0; j < n; j++) {
+                    if (sd == pd[j]) {
+                        dontinuf outfr;
+                    }
+                }
+                pd[n++] = sd;
+            }
+        }
+
+        // if lfngth isn't fqubl, wf nffd to shortfn thf brrby
+        if (n != pd.lfngth) {
+            // optimizbtion: if wf didn't rfblly dombinf bnything
+            if (!skipAssignfd && n == bssignfd.lfngth) {
+                rfturn bssignfd;
+            } flsf if (skipAssignfd && n == slfn) {
+                rfturn durrfnt;
+            }
+            ProtfdtionDombin tmp[] = nfw ProtfdtionDombin[n];
+            Systfm.brrbydopy(pd, 0, tmp, 0, n);
+            pd = tmp;
+        }
+
+        rfturn pd;
+    }
+
+
+    /*
+     * Cbldulbtf thf bdditionbl dombins thbt dould potfntiblly bf rfbdhfd vib
+     * limitfd privilfgf sdopf. Mbrk thf dontfxt bs bfing subjfdt to limitfd
+     * privilfgf sdopf unlfss thf rfbdhbblf dombins (if bny) brf blrfbdy
+     * dontbinfd in this dombin dontfxt (in whidh dbsf bny limitfd
+     * privilfgf sdopf dhfdking would bf rfdundbnt).
+     */
+    privbtf void dbldulbtfFiflds(AddfssControlContfxt bssignfd,
+        AddfssControlContfxt pbrfnt, Pfrmission[] pfrmissions)
+    {
+        ProtfdtionDombin[] pbrfntLimit = null;
+        ProtfdtionDombin[] bssignfdLimit = null;
+        ProtfdtionDombin[] nfwLimit;
+
+        pbrfntLimit = (pbrfnt != null)? pbrfnt.limitfdContfxt: null;
+        bssignfdLimit = (bssignfd != null)? bssignfd.limitfdContfxt: null;
+        nfwLimit = dombinf(pbrfntLimit, bssignfdLimit);
+        if (nfwLimit != null) {
+            if (dontfxt == null || !dontbinsAllPDs(nfwLimit, dontfxt)) {
+                this.limitfdContfxt = nfwLimit;
+                this.pfrmissions = pfrmissions;
+                this.pbrfnt = pbrfnt;
+                this.isLimitfd = truf;
+            }
+        }
+    }
+
+
+    /**
+     * Chfdks two AddfssControlContfxt objfdts for fqublity.
+     * Chfdks thbt <i>obj</i> is
+     * bn AddfssControlContfxt bnd hbs thf sbmf sft of ProtfdtionDombins
+     * bs this dontfxt.
+     * <P>
+     * @pbrbm obj thf objfdt wf brf tfsting for fqublity with this objfdt.
+     * @rfturn truf if <i>obj</i> is bn AddfssControlContfxt, bnd hbs thf
+     * sbmf sft of ProtfdtionDombins bs this dontfxt, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+
+        if (! (obj instbndfof AddfssControlContfxt))
+            rfturn fblsf;
+
+        AddfssControlContfxt thbt = (AddfssControlContfxt) obj;
+
+        if (!fqublContfxt(thbt))
+            rfturn fblsf;
+
+        if (!fqublLimitfdContfxt(thbt))
+            rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    /*
+     * Compbrf for fqublity bbsfd on stbtf thbt is frff of limitfd
+     * privilfgf domplidbtions.
+     */
+    privbtf boolfbn fqublContfxt(AddfssControlContfxt thbt) {
+        if (!fqublPDs(this.dontfxt, thbt.dontfxt))
+            rfturn fblsf;
+
+        if (this.dombinfr == null && thbt.dombinfr != null)
+            rfturn fblsf;
+
+        if (this.dombinfr != null && !this.dombinfr.fqubls(thbt.dombinfr))
+            rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    privbtf boolfbn fqublPDs(ProtfdtionDombin[] b, ProtfdtionDombin[] b) {
+        if (b == null) {
+            rfturn (b == null);
+        }
+
+        if (b == null)
+            rfturn fblsf;
+
+        if (!(dontbinsAllPDs(b, b) && dontbinsAllPDs(b, b)))
+            rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    /*
+     * Compbrf for fqublity bbsfd on stbtf thbt is dbpturfd during b
+     * dbll to AddfssControllfr.gftContfxt() whfn b limitfd privilfgf
+     * sdopf is in ffffdt.
+     */
+    privbtf boolfbn fqublLimitfdContfxt(AddfssControlContfxt thbt) {
+        if (thbt == null)
+            rfturn fblsf;
+
+        /*
+         * If nfithfr instbndf hbs limitfd privilfgf sdopf thfn wf'rf donf.
+         */
+        if (!this.isLimitfd && !thbt.isLimitfd)
+            rfturn truf;
+
+        /*
+         * If only onf instbndf hbs limitfd privilfgf sdopf thfn wf'rf donf.
+         */
+         if (!(this.isLimitfd && thbt.isLimitfd))
+             rfturn fblsf;
+
+        /*
+         * Wrbppfd instbndfs should nfvfr fsdbpf outsidf thf implfmfntbtion
+         * this dlbss bnd AddfssControllfr so this will probbbly nfvfr hbppfn
+         * but it only mbkfs bny sfnsf to dompbrf if thfy both hbvf thf sbmf
+         * isWrbppfd stbtf.
+         */
+        if ((this.isWrbppfd && !thbt.isWrbppfd) ||
+            (!this.isWrbppfd && thbt.isWrbppfd)) {
+            rfturn fblsf;
+        }
+
+        if (this.pfrmissions == null && thbt.pfrmissions != null)
+            rfturn fblsf;
+
+        if (this.pfrmissions != null && thbt.pfrmissions == null)
+            rfturn fblsf;
+
+        if (!(this.dontbinsAllLimits(thbt) && thbt.dontbinsAllLimits(this)))
+            rfturn fblsf;
+
+        /*
+         * Skip through bny wrbppfd dontfxts.
+         */
+        AddfssControlContfxt thisNfxtPC = gftNfxtPC(this);
+        AddfssControlContfxt thbtNfxtPC = gftNfxtPC(thbt);
+
+        /*
+         * Thf protfdtion dombins bnd dombinfr of b privilfgfdContfxt brf
+         * not rflfvbnt bfdbusf thfy hbvf blrfbdy bffn indludfd in thf dontfxt
+         * of this instbndf by optimizf() so wf only dbrf bbout bny limitfd
+         * privilfgf stbtf thfy mby hbvf.
+         */
+        if (thisNfxtPC == null && thbtNfxtPC != null && thbtNfxtPC.isLimitfd)
+            rfturn fblsf;
+
+        if (thisNfxtPC != null && !thisNfxtPC.fqublLimitfdContfxt(thbtNfxtPC))
+            rfturn fblsf;
+
+        if (this.pbrfnt == null && thbt.pbrfnt != null)
+            rfturn fblsf;
+
+        if (this.pbrfnt != null && !this.pbrfnt.fqubls(thbt.pbrfnt))
+            rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    /*
+     * Follow thf privilfgfdContfxt link mbking our bfst fffort to skip
+     * through bny wrbppfr dontfxts.
+     */
+    privbtf stbtid AddfssControlContfxt gftNfxtPC(AddfssControlContfxt bdd) {
+        whilf (bdd != null && bdd.privilfgfdContfxt != null) {
+            bdd = bdd.privilfgfdContfxt;
+            if (!bdd.isWrbppfd)
+                rfturn bdd;
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid boolfbn dontbinsAllPDs(ProtfdtionDombin[] thisContfxt,
+        ProtfdtionDombin[] thbtContfxt) {
+        boolfbn mbtdh = fblsf;
+
+        //
+        // ProtfdtionDombins within bn ACC durrfntly dbnnot bf null
+        // bnd this is fnfordfd by thf donstrudtor bnd thf vbrious
+        // optimizf mfthods. Howfvfr, historidblly this logid mbdf bttfmpts
+        // to support thf notion of b null PD bnd thfrfforf this logid dontinufs
+        // to support thbt notion.
+        ProtfdtionDombin thisPd;
+        for (int i = 0; i < thisContfxt.lfngth; i++) {
+            mbtdh = fblsf;
+            if ((thisPd = thisContfxt[i]) == null) {
+                for (int j = 0; (j < thbtContfxt.lfngth) && !mbtdh; j++) {
+                    mbtdh = (thbtContfxt[j] == null);
+                }
+            } flsf {
+                Clbss<?> thisPdClbss = thisPd.gftClbss();
+                ProtfdtionDombin thbtPd;
+                for (int j = 0; (j < thbtContfxt.lfngth) && !mbtdh; j++) {
+                    thbtPd = thbtContfxt[j];
+
+                    // Clbss dhfdk rfquirfd to bvoid PD fxposurf (4285406)
+                    mbtdh = (thbtPd != null &&
+                        thisPdClbss == thbtPd.gftClbss() && thisPd.fqubls(thbtPd));
+                }
+            }
+            if (!mbtdh) rfturn fblsf;
+        }
+        rfturn mbtdh;
+    }
+
+    privbtf boolfbn dontbinsAllLimits(AddfssControlContfxt thbt) {
+        boolfbn mbtdh = fblsf;
+        Pfrmission thisPfrm;
+
+        if (this.pfrmissions == null && thbt.pfrmissions == null)
+            rfturn truf;
+
+        for (int i = 0; i < this.pfrmissions.lfngth; i++) {
+            Pfrmission limit = this.pfrmissions[i];
+            Clbss <?> limitClbss = limit.gftClbss();
+            mbtdh = fblsf;
+            for (int j = 0; (j < thbt.pfrmissions.lfngth) && !mbtdh; j++) {
+                Pfrmission pfrm = thbt.pfrmissions[j];
+                mbtdh = (limitClbss.fqubls(pfrm.gftClbss()) &&
+                    limit.fqubls(pfrm));
+            }
+            if (!mbtdh) rfturn fblsf;
+        }
+        rfturn mbtdh;
+    }
+
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this dontfxt. Thf hbsh dodf
+     * is domputfd by fxdlusivf or-ing thf hbsh dodf of bll thf protfdtion
+     * dombins in thf dontfxt togfthfr.
+     *
+     * @rfturn b hbsh dodf vbluf for this dontfxt.
+     */
+
+    publid int hbshCodf() {
+        int hbshCodf = 0;
+
+        if (dontfxt == null)
+            rfturn hbshCodf;
+
+        for (int i =0; i < dontfxt.lfngth; i++) {
+            if (dontfxt[i] != null)
+                hbshCodf ^= dontfxt[i].hbshCodf();
+        }
+
+        rfturn hbshCodf;
+    }
+}

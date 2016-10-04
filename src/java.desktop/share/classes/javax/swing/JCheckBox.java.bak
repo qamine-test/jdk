@@ -1,354 +1,354 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
 
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 
 /**
- * An implementation of a check box -- an item that can be selected or
- * deselected, and which displays its state to the user.
- * By convention, any number of check boxes in a group can be selected.
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/button.html">How to Use Buttons, Check Boxes, and Radio Buttons</a>
- * in <em>The Java Tutorial</em>
- * for examples and information on using check boxes.
+ * An implfmfntbtion of b difdk box -- bn itfm tibt dbn bf sflfdtfd or
+ * dfsflfdtfd, bnd wiidi displbys its stbtf to tif usfr.
+ * By donvfntion, bny numbfr of difdk boxfs in b group dbn bf sflfdtfd.
+ * Sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/button.itml">How to Usf Buttons, Cifdk Boxfs, bnd Rbdio Buttons</b>
+ * in <fm>Tif Jbvb Tutoribl</fm>
+ * for fxbmplfs bnd informbtion on using difdk boxfs.
  * <p>
- * Buttons can be configured, and to some degree controlled, by
- * <code><a href="Action.html">Action</a></code>s.  Using an
- * <code>Action</code> with a button has many benefits beyond directly
- * configuring a button.  Refer to <a href="Action.html#buttonActions">
- * Swing Components Supporting <code>Action</code></a> for more
- * details, and you can find more information in <a
- * href="http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html">How
- * to Use Actions</a>, a section in <em>The Java Tutorial</em>.
+ * Buttons dbn bf donfigurfd, bnd to somf dfgrff dontrollfd, by
+ * <dodf><b irff="Adtion.itml">Adtion</b></dodf>s.  Using bn
+ * <dodf>Adtion</dodf> witi b button ibs mbny bfnffits bfyond dirfdtly
+ * donfiguring b button.  Rfffr to <b irff="Adtion.itml#buttonAdtions">
+ * Swing Componfnts Supporting <dodf>Adtion</dodf></b> for morf
+ * dftbils, bnd you dbn find morf informbtion in <b
+ * irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/bdtion.itml">How
+ * to Usf Adtions</b>, b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see JRadioButton
+ * @sff JRbdioButton
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A component which can be selected or deselected.
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A domponfnt wiidi dbn bf sflfdtfd or dfsflfdtfd.
  *
- * @author Jeff Dinkins
- * @since 1.2
+ * @butior Jfff Dinkins
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JCheckBox extends JToggleButton implements Accessible {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JCifdkBox fxtfnds JTogglfButton implfmfnts Addfssiblf {
 
-    /** Identifies a change to the flat property. */
-    public static final String BORDER_PAINTED_FLAT_CHANGED_PROPERTY = "borderPaintedFlat";
+    /** Idfntififs b dibngf to tif flbt propfrty. */
+    publid stbtid finbl String BORDER_PAINTED_FLAT_CHANGED_PROPERTY = "bordfrPbintfdFlbt";
 
-    private boolean flat = false;
-
-    /**
-     * @see #getUIClassID
-     * @see #readObject
-     */
-    private static final String uiClassID = "CheckBoxUI";
-
+    privbtf boolfbn flbt = fblsf;
 
     /**
-     * Creates an initially unselected check box button with no text, no icon.
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    public JCheckBox () {
-        this(null, null, false);
+    privbtf stbtid finbl String uiClbssID = "CifdkBoxUI";
+
+
+    /**
+     * Crfbtfs bn initiblly unsflfdtfd difdk box button witi no tfxt, no idon.
+     */
+    publid JCifdkBox () {
+        tiis(null, null, fblsf);
     }
 
     /**
-     * Creates an initially unselected check box with an icon.
+     * Crfbtfs bn initiblly unsflfdtfd difdk box witi bn idon.
      *
-     * @param icon  the Icon image to display
+     * @pbrbm idon  tif Idon imbgf to displby
      */
-    public JCheckBox(Icon icon) {
-        this(null, icon, false);
+    publid JCifdkBox(Idon idon) {
+        tiis(null, idon, fblsf);
     }
 
     /**
-     * Creates a check box with an icon and specifies whether
-     * or not it is initially selected.
+     * Crfbtfs b difdk box witi bn idon bnd spfdififs wiftifr
+     * or not it is initiblly sflfdtfd.
      *
-     * @param icon  the Icon image to display
-     * @param selected a boolean value indicating the initial selection
-     *        state. If <code>true</code> the check box is selected
+     * @pbrbm idon  tif Idon imbgf to displby
+     * @pbrbm sflfdtfd b boolfbn vbluf indidbting tif initibl sflfdtion
+     *        stbtf. If <dodf>truf</dodf> tif difdk box is sflfdtfd
      */
-    public JCheckBox(Icon icon, boolean selected) {
-        this(null, icon, selected);
+    publid JCifdkBox(Idon idon, boolfbn sflfdtfd) {
+        tiis(null, idon, sflfdtfd);
     }
 
     /**
-     * Creates an initially unselected check box with text.
+     * Crfbtfs bn initiblly unsflfdtfd difdk box witi tfxt.
      *
-     * @param text the text of the check box.
+     * @pbrbm tfxt tif tfxt of tif difdk box.
      */
-    public JCheckBox (String text) {
-        this(text, null, false);
+    publid JCifdkBox (String tfxt) {
+        tiis(tfxt, null, fblsf);
     }
 
     /**
-     * Creates a check box where properties are taken from the
-     * Action supplied.
+     * Crfbtfs b difdk box wifrf propfrtifs brf tbkfn from tif
+     * Adtion supplifd.
      *
-     * @param a the {@code Action} used to specify the new check box
-     * @since 1.3
+     * @pbrbm b tif {@dodf Adtion} usfd to spfdify tif nfw difdk box
+     * @sindf 1.3
      */
-    public JCheckBox(Action a) {
-        this();
-        setAction(a);
+    publid JCifdkBox(Adtion b) {
+        tiis();
+        sftAdtion(b);
     }
 
 
     /**
-     * Creates a check box with text and specifies whether
-     * or not it is initially selected.
+     * Crfbtfs b difdk box witi tfxt bnd spfdififs wiftifr
+     * or not it is initiblly sflfdtfd.
      *
-     * @param text the text of the check box.
-     * @param selected a boolean value indicating the initial selection
-     *        state. If <code>true</code> the check box is selected
+     * @pbrbm tfxt tif tfxt of tif difdk box.
+     * @pbrbm sflfdtfd b boolfbn vbluf indidbting tif initibl sflfdtion
+     *        stbtf. If <dodf>truf</dodf> tif difdk box is sflfdtfd
      */
-    public JCheckBox (String text, boolean selected) {
-        this(text, null, selected);
+    publid JCifdkBox (String tfxt, boolfbn sflfdtfd) {
+        tiis(tfxt, null, sflfdtfd);
     }
 
     /**
-     * Creates an initially unselected check box with
-     * the specified text and icon.
+     * Crfbtfs bn initiblly unsflfdtfd difdk box witi
+     * tif spfdififd tfxt bnd idon.
      *
-     * @param text the text of the check box.
-     * @param icon  the Icon image to display
+     * @pbrbm tfxt tif tfxt of tif difdk box.
+     * @pbrbm idon  tif Idon imbgf to displby
      */
-    public JCheckBox(String text, Icon icon) {
-        this(text, icon, false);
+    publid JCifdkBox(String tfxt, Idon idon) {
+        tiis(tfxt, idon, fblsf);
     }
 
     /**
-     * Creates a check box with text and icon,
-     * and specifies whether or not it is initially selected.
+     * Crfbtfs b difdk box witi tfxt bnd idon,
+     * bnd spfdififs wiftifr or not it is initiblly sflfdtfd.
      *
-     * @param text the text of the check box.
-     * @param icon  the Icon image to display
-     * @param selected a boolean value indicating the initial selection
-     *        state. If <code>true</code> the check box is selected
+     * @pbrbm tfxt tif tfxt of tif difdk box.
+     * @pbrbm idon  tif Idon imbgf to displby
+     * @pbrbm sflfdtfd b boolfbn vbluf indidbting tif initibl sflfdtion
+     *        stbtf. If <dodf>truf</dodf> tif difdk box is sflfdtfd
      */
-    public JCheckBox (String text, Icon icon, boolean selected) {
-        super(text, icon, selected);
-        setUIProperty("borderPainted", Boolean.FALSE);
-        setHorizontalAlignment(LEADING);
+    publid JCifdkBox (String tfxt, Idon idon, boolfbn sflfdtfd) {
+        supfr(tfxt, idon, sflfdtfd);
+        sftUIPropfrty("bordfrPbintfd", Boolfbn.FALSE);
+        sftHorizontblAlignmfnt(LEADING);
     }
 
     /**
-     * Sets the <code>borderPaintedFlat</code> property,
-     * which gives a hint to the look and feel as to the
-     * appearance of the check box border.
-     * This is usually set to <code>true</code> when a
-     * <code>JCheckBox</code> instance is used as a
-     * renderer in a component such as a <code>JTable</code> or
-     * <code>JTree</code>.  The default value for the
-     * <code>borderPaintedFlat</code> property is <code>false</code>.
-     * This method fires a property changed event.
-     * Some look and feels might not implement flat borders;
-     * they will ignore this property.
+     * Sfts tif <dodf>bordfrPbintfdFlbt</dodf> propfrty,
+     * wiidi givfs b iint to tif look bnd fffl bs to tif
+     * bppfbrbndf of tif difdk box bordfr.
+     * Tiis is usublly sft to <dodf>truf</dodf> wifn b
+     * <dodf>JCifdkBox</dodf> instbndf is usfd bs b
+     * rfndfrfr in b domponfnt sudi bs b <dodf>JTbblf</dodf> or
+     * <dodf>JTrff</dodf>.  Tif dffbult vbluf for tif
+     * <dodf>bordfrPbintfdFlbt</dodf> propfrty is <dodf>fblsf</dodf>.
+     * Tiis mftiod firfs b propfrty dibngfd fvfnt.
+     * Somf look bnd fffls migit not implfmfnt flbt bordfrs;
+     * tify will ignorf tiis propfrty.
      *
-     * @param b <code>true</code> requests that the border be painted flat;
-     *          <code>false</code> requests normal borders
-     * @see #isBorderPaintedFlat
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Whether the border is painted flat.
-     * @since 1.3
+     * @pbrbm b <dodf>truf</dodf> rfqufsts tibt tif bordfr bf pbintfd flbt;
+     *          <dodf>fblsf</dodf> rfqufsts normbl bordfrs
+     * @sff #isBordfrPbintfdFlbt
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Wiftifr tif bordfr is pbintfd flbt.
+     * @sindf 1.3
      */
-    public void setBorderPaintedFlat(boolean b) {
-        boolean oldValue = flat;
-        flat = b;
-        firePropertyChange(BORDER_PAINTED_FLAT_CHANGED_PROPERTY, oldValue, flat);
-        if (b != oldValue) {
-            revalidate();
-            repaint();
+    publid void sftBordfrPbintfdFlbt(boolfbn b) {
+        boolfbn oldVbluf = flbt;
+        flbt = b;
+        firfPropfrtyCibngf(BORDER_PAINTED_FLAT_CHANGED_PROPERTY, oldVbluf, flbt);
+        if (b != oldVbluf) {
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
     /**
-     * Gets the value of the <code>borderPaintedFlat</code> property.
+     * Gfts tif vbluf of tif <dodf>bordfrPbintfdFlbt</dodf> propfrty.
      *
-     * @return the value of the <code>borderPaintedFlat</code> property
-     * @see #setBorderPaintedFlat
-     * @since 1.3
+     * @rfturn tif vbluf of tif <dodf>bordfrPbintfdFlbt</dodf> propfrty
+     * @sff #sftBordfrPbintfdFlbt
+     * @sindf 1.3
      */
-    public boolean isBorderPaintedFlat() {
-        return flat;
+    publid boolfbn isBordfrPbintfdFlbt() {
+        rfturn flbt;
     }
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Rfsfts tif UI propfrty to b vbluf from tif durrfnt look bnd fffl.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((ButtonUI)UIManager.getUI(this));
-    }
-
-
-    /**
-     * Returns a string that specifies the name of the L&amp;F class
-     * that renders this component.
-     *
-     * @return the string "CheckBoxUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        expert: true
-     *   description: A string that specifies the name of the L&amp;F class
-     */
-    public String getUIClassID() {
-        return uiClassID;
+    publid void updbtfUI() {
+        sftUI((ButtonUI)UIMbnbgfr.gftUI(tiis));
     }
 
 
     /**
-     * The icon for checkboxs comes from the look and feel,
-     * not the Action; this is overriden to do nothing.
+     * Rfturns b string tibt spfdififs tif nbmf of tif L&bmp;F dlbss
+     * tibt rfndfrs tiis domponfnt.
+     *
+     * @rfturn tif string "CifdkBoxUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        fxpfrt: truf
+     *   dfsdription: A string tibt spfdififs tif nbmf of tif L&bmp;F dlbss
      */
-    void setIconFromAction(Action a) {
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Tif idon for difdkboxs domfs from tif look bnd fffl,
+     * not tif Adtion; tiis is ovfrridfn to do notiing.
+     */
+    void sftIdonFromAdtion(Adtion b) {
     }
 
      /*
-      * See readObject and writeObject in JComponent for more
-      * information about serialization in Swing.
+      * Sff rfbdObjfdt bnd writfObjfdt in JComponfnt for morf
+      * informbtion bbout sfriblizbtion in Swing.
       */
-     private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+     privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
      }
 
 
     /**
-     * See JComponent.readObject() for information about serialization
+     * Sff JComponfnt.rfbdObjfdt() for informbtion bbout sfriblizbtion
      * in Swing.
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        s.defaultReadObject();
-        if (getUIClassID().equals(uiClassID)) {
-            updateUI();
+        s.dffbultRfbdObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            updbtfUI();
         }
     }
 
 
     /**
-     * Returns a string representation of this JCheckBox. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
-     * specific new aspects of the JFC components.
+     * Rfturns b string rfprfsfntbtion of tiis JCifdkBox. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     * spfdifid nfw bspfdts of tif JFC domponfnts.
      *
-     * @return  a string representation of this JCheckBox.
+     * @rfturn  b string rfprfsfntbtion of tiis JCifdkBox.
      */
-    protected String paramString() {
-        return super.paramString();
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString();
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JCheckBox.
-     * For JCheckBoxes, the AccessibleContext takes the form of an
-     * AccessibleJCheckBox.
-     * A new AccessibleJCheckBox instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JCifdkBox.
+     * For JCifdkBoxfs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJCifdkBox.
+     * A nfw AddfssiblfJCifdkBox instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJCheckBox that serves as the
-     *         AccessibleContext of this JCheckBox
-     * @beaninfo
-     *       expert: true
-     *  description: The AccessibleContext associated with this CheckBox.
+     * @rfturn bn AddfssiblfJCifdkBox tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JCifdkBox
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif AddfssiblfContfxt bssodibtfd witi tiis CifdkBox.
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJCheckBox();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJCifdkBox();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JCheckBox</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to check box user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JCifdkBox</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to difdk box usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJCheckBox extends AccessibleJToggleButton {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJCifdkBox fxtfnds AddfssiblfJTogglfButton {
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.CHECK_BOX;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.CHECK_BOX;
         }
 
-    } // inner class AccessibleJCheckBox
+    } // innfr dlbss AddfssiblfJCifdkBox
 }

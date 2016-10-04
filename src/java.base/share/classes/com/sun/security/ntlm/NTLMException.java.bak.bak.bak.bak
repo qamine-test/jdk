@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.ntlm;
+
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+
+/**
+ * An NTLM-rflbtfd Exdfption
+ */
+publid finbl dlbss NTLMExdfption fxtfnds GfnfrblSfdurityExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -3298539507906689430L;
+
+    /**
+     * If thf indoming pbdkft is invblid.
+     */
+    publid finbl stbtid int PACKET_READ_ERROR = 1;
+
+    /**
+     * If thf dlifnt dbnnot gft b dombin vbluf from thf sfrvfr bnd thf
+     * dbllfr hbs not providfd onf.
+     */
+    publid finbl stbtid int NO_DOMAIN_INFO = 2;
+
+    /**
+     * If thf dombin providfd by thf dlifnt dofs not mbtdh thf onf rfdfivfd
+     * from sfrvfr.
+     */
+    //publid finbl stbtid int DOMAIN_UNMATCH = 3;
+
+    /**
+     * If thf dlifnt nbmf is not found on sfrvfr's usfr dbtbbbsf.
+     */
+    publid finbl stbtid int USER_UNKNOWN = 3;
+
+    /**
+     * If buthfntidbtion fbils.
+     */
+    publid finbl stbtid int AUTH_FAILED = 4;
+
+    /**
+     * If bn illfgbl vfrsion string is providfd.
+     */
+    publid finbl stbtid int BAD_VERSION = 5;
+
+    /**
+     * Protodol frrors.
+     */
+    publid finbl stbtid int PROTOCOL = 6;
+
+    privbtf int frrorCodf;
+
+    /**
+     * Construdts bn NTLMExdfption objfdt.
+     * @pbrbm frrorCodf thf frror dodf, whidh dbn bf rftrifvfd by
+     * thf {@link #frrorCodf() } mfthod.
+     * @pbrbm msg thf string mfssbgf, whidh dbn bf rftrivfd by
+     * thf {@link Exdfption#gftMfssbgf() } mfthod.
+     */
+    publid NTLMExdfption(int frrorCodf, String msg) {
+        supfr(msg);
+        this.frrorCodf = frrorCodf;
+    }
+
+    /**
+     * Rfturns thf frror dodf bssodibtfd with this NTLMExdfption.
+     * @rfturn thf frror dodf
+     */
+    publid int frrorCodf() {
+        rfturn frrorCodf;
+    }
+}

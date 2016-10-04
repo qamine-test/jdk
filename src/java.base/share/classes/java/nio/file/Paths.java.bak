@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.nio.file.spi.FileSystemProvider;
-import java.net.URI;
+import jbvb.nio.filf.spi.FilfSystfmProvidfr;
+import jbvb.nft.URI;
 
 /**
- * This class consists exclusively of static methods that return a {@link Path}
- * by converting a path string or {@link URI}.
+ * Tiis dlbss donsists fxdlusivfly of stbtid mftiods tibt rfturn b {@link Pbti}
+ * by donvfrting b pbti string or {@link URI}.
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public final class Paths {
-    private Paths() { }
+publid finbl dlbss Pbtis {
+    privbtf Pbtis() { }
 
     /**
-     * Converts a path string, or a sequence of strings that when joined form
-     * a path string, to a {@code Path}. If {@code more} does not specify any
-     * elements then the value of the {@code first} parameter is the path string
-     * to convert. If {@code more} specifies one or more elements then each
-     * non-empty string, including {@code first}, is considered to be a sequence
-     * of name elements (see {@link Path}) and is joined to form a path string.
-     * The details as to how the Strings are joined is provider specific but
-     * typically they will be joined using the {@link FileSystem#getSeparator
-     * name-separator} as the separator. For example, if the name separator is
-     * "{@code /}" and {@code getPath("/foo","bar","gus")} is invoked, then the
-     * path string {@code "/foo/bar/gus"} is converted to a {@code Path}.
-     * A {@code Path} representing an empty path is returned if {@code first}
-     * is the empty string and {@code more} does not contain any non-empty
+     * Convfrts b pbti string, or b sfqufndf of strings tibt wifn joinfd form
+     * b pbti string, to b {@dodf Pbti}. If {@dodf morf} dofs not spfdify bny
+     * flfmfnts tifn tif vbluf of tif {@dodf first} pbrbmftfr is tif pbti string
+     * to donvfrt. If {@dodf morf} spfdififs onf or morf flfmfnts tifn fbdi
+     * non-fmpty string, indluding {@dodf first}, is donsidfrfd to bf b sfqufndf
+     * of nbmf flfmfnts (sff {@link Pbti}) bnd is joinfd to form b pbti string.
+     * Tif dftbils bs to iow tif Strings brf joinfd is providfr spfdifid but
+     * typidblly tify will bf joinfd using tif {@link FilfSystfm#gftSfpbrbtor
+     * nbmf-sfpbrbtor} bs tif sfpbrbtor. For fxbmplf, if tif nbmf sfpbrbtor is
+     * "{@dodf /}" bnd {@dodf gftPbti("/foo","bbr","gus")} is invokfd, tifn tif
+     * pbti string {@dodf "/foo/bbr/gus"} is donvfrtfd to b {@dodf Pbti}.
+     * A {@dodf Pbti} rfprfsfnting bn fmpty pbti is rfturnfd if {@dodf first}
+     * is tif fmpty string bnd {@dodf morf} dofs not dontbin bny non-fmpty
      * strings.
      *
-     * <p> The {@code Path} is obtained by invoking the {@link FileSystem#getPath
-     * getPath} method of the {@link FileSystems#getDefault default} {@link
-     * FileSystem}.
+     * <p> Tif {@dodf Pbti} is obtbinfd by invoking tif {@link FilfSystfm#gftPbti
+     * gftPbti} mftiod of tif {@link FilfSystfms#gftDffbult dffbult} {@link
+     * FilfSystfm}.
      *
-     * <p> Note that while this method is very convenient, using it will imply
-     * an assumed reference to the default {@code FileSystem} and limit the
-     * utility of the calling code. Hence it should not be used in library code
-     * intended for flexible reuse. A more flexible alternative is to use an
-     * existing {@code Path} instance as an anchor, such as:
-     * <pre>
-     *     Path dir = ...
-     *     Path path = dir.resolve("file");
-     * </pre>
+     * <p> Notf tibt wiilf tiis mftiod is vfry donvfnifnt, using it will imply
+     * bn bssumfd rfffrfndf to tif dffbult {@dodf FilfSystfm} bnd limit tif
+     * utility of tif dblling dodf. Hfndf it siould not bf usfd in librbry dodf
+     * intfndfd for flfxiblf rfusf. A morf flfxiblf bltfrnbtivf is to usf bn
+     * fxisting {@dodf Pbti} instbndf bs bn bndior, sudi bs:
+     * <prf>
+     *     Pbti dir = ...
+     *     Pbti pbti = dir.rfsolvf("filf");
+     * </prf>
      *
-     * @param   first
-     *          the path string or initial part of the path string
-     * @param   more
-     *          additional strings to be joined to form the path string
+     * @pbrbm   first
+     *          tif pbti string or initibl pbrt of tif pbti string
+     * @pbrbm   morf
+     *          bdditionbl strings to bf joinfd to form tif pbti string
      *
-     * @return  the resulting {@code Path}
+     * @rfturn  tif rfsulting {@dodf Pbti}
      *
-     * @throws  InvalidPathException
-     *          if the path string cannot be converted to a {@code Path}
+     * @tirows  InvblidPbtiExdfption
+     *          if tif pbti string dbnnot bf donvfrtfd to b {@dodf Pbti}
      *
-     * @see FileSystem#getPath
+     * @sff FilfSystfm#gftPbti
      */
-    public static Path get(String first, String... more) {
-        return FileSystems.getDefault().getPath(first, more);
+    publid stbtid Pbti gft(String first, String... morf) {
+        rfturn FilfSystfms.gftDffbult().gftPbti(first, morf);
     }
 
     /**
-     * Converts the given URI to a {@link Path} object.
+     * Convfrts tif givfn URI to b {@link Pbti} objfdt.
      *
-     * <p> This method iterates over the {@link FileSystemProvider#installedProviders()
-     * installed} providers to locate the provider that is identified by the
-     * URI {@link URI#getScheme scheme} of the given URI. URI schemes are
-     * compared without regard to case. If the provider is found then its {@link
-     * FileSystemProvider#getPath getPath} method is invoked to convert the
+     * <p> Tiis mftiod itfrbtfs ovfr tif {@link FilfSystfmProvidfr#instbllfdProvidfrs()
+     * instbllfd} providfrs to lodbtf tif providfr tibt is idfntififd by tif
+     * URI {@link URI#gftSdifmf sdifmf} of tif givfn URI. URI sdifmfs brf
+     * dompbrfd witiout rfgbrd to dbsf. If tif providfr is found tifn its {@link
+     * FilfSystfmProvidfr#gftPbti gftPbti} mftiod is invokfd to donvfrt tif
      * URI.
      *
-     * <p> In the case of the default provider, identified by the URI scheme
-     * "file", the given URI has a non-empty path component, and undefined query
-     * and fragment components. Whether the authority component may be present
-     * is platform specific. The returned {@code Path} is associated with the
-     * {@link FileSystems#getDefault default} file system.
+     * <p> In tif dbsf of tif dffbult providfr, idfntififd by tif URI sdifmf
+     * "filf", tif givfn URI ibs b non-fmpty pbti domponfnt, bnd undffinfd qufry
+     * bnd frbgmfnt domponfnts. Wiftifr tif butiority domponfnt mby bf prfsfnt
+     * is plbtform spfdifid. Tif rfturnfd {@dodf Pbti} is bssodibtfd witi tif
+     * {@link FilfSystfms#gftDffbult dffbult} filf systfm.
      *
-     * <p> The default provider provides a similar <em>round-trip</em> guarantee
-     * to the {@link java.io.File} class. For a given {@code Path} <i>p</i> it
-     * is guaranteed that
-     * <blockquote><tt>
-     * Paths.get(</tt><i>p</i><tt>.{@link Path#toUri() toUri}()).equals(</tt>
-     * <i>p</i><tt>.{@link Path#toAbsolutePath() toAbsolutePath}())</tt>
-     * </blockquote>
-     * so long as the original {@code Path}, the {@code URI}, and the new {@code
-     * Path} are all created in (possibly different invocations of) the same
-     * Java virtual machine. Whether other providers make any guarantees is
-     * provider specific and therefore unspecified.
+     * <p> Tif dffbult providfr providfs b similbr <fm>round-trip</fm> gubrbntff
+     * to tif {@link jbvb.io.Filf} dlbss. For b givfn {@dodf Pbti} <i>p</i> it
+     * is gubrbntffd tibt
+     * <blodkquotf><tt>
+     * Pbtis.gft(</tt><i>p</i><tt>.{@link Pbti#toUri() toUri}()).fqubls(</tt>
+     * <i>p</i><tt>.{@link Pbti#toAbsolutfPbti() toAbsolutfPbti}())</tt>
+     * </blodkquotf>
+     * so long bs tif originbl {@dodf Pbti}, tif {@dodf URI}, bnd tif nfw {@dodf
+     * Pbti} brf bll drfbtfd in (possibly difffrfnt invodbtions of) tif sbmf
+     * Jbvb virtubl mbdiinf. Wiftifr otifr providfrs mbkf bny gubrbntffs is
+     * providfr spfdifid bnd tifrfforf unspfdififd.
      *
-     * @param   uri
-     *          the URI to convert
+     * @pbrbm   uri
+     *          tif URI to donvfrt
      *
-     * @return  the resulting {@code Path}
+     * @rfturn  tif rfsulting {@dodf Pbti}
      *
-     * @throws  IllegalArgumentException
-     *          if preconditions on the {@code uri} parameter do not hold. The
-     *          format of the URI is provider specific.
-     * @throws  FileSystemNotFoundException
-     *          The file system, identified by the URI, does not exist and
-     *          cannot be created automatically, or the provider identified by
-     *          the URI's scheme component is not installed
-     * @throws  SecurityException
-     *          if a security manager is installed and it denies an unspecified
-     *          permission to access the file system
+     * @tirows  IllfgblArgumfntExdfption
+     *          if prfdonditions on tif {@dodf uri} pbrbmftfr do not iold. Tif
+     *          formbt of tif URI is providfr spfdifid.
+     * @tirows  FilfSystfmNotFoundExdfption
+     *          Tif filf systfm, idfntififd by tif URI, dofs not fxist bnd
+     *          dbnnot bf drfbtfd butombtidblly, or tif providfr idfntififd by
+     *          tif URI's sdifmf domponfnt is not instbllfd
+     * @tirows  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission to bddfss tif filf systfm
      */
-    public static Path get(URI uri) {
-        String scheme =  uri.getScheme();
-        if (scheme == null)
-            throw new IllegalArgumentException("Missing scheme");
+    publid stbtid Pbti gft(URI uri) {
+        String sdifmf =  uri.gftSdifmf();
+        if (sdifmf == null)
+            tirow nfw IllfgblArgumfntExdfption("Missing sdifmf");
 
-        // check for default provider to avoid loading of installed providers
-        if (scheme.equalsIgnoreCase("file"))
-            return FileSystems.getDefault().provider().getPath(uri);
+        // difdk for dffbult providfr to bvoid lobding of instbllfd providfrs
+        if (sdifmf.fqublsIgnorfCbsf("filf"))
+            rfturn FilfSystfms.gftDffbult().providfr().gftPbti(uri);
 
-        // try to find provider
-        for (FileSystemProvider provider: FileSystemProvider.installedProviders()) {
-            if (provider.getScheme().equalsIgnoreCase(scheme)) {
-                return provider.getPath(uri);
+        // try to find providfr
+        for (FilfSystfmProvidfr providfr: FilfSystfmProvidfr.instbllfdProvidfrs()) {
+            if (providfr.gftSdifmf().fqublsIgnorfCbsf(sdifmf)) {
+                rfturn providfr.gftPbti(uri);
             }
         }
 
-        throw new FileSystemNotFoundException("Provider \"" + scheme + "\" not installed");
+        tirow nfw FilfSystfmNotFoundExdfption("Providfr \"" + sdifmf + "\" not instbllfd");
     }
 }

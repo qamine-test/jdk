@@ -1,0 +1,1554 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+
+#indludf    <jni.h>
+#indludf    <jvmti.h>
+#indludf    <stdlib.h>
+#indludf    <string.h>
+#indludf    "JPLISAgfnt.h"
+#indludf    "JPLISAssfrt.h"
+#indludf    "Utilitifs.h"
+#indludf    "Rffntrbndy.h"
+#indludf    "JbvbExdfptions.h"
+
+#indludf    "EndodingSupport.h"
+#indludf    "FilfSystfmSupport.h"    /* For MAXPATHLEN & uintptr_t */
+
+#indludf    "sun_instrumfnt_InstrumfntbtionImpl.h"
+
+/*
+ *  Thf JPLISAgfnt mbnbgfs thf initiblizbtion bll of thf Jbvb progrbmming lbngubgf Agfnts.
+ *  It blso supports thf nbtivf mfthod bridgf bftwffn thf JPLIS bnd thf JVMTI.
+ *  It mbintbins b singlf JVMTI Env thbt bll JPL bgfnts shbrf.
+ *  It pbrsfs dommbnd linf rfqufsts bnd drfbtfs individubl Jbvb bgfnts.
+ */
+
+
+/*
+ *  privbtf prototypfs
+ */
+
+/* Allodbtfs bn unformbttfd JPLIS bgfnt dbtb strudturf. Rfturns NULL if bllodbtion fbils. */
+JPLISAgfnt *
+bllodbtfJPLISAgfnt(jvmtiEnv *       jvmtiEnv);
+
+/* Initiblizfs bn blrfbdy-bllodbtfd JPLIS bgfnt dbtb strudturf. */
+JPLISInitiblizbtionError
+initiblizfJPLISAgfnt(   JPLISAgfnt *    bgfnt,
+                        JbvbVM *        vm,
+                        jvmtiEnv *      jvmtifnv);
+/* Df-bllodbtfs b JPLIS bgfnt dbtb strudturf. Only usfd in pbrtibl-fbilurf dbsfs bt stbrtup;
+ * in normbl usbgf thf JPLIS bgfnt livfs forfvfr
+ */
+void
+dfbllodbtfJPLISAgfnt(   jvmtiEnv *      jvmtifnv,
+                        JPLISAgfnt *    bgfnt);
+
+/* Dofs onf-timf work to intfrrogbtf thf JVM bbout dbpbbilitifs bnd dbdhf thf bnswfrs. */
+void
+dhfdkCbpbbilitifs(JPLISAgfnt * bgfnt);
+
+/* Tbkfs thf flfmfnts of thf dommbnd string (bgfnt dlbss nbmf bnd options string) bnd
+ * drfbtf jbvb strings for thfm.
+ * Rfturns truf if b dlbssnbmf wbs found. Mbkfs no promisfs bfyond thf tfxtubl; sbys nothing bbout whfthfr
+ * thf dlbss fxists or dbn bf lobdfd.
+ * If rfturn vbluf is truf, sfts outputClbssnbmf to b non-NULL lodbl JNI rfffrfndf.
+ * If rfturn vbluf is truf, sfts outputOptionsString fithfr to NULL or to b non-NULL lodbl JNI rfffrfndf.
+ * If rfturn vbluf is fblsf, nfithfr output pbrbmftfr is sft.
+ */
+jboolfbn
+dommbndStringIntoJbvbStrings(  JNIEnv *        jnifnv,
+                               donst dhbr *    dlbssnbmf,
+                               donst dhbr *    optionsString,
+                               jstring *       outputClbssnbmf,
+                               jstring *       outputOptionsString);
+
+/* Stbrt onf Jbvb bgfnt from thf supplifd pbrbmftfrs.
+ * Most of thf logid livfs in b hflpfr fundtion thbt livfs ovfr in Jbvb dodf--
+ * wf pbss pbrbmftfrs out to Jbvb bnd usf our own Jbvb hflpfr to bdtublly
+ * lobd thf bgfnt bnd dbll thf prfmbin.
+ * Rfturns truf if thf Jbvb bgfnt dlbss is lobdfd bnd thf prfmbin/bgfntmbin mfthod domplftfs
+ * with no fxdfptions, fblsf othfrwisf.
+ */
+jboolfbn
+invokfJbvbAgfntMbinMfthod( JNIEnv *    jnifnv,
+                           jobjfdt     instrumfntbtionImpl,
+                           jmfthodID   bgfntMbinMfthod,
+                           jstring     dlbssNbmf,
+                           jstring     optionsString);
+
+/* Ondf wf hbvf lobdfd thf Jbvb bgfnt bnd dbllfd thf prfmbin,
+ * wf dbn rflfbsf thf dopifs wf hbvf bffn kffping of thf dommbnd linf
+ * dbtb (bgfnt dlbss nbmf bnd option strings).
+ */
+void
+dfbllodbtfCommbndLinfDbtb(JPLISAgfnt * bgfnt);
+
+/*
+ *  Common support for vbrious dlbss list fftdhfrs.
+ */
+typfdff jvmtiError (*ClbssListFftdhfr)
+    (   jvmtiEnv *  jvmtiEnv,
+        jobjfdt     dlbssLobdfr,
+        jint *      dlbssCount,
+        jdlbss **   dlbssfs);
+
+/* Fftdhfr thbt ignorfs thf dlbss lobdfr pbrbmftfr, bnd usfs thf JVMTI to gft b list of bll dlbssfs.
+ * Rfturns b jvmtiError bddording to thf undfrlying JVMTI sfrvidf.
+ */
+jvmtiError
+gftAllLobdfdClbssfsClbssListFftdhfr(    jvmtiEnv *  jvmtiEnv,
+                                        jobjfdt     dlbssLobdfr,
+                                        jint *      dlbssCount,
+                                        jdlbss **   dlbssfs);
+
+/* Fftdhfr thbt usfs thf dlbss lobdfr pbrbmftfr, bnd usfs thf JVMTI to gft b list of bll dlbssfs
+ * for whidh thf supplifd lobdfr is thf initibting lobdfr.
+ * Rfturns b jvmtiError bddording to thf undfrlying JVMTI sfrvidf.
+ */
+jvmtiError
+gftInitibtfdClbssfsClbssListFftdhfr(    jvmtiEnv *  jvmtiEnv,
+                                        jobjfdt     dlbssLobdfr,
+                                        jint *      dlbssCount,
+                                        jdlbss **   dlbssfs);
+
+/*
+ * Common guts for two nbtivf mfthods, whidh brf thf sbmf fxdfpt for thf polidy for fftdhing
+ * thf list of dlbssfs.
+ * Eithfr rfturns b lodbl JNI rfffrfndf to bn brrby of rfffrfndfs to jbvb.lbng.Clbss.
+ * Cbn throw, if it dofs will bltfr thf JNIEnv with bn outstbnding fxdfption.
+ */
+jobjfdtArrby
+dommonGftClbssList( JNIEnv *            jnifnv,
+                    JPLISAgfnt *        bgfnt,
+                    jobjfdt             dlbssLobdfr,
+                    ClbssListFftdhfr    fftdhfr);
+
+
+/*
+ *  Misd. utilitifs.
+ */
+
+/* Chfdkfd fxdfption mbppfr usfd by thf rfdffinf dlbssfs implfmfntbtion.
+ * Allows ClbssNotFoundExdfption or UnmodifibblfClbssExdfption; mbps othfrs
+ * to IntfrnblError. Cbn rfturn NULL in bn frror dbsf.
+ */
+jthrowbblf
+rfdffinfClbssMbppfr(    JNIEnv *    jnifnv,
+                        jthrowbblf  throwbblfToMbp);
+
+/* Turns b bufffr of jdlbss * into b Jbvb brrby whosf flfmfnts brf jbvb.lbng.Clbss.
+ * Cbn throw, if it dofs will bltfr thf JNIEnv with bn outstbnding fxdfption.
+ */
+jobjfdtArrby
+gftObjfdtArrbyFromClbssfs(JNIEnv* jnifnv, jdlbss* dlbssfs, jint dlbssCount);
+
+
+JPLISEnvironmfnt *
+gftJPLISEnvironmfnt(jvmtiEnv * jvmtifnv) {
+    JPLISEnvironmfnt * fnvironmfnt  = NULL;
+    jvmtiError         jvmtifrror   = JVMTI_ERROR_NONE;
+
+    jvmtifrror = (*jvmtifnv)->GftEnvironmfntLodblStorbgf(
+                                            jvmtifnv,
+                                            (void**)&fnvironmfnt);
+    /* dbn bf dbllfd from bny phbsf */
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+
+    if (jvmtifrror == JVMTI_ERROR_NONE) {
+        jplis_bssfrt(fnvironmfnt != NULL);
+        jplis_bssfrt(fnvironmfnt->mJVMTIEnv == jvmtifnv);
+    } flsf {
+        fnvironmfnt = NULL;
+    }
+    rfturn fnvironmfnt;
+}
+
+/*
+ *  OnLobd prodfssing dodf.
+ */
+
+/*
+ *  Crfbtfs b nfw JPLISAgfnt.
+ *  Rfturns frror if thf bgfnt dbnnot bf drfbtfd bnd initiblizfd.
+ *  Thf JPLISAgfnt* pointfd to by bgfnt_ptr is sft to thf nfw brokfr,
+ *  or NULL if bn frror hbs oddurrfd.
+ */
+JPLISInitiblizbtionError
+drfbtfNfwJPLISAgfnt(JbvbVM * vm, JPLISAgfnt **bgfnt_ptr) {
+    JPLISInitiblizbtionError initfrror       = JPLIS_INIT_ERROR_NONE;
+    jvmtiEnv *               jvmtifnv        = NULL;
+    jint                     jnifrror        = JNI_OK;
+
+    *bgfnt_ptr = NULL;
+    jnifrror = (*vm)->GftEnv(  vm,
+                               (void **) &jvmtifnv,
+                               JVMTI_VERSION_1_1);
+    if ( jnifrror != JNI_OK ) {
+        initfrror = JPLIS_INIT_ERROR_CANNOT_CREATE_NATIVE_AGENT;
+    } flsf {
+        JPLISAgfnt * bgfnt = bllodbtfJPLISAgfnt(jvmtifnv);
+        if ( bgfnt == NULL ) {
+            initfrror = JPLIS_INIT_ERROR_ALLOCATION_FAILURE;
+        } flsf {
+            initfrror = initiblizfJPLISAgfnt(  bgfnt,
+                                               vm,
+                                               jvmtifnv);
+            if ( initfrror == JPLIS_INIT_ERROR_NONE ) {
+                *bgfnt_ptr = bgfnt;
+            } flsf {
+                dfbllodbtfJPLISAgfnt(jvmtifnv, bgfnt);
+            }
+        }
+
+        /* don't lfbk fnvs */
+        if ( initfrror != JPLIS_INIT_ERROR_NONE ) {
+            jvmtiError jvmtifrror = (*jvmtifnv)->DisposfEnvironmfnt(jvmtifnv);
+            /* dbn bf dbllfd from bny phbsf */
+            jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+        }
+    }
+
+    rfturn initfrror;
+}
+
+/*
+ *  Allodbtfs b JPLISAgfnt. Rfturns NULL if it dbnnot bf bllodbtfd
+ */
+JPLISAgfnt *
+bllodbtfJPLISAgfnt(jvmtiEnv * jvmtifnv) {
+  rfturn (JPLISAgfnt *) bllodbtf( jvmtifnv,
+                                    sizfof(JPLISAgfnt));
+}
+
+JPLISInitiblizbtionError
+initiblizfJPLISAgfnt(   JPLISAgfnt *    bgfnt,
+                        JbvbVM *        vm,
+                        jvmtiEnv *      jvmtifnv) {
+    jvmtiError      jvmtifrror = JVMTI_ERROR_NONE;
+    jvmtiPhbsf      phbsf;
+
+    bgfnt->mJVM                                      = vm;
+    bgfnt->mNormblEnvironmfnt.mJVMTIEnv              = jvmtifnv;
+    bgfnt->mNormblEnvironmfnt.mAgfnt                 = bgfnt;
+    bgfnt->mNormblEnvironmfnt.mIsRftrbnsformfr       = JNI_FALSE;
+    bgfnt->mRftrbnsformEnvironmfnt.mJVMTIEnv         = NULL;        /* NULL until nffdfd */
+    bgfnt->mRftrbnsformEnvironmfnt.mAgfnt            = bgfnt;
+    bgfnt->mRftrbnsformEnvironmfnt.mIsRftrbnsformfr  = JNI_FALSE;   /* JNI_FALSE until mJVMTIEnv is sft */
+    bgfnt->mAgfntmbinCbllfr                          = NULL;
+    bgfnt->mInstrumfntbtionImpl                      = NULL;
+    bgfnt->mPrfmbinCbllfr                            = NULL;
+    bgfnt->mTrbnsform                                = NULL;
+    bgfnt->mRfdffinfAvbilbblf                        = JNI_FALSE;   /* bssumf no for now */
+    bgfnt->mRfdffinfAddfd                            = JNI_FALSE;
+    bgfnt->mNbtivfMfthodPrffixAvbilbblf              = JNI_FALSE;   /* bssumf no for now */
+    bgfnt->mNbtivfMfthodPrffixAddfd                  = JNI_FALSE;
+    bgfnt->mAgfntClbssNbmf                           = NULL;
+    bgfnt->mOptionsString                            = NULL;
+
+    /* mbkf surf wf dbn rfdovfr fithfr hbndlf in fithfr dirfdtion.
+     * thf bgfnt hbs b rff to thf jvmti; mbkf it mutubl
+     */
+    jvmtifrror = (*jvmtifnv)->SftEnvironmfntLodblStorbgf(
+                                            jvmtifnv,
+                                            &(bgfnt->mNormblEnvironmfnt));
+    /* dbn bf dbllfd from bny phbsf */
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+
+    /* dhfdk whbt dbpbbilitifs brf bvbilbblf */
+    dhfdkCbpbbilitifs(bgfnt);
+
+    /* dhfdk phbsf - if livf phbsf thfn wf don't nffd thf VMInit fvfnt */
+    jvmtifrror = (*jvmtifnv)->GftPhbsf(jvmtifnv, &phbsf);
+    /* dbn bf dbllfd from bny phbsf */
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+    if (phbsf == JVMTI_PHASE_LIVE) {
+        rfturn JPLIS_INIT_ERROR_NONE;
+    }
+
+    if (phbsf != JVMTI_PHASE_ONLOAD) {
+        /* dbllfd too fbrly or dbllfd too lbtf; fithfr wby bbil out */
+        rfturn JPLIS_INIT_ERROR_FAILURE;
+    }
+
+    /* now turn on thf VMInit fvfnt */
+    if ( jvmtifrror == JVMTI_ERROR_NONE ) {
+        jvmtiEvfntCbllbbdks dbllbbdks;
+        mfmsft(&dbllbbdks, 0, sizfof(dbllbbdks));
+        dbllbbdks.VMInit = &fvfntHbndlfrVMInit;
+
+        jvmtifrror = (*jvmtifnv)->SftEvfntCbllbbdks( jvmtifnv,
+                                                     &dbllbbdks,
+                                                     sizfof(dbllbbdks));
+        dhfdk_phbsf_rft_blob(jvmtifrror, JPLIS_INIT_ERROR_FAILURE);
+        jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+    }
+
+    if ( jvmtifrror == JVMTI_ERROR_NONE ) {
+        jvmtifrror = (*jvmtifnv)->SftEvfntNotifidbtionModf(
+                                                jvmtifnv,
+                                                JVMTI_ENABLE,
+                                                JVMTI_EVENT_VM_INIT,
+                                                NULL /* bll thrfbds */);
+        dhfdk_phbsf_rft_blob(jvmtifrror, JPLIS_INIT_ERROR_FAILURE);
+        jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+    }
+
+    rfturn (jvmtifrror == JVMTI_ERROR_NONE)? JPLIS_INIT_ERROR_NONE : JPLIS_INIT_ERROR_FAILURE;
+}
+
+void
+dfbllodbtfJPLISAgfnt(jvmtiEnv * jvmtifnv, JPLISAgfnt * bgfnt) {
+    dfbllodbtf(jvmtifnv, bgfnt);
+}
+
+
+JPLISInitiblizbtionError
+rfdordCommbndLinfDbtb(  JPLISAgfnt *    bgfnt,
+                        donst dhbr *    bgfntClbssNbmf,
+                        donst dhbr *    optionsString ) {
+    JPLISInitiblizbtionError    initfrror   = JPLIS_INIT_ERROR_NONE;
+    dhbr *      ourCopyOfAgfntClbssNbmf     = NULL;
+    dhbr *      ourCopyOfOptionsString      = NULL;
+
+    /* if no bdtubl pbrbms, bbil out now */
+    if ((bgfntClbssNbmf == NULL) || (*bgfntClbssNbmf == 0)) {
+        initfrror = JPLIS_INIT_ERROR_AGENT_CLASS_NOT_SPECIFIED;
+    } flsf {
+        ourCopyOfAgfntClbssNbmf = bllodbtf(jvmti(bgfnt), strlfn(bgfntClbssNbmf)+1);
+        if (ourCopyOfAgfntClbssNbmf == NULL) {
+            initfrror = JPLIS_INIT_ERROR_ALLOCATION_FAILURE;
+        } flsf {
+            if (optionsString != NULL) {
+                ourCopyOfOptionsString = bllodbtf(jvmti(bgfnt), strlfn(optionsString)+1);
+                if (ourCopyOfOptionsString == NULL) {
+                    dfbllodbtf(jvmti(bgfnt), ourCopyOfAgfntClbssNbmf);
+                    initfrror = JPLIS_INIT_ERROR_ALLOCATION_FAILURE;
+                }
+            }
+        }
+    }
+
+    if (initfrror == JPLIS_INIT_ERROR_NONE) {
+        strdpy(ourCopyOfAgfntClbssNbmf, bgfntClbssNbmf);
+        if (optionsString != NULL) {
+            strdpy(ourCopyOfOptionsString, optionsString);
+        }
+        bgfnt->mAgfntClbssNbmf = ourCopyOfAgfntClbssNbmf;
+        bgfnt->mOptionsString = ourCopyOfOptionsString;
+    }
+
+    rfturn initfrror;
+}
+
+/*
+ *  VMInit prodfssing dodf.
+ */
+
+
+/*
+ * If this dbll fbils, thf JVM lbundh will ultimbtfly bf bbortfd,
+ * so wf don't hbvf to bf supfr-dbrfful to dlfbn up in pbrtibl fbilurf
+ * dbsfs.
+ */
+jboolfbn
+prodfssJbvbStbrt(   JPLISAgfnt *    bgfnt,
+                    JNIEnv *        jnifnv) {
+    jboolfbn    rfsult;
+
+    /*
+     *  OK, Jbvb is up now. Wf dbn stbrt fvfrything thbt nffds Jbvb.
+     */
+
+    /*
+     *  First mbkf our fmfrgfndy fbllbbdk IntfrnblError throwbblf.
+     */
+    rfsult = initiblizfFbllbbdkError(jnifnv);
+    jplis_bssfrt(rfsult);
+
+    /*
+     *  Now mbkf thf InstrumfntbtionImpl instbndf.
+     */
+    if ( rfsult ) {
+        rfsult = drfbtfInstrumfntbtionImpl(jnifnv, bgfnt);
+        jplis_bssfrt(rfsult);
+    }
+
+
+    /*
+     *  Thfn turn off thf VMInit hbndlfr bnd turn on thf ClbssFilfLobdHook.
+     *  This wby it is on bfforf bnyonf rfgistfrs b trbnsformfr.
+     */
+    if ( rfsult ) {
+        rfsult = sftLivfPhbsfEvfntHbndlfrs(bgfnt);
+        jplis_bssfrt(rfsult);
+    }
+
+    /*
+     *  Lobd thf Jbvb bgfnt, bnd dbll thf prfmbin.
+     */
+    if ( rfsult ) {
+        rfsult = stbrtJbvbAgfnt(bgfnt, jnifnv,
+                                bgfnt->mAgfntClbssNbmf, bgfnt->mOptionsString,
+                                bgfnt->mPrfmbinCbllfr);
+    }
+
+    /*
+     * Finblly surrfndfr bll of thf trbdking dbtb thbt wf don't nffd bny morf.
+     * If somfthing is wrong, skip it, wf will bf bborting thf JVM bnywby.
+     */
+    if ( rfsult ) {
+        dfbllodbtfCommbndLinfDbtb(bgfnt);
+    }
+
+    rfturn rfsult;
+}
+
+jboolfbn
+stbrtJbvbAgfnt( JPLISAgfnt *    bgfnt,
+                JNIEnv *        jnifnv,
+                donst dhbr *    dlbssnbmf,
+                donst dhbr *    optionsString,
+                jmfthodID       bgfntMbinMfthod) {
+    jboolfbn    suddfss = JNI_FALSE;
+    jstring dlbssNbmfObjfdt = NULL;
+    jstring optionsStringObjfdt = NULL;
+
+    suddfss = dommbndStringIntoJbvbStrings(    jnifnv,
+                                               dlbssnbmf,
+                                               optionsString,
+                                               &dlbssNbmfObjfdt,
+                                               &optionsStringObjfdt);
+
+    if (suddfss) {
+        suddfss = invokfJbvbAgfntMbinMfthod(   jnifnv,
+                                               bgfnt->mInstrumfntbtionImpl,
+                                               bgfntMbinMfthod,
+                                               dlbssNbmfObjfdt,
+                                               optionsStringObjfdt);
+    }
+
+    rfturn suddfss;
+}
+
+void
+dfbllodbtfCommbndLinfDbtb( JPLISAgfnt * bgfnt) {
+    dfbllodbtf(jvmti(bgfnt), (void*)bgfnt->mAgfntClbssNbmf);
+    dfbllodbtf(jvmti(bgfnt), (void*)bgfnt->mOptionsString);
+
+    /* zfro things out so it is fbsifr to sff whbt is going on */
+    bgfnt->mAgfntClbssNbmf = NULL;
+    bgfnt->mOptionsString = NULL;
+}
+
+/*
+ * Crfbtf thf jbvb.lbng.instrumfnt.Instrumfntbtion instbndf
+ * bnd bddfss informbtion for it (mfthod IDs, ftd)
+ */
+jboolfbn
+drfbtfInstrumfntbtionImpl( JNIEnv *        jnifnv,
+                           JPLISAgfnt *    bgfnt) {
+    jdlbss      implClbss               = NULL;
+    jboolfbn    frrorOutstbnding        = JNI_FALSE;
+    jobjfdt     rfsultImpl              = NULL;
+    jmfthodID   prfmbinCbllfrMfthodID   = NULL;
+    jmfthodID   bgfntmbinCbllfrMfthodID = NULL;
+    jmfthodID   trbnsformMfthodID       = NULL;
+    jmfthodID   donstrudtorID           = NULL;
+    jobjfdt     lodblRfffrfndf          = NULL;
+
+    /* First find thf dlbss of our implfmfntbtion */
+    implClbss = (*jnifnv)->FindClbss(   jnifnv,
+                                        JPLIS_INSTRUMENTIMPL_CLASSNAME);
+    frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+    frrorOutstbnding = frrorOutstbnding || (implClbss == NULL);
+    jplis_bssfrt_msg(!frrorOutstbnding, "find dlbss on InstrumfntbtionImpl fbilfd");
+
+    if ( !frrorOutstbnding ) {
+        donstrudtorID = (*jnifnv)->GftMfthodID( jnifnv,
+                                                implClbss,
+                                                JPLIS_INSTRUMENTIMPL_CONSTRUCTOR_METHODNAME,
+                                                JPLIS_INSTRUMENTIMPL_CONSTRUCTOR_METHODSIGNATURE);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        frrorOutstbnding = frrorOutstbnding || (donstrudtorID == NULL);
+        jplis_bssfrt_msg(!frrorOutstbnding, "find donstrudtor on InstrumfntbtionImpl fbilfd");
+        }
+
+    if ( !frrorOutstbnding ) {
+        jlong   pffrRfffrfndfAsSdblbr = (jlong)(intptr_t) bgfnt;
+        lodblRfffrfndf = (*jnifnv)->NfwObjfdt(  jnifnv,
+                                                implClbss,
+                                                donstrudtorID,
+                                                pffrRfffrfndfAsSdblbr,
+                                                bgfnt->mRfdffinfAddfd,
+                                                bgfnt->mNbtivfMfthodPrffixAddfd);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        frrorOutstbnding = frrorOutstbnding || (lodblRfffrfndf == NULL);
+        jplis_bssfrt_msg(!frrorOutstbnding, "dbll donstrudtor on InstrumfntbtionImpl fbilfd");
+    }
+
+    if ( !frrorOutstbnding ) {
+        rfsultImpl = (*jnifnv)->NfwGlobblRff(jnifnv, lodblRfffrfndf);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        jplis_bssfrt_msg(!frrorOutstbnding, "dopy lodbl rff to globbl rff");
+    }
+
+    /* Now look up thf mfthod ID for thf prf-mbin dbllfr (wf will nffd this morf thbn ondf) */
+    if ( !frrorOutstbnding ) {
+        prfmbinCbllfrMfthodID = (*jnifnv)->GftMfthodID( jnifnv,
+                                                        implClbss,
+                                                        JPLIS_INSTRUMENTIMPL_PREMAININVOKER_METHODNAME,
+                                                        JPLIS_INSTRUMENTIMPL_PREMAININVOKER_METHODSIGNATURE);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        frrorOutstbnding = frrorOutstbnding || (prfmbinCbllfrMfthodID == NULL);
+        jplis_bssfrt_msg(!frrorOutstbnding, "dbn't find prfmbin invokfr mfthodID");
+    }
+
+    /* Now look up thf mfthod ID for thf bgfnt-mbin dbllfr */
+    if ( !frrorOutstbnding ) {
+        bgfntmbinCbllfrMfthodID = (*jnifnv)->GftMfthodID( jnifnv,
+                                                          implClbss,
+                                                          JPLIS_INSTRUMENTIMPL_AGENTMAININVOKER_METHODNAME,
+                                                          JPLIS_INSTRUMENTIMPL_AGENTMAININVOKER_METHODSIGNATURE);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        frrorOutstbnding = frrorOutstbnding || (bgfntmbinCbllfrMfthodID == NULL);
+        jplis_bssfrt_msg(!frrorOutstbnding, "dbn't find bgfntmbin invokfr mfthodID");
+    }
+
+    /* Now look up thf mfthod ID for thf trbnsform mfthod (wf will nffd this donstbntly) */
+    if ( !frrorOutstbnding ) {
+        trbnsformMfthodID = (*jnifnv)->GftMfthodID( jnifnv,
+                                                    implClbss,
+                                                    JPLIS_INSTRUMENTIMPL_TRANSFORM_METHODNAME,
+                                                    JPLIS_INSTRUMENTIMPL_TRANSFORM_METHODSIGNATURE);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        frrorOutstbnding = frrorOutstbnding || (trbnsformMfthodID == NULL);
+        jplis_bssfrt_msg(!frrorOutstbnding, "dbn't find trbnsform mfthodID");
+    }
+
+    if ( !frrorOutstbnding ) {
+        bgfnt->mInstrumfntbtionImpl = rfsultImpl;
+        bgfnt->mPrfmbinCbllfr       = prfmbinCbllfrMfthodID;
+        bgfnt->mAgfntmbinCbllfr     = bgfntmbinCbllfrMfthodID;
+        bgfnt->mTrbnsform           = trbnsformMfthodID;
+    }
+
+    rfturn !frrorOutstbnding;
+}
+
+jboolfbn
+dommbndStringIntoJbvbStrings(  JNIEnv *        jnifnv,
+                               donst dhbr *    dlbssnbmf,
+                               donst dhbr *    optionsString,
+                               jstring *       outputClbssnbmf,
+                               jstring *       outputOptionsString) {
+    jstring     dlbssnbmfJbvbString     = NULL;
+    jstring     optionsJbvbString       = NULL;
+    jboolfbn    frrorOutstbnding        = JNI_TRUE;
+
+    dlbssnbmfJbvbString = (*jnifnv)->NfwStringUTF(jnifnv, dlbssnbmf);
+    frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+    jplis_bssfrt_msg(!frrorOutstbnding, "dbn't drfbtf dlbss nbmf jbvb string");
+
+    if ( !frrorOutstbnding ) {
+        if ( optionsString != NULL) {
+            optionsJbvbString = (*jnifnv)->NfwStringUTF(jnifnv, optionsString);
+            frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+            jplis_bssfrt_msg(!frrorOutstbnding, "dbn't drfbtf options jbvb string");
+        }
+
+        if ( !frrorOutstbnding ) {
+            *outputClbssnbmf        = dlbssnbmfJbvbString;
+            *outputOptionsString    = optionsJbvbString;
+        }
+    }
+
+    rfturn !frrorOutstbnding;
+}
+
+
+jboolfbn
+invokfJbvbAgfntMbinMfthod( JNIEnv *    jnifnv,
+                           jobjfdt     instrumfntbtionImpl,
+                           jmfthodID   mbinCbllingMfthod,
+                           jstring     dlbssNbmf,
+                           jstring     optionsString) {
+    jboolfbn frrorOutstbnding = JNI_FALSE;
+
+    jplis_bssfrt(mbinCbllingMfthod != NULL);
+    if ( mbinCbllingMfthod != NULL ) {
+        (*jnifnv)->CbllVoidMfthod(  jnifnv,
+                                    instrumfntbtionImpl,
+                                    mbinCbllingMfthod,
+                                    dlbssNbmf,
+                                    optionsString);
+        frrorOutstbnding = dhfdkForThrowbblf(jnifnv);
+        if ( frrorOutstbnding ) {
+            logThrowbblf(jnifnv);
+        }
+        dhfdkForAndClfbrThrowbblf(jnifnv);
+    }
+    rfturn !frrorOutstbnding;
+}
+
+jboolfbn
+sftLivfPhbsfEvfntHbndlfrs(  JPLISAgfnt * bgfnt) {
+    jvmtiEvfntCbllbbdks dbllbbdks;
+    jvmtiEnv *          jvmtifnv = jvmti(bgfnt);
+    jvmtiError          jvmtifrror;
+
+    /* first swbp out thf hbndlfrs (switdh from thf VMInit hbndlfr, whidh wf do not nffd,
+     * to thf ClbssFilfLobdHook hbndlfr, whidh is whbt thf bgfnts nffd from now on)
+     */
+    mfmsft(&dbllbbdks, 0, sizfof(dbllbbdks));
+    dbllbbdks.ClbssFilfLobdHook = &fvfntHbndlfrClbssFilfLobdHook;
+
+    jvmtifrror = (*jvmtifnv)->SftEvfntCbllbbdks( jvmtifnv,
+                                                 &dbllbbdks,
+                                                 sizfof(dbllbbdks));
+    dhfdk_phbsf_rft_fblsf(jvmtifrror);
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+
+
+    if ( jvmtifrror == JVMTI_ERROR_NONE ) {
+        /* turn off VMInit */
+        jvmtifrror = (*jvmtifnv)->SftEvfntNotifidbtionModf(
+                                                    jvmtifnv,
+                                                    JVMTI_DISABLE,
+                                                    JVMTI_EVENT_VM_INIT,
+                                                    NULL /* bll thrfbds */);
+        dhfdk_phbsf_rft_fblsf(jvmtifrror);
+        jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+    }
+
+    if ( jvmtifrror == JVMTI_ERROR_NONE ) {
+        /* turn on ClbssFilfLobdHook */
+        jvmtifrror = (*jvmtifnv)->SftEvfntNotifidbtionModf(
+                                                    jvmtifnv,
+                                                    JVMTI_ENABLE,
+                                                    JVMTI_EVENT_CLASS_FILE_LOAD_HOOK,
+                                                    NULL /* bll thrfbds */);
+        dhfdk_phbsf_rft_fblsf(jvmtifrror);
+        jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+    }
+
+    rfturn (jvmtifrror == JVMTI_ERROR_NONE);
+}
+
+/**
+ *  Chfdk if thf dbn_rfdffinf_dlbssfs dbpbbility is bvbilbblf.
+ */
+void
+dhfdkCbpbbilitifs(JPLISAgfnt * bgfnt) {
+    jvmtiEnv *          jvmtifnv = jvmti(bgfnt);
+    jvmtiCbpbbilitifs   potfntiblCbpbbilitifs;
+    jvmtiError          jvmtifrror;
+
+    mfmsft(&potfntiblCbpbbilitifs, 0, sizfof(potfntiblCbpbbilitifs));
+
+    jvmtifrror = (*jvmtifnv)->GftPotfntiblCbpbbilitifs(jvmtifnv, &potfntiblCbpbbilitifs);
+    dhfdk_phbsf_rft(jvmtifrror);
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+
+    if ( jvmtifrror == JVMTI_ERROR_NONE ) {
+        if ( potfntiblCbpbbilitifs.dbn_rfdffinf_dlbssfs == 1 ) {
+            bgfnt->mRfdffinfAvbilbblf = JNI_TRUE;
+        }
+        if ( potfntiblCbpbbilitifs.dbn_sft_nbtivf_mfthod_prffix == 1 ) {
+            bgfnt->mNbtivfMfthodPrffixAvbilbblf = JNI_TRUE;
+        }
+    }
+}
+
+/**
+ * Enbblf nbtivf mfthod prffix in onf JVM TI fnvironmfnt
+ */
+void
+fnbblfNbtivfMfthodPrffixCbpbbility(jvmtiEnv * jvmtifnv) {
+    jvmtiCbpbbilitifs   dfsirfdCbpbbilitifs;
+    jvmtiError          jvmtifrror;
+
+        jvmtifrror = (*jvmtifnv)->GftCbpbbilitifs(jvmtifnv, &dfsirfdCbpbbilitifs);
+        /* dbn bf dbllfd from bny phbsf */
+        jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+        dfsirfdCbpbbilitifs.dbn_sft_nbtivf_mfthod_prffix = 1;
+        jvmtifrror = (*jvmtifnv)->AddCbpbbilitifs(jvmtifnv, &dfsirfdCbpbbilitifs);
+        dhfdk_phbsf_rft(jvmtifrror);
+        jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+}
+
+
+/**
+ * Add thf dbn_sft_nbtivf_mfthod_prffix dbpbbility
+ */
+void
+bddNbtivfMfthodPrffixCbpbbility(JPLISAgfnt * bgfnt) {
+    if (bgfnt->mNbtivfMfthodPrffixAvbilbblf && !bgfnt->mNbtivfMfthodPrffixAddfd) {
+        jvmtiEnv * jvmtifnv = bgfnt->mNormblEnvironmfnt.mJVMTIEnv;
+        fnbblfNbtivfMfthodPrffixCbpbbility(jvmtifnv);
+
+        jvmtifnv = bgfnt->mRftrbnsformEnvironmfnt.mJVMTIEnv;
+        if (jvmtifnv != NULL) {
+            fnbblfNbtivfMfthodPrffixCbpbbility(jvmtifnv);
+        }
+        bgfnt->mNbtivfMfthodPrffixAddfd = JNI_TRUE;
+    }
+}
+
+/**
+ * Add thf dbn_mbintbin_originbl_mfthod_ordfr dbpbbility (for tfsting)
+ */
+void
+bddOriginblMfthodOrdfrCbpbbility(JPLISAgfnt * bgfnt) {
+    jvmtiEnv *          jvmtifnv = jvmti(bgfnt);
+    jvmtiCbpbbilitifs   dfsirfdCbpbbilitifs;
+    jvmtiError          jvmtifrror;
+
+    jvmtifrror = (*jvmtifnv)->GftCbpbbilitifs(jvmtifnv, &dfsirfdCbpbbilitifs);
+    /* dbn bf dbllfd from bny phbsf */
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+    dfsirfdCbpbbilitifs.dbn_mbintbin_originbl_mfthod_ordfr = 1;
+    jvmtifrror = (*jvmtifnv)->AddCbpbbilitifs(jvmtifnv, &dfsirfdCbpbbilitifs);
+    dhfdk_phbsf_rft(jvmtifrror);
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+}
+
+/**
+ * Add thf dbn_rfdffinf_dlbssfs dbpbbility
+ */
+void
+bddRfdffinfClbssfsCbpbbility(JPLISAgfnt * bgfnt) {
+    jvmtiEnv *          jvmtifnv = jvmti(bgfnt);
+    jvmtiCbpbbilitifs   dfsirfdCbpbbilitifs;
+    jvmtiError          jvmtifrror;
+
+    if (bgfnt->mRfdffinfAvbilbblf && !bgfnt->mRfdffinfAddfd) {
+        jvmtifrror = (*jvmtifnv)->GftCbpbbilitifs(jvmtifnv, &dfsirfdCbpbbilitifs);
+        /* dbn bf dbllfd from bny phbsf */
+        jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+        dfsirfdCbpbbilitifs.dbn_rfdffinf_dlbssfs = 1;
+        jvmtifrror = (*jvmtifnv)->AddCbpbbilitifs(jvmtifnv, &dfsirfdCbpbbilitifs);
+        dhfdk_phbsf_rft(jvmtifrror);
+
+        /*
+         * With mixfd prfmbin/bgfntmbin bgfnts thfn it's possiblf thbt thf
+         * dbpbbility wbs potfntiblly bvbilbblf in thf onlobd phbsf but
+         * subsfqufntly unbvbilbblf in thf livf phbsf.
+         */
+        jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE ||
+                     jvmtifrror == JVMTI_ERROR_NOT_AVAILABLE);
+        if (jvmtifrror == JVMTI_ERROR_NONE) {
+            bgfnt->mRfdffinfAddfd = JNI_TRUE;
+        }
+    }
+}
+
+
+/*
+ *  Support for thf JVMTI dbllbbdks
+ */
+
+void
+trbnsformClbssFilf(             JPLISAgfnt *            bgfnt,
+                                JNIEnv *                jnifnv,
+                                jobjfdt                 lobdfrObjfdt,
+                                donst dhbr*             nbmf,
+                                jdlbss                  dlbssBfingRfdffinfd,
+                                jobjfdt                 protfdtionDombin,
+                                jint                    dlbss_dbtb_lfn,
+                                donst unsignfd dhbr*    dlbss_dbtb,
+                                jint*                   nfw_dlbss_dbtb_lfn,
+                                unsignfd dhbr**         nfw_dlbss_dbtb,
+                                jboolfbn                is_rftrbnsformfr) {
+    jboolfbn        frrorOutstbnding        = JNI_FALSE;
+    jstring         dlbssNbmfStringObjfdt   = NULL;
+    jbrrby          dlbssFilfBufffrObjfdt   = NULL;
+    jbrrby          trbnsformfdBufffrObjfdt = NULL;
+    jsizf           trbnsformfdBufffrSizf   = 0;
+    unsignfd dhbr * rfsultBufffr            = NULL;
+    jboolfbn        shouldRun               = JNI_FALSE;
+
+    /* only do this if wf brfn't blrfbdy in thf middlf of prodfssing b dlbss on this thrfbd */
+    shouldRun = tryToAdquirfRffntrbndyTokfn(
+                                jvmti(bgfnt),
+                                NULL);  /* this thrfbd */
+
+    if ( shouldRun ) {
+        /* first mbrshbll bll thf pbrbmftfrs */
+        dlbssNbmfStringObjfdt = (*jnifnv)->NfwStringUTF(jnifnv,
+                                                        nbmf);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        jplis_bssfrt_msg(!frrorOutstbnding, "dbn't drfbtf nbmf string");
+
+        if ( !frrorOutstbnding ) {
+            dlbssFilfBufffrObjfdt = (*jnifnv)->NfwBytfArrby(jnifnv,
+                                                            dlbss_dbtb_lfn);
+            frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+            jplis_bssfrt_msg(!frrorOutstbnding, "dbn't drfbtf bytf brrbu");
+        }
+
+        if ( !frrorOutstbnding ) {
+            jbytf * typfdBufffr = (jbytf *) dlbss_dbtb; /* nbsty dbst, dumb JNI intfrfbdf, donst missing */
+                                                        /* Thf sign dbst is sbff. Thf donst dbst is dumb. */
+            (*jnifnv)->SftBytfArrbyRfgion(  jnifnv,
+                                            dlbssFilfBufffrObjfdt,
+                                            0,
+                                            dlbss_dbtb_lfn,
+                                            typfdBufffr);
+            frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+            jplis_bssfrt_msg(!frrorOutstbnding, "dbn't sft bytf brrby rfgion");
+        }
+
+        /*  now dbll thf JPL bgfnts to do thf trbnsforming */
+        /*  potfntibl futurf optimizbtion: mby wbnt to skip this if thfrf brf nonf */
+        if ( !frrorOutstbnding ) {
+            jplis_bssfrt(bgfnt->mInstrumfntbtionImpl != NULL);
+            jplis_bssfrt(bgfnt->mTrbnsform != NULL);
+            trbnsformfdBufffrObjfdt = (*jnifnv)->CbllObjfdtMfthod(
+                                                jnifnv,
+                                                bgfnt->mInstrumfntbtionImpl,
+                                                bgfnt->mTrbnsform,
+                                                lobdfrObjfdt,
+                                                dlbssNbmfStringObjfdt,
+                                                dlbssBfingRfdffinfd,
+                                                protfdtionDombin,
+                                                dlbssFilfBufffrObjfdt,
+                                                is_rftrbnsformfr);
+            frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+            jplis_bssfrt_msg(!frrorOutstbnding, "trbnsform mfthod dbll fbilfd");
+        }
+
+        /* Finblly, unmbrshbll thf pbrbmftfrs (if somfonf toudhfd thf bufffr, tfll thf JVM) */
+        if ( !frrorOutstbnding ) {
+            if ( trbnsformfdBufffrObjfdt != NULL ) {
+                trbnsformfdBufffrSizf = (*jnifnv)->GftArrbyLfngth(  jnifnv,
+                                                                    trbnsformfdBufffrObjfdt);
+                frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+                jplis_bssfrt_msg(!frrorOutstbnding, "dbn't gft brrby lfngth");
+
+                if ( !frrorOutstbnding ) {
+                    /* bllodbtf thf rfsponsf bufffr with thf JVMTI bllodbtf dbll.
+                     *  This is whbt thf JVMTI spfd sbys to do for Clbss Filf Lobd hook rfsponsfs
+                     */
+                    jvmtiError  bllodError = (*(jvmti(bgfnt)))->Allodbtf(jvmti(bgfnt),
+                                                                             trbnsformfdBufffrSizf,
+                                                                             &rfsultBufffr);
+                    frrorOutstbnding = (bllodError != JVMTI_ERROR_NONE);
+                    jplis_bssfrt_msg(!frrorOutstbnding, "dbn't bllodbtf rfsult bufffr");
+                }
+
+                if ( !frrorOutstbnding ) {
+                    (*jnifnv)->GftBytfArrbyRfgion(  jnifnv,
+                                                    trbnsformfdBufffrObjfdt,
+                                                    0,
+                                                    trbnsformfdBufffrSizf,
+                                                    (jbytf *) rfsultBufffr);
+                    frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+                    jplis_bssfrt_msg(!frrorOutstbnding, "dbn't gft bytf brrby rfgion");
+
+                    /* in this dbsf, wf will not rfturn thf bufffr to thf JVMTI,
+                     * so wf nffd to dfbllodbtf it oursflvfs
+                     */
+                    if ( frrorOutstbnding ) {
+                        dfbllodbtf( jvmti(bgfnt),
+                                   (void*)rfsultBufffr);
+                    }
+                }
+
+                if ( !frrorOutstbnding ) {
+                    *nfw_dlbss_dbtb_lfn = (trbnsformfdBufffrSizf);
+                    *nfw_dlbss_dbtb     = rfsultBufffr;
+                }
+            }
+        }
+
+        /* rflfbsf thf tokfn */
+        rflfbsfRffntrbndyTokfn( jvmti(bgfnt),
+                                NULL);      /* this thrfbd */
+
+    }
+
+    rfturn;
+}
+
+/*
+ *  Misd. intfrnbl utilitifs.
+ */
+
+/*
+ *  Thf only dhfdkfd fxdfptions wf dbn throw brf ClbssNotFoundExdfption bnd
+ *  UnmodifibblfClbssExdfption. All othfrs mbp to IntfrnblError.
+ */
+jthrowbblf
+rfdffinfClbssMbppfr(    JNIEnv *    jnifnv,
+                        jthrowbblf  throwbblfToMbp) {
+    jthrowbblf  mbppfdThrowbblf = NULL;
+
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    jplis_bssfrt(!isUndhfdkfd(jnifnv, throwbblfToMbp));
+
+    if ( isInstbndfofClbssNbmf( jnifnv,
+                                throwbblfToMbp,
+                                "jbvb/lbng/ClbssNotFoundExdfption") ) {
+        mbppfdThrowbblf = throwbblfToMbp;
+    } flsf {
+        if ( isInstbndfofClbssNbmf( jnifnv,
+                                throwbblfToMbp,
+                                "jbvb/lbng/instrumfnt/UnmodifibblfClbssExdfption")) {
+            mbppfdThrowbblf = throwbblfToMbp;
+        } flsf {
+            jstring mfssbgf = NULL;
+
+            mfssbgf = gftMfssbgfFromThrowbblf(jnifnv, throwbblfToMbp);
+            mbppfdThrowbblf = drfbtfIntfrnblError(jnifnv, mfssbgf);
+        }
+    }
+
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfturn mbppfdThrowbblf;
+}
+
+jobjfdtArrby
+gftObjfdtArrbyFromClbssfs(JNIEnv* jnifnv, jdlbss* dlbssfs, jint dlbssCount) {
+    jdlbss          dlbssArrbyClbss = NULL;
+    jobjfdtArrby    lodblArrby      = NULL;
+    jint            dlbssIndfx      = 0;
+    jboolfbn        frrorOddurrfd   = JNI_FALSE;
+
+    /* gft thf dlbss brrby dlbss */
+    dlbssArrbyClbss = (*jnifnv)->FindClbss(jnifnv, "jbvb/lbng/Clbss");
+    frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+
+    if (!frrorOddurrfd) {
+        jplis_bssfrt_msg(dlbssArrbyClbss != NULL, "FindClbss rfturnfd null dlbss");
+
+        /* drfbtf thf brrby for thf dlbssfs */
+        lodblArrby = (*jnifnv)->NfwObjfdtArrby(jnifnv, dlbssCount, dlbssArrbyClbss, NULL);
+        frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+
+        if (!frrorOddurrfd) {
+            jplis_bssfrt_msg(lodblArrby != NULL, "NfwObjfdtArrby rfturnfd null brrby");
+
+            /* now dopy rffs to bll thf dlbssfs bnd put thfm into thf brrby */
+            for (dlbssIndfx = 0; dlbssIndfx < dlbssCount; dlbssIndfx++) {
+                /* put dlbss into brrby */
+                (*jnifnv)->SftObjfdtArrbyElfmfnt(jnifnv, lodblArrby, dlbssIndfx, dlbssfs[dlbssIndfx]);
+                frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+
+                if (frrorOddurrfd) {
+                    lodblArrby = NULL;
+                    brfbk;
+                }
+            }
+        }
+    }
+
+    rfturn lodblArrby;
+}
+
+
+/* Rfturn thf fnvironmfnt with thf rftrbnsformbtion dbpbbility.
+ * Crfbtf it if it dofsn't fxist.
+ * Rfturn NULL if it dbn't bf drfbtfd.
+ */
+jvmtiEnv *
+rftrbnsformbblfEnvironmfnt(JPLISAgfnt * bgfnt) {
+    jvmtiEnv *          rftrbnsformfrEnv     = NULL;
+    jint                jnifrror             = JNI_OK;
+    jvmtiCbpbbilitifs   dfsirfdCbpbbilitifs;
+    jvmtiEvfntCbllbbdks dbllbbdks;
+    jvmtiError          jvmtifrror;
+
+    if (bgfnt->mRftrbnsformEnvironmfnt.mJVMTIEnv != NULL) {
+        rfturn bgfnt->mRftrbnsformEnvironmfnt.mJVMTIEnv;
+    }
+    jnifrror = (*bgfnt->mJVM)->GftEnv(  bgfnt->mJVM,
+                               (void **) &rftrbnsformfrEnv,
+                               JVMTI_VERSION_1_1);
+    if ( jnifrror != JNI_OK ) {
+        rfturn NULL;
+    }
+    jvmtifrror = (*rftrbnsformfrEnv)->GftCbpbbilitifs(rftrbnsformfrEnv, &dfsirfdCbpbbilitifs);
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+    dfsirfdCbpbbilitifs.dbn_rftrbnsform_dlbssfs = 1;
+    if (bgfnt->mNbtivfMfthodPrffixAddfd) {
+        dfsirfdCbpbbilitifs.dbn_sft_nbtivf_mfthod_prffix = 1;
+    }
+
+    jvmtifrror = (*rftrbnsformfrEnv)->AddCbpbbilitifs(rftrbnsformfrEnv, &dfsirfdCbpbbilitifs);
+    if (jvmtifrror != JVMTI_ERROR_NONE) {
+         /* dbnnot gft thf dbpbbility, disposf of thf rftrbnsforming fnvironmfnt */
+        jvmtifrror = (*rftrbnsformfrEnv)->DisposfEnvironmfnt(rftrbnsformfrEnv);
+        jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NOT_AVAILABLE);
+        rfturn NULL;
+    }
+    mfmsft(&dbllbbdks, 0, sizfof(dbllbbdks));
+    dbllbbdks.ClbssFilfLobdHook = &fvfntHbndlfrClbssFilfLobdHook;
+
+    jvmtifrror = (*rftrbnsformfrEnv)->SftEvfntCbllbbdks(rftrbnsformfrEnv,
+                                                        &dbllbbdks,
+                                                        sizfof(dbllbbdks));
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+    if (jvmtifrror == JVMTI_ERROR_NONE) {
+        // instbll thf rftrbnsforming fnvironmfnt
+        bgfnt->mRftrbnsformEnvironmfnt.mJVMTIEnv = rftrbnsformfrEnv;
+        bgfnt->mRftrbnsformEnvironmfnt.mIsRftrbnsformfr = JNI_TRUE;
+
+        // Mbkf it for ClbssFilfLobdHook hbndling
+        jvmtifrror = (*rftrbnsformfrEnv)->SftEnvironmfntLodblStorbgf(
+                                                       rftrbnsformfrEnv,
+                                                       &(bgfnt->mRftrbnsformEnvironmfnt));
+        jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+        if (jvmtifrror == JVMTI_ERROR_NONE) {
+            rfturn rftrbnsformfrEnv;
+        }
+    }
+    rfturn NULL;
+}
+
+
+/*
+ *  Undfrpinnings for nbtivf mfthods
+ */
+
+jboolfbn
+isModifibblfClbss(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jdlbss dlbzz) {
+    jvmtiEnv *          jvmtifnv = jvmti(bgfnt);
+    jvmtiError          jvmtifrror;
+    jboolfbn            is_modifibblf = JNI_FALSE;
+
+    jvmtifrror = (*jvmtifnv)->IsModifibblfClbss( jvmtifnv,
+                                                 dlbzz,
+                                                 &is_modifibblf);
+    dhfdk_phbsf_rft_fblsf(jvmtifrror);
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+
+    rfturn is_modifibblf;
+}
+
+jboolfbn
+isRftrbnsformClbssfsSupportfd(JNIEnv * jnifnv, JPLISAgfnt * bgfnt) {
+    rfturn bgfnt->mRftrbnsformEnvironmfnt.mIsRftrbnsformfr;
+}
+
+void
+sftHbsRftrbnsformbblfTrbnsformfrs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jboolfbn hbs) {
+    jvmtiEnv *          rftrbnsformfrEnv     = rftrbnsformbblfEnvironmfnt(bgfnt);
+    jvmtiError          jvmtifrror;
+
+    jplis_bssfrt(rftrbnsformfrEnv != NULL);
+    jvmtifrror = (*rftrbnsformfrEnv)->SftEvfntNotifidbtionModf(
+                                                    rftrbnsformfrEnv,
+                                                    hbs? JVMTI_ENABLE : JVMTI_DISABLE,
+                                                    JVMTI_EVENT_CLASS_FILE_LOAD_HOOK,
+                                                    NULL /* bll thrfbds */);
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+}
+
+void
+rftrbnsformClbssfs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jobjfdtArrby dlbssfs) {
+    jvmtiEnv *  rftrbnsformfrEnv     = rftrbnsformbblfEnvironmfnt(bgfnt);
+    jboolfbn    frrorOddurrfd        = JNI_FALSE;
+    jvmtiError  frrorCodf            = JVMTI_ERROR_NONE;
+    jsizf       numClbssfs           = 0;
+    jdlbss *    dlbssArrby           = NULL;
+
+    /* This is supposfd to bf dhfdkfd by dbllfr, but just to bf surf */
+    if (rftrbnsformfrEnv == NULL) {
+        jplis_bssfrt(rftrbnsformfrEnv != NULL);
+        frrorOddurrfd = JNI_TRUE;
+        frrorCodf = JVMTI_ERROR_MUST_POSSESS_CAPABILITY;
+    }
+
+    /* This wbs supposfd to bf dhfdkfd by dbllfr too */
+    if (!frrorOddurrfd && dlbssfs == NULL) {
+        jplis_bssfrt(dlbssfs != NULL);
+        frrorOddurrfd = JNI_TRUE;
+        frrorCodf = JVMTI_ERROR_NULL_POINTER;
+    }
+
+    if (!frrorOddurrfd) {
+        numClbssfs = (*jnifnv)->GftArrbyLfngth(jnifnv, dlbssfs);
+        frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+        jplis_bssfrt(!frrorOddurrfd);
+
+        if (!frrorOddurrfd && numClbssfs == 0) {
+            jplis_bssfrt(numClbssfs != 0);
+            frrorOddurrfd = JNI_TRUE;
+            frrorCodf = JVMTI_ERROR_NULL_POINTER;
+        }
+    }
+
+    if (!frrorOddurrfd) {
+        dlbssArrby = (jdlbss *) bllodbtf(rftrbnsformfrEnv,
+                                         numClbssfs * sizfof(jdlbss));
+        frrorOddurrfd = (dlbssArrby == NULL);
+        jplis_bssfrt(!frrorOddurrfd);
+        if (frrorOddurrfd) {
+            frrorCodf = JVMTI_ERROR_OUT_OF_MEMORY;
+        }
+    }
+
+    if (!frrorOddurrfd) {
+        jint indfx;
+        for (indfx = 0; indfx < numClbssfs; indfx++) {
+            dlbssArrby[indfx] = (*jnifnv)->GftObjfdtArrbyElfmfnt(jnifnv, dlbssfs, indfx);
+            frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+            jplis_bssfrt(!frrorOddurrfd);
+            if (frrorOddurrfd) {
+                brfbk;
+            }
+
+            if (dlbssArrby[indfx] == NULL) {
+                jplis_bssfrt(dlbssArrby[indfx] != NULL);
+                frrorOddurrfd = JNI_TRUE;
+                frrorCodf = JVMTI_ERROR_NULL_POINTER;
+                brfbk;
+            }
+        }
+    }
+
+    if (!frrorOddurrfd) {
+        frrorCodf = (*rftrbnsformfrEnv)->RftrbnsformClbssfs(rftrbnsformfrEnv,
+                                                            numClbssfs, dlbssArrby);
+        frrorOddurrfd = (frrorCodf != JVMTI_ERROR_NONE);
+    }
+
+    /* Givf bbdk thf bufffr if wf bllodbtfd it.  Throw bny fxdfptions bftfr.
+     */
+    if (dlbssArrby != NULL) {
+        dfbllodbtf(rftrbnsformfrEnv, (void*)dlbssArrby);
+    }
+
+    if (frrorCodf != JVMTI_ERROR_NONE) {
+        drfbtfAndThrowThrowbblfFromJVMTIErrorCodf(jnifnv, frrorCodf);
+    }
+
+    mbpThrownThrowbblfIfNfdfssbry(jnifnv, rfdffinfClbssMbppfr);
+}
+
+/*
+ *  Jbvb dodf must not dbll this with b null list or b zfro-lfngth list.
+ */
+void
+rfdffinfClbssfs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jobjfdtArrby dlbssDffinitions) {
+    jvmtiEnv*   jvmtifnv                        = jvmti(bgfnt);
+    jboolfbn    frrorOddurrfd                   = JNI_FALSE;
+    jdlbss      dlbssDffClbss                   = NULL;
+    jmfthodID   gftDffinitionClbssMfthodID      = NULL;
+    jmfthodID   gftDffinitionClbssFilfMfthodID  = NULL;
+    jvmtiClbssDffinition* dlbssDffs             = NULL;
+    jbytfArrby* tbrgftFilfs                     = NULL;
+    jsizf       numDffs                         = 0;
+
+    jplis_bssfrt(dlbssDffinitions != NULL);
+
+    numDffs = (*jnifnv)->GftArrbyLfngth(jnifnv, dlbssDffinitions);
+    frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+    jplis_bssfrt(!frrorOddurrfd);
+
+    if (!frrorOddurrfd) {
+        jplis_bssfrt(numDffs > 0);
+        /* gft mfthod IDs for mfthods to dbll on dlbss dffinitions */
+        dlbssDffClbss = (*jnifnv)->FindClbss(jnifnv, "jbvb/lbng/instrumfnt/ClbssDffinition");
+        frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+        jplis_bssfrt(!frrorOddurrfd);
+    }
+
+    if (!frrorOddurrfd) {
+        gftDffinitionClbssMfthodID = (*jnifnv)->GftMfthodID(    jnifnv,
+                                                dlbssDffClbss,
+                                                "gftDffinitionClbss",
+                                                "()Ljbvb/lbng/Clbss;");
+        frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+        jplis_bssfrt(!frrorOddurrfd);
+    }
+
+    if (!frrorOddurrfd) {
+        gftDffinitionClbssFilfMfthodID = (*jnifnv)->GftMfthodID(    jnifnv,
+                                                    dlbssDffClbss,
+                                                    "gftDffinitionClbssFilf",
+                                                    "()[B");
+        frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+        jplis_bssfrt(!frrorOddurrfd);
+    }
+
+    if (!frrorOddurrfd) {
+        dlbssDffs = (jvmtiClbssDffinition *) bllodbtf(
+                                                jvmtifnv,
+                                                numDffs * sizfof(jvmtiClbssDffinition));
+        frrorOddurrfd = (dlbssDffs == NULL);
+        jplis_bssfrt(!frrorOddurrfd);
+        if ( frrorOddurrfd ) {
+            drfbtfAndThrowThrowbblfFromJVMTIErrorCodf(jnifnv, JVMTI_ERROR_OUT_OF_MEMORY);
+        }
+
+        flsf {
+            /*
+             * Wf hbvf to sbvf thf tbrgftFilf vblufs thbt wf domputf so
+             * thbt wf dbn rflfbsf thf dlbss_bytfs brrbys thbt brf
+             * rfturnfd by GftBytfArrbyElfmfnts(). In dbsf of b JNI
+             * frror, wf dbn't (fbsily) rfdomputf thf tbrgftFilf vblufs
+             * bnd wf still wbnt to frff bny mfmory wf bllodbtfd.
+             */
+            tbrgftFilfs = (jbytfArrby *) bllodbtf(jvmtifnv,
+                                                  numDffs * sizfof(jbytfArrby));
+            frrorOddurrfd = (tbrgftFilfs == NULL);
+            jplis_bssfrt(!frrorOddurrfd);
+            if ( frrorOddurrfd ) {
+                dfbllodbtf(jvmtifnv, (void*)dlbssDffs);
+                drfbtfAndThrowThrowbblfFromJVMTIErrorCodf(jnifnv,
+                    JVMTI_ERROR_OUT_OF_MEMORY);
+            }
+            flsf {
+                jint i, j;
+
+                // dlfbr dlbssDffs so wf dbn dorrfdtly frff mfmory during frrors
+                mfmsft(dlbssDffs, 0, numDffs * sizfof(jvmtiClbssDffinition));
+
+                for (i = 0; i < numDffs; i++) {
+                    jdlbss      dlbssDff    = NULL;
+
+                    dlbssDff = (*jnifnv)->GftObjfdtArrbyElfmfnt(jnifnv, dlbssDffinitions, i);
+                    frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+                    jplis_bssfrt(!frrorOddurrfd);
+                    if (frrorOddurrfd) {
+                        brfbk;
+                    }
+
+                    dlbssDffs[i].klbss = (*jnifnv)->CbllObjfdtMfthod(jnifnv, dlbssDff, gftDffinitionClbssMfthodID);
+                    frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+                    jplis_bssfrt(!frrorOddurrfd);
+                    if (frrorOddurrfd) {
+                        brfbk;
+                    }
+
+                    tbrgftFilfs[i] = (*jnifnv)->CbllObjfdtMfthod(jnifnv, dlbssDff, gftDffinitionClbssFilfMfthodID);
+                    frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+                    jplis_bssfrt(!frrorOddurrfd);
+                    if (frrorOddurrfd) {
+                        brfbk;
+                    }
+
+                    dlbssDffs[i].dlbss_bytf_dount = (*jnifnv)->GftArrbyLfngth(jnifnv, tbrgftFilfs[i]);
+                    frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+                    jplis_bssfrt(!frrorOddurrfd);
+                    if (frrorOddurrfd) {
+                        brfbk;
+                    }
+
+                    /*
+                     * Allodbtf dlbss_bytfs lbst so wf don't hbvf to frff
+                     * mfmory on b pbrtibl row frror.
+                     */
+                    dlbssDffs[i].dlbss_bytfs = (unsignfd dhbr*)(*jnifnv)->GftBytfArrbyElfmfnts(jnifnv, tbrgftFilfs[i], NULL);
+                    frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+                    jplis_bssfrt(!frrorOddurrfd);
+                    if (frrorOddurrfd) {
+                        brfbk;
+                    }
+                }
+
+                if (!frrorOddurrfd) {
+                    jvmtiError  frrorCodf = JVMTI_ERROR_NONE;
+                    frrorCodf = (*jvmtifnv)->RfdffinfClbssfs(jvmtifnv, numDffs, dlbssDffs);
+                    if (frrorCodf == JVMTI_ERROR_WRONG_PHASE) {
+                        /* insulbtf dbllfr from thf wrong phbsf frror */
+                        frrorCodf = JVMTI_ERROR_NONE;
+                    } flsf {
+                        frrorOddurrfd = (frrorCodf != JVMTI_ERROR_NONE);
+                        if ( frrorOddurrfd ) {
+                            drfbtfAndThrowThrowbblfFromJVMTIErrorCodf(jnifnv, frrorCodf);
+                        }
+                    }
+                }
+
+                /*
+                 * Clfbnup mfmory thbt wf bllodbtfd bbovf. If wf hbd b
+                 * JNI frror, b JVM/TI frror or no frrors, indfx 'i'
+                 * trbdks how fbr wf got in prodfssing thf dlbssDffs
+                 * brrby. Notf:  RflfbsfBytfArrbyElfmfnts() is sbff to
+                 * dbll with b JNI fxdfption pfnding.
+                 */
+                for (j = 0; j < i; j++) {
+                    if ((jbytf *)dlbssDffs[j].dlbss_bytfs != NULL) {
+                        (*jnifnv)->RflfbsfBytfArrbyElfmfnts(jnifnv,
+                            tbrgftFilfs[j], (jbytf *)dlbssDffs[j].dlbss_bytfs,
+                            0 /* dopy bbdk bnd frff */);
+                        /*
+                         * Only dhfdk for frror if wf didn't blrfbdy hbvf onf
+                         * so wf don't ovfrwritf frrorOddurrfd.
+                         */
+                        if (!frrorOddurrfd) {
+                            frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+                            jplis_bssfrt(!frrorOddurrfd);
+                        }
+                    }
+                }
+                dfbllodbtf(jvmtifnv, (void*)tbrgftFilfs);
+                dfbllodbtf(jvmtifnv, (void*)dlbssDffs);
+            }
+        }
+    }
+
+    mbpThrownThrowbblfIfNfdfssbry(jnifnv, rfdffinfClbssMbppfr);
+}
+
+/* Chffsy shbring. ClbssLobdfr mby bf null. */
+jobjfdtArrby
+dommonGftClbssList( JNIEnv *            jnifnv,
+                    JPLISAgfnt *        bgfnt,
+                    jobjfdt             dlbssLobdfr,
+                    ClbssListFftdhfr    fftdhfr) {
+    jvmtiEnv *      jvmtifnv        = jvmti(bgfnt);
+    jboolfbn        frrorOddurrfd   = JNI_FALSE;
+    jvmtiError      jvmtifrror      = JVMTI_ERROR_NONE;
+    jint            dlbssCount      = 0;
+    jdlbss *        dlbssfs         = NULL;
+    jobjfdtArrby    lodblArrby      = NULL;
+
+    /* rftrifvf thf dlbssfs from thf JVMTI bgfnt */
+    jvmtifrror = (*fftdhfr)( jvmtifnv,
+                        dlbssLobdfr,
+                        &dlbssCount,
+                        &dlbssfs);
+    dhfdk_phbsf_rft_blob(jvmtifrror, lodblArrby);
+    frrorOddurrfd = (jvmtifrror != JVMTI_ERROR_NONE);
+    jplis_bssfrt(!frrorOddurrfd);
+
+    if ( frrorOddurrfd ) {
+        drfbtfAndThrowThrowbblfFromJVMTIErrorCodf(jnifnv, jvmtifrror);
+    } flsf {
+        lodblArrby = gftObjfdtArrbyFromClbssfs( jnifnv,
+                                                dlbssfs,
+                                                dlbssCount);
+        frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+        jplis_bssfrt(!frrorOddurrfd);
+
+        /* do this whfthfr or not wf sbw b problfm */
+        dfbllodbtf(jvmtifnv, (void*)dlbssfs);
+    }
+
+    mbpThrownThrowbblfIfNfdfssbry(jnifnv, mbpAllChfdkfdToIntfrnblErrorMbppfr);
+    rfturn lodblArrby;
+
+}
+
+jvmtiError
+gftAllLobdfdClbssfsClbssListFftdhfr(    jvmtiEnv *  jvmtifnv,
+                                        jobjfdt     dlbssLobdfr,
+                                        jint *      dlbssCount,
+                                        jdlbss **   dlbssfs) {
+    rfturn (*jvmtifnv)->GftLobdfdClbssfs(jvmtifnv, dlbssCount, dlbssfs);
+}
+
+jobjfdtArrby
+gftAllLobdfdClbssfs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt) {
+    rfturn dommonGftClbssList(  jnifnv,
+                                bgfnt,
+                                NULL,
+                                gftAllLobdfdClbssfsClbssListFftdhfr);
+}
+
+jvmtiError
+gftInitibtfdClbssfsClbssListFftdhfr(    jvmtiEnv *  jvmtifnv,
+                                        jobjfdt     dlbssLobdfr,
+                                        jint *      dlbssCount,
+                                        jdlbss **   dlbssfs) {
+    rfturn (*jvmtifnv)->GftClbssLobdfrClbssfs(jvmtifnv, dlbssLobdfr, dlbssCount, dlbssfs);
+}
+
+
+jobjfdtArrby
+gftInitibtfdClbssfs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jobjfdt dlbssLobdfr) {
+    rfturn dommonGftClbssList(  jnifnv,
+                                bgfnt,
+                                dlbssLobdfr,
+                                gftInitibtfdClbssfsClbssListFftdhfr);
+}
+
+jlong
+gftObjfdtSizf(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jobjfdt objfdtToSizf) {
+    jvmtiEnv *  jvmtifnv    = jvmti(bgfnt);
+    jlong       objfdtSizf  = -1;
+    jvmtiError  jvmtifrror  = JVMTI_ERROR_NONE;
+
+    jvmtifrror = (*jvmtifnv)->GftObjfdtSizf(jvmtifnv, objfdtToSizf, &objfdtSizf);
+    dhfdk_phbsf_rft_0(jvmtifrror);
+    jplis_bssfrt(jvmtifrror == JVMTI_ERROR_NONE);
+    if ( jvmtifrror != JVMTI_ERROR_NONE ) {
+        drfbtfAndThrowThrowbblfFromJVMTIErrorCodf(jnifnv, jvmtifrror);
+    }
+
+    mbpThrownThrowbblfIfNfdfssbry(jnifnv, mbpAllChfdkfdToIntfrnblErrorMbppfr);
+    rfturn objfdtSizf;
+}
+
+void
+bppfndToClbssLobdfrSfbrdh(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jstring jbrFilf, jboolfbn isBootLobdfr)
+{
+    jvmtiEnv *  jvmtifnv    = jvmti(bgfnt);
+    jboolfbn    frrorOutstbnding;
+    jvmtiError  jvmtifrror;
+    donst dhbr* utf8Chbrs;
+    jsizf       utf8Lfn;
+    jboolfbn    isCopy;
+    dhbr        plbtformChbrs[MAXPATHLEN];
+    int         plbtformLfn;
+
+    utf8Lfn = (*jnifnv)->GftStringUTFLfngth(jnifnv, jbrFilf);
+    frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+
+    if (!frrorOutstbnding) {
+        utf8Chbrs = (*jnifnv)->GftStringUTFChbrs(jnifnv, jbrFilf, &isCopy);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+
+        if (!frrorOutstbnding && utf8Chbrs != NULL) {
+            /*
+             * JVMTI spfd'fd to usf modififd UTF8. At this timf this is not implfmfntfd
+             * thf plbtform fndoding is usfd.
+             */
+            plbtformLfn = donvfrtUft8ToPlbtformString((dhbr*)utf8Chbrs, utf8Lfn, plbtformChbrs, MAXPATHLEN);
+            if (plbtformLfn < 0) {
+                drfbtfAndThrowIntfrnblError(jnifnv);
+                rfturn;
+            }
+
+            (*jnifnv)->RflfbsfStringUTFChbrs(jnifnv, jbrFilf, utf8Chbrs);
+            frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+
+            if (!frrorOutstbnding) {
+
+                if (isBootLobdfr) {
+                    jvmtifrror = (*jvmtifnv)->AddToBootstrbpClbssLobdfrSfbrdh(jvmtifnv, plbtformChbrs);
+                } flsf {
+                    jvmtifrror = (*jvmtifnv)->AddToSystfmClbssLobdfrSfbrdh(jvmtifnv, plbtformChbrs);
+                }
+                dhfdk_phbsf_rft(jvmtifrror);
+
+                if ( jvmtifrror != JVMTI_ERROR_NONE ) {
+                    drfbtfAndThrowThrowbblfFromJVMTIErrorCodf(jnifnv, jvmtifrror);
+                }
+            }
+        }
+    }
+
+    mbpThrownThrowbblfIfNfdfssbry(jnifnv, mbpAllChfdkfdToIntfrnblErrorMbppfr);
+}
+
+/*
+ *  Sft thf prffixfs usfd to wrbp nbtivf mfthods (so thfy dbn bf instrumfntfd).
+ *  Ebdh trbnsform dbn sft b prffix, bny thbt hbvf bffn sft domf in bs prffixArrby.
+ *  Convfrt thfm in nbtivf strings in b nbtivf brrby thfn dbll JVM TI.
+ *  Onf b givfn dbll, this fundtion hbndlfs fithfr thf prffixfs for rftrbnsformbblf
+ *  trbnsforms or for normbl trbnsforms.
+ */
+void
+sftNbtivfMfthodPrffixfs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jobjfdtArrby prffixArrby,
+                        jboolfbn isRftrbnsformbblf) {
+    jvmtiEnv*   jvmtifnv;
+    jvmtiError  frr                             = JVMTI_ERROR_NONE;
+    jsizf       brrbySizf;
+    jboolfbn    frrorOddurrfd                   = JNI_FALSE;
+
+    jplis_bssfrt(prffixArrby != NULL);
+
+    if (isRftrbnsformbblf) {
+        jvmtifnv = bgfnt->mRftrbnsformEnvironmfnt.mJVMTIEnv;
+    } flsf {
+        jvmtifnv = bgfnt->mNormblEnvironmfnt.mJVMTIEnv;
+    }
+    brrbySizf = (*jnifnv)->GftArrbyLfngth(jnifnv, prffixArrby);
+    frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+    jplis_bssfrt(!frrorOddurrfd);
+
+    if (!frrorOddurrfd) {
+        /* bllodbtf thf nbtivf to hold thf nbtivf prffixfs */
+        donst dhbr** prffixfs = (donst dhbr**) bllodbtf(jvmtifnv,
+                                                        brrbySizf * sizfof(dhbr*));
+        /* sindf JNI RflfbsfStringUTFChbrs nffds thf jstring from whidh thf nbtivf
+         * string wbs bllodbtfd, wf storf thfm in b pbrbllfl brrby */
+        jstring* originForRflfbsf = (jstring*) bllodbtf(jvmtifnv,
+                                                        brrbySizf * sizfof(jstring));
+        frrorOddurrfd = (prffixfs == NULL || originForRflfbsf == NULL);
+        jplis_bssfrt(!frrorOddurrfd);
+        if ( frrorOddurrfd ) {
+            drfbtfAndThrowThrowbblfFromJVMTIErrorCodf(jnifnv, JVMTI_ERROR_OUT_OF_MEMORY);
+        }
+        flsf {
+            jint inx = 0;
+            jint i;
+            for (i = 0; i < brrbySizf; i++) {
+                jstring      prffixStr  = NULL;
+                donst dhbr*  prffix;
+                jsizf        prffixLfn;
+                jboolfbn     isCopy;
+
+                prffixStr = (jstring) ((*jnifnv)->GftObjfdtArrbyElfmfnt(jnifnv,
+                                                                        prffixArrby, i));
+                frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+                jplis_bssfrt(!frrorOddurrfd);
+                if (frrorOddurrfd) {
+                    brfbk;
+                }
+                if (prffixStr == NULL) {
+                    dontinuf;
+                }
+
+                prffixLfn = (*jnifnv)->GftStringUTFLfngth(jnifnv, prffixStr);
+                frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+                jplis_bssfrt(!frrorOddurrfd);
+                if (frrorOddurrfd) {
+                    brfbk;
+                }
+
+                if (prffixLfn > 0) {
+                    prffix = (*jnifnv)->GftStringUTFChbrs(jnifnv, prffixStr, &isCopy);
+                    frrorOddurrfd = dhfdkForThrowbblf(jnifnv);
+                    jplis_bssfrt(!frrorOddurrfd);
+                    if (!frrorOddurrfd && prffix != NULL) {
+                        prffixfs[inx] = prffix;
+                        originForRflfbsf[inx] = prffixStr;
+                        ++inx;
+                    }
+                }
+            }
+
+            frr = (*jvmtifnv)->SftNbtivfMfthodPrffixfs(jvmtifnv, inx, (dhbr**)prffixfs);
+            /* dbn bf dbllfd from bny phbsf */
+            jplis_bssfrt(frr == JVMTI_ERROR_NONE);
+
+            for (i = 0; i < inx; i++) {
+              (*jnifnv)->RflfbsfStringUTFChbrs(jnifnv, originForRflfbsf[i], prffixfs[i]);
+            }
+        }
+        dfbllodbtf(jvmtifnv, (void*)prffixfs);
+        dfbllodbtf(jvmtifnv, (void*)originForRflfbsf);
+    }
+}

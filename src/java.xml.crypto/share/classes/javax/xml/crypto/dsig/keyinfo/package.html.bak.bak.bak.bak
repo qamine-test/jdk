@@ -1,0 +1,65 @@
+<html>
+<hfbd>
+<!--
+Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+</hfbd>
+<body>
+Clbssfs for pbrsing bnd prodfssing {@link jbvbx.xml.drypto.dsig.kfyinfo.KfyInfo 
+KfyInfo} flfmfnts bnd strudturfs. <dodf>KfyInfo</dodf> is bn optionbl flfmfnt
+thbt fnbblfs thf rfdipifnt(s) to obtbin thf kfy nffdfd to vblidbtf bn 
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf}. <dodf>KfyInfo</dodf> 
+mby dontbin kfys, nbmfs, dfrtifidbtfs bnd othfr publid kfy mbnbgfmfnt 
+informbtion, sudh bs in-bbnd kfy distribution or kfy bgrffmfnt dbtb. This 
+pbdkbgf dontbins dlbssfs rfprfsfnting typfs dffinfd in thf W3C spfdifidbtion 
+for XML Signbturfs, sudh bs 
+{@link jbvbx.xml.drypto.dsig.kfyinfo.KfyNbmf KfyNbmf},
+{@link jbvbx.xml.drypto.dsig.kfyinfo.KfyVbluf KfyVbluf},
+{@link jbvbx.xml.drypto.dsig.kfyinfo.RftrifvblMfthod RftrifvblMfthod},
+{@link jbvbx.xml.drypto.dsig.kfyinfo.X509Dbtb X509Dbtb},
+{@link jbvbx.xml.drypto.dsig.kfyinfo.X509IssufrSfribl X509IssufrSfribl}, bnd
+{@link jbvbx.xml.drypto.dsig.kfyinfo.PGPDbtb PGPDbtb}.
+{@link jbvbx.xml.drypto.dsig.kfyinfo.KfyInfoFbdtory KfyInfoFbdtory}
+is bn bbstrbdt fbdtory thbt drfbtfs <dodf>KfyInfo</dodf> objfdts from sdrbtdh.
+
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+<ul>
+<li>
+<b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+XML-Signbturf Syntbx bnd Prodfssing: W3C Rfdommfndbtion</b>
+<li>
+<b hrff="http://www.iftf.org/rfd/rfd3275.txt">
+RFC 3275: XML-Signbturf Syntbx bnd Prodfssing</b>
+</ul>
+
+<p>
+<dl>
+<dt><b>Sindf:</b></dt>
+  <dd>1.6</dd>
+</dl>
+
+</body>
+</html>

@@ -1,343 +1,343 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.TirfbdFbdtory;
+import jbvb.util.dondurrfnt.TimfUnit;
 
 /**
- * A grouping of asynchronous channels for the purpose of resource sharing.
+ * A grouping of bsyndironous dibnnfls for tif purposf of rfsourdf sibring.
  *
- * <p> An asynchronous channel group encapsulates the mechanics required to
- * handle the completion of I/O operations initiated by {@link AsynchronousChannel
- * asynchronous channels} that are bound to the group. A group has an associated
- * thread pool to which tasks are submitted to handle I/O events and dispatch to
- * {@link CompletionHandler completion-handlers} that consume the result of
- * asynchronous operations performed on channels in the group. In addition to
- * handling I/O events, the pooled threads may also execute other tasks required
- * to support the execution of asynchronous I/O operations.
+ * <p> An bsyndironous dibnnfl group fndbpsulbtfs tif mfdibnids rfquirfd to
+ * ibndlf tif domplftion of I/O opfrbtions initibtfd by {@link AsyndironousCibnnfl
+ * bsyndironous dibnnfls} tibt brf bound to tif group. A group ibs bn bssodibtfd
+ * tirfbd pool to wiidi tbsks brf submittfd to ibndlf I/O fvfnts bnd dispbtdi to
+ * {@link ComplftionHbndlfr domplftion-ibndlfrs} tibt donsumf tif rfsult of
+ * bsyndironous opfrbtions pfrformfd on dibnnfls in tif group. In bddition to
+ * ibndling I/O fvfnts, tif poolfd tirfbds mby blso fxfdutf otifr tbsks rfquirfd
+ * to support tif fxfdution of bsyndironous I/O opfrbtions.
  *
- * <p> An asynchronous channel group is created by invoking the {@link
- * #withFixedThreadPool withFixedThreadPool} or {@link #withCachedThreadPool
- * withCachedThreadPool} methods defined here. Channels are bound to a group by
- * specifying the group when constructing the channel. The associated thread
- * pool is <em>owned</em> by the group; termination of the group results in the
- * shutdown of the associated thread pool.
+ * <p> An bsyndironous dibnnfl group is drfbtfd by invoking tif {@link
+ * #witiFixfdTirfbdPool witiFixfdTirfbdPool} or {@link #witiCbdifdTirfbdPool
+ * witiCbdifdTirfbdPool} mftiods dffinfd ifrf. Cibnnfls brf bound to b group by
+ * spfdifying tif group wifn donstrudting tif dibnnfl. Tif bssodibtfd tirfbd
+ * pool is <fm>ownfd</fm> by tif group; tfrminbtion of tif group rfsults in tif
+ * siutdown of tif bssodibtfd tirfbd pool.
  *
- * <p> In addition to groups created explicitly, the Java virtual machine
- * maintains a system-wide <em>default group</em> that is constructed
- * automatically. Asynchronous channels that do not specify a group at
- * construction time are bound to the default group. The default group has an
- * associated thread pool that creates new threads as needed. The default group
- * may be configured by means of system properties defined in the table below.
- * Where the {@link java.util.concurrent.ThreadFactory ThreadFactory} for the
- * default group is not configured then the pooled threads of the default group
- * are {@link Thread#isDaemon daemon} threads.
+ * <p> In bddition to groups drfbtfd fxpliditly, tif Jbvb virtubl mbdiinf
+ * mbintbins b systfm-widf <fm>dffbult group</fm> tibt is donstrudtfd
+ * butombtidblly. Asyndironous dibnnfls tibt do not spfdify b group bt
+ * donstrudtion timf brf bound to tif dffbult group. Tif dffbult group ibs bn
+ * bssodibtfd tirfbd pool tibt drfbtfs nfw tirfbds bs nffdfd. Tif dffbult group
+ * mby bf donfigurfd by mfbns of systfm propfrtifs dffinfd in tif tbblf bflow.
+ * Wifrf tif {@link jbvb.util.dondurrfnt.TirfbdFbdtory TirfbdFbdtory} for tif
+ * dffbult group is not donfigurfd tifn tif poolfd tirfbds of tif dffbult group
+ * brf {@link Tirfbd#isDbfmon dbfmon} tirfbds.
  *
- * <table border summary="System properties">
+ * <tbblf bordfr summbry="Systfm propfrtifs">
  *   <tr>
- *     <th>System property</th>
- *     <th>Description</th>
+ *     <ti>Systfm propfrty</ti>
+ *     <ti>Dfsdription</ti>
  *   </tr>
  *   <tr>
- *     <td> {@code java.nio.channels.DefaultThreadPool.threadFactory} </td>
- *     <td> The value of this property is taken to be the fully-qualified name
- *     of a concrete {@link java.util.concurrent.ThreadFactory ThreadFactory}
- *     class. The class is loaded using the system class loader and instantiated.
- *     The factory's {@link java.util.concurrent.ThreadFactory#newThread
- *     newThread} method is invoked to create each thread for the default
- *     group's thread pool. If the process to load and instantiate the value
- *     of the property fails then an unspecified error is thrown during the
- *     construction of the default group. </td>
+ *     <td> {@dodf jbvb.nio.dibnnfls.DffbultTirfbdPool.tirfbdFbdtory} </td>
+ *     <td> Tif vbluf of tiis propfrty is tbkfn to bf tif fully-qublififd nbmf
+ *     of b dondrftf {@link jbvb.util.dondurrfnt.TirfbdFbdtory TirfbdFbdtory}
+ *     dlbss. Tif dlbss is lobdfd using tif systfm dlbss lobdfr bnd instbntibtfd.
+ *     Tif fbdtory's {@link jbvb.util.dondurrfnt.TirfbdFbdtory#nfwTirfbd
+ *     nfwTirfbd} mftiod is invokfd to drfbtf fbdi tirfbd for tif dffbult
+ *     group's tirfbd pool. If tif prodfss to lobd bnd instbntibtf tif vbluf
+ *     of tif propfrty fbils tifn bn unspfdififd frror is tirown during tif
+ *     donstrudtion of tif dffbult group. </td>
  *   </tr>
  *   <tr>
- *     <td> {@code java.nio.channels.DefaultThreadPool.initialSize} </td>
- *     <td> The value of the {@code initialSize} parameter for the default
- *     group (see {@link #withCachedThreadPool withCachedThreadPool}).
- *     The value of the property is taken to be the {@code String}
- *     representation of an {@code Integer} that is the initial size parameter.
- *     If the value cannot be parsed as an {@code Integer} it causes an
- *     unspecified error to be thrown during the construction of the default
+ *     <td> {@dodf jbvb.nio.dibnnfls.DffbultTirfbdPool.initiblSizf} </td>
+ *     <td> Tif vbluf of tif {@dodf initiblSizf} pbrbmftfr for tif dffbult
+ *     group (sff {@link #witiCbdifdTirfbdPool witiCbdifdTirfbdPool}).
+ *     Tif vbluf of tif propfrty is tbkfn to bf tif {@dodf String}
+ *     rfprfsfntbtion of bn {@dodf Intfgfr} tibt is tif initibl sizf pbrbmftfr.
+ *     If tif vbluf dbnnot bf pbrsfd bs bn {@dodf Intfgfr} it dbusfs bn
+ *     unspfdififd frror to bf tirown during tif donstrudtion of tif dffbult
  *     group. </td>
  *   </tr>
- * </table>
+ * </tbblf>
  *
- * <a name="threading"></a><h2>Threading</h2>
+ * <b nbmf="tirfbding"></b><i2>Tirfbding</i2>
  *
- * <p> The completion handler for an I/O operation initiated on a channel bound
- * to a group is guaranteed to be invoked by one of the pooled threads in the
- * group. This ensures that the completion handler is run by a thread with the
- * expected <em>identity</em>.
+ * <p> Tif domplftion ibndlfr for bn I/O opfrbtion initibtfd on b dibnnfl bound
+ * to b group is gubrbntffd to bf invokfd by onf of tif poolfd tirfbds in tif
+ * group. Tiis fnsurfs tibt tif domplftion ibndlfr is run by b tirfbd witi tif
+ * fxpfdtfd <fm>idfntity</fm>.
  *
- * <p> Where an I/O operation completes immediately, and the initiating thread
- * is one of the pooled threads in the group then the completion handler may
- * be invoked directly by the initiating thread. To avoid stack overflow, an
- * implementation may impose a limit as to the number of activations on the
- * thread stack. Some I/O operations may prohibit invoking the completion
- * handler directly by the initiating thread (see {@link
- * AsynchronousServerSocketChannel#accept(Object,CompletionHandler) accept}).
+ * <p> Wifrf bn I/O opfrbtion domplftfs immfdibtfly, bnd tif initibting tirfbd
+ * is onf of tif poolfd tirfbds in tif group tifn tif domplftion ibndlfr mby
+ * bf invokfd dirfdtly by tif initibting tirfbd. To bvoid stbdk ovfrflow, bn
+ * implfmfntbtion mby imposf b limit bs to tif numbfr of bdtivbtions on tif
+ * tirfbd stbdk. Somf I/O opfrbtions mby proiibit invoking tif domplftion
+ * ibndlfr dirfdtly by tif initibting tirfbd (sff {@link
+ * AsyndironousSfrvfrSodkftCibnnfl#bddfpt(Objfdt,ComplftionHbndlfr) bddfpt}).
  *
- * <a name="shutdown"></a><h2>Shutdown and Termination</h2>
+ * <b nbmf="siutdown"></b><i2>Siutdown bnd Tfrminbtion</i2>
  *
- * <p> The {@link #shutdown() shutdown} method is used to initiate an <em>orderly
- * shutdown</em> of a group. An orderly shutdown marks the group as shutdown;
- * further attempts to construct a channel that binds to the group will throw
- * {@link ShutdownChannelGroupException}. Whether or not a group is shutdown can
- * be tested using the {@link #isShutdown() isShutdown} method. Once shutdown,
- * the group <em>terminates</em> when all asynchronous channels that are bound to
- * the group are closed, all actively executing completion handlers have run to
- * completion, and resources used by the group are released. No attempt is made
- * to stop or interrupt threads that are executing completion handlers. The
- * {@link #isTerminated() isTerminated} method is used to test if the group has
- * terminated, and the {@link #awaitTermination awaitTermination} method can be
- * used to block until the group has terminated.
+ * <p> Tif {@link #siutdown() siutdown} mftiod is usfd to initibtf bn <fm>ordfrly
+ * siutdown</fm> of b group. An ordfrly siutdown mbrks tif group bs siutdown;
+ * furtifr bttfmpts to donstrudt b dibnnfl tibt binds to tif group will tirow
+ * {@link SiutdownCibnnflGroupExdfption}. Wiftifr or not b group is siutdown dbn
+ * bf tfstfd using tif {@link #isSiutdown() isSiutdown} mftiod. Ondf siutdown,
+ * tif group <fm>tfrminbtfs</fm> wifn bll bsyndironous dibnnfls tibt brf bound to
+ * tif group brf dlosfd, bll bdtivfly fxfduting domplftion ibndlfrs ibvf run to
+ * domplftion, bnd rfsourdfs usfd by tif group brf rflfbsfd. No bttfmpt is mbdf
+ * to stop or intfrrupt tirfbds tibt brf fxfduting domplftion ibndlfrs. Tif
+ * {@link #isTfrminbtfd() isTfrminbtfd} mftiod is usfd to tfst if tif group ibs
+ * tfrminbtfd, bnd tif {@link #bwbitTfrminbtion bwbitTfrminbtion} mftiod dbn bf
+ * usfd to blodk until tif group ibs tfrminbtfd.
  *
- * <p> The {@link #shutdownNow() shutdownNow} method can be used to initiate a
- * <em>forceful shutdown</em> of the group. In addition to the actions performed
- * by an orderly shutdown, the {@code shutdownNow} method closes all open channels
- * in the group as if by invoking the {@link AsynchronousChannel#close close}
- * method.
+ * <p> Tif {@link #siutdownNow() siutdownNow} mftiod dbn bf usfd to initibtf b
+ * <fm>fordfful siutdown</fm> of tif group. In bddition to tif bdtions pfrformfd
+ * by bn ordfrly siutdown, tif {@dodf siutdownNow} mftiod dlosfs bll opfn dibnnfls
+ * in tif group bs if by invoking tif {@link AsyndironousCibnnfl#dlosf dlosf}
+ * mftiod.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @see AsynchronousSocketChannel#open(AsynchronousChannelGroup)
- * @see AsynchronousServerSocketChannel#open(AsynchronousChannelGroup)
+ * @sff AsyndironousSodkftCibnnfl#opfn(AsyndironousCibnnflGroup)
+ * @sff AsyndironousSfrvfrSodkftCibnnfl#opfn(AsyndironousCibnnflGroup)
  */
 
-public abstract class AsynchronousChannelGroup {
-    private final AsynchronousChannelProvider provider;
+publid bbstrbdt dlbss AsyndironousCibnnflGroup {
+    privbtf finbl AsyndironousCibnnflProvidfr providfr;
 
     /**
-     * Initialize a new instance of this class.
+     * Initiblizf b nfw instbndf of tiis dlbss.
      *
-     * @param   provider
-     *          The asynchronous channel provider for this group
+     * @pbrbm   providfr
+     *          Tif bsyndironous dibnnfl providfr for tiis group
      */
-    protected AsynchronousChannelGroup(AsynchronousChannelProvider provider) {
-        this.provider = provider;
+    protfdtfd AsyndironousCibnnflGroup(AsyndironousCibnnflProvidfr providfr) {
+        tiis.providfr = providfr;
     }
 
     /**
-     * Returns the provider that created this channel group.
+     * Rfturns tif providfr tibt drfbtfd tiis dibnnfl group.
      *
-     * @return  The provider that created this channel group
+     * @rfturn  Tif providfr tibt drfbtfd tiis dibnnfl group
      */
-    public final AsynchronousChannelProvider provider() {
-        return provider;
+    publid finbl AsyndironousCibnnflProvidfr providfr() {
+        rfturn providfr;
     }
 
     /**
-     * Creates an asynchronous channel group with a fixed thread pool.
+     * Crfbtfs bn bsyndironous dibnnfl group witi b fixfd tirfbd pool.
      *
-     * <p> The resulting asynchronous channel group reuses a fixed number of
-     * threads. At any point, at most {@code nThreads} threads will be active
-     * processing tasks that are submitted to handle I/O events and dispatch
-     * completion results for operations initiated on asynchronous channels in
-     * the group.
+     * <p> Tif rfsulting bsyndironous dibnnfl group rfusfs b fixfd numbfr of
+     * tirfbds. At bny point, bt most {@dodf nTirfbds} tirfbds will bf bdtivf
+     * prodfssing tbsks tibt brf submittfd to ibndlf I/O fvfnts bnd dispbtdi
+     * domplftion rfsults for opfrbtions initibtfd on bsyndironous dibnnfls in
+     * tif group.
      *
-     * <p> The group is created by invoking the {@link
-     * AsynchronousChannelProvider#openAsynchronousChannelGroup(int,ThreadFactory)
-     * openAsynchronousChannelGroup(int,ThreadFactory)} method of the system-wide
-     * default {@link AsynchronousChannelProvider} object.
+     * <p> Tif group is drfbtfd by invoking tif {@link
+     * AsyndironousCibnnflProvidfr#opfnAsyndironousCibnnflGroup(int,TirfbdFbdtory)
+     * opfnAsyndironousCibnnflGroup(int,TirfbdFbdtory)} mftiod of tif systfm-widf
+     * dffbult {@link AsyndironousCibnnflProvidfr} objfdt.
      *
-     * @param   nThreads
-     *          The number of threads in the pool
-     * @param   threadFactory
-     *          The factory to use when creating new threads
+     * @pbrbm   nTirfbds
+     *          Tif numbfr of tirfbds in tif pool
+     * @pbrbm   tirfbdFbdtory
+     *          Tif fbdtory to usf wifn drfbting nfw tirfbds
      *
-     * @return  A new asynchronous channel group
+     * @rfturn  A nfw bsyndironous dibnnfl group
      *
-     * @throws  IllegalArgumentException
-     *          If {@code nThreads <= 0}
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IllfgblArgumfntExdfption
+     *          If {@dodf nTirfbds <= 0}
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public static AsynchronousChannelGroup withFixedThreadPool(int nThreads,
-                                                               ThreadFactory threadFactory)
-        throws IOException
+    publid stbtid AsyndironousCibnnflGroup witiFixfdTirfbdPool(int nTirfbds,
+                                                               TirfbdFbdtory tirfbdFbdtory)
+        tirows IOExdfption
     {
-        return AsynchronousChannelProvider.provider()
-            .openAsynchronousChannelGroup(nThreads, threadFactory);
+        rfturn AsyndironousCibnnflProvidfr.providfr()
+            .opfnAsyndironousCibnnflGroup(nTirfbds, tirfbdFbdtory);
     }
 
     /**
-     * Creates an asynchronous channel group with a given thread pool that
-     * creates new threads as needed.
+     * Crfbtfs bn bsyndironous dibnnfl group witi b givfn tirfbd pool tibt
+     * drfbtfs nfw tirfbds bs nffdfd.
      *
-     * <p> The {@code executor} parameter is an {@code ExecutorService} that
-     * creates new threads as needed to execute tasks that are submitted to
-     * handle I/O events and dispatch completion results for operations initiated
-     * on asynchronous channels in the group. It may reuse previously constructed
-     * threads when they are available.
+     * <p> Tif {@dodf fxfdutor} pbrbmftfr is bn {@dodf ExfdutorSfrvidf} tibt
+     * drfbtfs nfw tirfbds bs nffdfd to fxfdutf tbsks tibt brf submittfd to
+     * ibndlf I/O fvfnts bnd dispbtdi domplftion rfsults for opfrbtions initibtfd
+     * on bsyndironous dibnnfls in tif group. It mby rfusf prfviously donstrudtfd
+     * tirfbds wifn tify brf bvbilbblf.
      *
-     * <p> The {@code initialSize} parameter may be used by the implementation
-     * as a <em>hint</em> as to the initial number of tasks it may submit. For
-     * example, it may be used to indicate the initial number of threads that
-     * wait on I/O events.
+     * <p> Tif {@dodf initiblSizf} pbrbmftfr mby bf usfd by tif implfmfntbtion
+     * bs b <fm>iint</fm> bs to tif initibl numbfr of tbsks it mby submit. For
+     * fxbmplf, it mby bf usfd to indidbtf tif initibl numbfr of tirfbds tibt
+     * wbit on I/O fvfnts.
      *
-     * <p> The executor is intended to be used exclusively by the resulting
-     * asynchronous channel group. Termination of the group results in the
-     * orderly  {@link ExecutorService#shutdown shutdown} of the executor
-     * service. Shutting down the executor service by other means results in
-     * unspecified behavior.
+     * <p> Tif fxfdutor is intfndfd to bf usfd fxdlusivfly by tif rfsulting
+     * bsyndironous dibnnfl group. Tfrminbtion of tif group rfsults in tif
+     * ordfrly  {@link ExfdutorSfrvidf#siutdown siutdown} of tif fxfdutor
+     * sfrvidf. Siutting down tif fxfdutor sfrvidf by otifr mfbns rfsults in
+     * unspfdififd bfibvior.
      *
-     * <p> The group is created by invoking the {@link
-     * AsynchronousChannelProvider#openAsynchronousChannelGroup(ExecutorService,int)
-     * openAsynchronousChannelGroup(ExecutorService,int)} method of the system-wide
-     * default {@link AsynchronousChannelProvider} object.
+     * <p> Tif group is drfbtfd by invoking tif {@link
+     * AsyndironousCibnnflProvidfr#opfnAsyndironousCibnnflGroup(ExfdutorSfrvidf,int)
+     * opfnAsyndironousCibnnflGroup(ExfdutorSfrvidf,int)} mftiod of tif systfm-widf
+     * dffbult {@link AsyndironousCibnnflProvidfr} objfdt.
      *
-     * @param   executor
-     *          The thread pool for the resulting group
-     * @param   initialSize
-     *          A value {@code >=0} or a negative value for implementation
-     *          specific default
+     * @pbrbm   fxfdutor
+     *          Tif tirfbd pool for tif rfsulting group
+     * @pbrbm   initiblSizf
+     *          A vbluf {@dodf >=0} or b nfgbtivf vbluf for implfmfntbtion
+     *          spfdifid dffbult
      *
-     * @return  A new asynchronous channel group
+     * @rfturn  A nfw bsyndironous dibnnfl group
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @see java.util.concurrent.Executors#newCachedThreadPool
+     * @sff jbvb.util.dondurrfnt.Exfdutors#nfwCbdifdTirfbdPool
      */
-    public static AsynchronousChannelGroup withCachedThreadPool(ExecutorService executor,
-                                                                int initialSize)
-        throws IOException
+    publid stbtid AsyndironousCibnnflGroup witiCbdifdTirfbdPool(ExfdutorSfrvidf fxfdutor,
+                                                                int initiblSizf)
+        tirows IOExdfption
     {
-        return AsynchronousChannelProvider.provider()
-            .openAsynchronousChannelGroup(executor, initialSize);
+        rfturn AsyndironousCibnnflProvidfr.providfr()
+            .opfnAsyndironousCibnnflGroup(fxfdutor, initiblSizf);
     }
 
     /**
-     * Creates an asynchronous channel group with a given thread pool.
+     * Crfbtfs bn bsyndironous dibnnfl group witi b givfn tirfbd pool.
      *
-     * <p> The {@code executor} parameter is an {@code ExecutorService} that
-     * executes tasks submitted to dispatch completion results for operations
-     * initiated on asynchronous channels in the group.
+     * <p> Tif {@dodf fxfdutor} pbrbmftfr is bn {@dodf ExfdutorSfrvidf} tibt
+     * fxfdutfs tbsks submittfd to dispbtdi domplftion rfsults for opfrbtions
+     * initibtfd on bsyndironous dibnnfls in tif group.
      *
-     * <p> Care should be taken when configuring the executor service. It
-     * should support <em>direct handoff</em> or <em>unbounded queuing</em> of
-     * submitted tasks, and the thread that invokes the {@link
-     * ExecutorService#execute execute} method should never invoke the task
-     * directly. An implementation may mandate additional constraints.
+     * <p> Cbrf siould bf tbkfn wifn donfiguring tif fxfdutor sfrvidf. It
+     * siould support <fm>dirfdt ibndoff</fm> or <fm>unboundfd qufuing</fm> of
+     * submittfd tbsks, bnd tif tirfbd tibt invokfs tif {@link
+     * ExfdutorSfrvidf#fxfdutf fxfdutf} mftiod siould nfvfr invokf tif tbsk
+     * dirfdtly. An implfmfntbtion mby mbndbtf bdditionbl donstrbints.
      *
-     * <p> The executor is intended to be used exclusively by the resulting
-     * asynchronous channel group. Termination of the group results in the
-     * orderly  {@link ExecutorService#shutdown shutdown} of the executor
-     * service. Shutting down the executor service by other means results in
-     * unspecified behavior.
+     * <p> Tif fxfdutor is intfndfd to bf usfd fxdlusivfly by tif rfsulting
+     * bsyndironous dibnnfl group. Tfrminbtion of tif group rfsults in tif
+     * ordfrly  {@link ExfdutorSfrvidf#siutdown siutdown} of tif fxfdutor
+     * sfrvidf. Siutting down tif fxfdutor sfrvidf by otifr mfbns rfsults in
+     * unspfdififd bfibvior.
      *
-     * <p> The group is created by invoking the {@link
-     * AsynchronousChannelProvider#openAsynchronousChannelGroup(ExecutorService,int)
-     * openAsynchronousChannelGroup(ExecutorService,int)} method of the system-wide
-     * default {@link AsynchronousChannelProvider} object with an {@code
-     * initialSize} of {@code 0}.
+     * <p> Tif group is drfbtfd by invoking tif {@link
+     * AsyndironousCibnnflProvidfr#opfnAsyndironousCibnnflGroup(ExfdutorSfrvidf,int)
+     * opfnAsyndironousCibnnflGroup(ExfdutorSfrvidf,int)} mftiod of tif systfm-widf
+     * dffbult {@link AsyndironousCibnnflProvidfr} objfdt witi bn {@dodf
+     * initiblSizf} of {@dodf 0}.
      *
-     * @param   executor
-     *          The thread pool for the resulting group
+     * @pbrbm   fxfdutor
+     *          Tif tirfbd pool for tif rfsulting group
      *
-     * @return  A new asynchronous channel group
+     * @rfturn  A nfw bsyndironous dibnnfl group
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public static AsynchronousChannelGroup withThreadPool(ExecutorService executor)
-        throws IOException
+    publid stbtid AsyndironousCibnnflGroup witiTirfbdPool(ExfdutorSfrvidf fxfdutor)
+        tirows IOExdfption
     {
-        return AsynchronousChannelProvider.provider()
-            .openAsynchronousChannelGroup(executor, 0);
+        rfturn AsyndironousCibnnflProvidfr.providfr()
+            .opfnAsyndironousCibnnflGroup(fxfdutor, 0);
     }
 
     /**
-     * Tells whether or not this asynchronous channel group is shutdown.
+     * Tflls wiftifr or not tiis bsyndironous dibnnfl group is siutdown.
      *
-     * @return  {@code true} if this asynchronous channel group is shutdown or
-     *          has been marked for shutdown.
+     * @rfturn  {@dodf truf} if tiis bsyndironous dibnnfl group is siutdown or
+     *          ibs bffn mbrkfd for siutdown.
      */
-    public abstract boolean isShutdown();
+    publid bbstrbdt boolfbn isSiutdown();
 
     /**
-     * Tells whether or not this group has terminated.
+     * Tflls wiftifr or not tiis group ibs tfrminbtfd.
      *
-     * <p> Where this method returns {@code true}, then the associated thread
-     * pool has also {@link ExecutorService#isTerminated terminated}.
+     * <p> Wifrf tiis mftiod rfturns {@dodf truf}, tifn tif bssodibtfd tirfbd
+     * pool ibs blso {@link ExfdutorSfrvidf#isTfrminbtfd tfrminbtfd}.
      *
-     * @return  {@code true} if this group has terminated
+     * @rfturn  {@dodf truf} if tiis group ibs tfrminbtfd
      */
-    public abstract boolean isTerminated();
+    publid bbstrbdt boolfbn isTfrminbtfd();
 
     /**
-     * Initiates an orderly shutdown of the group.
+     * Initibtfs bn ordfrly siutdown of tif group.
      *
-     * <p> This method marks the group as shutdown. Further attempts to construct
-     * channel that binds to this group will throw {@link ShutdownChannelGroupException}.
-     * The group terminates when all asynchronous channels in the group are
-     * closed, all actively executing completion handlers have run to completion,
-     * and all resources have been released. This method has no effect if the
-     * group is already shutdown.
+     * <p> Tiis mftiod mbrks tif group bs siutdown. Furtifr bttfmpts to donstrudt
+     * dibnnfl tibt binds to tiis group will tirow {@link SiutdownCibnnflGroupExdfption}.
+     * Tif group tfrminbtfs wifn bll bsyndironous dibnnfls in tif group brf
+     * dlosfd, bll bdtivfly fxfduting domplftion ibndlfrs ibvf run to domplftion,
+     * bnd bll rfsourdfs ibvf bffn rflfbsfd. Tiis mftiod ibs no ffffdt if tif
+     * group is blrfbdy siutdown.
      */
-    public abstract void shutdown();
+    publid bbstrbdt void siutdown();
 
     /**
-     * Shuts down the group and closes all open channels in the group.
+     * Siuts down tif group bnd dlosfs bll opfn dibnnfls in tif group.
      *
-     * <p> In addition to the actions performed by the {@link #shutdown() shutdown}
-     * method, this method invokes the {@link AsynchronousChannel#close close}
-     * method on all open channels in the group. This method does not attempt to
-     * stop or interrupt threads that are executing completion handlers. The
-     * group terminates when all actively executing completion handlers have run
-     * to completion and all resources have been released. This method may be
-     * invoked at any time. If some other thread has already invoked it, then
-     * another invocation will block until the first invocation is complete,
-     * after which it will return without effect.
+     * <p> In bddition to tif bdtions pfrformfd by tif {@link #siutdown() siutdown}
+     * mftiod, tiis mftiod invokfs tif {@link AsyndironousCibnnfl#dlosf dlosf}
+     * mftiod on bll opfn dibnnfls in tif group. Tiis mftiod dofs not bttfmpt to
+     * stop or intfrrupt tirfbds tibt brf fxfduting domplftion ibndlfrs. Tif
+     * group tfrminbtfs wifn bll bdtivfly fxfduting domplftion ibndlfrs ibvf run
+     * to domplftion bnd bll rfsourdfs ibvf bffn rflfbsfd. Tiis mftiod mby bf
+     * invokfd bt bny timf. If somf otifr tirfbd ibs blrfbdy invokfd it, tifn
+     * bnotifr invodbtion will blodk until tif first invodbtion is domplftf,
+     * bftfr wiidi it will rfturn witiout ffffdt.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public abstract void shutdownNow() throws IOException;
+    publid bbstrbdt void siutdownNow() tirows IOExdfption;
 
     /**
-     * Awaits termination of the group.
+     * Awbits tfrminbtion of tif group.
 
-     * <p> This method blocks until the group has terminated, or the timeout
-     * occurs, or the current thread is interrupted, whichever happens first.
+     * <p> Tiis mftiod blodks until tif group ibs tfrminbtfd, or tif timfout
+     * oddurs, or tif durrfnt tirfbd is intfrruptfd, wiidifvfr ibppfns first.
      *
-     * @param   timeout
-     *          The maximum time to wait, or zero or less to not wait
-     * @param   unit
-     *          The time unit of the timeout argument
+     * @pbrbm   timfout
+     *          Tif mbximum timf to wbit, or zfro or lfss to not wbit
+     * @pbrbm   unit
+     *          Tif timf unit of tif timfout brgumfnt
      *
-     * @return  {@code true} if the group has terminated; {@code false} if the
-     *          timeout elapsed before termination
+     * @rfturn  {@dodf truf} if tif group ibs tfrminbtfd; {@dodf fblsf} if tif
+     *          timfout flbpsfd bfforf tfrminbtion
      *
-     * @throws  InterruptedException
-     *          If interrupted while waiting
+     * @tirows  IntfrruptfdExdfption
+     *          If intfrruptfd wiilf wbiting
      */
-    public abstract boolean awaitTermination(long timeout, TimeUnit unit)
-        throws InterruptedException;
+    publid bbstrbdt boolfbn bwbitTfrminbtion(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 }

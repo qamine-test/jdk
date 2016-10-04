@@ -1,273 +1,273 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import sun.awt.*;
-import java.awt.*;
-import java.awt.event.InvocationEvent;
-import java.awt.peer.ComponentPeer;
-import java.awt.image.*;
-import sun.awt.image.ByteInterleavedRaster;
-import sun.security.action.GetPropertyAction;
-import java.security.PrivilegedAction;
-import  java.security.AccessController;
+import sun.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.InvodbtionEvfnt;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.imbgf.*;
+import sun.bwt.imbgf.BytfIntfrlfbvfdRbstfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import  jbvb.sfdurity.AddfssControllfr;
 
-@SuppressWarnings("serial") // JDK-implementation class
-public class WEmbeddedFrame extends EmbeddedFrame {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss WEmbfddfdFrbmf fxtfnds EmbfddfdFrbmf {
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    private long handle;
+    privbtf long ibndlf;
 
-    private int bandWidth = 0;
-    private int bandHeight = 0;
-    private int imgWid = 0;
-    private int imgHgt = 0;
+    privbtf int bbndWidti = 0;
+    privbtf int bbndHfigit = 0;
+    privbtf int imgWid = 0;
+    privbtf int imgHgt = 0;
 
-    private static int pScale = 0;
-    private static final int MAX_BAND_SIZE = (1024*30);
+    privbtf stbtid int pSdblf = 0;
+    privbtf stbtid finbl int MAX_BAND_SIZE = (1024*30);
 
-    private static String printScale = AccessController.doPrivileged(
-        new GetPropertyAction("sun.java2d.print.pluginscalefactor"));
+    privbtf stbtid String printSdblf = AddfssControllfr.doPrivilfgfd(
+        nfw GftPropfrtyAdtion("sun.jbvb2d.print.pluginsdblffbdtor"));
 
-    public WEmbeddedFrame() {
-        this((long)0);
+    publid WEmbfddfdFrbmf() {
+        tiis((long)0);
     }
 
     /**
-     * @deprecated This constructor will be removed in 1.5
+     * @dfprfdbtfd Tiis donstrudtor will bf rfmovfd in 1.5
      */
-    @Deprecated
-    public WEmbeddedFrame(int handle) {
-        this((long)handle);
+    @Dfprfdbtfd
+    publid WEmbfddfdFrbmf(int ibndlf) {
+        tiis((long)ibndlf);
     }
 
-    public WEmbeddedFrame(long handle) {
-        this.handle = handle;
-        if (handle != 0) {
-            addNotify();
-            show();
+    publid WEmbfddfdFrbmf(long ibndlf) {
+        tiis.ibndlf = ibndlf;
+        if (ibndlf != 0) {
+            bddNotify();
+            siow();
         }
     }
 
-    @SuppressWarnings("deprecation")
-    public void addNotify() {
-        if (getPeer() == null) {
-            WToolkit toolkit = (WToolkit)Toolkit.getDefaultToolkit();
-            setPeer(toolkit.createEmbeddedFrame(this));
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void bddNotify() {
+        if (gftPffr() == null) {
+            WToolkit toolkit = (WToolkit)Toolkit.gftDffbultToolkit();
+            sftPffr(toolkit.drfbtfEmbfddfdFrbmf(tiis));
         }
-        super.addNotify();
+        supfr.bddNotify();
     }
 
     /*
-     * Get the native handle
+     * Gft tif nbtivf ibndlf
     */
-    public long getEmbedderHandle() {
-        return handle;
+    publid long gftEmbfddfrHbndlf() {
+        rfturn ibndlf;
     }
 
     /*
-     * Print the embedded frame and its children using the specified HDC.
+     * Print tif fmbfddfd frbmf bnd its diildrfn using tif spfdififd HDC.
      */
 
-    void print(long hdc) {
-        BufferedImage bandImage = null;
+    void print(long idd) {
+        BufffrfdImbgf bbndImbgf = null;
 
-        int xscale = 1;
-        int yscale = 1;
+        int xsdblf = 1;
+        int ysdblf = 1;
 
-        /* Is this is either a printer DC or an enhanced meta file DC ?
-         * Mozilla passes in a printer DC, IE passes plug-in a DC for an
-         * enhanced meta file. Its possible we may be passed to a memory
-         * DC. If we here create a larger image, draw in to it and have
-         * that memory DC then lose the image resolution only to scale it
-         * back up again when sending to a printer it will look really bad.
-         * So, is this is either a printer DC or an enhanced meta file DC ?
-         * Scale only if it is. Use a 4x scale factor, partly since for
-         * an enhanced meta file we don't know anything about the
-         * real resolution of the destination.
+        /* Is tiis is fitifr b printfr DC or bn fnibndfd mftb filf DC ?
+         * Mozillb pbssfs in b printfr DC, IE pbssfs plug-in b DC for bn
+         * fnibndfd mftb filf. Its possiblf wf mby bf pbssfd to b mfmory
+         * DC. If wf ifrf drfbtf b lbrgfr imbgf, drbw in to it bnd ibvf
+         * tibt mfmory DC tifn losf tif imbgf rfsolution only to sdblf it
+         * bbdk up bgbin wifn sfnding to b printfr it will look rfblly bbd.
+         * So, is tiis is fitifr b printfr DC or bn fnibndfd mftb filf DC ?
+         * Sdblf only if it is. Usf b 4x sdblf fbdtor, pbrtly sindf for
+         * bn fnibndfd mftb filf wf don't know bnytiing bbout tif
+         * rfbl rfsolution of tif dfstinbtion.
          *
-         * For a printer DC we could probably derive the scale factor to use
-         * by querying LOGPIXELSX/Y, and dividing that by the screen
-         * resolution (typically 96 dpi or 120 dpi) but that would typically
-         * make for even bigger output for marginal extra quality.
-         * But for enhanced meta file we don't know anything about the
-         * real resolution of the destination so
+         * For b printfr DC wf dould probbbly dfrivf tif sdblf fbdtor to usf
+         * by qufrying LOGPIXELSX/Y, bnd dividing tibt by tif sdrffn
+         * rfsolution (typidblly 96 dpi or 120 dpi) but tibt would typidblly
+         * mbkf for fvfn biggfr output for mbrginbl fxtrb qublity.
+         * But for fnibndfd mftb filf wf don't know bnytiing bbout tif
+         * rfbl rfsolution of tif dfstinbtion so
          */
-        if (isPrinterDC(hdc)) {
-            xscale = yscale = getPrintScaleFactor();
+        if (isPrintfrDC(idd)) {
+            xsdblf = ysdblf = gftPrintSdblfFbdtor();
         }
 
-        int frameHeight = getHeight();
-        if (bandImage == null) {
-            bandWidth = getWidth();
-            if (bandWidth % 4 != 0) {
-                bandWidth += (4 - (bandWidth % 4));
+        int frbmfHfigit = gftHfigit();
+        if (bbndImbgf == null) {
+            bbndWidti = gftWidti();
+            if (bbndWidti % 4 != 0) {
+                bbndWidti += (4 - (bbndWidti % 4));
             }
-            if (bandWidth <= 0) {
-                return;
+            if (bbndWidti <= 0) {
+                rfturn;
             }
 
-            bandHeight = Math.min(MAX_BAND_SIZE/bandWidth, frameHeight);
+            bbndHfigit = Mbti.min(MAX_BAND_SIZE/bbndWidti, frbmfHfigit);
 
-            imgWid = bandWidth * xscale;
-            imgHgt = bandHeight * yscale;
-            bandImage = new BufferedImage(imgWid, imgHgt,
-                                          BufferedImage.TYPE_3BYTE_BGR);
+            imgWid = bbndWidti * xsdblf;
+            imgHgt = bbndHfigit * ysdblf;
+            bbndImbgf = nfw BufffrfdImbgf(imgWid, imgHgt,
+                                          BufffrfdImbgf.TYPE_3BYTE_BGR);
         }
 
-        Graphics clearGraphics = bandImage.getGraphics();
-        clearGraphics.setColor(Color.white);
-        Graphics2D g2d = (Graphics2D)bandImage.getGraphics();
-        g2d.translate(0, imgHgt);
-        g2d.scale(xscale, -yscale);
+        Grbpiids dlfbrGrbpiids = bbndImbgf.gftGrbpiids();
+        dlfbrGrbpiids.sftColor(Color.wiitf);
+        Grbpiids2D g2d = (Grbpiids2D)bbndImbgf.gftGrbpiids();
+        g2d.trbnslbtf(0, imgHgt);
+        g2d.sdblf(xsdblf, -ysdblf);
 
-        ByteInterleavedRaster ras = (ByteInterleavedRaster)bandImage.getRaster();
-        byte[] data = ras.getDataStorage();
+        BytfIntfrlfbvfdRbstfr rbs = (BytfIntfrlfbvfdRbstfr)bbndImbgf.gftRbstfr();
+        bytf[] dbtb = rbs.gftDbtbStorbgf();
 
-        for (int bandTop = 0; bandTop < frameHeight; bandTop += bandHeight) {
-            clearGraphics.fillRect(0, 0, bandWidth, bandHeight);
+        for (int bbndTop = 0; bbndTop < frbmfHfigit; bbndTop += bbndHfigit) {
+            dlfbrGrbpiids.fillRfdt(0, 0, bbndWidti, bbndHfigit);
 
-            printComponents(g2d);
-            int imageOffset =0;
-            int currBandHeight = bandHeight;
-            int currImgHeight = imgHgt;
-            if ((bandTop+bandHeight) > frameHeight) {
-                // last band
-                currBandHeight = frameHeight - bandTop;
-                currImgHeight = currBandHeight*yscale;
+            printComponfnts(g2d);
+            int imbgfOffsft =0;
+            int durrBbndHfigit = bbndHfigit;
+            int durrImgHfigit = imgHgt;
+            if ((bbndTop+bbndHfigit) > frbmfHfigit) {
+                // lbst bbnd
+                durrBbndHfigit = frbmfHfigit - bbndTop;
+                durrImgHfigit = durrBbndHfigit*ysdblf;
 
-                // multiply by 3 because the image is a 3 byte BGR
-                imageOffset = imgWid*(imgHgt-currImgHeight)*3;
+                // multiply by 3 bfdbusf tif imbgf is b 3 bytf BGR
+                imbgfOffsft = imgWid*(imgHgt-durrImgHfigit)*3;
             }
 
-            printBand(hdc, data, imageOffset,
-                      0, 0, imgWid, currImgHeight,
-                      0, bandTop, bandWidth, currBandHeight);
-            g2d.translate(0, -bandHeight);
+            printBbnd(idd, dbtb, imbgfOffsft,
+                      0, 0, imgWid, durrImgHfigit,
+                      0, bbndTop, bbndWidti, durrBbndHfigit);
+            g2d.trbnslbtf(0, -bbndHfigit);
         }
     }
 
-    protected static int getPrintScaleFactor() {
-        // check if value is already cached
-        if (pScale != 0)
-            return pScale;
-        if (printScale == null) {
-            // if no system property is specified,
-            // check for environment setting
-            printScale = AccessController.doPrivileged(
-                new PrivilegedAction<String>() {
-                    public String run() {
-                        return System.getenv("JAVA2D_PLUGIN_PRINT_SCALE");
+    protfdtfd stbtid int gftPrintSdblfFbdtor() {
+        // difdk if vbluf is blrfbdy dbdifd
+        if (pSdblf != 0)
+            rfturn pSdblf;
+        if (printSdblf == null) {
+            // if no systfm propfrty is spfdififd,
+            // difdk for fnvironmfnt sftting
+            printSdblf = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<String>() {
+                    publid String run() {
+                        rfturn Systfm.gftfnv("JAVA2D_PLUGIN_PRINT_SCALE");
                     }
                 }
             );
         }
-        int default_printDC_scale = 4;
-        int scale = default_printDC_scale;
-        if (printScale != null) {
+        int dffbult_printDC_sdblf = 4;
+        int sdblf = dffbult_printDC_sdblf;
+        if (printSdblf != null) {
             try {
-                scale = Integer.parseInt(printScale);
-                if (scale > 8 || scale < 1) {
-                    scale = default_printDC_scale;
+                sdblf = Intfgfr.pbrsfInt(printSdblf);
+                if (sdblf > 8 || sdblf < 1) {
+                    sdblf = dffbult_printDC_sdblf;
                 }
-            } catch (NumberFormatException nfe) {
+            } dbtdi (NumbfrFormbtExdfption nff) {
             }
         }
-        pScale = scale;
-        return pScale;
+        pSdblf = sdblf;
+        rfturn pSdblf;
     }
 
 
-    private native boolean isPrinterDC(long hdc);
+    privbtf nbtivf boolfbn isPrintfrDC(long idd);
 
-    private native void printBand(long hdc, byte[] data, int offset, int sx,
-                                  int sy, int swidth, int sheight, int dx,
-                                  int dy, int dwidth, int dheight);
+    privbtf nbtivf void printBbnd(long idd, bytf[] dbtb, int offsft, int sx,
+                                  int sy, int swidti, int sifigit, int dx,
+                                  int dy, int dwidti, int difigit);
 
     /**
-     * Initialize JNI field IDs
+     * Initiblizf JNI fifld IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
     /**
-     * This method is called from the native code when this embedded
-     * frame should be activated. It is expected to be overridden in
-     * subclasses, for example, in plugin to activate the browser
-     * window that contains this embedded frame.
+     * Tiis mftiod is dbllfd from tif nbtivf dodf wifn tiis fmbfddfd
+     * frbmf siould bf bdtivbtfd. It is fxpfdtfd to bf ovfrriddfn in
+     * subdlbssfs, for fxbmplf, in plugin to bdtivbtf tif browsfr
+     * window tibt dontbins tiis fmbfddfd frbmf.
      *
-     * NOTE: This method may be called by privileged threads.
+     * NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
      *     DO NOT INVOKE CLIENT CODE ON THIS THREAD!
      */
-    public void activateEmbeddingTopLevel() {
+    publid void bdtivbtfEmbfddingTopLfvfl() {
     }
 
-    @SuppressWarnings("deprecation")
-    public void synthesizeWindowActivation(final boolean activate) {
-        if (!activate || EventQueue.isDispatchThread()) {
-            ((WFramePeer)getPeer()).emulateActivation(activate);
-        } else {
-            // To avoid focus concurrence b/w IE and EmbeddedFrame
-            // activation is postponed by means of posting it to EDT.
-            Runnable r = new Runnable() {
-                public void run() {
-                    ((WFramePeer)getPeer()).emulateActivation(true);
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void syntifsizfWindowAdtivbtion(finbl boolfbn bdtivbtf) {
+        if (!bdtivbtf || EvfntQufuf.isDispbtdiTirfbd()) {
+            ((WFrbmfPffr)gftPffr()).fmulbtfAdtivbtion(bdtivbtf);
+        } flsf {
+            // To bvoid fodus dondurrfndf b/w IE bnd EmbfddfdFrbmf
+            // bdtivbtion is postponfd by mfbns of posting it to EDT.
+            Runnbblf r = nfw Runnbblf() {
+                publid void run() {
+                    ((WFrbmfPffr)gftPffr()).fmulbtfAdtivbtion(truf);
                 }
             };
-            WToolkit.postEvent(WToolkit.targetToAppContext(this),
-                               new InvocationEvent(this, r));
+            WToolkit.postEvfnt(WToolkit.tbrgftToAppContfxt(tiis),
+                               nfw InvodbtionEvfnt(tiis, r));
         }
     }
 
-    public void registerAccelerator(AWTKeyStroke stroke) {}
-    public void unregisterAccelerator(AWTKeyStroke stroke) {}
+    publid void rfgistfrAddflfrbtor(AWTKfyStrokf strokf) {}
+    publid void unrfgistfrAddflfrbtor(AWTKfyStrokf strokf) {}
 
     /**
-     * Should be overridden in subclasses. Call to
-     *     super.notifyModalBlocked(blocker, blocked) must be present
-     *     when overriding.
-     * It may occur that embedded frame is not put into its
-     *     container at the moment when it is blocked, for example,
-     *     when running an applet in IE. Then the call to this method
-     *     should be delayed until embedded frame is reparented.
+     * Siould bf ovfrriddfn in subdlbssfs. Cbll to
+     *     supfr.notifyModblBlodkfd(blodkfr, blodkfd) must bf prfsfnt
+     *     wifn ovfrriding.
+     * It mby oddur tibt fmbfddfd frbmf is not put into its
+     *     dontbinfr bt tif momfnt wifn it is blodkfd, for fxbmplf,
+     *     wifn running bn bpplft in IE. Tifn tif dbll to tiis mftiod
+     *     siould bf dflbyfd until fmbfddfd frbmf is rfpbrfntfd.
      *
-     * NOTE: This method may be called by privileged threads.
+     * NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
      *     DO NOT INVOKE CLIENT CODE ON THIS THREAD!
      */
-    public void notifyModalBlocked(Dialog blocker, boolean blocked) {
+    publid void notifyModblBlodkfd(Diblog blodkfr, boolfbn blodkfd) {
         try {
-            ComponentPeer thisPeer = (ComponentPeer)WToolkit.targetToPeer(this);
-            ComponentPeer blockerPeer = (ComponentPeer)WToolkit.targetToPeer(blocker);
-            notifyModalBlockedImpl((WEmbeddedFramePeer)thisPeer,
-                                   (WWindowPeer)blockerPeer, blocked);
-        } catch (Exception z) {
-            z.printStackTrace(System.err);
+            ComponfntPffr tiisPffr = (ComponfntPffr)WToolkit.tbrgftToPffr(tiis);
+            ComponfntPffr blodkfrPffr = (ComponfntPffr)WToolkit.tbrgftToPffr(blodkfr);
+            notifyModblBlodkfdImpl((WEmbfddfdFrbmfPffr)tiisPffr,
+                                   (WWindowPffr)blodkfrPffr, blodkfd);
+        } dbtdi (Exdfption z) {
+            z.printStbdkTrbdf(Systfm.frr);
         }
     }
-    native void notifyModalBlockedImpl(WEmbeddedFramePeer peer, WWindowPeer blockerPeer, boolean blocked);
+    nbtivf void notifyModblBlodkfdImpl(WEmbfddfdFrbmfPffr pffr, WWindowPffr blodkfrPffr, boolfbn blodkfd);
 }

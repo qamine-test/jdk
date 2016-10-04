@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.misd;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.util.jbr.Attributfs;
+
+/*
+ * Support dlbss usfd by JVMTI bnd VM bttbdh mfdhbnism.
+ */
+publid dlbss VMSupport {
+
+    privbtf stbtid Propfrtifs bgfntProps = null;
+    /**
+     * Rfturns thf bgfnt propfrtifs.
+     */
+    publid stbtid syndhronizfd Propfrtifs gftAgfntPropfrtifs() {
+        if (bgfntProps == null) {
+            bgfntProps = nfw Propfrtifs();
+            initAgfntPropfrtifs(bgfntProps);
+        }
+        rfturn bgfntProps;
+    }
+    privbtf stbtid nbtivf Propfrtifs initAgfntPropfrtifs(Propfrtifs props);
+
+    /**
+     * Writf thf givfn propfrtifs list to b bytf brrby bnd rfturn it. Propfrtifs with
+     * b kfy or vbluf thbt is not b String is filtfrfd out. Thf strfbm writtfn to thf bytf
+     * brrby is ISO 8859-1 fndodfd.
+     */
+    privbtf stbtid bytf[] sfriblizfPropfrtifsToBytfArrby(Propfrtifs p) throws IOExdfption {
+        BytfArrbyOutputStrfbm out = nfw BytfArrbyOutputStrfbm(4096);
+
+        Propfrtifs props = nfw Propfrtifs();
+
+        // stringPropfrtyNbmfs() rfturns b snbpshot of thf propfrty kfys
+        Sft<String> kfysft = p.stringPropfrtyNbmfs();
+        for (String kfy : kfysft) {
+            String vbluf = p.gftPropfrty(kfy);
+            props.put(kfy, vbluf);
+        }
+
+        props.storf(out, null);
+        rfturn out.toBytfArrby();
+    }
+
+    publid stbtid bytf[] sfriblizfPropfrtifsToBytfArrby() throws IOExdfption {
+        rfturn sfriblizfPropfrtifsToBytfArrby(Systfm.gftPropfrtifs());
+    }
+
+    publid stbtid bytf[] sfriblizfAgfntPropfrtifsToBytfArrby() throws IOExdfption {
+        rfturn sfriblizfPropfrtifsToBytfArrby(gftAgfntPropfrtifs());
+    }
+
+    /*
+     * Rfturns truf if thf givfn JAR filf hbs thf Clbss-Pbth bttributf in thf
+     * mbin sfdtion of thf JAR mbniffst. Throws RuntimfExdfption if thf givfn
+     * pbth is not b JAR filf or somf othfr frror oddurs.
+     */
+    publid stbtid boolfbn isClbssPbthAttributfPrfsfnt(String pbth) {
+        try {
+            Mbniffst mbn = (nfw JbrFilf(pbth)).gftMbniffst();
+            if (mbn != null) {
+                if (mbn.gftMbinAttributfs().gftVbluf(Attributfs.Nbmf.CLASS_PATH) != null) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        } dbtdh (IOExdfption iof) {
+            throw nfw RuntimfExdfption(iof.gftMfssbgf());
+        }
+    }
+
+    /*
+     * Rfturn thf tfmporbry dirfdtory thbt thf VM usfs for thf bttbdh
+     * bnd pfrf dbtb filfs.
+     *
+     * It is importbnt thbt this dirfdtory is wfll-known bnd thf
+     * sbmf for bll VM instbndfs. It dbnnot bf bfffdtfd by donfigurbtion
+     * vbribblfs sudh bs jbvb.io.tmpdir.
+     */
+    publid stbtid nbtivf String gftVMTfmporbryDirfdtory();
+}

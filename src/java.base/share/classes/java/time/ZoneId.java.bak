@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,609 +59,609 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbdkbgf jbvb.timf;
 
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.TextStyle;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.zone.ZoneRules;
-import java.time.zone.ZoneRulesException;
-import java.time.zone.ZoneRulesProvider;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TimeZone;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.formbt.DbtfTimfFormbttfrBuildfr;
+import jbvb.timf.formbt.TfxtStylf;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.zonf.ZonfRulfs;
+import jbvb.timf.zonf.ZonfRulfsExdfption;
+import jbvb.timf.zonf.ZonfRulfsProvidfr;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.TimfZonf;
 
 /**
- * A time-zone ID, such as {@code Europe/Paris}.
+ * A timf-zonf ID, sudi bs {@dodf Europf/Pbris}.
  * <p>
- * A {@code ZoneId} is used to identify the rules used to convert between
- * an {@link Instant} and a {@link LocalDateTime}.
- * There are two distinct types of ID:
+ * A {@dodf ZonfId} is usfd to idfntify tif rulfs usfd to donvfrt bftwffn
+ * bn {@link Instbnt} bnd b {@link LodblDbtfTimf}.
+ * Tifrf brf two distindt typfs of ID:
  * <ul>
- * <li>Fixed offsets - a fully resolved offset from UTC/Greenwich, that uses
- *  the same offset for all local date-times
- * <li>Geographical regions - an area where a specific set of rules for finding
- *  the offset from UTC/Greenwich apply
+ * <li>Fixfd offsfts - b fully rfsolvfd offsft from UTC/Grffnwidi, tibt usfs
+ *  tif sbmf offsft for bll lodbl dbtf-timfs
+ * <li>Gfogrbpiidbl rfgions - bn brfb wifrf b spfdifid sft of rulfs for finding
+ *  tif offsft from UTC/Grffnwidi bpply
  * </ul>
- * Most fixed offsets are represented by {@link ZoneOffset}.
- * Calling {@link #normalized()} on any {@code ZoneId} will ensure that a
- * fixed offset ID will be represented as a {@code ZoneOffset}.
+ * Most fixfd offsfts brf rfprfsfntfd by {@link ZonfOffsft}.
+ * Cblling {@link #normblizfd()} on bny {@dodf ZonfId} will fnsurf tibt b
+ * fixfd offsft ID will bf rfprfsfntfd bs b {@dodf ZonfOffsft}.
  * <p>
- * The actual rules, describing when and how the offset changes, are defined by {@link ZoneRules}.
- * This class is simply an ID used to obtain the underlying rules.
- * This approach is taken because rules are defined by governments and change
- * frequently, whereas the ID is stable.
+ * Tif bdtubl rulfs, dfsdribing wifn bnd iow tif offsft dibngfs, brf dffinfd by {@link ZonfRulfs}.
+ * Tiis dlbss is simply bn ID usfd to obtbin tif undfrlying rulfs.
+ * Tiis bpprobdi is tbkfn bfdbusf rulfs brf dffinfd by govfrnmfnts bnd dibngf
+ * frfqufntly, wifrfbs tif ID is stbblf.
  * <p>
- * The distinction has other effects. Serializing the {@code ZoneId} will only send
- * the ID, whereas serializing the rules sends the entire data set.
- * Similarly, a comparison of two IDs only examines the ID, whereas
- * a comparison of two rules examines the entire data set.
+ * Tif distindtion ibs otifr ffffdts. Sfriblizing tif {@dodf ZonfId} will only sfnd
+ * tif ID, wifrfbs sfriblizing tif rulfs sfnds tif fntirf dbtb sft.
+ * Similbrly, b dompbrison of two IDs only fxbminfs tif ID, wifrfbs
+ * b dompbrison of two rulfs fxbminfs tif fntirf dbtb sft.
  *
- * <h3>Time-zone IDs</h3>
- * The ID is unique within the system.
- * There are three types of ID.
+ * <i3>Timf-zonf IDs</i3>
+ * Tif ID is uniquf witiin tif systfm.
+ * Tifrf brf tirff typfs of ID.
  * <p>
- * The simplest type of ID is that from {@code ZoneOffset}.
- * This consists of 'Z' and IDs starting with '+' or '-'.
+ * Tif simplfst typf of ID is tibt from {@dodf ZonfOffsft}.
+ * Tiis donsists of 'Z' bnd IDs stbrting witi '+' or '-'.
  * <p>
- * The next type of ID are offset-style IDs with some form of prefix,
- * such as 'GMT+2' or 'UTC+01:00'.
- * The recognised prefixes are 'UTC', 'GMT' and 'UT'.
- * The offset is the suffix and will be normalized during creation.
- * These IDs can be normalized to a {@code ZoneOffset} using {@code normalized()}.
+ * Tif nfxt typf of ID brf offsft-stylf IDs witi somf form of prffix,
+ * sudi bs 'GMT+2' or 'UTC+01:00'.
+ * Tif rfdognisfd prffixfs brf 'UTC', 'GMT' bnd 'UT'.
+ * Tif offsft is tif suffix bnd will bf normblizfd during drfbtion.
+ * Tifsf IDs dbn bf normblizfd to b {@dodf ZonfOffsft} using {@dodf normblizfd()}.
  * <p>
- * The third type of ID are region-based IDs. A region-based ID must be of
- * two or more characters, and not start with 'UTC', 'GMT', 'UT' '+' or '-'.
- * Region-based IDs are defined by configuration, see {@link ZoneRulesProvider}.
- * The configuration focuses on providing the lookup from the ID to the
- * underlying {@code ZoneRules}.
+ * Tif tiird typf of ID brf rfgion-bbsfd IDs. A rfgion-bbsfd ID must bf of
+ * two or morf dibrbdtfrs, bnd not stbrt witi 'UTC', 'GMT', 'UT' '+' or '-'.
+ * Rfgion-bbsfd IDs brf dffinfd by donfigurbtion, sff {@link ZonfRulfsProvidfr}.
+ * Tif donfigurbtion fodusfs on providing tif lookup from tif ID to tif
+ * undfrlying {@dodf ZonfRulfs}.
  * <p>
- * Time-zone rules are defined by governments and change frequently.
- * There are a number of organizations, known here as groups, that monitor
- * time-zone changes and collate them.
- * The default group is the IANA Time Zone Database (TZDB).
- * Other organizations include IATA (the airline industry body) and Microsoft.
+ * Timf-zonf rulfs brf dffinfd by govfrnmfnts bnd dibngf frfqufntly.
+ * Tifrf brf b numbfr of orgbnizbtions, known ifrf bs groups, tibt monitor
+ * timf-zonf dibngfs bnd dollbtf tifm.
+ * Tif dffbult group is tif IANA Timf Zonf Dbtbbbsf (TZDB).
+ * Otifr orgbnizbtions indludf IATA (tif birlinf industry body) bnd Midrosoft.
  * <p>
- * Each group defines its own format for the region ID it provides.
- * The TZDB group defines IDs such as 'Europe/London' or 'America/New_York'.
- * TZDB IDs take precedence over other groups.
+ * Ebdi group dffinfs its own formbt for tif rfgion ID it providfs.
+ * Tif TZDB group dffinfs IDs sudi bs 'Europf/London' or 'Amfridb/Nfw_York'.
+ * TZDB IDs tbkf prfdfdfndf ovfr otifr groups.
  * <p>
- * It is strongly recommended that the group name is included in all IDs supplied by
- * groups other than TZDB to avoid conflicts. For example, IATA airline time-zone
- * region IDs are typically the same as the three letter airport code.
- * However, the airport of Utrecht has the code 'UTC', which is obviously a conflict.
- * The recommended format for region IDs from groups other than TZDB is 'group~region'.
- * Thus if IATA data were defined, Utrecht airport would be 'IATA~UTC'.
+ * It is strongly rfdommfndfd tibt tif group nbmf is indludfd in bll IDs supplifd by
+ * groups otifr tibn TZDB to bvoid donflidts. For fxbmplf, IATA birlinf timf-zonf
+ * rfgion IDs brf typidblly tif sbmf bs tif tirff lfttfr birport dodf.
+ * Howfvfr, tif birport of Utrfdit ibs tif dodf 'UTC', wiidi is obviously b donflidt.
+ * Tif rfdommfndfd formbt for rfgion IDs from groups otifr tibn TZDB is 'group~rfgion'.
+ * Tius if IATA dbtb wfrf dffinfd, Utrfdit birport would bf 'IATA~UTC'.
  *
- * <h3>Serialization</h3>
- * This class can be serialized and stores the string zone ID in the external form.
- * The {@code ZoneOffset} subclass uses a dedicated format that only stores the
- * offset from UTC/Greenwich.
+ * <i3>Sfriblizbtion</i3>
+ * Tiis dlbss dbn bf sfriblizfd bnd storfs tif string zonf ID in tif fxtfrnbl form.
+ * Tif {@dodf ZonfOffsft} subdlbss usfs b dfdidbtfd formbt tibt only storfs tif
+ * offsft from UTC/Grffnwidi.
  * <p>
- * A {@code ZoneId} can be deserialized in a Java Runtime where the ID is unknown.
- * For example, if a server-side Java Runtime has been updated with a new zone ID, but
- * the client-side Java Runtime has not been updated. In this case, the {@code ZoneId}
- * object will exist, and can be queried using {@code getId}, {@code equals},
- * {@code hashCode}, {@code toString}, {@code getDisplayName} and {@code normalized}.
- * However, any call to {@code getRules} will fail with {@code ZoneRulesException}.
- * This approach is designed to allow a {@link ZonedDateTime} to be loaded and
- * queried, but not modified, on a Java Runtime with incomplete time-zone information.
+ * A {@dodf ZonfId} dbn bf dfsfriblizfd in b Jbvb Runtimf wifrf tif ID is unknown.
+ * For fxbmplf, if b sfrvfr-sidf Jbvb Runtimf ibs bffn updbtfd witi b nfw zonf ID, but
+ * tif dlifnt-sidf Jbvb Runtimf ibs not bffn updbtfd. In tiis dbsf, tif {@dodf ZonfId}
+ * objfdt will fxist, bnd dbn bf qufrifd using {@dodf gftId}, {@dodf fqubls},
+ * {@dodf ibsiCodf}, {@dodf toString}, {@dodf gftDisplbyNbmf} bnd {@dodf normblizfd}.
+ * Howfvfr, bny dbll to {@dodf gftRulfs} will fbil witi {@dodf ZonfRulfsExdfption}.
+ * Tiis bpprobdi is dfsignfd to bllow b {@link ZonfdDbtfTimf} to bf lobdfd bnd
+ * qufrifd, but not modififd, on b Jbvb Runtimf witi indomplftf timf-zonf informbtion.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code ZoneId} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * {@dodf ZonfId} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
  *
- * @implSpec
- * This abstract class has two implementations, both of which are immutable and thread-safe.
- * One implementation models region-based IDs, the other is {@code ZoneOffset} modelling
- * offset-based IDs. This difference is visible in serialization.
+ * @implSpfd
+ * Tiis bbstrbdt dlbss ibs two implfmfntbtions, boti of wiidi brf immutbblf bnd tirfbd-sbff.
+ * Onf implfmfntbtion modfls rfgion-bbsfd IDs, tif otifr is {@dodf ZonfOffsft} modflling
+ * offsft-bbsfd IDs. Tiis difffrfndf is visiblf in sfriblizbtion.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public abstract class ZoneId implements Serializable {
+publid bbstrbdt dlbss ZonfId implfmfnts Sfriblizbblf {
 
     /**
-     * A map of zone overrides to enable the short time-zone names to be used.
+     * A mbp of zonf ovfrridfs to fnbblf tif siort timf-zonf nbmfs to bf usfd.
      * <p>
-     * Use of short zone IDs has been deprecated in {@code java.util.TimeZone}.
-     * This map allows the IDs to continue to be used via the
-     * {@link #of(String, Map)} factory method.
+     * Usf of siort zonf IDs ibs bffn dfprfdbtfd in {@dodf jbvb.util.TimfZonf}.
+     * Tiis mbp bllows tif IDs to dontinuf to bf usfd vib tif
+     * {@link #of(String, Mbp)} fbdtory mftiod.
      * <p>
-     * This map contains a mapping of the IDs that is in line with TZDB 2005r and
-     * later, where 'EST', 'MST' and 'HST' map to IDs which do not include daylight
-     * savings.
+     * Tiis mbp dontbins b mbpping of tif IDs tibt is in linf witi TZDB 2005r bnd
+     * lbtfr, wifrf 'EST', 'MST' bnd 'HST' mbp to IDs wiidi do not indludf dbyligit
+     * sbvings.
      * <p>
-     * This maps as follows:
+     * Tiis mbps bs follows:
      * <ul>
      * <li>EST - -05:00</li>
      * <li>HST - -10:00</li>
      * <li>MST - -07:00</li>
-     * <li>ACT - Australia/Darwin</li>
-     * <li>AET - Australia/Sydney</li>
-     * <li>AGT - America/Argentina/Buenos_Aires</li>
-     * <li>ART - Africa/Cairo</li>
-     * <li>AST - America/Anchorage</li>
-     * <li>BET - America/Sao_Paulo</li>
-     * <li>BST - Asia/Dhaka</li>
-     * <li>CAT - Africa/Harare</li>
-     * <li>CNT - America/St_Johns</li>
-     * <li>CST - America/Chicago</li>
-     * <li>CTT - Asia/Shanghai</li>
-     * <li>EAT - Africa/Addis_Ababa</li>
-     * <li>ECT - Europe/Paris</li>
-     * <li>IET - America/Indiana/Indianapolis</li>
-     * <li>IST - Asia/Kolkata</li>
-     * <li>JST - Asia/Tokyo</li>
-     * <li>MIT - Pacific/Apia</li>
-     * <li>NET - Asia/Yerevan</li>
-     * <li>NST - Pacific/Auckland</li>
-     * <li>PLT - Asia/Karachi</li>
-     * <li>PNT - America/Phoenix</li>
-     * <li>PRT - America/Puerto_Rico</li>
-     * <li>PST - America/Los_Angeles</li>
-     * <li>SST - Pacific/Guadalcanal</li>
-     * <li>VST - Asia/Ho_Chi_Minh</li>
+     * <li>ACT - Austrblib/Dbrwin</li>
+     * <li>AET - Austrblib/Sydnfy</li>
+     * <li>AGT - Amfridb/Argfntinb/Bufnos_Airfs</li>
+     * <li>ART - Afridb/Cbiro</li>
+     * <li>AST - Amfridb/Andiorbgf</li>
+     * <li>BET - Amfridb/Sbo_Pbulo</li>
+     * <li>BST - Asib/Dibkb</li>
+     * <li>CAT - Afridb/Hbrbrf</li>
+     * <li>CNT - Amfridb/St_Joins</li>
+     * <li>CST - Amfridb/Ciidbgo</li>
+     * <li>CTT - Asib/Sibngibi</li>
+     * <li>EAT - Afridb/Addis_Abbbb</li>
+     * <li>ECT - Europf/Pbris</li>
+     * <li>IET - Amfridb/Indibnb/Indibnbpolis</li>
+     * <li>IST - Asib/Kolkbtb</li>
+     * <li>JST - Asib/Tokyo</li>
+     * <li>MIT - Pbdifid/Apib</li>
+     * <li>NET - Asib/Yfrfvbn</li>
+     * <li>NST - Pbdifid/Audklbnd</li>
+     * <li>PLT - Asib/Kbrbdii</li>
+     * <li>PNT - Amfridb/Piofnix</li>
+     * <li>PRT - Amfridb/Pufrto_Rido</li>
+     * <li>PST - Amfridb/Los_Angflfs</li>
+     * <li>SST - Pbdifid/Gubdbldbnbl</li>
+     * <li>VST - Asib/Ho_Cii_Mini</li>
      * </ul>
-     * The map is unmodifiable.
+     * Tif mbp is unmodifibblf.
      */
-    public static final Map<String, String> SHORT_IDS;
-    static {
-        Map<String, String> map = new HashMap<>(64);
-        map.put("ACT", "Australia/Darwin");
-        map.put("AET", "Australia/Sydney");
-        map.put("AGT", "America/Argentina/Buenos_Aires");
-        map.put("ART", "Africa/Cairo");
-        map.put("AST", "America/Anchorage");
-        map.put("BET", "America/Sao_Paulo");
-        map.put("BST", "Asia/Dhaka");
-        map.put("CAT", "Africa/Harare");
-        map.put("CNT", "America/St_Johns");
-        map.put("CST", "America/Chicago");
-        map.put("CTT", "Asia/Shanghai");
-        map.put("EAT", "Africa/Addis_Ababa");
-        map.put("ECT", "Europe/Paris");
-        map.put("IET", "America/Indiana/Indianapolis");
-        map.put("IST", "Asia/Kolkata");
-        map.put("JST", "Asia/Tokyo");
-        map.put("MIT", "Pacific/Apia");
-        map.put("NET", "Asia/Yerevan");
-        map.put("NST", "Pacific/Auckland");
-        map.put("PLT", "Asia/Karachi");
-        map.put("PNT", "America/Phoenix");
-        map.put("PRT", "America/Puerto_Rico");
-        map.put("PST", "America/Los_Angeles");
-        map.put("SST", "Pacific/Guadalcanal");
-        map.put("VST", "Asia/Ho_Chi_Minh");
-        map.put("EST", "-05:00");
-        map.put("MST", "-07:00");
-        map.put("HST", "-10:00");
-        SHORT_IDS = Collections.unmodifiableMap(map);
+    publid stbtid finbl Mbp<String, String> SHORT_IDS;
+    stbtid {
+        Mbp<String, String> mbp = nfw HbsiMbp<>(64);
+        mbp.put("ACT", "Austrblib/Dbrwin");
+        mbp.put("AET", "Austrblib/Sydnfy");
+        mbp.put("AGT", "Amfridb/Argfntinb/Bufnos_Airfs");
+        mbp.put("ART", "Afridb/Cbiro");
+        mbp.put("AST", "Amfridb/Andiorbgf");
+        mbp.put("BET", "Amfridb/Sbo_Pbulo");
+        mbp.put("BST", "Asib/Dibkb");
+        mbp.put("CAT", "Afridb/Hbrbrf");
+        mbp.put("CNT", "Amfridb/St_Joins");
+        mbp.put("CST", "Amfridb/Ciidbgo");
+        mbp.put("CTT", "Asib/Sibngibi");
+        mbp.put("EAT", "Afridb/Addis_Abbbb");
+        mbp.put("ECT", "Europf/Pbris");
+        mbp.put("IET", "Amfridb/Indibnb/Indibnbpolis");
+        mbp.put("IST", "Asib/Kolkbtb");
+        mbp.put("JST", "Asib/Tokyo");
+        mbp.put("MIT", "Pbdifid/Apib");
+        mbp.put("NET", "Asib/Yfrfvbn");
+        mbp.put("NST", "Pbdifid/Audklbnd");
+        mbp.put("PLT", "Asib/Kbrbdii");
+        mbp.put("PNT", "Amfridb/Piofnix");
+        mbp.put("PRT", "Amfridb/Pufrto_Rido");
+        mbp.put("PST", "Amfridb/Los_Angflfs");
+        mbp.put("SST", "Pbdifid/Gubdbldbnbl");
+        mbp.put("VST", "Asib/Ho_Cii_Mini");
+        mbp.put("EST", "-05:00");
+        mbp.put("MST", "-07:00");
+        mbp.put("HST", "-10:00");
+        SHORT_IDS = Collfdtions.unmodifibblfMbp(mbp);
     }
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = 8352817235686L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8352817235686L;
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the system default time-zone.
+     * Gfts tif systfm dffbult timf-zonf.
      * <p>
-     * This queries {@link TimeZone#getDefault()} to find the default time-zone
-     * and converts it to a {@code ZoneId}. If the system default time-zone is changed,
-     * then the result of this method will also change.
+     * Tiis qufrifs {@link TimfZonf#gftDffbult()} to find tif dffbult timf-zonf
+     * bnd donvfrts it to b {@dodf ZonfId}. If tif systfm dffbult timf-zonf is dibngfd,
+     * tifn tif rfsult of tiis mftiod will blso dibngf.
      *
-     * @return the zone ID, not null
-     * @throws DateTimeException if the converted zone ID has an invalid format
-     * @throws ZoneRulesException if the converted zone region ID cannot be found
+     * @rfturn tif zonf ID, not null
+     * @tirows DbtfTimfExdfption if tif donvfrtfd zonf ID ibs bn invblid formbt
+     * @tirows ZonfRulfsExdfption if tif donvfrtfd zonf rfgion ID dbnnot bf found
      */
-    public static ZoneId systemDefault() {
-        return TimeZone.getDefault().toZoneId();
+    publid stbtid ZonfId systfmDffbult() {
+        rfturn TimfZonf.gftDffbult().toZonfId();
     }
 
     /**
-     * Gets the set of available zone IDs.
+     * Gfts tif sft of bvbilbblf zonf IDs.
      * <p>
-     * This set includes the string form of all available region-based IDs.
-     * Offset-based zone IDs are not included in the returned set.
-     * The ID can be passed to {@link #of(String)} to create a {@code ZoneId}.
+     * Tiis sft indludfs tif string form of bll bvbilbblf rfgion-bbsfd IDs.
+     * Offsft-bbsfd zonf IDs brf not indludfd in tif rfturnfd sft.
+     * Tif ID dbn bf pbssfd to {@link #of(String)} to drfbtf b {@dodf ZonfId}.
      * <p>
-     * The set of zone IDs can increase over time, although in a typical application
-     * the set of IDs is fixed. Each call to this method is thread-safe.
+     * Tif sft of zonf IDs dbn indrfbsf ovfr timf, bltiougi in b typidbl bpplidbtion
+     * tif sft of IDs is fixfd. Ebdi dbll to tiis mftiod is tirfbd-sbff.
      *
-     * @return a modifiable copy of the set of zone IDs, not null
+     * @rfturn b modifibblf dopy of tif sft of zonf IDs, not null
      */
-    public static Set<String> getAvailableZoneIds() {
-        return ZoneRulesProvider.getAvailableZoneIds();
+    publid stbtid Sft<String> gftAvbilbblfZonfIds() {
+        rfturn ZonfRulfsProvidfr.gftAvbilbblfZonfIds();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ZoneId} using its ID using a map
-     * of aliases to supplement the standard zone IDs.
+     * Obtbins bn instbndf of {@dodf ZonfId} using its ID using b mbp
+     * of blibsfs to supplfmfnt tif stbndbrd zonf IDs.
      * <p>
-     * Many users of time-zones use short abbreviations, such as PST for
-     * 'Pacific Standard Time' and PDT for 'Pacific Daylight Time'.
-     * These abbreviations are not unique, and so cannot be used as IDs.
-     * This method allows a map of string to time-zone to be setup and reused
-     * within an application.
+     * Mbny usfrs of timf-zonfs usf siort bbbrfvibtions, sudi bs PST for
+     * 'Pbdifid Stbndbrd Timf' bnd PDT for 'Pbdifid Dbyligit Timf'.
+     * Tifsf bbbrfvibtions brf not uniquf, bnd so dbnnot bf usfd bs IDs.
+     * Tiis mftiod bllows b mbp of string to timf-zonf to bf sftup bnd rfusfd
+     * witiin bn bpplidbtion.
      *
-     * @param zoneId  the time-zone ID, not null
-     * @param aliasMap  a map of alias zone IDs (typically abbreviations) to real zone IDs, not null
-     * @return the zone ID, not null
-     * @throws DateTimeException if the zone ID has an invalid format
-     * @throws ZoneRulesException if the zone ID is a region ID that cannot be found
+     * @pbrbm zonfId  tif timf-zonf ID, not null
+     * @pbrbm blibsMbp  b mbp of blibs zonf IDs (typidblly bbbrfvibtions) to rfbl zonf IDs, not null
+     * @rfturn tif zonf ID, not null
+     * @tirows DbtfTimfExdfption if tif zonf ID ibs bn invblid formbt
+     * @tirows ZonfRulfsExdfption if tif zonf ID is b rfgion ID tibt dbnnot bf found
      */
-    public static ZoneId of(String zoneId, Map<String, String> aliasMap) {
-        Objects.requireNonNull(zoneId, "zoneId");
-        Objects.requireNonNull(aliasMap, "aliasMap");
-        String id = aliasMap.get(zoneId);
-        id = (id != null ? id : zoneId);
-        return of(id);
+    publid stbtid ZonfId of(String zonfId, Mbp<String, String> blibsMbp) {
+        Objfdts.rfquirfNonNull(zonfId, "zonfId");
+        Objfdts.rfquirfNonNull(blibsMbp, "blibsMbp");
+        String id = blibsMbp.gft(zonfId);
+        id = (id != null ? id : zonfId);
+        rfturn of(id);
     }
 
     /**
-     * Obtains an instance of {@code ZoneId} from an ID ensuring that the
-     * ID is valid and available for use.
+     * Obtbins bn instbndf of {@dodf ZonfId} from bn ID fnsuring tibt tif
+     * ID is vblid bnd bvbilbblf for usf.
      * <p>
-     * This method parses the ID producing a {@code ZoneId} or {@code ZoneOffset}.
-     * A {@code ZoneOffset} is returned if the ID is 'Z', or starts with '+' or '-'.
-     * The result will always be a valid ID for which {@link ZoneRules} can be obtained.
+     * Tiis mftiod pbrsfs tif ID produding b {@dodf ZonfId} or {@dodf ZonfOffsft}.
+     * A {@dodf ZonfOffsft} is rfturnfd if tif ID is 'Z', or stbrts witi '+' or '-'.
+     * Tif rfsult will blwbys bf b vblid ID for wiidi {@link ZonfRulfs} dbn bf obtbinfd.
      * <p>
-     * Parsing matches the zone ID step by step as follows.
+     * Pbrsing mbtdifs tif zonf ID stfp by stfp bs follows.
      * <ul>
-     * <li>If the zone ID equals 'Z', the result is {@code ZoneOffset.UTC}.
-     * <li>If the zone ID consists of a single letter, the zone ID is invalid
-     *  and {@code DateTimeException} is thrown.
-     * <li>If the zone ID starts with '+' or '-', the ID is parsed as a
-     *  {@code ZoneOffset} using {@link ZoneOffset#of(String)}.
-     * <li>If the zone ID equals 'GMT', 'UTC' or 'UT' then the result is a {@code ZoneId}
-     *  with the same ID and rules equivalent to {@code ZoneOffset.UTC}.
-     * <li>If the zone ID starts with 'UTC+', 'UTC-', 'GMT+', 'GMT-', 'UT+' or 'UT-'
-     *  then the ID is a prefixed offset-based ID. The ID is split in two, with
-     *  a two or three letter prefix and a suffix starting with the sign.
-     *  The suffix is parsed as a {@link ZoneOffset#of(String) ZoneOffset}.
-     *  The result will be a {@code ZoneId} with the specified UTC/GMT/UT prefix
-     *  and the normalized offset ID as per {@link ZoneOffset#getId()}.
-     *  The rules of the returned {@code ZoneId} will be equivalent to the
-     *  parsed {@code ZoneOffset}.
-     * <li>All other IDs are parsed as region-based zone IDs. Region IDs must
-     *  match the regular expression <code>[A-Za-z][A-Za-z0-9~/._+-]+</code>
-     *  otherwise a {@code DateTimeException} is thrown. If the zone ID is not
-     *  in the configured set of IDs, {@code ZoneRulesException} is thrown.
-     *  The detailed format of the region ID depends on the group supplying the data.
-     *  The default set of data is supplied by the IANA Time Zone Database (TZDB).
-     *  This has region IDs of the form '{area}/{city}', such as 'Europe/Paris' or 'America/New_York'.
-     *  This is compatible with most IDs from {@link java.util.TimeZone}.
+     * <li>If tif zonf ID fqubls 'Z', tif rfsult is {@dodf ZonfOffsft.UTC}.
+     * <li>If tif zonf ID donsists of b singlf lfttfr, tif zonf ID is invblid
+     *  bnd {@dodf DbtfTimfExdfption} is tirown.
+     * <li>If tif zonf ID stbrts witi '+' or '-', tif ID is pbrsfd bs b
+     *  {@dodf ZonfOffsft} using {@link ZonfOffsft#of(String)}.
+     * <li>If tif zonf ID fqubls 'GMT', 'UTC' or 'UT' tifn tif rfsult is b {@dodf ZonfId}
+     *  witi tif sbmf ID bnd rulfs fquivblfnt to {@dodf ZonfOffsft.UTC}.
+     * <li>If tif zonf ID stbrts witi 'UTC+', 'UTC-', 'GMT+', 'GMT-', 'UT+' or 'UT-'
+     *  tifn tif ID is b prffixfd offsft-bbsfd ID. Tif ID is split in two, witi
+     *  b two or tirff lfttfr prffix bnd b suffix stbrting witi tif sign.
+     *  Tif suffix is pbrsfd bs b {@link ZonfOffsft#of(String) ZonfOffsft}.
+     *  Tif rfsult will bf b {@dodf ZonfId} witi tif spfdififd UTC/GMT/UT prffix
+     *  bnd tif normblizfd offsft ID bs pfr {@link ZonfOffsft#gftId()}.
+     *  Tif rulfs of tif rfturnfd {@dodf ZonfId} will bf fquivblfnt to tif
+     *  pbrsfd {@dodf ZonfOffsft}.
+     * <li>All otifr IDs brf pbrsfd bs rfgion-bbsfd zonf IDs. Rfgion IDs must
+     *  mbtdi tif rfgulbr fxprfssion <dodf>[A-Zb-z][A-Zb-z0-9~/._+-]+</dodf>
+     *  otifrwisf b {@dodf DbtfTimfExdfption} is tirown. If tif zonf ID is not
+     *  in tif donfigurfd sft of IDs, {@dodf ZonfRulfsExdfption} is tirown.
+     *  Tif dftbilfd formbt of tif rfgion ID dfpfnds on tif group supplying tif dbtb.
+     *  Tif dffbult sft of dbtb is supplifd by tif IANA Timf Zonf Dbtbbbsf (TZDB).
+     *  Tiis ibs rfgion IDs of tif form '{brfb}/{dity}', sudi bs 'Europf/Pbris' or 'Amfridb/Nfw_York'.
+     *  Tiis is dompbtiblf witi most IDs from {@link jbvb.util.TimfZonf}.
      * </ul>
      *
-     * @param zoneId  the time-zone ID, not null
-     * @return the zone ID, not null
-     * @throws DateTimeException if the zone ID has an invalid format
-     * @throws ZoneRulesException if the zone ID is a region ID that cannot be found
+     * @pbrbm zonfId  tif timf-zonf ID, not null
+     * @rfturn tif zonf ID, not null
+     * @tirows DbtfTimfExdfption if tif zonf ID ibs bn invblid formbt
+     * @tirows ZonfRulfsExdfption if tif zonf ID is b rfgion ID tibt dbnnot bf found
      */
-    public static ZoneId of(String zoneId) {
-        return of(zoneId, true);
+    publid stbtid ZonfId of(String zonfId) {
+        rfturn of(zonfId, truf);
     }
 
     /**
-     * Obtains an instance of {@code ZoneId} wrapping an offset.
+     * Obtbins bn instbndf of {@dodf ZonfId} wrbpping bn offsft.
      * <p>
-     * If the prefix is "GMT", "UTC", or "UT" a {@code ZoneId}
-     * with the prefix and the non-zero offset is returned.
-     * If the prefix is empty {@code ""} the {@code ZoneOffset} is returned.
+     * If tif prffix is "GMT", "UTC", or "UT" b {@dodf ZonfId}
+     * witi tif prffix bnd tif non-zfro offsft is rfturnfd.
+     * If tif prffix is fmpty {@dodf ""} tif {@dodf ZonfOffsft} is rfturnfd.
      *
-     * @param prefix  the time-zone ID, not null
-     * @param offset  the offset, not null
-     * @return the zone ID, not null
-     * @throws IllegalArgumentException if the prefix is not one of
+     * @pbrbm prffix  tif timf-zonf ID, not null
+     * @pbrbm offsft  tif offsft, not null
+     * @rfturn tif zonf ID, not null
+     * @tirows IllfgblArgumfntExdfption if tif prffix is not onf of
      *     "GMT", "UTC", or "UT", or ""
      */
-    public static ZoneId ofOffset(String prefix, ZoneOffset offset) {
-        Objects.requireNonNull(prefix, "prefix");
-        Objects.requireNonNull(offset, "offset");
-        if (prefix.length() == 0) {
-            return offset;
+    publid stbtid ZonfId ofOffsft(String prffix, ZonfOffsft offsft) {
+        Objfdts.rfquirfNonNull(prffix, "prffix");
+        Objfdts.rfquirfNonNull(offsft, "offsft");
+        if (prffix.lfngti() == 0) {
+            rfturn offsft;
         }
 
-        if (!prefix.equals("GMT") && !prefix.equals("UTC") && !prefix.equals("UT")) {
-             throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: " + prefix);
+        if (!prffix.fqubls("GMT") && !prffix.fqubls("UTC") && !prffix.fqubls("UT")) {
+             tirow nfw IllfgblArgumfntExdfption("prffix siould bf GMT, UTC or UT, is: " + prffix);
         }
 
-        if (offset.getTotalSeconds() != 0) {
-            prefix = prefix.concat(offset.getId());
+        if (offsft.gftTotblSfdonds() != 0) {
+            prffix = prffix.dondbt(offsft.gftId());
         }
-        return new ZoneRegion(prefix, offset.getRules());
+        rfturn nfw ZonfRfgion(prffix, offsft.gftRulfs());
     }
 
     /**
-     * Parses the ID, taking a flag to indicate whether {@code ZoneRulesException}
-     * should be thrown or not, used in deserialization.
+     * Pbrsfs tif ID, tbking b flbg to indidbtf wiftifr {@dodf ZonfRulfsExdfption}
+     * siould bf tirown or not, usfd in dfsfriblizbtion.
      *
-     * @param zoneId  the time-zone ID, not null
-     * @param checkAvailable  whether to check if the zone ID is available
-     * @return the zone ID, not null
-     * @throws DateTimeException if the ID format is invalid
-     * @throws ZoneRulesException if checking availability and the ID cannot be found
+     * @pbrbm zonfId  tif timf-zonf ID, not null
+     * @pbrbm difdkAvbilbblf  wiftifr to difdk if tif zonf ID is bvbilbblf
+     * @rfturn tif zonf ID, not null
+     * @tirows DbtfTimfExdfption if tif ID formbt is invblid
+     * @tirows ZonfRulfsExdfption if difdking bvbilbbility bnd tif ID dbnnot bf found
      */
-    static ZoneId of(String zoneId, boolean checkAvailable) {
-        Objects.requireNonNull(zoneId, "zoneId");
-        if (zoneId.length() <= 1 || zoneId.startsWith("+") || zoneId.startsWith("-")) {
-            return ZoneOffset.of(zoneId);
-        } else if (zoneId.startsWith("UTC") || zoneId.startsWith("GMT")) {
-            return ofWithPrefix(zoneId, 3, checkAvailable);
-        } else if (zoneId.startsWith("UT")) {
-            return ofWithPrefix(zoneId, 2, checkAvailable);
+    stbtid ZonfId of(String zonfId, boolfbn difdkAvbilbblf) {
+        Objfdts.rfquirfNonNull(zonfId, "zonfId");
+        if (zonfId.lfngti() <= 1 || zonfId.stbrtsWiti("+") || zonfId.stbrtsWiti("-")) {
+            rfturn ZonfOffsft.of(zonfId);
+        } flsf if (zonfId.stbrtsWiti("UTC") || zonfId.stbrtsWiti("GMT")) {
+            rfturn ofWitiPrffix(zonfId, 3, difdkAvbilbblf);
+        } flsf if (zonfId.stbrtsWiti("UT")) {
+            rfturn ofWitiPrffix(zonfId, 2, difdkAvbilbblf);
         }
-        return ZoneRegion.ofId(zoneId, checkAvailable);
+        rfturn ZonfRfgion.ofId(zonfId, difdkAvbilbblf);
     }
 
     /**
-     * Parse once a prefix is established.
+     * Pbrsf ondf b prffix is fstbblisifd.
      *
-     * @param zoneId  the time-zone ID, not null
-     * @param prefixLength  the length of the prefix, 2 or 3
-     * @return the zone ID, not null
-     * @throws DateTimeException if the zone ID has an invalid format
+     * @pbrbm zonfId  tif timf-zonf ID, not null
+     * @pbrbm prffixLfngti  tif lfngti of tif prffix, 2 or 3
+     * @rfturn tif zonf ID, not null
+     * @tirows DbtfTimfExdfption if tif zonf ID ibs bn invblid formbt
      */
-    private static ZoneId ofWithPrefix(String zoneId, int prefixLength, boolean checkAvailable) {
-        String prefix = zoneId.substring(0, prefixLength);
-        if (zoneId.length() == prefixLength) {
-            return ofOffset(prefix, ZoneOffset.UTC);
+    privbtf stbtid ZonfId ofWitiPrffix(String zonfId, int prffixLfngti, boolfbn difdkAvbilbblf) {
+        String prffix = zonfId.substring(0, prffixLfngti);
+        if (zonfId.lfngti() == prffixLfngti) {
+            rfturn ofOffsft(prffix, ZonfOffsft.UTC);
         }
-        if (zoneId.charAt(prefixLength) != '+' && zoneId.charAt(prefixLength) != '-') {
-            return ZoneRegion.ofId(zoneId, checkAvailable);  // drop through to ZoneRulesProvider
+        if (zonfId.dibrAt(prffixLfngti) != '+' && zonfId.dibrAt(prffixLfngti) != '-') {
+            rfturn ZonfRfgion.ofId(zonfId, difdkAvbilbblf);  // drop tirougi to ZonfRulfsProvidfr
         }
         try {
-            ZoneOffset offset = ZoneOffset.of(zoneId.substring(prefixLength));
-            if (offset == ZoneOffset.UTC) {
-                return ofOffset(prefix, offset);
+            ZonfOffsft offsft = ZonfOffsft.of(zonfId.substring(prffixLfngti));
+            if (offsft == ZonfOffsft.UTC) {
+                rfturn ofOffsft(prffix, offsft);
             }
-            return ofOffset(prefix, offset);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Invalid ID for offset-based ZoneId: " + zoneId, ex);
+            rfturn ofOffsft(prffix, offsft);
+        } dbtdi (DbtfTimfExdfption fx) {
+            tirow nfw DbtfTimfExdfption("Invblid ID for offsft-bbsfd ZonfId: " + zonfId, fx);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ZoneId} from a temporal object.
+     * Obtbins bn instbndf of {@dodf ZonfId} from b tfmporbl objfdt.
      * <p>
-     * This obtains a zone based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ZoneId}.
+     * Tiis obtbins b zonf bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf ZonfId}.
      * <p>
-     * A {@code TemporalAccessor} represents some form of date and time information.
-     * This factory converts the arbitrary temporal object to an instance of {@code ZoneId}.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts somf form of dbtf bnd timf informbtion.
+     * Tiis fbdtory donvfrts tif brbitrbry tfmporbl objfdt to bn instbndf of {@dodf ZonfId}.
      * <p>
-     * The conversion will try to obtain the zone in a way that favours region-based
-     * zones over offset-based zones using {@link TemporalQueries#zone()}.
+     * Tif donvfrsion will try to obtbin tif zonf in b wby tibt fbvours rfgion-bbsfd
+     * zonfs ovfr offsft-bbsfd zonfs using {@link TfmporblQufrifs#zonf()}.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code ZoneId::from}.
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf ZonfId::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the zone ID, not null
-     * @throws DateTimeException if unable to convert to a {@code ZoneId}
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif zonf ID, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf ZonfId}
      */
-    public static ZoneId from(TemporalAccessor temporal) {
-        ZoneId obj = temporal.query(TemporalQueries.zone());
+    publid stbtid ZonfId from(TfmporblAddfssor tfmporbl) {
+        ZonfId obj = tfmporbl.qufry(TfmporblQufrifs.zonf());
         if (obj == null) {
-            throw new DateTimeException("Unable to obtain ZoneId from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName());
+            tirow nfw DbtfTimfExdfption("Unbblf to obtbin ZonfId from TfmporblAddfssor: " +
+                    tfmporbl + " of typf " + tfmporbl.gftClbss().gftNbmf());
         }
-        return obj;
+        rfturn obj;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Constructor only accessible within the package.
+     * Construdtor only bddfssiblf witiin tif pbdkbgf.
      */
-    ZoneId() {
-        if (getClass() != ZoneOffset.class && getClass() != ZoneRegion.class) {
-            throw new AssertionError("Invalid subclass");
+    ZonfId() {
+        if (gftClbss() != ZonfOffsft.dlbss && gftClbss() != ZonfRfgion.dlbss) {
+            tirow nfw AssfrtionError("Invblid subdlbss");
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the unique time-zone ID.
+     * Gfts tif uniquf timf-zonf ID.
      * <p>
-     * This ID uniquely defines this object.
-     * The format of an offset based ID is defined by {@link ZoneOffset#getId()}.
+     * Tiis ID uniqufly dffinfs tiis objfdt.
+     * Tif formbt of bn offsft bbsfd ID is dffinfd by {@link ZonfOffsft#gftId()}.
      *
-     * @return the time-zone unique ID, not null
+     * @rfturn tif timf-zonf uniquf ID, not null
      */
-    public abstract String getId();
+    publid bbstrbdt String gftId();
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the textual representation of the zone, such as 'British Time' or
+     * Gfts tif tfxtubl rfprfsfntbtion of tif zonf, sudi bs 'Britisi Timf' or
      * '+02:00'.
      * <p>
-     * This returns the textual name used to identify the time-zone ID,
-     * suitable for presentation to the user.
-     * The parameters control the style of the returned text and the locale.
+     * Tiis rfturns tif tfxtubl nbmf usfd to idfntify tif timf-zonf ID,
+     * suitbblf for prfsfntbtion to tif usfr.
+     * Tif pbrbmftfrs dontrol tif stylf of tif rfturnfd tfxt bnd tif lodblf.
      * <p>
-     * If no textual mapping is found then the {@link #getId() full ID} is returned.
+     * If no tfxtubl mbpping is found tifn tif {@link #gftId() full ID} is rfturnfd.
      *
-     * @param style  the length of the text required, not null
-     * @param locale  the locale to use, not null
-     * @return the text value of the zone, not null
+     * @pbrbm stylf  tif lfngti of tif tfxt rfquirfd, not null
+     * @pbrbm lodblf  tif lodblf to usf, not null
+     * @rfturn tif tfxt vbluf of tif zonf, not null
      */
-    public String getDisplayName(TextStyle style, Locale locale) {
-        return new DateTimeFormatterBuilder().appendZoneText(style).toFormatter(locale).format(toTemporal());
+    publid String gftDisplbyNbmf(TfxtStylf stylf, Lodblf lodblf) {
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndZonfTfxt(stylf).toFormbttfr(lodblf).formbt(toTfmporbl());
     }
 
     /**
-     * Converts this zone to a {@code TemporalAccessor}.
+     * Convfrts tiis zonf to b {@dodf TfmporblAddfssor}.
      * <p>
-     * A {@code ZoneId} can be fully represented as a {@code TemporalAccessor}.
-     * However, the interface is not implemented by this class as most of the
-     * methods on the interface have no meaning to {@code ZoneId}.
+     * A {@dodf ZonfId} dbn bf fully rfprfsfntfd bs b {@dodf TfmporblAddfssor}.
+     * Howfvfr, tif intfrfbdf is not implfmfntfd by tiis dlbss bs most of tif
+     * mftiods on tif intfrfbdf ibvf no mfbning to {@dodf ZonfId}.
      * <p>
-     * The returned temporal has no supported fields, with the query method
-     * supporting the return of the zone using {@link TemporalQueries#zoneId()}.
+     * Tif rfturnfd tfmporbl ibs no supportfd fiflds, witi tif qufry mftiod
+     * supporting tif rfturn of tif zonf using {@link TfmporblQufrifs#zonfId()}.
      *
-     * @return a temporal equivalent to this zone, not null
+     * @rfturn b tfmporbl fquivblfnt to tiis zonf, not null
      */
-    private TemporalAccessor toTemporal() {
-        return new TemporalAccessor() {
-            @Override
-            public boolean isSupported(TemporalField field) {
-                return false;
+    privbtf TfmporblAddfssor toTfmporbl() {
+        rfturn nfw TfmporblAddfssor() {
+            @Ovfrridf
+            publid boolfbn isSupportfd(TfmporblFifld fifld) {
+                rfturn fblsf;
             }
-            @Override
-            public long getLong(TemporalField field) {
-                throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            @Ovfrridf
+            publid long gftLong(TfmporblFifld fifld) {
+                tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
             }
-            @SuppressWarnings("unchecked")
-            @Override
-            public <R> R query(TemporalQuery<R> query) {
-                if (query == TemporalQueries.zoneId()) {
-                    return (R) ZoneId.this;
+            @SupprfssWbrnings("undifdkfd")
+            @Ovfrridf
+            publid <R> R qufry(TfmporblQufry<R> qufry) {
+                if (qufry == TfmporblQufrifs.zonfId()) {
+                    rfturn (R) ZonfId.tiis;
                 }
-                return TemporalAccessor.super.query(query);
+                rfturn TfmporblAddfssor.supfr.qufry(qufry);
             }
         };
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the time-zone rules for this ID allowing calculations to be performed.
+     * Gfts tif timf-zonf rulfs for tiis ID bllowing dbldulbtions to bf pfrformfd.
      * <p>
-     * The rules provide the functionality associated with a time-zone,
-     * such as finding the offset for a given instant or local date-time.
+     * Tif rulfs providf tif fundtionblity bssodibtfd witi b timf-zonf,
+     * sudi bs finding tif offsft for b givfn instbnt or lodbl dbtf-timf.
      * <p>
-     * A time-zone can be invalid if it is deserialized in a Java Runtime which
-     * does not have the same rules loaded as the Java Runtime that stored it.
-     * In this case, calling this method will throw a {@code ZoneRulesException}.
+     * A timf-zonf dbn bf invblid if it is dfsfriblizfd in b Jbvb Runtimf wiidi
+     * dofs not ibvf tif sbmf rulfs lobdfd bs tif Jbvb Runtimf tibt storfd it.
+     * In tiis dbsf, dblling tiis mftiod will tirow b {@dodf ZonfRulfsExdfption}.
      * <p>
-     * The rules are supplied by {@link ZoneRulesProvider}. An advanced provider may
-     * support dynamic updates to the rules without restarting the Java Runtime.
-     * If so, then the result of this method may change over time.
-     * Each individual call will be still remain thread-safe.
+     * Tif rulfs brf supplifd by {@link ZonfRulfsProvidfr}. An bdvbndfd providfr mby
+     * support dynbmid updbtfs to tif rulfs witiout rfstbrting tif Jbvb Runtimf.
+     * If so, tifn tif rfsult of tiis mftiod mby dibngf ovfr timf.
+     * Ebdi individubl dbll will bf still rfmbin tirfbd-sbff.
      * <p>
-     * {@link ZoneOffset} will always return a set of rules where the offset never changes.
+     * {@link ZonfOffsft} will blwbys rfturn b sft of rulfs wifrf tif offsft nfvfr dibngfs.
      *
-     * @return the rules, not null
-     * @throws ZoneRulesException if no rules are available for this ID
+     * @rfturn tif rulfs, not null
+     * @tirows ZonfRulfsExdfption if no rulfs brf bvbilbblf for tiis ID
      */
-    public abstract ZoneRules getRules();
+    publid bbstrbdt ZonfRulfs gftRulfs();
 
     /**
-     * Normalizes the time-zone ID, returning a {@code ZoneOffset} where possible.
+     * Normblizfs tif timf-zonf ID, rfturning b {@dodf ZonfOffsft} wifrf possiblf.
      * <p>
-     * The returns a normalized {@code ZoneId} that can be used in place of this ID.
-     * The result will have {@code ZoneRules} equivalent to those returned by this object,
-     * however the ID returned by {@code getId()} may be different.
+     * Tif rfturns b normblizfd {@dodf ZonfId} tibt dbn bf usfd in plbdf of tiis ID.
+     * Tif rfsult will ibvf {@dodf ZonfRulfs} fquivblfnt to tiosf rfturnfd by tiis objfdt,
+     * iowfvfr tif ID rfturnfd by {@dodf gftId()} mby bf difffrfnt.
      * <p>
-     * The normalization checks if the rules of this {@code ZoneId} have a fixed offset.
-     * If they do, then the {@code ZoneOffset} equal to that offset is returned.
-     * Otherwise {@code this} is returned.
+     * Tif normblizbtion difdks if tif rulfs of tiis {@dodf ZonfId} ibvf b fixfd offsft.
+     * If tify do, tifn tif {@dodf ZonfOffsft} fqubl to tibt offsft is rfturnfd.
+     * Otifrwisf {@dodf tiis} is rfturnfd.
      *
-     * @return the time-zone unique ID, not null
+     * @rfturn tif timf-zonf uniquf ID, not null
      */
-    public ZoneId normalized() {
+    publid ZonfId normblizfd() {
         try {
-            ZoneRules rules = getRules();
-            if (rules.isFixedOffset()) {
-                return rules.getOffset(Instant.EPOCH);
+            ZonfRulfs rulfs = gftRulfs();
+            if (rulfs.isFixfdOffsft()) {
+                rfturn rulfs.gftOffsft(Instbnt.EPOCH);
             }
-        } catch (ZoneRulesException ex) {
-            // invalid ZoneRegion is not important to this method
+        } dbtdi (ZonfRulfsExdfption fx) {
+            // invblid ZonfRfgion is not importbnt to tiis mftiod
         }
-        return this;
+        rfturn tiis;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this time-zone ID is equal to another time-zone ID.
+     * Cifdks if tiis timf-zonf ID is fqubl to bnotifr timf-zonf ID.
      * <p>
-     * The comparison is based on the ID.
+     * Tif dompbrison is bbsfd on tif ID.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other time-zone ID
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr timf-zonf ID
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-           return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+           rfturn truf;
         }
-        if (obj instanceof ZoneId) {
-            ZoneId other = (ZoneId) obj;
-            return getId().equals(other.getId());
+        if (obj instbndfof ZonfId) {
+            ZonfId otifr = (ZonfId) obj;
+            rfturn gftId().fqubls(otifr.gftId());
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * A hash code for this time-zone ID.
+     * A ibsi dodf for tiis timf-zonf ID.
      *
-     * @return a suitable hash code
+     * @rfturn b suitbblf ibsi dodf
      */
-    @Override
-    public int hashCode() {
-        return getId().hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn gftId().ibsiCodf();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
     /**
-     * Outputs this zone as a {@code String}, using the ID.
+     * Outputs tiis zonf bs b {@dodf String}, using tif ID.
      *
-     * @return a string representation of this time-zone ID, not null
+     * @rfturn b string rfprfsfntbtion of tiis timf-zonf ID, not null
      */
-    @Override
-    public String toString() {
-        return getId();
+    @Ovfrridf
+    publid String toString() {
+        rfturn gftId();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(7);  // identifies a ZoneId (not ZoneOffset)
-     *  out.writeUTF(getId());
-     * </pre>
+     * Writfs tif objfdt using b
+     * <b irff="../../sfriblizfd-form.itml#jbvb.timf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(7);  // idfntififs b ZonfId (not ZonfOffsft)
+     *  out.writfUTF(gftId());
+     * </prf>
      * <p>
-     * When read back in, the {@code ZoneId} will be created as though using
-     * {@link #of(String)}, but without any exception in the case where the
-     * ID has a valid format, but is not in the known set of region-based IDs.
+     * Wifn rfbd bbdk in, tif {@dodf ZonfId} will bf drfbtfd bs tiougi using
+     * {@link #of(String)}, but witiout bny fxdfption in tif dbsf wifrf tif
+     * ID ibs b vblid formbt, but is not in tif known sft of rfgion-bbsfd IDs.
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    // this is here for serialization Javadoc
-    private Object writeReplace() {
-        return new Ser(Ser.ZONE_REGION_TYPE, this);
+    // tiis is ifrf for sfriblizbtion Jbvbdod
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.ZONE_REGION_TYPE, tiis);
     }
 
-    abstract void write(DataOutput out) throws IOException;
+    bbstrbdt void writf(DbtbOutput out) tirows IOExdfption;
 
 }

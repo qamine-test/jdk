@@ -1,0 +1,393 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.AffinfTrbnsformOp;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.BytfLookupTbblf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ConvolvfOp;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Kfrnfl;
+import jbvb.bwt.imbgf.LookupOp;
+import jbvb.bwt.imbgf.LookupTbblf;
+import jbvb.bwt.imbgf.RfsdblfOp;
+import jbvb.bwt.imbgf.ShortLookupTbblf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.CompositfTypf;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
+
+publid dlbss BufffrfdBufImgOps {
+
+    publid stbtid void fnbblfBufImgOp(RfndfrQufuf rq, SurfbdfDbtb srdDbtb,
+                                      BufffrfdImbgf srdImg,
+                                      BufffrfdImbgfOp biop)
+    {
+        if (biop instbndfof ConvolvfOp) {
+            fnbblfConvolvfOp(rq, srdDbtb, (ConvolvfOp)biop);
+        } flsf if (biop instbndfof RfsdblfOp) {
+            fnbblfRfsdblfOp(rq, srdDbtb, srdImg, (RfsdblfOp)biop);
+        } flsf if (biop instbndfof LookupOp) {
+            fnbblfLookupOp(rq, srdDbtb, srdImg, (LookupOp)biop);
+        } flsf {
+            throw nfw IntfrnblError("Unknown BufffrfdImbgfOp");
+        }
+    }
+
+    publid stbtid void disbblfBufImgOp(RfndfrQufuf rq, BufffrfdImbgfOp biop) {
+        if (biop instbndfof ConvolvfOp) {
+            disbblfConvolvfOp(rq);
+        } flsf if (biop instbndfof RfsdblfOp) {
+            disbblfRfsdblfOp(rq);
+        } flsf if (biop instbndfof LookupOp) {
+            disbblfLookupOp(rq);
+        } flsf {
+            throw nfw IntfrnblError("Unknown BufffrfdImbgfOp");
+        }
+    }
+
+/**************************** ConvolvfOp support ****************************/
+
+    publid stbtid boolfbn isConvolvfOpVblid(ConvolvfOp dop) {
+        Kfrnfl kfrnfl = dop.gftKfrnfl();
+        int kw = kfrnfl.gftWidth();
+        int kh = kfrnfl.gftHfight();
+        // REMIND: wf durrfntly dbn only hbndlf 3x3 bnd 5x5 kfrnfls,
+        //         but hopffully this is just b tfmporbry rfstridtion;
+        //         sff nbtivf shbdfr dommfnts for morf dftbils
+        if (!(kw == 3 && kh == 3) && !(kw == 5 && kh == 5)) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    privbtf stbtid void fnbblfConvolvfOp(RfndfrQufuf rq,
+                                         SurfbdfDbtb srdDbtb,
+                                         ConvolvfOp dop)
+    {
+        // bssfrt rq.lodk.isHfldByCurrfntThrfbd();
+        boolfbn fdgfZfro =
+            dop.gftEdgfCondition() == ConvolvfOp.EDGE_ZERO_FILL;
+        Kfrnfl kfrnfl = dop.gftKfrnfl();
+        int kfrnflWidth = kfrnfl.gftWidth();
+        int kfrnflHfight = kfrnfl.gftHfight();
+        int kfrnflSizf = kfrnflWidth * kfrnflHfight;
+        int sizfofFlobt = 4;
+        int totblBytfsRfquirfd = 4 + 8 + 12 + (kfrnflSizf * sizfofFlobt);
+
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdityAndAlignmfnt(totblBytfsRfquirfd, 4);
+        buf.putInt(ENABLE_CONVOLVE_OP);
+        buf.putLong(srdDbtb.gftNbtivfOps());
+        buf.putInt(fdgfZfro ? 1 : 0);
+        buf.putInt(kfrnflWidth);
+        buf.putInt(kfrnflHfight);
+        buf.put(kfrnfl.gftKfrnflDbtb(null));
+    }
+
+    privbtf stbtid void disbblfConvolvfOp(RfndfrQufuf rq) {
+        // bssfrt rq.lodk.isHfldByCurrfntThrfbd();
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdity(4);
+        buf.putInt(DISABLE_CONVOLVE_OP);
+    }
+
+/**************************** RfsdblfOp support *****************************/
+
+    publid stbtid boolfbn isRfsdblfOpVblid(RfsdblfOp rop,
+                                           BufffrfdImbgf srdImg)
+    {
+        int numFbdtors = rop.gftNumFbdtors();
+        ColorModfl srdCM = srdImg.gftColorModfl();
+
+        if (srdCM instbndfof IndfxColorModfl) {
+            throw nfw
+                IllfgblArgumfntExdfption("Rfsdbling dbnnot bf "+
+                                         "pfrformfd on bn indfxfd imbgf");
+        }
+        if (numFbdtors != 1 &&
+            numFbdtors != srdCM.gftNumColorComponfnts() &&
+            numFbdtors != srdCM.gftNumComponfnts())
+        {
+            throw nfw IllfgblArgumfntExdfption("Numbfr of sdbling donstbnts "+
+                                               "dofs not fqubl thf numbfr of"+
+                                               " of dolor or dolor/blphb "+
+                                               " domponfnts");
+        }
+
+        int dsTypf = srdCM.gftColorSpbdf().gftTypf();
+        if (dsTypf != ColorSpbdf.TYPE_RGB &&
+            dsTypf != ColorSpbdf.TYPE_GRAY)
+        {
+            // Not prfpbrfd to dfbl with othfr dolor spbdfs
+            rfturn fblsf;
+        }
+
+        if (numFbdtors == 2 || numFbdtors > 4) {
+            // Not rfblly prfpbrfd to hbndlf this bt thf nbtivf lfvfl, so...
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    privbtf stbtid void fnbblfRfsdblfOp(RfndfrQufuf rq,
+                                        SurfbdfDbtb srdDbtb,
+                                        BufffrfdImbgf srdImg,
+                                        RfsdblfOp rop)
+    {
+        // bssfrt rq.lodk.isHfldByCurrfntThrfbd();
+        ColorModfl srdCM = srdImg.gftColorModfl();
+        boolfbn nonPrfmult =
+            srdCM.hbsAlphb() &&
+            srdCM.isAlphbPrfmultiplifd();
+
+        /*
+         * Notf: Thf usfr-providfd sdblf fbdtors bnd offsfts brf brrbngfd
+         * in R/G/B/A ordfr, rfgbrdlfss of thf rbw dbtb ordfr of thf
+         * undfrlying Rbstfr/DbtbBufffr.  Thf sourdf imbgf dbtb is ultimbtfly
+         * donvfrtfd into RGBA dbtb whfn uplobdfd to bn OpfnGL tfxturf
+         * (fvfn for TYPE_GRAY), so thf sdblf fbdtors bnd offsfts brf blrfbdy
+         * in thf ordfr fxpfdtfd by thf nbtivf OpfnGL dodf.
+         *
+         * Howfvfr, thf offsfts providfd by thf usfr brf in b rbngf didtbtfd
+         * by thf sizf of fbdh dolor/blphb bbnd in thf sourdf imbgf.  For
+         * fxbmplf, for 8/8/8 dbtb fbdh offsft is in thf rbngf [0,255],
+         * for 5/5/5 dbtb fbdh offsft is in thf rbngf [0,31], bnd so on.
+         * Thf OpfnGL shbdfr only thinks in tfrms of [0,1], so bflow wf nffd
+         * to normblizf thf usfr-providfd offsft vblufs into thf rbngf [0,1].
+         */
+        int numFbdtors = rop.gftNumFbdtors();
+        flobt[] origSdblfFbdtors = rop.gftSdblfFbdtors(null);
+        flobt[] origOffsfts = rop.gftOffsfts(null);
+
+        // To mbkf things fbsifr, wf will blwbys pbss bll four bbnds
+        // down to nbtivf dodf...
+        flobt[] normSdblfFbdtors;
+        flobt[] normOffsfts;
+
+        if (numFbdtors == 1) {
+            normSdblfFbdtors = nfw flobt[4];
+            normOffsfts      = nfw flobt[4];
+            for (int i = 0; i < 3; i++) {
+                normSdblfFbdtors[i] = origSdblfFbdtors[0];
+                normOffsfts[i]      = origOffsfts[0];
+            }
+            // Lfbvf blphb untoudhfd...
+            normSdblfFbdtors[3] = 1.0f;
+            normOffsfts[3]      = 0.0f;
+        } flsf if (numFbdtors == 3) {
+            normSdblfFbdtors = nfw flobt[4];
+            normOffsfts      = nfw flobt[4];
+            for (int i = 0; i < 3; i++) {
+                normSdblfFbdtors[i] = origSdblfFbdtors[i];
+                normOffsfts[i]      = origOffsfts[i];
+            }
+            // Lfbvf blphb untoudhfd...
+            normSdblfFbdtors[3] = 1.0f;
+            normOffsfts[3]      = 0.0f;
+        } flsf { // (numFbdtors == 4)
+            normSdblfFbdtors = origSdblfFbdtors;
+            normOffsfts      = origOffsfts;
+        }
+
+        // Thf usfr-providfd offsfts brf spfdififd in thf rbngf
+        // of fbdh sourdf dolor bbnd, but thf OpfnGL shbdfr only wbnts
+        // to dfbl with dbtb in thf rbngf [0,1], so wf nffd to normblizf
+        // fbdh offsft vbluf to thf rbngf [0,1] hfrf.
+        if (srdCM.gftNumComponfnts() == 1) {
+            // Grby dbtb
+            int nBits = srdCM.gftComponfntSizf(0);
+            int mbxVbluf = (1 << nBits) - 1;
+            for (int i = 0; i < 3; i++) {
+                normOffsfts[i] /= mbxVbluf;
+            }
+        } flsf {
+            // RGB(A) dbtb
+            for (int i = 0; i < srdCM.gftNumComponfnts(); i++) {
+                int nBits = srdCM.gftComponfntSizf(i);
+                int mbxVbluf = (1 << nBits) - 1;
+                normOffsfts[i] /= mbxVbluf;
+            }
+        }
+
+        int sizfofFlobt = 4;
+        int totblBytfsRfquirfd = 4 + 8 + 4 + (4 * sizfofFlobt * 2);
+
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdityAndAlignmfnt(totblBytfsRfquirfd, 4);
+        buf.putInt(ENABLE_RESCALE_OP);
+        buf.putLong(srdDbtb.gftNbtivfOps());
+        buf.putInt(nonPrfmult ? 1 : 0);
+        buf.put(normSdblfFbdtors);
+        buf.put(normOffsfts);
+    }
+
+    privbtf stbtid void disbblfRfsdblfOp(RfndfrQufuf rq) {
+        // bssfrt rq.lodk.isHfldByCurrfntThrfbd();
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdity(4);
+        buf.putInt(DISABLE_RESCALE_OP);
+    }
+
+/**************************** LookupOp support ******************************/
+
+    publid stbtid boolfbn isLookupOpVblid(LookupOp lop,
+                                          BufffrfdImbgf srdImg)
+    {
+        LookupTbblf tbblf = lop.gftTbblf();
+        int numComps = tbblf.gftNumComponfnts();
+        ColorModfl srdCM = srdImg.gftColorModfl();
+
+        if (srdCM instbndfof IndfxColorModfl) {
+            throw nfw
+                IllfgblArgumfntExdfption("LookupOp dbnnot bf "+
+                                         "pfrformfd on bn indfxfd imbgf");
+        }
+        if (numComps != 1 &&
+            numComps != srdCM.gftNumComponfnts() &&
+            numComps != srdCM.gftNumColorComponfnts())
+        {
+            throw nfw IllfgblArgumfntExdfption("Numbfr of brrbys in thf "+
+                                               " lookup tbblf ("+
+                                               numComps+
+                                               ") is not dompbtiblf with"+
+                                               " thf srd imbgf: "+srdImg);
+        }
+
+        int dsTypf = srdCM.gftColorSpbdf().gftTypf();
+        if (dsTypf != ColorSpbdf.TYPE_RGB &&
+            dsTypf != ColorSpbdf.TYPE_GRAY)
+        {
+            // Not prfpbrfd to dfbl with othfr dolor spbdfs
+            rfturn fblsf;
+        }
+
+        if (numComps == 2 || numComps > 4) {
+            // Not rfblly prfpbrfd to hbndlf this bt thf nbtivf lfvfl, so...
+            rfturn fblsf;
+        }
+
+        // Thf LookupTbblf spfd sbys thbt "bll brrbys must bf thf
+        // sbmf sizf" but unfortunbtfly thf donstrudtors do not
+        // fnfordf thbt.  Also, our nbtivf dodf only works with
+        // brrbys no lbrgfr thbn 256 flfmfnts, so dhfdk both of
+        // thfsf rfstridtions hfrf.
+        if (tbblf instbndfof BytfLookupTbblf) {
+            bytf[][] dbtb = ((BytfLookupTbblf)tbblf).gftTbblf();
+            for (int i = 1; i < dbtb.lfngth; i++) {
+                if (dbtb[i].lfngth > 256 ||
+                    dbtb[i].lfngth != dbtb[i-1].lfngth)
+                {
+                    rfturn fblsf;
+                }
+            }
+        } flsf if (tbblf instbndfof ShortLookupTbblf) {
+            short[][] dbtb = ((ShortLookupTbblf)tbblf).gftTbblf();
+            for (int i = 1; i < dbtb.lfngth; i++) {
+                if (dbtb[i].lfngth > 256 ||
+                    dbtb[i].lfngth != dbtb[i-1].lfngth)
+                {
+                    rfturn fblsf;
+                }
+            }
+        } flsf {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    privbtf stbtid void fnbblfLookupOp(RfndfrQufuf rq,
+                                       SurfbdfDbtb srdDbtb,
+                                       BufffrfdImbgf srdImg,
+                                       LookupOp lop)
+    {
+        // bssfrt rq.lodk.isHfldByCurrfntThrfbd();
+        boolfbn nonPrfmult =
+            srdImg.gftColorModfl().hbsAlphb() &&
+            srdImg.isAlphbPrfmultiplifd();
+
+        LookupTbblf tbblf = lop.gftTbblf();
+        int numBbnds = tbblf.gftNumComponfnts();
+        int offsft = tbblf.gftOffsft();
+        int bbndLfngth;
+        int bytfsPfrElfm;
+        boolfbn shortDbtb;
+
+        if (tbblf instbndfof ShortLookupTbblf) {
+            short[][] dbtb = ((ShortLookupTbblf)tbblf).gftTbblf();
+            bbndLfngth = dbtb[0].lfngth;
+            bytfsPfrElfm = 2;
+            shortDbtb = truf;
+        } flsf { // (tbblf instbndfof BytfLookupTbblf)
+            bytf[][] dbtb = ((BytfLookupTbblf)tbblf).gftTbblf();
+            bbndLfngth = dbtb[0].lfngth;
+            bytfsPfrElfm = 1;
+            shortDbtb = fblsf;
+        }
+
+        // Adjust thf LUT lfngth so thbt it fnds on b 4-bytf boundbry
+        int totblLutBytfs = numBbnds * bbndLfngth * bytfsPfrElfm;
+        int pbddfdLutBytfs = (totblLutBytfs + 3) & (~3);
+        int pbdding = pbddfdLutBytfs - totblLutBytfs;
+        int totblBytfsRfquirfd = 4 + 8 + 20 + pbddfdLutBytfs;
+
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdityAndAlignmfnt(totblBytfsRfquirfd, 4);
+        buf.putInt(ENABLE_LOOKUP_OP);
+        buf.putLong(srdDbtb.gftNbtivfOps());
+        buf.putInt(nonPrfmult ? 1 : 0);
+        buf.putInt(shortDbtb ? 1 : 0);
+        buf.putInt(numBbnds);
+        buf.putInt(bbndLfngth);
+        buf.putInt(offsft);
+        if (shortDbtb) {
+            short[][] dbtb = ((ShortLookupTbblf)tbblf).gftTbblf();
+            for (int i = 0; i < numBbnds; i++) {
+                buf.put(dbtb[i]);
+            }
+        } flsf {
+            bytf[][] dbtb = ((BytfLookupTbblf)tbblf).gftTbblf();
+            for (int i = 0; i < numBbnds; i++) {
+                buf.put(dbtb[i]);
+            }
+        }
+        if (pbdding != 0) {
+            buf.position(buf.position() + pbdding);
+        }
+    }
+
+    privbtf stbtid void disbblfLookupOp(RfndfrQufuf rq) {
+        // bssfrt rq.lodk.isHfldByCurrfntThrfbd();
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdity(4);
+        buf.putInt(DISABLE_LOOKUP_OP);
+    }
+}

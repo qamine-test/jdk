@@ -1,663 +1,663 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.opengl;
+pbdkbgf sun.jbvb2d.opfngl;
 
-import java.awt.AlphaComposite;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import sun.awt.SunHints;
-import sun.awt.image.PixelConverter;
-import sun.java2d.pipe.hw.AccelSurface;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.SurfaceDataProxy;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.MaskFill;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.pipe.ParallelogramPipe;
-import sun.java2d.pipe.PixelToParallelogramConverter;
-import sun.java2d.pipe.RenderBuffer;
-import sun.java2d.pipe.TextPipe;
-import static sun.java2d.pipe.BufferedOpCodes.*;
-import static sun.java2d.opengl.OGLContext.OGLContextCaps.*;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import sun.bwt.SunHints;
+import sun.bwt.imbgf.PixflConvfrtfr;
+import sun.jbvb2d.pipf.iw.AddflSurfbdf;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.SurfbdfDbtbProxy;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import sun.jbvb2d.loops.MbskFill;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.pipf.PbrbllflogrbmPipf;
+import sun.jbvb2d.pipf.PixflToPbrbllflogrbmConvfrtfr;
+import sun.jbvb2d.pipf.RfndfrBufffr;
+import sun.jbvb2d.pipf.TfxtPipf;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
+import stbtid sun.jbvb2d.opfngl.OGLContfxt.OGLContfxtCbps.*;
 
 /**
- * This class describes an OpenGL "surface", that is, a region of pixels
- * managed via OpenGL.  An OGLSurfaceData can be tagged with one of three
- * different SurfaceType objects for the purpose of registering loops, etc.
- * This diagram shows the hierarchy of OGL SurfaceTypes:
+ * Tiis dlbss dfsdribfs bn OpfnGL "surfbdf", tibt is, b rfgion of pixfls
+ * mbnbgfd vib OpfnGL.  An OGLSurfbdfDbtb dbn bf tbggfd witi onf of tirff
+ * difffrfnt SurfbdfTypf objfdts for tif purposf of rfgistfring loops, ftd.
+ * Tiis dibgrbm siows tif iifrbrdiy of OGL SurfbdfTypfs:
  *
  *                               Any
  *                             /     \
- *                 OpenGLSurface     OpenGLTexture
+ *                 OpfnGLSurfbdf     OpfnGLTfxturf
  *                      |
- *               OpenGLSurfaceRTT
+ *               OpfnGLSurfbdfRTT
  *
- * OpenGLSurface
- * This kind of surface can be rendered to using OpenGL APIs.  It is also
- * possible to copy an OpenGLSurface to another OpenGLSurface (or to itself).
- * This is typically accomplished by calling MakeContextCurrent(dstSD, srcSD)
- * and then calling glCopyPixels() (although there are other techniques to
- * achieve the same goal).
+ * OpfnGLSurfbdf
+ * Tiis kind of surfbdf dbn bf rfndfrfd to using OpfnGL APIs.  It is blso
+ * possiblf to dopy bn OpfnGLSurfbdf to bnotifr OpfnGLSurfbdf (or to itsflf).
+ * Tiis is typidblly bddomplisifd by dblling MbkfContfxtCurrfnt(dstSD, srdSD)
+ * bnd tifn dblling glCopyPixfls() (bltiougi tifrf brf otifr tfdiniqufs to
+ * bdiifvf tif sbmf gobl).
  *
- * OpenGLTexture
- * This kind of surface cannot be rendered to using OpenGL (in the same sense
- * as in OpenGLSurface).  However, it is possible to upload a region of pixels
- * to an OpenGLTexture object via glTexSubImage2D().  One can also copy a
- * surface of type OpenGLTexture to an OpenGLSurface by binding the texture
- * to a quad and then rendering it to the destination surface (this process
- * is known as "texture mapping").
+ * OpfnGLTfxturf
+ * Tiis kind of surfbdf dbnnot bf rfndfrfd to using OpfnGL (in tif sbmf sfnsf
+ * bs in OpfnGLSurfbdf).  Howfvfr, it is possiblf to uplobd b rfgion of pixfls
+ * to bn OpfnGLTfxturf objfdt vib glTfxSubImbgf2D().  Onf dbn blso dopy b
+ * surfbdf of typf OpfnGLTfxturf to bn OpfnGLSurfbdf by binding tif tfxturf
+ * to b qubd bnd tifn rfndfring it to tif dfstinbtion surfbdf (tiis prodfss
+ * is known bs "tfxturf mbpping").
  *
- * OpenGLSurfaceRTT
- * This kind of surface can be thought of as a sort of hybrid between
- * OpenGLSurface and OpenGLTexture, in that one can render to this kind of
- * surface as if it were of type OpenGLSurface, but the process of copying
- * this kind of surface to another is more like an OpenGLTexture.  (Note that
- * "RTT" stands for "render-to-texture".)
+ * OpfnGLSurfbdfRTT
+ * Tiis kind of surfbdf dbn bf tiougit of bs b sort of iybrid bftwffn
+ * OpfnGLSurfbdf bnd OpfnGLTfxturf, in tibt onf dbn rfndfr to tiis kind of
+ * surfbdf bs if it wfrf of typf OpfnGLSurfbdf, but tif prodfss of dopying
+ * tiis kind of surfbdf to bnotifr is morf likf bn OpfnGLTfxturf.  (Notf tibt
+ * "RTT" stbnds for "rfndfr-to-tfxturf".)
  *
- * In addition to these SurfaceType variants, we have also defined some
- * constants that describe in more detail the type of underlying OpenGL
- * surface.  This table helps explain the relationships between those
- * "type" constants and their corresponding SurfaceType:
+ * In bddition to tifsf SurfbdfTypf vbribnts, wf ibvf blso dffinfd somf
+ * donstbnts tibt dfsdribf in morf dftbil tif typf of undfrlying OpfnGL
+ * surfbdf.  Tiis tbblf iflps fxplbin tif rflbtionsiips bftwffn tiosf
+ * "typf" donstbnts bnd tifir dorrfsponding SurfbdfTypf:
  *
- * OGL Type          Corresponding SurfaceType
+ * OGL Typf          Corrfsponding SurfbdfTypf
  * --------          -------------------------
- * WINDOW            OpenGLSurface
- * PBUFFER           OpenGLSurface
- * TEXTURE           OpenGLTexture
- * FLIP_BACKBUFFER   OpenGLSurface
- * FBOBJECT          OpenGLSurfaceRTT
+ * WINDOW            OpfnGLSurfbdf
+ * PBUFFER           OpfnGLSurfbdf
+ * TEXTURE           OpfnGLTfxturf
+ * FLIP_BACKBUFFER   OpfnGLSurfbdf
+ * FBOBJECT          OpfnGLSurfbdfRTT
  */
-public abstract class OGLSurfaceData extends SurfaceData
-    implements AccelSurface {
+publid bbstrbdt dlbss OGLSurfbdfDbtb fxtfnds SurfbdfDbtb
+    implfmfnts AddflSurfbdf {
 
     /**
-     * OGL-specific surface types
+     * OGL-spfdifid surfbdf typfs
      *
-     * @see sun.java2d.pipe.hw.AccelSurface
+     * @sff sun.jbvb2d.pipf.iw.AddflSurfbdf
      */
-    public static final int PBUFFER         = RT_PLAIN;
-    public static final int FBOBJECT        = RT_TEXTURE;
+    publid stbtid finbl int PBUFFER         = RT_PLAIN;
+    publid stbtid finbl int FBOBJECT        = RT_TEXTURE;
 
     /**
-     * Pixel formats
+     * Pixfl formbts
      */
-    public static final int PF_INT_ARGB        = 0;
-    public static final int PF_INT_ARGB_PRE    = 1;
-    public static final int PF_INT_RGB         = 2;
-    public static final int PF_INT_RGBX        = 3;
-    public static final int PF_INT_BGR         = 4;
-    public static final int PF_INT_BGRX        = 5;
-    public static final int PF_USHORT_565_RGB  = 6;
-    public static final int PF_USHORT_555_RGB  = 7;
-    public static final int PF_USHORT_555_RGBX = 8;
-    public static final int PF_BYTE_GRAY       = 9;
-    public static final int PF_USHORT_GRAY     = 10;
-    public static final int PF_3BYTE_BGR       = 11;
+    publid stbtid finbl int PF_INT_ARGB        = 0;
+    publid stbtid finbl int PF_INT_ARGB_PRE    = 1;
+    publid stbtid finbl int PF_INT_RGB         = 2;
+    publid stbtid finbl int PF_INT_RGBX        = 3;
+    publid stbtid finbl int PF_INT_BGR         = 4;
+    publid stbtid finbl int PF_INT_BGRX        = 5;
+    publid stbtid finbl int PF_USHORT_565_RGB  = 6;
+    publid stbtid finbl int PF_USHORT_555_RGB  = 7;
+    publid stbtid finbl int PF_USHORT_555_RGBX = 8;
+    publid stbtid finbl int PF_BYTE_GRAY       = 9;
+    publid stbtid finbl int PF_USHORT_GRAY     = 10;
+    publid stbtid finbl int PF_3BYTE_BGR       = 11;
 
     /**
-     * SurfaceTypes
+     * SurfbdfTypfs
      */
-    private static final String DESC_OPENGL_SURFACE = "OpenGL Surface";
-    private static final String DESC_OPENGL_SURFACE_RTT =
-        "OpenGL Surface (render-to-texture)";
-    private static final String DESC_OPENGL_TEXTURE = "OpenGL Texture";
+    privbtf stbtid finbl String DESC_OPENGL_SURFACE = "OpfnGL Surfbdf";
+    privbtf stbtid finbl String DESC_OPENGL_SURFACE_RTT =
+        "OpfnGL Surfbdf (rfndfr-to-tfxturf)";
+    privbtf stbtid finbl String DESC_OPENGL_TEXTURE = "OpfnGL Tfxturf";
 
-    static final SurfaceType OpenGLSurface =
-        SurfaceType.Any.deriveSubType(DESC_OPENGL_SURFACE,
-                                      PixelConverter.ArgbPre.instance);
-    static final SurfaceType OpenGLSurfaceRTT =
-        OpenGLSurface.deriveSubType(DESC_OPENGL_SURFACE_RTT);
-    static final SurfaceType OpenGLTexture =
-        SurfaceType.Any.deriveSubType(DESC_OPENGL_TEXTURE);
+    stbtid finbl SurfbdfTypf OpfnGLSurfbdf =
+        SurfbdfTypf.Any.dfrivfSubTypf(DESC_OPENGL_SURFACE,
+                                      PixflConvfrtfr.ArgbPrf.instbndf);
+    stbtid finbl SurfbdfTypf OpfnGLSurfbdfRTT =
+        OpfnGLSurfbdf.dfrivfSubTypf(DESC_OPENGL_SURFACE_RTT);
+    stbtid finbl SurfbdfTypf OpfnGLTfxturf =
+        SurfbdfTypf.Any.dfrivfSubTypf(DESC_OPENGL_TEXTURE);
 
-    /** This will be true if the fbobject system property has been enabled. */
-    private static boolean isFBObjectEnabled;
+    /** Tiis will bf truf if tif fbobjfdt systfm propfrty ibs bffn fnbblfd. */
+    privbtf stbtid boolfbn isFBObjfdtEnbblfd;
 
-    /** This will be true if the lcdshader system property has been enabled.*/
-    private static boolean isLCDShaderEnabled;
+    /** Tiis will bf truf if tif lddsibdfr systfm propfrty ibs bffn fnbblfd.*/
+    privbtf stbtid boolfbn isLCDSibdfrEnbblfd;
 
-    /** This will be true if the biopshader system property has been enabled.*/
-    private static boolean isBIOpShaderEnabled;
+    /** Tiis will bf truf if tif biopsibdfr systfm propfrty ibs bffn fnbblfd.*/
+    privbtf stbtid boolfbn isBIOpSibdfrEnbblfd;
 
-    /** This will be true if the gradshader system property has been enabled.*/
-    private static boolean isGradShaderEnabled;
+    /** Tiis will bf truf if tif grbdsibdfr systfm propfrty ibs bffn fnbblfd.*/
+    privbtf stbtid boolfbn isGrbdSibdfrEnbblfd;
 
-    private OGLGraphicsConfig graphicsConfig;
-    protected int type;
-    // these fields are set from the native code when the surface is
-    // initialized
-    private int nativeWidth, nativeHeight;
+    privbtf OGLGrbpiidsConfig grbpiidsConfig;
+    protfdtfd int typf;
+    // tifsf fiflds brf sft from tif nbtivf dodf wifn tif surfbdf is
+    // initiblizfd
+    privbtf int nbtivfWidti, nbtivfHfigit;
 
-    protected static OGLRenderer oglRenderPipe;
-    protected static PixelToParallelogramConverter oglTxRenderPipe;
-    protected static ParallelogramPipe oglAAPgramPipe;
-    protected static OGLTextRenderer oglTextPipe;
-    protected static OGLDrawImage oglImagePipe;
+    protfdtfd stbtid OGLRfndfrfr oglRfndfrPipf;
+    protfdtfd stbtid PixflToPbrbllflogrbmConvfrtfr oglTxRfndfrPipf;
+    protfdtfd stbtid PbrbllflogrbmPipf oglAAPgrbmPipf;
+    protfdtfd stbtid OGLTfxtRfndfrfr oglTfxtPipf;
+    protfdtfd stbtid OGLDrbwImbgf oglImbgfPipf;
 
-    protected native boolean initTexture(long pData,
-                                         boolean isOpaque, boolean texNonPow2,
-                                         boolean texRect,
-                                         int width, int height);
-    protected native boolean initFBObject(long pData,
-                                          boolean isOpaque, boolean texNonPow2,
-                                          boolean texRect,
-                                          int width, int height);
-    protected native boolean initFlipBackbuffer(long pData);
-    protected abstract boolean initPbuffer(long pData, long pConfigInfo,
-                                           boolean isOpaque,
-                                           int width, int height);
+    protfdtfd nbtivf boolfbn initTfxturf(long pDbtb,
+                                         boolfbn isOpbquf, boolfbn tfxNonPow2,
+                                         boolfbn tfxRfdt,
+                                         int widti, int ifigit);
+    protfdtfd nbtivf boolfbn initFBObjfdt(long pDbtb,
+                                          boolfbn isOpbquf, boolfbn tfxNonPow2,
+                                          boolfbn tfxRfdt,
+                                          int widti, int ifigit);
+    protfdtfd nbtivf boolfbn initFlipBbdkbufffr(long pDbtb);
+    protfdtfd bbstrbdt boolfbn initPbufffr(long pDbtb, long pConfigInfo,
+                                           boolfbn isOpbquf,
+                                           int widti, int ifigit);
 
-    private native int getTextureTarget(long pData);
-    private native int getTextureID(long pData);
+    privbtf nbtivf int gftTfxturfTbrgft(long pDbtb);
+    privbtf nbtivf int gftTfxturfID(long pDbtb);
 
-    static {
-        if (!GraphicsEnvironment.isHeadless()) {
-            // fbobject currently enabled by default; use "false" to disable
-            String fbo = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(
-                    "sun.java2d.opengl.fbobject"));
-            isFBObjectEnabled = !"false".equals(fbo);
+    stbtid {
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            // fbobjfdt durrfntly fnbblfd by dffbult; usf "fblsf" to disbblf
+            String fbo = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                    "sun.jbvb2d.opfngl.fbobjfdt"));
+            isFBObjfdtEnbblfd = !"fblsf".fqubls(fbo);
 
-            // lcdshader currently enabled by default; use "false" to disable
-            String lcd = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(
-                    "sun.java2d.opengl.lcdshader"));
-            isLCDShaderEnabled = !"false".equals(lcd);
+            // lddsibdfr durrfntly fnbblfd by dffbult; usf "fblsf" to disbblf
+            String ldd = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                    "sun.jbvb2d.opfngl.lddsibdfr"));
+            isLCDSibdfrEnbblfd = !"fblsf".fqubls(ldd);
 
-            // biopshader currently enabled by default; use "false" to disable
-            String biop = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(
-                    "sun.java2d.opengl.biopshader"));
-            isBIOpShaderEnabled = !"false".equals(biop);
+            // biopsibdfr durrfntly fnbblfd by dffbult; usf "fblsf" to disbblf
+            String biop = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                    "sun.jbvb2d.opfngl.biopsibdfr"));
+            isBIOpSibdfrEnbblfd = !"fblsf".fqubls(biop);
 
-            // gradshader currently enabled by default; use "false" to disable
-            String grad = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(
-                    "sun.java2d.opengl.gradshader"));
-            isGradShaderEnabled = !"false".equals(grad);
+            // grbdsibdfr durrfntly fnbblfd by dffbult; usf "fblsf" to disbblf
+            String grbd = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                    "sun.jbvb2d.opfngl.grbdsibdfr"));
+            isGrbdSibdfrEnbblfd = !"fblsf".fqubls(grbd);
 
-            OGLRenderQueue rq = OGLRenderQueue.getInstance();
-            oglImagePipe = new OGLDrawImage();
-            oglTextPipe = new OGLTextRenderer(rq);
-            oglRenderPipe = new OGLRenderer(rq);
-            if (GraphicsPrimitive.tracingEnabled()) {
-                oglTextPipe = oglTextPipe.traceWrap();
-                //The wrapped oglRenderPipe will wrap the AA pipe as well...
-                //oglAAPgramPipe = oglRenderPipe.traceWrap();
+            OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+            oglImbgfPipf = nfw OGLDrbwImbgf();
+            oglTfxtPipf = nfw OGLTfxtRfndfrfr(rq);
+            oglRfndfrPipf = nfw OGLRfndfrfr(rq);
+            if (GrbpiidsPrimitivf.trbdingEnbblfd()) {
+                oglTfxtPipf = oglTfxtPipf.trbdfWrbp();
+                //Tif wrbppfd oglRfndfrPipf will wrbp tif AA pipf bs wfll...
+                //oglAAPgrbmPipf = oglRfndfrPipf.trbdfWrbp();
             }
-            oglAAPgramPipe = oglRenderPipe.getAAParallelogramPipe();
-            oglTxRenderPipe =
-                new PixelToParallelogramConverter(oglRenderPipe,
-                                                  oglRenderPipe,
-                                                  1.0, 0.25, true);
+            oglAAPgrbmPipf = oglRfndfrPipf.gftAAPbrbllflogrbmPipf();
+            oglTxRfndfrPipf =
+                nfw PixflToPbrbllflogrbmConvfrtfr(oglRfndfrPipf,
+                                                  oglRfndfrPipf,
+                                                  1.0, 0.25, truf);
 
-            OGLBlitLoops.register();
-            OGLMaskFill.register();
-            OGLMaskBlit.register();
+            OGLBlitLoops.rfgistfr();
+            OGLMbskFill.rfgistfr();
+            OGLMbskBlit.rfgistfr();
         }
     }
 
-    protected OGLSurfaceData(OGLGraphicsConfig gc,
-                             ColorModel cm, int type)
+    protfdtfd OGLSurfbdfDbtb(OGLGrbpiidsConfig gd,
+                             ColorModfl dm, int typf)
     {
-        super(getCustomSurfaceType(type), cm);
-        this.graphicsConfig = gc;
-        this.type = type;
-        setBlitProxyKey(gc.getProxyKey());
+        supfr(gftCustomSurfbdfTypf(typf), dm);
+        tiis.grbpiidsConfig = gd;
+        tiis.typf = typf;
+        sftBlitProxyKfy(gd.gftProxyKfy());
     }
 
-    @Override
-    public SurfaceDataProxy makeProxyFor(SurfaceData srcData) {
-        return OGLSurfaceDataProxy.createProxy(srcData, graphicsConfig);
+    @Ovfrridf
+    publid SurfbdfDbtbProxy mbkfProxyFor(SurfbdfDbtb srdDbtb) {
+        rfturn OGLSurfbdfDbtbProxy.drfbtfProxy(srdDbtb, grbpiidsConfig);
     }
 
     /**
-     * Returns the appropriate SurfaceType corresponding to the given OpenGL
-     * surface type constant (e.g. TEXTURE -> OpenGLTexture).
+     * Rfturns tif bppropribtf SurfbdfTypf dorrfsponding to tif givfn OpfnGL
+     * surfbdf typf donstbnt (f.g. TEXTURE -> OpfnGLTfxturf).
      */
-    private static SurfaceType getCustomSurfaceType(int oglType) {
-        switch (oglType) {
-        case TEXTURE:
-            return OpenGLTexture;
-        case FBOBJECT:
-            return OpenGLSurfaceRTT;
-        case PBUFFER:
-        default:
-            return OpenGLSurface;
+    privbtf stbtid SurfbdfTypf gftCustomSurfbdfTypf(int oglTypf) {
+        switdi (oglTypf) {
+        dbsf TEXTURE:
+            rfturn OpfnGLTfxturf;
+        dbsf FBOBJECT:
+            rfturn OpfnGLSurfbdfRTT;
+        dbsf PBUFFER:
+        dffbult:
+            rfturn OpfnGLSurfbdf;
         }
     }
 
     /**
-     * Note: This should only be called from the QFT under the AWT lock.
-     * This method is kept separate from the initSurface() method below just
-     * to keep the code a bit cleaner.
+     * Notf: Tiis siould only bf dbllfd from tif QFT undfr tif AWT lodk.
+     * Tiis mftiod is kfpt sfpbrbtf from tif initSurfbdf() mftiod bflow just
+     * to kffp tif dodf b bit dlfbnfr.
      */
-    private void initSurfaceNow(int width, int height) {
-        boolean isOpaque = (getTransparency() == Transparency.OPAQUE);
-        boolean success = false;
+    privbtf void initSurfbdfNow(int widti, int ifigit) {
+        boolfbn isOpbquf = (gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE);
+        boolfbn suddfss = fblsf;
 
-        switch (type) {
-        case PBUFFER:
-            success = initPbuffer(getNativeOps(),
-                                  graphicsConfig.getNativeConfigInfo(),
-                                  isOpaque,
-                                  width, height);
-            break;
+        switdi (typf) {
+        dbsf PBUFFER:
+            suddfss = initPbufffr(gftNbtivfOps(),
+                                  grbpiidsConfig.gftNbtivfConfigInfo(),
+                                  isOpbquf,
+                                  widti, ifigit);
+            brfbk;
 
-        case TEXTURE:
-            success = initTexture(getNativeOps(),
-                                  isOpaque, isTexNonPow2Available(),
-                                  isTexRectAvailable(),
-                                  width, height);
-            break;
+        dbsf TEXTURE:
+            suddfss = initTfxturf(gftNbtivfOps(),
+                                  isOpbquf, isTfxNonPow2Avbilbblf(),
+                                  isTfxRfdtAvbilbblf(),
+                                  widti, ifigit);
+            brfbk;
 
-        case FBOBJECT:
-            success = initFBObject(getNativeOps(),
-                                   isOpaque, isTexNonPow2Available(),
-                                   isTexRectAvailable(),
-                                   width, height);
-            break;
+        dbsf FBOBJECT:
+            suddfss = initFBObjfdt(gftNbtivfOps(),
+                                   isOpbquf, isTfxNonPow2Avbilbblf(),
+                                   isTfxRfdtAvbilbblf(),
+                                   widti, ifigit);
+            brfbk;
 
-        case FLIP_BACKBUFFER:
-            success = initFlipBackbuffer(getNativeOps());
-            break;
+        dbsf FLIP_BACKBUFFER:
+            suddfss = initFlipBbdkbufffr(gftNbtivfOps());
+            brfbk;
 
-        default:
-            break;
+        dffbult:
+            brfbk;
         }
 
-        if (!success) {
-            throw new OutOfMemoryError("can't create offscreen surface");
+        if (!suddfss) {
+            tirow nfw OutOfMfmoryError("dbn't drfbtf offsdrffn surfbdf");
         }
     }
 
     /**
-     * Initializes the appropriate OpenGL offscreen surface based on the value
-     * of the type parameter.  If the surface creation fails for any reason,
-     * an OutOfMemoryError will be thrown.
+     * Initiblizfs tif bppropribtf OpfnGL offsdrffn surfbdf bbsfd on tif vbluf
+     * of tif typf pbrbmftfr.  If tif surfbdf drfbtion fbils for bny rfbson,
+     * bn OutOfMfmoryError will bf tirown.
      */
-    protected void initSurface(final int width, final int height) {
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+    protfdtfd void initSurfbdf(finbl int widti, finbl int ifigit) {
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            switch (type) {
-            case TEXTURE:
-            case PBUFFER:
-            case FBOBJECT:
-                // need to make sure the context is current before
-                // creating the texture (or pbuffer, or fbobject)
-                OGLContext.setScratchSurface(graphicsConfig);
-                break;
-            default:
-                break;
+            switdi (typf) {
+            dbsf TEXTURE:
+            dbsf PBUFFER:
+            dbsf FBOBJECT:
+                // nffd to mbkf surf tif dontfxt is durrfnt bfforf
+                // drfbting tif tfxturf (or pbufffr, or fbobjfdt)
+                OGLContfxt.sftSdrbtdiSurfbdf(grbpiidsConfig);
+                brfbk;
+            dffbult:
+                brfbk;
             }
-            rq.flushAndInvokeNow(new Runnable() {
-                public void run() {
-                    initSurfaceNow(width, height);
+            rq.flusiAndInvokfNow(nfw Runnbblf() {
+                publid void run() {
+                    initSurfbdfNow(widti, ifigit);
                 }
             });
-        } finally {
-            rq.unlock();
+        } finblly {
+            rq.unlodk();
         }
     }
 
     /**
-     * Returns the OGLContext for the GraphicsConfig associated with this
-     * surface.
+     * Rfturns tif OGLContfxt for tif GrbpiidsConfig bssodibtfd witi tiis
+     * surfbdf.
      */
-    public final OGLContext getContext() {
-        return graphicsConfig.getContext();
+    publid finbl OGLContfxt gftContfxt() {
+        rfturn grbpiidsConfig.gftContfxt();
     }
 
     /**
-     * Returns the OGLGraphicsConfig associated with this surface.
+     * Rfturns tif OGLGrbpiidsConfig bssodibtfd witi tiis surfbdf.
      */
-    final OGLGraphicsConfig getOGLGraphicsConfig() {
-        return graphicsConfig;
+    finbl OGLGrbpiidsConfig gftOGLGrbpiidsConfig() {
+        rfturn grbpiidsConfig;
     }
 
     /**
-     * Returns one of the surface type constants defined above.
+     * Rfturns onf of tif surfbdf typf donstbnts dffinfd bbovf.
      */
-    public final int getType() {
-        return type;
+    publid finbl int gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * If this surface is backed by a texture object, returns the target
-     * for that texture (either GL_TEXTURE_2D or GL_TEXTURE_RECTANGLE_ARB).
-     * Otherwise, this method will return zero.
+     * If tiis surfbdf is bbdkfd by b tfxturf objfdt, rfturns tif tbrgft
+     * for tibt tfxturf (fitifr GL_TEXTURE_2D or GL_TEXTURE_RECTANGLE_ARB).
+     * Otifrwisf, tiis mftiod will rfturn zfro.
      */
-    public final int getTextureTarget() {
-        return getTextureTarget(getNativeOps());
+    publid finbl int gftTfxturfTbrgft() {
+        rfturn gftTfxturfTbrgft(gftNbtivfOps());
     }
 
     /**
-     * If this surface is backed by a texture object, returns the texture ID
-     * for that texture.
-     * Otherwise, this method will return zero.
+     * If tiis surfbdf is bbdkfd by b tfxturf objfdt, rfturns tif tfxturf ID
+     * for tibt tfxturf.
+     * Otifrwisf, tiis mftiod will rfturn zfro.
      */
-    public final int getTextureID() {
-        return getTextureID(getNativeOps());
+    publid finbl int gftTfxturfID() {
+        rfturn gftTfxturfID(gftNbtivfOps());
     }
 
     /**
-     * Returns native resource of specified {@code resType} associated with
-     * this surface.
+     * Rfturns nbtivf rfsourdf of spfdififd {@dodf rfsTypf} bssodibtfd witi
+     * tiis surfbdf.
      *
-     * Specifically, for {@code OGLSurfaceData} this method returns the
-     * the following:
-     * <pre>
-     * TEXTURE              - texture id
-     * </pre>
+     * Spfdifidblly, for {@dodf OGLSurfbdfDbtb} tiis mftiod rfturns tif
+     * tif following:
+     * <prf>
+     * TEXTURE              - tfxturf id
+     * </prf>
      *
-     * Note: the resource returned by this method is only valid on the rendering
-     * thread.
+     * Notf: tif rfsourdf rfturnfd by tiis mftiod is only vblid on tif rfndfring
+     * tirfbd.
      *
-     * @return native resource of specified type or 0L if
-     * such resource doesn't exist or can not be retrieved.
-     * @see sun.java2d.pipe.hw.AccelSurface#getNativeResource
+     * @rfturn nbtivf rfsourdf of spfdififd typf or 0L if
+     * sudi rfsourdf dofsn't fxist or dbn not bf rftrifvfd.
+     * @sff sun.jbvb2d.pipf.iw.AddflSurfbdf#gftNbtivfRfsourdf
      */
-    public long getNativeResource(int resType) {
-        if (resType == TEXTURE) {
-            return getTextureID();
+    publid long gftNbtivfRfsourdf(int rfsTypf) {
+        if (rfsTypf == TEXTURE) {
+            rfturn gftTfxturfID();
         }
-        return 0L;
+        rfturn 0L;
     }
 
-    public Raster getRaster(int x, int y, int w, int h) {
-        throw new InternalError("not implemented yet");
+    publid Rbstfr gftRbstfr(int x, int y, int w, int i) {
+        tirow nfw IntfrnblError("not implfmfntfd yft");
     }
 
     /**
-     * For now, we can only render LCD text if:
-     *   - the fragment shader extension is available, and
-     *   - blending is disabled, and
-     *   - the source color is opaque
-     *   - and the destination is opaque
+     * For now, wf dbn only rfndfr LCD tfxt if:
+     *   - tif frbgmfnt sibdfr fxtfnsion is bvbilbblf, bnd
+     *   - blfnding is disbblfd, bnd
+     *   - tif sourdf dolor is opbquf
+     *   - bnd tif dfstinbtion is opbquf
      *
-     * Eventually, we could enhance the native OGL text rendering code
-     * and remove the above restrictions, but that would require significantly
-     * more code just to support a few uncommon cases.
+     * Evfntublly, wf dould fnibndf tif nbtivf OGL tfxt rfndfring dodf
+     * bnd rfmovf tif bbovf rfstridtions, but tibt would rfquirf signifidbntly
+     * morf dodf just to support b ffw undommon dbsfs.
      */
-    public boolean canRenderLCDText(SunGraphics2D sg2d) {
-        return
-            graphicsConfig.isCapPresent(CAPS_EXT_LCD_SHADER) &&
-            sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY &&
-            sg2d.paintState <= SunGraphics2D.PAINT_OPAQUECOLOR &&
-            sg2d.surfaceData.getTransparency() == Transparency.OPAQUE;
+    publid boolfbn dbnRfndfrLCDTfxt(SunGrbpiids2D sg2d) {
+        rfturn
+            grbpiidsConfig.isCbpPrfsfnt(CAPS_EXT_LCD_SHADER) &&
+            sg2d.dompositfStbtf <= SunGrbpiids2D.COMP_ISCOPY &&
+            sg2d.pbintStbtf <= SunGrbpiids2D.PAINT_OPAQUECOLOR &&
+            sg2d.surfbdfDbtb.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE;
     }
 
-    public void validatePipe(SunGraphics2D sg2d) {
-        TextPipe textpipe;
-        boolean validated = false;
+    publid void vblidbtfPipf(SunGrbpiids2D sg2d) {
+        TfxtPipf tfxtpipf;
+        boolfbn vblidbtfd = fblsf;
 
-        // OGLTextRenderer handles both AA and non-AA text, but
-        // only works with the following modes:
-        // (Note: For LCD text we only enter this code path if
-        // canRenderLCDText() has already validated that the mode is
-        // CompositeType.SrcNoEa (opaque color), which will be subsumed
-        // by the CompositeType.SrcNoEa (any color) test below.)
+        // OGLTfxtRfndfrfr ibndlfs boti AA bnd non-AA tfxt, but
+        // only works witi tif following modfs:
+        // (Notf: For LCD tfxt wf only fntfr tiis dodf pbti if
+        // dbnRfndfrLCDTfxt() ibs blrfbdy vblidbtfd tibt tif modf is
+        // CompositfTypf.SrdNoEb (opbquf dolor), wiidi will bf subsumfd
+        // by tif CompositfTypf.SrdNoEb (bny dolor) tfst bflow.)
 
-        if (/* CompositeType.SrcNoEa (any color) */
-            (sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY &&
-             sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR)         ||
+        if (/* CompositfTypf.SrdNoEb (bny dolor) */
+            (sg2d.dompositfStbtf <= SunGrbpiids2D.COMP_ISCOPY &&
+             sg2d.pbintStbtf <= SunGrbpiids2D.PAINT_ALPHACOLOR)         ||
 
-            /* CompositeType.SrcOver (any color) */
-            (sg2d.compositeState == SunGraphics2D.COMP_ALPHA   &&
-             sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR &&
-             (((AlphaComposite)sg2d.composite).getRule() ==
-              AlphaComposite.SRC_OVER))                                 ||
+            /* CompositfTypf.SrdOvfr (bny dolor) */
+            (sg2d.dompositfStbtf == SunGrbpiids2D.COMP_ALPHA   &&
+             sg2d.pbintStbtf <= SunGrbpiids2D.PAINT_ALPHACOLOR &&
+             (((AlpibCompositf)sg2d.dompositf).gftRulf() ==
+              AlpibCompositf.SRC_OVER))                                 ||
 
-            /* CompositeType.Xor (any color) */
-            (sg2d.compositeState == SunGraphics2D.COMP_XOR &&
-             sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR))
+            /* CompositfTypf.Xor (bny dolor) */
+            (sg2d.dompositfStbtf == SunGrbpiids2D.COMP_XOR &&
+             sg2d.pbintStbtf <= SunGrbpiids2D.PAINT_ALPHACOLOR))
         {
-            textpipe = oglTextPipe;
-        } else {
-            // do this to initialize textpipe correctly; we will attempt
-            // to override the non-text pipes below
-            super.validatePipe(sg2d);
-            textpipe = sg2d.textpipe;
-            validated = true;
+            tfxtpipf = oglTfxtPipf;
+        } flsf {
+            // do tiis to initiblizf tfxtpipf dorrfdtly; wf will bttfmpt
+            // to ovfrridf tif non-tfxt pipfs bflow
+            supfr.vblidbtfPipf(sg2d);
+            tfxtpipf = sg2d.tfxtpipf;
+            vblidbtfd = truf;
         }
 
-        PixelToParallelogramConverter txPipe = null;
-        OGLRenderer nonTxPipe = null;
+        PixflToPbrbllflogrbmConvfrtfr txPipf = null;
+        OGLRfndfrfr nonTxPipf = null;
 
-        if (sg2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON) {
-            if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR) {
-                if (sg2d.compositeState <= SunGraphics2D.COMP_XOR) {
-                    txPipe = oglTxRenderPipe;
-                    nonTxPipe = oglRenderPipe;
+        if (sg2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) {
+            if (sg2d.pbintStbtf <= SunGrbpiids2D.PAINT_ALPHACOLOR) {
+                if (sg2d.dompositfStbtf <= SunGrbpiids2D.COMP_XOR) {
+                    txPipf = oglTxRfndfrPipf;
+                    nonTxPipf = oglRfndfrPipf;
                 }
-            } else if (sg2d.compositeState <= SunGraphics2D.COMP_ALPHA) {
-                if (OGLPaints.isValid(sg2d)) {
-                    txPipe = oglTxRenderPipe;
-                    nonTxPipe = oglRenderPipe;
+            } flsf if (sg2d.dompositfStbtf <= SunGrbpiids2D.COMP_ALPHA) {
+                if (OGLPbints.isVblid(sg2d)) {
+                    txPipf = oglTxRfndfrPipf;
+                    nonTxPipf = oglRfndfrPipf;
                 }
-                // custom paints handled by super.validatePipe() below
+                // dustom pbints ibndlfd by supfr.vblidbtfPipf() bflow
             }
-        } else {
-            if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR) {
-                if (graphicsConfig.isCapPresent(CAPS_PS30) &&
-                    (sg2d.imageComp == CompositeType.SrcOverNoEa ||
-                     sg2d.imageComp == CompositeType.SrcOver))
+        } flsf {
+            if (sg2d.pbintStbtf <= SunGrbpiids2D.PAINT_ALPHACOLOR) {
+                if (grbpiidsConfig.isCbpPrfsfnt(CAPS_PS30) &&
+                    (sg2d.imbgfComp == CompositfTypf.SrdOvfrNoEb ||
+                     sg2d.imbgfComp == CompositfTypf.SrdOvfr))
                 {
-                    if (!validated) {
-                        super.validatePipe(sg2d);
-                        validated = true;
+                    if (!vblidbtfd) {
+                        supfr.vblidbtfPipf(sg2d);
+                        vblidbtfd = truf;
                     }
-                    PixelToParallelogramConverter aaConverter =
-                        new PixelToParallelogramConverter(sg2d.shapepipe,
-                                                          oglAAPgramPipe,
+                    PixflToPbrbllflogrbmConvfrtfr bbConvfrtfr =
+                        nfw PixflToPbrbllflogrbmConvfrtfr(sg2d.sibpfpipf,
+                                                          oglAAPgrbmPipf,
                                                           1.0/8.0, 0.499,
-                                                          false);
-                    sg2d.drawpipe = aaConverter;
-                    sg2d.fillpipe = aaConverter;
-                    sg2d.shapepipe = aaConverter;
-                } else if (sg2d.compositeState == SunGraphics2D.COMP_XOR) {
-                    // install the solid pipes when AA and XOR are both enabled
-                    txPipe = oglTxRenderPipe;
-                    nonTxPipe = oglRenderPipe;
+                                                          fblsf);
+                    sg2d.drbwpipf = bbConvfrtfr;
+                    sg2d.fillpipf = bbConvfrtfr;
+                    sg2d.sibpfpipf = bbConvfrtfr;
+                } flsf if (sg2d.dompositfStbtf == SunGrbpiids2D.COMP_XOR) {
+                    // instbll tif solid pipfs wifn AA bnd XOR brf boti fnbblfd
+                    txPipf = oglTxRfndfrPipf;
+                    nonTxPipf = oglRfndfrPipf;
                 }
             }
-            // other cases handled by super.validatePipe() below
+            // otifr dbsfs ibndlfd by supfr.vblidbtfPipf() bflow
         }
 
-        if (txPipe != null) {
-            if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-                sg2d.drawpipe = txPipe;
-                sg2d.fillpipe = txPipe;
-            } else if (sg2d.strokeState != SunGraphics2D.STROKE_THIN) {
-                sg2d.drawpipe = txPipe;
-                sg2d.fillpipe = nonTxPipe;
-            } else {
-                sg2d.drawpipe = nonTxPipe;
-                sg2d.fillpipe = nonTxPipe;
+        if (txPipf != null) {
+            if (sg2d.trbnsformStbtf >= SunGrbpiids2D.TRANSFORM_TRANSLATESCALE) {
+                sg2d.drbwpipf = txPipf;
+                sg2d.fillpipf = txPipf;
+            } flsf if (sg2d.strokfStbtf != SunGrbpiids2D.STROKE_THIN) {
+                sg2d.drbwpipf = txPipf;
+                sg2d.fillpipf = nonTxPipf;
+            } flsf {
+                sg2d.drbwpipf = nonTxPipf;
+                sg2d.fillpipf = nonTxPipf;
             }
-            // Note that we use the transforming pipe here because it
-            // will examine the shape and possibly perform an optimized
-            // operation if it can be simplified.  The simplifications
-            // will be valid for all STROKE and TRANSFORM types.
-            sg2d.shapepipe = txPipe;
-        } else {
-            if (!validated) {
-                super.validatePipe(sg2d);
+            // Notf tibt wf usf tif trbnsforming pipf ifrf bfdbusf it
+            // will fxbminf tif sibpf bnd possibly pfrform bn optimizfd
+            // opfrbtion if it dbn bf simplififd.  Tif simplifidbtions
+            // will bf vblid for bll STROKE bnd TRANSFORM typfs.
+            sg2d.sibpfpipf = txPipf;
+        } flsf {
+            if (!vblidbtfd) {
+                supfr.vblidbtfPipf(sg2d);
             }
         }
 
-        // install the text pipe based on our earlier decision
-        sg2d.textpipe = textpipe;
+        // instbll tif tfxt pipf bbsfd on our fbrlifr dfdision
+        sg2d.tfxtpipf = tfxtpipf;
 
-        // always override the image pipe with the specialized OGL pipe
-        sg2d.imagepipe = oglImagePipe;
+        // blwbys ovfrridf tif imbgf pipf witi tif spfdiblizfd OGL pipf
+        sg2d.imbgfpipf = oglImbgfPipf;
     }
 
-    @Override
-    protected MaskFill getMaskFill(SunGraphics2D sg2d) {
-        if (sg2d.paintState > SunGraphics2D.PAINT_ALPHACOLOR) {
+    @Ovfrridf
+    protfdtfd MbskFill gftMbskFill(SunGrbpiids2D sg2d) {
+        if (sg2d.pbintStbtf > SunGrbpiids2D.PAINT_ALPHACOLOR) {
             /*
-             * We can only accelerate non-Color MaskFill operations if
-             * all of the following conditions hold true:
-             *   - there is an implementation for the given paintState
-             *   - the current Paint can be accelerated for this destination
-             *   - multitexturing is available (since we need to modulate
-             *     the alpha mask texture with the paint texture)
+             * Wf dbn only bddflfrbtf non-Color MbskFill opfrbtions if
+             * bll of tif following donditions iold truf:
+             *   - tifrf is bn implfmfntbtion for tif givfn pbintStbtf
+             *   - tif durrfnt Pbint dbn bf bddflfrbtfd for tiis dfstinbtion
+             *   - multitfxturing is bvbilbblf (sindf wf nffd to modulbtf
+             *     tif blpib mbsk tfxturf witi tif pbint tfxturf)
              *
-             * In all other cases, we return null, in which case the
-             * validation code will choose a more general software-based loop.
+             * In bll otifr dbsfs, wf rfturn null, in wiidi dbsf tif
+             * vblidbtion dodf will dioosf b morf gfnfrbl softwbrf-bbsfd loop.
              */
-            if (!OGLPaints.isValid(sg2d) ||
-                !graphicsConfig.isCapPresent(CAPS_MULTITEXTURE))
+            if (!OGLPbints.isVblid(sg2d) ||
+                !grbpiidsConfig.isCbpPrfsfnt(CAPS_MULTITEXTURE))
             {
-                return null;
+                rfturn null;
             }
         }
-        return super.getMaskFill(sg2d);
+        rfturn supfr.gftMbskFill(sg2d);
     }
 
-    public boolean copyArea(SunGraphics2D sg2d,
-                            int x, int y, int w, int h, int dx, int dy)
+    publid boolfbn dopyArfb(SunGrbpiids2D sg2d,
+                            int x, int y, int w, int i, int dx, int dy)
     {
-        if (sg2d.transformState < SunGraphics2D.TRANSFORM_TRANSLATESCALE &&
-            sg2d.compositeState < SunGraphics2D.COMP_XOR)
+        if (sg2d.trbnsformStbtf < SunGrbpiids2D.TRANSFORM_TRANSLATESCALE &&
+            sg2d.dompositfStbtf < SunGrbpiids2D.COMP_XOR)
         {
-            x += sg2d.transX;
-            y += sg2d.transY;
+            x += sg2d.trbnsX;
+            y += sg2d.trbnsY;
 
-            oglRenderPipe.copyArea(sg2d, x, y, w, h, dx, dy);
+            oglRfndfrPipf.dopyArfb(sg2d, x, y, w, i, dx, dy);
 
-            return true;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public void flush() {
-        invalidate();
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+    publid void flusi() {
+        invblidbtf();
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            // make sure we have a current context before
-            // disposing the native resources (e.g. texture object)
-            OGLContext.setScratchSurface(graphicsConfig);
+            // mbkf surf wf ibvf b durrfnt dontfxt bfforf
+            // disposing tif nbtivf rfsourdfs (f.g. tfxturf objfdt)
+            OGLContfxt.sftSdrbtdiSurfbdf(grbpiidsConfig);
 
-            RenderBuffer buf = rq.getBuffer();
-            rq.ensureCapacityAndAlignment(12, 4);
+            RfndfrBufffr buf = rq.gftBufffr();
+            rq.fnsurfCbpbdityAndAlignmfnt(12, 4);
             buf.putInt(FLUSH_SURFACE);
-            buf.putLong(getNativeOps());
+            buf.putLong(gftNbtivfOps());
 
-            // this call is expected to complete synchronously, so flush now
-            rq.flushNow();
-        } finally {
-            rq.unlock();
+            // tiis dbll is fxpfdtfd to domplftf syndironously, so flusi now
+            rq.flusiNow();
+        } finblly {
+            rq.unlodk();
         }
     }
 
     /**
-     * Disposes the native resources associated with the given OGLSurfaceData
-     * (referenced by the pData parameter).  This method is invoked from
-     * the native Dispose() method from the Disposer thread when the
-     * Java-level OGLSurfaceData object is about to go away.  Note that we
-     * also pass a reference to the native GLX/WGLGraphicsConfigInfo
-     * (pConfigInfo) for the purposes of making a context current.
+     * Disposfs tif nbtivf rfsourdfs bssodibtfd witi tif givfn OGLSurfbdfDbtb
+     * (rfffrfndfd by tif pDbtb pbrbmftfr).  Tiis mftiod is invokfd from
+     * tif nbtivf Disposf() mftiod from tif Disposfr tirfbd wifn tif
+     * Jbvb-lfvfl OGLSurfbdfDbtb objfdt is bbout to go bwby.  Notf tibt wf
+     * blso pbss b rfffrfndf to tif nbtivf GLX/WGLGrbpiidsConfigInfo
+     * (pConfigInfo) for tif purposfs of mbking b dontfxt durrfnt.
      */
-    static void dispose(long pData, long pConfigInfo) {
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+    stbtid void disposf(long pDbtb, long pConfigInfo) {
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            // make sure we have a current context before
-            // disposing the native resources (e.g. texture object)
-            OGLContext.setScratchSurface(pConfigInfo);
+            // mbkf surf wf ibvf b durrfnt dontfxt bfforf
+            // disposing tif nbtivf rfsourdfs (f.g. tfxturf objfdt)
+            OGLContfxt.sftSdrbtdiSurfbdf(pConfigInfo);
 
-            RenderBuffer buf = rq.getBuffer();
-            rq.ensureCapacityAndAlignment(12, 4);
+            RfndfrBufffr buf = rq.gftBufffr();
+            rq.fnsurfCbpbdityAndAlignmfnt(12, 4);
             buf.putInt(DISPOSE_SURFACE);
-            buf.putLong(pData);
+            buf.putLong(pDbtb);
 
-            // this call is expected to complete synchronously, so flush now
-            rq.flushNow();
-        } finally {
-            rq.unlock();
+            // tiis dbll is fxpfdtfd to domplftf syndironously, so flusi now
+            rq.flusiNow();
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    static void swapBuffers(long window) {
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+    stbtid void swbpBufffrs(long window) {
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            RenderBuffer buf = rq.getBuffer();
-            rq.ensureCapacityAndAlignment(12, 4);
+            RfndfrBufffr buf = rq.gftBufffr();
+            rq.fnsurfCbpbdityAndAlignmfnt(12, 4);
             buf.putInt(SWAP_BUFFERS);
             buf.putLong(window);
-            rq.flushNow();
-        } finally {
-            rq.unlock();
+            rq.flusiNow();
+        } finblly {
+            rq.unlodk();
         }
     }
 
     /**
-     * Returns true if OpenGL textures can have non-power-of-two dimensions
-     * when using the basic GL_TEXTURE_2D target.
+     * Rfturns truf if OpfnGL tfxturfs dbn ibvf non-powfr-of-two dimfnsions
+     * wifn using tif bbsid GL_TEXTURE_2D tbrgft.
      */
-    boolean isTexNonPow2Available() {
-        return graphicsConfig.isCapPresent(CAPS_TEXNONPOW2);
+    boolfbn isTfxNonPow2Avbilbblf() {
+        rfturn grbpiidsConfig.isCbpPrfsfnt(CAPS_TEXNONPOW2);
     }
 
     /**
-     * Returns true if OpenGL textures can have non-power-of-two dimensions
-     * when using the GL_TEXTURE_RECTANGLE_ARB target (only available when the
-     * GL_ARB_texture_rectangle extension is present).
+     * Rfturns truf if OpfnGL tfxturfs dbn ibvf non-powfr-of-two dimfnsions
+     * wifn using tif GL_TEXTURE_RECTANGLE_ARB tbrgft (only bvbilbblf wifn tif
+     * GL_ARB_tfxturf_rfdtbnglf fxtfnsion is prfsfnt).
      */
-    boolean isTexRectAvailable() {
-        return graphicsConfig.isCapPresent(CAPS_EXT_TEXRECT);
+    boolfbn isTfxRfdtAvbilbblf() {
+        rfturn grbpiidsConfig.isCbpPrfsfnt(CAPS_EXT_TEXRECT);
     }
 
-    public Rectangle getNativeBounds() {
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+    publid Rfdtbnglf gftNbtivfBounds() {
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            return new Rectangle(nativeWidth, nativeHeight);
-        } finally {
-            rq.unlock();
+            rfturn nfw Rfdtbnglf(nbtivfWidti, nbtivfHfigit);
+        } finblly {
+            rq.unlodk();
         }
     }
 
     /**
-     * Returns true if the surface is an on-screen window surface or
-     * a FBO texture attached to an on-screen CALayer.
+     * Rfturns truf if tif surfbdf is bn on-sdrffn window surfbdf or
+     * b FBO tfxturf bttbdifd to bn on-sdrffn CALbyfr.
      *
-     * Needed by Mac OS X port.
+     * Nffdfd by Mbd OS X port.
      */
-    boolean isOnScreen() {
-        return getType() == WINDOW;
+    boolfbn isOnSdrffn() {
+        rfturn gftTypf() == WINDOW;
     }
 }

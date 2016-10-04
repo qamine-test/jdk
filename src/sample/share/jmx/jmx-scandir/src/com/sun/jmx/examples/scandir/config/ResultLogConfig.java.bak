@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,149 +30,149 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir.config;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
 
-import java.util.Arrays;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jbvb.util.Arrbys;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfnt;
+import jbvbx.xml.bind.bnnotbtion.XmlRootElfmfnt;
 
 /**
- * The <code>ResultLogConfig</code> Java Bean is used to model
- * the initial configuration of the {@link
- * com.sun.jmx.examples.scandir.ResultLogManagerMXBean}.
+ * Tif <dodf>RfsultLogConfig</dodf> Jbvb Bfbn is usfd to modfl
+ * tif initibl donfigurbtion of tif {@link
+ * dom.sun.jmx.fxbmplfs.sdbndir.RfsultLogMbnbgfrMXBfbn}.
  *
  * <p>
- * This class is annotated for XML binding.
+ * Tiis dlbss is bnnotbtfd for XML binding.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-@XmlRootElement(name="ResultLogConfig",
-        namespace=XmlConfigUtils.NAMESPACE)
-public class ResultLogConfig {
+@XmlRootElfmfnt(nbmf="RfsultLogConfig",
+        nbmfspbdf=XmlConfigUtils.NAMESPACE)
+publid dlbss RfsultLogConfig {
 
     //
-    // A logger for this class.
+    // A loggfr for tiis dlbss.
     //
-    // private static final Logger LOG =
-    //        Logger.getLogger(ResultLogConfig.class.getName());
+    // privbtf stbtid finbl Loggfr LOG =
+    //        Loggfr.gftLoggfr(RfsultLogConfig.dlbss.gftNbmf());
 
     /**
-     * The path to the result log file. {@code null} means that logging to
-     * file is disabled.
+     * Tif pbti to tif rfsult log filf. {@dodf null} mfbns tibt logging to
+     * filf is disbblfd.
      */
-    private String logFileName;
+    privbtf String logFilfNbmf;
 
     /**
-     * Maximum number of record that will be logged in the log file before
-     * switching to a new log file.
+     * Mbximum numbfr of rfdord tibt will bf loggfd in tif log filf bfforf
+     * switdiing to b nfw log filf.
      */
-    private long logFileMaxRecords;
+    privbtf long logFilfMbxRfdords;
 
     /**
-     * The maximum number of records that can be contained in the memory log.
-     * When this number is reached, the memory log drops its eldest record
-     * to make way for the new one.
+     * Tif mbximum numbfr of rfdords tibt dbn bf dontbinfd in tif mfmory log.
+     * Wifn tiis numbfr is rfbdifd, tif mfmory log drops its fldfst rfdord
+     * to mbkf wby for tif nfw onf.
      */
-    private int memoryMaxRecords;
+    privbtf int mfmoryMbxRfdords;
 
     /**
-     * Creates a new instance of ResultLogConfig
+     * Crfbtfs b nfw instbndf of RfsultLogConfig
      */
-    public ResultLogConfig() {
+    publid RfsultLogConfig() {
     }
 
     /**
-     * Gets the path to the result log file. {@code null} means that logging to
-     * file is disabled.
-     * @return the path to the result log file.
+     * Gfts tif pbti to tif rfsult log filf. {@dodf null} mfbns tibt logging to
+     * filf is disbblfd.
+     * @rfturn tif pbti to tif rfsult log filf.
      */
-    @XmlElement(name="LogFileName",namespace=XmlConfigUtils.NAMESPACE)
-    public String getLogFileName() {
-        return this.logFileName;
+    @XmlElfmfnt(nbmf="LogFilfNbmf",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid String gftLogFilfNbmf() {
+        rfturn tiis.logFilfNbmf;
     }
 
     /**
-     * Sets the path to the result log file. {@code null} means that
-     * logging to file is disabled.
-     * @param logFileName the path to the result log file.
+     * Sfts tif pbti to tif rfsult log filf. {@dodf null} mfbns tibt
+     * logging to filf is disbblfd.
+     * @pbrbm logFilfNbmf tif pbti to tif rfsult log filf.
      */
-    public void setLogFileName(String logFileName) {
-        this.logFileName = logFileName;
+    publid void sftLogFilfNbmf(String logFilfNbmf) {
+        tiis.logFilfNbmf = logFilfNbmf;
     }
 
     /**
-     * Gets the maximum number of record that will be logged in the log file
-     * before switching to a new log file.
-     * A 0 or negative value means no limit.
-     * @return the maximum number of record that will be logged in the log file.
+     * Gfts tif mbximum numbfr of rfdord tibt will bf loggfd in tif log filf
+     * bfforf switdiing to b nfw log filf.
+     * A 0 or nfgbtivf vbluf mfbns no limit.
+     * @rfturn tif mbximum numbfr of rfdord tibt will bf loggfd in tif log filf.
      */
-    @XmlElement(name="LogFileMaxRecords",namespace=XmlConfigUtils.NAMESPACE)
-    public long getLogFileMaxRecords() {
-        return this.logFileMaxRecords;
+    @XmlElfmfnt(nbmf="LogFilfMbxRfdords",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid long gftLogFilfMbxRfdords() {
+        rfturn tiis.logFilfMbxRfdords;
     }
 
     /**
-     * Sets the maximum number of record that will be logged in the log file
-     * before switching to a new log file.
-     * A 0 or negative value means no limit.
-     * @param logFileMaxRecords the maximum number of record that will be
-     * logged in the log file.
+     * Sfts tif mbximum numbfr of rfdord tibt will bf loggfd in tif log filf
+     * bfforf switdiing to b nfw log filf.
+     * A 0 or nfgbtivf vbluf mfbns no limit.
+     * @pbrbm logFilfMbxRfdords tif mbximum numbfr of rfdord tibt will bf
+     * loggfd in tif log filf.
      */
-    public void setLogFileMaxRecords(long logFileMaxRecords) {
-        this.logFileMaxRecords = logFileMaxRecords;
+    publid void sftLogFilfMbxRfdords(long logFilfMbxRfdords) {
+        tiis.logFilfMbxRfdords = logFilfMbxRfdords;
     }
 
     /**
-     * Gets the maximum number of records that can be contained in the memory
+     * Gfts tif mbximum numbfr of rfdords tibt dbn bf dontbinfd in tif mfmory
      * log.
-     * When this number is reached, the memory log drops its eldest record
-     * to make way for the new one.
-     * @return the maximum number of records that can be contained in the
-     * memory log.
+     * Wifn tiis numbfr is rfbdifd, tif mfmory log drops its fldfst rfdord
+     * to mbkf wby for tif nfw onf.
+     * @rfturn tif mbximum numbfr of rfdords tibt dbn bf dontbinfd in tif
+     * mfmory log.
      */
-    @XmlElement(name="MemoryMaxRecords",namespace=XmlConfigUtils.NAMESPACE)
-    public int getMemoryMaxRecords() {
-        return this.memoryMaxRecords;
+    @XmlElfmfnt(nbmf="MfmoryMbxRfdords",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid int gftMfmoryMbxRfdords() {
+        rfturn tiis.mfmoryMbxRfdords;
     }
 
     /**
-     * Sets the maximum number of records that can be contained in the memory
+     * Sfts tif mbximum numbfr of rfdords tibt dbn bf dontbinfd in tif mfmory
      * log.
-     * When this number is reached, the memory log drops its eldest record
-     * to make way for the new one.
-     * @param memoryMaxRecords the maximum number of records that can be
-     * contained in the memory log.
+     * Wifn tiis numbfr is rfbdifd, tif mfmory log drops its fldfst rfdord
+     * to mbkf wby for tif nfw onf.
+     * @pbrbm mfmoryMbxRfdords tif mbximum numbfr of rfdords tibt dbn bf
+     * dontbinfd in tif mfmory log.
      */
-    public void setMemoryMaxRecords(int memoryMaxRecords) {
-        this.memoryMaxRecords = memoryMaxRecords;
+    publid void sftMfmoryMbxRfdords(int mfmoryMbxRfdords) {
+        tiis.mfmoryMbxRfdords = mfmoryMbxRfdords;
     }
 
-    private Object[] toArray() {
-        final Object[] thisconfig = {
-            memoryMaxRecords,logFileMaxRecords,logFileName
+    privbtf Objfdt[] toArrby() {
+        finbl Objfdt[] tiisdonfig = {
+            mfmoryMbxRfdords,logFilfMbxRfdords,logFilfNbmf
         };
-        return thisconfig;
+        rfturn tiisdonfig;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof ResultLogConfig)) return false;
-        final ResultLogConfig other = (ResultLogConfig)o;
-        return Arrays.deepEquals(toArray(),other.toArray());
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis) rfturn truf;
+        if (!(o instbndfof RfsultLogConfig)) rfturn fblsf;
+        finbl RfsultLogConfig otifr = (RfsultLogConfig)o;
+        rfturn Arrbys.dffpEqubls(toArrby(),otifr.toArrby());
     }
 
-    @Override
-    public int hashCode() {
-        return Arrays.deepHashCode(toArray());
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Arrbys.dffpHbsiCodf(toArrby());
     }
 }

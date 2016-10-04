@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.Dialog;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Rfdtbnglf;
 
-import sun.awt.EmbeddedFrame;
-import sun.awt.Win32GraphicsEnvironment;
+import sun.bwt.EmbfddfdFrbmf;
+import sun.bwt.Win32GrbpiidsEnvironmfnt;
 
-public class WEmbeddedFramePeer extends WFramePeer {
+publid dlbss WEmbfddfdFrbmfPffr fxtfnds WFrbmfPffr {
 
-    public WEmbeddedFramePeer(EmbeddedFrame target) {
-        super(target);
+    publid WEmbfddfdFrbmfPffr(EmbfddfdFrbmf tbrgft) {
+        supfr(tbrgft);
     }
 
-    @Override
-    native void create(WComponentPeer parent);
+    @Ovfrridf
+    nbtivf void drfbtf(WComponfntPffr pbrfnt);
 
-    // suppress printing of an embedded frame.
-    @Override
-    public void print(Graphics g) {}
+    // supprfss printing of bn fmbfddfd frbmf.
+    @Ovfrridf
+    publid void print(Grbpiids g) {}
 
-    // supress calling native setMinSize()
-    @Override
-    public void updateMinimumSize() {}
+    // suprfss dblling nbtivf sftMinSizf()
+    @Ovfrridf
+    publid void updbtfMinimumSizf() {}
 
-    @Override
-    public void modalDisable(Dialog blocker, long blockerHWnd)
+    @Ovfrridf
+    publid void modblDisbblf(Diblog blodkfr, long blodkfrHWnd)
     {
-        super.modalDisable(blocker, blockerHWnd);
-        ((EmbeddedFrame)target).notifyModalBlocked(blocker, true);
+        supfr.modblDisbblf(blodkfr, blodkfrHWnd);
+        ((EmbfddfdFrbmf)tbrgft).notifyModblBlodkfd(blodkfr, truf);
     }
-    @Override
-    public void modalEnable(Dialog blocker)
+    @Ovfrridf
+    publid void modblEnbblf(Diblog blodkfr)
     {
-        super.modalEnable(blocker);
-        ((EmbeddedFrame)target).notifyModalBlocked(blocker, false);
+        supfr.modblEnbblf(blodkfr);
+        ((EmbfddfdFrbmf)tbrgft).notifyModblBlodkfd(blodkfr, fblsf);
     }
 
-    @Override
-    public void setBoundsPrivate(int x, int y, int width, int height) {
-        setBounds(x, y, width, height, SET_BOUNDS | NO_EMBEDDED_CHECK);
+    @Ovfrridf
+    publid void sftBoundsPrivbtf(int x, int y, int widti, int ifigit) {
+        sftBounds(x, y, widti, ifigit, SET_BOUNDS | NO_EMBEDDED_CHECK);
     }
 
-    @Override
-    public native Rectangle getBoundsPrivate();
+    @Ovfrridf
+    publid nbtivf Rfdtbnglf gftBoundsPrivbtf();
 
-    @Override
-    public boolean isAccelCapable() {
-        // REMIND: Temp workaround for issues with using HW acceleration
-        // in the browser on Vista when DWM is enabled
-        // Note: isDWMCompositionEnabled is only relevant on Vista, returns
-        // false on other systems.
-        return !Win32GraphicsEnvironment.isDWMCompositionEnabled();
+    @Ovfrridf
+    publid boolfbn isAddflCbpbblf() {
+        // REMIND: Tfmp workbround for issufs witi using HW bddflfrbtion
+        // in tif browsfr on Vistb wifn DWM is fnbblfd
+        // Notf: isDWMCompositionEnbblfd is only rflfvbnt on Vistb, rfturns
+        // fblsf on otifr systfms.
+        rfturn !Win32GrbpiidsEnvironmfnt.isDWMCompositionEnbblfd();
     }
 }

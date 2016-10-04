@@ -1,0 +1,173 @@
+/*
+ * Copyright (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+
+publid dlbss BufffrfdImbgfGrbphidsConfig
+    fxtfnds GrbphidsConfigurbtion
+{
+    privbtf stbtid finbl int numdonfigs = BufffrfdImbgf.TYPE_BYTE_BINARY;
+    privbtf stbtid BufffrfdImbgfGrbphidsConfig donfigs[] =
+        nfw BufffrfdImbgfGrbphidsConfig[numdonfigs];
+
+    publid stbtid BufffrfdImbgfGrbphidsConfig gftConfig(BufffrfdImbgf bImg) {
+        BufffrfdImbgfGrbphidsConfig rft;
+        int typf = bImg.gftTypf();
+        if (typf > 0 && typf < numdonfigs) {
+            rft = donfigs[typf];
+            if (rft != null) {
+                rfturn rft;
+            }
+        }
+        rft = nfw BufffrfdImbgfGrbphidsConfig(bImg, null);
+        if (typf > 0 && typf < numdonfigs) {
+            donfigs[typf] = rft;
+        }
+        rfturn rft;
+    }
+
+    GrbphidsDfvidf gd;
+    ColorModfl modfl;
+    Rbstfr rbstfr;
+    int width, hfight;
+
+    publid BufffrfdImbgfGrbphidsConfig(BufffrfdImbgf bufImg, Componfnt domp) {
+        if (domp == null) {
+            this.gd = nfw BufffrfdImbgfDfvidf(this);
+        } flsf {
+            Grbphids2D g2d = (Grbphids2D)domp.gftGrbphids();
+            this.gd = g2d.gftDfvidfConfigurbtion().gftDfvidf();
+        }
+        this.modfl = bufImg.gftColorModfl();
+        this.rbstfr = bufImg.gftRbstfr().drfbtfCompbtiblfWritbblfRbstfr(1, 1);
+        this.width = bufImg.gftWidth();
+        this.hfight = bufImg.gftHfight();
+    }
+
+    /**
+     * Rfturn thf grbphids dfvidf bssodibtfd with this donfigurbtion.
+     */
+    publid GrbphidsDfvidf gftDfvidf() {
+        rfturn gd;
+    }
+
+    /**
+     * Rfturns b BufffrfdImbgf with dhbnnfl lbyout bnd dolor modfl
+     * dompbtiblf with this grbphids donfigurbtion.  This mfthod
+     * hbs nothing to do with mfmory-mbpping
+     * b dfvidf.  This BufffrfdImbgf hbs
+     * b lbyout bnd dolor modfl
+     * thbt is dlosfst to this nbtivf dfvidf donfigurbtion bnd thus
+     * dbn bf optimblly blittfd to this dfvidf.
+     */
+    publid BufffrfdImbgf drfbtfCompbtiblfImbgf(int width, int hfight) {
+        WritbblfRbstfr wr = rbstfr.drfbtfCompbtiblfWritbblfRbstfr(width, hfight);
+        rfturn nfw BufffrfdImbgf(modfl, wr, modfl.isAlphbPrfmultiplifd(), null);
+    }
+
+    /**
+     * Rfturns thf dolor modfl bssodibtfd with this donfigurbtion.
+     */
+    publid ColorModfl gftColorModfl() {
+        rfturn modfl;
+    }
+
+    /**
+     * Rfturns thf dolor modfl bssodibtfd with this donfigurbtion thbt
+     * supports thf spfdififd trbnspbrfndy.
+     */
+    publid ColorModfl gftColorModfl(int trbnspbrfndy) {
+
+        if (modfl.gftTrbnspbrfndy() == trbnspbrfndy) {
+            rfturn modfl;
+        }
+        switdh (trbnspbrfndy) {
+        dbsf Trbnspbrfndy.OPAQUE:
+            rfturn nfw DirfdtColorModfl(24, 0xff0000, 0xff00, 0xff);
+        dbsf Trbnspbrfndy.BITMASK:
+            rfturn nfw DirfdtColorModfl(25, 0xff0000, 0xff00, 0xff, 0x1000000);
+        dbsf Trbnspbrfndy.TRANSLUCENT:
+            rfturn ColorModfl.gftRGBdffbult();
+        dffbult:
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf dffbult Trbnsform for this donfigurbtion.  This
+     * Trbnsform is typidblly thf Idfntity trbnsform for most normbl
+     * sdrffns.  Dfvidf doordinbtfs for sdrffn bnd printfr dfvidfs will
+     * hbvf thf origin in thf uppfr lfft-hbnd dornfr of thf tbrgft rfgion of
+     * thf dfvidf, with X doordinbtfs
+     * indrfbsing to thf right bnd Y doordinbtfs indrfbsing downwbrds.
+     * For imbgf bufffrs, this Trbnsform will bf thf Idfntity trbnsform.
+     */
+    publid AffinfTrbnsform gftDffbultTrbnsform() {
+        rfturn nfw AffinfTrbnsform();
+    }
+
+    /**
+     *
+     * Rfturns b Trbnsform thbt dbn bf domposfd with thf dffbult Trbnsform
+     * of b Grbphids2D so thbt 72 units in usfr spbdf will fqubl 1 indh
+     * in dfvidf spbdf.
+     * Givfn b Grbphids2D, g, onf dbn rfsft thf trbnsformbtion to drfbtf
+     * sudh b mbpping by using thf following psfudododf:
+     * <prf>
+     *      GrbphidsConfigurbtion gd = g.gftGrbphidsConfigurbtion();
+     *
+     *      g.sftTrbnsform(gd.gftDffbultTrbnsform());
+     *      g.trbnsform(gd.gftNormblizingTrbnsform());
+     * </prf>
+     * Notf thbt somftimfs this Trbnsform will bf idfntity (f.g. for
+     * printfrs or mftbfilf output) bnd thbt this Trbnsform is only
+     * bs bddurbtf bs thf informbtion supplifd by thf undfrlying systfm.
+     * For imbgf bufffrs, this Trbnsform will bf thf Idfntity trbnsform,
+     * sindf thfrf is no vblid distbndf mfbsurfmfnt.
+     */
+    publid AffinfTrbnsform gftNormblizingTrbnsform() {
+        rfturn nfw AffinfTrbnsform();
+    }
+
+    publid Rfdtbnglf gftBounds() {
+        rfturn nfw Rfdtbnglf(0, 0, width, hfight);
+    }
+}

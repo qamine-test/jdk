@@ -1,163 +1,163 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.transforms.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions;
 
-import java.io.OutputStream;
+import jbvb.io.OutputStrfbm;
 
-import javax.xml.transform.TransformerException;
+import jbvbx.xml.trbnsform.TrbnsformfrExdfption;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityRuntimeException;
-import com.sun.org.apache.xml.internal.security.signature.NodeFilter;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
-import com.sun.org.apache.xml.internal.security.transforms.TransformSpi;
-import com.sun.org.apache.xml.internal.security.transforms.TransformationException;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.XPathAPI;
-import com.sun.org.apache.xml.internal.security.utils.XPathFactory;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityRuntimfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.NodfFiltfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XPbtiAPI;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XPbtiFbdtory;
+import org.w3d.dom.DOMExdfption;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
 /**
- * Class TransformXPath
+ * Clbss TrbnsformXPbti
  *
- * Implements the <CODE>http://www.w3.org/TR/1999/REC-xpath-19991116</CODE>
- * transform.
+ * Implfmfnts tif <CODE>ittp://www.w3.org/TR/1999/REC-xpbti-19991116</CODE>
+ * trbnsform.
  *
- * @author Christian Geuer-Pollmann
- * @see <a href="http://www.w3.org/TR/1999/REC-xpath-19991116">XPath</a>
+ * @butior Ciristibn Gfufr-Pollmbnn
+ * @sff <b irff="ittp://www.w3.org/TR/1999/REC-xpbti-19991116">XPbti</b>
  *
  */
-public class TransformXPath extends TransformSpi {
+publid dlbss TrbnsformXPbti fxtfnds TrbnsformSpi {
 
-    /** Field implementedTransformURI */
-    public static final String implementedTransformURI = Transforms.TRANSFORM_XPATH;
+    /** Fifld implfmfntfdTrbnsformURI */
+    publid stbtid finbl String implfmfntfdTrbnsformURI = Trbnsforms.TRANSFORM_XPATH;
 
     /**
-     * Method engineGetURI
+     * Mftiod fnginfGftURI
      *
-     * @inheritDoc
+     * @inifritDod
      */
-    protected String engineGetURI() {
-        return implementedTransformURI;
+    protfdtfd String fnginfGftURI() {
+        rfturn implfmfntfdTrbnsformURI;
     }
 
     /**
-     * Method enginePerformTransform
-     * @inheritDoc
-     * @param input
+     * Mftiod fnginfPfrformTrbnsform
+     * @inifritDod
+     * @pbrbm input
      *
-     * @throws TransformationException
+     * @tirows TrbnsformbtionExdfption
      */
-    protected XMLSignatureInput enginePerformTransform(
-        XMLSignatureInput input, OutputStream os, Transform transformObject
-    ) throws TransformationException {
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, OutputStrfbm os, Trbnsform trbnsformObjfdt
+    ) tirows TrbnsformbtionExdfption {
         try {
             /**
-             * If the actual input is an octet stream, then the application MUST
-             * convert the octet stream to an XPath node-set suitable for use by
-             * Canonical XML with Comments. (A subsequent application of the
-             * REQUIRED Canonical XML algorithm would strip away these comments.)
+             * If tif bdtubl input is bn odtft strfbm, tifn tif bpplidbtion MUST
+             * donvfrt tif odtft strfbm to bn XPbti nodf-sft suitbblf for usf by
+             * Cbnonidbl XML witi Commfnts. (A subsfqufnt bpplidbtion of tif
+             * REQUIRED Cbnonidbl XML blgoritim would strip bwby tifsf dommfnts.)
              *
              * ...
              *
-             * The evaluation of this expression includes all of the document's nodes
-             * (including comments) in the node-set representing the octet stream.
+             * Tif fvblubtion of tiis fxprfssion indludfs bll of tif dodumfnt's nodfs
+             * (indluding dommfnts) in tif nodf-sft rfprfsfnting tif odtft strfbm.
              */
-            Element xpathElement =
-                XMLUtils.selectDsNode(
-                    transformObject.getElement().getFirstChild(), Constants._TAG_XPATH, 0);
+            Elfmfnt xpbtiElfmfnt =
+                XMLUtils.sflfdtDsNodf(
+                    trbnsformObjfdt.gftElfmfnt().gftFirstCiild(), Constbnts._TAG_XPATH, 0);
 
-            if (xpathElement == null) {
-                Object exArgs[] = { "ds:XPath", "Transform" };
+            if (xpbtiElfmfnt == null) {
+                Objfdt fxArgs[] = { "ds:XPbti", "Trbnsform" };
 
-                throw new TransformationException("xml.WrongContent", exArgs);
+                tirow nfw TrbnsformbtionExdfption("xml.WrongContfnt", fxArgs);
             }
-            Node xpathnode = xpathElement.getChildNodes().item(0);
-            String str = XMLUtils.getStrFromNode(xpathnode);
-            input.setNeedsToBeExpanded(needsCircumvent(str));
-            if (xpathnode == null) {
-                throw new DOMException(
-                    DOMException.HIERARCHY_REQUEST_ERR, "Text must be in ds:Xpath"
+            Nodf xpbtinodf = xpbtiElfmfnt.gftCiildNodfs().itfm(0);
+            String str = XMLUtils.gftStrFromNodf(xpbtinodf);
+            input.sftNffdsToBfExpbndfd(nffdsCirdumvfnt(str));
+            if (xpbtinodf == null) {
+                tirow nfw DOMExdfption(
+                    DOMExdfption.HIERARCHY_REQUEST_ERR, "Tfxt must bf in ds:Xpbti"
                 );
             }
 
-            XPathFactory xpathFactory = XPathFactory.newInstance();
-            XPathAPI xpathAPIInstance = xpathFactory.newXPathAPI();
-            input.addNodeFilter(new XPathNodeFilter(xpathElement, xpathnode, str, xpathAPIInstance));
-            input.setNodeSet(true);
-            return input;
-        } catch (DOMException ex) {
-            throw new TransformationException("empty", ex);
+            XPbtiFbdtory xpbtiFbdtory = XPbtiFbdtory.nfwInstbndf();
+            XPbtiAPI xpbtiAPIInstbndf = xpbtiFbdtory.nfwXPbtiAPI();
+            input.bddNodfFiltfr(nfw XPbtiNodfFiltfr(xpbtiElfmfnt, xpbtinodf, str, xpbtiAPIInstbndf));
+            input.sftNodfSft(truf);
+            rfturn input;
+        } dbtdi (DOMExdfption fx) {
+            tirow nfw TrbnsformbtionExdfption("fmpty", fx);
         }
     }
 
     /**
-     * @param str
-     * @return true if needs to be circumvent for bug.
+     * @pbrbm str
+     * @rfturn truf if nffds to bf dirdumvfnt for bug.
      */
-    private boolean needsCircumvent(String str) {
-        return (str.indexOf("namespace") != -1) || (str.indexOf("name()") != -1);
+    privbtf boolfbn nffdsCirdumvfnt(String str) {
+        rfturn (str.indfxOf("nbmfspbdf") != -1) || (str.indfxOf("nbmf()") != -1);
     }
 
-    static class XPathNodeFilter implements NodeFilter {
+    stbtid dlbss XPbtiNodfFiltfr implfmfnts NodfFiltfr {
 
-        XPathAPI xPathAPI;
-        Node xpathnode;
-        Element xpathElement;
+        XPbtiAPI xPbtiAPI;
+        Nodf xpbtinodf;
+        Elfmfnt xpbtiElfmfnt;
         String str;
 
-        XPathNodeFilter(Element xpathElement, Node xpathnode, String str, XPathAPI xPathAPI) {
-            this.xpathnode = xpathnode;
-            this.str = str;
-            this.xpathElement = xpathElement;
-            this.xPathAPI = xPathAPI;
+        XPbtiNodfFiltfr(Elfmfnt xpbtiElfmfnt, Nodf xpbtinodf, String str, XPbtiAPI xPbtiAPI) {
+            tiis.xpbtinodf = xpbtinodf;
+            tiis.str = str;
+            tiis.xpbtiElfmfnt = xpbtiElfmfnt;
+            tiis.xPbtiAPI = xPbtiAPI;
         }
 
         /**
-         * @see com.sun.org.apache.xml.internal.security.signature.NodeFilter#isNodeInclude(org.w3c.dom.Node)
+         * @sff dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.NodfFiltfr#isNodfIndludf(org.w3d.dom.Nodf)
          */
-        public int isNodeInclude(Node currentNode) {
+        publid int isNodfIndludf(Nodf durrfntNodf) {
             try {
-                boolean include = xPathAPI.evaluate(currentNode, xpathnode, str, xpathElement);
-                if (include) {
-                    return 1;
+                boolfbn indludf = xPbtiAPI.fvblubtf(durrfntNodf, xpbtinodf, str, xpbtiElfmfnt);
+                if (indludf) {
+                    rfturn 1;
                 }
-                return 0;
-            } catch (TransformerException e) {
-                Object[] eArgs = {currentNode};
-                throw new XMLSecurityRuntimeException("signature.Transform.node", eArgs, e);
-            } catch (Exception e) {
-                Object[] eArgs = {currentNode, Short.valueOf(currentNode.getNodeType())};
-                throw new XMLSecurityRuntimeException("signature.Transform.nodeAndType",eArgs, e);
+                rfturn 0;
+            } dbtdi (TrbnsformfrExdfption f) {
+                Objfdt[] fArgs = {durrfntNodf};
+                tirow nfw XMLSfdurityRuntimfExdfption("signbturf.Trbnsform.nodf", fArgs, f);
+            } dbtdi (Exdfption f) {
+                Objfdt[] fArgs = {durrfntNodf, Siort.vblufOf(durrfntNodf.gftNodfTypf())};
+                tirow nfw XMLSfdurityRuntimfExdfption("signbturf.Trbnsform.nodfAndTypf",fArgs, f);
             }
         }
 
-        public int isNodeIncludeDO(Node n, int level) {
-            return isNodeInclude(n);
+        publid int isNodfIndludfDO(Nodf n, int lfvfl) {
+            rfturn isNodfIndludf(n);
         }
 
     }

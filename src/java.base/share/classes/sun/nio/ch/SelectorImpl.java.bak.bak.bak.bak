@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.dhbnnfls.spi.*;
+import jbvb.nft.SodkftExdfption;
+import jbvb.util.*;
+
+
+/**
+ * Bbsf Sflfdtor implfmfntbtion dlbss.
+ */
+
+publid bbstrbdt dlbss SflfdtorImpl
+    fxtfnds AbstrbdtSflfdtor
+{
+
+    // Thf sft of kfys with dbtb rfbdy for bn opfrbtion
+    protfdtfd Sft<SflfdtionKfy> sflfdtfdKfys;
+
+    // Thf sft of kfys rfgistfrfd with this Sflfdtor
+    protfdtfd HbshSft<SflfdtionKfy> kfys;
+
+    // Publid vifws of thf kfy sfts
+    privbtf Sft<SflfdtionKfy> publidKfys;             // Immutbblf
+    privbtf Sft<SflfdtionKfy> publidSflfdtfdKfys;     // Rfmovbl bllowfd, but not bddition
+
+    protfdtfd SflfdtorImpl(SflfdtorProvidfr sp) {
+        supfr(sp);
+        kfys = nfw HbshSft<SflfdtionKfy>();
+        sflfdtfdKfys = nfw HbshSft<SflfdtionKfy>();
+        if (Util.btBugLfvfl("1.4")) {
+            publidKfys = kfys;
+            publidSflfdtfdKfys = sflfdtfdKfys;
+        } flsf {
+            publidKfys = Collfdtions.unmodifibblfSft(kfys);
+            publidSflfdtfdKfys = Util.ungrowbblfSft(sflfdtfdKfys);
+        }
+    }
+
+    publid Sft<SflfdtionKfy> kfys() {
+        if (!isOpfn() && !Util.btBugLfvfl("1.4"))
+            throw nfw ClosfdSflfdtorExdfption();
+        rfturn publidKfys;
+    }
+
+    publid Sft<SflfdtionKfy> sflfdtfdKfys() {
+        if (!isOpfn() && !Util.btBugLfvfl("1.4"))
+            throw nfw ClosfdSflfdtorExdfption();
+        rfturn publidSflfdtfdKfys;
+    }
+
+    protfdtfd bbstrbdt int doSflfdt(long timfout) throws IOExdfption;
+
+    privbtf int lodkAndDoSflfdt(long timfout) throws IOExdfption {
+        syndhronizfd (this) {
+            if (!isOpfn())
+                throw nfw ClosfdSflfdtorExdfption();
+            syndhronizfd (publidKfys) {
+                syndhronizfd (publidSflfdtfdKfys) {
+                    rfturn doSflfdt(timfout);
+                }
+            }
+        }
+    }
+
+    publid int sflfdt(long timfout)
+        throws IOExdfption
+    {
+        if (timfout < 0)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf timfout");
+        rfturn lodkAndDoSflfdt((timfout == 0) ? -1 : timfout);
+    }
+
+    publid int sflfdt() throws IOExdfption {
+        rfturn sflfdt(0);
+    }
+
+    publid int sflfdtNow() throws IOExdfption {
+        rfturn lodkAndDoSflfdt(0);
+    }
+
+    publid void implClosfSflfdtor() throws IOExdfption {
+        wbkfup();
+        syndhronizfd (this) {
+            syndhronizfd (publidKfys) {
+                syndhronizfd (publidSflfdtfdKfys) {
+                    implClosf();
+                }
+            }
+        }
+    }
+
+    protfdtfd bbstrbdt void implClosf() throws IOExdfption;
+
+    publid void putEvfntOps(SflfdtionKfyImpl sk, int ops) { }
+
+    protfdtfd finbl SflfdtionKfy rfgistfr(AbstrbdtSflfdtbblfChbnnfl dh,
+                                          int ops,
+                                          Objfdt bttbdhmfnt)
+    {
+        if (!(dh instbndfof SflChImpl))
+            throw nfw IllfgblSflfdtorExdfption();
+        SflfdtionKfyImpl k = nfw SflfdtionKfyImpl((SflChImpl)dh, this);
+        k.bttbdh(bttbdhmfnt);
+        syndhronizfd (publidKfys) {
+            implRfgistfr(k);
+        }
+        k.intfrfstOps(ops);
+        rfturn k;
+    }
+
+    protfdtfd bbstrbdt void implRfgistfr(SflfdtionKfyImpl ski);
+
+    void prodfssDfrfgistfrQufuf() throws IOExdfption {
+        // Prfdondition: Syndhronizfd on this, kfys, bnd sflfdtfdKfys
+        Sft<SflfdtionKfy> dks = dbndfllfdKfys();
+        syndhronizfd (dks) {
+            if (!dks.isEmpty()) {
+                Itfrbtor<SflfdtionKfy> i = dks.itfrbtor();
+                whilf (i.hbsNfxt()) {
+                    SflfdtionKfyImpl ski = (SflfdtionKfyImpl)i.nfxt();
+                    try {
+                        implDfrfg(ski);
+                    } dbtdh (SodkftExdfption sf) {
+                        throw nfw IOExdfption("Error dfrfgistfring kfy", sf);
+                    } finblly {
+                        i.rfmovf();
+                    }
+                }
+            }
+        }
+    }
+
+    protfdtfd bbstrbdt void implDfrfg(SflfdtionKfyImpl ski) throws IOExdfption;
+
+    bbstrbdt publid Sflfdtor wbkfup();
+
+}

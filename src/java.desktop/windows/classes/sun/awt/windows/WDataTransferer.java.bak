@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.Image;
-import java.awt.Graphics2D;
-import java.awt.Transparency;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Trbnspbrfndy;
 
-import java.awt.color.ColorSpace;
+import jbvb.bwt.dolor.ColorSpbdf;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.FlavorTable;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.FlbvorTbblf;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
 
-import java.awt.geom.AffineTransform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DirectColorModel;
-import java.awt.image.ImageObserver;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ComponfntColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.io.File;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.Filf;
 
-import java.net.URL;
+import jbvb.nft.URL;
 
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.SortfdMbp;
 
-import sun.awt.Mutex;
-import sun.awt.datatransfer.DataTransferer;
-import sun.awt.datatransfer.ToolkitThreadBlockedHandler;
+import sun.bwt.Mutfx;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import sun.bwt.dbtbtrbnsffr.ToolkitTirfbdBlodkfdHbndlfr;
 
-import sun.awt.image.ImageRepresentation;
-import sun.awt.image.ToolkitImage;
+import sun.bwt.imbgf.ImbgfRfprfsfntbtion;
+import sun.bwt.imbgf.ToolkitImbgf;
 
-import java.util.ArrayList;
+import jbvb.util.ArrbyList;
 
-import java.io.ByteArrayOutputStream;
+import jbvb.io.BytfArrbyOutputStrfbm;
 
 /**
- * Platform-specific support for the data transfer subsystem.
+ * Plbtform-spfdifid support for tif dbtb trbnsffr subsystfm.
  *
- * @author David Mendenhall
- * @author Danila Sinopalnikov
+ * @butior Dbvid Mfndfnibll
+ * @butior Dbnilb Sinopblnikov
  *
- * @since 1.3.1
+ * @sindf 1.3.1
  */
-final class WDataTransferer extends DataTransferer {
-    private static final String[] predefinedClipboardNames = {
+finbl dlbss WDbtbTrbnsffrfr fxtfnds DbtbTrbnsffrfr {
+    privbtf stbtid finbl String[] prfdffinfdClipbobrdNbmfs = {
             "",
             "TEXT",
             "BITMAP",
@@ -107,818 +107,818 @@ final class WDataTransferer extends DataTransferer {
             "DIBV5"
     };
 
-    private static final Map <String, Long> predefinedClipboardNameMap;
-    static {
-        Map <String,Long> tempMap =
-                new HashMap <> (predefinedClipboardNames.length, 1.0f);
-        for (int i = 1; i < predefinedClipboardNames.length; i++) {
-            tempMap.put(predefinedClipboardNames[i], Long.valueOf(i));
+    privbtf stbtid finbl Mbp <String, Long> prfdffinfdClipbobrdNbmfMbp;
+    stbtid {
+        Mbp <String,Long> tfmpMbp =
+                nfw HbsiMbp <> (prfdffinfdClipbobrdNbmfs.lfngti, 1.0f);
+        for (int i = 1; i < prfdffinfdClipbobrdNbmfs.lfngti; i++) {
+            tfmpMbp.put(prfdffinfdClipbobrdNbmfs[i], Long.vblufOf(i));
         }
-        predefinedClipboardNameMap =
-                Collections.synchronizedMap(tempMap);
+        prfdffinfdClipbobrdNbmfMbp =
+                Collfdtions.syndironizfdMbp(tfmpMbp);
     }
 
     /**
-     * from winuser.h
+     * from winusfr.i
      */
-    public static final int CF_TEXT = 1;
-    public static final int CF_METAFILEPICT = 3;
-    public static final int CF_DIB = 8;
-    public static final int CF_ENHMETAFILE = 14;
-    public static final int CF_HDROP = 15;
-    public static final int CF_LOCALE = 16;
+    publid stbtid finbl int CF_TEXT = 1;
+    publid stbtid finbl int CF_METAFILEPICT = 3;
+    publid stbtid finbl int CF_DIB = 8;
+    publid stbtid finbl int CF_ENHMETAFILE = 14;
+    publid stbtid finbl int CF_HDROP = 15;
+    publid stbtid finbl int CF_LOCALE = 16;
 
-    public static final long CF_HTML = registerClipboardFormat("HTML Format");
-    public static final long CFSTR_INETURL = registerClipboardFormat("UniformResourceLocator");
-    public static final long CF_PNG = registerClipboardFormat("PNG");
-    public static final long CF_JFIF = registerClipboardFormat("JFIF");
+    publid stbtid finbl long CF_HTML = rfgistfrClipbobrdFormbt("HTML Formbt");
+    publid stbtid finbl long CFSTR_INETURL = rfgistfrClipbobrdFormbt("UniformRfsourdfLodbtor");
+    publid stbtid finbl long CF_PNG = rfgistfrClipbobrdFormbt("PNG");
+    publid stbtid finbl long CF_JFIF = rfgistfrClipbobrdFormbt("JFIF");
 
-    public static final long CF_FILEGROUPDESCRIPTORW = registerClipboardFormat("FileGroupDescriptorW");
-    public static final long CF_FILEGROUPDESCRIPTORA = registerClipboardFormat("FileGroupDescriptor");
-    //CF_FILECONTENTS supported as mandatory associated clipboard
+    publid stbtid finbl long CF_FILEGROUPDESCRIPTORW = rfgistfrClipbobrdFormbt("FilfGroupDfsdriptorW");
+    publid stbtid finbl long CF_FILEGROUPDESCRIPTORA = rfgistfrClipbobrdFormbt("FilfGroupDfsdriptor");
+    //CF_FILECONTENTS supportfd bs mbndbtory bssodibtfd dlipbobrd
 
-    private static final Long L_CF_LOCALE =
-            predefinedClipboardNameMap.get(predefinedClipboardNames[CF_LOCALE]);
+    privbtf stbtid finbl Long L_CF_LOCALE =
+            prfdffinfdClipbobrdNbmfMbp.gft(prfdffinfdClipbobrdNbmfs[CF_LOCALE]);
 
-    private static final DirectColorModel directColorModel =
-            new DirectColorModel(24,
-                    0x00FF0000,  /* red mask   */
-                    0x0000FF00,  /* green mask */
-                    0x000000FF); /* blue mask  */
+    privbtf stbtid finbl DirfdtColorModfl dirfdtColorModfl =
+            nfw DirfdtColorModfl(24,
+                    0x00FF0000,  /* rfd mbsk   */
+                    0x0000FF00,  /* grffn mbsk */
+                    0x000000FF); /* bluf mbsk  */
 
-    private static final int[] bandmasks = new int[] {
-            directColorModel.getRedMask(),
-            directColorModel.getGreenMask(),
-            directColorModel.getBlueMask() };
+    privbtf stbtid finbl int[] bbndmbsks = nfw int[] {
+            dirfdtColorModfl.gftRfdMbsk(),
+            dirfdtColorModfl.gftGrffnMbsk(),
+            dirfdtColorModfl.gftBlufMbsk() };
 
     /**
-     * Singleton constructor
+     * Singlfton donstrudtor
      */
-    private WDataTransferer() {
+    privbtf WDbtbTrbnsffrfr() {
     }
 
-    private static WDataTransferer transferer;
+    privbtf stbtid WDbtbTrbnsffrfr trbnsffrfr;
 
-    static synchronized WDataTransferer getInstanceImpl() {
-        if (transferer == null) {
-            transferer = new WDataTransferer();
+    stbtid syndironizfd WDbtbTrbnsffrfr gftInstbndfImpl() {
+        if (trbnsffrfr == null) {
+            trbnsffrfr = nfw WDbtbTrbnsffrfr();
         }
-        return transferer;
+        rfturn trbnsffrfr;
     }
 
-    @Override
-    public SortedMap <Long, DataFlavor> getFormatsForFlavors(
-            DataFlavor[] flavors, FlavorTable map)
+    @Ovfrridf
+    publid SortfdMbp <Long, DbtbFlbvor> gftFormbtsForFlbvors(
+            DbtbFlbvor[] flbvors, FlbvorTbblf mbp)
     {
-        SortedMap <Long, DataFlavor> retval =
-                super.getFormatsForFlavors(flavors, map);
+        SortfdMbp <Long, DbtbFlbvor> rftvbl =
+                supfr.gftFormbtsForFlbvors(flbvors, mbp);
 
-        // The Win32 native code does not support exporting LOCALE data, nor
-        // should it.
-        retval.remove(L_CF_LOCALE);
+        // Tif Win32 nbtivf dodf dofs not support fxporting LOCALE dbtb, nor
+        // siould it.
+        rftvbl.rfmovf(L_CF_LOCALE);
 
-        return retval;
+        rfturn rftvbl;
     }
 
-    @Override
-    public String getDefaultUnicodeEncoding() {
-        return "utf-16le";
+    @Ovfrridf
+    publid String gftDffbultUnidodfEndoding() {
+        rfturn "utf-16lf";
     }
 
-    @Override
-    public byte[] translateTransferable(Transferable contents,
-                                        DataFlavor flavor,
-                                        long format) throws IOException
+    @Ovfrridf
+    publid bytf[] trbnslbtfTrbnsffrbblf(Trbnsffrbblf dontfnts,
+                                        DbtbFlbvor flbvor,
+                                        long formbt) tirows IOExdfption
     {
-        byte[] bytes = null;
-        if (format == CF_HTML) {
-            if (contents.isDataFlavorSupported(DataFlavor.selectionHtmlFlavor)) {
-                // if a user provides data represented by
-                // DataFlavor.selectionHtmlFlavor format, we use this
-                // type to store the data in the native clipboard
-                bytes = super.translateTransferable(contents,
-                        DataFlavor.selectionHtmlFlavor,
-                        format);
-            } else if (contents.isDataFlavorSupported(DataFlavor.allHtmlFlavor)) {
-                // if we cannot get data represented by the
-                // DataFlavor.selectionHtmlFlavor format
-                // but the DataFlavor.allHtmlFlavor format is avialable
-                // we belive that the user knows how to represent
-                // the data and how to mark up selection in a
-                // system specific manner. Therefor, we use this data
-                bytes = super.translateTransferable(contents,
-                        DataFlavor.allHtmlFlavor,
-                        format);
-            } else {
-                // handle other html flavor types, including custom and
-                // fragment ones
-                bytes = HTMLCodec.convertToHTMLFormat(super.translateTransferable(contents, flavor, format));
+        bytf[] bytfs = null;
+        if (formbt == CF_HTML) {
+            if (dontfnts.isDbtbFlbvorSupportfd(DbtbFlbvor.sflfdtionHtmlFlbvor)) {
+                // if b usfr providfs dbtb rfprfsfntfd by
+                // DbtbFlbvor.sflfdtionHtmlFlbvor formbt, wf usf tiis
+                // typf to storf tif dbtb in tif nbtivf dlipbobrd
+                bytfs = supfr.trbnslbtfTrbnsffrbblf(dontfnts,
+                        DbtbFlbvor.sflfdtionHtmlFlbvor,
+                        formbt);
+            } flsf if (dontfnts.isDbtbFlbvorSupportfd(DbtbFlbvor.bllHtmlFlbvor)) {
+                // if wf dbnnot gft dbtb rfprfsfntfd by tif
+                // DbtbFlbvor.sflfdtionHtmlFlbvor formbt
+                // but tif DbtbFlbvor.bllHtmlFlbvor formbt is bviblbblf
+                // wf bflivf tibt tif usfr knows iow to rfprfsfnt
+                // tif dbtb bnd iow to mbrk up sflfdtion in b
+                // systfm spfdifid mbnnfr. Tifrffor, wf usf tiis dbtb
+                bytfs = supfr.trbnslbtfTrbnsffrbblf(dontfnts,
+                        DbtbFlbvor.bllHtmlFlbvor,
+                        formbt);
+            } flsf {
+                // ibndlf otifr itml flbvor typfs, indluding dustom bnd
+                // frbgmfnt onfs
+                bytfs = HTMLCodfd.donvfrtToHTMLFormbt(supfr.trbnslbtfTrbnsffrbblf(dontfnts, flbvor, formbt));
             }
-        } else {
-            // we handle non-html types basing on  their
-            // flavors
-            bytes = super.translateTransferable(contents, flavor, format);
+        } flsf {
+            // wf ibndlf non-itml typfs bbsing on  tifir
+            // flbvors
+            bytfs = supfr.trbnslbtfTrbnsffrbblf(dontfnts, flbvor, formbt);
         }
-        return bytes;
+        rfturn bytfs;
     }
 
-    // The stream is closed as a closable object
-    @Override
-    public Object translateStream(InputStream str,
-                                 DataFlavor flavor, long format,
-                                 Transferable localeTransferable)
-        throws IOException
+    // Tif strfbm is dlosfd bs b dlosbblf objfdt
+    @Ovfrridf
+    publid Objfdt trbnslbtfStrfbm(InputStrfbm str,
+                                 DbtbFlbvor flbvor, long formbt,
+                                 Trbnsffrbblf lodblfTrbnsffrbblf)
+        tirows IOExdfption
     {
-        if (format == CF_HTML && flavor.isFlavorTextType()) {
-            str = new HTMLCodec(str,
-                                 EHTMLReadMode.getEHTMLReadMode(flavor));
+        if (formbt == CF_HTML && flbvor.isFlbvorTfxtTypf()) {
+            str = nfw HTMLCodfd(str,
+                                 EHTMLRfbdModf.gftEHTMLRfbdModf(flbvor));
 
         }
-        return super.translateStream(str, flavor, format,
-                                        localeTransferable);
+        rfturn supfr.trbnslbtfStrfbm(str, flbvor, formbt,
+                                        lodblfTrbnsffrbblf);
 
     }
 
-    @Override
-    public Object translateBytes(byte[] bytes, DataFlavor flavor, long format,
-        Transferable localeTransferable) throws IOException
+    @Ovfrridf
+    publid Objfdt trbnslbtfBytfs(bytf[] bytfs, DbtbFlbvor flbvor, long formbt,
+        Trbnsffrbblf lodblfTrbnsffrbblf) tirows IOExdfption
     {
 
 
-        if (format == CF_FILEGROUPDESCRIPTORA || format == CF_FILEGROUPDESCRIPTORW) {
-            if (bytes == null || !DataFlavor.javaFileListFlavor.equals(flavor)) {
-                throw new IOException("data translation failed");
+        if (formbt == CF_FILEGROUPDESCRIPTORA || formbt == CF_FILEGROUPDESCRIPTORW) {
+            if (bytfs == null || !DbtbFlbvor.jbvbFilfListFlbvor.fqubls(flbvor)) {
+                tirow nfw IOExdfption("dbtb trbnslbtion fbilfd");
             }
-            String st = new String(bytes, 0, bytes.length, "UTF-16LE");
-            String[] filenames = st.split("\0");
-            if( 0 == filenames.length ){
-                return null;
+            String st = nfw String(bytfs, 0, bytfs.lfngti, "UTF-16LE");
+            String[] filfnbmfs = st.split("\0");
+            if( 0 == filfnbmfs.lfngti ){
+                rfturn null;
             }
 
-            // Convert the strings to File objects
-            File[] files = new File[filenames.length];
-            for (int i = 0; i < filenames.length; ++i) {
-                files[i] = new File(filenames[i]);
-                //They are temp-files from memory Stream, so they have to be removed on exit
-                files[i].deleteOnExit();
+            // Convfrt tif strings to Filf objfdts
+            Filf[] filfs = nfw Filf[filfnbmfs.lfngti];
+            for (int i = 0; i < filfnbmfs.lfngti; ++i) {
+                filfs[i] = nfw Filf(filfnbmfs[i]);
+                //Tify brf tfmp-filfs from mfmory Strfbm, so tify ibvf to bf rfmovfd on fxit
+                filfs[i].dflftfOnExit();
             }
-            // Turn the list of Files into a List and return
-            return Arrays.asList(files);
+            // Turn tif list of Filfs into b List bnd rfturn
+            rfturn Arrbys.bsList(filfs);
         }
 
-        if (format == CFSTR_INETURL &&
-                URL.class.equals(flavor.getRepresentationClass()))
+        if (formbt == CFSTR_INETURL &&
+                URL.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss()))
         {
-            String charset = Charset.defaultCharset().name();
-            if (localeTransferable != null
-                    && localeTransferable.isDataFlavorSupported(javaTextEncodingFlavor))
+            String dibrsft = Cibrsft.dffbultCibrsft().nbmf();
+            if (lodblfTrbnsffrbblf != null
+                    && lodblfTrbnsffrbblf.isDbtbFlbvorSupportfd(jbvbTfxtEndodingFlbvor))
             {
                 try {
-                    charset = new String((byte[])localeTransferable.
-                        getTransferData(javaTextEncodingFlavor), "UTF-8");
-                } catch (UnsupportedFlavorException cannotHappen) {
+                    dibrsft = nfw String((bytf[])lodblfTrbnsffrbblf.
+                        gftTrbnsffrDbtb(jbvbTfxtEndodingFlbvor), "UTF-8");
+                } dbtdi (UnsupportfdFlbvorExdfption dbnnotHbppfn) {
                 }
             }
-            return new URL(new String(bytes, charset));
+            rfturn nfw URL(nfw String(bytfs, dibrsft));
         }
 
-        return super.translateBytes(bytes , flavor, format,
-                                        localeTransferable);
+        rfturn supfr.trbnslbtfBytfs(bytfs , flbvor, formbt,
+                                        lodblfTrbnsffrbblf);
 
     }
 
-    @Override
-    public boolean isLocaleDependentTextFormat(long format) {
-        return format == CF_TEXT || format == CFSTR_INETURL;
+    @Ovfrridf
+    publid boolfbn isLodblfDfpfndfntTfxtFormbt(long formbt) {
+        rfturn formbt == CF_TEXT || formbt == CFSTR_INETURL;
     }
 
-    @Override
-    public boolean isFileFormat(long format) {
-        return format == CF_HDROP || format == CF_FILEGROUPDESCRIPTORA || format == CF_FILEGROUPDESCRIPTORW;
+    @Ovfrridf
+    publid boolfbn isFilfFormbt(long formbt) {
+        rfturn formbt == CF_HDROP || formbt == CF_FILEGROUPDESCRIPTORA || formbt == CF_FILEGROUPDESCRIPTORW;
     }
 
-    @Override
-    protected Long getFormatForNativeAsLong(String str) {
-        Long format = predefinedClipboardNameMap.get(str);
-        if (format == null) {
-            format = Long.valueOf(registerClipboardFormat(str));
+    @Ovfrridf
+    protfdtfd Long gftFormbtForNbtivfAsLong(String str) {
+        Long formbt = prfdffinfdClipbobrdNbmfMbp.gft(str);
+        if (formbt == null) {
+            formbt = Long.vblufOf(rfgistfrClipbobrdFormbt(str));
         }
-        return format;
+        rfturn formbt;
     }
 
-    @Override
-    protected String getNativeForFormat(long format) {
-        return (format < predefinedClipboardNames.length)
-                ? predefinedClipboardNames[(int)format]
-                : getClipboardFormatName(format);
+    @Ovfrridf
+    protfdtfd String gftNbtivfForFormbt(long formbt) {
+        rfturn (formbt < prfdffinfdClipbobrdNbmfs.lfngti)
+                ? prfdffinfdClipbobrdNbmfs[(int)formbt]
+                : gftClipbobrdFormbtNbmf(formbt);
     }
 
-    private final ToolkitThreadBlockedHandler handler =
-            new WToolkitThreadBlockedHandler();
+    privbtf finbl ToolkitTirfbdBlodkfdHbndlfr ibndlfr =
+            nfw WToolkitTirfbdBlodkfdHbndlfr();
 
-    @Override
-    public ToolkitThreadBlockedHandler getToolkitThreadBlockedHandler() {
-        return handler;
+    @Ovfrridf
+    publid ToolkitTirfbdBlodkfdHbndlfr gftToolkitTirfbdBlodkfdHbndlfr() {
+        rfturn ibndlfr;
     }
 
     /**
-     * Calls the Win32 RegisterClipboardFormat function to register
-     * a non-standard format.
+     * Cblls tif Win32 RfgistfrClipbobrdFormbt fundtion to rfgistfr
+     * b non-stbndbrd formbt.
      */
-    private static native long registerClipboardFormat(String str);
+    privbtf stbtid nbtivf long rfgistfrClipbobrdFormbt(String str);
 
     /**
-     * Calls the Win32 GetClipboardFormatName function which is
-     * the reverse operation of RegisterClipboardFormat.
+     * Cblls tif Win32 GftClipbobrdFormbtNbmf fundtion wiidi is
+     * tif rfvfrsf opfrbtion of RfgistfrClipbobrdFormbt.
      */
-    private static native String getClipboardFormatName(long format);
+    privbtf stbtid nbtivf String gftClipbobrdFormbtNbmf(long formbt);
 
-    @Override
-    public boolean isImageFormat(long format) {
-        return format == CF_DIB || format == CF_ENHMETAFILE ||
-                format == CF_METAFILEPICT || format == CF_PNG ||
-                format == CF_JFIF;
+    @Ovfrridf
+    publid boolfbn isImbgfFormbt(long formbt) {
+        rfturn formbt == CF_DIB || formbt == CF_ENHMETAFILE ||
+                formbt == CF_METAFILEPICT || formbt == CF_PNG ||
+                formbt == CF_JFIF;
     }
 
-    @Override
-    protected byte[] imageToPlatformBytes(Image image, long format)
-            throws IOException {
-        String mimeType = null;
-        if (format == CF_PNG) {
-            mimeType = "image/png";
-        } else if (format == CF_JFIF) {
-            mimeType = "image/jpeg";
+    @Ovfrridf
+    protfdtfd bytf[] imbgfToPlbtformBytfs(Imbgf imbgf, long formbt)
+            tirows IOExdfption {
+        String mimfTypf = null;
+        if (formbt == CF_PNG) {
+            mimfTypf = "imbgf/png";
+        } flsf if (formbt == CF_JFIF) {
+            mimfTypf = "imbgf/jpfg";
         }
-        if (mimeType != null) {
-            return imageToStandardBytes(image, mimeType);
+        if (mimfTypf != null) {
+            rfturn imbgfToStbndbrdBytfs(imbgf, mimfTypf);
         }
 
-        int width = 0;
-        int height = 0;
+        int widti = 0;
+        int ifigit = 0;
 
-        if (image instanceof ToolkitImage) {
-            ImageRepresentation ir = ((ToolkitImage)image).getImageRep();
-            ir.reconstruct(ImageObserver.ALLBITS);
-            width = ir.getWidth();
-            height = ir.getHeight();
-        } else {
-            width = image.getWidth(null);
-            height = image.getHeight(null);
+        if (imbgf instbndfof ToolkitImbgf) {
+            ImbgfRfprfsfntbtion ir = ((ToolkitImbgf)imbgf).gftImbgfRfp();
+            ir.rfdonstrudt(ImbgfObsfrvfr.ALLBITS);
+            widti = ir.gftWidti();
+            ifigit = ir.gftHfigit();
+        } flsf {
+            widti = imbgf.gftWidti(null);
+            ifigit = imbgf.gftHfigit(null);
         }
 
         // Fix for 4919639.
-        // Some Windows native applications (e.g. clipbrd.exe) do not handle
-        // 32-bpp DIBs correctly.
-        // As a workaround we switched to 24-bpp DIBs.
-        // MSDN prescribes that the bitmap array for a 24-bpp should consist of
-        // 3-byte triplets representing blue, green and red components of a
-        // pixel respectively. Additionally each scan line must be padded with
-        // zeroes to end on a LONG data-type boundary. LONG is always 32-bit.
-        // We render the given Image to a BufferedImage of type TYPE_3BYTE_BGR
-        // with non-default scanline stride and pass the resulting data buffer
-        // to the native code to fill the BITMAPINFO structure.
-        int mod = (width * 3) % 4;
-        int pad = mod > 0 ? 4 - mod : 0;
+        // Somf Windows nbtivf bpplidbtions (f.g. dlipbrd.fxf) do not ibndlf
+        // 32-bpp DIBs dorrfdtly.
+        // As b workbround wf switdifd to 24-bpp DIBs.
+        // MSDN prfsdribfs tibt tif bitmbp brrby for b 24-bpp siould donsist of
+        // 3-bytf triplfts rfprfsfnting bluf, grffn bnd rfd domponfnts of b
+        // pixfl rfspfdtivfly. Additionblly fbdi sdbn linf must bf pbddfd witi
+        // zfrofs to fnd on b LONG dbtb-typf boundbry. LONG is blwbys 32-bit.
+        // Wf rfndfr tif givfn Imbgf to b BufffrfdImbgf of typf TYPE_3BYTE_BGR
+        // witi non-dffbult sdbnlinf stridf bnd pbss tif rfsulting dbtb bufffr
+        // to tif nbtivf dodf to fill tif BITMAPINFO strudturf.
+        int mod = (widti * 3) % 4;
+        int pbd = mod > 0 ? 4 - mod : 0;
 
-        ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+        ColorSpbdf ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
         int[] nBits = {8, 8, 8};
         int[] bOffs = {2, 1, 0};
-        ColorModel colorModel =
-                new ComponentColorModel(cs, nBits, false, false,
-                        Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-        WritableRaster raster =
-                Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, width, height,
-                        width * 3 + pad, 3, bOffs, null);
+        ColorModfl dolorModfl =
+                nfw ComponfntColorModfl(ds, nBits, fblsf, fblsf,
+                        Trbnspbrfndy.OPAQUE, DbtbBufffr.TYPE_BYTE);
+        WritbblfRbstfr rbstfr =
+                Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE, widti, ifigit,
+                        widti * 3 + pbd, 3, bOffs, null);
 
-        BufferedImage bimage = new BufferedImage(colorModel, raster, false, null);
+        BufffrfdImbgf bimbgf = nfw BufffrfdImbgf(dolorModfl, rbstfr, fblsf, null);
 
-        // Some Windows native applications (e.g. clipbrd.exe) do not understand
+        // Somf Windows nbtivf bpplidbtions (f.g. dlipbrd.fxf) do not undfrstbnd
         // top-down DIBs.
-        // So we flip the image vertically and create a bottom-up DIB.
-        AffineTransform imageFlipTransform =
-                new AffineTransform(1, 0, 0, -1, 0, height);
+        // So wf flip tif imbgf vfrtidblly bnd drfbtf b bottom-up DIB.
+        AffinfTrbnsform imbgfFlipTrbnsform =
+                nfw AffinfTrbnsform(1, 0, 0, -1, 0, ifigit);
 
-        Graphics2D g2d = bimage.createGraphics();
+        Grbpiids2D g2d = bimbgf.drfbtfGrbpiids();
 
         try {
-            g2d.drawImage(image, imageFlipTransform, null);
-        } finally {
-            g2d.dispose();
+            g2d.drbwImbgf(imbgf, imbgfFlipTrbnsform, null);
+        } finblly {
+            g2d.disposf();
         }
 
-        DataBufferByte buffer = (DataBufferByte)raster.getDataBuffer();
+        DbtbBufffrBytf bufffr = (DbtbBufffrBytf)rbstfr.gftDbtbBufffr();
 
-        byte[] imageData = buffer.getData();
-        return imageDataToPlatformImageBytes(imageData, width, height, format);
+        bytf[] imbgfDbtb = bufffr.gftDbtb();
+        rfturn imbgfDbtbToPlbtformImbgfBytfs(imbgfDbtb, widti, ifigit, formbt);
     }
 
-    private static final byte [] UNICODE_NULL_TERMINATOR =  new byte [] {0,0};
+    privbtf stbtid finbl bytf [] UNICODE_NULL_TERMINATOR =  nfw bytf [] {0,0};
 
-    @Override
-    protected ByteArrayOutputStream convertFileListToBytes(ArrayList<String> fileList)
-            throws IOException
+    @Ovfrridf
+    protfdtfd BytfArrbyOutputStrfbm donvfrtFilfListToBytfs(ArrbyList<String> filfList)
+            tirows IOExdfption
     {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm();
 
-        if(fileList.isEmpty()) {
-            //store empty unicode string (null terminator)
-            bos.write(UNICODE_NULL_TERMINATOR);
-        } else {
-            for (int i = 0; i < fileList.size(); i++) {
-                byte[] bytes = fileList.get(i).getBytes(getDefaultUnicodeEncoding());
-                //store unicode string with null terminator
-                bos.write(bytes, 0, bytes.length);
-                bos.write(UNICODE_NULL_TERMINATOR);
+        if(filfList.isEmpty()) {
+            //storf fmpty unidodf string (null tfrminbtor)
+            bos.writf(UNICODE_NULL_TERMINATOR);
+        } flsf {
+            for (int i = 0; i < filfList.sizf(); i++) {
+                bytf[] bytfs = filfList.gft(i).gftBytfs(gftDffbultUnidodfEndoding());
+                //storf unidodf string witi null tfrminbtor
+                bos.writf(bytfs, 0, bytfs.lfngti);
+                bos.writf(UNICODE_NULL_TERMINATOR);
             }
         }
 
-        // According to MSDN the byte array have to be double NULL-terminated.
-        // The array contains Unicode characters, so each NULL-terminator is
-        // a pair of bytes
+        // Addording to MSDN tif bytf brrby ibvf to bf doublf NULL-tfrminbtfd.
+        // Tif brrby dontbins Unidodf dibrbdtfrs, so fbdi NULL-tfrminbtor is
+        // b pbir of bytfs
 
-        bos.write(UNICODE_NULL_TERMINATOR);
-        return bos;
+        bos.writf(UNICODE_NULL_TERMINATOR);
+        rfturn bos;
     }
 
     /**
-     * Returns a byte array which contains data special for the given format
-     * and for the given image data.
+     * Rfturns b bytf brrby wiidi dontbins dbtb spfdibl for tif givfn formbt
+     * bnd for tif givfn imbgf dbtb.
      */
-    private native byte[] imageDataToPlatformImageBytes(byte[] imageData,
-                                                        int width, int height,
-                                                        long format);
+    privbtf nbtivf bytf[] imbgfDbtbToPlbtformImbgfBytfs(bytf[] imbgfDbtb,
+                                                        int widti, int ifigit,
+                                                        long formbt);
 
     /**
-     * Translates either a byte array or an input stream which contain
-     * platform-specific image data in the given format into an Image.
+     * Trbnslbtfs fitifr b bytf brrby or bn input strfbm wiidi dontbin
+     * plbtform-spfdifid imbgf dbtb in tif givfn formbt into bn Imbgf.
      */
-    @Override
-    protected Image platformImageBytesToImage(byte[] bytes, long format)
-            throws IOException {
-        String mimeType = null;
-        if (format == CF_PNG) {
-            mimeType = "image/png";
-        } else if (format == CF_JFIF) {
-            mimeType = "image/jpeg";
+    @Ovfrridf
+    protfdtfd Imbgf plbtformImbgfBytfsToImbgf(bytf[] bytfs, long formbt)
+            tirows IOExdfption {
+        String mimfTypf = null;
+        if (formbt == CF_PNG) {
+            mimfTypf = "imbgf/png";
+        } flsf if (formbt == CF_JFIF) {
+            mimfTypf = "imbgf/jpfg";
         }
-        if (mimeType != null) {
-            return standardImageBytesToImage(bytes, mimeType);
-        }
-
-        int[] imageData = platformImageBytesToImageData(bytes, format);
-        if (imageData == null) {
-            throw new IOException("data translation failed");
+        if (mimfTypf != null) {
+            rfturn stbndbrdImbgfBytfsToImbgf(bytfs, mimfTypf);
         }
 
-        int len = imageData.length - 2;
-        int width = imageData[len];
-        int height = imageData[len + 1];
+        int[] imbgfDbtb = plbtformImbgfBytfsToImbgfDbtb(bytfs, formbt);
+        if (imbgfDbtb == null) {
+            tirow nfw IOExdfption("dbtb trbnslbtion fbilfd");
+        }
 
-        DataBufferInt buffer = new DataBufferInt(imageData, len);
-        WritableRaster raster = Raster.createPackedRaster(buffer, width,
-                height, width,
-                bandmasks, null);
+        int lfn = imbgfDbtb.lfngti - 2;
+        int widti = imbgfDbtb[lfn];
+        int ifigit = imbgfDbtb[lfn + 1];
 
-        return new BufferedImage(directColorModel, raster, false, null);
+        DbtbBufffrInt bufffr = nfw DbtbBufffrInt(imbgfDbtb, lfn);
+        WritbblfRbstfr rbstfr = Rbstfr.drfbtfPbdkfdRbstfr(bufffr, widti,
+                ifigit, widti,
+                bbndmbsks, null);
+
+        rfturn nfw BufffrfdImbgf(dirfdtColorModfl, rbstfr, fblsf, null);
     }
 
     /**
-     * Translates a byte array which contains platform-specific image data in
-     * the given format into an integer array which contains pixel values in
-     * ARGB format. The two last elements in the array specify width and
-     * height of the image respectively.
+     * Trbnslbtfs b bytf brrby wiidi dontbins plbtform-spfdifid imbgf dbtb in
+     * tif givfn formbt into bn intfgfr brrby wiidi dontbins pixfl vblufs in
+     * ARGB formbt. Tif two lbst flfmfnts in tif brrby spfdify widti bnd
+     * ifigit of tif imbgf rfspfdtivfly.
      */
-    private native int[] platformImageBytesToImageData(byte[] bytes,
-                                                       long format)
-            throws IOException;
+    privbtf nbtivf int[] plbtformImbgfBytfsToImbgfDbtb(bytf[] bytfs,
+                                                       long formbt)
+            tirows IOExdfption;
 
-    @Override
-    protected native String[] dragQueryFile(byte[] bytes);
+    @Ovfrridf
+    protfdtfd nbtivf String[] drbgQufryFilf(bytf[] bytfs);
 }
 
-final class WToolkitThreadBlockedHandler extends Mutex
-        implements ToolkitThreadBlockedHandler {
+finbl dlbss WToolkitTirfbdBlodkfdHbndlfr fxtfnds Mutfx
+        implfmfnts ToolkitTirfbdBlodkfdHbndlfr {
 
-    @Override
-    public void enter() {
-        if (!isOwned()) {
-            throw new IllegalMonitorStateException();
+    @Ovfrridf
+    publid void fntfr() {
+        if (!isOwnfd()) {
+            tirow nfw IllfgblMonitorStbtfExdfption();
         }
-        unlock();
-        startSecondaryEventLoop();
-        lock();
+        unlodk();
+        stbrtSfdondbryEvfntLoop();
+        lodk();
     }
 
-    @Override
-    public void exit() {
-        if (!isOwned()) {
-            throw new IllegalMonitorStateException();
+    @Ovfrridf
+    publid void fxit() {
+        if (!isOwnfd()) {
+            tirow nfw IllfgblMonitorStbtfExdfption();
         }
-        WToolkit.quitSecondaryEventLoop();
+        WToolkit.quitSfdondbryEvfntLoop();
     }
 
-    private native void startSecondaryEventLoop();
+    privbtf nbtivf void stbrtSfdondbryEvfntLoop();
 }
 
-enum EHTMLReadMode {
+fnum EHTMLRfbdModf {
     HTML_READ_ALL,
     HTML_READ_FRAGMENT,
     HTML_READ_SELECTION;
 
-    public static EHTMLReadMode getEHTMLReadMode (DataFlavor df) {
+    publid stbtid EHTMLRfbdModf gftEHTMLRfbdModf (DbtbFlbvor df) {
 
-        EHTMLReadMode mode = HTML_READ_SELECTION;
+        EHTMLRfbdModf modf = HTML_READ_SELECTION;
 
-        String parameter = df.getParameter("document");
+        String pbrbmftfr = df.gftPbrbmftfr("dodumfnt");
 
-        if ("all".equals(parameter)) {
-            mode = HTML_READ_ALL;
-        } else if ("fragment".equals(parameter)) {
-            mode = HTML_READ_FRAGMENT;
+        if ("bll".fqubls(pbrbmftfr)) {
+            modf = HTML_READ_ALL;
+        } flsf if ("frbgmfnt".fqubls(pbrbmftfr)) {
+            modf = HTML_READ_FRAGMENT;
         }
 
-        return mode;
+        rfturn modf;
     }
 }
 
 /**
- * on decode: This stream takes an InputStream which provides data in CF_HTML format,
- * strips off the description and context to extract the original HTML data.
+ * on dfdodf: Tiis strfbm tbkfs bn InputStrfbm wiidi providfs dbtb in CF_HTML formbt,
+ * strips off tif dfsdription bnd dontfxt to fxtrbdt tif originbl HTML dbtb.
  *
- * on encode: static convertToHTMLFormat is responsible for HTML clipboard header creation
+ * on fndodf: stbtid donvfrtToHTMLFormbt is rfsponsiblf for HTML dlipbobrd ifbdfr drfbtion
  */
-class HTMLCodec extends InputStream {
-    //static section
-    public static final String ENCODING = "UTF-8";
+dlbss HTMLCodfd fxtfnds InputStrfbm {
+    //stbtid sfdtion
+    publid stbtid finbl String ENCODING = "UTF-8";
 
-    public static final String VERSION = "Version:";
-    public static final String START_HTML = "StartHTML:";
-    public static final String END_HTML = "EndHTML:";
-    public static final String START_FRAGMENT = "StartFragment:";
-    public static final String END_FRAGMENT = "EndFragment:";
-    public static final String START_SELECTION = "StartSelection:"; //optional
-    public static final String END_SELECTION = "EndSelection:"; //optional
+    publid stbtid finbl String VERSION = "Vfrsion:";
+    publid stbtid finbl String START_HTML = "StbrtHTML:";
+    publid stbtid finbl String END_HTML = "EndHTML:";
+    publid stbtid finbl String START_FRAGMENT = "StbrtFrbgmfnt:";
+    publid stbtid finbl String END_FRAGMENT = "EndFrbgmfnt:";
+    publid stbtid finbl String START_SELECTION = "StbrtSflfdtion:"; //optionbl
+    publid stbtid finbl String END_SELECTION = "EndSflfdtion:"; //optionbl
 
-    public static final String START_FRAGMENT_CMT = "<!--StartFragment-->";
-    public static final String END_FRAGMENT_CMT = "<!--EndFragment-->";
-    public static final String SOURCE_URL = "SourceURL:";
-    public static final String DEF_SOURCE_URL = "about:blank";
+    publid stbtid finbl String START_FRAGMENT_CMT = "<!--StbrtFrbgmfnt-->";
+    publid stbtid finbl String END_FRAGMENT_CMT = "<!--EndFrbgmfnt-->";
+    publid stbtid finbl String SOURCE_URL = "SourdfURL:";
+    publid stbtid finbl String DEF_SOURCE_URL = "bbout:blbnk";
 
-    public static final String EOLN = "\r\n";
+    publid stbtid finbl String EOLN = "\r\n";
 
-    private static final String VERSION_NUM = "1.0";
-    private static final int PADDED_WIDTH = 10;
+    privbtf stbtid finbl String VERSION_NUM = "1.0";
+    privbtf stbtid finbl int PADDED_WIDTH = 10;
 
-    private static String toPaddedString(int n, int width) {
+    privbtf stbtid String toPbddfdString(int n, int widti) {
         String string = "" + n;
-        int len = string.length();
-        if (n >= 0 && len < width) {
-            char[] array = new char[width - len];
-            Arrays.fill(array, '0');
-            StringBuffer buffer = new StringBuffer(width);
-            buffer.append(array);
-            buffer.append(string);
-            string = buffer.toString();
+        int lfn = string.lfngti();
+        if (n >= 0 && lfn < widti) {
+            dibr[] brrby = nfw dibr[widti - lfn];
+            Arrbys.fill(brrby, '0');
+            StringBufffr bufffr = nfw StringBufffr(widti);
+            bufffr.bppfnd(brrby);
+            bufffr.bppfnd(string);
+            string = bufffr.toString();
         }
-        return string;
+        rfturn string;
     }
 
     /**
-     * convertToHTMLFormat adds the MS HTML clipboard header to byte array that
-     * contains the parameters pairs.
+     * donvfrtToHTMLFormbt bdds tif MS HTML dlipbobrd ifbdfr to bytf brrby tibt
+     * dontbins tif pbrbmftfrs pbirs.
      *
-     * The consequence of parameters is fixed, but some or all of them could be
-     * omitted. One parameter per one text line.
-     * It looks like that:
+     * Tif donsfqufndf of pbrbmftfrs is fixfd, but somf or bll of tifm dould bf
+     * omittfd. Onf pbrbmftfr pfr onf tfxt linf.
+     * It looks likf tibt:
      *
-     * Version:1.0\r\n                -- current supported version
-     * StartHTML:000000192\r\n        -- shift in array to the first byte after the header
-     * EndHTML:000000757\r\n          -- shift in array of last byte for HTML syntax analysis
-     * StartFragment:000000396\r\n    -- shift in array jast after <!--StartFragment-->
-     * EndFragment:000000694\r\n      -- shift in array before start  <!--EndFragment-->
-     * StartSelection:000000398\r\n   -- shift in array of the first char in copied selection
-     * EndSelection:000000692\r\n     -- shift in array of the last char in copied selection
-     * SourceURL:http://sun.com/\r\n  -- base URL for related referenses
-     * <HTML>...<BODY>...<!--StartFragment-->.....................<!--EndFragment-->...</BODY><HTML>
+     * Vfrsion:1.0\r\n                -- durrfnt supportfd vfrsion
+     * StbrtHTML:000000192\r\n        -- siift in brrby to tif first bytf bftfr tif ifbdfr
+     * EndHTML:000000757\r\n          -- siift in brrby of lbst bytf for HTML syntbx bnblysis
+     * StbrtFrbgmfnt:000000396\r\n    -- siift in brrby jbst bftfr <!--StbrtFrbgmfnt-->
+     * EndFrbgmfnt:000000694\r\n      -- siift in brrby bfforf stbrt  <!--EndFrbgmfnt-->
+     * StbrtSflfdtion:000000398\r\n   -- siift in brrby of tif first dibr in dopifd sflfdtion
+     * EndSflfdtion:000000692\r\n     -- siift in brrby of tif lbst dibr in dopifd sflfdtion
+     * SourdfURL:ittp://sun.dom/\r\n  -- bbsf URL for rflbtfd rfffrfnsfs
+     * <HTML>...<BODY>...<!--StbrtFrbgmfnt-->.....................<!--EndFrbgmfnt-->...</BODY><HTML>
      * ^                                     ^ ^                ^^                                 ^
-     * \ StartHTML                           | \-StartSelection | \EndFragment              EndHTML/
-     *                                       \-StartFragment    \EndSelection
+     * \ StbrtHTML                           | \-StbrtSflfdtion | \EndFrbgmfnt              EndHTML/
+     *                                       \-StbrtFrbgmfnt    \EndSflfdtion
      *
-     *Combinations with tags sequence
-     *<!--StartFragment--><HTML>...<BODY>...</BODY><HTML><!--EndFragment-->
+     *Combinbtions witi tbgs sfqufndf
+     *<!--StbrtFrbgmfnt--><HTML>...<BODY>...</BODY><HTML><!--EndFrbgmfnt-->
      * or
-     *<HTML>...<!--StartFragment-->...<BODY>...</BODY><!--EndFragment--><HTML>
-     * are vailid too.
+     *<HTML>...<!--StbrtFrbgmfnt-->...<BODY>...</BODY><!--EndFrbgmfnt--><HTML>
+     * brf vbilid too.
      */
-    public static byte[] convertToHTMLFormat(byte[] bytes) {
-        // Calculate section offsets
-        String htmlPrefix = "";
-        String htmlSuffix = "";
+    publid stbtid bytf[] donvfrtToHTMLFormbt(bytf[] bytfs) {
+        // Cbldulbtf sfdtion offsfts
+        String itmlPrffix = "";
+        String itmlSuffix = "";
         {
-            //we have extend the fragment to full HTML document correctly
-            //to avoid HTML and BODY tags doubling
-            String stContext = new String(bytes);
-            String stUpContext = stContext.toUpperCase();
-            if( -1 == stUpContext.indexOf("<HTML") ) {
-                htmlPrefix = "<HTML>";
-                htmlSuffix = "</HTML>";
-                if( -1 == stUpContext.indexOf("<BODY") ) {
-                    htmlPrefix = htmlPrefix +"<BODY>";
-                    htmlSuffix = "</BODY>" + htmlSuffix;
+            //wf ibvf fxtfnd tif frbgmfnt to full HTML dodumfnt dorrfdtly
+            //to bvoid HTML bnd BODY tbgs doubling
+            String stContfxt = nfw String(bytfs);
+            String stUpContfxt = stContfxt.toUppfrCbsf();
+            if( -1 == stUpContfxt.indfxOf("<HTML") ) {
+                itmlPrffix = "<HTML>";
+                itmlSuffix = "</HTML>";
+                if( -1 == stUpContfxt.indfxOf("<BODY") ) {
+                    itmlPrffix = itmlPrffix +"<BODY>";
+                    itmlSuffix = "</BODY>" + itmlSuffix;
                 };
             };
         }
 
-        String stBaseUrl = DEF_SOURCE_URL;
-        int nStartHTML =
-                VERSION.length() + VERSION_NUM.length() + EOLN.length()
-                        + START_HTML.length() + PADDED_WIDTH + EOLN.length()
-                        + END_HTML.length() + PADDED_WIDTH + EOLN.length()
-                        + START_FRAGMENT.length() + PADDED_WIDTH + EOLN.length()
-                        + END_FRAGMENT.length() + PADDED_WIDTH + EOLN.length()
-                        + SOURCE_URL.length() + stBaseUrl.length() + EOLN.length()
+        String stBbsfUrl = DEF_SOURCE_URL;
+        int nStbrtHTML =
+                VERSION.lfngti() + VERSION_NUM.lfngti() + EOLN.lfngti()
+                        + START_HTML.lfngti() + PADDED_WIDTH + EOLN.lfngti()
+                        + END_HTML.lfngti() + PADDED_WIDTH + EOLN.lfngti()
+                        + START_FRAGMENT.lfngti() + PADDED_WIDTH + EOLN.lfngti()
+                        + END_FRAGMENT.lfngti() + PADDED_WIDTH + EOLN.lfngti()
+                        + SOURCE_URL.lfngti() + stBbsfUrl.lfngti() + EOLN.lfngti()
                 ;
-        int nStartFragment = nStartHTML + htmlPrefix.length();
-        int nEndFragment = nStartFragment + bytes.length - 1;
-        int nEndHTML = nEndFragment + htmlSuffix.length();
+        int nStbrtFrbgmfnt = nStbrtHTML + itmlPrffix.lfngti();
+        int nEndFrbgmfnt = nStbrtFrbgmfnt + bytfs.lfngti - 1;
+        int nEndHTML = nEndFrbgmfnt + itmlSuffix.lfngti();
 
-        StringBuilder header = new StringBuilder(
-                nStartFragment
-                        + START_FRAGMENT_CMT.length()
+        StringBuildfr ifbdfr = nfw StringBuildfr(
+                nStbrtFrbgmfnt
+                        + START_FRAGMENT_CMT.lfngti()
         );
-        //header
-        header.append(VERSION);
-        header.append(VERSION_NUM);
-        header.append(EOLN);
+        //ifbdfr
+        ifbdfr.bppfnd(VERSION);
+        ifbdfr.bppfnd(VERSION_NUM);
+        ifbdfr.bppfnd(EOLN);
 
-        header.append(START_HTML);
-        header.append(toPaddedString(nStartHTML, PADDED_WIDTH));
-        header.append(EOLN);
+        ifbdfr.bppfnd(START_HTML);
+        ifbdfr.bppfnd(toPbddfdString(nStbrtHTML, PADDED_WIDTH));
+        ifbdfr.bppfnd(EOLN);
 
-        header.append(END_HTML);
-        header.append(toPaddedString(nEndHTML, PADDED_WIDTH));
-        header.append(EOLN);
+        ifbdfr.bppfnd(END_HTML);
+        ifbdfr.bppfnd(toPbddfdString(nEndHTML, PADDED_WIDTH));
+        ifbdfr.bppfnd(EOLN);
 
-        header.append(START_FRAGMENT);
-        header.append(toPaddedString(nStartFragment, PADDED_WIDTH));
-        header.append(EOLN);
+        ifbdfr.bppfnd(START_FRAGMENT);
+        ifbdfr.bppfnd(toPbddfdString(nStbrtFrbgmfnt, PADDED_WIDTH));
+        ifbdfr.bppfnd(EOLN);
 
-        header.append(END_FRAGMENT);
-        header.append(toPaddedString(nEndFragment, PADDED_WIDTH));
-        header.append(EOLN);
+        ifbdfr.bppfnd(END_FRAGMENT);
+        ifbdfr.bppfnd(toPbddfdString(nEndFrbgmfnt, PADDED_WIDTH));
+        ifbdfr.bppfnd(EOLN);
 
-        header.append(SOURCE_URL);
-        header.append(stBaseUrl);
-        header.append(EOLN);
+        ifbdfr.bppfnd(SOURCE_URL);
+        ifbdfr.bppfnd(stBbsfUrl);
+        ifbdfr.bppfnd(EOLN);
 
         //HTML
-        header.append(htmlPrefix);
+        ifbdfr.bppfnd(itmlPrffix);
 
-        byte[] headerBytes = null, trailerBytes = null;
+        bytf[] ifbdfrBytfs = null, trbilfrBytfs = null;
 
         try {
-            headerBytes = header.toString().getBytes(ENCODING);
-            trailerBytes = htmlSuffix.getBytes(ENCODING);
-        } catch (UnsupportedEncodingException cannotHappen) {
+            ifbdfrBytfs = ifbdfr.toString().gftBytfs(ENCODING);
+            trbilfrBytfs = itmlSuffix.gftBytfs(ENCODING);
+        } dbtdi (UnsupportfdEndodingExdfption dbnnotHbppfn) {
         }
 
-        byte[] retval = new byte[headerBytes.length + bytes.length +
-                trailerBytes.length];
+        bytf[] rftvbl = nfw bytf[ifbdfrBytfs.lfngti + bytfs.lfngti +
+                trbilfrBytfs.lfngti];
 
-        System.arraycopy(headerBytes, 0, retval, 0, headerBytes.length);
-        System.arraycopy(bytes, 0, retval, headerBytes.length,
-                bytes.length - 1);
-        System.arraycopy(trailerBytes, 0, retval,
-                headerBytes.length + bytes.length - 1,
-                trailerBytes.length);
-        retval[retval.length-1] = 0;
+        Systfm.brrbydopy(ifbdfrBytfs, 0, rftvbl, 0, ifbdfrBytfs.lfngti);
+        Systfm.brrbydopy(bytfs, 0, rftvbl, ifbdfrBytfs.lfngti,
+                bytfs.lfngti - 1);
+        Systfm.brrbydopy(trbilfrBytfs, 0, rftvbl,
+                ifbdfrBytfs.lfngti + bytfs.lfngti - 1,
+                trbilfrBytfs.lfngti);
+        rftvbl[rftvbl.lfngti-1] = 0;
 
-        return retval;
+        rfturn rftvbl;
     }
 
     ////////////////////////////////////
-    //decoder instance data and methods:
+    //dfdodfr instbndf dbtb bnd mftiods:
 
-    private final BufferedInputStream bufferedStream;
-    private boolean descriptionParsed = false;
-    private boolean closed = false;
+    privbtf finbl BufffrfdInputStrfbm bufffrfdStrfbm;
+    privbtf boolfbn dfsdriptionPbrsfd = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
 
-    // InputStreamReader uses an 8K buffer. The size is not customizable.
-    public static final int BYTE_BUFFER_LEN = 8192;
+    // InputStrfbmRfbdfr usfs bn 8K bufffr. Tif sizf is not dustomizbblf.
+    publid stbtid finbl int BYTE_BUFFER_LEN = 8192;
 
-    // CharToByteUTF8.getMaxBytesPerChar returns 3, so we should not buffer
-    // more chars than 3 times the number of bytes we can buffer.
-    public static final int CHAR_BUFFER_LEN = BYTE_BUFFER_LEN / 3;
+    // CibrToBytfUTF8.gftMbxBytfsPfrCibr rfturns 3, so wf siould not bufffr
+    // morf dibrs tibn 3 timfs tif numbfr of bytfs wf dbn bufffr.
+    publid stbtid finbl int CHAR_BUFFER_LEN = BYTE_BUFFER_LEN / 3;
 
-    private static final String FAILURE_MSG =
-            "Unable to parse HTML description: ";
-    private static final String INVALID_MSG =
-            " invalid";
+    privbtf stbtid finbl String FAILURE_MSG =
+            "Unbblf to pbrsf HTML dfsdription: ";
+    privbtf stbtid finbl String INVALID_MSG =
+            " invblid";
 
-    //HTML header mapping:
-    private long   iHTMLStart,// StartHTML -- shift in array to the first byte after the header
-            iHTMLEnd,  // EndHTML -- shift in array of last byte for HTML syntax analysis
-            iFragStart,// StartFragment -- shift in array jast after <!--StartFragment-->
-            iFragEnd,  // EndFragment -- shift in array before start <!--EndFragment-->
-            iSelStart, // StartSelection -- shift in array of the first char in copied selection
-            iSelEnd;   // EndSelection -- shift in array of the last char in copied selection
-    private String stBaseURL; // SourceURL -- base URL for related referenses
-    private String stVersion; // Version -- current supported version
+    //HTML ifbdfr mbpping:
+    privbtf long   iHTMLStbrt,// StbrtHTML -- siift in brrby to tif first bytf bftfr tif ifbdfr
+            iHTMLEnd,  // EndHTML -- siift in brrby of lbst bytf for HTML syntbx bnblysis
+            iFrbgStbrt,// StbrtFrbgmfnt -- siift in brrby jbst bftfr <!--StbrtFrbgmfnt-->
+            iFrbgEnd,  // EndFrbgmfnt -- siift in brrby bfforf stbrt <!--EndFrbgmfnt-->
+            iSflStbrt, // StbrtSflfdtion -- siift in brrby of tif first dibr in dopifd sflfdtion
+            iSflEnd;   // EndSflfdtion -- siift in brrby of tif lbst dibr in dopifd sflfdtion
+    privbtf String stBbsfURL; // SourdfURL -- bbsf URL for rflbtfd rfffrfnsfs
+    privbtf String stVfrsion; // Vfrsion -- durrfnt supportfd vfrsion
 
-    //Stream reader markers:
-    private long iStartOffset,
-            iEndOffset,
-            iReadCount;
+    //Strfbm rfbdfr mbrkfrs:
+    privbtf long iStbrtOffsft,
+            iEndOffsft,
+            iRfbdCount;
 
-    private EHTMLReadMode readMode;
+    privbtf EHTMLRfbdModf rfbdModf;
 
-    public HTMLCodec(
-            InputStream _bytestream,
-            EHTMLReadMode _readMode) throws IOException
+    publid HTMLCodfd(
+            InputStrfbm _bytfstrfbm,
+            EHTMLRfbdModf _rfbdModf) tirows IOExdfption
     {
-        bufferedStream = new BufferedInputStream(_bytestream, BYTE_BUFFER_LEN);
-        readMode = _readMode;
+        bufffrfdStrfbm = nfw BufffrfdInputStrfbm(_bytfstrfbm, BYTE_BUFFER_LEN);
+        rfbdModf = _rfbdModf;
     }
 
-    public synchronized String getBaseURL() throws IOException
+    publid syndironizfd String gftBbsfURL() tirows IOExdfption
     {
-        if( !descriptionParsed ) {
-            parseDescription();
+        if( !dfsdriptionPbrsfd ) {
+            pbrsfDfsdription();
         }
-        return stBaseURL;
+        rfturn stBbsfURL;
     }
-    public synchronized String getVersion() throws IOException
+    publid syndironizfd String gftVfrsion() tirows IOExdfption
     {
-        if( !descriptionParsed ) {
-            parseDescription();
+        if( !dfsdriptionPbrsfd ) {
+            pbrsfDfsdription();
         }
-        return stVersion;
+        rfturn stVfrsion;
     }
 
     /**
-     * parseDescription parsing HTML clipboard header as it described in
-     * comment to convertToHTMLFormat
+     * pbrsfDfsdription pbrsing HTML dlipbobrd ifbdfr bs it dfsdribfd in
+     * dommfnt to donvfrtToHTMLFormbt
      */
-    private void parseDescription() throws IOException
+    privbtf void pbrsfDfsdription() tirows IOExdfption
     {
-        stBaseURL = null;
-        stVersion = null;
+        stBbsfURL = null;
+        stVfrsion = null;
 
-        // initialization of array offset pointers
-        // to the same "uninitialized" state.
+        // initiblizbtion of brrby offsft pointfrs
+        // to tif sbmf "uninitiblizfd" stbtf.
         iHTMLEnd =
-                iHTMLStart =
-                        iFragEnd =
-                                iFragStart =
-                                        iSelEnd =
-                                                iSelStart = -1;
+                iHTMLStbrt =
+                        iFrbgEnd =
+                                iFrbgStbrt =
+                                        iSflEnd =
+                                                iSflStbrt = -1;
 
-        bufferedStream.mark(BYTE_BUFFER_LEN);
-        String astEntries[] = new String[] {
-                //common
+        bufffrfdStrfbm.mbrk(BYTE_BUFFER_LEN);
+        String bstEntrifs[] = nfw String[] {
+                //dommon
                 VERSION,
                 START_HTML,
                 END_HTML,
                 START_FRAGMENT,
                 END_FRAGMENT,
-                //ver 1.0
+                //vfr 1.0
                 START_SELECTION,
                 END_SELECTION,
                 SOURCE_URL
         };
-        BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(
-                        bufferedStream,
+        BufffrfdRfbdfr bufffrfdRfbdfr = nfw BufffrfdRfbdfr(
+                nfw InputStrfbmRfbdfr(
+                        bufffrfdStrfbm,
                         ENCODING
                 ),
                 CHAR_BUFFER_LEN
         );
-        long iHeadSize = 0;
-        long iCRSize = EOLN.length();
-        int iEntCount = astEntries.length;
-        boolean bContinue = true;
+        long iHfbdSizf = 0;
+        long iCRSizf = EOLN.lfngti();
+        int iEntCount = bstEntrifs.lfngti;
+        boolfbn bContinuf = truf;
 
         for( int  iEntry = 0; iEntry < iEntCount; ++iEntry ){
-            String stLine = bufferedReader.readLine();
-            if( null==stLine ) {
-                break;
+            String stLinf = bufffrfdRfbdfr.rfbdLinf();
+            if( null==stLinf ) {
+                brfbk;
             }
-            //some header entries are optional, but the order is fixed.
+            //somf ifbdfr fntrifs brf optionbl, but tif ordfr is fixfd.
             for( ; iEntry < iEntCount; ++iEntry ){
-                if( !stLine.startsWith(astEntries[iEntry]) ) {
-                    continue;
+                if( !stLinf.stbrtsWiti(bstEntrifs[iEntry]) ) {
+                    dontinuf;
                 }
-                iHeadSize += stLine.length() + iCRSize;
-                String stValue = stLine.substring(astEntries[iEntry].length()).trim();
-                if( null!=stValue ) {
+                iHfbdSizf += stLinf.lfngti() + iCRSizf;
+                String stVbluf = stLinf.substring(bstEntrifs[iEntry].lfngti()).trim();
+                if( null!=stVbluf ) {
                     try{
-                        switch( iEntry ){
-                            case 0:
-                                stVersion = stValue;
-                                break;
-                            case 1:
-                                iHTMLStart = Integer.parseInt(stValue);
-                                break;
-                            case 2:
-                                iHTMLEnd = Integer.parseInt(stValue);
-                                break;
-                            case 3:
-                                iFragStart = Integer.parseInt(stValue);
-                                break;
-                            case 4:
-                                iFragEnd = Integer.parseInt(stValue);
-                                break;
-                            case 5:
-                                iSelStart = Integer.parseInt(stValue);
-                                break;
-                            case 6:
-                                iSelEnd = Integer.parseInt(stValue);
-                                break;
-                            case 7:
-                                stBaseURL = stValue;
-                                break;
+                        switdi( iEntry ){
+                            dbsf 0:
+                                stVfrsion = stVbluf;
+                                brfbk;
+                            dbsf 1:
+                                iHTMLStbrt = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 2:
+                                iHTMLEnd = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 3:
+                                iFrbgStbrt = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 4:
+                                iFrbgEnd = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 5:
+                                iSflStbrt = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 6:
+                                iSflEnd = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 7:
+                                stBbsfURL = stVbluf;
+                                brfbk;
                         };
-                    } catch ( NumberFormatException e ) {
-                        throw new IOException(FAILURE_MSG + astEntries[iEntry]+ " value " + e + INVALID_MSG);
+                    } dbtdi ( NumbfrFormbtExdfption f ) {
+                        tirow nfw IOExdfption(FAILURE_MSG + bstEntrifs[iEntry]+ " vbluf " + f + INVALID_MSG);
                     }
                 }
-                break;
+                brfbk;
             }
         }
-        //some entries could absent in HTML header,
-        //so we have find they by another way.
-        if( -1 == iHTMLStart )
-            iHTMLStart = iHeadSize;
-        if( -1 == iFragStart )
-            iFragStart = iHTMLStart;
-        if( -1 == iFragEnd )
-            iFragEnd = iHTMLEnd;
-        if( -1 == iSelStart )
-            iSelStart = iFragStart;
-        if( -1 == iSelEnd )
-            iSelEnd = iFragEnd;
+        //somf fntrifs dould bbsfnt in HTML ifbdfr,
+        //so wf ibvf find tify by bnotifr wby.
+        if( -1 == iHTMLStbrt )
+            iHTMLStbrt = iHfbdSizf;
+        if( -1 == iFrbgStbrt )
+            iFrbgStbrt = iHTMLStbrt;
+        if( -1 == iFrbgEnd )
+            iFrbgEnd = iHTMLEnd;
+        if( -1 == iSflStbrt )
+            iSflStbrt = iFrbgStbrt;
+        if( -1 == iSflEnd )
+            iSflEnd = iFrbgEnd;
 
-        //one of possible modes
-        switch( readMode ){
-            case HTML_READ_ALL:
-                iStartOffset = iHTMLStart;
-                iEndOffset = iHTMLEnd;
-                break;
-            case HTML_READ_FRAGMENT:
-                iStartOffset = iFragStart;
-                iEndOffset = iFragEnd;
-                break;
-            case HTML_READ_SELECTION:
-            default:
-                iStartOffset = iSelStart;
-                iEndOffset = iSelEnd;
-                break;
+        //onf of possiblf modfs
+        switdi( rfbdModf ){
+            dbsf HTML_READ_ALL:
+                iStbrtOffsft = iHTMLStbrt;
+                iEndOffsft = iHTMLEnd;
+                brfbk;
+            dbsf HTML_READ_FRAGMENT:
+                iStbrtOffsft = iFrbgStbrt;
+                iEndOffsft = iFrbgEnd;
+                brfbk;
+            dbsf HTML_READ_SELECTION:
+            dffbult:
+                iStbrtOffsft = iSflStbrt;
+                iEndOffsft = iSflEnd;
+                brfbk;
         }
 
-        bufferedStream.reset();
-        if( -1 == iStartOffset ){
-            throw new IOException(FAILURE_MSG + "invalid HTML format.");
+        bufffrfdStrfbm.rfsft();
+        if( -1 == iStbrtOffsft ){
+            tirow nfw IOExdfption(FAILURE_MSG + "invblid HTML formbt.");
         }
 
-        int curOffset = 0;
-        while (curOffset < iStartOffset){
-            curOffset += bufferedStream.skip(iStartOffset - curOffset);
+        int durOffsft = 0;
+        wiilf (durOffsft < iStbrtOffsft){
+            durOffsft += bufffrfdStrfbm.skip(iStbrtOffsft - durOffsft);
         }
 
-        iReadCount = curOffset;
+        iRfbdCount = durOffsft;
 
-        if( iStartOffset != iReadCount ){
-            throw new IOException(FAILURE_MSG + "Byte stream ends in description.");
+        if( iStbrtOffsft != iRfbdCount ){
+            tirow nfw IOExdfption(FAILURE_MSG + "Bytf strfbm fnds in dfsdription.");
         }
-        descriptionParsed = true;
+        dfsdriptionPbrsfd = truf;
     }
 
-    @Override
-    public synchronized int read() throws IOException {
-        if( closed ){
-            throw new IOException("Stream closed");
+    @Ovfrridf
+    publid syndironizfd int rfbd() tirows IOExdfption {
+        if( dlosfd ){
+            tirow nfw IOExdfption("Strfbm dlosfd");
         }
 
-        if( !descriptionParsed ){
-            parseDescription();
+        if( !dfsdriptionPbrsfd ){
+            pbrsfDfsdription();
         }
-        if( -1 != iEndOffset && iReadCount >= iEndOffset ) {
-            return -1;
+        if( -1 != iEndOffsft && iRfbdCount >= iEndOffsft ) {
+            rfturn -1;
         }
 
-        int retval = bufferedStream.read();
-        if( retval == -1 ) {
-            return -1;
+        int rftvbl = bufffrfdStrfbm.rfbd();
+        if( rftvbl == -1 ) {
+            rfturn -1;
         }
-        ++iReadCount;
-        return retval;
+        ++iRfbdCount;
+        rfturn rftvbl;
     }
 
-    @Override
-    public synchronized void close() throws IOException {
-        if( !closed ){
-            closed = true;
-            bufferedStream.close();
+    @Ovfrridf
+    publid syndironizfd void dlosf() tirows IOExdfption {
+        if( !dlosfd ){
+            dlosfd = truf;
+            bufffrfdStrfbm.dlosf();
         }
     }
 }

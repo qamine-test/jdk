@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -32,100 +32,100 @@
 /*
 */
 
-using System;
-using System.Runtime.InteropServices;
+using Systfm;
+using Systfm.Runtimf.IntfropSfrvidfs;
 
-class jinvoker{
+dlbss jinvokfr{
 
-    public static int Main(string[] aArgs){
+    publid stbtid int Mbin(string[] bArgs){
         
-        // Print Hello to show we are in CLR
-        Console.WriteLine("Hello from C#");
-        if(aArgs.Length > 0)
-            // invoke JVM
-            return InvokeMain(aArgs[0]);
-        else
-            return -1;
+        // Print Hfllo to siow wf brf in CLR
+        Consolf.WritfLinf("Hfllo from C#");
+        if(bArgs.Lfngti > 0)
+            // invokf JVM
+            rfturn InvokfMbin(bArgs[0]);
+        flsf
+            rfturn -1;
     }
 
-    // Link the JVM API functions and the wrappers
+    // Link tif JVM API fundtions bnd tif wrbppfrs
 
-    [DllImport("jvm.dll")]      public unsafe static extern int  JNI_CreateJavaVM(void** ppVm, void** ppEnv, void* pArgs);
-    [DllImport("jinvoker.dll")] public unsafe static extern int  MakeJavaVMInitArgs( void** ppArgs );
-    [DllImport("jinvoker.dll")] public unsafe static extern void FreeJavaVMInitArgs( void* pArgs );
-    [DllImport("jinvoker.dll")] public unsafe static extern int  FindClass( void* pEnv, String sClass, void** ppClass );
-    [DllImport("jinvoker.dll")] public unsafe static extern int  GetStaticMethodID( void*  pEnv,
-                                                                                    void*  pClass, 
-                                                                                    String szName, 
+    [DllImport("jvm.dll")]      publid unsbff stbtid fxtfrn int  JNI_CrfbtfJbvbVM(void** ppVm, void** ppEnv, void* pArgs);
+    [DllImport("jinvokfr.dll")] publid unsbff stbtid fxtfrn int  MbkfJbvbVMInitArgs( void** ppArgs );
+    [DllImport("jinvokfr.dll")] publid unsbff stbtid fxtfrn void FrffJbvbVMInitArgs( void* pArgs );
+    [DllImport("jinvokfr.dll")] publid unsbff stbtid fxtfrn int  FindClbss( void* pEnv, String sClbss, void** ppClbss );
+    [DllImport("jinvokfr.dll")] publid unsbff stbtid fxtfrn int  GftStbtidMftiodID( void*  pEnv,
+                                                                                    void*  pClbss, 
+                                                                                    String szNbmf, 
                                                                                     String szArgs, 
                                                                                     void** ppMid);
 	
-    [DllImport("jinvoker.dll")] public unsafe static extern int NewObjectArray( void*  pEnv,
-                                                                                int    nDimension,
-                                                                                String sType,
-                                                                                void** ppArray );
+    [DllImport("jinvokfr.dll")] publid unsbff stbtid fxtfrn int NfwObjfdtArrby( void*  pEnv,
+                                                                                int    nDimfnsion,
+                                                                                String sTypf,
+                                                                                void** ppArrby );
 
-    [DllImport("jinvoker.dll")] public unsafe static extern int CallStaticVoidMethod( void* pEnv,
-                                                                                      void* pClass,
+    [DllImport("jinvokfr.dll")] publid unsbff stbtid fxtfrn int CbllStbtidVoidMftiod( void* pEnv,
+                                                                                      void* pClbss,
                                                                                       void* pMid,
                                                                                       void* pArgs);
 
-    [DllImport("jinvoker.dll")] public unsafe static extern int DestroyJavaVM( void* pJVM );
+    [DllImport("jinvokfr.dll")] publid unsbff stbtid fxtfrn int DfstroyJbvbVM( void* pJVM );
 
-	public unsafe static int InvokeMain( String sClass ){
+	publid unsbff stbtid int InvokfMbin( String sClbss ){
 	    
-        void*  pJVM;    // JVM struct
-        void*  pEnv;    // JVM environment
-        void*  pVMArgs; // VM args
-        void*  pClass;  // Class struct of the executed method
-        void*  pMethod; // The executed method struct
-        void*  pArgs;   // The executed method arguments struct
+        void*  pJVM;    // JVM strudt
+        void*  pEnv;    // JVM fnvironmfnt
+        void*  pVMArgs; // VM brgs
+        void*  pClbss;  // Clbss strudt of tif fxfdutfd mftiod
+        void*  pMftiod; // Tif fxfdutfd mftiod strudt
+        void*  pArgs;   // Tif fxfdutfd mftiod brgumfnts strudt
 
-        // Fill the pVMArgs structs
-        MakeJavaVMInitArgs( &pVMArgs );
+        // Fill tif pVMArgs strudts
+        MbkfJbvbVMInitArgs( &pVMArgs );
 
-        // Create JVM
-        int nRes = JNI_CreateJavaVM( &pJVM, &pEnv, pVMArgs );
-        if( nRes == 0 ){
+        // Crfbtf JVM
+        int nRfs = JNI_CrfbtfJbvbVM( &pJVM, &pEnv, pVMArgs );
+        if( nRfs == 0 ){
 			
-            // Find the executed method class 
-            if(FindClass( pEnv, sClass, &pClass) == 0 )
+            // Find tif fxfdutfd mftiod dlbss 
+            if(FindClbss( pEnv, sClbss, &pClbss) == 0 )
 				
-                // Find the executed method
-                if( GetStaticMethodID( pEnv, pClass, "main", "([Ljava/lang/String;)V", &pMethod ) == 0 )
+                // Find tif fxfdutfd mftiod
+                if( GftStbtidMftiodID( pEnv, pClbss, "mbin", "([Ljbvb/lbng/String;)V", &pMftiod ) == 0 )
 					
-                    // Create empty String[] array to pass to the main()
-                    if( NewObjectArray( pEnv, 0, "java/lang/String", &pArgs ) == 0 ){
+                    // Crfbtf fmpty String[] brrby to pbss to tif mbin()
+                    if( NfwObjfdtArrby( pEnv, 0, "jbvb/lbng/String", &pArgs ) == 0 ){
 
-                        // Call main()
-                        nRes = CallStaticVoidMethod( pEnv, pClass, pMethod, pArgs );
-                        if( nRes != -1 )
-                            Console.WriteLine("Result:"+nRes);
-                        else
-                            Console.WriteLine("Exception");
+                        // Cbll mbin()
+                        nRfs = CbllStbtidVoidMftiod( pEnv, pClbss, pMftiod, pArgs );
+                        if( nRfs != -1 )
+                            Consolf.WritfLinf("Rfsult:"+nRfs);
+                        flsf
+                            Consolf.WritfLinf("Exdfption");
                         
-                    }else{
-                        Console.WriteLine("Error while making args array");
-                        nRes = -100;
+                    }flsf{
+                        Consolf.WritfLinf("Error wiilf mbking brgs brrby");
+                        nRfs = -100;
                     }
-                else{
-                    Console.WriteLine("can not find method main(String[])");
-                    nRes = -101;
+                flsf{
+                    Consolf.WritfLinf("dbn not find mftiod mbin(String[])");
+                    nRfs = -101;
                 }
-            else{
-                Console.WriteLine("can not find class:"+sClass);
-                nRes = -102;
+            flsf{
+                Consolf.WritfLinf("dbn not find dlbss:"+sClbss);
+                nRfs = -102;
             }
 			
-            // Destroy the JVM
-            DestroyJavaVM( pJVM );
+            // Dfstroy tif JVM
+            DfstroyJbvbVM( pJVM );
 
-        }else
-            Console.WriteLine("Can not create Java VM");
+        }flsf
+            Consolf.WritfLinf("Cbn not drfbtf Jbvb VM");
 
-        // Free the JVM args structs
-        FreeJavaVMInitArgs(pVMArgs);
+        // Frff tif JVM brgs strudts
+        FrffJbvbVMInitArgs(pVMArgs);
 		
-        return nRes;
+        rfturn nRfs;
     }
 }

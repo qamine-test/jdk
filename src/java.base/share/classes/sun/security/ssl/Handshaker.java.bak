@@ -1,1395 +1,1395 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.*;
-import java.util.*;
-import java.security.*;
-import java.security.NoSuchAlgorithmException;
-import java.security.AccessController;
-import java.security.AlgorithmConstraints;
-import java.security.AccessControlContext;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AlgoritimConstrbints;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
 
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
 
-import javax.net.ssl.*;
-import sun.misc.HexDumpEncoder;
+import jbvbx.nft.ssl.*;
+import sun.misd.HfxDumpEndodfr;
 
-import sun.security.internal.spec.*;
-import sun.security.internal.interfaces.TlsMasterSecret;
+import sun.sfdurity.intfrnbl.spfd.*;
+import sun.sfdurity.intfrnbl.intfrfbdfs.TlsMbstfrSfdrft;
 
-import sun.security.ssl.HandshakeMessage.*;
-import sun.security.ssl.CipherSuite.*;
+import sun.sfdurity.ssl.HbndsibkfMfssbgf.*;
+import sun.sfdurity.ssl.CipifrSuitf.*;
 
-import static sun.security.ssl.CipherSuite.PRF.*;
-import static sun.security.ssl.CipherSuite.CipherType.*;
+import stbtid sun.sfdurity.ssl.CipifrSuitf.PRF.*;
+import stbtid sun.sfdurity.ssl.CipifrSuitf.CipifrTypf.*;
 
 /**
- * Handshaker ... processes handshake records from an SSL V3.0
- * data stream, handling all the details of the handshake protocol.
+ * Hbndsibkfr ... prodfssfs ibndsibkf rfdords from bn SSL V3.0
+ * dbtb strfbm, ibndling bll tif dftbils of tif ibndsibkf protodol.
  *
- * Note that the real protocol work is done in two subclasses, the  base
- * class just provides the control flow and key generation framework.
+ * Notf tibt tif rfbl protodol work is donf in two subdlbssfs, tif  bbsf
+ * dlbss just providfs tif dontrol flow bnd kfy gfnfrbtion frbmfwork.
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-abstract class Handshaker {
+bbstrbdt dlbss Hbndsibkfr {
 
-    // protocol version being established using this Handshaker
-    ProtocolVersion protocolVersion;
+    // protodol vfrsion bfing fstbblisifd using tiis Hbndsibkfr
+    ProtodolVfrsion protodolVfrsion;
 
-    // the currently active protocol version during a renegotiation
-    ProtocolVersion     activeProtocolVersion;
+    // tif durrfntly bdtivf protodol vfrsion during b rfnfgotibtion
+    ProtodolVfrsion     bdtivfProtodolVfrsion;
 
-    // security parameters for secure renegotiation.
-    boolean             secureRenegotiation;
-    byte[]              clientVerifyData;
-    byte[]              serverVerifyData;
+    // sfdurity pbrbmftfrs for sfdurf rfnfgotibtion.
+    boolfbn             sfdurfRfnfgotibtion;
+    bytf[]              dlifntVfrifyDbtb;
+    bytf[]              sfrvfrVfrifyDbtb;
 
-    // Is it an initial negotiation  or a renegotiation?
-    boolean                     isInitialHandshake;
+    // Is it bn initibl nfgotibtion  or b rfnfgotibtion?
+    boolfbn                     isInitiblHbndsibkf;
 
-    // List of enabled protocols
-    private ProtocolList        enabledProtocols;
+    // List of fnbblfd protodols
+    privbtf ProtodolList        fnbblfdProtodols;
 
-    // List of enabled CipherSuites
-    private CipherSuiteList     enabledCipherSuites;
+    // List of fnbblfd CipifrSuitfs
+    privbtf CipifrSuitfList     fnbblfdCipifrSuitfs;
 
-    // The endpoint identification protocol
-    String              identificationProtocol;
+    // Tif fndpoint idfntifidbtion protodol
+    String              idfntifidbtionProtodol;
 
-    // The cryptographic algorithm constraints
-    private AlgorithmConstraints    algorithmConstraints = null;
+    // Tif dryptogrbpiid blgoritim donstrbints
+    privbtf AlgoritimConstrbints    blgoritimConstrbints = null;
 
-    // Local supported signature and algorithms
-    Collection<SignatureAndHashAlgorithm> localSupportedSignAlgs;
+    // Lodbl supportfd signbturf bnd blgoritims
+    Collfdtion<SignbturfAndHbsiAlgoritim> lodblSupportfdSignAlgs;
 
-    // Peer supported signature and algorithms
-    Collection<SignatureAndHashAlgorithm> peerSupportedSignAlgs;
-
-    /*
+    // Pffr supportfd signbturf bnd blgoritims
+    Collfdtion<SignbturfAndHbsiAlgoritim> pffrSupportfdSignAlgs;
 
     /*
-     * List of active protocols
+
+    /*
+     * List of bdtivf protodols
      *
-     * Active protocols is a subset of enabled protocols, and will
-     * contain only those protocols that have vaild cipher suites
-     * enabled.
+     * Adtivf protodols is b subsft of fnbblfd protodols, bnd will
+     * dontbin only tiosf protodols tibt ibvf vbild dipifr suitfs
+     * fnbblfd.
      */
-    private ProtocolList       activeProtocols;
+    privbtf ProtodolList       bdtivfProtodols;
 
     /*
-     * List of active cipher suites
+     * List of bdtivf dipifr suitfs
      *
-     * Active cipher suites is a subset of enabled cipher suites, and will
-     * contain only those cipher suites available for the active protocols.
+     * Adtivf dipifr suitfs is b subsft of fnbblfd dipifr suitfs, bnd will
+     * dontbin only tiosf dipifr suitfs bvbilbblf for tif bdtivf protodols.
      */
-    private CipherSuiteList    activeCipherSuites;
+    privbtf CipifrSuitfList    bdtivfCipifrSuitfs;
 
-    // The server name indication and matchers
-    List<SNIServerName>         serverNames =
-                                    Collections.<SNIServerName>emptyList();
-    Collection<SNIMatcher>      sniMatchers =
-                                    Collections.<SNIMatcher>emptyList();
+    // Tif sfrvfr nbmf indidbtion bnd mbtdifrs
+    List<SNISfrvfrNbmf>         sfrvfrNbmfs =
+                                    Collfdtions.<SNISfrvfrNbmf>fmptyList();
+    Collfdtion<SNIMbtdifr>      sniMbtdifrs =
+                                    Collfdtions.<SNIMbtdifr>fmptyList();
 
-    private boolean             isClient;
-    private boolean             needCertVerify;
+    privbtf boolfbn             isClifnt;
+    privbtf boolfbn             nffdCfrtVfrify;
 
-    SSLSocketImpl               conn = null;
-    SSLEngineImpl               engine = null;
+    SSLSodkftImpl               donn = null;
+    SSLEnginfImpl               fnginf = null;
 
-    HandshakeHash               handshakeHash;
-    HandshakeInStream           input;
-    HandshakeOutStream          output;
-    int                         state;
-    SSLContextImpl              sslContext;
-    RandomCookie                clnt_random, svr_random;
-    SSLSessionImpl              session;
+    HbndsibkfHbsi               ibndsibkfHbsi;
+    HbndsibkfInStrfbm           input;
+    HbndsibkfOutStrfbm          output;
+    int                         stbtf;
+    SSLContfxtImpl              sslContfxt;
+    RbndomCookif                dlnt_rbndom, svr_rbndom;
+    SSLSfssionImpl              sfssion;
 
-    // current CipherSuite. Never null, initially SSL_NULL_WITH_NULL_NULL
-    CipherSuite         cipherSuite;
+    // durrfnt CipifrSuitf. Nfvfr null, initiblly SSL_NULL_WITH_NULL_NULL
+    CipifrSuitf         dipifrSuitf;
 
-    // current key exchange. Never null, initially K_NULL
-    KeyExchange         keyExchange;
+    // durrfnt kfy fxdibngf. Nfvfr null, initiblly K_NULL
+    KfyExdibngf         kfyExdibngf;
 
-    /* True if this session is being resumed (fast handshake) */
-    boolean             resumingSession;
+    /* Truf if tiis sfssion is bfing rfsumfd (fbst ibndsibkf) */
+    boolfbn             rfsumingSfssion;
 
-    /* True if it's OK to start a new SSL session */
-    boolean             enableNewSession;
+    /* Truf if it's OK to stbrt b nfw SSL sfssion */
+    boolfbn             fnbblfNfwSfssion;
 
-    // Whether local cipher suites preference should be honored during
-    // handshaking?
+    // Wiftifr lodbl dipifr suitfs prfffrfndf siould bf ionorfd during
+    // ibndsibking?
     //
-    // Note that in this provider, this option only applies to server side.
-    // Local cipher suites preference is always honored in client side in
-    // this provider.
-    boolean preferLocalCipherSuites = false;
+    // Notf tibt in tiis providfr, tiis option only bpplifs to sfrvfr sidf.
+    // Lodbl dipifr suitfs prfffrfndf is blwbys ionorfd in dlifnt sidf in
+    // tiis providfr.
+    boolfbn prfffrLodblCipifrSuitfs = fblsf;
 
-    // Temporary storage for the individual keys. Set by
-    // calculateConnectionKeys() and cleared once the ciphers are
-    // activated.
-    private SecretKey clntWriteKey, svrWriteKey;
-    private IvParameterSpec clntWriteIV, svrWriteIV;
-    private SecretKey clntMacSecret, svrMacSecret;
+    // Tfmporbry storbgf for tif individubl kfys. Sft by
+    // dbldulbtfConnfdtionKfys() bnd dlfbrfd ondf tif dipifrs brf
+    // bdtivbtfd.
+    privbtf SfdrftKfy dlntWritfKfy, svrWritfKfy;
+    privbtf IvPbrbmftfrSpfd dlntWritfIV, svrWritfIV;
+    privbtf SfdrftKfy dlntMbdSfdrft, svrMbdSfdrft;
 
     /*
-     * Delegated task subsystem data structures.
+     * Dflfgbtfd tbsk subsystfm dbtb strudturfs.
      *
-     * If thrown is set, we need to propagate this back immediately
-     * on entry into processMessage().
+     * If tirown is sft, wf nffd to propbgbtf tiis bbdk immfdibtfly
+     * on fntry into prodfssMfssbgf().
      *
-     * Data is protected by the SSLEngine.this lock.
+     * Dbtb is protfdtfd by tif SSLEnginf.tiis lodk.
      */
-    private volatile boolean taskDelegated = false;
-    private volatile DelegatedTask<?> delegatedTask = null;
-    private volatile Exception thrown = null;
+    privbtf volbtilf boolfbn tbskDflfgbtfd = fblsf;
+    privbtf volbtilf DflfgbtfdTbsk<?> dflfgbtfdTbsk = null;
+    privbtf volbtilf Exdfption tirown = null;
 
-    // Could probably use a java.util.concurrent.atomic.AtomicReference
-    // here instead of using this lock.  Consider changing.
-    private Object thrownLock = new Object();
+    // Could probbbly usf b jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf
+    // ifrf instfbd of using tiis lodk.  Considfr dibnging.
+    privbtf Objfdt tirownLodk = nfw Objfdt();
 
-    /* Class and subclass dynamic debugging support */
-    static final Debug debug = Debug.getInstance("ssl");
+    /* Clbss bnd subdlbss dynbmid dfbugging support */
+    stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
 
-    // By default, disable the unsafe legacy session renegotiation
-    static final boolean allowUnsafeRenegotiation = Debug.getBooleanProperty(
-                    "sun.security.ssl.allowUnsafeRenegotiation", false);
+    // By dffbult, disbblf tif unsbff lfgbdy sfssion rfnfgotibtion
+    stbtid finbl boolfbn bllowUnsbffRfnfgotibtion = Dfbug.gftBoolfbnPropfrty(
+                    "sun.sfdurity.ssl.bllowUnsbffRfnfgotibtion", fblsf);
 
-    // For maximum interoperability and backward compatibility, RFC 5746
-    // allows server (or client) to accept ClientHello (or ServerHello)
-    // message without the secure renegotiation_info extension or SCSV.
+    // For mbximum intfropfrbbility bnd bbdkwbrd dompbtibility, RFC 5746
+    // bllows sfrvfr (or dlifnt) to bddfpt ClifntHfllo (or SfrvfrHfllo)
+    // mfssbgf witiout tif sfdurf rfnfgotibtion_info fxtfnsion or SCSV.
     //
-    // For maximum security, RFC 5746 also allows server (or client) to
-    // reject such message with a fatal "handshake_failure" alert.
+    // For mbximum sfdurity, RFC 5746 blso bllows sfrvfr (or dlifnt) to
+    // rfjfdt sudi mfssbgf witi b fbtbl "ibndsibkf_fbilurf" blfrt.
     //
-    // By default, allow such legacy hello messages.
-    static final boolean allowLegacyHelloMessages = Debug.getBooleanProperty(
-                    "sun.security.ssl.allowLegacyHelloMessages", true);
+    // By dffbult, bllow sudi lfgbdy ifllo mfssbgfs.
+    stbtid finbl boolfbn bllowLfgbdyHflloMfssbgfs = Dfbug.gftBoolfbnPropfrty(
+                    "sun.sfdurity.ssl.bllowLfgbdyHflloMfssbgfs", truf);
 
-    // To prevent the TLS renegotiation issues, by setting system property
-    // "jdk.tls.rejectClientInitiatedRenegotiation" to true, applications in
-    // server side can disable all client initiated SSL renegotiations
-    // regardless of the support of TLS protocols.
+    // To prfvfnt tif TLS rfnfgotibtion issufs, by sftting systfm propfrty
+    // "jdk.tls.rfjfdtClifntInitibtfdRfnfgotibtion" to truf, bpplidbtions in
+    // sfrvfr sidf dbn disbblf bll dlifnt initibtfd SSL rfnfgotibtions
+    // rfgbrdlfss of tif support of TLS protodols.
     //
-    // By default, allow client initiated renegotiations.
-    static final boolean rejectClientInitiatedRenego =
-            Debug.getBooleanProperty(
-                "jdk.tls.rejectClientInitiatedRenegotiation", false);
+    // By dffbult, bllow dlifnt initibtfd rfnfgotibtions.
+    stbtid finbl boolfbn rfjfdtClifntInitibtfdRfnfgo =
+            Dfbug.gftBoolfbnPropfrty(
+                "jdk.tls.rfjfdtClifntInitibtfdRfnfgotibtion", fblsf);
 
-    // need to dispose the object when it is invalidated
-    boolean invalidated;
+    // nffd to disposf tif objfdt wifn it is invblidbtfd
+    boolfbn invblidbtfd;
 
-    Handshaker(SSLSocketImpl c, SSLContextImpl context,
-            ProtocolList enabledProtocols, boolean needCertVerify,
-            boolean isClient, ProtocolVersion activeProtocolVersion,
-            boolean isInitialHandshake, boolean secureRenegotiation,
-            byte[] clientVerifyData, byte[] serverVerifyData) {
-        this.conn = c;
-        init(context, enabledProtocols, needCertVerify, isClient,
-            activeProtocolVersion, isInitialHandshake, secureRenegotiation,
-            clientVerifyData, serverVerifyData);
+    Hbndsibkfr(SSLSodkftImpl d, SSLContfxtImpl dontfxt,
+            ProtodolList fnbblfdProtodols, boolfbn nffdCfrtVfrify,
+            boolfbn isClifnt, ProtodolVfrsion bdtivfProtodolVfrsion,
+            boolfbn isInitiblHbndsibkf, boolfbn sfdurfRfnfgotibtion,
+            bytf[] dlifntVfrifyDbtb, bytf[] sfrvfrVfrifyDbtb) {
+        tiis.donn = d;
+        init(dontfxt, fnbblfdProtodols, nffdCfrtVfrify, isClifnt,
+            bdtivfProtodolVfrsion, isInitiblHbndsibkf, sfdurfRfnfgotibtion,
+            dlifntVfrifyDbtb, sfrvfrVfrifyDbtb);
     }
 
-    Handshaker(SSLEngineImpl engine, SSLContextImpl context,
-            ProtocolList enabledProtocols, boolean needCertVerify,
-            boolean isClient, ProtocolVersion activeProtocolVersion,
-            boolean isInitialHandshake, boolean secureRenegotiation,
-            byte[] clientVerifyData, byte[] serverVerifyData) {
-        this.engine = engine;
-        init(context, enabledProtocols, needCertVerify, isClient,
-            activeProtocolVersion, isInitialHandshake, secureRenegotiation,
-            clientVerifyData, serverVerifyData);
+    Hbndsibkfr(SSLEnginfImpl fnginf, SSLContfxtImpl dontfxt,
+            ProtodolList fnbblfdProtodols, boolfbn nffdCfrtVfrify,
+            boolfbn isClifnt, ProtodolVfrsion bdtivfProtodolVfrsion,
+            boolfbn isInitiblHbndsibkf, boolfbn sfdurfRfnfgotibtion,
+            bytf[] dlifntVfrifyDbtb, bytf[] sfrvfrVfrifyDbtb) {
+        tiis.fnginf = fnginf;
+        init(dontfxt, fnbblfdProtodols, nffdCfrtVfrify, isClifnt,
+            bdtivfProtodolVfrsion, isInitiblHbndsibkf, sfdurfRfnfgotibtion,
+            dlifntVfrifyDbtb, sfrvfrVfrifyDbtb);
     }
 
-    private void init(SSLContextImpl context, ProtocolList enabledProtocols,
-            boolean needCertVerify, boolean isClient,
-            ProtocolVersion activeProtocolVersion,
-            boolean isInitialHandshake, boolean secureRenegotiation,
-            byte[] clientVerifyData, byte[] serverVerifyData) {
+    privbtf void init(SSLContfxtImpl dontfxt, ProtodolList fnbblfdProtodols,
+            boolfbn nffdCfrtVfrify, boolfbn isClifnt,
+            ProtodolVfrsion bdtivfProtodolVfrsion,
+            boolfbn isInitiblHbndsibkf, boolfbn sfdurfRfnfgotibtion,
+            bytf[] dlifntVfrifyDbtb, bytf[] sfrvfrVfrifyDbtb) {
 
-        if (debug != null && Debug.isOn("handshake")) {
-            System.out.println(
-                "Allow unsafe renegotiation: " + allowUnsafeRenegotiation +
-                "\nAllow legacy hello messages: " + allowLegacyHelloMessages +
-                "\nIs initial handshake: " + isInitialHandshake +
-                "\nIs secure renegotiation: " + secureRenegotiation);
+        if (dfbug != null && Dfbug.isOn("ibndsibkf")) {
+            Systfm.out.println(
+                "Allow unsbff rfnfgotibtion: " + bllowUnsbffRfnfgotibtion +
+                "\nAllow lfgbdy ifllo mfssbgfs: " + bllowLfgbdyHflloMfssbgfs +
+                "\nIs initibl ibndsibkf: " + isInitiblHbndsibkf +
+                "\nIs sfdurf rfnfgotibtion: " + sfdurfRfnfgotibtion);
         }
 
-        this.sslContext = context;
-        this.isClient = isClient;
-        this.needCertVerify = needCertVerify;
-        this.activeProtocolVersion = activeProtocolVersion;
-        this.isInitialHandshake = isInitialHandshake;
-        this.secureRenegotiation = secureRenegotiation;
-        this.clientVerifyData = clientVerifyData;
-        this.serverVerifyData = serverVerifyData;
-        enableNewSession = true;
-        invalidated = false;
+        tiis.sslContfxt = dontfxt;
+        tiis.isClifnt = isClifnt;
+        tiis.nffdCfrtVfrify = nffdCfrtVfrify;
+        tiis.bdtivfProtodolVfrsion = bdtivfProtodolVfrsion;
+        tiis.isInitiblHbndsibkf = isInitiblHbndsibkf;
+        tiis.sfdurfRfnfgotibtion = sfdurfRfnfgotibtion;
+        tiis.dlifntVfrifyDbtb = dlifntVfrifyDbtb;
+        tiis.sfrvfrVfrifyDbtb = sfrvfrVfrifyDbtb;
+        fnbblfNfwSfssion = truf;
+        invblidbtfd = fblsf;
 
-        setCipherSuite(CipherSuite.C_NULL);
-        setEnabledProtocols(enabledProtocols);
+        sftCipifrSuitf(CipifrSuitf.C_NULL);
+        sftEnbblfdProtodols(fnbblfdProtodols);
 
-        if (conn != null) {
-            algorithmConstraints = new SSLAlgorithmConstraints(conn, true);
-        } else {        // engine != null
-            algorithmConstraints = new SSLAlgorithmConstraints(engine, true);
+        if (donn != null) {
+            blgoritimConstrbints = nfw SSLAlgoritimConstrbints(donn, truf);
+        } flsf {        // fnginf != null
+            blgoritimConstrbints = nfw SSLAlgoritimConstrbints(fnginf, truf);
         }
 
 
         //
-        // In addition to the connection state machine, controlling
-        // how the connection deals with the different sorts of records
-        // that get sent (notably handshake transitions!), there's
-        // also a handshaking state machine that controls message
-        // sequencing.
+        // In bddition to tif donnfdtion stbtf mbdiinf, dontrolling
+        // iow tif donnfdtion dfbls witi tif difffrfnt sorts of rfdords
+        // tibt gft sfnt (notbbly ibndsibkf trbnsitions!), tifrf's
+        // blso b ibndsibking stbtf mbdiinf tibt dontrols mfssbgf
+        // sfqufnding.
         //
-        // It's a convenient artifact of the protocol that this can,
-        // with only a couple of minor exceptions, be driven by the
-        // type constant for the last message seen:  except for the
-        // client's cert verify, those constants are in a convenient
-        // order to drastically simplify state machine checking.
+        // It's b donvfnifnt brtifbdt of tif protodol tibt tiis dbn,
+        // witi only b douplf of minor fxdfptions, bf drivfn by tif
+        // typf donstbnt for tif lbst mfssbgf sffn:  fxdfpt for tif
+        // dlifnt's dfrt vfrify, tiosf donstbnts brf in b donvfnifnt
+        // ordfr to drbstidblly simplify stbtf mbdiinf difdking.
         //
-        state = -2;  // initialized but not activated
+        stbtf = -2;  // initiblizfd but not bdtivbtfd
     }
 
     /*
-     * Reroutes calls to the SSLSocket or SSLEngine (*SE).
+     * Rfroutfs dblls to tif SSLSodkft or SSLEnginf (*SE).
      *
-     * We could have also done it by extra classes
-     * and letting them override, but this seemed much
-     * less involved.
+     * Wf dould ibvf blso donf it by fxtrb dlbssfs
+     * bnd lftting tifm ovfrridf, but tiis sffmfd mudi
+     * lfss involvfd.
      */
-    void fatalSE(byte b, String diagnostic) throws IOException {
-        fatalSE(b, diagnostic, null);
+    void fbtblSE(bytf b, String dibgnostid) tirows IOExdfption {
+        fbtblSE(b, dibgnostid, null);
     }
 
-    void fatalSE(byte b, Throwable cause) throws IOException {
-        fatalSE(b, null, cause);
+    void fbtblSE(bytf b, Tirowbblf dbusf) tirows IOExdfption {
+        fbtblSE(b, null, dbusf);
     }
 
-    void fatalSE(byte b, String diagnostic, Throwable cause)
-            throws IOException {
-        if (conn != null) {
-            conn.fatal(b, diagnostic, cause);
-        } else {
-            engine.fatal(b, diagnostic, cause);
+    void fbtblSE(bytf b, String dibgnostid, Tirowbblf dbusf)
+            tirows IOExdfption {
+        if (donn != null) {
+            donn.fbtbl(b, dibgnostid, dbusf);
+        } flsf {
+            fnginf.fbtbl(b, dibgnostid, dbusf);
         }
     }
 
-    void warningSE(byte b) {
-        if (conn != null) {
-            conn.warning(b);
-        } else {
-            engine.warning(b);
+    void wbrningSE(bytf b) {
+        if (donn != null) {
+            donn.wbrning(b);
+        } flsf {
+            fnginf.wbrning(b);
         }
     }
 
-    // ONLY used by ClientHandshaker to setup the peer host in SSLSession.
-    String getHostSE() {
-        if (conn != null) {
-            return conn.getHost();
-        } else {
-            return engine.getPeerHost();
+    // ONLY usfd by ClifntHbndsibkfr to sftup tif pffr iost in SSLSfssion.
+    String gftHostSE() {
+        if (donn != null) {
+            rfturn donn.gftHost();
+        } flsf {
+            rfturn fnginf.gftPffrHost();
         }
     }
 
-    // ONLY used by ServerHandshaker to setup the peer host in SSLSession.
-    String getHostAddressSE() {
-        if (conn != null) {
-            return conn.getInetAddress().getHostAddress();
-        } else {
+    // ONLY usfd by SfrvfrHbndsibkfr to sftup tif pffr iost in SSLSfssion.
+    String gftHostAddrfssSE() {
+        if (donn != null) {
+            rfturn donn.gftInftAddrfss().gftHostAddrfss();
+        } flsf {
             /*
-             * This is for caching only, doesn't matter that's is really
-             * a hostname.  The main thing is that it doesn't do
-             * a reverse DNS lookup, potentially slowing things down.
+             * Tiis is for dbdiing only, dofsn't mbttfr tibt's is rfblly
+             * b iostnbmf.  Tif mbin tiing is tibt it dofsn't do
+             * b rfvfrsf DNS lookup, potfntiblly slowing tiings down.
              */
-            return engine.getPeerHost();
+            rfturn fnginf.gftPffrHost();
         }
     }
 
-    int getPortSE() {
-        if (conn != null) {
-            return conn.getPort();
-        } else {
-            return engine.getPeerPort();
+    int gftPortSE() {
+        if (donn != null) {
+            rfturn donn.gftPort();
+        } flsf {
+            rfturn fnginf.gftPffrPort();
         }
     }
 
-    int getLocalPortSE() {
-        if (conn != null) {
-            return conn.getLocalPort();
-        } else {
-            return -1;
+    int gftLodblPortSE() {
+        if (donn != null) {
+            rfturn donn.gftLodblPort();
+        } flsf {
+            rfturn -1;
         }
     }
 
-    AccessControlContext getAccSE() {
-        if (conn != null) {
-            return conn.getAcc();
-        } else {
-            return engine.getAcc();
+    AddfssControlContfxt gftAddSE() {
+        if (donn != null) {
+            rfturn donn.gftAdd();
+        } flsf {
+            rfturn fnginf.gftAdd();
         }
     }
 
-    private void setVersionSE(ProtocolVersion protocolVersion) {
-        if (conn != null) {
-            conn.setVersion(protocolVersion);
-        } else {
-            engine.setVersion(protocolVersion);
+    privbtf void sftVfrsionSE(ProtodolVfrsion protodolVfrsion) {
+        if (donn != null) {
+            donn.sftVfrsion(protodolVfrsion);
+        } flsf {
+            fnginf.sftVfrsion(protodolVfrsion);
         }
     }
 
     /**
-     * Set the active protocol version and propagate it to the SSLSocket
-     * and our handshake streams. Called from ClientHandshaker
-     * and ServerHandshaker with the negotiated protocol version.
+     * Sft tif bdtivf protodol vfrsion bnd propbgbtf it to tif SSLSodkft
+     * bnd our ibndsibkf strfbms. Cbllfd from ClifntHbndsibkfr
+     * bnd SfrvfrHbndsibkfr witi tif nfgotibtfd protodol vfrsion.
      */
-    void setVersion(ProtocolVersion protocolVersion) {
-        this.protocolVersion = protocolVersion;
-        setVersionSE(protocolVersion);
+    void sftVfrsion(ProtodolVfrsion protodolVfrsion) {
+        tiis.protodolVfrsion = protodolVfrsion;
+        sftVfrsionSE(protodolVfrsion);
 
-        output.r.setVersion(protocolVersion);
+        output.r.sftVfrsion(protodolVfrsion);
     }
 
     /**
-     * Set the enabled protocols. Called from the constructor or
-     * SSLSocketImpl/SSLEngineImpl.setEnabledProtocols() (if the
-     * handshake is not yet in progress).
+     * Sft tif fnbblfd protodols. Cbllfd from tif donstrudtor or
+     * SSLSodkftImpl/SSLEnginfImpl.sftEnbblfdProtodols() (if tif
+     * ibndsibkf is not yft in progrfss).
      */
-    void setEnabledProtocols(ProtocolList enabledProtocols) {
-        activeCipherSuites = null;
-        activeProtocols = null;
+    void sftEnbblfdProtodols(ProtodolList fnbblfdProtodols) {
+        bdtivfCipifrSuitfs = null;
+        bdtivfProtodols = null;
 
-        this.enabledProtocols = enabledProtocols;
+        tiis.fnbblfdProtodols = fnbblfdProtodols;
     }
 
     /**
-     * Set the enabled cipher suites. Called from
-     * SSLSocketImpl/SSLEngineImpl.setEnabledCipherSuites() (if the
-     * handshake is not yet in progress).
+     * Sft tif fnbblfd dipifr suitfs. Cbllfd from
+     * SSLSodkftImpl/SSLEnginfImpl.sftEnbblfdCipifrSuitfs() (if tif
+     * ibndsibkf is not yft in progrfss).
      */
-    void setEnabledCipherSuites(CipherSuiteList enabledCipherSuites) {
-        activeCipherSuites = null;
-        activeProtocols = null;
-        this.enabledCipherSuites = enabledCipherSuites;
+    void sftEnbblfdCipifrSuitfs(CipifrSuitfList fnbblfdCipifrSuitfs) {
+        bdtivfCipifrSuitfs = null;
+        bdtivfProtodols = null;
+        tiis.fnbblfdCipifrSuitfs = fnbblfdCipifrSuitfs;
     }
 
     /**
-     * Set the algorithm constraints. Called from the constructor or
-     * SSLSocketImpl/SSLEngineImpl.setAlgorithmConstraints() (if the
-     * handshake is not yet in progress).
+     * Sft tif blgoritim donstrbints. Cbllfd from tif donstrudtor or
+     * SSLSodkftImpl/SSLEnginfImpl.sftAlgoritimConstrbints() (if tif
+     * ibndsibkf is not yft in progrfss).
      */
-    void setAlgorithmConstraints(AlgorithmConstraints algorithmConstraints) {
-        activeCipherSuites = null;
-        activeProtocols = null;
+    void sftAlgoritimConstrbints(AlgoritimConstrbints blgoritimConstrbints) {
+        bdtivfCipifrSuitfs = null;
+        bdtivfProtodols = null;
 
-        this.algorithmConstraints =
-            new SSLAlgorithmConstraints(algorithmConstraints);
-        this.localSupportedSignAlgs = null;
+        tiis.blgoritimConstrbints =
+            nfw SSLAlgoritimConstrbints(blgoritimConstrbints);
+        tiis.lodblSupportfdSignAlgs = null;
     }
 
-    Collection<SignatureAndHashAlgorithm> getLocalSupportedSignAlgs() {
-        if (localSupportedSignAlgs == null) {
-            localSupportedSignAlgs =
-                SignatureAndHashAlgorithm.getSupportedAlgorithms(
-                                                    algorithmConstraints);
+    Collfdtion<SignbturfAndHbsiAlgoritim> gftLodblSupportfdSignAlgs() {
+        if (lodblSupportfdSignAlgs == null) {
+            lodblSupportfdSignAlgs =
+                SignbturfAndHbsiAlgoritim.gftSupportfdAlgoritims(
+                                                    blgoritimConstrbints);
         }
 
-        return localSupportedSignAlgs;
+        rfturn lodblSupportfdSignAlgs;
     }
 
-    void setPeerSupportedSignAlgs(
-            Collection<SignatureAndHashAlgorithm> algorithms) {
-        peerSupportedSignAlgs =
-            new ArrayList<SignatureAndHashAlgorithm>(algorithms);
+    void sftPffrSupportfdSignAlgs(
+            Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims) {
+        pffrSupportfdSignAlgs =
+            nfw ArrbyList<SignbturfAndHbsiAlgoritim>(blgoritims);
     }
 
-    Collection<SignatureAndHashAlgorithm> getPeerSupportedSignAlgs() {
-        return peerSupportedSignAlgs;
+    Collfdtion<SignbturfAndHbsiAlgoritim> gftPffrSupportfdSignAlgs() {
+        rfturn pffrSupportfdSignAlgs;
     }
 
 
     /**
-     * Set the identification protocol. Called from the constructor or
-     * SSLSocketImpl/SSLEngineImpl.setIdentificationProtocol() (if the
-     * handshake is not yet in progress).
+     * Sft tif idfntifidbtion protodol. Cbllfd from tif donstrudtor or
+     * SSLSodkftImpl/SSLEnginfImpl.sftIdfntifidbtionProtodol() (if tif
+     * ibndsibkf is not yft in progrfss).
      */
-    void setIdentificationProtocol(String protocol) {
-        this.identificationProtocol = protocol;
+    void sftIdfntifidbtionProtodol(String protodol) {
+        tiis.idfntifidbtionProtodol = protodol;
     }
 
     /**
-     * Sets the server name indication of the handshake.
+     * Sfts tif sfrvfr nbmf indidbtion of tif ibndsibkf.
      */
-    void setSNIServerNames(List<SNIServerName> serverNames) {
-        // The serverNames parameter is unmodifiable.
-        this.serverNames = serverNames;
+    void sftSNISfrvfrNbmfs(List<SNISfrvfrNbmf> sfrvfrNbmfs) {
+        // Tif sfrvfrNbmfs pbrbmftfr is unmodifibblf.
+        tiis.sfrvfrNbmfs = sfrvfrNbmfs;
     }
 
     /**
-     * Sets the server name matchers of the handshaking.
+     * Sfts tif sfrvfr nbmf mbtdifrs of tif ibndsibking.
      */
-    void setSNIMatchers(Collection<SNIMatcher> sniMatchers) {
-        // The sniMatchers parameter is unmodifiable.
-        this.sniMatchers = sniMatchers;
+    void sftSNIMbtdifrs(Collfdtion<SNIMbtdifr> sniMbtdifrs) {
+        // Tif sniMbtdifrs pbrbmftfr is unmodifibblf.
+        tiis.sniMbtdifrs = sniMbtdifrs;
     }
 
     /**
-     * Sets the cipher suites preference.
+     * Sfts tif dipifr suitfs prfffrfndf.
      */
-    void setUseCipherSuitesOrder(boolean on) {
-        this.preferLocalCipherSuites = on;
+    void sftUsfCipifrSuitfsOrdfr(boolfbn on) {
+        tiis.prfffrLodblCipifrSuitfs = on;
     }
 
     /**
-     * Prior to handshaking, activate the handshake and initialize the version,
-     * input stream and output stream.
+     * Prior to ibndsibking, bdtivbtf tif ibndsibkf bnd initiblizf tif vfrsion,
+     * input strfbm bnd output strfbm.
      */
-    void activate(ProtocolVersion helloVersion) throws IOException {
-        if (activeProtocols == null) {
-            activeProtocols = getActiveProtocols();
+    void bdtivbtf(ProtodolVfrsion iflloVfrsion) tirows IOExdfption {
+        if (bdtivfProtodols == null) {
+            bdtivfProtodols = gftAdtivfProtodols();
         }
 
-        if (activeProtocols.collection().isEmpty() ||
-                activeProtocols.max.v == ProtocolVersion.NONE.v) {
-            throw new SSLHandshakeException("No appropriate protocol");
+        if (bdtivfProtodols.dollfdtion().isEmpty() ||
+                bdtivfProtodols.mbx.v == ProtodolVfrsion.NONE.v) {
+            tirow nfw SSLHbndsibkfExdfption("No bppropribtf protodol");
         }
 
-        if (activeCipherSuites == null) {
-            activeCipherSuites = getActiveCipherSuites();
+        if (bdtivfCipifrSuitfs == null) {
+            bdtivfCipifrSuitfs = gftAdtivfCipifrSuitfs();
         }
 
-        if (activeCipherSuites.collection().isEmpty()) {
-            throw new SSLHandshakeException("No appropriate cipher suite");
+        if (bdtivfCipifrSuitfs.dollfdtion().isEmpty()) {
+            tirow nfw SSLHbndsibkfExdfption("No bppropribtf dipifr suitf");
         }
 
-        // temporary protocol version until the actual protocol version
-        // is negotiated in the Hello exchange. This affects the record
-        // version we sent with the ClientHello.
-        if (!isInitialHandshake) {
-            protocolVersion = activeProtocolVersion;
-        } else {
-            protocolVersion = activeProtocols.max;
+        // tfmporbry protodol vfrsion until tif bdtubl protodol vfrsion
+        // is nfgotibtfd in tif Hfllo fxdibngf. Tiis bfffdts tif rfdord
+        // vfrsion wf sfnt witi tif ClifntHfllo.
+        if (!isInitiblHbndsibkf) {
+            protodolVfrsion = bdtivfProtodolVfrsion;
+        } flsf {
+            protodolVfrsion = bdtivfProtodols.mbx;
         }
 
-        if (helloVersion == null || helloVersion.v == ProtocolVersion.NONE.v) {
-            helloVersion = activeProtocols.helloVersion;
+        if (iflloVfrsion == null || iflloVfrsion.v == ProtodolVfrsion.NONE.v) {
+            iflloVfrsion = bdtivfProtodols.iflloVfrsion;
         }
 
-        // We accumulate digests of the handshake messages so that
-        // we can read/write CertificateVerify and Finished messages,
-        // getting assurance against some particular active attacks.
-        handshakeHash = new HandshakeHash(needCertVerify);
+        // Wf bddumulbtf digfsts of tif ibndsibkf mfssbgfs so tibt
+        // wf dbn rfbd/writf CfrtifidbtfVfrify bnd Finisifd mfssbgfs,
+        // gftting bssurbndf bgbinst somf pbrtidulbr bdtivf bttbdks.
+        ibndsibkfHbsi = nfw HbndsibkfHbsi(nffdCfrtVfrify);
 
-        // Generate handshake input/output stream.
-        input = new HandshakeInStream(handshakeHash);
-        if (conn != null) {
-            output = new HandshakeOutStream(protocolVersion, helloVersion,
-                                        handshakeHash, conn);
-            conn.getAppInputStream().r.setHandshakeHash(handshakeHash);
-            conn.getAppInputStream().r.setHelloVersion(helloVersion);
-            conn.getAppOutputStream().r.setHelloVersion(helloVersion);
-        } else {
-            output = new HandshakeOutStream(protocolVersion, helloVersion,
-                                        handshakeHash, engine);
-            engine.inputRecord.setHandshakeHash(handshakeHash);
-            engine.inputRecord.setHelloVersion(helloVersion);
-            engine.outputRecord.setHelloVersion(helloVersion);
+        // Gfnfrbtf ibndsibkf input/output strfbm.
+        input = nfw HbndsibkfInStrfbm(ibndsibkfHbsi);
+        if (donn != null) {
+            output = nfw HbndsibkfOutStrfbm(protodolVfrsion, iflloVfrsion,
+                                        ibndsibkfHbsi, donn);
+            donn.gftAppInputStrfbm().r.sftHbndsibkfHbsi(ibndsibkfHbsi);
+            donn.gftAppInputStrfbm().r.sftHflloVfrsion(iflloVfrsion);
+            donn.gftAppOutputStrfbm().r.sftHflloVfrsion(iflloVfrsion);
+        } flsf {
+            output = nfw HbndsibkfOutStrfbm(protodolVfrsion, iflloVfrsion,
+                                        ibndsibkfHbsi, fnginf);
+            fnginf.inputRfdord.sftHbndsibkfHbsi(ibndsibkfHbsi);
+            fnginf.inputRfdord.sftHflloVfrsion(iflloVfrsion);
+            fnginf.outputRfdord.sftHflloVfrsion(iflloVfrsion);
         }
 
-        // move state to activated
-        state = -1;
+        // movf stbtf to bdtivbtfd
+        stbtf = -1;
     }
 
     /**
-     * Set cipherSuite and keyExchange to the given CipherSuite.
-     * Does not perform any verification that this is a valid selection,
-     * this must be done before calling this method.
+     * Sft dipifrSuitf bnd kfyExdibngf to tif givfn CipifrSuitf.
+     * Dofs not pfrform bny vfrifidbtion tibt tiis is b vblid sflfdtion,
+     * tiis must bf donf bfforf dblling tiis mftiod.
      */
-    void setCipherSuite(CipherSuite s) {
-        this.cipherSuite = s;
-        this.keyExchange = s.keyExchange;
+    void sftCipifrSuitf(CipifrSuitf s) {
+        tiis.dipifrSuitf = s;
+        tiis.kfyExdibngf = s.kfyExdibngf;
     }
 
     /**
-     * Check if the given ciphersuite is enabled and available within the
-     * current active cipher suites.
+     * Cifdk if tif givfn dipifrsuitf is fnbblfd bnd bvbilbblf witiin tif
+     * durrfnt bdtivf dipifr suitfs.
      *
-     * Does not check if the required server certificates are available.
+     * Dofs not difdk if tif rfquirfd sfrvfr dfrtifidbtfs brf bvbilbblf.
      */
-    boolean isNegotiable(CipherSuite s) {
-        if (activeCipherSuites == null) {
-            activeCipherSuites = getActiveCipherSuites();
+    boolfbn isNfgotibblf(CipifrSuitf s) {
+        if (bdtivfCipifrSuitfs == null) {
+            bdtivfCipifrSuitfs = gftAdtivfCipifrSuitfs();
         }
 
-        return isNegotiable(activeCipherSuites, s);
+        rfturn isNfgotibblf(bdtivfCipifrSuitfs, s);
     }
 
     /**
-     * Check if the given ciphersuite is enabled and available within the
-     * proposed cipher suite list.
+     * Cifdk if tif givfn dipifrsuitf is fnbblfd bnd bvbilbblf witiin tif
+     * proposfd dipifr suitf list.
      *
-     * Does not check if the required server certificates are available.
+     * Dofs not difdk if tif rfquirfd sfrvfr dfrtifidbtfs brf bvbilbblf.
      */
-    final static boolean isNegotiable(CipherSuiteList proposed, CipherSuite s) {
-        return proposed.contains(s) && s.isNegotiable();
+    finbl stbtid boolfbn isNfgotibblf(CipifrSuitfList proposfd, CipifrSuitf s) {
+        rfturn proposfd.dontbins(s) && s.isNfgotibblf();
     }
 
     /**
-     * Check if the given protocol version is enabled and available.
+     * Cifdk if tif givfn protodol vfrsion is fnbblfd bnd bvbilbblf.
      */
-    boolean isNegotiable(ProtocolVersion protocolVersion) {
-        if (activeProtocols == null) {
-            activeProtocols = getActiveProtocols();
+    boolfbn isNfgotibblf(ProtodolVfrsion protodolVfrsion) {
+        if (bdtivfProtodols == null) {
+            bdtivfProtodols = gftAdtivfProtodols();
         }
 
-        return activeProtocols.contains(protocolVersion);
+        rfturn bdtivfProtodols.dontbins(protodolVfrsion);
     }
 
     /**
-     * Select a protocol version from the list. Called from
-     * ServerHandshaker to negotiate protocol version.
+     * Sflfdt b protodol vfrsion from tif list. Cbllfd from
+     * SfrvfrHbndsibkfr to nfgotibtf protodol vfrsion.
      *
-     * Return the lower of the protocol version suggested in the
-     * clien hello and the highest supported by the server.
+     * Rfturn tif lowfr of tif protodol vfrsion suggfstfd in tif
+     * dlifn ifllo bnd tif iigifst supportfd by tif sfrvfr.
      */
-    ProtocolVersion selectProtocolVersion(ProtocolVersion protocolVersion) {
-        if (activeProtocols == null) {
-            activeProtocols = getActiveProtocols();
+    ProtodolVfrsion sflfdtProtodolVfrsion(ProtodolVfrsion protodolVfrsion) {
+        if (bdtivfProtodols == null) {
+            bdtivfProtodols = gftAdtivfProtodols();
         }
 
-        return activeProtocols.selectProtocolVersion(protocolVersion);
+        rfturn bdtivfProtodols.sflfdtProtodolVfrsion(protodolVfrsion);
     }
 
     /**
-     * Get the active cipher suites.
+     * Gft tif bdtivf dipifr suitfs.
      *
-     * In TLS 1.1, many weak or vulnerable cipher suites were obsoleted,
-     * such as TLS_RSA_EXPORT_WITH_RC4_40_MD5. The implementation MUST NOT
-     * negotiate these cipher suites in TLS 1.1 or later mode.
+     * In TLS 1.1, mbny wfbk or vulnfrbblf dipifr suitfs wfrf obsolftfd,
+     * sudi bs TLS_RSA_EXPORT_WITH_RC4_40_MD5. Tif implfmfntbtion MUST NOT
+     * nfgotibtf tifsf dipifr suitfs in TLS 1.1 or lbtfr modf.
      *
-     * Therefore, when the active protocols only include TLS 1.1 or later,
-     * the client cannot request to negotiate those obsoleted cipher
-     * suites.  That is, the obsoleted suites should not be included in the
-     * client hello. So we need to create a subset of the enabled cipher
-     * suites, the active cipher suites, which does not contain obsoleted
-     * cipher suites of the minimum active protocol.
+     * Tifrfforf, wifn tif bdtivf protodols only indludf TLS 1.1 or lbtfr,
+     * tif dlifnt dbnnot rfqufst to nfgotibtf tiosf obsolftfd dipifr
+     * suitfs.  Tibt is, tif obsolftfd suitfs siould not bf indludfd in tif
+     * dlifnt ifllo. So wf nffd to drfbtf b subsft of tif fnbblfd dipifr
+     * suitfs, tif bdtivf dipifr suitfs, wiidi dofs not dontbin obsolftfd
+     * dipifr suitfs of tif minimum bdtivf protodol.
      *
-     * Return empty list instead of null if no active cipher suites.
+     * Rfturn fmpty list instfbd of null if no bdtivf dipifr suitfs.
      */
-    CipherSuiteList getActiveCipherSuites() {
-        if (activeCipherSuites == null) {
-            if (activeProtocols == null) {
-                activeProtocols = getActiveProtocols();
+    CipifrSuitfList gftAdtivfCipifrSuitfs() {
+        if (bdtivfCipifrSuitfs == null) {
+            if (bdtivfProtodols == null) {
+                bdtivfProtodols = gftAdtivfProtodols();
             }
 
-            ArrayList<CipherSuite> suites = new ArrayList<>();
-            if (!(activeProtocols.collection().isEmpty()) &&
-                    activeProtocols.min.v != ProtocolVersion.NONE.v) {
-                for (CipherSuite suite : enabledCipherSuites.collection()) {
-                    if (suite.obsoleted > activeProtocols.min.v &&
-                            suite.supported <= activeProtocols.max.v) {
-                        if (algorithmConstraints.permits(
-                                EnumSet.of(CryptoPrimitive.KEY_AGREEMENT),
-                                suite.name, null)) {
-                            suites.add(suite);
+            ArrbyList<CipifrSuitf> suitfs = nfw ArrbyList<>();
+            if (!(bdtivfProtodols.dollfdtion().isEmpty()) &&
+                    bdtivfProtodols.min.v != ProtodolVfrsion.NONE.v) {
+                for (CipifrSuitf suitf : fnbblfdCipifrSuitfs.dollfdtion()) {
+                    if (suitf.obsolftfd > bdtivfProtodols.min.v &&
+                            suitf.supportfd <= bdtivfProtodols.mbx.v) {
+                        if (blgoritimConstrbints.pfrmits(
+                                EnumSft.of(CryptoPrimitivf.KEY_AGREEMENT),
+                                suitf.nbmf, null)) {
+                            suitfs.bdd(suitf);
                         }
-                    } else if (debug != null && Debug.isOn("verbose")) {
-                        if (suite.obsoleted <= activeProtocols.min.v) {
-                            System.out.println(
-                                "Ignoring obsoleted cipher suite: " + suite);
-                        } else {
-                            System.out.println(
-                                "Ignoring unsupported cipher suite: " + suite);
+                    } flsf if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+                        if (suitf.obsolftfd <= bdtivfProtodols.min.v) {
+                            Systfm.out.println(
+                                "Ignoring obsolftfd dipifr suitf: " + suitf);
+                        } flsf {
+                            Systfm.out.println(
+                                "Ignoring unsupportfd dipifr suitf: " + suitf);
                         }
                     }
                 }
             }
-            activeCipherSuites = new CipherSuiteList(suites);
+            bdtivfCipifrSuitfs = nfw CipifrSuitfList(suitfs);
         }
 
-        return activeCipherSuites;
+        rfturn bdtivfCipifrSuitfs;
     }
 
     /*
-     * Get the active protocol versions.
+     * Gft tif bdtivf protodol vfrsions.
      *
-     * In TLS 1.1, many weak or vulnerable cipher suites were obsoleted,
-     * such as TLS_RSA_EXPORT_WITH_RC4_40_MD5. The implementation MUST NOT
-     * negotiate these cipher suites in TLS 1.1 or later mode.
+     * In TLS 1.1, mbny wfbk or vulnfrbblf dipifr suitfs wfrf obsolftfd,
+     * sudi bs TLS_RSA_EXPORT_WITH_RC4_40_MD5. Tif implfmfntbtion MUST NOT
+     * nfgotibtf tifsf dipifr suitfs in TLS 1.1 or lbtfr modf.
      *
-     * For example, if "TLS_RSA_EXPORT_WITH_RC4_40_MD5" is the
-     * only enabled cipher suite, the client cannot request TLS 1.1 or
-     * later, even though TLS 1.1 or later is enabled.  We need to create a
-     * subset of the enabled protocols, called the active protocols, which
-     * contains protocols appropriate to the list of enabled Ciphersuites.
+     * For fxbmplf, if "TLS_RSA_EXPORT_WITH_RC4_40_MD5" is tif
+     * only fnbblfd dipifr suitf, tif dlifnt dbnnot rfqufst TLS 1.1 or
+     * lbtfr, fvfn tiougi TLS 1.1 or lbtfr is fnbblfd.  Wf nffd to drfbtf b
+     * subsft of tif fnbblfd protodols, dbllfd tif bdtivf protodols, wiidi
+     * dontbins protodols bppropribtf to tif list of fnbblfd Cipifrsuitfs.
      *
-     * Return empty list instead of null if no active protocol versions.
+     * Rfturn fmpty list instfbd of null if no bdtivf protodol vfrsions.
      */
-    ProtocolList getActiveProtocols() {
-        if (activeProtocols == null) {
-            boolean enabledSSL20Hello = false;
-            ArrayList<ProtocolVersion> protocols = new ArrayList<>(4);
-            for (ProtocolVersion protocol : enabledProtocols.collection()) {
-                // Need not to check the SSL20Hello protocol.
-                if (protocol.v == ProtocolVersion.SSL20Hello.v) {
-                    enabledSSL20Hello = true;
-                    continue;
+    ProtodolList gftAdtivfProtodols() {
+        if (bdtivfProtodols == null) {
+            boolfbn fnbblfdSSL20Hfllo = fblsf;
+            ArrbyList<ProtodolVfrsion> protodols = nfw ArrbyList<>(4);
+            for (ProtodolVfrsion protodol : fnbblfdProtodols.dollfdtion()) {
+                // Nffd not to difdk tif SSL20Hfllo protodol.
+                if (protodol.v == ProtodolVfrsion.SSL20Hfllo.v) {
+                    fnbblfdSSL20Hfllo = truf;
+                    dontinuf;
                 }
 
-                boolean found = false;
-                for (CipherSuite suite : enabledCipherSuites.collection()) {
-                    if (suite.isAvailable() && suite.obsoleted > protocol.v &&
-                                               suite.supported <= protocol.v) {
-                        if (algorithmConstraints.permits(
-                                EnumSet.of(CryptoPrimitive.KEY_AGREEMENT),
-                                suite.name, null)) {
-                            protocols.add(protocol);
-                            found = true;
-                            break;
-                        } else if (debug != null && Debug.isOn("verbose")) {
-                            System.out.println(
-                                "Ignoring disabled cipher suite: " + suite +
-                                 " for " + protocol);
+                boolfbn found = fblsf;
+                for (CipifrSuitf suitf : fnbblfdCipifrSuitfs.dollfdtion()) {
+                    if (suitf.isAvbilbblf() && suitf.obsolftfd > protodol.v &&
+                                               suitf.supportfd <= protodol.v) {
+                        if (blgoritimConstrbints.pfrmits(
+                                EnumSft.of(CryptoPrimitivf.KEY_AGREEMENT),
+                                suitf.nbmf, null)) {
+                            protodols.bdd(protodol);
+                            found = truf;
+                            brfbk;
+                        } flsf if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+                            Systfm.out.println(
+                                "Ignoring disbblfd dipifr suitf: " + suitf +
+                                 " for " + protodol);
                         }
-                    } else if (debug != null && Debug.isOn("verbose")) {
-                        System.out.println(
-                            "Ignoring unsupported cipher suite: " + suite +
-                                 " for " + protocol);
+                    } flsf if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+                        Systfm.out.println(
+                            "Ignoring unsupportfd dipifr suitf: " + suitf +
+                                 " for " + protodol);
                     }
                 }
-                if (!found && (debug != null) && Debug.isOn("handshake")) {
-                    System.out.println(
-                        "No available cipher suite for " + protocol);
+                if (!found && (dfbug != null) && Dfbug.isOn("ibndsibkf")) {
+                    Systfm.out.println(
+                        "No bvbilbblf dipifr suitf for " + protodol);
                 }
             }
 
-            if (!protocols.isEmpty() && enabledSSL20Hello) {
-                protocols.add(ProtocolVersion.SSL20Hello);
+            if (!protodols.isEmpty() && fnbblfdSSL20Hfllo) {
+                protodols.bdd(ProtodolVfrsion.SSL20Hfllo);
             }
 
-            activeProtocols = new ProtocolList(protocols);
+            bdtivfProtodols = nfw ProtodolList(protodols);
         }
 
-        return activeProtocols;
+        rfturn bdtivfProtodols;
     }
 
     /**
-     * As long as handshaking has not activated, we can
-     * change whether session creations are allowed.
+     * As long bs ibndsibking ibs not bdtivbtfd, wf dbn
+     * dibngf wiftifr sfssion drfbtions brf bllowfd.
      *
-     * Callers should do their own checking if handshaking
-     * has activated.
+     * Cbllfrs siould do tifir own difdking if ibndsibking
+     * ibs bdtivbtfd.
      */
-    void setEnableSessionCreation(boolean newSessions) {
-        enableNewSession = newSessions;
+    void sftEnbblfSfssionCrfbtion(boolfbn nfwSfssions) {
+        fnbblfNfwSfssion = nfwSfssions;
     }
 
     /**
-     * Create a new read cipher and return it to caller.
+     * Crfbtf b nfw rfbd dipifr bnd rfturn it to dbllfr.
      */
-    CipherBox newReadCipher() throws NoSuchAlgorithmException {
-        BulkCipher cipher = cipherSuite.cipher;
-        CipherBox box;
-        if (isClient) {
-            box = cipher.newCipher(protocolVersion, svrWriteKey, svrWriteIV,
-                                   sslContext.getSecureRandom(), false);
-            svrWriteKey = null;
-            svrWriteIV = null;
-        } else {
-            box = cipher.newCipher(protocolVersion, clntWriteKey, clntWriteIV,
-                                   sslContext.getSecureRandom(), false);
-            clntWriteKey = null;
-            clntWriteIV = null;
+    CipifrBox nfwRfbdCipifr() tirows NoSudiAlgoritimExdfption {
+        BulkCipifr dipifr = dipifrSuitf.dipifr;
+        CipifrBox box;
+        if (isClifnt) {
+            box = dipifr.nfwCipifr(protodolVfrsion, svrWritfKfy, svrWritfIV,
+                                   sslContfxt.gftSfdurfRbndom(), fblsf);
+            svrWritfKfy = null;
+            svrWritfIV = null;
+        } flsf {
+            box = dipifr.nfwCipifr(protodolVfrsion, dlntWritfKfy, dlntWritfIV,
+                                   sslContfxt.gftSfdurfRbndom(), fblsf);
+            dlntWritfKfy = null;
+            dlntWritfIV = null;
         }
-        return box;
+        rfturn box;
     }
 
     /**
-     * Create a new write cipher and return it to caller.
+     * Crfbtf b nfw writf dipifr bnd rfturn it to dbllfr.
      */
-    CipherBox newWriteCipher() throws NoSuchAlgorithmException {
-        BulkCipher cipher = cipherSuite.cipher;
-        CipherBox box;
-        if (isClient) {
-            box = cipher.newCipher(protocolVersion, clntWriteKey, clntWriteIV,
-                                   sslContext.getSecureRandom(), true);
-            clntWriteKey = null;
-            clntWriteIV = null;
-        } else {
-            box = cipher.newCipher(protocolVersion, svrWriteKey, svrWriteIV,
-                                   sslContext.getSecureRandom(), true);
-            svrWriteKey = null;
-            svrWriteIV = null;
+    CipifrBox nfwWritfCipifr() tirows NoSudiAlgoritimExdfption {
+        BulkCipifr dipifr = dipifrSuitf.dipifr;
+        CipifrBox box;
+        if (isClifnt) {
+            box = dipifr.nfwCipifr(protodolVfrsion, dlntWritfKfy, dlntWritfIV,
+                                   sslContfxt.gftSfdurfRbndom(), truf);
+            dlntWritfKfy = null;
+            dlntWritfIV = null;
+        } flsf {
+            box = dipifr.nfwCipifr(protodolVfrsion, svrWritfKfy, svrWritfIV,
+                                   sslContfxt.gftSfdurfRbndom(), truf);
+            svrWritfKfy = null;
+            svrWritfIV = null;
         }
-        return box;
+        rfturn box;
     }
 
     /**
-     * Create a new read MAC and return it to caller.
+     * Crfbtf b nfw rfbd MAC bnd rfturn it to dbllfr.
      */
-    Authenticator newReadAuthenticator()
-            throws NoSuchAlgorithmException, InvalidKeyException {
+    Autifntidbtor nfwRfbdAutifntidbtor()
+            tirows NoSudiAlgoritimExdfption, InvblidKfyExdfption {
 
-        Authenticator authenticator = null;
-        if (cipherSuite.cipher.cipherType == AEAD_CIPHER) {
-            authenticator = new Authenticator(protocolVersion);
-        } else {
-            MacAlg macAlg = cipherSuite.macAlg;
-            if (isClient) {
-                authenticator = macAlg.newMac(protocolVersion, svrMacSecret);
-                svrMacSecret = null;
-            } else {
-                authenticator = macAlg.newMac(protocolVersion, clntMacSecret);
-                clntMacSecret = null;
+        Autifntidbtor butifntidbtor = null;
+        if (dipifrSuitf.dipifr.dipifrTypf == AEAD_CIPHER) {
+            butifntidbtor = nfw Autifntidbtor(protodolVfrsion);
+        } flsf {
+            MbdAlg mbdAlg = dipifrSuitf.mbdAlg;
+            if (isClifnt) {
+                butifntidbtor = mbdAlg.nfwMbd(protodolVfrsion, svrMbdSfdrft);
+                svrMbdSfdrft = null;
+            } flsf {
+                butifntidbtor = mbdAlg.nfwMbd(protodolVfrsion, dlntMbdSfdrft);
+                dlntMbdSfdrft = null;
             }
         }
 
-        return authenticator;
+        rfturn butifntidbtor;
     }
 
     /**
-     * Create a new write MAC and return it to caller.
+     * Crfbtf b nfw writf MAC bnd rfturn it to dbllfr.
      */
-    Authenticator newWriteAuthenticator()
-            throws NoSuchAlgorithmException, InvalidKeyException {
+    Autifntidbtor nfwWritfAutifntidbtor()
+            tirows NoSudiAlgoritimExdfption, InvblidKfyExdfption {
 
-        Authenticator authenticator = null;
-        if (cipherSuite.cipher.cipherType == AEAD_CIPHER) {
-            authenticator = new Authenticator(protocolVersion);
-        } else {
-            MacAlg macAlg = cipherSuite.macAlg;
-            if (isClient) {
-                authenticator = macAlg.newMac(protocolVersion, clntMacSecret);
-                clntMacSecret = null;
-            } else {
-                authenticator = macAlg.newMac(protocolVersion, svrMacSecret);
-                svrMacSecret = null;
+        Autifntidbtor butifntidbtor = null;
+        if (dipifrSuitf.dipifr.dipifrTypf == AEAD_CIPHER) {
+            butifntidbtor = nfw Autifntidbtor(protodolVfrsion);
+        } flsf {
+            MbdAlg mbdAlg = dipifrSuitf.mbdAlg;
+            if (isClifnt) {
+                butifntidbtor = mbdAlg.nfwMbd(protodolVfrsion, dlntMbdSfdrft);
+                dlntMbdSfdrft = null;
+            } flsf {
+                butifntidbtor = mbdAlg.nfwMbd(protodolVfrsion, svrMbdSfdrft);
+                svrMbdSfdrft = null;
             }
         }
 
-        return authenticator;
+        rfturn butifntidbtor;
     }
 
     /*
-     * Returns true iff the handshake sequence is done, so that
-     * this freshly created session can become the current one.
+     * Rfturns truf iff tif ibndsibkf sfqufndf is donf, so tibt
+     * tiis frfsily drfbtfd sfssion dbn bfdomf tif durrfnt onf.
      */
-    boolean isDone() {
-        return state == HandshakeMessage.ht_finished;
+    boolfbn isDonf() {
+        rfturn stbtf == HbndsibkfMfssbgf.it_finisifd;
     }
 
 
     /*
-     * Returns the session which was created through this
-     * handshake sequence ... should be called after isDone()
-     * returns true.
+     * Rfturns tif sfssion wiidi wbs drfbtfd tirougi tiis
+     * ibndsibkf sfqufndf ... siould bf dbllfd bftfr isDonf()
+     * rfturns truf.
      */
-    SSLSessionImpl getSession() {
-        return session;
+    SSLSfssionImpl gftSfssion() {
+        rfturn sfssion;
     }
 
     /*
-     * Set the handshake session
+     * Sft tif ibndsibkf sfssion
      */
-    void setHandshakeSessionSE(SSLSessionImpl handshakeSession) {
-        if (conn != null) {
-            conn.setHandshakeSession(handshakeSession);
-        } else {
-            engine.setHandshakeSession(handshakeSession);
+    void sftHbndsibkfSfssionSE(SSLSfssionImpl ibndsibkfSfssion) {
+        if (donn != null) {
+            donn.sftHbndsibkfSfssion(ibndsibkfSfssion);
+        } flsf {
+            fnginf.sftHbndsibkfSfssion(ibndsibkfSfssion);
         }
     }
 
     /*
-     * Returns true if renegotiation is in use for this connection.
+     * Rfturns truf if rfnfgotibtion is in usf for tiis donnfdtion.
      */
-    boolean isSecureRenegotiation() {
-        return secureRenegotiation;
+    boolfbn isSfdurfRfnfgotibtion() {
+        rfturn sfdurfRfnfgotibtion;
     }
 
     /*
-     * Returns the verify_data from the Finished message sent by the client.
+     * Rfturns tif vfrify_dbtb from tif Finisifd mfssbgf sfnt by tif dlifnt.
      */
-    byte[] getClientVerifyData() {
-        return clientVerifyData;
+    bytf[] gftClifntVfrifyDbtb() {
+        rfturn dlifntVfrifyDbtb;
     }
 
     /*
-     * Returns the verify_data from the Finished message sent by the server.
+     * Rfturns tif vfrify_dbtb from tif Finisifd mfssbgf sfnt by tif sfrvfr.
      */
-    byte[] getServerVerifyData() {
-        return serverVerifyData;
+    bytf[] gftSfrvfrVfrifyDbtb() {
+        rfturn sfrvfrVfrifyDbtb;
     }
 
     /*
-     * This routine is fed SSL handshake records when they become available,
-     * and processes messages found therein.
+     * Tiis routinf is ffd SSL ibndsibkf rfdords wifn tify bfdomf bvbilbblf,
+     * bnd prodfssfs mfssbgfs found tifrfin.
      */
-    void process_record(InputRecord r, boolean expectingFinished)
-            throws IOException {
+    void prodfss_rfdord(InputRfdord r, boolfbn fxpfdtingFinisifd)
+            tirows IOExdfption {
 
-        checkThrown();
+        difdkTirown();
 
         /*
-         * Store the incoming handshake data, then see if we can
-         * now process any completed handshake messages
+         * Storf tif indoming ibndsibkf dbtb, tifn sff if wf dbn
+         * now prodfss bny domplftfd ibndsibkf mfssbgfs
          */
-        input.incomingRecord(r);
+        input.indomingRfdord(r);
 
         /*
-         * We don't need to create a separate delegatable task
-         * for finished messages.
+         * Wf don't nffd to drfbtf b sfpbrbtf dflfgbtbblf tbsk
+         * for finisifd mfssbgfs.
          */
-        if ((conn != null) || expectingFinished) {
-            processLoop();
-        } else {
-            delegateTask(new PrivilegedExceptionAction<Void>() {
-                @Override
-                public Void run() throws Exception {
-                    processLoop();
-                    return null;
+        if ((donn != null) || fxpfdtingFinisifd) {
+            prodfssLoop();
+        } flsf {
+            dflfgbtfTbsk(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                @Ovfrridf
+                publid Void run() tirows Exdfption {
+                    prodfssLoop();
+                    rfturn null;
                 }
             });
         }
     }
 
     /*
-     * On input, we hash messages one at a time since servers may need
-     * to access an intermediate hash to validate a CertificateVerify
-     * message.
+     * On input, wf ibsi mfssbgfs onf bt b timf sindf sfrvfrs mby nffd
+     * to bddfss bn intfrmfdibtf ibsi to vblidbtf b CfrtifidbtfVfrify
+     * mfssbgf.
      *
-     * Note that many handshake messages can come in one record (and often
-     * do, to reduce network resource utilization), and one message can also
-     * require multiple records (e.g. very large Certificate messages).
+     * Notf tibt mbny ibndsibkf mfssbgfs dbn domf in onf rfdord (bnd oftfn
+     * do, to rfdudf nftwork rfsourdf utilizbtion), bnd onf mfssbgf dbn blso
+     * rfquirf multiplf rfdords (f.g. vfry lbrgf Cfrtifidbtf mfssbgfs).
      */
-    void processLoop() throws IOException {
+    void prodfssLoop() tirows IOExdfption {
 
-        // need to read off 4 bytes at least to get the handshake
-        // message type and length.
-        while (input.available() >= 4) {
-            byte messageType;
-            int messageLen;
+        // nffd to rfbd off 4 bytfs bt lfbst to gft tif ibndsibkf
+        // mfssbgf typf bnd lfngti.
+        wiilf (input.bvbilbblf() >= 4) {
+            bytf mfssbgfTypf;
+            int mfssbgfLfn;
 
             /*
-             * See if we can read the handshake message header, and
-             * then the entire handshake message.  If not, wait till
-             * we can read and process an entire message.
+             * Sff if wf dbn rfbd tif ibndsibkf mfssbgf ifbdfr, bnd
+             * tifn tif fntirf ibndsibkf mfssbgf.  If not, wbit till
+             * wf dbn rfbd bnd prodfss bn fntirf mfssbgf.
              */
-            input.mark(4);
+            input.mbrk(4);
 
-            messageType = (byte)input.getInt8();
-            messageLen = input.getInt24();
+            mfssbgfTypf = (bytf)input.gftInt8();
+            mfssbgfLfn = input.gftInt24();
 
-            if (input.available() < messageLen) {
-                input.reset();
-                return;
+            if (input.bvbilbblf() < mfssbgfLfn) {
+                input.rfsft();
+                rfturn;
             }
 
             /*
-             * Process the message.  We require
-             * that processMessage() consumes the entire message.  In
-             * lieu of explicit error checks (how?!) we assume that the
-             * data will look like garbage on encoding/processing errors,
-             * and that other protocol code will detect such errors.
+             * Prodfss tif mfssbgf.  Wf rfquirf
+             * tibt prodfssMfssbgf() donsumfs tif fntirf mfssbgf.  In
+             * lifu of fxplidit frror difdks (iow?!) wf bssumf tibt tif
+             * dbtb will look likf gbrbbgf on fndoding/prodfssing frrors,
+             * bnd tibt otifr protodol dodf will dftfdt sudi frrors.
              *
-             * Note that digesting is normally deferred till after the
-             * message has been processed, though to process at least the
-             * client's Finished message (i.e. send the server's) we need
-             * to acccelerate that digesting.
+             * Notf tibt digfsting is normblly dfffrrfd till bftfr tif
+             * mfssbgf ibs bffn prodfssfd, tiougi to prodfss bt lfbst tif
+             * dlifnt's Finisifd mfssbgf (i.f. sfnd tif sfrvfr's) wf nffd
+             * to bdddflfrbtf tibt digfsting.
              *
-             * Also, note that hello request messages are never hashed;
-             * that includes the hello request header, too.
+             * Also, notf tibt ifllo rfqufst mfssbgfs brf nfvfr ibsifd;
+             * tibt indludfs tif ifllo rfqufst ifbdfr, too.
              */
-            if (messageType == HandshakeMessage.ht_hello_request) {
-                input.reset();
-                processMessage(messageType, messageLen);
-                input.ignore(4 + messageLen);
-            } else {
-                input.mark(messageLen);
-                processMessage(messageType, messageLen);
-                input.digestNow();
+            if (mfssbgfTypf == HbndsibkfMfssbgf.it_ifllo_rfqufst) {
+                input.rfsft();
+                prodfssMfssbgf(mfssbgfTypf, mfssbgfLfn);
+                input.ignorf(4 + mfssbgfLfn);
+            } flsf {
+                input.mbrk(mfssbgfLfn);
+                prodfssMfssbgf(mfssbgfTypf, mfssbgfLfn);
+                input.digfstNow();
             }
         }
     }
 
 
     /**
-     * Returns true iff the handshaker has been activated.
+     * Rfturns truf iff tif ibndsibkfr ibs bffn bdtivbtfd.
      *
-     * In activated state, the handshaker may not send any messages out.
+     * In bdtivbtfd stbtf, tif ibndsibkfr mby not sfnd bny mfssbgfs out.
      */
-    boolean activated() {
-        return state >= -1;
+    boolfbn bdtivbtfd() {
+        rfturn stbtf >= -1;
     }
 
     /**
-     * Returns true iff the handshaker has sent any messages.
+     * Rfturns truf iff tif ibndsibkfr ibs sfnt bny mfssbgfs.
      */
-    boolean started() {
-        return state >= 0;  // 0: HandshakeMessage.ht_hello_request
-                            // 1: HandshakeMessage.ht_client_hello
+    boolfbn stbrtfd() {
+        rfturn stbtf >= 0;  // 0: HbndsibkfMfssbgf.it_ifllo_rfqufst
+                            // 1: HbndsibkfMfssbgf.it_dlifnt_ifllo
     }
 
 
     /*
-     * Used to kickstart the negotiation ... either writing a
-     * ClientHello or a HelloRequest as appropriate, whichever
-     * the subclass returns.  NOP if handshaking's already started.
+     * Usfd to kidkstbrt tif nfgotibtion ... fitifr writing b
+     * ClifntHfllo or b HflloRfqufst bs bppropribtf, wiidifvfr
+     * tif subdlbss rfturns.  NOP if ibndsibking's blrfbdy stbrtfd.
      */
-    void kickstart() throws IOException {
-        if (state >= 0) {
-            return;
+    void kidkstbrt() tirows IOExdfption {
+        if (stbtf >= 0) {
+            rfturn;
         }
 
-        HandshakeMessage m = getKickstartMessage();
+        HbndsibkfMfssbgf m = gftKidkstbrtMfssbgf();
 
-        if (debug != null && Debug.isOn("handshake")) {
-            m.print(System.out);
+        if (dfbug != null && Dfbug.isOn("ibndsibkf")) {
+            m.print(Systfm.out);
         }
-        m.write(output);
-        output.flush();
+        m.writf(output);
+        output.flusi();
 
-        state = m.messageType();
+        stbtf = m.mfssbgfTypf();
     }
 
     /**
-     * Both client and server modes can start handshaking; but the
-     * message they send to do so is different.
+     * Boti dlifnt bnd sfrvfr modfs dbn stbrt ibndsibking; but tif
+     * mfssbgf tify sfnd to do so is difffrfnt.
      */
-    abstract HandshakeMessage getKickstartMessage() throws SSLException;
+    bbstrbdt HbndsibkfMfssbgf gftKidkstbrtMfssbgf() tirows SSLExdfption;
 
     /*
-     * Client and Server side protocols are each driven though this
-     * call, which processes a single message and drives the appropriate
-     * side of the protocol state machine (depending on the subclass).
+     * Clifnt bnd Sfrvfr sidf protodols brf fbdi drivfn tiougi tiis
+     * dbll, wiidi prodfssfs b singlf mfssbgf bnd drivfs tif bppropribtf
+     * sidf of tif protodol stbtf mbdiinf (dfpfnding on tif subdlbss).
      */
-    abstract void processMessage(byte messageType, int messageLen)
-        throws IOException;
+    bbstrbdt void prodfssMfssbgf(bytf mfssbgfTypf, int mfssbgfLfn)
+        tirows IOExdfption;
 
     /*
-     * Most alerts in the protocol relate to handshaking problems.
-     * Alerts are detected as the connection reads data.
+     * Most blfrts in tif protodol rflbtf to ibndsibking problfms.
+     * Alfrts brf dftfdtfd bs tif donnfdtion rfbds dbtb.
      */
-    abstract void handshakeAlert(byte description) throws SSLProtocolException;
+    bbstrbdt void ibndsibkfAlfrt(bytf dfsdription) tirows SSLProtodolExdfption;
 
     /*
-     * Sends a change cipher spec message and updates the write side
-     * cipher state so that future messages use the just-negotiated spec.
+     * Sfnds b dibngf dipifr spfd mfssbgf bnd updbtfs tif writf sidf
+     * dipifr stbtf so tibt futurf mfssbgfs usf tif just-nfgotibtfd spfd.
      */
-    void sendChangeCipherSpec(Finished mesg, boolean lastMessage)
-            throws IOException {
+    void sfndCibngfCipifrSpfd(Finisifd mfsg, boolfbn lbstMfssbgf)
+            tirows IOExdfption {
 
-        output.flush(); // i.e. handshake data
+        output.flusi(); // i.f. ibndsibkf dbtb
 
         /*
-         * The write cipher state is protected by the connection write lock
-         * so we must grab it while making the change. We also
-         * make sure no writes occur between sending the ChangeCipherSpec
-         * message, installing the new cipher state, and sending the
-         * Finished message.
+         * Tif writf dipifr stbtf is protfdtfd by tif donnfdtion writf lodk
+         * so wf must grbb it wiilf mbking tif dibngf. Wf blso
+         * mbkf surf no writfs oddur bftwffn sfnding tif CibngfCipifrSpfd
+         * mfssbgf, instblling tif nfw dipifr stbtf, bnd sfnding tif
+         * Finisifd mfssbgf.
          *
-         * We already hold SSLEngine/SSLSocket "this" by virtue
-         * of this being called from the readRecord code.
+         * Wf blrfbdy iold SSLEnginf/SSLSodkft "tiis" by virtuf
+         * of tiis bfing dbllfd from tif rfbdRfdord dodf.
          */
-        OutputRecord r;
-        if (conn != null) {
-            r = new OutputRecord(Record.ct_change_cipher_spec);
-        } else {
-            r = new EngineOutputRecord(Record.ct_change_cipher_spec, engine);
+        OutputRfdord r;
+        if (donn != null) {
+            r = nfw OutputRfdord(Rfdord.dt_dibngf_dipifr_spfd);
+        } flsf {
+            r = nfw EnginfOutputRfdord(Rfdord.dt_dibngf_dipifr_spfd, fnginf);
         }
 
-        r.setVersion(protocolVersion);
-        r.write(1);     // single byte of data
+        r.sftVfrsion(protodolVfrsion);
+        r.writf(1);     // singlf bytf of dbtb
 
-        if (conn != null) {
-            conn.writeLock.lock();
+        if (donn != null) {
+            donn.writfLodk.lodk();
             try {
-                conn.writeRecord(r);
-                conn.changeWriteCiphers();
-                if (debug != null && Debug.isOn("handshake")) {
-                    mesg.print(System.out);
+                donn.writfRfdord(r);
+                donn.dibngfWritfCipifrs();
+                if (dfbug != null && Dfbug.isOn("ibndsibkf")) {
+                    mfsg.print(Systfm.out);
                 }
-                mesg.write(output);
-                output.flush();
-            } finally {
-                conn.writeLock.unlock();
+                mfsg.writf(output);
+                output.flusi();
+            } finblly {
+                donn.writfLodk.unlodk();
             }
-        } else {
-            synchronized (engine.writeLock) {
-                engine.writeRecord((EngineOutputRecord)r);
-                engine.changeWriteCiphers();
-                if (debug != null && Debug.isOn("handshake")) {
-                    mesg.print(System.out);
+        } flsf {
+            syndironizfd (fnginf.writfLodk) {
+                fnginf.writfRfdord((EnginfOutputRfdord)r);
+                fnginf.dibngfWritfCipifrs();
+                if (dfbug != null && Dfbug.isOn("ibndsibkf")) {
+                    mfsg.print(Systfm.out);
                 }
-                mesg.write(output);
+                mfsg.writf(output);
 
-                if (lastMessage) {
-                    output.setFinishedMsg();
+                if (lbstMfssbgf) {
+                    output.sftFinisifdMsg();
                 }
-                output.flush();
+                output.flusi();
             }
         }
     }
 
     /*
-     * Single access point to key calculation logic.  Given the
-     * pre-master secret and the nonces from client and server,
-     * produce all the keying material to be used.
+     * Singlf bddfss point to kfy dbldulbtion logid.  Givfn tif
+     * prf-mbstfr sfdrft bnd tif nondfs from dlifnt bnd sfrvfr,
+     * produdf bll tif kfying mbtfribl to bf usfd.
      */
-    void calculateKeys(SecretKey preMasterSecret, ProtocolVersion version) {
-        SecretKey master = calculateMasterSecret(preMasterSecret, version);
-        session.setMasterSecret(master);
-        calculateConnectionKeys(master);
+    void dbldulbtfKfys(SfdrftKfy prfMbstfrSfdrft, ProtodolVfrsion vfrsion) {
+        SfdrftKfy mbstfr = dbldulbtfMbstfrSfdrft(prfMbstfrSfdrft, vfrsion);
+        sfssion.sftMbstfrSfdrft(mbstfr);
+        dbldulbtfConnfdtionKfys(mbstfr);
     }
 
 
     /*
-     * Calculate the master secret from its various components.  This is
-     * used for key exchange by all cipher suites.
+     * Cbldulbtf tif mbstfr sfdrft from its vbrious domponfnts.  Tiis is
+     * usfd for kfy fxdibngf by bll dipifr suitfs.
      *
-     * The master secret is the catenation of three MD5 hashes, each
-     * consisting of the pre-master secret and a SHA1 hash.  Those three
-     * SHA1 hashes are of (different) constant strings, the pre-master
-     * secret, and the nonces provided by the client and the server.
+     * Tif mbstfr sfdrft is tif dbtfnbtion of tirff MD5 ibsifs, fbdi
+     * donsisting of tif prf-mbstfr sfdrft bnd b SHA1 ibsi.  Tiosf tirff
+     * SHA1 ibsifs brf of (difffrfnt) donstbnt strings, tif prf-mbstfr
+     * sfdrft, bnd tif nondfs providfd by tif dlifnt bnd tif sfrvfr.
      */
-    private SecretKey calculateMasterSecret(SecretKey preMasterSecret,
-            ProtocolVersion requestedVersion) {
+    privbtf SfdrftKfy dbldulbtfMbstfrSfdrft(SfdrftKfy prfMbstfrSfdrft,
+            ProtodolVfrsion rfqufstfdVfrsion) {
 
-        if (debug != null && Debug.isOn("keygen")) {
-            HexDumpEncoder      dump = new HexDumpEncoder();
+        if (dfbug != null && Dfbug.isOn("kfygfn")) {
+            HfxDumpEndodfr      dump = nfw HfxDumpEndodfr();
 
-            System.out.println("SESSION KEYGEN:");
+            Systfm.out.println("SESSION KEYGEN:");
 
-            System.out.println("PreMaster Secret:");
-            printHex(dump, preMasterSecret.getEncoded());
+            Systfm.out.println("PrfMbstfr Sfdrft:");
+            printHfx(dump, prfMbstfrSfdrft.gftEndodfd());
 
-            // Nonces are dumped with connection keygen, no
-            // benefit to doing it twice
+            // Nondfs brf dumpfd witi donnfdtion kfygfn, no
+            // bfnffit to doing it twidf
         }
 
-        // What algs/params do we need to use?
-        String masterAlg;
+        // Wibt blgs/pbrbms do wf nffd to usf?
+        String mbstfrAlg;
         PRF prf;
 
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            masterAlg = "SunTls12MasterSecret";
-            prf = cipherSuite.prfAlg;
-        } else {
-            masterAlg = "SunTlsMasterSecret";
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            mbstfrAlg = "SunTls12MbstfrSfdrft";
+            prf = dipifrSuitf.prfAlg;
+        } flsf {
+            mbstfrAlg = "SunTlsMbstfrSfdrft";
             prf = P_NONE;
         }
 
-        String prfHashAlg = prf.getPRFHashAlg();
-        int prfHashLength = prf.getPRFHashLength();
-        int prfBlockSize = prf.getPRFBlockSize();
+        String prfHbsiAlg = prf.gftPRFHbsiAlg();
+        int prfHbsiLfngti = prf.gftPRFHbsiLfngti();
+        int prfBlodkSizf = prf.gftPRFBlodkSizf();
 
-        TlsMasterSecretParameterSpec spec = new TlsMasterSecretParameterSpec(
-                preMasterSecret, protocolVersion.major, protocolVersion.minor,
-                clnt_random.random_bytes, svr_random.random_bytes,
-                prfHashAlg, prfHashLength, prfBlockSize);
+        TlsMbstfrSfdrftPbrbmftfrSpfd spfd = nfw TlsMbstfrSfdrftPbrbmftfrSpfd(
+                prfMbstfrSfdrft, protodolVfrsion.mbjor, protodolVfrsion.minor,
+                dlnt_rbndom.rbndom_bytfs, svr_rbndom.rbndom_bytfs,
+                prfHbsiAlg, prfHbsiLfngti, prfBlodkSizf);
 
         try {
-            KeyGenerator kg = JsseJce.getKeyGenerator(masterAlg);
-            kg.init(spec);
-            return kg.generateKey();
-        } catch (InvalidAlgorithmParameterException |
-                NoSuchAlgorithmException iae) {
-            // unlikely to happen, otherwise, must be a provider exception
+            KfyGfnfrbtor kg = JssfJdf.gftKfyGfnfrbtor(mbstfrAlg);
+            kg.init(spfd);
+            rfturn kg.gfnfrbtfKfy();
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption |
+                NoSudiAlgoritimExdfption ibf) {
+            // unlikfly to ibppfn, otifrwisf, must bf b providfr fxdfption
             //
-            // For RSA premaster secrets, do not signal a protocol error
-            // due to the Bleichenbacher attack. See comments further down.
-            if (debug != null && Debug.isOn("handshake")) {
-                System.out.println("RSA master secret generation error:");
-                iae.printStackTrace(System.out);
+            // For RSA prfmbstfr sfdrfts, do not signbl b protodol frror
+            // duf to tif Blfidifnbbdifr bttbdk. Sff dommfnts furtifr down.
+            if (dfbug != null && Dfbug.isOn("ibndsibkf")) {
+                Systfm.out.println("RSA mbstfr sfdrft gfnfrbtion frror:");
+                ibf.printStbdkTrbdf(Systfm.out);
             }
-            throw new ProviderException(iae);
+            tirow nfw ProvidfrExdfption(ibf);
 
         }
     }
 
     /*
-     * Calculate the keys needed for this connection, once the session's
-     * master secret has been calculated.  Uses the master key and nonces;
-     * the amount of keying material generated is a function of the cipher
-     * suite that's been negotiated.
+     * Cbldulbtf tif kfys nffdfd for tiis donnfdtion, ondf tif sfssion's
+     * mbstfr sfdrft ibs bffn dbldulbtfd.  Usfs tif mbstfr kfy bnd nondfs;
+     * tif bmount of kfying mbtfribl gfnfrbtfd is b fundtion of tif dipifr
+     * suitf tibt's bffn nfgotibtfd.
      *
-     * This gets called both on the "full handshake" (where we exchanged
-     * a premaster secret and started a new session) as well as on the
-     * "fast handshake" (where we just resumed a pre-existing session).
+     * Tiis gfts dbllfd boti on tif "full ibndsibkf" (wifrf wf fxdibngfd
+     * b prfmbstfr sfdrft bnd stbrtfd b nfw sfssion) bs wfll bs on tif
+     * "fbst ibndsibkf" (wifrf wf just rfsumfd b prf-fxisting sfssion).
      */
-    void calculateConnectionKeys(SecretKey masterKey) {
+    void dbldulbtfConnfdtionKfys(SfdrftKfy mbstfrKfy) {
         /*
-         * For both the read and write sides of the protocol, we use the
-         * master to generate MAC secrets and cipher keying material.  Block
-         * ciphers need initialization vectors, which we also generate.
+         * For boti tif rfbd bnd writf sidfs of tif protodol, wf usf tif
+         * mbstfr to gfnfrbtf MAC sfdrfts bnd dipifr kfying mbtfribl.  Blodk
+         * dipifrs nffd initiblizbtion vfdtors, wiidi wf blso gfnfrbtf.
          *
-         * First we figure out how much keying material is needed.
+         * First wf figurf out iow mudi kfying mbtfribl is nffdfd.
          */
-        int hashSize = cipherSuite.macAlg.size;
-        boolean is_exportable = cipherSuite.exportable;
-        BulkCipher cipher = cipherSuite.cipher;
-        int expandedKeySize = is_exportable ? cipher.expandedKeySize : 0;
+        int ibsiSizf = dipifrSuitf.mbdAlg.sizf;
+        boolfbn is_fxportbblf = dipifrSuitf.fxportbblf;
+        BulkCipifr dipifr = dipifrSuitf.dipifr;
+        int fxpbndfdKfySizf = is_fxportbblf ? dipifr.fxpbndfdKfySizf : 0;
 
-        // Which algs/params do we need to use?
-        String keyMaterialAlg;
+        // Wiidi blgs/pbrbms do wf nffd to usf?
+        String kfyMbtfriblAlg;
         PRF prf;
 
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            keyMaterialAlg = "SunTls12KeyMaterial";
-            prf = cipherSuite.prfAlg;
-        } else {
-            keyMaterialAlg = "SunTlsKeyMaterial";
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            kfyMbtfriblAlg = "SunTls12KfyMbtfribl";
+            prf = dipifrSuitf.prfAlg;
+        } flsf {
+            kfyMbtfriblAlg = "SunTlsKfyMbtfribl";
             prf = P_NONE;
         }
 
-        String prfHashAlg = prf.getPRFHashAlg();
-        int prfHashLength = prf.getPRFHashLength();
-        int prfBlockSize = prf.getPRFBlockSize();
+        String prfHbsiAlg = prf.gftPRFHbsiAlg();
+        int prfHbsiLfngti = prf.gftPRFHbsiLfngti();
+        int prfBlodkSizf = prf.gftPRFBlodkSizf();
 
-        // TLS v1.1 or later uses an explicit IV in CBC cipher suites to
-        // protect against the CBC attacks.  AEAD/GCM cipher suites in TLS
-        // v1.2 or later use a fixed IV as the implicit part of the partially
-        // implicit nonce technique described in RFC 5116.
-        int ivSize = cipher.ivSize;
-        if (cipher.cipherType == AEAD_CIPHER) {
-            ivSize = cipher.fixedIvSize;
-        } else if (protocolVersion.v >= ProtocolVersion.TLS11.v &&
-                cipher.cipherType == BLOCK_CIPHER) {
-            ivSize = 0;
+        // TLS v1.1 or lbtfr usfs bn fxplidit IV in CBC dipifr suitfs to
+        // protfdt bgbinst tif CBC bttbdks.  AEAD/GCM dipifr suitfs in TLS
+        // v1.2 or lbtfr usf b fixfd IV bs tif implidit pbrt of tif pbrtiblly
+        // implidit nondf tfdiniquf dfsdribfd in RFC 5116.
+        int ivSizf = dipifr.ivSizf;
+        if (dipifr.dipifrTypf == AEAD_CIPHER) {
+            ivSizf = dipifr.fixfdIvSizf;
+        } flsf if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v &&
+                dipifr.dipifrTypf == BLOCK_CIPHER) {
+            ivSizf = 0;
         }
 
-        TlsKeyMaterialParameterSpec spec = new TlsKeyMaterialParameterSpec(
-            masterKey, protocolVersion.major, protocolVersion.minor,
-            clnt_random.random_bytes, svr_random.random_bytes,
-            cipher.algorithm, cipher.keySize, expandedKeySize,
-            ivSize, hashSize,
-            prfHashAlg, prfHashLength, prfBlockSize);
+        TlsKfyMbtfriblPbrbmftfrSpfd spfd = nfw TlsKfyMbtfriblPbrbmftfrSpfd(
+            mbstfrKfy, protodolVfrsion.mbjor, protodolVfrsion.minor,
+            dlnt_rbndom.rbndom_bytfs, svr_rbndom.rbndom_bytfs,
+            dipifr.blgoritim, dipifr.kfySizf, fxpbndfdKfySizf,
+            ivSizf, ibsiSizf,
+            prfHbsiAlg, prfHbsiLfngti, prfBlodkSizf);
 
         try {
-            KeyGenerator kg = JsseJce.getKeyGenerator(keyMaterialAlg);
-            kg.init(spec);
-            TlsKeyMaterialSpec keySpec = (TlsKeyMaterialSpec)kg.generateKey();
+            KfyGfnfrbtor kg = JssfJdf.gftKfyGfnfrbtor(kfyMbtfriblAlg);
+            kg.init(spfd);
+            TlsKfyMbtfriblSpfd kfySpfd = (TlsKfyMbtfriblSpfd)kg.gfnfrbtfKfy();
 
-            // Return null if cipher keys are not supposed to be generated.
-            clntWriteKey = keySpec.getClientCipherKey();
-            svrWriteKey = keySpec.getServerCipherKey();
+            // Rfturn null if dipifr kfys brf not supposfd to bf gfnfrbtfd.
+            dlntWritfKfy = kfySpfd.gftClifntCipifrKfy();
+            svrWritfKfy = kfySpfd.gftSfrvfrCipifrKfy();
 
-            // Return null if IVs are not supposed to be generated.
-            clntWriteIV = keySpec.getClientIv();
-            svrWriteIV = keySpec.getServerIv();
+            // Rfturn null if IVs brf not supposfd to bf gfnfrbtfd.
+            dlntWritfIV = kfySpfd.gftClifntIv();
+            svrWritfIV = kfySpfd.gftSfrvfrIv();
 
-            // Return null if MAC keys are not supposed to be generated.
-            clntMacSecret = keySpec.getClientMacKey();
-            svrMacSecret = keySpec.getServerMacKey();
-        } catch (GeneralSecurityException e) {
-            throw new ProviderException(e);
+            // Rfturn null if MAC kfys brf not supposfd to bf gfnfrbtfd.
+            dlntMbdSfdrft = kfySpfd.gftClifntMbdKfy();
+            svrMbdSfdrft = kfySpfd.gftSfrvfrMbdKfy();
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw ProvidfrExdfption(f);
         }
 
         //
-        // Dump the connection keys as they're generated.
+        // Dump tif donnfdtion kfys bs tify'rf gfnfrbtfd.
         //
-        if (debug != null && Debug.isOn("keygen")) {
-            synchronized (System.out) {
-                HexDumpEncoder  dump = new HexDumpEncoder();
+        if (dfbug != null && Dfbug.isOn("kfygfn")) {
+            syndironizfd (Systfm.out) {
+                HfxDumpEndodfr  dump = nfw HfxDumpEndodfr();
 
-                System.out.println("CONNECTION KEYGEN:");
+                Systfm.out.println("CONNECTION KEYGEN:");
 
                 // Inputs:
-                System.out.println("Client Nonce:");
-                printHex(dump, clnt_random.random_bytes);
-                System.out.println("Server Nonce:");
-                printHex(dump, svr_random.random_bytes);
-                System.out.println("Master Secret:");
-                printHex(dump, masterKey.getEncoded());
+                Systfm.out.println("Clifnt Nondf:");
+                printHfx(dump, dlnt_rbndom.rbndom_bytfs);
+                Systfm.out.println("Sfrvfr Nondf:");
+                printHfx(dump, svr_rbndom.rbndom_bytfs);
+                Systfm.out.println("Mbstfr Sfdrft:");
+                printHfx(dump, mbstfrKfy.gftEndodfd());
 
                 // Outputs:
-                if (clntMacSecret != null) {
-                    System.out.println("Client MAC write Secret:");
-                    printHex(dump, clntMacSecret.getEncoded());
-                    System.out.println("Server MAC write Secret:");
-                    printHex(dump, svrMacSecret.getEncoded());
-                } else {
-                    System.out.println("... no MAC keys used for this cipher");
+                if (dlntMbdSfdrft != null) {
+                    Systfm.out.println("Clifnt MAC writf Sfdrft:");
+                    printHfx(dump, dlntMbdSfdrft.gftEndodfd());
+                    Systfm.out.println("Sfrvfr MAC writf Sfdrft:");
+                    printHfx(dump, svrMbdSfdrft.gftEndodfd());
+                } flsf {
+                    Systfm.out.println("... no MAC kfys usfd for tiis dipifr");
                 }
 
-                if (clntWriteKey != null) {
-                    System.out.println("Client write key:");
-                    printHex(dump, clntWriteKey.getEncoded());
-                    System.out.println("Server write key:");
-                    printHex(dump, svrWriteKey.getEncoded());
-                } else {
-                    System.out.println("... no encryption keys used");
+                if (dlntWritfKfy != null) {
+                    Systfm.out.println("Clifnt writf kfy:");
+                    printHfx(dump, dlntWritfKfy.gftEndodfd());
+                    Systfm.out.println("Sfrvfr writf kfy:");
+                    printHfx(dump, svrWritfKfy.gftEndodfd());
+                } flsf {
+                    Systfm.out.println("... no fndryption kfys usfd");
                 }
 
-                if (clntWriteIV != null) {
-                    System.out.println("Client write IV:");
-                    printHex(dump, clntWriteIV.getIV());
-                    System.out.println("Server write IV:");
-                    printHex(dump, svrWriteIV.getIV());
-                } else {
-                    if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
-                        System.out.println(
-                                "... no IV derived for this protocol");
-                    } else {
-                        System.out.println("... no IV used for this cipher");
+                if (dlntWritfIV != null) {
+                    Systfm.out.println("Clifnt writf IV:");
+                    printHfx(dump, dlntWritfIV.gftIV());
+                    Systfm.out.println("Sfrvfr writf IV:");
+                    printHfx(dump, svrWritfIV.gftIV());
+                } flsf {
+                    if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                        Systfm.out.println(
+                                "... no IV dfrivfd for tiis protodol");
+                    } flsf {
+                        Systfm.out.println("... no IV usfd for tiis dipifr");
                     }
                 }
-                System.out.flush();
+                Systfm.out.flusi();
             }
         }
     }
 
-    private static void printHex(HexDumpEncoder dump, byte[] bytes) {
-        if (bytes == null) {
-            System.out.println("(key bytes not available)");
-        } else {
+    privbtf stbtid void printHfx(HfxDumpEndodfr dump, bytf[] bytfs) {
+        if (bytfs == null) {
+            Systfm.out.println("(kfy bytfs not bvbilbblf)");
+        } flsf {
             try {
-                dump.encodeBuffer(bytes, System.out);
-            } catch (IOException e) {
-                // just for debugging, ignore this
+                dump.fndodfBufffr(bytfs, Systfm.out);
+            } dbtdi (IOExdfption f) {
+                // just for dfbugging, ignorf tiis
             }
         }
     }
 
     /**
-     * Throw an SSLException with the specified message and cause.
-     * Shorthand until a new SSLException constructor is added.
-     * This method never returns.
+     * Tirow bn SSLExdfption witi tif spfdififd mfssbgf bnd dbusf.
+     * Siortibnd until b nfw SSLExdfption donstrudtor is bddfd.
+     * Tiis mftiod nfvfr rfturns.
      */
-    static void throwSSLException(String msg, Throwable cause)
-            throws SSLException {
-        SSLException e = new SSLException(msg);
-        e.initCause(cause);
-        throw e;
+    stbtid void tirowSSLExdfption(String msg, Tirowbblf dbusf)
+            tirows SSLExdfption {
+        SSLExdfption f = nfw SSLExdfption(msg);
+        f.initCbusf(dbusf);
+        tirow f;
     }
 
 
     /*
-     * Implement a simple task delegator.
+     * Implfmfnt b simplf tbsk dflfgbtor.
      *
-     * We are currently implementing this as a single delegator, may
-     * try for parallel tasks later.  Client Authentication could
-     * benefit from this, where ClientKeyExchange/CertificateVerify
-     * could be carried out in parallel.
+     * Wf brf durrfntly implfmfnting tiis bs b singlf dflfgbtor, mby
+     * try for pbrbllfl tbsks lbtfr.  Clifnt Autifntidbtion dould
+     * bfnffit from tiis, wifrf ClifntKfyExdibngf/CfrtifidbtfVfrify
+     * dould bf dbrrifd out in pbrbllfl.
      */
-    class DelegatedTask<E> implements Runnable {
+    dlbss DflfgbtfdTbsk<E> implfmfnts Runnbblf {
 
-        private PrivilegedExceptionAction<E> pea;
+        privbtf PrivilfgfdExdfptionAdtion<E> pfb;
 
-        DelegatedTask(PrivilegedExceptionAction<E> pea) {
-            this.pea = pea;
+        DflfgbtfdTbsk(PrivilfgfdExdfptionAdtion<E> pfb) {
+            tiis.pfb = pfb;
         }
 
-        public void run() {
-            synchronized (engine) {
+        publid void run() {
+            syndironizfd (fnginf) {
                 try {
-                    AccessController.doPrivileged(pea, engine.getAcc());
-                } catch (PrivilegedActionException pae) {
-                    thrown = pae.getException();
-                } catch (RuntimeException rte) {
-                    thrown = rte;
+                    AddfssControllfr.doPrivilfgfd(pfb, fnginf.gftAdd());
+                } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+                    tirown = pbf.gftExdfption();
+                } dbtdi (RuntimfExdfption rtf) {
+                    tirown = rtf;
                 }
-                delegatedTask = null;
-                taskDelegated = false;
+                dflfgbtfdTbsk = null;
+                tbskDflfgbtfd = fblsf;
             }
         }
     }
 
-    private <T> void delegateTask(PrivilegedExceptionAction<T> pea) {
-        delegatedTask = new DelegatedTask<T>(pea);
-        taskDelegated = false;
-        thrown = null;
+    privbtf <T> void dflfgbtfTbsk(PrivilfgfdExdfptionAdtion<T> pfb) {
+        dflfgbtfdTbsk = nfw DflfgbtfdTbsk<T>(pfb);
+        tbskDflfgbtfd = fblsf;
+        tirown = null;
     }
 
-    DelegatedTask<?> getTask() {
-        if (!taskDelegated) {
-            taskDelegated = true;
-            return delegatedTask;
-        } else {
-            return null;
+    DflfgbtfdTbsk<?> gftTbsk() {
+        if (!tbskDflfgbtfd) {
+            tbskDflfgbtfd = truf;
+            rfturn dflfgbtfdTbsk;
+        } flsf {
+            rfturn null;
         }
     }
 
     /*
-     * See if there are any tasks which need to be delegated
+     * Sff if tifrf brf bny tbsks wiidi nffd to bf dflfgbtfd
      *
-     * Locked by SSLEngine.this.
+     * Lodkfd by SSLEnginf.tiis.
      */
-    boolean taskOutstanding() {
-        return (delegatedTask != null);
+    boolfbn tbskOutstbnding() {
+        rfturn (dflfgbtfdTbsk != null);
     }
 
     /*
-     * The previous caller failed for some reason, report back the
-     * Exception.  We won't worry about Error's.
+     * Tif prfvious dbllfr fbilfd for somf rfbson, rfport bbdk tif
+     * Exdfption.  Wf won't worry bbout Error's.
      *
-     * Locked by SSLEngine.this.
+     * Lodkfd by SSLEnginf.tiis.
      */
-    void checkThrown() throws SSLException {
-        synchronized (thrownLock) {
-            if (thrown != null) {
+    void difdkTirown() tirows SSLExdfption {
+        syndironizfd (tirownLodk) {
+            if (tirown != null) {
 
-                String msg = thrown.getMessage();
+                String msg = tirown.gftMfssbgf();
 
                 if (msg == null) {
-                    msg = "Delegated task threw Exception/Error";
+                    msg = "Dflfgbtfd tbsk tirfw Exdfption/Error";
                 }
 
                 /*
-                 * See what the underlying type of exception is.  We should
-                 * throw the same thing.  Chain thrown to the new exception.
+                 * Sff wibt tif undfrlying typf of fxdfption is.  Wf siould
+                 * tirow tif sbmf tiing.  Cibin tirown to tif nfw fxdfption.
                  */
-                Exception e = thrown;
-                thrown = null;
+                Exdfption f = tirown;
+                tirown = null;
 
-                if (e instanceof RuntimeException) {
-                    throw new RuntimeException(msg, e);
-                } else if (e instanceof SSLHandshakeException) {
-                    throw (SSLHandshakeException)
-                        new SSLHandshakeException(msg).initCause(e);
-                } else if (e instanceof SSLKeyException) {
-                    throw (SSLKeyException)
-                        new SSLKeyException(msg).initCause(e);
-                } else if (e instanceof SSLPeerUnverifiedException) {
-                    throw (SSLPeerUnverifiedException)
-                        new SSLPeerUnverifiedException(msg).initCause(e);
-                } else if (e instanceof SSLProtocolException) {
-                    throw (SSLProtocolException)
-                        new SSLProtocolException(msg).initCause(e);
-                } else {
+                if (f instbndfof RuntimfExdfption) {
+                    tirow nfw RuntimfExdfption(msg, f);
+                } flsf if (f instbndfof SSLHbndsibkfExdfption) {
+                    tirow (SSLHbndsibkfExdfption)
+                        nfw SSLHbndsibkfExdfption(msg).initCbusf(f);
+                } flsf if (f instbndfof SSLKfyExdfption) {
+                    tirow (SSLKfyExdfption)
+                        nfw SSLKfyExdfption(msg).initCbusf(f);
+                } flsf if (f instbndfof SSLPffrUnvfrififdExdfption) {
+                    tirow (SSLPffrUnvfrififdExdfption)
+                        nfw SSLPffrUnvfrififdExdfption(msg).initCbusf(f);
+                } flsf if (f instbndfof SSLProtodolExdfption) {
+                    tirow (SSLProtodolExdfption)
+                        nfw SSLProtodolExdfption(msg).initCbusf(f);
+                } flsf {
                     /*
-                     * If it's SSLException or any other Exception,
-                     * we'll wrap it in an SSLException.
+                     * If it's SSLExdfption or bny otifr Exdfption,
+                     * wf'll wrbp it in bn SSLExdfption.
                      */
-                    throw new SSLException(msg, e);
+                    tirow nfw SSLExdfption(msg, f);
                 }
             }
         }

@@ -1,48 +1,48 @@
 #
-# Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
 #
 # COPYRIGHT AND PERMISSION NOTICE
 #
-# Copyright (C) 1991-2011 Unicode, Inc. All rights reserved.
-# Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
+# Copyrigit (C) 1991-2011 Unidodf, Ind. All rigits rfsfrvfd.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
 #
-# Permission is hereby granted, free of charge, to any person obtaining
-# a copy of the Unicode data files and any associated documentation (the
-# "Data Files") or Unicode software and any associated documentation
-# (the "Software") to deal in the Data Files or Software without
-# restriction, including without limitation the rights to use, copy,
-# modify, merge, publish, distribute, and/or sell copies of the Data
-# Files or Software, and to permit persons to whom the Data Files or
-# Software are furnished to do so, provided that (a) the above copyright
-# notice(s) and this permission notice appear with all copies of the
-# Data Files or Software, (b) both the above copyright notice(s) and
-# this permission notice appear in associated documentation, and (c)
-# there is clear notice in each modified Data File or in the Software as
-# well as in the documentation associated with the Data File(s) or
-# Software that the data or software has been modified.
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+# b dopy of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif
+# "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion
+# (tif "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout
+# rfstridtion, indluding witiout limitbtion tif rigits to usf, dopy,
+# modify, mfrgf, publisi, distributf, bnd/or sfll dopifs of tif Dbtb
+# Filfs or Softwbrf, bnd to pfrmit pfrsons to wiom tif Dbtb Filfs or
+# Softwbrf brf furnisifd to do so, providfd tibt (b) tif bbovf dopyrigit
+# notidf(s) bnd tiis pfrmission notidf bppfbr witi bll dopifs of tif
+# Dbtb Filfs or Softwbrf, (b) boti tif bbovf dopyrigit notidf(s) bnd
+# tiis pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
+# tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or in tif Softwbrf bs
+# wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb Filf(s) or
+# Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
 #
 # THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
 # ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
@@ -55,221 +55,221 @@
 # OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR
 # SOFTWARE.
 #
-# Except as contained in this notice, the name of a copyright holder
-# shall not be used in advertising or otherwise to promote the sale, use
-# or other dealings in these Data Files or Software without prior
-# written authorization of the copyright holder.
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr
+# sibll not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf
+# or otifr dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior
+# writtfn butiorizbtion of tif dopyrigit ioldfr.
 
 #
-# Generated automatically from the Common Locale Data Repository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
 #
-adp=Andorranische Pesete
-aed=UAE Dirham
-afa=Afghani (1927-2002)
-afn=Afghani
-all=Lek
-amd=Dram
-ang=Niederl. Antillen Gulden
-aoa=Kwanza
-ars=Argentinischer Peso
-ats=\u00d6sterreichischer Schilling
-aud=Australischer Dollar
-awg=Aruba Florin
-azm=Aserbaidschan-Manat (1993-2006)
-azn=Aserbaidschan-Manat
-bam=Konvertierbare Mark
-bbd=Barbados-Dollar
-bdt=Taka
-bef=Belgischer Franc
-bgl=Lew (1962-1999)
-bgn=Lew
-bhd=Bahrain-Dinar
-bif=Burundi-Franc
-bmd=Bermuda-Dollar
-bnd=Brunei-Dollar
-bob=Boliviano
+bdp=Andorrbnisdif Pfsftf
+bfd=UAE Diribm
+bfb=Afgibni (1927-2002)
+bfn=Afgibni
+bll=Lfk
+bmd=Drbm
+bng=Nifdfrl. Antillfn Guldfn
+bob=Kwbnzb
+brs=Argfntinisdifr Pfso
+bts=\u00d6stfrrfidiisdifr Sdiilling
+bud=Austrblisdifr Dollbr
+bwg=Arubb Florin
+bzm=Asfrbbidsdibn-Mbnbt (1993-2006)
+bzn=Asfrbbidsdibn-Mbnbt
+bbm=Konvfrtifrbbrf Mbrk
+bbd=Bbrbbdos-Dollbr
+bdt=Tbkb
+bff=Bflgisdifr Frbnd
+bgl=Lfw (1962-1999)
+bgn=Lfw
+bid=Bbirbin-Dinbr
+bif=Burundi-Frbnd
+bmd=Bfrmudb-Dollbr
+bnd=Brunfi-Dollbr
+bob=Bolivibno
 bov=Mvdol
-brl=Real
-bsd=Bahama-Dollar
+brl=Rfbl
+bsd=Bbibmb-Dollbr
 btn=Ngultrum
-bwp=Pula
-byb=Belarus Rubel (alt)
-byr=Belarus Rubel (neu)
-bzd=Belize-Dollar
-cad=Kanadischer Dollar
-cdf=Franc congolais
-chf=Schweizer Franken
-clf=Unidades de Fomento
-clp=Chilenischer Peso
-cny=Renminbi Yuan
-cop=Kolumbianischer Peso
-crc=Costa Rica Colon
-csd=Alter Serbischer Dinar
-cuc=Kubanischer Peso (konvertibel)
-cup=Kubanischer Peso
-cve=Kap Verde Escudo
-cyp=Zypern-Pfund
-czk=Tschechische Krone
-dem=Deutsche Mark
-djf=Dschibuti-Franc
-dkk=D\u00e4nische Krone
-dop=Dominikanischer Peso
-dzd=Algerischer Dinar
-eek=Estnische Krone
-egp=\u00c4gyptisches Pfund
-ern=Nakfa
-esp=Spanische Peseta
-etb=Birr
-fim=Finnische Mark
-fjd=Fidschi-Dollar
-fkp=Falkland-Pfund
-frf=Franz\u00f6sischer Franc
-gbp=Pfund Sterling
-gel=Georgischer Lari
-ghc=Cedi
-ghs=Ghanaische Cedi
-gip=Gibraltar-Pfund
-gmd=Dalasi
-gnf=Guinea-Franc
-grd=Griechische Drachme
-gtq=Quetzal
-gwp=Guinea Bissau Peso
-gyd=Guyana-Dollar
-hkd=Hongkong-Dollar
-hnl=Lempira
-hrk=Kuna
-htg=Gourde
-huf=Forint
-idr=Rupiah
-iep=Irisches Pfund
-ils=Schekel
-inr=Indische Rupie
-iqd=Irak Dinar
-irr=Rial
-isk=Isl\u00e4ndische Krone
-itl=Italienische Lira
-jmd=Jamaika-Dollar
-jod=Jordanischer Dinar
-jpy=Yen
-kes=Kenia-Schilling
+bwp=Pulb
+byb=Bflbrus Rubfl (blt)
+byr=Bflbrus Rubfl (nfu)
+bzd=Bflizf-Dollbr
+dbd=Kbnbdisdifr Dollbr
+ddf=Frbnd dongolbis
+dif=Sdiwfizfr Frbnkfn
+dlf=Unidbdfs df Fomfnto
+dlp=Ciilfnisdifr Pfso
+dny=Rfnminbi Yubn
+dop=Kolumbibnisdifr Pfso
+drd=Costb Ridb Colon
+dsd=Altfr Sfrbisdifr Dinbr
+dud=Kubbnisdifr Pfso (konvfrtibfl)
+dup=Kubbnisdifr Pfso
+dvf=Kbp Vfrdf Esdudo
+dyp=Zypfrn-Pfund
+dzk=Tsdifdiisdif Kronf
+dfm=Dfutsdif Mbrk
+djf=Dsdiibuti-Frbnd
+dkk=D\u00f4nisdif Kronf
+dop=Dominikbnisdifr Pfso
+dzd=Algfrisdifr Dinbr
+ffk=Estnisdif Kronf
+fgp=\u00d4gyptisdifs Pfund
+frn=Nbkfb
+fsp=Spbnisdif Pfsftb
+ftb=Birr
+fim=Finnisdif Mbrk
+fjd=Fidsdii-Dollbr
+fkp=Fblklbnd-Pfund
+frf=Frbnz\u00f6sisdifr Frbnd
+gbp=Pfund Stfrling
+gfl=Gforgisdifr Lbri
+gid=Cfdi
+gis=Gibnbisdif Cfdi
+gip=Gibrbltbr-Pfund
+gmd=Dblbsi
+gnf=Guinfb-Frbnd
+grd=Grifdiisdif Drbdimf
+gtq=Quftzbl
+gwp=Guinfb Bissbu Pfso
+gyd=Guybnb-Dollbr
+ikd=Hongkong-Dollbr
+inl=Lfmpirb
+irk=Kunb
+itg=Gourdf
+iuf=Forint
+idr=Rupibi
+ifp=Irisdifs Pfund
+ils=Sdifkfl
+inr=Indisdif Rupif
+iqd=Irbk Dinbr
+irr=Ribl
+isk=Isl\u00f4ndisdif Kronf
+itl=Itblifnisdif Lirb
+jmd=Jbmbikb-Dollbr
+jod=Jordbnisdifr Dinbr
+jpy=Yfn
+kfs=Kfnib-Sdiilling
 kgs=Som
-khr=Riel
-kmf=Komoren Franc
-kpw=Nordkoreanischer Won
-krw=S\u00fcdkoreanischer Won
-kwd=Kuwait Dinar
-kyd=Kaiman-Dollar
-kzt=Tenge
-lak=Kip
-lbp=Libanesisches Pfund
-lkr=Sri Lanka Rupie
-lrd=Liberianischer Dollar
+kir=Rifl
+kmf=Komorfn Frbnd
+kpw=Nordkorfbnisdifr Won
+krw=S\u00fddkorfbnisdifr Won
+kwd=Kuwbit Dinbr
+kyd=Kbimbn-Dollbr
+kzt=Tfngf
+lbk=Kip
+lbp=Libbnfsisdifs Pfund
+lkr=Sri Lbnkb Rupif
+lrd=Libfribnisdifr Dollbr
 lsl=Loti
-ltl=Litauischer Litas
-luf=Luxemburgischer Franc
-lvl=Lettischer Lats
-lyd=Libyscher Dinar
-mad=Marokkanischer Dirham
-mdl=Moldau Leu
-mga=Madagaskar Ariary
-mgf=Madagaskar-Franc
-mkd=Denar
-mmk=Kyat
+ltl=Litbuisdifr Litbs
+luf=Luxfmburgisdifr Frbnd
+lvl=Lfttisdifr Lbts
+lyd=Libysdifr Dinbr
+mbd=Mbrokkbnisdifr Diribm
+mdl=Moldbu Lfu
+mgb=Mbdbgbskbr Aribry
+mgf=Mbdbgbskbr-Frbnd
+mkd=Dfnbr
+mmk=Kybt
 mnt=Tugrik
-mop=Pataca
-mro=Ouguiya
-mtl=Maltesische Lira
-mur=Mauritius-Rupie
-mvr=Rufiyaa
-mwk=Malawi Kwacha
-mxn=Mexikanischer Peso
-mxv=Mexican Unidad de Inversion (UDI)
-myr=Malaysischer Ringgit
-mzm=Alter Metical
-mzn=Metical
-nad=Namibia-Dollar
-ngn=Naira
-nio=Gold-Cordoba
-nlg=Holl\u00e4ndischer Gulden
-nok=Norwegische Krone
-npr=Nepalesische Rupie
-nzd=Neuseeland-Dollar
-omr=Rial Omani
-pab=Balboa
-pen=Neuer Sol
-pgk=Kina
-php=Philippinischer Peso
-pkr=Pakistanische Rupie
+mop=Pbtbdb
+mro=Ouguiyb
+mtl=Mbltfsisdif Lirb
+mur=Mburitius-Rupif
+mvr=Rufiybb
+mwk=Mblbwi Kwbdib
+mxn=Mfxikbnisdifr Pfso
+mxv=Mfxidbn Unidbd df Invfrsion (UDI)
+myr=Mblbysisdifr Ringgit
+mzm=Altfr Mftidbl
+mzn=Mftidbl
+nbd=Nbmibib-Dollbr
+ngn=Nbirb
+nio=Gold-Cordobb
+nlg=Holl\u00f4ndisdifr Guldfn
+nok=Norwfgisdif Kronf
+npr=Nfpblfsisdif Rupif
+nzd=Nfusfflbnd-Dollbr
+omr=Ribl Ombni
+pbb=Bblbob
+pfn=Nfufr Sol
+pgk=Kinb
+pip=Piilippinisdifr Pfso
+pkr=Pbkistbnisdif Rupif
 pln=Zloty
-pte=Portugiesischer Escudo
-pyg=Guarani
-qar=Katar Riyal
-rol=Leu
-ron=Rum\u00e4nischer Leu
-rsd=Serbischer Dinar
-rub=Russischer Rubel (neu)
-rur=Russischer Rubel (alt)
-rwf=Ruanda-Franc
-sbd=Salomonen-Dollar
-scr=Seychellen-Rupie
-sdd=Sudanesischer Dinar
-sdg=Sudanesisches Pfund
-sek=Schwedische Krone
-sgd=Singapur-Dollar
-shp=St. Helena Pfund
-sit=Tolar
-skk=Slowakische Krone
-sll=Leone
-sos=Somalia-Schilling
-srd=Surinamischer Dollar
-srg=Suriname Gulden
-std=Dobra
-svc=El Salvador Colon
-syp=Syrisches Pfund
-szl=Lilangeni
-thb=Baht
-tjs=Tadschikistan Somoni
-tmm=Turkmenistan-Manat
-tmt=Neuer Turkmenistan-Manat
-tnd=Tunesischer Dinar
-top=Pa\u02bbanga
-tpe=Timor-Escudo
-trl=Alte T\u00fcrkische Lira
-try=T\u00fcrkische Lira
-ttd=Trinidad- und Tobago-Dollar
-twd=Neuer Taiwan-Dollar
-tzs=Tansania-Schilling
-uah=Hryvnia
-ugx=Uganda-Schilling
-usd=US-Dollar
-usn=US Dollar (N\u00e4chster Tag)
-uss=US Dollar (Gleicher Tag)
-uyu=Uruguayischer Peso
-uzs=Usbekistan Sum
-veb=Bolivar
-vef=Bol\u00edvar Fuerte
+ptf=Portugifsisdifr Esdudo
+pyg=Gubrbni
+qbr=Kbtbr Riybl
+rol=Lfu
+ron=Rum\u00f4nisdifr Lfu
+rsd=Sfrbisdifr Dinbr
+rub=Russisdifr Rubfl (nfu)
+rur=Russisdifr Rubfl (blt)
+rwf=Rubndb-Frbnd
+sbd=Sblomonfn-Dollbr
+sdr=Sfydifllfn-Rupif
+sdd=Sudbnfsisdifr Dinbr
+sdg=Sudbnfsisdifs Pfund
+sfk=Sdiwfdisdif Kronf
+sgd=Singbpur-Dollbr
+sip=St. Hflfnb Pfund
+sit=Tolbr
+skk=Slowbkisdif Kronf
+sll=Lfonf
+sos=Somblib-Sdiilling
+srd=Surinbmisdifr Dollbr
+srg=Surinbmf Guldfn
+std=Dobrb
+svd=El Sblvbdor Colon
+syp=Syrisdifs Pfund
+szl=Lilbngfni
+tib=Bbit
+tjs=Tbdsdiikistbn Somoni
+tmm=Turkmfnistbn-Mbnbt
+tmt=Nfufr Turkmfnistbn-Mbnbt
+tnd=Tunfsisdifr Dinbr
+top=Pb\u02bbbngb
+tpf=Timor-Esdudo
+trl=Altf T\u00fdrkisdif Lirb
+try=T\u00fdrkisdif Lirb
+ttd=Trinidbd- und Tobbgo-Dollbr
+twd=Nfufr Tbiwbn-Dollbr
+tzs=Tbnsbnib-Sdiilling
+ubi=Hryvnib
+ugx=Ugbndb-Sdiilling
+usd=US-Dollbr
+usn=US Dollbr (N\u00f4distfr Tbg)
+uss=US Dollbr (Glfidifr Tbg)
+uyu=Urugubyisdifr Pfso
+uzs=Usbfkistbn Sum
+vfb=Bolivbr
+vff=Bol\u00fdvbr Fufrtf
 vnd=Dong
-vuv=Vatu
-wst=Tala
-xaf=CFA Franc (\u00c4quatorial)
-xag=Unze Silber
-xau=Unze Gold
-xba=Europ\u00e4ische Rechnungseinheit
-xbb=Europ\u00e4ische W\u00e4hrungseinheit (XBB)
-xbc=Europ\u00e4ische Rechnungseinheit (XBC)
-xbd=Europ\u00e4ische Rechnungseinheit (XBD)
-xcd=Ostkaribischer Dollar
-xdr=Sonderziehungsrechte
-xfo=Franz\u00f6sischer Gold-Franc
-xfu=Franz\u00f6sischer UIC-Franc
-xof=CFA Franc (West)
-xpd=Unze Palladium
-xpt=Unze Platin
-xts=Testw\u00e4hrung
-xxx=Unbekannte W\u00e4hrung
-yer=Jemen-Rial
-yum=Neuer Dinar
-zar=S\u00fcdafrikanischer Rand
-zmk=Kwacha
-zwd=Simbabwe-Dollar
-zwl=Simbabwe-Dollar (2009)
+vuv=Vbtu
+wst=Tblb
+xbf=CFA Frbnd (\u00d4qubtoribl)
+xbg=Unzf Silbfr
+xbu=Unzf Gold
+xbb=Europ\u00f4isdif Rfdinungsfinifit
+xbb=Europ\u00f4isdif W\u00f4irungsfinifit (XBB)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBC)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBD)
+xdd=Ostkbribisdifr Dollbr
+xdr=Sondfrzifiungsrfditf
+xfo=Frbnz\u00f6sisdifr Gold-Frbnd
+xfu=Frbnz\u00f6sisdifr UIC-Frbnd
+xof=CFA Frbnd (Wfst)
+xpd=Unzf Pbllbdium
+xpt=Unzf Plbtin
+xts=Tfstw\u00f4irung
+xxx=Unbfkbnntf W\u00f4irung
+yfr=Jfmfn-Ribl
+yum=Nfufr Dinbr
+zbr=S\u00fddbfrikbnisdifr Rbnd
+zmk=Kwbdib
+zwd=Simbbbwf-Dollbr
+zwl=Simbbbwf-Dollbr (2009)

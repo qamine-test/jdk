@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
+ * @butior Cibrlton Innovbtions, Ind.
  */
 
-package sun.java2d.loops;
+pbdkbgf sun.jbvb2d.loops;
 
-import sun.java2d.loops.GraphicsPrimitive;
-import java.awt.Color;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import jbvb.bwt.Color;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
 
 /**
- *   FillRect
- *   1) draw solid color rectangle onto destination surface
- *   2) must accept output area [x, y, dx, dy]
- *      from within the surface description data for clip rect
+ *   FillRfdt
+ *   1) drbw solid dolor rfdtbnglf onto dfstinbtion surfbdf
+ *   2) must bddfpt output brfb [x, y, dx, dy]
+ *      from witiin tif surfbdf dfsdription dbtb for dlip rfdt
  */
-public class FillRect extends GraphicsPrimitive
+publid dlbss FillRfdt fxtfnds GrbpiidsPrimitivf
 {
-    public final static String methodSignature = "FillRect(...)".toString();
+    publid finbl stbtid String mftiodSignbturf = "FillRfdt(...)".toString();
 
-    public final static int primTypeID = makePrimTypeID();
+    publid finbl stbtid int primTypfID = mbkfPrimTypfID();
 
-    public static FillRect locate(SurfaceType srctype,
-                                  CompositeType comptype,
-                                  SurfaceType dsttype)
+    publid stbtid FillRfdt lodbtf(SurfbdfTypf srdtypf,
+                                  CompositfTypf domptypf,
+                                  SurfbdfTypf dsttypf)
     {
-        return (FillRect)
-            GraphicsPrimitiveMgr.locate(primTypeID,
-                                        srctype, comptype, dsttype);
+        rfturn (FillRfdt)
+            GrbpiidsPrimitivfMgr.lodbtf(primTypfID,
+                                        srdtypf, domptypf, dsttypf);
     }
 
-    protected FillRect(SurfaceType srctype,
-                       CompositeType comptype,
-                       SurfaceType dsttype)
+    protfdtfd FillRfdt(SurfbdfTypf srdtypf,
+                       CompositfTypf domptypf,
+                       SurfbdfTypf dsttypf)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        supfr(mftiodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
     }
 
-    public FillRect(long pNativePrim,
-                    SurfaceType srctype,
-                    CompositeType comptype,
-                    SurfaceType dsttype)
+    publid FillRfdt(long pNbtivfPrim,
+                    SurfbdfTypf srdtypf,
+                    CompositfTypf domptypf,
+                    SurfbdfTypf dsttypf)
     {
-        super(pNativePrim, methodSignature, primTypeID, srctype, comptype, dsttype);
+        supfr(pNbtivfPrim, mftiodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
     }
 
     /**
-     *   All FillRect implementors must have this invoker method
+     *   All FillRfdt implfmfntors must ibvf tiis invokfr mftiod
      */
-    public native void FillRect(SunGraphics2D sg2d, SurfaceData dest,
-                                int x, int y, int w, int h);
+    publid nbtivf void FillRfdt(SunGrbpiids2D sg2d, SurfbdfDbtb dfst,
+                                int x, int y, int w, int i);
 
-    static {
-        GraphicsPrimitiveMgr.registerGeneral(new FillRect(null, null, null));
+    stbtid {
+        GrbpiidsPrimitivfMgr.rfgistfrGfnfrbl(nfw FillRfdt(null, null, null));
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
-                                           CompositeType comptype,
-                                           SurfaceType dsttype)
+    publid GrbpiidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf)
     {
-        return new General(srctype, comptype, dsttype);
+        rfturn nfw Gfnfrbl(srdtypf, domptypf, dsttypf);
     }
 
-    public static class General extends FillRect {
-        public MaskFill fillop;
+    publid stbtid dlbss Gfnfrbl fxtfnds FillRfdt {
+        publid MbskFill fillop;
 
-        public General(SurfaceType srctype,
-                       CompositeType comptype,
-                       SurfaceType dsttype)
+        publid Gfnfrbl(SurfbdfTypf srdtypf,
+                       CompositfTypf domptypf,
+                       SurfbdfTypf dsttypf)
         {
-            super(srctype, comptype, dsttype);
-            fillop = MaskFill.locate(srctype, comptype, dsttype);
+            supfr(srdtypf, domptypf, dsttypf);
+            fillop = MbskFill.lodbtf(srdtypf, domptypf, dsttypf);
         }
 
-        public void FillRect(SunGraphics2D sg2d, SurfaceData dest,
-                             int x, int y, int w, int h)
+        publid void FillRfdt(SunGrbpiids2D sg2d, SurfbdfDbtb dfst,
+                             int x, int y, int w, int i)
         {
-            fillop.MaskFill(sg2d, dest, sg2d.composite, x, y, w, h, null, 0, 0);
+            fillop.MbskFill(sg2d, dfst, sg2d.dompositf, x, y, w, i, null, 0, 0);
         }
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceFillRect(this);
+    publid GrbpiidsPrimitivf trbdfWrbp() {
+        rfturn nfw TrbdfFillRfdt(tiis);
     }
 
-    private static class TraceFillRect extends FillRect {
-        FillRect target;
+    privbtf stbtid dlbss TrbdfFillRfdt fxtfnds FillRfdt {
+        FillRfdt tbrgft;
 
-        public TraceFillRect(FillRect target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        publid TrbdfFillRfdt(FillRfdt tbrgft) {
+            supfr(tbrgft.gftSourdfTypf(),
+                  tbrgft.gftCompositfTypf(),
+                  tbrgft.gftDfstTypf());
+            tiis.tbrgft = tbrgft;
         }
 
-        public GraphicsPrimitive traceWrap() {
-            return this;
+        publid GrbpiidsPrimitivf trbdfWrbp() {
+            rfturn tiis;
         }
 
-        public void FillRect(SunGraphics2D sg2d, SurfaceData dest,
-                             int x, int y, int w, int h)
+        publid void FillRfdt(SunGrbpiids2D sg2d, SurfbdfDbtb dfst,
+                             int x, int y, int w, int i)
         {
-            tracePrimitive(target);
-            target.FillRect(sg2d, dest, x, y, w, h);
+            trbdfPrimitivf(tbrgft);
+            tbrgft.FillRfdt(sg2d, dfst, x, y, w, i);
         }
     }
 }

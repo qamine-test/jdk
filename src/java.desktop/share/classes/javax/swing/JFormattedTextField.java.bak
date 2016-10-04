@@ -1,1188 +1,1188 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.im.InputContext;
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import javax.swing.UIManager;
-import javax.swing.event.*;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.im.InputContfxt;
+import jbvb.io.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.tfxt.*;
 
 /**
- * <code>JFormattedTextField</code> extends <code>JTextField</code> adding
- * support for formatting arbitrary values, as well as retrieving a particular
- * object once the user has edited the text. The following illustrates
- * configuring a <code>JFormattedTextField</code> to edit dates:
- * <pre>
- *   JFormattedTextField ftf = new JFormattedTextField();
- *   ftf.setValue(new Date());
- * </pre>
+ * <dodf>JFormbttfdTfxtFifld</dodf> fxtfnds <dodf>JTfxtFifld</dodf> bdding
+ * support for formbtting brbitrbry vblufs, bs wfll bs rftrifving b pbrtidulbr
+ * objfdt ondf tif usfr ibs fditfd tif tfxt. Tif following illustrbtfs
+ * donfiguring b <dodf>JFormbttfdTfxtFifld</dodf> to fdit dbtfs:
+ * <prf>
+ *   JFormbttfdTfxtFifld ftf = nfw JFormbttfdTfxtFifld();
+ *   ftf.sftVbluf(nfw Dbtf());
+ * </prf>
  * <p>
- * Once a <code>JFormattedTextField</code> has been created, you can
- * listen for editing changes by way of adding
- * a <code>PropertyChangeListener</code> and listening for
- * <code>PropertyChangeEvent</code>s with the property name <code>value</code>.
+ * Ondf b <dodf>JFormbttfdTfxtFifld</dodf> ibs bffn drfbtfd, you dbn
+ * listfn for fditing dibngfs by wby of bdding
+ * b <dodf>PropfrtyCibngfListfnfr</dodf> bnd listfning for
+ * <dodf>PropfrtyCibngfEvfnt</dodf>s witi tif propfrty nbmf <dodf>vbluf</dodf>.
  * <p>
- * <code>JFormattedTextField</code> allows
- * configuring what action should be taken when focus is lost. The possible
- * configurations are:
- * <table summary="Possible JFormattedTextField configurations and their descriptions">
- * <tr><th><p style="text-align:left">Value</p></th><th><p style="text-align:left">Description</p></th></tr>
- * <tr><td>JFormattedTextField.REVERT
- *            <td>Revert the display to match that of <code>getValue</code>,
- *                possibly losing the current edit.
- *        <tr><td>JFormattedTextField.COMMIT
- *            <td>Commits the current value. If the value being edited
- *                isn't considered a legal value by the
- *                <code>AbstractFormatter</code> that is, a
- *                <code>ParseException</code> is thrown, then the value
- *                will not change, and then edited value will persist.
- *        <tr><td>JFormattedTextField.COMMIT_OR_REVERT
- *            <td>Similar to <code>COMMIT</code>, but if the value isn't
- *                legal, behave like <code>REVERT</code>.
- *        <tr><td>JFormattedTextField.PERSIST
- *            <td>Do nothing, don't obtain a new
- *                <code>AbstractFormatter</code>, and don't update the value.
- * </table>
- * The default is <code>JFormattedTextField.COMMIT_OR_REVERT</code>,
- * refer to {@link #setFocusLostBehavior} for more information on this.
+ * <dodf>JFormbttfdTfxtFifld</dodf> bllows
+ * donfiguring wibt bdtion siould bf tbkfn wifn fodus is lost. Tif possiblf
+ * donfigurbtions brf:
+ * <tbblf summbry="Possiblf JFormbttfdTfxtFifld donfigurbtions bnd tifir dfsdriptions">
+ * <tr><ti><p stylf="tfxt-blign:lfft">Vbluf</p></ti><ti><p stylf="tfxt-blign:lfft">Dfsdription</p></ti></tr>
+ * <tr><td>JFormbttfdTfxtFifld.REVERT
+ *            <td>Rfvfrt tif displby to mbtdi tibt of <dodf>gftVbluf</dodf>,
+ *                possibly losing tif durrfnt fdit.
+ *        <tr><td>JFormbttfdTfxtFifld.COMMIT
+ *            <td>Commits tif durrfnt vbluf. If tif vbluf bfing fditfd
+ *                isn't donsidfrfd b lfgbl vbluf by tif
+ *                <dodf>AbstrbdtFormbttfr</dodf> tibt is, b
+ *                <dodf>PbrsfExdfption</dodf> is tirown, tifn tif vbluf
+ *                will not dibngf, bnd tifn fditfd vbluf will pfrsist.
+ *        <tr><td>JFormbttfdTfxtFifld.COMMIT_OR_REVERT
+ *            <td>Similbr to <dodf>COMMIT</dodf>, but if tif vbluf isn't
+ *                lfgbl, bfibvf likf <dodf>REVERT</dodf>.
+ *        <tr><td>JFormbttfdTfxtFifld.PERSIST
+ *            <td>Do notiing, don't obtbin b nfw
+ *                <dodf>AbstrbdtFormbttfr</dodf>, bnd don't updbtf tif vbluf.
+ * </tbblf>
+ * Tif dffbult is <dodf>JFormbttfdTfxtFifld.COMMIT_OR_REVERT</dodf>,
+ * rfffr to {@link #sftFodusLostBfibvior} for morf informbtion on tiis.
  * <p>
- * <code>JFormattedTextField</code> allows the focus to leave, even if
- * the currently edited value is invalid. To lock the focus down while the
- * <code>JFormattedTextField</code> is an invalid edit state
- * you can attach an <code>InputVerifier</code>. The following code snippet
- * shows a potential implementation of such an <code>InputVerifier</code>:
- * <pre>
- * public class FormattedTextFieldVerifier extends InputVerifier {
- *     public boolean verify(JComponent input) {
- *         if (input instanceof JFormattedTextField) {
- *             JFormattedTextField ftf = (JFormattedTextField)input;
- *             AbstractFormatter formatter = ftf.getFormatter();
- *             if (formatter != null) {
- *                 String text = ftf.getText();
+ * <dodf>JFormbttfdTfxtFifld</dodf> bllows tif fodus to lfbvf, fvfn if
+ * tif durrfntly fditfd vbluf is invblid. To lodk tif fodus down wiilf tif
+ * <dodf>JFormbttfdTfxtFifld</dodf> is bn invblid fdit stbtf
+ * you dbn bttbdi bn <dodf>InputVfrififr</dodf>. Tif following dodf snippft
+ * siows b potfntibl implfmfntbtion of sudi bn <dodf>InputVfrififr</dodf>:
+ * <prf>
+ * publid dlbss FormbttfdTfxtFifldVfrififr fxtfnds InputVfrififr {
+ *     publid boolfbn vfrify(JComponfnt input) {
+ *         if (input instbndfof JFormbttfdTfxtFifld) {
+ *             JFormbttfdTfxtFifld ftf = (JFormbttfdTfxtFifld)input;
+ *             AbstrbdtFormbttfr formbttfr = ftf.gftFormbttfr();
+ *             if (formbttfr != null) {
+ *                 String tfxt = ftf.gftTfxt();
  *                 try {
- *                      formatter.stringToValue(text);
- *                      return true;
- *                  } catch (ParseException pe) {
- *                      return false;
+ *                      formbttfr.stringToVbluf(tfxt);
+ *                      rfturn truf;
+ *                  } dbtdi (PbrsfExdfption pf) {
+ *                      rfturn fblsf;
  *                  }
  *              }
  *          }
- *          return true;
+ *          rfturn truf;
  *      }
- *      public boolean shouldYieldFocus(JComponent input) {
- *          return verify(input);
+ *      publid boolfbn siouldYifldFodus(JComponfnt input) {
+ *          rfturn vfrify(input);
  *      }
  *  }
- * </pre>
+ * </prf>
  * <p>
- * Alternatively, you could invoke <code>commitEdit</code>, which would also
- * commit the value.
+ * Altfrnbtivfly, you dould invokf <dodf>dommitEdit</dodf>, wiidi would blso
+ * dommit tif vbluf.
  * <p>
- * <code>JFormattedTextField</code> does not do the formatting it self,
- * rather formatting is done through an instance of
- * <code>JFormattedTextField.AbstractFormatter</code> which is obtained from
- * an instance of <code>JFormattedTextField.AbstractFormatterFactory</code>.
- * Instances of <code>JFormattedTextField.AbstractFormatter</code> are
- * notified when they become active by way of the
- * <code>install</code> method, at which point the
- * <code>JFormattedTextField.AbstractFormatter</code> can install whatever
- * it needs to, typically a <code>DocumentFilter</code>. Similarly when
- * <code>JFormattedTextField</code> no longer
- * needs the <code>AbstractFormatter</code>, it will invoke
- * <code>uninstall</code>.
+ * <dodf>JFormbttfdTfxtFifld</dodf> dofs not do tif formbtting it sflf,
+ * rbtifr formbtting is donf tirougi bn instbndf of
+ * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> wiidi is obtbinfd from
+ * bn instbndf of <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfrFbdtory</dodf>.
+ * Instbndfs of <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> brf
+ * notififd wifn tify bfdomf bdtivf by wby of tif
+ * <dodf>instbll</dodf> mftiod, bt wiidi point tif
+ * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf> dbn instbll wibtfvfr
+ * it nffds to, typidblly b <dodf>DodumfntFiltfr</dodf>. Similbrly wifn
+ * <dodf>JFormbttfdTfxtFifld</dodf> no longfr
+ * nffds tif <dodf>AbstrbdtFormbttfr</dodf>, it will invokf
+ * <dodf>uninstbll</dodf>.
  * <p>
- * <code>JFormattedTextField</code> typically
- * queries the <code>AbstractFormatterFactory</code> for an
- * <code>AbstractFormat</code> when it gains or loses focus. Although this
- * can change based on the focus lost policy. If the focus lost
- * policy is <code>JFormattedTextField.PERSIST</code>
- * and the <code>JFormattedTextField</code> has been edited, the
- * <code>AbstractFormatterFactory</code> will not be queried until the
- * value has been committed. Similarly if the focus lost policy is
- * <code>JFormattedTextField.COMMIT</code> and an exception
- * is thrown from <code>stringToValue</code>, the
- * <code>AbstractFormatterFactory</code> will not be queried when focus is
- * lost or gained.
+ * <dodf>JFormbttfdTfxtFifld</dodf> typidblly
+ * qufrifs tif <dodf>AbstrbdtFormbttfrFbdtory</dodf> for bn
+ * <dodf>AbstrbdtFormbt</dodf> wifn it gbins or losfs fodus. Altiougi tiis
+ * dbn dibngf bbsfd on tif fodus lost polidy. If tif fodus lost
+ * polidy is <dodf>JFormbttfdTfxtFifld.PERSIST</dodf>
+ * bnd tif <dodf>JFormbttfdTfxtFifld</dodf> ibs bffn fditfd, tif
+ * <dodf>AbstrbdtFormbttfrFbdtory</dodf> will not bf qufrifd until tif
+ * vbluf ibs bffn dommittfd. Similbrly if tif fodus lost polidy is
+ * <dodf>JFormbttfdTfxtFifld.COMMIT</dodf> bnd bn fxdfption
+ * is tirown from <dodf>stringToVbluf</dodf>, tif
+ * <dodf>AbstrbdtFormbttfrFbdtory</dodf> will not bf qufrifd wifn fodus is
+ * lost or gbinfd.
  * <p>
- * <code>JFormattedTextField.AbstractFormatter</code>
- * is also responsible for determining when values are committed to
- * the <code>JFormattedTextField</code>. Some
- * <code>JFormattedTextField.AbstractFormatter</code>s will make new values
- * available on every edit, and others will never commit the value. You can
- * force the current value to be obtained
- * from the current <code>JFormattedTextField.AbstractFormatter</code>
- * by way of invoking <code>commitEdit</code>. <code>commitEdit</code> will
- * be invoked whenever return is pressed in the
- * <code>JFormattedTextField</code>.
+ * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf>
+ * is blso rfsponsiblf for dftfrmining wifn vblufs brf dommittfd to
+ * tif <dodf>JFormbttfdTfxtFifld</dodf>. Somf
+ * <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf>s will mbkf nfw vblufs
+ * bvbilbblf on fvfry fdit, bnd otifrs will nfvfr dommit tif vbluf. You dbn
+ * fordf tif durrfnt vbluf to bf obtbinfd
+ * from tif durrfnt <dodf>JFormbttfdTfxtFifld.AbstrbdtFormbttfr</dodf>
+ * by wby of invoking <dodf>dommitEdit</dodf>. <dodf>dommitEdit</dodf> will
+ * bf invokfd wifnfvfr rfturn is prfssfd in tif
+ * <dodf>JFormbttfdTfxtFifld</dodf>.
  * <p>
- * If an <code>AbstractFormatterFactory</code> has not been explicitly
- * set, one will be set based on the <code>Class</code> of the value type after
- * <code>setValue</code> has been invoked (assuming value is non-null).
- * For example, in the following code an appropriate
- * <code>AbstractFormatterFactory</code> and <code>AbstractFormatter</code>
- * will be created to handle formatting of numbers:
- * <pre>
- *   JFormattedTextField tf = new JFormattedTextField();
- *   tf.setValue(new Number(100));
- * </pre>
+ * If bn <dodf>AbstrbdtFormbttfrFbdtory</dodf> ibs not bffn fxpliditly
+ * sft, onf will bf sft bbsfd on tif <dodf>Clbss</dodf> of tif vbluf typf bftfr
+ * <dodf>sftVbluf</dodf> ibs bffn invokfd (bssuming vbluf is non-null).
+ * For fxbmplf, in tif following dodf bn bppropribtf
+ * <dodf>AbstrbdtFormbttfrFbdtory</dodf> bnd <dodf>AbstrbdtFormbttfr</dodf>
+ * will bf drfbtfd to ibndlf formbtting of numbfrs:
+ * <prf>
+ *   JFormbttfdTfxtFifld tf = nfw JFormbttfdTfxtFifld();
+ *   tf.sftVbluf(nfw Numbfr(100));
+ * </prf>
  * <p>
- * <strong>Warning:</strong> As the <code>AbstractFormatter</code> will
- * typically install a <code>DocumentFilter</code> on the
- * <code>Document</code>, and a <code>NavigationFilter</code> on the
- * <code>JFormattedTextField</code> you should not install your own. If you do,
- * you are likely to see odd behavior in that the editing policy of the
- * <code>AbstractFormatter</code> will not be enforced.
+ * <strong>Wbrning:</strong> As tif <dodf>AbstrbdtFormbttfr</dodf> will
+ * typidblly instbll b <dodf>DodumfntFiltfr</dodf> on tif
+ * <dodf>Dodumfnt</dodf>, bnd b <dodf>NbvigbtionFiltfr</dodf> on tif
+ * <dodf>JFormbttfdTfxtFifld</dodf> you siould not instbll your own. If you do,
+ * you brf likfly to sff odd bfibvior in tibt tif fditing polidy of tif
+ * <dodf>AbstrbdtFormbttfr</dodf> will not bf fnfordfd.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @since 1.4
+ * @sindf 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JFormattedTextField extends JTextField {
-    private static final String uiClassID = "FormattedTextFieldUI";
-    private static final Action[] defaultActions =
-            { new CommitAction(), new CancelAction() };
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JFormbttfdTfxtFifld fxtfnds JTfxtFifld {
+    privbtf stbtid finbl String uiClbssID = "FormbttfdTfxtFifldUI";
+    privbtf stbtid finbl Adtion[] dffbultAdtions =
+            { nfw CommitAdtion(), nfw CbndflAdtion() };
 
     /**
-     * Constant identifying that when focus is lost,
-     * <code>commitEdit</code> should be invoked. If in committing the
-     * new value a <code>ParseException</code> is thrown, the invalid
-     * value will remain.
+     * Constbnt idfntifying tibt wifn fodus is lost,
+     * <dodf>dommitEdit</dodf> siould bf invokfd. If in dommitting tif
+     * nfw vbluf b <dodf>PbrsfExdfption</dodf> is tirown, tif invblid
+     * vbluf will rfmbin.
      *
-     * @see #setFocusLostBehavior
+     * @sff #sftFodusLostBfibvior
      */
-    public static final int COMMIT = 0;
+    publid stbtid finbl int COMMIT = 0;
 
     /**
-     * Constant identifying that when focus is lost,
-     * <code>commitEdit</code> should be invoked. If in committing the new
-     * value a <code>ParseException</code> is thrown, the value will be
-     * reverted.
+     * Constbnt idfntifying tibt wifn fodus is lost,
+     * <dodf>dommitEdit</dodf> siould bf invokfd. If in dommitting tif nfw
+     * vbluf b <dodf>PbrsfExdfption</dodf> is tirown, tif vbluf will bf
+     * rfvfrtfd.
      *
-     * @see #setFocusLostBehavior
+     * @sff #sftFodusLostBfibvior
      */
-    public static final int COMMIT_OR_REVERT = 1;
+    publid stbtid finbl int COMMIT_OR_REVERT = 1;
 
     /**
-     * Constant identifying that when focus is lost, editing value should
-     * be reverted to current value set on the
-     * <code>JFormattedTextField</code>.
+     * Constbnt idfntifying tibt wifn fodus is lost, fditing vbluf siould
+     * bf rfvfrtfd to durrfnt vbluf sft on tif
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
      *
-     * @see #setFocusLostBehavior
+     * @sff #sftFodusLostBfibvior
      */
-    public static final int REVERT = 2;
+    publid stbtid finbl int REVERT = 2;
 
     /**
-     * Constant identifying that when focus is lost, the edited value
-     * should be left.
+     * Constbnt idfntifying tibt wifn fodus is lost, tif fditfd vbluf
+     * siould bf lfft.
      *
-     * @see #setFocusLostBehavior
+     * @sff #sftFodusLostBfibvior
      */
-    public static final int PERSIST = 3;
+    publid stbtid finbl int PERSIST = 3;
 
 
     /**
-     * Factory used to obtain an instance of AbstractFormatter.
+     * Fbdtory usfd to obtbin bn instbndf of AbstrbdtFormbttfr.
      */
-    private AbstractFormatterFactory factory;
+    privbtf AbstrbdtFormbttfrFbdtory fbdtory;
     /**
-     * Object responsible for formatting the current value.
+     * Objfdt rfsponsiblf for formbtting tif durrfnt vbluf.
      */
-    private AbstractFormatter format;
+    privbtf AbstrbdtFormbttfr formbt;
     /**
-     * Last valid value.
+     * Lbst vblid vbluf.
      */
-    private Object value;
+    privbtf Objfdt vbluf;
     /**
-     * True while the value being edited is valid.
+     * Truf wiilf tif vbluf bfing fditfd is vblid.
      */
-    private boolean editValid;
+    privbtf boolfbn fditVblid;
     /**
-     * Behavior when focus is lost.
+     * Bfibvior wifn fodus is lost.
      */
-    private int focusLostBehavior;
+    privbtf int fodusLostBfibvior;
     /**
-     * Indicates the current value has been edited.
+     * Indidbtfs tif durrfnt vbluf ibs bffn fditfd.
      */
-    private boolean edited;
+    privbtf boolfbn fditfd;
     /**
-     * Used to set the dirty state.
+     * Usfd to sft tif dirty stbtf.
      */
-    private DocumentListener documentListener;
+    privbtf DodumfntListfnfr dodumfntListfnfr;
     /**
-     * Masked used to set the AbstractFormatterFactory.
+     * Mbskfd usfd to sft tif AbstrbdtFormbttfrFbdtory.
      */
-    private Object mask;
+    privbtf Objfdt mbsk;
     /**
-     * ActionMap that the TextFormatter Actions are added to.
+     * AdtionMbp tibt tif TfxtFormbttfr Adtions brf bddfd to.
      */
-    private ActionMap textFormatterActionMap;
+    privbtf AdtionMbp tfxtFormbttfrAdtionMbp;
     /**
-     * Indicates the input method composed text is in the document
+     * Indidbtfs tif input mftiod domposfd tfxt is in tif dodumfnt
      */
-    private boolean composedTextExists = false;
+    privbtf boolfbn domposfdTfxtExists = fblsf;
     /**
-     * A handler for FOCUS_LOST event
+     * A ibndlfr for FOCUS_LOST fvfnt
      */
-    private FocusLostHandler focusLostHandler;
+    privbtf FodusLostHbndlfr fodusLostHbndlfr;
 
 
     /**
-     * Creates a <code>JFormattedTextField</code> with no
-     * <code>AbstractFormatterFactory</code>. Use <code>setMask</code> or
-     * <code>setFormatterFactory</code> to configure the
-     * <code>JFormattedTextField</code> to edit a particular type of
-     * value.
+     * Crfbtfs b <dodf>JFormbttfdTfxtFifld</dodf> witi no
+     * <dodf>AbstrbdtFormbttfrFbdtory</dodf>. Usf <dodf>sftMbsk</dodf> or
+     * <dodf>sftFormbttfrFbdtory</dodf> to donfigurf tif
+     * <dodf>JFormbttfdTfxtFifld</dodf> to fdit b pbrtidulbr typf of
+     * vbluf.
      */
-    public JFormattedTextField() {
-        super();
-        enableEvents(AWTEvent.FOCUS_EVENT_MASK);
-        setFocusLostBehavior(COMMIT_OR_REVERT);
+    publid JFormbttfdTfxtFifld() {
+        supfr();
+        fnbblfEvfnts(AWTEvfnt.FOCUS_EVENT_MASK);
+        sftFodusLostBfibvior(COMMIT_OR_REVERT);
     }
 
     /**
-     * Creates a JFormattedTextField with the specified value. This will
-     * create an <code>AbstractFormatterFactory</code> based on the
-     * type of <code>value</code>.
+     * Crfbtfs b JFormbttfdTfxtFifld witi tif spfdififd vbluf. Tiis will
+     * drfbtf bn <dodf>AbstrbdtFormbttfrFbdtory</dodf> bbsfd on tif
+     * typf of <dodf>vbluf</dodf>.
      *
-     * @param value Initial value for the JFormattedTextField
+     * @pbrbm vbluf Initibl vbluf for tif JFormbttfdTfxtFifld
      */
-    public JFormattedTextField(Object value) {
-        this();
-        setValue(value);
+    publid JFormbttfdTfxtFifld(Objfdt vbluf) {
+        tiis();
+        sftVbluf(vbluf);
     }
 
     /**
-     * Creates a <code>JFormattedTextField</code>. <code>format</code> is
-     * wrapped in an appropriate <code>AbstractFormatter</code> which is
-     * then wrapped in an <code>AbstractFormatterFactory</code>.
+     * Crfbtfs b <dodf>JFormbttfdTfxtFifld</dodf>. <dodf>formbt</dodf> is
+     * wrbppfd in bn bppropribtf <dodf>AbstrbdtFormbttfr</dodf> wiidi is
+     * tifn wrbppfd in bn <dodf>AbstrbdtFormbttfrFbdtory</dodf>.
      *
-     * @param format Format used to look up an AbstractFormatter
+     * @pbrbm formbt Formbt usfd to look up bn AbstrbdtFormbttfr
      */
-    public JFormattedTextField(java.text.Format format) {
-        this();
-        setFormatterFactory(getDefaultFormatterFactory(format));
+    publid JFormbttfdTfxtFifld(jbvb.tfxt.Formbt formbt) {
+        tiis();
+        sftFormbttfrFbdtory(gftDffbultFormbttfrFbdtory(formbt));
     }
 
     /**
-     * Creates a <code>JFormattedTextField</code> with the specified
-     * <code>AbstractFormatter</code>. The <code>AbstractFormatter</code>
-     * is placed in an <code>AbstractFormatterFactory</code>.
+     * Crfbtfs b <dodf>JFormbttfdTfxtFifld</dodf> witi tif spfdififd
+     * <dodf>AbstrbdtFormbttfr</dodf>. Tif <dodf>AbstrbdtFormbttfr</dodf>
+     * is plbdfd in bn <dodf>AbstrbdtFormbttfrFbdtory</dodf>.
      *
-     * @param formatter AbstractFormatter to use for formatting.
+     * @pbrbm formbttfr AbstrbdtFormbttfr to usf for formbtting.
      */
-    public JFormattedTextField(AbstractFormatter formatter) {
-        this(new DefaultFormatterFactory(formatter));
+    publid JFormbttfdTfxtFifld(AbstrbdtFormbttfr formbttfr) {
+        tiis(nfw DffbultFormbttfrFbdtory(formbttfr));
     }
 
     /**
-     * Creates a <code>JFormattedTextField</code> with the specified
-     * <code>AbstractFormatterFactory</code>.
+     * Crfbtfs b <dodf>JFormbttfdTfxtFifld</dodf> witi tif spfdififd
+     * <dodf>AbstrbdtFormbttfrFbdtory</dodf>.
      *
-     * @param factory AbstractFormatterFactory used for formatting.
+     * @pbrbm fbdtory AbstrbdtFormbttfrFbdtory usfd for formbtting.
      */
-    public JFormattedTextField(AbstractFormatterFactory factory) {
-        this();
-        setFormatterFactory(factory);
+    publid JFormbttfdTfxtFifld(AbstrbdtFormbttfrFbdtory fbdtory) {
+        tiis();
+        sftFormbttfrFbdtory(fbdtory);
     }
 
     /**
-     * Creates a <code>JFormattedTextField</code> with the specified
-     * <code>AbstractFormatterFactory</code> and initial value.
+     * Crfbtfs b <dodf>JFormbttfdTfxtFifld</dodf> witi tif spfdififd
+     * <dodf>AbstrbdtFormbttfrFbdtory</dodf> bnd initibl vbluf.
      *
-     * @param factory <code>AbstractFormatterFactory</code> used for
-     *        formatting.
-     * @param currentValue Initial value to use
+     * @pbrbm fbdtory <dodf>AbstrbdtFormbttfrFbdtory</dodf> usfd for
+     *        formbtting.
+     * @pbrbm durrfntVbluf Initibl vbluf to usf
      */
-    public JFormattedTextField(AbstractFormatterFactory factory,
-                               Object currentValue) {
-        this(currentValue);
-        setFormatterFactory(factory);
+    publid JFormbttfdTfxtFifld(AbstrbdtFormbttfrFbdtory fbdtory,
+                               Objfdt durrfntVbluf) {
+        tiis(durrfntVbluf);
+        sftFormbttfrFbdtory(fbdtory);
     }
 
     /**
-     * Sets the behavior when focus is lost. This will be one of
-     * <code>JFormattedTextField.COMMIT_OR_REVERT</code>,
-     * <code>JFormattedTextField.REVERT</code>,
-     * <code>JFormattedTextField.COMMIT</code> or
-     * <code>JFormattedTextField.PERSIST</code>
-     * Note that some <code>AbstractFormatter</code>s may push changes as
-     * they occur, so that the value of this will have no effect.
+     * Sfts tif bfibvior wifn fodus is lost. Tiis will bf onf of
+     * <dodf>JFormbttfdTfxtFifld.COMMIT_OR_REVERT</dodf>,
+     * <dodf>JFormbttfdTfxtFifld.REVERT</dodf>,
+     * <dodf>JFormbttfdTfxtFifld.COMMIT</dodf> or
+     * <dodf>JFormbttfdTfxtFifld.PERSIST</dodf>
+     * Notf tibt somf <dodf>AbstrbdtFormbttfr</dodf>s mby pusi dibngfs bs
+     * tify oddur, so tibt tif vbluf of tiis will ibvf no ffffdt.
      * <p>
-     * This will throw an <code>IllegalArgumentException</code> if the object
-     * passed in is not one of the afore mentioned values.
+     * Tiis will tirow bn <dodf>IllfgblArgumfntExdfption</dodf> if tif objfdt
+     * pbssfd in is not onf of tif bforf mfntionfd vblufs.
      * <p>
-     * The default value of this property is
-     * <code>JFormattedTextField.COMMIT_OR_REVERT</code>.
+     * Tif dffbult vbluf of tiis propfrty is
+     * <dodf>JFormbttfdTfxtFifld.COMMIT_OR_REVERT</dodf>.
      *
-     * @param behavior Identifies behavior when focus is lost
-     * @throws IllegalArgumentException if behavior is not one of the known
-     *         values
-     * @beaninfo
-     *  enum: COMMIT         JFormattedTextField.COMMIT
-     *        COMMIT_OR_REVERT JFormattedTextField.COMMIT_OR_REVERT
-     *        REVERT         JFormattedTextField.REVERT
-     *        PERSIST        JFormattedTextField.PERSIST
-     *  description: Behavior when component loses focus
+     * @pbrbm bfibvior Idfntififs bfibvior wifn fodus is lost
+     * @tirows IllfgblArgumfntExdfption if bfibvior is not onf of tif known
+     *         vblufs
+     * @bfbninfo
+     *  fnum: COMMIT         JFormbttfdTfxtFifld.COMMIT
+     *        COMMIT_OR_REVERT JFormbttfdTfxtFifld.COMMIT_OR_REVERT
+     *        REVERT         JFormbttfdTfxtFifld.REVERT
+     *        PERSIST        JFormbttfdTfxtFifld.PERSIST
+     *  dfsdription: Bfibvior wifn domponfnt losfs fodus
      */
-    public void setFocusLostBehavior(int behavior) {
-        if (behavior != COMMIT && behavior != COMMIT_OR_REVERT &&
-            behavior != PERSIST && behavior != REVERT) {
-            throw new IllegalArgumentException("setFocusLostBehavior must be one of: JFormattedTextField.COMMIT, JFormattedTextField.COMMIT_OR_REVERT, JFormattedTextField.PERSIST or JFormattedTextField.REVERT");
+    publid void sftFodusLostBfibvior(int bfibvior) {
+        if (bfibvior != COMMIT && bfibvior != COMMIT_OR_REVERT &&
+            bfibvior != PERSIST && bfibvior != REVERT) {
+            tirow nfw IllfgblArgumfntExdfption("sftFodusLostBfibvior must bf onf of: JFormbttfdTfxtFifld.COMMIT, JFormbttfdTfxtFifld.COMMIT_OR_REVERT, JFormbttfdTfxtFifld.PERSIST or JFormbttfdTfxtFifld.REVERT");
         }
-        focusLostBehavior = behavior;
+        fodusLostBfibvior = bfibvior;
     }
 
     /**
-     * Returns the behavior when focus is lost. This will be one of
-     * <code>COMMIT_OR_REVERT</code>,
-     * <code>COMMIT</code>,
-     * <code>REVERT</code> or
-     * <code>PERSIST</code>
-     * Note that some <code>AbstractFormatter</code>s may push changes as
-     * they occur, so that the value of this will have no effect.
+     * Rfturns tif bfibvior wifn fodus is lost. Tiis will bf onf of
+     * <dodf>COMMIT_OR_REVERT</dodf>,
+     * <dodf>COMMIT</dodf>,
+     * <dodf>REVERT</dodf> or
+     * <dodf>PERSIST</dodf>
+     * Notf tibt somf <dodf>AbstrbdtFormbttfr</dodf>s mby pusi dibngfs bs
+     * tify oddur, so tibt tif vbluf of tiis will ibvf no ffffdt.
      *
-     * @return returns behavior when focus is lost
+     * @rfturn rfturns bfibvior wifn fodus is lost
      */
-    public int getFocusLostBehavior() {
-        return focusLostBehavior;
+    publid int gftFodusLostBfibvior() {
+        rfturn fodusLostBfibvior;
     }
 
     /**
-     * Sets the <code>AbstractFormatterFactory</code>.
-     * <code>AbstractFormatterFactory</code> is
-     * able to return an instance of <code>AbstractFormatter</code> that is
-     * used to format a value for display, as well an enforcing an editing
-     * policy.
+     * Sfts tif <dodf>AbstrbdtFormbttfrFbdtory</dodf>.
+     * <dodf>AbstrbdtFormbttfrFbdtory</dodf> is
+     * bblf to rfturn bn instbndf of <dodf>AbstrbdtFormbttfr</dodf> tibt is
+     * usfd to formbt b vbluf for displby, bs wfll bn fnfording bn fditing
+     * polidy.
      * <p>
-     * If you have not explicitly set an <code>AbstractFormatterFactory</code>
-     * by way of this method (or a constructor) an
-     * <code>AbstractFormatterFactory</code> and consequently an
-     * <code>AbstractFormatter</code> will be used based on the
-     * <code>Class</code> of the value. <code>NumberFormatter</code> will
-     * be used for <code>Number</code>s, <code>DateFormatter</code> will
-     * be used for <code>Dates</code>, otherwise <code>DefaultFormatter</code>
-     * will be used.
+     * If you ibvf not fxpliditly sft bn <dodf>AbstrbdtFormbttfrFbdtory</dodf>
+     * by wby of tiis mftiod (or b donstrudtor) bn
+     * <dodf>AbstrbdtFormbttfrFbdtory</dodf> bnd donsfqufntly bn
+     * <dodf>AbstrbdtFormbttfr</dodf> will bf usfd bbsfd on tif
+     * <dodf>Clbss</dodf> of tif vbluf. <dodf>NumbfrFormbttfr</dodf> will
+     * bf usfd for <dodf>Numbfr</dodf>s, <dodf>DbtfFormbttfr</dodf> will
+     * bf usfd for <dodf>Dbtfs</dodf>, otifrwisf <dodf>DffbultFormbttfr</dodf>
+     * will bf usfd.
      * <p>
-     * This is a JavaBeans bound property.
+     * Tiis is b JbvbBfbns bound propfrty.
      *
-     * @param tf <code>AbstractFormatterFactory</code> used to lookup
-     *          instances of <code>AbstractFormatter</code>
-     * @beaninfo
-     *       bound: true
-     *   attribute: visualUpdate true
-     * description: AbstractFormatterFactory, responsible for returning an
-     *              AbstractFormatter that can format the current value.
+     * @pbrbm tf <dodf>AbstrbdtFormbttfrFbdtory</dodf> usfd to lookup
+     *          instbndfs of <dodf>AbstrbdtFormbttfr</dodf>
+     * @bfbninfo
+     *       bound: truf
+     *   bttributf: visublUpdbtf truf
+     * dfsdription: AbstrbdtFormbttfrFbdtory, rfsponsiblf for rfturning bn
+     *              AbstrbdtFormbttfr tibt dbn formbt tif durrfnt vbluf.
      */
-    public void setFormatterFactory(AbstractFormatterFactory tf) {
-        AbstractFormatterFactory oldFactory = factory;
+    publid void sftFormbttfrFbdtory(AbstrbdtFormbttfrFbdtory tf) {
+        AbstrbdtFormbttfrFbdtory oldFbdtory = fbdtory;
 
-        factory = tf;
-        firePropertyChange("formatterFactory", oldFactory, tf);
-        setValue(getValue(), true, false);
+        fbdtory = tf;
+        firfPropfrtyCibngf("formbttfrFbdtory", oldFbdtory, tf);
+        sftVbluf(gftVbluf(), truf, fblsf);
     }
 
     /**
-     * Returns the current <code>AbstractFormatterFactory</code>.
+     * Rfturns tif durrfnt <dodf>AbstrbdtFormbttfrFbdtory</dodf>.
      *
-     * @see #setFormatterFactory
-     * @return <code>AbstractFormatterFactory</code> used to determine
-     *         <code>AbstractFormatter</code>s
+     * @sff #sftFormbttfrFbdtory
+     * @rfturn <dodf>AbstrbdtFormbttfrFbdtory</dodf> usfd to dftfrminf
+     *         <dodf>AbstrbdtFormbttfr</dodf>s
      */
-    public AbstractFormatterFactory getFormatterFactory() {
-        return factory;
+    publid AbstrbdtFormbttfrFbdtory gftFormbttfrFbdtory() {
+        rfturn fbdtory;
     }
 
     /**
-     * Sets the current <code>AbstractFormatter</code>.
+     * Sfts tif durrfnt <dodf>AbstrbdtFormbttfr</dodf>.
      * <p>
-     * You should not normally invoke this, instead set the
-     * <code>AbstractFormatterFactory</code> or set the value.
-     * <code>JFormattedTextField</code> will
-     * invoke this as the state of the <code>JFormattedTextField</code>
-     * changes and requires the value to be reset.
-     * <code>JFormattedTextField</code> passes in the
-     * <code>AbstractFormatter</code> obtained from the
-     * <code>AbstractFormatterFactory</code>.
+     * You siould not normblly invokf tiis, instfbd sft tif
+     * <dodf>AbstrbdtFormbttfrFbdtory</dodf> or sft tif vbluf.
+     * <dodf>JFormbttfdTfxtFifld</dodf> will
+     * invokf tiis bs tif stbtf of tif <dodf>JFormbttfdTfxtFifld</dodf>
+     * dibngfs bnd rfquirfs tif vbluf to bf rfsft.
+     * <dodf>JFormbttfdTfxtFifld</dodf> pbssfs in tif
+     * <dodf>AbstrbdtFormbttfr</dodf> obtbinfd from tif
+     * <dodf>AbstrbdtFormbttfrFbdtory</dodf>.
      * <p>
-     * This is a JavaBeans bound property.
+     * Tiis is b JbvbBfbns bound propfrty.
      *
-     * @see #setFormatterFactory
-     * @param format AbstractFormatter to use for formatting
-     * @beaninfo
-     *       bound: true
-     *   attribute: visualUpdate true
-     * description: TextFormatter, responsible for formatting the current value
+     * @sff #sftFormbttfrFbdtory
+     * @pbrbm formbt AbstrbdtFormbttfr to usf for formbtting
+     * @bfbninfo
+     *       bound: truf
+     *   bttributf: visublUpdbtf truf
+     * dfsdription: TfxtFormbttfr, rfsponsiblf for formbtting tif durrfnt vbluf
      */
-    protected void setFormatter(AbstractFormatter format) {
-        AbstractFormatter oldFormat = this.format;
+    protfdtfd void sftFormbttfr(AbstrbdtFormbttfr formbt) {
+        AbstrbdtFormbttfr oldFormbt = tiis.formbt;
 
-        if (oldFormat != null) {
-            oldFormat.uninstall();
+        if (oldFormbt != null) {
+            oldFormbt.uninstbll();
         }
-        setEditValid(true);
-        this.format = format;
-        if (format != null) {
-            format.install(this);
+        sftEditVblid(truf);
+        tiis.formbt = formbt;
+        if (formbt != null) {
+            formbt.instbll(tiis);
         }
-        setEdited(false);
-        firePropertyChange("textFormatter", oldFormat, format);
+        sftEditfd(fblsf);
+        firfPropfrtyCibngf("tfxtFormbttfr", oldFormbt, formbt);
     }
 
     /**
-     * Returns the <code>AbstractFormatter</code> that is used to format and
-     * parse the current value.
+     * Rfturns tif <dodf>AbstrbdtFormbttfr</dodf> tibt is usfd to formbt bnd
+     * pbrsf tif durrfnt vbluf.
      *
-     * @return AbstractFormatter used for formatting
+     * @rfturn AbstrbdtFormbttfr usfd for formbtting
      */
-    public AbstractFormatter getFormatter() {
-        return format;
+    publid AbstrbdtFormbttfr gftFormbttfr() {
+        rfturn formbt;
     }
 
     /**
-     * Sets the value that will be formatted by an
-     * <code>AbstractFormatter</code> obtained from the current
-     * <code>AbstractFormatterFactory</code>. If no
-     * <code>AbstractFormatterFactory</code> has been specified, this will
-     * attempt to create one based on the type of <code>value</code>.
+     * Sfts tif vbluf tibt will bf formbttfd by bn
+     * <dodf>AbstrbdtFormbttfr</dodf> obtbinfd from tif durrfnt
+     * <dodf>AbstrbdtFormbttfrFbdtory</dodf>. If no
+     * <dodf>AbstrbdtFormbttfrFbdtory</dodf> ibs bffn spfdififd, tiis will
+     * bttfmpt to drfbtf onf bbsfd on tif typf of <dodf>vbluf</dodf>.
      * <p>
-     * The default value of this property is null.
+     * Tif dffbult vbluf of tiis propfrty is null.
      * <p>
-     * This is a JavaBeans bound property.
+     * Tiis is b JbvbBfbns bound propfrty.
      *
-     * @param value Current value to display
-     * @beaninfo
-     *       bound: true
-     *   attribute: visualUpdate true
-     * description: The value to be formatted.
+     * @pbrbm vbluf Currfnt vbluf to displby
+     * @bfbninfo
+     *       bound: truf
+     *   bttributf: visublUpdbtf truf
+     * dfsdription: Tif vbluf to bf formbttfd.
      */
-    public void setValue(Object value) {
-        if (value != null && getFormatterFactory() == null) {
-            setFormatterFactory(getDefaultFormatterFactory(value));
+    publid void sftVbluf(Objfdt vbluf) {
+        if (vbluf != null && gftFormbttfrFbdtory() == null) {
+            sftFormbttfrFbdtory(gftDffbultFormbttfrFbdtory(vbluf));
         }
-        setValue(value, true, true);
+        sftVbluf(vbluf, truf, truf);
     }
 
     /**
-     * Returns the last valid value. Based on the editing policy of
-     * the <code>AbstractFormatter</code> this may not return the current
-     * value. The currently edited value can be obtained by invoking
-     * <code>commitEdit</code> followed by <code>getValue</code>.
+     * Rfturns tif lbst vblid vbluf. Bbsfd on tif fditing polidy of
+     * tif <dodf>AbstrbdtFormbttfr</dodf> tiis mby not rfturn tif durrfnt
+     * vbluf. Tif durrfntly fditfd vbluf dbn bf obtbinfd by invoking
+     * <dodf>dommitEdit</dodf> followfd by <dodf>gftVbluf</dodf>.
      *
-     * @return Last valid value
+     * @rfturn Lbst vblid vbluf
      */
-    public Object getValue() {
-        return value;
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Forces the current value to be taken from the
-     * <code>AbstractFormatter</code> and set as the current value.
-     * This has no effect if there is no current
-     * <code>AbstractFormatter</code> installed.
+     * Fordfs tif durrfnt vbluf to bf tbkfn from tif
+     * <dodf>AbstrbdtFormbttfr</dodf> bnd sft bs tif durrfnt vbluf.
+     * Tiis ibs no ffffdt if tifrf is no durrfnt
+     * <dodf>AbstrbdtFormbttfr</dodf> instbllfd.
      *
-     * @throws ParseException if the <code>AbstractFormatter</code> is not able
-     *         to format the current value
+     * @tirows PbrsfExdfption if tif <dodf>AbstrbdtFormbttfr</dodf> is not bblf
+     *         to formbt tif durrfnt vbluf
      */
-    public void commitEdit() throws ParseException {
-        AbstractFormatter format = getFormatter();
+    publid void dommitEdit() tirows PbrsfExdfption {
+        AbstrbdtFormbttfr formbt = gftFormbttfr();
 
-        if (format != null) {
-            setValue(format.stringToValue(getText()), false, true);
-        }
-    }
-
-    /**
-     * Sets the validity of the edit on the receiver. You should not normally
-     * invoke this. This will be invoked by the
-     * <code>AbstractFormatter</code> as the user edits the value.
-     * <p>
-     * Not all formatters will allow the component to get into an invalid
-     * state, and thus this may never be invoked.
-     * <p>
-     * Based on the look and feel this may visually change the state of
-     * the receiver.
-     *
-     * @param isValid boolean indicating if the currently edited value is
-     *        valid.
-     * @beaninfo
-     *       bound: true
-     *   attribute: visualUpdate true
-     * description: True indicates the edited value is valid
-     */
-    private void setEditValid(boolean isValid) {
-        if (isValid != editValid) {
-            editValid = isValid;
-            firePropertyChange("editValid", Boolean.valueOf(!isValid),
-                               Boolean.valueOf(isValid));
+        if (formbt != null) {
+            sftVbluf(formbt.stringToVbluf(gftTfxt()), fblsf, truf);
         }
     }
 
     /**
-     * Returns true if the current value being edited is valid. The value of
-     * this is managed by the current <code>AbstractFormatter</code>, as such
-     * there is no public setter for it.
+     * Sfts tif vblidity of tif fdit on tif rfdfivfr. You siould not normblly
+     * invokf tiis. Tiis will bf invokfd by tif
+     * <dodf>AbstrbdtFormbttfr</dodf> bs tif usfr fdits tif vbluf.
+     * <p>
+     * Not bll formbttfrs will bllow tif domponfnt to gft into bn invblid
+     * stbtf, bnd tius tiis mby nfvfr bf invokfd.
+     * <p>
+     * Bbsfd on tif look bnd fffl tiis mby visublly dibngf tif stbtf of
+     * tif rfdfivfr.
      *
-     * @return true if the current value being edited is valid.
+     * @pbrbm isVblid boolfbn indidbting if tif durrfntly fditfd vbluf is
+     *        vblid.
+     * @bfbninfo
+     *       bound: truf
+     *   bttributf: visublUpdbtf truf
+     * dfsdription: Truf indidbtfs tif fditfd vbluf is vblid
      */
-    public boolean isEditValid() {
-        return editValid;
+    privbtf void sftEditVblid(boolfbn isVblid) {
+        if (isVblid != fditVblid) {
+            fditVblid = isVblid;
+            firfPropfrtyCibngf("fditVblid", Boolfbn.vblufOf(!isVblid),
+                               Boolfbn.vblufOf(isVblid));
+        }
     }
 
     /**
-     * Invoked when the user inputs an invalid value. This gives the
-     * component a chance to provide feedback. The default
-     * implementation beeps.
+     * Rfturns truf if tif durrfnt vbluf bfing fditfd is vblid. Tif vbluf of
+     * tiis is mbnbgfd by tif durrfnt <dodf>AbstrbdtFormbttfr</dodf>, bs sudi
+     * tifrf is no publid sfttfr for it.
+     *
+     * @rfturn truf if tif durrfnt vbluf bfing fditfd is vblid.
      */
-    protected void invalidEdit() {
-        UIManager.getLookAndFeel().provideErrorFeedback(JFormattedTextField.this);
+    publid boolfbn isEditVblid() {
+        rfturn fditVblid;
     }
 
     /**
-     * Processes any input method events, such as
-     * <code>InputMethodEvent.INPUT_METHOD_TEXT_CHANGED</code> or
-     * <code>InputMethodEvent.CARET_POSITION_CHANGED</code>.
-     *
-     * @param e the <code>InputMethodEvent</code>
-     * @see InputMethodEvent
+     * Invokfd wifn tif usfr inputs bn invblid vbluf. Tiis givfs tif
+     * domponfnt b dibndf to providf fffdbbdk. Tif dffbult
+     * implfmfntbtion bffps.
      */
-    protected void processInputMethodEvent(InputMethodEvent e) {
-        AttributedCharacterIterator text = e.getText();
-        int commitCount = e.getCommittedCharacterCount();
+    protfdtfd void invblidEdit() {
+        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JFormbttfdTfxtFifld.tiis);
+    }
 
-        // Keep track of the composed text
-        if (text != null) {
-            int begin = text.getBeginIndex();
-            int end = text.getEndIndex();
-            composedTextExists = ((end - begin) > commitCount);
-        } else {
-            composedTextExists = false;
+    /**
+     * Prodfssfs bny input mftiod fvfnts, sudi bs
+     * <dodf>InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED</dodf> or
+     * <dodf>InputMftiodEvfnt.CARET_POSITION_CHANGED</dodf>.
+     *
+     * @pbrbm f tif <dodf>InputMftiodEvfnt</dodf>
+     * @sff InputMftiodEvfnt
+     */
+    protfdtfd void prodfssInputMftiodEvfnt(InputMftiodEvfnt f) {
+        AttributfdCibrbdtfrItfrbtor tfxt = f.gftTfxt();
+        int dommitCount = f.gftCommittfdCibrbdtfrCount();
+
+        // Kffp trbdk of tif domposfd tfxt
+        if (tfxt != null) {
+            int bfgin = tfxt.gftBfginIndfx();
+            int fnd = tfxt.gftEndIndfx();
+            domposfdTfxtExists = ((fnd - bfgin) > dommitCount);
+        } flsf {
+            domposfdTfxtExists = fblsf;
         }
 
-        super.processInputMethodEvent(e);
+        supfr.prodfssInputMftiodEvfnt(f);
     }
 
     /**
-     * Processes any focus events, such as
-     * <code>FocusEvent.FOCUS_GAINED</code> or
-     * <code>FocusEvent.FOCUS_LOST</code>.
+     * Prodfssfs bny fodus fvfnts, sudi bs
+     * <dodf>FodusEvfnt.FOCUS_GAINED</dodf> or
+     * <dodf>FodusEvfnt.FOCUS_LOST</dodf>.
      *
-     * @param e the <code>FocusEvent</code>
-     * @see FocusEvent
+     * @pbrbm f tif <dodf>FodusEvfnt</dodf>
+     * @sff FodusEvfnt
      */
-    protected void processFocusEvent(FocusEvent e) {
-        super.processFocusEvent(e);
+    protfdtfd void prodfssFodusEvfnt(FodusEvfnt f) {
+        supfr.prodfssFodusEvfnt(f);
 
-        // ignore temporary focus event
-        if (e.isTemporary()) {
-            return;
+        // ignorf tfmporbry fodus fvfnt
+        if (f.isTfmporbry()) {
+            rfturn;
         }
 
-        if (isEdited() && e.getID() == FocusEvent.FOCUS_LOST) {
-            InputContext ic = getInputContext();
-            if (focusLostHandler == null) {
-                focusLostHandler = new FocusLostHandler();
+        if (isEditfd() && f.gftID() == FodusEvfnt.FOCUS_LOST) {
+            InputContfxt id = gftInputContfxt();
+            if (fodusLostHbndlfr == null) {
+                fodusLostHbndlfr = nfw FodusLostHbndlfr();
             }
 
-            // if there is a composed text, process it first
-            if ((ic != null) && composedTextExists) {
-                ic.endComposition();
-                EventQueue.invokeLater(focusLostHandler);
-            } else {
-                focusLostHandler.run();
+            // if tifrf is b domposfd tfxt, prodfss it first
+            if ((id != null) && domposfdTfxtExists) {
+                id.fndComposition();
+                EvfntQufuf.invokfLbtfr(fodusLostHbndlfr);
+            } flsf {
+                fodusLostHbndlfr.run();
             }
         }
-        else if (!isEdited()) {
-            // reformat
-            setValue(getValue(), true, true);
+        flsf if (!isEditfd()) {
+            // rfformbt
+            sftVbluf(gftVbluf(), truf, truf);
         }
     }
 
     /**
-     * FOCUS_LOST behavior implementation
+     * FOCUS_LOST bfibvior implfmfntbtion
      */
-    private class FocusLostHandler implements Runnable, Serializable {
-        public void run() {
-            int fb = JFormattedTextField.this.getFocusLostBehavior();
-            if (fb == JFormattedTextField.COMMIT ||
-                fb == JFormattedTextField.COMMIT_OR_REVERT) {
+    privbtf dlbss FodusLostHbndlfr implfmfnts Runnbblf, Sfriblizbblf {
+        publid void run() {
+            int fb = JFormbttfdTfxtFifld.tiis.gftFodusLostBfibvior();
+            if (fb == JFormbttfdTfxtFifld.COMMIT ||
+                fb == JFormbttfdTfxtFifld.COMMIT_OR_REVERT) {
                 try {
-                    JFormattedTextField.this.commitEdit();
-                    // Give it a chance to reformat.
-                    JFormattedTextField.this.setValue(
-                        JFormattedTextField.this.getValue(), true, true);
-                } catch (ParseException pe) {
-                    if (fb == JFormattedTextField.COMMIT_OR_REVERT) {
-                        JFormattedTextField.this.setValue(
-                            JFormattedTextField.this.getValue(), true, true);
+                    JFormbttfdTfxtFifld.tiis.dommitEdit();
+                    // Givf it b dibndf to rfformbt.
+                    JFormbttfdTfxtFifld.tiis.sftVbluf(
+                        JFormbttfdTfxtFifld.tiis.gftVbluf(), truf, truf);
+                } dbtdi (PbrsfExdfption pf) {
+                    if (fb == JFormbttfdTfxtFifld.COMMIT_OR_REVERT) {
+                        JFormbttfdTfxtFifld.tiis.sftVbluf(
+                            JFormbttfdTfxtFifld.tiis.gftVbluf(), truf, truf);
                     }
                 }
             }
-            else if (fb == JFormattedTextField.REVERT) {
-                JFormattedTextField.this.setValue(
-                    JFormattedTextField.this.getValue(), true, true);
+            flsf if (fb == JFormbttfdTfxtFifld.REVERT) {
+                JFormbttfdTfxtFifld.tiis.sftVbluf(
+                    JFormbttfdTfxtFifld.tiis.gftVbluf(), truf, truf);
             }
         }
     }
 
     /**
-     * Fetches the command list for the editor.  This is
-     * the list of commands supported by the plugged-in UI
-     * augmented by the collection of commands that the
-     * editor itself supports.  These are useful for binding
-     * to events, such as in a keymap.
+     * Fftdifs tif dommbnd list for tif fditor.  Tiis is
+     * tif list of dommbnds supportfd by tif pluggfd-in UI
+     * bugmfntfd by tif dollfdtion of dommbnds tibt tif
+     * fditor itsflf supports.  Tifsf brf usfful for binding
+     * to fvfnts, sudi bs in b kfymbp.
      *
-     * @return the command list
+     * @rfturn tif dommbnd list
      */
-    public Action[] getActions() {
-        return TextAction.augmentList(super.getActions(), defaultActions);
+    publid Adtion[] gftAdtions() {
+        rfturn TfxtAdtion.bugmfntList(supfr.gftAdtions(), dffbultAdtions);
     }
 
     /**
-     * Gets the class ID for a UI.
+     * Gfts tif dlbss ID for b UI.
      *
-     * @return the string "FormattedTextFieldUI"
-     * @see JComponent#getUIClassID
+     * @rfturn tif string "FormbttfdTfxtFifldUI"
+     * @sff JComponfnt#gftUIClbssID
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
     /**
-     * Associates the editor with a text document.
-     * The currently registered factory is used to build a view for
-     * the document, which gets displayed by the editor after revalidation.
-     * A PropertyChange event ("document") is propagated to each listener.
+     * Assodibtfs tif fditor witi b tfxt dodumfnt.
+     * Tif durrfntly rfgistfrfd fbdtory is usfd to build b vifw for
+     * tif dodumfnt, wiidi gfts displbyfd by tif fditor bftfr rfvblidbtion.
+     * A PropfrtyCibngf fvfnt ("dodumfnt") is propbgbtfd to fbdi listfnfr.
      *
-     * @param doc  the document to display/edit
-     * @see #getDocument
-     * @beaninfo
-     *  description: the text document model
-     *        bound: true
-     *       expert: true
+     * @pbrbm dod  tif dodumfnt to displby/fdit
+     * @sff #gftDodumfnt
+     * @bfbninfo
+     *  dfsdription: tif tfxt dodumfnt modfl
+     *        bound: truf
+     *       fxpfrt: truf
      */
-    public void setDocument(Document doc) {
-        if (documentListener != null && getDocument() != null) {
-            getDocument().removeDocumentListener(documentListener);
+    publid void sftDodumfnt(Dodumfnt dod) {
+        if (dodumfntListfnfr != null && gftDodumfnt() != null) {
+            gftDodumfnt().rfmovfDodumfntListfnfr(dodumfntListfnfr);
         }
-        super.setDocument(doc);
-        if (documentListener == null) {
-            documentListener = new DocumentHandler();
+        supfr.sftDodumfnt(dod);
+        if (dodumfntListfnfr == null) {
+            dodumfntListfnfr = nfw DodumfntHbndlfr();
         }
-        doc.addDocumentListener(documentListener);
+        dod.bddDodumfntListfnfr(dodumfntListfnfr);
     }
 
     /*
-     * See readObject and writeObject in JComponent for more
-     * information about serialization in Swing.
+     * Sff rfbdObjfdt bnd writfObjfdt in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
      *
-     * @param s Stream to write to
+     * @pbrbm s Strfbm to writf to
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
     /**
-     * Resets the Actions that come from the TextFormatter to
-     * <code>actions</code>.
+     * Rfsfts tif Adtions tibt domf from tif TfxtFormbttfr to
+     * <dodf>bdtions</dodf>.
      */
-    private void setFormatterActions(Action[] actions) {
-        if (actions == null) {
-            if (textFormatterActionMap != null) {
-                textFormatterActionMap.clear();
+    privbtf void sftFormbttfrAdtions(Adtion[] bdtions) {
+        if (bdtions == null) {
+            if (tfxtFormbttfrAdtionMbp != null) {
+                tfxtFormbttfrAdtionMbp.dlfbr();
             }
         }
-        else {
-            if (textFormatterActionMap == null) {
-                ActionMap map = getActionMap();
+        flsf {
+            if (tfxtFormbttfrAdtionMbp == null) {
+                AdtionMbp mbp = gftAdtionMbp();
 
-                textFormatterActionMap = new ActionMap();
-                while (map != null) {
-                    ActionMap parent = map.getParent();
+                tfxtFormbttfrAdtionMbp = nfw AdtionMbp();
+                wiilf (mbp != null) {
+                    AdtionMbp pbrfnt = mbp.gftPbrfnt();
 
-                    if (parent instanceof UIResource || parent == null) {
-                        map.setParent(textFormatterActionMap);
-                        textFormatterActionMap.setParent(parent);
-                        break;
+                    if (pbrfnt instbndfof UIRfsourdf || pbrfnt == null) {
+                        mbp.sftPbrfnt(tfxtFormbttfrAdtionMbp);
+                        tfxtFormbttfrAdtionMbp.sftPbrfnt(pbrfnt);
+                        brfbk;
                     }
-                    map = parent;
+                    mbp = pbrfnt;
                 }
             }
-            for (int counter = actions.length - 1; counter >= 0;
-                 counter--) {
-                Object key = actions[counter].getValue(Action.NAME);
+            for (int dountfr = bdtions.lfngti - 1; dountfr >= 0;
+                 dountfr--) {
+                Objfdt kfy = bdtions[dountfr].gftVbluf(Adtion.NAME);
 
-                if (key != null) {
-                    textFormatterActionMap.put(key, actions[counter]);
+                if (kfy != null) {
+                    tfxtFormbttfrAdtionMbp.put(kfy, bdtions[dountfr]);
                 }
             }
         }
     }
 
     /**
-     * Does the setting of the value. If <code>createFormat</code> is true,
-     * this will also obtain a new <code>AbstractFormatter</code> from the
-     * current factory. The property change event will be fired if
-     * <code>firePC</code> is true.
+     * Dofs tif sftting of tif vbluf. If <dodf>drfbtfFormbt</dodf> is truf,
+     * tiis will blso obtbin b nfw <dodf>AbstrbdtFormbttfr</dodf> from tif
+     * durrfnt fbdtory. Tif propfrty dibngf fvfnt will bf firfd if
+     * <dodf>firfPC</dodf> is truf.
      */
-    private void setValue(Object value, boolean createFormat, boolean firePC) {
-        Object oldValue = this.value;
+    privbtf void sftVbluf(Objfdt vbluf, boolfbn drfbtfFormbt, boolfbn firfPC) {
+        Objfdt oldVbluf = tiis.vbluf;
 
-        this.value = value;
+        tiis.vbluf = vbluf;
 
-        if (createFormat) {
-            AbstractFormatterFactory factory = getFormatterFactory();
-            AbstractFormatter atf;
+        if (drfbtfFormbt) {
+            AbstrbdtFormbttfrFbdtory fbdtory = gftFormbttfrFbdtory();
+            AbstrbdtFormbttfr btf;
 
-            if (factory != null) {
-                atf = factory.getFormatter(this);
+            if (fbdtory != null) {
+                btf = fbdtory.gftFormbttfr(tiis);
             }
-            else {
-                atf = null;
+            flsf {
+                btf = null;
             }
-            setFormatter(atf);
+            sftFormbttfr(btf);
         }
-        else {
-            // Assumed to be valid
-            setEditValid(true);
+        flsf {
+            // Assumfd to bf vblid
+            sftEditVblid(truf);
         }
 
-        setEdited(false);
+        sftEditfd(fblsf);
 
-        if (firePC) {
-            firePropertyChange("value", oldValue, value);
+        if (firfPC) {
+            firfPropfrtyCibngf("vbluf", oldVbluf, vbluf);
         }
     }
 
     /**
-     * Sets the edited state of the receiver.
+     * Sfts tif fditfd stbtf of tif rfdfivfr.
      */
-    private void setEdited(boolean edited) {
-        this.edited = edited;
+    privbtf void sftEditfd(boolfbn fditfd) {
+        tiis.fditfd = fditfd;
     }
 
     /**
-     * Returns true if the receiver has been edited.
+     * Rfturns truf if tif rfdfivfr ibs bffn fditfd.
      */
-    private boolean isEdited() {
-        return edited;
+    privbtf boolfbn isEditfd() {
+        rfturn fditfd;
     }
 
     /**
-     * Returns an AbstractFormatterFactory suitable for the passed in
-     * Object type.
+     * Rfturns bn AbstrbdtFormbttfrFbdtory suitbblf for tif pbssfd in
+     * Objfdt typf.
      */
-    private AbstractFormatterFactory getDefaultFormatterFactory(Object type) {
-        if (type instanceof DateFormat) {
-            return new DefaultFormatterFactory(new DateFormatter
-                                               ((DateFormat)type));
+    privbtf AbstrbdtFormbttfrFbdtory gftDffbultFormbttfrFbdtory(Objfdt typf) {
+        if (typf instbndfof DbtfFormbt) {
+            rfturn nfw DffbultFormbttfrFbdtory(nfw DbtfFormbttfr
+                                               ((DbtfFormbt)typf));
         }
-        if (type instanceof NumberFormat) {
-            return new DefaultFormatterFactory(new NumberFormatter(
-                                               (NumberFormat)type));
+        if (typf instbndfof NumbfrFormbt) {
+            rfturn nfw DffbultFormbttfrFbdtory(nfw NumbfrFormbttfr(
+                                               (NumbfrFormbt)typf));
         }
-        if (type instanceof Format) {
-            return new DefaultFormatterFactory(new InternationalFormatter(
-                                               (Format)type));
+        if (typf instbndfof Formbt) {
+            rfturn nfw DffbultFormbttfrFbdtory(nfw IntfrnbtionblFormbttfr(
+                                               (Formbt)typf));
         }
-        if (type instanceof Date) {
-            return new DefaultFormatterFactory(new DateFormatter());
+        if (typf instbndfof Dbtf) {
+            rfturn nfw DffbultFormbttfrFbdtory(nfw DbtfFormbttfr());
         }
-        if (type instanceof Number) {
-            AbstractFormatter displayFormatter = new NumberFormatter();
-            ((NumberFormatter)displayFormatter).setValueClass(type.getClass());
-            AbstractFormatter editFormatter = new NumberFormatter(
-                                  new DecimalFormat("#.#"));
-            ((NumberFormatter)editFormatter).setValueClass(type.getClass());
+        if (typf instbndfof Numbfr) {
+            AbstrbdtFormbttfr displbyFormbttfr = nfw NumbfrFormbttfr();
+            ((NumbfrFormbttfr)displbyFormbttfr).sftVblufClbss(typf.gftClbss());
+            AbstrbdtFormbttfr fditFormbttfr = nfw NumbfrFormbttfr(
+                                  nfw DfdimblFormbt("#.#"));
+            ((NumbfrFormbttfr)fditFormbttfr).sftVblufClbss(typf.gftClbss());
 
-            return new DefaultFormatterFactory(displayFormatter,
-                                               displayFormatter,editFormatter);
+            rfturn nfw DffbultFormbttfrFbdtory(displbyFormbttfr,
+                                               displbyFormbttfr,fditFormbttfr);
         }
-        return new DefaultFormatterFactory(new DefaultFormatter());
+        rfturn nfw DffbultFormbttfrFbdtory(nfw DffbultFormbttfr());
     }
 
 
     /**
-     * Instances of <code>AbstractFormatterFactory</code> are used by
-     * <code>JFormattedTextField</code> to obtain instances of
-     * <code>AbstractFormatter</code> which in turn are used to format values.
-     * <code>AbstractFormatterFactory</code> can return different
-     * <code>AbstractFormatter</code>s based on the state of the
-     * <code>JFormattedTextField</code>, perhaps returning different
-     * <code>AbstractFormatter</code>s when the
-     * <code>JFormattedTextField</code> has focus vs when it
-     * doesn't have focus.
-     * @since 1.4
+     * Instbndfs of <dodf>AbstrbdtFormbttfrFbdtory</dodf> brf usfd by
+     * <dodf>JFormbttfdTfxtFifld</dodf> to obtbin instbndfs of
+     * <dodf>AbstrbdtFormbttfr</dodf> wiidi in turn brf usfd to formbt vblufs.
+     * <dodf>AbstrbdtFormbttfrFbdtory</dodf> dbn rfturn difffrfnt
+     * <dodf>AbstrbdtFormbttfr</dodf>s bbsfd on tif stbtf of tif
+     * <dodf>JFormbttfdTfxtFifld</dodf>, pfribps rfturning difffrfnt
+     * <dodf>AbstrbdtFormbttfr</dodf>s wifn tif
+     * <dodf>JFormbttfdTfxtFifld</dodf> ibs fodus vs wifn it
+     * dofsn't ibvf fodus.
+     * @sindf 1.4
      */
-    public static abstract class AbstractFormatterFactory {
+    publid stbtid bbstrbdt dlbss AbstrbdtFormbttfrFbdtory {
         /**
-         * Returns an <code>AbstractFormatter</code> that can handle formatting
-         * of the passed in <code>JFormattedTextField</code>.
+         * Rfturns bn <dodf>AbstrbdtFormbttfr</dodf> tibt dbn ibndlf formbtting
+         * of tif pbssfd in <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @param tf JFormattedTextField requesting AbstractFormatter
-         * @return AbstractFormatter to handle formatting duties, a null
-         *         return value implies the JFormattedTextField should behave
-         *         like a normal JTextField
+         * @pbrbm tf JFormbttfdTfxtFifld rfqufsting AbstrbdtFormbttfr
+         * @rfturn AbstrbdtFormbttfr to ibndlf formbtting dutifs, b null
+         *         rfturn vbluf implifs tif JFormbttfdTfxtFifld siould bfibvf
+         *         likf b normbl JTfxtFifld
          */
-        public abstract AbstractFormatter getFormatter(JFormattedTextField tf);
+        publid bbstrbdt AbstrbdtFormbttfr gftFormbttfr(JFormbttfdTfxtFifld tf);
     }
 
 
     /**
-     * Instances of <code>AbstractFormatter</code> are used by
-     * <code>JFormattedTextField</code> to handle the conversion both
-     * from an Object to a String, and back from a String to an Object.
-     * <code>AbstractFormatter</code>s can also enforce editing policies,
-     * or navigation policies, or manipulate the
-     * <code>JFormattedTextField</code> in any way it sees fit to
-     * enforce the desired policy.
+     * Instbndfs of <dodf>AbstrbdtFormbttfr</dodf> brf usfd by
+     * <dodf>JFormbttfdTfxtFifld</dodf> to ibndlf tif donvfrsion boti
+     * from bn Objfdt to b String, bnd bbdk from b String to bn Objfdt.
+     * <dodf>AbstrbdtFormbttfr</dodf>s dbn blso fnfordf fditing polidifs,
+     * or nbvigbtion polidifs, or mbnipulbtf tif
+     * <dodf>JFormbttfdTfxtFifld</dodf> in bny wby it sffs fit to
+     * fnfordf tif dfsirfd polidy.
      * <p>
-     * An <code>AbstractFormatter</code> can only be active in
-     * one <code>JFormattedTextField</code> at a time.
-     * <code>JFormattedTextField</code> invokes
-     * <code>install</code> when it is ready to use it followed
-     * by <code>uninstall</code> when done. Subclasses
-     * that wish to install additional state should override
-     * <code>install</code> and message super appropriately.
+     * An <dodf>AbstrbdtFormbttfr</dodf> dbn only bf bdtivf in
+     * onf <dodf>JFormbttfdTfxtFifld</dodf> bt b timf.
+     * <dodf>JFormbttfdTfxtFifld</dodf> invokfs
+     * <dodf>instbll</dodf> wifn it is rfbdy to usf it followfd
+     * by <dodf>uninstbll</dodf> wifn donf. Subdlbssfs
+     * tibt wisi to instbll bdditionbl stbtf siould ovfrridf
+     * <dodf>instbll</dodf> bnd mfssbgf supfr bppropribtfly.
      * <p>
-     * Subclasses must override the conversion methods
-     * <code>stringToValue</code> and <code>valueToString</code>. Optionally
-     * they can override <code>getActions</code>,
-     * <code>getNavigationFilter</code> and <code>getDocumentFilter</code>
-     * to restrict the <code>JFormattedTextField</code> in a particular
-     * way.
+     * Subdlbssfs must ovfrridf tif donvfrsion mftiods
+     * <dodf>stringToVbluf</dodf> bnd <dodf>vblufToString</dodf>. Optionblly
+     * tify dbn ovfrridf <dodf>gftAdtions</dodf>,
+     * <dodf>gftNbvigbtionFiltfr</dodf> bnd <dodf>gftDodumfntFiltfr</dodf>
+     * to rfstridt tif <dodf>JFormbttfdTfxtFifld</dodf> in b pbrtidulbr
+     * wby.
      * <p>
-     * Subclasses that allow the <code>JFormattedTextField</code> to be in
-     * a temporarily invalid state should invoke <code>setEditValid</code>
-     * at the appropriate times.
-     * @since 1.4
+     * Subdlbssfs tibt bllow tif <dodf>JFormbttfdTfxtFifld</dodf> to bf in
+     * b tfmporbrily invblid stbtf siould invokf <dodf>sftEditVblid</dodf>
+     * bt tif bppropribtf timfs.
+     * @sindf 1.4
      */
-    public static abstract class AbstractFormatter implements Serializable {
-        private JFormattedTextField ftf;
+    publid stbtid bbstrbdt dlbss AbstrbdtFormbttfr implfmfnts Sfriblizbblf {
+        privbtf JFormbttfdTfxtFifld ftf;
 
         /**
-         * Installs the <code>AbstractFormatter</code> onto a particular
-         * <code>JFormattedTextField</code>.
-         * This will invoke <code>valueToString</code> to convert the
-         * current value from the <code>JFormattedTextField</code> to
-         * a String. This will then install the <code>Action</code>s from
-         * <code>getActions</code>, the <code>DocumentFilter</code>
-         * returned from <code>getDocumentFilter</code> and the
-         * <code>NavigationFilter</code> returned from
-         * <code>getNavigationFilter</code> onto the
-         * <code>JFormattedTextField</code>.
+         * Instblls tif <dodf>AbstrbdtFormbttfr</dodf> onto b pbrtidulbr
+         * <dodf>JFormbttfdTfxtFifld</dodf>.
+         * Tiis will invokf <dodf>vblufToString</dodf> to donvfrt tif
+         * durrfnt vbluf from tif <dodf>JFormbttfdTfxtFifld</dodf> to
+         * b String. Tiis will tifn instbll tif <dodf>Adtion</dodf>s from
+         * <dodf>gftAdtions</dodf>, tif <dodf>DodumfntFiltfr</dodf>
+         * rfturnfd from <dodf>gftDodumfntFiltfr</dodf> bnd tif
+         * <dodf>NbvigbtionFiltfr</dodf> rfturnfd from
+         * <dodf>gftNbvigbtionFiltfr</dodf> onto tif
+         * <dodf>JFormbttfdTfxtFifld</dodf>.
          * <p>
-         * Subclasses will typically only need to override this if they
-         * wish to install additional listeners on the
-         * <code>JFormattedTextField</code>.
+         * Subdlbssfs will typidblly only nffd to ovfrridf tiis if tify
+         * wisi to instbll bdditionbl listfnfrs on tif
+         * <dodf>JFormbttfdTfxtFifld</dodf>.
          * <p>
-         * If there is a <code>ParseException</code> in converting the
-         * current value to a String, this will set the text to an empty
-         * String, and mark the <code>JFormattedTextField</code> as being
-         * in an invalid state.
+         * If tifrf is b <dodf>PbrsfExdfption</dodf> in donvfrting tif
+         * durrfnt vbluf to b String, tiis will sft tif tfxt to bn fmpty
+         * String, bnd mbrk tif <dodf>JFormbttfdTfxtFifld</dodf> bs bfing
+         * in bn invblid stbtf.
          * <p>
-         * While this is a public method, this is typically only useful
-         * for subclassers of <code>JFormattedTextField</code>.
-         * <code>JFormattedTextField</code> will invoke this method at
-         * the appropriate times when the value changes, or its internal
-         * state changes.  You will only need to invoke this yourself if
-         * you are subclassing <code>JFormattedTextField</code> and
-         * installing/uninstalling <code>AbstractFormatter</code> at a
-         * different time than <code>JFormattedTextField</code> does.
+         * Wiilf tiis is b publid mftiod, tiis is typidblly only usfful
+         * for subdlbssfrs of <dodf>JFormbttfdTfxtFifld</dodf>.
+         * <dodf>JFormbttfdTfxtFifld</dodf> will invokf tiis mftiod bt
+         * tif bppropribtf timfs wifn tif vbluf dibngfs, or its intfrnbl
+         * stbtf dibngfs.  You will only nffd to invokf tiis yoursflf if
+         * you brf subdlbssing <dodf>JFormbttfdTfxtFifld</dodf> bnd
+         * instblling/uninstblling <dodf>AbstrbdtFormbttfr</dodf> bt b
+         * difffrfnt timf tibn <dodf>JFormbttfdTfxtFifld</dodf> dofs.
          *
-         * @param ftf JFormattedTextField to format for, may be null indicating
-         *            uninstall from current JFormattedTextField.
+         * @pbrbm ftf JFormbttfdTfxtFifld to formbt for, mby bf null indidbting
+         *            uninstbll from durrfnt JFormbttfdTfxtFifld.
          */
-        public void install(JFormattedTextField ftf) {
-            if (this.ftf != null) {
-                uninstall();
+        publid void instbll(JFormbttfdTfxtFifld ftf) {
+            if (tiis.ftf != null) {
+                uninstbll();
             }
-            this.ftf = ftf;
+            tiis.ftf = ftf;
             if (ftf != null) {
                 try {
-                    ftf.setText(valueToString(ftf.getValue()));
-                } catch (ParseException pe) {
-                    ftf.setText("");
-                    setEditValid(false);
+                    ftf.sftTfxt(vblufToString(ftf.gftVbluf()));
+                } dbtdi (PbrsfExdfption pf) {
+                    ftf.sftTfxt("");
+                    sftEditVblid(fblsf);
                 }
-                installDocumentFilter(getDocumentFilter());
-                ftf.setNavigationFilter(getNavigationFilter());
-                ftf.setFormatterActions(getActions());
+                instbllDodumfntFiltfr(gftDodumfntFiltfr());
+                ftf.sftNbvigbtionFiltfr(gftNbvigbtionFiltfr());
+                ftf.sftFormbttfrAdtions(gftAdtions());
             }
         }
 
         /**
-         * Uninstalls any state the <code>AbstractFormatter</code> may have
-         * installed on the <code>JFormattedTextField</code>. This resets the
-         * <code>DocumentFilter</code>, <code>NavigationFilter</code>
-         * and additional <code>Action</code>s installed on the
-         * <code>JFormattedTextField</code>.
+         * Uninstblls bny stbtf tif <dodf>AbstrbdtFormbttfr</dodf> mby ibvf
+         * instbllfd on tif <dodf>JFormbttfdTfxtFifld</dodf>. Tiis rfsfts tif
+         * <dodf>DodumfntFiltfr</dodf>, <dodf>NbvigbtionFiltfr</dodf>
+         * bnd bdditionbl <dodf>Adtion</dodf>s instbllfd on tif
+         * <dodf>JFormbttfdTfxtFifld</dodf>.
          */
-        public void uninstall() {
-            if (this.ftf != null) {
-                installDocumentFilter(null);
-                this.ftf.setNavigationFilter(null);
-                this.ftf.setFormatterActions(null);
+        publid void uninstbll() {
+            if (tiis.ftf != null) {
+                instbllDodumfntFiltfr(null);
+                tiis.ftf.sftNbvigbtionFiltfr(null);
+                tiis.ftf.sftFormbttfrAdtions(null);
             }
         }
 
         /**
-         * Parses <code>text</code> returning an arbitrary Object. Some
-         * formatters may return null.
+         * Pbrsfs <dodf>tfxt</dodf> rfturning bn brbitrbry Objfdt. Somf
+         * formbttfrs mby rfturn null.
          *
-         * @throws ParseException if there is an error in the conversion
-         * @param text String to convert
-         * @return Object representation of text
+         * @tirows PbrsfExdfption if tifrf is bn frror in tif donvfrsion
+         * @pbrbm tfxt String to donvfrt
+         * @rfturn Objfdt rfprfsfntbtion of tfxt
          */
-        public abstract Object stringToValue(String text) throws
-                                     ParseException;
+        publid bbstrbdt Objfdt stringToVbluf(String tfxt) tirows
+                                     PbrsfExdfption;
 
         /**
-         * Returns the string value to display for <code>value</code>.
+         * Rfturns tif string vbluf to displby for <dodf>vbluf</dodf>.
          *
-         * @throws ParseException if there is an error in the conversion
-         * @param value Value to convert
-         * @return String representation of value
+         * @tirows PbrsfExdfption if tifrf is bn frror in tif donvfrsion
+         * @pbrbm vbluf Vbluf to donvfrt
+         * @rfturn String rfprfsfntbtion of vbluf
          */
-        public abstract String valueToString(Object value) throws
-                        ParseException;
+        publid bbstrbdt String vblufToString(Objfdt vbluf) tirows
+                        PbrsfExdfption;
 
         /**
-         * Returns the current <code>JFormattedTextField</code> the
-         * <code>AbstractFormatter</code> is installed on.
+         * Rfturns tif durrfnt <dodf>JFormbttfdTfxtFifld</dodf> tif
+         * <dodf>AbstrbdtFormbttfr</dodf> is instbllfd on.
          *
-         * @return JFormattedTextField formatting for.
+         * @rfturn JFormbttfdTfxtFifld formbtting for.
          */
-        protected JFormattedTextField getFormattedTextField() {
-            return ftf;
+        protfdtfd JFormbttfdTfxtFifld gftFormbttfdTfxtFifld() {
+            rfturn ftf;
         }
 
         /**
-         * This should be invoked when the user types an invalid character.
-         * This forwards the call to the current JFormattedTextField.
+         * Tiis siould bf invokfd wifn tif usfr typfs bn invblid dibrbdtfr.
+         * Tiis forwbrds tif dbll to tif durrfnt JFormbttfdTfxtFifld.
          */
-        protected void invalidEdit() {
-            JFormattedTextField ftf = getFormattedTextField();
+        protfdtfd void invblidEdit() {
+            JFormbttfdTfxtFifld ftf = gftFormbttfdTfxtFifld();
 
             if (ftf != null) {
-                ftf.invalidEdit();
+                ftf.invblidEdit();
             }
         }
 
         /**
-         * Invoke this to update the <code>editValid</code> property of the
-         * <code>JFormattedTextField</code>. If you an enforce a policy
-         * such that the <code>JFormattedTextField</code> is always in a
-         * valid state, you will never need to invoke this.
+         * Invokf tiis to updbtf tif <dodf>fditVblid</dodf> propfrty of tif
+         * <dodf>JFormbttfdTfxtFifld</dodf>. If you bn fnfordf b polidy
+         * sudi tibt tif <dodf>JFormbttfdTfxtFifld</dodf> is blwbys in b
+         * vblid stbtf, you will nfvfr nffd to invokf tiis.
          *
-         * @param valid Valid state of the JFormattedTextField
+         * @pbrbm vblid Vblid stbtf of tif JFormbttfdTfxtFifld
          */
-        protected void setEditValid(boolean valid) {
-            JFormattedTextField ftf = getFormattedTextField();
+        protfdtfd void sftEditVblid(boolfbn vblid) {
+            JFormbttfdTfxtFifld ftf = gftFormbttfdTfxtFifld();
 
             if (ftf != null) {
-                ftf.setEditValid(valid);
+                ftf.sftEditVblid(vblid);
             }
         }
 
         /**
-         * Subclass and override if you wish to provide a custom set of
-         * <code>Action</code>s. <code>install</code> will install these
-         * on the <code>JFormattedTextField</code>'s <code>ActionMap</code>.
+         * Subdlbss bnd ovfrridf if you wisi to providf b dustom sft of
+         * <dodf>Adtion</dodf>s. <dodf>instbll</dodf> will instbll tifsf
+         * on tif <dodf>JFormbttfdTfxtFifld</dodf>'s <dodf>AdtionMbp</dodf>.
          *
-         * @return Array of Actions to install on JFormattedTextField
+         * @rfturn Arrby of Adtions to instbll on JFormbttfdTfxtFifld
          */
-        protected Action[] getActions() {
-            return null;
+        protfdtfd Adtion[] gftAdtions() {
+            rfturn null;
         }
 
         /**
-         * Subclass and override if you wish to provide a
-         * <code>DocumentFilter</code> to restrict what can be input.
-         * <code>install</code> will install the returned value onto
-         * the <code>JFormattedTextField</code>.
+         * Subdlbss bnd ovfrridf if you wisi to providf b
+         * <dodf>DodumfntFiltfr</dodf> to rfstridt wibt dbn bf input.
+         * <dodf>instbll</dodf> will instbll tif rfturnfd vbluf onto
+         * tif <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @return DocumentFilter to restrict edits
+         * @rfturn DodumfntFiltfr to rfstridt fdits
          */
-        protected DocumentFilter getDocumentFilter() {
-            return null;
+        protfdtfd DodumfntFiltfr gftDodumfntFiltfr() {
+            rfturn null;
         }
 
         /**
-         * Subclass and override if you wish to provide a filter to restrict
-         * where the user can navigate to.
-         * <code>install</code> will install the returned value onto
-         * the <code>JFormattedTextField</code>.
+         * Subdlbss bnd ovfrridf if you wisi to providf b filtfr to rfstridt
+         * wifrf tif usfr dbn nbvigbtf to.
+         * <dodf>instbll</dodf> will instbll tif rfturnfd vbluf onto
+         * tif <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @return NavigationFilter to restrict navigation
+         * @rfturn NbvigbtionFiltfr to rfstridt nbvigbtion
          */
-        protected NavigationFilter getNavigationFilter() {
-            return null;
+        protfdtfd NbvigbtionFiltfr gftNbvigbtionFiltfr() {
+            rfturn null;
         }
 
         /**
-         * Clones the <code>AbstractFormatter</code>. The returned instance
-         * is not associated with a <code>JFormattedTextField</code>.
+         * Clonfs tif <dodf>AbstrbdtFormbttfr</dodf>. Tif rfturnfd instbndf
+         * is not bssodibtfd witi b <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @return Copy of the AbstractFormatter
+         * @rfturn Copy of tif AbstrbdtFormbttfr
          */
-        protected Object clone() throws CloneNotSupportedException {
-            AbstractFormatter formatter = (AbstractFormatter)super.clone();
+        protfdtfd Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+            AbstrbdtFormbttfr formbttfr = (AbstrbdtFormbttfr)supfr.dlonf();
 
-            formatter.ftf = null;
-            return formatter;
+            formbttfr.ftf = null;
+            rfturn formbttfr;
         }
 
         /**
-         * Installs the <code>DocumentFilter</code> <code>filter</code>
-         * onto the current <code>JFormattedTextField</code>.
+         * Instblls tif <dodf>DodumfntFiltfr</dodf> <dodf>filtfr</dodf>
+         * onto tif durrfnt <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @param filter DocumentFilter to install on the Document.
+         * @pbrbm filtfr DodumfntFiltfr to instbll on tif Dodumfnt.
          */
-        private void installDocumentFilter(DocumentFilter filter) {
-            JFormattedTextField ftf = getFormattedTextField();
+        privbtf void instbllDodumfntFiltfr(DodumfntFiltfr filtfr) {
+            JFormbttfdTfxtFifld ftf = gftFormbttfdTfxtFifld();
 
             if (ftf != null) {
-                Document doc = ftf.getDocument();
+                Dodumfnt dod = ftf.gftDodumfnt();
 
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).setDocumentFilter(filter);
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    ((AbstrbdtDodumfnt)dod).sftDodumfntFiltfr(filtfr);
                 }
-                doc.putProperty(DocumentFilter.class, null);
+                dod.putPropfrty(DodumfntFiltfr.dlbss, null);
             }
         }
     }
 
 
     /**
-     * Used to commit the edit. This extends JTextField.NotifyAction
-     * so that <code>isEnabled</code> is true while a JFormattedTextField
-     * has focus, and extends <code>actionPerformed</code> to invoke
-     * commitEdit.
+     * Usfd to dommit tif fdit. Tiis fxtfnds JTfxtFifld.NotifyAdtion
+     * so tibt <dodf>isEnbblfd</dodf> is truf wiilf b JFormbttfdTfxtFifld
+     * ibs fodus, bnd fxtfnds <dodf>bdtionPfrformfd</dodf> to invokf
+     * dommitEdit.
      */
-    static class CommitAction extends JTextField.NotifyAction {
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getFocusedComponent();
+    stbtid dlbss CommitAdtion fxtfnds JTfxtFifld.NotifyAdtion {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftFodusfdComponfnt();
 
-            if (target instanceof JFormattedTextField) {
-                // Attempt to commit the value
+            if (tbrgft instbndfof JFormbttfdTfxtFifld) {
+                // Attfmpt to dommit tif vbluf
                 try {
-                    ((JFormattedTextField)target).commitEdit();
-                } catch (ParseException pe) {
-                    ((JFormattedTextField)target).invalidEdit();
-                    // value not committed, don't notify ActionListeners
-                    return;
+                    ((JFormbttfdTfxtFifld)tbrgft).dommitEdit();
+                } dbtdi (PbrsfExdfption pf) {
+                    ((JFormbttfdTfxtFifld)tbrgft).invblidEdit();
+                    // vbluf not dommittfd, don't notify AdtionListfnfrs
+                    rfturn;
                 }
             }
-            // Super behavior.
-            super.actionPerformed(e);
+            // Supfr bfibvior.
+            supfr.bdtionPfrformfd(f);
         }
 
-        public boolean isEnabled() {
-            JTextComponent target = getFocusedComponent();
-            if (target instanceof JFormattedTextField) {
-                JFormattedTextField ftf = (JFormattedTextField)target;
-                if (!ftf.isEdited()) {
-                    return false;
+        publid boolfbn isEnbblfd() {
+            JTfxtComponfnt tbrgft = gftFodusfdComponfnt();
+            if (tbrgft instbndfof JFormbttfdTfxtFifld) {
+                JFormbttfdTfxtFifld ftf = (JFormbttfdTfxtFifld)tbrgft;
+                if (!ftf.isEditfd()) {
+                    rfturn fblsf;
                 }
-                return true;
+                rfturn truf;
             }
-            return super.isEnabled();
+            rfturn supfr.isEnbblfd();
         }
     }
 
 
     /**
-     * CancelAction will reset the value in the JFormattedTextField when
-     * <code>actionPerformed</code> is invoked. It will only be
-     * enabled if the focused component is an instance of
-     * JFormattedTextField.
+     * CbndflAdtion will rfsft tif vbluf in tif JFormbttfdTfxtFifld wifn
+     * <dodf>bdtionPfrformfd</dodf> is invokfd. It will only bf
+     * fnbblfd if tif fodusfd domponfnt is bn instbndf of
+     * JFormbttfdTfxtFifld.
      */
-    private static class CancelAction extends TextAction {
-        public CancelAction() {
-            super("reset-field-edit");
+    privbtf stbtid dlbss CbndflAdtion fxtfnds TfxtAdtion {
+        publid CbndflAdtion() {
+            supfr("rfsft-fifld-fdit");
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getFocusedComponent();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftFodusfdComponfnt();
 
-            if (target instanceof JFormattedTextField) {
-                JFormattedTextField ftf = (JFormattedTextField)target;
-                ftf.setValue(ftf.getValue());
+            if (tbrgft instbndfof JFormbttfdTfxtFifld) {
+                JFormbttfdTfxtFifld ftf = (JFormbttfdTfxtFifld)tbrgft;
+                ftf.sftVbluf(ftf.gftVbluf());
             }
         }
 
-        public boolean isEnabled() {
-            JTextComponent target = getFocusedComponent();
-            if (target instanceof JFormattedTextField) {
-                JFormattedTextField ftf = (JFormattedTextField)target;
-                if (!ftf.isEdited()) {
-                    return false;
+        publid boolfbn isEnbblfd() {
+            JTfxtComponfnt tbrgft = gftFodusfdComponfnt();
+            if (tbrgft instbndfof JFormbttfdTfxtFifld) {
+                JFormbttfdTfxtFifld ftf = (JFormbttfdTfxtFifld)tbrgft;
+                if (!ftf.isEditfd()) {
+                    rfturn fblsf;
                 }
-                return true;
+                rfturn truf;
             }
-            return super.isEnabled();
+            rfturn supfr.isEnbblfd();
         }
     }
 
 
     /**
-     * Sets the dirty state as the document changes.
+     * Sfts tif dirty stbtf bs tif dodumfnt dibngfs.
      */
-    private class DocumentHandler implements DocumentListener, Serializable {
-        public void insertUpdate(DocumentEvent e) {
-            setEdited(true);
+    privbtf dlbss DodumfntHbndlfr implfmfnts DodumfntListfnfr, Sfriblizbblf {
+        publid void insfrtUpdbtf(DodumfntEvfnt f) {
+            sftEditfd(truf);
         }
-        public void removeUpdate(DocumentEvent e) {
-            setEdited(true);
+        publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+            sftEditfd(truf);
         }
-        public void changedUpdate(DocumentEvent e) {}
+        publid void dibngfdUpdbtf(DodumfntEvfnt f) {}
     }
 }

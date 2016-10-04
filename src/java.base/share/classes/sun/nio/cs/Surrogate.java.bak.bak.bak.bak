@@ -1,0 +1,362 @@
+/*
+ * Copyright (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds;
+
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.nio.dhbrsft.MblformfdInputExdfption;
+import jbvb.nio.dhbrsft.UnmbppbblfChbrbdtfrExdfption;
+
+/**
+ * Utility dlbss for dfbling with surrogbtfs.
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor Mbrtin Budhholz
+ * @buthor Ulf Zibis
+ */
+publid dlbss Surrogbtf {
+
+    privbtf Surrogbtf() { }
+
+    // TODO: Dfprfdbtf/rfmovf thf following rfdundbnt dffinitions
+    publid stbtid finbl dhbr MIN_HIGH = Chbrbdtfr.MIN_HIGH_SURROGATE;
+    publid stbtid finbl dhbr MAX_HIGH = Chbrbdtfr.MAX_HIGH_SURROGATE;
+    publid stbtid finbl dhbr MIN_LOW  = Chbrbdtfr.MIN_LOW_SURROGATE;
+    publid stbtid finbl dhbr MAX_LOW  = Chbrbdtfr.MAX_LOW_SURROGATE;
+    publid stbtid finbl dhbr MIN      = Chbrbdtfr.MIN_SURROGATE;
+    publid stbtid finbl dhbr MAX      = Chbrbdtfr.MAX_SURROGATE;
+    publid stbtid finbl int UCS4_MIN  = Chbrbdtfr.MIN_SUPPLEMENTARY_CODE_POINT;
+    publid stbtid finbl int UCS4_MAX  = Chbrbdtfr.MAX_CODE_POINT;
+
+    /**
+     * Tflls whfthfr or not thf givfn vbluf is in thf high surrogbtf rbngf.
+     * Usf of {@link Chbrbdtfr#isHighSurrogbtf} is gfnfrblly prfffrrfd.
+     */
+    publid stbtid boolfbn isHigh(int d) {
+        rfturn (MIN_HIGH <= d) && (d <= MAX_HIGH);
+    }
+
+    /**
+     * Tflls whfthfr or not thf givfn vbluf is in thf low surrogbtf rbngf.
+     * Usf of {@link Chbrbdtfr#isLowSurrogbtf} is gfnfrblly prfffrrfd.
+     */
+    publid stbtid boolfbn isLow(int d) {
+        rfturn (MIN_LOW <= d) && (d <= MAX_LOW);
+    }
+
+    /**
+     * Tflls whfthfr or not thf givfn vbluf is in thf surrogbtf rbngf.
+     * Usf of {@link Chbrbdtfr#isSurrogbtf} is gfnfrblly prfffrrfd.
+     */
+    publid stbtid boolfbn is(int d) {
+        rfturn (MIN <= d) && (d <= MAX);
+    }
+
+    /**
+     * Tflls whfthfr or not thf givfn UCS-4 dhbrbdtfr must bf rfprfsfntfd bs b
+     * surrogbtf pbir in UTF-16.
+     * Usf of {@link Chbrbdtfr#isSupplfmfntbryCodfPoint} is gfnfrblly prfffrrfd.
+     */
+    publid stbtid boolfbn nffdfdFor(int ud) {
+        rfturn Chbrbdtfr.isSupplfmfntbryCodfPoint(ud);
+    }
+
+    /**
+     * Rfturns thf high UTF-16 surrogbtf for thf givfn supplfmfntbry UCS-4 dhbrbdtfr.
+     * Usf of {@link Chbrbdtfr#highSurrogbtf} is gfnfrblly prfffrrfd.
+     */
+    publid stbtid dhbr high(int ud) {
+        bssfrt Chbrbdtfr.isSupplfmfntbryCodfPoint(ud);
+        rfturn Chbrbdtfr.highSurrogbtf(ud);
+    }
+
+    /**
+     * Rfturns thf low UTF-16 surrogbtf for thf givfn supplfmfntbry UCS-4 dhbrbdtfr.
+     * Usf of {@link Chbrbdtfr#lowSurrogbtf} is gfnfrblly prfffrrfd.
+     */
+    publid stbtid dhbr low(int ud) {
+        bssfrt Chbrbdtfr.isSupplfmfntbryCodfPoint(ud);
+        rfturn Chbrbdtfr.lowSurrogbtf(ud);
+    }
+
+    /**
+     * Convfrts thf givfn surrogbtf pbir into b 32-bit UCS-4 dhbrbdtfr.
+     * Usf of {@link Chbrbdtfr#toCodfPoint} is gfnfrblly prfffrrfd.
+     */
+    publid stbtid int toUCS4(dhbr d, dhbr d) {
+        bssfrt Chbrbdtfr.isHighSurrogbtf(d) && Chbrbdtfr.isLowSurrogbtf(d);
+        rfturn Chbrbdtfr.toCodfPoint(d, d);
+    }
+
+    /**
+     * Surrogbtf pbrsing support.  Chbrsft implfmfntbtions mby usf instbndfs of
+     * this dlbss to hbndlf thf dftbils of pbrsing UTF-16 surrogbtf pbirs.
+     */
+    publid stbtid dlbss Pbrsfr {
+
+        publid Pbrsfr() { }
+
+        privbtf int dhbrbdtfr;          // UCS-4
+        privbtf CodfrRfsult frror = CodfrRfsult.UNDERFLOW;
+        privbtf boolfbn isPbir;
+
+        /**
+         * Rfturns thf UCS-4 dhbrbdtfr prfviously pbrsfd.
+         */
+        publid int dhbrbdtfr() {
+            bssfrt (frror == null);
+            rfturn dhbrbdtfr;
+        }
+
+        /**
+         * Tflls whfthfr or not thf prfviously-pbrsfd UCS-4 dhbrbdtfr wbs
+         * originblly rfprfsfntfd by b surrogbtf pbir.
+         */
+        publid boolfbn isPbir() {
+            bssfrt (frror == null);
+            rfturn isPbir;
+        }
+
+        /**
+         * Rfturns thf numbfr of UTF-16 dhbrbdtfrs donsumfd by thf prfvious
+         * pbrsf.
+         */
+        publid int indrfmfnt() {
+            bssfrt (frror == null);
+            rfturn isPbir ? 2 : 1;
+        }
+
+        /**
+         * If thf prfvious pbrsf opfrbtion dftfdtfd bn frror, rfturn thf objfdt
+         * dfsdribing thbt frror.
+         */
+        publid CodfrRfsult frror() {
+            bssfrt (frror != null);
+            rfturn frror;
+        }
+
+        /**
+         * Rfturns bn unmbppbblf-input rfsult objfdt, with thf bppropribtf
+         * input lfngth, for thf prfviously-pbrsfd dhbrbdtfr.
+         */
+        publid CodfrRfsult unmbppbblfRfsult() {
+            bssfrt (frror == null);
+            rfturn CodfrRfsult.unmbppbblfForLfngth(isPbir ? 2 : 1);
+        }
+
+        /**
+         * Pbrsfs b UCS-4 dhbrbdtfr from thf givfn sourdf bufffr, hbndling
+         * surrogbtfs.
+         *
+         * @pbrbm  d    Thf first dhbrbdtfr
+         * @pbrbm  in   Thf sourdf bufffr, from whidh onf morf dhbrbdtfr
+         *              will bf donsumfd if d is b high surrogbtf
+         *
+         * @rfturns  Eithfr b pbrsfd UCS-4 dhbrbdtfr, in whidh dbsf thf isPbir()
+         *           bnd indrfmfnt() mfthods will rfturn mfbningful vblufs, or
+         *           -1, in whidh dbsf frror() will rfturn b dfsdriptivf rfsult
+         *           objfdt
+         */
+        publid int pbrsf(dhbr d, ChbrBufffr in) {
+            if (Chbrbdtfr.isHighSurrogbtf(d)) {
+                if (!in.hbsRfmbining()) {
+                    frror = CodfrRfsult.UNDERFLOW;
+                    rfturn -1;
+                }
+                dhbr d = in.gft();
+                if (Chbrbdtfr.isLowSurrogbtf(d)) {
+                    dhbrbdtfr = Chbrbdtfr.toCodfPoint(d, d);
+                    isPbir = truf;
+                    frror = null;
+                    rfturn dhbrbdtfr;
+                }
+                frror = CodfrRfsult.mblformfdForLfngth(1);
+                rfturn -1;
+            }
+            if (Chbrbdtfr.isLowSurrogbtf(d)) {
+                frror = CodfrRfsult.mblformfdForLfngth(1);
+                rfturn -1;
+            }
+            dhbrbdtfr = d;
+            isPbir = fblsf;
+            frror = null;
+            rfturn dhbrbdtfr;
+        }
+
+        /**
+         * Pbrsfs b UCS-4 dhbrbdtfr from thf givfn sourdf bufffr, hbndling
+         * surrogbtfs.
+         *
+         * @pbrbm  d    Thf first dhbrbdtfr
+         * @pbrbm  ib   Thf input brrby, from whidh onf morf dhbrbdtfr
+         *              will bf donsumfd if d is b high surrogbtf
+         * @pbrbm  ip   Thf input indfx
+         * @pbrbm  il   Thf input limit
+         *
+         * @rfturns  Eithfr b pbrsfd UCS-4 dhbrbdtfr, in whidh dbsf thf isPbir()
+         *           bnd indrfmfnt() mfthods will rfturn mfbningful vblufs, or
+         *           -1, in whidh dbsf frror() will rfturn b dfsdriptivf rfsult
+         *           objfdt
+         */
+        publid int pbrsf(dhbr d, dhbr[] ib, int ip, int il) {
+            bssfrt (ib[ip] == d);
+            if (Chbrbdtfr.isHighSurrogbtf(d)) {
+                if (il - ip < 2) {
+                    frror = CodfrRfsult.UNDERFLOW;
+                    rfturn -1;
+                }
+                dhbr d = ib[ip + 1];
+                if (Chbrbdtfr.isLowSurrogbtf(d)) {
+                    dhbrbdtfr = Chbrbdtfr.toCodfPoint(d, d);
+                    isPbir = truf;
+                    frror = null;
+                    rfturn dhbrbdtfr;
+                }
+                frror = CodfrRfsult.mblformfdForLfngth(1);
+                rfturn -1;
+            }
+            if (Chbrbdtfr.isLowSurrogbtf(d)) {
+                frror = CodfrRfsult.mblformfdForLfngth(1);
+                rfturn -1;
+            }
+            dhbrbdtfr = d;
+            isPbir = fblsf;
+            frror = null;
+            rfturn dhbrbdtfr;
+        }
+
+    }
+
+    /**
+     * Surrogbtf gfnfrbtion support.  Chbrsft implfmfntbtions mby usf instbndfs
+     * of this dlbss to hbndlf thf dftbils of gfnfrbting UTF-16 surrogbtf
+     * pbirs.
+     */
+    publid stbtid dlbss Gfnfrbtor {
+
+        publid Gfnfrbtor() { }
+
+        privbtf CodfrRfsult frror = CodfrRfsult.OVERFLOW;
+
+        /**
+         * If thf prfvious gfnfrbtion opfrbtion dftfdtfd bn frror, rfturn thf
+         * objfdt dfsdribing thbt frror.
+         */
+        publid CodfrRfsult frror() {
+            bssfrt frror != null;
+            rfturn frror;
+        }
+
+        /**
+         * Gfnfrbtfs onf or two UTF-16 dhbrbdtfrs to rfprfsfnt thf givfn UCS-4
+         * dhbrbdtfr.
+         *
+         * @pbrbm  ud   Thf UCS-4 dhbrbdtfr
+         * @pbrbm  lfn  Thf numbfr of input bytfs from whidh thf UCS-4 vbluf
+         *              wbs donstrudtfd (usfd whfn drfbting rfsult objfdts)
+         * @pbrbm  dst  Thf dfstinbtion bufffr, to whidh onf or two UTF-16
+         *              dhbrbdtfrs will bf writtfn
+         *
+         * @rfturns  Eithfr b positivf dount of thf numbfr of UTF-16 dhbrbdtfrs
+         *           writtfn to thf dfstinbtion bufffr, or -1, in whidh dbsf
+         *           frror() will rfturn b dfsdriptivf rfsult objfdt
+         */
+        publid int gfnfrbtf(int ud, int lfn, ChbrBufffr dst) {
+            if (Chbrbdtfr.isBmpCodfPoint(ud)) {
+                dhbr d = (dhbr) ud;
+                if (Chbrbdtfr.isSurrogbtf(d)) {
+                    frror = CodfrRfsult.mblformfdForLfngth(lfn);
+                    rfturn -1;
+                }
+                if (dst.rfmbining() < 1) {
+                    frror = CodfrRfsult.OVERFLOW;
+                    rfturn -1;
+                }
+                dst.put(d);
+                frror = null;
+                rfturn 1;
+            } flsf if (Chbrbdtfr.isVblidCodfPoint(ud)) {
+                if (dst.rfmbining() < 2) {
+                    frror = CodfrRfsult.OVERFLOW;
+                    rfturn -1;
+                }
+                dst.put(Chbrbdtfr.highSurrogbtf(ud));
+                dst.put(Chbrbdtfr.lowSurrogbtf(ud));
+                frror = null;
+                rfturn 2;
+            } flsf {
+                frror = CodfrRfsult.unmbppbblfForLfngth(lfn);
+                rfturn -1;
+            }
+        }
+
+        /**
+         * Gfnfrbtfs onf or two UTF-16 dhbrbdtfrs to rfprfsfnt thf givfn UCS-4
+         * dhbrbdtfr.
+         *
+         * @pbrbm  ud   Thf UCS-4 dhbrbdtfr
+         * @pbrbm  lfn  Thf numbfr of input bytfs from whidh thf UCS-4 vbluf
+         *              wbs donstrudtfd (usfd whfn drfbting rfsult objfdts)
+         * @pbrbm  db   Thf dfstinbtion brrby, to whidh onf or two UTF-16
+         *              dhbrbdtfrs will bf writtfn
+         * @pbrbm  dp   Thf dfstinbtion position
+         * @pbrbm  dl   Thf dfstinbtion limit
+         *
+         * @rfturns  Eithfr b positivf dount of thf numbfr of UTF-16 dhbrbdtfrs
+         *           writtfn to thf dfstinbtion bufffr, or -1, in whidh dbsf
+         *           frror() will rfturn b dfsdriptivf rfsult objfdt
+         */
+        publid int gfnfrbtf(int ud, int lfn, dhbr[] db, int dp, int dl) {
+            if (Chbrbdtfr.isBmpCodfPoint(ud)) {
+                dhbr d = (dhbr) ud;
+                if (Chbrbdtfr.isSurrogbtf(d)) {
+                    frror = CodfrRfsult.mblformfdForLfngth(lfn);
+                    rfturn -1;
+                }
+                if (dl - dp < 1) {
+                    frror = CodfrRfsult.OVERFLOW;
+                    rfturn -1;
+                }
+                db[dp] = d;
+                frror = null;
+                rfturn 1;
+            } flsf if (Chbrbdtfr.isVblidCodfPoint(ud)) {
+                if (dl - dp < 2) {
+                    frror = CodfrRfsult.OVERFLOW;
+                    rfturn -1;
+                }
+                db[dp] = Chbrbdtfr.highSurrogbtf(ud);
+                db[dp + 1] = Chbrbdtfr.lowSurrogbtf(ud);
+                frror = null;
+                rfturn 2;
+            } flsf {
+                frror = CodfrRfsult.unmbppbblfForLfngth(lfn);
+                rfturn -1;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,162 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * ===========================================================================
+ *
+ * (C) Copyright IBM Corp. 2003 All Rights Rfsfrvfd.
+ *
+ * ===========================================================================
+ */
+/*
+ * Copyright (d) 2005, 2014 Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: XMLDSigRI.jbvb 1400021 2012-10-19 10:16:04Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+
+import jbvbx.xml.drypto.dsig.*;
+
+/**
+ * Thf XMLDSig RI Providfr.
+ *
+ * @buthor Joydf Lfung
+ */
+
+/**
+ * Dffinfs thf XMLDSigRI providfr.
+ */
+
+publid finbl dlbss XMLDSigRI fxtfnds Providfr {
+
+    stbtid finbl long sfriblVfrsionUID = -5049765099299494554L;
+
+    privbtf stbtid finbl String INFO = "XMLDSig " +
+        "(DOM XMLSignbturfFbdtory; DOM KfyInfoFbdtory; " +
+        "C14N 1.0, C14N 1.1, Exdlusivf C14N, Bbsf64, Envflopfd, XPbth, " +
+        "XPbth2, XSLT TrbnsformSfrvidfs)";
+
+    publid XMLDSigRI() {
+        /* Wf brf thf XMLDSig providfr */
+        supfr("XMLDSig", 1.9d, INFO);
+
+        finbl Mbp<Objfdt, Objfdt> mbp = nfw HbshMbp<Objfdt, Objfdt>();
+        mbp.put("XMLSignbturfFbdtory.DOM",
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMXMLSignbturfFbdtory");
+        mbp.put("KfyInfoFbdtory.DOM",
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMKfyInfoFbdtory");
+
+
+        // Indlusivf C14N
+        mbp.put("TrbnsformSfrvidf." + CbnonidblizbtionMfthod.INCLUSIVE,
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMCbnonidblXMLC14NMfthod");
+        mbp.put("Alg.Alibs.TrbnsformSfrvidf.INCLUSIVE",
+                CbnonidblizbtionMfthod.INCLUSIVE);
+        mbp.put("TrbnsformSfrvidf." + CbnonidblizbtionMfthod.INCLUSIVE +
+                " MfdhbnismTypf", "DOM");
+
+        // IndlusivfWithCommfnts C14N
+        mbp.put("TrbnsformSfrvidf." +
+                CbnonidblizbtionMfthod.INCLUSIVE_WITH_COMMENTS,
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMCbnonidblXMLC14NMfthod");
+        mbp.put("Alg.Alibs.TrbnsformSfrvidf.INCLUSIVE_WITH_COMMENTS",
+                CbnonidblizbtionMfthod.INCLUSIVE_WITH_COMMENTS);
+        mbp.put("TrbnsformSfrvidf." +
+                CbnonidblizbtionMfthod.INCLUSIVE_WITH_COMMENTS +
+                " MfdhbnismTypf", "DOM");
+
+        // Indlusivf C14N 1.1
+        mbp.put("TrbnsformSfrvidf.http://www.w3.org/2006/12/xml-d14n11",
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMCbnonidblXMLC14N11Mfthod");
+        mbp.put("TrbnsformSfrvidf.http://www.w3.org/2006/12/xml-d14n11" +
+                " MfdhbnismTypf", "DOM");
+
+        // IndlusivfWithCommfnts C14N 1.1
+        mbp.put("TrbnsformSfrvidf.http://www.w3.org/2006/12/xml-d14n11#WithCommfnts",
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMCbnonidblXMLC14N11Mfthod");
+        mbp.put("TrbnsformSfrvidf.http://www.w3.org/2006/12/xml-d14n11#WithCommfnts" +
+                " MfdhbnismTypf", "DOM");
+
+        // Exdlusivf C14N
+        mbp.put("TrbnsformSfrvidf." + CbnonidblizbtionMfthod.EXCLUSIVE,
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMExdC14NMfthod");
+        mbp.put("Alg.Alibs.TrbnsformSfrvidf.EXCLUSIVE",
+                CbnonidblizbtionMfthod.EXCLUSIVE);
+        mbp.put("TrbnsformSfrvidf." + CbnonidblizbtionMfthod.EXCLUSIVE +
+                " MfdhbnismTypf", "DOM");
+
+        // ExdlusivfWithCommfnts C14N
+        mbp.put("TrbnsformSfrvidf." +
+                CbnonidblizbtionMfthod.EXCLUSIVE_WITH_COMMENTS,
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMExdC14NMfthod");
+        mbp.put("Alg.Alibs.TrbnsformSfrvidf.EXCLUSIVE_WITH_COMMENTS",
+                CbnonidblizbtionMfthod.EXCLUSIVE_WITH_COMMENTS);
+        mbp.put("TrbnsformSfrvidf." +
+                CbnonidblizbtionMfthod.EXCLUSIVE_WITH_COMMENTS +
+                " MfdhbnismTypf", "DOM");
+
+        // Bbsf64 Trbnsform
+        mbp.put("TrbnsformSfrvidf." + Trbnsform.BASE64,
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMBbsf64Trbnsform");
+        mbp.put("Alg.Alibs.TrbnsformSfrvidf.BASE64", Trbnsform.BASE64);
+        mbp.put("TrbnsformSfrvidf." + Trbnsform.BASE64 +
+                " MfdhbnismTypf", "DOM");
+
+        // Envflopfd Trbnsform
+        mbp.put("TrbnsformSfrvidf." + Trbnsform.ENVELOPED,
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMEnvflopfdTrbnsform");
+        mbp.put("Alg.Alibs.TrbnsformSfrvidf.ENVELOPED", Trbnsform.ENVELOPED);
+        mbp.put("TrbnsformSfrvidf." + Trbnsform.ENVELOPED +
+                " MfdhbnismTypf", "DOM");
+
+        // XPbth2 Trbnsform
+        mbp.put("TrbnsformSfrvidf." + Trbnsform.XPATH2,
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMXPbthFiltfr2Trbnsform");
+        mbp.put("Alg.Alibs.TrbnsformSfrvidf.XPATH2", Trbnsform.XPATH2);
+        mbp.put("TrbnsformSfrvidf." + Trbnsform.XPATH2 +
+                " MfdhbnismTypf", "DOM");
+
+        // XPbth Trbnsform
+        mbp.put("TrbnsformSfrvidf." + Trbnsform.XPATH,
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMXPbthTrbnsform");
+        mbp.put("Alg.Alibs.TrbnsformSfrvidf.XPATH", Trbnsform.XPATH);
+        mbp.put("TrbnsformSfrvidf." + Trbnsform.XPATH +
+                " MfdhbnismTypf", "DOM");
+
+        // XSLT Trbnsform
+        mbp.put("TrbnsformSfrvidf." + Trbnsform.XSLT,
+                "org.jdp.xml.dsig.intfrnbl.dom.DOMXSLTTrbnsform");
+        mbp.put("Alg.Alibs.TrbnsformSfrvidf.XSLT", Trbnsform.XSLT);
+        mbp.put("TrbnsformSfrvidf." + Trbnsform.XSLT + " MfdhbnismTypf", "DOM");
+
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                putAll(mbp);
+                rfturn null;
+            }
+        });
+    }
+}

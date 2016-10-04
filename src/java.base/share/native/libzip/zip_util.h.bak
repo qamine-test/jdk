@@ -1,273 +1,273 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Prototypes for zip file support
+ * Prototypfs for zip filf support
  */
 
-#ifndef _ZIP_H_
-#define _ZIP_H_
+#ifndff _ZIP_H_
+#dffinf _ZIP_H_
 
 /*
- * Header signatures
+ * Hfbdfr signbturfs
  */
-#define LOCSIG 0x04034b50L          /* "PK\003\004" */
-#define EXTSIG 0x08074b50L          /* "PK\007\008" */
-#define CENSIG 0x02014b50L          /* "PK\001\002" */
-#define ENDSIG 0x06054b50L          /* "PK\005\006" */
+#dffinf LOCSIG 0x04034b50L          /* "PK\003\004" */
+#dffinf EXTSIG 0x08074b50L          /* "PK\007\008" */
+#dffinf CENSIG 0x02014b50L          /* "PK\001\002" */
+#dffinf ENDSIG 0x06054b50L          /* "PK\005\006" */
 
-#define ZIP64_ENDSIG 0x06064b50L    /* "PK\006\006" */
-#define ZIP64_LOCSIG 0x07064b50L    /* "PK\006\007" */
+#dffinf ZIP64_ENDSIG 0x06064b50L    /* "PK\006\006" */
+#dffinf ZIP64_LOCSIG 0x07064b50L    /* "PK\006\007" */
 
 /*
- * Header sizes including signatures
+ * Hfbdfr sizfs indluding signbturfs
  */
 
-#define LOCHDR 30
-#define EXTHDR 16
-#define CENHDR 46
-#define ENDHDR 22
+#dffinf LOCHDR 30
+#dffinf EXTHDR 16
+#dffinf CENHDR 46
+#dffinf ENDHDR 22
 
-#define ZIP64_ENDHDR 56       // ZIP64 end header size
-#define ZIP64_LOCHDR 20       // ZIP64 end loc header size
-#define ZIP64_EXTHDR 24       // EXT header size
-#define ZIP64_EXTID   1       // Extra field Zip64 header ID
+#dffinf ZIP64_ENDHDR 56       // ZIP64 fnd ifbdfr sizf
+#dffinf ZIP64_LOCHDR 20       // ZIP64 fnd lod ifbdfr sizf
+#dffinf ZIP64_EXTHDR 24       // EXT ifbdfr sizf
+#dffinf ZIP64_EXTID   1       // Extrb fifld Zip64 ifbdfr ID
 
-#define ZIP64_MAGICVAL 0xffffffffLL
-#define ZIP64_MAGICCOUNT 0xffff
+#dffinf ZIP64_MAGICVAL 0xffffffffLL
+#dffinf ZIP64_MAGICCOUNT 0xffff
 
 
 /*
- * Header field access macros
+ * Hfbdfr fifld bddfss mbdros
  */
-#define CH(b, n) (((unsigned char *)(b))[n])
-#define SH(b, n) (CH(b, n) | (CH(b, n+1) << 8))
-#define LG(b, n) ((SH(b, n) | (SH(b, n+2) << 16)) &0xffffffffUL)
-#define LL(b, n) (((jlong)LG(b, n)) | (((jlong)LG(b, n+4)) << 32))
-#define GETSIG(b) LG(b, 0)
+#dffinf CH(b, n) (((unsignfd dibr *)(b))[n])
+#dffinf SH(b, n) (CH(b, n) | (CH(b, n+1) << 8))
+#dffinf LG(b, n) ((SH(b, n) | (SH(b, n+2) << 16)) &0xffffffffUL)
+#dffinf LL(b, n) (((jlong)LG(b, n)) | (((jlong)LG(b, n+4)) << 32))
+#dffinf GETSIG(b) LG(b, 0)
 
 /*
- * Macros for getting local file (LOC) header fields
+ * Mbdros for gftting lodbl filf (LOC) ifbdfr fiflds
  */
-#define LOCVER(b) SH(b, 4)          /* version needed to extract */
-#define LOCFLG(b) SH(b, 6)          /* general purpose bit flags */
-#define LOCHOW(b) SH(b, 8)          /* compression method */
-#define LOCTIM(b) LG(b, 10)         /* modification time */
-#define LOCCRC(b) LG(b, 14)         /* crc of uncompressed data */
-#define LOCSIZ(b) LG(b, 18)         /* compressed data size */
-#define LOCLEN(b) LG(b, 22)         /* uncompressed data size */
-#define LOCNAM(b) SH(b, 26)         /* filename length */
-#define LOCEXT(b) SH(b, 28)         /* extra field length */
+#dffinf LOCVER(b) SH(b, 4)          /* vfrsion nffdfd to fxtrbdt */
+#dffinf LOCFLG(b) SH(b, 6)          /* gfnfrbl purposf bit flbgs */
+#dffinf LOCHOW(b) SH(b, 8)          /* domprfssion mftiod */
+#dffinf LOCTIM(b) LG(b, 10)         /* modifidbtion timf */
+#dffinf LOCCRC(b) LG(b, 14)         /* drd of undomprfssfd dbtb */
+#dffinf LOCSIZ(b) LG(b, 18)         /* domprfssfd dbtb sizf */
+#dffinf LOCLEN(b) LG(b, 22)         /* undomprfssfd dbtb sizf */
+#dffinf LOCNAM(b) SH(b, 26)         /* filfnbmf lfngti */
+#dffinf LOCEXT(b) SH(b, 28)         /* fxtrb fifld lfngti */
 
 /*
- * Macros for getting extra local (EXT) header fields
+ * Mbdros for gftting fxtrb lodbl (EXT) ifbdfr fiflds
  */
-#define EXTCRC(b) LG(b, 4)          /* crc of uncompressed data */
-#define EXTSIZ(b) LG(b, 8)          /* compressed size */
-#define EXTLEN(b) LG(b, 12)         /* uncompressed size */
+#dffinf EXTCRC(b) LG(b, 4)          /* drd of undomprfssfd dbtb */
+#dffinf EXTSIZ(b) LG(b, 8)          /* domprfssfd sizf */
+#dffinf EXTLEN(b) LG(b, 12)         /* undomprfssfd sizf */
 
 /*
- * Macros for getting central directory header (CEN) fields
+ * Mbdros for gftting dfntrbl dirfdtory ifbdfr (CEN) fiflds
  */
-#define CENVEM(b) SH(b, 4)          /* version made by */
-#define CENVER(b) SH(b, 6)          /* version needed to extract */
-#define CENFLG(b) SH(b, 8)          /* general purpose bit flags */
-#define CENHOW(b) SH(b, 10)         /* compression method */
-#define CENTIM(b) LG(b, 12)         /* modification time */
-#define CENCRC(b) LG(b, 16)         /* crc of uncompressed data */
-#define CENSIZ(b) LG(b, 20)         /* compressed size */
-#define CENLEN(b) LG(b, 24)         /* uncompressed size */
-#define CENNAM(b) SH(b, 28)         /* length of filename */
-#define CENEXT(b) SH(b, 30)         /* length of extra field */
-#define CENCOM(b) SH(b, 32)         /* file comment length */
-#define CENDSK(b) SH(b, 34)         /* disk number start */
-#define CENATT(b) SH(b, 36)         /* internal file attributes */
-#define CENATX(b) LG(b, 38)         /* external file attributes */
-#define CENOFF(b) LG(b, 42)         /* offset of local header */
+#dffinf CENVEM(b) SH(b, 4)          /* vfrsion mbdf by */
+#dffinf CENVER(b) SH(b, 6)          /* vfrsion nffdfd to fxtrbdt */
+#dffinf CENFLG(b) SH(b, 8)          /* gfnfrbl purposf bit flbgs */
+#dffinf CENHOW(b) SH(b, 10)         /* domprfssion mftiod */
+#dffinf CENTIM(b) LG(b, 12)         /* modifidbtion timf */
+#dffinf CENCRC(b) LG(b, 16)         /* drd of undomprfssfd dbtb */
+#dffinf CENSIZ(b) LG(b, 20)         /* domprfssfd sizf */
+#dffinf CENLEN(b) LG(b, 24)         /* undomprfssfd sizf */
+#dffinf CENNAM(b) SH(b, 28)         /* lfngti of filfnbmf */
+#dffinf CENEXT(b) SH(b, 30)         /* lfngti of fxtrb fifld */
+#dffinf CENCOM(b) SH(b, 32)         /* filf dommfnt lfngti */
+#dffinf CENDSK(b) SH(b, 34)         /* disk numbfr stbrt */
+#dffinf CENATT(b) SH(b, 36)         /* intfrnbl filf bttributfs */
+#dffinf CENATX(b) LG(b, 38)         /* fxtfrnbl filf bttributfs */
+#dffinf CENOFF(b) LG(b, 42)         /* offsft of lodbl ifbdfr */
 
 /*
- * Macros for getting end of central directory header (END) fields
+ * Mbdros for gftting fnd of dfntrbl dirfdtory ifbdfr (END) fiflds
  */
-#define ENDSUB(b) SH(b, 8)          /* number of entries on this disk */
-#define ENDTOT(b) SH(b, 10)         /* total number of entries */
-#define ENDSIZ(b) LG(b, 12)         /* central directory size */
-#define ENDOFF(b) LG(b, 16)         /* central directory offset */
-#define ENDCOM(b) SH(b, 20)         /* size of zip file comment */
+#dffinf ENDSUB(b) SH(b, 8)          /* numbfr of fntrifs on tiis disk */
+#dffinf ENDTOT(b) SH(b, 10)         /* totbl numbfr of fntrifs */
+#dffinf ENDSIZ(b) LG(b, 12)         /* dfntrbl dirfdtory sizf */
+#dffinf ENDOFF(b) LG(b, 16)         /* dfntrbl dirfdtory offsft */
+#dffinf ENDCOM(b) SH(b, 20)         /* sizf of zip filf dommfnt */
 
 /*
- * Macros for getting Zip64 end of central directory header fields
+ * Mbdros for gftting Zip64 fnd of dfntrbl dirfdtory ifbdfr fiflds
  */
-#define ZIP64_ENDLEN(b) LL(b, 4)      /* size of zip64 end of central dir */
-#define ZIP64_ENDVEM(b) SH(b, 12)     /* version made by */
-#define ZIP64_ENDVER(b) SH(b, 14)     /* version needed to extract */
-#define ZIP64_ENDNMD(b) LG(b, 16)     /* number of this disk */
-#define ZIP64_ENDDSK(b) LG(b, 20)     /* disk number of start */
-#define ZIP64_ENDTOD(b) LL(b, 24)     /* total number of entries on this disk */
-#define ZIP64_ENDTOT(b) LL(b, 32)     /* total number of entries */
-#define ZIP64_ENDSIZ(b) LL(b, 40)     /* central directory size in bytes */
-#define ZIP64_ENDOFF(b) LL(b, 48)     /* offset of first CEN header */
+#dffinf ZIP64_ENDLEN(b) LL(b, 4)      /* sizf of zip64 fnd of dfntrbl dir */
+#dffinf ZIP64_ENDVEM(b) SH(b, 12)     /* vfrsion mbdf by */
+#dffinf ZIP64_ENDVER(b) SH(b, 14)     /* vfrsion nffdfd to fxtrbdt */
+#dffinf ZIP64_ENDNMD(b) LG(b, 16)     /* numbfr of tiis disk */
+#dffinf ZIP64_ENDDSK(b) LG(b, 20)     /* disk numbfr of stbrt */
+#dffinf ZIP64_ENDTOD(b) LL(b, 24)     /* totbl numbfr of fntrifs on tiis disk */
+#dffinf ZIP64_ENDTOT(b) LL(b, 32)     /* totbl numbfr of fntrifs */
+#dffinf ZIP64_ENDSIZ(b) LL(b, 40)     /* dfntrbl dirfdtory sizf in bytfs */
+#dffinf ZIP64_ENDOFF(b) LL(b, 48)     /* offsft of first CEN ifbdfr */
 
 /*
- * Macros for getting Zip64 end of central directory locator fields
+ * Mbdros for gftting Zip64 fnd of dfntrbl dirfdtory lodbtor fiflds
  */
-#define ZIP64_LOCDSK(b) LG(b, 4)      /* disk number start */
-#define ZIP64_LOCOFF(b) LL(b, 8)      /* offset of zip64 end */
-#define ZIP64_LOCTOT(b) LG(b, 16)     /* total number of disks */
+#dffinf ZIP64_LOCDSK(b) LG(b, 4)      /* disk numbfr stbrt */
+#dffinf ZIP64_LOCOFF(b) LL(b, 8)      /* offsft of zip64 fnd */
+#dffinf ZIP64_LOCTOT(b) LG(b, 16)     /* totbl numbfr of disks */
 
 /*
- * Supported compression methods
+ * Supportfd domprfssion mftiods
  */
-#define STORED      0
-#define DEFLATED    8
+#dffinf STORED      0
+#dffinf DEFLATED    8
 
 /*
- * Support for reading ZIP/JAR files. Some things worth noting:
+ * Support for rfbding ZIP/JAR filfs. Somf tiings worti noting:
  *
- * - Zip file entries larger than 2**32 bytes are not supported.
- * - jzentry time and crc fields are signed even though they really
- *   represent unsigned quantities.
- * - If csize is zero then the entry is uncompressed.
- * - If extra != 0 then the first two bytes are the length of the extra
- *   data in intel byte order.
- * - If pos <= 0 then it is the position of entry LOC header.
- *   If pos > 0 then it is the position of entry data.
- *   pos should not be accessed directly, but only by ZIP_GetEntryDataOffset.
+ * - Zip filf fntrifs lbrgfr tibn 2**32 bytfs brf not supportfd.
+ * - jzfntry timf bnd drd fiflds brf signfd fvfn tiougi tify rfblly
+ *   rfprfsfnt unsignfd qubntitifs.
+ * - If dsizf is zfro tifn tif fntry is undomprfssfd.
+ * - If fxtrb != 0 tifn tif first two bytfs brf tif lfngti of tif fxtrb
+ *   dbtb in intfl bytf ordfr.
+ * - If pos <= 0 tifn it is tif position of fntry LOC ifbdfr.
+ *   If pos > 0 tifn it is tif position of fntry dbtb.
+ *   pos siould not bf bddfssfd dirfdtly, but only by ZIP_GftEntryDbtbOffsft.
  */
 
-typedef struct jzentry {  /* Zip file entry */
-    char *name;           /* entry name */
-    jlong time;           /* modification time */
-    jlong size;           /* size of uncompressed data */
-    jlong csize;          /* size of compressed data (zero if uncompressed) */
-    jint crc;             /* crc of uncompressed data */
-    char *comment;        /* optional zip file comment */
-    jbyte *extra;         /* optional extra data */
-    jlong pos;            /* position of LOC header or entry data */
-    jint flag;            /* general purpose flag */
-} jzentry;
+typfdff strudt jzfntry {  /* Zip filf fntry */
+    dibr *nbmf;           /* fntry nbmf */
+    jlong timf;           /* modifidbtion timf */
+    jlong sizf;           /* sizf of undomprfssfd dbtb */
+    jlong dsizf;          /* sizf of domprfssfd dbtb (zfro if undomprfssfd) */
+    jint drd;             /* drd of undomprfssfd dbtb */
+    dibr *dommfnt;        /* optionbl zip filf dommfnt */
+    jbytf *fxtrb;         /* optionbl fxtrb dbtb */
+    jlong pos;            /* position of LOC ifbdfr or fntry dbtb */
+    jint flbg;            /* gfnfrbl purposf flbg */
+} jzfntry;
 
 /*
- * In-memory hash table cell.
- * In a typical system we have a *lot* of these, as we have one for
- * every entry in every active JAR.
- * Note that in order to save space we don't keep the name in memory,
- * but merely remember a 32 bit hash.
+ * In-mfmory ibsi tbblf dfll.
+ * In b typidbl systfm wf ibvf b *lot* of tifsf, bs wf ibvf onf for
+ * fvfry fntry in fvfry bdtivf JAR.
+ * Notf tibt in ordfr to sbvf spbdf wf don't kffp tif nbmf in mfmory,
+ * but mfrfly rfmfmbfr b 32 bit ibsi.
  */
-typedef struct jzcell {
-    unsigned int hash;    /* 32 bit hashcode on name */
-    unsigned int next;    /* hash chain: index into jzfile->entries */
-    jlong cenpos;         /* Offset of central directory file header */
-} jzcell;
+typfdff strudt jzdfll {
+    unsignfd int ibsi;    /* 32 bit ibsidodf on nbmf */
+    unsignfd int nfxt;    /* ibsi dibin: indfx into jzfilf->fntrifs */
+    jlong dfnpos;         /* Offsft of dfntrbl dirfdtory filf ifbdfr */
+} jzdfll;
 
-typedef struct cencache {
-    char *data;           /* A cached page of CEN headers */
-    jlong pos;            /* file offset of data */
-} cencache;
+typfdff strudt dfndbdif {
+    dibr *dbtb;           /* A dbdifd pbgf of CEN ifbdfrs */
+    jlong pos;            /* filf offsft of dbtb */
+} dfndbdif;
 
 /*
- * Use ZFILE to represent access to a file in a platform-indepenent
- * fashion.
+ * Usf ZFILE to rfprfsfnt bddfss to b filf in b plbtform-indfpfnfnt
+ * fbsiion.
  */
-#ifdef WIN32
-#define ZFILE jlong
-#else
-#define ZFILE int
-#endif
+#ifdff WIN32
+#dffinf ZFILE jlong
+#flsf
+#dffinf ZFILE int
+#fndif
 
 /*
- * Descriptor for a ZIP file.
+ * Dfsdriptor for b ZIP filf.
  */
-typedef struct jzfile {   /* Zip file */
-    char *name;           /* zip file name */
-    jint refs;            /* number of active references */
-    jlong len;            /* length (in bytes) of zip file */
-#ifdef USE_MMAP
-    unsigned char *maddr; /* beginning address of the CEN & ENDHDR */
-    jlong mlen;           /* length (in bytes) mmaped */
-    jlong offset;         /* offset of the mmapped region from the
-                             start of the file. */
-    jboolean usemmap;     /* if mmap is used. */
-#endif
-    jboolean locsig;      /* if zip file starts with LOCSIG */
-    cencache cencache;    /* CEN header cache */
-    ZFILE zfd;            /* open file descriptor */
-    void *lock;           /* read lock */
-    char *comment;        /* zip file comment */
-    jint clen;            /* length of the zip file comment */
-    char *msg;            /* zip error message */
-    jzcell *entries;      /* array of hash cells */
-    jint total;           /* total number of entries */
-    jint *table;          /* Hash chain heads: indexes into entries */
-    jint tablelen;        /* number of hash heads */
-    struct jzfile *next;  /* next zip file in search list */
-    jzentry *cache;       /* we cache the most recently freed jzentry */
-    /* Information on metadata names in META-INF directory */
-    char **metanames;     /* array of meta names (may have null names) */
-    jint metacurrent;     /* the next empty slot in metanames array */
-    jint metacount;       /* number of slots in metanames array */
-    jlong lastModified;   /* last modified time */
-    jlong locpos;         /* position of first LOC header (usually 0) */
-} jzfile;
+typfdff strudt jzfilf {   /* Zip filf */
+    dibr *nbmf;           /* zip filf nbmf */
+    jint rffs;            /* numbfr of bdtivf rfffrfndfs */
+    jlong lfn;            /* lfngti (in bytfs) of zip filf */
+#ifdff USE_MMAP
+    unsignfd dibr *mbddr; /* bfginning bddrfss of tif CEN & ENDHDR */
+    jlong mlfn;           /* lfngti (in bytfs) mmbpfd */
+    jlong offsft;         /* offsft of tif mmbppfd rfgion from tif
+                             stbrt of tif filf. */
+    jboolfbn usfmmbp;     /* if mmbp is usfd. */
+#fndif
+    jboolfbn lodsig;      /* if zip filf stbrts witi LOCSIG */
+    dfndbdif dfndbdif;    /* CEN ifbdfr dbdif */
+    ZFILE zfd;            /* opfn filf dfsdriptor */
+    void *lodk;           /* rfbd lodk */
+    dibr *dommfnt;        /* zip filf dommfnt */
+    jint dlfn;            /* lfngti of tif zip filf dommfnt */
+    dibr *msg;            /* zip frror mfssbgf */
+    jzdfll *fntrifs;      /* brrby of ibsi dflls */
+    jint totbl;           /* totbl numbfr of fntrifs */
+    jint *tbblf;          /* Hbsi dibin ifbds: indfxfs into fntrifs */
+    jint tbblflfn;        /* numbfr of ibsi ifbds */
+    strudt jzfilf *nfxt;  /* nfxt zip filf in sfbrdi list */
+    jzfntry *dbdif;       /* wf dbdif tif most rfdfntly frffd jzfntry */
+    /* Informbtion on mftbdbtb nbmfs in META-INF dirfdtory */
+    dibr **mftbnbmfs;     /* brrby of mftb nbmfs (mby ibvf null nbmfs) */
+    jint mftbdurrfnt;     /* tif nfxt fmpty slot in mftbnbmfs brrby */
+    jint mftbdount;       /* numbfr of slots in mftbnbmfs brrby */
+    jlong lbstModififd;   /* lbst modififd timf */
+    jlong lodpos;         /* position of first LOC ifbdfr (usublly 0) */
+} jzfilf;
 
 /*
- * Index representing end of hash chain
+ * Indfx rfprfsfnting fnd of ibsi dibin
  */
-#define ZIP_ENDCHAIN ((jint)-1)
+#dffinf ZIP_ENDCHAIN ((jint)-1)
 
-jzentry * JNICALL
-ZIP_FindEntry(jzfile *zip, char *name, jint *sizeP, jint *nameLenP);
+jzfntry * JNICALL
+ZIP_FindEntry(jzfilf *zip, dibr *nbmf, jint *sizfP, jint *nbmfLfnP);
 
-jboolean JNICALL
-ZIP_ReadEntry(jzfile *zip, jzentry *entry, unsigned char *buf, char *entrynm);
+jboolfbn JNICALL
+ZIP_RfbdEntry(jzfilf *zip, jzfntry *fntry, unsignfd dibr *buf, dibr *fntrynm);
 
-jzentry * JNICALL
-ZIP_GetNextEntry(jzfile *zip, jint n);
+jzfntry * JNICALL
+ZIP_GftNfxtEntry(jzfilf *zip, jint n);
 
-jzfile * JNICALL
-ZIP_Open(const char *name, char **pmsg);
+jzfilf * JNICALL
+ZIP_Opfn(donst dibr *nbmf, dibr **pmsg);
 
-jzfile *
-ZIP_Open_Generic(const char *name, char **pmsg, int mode, jlong lastModified);
+jzfilf *
+ZIP_Opfn_Gfnfrid(donst dibr *nbmf, dibr **pmsg, int modf, jlong lbstModififd);
 
-jzfile *
-ZIP_Get_From_Cache(const char *name, char **pmsg, jlong lastModified);
+jzfilf *
+ZIP_Gft_From_Cbdif(donst dibr *nbmf, dibr **pmsg, jlong lbstModififd);
 
-jzfile *
-ZIP_Put_In_Cache(const char *name, ZFILE zfd, char **pmsg, jlong lastModified);
+jzfilf *
+ZIP_Put_In_Cbdif(donst dibr *nbmf, ZFILE zfd, dibr **pmsg, jlong lbstModififd);
 
-jzfile *
-ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified, jboolean usemmap);
+jzfilf *
+ZIP_Put_In_Cbdif0(donst dibr *nbmf, ZFILE zfd, dibr **pmsg, jlong lbstModififd, jboolfbn usfmmbp);
 
 void JNICALL
-ZIP_Close(jzfile *zip);
+ZIP_Closf(jzfilf *zip);
 
-jzentry * ZIP_GetEntry(jzfile *zip, char *name, jint ulen);
-void ZIP_Lock(jzfile *zip);
-void ZIP_Unlock(jzfile *zip);
-jint ZIP_Read(jzfile *zip, jzentry *entry, jlong pos, void *buf, jint len);
-void ZIP_FreeEntry(jzfile *zip, jzentry *ze);
-jlong ZIP_GetEntryDataOffset(jzfile *zip, jzentry *entry);
+jzfntry * ZIP_GftEntry(jzfilf *zip, dibr *nbmf, jint ulfn);
+void ZIP_Lodk(jzfilf *zip);
+void ZIP_Unlodk(jzfilf *zip);
+jint ZIP_Rfbd(jzfilf *zip, jzfntry *fntry, jlong pos, void *buf, jint lfn);
+void ZIP_FrffEntry(jzfilf *zip, jzfntry *zf);
+jlong ZIP_GftEntryDbtbOffsft(jzfilf *zip, jzfntry *fntry);
 
-#endif /* !_ZIP_H_ */
+#fndif /* !_ZIP_H_ */

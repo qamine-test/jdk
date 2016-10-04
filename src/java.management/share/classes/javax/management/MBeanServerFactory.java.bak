@@ -1,543 +1,543 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import com.sun.jmx.defaults.JmxProperties;
-import static com.sun.jmx.defaults.JmxProperties.JMX_INITIAL_BUILDER;
-import static com.sun.jmx.defaults.JmxProperties.MBEANSERVER_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import java.security.AccessController;
-import java.security.Permission;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import javax.management.loading.ClassLoaderRepository;
-import sun.reflect.misc.ReflectUtil;
+import dom.sun.jmx.dffbults.JmxPropfrtifs;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.JMX_INITIAL_BUILDER;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MBEANSERVER_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.util.ArrbyList;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.lobding.ClbssLobdfrRfpository;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 
 /**
- * <p>Provides MBean server references.  There are no instances of
- * this class.</p>
+ * <p>Providfs MBfbn sfrvfr rfffrfndfs.  Tifrf brf no instbndfs of
+ * tiis dlbss.</p>
  *
- * <p>Since JMX 1.2 this class makes it possible to replace the default
- * MBeanServer implementation. This is done using the
- * {@link javax.management.MBeanServerBuilder} class.
- * The class of the initial MBeanServerBuilder to be
- * instantiated can be specified through the
- * <b>javax.management.builder.initial</b> system property.
- * The specified class must be a public subclass of
- * {@link javax.management.MBeanServerBuilder}, and must have a public
- * empty constructor.
- * <p>By default, if no value for that property is specified, an instance of
+ * <p>Sindf JMX 1.2 tiis dlbss mbkfs it possiblf to rfplbdf tif dffbult
+ * MBfbnSfrvfr implfmfntbtion. Tiis is donf using tif
+ * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr} dlbss.
+ * Tif dlbss of tif initibl MBfbnSfrvfrBuildfr to bf
+ * instbntibtfd dbn bf spfdififd tirougi tif
+ * <b>jbvbx.mbnbgfmfnt.buildfr.initibl</b> systfm propfrty.
+ * Tif spfdififd dlbss must bf b publid subdlbss of
+ * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}, bnd must ibvf b publid
+ * fmpty donstrudtor.
+ * <p>By dffbult, if no vbluf for tibt propfrty is spfdififd, bn instbndf of
  * {@link
- * javax.management.MBeanServerBuilder javax.management.MBeanServerBuilder}
- * is created. Otherwise, the MBeanServerFactory attempts to load the
- * specified class using
- * {@link java.lang.Thread#getContextClassLoader()
- *   Thread.currentThread().getContextClassLoader()}, or if that is null,
- * {@link java.lang.Class#forName(java.lang.String) Class.forName()}. Then
- * it creates an initial instance of that Class using
- * {@link java.lang.Class#newInstance()}. If any checked exception
- * is raised during this process (e.g.
- * {@link java.lang.ClassNotFoundException},
- * {@link java.lang.InstantiationException}) the MBeanServerFactory
- * will propagate this exception from within a RuntimeException.</p>
+ * jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}
+ * is drfbtfd. Otifrwisf, tif MBfbnSfrvfrFbdtory bttfmpts to lobd tif
+ * spfdififd dlbss using
+ * {@link jbvb.lbng.Tirfbd#gftContfxtClbssLobdfr()
+ *   Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr()}, or if tibt is null,
+ * {@link jbvb.lbng.Clbss#forNbmf(jbvb.lbng.String) Clbss.forNbmf()}. Tifn
+ * it drfbtfs bn initibl instbndf of tibt Clbss using
+ * {@link jbvb.lbng.Clbss#nfwInstbndf()}. If bny difdkfd fxdfption
+ * is rbisfd during tiis prodfss (f.g.
+ * {@link jbvb.lbng.ClbssNotFoundExdfption},
+ * {@link jbvb.lbng.InstbntibtionExdfption}) tif MBfbnSfrvfrFbdtory
+ * will propbgbtf tiis fxdfption from witiin b RuntimfExdfption.</p>
  *
- * <p>The <b>javax.management.builder.initial</b> system property is
- * consulted every time a new MBeanServer needs to be created, and the
- * class pointed to by that property is loaded. If that class is different
- * from that of the current MBeanServerBuilder, then a new MBeanServerBuilder
- * is created. Otherwise, the MBeanServerFactory may create a new
- * MBeanServerBuilder or reuse the current one.</p>
+ * <p>Tif <b>jbvbx.mbnbgfmfnt.buildfr.initibl</b> systfm propfrty is
+ * donsultfd fvfry timf b nfw MBfbnSfrvfr nffds to bf drfbtfd, bnd tif
+ * dlbss pointfd to by tibt propfrty is lobdfd. If tibt dlbss is difffrfnt
+ * from tibt of tif durrfnt MBfbnSfrvfrBuildfr, tifn b nfw MBfbnSfrvfrBuildfr
+ * is drfbtfd. Otifrwisf, tif MBfbnSfrvfrFbdtory mby drfbtf b nfw
+ * MBfbnSfrvfrBuildfr or rfusf tif durrfnt onf.</p>
  *
- * <p>If the class pointed to by the property cannot be
- * loaded, or does not correspond to a valid subclass of MBeanServerBuilder
- * then an exception is propagated, and no MBeanServer can be created until
- * the <b>javax.management.builder.initial</b> system property is reset to
- * valid value.</p>
+ * <p>If tif dlbss pointfd to by tif propfrty dbnnot bf
+ * lobdfd, or dofs not dorrfspond to b vblid subdlbss of MBfbnSfrvfrBuildfr
+ * tifn bn fxdfption is propbgbtfd, bnd no MBfbnSfrvfr dbn bf drfbtfd until
+ * tif <b>jbvbx.mbnbgfmfnt.buildfr.initibl</b> systfm propfrty is rfsft to
+ * vblid vbluf.</p>
  *
- * <p>The MBeanServerBuilder makes it possible to wrap the MBeanServers
- * returned by the default MBeanServerBuilder implementation, for the purpose
- * of e.g. adding an additional security layer.</p>
+ * <p>Tif MBfbnSfrvfrBuildfr mbkfs it possiblf to wrbp tif MBfbnSfrvfrs
+ * rfturnfd by tif dffbult MBfbnSfrvfrBuildfr implfmfntbtion, for tif purposf
+ * of f.g. bdding bn bdditionbl sfdurity lbyfr.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class MBeanServerFactory {
+publid dlbss MBfbnSfrvfrFbdtory {
 
     /*
-     * There are no instances of this class so don't generate the
-     * default public constructor.
+     * Tifrf brf no instbndfs of tiis dlbss so don't gfnfrbtf tif
+     * dffbult publid donstrudtor.
      */
-    private MBeanServerFactory() {
+    privbtf MBfbnSfrvfrFbdtory() {
 
     }
 
     /**
-     * The builder that will be used to construct MBeanServers.
+     * Tif buildfr tibt will bf usfd to donstrudt MBfbnSfrvfrs.
      *
      **/
-    private static MBeanServerBuilder builder = null;
+    privbtf stbtid MBfbnSfrvfrBuildfr buildfr = null;
 
     /**
-     * Provide a new {@link javax.management.MBeanServerBuilder}.
-     * @param builder The new MBeanServerBuilder that will be used to
-     *        create {@link javax.management.MBeanServer}s.
-     * @exception IllegalArgumentException if the given builder is null.
+     * Providf b nfw {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}.
+     * @pbrbm buildfr Tif nfw MBfbnSfrvfrBuildfr tibt will bf usfd to
+     *        drfbtf {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr}s.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn buildfr is null.
      *
-     * @exception SecurityException if there is a SecurityManager and
-     * the caller's permissions do not include or imply <code>{@link
-     * MBeanServerPermission}("setMBeanServerBuilder")</code>.
+     * @fxdfption SfdurityExdfption if tifrf is b SfdurityMbnbgfr bnd
+     * tif dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("sftMBfbnSfrvfrBuildfr")</dodf>.
      *
      **/
-    // public static synchronized void
-    //    setMBeanServerBuilder(MBeanServerBuilder builder) {
-    //    checkPermission("setMBeanServerBuilder");
-    //    MBeanServerFactory.builder = builder;
+    // publid stbtid syndironizfd void
+    //    sftMBfbnSfrvfrBuildfr(MBfbnSfrvfrBuildfr buildfr) {
+    //    difdkPfrmission("sftMBfbnSfrvfrBuildfr");
+    //    MBfbnSfrvfrFbdtory.buildfr = buildfr;
     // }
 
     /**
-     * Get the current {@link javax.management.MBeanServerBuilder}.
+     * Gft tif durrfnt {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}.
      *
-     * @return the current {@link javax.management.MBeanServerBuilder}.
+     * @rfturn tif durrfnt {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}.
      *
-     * @exception SecurityException if there is a SecurityManager and
-     * the caller's permissions do not include or imply <code>{@link
-     * MBeanServerPermission}("getMBeanServerBuilder")</code>.
+     * @fxdfption SfdurityExdfption if tifrf is b SfdurityMbnbgfr bnd
+     * tif dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("gftMBfbnSfrvfrBuildfr")</dodf>.
      *
      **/
-    // public static synchronized MBeanServerBuilder getMBeanServerBuilder() {
-    //     checkPermission("getMBeanServerBuilder");
-    //     return builder;
+    // publid stbtid syndironizfd MBfbnSfrvfrBuildfr gftMBfbnSfrvfrBuildfr() {
+    //     difdkPfrmission("gftMBfbnSfrvfrBuildfr");
+    //     rfturn buildfr;
     // }
 
     /**
-     * Remove internal MBeanServerFactory references to a created
-     * MBeanServer. This allows the garbage collector to remove the
-     * MBeanServer object.
+     * Rfmovf intfrnbl MBfbnSfrvfrFbdtory rfffrfndfs to b drfbtfd
+     * MBfbnSfrvfr. Tiis bllows tif gbrbbgf dollfdtor to rfmovf tif
+     * MBfbnSfrvfr objfdt.
      *
-     * @param mbeanServer the MBeanServer object to remove.
+     * @pbrbm mbfbnSfrvfr tif MBfbnSfrvfr objfdt to rfmovf.
      *
-     * @exception java.lang.IllegalArgumentException if
-     * <code>mbeanServer</code> was not generated by one of the
-     * <code>createMBeanServer</code> methods, or if
-     * <code>releaseMBeanServer</code> was already called on it.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if
+     * <dodf>mbfbnSfrvfr</dodf> wbs not gfnfrbtfd by onf of tif
+     * <dodf>drfbtfMBfbnSfrvfr</dodf> mftiods, or if
+     * <dodf>rflfbsfMBfbnSfrvfr</dodf> wbs blrfbdy dbllfd on it.
      *
-     * @exception SecurityException if there is a SecurityManager and
-     * the caller's permissions do not include or imply <code>{@link
-     * MBeanServerPermission}("releaseMBeanServer")</code>.
+     * @fxdfption SfdurityExdfption if tifrf is b SfdurityMbnbgfr bnd
+     * tif dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("rflfbsfMBfbnSfrvfr")</dodf>.
      */
-    public static void releaseMBeanServer(MBeanServer mbeanServer) {
-        checkPermission("releaseMBeanServer");
+    publid stbtid void rflfbsfMBfbnSfrvfr(MBfbnSfrvfr mbfbnSfrvfr) {
+        difdkPfrmission("rflfbsfMBfbnSfrvfr");
 
-        removeMBeanServer(mbeanServer);
+        rfmovfMBfbnSfrvfr(mbfbnSfrvfr);
     }
 
     /**
-     * <p>Return a new object implementing the MBeanServer interface
-     * with a standard default domain name.  The default domain name
-     * is used as the domain part in the ObjectName of MBeans when the
-     * domain is specified by the user is null.</p>
+     * <p>Rfturn b nfw objfdt implfmfnting tif MBfbnSfrvfr intfrfbdf
+     * witi b stbndbrd dffbult dombin nbmf.  Tif dffbult dombin nbmf
+     * is usfd bs tif dombin pbrt in tif ObjfdtNbmf of MBfbns wifn tif
+     * dombin is spfdififd by tif usfr is null.</p>
      *
-     * <p>The standard default domain name is
-     * <code>DefaultDomain</code>.</p>
+     * <p>Tif stbndbrd dffbult dombin nbmf is
+     * <dodf>DffbultDombin</dodf>.</p>
      *
-     * <p>The MBeanServer reference is internally kept. This will
-     * allow <CODE>findMBeanServer</CODE> to return a reference to
-     * this MBeanServer object.</p>
+     * <p>Tif MBfbnSfrvfr rfffrfndf is intfrnblly kfpt. Tiis will
+     * bllow <CODE>findMBfbnSfrvfr</CODE> to rfturn b rfffrfndf to
+     * tiis MBfbnSfrvfr objfdt.</p>
      *
-     * <p>This method is equivalent to <code>createMBeanServer(null)</code>.
+     * <p>Tiis mftiod is fquivblfnt to <dodf>drfbtfMBfbnSfrvfr(null)</dodf>.
      *
-     * @return the newly created MBeanServer.
+     * @rfturn tif nfwly drfbtfd MBfbnSfrvfr.
      *
-     * @exception SecurityException if there is a SecurityManager and the
-     * caller's permissions do not include or imply <code>{@link
-     * MBeanServerPermission}("createMBeanServer")</code>.
+     * @fxdfption SfdurityExdfption if tifrf is b SfdurityMbnbgfr bnd tif
+     * dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("drfbtfMBfbnSfrvfr")</dodf>.
      *
-     * @exception JMRuntimeException if the property
-     * <code>javax.management.builder.initial</code> exists but the
-     * class it names cannot be instantiated through a public
-     * no-argument constructor; or if the instantiated builder returns
-     * null from its {@link MBeanServerBuilder#newMBeanServerDelegate
-     * newMBeanServerDelegate} or {@link
-     * MBeanServerBuilder#newMBeanServer newMBeanServer} methods.
+     * @fxdfption JMRuntimfExdfption if tif propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists but tif
+     * dlbss it nbmfs dbnnot bf instbntibtfd tirougi b publid
+     * no-brgumfnt donstrudtor; or if tif instbntibtfd buildfr rfturns
+     * null from its {@link MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfrDflfgbtf
+     * nfwMBfbnSfrvfrDflfgbtf} or {@link
+     * MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfr nfwMBfbnSfrvfr} mftiods.
      *
-     * @exception ClassCastException if the property
-     * <code>javax.management.builder.initial</code> exists and can be
-     * instantiated but is not assignment compatible with {@link
-     * MBeanServerBuilder}.
+     * @fxdfption ClbssCbstExdfption if tif propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists bnd dbn bf
+     * instbntibtfd but is not bssignmfnt dompbtiblf witi {@link
+     * MBfbnSfrvfrBuildfr}.
      */
-    public static MBeanServer createMBeanServer() {
-        return createMBeanServer(null);
+    publid stbtid MBfbnSfrvfr drfbtfMBfbnSfrvfr() {
+        rfturn drfbtfMBfbnSfrvfr(null);
     }
 
     /**
-     * <p>Return a new object implementing the {@link MBeanServer}
-     * interface with the specified default domain name.  The given
-     * domain name is used as the domain part in the ObjectName of
-     * MBeans when the domain is specified by the user is null.</p>
+     * <p>Rfturn b nfw objfdt implfmfnting tif {@link MBfbnSfrvfr}
+     * intfrfbdf witi tif spfdififd dffbult dombin nbmf.  Tif givfn
+     * dombin nbmf is usfd bs tif dombin pbrt in tif ObjfdtNbmf of
+     * MBfbns wifn tif dombin is spfdififd by tif usfr is null.</p>
      *
-     * <p>The MBeanServer reference is internally kept. This will
-     * allow <CODE>findMBeanServer</CODE> to return a reference to
-     * this MBeanServer object.</p>
+     * <p>Tif MBfbnSfrvfr rfffrfndf is intfrnblly kfpt. Tiis will
+     * bllow <CODE>findMBfbnSfrvfr</CODE> to rfturn b rfffrfndf to
+     * tiis MBfbnSfrvfr objfdt.</p>
      *
-     * @param domain the default domain name for the created
-     * MBeanServer.  This is the value that will be returned by {@link
-     * MBeanServer#getDefaultDomain}.
+     * @pbrbm dombin tif dffbult dombin nbmf for tif drfbtfd
+     * MBfbnSfrvfr.  Tiis is tif vbluf tibt will bf rfturnfd by {@link
+     * MBfbnSfrvfr#gftDffbultDombin}.
      *
-     * @return the newly created MBeanServer.
+     * @rfturn tif nfwly drfbtfd MBfbnSfrvfr.
      *
-     * @exception SecurityException if there is a SecurityManager and
-     * the caller's permissions do not include or imply <code>{@link
-     * MBeanServerPermission}("createMBeanServer")</code>.
+     * @fxdfption SfdurityExdfption if tifrf is b SfdurityMbnbgfr bnd
+     * tif dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("drfbtfMBfbnSfrvfr")</dodf>.
      *
-     * @exception JMRuntimeException if the property
-     * <code>javax.management.builder.initial</code> exists but the
-     * class it names cannot be instantiated through a public
-     * no-argument constructor; or if the instantiated builder returns
-     * null from its {@link MBeanServerBuilder#newMBeanServerDelegate
-     * newMBeanServerDelegate} or {@link
-     * MBeanServerBuilder#newMBeanServer newMBeanServer} methods.
+     * @fxdfption JMRuntimfExdfption if tif propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists but tif
+     * dlbss it nbmfs dbnnot bf instbntibtfd tirougi b publid
+     * no-brgumfnt donstrudtor; or if tif instbntibtfd buildfr rfturns
+     * null from its {@link MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfrDflfgbtf
+     * nfwMBfbnSfrvfrDflfgbtf} or {@link
+     * MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfr nfwMBfbnSfrvfr} mftiods.
      *
-     * @exception ClassCastException if the property
-     * <code>javax.management.builder.initial</code> exists and can be
-     * instantiated but is not assignment compatible with {@link
-     * MBeanServerBuilder}.
+     * @fxdfption ClbssCbstExdfption if tif propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists bnd dbn bf
+     * instbntibtfd but is not bssignmfnt dompbtiblf witi {@link
+     * MBfbnSfrvfrBuildfr}.
      */
-    public static MBeanServer createMBeanServer(String domain)  {
-        checkPermission("createMBeanServer");
+    publid stbtid MBfbnSfrvfr drfbtfMBfbnSfrvfr(String dombin)  {
+        difdkPfrmission("drfbtfMBfbnSfrvfr");
 
-        final MBeanServer mBeanServer = newMBeanServer(domain);
-        addMBeanServer(mBeanServer);
-        return mBeanServer;
+        finbl MBfbnSfrvfr mBfbnSfrvfr = nfwMBfbnSfrvfr(dombin);
+        bddMBfbnSfrvfr(mBfbnSfrvfr);
+        rfturn mBfbnSfrvfr;
     }
 
     /**
-     * <p>Return a new object implementing the MBeanServer interface
-     * with a standard default domain name, without keeping an
-     * internal reference to this new object.  The default domain name
-     * is used as the domain part in the ObjectName of MBeans when the
-     * domain is specified by the user is null.</p>
+     * <p>Rfturn b nfw objfdt implfmfnting tif MBfbnSfrvfr intfrfbdf
+     * witi b stbndbrd dffbult dombin nbmf, witiout kffping bn
+     * intfrnbl rfffrfndf to tiis nfw objfdt.  Tif dffbult dombin nbmf
+     * is usfd bs tif dombin pbrt in tif ObjfdtNbmf of MBfbns wifn tif
+     * dombin is spfdififd by tif usfr is null.</p>
      *
-     * <p>The standard default domain name is
-     * <code>DefaultDomain</code>.</p>
+     * <p>Tif stbndbrd dffbult dombin nbmf is
+     * <dodf>DffbultDombin</dodf>.</p>
      *
-     * <p>No reference is kept. <CODE>findMBeanServer</CODE> will not
-     * be able to return a reference to this MBeanServer object, but
-     * the garbage collector will be able to remove the MBeanServer
-     * object when it is no longer referenced.</p>
+     * <p>No rfffrfndf is kfpt. <CODE>findMBfbnSfrvfr</CODE> will not
+     * bf bblf to rfturn b rfffrfndf to tiis MBfbnSfrvfr objfdt, but
+     * tif gbrbbgf dollfdtor will bf bblf to rfmovf tif MBfbnSfrvfr
+     * objfdt wifn it is no longfr rfffrfndfd.</p>
      *
-     * <p>This method is equivalent to <code>newMBeanServer(null)</code>.</p>
+     * <p>Tiis mftiod is fquivblfnt to <dodf>nfwMBfbnSfrvfr(null)</dodf>.</p>
      *
-     * @return the newly created MBeanServer.
+     * @rfturn tif nfwly drfbtfd MBfbnSfrvfr.
      *
-     * @exception SecurityException if there is a SecurityManager and the
-     * caller's permissions do not include or imply <code>{@link
-     * MBeanServerPermission}("newMBeanServer")</code>.
+     * @fxdfption SfdurityExdfption if tifrf is b SfdurityMbnbgfr bnd tif
+     * dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("nfwMBfbnSfrvfr")</dodf>.
      *
-     * @exception JMRuntimeException if the property
-     * <code>javax.management.builder.initial</code> exists but the
-     * class it names cannot be instantiated through a public
-     * no-argument constructor; or if the instantiated builder returns
-     * null from its {@link MBeanServerBuilder#newMBeanServerDelegate
-     * newMBeanServerDelegate} or {@link
-     * MBeanServerBuilder#newMBeanServer newMBeanServer} methods.
+     * @fxdfption JMRuntimfExdfption if tif propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists but tif
+     * dlbss it nbmfs dbnnot bf instbntibtfd tirougi b publid
+     * no-brgumfnt donstrudtor; or if tif instbntibtfd buildfr rfturns
+     * null from its {@link MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfrDflfgbtf
+     * nfwMBfbnSfrvfrDflfgbtf} or {@link
+     * MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfr nfwMBfbnSfrvfr} mftiods.
      *
-     * @exception ClassCastException if the property
-     * <code>javax.management.builder.initial</code> exists and can be
-     * instantiated but is not assignment compatible with {@link
-     * MBeanServerBuilder}.
+     * @fxdfption ClbssCbstExdfption if tif propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists bnd dbn bf
+     * instbntibtfd but is not bssignmfnt dompbtiblf witi {@link
+     * MBfbnSfrvfrBuildfr}.
      */
-    public static MBeanServer newMBeanServer() {
-        return newMBeanServer(null);
+    publid stbtid MBfbnSfrvfr nfwMBfbnSfrvfr() {
+        rfturn nfwMBfbnSfrvfr(null);
     }
 
     /**
-     * <p>Return a new object implementing the MBeanServer interface
-     * with the specified default domain name, without keeping an
-     * internal reference to this new object.  The given domain name
-     * is used as the domain part in the ObjectName of MBeans when the
-     * domain is specified by the user is null.</p>
+     * <p>Rfturn b nfw objfdt implfmfnting tif MBfbnSfrvfr intfrfbdf
+     * witi tif spfdififd dffbult dombin nbmf, witiout kffping bn
+     * intfrnbl rfffrfndf to tiis nfw objfdt.  Tif givfn dombin nbmf
+     * is usfd bs tif dombin pbrt in tif ObjfdtNbmf of MBfbns wifn tif
+     * dombin is spfdififd by tif usfr is null.</p>
      *
-     * <p>No reference is kept. <CODE>findMBeanServer</CODE> will not
-     * be able to return a reference to this MBeanServer object, but
-     * the garbage collector will be able to remove the MBeanServer
-     * object when it is no longer referenced.</p>
+     * <p>No rfffrfndf is kfpt. <CODE>findMBfbnSfrvfr</CODE> will not
+     * bf bblf to rfturn b rfffrfndf to tiis MBfbnSfrvfr objfdt, but
+     * tif gbrbbgf dollfdtor will bf bblf to rfmovf tif MBfbnSfrvfr
+     * objfdt wifn it is no longfr rfffrfndfd.</p>
      *
-     * @param domain the default domain name for the created
-     * MBeanServer.  This is the value that will be returned by {@link
-     * MBeanServer#getDefaultDomain}.
+     * @pbrbm dombin tif dffbult dombin nbmf for tif drfbtfd
+     * MBfbnSfrvfr.  Tiis is tif vbluf tibt will bf rfturnfd by {@link
+     * MBfbnSfrvfr#gftDffbultDombin}.
      *
-     * @return the newly created MBeanServer.
+     * @rfturn tif nfwly drfbtfd MBfbnSfrvfr.
      *
-     * @exception SecurityException if there is a SecurityManager and the
-     * caller's permissions do not include or imply <code>{@link
-     * MBeanServerPermission}("newMBeanServer")</code>.
+     * @fxdfption SfdurityExdfption if tifrf is b SfdurityMbnbgfr bnd tif
+     * dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("nfwMBfbnSfrvfr")</dodf>.
      *
-     * @exception JMRuntimeException if the property
-     * <code>javax.management.builder.initial</code> exists but the
-     * class it names cannot be instantiated through a public
-     * no-argument constructor; or if the instantiated builder returns
-     * null from its {@link MBeanServerBuilder#newMBeanServerDelegate
-     * newMBeanServerDelegate} or {@link
-     * MBeanServerBuilder#newMBeanServer newMBeanServer} methods.
+     * @fxdfption JMRuntimfExdfption if tif propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists but tif
+     * dlbss it nbmfs dbnnot bf instbntibtfd tirougi b publid
+     * no-brgumfnt donstrudtor; or if tif instbntibtfd buildfr rfturns
+     * null from its {@link MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfrDflfgbtf
+     * nfwMBfbnSfrvfrDflfgbtf} or {@link
+     * MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfr nfwMBfbnSfrvfr} mftiods.
      *
-     * @exception ClassCastException if the property
-     * <code>javax.management.builder.initial</code> exists and can be
-     * instantiated but is not assignment compatible with {@link
-     * MBeanServerBuilder}.
+     * @fxdfption ClbssCbstExdfption if tif propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists bnd dbn bf
+     * instbntibtfd but is not bssignmfnt dompbtiblf witi {@link
+     * MBfbnSfrvfrBuildfr}.
      */
-    public static MBeanServer newMBeanServer(String domain)  {
-        checkPermission("newMBeanServer");
+    publid stbtid MBfbnSfrvfr nfwMBfbnSfrvfr(String dombin)  {
+        difdkPfrmission("nfwMBfbnSfrvfr");
 
-        // Get the builder. Creates a new one if necessary.
+        // Gft tif buildfr. Crfbtfs b nfw onf if nfdfssbry.
         //
-        final MBeanServerBuilder mbsBuilder = getNewMBeanServerBuilder();
-        // Returned value cannot be null.  NullPointerException if violated.
+        finbl MBfbnSfrvfrBuildfr mbsBuildfr = gftNfwMBfbnSfrvfrBuildfr();
+        // Rfturnfd vbluf dbnnot bf null.  NullPointfrExdfption if violbtfd.
 
-        synchronized(mbsBuilder) {
-            final MBeanServerDelegate delegate  =
-                    mbsBuilder.newMBeanServerDelegate();
-            if (delegate == null) {
-                final String msg =
-                        "MBeanServerBuilder.newMBeanServerDelegate() " +
-                        "returned null";
-                throw new JMRuntimeException(msg);
+        syndironizfd(mbsBuildfr) {
+            finbl MBfbnSfrvfrDflfgbtf dflfgbtf  =
+                    mbsBuildfr.nfwMBfbnSfrvfrDflfgbtf();
+            if (dflfgbtf == null) {
+                finbl String msg =
+                        "MBfbnSfrvfrBuildfr.nfwMBfbnSfrvfrDflfgbtf() " +
+                        "rfturnfd null";
+                tirow nfw JMRuntimfExdfption(msg);
             }
-            final MBeanServer mbeanServer =
-                    mbsBuilder.newMBeanServer(domain,null,delegate);
-            if (mbeanServer == null) {
-                final String msg =
-                        "MBeanServerBuilder.newMBeanServer() returned null";
-                throw new JMRuntimeException(msg);
+            finbl MBfbnSfrvfr mbfbnSfrvfr =
+                    mbsBuildfr.nfwMBfbnSfrvfr(dombin,null,dflfgbtf);
+            if (mbfbnSfrvfr == null) {
+                finbl String msg =
+                        "MBfbnSfrvfrBuildfr.nfwMBfbnSfrvfr() rfturnfd null";
+                tirow nfw JMRuntimfExdfption(msg);
             }
-            return mbeanServer;
+            rfturn mbfbnSfrvfr;
         }
     }
 
     /**
-     * <p>Return a list of registered MBeanServer objects.  A
-     * registered MBeanServer object is one that was created by one of
-     * the <code>createMBeanServer</code> methods and not subsequently
-     * released with <code>releaseMBeanServer</code>.</p>
+     * <p>Rfturn b list of rfgistfrfd MBfbnSfrvfr objfdts.  A
+     * rfgistfrfd MBfbnSfrvfr objfdt is onf tibt wbs drfbtfd by onf of
+     * tif <dodf>drfbtfMBfbnSfrvfr</dodf> mftiods bnd not subsfqufntly
+     * rflfbsfd witi <dodf>rflfbsfMBfbnSfrvfr</dodf>.</p>
      *
-     * @param agentId The agent identifier of the MBeanServer to
-     * retrieve.  If this parameter is null, all registered
-     * MBeanServers in this JVM are returned.  Otherwise, only
-     * MBeanServers whose id is equal to <code>agentId</code> are
-     * returned.  The id of an MBeanServer is the
-     * <code>MBeanServerId</code> attribute of its delegate MBean.
+     * @pbrbm bgfntId Tif bgfnt idfntififr of tif MBfbnSfrvfr to
+     * rftrifvf.  If tiis pbrbmftfr is null, bll rfgistfrfd
+     * MBfbnSfrvfrs in tiis JVM brf rfturnfd.  Otifrwisf, only
+     * MBfbnSfrvfrs wiosf id is fqubl to <dodf>bgfntId</dodf> brf
+     * rfturnfd.  Tif id of bn MBfbnSfrvfr is tif
+     * <dodf>MBfbnSfrvfrId</dodf> bttributf of its dflfgbtf MBfbn.
      *
-     * @return A list of MBeanServer objects.
+     * @rfturn A list of MBfbnSfrvfr objfdts.
      *
-     * @exception SecurityException if there is a SecurityManager and the
-     * caller's permissions do not include or imply <code>{@link
-     * MBeanServerPermission}("findMBeanServer")</code>.
+     * @fxdfption SfdurityExdfption if tifrf is b SfdurityMbnbgfr bnd tif
+     * dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("findMBfbnSfrvfr")</dodf>.
      */
-    public synchronized static
-            ArrayList<MBeanServer> findMBeanServer(String agentId) {
+    publid syndironizfd stbtid
+            ArrbyList<MBfbnSfrvfr> findMBfbnSfrvfr(String bgfntId) {
 
-        checkPermission("findMBeanServer");
+        difdkPfrmission("findMBfbnSfrvfr");
 
-        if (agentId == null)
-            return new ArrayList<MBeanServer>(mBeanServerList);
+        if (bgfntId == null)
+            rfturn nfw ArrbyList<MBfbnSfrvfr>(mBfbnSfrvfrList);
 
-        ArrayList<MBeanServer> result = new ArrayList<MBeanServer>();
-        for (MBeanServer mbs : mBeanServerList) {
-            String name = mBeanServerId(mbs);
-            if (agentId.equals(name))
-                result.add(mbs);
+        ArrbyList<MBfbnSfrvfr> rfsult = nfw ArrbyList<MBfbnSfrvfr>();
+        for (MBfbnSfrvfr mbs : mBfbnSfrvfrList) {
+            String nbmf = mBfbnSfrvfrId(mbs);
+            if (bgfntId.fqubls(nbmf))
+                rfsult.bdd(mbs);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Return the ClassLoaderRepository used by the given MBeanServer.
-     * This method is equivalent to {@link
-     * MBeanServer#getClassLoaderRepository() server.getClassLoaderRepository()}.
-     * @param server The MBeanServer under examination. Since JMX 1.2,
-     * if <code>server</code> is <code>null</code>, the result is a
-     * {@link NullPointerException}.  This behavior differs from what
-     * was implemented in JMX 1.1 - where the possibility to use
-     * <code>null</code> was deprecated.
-     * @return The Class Loader Repository used by the given MBeanServer.
-     * @exception SecurityException if there is a SecurityManager and
-     * the caller's permissions do not include or imply <code>{@link
-     * MBeanPermission}("getClassLoaderRepository")</code>.
+     * Rfturn tif ClbssLobdfrRfpository usfd by tif givfn MBfbnSfrvfr.
+     * Tiis mftiod is fquivblfnt to {@link
+     * MBfbnSfrvfr#gftClbssLobdfrRfpository() sfrvfr.gftClbssLobdfrRfpository()}.
+     * @pbrbm sfrvfr Tif MBfbnSfrvfr undfr fxbminbtion. Sindf JMX 1.2,
+     * if <dodf>sfrvfr</dodf> is <dodf>null</dodf>, tif rfsult is b
+     * {@link NullPointfrExdfption}.  Tiis bfibvior difffrs from wibt
+     * wbs implfmfntfd in JMX 1.1 - wifrf tif possibility to usf
+     * <dodf>null</dodf> wbs dfprfdbtfd.
+     * @rfturn Tif Clbss Lobdfr Rfpository usfd by tif givfn MBfbnSfrvfr.
+     * @fxdfption SfdurityExdfption if tifrf is b SfdurityMbnbgfr bnd
+     * tif dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnPfrmission}("gftClbssLobdfrRfpository")</dodf>.
      *
-     * @exception NullPointerException if <code>server</code> is null.
+     * @fxdfption NullPointfrExdfption if <dodf>sfrvfr</dodf> is null.
      *
      **/
-    public static ClassLoaderRepository getClassLoaderRepository(
-            MBeanServer server) {
-        return server.getClassLoaderRepository();
+    publid stbtid ClbssLobdfrRfpository gftClbssLobdfrRfpository(
+            MBfbnSfrvfr sfrvfr) {
+        rfturn sfrvfr.gftClbssLobdfrRfpository();
     }
 
-    private static String mBeanServerId(MBeanServer mbs) {
+    privbtf stbtid String mBfbnSfrvfrId(MBfbnSfrvfr mbs) {
         try {
-            return (String) mbs.getAttribute(MBeanServerDelegate.DELEGATE_NAME,
-                    "MBeanServerId");
-        } catch (JMException e) {
-            JmxProperties.MISC_LOGGER.finest(
-                    "Ignoring exception while getting MBeanServerId: "+e);
-            return null;
+            rfturn (String) mbs.gftAttributf(MBfbnSfrvfrDflfgbtf.DELEGATE_NAME,
+                    "MBfbnSfrvfrId");
+        } dbtdi (JMExdfption f) {
+            JmxPropfrtifs.MISC_LOGGER.finfst(
+                    "Ignoring fxdfption wiilf gftting MBfbnSfrvfrId: "+f);
+            rfturn null;
         }
     }
 
-    private static void checkPermission(String action)
-    throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+    privbtf stbtid void difdkPfrmission(String bdtion)
+    tirows SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            Permission perm = new MBeanServerPermission(action);
-            sm.checkPermission(perm);
+            Pfrmission pfrm = nfw MBfbnSfrvfrPfrmission(bdtion);
+            sm.difdkPfrmission(pfrm);
         }
     }
 
-    private static synchronized void addMBeanServer(MBeanServer mbs) {
-        mBeanServerList.add(mbs);
+    privbtf stbtid syndironizfd void bddMBfbnSfrvfr(MBfbnSfrvfr mbs) {
+        mBfbnSfrvfrList.bdd(mbs);
     }
 
-    private static synchronized void removeMBeanServer(MBeanServer mbs) {
-        boolean removed = mBeanServerList.remove(mbs);
-        if (!removed) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    MBeanServerFactory.class.getName(),
-                    "removeMBeanServer(MBeanServer)",
-                    "MBeanServer was not in list!");
-            throw new IllegalArgumentException("MBeanServer was not in list!");
+    privbtf stbtid syndironizfd void rfmovfMBfbnSfrvfr(MBfbnSfrvfr mbs) {
+        boolfbn rfmovfd = mBfbnSfrvfrList.rfmovf(mbs);
+        if (!rfmovfd) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    MBfbnSfrvfrFbdtory.dlbss.gftNbmf(),
+                    "rfmovfMBfbnSfrvfr(MBfbnSfrvfr)",
+                    "MBfbnSfrvfr wbs not in list!");
+            tirow nfw IllfgblArgumfntExdfption("MBfbnSfrvfr wbs not in list!");
         }
     }
 
-    private static final ArrayList<MBeanServer> mBeanServerList =
-            new ArrayList<MBeanServer>();
+    privbtf stbtid finbl ArrbyList<MBfbnSfrvfr> mBfbnSfrvfrList =
+            nfw ArrbyList<MBfbnSfrvfr>();
 
     /**
-     * Load the builder class through the context class loader.
-     * @param builderClassName The name of the builder class.
+     * Lobd tif buildfr dlbss tirougi tif dontfxt dlbss lobdfr.
+     * @pbrbm buildfrClbssNbmf Tif nbmf of tif buildfr dlbss.
      **/
-    private static Class<?> loadBuilderClass(String builderClassName)
-    throws ClassNotFoundException {
-        final ClassLoader loader =
-                Thread.currentThread().getContextClassLoader();
+    privbtf stbtid Clbss<?> lobdBuildfrClbss(String buildfrClbssNbmf)
+    tirows ClbssNotFoundExdfption {
+        finbl ClbssLobdfr lobdfr =
+                Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
 
-        if (loader != null) {
-            // Try with context class loader
-            return loader.loadClass(builderClassName);
+        if (lobdfr != null) {
+            // Try witi dontfxt dlbss lobdfr
+            rfturn lobdfr.lobdClbss(buildfrClbssNbmf);
         }
 
-        // No context class loader? Try with Class.forName()
-        return ReflectUtil.forName(builderClassName);
+        // No dontfxt dlbss lobdfr? Try witi Clbss.forNbmf()
+        rfturn RfflfdtUtil.forNbmf(buildfrClbssNbmf);
     }
 
     /**
-     * Creates the initial builder according to the
-     * javax.management.builder.initial System property - if specified.
-     * If any checked exception needs to be thrown, it is embedded in
-     * a JMRuntimeException.
+     * Crfbtfs tif initibl buildfr bddording to tif
+     * jbvbx.mbnbgfmfnt.buildfr.initibl Systfm propfrty - if spfdififd.
+     * If bny difdkfd fxdfption nffds to bf tirown, it is fmbfddfd in
+     * b JMRuntimfExdfption.
      **/
-    private static MBeanServerBuilder newBuilder(Class<?> builderClass) {
+    privbtf stbtid MBfbnSfrvfrBuildfr nfwBuildfr(Clbss<?> buildfrClbss) {
         try {
-            final Object abuilder = builderClass.newInstance();
-            return (MBeanServerBuilder)abuilder;
-        } catch (RuntimeException x) {
-            throw x;
-        } catch (Exception x) {
-            final String msg =
-                    "Failed to instantiate a MBeanServerBuilder from " +
-                    builderClass + ": " + x;
-            throw new JMRuntimeException(msg, x);
+            finbl Objfdt bbuildfr = buildfrClbss.nfwInstbndf();
+            rfturn (MBfbnSfrvfrBuildfr)bbuildfr;
+        } dbtdi (RuntimfExdfption x) {
+            tirow x;
+        } dbtdi (Exdfption x) {
+            finbl String msg =
+                    "Fbilfd to instbntibtf b MBfbnSfrvfrBuildfr from " +
+                    buildfrClbss + ": " + x;
+            tirow nfw JMRuntimfExdfption(msg, x);
         }
     }
 
     /**
-     * Instantiate a new builder according to the
-     * javax.management.builder.initial System property - if needed.
+     * Instbntibtf b nfw buildfr bddording to tif
+     * jbvbx.mbnbgfmfnt.buildfr.initibl Systfm propfrty - if nffdfd.
      **/
-    private static synchronized void checkMBeanServerBuilder() {
+    privbtf stbtid syndironizfd void difdkMBfbnSfrvfrBuildfr() {
         try {
-            GetPropertyAction act =
-                    new GetPropertyAction(JMX_INITIAL_BUILDER);
-            String builderClassName = AccessController.doPrivileged(act);
+            GftPropfrtyAdtion bdt =
+                    nfw GftPropfrtyAdtion(JMX_INITIAL_BUILDER);
+            String buildfrClbssNbmf = AddfssControllfr.doPrivilfgfd(bdt);
 
             try {
-                final Class<?> newBuilderClass;
-                if (builderClassName == null || builderClassName.length() == 0)
-                    newBuilderClass = MBeanServerBuilder.class;
-                else
-                    newBuilderClass = loadBuilderClass(builderClassName);
+                finbl Clbss<?> nfwBuildfrClbss;
+                if (buildfrClbssNbmf == null || buildfrClbssNbmf.lfngti() == 0)
+                    nfwBuildfrClbss = MBfbnSfrvfrBuildfr.dlbss;
+                flsf
+                    nfwBuildfrClbss = lobdBuildfrClbss(buildfrClbssNbmf);
 
-                // Check whether a new builder needs to be created
-                if (builder != null) {
-                    final Class<?> builderClass = builder.getClass();
-                    if (newBuilderClass == builderClass)
-                        return; // no need to create a new builder...
+                // Cifdk wiftifr b nfw buildfr nffds to bf drfbtfd
+                if (buildfr != null) {
+                    finbl Clbss<?> buildfrClbss = buildfr.gftClbss();
+                    if (nfwBuildfrClbss == buildfrClbss)
+                        rfturn; // no nffd to drfbtf b nfw buildfr...
                 }
 
-                // Create a new builder
-                builder = newBuilder(newBuilderClass);
-            } catch (ClassNotFoundException x) {
-                final String msg =
-                        "Failed to load MBeanServerBuilder class " +
-                        builderClassName + ": " + x;
-                throw new JMRuntimeException(msg, x);
+                // Crfbtf b nfw buildfr
+                buildfr = nfwBuildfr(nfwBuildfrClbss);
+            } dbtdi (ClbssNotFoundExdfption x) {
+                finbl String msg =
+                        "Fbilfd to lobd MBfbnSfrvfrBuildfr dlbss " +
+                        buildfrClbssNbmf + ": " + x;
+                tirow nfw JMRuntimfExdfption(msg, x);
             }
-        } catch (RuntimeException x) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
-                StringBuilder strb = new StringBuilder()
-                .append("Failed to instantiate MBeanServerBuilder: ").append(x)
-                .append("\n\t\tCheck the value of the ")
-                .append(JMX_INITIAL_BUILDER).append(" property.");
-                MBEANSERVER_LOGGER.logp(Level.FINEST,
-                        MBeanServerFactory.class.getName(),
-                        "checkMBeanServerBuilder",
+        } dbtdi (RuntimfExdfption x) {
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                StringBuildfr strb = nfw StringBuildfr()
+                .bppfnd("Fbilfd to instbntibtf MBfbnSfrvfrBuildfr: ").bppfnd(x)
+                .bppfnd("\n\t\tCifdk tif vbluf of tif ")
+                .bppfnd(JMX_INITIAL_BUILDER).bppfnd(" propfrty.");
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINEST,
+                        MBfbnSfrvfrFbdtory.dlbss.gftNbmf(),
+                        "difdkMBfbnSfrvfrBuildfr",
                         strb.toString());
             }
-            throw x;
+            tirow x;
         }
     }
 
     /**
-     * Get the current {@link javax.management.MBeanServerBuilder},
-     * as specified by the current value of the
-     * javax.management.builder.initial property.
+     * Gft tif durrfnt {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr},
+     * bs spfdififd by tif durrfnt vbluf of tif
+     * jbvbx.mbnbgfmfnt.buildfr.initibl propfrty.
      *
-     * This method consults the property and instantiates a new builder
-     * if needed.
+     * Tiis mftiod donsults tif propfrty bnd instbntibtfs b nfw buildfr
+     * if nffdfd.
      *
-     * @return the new current {@link javax.management.MBeanServerBuilder}.
+     * @rfturn tif nfw durrfnt {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}.
      *
-     * @exception SecurityException if there is a SecurityManager and
-     * the caller's permissions do not make it possible to instantiate
-     * a new builder.
-     * @exception JMRuntimeException if the builder instantiation
-     *   fails with a checked exception -
-     *   {@link java.lang.ClassNotFoundException} etc...
+     * @fxdfption SfdurityExdfption if tifrf is b SfdurityMbnbgfr bnd
+     * tif dbllfr's pfrmissions do not mbkf it possiblf to instbntibtf
+     * b nfw buildfr.
+     * @fxdfption JMRuntimfExdfption if tif buildfr instbntibtion
+     *   fbils witi b difdkfd fxdfption -
+     *   {@link jbvb.lbng.ClbssNotFoundExdfption} ftd...
      *
      **/
-    private static synchronized MBeanServerBuilder getNewMBeanServerBuilder() {
-        checkMBeanServerBuilder();
-        return builder;
+    privbtf stbtid syndironizfd MBfbnSfrvfrBuildfr gftNfwMBfbnSfrvfrBuildfr() {
+        difdkMBfbnSfrvfrBuildfr();
+        rfturn buildfr;
     }
 
 }

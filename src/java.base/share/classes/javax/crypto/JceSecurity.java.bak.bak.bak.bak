@@ -1,0 +1,336 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.util.*;
+import jbvb.util.jbr.*;
+import jbvb.io.*;
+import jbvb.nft.URL;
+import jbvb.sfdurity.*;
+
+import jbvb.sfdurity.Providfr.Sfrvidf;
+
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+
+/**
+ * This dlbss instbntibtfs implfmfntbtions of JCE fnginf dlbssfs from
+ * providfrs rfgistfrfd with thf jbvb.sfdurity.Sfdurity objfdt.
+ *
+ * @buthor Jbn Lufhf
+ * @buthor Shbron Liu
+ * @sindf 1.4
+ */
+
+finbl dlbss JdfSfdurity {
+
+    stbtid finbl SfdurfRbndom RANDOM = nfw SfdurfRbndom();
+
+    // Thf dffbultPolidy bnd fxfmptPolidy will bf sft up
+    // in thf stbtid initiblizfr.
+    privbtf stbtid CryptoPfrmissions dffbultPolidy = null;
+    privbtf stbtid CryptoPfrmissions fxfmptPolidy = null;
+
+    // Mbp<Providfr,?> of thf providfrs wf blrfbdy hbvf vfrififd
+    // vbluf == PROVIDER_VERIFIED is suddfssfully vfrififd
+    // vbluf is fbilurf dbusf Exdfption in frror dbsf
+    privbtf finbl stbtid Mbp<Providfr, Objfdt> vfrifidbtionRfsults =
+            nfw IdfntityHbshMbp<>();
+
+    // Mbp<Providfr,?> of thf providfrs durrfntly bfing vfrififd
+    privbtf finbl stbtid Mbp<Providfr, Objfdt> vfrifyingProvidfrs =
+            nfw IdfntityHbshMbp<>();
+
+    // Sft thf dffbult vbluf. Mby bf dhbngfd in thf stbtid initiblizfr.
+    privbtf stbtid boolfbn isRfstridtfd = truf;
+
+    /*
+     * Don't lft bnyonf instbntibtf this.
+     */
+    privbtf JdfSfdurity() {
+    }
+
+    stbtid {
+        try {
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                    publid Objfdt run() throws Exdfption {
+                        sftupJurisdidtionPolidifs();
+                        rfturn null;
+                    }
+                });
+
+            isRfstridtfd = dffbultPolidy.implifs(
+                CryptoAllPfrmission.INSTANCE) ? fblsf : truf;
+        } dbtdh (Exdfption f) {
+            throw nfw SfdurityExdfption(
+                    "Cbn not initiblizf dryptogrbphid mfdhbnism", f);
+        }
+    }
+
+    stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz, String blgorithm,
+            String providfr) throws NoSudhAlgorithmExdfption,
+            NoSudhProvidfrExdfption {
+        Sfrvidf s = GftInstbndf.gftSfrvidf(typf, blgorithm, providfr);
+        Exdfption vf = gftVfrifidbtionRfsult(s.gftProvidfr());
+        if (vf != null) {
+            String msg = "JCE dbnnot buthfntidbtf thf providfr " + providfr;
+            throw (NoSudhProvidfrExdfption)
+                                nfw NoSudhProvidfrExdfption(msg).initCbusf(vf);
+        }
+        rfturn GftInstbndf.gftInstbndf(s, dlbzz);
+    }
+
+    stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz, String blgorithm,
+            Providfr providfr) throws NoSudhAlgorithmExdfption {
+        Sfrvidf s = GftInstbndf.gftSfrvidf(typf, blgorithm, providfr);
+        Exdfption vf = JdfSfdurity.gftVfrifidbtionRfsult(providfr);
+        if (vf != null) {
+            String msg = "JCE dbnnot buthfntidbtf thf providfr "
+                + providfr.gftNbmf();
+            throw nfw SfdurityExdfption(msg, vf);
+        }
+        rfturn GftInstbndf.gftInstbndf(s, dlbzz);
+    }
+
+    stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz, String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        List<Sfrvidf> sfrvidfs = GftInstbndf.gftSfrvidfs(typf, blgorithm);
+        NoSudhAlgorithmExdfption fbilurf = null;
+        for (Sfrvidf s : sfrvidfs) {
+            if (dbnUsfProvidfr(s.gftProvidfr()) == fblsf) {
+                // bllow only signfd providfrs
+                dontinuf;
+            }
+            try {
+                Instbndf instbndf = GftInstbndf.gftInstbndf(s, dlbzz);
+                rfturn instbndf;
+            } dbtdh (NoSudhAlgorithmExdfption f) {
+                fbilurf = f;
+            }
+        }
+        throw nfw NoSudhAlgorithmExdfption("Algorithm " + blgorithm
+                + " not bvbilbblf", fbilurf);
+    }
+
+    /**
+     * Vfrify if thf JAR bt URL dodfBbsf is b signfd fxfmpt bpplidbtion
+     * JAR filf bnd rfturns thf pfrmissions bundlfd with thf JAR.
+     *
+     * @throws Exdfption on frror
+     */
+    stbtid CryptoPfrmissions vfrifyExfmptJbr(URL dodfBbsf) throws Exdfption {
+        JbrVfrififr jv = nfw JbrVfrififr(dodfBbsf, truf);
+        jv.vfrify();
+        rfturn jv.gftPfrmissions();
+    }
+
+    /**
+     * Vfrify if thf JAR bt URL dodfBbsf is b signfd providfr JAR filf.
+     *
+     * @throws Exdfption on frror
+     */
+    stbtid void vfrifyProvidfrJbr(URL dodfBbsf) throws Exdfption {
+        // Vfrify thf providfr JAR filf bnd bll
+        // supporting JAR filfs if thfrf brf bny.
+        JbrVfrififr jv = nfw JbrVfrififr(dodfBbsf, fblsf);
+        jv.vfrify();
+    }
+
+    privbtf finbl stbtid Objfdt PROVIDER_VERIFIED = Boolfbn.TRUE;
+
+    /*
+     * Vfrify thbt thf providfr JAR filfs brf signfd propfrly, whidh
+     * mfbns thf signfr's dfrtifidbtf dbn bf trbdfd bbdk to b
+     * JCE trustfd CA.
+     * Rfturn null if ok, fbilurf Exdfption if vfrifidbtion fbilfd.
+     */
+    stbtid syndhronizfd Exdfption gftVfrifidbtionRfsult(Providfr p) {
+        Objfdt o = vfrifidbtionRfsults.gft(p);
+        if (o == PROVIDER_VERIFIED) {
+            rfturn null;
+        } flsf if (o != null) {
+            rfturn (Exdfption)o;
+        }
+        if (vfrifyingProvidfrs.gft(p) != null) {
+            // this mfthod is stbtid syndhronizfd, must bf rfdursion
+            // rfturn fbilurf now but do not sbvf thf rfsult
+            rfturn nfw NoSudhProvidfrExdfption("Rfdursion during vfrifidbtion");
+        }
+        try {
+            vfrifyingProvidfrs.put(p, Boolfbn.FALSE);
+            URL providfrURL = gftCodfBbsf(p.gftClbss());
+            vfrifyProvidfrJbr(providfrURL);
+            // Vfrififd ok, dbdhf rfsult
+            vfrifidbtionRfsults.put(p, PROVIDER_VERIFIED);
+            rfturn null;
+        } dbtdh (Exdfption f) {
+            vfrifidbtionRfsults.put(p, f);
+            rfturn f;
+        } finblly {
+            vfrifyingProvidfrs.rfmovf(p);
+        }
+    }
+
+    // rfturn whfthfr this providfr is propfrly signfd bnd dbn bf usfd by JCE
+    stbtid boolfbn dbnUsfProvidfr(Providfr p) {
+        rfturn gftVfrifidbtionRfsult(p) == null;
+    }
+
+    // dummy objfdt to rfprfsfnt null
+    privbtf stbtid finbl URL NULL_URL;
+
+    stbtid {
+        try {
+            NULL_URL = nfw URL("http://null.sun.dom/");
+        } dbtdh (Exdfption f) {
+            throw nfw RuntimfExdfption(f);
+        }
+    }
+
+    // rfffrfndf to b Mbp wf usf bs b dbdhf for dodfbbsfs
+    privbtf stbtid finbl Mbp<Clbss<?>, URL> dodfBbsfCbdhfRff =
+            nfw WfbkHbshMbp<>();
+
+    /*
+     * Rfturns thf CodfBbsf for thf givfn dlbss.
+     */
+    stbtid URL gftCodfBbsf(finbl Clbss<?> dlbzz) {
+        syndhronizfd (dodfBbsfCbdhfRff) {
+            URL url = dodfBbsfCbdhfRff.gft(dlbzz);
+            if (url == null) {
+                url = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<URL>() {
+                    publid URL run() {
+                        ProtfdtionDombin pd = dlbzz.gftProtfdtionDombin();
+                        if (pd != null) {
+                            CodfSourdf ds = pd.gftCodfSourdf();
+                            if (ds != null) {
+                                rfturn ds.gftLodbtion();
+                            }
+                        }
+                        rfturn NULL_URL;
+                    }
+                });
+                dodfBbsfCbdhfRff.put(dlbzz, url);
+            }
+            rfturn (url == NULL_URL) ? null : url;
+        }
+    }
+
+    privbtf stbtid void sftupJurisdidtionPolidifs() throws Exdfption {
+        String jbvbHomfDir = Systfm.gftPropfrty("jbvb.homf");
+        String sfp = Filf.sfpbrbtor;
+        String pbthToPolidyJbr = jbvbHomfDir + sfp + "lib" + sfp +
+            "sfdurity" + sfp;
+
+        Filf fxportJbr = nfw Filf(pbthToPolidyJbr, "US_fxport_polidy.jbr");
+        Filf importJbr = nfw Filf(pbthToPolidyJbr, "lodbl_polidy.jbr");
+        URL jdfCiphfrURL = ClbssLobdfr.gftSystfmRfsourdf
+                ("jbvbx/drypto/Ciphfr.dlbss");
+
+        if ((jdfCiphfrURL == null) ||
+                !fxportJbr.fxists() || !importJbr.fxists()) {
+            throw nfw SfdurityExdfption
+                                ("Cbnnot lodbtf polidy or frbmfwork filfs!");
+        }
+
+        // Rfbd jurisdidtion polidifs.
+        CryptoPfrmissions dffbultExport = nfw CryptoPfrmissions();
+        CryptoPfrmissions fxfmptExport = nfw CryptoPfrmissions();
+        lobdPolidifs(fxportJbr, dffbultExport, fxfmptExport);
+
+        CryptoPfrmissions dffbultImport = nfw CryptoPfrmissions();
+        CryptoPfrmissions fxfmptImport = nfw CryptoPfrmissions();
+        lobdPolidifs(importJbr, dffbultImport, fxfmptImport);
+
+        // Mfrgf thf fxport bnd import polidifs for dffbult bpplidbtions.
+        if (dffbultExport.isEmpty() || dffbultImport.isEmpty()) {
+            throw nfw SfdurityExdfption("Missing mbndbtory jurisdidtion " +
+                                        "polidy filfs");
+        }
+        dffbultPolidy = dffbultExport.gftMinimum(dffbultImport);
+
+        // Mfrgf thf fxport bnd import polidifs for fxfmpt bpplidbtions.
+        if (fxfmptExport.isEmpty())  {
+            fxfmptPolidy = fxfmptImport.isEmpty() ? null : fxfmptImport;
+        } flsf {
+            fxfmptPolidy = fxfmptExport.gftMinimum(fxfmptImport);
+        }
+    }
+
+    /**
+     * Lobd thf polidifs from thf spfdififd filf. Also dhfdks thbt thf
+     * polidifs brf dorrfdtly signfd.
+     */
+    privbtf stbtid void lobdPolidifs(Filf jbrPbthNbmf,
+                                     CryptoPfrmissions dffbultPolidy,
+                                     CryptoPfrmissions fxfmptPolidy)
+        throws Exdfption {
+
+        JbrFilf jf = nfw JbrFilf(jbrPbthNbmf);
+
+        Enumfrbtion<JbrEntry> fntrifs = jf.fntrifs();
+        whilf (fntrifs.hbsMorfElfmfnts()) {
+            JbrEntry jf = fntrifs.nfxtElfmfnt();
+            InputStrfbm is = null;
+            try {
+                if (jf.gftNbmf().stbrtsWith("dffbult_")) {
+                    is = jf.gftInputStrfbm(jf);
+                    dffbultPolidy.lobd(is);
+                } flsf if (jf.gftNbmf().stbrtsWith("fxfmpt_")) {
+                    is = jf.gftInputStrfbm(jf);
+                    fxfmptPolidy.lobd(is);
+                } flsf {
+                    dontinuf;
+                }
+            } finblly {
+                if (is != null) {
+                    is.dlosf();
+                }
+            }
+
+            // Enfordf thf signfr rfstrbint, i.f. signfr of JCE frbmfwork
+            // jbr should blso bf thf signfr of thf two jurisdidtion polidy
+            // jbr filfs.
+            JbrVfrififr.vfrifyPolidySignfd(jf.gftCfrtifidbtfs());
+        }
+        // Closf bnd nullify thf JbrFilf rfffrfndf to hflp GC.
+        jf.dlosf();
+        jf = null;
+    }
+
+    stbtid CryptoPfrmissions gftDffbultPolidy() {
+        rfturn dffbultPolidy;
+    }
+
+    stbtid CryptoPfrmissions gftExfmptPolidy() {
+        rfturn fxfmptPolidy;
+    }
+
+    stbtid boolfbn isRfstridtfd() {
+        rfturn isRfstridtfd;
+    }
+}

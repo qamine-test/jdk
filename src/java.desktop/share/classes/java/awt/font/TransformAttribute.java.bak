@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.awt.font;
+pbdkbgf jbvb.bwt.font;
 
-import java.awt.geom.AffineTransform;
-import java.io.Serializable;
-import java.io.ObjectStreamException;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtStrfbmExdfption;
 
 /**
- * The <code>TransformAttribute</code> class provides an immutable
- * wrapper for a transform so that it is safe to use as an attribute.
+ * Tif <dodf>TrbnsformAttributf</dodf> dlbss providfs bn immutbblf
+ * wrbppfr for b trbnsform so tibt it is sbff to usf bs bn bttributf.
  */
-public final class TransformAttribute implements Serializable {
+publid finbl dlbss TrbnsformAttributf implfmfnts Sfriblizbblf {
 
     /**
-     * The <code>AffineTransform</code> for this
-     * <code>TransformAttribute</code>, or <code>null</code>
-     * if <code>AffineTransform</code> is the identity transform.
+     * Tif <dodf>AffinfTrbnsform</dodf> for tiis
+     * <dodf>TrbnsformAttributf</dodf>, or <dodf>null</dodf>
+     * if <dodf>AffinfTrbnsform</dodf> is tif idfntity trbnsform.
      */
-    private AffineTransform transform;
+    privbtf AffinfTrbnsform trbnsform;
 
     /**
-     * Wraps the specified transform.  The transform is cloned and a
-     * reference to the clone is kept.  The original transform is unchanged.
-     * If null is passed as the argument, this constructor behaves as though
-     * it were the identity transform.  (Note that it is preferable to use
-     * {@link #IDENTITY} in this case.)
-     * @param transform the specified {@link AffineTransform} to be wrapped,
+     * Wrbps tif spfdififd trbnsform.  Tif trbnsform is dlonfd bnd b
+     * rfffrfndf to tif dlonf is kfpt.  Tif originbl trbnsform is undibngfd.
+     * If null is pbssfd bs tif brgumfnt, tiis donstrudtor bfibvfs bs tiougi
+     * it wfrf tif idfntity trbnsform.  (Notf tibt it is prfffrbblf to usf
+     * {@link #IDENTITY} in tiis dbsf.)
+     * @pbrbm trbnsform tif spfdififd {@link AffinfTrbnsform} to bf wrbppfd,
      * or null.
      */
-    public TransformAttribute(AffineTransform transform) {
-        if (transform != null && !transform.isIdentity()) {
-            this.transform = new AffineTransform(transform);
+    publid TrbnsformAttributf(AffinfTrbnsform trbnsform) {
+        if (trbnsform != null && !trbnsform.isIdfntity()) {
+            tiis.trbnsform = nfw AffinfTrbnsform(trbnsform);
         }
     }
 
     /**
-     * Returns a copy of the wrapped transform.
-     * @return a <code>AffineTransform</code> that is a copy of the wrapped
-     * transform of this <code>TransformAttribute</code>.
+     * Rfturns b dopy of tif wrbppfd trbnsform.
+     * @rfturn b <dodf>AffinfTrbnsform</dodf> tibt is b dopy of tif wrbppfd
+     * trbnsform of tiis <dodf>TrbnsformAttributf</dodf>.
      */
-    public AffineTransform getTransform() {
-        AffineTransform at = transform;
-        return (at == null) ? new AffineTransform() : new AffineTransform(at);
+    publid AffinfTrbnsform gftTrbnsform() {
+        AffinfTrbnsform bt = trbnsform;
+        rfturn (bt == null) ? nfw AffinfTrbnsform() : nfw AffinfTrbnsform(bt);
     }
 
     /**
-     * Returns <code>true</code> if the wrapped transform is
-     * an identity transform.
-     * @return <code>true</code> if the wrapped transform is
-     * an identity transform; <code>false</code> otherwise.
-     * @since 1.4
+     * Rfturns <dodf>truf</dodf> if tif wrbppfd trbnsform is
+     * bn idfntity trbnsform.
+     * @rfturn <dodf>truf</dodf> if tif wrbppfd trbnsform is
+     * bn idfntity trbnsform; <dodf>fblsf</dodf> otifrwisf.
+     * @sindf 1.4
      */
-    public boolean isIdentity() {
-        return transform == null;
+    publid boolfbn isIdfntity() {
+        rfturn trbnsform == null;
     }
 
     /**
-     * A <code>TransformAttribute</code> representing the identity transform.
-     * @since 1.6
+     * A <dodf>TrbnsformAttributf</dodf> rfprfsfnting tif idfntity trbnsform.
+     * @sindf 1.6
      */
-    public static final TransformAttribute IDENTITY = new TransformAttribute(null);
+    publid stbtid finbl TrbnsformAttributf IDENTITY = nfw TrbnsformAttributf(null);
 
-    private void writeObject(java.io.ObjectOutputStream s)
-      throws java.lang.ClassNotFoundException,
-             java.io.IOException
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+      tirows jbvb.lbng.ClbssNotFoundExdfption,
+             jbvb.io.IOExdfption
     {
-        // sigh -- 1.3 expects transform is never null, so we need to always write one out
-        if (this.transform == null) {
-            this.transform = new AffineTransform();
+        // sigi -- 1.3 fxpfdts trbnsform is nfvfr null, so wf nffd to blwbys writf onf out
+        if (tiis.trbnsform == null) {
+            tiis.trbnsform = nfw AffinfTrbnsform();
         }
-        s.defaultWriteObject();
+        s.dffbultWritfObjfdt();
     }
 
     /*
-     * @since 1.6
+     * @sindf 1.6
      */
-    private Object readResolve() throws ObjectStreamException {
-        if (transform == null || transform.isIdentity()) {
-            return IDENTITY;
+    privbtf Objfdt rfbdRfsolvf() tirows ObjfdtStrfbmExdfption {
+        if (trbnsform == null || trbnsform.isIdfntity()) {
+            rfturn IDENTITY;
         }
-        return this;
+        rfturn tiis;
     }
 
-    // Added for serial backwards compatibility (4348425)
-    static final long serialVersionUID = 3356247357827709530L;
+    // Addfd for sfribl bbdkwbrds dompbtibility (4348425)
+    stbtid finbl long sfriblVfrsionUID = 3356247357827709530L;
 
     /**
-     * @since 1.6
+     * @sindf 1.6
      */
-    public int hashCode() {
-        return transform == null ? 0 : transform.hashCode();
+    publid int ibsiCodf() {
+        rfturn trbnsform == null ? 0 : trbnsform.ibsiCodf();
     }
 
     /**
-     * Returns <code>true</code> if rhs is a <code>TransformAttribute</code>
-     * whose transform is equal to this <code>TransformAttribute</code>'s
-     * transform.
-     * @param rhs the object to compare to
-     * @return <code>true</code> if the argument is a <code>TransformAttribute</code>
-     * whose transform is equal to this <code>TransformAttribute</code>'s
-     * transform.
-     * @since 1.6
+     * Rfturns <dodf>truf</dodf> if ris is b <dodf>TrbnsformAttributf</dodf>
+     * wiosf trbnsform is fqubl to tiis <dodf>TrbnsformAttributf</dodf>'s
+     * trbnsform.
+     * @pbrbm ris tif objfdt to dompbrf to
+     * @rfturn <dodf>truf</dodf> if tif brgumfnt is b <dodf>TrbnsformAttributf</dodf>
+     * wiosf trbnsform is fqubl to tiis <dodf>TrbnsformAttributf</dodf>'s
+     * trbnsform.
+     * @sindf 1.6
      */
-    public boolean equals(Object rhs) {
-        if (rhs != null) {
+    publid boolfbn fqubls(Objfdt ris) {
+        if (ris != null) {
             try {
-                TransformAttribute that = (TransformAttribute)rhs;
-                if (transform == null) {
-                    return that.transform == null;
+                TrbnsformAttributf tibt = (TrbnsformAttributf)ris;
+                if (trbnsform == null) {
+                    rfturn tibt.trbnsform == null;
                 }
-                return transform.equals(that.transform);
+                rfturn trbnsform.fqubls(tibt.trbnsform);
             }
-            catch (ClassCastException e) {
+            dbtdi (ClbssCbstExdfption f) {
             }
         }
-        return false;
+        rfturn fblsf;
     }
 }

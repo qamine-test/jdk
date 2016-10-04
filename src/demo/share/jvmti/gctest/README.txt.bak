@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2004, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+# modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+# brf mft:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+#     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,26 +29,26 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-gctest
+gdtfst
 
-This agent library can be used to track garbage collection events.
+Tiis bgfnt librbry dbn bf usfd to trbdk gbrbbgf dollfdtion fvfnts.
 
-You can use this agent library as follows:
+You dbn usf tiis bgfnt librbry bs follows:
 
-    java -agentlib:gctest ...  
+    jbvb -bgfntlib:gdtfst ...  
 	  
-To get help on the available options try:
+To gft iflp on tif bvbilbblf options try:
 
-    java -agentlib:gctest=help
+    jbvb -bgfntlib:gdtfst=iflp
 
-See ${JAVA_HOME}/demo/jvmti/index.html for help running and building agents.
+Sff ${JAVA_HOME}/dfmo/jvmti/indfx.itml for iflp running bnd building bgfnts.
 
-The Events JVMTI_EVENT_GARBAGE_COLLECTION_START,
-JVMTI_EVENT_GARBAGE_COLLECTION_FINISH, and JVMTI_EVENT_OBJECT_FREE 
-all have limitations as to what can be called directly inside the 
-agent callback functions (e.g. no JNI calls are allowed, and limited 
-interface calls can be made). However, by using raw monitors and a separate 
-watcher thread, this agent demonstrates how these limitations can be 
-easily avoided, allowing the watcher thread to do just about anything
-after the JVMTI_EVENT_GARBAGE_COLLECTION_FINISH event.
+Tif Evfnts JVMTI_EVENT_GARBAGE_COLLECTION_START,
+JVMTI_EVENT_GARBAGE_COLLECTION_FINISH, bnd JVMTI_EVENT_OBJECT_FREE 
+bll ibvf limitbtions bs to wibt dbn bf dbllfd dirfdtly insidf tif 
+bgfnt dbllbbdk fundtions (f.g. no JNI dblls brf bllowfd, bnd limitfd 
+intfrfbdf dblls dbn bf mbdf). Howfvfr, by using rbw monitors bnd b sfpbrbtf 
+wbtdifr tirfbd, tiis bgfnt dfmonstrbtfs iow tifsf limitbtions dbn bf 
+fbsily bvoidfd, bllowing tif wbtdifr tirfbd to do just bbout bnytiing
+bftfr tif JVMTI_EVENT_GARBAGE_COLLECTION_FINISH fvfnt.
 

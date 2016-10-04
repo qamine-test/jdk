@@ -1,1765 +1,1765 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6610 $"/>
-		<generation date="$Date: 2012-02-27 09:50:26 +0900 (Mon, 27 Feb 2012) $"/>
-		<language type="ksh"/>
-	</identity>
-	<fallback draft="unconfirmed">de_DE nl nds en</fallback>
-	<localeDisplayNames>
-		<localeDisplayPattern>
-			<localePattern draft="unconfirmed">{0} en {1}</localePattern>
-			<localeSeparator draft="unconfirmed"> uß </localeSeparator>
-		</localeDisplayPattern>
-		<languages>
-			<language type="ab" draft="unconfirmed">Abchaasesch</language>
-			<language type="af" draft="unconfirmed">Afrikaans</language>
-			<language type="am" draft="unconfirmed">Amhaaresch</language>
-			<language type="ar" draft="unconfirmed">Arabescha</language>
-			<language type="as" draft="unconfirmed">Aßameesesch</language>
-			<language type="asa" draft="unconfirmed">Pare</language>
-			<language type="ay" draft="unconfirmed">Aimaresch</language>
-			<language type="az" draft="unconfirmed">Asserbaidschaanesch</language>
-			<language type="be" draft="unconfirmed">Wiißrußesch</language>
-			<language type="bem" draft="unconfirmed">Bemba</language>
-			<language type="bez" draft="unconfirmed">Bena</language>
-			<language type="bg" draft="unconfirmed">Bulljaaresch</language>
-			<language type="bm" draft="unconfirmed">Bambara</language>
-			<language type="bn" draft="unconfirmed">Bängjaalesch</language>
-			<language type="bo" draft="unconfirmed">Tibeetesch</language>
-			<language type="brx" draft="unconfirmed">Boddo</language>
-			<language type="bs" draft="unconfirmed">Boßnesch</language>
-			<language type="ca" draft="unconfirmed">Kattalanesch</language>
-			<language type="cs" draft="unconfirmed">Tschäschesch</language>
-			<language type="cy" draft="unconfirmed">Walliisesch</language>
-			<language type="da" draft="unconfirmed">Dänesch</language>
-			<language type="de" draft="unconfirmed">Deutsch</language>
-			<language type="de_AT" draft="unconfirmed">Deutsch uß Ößterich</language>
-			<language type="de_CH" draft="unconfirmed">Deutsch uß der Schweijz</language>
-			<language type="dv" draft="unconfirmed">Divehesch</language>
-			<language type="dz" draft="unconfirmed">Butanesch</language>
-			<language type="ebu" draft="unconfirmed">Embu</language>
-			<language type="efi" draft="unconfirmed">Efik</language>
-			<language type="el" draft="unconfirmed">Jriischesch</language>
-			<language type="en" draft="unconfirmed">Änglesch</language>
-			<language type="en_AU" draft="unconfirmed">Änglesch uß Außtraalije</language>
-			<language type="en_CA" draft="unconfirmed">Änglesch uß Kannaada</language>
-			<language type="en_GB" draft="unconfirmed">Brittesch Änglesch</language>
-			<language type="en_US" draft="unconfirmed">Amärreskaanesch Änglesch</language>
-			<language type="eo" draft="unconfirmed">Esperanto</language>
-			<language type="es" draft="unconfirmed">Schpaanesch</language>
-			<language type="es_419" draft="unconfirmed">Schpaanesch uß Lattein-Ammärrika</language>
-			<language type="es_ES" draft="unconfirmed">Schpaanesch uß Schpaaneje</language>
-			<language type="et" draft="unconfirmed">Äßnesch</language>
-			<language type="eu" draft="unconfirmed">Baskesch</language>
-			<language type="fa" draft="unconfirmed">Pärsesch</language>
-			<language type="fi" draft="unconfirmed">Finnesch</language>
-			<language type="fil" draft="unconfirmed">Fillipiinesch</language>
-			<language type="fj" draft="unconfirmed">Fidschesch</language>
-			<language type="fr" draft="unconfirmed">Franzüüsesch</language>
-			<language type="fr_CA" draft="unconfirmed">Franzüüsesch uß Kannada</language>
-			<language type="fr_CH" draft="unconfirmed">Franzüüsesch uß de Schweijz</language>
-			<language type="ga" draft="unconfirmed">Ieresch</language>
-			<language type="gl" draft="unconfirmed">Jalliizesch</language>
-			<language type="gn" draft="unconfirmed">Juwaraanesch</language>
-			<language type="gsw" draft="unconfirmed">Schwitzerdütsch</language>
-			<language type="gu" draft="unconfirmed">Gutscharatesch</language>
-			<language type="ha" draft="unconfirmed">Haußa</language>
-			<language type="haw" draft="unconfirmed">Hauajaanesch</language>
-			<language type="he" draft="unconfirmed">Hebrähesch</language>
-			<language type="hi" draft="unconfirmed">Hindi</language>
-			<language type="hr" draft="unconfirmed">Krowatesch</language>
-			<language type="ht" draft="unconfirmed">Ha'iitesch</language>
-			<language type="hu" draft="unconfirmed">Unjarresch</language>
-			<language type="hy" draft="unconfirmed">Areenesch</language>
-			<language type="id" draft="unconfirmed">Indoneesesch</language>
-			<language type="ig" draft="unconfirmed">Igbo</language>
-			<language type="is" draft="unconfirmed">Ißländesch</language>
-			<language type="it" draft="unconfirmed">Etalljänesch</language>
-			<language type="ja" draft="unconfirmed">Japaanesch</language>
-			<language type="jv" draft="unconfirmed">Javaanesch</language>
-			<language type="ka" draft="unconfirmed">Je'orjesch</language>
-			<language type="kea" draft="unconfirmed">Kapvärdesch</language>
-			<language type="kk" draft="unconfirmed">Kassakesch</language>
-			<language type="km" draft="unconfirmed">Khmer</language>
-			<language type="kn" draft="unconfirmed">Kannada</language>
-			<language type="ko" draft="unconfirmed">Korrejaanesch</language>
-            <language type="ks" draft="unconfirmed">Kschamieresch</language>
-            <language type="ksh" draft="unconfirmed">Kölsch</language>
-			<language type="ku" draft="unconfirmed">Kurdesch</language>
-			<language type="ky" draft="unconfirmed">Kirjiisesch</language>
-			<language type="la" draft="unconfirmed">Lateijnesch</language>
-			<language type="lah" draft="unconfirmed">de Landa-Schprooche</language>
-			<language type="lb" draft="unconfirmed">Luxemborjesch</language>
-			<language type="ln" draft="unconfirmed">Lingjalla</language>
-			<language type="lo" draft="unconfirmed">Lahootesch</language>
-			<language type="lt" draft="unconfirmed">Littouesch</language>
-			<language type="luy" draft="unconfirmed">Luyjanesch</language>
-			<language type="lv" draft="unconfirmed">Lättesch</language>
-			<language type="mg" draft="unconfirmed">Madajaßesch</language>
-			<language type="mi" draft="unconfirmed">Maahori</language>
-			<language type="mk" draft="unconfirmed">Mazedoonesch</language>
-			<language type="ml" draft="unconfirmed">Mallajalam</language>
-			<language type="mn" draft="unconfirmed">Mongjolesch</language>
-			<language type="mr" draft="unconfirmed">Marraatesch</language>
-			<language type="ms" draft="unconfirmed">Mallaijesch</language>
-			<language type="mt" draft="unconfirmed">Malteesesch</language>
-			<language type="mul" draft="unconfirmed">-ongerscheidlijje Schprooche-</language>
-			<language type="my" draft="unconfirmed">Burmessesch</language>
-			<language type="nb" draft="unconfirmed">Norrweejesch Bokmål</language>
-			<language type="nd" draft="unconfirmed">Nood-Ndebele</language>
-			<language type="ne" draft="unconfirmed">Nepallessesch</language>
-			<language type="nl" draft="unconfirmed">Holländesch</language>
-			<language type="nl_BE" draft="unconfirmed">Flämesch</language>
-			<language type="nn" draft="unconfirmed">Neu-Norrweejesch</language>
-			<language type="no" draft="unconfirmed">Norrweejesch</language>
-			<language type="nso" draft="unconfirmed">Nood-Sooto</language>
-			<language type="ny" draft="unconfirmed">Schi-Schewa</language>
-			<language type="or" draft="unconfirmed">Oriija</language>
-			<language type="os" draft="unconfirmed">Oßeetesch</language>
-			<language type="pa" draft="unconfirmed">Panschaabesch</language>
-			<language type="pl" draft="unconfirmed">Pollnesch</language>
-			<language type="ps" draft="unconfirmed">Paschtunesch</language>
-			<language type="pt" draft="unconfirmed">Pochtojiesesch</language>
-			<language type="pt_BR" draft="unconfirmed">Brasilljaanesch Pochtojiesesch</language>
-			<language type="pt_PT" draft="unconfirmed">Pochtojiisesch uß Pochtojall</language>
-			<language type="qu" draft="unconfirmed">Kättschowa</language>
-			<language type="rm" draft="unconfirmed">Räto-Romaanesch</language>
-			<language type="rn" draft="unconfirmed">K-Rundesch</language>
-			<language type="ro" draft="unconfirmed">Rumänesch</language>
-			<language type="rof" draft="unconfirmed">Kirombo</language>
-			<language type="ru" draft="unconfirmed">Rußßesch</language>
-			<language type="rw" draft="unconfirmed">Kinja-Ruandesch</language>
-			<language type="sa" draft="unconfirmed">Sanskrit</language>
-			<language type="sah" draft="unconfirmed">Jackutesch</language>
-			<language type="sd" draft="unconfirmed">Sinndi</language>
-			<language type="se" draft="unconfirmed">Nood-Lappländesch</language>
-			<language type="sg" draft="unconfirmed">Sangjo</language>
-			<language type="sh" draft="unconfirmed">Särbokowatesch</language>
-			<language type="si" draft="unconfirmed">Singjaleesesch</language>
-			<language type="sk" draft="unconfirmed">ẞlovakesch</language>
-			<language type="sl" draft="unconfirmed">ẞloveenesch</language>
-			<language type="sm" draft="unconfirmed">Sammohanesch</language>
-			<language type="sn" draft="unconfirmed">Schi-Schona</language>
-			<language type="so" draft="unconfirmed">Somaalesch</language>
-			<language type="sq" draft="unconfirmed">Albaanesch</language>
-			<language type="sr" draft="unconfirmed">Särbesch</language>
-			<language type="ss" draft="unconfirmed">Si-Swatesch</language>
-			<language type="st" draft="unconfirmed">Söd-Sooto</language>
-			<language type="su" draft="unconfirmed">Sindaneesesch</language>
-			<language type="sv" draft="unconfirmed">Schweedesch</language>
-			<language type="sw" draft="unconfirmed">Suaheelesch</language>
-			<language type="swb" draft="unconfirmed">Kommooresch</language>
-			<language type="ta" draft="unconfirmed">Tamiilesch</language>
-			<language type="te" draft="unconfirmed">Telluuju</language>
-			<language type="tet" draft="unconfirmed">Tetumsch</language>
-			<language type="tg" draft="unconfirmed">Tadschiikesch</language>
-			<language type="th" draft="unconfirmed">Tailändesch</language>
-			<language type="ti" draft="unconfirmed">Tigrinianesch</language>
-			<language type="tk" draft="unconfirmed">Törkmeenesch</language>
-			<language type="tl" draft="unconfirmed">Tagalog</language>
-			<language type="tn" draft="unconfirmed">Se-Zwaanesch</language>
-			<language type="to" draft="unconfirmed">Tongjaanesch</language>
-			<language type="tpi" draft="unconfirmed">Took Pisin</language>
-			<language type="tr" draft="unconfirmed">Törkesch</language>
-			<language type="ts" draft="unconfirmed">Xi-Zongjanesch</language>
-			<language type="ty" draft="unconfirmed">Tahitesch</language>
-			<language type="ug" draft="unconfirmed">Uj'juuersch</language>
-			<language type="uk" draft="unconfirmed">Ukrainesch</language>
-			<language type="und" draft="unconfirmed">-onbikannt-</language>
-			<language type="ur" draft="unconfirmed">Urdu/Hindi</language>
-			<language type="uz" draft="unconfirmed">Ußbeekesch</language>
-			<language type="ve" draft="unconfirmed">Wenda</language>
-			<language type="vi" draft="unconfirmed">Vijätnammeesesch</language>
-			<language type="wae" draft="unconfirmed">Walserdütsch</language>
-			<language type="wo" draft="unconfirmed">Woloff</language>
-			<language type="xh" draft="unconfirmed">Isi-Khoosa</language>
-			<language type="yo" draft="unconfirmed">Joruuba</language>
-			<language type="yue" draft="unconfirmed">Kanton-Schineesesch</language>
-			<language type="zh" draft="unconfirmed">Schineesesch</language>
-			<language type="zh_Hans" draft="unconfirmed">Schineesesch en de eijfacher Schreff</language>
-			<language type="zh_Hant" draft="unconfirmed">Schineesesch en de tradizjonälle Schreff</language>
-			<language type="zu" draft="unconfirmed">Suulu</language>
-			<language type="zxx" draft="unconfirmed">-kein Schprooch-</language>
-		</languages>
-		<scripts>
-			<script type="Arab" draft="unconfirmed">arraabesche Schreff</script>
-			<script type="Armn" draft="unconfirmed">armeenesche Schreff</script>
-			<script type="Beng" draft="unconfirmed">bängjaalesche Schreff</script>
-			<script type="Bopo" draft="unconfirmed">schineeseche Ömschreff Bopomofo</script>
-			<script type="Brai" draft="unconfirmed">Blindeschreff</script>
-			<script type="Cyrl" draft="unconfirmed">kürrellesche Schreff</script>
-			<script type="Deva" draft="unconfirmed">indesche Devanajari-Schreff</script>
-			<script type="Ethi" draft="unconfirmed">ätejoopesche Schreff</script>
-			<script type="Geor" draft="unconfirmed">je'orrjesche Schreff</script>
-			<script type="Grek" draft="unconfirmed">jriischesche Schreff</script>
-			<script type="Gujr" draft="unconfirmed">jujaraatesche Schreff</script>
-			<script type="Guru" draft="unconfirmed">indesche Gurmukhi-Schreff</script>
-			<script type="Hang" draft="unconfirmed">korrejaanesche Schreff</script>
-			<script type="Hani" draft="unconfirmed">en schineesesche Schreff</script>
-			<script type="Hans" draft="unconfirmed">eijfacher schineesesche Schreff</script>
-			<script type="Hant" draft="unconfirmed">tradizjonäll schineesesche Schreff</script>
-			<script type="Hebr" draft="unconfirmed">hebrääjesche Schreff</script>
-			<script type="Hira" draft="unconfirmed">japaanesche Hiddajaana-Schreff</script>
-			<script type="Jpan" draft="unconfirmed">en japaanesche Schreff</script>
-			<script type="Kana" draft="unconfirmed">japaanesche Kattakaana-Schreff</script>
-			<script type="Khmr" draft="unconfirmed">Khmer-Schreff</script>
-			<script type="Knda" draft="unconfirmed">indesche Kannada-Schreff</script>
-			<script type="Kore" draft="unconfirmed">korrejaanesche Schreff udder en schineesesche Schreff</script>
-			<script type="Laoo" draft="unconfirmed">lahootesche Schreff</script>
-			<script type="Latn" draft="unconfirmed">lateinesche Schreff</script>
-			<script type="Mlym" draft="unconfirmed">indesche Malajalam-Schreff</script>
-			<script type="Mong" draft="unconfirmed">mongjoolesche Schreff</script>
-			<script type="Mymr" draft="unconfirmed">birmaanesche Schreff</script>
-			<script type="Orya" draft="unconfirmed">indesche Orija-Schreff</script>
-			<script type="Sinh" draft="unconfirmed">singjaleesesche Schreff</script>
-			<script type="Taml" draft="unconfirmed">tamiilesche Schreff</script>
-			<script type="Telu" draft="unconfirmed">indesche Telugu-Schreff</script>
-			<script type="Thaa" draft="unconfirmed">malledivesche Taana-Schreff</script>
-			<script type="Thai" draft="unconfirmed">tailändesche Schreff</script>
-			<script type="Tibt" draft="unconfirmed">tibeetesche Schreff</script>
-			<script type="Zsym" draft="unconfirmed">-Zeiche ävver kein Schreff-</script>
-			<script type="Zxxx" draft="unconfirmed">-jaa keij Schreff-</script>
-			<script type="Zyyy" draft="unconfirmed">-öhnß en Schreff-</script>
-			<script type="Zzzz" draft="unconfirmed">-onbikannte Schreff-</script>
-		</scripts>
-		<territories>
-			<territory type="001" draft="unconfirmed">de Ääd</territory>
-			<territory type="002" draft="unconfirmed">Affrika</territory>
-			<territory type="003" draft="unconfirmed">Nood-Amärrika</territory>
-			<territory type="005" draft="unconfirmed">Söd-Amärrika</territory>
-			<territory type="009" draft="unconfirmed">Ozejaanije</territory>
-			<territory type="011" draft="unconfirmed">Wäß-Affrika</territory>
-			<territory type="013" draft="unconfirmed">Meddelammärrika</territory>
-			<territory type="014" draft="unconfirmed">Oß-Affrika</territory>
-			<territory type="015" draft="unconfirmed">Nood-Affrika</territory>
-			<territory type="017" draft="unconfirmed">Meddel-Affrika</territory>
-			<territory type="018" draft="unconfirmed">Söd-Affrika</territory>
-			<territory type="019" draft="unconfirmed">Ammärrika</territory>
-			<territory type="021" draft="unconfirmed">der Norde vun Amärrika</territory>
-			<territory type="029" draft="unconfirmed">de Karribik</territory>
-			<territory type="030" draft="unconfirmed">Oß-Aasije</territory>
-			<territory type="034" draft="unconfirmed">Söd-Aasije</territory>
-			<territory type="035" draft="unconfirmed">Söd-Oß-Aasije</territory>
-			<territory type="039" draft="unconfirmed">Söd-Europpa</territory>
-			<territory type="053" draft="unconfirmed">de Rejjohn Austraalije</territory>
-			<territory type="054" draft="unconfirmed">Mellaneesije</territory>
-			<territory type="057" draft="unconfirmed">de Rejohn vun Mikroneeseje</territory>
-			<territory type="061" draft="unconfirmed">Polineesije</territory>
-			<territory type="142" draft="unconfirmed">Aasije</territory>
-			<territory type="143" draft="unconfirmed">Meddelaasije</territory>
-			<territory type="145" draft="unconfirmed">Wäß-Aasije</territory>
-			<territory type="150" draft="unconfirmed">Europpa</territory>
-			<territory type="151" draft="unconfirmed">Oß-Europpa</territory>
-			<territory type="154" draft="unconfirmed">Nood-Europpa</territory>
-			<territory type="155" draft="unconfirmed">Wäß-Europpa</territory>
-			<territory type="419" draft="unconfirmed">Lateinamärrika</territory>
-			<territory type="AC" draft="unconfirmed">Aßension</territory>
-			<territory type="AD" draft="unconfirmed">Andorra</territory>
-			<territory type="AE" draft="unconfirmed">Vereinschte Arrabesche Emmirate</territory>
-			<territory type="AF" draft="unconfirmed">Afjaanistahn</territory>
-			<territory type="AG" draft="unconfirmed">Antigwa un Barbuda</territory>
-			<territory type="AI" draft="unconfirmed">Anggwilla</territory>
-			<territory type="AL" draft="unconfirmed">Albaanije</territory>
-			<territory type="AM" draft="unconfirmed">Arrmeenije</territory>
-			<territory type="AN" draft="unconfirmed">de Nederlängsche Antille</territory>
-			<territory type="AO" draft="unconfirmed">Angjoola</territory>
-			<territory type="AQ" draft="unconfirmed">der Södpol</territory>
-			<territory type="AR" draft="unconfirmed">Ajjentiinije</territory>
-			<territory type="AS" draft="unconfirmed">Ammerikaanesch Sammoha</territory>
-			<territory type="AT" draft="unconfirmed">Öösterisch</territory>
-			<territory type="AU" draft="unconfirmed">Austraalije</territory>
-			<territory type="AW" draft="unconfirmed">Aruba</territory>
-			<territory type="AX" draft="unconfirmed">de Ohland-Enselle</territory>
-			<territory type="AZ" draft="unconfirmed">Asserbaidschahn</territory>
-			<territory type="BA" draft="unconfirmed">Boßnije</territory>
-			<territory type="BB" draft="unconfirmed">de Ensel Barbados</territory>
-			<territory type="BD" draft="unconfirmed">Bangladesch</territory>
-			<territory type="BE" draft="unconfirmed">Bellje</territory>
-			<territory type="BF" draft="unconfirmed">Bukkinna-Faase</territory>
-			<territory type="BG" draft="unconfirmed">Bulljaarije</territory>
-			<territory type="BH" draft="unconfirmed">Bachrain</territory>
-			<territory type="BI" draft="unconfirmed">Burundi</territory>
-			<territory type="BJ" draft="unconfirmed">dä Benin</territory>
-			<territory type="BL" draft="unconfirmed">de Zint Battälmi-Enselle</territory>
-			<territory type="BM" draft="unconfirmed">de Bermudas</territory>
-			<territory type="BN" draft="unconfirmed">Brunei</territory>
-			<territory type="BO" draft="unconfirmed">Bolliivije</territory>
-			<territory type="BR" draft="unconfirmed">Brasilije</territory>
-			<territory type="BS" draft="unconfirmed">de Bahamas</territory>
-			<territory type="BT" draft="unconfirmed">Buttaan</territory>
-			<territory type="BV" draft="unconfirmed">Buvee-Ensel</territory>
-			<territory type="BW" draft="unconfirmed">Bozwaana</territory>
-			<territory type="BY" draft="unconfirmed">Wießrußland</territory>
-			<territory type="BZ" draft="unconfirmed">Belize</territory>
-			<territory type="CA" draft="unconfirmed">Kannada</territory>
-			<territory type="CC" draft="unconfirmed">de Kokkos-Enselle</territory>
-			<territory type="CD" draft="unconfirmed">dä Konggo (Kinschasa)</territory>
-			<territory type="CD" alt="variant" draft="unconfirmed">de Demmokraatesche Republik Konggo</territory>
-			<territory type="CF" draft="unconfirmed">de Zäntraalaffrikaanesche Republik</territory>
-			<territory type="CG" draft="unconfirmed">dä Konggo (Brassavill)</territory>
-			<territory type="CG" alt="variant" draft="unconfirmed">de Republik Konggo</territory>
-			<territory type="CH" draft="unconfirmed">de Schweiz</territory>
-			<territory type="CI" draft="unconfirmed">Älfebeijn-Köß</territory>
-			<territory type="CK" draft="unconfirmed">de Kuuk-Enselle</territory>
-			<territory type="CL" draft="unconfirmed">Schiile</territory>
-			<territory type="CM" draft="unconfirmed">Kammeruhn</territory>
-			<territory type="CN" draft="unconfirmed">Schiina</territory>
-			<territory type="CO" draft="unconfirmed">Kolumbije</territory>
-			<territory type="CP" draft="unconfirmed">de Klipperton-Ensel</territory>
-			<territory type="CR" draft="unconfirmed">Kostarika</territory>
-			<territory type="CU" draft="unconfirmed">Kuba</territory>
-			<territory type="CV" draft="unconfirmed">de Kapvärdesche Enselle</territory>
-			<territory type="CX" draft="unconfirmed">de Weihnaachs-Ensel</territory>
-			<territory type="CY" draft="unconfirmed">Züppere</territory>
-			<territory type="CZ" draft="unconfirmed">de Tschäschei</territory>
-			<territory type="DE" draft="unconfirmed">Doütschland</territory>
-			<territory type="DG" draft="unconfirmed">de Diego-Garcia-Ensel</territory>
-			<territory type="DJ" draft="unconfirmed">Dschibutti</territory>
-			<territory type="DK" draft="unconfirmed">Dänemark</territory>
-			<territory type="DM" draft="unconfirmed">Dominnika</territory>
-			<territory type="DO" draft="unconfirmed">de Dommenekaanesche Reppublik</territory>
-			<territory type="DZ" draft="unconfirmed">Alljeerije</territory>
-			<territory type="EA" draft="unconfirmed">Ze'uta un Meliija</territory>
-			<territory type="EC" draft="unconfirmed">Äkwador</territory>
-			<territory type="EE" draft="unconfirmed">Äßland</territory>
-			<territory type="EG" draft="unconfirmed">Äjüpte</territory>
-			<territory type="EH" draft="unconfirmed">Wäß-Sahara</territory>
-			<territory type="ER" draft="unconfirmed">Äritreja</territory>
-			<territory type="ES" draft="unconfirmed">Schpaanije</territory>
-			<territory type="ET" draft="unconfirmed">Ättijoopije</territory>
-			<territory type="EU" draft="unconfirmed">de Eurppäesche Unijon</territory>
-			<territory type="FI" draft="unconfirmed">Finnland</territory>
-			<territory type="FJ" draft="unconfirmed">de Fidschi-Endelle</territory>
-			<territory type="FK" draft="unconfirmed">de Falkland-Enselle</territory>
-			<territory type="FK" alt="variant" draft="unconfirmed">de Malleviinesche Enselle</territory>
-			<territory type="FM" draft="unconfirmed">Mikroneesije</territory>
-			<territory type="FO" draft="unconfirmed">de Färrör-Enselle</territory>
-			<territory type="FR" draft="unconfirmed">Frankrisch</territory>
-			<territory type="GA" draft="unconfirmed">Jabuhn</territory>
-			<territory type="GB" draft="unconfirmed">Jruußbrettannije</territory>
-			<territory type="GD" draft="unconfirmed">Jrenaada</territory>
-			<territory type="GE" draft="unconfirmed">Jeorrjije</territory>
-			<territory type="GF" draft="unconfirmed">Franzüüsesch Jujaana</territory>
-			<territory type="GG" draft="unconfirmed">Jöönsei</territory>
-			<territory type="GH" draft="unconfirmed">Jaana</territory>
-			<territory type="GI" draft="unconfirmed">Jibralltaa</territory>
-			<territory type="GL" draft="unconfirmed">Jröhnland</territory>
-			<territory type="GM" draft="unconfirmed">Jambija</territory>
-			<territory type="GN" draft="unconfirmed">Jinneha</territory>
-			<territory type="GP" draft="unconfirmed">Juadelupp</territory>
-			<territory type="GQ" draft="unconfirmed">Äquatorial Jineeja</territory>
-			<territory type="GR" draft="unconfirmed">Jriescheland</territory>
-			<territory type="GS" draft="unconfirmed">Söd-Jeorjie un de södlijje Botteramms-Enselle</territory>
-			<territory type="GT" draft="unconfirmed">Juwatemaala</territory>
-			<territory type="GU" draft="unconfirmed">Juham</territory>
-			<territory type="GW" draft="unconfirmed">Jinneha_Bißau</territory>
-			<territory type="GY" draft="unconfirmed">Jujaana</territory>
-			<territory type="HK" draft="unconfirmed">Hong-Kong</territory>
-			<territory type="HK" alt="short" draft="unconfirmed">Hongkong</territory>
-			<territory type="HM" draft="unconfirmed">de Heart Ensel un de McDonald-Enselle</territory>
-			<territory type="HN" draft="unconfirmed">Honduras</territory>
-			<territory type="HR" draft="unconfirmed">Krowazije</territory>
-			<territory type="HT" draft="unconfirmed">Ha'itti</territory>
-			<territory type="HU" draft="unconfirmed">Unjann</territory>
-			<territory type="IC" draft="unconfirmed">de Kannaresche Enselle</territory>
-			<territory type="ID" draft="unconfirmed">Indoneesije</territory>
-			<territory type="IE" draft="unconfirmed">Irrland</territory>
-			<territory type="IL" draft="unconfirmed">Ißraäl</territory>
-			<territory type="IM" draft="unconfirmed">de Ensel Män</territory>
-			<territory type="IN" draft="unconfirmed">Indije</territory>
-			<territory type="IO" draft="unconfirmed">Brettesche Besezunge em indesche Oozejahn</territory>
-			<territory type="IQ" draft="unconfirmed">der Irak</territory>
-			<territory type="IR" draft="unconfirmed">Persije</territory>
-			<territory type="IS" draft="unconfirmed">Ißland</territory>
-			<territory type="IT" draft="unconfirmed">Itaalije</territory>
-			<territory type="JE" draft="unconfirmed">Jööseh</territory>
-			<territory type="JM" draft="unconfirmed">Jammaika</territory>
-			<territory type="JO" draft="unconfirmed">Jordaanija</territory>
-			<territory type="JP" draft="unconfirmed">Japan</territory>
-			<territory type="KE" draft="unconfirmed">Keenija</territory>
-			<territory type="KG" draft="unconfirmed">Kirrjiisije</territory>
-			<territory type="KH" draft="unconfirmed">Kambodscha</territory>
-			<territory type="KI" draft="unconfirmed">Kiribati</territory>
-			<territory type="KM" draft="unconfirmed">de Kommoore</territory>
-			<territory type="KN" draft="unconfirmed">Zimt Kitts un Nevis</territory>
-			<territory type="KP" draft="unconfirmed">Nood-Koreja</territory>
-			<territory type="KR" draft="unconfirmed">Söd-Koreja</territory>
-			<territory type="KW" draft="unconfirmed">Kuweit</territory>
-			<territory type="KY" draft="unconfirmed">de Kaiman-Enselle</territory>
-			<territory type="KZ" draft="unconfirmed">Kassakstahn</territory>
-			<territory type="LA" draft="unconfirmed">La'os</territory>
-			<territory type="LB" draft="unconfirmed">der Lebbannon</territory>
-			<territory type="LC" draft="unconfirmed">de Ensel Zint-Lutscha</territory>
-			<territory type="LI" draft="unconfirmed">Lischtestein</territory>
-			<territory type="LK" draft="unconfirmed">Sri Lanka</territory>
-			<territory type="LR" draft="unconfirmed">Libeerija</territory>
-			<territory type="LS" draft="unconfirmed">Lesooto</territory>
-			<territory type="LT" draft="unconfirmed">Littaue</territory>
-			<territory type="LU" draft="unconfirmed">Luxembursch</territory>
-			<territory type="LV" draft="unconfirmed">Lätland</territory>
-			<territory type="LY" draft="unconfirmed">Libbije</territory>
-			<territory type="MA" draft="unconfirmed">Marokko</territory>
-			<territory type="MC" draft="unconfirmed">Monakko</territory>
-			<territory type="MD" draft="unconfirmed">Moldaavije</territory>
-			<territory type="ME" draft="unconfirmed">et Monteneejro</territory>
-			<territory type="MF" draft="unconfirmed">de Sint-Määtes-Ensel</territory>
-			<territory type="MG" draft="unconfirmed">Maddajaska</territory>
-			<territory type="MH" draft="unconfirmed">de Machschall-Enselle</territory>
-			<territory type="MK" draft="unconfirmed">Mazedoonije</territory>
-			<territory type="MK" alt="variant" draft="unconfirmed">de vörmaals ens jugoßlaawesch jewääse Republik Mazedoonije</territory>
-			<territory type="ML" draft="unconfirmed">Maali</territory>
-			<territory type="MM" draft="unconfirmed">Birma</territory>
-			<territory type="MN" draft="unconfirmed">de Mongjolei</territory>
-			<territory type="MO" draft="unconfirmed">Makau</territory>
-			<territory type="MO" alt="short" draft="unconfirmed">Makau</territory>
-			<territory type="MP" draft="unconfirmed">de nöödlijje Marijanne-Enselle</territory>
-			<territory type="MQ" draft="unconfirmed">Machtinik</territory>
-			<territory type="MR" draft="unconfirmed">Mautitaanije</territory>
-			<territory type="MS" draft="unconfirmed">Mongßerrat</territory>
-			<territory type="MT" draft="unconfirmed">Malta</territory>
-			<territory type="MU" draft="unconfirmed">Maurizijus</territory>
-			<territory type="MV" draft="unconfirmed">de Mallediive</territory>
-			<territory type="MW" draft="unconfirmed">Malawi</territory>
-			<territory type="MX" draft="unconfirmed">Mexico</territory>
-			<territory type="MY" draft="unconfirmed">Malaisije</territory>
-			<territory type="MZ" draft="unconfirmed">Mosambik</territory>
-			<territory type="NA" draft="unconfirmed">Namiibije</territory>
-			<territory type="NC" draft="unconfirmed">Neuschottland</territory>
-			<territory type="NE" draft="unconfirmed">Nijer</territory>
-			<territory type="NF" draft="unconfirmed">de Noofok-Ensel</territory>
-			<territory type="NG" draft="unconfirmed">Nikaraagua</territory>
-			<territory type="NI" draft="unconfirmed">Nikaraaguwa</territory>
-			<territory type="NL" draft="unconfirmed">de Nederläng</territory>
-			<territory type="NO" draft="unconfirmed">Norrweeje</territory>
-			<territory type="NP" draft="unconfirmed">Nepall</territory>
-			<territory type="NR" draft="unconfirmed">Nauru</territory>
-			<territory type="NU" draft="unconfirmed">Niue</territory>
-			<territory type="NZ" draft="unconfirmed">Neuseeland</territory>
-			<territory type="OM" draft="unconfirmed">der Oman</territory>
-			<territory type="PA" draft="unconfirmed">Pannama</territory>
-			<territory type="PE" draft="unconfirmed">Perruh</territory>
-			<territory type="PF" draft="unconfirmed">Franzüüsesch Pollineesije</territory>
-			<territory type="PG" draft="unconfirmed">Papuwa Neujineeja</territory>
-			<territory type="PH" draft="unconfirmed">de Fillipiine</territory>
-			<territory type="PK" draft="unconfirmed">Pakistahn</territory>
-			<territory type="PL" draft="unconfirmed">Pole</territory>
-			<territory type="PM" draft="unconfirmed">Zint Pjäär un Mikelong</territory>
-			<territory type="PN" draft="unconfirmed">de Pitkärn-Ensel</territory>
-			<territory type="PR" draft="unconfirmed">Pochtoriko</territory>
-			<territory type="PS" draft="unconfirmed">Palästina</territory>
-			<territory type="PT" draft="unconfirmed">Pochtojall</territory>
-			<territory type="PW" draft="unconfirmed">Pallau</territory>
-			<territory type="PY" draft="unconfirmed">Parraguwai</territory>
-			<territory type="QA" draft="unconfirmed">Kataa</territory>
-			<territory type="QO" draft="unconfirmed">Ozejaanije ußerhallef</territory>
-			<territory type="RE" draft="unconfirmed">Rehunjohn</territory>
-			<territory type="RO" draft="unconfirmed">Romäänije</territory>
-			<territory type="RS" draft="unconfirmed">Särbije</territory>
-			<territory type="RU" draft="unconfirmed">Rußland</territory>
-			<territory type="RW" draft="unconfirmed">Ruanda</territory>
-			<territory type="SA" draft="unconfirmed">Saudi Arraabije</territory>
-			<territory type="SB" draft="unconfirmed">de Solomone-Enselle</territory>
-			<territory type="SC" draft="unconfirmed">de Seischälle</territory>
-			<territory type="SD" draft="unconfirmed">der Sudahn</territory>
-			<territory type="SE" draft="unconfirmed">Schweede</territory>
-			<territory type="SG" draft="unconfirmed">Singjapuur</territory>
-			<territory type="SH" draft="unconfirmed">de Sint-Hellena-Ensel</territory>
-			<territory type="SI" draft="unconfirmed">ßloveenije</territory>
-			<territory type="SJ" draft="unconfirmed">de Enselle Svalbard un Jan Mayen</territory>
-			<territory type="SK" draft="unconfirmed">de ẞlovakei</territory>
-			<territory type="SL" draft="unconfirmed">Sjärra Lejone</territory>
-			<territory type="SM" draft="unconfirmed">San-Marino</territory>
-			<territory type="SN" draft="unconfirmed">der Sennejall</territory>
-			<territory type="SO" draft="unconfirmed">Somaalije</territory>
-			<territory type="SR" draft="unconfirmed">Sürinamm</territory>
-			<territory type="ST" draft="unconfirmed">Zint Tommeh un Printschipe</territory>
-			<territory type="SV" draft="unconfirmed">Äl Slavadoor</territory>
-			<territory type="SY" draft="unconfirmed">Sürije</territory>
-			<territory type="SZ" draft="unconfirmed">ßwaasiland</territory>
-			<territory type="TA" draft="unconfirmed">Tristan da Cunja</territory>
-			<territory type="TC" draft="unconfirmed">de Enselle Turks un Kaikos</territory>
-			<territory type="TD" draft="unconfirmed">der Tschadd</territory>
-			<territory type="TF" draft="unconfirmed">Franzüüsesche Södsee-Enselle</territory>
-			<territory type="TG" draft="unconfirmed">Toojo</territory>
-			<territory type="TH" draft="unconfirmed">Tailand</territory>
-			<territory type="TJ" draft="unconfirmed">Tadschikistahn</territory>
-			<territory type="TK" draft="unconfirmed">Tokelau</territory>
-			<territory type="TL" draft="unconfirmed">Oß-Timor</territory>
-			<territory type="TL" alt="variant" draft="unconfirmed">Oß-Timor</territory>
-			<territory type="TM" draft="unconfirmed">Turkmenistahn</territory>
-			<territory type="TN" draft="unconfirmed">Tuneesije</territory>
-			<territory type="TO" draft="unconfirmed">Tongga</territory>
-			<territory type="TR" draft="unconfirmed">de Törkei</territory>
-			<territory type="TT" draft="unconfirmed">Trinidad un Tobääjo</territory>
-			<territory type="TV" draft="unconfirmed">Tuvalu</territory>
-			<territory type="TW" draft="unconfirmed">Taiwan</territory>
-			<territory type="TZ" draft="unconfirmed">Tansanija</territory>
-			<territory type="UA" draft="unconfirmed">de Ukra'iine</territory>
-			<territory type="UG" draft="unconfirmed">Ujanda</territory>
-			<territory type="UM" draft="unconfirmed">de Vereineschte Schtaate vun Amärrika ier klein Enselsche ußerhallef</territory>
-			<territory type="US" draft="unconfirmed">de Vereineschte Schtaate vun Ammärrika</territory>
-			<territory type="UY" draft="unconfirmed">Urrujwai</territory>
-			<territory type="UZ" draft="unconfirmed">Ußbeekistahn</territory>
-			<territory type="VA" draft="unconfirmed">der Vattikahn</territory>
-			<territory type="VC" draft="unconfirmed">Zint Vinzänz un de Jrenadines-Enselle</territory>
-			<territory type="VE" draft="unconfirmed">Venezuela</territory>
-			<territory type="VG" draft="unconfirmed">de brettesche Juffer-Enselle</territory>
-			<territory type="VI" draft="unconfirmed">de ammärrikahnesche Juffer-Enselle</territory>
-			<territory type="VN" draft="unconfirmed">Vijätnamm</territory>
-			<territory type="VU" draft="unconfirmed">Vanuatu</territory>
-			<territory type="WF" draft="unconfirmed">Wallis un Futuna</territory>
-			<territory type="WS" draft="unconfirmed">Sammoha</territory>
-			<territory type="YE" draft="unconfirmed">der Jämme</territory>
-			<territory type="YT" draft="unconfirmed">Majott</territory>
-			<territory type="ZA" draft="unconfirmed">Södaffrika</territory>
-			<territory type="ZM" draft="unconfirmed">Sambija</territory>
-			<territory type="ZW" draft="unconfirmed">Simbabwe</territory>
-			<territory type="ZZ" draft="unconfirmed">- Jääjend onbikannt -</territory>
-		</territories>
-		<variants>
-			<variant type="1901" draft="unconfirmed">Schriefwiiß vun 1901 aff</variant>
-			<variant type="1994" draft="unconfirmed">resijanesch schtandatt Schriefwiiß vun 1994</variant>
-			<variant type="1996" draft="unconfirmed">Schriefwiiß vun 1996 aff</variant>
-			<variant type="1606NICT" draft="unconfirmed">späätmeddelfranzüüsesch vör 1606</variant>
-			<variant type="1694ACAD" draft="unconfirmed">fröhneufranzüüsesch aff 1694</variant>
-			<variant type="1959ACAD" draft="unconfirmed">akademesche Schriefwiiß vun 1959</variant>
-			<variant type="ALALC97" draft="unconfirmed">de lateinesche Ömschreff ALA-LC vun 1997</variant>
-			<variant type="AREVELA" draft="unconfirmed">oß-armeensch</variant>
-			<variant type="AREVMDA" draft="unconfirmed">wäß-armeenesch</variant>
-			<variant type="BAKU1926" draft="unconfirmed">eijheijtlesch törkesch lateijnesch Allfabeet</variant>
-			<variant type="BISKE" draft="unconfirmed">zint jorjo'sche uder bila'sche reijanesche Dijaläk</variant>
-			<variant type="BOONT" draft="unconfirmed">boontlingsche Dijaläk</variant>
-			<variant type="FONIPA" draft="unconfirmed">IPA-Loutschreff</variant>
-			<variant type="FONUPA" draft="unconfirmed">UPA-Loutschreff</variant>
-			<variant type="HEPBURN" draft="unconfirmed">De Lateinesche Ömschreff noh Hepburn</variant>
-			<variant type="HOGNORSK" draft="unconfirmed">Huhnorrweejesch</variant>
-			<variant type="KKCOR" draft="unconfirmed">jemeinsam widderbeläf kornesche Schriefwiiß</variant>
-			<variant type="LIPAW" draft="unconfirmed">lipovazesch resijanesche Dijaläk</variant>
-			<variant type="MONOTON" draft="unconfirmed">monnotoonesch</variant>
-			<variant type="NDYUKA" draft="unconfirmed">ndyukanesche Dijaläk</variant>
-			<variant type="NEDIS" draft="unconfirmed">natisonesche Dijaläk</variant>
-			<variant type="NJIVA" draft="unconfirmed">gniva'sche uder njiva'sche reijanesche Dijaläk</variant>
-			<variant type="OSOJS" draft="unconfirmed">oseacco'sche uder osojanesche reijanesche Dijaläk</variant>
-			<variant type="PAMAKA" draft="unconfirmed">pamakanesche Dijaläk</variant>
-			<variant type="PINYIN" draft="unconfirmed">Pinjin-Ömschreff</variant>
-			<variant type="POLYTON" draft="unconfirmed">pollütoonesch</variant>
-			<variant type="REVISED" draft="unconfirmed">neu opjelate Schriefwiiß</variant>
-			<variant type="ROZAJ" draft="unconfirmed">resijanesche Dijaläk</variant>
-			<variant type="SCOTLAND" draft="unconfirmed">schottesche Dijaläk</variant>
-			<variant type="SCOUSE" draft="unconfirmed">scouse Dijaläk</variant>
-			<variant type="SOLBA" draft="unconfirmed">stolvizanesche uder solbizanesch reijanesche Dijaläk</variant>
-			<variant type="TARASK" draft="unconfirmed">Taraskijeviza-Schriefwiiß</variant>
-			<variant type="UCCOR" draft="unconfirmed">eijheijtlesch Schriefwiiß</variant>
-			<variant type="UCRCOR" draft="unconfirmed">eijheijtlesch, neu opjelate Schriefwiiß</variant>
-			<variant type="VALENCIA" draft="unconfirmed">valenzijaanesche Dijaläk</variant>
-			<variant type="WADEGILE" draft="unconfirmed">lateijnesche Ömschreff noh Wade-Giles</variant>
-		</variants>
-		<keys>
-			<key type="calendar" draft="unconfirmed">dä Kalländer</key>
-			<key type="collation" draft="unconfirmed">de Reijefollsch zom Zotiere</key>
-			<key type="currency" draft="unconfirmed">de Zoot Jeld</key>
-			<key type="numbers" draft="unconfirmed">de Nummere</key>
-		</keys>
-		<types>
-			<type type="arab" key="numbers" draft="unconfirmed">araabesche un indesche Zeffere</type>
-			<type type="armn" key="numbers" draft="unconfirmed">armeenesche Zahle</type>
-			<type type="armnlow" key="numbers" draft="unconfirmed">klein jeschrevve armeenesche Zahle</type>
-			<type type="beng" key="numbers" draft="unconfirmed">bängjaalesche Zeffere</type>
-			<type type="big5han" key="collation" draft="unconfirmed">zoteert nohm tradizjonäll schineesesch Big5</type>
-			<type type="buddhist" key="calendar" draft="unconfirmed">buddistesche Kaländer</type>
-			<type type="chinese" key="calendar" draft="unconfirmed">schineesesche Kaländer</type>
-			<type type="coptic" key="calendar" draft="unconfirmed">kopttesche Kaländer</type>
-			<type type="deva" key="numbers" draft="unconfirmed">Devanagari-Zeffere</type>
-			<type type="dictionary" key="collation" draft="unconfirmed">zoteert wi em Wööterbooch</type>
-			<type type="ducet" key="collation" draft="unconfirmed">standattmääßesch zoteert nohm Unicode</type>
-			<type type="ethi" key="numbers" draft="unconfirmed">ätejoopesche Zahle</type>
-			<type type="ethiopic" key="calendar" draft="unconfirmed">ätejoopesche Kaländer</type>
-			<type type="ethiopic-amete-alem" key="calendar" draft="unconfirmed">ätejoopesche Amete Alem Kaländer</type>
-			<type type="gb2312han" key="collation" draft="unconfirmed">zoteert nohm eijfacher schineesesch GB2312</type>
-			<type type="geor" key="numbers" draft="unconfirmed">jeorjeesche Zahle</type>
-			<type type="gregorian" key="calendar" draft="unconfirmed">jrejorejaanesche Kaländer</type>
-			<type type="grek" key="numbers" draft="unconfirmed">jriischesche Zahle</type>
-			<type type="greklow" key="numbers" draft="unconfirmed">klein jeschrevve jriischesche Zahle</type>
-			<type type="gujr" key="numbers" draft="unconfirmed">Jujarati-Zeffere</type>
-			<type type="guru" key="numbers" draft="unconfirmed">Jurmukhi-Zeffere</type>
-			<type type="hebr" key="numbers" draft="unconfirmed">hebräjesche Zahle</type>
-			<type type="hebrew" key="calendar" draft="unconfirmed">jüdesche Kaländer</type>
-			<type type="indian" key="calendar" draft="unconfirmed">indesche Nazjonahl-Kaländer</type>
-			<type type="islamic" key="calendar" draft="unconfirmed">ißlaamesche Kaländer</type>
-			<type type="islamic-civil" key="calendar" draft="unconfirmed">wältlesche islaamesche Kaländer</type>
-			<type type="japanese" key="calendar" draft="unconfirmed">japaanesche Kaländer</type>
-			<type type="jpan" key="numbers" draft="unconfirmed">japanesche Zahle</type>
-			<type type="khmr" key="numbers" draft="unconfirmed">Khmer-Zeffere</type>
-			<type type="knda" key="numbers" draft="unconfirmed">Kannada-Zeffere</type>
-			<type type="laoo" key="numbers" draft="unconfirmed">laootesche Zeffere</type>
-			<type type="latn" key="numbers" draft="unconfirmed">wäßlejje Zeffere</type>
-			<type type="mlym" key="numbers" draft="unconfirmed">Malayalam-Zeffere</type>
-			<type type="mong" key="numbers" draft="unconfirmed">mongjoolesche Zeffere</type>
-			<type type="mymr" key="numbers" draft="unconfirmed">Myanmar-Zeffere</type>
-			<type type="orya" key="numbers" draft="unconfirmed">Oriya-Zeffere</type>
-			<type type="persian" key="calendar" draft="unconfirmed">pärsesche Kaländer</type>
-			<type type="phonebook" key="collation" draft="unconfirmed">zoteert wi em Tollefoonbooch</type>
-			<type type="pinyin" key="collation" draft="unconfirmed">zoteert noh de Pinjin Ömschreff vum Schineesesch</type>
-			<type type="roc" key="calendar" draft="unconfirmed">rotschineesesche Kaländer</type>
-			<type type="roman" key="numbers" draft="unconfirmed">römesche Zahle</type>
-			<type type="romanlow" key="numbers" draft="unconfirmed">klein jeschrevve römesche Zahle</type>
-			<type type="stroke" key="collation" draft="unconfirmed">zoteert noh de Stresche vum tradizjonäll schineesesch</type>
-			<type type="taml" key="numbers" draft="unconfirmed">tamilesche Zahle</type>
-			<type type="telu" key="numbers" draft="unconfirmed">Teluju-Zeffere</type>
-			<type type="thai" key="numbers" draft="unconfirmed">thailändesche Zeffere</type>
-			<type type="tibt" key="numbers" draft="unconfirmed">tibetaanesche Zeffere</type>
-			<type type="traditional" key="collation" draft="unconfirmed">tradizjonäll zoteert</type>
-			<type type="unihan" key="collation" draft="unconfirmed">zoteert noh de Radikaale un Stresche vum Schineesesch</type>
-		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="metric" draft="unconfirmed">metresch-europpäjesch</measurementSystemName>
-			<measurementSystemName type="UK" draft="unconfirmed">änglesch</measurementSystemName>
-			<measurementSystemName type="US" draft="unconfirmed">ammärekaanesch</measurementSystemName>
-		</measurementSystemNames>
-		<codePatterns>
-			<codePattern type="language" draft="unconfirmed">de Schprooch afjekööz met „{0}“</codePattern>
-			<codePattern type="script" draft="unconfirmed">de Schreff afjekööz met „{0}“</codePattern>
-			<codePattern type="territory" draft="unconfirmed">de Jääjend afjekööz met „{0}“</codePattern>
-		</codePatterns>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a å ä æ b c d e ë ė f g h i j k l m n o ö œ p q r s t u ů ü v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[á à ă â å ä ã ā æ ç é è ĕ ê ë ē ğ í ì ĭ î ï ī ĳ ı ł ñ ó ò ŏ ô ö ø ō œ ú ù ŭ û ü ū ÿ]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol" draft="unconfirmed">[a b c č d e f ƒ g h i j k l ł m n o º p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart draft="unconfirmed">„</quotationStart>
-		<quotationEnd draft="unconfirmed">“</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">‚</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">‘</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="buddhist">
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, d. MMMM y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-			</calendar>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">Jan.</month>
-							<month type="2" draft="unconfirmed">Fäb.</month>
-							<month type="3" draft="unconfirmed">Mar.</month>
-							<month type="4" draft="unconfirmed">Apr.</month>
-							<month type="5" draft="unconfirmed">Mäi</month>
-							<month type="6" draft="unconfirmed">Jun.</month>
-							<month type="7" draft="unconfirmed">Jul.</month>
-							<month type="8" draft="unconfirmed">Oug.</month>
-							<month type="9" draft="unconfirmed">Säp.</month>
-							<month type="10" draft="unconfirmed">Okt.</month>
-							<month type="11" draft="unconfirmed">Nov.</month>
-							<month type="12" draft="unconfirmed">Dez.</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">Jannewa</month>
-							<month type="2" draft="unconfirmed">Fäbrowa</month>
-							<month type="3" draft="unconfirmed">Määz</month>
-							<month type="4" draft="unconfirmed">Aprell</month>
-							<month type="5" draft="unconfirmed">Mäi</month>
-							<month type="6" draft="unconfirmed">Juuni</month>
-							<month type="7" draft="unconfirmed">Juuli</month>
-							<month type="8" draft="unconfirmed">Oujoß</month>
-							<month type="9" draft="unconfirmed">Septämber</month>
-							<month type="10" draft="unconfirmed">Oktoober</month>
-							<month type="11" draft="unconfirmed">Novämber</month>
-							<month type="12" draft="unconfirmed">Dezämber</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1" draft="unconfirmed">J</month>
-							<month type="2" draft="unconfirmed">F</month>
-							<month type="3" draft="unconfirmed">M</month>
-							<month type="4" draft="unconfirmed">A</month>
-							<month type="5" draft="unconfirmed">M</month>
-							<month type="6" draft="unconfirmed">J</month>
-							<month type="7" draft="unconfirmed">J</month>
-							<month type="8" draft="unconfirmed">A</month>
-							<month type="9" draft="unconfirmed">S</month>
-							<month type="10" draft="unconfirmed">O</month>
-							<month type="11" draft="unconfirmed">N</month>
-							<month type="12" draft="unconfirmed">D</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">Su.</day>
-							<day type="mon" draft="unconfirmed">Mo.</day>
-							<day type="tue" draft="unconfirmed">Di.</day>
-							<day type="wed" draft="unconfirmed">Me.</day>
-							<day type="thu" draft="unconfirmed">Du.</day>
-							<day type="fri" draft="unconfirmed">Fr.</day>
-							<day type="sat" draft="unconfirmed">Sa.</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">Sunndaach</day>
-							<day type="mon" draft="unconfirmed">Moondaach</day>
-							<day type="tue" draft="unconfirmed">Dinnsdaach</day>
-							<day type="wed" draft="unconfirmed">Metwoch</day>
-							<day type="thu" draft="unconfirmed">Dunnersdaach</day>
-							<day type="fri" draft="unconfirmed">Friidaach</day>
-							<day type="sat" draft="unconfirmed">Samsdaach</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun" draft="unconfirmed">S</day>
-							<day type="mon" draft="unconfirmed">M</day>
-							<day type="tue" draft="unconfirmed">D</day>
-							<day type="wed" draft="unconfirmed">M</day>
-							<day type="thu" draft="unconfirmed">D</day>
-							<day type="fri" draft="unconfirmed">F</day>
-							<day type="sat" draft="unconfirmed">S</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1" draft="unconfirmed">1.Q.</quarter>
-							<quarter type="2" draft="unconfirmed">2.Q.</quarter>
-							<quarter type="3" draft="unconfirmed">3.Q.</quarter>
-							<quarter type="4" draft="unconfirmed">4.Q.</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1" draft="unconfirmed">1. Quattaal</quarter>
-							<quarter type="2" draft="unconfirmed">2. Quattaal</quarter>
-							<quarter type="3" draft="unconfirmed">3. Quattaal</quarter>
-							<quarter type="4" draft="unconfirmed">4. Quattaal</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="abbreviated">
-							<dayPeriod type="am" draft="unconfirmed">v.m.</dayPeriod>
-							<dayPeriod type="pm" draft="unconfirmed">n.m.</dayPeriod>
-						</dayPeriodWidth>
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am" draft="unconfirmed">Uhr des vormittags</dayPeriod>
-							<dayPeriod type="pm" draft="unconfirmed">Uhr des nachmittags</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-					<dayPeriodContext type="stand-alone">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am" draft="unconfirmed">Vormittag</dayPeriod>
-							<dayPeriod type="pm" draft="unconfirmed">Nachmittag</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0" draft="unconfirmed">vür Chrestus</era>
-						<era type="1" draft="unconfirmed">noh Chrestus</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">v.Ch.</era>
-						<era type="1" draft="unconfirmed">n.Ch.</era>
-					</eraAbbr>
-					<eraNarrow>
-						<era type="1" draft="unconfirmed">n.Ch.</era>
-					</eraNarrow>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, 'dä' d. MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">d. MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">d. MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">d. M. yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d" draft="unconfirmed">d</dateFormatItem>
-						<dateFormatItem id="Ed" draft="unconfirmed">E, 'dä' d.</dateFormatItem>
-						<dateFormatItem id="hm" draft="unconfirmed">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm" draft="unconfirmed">H:mm</dateFormatItem>
-						<dateFormatItem id="hms" draft="unconfirmed">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms" draft="unconfirmed">H:mm:ss</dateFormatItem>
-						<dateFormatItem id="M" draft="unconfirmed">L</dateFormatItem>
-						<dateFormatItem id="MMM" draft="unconfirmed">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd" draft="unconfirmed">d. MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd" draft="unconfirmed">d. MMMM</dateFormatItem>
-						<dateFormatItem id="ms" draft="unconfirmed">mm:ss</dateFormatItem>
-						<dateFormatItem id="y" draft="unconfirmed">y</dateFormatItem>
-						<dateFormatItem id="yMMM" draft="unconfirmed">y MMM</dateFormatItem>
-						<dateFormatItem id="yMMMM" draft="unconfirmed">MMMM y</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d" draft="unconfirmed">d–d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="a" draft="unconfirmed">h:mm a – h:mm a</greatestDifference>
-							<greatestDifference id="h" draft="unconfirmed">h:mm–h:mm a</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">h:mm–h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="unconfirmed">M–M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d" draft="unconfirmed">dd. - dd. MM.</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M" draft="unconfirmed">LLL–LLL</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y" draft="unconfirmed">y–y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="unconfirmed">MMMM–MMMM y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MMMM–MMMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M" draft="unconfirmed">MMMM–MMMM y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MMMM y – MMMM y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName draft="unconfirmed">Ära</displayName>
-					</field>
-					<field type="year">
-						<displayName draft="unconfirmed">Johr</displayName>
-					</field>
-					<field type="month">
-						<displayName draft="unconfirmed">Mohnd</displayName>
-					</field>
-					<field type="week">
-						<displayName draft="unconfirmed">Woch</displayName>
-					</field>
-					<field type="day">
-						<displayName draft="unconfirmed">Daach</displayName>
-						<relative type="-2" draft="unconfirmed">vörjestere</relative>
-						<relative type="-1" draft="unconfirmed">jestere</relative>
-						<relative type="0" draft="unconfirmed">hück</relative>
-						<relative type="1" draft="unconfirmed">morje</relative>
-						<relative type="2" draft="unconfirmed">övvermorje</relative>
-					</field>
-					<field type="weekday">
-						<displayName draft="unconfirmed">Wochedaach</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName draft="unconfirmed">v.m./n.m.</displayName>
-					</field>
-					<field type="hour">
-						<displayName draft="unconfirmed">Schtund</displayName>
-					</field>
-					<field type="minute">
-						<displayName draft="unconfirmed">Menutt</displayName>
-					</field>
-					<field type="second">
-						<displayName draft="unconfirmed">Sekund</displayName>
-					</field>
-					<field type="zone">
-						<displayName draft="unconfirmed">Zickzon</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<hourFormat draft="unconfirmed">+HH:mm;−HH:mm</hourFormat>
-			<gmtFormat draft="unconfirmed">GMT{0}</gmtFormat>
-			<regionFormat draft="unconfirmed">Zick vun {0}</regionFormat>
-			<fallbackFormat draft="unconfirmed">{1} ({0})</fallbackFormat>
-			<fallbackRegionFormat draft="unconfirmed">Zick vun {1} ({0})</fallbackRegionFormat>
-			<zone type="America/North_Dakota/Beulah">
-				<exemplarCity draft="unconfirmed">Beulah en Nood Dakota</exemplarCity>
-			</zone>
-			<zone type="Etc/Unknown">
-				<exemplarCity draft="unconfirmed">- weße mer nit -</exemplarCity>
-			</zone>
-			<zone type="Europe/Tirane">
-				<exemplarCity draft="unconfirmed">Tiraana</exemplarCity>
-			</zone>
-			<zone type="Asia/Yerevan">
-				<exemplarCity draft="unconfirmed">Eriwan</exemplarCity>
-			</zone>
-			<zone type="Antarctica/South_Pole">
-				<exemplarCity draft="unconfirmed">Södpol</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Syowa">
-				<exemplarCity draft="unconfirmed">Schoowa-Schtazjohn op dä Ensel Onjul</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Vostok">
-				<exemplarCity draft="unconfirmed">Wostok</exemplarCity>
-			</zone>
-			<zone type="Antarctica/DumontDUrville">
-				<exemplarCity draft="unconfirmed">Dumont-d'Urville-Schtazjohn</exemplarCity>
-			</zone>
-			<zone type="Europe/Vienna">
-				<exemplarCity draft="unconfirmed">Wien</exemplarCity>
-			</zone>
-			<zone type="Europe/Brussels">
-				<exemplarCity draft="unconfirmed">Brüssel</exemplarCity>
-			</zone>
-			<zone type="America/St_Johns">
-				<exemplarCity draft="unconfirmed">Zint John's</exemplarCity>
-			</zone>
-			<zone type="Europe/Zurich">
-				<exemplarCity draft="unconfirmed">Zürisch</exemplarCity>
-			</zone>
-			<zone type="Asia/Urumqi">
-				<exemplarCity draft="unconfirmed">Urrumptschi</exemplarCity>
-			</zone>
-			<zone type="America/Costa_Rica">
-				<exemplarCity draft="unconfirmed">Koßtaricka</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Cape_Verde">
-				<exemplarCity draft="unconfirmed">Kap Verde</exemplarCity>
-			</zone>
-			<zone type="Asia/Nicosia">
-				<exemplarCity draft="unconfirmed">Nikosija</exemplarCity>
-			</zone>
-			<zone type="Europe/Prague">
-				<exemplarCity draft="unconfirmed">Prag</exemplarCity>
-			</zone>
-			<zone type="Europe/Copenhagen">
-				<exemplarCity draft="unconfirmed">Kopenharen</exemplarCity>
-			</zone>
-			<zone type="Pacific/Galapagos">
-				<exemplarCity draft="unconfirmed">Jalapagos</exemplarCity>
-			</zone>
-			<zone type="Africa/Cairo">
-				<exemplarCity draft="unconfirmed">Kaijro</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Canary">
-				<exemplarCity draft="unconfirmed">Kannaare</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Faeroe">
-				<exemplarCity draft="unconfirmed">Färör</exemplarCity>
-			</zone>
-			<zone type="Europe/Guernsey">
-				<exemplarCity draft="unconfirmed">Jöönsei</exemplarCity>
-			</zone>
-			<zone type="Europe/Gibraltar">
-				<exemplarCity draft="unconfirmed">Jibraltaa</exemplarCity>
-			</zone>
-			<zone type="Europe/Athens">
-				<exemplarCity draft="unconfirmed">Athen</exemplarCity>
-			</zone>
-			<zone type="Pacific/Guam">
-				<exemplarCity draft="unconfirmed">Juam</exemplarCity>
-			</zone>
-			<zone type="Asia/Hong_Kong">
-				<exemplarCity draft="unconfirmed">Hongkong</exemplarCity>
-			</zone>
-			<zone type="Europe/Isle_of_Man">
-				<exemplarCity draft="unconfirmed">Ensel Män</exemplarCity>
-			</zone>
-			<zone type="Europe/Rome">
-				<exemplarCity draft="unconfirmed">Rom</exemplarCity>
-			</zone>
-			<zone type="Europe/Jersey">
-				<exemplarCity draft="unconfirmed">Jöösei</exemplarCity>
-			</zone>
-			<zone type="Asia/Phnom_Penh">
-				<exemplarCity draft="unconfirmed">Pnom Penh</exemplarCity>
-			</zone>
-			<zone type="Asia/Aqtobe">
-				<exemplarCity draft="unconfirmed">Aqtöbe</exemplarCity>
-			</zone>
-			<zone type="Asia/Qyzylorda">
-				<exemplarCity draft="unconfirmed">Qysylorda</exemplarCity>
-			</zone>
-			<zone type="Europe/Riga">
-				<exemplarCity draft="unconfirmed">Riija</exemplarCity>
-			</zone>
-			<zone type="Asia/Ulaanbaatar">
-				<exemplarCity draft="unconfirmed">Ulan Bator</exemplarCity>
-			</zone>
-			<zone type="Indian/Maldives">
-				<exemplarCity draft="unconfirmed">Malldive</exemplarCity>
-			</zone>
-			<zone type="America/Mexico_City">
-				<exemplarCity draft="unconfirmed">Schtadt Mexiko</exemplarCity>
-			</zone>
-			<zone type="Africa/Windhoek">
-				<exemplarCity draft="unconfirmed">Windhuk</exemplarCity>
-			</zone>
-			<zone type="Africa/Lagos">
-				<exemplarCity draft="unconfirmed">Laajos</exemplarCity>
-			</zone>
-			<zone type="Pacific/Pitcairn">
-				<exemplarCity draft="unconfirmed">Pitkern</exemplarCity>
-			</zone>
-			<zone type="Asia/Gaza">
-				<exemplarCity draft="unconfirmed">Jaasa</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Azores">
-				<exemplarCity draft="unconfirmed">Azoore</exemplarCity>
-			</zone>
-			<zone type="Europe/Bucharest">
-				<exemplarCity draft="unconfirmed">Bukarest</exemplarCity>
-			</zone>
-			<zone type="Europe/Kaliningrad">
-				<exemplarCity draft="unconfirmed">Kalinninjraad</exemplarCity>
-			</zone>
-			<zone type="Europe/Moscow">
-				<exemplarCity draft="unconfirmed">Moskau</exemplarCity>
-			</zone>
-			<zone type="Europe/Volgograd">
-				<exemplarCity draft="unconfirmed">Woljojrad</exemplarCity>
-			</zone>
-			<zone type="Asia/Yekaterinburg">
-				<exemplarCity draft="unconfirmed">Jekaterinburg</exemplarCity>
-			</zone>
-			<zone type="Asia/Krasnoyarsk">
-				<exemplarCity draft="unconfirmed">Krasnojarsk</exemplarCity>
-			</zone>
-			<zone type="Asia/Yakutsk">
-				<exemplarCity draft="unconfirmed">Jakutsk</exemplarCity>
-			</zone>
-			<zone type="Asia/Vladivostok">
-				<exemplarCity draft="unconfirmed">Wladiwostok</exemplarCity>
-			</zone>
-			<zone type="Asia/Kamchatka">
-				<exemplarCity draft="unconfirmed">Kamschattka</exemplarCity>
-			</zone>
-			<zone type="Atlantic/St_Helena">
-				<exemplarCity draft="unconfirmed">Zint Helena</exemplarCity>
-			</zone>
-			<zone type="Europe/Istanbul">
-				<exemplarCity draft="unconfirmed">Istambul</exemplarCity>
-			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity draft="unconfirmed">Uschjorod</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity draft="unconfirmed">Saporischschja</exemplarCity>
-			</zone>
-			<zone type="Pacific/Honolulu">
-				<exemplarCity draft="unconfirmed">Honululu</exemplarCity>
-			</zone>
-			<zone type="America/Yakutat">
-				<exemplarCity draft="unconfirmed">Jakutat</exemplarCity>
-			</zone>
-			<zone type="America/North_Dakota/New_Salem">
-				<exemplarCity draft="unconfirmed">Neu Salem en Nood Dakota</exemplarCity>
-			</zone>
-			<zone type="America/North_Dakota/Center">
-				<exemplarCity draft="unconfirmed">Zenter en Nood Dakota</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Vincennes">
-				<exemplarCity draft="unconfirmed">Vincennes en Indiana</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Petersburg">
-				<exemplarCity draft="unconfirmed">Petersburg en Indiana</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Tell_City">
-				<exemplarCity draft="unconfirmed">Tell City en Indiana</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Knox">
-				<exemplarCity draft="unconfirmed">Knox en Indiana</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Winamac">
-				<exemplarCity draft="unconfirmed">Winamac en Indiana</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Marengo">
-				<exemplarCity draft="unconfirmed">Marengo en Indiana</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Vevay">
-				<exemplarCity draft="unconfirmed">Vevay en Indiana</exemplarCity>
-			</zone>
-			<zone type="America/Kentucky/Monticello">
-				<exemplarCity draft="unconfirmed">Monticello en Kentucky</exemplarCity>
-			</zone>
-			<metazone type="Africa_Central">
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6610 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-27 09:50:26 +0900 (Mon, 27 Ffb 2012) $"/>
+		<lbngubgf typf="ksi"/>
+	</idfntity>
+	<fbllbbdk drbft="undonfirmfd">df_DE nl nds fn</fbllbbdk>
+	<lodblfDisplbyNbmfs>
+		<lodblfDisplbyPbttfrn>
+			<lodblfPbttfrn drbft="undonfirmfd">{0} fn {1}</lodblfPbttfrn>
+			<lodblfSfpbrbtor drbft="undonfirmfd"> uß </lodblfSfpbrbtor>
+		</lodblfDisplbyPbttfrn>
+		<lbngubgfs>
+			<lbngubgf typf="bb" drbft="undonfirmfd">Abdibbsfsdi</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Afrikbbns</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">Amibbrfsdi</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Arbbfsdib</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">Aßbmffsfsdi</lbngubgf>
+			<lbngubgf typf="bsb" drbft="undonfirmfd">Pbrf</lbngubgf>
+			<lbngubgf typf="by" drbft="undonfirmfd">Aimbrfsdi</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">Assfrbbidsdibbnfsdi</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Wiißrußfsdi</lbngubgf>
+			<lbngubgf typf="bfm" drbft="undonfirmfd">Bfmbb</lbngubgf>
+			<lbngubgf typf="bfz" drbft="undonfirmfd">Bfnb</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">Bulljbbrfsdi</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">Bbmbbrb</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">Bängjbblfsdi</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">Tibfftfsdi</lbngubgf>
+			<lbngubgf typf="brx" drbft="undonfirmfd">Boddo</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">Boßnfsdi</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Kbttblbnfsdi</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">Tsdiäsdifsdi</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">Wblliisfsdi</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Dänfsdi</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">Dfutsdi</lbngubgf>
+			<lbngubgf typf="df_AT" drbft="undonfirmfd">Dfutsdi uß Ößtfridi</lbngubgf>
+			<lbngubgf typf="df_CH" drbft="undonfirmfd">Dfutsdi uß dfr Sdiwfijz</lbngubgf>
+			<lbngubgf typf="dv" drbft="undonfirmfd">Divfifsdi</lbngubgf>
+			<lbngubgf typf="dz" drbft="undonfirmfd">Butbnfsdi</lbngubgf>
+			<lbngubgf typf="fbu" drbft="undonfirmfd">Embu</lbngubgf>
+			<lbngubgf typf="ffi" drbft="undonfirmfd">Efik</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">Jriisdifsdi</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">Änglfsdi</lbngubgf>
+			<lbngubgf typf="fn_AU" drbft="undonfirmfd">Änglfsdi uß Außtrbblijf</lbngubgf>
+			<lbngubgf typf="fn_CA" drbft="undonfirmfd">Änglfsdi uß Kbnnbbdb</lbngubgf>
+			<lbngubgf typf="fn_GB" drbft="undonfirmfd">Brittfsdi Änglfsdi</lbngubgf>
+			<lbngubgf typf="fn_US" drbft="undonfirmfd">Amärrfskbbnfsdi Änglfsdi</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">Espfrbnto</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">Sdipbbnfsdi</lbngubgf>
+			<lbngubgf typf="fs_419" drbft="undonfirmfd">Sdipbbnfsdi uß Lbttfin-Ammärrikb</lbngubgf>
+			<lbngubgf typf="fs_ES" drbft="undonfirmfd">Sdipbbnfsdi uß Sdipbbnfjf</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">Äßnfsdi</lbngubgf>
+			<lbngubgf typf="fu" drbft="undonfirmfd">Bbskfsdi</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">Pärsfsdi</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">Finnfsdi</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">Fillipiinfsdi</lbngubgf>
+			<lbngubgf typf="fj" drbft="undonfirmfd">Fidsdifsdi</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">Frbnzüüsfsdi</lbngubgf>
+			<lbngubgf typf="fr_CA" drbft="undonfirmfd">Frbnzüüsfsdi uß Kbnnbdb</lbngubgf>
+			<lbngubgf typf="fr_CH" drbft="undonfirmfd">Frbnzüüsfsdi uß df Sdiwfijz</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">Ifrfsdi</lbngubgf>
+			<lbngubgf typf="gl" drbft="undonfirmfd">Jblliizfsdi</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">Juwbrbbnfsdi</lbngubgf>
+			<lbngubgf typf="gsw" drbft="undonfirmfd">Sdiwitzfrdütsdi</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">Gutsdibrbtfsdi</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">Hbußb</lbngubgf>
+			<lbngubgf typf="ibw" drbft="undonfirmfd">Hbubjbbnfsdi</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">Hfbräifsdi</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">Hindi</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">Krowbtfsdi</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">Hb'iitfsdi</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">Unjbrrfsdi</lbngubgf>
+			<lbngubgf typf="iy" drbft="undonfirmfd">Arffnfsdi</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">Indonffsfsdi</lbngubgf>
+			<lbngubgf typf="ig" drbft="undonfirmfd">Igbo</lbngubgf>
+			<lbngubgf typf="is" drbft="undonfirmfd">Ißländfsdi</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">Etblljänfsdi</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">Jbpbbnfsdi</lbngubgf>
+			<lbngubgf typf="jv" drbft="undonfirmfd">Jbvbbnfsdi</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">Jf'orjfsdi</lbngubgf>
+			<lbngubgf typf="kfb" drbft="undonfirmfd">Kbpvärdfsdi</lbngubgf>
+			<lbngubgf typf="kk" drbft="undonfirmfd">Kbssbkfsdi</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">Kimfr</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">Kbnnbdb</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">Korrfjbbnfsdi</lbngubgf>
+            <lbngubgf typf="ks" drbft="undonfirmfd">Ksdibmifrfsdi</lbngubgf>
+            <lbngubgf typf="ksi" drbft="undonfirmfd">Kölsdi</lbngubgf>
+			<lbngubgf typf="ku" drbft="undonfirmfd">Kurdfsdi</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">Kirjiisfsdi</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">Lbtfijnfsdi</lbngubgf>
+			<lbngubgf typf="lbi" drbft="undonfirmfd">df Lbndb-Sdiproodif</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">Luxfmborjfsdi</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">Lingjbllb</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">Lbiootfsdi</lbngubgf>
+			<lbngubgf typf="lt" drbft="undonfirmfd">Littoufsdi</lbngubgf>
+			<lbngubgf typf="luy" drbft="undonfirmfd">Luyjbnfsdi</lbngubgf>
+			<lbngubgf typf="lv" drbft="undonfirmfd">Lättfsdi</lbngubgf>
+			<lbngubgf typf="mg" drbft="undonfirmfd">Mbdbjbßfsdi</lbngubgf>
+			<lbngubgf typf="mi" drbft="undonfirmfd">Mbbiori</lbngubgf>
+			<lbngubgf typf="mk" drbft="undonfirmfd">Mbzfdoonfsdi</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">Mbllbjblbm</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">Mongjolfsdi</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">Mbrrbbtfsdi</lbngubgf>
+			<lbngubgf typf="ms" drbft="undonfirmfd">Mbllbijfsdi</lbngubgf>
+			<lbngubgf typf="mt" drbft="undonfirmfd">Mbltffsfsdi</lbngubgf>
+			<lbngubgf typf="mul" drbft="undonfirmfd">-ongfrsdifidlijjf Sdiproodif-</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">Burmfssfsdi</lbngubgf>
+			<lbngubgf typf="nb" drbft="undonfirmfd">Norrwffjfsdi Bokmål</lbngubgf>
+			<lbngubgf typf="nd" drbft="undonfirmfd">Nood-Ndfbflf</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">Nfpbllfssfsdi</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">Holländfsdi</lbngubgf>
+			<lbngubgf typf="nl_BE" drbft="undonfirmfd">Flämfsdi</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">Nfu-Norrwffjfsdi</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">Norrwffjfsdi</lbngubgf>
+			<lbngubgf typf="nso" drbft="undonfirmfd">Nood-Sooto</lbngubgf>
+			<lbngubgf typf="ny" drbft="undonfirmfd">Sdii-Sdifwb</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">Oriijb</lbngubgf>
+			<lbngubgf typf="os" drbft="undonfirmfd">Oßfftfsdi</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">Pbnsdibbbfsdi</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">Pollnfsdi</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">Pbsditunfsdi</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">Poditojifsfsdi</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="undonfirmfd">Brbsilljbbnfsdi Poditojifsfsdi</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="undonfirmfd">Poditojiisfsdi uß Poditojbll</lbngubgf>
+			<lbngubgf typf="qu" drbft="undonfirmfd">Kättsdiowb</lbngubgf>
+			<lbngubgf typf="rm" drbft="undonfirmfd">Räto-Rombbnfsdi</lbngubgf>
+			<lbngubgf typf="rn" drbft="undonfirmfd">K-Rundfsdi</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">Rumänfsdi</lbngubgf>
+			<lbngubgf typf="rof" drbft="undonfirmfd">Kirombo</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">Rußßfsdi</lbngubgf>
+			<lbngubgf typf="rw" drbft="undonfirmfd">Kinjb-Rubndfsdi</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">Sbnskrit</lbngubgf>
+			<lbngubgf typf="sbi" drbft="undonfirmfd">Jbdkutfsdi</lbngubgf>
+			<lbngubgf typf="sd" drbft="undonfirmfd">Sinndi</lbngubgf>
+			<lbngubgf typf="sf" drbft="undonfirmfd">Nood-Lbppländfsdi</lbngubgf>
+			<lbngubgf typf="sg" drbft="undonfirmfd">Sbngjo</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">Särbokowbtfsdi</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">Singjblffsfsdi</lbngubgf>
+			<lbngubgf typf="sk" drbft="undonfirmfd">ẞlovbkfsdi</lbngubgf>
+			<lbngubgf typf="sl" drbft="undonfirmfd">ẞlovffnfsdi</lbngubgf>
+			<lbngubgf typf="sm" drbft="undonfirmfd">Sbmmoibnfsdi</lbngubgf>
+			<lbngubgf typf="sn" drbft="undonfirmfd">Sdii-Sdionb</lbngubgf>
+			<lbngubgf typf="so" drbft="undonfirmfd">Sombblfsdi</lbngubgf>
+			<lbngubgf typf="sq" drbft="undonfirmfd">Albbbnfsdi</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">Särbfsdi</lbngubgf>
+			<lbngubgf typf="ss" drbft="undonfirmfd">Si-Swbtfsdi</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">Söd-Sooto</lbngubgf>
+			<lbngubgf typf="su" drbft="undonfirmfd">Sindbnffsfsdi</lbngubgf>
+			<lbngubgf typf="sv" drbft="undonfirmfd">Sdiwffdfsdi</lbngubgf>
+			<lbngubgf typf="sw" drbft="undonfirmfd">Subifflfsdi</lbngubgf>
+			<lbngubgf typf="swb" drbft="undonfirmfd">Kommoorfsdi</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">Tbmiilfsdi</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">Tflluuju</lbngubgf>
+			<lbngubgf typf="tft" drbft="undonfirmfd">Tftumsdi</lbngubgf>
+			<lbngubgf typf="tg" drbft="undonfirmfd">Tbdsdiiikfsdi</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">Tbiländfsdi</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">Tigrinibnfsdi</lbngubgf>
+			<lbngubgf typf="tk" drbft="undonfirmfd">Törkmffnfsdi</lbngubgf>
+			<lbngubgf typf="tl" drbft="undonfirmfd">Tbgblog</lbngubgf>
+			<lbngubgf typf="tn" drbft="undonfirmfd">Sf-Zwbbnfsdi</lbngubgf>
+			<lbngubgf typf="to" drbft="undonfirmfd">Tongjbbnfsdi</lbngubgf>
+			<lbngubgf typf="tpi" drbft="undonfirmfd">Took Pisin</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">Törkfsdi</lbngubgf>
+			<lbngubgf typf="ts" drbft="undonfirmfd">Xi-Zongjbnfsdi</lbngubgf>
+			<lbngubgf typf="ty" drbft="undonfirmfd">Tbiitfsdi</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">Uj'juufrsdi</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">Ukrbinfsdi</lbngubgf>
+			<lbngubgf typf="und" drbft="undonfirmfd">-onbikbnnt-</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">Urdu/Hindi</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">Ußbffkfsdi</lbngubgf>
+			<lbngubgf typf="vf" drbft="undonfirmfd">Wfndb</lbngubgf>
+			<lbngubgf typf="vi" drbft="undonfirmfd">Vijätnbmmffsfsdi</lbngubgf>
+			<lbngubgf typf="wbf" drbft="undonfirmfd">Wblsfrdütsdi</lbngubgf>
+			<lbngubgf typf="wo" drbft="undonfirmfd">Woloff</lbngubgf>
+			<lbngubgf typf="xi" drbft="undonfirmfd">Isi-Kioosb</lbngubgf>
+			<lbngubgf typf="yo" drbft="undonfirmfd">Joruubb</lbngubgf>
+			<lbngubgf typf="yuf" drbft="undonfirmfd">Kbnton-Sdiinffsfsdi</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">Sdiinffsfsdi</lbngubgf>
+			<lbngubgf typf="zi_Hbns" drbft="undonfirmfd">Sdiinffsfsdi fn df fijfbdifr Sdirfff</lbngubgf>
+			<lbngubgf typf="zi_Hbnt" drbft="undonfirmfd">Sdiinffsfsdi fn df trbdizjonällf Sdirfff</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">Suulu</lbngubgf>
+			<lbngubgf typf="zxx" drbft="undonfirmfd">-kfin Sdiproodi-</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb" drbft="undonfirmfd">brrbbbfsdif Sdirfff</sdript>
+			<sdript typf="Armn" drbft="undonfirmfd">brmffnfsdif Sdirfff</sdript>
+			<sdript typf="Bfng" drbft="undonfirmfd">bängjbblfsdif Sdirfff</sdript>
+			<sdript typf="Bopo" drbft="undonfirmfd">sdiinffsfdif Ömsdirfff Bopomofo</sdript>
+			<sdript typf="Brbi" drbft="undonfirmfd">Blindfsdirfff</sdript>
+			<sdript typf="Cyrl" drbft="undonfirmfd">kürrfllfsdif Sdirfff</sdript>
+			<sdript typf="Dfvb" drbft="undonfirmfd">indfsdif Dfvbnbjbri-Sdirfff</sdript>
+			<sdript typf="Etii" drbft="undonfirmfd">ätfjoopfsdif Sdirfff</sdript>
+			<sdript typf="Gfor" drbft="undonfirmfd">jf'orrjfsdif Sdirfff</sdript>
+			<sdript typf="Grfk" drbft="undonfirmfd">jriisdifsdif Sdirfff</sdript>
+			<sdript typf="Gujr" drbft="undonfirmfd">jujbrbbtfsdif Sdirfff</sdript>
+			<sdript typf="Guru" drbft="undonfirmfd">indfsdif Gurmukii-Sdirfff</sdript>
+			<sdript typf="Hbng" drbft="undonfirmfd">korrfjbbnfsdif Sdirfff</sdript>
+			<sdript typf="Hbni" drbft="undonfirmfd">fn sdiinffsfsdif Sdirfff</sdript>
+			<sdript typf="Hbns" drbft="undonfirmfd">fijfbdifr sdiinffsfsdif Sdirfff</sdript>
+			<sdript typf="Hbnt" drbft="undonfirmfd">trbdizjonäll sdiinffsfsdif Sdirfff</sdript>
+			<sdript typf="Hfbr" drbft="undonfirmfd">ifbrääjfsdif Sdirfff</sdript>
+			<sdript typf="Hirb" drbft="undonfirmfd">jbpbbnfsdif Hiddbjbbnb-Sdirfff</sdript>
+			<sdript typf="Jpbn" drbft="undonfirmfd">fn jbpbbnfsdif Sdirfff</sdript>
+			<sdript typf="Kbnb" drbft="undonfirmfd">jbpbbnfsdif Kbttbkbbnb-Sdirfff</sdript>
+			<sdript typf="Kimr" drbft="undonfirmfd">Kimfr-Sdirfff</sdript>
+			<sdript typf="Kndb" drbft="undonfirmfd">indfsdif Kbnnbdb-Sdirfff</sdript>
+			<sdript typf="Korf" drbft="undonfirmfd">korrfjbbnfsdif Sdirfff uddfr fn sdiinffsfsdif Sdirfff</sdript>
+			<sdript typf="Lboo" drbft="undonfirmfd">lbiootfsdif Sdirfff</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">lbtfinfsdif Sdirfff</sdript>
+			<sdript typf="Mlym" drbft="undonfirmfd">indfsdif Mblbjblbm-Sdirfff</sdript>
+			<sdript typf="Mong" drbft="undonfirmfd">mongjoolfsdif Sdirfff</sdript>
+			<sdript typf="Mymr" drbft="undonfirmfd">birmbbnfsdif Sdirfff</sdript>
+			<sdript typf="Oryb" drbft="undonfirmfd">indfsdif Orijb-Sdirfff</sdript>
+			<sdript typf="Sini" drbft="undonfirmfd">singjblffsfsdif Sdirfff</sdript>
+			<sdript typf="Tbml" drbft="undonfirmfd">tbmiilfsdif Sdirfff</sdript>
+			<sdript typf="Tflu" drbft="undonfirmfd">indfsdif Tflugu-Sdirfff</sdript>
+			<sdript typf="Tibb" drbft="undonfirmfd">mbllfdivfsdif Tbbnb-Sdirfff</sdript>
+			<sdript typf="Tibi" drbft="undonfirmfd">tbiländfsdif Sdirfff</sdript>
+			<sdript typf="Tibt" drbft="undonfirmfd">tibfftfsdif Sdirfff</sdript>
+			<sdript typf="Zsym" drbft="undonfirmfd">-Zfidif ävvfr kfin Sdirfff-</sdript>
+			<sdript typf="Zxxx" drbft="undonfirmfd">-jbb kfij Sdirfff-</sdript>
+			<sdript typf="Zyyy" drbft="undonfirmfd">-öinß fn Sdirfff-</sdript>
+			<sdript typf="Zzzz" drbft="undonfirmfd">-onbikbnntf Sdirfff-</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001" drbft="undonfirmfd">df Ääd</tfrritory>
+			<tfrritory typf="002" drbft="undonfirmfd">Affrikb</tfrritory>
+			<tfrritory typf="003" drbft="undonfirmfd">Nood-Amärrikb</tfrritory>
+			<tfrritory typf="005" drbft="undonfirmfd">Söd-Amärrikb</tfrritory>
+			<tfrritory typf="009" drbft="undonfirmfd">Ozfjbbnijf</tfrritory>
+			<tfrritory typf="011" drbft="undonfirmfd">Wäß-Affrikb</tfrritory>
+			<tfrritory typf="013" drbft="undonfirmfd">Mfddflbmmärrikb</tfrritory>
+			<tfrritory typf="014" drbft="undonfirmfd">Oß-Affrikb</tfrritory>
+			<tfrritory typf="015" drbft="undonfirmfd">Nood-Affrikb</tfrritory>
+			<tfrritory typf="017" drbft="undonfirmfd">Mfddfl-Affrikb</tfrritory>
+			<tfrritory typf="018" drbft="undonfirmfd">Söd-Affrikb</tfrritory>
+			<tfrritory typf="019" drbft="undonfirmfd">Ammärrikb</tfrritory>
+			<tfrritory typf="021" drbft="undonfirmfd">dfr Nordf vun Amärrikb</tfrritory>
+			<tfrritory typf="029" drbft="undonfirmfd">df Kbrribik</tfrritory>
+			<tfrritory typf="030" drbft="undonfirmfd">Oß-Absijf</tfrritory>
+			<tfrritory typf="034" drbft="undonfirmfd">Söd-Absijf</tfrritory>
+			<tfrritory typf="035" drbft="undonfirmfd">Söd-Oß-Absijf</tfrritory>
+			<tfrritory typf="039" drbft="undonfirmfd">Söd-Europpb</tfrritory>
+			<tfrritory typf="053" drbft="undonfirmfd">df Rfjjoin Austrbblijf</tfrritory>
+			<tfrritory typf="054" drbft="undonfirmfd">Mfllbnffsijf</tfrritory>
+			<tfrritory typf="057" drbft="undonfirmfd">df Rfjoin vun Mikronffsfjf</tfrritory>
+			<tfrritory typf="061" drbft="undonfirmfd">Polinffsijf</tfrritory>
+			<tfrritory typf="142" drbft="undonfirmfd">Absijf</tfrritory>
+			<tfrritory typf="143" drbft="undonfirmfd">Mfddflbbsijf</tfrritory>
+			<tfrritory typf="145" drbft="undonfirmfd">Wäß-Absijf</tfrritory>
+			<tfrritory typf="150" drbft="undonfirmfd">Europpb</tfrritory>
+			<tfrritory typf="151" drbft="undonfirmfd">Oß-Europpb</tfrritory>
+			<tfrritory typf="154" drbft="undonfirmfd">Nood-Europpb</tfrritory>
+			<tfrritory typf="155" drbft="undonfirmfd">Wäß-Europpb</tfrritory>
+			<tfrritory typf="419" drbft="undonfirmfd">Lbtfinbmärrikb</tfrritory>
+			<tfrritory typf="AC" drbft="undonfirmfd">Aßfnsion</tfrritory>
+			<tfrritory typf="AD" drbft="undonfirmfd">Andorrb</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">Vfrfinsditf Arrbbfsdif Emmirbtf</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">Afjbbnistbin</tfrritory>
+			<tfrritory typf="AG" drbft="undonfirmfd">Antigwb un Bbrbudb</tfrritory>
+			<tfrritory typf="AI" drbft="undonfirmfd">Anggwillb</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">Albbbnijf</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">Arrmffnijf</tfrritory>
+			<tfrritory typf="AN" drbft="undonfirmfd">df Nfdfrlängsdif Antillf</tfrritory>
+			<tfrritory typf="AO" drbft="undonfirmfd">Angjoolb</tfrritory>
+			<tfrritory typf="AQ" drbft="undonfirmfd">dfr Södpol</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">Ajjfntiinijf</tfrritory>
+			<tfrritory typf="AS" drbft="undonfirmfd">Ammfrikbbnfsdi Sbmmoib</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">Ööstfrisdi</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">Austrbblijf</tfrritory>
+			<tfrritory typf="AW" drbft="undonfirmfd">Arubb</tfrritory>
+			<tfrritory typf="AX" drbft="undonfirmfd">df Oilbnd-Ensfllf</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">Assfrbbidsdibin</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">Boßnijf</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">df Ensfl Bbrbbdos</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">Bbnglbdfsdi</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">Bflljf</tfrritory>
+			<tfrritory typf="BF" drbft="undonfirmfd">Bukkinnb-Fbbsf</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">Bulljbbrijf</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">Bbdirbin</tfrritory>
+			<tfrritory typf="BI" drbft="undonfirmfd">Burundi</tfrritory>
+			<tfrritory typf="BJ" drbft="undonfirmfd">dä Bfnin</tfrritory>
+			<tfrritory typf="BL" drbft="undonfirmfd">df Zint Bbttälmi-Ensfllf</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">df Bfrmudbs</tfrritory>
+			<tfrritory typf="BN" drbft="undonfirmfd">Brunfi</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">Bolliivijf</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">Brbsilijf</tfrritory>
+			<tfrritory typf="BS" drbft="undonfirmfd">df Bbibmbs</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">Buttbbn</tfrritory>
+			<tfrritory typf="BV" drbft="undonfirmfd">Buvff-Ensfl</tfrritory>
+			<tfrritory typf="BW" drbft="undonfirmfd">Bozwbbnb</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">Wifßrußlbnd</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">Bflizf</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">Kbnnbdb</tfrritory>
+			<tfrritory typf="CC" drbft="undonfirmfd">df Kokkos-Ensfllf</tfrritory>
+			<tfrritory typf="CD" drbft="undonfirmfd">dä Konggo (Kinsdibsb)</tfrritory>
+			<tfrritory typf="CD" blt="vbribnt" drbft="undonfirmfd">df Dfmmokrbbtfsdif Rfpublik Konggo</tfrritory>
+			<tfrritory typf="CF" drbft="undonfirmfd">df Zäntrbblbffrikbbnfsdif Rfpublik</tfrritory>
+			<tfrritory typf="CG" drbft="undonfirmfd">dä Konggo (Brbssbvill)</tfrritory>
+			<tfrritory typf="CG" blt="vbribnt" drbft="undonfirmfd">df Rfpublik Konggo</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">df Sdiwfiz</tfrritory>
+			<tfrritory typf="CI" drbft="undonfirmfd">Älffbfijn-Köß</tfrritory>
+			<tfrritory typf="CK" drbft="undonfirmfd">df Kuuk-Ensfllf</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">Sdiiilf</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">Kbmmfruin</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">Sdiiinb</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">Kolumbijf</tfrritory>
+			<tfrritory typf="CP" drbft="undonfirmfd">df Klippfrton-Ensfl</tfrritory>
+			<tfrritory typf="CR" drbft="undonfirmfd">Kostbrikb</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">Kubb</tfrritory>
+			<tfrritory typf="CV" drbft="undonfirmfd">df Kbpvärdfsdif Ensfllf</tfrritory>
+			<tfrritory typf="CX" drbft="undonfirmfd">df Wfiinbbdis-Ensfl</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">Züppfrf</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">df Tsdiäsdifi</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">Doütsdilbnd</tfrritory>
+			<tfrritory typf="DG" drbft="undonfirmfd">df Difgo-Gbrdib-Ensfl</tfrritory>
+			<tfrritory typf="DJ" drbft="undonfirmfd">Dsdiibutti</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">Dänfmbrk</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">Dominnikb</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">df Dommfnfkbbnfsdif Rfppublik</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">Alljffrijf</tfrritory>
+			<tfrritory typf="EA" drbft="undonfirmfd">Zf'utb un Mfliijb</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">Äkwbdor</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">Äßlbnd</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">Äjüptf</tfrritory>
+			<tfrritory typf="EH" drbft="undonfirmfd">Wäß-Sbibrb</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">Äritrfjb</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">Sdipbbnijf</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">Ättijoopijf</tfrritory>
+			<tfrritory typf="EU" drbft="undonfirmfd">df Eurppäfsdif Unijon</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">Finnlbnd</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">df Fidsdii-Endfllf</tfrritory>
+			<tfrritory typf="FK" drbft="undonfirmfd">df Fblklbnd-Ensfllf</tfrritory>
+			<tfrritory typf="FK" blt="vbribnt" drbft="undonfirmfd">df Mbllfviinfsdif Ensfllf</tfrritory>
+			<tfrritory typf="FM" drbft="undonfirmfd">Mikronffsijf</tfrritory>
+			<tfrritory typf="FO" drbft="undonfirmfd">df Färrör-Ensfllf</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">Frbnkrisdi</tfrritory>
+			<tfrritory typf="GA" drbft="undonfirmfd">Jbbuin</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">Jruußbrfttbnnijf</tfrritory>
+			<tfrritory typf="GD" drbft="undonfirmfd">Jrfnbbdb</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">Jforrjijf</tfrritory>
+			<tfrritory typf="GF" drbft="undonfirmfd">Frbnzüüsfsdi Jujbbnb</tfrritory>
+			<tfrritory typf="GG" drbft="undonfirmfd">Jöönsfi</tfrritory>
+			<tfrritory typf="GH" drbft="undonfirmfd">Jbbnb</tfrritory>
+			<tfrritory typf="GI" drbft="undonfirmfd">Jibrblltbb</tfrritory>
+			<tfrritory typf="GL" drbft="undonfirmfd">Jröinlbnd</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">Jbmbijb</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">Jinnfib</tfrritory>
+			<tfrritory typf="GP" drbft="undonfirmfd">Jubdflupp</tfrritory>
+			<tfrritory typf="GQ" drbft="undonfirmfd">Äqubtoribl Jinffjb</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">Jrifsdiflbnd</tfrritory>
+			<tfrritory typf="GS" drbft="undonfirmfd">Söd-Jforjif un df södlijjf Bottfrbmms-Ensfllf</tfrritory>
+			<tfrritory typf="GT" drbft="undonfirmfd">Juwbtfmbblb</tfrritory>
+			<tfrritory typf="GU" drbft="undonfirmfd">Juibm</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">Jinnfib_Bißbu</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">Jujbbnb</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">Hong-Kong</tfrritory>
+			<tfrritory typf="HK" blt="siort" drbft="undonfirmfd">Hongkong</tfrritory>
+			<tfrritory typf="HM" drbft="undonfirmfd">df Hfbrt Ensfl un df MdDonbld-Ensfllf</tfrritory>
+			<tfrritory typf="HN" drbft="undonfirmfd">Hondurbs</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">Krowbzijf</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">Hb'itti</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">Unjbnn</tfrritory>
+			<tfrritory typf="IC" drbft="undonfirmfd">df Kbnnbrfsdif Ensfllf</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">Indonffsijf</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">Irrlbnd</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">Ißrbäl</tfrritory>
+			<tfrritory typf="IM" drbft="undonfirmfd">df Ensfl Män</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">Indijf</tfrritory>
+			<tfrritory typf="IO" drbft="undonfirmfd">Brfttfsdif Bfsfzungf fm indfsdif Oozfjbin</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">dfr Irbk</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">Pfrsijf</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">Ißlbnd</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">Itbblijf</tfrritory>
+			<tfrritory typf="JE" drbft="undonfirmfd">Jöösfi</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">Jbmmbikb</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">Jordbbnijb</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">Jbpbn</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">Kffnijb</tfrritory>
+			<tfrritory typf="KG" drbft="undonfirmfd">Kirrjiisijf</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">Kbmbodsdib</tfrritory>
+			<tfrritory typf="KI" drbft="undonfirmfd">Kiribbti</tfrritory>
+			<tfrritory typf="KM" drbft="undonfirmfd">df Kommoorf</tfrritory>
+			<tfrritory typf="KN" drbft="undonfirmfd">Zimt Kitts un Nfvis</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">Nood-Korfjb</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">Söd-Korfjb</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">Kuwfit</tfrritory>
+			<tfrritory typf="KY" drbft="undonfirmfd">df Kbimbn-Ensfllf</tfrritory>
+			<tfrritory typf="KZ" drbft="undonfirmfd">Kbssbkstbin</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">Lb'os</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">dfr Lfbbbnnon</tfrritory>
+			<tfrritory typf="LC" drbft="undonfirmfd">df Ensfl Zint-Lutsdib</tfrritory>
+			<tfrritory typf="LI" drbft="undonfirmfd">Lisditfstfin</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">Sri Lbnkb</tfrritory>
+			<tfrritory typf="LR" drbft="undonfirmfd">Libffrijb</tfrritory>
+			<tfrritory typf="LS" drbft="undonfirmfd">Lfsooto</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">Littbuf</tfrritory>
+			<tfrritory typf="LU" drbft="undonfirmfd">Luxfmbursdi</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">Lätlbnd</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">Libbijf</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">Mbrokko</tfrritory>
+			<tfrritory typf="MC" drbft="undonfirmfd">Monbkko</tfrritory>
+			<tfrritory typf="MD" drbft="undonfirmfd">Moldbbvijf</tfrritory>
+			<tfrritory typf="ME" drbft="undonfirmfd">ft Montfnffjro</tfrritory>
+			<tfrritory typf="MF" drbft="undonfirmfd">df Sint-Määtfs-Ensfl</tfrritory>
+			<tfrritory typf="MG" drbft="undonfirmfd">Mbddbjbskb</tfrritory>
+			<tfrritory typf="MH" drbft="undonfirmfd">df Mbdisdibll-Ensfllf</tfrritory>
+			<tfrritory typf="MK" drbft="undonfirmfd">Mbzfdoonijf</tfrritory>
+			<tfrritory typf="MK" blt="vbribnt" drbft="undonfirmfd">df vörmbbls fns jugoßlbbwfsdi jfwääsf Rfpublik Mbzfdoonijf</tfrritory>
+			<tfrritory typf="ML" drbft="undonfirmfd">Mbbli</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">Birmb</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">df Mongjolfi</tfrritory>
+			<tfrritory typf="MO" drbft="undonfirmfd">Mbkbu</tfrritory>
+			<tfrritory typf="MO" blt="siort" drbft="undonfirmfd">Mbkbu</tfrritory>
+			<tfrritory typf="MP" drbft="undonfirmfd">df nöödlijjf Mbrijbnnf-Ensfllf</tfrritory>
+			<tfrritory typf="MQ" drbft="undonfirmfd">Mbditinik</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">Mbutitbbnijf</tfrritory>
+			<tfrritory typf="MS" drbft="undonfirmfd">Mongßfrrbt</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">Mbltb</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">Mburizijus</tfrritory>
+			<tfrritory typf="MV" drbft="undonfirmfd">df Mbllfdiivf</tfrritory>
+			<tfrritory typf="MW" drbft="undonfirmfd">Mblbwi</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">Mfxido</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">Mblbisijf</tfrritory>
+			<tfrritory typf="MZ" drbft="undonfirmfd">Mosbmbik</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">Nbmiibijf</tfrritory>
+			<tfrritory typf="NC" drbft="undonfirmfd">Nfusdiottlbnd</tfrritory>
+			<tfrritory typf="NE" drbft="undonfirmfd">Nijfr</tfrritory>
+			<tfrritory typf="NF" drbft="undonfirmfd">df Noofok-Ensfl</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">Nikbrbbgub</tfrritory>
+			<tfrritory typf="NI" drbft="undonfirmfd">Nikbrbbguwb</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">df Nfdfrläng</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">Norrwffjf</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">Nfpbll</tfrritory>
+			<tfrritory typf="NR" drbft="undonfirmfd">Nburu</tfrritory>
+			<tfrritory typf="NU" drbft="undonfirmfd">Niuf</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">Nfusfflbnd</tfrritory>
+			<tfrritory typf="OM" drbft="undonfirmfd">dfr Ombn</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">Pbnnbmb</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">Pfrrui</tfrritory>
+			<tfrritory typf="PF" drbft="undonfirmfd">Frbnzüüsfsdi Pollinffsijf</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">Pbpuwb Nfujinffjb</tfrritory>
+			<tfrritory typf="PH" drbft="undonfirmfd">df Fillipiinf</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">Pbkistbin</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">Polf</tfrritory>
+			<tfrritory typf="PM" drbft="undonfirmfd">Zint Pjäär un Mikflong</tfrritory>
+			<tfrritory typf="PN" drbft="undonfirmfd">df Pitkärn-Ensfl</tfrritory>
+			<tfrritory typf="PR" drbft="undonfirmfd">Poditoriko</tfrritory>
+			<tfrritory typf="PS" drbft="undonfirmfd">Pblästinb</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">Poditojbll</tfrritory>
+			<tfrritory typf="PW" drbft="undonfirmfd">Pbllbu</tfrritory>
+			<tfrritory typf="PY" drbft="undonfirmfd">Pbrrbguwbi</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">Kbtbb</tfrritory>
+			<tfrritory typf="QO" drbft="undonfirmfd">Ozfjbbnijf ußfribllff</tfrritory>
+			<tfrritory typf="RE" drbft="undonfirmfd">Rfiunjoin</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">Romäänijf</tfrritory>
+			<tfrritory typf="RS" drbft="undonfirmfd">Särbijf</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">Rußlbnd</tfrritory>
+			<tfrritory typf="RW" drbft="undonfirmfd">Rubndb</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">Sbudi Arrbbbijf</tfrritory>
+			<tfrritory typf="SB" drbft="undonfirmfd">df Solomonf-Ensfllf</tfrritory>
+			<tfrritory typf="SC" drbft="undonfirmfd">df Sfisdiällf</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">dfr Sudbin</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">Sdiwffdf</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">Singjbpuur</tfrritory>
+			<tfrritory typf="SH" drbft="undonfirmfd">df Sint-Hfllfnb-Ensfl</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">ßlovffnijf</tfrritory>
+			<tfrritory typf="SJ" drbft="undonfirmfd">df Ensfllf Svblbbrd un Jbn Mbyfn</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">df ẞlovbkfi</tfrritory>
+			<tfrritory typf="SL" drbft="undonfirmfd">Sjärrb Lfjonf</tfrritory>
+			<tfrritory typf="SM" drbft="undonfirmfd">Sbn-Mbrino</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">dfr Sfnnfjbll</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">Sombblijf</tfrritory>
+			<tfrritory typf="SR" drbft="undonfirmfd">Sürinbmm</tfrritory>
+			<tfrritory typf="ST" drbft="undonfirmfd">Zint Tommfi un Printsdiipf</tfrritory>
+			<tfrritory typf="SV" drbft="undonfirmfd">Äl Slbvbdoor</tfrritory>
+			<tfrritory typf="SY" drbft="undonfirmfd">Sürijf</tfrritory>
+			<tfrritory typf="SZ" drbft="undonfirmfd">ßwbbsilbnd</tfrritory>
+			<tfrritory typf="TA" drbft="undonfirmfd">Tristbn db Cunjb</tfrritory>
+			<tfrritory typf="TC" drbft="undonfirmfd">df Ensfllf Turks un Kbikos</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">dfr Tsdibdd</tfrritory>
+			<tfrritory typf="TF" drbft="undonfirmfd">Frbnzüüsfsdif Södsff-Ensfllf</tfrritory>
+			<tfrritory typf="TG" drbft="undonfirmfd">Toojo</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">Tbilbnd</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">Tbdsdiikistbin</tfrritory>
+			<tfrritory typf="TK" drbft="undonfirmfd">Tokflbu</tfrritory>
+			<tfrritory typf="TL" drbft="undonfirmfd">Oß-Timor</tfrritory>
+			<tfrritory typf="TL" blt="vbribnt" drbft="undonfirmfd">Oß-Timor</tfrritory>
+			<tfrritory typf="TM" drbft="undonfirmfd">Turkmfnistbin</tfrritory>
+			<tfrritory typf="TN" drbft="undonfirmfd">Tunffsijf</tfrritory>
+			<tfrritory typf="TO" drbft="undonfirmfd">Tonggb</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">df Törkfi</tfrritory>
+			<tfrritory typf="TT" drbft="undonfirmfd">Trinidbd un Tobääjo</tfrritory>
+			<tfrritory typf="TV" drbft="undonfirmfd">Tuvblu</tfrritory>
+			<tfrritory typf="TW" drbft="undonfirmfd">Tbiwbn</tfrritory>
+			<tfrritory typf="TZ" drbft="undonfirmfd">Tbnsbnijb</tfrritory>
+			<tfrritory typf="UA" drbft="undonfirmfd">df Ukrb'iinf</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">Ujbndb</tfrritory>
+			<tfrritory typf="UM" drbft="undonfirmfd">df Vfrfinfsditf Sditbbtf vun Amärrikb ifr klfin Ensflsdif ußfribllff</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">df Vfrfinfsditf Sditbbtf vun Ammärrikb</tfrritory>
+			<tfrritory typf="UY" drbft="undonfirmfd">Urrujwbi</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">Ußbffkistbin</tfrritory>
+			<tfrritory typf="VA" drbft="undonfirmfd">dfr Vbttikbin</tfrritory>
+			<tfrritory typf="VC" drbft="undonfirmfd">Zint Vinzänz un df Jrfnbdinfs-Ensfllf</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">Vfnfzuflb</tfrritory>
+			<tfrritory typf="VG" drbft="undonfirmfd">df brfttfsdif Jufffr-Ensfllf</tfrritory>
+			<tfrritory typf="VI" drbft="undonfirmfd">df bmmärrikbinfsdif Jufffr-Ensfllf</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">Vijätnbmm</tfrritory>
+			<tfrritory typf="VU" drbft="undonfirmfd">Vbnubtu</tfrritory>
+			<tfrritory typf="WF" drbft="undonfirmfd">Wbllis un Futunb</tfrritory>
+			<tfrritory typf="WS" drbft="undonfirmfd">Sbmmoib</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">dfr Jämmf</tfrritory>
+			<tfrritory typf="YT" drbft="undonfirmfd">Mbjott</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">Södbffrikb</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">Sbmbijb</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">Simbbbwf</tfrritory>
+			<tfrritory typf="ZZ" drbft="undonfirmfd">- Jääjfnd onbikbnnt -</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="1901" drbft="undonfirmfd">Sdiriffwiiß vun 1901 bff</vbribnt>
+			<vbribnt typf="1994" drbft="undonfirmfd">rfsijbnfsdi sditbndbtt Sdiriffwiiß vun 1994</vbribnt>
+			<vbribnt typf="1996" drbft="undonfirmfd">Sdiriffwiiß vun 1996 bff</vbribnt>
+			<vbribnt typf="1606NICT" drbft="undonfirmfd">späätmfddflfrbnzüüsfsdi vör 1606</vbribnt>
+			<vbribnt typf="1694ACAD" drbft="undonfirmfd">fröinfufrbnzüüsfsdi bff 1694</vbribnt>
+			<vbribnt typf="1959ACAD" drbft="undonfirmfd">bkbdfmfsdif Sdiriffwiiß vun 1959</vbribnt>
+			<vbribnt typf="ALALC97" drbft="undonfirmfd">df lbtfinfsdif Ömsdirfff ALA-LC vun 1997</vbribnt>
+			<vbribnt typf="AREVELA" drbft="undonfirmfd">oß-brmffnsdi</vbribnt>
+			<vbribnt typf="AREVMDA" drbft="undonfirmfd">wäß-brmffnfsdi</vbribnt>
+			<vbribnt typf="BAKU1926" drbft="undonfirmfd">fijifijtlfsdi törkfsdi lbtfijnfsdi Allfbbfft</vbribnt>
+			<vbribnt typf="BISKE" drbft="undonfirmfd">zint jorjo'sdif udfr bilb'sdif rfijbnfsdif Dijbläk</vbribnt>
+			<vbribnt typf="BOONT" drbft="undonfirmfd">boontlingsdif Dijbläk</vbribnt>
+			<vbribnt typf="FONIPA" drbft="undonfirmfd">IPA-Loutsdirfff</vbribnt>
+			<vbribnt typf="FONUPA" drbft="undonfirmfd">UPA-Loutsdirfff</vbribnt>
+			<vbribnt typf="HEPBURN" drbft="undonfirmfd">Df Lbtfinfsdif Ömsdirfff noi Hfpburn</vbribnt>
+			<vbribnt typf="HOGNORSK" drbft="undonfirmfd">Huinorrwffjfsdi</vbribnt>
+			<vbribnt typf="KKCOR" drbft="undonfirmfd">jfmfinsbm widdfrbfläf kornfsdif Sdiriffwiiß</vbribnt>
+			<vbribnt typf="LIPAW" drbft="undonfirmfd">lipovbzfsdi rfsijbnfsdif Dijbläk</vbribnt>
+			<vbribnt typf="MONOTON" drbft="undonfirmfd">monnotoonfsdi</vbribnt>
+			<vbribnt typf="NDYUKA" drbft="undonfirmfd">ndyukbnfsdif Dijbläk</vbribnt>
+			<vbribnt typf="NEDIS" drbft="undonfirmfd">nbtisonfsdif Dijbläk</vbribnt>
+			<vbribnt typf="NJIVA" drbft="undonfirmfd">gnivb'sdif udfr njivb'sdif rfijbnfsdif Dijbläk</vbribnt>
+			<vbribnt typf="OSOJS" drbft="undonfirmfd">osfbddo'sdif udfr osojbnfsdif rfijbnfsdif Dijbläk</vbribnt>
+			<vbribnt typf="PAMAKA" drbft="undonfirmfd">pbmbkbnfsdif Dijbläk</vbribnt>
+			<vbribnt typf="PINYIN" drbft="undonfirmfd">Pinjin-Ömsdirfff</vbribnt>
+			<vbribnt typf="POLYTON" drbft="undonfirmfd">pollütoonfsdi</vbribnt>
+			<vbribnt typf="REVISED" drbft="undonfirmfd">nfu opjflbtf Sdiriffwiiß</vbribnt>
+			<vbribnt typf="ROZAJ" drbft="undonfirmfd">rfsijbnfsdif Dijbläk</vbribnt>
+			<vbribnt typf="SCOTLAND" drbft="undonfirmfd">sdiottfsdif Dijbläk</vbribnt>
+			<vbribnt typf="SCOUSE" drbft="undonfirmfd">sdousf Dijbläk</vbribnt>
+			<vbribnt typf="SOLBA" drbft="undonfirmfd">stolvizbnfsdif udfr solbizbnfsdi rfijbnfsdif Dijbläk</vbribnt>
+			<vbribnt typf="TARASK" drbft="undonfirmfd">Tbrbskijfvizb-Sdiriffwiiß</vbribnt>
+			<vbribnt typf="UCCOR" drbft="undonfirmfd">fijifijtlfsdi Sdiriffwiiß</vbribnt>
+			<vbribnt typf="UCRCOR" drbft="undonfirmfd">fijifijtlfsdi, nfu opjflbtf Sdiriffwiiß</vbribnt>
+			<vbribnt typf="VALENCIA" drbft="undonfirmfd">vblfnzijbbnfsdif Dijbläk</vbribnt>
+			<vbribnt typf="WADEGILE" drbft="undonfirmfd">lbtfijnfsdif Ömsdirfff noi Wbdf-Gilfs</vbribnt>
+		</vbribnts>
+		<kfys>
+			<kfy typf="dblfndbr" drbft="undonfirmfd">dä Kblländfr</kfy>
+			<kfy typf="dollbtion" drbft="undonfirmfd">df Rfijffollsdi zom Zotifrf</kfy>
+			<kfy typf="durrfndy" drbft="undonfirmfd">df Zoot Jfld</kfy>
+			<kfy typf="numbfrs" drbft="undonfirmfd">df Nummfrf</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs" drbft="undonfirmfd">brbbbfsdif un indfsdif Zffffrf</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="undonfirmfd">brmffnfsdif Zbilf</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="undonfirmfd">klfin jfsdirfvvf brmffnfsdif Zbilf</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="undonfirmfd">bängjbblfsdif Zffffrf</typf>
+			<typf typf="big5ibn" kfy="dollbtion" drbft="undonfirmfd">zotffrt noim trbdizjonäll sdiinffsfsdi Big5</typf>
+			<typf typf="buddiist" kfy="dblfndbr" drbft="undonfirmfd">buddistfsdif Kbländfr</typf>
+			<typf typf="diinfsf" kfy="dblfndbr" drbft="undonfirmfd">sdiinffsfsdif Kbländfr</typf>
+			<typf typf="doptid" kfy="dblfndbr" drbft="undonfirmfd">kopttfsdif Kbländfr</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="undonfirmfd">Dfvbnbgbri-Zffffrf</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="undonfirmfd">zotffrt wi fm Wöötfrboodi</typf>
+			<typf typf="dudft" kfy="dollbtion" drbft="undonfirmfd">stbndbttmääßfsdi zotffrt noim Unidodf</typf>
+			<typf typf="ftii" kfy="numbfrs" drbft="undonfirmfd">ätfjoopfsdif Zbilf</typf>
+			<typf typf="ftiiopid" kfy="dblfndbr" drbft="undonfirmfd">ätfjoopfsdif Kbländfr</typf>
+			<typf typf="ftiiopid-bmftf-blfm" kfy="dblfndbr" drbft="undonfirmfd">ätfjoopfsdif Amftf Alfm Kbländfr</typf>
+			<typf typf="gb2312ibn" kfy="dollbtion" drbft="undonfirmfd">zotffrt noim fijfbdifr sdiinffsfsdi GB2312</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="undonfirmfd">jforjffsdif Zbilf</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr" drbft="undonfirmfd">jrfjorfjbbnfsdif Kbländfr</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="undonfirmfd">jriisdifsdif Zbilf</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="undonfirmfd">klfin jfsdirfvvf jriisdifsdif Zbilf</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="undonfirmfd">Jujbrbti-Zffffrf</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="undonfirmfd">Jurmukii-Zffffrf</typf>
+			<typf typf="ifbr" kfy="numbfrs" drbft="undonfirmfd">ifbräjfsdif Zbilf</typf>
+			<typf typf="ifbrfw" kfy="dblfndbr" drbft="undonfirmfd">jüdfsdif Kbländfr</typf>
+			<typf typf="indibn" kfy="dblfndbr" drbft="undonfirmfd">indfsdif Nbzjonbil-Kbländfr</typf>
+			<typf typf="islbmid" kfy="dblfndbr" drbft="undonfirmfd">ißlbbmfsdif Kbländfr</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr" drbft="undonfirmfd">wältlfsdif islbbmfsdif Kbländfr</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr" drbft="undonfirmfd">jbpbbnfsdif Kbländfr</typf>
+			<typf typf="jpbn" kfy="numbfrs" drbft="undonfirmfd">jbpbnfsdif Zbilf</typf>
+			<typf typf="kimr" kfy="numbfrs" drbft="undonfirmfd">Kimfr-Zffffrf</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="undonfirmfd">Kbnnbdb-Zffffrf</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="undonfirmfd">lbootfsdif Zffffrf</typf>
+			<typf typf="lbtn" kfy="numbfrs" drbft="undonfirmfd">wäßlfjjf Zffffrf</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="undonfirmfd">Mblbyblbm-Zffffrf</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="undonfirmfd">mongjoolfsdif Zffffrf</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="undonfirmfd">Mybnmbr-Zffffrf</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="undonfirmfd">Oriyb-Zffffrf</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="undonfirmfd">pärsfsdif Kbländfr</typf>
+			<typf typf="pionfbook" kfy="dollbtion" drbft="undonfirmfd">zotffrt wi fm Tollffoonboodi</typf>
+			<typf typf="pinyin" kfy="dollbtion" drbft="undonfirmfd">zotffrt noi df Pinjin Ömsdirfff vum Sdiinffsfsdi</typf>
+			<typf typf="rod" kfy="dblfndbr" drbft="undonfirmfd">rotsdiinffsfsdif Kbländfr</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="undonfirmfd">römfsdif Zbilf</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="undonfirmfd">klfin jfsdirfvvf römfsdif Zbilf</typf>
+			<typf typf="strokf" kfy="dollbtion" drbft="undonfirmfd">zotffrt noi df Strfsdif vum trbdizjonäll sdiinffsfsdi</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="undonfirmfd">tbmilfsdif Zbilf</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="undonfirmfd">Tfluju-Zffffrf</typf>
+			<typf typf="tibi" kfy="numbfrs" drbft="undonfirmfd">tibiländfsdif Zffffrf</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="undonfirmfd">tibftbbnfsdif Zffffrf</typf>
+			<typf typf="trbditionbl" kfy="dollbtion" drbft="undonfirmfd">trbdizjonäll zotffrt</typf>
+			<typf typf="uniibn" kfy="dollbtion" drbft="undonfirmfd">zotffrt noi df Rbdikbblf un Strfsdif vum Sdiinffsfsdi</typf>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid" drbft="undonfirmfd">mftrfsdi-furoppäjfsdi</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK" drbft="undonfirmfd">änglfsdi</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US" drbft="undonfirmfd">bmmärfkbbnfsdi</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf" drbft="undonfirmfd">df Sdiproodi bfjfkööz mft „{0}“</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript" drbft="undonfirmfd">df Sdirfff bfjfkööz mft „{0}“</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory" drbft="undonfirmfd">df Jääjfnd bfjfkööz mft „{0}“</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b å ä æ b d d f ë ė f g i i j k l m n o ö œ p q r s t u ů ü v w x y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[á à ă â å ä ã ā æ ç é è ĕ ê ë ē ğ í ì ĭ î ï ī ĳ ı ł ñ ó ò ŏ ô ö ø ō œ ú ù ŭ û ü ū ÿ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="durrfndySymbol" drbft="undonfirmfd">[b b d č d f f ƒ g i i j k l ł m n o º p q r s t u v w x y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="undonfirmfd">„</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">“</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">‚</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">‘</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="buddiist">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">EEEE, d. MMMM y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">Jbn.</monti>
+							<monti typf="2" drbft="undonfirmfd">Fäb.</monti>
+							<monti typf="3" drbft="undonfirmfd">Mbr.</monti>
+							<monti typf="4" drbft="undonfirmfd">Apr.</monti>
+							<monti typf="5" drbft="undonfirmfd">Mäi</monti>
+							<monti typf="6" drbft="undonfirmfd">Jun.</monti>
+							<monti typf="7" drbft="undonfirmfd">Jul.</monti>
+							<monti typf="8" drbft="undonfirmfd">Oug.</monti>
+							<monti typf="9" drbft="undonfirmfd">Säp.</monti>
+							<monti typf="10" drbft="undonfirmfd">Okt.</monti>
+							<monti typf="11" drbft="undonfirmfd">Nov.</monti>
+							<monti typf="12" drbft="undonfirmfd">Dfz.</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">Jbnnfwb</monti>
+							<monti typf="2" drbft="undonfirmfd">Fäbrowb</monti>
+							<monti typf="3" drbft="undonfirmfd">Määz</monti>
+							<monti typf="4" drbft="undonfirmfd">Aprfll</monti>
+							<monti typf="5" drbft="undonfirmfd">Mäi</monti>
+							<monti typf="6" drbft="undonfirmfd">Juuni</monti>
+							<monti typf="7" drbft="undonfirmfd">Juuli</monti>
+							<monti typf="8" drbft="undonfirmfd">Oujoß</monti>
+							<monti typf="9" drbft="undonfirmfd">Sfptämbfr</monti>
+							<monti typf="10" drbft="undonfirmfd">Oktoobfr</monti>
+							<monti typf="11" drbft="undonfirmfd">Novämbfr</monti>
+							<monti typf="12" drbft="undonfirmfd">Dfzämbfr</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="nbrrow">
+							<monti typf="1" drbft="undonfirmfd">J</monti>
+							<monti typf="2" drbft="undonfirmfd">F</monti>
+							<monti typf="3" drbft="undonfirmfd">M</monti>
+							<monti typf="4" drbft="undonfirmfd">A</monti>
+							<monti typf="5" drbft="undonfirmfd">M</monti>
+							<monti typf="6" drbft="undonfirmfd">J</monti>
+							<monti typf="7" drbft="undonfirmfd">J</monti>
+							<monti typf="8" drbft="undonfirmfd">A</monti>
+							<monti typf="9" drbft="undonfirmfd">S</monti>
+							<monti typf="10" drbft="undonfirmfd">O</monti>
+							<monti typf="11" drbft="undonfirmfd">N</monti>
+							<monti typf="12" drbft="undonfirmfd">D</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">Su.</dby>
+							<dby typf="mon" drbft="undonfirmfd">Mo.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Di.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Mf.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">Du.</dby>
+							<dby typf="fri" drbft="undonfirmfd">Fr.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Sb.</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">Sunndbbdi</dby>
+							<dby typf="mon" drbft="undonfirmfd">Moondbbdi</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Dinnsdbbdi</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Mftwodi</dby>
+							<dby typf="tiu" drbft="undonfirmfd">Dunnfrsdbbdi</dby>
+							<dby typf="fri" drbft="undonfirmfd">Friidbbdi</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Sbmsdbbdi</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun" drbft="undonfirmfd">S</dby>
+							<dby typf="mon" drbft="undonfirmfd">M</dby>
+							<dby typf="tuf" drbft="undonfirmfd">D</dby>
+							<dby typf="wfd" drbft="undonfirmfd">M</dby>
+							<dby typf="tiu" drbft="undonfirmfd">D</dby>
+							<dby typf="fri" drbft="undonfirmfd">F</dby>
+							<dby typf="sbt" drbft="undonfirmfd">S</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="undonfirmfd">1.Q.</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">2.Q.</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">3.Q.</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4.Q.</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1" drbft="undonfirmfd">1. Qubttbbl</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">2. Qubttbbl</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">3. Qubttbbl</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4. Qubttbbl</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="bbbrfvibtfd">
+							<dbyPfriod typf="bm" drbft="undonfirmfd">v.m.</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">n.m.</dbyPfriod>
+						</dbyPfriodWidti>
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm" drbft="undonfirmfd">Uir dfs vormittbgs</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">Uir dfs nbdimittbgs</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+					<dbyPfriodContfxt typf="stbnd-blonf">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm" drbft="undonfirmfd">Vormittbg</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">Nbdimittbg</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0" drbft="undonfirmfd">vür Cirfstus</frb>
+						<frb typf="1" drbft="undonfirmfd">noi Cirfstus</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">v.Ci.</frb>
+						<frb typf="1" drbft="undonfirmfd">n.Ci.</frb>
+					</frbAbbr>
+					<frbNbrrow>
+						<frb typf="1" drbft="undonfirmfd">n.Ci.</frb>
+					</frbNbrrow>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">EEEE, 'dä' d. MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d. MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d. MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d. M. yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d" drbft="undonfirmfd">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed" drbft="undonfirmfd">E, 'dä' d.</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im" drbft="undonfirmfd">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm" drbft="undonfirmfd">H:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims" drbft="undonfirmfd">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms" drbft="undonfirmfd">H:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M" drbft="undonfirmfd">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM" drbft="undonfirmfd">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd" drbft="undonfirmfd">d. MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd" drbft="undonfirmfd">d. MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms" drbft="undonfirmfd">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y" drbft="undonfirmfd">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM" drbft="undonfirmfd">y MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM" drbft="undonfirmfd">MMMM y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d–d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="im">
+							<grfbtfstDifffrfndf id="b" drbft="undonfirmfd">i:mm b – i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm–i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm–i:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M–M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd. - dd. MM.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">LLL–LLL</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y–y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMMM–MMMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">MMMM–MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMMM–MMMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">MMMM y – MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf drbft="undonfirmfd">Ärb</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf drbft="undonfirmfd">Joir</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf drbft="undonfirmfd">Moind</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf drbft="undonfirmfd">Wodi</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf drbft="undonfirmfd">Dbbdi</displbyNbmf>
+						<rflbtivf typf="-2" drbft="undonfirmfd">vörjfstfrf</rflbtivf>
+						<rflbtivf typf="-1" drbft="undonfirmfd">jfstfrf</rflbtivf>
+						<rflbtivf typf="0" drbft="undonfirmfd">iüdk</rflbtivf>
+						<rflbtivf typf="1" drbft="undonfirmfd">morjf</rflbtivf>
+						<rflbtivf typf="2" drbft="undonfirmfd">övvfrmorjf</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf drbft="undonfirmfd">Wodifdbbdi</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf drbft="undonfirmfd">v.m./n.m.</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf drbft="undonfirmfd">Sditund</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf drbft="undonfirmfd">Mfnutt</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf drbft="undonfirmfd">Sfkund</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf drbft="undonfirmfd">Zidkzon</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<iourFormbt drbft="undonfirmfd">+HH:mm;−HH:mm</iourFormbt>
+			<gmtFormbt drbft="undonfirmfd">GMT{0}</gmtFormbt>
+			<rfgionFormbt drbft="undonfirmfd">Zidk vun {0}</rfgionFormbt>
+			<fbllbbdkFormbt drbft="undonfirmfd">{1} ({0})</fbllbbdkFormbt>
+			<fbllbbdkRfgionFormbt drbft="undonfirmfd">Zidk vun {1} ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Amfridb/Norti_Dbkotb/Bfulbi">
+				<fxfmplbrCity drbft="undonfirmfd">Bfulbi fn Nood Dbkotb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity drbft="undonfirmfd">- wfßf mfr nit -</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tirbnf">
+				<fxfmplbrCity drbft="undonfirmfd">Tirbbnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfrfvbn">
+				<fxfmplbrCity drbft="undonfirmfd">Eriwbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Souti_Polf">
+				<fxfmplbrCity drbft="undonfirmfd">Södpol</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Syowb">
+				<fxfmplbrCity drbft="undonfirmfd">Sdioowb-Sditbzjoin op dä Ensfl Onjul</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Vostok">
+				<fxfmplbrCity drbft="undonfirmfd">Wostok</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/DumontDUrvillf">
+				<fxfmplbrCity drbft="undonfirmfd">Dumont-d'Urvillf-Sditbzjoin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vifnnb">
+				<fxfmplbrCity drbft="undonfirmfd">Wifn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brussfls">
+				<fxfmplbrCity drbft="undonfirmfd">Brüssfl</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Joins">
+				<fxfmplbrCity drbft="undonfirmfd">Zint Join's</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zuridi">
+				<fxfmplbrCity drbft="undonfirmfd">Zürisdi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Urumqi">
+				<fxfmplbrCity drbft="undonfirmfd">Urrumptsdii</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Costb_Ridb">
+				<fxfmplbrCity drbft="undonfirmfd">Koßtbridkb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbpf_Vfrdf">
+				<fxfmplbrCity drbft="undonfirmfd">Kbp Vfrdf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Nidosib">
+				<fxfmplbrCity drbft="undonfirmfd">Nikosijb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Prbguf">
+				<fxfmplbrCity drbft="undonfirmfd">Prbg</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Copfnibgfn">
+				<fxfmplbrCity drbft="undonfirmfd">Kopfnibrfn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gblbpbgos">
+				<fxfmplbrCity drbft="undonfirmfd">Jblbpbgos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbiro">
+				<fxfmplbrCity drbft="undonfirmfd">Kbijro</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity drbft="undonfirmfd">Kbnnbbrf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Fbfrof">
+				<fxfmplbrCity drbft="undonfirmfd">Färör</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gufrnsfy">
+				<fxfmplbrCity drbft="undonfirmfd">Jöönsfi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gibrbltbr">
+				<fxfmplbrCity drbft="undonfirmfd">Jibrbltbb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Atifns">
+				<fxfmplbrCity drbft="undonfirmfd">Atifn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubm">
+				<fxfmplbrCity drbft="undonfirmfd">Jubm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hong_Kong">
+				<fxfmplbrCity drbft="undonfirmfd">Hongkong</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Islf_of_Mbn">
+				<fxfmplbrCity drbft="undonfirmfd">Ensfl Män</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Romf">
+				<fxfmplbrCity drbft="undonfirmfd">Rom</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Jfrsfy">
+				<fxfmplbrCity drbft="undonfirmfd">Jöösfi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pinom_Pfni">
+				<fxfmplbrCity drbft="undonfirmfd">Pnom Pfni</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtobf">
+				<fxfmplbrCity drbft="undonfirmfd">Aqtöbf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qyzylordb">
+				<fxfmplbrCity drbft="undonfirmfd">Qysylordb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Rigb">
+				<fxfmplbrCity drbft="undonfirmfd">Riijb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ulbbnbbbtbr">
+				<fxfmplbrCity drbft="undonfirmfd">Ulbn Bbtor</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbldivfs">
+				<fxfmplbrCity drbft="undonfirmfd">Mblldivf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfxido_City">
+				<fxfmplbrCity drbft="undonfirmfd">Sditbdt Mfxiko</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Windiofk">
+				<fxfmplbrCity drbft="undonfirmfd">Windiuk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lbgos">
+				<fxfmplbrCity drbft="undonfirmfd">Lbbjos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pitdbirn">
+				<fxfmplbrCity drbft="undonfirmfd">Pitkfrn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Gbzb">
+				<fxfmplbrCity drbft="undonfirmfd">Jbbsb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity drbft="undonfirmfd">Azoorf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budibrfst">
+				<fxfmplbrCity drbft="undonfirmfd">Bukbrfst</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kbliningrbd">
+				<fxfmplbrCity drbft="undonfirmfd">Kblinninjrbbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mosdow">
+				<fxfmplbrCity drbft="undonfirmfd">Moskbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Volgogrbd">
+				<fxfmplbrCity drbft="undonfirmfd">Woljojrbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfkbtfrinburg">
+				<fxfmplbrCity drbft="undonfirmfd">Jfkbtfrinburg</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Krbsnoybrsk">
+				<fxfmplbrCity drbft="undonfirmfd">Krbsnojbrsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ybkutsk">
+				<fxfmplbrCity drbft="undonfirmfd">Jbkutsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vlbdivostok">
+				<fxfmplbrCity drbft="undonfirmfd">Wlbdiwostok</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbmdibtkb">
+				<fxfmplbrCity drbft="undonfirmfd">Kbmsdibttkb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/St_Hflfnb">
+				<fxfmplbrCity drbft="undonfirmfd">Zint Hflfnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Istbnbul">
+				<fxfmplbrCity drbft="undonfirmfd">Istbmbul</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Uzigorod">
+				<fxfmplbrCity drbft="undonfirmfd">Usdijorod</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporoziyf">
+				<fxfmplbrCity drbft="undonfirmfd">Sbporisdisdijb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Honolulu">
+				<fxfmplbrCity drbft="undonfirmfd">Honululu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ybkutbt">
+				<fxfmplbrCity drbft="undonfirmfd">Jbkutbt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Norti_Dbkotb/Nfw_Sblfm">
+				<fxfmplbrCity drbft="undonfirmfd">Nfu Sblfm fn Nood Dbkotb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Norti_Dbkotb/Cfntfr">
+				<fxfmplbrCity drbft="undonfirmfd">Zfntfr fn Nood Dbkotb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vindfnnfs">
+				<fxfmplbrCity drbft="undonfirmfd">Vindfnnfs fn Indibnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Pftfrsburg">
+				<fxfmplbrCity drbft="undonfirmfd">Pftfrsburg fn Indibnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Tfll_City">
+				<fxfmplbrCity drbft="undonfirmfd">Tfll City fn Indibnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Knox">
+				<fxfmplbrCity drbft="undonfirmfd">Knox fn Indibnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Winbmbd">
+				<fxfmplbrCity drbft="undonfirmfd">Winbmbd fn Indibnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Mbrfngo">
+				<fxfmplbrCity drbft="undonfirmfd">Mbrfngo fn Indibnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vfvby">
+				<fxfmplbrCity drbft="undonfirmfd">Vfvby fn Indibnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Kfntudky/Montidfllo">
+				<fxfmplbrCity drbft="undonfirmfd">Montidfllo fn Kfntudky</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Afridb_Cfntrbl">
 				<long>
-					<standard draft="unconfirmed">Zentraal-Affrekaanesche Ziggzohn</standard>
+					<stbndbrd drbft="undonfirmfd">Zfntrbbl-Affrfkbbnfsdif Ziggzoin</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Eastern">
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Ebstfrn">
 				<long>
-					<standard draft="unconfirmed">Oß-Affrekaanesche Ziggzohn</standard>
+					<stbndbrd drbft="undonfirmfd">Oß-Affrfkbbnfsdif Ziggzoin</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Southern">
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Soutifrn">
 				<long>
-					<standard draft="unconfirmed">Söd-Affrekaanesche Ziggzohn</standard>
+					<stbndbrd drbft="undonfirmfd">Söd-Affrfkbbnfsdif Ziggzoin</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Western">
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Wfstfrn">
 				<long>
-					<generic draft="unconfirmed">Wäß-Affrekaanesche Ziggzohn</generic>
-					<standard draft="unconfirmed">Wäß-Affrekaanesche Ziggzohn</standard>
-					<daylight draft="unconfirmed">Wäß-Affrekaanesche Sommerzigg</daylight>
+					<gfnfrid drbft="undonfirmfd">Wäß-Affrfkbbnfsdif Ziggzoin</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">Wäß-Affrfkbbnfsdif Ziggzoin</stbndbrd>
+					<dbyligit drbft="undonfirmfd">Wäß-Affrfkbbnfsdif Sommfrzigg</dbyligit>
 				</long>
-			</metazone>
-			<metazone type="Europe_Central">
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
 				<long>
-					<standard draft="unconfirmed">Zick vun Meddel-Europpa</standard>
-					<daylight draft="unconfirmed">Meddel-Europpa sing Summerzick</daylight>
+					<stbndbrd drbft="undonfirmfd">Zidk vun Mfddfl-Europpb</stbndbrd>
+					<dbyligit drbft="undonfirmfd">Mfddfl-Europpb sing Summfrzidk</dbyligit>
 				</long>
-				<short>
-					<generic>MEZ</generic>
-					<standard>MEZ</standard>
-					<daylight>MESZ</daylight>
-				</short>
-			</metazone>
-			<metazone type="Europe_Eastern">
+				<siort>
+					<gfnfrid>MEZ</gfnfrid>
+					<stbndbrd>MEZ</stbndbrd>
+					<dbyligit>MESZ</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
 				<long>
-					<generic draft="unconfirmed">Zick vun Oß-Europpa</generic>
-					<standard draft="unconfirmed">Zick vun Oß-Europpa</standard>
-					<daylight draft="unconfirmed">Summerzick vun Oß-Europpa</daylight>
+					<gfnfrid drbft="undonfirmfd">Zidk vun Oß-Europpb</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">Zidk vun Oß-Europpb</stbndbrd>
+					<dbyligit drbft="undonfirmfd">Summfrzidk vun Oß-Europpb</dbyligit>
 				</long>
-				<short>
-					<generic>OEZ</generic>
-					<standard>OEZ</standard>
-					<daylight>OESZ</daylight>
-				</short>
-			</metazone>
-			<metazone type="Europe_Western">
+				<siort>
+					<gfnfrid>OEZ</gfnfrid>
+					<stbndbrd>OEZ</stbndbrd>
+					<dbyligit>OESZ</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
 				<long>
-					<generic draft="unconfirmed">Weß-Europpa sing Zick</generic>
-					<standard draft="unconfirmed">Weß-Europpa sing Zick</standard>
-					<daylight draft="unconfirmed">Weß-Europpa sing Summerzick</daylight>
+					<gfnfrid drbft="undonfirmfd">Wfß-Europpb sing Zidk</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">Wfß-Europpb sing Zidk</stbndbrd>
+					<dbyligit drbft="undonfirmfd">Wfß-Europpb sing Summfrzidk</dbyligit>
 				</long>
-				<short>
-					<generic>WEZ</generic>
-					<standard>WEZ</standard>
-					<daylight>WESZ</daylight>
-				</short>
-			</metazone>
-			<metazone type="GMT">
+				<siort>
+					<gfnfrid>WEZ</gfnfrid>
+					<stbndbrd>WEZ</stbndbrd>
+					<dbyligit>WESZ</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="GMT">
 				<long>
-					<standard draft="unconfirmed">Greenwich Standat-Zick</standard>
+					<stbndbrd drbft="undonfirmfd">Grffnwidi Stbndbt-Zidk</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indian_Ocean">
+			</mftbzonf>
+			<mftbzonf typf="Indibn_Odfbn">
 				<long>
-					<standard draft="unconfirmed">dem Indische Ozejan sing Zick</standard>
+					<stbndbrd drbft="undonfirmfd">dfm Indisdif Ozfjbn sing Zidk</stbndbrd>
 				</long>
-			</metazone>
-		</timeZoneNames>
-	</dates>
-	<numbers>
-		<symbols numberSystem="latn">
-			<decimal draft="unconfirmed">,</decimal>
-			<group draft="unconfirmed"> </group>
-			<list draft="unconfirmed">;</list>
-			<percentSign draft="unconfirmed">%</percentSign>
-			<plusSign draft="unconfirmed">+</plusSign>
-			<minusSign draft="unconfirmed">−</minusSign>
-			<exponential draft="unconfirmed">×10^</exponential>
-			<perMille draft="unconfirmed">‰</perMille>
-			<infinity draft="unconfirmed">∞</infinity>
-			<nan draft="unconfirmed">¤¤¤</nan>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl drbft="undonfirmfd">,</dfdimbl>
+			<group drbft="undonfirmfd"> </group>
+			<list drbft="undonfirmfd">;</list>
+			<pfrdfntSign drbft="undonfirmfd">%</pfrdfntSign>
+			<plusSign drbft="undonfirmfd">+</plusSign>
+			<minusSign drbft="undonfirmfd">−</minusSign>
+			<fxponfntibl drbft="undonfirmfd">×10^</fxponfntibl>
+			<pfrMillf drbft="undonfirmfd">‰</pfrMillf>
+			<infinity drbft="undonfirmfd">∞</infinity>
+			<nbn drbft="undonfirmfd">¤¤¤</nbn>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern draft="unconfirmed">#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<scientificFormats numberSystem="latn">
-			<scientificFormatLength>
-				<scientificFormat>
-					<pattern draft="unconfirmed">#E0</pattern>
-				</scientificFormat>
-			</scientificFormatLength>
-		</scientificFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern draft="unconfirmed">#,##0 %</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern draft="unconfirmed">#,##0.00 ¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-			<unitPattern count="other" draft="unconfirmed">{0} {1}</unitPattern>
-		</currencyFormats>
-		<currencies>
-			<currency type="AED">
-				<displayName draft="unconfirmed">de vereineschte arraabesche Emiraate ier Dirham</displayName>
-			</currency>
-			<currency type="AFN">
-				<displayName draft="unconfirmed">Afjahni</displayName>
-			</currency>
-			<currency type="ALL">
-				<displayName draft="unconfirmed">albaanesche Lek</displayName>
-			</currency>
-			<currency type="AMD">
-				<displayName draft="unconfirmed">armeenesche Dram</displayName>
-			</currency>
-			<currency type="ANG">
-				<displayName draft="unconfirmed">neederlängsch antillesche Jullde</displayName>
-			</currency>
-			<currency type="AOA">
-				<displayName draft="unconfirmed">angjolaanesche Kwansa</displayName>
-			</currency>
-			<currency type="ARS">
-				<displayName draft="unconfirmed">ajentiinesche Peesos</displayName>
-			</currency>
-			<currency type="AUD">
-				<displayName draft="unconfirmed">austraalesche Dollaa</displayName>
-			</currency>
-			<currency type="AWG">
-				<displayName draft="unconfirmed">arubesche Florin</displayName>
-			</currency>
-			<currency type="AZM">
-				<displayName draft="unconfirmed">Asserbaidschaani Manat (1993-2006)</displayName>
-			</currency>
-			<currency type="AZN">
-				<displayName draft="unconfirmed">Asserbaidschaani Manat</displayName>
-			</currency>
-			<currency type="BAM">
-				<displayName draft="unconfirmed">öpmtuuschbaa Mark us Boßnije un dä Hächejovvina</displayName>
-			</currency>
-			<currency type="BBD">
-				<displayName draft="unconfirmed">Barbados-Dollaa</displayName>
-			</currency>
-			<currency type="BDT">
-				<displayName draft="unconfirmed">Taka us Bangladäsch</displayName>
-			</currency>
-			<currency type="BGN">
-				<displayName draft="unconfirmed">buljaaresche Lev</displayName>
-			</currency>
-			<currency type="BHD">
-				<displayName draft="unconfirmed">Bachrainesche Denaa</displayName>
-			</currency>
-			<currency type="BIF">
-				<displayName draft="unconfirmed">burundesche Franke</displayName>
-			</currency>
-			<currency type="BMD">
-				<displayName draft="unconfirmed">Bermuuda-Dollaa</displayName>
-			</currency>
-			<currency type="BND">
-				<displayName draft="unconfirmed">Brunei-Dollaaa</displayName>
-			</currency>
-			<currency type="BOB">
-				<displayName draft="unconfirmed">Bollivijano</displayName>
-			</currency>
-			<currency type="BRL">
-				<displayName draft="unconfirmed">brasilljaanesche Real</displayName>
-			</currency>
-			<currency type="BSD">
-				<displayName draft="unconfirmed">bahama'sche Dollaa</displayName>
-			</currency>
-			<currency type="BTN">
-				<displayName draft="unconfirmed">Bhutanesesche Ngultrum</displayName>
-			</currency>
-			<currency type="BWP">
-				<displayName draft="unconfirmed">Pula us Bozwaana</displayName>
-			</currency>
-			<currency type="BYR">
-				<displayName draft="unconfirmed">wiißrußesche Rubel</displayName>
-			</currency>
-			<currency type="BZD">
-				<displayName draft="unconfirmed">Belizjaanesche Dollaa</displayName>
-			</currency>
-			<currency type="CAD">
-				<displayName draft="unconfirmed">kannaadesche Dollaa</displayName>
-			</currency>
-			<currency type="CDF">
-				<displayName draft="unconfirmed">kongjoleesesche Frang</displayName>
-			</currency>
-			<currency type="CHF">
-				<displayName draft="unconfirmed">schweijzer Fränkli</displayName>
-			</currency>
-			<currency type="CLP">
-				<displayName draft="unconfirmed">schileenesche Peesos</displayName>
-			</currency>
-			<currency type="CNY">
-				<displayName draft="unconfirmed">schineesesche Yuan Renminbi</displayName>
-			</currency>
-			<currency type="COP">
-				<displayName draft="unconfirmed">kolumbesche Pesos</displayName>
-			</currency>
-			<currency type="CRC">
-				<displayName draft="unconfirmed">Kaßtarikaanesche Colón</displayName>
-			</currency>
-			<currency type="CUC">
-				<displayName draft="unconfirmed">ömtuuschbaa kubaanesche Pesos</displayName>
-			</currency>
-			<currency type="CUP">
-				<displayName draft="unconfirmed">kubaanesche Peesos</displayName>
-			</currency>
-			<currency type="CVE">
-				<displayName draft="unconfirmed">kapverdesche Eskuudos</displayName>
-			</currency>
-			<currency type="CZK">
-				<displayName draft="unconfirmed">tschäschesche Kruhne</displayName>
-			</currency>
-			<currency type="DJF">
-				<displayName draft="unconfirmed">Franke uß Dschibuti</displayName>
-			</currency>
-			<currency type="DKK">
-				<displayName draft="unconfirmed">dänesche Kruhne</displayName>
-			</currency>
-			<currency type="DZD">
-				<displayName draft="unconfirmed">aljeresche Denaa</displayName>
-			</currency>
-			<currency type="EEK">
-				<displayName draft="unconfirmed">Äßnesche Kruhne</displayName>
-			</currency>
-			<currency type="EGP">
-				<displayName draft="unconfirmed">äjiptesche Pongk</displayName>
-			</currency>
-			<currency type="ERN">
-				<displayName draft="unconfirmed">Nafka uß Erritreja</displayName>
-			</currency>
-			<currency type="ETB">
-				<displayName draft="unconfirmed">ätejoopesche Birr</displayName>
-			</currency>
-			<currency type="EUR">
-				<displayName draft="unconfirmed">Euro</displayName>
-			</currency>
-			<currency type="FJD">
-				<displayName draft="unconfirmed">Fidschi-Dollaa</displayName>
-			</currency>
-			<currency type="FKP">
-				<displayName draft="unconfirmed">Pongk vun de Falkland-Enselle</displayName>
-			</currency>
-			<currency type="GBP">
-				<displayName draft="unconfirmed">brittesche £</displayName>
-			</currency>
-			<currency type="GEL">
-				<displayName draft="unconfirmed">jeorjesche LAri</displayName>
-			</currency>
-			<currency type="GHS">
-				<displayName draft="unconfirmed">janaaesche Cedi</displayName>
-			</currency>
-			<currency type="GIP">
-				<displayName draft="unconfirmed">jibraltaa'sche Pongk</displayName>
-			</currency>
-			<currency type="GMD">
-				<displayName draft="unconfirmed">jambesche Dalasi</displayName>
-			</currency>
-			<currency type="GNF">
-				<displayName draft="unconfirmed">Jineea-Franke</displayName>
-			</currency>
-			<currency type="GTQ">
-				<displayName draft="unconfirmed">juatemalesche Quetzal</displayName>
-			</currency>
-			<currency type="GYD">
-				<displayName draft="unconfirmed">Juaana-Dollaa</displayName>
-			</currency>
-			<currency type="HKD">
-				<displayName draft="unconfirmed">Hongkong-Dollaa</displayName>
-			</currency>
-			<currency type="HNL">
-				<displayName draft="unconfirmed">hondureanesche Lempira</displayName>
-			</currency>
-			<currency type="HRK">
-				<displayName draft="unconfirmed">korwaatesche Kuna</displayName>
-			</currency>
-			<currency type="HTG">
-				<displayName draft="unconfirmed">haiitesche Gourde</displayName>
-			</currency>
-			<currency type="HUF">
-				<displayName draft="unconfirmed">unjarresche Forint</displayName>
-			</currency>
-			<currency type="IDR">
-				<displayName draft="unconfirmed">indoneesesche Ruupije</displayName>
-			</currency>
-			<currency type="ILS">
-				<displayName draft="unconfirmed">ißraeelesche Schekel</displayName>
-			</currency>
-			<currency type="INR">
-				<displayName draft="unconfirmed">indesche Ruupije</displayName>
-			</currency>
-			<currency type="IQD">
-				<displayName draft="unconfirmed">iraakesche Denaa</displayName>
-			</currency>
-			<currency type="IRR">
-				<displayName draft="unconfirmed">persesche Rial</displayName>
-			</currency>
-			<currency type="ISK">
-				<displayName draft="unconfirmed">ißländesche Kruhne</displayName>
-			</currency>
-			<currency type="JMD">
-				<displayName draft="unconfirmed">jamaikaanesche Dollaa</displayName>
-			</currency>
-			<currency type="JOD">
-				<displayName draft="unconfirmed">Jordaanesche Dollaa</displayName>
-			</currency>
-			<currency type="JPY">
-				<displayName draft="unconfirmed">japaanesche Jen</displayName>
-			</currency>
-			<currency type="KES">
-				<displayName draft="unconfirmed">Kenjaanesche Schillinge</displayName>
-			</currency>
-			<currency type="KGS">
-				<displayName draft="unconfirmed">kirjiisesche Som</displayName>
-			</currency>
-			<currency type="KHR">
-				<displayName draft="unconfirmed">kambodschaanesche Riel</displayName>
-			</currency>
-			<currency type="KMF">
-				<displayName draft="unconfirmed">kommooresche Frangke</displayName>
-			</currency>
-			<currency type="KPW">
-				<displayName draft="unconfirmed">noodkorejaansche Won</displayName>
-			</currency>
-			<currency type="KRW">
-				<displayName draft="unconfirmed">söödkorejaansche Won</displayName>
-			</currency>
-			<currency type="KWD">
-				<displayName draft="unconfirmed">kuwaitesche Denaa</displayName>
-			</currency>
-			<currency type="KYD">
-				<displayName draft="unconfirmed">Kaimann-Dollaa</displayName>
-			</currency>
-			<currency type="KZT">
-				<displayName draft="unconfirmed">kasakstaanesche Tenge</displayName>
-			</currency>
-			<currency type="LAK">
-				<displayName draft="unconfirmed">loaatesche Kip</displayName>
-			</currency>
-			<currency type="LBP">
-				<displayName draft="unconfirmed">libaneesesche Pongk</displayName>
-			</currency>
-			<currency type="LKR">
-				<displayName draft="unconfirmed">schri-lankesche Ruupije</displayName>
-			</currency>
-			<currency type="LRD">
-				<displayName draft="unconfirmed">liberijaanesche Dollaa</displayName>
-			</currency>
-			<currency type="LSL">
-				<displayName draft="unconfirmed">lesoothesche Loti</displayName>
-			</currency>
-			<currency type="LTL">
-				<displayName draft="unconfirmed">littouesche Litas</displayName>
-			</currency>
-			<currency type="LVL">
-				<displayName draft="unconfirmed">lättesche Lats</displayName>
-			</currency>
-			<currency type="LYD">
-				<displayName draft="unconfirmed">libesche Denaa</displayName>
-			</currency>
-			<currency type="MAD">
-				<displayName draft="unconfirmed">marrokaanesche Dirhamm</displayName>
-			</currency>
-			<currency type="MDL">
-				<displayName draft="unconfirmed">moldaavesche Leu</displayName>
-			</currency>
-			<currency type="MGA">
-				<displayName draft="unconfirmed">madajaskesche Ariary</displayName>
-			</currency>
-			<currency type="MKD">
-				<displayName draft="unconfirmed">mazedoonesche Denaa</displayName>
-			</currency>
-			<currency type="MMK">
-				<displayName draft="unconfirmed">burmeesesche Kyat</displayName>
-			</currency>
-			<currency type="MNT">
-				<displayName draft="unconfirmed">mongjoolesche Tugrik</displayName>
-			</currency>
-			<currency type="MOP">
-				<displayName draft="unconfirmed">makaneesesche Pataca</displayName>
-			</currency>
-			<currency type="MRO">
-				<displayName draft="unconfirmed">mauretanesche Ouguiya</displayName>
-			</currency>
-			<currency type="MUR">
-				<displayName draft="unconfirmed">maurizjahnesche Ruupije</displayName>
-			</currency>
-			<currency type="MVR">
-				<displayName draft="unconfirmed">mallediivesche Rufiyaa</displayName>
-			</currency>
-			<currency type="MWK">
-				<displayName draft="unconfirmed">malaawesche Kwache</displayName>
-			</currency>
-			<currency type="MXN">
-				<displayName draft="unconfirmed">mexekaanesche Peeso</displayName>
-			</currency>
-			<currency type="MYR">
-				<displayName draft="unconfirmed">malaisesche Ringgit</displayName>
-			</currency>
-			<currency type="MZM">
-				<displayName draft="unconfirmed">mosambikaanesche Metical (1980-2006)</displayName>
-			</currency>
-			<currency type="NAD">
-				<displayName draft="unconfirmed">namiibesche Dollaa</displayName>
-			</currency>
-			<currency type="NGN">
-				<displayName draft="unconfirmed">nijerijaanesche Naira</displayName>
-			</currency>
-			<currency type="NIO">
-				<displayName draft="unconfirmed">nikarajaanesche Córdoba</displayName>
-			</currency>
-			<currency type="NOK">
-				<displayName draft="unconfirmed">norrweejesche Kruhne</displayName>
-			</currency>
-			<currency type="NPR">
-				<displayName draft="unconfirmed">nepaleesesche Ruupije</displayName>
-			</currency>
-			<currency type="NZD">
-				<displayName draft="unconfirmed">neuseeländesche Dollaa</displayName>
-			</currency>
-			<currency type="OMR">
-				<displayName draft="unconfirmed">ommaanesche Rijal</displayName>
-			</currency>
-			<currency type="PAB">
-				<displayName draft="unconfirmed">pannameesesche Balboa</displayName>
-			</currency>
-			<currency type="PEN">
-				<displayName draft="unconfirmed">perruaanesche Nuevo Sol</displayName>
-			</currency>
-			<currency type="PGK">
-				<displayName draft="unconfirmed">papua neujinejaanesche Kina</displayName>
-			</currency>
-			<currency type="PHP">
-				<displayName draft="unconfirmed">fillipiinesche Pesos</displayName>
-			</currency>
-			<currency type="PKR">
-				<displayName draft="unconfirmed">pakestaanesche Ruupije</displayName>
-			</currency>
-			<currency type="PLN">
-				<displayName draft="unconfirmed">polnesche Złoty</displayName>
-			</currency>
-			<currency type="PYG">
-				<displayName draft="unconfirmed">parajuaanesche Juarani</displayName>
-			</currency>
-			<currency type="QAR">
-				<displayName draft="unconfirmed">kataaresche Rijal</displayName>
-			</currency>
-			<currency type="ROL">
-				<displayName draft="unconfirmed">romäänesche Leu (1952-2006)</displayName>
-			</currency>
-			<currency type="RSD">
-				<displayName draft="unconfirmed">särbesche Denaare</displayName>
-			</currency>
-			<currency type="RUB">
-				<displayName draft="unconfirmed">russesche Ruubel</displayName>
-			</currency>
-			<currency type="RWF">
-				<displayName draft="unconfirmed">ruandesche Frang</displayName>
-			</currency>
-			<currency type="SAR">
-				<displayName draft="unconfirmed">saudesche Rijal</displayName>
-			</currency>
-			<currency type="SBD">
-				<displayName draft="unconfirmed">solomonesche Dollaa</displayName>
-			</currency>
-			<currency type="SCR">
-				<displayName draft="unconfirmed">seischellesche Ruupije</displayName>
-			</currency>
-			<currency type="SDG">
-				<displayName draft="unconfirmed">sudaneesesche Pongk</displayName>
-			</currency>
-			<currency type="SEK">
-				<displayName draft="unconfirmed">schweedesche Kruhne</displayName>
-			</currency>
-			<currency type="SGD">
-				<displayName draft="unconfirmed">singjapurejaanesche Dollaa</displayName>
-			</currency>
-			<currency type="SHP">
-				<displayName draft="unconfirmed">Zint-Hellena-Pongk</displayName>
-			</currency>
-			<currency type="SKK">
-				<displayName draft="unconfirmed">ßlovaakesche Kruhne</displayName>
-			</currency>
-			<currency type="SLL">
-				<displayName draft="unconfirmed">ẞjärra-lejoneesesche Leone</displayName>
-			</currency>
-			<currency type="SOS">
-				<displayName draft="unconfirmed">somaalesche Schillenge</displayName>
-			</currency>
-			<currency type="SRD">
-				<displayName draft="unconfirmed">sürinameesesche Dollaa</displayName>
-			</currency>
-			<currency type="STD">
-				<displayName draft="unconfirmed">Dobra vun São Tomé un Príncipe</displayName>
-			</currency>
-			<currency type="SVC">
-				<displayName draft="unconfirmed">asalvadorejaanesche Cosan</displayName>
-			</currency>
-			<currency type="SYP">
-				<displayName draft="unconfirmed">süüresche Pund</displayName>
-			</currency>
-			<currency type="SZL">
-				<displayName draft="unconfirmed">swasiländesche Lilangeni</displayName>
-			</currency>
-			<currency type="THB">
-				<displayName draft="unconfirmed">tailändesche Baht</displayName>
-			</currency>
-			<currency type="TJS">
-				<displayName draft="unconfirmed">tadschikißtaanesche Somoni</displayName>
-			</currency>
-			<currency type="TMM">
-				<displayName draft="unconfirmed">turkmeneßtaanesche Manat (1993-2009)</displayName>
-			</currency>
-			<currency type="TMT">
-				<displayName draft="unconfirmed">turkmeneßtaanesche Manat</displayName>
-			</currency>
-			<currency type="TND">
-				<displayName draft="unconfirmed">tuneesesche Denaa</displayName>
-			</currency>
-			<currency type="TOP">
-				<displayName draft="unconfirmed">tongjanes Paʻangache</displayName>
-			</currency>
-			<currency type="TRY">
-				<displayName draft="unconfirmed">törkesche Liire</displayName>
-			</currency>
-			<currency type="TWD">
-				<displayName draft="unconfirmed">neu taiwaneesesche Dollaa</displayName>
-			</currency>
-			<currency type="TZS">
-				<displayName draft="unconfirmed">tansaanesche Schillenge</displayName>
-			</currency>
-			<currency type="UAH">
-				<displayName draft="unconfirmed">ukraijnesche Hryvnia</displayName>
-			</currency>
-			<currency type="UGX">
-				<displayName draft="unconfirmed">ujandesche Schillenge</displayName>
-			</currency>
-			<currency type="USD">
-				<displayName draft="unconfirmed">ammärrikaanesche Dollaa</displayName>
-			</currency>
-			<currency type="UYU">
-				<displayName draft="unconfirmed">urrujuwaische Peeso</displayName>
-			</currency>
-			<currency type="UZS">
-				<displayName draft="unconfirmed">ußbeekesche Som</displayName>
-			</currency>
-			<currency type="VEF">
-				<displayName draft="unconfirmed">venezuelaanesche Bolívar</displayName>
-			</currency>
-			<currency type="VND">
-				<displayName draft="unconfirmed">vijätnammeesesche Dong</displayName>
-			</currency>
-			<currency type="VUV">
-				<displayName draft="unconfirmed">vanuatesche Vatu</displayName>
-			</currency>
-			<currency type="WST">
-				<displayName draft="unconfirmed">samowaanesche Tala</displayName>
-			</currency>
-			<currency type="XAG">
-				<displayName draft="unconfirmed">Sellver</displayName>
-			</currency>
-			<currency type="XAU">
-				<displayName draft="unconfirmed">Jold</displayName>
-			</currency>
-			<currency type="XCD">
-				<displayName draft="unconfirmed">oß-karribbesche Dollaa</displayName>
-			</currency>
-			<currency type="XFO">
-				<displayName draft="unconfirmed">franzüüsesche Joldfranke</displayName>
-			</currency>
-			<currency type="XPD">
-				<displayName draft="unconfirmed">Palladijum</displayName>
-			</currency>
-			<currency type="XPT">
-				<displayName draft="unconfirmed">Plaatin</displayName>
-			</currency>
-			<currency type="XTS">
-				<displayName draft="unconfirmed">Währong zum Prööfe</displayName>
-			</currency>
-			<currency type="XXX">
-				<displayName draft="unconfirmed">onbikannte Währong</displayName>
-			</currency>
-			<currency type="YER">
-				<displayName draft="unconfirmed">jemenitesche Rijal</displayName>
-			</currency>
-			<currency type="ZAR">
-				<displayName draft="unconfirmed">södaffrekaanesche Rand</displayName>
-			</currency>
-			<currency type="ZMK">
-				<displayName draft="unconfirmed">sambesche Kwacha</displayName>
-			</currency>
-			<currency type="ZWD">
-				<displayName draft="unconfirmed">simbabwesche Dollaa (1980-2008)</displayName>
-			</currency>
-			<currency type="ZWL">
-				<displayName draft="unconfirmed">simbabwesche Dollaa (2009)</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn drbft="undonfirmfd">#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngti>
+				<sdifntifidFormbt>
+					<pbttfrn drbft="undonfirmfd">#E0</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngti>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn drbft="undonfirmfd">#,##0 %</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn drbft="undonfirmfd">#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			<unitPbttfrn dount="otifr" drbft="undonfirmfd">{0} {1}</unitPbttfrn>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AED">
+				<displbyNbmf drbft="undonfirmfd">df vfrfinfsditf brrbbbfsdif Emirbbtf ifr Diribm</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFN">
+				<displbyNbmf drbft="undonfirmfd">Afjbini</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALL">
+				<displbyNbmf drbft="undonfirmfd">blbbbnfsdif Lfk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AMD">
+				<displbyNbmf drbft="undonfirmfd">brmffnfsdif Drbm</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ANG">
+				<displbyNbmf drbft="undonfirmfd">nffdfrlängsdi bntillfsdif Julldf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf drbft="undonfirmfd">bngjolbbnfsdif Kwbnsb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf drbft="undonfirmfd">bjfntiinfsdif Pffsos</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf drbft="undonfirmfd">bustrbblfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AWG">
+				<displbyNbmf drbft="undonfirmfd">brubfsdif Florin</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZM">
+				<displbyNbmf drbft="undonfirmfd">Assfrbbidsdibbni Mbnbt (1993-2006)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZN">
+				<displbyNbmf drbft="undonfirmfd">Assfrbbidsdibbni Mbnbt</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf drbft="undonfirmfd">öpmtuusdibbb Mbrk us Boßnijf un dä Hädifjovvinb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BBD">
+				<displbyNbmf drbft="undonfirmfd">Bbrbbdos-Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf drbft="undonfirmfd">Tbkb us Bbnglbdäsdi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGN">
+				<displbyNbmf drbft="undonfirmfd">buljbbrfsdif Lfv</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf drbft="undonfirmfd">Bbdirbinfsdif Dfnbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf drbft="undonfirmfd">burundfsdif Frbnkf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BMD">
+				<displbyNbmf drbft="undonfirmfd">Bfrmuudb-Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf drbft="undonfirmfd">Brunfi-Dollbbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOB">
+				<displbyNbmf drbft="undonfirmfd">Bollivijbno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf drbft="undonfirmfd">brbsilljbbnfsdif Rfbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf drbft="undonfirmfd">bbibmb'sdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BTN">
+				<displbyNbmf drbft="undonfirmfd">Biutbnfsfsdif Ngultrum</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf drbft="undonfirmfd">Pulb us Bozwbbnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf drbft="undonfirmfd">wiißrußfsdif Rubfl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BZD">
+				<displbyNbmf drbft="undonfirmfd">Bflizjbbnfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf drbft="undonfirmfd">kbnnbbdfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf drbft="undonfirmfd">kongjolffsfsdif Frbng</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf drbft="undonfirmfd">sdiwfijzfr Fränkli</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLP">
+				<displbyNbmf drbft="undonfirmfd">sdiilffnfsdif Pffsos</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf drbft="undonfirmfd">sdiinffsfsdif Yubn Rfnminbi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="COP">
+				<displbyNbmf drbft="undonfirmfd">kolumbfsdif Pfsos</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CRC">
+				<displbyNbmf drbft="undonfirmfd">Kbßtbrikbbnfsdif Colón</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUC">
+				<displbyNbmf drbft="undonfirmfd">ömtuusdibbb kubbbnfsdif Pfsos</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUP">
+				<displbyNbmf drbft="undonfirmfd">kubbbnfsdif Pffsos</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf drbft="undonfirmfd">kbpvfrdfsdif Eskuudos</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CZK">
+				<displbyNbmf drbft="undonfirmfd">tsdiäsdifsdif Kruinf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf drbft="undonfirmfd">Frbnkf uß Dsdiibuti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf drbft="undonfirmfd">dänfsdif Kruinf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf drbft="undonfirmfd">bljfrfsdif Dfnbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EEK">
+				<displbyNbmf drbft="undonfirmfd">Äßnfsdif Kruinf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf drbft="undonfirmfd">äjiptfsdif Pongk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf drbft="undonfirmfd">Nbfkb uß Erritrfjb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf drbft="undonfirmfd">ätfjoopfsdif Birr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf drbft="undonfirmfd">Euro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FJD">
+				<displbyNbmf drbft="undonfirmfd">Fidsdii-Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FKP">
+				<displbyNbmf drbft="undonfirmfd">Pongk vun df Fblklbnd-Ensfllf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf drbft="undonfirmfd">brittfsdif £</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEL">
+				<displbyNbmf drbft="undonfirmfd">jforjfsdif LAri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHS">
+				<displbyNbmf drbft="undonfirmfd">jbnbbfsdif Cfdi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GIP">
+				<displbyNbmf drbft="undonfirmfd">jibrbltbb'sdif Pongk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf drbft="undonfirmfd">jbmbfsdif Dblbsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNF">
+				<displbyNbmf drbft="undonfirmfd">Jinffb-Frbnkf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GTQ">
+				<displbyNbmf drbft="undonfirmfd">jubtfmblfsdif Quftzbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GYD">
+				<displbyNbmf drbft="undonfirmfd">Jubbnb-Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf drbft="undonfirmfd">Hongkong-Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HNL">
+				<displbyNbmf drbft="undonfirmfd">iondurfbnfsdif Lfmpirb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRK">
+				<displbyNbmf drbft="undonfirmfd">korwbbtfsdif Kunb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HTG">
+				<displbyNbmf drbft="undonfirmfd">ibiitfsdif Gourdf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HUF">
+				<displbyNbmf drbft="undonfirmfd">unjbrrfsdif Forint</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf drbft="undonfirmfd">indonffsfsdif Ruupijf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILS">
+				<displbyNbmf drbft="undonfirmfd">ißrbfflfsdif Sdifkfl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf drbft="undonfirmfd">indfsdif Ruupijf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IQD">
+				<displbyNbmf drbft="undonfirmfd">irbbkfsdif Dfnbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IRR">
+				<displbyNbmf drbft="undonfirmfd">pfrsfsdif Ribl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ISK">
+				<displbyNbmf drbft="undonfirmfd">ißländfsdif Kruinf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf drbft="undonfirmfd">jbmbikbbnfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JOD">
+				<displbyNbmf drbft="undonfirmfd">Jordbbnfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf drbft="undonfirmfd">jbpbbnfsdif Jfn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf drbft="undonfirmfd">Kfnjbbnfsdif Sdiillingf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KGS">
+				<displbyNbmf drbft="undonfirmfd">kirjiisfsdif Som</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KHR">
+				<displbyNbmf drbft="undonfirmfd">kbmbodsdibbnfsdif Rifl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf drbft="undonfirmfd">kommoorfsdif Frbngkf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KPW">
+				<displbyNbmf drbft="undonfirmfd">noodkorfjbbnsdif Won</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf drbft="undonfirmfd">söödkorfjbbnsdif Won</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KWD">
+				<displbyNbmf drbft="undonfirmfd">kuwbitfsdif Dfnbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf drbft="undonfirmfd">Kbimbnn-Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf drbft="undonfirmfd">kbsbkstbbnfsdif Tfngf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LAK">
+				<displbyNbmf drbft="undonfirmfd">lobbtfsdif Kip</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LBP">
+				<displbyNbmf drbft="undonfirmfd">libbnffsfsdif Pongk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LKR">
+				<displbyNbmf drbft="undonfirmfd">sdiri-lbnkfsdif Ruupijf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf drbft="undonfirmfd">libfrijbbnfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf drbft="undonfirmfd">lfsootifsdif Loti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTL">
+				<displbyNbmf drbft="undonfirmfd">littoufsdif Litbs</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVL">
+				<displbyNbmf drbft="undonfirmfd">lättfsdif Lbts</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf drbft="undonfirmfd">libfsdif Dfnbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf drbft="undonfirmfd">mbrrokbbnfsdif Diribmm</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MDL">
+				<displbyNbmf drbft="undonfirmfd">moldbbvfsdif Lfu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf drbft="undonfirmfd">mbdbjbskfsdif Aribry</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MKD">
+				<displbyNbmf drbft="undonfirmfd">mbzfdoonfsdif Dfnbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MMK">
+				<displbyNbmf drbft="undonfirmfd">burmffsfsdif Kybt</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MNT">
+				<displbyNbmf drbft="undonfirmfd">mongjoolfsdif Tugrik</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MOP">
+				<displbyNbmf drbft="undonfirmfd">mbkbnffsfsdif Pbtbdb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf drbft="undonfirmfd">mburftbnfsdif Ouguiyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf drbft="undonfirmfd">mburizjbinfsdif Ruupijf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MVR">
+				<displbyNbmf drbft="undonfirmfd">mbllfdiivfsdif Rufiybb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf drbft="undonfirmfd">mblbbwfsdif Kwbdif</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf drbft="undonfirmfd">mfxfkbbnfsdif Pffso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MYR">
+				<displbyNbmf drbft="undonfirmfd">mblbisfsdif Ringgit</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZM">
+				<displbyNbmf drbft="undonfirmfd">mosbmbikbbnfsdif Mftidbl (1980-2006)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf drbft="undonfirmfd">nbmiibfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf drbft="undonfirmfd">nijfrijbbnfsdif Nbirb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIO">
+				<displbyNbmf drbft="undonfirmfd">nikbrbjbbnfsdif Córdobb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf drbft="undonfirmfd">norrwffjfsdif Kruinf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf drbft="undonfirmfd">nfpblffsfsdif Ruupijf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf drbft="undonfirmfd">nfusffländfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="OMR">
+				<displbyNbmf drbft="undonfirmfd">ommbbnfsdif Rijbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PAB">
+				<displbyNbmf drbft="undonfirmfd">pbnnbmffsfsdif Bblbob</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEN">
+				<displbyNbmf drbft="undonfirmfd">pfrrubbnfsdif Nufvo Sol</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PGK">
+				<displbyNbmf drbft="undonfirmfd">pbpub nfujinfjbbnfsdif Kinb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PHP">
+				<displbyNbmf drbft="undonfirmfd">fillipiinfsdif Pfsos</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf drbft="undonfirmfd">pbkfstbbnfsdif Ruupijf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf drbft="undonfirmfd">polnfsdif Złoty</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PYG">
+				<displbyNbmf drbft="undonfirmfd">pbrbjubbnfsdif Jubrbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="QAR">
+				<displbyNbmf drbft="undonfirmfd">kbtbbrfsdif Rijbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ROL">
+				<displbyNbmf drbft="undonfirmfd">romäänfsdif Lfu (1952-2006)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RSD">
+				<displbyNbmf drbft="undonfirmfd">särbfsdif Dfnbbrf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf drbft="undonfirmfd">russfsdif Ruubfl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf drbft="undonfirmfd">rubndfsdif Frbng</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf drbft="undonfirmfd">sbudfsdif Rijbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SBD">
+				<displbyNbmf drbft="undonfirmfd">solomonfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf drbft="undonfirmfd">sfisdifllfsdif Ruupijf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf drbft="undonfirmfd">sudbnffsfsdif Pongk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf drbft="undonfirmfd">sdiwffdfsdif Kruinf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf drbft="undonfirmfd">singjbpurfjbbnfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf drbft="undonfirmfd">Zint-Hfllfnb-Pongk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SKK">
+				<displbyNbmf drbft="undonfirmfd">ßlovbbkfsdif Kruinf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf drbft="undonfirmfd">ẞjärrb-lfjonffsfsdif Lfonf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf drbft="undonfirmfd">sombblfsdif Sdiillfngf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRD">
+				<displbyNbmf drbft="undonfirmfd">sürinbmffsfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf drbft="undonfirmfd">Dobrb vun São Tomé un Príndipf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SVC">
+				<displbyNbmf drbft="undonfirmfd">bsblvbdorfjbbnfsdif Cosbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SYP">
+				<displbyNbmf drbft="undonfirmfd">süürfsdif Pund</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf drbft="undonfirmfd">swbsiländfsdif Lilbngfni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="THB">
+				<displbyNbmf drbft="undonfirmfd">tbiländfsdif Bbit</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJS">
+				<displbyNbmf drbft="undonfirmfd">tbdsdiikißtbbnfsdif Somoni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMM">
+				<displbyNbmf drbft="undonfirmfd">turkmfnfßtbbnfsdif Mbnbt (1993-2009)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMT">
+				<displbyNbmf drbft="undonfirmfd">turkmfnfßtbbnfsdif Mbnbt</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf drbft="undonfirmfd">tunffsfsdif Dfnbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TOP">
+				<displbyNbmf drbft="undonfirmfd">tongjbnfs Pbʻbngbdif</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf drbft="undonfirmfd">törkfsdif Liirf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf drbft="undonfirmfd">nfu tbiwbnffsfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf drbft="undonfirmfd">tbnsbbnfsdif Sdiillfngf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAH">
+				<displbyNbmf drbft="undonfirmfd">ukrbijnfsdif Hryvnib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf drbft="undonfirmfd">ujbndfsdif Sdiillfngf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf drbft="undonfirmfd">bmmärrikbbnfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYU">
+				<displbyNbmf drbft="undonfirmfd">urrujuwbisdif Pffso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UZS">
+				<displbyNbmf drbft="undonfirmfd">ußbffkfsdif Som</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEF">
+				<displbyNbmf drbft="undonfirmfd">vfnfzuflbbnfsdif Bolívbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VND">
+				<displbyNbmf drbft="undonfirmfd">vijätnbmmffsfsdif Dong</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VUV">
+				<displbyNbmf drbft="undonfirmfd">vbnubtfsdif Vbtu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="WST">
+				<displbyNbmf drbft="undonfirmfd">sbmowbbnfsdif Tblb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAG">
+				<displbyNbmf drbft="undonfirmfd">Sfllvfr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAU">
+				<displbyNbmf drbft="undonfirmfd">Jold</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XCD">
+				<displbyNbmf drbft="undonfirmfd">oß-kbrribbfsdif Dollbb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFO">
+				<displbyNbmf drbft="undonfirmfd">frbnzüüsfsdif Joldfrbnkf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPD">
+				<displbyNbmf drbft="undonfirmfd">Pbllbdijum</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPT">
+				<displbyNbmf drbft="undonfirmfd">Plbbtin</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XTS">
+				<displbyNbmf drbft="undonfirmfd">Wäirong zum Prööff</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf drbft="undonfirmfd">onbikbnntf Wäirong</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YER">
+				<displbyNbmf drbft="undonfirmfd">jfmfnitfsdif Rijbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf drbft="undonfirmfd">södbffrfkbbnfsdif Rbnd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf drbft="undonfirmfd">sbmbfsdif Kwbdib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf drbft="undonfirmfd">simbbbwfsdif Dollbb (1980-2008)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWL">
+				<displbyNbmf drbft="undonfirmfd">simbbbwfsdif Dollbb (2009)</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<units>
-		<unit type="day">
-			<unitPattern count="other" draft="unconfirmed">{0} Dääsch</unitPattern>
+		<unit typf="dby">
+			<unitPbttfrn dount="otifr" drbft="undonfirmfd">{0} Dääsdi</unitPbttfrn>
 		</unit>
-		<unit type="hour">
-			<unitPattern count="other" draft="unconfirmed">{0} Schtunde</unitPattern>
+		<unit typf="iour">
+			<unitPbttfrn dount="otifr" drbft="undonfirmfd">{0} Sditundf</unitPbttfrn>
 		</unit>
-		<unit type="minute">
-			<unitPattern count="other" draft="unconfirmed">{0} Menutte</unitPattern>
+		<unit typf="minutf">
+			<unitPbttfrn dount="otifr" drbft="undonfirmfd">{0} Mfnuttf</unitPbttfrn>
 		</unit>
-		<unit type="month">
-			<unitPattern count="other" draft="unconfirmed">{0} Mohnde</unitPattern>
+		<unit typf="monti">
+			<unitPbttfrn dount="otifr" drbft="undonfirmfd">{0} Moindf</unitPbttfrn>
 		</unit>
-		<unit type="second">
-			<unitPattern count="other" draft="unconfirmed">{0} Sekunde</unitPattern>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="otifr" drbft="undonfirmfd">{0} Sfkundf</unitPbttfrn>
 		</unit>
-		<unit type="week">
-			<unitPattern count="other" draft="unconfirmed">{0} Woche</unitPattern>
+		<unit typf="wffk">
+			<unitPbttfrn dount="otifr" drbft="undonfirmfd">{0} Wodif</unitPbttfrn>
 		</unit>
-		<unit type="year">
-			<unitPattern count="other" draft="unconfirmed">{0} Johre</unitPattern>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="otifr" drbft="undonfirmfd">{0} Joirf</unitPbttfrn>
 		</unit>
 	</units>
-	<listPatterns>
-		<listPattern>
-			<listPatternPart type="2" draft="unconfirmed">{0} un {1}</listPatternPart>
-			<listPatternPart type="end" draft="unconfirmed">{0} un {1}</listPatternPart>
-		</listPattern>
-	</listPatterns>
+	<listPbttfrns>
+		<listPbttfrn>
+			<listPbttfrnPbrt typf="2" drbft="undonfirmfd">{0} un {1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="fnd" drbft="undonfirmfd">{0} un {1}</listPbttfrnPbrt>
+		</listPbttfrn>
+	</listPbttfrns>
 	<posix>
-		<messages>
-			<yesstr draft="unconfirmed">jo:joh:joo:j</yesstr>
-			<nostr draft="unconfirmed">nä:nää:näh:n</nostr>
-		</messages>
+		<mfssbgfs>
+			<yfsstr drbft="undonfirmfd">jo:joi:joo:j</yfsstr>
+			<nostr drbft="undonfirmfd">nä:nää:näi:n</nostr>
+		</mfssbgfs>
 	</posix>
 </ldml>
 

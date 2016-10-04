@@ -1,206 +1,206 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.BytfBufffr;
 
-import sun.security.jca.JCAUtil;
+import sun.sfdurity.jdb.JCAUtil;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code MessageDigest} class, which provides the functionality
- * of a message digest algorithm, such as MD5 or SHA. Message digests are
- * secure one-way hash functions that take arbitrary-sized data and output a
- * fixed-length hash value.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif {@dodf MfssbgfDigfst} dlbss, wiidi providfs tif fundtionblity
+ * of b mfssbgf digfst blgoritim, sudi bs MD5 or SHA. Mfssbgf digfsts brf
+ * sfdurf onf-wby ibsi fundtions tibt tbkf brbitrbry-sizfd dbtb bnd output b
+ * fixfd-lfngti ibsi vbluf.
  *
- * <p> All the abstract methods in this class must be implemented by a
- * cryptographic service provider who wishes to supply the implementation
- * of a particular message digest algorithm.
+ * <p> All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by b
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b pbrtidulbr mfssbgf digfst blgoritim.
  *
- * <p> Implementations are free to implement the Cloneable interface.
+ * <p> Implfmfntbtions brf frff to implfmfnt tif Clonfbblf intfrfbdf.
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  *
  *
- * @see MessageDigest
+ * @sff MfssbgfDigfst
  */
 
-public abstract class MessageDigestSpi {
+publid bbstrbdt dlbss MfssbgfDigfstSpi {
 
-    // for re-use in engineUpdate(ByteBuffer input)
-    private byte[] tempArray;
+    // for rf-usf in fnginfUpdbtf(BytfBufffr input)
+    privbtf bytf[] tfmpArrby;
 
     /**
-     * Returns the digest length in bytes.
+     * Rfturns tif digfst lfngti in bytfs.
      *
-     * <p>This concrete method has been added to this previously-defined
-     * abstract class. (For backwards compatibility, it cannot be abstract.)
+     * <p>Tiis dondrftf mftiod ibs bffn bddfd to tiis prfviously-dffinfd
+     * bbstrbdt dlbss. (For bbdkwbrds dompbtibility, it dbnnot bf bbstrbdt.)
      *
-     * <p>The default behavior is to return 0.
+     * <p>Tif dffbult bfibvior is to rfturn 0.
      *
-     * <p>This method may be overridden by a provider to return the digest
-     * length.
+     * <p>Tiis mftiod mby bf ovfrriddfn by b providfr to rfturn tif digfst
+     * lfngti.
      *
-     * @return the digest length in bytes.
+     * @rfturn tif digfst lfngti in bytfs.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    protected int engineGetDigestLength() {
-        return 0;
+    protfdtfd int fnginfGftDigfstLfngti() {
+        rfturn 0;
     }
 
     /**
-     * Updates the digest using the specified byte.
+     * Updbtfs tif digfst using tif spfdififd bytf.
      *
-     * @param input the byte to use for the update.
+     * @pbrbm input tif bytf to usf for tif updbtf.
      */
-    protected abstract void engineUpdate(byte input);
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf input);
 
     /**
-     * Updates the digest using the specified array of bytes,
-     * starting at the specified offset.
+     * Updbtfs tif digfst using tif spfdififd brrby of bytfs,
+     * stbrting bt tif spfdififd offsft.
      *
-     * @param input the array of bytes to use for the update.
+     * @pbrbm input tif brrby of bytfs to usf for tif updbtf.
      *
-     * @param offset the offset to start from in the array of bytes.
+     * @pbrbm offsft tif offsft to stbrt from in tif brrby of bytfs.
      *
-     * @param len the number of bytes to use, starting at
-     * {@code offset}.
+     * @pbrbm lfn tif numbfr of bytfs to usf, stbrting bt
+     * {@dodf offsft}.
      */
-    protected abstract void engineUpdate(byte[] input, int offset, int len);
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf[] input, int offsft, int lfn);
 
     /**
-     * Update the digest using the specified ByteBuffer. The digest is
-     * updated using the {@code input.remaining()} bytes starting
-     * at {@code input.position()}.
-     * Upon return, the buffer's position will be equal to its limit;
-     * its limit will not have changed.
+     * Updbtf tif digfst using tif spfdififd BytfBufffr. Tif digfst is
+     * updbtfd using tif {@dodf input.rfmbining()} bytfs stbrting
+     * bt {@dodf input.position()}.
+     * Upon rfturn, tif bufffr's position will bf fqubl to its limit;
+     * its limit will not ibvf dibngfd.
      *
-     * @param input the ByteBuffer
-     * @since 1.5
+     * @pbrbm input tif BytfBufffr
+     * @sindf 1.5
      */
-    protected void engineUpdate(ByteBuffer input) {
-        if (input.hasRemaining() == false) {
-            return;
+    protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        if (input.ibsRfmbining() == fblsf) {
+            rfturn;
         }
-        if (input.hasArray()) {
-            byte[] b = input.array();
-            int ofs = input.arrayOffset();
+        if (input.ibsArrby()) {
+            bytf[] b = input.brrby();
+            int ofs = input.brrbyOffsft();
             int pos = input.position();
             int lim = input.limit();
-            engineUpdate(b, ofs + pos, lim - pos);
+            fnginfUpdbtf(b, ofs + pos, lim - pos);
             input.position(lim);
-        } else {
-            int len = input.remaining();
-            int n = JCAUtil.getTempArraySize(len);
-            if ((tempArray == null) || (n > tempArray.length)) {
-                tempArray = new byte[n];
+        } flsf {
+            int lfn = input.rfmbining();
+            int n = JCAUtil.gftTfmpArrbySizf(lfn);
+            if ((tfmpArrby == null) || (n > tfmpArrby.lfngti)) {
+                tfmpArrby = nfw bytf[n];
             }
-            while (len > 0) {
-                int chunk = Math.min(len, tempArray.length);
-                input.get(tempArray, 0, chunk);
-                engineUpdate(tempArray, 0, chunk);
-                len -= chunk;
+            wiilf (lfn > 0) {
+                int diunk = Mbti.min(lfn, tfmpArrby.lfngti);
+                input.gft(tfmpArrby, 0, diunk);
+                fnginfUpdbtf(tfmpArrby, 0, diunk);
+                lfn -= diunk;
             }
         }
     }
 
     /**
-     * Completes the hash computation by performing final
-     * operations such as padding. Once {@code engineDigest} has
-     * been called, the engine should be reset (see
-     * {@link #engineReset() engineReset}).
-     * Resetting is the responsibility of the
-     * engine implementor.
+     * Complftfs tif ibsi domputbtion by pfrforming finbl
+     * opfrbtions sudi bs pbdding. Ondf {@dodf fnginfDigfst} ibs
+     * bffn dbllfd, tif fnginf siould bf rfsft (sff
+     * {@link #fnginfRfsft() fnginfRfsft}).
+     * Rfsftting is tif rfsponsibility of tif
+     * fnginf implfmfntor.
      *
-     * @return the array of bytes for the resulting hash value.
+     * @rfturn tif brrby of bytfs for tif rfsulting ibsi vbluf.
      */
-    protected abstract byte[] engineDigest();
+    protfdtfd bbstrbdt bytf[] fnginfDigfst();
 
     /**
-     * Completes the hash computation by performing final
-     * operations such as padding. Once {@code engineDigest} has
-     * been called, the engine should be reset (see
-     * {@link #engineReset() engineReset}).
-     * Resetting is the responsibility of the
-     * engine implementor.
+     * Complftfs tif ibsi domputbtion by pfrforming finbl
+     * opfrbtions sudi bs pbdding. Ondf {@dodf fnginfDigfst} ibs
+     * bffn dbllfd, tif fnginf siould bf rfsft (sff
+     * {@link #fnginfRfsft() fnginfRfsft}).
+     * Rfsftting is tif rfsponsibility of tif
+     * fnginf implfmfntor.
      *
-     * This method should be abstract, but we leave it concrete for
-     * binary compatibility.  Knowledgeable providers should override this
-     * method.
+     * Tiis mftiod siould bf bbstrbdt, but wf lfbvf it dondrftf for
+     * binbry dompbtibility.  Knowlfdgfbblf providfrs siould ovfrridf tiis
+     * mftiod.
      *
-     * @param buf the output buffer in which to store the digest
+     * @pbrbm buf tif output bufffr in wiidi to storf tif digfst
      *
-     * @param offset offset to start from in the output buffer
+     * @pbrbm offsft offsft to stbrt from in tif output bufffr
      *
-     * @param len number of bytes within buf allotted for the digest.
-     * Both this default implementation and the SUN provider do not
-     * return partial digests.  The presence of this parameter is solely
-     * for consistency in our API's.  If the value of this parameter is less
-     * than the actual digest length, the method will throw a DigestException.
-     * This parameter is ignored if its value is greater than or equal to
-     * the actual digest length.
+     * @pbrbm lfn numbfr of bytfs witiin buf bllottfd for tif digfst.
+     * Boti tiis dffbult implfmfntbtion bnd tif SUN providfr do not
+     * rfturn pbrtibl digfsts.  Tif prfsfndf of tiis pbrbmftfr is solfly
+     * for donsistfndy in our API's.  If tif vbluf of tiis pbrbmftfr is lfss
+     * tibn tif bdtubl digfst lfngti, tif mftiod will tirow b DigfstExdfption.
+     * Tiis pbrbmftfr is ignorfd if its vbluf is grfbtfr tibn or fqubl to
+     * tif bdtubl digfst lfngti.
      *
-     * @return the length of the digest stored in the output buffer.
+     * @rfturn tif lfngti of tif digfst storfd in tif output bufffr.
      *
-     * @exception DigestException if an error occurs.
+     * @fxdfption DigfstExdfption if bn frror oddurs.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    protected int engineDigest(byte[] buf, int offset, int len)
-                                                throws DigestException {
+    protfdtfd int fnginfDigfst(bytf[] buf, int offsft, int lfn)
+                                                tirows DigfstExdfption {
 
-        byte[] digest = engineDigest();
-        if (len < digest.length)
-                throw new DigestException("partial digests not returned");
-        if (buf.length - offset < digest.length)
-                throw new DigestException("insufficient space in the output "
-                                          + "buffer to store the digest");
-        System.arraycopy(digest, 0, buf, offset, digest.length);
-        return digest.length;
+        bytf[] digfst = fnginfDigfst();
+        if (lfn < digfst.lfngti)
+                tirow nfw DigfstExdfption("pbrtibl digfsts not rfturnfd");
+        if (buf.lfngti - offsft < digfst.lfngti)
+                tirow nfw DigfstExdfption("insuffidifnt spbdf in tif output "
+                                          + "bufffr to storf tif digfst");
+        Systfm.brrbydopy(digfst, 0, buf, offsft, digfst.lfngti);
+        rfturn digfst.lfngti;
     }
 
     /**
-     * Resets the digest for further use.
+     * Rfsfts tif digfst for furtifr usf.
      */
-    protected abstract void engineReset();
+    protfdtfd bbstrbdt void fnginfRfsft();
 
     /**
-     * Returns a clone if the implementation is cloneable.
+     * Rfturns b dlonf if tif implfmfntbtion is dlonfbblf.
      *
-     * @return a clone if the implementation is cloneable.
+     * @rfturn b dlonf if tif implfmfntbtion is dlonfbblf.
      *
-     * @exception CloneNotSupportedException if this is called on an
-     * implementation that does not support {@code Cloneable}.
+     * @fxdfption ClonfNotSupportfdExdfption if tiis is dbllfd on bn
+     * implfmfntbtion tibt dofs not support {@dodf Clonfbblf}.
      */
-    public Object clone() throws CloneNotSupportedException {
-        if (this instanceof Cloneable) {
-            return super.clone();
-        } else {
-            throw new CloneNotSupportedException();
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        if (tiis instbndfof Clonfbblf) {
+            rfturn supfr.dlonf();
+        } flsf {
+            tirow nfw ClonfNotSupportfdExdfption();
         }
     }
 }

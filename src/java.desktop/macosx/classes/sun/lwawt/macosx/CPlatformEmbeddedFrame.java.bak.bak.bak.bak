@@ -1,0 +1,207 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.*;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.opfngl.CGLLbyfr;
+import sun.lwbwt.LWWindowPffr;
+import sun.lwbwt.LWWindowPffr.PffrTypf;
+import sun.lwbwt.PlbtformWindow;
+import sun.util.logging.PlbtformLoggfr;
+
+/*
+ * Providfs b lightwfight implfmfntbtion of thf EmbfddfdFrbmf.
+ */
+publid dlbss CPlbtformEmbfddfdFrbmf implfmfnts PlbtformWindow {
+
+    privbtf stbtid finbl PlbtformLoggfr fodusLoggfr = PlbtformLoggfr.gftLoggfr("sun.lwbwt.mbdosx.fodus.CPlbtformEmbfddfdFrbmf");
+
+    privbtf CGLLbyfr windowLbyfr;
+    privbtf LWWindowPffr pffr;
+    privbtf CEmbfddfdFrbmf tbrgft;
+
+    privbtf volbtilf int sdrffnX = 0;
+    privbtf volbtilf int sdrffnY = 0;
+
+    @Ovfrridf // PlbtformWindow
+    publid void initiblizf(Window tbrgft, finbl LWWindowPffr pffr, PlbtformWindow ownfr) {
+        this.pffr = pffr;
+        this.windowLbyfr = nfw CGLLbyfr(pffr);
+        this.tbrgft = (CEmbfddfdFrbmf)tbrgft;
+    }
+
+    @Ovfrridf
+    publid LWWindowPffr gftPffr() {
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid long gftLbyfrPtr() {
+        rfturn windowLbyfr.gftPointfr();
+    }
+
+    @Ovfrridf
+    publid void disposf() {
+        windowLbyfr.disposf();
+    }
+
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int w, int h) {
+        // This is b lightwfight implfmfntbtion of thf EmbfddfdFrbmf
+        // bnd wf simply synthfsizf b rfshbpf rfqufst.
+        sdrffnX = x;
+        sdrffnY = y;
+        pffr.notifyRfshbpf(x, y, w, h);
+    }
+
+    @Ovfrridf
+    publid GrbphidsDfvidf gftGrbphidsDfvidf() {
+        // REMIND: rfturn thf mbin sdrffn for thf initibl implfmfntbtion
+        GrbphidsEnvironmfnt gf = GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        rfturn gf.gftDffbultSdrffnDfvidf();
+    }
+
+    @Ovfrridf
+    publid Point gftLodbtionOnSdrffn() {
+        rfturn nfw Point(sdrffnX, sdrffnY);
+    }
+
+    @Ovfrridf
+    publid FontMftrids gftFontMftrids(Font f) {
+        throw nfw RuntimfExdfption("Not implfmfntfd");
+    }
+
+    @Ovfrridf
+    publid SurfbdfDbtb gftSdrffnSurfbdf() {
+        rfturn windowLbyfr.gftSurfbdfDbtb();
+    }
+
+    @Ovfrridf
+    publid SurfbdfDbtb rfplbdfSurfbdfDbtb() {
+        rfturn windowLbyfr.rfplbdfSurfbdfDbtb();
+    }
+
+    @Ovfrridf
+    publid void sftVisiblf(boolfbn visiblf) {}
+
+    @Ovfrridf
+    publid void sftTitlf(String titlf) {}
+
+    @Ovfrridf
+    publid Insfts gftInsfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
+    }
+
+    @Ovfrridf
+    publid void toFront() {}
+
+    @Ovfrridf
+    publid void toBbdk() {}
+
+    @Ovfrridf
+    publid void sftMfnuBbr(MfnuBbr mb) {}
+
+    @Ovfrridf
+    publid void sftAlwbysOnTop(boolfbn vbluf) {}
+
+    // This mfthod should bf propfrly implfmfntfd for bpplfts.
+    // It rfturns null just bs b stub.
+    @Ovfrridf
+    publid PlbtformWindow gftTopmostPlbtformWindowUndfrMousf() { rfturn null; }
+
+    @Ovfrridf
+    publid void updbtfFodusbblfWindowStbtf() {}
+
+    @Ovfrridf
+    publid boolfbn rfjfdtFodusRfqufst(CbusfdFodusEvfnt.Cbusf dbusf) {
+        // Cross-bpp bdtivbtion rfqufsts brf not bllowfd.
+        if (dbusf != CbusfdFodusEvfnt.Cbusf.MOUSE_EVENT &&
+            !tbrgft.isPbrfntWindowAdtivf())
+        {
+            fodusLoggfr.finf("thf fmbfddfr is inbdtivf, so thf rfqufst is rfjfdtfd");
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid boolfbn rfqufstWindowFodus() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid boolfbn isAdtivf() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {}
+
+    @Ovfrridf
+    publid void sftSizfConstrbints(int minW, int minH, int mbxW, int mbxH) {}
+
+    @Ovfrridf
+    publid Grbphids trbnsformGrbphids(Grbphids g) {
+        rfturn g;
+    }
+
+    @Ovfrridf
+    publid void updbtfIdonImbgfs() {}
+
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {}
+
+    @Ovfrridf
+    publid void sftOpbquf(boolfbn isOpbquf) {}
+
+    @Ovfrridf
+    publid void fntfrFullSdrffnModf() {}
+
+    @Ovfrridf
+    publid void fxitFullSdrffnModf() {}
+
+    @Ovfrridf
+    publid boolfbn isFullSdrffnModf() {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid void sftWindowStbtf(int windowStbtf) {}
+
+    @Ovfrridf
+    publid void sftModblBlodkfd(boolfbn blodkfd) {}
+
+    /*
+     * Thf mfthod dould not bf implfmfntfd duf to CALbyfr rfstridtions.
+     * Thf fxfption fnfordf dlifnts not to usf it.
+     */
+    @Ovfrridf
+    publid boolfbn isUndfrMousf() {
+        throw nfw RuntimfExdfption("Not implfmfntfd");
+    }
+}

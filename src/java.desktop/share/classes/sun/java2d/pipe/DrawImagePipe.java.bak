@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.geom.AffineTransform;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import sun.jbvb2d.SunGrbpiids2D;
 
 /**
- * This interface defines the set of calls that pipeline objects
- * can use to pass on responsibility for performing various
- * image copy commands.
- * There are 3 types of image copies handled by this class:
- *    - copyImage: These methods simply copy the pixels
- *      from the src to dest, either from (0, 0) (implicit)
- *      or from a given (sx, sy) location.
- *    - scaleImage: These methods copy from src to dest while
- *      scaling the source image.  The src and dest rectangles
- *      are used to specify the scale.
- *    - copyImageBg: These methods behave the same as the
- *      copyImage methods except they substitute the given
- *      background color for any transparent pixels.
- *    - scaleImageBg: These methods behave the same as the
- *      scaleImage methods except they substitute the given
- *      background color for any transparent pixels.
- *    - transformImage....
+ * Tiis intfrfbdf dffinfs tif sft of dblls tibt pipflinf objfdts
+ * dbn usf to pbss on rfsponsibility for pfrforming vbrious
+ * imbgf dopy dommbnds.
+ * Tifrf brf 3 typfs of imbgf dopifs ibndlfd by tiis dlbss:
+ *    - dopyImbgf: Tifsf mftiods simply dopy tif pixfls
+ *      from tif srd to dfst, fitifr from (0, 0) (implidit)
+ *      or from b givfn (sx, sy) lodbtion.
+ *    - sdblfImbgf: Tifsf mftiods dopy from srd to dfst wiilf
+ *      sdbling tif sourdf imbgf.  Tif srd bnd dfst rfdtbnglfs
+ *      brf usfd to spfdify tif sdblf.
+ *    - dopyImbgfBg: Tifsf mftiods bfibvf tif sbmf bs tif
+ *      dopyImbgf mftiods fxdfpt tify substitutf tif givfn
+ *      bbdkground dolor for bny trbnspbrfnt pixfls.
+ *    - sdblfImbgfBg: Tifsf mftiods bfibvf tif sbmf bs tif
+ *      sdblfImbgf mftiods fxdfpt tify substitutf tif givfn
+ *      bbdkground dolor for bny trbnspbrfnt pixfls.
+ *    - trbnsformImbgf....
  */
-public interface DrawImagePipe {
+publid intfrfbdf DrbwImbgfPipf {
 
-    public boolean copyImage(SunGraphics2D sg, Image img,
+    publid boolfbn dopyImbgf(SunGrbpiids2D sg, Imbgf img,
                              int x, int y,
                              Color bgColor,
-                             ImageObserver observer);
+                             ImbgfObsfrvfr obsfrvfr);
 
-    public boolean copyImage(SunGraphics2D sg, Image img,
-                             int dx, int dy, int sx, int sy, int w, int h,
+    publid boolfbn dopyImbgf(SunGrbpiids2D sg, Imbgf img,
+                             int dx, int dy, int sx, int sy, int w, int i,
                              Color bgColor,
-                             ImageObserver observer);
+                             ImbgfObsfrvfr obsfrvfr);
 
-    public boolean scaleImage(SunGraphics2D sg, Image img, int x, int y,
-                              int width, int height,
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg, Imbgf img, int x, int y,
+                              int widti, int ifigit,
                               Color bgColor,
-                              ImageObserver observer);
+                              ImbgfObsfrvfr obsfrvfr);
 
-    public boolean scaleImage(SunGraphics2D sg, Image img,
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg, Imbgf img,
                               int dx1, int dy1, int dx2, int dy2,
                               int sx1, int sy1, int sx2, int sy2,
                               Color bgColor,
-                              ImageObserver observer);
+                              ImbgfObsfrvfr obsfrvfr);
 
-    public boolean transformImage(SunGraphics2D sg, Image img,
-                                  AffineTransform atfm,
-                                  ImageObserver observer);
+    publid boolfbn trbnsformImbgf(SunGrbpiids2D sg, Imbgf img,
+                                  AffinfTrbnsform btfm,
+                                  ImbgfObsfrvfr obsfrvfr);
 
-    public void transformImage(SunGraphics2D sg, BufferedImage img,
-                               BufferedImageOp op, int x, int y);
+    publid void trbnsformImbgf(SunGrbpiids2D sg, BufffrfdImbgf img,
+                               BufffrfdImbgfOp op, int x, int y);
 
 
 }

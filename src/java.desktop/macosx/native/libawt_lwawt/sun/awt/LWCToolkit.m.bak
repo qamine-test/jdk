@@ -1,738 +1,738 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <dlfcn.h>
-#import <pthread.h>
-#import <objc/runtime.h>
-#import <Cocoa/Cocoa.h>
-#import <Security/AuthSession.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <dlfdn.i>
+#import <ptirfbd.i>
+#import <objd/runtimf.i>
+#import <Codob/Codob.i>
+#import <Sfdurity/AutiSfssion.i>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.i>
 
-#include "jni_util.h"
-#import "CMenuBar.h"
-#import "InitIDs.h"
-#import "LWCToolkit.h"
-#import "ThreadUtilities.h"
-#import "AWT_debug.h"
-#import "CSystemColors.h"
-#import  "NSApplicationAWT.h"
-#import "PropertiesUtilities.h"
-#import "ApplicationDelegate.h"
+#indludf "jni_util.i"
+#import "CMfnuBbr.i"
+#import "InitIDs.i"
+#import "LWCToolkit.i"
+#import "TirfbdUtilitifs.i"
+#import "AWT_dfbug.i"
+#import "CSystfmColors.i"
+#import  "NSApplidbtionAWT.i"
+#import "PropfrtifsUtilitifs.i"
+#import "ApplidbtionDflfgbtf.i"
 
-#import "sun_lwawt_macosx_LWCToolkit.h"
+#import "sun_lwbwt_mbdosx_LWCToolkit.i"
 
-#import "sizecalc.h"
+#import "sizfdbld.i"
 
-int gNumberOfButtons;
-jint* gButtonDownMasks;
+int gNumbfrOfButtons;
+jint* gButtonDownMbsks;
 
-// Indicates that the app has been started with -XstartOnFirstThread
-// (directly or via WebStart settings), and AWT should not run its
-// own event loop in this mode. Even if a loop isn't running yet,
-// we expect an embedder (e.g. SWT) to start it some time later.
-static BOOL forceEmbeddedMode = NO;
+// Indidbtfs tibt tif bpp ibs bffn stbrtfd witi -XstbrtOnFirstTirfbd
+// (dirfdtly or vib WfbStbrt sfttings), bnd AWT siould not run its
+// own fvfnt loop in tiis modf. Evfn if b loop isn't running yft,
+// wf fxpfdt bn fmbfddfr (f.g. SWT) to stbrt it somf timf lbtfr.
+stbtid BOOL fordfEmbfddfdModf = NO;
 
-// Indicates if awt toolkit is embedded into another UI toolkit
-static BOOL isEmbedded = NO;
+// Indidbtfs if bwt toolkit is fmbfddfd into bnotifr UI toolkit
+stbtid BOOL isEmbfddfd = NO;
 
-// This is the data necessary to have JNI_OnLoad wait for AppKit to start.
-static BOOL sAppKitStarted = NO;
-static pthread_mutex_t sAppKitStarted_mutex = PTHREAD_MUTEX_INITIALIZER;
-static pthread_cond_t sAppKitStarted_cv = PTHREAD_COND_INITIALIZER;
+// Tiis is tif dbtb nfdfssbry to ibvf JNI_OnLobd wbit for AppKit to stbrt.
+stbtid BOOL sAppKitStbrtfd = NO;
+stbtid ptirfbd_mutfx_t sAppKitStbrtfd_mutfx = PTHREAD_MUTEX_INITIALIZER;
+stbtid ptirfbd_dond_t sAppKitStbrtfd_dv = PTHREAD_COND_INITIALIZER;
 
-@implementation AWTToolkit
+@implfmfntbtion AWTToolkit
 
-static long eventCount;
+stbtid long fvfntCount;
 
-+ (long) getEventCount{
-    return eventCount;
++ (long) gftEvfntCount{
+    rfturn fvfntCount;
 }
 
-+ (void) eventCountPlusPlus{    
-    eventCount++;
++ (void) fvfntCountPlusPlus{    
+    fvfntCount++;
 }
 
-@end
+@fnd
 
 
-@interface AWTRunLoopObject : NSObject {
-    BOOL _shouldEndRunLoop;
+@intfrfbdf AWTRunLoopObjfdt : NSObjfdt {
+    BOOL _siouldEndRunLoop;
 }
-@end
+@fnd
 
-@implementation AWTRunLoopObject
+@implfmfntbtion AWTRunLoopObjfdt
 
 - (id) init {
-    self = [super init];
-    if (self != nil) {
-        _shouldEndRunLoop = NO;
+    sflf = [supfr init];
+    if (sflf != nil) {
+        _siouldEndRunLoop = NO;
     }
-    return self;
+    rfturn sflf;
 }
 
-- (BOOL) shouldEndRunLoop {
-    return _shouldEndRunLoop;
+- (BOOL) siouldEndRunLoop {
+    rfturn _siouldEndRunLoop;
 }
 
-- (void) endRunLoop {
-    _shouldEndRunLoop = YES;
+- (void) fndRunLoop {
+    _siouldEndRunLoop = YES;
 }
 
-@end
+@fnd
 
-@interface JavaRunnable : NSObject { }
-@property jobject runnable;
-- (id)initWithRunnable:(jobject)gRunnable;
-- (void)perform;
-@end
+@intfrfbdf JbvbRunnbblf : NSObjfdt { }
+@propfrty jobjfdt runnbblf;
+- (id)initWitiRunnbblf:(jobjfdt)gRunnbblf;
+- (void)pfrform;
+@fnd
 
-@implementation JavaRunnable
-@synthesize runnable = _runnable;
+@implfmfntbtion JbvbRunnbblf
+@syntifsizf runnbblf = _runnbblf;
 
-- (id)initWithRunnable:(jobject)gRunnable {
-    if (self = [super init]) {
-        self.runnable = gRunnable;
+- (id)initWitiRunnbblf:(jobjfdt)gRunnbblf {
+    if (sflf = [supfr init]) {
+        sflf.runnbblf = gRunnbblf;
     }
-    return self;
+    rfturn sflf;
 }
 
-- (void)dealloc {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    if (self.runnable) {
-        (*env)->DeleteGlobalRef(env, self.runnable);
+- (void)dfbllod {
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    if (sflf.runnbblf) {
+        (*fnv)->DflftfGlobblRff(fnv, sflf.runnbblf);
     }
-    [super dealloc];
+    [supfr dfbllod];
 }
 
-- (void)perform {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    static JNF_CLASS_CACHE(sjc_Runnable, "java/lang/Runnable");
-    static JNF_MEMBER_CACHE(jm_Runnable_run, sjc_Runnable, "run", "()V");
-    JNFCallVoidMethod(env, self.runnable, jm_Runnable_run);
-    [self release];
+- (void)pfrform {
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnv];
+    stbtid JNF_CLASS_CACHE(sjd_Runnbblf, "jbvb/lbng/Runnbblf");
+    stbtid JNF_MEMBER_CACHE(jm_Runnbblf_run, sjd_Runnbblf, "run", "()V");
+    JNFCbllVoidMftiod(fnv, sflf.runnbblf, jm_Runnbblf_run);
+    [sflf rflfbsf];
 }
-@end
+@fnd
 
-void setBusy(BOOL busy) {
+void sftBusy(BOOL busy) {
     AWT_ASSERT_APPKIT_THREAD;
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_CLASS_CACHE(jc_AWTAutoShutdown, "sun/awt/AWTAutoShutdown");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    stbtid JNF_CLASS_CACHE(jd_AWTAutoSiutdown, "sun/bwt/AWTAutoSiutdown");
 
     if (busy) {
-        static JNF_STATIC_MEMBER_CACHE(jm_notifyBusyMethod, jc_AWTAutoShutdown, "notifyToolkitThreadBusy", "()V");
-        JNFCallStaticVoidMethod(env, jm_notifyBusyMethod);
-    } else {
-        static JNF_STATIC_MEMBER_CACHE(jm_notifyFreeMethod, jc_AWTAutoShutdown, "notifyToolkitThreadFree", "()V");
-        JNFCallStaticVoidMethod(env, jm_notifyFreeMethod);
+        stbtid JNF_STATIC_MEMBER_CACHE(jm_notifyBusyMftiod, jd_AWTAutoSiutdown, "notifyToolkitTirfbdBusy", "()V");
+        JNFCbllStbtidVoidMftiod(fnv, jm_notifyBusyMftiod);
+    } flsf {
+        stbtid JNF_STATIC_MEMBER_CACHE(jm_notifyFrffMftiod, jd_AWTAutoSiutdown, "notifyToolkitTirfbdFrff", "()V");
+        JNFCbllStbtidVoidMftiod(fnv, jm_notifyFrffMftiod);
     }
 }
 
-static void setUpAWTAppKit(BOOL installObservers)
+stbtid void sftUpAWTAppKit(BOOL instbllObsfrvfrs)
 {
-    if (installObservers) {
-        AWT_STARTUP_LOG(@"Setting up busy observers");
+    if (instbllObsfrvfrs) {
+        AWT_STARTUP_LOG(@"Sftting up busy obsfrvfrs");
 
-        // Add CFRunLoopObservers to call into AWT so that AWT knows that the
-        //  AWT thread (which is the AppKit main thread) is alive. This way AWT
-        //  will not automatically shutdown.
-        CFRunLoopObserverRef busyObserver = CFRunLoopObserverCreateWithHandler(
-                                               NULL,                        // CFAllocator
-                                               kCFRunLoopAfterWaiting,      // CFOptionFlags
-                                               true,                        // repeats
-                                               NSIntegerMax,                // order
-                                               ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
-                                                   setBusy(YES);
+        // Add CFRunLoopObsfrvfrs to dbll into AWT so tibt AWT knows tibt tif
+        //  AWT tirfbd (wiidi is tif AppKit mbin tirfbd) is blivf. Tiis wby AWT
+        //  will not butombtidblly siutdown.
+        CFRunLoopObsfrvfrRff busyObsfrvfr = CFRunLoopObsfrvfrCrfbtfWitiHbndlfr(
+                                               NULL,                        // CFAllodbtor
+                                               kCFRunLoopAftfrWbiting,      // CFOptionFlbgs
+                                               truf,                        // rfpfbts
+                                               NSIntfgfrMbx,                // ordfr
+                                               ^(CFRunLoopObsfrvfrRff obsfrvfr, CFRunLoopAdtivity bdtivity) {
+                                                   sftBusy(YES);
                                                });
         
-        CFRunLoopObserverRef notBusyObserver = CFRunLoopObserverCreateWithHandler(
-                                                NULL,                        // CFAllocator
-                                                kCFRunLoopBeforeWaiting,     // CFOptionFlags
-                                                true,                        // repeats
-                                                NSIntegerMin,                // order
-                                                ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
-                                                    setBusy(NO);
+        CFRunLoopObsfrvfrRff notBusyObsfrvfr = CFRunLoopObsfrvfrCrfbtfWitiHbndlfr(
+                                                NULL,                        // CFAllodbtor
+                                                kCFRunLoopBfforfWbiting,     // CFOptionFlbgs
+                                                truf,                        // rfpfbts
+                                                NSIntfgfrMin,                // ordfr
+                                                ^(CFRunLoopObsfrvfrRff obsfrvfr, CFRunLoopAdtivity bdtivity) {
+                                                    sftBusy(NO);
                                                 });
         
-        CFRunLoopRef runLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
-        CFRunLoopAddObserver(runLoop, busyObserver, kCFRunLoopDefaultMode);
-        CFRunLoopAddObserver(runLoop, notBusyObserver, kCFRunLoopDefaultMode);
+        CFRunLoopRff runLoop = [[NSRunLoop durrfntRunLoop] gftCFRunLoop];
+        CFRunLoopAddObsfrvfr(runLoop, busyObsfrvfr, kCFRunLoopDffbultModf);
+        CFRunLoopAddObsfrvfr(runLoop, notBusyObsfrvfr, kCFRunLoopDffbultModf);
         
-        CFRelease(busyObserver);
-        CFRelease(notBusyObserver);
+        CFRflfbsf(busyObsfrvfr);
+        CFRflfbsf(notBusyObsfrvfr);
         
-        setBusy(YES);
+        sftBusy(YES);
     }
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    static JNF_CLASS_CACHE(jc_LWCToolkit, "sun/lwawt/macosx/LWCToolkit");
-    static JNF_STATIC_MEMBER_CACHE(jsm_installToolkitThreadInJava, jc_LWCToolkit, "installToolkitThreadInJava", "()V");
-    JNFCallStaticVoidMethod(env, jsm_installToolkitThreadInJava);
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnv];
+    stbtid JNF_CLASS_CACHE(jd_LWCToolkit, "sun/lwbwt/mbdosx/LWCToolkit");
+    stbtid JNF_STATIC_MEMBER_CACHE(jsm_instbllToolkitTirfbdInJbvb, jd_LWCToolkit, "instbllToolkitTirfbdInJbvb", "()V");
+    JNFCbllStbtidVoidMftiod(fnv, jsm_instbllToolkitTirfbdInJbvb);
 }
 
-BOOL isSWTInWebStart(JNIEnv* env) {
-    NSString *swtWebStart = [PropertiesUtilities javaSystemPropertyForKey:@"com.apple.javaws.usingSWT" withEnv:env];
-    return [@"true" isCaseInsensitiveLike:swtWebStart];
+BOOL isSWTInWfbStbrt(JNIEnv* fnv) {
+    NSString *swtWfbStbrt = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"dom.bpplf.jbvbws.usingSWT" witiEnv:fnv];
+    rfturn [@"truf" isCbsfInsfnsitivfLikf:swtWfbStbrt];
 }
 
-static void AWT_NSUncaughtExceptionHandler(NSException *exception) {
-    NSLog(@"Apple AWT Internal Exception: %@", [exception description]);
+stbtid void AWT_NSUndbugitExdfptionHbndlfr(NSExdfption *fxdfption) {
+    NSLog(@"Applf AWT Intfrnbl Exdfption: %@", [fxdfption dfsdription]);
 }
 
-@interface AWTStarter : NSObject
-+ (void)start:(BOOL)headless;
-+ (void)starter:(BOOL)onMainThread headless:(BOOL)headless;
-+ (void)appKitIsRunning:(id)arg;
-@end
+@intfrfbdf AWTStbrtfr : NSObjfdt
++ (void)stbrt:(BOOL)ifbdlfss;
++ (void)stbrtfr:(BOOL)onMbinTirfbd ifbdlfss:(BOOL)ifbdlfss;
++ (void)bppKitIsRunning:(id)brg;
+@fnd
 
-@implementation AWTStarter
+@implfmfntbtion AWTStbrtfr
 
-+ (BOOL) isConnectedToWindowServer {
-    SecuritySessionId session_id;
-    SessionAttributeBits session_info;
-    OSStatus status = SessionGetInfo(callerSecuritySession, &session_id, &session_info);
-    if (status != noErr) return NO;
-    if (!(session_info & sessionHasGraphicAccess)) return NO;
-    return YES;
++ (BOOL) isConnfdtfdToWindowSfrvfr {
+    SfduritySfssionId sfssion_id;
+    SfssionAttributfBits sfssion_info;
+    OSStbtus stbtus = SfssionGftInfo(dbllfrSfduritySfssion, &sfssion_id, &sfssion_info);
+    if (stbtus != noErr) rfturn NO;
+    if (!(sfssion_info & sfssionHbsGrbpiidAddfss)) rfturn NO;
+    rfturn YES;
 }
 
-+ (BOOL) markAppAsDaemon {
-    id jrsAppKitAWTClass = objc_getClass("JRSAppKitAWT");
-    SEL markAppSel = @selector(markAppIsDaemon);
-    if (![jrsAppKitAWTClass respondsToSelector:markAppSel]) return NO;
-    return [jrsAppKitAWTClass performSelector:markAppSel] ? YES : NO;
++ (BOOL) mbrkAppAsDbfmon {
+    id jrsAppKitAWTClbss = objd_gftClbss("JRSAppKitAWT");
+    SEL mbrkAppSfl = @sflfdtor(mbrkAppIsDbfmon);
+    if (![jrsAppKitAWTClbss rfspondsToSflfdtor:mbrkAppSfl]) rfturn NO;
+    rfturn [jrsAppKitAWTClbss pfrformSflfdtor:mbrkAppSfl] ? YES : NO;
 }
 
-+ (void)appKitIsRunning:(id)arg {
++ (void)bppKitIsRunning:(id)brg {
     AWT_ASSERT_APPKIT_THREAD;
-    AWT_STARTUP_LOG(@"About to message AppKit started");
+    AWT_STARTUP_LOG(@"About to mfssbgf AppKit stbrtfd");
 
-    // Signal that AppKit has started (or is already running).
-    pthread_mutex_lock(&sAppKitStarted_mutex);
-    sAppKitStarted = YES;
-    pthread_cond_signal(&sAppKitStarted_cv);
-    pthread_mutex_unlock(&sAppKitStarted_mutex);
+    // Signbl tibt AppKit ibs stbrtfd (or is blrfbdy running).
+    ptirfbd_mutfx_lodk(&sAppKitStbrtfd_mutfx);
+    sAppKitStbrtfd = YES;
+    ptirfbd_dond_signbl(&sAppKitStbrtfd_dv);
+    ptirfbd_mutfx_unlodk(&sAppKitStbrtfd_mutfx);
 
-    AWT_STARTUP_LOG(@"Finished messaging AppKit started");
+    AWT_STARTUP_LOG(@"Finisifd mfssbging AppKit stbrtfd");
 }
 
-+ (void)start:(BOOL)headless
++ (void)stbrt:(BOOL)ifbdlfss
 {
-    // onMainThread is NOT the same at SWT mode!
-    // If the JVM was started on the first thread for SWT, but the SWT loads the AWT on a secondary thread,
-    // onMainThread here will be false but SWT mode will be true.  If we are currently on the main thread, we don't
-    // need to throw AWT startup over to another thread.
-    BOOL onMainThread = [NSThread isMainThread];
+    // onMbinTirfbd is NOT tif sbmf bt SWT modf!
+    // If tif JVM wbs stbrtfd on tif first tirfbd for SWT, but tif SWT lobds tif AWT on b sfdondbry tirfbd,
+    // onMbinTirfbd ifrf will bf fblsf but SWT modf will bf truf.  If wf brf durrfntly on tif mbin tirfbd, wf don't
+    // nffd to tirow AWT stbrtup ovfr to bnotifr tirfbd.
+    BOOL onMbinTirfbd = [NSTirfbd isMbinTirfbd];
 
-    NSString* msg = [NSString stringWithFormat:@"+[AWTStarter start headless:%d] { onMainThread:%d }", headless, onMainThread];
+    NSString* msg = [NSString stringWitiFormbt:@"+[AWTStbrtfr stbrt ifbdlfss:%d] { onMbinTirfbd:%d }", ifbdlfss, onMbinTirfbd];
     AWT_STARTUP_LOG(msg);
 
-    if (!headless)
+    if (!ifbdlfss)
     {
-        // Listen for the NSApp to start. This indicates that JNI_OnLoad can proceed.
-        //  It must wait because there is a chance that another java thread will grab
-        //  the AppKit lock before the +[NSApplication sharedApplication] returns.
-        //  See <rdar://problem/3492666> for an example.
-        [[NSNotificationCenter defaultCenter] addObserver:[AWTStarter class]
-                                                 selector:@selector(appKitIsRunning:)
-                                                     name:NSApplicationDidFinishLaunchingNotification
-                                                   object:nil];
+        // Listfn for tif NSApp to stbrt. Tiis indidbtfs tibt JNI_OnLobd dbn prodffd.
+        //  It must wbit bfdbusf tifrf is b dibndf tibt bnotifr jbvb tirfbd will grbb
+        //  tif AppKit lodk bfforf tif +[NSApplidbtion sibrfdApplidbtion] rfturns.
+        //  Sff <rdbr://problfm/3492666> for bn fxbmplf.
+        [[NSNotifidbtionCfntfr dffbultCfntfr] bddObsfrvfr:[AWTStbrtfr dlbss]
+                                                 sflfdtor:@sflfdtor(bppKitIsRunning:)
+                                                     nbmf:NSApplidbtionDidFinisiLbundiingNotifidbtion
+                                                   objfdt:nil];
 
-        AWT_STARTUP_LOG(@"+[AWTStarter start:::]: registered NSApplicationDidFinishLaunchingNotification");
+        AWT_STARTUP_LOG(@"+[AWTStbrtfr stbrt:::]: rfgistfrfd NSApplidbtionDidFinisiLbundiingNotifidbtion");
     }
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^() {
-        [AWTStarter starter:onMainThread headless:headless];
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^() {
+        [AWTStbrtfr stbrtfr:onMbinTirfbd ifbdlfss:ifbdlfss];
     }];
 
 
-    if (!headless && !onMainThread) {
+    if (!ifbdlfss && !onMbinTirfbd) {
 
-        AWT_STARTUP_LOG(@"about to wait on AppKit startup mutex");
+        AWT_STARTUP_LOG(@"bbout to wbit on AppKit stbrtup mutfx");
 
-        // Wait here for AppKit to have started (or for AWT to have been loaded into
-        //  an already running NSApplication).
-        pthread_mutex_lock(&sAppKitStarted_mutex);
-        while (sAppKitStarted == NO) {
-            pthread_cond_wait(&sAppKitStarted_cv, &sAppKitStarted_mutex);
+        // Wbit ifrf for AppKit to ibvf stbrtfd (or for AWT to ibvf bffn lobdfd into
+        //  bn blrfbdy running NSApplidbtion).
+        ptirfbd_mutfx_lodk(&sAppKitStbrtfd_mutfx);
+        wiilf (sAppKitStbrtfd == NO) {
+            ptirfbd_dond_wbit(&sAppKitStbrtfd_dv, &sAppKitStbrtfd_mutfx);
         }
-        pthread_mutex_unlock(&sAppKitStarted_mutex);
+        ptirfbd_mutfx_unlodk(&sAppKitStbrtfd_mutfx);
 
-        // AWT gets here AFTER +[AWTStarter appKitIsRunning:] is called.
-        AWT_STARTUP_LOG(@"got out of the AppKit startup mutex");
+        // AWT gfts ifrf AFTER +[AWTStbrtfr bppKitIsRunning:] is dbllfd.
+        AWT_STARTUP_LOG(@"got out of tif AppKit stbrtup mutfx");
     }
 
-    if (!headless) {
-        // Don't set the delegate until the NSApplication has been created and
-        // its finishLaunching has initialized it.
-        //  ApplicationDelegate is the support code for com.apple.eawt.
-        [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-            id<NSApplicationDelegate> delegate = [ApplicationDelegate sharedDelegate];
-            if (delegate != nil) {
-                OSXAPP_SetApplicationDelegate(delegate);
+    if (!ifbdlfss) {
+        // Don't sft tif dflfgbtf until tif NSApplidbtion ibs bffn drfbtfd bnd
+        // its finisiLbundiing ibs initiblizfd it.
+        //  ApplidbtionDflfgbtf is tif support dodf for dom.bpplf.fbwt.
+        [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+            id<NSApplidbtionDflfgbtf> dflfgbtf = [ApplidbtionDflfgbtf sibrfdDflfgbtf];
+            if (dflfgbtf != nil) {
+                OSXAPP_SftApplidbtionDflfgbtf(dflfgbtf);
             }
         }];
     }
 }
 
-+ (void)starter:(BOOL)wasOnMainThread headless:(BOOL)headless {
-    NSAutoreleasePool *pool = [NSAutoreleasePool new];
-    // Add the exception handler of last resort
-    NSSetUncaughtExceptionHandler(AWT_NSUncaughtExceptionHandler);
++ (void)stbrtfr:(BOOL)wbsOnMbinTirfbd ifbdlfss:(BOOL)ifbdlfss {
+    NSAutorflfbsfPool *pool = [NSAutorflfbsfPool nfw];
+    // Add tif fxdfption ibndlfr of lbst rfsort
+    NSSftUndbugitExdfptionHbndlfr(AWT_NSUndbugitExdfptionHbndlfr);
 
-    // Headless mode trumps either ordinary AWT or SWT-in-AWT mode.  Declare us a daemon and return.
-    if (headless) {
-        // Note that we don't install run loop observers in headless mode
-        // because we don't need them (see 7174704)
-        if (!forceEmbeddedMode) {
-            setUpAWTAppKit(false);
+    // Hfbdlfss modf trumps fitifr ordinbry AWT or SWT-in-AWT modf.  Dfdlbrf us b dbfmon bnd rfturn.
+    if (ifbdlfss) {
+        // Notf tibt wf don't instbll run loop obsfrvfrs in ifbdlfss modf
+        // bfdbusf wf don't nffd tifm (sff 7174704)
+        if (!fordfEmbfddfdModf) {
+            sftUpAWTAppKit(fblsf);
         }
-        [AWTStarter markAppAsDaemon];
-        return;
+        [AWTStbrtfr mbrkAppAsDbfmon];
+        rfturn;
     }
 
-    if (forceEmbeddedMode) {
-        AWT_STARTUP_LOG(@"in SWT or SWT/WebStart mode");
+    if (fordfEmbfddfdModf) {
+        AWT_STARTUP_LOG(@"in SWT or SWT/WfbStbrt modf");
 
-        // Init a default NSApplication instance instead of the NSApplicationAWT.
-        // Note that [NSApp isRunning] will return YES after that, though
-        // this behavior isn't specified anywhere. We rely on that.
-        NSApplicationLoad();
+        // Init b dffbult NSApplidbtion instbndf instfbd of tif NSApplidbtionAWT.
+        // Notf tibt [NSApp isRunning] will rfturn YES bftfr tibt, tiougi
+        // tiis bfibvior isn't spfdififd bnywifrf. Wf rfly on tibt.
+        NSApplidbtionLobd();
     }
 
-    // This will create a NSApplicationAWT for standalone AWT programs, unless there is
-    //  already a NSApplication instance. If there is already a NSApplication instance,
-    //  and -[NSApplication isRunning] returns YES, AWT is embedded inside another
-    //  AppKit Application.
-    NSApplication *app = [NSApplicationAWT sharedApplication];
-    isEmbedded = ![NSApp isKindOfClass:[NSApplicationAWT class]];
+    // Tiis will drfbtf b NSApplidbtionAWT for stbndblonf AWT progrbms, unlfss tifrf is
+    //  blrfbdy b NSApplidbtion instbndf. If tifrf is blrfbdy b NSApplidbtion instbndf,
+    //  bnd -[NSApplidbtion isRunning] rfturns YES, AWT is fmbfddfd insidf bnotifr
+    //  AppKit Applidbtion.
+    NSApplidbtion *bpp = [NSApplidbtionAWT sibrfdApplidbtion];
+    isEmbfddfd = ![NSApp isKindOfClbss:[NSApplidbtionAWT dlbss]];
 
-    if (!isEmbedded) {
-        // Install run loop observers and set the AppKit Java thread name
-        setUpAWTAppKit(true);
+    if (!isEmbfddfd) {
+        // Instbll run loop obsfrvfrs bnd sft tif AppKit Jbvb tirfbd nbmf
+        sftUpAWTAppKit(truf);
     }
 
-    // AWT gets to this point BEFORE NSApplicationDidFinishLaunchingNotification is sent.
-    if (![app isRunning]) {
-        AWT_STARTUP_LOG(@"+[AWTStarter startAWT]: ![app isRunning]");
-        // This is where the AWT AppKit thread parks itself to process events.
-        [NSApplicationAWT runAWTLoopWithApp: app];
-    } else {
-        // We're either embedded, or showing a splash screen
-        if (isEmbedded) {
-            AWT_STARTUP_LOG(@"running embedded");
+    // AWT gfts to tiis point BEFORE NSApplidbtionDidFinisiLbundiingNotifidbtion is sfnt.
+    if (![bpp isRunning]) {
+        AWT_STARTUP_LOG(@"+[AWTStbrtfr stbrtAWT]: ![bpp isRunning]");
+        // Tiis is wifrf tif AWT AppKit tirfbd pbrks itsflf to prodfss fvfnts.
+        [NSApplidbtionAWT runAWTLoopWitiApp: bpp];
+    } flsf {
+        // Wf'rf fitifr fmbfddfd, or siowing b splbsi sdrffn
+        if (isEmbfddfd) {
+            AWT_STARTUP_LOG(@"running fmbfddfd");
             
-            // We don't track if the runloop is busy, so set it free to let AWT finish when it needs
-            setBusy(NO);
-        } else {
-            AWT_STARTUP_LOG(@"running after showing a splash screen");
+            // Wf don't trbdk if tif runloop is busy, so sft it frff to lft AWT finisi wifn it nffds
+            sftBusy(NO);
+        } flsf {
+            AWT_STARTUP_LOG(@"running bftfr siowing b splbsi sdrffn");
         }
         
-        // Signal so that JNI_OnLoad can proceed.
-        if (!wasOnMainThread) [AWTStarter appKitIsRunning:nil];
+        // Signbl so tibt JNI_OnLobd dbn prodffd.
+        if (!wbsOnMbinTirfbd) [AWTStbrtfr bppKitIsRunning:nil];
         
-        // Proceed to exit this call as there is no reason to run the NSApplication event loop.
+        // Prodffd to fxit tiis dbll bs tifrf is no rfbson to run tif NSApplidbtion fvfnt loop.
     }
     
-    [pool drain];
+    [pool drbin];
 }
 
-@end
+@fnd
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    nativeSyncQueue
- * Signature: (J)Z
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    nbtivfSyndQufuf
+ * Signbturf: (J)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_lwawt_macosx_LWCToolkit_nativeSyncQueue
-(JNIEnv *env, jobject self, jlong timeout)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_lwbwt_mbdosx_LWCToolkit_nbtivfSyndQufuf
+(JNIEnv *fnv, jobjfdt sflf, jlong timfout)
 {
-    int currentEventNum = [AWTToolkit getEventCount];
+    int durrfntEvfntNum = [AWTToolkit gftEvfntCount];
 
-    NSApplication* sharedApp = [NSApplication sharedApplication];
-    if ([sharedApp isKindOfClass:[NSApplicationAWT class]]) {
-        NSApplicationAWT* theApp = (NSApplicationAWT*)sharedApp;
-        [theApp postDummyEvent];
-        [theApp waitForDummyEvent];
-    } else {
-        // could happen if we are embedded inside SWT application,
-        // in this case just spin a single empty block through 
-        // the event loop to give it a chance to process pending events
-        [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){}];
+    NSApplidbtion* sibrfdApp = [NSApplidbtion sibrfdApplidbtion];
+    if ([sibrfdApp isKindOfClbss:[NSApplidbtionAWT dlbss]]) {
+        NSApplidbtionAWT* tifApp = (NSApplidbtionAWT*)sibrfdApp;
+        [tifApp postDummyEvfnt];
+        [tifApp wbitForDummyEvfnt];
+    } flsf {
+        // dould ibppfn if wf brf fmbfddfd insidf SWT bpplidbtion,
+        // in tiis dbsf just spin b singlf fmpty blodk tirougi 
+        // tif fvfnt loop to givf it b dibndf to prodfss pfnding fvfnts
+        [JNFRunLoop pfrformOnMbinTirfbdWbiting:YES witiBlodk:^(){}];
     }
     
-    if (([AWTToolkit getEventCount] - currentEventNum) != 0) {
-        return JNI_TRUE;
+    if (([AWTToolkit gftEvfntCount] - durrfntEvfntNum) != 0) {
+        rfturn JNI_TRUE;
     }
         
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    flushNativeSelectors
- * Signature: ()J
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    flusiNbtivfSflfdtors
+ * Signbturf: ()J
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_LWCToolkit_flushNativeSelectors
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_LWCToolkit_flusiNbtivfSflfdtors
+(JNIEnv *fnv, jdlbss dlz)
 {
-JNF_COCOA_ENTER(env);
-        [ThreadUtilities performOnMainThreadWaiting:YES block:^(){}];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+        [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){}];
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    beep
- * Signature: ()V
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    bffp
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_LWCToolkit_beep
-(JNIEnv *env, jobject self)
+Jbvb_sun_lwbwt_mbdosx_LWCToolkit_bffp
+(JNIEnv *fnv, jobjfdt sflf)
 {
-    NSBeep(); // produces both sound and visual flash, if configured in System Preferences
+    NSBffp(); // produdfs boti sound bnd visubl flbsi, if donfigurfd in Systfm Prfffrfndfs
 }
 
-static UInt32 RGB(NSColor *c) {
-    c = [c colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-    if (c == nil)
+stbtid UInt32 RGB(NSColor *d) {
+    d = [d dolorUsingColorSpbdfNbmf:NSCblibrbtfdRGBColorSpbdf];
+    if (d == nil)
     {
-        return -1; // opaque white
+        rfturn -1; // opbquf wiitf
     }
 
-    CGFloat r, g, b, a;
-    [c getRed:&r green:&g blue:&b alpha:&a];
+    CGFlobt r, g, b, b;
+    [d gftRfd:&r grffn:&g bluf:&b blpib:&b];
 
     UInt32 ir = (UInt32) (r*255+0.5),
     ig = (UInt32) (g*255+0.5),
     ib = (UInt32) (b*255+0.5),
-    ia = (UInt32) (a*255+0.5);
+    ib = (UInt32) (b*255+0.5);
 
-    //    NSLog(@"%@ %d, %d, %d", c, ir, ig, ib);
+    //    NSLog(@"%@ %d, %d, %d", d, ir, ig, ib);
 
-    return ((ia & 0xFF) << 24) | ((ir & 0xFF) << 16) | ((ig & 0xFF) << 8) | ((ib & 0xFF) << 0);
+    rfturn ((ib & 0xFF) << 24) | ((ir & 0xFF) << 16) | ((ig & 0xFF) << 8) | ((ib & 0xFF) << 0);
 }
 
-BOOL doLoadNativeColors(JNIEnv *env, jintArray jColors, BOOL useAppleColors) {
-    jint len = (*env)->GetArrayLength(env, jColors);
+BOOL doLobdNbtivfColors(JNIEnv *fnv, jintArrby jColors, BOOL usfApplfColors) {
+    jint lfn = (*fnv)->GftArrbyLfngti(fnv, jColors);
 
-    UInt32 colorsArray[len];
-    UInt32 *colors = colorsArray;
+    UInt32 dolorsArrby[lfn];
+    UInt32 *dolors = dolorsArrby;
 
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
-        NSUInteger i;
-        for (i = 0; i < len; i++) {
-            colors[i] = RGB([CSystemColors getColor:i useAppleColor:useAppleColors]);
+    [JNFRunLoop pfrformOnMbinTirfbdWbiting:YES witiBlodk:^(){
+        NSUIntfgfr i;
+        for (i = 0; i < lfn; i++) {
+            dolors[i] = RGB([CSystfmColors gftColor:i usfApplfColor:usfApplfColors]);
         }
     }];
 
-    jint *_colors = (*env)->GetPrimitiveArrayCritical(env, jColors, 0);
-    if (_colors == NULL) {
-        return NO;
+    jint *_dolors = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jColors, 0);
+    if (_dolors == NULL) {
+        rfturn NO;
     }
-    memcpy(_colors, colors, len * sizeof(UInt32));
-    (*env)->ReleasePrimitiveArrayCritical(env, jColors, _colors, 0);
-    return YES;
+    mfmdpy(_dolors, dolors, lfn * sizfof(UInt32));
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jColors, _dolors, 0);
+    rfturn YES;
 }
 
 /**
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    loadNativeColors
- * Signature: ([I[I)V
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    lobdNbtivfColors
+ * Signbturf: ([I[I)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_LWCToolkit_loadNativeColors
-(JNIEnv *env, jobject peer, jintArray jSystemColors, jintArray jAppleColors)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_LWCToolkit_lobdNbtivfColors
+(JNIEnv *fnv, jobjfdt pffr, jintArrby jSystfmColors, jintArrby jApplfColors)
 {
-JNF_COCOA_ENTER(env);
-    if (doLoadNativeColors(env, jSystemColors, NO)) {
-        doLoadNativeColors(env, jAppleColors, YES);
+JNF_COCOA_ENTER(fnv);
+    if (doLobdNbtivfColors(fnv, jSystfmColors, NO)) {
+        doLobdNbtivfColors(fnv, jApplfColors, YES);
     }
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    createAWTRunLoopMediator
- * Signature: ()J
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    drfbtfAWTRunLoopMfdibtor
+ * Signbturf: ()J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_LWCToolkit_createAWTRunLoopMediator
-(JNIEnv *env, jclass clz)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbdosx_LWCToolkit_drfbtfAWTRunLoopMfdibtor
+(JNIEnv *fnv, jdlbss dlz)
 {
 AWT_ASSERT_APPKIT_THREAD;
 
-    jlong result;
+    jlong rfsult;
 
-JNF_COCOA_ENTER(env);
-    // We double retain because this object is owned by both main thread and "other" thread
-    // We release in both doAWTRunLoop and stopAWTRunLoop
-    result = ptr_to_jlong([[[AWTRunLoopObject alloc] init] retain]);
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+    // Wf doublf rftbin bfdbusf tiis objfdt is ownfd by boti mbin tirfbd bnd "otifr" tirfbd
+    // Wf rflfbsf in boti doAWTRunLoop bnd stopAWTRunLoop
+    rfsult = ptr_to_jlong([[[AWTRunLoopObjfdt bllod] init] rftbin]);
+JNF_COCOA_EXIT(fnv);
 
-    return result;
+    rfturn rfsult;
 }
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    doAWTRunLoopImpl
- * Signature: (JZZ)V
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    doAWTRunLoopImpl
+ * Signbturf: (JZZ)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_LWCToolkit_doAWTRunLoopImpl
-(JNIEnv *env, jclass clz, jlong mediator, jboolean processEvents, jboolean inAWT)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_LWCToolkit_doAWTRunLoopImpl
+(JNIEnv *fnv, jdlbss dlz, jlong mfdibtor, jboolfbn prodfssEvfnts, jboolfbn inAWT)
 {
 AWT_ASSERT_APPKIT_THREAD;
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    AWTRunLoopObject* mediatorObject = (AWTRunLoopObject*)jlong_to_ptr(mediator);
+    AWTRunLoopObjfdt* mfdibtorObjfdt = (AWTRunLoopObjfdt*)jlong_to_ptr(mfdibtor);
 
-    if (mediatorObject == nil) return;
+    if (mfdibtorObjfdt == nil) rfturn;
 
-    // Don't use acceptInputForMode because that doesn't setup autorelease pools properly
-    BOOL isRunning = true;
-    while (![mediatorObject shouldEndRunLoop] && isRunning) {
-        isRunning = [[NSRunLoop currentRunLoop] runMode:(inAWT ? [JNFRunLoop javaRunLoopMode] : NSDefaultRunLoopMode)
-                                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.010]];
-        if (processEvents) {
-            //We do not spin a runloop here as date is nil, so does not matter which mode to use
-            NSEvent *event;
-            if ((event = [NSApp nextEventMatchingMask:NSAnyEventMask
-                                           untilDate:nil
-                                              inMode:NSDefaultRunLoopMode
-                                             dequeue:YES]) != nil) {
-                [NSApp sendEvent:event];
+    // Don't usf bddfptInputForModf bfdbusf tibt dofsn't sftup butorflfbsf pools propfrly
+    BOOL isRunning = truf;
+    wiilf (![mfdibtorObjfdt siouldEndRunLoop] && isRunning) {
+        isRunning = [[NSRunLoop durrfntRunLoop] runModf:(inAWT ? [JNFRunLoop jbvbRunLoopModf] : NSDffbultRunLoopModf)
+                                             bfforfDbtf:[NSDbtf dbtfWitiTimfIntfrvblSindfNow:0.010]];
+        if (prodfssEvfnts) {
+            //Wf do not spin b runloop ifrf bs dbtf is nil, so dofs not mbttfr wiidi modf to usf
+            NSEvfnt *fvfnt;
+            if ((fvfnt = [NSApp nfxtEvfntMbtdiingMbsk:NSAnyEvfntMbsk
+                                           untilDbtf:nil
+                                              inModf:NSDffbultRunLoopModf
+                                             dfqufuf:YES]) != nil) {
+                [NSApp sfndEvfnt:fvfnt];
             }
 
         }
     }
-    [mediatorObject release];
-JNF_COCOA_EXIT(env);
+    [mfdibtorObjfdt rflfbsf];
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    stopAWTRunLoop
- * Signature: (J)V
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    stopAWTRunLoop
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_LWCToolkit_stopAWTRunLoop
-(JNIEnv *env, jclass clz, jlong mediator)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_LWCToolkit_stopAWTRunLoop
+(JNIEnv *fnv, jdlbss dlz, jlong mfdibtor)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    AWTRunLoopObject* mediatorObject = (AWTRunLoopObject*)jlong_to_ptr(mediator);
+    AWTRunLoopObjfdt* mfdibtorObjfdt = (AWTRunLoopObjfdt*)jlong_to_ptr(mfdibtor);
 
-    [ThreadUtilities performOnMainThread:@selector(endRunLoop) on:mediatorObject withObject:nil waitUntilDone:NO];
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(fndRunLoop) on:mfdibtorObjfdt witiObjfdt:nil wbitUntilDonf:NO];
 
-    [mediatorObject release];
+    [mfdibtorObjfdt rflfbsf];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    performOnMainThreadAfterDelay
- * Signature: (Ljava/lang/Runnable;J)V
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    pfrformOnMbinTirfbdAftfrDflby
+ * Signbturf: (Ljbvb/lbng/Runnbblf;J)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_LWCToolkit_performOnMainThreadAfterDelay
-(JNIEnv *env, jclass clz, jobject runnable, jlong delay)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_LWCToolkit_pfrformOnMbinTirfbdAftfrDflby
+(JNIEnv *fnv, jdlbss dlz, jobjfdt runnbblf, jlong dflby)
 {
-JNF_COCOA_ENTER(env);
-    jobject gRunnable = (*env)->NewGlobalRef(env, runnable);
-    CHECK_NULL(gRunnable);
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^() {
-        JavaRunnable* performer = [[JavaRunnable alloc] initWithRunnable:gRunnable];
-        [performer performSelector:@selector(perform) withObject:nil afterDelay:(delay/1000.0)];
+JNF_COCOA_ENTER(fnv);
+    jobjfdt gRunnbblf = (*fnv)->NfwGlobblRff(fnv, runnbblf);
+    CHECK_NULL(gRunnbblf);
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^() {
+        JbvbRunnbblf* pfrformfr = [[JbvbRunnbblf bllod] initWitiRunnbblf:gRunnbblf];
+        [pfrformfr pfrformSflfdtor:@sflfdtor(pfrform) witiObjfdt:nil bftfrDflby:(dflby/1000.0)];
     }];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    isCapsLockOn
- * Signature: ()Z
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    isCbpsLodkOn
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_lwawt_macosx_LWCToolkit_isCapsLockOn
-(JNIEnv *env, jobject self)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_lwbwt_mbdosx_LWCToolkit_isCbpsLodkOn
+(JNIEnv *fnv, jobjfdt sflf)
 {
-    __block jboolean isOn = JNI_FALSE;
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
-        NSUInteger modifiers = [NSEvent modifierFlags];
-        isOn = (modifiers & NSAlphaShiftKeyMask) != 0;
-    }];
-
-    return isOn;
-}
-
-/*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    isApplicationActive
- * Signature: ()Z
- */
-JNIEXPORT jboolean JNICALL Java_sun_lwawt_macosx_LWCToolkit_isApplicationActive
-(JNIEnv *env, jclass clazz)
-{
-    __block jboolean active = JNI_FALSE;
-
-JNF_COCOA_ENTER(env);
-
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^() {
-        active = (jboolean)[NSRunningApplication currentApplication].active;
+    __blodk jboolfbn isOn = JNI_FALSE;
+    [JNFRunLoop pfrformOnMbinTirfbdWbiting:YES witiBlodk:^(){
+        NSUIntfgfr modififrs = [NSEvfnt modififrFlbgs];
+        isOn = (modififrs & NSAlpibSiiftKfyMbsk) != 0;
     }];
 
-JNF_COCOA_EXIT(env);
+    rfturn isOn;
+}
 
-    return active;
+/*
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    isApplidbtionAdtivf
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_lwbwt_mbdosx_LWCToolkit_isApplidbtionAdtivf
+(JNIEnv *fnv, jdlbss dlbzz)
+{
+    __blodk jboolfbn bdtivf = JNI_FALSE;
+
+JNF_COCOA_ENTER(fnv);
+
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^() {
+        bdtivf = (jboolfbn)[NSRunningApplidbtion durrfntApplidbtion].bdtivf;
+    }];
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn bdtivf;
 }
 
 
 /*
- * Class:     sun_awt_SunToolkit
- * Method:    closeSplashScreen
- * Signature: ()V
+ * Clbss:     sun_bwt_SunToolkit
+ * Mftiod:    dlosfSplbsiSdrffn
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_SunToolkit_closeSplashScreen(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_SunToolkit_dlosfSplbsiSdrffn(JNIEnv *fnv, jdlbss dls)
 {
-    void *hSplashLib = dlopen(0, RTLD_LAZY);
-    if (!hSplashLib) return;
+    void *iSplbsiLib = dlopfn(0, RTLD_LAZY);
+    if (!iSplbsiLib) rfturn;
 
-    void (*splashClose)() = dlsym(hSplashLib, "SplashClose");
-    if (splashClose) {
-        splashClose();
+    void (*splbsiClosf)() = dlsym(iSplbsiLib, "SplbsiClosf");
+    if (splbsiClosf) {
+        splbsiClosf();
     }
-    dlclose(hSplashLib);
+    dldlosf(iSplbsiLib);
 }
 
 
-// TODO: definitely doesn't belong here (copied from fontpath.c in the
-// solaris tree)...
+// TODO: dffinitfly dofsn't bflong ifrf (dopifd from fontpbti.d in tif
+// solbris trff)...
 
 JNIEXPORT jstring JNICALL
-Java_sun_font_FontManager_getFontPath
-(JNIEnv *env, jclass obj, jboolean noType1)
+Jbvb_sun_font_FontMbnbgfr_gftFontPbti
+(JNIEnv *fnv, jdlbss obj, jboolfbn noTypf1)
 {
-    return JNFNSToJavaString(env, @"/Library/Fonts");
+    rfturn JNFNSToJbvbString(fnv, @"/Librbry/Fonts");
 }
 
-// This isn't yet used on unix, the implementation is added since shared
-// code calls this method in preparation for future use.
+// Tiis isn't yft usfd on unix, tif implfmfntbtion is bddfd sindf sibrfd
+// dodf dblls tiis mftiod in prfpbrbtion for futurf usf.
 JNIEXPORT void JNICALL
-Java_sun_font_FontManager_populateFontFileNameMap
-(JNIEnv *env, jclass obj, jobject fontToFileMap, jobject fontToFamilyMap, jobject familyToFontListMap, jobject locale)
+Jbvb_sun_font_FontMbnbgfr_populbtfFontFilfNbmfMbp
+(JNIEnv *fnv, jdlbss obj, jobjfdt fontToFilfMbp, jobjfdt fontToFbmilyMbp, jobjfdt fbmilyToFontListMbp, jobjfdt lodblf)
 {
 
 }
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    initIDs
- * Signature: ()V
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    initIDs
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_LWCToolkit_initIDs
-(JNIEnv *env, jclass klass) {
+Jbvb_sun_lwbwt_mbdosx_LWCToolkit_initIDs
+(JNIEnv *fnv, jdlbss klbss) {
 
-    JNF_COCOA_ENTER(env)
+    JNF_COCOA_ENTER(fnv)
 
-    gNumberOfButtons = sun_lwawt_macosx_LWCToolkit_BUTTONS;
+    gNumbfrOfButtons = sun_lwbwt_mbdosx_LWCToolkit_BUTTONS;
 
-    jclass inputEventClazz = (*env)->FindClass(env, "java/awt/event/InputEvent");
-    CHECK_NULL(inputEventClazz);
-    jmethodID getButtonDownMasksID = (*env)->GetStaticMethodID(env, inputEventClazz, "getButtonDownMasks", "()[I");
-    CHECK_NULL(getButtonDownMasksID);
-    jintArray obj = (jintArray)(*env)->CallStaticObjectMethod(env, inputEventClazz, getButtonDownMasksID);
-    jint * tmp = (*env)->GetIntArrayElements(env, obj, JNI_FALSE);
+    jdlbss inputEvfntClbzz = (*fnv)->FindClbss(fnv, "jbvb/bwt/fvfnt/InputEvfnt");
+    CHECK_NULL(inputEvfntClbzz);
+    jmftiodID gftButtonDownMbsksID = (*fnv)->GftStbtidMftiodID(fnv, inputEvfntClbzz, "gftButtonDownMbsks", "()[I");
+    CHECK_NULL(gftButtonDownMbsksID);
+    jintArrby obj = (jintArrby)(*fnv)->CbllStbtidObjfdtMftiod(fnv, inputEvfntClbzz, gftButtonDownMbsksID);
+    jint * tmp = (*fnv)->GftIntArrbyElfmfnts(fnv, obj, JNI_FALSE);
     CHECK_NULL(tmp);
 
-    gButtonDownMasks = (jint*)SAFE_SIZE_ARRAY_ALLOC(malloc, sizeof(jint), gNumberOfButtons);
-    if (gButtonDownMasks == NULL) {
-        gNumberOfButtons = 0;
-        (*env)->ReleaseIntArrayElements(env, obj, tmp, JNI_ABORT);
-        JNU_ThrowOutOfMemoryError(env, NULL);
-        return;
+    gButtonDownMbsks = (jint*)SAFE_SIZE_ARRAY_ALLOC(mbllod, sizfof(jint), gNumbfrOfButtons);
+    if (gButtonDownMbsks == NULL) {
+        gNumbfrOfButtons = 0;
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, obj, tmp, JNI_ABORT);
+        JNU_TirowOutOfMfmoryError(fnv, NULL);
+        rfturn;
     }
 
     int i;
-    for (i = 0; i < gNumberOfButtons; i++) {
-        gButtonDownMasks[i] = tmp[i];
+    for (i = 0; i < gNumbfrOfButtons; i++) {
+        gButtonDownMbsks[i] = tmp[i];
     }
 
-    (*env)->ReleaseIntArrayElements(env, obj, tmp, 0);
-    (*env)->DeleteLocalRef(env, obj);
+    (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, obj, tmp, 0);
+    (*fnv)->DflftfLodblRff(fnv, obj);
 
-    JNF_COCOA_EXIT(env)
+    JNF_COCOA_EXIT(fnv)
 }
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    initAppkit
- * Signature: (Ljava/lang/ThreadGroup;)V
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    initAppkit
+ * Signbturf: (Ljbvb/lbng/TirfbdGroup;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_LWCToolkit_initAppkit
-(JNIEnv *env, jclass klass, jobject appkitThreadGroup, jboolean headless) {
-    JNF_COCOA_ENTER(env)
+Jbvb_sun_lwbwt_mbdosx_LWCToolkit_initAppkit
+(JNIEnv *fnv, jdlbss klbss, jobjfdt bppkitTirfbdGroup, jboolfbn ifbdlfss) {
+    JNF_COCOA_ENTER(fnv)
 
-    [ThreadUtilities setAppkitThreadGroup:(*env)->NewGlobalRef(env, appkitThreadGroup)];
+    [TirfbdUtilitifs sftAppkitTirfbdGroup:(*fnv)->NfwGlobblRff(fnv, bppkitTirfbdGroup)];
 
-    // Launcher sets this env variable if -XstartOnFirstThread is specified
-    char envVar[80];
-    snprintf(envVar, sizeof(envVar), "JAVA_STARTED_ON_FIRST_THREAD_%d", getpid());
-    if (getenv(envVar) != NULL) {
-        forceEmbeddedMode = YES;
-        unsetenv(envVar);
+    // Lbundifr sfts tiis fnv vbribblf if -XstbrtOnFirstTirfbd is spfdififd
+    dibr fnvVbr[80];
+    snprintf(fnvVbr, sizfof(fnvVbr), "JAVA_STARTED_ON_FIRST_THREAD_%d", gftpid());
+    if (gftfnv(fnvVbr) != NULL) {
+        fordfEmbfddfdModf = YES;
+        unsftfnv(fnvVbr);
     }
 
-    if (isSWTInWebStart(env)) {
-        forceEmbeddedMode = YES;
+    if (isSWTInWfbStbrt(fnv)) {
+        fordfEmbfddfdModf = YES;
     }
 
-    [AWTStarter start:headless ? YES : NO];
+    [AWTStbrtfr stbrt:ifbdlfss ? YES : NO];
 
-    JNF_COCOA_EXIT(env)
+    JNF_COCOA_EXIT(fnv)
 }
 
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
-    OSXAPP_SetJavaVM(vm);
+JNIEXPORT jint JNICALL JNI_OnLobd(JbvbVM *vm, void *rfsfrvfd) {
+    OSXAPP_SftJbvbVM(vm);
 
-    // We need to let Foundation know that this is a multithreaded application, if it isn't already.
-    if (![NSThread isMultiThreaded]) {
-        [NSThread detachNewThreadSelector:nil toTarget:nil withObject:nil];
+    // Wf nffd to lft Foundbtion know tibt tiis is b multitirfbdfd bpplidbtion, if it isn't blrfbdy.
+    if (![NSTirfbd isMultiTirfbdfd]) {
+        [NSTirfbd dftbdiNfwTirfbdSflfdtor:nil toTbrgft:nil witiObjfdt:nil];
     }
 
-    return JNI_VERSION_1_4;
+    rfturn JNI_VERSION_1_4;
 }
 
 /*
- * Class:     sun_lwawt_macosx_LWCToolkit
- * Method:    isEmbedded
- * Signature: ()Z
+ * Clbss:     sun_lwbwt_mbdosx_LWCToolkit
+ * Mftiod:    isEmbfddfd
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_lwawt_macosx_LWCToolkit_isEmbedded
-(JNIEnv *env, jclass klass) {
-    return isEmbedded ? JNI_TRUE : JNI_FALSE;
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_lwbwt_mbdosx_LWCToolkit_isEmbfddfd
+(JNIEnv *fnv, jdlbss klbss) {
+    rfturn isEmbfddfd ? JNI_TRUE : JNI_FALSE;
 }
 

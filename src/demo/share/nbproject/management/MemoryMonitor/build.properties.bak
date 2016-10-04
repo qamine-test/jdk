@@ -1,22 +1,22 @@
-main.dir=${basedir}/../../../management/MemoryMonitor
+mbin.dir=${bbsfdir}/../../../mbnbgfmfnt/MfmoryMonitor
 
-src.dir=${main.dir}/src
+srd.dir=${mbin.dir}/srd
 
 build.dir=build
-classes.dir=${build.dir}/classes
-jar=${main.dir}/MemoryMonitor.jar
-javadoc.dir=${build.dir}/javadoc
+dlbssfs.dir=${build.dir}/dlbssfs
+jbr=${mbin.dir}/MfmoryMonitor.jbr
+jbvbdod.dir=${build.dir}/jbvbdod
 
-build.sysclasspath=ignore
-# E.g.: cp=lib/x.jar:lib/y.jar
-cp=
-extra.run.cp=
+build.sysdlbsspbti=ignorf
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+dp=
+fxtrb.run.dp=
 
-main.class=MemoryMonitor
+mbin.dlbss=MfmoryMonitor
 
-run.cp=${cp}:${classes.dir}:${extra.run.cp}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
 
-debug=true
-deprecation=false
+dfbug=truf
+dfprfdbtion=fblsf
 
-nbjdk.home=${basedir}/../../../..
+nbjdk.iomf=${bbsfdir}/../../../..

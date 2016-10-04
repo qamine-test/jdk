@@ -1,0 +1,618 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.print;
+
+import jbvb.bwt.AWTError;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.util.Enumfrbtion;
+
+import jbvbx.print.DodFlbvor;
+import jbvbx.print.PrintSfrvidf;
+import jbvbx.print.PrintSfrvidfLookup;
+import jbvbx.print.StrfbmPrintSfrvidfFbdtory;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.MfdibPrintbblfArfb;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizf;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizfNbmf;
+import jbvbx.print.bttributf.stbndbrd.OrifntbtionRfqufstfd;
+
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Thf <dodf>PrintfrJob</dodf> dlbss is thf prindipbl dlbss thbt dontrols
+ * printing. An bpplidbtion dblls mfthods in this dlbss to sft up b job,
+ * optionblly to invokf b print diblog with thf usfr, bnd thfn to print
+ * thf pbgfs of thf job.
+ */
+publid bbstrbdt dlbss PrintfrJob {
+
+ /* Publid Clbss Mfthods */
+
+    /**
+     * Crfbtfs bnd rfturns b <dodf>PrintfrJob</dodf> whidh is initiblly
+     * bssodibtfd with thf dffbult printfr.
+     * If no printfrs brf bvbilbblf on thf systfm, b PrintfrJob will still
+     * bf rfturnfd from this mfthod, but <dodf>gftPrintSfrvidf()</dodf>
+     * will rfturn <dodf>null</dodf>, bnd dblling
+     * {@link #print() print} with this <dodf>PrintfrJob</dodf> might
+     * gfnfrbtf bn fxdfption.  Applidbtions thbt nffd to dftfrminf if
+     * thfrf brf suitbblf printfrs bfforf drfbting b <dodf>PrintfrJob</dodf>
+     * should fnsurf thbt thf brrby rfturnfd from
+     * {@link #lookupPrintSfrvidfs() lookupPrintSfrvidfs} is not fmpty.
+     * @rfturn b nfw <dodf>PrintfrJob</dodf>.
+     *
+     * @throws  SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *          {@link jbvb.lbng.SfdurityMbnbgfr#dhfdkPrintJobAddfss}
+     *          mfthod disbllows this thrfbd from drfbting b print job rfqufst
+     */
+    publid stbtid PrintfrJob gftPrintfrJob() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPrintJobAddfss();
+        }
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<PrintfrJob>() {
+            publid PrintfrJob run() {
+                String nm = Systfm.gftPropfrty("jbvb.bwt.printfrjob", null);
+                try {
+                    rfturn (PrintfrJob)Clbss.forNbmf(nm).nfwInstbndf();
+                } dbtdh (ClbssNotFoundExdfption f) {
+                    throw nfw AWTError("PrintfrJob not found: " + nm);
+                } dbtdh (InstbntibtionExdfption f) {
+                 throw nfw AWTError("Could not instbntibtf PrintfrJob: " + nm);
+                } dbtdh (IllfgblAddfssExdfption f) {
+                    throw nfw AWTError("Could not bddfss PrintfrJob: " + nm);
+                }
+            }
+        });
+    }
+
+    /**
+     * A donvfnifndf mfthod whidh looks up 2D print sfrvidfs.
+     * Sfrvidfs rfturnfd from this mfthod mby bf instbllfd on
+     * <dodf>PrintfrJob</dodf>s whidh support print sfrvidfs.
+     * Cblling this mfthod is fquivblfnt to dblling
+     * {@link jbvbx.print.PrintSfrvidfLookup#lookupPrintSfrvidfs(
+     * DodFlbvor, AttributfSft)
+     * PrintSfrvidfLookup.lookupPrintSfrvidfs()}
+     * bnd spfdifying b Pbgfbblf DodFlbvor.
+     * @rfturn b possibly fmpty brrby of 2D print sfrvidfs.
+     * @sindf     1.4
+     */
+    publid stbtid PrintSfrvidf[] lookupPrintSfrvidfs() {
+        rfturn PrintSfrvidfLookup.
+            lookupPrintSfrvidfs(DodFlbvor.SERVICE_FORMATTED.PAGEABLE, null);
+    }
+
+
+    /**
+     * A donvfnifndf mfthod whidh lodbtfs fbdtorifs for strfbm print
+     * sfrvidfs whidh dbn imbgf 2D grbphids.
+     * Sbmplf usbgf :
+     * <prf>{@dodf
+     * FilfOutputStrfbm outstrfbm;
+     * StrfbmPrintSfrvidf psPrintfr;
+     * String psMimfTypf = "bpplidbtion/postsdript";
+     * PrintfrJob pj = PrintfrJob.gftPrintfrJob();
+     *
+     * StrfbmPrintSfrvidfFbdtory[] fbdtorifs =
+     *     PrintfrJob.lookupStrfbmPrintSfrvidfs(psMimfTypf);
+     * if (fbdtorifs.lfngth > 0) {
+     *     try {
+     *         outstrfbm = nfw Filf("out.ps");
+     *         psPrintfr =  fbdtorifs[0].gftPrintSfrvidf(outstrfbm);
+     *         // psPrintfr dbn now bf sft bs thf sfrvidf on b PrintfrJob
+     *         pj.sftPrintSfrvidf(psPrintfr)
+     *     } dbtdh (Exdfption f) {
+     *         f.printStbdkTrbdf();
+     *     }
+     * }
+     * }</prf>
+     * Sfrvidfs rfturnfd from this mfthod mby bf instbllfd on
+     * <dodf>PrintfrJob</dodf> instbndfs whidh support print sfrvidfs.
+     * Cblling this mfthod is fquivblfnt to dblling
+     * {@link jbvbx.print.StrfbmPrintSfrvidfFbdtory#lookupStrfbmPrintSfrvidfFbdtorifs(DodFlbvor, String)
+     * StrfbmPrintSfrvidfFbdtory.lookupStrfbmPrintSfrvidfFbdtorifs()
+     * } bnd spfdifying b Pbgfbblf DodFlbvor.
+     *
+     * @pbrbm mimfTypf thf rfquirfd output formbt, or null to mfbn bny formbt.
+     * @rfturn b possibly fmpty brrby of 2D strfbm print sfrvidf fbdtorifs.
+     * @sindf     1.4
+     */
+    publid stbtid StrfbmPrintSfrvidfFbdtory[]
+        lookupStrfbmPrintSfrvidfs(String mimfTypf) {
+        rfturn StrfbmPrintSfrvidfFbdtory.lookupStrfbmPrintSfrvidfFbdtorifs(
+                                       DodFlbvor.SERVICE_FORMATTED.PAGEABLE,
+                                       mimfTypf);
+    }
+
+
+ /* Publid Mfthods */
+
+    /**
+     * A <dodf>PrintfrJob</dodf> objfdt should bf drfbtfd using thf
+     * stbtid {@link #gftPrintfrJob() gftPrintfrJob} mfthod.
+     */
+    publid PrintfrJob() {
+    }
+
+    /**
+     * Rfturns thf sfrvidf (printfr) for this printfr job.
+     * Implfmfntbtions of this dlbss whidh do not support print sfrvidfs
+     * mby rfturn null.  null will blso bf rfturnfd if no printfrs brf
+     * bvbilbblf.
+     * @rfturn thf sfrvidf for this printfr job.
+     * @sff #sftPrintSfrvidf(PrintSfrvidf)
+     * @sff #gftPrintfrJob()
+     * @sindf     1.4
+     */
+    publid PrintSfrvidf gftPrintSfrvidf() {
+        rfturn null;
+    }
+
+    /**
+     * Assodibtf this PrintfrJob with b nfw PrintSfrvidf.
+     * This mfthod is ovfrriddfn by subdlbssfs whidh support
+     * spfdifying b Print Sfrvidf.
+     *
+     * Throws <dodf>PrintfrExdfption</dodf> if thf spfdififd sfrvidf
+     * dbnnot support thf <dodf>Pbgfbblf</dodf> bnd
+     * <dodf>Printbblf</dodf> intfrfbdfs nfdfssbry to support 2D printing.
+     * @pbrbm sfrvidf b print sfrvidf thbt supports 2D printing
+     * @fxdfption PrintfrExdfption if thf spfdififd sfrvidf dofs not support
+     * 2D printing, or this PrintfrJob dlbss dofs not support
+     * sftting b 2D print sfrvidf, or thf spfdififd sfrvidf is
+     * othfrwisf not b vblid print sfrvidf.
+     * @sff #gftPrintSfrvidf
+     * @sindf     1.4
+     */
+    publid void sftPrintSfrvidf(PrintSfrvidf sfrvidf)
+        throws PrintfrExdfption {
+            throw nfw PrintfrExdfption(
+                         "Sftting b sfrvidf is not supportfd on this dlbss");
+    }
+
+    /**
+     * Cblls <dodf>pbintfr</dodf> to rfndfr thf pbgfs.  Thf pbgfs in thf
+     * dodumfnt to bf printfd by this
+     * <dodf>PrintfrJob</dodf> brf rfndfrfd by thf {@link Printbblf}
+     * objfdt, <dodf>pbintfr</dodf>.  Thf {@link PbgfFormbt} for fbdh pbgf
+     * is thf dffbult pbgf formbt.
+     * @pbrbm pbintfr thf <dodf>Printbblf</dodf> thbt rfndfrs fbdh pbgf of
+     * thf dodumfnt.
+     */
+    publid bbstrbdt void sftPrintbblf(Printbblf pbintfr);
+
+    /**
+     * Cblls <dodf>pbintfr</dodf> to rfndfr thf pbgfs in thf spfdififd
+     * <dodf>formbt</dodf>.  Thf pbgfs in thf dodumfnt to bf printfd by
+     * this <dodf>PrintfrJob</dodf> brf rfndfrfd by thf
+     * <dodf>Printbblf</dodf> objfdt, <dodf>pbintfr</dodf>. Thf
+     * <dodf>PbgfFormbt</dodf> of fbdh pbgf is <dodf>formbt</dodf>.
+     * @pbrbm pbintfr thf <dodf>Printbblf</dodf> dbllfd to rfndfr
+     *          fbdh pbgf of thf dodumfnt
+     * @pbrbm formbt thf sizf bnd orifntbtion of fbdh pbgf to
+     *                   bf printfd
+     */
+    publid bbstrbdt void sftPrintbblf(Printbblf pbintfr, PbgfFormbt formbt);
+
+    /**
+     * Qufrifs <dodf>dodumfnt</dodf> for thf numbfr of pbgfs bnd
+     * thf <dodf>PbgfFormbt</dodf> bnd <dodf>Printbblf</dodf> for fbdh
+     * pbgf hfld in thf <dodf>Pbgfbblf</dodf> instbndf,
+     * <dodf>dodumfnt</dodf>.
+     * @pbrbm dodumfnt thf pbgfs to bf printfd. It dbn not bf
+     * <dodf>null</dodf>.
+     * @fxdfption NullPointfrExdfption thf <dodf>Pbgfbblf</dodf> pbssfd in
+     * wbs <dodf>null</dodf>.
+     * @sff PbgfFormbt
+     * @sff Printbblf
+     */
+    publid bbstrbdt void sftPbgfbblf(Pbgfbblf dodumfnt)
+        throws NullPointfrExdfption;
+
+    /**
+     * Prfsfnts b diblog to thf usfr for dhbnging thf propfrtifs of
+     * thf print job.
+     * This mfthod will displby b nbtivf diblog if b nbtivf print
+     * sfrvidf is sflfdtfd, bnd usfr dhoidf of printfrs will bf rfstridtfd
+     * to thfsf nbtivf print sfrvidfs.
+     * To prfsfnt thf dross plbtform print diblog for bll sfrvidfs,
+     * indluding nbtivf onfs instfbd usf
+     * <dodf>printDiblog(PrintRfqufstAttributfSft)</dodf>.
+     * <p>
+     * PrintfrJob implfmfntbtions whidh dbn usf PrintSfrvidf's will updbtf
+     * thf PrintSfrvidf for this PrintfrJob to rfflfdt thf nfw sfrvidf
+     * sflfdtfd by thf usfr.
+     * @rfturn <dodf>truf</dodf> if thf usfr dofs not dbndfl thf diblog;
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid bbstrbdt boolfbn printDiblog() throws HfbdlfssExdfption;
+
+    /**
+     * A donvfnifndf mfthod whidh displbys b dross-plbtform print diblog
+     * for bll sfrvidfs whidh brf dbpbblf of printing 2D grbphids using thf
+     * <dodf>Pbgfbblf</dodf> intfrfbdf. Thf sflfdtfd printfr whfn thf
+     * diblog is initiblly displbyfd will rfflfdt thf print sfrvidf durrfntly
+     * bttbdhfd to this print job.
+     * If thf usfr dhbngfs thf print sfrvidf, thf PrintfrJob will bf
+     * updbtfd to rfflfdt this, unlfss thf usfr dbndfls thf diblog.
+     * As wfll bs bllowing thf usfr to sflfdt thf dfstinbtion printfr,
+     * thf usfr dbn blso sflfdt vblufs of vbrious print rfqufst bttributfs.
+     * <p>
+     * Thf bttributfs pbrbmftfr on input will rfflfdt thf bpplidbtions
+     * rfquirfd initibl sflfdtions in thf usfr diblog. Attributfs not
+     * spfdififd displby using thf dffbult for thf sfrvidf. On rfturn it
+     * will rfflfdt thf usfr's dhoidfs. Sflfdtions mby bf updbtfd by
+     * thf implfmfntbtion to bf donsistfnt with thf supportfd vblufs
+     * for thf durrfntly sflfdtfd print sfrvidf.
+     * <p>
+     * As thf usfr sdrolls to b nfw print sfrvidf sflfdtion, thf vblufs
+     * dopifd brf bbsfd on thf sfttings for thf prfvious sfrvidf, togfthfr
+     * with bny usfr dhbngfs. Thf vblufs brf not bbsfd on thf originbl
+     * sfttings supplifd by thf dlifnt.
+     * <p>
+     * With thf fxdfption of sflfdtfd printfr, thf PrintfrJob stbtf is
+     * not updbtfd to rfflfdt thf usfr's dhbngfs.
+     * For thf sflfdtions to bfffdt b printfr job, thf bttributfs must
+     * bf spfdififd in thf dbll to thf
+     * <dodf>print(PrintRfqufstAttributfSft)</dodf> mfthod. If using
+     * thf Pbgfbblf intfrfbdf, dlifnts whidh intfnd to usf mfdib sflfdtfd
+     * by thf usfr must drfbtf b PbgfFormbt dfrivfd from thf usfr's
+     * sflfdtions.
+     * If thf usfr dbndfls thf diblog, thf bttributfs will not rfflfdt
+     * bny dhbngfs mbdf by thf usfr.
+     * @pbrbm bttributfs on input is bpplidbtion supplifd bttributfs,
+     * on output thf dontfnts brf updbtfd to rfflfdt usfr dhoidfs.
+     * This pbrbmftfr mby not bf null.
+     * @rfturn <dodf>truf</dodf> if thf usfr dofs not dbndfl thf diblog;
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @fxdfption NullPointfrExdfption if <dodf>bttributfs</dodf> pbrbmftfr
+     * is null.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.4
+     *
+     */
+    publid boolfbn printDiblog(PrintRfqufstAttributfSft bttributfs)
+        throws HfbdlfssExdfption {
+
+        if (bttributfs == null) {
+            throw nfw NullPointfrExdfption("bttributfs");
+        }
+        rfturn printDiblog();
+    }
+
+    /**
+     * Displbys b diblog thbt bllows modifidbtion of b
+     * <dodf>PbgfFormbt</dodf> instbndf.
+     * Thf <dodf>pbgf</dodf> brgumfnt is usfd to initiblizf dontrols
+     * in thf pbgf sftup diblog.
+     * If thf usfr dbndfls thf diblog thfn this mfthod rfturns thf
+     * originbl <dodf>pbgf</dodf> objfdt unmodififd.
+     * If thf usfr okbys thf diblog thfn this mfthod rfturns b nfw
+     * <dodf>PbgfFormbt</dodf> objfdt with thf indidbtfd dhbngfs.
+     * In fithfr dbsf, thf originbl <dodf>pbgf</dodf> objfdt is
+     * not modififd.
+     * @pbrbm pbgf thf dffbult <dodf>PbgfFormbt</dodf> prfsfntfd to thf
+     *                  usfr for modifidbtion
+     * @rfturn    thf originbl <dodf>pbgf</dodf> objfdt if thf diblog
+     *            is dbndfllfd; b nfw <dodf>PbgfFormbt</dodf> objfdt
+     *            dontbining thf formbt indidbtfd by thf usfr if thf
+     *            diblog is bdknowlfdgfd.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.2
+     */
+    publid bbstrbdt PbgfFormbt pbgfDiblog(PbgfFormbt pbgf)
+        throws HfbdlfssExdfption;
+
+    /**
+     * A donvfnifndf mfthod whidh displbys b dross-plbtform pbgf sftup diblog.
+     * Thf dhoidfs bvbilbblf will rfflfdt thf print sfrvidf durrfntly
+     * sft on this PrintfrJob.
+     * <p>
+     * Thf bttributfs pbrbmftfr on input will rfflfdt thf dlifnt's
+     * rfquirfd initibl sflfdtions in thf usfr diblog. Attributfs whidh brf
+     * not spfdififd displby using thf dffbult for thf sfrvidf. On rfturn it
+     * will rfflfdt thf usfr's dhoidfs. Sflfdtions mby bf updbtfd by
+     * thf implfmfntbtion to bf donsistfnt with thf supportfd vblufs
+     * for thf durrfntly sflfdtfd print sfrvidf.
+     * <p>
+     * Thf rfturn vbluf will bf b PbgfFormbt fquivblfnt to thf
+     * sflfdtions in thf PrintRfqufstAttributfSft.
+     * If thf usfr dbndfls thf diblog, thf bttributfs will not rfflfdt
+     * bny dhbngfs mbdf by thf usfr, bnd thf rfturn vbluf will bf null.
+     * @pbrbm bttributfs on input is bpplidbtion supplifd bttributfs,
+     * on output thf dontfnts brf updbtfd to rfflfdt usfr dhoidfs.
+     * This pbrbmftfr mby not bf null.
+     * @rfturn b pbgf formbt if thf usfr dofs not dbndfl thf diblog;
+     * <dodf>null</dodf> othfrwisf.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @fxdfption NullPointfrExdfption if <dodf>bttributfs</dodf> pbrbmftfr
+     * is null.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.4
+     *
+     */
+    publid PbgfFormbt pbgfDiblog(PrintRfqufstAttributfSft bttributfs)
+        throws HfbdlfssExdfption {
+
+        if (bttributfs == null) {
+            throw nfw NullPointfrExdfption("bttributfs");
+        }
+        rfturn pbgfDiblog(dffbultPbgf());
+    }
+
+    /**
+     * Clonfs thf <dodf>PbgfFormbt</dodf> brgumfnt bnd bltfrs thf
+     * dlonf to dfsdribf b dffbult pbgf sizf bnd orifntbtion.
+     * @pbrbm pbgf thf <dodf>PbgfFormbt</dodf> to bf dlonfd bnd bltfrfd
+     * @rfturn dlonf of <dodf>pbgf</dodf>, bltfrfd to dfsdribf b dffbult
+     *                      <dodf>PbgfFormbt</dodf>.
+     */
+    publid bbstrbdt PbgfFormbt dffbultPbgf(PbgfFormbt pbgf);
+
+    /**
+     * Crfbtfs b nfw <dodf>PbgfFormbt</dodf> instbndf bnd
+     * sfts it to b dffbult sizf bnd orifntbtion.
+     * @rfturn b <dodf>PbgfFormbt</dodf> sft to b dffbult sizf bnd
+     *          orifntbtion.
+     */
+    publid PbgfFormbt dffbultPbgf() {
+        rfturn dffbultPbgf(nfw PbgfFormbt());
+    }
+
+    /**
+     * Cbldulbtfs b <dodf>PbgfFormbt</dodf> with vblufs donsistfnt with thosf
+     * supportfd by thf durrfnt <dodf>PrintSfrvidf</dodf> for this job
+     * (if thf vbluf rfturnfd by <dodf>gftPrintSfrvidf()</dodf>) bnd mfdib,
+     * printbblf brfb bnd orifntbtion dontbinfd in <dodf>bttributfs</dodf>.
+     * <p>
+     * Cblling this mfthod dofs not updbtf thf job.
+     * It is usfful for dlifnts thbt hbvf b sft of bttributfs obtbinfd from
+     * <dodf>printDiblog(PrintRfqufstAttributfSft bttributfs)</dodf>
+     * bnd nffd b PbgfFormbt to print b Pbgfbblf objfdt.
+     * @pbrbm bttributfs b sft of printing bttributfs, for fxbmplf obtbinfd
+     * from dblling printDiblog. If <dodf>bttributfs</dodf> is null b dffbult
+     * PbgfFormbt is rfturnfd.
+     * @rfturn b <dodf>PbgfFormbt</dodf> whosf sfttings donform with
+     * thosf of thf durrfnt sfrvidf bnd thf spfdififd bttributfs.
+     * @sindf 1.6
+     */
+    publid PbgfFormbt gftPbgfFormbt(PrintRfqufstAttributfSft bttributfs) {
+
+        PrintSfrvidf sfrvidf = gftPrintSfrvidf();
+        PbgfFormbt pf = dffbultPbgf();
+
+        if (sfrvidf == null || bttributfs == null) {
+            rfturn pf;
+        }
+
+        Mfdib mfdib = (Mfdib)bttributfs.gft(Mfdib.dlbss);
+        MfdibPrintbblfArfb mpb =
+            (MfdibPrintbblfArfb)bttributfs.gft(MfdibPrintbblfArfb.dlbss);
+        OrifntbtionRfqufstfd orifntRfq =
+           (OrifntbtionRfqufstfd)bttributfs.gft(OrifntbtionRfqufstfd.dlbss);
+
+        if (mfdib == null && mpb == null && orifntRfq == null) {
+           rfturn pf;
+        }
+        Pbpfr pbpfr = pf.gftPbpfr();
+
+        /* If thfrf's b mfdib but no mfdib printbblf brfb, wf dbn try
+         * to rftrifvf thf dffbult vbluf for mpb bnd usf thbt.
+         */
+        if (mpb == null && mfdib != null &&
+            sfrvidf.isAttributfCbtfgorySupportfd(MfdibPrintbblfArfb.dlbss)) {
+            Objfdt mpbVbls =
+                sfrvidf.gftSupportfdAttributfVblufs(MfdibPrintbblfArfb.dlbss,
+                                                    null, bttributfs);
+            if (mpbVbls instbndfof MfdibPrintbblfArfb[] &&
+                ((MfdibPrintbblfArfb[])mpbVbls).lfngth > 0) {
+                mpb = ((MfdibPrintbblfArfb[])mpbVbls)[0];
+            }
+        }
+
+        if (mfdib != null &&
+            sfrvidf.isAttributfVblufSupportfd(mfdib, null, bttributfs)) {
+            if (mfdib instbndfof MfdibSizfNbmf) {
+                MfdibSizfNbmf msn = (MfdibSizfNbmf)mfdib;
+                MfdibSizf msz = MfdibSizf.gftMfdibSizfForNbmf(msn);
+                if (msz != null) {
+                    doublf indh = 72.0;
+                    doublf pbpfrWid = msz.gftX(MfdibSizf.INCH) * indh;
+                    doublf pbpfrHgt = msz.gftY(MfdibSizf.INCH) * indh;
+                    pbpfr.sftSizf(pbpfrWid, pbpfrHgt);
+                    if (mpb == null) {
+                        pbpfr.sftImbgfbblfArfb(indh, indh,
+                                               pbpfrWid-2*indh,
+                                               pbpfrHgt-2*indh);
+                    }
+                }
+            }
+        }
+
+        if (mpb != null &&
+            sfrvidf.isAttributfVblufSupportfd(mpb, null, bttributfs)) {
+            flobt [] printbblfArfb =
+                mpb.gftPrintbblfArfb(MfdibPrintbblfArfb.INCH);
+            for (int i=0; i < printbblfArfb.lfngth; i++) {
+                printbblfArfb[i] = printbblfArfb[i]*72.0f;
+            }
+            pbpfr.sftImbgfbblfArfb(printbblfArfb[0], printbblfArfb[1],
+                                   printbblfArfb[2], printbblfArfb[3]);
+        }
+
+        if (orifntRfq != null &&
+            sfrvidf.isAttributfVblufSupportfd(orifntRfq, null, bttributfs)) {
+            int orifnt;
+            if (orifntRfq.fqubls(OrifntbtionRfqufstfd.REVERSE_LANDSCAPE)) {
+                orifnt = PbgfFormbt.REVERSE_LANDSCAPE;
+            } flsf if (orifntRfq.fqubls(OrifntbtionRfqufstfd.LANDSCAPE)) {
+                orifnt = PbgfFormbt.LANDSCAPE;
+            } flsf {
+                orifnt = PbgfFormbt.PORTRAIT;
+            }
+            pf.sftOrifntbtion(orifnt);
+        }
+
+        pf.sftPbpfr(pbpfr);
+        pf = vblidbtfPbgf(pf);
+        rfturn pf;
+    }
+
+    /**
+     * Rfturns thf dlonf of <dodf>pbgf</dodf> with its sfttings
+     * bdjustfd to bf dompbtiblf with thf durrfnt printfr of this
+     * <dodf>PrintfrJob</dodf>.  For fxbmplf, thf rfturnfd
+     * <dodf>PbgfFormbt</dodf> dould hbvf its imbgfbblf brfb
+     * bdjustfd to fit within thf physidbl brfb of thf pbpfr thbt
+     * is usfd by thf durrfnt printfr.
+     * @pbrbm pbgf thf <dodf>PbgfFormbt</dodf> thbt is dlonfd bnd
+     *          whosf sfttings brf dhbngfd to bf dompbtiblf with
+     *          thf durrfnt printfr
+     * @rfturn b <dodf>PbgfFormbt</dodf> thbt is dlonfd from
+     *          <dodf>pbgf</dodf> bnd whosf sfttings brf dhbngfd
+     *          to donform with this <dodf>PrintfrJob</dodf>.
+     */
+    publid bbstrbdt PbgfFormbt vblidbtfPbgf(PbgfFormbt pbgf);
+
+    /**
+     * Prints b sft of pbgfs.
+     * @fxdfption PrintfrExdfption bn frror in thf print systfm
+     *            dbusfd thf job to bf bbortfd.
+     * @sff Book
+     * @sff Pbgfbblf
+     * @sff Printbblf
+     */
+    publid bbstrbdt void print() throws PrintfrExdfption;
+
+   /**
+     * Prints b sft of pbgfs using thf sfttings in thf bttributf
+     * sft. Thf dffbult implfmfntbtion ignorfs thf bttributf sft.
+     * <p>
+     * Notf thbt somf bttributfs mby bf sft dirfdtly on thf PrintfrJob
+     * by fquivblfnt mfthod dblls, (for fxbmplf), dopifs:
+     * <dodf>sftdopifs(int)</dodf>, job nbmf: <dodf>sftJobNbmf(String)</dodf>
+     * bnd spfdifying mfdib sizf bnd orifntbtion though thf
+     * <dodf>PbgfFormbt</dodf> objfdt.
+     * <p>
+     * If b supportfd bttributf-vbluf is spfdififd in this bttributf sft,
+     * it will tbkf prfdfdfndf ovfr thf API sfttings for this print()
+     * opfrbtion only.
+     * Thf following bfhbviour is spfdififd for PbgfFormbt:
+     * If b dlifnt usfs thf Printbblf intfrfbdf, thfn thf
+     * <dodf>bttributfs</dodf> pbrbmftfr to this mfthod is fxbminfd
+     * for bttributfs whidh spfdify mfdib (by sizf), orifntbtion, bnd
+     * imbgfbblf brfb, bnd thosf brf usfd to donstrudt b nfw PbgfFormbt
+     * whidh is pbssfd to thf Printbblf objfdt's print() mfthod.
+     * Sff {@link Printbblf} for bn fxplbnbtion of thf rfquirfd
+     * bfhbviour of b Printbblf to fnsurf optimbl printing vib PrintfrJob.
+     * For dlifnts of thf Pbgfbblf intfrfbdf, thf PbgfFormbt will blwbys
+     * bf bs supplifd by thbt intfrfbdf, on b pfr pbgf bbsis.
+     * <p>
+     * Thfsf bfhbviours bllow bn bpplidbtion to dirfdtly pbss thf
+     * usfr sfttings rfturnfd from
+     * <dodf>printDiblog(PrintRfqufstAttributfSft bttributfs</dodf> to
+     * this print() mfthod.
+     *
+     * @pbrbm bttributfs b sft of bttributfs for thf job
+     * @fxdfption PrintfrExdfption bn frror in thf print systfm
+     *            dbusfd thf job to bf bbortfd.
+     * @sff Book
+     * @sff Pbgfbblf
+     * @sff Printbblf
+     * @sindf 1.4
+     */
+    publid void print(PrintRfqufstAttributfSft bttributfs)
+        throws PrintfrExdfption {
+        print();
+    }
+
+    /**
+     * Sfts thf numbfr of dopifs to bf printfd.
+     * @pbrbm dopifs thf numbfr of dopifs to bf printfd
+     * @sff #gftCopifs
+     */
+    publid bbstrbdt void sftCopifs(int dopifs);
+
+    /**
+     * Gfts thf numbfr of dopifs to bf printfd.
+     * @rfturn thf numbfr of dopifs to bf printfd.
+     * @sff #sftCopifs
+     */
+    publid bbstrbdt int gftCopifs();
+
+    /**
+     * Gfts thf nbmf of thf printing usfr.
+     * @rfturn thf nbmf of thf printing usfr
+     */
+    publid bbstrbdt String gftUsfrNbmf();
+
+    /**
+     * Sfts thf nbmf of thf dodumfnt to bf printfd.
+     * Thf dodumfnt nbmf dbn not bf <dodf>null</dodf>.
+     * @pbrbm jobNbmf thf nbmf of thf dodumfnt to bf printfd
+     * @sff #gftJobNbmf
+     */
+    publid bbstrbdt void sftJobNbmf(String jobNbmf);
+
+    /**
+     * Gfts thf nbmf of thf dodumfnt to bf printfd.
+     * @rfturn thf nbmf of thf dodumfnt to bf printfd.
+     * @sff #sftJobNbmf
+     */
+    publid bbstrbdt String gftJobNbmf();
+
+    /**
+     * Cbndfls b print job thbt is in progrfss.  If
+     * {@link #print() print} hbs bffn dbllfd but hbs not
+     * rfturnfd thfn this mfthod signbls
+     * thbt thf job should bf dbndfllfd bt thf nfxt
+     * dhbndf. If thfrf is no print job in progrfss thfn
+     * this dbll dofs nothing.
+     */
+    publid bbstrbdt void dbndfl();
+
+    /**
+     * Rfturns <dodf>truf</dodf> if b print job is
+     * in progrfss, but is going to bf dbndfllfd
+     * bt thf nfxt opportunity; othfrwisf rfturns
+     * <dodf>fblsf</dodf>.
+     * @rfturn <dodf>truf</dodf> if thf job in progrfss
+     * is going to bf dbndfllfd; <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid bbstrbdt boolfbn isCbndfllfd();
+
+}

@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.url.dns;
+
+
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.util.Hbshtbblf;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.RfsolvfRfsult;
+import dom.sun.jndi.dns.*;
+import dom.sun.jndi.toolkit.url.GfnfridURLDirContfxt;
+
+
+/**
+ * A DNS URL dontfxt rfsolvfs nbmfs thbt brf DNS psfudo-URLs.
+ * Sff dom.sun.jndi.dns.DnsUrl for b dfsdription of thf URL formbt.
+ *
+ * @buthor Sdott Sfligmbn
+ */
+
+
+publid dlbss dnsURLContfxt fxtfnds GfnfridURLDirContfxt {
+
+    publid dnsURLContfxt(Hbshtbblf<?,?> fnv) {
+        supfr(fnv);
+    }
+
+    /**
+     * Rfsolvfs thf host bnd port of "url" to b root dontfxt donnfdtfd
+     * to thf nbmfd DNS sfrvfr, bnd rfturns thf dombin nbmf bs thf
+     * rfmbining nbmf.
+     */
+    protfdtfd RfsolvfRfsult gftRootURLContfxt(String url, Hbshtbblf<?,?> fnv)
+            throws NbmingExdfption {
+
+        DnsUrl dnsUrl;
+        try {
+            dnsUrl = nfw DnsUrl(url);
+        } dbtdh (MblformfdURLExdfption f) {
+            throw nfw InvblidNbmfExdfption(f.gftMfssbgf());
+        }
+
+        DnsUrl[] urls = nfw DnsUrl[] { dnsUrl };
+        String dombin = dnsUrl.gftDombin();
+
+        rfturn nfw RfsolvfRfsult(
+                DnsContfxtFbdtory.gftContfxt(".", urls, fnv),
+                nfw CompositfNbmf().bdd(dombin));
+    }
+}

@@ -1,539 +1,539 @@
 /*
- * Copyright (c) 2002, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.nio.ByteBuffer;
-import java.security.Permission;
-import java.security.PrivilegedAction;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import jbvb.nio.BytfBufffr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
 /**
- * The Perf class provides the ability to attach to an instrumentation
- * buffer maintained by a Java virtual machine. The instrumentation
- * buffer may be for the Java virtual machine running the methods of
- * this class or it may be for another Java virtual machine on the
- * same system.
+ * Tif Pfrf dlbss providfs tif bbility to bttbdi to bn instrumfntbtion
+ * bufffr mbintbinfd by b Jbvb virtubl mbdiinf. Tif instrumfntbtion
+ * bufffr mby bf for tif Jbvb virtubl mbdiinf running tif mftiods of
+ * tiis dlbss or it mby bf for bnotifr Jbvb virtubl mbdiinf on tif
+ * sbmf systfm.
  * <p>
- * In addition, this class provides methods to create instrumentation
- * objects in the instrumentation buffer for the Java virtual machine
- * that is running these methods. It also contains methods for acquiring
- * the value of a platform specific high resolution clock for time
- * stamp and interval measurement purposes.
+ * In bddition, tiis dlbss providfs mftiods to drfbtf instrumfntbtion
+ * objfdts in tif instrumfntbtion bufffr for tif Jbvb virtubl mbdiinf
+ * tibt is running tifsf mftiods. It blso dontbins mftiods for bdquiring
+ * tif vbluf of b plbtform spfdifid iigi rfsolution dlodk for timf
+ * stbmp bnd intfrvbl mfbsurfmfnt purposfs.
  *
- * @author   Brian Doherty
- * @since    1.4.2
- * @see      #getPerf
- * @see      sun.misc.Perf$GetPerfAction
- * @see      java.nio.ByteBuffer
+ * @butior   Bribn Doifrty
+ * @sindf    1.4.2
+ * @sff      #gftPfrf
+ * @sff      sun.misd.Pfrf$GftPfrfAdtion
+ * @sff      jbvb.nio.BytfBufffr
  */
-public final class Perf {
+publid finbl dlbss Pfrf {
 
-    private static Perf instance;
+    privbtf stbtid Pfrf instbndf;
 
-    private static final int PERF_MODE_RO = 0;
-    private static final int PERF_MODE_RW = 1;
+    privbtf stbtid finbl int PERF_MODE_RO = 0;
+    privbtf stbtid finbl int PERF_MODE_RW = 1;
 
-    private Perf() { }    // prevent instantiation
+    privbtf Pfrf() { }    // prfvfnt instbntibtion
 
     /**
-     * The GetPerfAction class is a convenience class for acquiring access
-     * to the singleton Perf instance using the
-     * <code>AccessController.doPrivileged()</code> method.
+     * Tif GftPfrfAdtion dlbss is b donvfnifndf dlbss for bdquiring bddfss
+     * to tif singlfton Pfrf instbndf using tif
+     * <dodf>AddfssControllfr.doPrivilfgfd()</dodf> mftiod.
      * <p>
-     * An instance of this class can be used as the argument to
-     * <code>AccessController.doPrivileged(PrivilegedAction)</code>.
-     * <p> Here is a suggested idiom for use of this class:
+     * An instbndf of tiis dlbss dbn bf usfd bs tif brgumfnt to
+     * <dodf>AddfssControllfr.doPrivilfgfd(PrivilfgfdAdtion)</dodf>.
+     * <p> Hfrf is b suggfstfd idiom for usf of tiis dlbss:
      *
-     * <blockquote><pre>
-     * class MyTrustedClass {
-     *   private static final Perf perf =
-     *       AccessController.doPrivileged(new Perf.GetPerfAction<Perf>());
+     * <blodkquotf><prf>
+     * dlbss MyTrustfdClbss {
+     *   privbtf stbtid finbl Pfrf pfrf =
+     *       AddfssControllfr.doPrivilfgfd(nfw Pfrf.GftPfrfAdtion<Pfrf>());
      *   ...
      * }
-     * </pre></blockquote>
+     * </prf></blodkquotf>
      * <p>
-     * In the presence of a security manager, the <code>MyTrustedClass</code>
-     * class in the above example will need to be granted the
-     * <em>"sun.misc.Perf.getPerf"</em> <code>RuntimePermission</code>
-     * permission in order to successfully acquire the singleton Perf instance.
+     * In tif prfsfndf of b sfdurity mbnbgfr, tif <dodf>MyTrustfdClbss</dodf>
+     * dlbss in tif bbovf fxbmplf will nffd to bf grbntfd tif
+     * <fm>"sun.misd.Pfrf.gftPfrf"</fm> <dodf>RuntimfPfrmission</dodf>
+     * pfrmission in ordfr to suddfssfully bdquirf tif singlfton Pfrf instbndf.
      * <p>
-     * Please note that the <em>"sun.misc.Perf.getPerf"</em> permission
-     * is not a JDK specified permission.
+     * Plfbsf notf tibt tif <fm>"sun.misd.Pfrf.gftPfrf"</fm> pfrmission
+     * is not b JDK spfdififd pfrmission.
      *
-     * @see  java.security.AccessController#doPrivileged(PrivilegedAction)
-     * @see  java.lang.RuntimePermission
+     * @sff  jbvb.sfdurity.AddfssControllfr#doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff  jbvb.lbng.RuntimfPfrmission
      */
-    public static class GetPerfAction implements PrivilegedAction<Perf>
+    publid stbtid dlbss GftPfrfAdtion implfmfnts PrivilfgfdAdtion<Pfrf>
     {
         /**
-         * Run the <code>Perf.getPerf()</code> method in a privileged context.
+         * Run tif <dodf>Pfrf.gftPfrf()</dodf> mftiod in b privilfgfd dontfxt.
          *
-         * @see #getPerf
+         * @sff #gftPfrf
          */
-        public Perf run() {
-            return getPerf();
+        publid Pfrf run() {
+            rfturn gftPfrf();
         }
     }
 
     /**
-     * Return a reference to the singleton Perf instance.
+     * Rfturn b rfffrfndf to tif singlfton Pfrf instbndf.
      * <p>
-     * The getPerf() method returns the singleton instance of the Perf
-     * class. The returned object provides the caller with the capability
-     * for accessing the instrumentation buffer for this or another local
-     * Java virtual machine.
+     * Tif gftPfrf() mftiod rfturns tif singlfton instbndf of tif Pfrf
+     * dlbss. Tif rfturnfd objfdt providfs tif dbllfr witi tif dbpbbility
+     * for bddfssing tif instrumfntbtion bufffr for tiis or bnotifr lodbl
+     * Jbvb virtubl mbdiinf.
      * <p>
-     * If a security manager is installed, its <code>checkPermission</code>
-     * method is called with a <code>RuntimePermission</code> with a target
-     * of <em>"sun.misc.Perf.getPerf"</em>. A security exception will result
-     * if the caller has not been granted this permission.
+     * If b sfdurity mbnbgfr is instbllfd, its <dodf>difdkPfrmission</dodf>
+     * mftiod is dbllfd witi b <dodf>RuntimfPfrmission</dodf> witi b tbrgft
+     * of <fm>"sun.misd.Pfrf.gftPfrf"</fm>. A sfdurity fxdfption will rfsult
+     * if tif dbllfr ibs not bffn grbntfd tiis pfrmission.
      * <p>
-     * Access to the returned <code>Perf</code> object should be protected
-     * by its caller and not passed on to untrusted code. This object can
-     * be used to attach to the instrumentation buffer provided by this Java
-     * virtual machine or for those of other Java virtual machines running
-     * on the same system. The instrumentation buffer may contain senstitive
-     * information. API's built on top of this interface may want to provide
-     * finer grained access control to the contents of individual
-     * instrumentation objects contained within the buffer.
+     * Addfss to tif rfturnfd <dodf>Pfrf</dodf> objfdt siould bf protfdtfd
+     * by its dbllfr bnd not pbssfd on to untrustfd dodf. Tiis objfdt dbn
+     * bf usfd to bttbdi to tif instrumfntbtion bufffr providfd by tiis Jbvb
+     * virtubl mbdiinf or for tiosf of otifr Jbvb virtubl mbdiinfs running
+     * on tif sbmf systfm. Tif instrumfntbtion bufffr mby dontbin sfnstitivf
+     * informbtion. API's built on top of tiis intfrfbdf mby wbnt to providf
+     * finfr grbinfd bddfss dontrol to tif dontfnts of individubl
+     * instrumfntbtion objfdts dontbinfd witiin tif bufffr.
      * <p>
-     * Please note that the <em>"sun.misc.Perf.getPerf"</em> permission
-     * is not a JDK specified permission.
+     * Plfbsf notf tibt tif <fm>"sun.misd.Pfrf.gftPfrf"</fm> pfrmission
+     * is not b JDK spfdififd pfrmission.
      *
-     * @return       A reference to the singleton Perf instance.
-     * @throws AccessControlException  if a security manager exists and
-     *               its <code>checkPermission</code> method doesn't allow
-     *               access to the <em>"sun.misc.Perf.getPerf"</em> target.
-     * @see  java.lang.RuntimePermission
-     * @see  #attach
+     * @rfturn       A rfffrfndf to tif singlfton Pfrf instbndf.
+     * @tirows AddfssControlExdfption  if b sfdurity mbnbgfr fxists bnd
+     *               its <dodf>difdkPfrmission</dodf> mftiod dofsn't bllow
+     *               bddfss to tif <fm>"sun.misd.Pfrf.gftPfrf"</fm> tbrgft.
+     * @sff  jbvb.lbng.RuntimfPfrmission
+     * @sff  #bttbdi
      */
-    public static Perf getPerf()
+    publid stbtid Pfrf gftPfrf()
     {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            Permission perm = new RuntimePermission("sun.misc.Perf.getPerf");
-            security.checkPermission(perm);
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            Pfrmission pfrm = nfw RuntimfPfrmission("sun.misd.Pfrf.gftPfrf");
+            sfdurity.difdkPfrmission(pfrm);
         }
 
-        return instance;
+        rfturn instbndf;
     }
 
     /**
-     * Attach to the instrumentation buffer for the specified Java virtual
-     * machine.
+     * Attbdi to tif instrumfntbtion bufffr for tif spfdififd Jbvb virtubl
+     * mbdiinf.
      * <p>
-     * This method will attach to the instrumentation buffer for the
-     * specified virtual machine. It returns a <code>ByteBuffer</code> object
-     * that is initialized to access the instrumentation buffer for the
-     * indicated Java virtual machine. The <code>lvmid</code> parameter is
-     * a integer value that uniquely identifies the target local Java virtual
-     * machine. It is typically, but not necessarily, the process id of
-     * the target Java virtual machine.
+     * Tiis mftiod will bttbdi to tif instrumfntbtion bufffr for tif
+     * spfdififd virtubl mbdiinf. It rfturns b <dodf>BytfBufffr</dodf> objfdt
+     * tibt is initiblizfd to bddfss tif instrumfntbtion bufffr for tif
+     * indidbtfd Jbvb virtubl mbdiinf. Tif <dodf>lvmid</dodf> pbrbmftfr is
+     * b intfgfr vbluf tibt uniqufly idfntififs tif tbrgft lodbl Jbvb virtubl
+     * mbdiinf. It is typidblly, but not nfdfssbrily, tif prodfss id of
+     * tif tbrgft Jbvb virtubl mbdiinf.
      * <p>
-     * If the <code>lvmid</code> identifies a Java virtual machine different
-     * from the one running this method, then the coherency characteristics
-     * of the buffer are implementation dependent. Implementations that do
-     * not support named, coherent, shared memory may return a
-     * <code>ByteBuffer</code> object that contains only a snap shot of the
-     * data in the instrumentation buffer. Implementations that support named,
-     * coherent, shared memory, may return a <code>ByteBuffer</code> object
-     * that will be changing dynamically over time as the target Java virtual
-     * machine updates its mapping of this buffer.
+     * If tif <dodf>lvmid</dodf> idfntififs b Jbvb virtubl mbdiinf difffrfnt
+     * from tif onf running tiis mftiod, tifn tif doifrfndy dibrbdtfristids
+     * of tif bufffr brf implfmfntbtion dfpfndfnt. Implfmfntbtions tibt do
+     * not support nbmfd, doifrfnt, sibrfd mfmory mby rfturn b
+     * <dodf>BytfBufffr</dodf> objfdt tibt dontbins only b snbp siot of tif
+     * dbtb in tif instrumfntbtion bufffr. Implfmfntbtions tibt support nbmfd,
+     * doifrfnt, sibrfd mfmory, mby rfturn b <dodf>BytfBufffr</dodf> objfdt
+     * tibt will bf dibnging dynbmidblly ovfr timf bs tif tbrgft Jbvb virtubl
+     * mbdiinf updbtfs its mbpping of tiis bufffr.
      * <p>
-     * If the <code>lvmid</code> is 0 or equal to the actual <code>lvmid</code>
-     * for the Java virtual machine running this method, then the returned
-     * <code>ByteBuffer</code> object will always be coherent and dynamically
-     * changing.
+     * If tif <dodf>lvmid</dodf> is 0 or fqubl to tif bdtubl <dodf>lvmid</dodf>
+     * for tif Jbvb virtubl mbdiinf running tiis mftiod, tifn tif rfturnfd
+     * <dodf>BytfBufffr</dodf> objfdt will blwbys bf doifrfnt bnd dynbmidblly
+     * dibnging.
      * <p>
-     * The attach mode specifies the access permissions requested for the
-     * instrumentation buffer of the target virtual machine. The permitted
-     * access permissions are:
+     * Tif bttbdi modf spfdififs tif bddfss pfrmissions rfqufstfd for tif
+     * instrumfntbtion bufffr of tif tbrgft virtubl mbdiinf. Tif pfrmittfd
+     * bddfss pfrmissions brf:
      * <p>
      * <bl>
-     * <li>"r"  - Read only access. This Java virtual machine has only
-     * read access to the instrumentation buffer for the target Java
-     * virtual machine.
-     * <li>"rw"  - Read/Write access. This Java virtual machine has read and
-     * write access to the instrumentation buffer for the target Java virtual
-     * machine. This mode is currently not supported and is reserved for
-     * future enhancements.
+     * <li>"r"  - Rfbd only bddfss. Tiis Jbvb virtubl mbdiinf ibs only
+     * rfbd bddfss to tif instrumfntbtion bufffr for tif tbrgft Jbvb
+     * virtubl mbdiinf.
+     * <li>"rw"  - Rfbd/Writf bddfss. Tiis Jbvb virtubl mbdiinf ibs rfbd bnd
+     * writf bddfss to tif instrumfntbtion bufffr for tif tbrgft Jbvb virtubl
+     * mbdiinf. Tiis modf is durrfntly not supportfd bnd is rfsfrvfd for
+     * futurf fnibndfmfnts.
      * </bl>
      *
-     * @param   lvmid            an integer that uniquely identifies the
-     *                           target local Java virtual machine.
-     * @param   mode             a string indicating the attach mode.
-     * @return  ByteBuffer       a direct allocated byte buffer
-     * @throws  IllegalArgumentException  The lvmid or mode was invalid.
-     * @throws  IOException      An I/O error occurred while trying to acquire
-     *                           the instrumentation buffer.
-     * @throws  OutOfMemoryError The instrumentation buffer could not be mapped
-     *                           into the virtual machine's address space.
-     * @see     java.nio.ByteBuffer
+     * @pbrbm   lvmid            bn intfgfr tibt uniqufly idfntififs tif
+     *                           tbrgft lodbl Jbvb virtubl mbdiinf.
+     * @pbrbm   modf             b string indidbting tif bttbdi modf.
+     * @rfturn  BytfBufffr       b dirfdt bllodbtfd bytf bufffr
+     * @tirows  IllfgblArgumfntExdfption  Tif lvmid or modf wbs invblid.
+     * @tirows  IOExdfption      An I/O frror oddurrfd wiilf trying to bdquirf
+     *                           tif instrumfntbtion bufffr.
+     * @tirows  OutOfMfmoryError Tif instrumfntbtion bufffr dould not bf mbppfd
+     *                           into tif virtubl mbdiinf's bddrfss spbdf.
+     * @sff     jbvb.nio.BytfBufffr
      */
-    public ByteBuffer attach(int lvmid, String mode)
-           throws IllegalArgumentException, IOException
+    publid BytfBufffr bttbdi(int lvmid, String modf)
+           tirows IllfgblArgumfntExdfption, IOExdfption
     {
-        if (mode.compareTo("r") == 0) {
-            return attachImpl(null, lvmid, PERF_MODE_RO);
+        if (modf.dompbrfTo("r") == 0) {
+            rfturn bttbdiImpl(null, lvmid, PERF_MODE_RO);
         }
-        else if (mode.compareTo("rw") == 0) {
-            return attachImpl(null, lvmid, PERF_MODE_RW);
+        flsf if (modf.dompbrfTo("rw") == 0) {
+            rfturn bttbdiImpl(null, lvmid, PERF_MODE_RW);
         }
-        else {
-            throw new IllegalArgumentException("unknown mode");
+        flsf {
+            tirow nfw IllfgblArgumfntExdfption("unknown modf");
         }
     }
 
     /**
-     * Attach to the instrumentation buffer for the specified Java virtual
-     * machine owned by the given user.
+     * Attbdi to tif instrumfntbtion bufffr for tif spfdififd Jbvb virtubl
+     * mbdiinf ownfd by tif givfn usfr.
      * <p>
-     * This method behaves just as the <code>attach(int lvmid, String mode)
-     * </code> method, except that it only searches for Java virtual machines
-     * owned by the specified user.
+     * Tiis mftiod bfibvfs just bs tif <dodf>bttbdi(int lvmid, String modf)
+     * </dodf> mftiod, fxdfpt tibt it only sfbrdifs for Jbvb virtubl mbdiinfs
+     * ownfd by tif spfdififd usfr.
      *
-     * @param   user             A <code>String</code> object containing the
-     *                           name of the user that owns the target Java
-     *                           virtual machine.
-     * @param   lvmid            an integer that uniquely identifies the
-     *                           target local Java virtual machine.
-     * @param   mode             a string indicating the attach mode.
-     * @return  ByteBuffer       a direct allocated byte buffer
-     * @throws  IllegalArgumentException  The lvmid or mode was invalid.
-     * @throws  IOException      An I/O error occurred while trying to acquire
-     *                           the instrumentation buffer.
-     * @throws  OutOfMemoryError The instrumentation buffer could not be mapped
-     *                           into the virtual machine's address space.
-     * @see     java.nio.ByteBuffer
+     * @pbrbm   usfr             A <dodf>String</dodf> objfdt dontbining tif
+     *                           nbmf of tif usfr tibt owns tif tbrgft Jbvb
+     *                           virtubl mbdiinf.
+     * @pbrbm   lvmid            bn intfgfr tibt uniqufly idfntififs tif
+     *                           tbrgft lodbl Jbvb virtubl mbdiinf.
+     * @pbrbm   modf             b string indidbting tif bttbdi modf.
+     * @rfturn  BytfBufffr       b dirfdt bllodbtfd bytf bufffr
+     * @tirows  IllfgblArgumfntExdfption  Tif lvmid or modf wbs invblid.
+     * @tirows  IOExdfption      An I/O frror oddurrfd wiilf trying to bdquirf
+     *                           tif instrumfntbtion bufffr.
+     * @tirows  OutOfMfmoryError Tif instrumfntbtion bufffr dould not bf mbppfd
+     *                           into tif virtubl mbdiinf's bddrfss spbdf.
+     * @sff     jbvb.nio.BytfBufffr
      */
-    public ByteBuffer attach(String user, int lvmid, String mode)
-           throws IllegalArgumentException, IOException
+    publid BytfBufffr bttbdi(String usfr, int lvmid, String modf)
+           tirows IllfgblArgumfntExdfption, IOExdfption
     {
-        if (mode.compareTo("r") == 0) {
-            return attachImpl(user, lvmid, PERF_MODE_RO);
+        if (modf.dompbrfTo("r") == 0) {
+            rfturn bttbdiImpl(usfr, lvmid, PERF_MODE_RO);
         }
-        else if (mode.compareTo("rw") == 0) {
-            return attachImpl(user, lvmid, PERF_MODE_RW);
+        flsf if (modf.dompbrfTo("rw") == 0) {
+            rfturn bttbdiImpl(usfr, lvmid, PERF_MODE_RW);
         }
-        else {
-            throw new IllegalArgumentException("unknown mode");
+        flsf {
+            tirow nfw IllfgblArgumfntExdfption("unknown modf");
         }
     }
 
     /**
-     * Call the implementation specific attach method.
+     * Cbll tif implfmfntbtion spfdifid bttbdi mftiod.
      * <p>
-     * This method calls into the Java virtual machine to perform the platform
-     * specific attach method. Buffers returned from this method are
-     * internally managed as <code>PhantomRefereces</code> to provide for
-     * guaranteed, secure release of the native resources.
+     * Tiis mftiod dblls into tif Jbvb virtubl mbdiinf to pfrform tif plbtform
+     * spfdifid bttbdi mftiod. Bufffrs rfturnfd from tiis mftiod brf
+     * intfrnblly mbnbgfd bs <dodf>PibntomRfffrfdfs</dodf> to providf for
+     * gubrbntffd, sfdurf rflfbsf of tif nbtivf rfsourdfs.
      *
-     * @param   user             A <code>String</code> object containing the
-     *                           name of the user that owns the target Java
-     *                           virtual machine.
-     * @param   lvmid            an integer that uniquely identifies the
-     *                           target local Java virtual machine.
-     * @param   mode             a string indicating the attach mode.
-     * @return  ByteBuffer       a direct allocated byte buffer
-     * @throws  IllegalArgumentException  The lvmid or mode was invalid.
-     * @throws  IOException      An I/O error occurred while trying to acquire
-     *                           the instrumentation buffer.
-     * @throws  OutOfMemoryError The instrumentation buffer could not be mapped
-     *                           into the virtual machine's address space.
+     * @pbrbm   usfr             A <dodf>String</dodf> objfdt dontbining tif
+     *                           nbmf of tif usfr tibt owns tif tbrgft Jbvb
+     *                           virtubl mbdiinf.
+     * @pbrbm   lvmid            bn intfgfr tibt uniqufly idfntififs tif
+     *                           tbrgft lodbl Jbvb virtubl mbdiinf.
+     * @pbrbm   modf             b string indidbting tif bttbdi modf.
+     * @rfturn  BytfBufffr       b dirfdt bllodbtfd bytf bufffr
+     * @tirows  IllfgblArgumfntExdfption  Tif lvmid or modf wbs invblid.
+     * @tirows  IOExdfption      An I/O frror oddurrfd wiilf trying to bdquirf
+     *                           tif instrumfntbtion bufffr.
+     * @tirows  OutOfMfmoryError Tif instrumfntbtion bufffr dould not bf mbppfd
+     *                           into tif virtubl mbdiinf's bddrfss spbdf.
      */
-    private ByteBuffer attachImpl(String user, int lvmid, int mode)
-            throws IllegalArgumentException, IOException
+    privbtf BytfBufffr bttbdiImpl(String usfr, int lvmid, int modf)
+            tirows IllfgblArgumfntExdfption, IOExdfption
     {
-        final ByteBuffer b = attach(user, lvmid, mode);
+        finbl BytfBufffr b = bttbdi(usfr, lvmid, modf);
 
         if (lvmid == 0) {
-            // The native instrumentation buffer for this Java virtual
-            // machine is never unmapped.
-            return b;
+            // Tif nbtivf instrumfntbtion bufffr for tiis Jbvb virtubl
+            // mbdiinf is nfvfr unmbppfd.
+            rfturn b;
         }
-        else {
-            // This is an instrumentation buffer for another Java virtual
-            // machine with native resources that need to be managed. We
-            // create a duplicate of the native ByteBuffer and manage it
-            // with a Cleaner object (PhantomReference). When the duplicate
-            // becomes only phantomly reachable, the native resources will
-            // be released.
+        flsf {
+            // Tiis is bn instrumfntbtion bufffr for bnotifr Jbvb virtubl
+            // mbdiinf witi nbtivf rfsourdfs tibt nffd to bf mbnbgfd. Wf
+            // drfbtf b duplidbtf of tif nbtivf BytfBufffr bnd mbnbgf it
+            // witi b Clfbnfr objfdt (PibntomRfffrfndf). Wifn tif duplidbtf
+            // bfdomfs only pibntomly rfbdibblf, tif nbtivf rfsourdfs will
+            // bf rflfbsfd.
 
-            final ByteBuffer dup = b.duplicate();
-            Cleaner.create(dup, new Runnable() {
-                    public void run() {
+            finbl BytfBufffr dup = b.duplidbtf();
+            Clfbnfr.drfbtf(dup, nfw Runnbblf() {
+                    publid void run() {
                         try {
-                            instance.detach(b);
+                            instbndf.dftbdi(b);
                         }
-                        catch (Throwable th) {
-                            // avoid crashing the reference handler thread,
-                            // but provide for some diagnosability
-                            assert false : th.toString();
+                        dbtdi (Tirowbblf ti) {
+                            // bvoid drbsiing tif rfffrfndf ibndlfr tirfbd,
+                            // but providf for somf dibgnosbbility
+                            bssfrt fblsf : ti.toString();
                         }
                     }
                 });
-            return dup;
+            rfturn dup;
         }
     }
 
     /**
-     * Native method to perform the implementation specific attach mechanism.
+     * Nbtivf mftiod to pfrform tif implfmfntbtion spfdifid bttbdi mfdibnism.
      * <p>
-     * The implementation of this method may return distinct or identical
-     * <code>ByteBuffer</code> objects for two distinct calls requesting
-     * attachment to the same Java virtual machine.
+     * Tif implfmfntbtion of tiis mftiod mby rfturn distindt or idfntidbl
+     * <dodf>BytfBufffr</dodf> objfdts for two distindt dblls rfqufsting
+     * bttbdimfnt to tif sbmf Jbvb virtubl mbdiinf.
      * <p>
-     * For the Sun HotSpot JVM, two distinct calls to attach to the same
-     * target Java virtual machine will result in two distinct ByteBuffer
-     * objects returned by this method. This may change in a future release.
+     * For tif Sun HotSpot JVM, two distindt dblls to bttbdi to tif sbmf
+     * tbrgft Jbvb virtubl mbdiinf will rfsult in two distindt BytfBufffr
+     * objfdts rfturnfd by tiis mftiod. Tiis mby dibngf in b futurf rflfbsf.
      *
-     * @param   user             A <code>String</code> object containing the
-     *                           name of the user that owns the target Java
-     *                           virtual machine.
-     * @param   lvmid            an integer that uniquely identifies the
-     *                           target local Java virtual machine.
-     * @param   mode             a string indicating the attach mode.
-     * @return  ByteBuffer       a direct allocated byte buffer
-     * @throws  IllegalArgumentException  The lvmid or mode was invalid.
-     * @throws  IOException      An I/O error occurred while trying to acquire
-     *                           the instrumentation buffer.
-     * @throws  OutOfMemoryError The instrumentation buffer could not be mapped
-     *                           into the virtual machine's address space.
+     * @pbrbm   usfr             A <dodf>String</dodf> objfdt dontbining tif
+     *                           nbmf of tif usfr tibt owns tif tbrgft Jbvb
+     *                           virtubl mbdiinf.
+     * @pbrbm   lvmid            bn intfgfr tibt uniqufly idfntififs tif
+     *                           tbrgft lodbl Jbvb virtubl mbdiinf.
+     * @pbrbm   modf             b string indidbting tif bttbdi modf.
+     * @rfturn  BytfBufffr       b dirfdt bllodbtfd bytf bufffr
+     * @tirows  IllfgblArgumfntExdfption  Tif lvmid or modf wbs invblid.
+     * @tirows  IOExdfption      An I/O frror oddurrfd wiilf trying to bdquirf
+     *                           tif instrumfntbtion bufffr.
+     * @tirows  OutOfMfmoryError Tif instrumfntbtion bufffr dould not bf mbppfd
+     *                           into tif virtubl mbdiinf's bddrfss spbdf.
      */
-    private native ByteBuffer attach(String user, int lvmid, int mode)
-                   throws IllegalArgumentException, IOException;
+    privbtf nbtivf BytfBufffr bttbdi(String usfr, int lvmid, int modf)
+                   tirows IllfgblArgumfntExdfption, IOExdfption;
 
     /**
-     * Native method to perform the implementation specific detach mechanism.
+     * Nbtivf mftiod to pfrform tif implfmfntbtion spfdifid dftbdi mfdibnism.
      * <p>
-     * If this method is passed a <code>ByteBuffer</code> object that is
-     * not created by the <code>attach</code> method, then the results of
-     * this method are undefined, with unpredictable and potentially damaging
-     * effects to the Java virtual machine. To prevent accidental or malicious
-     * use of this method, all native ByteBuffer created by the <code>
-     * attach</code> method are managed internally as PhantomReferences
-     * and resources are freed by the system.
+     * If tiis mftiod is pbssfd b <dodf>BytfBufffr</dodf> objfdt tibt is
+     * not drfbtfd by tif <dodf>bttbdi</dodf> mftiod, tifn tif rfsults of
+     * tiis mftiod brf undffinfd, witi unprfdidtbblf bnd potfntiblly dbmbging
+     * ffffdts to tif Jbvb virtubl mbdiinf. To prfvfnt bddidfntbl or mblidious
+     * usf of tiis mftiod, bll nbtivf BytfBufffr drfbtfd by tif <dodf>
+     * bttbdi</dodf> mftiod brf mbnbgfd intfrnblly bs PibntomRfffrfndfs
+     * bnd rfsourdfs brf frffd by tif systfm.
      * <p>
-     * If this method is passed a <code>ByteBuffer</code> object created
-     * by the <code>attach</code> method with a lvmid for the Java virtual
-     * machine running this method (lvmid=0, for example), then the detach
-     * request is silently ignored.
+     * If tiis mftiod is pbssfd b <dodf>BytfBufffr</dodf> objfdt drfbtfd
+     * by tif <dodf>bttbdi</dodf> mftiod witi b lvmid for tif Jbvb virtubl
+     * mbdiinf running tiis mftiod (lvmid=0, for fxbmplf), tifn tif dftbdi
+     * rfqufst is silfntly ignorfd.
      *
-     * @param ByteBuffer  A direct allocated byte buffer created by the
-     *                    <code>attach</code> method.
-     * @see   java.nio.ByteBuffer
-     * @see   #attach
+     * @pbrbm BytfBufffr  A dirfdt bllodbtfd bytf bufffr drfbtfd by tif
+     *                    <dodf>bttbdi</dodf> mftiod.
+     * @sff   jbvb.nio.BytfBufffr
+     * @sff   #bttbdi
      */
-    private native void detach(ByteBuffer bb);
+    privbtf nbtivf void dftbdi(BytfBufffr bb);
 
     /**
-     * Create a <code>long</code> scalar entry in the instrumentation buffer
-     * with the given variability characteristic, units, and initial value.
+     * Crfbtf b <dodf>long</dodf> sdblbr fntry in tif instrumfntbtion bufffr
+     * witi tif givfn vbribbility dibrbdtfristid, units, bnd initibl vbluf.
      * <p>
-     * Access to the instrument is provided through the returned <code>
-     * ByteBuffer</code> object. Typically, this object should be wrapped
-     * with <code>LongBuffer</code> view object.
+     * Addfss to tif instrumfnt is providfd tirougi tif rfturnfd <dodf>
+     * BytfBufffr</dodf> objfdt. Typidblly, tiis objfdt siould bf wrbppfd
+     * witi <dodf>LongBufffr</dodf> vifw objfdt.
      *
-     * @param   variability the variability characteristic for this entry.
-     * @param   units       the units for this entry.
-     * @param   name        the name of this entry.
-     * @param   value       the initial value for this entry.
-     * @return  ByteBuffer  a direct allocated ByteBuffer object that
-     *                      allows write access to a native memory location
-     *                      containing a <code>long</code> value.
+     * @pbrbm   vbribbility tif vbribbility dibrbdtfristid for tiis fntry.
+     * @pbrbm   units       tif units for tiis fntry.
+     * @pbrbm   nbmf        tif nbmf of tiis fntry.
+     * @pbrbm   vbluf       tif initibl vbluf for tiis fntry.
+     * @rfturn  BytfBufffr  b dirfdt bllodbtfd BytfBufffr objfdt tibt
+     *                      bllows writf bddfss to b nbtivf mfmory lodbtion
+     *                      dontbining b <dodf>long</dodf> vbluf.
      *
-     * see sun.misc.perf.Variability
-     * see sun.misc.perf.Units
-     * @see java.nio.ByteBuffer
+     * sff sun.misd.pfrf.Vbribbility
+     * sff sun.misd.pfrf.Units
+     * @sff jbvb.nio.BytfBufffr
      */
-    public native ByteBuffer createLong(String name, int variability,
-                                        int units, long value);
+    publid nbtivf BytfBufffr drfbtfLong(String nbmf, int vbribbility,
+                                        int units, long vbluf);
 
     /**
-     * Create a <code>String</code> entry in the instrumentation buffer with
-     * the given variability characteristic, units, and initial value.
+     * Crfbtf b <dodf>String</dodf> fntry in tif instrumfntbtion bufffr witi
+     * tif givfn vbribbility dibrbdtfristid, units, bnd initibl vbluf.
      * <p>
-     * The maximum length of the <code>String</code> stored in this string
-     * instrument is given in by <code>maxLength</code> parameter. Updates
-     * to this instrument with <code>String</code> values with lengths greater
-     * than <code>maxLength</code> will be truncated to <code>maxLength</code>.
-     * The truncated value will be terminated by a null character.
+     * Tif mbximum lfngti of tif <dodf>String</dodf> storfd in tiis string
+     * instrumfnt is givfn in by <dodf>mbxLfngti</dodf> pbrbmftfr. Updbtfs
+     * to tiis instrumfnt witi <dodf>String</dodf> vblufs witi lfngtis grfbtfr
+     * tibn <dodf>mbxLfngti</dodf> will bf trundbtfd to <dodf>mbxLfngti</dodf>.
+     * Tif trundbtfd vbluf will bf tfrminbtfd by b null dibrbdtfr.
      * <p>
-     * The underlying implementation may further limit the length of the
-     * value, but will continue to preserve the null terminator.
+     * Tif undfrlying implfmfntbtion mby furtifr limit tif lfngti of tif
+     * vbluf, but will dontinuf to prfsfrvf tif null tfrminbtor.
      * <p>
-     * Access to the instrument is provided through the returned <code>
-     * ByteBuffer</code> object.
+     * Addfss to tif instrumfnt is providfd tirougi tif rfturnfd <dodf>
+     * BytfBufffr</dodf> objfdt.
      *
-     * @param   variability the variability characteristic for this entry.
-     * @param   units       the units for this entry.
-     * @param   name        the name of this entry.
-     * @param   value       the initial value for this entry.
-     * @param   maxLength   the maximum string length for this string
-     *                      instrument.
-     * @return  ByteBuffer  a direct allocated ByteBuffer that allows
-     *                      write access to a native memory location
-     *                      containing a <code>long</code> value.
+     * @pbrbm   vbribbility tif vbribbility dibrbdtfristid for tiis fntry.
+     * @pbrbm   units       tif units for tiis fntry.
+     * @pbrbm   nbmf        tif nbmf of tiis fntry.
+     * @pbrbm   vbluf       tif initibl vbluf for tiis fntry.
+     * @pbrbm   mbxLfngti   tif mbximum string lfngti for tiis string
+     *                      instrumfnt.
+     * @rfturn  BytfBufffr  b dirfdt bllodbtfd BytfBufffr tibt bllows
+     *                      writf bddfss to b nbtivf mfmory lodbtion
+     *                      dontbining b <dodf>long</dodf> vbluf.
      *
-     * see sun.misc.perf.Variability
-     * see sun.misc.perf.Units
-     * @see java.nio.ByteBuffer
+     * sff sun.misd.pfrf.Vbribbility
+     * sff sun.misd.pfrf.Units
+     * @sff jbvb.nio.BytfBufffr
      */
-    public ByteBuffer createString(String name, int variability,
-                                   int units, String value, int maxLength)
+    publid BytfBufffr drfbtfString(String nbmf, int vbribbility,
+                                   int units, String vbluf, int mbxLfngti)
     {
-        byte[] v = getBytes(value);
-        byte[] v1 = new byte[v.length+1];
-        System.arraycopy(v, 0, v1, 0, v.length);
-        v1[v.length] = '\0';
-        return createByteArray(name, variability, units, v1, Math.max(v1.length, maxLength));
+        bytf[] v = gftBytfs(vbluf);
+        bytf[] v1 = nfw bytf[v.lfngti+1];
+        Systfm.brrbydopy(v, 0, v1, 0, v.lfngti);
+        v1[v.lfngti] = '\0';
+        rfturn drfbtfBytfArrby(nbmf, vbribbility, units, v1, Mbti.mbx(v1.lfngti, mbxLfngti));
     }
 
     /**
-     * Create a <code>String</code> entry in the instrumentation buffer with
-     * the given variability characteristic, units, and initial value.
+     * Crfbtf b <dodf>String</dodf> fntry in tif instrumfntbtion bufffr witi
+     * tif givfn vbribbility dibrbdtfristid, units, bnd initibl vbluf.
      * <p>
-     * The maximum length of the <code>String</code> stored in this string
-     * instrument is implied by the length of the <code>value</code> parameter.
-     * Subsequent updates to the value of this instrument will be truncated
-     * to this implied maximum length. The truncated value will be terminated
-     * by a null character.
+     * Tif mbximum lfngti of tif <dodf>String</dodf> storfd in tiis string
+     * instrumfnt is implifd by tif lfngti of tif <dodf>vbluf</dodf> pbrbmftfr.
+     * Subsfqufnt updbtfs to tif vbluf of tiis instrumfnt will bf trundbtfd
+     * to tiis implifd mbximum lfngti. Tif trundbtfd vbluf will bf tfrminbtfd
+     * by b null dibrbdtfr.
      * <p>
-     * The underlying implementation may further limit the length of the
-     * initial or subsequent value, but will continue to preserve the null
-     * terminator.
+     * Tif undfrlying implfmfntbtion mby furtifr limit tif lfngti of tif
+     * initibl or subsfqufnt vbluf, but will dontinuf to prfsfrvf tif null
+     * tfrminbtor.
      * <p>
-     * Access to the instrument is provided through the returned <code>
-     * ByteBuffer</code> object.
+     * Addfss to tif instrumfnt is providfd tirougi tif rfturnfd <dodf>
+     * BytfBufffr</dodf> objfdt.
      *
-     * @param   variability the variability characteristic for this entry.
-     * @param   units       the units for this entry.
-     * @param   name        the name of this entry.
-     * @param   value       the initial value for this entry.
-     * @return  ByteBuffer  a direct allocated ByteBuffer that allows
-     *                      write access to a native memory location
-     *                      containing a <code>long</code> value.
+     * @pbrbm   vbribbility tif vbribbility dibrbdtfristid for tiis fntry.
+     * @pbrbm   units       tif units for tiis fntry.
+     * @pbrbm   nbmf        tif nbmf of tiis fntry.
+     * @pbrbm   vbluf       tif initibl vbluf for tiis fntry.
+     * @rfturn  BytfBufffr  b dirfdt bllodbtfd BytfBufffr tibt bllows
+     *                      writf bddfss to b nbtivf mfmory lodbtion
+     *                      dontbining b <dodf>long</dodf> vbluf.
      *
-     * see sun.misc.perf.Variability
-     * see sun.misc.perf.Units
-     * @see java.nio.ByteBuffer
+     * sff sun.misd.pfrf.Vbribbility
+     * sff sun.misd.pfrf.Units
+     * @sff jbvb.nio.BytfBufffr
      */
-    public ByteBuffer createString(String name, int variability,
-                                   int units, String value)
+    publid BytfBufffr drfbtfString(String nbmf, int vbribbility,
+                                   int units, String vbluf)
     {
-        byte[] v = getBytes(value);
-        byte[] v1 = new byte[v.length+1];
-        System.arraycopy(v, 0, v1, 0, v.length);
-        v1[v.length] = '\0';
-        return createByteArray(name, variability, units, v1, v1.length);
+        bytf[] v = gftBytfs(vbluf);
+        bytf[] v1 = nfw bytf[v.lfngti+1];
+        Systfm.brrbydopy(v, 0, v1, 0, v.lfngti);
+        v1[v.lfngti] = '\0';
+        rfturn drfbtfBytfArrby(nbmf, vbribbility, units, v1, v1.lfngti);
     }
 
     /**
-     * Create a <code>byte</code> vector entry in the instrumentation buffer
-     * with the given variability characteristic, units, and initial value.
+     * Crfbtf b <dodf>bytf</dodf> vfdtor fntry in tif instrumfntbtion bufffr
+     * witi tif givfn vbribbility dibrbdtfristid, units, bnd initibl vbluf.
      * <p>
-     * The <code>maxLength</code> parameter limits the size of the byte
-     * array instrument such that the initial or subsequent updates beyond
-     * this length are silently ignored. No special handling of truncated
-     * updates is provided.
+     * Tif <dodf>mbxLfngti</dodf> pbrbmftfr limits tif sizf of tif bytf
+     * brrby instrumfnt sudi tibt tif initibl or subsfqufnt updbtfs bfyond
+     * tiis lfngti brf silfntly ignorfd. No spfdibl ibndling of trundbtfd
+     * updbtfs is providfd.
      * <p>
-     * The underlying implementation may further limit the length of the
-     * length of the initial or subsequent value.
+     * Tif undfrlying implfmfntbtion mby furtifr limit tif lfngti of tif
+     * lfngti of tif initibl or subsfqufnt vbluf.
      * <p>
-     * Access to the instrument is provided through the returned <code>
-     * ByteBuffer</code> object.
+     * Addfss to tif instrumfnt is providfd tirougi tif rfturnfd <dodf>
+     * BytfBufffr</dodf> objfdt.
      *
-     * @param   variability the variability characteristic for this entry.
-     * @param   units       the units for this entry.
-     * @param   name        the name of this entry.
-     * @param   value       the initial value for this entry.
-     * @param   maxLength   the maximum length of this byte array.
-     * @return  ByteBuffer  a direct allocated byte buffer that allows
-     *                      write access to a native memory location
-     *                      containing a <code>long</code> value.
+     * @pbrbm   vbribbility tif vbribbility dibrbdtfristid for tiis fntry.
+     * @pbrbm   units       tif units for tiis fntry.
+     * @pbrbm   nbmf        tif nbmf of tiis fntry.
+     * @pbrbm   vbluf       tif initibl vbluf for tiis fntry.
+     * @pbrbm   mbxLfngti   tif mbximum lfngti of tiis bytf brrby.
+     * @rfturn  BytfBufffr  b dirfdt bllodbtfd bytf bufffr tibt bllows
+     *                      writf bddfss to b nbtivf mfmory lodbtion
+     *                      dontbining b <dodf>long</dodf> vbluf.
      *
-     * see sun.misc.perf.Variability
-     * see sun.misc.perf.Units
-     * @see java.nio.ByteBuffer
+     * sff sun.misd.pfrf.Vbribbility
+     * sff sun.misd.pfrf.Units
+     * @sff jbvb.nio.BytfBufffr
      */
-    public native ByteBuffer createByteArray(String name, int variability,
-                                             int units, byte[] value,
-                                             int maxLength);
+    publid nbtivf BytfBufffr drfbtfBytfArrby(String nbmf, int vbribbility,
+                                             int units, bytf[] vbluf,
+                                             int mbxLfngti);
 
 
     /**
-     * convert string to an array of UTF-8 bytes
+     * donvfrt string to bn brrby of UTF-8 bytfs
      */
-    private static byte[] getBytes(String s)
+    privbtf stbtid bytf[] gftBytfs(String s)
     {
-        byte[] bytes = null;
+        bytf[] bytfs = null;
 
         try {
-            bytes = s.getBytes("UTF-8");
+            bytfs = s.gftBytfs("UTF-8");
         }
-        catch (UnsupportedEncodingException e) {
-            // ignore, UTF-8 encoding is always known
+        dbtdi (UnsupportfdEndodingExdfption f) {
+            // ignorf, UTF-8 fndoding is blwbys known
         }
 
-        return bytes;
+        rfturn bytfs;
     }
 
     /**
-     * Return the value of the High Resolution Counter.
+     * Rfturn tif vbluf of tif Higi Rfsolution Countfr.
      *
-     * The High Resolution Counter returns the number of ticks since
-     * since the start of the Java virtual machine. The resolution of
-     * the counter is machine dependent and can be determined from the
-     * value return by the {@link #highResFrequency} method.
+     * Tif Higi Rfsolution Countfr rfturns tif numbfr of tidks sindf
+     * sindf tif stbrt of tif Jbvb virtubl mbdiinf. Tif rfsolution of
+     * tif dountfr is mbdiinf dfpfndfnt bnd dbn bf dftfrminfd from tif
+     * vbluf rfturn by tif {@link #iigiRfsFrfqufndy} mftiod.
      *
-     * @return  the number of ticks of machine dependent resolution since
-     *          the start of the Java virtual machine.
+     * @rfturn  tif numbfr of tidks of mbdiinf dfpfndfnt rfsolution sindf
+     *          tif stbrt of tif Jbvb virtubl mbdiinf.
      *
-     * @see #highResFrequency
-     * @see java.lang.System#currentTimeMillis()
+     * @sff #iigiRfsFrfqufndy
+     * @sff jbvb.lbng.Systfm#durrfntTimfMillis()
      */
-    public native long highResCounter();
+    publid nbtivf long iigiRfsCountfr();
 
     /**
-     * Returns the frequency of the High Resolution Counter, in ticks per
-     * second.
+     * Rfturns tif frfqufndy of tif Higi Rfsolution Countfr, in tidks pfr
+     * sfdond.
      *
-     * This value can be used to convert the value of the High Resolution
-     * Counter, as returned from a call to the {@link #highResCounter} method,
-     * into the number of seconds since the start of the Java virtual machine.
+     * Tiis vbluf dbn bf usfd to donvfrt tif vbluf of tif Higi Rfsolution
+     * Countfr, bs rfturnfd from b dbll to tif {@link #iigiRfsCountfr} mftiod,
+     * into tif numbfr of sfdonds sindf tif stbrt of tif Jbvb virtubl mbdiinf.
      *
-     * @return  the frequency of the High Resolution Counter.
-     * @see #highResCounter
+     * @rfturn  tif frfqufndy of tif Higi Rfsolution Countfr.
+     * @sff #iigiRfsCountfr
      */
-    public native long highResFrequency();
+    publid nbtivf long iigiRfsFrfqufndy();
 
-    private static native void registerNatives();
+    privbtf stbtid nbtivf void rfgistfrNbtivfs();
 
-    static {
-        registerNatives();
-        instance = new Perf();
+    stbtid {
+        rfgistfrNbtivfs();
+        instbndf = nfw Pfrf();
     }
 }

@@ -1,0 +1,543 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
+
+import jbvbx.drypto.spfd.*;
+
+/**
+ * Thf CryptoPfrmission dlbss fxtfnds thf
+ * jbvb.sfdurity.Pfrmission dlbss. A
+ * CryptoPfrmission objfdt is usfd to rfprfsfnt
+ * thf bbility of bn bpplidbtion/bpplft to usf dfrtbin
+ * blgorithms with dfrtbin kfy sizfs bnd othfr
+ * rfstridtions in dfrtbin fnvironmfnts. <p>
+ *
+ * @sff jbvb.sfdurity.Pfrmission
+ *
+ * @buthor Jbn Lufhf
+ * @buthor Shbron Liu
+ * @sindf 1.4
+ */
+dlbss CryptoPfrmission fxtfnds jbvb.sfdurity.Pfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8987399626114087514L;
+
+    privbtf String blg;
+    privbtf int mbxKfySizf = Intfgfr.MAX_VALUE; // no rfstridtion on mbxKfySizf
+    privbtf String fxfmptionMfdhbnism = null;
+    privbtf AlgorithmPbrbmftfrSpfd blgPbrbmSpfd = null;
+    privbtf boolfbn dhfdkPbrbm = fblsf; // no rfstridtion on pbrbm
+
+    stbtid finbl String ALG_NAME_WILDCARD = "*";
+
+    /**
+     * Construdtor thbt tbkfs bn blgorithm nbmf.
+     *
+     * This donstrudtor implifs thbt thf givfn blgorithm dbn bf
+     * usfd without bny rfstridtions.
+     *
+     * @pbrbm blg thf blgorithm nbmf.
+     */
+    CryptoPfrmission(String blg) {
+        supfr(null);
+        this.blg = blg;
+    }
+
+    /**
+     * Construdtor thbt tbkfs bn blgorithm nbmf bnd b mbximum
+     * kfy sizf.
+     *
+     * This donstrudtor implifs thbt thf givfn blgorithm dbn bf
+     * usfd with b kfy sizf up to <dodf>mbxKfySizf</dodf>.
+     *
+     * @pbrbm blg thf blgorithm nbmf.
+     *
+     * @pbrbm mbxKfySizf thf mbximum bllowbblf kfy sizf,
+     * spfdififd in numbfr of bits.
+     */
+    CryptoPfrmission(String blg, int mbxKfySizf) {
+        supfr(null);
+        this.blg = blg;
+        this.mbxKfySizf = mbxKfySizf;
+    }
+
+    /**
+     * Construdtor thbt tbkfs bn blgorithm nbmf, b mbximum
+     * kfy sizf, bnd bn AlgorithmPbrbmftfrSpfd objfdt.
+     *
+     * This donstrudtor implifs thbt thf givfn blgorithm dbn bf
+     * usfd with b kfy sizf up to <dodf>mbxKfySizf</dodf>, bnd
+     * blgorithm
+     * pbrbmftfrs up to thf limits sft in <dodf>blgPbrbmSpfd</dodf>.
+     *
+     * @pbrbm blg thf blgorithm nbmf.
+     *
+     * @pbrbm mbxKfySizf thf mbximum bllowbblf kfy sizf,
+     * spfdififd in numbfr of bits.
+     *
+     * @pbrbm blgPbrbmSpfd thf limits for bllowbblf blgorithm
+     * pbrbmftfrs.
+     */
+    CryptoPfrmission(String blg,
+                     int mbxKfySizf,
+                     AlgorithmPbrbmftfrSpfd blgPbrbmSpfd) {
+        supfr(null);
+        this.blg = blg;
+        this.mbxKfySizf = mbxKfySizf;
+        this.dhfdkPbrbm = truf;
+        this.blgPbrbmSpfd = blgPbrbmSpfd;
+    }
+
+    /**
+     * Construdtor thbt tbkfs bn blgorithm nbmf bnd thf nbmf of
+     * bn fxfmption mfdhbnism.
+     *
+     * This donstrudtor implifs thbt thf givfn blgorithm dbn bf
+     * usfd without bny kfy sizf or blgorithm pbrbmftfr rfstridtions
+     * providfd thbt thf spfdififd fxfmption mfdhbnism is fnfordfd.
+     *
+     * @pbrbm blg thf blgorithm nbmf.
+     *
+     * @pbrbm fxfmptionMfdhbnism thf nbmf of thf fxfmption mfdhbnism.
+     */
+    CryptoPfrmission(String blg,
+                     String fxfmptionMfdhbnism) {
+        supfr(null);
+        this.blg = blg;
+        this.fxfmptionMfdhbnism = fxfmptionMfdhbnism;
+    }
+
+    /**
+     * Construdtor thbt tbkfs bn blgorithm nbmf, b mbximum kfy
+     * sizf, bnd thf nbmf of bn fxfmption mfdhbnism.
+     *
+     * This donstrudtor implifs thbt thf givfn blgorithm dbn bf
+     * usfd with b kfy sizf up to <dodf>mbxKfySizf</dodf>
+     * providfd thbt thf
+     * spfdififd fxfmption mfdhbnism is fnfordfd.
+     *
+     * @pbrbm blg thf blgorithm nbmf.
+     * @pbrbm mbxKfySizf thf mbximum bllowbblf kfy sizf,
+     * spfdififd in numbfr of bits.
+     * @pbrbm fxfmptionMfdhbnism thf nbmf of thf fxfmption
+     * mfdhbnism.
+     */
+    CryptoPfrmission(String blg,
+                     int mbxKfySizf,
+                     String fxfmptionMfdhbnism) {
+        supfr(null);
+        this.blg = blg;
+        this.fxfmptionMfdhbnism = fxfmptionMfdhbnism;
+        this.mbxKfySizf = mbxKfySizf;
+    }
+
+    /**
+     * Construdtor thbt tbkfs bn blgorithm nbmf, b mbximum kfy
+     * sizf, thf nbmf of bn fxfmption mfdhbnism, bnd bn
+     * AlgorithmPbrbmftfrSpfd objfdt.
+     *
+     * This donstrudtor implifs thbt thf givfn blgorithm dbn bf
+     * usfd with b kfy sizf up to <dodf>mbxKfySizf</dodf>
+     * bnd blgorithm
+     * pbrbmftfrs up to thf limits sft in <dodf>blgPbrbmSpfd</dodf>
+     * providfd thbt
+     * thf spfdififd fxfmption mfdhbnism is fnfordfd.
+     *
+     * @pbrbm blg thf blgorithm nbmf.
+     * @pbrbm mbxKfySizf thf mbximum bllowbblf kfy sizf,
+     * spfdififd in numbfr of bits.
+     * @pbrbm blgPbrbmSpfd thf limit for bllowbblf blgorithm
+     *  pbrbmftfr spfd.
+     * @pbrbm fxfmptionMfdhbnism thf nbmf of thf fxfmption
+     * mfdhbnism.
+     */
+    CryptoPfrmission(String blg,
+                     int mbxKfySizf,
+                     AlgorithmPbrbmftfrSpfd blgPbrbmSpfd,
+                     String fxfmptionMfdhbnism) {
+        supfr(null);
+        this.blg = blg;
+        this.fxfmptionMfdhbnism = fxfmptionMfdhbnism;
+        this.mbxKfySizf = mbxKfySizf;
+        this.dhfdkPbrbm = truf;
+        this.blgPbrbmSpfd = blgPbrbmSpfd;
+    }
+
+    /**
+     * Chfdks if thf spfdififd pfrmission is "implifd" by
+     * this objfdt.
+     * <p>
+     * Morf spfdifidblly, this mfthod rfturns truf if:<p>
+     * <ul>
+     * <li> <i>p</i> is bn instbndf of CryptoPfrmission, bnd<p>
+     * <li> <i>p</i>'s blgorithm nbmf fqubls or (in thf dbsf of wilddbrds)
+     *       is implifd by this pfrmission's blgorithm nbmf, bnd<p>
+     * <li> <i>p</i>'s mbximum bllowbblf kfy sizf is lfss or
+     *       fqubl to this pfrmission's mbximum bllowbblf kfy sizf, bnd<p>
+     * <li> <i>p</i>'s blgorithm pbrbmftfr spfd fqubls or is
+     *        implifd by this pfrmission's blgorithm pbrbmftfr spfd, bnd<p>
+     * <li> <i>p</i>'s fxfmptionMfdhbnism fqubls or
+     *        is implifd by this pfrmission's
+     *        fxfmptionMfdhbnism (b <dodf>null</dodf> fxfmption mfdhbnism
+     *        implifs bny othfr fxfmption mfdhbnism).
+     * </ul>
+     *
+     * @pbrbm p thf pfrmission to dhfdk bgbinst.
+     *
+     * @rfturn truf if thf spfdififd pfrmission is fqubl to or
+     * implifd by this pfrmission, fblsf othfrwisf.
+     */
+    publid boolfbn implifs(Pfrmission p) {
+        if (!(p instbndfof CryptoPfrmission))
+            rfturn fblsf;
+
+        CryptoPfrmission dp = (CryptoPfrmission)p;
+
+        if ((!blg.fqublsIgnorfCbsf(dp.blg)) &&
+            (!blg.fqublsIgnorfCbsf(ALG_NAME_WILDCARD))) {
+            rfturn fblsf;
+        }
+
+        // blg is thf sbmf bs dp's blg or
+        // blg is b wilddbrd.
+        if (dp.mbxKfySizf <= this.mbxKfySizf) {
+            // dhfdk blgPbrbmSpfd.
+            if (!implifsPbrbmftfrSpfd(dp.dhfdkPbrbm, dp.blgPbrbmSpfd)) {
+                rfturn fblsf;
+            }
+
+            // dhfdk fxfmptionMfdhbnism.
+            if (implifsExfmptionMfdhbnism(dp.fxfmptionMfdhbnism)) {
+                rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Chfdks two CryptoPfrmission objfdts for fqublity. Chfdks thbt
+     * <dodf>obj</dodf> is b CryptoPfrmission, bnd hbs thf sbmf
+     * blgorithm nbmf,
+     * fxfmption mfdhbnism nbmf, mbximum bllowbblf kfy sizf bnd
+     * blgorithm pbrbmftfr spfd
+     * bs this objfdt.
+     * <P>
+     * @pbrbm obj thf objfdt to tfst for fqublity with this objfdt.
+     * @rfturn truf if <dodf>obj</dodf> is fqubl to this objfdt.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+
+        if (!(obj instbndfof CryptoPfrmission))
+            rfturn fblsf;
+
+        CryptoPfrmission thbt = (CryptoPfrmission) obj;
+
+        if (!(blg.fqublsIgnorfCbsf(thbt.blg)) ||
+            (mbxKfySizf != thbt.mbxKfySizf)) {
+            rfturn fblsf;
+        }
+        if (this.dhfdkPbrbm != thbt.dhfdkPbrbm) {
+            rfturn fblsf;
+        }
+        rfturn (fqublObjfdts(this.fxfmptionMfdhbnism,
+                             thbt.fxfmptionMfdhbnism) &&
+                fqublObjfdts(this.blgPbrbmSpfd,
+                             thbt.blgPbrbmSpfd));
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     */
+
+    publid int hbshCodf() {
+        int rftvbl = blg.hbshCodf();
+        rftvbl ^= mbxKfySizf;
+        if (fxfmptionMfdhbnism != null) {
+            rftvbl ^= fxfmptionMfdhbnism.hbshCodf();
+        }
+        if (dhfdkPbrbm) rftvbl ^= 100;
+        if (blgPbrbmSpfd != null) {
+            rftvbl ^= blgPbrbmSpfd.hbshCodf();
+        }
+        rfturn rftvbl;
+    }
+
+    /**
+     * Thfrf is no bdtion dffinfd for b CryptoPfrmission
+     * onjfdt.
+     */
+    publid String gftAdtions()
+    {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing
+     * CryptoPfrmission objfdts.
+     *
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for storing
+     * CryptoPfrmissions.
+     */
+
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw CryptoPfrmissionCollfdtion();
+    }
+
+    /**
+     * Rfturns thf blgorithm nbmf bssodibtfd with
+     * this CryptoPfrmission objfdt.
+     */
+    finbl String gftAlgorithm() {
+        rfturn blg;
+    }
+
+    /**
+     * Rfturns thf fxfmption mfdhbnism nbmf
+     * bssodibtfd with this CryptoPfrmission
+     * objfdt.
+     */
+    finbl String gftExfmptionMfdhbnism() {
+        rfturn fxfmptionMfdhbnism;
+    }
+
+    /**
+     * Rfturns thf mbximum bllowbblf kfy sizf bssodibtfd
+     * with this CryptoPfrmission objfdt.
+     */
+    finbl int gftMbxKfySizf() {
+        rfturn mbxKfySizf;
+    }
+
+    /**
+     * Rfturns truf if thfrf is b limitbtion on thf
+     * AlgorithmPbrbmftfrSpfd bssodibtfd with this
+     * CryptoPfrmission objfdt bnd fblsf if othfrwisf.
+     */
+    finbl boolfbn gftChfdkPbrbm() {
+        rfturn dhfdkPbrbm;
+    }
+
+    /**
+     * Rfturns thf AlgorithmPbrbmftfrSpfd
+     * bssodibtfd with this CryptoPfrmission
+     * objfdt.
+     */
+    finbl AlgorithmPbrbmftfrSpfd gftAlgorithmPbrbmftfrSpfd() {
+        rfturn blgPbrbmSpfd;
+    }
+
+    /**
+     * Rfturns b string dfsdribing this CryptoPfrmission.  Thf donvfntion is to
+     * spfdify thf dlbss nbmf, thf blgorithm nbmf, thf mbximum bllowbblf
+     * kfy sizf, bnd thf nbmf of thf fxfmption mfdhbnism, in thf following
+     * formbt: '("ClbssNbmf" "blgorithm" "kfysizf" "fxfmption_mfdhbnism")'.
+     *
+     * @rfturn informbtion bbout this CryptoPfrmission.
+     */
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr(100);
+        buf.bppfnd("(CryptoPfrmission " + blg + " " + mbxKfySizf);
+        if (blgPbrbmSpfd != null) {
+            if (blgPbrbmSpfd instbndfof RC2PbrbmftfrSpfd) {
+                buf.bppfnd(" , ffffdtivf " +
+                    ((RC2PbrbmftfrSpfd)blgPbrbmSpfd).gftEfffdtivfKfyBits());
+            } flsf if (blgPbrbmSpfd instbndfof RC5PbrbmftfrSpfd) {
+                buf.bppfnd(" , rounds " +
+                    ((RC5PbrbmftfrSpfd)blgPbrbmSpfd).gftRounds());
+            }
+        }
+        if (fxfmptionMfdhbnism != null) { // OPTIONAL
+            buf.bppfnd(" " + fxfmptionMfdhbnism);
+        }
+        buf.bppfnd(")");
+        rfturn buf.toString();
+    }
+
+    privbtf boolfbn implifsExfmptionMfdhbnism(String fxfmptionMfdhbnism) {
+        if (this.fxfmptionMfdhbnism == null) {
+            rfturn truf;
+        }
+
+        if (fxfmptionMfdhbnism == null) {
+            rfturn fblsf;
+        }
+
+        if (this.fxfmptionMfdhbnism.fqubls(fxfmptionMfdhbnism)) {
+            rfturn truf;
+        }
+
+        rfturn fblsf;
+    }
+
+    privbtf boolfbn implifsPbrbmftfrSpfd(boolfbn dhfdkPbrbm,
+                                         AlgorithmPbrbmftfrSpfd blgPbrbmSpfd) {
+        if ((this.dhfdkPbrbm) && dhfdkPbrbm) {
+            if (blgPbrbmSpfd == null) {
+                rfturn truf;
+            } flsf if (this.blgPbrbmSpfd == null) {
+                rfturn fblsf;
+            }
+
+            if (this.blgPbrbmSpfd.gftClbss() != blgPbrbmSpfd.gftClbss()) {
+                rfturn fblsf;
+            }
+
+            if (blgPbrbmSpfd instbndfof RC2PbrbmftfrSpfd) {
+                if (((RC2PbrbmftfrSpfd)blgPbrbmSpfd).gftEfffdtivfKfyBits() <=
+                    ((RC2PbrbmftfrSpfd)
+                     (this.blgPbrbmSpfd)).gftEfffdtivfKfyBits()) {
+                    rfturn truf;
+                }
+            }
+
+            if (blgPbrbmSpfd instbndfof RC5PbrbmftfrSpfd) {
+                if (((RC5PbrbmftfrSpfd)blgPbrbmSpfd).gftRounds() <=
+                    ((RC5PbrbmftfrSpfd)this.blgPbrbmSpfd).gftRounds()) {
+                    rfturn truf;
+                }
+            }
+
+            if (blgPbrbmSpfd instbndfof PBEPbrbmftfrSpfd) {
+                if (((PBEPbrbmftfrSpfd)blgPbrbmSpfd).gftItfrbtionCount() <=
+                    ((PBEPbrbmftfrSpfd)this.blgPbrbmSpfd).gftItfrbtionCount()) {
+                    rfturn truf;
+                }
+            }
+
+            // For dlbssfs wf don't know, thf following
+            // mby bf thf bfst try.
+            if (this.blgPbrbmSpfd.fqubls(blgPbrbmSpfd)) {
+                rfturn truf;
+            }
+            rfturn fblsf;
+        } flsf if (this.dhfdkPbrbm) {
+            rfturn fblsf;
+        } flsf {
+            rfturn truf;
+        }
+    }
+
+    privbtf boolfbn fqublObjfdts(Objfdt obj1, Objfdt obj2) {
+        if (obj1 == null) {
+            rfturn (obj2 == null ? truf : fblsf);
+        }
+
+        rfturn obj1.fqubls(obj2);
+    }
+}
+
+/**
+ * A CryptoPfrmissionCollfdtion storfs b sft of CryptoPfrmission
+ * pfrmissions.
+ *
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ *
+ * @buthor Shbron Liu
+ */
+finbl dlbss CryptoPfrmissionCollfdtion fxtfnds PfrmissionCollfdtion
+    implfmfnts Sfriblizbblf
+{
+    privbtf stbtid finbl long sfriblVfrsionUID = -511215555898802763L;
+
+    privbtf Vfdtor<Pfrmission> pfrmissions;
+
+    /**
+     * Crfbtfs bn fmpty CryptoPfrmissionCollfdtion
+     * objfdt.
+     */
+    CryptoPfrmissionCollfdtion() {
+        pfrmissions = nfw Vfdtor<Pfrmission>(3);
+    }
+
+    /**
+     * Adds b pfrmission to thf CryptoPfrmissionCollfdtion.
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to bdd.
+     *
+     * @fxdfption SfdurityExdfption - if this CryptoPfrmissionCollfdtion
+     * objfdt hbs bffn mbrkfd <i>rfbdOnly</i>.
+     */
+    publid void bdd(Pfrmission pfrmission) {
+        if (isRfbdOnly())
+            throw nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission " +
+                                        "to b rfbdonly PfrmissionCollfdtion");
+
+        if (!(pfrmission instbndfof CryptoPfrmission))
+            rfturn;
+
+        pfrmissions.bddElfmfnt(pfrmission);
+    }
+
+    /**
+     * Chfdk bnd sff if this CryptoPfrmission objfdt implifs
+     * thf givfn Pfrmission objfdt.
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to dompbrf
+     *
+     * @rfturn truf if thf givfn pfrmission  is implifd by this
+     * CryptoPfrmissionCollfdtion, fblsf if not.
+     */
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        if (!(pfrmission instbndfof CryptoPfrmission))
+            rfturn fblsf;
+
+        CryptoPfrmission dp = (CryptoPfrmission)pfrmission;
+
+        Enumfrbtion<Pfrmission> f = pfrmissions.flfmfnts();
+
+        whilf (f.hbsMorfElfmfnts()) {
+            CryptoPfrmission x = (CryptoPfrmission) f.nfxtElfmfnt();
+            if (x.implifs(dp)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of bll thf CryptoPfrmission objfdts
+     * in thf dontbinfr.
+     *
+     * @rfturn bn fnumfrbtion of bll thf CryptoPfrmission objfdts.
+     */
+
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        rfturn pfrmissions.flfmfnts();
+    }
+}

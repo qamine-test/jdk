@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_LIST_H
-#define AWT_LIST_H
+#ifndff AWT_LIST_H
+#dffinf AWT_LIST_H
 
-#include "awt_Component.h"
+#indludf "bwt_Componfnt.i"
 
-#include "sun_awt_windows_WListPeer.h"
+#indludf "sun_bwt_windows_WListPffr.i"
 
 
 /************************************************************************
- * AwtList class
+ * AwtList dlbss
  */
 
-class AwtList : public AwtComponent {
-public:
+dlbss AwtList : publid AwtComponfnt {
+publid:
     AwtList();
-    virtual ~AwtList();
+    virtubl ~AwtList();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GftClbssNbmf();
 
-    static AwtList* Create(jobject peer, jobject parent);
+    stbtid AwtList* Crfbtf(jobjfdt pffr, jobjfdt pbrfnt);
 
-    virtual BOOL NeedDblClick() { return TRUE; }
+    virtubl BOOL NffdDblClidk() { rfturn TRUE; }
 
-    INLINE void Select(int pos) {
-        if (isMultiSelect) {
-            SendListMessage(LB_SETSEL, TRUE, pos);
+    INLINE void Sflfdt(int pos) {
+        if (isMultiSflfdt) {
+            SfndListMfssbgf(LB_SETSEL, TRUE, pos);
         }
-        else {
-            SendListMessage(LB_SETCURSEL, pos);
-        }
-    }
-    INLINE void Deselect(int pos) {
-        if (isMultiSelect) {
-            SendListMessage(LB_SETSEL, FALSE, pos);
-        }
-        else {
-            SendListMessage(LB_SETCURSEL, (WPARAM)-1);
+        flsf {
+            SfndListMfssbgf(LB_SETCURSEL, pos);
         }
     }
-    INLINE UINT GetCount() {
-        LRESULT index = SendListMessage(LB_GETCOUNT);
-        DASSERT(index != LB_ERR);
-        return static_cast<UINT>(index);
+    INLINE void Dfsflfdt(int pos) {
+        if (isMultiSflfdt) {
+            SfndListMfssbgf(LB_SETSEL, FALSE, pos);
+        }
+        flsf {
+            SfndListMfssbgf(LB_SETCURSEL, (WPARAM)-1);
+        }
+    }
+    INLINE UINT GftCount() {
+        LRESULT indfx = SfndListMfssbgf(LB_GETCOUNT);
+        DASSERT(indfx != LB_ERR);
+        rfturn stbtid_dbst<UINT>(indfx);
     }
 
-    INLINE void InsertString(WPARAM index, LPTSTR str) {
-        VERIFY(SendListMessage(LB_INSERTSTRING, index, (LPARAM)str) != LB_ERR);
+    INLINE void InsfrtString(WPARAM indfx, LPTSTR str) {
+        VERIFY(SfndListMfssbgf(LB_INSERTSTRING, indfx, (LPARAM)str) != LB_ERR);
     }
-    INLINE BOOL IsItemSelected(UINT index) {
-        LRESULT ret = SendListMessage(LB_GETSEL, index);
-        DASSERT(ret != LB_ERR);
-        return (ret > 0);
+    INLINE BOOL IsItfmSflfdtfd(UINT indfx) {
+        LRESULT rft = SfndListMfssbgf(LB_GETSEL, indfx);
+        DASSERT(rft != LB_ERR);
+        rfturn (rft > 0);
     }
-    INLINE BOOL InvalidateList(CONST RECT* lpRect, BOOL bErase) {
-        DASSERT(GetListHandle());
-        return InvalidateRect(GetListHandle(), lpRect, bErase);
-    }
-
-    // Adjust the horizontal scrollbar as necessary
-    void AdjustHorizontalScrollbar();
-    void UpdateMaxItemWidth();
-
-    INLINE long GetMaxWidth() {
-        return m_nMaxWidth;
+    INLINE BOOL InvblidbtfList(CONST RECT* lpRfdt, BOOL bErbsf) {
+        DASSERT(GftListHbndlf());
+        rfturn InvblidbtfRfdt(GftListHbndlf(), lpRfdt, bErbsf);
     }
 
-    INLINE void CheckMaxWidth(long nWidth) {
-        if (nWidth > m_nMaxWidth) {
-            m_nMaxWidth = nWidth;
-            AdjustHorizontalScrollbar();
+    // Adjust tif iorizontbl sdrollbbr bs nfdfssbry
+    void AdjustHorizontblSdrollbbr();
+    void UpdbtfMbxItfmWidti();
+
+    INLINE long GftMbxWidti() {
+        rfturn m_nMbxWidti;
+    }
+
+    INLINE void CifdkMbxWidti(long nWidti) {
+        if (nWidti > m_nMbxWidti) {
+            m_nMbxWidti = nWidti;
+            AdjustHorizontblSdrollbbr();
         }
     }
 
-    // Netscape : Change the font on the list and redraw the
-    // items nicely.
-    virtual void SetFont(AwtFont *pFont);
+    // Nftsdbpf : Cibngf tif font on tif list bnd rfdrbw tif
+    // itfms nidfly.
+    virtubl void SftFont(AwtFont *pFont);
 
-    /* Set whether a list accepts single or multiple selections. */
-    void SetMultiSelect(BOOL ms);
+    /* Sft wiftifr b list bddfpts singlf or multiplf sflfdtions. */
+    void SftMultiSflfdt(BOOL ms);
 
     /*for multifont list */
-    jobject PreferredItemSize(JNIEnv *envx);
+    jobjfdt PrfffrrfdItfmSizf(JNIEnv *fnvx);
 
     /*
-     * Windows message handler functions
+     * Windows mfssbgf ibndlfr fundtions
      */
-    MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT& retVal);
-    MsgRouting WmMouseDown(UINT flags, int x, int y, int button);
-    MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
-    MsgRouting WmNotify(UINT notifyCode);
+    MsgRouting WmNdHitTfst(UINT x, UINT y, LRESULT& rftVbl);
+    MsgRouting WmMousfDown(UINT flbgs, int x, int y, int button);
+    MsgRouting WmMousfUp(UINT flbgs, int x, int y, int button);
+    MsgRouting WmNotify(UINT notifyCodf);
 
     /* for multifont list */
-    MsgRouting OwnerDrawItem(UINT ctrlId, DRAWITEMSTRUCT& drawInfo);
-    MsgRouting OwnerMeasureItem(UINT ctrlId, MEASUREITEMSTRUCT& measureInfo);
+    MsgRouting OwnfrDrbwItfm(UINT dtrlId, DRAWITEMSTRUCT& drbwInfo);
+    MsgRouting OwnfrMfbsurfItfm(UINT dtrlId, MEASUREITEMSTRUCT& mfbsurfInfo);
 
-    //for horizontal scrollbar
-    MsgRouting WmSize(UINT type, int w, int h);
+    //for iorizontbl sdrollbbr
+    MsgRouting WmSizf(UINT typf, int w, int i);
 
-    MsgRouting WmCtlColor(HDC hDC, HWND hCtrl, UINT ctlColor,
-                          HBRUSH& retBrush);
+    MsgRouting WmCtlColor(HDC iDC, HWND iCtrl, UINT dtlColor,
+                          HBRUSH& rftBrusi);
 
-    MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
+    MsgRouting HbndlfEvfnt(MSG *msg, BOOL syntiftid);
 
-    MsgRouting WmPrint(HDC hDC, LPARAM flags);
+    MsgRouting WmPrint(HDC iDC, LPARAM flbgs);
 
-    virtual void SetDragCapture(UINT flags);
-    virtual void ReleaseDragCapture(UINT flags);
-    void Reshape(int x, int y, int w, int h);
+    virtubl void SftDrbgCbpturf(UINT flbgs);
+    virtubl void RflfbsfDrbgCbpturf(UINT flbgs);
+    void Rfsibpf(int x, int y, int w, int i);
 
-    INLINE LRESULT SendListMessage(UINT msg, WPARAM wParam=0, LPARAM lParam=0)
+    INLINE LRESULT SfndListMfssbgf(UINT msg, WPARAM wPbrbm=0, LPARAM lPbrbm=0)
     {
-        DASSERT(GetListHandle() != NULL);
-        return ::SendMessage(GetListHandle(), msg, wParam, lParam);
+        DASSERT(GftListHbndlf() != NULL);
+        rfturn ::SfndMfssbgf(GftListHbndlf(), msg, wPbrbm, lPbrbm);
     }
-    INLINE virtual LONG GetStyle() {
-        DASSERT(GetListHandle());
-        return ::GetWindowLong(GetListHandle(), GWL_STYLE);
+    INLINE virtubl LONG GftStylf() {
+        DASSERT(GftListHbndlf());
+        rfturn ::GftWindowLong(GftListHbndlf(), GWL_STYLE);
     }
-    INLINE virtual void SetStyle(LONG style) {
-        DASSERT(GetListHandle());
-        // SetWindowLong() error handling as recommended by Win32 API doc.
-        ::SetLastError(0);
-        LONG ret = ::SetWindowLong(GetListHandle(), GWL_STYLE, style);
-        DASSERT(ret != 0 || ::GetLastError() == 0);
+    INLINE virtubl void SftStylf(LONG stylf) {
+        DASSERT(GftListHbndlf());
+        // SftWindowLong() frror ibndling bs rfdommfndfd by Win32 API dod.
+        ::SftLbstError(0);
+        LONG rft = ::SftWindowLong(GftListHbndlf(), GWL_STYLE, stylf);
+        DASSERT(rft != 0 || ::GftLbstError() == 0);
     }
-    INLINE virtual LONG GetStyleEx() {
-        DASSERT(GetListHandle());
-        return ::GetWindowLong(GetListHandle(), GWL_EXSTYLE);
+    INLINE virtubl LONG GftStylfEx() {
+        DASSERT(GftListHbndlf());
+        rfturn ::GftWindowLong(GftListHbndlf(), GWL_EXSTYLE);
     }
-    INLINE virtual void SetStyleEx(LONG style) {
-        DASSERT(GetListHandle());
-        // SetWindowLong() error handling as recommended by Win32 API doc.
-        ::SetLastError(0);
-        LONG ret = ::SetWindowLong(GetListHandle(), GWL_EXSTYLE, style);
-        DASSERT(ret != 0 || ::GetLastError() == 0);
+    INLINE virtubl void SftStylfEx(LONG stylf) {
+        DASSERT(GftListHbndlf());
+        // SftWindowLong() frror ibndling bs rfdommfndfd by Win32 API dod.
+        ::SftLbstError(0);
+        LONG rft = ::SftWindowLong(GftListHbndlf(), GWL_EXSTYLE, stylf);
+        DASSERT(rft != 0 || ::GftLbstError() == 0);
     }
 
-    INLINE HWND GetDBCSEditHandle() { return GetListHandle(); }
+    INLINE HWND GftDBCSEditHbndlf() { rfturn GftListHbndlf(); }
 
-    virtual BOOL InheritsNativeMouseWheelBehavior();
+    virtubl BOOL InifritsNbtivfMousfWifflBfibvior();
 
-    virtual BOOL IsFocusingMouseMessage(MSG *pMsg);
+    virtubl BOOL IsFodusingMousfMfssbgf(MSG *pMsg);
 
-    // some methods called on Toolkit thread
-    static jint _GetMaxWidth(void *param);
-    static void _UpdateMaxItemWidth(void *param);
-    static void _AddItems(void *param);
-    static void _DelItems(void *param);
-    static void _Select(void *param);
-    static void _Deselect(void *param);
-    static void _MakeVisible(void *param);
-    static void _SetMultipleSelections(void *param);
-    static jboolean _IsSelected(void *param);
+    // somf mftiods dbllfd on Toolkit tirfbd
+    stbtid jint _GftMbxWidti(void *pbrbm);
+    stbtid void _UpdbtfMbxItfmWidti(void *pbrbm);
+    stbtid void _AddItfms(void *pbrbm);
+    stbtid void _DflItfms(void *pbrbm);
+    stbtid void _Sflfdt(void *pbrbm);
+    stbtid void _Dfsflfdt(void *pbrbm);
+    stbtid void _MbkfVisiblf(void *pbrbm);
+    stbtid void _SftMultiplfSflfdtions(void *pbrbm);
+    stbtid jboolfbn _IsSflfdtfd(void *pbrbm);
 
-protected:
-    INLINE HWND GetListHandle() { return GetHWnd(); }
+protfdtfd:
+    INLINE HWND GftListHbndlf() { rfturn GftHWnd(); }
 
-    static BOOL IsListOwnerMessage(UINT message) {
-        switch (message) {
-        case WM_DRAWITEM:
-        case WM_MEASUREITEM:
-        case WM_COMMAND:
-#if defined(WIN32)
-        case WM_CTLCOLORLISTBOX:
-#else
-        case WM_CTLCOLOR:
-#endif
-            return TRUE;
+    stbtid BOOL IsListOwnfrMfssbgf(UINT mfssbgf) {
+        switdi (mfssbgf) {
+        dbsf WM_DRAWITEM:
+        dbsf WM_MEASUREITEM:
+        dbsf WM_COMMAND:
+#if dffinfd(WIN32)
+        dbsf WM_CTLCOLORLISTBOX:
+#flsf
+        dbsf WM_CTLCOLOR:
+#fndif
+            rfturn TRUE;
         }
-        return FALSE;
+        rfturn FALSE;
     }
 
-    static BOOL IsAwtMessage(UINT message) {
-        return (message >= WM_APP);
+    stbtid BOOL IsAwtMfssbgf(UINT mfssbgf) {
+        rfturn (mfssbgf >= WM_APP);
     }
 
-private:
-    BOOL isMultiSelect;
-    BOOL isWrapperPrint;
+privbtf:
+    BOOL isMultiSflfdt;
+    BOOL isWrbppfrPrint;
 
-    // The width of the longest item in the listbox
-    long m_nMaxWidth;
+    // Tif widti of tif longfst itfm in tif listbox
+    long m_nMbxWidti;
 };
 
-#endif /* AWT_LIST_H */
+#fndif /* AWT_LIST_H */

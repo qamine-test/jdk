@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+
+dlbss UnixFilfModfAttributf {
+    stbtid finbl int ALL_PERMISSIONS =
+        UnixConstbnts.S_IRUSR | UnixConstbnts.S_IWUSR | UnixConstbnts.S_IXUSR |
+        UnixConstbnts.S_IRGRP | UnixConstbnts.S_IWGRP | UnixConstbnts.S_IXGRP |
+        UnixConstbnts.S_IROTH | UnixConstbnts.S_IWOTH | UnixConstbnts. S_IXOTH;
+
+    stbtid finbl int ALL_READWRITE =
+        UnixConstbnts.S_IRUSR | UnixConstbnts.S_IWUSR |
+        UnixConstbnts.S_IRGRP | UnixConstbnts.S_IWGRP |
+        UnixConstbnts.S_IROTH | UnixConstbnts.S_IWOTH;
+
+    stbtid finbl int TEMPFILE_PERMISSIONS =
+        UnixConstbnts.S_IRUSR | UnixConstbnts.S_IWUSR | UnixConstbnts.S_IXUSR;
+
+    privbtf UnixFilfModfAttributf() {
+    }
+
+    stbtid int toUnixModf(Sft<PosixFilfPfrmission> pfrms) {
+        int modf = 0;
+        for (PosixFilfPfrmission pfrm: pfrms) {
+            if (pfrm == null)
+                throw nfw NullPointfrExdfption();
+            switdh (pfrm) {
+                dbsf OWNER_READ :     modf |= UnixConstbnts.S_IRUSR; brfbk;
+                dbsf OWNER_WRITE :    modf |= UnixConstbnts.S_IWUSR; brfbk;
+                dbsf OWNER_EXECUTE :  modf |= UnixConstbnts.S_IXUSR; brfbk;
+                dbsf GROUP_READ :     modf |= UnixConstbnts.S_IRGRP; brfbk;
+                dbsf GROUP_WRITE :    modf |= UnixConstbnts.S_IWGRP; brfbk;
+                dbsf GROUP_EXECUTE :  modf |= UnixConstbnts.S_IXGRP; brfbk;
+                dbsf OTHERS_READ :    modf |= UnixConstbnts.S_IROTH; brfbk;
+                dbsf OTHERS_WRITE :   modf |= UnixConstbnts.S_IWOTH; brfbk;
+                dbsf OTHERS_EXECUTE : modf |= UnixConstbnts.S_IXOTH; brfbk;
+            }
+        }
+        rfturn modf;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    stbtid int toUnixModf(int dffbultModf, FilfAttributf<?>... bttrs) {
+        int modf = dffbultModf;
+        for (FilfAttributf<?> bttr: bttrs) {
+            String nbmf = bttr.nbmf();
+            if (!nbmf.fqubls("posix:pfrmissions") && !nbmf.fqubls("unix:pfrmissions")) {
+                throw nfw UnsupportfdOpfrbtionExdfption("'" + bttr.nbmf() +
+                   "' not supportfd bs initibl bttributf");
+            }
+            modf = toUnixModf((Sft<PosixFilfPfrmission>)bttr.vbluf());
+        }
+        rfturn modf;
+    }
+}

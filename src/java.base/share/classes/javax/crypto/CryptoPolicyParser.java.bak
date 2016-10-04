@@ -1,706 +1,706 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.io.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import static java.util.Locale.ENGLISH;
+import jbvb.io.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import stbtid jbvb.util.Lodblf.ENGLISH;
 
-import java.security.GeneralSecurityException;
-import java.security.spec.AlgorithmParameterSpec;
-import java.lang.reflect.*;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.lbng.rfflfdt.*;
 
 /**
- * JCE has two pairs of jurisdiction policy files: one represents U.S. export
- * laws, and the other represents the local laws of the country where the
- * JCE will be used.
+ * JCE ibs two pbirs of jurisdidtion polidy filfs: onf rfprfsfnts U.S. fxport
+ * lbws, bnd tif otifr rfprfsfnts tif lodbl lbws of tif dountry wifrf tif
+ * JCE will bf usfd.
  *
- * The jurisdiction policy file has the same syntax as JDK policy files except
- * that JCE has new permission classes called javax.crypto.CryptoPermission
- * and javax.crypto.CryptoAllPermission.
+ * Tif jurisdidtion polidy filf ibs tif sbmf syntbx bs JDK polidy filfs fxdfpt
+ * tibt JCE ibs nfw pfrmission dlbssfs dbllfd jbvbx.drypto.CryptoPfrmission
+ * bnd jbvbx.drypto.CryptoAllPfrmission.
  *
- * The format of a permission entry in the jurisdiction policy file is:
+ * Tif formbt of b pfrmission fntry in tif jurisdidtion polidy filf is:
  *
- *   permission <crypto permission class name>[, <algorithm name>
- *              [[, <exemption mechanism name>][, <maxKeySize>
- *              [, <AlgrithomParameterSpec class name>, <parameters
- *              for constructing an AlgrithomParameterSpec object>]]]];
+ *   pfrmission <drypto pfrmission dlbss nbmf>[, <blgoritim nbmf>
+ *              [[, <fxfmption mfdibnism nbmf>][, <mbxKfySizf>
+ *              [, <AlgritiomPbrbmftfrSpfd dlbss nbmf>, <pbrbmftfrs
+ *              for donstrudting bn AlgritiomPbrbmftfrSpfd objfdt>]]]];
  *
- * @author Sharon Liu
+ * @butior Sibron Liu
  *
- * @see java.security.Permissions
- * @see java.security.spec.AlgorithmParameterSpec
- * @see javax.crypto.CryptoPermission
- * @see javax.crypto.CryptoAllPermission
- * @see javax.crypto.CryptoPermissions
- * @since 1.4
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
+ * @sff jbvbx.drypto.CryptoPfrmission
+ * @sff jbvbx.drypto.CryptoAllPfrmission
+ * @sff jbvbx.drypto.CryptoPfrmissions
+ * @sindf 1.4
  */
 
-final class CryptoPolicyParser {
+finbl dlbss CryptoPolidyPbrsfr {
 
-    private Vector<GrantEntry> grantEntries;
+    privbtf Vfdtor<GrbntEntry> grbntEntrifs;
 
-    // Convenience variables for parsing
-    private StreamTokenizer st;
-    private int lookahead;
+    // Convfnifndf vbribblfs for pbrsing
+    privbtf StrfbmTokfnizfr st;
+    privbtf int lookbifbd;
 
     /**
-     * Creates a CryptoPolicyParser object.
+     * Crfbtfs b CryptoPolidyPbrsfr objfdt.
      */
-    CryptoPolicyParser() {
-        grantEntries = new Vector<GrantEntry>();
+    CryptoPolidyPbrsfr() {
+        grbntEntrifs = nfw Vfdtor<GrbntEntry>();
     }
 
     /**
-     * Reads a policy configuration using a Reader object. <p>
+     * Rfbds b polidy donfigurbtion using b Rfbdfr objfdt. <p>
      *
-     * @param policy the policy Reader object.
+     * @pbrbm polidy tif polidy Rfbdfr objfdt.
      *
-     * @exception ParsingException if the policy configuration
-     * contains a syntax error.
+     * @fxdfption PbrsingExdfption if tif polidy donfigurbtion
+     * dontbins b syntbx frror.
      *
-     * @exception IOException if an error occurs while reading
-     * the policy configuration.
+     * @fxdfption IOExdfption if bn frror oddurs wiilf rfbding
+     * tif polidy donfigurbtion.
      */
 
-    void read(Reader policy)
-        throws ParsingException, IOException
+    void rfbd(Rfbdfr polidy)
+        tirows PbrsingExdfption, IOExdfption
     {
-        if (!(policy instanceof BufferedReader)) {
-            policy = new BufferedReader(policy);
+        if (!(polidy instbndfof BufffrfdRfbdfr)) {
+            polidy = nfw BufffrfdRfbdfr(polidy);
         }
 
         /*
-         * Configure the stream tokenizer:
-         *      Recognize strings between "..."
-         *      Don't convert words to lowercase
-         *      Recognize both C-style and C++-style comments
-         *      Treat end-of-line as white space, not as a token
+         * Configurf tif strfbm tokfnizfr:
+         *      Rfdognizf strings bftwffn "..."
+         *      Don't donvfrt words to lowfrdbsf
+         *      Rfdognizf boti C-stylf bnd C++-stylf dommfnts
+         *      Trfbt fnd-of-linf bs wiitf spbdf, not bs b tokfn
          */
-        st = new StreamTokenizer(policy);
+        st = nfw StrfbmTokfnizfr(polidy);
 
-        st.resetSyntax();
-        st.wordChars('a', 'z');
-        st.wordChars('A', 'Z');
-        st.wordChars('.', '.');
-        st.wordChars('0', '9');
-        st.wordChars('_', '_');
-        st.wordChars('$', '$');
-        st.wordChars(128 + 32, 255);
-        st.whitespaceChars(0, ' ');
-        st.commentChar('/');
-        st.quoteChar('\'');
-        st.quoteChar('"');
-        st.lowerCaseMode(false);
-        st.ordinaryChar('/');
-        st.slashSlashComments(true);
-        st.slashStarComments(true);
-        st.parseNumbers();
-
-        /*
-         * The crypto jurisdiction policy must be consistent. The
-         * following hashtable is used for checking consistency.
-         */
-        Hashtable<String, Vector<String>> processedPermissions = null;
+        st.rfsftSyntbx();
+        st.wordCibrs('b', 'z');
+        st.wordCibrs('A', 'Z');
+        st.wordCibrs('.', '.');
+        st.wordCibrs('0', '9');
+        st.wordCibrs('_', '_');
+        st.wordCibrs('$', '$');
+        st.wordCibrs(128 + 32, 255);
+        st.wiitfspbdfCibrs(0, ' ');
+        st.dommfntCibr('/');
+        st.quotfCibr('\'');
+        st.quotfCibr('"');
+        st.lowfrCbsfModf(fblsf);
+        st.ordinbryCibr('/');
+        st.slbsiSlbsiCommfnts(truf);
+        st.slbsiStbrCommfnts(truf);
+        st.pbrsfNumbfrs();
 
         /*
-         * The main parsing loop.  The loop is executed once for each entry
-         * in the policy file. The entries are delimited by semicolons. Once
-         * we've read in the information for an entry, go ahead and try to
-         * add it to the grantEntries.
+         * Tif drypto jurisdidtion polidy must bf donsistfnt. Tif
+         * following ibsitbblf is usfd for difdking donsistfndy.
          */
-        lookahead = st.nextToken();
-        while (lookahead != StreamTokenizer.TT_EOF) {
-            if (peek("grant")) {
-                GrantEntry ge = parseGrantEntry(processedPermissions);
-                if (ge != null)
-                    grantEntries.addElement(ge);
-            } else {
-                throw new ParsingException(st.lineno(), "expected grant " +
-                                           "statement");
+        Hbsitbblf<String, Vfdtor<String>> prodfssfdPfrmissions = null;
+
+        /*
+         * Tif mbin pbrsing loop.  Tif loop is fxfdutfd ondf for fbdi fntry
+         * in tif polidy filf. Tif fntrifs brf dflimitfd by sfmidolons. Ondf
+         * wf'vf rfbd in tif informbtion for bn fntry, go bifbd bnd try to
+         * bdd it to tif grbntEntrifs.
+         */
+        lookbifbd = st.nfxtTokfn();
+        wiilf (lookbifbd != StrfbmTokfnizfr.TT_EOF) {
+            if (pffk("grbnt")) {
+                GrbntEntry gf = pbrsfGrbntEntry(prodfssfdPfrmissions);
+                if (gf != null)
+                    grbntEntrifs.bddElfmfnt(gf);
+            } flsf {
+                tirow nfw PbrsingExdfption(st.linfno(), "fxpfdtfd grbnt " +
+                                           "stbtfmfnt");
             }
-            match(";");
+            mbtdi(";");
         }
     }
 
     /**
-     * parse a Grant entry
+     * pbrsf b Grbnt fntry
      */
-    private GrantEntry parseGrantEntry(
-            Hashtable<String, Vector<String>> processedPermissions)
-        throws ParsingException, IOException
+    privbtf GrbntEntry pbrsfGrbntEntry(
+            Hbsitbblf<String, Vfdtor<String>> prodfssfdPfrmissions)
+        tirows PbrsingExdfption, IOExdfption
     {
-        GrantEntry e = new GrantEntry();
+        GrbntEntry f = nfw GrbntEntry();
 
-        match("grant");
-        match("{");
+        mbtdi("grbnt");
+        mbtdi("{");
 
-        while(!peek("}")) {
-            if (peek("Permission")) {
-                CryptoPermissionEntry pe =
-                    parsePermissionEntry(processedPermissions);
-                e.add(pe);
-                match(";");
-            } else {
-                throw new
-                    ParsingException(st.lineno(), "expected permission entry");
+        wiilf(!pffk("}")) {
+            if (pffk("Pfrmission")) {
+                CryptoPfrmissionEntry pf =
+                    pbrsfPfrmissionEntry(prodfssfdPfrmissions);
+                f.bdd(pf);
+                mbtdi(";");
+            } flsf {
+                tirow nfw
+                    PbrsingExdfption(st.linfno(), "fxpfdtfd pfrmission fntry");
             }
         }
-        match("}");
+        mbtdi("}");
 
-        return e;
+        rfturn f;
     }
 
     /**
-     * parse a CryptoPermission entry
+     * pbrsf b CryptoPfrmission fntry
      */
-    private CryptoPermissionEntry parsePermissionEntry(
-            Hashtable<String, Vector<String>> processedPermissions)
-        throws ParsingException, IOException
+    privbtf CryptoPfrmissionEntry pbrsfPfrmissionEntry(
+            Hbsitbblf<String, Vfdtor<String>> prodfssfdPfrmissions)
+        tirows PbrsingExdfption, IOExdfption
     {
-        CryptoPermissionEntry e = new CryptoPermissionEntry();
+        CryptoPfrmissionEntry f = nfw CryptoPfrmissionEntry();
 
-        match("Permission");
-        e.cryptoPermission = match("permission type");
+        mbtdi("Pfrmission");
+        f.dryptoPfrmission = mbtdi("pfrmission typf");
 
-        if (e.cryptoPermission.equals("javax.crypto.CryptoAllPermission")) {
-            // Done with the CryptoAllPermission entry.
-            e.alg = CryptoAllPermission.ALG_NAME;
-            e.maxKeySize = Integer.MAX_VALUE;
-            return e;
+        if (f.dryptoPfrmission.fqubls("jbvbx.drypto.CryptoAllPfrmission")) {
+            // Donf witi tif CryptoAllPfrmission fntry.
+            f.blg = CryptoAllPfrmission.ALG_NAME;
+            f.mbxKfySizf = Intfgfr.MAX_VALUE;
+            rfturn f;
         }
 
-        // Should see the algorithm name.
-        if (peek("\"")) {
-            // Algorithm name - always convert to upper case after parsing.
-            e.alg = match("quoted string").toUpperCase(ENGLISH);
-        } else {
-            // The algorithm name can be a wildcard.
-            if (peek("*")) {
-                match("*");
-                e.alg = CryptoPermission.ALG_NAME_WILDCARD;
-            } else {
-                throw new ParsingException(st.lineno(),
-                                           "Missing the algorithm name");
+        // Siould sff tif blgoritim nbmf.
+        if (pffk("\"")) {
+            // Algoritim nbmf - blwbys donvfrt to uppfr dbsf bftfr pbrsing.
+            f.blg = mbtdi("quotfd string").toUppfrCbsf(ENGLISH);
+        } flsf {
+            // Tif blgoritim nbmf dbn bf b wilddbrd.
+            if (pffk("*")) {
+                mbtdi("*");
+                f.blg = CryptoPfrmission.ALG_NAME_WILDCARD;
+            } flsf {
+                tirow nfw PbrsingExdfption(st.linfno(),
+                                           "Missing tif blgoritim nbmf");
             }
         }
 
-        peekAndMatch(",");
+        pffkAndMbtdi(",");
 
-        // May see the exemption mechanism name.
-        if (peek("\"")) {
-            // Exemption mechanism name - convert to upper case too.
-            e.exemptionMechanism = match("quoted string").toUpperCase(ENGLISH);
+        // Mby sff tif fxfmption mfdibnism nbmf.
+        if (pffk("\"")) {
+            // Exfmption mfdibnism nbmf - donvfrt to uppfr dbsf too.
+            f.fxfmptionMfdibnism = mbtdi("quotfd string").toUppfrCbsf(ENGLISH);
         }
 
-        peekAndMatch(",");
+        pffkAndMbtdi(",");
 
-        // Check whether this entry is consistent with other permission entries
-        // that have been read.
-        if (!isConsistent(e.alg, e.exemptionMechanism, processedPermissions)) {
-            throw new ParsingException(st.lineno(), "Inconsistent policy");
+        // Cifdk wiftifr tiis fntry is donsistfnt witi otifr pfrmission fntrifs
+        // tibt ibvf bffn rfbd.
+        if (!isConsistfnt(f.blg, f.fxfmptionMfdibnism, prodfssfdPfrmissions)) {
+            tirow nfw PbrsingExdfption(st.linfno(), "Indonsistfnt polidy");
         }
 
-        // Should see the maxKeySize if not at the end of this entry yet.
-        if (peek("number")) {
-            e.maxKeySize = match();
-        } else {
-            if (peek("*")) {
-                match("*");
-                e.maxKeySize = Integer.MAX_VALUE;
-            } else {
-                if (!peek(";")) {
-                    throw new ParsingException(st.lineno(),
-                                               "Missing the maximum " +
-                                               "allowable key size");
-                } else {
-                    // At the end of this permission entry
-                    e.maxKeySize = Integer.MAX_VALUE;
+        // Siould sff tif mbxKfySizf if not bt tif fnd of tiis fntry yft.
+        if (pffk("numbfr")) {
+            f.mbxKfySizf = mbtdi();
+        } flsf {
+            if (pffk("*")) {
+                mbtdi("*");
+                f.mbxKfySizf = Intfgfr.MAX_VALUE;
+            } flsf {
+                if (!pffk(";")) {
+                    tirow nfw PbrsingExdfption(st.linfno(),
+                                               "Missing tif mbximum " +
+                                               "bllowbblf kfy sizf");
+                } flsf {
+                    // At tif fnd of tiis pfrmission fntry
+                    f.mbxKfySizf = Intfgfr.MAX_VALUE;
                 }
             }
         }
 
-        peekAndMatch(",");
+        pffkAndMbtdi(",");
 
-        // May see an AlgorithmParameterSpec class name.
-        if (peek("\"")) {
-            // AlgorithmParameterSpec class name.
-            String algParamSpecClassName = match("quoted string");
+        // Mby sff bn AlgoritimPbrbmftfrSpfd dlbss nbmf.
+        if (pffk("\"")) {
+            // AlgoritimPbrbmftfrSpfd dlbss nbmf.
+            String blgPbrbmSpfdClbssNbmf = mbtdi("quotfd string");
 
-            Vector<Integer> paramsV = new Vector<>(1);
-            while (peek(",")) {
-                match(",");
-                if (peek("number")) {
-                    paramsV.addElement(match());
-                } else {
-                    if (peek("*")) {
-                        match("*");
-                        paramsV.addElement(Integer.MAX_VALUE);
-                    } else {
-                        throw new ParsingException(st.lineno(),
-                                                   "Expecting an integer");
+            Vfdtor<Intfgfr> pbrbmsV = nfw Vfdtor<>(1);
+            wiilf (pffk(",")) {
+                mbtdi(",");
+                if (pffk("numbfr")) {
+                    pbrbmsV.bddElfmfnt(mbtdi());
+                } flsf {
+                    if (pffk("*")) {
+                        mbtdi("*");
+                        pbrbmsV.bddElfmfnt(Intfgfr.MAX_VALUE);
+                    } flsf {
+                        tirow nfw PbrsingExdfption(st.linfno(),
+                                                   "Expfdting bn intfgfr");
                     }
                 }
             }
 
-            Integer[] params = new Integer[paramsV.size()];
-            paramsV.copyInto(params);
+            Intfgfr[] pbrbms = nfw Intfgfr[pbrbmsV.sizf()];
+            pbrbmsV.dopyInto(pbrbms);
 
-            e.checkParam = true;
-            e.algParamSpec = getInstance(algParamSpecClassName, params);
+            f.difdkPbrbm = truf;
+            f.blgPbrbmSpfd = gftInstbndf(blgPbrbmSpfdClbssNbmf, pbrbms);
         }
 
-        return e;
+        rfturn f;
     }
 
-    private static final AlgorithmParameterSpec getInstance(String type,
-                                                            Integer[] params)
-        throws ParsingException
+    privbtf stbtid finbl AlgoritimPbrbmftfrSpfd gftInstbndf(String typf,
+                                                            Intfgfr[] pbrbms)
+        tirows PbrsingExdfption
     {
-        AlgorithmParameterSpec ret = null;
+        AlgoritimPbrbmftfrSpfd rft = null;
 
         try {
-            Class<?> apsClass = Class.forName(type);
-            Class<?>[] paramClasses = new Class<?>[params.length];
+            Clbss<?> bpsClbss = Clbss.forNbmf(typf);
+            Clbss<?>[] pbrbmClbssfs = nfw Clbss<?>[pbrbms.lfngti];
 
-            for (int i = 0; i < params.length; i++) {
-                paramClasses[i] = int.class;
+            for (int i = 0; i < pbrbms.lfngti; i++) {
+                pbrbmClbssfs[i] = int.dlbss;
             }
 
-            Constructor<?> c = apsClass.getConstructor(paramClasses);
-            ret = (AlgorithmParameterSpec) c.newInstance((Object[]) params);
-        } catch (Exception e) {
-            throw new ParsingException("Cannot call the constructor of " +
-                                       type + e);
+            Construdtor<?> d = bpsClbss.gftConstrudtor(pbrbmClbssfs);
+            rft = (AlgoritimPbrbmftfrSpfd) d.nfwInstbndf((Objfdt[]) pbrbms);
+        } dbtdi (Exdfption f) {
+            tirow nfw PbrsingExdfption("Cbnnot dbll tif donstrudtor of " +
+                                       typf + f);
         }
-        return ret;
+        rfturn rft;
     }
 
 
-    private boolean peekAndMatch(String expect)
-        throws ParsingException, IOException
+    privbtf boolfbn pffkAndMbtdi(String fxpfdt)
+        tirows PbrsingExdfption, IOExdfption
     {
-        if (peek(expect)) {
-            match(expect);
-            return true;
+        if (pffk(fxpfdt)) {
+            mbtdi(fxpfdt);
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private boolean peek(String expect) {
-        boolean found = false;
+    privbtf boolfbn pffk(String fxpfdt) {
+        boolfbn found = fblsf;
 
-        switch (lookahead) {
+        switdi (lookbifbd) {
 
-        case StreamTokenizer.TT_WORD:
-            if (expect.equalsIgnoreCase(st.sval))
-                found = true;
-            break;
-        case StreamTokenizer.TT_NUMBER:
-            if (expect.equalsIgnoreCase("number")) {
-                found = true;
+        dbsf StrfbmTokfnizfr.TT_WORD:
+            if (fxpfdt.fqublsIgnorfCbsf(st.svbl))
+                found = truf;
+            brfbk;
+        dbsf StrfbmTokfnizfr.TT_NUMBER:
+            if (fxpfdt.fqublsIgnorfCbsf("numbfr")) {
+                found = truf;
             }
-            break;
-        case ',':
-            if (expect.equals(","))
-                found = true;
-            break;
-        case '{':
-            if (expect.equals("{"))
-                found = true;
-            break;
-        case '}':
-            if (expect.equals("}"))
-                found = true;
-            break;
-        case '"':
-            if (expect.equals("\""))
-                found = true;
-            break;
-        case '*':
-            if (expect.equals("*"))
-                found = true;
-            break;
-        case ';':
-            if (expect.equals(";"))
-                found = true;
-            break;
-        default:
-            break;
+            brfbk;
+        dbsf ',':
+            if (fxpfdt.fqubls(","))
+                found = truf;
+            brfbk;
+        dbsf '{':
+            if (fxpfdt.fqubls("{"))
+                found = truf;
+            brfbk;
+        dbsf '}':
+            if (fxpfdt.fqubls("}"))
+                found = truf;
+            brfbk;
+        dbsf '"':
+            if (fxpfdt.fqubls("\""))
+                found = truf;
+            brfbk;
+        dbsf '*':
+            if (fxpfdt.fqubls("*"))
+                found = truf;
+            brfbk;
+        dbsf ';':
+            if (fxpfdt.fqubls(";"))
+                found = truf;
+            brfbk;
+        dffbult:
+            brfbk;
         }
-        return found;
+        rfturn found;
     }
 
     /**
-     * Excepts to match a non-negative number.
+     * Exdfpts to mbtdi b non-nfgbtivf numbfr.
      */
-    private int match()
-        throws ParsingException, IOException
+    privbtf int mbtdi()
+        tirows PbrsingExdfption, IOExdfption
     {
-        int value = -1;
-        int lineno = st.lineno();
-        String sValue = null;
+        int vbluf = -1;
+        int linfno = st.linfno();
+        String sVbluf = null;
 
-        switch (lookahead) {
-        case StreamTokenizer.TT_NUMBER:
-            value = (int)st.nval;
-            if (value < 0) {
-                sValue = String.valueOf(st.nval);
+        switdi (lookbifbd) {
+        dbsf StrfbmTokfnizfr.TT_NUMBER:
+            vbluf = (int)st.nvbl;
+            if (vbluf < 0) {
+                sVbluf = String.vblufOf(st.nvbl);
             }
-            lookahead = st.nextToken();
-            break;
-        default:
-            sValue = st.sval;
-            break;
+            lookbifbd = st.nfxtTokfn();
+            brfbk;
+        dffbult:
+            sVbluf = st.svbl;
+            brfbk;
         }
-        if (value <= 0) {
-            throw new ParsingException(lineno, "a non-negative number",
-                                       sValue);
+        if (vbluf <= 0) {
+            tirow nfw PbrsingExdfption(linfno, "b non-nfgbtivf numbfr",
+                                       sVbluf);
         }
-        return value;
+        rfturn vbluf;
     }
 
-    private String match(String expect)
-        throws ParsingException, IOException
+    privbtf String mbtdi(String fxpfdt)
+        tirows PbrsingExdfption, IOExdfption
     {
-        String value = null;
+        String vbluf = null;
 
-        switch (lookahead) {
-        case StreamTokenizer.TT_NUMBER:
-            throw new ParsingException(st.lineno(), expect,
-                                       "number "+String.valueOf(st.nval));
-        case StreamTokenizer.TT_EOF:
-           throw new ParsingException("expected "+expect+", read end of file");
-        case StreamTokenizer.TT_WORD:
-            if (expect.equalsIgnoreCase(st.sval)) {
-                lookahead = st.nextToken();
+        switdi (lookbifbd) {
+        dbsf StrfbmTokfnizfr.TT_NUMBER:
+            tirow nfw PbrsingExdfption(st.linfno(), fxpfdt,
+                                       "numbfr "+String.vblufOf(st.nvbl));
+        dbsf StrfbmTokfnizfr.TT_EOF:
+           tirow nfw PbrsingExdfption("fxpfdtfd "+fxpfdt+", rfbd fnd of filf");
+        dbsf StrfbmTokfnizfr.TT_WORD:
+            if (fxpfdt.fqublsIgnorfCbsf(st.svbl)) {
+                lookbifbd = st.nfxtTokfn();
             }
-            else if (expect.equalsIgnoreCase("permission type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
+            flsf if (fxpfdt.fqublsIgnorfCbsf("pfrmission typf")) {
+                vbluf = st.svbl;
+                lookbifbd = st.nfxtTokfn();
             }
-            else
-                throw new ParsingException(st.lineno(), expect, st.sval);
-            break;
-        case '"':
-            if (expect.equalsIgnoreCase("quoted string")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("permission type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, st.svbl);
+            brfbk;
+        dbsf '"':
+            if (fxpfdt.fqublsIgnorfCbsf("quotfd string")) {
+                vbluf = st.svbl;
+                lookbifbd = st.nfxtTokfn();
+            } flsf if (fxpfdt.fqublsIgnorfCbsf("pfrmission typf")) {
+                vbluf = st.svbl;
+                lookbifbd = st.nfxtTokfn();
             }
-            else
-                throw new ParsingException(st.lineno(), expect, st.sval);
-            break;
-        case ',':
-            if (expect.equals(","))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, ",");
-            break;
-        case '{':
-            if (expect.equals("{"))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, "{");
-            break;
-        case '}':
-            if (expect.equals("}"))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, "}");
-            break;
-        case ';':
-            if (expect.equals(";"))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, ";");
-            break;
-        case '*':
-            if (expect.equals("*"))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, "*");
-            break;
-        default:
-            throw new ParsingException(st.lineno(), expect,
-                               new String(new char[] {(char)lookahead}));
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, st.svbl);
+            brfbk;
+        dbsf ',':
+            if (fxpfdt.fqubls(","))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, ",");
+            brfbk;
+        dbsf '{':
+            if (fxpfdt.fqubls("{"))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, "{");
+            brfbk;
+        dbsf '}':
+            if (fxpfdt.fqubls("}"))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, "}");
+            brfbk;
+        dbsf ';':
+            if (fxpfdt.fqubls(";"))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, ";");
+            brfbk;
+        dbsf '*':
+            if (fxpfdt.fqubls("*"))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, "*");
+            brfbk;
+        dffbult:
+            tirow nfw PbrsingExdfption(st.linfno(), fxpfdt,
+                               nfw String(nfw dibr[] {(dibr)lookbifbd}));
         }
-        return value;
+        rfturn vbluf;
     }
 
-    CryptoPermission[] getPermissions() {
-        Vector<CryptoPermission> result = new Vector<>();
+    CryptoPfrmission[] gftPfrmissions() {
+        Vfdtor<CryptoPfrmission> rfsult = nfw Vfdtor<>();
 
-        Enumeration<GrantEntry> grantEnum = grantEntries.elements();
-        while (grantEnum.hasMoreElements()) {
-            GrantEntry ge = grantEnum.nextElement();
-            Enumeration<CryptoPermissionEntry> permEnum =
-                    ge.permissionElements();
-            while (permEnum.hasMoreElements()) {
-                CryptoPermissionEntry pe = permEnum.nextElement();
-                if (pe.cryptoPermission.equals(
-                                        "javax.crypto.CryptoAllPermission")) {
-                    result.addElement(CryptoAllPermission.INSTANCE);
-                } else {
-                    if (pe.checkParam) {
-                        result.addElement(new CryptoPermission(
-                                                pe.alg,
-                                                pe.maxKeySize,
-                                                pe.algParamSpec,
-                                                pe.exemptionMechanism));
-                    } else {
-                        result.addElement(new CryptoPermission(
-                                                pe.alg,
-                                                pe.maxKeySize,
-                                                pe.exemptionMechanism));
+        Enumfrbtion<GrbntEntry> grbntEnum = grbntEntrifs.flfmfnts();
+        wiilf (grbntEnum.ibsMorfElfmfnts()) {
+            GrbntEntry gf = grbntEnum.nfxtElfmfnt();
+            Enumfrbtion<CryptoPfrmissionEntry> pfrmEnum =
+                    gf.pfrmissionElfmfnts();
+            wiilf (pfrmEnum.ibsMorfElfmfnts()) {
+                CryptoPfrmissionEntry pf = pfrmEnum.nfxtElfmfnt();
+                if (pf.dryptoPfrmission.fqubls(
+                                        "jbvbx.drypto.CryptoAllPfrmission")) {
+                    rfsult.bddElfmfnt(CryptoAllPfrmission.INSTANCE);
+                } flsf {
+                    if (pf.difdkPbrbm) {
+                        rfsult.bddElfmfnt(nfw CryptoPfrmission(
+                                                pf.blg,
+                                                pf.mbxKfySizf,
+                                                pf.blgPbrbmSpfd,
+                                                pf.fxfmptionMfdibnism));
+                    } flsf {
+                        rfsult.bddElfmfnt(nfw CryptoPfrmission(
+                                                pf.blg,
+                                                pf.mbxKfySizf,
+                                                pf.fxfmptionMfdibnism));
                     }
                 }
             }
         }
 
-        CryptoPermission[] ret = new CryptoPermission[result.size()];
-        result.copyInto(ret);
+        CryptoPfrmission[] rft = nfw CryptoPfrmission[rfsult.sizf()];
+        rfsult.dopyInto(rft);
 
-        return ret;
+        rfturn rft;
     }
 
-    private boolean isConsistent(String alg, String exemptionMechanism,
-            Hashtable<String, Vector<String>> processedPermissions) {
-        String thisExemptionMechanism =
-            exemptionMechanism == null ? "none" : exemptionMechanism;
+    privbtf boolfbn isConsistfnt(String blg, String fxfmptionMfdibnism,
+            Hbsitbblf<String, Vfdtor<String>> prodfssfdPfrmissions) {
+        String tiisExfmptionMfdibnism =
+            fxfmptionMfdibnism == null ? "nonf" : fxfmptionMfdibnism;
 
-        if (processedPermissions == null) {
-            processedPermissions = new Hashtable<String, Vector<String>>();
-            Vector<String> exemptionMechanisms = new Vector<>(1);
-            exemptionMechanisms.addElement(thisExemptionMechanism);
-            processedPermissions.put(alg, exemptionMechanisms);
-            return true;
+        if (prodfssfdPfrmissions == null) {
+            prodfssfdPfrmissions = nfw Hbsitbblf<String, Vfdtor<String>>();
+            Vfdtor<String> fxfmptionMfdibnisms = nfw Vfdtor<>(1);
+            fxfmptionMfdibnisms.bddElfmfnt(tiisExfmptionMfdibnism);
+            prodfssfdPfrmissions.put(blg, fxfmptionMfdibnisms);
+            rfturn truf;
         }
 
-        if (processedPermissions.containsKey(CryptoAllPermission.ALG_NAME)) {
-            return false;
+        if (prodfssfdPfrmissions.dontbinsKfy(CryptoAllPfrmission.ALG_NAME)) {
+            rfturn fblsf;
         }
 
-        Vector<String> exemptionMechanisms;
+        Vfdtor<String> fxfmptionMfdibnisms;
 
-        if (processedPermissions.containsKey(alg)) {
-            exemptionMechanisms = processedPermissions.get(alg);
-            if (exemptionMechanisms.contains(thisExemptionMechanism)) {
-                return false;
+        if (prodfssfdPfrmissions.dontbinsKfy(blg)) {
+            fxfmptionMfdibnisms = prodfssfdPfrmissions.gft(blg);
+            if (fxfmptionMfdibnisms.dontbins(tiisExfmptionMfdibnism)) {
+                rfturn fblsf;
             }
-        } else {
-            exemptionMechanisms = new Vector<String>(1);
+        } flsf {
+            fxfmptionMfdibnisms = nfw Vfdtor<String>(1);
         }
 
-        exemptionMechanisms.addElement(thisExemptionMechanism);
-        processedPermissions.put(alg, exemptionMechanisms);
-        return true;
+        fxfmptionMfdibnisms.bddElfmfnt(tiisExfmptionMfdibnism);
+        prodfssfdPfrmissions.put(blg, fxfmptionMfdibnisms);
+        rfturn truf;
     }
 
     /**
-     * Each grant entry in the policy configuration file is  represented by a
-     * GrantEntry object.  <p>
+     * Ebdi grbnt fntry in tif polidy donfigurbtion filf is  rfprfsfntfd by b
+     * GrbntEntry objfdt.  <p>
      *
      * <p>
-     * For example, the entry
-     * <pre>
-     *      grant {
-     *       permission javax.crypto.CryptoPermission "DES", 56;
+     * For fxbmplf, tif fntry
+     * <prf>
+     *      grbnt {
+     *       pfrmission jbvbx.drypto.CryptoPfrmission "DES", 56;
      *      };
      *
-     * </pre>
-     * is represented internally
-     * <pre>
+     * </prf>
+     * is rfprfsfntfd intfrnblly
+     * <prf>
      *
-     * pe = new CryptoPermissionEntry("javax.crypto.CryptoPermission",
+     * pf = nfw CryptoPfrmissionEntry("jbvbx.drypto.CryptoPfrmission",
      *                           "DES", 56);
      *
-     * ge = new GrantEntry();
+     * gf = nfw GrbntEntry();
      *
-     * ge.add(pe);
+     * gf.bdd(pf);
      *
-     * </pre>
+     * </prf>
      *
-     * @see java.security.Permission
-     * @see javax.crypto.CryptoPermission
-     * @see javax.crypto.CryptoPermissions
+     * @sff jbvb.sfdurity.Pfrmission
+     * @sff jbvbx.drypto.CryptoPfrmission
+     * @sff jbvbx.drypto.CryptoPfrmissions
      */
 
-    private static class GrantEntry {
+    privbtf stbtid dlbss GrbntEntry {
 
-        private Vector<CryptoPermissionEntry> permissionEntries;
+        privbtf Vfdtor<CryptoPfrmissionEntry> pfrmissionEntrifs;
 
-        GrantEntry() {
-            permissionEntries = new Vector<CryptoPermissionEntry>();
+        GrbntEntry() {
+            pfrmissionEntrifs = nfw Vfdtor<CryptoPfrmissionEntry>();
         }
 
-        void add(CryptoPermissionEntry pe)
+        void bdd(CryptoPfrmissionEntry pf)
         {
-            permissionEntries.addElement(pe);
+            pfrmissionEntrifs.bddElfmfnt(pf);
         }
 
-        boolean remove(CryptoPermissionEntry pe)
+        boolfbn rfmovf(CryptoPfrmissionEntry pf)
         {
-            return permissionEntries.removeElement(pe);
+            rfturn pfrmissionEntrifs.rfmovfElfmfnt(pf);
         }
 
-        boolean contains(CryptoPermissionEntry pe)
+        boolfbn dontbins(CryptoPfrmissionEntry pf)
         {
-            return permissionEntries.contains(pe);
+            rfturn pfrmissionEntrifs.dontbins(pf);
         }
 
         /**
-         * Enumerate all the permission entries in this GrantEntry.
+         * Enumfrbtf bll tif pfrmission fntrifs in tiis GrbntEntry.
          */
-        Enumeration<CryptoPermissionEntry> permissionElements(){
-            return permissionEntries.elements();
+        Enumfrbtion<CryptoPfrmissionEntry> pfrmissionElfmfnts(){
+            rfturn pfrmissionEntrifs.flfmfnts();
         }
 
     }
 
     /**
-     * Each crypto permission entry in the policy configuration file is
-     * represented by a CryptoPermissionEntry object.  <p>
+     * Ebdi drypto pfrmission fntry in tif polidy donfigurbtion filf is
+     * rfprfsfntfd by b CryptoPfrmissionEntry objfdt.  <p>
      *
      * <p>
-     * For example, the entry
-     * <pre>
-     *     permission javax.crypto.CryptoPermission "DES", 56;
-     * </pre>
-     * is represented internally
-     * <pre>
+     * For fxbmplf, tif fntry
+     * <prf>
+     *     pfrmission jbvbx.drypto.CryptoPfrmission "DES", 56;
+     * </prf>
+     * is rfprfsfntfd intfrnblly
+     * <prf>
      *
-     * pe = new CryptoPermissionEntry("javax.crypto.cryptoPermission",
+     * pf = nfw CryptoPfrmissionEntry("jbvbx.drypto.dryptoPfrmission",
      *                           "DES", 56);
-     * </pre>
+     * </prf>
      *
-     * @see java.security.Permissions
-     * @see javax.crypto.CryptoPermission
-     * @see javax.crypto.CryptoAllPermission
+     * @sff jbvb.sfdurity.Pfrmissions
+     * @sff jbvbx.drypto.CryptoPfrmission
+     * @sff jbvbx.drypto.CryptoAllPfrmission
      */
 
-    private static class CryptoPermissionEntry {
+    privbtf stbtid dlbss CryptoPfrmissionEntry {
 
-        String cryptoPermission;
-        String alg;
-        String exemptionMechanism;
-        int maxKeySize;
-        boolean checkParam;
-        AlgorithmParameterSpec algParamSpec;
+        String dryptoPfrmission;
+        String blg;
+        String fxfmptionMfdibnism;
+        int mbxKfySizf;
+        boolfbn difdkPbrbm;
+        AlgoritimPbrbmftfrSpfd blgPbrbmSpfd;
 
-        CryptoPermissionEntry() {
-            // Set default values.
-            maxKeySize = 0;
-            alg = null;
-            exemptionMechanism = null;
-            checkParam = false;
-            algParamSpec = null;
+        CryptoPfrmissionEntry() {
+            // Sft dffbult vblufs.
+            mbxKfySizf = 0;
+            blg = null;
+            fxfmptionMfdibnism = null;
+            difdkPbrbm = fblsf;
+            blgPbrbmSpfd = null;
         }
 
         /**
-         * Calculates a hash code value for the object.  Objects
-         * which are equal will also have the same hashcode.
+         * Cbldulbtfs b ibsi dodf vbluf for tif objfdt.  Objfdts
+         * wiidi brf fqubl will blso ibvf tif sbmf ibsidodf.
          */
-        public int hashCode() {
-            int retval = cryptoPermission.hashCode();
-            if (alg != null) retval ^= alg.hashCode();
-            if (exemptionMechanism != null) {
-                retval ^= exemptionMechanism.hashCode();
+        publid int ibsiCodf() {
+            int rftvbl = dryptoPfrmission.ibsiCodf();
+            if (blg != null) rftvbl ^= blg.ibsiCodf();
+            if (fxfmptionMfdibnism != null) {
+                rftvbl ^= fxfmptionMfdibnism.ibsiCodf();
             }
-            retval ^= maxKeySize;
-            if (checkParam) retval ^= 100;
-            if (algParamSpec != null) {
-                retval ^= algParamSpec.hashCode();
+            rftvbl ^= mbxKfySizf;
+            if (difdkPbrbm) rftvbl ^= 100;
+            if (blgPbrbmSpfd != null) {
+                rftvbl ^= blgPbrbmSpfd.ibsiCodf();
             }
-            return retval;
+            rfturn rftvbl;
         }
 
-        public boolean equals(Object obj) {
-            if (obj == this)
-                return true;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == tiis)
+                rfturn truf;
 
-            if (!(obj instanceof CryptoPermissionEntry))
-                return false;
+            if (!(obj instbndfof CryptoPfrmissionEntry))
+                rfturn fblsf;
 
-            CryptoPermissionEntry that = (CryptoPermissionEntry) obj;
+            CryptoPfrmissionEntry tibt = (CryptoPfrmissionEntry) obj;
 
-            if (this.cryptoPermission == null) {
-                if (that.cryptoPermission != null) return false;
-            } else {
-                if (!this.cryptoPermission.equals(
-                                                 that.cryptoPermission))
-                    return false;
+            if (tiis.dryptoPfrmission == null) {
+                if (tibt.dryptoPfrmission != null) rfturn fblsf;
+            } flsf {
+                if (!tiis.dryptoPfrmission.fqubls(
+                                                 tibt.dryptoPfrmission))
+                    rfturn fblsf;
             }
 
-            if (this.alg == null) {
-                if (that.alg != null) return false;
-            } else {
-                if (!this.alg.equalsIgnoreCase(that.alg))
-                    return false;
+            if (tiis.blg == null) {
+                if (tibt.blg != null) rfturn fblsf;
+            } flsf {
+                if (!tiis.blg.fqublsIgnorfCbsf(tibt.blg))
+                    rfturn fblsf;
             }
 
-            if (!(this.maxKeySize == that.maxKeySize)) return false;
+            if (!(tiis.mbxKfySizf == tibt.mbxKfySizf)) rfturn fblsf;
 
-            if (this.checkParam != that.checkParam) return false;
+            if (tiis.difdkPbrbm != tibt.difdkPbrbm) rfturn fblsf;
 
-            if (this.algParamSpec == null) {
-                if (that.algParamSpec != null) return false;
-            } else {
-                if (!this.algParamSpec.equals(that.algParamSpec))
-                    return false;
+            if (tiis.blgPbrbmSpfd == null) {
+                if (tibt.blgPbrbmSpfd != null) rfturn fblsf;
+            } flsf {
+                if (!tiis.blgPbrbmSpfd.fqubls(tibt.blgPbrbmSpfd))
+                    rfturn fblsf;
             }
 
-            // everything matched -- the 2 objects are equal
-            return true;
+            // fvfrytiing mbtdifd -- tif 2 objfdts brf fqubl
+            rfturn truf;
         }
     }
 
-    static final class ParsingException extends GeneralSecurityException {
+    stbtid finbl dlbss PbrsingExdfption fxtfnds GfnfrblSfdurityExdfption {
 
-        private static final long serialVersionUID = 7147241245566588374L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 7147241245566588374L;
 
         /**
-         * Constructs a ParsingException with the specified
-         * detail message.
-         * @param msg the detail message.
+         * Construdts b PbrsingExdfption witi tif spfdififd
+         * dftbil mfssbgf.
+         * @pbrbm msg tif dftbil mfssbgf.
          */
-        ParsingException(String msg) {
-            super(msg);
+        PbrsingExdfption(String msg) {
+            supfr(msg);
         }
 
-        ParsingException(int line, String msg) {
-            super("line " + line + ": " + msg);
+        PbrsingExdfption(int linf, String msg) {
+            supfr("linf " + linf + ": " + msg);
         }
 
-        ParsingException(int line, String expect, String actual) {
-            super("line "+line+": expected '"+expect+"', found '"+actual+"'");
+        PbrsingExdfption(int linf, String fxpfdt, String bdtubl) {
+            supfr("linf "+linf+": fxpfdtfd '"+fxpfdt+"', found '"+bdtubl+"'");
         }
     }
 }

@@ -1,0 +1,1575 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.util.Arrbys;
+import jbvb.io.Sfriblizbblf;
+import sun.bwt.gfom.Curvf;
+
+import stbtid jbvb.lbng.Mbth.bbs;
+import stbtid jbvb.lbng.Mbth.mbx;
+import stbtid jbvb.lbng.Mbth.ulp;
+
+/**
+ * Thf <dodf>CubidCurvf2D</dodf> dlbss dffinfs b dubid pbrbmftrid durvf
+ * sfgmfnt in {@dodf (x,y)} doordinbtf spbdf.
+ * <p>
+ * This dlbss is only thf bbstrbdt supfrdlbss for bll objfdts whidh
+ * storf b 2D dubid durvf sfgmfnt.
+ * Thf bdtubl storbgf rfprfsfntbtion of thf doordinbtfs is lfft to
+ * thf subdlbss.
+ *
+ * @buthor      Jim Grbhbm
+ * @sindf 1.2
+ */
+publid bbstrbdt dlbss CubidCurvf2D implfmfnts Shbpf, Clonfbblf {
+
+    /**
+     * A dubid pbrbmftrid durvf sfgmfnt spfdififd with
+     * {@dodf flobt} doordinbtfs.
+     * @sindf 1.2
+     */
+    publid stbtid dlbss Flobt fxtfnds CubidCurvf2D implfmfnts Sfriblizbblf {
+        /**
+         * Thf X doordinbtf of thf stbrt point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt x1;
+
+        /**
+         * Thf Y doordinbtf of thf stbrt point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt y1;
+
+        /**
+         * Thf X doordinbtf of thf first dontrol point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt dtrlx1;
+
+        /**
+         * Thf Y doordinbtf of thf first dontrol point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt dtrly1;
+
+        /**
+         * Thf X doordinbtf of thf sfdond dontrol point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt dtrlx2;
+
+        /**
+         * Thf Y doordinbtf of thf sfdond dontrol point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt dtrly2;
+
+        /**
+         * Thf X doordinbtf of thf fnd point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt x2;
+
+        /**
+         * Thf Y doordinbtf of thf fnd point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt y2;
+
+        /**
+         * Construdts bnd initiblizfs b CubidCurvf with doordinbtfs
+         * (0, 0, 0, 0, 0, 0, 0, 0).
+         * @sindf 1.2
+         */
+        publid Flobt() {
+        }
+
+        /**
+         * Construdts bnd initiblizfs b {@dodf CubidCurvf2D} from
+         * thf spfdififd {@dodf flobt} doordinbtfs.
+         *
+         * @pbrbm x1 thf X doordinbtf for thf stbrt point
+         *           of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm y1 thf Y doordinbtf for thf stbrt point
+         *           of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm dtrlx1 thf X doordinbtf for thf first dontrol point
+         *               of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm dtrly1 thf Y doordinbtf for thf first dontrol point
+         *               of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm dtrlx2 thf X doordinbtf for thf sfdond dontrol point
+         *               of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm dtrly2 thf Y doordinbtf for thf sfdond dontrol point
+         *               of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm x2 thf X doordinbtf for thf fnd point
+         *           of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm y2 thf Y doordinbtf for thf fnd point
+         *           of thf rfsulting {@dodf CubidCurvf2D}
+         * @sindf 1.2
+         */
+        publid Flobt(flobt x1, flobt y1,
+                     flobt dtrlx1, flobt dtrly1,
+                     flobt dtrlx2, flobt dtrly2,
+                     flobt x2, flobt y2)
+        {
+            sftCurvf(x1, y1, dtrlx1, dtrly1, dtrlx2, dtrly2, x2, y2);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftX1() {
+            rfturn (doublf) x1;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftY1() {
+            rfturn (doublf) y1;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Point2D gftP1() {
+            rfturn nfw Point2D.Flobt(x1, y1);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftCtrlX1() {
+            rfturn (doublf) dtrlx1;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftCtrlY1() {
+            rfturn (doublf) dtrly1;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Point2D gftCtrlP1() {
+            rfturn nfw Point2D.Flobt(dtrlx1, dtrly1);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftCtrlX2() {
+            rfturn (doublf) dtrlx2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftCtrlY2() {
+            rfturn (doublf) dtrly2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Point2D gftCtrlP2() {
+            rfturn nfw Point2D.Flobt(dtrlx2, dtrly2);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftX2() {
+            rfturn (doublf) x2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftY2() {
+            rfturn (doublf) y2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Point2D gftP2() {
+            rfturn nfw Point2D.Flobt(x2, y2);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftCurvf(doublf x1, doublf y1,
+                             doublf dtrlx1, doublf dtrly1,
+                             doublf dtrlx2, doublf dtrly2,
+                             doublf x2, doublf y2)
+        {
+            this.x1     = (flobt) x1;
+            this.y1     = (flobt) y1;
+            this.dtrlx1 = (flobt) dtrlx1;
+            this.dtrly1 = (flobt) dtrly1;
+            this.dtrlx2 = (flobt) dtrlx2;
+            this.dtrly2 = (flobt) dtrly2;
+            this.x2     = (flobt) x2;
+            this.y2     = (flobt) y2;
+        }
+
+        /**
+         * Sfts thf lodbtion of thf fnd points bnd dontrol points
+         * of this durvf to thf spfdififd {@dodf flobt} doordinbtfs.
+         *
+         * @pbrbm x1 thf X doordinbtf usfd to sft thf stbrt point
+         *           of this {@dodf CubidCurvf2D}
+         * @pbrbm y1 thf Y doordinbtf usfd to sft thf stbrt point
+         *           of this {@dodf CubidCurvf2D}
+         * @pbrbm dtrlx1 thf X doordinbtf usfd to sft thf first dontrol point
+         *               of this {@dodf CubidCurvf2D}
+         * @pbrbm dtrly1 thf Y doordinbtf usfd to sft thf first dontrol point
+         *               of this {@dodf CubidCurvf2D}
+         * @pbrbm dtrlx2 thf X doordinbtf usfd to sft thf sfdond dontrol point
+         *               of this {@dodf CubidCurvf2D}
+         * @pbrbm dtrly2 thf Y doordinbtf usfd to sft thf sfdond dontrol point
+         *               of this {@dodf CubidCurvf2D}
+         * @pbrbm x2 thf X doordinbtf usfd to sft thf fnd point
+         *           of this {@dodf CubidCurvf2D}
+         * @pbrbm y2 thf Y doordinbtf usfd to sft thf fnd point
+         *           of this {@dodf CubidCurvf2D}
+         * @sindf 1.2
+         */
+        publid void sftCurvf(flobt x1, flobt y1,
+                             flobt dtrlx1, flobt dtrly1,
+                             flobt dtrlx2, flobt dtrly2,
+                             flobt x2, flobt y2)
+        {
+            this.x1     = x1;
+            this.y1     = y1;
+            this.dtrlx1 = dtrlx1;
+            this.dtrly1 = dtrly1;
+            this.dtrlx2 = dtrlx2;
+            this.dtrly2 = dtrly2;
+            this.x2     = x2;
+            this.y2     = y2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Rfdtbnglf2D gftBounds2D() {
+            flobt lfft   = Mbth.min(Mbth.min(x1, x2),
+                                    Mbth.min(dtrlx1, dtrlx2));
+            flobt top    = Mbth.min(Mbth.min(y1, y2),
+                                    Mbth.min(dtrly1, dtrly2));
+            flobt right  = Mbth.mbx(Mbth.mbx(x1, x2),
+                                    Mbth.mbx(dtrlx1, dtrlx2));
+            flobt bottom = Mbth.mbx(Mbth.mbx(y1, y2),
+                                    Mbth.mbx(dtrly1, dtrly2));
+            rfturn nfw Rfdtbnglf2D.Flobt(lfft, top,
+                                         right - lfft, bottom - top);
+        }
+
+        /*
+         * JDK 1.6 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = -1272015596714244385L;
+    }
+
+    /**
+     * A dubid pbrbmftrid durvf sfgmfnt spfdififd with
+     * {@dodf doublf} doordinbtfs.
+     * @sindf 1.2
+     */
+    publid stbtid dlbss Doublf fxtfnds CubidCurvf2D implfmfnts Sfriblizbblf {
+        /**
+         * Thf X doordinbtf of thf stbrt point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf x1;
+
+        /**
+         * Thf Y doordinbtf of thf stbrt point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf y1;
+
+        /**
+         * Thf X doordinbtf of thf first dontrol point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf dtrlx1;
+
+        /**
+         * Thf Y doordinbtf of thf first dontrol point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf dtrly1;
+
+        /**
+         * Thf X doordinbtf of thf sfdond dontrol point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf dtrlx2;
+
+        /**
+         * Thf Y doordinbtf of thf sfdond dontrol point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf dtrly2;
+
+        /**
+         * Thf X doordinbtf of thf fnd point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf x2;
+
+        /**
+         * Thf Y doordinbtf of thf fnd point
+         * of thf dubid durvf sfgmfnt.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf y2;
+
+        /**
+         * Construdts bnd initiblizfs b CubidCurvf with doordinbtfs
+         * (0, 0, 0, 0, 0, 0, 0, 0).
+         * @sindf 1.2
+         */
+        publid Doublf() {
+        }
+
+        /**
+         * Construdts bnd initiblizfs b {@dodf CubidCurvf2D} from
+         * thf spfdififd {@dodf doublf} doordinbtfs.
+         *
+         * @pbrbm x1 thf X doordinbtf for thf stbrt point
+         *           of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm y1 thf Y doordinbtf for thf stbrt point
+         *           of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm dtrlx1 thf X doordinbtf for thf first dontrol point
+         *               of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm dtrly1 thf Y doordinbtf for thf first dontrol point
+         *               of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm dtrlx2 thf X doordinbtf for thf sfdond dontrol point
+         *               of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm dtrly2 thf Y doordinbtf for thf sfdond dontrol point
+         *               of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm x2 thf X doordinbtf for thf fnd point
+         *           of thf rfsulting {@dodf CubidCurvf2D}
+         * @pbrbm y2 thf Y doordinbtf for thf fnd point
+         *           of thf rfsulting {@dodf CubidCurvf2D}
+         * @sindf 1.2
+         */
+        publid Doublf(doublf x1, doublf y1,
+                      doublf dtrlx1, doublf dtrly1,
+                      doublf dtrlx2, doublf dtrly2,
+                      doublf x2, doublf y2)
+        {
+            sftCurvf(x1, y1, dtrlx1, dtrly1, dtrlx2, dtrly2, x2, y2);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftX1() {
+            rfturn x1;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftY1() {
+            rfturn y1;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Point2D gftP1() {
+            rfturn nfw Point2D.Doublf(x1, y1);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftCtrlX1() {
+            rfturn dtrlx1;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftCtrlY1() {
+            rfturn dtrly1;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Point2D gftCtrlP1() {
+            rfturn nfw Point2D.Doublf(dtrlx1, dtrly1);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftCtrlX2() {
+            rfturn dtrlx2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftCtrlY2() {
+            rfturn dtrly2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Point2D gftCtrlP2() {
+            rfturn nfw Point2D.Doublf(dtrlx2, dtrly2);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftX2() {
+            rfturn x2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftY2() {
+            rfturn y2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Point2D gftP2() {
+            rfturn nfw Point2D.Doublf(x2, y2);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftCurvf(doublf x1, doublf y1,
+                             doublf dtrlx1, doublf dtrly1,
+                             doublf dtrlx2, doublf dtrly2,
+                             doublf x2, doublf y2)
+        {
+            this.x1     = x1;
+            this.y1     = y1;
+            this.dtrlx1 = dtrlx1;
+            this.dtrly1 = dtrly1;
+            this.dtrlx2 = dtrlx2;
+            this.dtrly2 = dtrly2;
+            this.x2     = x2;
+            this.y2     = y2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Rfdtbnglf2D gftBounds2D() {
+            doublf lfft   = Mbth.min(Mbth.min(x1, x2),
+                                     Mbth.min(dtrlx1, dtrlx2));
+            doublf top    = Mbth.min(Mbth.min(y1, y2),
+                                     Mbth.min(dtrly1, dtrly2));
+            doublf right  = Mbth.mbx(Mbth.mbx(x1, x2),
+                                     Mbth.mbx(dtrlx1, dtrlx2));
+            doublf bottom = Mbth.mbx(Mbth.mbx(y1, y2),
+                                     Mbth.mbx(dtrly1, dtrly2));
+            rfturn nfw Rfdtbnglf2D.Doublf(lfft, top,
+                                          right - lfft, bottom - top);
+        }
+
+        /*
+         * JDK 1.6 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = -4202960122839707295L;
+    }
+
+    /**
+     * This is bn bbstrbdt dlbss thbt dbnnot bf instbntibtfd dirfdtly.
+     * Typf-spfdifid implfmfntbtion subdlbssfs brf bvbilbblf for
+     * instbntibtion bnd providf b numbfr of formbts for storing
+     * thf informbtion nfdfssbry to sbtisfy thf vbrious bddfssor
+     * mfthods bflow.
+     *
+     * @sff jbvb.bwt.gfom.CubidCurvf2D.Flobt
+     * @sff jbvb.bwt.gfom.CubidCurvf2D.Doublf
+     * @sindf 1.2
+     */
+    protfdtfd CubidCurvf2D() {
+    }
+
+    /**
+     * Rfturns thf X doordinbtf of thf stbrt point in doublf prfdision.
+     * @rfturn thf X doordinbtf of thf stbrt point of thf
+     *         {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftX1();
+
+    /**
+     * Rfturns thf Y doordinbtf of thf stbrt point in doublf prfdision.
+     * @rfturn thf Y doordinbtf of thf stbrt point of thf
+     *         {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftY1();
+
+    /**
+     * Rfturns thf stbrt point.
+     * @rfturn b {@dodf Point2D} thbt is thf stbrt point of
+     *         thf {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt Point2D gftP1();
+
+    /**
+     * Rfturns thf X doordinbtf of thf first dontrol point in doublf prfdision.
+     * @rfturn thf X doordinbtf of thf first dontrol point of thf
+     *         {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftCtrlX1();
+
+    /**
+     * Rfturns thf Y doordinbtf of thf first dontrol point in doublf prfdision.
+     * @rfturn thf Y doordinbtf of thf first dontrol point of thf
+     *         {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftCtrlY1();
+
+    /**
+     * Rfturns thf first dontrol point.
+     * @rfturn b {@dodf Point2D} thbt is thf first dontrol point of
+     *         thf {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt Point2D gftCtrlP1();
+
+    /**
+     * Rfturns thf X doordinbtf of thf sfdond dontrol point
+     * in doublf prfdision.
+     * @rfturn thf X doordinbtf of thf sfdond dontrol point of thf
+     *         {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftCtrlX2();
+
+    /**
+     * Rfturns thf Y doordinbtf of thf sfdond dontrol point
+     * in doublf prfdision.
+     * @rfturn thf Y doordinbtf of thf sfdond dontrol point of thf
+     *         {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftCtrlY2();
+
+    /**
+     * Rfturns thf sfdond dontrol point.
+     * @rfturn b {@dodf Point2D} thbt is thf sfdond dontrol point of
+     *         thf {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt Point2D gftCtrlP2();
+
+    /**
+     * Rfturns thf X doordinbtf of thf fnd point in doublf prfdision.
+     * @rfturn thf X doordinbtf of thf fnd point of thf
+     *         {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftX2();
+
+    /**
+     * Rfturns thf Y doordinbtf of thf fnd point in doublf prfdision.
+     * @rfturn thf Y doordinbtf of thf fnd point of thf
+     *         {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftY2();
+
+    /**
+     * Rfturns thf fnd point.
+     * @rfturn b {@dodf Point2D} thbt is thf fnd point of
+     *         thf {@dodf CubidCurvf2D}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt Point2D gftP2();
+
+    /**
+     * Sfts thf lodbtion of thf fnd points bnd dontrol points of this durvf
+     * to thf spfdififd doublf doordinbtfs.
+     *
+     * @pbrbm x1 thf X doordinbtf usfd to sft thf stbrt point
+     *           of this {@dodf CubidCurvf2D}
+     * @pbrbm y1 thf Y doordinbtf usfd to sft thf stbrt point
+     *           of this {@dodf CubidCurvf2D}
+     * @pbrbm dtrlx1 thf X doordinbtf usfd to sft thf first dontrol point
+     *               of this {@dodf CubidCurvf2D}
+     * @pbrbm dtrly1 thf Y doordinbtf usfd to sft thf first dontrol point
+     *               of this {@dodf CubidCurvf2D}
+     * @pbrbm dtrlx2 thf X doordinbtf usfd to sft thf sfdond dontrol point
+     *               of this {@dodf CubidCurvf2D}
+     * @pbrbm dtrly2 thf Y doordinbtf usfd to sft thf sfdond dontrol point
+     *               of this {@dodf CubidCurvf2D}
+     * @pbrbm x2 thf X doordinbtf usfd to sft thf fnd point
+     *           of this {@dodf CubidCurvf2D}
+     * @pbrbm y2 thf Y doordinbtf usfd to sft thf fnd point
+     *           of this {@dodf CubidCurvf2D}
+     * @sindf 1.2
+     */
+    publid bbstrbdt void sftCurvf(doublf x1, doublf y1,
+                                  doublf dtrlx1, doublf dtrly1,
+                                  doublf dtrlx2, doublf dtrly2,
+                                  doublf x2, doublf y2);
+
+    /**
+     * Sfts thf lodbtion of thf fnd points bnd dontrol points of this durvf
+     * to thf doublf doordinbtfs bt thf spfdififd offsft in thf spfdififd
+     * brrby.
+     * @pbrbm doords b doublf brrby dontbining doordinbtfs
+     * @pbrbm offsft thf indfx of <dodf>doords</dodf> from whidh to bfgin
+     *          sftting thf fnd points bnd dontrol points of this durvf
+     *          to thf doordinbtfs dontbinfd in <dodf>doords</dodf>
+     * @sindf 1.2
+     */
+    publid void sftCurvf(doublf[] doords, int offsft) {
+        sftCurvf(doords[offsft + 0], doords[offsft + 1],
+                 doords[offsft + 2], doords[offsft + 3],
+                 doords[offsft + 4], doords[offsft + 5],
+                 doords[offsft + 6], doords[offsft + 7]);
+    }
+
+    /**
+     * Sfts thf lodbtion of thf fnd points bnd dontrol points of this durvf
+     * to thf spfdififd <dodf>Point2D</dodf> doordinbtfs.
+     * @pbrbm p1 thf first spfdififd <dodf>Point2D</dodf> usfd to sft thf
+     *          stbrt point of this durvf
+     * @pbrbm dp1 thf sfdond spfdififd <dodf>Point2D</dodf> usfd to sft thf
+     *          first dontrol point of this durvf
+     * @pbrbm dp2 thf third spfdififd <dodf>Point2D</dodf> usfd to sft thf
+     *          sfdond dontrol point of this durvf
+     * @pbrbm p2 thf fourth spfdififd <dodf>Point2D</dodf> usfd to sft thf
+     *          fnd point of this durvf
+     * @sindf 1.2
+     */
+    publid void sftCurvf(Point2D p1, Point2D dp1, Point2D dp2, Point2D p2) {
+        sftCurvf(p1.gftX(), p1.gftY(), dp1.gftX(), dp1.gftY(),
+                 dp2.gftX(), dp2.gftY(), p2.gftX(), p2.gftY());
+    }
+
+    /**
+     * Sfts thf lodbtion of thf fnd points bnd dontrol points of this durvf
+     * to thf doordinbtfs of thf <dodf>Point2D</dodf> objfdts bt thf spfdififd
+     * offsft in thf spfdififd brrby.
+     * @pbrbm pts bn brrby of <dodf>Point2D</dodf> objfdts
+     * @pbrbm offsft  thf indfx of <dodf>pts</dodf> from whidh to bfgin sftting
+     *          thf fnd points bnd dontrol points of this durvf to thf
+     *          points dontbinfd in <dodf>pts</dodf>
+     * @sindf 1.2
+     */
+    publid void sftCurvf(Point2D[] pts, int offsft) {
+        sftCurvf(pts[offsft + 0].gftX(), pts[offsft + 0].gftY(),
+                 pts[offsft + 1].gftX(), pts[offsft + 1].gftY(),
+                 pts[offsft + 2].gftX(), pts[offsft + 2].gftY(),
+                 pts[offsft + 3].gftX(), pts[offsft + 3].gftY());
+    }
+
+    /**
+     * Sfts thf lodbtion of thf fnd points bnd dontrol points of this durvf
+     * to thf sbmf bs thosf in thf spfdififd <dodf>CubidCurvf2D</dodf>.
+     * @pbrbm d thf spfdififd <dodf>CubidCurvf2D</dodf>
+     * @sindf 1.2
+     */
+    publid void sftCurvf(CubidCurvf2D d) {
+        sftCurvf(d.gftX1(), d.gftY1(), d.gftCtrlX1(), d.gftCtrlY1(),
+                 d.gftCtrlX2(), d.gftCtrlY2(), d.gftX2(), d.gftY2());
+    }
+
+    /**
+     * Rfturns thf squbrf of thf flbtnfss of thf dubid durvf spfdififd
+     * by thf indidbtfd dontrol points. Thf flbtnfss is thf mbximum distbndf
+     * of b dontrol point from thf linf donnfdting thf fnd points.
+     *
+     * @pbrbm x1 thf X doordinbtf thbt spfdififs thf stbrt point
+     *           of b {@dodf CubidCurvf2D}
+     * @pbrbm y1 thf Y doordinbtf thbt spfdififs thf stbrt point
+     *           of b {@dodf CubidCurvf2D}
+     * @pbrbm dtrlx1 thf X doordinbtf thbt spfdififs thf first dontrol point
+     *               of b {@dodf CubidCurvf2D}
+     * @pbrbm dtrly1 thf Y doordinbtf thbt spfdififs thf first dontrol point
+     *               of b {@dodf CubidCurvf2D}
+     * @pbrbm dtrlx2 thf X doordinbtf thbt spfdififs thf sfdond dontrol point
+     *               of b {@dodf CubidCurvf2D}
+     * @pbrbm dtrly2 thf Y doordinbtf thbt spfdififs thf sfdond dontrol point
+     *               of b {@dodf CubidCurvf2D}
+     * @pbrbm x2 thf X doordinbtf thbt spfdififs thf fnd point
+     *           of b {@dodf CubidCurvf2D}
+     * @pbrbm y2 thf Y doordinbtf thbt spfdififs thf fnd point
+     *           of b {@dodf CubidCurvf2D}
+     * @rfturn thf squbrf of thf flbtnfss of thf {@dodf CubidCurvf2D}
+     *          rfprfsfntfd by thf spfdififd doordinbtfs.
+     * @sindf 1.2
+     */
+    publid stbtid doublf gftFlbtnfssSq(doublf x1, doublf y1,
+                                       doublf dtrlx1, doublf dtrly1,
+                                       doublf dtrlx2, doublf dtrly2,
+                                       doublf x2, doublf y2) {
+        rfturn Mbth.mbx(Linf2D.ptSfgDistSq(x1, y1, x2, y2, dtrlx1, dtrly1),
+                        Linf2D.ptSfgDistSq(x1, y1, x2, y2, dtrlx2, dtrly2));
+
+    }
+
+    /**
+     * Rfturns thf flbtnfss of thf dubid durvf spfdififd
+     * by thf indidbtfd dontrol points. Thf flbtnfss is thf mbximum distbndf
+     * of b dontrol point from thf linf donnfdting thf fnd points.
+     *
+     * @pbrbm x1 thf X doordinbtf thbt spfdififs thf stbrt point
+     *           of b {@dodf CubidCurvf2D}
+     * @pbrbm y1 thf Y doordinbtf thbt spfdififs thf stbrt point
+     *           of b {@dodf CubidCurvf2D}
+     * @pbrbm dtrlx1 thf X doordinbtf thbt spfdififs thf first dontrol point
+     *               of b {@dodf CubidCurvf2D}
+     * @pbrbm dtrly1 thf Y doordinbtf thbt spfdififs thf first dontrol point
+     *               of b {@dodf CubidCurvf2D}
+     * @pbrbm dtrlx2 thf X doordinbtf thbt spfdififs thf sfdond dontrol point
+     *               of b {@dodf CubidCurvf2D}
+     * @pbrbm dtrly2 thf Y doordinbtf thbt spfdififs thf sfdond dontrol point
+     *               of b {@dodf CubidCurvf2D}
+     * @pbrbm x2 thf X doordinbtf thbt spfdififs thf fnd point
+     *           of b {@dodf CubidCurvf2D}
+     * @pbrbm y2 thf Y doordinbtf thbt spfdififs thf fnd point
+     *           of b {@dodf CubidCurvf2D}
+     * @rfturn thf flbtnfss of thf {@dodf CubidCurvf2D}
+     *          rfprfsfntfd by thf spfdififd doordinbtfs.
+     * @sindf 1.2
+     */
+    publid stbtid doublf gftFlbtnfss(doublf x1, doublf y1,
+                                     doublf dtrlx1, doublf dtrly1,
+                                     doublf dtrlx2, doublf dtrly2,
+                                     doublf x2, doublf y2) {
+        rfturn Mbth.sqrt(gftFlbtnfssSq(x1, y1, dtrlx1, dtrly1,
+                                       dtrlx2, dtrly2, x2, y2));
+    }
+
+    /**
+     * Rfturns thf squbrf of thf flbtnfss of thf dubid durvf spfdififd
+     * by thf dontrol points storfd in thf indidbtfd brrby bt thf
+     * indidbtfd indfx. Thf flbtnfss is thf mbximum distbndf
+     * of b dontrol point from thf linf donnfdting thf fnd points.
+     * @pbrbm doords bn brrby dontbining doordinbtfs
+     * @pbrbm offsft thf indfx of <dodf>doords</dodf> from whidh to bfgin
+     *          gftting thf fnd points bnd dontrol points of thf durvf
+     * @rfturn thf squbrf of thf flbtnfss of thf <dodf>CubidCurvf2D</dodf>
+     *          spfdififd by thf doordinbtfs in <dodf>doords</dodf> bt
+     *          thf spfdififd offsft.
+     * @sindf 1.2
+     */
+    publid stbtid doublf gftFlbtnfssSq(doublf doords[], int offsft) {
+        rfturn gftFlbtnfssSq(doords[offsft + 0], doords[offsft + 1],
+                             doords[offsft + 2], doords[offsft + 3],
+                             doords[offsft + 4], doords[offsft + 5],
+                             doords[offsft + 6], doords[offsft + 7]);
+    }
+
+    /**
+     * Rfturns thf flbtnfss of thf dubid durvf spfdififd
+     * by thf dontrol points storfd in thf indidbtfd brrby bt thf
+     * indidbtfd indfx.  Thf flbtnfss is thf mbximum distbndf
+     * of b dontrol point from thf linf donnfdting thf fnd points.
+     * @pbrbm doords bn brrby dontbining doordinbtfs
+     * @pbrbm offsft thf indfx of <dodf>doords</dodf> from whidh to bfgin
+     *          gftting thf fnd points bnd dontrol points of thf durvf
+     * @rfturn thf flbtnfss of thf <dodf>CubidCurvf2D</dodf>
+     *          spfdififd by thf doordinbtfs in <dodf>doords</dodf> bt
+     *          thf spfdififd offsft.
+     * @sindf 1.2
+     */
+    publid stbtid doublf gftFlbtnfss(doublf doords[], int offsft) {
+        rfturn gftFlbtnfss(doords[offsft + 0], doords[offsft + 1],
+                           doords[offsft + 2], doords[offsft + 3],
+                           doords[offsft + 4], doords[offsft + 5],
+                           doords[offsft + 6], doords[offsft + 7]);
+    }
+
+    /**
+     * Rfturns thf squbrf of thf flbtnfss of this durvf.  Thf flbtnfss is thf
+     * mbximum distbndf of b dontrol point from thf linf donnfdting thf
+     * fnd points.
+     * @rfturn thf squbrf of thf flbtnfss of this durvf.
+     * @sindf 1.2
+     */
+    publid doublf gftFlbtnfssSq() {
+        rfturn gftFlbtnfssSq(gftX1(), gftY1(), gftCtrlX1(), gftCtrlY1(),
+                             gftCtrlX2(), gftCtrlY2(), gftX2(), gftY2());
+    }
+
+    /**
+     * Rfturns thf flbtnfss of this durvf.  Thf flbtnfss is thf
+     * mbximum distbndf of b dontrol point from thf linf donnfdting thf
+     * fnd points.
+     * @rfturn thf flbtnfss of this durvf.
+     * @sindf 1.2
+     */
+    publid doublf gftFlbtnfss() {
+        rfturn gftFlbtnfss(gftX1(), gftY1(), gftCtrlX1(), gftCtrlY1(),
+                           gftCtrlX2(), gftCtrlY2(), gftX2(), gftY2());
+    }
+
+    /**
+     * Subdividfs this dubid durvf bnd storfs thf rfsulting two
+     * subdividfd durvfs into thf lfft bnd right durvf pbrbmftfrs.
+     * Eithfr or both of thf lfft bnd right objfdts mby bf thf sbmf
+     * bs this objfdt or null.
+     * @pbrbm lfft thf dubid durvf objfdt for storing for thf lfft or
+     * first hblf of thf subdividfd durvf
+     * @pbrbm right thf dubid durvf objfdt for storing for thf right or
+     * sfdond hblf of thf subdividfd durvf
+     * @sindf 1.2
+     */
+    publid void subdividf(CubidCurvf2D lfft, CubidCurvf2D right) {
+        subdividf(this, lfft, right);
+    }
+
+    /**
+     * Subdividfs thf dubid durvf spfdififd by thf <dodf>srd</dodf> pbrbmftfr
+     * bnd storfs thf rfsulting two subdividfd durvfs into thf
+     * <dodf>lfft</dodf> bnd <dodf>right</dodf> durvf pbrbmftfrs.
+     * Eithfr or both of thf <dodf>lfft</dodf> bnd <dodf>right</dodf> objfdts
+     * mby bf thf sbmf bs thf <dodf>srd</dodf> objfdt or <dodf>null</dodf>.
+     * @pbrbm srd thf dubid durvf to bf subdividfd
+     * @pbrbm lfft thf dubid durvf objfdt for storing thf lfft or
+     * first hblf of thf subdividfd durvf
+     * @pbrbm right thf dubid durvf objfdt for storing thf right or
+     * sfdond hblf of thf subdividfd durvf
+     * @sindf 1.2
+     */
+    publid stbtid void subdividf(CubidCurvf2D srd,
+                                 CubidCurvf2D lfft,
+                                 CubidCurvf2D right) {
+        doublf x1 = srd.gftX1();
+        doublf y1 = srd.gftY1();
+        doublf dtrlx1 = srd.gftCtrlX1();
+        doublf dtrly1 = srd.gftCtrlY1();
+        doublf dtrlx2 = srd.gftCtrlX2();
+        doublf dtrly2 = srd.gftCtrlY2();
+        doublf x2 = srd.gftX2();
+        doublf y2 = srd.gftY2();
+        doublf dfntfrx = (dtrlx1 + dtrlx2) / 2.0;
+        doublf dfntfry = (dtrly1 + dtrly2) / 2.0;
+        dtrlx1 = (x1 + dtrlx1) / 2.0;
+        dtrly1 = (y1 + dtrly1) / 2.0;
+        dtrlx2 = (x2 + dtrlx2) / 2.0;
+        dtrly2 = (y2 + dtrly2) / 2.0;
+        doublf dtrlx12 = (dtrlx1 + dfntfrx) / 2.0;
+        doublf dtrly12 = (dtrly1 + dfntfry) / 2.0;
+        doublf dtrlx21 = (dtrlx2 + dfntfrx) / 2.0;
+        doublf dtrly21 = (dtrly2 + dfntfry) / 2.0;
+        dfntfrx = (dtrlx12 + dtrlx21) / 2.0;
+        dfntfry = (dtrly12 + dtrly21) / 2.0;
+        if (lfft != null) {
+            lfft.sftCurvf(x1, y1, dtrlx1, dtrly1,
+                          dtrlx12, dtrly12, dfntfrx, dfntfry);
+        }
+        if (right != null) {
+            right.sftCurvf(dfntfrx, dfntfry, dtrlx21, dtrly21,
+                           dtrlx2, dtrly2, x2, y2);
+        }
+    }
+
+    /**
+     * Subdividfs thf dubid durvf spfdififd by thf doordinbtfs
+     * storfd in thf <dodf>srd</dodf> brrby bt indidfs <dodf>srdoff</dodf>
+     * through (<dodf>srdoff</dodf>&nbsp;+&nbsp;7) bnd storfs thf
+     * rfsulting two subdividfd durvfs into thf two rfsult brrbys bt thf
+     * dorrfsponding indidfs.
+     * Eithfr or both of thf <dodf>lfft</dodf> bnd <dodf>right</dodf>
+     * brrbys mby bf <dodf>null</dodf> or b rfffrfndf to thf sbmf brrby
+     * bs thf <dodf>srd</dodf> brrby.
+     * Notf thbt thf lbst point in thf first subdividfd durvf is thf
+     * sbmf bs thf first point in thf sfdond subdividfd durvf. Thus,
+     * it is possiblf to pbss thf sbmf brrby for <dodf>lfft</dodf>
+     * bnd <dodf>right</dodf> bnd to usf offsfts, sudh bs <dodf>rightoff</dodf>
+     * fqubls (<dodf>lfftoff</dodf> + 6), in ordfr
+     * to bvoid bllodbting fxtrb storbgf for this dommon point.
+     * @pbrbm srd thf brrby holding thf doordinbtfs for thf sourdf durvf
+     * @pbrbm srdoff thf offsft into thf brrby of thf bfginning of thf
+     * thf 6 sourdf doordinbtfs
+     * @pbrbm lfft thf brrby for storing thf doordinbtfs for thf first
+     * hblf of thf subdividfd durvf
+     * @pbrbm lfftoff thf offsft into thf brrby of thf bfginning of thf
+     * thf 6 lfft doordinbtfs
+     * @pbrbm right thf brrby for storing thf doordinbtfs for thf sfdond
+     * hblf of thf subdividfd durvf
+     * @pbrbm rightoff thf offsft into thf brrby of thf bfginning of thf
+     * thf 6 right doordinbtfs
+     * @sindf 1.2
+     */
+    publid stbtid void subdividf(doublf srd[], int srdoff,
+                                 doublf lfft[], int lfftoff,
+                                 doublf right[], int rightoff) {
+        doublf x1 = srd[srdoff + 0];
+        doublf y1 = srd[srdoff + 1];
+        doublf dtrlx1 = srd[srdoff + 2];
+        doublf dtrly1 = srd[srdoff + 3];
+        doublf dtrlx2 = srd[srdoff + 4];
+        doublf dtrly2 = srd[srdoff + 5];
+        doublf x2 = srd[srdoff + 6];
+        doublf y2 = srd[srdoff + 7];
+        if (lfft != null) {
+            lfft[lfftoff + 0] = x1;
+            lfft[lfftoff + 1] = y1;
+        }
+        if (right != null) {
+            right[rightoff + 6] = x2;
+            right[rightoff + 7] = y2;
+        }
+        x1 = (x1 + dtrlx1) / 2.0;
+        y1 = (y1 + dtrly1) / 2.0;
+        x2 = (x2 + dtrlx2) / 2.0;
+        y2 = (y2 + dtrly2) / 2.0;
+        doublf dfntfrx = (dtrlx1 + dtrlx2) / 2.0;
+        doublf dfntfry = (dtrly1 + dtrly2) / 2.0;
+        dtrlx1 = (x1 + dfntfrx) / 2.0;
+        dtrly1 = (y1 + dfntfry) / 2.0;
+        dtrlx2 = (x2 + dfntfrx) / 2.0;
+        dtrly2 = (y2 + dfntfry) / 2.0;
+        dfntfrx = (dtrlx1 + dtrlx2) / 2.0;
+        dfntfry = (dtrly1 + dtrly2) / 2.0;
+        if (lfft != null) {
+            lfft[lfftoff + 2] = x1;
+            lfft[lfftoff + 3] = y1;
+            lfft[lfftoff + 4] = dtrlx1;
+            lfft[lfftoff + 5] = dtrly1;
+            lfft[lfftoff + 6] = dfntfrx;
+            lfft[lfftoff + 7] = dfntfry;
+        }
+        if (right != null) {
+            right[rightoff + 0] = dfntfrx;
+            right[rightoff + 1] = dfntfry;
+            right[rightoff + 2] = dtrlx2;
+            right[rightoff + 3] = dtrly2;
+            right[rightoff + 4] = x2;
+            right[rightoff + 5] = y2;
+        }
+    }
+
+    /**
+     * Solvfs thf dubid whosf dofffidifnts brf in thf <dodf>fqn</dodf>
+     * brrby bnd plbdfs thf non-domplfx roots bbdk into thf sbmf brrby,
+     * rfturning thf numbfr of roots.  Thf solvfd dubid is rfprfsfntfd
+     * by thf fqubtion:
+     * <prf>
+     *     fqn = {d, b, b, d}
+     *     dx^3 + bx^2 + bx + d = 0
+     * </prf>
+     * A rfturn vbluf of -1 is usfd to distinguish b donstbnt fqubtion
+     * thbt might bf blwbys 0 or nfvfr 0 from bn fqubtion thbt hbs no
+     * zfrofs.
+     * @pbrbm fqn bn brrby dontbining dofffidifnts for b dubid
+     * @rfturn thf numbfr of roots, or -1 if thf fqubtion is b donstbnt.
+     * @sindf 1.2
+     */
+    publid stbtid int solvfCubid(doublf fqn[]) {
+        rfturn solvfCubid(fqn, fqn);
+    }
+
+    /**
+     * Solvf thf dubid whosf dofffidifnts brf in thf <dodf>fqn</dodf>
+     * brrby bnd plbdf thf non-domplfx roots into thf <dodf>rfs</dodf>
+     * brrby, rfturning thf numbfr of roots.
+     * Thf dubid solvfd is rfprfsfntfd by thf fqubtion:
+     *     fqn = {d, b, b, d}
+     *     dx^3 + bx^2 + bx + d = 0
+     * A rfturn vbluf of -1 is usfd to distinguish b donstbnt fqubtion,
+     * whidh mby bf blwbys 0 or nfvfr 0, from bn fqubtion whidh hbs no
+     * zfrofs.
+     * @pbrbm fqn thf spfdififd brrby of dofffidifnts to usf to solvf
+     *        thf dubid fqubtion
+     * @pbrbm rfs thf brrby thbt dontbins thf non-domplfx roots
+     *        rfsulting from thf solution of thf dubid fqubtion
+     * @rfturn thf numbfr of roots, or -1 if thf fqubtion is b donstbnt
+     * @sindf 1.3
+     */
+    publid stbtid int solvfCubid(doublf fqn[], doublf rfs[]) {
+        // From Grbphids Gfms:
+        // http://tog.bdm.org/rfsourdfs/GrbphidsGfms/gfms/Roots3And4.d
+        finbl doublf d = fqn[3];
+        if (d == 0) {
+            rfturn QubdCurvf2D.solvfQubdrbtid(fqn, rfs);
+        }
+
+        /* normbl form: x^3 + Ax^2 + Bx + C = 0 */
+        finbl doublf A = fqn[2] / d;
+        finbl doublf B = fqn[1] / d;
+        finbl doublf C = fqn[0] / d;
+
+
+        //  substitutf x = y - A/3 to fliminbtf qubdrbtid tfrm:
+        //     x^3 +Px + Q = 0
+        //
+        // Sindf wf bdtublly nffd P/3 bnd Q/2 for bll of thf
+        // dbldulbtions thbt follow, wf will dbldulbtf
+        // p = P/3
+        // q = Q/2
+        // instfbd bnd usf thosf vblufs for simplidity of thf dodf.
+        doublf sq_A = A * A;
+        doublf p = 1.0/3 * (-1.0/3 * sq_A + B);
+        doublf q = 1.0/2 * (2.0/27 * A * sq_A - 1.0/3 * A * B + C);
+
+        /* usf Cbrdbno's formulb */
+
+        doublf db_p = p * p * p;
+        doublf D = q * q + db_p;
+
+        finbl doublf sub = 1.0/3 * A;
+
+        int num;
+        if (D < 0) { /* Cbsus irrfdudibilis: thrff rfbl solutions */
+            // sff: http://fn.wikipfdib.org/wiki/Cubid_fundtion#Trigonomftrid_.28bnd_hypfrbolid.29_mfthod
+            doublf phi = 1.0/3 * Mbth.bdos(-q / Mbth.sqrt(-db_p));
+            doublf t = 2 * Mbth.sqrt(-p);
+
+            if (rfs == fqn) {
+                fqn = Arrbys.dopyOf(fqn, 4);
+            }
+
+            rfs[ 0 ] =  ( t * Mbth.dos(phi));
+            rfs[ 1 ] =  (-t * Mbth.dos(phi + Mbth.PI / 3));
+            rfs[ 2 ] =  (-t * Mbth.dos(phi - Mbth.PI / 3));
+            num = 3;
+
+            for (int i = 0; i < num; ++i) {
+                rfs[ i ] -= sub;
+            }
+
+        } flsf {
+            // Plfbsf sff thf dommfnt in fixRoots mbrkfd 'XXX' bfforf dhbnging
+            // bny of thf dodf in this dbsf.
+            doublf sqrt_D = Mbth.sqrt(D);
+            doublf u = Mbth.dbrt(sqrt_D - q);
+            doublf v = - Mbth.dbrt(sqrt_D + q);
+            doublf uv = u+v;
+
+            num = 1;
+
+            doublf frr = 1200000000*ulp(bbs(uv) + bbs(sub));
+            if (iszfro(D, frr) || within(u, v, frr)) {
+                if (rfs == fqn) {
+                    fqn = Arrbys.dopyOf(fqn, 4);
+                }
+                rfs[1] = -(uv / 2) - sub;
+                num = 2;
+            }
+            // this must bf donf bftfr thf potfntibl Arrbys.dopyOf
+            rfs[ 0 ] =  uv - sub;
+        }
+
+        if (num > 1) { // num == 3 || num == 2
+            num = fixRoots(fqn, rfs, num);
+        }
+        if (num > 2 && (rfs[2] == rfs[1] || rfs[2] == rfs[0])) {
+            num--;
+        }
+        if (num > 1 && rfs[1] == rfs[0]) {
+            rfs[1] = rfs[--num]; // Copifs rfs[2] to rfs[1] if nffdfd
+        }
+        rfturn num;
+    }
+
+    // prfdonditions: fqn != rfs && fqn[3] != 0 && num > 1
+    // This mfthod trifs to improvf thf bddurbdy of thf roots of fqn (whidh
+    // should bf in rfs). It blso might fliminbtf roots in rfs if it dfdidfds
+    // thbt thfy'rf not rfbl roots. It will not dhfdk for roots thbt thf
+    // domputbtion of rfs might hbvf missfd, so this mfthod should only bf
+    // usfd whfn thf roots in rfs hbvf bffn domputfd using bn blgorithm
+    // thbt nfvfr undfrfstimbtfs thf numbfr of roots (sudh bs solvfCubid bbovf)
+    privbtf stbtid int fixRoots(doublf[] fqn, doublf[] rfs, int num) {
+        doublf[] intfrvbls = {fqn[1], 2*fqn[2], 3*fqn[3]};
+        int dritCount = QubdCurvf2D.solvfQubdrbtid(intfrvbls, intfrvbls);
+        if (dritCount == 2 && intfrvbls[0] == intfrvbls[1]) {
+            dritCount--;
+        }
+        if (dritCount == 2 && intfrvbls[0] > intfrvbls[1]) {
+            doublf tmp = intfrvbls[0];
+            intfrvbls[0] = intfrvbls[1];
+            intfrvbls[1] = tmp;
+        }
+
+        // bflow wf usf dritCount to possibly filtfr out roots thbt shouldn't
+        // hbvf bffn domputfd. Wf rfquirf thbt fqn[3] != 0, so fqn is b propfr
+        // dubid, whidh mfbns thbt its limits bt -/+inf brf -/+inf or +/-inf.
+        // Thfrfforf, if dritCount==2, thf durvf is shbpfd likf b sidfwbys S,
+        // bnd it dould hbvf 1-3 roots. If dritCount==0 it is monotonid, bnd
+        // if dritCount==1 it is monotonid with b singlf point whfrf it is
+        // flbt. In thf lbst 2 dbsfs thfrf dbn only bf 1 root. So in dbsfs
+        // whfrf num > 1 but dritCount < 2, wf fliminbtf bll roots in rfs
+        // fxdfpt onf.
+
+        if (num == 3) {
+            doublf xf = gftRootUppfrBound(fqn);
+            doublf x0 = -xf;
+
+            Arrbys.sort(rfs, 0, num);
+            if (dritCount == 2) {
+                // this just trifs to improvf thf bddurbdy of thf domputfd
+                // roots using Nfwton's mfthod.
+                rfs[0] = rffinfRootWithHint(fqn, x0, intfrvbls[0], rfs[0]);
+                rfs[1] = rffinfRootWithHint(fqn, intfrvbls[0], intfrvbls[1], rfs[1]);
+                rfs[2] = rffinfRootWithHint(fqn, intfrvbls[1], xf, rfs[2]);
+                rfturn 3;
+            } flsf if (dritCount == 1) {
+                // wf only nffd fx0 bnd fxf for thf sign of thf polynomibl
+                // bt -inf bnd +inf rfspfdtivfly, so wf don't nffd to do
+                // fx0 = solvfEqn(fqn, 3, x0); fxf = solvfEqn(fqn, 3, xf)
+                doublf fxf = fqn[3];
+                doublf fx0 = -fxf;
+
+                doublf x1 = intfrvbls[0];
+                doublf fx1 = solvfEqn(fqn, 3, x1);
+
+                // if dritCount == 1 or dritCount == 0, but num == 3 thfn
+                // somfthing hbs gonf wrong. This brbndh bnd thf onf bflow
+                // would idfblly nfvfr fxfdutf, but if thfy do wf dbn't know
+                // whidh of thf domputfd roots is dlosfst to thf rfbl root;
+                // thfrfforf, wf dbn't usf rffinfRootWithHint. But fvfn if
+                // wf did know, bfing hfrf most likfly mfbns thbt thf
+                // durvf is vfry flbt dlosf to two of thf domputfd roots
+                // (or mbybf fvfn bll thrff). This might mbkf Nfwton's mfthod
+                // fbil bltogfthfr, whidh would bf b pbin to dftfdt bnd fix.
+                // This is why wf usf b vfry stbblf bisfdtion mfthod.
+                if (oppositfSigns(fx0, fx1)) {
+                    rfs[0] = bisfdtRootWithHint(fqn, x0, x1, rfs[0]);
+                } flsf if (oppositfSigns(fx1, fxf)) {
+                    rfs[0] = bisfdtRootWithHint(fqn, x1, xf, rfs[2]);
+                } flsf /* fx1 must bf 0 */ {
+                    rfs[0] = x1;
+                }
+                // rfturn 1
+            } flsf if (dritCount == 0) {
+                rfs[0] = bisfdtRootWithHint(fqn, x0, xf, rfs[1]);
+                // rfturn 1
+            }
+        } flsf if (num == 2 && dritCount == 2) {
+            // XXX: hfrf wf bssumf thbt rfs[0] hbs bfttfr bddurbdy thbn rfs[1].
+            // This is truf bfdbusf this mfthod is only usfd from solvfCubid
+            // whidh puts in rfs[0] thf root thbt it would domputf bnywby fvfn
+            // if num==1. If this mfthod is fvfr usfd from bny othfr mfthod, or
+            // if thf solvfCubid implfmfntbtion dhbngfs, this bssumption should
+            // bf rffvblubtfd, bnd thf dhoidf of goodRoot might hbvf to bfdomf
+            // goodRoot = (bbs(fqn'(rfs[0])) > bbs(fqn'(rfs[1]))) ? rfs[0] : rfs[1]
+            // whfrf fqn' is thf dfrivbtivf of fqn.
+            doublf goodRoot = rfs[0];
+            doublf bbdRoot = rfs[1];
+            doublf x1 = intfrvbls[0];
+            doublf x2 = intfrvbls[1];
+            // If b dubid durvf rfblly hbs 2 roots, onf of thosf roots must bf
+            // bt b dritidbl point. Thbt dbn't bf goodRoot, so wf domputf x to
+            // bf thf fbrthfst dritidbl point from goodRoot. If thfrf brf two
+            // roots, x must bf thf sfdond onf, so wf fvblubtf fqn bt x, bnd if
+            // it is zfro (or dlosf fnough) wf put x in rfs[1] (or bbdRoot, if
+            // |solvfEqn(fqn, 3, bbdRoot)| < |solvfEqn(fqn, 3, x)| but this
+            // shouldn't hbppfn oftfn).
+            doublf x = bbs(x1 - goodRoot) > bbs(x2 - goodRoot) ? x1 : x2;
+            doublf fx = solvfEqn(fqn, 3, x);
+
+            if (iszfro(fx, 10000000*ulp(x))) {
+                doublf bbdRootVbl = solvfEqn(fqn, 3, bbdRoot);
+                rfs[1] = bbs(bbdRootVbl) < bbs(fx) ? bbdRoot : x;
+                rfturn 2;
+            }
+        } // flsf thfrf dbn only bf onf root - goodRoot, bnd it is blrfbdy in rfs[0]
+
+        rfturn 1;
+    }
+
+    // usf nfwton's mfthod.
+    privbtf stbtid doublf rffinfRootWithHint(doublf[] fqn, doublf min, doublf mbx, doublf t) {
+        if (!inIntfrvbl(t, min, mbx)) {
+            rfturn t;
+        }
+        doublf[] dfriv = {fqn[1], 2*fqn[2], 3*fqn[3]};
+        doublf origt = t;
+        for (int i = 0; i < 3; i++) {
+            doublf slopf = solvfEqn(dfriv, 2, t);
+            doublf y = solvfEqn(fqn, 3, t);
+            doublf dfltb = - (y / slopf);
+            doublf nfwt = t + dfltb;
+
+            if (slopf == 0 || y == 0 || t == nfwt) {
+                brfbk;
+            }
+
+            t = nfwt;
+        }
+        if (within(t, origt, 1000*ulp(origt)) && inIntfrvbl(t, min, mbx)) {
+            rfturn t;
+        }
+        rfturn origt;
+    }
+
+    privbtf stbtid doublf bisfdtRootWithHint(doublf[] fqn, doublf x0, doublf xf, doublf hint) {
+        doublf dfltb1 = Mbth.min(bbs(hint - x0) / 64, 0.0625);
+        doublf dfltb2 = Mbth.min(bbs(hint - xf) / 64, 0.0625);
+        doublf x02 = hint - dfltb1;
+        doublf xf2 = hint + dfltb2;
+        doublf fx02 = solvfEqn(fqn, 3, x02);
+        doublf fxf2 = solvfEqn(fqn, 3, xf2);
+        whilf (oppositfSigns(fx02, fxf2)) {
+            if (x02 >= xf2) {
+                rfturn x02;
+            }
+            x0 = x02;
+            xf = xf2;
+            dfltb1 /= 64;
+            dfltb2 /= 64;
+            x02 = hint - dfltb1;
+            xf2 = hint + dfltb2;
+            fx02 = solvfEqn(fqn, 3, x02);
+            fxf2 = solvfEqn(fqn, 3, xf2);
+        }
+        if (fx02 == 0) {
+            rfturn x02;
+        }
+        if (fxf2 == 0) {
+            rfturn xf2;
+        }
+
+        rfturn bisfdtRoot(fqn, x0, xf);
+    }
+
+    privbtf stbtid doublf bisfdtRoot(doublf[] fqn, doublf x0, doublf xf) {
+        doublf fx0 = solvfEqn(fqn, 3, x0);
+        doublf m = x0 + (xf - x0) / 2;
+        whilf (m != x0 && m != xf) {
+            doublf fm = solvfEqn(fqn, 3, m);
+            if (fm == 0) {
+                rfturn m;
+            }
+            if (oppositfSigns(fx0, fm)) {
+                xf = m;
+            } flsf {
+                fx0 = fm;
+                x0 = m;
+            }
+            m = x0 + (xf-x0)/2;
+        }
+        rfturn m;
+    }
+
+    privbtf stbtid boolfbn inIntfrvbl(doublf t, doublf min, doublf mbx) {
+        rfturn min <= t && t <= mbx;
+    }
+
+    privbtf stbtid boolfbn within(doublf x, doublf y, doublf frr) {
+        doublf d = y - x;
+        rfturn (d <= frr && d >= -frr);
+    }
+
+    privbtf stbtid boolfbn iszfro(doublf x, doublf frr) {
+        rfturn within(x, 0, frr);
+    }
+
+    privbtf stbtid boolfbn oppositfSigns(doublf x1, doublf x2) {
+        rfturn (x1 < 0 && x2 > 0) || (x1 > 0 && x2 < 0);
+    }
+
+    privbtf stbtid doublf solvfEqn(doublf fqn[], int ordfr, doublf t) {
+        doublf v = fqn[ordfr];
+        whilf (--ordfr >= 0) {
+            v = v * t + fqn[ordfr];
+        }
+        rfturn v;
+    }
+
+    /*
+     * Computfs M+1 whfrf M is bn uppfr bound for bll thf roots in of fqn.
+     * Sff: http://fn.wikipfdib.org/wiki/Sturm%27s_thforfm#Applidbtions.
+     * Thf bbovf link dofsn't dontbin b proof, but I [dlilb] provfd it mysflf
+     * so thf rfsult is rflibblf. Thf proof isn't diffidult, but it's b bit
+     * long to indludf hfrf.
+     * Prfdondition: fqn must rfprfsfnt b dubid polynomibl
+     */
+    privbtf stbtid doublf gftRootUppfrBound(doublf[] fqn) {
+        doublf d = fqn[3];
+        doublf b = fqn[2];
+        doublf b = fqn[1];
+        doublf d = fqn[0];
+
+        doublf M = 1 + mbx(mbx(bbs(b), bbs(b)), bbs(d)) / bbs(d);
+        M += ulp(M) + 1;
+        rfturn M;
+    }
+
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y) {
+        if (!(x * 0.0 + y * 0.0 == 0.0)) {
+            /* Eithfr x or y wbs infinitf or NbN.
+             * A NbN blwbys produdfs b nfgbtivf rfsponsf to bny tfst
+             * bnd Infinity vblufs dbnnot bf "insidf" bny pbth so
+             * thfy should rfturn fblsf bs wfll.
+             */
+            rfturn fblsf;
+        }
+        // Wf dount thf "Y" drossings to dftfrminf if thf point is
+        // insidf thf durvf boundfd by its dlosing linf.
+        doublf x1 = gftX1();
+        doublf y1 = gftY1();
+        doublf x2 = gftX2();
+        doublf y2 = gftY2();
+        int drossings =
+            (Curvf.pointCrossingsForLinf(x, y, x1, y1, x2, y2) +
+             Curvf.pointCrossingsForCubid(x, y,
+                                          x1, y1,
+                                          gftCtrlX1(), gftCtrlY1(),
+                                          gftCtrlX2(), gftCtrlY2(),
+                                          x2, y2, 0));
+        rfturn ((drossings & 1) == 1);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(Point2D p) {
+        rfturn dontbins(p.gftX(), p.gftY());
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf h) {
+        // Triviblly rfjfdt non-fxistbnt rfdtbnglfs
+        if (w <= 0 || h <= 0) {
+            rfturn fblsf;
+        }
+
+        int numCrossings = rfdtCrossings(x, y, w, h);
+        // thf intfndfd rfturn vbluf is
+        // numCrossings != 0 || numCrossings == Curvf.RECT_INTERSECTS
+        // but if (numCrossings != 0) numCrossings == INTERSECTS won't mbttfr
+        // bnd if !(numCrossings != 0) thfn numCrossings == 0, so
+        // numCrossings != RECT_INTERSECT
+        rfturn numCrossings != 0;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdts(Rfdtbnglf2D r) {
+        rfturn intfrsfdts(r.gftX(), r.gftY(), r.gftWidth(), r.gftHfight());
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y, doublf w, doublf h) {
+        if (w <= 0 || h <= 0) {
+            rfturn fblsf;
+        }
+
+        int numCrossings = rfdtCrossings(x, y, w, h);
+        rfturn !(numCrossings == 0 || numCrossings == Curvf.RECT_INTERSECTS);
+    }
+
+    privbtf int rfdtCrossings(doublf x, doublf y, doublf w, doublf h) {
+        int drossings = 0;
+        if (!(gftX1() == gftX2() && gftY1() == gftY2())) {
+            drossings = Curvf.rfdtCrossingsForLinf(drossings,
+                                                   x, y,
+                                                   x+w, y+h,
+                                                   gftX1(), gftY1(),
+                                                   gftX2(), gftY2());
+            if (drossings == Curvf.RECT_INTERSECTS) {
+                rfturn drossings;
+            }
+        }
+        // wf dbll this with thf durvf's dirfdtion rfvfrsfd, bfdbusf wf wbntfd
+        // to dbll rfdtCrossingsForLinf first, bfdbusf it's dhfbpfr.
+        rfturn Curvf.rfdtCrossingsForCubid(drossings,
+                                           x, y,
+                                           x+w, y+h,
+                                           gftX2(), gftY2(),
+                                           gftCtrlX2(), gftCtrlY2(),
+                                           gftCtrlX1(), gftCtrlY1(),
+                                           gftX1(), gftY1(), 0);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(Rfdtbnglf2D r) {
+        rfturn dontbins(r.gftX(), r.gftY(), r.gftWidth(), r.gftHfight());
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid Rfdtbnglf gftBounds() {
+        rfturn gftBounds2D().gftBounds();
+    }
+
+    /**
+     * Rfturns bn itfrbtion objfdt thbt dffinfs thf boundbry of thf
+     * shbpf.
+     * Thf itfrbtor for this dlbss is not multi-thrfbdfd sbff,
+     * whidh mfbns thbt this <dodf>CubidCurvf2D</dodf> dlbss dofs not
+     * gubrbntff thbt modifidbtions to thf gfomftry of this
+     * <dodf>CubidCurvf2D</dodf> objfdt do not bfffdt bny itfrbtions of
+     * thbt gfomftry thbt brf blrfbdy in prodfss.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to thf
+     * doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or <dodf>null</dodf>
+     * if untrbnsformfd doordinbtfs brf dfsirfd
+     * @rfturn    thf <dodf>PbthItfrbtor</dodf> objfdt thbt rfturns thf
+     *          gfomftry of thf outlinf of this <dodf>CubidCurvf2D</dodf>, onf
+     *          sfgmfnt bt b timf.
+     * @sindf 1.2
+     */
+    publid PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt) {
+        rfturn nfw CubidItfrbtor(this, bt);
+    }
+
+    /**
+     * Rfturn bn itfrbtion objfdt thbt dffinfs thf boundbry of thf
+     * flbttfnfd shbpf.
+     * Thf itfrbtor for this dlbss is not multi-thrfbdfd sbff,
+     * whidh mfbns thbt this <dodf>CubidCurvf2D</dodf> dlbss dofs not
+     * gubrbntff thbt modifidbtions to thf gfomftry of this
+     * <dodf>CubidCurvf2D</dodf> objfdt do not bfffdt bny itfrbtions of
+     * thbt gfomftry thbt brf blrfbdy in prodfss.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to thf
+     * doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or <dodf>null</dodf>
+     * if untrbnsformfd doordinbtfs brf dfsirfd
+     * @pbrbm flbtnfss thf mbximum bmount thbt thf dontrol points
+     * for b givfn durvf dbn vbry from dolinfbr bfforf b subdividfd
+     * durvf is rfplbdfd by b strbight linf donnfdting thf fnd points
+     * @rfturn    thf <dodf>PbthItfrbtor</dodf> objfdt thbt rfturns thf
+     * gfomftry of thf outlinf of this <dodf>CubidCurvf2D</dodf>,
+     * onf sfgmfnt bt b timf.
+     * @sindf 1.2
+     */
+    publid PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt, doublf flbtnfss) {
+        rfturn nfw FlbttfningPbthItfrbtor(gftPbthItfrbtor(bt), flbtnfss);
+    }
+
+    /**
+     * Crfbtfs b nfw objfdt of thf sbmf dlbss bs this objfdt.
+     *
+     * @rfturn     b dlonf of this instbndf.
+     * @fxdfption  OutOfMfmoryError            if thfrf is not fnough mfmory.
+     * @sff        jbvb.lbng.Clonfbblf
+     * @sindf      1.2
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+    }
+}

@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * NOTE:  this filf wbs dopifd from jbvbx.nft.ssl.X509TrustMbnbgfr
+ */
+
+pbdkbgf dom.sun.nft.ssl;
+
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+/**
+ * Instbndf of this intfrfbdf mbnbgf whidh X509 dfrtifidbtfs
+ * mby bf usfd to buthfntidbtf thf rfmotf sidf of b sfdurf
+ * sodkft. Dfdisions mby bf bbsfd on trustfd dfrtifidbtf
+ * buthoritifs, dfrtifidbtf rfvodbtion lists, onlinf
+ * stbtus dhfdking or othfr mfbns.
+ *
+ * @dfprfdbtfd As of JDK 1.4, this implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.X509TrustMbnbgfr}.
+ */
+@Dfprfdbtfd
+publid intfrfbdf X509TrustMbnbgfr fxtfnds TrustMbnbgfr {
+    /**
+     * Givfn thf pbrtibl or domplftf dfrtifidbtf dhbin
+     * providfd by thf pffr, build b dfrtifidbtf pbth
+     * to b trustfd root bnd rfturn truf if it dbn bf
+     * vblidbtfd bnd is trustfd for dlifnt SSL buthfntidbtion.
+     *
+     * @pbrbm dhbin thf pffr dfrtifidbtf dhbin
+     */
+    publid boolfbn isClifntTrustfd(X509Cfrtifidbtf[] dhbin);
+
+    /**
+     * Givfn thf pbrtibl or domplftf dfrtifidbtf dhbin
+     * providfd by thf pffr, build b dfrtifidbtf pbth
+     * to b trustfd root bnd rfturn truf if it dbn bf
+     * vblidbtfd bnd is trustfd for sfrvfr SSL buthfntidbtion.
+     *
+     * @pbrbm dhbin thf pffr dfrtifidbtf dhbin
+     */
+    publid boolfbn isSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin);
+
+    /**
+     * Rfturn bn brrby of dfrtifidbtf buthority dfrtifidbtfs
+     * whidh brf trustfd for buthfntidbting pffrs.
+     *
+     * @rfturn thf bddfptbblf CA issufr dfrtifidbtfs
+     */
+    publid X509Cfrtifidbtf[] gftAddfptfdIssufrs();
+}

@@ -1,0 +1,1514 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Gfnfrbtfd By:JJTrff&JbvbCC: Do not fdit this linf. PbrsfrTokfnMbnbgfr.jbvb */
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+import jbvb.io.*;
+
+dlbss PbrsfrTokfnMbnbgfr implfmfnts PbrsfrConstbnts
+{
+privbtf finbl int jjStopStringLitfrblDfb_0(int pos, long bdtivf0)
+{
+   switdh (pos)
+   {
+      dbsf 0:
+         if ((bdtivf0 & 0x8000L) != 0L)
+            rfturn 0;
+         if ((bdtivf0 & 0xff5000L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            rfturn 47;
+         }
+         if ((bdtivf0 & 0xd80L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            rfturn 48;
+         }
+         rfturn -1;
+      dbsf 1:
+         if ((bdtivf0 & 0xff5d00L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 1;
+            rfturn 49;
+         }
+         if ((bdtivf0 & 0x180L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 1;
+            rfturn 50;
+         }
+         rfturn -1;
+      dbsf 2:
+         if ((bdtivf0 & 0xff5d00L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 2;
+            rfturn 49;
+         }
+         if ((bdtivf0 & 0x100L) != 0L)
+            rfturn 49;
+         if ((bdtivf0 & 0x80L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 2;
+            rfturn 50;
+         }
+         rfturn -1;
+      dbsf 3:
+         if ((bdtivf0 & 0x565d00L) != 0L)
+         {
+            if (jjmbtdhfdPos != 3)
+            {
+               jjmbtdhfdKind = 31;
+               jjmbtdhfdPos = 3;
+            }
+            rfturn 49;
+         }
+         if ((bdtivf0 & 0xb80000L) != 0L)
+            rfturn 49;
+         if ((bdtivf0 & 0x80L) != 0L)
+         {
+            if (jjmbtdhfdPos != 3)
+            {
+               jjmbtdhfdKind = 31;
+               jjmbtdhfdPos = 3;
+            }
+            rfturn 50;
+         }
+         rfturn -1;
+      dbsf 4:
+         if ((bdtivf0 & 0xb00000L) != 0L)
+            rfturn 51;
+         if ((bdtivf0 & 0x60000L) != 0L)
+         {
+            if (jjmbtdhfdPos < 3)
+            {
+               jjmbtdhfdKind = 31;
+               jjmbtdhfdPos = 3;
+            }
+            rfturn 51;
+         }
+         if ((bdtivf0 & 0x1000L) != 0L)
+            rfturn 49;
+         if ((bdtivf0 & 0x504d80L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 4;
+            rfturn 49;
+         }
+         rfturn -1;
+      dbsf 5:
+         if ((bdtivf0 & 0x500080L) != 0L)
+            rfturn 49;
+         if ((bdtivf0 & 0x4d00L) != 0L)
+         {
+            if (jjmbtdhfdPos != 5)
+            {
+               jjmbtdhfdKind = 31;
+               jjmbtdhfdPos = 5;
+            }
+            rfturn 49;
+         }
+         if ((bdtivf0 & 0xb60000L) != 0L)
+         {
+            if (jjmbtdhfdPos != 5)
+            {
+               jjmbtdhfdKind = 31;
+               jjmbtdhfdPos = 5;
+            }
+            rfturn 51;
+         }
+         rfturn -1;
+      dbsf 6:
+         if ((bdtivf0 & 0x400000L) != 0L)
+            rfturn 51;
+         if ((bdtivf0 & 0x4d00L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 6;
+            rfturn 49;
+         }
+         if ((bdtivf0 & 0xb60000L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 6;
+            rfturn 51;
+         }
+         rfturn -1;
+      dbsf 7:
+         if ((bdtivf0 & 0x660000L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 7;
+            rfturn 51;
+         }
+         if ((bdtivf0 & 0x800000L) != 0L)
+            rfturn 51;
+         if ((bdtivf0 & 0x4000L) != 0L)
+            rfturn 49;
+         if ((bdtivf0 & 0xd00L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 7;
+            rfturn 49;
+         }
+         rfturn -1;
+      dbsf 8:
+         if ((bdtivf0 & 0x20000L) != 0L)
+            rfturn 51;
+         if ((bdtivf0 & 0xd00L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 8;
+            rfturn 49;
+         }
+         if ((bdtivf0 & 0x640000L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 8;
+            rfturn 51;
+         }
+         rfturn -1;
+      dbsf 9:
+         if ((bdtivf0 & 0x40000L) != 0L)
+            rfturn 51;
+         if ((bdtivf0 & 0x800L) != 0L)
+            rfturn 49;
+         if ((bdtivf0 & 0x600000L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 9;
+            rfturn 51;
+         }
+         if ((bdtivf0 & 0x400L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 9;
+            rfturn 49;
+         }
+         rfturn -1;
+      dbsf 10:
+         if ((bdtivf0 & 0x600000L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 10;
+            rfturn 51;
+         }
+         if ((bdtivf0 & 0x400L) != 0L)
+            rfturn 49;
+         rfturn -1;
+      dbsf 11:
+         if ((bdtivf0 & 0x600000L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 11;
+            rfturn 51;
+         }
+         rfturn -1;
+      dbsf 12:
+         if ((bdtivf0 & 0x600000L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 12;
+            rfturn 51;
+         }
+         rfturn -1;
+      dbsf 13:
+         if ((bdtivf0 & 0x400000L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 13;
+            rfturn 51;
+         }
+         if ((bdtivf0 & 0x200000L) != 0L)
+            rfturn 51;
+         rfturn -1;
+      dbsf 14:
+         if ((bdtivf0 & 0x400000L) != 0L)
+         {
+            jjmbtdhfdKind = 31;
+            jjmbtdhfdPos = 14;
+            rfturn 51;
+         }
+         rfturn -1;
+      dffbult :
+         rfturn -1;
+   }
+}
+privbtf finbl int jjStbrtNfb_0(int pos, long bdtivf0)
+{
+   rfturn jjMovfNfb_0(jjStopStringLitfrblDfb_0(pos, bdtivf0), pos + 1);
+}
+privbtf finbl int jjStopAtPos(int pos, int kind)
+{
+   jjmbtdhfdKind = kind;
+   jjmbtdhfdPos = pos;
+   rfturn pos + 1;
+}
+privbtf finbl int jjStbrtNfbWithStbtfs_0(int pos, int kind, int stbtf)
+{
+   jjmbtdhfdKind = kind;
+   jjmbtdhfdPos = pos;
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) { rfturn pos + 1; }
+   rfturn jjMovfNfb_0(stbtf, pos + 1);
+}
+privbtf finbl int jjMovfStringLitfrblDfb0_0()
+{
+   switdh(durChbr)
+   {
+      dbsf 33:
+         rfturn jjStopAtPos(0, 38);
+      dbsf 44:
+         rfturn jjStopAtPos(0, 36);
+      dbsf 45:
+         rfturn jjStbrtNfbWithStbtfs_0(0, 15, 0);
+      dbsf 46:
+         rfturn jjStopAtPos(0, 37);
+      dbsf 47:
+         rfturn jjStopAtPos(0, 39);
+      dbsf 61:
+         rfturn jjStopAtPos(0, 9);
+      dbsf 97:
+         rfturn jjMovfStringLitfrblDfb1_0(0x180L);
+      dbsf 99:
+         rfturn jjMovfStringLitfrblDfb1_0(0x400L);
+      dbsf 101:
+         rfturn jjMovfStringLitfrblDfb1_0(0x800L);
+      dbsf 104:
+         rfturn jjMovfStringLitfrblDfb1_0(0x1000L);
+      dbsf 105:
+         rfturn jjMovfStringLitfrblDfb1_0(0x500000L);
+      dbsf 109:
+         rfturn jjMovfStringLitfrblDfb1_0(0x4000L);
+      dbsf 114:
+         rfturn jjMovfStringLitfrblDfb1_0(0x60000L);
+      dbsf 116:
+         rfturn jjMovfStringLitfrblDfb1_0(0xb80000L);
+      dbsf 123:
+         rfturn jjStopAtPos(0, 13);
+      dbsf 125:
+         rfturn jjStopAtPos(0, 16);
+      dffbult :
+         rfturn jjMovfNfb_0(5, 0);
+   }
+}
+privbtf finbl int jjMovfStringLitfrblDfb1_0(long bdtivf0)
+{
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(0, bdtivf0);
+      rfturn 1;
+   }
+   switdh(durChbr)
+   {
+      dbsf 97:
+         rfturn jjMovfStringLitfrblDfb2_0(bdtivf0, 0x4000L);
+      dbsf 99:
+         rfturn jjMovfStringLitfrblDfb2_0(bdtivf0, 0x180L);
+      dbsf 101:
+         rfturn jjMovfStringLitfrblDfb2_0(bdtivf0, 0x60000L);
+      dbsf 110:
+         rfturn jjMovfStringLitfrblDfb2_0(bdtivf0, 0x500800L);
+      dbsf 111:
+         rfturn jjMovfStringLitfrblDfb2_0(bdtivf0, 0x1400L);
+      dbsf 114:
+         rfturn jjMovfStringLitfrblDfb2_0(bdtivf0, 0xb80000L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(0, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb2_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(0, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(1, bdtivf0);
+      rfturn 2;
+   }
+   switdh(durChbr)
+   {
+      dbsf 97:
+         rfturn jjMovfStringLitfrblDfb3_0(bdtivf0, 0xbf0000L);
+      dbsf 99:
+         rfturn jjMovfStringLitfrblDfb3_0(bdtivf0, 0x80L);
+      dbsf 102:
+         rfturn jjMovfStringLitfrblDfb3_0(bdtivf0, 0x500000L);
+      dbsf 108:
+         if ((bdtivf0 & 0x100L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(2, 8, 49);
+         brfbk;
+      dbsf 109:
+         rfturn jjMovfStringLitfrblDfb3_0(bdtivf0, 0x400L);
+      dbsf 110:
+         rfturn jjMovfStringLitfrblDfb3_0(bdtivf0, 0x4000L);
+      dbsf 115:
+         rfturn jjMovfStringLitfrblDfb3_0(bdtivf0, 0x1000L);
+      dbsf 116:
+         rfturn jjMovfStringLitfrblDfb3_0(bdtivf0, 0x800L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(1, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb3_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(1, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(2, bdtivf0);
+      rfturn 3;
+   }
+   switdh(durChbr)
+   {
+      dbsf 97:
+         rfturn jjMovfStringLitfrblDfb4_0(bdtivf0, 0x4000L);
+      dbsf 100:
+         rfturn jjMovfStringLitfrblDfb4_0(bdtivf0, 0x60000L);
+      dbsf 101:
+         rfturn jjMovfStringLitfrblDfb4_0(bdtivf0, 0x880L);
+      dbsf 109:
+         rfturn jjMovfStringLitfrblDfb4_0(bdtivf0, 0x400L);
+      dbsf 111:
+         rfturn jjMovfStringLitfrblDfb4_0(bdtivf0, 0x500000L);
+      dbsf 112:
+         if ((bdtivf0 & 0x80000L) != 0L)
+         {
+            jjmbtdhfdKind = 19;
+            jjmbtdhfdPos = 3;
+         }
+         rfturn jjMovfStringLitfrblDfb4_0(bdtivf0, 0xb00000L);
+      dbsf 116:
+         rfturn jjMovfStringLitfrblDfb4_0(bdtivf0, 0x1000L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(2, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb4_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(2, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(3, bdtivf0);
+      rfturn 4;
+   }
+   switdh(durChbr)
+   {
+      dbsf 45:
+         rfturn jjMovfStringLitfrblDfb5_0(bdtivf0, 0xb60000L);
+      dbsf 103:
+         rfturn jjMovfStringLitfrblDfb5_0(bdtivf0, 0x4000L);
+      dbsf 114:
+         rfturn jjMovfStringLitfrblDfb5_0(bdtivf0, 0x500800L);
+      dbsf 115:
+         if ((bdtivf0 & 0x1000L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(4, 12, 49);
+         rfturn jjMovfStringLitfrblDfb5_0(bdtivf0, 0x80L);
+      dbsf 117:
+         rfturn jjMovfStringLitfrblDfb5_0(bdtivf0, 0x400L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(3, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb5_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(3, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(4, bdtivf0);
+      rfturn 5;
+   }
+   switdh(durChbr)
+   {
+      dbsf 99:
+         rfturn jjMovfStringLitfrblDfb6_0(bdtivf0, 0x200000L);
+      dbsf 101:
+         rfturn jjMovfStringLitfrblDfb6_0(bdtivf0, 0x4000L);
+      dbsf 109:
+         if ((bdtivf0 & 0x100000L) != 0L)
+         {
+            jjmbtdhfdKind = 20;
+            jjmbtdhfdPos = 5;
+         }
+         rfturn jjMovfStringLitfrblDfb6_0(bdtivf0, 0x400000L);
+      dbsf 110:
+         rfturn jjMovfStringLitfrblDfb6_0(bdtivf0, 0x800400L);
+      dbsf 111:
+         rfturn jjMovfStringLitfrblDfb6_0(bdtivf0, 0x20000L);
+      dbsf 112:
+         rfturn jjMovfStringLitfrblDfb6_0(bdtivf0, 0x800L);
+      dbsf 115:
+         if ((bdtivf0 & 0x80L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(5, 7, 49);
+         brfbk;
+      dbsf 119:
+         rfturn jjMovfStringLitfrblDfb6_0(bdtivf0, 0x40000L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(4, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb6_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(4, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(5, bdtivf0);
+      rfturn 6;
+   }
+   switdh(durChbr)
+   {
+      dbsf 45:
+         rfturn jjMovfStringLitfrblDfb7_0(bdtivf0, 0x400000L);
+      dbsf 105:
+         rfturn jjMovfStringLitfrblDfb7_0(bdtivf0, 0x400L);
+      dbsf 110:
+         rfturn jjMovfStringLitfrblDfb7_0(bdtivf0, 0x20000L);
+      dbsf 111:
+         rfturn jjMovfStringLitfrblDfb7_0(bdtivf0, 0x200000L);
+      dbsf 114:
+         rfturn jjMovfStringLitfrblDfb7_0(bdtivf0, 0x44800L);
+      dbsf 117:
+         rfturn jjMovfStringLitfrblDfb7_0(bdtivf0, 0x800000L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(5, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb7_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(5, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(6, bdtivf0);
+      rfturn 7;
+   }
+   switdh(durChbr)
+   {
+      dbsf 99:
+         rfturn jjMovfStringLitfrblDfb8_0(bdtivf0, 0x400000L);
+      dbsf 105:
+         rfturn jjMovfStringLitfrblDfb8_0(bdtivf0, 0x40800L);
+      dbsf 108:
+         rfturn jjMovfStringLitfrblDfb8_0(bdtivf0, 0x20000L);
+      dbsf 109:
+         if ((bdtivf0 & 0x800000L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(7, 23, 51);
+         rfturn jjMovfStringLitfrblDfb8_0(bdtivf0, 0x200000L);
+      dbsf 115:
+         if ((bdtivf0 & 0x4000L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(7, 14, 49);
+         brfbk;
+      dbsf 116:
+         rfturn jjMovfStringLitfrblDfb8_0(bdtivf0, 0x400L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(6, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb8_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(6, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(7, bdtivf0);
+      rfturn 8;
+   }
+   switdh(durChbr)
+   {
+      dbsf 105:
+         rfturn jjMovfStringLitfrblDfb9_0(bdtivf0, 0x400L);
+      dbsf 109:
+         rfturn jjMovfStringLitfrblDfb9_0(bdtivf0, 0x200000L);
+      dbsf 111:
+         rfturn jjMovfStringLitfrblDfb9_0(bdtivf0, 0x400000L);
+      dbsf 115:
+         rfturn jjMovfStringLitfrblDfb9_0(bdtivf0, 0x800L);
+      dbsf 116:
+         rfturn jjMovfStringLitfrblDfb9_0(bdtivf0, 0x40000L);
+      dbsf 121:
+         if ((bdtivf0 & 0x20000L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(8, 17, 51);
+         brfbk;
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(7, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb9_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(7, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(8, bdtivf0);
+      rfturn 9;
+   }
+   switdh(durChbr)
+   {
+      dbsf 101:
+         if ((bdtivf0 & 0x800L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(9, 11, 49);
+         flsf if ((bdtivf0 & 0x40000L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(9, 18, 51);
+         rfturn jjMovfStringLitfrblDfb10_0(bdtivf0, 0x400L);
+      dbsf 109:
+         rfturn jjMovfStringLitfrblDfb10_0(bdtivf0, 0x400000L);
+      dbsf 117:
+         rfturn jjMovfStringLitfrblDfb10_0(bdtivf0, 0x200000L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(8, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb10_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(8, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(9, bdtivf0);
+      rfturn 10;
+   }
+   switdh(durChbr)
+   {
+      dbsf 109:
+         rfturn jjMovfStringLitfrblDfb11_0(bdtivf0, 0x400000L);
+      dbsf 110:
+         rfturn jjMovfStringLitfrblDfb11_0(bdtivf0, 0x200000L);
+      dbsf 115:
+         if ((bdtivf0 & 0x400L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(10, 10, 49);
+         brfbk;
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(9, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb11_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(9, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(10, bdtivf0);
+      rfturn 11;
+   }
+   switdh(durChbr)
+   {
+      dbsf 105:
+         rfturn jjMovfStringLitfrblDfb12_0(bdtivf0, 0x200000L);
+      dbsf 117:
+         rfturn jjMovfStringLitfrblDfb12_0(bdtivf0, 0x400000L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(10, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb12_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(10, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(11, bdtivf0);
+      rfturn 12;
+   }
+   switdh(durChbr)
+   {
+      dbsf 110:
+         rfturn jjMovfStringLitfrblDfb13_0(bdtivf0, 0x400000L);
+      dbsf 116:
+         rfturn jjMovfStringLitfrblDfb13_0(bdtivf0, 0x200000L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(11, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb13_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(11, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(12, bdtivf0);
+      rfturn 13;
+   }
+   switdh(durChbr)
+   {
+      dbsf 105:
+         rfturn jjMovfStringLitfrblDfb14_0(bdtivf0, 0x400000L);
+      dbsf 121:
+         if ((bdtivf0 & 0x200000L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(13, 21, 51);
+         brfbk;
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(12, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb14_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(12, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(13, bdtivf0);
+      rfturn 14;
+   }
+   switdh(durChbr)
+   {
+      dbsf 116:
+         rfturn jjMovfStringLitfrblDfb15_0(bdtivf0, 0x400000L);
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(13, bdtivf0);
+}
+privbtf finbl int jjMovfStringLitfrblDfb15_0(long old0, long bdtivf0)
+{
+   if (((bdtivf0 &= old0)) == 0L)
+      rfturn jjStbrtNfb_0(13, old0);
+   try { durChbr = input_strfbm.rfbdChbr(); }
+   dbtdh(jbvb.io.IOExdfption f) {
+      jjStopStringLitfrblDfb_0(14, bdtivf0);
+      rfturn 15;
+   }
+   switdh(durChbr)
+   {
+      dbsf 121:
+         if ((bdtivf0 & 0x400000L) != 0L)
+            rfturn jjStbrtNfbWithStbtfs_0(15, 22, 51);
+         brfbk;
+      dffbult :
+         brfbk;
+   }
+   rfturn jjStbrtNfb_0(14, bdtivf0);
+}
+privbtf finbl void jjChfdkNAdd(int stbtf)
+{
+   if (jjrounds[stbtf] != jjround)
+   {
+      jjstbtfSft[jjnfwStbtfCnt++] = stbtf;
+      jjrounds[stbtf] = jjround;
+   }
+}
+privbtf finbl void jjAddStbtfs(int stbrt, int fnd)
+{
+   do {
+      jjstbtfSft[jjnfwStbtfCnt++] = jjnfxtStbtfs[stbrt];
+   } whilf (stbrt++ != fnd);
+}
+privbtf finbl void jjChfdkNAddTwoStbtfs(int stbtf1, int stbtf2)
+{
+   jjChfdkNAdd(stbtf1);
+   jjChfdkNAdd(stbtf2);
+}
+privbtf finbl void jjChfdkNAddStbtfs(int stbrt, int fnd)
+{
+   do {
+      jjChfdkNAdd(jjnfxtStbtfs[stbrt]);
+   } whilf (stbrt++ != fnd);
+}
+privbtf finbl void jjChfdkNAddStbtfs(int stbrt)
+{
+   jjChfdkNAdd(jjnfxtStbtfs[stbrt]);
+   jjChfdkNAdd(jjnfxtStbtfs[stbrt + 1]);
+}
+stbtid finbl long[] jjbitVfd0 = {
+   0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
+};
+privbtf finbl int jjMovfNfb_0(int stbrtStbtf, int durPos)
+{
+   int[] nfxtStbtfs;
+   int stbrtsAt = 0;
+   jjnfwStbtfCnt = 47;
+   int i = 1;
+   jjstbtfSft[0] = stbrtStbtf;
+   int j, kind = 0x7fffffff;
+   for (;;)
+   {
+      if (++jjround == 0x7fffffff)
+         RfInitRounds();
+      if (durChbr < 64)
+      {
+         long l = 1L << durChbr;
+         MbtdhLoop: do
+         {
+            switdh(jjstbtfSft[--i])
+            {
+               dbsf 49:
+                  if ((0x3ff200000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAddStbtfs(0, 2);
+                  }
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(20);
+                  }
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(19);
+                  }
+                  brfbk;
+               dbsf 48:
+                  if ((0x3ff200000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  flsf if (durChbr == 58)
+                     jjChfdkNAddStbtfs(3, 5);
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAddStbtfs(0, 2);
+                  }
+                  flsf if (durChbr == 58)
+                     jjChfdkNAddTwoStbtfs(23, 25);
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(20);
+                  }
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(26, 27);
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(23, 24);
+                  brfbk;
+               dbsf 47:
+                  if ((0x3ff200000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAddStbtfs(0, 2);
+                  }
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(20);
+                  }
+                  brfbk;
+               dbsf 50:
+                  if ((0x3ff200000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  flsf if (durChbr == 58)
+                     jjChfdkNAddStbtfs(3, 5);
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAddStbtfs(0, 2);
+                  }
+                  flsf if (durChbr == 58)
+                     jjChfdkNAddTwoStbtfs(23, 25);
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(20);
+                  }
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(19);
+                  }
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(26, 27);
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(23, 24);
+                  brfbk;
+               dbsf 5:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddStbtfs(6, 9);
+                  flsf if (durChbr == 58)
+                     jjAddStbtfs(10, 11);
+                  flsf if (durChbr == 34)
+                     jjChfdkNAddTwoStbtfs(15, 16);
+                  flsf if (durChbr == 35)
+                     jjChfdkNAddStbtfs(12, 14);
+                  flsf if (durChbr == 45)
+                     jjstbtfSft[jjnfwStbtfCnt++] = 0;
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAddStbtfs(15, 17);
+                  }
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 24)
+                        kind = 24;
+                     jjChfdkNAddTwoStbtfs(12, 13);
+                  }
+                  flsf if (durChbr == 48)
+                  {
+                     if (kind > 24)
+                        kind = 24;
+                     jjChfdkNAddStbtfs(18, 20);
+                  }
+                  brfbk;
+               dbsf 51:
+                  if ((0x3ff200000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  if ((0x3ff000000000000L & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(19);
+                  }
+                  brfbk;
+               dbsf 0:
+                  if (durChbr == 45)
+                     jjChfdkNAddStbtfs(21, 23);
+                  brfbk;
+               dbsf 1:
+                  if ((0xffffffffffffdbffL & l) != 0L)
+                     jjChfdkNAddStbtfs(21, 23);
+                  brfbk;
+               dbsf 2:
+                  if ((0x2400L & l) != 0L && kind > 5)
+                     kind = 5;
+                  brfbk;
+               dbsf 3:
+                  if (durChbr == 10 && kind > 5)
+                     kind = 5;
+                  brfbk;
+               dbsf 4:
+                  if (durChbr == 13)
+                     jjstbtfSft[jjnfwStbtfCnt++] = 3;
+                  brfbk;
+               dbsf 6:
+                  if (durChbr == 35)
+                     jjChfdkNAddStbtfs(12, 14);
+                  brfbk;
+               dbsf 7:
+                  if ((0xffffffffffffdbffL & l) != 0L)
+                     jjChfdkNAddStbtfs(12, 14);
+                  brfbk;
+               dbsf 8:
+                  if ((0x2400L & l) != 0L && kind > 6)
+                     kind = 6;
+                  brfbk;
+               dbsf 9:
+                  if (durChbr == 10 && kind > 6)
+                     kind = 6;
+                  brfbk;
+               dbsf 10:
+                  if (durChbr == 13)
+                     jjstbtfSft[jjnfwStbtfCnt++] = 9;
+                  brfbk;
+               dbsf 11:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 24)
+                     kind = 24;
+                  jjChfdkNAddTwoStbtfs(12, 13);
+                  brfbk;
+               dbsf 12:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 24)
+                     kind = 24;
+                  jjChfdkNAddTwoStbtfs(12, 13);
+                  brfbk;
+               dbsf 14:
+                  if (durChbr == 34)
+                     jjChfdkNAddTwoStbtfs(15, 16);
+                  brfbk;
+               dbsf 15:
+                  if ((0xfffffffbffffffffL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(15, 16);
+                  brfbk;
+               dbsf 16:
+                  if (durChbr == 34 && kind > 35)
+                     kind = 35;
+                  brfbk;
+               dbsf 17:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 31)
+                     kind = 31;
+                  jjChfdkNAddStbtfs(15, 17);
+                  brfbk;
+               dbsf 18:
+                  if ((0x3ff200000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  brfbk;
+               dbsf 19:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 31)
+                     kind = 31;
+                  jjChfdkNAdd(19);
+                  brfbk;
+               dbsf 20:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 31)
+                     kind = 31;
+                  jjChfdkNAdd(20);
+                  brfbk;
+               dbsf 21:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 31)
+                     kind = 31;
+                  jjChfdkNAddStbtfs(0, 2);
+                  brfbk;
+               dbsf 22:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddStbtfs(6, 9);
+                  brfbk;
+               dbsf 23:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(23, 24);
+                  brfbk;
+               dbsf 24:
+                  if (durChbr == 58)
+                     jjChfdkNAddTwoStbtfs(23, 25);
+                  brfbk;
+               dbsf 25:
+               dbsf 41:
+                  if (durChbr == 58 && kind > 28)
+                     kind = 28;
+                  brfbk;
+               dbsf 26:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(26, 27);
+                  brfbk;
+               dbsf 27:
+                  if (durChbr == 58)
+                     jjChfdkNAddStbtfs(3, 5);
+                  brfbk;
+               dbsf 28:
+               dbsf 42:
+                  if (durChbr == 58)
+                     jjChfdkNAddTwoStbtfs(29, 36);
+                  brfbk;
+               dbsf 29:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(29, 30);
+                  brfbk;
+               dbsf 30:
+                  if (durChbr == 46)
+                     jjChfdkNAdd(31);
+                  brfbk;
+               dbsf 31:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(31, 32);
+                  brfbk;
+               dbsf 32:
+                  if (durChbr == 46)
+                     jjChfdkNAdd(33);
+                  brfbk;
+               dbsf 33:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(33, 34);
+                  brfbk;
+               dbsf 34:
+                  if (durChbr == 46)
+                     jjChfdkNAdd(35);
+                  brfbk;
+               dbsf 35:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 28)
+                     kind = 28;
+                  jjChfdkNAdd(35);
+                  brfbk;
+               dbsf 36:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 28)
+                     kind = 28;
+                  jjChfdkNAddStbtfs(24, 26);
+                  brfbk;
+               dbsf 37:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(37, 28);
+                  brfbk;
+               dbsf 38:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 28)
+                     kind = 28;
+                  jjChfdkNAdd(38);
+                  brfbk;
+               dbsf 39:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 28)
+                     kind = 28;
+                  jjChfdkNAddStbtfs(27, 31);
+                  brfbk;
+               dbsf 40:
+                  if (durChbr == 58)
+                     jjAddStbtfs(10, 11);
+                  brfbk;
+               dbsf 43:
+                  if (durChbr != 48)
+                     brfbk;
+                  if (kind > 24)
+                     kind = 24;
+                  jjChfdkNAddStbtfs(18, 20);
+                  brfbk;
+               dbsf 45:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 24)
+                     kind = 24;
+                  jjChfdkNAddTwoStbtfs(45, 13);
+                  brfbk;
+               dbsf 46:
+                  if ((0xff000000000000L & l) == 0L)
+                     brfbk;
+                  if (kind > 24)
+                     kind = 24;
+                  jjChfdkNAddTwoStbtfs(46, 13);
+                  brfbk;
+               dffbult : brfbk;
+            }
+         } whilf(i != stbrtsAt);
+      }
+      flsf if (durChbr < 128)
+      {
+         long l = 1L << (durChbr & 077);
+         MbtdhLoop: do
+         {
+            switdh(jjstbtfSft[--i])
+            {
+               dbsf 49:
+                  if ((0x7ffffff87ffffffL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAddStbtfs(0, 2);
+                  }
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(20);
+                  }
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(19);
+                  }
+                  brfbk;
+               dbsf 48:
+                  if ((0x7ffffff87ffffffL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAddStbtfs(0, 2);
+                  }
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(20);
+                  }
+                  if ((0x7f0000007fL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(26, 27);
+                  if ((0x7f0000007fL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(23, 24);
+                  brfbk;
+               dbsf 47:
+                  if ((0x7ffffff87ffffffL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAddStbtfs(0, 2);
+                  }
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(20);
+                  }
+                  brfbk;
+               dbsf 50:
+                  if ((0x7ffffff87ffffffL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAddStbtfs(0, 2);
+                  }
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(20);
+                  }
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(19);
+                  }
+                  if ((0x7f0000007fL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(26, 27);
+                  if ((0x7f0000007fL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(23, 24);
+                  brfbk;
+               dbsf 5:
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAddStbtfs(15, 17);
+                  }
+                  if ((0x7f0000007fL & l) != 0L)
+                     jjChfdkNAddStbtfs(6, 9);
+                  brfbk;
+               dbsf 51:
+                  if ((0x7ffffff87ffffffL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  if ((0x7ffffff07ffffffL & l) != 0L)
+                  {
+                     if (kind > 31)
+                        kind = 31;
+                     jjChfdkNAdd(19);
+                  }
+                  brfbk;
+               dbsf 1:
+                  jjAddStbtfs(21, 23);
+                  brfbk;
+               dbsf 7:
+                  jjAddStbtfs(12, 14);
+                  brfbk;
+               dbsf 13:
+                  if ((0x100000001000L & l) != 0L && kind > 24)
+                     kind = 24;
+                  brfbk;
+               dbsf 15:
+                  jjAddStbtfs(32, 33);
+                  brfbk;
+               dbsf 17:
+                  if ((0x7ffffff07ffffffL & l) == 0L)
+                     brfbk;
+                  if (kind > 31)
+                     kind = 31;
+                  jjChfdkNAddStbtfs(15, 17);
+                  brfbk;
+               dbsf 18:
+                  if ((0x7ffffff87ffffffL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(18, 19);
+                  brfbk;
+               dbsf 19:
+                  if ((0x7ffffff07ffffffL & l) == 0L)
+                     brfbk;
+                  if (kind > 31)
+                     kind = 31;
+                  jjChfdkNAdd(19);
+                  brfbk;
+               dbsf 20:
+                  if ((0x7ffffff07ffffffL & l) == 0L)
+                     brfbk;
+                  if (kind > 31)
+                     kind = 31;
+                  jjChfdkNAdd(20);
+                  brfbk;
+               dbsf 21:
+                  if ((0x7ffffff07ffffffL & l) == 0L)
+                     brfbk;
+                  if (kind > 31)
+                     kind = 31;
+                  jjChfdkNAddStbtfs(0, 2);
+                  brfbk;
+               dbsf 22:
+                  if ((0x7f0000007fL & l) != 0L)
+                     jjChfdkNAddStbtfs(6, 9);
+                  brfbk;
+               dbsf 23:
+                  if ((0x7f0000007fL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(23, 24);
+                  brfbk;
+               dbsf 26:
+                  if ((0x7f0000007fL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(26, 27);
+                  brfbk;
+               dbsf 36:
+                  if ((0x7f0000007fL & l) == 0L)
+                     brfbk;
+                  if (kind > 28)
+                     kind = 28;
+                  jjChfdkNAddStbtfs(24, 26);
+                  brfbk;
+               dbsf 37:
+                  if ((0x7f0000007fL & l) != 0L)
+                     jjChfdkNAddTwoStbtfs(37, 28);
+                  brfbk;
+               dbsf 38:
+                  if ((0x7f0000007fL & l) == 0L)
+                     brfbk;
+                  if (kind > 28)
+                     kind = 28;
+                  jjChfdkNAdd(38);
+                  brfbk;
+               dbsf 39:
+                  if ((0x7f0000007fL & l) == 0L)
+                     brfbk;
+                  if (kind > 28)
+                     kind = 28;
+                  jjChfdkNAddStbtfs(27, 31);
+                  brfbk;
+               dbsf 44:
+                  if ((0x100000001000000L & l) != 0L)
+                     jjChfdkNAdd(45);
+                  brfbk;
+               dbsf 45:
+                  if ((0x7f0000007fL & l) == 0L)
+                     brfbk;
+                  if (kind > 24)
+                     kind = 24;
+                  jjChfdkNAddTwoStbtfs(45, 13);
+                  brfbk;
+               dffbult : brfbk;
+            }
+         } whilf(i != stbrtsAt);
+      }
+      flsf
+      {
+         int i2 = (durChbr & 0xff) >> 6;
+         long l2 = 1L << (durChbr & 077);
+         MbtdhLoop: do
+         {
+            switdh(jjstbtfSft[--i])
+            {
+               dbsf 1:
+                  if ((jjbitVfd0[i2] & l2) != 0L)
+                     jjAddStbtfs(21, 23);
+                  brfbk;
+               dbsf 7:
+                  if ((jjbitVfd0[i2] & l2) != 0L)
+                     jjAddStbtfs(12, 14);
+                  brfbk;
+               dbsf 15:
+                  if ((jjbitVfd0[i2] & l2) != 0L)
+                     jjAddStbtfs(32, 33);
+                  brfbk;
+               dffbult : brfbk;
+            }
+         } whilf(i != stbrtsAt);
+      }
+      if (kind != 0x7fffffff)
+      {
+         jjmbtdhfdKind = kind;
+         jjmbtdhfdPos = durPos;
+         kind = 0x7fffffff;
+      }
+      ++durPos;
+      if ((i = jjnfwStbtfCnt) == (stbrtsAt = 47 - (jjnfwStbtfCnt = stbrtsAt)))
+         rfturn durPos;
+      try { durChbr = input_strfbm.rfbdChbr(); }
+      dbtdh(jbvb.io.IOExdfption f) { rfturn durPos; }
+   }
+}
+stbtid finbl int[] jjnfxtStbtfs = {
+   18, 19, 21, 28, 29, 39, 23, 24, 26, 27, 41, 42, 7, 8, 10, 18,
+   20, 21, 44, 46, 13, 1, 2, 4, 37, 28, 38, 26, 27, 37, 28, 38,
+   15, 16,
+};
+publid stbtid finbl String[] jjstrLitfrblImbgfs = {
+"", null, null, null, null, null, null, "\141\143\143\145\163\163",
+"\141\143\154", "\75", "\143\157\155\155\165\156\151\164\151\145\163",
+"\145\156\164\145\162\160\162\151\163\145", "\150\157\163\164\163", "\173", "\155\141\156\141\147\145\162\163", "\55",
+"\175", "\162\145\141\144\55\157\156\154\171",
+"\162\145\141\144\55\167\162\151\164\145", "\164\162\141\160", "\151\156\146\157\162\155",
+"\164\162\141\160\55\143\157\155\155\165\156\151\164\171", "\151\156\146\157\162\155\55\143\157\155\155\165\156\151\164\171",
+"\164\162\141\160\55\156\165\155", null, null, null, null, null, null, null, null, null, null, null, null, "\54",
+"\56", "\41", "\57", };
+publid stbtid finbl String[] lfxStbtfNbmfs = {
+   "DEFAULT",
+};
+stbtid finbl long[] jjtoTokfn = {
+   0xf891ffff81L,
+};
+stbtid finbl long[] jjtoSkip = {
+   0x7fL,
+};
+privbtf ASCII_ChbrStrfbm input_strfbm;
+privbtf finbl int[] jjrounds = nfw int[47];
+privbtf finbl int[] jjstbtfSft = nfw int[94];
+protfdtfd dhbr durChbr;
+publid PbrsfrTokfnMbnbgfr(ASCII_ChbrStrfbm strfbm)
+{
+   if (ASCII_ChbrStrfbm.stbtidFlbg)
+      throw nfw Error("ERROR: Cbnnot usf b stbtid ChbrStrfbm dlbss with b non-stbtid lfxidbl bnblyzfr.");
+   input_strfbm = strfbm;
+}
+publid PbrsfrTokfnMbnbgfr(ASCII_ChbrStrfbm strfbm, int lfxStbtf)
+{
+   this(strfbm);
+   SwitdhTo(lfxStbtf);
+}
+publid void RfInit(ASCII_ChbrStrfbm strfbm)
+{
+   jjmbtdhfdPos = jjnfwStbtfCnt = 0;
+   durLfxStbtf = dffbultLfxStbtf;
+   input_strfbm = strfbm;
+   RfInitRounds();
+}
+privbtf finbl void RfInitRounds()
+{
+   int i;
+   jjround = 0x80000001;
+   for (i = 47; i-- > 0;)
+      jjrounds[i] = 0x80000000;
+}
+publid void RfInit(ASCII_ChbrStrfbm strfbm, int lfxStbtf)
+{
+   RfInit(strfbm);
+   SwitdhTo(lfxStbtf);
+}
+publid void SwitdhTo(int lfxStbtf)
+{
+   if (lfxStbtf >= 1 || lfxStbtf < 0)
+      throw nfw TokfnMgrError("Error: Ignoring invblid lfxidbl stbtf : " + lfxStbtf + ". Stbtf undhbngfd.", TokfnMgrError.INVALID_LEXICAL_STATE);
+   flsf
+      durLfxStbtf = lfxStbtf;
+}
+
+privbtf finbl Tokfn jjFillTokfn()
+{
+   Tokfn t = Tokfn.nfwTokfn(jjmbtdhfdKind);
+   t.kind = jjmbtdhfdKind;
+   String im = jjstrLitfrblImbgfs[jjmbtdhfdKind];
+   t.imbgf = (im == null) ? input_strfbm.GftImbgf() : im;
+   t.bfginLinf = input_strfbm.gftBfginLinf();
+   t.bfginColumn = input_strfbm.gftBfginColumn();
+   t.fndLinf = input_strfbm.gftEndLinf();
+   t.fndColumn = input_strfbm.gftEndColumn();
+   rfturn t;
+}
+
+int durLfxStbtf = 0;
+int dffbultLfxStbtf = 0;
+int jjnfwStbtfCnt;
+int jjround;
+int jjmbtdhfdPos;
+int jjmbtdhfdKind;
+
+publid finbl Tokfn gftNfxtTokfn()
+{
+  int kind;
+  Tokfn spfdiblTokfn = null;
+  Tokfn mbtdhfdTokfn;
+  int durPos = 0;
+
+  EOFLoop :
+  for (;;)
+  {
+   try
+   {
+      durChbr = input_strfbm.BfginTokfn();
+   }
+   dbtdh(jbvb.io.IOExdfption f)
+   {
+      jjmbtdhfdKind = 0;
+      mbtdhfdTokfn = jjFillTokfn();
+      rfturn mbtdhfdTokfn;
+   }
+
+   try { input_strfbm.bbdkup(0);
+      whilf (durChbr <= 32 && (0x100002600L & (1L << durChbr)) != 0L)
+         durChbr = input_strfbm.BfginTokfn();
+   }
+   dbtdh (jbvb.io.IOExdfption f1) { dontinuf EOFLoop; }
+   jjmbtdhfdKind = 0x7fffffff;
+   jjmbtdhfdPos = 0;
+   durPos = jjMovfStringLitfrblDfb0_0();
+   if (jjmbtdhfdKind != 0x7fffffff)
+   {
+      if (jjmbtdhfdPos + 1 < durPos)
+         input_strfbm.bbdkup(durPos - jjmbtdhfdPos - 1);
+      if ((jjtoTokfn[jjmbtdhfdKind >> 6] & (1L << (jjmbtdhfdKind & 077))) != 0L)
+      {
+         mbtdhfdTokfn = jjFillTokfn();
+         rfturn mbtdhfdTokfn;
+      }
+      flsf
+      {
+         dontinuf EOFLoop;
+      }
+   }
+   int frror_linf = input_strfbm.gftEndLinf();
+   int frror_dolumn = input_strfbm.gftEndColumn();
+   String frror_bftfr = null;
+   boolfbn EOFSffn = fblsf;
+   try { input_strfbm.rfbdChbr(); input_strfbm.bbdkup(1); }
+   dbtdh (jbvb.io.IOExdfption f1) {
+      EOFSffn = truf;
+      frror_bftfr = durPos <= 1 ? "" : input_strfbm.GftImbgf();
+      if (durChbr == '\n' || durChbr == '\r') {
+         frror_linf++;
+         frror_dolumn = 0;
+      }
+      flsf
+         frror_dolumn++;
+   }
+   if (!EOFSffn) {
+      input_strfbm.bbdkup(1);
+      frror_bftfr = durPos <= 1 ? "" : input_strfbm.GftImbgf();
+   }
+   throw nfw TokfnMgrError(EOFSffn, durLfxStbtf, frror_linf, frror_dolumn, frror_bftfr, durChbr, TokfnMgrError.LEXICAL_ERROR);
+  }
+}
+
+}

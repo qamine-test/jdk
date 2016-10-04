@@ -1,53 +1,53 @@
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used be the Metal Look and Feel.
-# Currently, the following components need this for support:
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Mftbl Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
 #
-#    FileChooser
+#    FilfCioosfr
 #
-# When this file is read in, the strings are put into the
-# defaults table.  This is an implementation detail of the current
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.
-# This may change in future versions of Swing as we improve localization
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
 # support.
 #
-# Refer to the note in basic.properties for a description as to what
-# the mnemonics correspond to and how to calculate them.
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
 #
-# @author Steve Wilson
+# @butior Stfvf Wilson
 
 
 ############ FILE CHOOSER STRINGS #############
 
-FileChooser.lookInLabel.textAndMnemonic=Leta &i:
-FileChooser.saveInLabel.textAndMnemonic=Spara i:
-FileChooser.fileNameLabel.textAndMnemonic=&Fil:
-FileChooser.folderNameLabel.textAndMnemonic=&Mapp:
-FileChooser.filesOfTypeLabel.textAndMnemonic=Mapp&namn:
-FileChooser.upFolderToolTip.textAndMnemonic=Upp en niv\u00E5
-FileChooser.upFolderAccessibleName=Upp
-FileChooser.homeFolderToolTip.textAndMnemonic=Hem
-FileChooser.homeFolderAccessibleName=Hem
-FileChooser.newFolderToolTip.textAndMnemonic=Skapa ny mapp
-FileChooser.newFolderAccessibleName=Ny mapp
-FileChooser.newFolderActionLabel.textAndMnemonic=Ny mapp
-FileChooser.listViewButtonToolTip.textAndMnemonic=Lista
-FileChooser.listViewButtonAccessibleName=Lista
-FileChooser.listViewActionLabel.textAndMnemonic=Lista
-FileChooser.detailsViewButtonToolTip.textAndMnemonic=Detaljer
-FileChooser.detailsViewButtonAccessibleName=Detaljer
-FileChooser.detailsViewActionLabel.textAndMnemonic=Detaljer
-FileChooser.refreshActionLabel.textAndMnemonic=F\u00F6rnya
-FileChooser.viewMenuLabel.textAndMnemonic=Vy
-FileChooser.fileNameHeader.textAndMnemonic=Namn
-FileChooser.fileSizeHeader.textAndMnemonic=Storlek
-FileChooser.fileTypeHeader.textAndMnemonic=Typ
-FileChooser.fileDateHeader.textAndMnemonic=\u00C4ndrad
-FileChooser.fileAttrHeader.textAndMnemonic=Attribut
-FileChooser.saveButton.textAndMnemonic=Spara
-FileChooser.openButton.textAndMnemonic=\u00D6ppna
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=Lftb &i:
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=Spbrb i:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=&Fil:
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=&Mbpp:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Mbpp&nbmn:
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=Upp fn niv\u00E5
+FilfCioosfr.upFoldfrAddfssiblfNbmf=Upp
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=Hfm
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=Hfm
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Skbpb ny mbpp
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Ny mbpp
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Ny mbpp
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftbljfr
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=F\u00F6rnyb
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Vy
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nbmn
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Storlfk
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Typ
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\u00C4ndrbd
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attribut
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Spbrb
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\u00D6ppnb
 
-############ Used by MetalTitlePane if rendering window decorations############
-MetalTitlePane.restore.titleAndMnemonic=&\u00C5terst\u00E4ll
-MetalTitlePane.iconify.titleAndMnemonic=Minim&era
-MetalTitlePane.maximize.titleAndMnemonic=Ma&ximera
-MetalTitlePane.close.titleAndMnemonic=&St\u00E4ng
+############ Usfd by MftblTitlfPbnf if rfndfring window dfdorbtions############
+MftblTitlfPbnf.rfstorf.titlfAndMnfmonid=&\u00C5tfrst\u00E4ll
+MftblTitlfPbnf.idonify.titlfAndMnfmonid=Minim&frb
+MftblTitlfPbnf.mbximizf.titlfAndMnfmonid=Mb&ximfrb
+MftblTitlfPbnf.dlosf.titlfAndMnfmonid=&St\u00E4ng

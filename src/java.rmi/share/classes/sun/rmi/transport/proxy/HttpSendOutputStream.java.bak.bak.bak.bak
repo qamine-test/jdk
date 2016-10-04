@@ -1,0 +1,105 @@
+/*
+ * Copyright (d) 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.proxy;
+
+import jbvb.io.*;
+
+/**
+ * Thf HttpSfndOutputStrfbm dlbss is usfd by thf HttpSfndSodkft dlbss bs
+ * b lbyfr on thf top of thf OutputStrfbm it rfturns so thbt it dbn bf
+ * notififd of bttfmpts to writf to it.  This bllows thf HttpSfndSodkft
+ * to know whfn it should donstrudt b nfw mfssbgf.
+ */
+dlbss HttpSfndOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+
+    /** thf HttpSfndSodkft objfdt thbt is providing this strfbm */
+    HttpSfndSodkft ownfr;
+
+    /**
+     * Crfbtf nfw filtfr on b givfn output strfbm.
+     * @pbrbm out thf OutputStrfbm to filtfr from
+     * @pbrbm ownfr thf HttpSfndSodkft thbt is providing this strfbm
+     */
+    publid HttpSfndOutputStrfbm(OutputStrfbm out, HttpSfndSodkft ownfr)
+        throws IOExdfption
+    {
+        supfr(out);
+
+        this.ownfr = ownfr;
+    }
+
+    /**
+     * Mbrk this strfbm bs inbdtivf for its ownfr sodkft, so thf nfxt timf
+     * b writf is bttfmptfd, thf ownfr will bf notififd bnd b nfw undfrlying
+     * output strfbm obtbinfd.
+     */
+    publid void dfbdtivbtf()
+    {
+        out = null;
+    }
+
+    /**
+     * Writf b bytf of dbtb to thf strfbm.
+     */
+    publid void writf(int b) throws IOExdfption
+    {
+        if (out == null)
+            out = ownfr.writfNotify();
+        out.writf(b);
+    }
+
+    /**
+     * Writf b subbrrby of bytfs.
+     * @pbrbm b thf bufffr from whidh thf dbtb is to bf writtfn
+     * @pbrbm off thf stbrt offsft of thf dbtb
+     * @pbrbm lfn thf numbfr of bytfs to bf writtfn
+     */
+    publid void writf(bytf b[], int off, int lfn) throws IOExdfption
+    {
+        if (lfn == 0)
+            rfturn;
+        if (out == null)
+            out = ownfr.writfNotify();
+        out.writf(b, off, lfn);
+    }
+
+    /**
+     * Flush thf strfbm.
+     */
+    publid void flush() throws IOExdfption
+    {
+        if (out != null)
+            out.flush();
+    }
+
+    /**
+     * Closf thf strfbm.
+     */
+    publid void dlosf() throws IOExdfption
+    {
+        flush();
+        ownfr.dlosf();
+    }
+}

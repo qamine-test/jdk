@@ -1,0 +1,201 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+
+/**
+ * A dhbrbdtfr strfbm whosf sourdf is b string.
+ *
+ * @buthor      Mbrk Rfinhold
+ * @sindf       1.1
+ */
+
+publid dlbss StringRfbdfr fxtfnds Rfbdfr {
+
+    privbtf String str;
+    privbtf int lfngth;
+    privbtf int nfxt = 0;
+    privbtf int mbrk = 0;
+
+    /**
+     * Crfbtfs b nfw string rfbdfr.
+     *
+     * @pbrbm s  String providing thf dhbrbdtfr strfbm.
+     */
+    publid StringRfbdfr(String s) {
+        this.str = s;
+        this.lfngth = s.lfngth();
+    }
+
+    /** Chfdk to mbkf surf thbt thf strfbm hbs not bffn dlosfd */
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (str == null)
+            throw nfw IOExdfption("Strfbm dlosfd");
+    }
+
+    /**
+     * Rfbds b singlf dhbrbdtfr.
+     *
+     * @rfturn     Thf dhbrbdtfr rfbd, or -1 if thf fnd of thf strfbm hbs bffn
+     *             rfbdhfd
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid int rfbd() throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            if (nfxt >= lfngth)
+                rfturn -1;
+            rfturn str.dhbrAt(nfxt++);
+        }
+    }
+
+    /**
+     * Rfbds dhbrbdtfrs into b portion of bn brrby.
+     *
+     * @pbrbm      dbuf  Dfstinbtion bufffr
+     * @pbrbm      off   Offsft bt whidh to stbrt writing dhbrbdtfrs
+     * @pbrbm      lfn   Mbximum numbfr of dhbrbdtfrs to rfbd
+     *
+     * @rfturn     Thf numbfr of dhbrbdtfrs rfbd, or -1 if thf fnd of thf
+     *             strfbm hbs bffn rfbdhfd
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid int rfbd(dhbr dbuf[], int off, int lfn) throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            if ((off < 0) || (off > dbuf.lfngth) || (lfn < 0) ||
+                ((off + lfn) > dbuf.lfngth) || ((off + lfn) < 0)) {
+                throw nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0) {
+                rfturn 0;
+            }
+            if (nfxt >= lfngth)
+                rfturn -1;
+            int n = Mbth.min(lfngth - nfxt, lfn);
+            str.gftChbrs(nfxt, nfxt + n, dbuf, off);
+            nfxt += n;
+            rfturn n;
+        }
+    }
+
+    /**
+     * Skips thf spfdififd numbfr of dhbrbdtfrs in thf strfbm. Rfturns
+     * thf numbfr of dhbrbdtfrs thbt wfrf skippfd.
+     *
+     * <p>Thf <dodf>ns</dodf> pbrbmftfr mby bf nfgbtivf, fvfn though thf
+     * <dodf>skip</dodf> mfthod of thf {@link Rfbdfr} supfrdlbss throws
+     * bn fxdfption in this dbsf. Nfgbtivf vblufs of <dodf>ns</dodf> dbusf thf
+     * strfbm to skip bbdkwbrds. Nfgbtivf rfturn vblufs indidbtf b skip
+     * bbdkwbrds. It is not possiblf to skip bbdkwbrds pbst thf bfginning of
+     * thf string.
+     *
+     * <p>If thf fntirf string hbs bffn rfbd or skippfd, thfn this mfthod hbs
+     * no ffffdt bnd blwbys rfturns 0.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid long skip(long ns) throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            if (nfxt >= lfngth)
+                rfturn 0;
+            // Bound skip by bfginning bnd fnd of thf sourdf
+            long n = Mbth.min(lfngth - nfxt, ns);
+            n = Mbth.mbx(-nfxt, n);
+            nfxt += n;
+            rfturn n;
+        }
+    }
+
+    /**
+     * Tflls whfthfr this strfbm is rfbdy to bf rfbd.
+     *
+     * @rfturn Truf if thf nfxt rfbd() is gubrbntffd not to blodk for input
+     *
+     * @fxdfption  IOExdfption  If thf strfbm is dlosfd
+     */
+    publid boolfbn rfbdy() throws IOExdfption {
+        syndhronizfd (lodk) {
+        fnsurfOpfn();
+        rfturn truf;
+        }
+    }
+
+    /**
+     * Tflls whfthfr this strfbm supports thf mbrk() opfrbtion, whidh it dofs.
+     */
+    publid boolfbn mbrkSupportfd() {
+        rfturn truf;
+    }
+
+    /**
+     * Mbrks thf prfsfnt position in thf strfbm.  Subsfqufnt dblls to rfsft()
+     * will rfposition thf strfbm to this point.
+     *
+     * @pbrbm  rfbdAhfbdLimit  Limit on thf numbfr of dhbrbdtfrs thbt mby bf
+     *                         rfbd whilf still prfsfrving thf mbrk.  Bfdbusf
+     *                         thf strfbm's input domfs from b string, thfrf
+     *                         is no bdtubl limit, so this brgumfnt must not
+     *                         bf nfgbtivf, but is othfrwisf ignorfd.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf rfbdAhfbdLimit < 0}
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void mbrk(int rfbdAhfbdLimit) throws IOExdfption {
+        if (rfbdAhfbdLimit < 0){
+            throw nfw IllfgblArgumfntExdfption("Rfbd-bhfbd limit < 0");
+        }
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            mbrk = nfxt;
+        }
+    }
+
+    /**
+     * Rfsfts thf strfbm to thf most rfdfnt mbrk, or to thf bfginning of thf
+     * string if it hbs nfvfr bffn mbrkfd.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void rfsft() throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            nfxt = mbrk;
+        }
+    }
+
+    /**
+     * Closfs thf strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd with
+     * it. Ondf thf strfbm hbs bffn dlosfd, furthfr rfbd(),
+     * rfbdy(), mbrk(), or rfsft() invodbtions will throw bn IOExdfption.
+     * Closing b prfviously dlosfd strfbm hbs no ffffdt.
+     */
+    publid void dlosf() {
+        str = null;
+    }
+}

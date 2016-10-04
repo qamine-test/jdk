@@ -1,0 +1,183 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+import jbvb.util.spi.LodblfNbmfProvidfr;
+
+/**
+ * Condrftf implfmfntbtion of thf
+ * {@link jbvb.util.spi.LodblfNbmfProvidfr LodblfNbmfProvidfr} dlbss
+ * for thf JRE LodblfProvidfrAdbptfr.
+ *
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
+ */
+publid dlbss LodblfNbmfProvidfrImpl fxtfnds LodblfNbmfProvidfr implfmfnts AvbilbblfLbngubgfTbgs {
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+    privbtf finbl Sft<String> lbngtbgs;
+
+    publid LodblfNbmfProvidfrImpl(LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        this.typf = typf;
+        this.lbngtbgs = lbngtbgs;
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh this lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     *
+     * @rfturn An brrby of bll lodblfs for whidh this lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     */
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn LodblfProvidfrAdbptfr.toLodblfArrby(lbngtbgs);
+    }
+
+    @Ovfrridf
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        rfturn LodblfProvidfrAdbptfr.isSupportfdLodblf(lodblf, typf, lbngtbgs);
+    }
+
+    /**
+     * Rfturns b lodblizfd nbmf for thf givfn ISO 639 lbngubgf dodf bnd thf
+     * givfn lodblf thbt is bppropribtf for displby to thf usfr.
+     * For fxbmplf, if <dodf>lbngubgfCodf</dodf> is "fr" bnd <dodf>lodblf</dodf>
+     * is fn_US, gftDisplbyLbngubgf() will rfturn "Frfndh"; if <dodf>lbngubgfCodf</dodf>
+     * is "fn" bnd <dodf>lodblf</dodf> is fr_FR, gftDisplbyLbngubgf() will rfturn "bnglbis".
+     * If thf nbmf rfturnfd dbnnot bf lodblizfd bddording to <dodf>lodblf</dodf>,
+     * (sby, thf providfr dofs not hbvf b Jbpbnfsf nbmf for Crobtibn),
+     * this mfthod rfturns null.
+     * @pbrbm lbngubgfCodf thf ISO 639 lbngubgf dodf string in thf form of two
+     *     lowfr-dbsf lfttfrs bftwffn 'b' (U+0061) bnd 'z' (U+007A)
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn thf nbmf of thf givfn lbngubgf dodf for thf spfdififd lodblf, or null if it's not
+     *     bvbilbblf.
+     * @fxdfption NullPointfrExdfption if <dodf>lbngubgfCodf</dodf> or <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lbngubgfCodf</dodf> is not in thf form of
+     *     two lowfr-dbsf lfttfrs, or <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.util.Lodblf#gftDisplbyLbngubgf(jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid String gftDisplbyLbngubgf(String lbng, Lodblf lodblf) {
+        rfturn gftDisplbyString(lbng, lodblf);
+    }
+
+    /**
+     * Rfturns b lodblizfd nbmf for thf givfn <b hrff="http://www.rfd-fditor.org/rfd/bdp/bdp47.txt">
+     * IETF BCP47</b> sdript dodf bnd thf givfn lodblf thbt is bppropribtf for
+     * displby to thf usfr.
+     * For fxbmplf, if <dodf>sdriptCodf</dodf> is "Lbtn" bnd <dodf>lodblf</dodf>
+     * is fn_US, gftDisplbySdript() will rfturn "Lbtin"; if <dodf>sdriptCodf</dodf>
+     * is "Cyrl" bnd <dodf>lodblf</dodf> is fr_FR, gftDisplbySdript() will rfturn "dyrilliquf".
+     * If thf nbmf rfturnfd dbnnot bf lodblizfd bddording to <dodf>lodblf</dodf>,
+     * (sby, thf providfr dofs not hbvf b Jbpbnfsf nbmf for Cyrillid),
+     * this mfthod rfturns null. Thf dffbult implfmfntbtion rfturns null.
+     * @pbrbm sdriptCodf thf four lfttfr sdript dodf string in thf form of titlf-dbsf
+     *     lfttfrs (thf first lfttfr is uppfr-dbsf dhbrbdtfr bftwffn 'A' (U+0041) bnd
+     *     'Z' (U+005A) followfd by thrff lowfr-dbsf dhbrbdtfr bftwffn 'b' (U+0061)
+     *     bnd 'z' (U+007A)).
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn thf nbmf of thf givfn sdript dodf for thf spfdififd lodblf, or null if it's not
+     *     bvbilbblf.
+     * @fxdfption NullPointfrExdfption if <dodf>sdriptCodf</dodf> or <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>sdriptCodf</dodf> is not in thf form of
+     *     four titlf dbsf lfttfrs, or <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.util.Lodblf#gftDisplbySdript(jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid String gftDisplbySdript(String sdriptCodf, Lodblf lodblf) {
+        rfturn gftDisplbyString(sdriptCodf, lodblf);
+    }
+
+    /**
+     * Rfturns b lodblizfd nbmf for thf givfn ISO 3166 dountry dodf bnd thf
+     * givfn lodblf thbt is bppropribtf for displby to thf usfr.
+     * For fxbmplf, if <dodf>dountryCodf</dodf> is "FR" bnd <dodf>lodblf</dodf>
+     * is fn_US, gftDisplbyCountry() will rfturn "Frbndf"; if <dodf>dountryCodf</dodf>
+     * is "US" bnd <dodf>lodblf</dodf> is fr_FR, gftDisplbyCountry() will rfturn "Etbts-Unis".
+     * If thf nbmf rfturnfd dbnnot bf lodblizfd bddording to <dodf>lodblf</dodf>,
+     * (sby, thf providfr dofs not hbvf b Jbpbnfsf nbmf for Crobtib),
+     * this mfthod rfturns null.
+     * @pbrbm dountryCodf thf ISO 3166 dountry dodf string in thf form of two
+     *     uppfr-dbsf lfttfrs bftwffn 'A' (U+0041) bnd 'Z' (U+005A)
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn thf nbmf of thf givfn dountry dodf for thf spfdififd lodblf, or null if it's not
+     *     bvbilbblf.
+     * @fxdfption NullPointfrExdfption if <dodf>dountryCodf</dodf> or <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dountryCodf</dodf> is not in thf form of
+     *     two uppfr-dbsf lfttfrs, or <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.util.Lodblf#gftDisplbyCountry(jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid String gftDisplbyCountry(String dtry, Lodblf lodblf) {
+        rfturn gftDisplbyString(dtry, lodblf);
+    }
+
+    /**
+     * Rfturns b lodblizfd nbmf for thf givfn vbribnt dodf bnd thf givfn lodblf thbt
+     * is bppropribtf for displby to thf usfr.
+     * If thf nbmf rfturnfd dbnnot bf lodblizfd bddording to <dodf>lodblf</dodf>,
+     * this mfthod rfturns null.
+     * @pbrbm vbribnt thf vbribnt string
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn thf nbmf of thf givfn vbribnt string for thf spfdififd lodblf, or null if it's not
+     *     bvbilbblf.
+     * @fxdfption NullPointfrExdfption if <dodf>vbribnt</dodf> or <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.util.Lodblf#gftDisplbyVbribnt(jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid String gftDisplbyVbribnt(String vrnt, Lodblf lodblf) {
+        rfturn gftDisplbyString("%%"+vrnt, lodblf);
+    }
+
+    privbtf String gftDisplbyString(String kfy, Lodblf lodblf) {
+        if (kfy == null || lodblf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        rfturn LodblfProvidfrAdbptfr.forTypf(typf).gftLodblfRfsourdfs(lodblf).gftLodblfNbmf(kfy);
+    }
+
+    @Ovfrridf
+    publid Sft<String> gftAvbilbblfLbngubgfTbgs() {
+        rfturn lbngtbgs;
+    }
+}

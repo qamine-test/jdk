@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+
+import sun.bwt.*;
+import sun.bwt.im.*;
+
+finbl dlbss WDiblogPffr fxtfnds WWindowPffr implfmfnts DiblogPffr {
+    // Toolkit & pffr intfrnbls
+
+    // Plbtform dffbult bbdkground for diblogs.  Gfts sft on tbrgft if
+    // tbrgft hbs nonf fxpliditly spfdififd.
+    finbl stbtid Color dffbultBbdkground =  SystfmColor.dontrol;
+
+    // If tbrgft dofsn't hbvf its bbdkground dolor sft, wf sft its
+    // bbdkground to plbtform dffbult.
+    boolfbn nffdDffbultBbdkground;
+
+    WDiblogPffr(Diblog tbrgft) {
+        supfr(tbrgft);
+
+        InputMfthodMbnbgfr imm = InputMfthodMbnbgfr.gftInstbndf();
+        String mfnuString = imm.gftTriggfrMfnuString();
+        if (mfnuString != null)
+        {
+            pSftIMMOption(mfnuString);
+        }
+    }
+
+    nbtivf void drfbtfAwtDiblog(WComponfntPffr pbrfnt);
+    @Ovfrridf
+    void drfbtf(WComponfntPffr pbrfnt) {
+        prfCrfbtf(pbrfnt);
+        drfbtfAwtDiblog(pbrfnt);
+    }
+
+    nbtivf void showModbl();
+    nbtivf void fndModbl();
+
+    @Ovfrridf
+    void initiblizf() {
+        Diblog tbrgft = (Diblog)this.tbrgft;
+        // Nffd to sft tbrgft's bbdkground to dffbult _bfforf_ b dbll
+        // to supfr.initiblizf.
+        if (nffdDffbultBbdkground) {
+            tbrgft.sftBbdkground(dffbultBbdkground);
+        }
+
+        supfr.initiblizf();
+
+        if (tbrgft.gftTitlf() != null) {
+            sftTitlf(tbrgft.gftTitlf());
+        }
+        sftRfsizbblf(tbrgft.isRfsizbblf());
+    }
+
+    @Ovfrridf
+    protfdtfd void rfblShow() {
+        Diblog dlg = (Diblog)tbrgft;
+        if (dlg.gftModblityTypf() != Diblog.ModblityTypf.MODELESS) {
+            showModbl();
+        } flsf {
+            supfr.rfblShow();
+        }
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    void hidf() {
+        Diblog dlg = (Diblog)tbrgft;
+        if (dlg.gftModblityTypf() != Diblog.ModblityTypf.MODELESS) {
+            fndModbl();
+        } flsf {
+            supfr.hidf();
+        }
+    }
+
+    @Ovfrridf
+    publid void blodkWindows(jbvb.util.List<Window> toBlodk) {
+        for (Window w : toBlodk) {
+            WWindowPffr wp = (WWindowPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(w);
+            if (wp != null) {
+                wp.sftModblBlodkfd((Diblog)tbrgft, truf);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        if (((Diblog)tbrgft).isUndfdorbtfd()) {
+            rfturn supfr.gftMinimumSizf();
+        } flsf {
+            rfturn nfw Dimfnsion(gftSysMinWidth(), gftSysMinHfight());
+        }
+    }
+
+    @Ovfrridf
+    boolfbn isTbrgftUndfdorbtfd() {
+        rfturn ((Diblog)tbrgft).isUndfdorbtfd();
+    }
+
+    @Ovfrridf
+    publid void rfshbpf(int x, int y, int width, int hfight) {
+        if (((Diblog)tbrgft).isUndfdorbtfd()) {
+            supfr.rfshbpf(x, y, width, hfight);
+        } flsf {
+            rfshbpfFrbmf(x, y, width, hfight);
+        }
+    }
+
+    /* Nbtivf drfbtf() pffks bt tbrgft's bbdkground bnd if it's null
+     * dblls this mfthod to brrbgf for dffbult bbdkground to bf sft on
+     * tbrgft.  Cbn't mbkf thf dhfdk in Jbvb, sindf gftBbdkground will
+     * rfturn ownfr's bbdkground if tbrgft hbs nonf sft.
+     */
+    privbtf void sftDffbultColor() {
+        // Cbn't dbll tbrgft.sftBbdkground dirfdtly, sindf wf brf
+        // dbllfd on toolkit thrfbd.  Cbn't sdhfdulf b Runnbblf on thf
+        // EvfntHbndlfrThrfbd bfdbusf of thf rbdf dondition.  So just
+        // sft b flbg bnd dbll tbrgft.sftBbdkground in initiblizf.
+        nffdDffbultBbdkground = truf;
+    }
+
+    nbtivf void pSftIMMOption(String option);
+    void notifyIMMOptionChbngf(){
+      InputMfthodMbnbgfr.gftInstbndf().notifyChbngfRfqufst((Componfnt)tbrgft);
+    }
+}

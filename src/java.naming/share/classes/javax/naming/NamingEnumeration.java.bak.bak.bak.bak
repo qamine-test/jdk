@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+import jbvb.util.Enumfrbtion;
+
+/**
+  * This intfrfbdf is for fnumfrbting lists rfturnfd by
+  * mfthods in thf jbvbx.nbming bnd jbvbx.nbming.dirfdtory pbdkbgfs.
+  * It fxtfnds Enumfrbtion to bllow bs fxdfptions to bf thrown during
+  * thf fnumfrbtion.
+  *<p>
+  * Whfn b mfthod sudh bs list(), listBindings(), or sfbrdh() rfturns
+  * b NbmingEnumfrbtion, bny fxdfptions fndountfrfd brf rfsfrvfd until
+  * bll rfsults hbvf bffn rfturnfd. At thf fnd of thf fnumfrbtion, thf
+  * fxdfption is thrown (by hbsMorf());
+  * <p>
+  * For fxbmplf, if thf list() is
+  * rfturning only b pbrtibl bnswfr, thf dorrfsponding fxdfption would
+  * bf PbrtiblRfsultExdfption. list() would first rfturn b NbmingEnumfrbtion.
+  * Whfn thf lbst of thf rfsults hbs bffn rfturnfd by thf NbmingEnumfrbtion's
+  * nfxt(), invoking hbsMorf() would rfsult in PbrtiblRfsultExdfption bfing thrown.
+  *<p>
+  * In bnothfr fxbmplf, if b sfbrdh() mfthod wbs invokfd with b spfdififd
+  * sizf limit of 'n'. If thf bnswfr donsists of morf thbn 'n' rfsults,
+  * sfbrdh() would first rfturn b NbmingEnumfrbtion.
+  * Whfn thf n'th rfsult hbs bffn rfturnfd by invoking nfxt() on thf
+  * NbmingEnumfrbtion, b SizfLimitExdffdExdfption would thfn thrown whfn
+  * hbsMorf() is invokfd.
+  *<p>
+  * Notf thbt if thf progrbm usfs hbsMorfElfmfnts() bnd nfxtElfmfnt() instfbd
+  * to itfrbtf through thf NbmingEnumfrbtion, bfdbusf thfsf mfthods
+  * dbnnot throw fxdfptions, no fxdfption will bf thrown. Instfbd,
+  * in thf prfvious fxbmplf, bftfr thf n'th rfsult hbs bffn rfturnfd by
+  * nfxtElfmfnt(), invoking hbsMorfElfmfnts() would rfturn fblsf.
+  *<p>
+  * Notf blso thbt NoSudhElfmfntExdfption is thrown if thf progrbm invokfs
+  * nfxt() or nfxtElfmfnt() whfn thfrf brf no flfmfnts lfft in thf fnumfrbtion.
+  * Thf progrbm dbn blwbys bvoid this fxdfption by using hbsMorf() bnd
+  * hbsMorfElfmfnts() to dhfdk whfthfr thf fnd of thf fnumfrbtion hbs bffn rfbdhfd.
+  *<p>
+  * If bn fxdfption is thrown during bn fnumfrbtion,
+  * thf fnumfrbtion bfdomfs invblid.
+  * Subsfqufnt invodbtion of bny mfthod on thbt fnumfrbtion
+  * will yifld undffinfd rfsults.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff Contfxt#list
+  * @sff Contfxt#listBindings
+  * @sff jbvbx.nbming.dirfdtory.DirContfxt#sfbrdh
+  * @sff jbvbx.nbming.dirfdtory.Attributfs#gftAll
+  * @sff jbvbx.nbming.dirfdtory.Attributfs#gftIDs
+  * @sff jbvbx.nbming.dirfdtory.Attributf#gftAll
+  * @sindf 1.3
+  */
+publid intfrfbdf NbmingEnumfrbtion<T> fxtfnds Enumfrbtion<T> {
+    /**
+      * Rftrifvfs thf nfxt flfmfnt in thf fnumfrbtion.
+      * This mfthod bllows nbming fxdfptions fndountfrfd whilf
+      * rftrifving thf nfxt flfmfnt to bf dbught bnd hbndlfd
+      * by thf bpplidbtion.
+      * <p>
+      * Notf thbt <tt>nfxt()</tt> dbn blso throw thf runtimf fxdfption
+      * NoSudhElfmfntExdfption to indidbtf thbt thf dbllfr is
+      * bttfmpting to fnumfrbtf bfyond thf fnd of thf fnumfrbtion.
+      * This is difffrfnt from b NbmingExdfption, whidh indidbtfs
+      * thbt thfrf wbs b problfm in obtbining thf nfxt flfmfnt,
+      * for fxbmplf, duf to b rfffrrbl or sfrvfr unbvbilbbility, ftd.
+      *
+      * @rfturn         Thf possibly null flfmfnt in thf fnumfrbtion.
+      *     null is only vblid for fnumfrbtions thbt dbn rfturn
+      *     null (f.g. Attributf.gftAll() rfturns bn fnumfrbtion of
+      *     bttributf vblufs, bnd bn bttributf vbluf dbn bf null).
+      * @fxdfption NbmingExdfption If b nbming fxdfption is fndountfrfd whilf bttfmpting
+      *                 to rftrifvf thf nfxt flfmfnt. Sff NbmingExdfption
+      *                 bnd its subdlbssfs for thf possiblf nbming fxdfptions.
+      * @fxdfption jbvb.util.NoSudhElfmfntExdfption If bttfmpting to gft thf nfxt flfmfnt whfn nonf is bvbilbblf.
+      * @sff jbvb.util.Enumfrbtion#nfxtElfmfnt
+      */
+    publid T nfxt() throws NbmingExdfption;
+
+    /**
+      * Dftfrminfs whfthfr thfrf brf bny morf flfmfnts in thf fnumfrbtion.
+      * This mfthod bllows nbming fxdfptions fndountfrfd whilf
+      * dftfrmining whfthfr thfrf brf morf flfmfnts to bf dbught bnd hbndlfd
+      * by thf bpplidbtion.
+      *
+      * @rfturn         truf if thfrf is morf in thf fnumfrbtion ; fblsf othfrwisf.
+      * @fxdfption NbmingExdfption
+      *                 If b nbming fxdfption is fndountfrfd whilf bttfmpting
+      *                 to dftfrminf whfthfr thfrf is bnothfr flfmfnt
+      *                 in thf fnumfrbtion. Sff NbmingExdfption
+      *                 bnd its subdlbssfs for thf possiblf nbming fxdfptions.
+      * @sff jbvb.util.Enumfrbtion#hbsMorfElfmfnts
+      */
+    publid boolfbn hbsMorf() throws NbmingExdfption;
+
+    /**
+     * Closfs this fnumfrbtion.
+     *
+     * Aftfr this mfthod hbs bffn invokfd on this fnumfrbtion, thf
+     * fnumfrbtion bfdomfs invblid bnd subsfqufnt invodbtion of bny of
+     * its mfthods will yifld undffinfd rfsults.
+     * This mfthod is intfndfd for bborting bn fnumfrbtion to frff up rfsourdfs.
+     * If bn fnumfrbtion prodffds to thf fnd--thbt is, until
+     * <tt>hbsMorfElfmfnts()</tt> or <tt>hbsMorf()</tt> rfturns <tt>fblsf</tt>--
+     * rfsourdfs will bf frffd up butombtidblly bnd thfrf is no nffd to
+     * fxpliditly dbll <tt>dlosf()</tt>.
+     *<p>
+     * This mfthod indidbtfs to thf sfrvidf providfr thbt it is frff
+     * to rflfbsf rfsourdfs bssodibtfd with thf fnumfrbtion, bnd dbn
+     * notify sfrvfrs to dbndfl bny outstbnding rfqufsts. Thf <tt>dlosf()</tt>
+     * mfthod is b hint to implfmfntbtions for mbnbging thfir rfsourdfs.
+     * Implfmfntbtions brf fndourbgfd to usf bppropribtf blgorithms to
+     * mbnbgf thfir rfsourdfs whfn dlifnt omits thf <tt>dlosf()</tt> dblls.
+     *
+     * @fxdfption NbmingExdfption If b nbming fxdfption is fndountfrfd
+     * whilf dlosing thf fnumfrbtion.
+     * @sindf 1.3
+     */
+    publid void dlosf() throws NbmingExdfption;
+}

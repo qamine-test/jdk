@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
 
-import com.sun.tools.hat.internal.model.JavaClass;
-import java.util.Arrays;
-import java.util.Comparator;
+import dom.sun.tools.ibt.intfrnbl.modfl.JbvbClbss;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
 
 /**
- * Prints histogram sortable by class name, count and size.
+ * Prints iistogrbm sortbblf by dlbss nbmf, dount bnd sizf.
  *
  */
-public class HistogramQuery extends QueryHandler {
-    public void run() {
-        JavaClass[] classes = snapshot.getClassesArray();
-        Comparator<JavaClass> comparator;
-        if (query.equals("count")) {
-            comparator = new Comparator<JavaClass>() {
-                public int compare(JavaClass first, JavaClass second) {
-                    long diff = (second.getInstancesCount(false) -
-                             first.getInstancesCount(false));
-                    return (diff == 0)? 0: ((diff < 0)? -1 : + 1);
+publid dlbss HistogrbmQufry fxtfnds QufryHbndlfr {
+    publid void run() {
+        JbvbClbss[] dlbssfs = snbpsiot.gftClbssfsArrby();
+        Compbrbtor<JbvbClbss> dompbrbtor;
+        if (qufry.fqubls("dount")) {
+            dompbrbtor = nfw Compbrbtor<JbvbClbss>() {
+                publid int dompbrf(JbvbClbss first, JbvbClbss sfdond) {
+                    long diff = (sfdond.gftInstbndfsCount(fblsf) -
+                             first.gftInstbndfsCount(fblsf));
+                    rfturn (diff == 0)? 0: ((diff < 0)? -1 : + 1);
                 }
             };
-        } else if (query.equals("class")) {
-            comparator = new Comparator<JavaClass>() {
-                public int compare(JavaClass first, JavaClass second) {
-                    return first.getName().compareTo(second.getName());
+        } flsf if (qufry.fqubls("dlbss")) {
+            dompbrbtor = nfw Compbrbtor<JbvbClbss>() {
+                publid int dompbrf(JbvbClbss first, JbvbClbss sfdond) {
+                    rfturn first.gftNbmf().dompbrfTo(sfdond.gftNbmf());
                 }
             };
-        } else {
-            // default sort is by total size
-            comparator = new Comparator<JavaClass>() {
-                public int compare(JavaClass first, JavaClass second) {
-                    long diff = (second.getTotalInstanceSize() -
-                             first.getTotalInstanceSize());
-                    return (diff == 0)? 0: ((diff < 0)? -1 : + 1);
+        } flsf {
+            // dffbult sort is by totbl sizf
+            dompbrbtor = nfw Compbrbtor<JbvbClbss>() {
+                publid int dompbrf(JbvbClbss first, JbvbClbss sfdond) {
+                    long diff = (sfdond.gftTotblInstbndfSizf() -
+                             first.gftTotblInstbndfSizf());
+                    rfturn (diff == 0)? 0: ((diff < 0)? -1 : + 1);
                 }
             };
         }
-        Arrays.sort(classes, comparator);
+        Arrbys.sort(dlbssfs, dompbrbtor);
 
-        startHtml("Heap Histogram");
+        stbrtHtml("Hfbp Histogrbm");
 
-        out.println("<p align='center'>");
-        out.println("<b><a href='/'>All Classes (excluding platform)</a></b>");
+        out.println("<p blign='dfntfr'>");
+        out.println("<b><b irff='/'>All Clbssfs (fxdluding plbtform)</b></b>");
         out.println("</p>");
 
-        out.println("<table align=center border=1>");
-        out.println("<tr><th><a href='/histo/class'>Class</a></th>");
-        out.println("<th><a href='/histo/count'>Instance Count</a></th>");
-        out.println("<th><a href='/histo/size'>Total Size</a></th></tr>");
-        for (int i = 0; i < classes.length; i++) {
-            JavaClass clazz = classes[i];
+        out.println("<tbblf blign=dfntfr bordfr=1>");
+        out.println("<tr><ti><b irff='/iisto/dlbss'>Clbss</b></ti>");
+        out.println("<ti><b irff='/iisto/dount'>Instbndf Count</b></ti>");
+        out.println("<ti><b irff='/iisto/sizf'>Totbl Sizf</b></ti></tr>");
+        for (int i = 0; i < dlbssfs.lfngti; i++) {
+            JbvbClbss dlbzz = dlbssfs[i];
             out.println("<tr><td>");
-            printClass(clazz);
+            printClbss(dlbzz);
             out.println("</td>");
             out.println("<td>");
-            out.println(clazz.getInstancesCount(false));
+            out.println(dlbzz.gftInstbndfsCount(fblsf));
             out.println("</td>");
             out.println("<td>");
-            out.println(clazz.getTotalInstanceSize());
+            out.println(dlbzz.gftTotblInstbndfSizf());
             out.println("</td></tr>");
         }
-        out.println("</table>");
+        out.println("</tbblf>");
 
-        endHtml();
+        fndHtml();
     }
 }

@@ -1,0 +1,240 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+/**
+ * An fndbpsulbtion of thf rfsult stbtf produdfd by
+ * <dodf>SSLEnginf</dodf> I/O dblls.
+ *
+ * <p> A <dodf>SSLEnginf</dodf> providfs b mfbns for fstbblishing
+ * sfdurf dommunidbtion sfssions bftwffn two pffrs.  <dodf>SSLEnginf</dodf>
+ * opfrbtions typidblly donsumf bytfs from bn input bufffr bnd produdf
+ * bytfs in bn output bufffr.  This dlbss providfs opfrbtionbl rfsult
+ * vblufs dfsdribing thf stbtf of thf <dodf>SSLEnginf</dodf>, indluding
+ * indidbtions of whbt opfrbtions brf nffdfd to finish bn
+ * ongoing hbndshbkf.  Lbstly, it rfports thf numbfr of bytfs donsumfd
+ * bnd produdfd bs b rfsult of this opfrbtion.
+ *
+ * @sff SSLEnginf
+ * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+ *
+ * @buthor Brbd R. Wftmorf
+ * @sindf 1.5
+ */
+
+publid dlbss SSLEnginfRfsult {
+
+    /**
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing thf ovfrbll rfsult
+     * of thf <dodf>SSLEnginf</dodf> opfrbtion.
+     *
+     * Thf <dodf>Stbtus</dodf> vbluf dofs not rfflfdt thf
+     * stbtf of b <dodf>SSLEnginf</dodf> hbndshbkf durrfntly
+     * in progrfss.  Thf <dodf>SSLEnginfRfsult's HbndshbkfStbtus</dodf>
+     * should bf donsultfd for thbt informbtion.
+     *
+     * @buthor Brbd R. Wftmorf
+     * @sindf 1.5
+     */
+    publid stbtid fnum Stbtus {
+
+        /**
+         * Thf <dodf>SSLEnginf</dodf> wbs not bblf to unwrbp thf
+         * indoming dbtb bfdbusf thfrf wfrf not fnough sourdf bytfs
+         * bvbilbblf to mbkf b domplftf pbdkft.
+         *
+         * <P>
+         * Rfpfbt thf dbll ondf morf bytfs brf bvbilbblf.
+         */
+        BUFFER_UNDERFLOW,
+
+        /**
+         * Thf <dodf>SSLEnginf</dodf> wbs not bblf to prodfss thf
+         * opfrbtion bfdbusf thfrf brf not fnough bytfs bvbilbblf in thf
+         * dfstinbtion bufffr to hold thf rfsult.
+         * <P>
+         * Rfpfbt thf dbll ondf morf bytfs brf bvbilbblf.
+         *
+         * @sff SSLSfssion#gftPbdkftBufffrSizf()
+         * @sff SSLSfssion#gftApplidbtionBufffrSizf()
+         */
+        BUFFER_OVERFLOW,
+
+        /**
+         * Thf <dodf>SSLEnginf</dodf> domplftfd thf opfrbtion, bnd
+         * is bvbilbblf to prodfss similbr dblls.
+         */
+        OK,
+
+        /**
+         * Thf opfrbtion just dlosfd this sidf of thf
+         * <dodf>SSLEnginf</dodf>, or thf opfrbtion
+         * dould not bf domplftfd bfdbusf it wbs blrfbdy dlosfd.
+         */
+        CLOSED;
+    }
+
+    /**
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing thf durrfnt
+     * hbndshbking stbtf of this <dodf>SSLEnginf</dodf>.
+     *
+     * @buthor Brbd R. Wftmorf
+     * @sindf 1.5
+     */
+    publid stbtid fnum HbndshbkfStbtus {
+
+        /**
+         * Thf <dodf>SSLEnginf</dodf> is not durrfntly hbndshbking.
+         */
+        NOT_HANDSHAKING,
+
+        /**
+         * Thf <dodf>SSLEnginf</dodf> hbs just finishfd hbndshbking.
+         * <P>
+         * This vbluf is only gfnfrbtfd by b dbll to
+         * <dodf>SSLEnginf.wrbp()/unwrbp()</dodf> whfn thbt dbll
+         * finishfs b hbndshbkf.  It is nfvfr gfnfrbtfd by
+         * <dodf>SSLEnginf.gftHbndshbkfStbtus()</dodf>.
+         *
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#gftHbndshbkfStbtus()
+         */
+        FINISHED,
+
+        /**
+         * Thf <dodf>SSLEnginf</dodf> nffds thf rfsults of onf (or morf)
+         * dflfgbtfd tbsks bfforf hbndshbking dbn dontinuf.
+         *
+         * @sff SSLEnginf#gftDflfgbtfdTbsk()
+         */
+        NEED_TASK,
+
+        /**
+         * Thf <dodf>SSLEnginf</dodf> must sfnd dbtb to thf rfmotf sidf
+         * bfforf hbndshbking dbn dontinuf, so <dodf>SSLEnginf.wrbp()</dodf>
+         * should bf dbllfd.
+         *
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         */
+        NEED_WRAP,
+
+        /**
+         * Thf <dodf>SSLEnginf</dodf> nffds to rfdfivf dbtb from thf
+         * rfmotf sidf bfforf hbndshbking dbn dontinuf.
+         */
+        NEED_UNWRAP;
+    }
+
+
+    privbtf finbl Stbtus stbtus;
+    privbtf finbl HbndshbkfStbtus hbndshbkfStbtus;
+    privbtf finbl int bytfsConsumfd;
+    privbtf finbl int bytfsProdudfd;
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     *
+     * @pbrbm   stbtus
+     *          thf rfturn vbluf of thf opfrbtion.
+     *
+     * @pbrbm   hbndshbkfStbtus
+     *          thf durrfnt hbndshbking stbtus.
+     *
+     * @pbrbm   bytfsConsumfd
+     *          thf numbfr of bytfs donsumfd from thf sourdf BytfBufffr
+     *
+     * @pbrbm   bytfsProdudfd
+     *          thf numbfr of bytfs plbdfd into thf dfstinbtion BytfBufffr
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf <dodf>stbtus</dodf> or <dodf>hbndshbkfStbtus</dodf>
+     *          brgumfnts brf null, or if <dodf>bytfsConsumfd</dodf> or
+     *          <dodf>bytfsProdudfd</dodf> is nfgbtivf.
+     */
+    publid SSLEnginfRfsult(Stbtus stbtus, HbndshbkfStbtus hbndshbkfStbtus,
+            int bytfsConsumfd, int bytfsProdudfd) {
+
+        if ((stbtus == null) || (hbndshbkfStbtus == null) ||
+                (bytfsConsumfd < 0) || (bytfsProdudfd < 0)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid Pbrbmftfr(s)");
+        }
+
+        this.stbtus = stbtus;
+        this.hbndshbkfStbtus = hbndshbkfStbtus;
+        this.bytfsConsumfd = bytfsConsumfd;
+        this.bytfsProdudfd = bytfsProdudfd;
+    }
+
+    /**
+     * Gfts thf rfturn vbluf of this <dodf>SSLEnginf</dodf> opfrbtion.
+     *
+     * @rfturn  thf rfturn vbluf
+     */
+    finbl publid Stbtus gftStbtus() {
+        rfturn stbtus;
+    }
+
+    /**
+     * Gfts thf hbndshbkf stbtus of this <dodf>SSLEnginf</dodf>
+     * opfrbtion.
+     *
+     * @rfturn  thf hbndshbkf stbtus
+     */
+    finbl publid HbndshbkfStbtus gftHbndshbkfStbtus() {
+        rfturn hbndshbkfStbtus;
+    }
+
+    /**
+     * Rfturns thf numbfr of bytfs donsumfd from thf input bufffr.
+     *
+     * @rfturn  thf numbfr of bytfs donsumfd.
+     */
+    finbl publid int bytfsConsumfd() {
+        rfturn bytfsConsumfd;
+    }
+
+    /**
+     * Rfturns thf numbfr of bytfs writtfn to thf output bufffr.
+     *
+     * @rfturn  thf numbfr of bytfs produdfd
+     */
+    finbl publid int bytfsProdudfd() {
+        rfturn bytfsProdudfd;
+    }
+
+    /**
+     * Rfturns b String rfprfsfntbtion of this objfdt.
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn ("Stbtus = " + stbtus +
+            " HbndshbkfStbtus = " + hbndshbkfStbtus +
+            "\nbytfsConsumfd = " + bytfsConsumfd +
+            " bytfsProdudfd = " + bytfsProdudfd);
+    }
+}

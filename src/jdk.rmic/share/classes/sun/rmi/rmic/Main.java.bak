@@ -1,897 +1,897 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Licensed Materials - Property of IBM
+ * Lidfnsfd Mbtfribls - Propfrty of IBM
  * RMI-IIOP v1.0
- * Copyright IBM Corp. 1998 1999  All Rights Reserved
+ * Copyrigit IBM Corp. 1998 1999  All Rigits Rfsfrvfd
  *
  */
 
-package sun.rmi.rmic;
+pbdkbgf sun.rmi.rmid;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-import java.util.MissingResourceException;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.MissingRfsourdfExdfption;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.ByteArrayOutputStream;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
 
-import sun.tools.java.ClassFile;
-import sun.tools.java.ClassDefinition;
-import sun.tools.java.ClassDeclaration;
-import sun.tools.java.ClassNotFound;
-import sun.tools.java.Identifier;
-import sun.tools.java.ClassPath;
+import sun.tools.jbvb.ClbssFilf;
+import sun.tools.jbvb.ClbssDffinition;
+import sun.tools.jbvb.ClbssDfdlbrbtion;
+import sun.tools.jbvb.ClbssNotFound;
+import sun.tools.jbvb.Idfntififr;
+import sun.tools.jbvb.ClbssPbti;
 
-import sun.tools.javac.SourceClass;
-import sun.tools.util.CommandLine;
-import java.lang.reflect.Constructor;
-import java.util.Properties;
+import sun.tools.jbvbd.SourdfClbss;
+import sun.tools.util.CommbndLinf;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.util.Propfrtifs;
 
 /**
- * Main "rmic" program.
+ * Mbin "rmid" progrbm.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public class Main implements sun.rmi.rmic.Constants {
-    String sourcePathArg;
-    String sysClassPathArg;
-    String extDirsArg;
-    String classPathString;
-    File destDir;
-    int flags;
+publid dlbss Mbin implfmfnts sun.rmi.rmid.Constbnts {
+    String sourdfPbtiArg;
+    String sysClbssPbtiArg;
+    String fxtDirsArg;
+    String dlbssPbtiString;
+    Filf dfstDir;
+    int flbgs;
     long tm;
-    Vector<String> classes;
-    boolean nowrite;
-    boolean nocompile;
-    boolean keepGenerated;
-    boolean status;
-    String[] generatorArgs;
-    Vector<Generator> generators;
-    Class<? extends BatchEnvironment> environmentClass =
-        BatchEnvironment.class;
-    boolean iiopGeneration = false;
+    Vfdtor<String> dlbssfs;
+    boolfbn nowritf;
+    boolfbn nodompilf;
+    boolfbn kffpGfnfrbtfd;
+    boolfbn stbtus;
+    String[] gfnfrbtorArgs;
+    Vfdtor<Gfnfrbtor> gfnfrbtors;
+    Clbss<? fxtfnds BbtdiEnvironmfnt> fnvironmfntClbss =
+        BbtdiEnvironmfnt.dlbss;
+    boolfbn iiopGfnfrbtion = fblsf;
 
     /**
-     * Name of the program.
+     * Nbmf of tif progrbm.
      */
-    String program;
+    String progrbm;
 
     /**
-     * The stream where error message are printed.
+     * Tif strfbm wifrf frror mfssbgf brf printfd.
      */
-    OutputStream out;
+    OutputStrfbm out;
 
     /**
-     * Constructor.
+     * Construdtor.
      */
-    public Main(OutputStream out, String program) {
-        this.out = out;
-        this.program = program;
+    publid Mbin(OutputStrfbm out, String progrbm) {
+        tiis.out = out;
+        tiis.progrbm = progrbm;
     }
 
     /**
-     * Output a message.
+     * Output b mfssbgf.
      */
-    public void output(String msg) {
-        PrintStream out =
-            this.out instanceof PrintStream ? (PrintStream)this.out
-            : new PrintStream(this.out, true);
+    publid void output(String msg) {
+        PrintStrfbm out =
+            tiis.out instbndfof PrintStrfbm ? (PrintStrfbm)tiis.out
+            : nfw PrintStrfbm(tiis.out, truf);
         out.println(msg);
     }
 
     /**
-     * Top level error message.  This method is called when the
-     * environment could not be set up yet.
+     * Top lfvfl frror mfssbgf.  Tiis mftiod is dbllfd wifn tif
+     * fnvironmfnt dould not bf sft up yft.
      */
-    public void error(String msg) {
-        output(getText(msg));
+    publid void frror(String msg) {
+        output(gftTfxt(msg));
     }
 
-    public void error(String msg, String arg1) {
-        output(getText(msg, arg1));
+    publid void frror(String msg, String brg1) {
+        output(gftTfxt(msg, brg1));
     }
 
-    public void error(String msg, String arg1, String arg2) {
-        output(getText(msg, arg1, arg2));
+    publid void frror(String msg, String brg1, String brg2) {
+        output(gftTfxt(msg, brg1, brg2));
     }
 
     /**
-     * Usage
+     * Usbgf
      */
-    public void usage() {
-        error("rmic.usage", program);
+    publid void usbgf() {
+        frror("rmid.usbgf", progrbm);
     }
 
     /**
-     * Run the compiler
+     * Run tif dompilfr
      */
-    public synchronized boolean compile(String argv[]) {
+    publid syndironizfd boolfbn dompilf(String brgv[]) {
 
         /*
-         * Handle internal option to use the new (and incomplete) rmic
-         * implementation.  This option is handled here, rather than
-         * in parseArgs, so that none of the arguments will be nulled
-         * before delegating to the new implementation.
+         * Hbndlf intfrnbl option to usf tif nfw (bnd indomplftf) rmid
+         * implfmfntbtion.  Tiis option is ibndlfd ifrf, rbtifr tibn
+         * in pbrsfArgs, so tibt nonf of tif brgumfnts will bf nullfd
+         * bfforf dflfgbting to tif nfw implfmfntbtion.
          */
-        for (int i = 0; i < argv.length; i++) {
-            if (argv[i].equals("-Xnew")) {
-                return (new sun.rmi.rmic.newrmic.Main(out,
-                                                      program)).compile(argv);
+        for (int i = 0; i < brgv.lfngti; i++) {
+            if (brgv[i].fqubls("-Xnfw")) {
+                rfturn (nfw sun.rmi.rmid.nfwrmid.Mbin(out,
+                                                      progrbm)).dompilf(brgv);
             }
         }
 
-        if (!parseArgs(argv)) {
-            return false;
+        if (!pbrsfArgs(brgv)) {
+            rfturn fblsf;
         }
 
-        if (classes.size() == 0) {
-            usage();
-            return false;
+        if (dlbssfs.sizf() == 0) {
+            usbgf();
+            rfturn fblsf;
         }
 
-        if ((flags & F_WARNINGS) != 0) {
-            for (Generator g : generators) {
-                if (g instanceof RMIGenerator) {
-                    output(getText("rmic.jrmp.stubs.deprecated", program));
-                    break;
+        if ((flbgs & F_WARNINGS) != 0) {
+            for (Gfnfrbtor g : gfnfrbtors) {
+                if (g instbndfof RMIGfnfrbtor) {
+                    output(gftTfxt("rmid.jrmp.stubs.dfprfdbtfd", progrbm));
+                    brfbk;
                 }
             }
         }
 
-        return doCompile();
+        rfturn doCompilf();
     }
 
     /**
-     * Get the destination directory.
+     * Gft tif dfstinbtion dirfdtory.
      */
-    public File getDestinationDir() {
-        return destDir;
+    publid Filf gftDfstinbtionDir() {
+        rfturn dfstDir;
     }
 
     /**
-     * Parse the arguments for compile.
+     * Pbrsf tif brgumfnts for dompilf.
      */
-    public boolean parseArgs(String argv[]) {
-        sourcePathArg = null;
-        sysClassPathArg = null;
-        extDirsArg = null;
+    publid boolfbn pbrsfArgs(String brgv[]) {
+        sourdfPbtiArg = null;
+        sysClbssPbtiArg = null;
+        fxtDirsArg = null;
 
-        classPathString = null;
-        destDir = null;
-        flags = F_WARNINGS;
-        tm = System.currentTimeMillis();
-        classes = new Vector<>();
-        nowrite = false;
-        nocompile = false;
-        keepGenerated = false;
-        generatorArgs = getArray("generator.args",true);
-        if (generatorArgs == null) {
-            return false;
+        dlbssPbtiString = null;
+        dfstDir = null;
+        flbgs = F_WARNINGS;
+        tm = Systfm.durrfntTimfMillis();
+        dlbssfs = nfw Vfdtor<>();
+        nowritf = fblsf;
+        nodompilf = fblsf;
+        kffpGfnfrbtfd = fblsf;
+        gfnfrbtorArgs = gftArrby("gfnfrbtor.brgs",truf);
+        if (gfnfrbtorArgs == null) {
+            rfturn fblsf;
         }
-        generators = new Vector<>();
+        gfnfrbtors = nfw Vfdtor<>();
 
-        // Pre-process command line for @file arguments
+        // Prf-prodfss dommbnd linf for @filf brgumfnts
         try {
-            argv = CommandLine.parse(argv);
-        } catch (FileNotFoundException e) {
-            error("rmic.cant.read", e.getMessage());
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace(out instanceof PrintStream ?
-                              (PrintStream) out :
-                              new PrintStream(out, true));
-            return false;
+            brgv = CommbndLinf.pbrsf(brgv);
+        } dbtdi (FilfNotFoundExdfption f) {
+            frror("rmid.dbnt.rfbd", f.gftMfssbgf());
+            rfturn fblsf;
+        } dbtdi (IOExdfption f) {
+            f.printStbdkTrbdf(out instbndfof PrintStrfbm ?
+                              (PrintStrfbm) out :
+                              nfw PrintStrfbm(out, truf));
+            rfturn fblsf;
         }
 
-        // Parse arguments
-        for (int i = 0 ; i < argv.length ; i++) {
-            if (argv[i] != null) {
-                if (argv[i].equals("-g")) {
-                    flags &= ~F_OPT;
-                    flags |= F_DEBUG_LINES | F_DEBUG_VARS;
-                    argv[i] = null;
-                } else if (argv[i].equals("-O")) {
-                    flags &= ~F_DEBUG_LINES;
-                    flags &= ~F_DEBUG_VARS;
-                    flags |= F_OPT | F_DEPENDENCIES;
-                    argv[i] = null;
-                } else if (argv[i].equals("-nowarn")) {
-                    flags &= ~F_WARNINGS;
-                    argv[i] = null;
-                } else if (argv[i].equals("-debug")) {
-                    flags |= F_DUMP;
-                    argv[i] = null;
-                } else if (argv[i].equals("-depend")) {
-                    flags |= F_DEPENDENCIES;
-                    argv[i] = null;
-                } else if (argv[i].equals("-verbose")) {
-                    flags |= F_VERBOSE;
-                    argv[i] = null;
-                } else if (argv[i].equals("-nowrite")) {
-                    nowrite = true;
-                    argv[i] = null;
-                } else if (argv[i].equals("-Xnocompile")) {
-                    nocompile = true;
-                    keepGenerated = true;
-                    argv[i] = null;
-                } else if (argv[i].equals("-keep") ||
-                           argv[i].equals("-keepgenerated")) {
-                    keepGenerated = true;
-                    argv[i] = null;
-                } else if (argv[i].equals("-show")) {
-                    error("rmic.option.unsupported", "-show");
-                    usage();
-                    return false;
-                } else if (argv[i].equals("-classpath")) {
-                    if ((i + 1) < argv.length) {
-                        if (classPathString != null) {
-                            error("rmic.option.already.seen", "-classpath");
-                            usage();
-                            return false;
+        // Pbrsf brgumfnts
+        for (int i = 0 ; i < brgv.lfngti ; i++) {
+            if (brgv[i] != null) {
+                if (brgv[i].fqubls("-g")) {
+                    flbgs &= ~F_OPT;
+                    flbgs |= F_DEBUG_LINES | F_DEBUG_VARS;
+                    brgv[i] = null;
+                } flsf if (brgv[i].fqubls("-O")) {
+                    flbgs &= ~F_DEBUG_LINES;
+                    flbgs &= ~F_DEBUG_VARS;
+                    flbgs |= F_OPT | F_DEPENDENCIES;
+                    brgv[i] = null;
+                } flsf if (brgv[i].fqubls("-nowbrn")) {
+                    flbgs &= ~F_WARNINGS;
+                    brgv[i] = null;
+                } flsf if (brgv[i].fqubls("-dfbug")) {
+                    flbgs |= F_DUMP;
+                    brgv[i] = null;
+                } flsf if (brgv[i].fqubls("-dfpfnd")) {
+                    flbgs |= F_DEPENDENCIES;
+                    brgv[i] = null;
+                } flsf if (brgv[i].fqubls("-vfrbosf")) {
+                    flbgs |= F_VERBOSE;
+                    brgv[i] = null;
+                } flsf if (brgv[i].fqubls("-nowritf")) {
+                    nowritf = truf;
+                    brgv[i] = null;
+                } flsf if (brgv[i].fqubls("-Xnodompilf")) {
+                    nodompilf = truf;
+                    kffpGfnfrbtfd = truf;
+                    brgv[i] = null;
+                } flsf if (brgv[i].fqubls("-kffp") ||
+                           brgv[i].fqubls("-kffpgfnfrbtfd")) {
+                    kffpGfnfrbtfd = truf;
+                    brgv[i] = null;
+                } flsf if (brgv[i].fqubls("-siow")) {
+                    frror("rmid.option.unsupportfd", "-siow");
+                    usbgf();
+                    rfturn fblsf;
+                } flsf if (brgv[i].fqubls("-dlbsspbti")) {
+                    if ((i + 1) < brgv.lfngti) {
+                        if (dlbssPbtiString != null) {
+                            frror("rmid.option.blrfbdy.sffn", "-dlbsspbti");
+                            usbgf();
+                            rfturn fblsf;
                         }
-                        argv[i] = null;
-                        classPathString = argv[++i];
-                        argv[i] = null;
-                    } else {
-                        error("rmic.option.requires.argument", "-classpath");
-                        usage();
-                        return false;
+                        brgv[i] = null;
+                        dlbssPbtiString = brgv[++i];
+                        brgv[i] = null;
+                    } flsf {
+                        frror("rmid.option.rfquirfs.brgumfnt", "-dlbsspbti");
+                        usbgf();
+                        rfturn fblsf;
                     }
-                } else if (argv[i].equals("-sourcepath")) {
-                    if ((i + 1) < argv.length) {
-                        if (sourcePathArg != null) {
-                            error("rmic.option.already.seen", "-sourcepath");
-                            usage();
-                            return false;
+                } flsf if (brgv[i].fqubls("-sourdfpbti")) {
+                    if ((i + 1) < brgv.lfngti) {
+                        if (sourdfPbtiArg != null) {
+                            frror("rmid.option.blrfbdy.sffn", "-sourdfpbti");
+                            usbgf();
+                            rfturn fblsf;
                         }
-                        argv[i] = null;
-                        sourcePathArg = argv[++i];
-                        argv[i] = null;
-                    } else {
-                        error("rmic.option.requires.argument", "-sourcepath");
-                        usage();
-                        return false;
+                        brgv[i] = null;
+                        sourdfPbtiArg = brgv[++i];
+                        brgv[i] = null;
+                    } flsf {
+                        frror("rmid.option.rfquirfs.brgumfnt", "-sourdfpbti");
+                        usbgf();
+                        rfturn fblsf;
                     }
-                } else if (argv[i].equals("-bootclasspath")) {
-                    if ((i + 1) < argv.length) {
-                        if (sysClassPathArg != null) {
-                            error("rmic.option.already.seen", "-bootclasspath");
-                            usage();
-                            return false;
+                } flsf if (brgv[i].fqubls("-bootdlbsspbti")) {
+                    if ((i + 1) < brgv.lfngti) {
+                        if (sysClbssPbtiArg != null) {
+                            frror("rmid.option.blrfbdy.sffn", "-bootdlbsspbti");
+                            usbgf();
+                            rfturn fblsf;
                         }
-                        argv[i] = null;
-                        sysClassPathArg = argv[++i];
-                        argv[i] = null;
-                    } else {
-                        error("rmic.option.requires.argument", "-bootclasspath");
-                        usage();
-                        return false;
+                        brgv[i] = null;
+                        sysClbssPbtiArg = brgv[++i];
+                        brgv[i] = null;
+                    } flsf {
+                        frror("rmid.option.rfquirfs.brgumfnt", "-bootdlbsspbti");
+                        usbgf();
+                        rfturn fblsf;
                     }
-                } else if (argv[i].equals("-extdirs")) {
-                    if ((i + 1) < argv.length) {
-                        if (extDirsArg != null) {
-                            error("rmic.option.already.seen", "-extdirs");
-                            usage();
-                            return false;
+                } flsf if (brgv[i].fqubls("-fxtdirs")) {
+                    if ((i + 1) < brgv.lfngti) {
+                        if (fxtDirsArg != null) {
+                            frror("rmid.option.blrfbdy.sffn", "-fxtdirs");
+                            usbgf();
+                            rfturn fblsf;
                         }
-                        argv[i] = null;
-                        extDirsArg = argv[++i];
-                        argv[i] = null;
-                    } else {
-                        error("rmic.option.requires.argument", "-extdirs");
-                        usage();
-                        return false;
+                        brgv[i] = null;
+                        fxtDirsArg = brgv[++i];
+                        brgv[i] = null;
+                    } flsf {
+                        frror("rmid.option.rfquirfs.brgumfnt", "-fxtdirs");
+                        usbgf();
+                        rfturn fblsf;
                     }
-                } else if (argv[i].equals("-d")) {
-                    if ((i + 1) < argv.length) {
-                        if (destDir != null) {
-                            error("rmic.option.already.seen", "-d");
-                            usage();
-                            return false;
+                } flsf if (brgv[i].fqubls("-d")) {
+                    if ((i + 1) < brgv.lfngti) {
+                        if (dfstDir != null) {
+                            frror("rmid.option.blrfbdy.sffn", "-d");
+                            usbgf();
+                            rfturn fblsf;
                         }
-                        argv[i] = null;
-                        destDir = new File(argv[++i]);
-                        argv[i] = null;
-                        if (!destDir.exists()) {
-                            error("rmic.no.such.directory", destDir.getPath());
-                            usage();
-                            return false;
+                        brgv[i] = null;
+                        dfstDir = nfw Filf(brgv[++i]);
+                        brgv[i] = null;
+                        if (!dfstDir.fxists()) {
+                            frror("rmid.no.sudi.dirfdtory", dfstDir.gftPbti());
+                            usbgf();
+                            rfturn fblsf;
                         }
-                    } else {
-                        error("rmic.option.requires.argument", "-d");
-                        usage();
-                        return false;
+                    } flsf {
+                        frror("rmid.option.rfquirfs.brgumfnt", "-d");
+                        usbgf();
+                        rfturn fblsf;
                     }
-                } else {
-                    if (!checkGeneratorArg(argv,i)) {
-                        usage();
-                        return false;
+                } flsf {
+                    if (!difdkGfnfrbtorArg(brgv,i)) {
+                        usbgf();
+                        rfturn fblsf;
                     }
                 }
             }
         }
 
 
-        // Now that all generators have had a chance at the args,
-        // scan what's left for classes and illegal args...
+        // Now tibt bll gfnfrbtors ibvf ibd b dibndf bt tif brgs,
+        // sdbn wibt's lfft for dlbssfs bnd illfgbl brgs...
 
-        for (int i = 0; i < argv.length; i++) {
-            if (argv[i] != null) {
-                if (argv[i].startsWith("-")) {
-                    error("rmic.no.such.option", argv[i]);
-                    usage();
-                    return false;
-                } else {
-                    classes.addElement(argv[i]);
+        for (int i = 0; i < brgv.lfngti; i++) {
+            if (brgv[i] != null) {
+                if (brgv[i].stbrtsWiti("-")) {
+                    frror("rmid.no.sudi.option", brgv[i]);
+                    usbgf();
+                    rfturn fblsf;
+                } flsf {
+                    dlbssfs.bddElfmfnt(brgv[i]);
                 }
             }
         }
 
 
-        // If the generators vector is empty, add the default generator...
+        // If tif gfnfrbtors vfdtor is fmpty, bdd tif dffbult gfnfrbtor...
 
-        if (generators.size() == 0) {
-            addGenerator("default");
+        if (gfnfrbtors.sizf() == 0) {
+            bddGfnfrbtor("dffbult");
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * If this argument is for a generator, instantiate it, call
-     * parseArgs(...) and add generator to generators vector.
-     * Returns false on error.
+     * If tiis brgumfnt is for b gfnfrbtor, instbntibtf it, dbll
+     * pbrsfArgs(...) bnd bdd gfnfrbtor to gfnfrbtors vfdtor.
+     * Rfturns fblsf on frror.
      */
-    protected boolean checkGeneratorArg(String[] argv, int currentIndex) {
-        boolean result = true;
-        if (argv[currentIndex].startsWith("-")) {
-            String arg = argv[currentIndex].substring(1).toLowerCase(); // Remove '-'
-            for (int i = 0; i < generatorArgs.length; i++) {
-                if (arg.equalsIgnoreCase(generatorArgs[i])) {
-                    // Got a match, add Generator and call parseArgs...
-                    Generator gen = addGenerator(arg);
-                    if (gen == null) {
-                        return false;
+    protfdtfd boolfbn difdkGfnfrbtorArg(String[] brgv, int durrfntIndfx) {
+        boolfbn rfsult = truf;
+        if (brgv[durrfntIndfx].stbrtsWiti("-")) {
+            String brg = brgv[durrfntIndfx].substring(1).toLowfrCbsf(); // Rfmovf '-'
+            for (int i = 0; i < gfnfrbtorArgs.lfngti; i++) {
+                if (brg.fqublsIgnorfCbsf(gfnfrbtorArgs[i])) {
+                    // Got b mbtdi, bdd Gfnfrbtor bnd dbll pbrsfArgs...
+                    Gfnfrbtor gfn = bddGfnfrbtor(brg);
+                    if (gfn == null) {
+                        rfturn fblsf;
                     }
-                    result = gen.parseArgs(argv,this);
-                    break;
+                    rfsult = gfn.pbrsfArgs(brgv,tiis);
+                    brfbk;
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Instantiate and add a generator to the generators array.
+     * Instbntibtf bnd bdd b gfnfrbtor to tif gfnfrbtors brrby.
      */
-    protected Generator addGenerator(String arg) {
+    protfdtfd Gfnfrbtor bddGfnfrbtor(String brg) {
 
-        Generator gen;
+        Gfnfrbtor gfn;
 
-        // Create an instance of the generator and add it to
-        // the array...
+        // Crfbtf bn instbndf of tif gfnfrbtor bnd bdd it to
+        // tif brrby...
 
-        String className = getString("generator.class." + arg);
-        if (className == null) {
-            error("rmic.missing.property",arg);
-            return null;
+        String dlbssNbmf = gftString("gfnfrbtor.dlbss." + brg);
+        if (dlbssNbmf == null) {
+            frror("rmid.missing.propfrty",brg);
+            rfturn null;
         }
 
         try {
-            gen = (Generator) Class.forName(className).newInstance();
-        } catch (Exception e) {
-            error("rmic.cannot.instantiate",className);
-            return null;
+            gfn = (Gfnfrbtor) Clbss.forNbmf(dlbssNbmf).nfwInstbndf();
+        } dbtdi (Exdfption f) {
+            frror("rmid.dbnnot.instbntibtf",dlbssNbmf);
+            rfturn null;
         }
 
-        generators.addElement(gen);
+        gfnfrbtors.bddElfmfnt(gfn);
 
-        // Get the environment required by this generator...
+        // Gft tif fnvironmfnt rfquirfd by tiis gfnfrbtor...
 
-        Class<?> envClass = BatchEnvironment.class;
-        String env = getString("generator.env." + arg);
-        if (env != null) {
+        Clbss<?> fnvClbss = BbtdiEnvironmfnt.dlbss;
+        String fnv = gftString("gfnfrbtor.fnv." + brg);
+        if (fnv != null) {
             try {
-                envClass = Class.forName(env);
+                fnvClbss = Clbss.forNbmf(fnv);
 
-                // Is the new class a subclass of the current one?
+                // Is tif nfw dlbss b subdlbss of tif durrfnt onf?
 
-                if (environmentClass.isAssignableFrom(envClass)) {
+                if (fnvironmfntClbss.isAssignbblfFrom(fnvClbss)) {
 
-                    // Yes, so switch to the new one...
+                    // Yfs, so switdi to tif nfw onf...
 
-                    environmentClass = envClass.asSubclass(BatchEnvironment.class);
+                    fnvironmfntClbss = fnvClbss.bsSubdlbss(BbtdiEnvironmfnt.dlbss);
 
-                } else {
+                } flsf {
 
-                    // No. Is the current class a subclass of the
-                    // new one?
+                    // No. Is tif durrfnt dlbss b subdlbss of tif
+                    // nfw onf?
 
-                    if (!envClass.isAssignableFrom(environmentClass)) {
+                    if (!fnvClbss.isAssignbblfFrom(fnvironmfntClbss)) {
 
-                        // No, so it's a conflict...
+                        // No, so it's b donflidt...
 
-                        error("rmic.cannot.use.both",environmentClass.getName(),envClass.getName());
-                        return null;
+                        frror("rmid.dbnnot.usf.boti",fnvironmfntClbss.gftNbmf(),fnvClbss.gftNbmf());
+                        rfturn null;
                     }
                 }
-            } catch (ClassNotFoundException e) {
-                error("rmic.class.not.found",env);
-                return null;
+            } dbtdi (ClbssNotFoundExdfption f) {
+                frror("rmid.dlbss.not.found",fnv);
+                rfturn null;
             }
         }
 
-        // If this is the iiop stub generator, cache
-        // that fact for the jrmp generator...
+        // If tiis is tif iiop stub gfnfrbtor, dbdif
+        // tibt fbdt for tif jrmp gfnfrbtor...
 
-        if (arg.equals("iiop")) {
-            iiopGeneration = true;
+        if (brg.fqubls("iiop")) {
+            iiopGfnfrbtion = truf;
         }
-        return gen;
+        rfturn gfn;
     }
 
     /**
-     * Grab a resource string and parse it into an array of strings. Assumes
-     * comma separated list.
-     * @param name The resource name.
-     * @param mustExist If true, throws error if resource does not exist. If
-     * false and resource does not exist, returns zero element array.
+     * Grbb b rfsourdf string bnd pbrsf it into bn brrby of strings. Assumfs
+     * dommb sfpbrbtfd list.
+     * @pbrbm nbmf Tif rfsourdf nbmf.
+     * @pbrbm mustExist If truf, tirows frror if rfsourdf dofs not fxist. If
+     * fblsf bnd rfsourdf dofs not fxist, rfturns zfro flfmfnt brrby.
      */
-    protected String[] getArray(String name, boolean mustExist) {
-        String[] result = null;
-        String value = getString(name);
-        if (value == null) {
+    protfdtfd String[] gftArrby(String nbmf, boolfbn mustExist) {
+        String[] rfsult = null;
+        String vbluf = gftString(nbmf);
+        if (vbluf == null) {
             if (mustExist) {
-                error("rmic.resource.not.found",name);
-                return null;
-            } else {
-                return new String[0];
+                frror("rmid.rfsourdf.not.found",nbmf);
+                rfturn null;
+            } flsf {
+                rfturn nfw String[0];
             }
         }
 
-        StringTokenizer parser = new StringTokenizer(value,", \t\n\r", false);
-        int count = parser.countTokens();
-        result = new String[count];
-        for (int i = 0; i < count; i++) {
-            result[i] = parser.nextToken();
+        StringTokfnizfr pbrsfr = nfw StringTokfnizfr(vbluf,", \t\n\r", fblsf);
+        int dount = pbrsfr.dountTokfns();
+        rfsult = nfw String[dount];
+        for (int i = 0; i < dount; i++) {
+            rfsult[i] = pbrsfr.nfxtTokfn();
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Get the correct type of BatchEnvironment
+     * Gft tif dorrfdt typf of BbtdiEnvironmfnt
      */
-    public BatchEnvironment getEnv() {
+    publid BbtdiEnvironmfnt gftEnv() {
 
-        ClassPath classPath =
-            BatchEnvironment.createClassPath(classPathString,
-                                             sysClassPathArg,
-                                             extDirsArg);
-        BatchEnvironment result = null;
+        ClbssPbti dlbssPbti =
+            BbtdiEnvironmfnt.drfbtfClbssPbti(dlbssPbtiString,
+                                             sysClbssPbtiArg,
+                                             fxtDirsArg);
+        BbtdiEnvironmfnt rfsult = null;
         try {
-            Class<?>[] ctorArgTypes = {OutputStream.class,ClassPath.class,Main.class};
-            Object[] ctorArgs = {out,classPath,this};
-            Constructor<? extends BatchEnvironment> constructor =
-                environmentClass.getConstructor(ctorArgTypes);
-            result =  constructor.newInstance(ctorArgs);
-            result.reset();
+            Clbss<?>[] dtorArgTypfs = {OutputStrfbm.dlbss,ClbssPbti.dlbss,Mbin.dlbss};
+            Objfdt[] dtorArgs = {out,dlbssPbti,tiis};
+            Construdtor<? fxtfnds BbtdiEnvironmfnt> donstrudtor =
+                fnvironmfntClbss.gftConstrudtor(dtorArgTypfs);
+            rfsult =  donstrudtor.nfwInstbndf(dtorArgs);
+            rfsult.rfsft();
         }
-        catch (Exception e) {
-            error("rmic.cannot.instantiate",environmentClass.getName());
+        dbtdi (Exdfption f) {
+            frror("rmid.dbnnot.instbntibtf",fnvironmfntClbss.gftNbmf());
         }
-        return result;
+        rfturn rfsult;
     }
 
 
     /**
-     * Do the compile with the switches and files already supplied
+     * Do tif dompilf witi tif switdifs bnd filfs blrfbdy supplifd
      */
-    public boolean doCompile() {
-        // Create batch environment
-        BatchEnvironment env = getEnv();
-        env.flags |= flags;
+    publid boolfbn doCompilf() {
+        // Crfbtf bbtdi fnvironmfnt
+        BbtdiEnvironmfnt fnv = gftEnv();
+        fnv.flbgs |= flbgs;
 
-        // Set the classfile version numbers
-        // Compat and 1.1 stubs must retain the old version number.
-        env.majorVersion = 45;
-        env.minorVersion = 3;
+        // Sft tif dlbssfilf vfrsion numbfrs
+        // Compbt bnd 1.1 stubs must rftbin tif old vfrsion numbfr.
+        fnv.mbjorVfrsion = 45;
+        fnv.minorVfrsion = 3;
 
-        // Preload the "out of memory" error string just in case we run
-        // out of memory during the compile.
-        String noMemoryErrorString = getText("rmic.no.memory");
-        String stackOverflowErrorString = getText("rmic.stack.overflow");
+        // Prflobd tif "out of mfmory" frror string just in dbsf wf run
+        // out of mfmory during tif dompilf.
+        String noMfmoryErrorString = gftTfxt("rmid.no.mfmory");
+        String stbdkOvfrflowErrorString = gftTfxt("rmid.stbdk.ovfrflow");
 
         try {
-            /** Load the classes on the command line
-             * Replace the entries in classes with the ClassDefinition for the class
+            /** Lobd tif dlbssfs on tif dommbnd linf
+             * Rfplbdf tif fntrifs in dlbssfs witi tif ClbssDffinition for tif dlbss
              */
-            for (int i = classes.size()-1; i >= 0; i-- ) {
-                Identifier implClassName =
-                    Identifier.lookup(classes.elementAt(i));
+            for (int i = dlbssfs.sizf()-1; i >= 0; i-- ) {
+                Idfntififr implClbssNbmf =
+                    Idfntififr.lookup(dlbssfs.flfmfntAt(i));
 
                 /*
-                 * Fix bugid 4049354: support using '.' as an inner class
-                 * qualifier on the command line (previously, only mangled
-                 * inner class names were understood, like "pkg.Outer$Inner").
+                 * Fix bugid 4049354: support using '.' bs bn innfr dlbss
+                 * qublififr on tif dommbnd linf (prfviously, only mbnglfd
+                 * innfr dlbss nbmfs wfrf undfrstood, likf "pkg.Outfr$Innfr").
                  *
-                 * The following method, also used by "javap", resolves the
-                 * given unmangled inner class name to the appropriate
-                 * internal identifier.  For example, it translates
-                 * "pkg.Outer.Inner" to "pkg.Outer. Inner".
+                 * Tif following mftiod, blso usfd by "jbvbp", rfsolvfs tif
+                 * givfn unmbnglfd innfr dlbss nbmf to tif bppropribtf
+                 * intfrnbl idfntififr.  For fxbmplf, it trbnslbtfs
+                 * "pkg.Outfr.Innfr" to "pkg.Outfr. Innfr".
                  */
-                implClassName = env.resolvePackageQualifiedName(implClassName);
+                implClbssNbmf = fnv.rfsolvfPbdkbgfQublififdNbmf(implClbssNbmf);
                 /*
-                 * But if we use such an internal inner class name identifier
-                 * to load the class definition, the Java compiler will notice
-                 * if the impl class is a "private" inner class and then deny
-                 * skeletons (needed unless "-v1.2" is used) the ability to
-                 * cast to it.  To work around this problem, we mangle inner
-                 * class name identifiers to their binary "outer" class name:
-                 * "pkg.Outer. Inner" becomes "pkg.Outer$Inner".
+                 * But if wf usf sudi bn intfrnbl innfr dlbss nbmf idfntififr
+                 * to lobd tif dlbss dffinition, tif Jbvb dompilfr will notidf
+                 * if tif impl dlbss is b "privbtf" innfr dlbss bnd tifn dfny
+                 * skflftons (nffdfd unlfss "-v1.2" is usfd) tif bbility to
+                 * dbst to it.  To work bround tiis problfm, wf mbnglf innfr
+                 * dlbss nbmf idfntififrs to tifir binbry "outfr" dlbss nbmf:
+                 * "pkg.Outfr. Innfr" bfdomfs "pkg.Outfr$Innfr".
                  */
-                implClassName = Names.mangleClass(implClassName);
+                implClbssNbmf = Nbmfs.mbnglfClbss(implClbssNbmf);
 
-                ClassDeclaration decl = env.getClassDeclaration(implClassName);
+                ClbssDfdlbrbtion dfdl = fnv.gftClbssDfdlbrbtion(implClbssNbmf);
                 try {
-                    ClassDefinition def = decl.getClassDefinition(env);
-                    for (int j = 0; j < generators.size(); j++) {
-                        Generator gen = generators.elementAt(j);
-                        gen.generate(env, def, destDir);
+                    ClbssDffinition dff = dfdl.gftClbssDffinition(fnv);
+                    for (int j = 0; j < gfnfrbtors.sizf(); j++) {
+                        Gfnfrbtor gfn = gfnfrbtors.flfmfntAt(j);
+                        gfn.gfnfrbtf(fnv, dff, dfstDir);
                     }
-                } catch (ClassNotFound ex) {
-                    env.error(0, "rmic.class.not.found", implClassName);
+                } dbtdi (ClbssNotFound fx) {
+                    fnv.frror(0, "rmid.dlbss.not.found", implClbssNbmf);
                 }
 
             }
 
-            // compile all classes that need compilation
-            if (!nocompile) {
-                compileAllClasses(env);
+            // dompilf bll dlbssfs tibt nffd dompilbtion
+            if (!nodompilf) {
+                dompilfAllClbssfs(fnv);
             }
-        } catch (OutOfMemoryError ee) {
-            // The compiler has run out of memory.  Use the error string
-            // which we preloaded.
-            env.output(noMemoryErrorString);
-            return false;
-        } catch (StackOverflowError ee) {
-            env.output(stackOverflowErrorString);
-            return false;
-        } catch (Error ee) {
-            // We allow the compiler to take an exception silently if a program
-            // error has previously been detected.  Presumably, this makes the
-            // compiler more robust in the face of bad error recovery.
-            if (env.nerrors == 0 || env.dump()) {
-                env.error(0, "fatal.error");
-                ee.printStackTrace(out instanceof PrintStream ?
-                                   (PrintStream) out :
-                                   new PrintStream(out, true));
+        } dbtdi (OutOfMfmoryError ff) {
+            // Tif dompilfr ibs run out of mfmory.  Usf tif frror string
+            // wiidi wf prflobdfd.
+            fnv.output(noMfmoryErrorString);
+            rfturn fblsf;
+        } dbtdi (StbdkOvfrflowError ff) {
+            fnv.output(stbdkOvfrflowErrorString);
+            rfturn fblsf;
+        } dbtdi (Error ff) {
+            // Wf bllow tif dompilfr to tbkf bn fxdfption silfntly if b progrbm
+            // frror ibs prfviously bffn dftfdtfd.  Prfsumbbly, tiis mbkfs tif
+            // dompilfr morf robust in tif fbdf of bbd frror rfdovfry.
+            if (fnv.nfrrors == 0 || fnv.dump()) {
+                fnv.frror(0, "fbtbl.frror");
+                ff.printStbdkTrbdf(out instbndfof PrintStrfbm ?
+                                   (PrintStrfbm) out :
+                                   nfw PrintStrfbm(out, truf));
             }
-        } catch (Exception ee) {
-            if (env.nerrors == 0 || env.dump()) {
-                env.error(0, "fatal.exception");
-                ee.printStackTrace(out instanceof PrintStream ?
-                                   (PrintStream) out :
-                                   new PrintStream(out, true));
+        } dbtdi (Exdfption ff) {
+            if (fnv.nfrrors == 0 || fnv.dump()) {
+                fnv.frror(0, "fbtbl.fxdfption");
+                ff.printStbdkTrbdf(out instbndfof PrintStrfbm ?
+                                   (PrintStrfbm) out :
+                                   nfw PrintStrfbm(out, truf));
             }
         }
 
-        env.flushErrors();
+        fnv.flusiErrors();
 
-        boolean status = true;
-        if (env.nerrors > 0) {
+        boolfbn stbtus = truf;
+        if (fnv.nfrrors > 0) {
             String msg = "";
-            if (env.nerrors > 1) {
-                msg = getText("rmic.errors", env.nerrors);
-            } else {
-                msg = getText("rmic.1error");
+            if (fnv.nfrrors > 1) {
+                msg = gftTfxt("rmid.frrors", fnv.nfrrors);
+            } flsf {
+                msg = gftTfxt("rmid.1frror");
             }
-            if (env.nwarnings > 0) {
-                if (env.nwarnings > 1) {
-                    msg += ", " + getText("rmic.warnings", env.nwarnings);
-                } else {
-                    msg += ", " + getText("rmic.1warning");
+            if (fnv.nwbrnings > 0) {
+                if (fnv.nwbrnings > 1) {
+                    msg += ", " + gftTfxt("rmid.wbrnings", fnv.nwbrnings);
+                } flsf {
+                    msg += ", " + gftTfxt("rmid.1wbrning");
                 }
             }
             output(msg);
-            status = false;
-        } else {
-            if (env.nwarnings > 0) {
-                if (env.nwarnings > 1) {
-                    output(getText("rmic.warnings", env.nwarnings));
-                } else {
-                    output(getText("rmic.1warning"));
+            stbtus = fblsf;
+        } flsf {
+            if (fnv.nwbrnings > 0) {
+                if (fnv.nwbrnings > 1) {
+                    output(gftTfxt("rmid.wbrnings", fnv.nwbrnings));
+                } flsf {
+                    output(gftTfxt("rmid.1wbrning"));
                 }
             }
         }
 
-        // last step is to delete generated source files
-        if (!keepGenerated) {
-            env.deleteGeneratedFiles();
+        // lbst stfp is to dflftf gfnfrbtfd sourdf filfs
+        if (!kffpGfnfrbtfd) {
+            fnv.dflftfGfnfrbtfdFilfs();
         }
 
-        // We're done
-        if (env.verbose()) {
-            tm = System.currentTimeMillis() - tm;
-            output(getText("rmic.done_in", Long.toString(tm)));
+        // Wf'rf donf
+        if (fnv.vfrbosf()) {
+            tm = Systfm.durrfntTimfMillis() - tm;
+            output(gftTfxt("rmid.donf_in", Long.toString(tm)));
         }
 
-        // Shutdown the environment object and release our resources.
-        // Note that while this is unneccessary when rmic is invoked
-        // the command line, there are environments in which rmic
-        // from is invoked within a server process, so resource
-        // reclamation is important...
+        // Siutdown tif fnvironmfnt objfdt bnd rflfbsf our rfsourdfs.
+        // Notf tibt wiilf tiis is unnfddfssbry wifn rmid is invokfd
+        // tif dommbnd linf, tifrf brf fnvironmfnts in wiidi rmid
+        // from is invokfd witiin b sfrvfr prodfss, so rfsourdf
+        // rfdlbmbtion is importbnt...
 
-        env.shutdown();
+        fnv.siutdown();
 
-        sourcePathArg = null;
-        sysClassPathArg = null;
-        extDirsArg = null;
-        classPathString = null;
-        destDir = null;
-        classes = null;
-        generatorArgs = null;
-        generators = null;
-        environmentClass = null;
-        program = null;
+        sourdfPbtiArg = null;
+        sysClbssPbtiArg = null;
+        fxtDirsArg = null;
+        dlbssPbtiString = null;
+        dfstDir = null;
+        dlbssfs = null;
+        gfnfrbtorArgs = null;
+        gfnfrbtors = null;
+        fnvironmfntClbss = null;
+        progrbm = null;
         out = null;
 
-        return status;
+        rfturn stbtus;
     }
 
     /*
-     * Compile all classes that need to be compiled.
+     * Compilf bll dlbssfs tibt nffd to bf dompilfd.
      */
-    public void compileAllClasses (BatchEnvironment env)
-        throws ClassNotFound,
-               IOException,
-               InterruptedException {
-        ByteArrayOutputStream buf = new ByteArrayOutputStream(4096);
-        boolean done;
+    publid void dompilfAllClbssfs (BbtdiEnvironmfnt fnv)
+        tirows ClbssNotFound,
+               IOExdfption,
+               IntfrruptfdExdfption {
+        BytfArrbyOutputStrfbm buf = nfw BytfArrbyOutputStrfbm(4096);
+        boolfbn donf;
 
         do {
-            done = true;
-            for (Enumeration<?> e = env.getClasses() ; e.hasMoreElements() ; ) {
-                ClassDeclaration c = (ClassDeclaration)e.nextElement();
-                done = compileClass(c,buf,env);
+            donf = truf;
+            for (Enumfrbtion<?> f = fnv.gftClbssfs() ; f.ibsMorfElfmfnts() ; ) {
+                ClbssDfdlbrbtion d = (ClbssDfdlbrbtion)f.nfxtElfmfnt();
+                donf = dompilfClbss(d,buf,fnv);
             }
-        } while (!done);
+        } wiilf (!donf);
     }
 
     /*
-     * Compile a single class.
-     * Fallthrough is intentional
+     * Compilf b singlf dlbss.
+     * Fblltirougi is intfntionbl
      */
-    @SuppressWarnings("fallthrough")
-    public boolean compileClass (ClassDeclaration c,
-                                 ByteArrayOutputStream buf,
-                                 BatchEnvironment env)
-        throws ClassNotFound,
-               IOException,
-               InterruptedException {
-        boolean done = true;
-        env.flushErrors();
-        SourceClass src;
+    @SupprfssWbrnings("fblltirougi")
+    publid boolfbn dompilfClbss (ClbssDfdlbrbtion d,
+                                 BytfArrbyOutputStrfbm buf,
+                                 BbtdiEnvironmfnt fnv)
+        tirows ClbssNotFound,
+               IOExdfption,
+               IntfrruptfdExdfption {
+        boolfbn donf = truf;
+        fnv.flusiErrors();
+        SourdfClbss srd;
 
-        switch (c.getStatus()) {
-        case CS_UNDEFINED:
+        switdi (d.gftStbtus()) {
+        dbsf CS_UNDEFINED:
             {
-                if (!env.dependencies()) {
-                    break;
+                if (!fnv.dfpfndfndifs()) {
+                    brfbk;
                 }
-                // fall through
+                // fbll tirougi
             }
 
-        case CS_SOURCE:
+        dbsf CS_SOURCE:
             {
-                done = false;
-                env.loadDefinition(c);
-                if (c.getStatus() != CS_PARSED) {
-                    break;
+                donf = fblsf;
+                fnv.lobdDffinition(d);
+                if (d.gftStbtus() != CS_PARSED) {
+                    brfbk;
                 }
-                // fall through
+                // fbll tirougi
             }
 
-        case CS_PARSED:
+        dbsf CS_PARSED:
             {
-                if (c.getClassDefinition().isInsideLocal()) {
-                    break;
+                if (d.gftClbssDffinition().isInsidfLodbl()) {
+                    brfbk;
                 }
-                // If we get to here, then compilation is going
-                // to occur. If the -Xnocompile switch is set
-                // then fail. Note that this check is required
-                // here because this method is called from
-                // generators, not just from within this class...
+                // If wf gft to ifrf, tifn dompilbtion is going
+                // to oddur. If tif -Xnodompilf switdi is sft
+                // tifn fbil. Notf tibt tiis difdk is rfquirfd
+                // ifrf bfdbusf tiis mftiod is dbllfd from
+                // gfnfrbtors, not just from witiin tiis dlbss...
 
-                if (nocompile) {
-                    throw new IOException("Compilation required, but -Xnocompile option in effect");
+                if (nodompilf) {
+                    tirow nfw IOExdfption("Compilbtion rfquirfd, but -Xnodompilf option in ffffdt");
                 }
 
-                done = false;
+                donf = fblsf;
 
-                src = (SourceClass)c.getClassDefinition(env);
-                src.check(env);
-                c.setDefinition(src, CS_CHECKED);
-                // fall through
+                srd = (SourdfClbss)d.gftClbssDffinition(fnv);
+                srd.difdk(fnv);
+                d.sftDffinition(srd, CS_CHECKED);
+                // fbll tirougi
             }
 
-        case CS_CHECKED:
+        dbsf CS_CHECKED:
             {
-                src = (SourceClass)c.getClassDefinition(env);
-                // bail out if there were any errors
-                if (src.getError()) {
-                    c.setDefinition(src, CS_COMPILED);
-                    break;
+                srd = (SourdfClbss)d.gftClbssDffinition(fnv);
+                // bbil out if tifrf wfrf bny frrors
+                if (srd.gftError()) {
+                    d.sftDffinition(srd, CS_COMPILED);
+                    brfbk;
                 }
-                done = false;
-                buf.reset();
-                src.compile(buf);
-                c.setDefinition(src, CS_COMPILED);
-                src.cleanup(env);
+                donf = fblsf;
+                buf.rfsft();
+                srd.dompilf(buf);
+                d.sftDffinition(srd, CS_COMPILED);
+                srd.dlfbnup(fnv);
 
-                if (src.getError() || nowrite) {
-                    break;
+                if (srd.gftError() || nowritf) {
+                    brfbk;
                 }
 
-                String pkgName = c.getName().getQualifier().toString().replace('.', File.separatorChar);
-                String className = c.getName().getFlatName().toString().replace('.', SIGC_INNERCLASS) + ".class";
+                String pkgNbmf = d.gftNbmf().gftQublififr().toString().rfplbdf('.', Filf.sfpbrbtorCibr);
+                String dlbssNbmf = d.gftNbmf().gftFlbtNbmf().toString().rfplbdf('.', SIGC_INNERCLASS) + ".dlbss";
 
-                File file;
-                if (destDir != null) {
-                    if (pkgName.length() > 0) {
-                        file = new File(destDir, pkgName);
-                        if (!file.exists()) {
-                            file.mkdirs();
+                Filf filf;
+                if (dfstDir != null) {
+                    if (pkgNbmf.lfngti() > 0) {
+                        filf = nfw Filf(dfstDir, pkgNbmf);
+                        if (!filf.fxists()) {
+                            filf.mkdirs();
                         }
-                        file = new File(file, className);
-                    } else {
-                        file = new File(destDir, className);
+                        filf = nfw Filf(filf, dlbssNbmf);
+                    } flsf {
+                        filf = nfw Filf(dfstDir, dlbssNbmf);
                     }
-                } else {
-                    ClassFile classfile = (ClassFile)src.getSource();
-                    if (classfile.isZipped()) {
-                        env.error(0, "cant.write", classfile.getPath());
-                        break;
+                } flsf {
+                    ClbssFilf dlbssfilf = (ClbssFilf)srd.gftSourdf();
+                    if (dlbssfilf.isZippfd()) {
+                        fnv.frror(0, "dbnt.writf", dlbssfilf.gftPbti());
+                        brfbk;
                     }
-                    file = new File(classfile.getPath());
-                    file = new File(file.getParent(), className);
+                    filf = nfw Filf(dlbssfilf.gftPbti());
+                    filf = nfw Filf(filf.gftPbrfnt(), dlbssNbmf);
                 }
 
-                // Create the file
+                // Crfbtf tif filf
                 try {
-                    FileOutputStream out = new FileOutputStream(file.getPath());
-                    buf.writeTo(out);
-                    out.close();
-                    if (env.verbose()) {
-                        output(getText("rmic.wrote", file.getPath()));
+                    FilfOutputStrfbm out = nfw FilfOutputStrfbm(filf.gftPbti());
+                    buf.writfTo(out);
+                    out.dlosf();
+                    if (fnv.vfrbosf()) {
+                        output(gftTfxt("rmid.wrotf", filf.gftPbti()));
                     }
-                } catch (IOException ee) {
-                    env.error(0, "cant.write", file.getPath());
+                } dbtdi (IOExdfption ff) {
+                    fnv.frror(0, "dbnt.writf", filf.gftPbti());
                 }
             }
         }
-        return done;
+        rfturn donf;
     }
 
     /**
-     * Main program
+     * Mbin progrbm
      */
-    public static void main(String argv[]) {
-        Main compiler = new Main(System.out, "rmic");
-        System.exit(compiler.compile(argv) ? 0 : 1);
+    publid stbtid void mbin(String brgv[]) {
+        Mbin dompilfr = nfw Mbin(Systfm.out, "rmid");
+        Systfm.fxit(dompilfr.dompilf(brgv) ? 0 : 1);
     }
 
     /**
-     * Return the string value of a named resource in the rmic.properties
-     * resource bundle.  If the resource is not found, null is returned.
+     * Rfturn tif string vbluf of b nbmfd rfsourdf in tif rmid.propfrtifs
+     * rfsourdf bundlf.  If tif rfsourdf is not found, null is rfturnfd.
      */
-    public static String getString(String key) {
-        if (!resourcesInitialized) {
-            initResources();
+    publid stbtid String gftString(String kfy) {
+        if (!rfsourdfsInitiblizfd) {
+            initRfsourdfs();
         }
 
-        // To enable extensions, search the 'resourcesExt'
-        // bundle first, followed by the 'resources' bundle...
+        // To fnbblf fxtfnsions, sfbrdi tif 'rfsourdfsExt'
+        // bundlf first, followfd by tif 'rfsourdfs' bundlf...
 
-        if (resourcesExt != null) {
+        if (rfsourdfsExt != null) {
             try {
-                return resourcesExt.getString(key);
-            } catch (MissingResourceException e) {}
+                rfturn rfsourdfsExt.gftString(kfy);
+            } dbtdi (MissingRfsourdfExdfption f) {}
         }
 
         try {
-            return resources.getString(key);
-        } catch (MissingResourceException ignore) {
+            rfturn rfsourdfs.gftString(kfy);
+        } dbtdi (MissingRfsourdfExdfption ignorf) {
         }
-        return null;
+        rfturn null;
     }
 
-    private static boolean resourcesInitialized = false;
-    private static ResourceBundle resources;
-    private static ResourceBundle resourcesExt = null;
+    privbtf stbtid boolfbn rfsourdfsInitiblizfd = fblsf;
+    privbtf stbtid RfsourdfBundlf rfsourdfs;
+    privbtf stbtid RfsourdfBundlf rfsourdfsExt = null;
 
-    private static void initResources() {
+    privbtf stbtid void initRfsourdfs() {
         try {
-            resources =
-                ResourceBundle.getBundle("sun.rmi.rmic.resources.rmic");
-            resourcesInitialized = true;
+            rfsourdfs =
+                RfsourdfBundlf.gftBundlf("sun.rmi.rmid.rfsourdfs.rmid");
+            rfsourdfsInitiblizfd = truf;
             try {
-                resourcesExt =
-                    ResourceBundle.getBundle("sun.rmi.rmic.resources.rmicext");
-            } catch (MissingResourceException e) {}
-        } catch (MissingResourceException e) {
-            throw new Error("fatal: missing resource bundle: " +
-                            e.getClassName());
+                rfsourdfsExt =
+                    RfsourdfBundlf.gftBundlf("sun.rmi.rmid.rfsourdfs.rmidfxt");
+            } dbtdi (MissingRfsourdfExdfption f) {}
+        } dbtdi (MissingRfsourdfExdfption f) {
+            tirow nfw Error("fbtbl: missing rfsourdf bundlf: " +
+                            f.gftClbssNbmf());
         }
     }
 
-    public static String getText(String key) {
-        String message = getString(key);
-        if (message == null) {
-            message = "no text found: \"" + key + "\"";
+    publid stbtid String gftTfxt(String kfy) {
+        String mfssbgf = gftString(kfy);
+        if (mfssbgf == null) {
+            mfssbgf = "no tfxt found: \"" + kfy + "\"";
         }
-        return message;
+        rfturn mfssbgf;
     }
 
-    public static String getText(String key, int num) {
-        return getText(key, Integer.toString(num), null, null);
+    publid stbtid String gftTfxt(String kfy, int num) {
+        rfturn gftTfxt(kfy, Intfgfr.toString(num), null, null);
     }
 
-    public static String getText(String key, String arg0) {
-        return getText(key, arg0, null, null);
+    publid stbtid String gftTfxt(String kfy, String brg0) {
+        rfturn gftTfxt(kfy, brg0, null, null);
     }
 
-    public static String getText(String key, String arg0, String arg1) {
-        return getText(key, arg0, arg1, null);
+    publid stbtid String gftTfxt(String kfy, String brg0, String brg1) {
+        rfturn gftTfxt(kfy, brg0, brg1, null);
     }
 
-    public static String getText(String key,
-                                 String arg0, String arg1, String arg2)
+    publid stbtid String gftTfxt(String kfy,
+                                 String brg0, String brg1, String brg2)
     {
-        String format = getString(key);
-        if (format == null) {
-            format = "no text found: key = \"" + key + "\", " +
-                "arguments = \"{0}\", \"{1}\", \"{2}\"";
+        String formbt = gftString(kfy);
+        if (formbt == null) {
+            formbt = "no tfxt found: kfy = \"" + kfy + "\", " +
+                "brgumfnts = \"{0}\", \"{1}\", \"{2}\"";
         }
 
-        String[] args = new String[3];
-        args[0] = (arg0 != null ? arg0 : "null");
-        args[1] = (arg1 != null ? arg1 : "null");
-        args[2] = (arg2 != null ? arg2 : "null");
+        String[] brgs = nfw String[3];
+        brgs[0] = (brg0 != null ? brg0 : "null");
+        brgs[1] = (brg1 != null ? brg1 : "null");
+        brgs[2] = (brg2 != null ? brg2 : "null");
 
-        return java.text.MessageFormat.format(format, (Object[]) args);
+        rfturn jbvb.tfxt.MfssbgfFormbt.formbt(formbt, (Objfdt[]) brgs);
     }
 }

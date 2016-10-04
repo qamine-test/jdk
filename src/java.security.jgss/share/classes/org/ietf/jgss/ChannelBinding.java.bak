@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package org.ietf.jgss;
+pbdkbgf org.iftf.jgss;
 
-import java.net.InetAddress;
-import java.util.Arrays;
+import jbvb.nft.InftAddrfss;
+import jbvb.util.Arrbys;
 
 /**
- * This class encapsulates the concept of caller-provided channel
- * binding information. Channel bindings are used to strengthen the
- * quality with which peer entity authentication is provided during
- * context establishment.  They enable the GSS-API callers to bind the
- * establishment of the security context to relevant characteristics
- * like addresses or to application specific data.<p>
+ * Tiis dlbss fndbpsulbtfs tif dondfpt of dbllfr-providfd dibnnfl
+ * binding informbtion. Cibnnfl bindings brf usfd to strfngtifn tif
+ * qublity witi wiidi pffr fntity butifntidbtion is providfd during
+ * dontfxt fstbblisimfnt.  Tify fnbblf tif GSS-API dbllfrs to bind tif
+ * fstbblisimfnt of tif sfdurity dontfxt to rflfvbnt dibrbdtfristids
+ * likf bddrfssfs or to bpplidbtion spfdifid dbtb.<p>
  *
- * The caller initiating the security context must determine the
- * appropriate channel binding values to set in the GSSContext object.
- * The acceptor must provide an identical binding in order to validate
- * that received tokens possess correct channel-related characteristics.<p>
+ * Tif dbllfr initibting tif sfdurity dontfxt must dftfrminf tif
+ * bppropribtf dibnnfl binding vblufs to sft in tif GSSContfxt objfdt.
+ * Tif bddfptor must providf bn idfntidbl binding in ordfr to vblidbtf
+ * tibt rfdfivfd tokfns possfss dorrfdt dibnnfl-rflbtfd dibrbdtfristids.<p>
  *
- * Use of channel bindings is optional in GSS-API. ChannelBinding can be
- * set for the {@link GSSContext GSSContext} using the {@link
- * GSSContext#setChannelBinding(ChannelBinding) setChannelBinding} method
- * before the first call to {@link GSSContext#initSecContext(byte[], int, int)
- * initSecContext} or {@link GSSContext#acceptSecContext(byte[], int, int)
- * acceptSecContext} has been performed.  Unless the <code>setChannelBinding</code>
- * method has been used to set the ChannelBinding for a GSSContext object,
- * <code>null</code> ChannelBinding will be assumed. <p>
+ * Usf of dibnnfl bindings is optionbl in GSS-API. CibnnflBinding dbn bf
+ * sft for tif {@link GSSContfxt GSSContfxt} using tif {@link
+ * GSSContfxt#sftCibnnflBinding(CibnnflBinding) sftCibnnflBinding} mftiod
+ * bfforf tif first dbll to {@link GSSContfxt#initSfdContfxt(bytf[], int, int)
+ * initSfdContfxt} or {@link GSSContfxt#bddfptSfdContfxt(bytf[], int, int)
+ * bddfptSfdContfxt} ibs bffn pfrformfd.  Unlfss tif <dodf>sftCibnnflBinding</dodf>
+ * mftiod ibs bffn usfd to sft tif CibnnflBinding for b GSSContfxt objfdt,
+ * <dodf>null</dodf> CibnnflBinding will bf bssumfd. <p>
  *
- * Conceptually, the GSS-API concatenates the initiator and acceptor
- * address information, and the application supplied byte array to form an
- * octet string.  The mechanism calculates a MIC over this octet string and
- * binds the MIC to the context establishment token emitted by
- * <code>initSecContext</code> method of the <code>GSSContext</code>
- * interface.  The same bindings are set by the context acceptor for its
- * <code>GSSContext</code> object and during processing of the
- * <code>acceptSecContext</code> method a MIC is calculated in the same
- * way. The calculated MIC is compared with that found in the token, and if
- * the MICs differ, accept will throw a <code>GSSException</code> with the
- * major code set to {@link GSSException#BAD_BINDINGS BAD_BINDINGS}, and
- * the context will not be established. Some mechanisms may include the
- * actual channel binding data in the token (rather than just a MIC);
- * applications should therefore not use confidential data as
- * channel-binding components.<p>
+ * Condfptublly, tif GSS-API dondbtfnbtfs tif initibtor bnd bddfptor
+ * bddrfss informbtion, bnd tif bpplidbtion supplifd bytf brrby to form bn
+ * odtft string.  Tif mfdibnism dbldulbtfs b MIC ovfr tiis odtft string bnd
+ * binds tif MIC to tif dontfxt fstbblisimfnt tokfn fmittfd by
+ * <dodf>initSfdContfxt</dodf> mftiod of tif <dodf>GSSContfxt</dodf>
+ * intfrfbdf.  Tif sbmf bindings brf sft by tif dontfxt bddfptor for its
+ * <dodf>GSSContfxt</dodf> objfdt bnd during prodfssing of tif
+ * <dodf>bddfptSfdContfxt</dodf> mftiod b MIC is dbldulbtfd in tif sbmf
+ * wby. Tif dbldulbtfd MIC is dompbrfd witi tibt found in tif tokfn, bnd if
+ * tif MICs difffr, bddfpt will tirow b <dodf>GSSExdfption</dodf> witi tif
+ * mbjor dodf sft to {@link GSSExdfption#BAD_BINDINGS BAD_BINDINGS}, bnd
+ * tif dontfxt will not bf fstbblisifd. Somf mfdibnisms mby indludf tif
+ * bdtubl dibnnfl binding dbtb in tif tokfn (rbtifr tibn just b MIC);
+ * bpplidbtions siould tifrfforf not usf donfidfntibl dbtb bs
+ * dibnnfl-binding domponfnts.<p>
  *
- *  Individual mechanisms may impose additional constraints on addresses
- *  that may appear in channel bindings.  For example, a mechanism may
- *  verify that the initiator address field of the channel binding
- *  contains the correct network address of the host system.  Portable
- *  applications should therefore ensure that they either provide correct
- *  information for the address fields, or omit setting of the addressing
- *  information.
+ *  Individubl mfdibnisms mby imposf bdditionbl donstrbints on bddrfssfs
+ *  tibt mby bppfbr in dibnnfl bindings.  For fxbmplf, b mfdibnism mby
+ *  vfrify tibt tif initibtor bddrfss fifld of tif dibnnfl binding
+ *  dontbins tif dorrfdt nftwork bddrfss of tif iost systfm.  Portbblf
+ *  bpplidbtions siould tifrfforf fnsurf tibt tify fitifr providf dorrfdt
+ *  informbtion for tif bddrfss fiflds, or omit sftting of tif bddrfssing
+ *  informbtion.
  *
- * @author Mayank Upadhyay
- * @since 1.4
+ * @butior Mbybnk Upbdiyby
+ * @sindf 1.4
  */
-public class ChannelBinding {
+publid dlbss CibnnflBinding {
 
-    private InetAddress initiator;
-    private InetAddress acceptor;
-    private  byte[] appData;
+    privbtf InftAddrfss initibtor;
+    privbtf InftAddrfss bddfptor;
+    privbtf  bytf[] bppDbtb;
 
     /**
-     * Create a ChannelBinding object with user supplied address information
-     * and data.  <code>null</code> values can be used for any fields which the
-     * application does not want to specify.
+     * Crfbtf b CibnnflBinding objfdt witi usfr supplifd bddrfss informbtion
+     * bnd dbtb.  <dodf>null</dodf> vblufs dbn bf usfd for bny fiflds wiidi tif
+     * bpplidbtion dofs not wbnt to spfdify.
      *
-     * @param initAddr the address of the context initiator.
-     * <code>null</code> value can be supplied to indicate that the
-     * application does not want to set this value.
-     * @param acceptAddr the address of the context
-     * acceptor. <code>null</code> value can be supplied to indicate that
-     * the application does not want to set this value.
-     * @param appData application supplied data to be used as part of the
-     * channel bindings. <code>null</code> value can be supplied to
-     * indicate that the application does not want to set this value.
+     * @pbrbm initAddr tif bddrfss of tif dontfxt initibtor.
+     * <dodf>null</dodf> vbluf dbn bf supplifd to indidbtf tibt tif
+     * bpplidbtion dofs not wbnt to sft tiis vbluf.
+     * @pbrbm bddfptAddr tif bddrfss of tif dontfxt
+     * bddfptor. <dodf>null</dodf> vbluf dbn bf supplifd to indidbtf tibt
+     * tif bpplidbtion dofs not wbnt to sft tiis vbluf.
+     * @pbrbm bppDbtb bpplidbtion supplifd dbtb to bf usfd bs pbrt of tif
+     * dibnnfl bindings. <dodf>null</dodf> vbluf dbn bf supplifd to
+     * indidbtf tibt tif bpplidbtion dofs not wbnt to sft tiis vbluf.
      */
-    public ChannelBinding(InetAddress initAddr, InetAddress acceptAddr,
-                        byte[] appData) {
+    publid CibnnflBinding(InftAddrfss initAddr, InftAddrfss bddfptAddr,
+                        bytf[] bppDbtb) {
 
-        initiator = initAddr;
-        acceptor = acceptAddr;
+        initibtor = initAddr;
+        bddfptor = bddfptAddr;
 
-        if (appData != null) {
-            this.appData = new byte[appData.length];
-            java.lang.System.arraycopy(appData, 0, this.appData, 0,
-                                appData.length);
+        if (bppDbtb != null) {
+            tiis.bppDbtb = nfw bytf[bppDbtb.lfngti];
+            jbvb.lbng.Systfm.brrbydopy(bppDbtb, 0, tiis.bppDbtb, 0,
+                                bppDbtb.lfngti);
         }
     }
 
     /**
-     * Creates a ChannelBinding object without any addressing information.
+     * Crfbtfs b CibnnflBinding objfdt witiout bny bddrfssing informbtion.
      *
-     * @param appData application supplied data to be used as part of the
-     * channel bindings.
+     * @pbrbm bppDbtb bpplidbtion supplifd dbtb to bf usfd bs pbrt of tif
+     * dibnnfl bindings.
      */
-    public ChannelBinding(byte[] appData) {
-        this(null, null, appData);
+    publid CibnnflBinding(bytf[] bppDbtb) {
+        tiis(null, null, bppDbtb);
     }
 
     /**
-     * Get the initiator's address for this channel binding.
+     * Gft tif initibtor's bddrfss for tiis dibnnfl binding.
      *
-     * @return the initiator's address. <code>null</code> is returned if
-     * the address has not been set.
+     * @rfturn tif initibtor's bddrfss. <dodf>null</dodf> is rfturnfd if
+     * tif bddrfss ibs not bffn sft.
      */
-    public InetAddress getInitiatorAddress() {
-        return initiator;
+    publid InftAddrfss gftInitibtorAddrfss() {
+        rfturn initibtor;
     }
 
     /**
-     * Get the acceptor's address for this channel binding.
+     * Gft tif bddfptor's bddrfss for tiis dibnnfl binding.
      *
-     * @return the acceptor's address. null is returned if the address has
-     * not been set.
+     * @rfturn tif bddfptor's bddrfss. null is rfturnfd if tif bddrfss ibs
+     * not bffn sft.
      */
-    public InetAddress getAcceptorAddress() {
-        return acceptor;
+    publid InftAddrfss gftAddfptorAddrfss() {
+        rfturn bddfptor;
     }
 
     /**
-     * Get the application specified data for this channel binding.
+     * Gft tif bpplidbtion spfdififd dbtb for tiis dibnnfl binding.
      *
-     * @return the application data being used as part of the
-     * ChannelBinding. <code>null</code> is returned if no application data
-     * has been specified for the channel binding.
+     * @rfturn tif bpplidbtion dbtb bfing usfd bs pbrt of tif
+     * CibnnflBinding. <dodf>null</dodf> is rfturnfd if no bpplidbtion dbtb
+     * ibs bffn spfdififd for tif dibnnfl binding.
      */
-    public byte[] getApplicationData() {
+    publid bytf[] gftApplidbtionDbtb() {
 
-        if (appData == null) {
-            return null;
+        if (bppDbtb == null) {
+            rfturn null;
         }
 
-        byte[] retVal = new byte[appData.length];
-        System.arraycopy(appData, 0, retVal, 0, appData.length);
-        return retVal;
+        bytf[] rftVbl = nfw bytf[bppDbtb.lfngti];
+        Systfm.brrbydopy(bppDbtb, 0, rftVbl, 0, bppDbtb.lfngti);
+        rfturn rftVbl;
     }
 
     /**
-     * Compares two instances of ChannelBinding.
+     * Compbrfs two instbndfs of CibnnflBinding.
      *
-     * @param obj another ChannelBinding to compare this one with
-     * @return true if the two ChannelBinding's contain
-     * the same values for the initiator and acceptor addresses and the
-     * application data.
+     * @pbrbm obj bnotifr CibnnflBinding to dompbrf tiis onf witi
+     * @rfturn truf if tif two CibnnflBinding's dontbin
+     * tif sbmf vblufs for tif initibtor bnd bddfptor bddrfssfs bnd tif
+     * bpplidbtion dbtb.
      */
-    public boolean equals(Object obj) {
+    publid boolfbn fqubls(Objfdt obj) {
 
-        if (this == obj)
-            return true;
+        if (tiis == obj)
+            rfturn truf;
 
-        if (! (obj instanceof ChannelBinding))
-            return false;
+        if (! (obj instbndfof CibnnflBinding))
+            rfturn fblsf;
 
-        ChannelBinding cb = (ChannelBinding) obj;
+        CibnnflBinding db = (CibnnflBinding) obj;
 
-        if ((initiator != null && cb.initiator == null) ||
-            (initiator == null && cb.initiator != null))
-            return false;
+        if ((initibtor != null && db.initibtor == null) ||
+            (initibtor == null && db.initibtor != null))
+            rfturn fblsf;
 
-        if (initiator != null && !initiator.equals(cb.initiator))
-            return false;
+        if (initibtor != null && !initibtor.fqubls(db.initibtor))
+            rfturn fblsf;
 
-        if ((acceptor != null && cb.acceptor == null) ||
-            (acceptor == null && cb.acceptor != null))
-            return false;
+        if ((bddfptor != null && db.bddfptor == null) ||
+            (bddfptor == null && db.bddfptor != null))
+            rfturn fblsf;
 
-        if (acceptor != null && !acceptor.equals(cb.acceptor))
-            return false;
+        if (bddfptor != null && !bddfptor.fqubls(db.bddfptor))
+            rfturn fblsf;
 
-        return Arrays.equals(appData, cb.appData);
+        rfturn Arrbys.fqubls(bppDbtb, db.bppDbtb);
     }
 
     /**
-     * Returns a hashcode value for this ChannelBinding object.
+     * Rfturns b ibsidodf vbluf for tiis CibnnflBinding objfdt.
      *
-     * @return a hashCode value
+     * @rfturn b ibsiCodf vbluf
      */
-    public int hashCode() {
-        if (initiator != null)
-            return initiator.hashCode();
-        else if (acceptor != null)
-            return acceptor.hashCode();
-        else if (appData != null)
-            return new String(appData).hashCode();
-        else
-            return 1;
+    publid int ibsiCodf() {
+        if (initibtor != null)
+            rfturn initibtor.ibsiCodf();
+        flsf if (bddfptor != null)
+            rfturn bddfptor.ibsiCodf();
+        flsf if (bppDbtb != null)
+            rfturn nfw String(bppDbtb).ibsiCodf();
+        flsf
+            rfturn 1;
     }
 }

@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
-import java.util.stream.Collector;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.strfbm.Collfdtor;
 
 /**
- * A state object for collecting statistics such as count, min, max, sum, and
- * average.
+ * A stbtf objfdt for dollfdting stbtistids sudi bs dount, min, mbx, sum, bnd
+ * bvfrbgf.
  *
- * <p>This class is designed to work with (though does not require)
- * {@linkplain java.util.stream streams}. For example, you can compute
- * summary statistics on a stream of longs with:
- * <pre> {@code
- * LongSummaryStatistics stats = longStream.collect(LongSummaryStatistics::new,
- *                                                  LongSummaryStatistics::accept,
- *                                                  LongSummaryStatistics::combine);
- * }</pre>
+ * <p>Tiis dlbss is dfsignfd to work witi (tiougi dofs not rfquirf)
+ * {@linkplbin jbvb.util.strfbm strfbms}. For fxbmplf, you dbn domputf
+ * summbry stbtistids on b strfbm of longs witi:
+ * <prf> {@dodf
+ * LongSummbryStbtistids stbts = longStrfbm.dollfdt(LongSummbryStbtistids::nfw,
+ *                                                  LongSummbryStbtistids::bddfpt,
+ *                                                  LongSummbryStbtistids::dombinf);
+ * }</prf>
  *
- * <p>{@code LongSummaryStatistics} can be used as a
- * {@linkplain java.util.stream.Stream#collect(Collector) reduction}
- * target for a {@linkplain java.util.stream.Stream stream}. For example:
+ * <p>{@dodf LongSummbryStbtistids} dbn bf usfd bs b
+ * {@linkplbin jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) rfdudtion}
+ * tbrgft for b {@linkplbin jbvb.util.strfbm.Strfbm strfbm}. For fxbmplf:
  *
- * <pre> {@code
- * LongSummaryStatistics stats = people.stream()
- *                                     .collect(Collectors.summarizingLong(Person::getAge));
- *}</pre>
+ * <prf> {@dodf
+ * LongSummbryStbtistids stbts = pfoplf.strfbm()
+ *                                     .dollfdt(Collfdtors.summbrizingLong(Pfrson::gftAgf));
+ *}</prf>
  *
- * This computes, in a single pass, the count of people, as well as the minimum,
- * maximum, sum, and average of their ages.
+ * Tiis domputfs, in b singlf pbss, tif dount of pfoplf, bs wfll bs tif minimum,
+ * mbximum, sum, bnd bvfrbgf of tifir bgfs.
  *
- * @implNote This implementation is not thread safe. However, it is safe to use
- * {@link java.util.stream.Collectors#summarizingLong(java.util.function.ToLongFunction)
- * Collectors.summarizingLong()} on a parallel stream, because the parallel
- * implementation of {@link java.util.stream.Stream#collect Stream.collect()}
- * provides the necessary partitioning, isolation, and merging of results for
- * safe and efficient parallel execution.
+ * @implNotf Tiis implfmfntbtion is not tirfbd sbff. Howfvfr, it is sbff to usf
+ * {@link jbvb.util.strfbm.Collfdtors#summbrizingLong(jbvb.util.fundtion.ToLongFundtion)
+ * Collfdtors.summbrizingLong()} on b pbrbllfl strfbm, bfdbusf tif pbrbllfl
+ * implfmfntbtion of {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+ * providfs tif nfdfssbry pbrtitioning, isolbtion, bnd mfrging of rfsults for
+ * sbff bnd fffidifnt pbrbllfl fxfdution.
  *
- * <p>This implementation does not check for overflow of the sum.
- * @since 1.8
+ * <p>Tiis implfmfntbtion dofs not difdk for ovfrflow of tif sum.
+ * @sindf 1.8
  */
-public class LongSummaryStatistics implements LongConsumer, IntConsumer {
-    private long count;
-    private long sum;
-    private long min = Long.MAX_VALUE;
-    private long max = Long.MIN_VALUE;
+publid dlbss LongSummbryStbtistids implfmfnts LongConsumfr, IntConsumfr {
+    privbtf long dount;
+    privbtf long sum;
+    privbtf long min = Long.MAX_VALUE;
+    privbtf long mbx = Long.MIN_VALUE;
 
     /**
-     * Construct an empty instance with zero count, zero sum,
-     * {@code Long.MAX_VALUE} min, {@code Long.MIN_VALUE} max and zero
-     * average.
+     * Construdt bn fmpty instbndf witi zfro dount, zfro sum,
+     * {@dodf Long.MAX_VALUE} min, {@dodf Long.MIN_VALUE} mbx bnd zfro
+     * bvfrbgf.
      */
-    public LongSummaryStatistics() { }
+    publid LongSummbryStbtistids() { }
 
     /**
-     * Records a new {@code int} value into the summary information.
+     * Rfdords b nfw {@dodf int} vbluf into tif summbry informbtion.
      *
-     * @param value the input value
+     * @pbrbm vbluf tif input vbluf
      */
-    @Override
-    public void accept(int value) {
-        accept((long) value);
+    @Ovfrridf
+    publid void bddfpt(int vbluf) {
+        bddfpt((long) vbluf);
     }
 
     /**
-     * Records a new {@code long} value into the summary information.
+     * Rfdords b nfw {@dodf long} vbluf into tif summbry informbtion.
      *
-     * @param value the input value
+     * @pbrbm vbluf tif input vbluf
      */
-    @Override
-    public void accept(long value) {
-        ++count;
-        sum += value;
-        min = Math.min(min, value);
-        max = Math.max(max, value);
+    @Ovfrridf
+    publid void bddfpt(long vbluf) {
+        ++dount;
+        sum += vbluf;
+        min = Mbti.min(min, vbluf);
+        mbx = Mbti.mbx(mbx, vbluf);
     }
 
     /**
-     * Combines the state of another {@code LongSummaryStatistics} into this
-     * one.
+     * Combinfs tif stbtf of bnotifr {@dodf LongSummbryStbtistids} into tiis
+     * onf.
      *
-     * @param other another {@code LongSummaryStatistics}
-     * @throws NullPointerException if {@code other} is null
+     * @pbrbm otifr bnotifr {@dodf LongSummbryStbtistids}
+     * @tirows NullPointfrExdfption if {@dodf otifr} is null
      */
-    public void combine(LongSummaryStatistics other) {
-        count += other.count;
-        sum += other.sum;
-        min = Math.min(min, other.min);
-        max = Math.max(max, other.max);
+    publid void dombinf(LongSummbryStbtistids otifr) {
+        dount += otifr.dount;
+        sum += otifr.sum;
+        min = Mbti.min(min, otifr.min);
+        mbx = Mbti.mbx(mbx, otifr.mbx);
     }
 
     /**
-     * Returns the count of values recorded.
+     * Rfturns tif dount of vblufs rfdordfd.
      *
-     * @return the count of values
+     * @rfturn tif dount of vblufs
      */
-    public final long getCount() {
-        return count;
+    publid finbl long gftCount() {
+        rfturn dount;
     }
 
     /**
-     * Returns the sum of values recorded, or zero if no values have been
-     * recorded.
+     * Rfturns tif sum of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * rfdordfd.
      *
-     * @return the sum of values, or zero if none
+     * @rfturn tif sum of vblufs, or zfro if nonf
      */
-    public final long getSum() {
-        return sum;
+    publid finbl long gftSum() {
+        rfturn sum;
     }
 
     /**
-     * Returns the minimum value recorded, or {@code Long.MAX_VALUE} if no
-     * values have been recorded.
+     * Rfturns tif minimum vbluf rfdordfd, or {@dodf Long.MAX_VALUE} if no
+     * vblufs ibvf bffn rfdordfd.
      *
-     * @return the minimum value, or {@code Long.MAX_VALUE} if none
+     * @rfturn tif minimum vbluf, or {@dodf Long.MAX_VALUE} if nonf
      */
-    public final long getMin() {
-        return min;
+    publid finbl long gftMin() {
+        rfturn min;
     }
 
     /**
-     * Returns the maximum value recorded, or {@code Long.MIN_VALUE} if no
-     * values have been recorded
+     * Rfturns tif mbximum vbluf rfdordfd, or {@dodf Long.MIN_VALUE} if no
+     * vblufs ibvf bffn rfdordfd
      *
-     * @return the maximum value, or {@code Long.MIN_VALUE} if none
+     * @rfturn tif mbximum vbluf, or {@dodf Long.MIN_VALUE} if nonf
      */
-    public final long getMax() {
-        return max;
+    publid finbl long gftMbx() {
+        rfturn mbx;
     }
 
     /**
-     * Returns the arithmetic mean of values recorded, or zero if no values have been
-     * recorded.
+     * Rfturns tif britimftid mfbn of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * rfdordfd.
      *
-     * @return The arithmetic mean of values, or zero if none
+     * @rfturn Tif britimftid mfbn of vblufs, or zfro if nonf
      */
-    public final double getAverage() {
-        return getCount() > 0 ? (double) getSum() / getCount() : 0.0d;
+    publid finbl doublf gftAvfrbgf() {
+        rfturn gftCount() > 0 ? (doublf) gftSum() / gftCount() : 0.0d;
     }
 
-    @Override
+    @Ovfrridf
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * Returns a non-empty string representation of this object suitable for
-     * debugging. The exact presentation format is unspecified and may vary
-     * between implementations and versions.
+     * Rfturns b non-fmpty string rfprfsfntbtion of tiis objfdt suitbblf for
+     * dfbugging. Tif fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * bftwffn implfmfntbtions bnd vfrsions.
      */
-    public String toString() {
-        return String.format(
-            "%s{count=%d, sum=%d, min=%d, average=%f, max=%d}",
-            this.getClass().getSimpleName(),
-            getCount(),
-            getSum(),
-            getMin(),
-            getAverage(),
-            getMax());
+    publid String toString() {
+        rfturn String.formbt(
+            "%s{dount=%d, sum=%d, min=%d, bvfrbgf=%f, mbx=%d}",
+            tiis.gftClbss().gftSimplfNbmf(),
+            gftCount(),
+            gftSum(),
+            gftMin(),
+            gftAvfrbgf(),
+            gftMbx());
     }
 }

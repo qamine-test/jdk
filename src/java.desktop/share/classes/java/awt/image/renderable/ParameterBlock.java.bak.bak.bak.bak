@@ -1,0 +1,728 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf.rfndfrbblf;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
+
+/**
+ * A <dodf>PbrbmftfrBlodk</dodf> fndbpsulbtfs bll thf informbtion bbout sourdfs bnd
+ * pbrbmftfrs (Objfdts) rfquirfd by b RfndfrbblfImbgfOp, or othfr
+ * dlbssfs thbt prodfss imbgfs.
+ *
+ * <p> Although it is possiblf to plbdf brbitrbry objfdts in thf
+ * sourdf Vfdtor, usfrs of this dlbss mby imposf sfmbntid donstrbints
+ * sudh bs rfquiring bll sourdfs to bf RfndfrfdImbgfs or
+ * RfndfrbblfImbgf.  <dodf>PbrbmftfrBlodk</dodf> itsflf is mfrfly b dontbinfr bnd
+ * pfrforms no dhfdking on sourdf or pbrbmftfr typfs.
+ *
+ * <p> All pbrbmftfrs in b <dodf>PbrbmftfrBlodk</dodf> brf objfdts; donvfnifndf
+ * bdd bnd sft mfthods brf bvbilbblf thbt tbkf brgumfnts of bbsf typf bnd
+ * donstrudt thf bppropribtf subdlbss of Numbfr (sudh bs
+ * Intfgfr or Flobt).  Corrfsponding gft mfthods pfrform b
+ * downwbrd dbst bnd hbvf rfturn vblufs of bbsf typf; bn fxdfption
+ * will bf thrown if thf storfd vblufs do not hbvf thf dorrfdt typf.
+ * Thfrf is no wby to distinguish bftwffn thf rfsults of
+ * "short s; bdd(s)" bnd "bdd(nfw Short(s))".
+ *
+ * <p> Notf thbt thf gft bnd sft mfthods opfrbtf on rfffrfndfs.
+ * Thfrfforf, onf must bf dbrfful not to shbrf rfffrfndfs bftwffn
+ * <dodf>PbrbmftfrBlodk</dodf>s whfn this is inbppropribtf.  For fxbmplf, to drfbtf
+ * b nfw <dodf>PbrbmftfrBlodk</dodf> thbt is fqubl to bn old onf fxdfpt for bn
+ * bddfd sourdf, onf might bf tfmptfd to writf:
+ *
+ * <prf>
+ * PbrbmftfrBlodk bddSourdf(PbrbmftfrBlodk pb, RfndfrbblfImbgf im) {
+ *     PbrbmftfrBlodk pb1 = nfw PbrbmftfrBlodk(pb.gftSourdfs());
+ *     pb1.bddSourdf(im);
+ *     rfturn pb1;
+ * }
+ * </prf>
+ *
+ * <p> This dodf will hbvf thf sidf ffffdt of bltfring thf originbl
+ * <dodf>PbrbmftfrBlodk</dodf>, sindf thf gftSourdfs opfrbtion rfturnfd b rfffrfndf
+ * to its sourdf Vfdtor.  Both pb bnd pb1 shbrf thfir sourdf Vfdtor,
+ * bnd b dhbngf in fithfr is visiblf to both.
+ *
+ * <p> A dorrfdt wby to writf thf bddSourdf fundtion is to dlonf
+ * thf sourdf Vfdtor:
+ *
+ * <prf>
+ * PbrbmftfrBlodk bddSourdf (PbrbmftfrBlodk pb, RfndfrbblfImbgf im) {
+ *     PbrbmftfrBlodk pb1 = nfw PbrbmftfrBlodk(pb.gftSourdfs().dlonf());
+ *     pb1.bddSourdf(im);
+ *     rfturn pb1;
+ * }
+ * </prf>
+ *
+ * <p> Thf dlonf mfthod of <dodf>PbrbmftfrBlodk</dodf> hbs bffn dffinfd to
+ * pfrform b dlonf of both thf sourdf bnd pbrbmftfr Vfdtors for
+ * this rfbson.  A stbndbrd, shbllow dlonf is bvbilbblf bs
+ * shbllowClonf.
+ *
+ * <p> Thf bddSourdf, sftSourdf, bdd, bnd sft mfthods brf
+ * dffinfd to rfturn 'this' bftfr bdding thfir brgumfnt.  This bllows
+ * usf of syntbx likf:
+ *
+ * <prf>
+ * PbrbmftfrBlodk pb = nfw PbrbmftfrBlodk();
+ * op = nfw RfndfrbblfImbgfOp("opfrbtion", pb.bdd(brg1).bdd(brg2));
+ * </prf>
+ * */
+publid dlbss PbrbmftfrBlodk implfmfnts Clonfbblf, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -7577115551785240750L;
+
+    /** A Vfdtor of sourdfs, storfd bs brbitrbry Objfdts. */
+    protfdtfd Vfdtor<Objfdt> sourdfs = nfw Vfdtor<Objfdt>();
+
+    /** A Vfdtor of non-sourdf pbrbmftfrs, storfd bs brbitrbry Objfdts. */
+    protfdtfd Vfdtor<Objfdt> pbrbmftfrs = nfw Vfdtor<Objfdt>();
+
+    /** A dummy donstrudtor. */
+    publid PbrbmftfrBlodk() {}
+
+    /**
+     * Construdts b <dodf>PbrbmftfrBlodk</dodf> with b givfn Vfdtor
+     * of sourdfs.
+     * @pbrbm sourdfs b <dodf>Vfdtor</dodf> of sourdf imbgfs
+     */
+    publid PbrbmftfrBlodk(Vfdtor<Objfdt> sourdfs) {
+        sftSourdfs(sourdfs);
+    }
+
+    /**
+     * Construdts b <dodf>PbrbmftfrBlodk</dodf> with b givfn Vfdtor of sourdfs bnd
+     * Vfdtor of pbrbmftfrs.
+     * @pbrbm sourdfs b <dodf>Vfdtor</dodf> of sourdf imbgfs
+     * @pbrbm pbrbmftfrs b <dodf>Vfdtor</dodf> of pbrbmftfrs to bf usfd in thf
+     *        rfndfring opfrbtion
+     */
+    publid PbrbmftfrBlodk(Vfdtor<Objfdt> sourdfs,
+                          Vfdtor<Objfdt> pbrbmftfrs)
+    {
+        sftSourdfs(sourdfs);
+        sftPbrbmftfrs(pbrbmftfrs);
+    }
+
+    /**
+     * Crfbtfs b shbllow dopy of b <dodf>PbrbmftfrBlodk</dodf>.  Thf sourdf bnd
+     * pbrbmftfr Vfdtors brf dopifd by rfffrfndf -- bdditions or
+     * dhbngfs will bf visiblf to both vfrsions.
+     *
+     * @rfturn bn Objfdt dlonf of thf <dodf>PbrbmftfrBlodk</dodf>.
+     */
+    publid Objfdt shbllowClonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (Exdfption f) {
+            // Wf dbn't bf hfrf sindf wf implfmfnt Clonfbblf.
+            rfturn null;
+        }
+    }
+
+    /**
+     * Crfbtfs b dopy of b <dodf>PbrbmftfrBlodk</dodf>.  Thf sourdf bnd pbrbmftfr
+     * Vfdtors brf dlonfd, but thf bdtubl sourdfs bnd pbrbmftfrs brf
+     * dopifd by rfffrfndf.  This bllows modifidbtions to thf ordfr
+     * bnd numbfr of sourdfs bnd pbrbmftfrs in thf dlonf to bf invisiblf
+     * to thf originbl <dodf>PbrbmftfrBlodk</dodf>.  Chbngfs to thf shbrfd sourdfs or
+     * pbrbmftfrs thfmsflvfs will still bf visiblf.
+     *
+     * @rfturn bn Objfdt dlonf of thf <dodf>PbrbmftfrBlodk</dodf>.
+     */
+    @SupprfssWbrnings("undhfdkfd") // dbsts from dlonf
+    publid Objfdt dlonf() {
+        PbrbmftfrBlodk thfClonf;
+
+        try {
+            thfClonf = (PbrbmftfrBlodk) supfr.dlonf();
+        } dbtdh (Exdfption f) {
+            // Wf dbn't bf hfrf sindf wf implfmfnt Clonfbblf.
+            rfturn null;
+        }
+
+        if (sourdfs != null) {
+            thfClonf.sftSourdfs((Vfdtor<Objfdt>)sourdfs.dlonf());
+        }
+        if (pbrbmftfrs != null) {
+            thfClonf.sftPbrbmftfrs((Vfdtor<Objfdt>)pbrbmftfrs.dlonf());
+        }
+        rfturn (Objfdt) thfClonf;
+    }
+
+    /**
+     * Adds bn imbgf to fnd of thf list of sourdfs.  Thf imbgf is
+     * storfd bs bn objfdt in ordfr to bllow nfw nodf typfs in thf
+     * futurf.
+     *
+     * @pbrbm sourdf bn imbgf objfdt to bf storfd in thf sourdf list.
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining thf spfdififd
+     *         <dodf>sourdf</dodf>.
+     */
+    publid PbrbmftfrBlodk bddSourdf(Objfdt sourdf) {
+        sourdfs.bddElfmfnt(sourdf);
+        rfturn this;
+    }
+
+    /**
+     * Rfturns b sourdf bs b gfnfrbl Objfdt.  Thf dbllfr must dbst it into
+     * bn bppropribtf typf.
+     *
+     * @pbrbm indfx thf indfx of thf sourdf to bf rfturnfd.
+     * @rfturn bn <dodf>Objfdt</dodf> thbt rfprfsfnts thf sourdf lodbtfd
+     *         bt thf spfdififd indfx in thf <dodf>sourdfs</dodf>
+     *         <dodf>Vfdtor</dodf>.
+     * @sff #sftSourdf(Objfdt, int)
+     */
+    publid Objfdt gftSourdf(int indfx) {
+        rfturn sourdfs.flfmfntAt(indfx);
+    }
+
+    /**
+     * Rfplbdfs bn fntry in thf list of sourdf with b nfw sourdf.
+     * If thf indfx lifs bfyond thf durrfnt sourdf list,
+     * thf list is fxtfndfd with nulls bs nffdfd.
+     * @pbrbm sourdf thf spfdififd sourdf imbgf
+     * @pbrbm indfx thf indfx into thf <dodf>sourdfs</dodf>
+     *              <dodf>Vfdtor</dodf> bt whidh to
+     *              insfrt thf spfdififd <dodf>sourdf</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> thbt dontbins thf
+     *         spfdififd <dodf>sourdf</dodf> bt thf spfdififd
+     *         <dodf>indfx</dodf>.
+     * @sff #gftSourdf(int)
+     */
+    publid PbrbmftfrBlodk sftSourdf(Objfdt sourdf, int indfx) {
+        int oldSizf = sourdfs.sizf();
+        int nfwSizf = indfx + 1;
+        if (oldSizf < nfwSizf) {
+            sourdfs.sftSizf(nfwSizf);
+        }
+        sourdfs.sftElfmfntAt(sourdf, indfx);
+        rfturn this;
+    }
+
+    /**
+     * Rfturns b sourdf bs b <dodf>RfndfrfdImbgf</dodf>.  This mfthod is
+     * b donvfnifndf mfthod.
+     * An fxdfption will bf thrown if thf sourdf is not b RfndfrfdImbgf.
+     *
+     * @pbrbm indfx thf indfx of thf sourdf to bf rfturnfd
+     * @rfturn b <dodf>RfndfrfdImbgf</dodf> thbt rfprfsfnts thf sourdf
+     *         imbgf thbt is bt thf spfdififd indfx in thf
+     *         <dodf>sourdfs</dodf> <dodf>Vfdtor</dodf>.
+     */
+    publid RfndfrfdImbgf gftRfndfrfdSourdf(int indfx) {
+        rfturn (RfndfrfdImbgf) sourdfs.flfmfntAt(indfx);
+    }
+
+    /**
+     * Rfturns b sourdf bs b RfndfrbblfImbgf.  This mfthod is b
+     * donvfnifndf mfthod.
+     * An fxdfption will bf thrown if thf sourdfs is not b RfndfrbblfImbgf.
+     *
+     * @pbrbm indfx thf indfx of thf sourdf to bf rfturnfd
+     * @rfturn b <dodf>RfndfrbblfImbgf</dodf> thbt rfprfsfnts thf sourdf
+     *         imbgf thbt is bt thf spfdififd indfx in thf
+     *         <dodf>sourdfs</dodf> <dodf>Vfdtor</dodf>.
+     */
+    publid RfndfrbblfImbgf gftRfndfrbblfSourdf(int indfx) {
+        rfturn (RfndfrbblfImbgf) sourdfs.flfmfntAt(indfx);
+    }
+
+    /**
+     * Rfturns thf numbfr of sourdf imbgfs.
+     * @rfturn thf numbfr of sourdf imbgfs in thf <dodf>sourdfs</dodf>
+     *         <dodf>Vfdtor</dodf>.
+     */
+    publid int gftNumSourdfs() {
+        rfturn sourdfs.sizf();
+    }
+
+    /**
+     * Rfturns thf fntirf Vfdtor of sourdfs.
+     * @rfturn thf <dodf>sourdfs</dodf> <dodf>Vfdtor</dodf>.
+     * @sff #sftSourdfs(Vfdtor)
+     */
+    publid Vfdtor<Objfdt> gftSourdfs() {
+        rfturn sourdfs;
+    }
+
+    /**
+     * Sfts thf fntirf Vfdtor of sourdfs to b givfn Vfdtor.
+     * @pbrbm sourdfs thf <dodf>Vfdtor</dodf> of sourdf imbgfs
+     * @sff #gftSourdfs
+     */
+    publid void sftSourdfs(Vfdtor<Objfdt> sourdfs) {
+        this.sourdfs = sourdfs;
+    }
+
+    /** Clfbrs thf list of sourdf imbgfs. */
+    publid void rfmovfSourdfs() {
+        sourdfs = nfw Vfdtor<>();
+    }
+
+    /**
+     * Rfturns thf numbfr of pbrbmftfrs (not indluding sourdf imbgfs).
+     * @rfturn thf numbfr of pbrbmftfrs in thf <dodf>pbrbmftfrs</dodf>
+     *         <dodf>Vfdtor</dodf>.
+     */
+    publid int gftNumPbrbmftfrs() {
+        rfturn pbrbmftfrs.sizf();
+    }
+
+    /**
+     * Rfturns thf fntirf Vfdtor of pbrbmftfrs.
+     * @rfturn thf <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>.
+     * @sff #sftPbrbmftfrs(Vfdtor)
+     */
+    publid Vfdtor<Objfdt> gftPbrbmftfrs() {
+        rfturn pbrbmftfrs;
+    }
+
+    /**
+     * Sfts thf fntirf Vfdtor of pbrbmftfrs to b givfn Vfdtor.
+     * @pbrbm pbrbmftfrs thf spfdififd <dodf>Vfdtor</dodf> of
+     *        pbrbmftfrs
+     * @sff #gftPbrbmftfrs
+     */
+    publid void sftPbrbmftfrs(Vfdtor<Objfdt> pbrbmftfrs) {
+        this.pbrbmftfrs = pbrbmftfrs;
+    }
+
+    /** Clfbrs thf list of pbrbmftfrs. */
+    publid void rfmovfPbrbmftfrs() {
+        pbrbmftfrs = nfw Vfdtor<>();
+    }
+
+    /**
+     * Adds bn objfdt to thf list of pbrbmftfrs.
+     * @pbrbm obj thf <dodf>Objfdt</dodf> to bdd to thf
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk bdd(Objfdt obj) {
+        pbrbmftfrs.bddElfmfnt(obj);
+        rfturn this;
+    }
+
+    /**
+     * Adds b Bytf to thf list of pbrbmftfrs.
+     * @pbrbm b thf bytf to bdd to thf
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk bdd(bytf b) {
+        rfturn bdd(Bytf.vblufOf(b));
+    }
+
+    /**
+     * Adds b Chbrbdtfr to thf list of pbrbmftfrs.
+     * @pbrbm d thf dhbr to bdd to thf
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk bdd(dhbr d) {
+        rfturn bdd(Chbrbdtfr.vblufOf(d));
+    }
+
+    /**
+     * Adds b Short to thf list of pbrbmftfrs.
+     * @pbrbm s thf short to bdd to thf
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk bdd(short s) {
+        rfturn bdd(Short.vblufOf(s));
+    }
+
+    /**
+     * Adds b Intfgfr to thf list of pbrbmftfrs.
+     * @pbrbm i thf int to bdd to thf
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk bdd(int i) {
+        rfturn bdd(i);
+    }
+
+    /**
+     * Adds b Long to thf list of pbrbmftfrs.
+     * @pbrbm l thf long to bdd to thf
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk bdd(long l) {
+        rfturn bdd(Long.vblufOf(l));
+    }
+
+    /**
+     * Adds b Flobt to thf list of pbrbmftfrs.
+     * @pbrbm f thf flobt to bdd to thf
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk bdd(flobt f) {
+        rfturn bdd(nfw Flobt(f));
+    }
+
+    /**
+     * Adds b Doublf to thf list of pbrbmftfrs.
+     * @pbrbm d thf doublf to bdd to thf
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk bdd(doublf d) {
+        rfturn bdd(nfw Doublf(d));
+    }
+
+    /**
+     * Rfplbdfs bn Objfdt in thf list of pbrbmftfrs.
+     * If thf indfx lifs bfyond thf durrfnt sourdf list,
+     * thf list is fxtfndfd with nulls bs nffdfd.
+     * @pbrbm obj thf pbrbmftfr thbt rfplbdfs thf
+     *        pbrbmftfr bt thf spfdififd indfx in thf
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf
+     *        rfplbdfd with thf spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk sft(Objfdt obj, int indfx) {
+        int oldSizf = pbrbmftfrs.sizf();
+        int nfwSizf = indfx + 1;
+        if (oldSizf < nfwSizf) {
+            pbrbmftfrs.sftSizf(nfwSizf);
+        }
+        pbrbmftfrs.sftElfmfntAt(obj, indfx);
+        rfturn this;
+    }
+
+    /**
+     * Rfplbdfs bn Objfdt in thf list of pbrbmftfrs with b Bytf.
+     * If thf indfx lifs bfyond thf durrfnt sourdf list,
+     * thf list is fxtfndfd with nulls bs nffdfd.
+     * @pbrbm b thf pbrbmftfr thbt rfplbdfs thf
+     *        pbrbmftfr bt thf spfdififd indfx in thf
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf
+     *        rfplbdfd with thf spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk sft(bytf b, int indfx) {
+        rfturn sft(Bytf.vblufOf(b), indfx);
+    }
+
+    /**
+     * Rfplbdfs bn Objfdt in thf list of pbrbmftfrs with b Chbrbdtfr.
+     * If thf indfx lifs bfyond thf durrfnt sourdf list,
+     * thf list is fxtfndfd with nulls bs nffdfd.
+     * @pbrbm d thf pbrbmftfr thbt rfplbdfs thf
+     *        pbrbmftfr bt thf spfdififd indfx in thf
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf
+     *        rfplbdfd with thf spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk sft(dhbr d, int indfx) {
+        rfturn sft(Chbrbdtfr.vblufOf(d), indfx);
+    }
+
+    /**
+     * Rfplbdfs bn Objfdt in thf list of pbrbmftfrs with b Short.
+     * If thf indfx lifs bfyond thf durrfnt sourdf list,
+     * thf list is fxtfndfd with nulls bs nffdfd.
+     * @pbrbm s thf pbrbmftfr thbt rfplbdfs thf
+     *        pbrbmftfr bt thf spfdififd indfx in thf
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf
+     *        rfplbdfd with thf spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk sft(short s, int indfx) {
+        rfturn sft(Short.vblufOf(s), indfx);
+    }
+
+    /**
+     * Rfplbdfs bn Objfdt in thf list of pbrbmftfrs with bn Intfgfr.
+     * If thf indfx lifs bfyond thf durrfnt sourdf list,
+     * thf list is fxtfndfd with nulls bs nffdfd.
+     * @pbrbm i thf pbrbmftfr thbt rfplbdfs thf
+     *        pbrbmftfr bt thf spfdififd indfx in thf
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf
+     *        rfplbdfd with thf spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk sft(int i, int indfx) {
+        rfturn sft(i, indfx);
+    }
+
+    /**
+     * Rfplbdfs bn Objfdt in thf list of pbrbmftfrs with b Long.
+     * If thf indfx lifs bfyond thf durrfnt sourdf list,
+     * thf list is fxtfndfd with nulls bs nffdfd.
+     * @pbrbm l thf pbrbmftfr thbt rfplbdfs thf
+     *        pbrbmftfr bt thf spfdififd indfx in thf
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf
+     *        rfplbdfd with thf spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk sft(long l, int indfx) {
+        rfturn sft(Long.vblufOf(l), indfx);
+    }
+
+    /**
+     * Rfplbdfs bn Objfdt in thf list of pbrbmftfrs with b Flobt.
+     * If thf indfx lifs bfyond thf durrfnt sourdf list,
+     * thf list is fxtfndfd with nulls bs nffdfd.
+     * @pbrbm f thf pbrbmftfr thbt rfplbdfs thf
+     *        pbrbmftfr bt thf spfdififd indfx in thf
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf
+     *        rfplbdfd with thf spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk sft(flobt f, int indfx) {
+        rfturn sft(nfw Flobt(f), indfx);
+    }
+
+    /**
+     * Rfplbdfs bn Objfdt in thf list of pbrbmftfrs with b Doublf.
+     * If thf indfx lifs bfyond thf durrfnt sourdf list,
+     * thf list is fxtfndfd with nulls bs nffdfd.
+     * @pbrbm d thf pbrbmftfr thbt rfplbdfs thf
+     *        pbrbmftfr bt thf spfdififd indfx in thf
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf
+     *        rfplbdfd with thf spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        thf spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk sft(doublf d, int indfx) {
+        rfturn sft(nfw Doublf(d), indfx);
+    }
+
+    /**
+     * Gfts b pbrbmftfr bs bn objfdt.
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to gft
+     * @rfturn bn <dodf>Objfdt</dodf> rfprfsfnting thf
+     *         thf pbrbmftfr bt thf spfdififd indfx
+     *         into thf <dodf>pbrbmftfrs</dodf>
+     *         <dodf>Vfdtor</dodf>.
+     */
+    publid Objfdt gftObjfdtPbrbmftfr(int indfx) {
+        rfturn pbrbmftfrs.flfmfntAt(indfx);
+    }
+
+    /**
+     * A donvfnifndf mfthod to rfturn b pbrbmftfr bs b bytf.  An
+     * fxdfption is thrown if thf pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Bytf</dodf>.
+     *
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf rfturnfd.
+     * @rfturn thf pbrbmftfr bt thf spfdififd indfx
+     *         bs b <dodf>bytf</dodf> vbluf.
+     * @throws ClbssCbstExdfption if thf pbrbmftfr bt thf
+     *         spfdififd indfx is not b <dodf>Bytf</dodf>
+     * @throws NullPointfrExdfption if thf pbrbmftfr bt thf spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss thbn thf durrfnt sizf of this
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
+     */
+    publid bytf gftBytfPbrbmftfr(int indfx) {
+        rfturn ((Bytf)pbrbmftfrs.flfmfntAt(indfx)).bytfVbluf();
+    }
+
+    /**
+     * A donvfnifndf mfthod to rfturn b pbrbmftfr bs b dhbr.  An
+     * fxdfption is thrown if thf pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Chbrbdtfr</dodf>.
+     *
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf rfturnfd.
+     * @rfturn thf pbrbmftfr bt thf spfdififd indfx
+     *         bs b <dodf>dhbr</dodf> vbluf.
+     * @throws ClbssCbstExdfption if thf pbrbmftfr bt thf
+     *         spfdififd indfx is not b <dodf>Chbrbdtfr</dodf>
+     * @throws NullPointfrExdfption if thf pbrbmftfr bt thf spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss thbn thf durrfnt sizf of this
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
+     */
+    publid dhbr gftChbrPbrbmftfr(int indfx) {
+        rfturn ((Chbrbdtfr)pbrbmftfrs.flfmfntAt(indfx)).dhbrVbluf();
+    }
+
+    /**
+     * A donvfnifndf mfthod to rfturn b pbrbmftfr bs b short.  An
+     * fxdfption is thrown if thf pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Short</dodf>.
+     *
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf rfturnfd.
+     * @rfturn thf pbrbmftfr bt thf spfdififd indfx
+     *         bs b <dodf>short</dodf> vbluf.
+     * @throws ClbssCbstExdfption if thf pbrbmftfr bt thf
+     *         spfdififd indfx is not b <dodf>Short</dodf>
+     * @throws NullPointfrExdfption if thf pbrbmftfr bt thf spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss thbn thf durrfnt sizf of this
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
+     */
+    publid short gftShortPbrbmftfr(int indfx) {
+        rfturn ((Short)pbrbmftfrs.flfmfntAt(indfx)).shortVbluf();
+    }
+
+    /**
+     * A donvfnifndf mfthod to rfturn b pbrbmftfr bs bn int.  An
+     * fxdfption is thrown if thf pbrbmftfr is
+     * <dodf>null</dodf> or not bn <dodf>Intfgfr</dodf>.
+     *
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf rfturnfd.
+     * @rfturn thf pbrbmftfr bt thf spfdififd indfx
+     *         bs b <dodf>int</dodf> vbluf.
+     * @throws ClbssCbstExdfption if thf pbrbmftfr bt thf
+     *         spfdififd indfx is not b <dodf>Intfgfr</dodf>
+     * @throws NullPointfrExdfption if thf pbrbmftfr bt thf spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss thbn thf durrfnt sizf of this
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
+     */
+    publid int gftIntPbrbmftfr(int indfx) {
+        rfturn ((Intfgfr)pbrbmftfrs.flfmfntAt(indfx)).intVbluf();
+    }
+
+    /**
+     * A donvfnifndf mfthod to rfturn b pbrbmftfr bs b long.  An
+     * fxdfption is thrown if thf pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Long</dodf>.
+     *
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf rfturnfd.
+     * @rfturn thf pbrbmftfr bt thf spfdififd indfx
+     *         bs b <dodf>long</dodf> vbluf.
+     * @throws ClbssCbstExdfption if thf pbrbmftfr bt thf
+     *         spfdififd indfx is not b <dodf>Long</dodf>
+     * @throws NullPointfrExdfption if thf pbrbmftfr bt thf spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss thbn thf durrfnt sizf of this
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
+     */
+    publid long gftLongPbrbmftfr(int indfx) {
+        rfturn ((Long)pbrbmftfrs.flfmfntAt(indfx)).longVbluf();
+    }
+
+    /**
+     * A donvfnifndf mfthod to rfturn b pbrbmftfr bs b flobt.  An
+     * fxdfption is thrown if thf pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Flobt</dodf>.
+     *
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf rfturnfd.
+     * @rfturn thf pbrbmftfr bt thf spfdififd indfx
+     *         bs b <dodf>flobt</dodf> vbluf.
+     * @throws ClbssCbstExdfption if thf pbrbmftfr bt thf
+     *         spfdififd indfx is not b <dodf>Flobt</dodf>
+     * @throws NullPointfrExdfption if thf pbrbmftfr bt thf spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss thbn thf durrfnt sizf of this
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
+     */
+    publid flobt gftFlobtPbrbmftfr(int indfx) {
+        rfturn ((Flobt)pbrbmftfrs.flfmfntAt(indfx)).flobtVbluf();
+    }
+
+    /**
+     * A donvfnifndf mfthod to rfturn b pbrbmftfr bs b doublf.  An
+     * fxdfption is thrown if thf pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Doublf</dodf>.
+     *
+     * @pbrbm indfx thf indfx of thf pbrbmftfr to bf rfturnfd.
+     * @rfturn thf pbrbmftfr bt thf spfdififd indfx
+     *         bs b <dodf>doublf</dodf> vbluf.
+     * @throws ClbssCbstExdfption if thf pbrbmftfr bt thf
+     *         spfdififd indfx is not b <dodf>Doublf</dodf>
+     * @throws NullPointfrExdfption if thf pbrbmftfr bt thf spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss thbn thf durrfnt sizf of this
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
+     */
+    publid doublf gftDoublfPbrbmftfr(int indfx) {
+        rfturn ((Doublf)pbrbmftfrs.flfmfntAt(indfx)).doublfVbluf();
+    }
+
+    /**
+     * Rfturns bn brrby of Clbss objfdts dfsdribing thf typfs
+     * of thf pbrbmftfrs.
+     * @rfturn bn brrby of <dodf>Clbss</dodf> objfdts.
+     */
+    publid Clbss<?>[] gftPbrbmClbssfs() {
+        int numPbrbms = gftNumPbrbmftfrs();
+        Clbss<?>[] dlbssfs = nfw Clbss<?>[numPbrbms];
+        int i;
+
+        for (i = 0; i < numPbrbms; i++) {
+            Objfdt obj = gftObjfdtPbrbmftfr(i);
+            if (obj instbndfof Bytf) {
+              dlbssfs[i] = bytf.dlbss;
+            } flsf if (obj instbndfof Chbrbdtfr) {
+              dlbssfs[i] = dhbr.dlbss;
+            } flsf if (obj instbndfof Short) {
+              dlbssfs[i] = short.dlbss;
+            } flsf if (obj instbndfof Intfgfr) {
+              dlbssfs[i] = int.dlbss;
+            } flsf if (obj instbndfof Long) {
+              dlbssfs[i] = long.dlbss;
+            } flsf if (obj instbndfof Flobt) {
+              dlbssfs[i] = flobt.dlbss;
+            } flsf if (obj instbndfof Doublf) {
+              dlbssfs[i] = doublf.dlbss;
+            } flsf {
+              dlbssfs[i] = obj.gftClbss();
+            }
+        }
+
+        rfturn dlbssfs;
+    }
+}

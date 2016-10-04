@@ -1,0 +1,424 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.lbng.mbnbgfmfnt.ThrfbdInfo;
+import jbvb.lbng.mbnbgfmfnt.MonitorInfo;
+import jbvb.lbng.mbnbgfmfnt.LodkInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
+
+/**
+ * A CompositfDbtb for ThrfbdInfo for thf lodbl mbnbgfmfnt support.
+ * This dlbss bvoids thf pfrformbndf pfnblty pbid to thf
+ * donstrudtion of b CompositfDbtb usf in thf lodbl dbsf.
+ */
+publid dlbss ThrfbdInfoCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl ThrfbdInfo thrfbdInfo;
+    privbtf finbl CompositfDbtb ddbtb;
+    privbtf finbl boolfbn durrfntVfrsion;
+
+    privbtf ThrfbdInfoCompositfDbtb(ThrfbdInfo ti) {
+        this.thrfbdInfo = ti;
+        this.durrfntVfrsion = truf;
+        this.ddbtb = null;
+    }
+
+    privbtf ThrfbdInfoCompositfDbtb(CompositfDbtb dd) {
+        this.thrfbdInfo = null;
+        this.durrfntVfrsion = ThrfbdInfoCompositfDbtb.isCurrfntVfrsion(dd);
+        this.ddbtb = dd;
+    }
+
+    publid ThrfbdInfo gftThrfbdInfo() {
+        rfturn thrfbdInfo;
+    }
+
+    publid boolfbn isCurrfntVfrsion() {
+        rfturn durrfntVfrsion;
+    }
+
+    publid stbtid ThrfbdInfoCompositfDbtb gftInstbndf(CompositfDbtb dd) {
+        vblidbtfCompositfDbtb(dd);
+        rfturn nfw ThrfbdInfoCompositfDbtb(dd);
+    }
+
+    publid stbtid CompositfDbtb toCompositfDbtb(ThrfbdInfo ti) {
+        ThrfbdInfoCompositfDbtb tidd = nfw ThrfbdInfoCompositfDbtb(ti);
+        rfturn tidd.gftCompositfDbtb();
+    }
+
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
+        // Convfrt StbdkTrbdfElfmfnt[] to CompositfDbtb[]
+        StbdkTrbdfElfmfnt[] stbdkTrbdf = thrfbdInfo.gftStbdkTrbdf();
+        CompositfDbtb[] stbdkTrbdfDbtb =
+            nfw CompositfDbtb[stbdkTrbdf.lfngth];
+        for (int i = 0; i < stbdkTrbdf.lfngth; i++) {
+            StbdkTrbdfElfmfnt stf = stbdkTrbdf[i];
+            stbdkTrbdfDbtb[i] = StbdkTrbdfElfmfntCompositfDbtb.toCompositfDbtb(stf);
+        }
+
+        // Convfrt MonitorInfo[] bnd LodkInfo[] to CompositfDbtb[]
+        CompositfDbtb lodkInfoDbtb =
+            LodkInfoCompositfDbtb.toCompositfDbtb(thrfbdInfo.gftLodkInfo());
+
+        // Convfrt LodkInfo[] bnd MonitorInfo[] to CompositfDbtb[]
+        LodkInfo[] lodkfdSynds = thrfbdInfo.gftLodkfdSyndhronizfrs();
+        CompositfDbtb[] lodkfdSyndsDbtb =
+            nfw CompositfDbtb[lodkfdSynds.lfngth];
+        for (int i = 0; i < lodkfdSynds.lfngth; i++) {
+            LodkInfo li = lodkfdSynds[i];
+            lodkfdSyndsDbtb[i] = LodkInfoCompositfDbtb.toCompositfDbtb(li);
+        }
+
+        MonitorInfo[] lodkfdMonitors = thrfbdInfo.gftLodkfdMonitors();
+        CompositfDbtb[] lodkfdMonitorsDbtb =
+            nfw CompositfDbtb[lodkfdMonitors.lfngth];
+        for (int i = 0; i < lodkfdMonitors.lfngth; i++) {
+            MonitorInfo mi = lodkfdMonitors[i];
+            lodkfdMonitorsDbtb[i] = MonitorInfoCompositfDbtb.toCompositfDbtb(mi);
+        }
+
+        // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
+        // thrfbdInfoItfmNbmfs!
+        finbl Objfdt[] thrfbdInfoItfmVblufs = {
+            thrfbdInfo.gftThrfbdId(),
+            thrfbdInfo.gftThrfbdNbmf(),
+            thrfbdInfo.gftThrfbdStbtf().nbmf(),
+            thrfbdInfo.gftBlodkfdTimf(),
+            thrfbdInfo.gftBlodkfdCount(),
+            thrfbdInfo.gftWbitfdTimf(),
+            thrfbdInfo.gftWbitfdCount(),
+            lodkInfoDbtb,
+            thrfbdInfo.gftLodkNbmf(),
+            thrfbdInfo.gftLodkOwnfrId(),
+            thrfbdInfo.gftLodkOwnfrNbmf(),
+            stbdkTrbdfDbtb,
+                thrfbdInfo.isSuspfndfd(),
+                thrfbdInfo.isInNbtivf(),
+            lodkfdMonitorsDbtb,
+            lodkfdSyndsDbtb,
+        };
+
+        try {
+            rfturn nfw CompositfDbtbSupport(thrfbdInfoCompositfTypf,
+                                            thrfbdInfoItfmNbmfs,
+                                            thrfbdInfoItfmVblufs);
+        } dbtdh (OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw nfw AssfrtionError(f);
+        }
+    }
+
+    // Attributf nbmfs
+    privbtf stbtid finbl String THREAD_ID       = "thrfbdId";
+    privbtf stbtid finbl String THREAD_NAME     = "thrfbdNbmf";
+    privbtf stbtid finbl String THREAD_STATE    = "thrfbdStbtf";
+    privbtf stbtid finbl String BLOCKED_TIME    = "blodkfdTimf";
+    privbtf stbtid finbl String BLOCKED_COUNT   = "blodkfdCount";
+    privbtf stbtid finbl String WAITED_TIME     = "wbitfdTimf";
+    privbtf stbtid finbl String WAITED_COUNT    = "wbitfdCount";
+    privbtf stbtid finbl String LOCK_INFO       = "lodkInfo";
+    privbtf stbtid finbl String LOCK_NAME       = "lodkNbmf";
+    privbtf stbtid finbl String LOCK_OWNER_ID   = "lodkOwnfrId";
+    privbtf stbtid finbl String LOCK_OWNER_NAME = "lodkOwnfrNbmf";
+    privbtf stbtid finbl String STACK_TRACE     = "stbdkTrbdf";
+    privbtf stbtid finbl String SUSPENDED       = "suspfndfd";
+    privbtf stbtid finbl String IN_NATIVE       = "inNbtivf";
+    privbtf stbtid finbl String LOCKED_MONITORS = "lodkfdMonitors";
+    privbtf stbtid finbl String LOCKED_SYNCS    = "lodkfdSyndhronizfrs";
+
+    privbtf stbtid finbl String[] thrfbdInfoItfmNbmfs = {
+        THREAD_ID,
+        THREAD_NAME,
+        THREAD_STATE,
+        BLOCKED_TIME,
+        BLOCKED_COUNT,
+        WAITED_TIME,
+        WAITED_COUNT,
+        LOCK_INFO,
+        LOCK_NAME,
+        LOCK_OWNER_ID,
+        LOCK_OWNER_NAME,
+        STACK_TRACE,
+        SUSPENDED,
+        IN_NATIVE,
+        LOCKED_MONITORS,
+        LOCKED_SYNCS,
+    };
+
+    // Nfw bttributfs bddfd in 6.0 ThrfbdInfo
+    privbtf stbtid finbl String[] thrfbdInfoV6Attributfs = {
+        LOCK_INFO,
+        LOCKED_MONITORS,
+        LOCKED_SYNCS,
+    };
+
+    // Currfnt vfrsion of ThrfbdInfo
+    privbtf stbtid finbl CompositfTypf thrfbdInfoCompositfTypf;
+    // Prfvious vfrsion of ThrfbdInfo
+    privbtf stbtid finbl CompositfTypf thrfbdInfoV5CompositfTypf;
+    privbtf stbtid finbl CompositfTypf lodkInfoCompositfTypf;
+    stbtid {
+        try {
+            thrfbdInfoCompositfTypf = (CompositfTypf)
+                MbppfdMXBfbnTypf.toOpfnTypf(ThrfbdInfo.dlbss);
+            // Form b CompositfTypf for JDK 5.0 ThrfbdInfo vfrsion
+            String[] itfmNbmfs =
+                thrfbdInfoCompositfTypf.kfySft().toArrby(nfw String[0]);
+            int numV5Attributfs = thrfbdInfoItfmNbmfs.lfngth -
+                                      thrfbdInfoV6Attributfs.lfngth;
+            String[] v5ItfmNbmfs = nfw String[numV5Attributfs];
+            String[] v5ItfmDfsds = nfw String[numV5Attributfs];
+            OpfnTypf<?>[] v5ItfmTypfs = nfw OpfnTypf<?>[numV5Attributfs];
+            int i = 0;
+            for (String n : itfmNbmfs) {
+                if (isV5Attributf(n)) {
+                    v5ItfmNbmfs[i] = n;
+                    v5ItfmDfsds[i] = thrfbdInfoCompositfTypf.gftDfsdription(n);
+                    v5ItfmTypfs[i] = thrfbdInfoCompositfTypf.gftTypf(n);
+                    i++;
+                }
+            }
+
+            thrfbdInfoV5CompositfTypf =
+                nfw CompositfTypf("jbvb.lbng.mbnbgfmfnt.ThrfbdInfo",
+                                  "J2SE 5.0 jbvb.lbng.mbnbgfmfnt.ThrfbdInfo",
+                                  v5ItfmNbmfs,
+                                  v5ItfmDfsds,
+                                  v5ItfmTypfs);
+        } dbtdh (OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw nfw AssfrtionError(f);
+        }
+
+        // Ebdh CompositfDbtb objfdt hbs its CompositfTypf bssodibtfd
+        // with it.  So wf dbn gft thf CompositfTypf rfprfsfnting LodkInfo
+        // from b mbppfd CompositfDbtb for bny LodkInfo objfdt.
+        // Thus wf donstrudt b rbndom LodkInfo objfdt bnd pbss it
+        // to LodkInfoCompositfDbtb to do thf donvfrsion.
+        Objfdt o = nfw Objfdt();
+        LodkInfo li = nfw LodkInfo(o.gftClbss().gftNbmf(),
+                                   Systfm.idfntityHbshCodf(o));
+        CompositfDbtb dd = LodkInfoCompositfDbtb.toCompositfDbtb(li);
+        lodkInfoCompositfTypf = dd.gftCompositfTypf();
+    }
+
+    privbtf stbtid boolfbn isV5Attributf(String itfmNbmf) {
+        for (String n : thrfbdInfoV6Attributfs) {
+            if (itfmNbmf.fqubls(n)) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    publid stbtid boolfbn isCurrfntVfrsion(CompositfDbtb dd) {
+        if (dd == null) {
+            throw nfw NullPointfrExdfption("Null CompositfDbtb");
+        }
+
+        rfturn isTypfMbtdhfd(thrfbdInfoCompositfTypf, dd.gftCompositfTypf());
+    }
+
+    publid long thrfbdId() {
+        rfturn gftLong(ddbtb, THREAD_ID);
+    }
+
+    publid String thrfbdNbmf() {
+        // Thf ThrfbdNbmf itfm dbnnot bf null so wf dhfdk thbt
+        // it is prfsfnt with b non-null vbluf.
+        String nbmf = gftString(ddbtb, THREAD_NAME);
+        if (nbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid dompositf dbtb: " +
+                "Attributf " + THREAD_NAME + " hbs null vbluf");
+        }
+        rfturn nbmf;
+    }
+
+    publid Thrfbd.Stbtf thrfbdStbtf() {
+        rfturn Thrfbd.Stbtf.vblufOf(gftString(ddbtb, THREAD_STATE));
+    }
+
+    publid long blodkfdTimf() {
+        rfturn gftLong(ddbtb, BLOCKED_TIME);
+    }
+
+    publid long blodkfdCount() {
+        rfturn gftLong(ddbtb, BLOCKED_COUNT);
+    }
+
+    publid long wbitfdTimf() {
+        rfturn gftLong(ddbtb, WAITED_TIME);
+    }
+
+    publid long wbitfdCount() {
+        rfturn gftLong(ddbtb, WAITED_COUNT);
+    }
+
+    publid String lodkNbmf() {
+        // Thf LodkNbmf bnd LodkOwnfrNbmf dbn lfgitimbtfly bf null,
+        // wf don't bothfr to dhfdk thf vbluf
+        rfturn gftString(ddbtb, LOCK_NAME);
+    }
+
+    publid long lodkOwnfrId() {
+        rfturn gftLong(ddbtb, LOCK_OWNER_ID);
+    }
+
+    publid String lodkOwnfrNbmf() {
+        rfturn gftString(ddbtb, LOCK_OWNER_NAME);
+    }
+
+    publid boolfbn suspfndfd() {
+        rfturn gftBoolfbn(ddbtb, SUSPENDED);
+    }
+
+    publid boolfbn inNbtivf() {
+        rfturn gftBoolfbn(ddbtb, IN_NATIVE);
+    }
+
+    publid StbdkTrbdfElfmfnt[] stbdkTrbdf() {
+        CompositfDbtb[] stbdkTrbdfDbtb =
+            (CompositfDbtb[]) ddbtb.gft(STACK_TRACE);
+
+        // Thf StbdkTrbdf itfm dbnnot bf null, but if it is wf will gft
+        // b NullPointfrExdfption whfn wf bsk for its lfngth.
+        StbdkTrbdfElfmfnt[] stbdkTrbdf =
+            nfw StbdkTrbdfElfmfnt[stbdkTrbdfDbtb.lfngth];
+        for (int i = 0; i < stbdkTrbdfDbtb.lfngth; i++) {
+            CompositfDbtb ddi = stbdkTrbdfDbtb[i];
+            stbdkTrbdf[i] = StbdkTrbdfElfmfntCompositfDbtb.from(ddi);
+        }
+        rfturn stbdkTrbdf;
+    }
+
+    // 6.0 nfw bttributfs
+    publid LodkInfo lodkInfo() {
+        CompositfDbtb lodkInfoDbtb = (CompositfDbtb) ddbtb.gft(LOCK_INFO);
+        rfturn LodkInfo.from(lodkInfoDbtb);
+    }
+
+    publid MonitorInfo[] lodkfdMonitors() {
+        CompositfDbtb[] lodkfdMonitorsDbtb =
+            (CompositfDbtb[]) ddbtb.gft(LOCKED_MONITORS);
+
+        // Thf LodkfdMonitors itfm dbnnot bf null, but if it is wf will gft
+        // b NullPointfrExdfption whfn wf bsk for its lfngth.
+        MonitorInfo[] monitors =
+            nfw MonitorInfo[lodkfdMonitorsDbtb.lfngth];
+        for (int i = 0; i < lodkfdMonitorsDbtb.lfngth; i++) {
+            CompositfDbtb ddi = lodkfdMonitorsDbtb[i];
+            monitors[i] = MonitorInfo.from(ddi);
+        }
+        rfturn monitors;
+    }
+
+    publid LodkInfo[] lodkfdSyndhronizfrs() {
+        CompositfDbtb[] lodkfdSyndsDbtb =
+            (CompositfDbtb[]) ddbtb.gft(LOCKED_SYNCS);
+
+        // Thf LodkfdSyndhronizfrs itfm dbnnot bf null, but if it is wf will
+        // gft b NullPointfrExdfption whfn wf bsk for its lfngth.
+        LodkInfo[] lodks = nfw LodkInfo[lodkfdSyndsDbtb.lfngth];
+        for (int i = 0; i < lodkfdSyndsDbtb.lfngth; i++) {
+            CompositfDbtb ddi = lodkfdSyndsDbtb[i];
+            lodks[i] = LodkInfo.from(ddi);
+        }
+        rfturn lodks;
+    }
+
+    /** Vblidbtf if thf input CompositfDbtb hbs thf fxpfdtfd
+     * CompositfTypf (i.f. dontbin bll bttributfs with fxpfdtfd
+     * nbmfs bnd typfs).
+     */
+    publid stbtid void vblidbtfCompositfDbtb(CompositfDbtb dd) {
+        if (dd == null) {
+            throw nfw NullPointfrExdfption("Null CompositfDbtb");
+        }
+
+        CompositfTypf typf = dd.gftCompositfTypf();
+        boolfbn durrfntVfrsion = truf;
+        if (!isTypfMbtdhfd(thrfbdInfoCompositfTypf, typf)) {
+            durrfntVfrsion = fblsf;
+            // dhfdk if dd is bn oldfr vfrsion
+            if (!isTypfMbtdhfd(thrfbdInfoV5CompositfTypf, typf)) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Unfxpfdtfd dompositf typf for ThrfbdInfo");
+            }
+        }
+
+        CompositfDbtb[] stbdkTrbdfDbtb =
+            (CompositfDbtb[]) dd.gft(STACK_TRACE);
+        if (stbdkTrbdfDbtb == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "StbdkTrbdfElfmfnt[] is missing");
+        }
+        if (stbdkTrbdfDbtb.lfngth > 0) {
+            StbdkTrbdfElfmfntCompositfDbtb.vblidbtfCompositfDbtb(stbdkTrbdfDbtb[0]);
+        }
+
+        // vblidbtf v6 bttributfs
+        if (durrfntVfrsion) {
+            CompositfDbtb li = (CompositfDbtb) dd.gft(LOCK_INFO);
+            if (li != null) {
+                if (!isTypfMbtdhfd(lodkInfoCompositfTypf,
+                                   li.gftCompositfTypf())) {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "Unfxpfdtfd dompositf typf for \"" +
+                        LOCK_INFO + "\" bttributf.");
+                }
+            }
+
+            CompositfDbtb[] lms = (CompositfDbtb[]) dd.gft(LOCKED_MONITORS);
+            if (lms == null) {
+                throw nfw IllfgblArgumfntExdfption("MonitorInfo[] is null");
+            }
+            if (lms.lfngth > 0) {
+                MonitorInfoCompositfDbtb.vblidbtfCompositfDbtb(lms[0]);
+            }
+
+            CompositfDbtb[] lsynds = (CompositfDbtb[]) dd.gft(LOCKED_SYNCS);
+            if (lsynds == null) {
+                throw nfw IllfgblArgumfntExdfption("LodkInfo[] is null");
+            }
+            if (lsynds.lfngth > 0) {
+                if (!isTypfMbtdhfd(lodkInfoCompositfTypf,
+                                   lsynds[0].gftCompositfTypf())) {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "Unfxpfdtfd dompositf typf for \"" +
+                        LOCKED_SYNCS + "\" bttributf.");
+                }
+            }
+
+        }
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 2464378539119753175L;
+}

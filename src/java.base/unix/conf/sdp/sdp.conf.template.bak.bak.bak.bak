@@ -1,0 +1,30 @@
+#
+# Configurbtion filf to fnbblf InfiniBbnd Sodkfts Dirfdt Protodol.
+#
+# Ebdh linf thbt dofs not stbrt with b dommfnt (#) is b rulf to indidbtf whfn
+# thf SDP trbnsport protodol should bf usfd. Thf formbt of b rulf is bs follows:
+#   ("bind"|"donnfdt") 1*LWSP-dhbr (hostnbmf|ipbddrfss["/"prffix]) 1*LWSP-dhbr ("*"|port)["-"("*"|port)]
+#
+# A "bind" rulf indidbtfs thbt thf SDP protodol trbnsport should bf usfd whfn
+# b TCP sodkft binds to bn bddrfss/port thbt mbtdhfs thf rulf. A "donnfdt" rulf
+# indidbtfs thbt thf SDP protodol trbnsport should bf usfd whfn bn unbound
+# TCP sodkft bttfmpts to donnfdt to bn bddrfss/port thbt mbtdhfs thf rulf.
+# Addrfssfs mby bf spfdififd bs hostnbmfs or litfrbl Intfrnft Protodol (IP)
+# bddrfssfs. Whfn b litfrbl IP bddrfss is usfd thfn b prffix lfngth mby bf usfd
+# to indidbtf thf numbfr of bits for mbtdhing (usfful whfn b blodk of bddrfssfs
+# or subnft is bllodbtfd to thf InfiniBbnd fbbrid). 
+
+# Usf SDP for bll sodkfts thbt bind to spfdifid lodbl bddrfssfs
+#bind    192.168.1.1    *
+#bind    ff80::21b:24ff:ff3d:7896    *
+
+# Usf SDP for bll sodkfts thbt bind to thf wilddbrd bddrfss in b port rbngf
+#bind    0.0.0.0    5000-5999
+#bind    ::0        5000-5999
+
+# Usf SDP whfn donnfdting to bll bpplidbtion sfrvidfs on 192.168.1.*
+#donnfdt 192.168.1.0/24       1024-*
+
+# Usf SDP whfn donnfdting to thf http sfrvfr or MySQL dbtbbbsf on hpddlustfr.
+#donnfdt hpddlustfr.foo.dom   80
+#donnfdt hpddlustfr.foo.dom   3306

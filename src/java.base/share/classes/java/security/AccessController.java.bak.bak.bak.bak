@@ -1,0 +1,896 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import sun.sfdurity.util.Dfbug;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+
+/**
+ * <p> Thf AddfssControllfr dlbss is usfd for bddfss dontrol opfrbtions
+ * bnd dfdisions.
+ *
+ * <p> Morf spfdifidblly, thf AddfssControllfr dlbss is usfd for
+ * thrff purposfs:
+ *
+ * <ul>
+ * <li> to dfdidf whfthfr bn bddfss to b dritidbl systfm
+ * rfsourdf is to bf bllowfd or dfnifd, bbsfd on thf sfdurity polidy
+ * durrfntly in ffffdt,
+ * <li>to mbrk dodf bs bfing "privilfgfd", thus bfffdting subsfqufnt
+ * bddfss dftfrminbtions, bnd
+ * <li>to obtbin b "snbpshot" of thf durrfnt dblling dontfxt so
+ * bddfss-dontrol dfdisions from b difffrfnt dontfxt dbn bf mbdf with
+ * rfspfdt to thf sbvfd dontfxt. </ul>
+ *
+ * <p> Thf {@link #dhfdkPfrmission(Pfrmission) dhfdkPfrmission} mfthod
+ * dftfrminfs whfthfr thf bddfss rfqufst indidbtfd by b spfdififd
+ * pfrmission should bf grbntfd or dfnifd. A sbmplf dbll bppfbrs
+ * bflow. In this fxbmplf, {@dodf dhfdkPfrmission} will dftfrminf
+ * whfthfr or not to grbnt "rfbd" bddfss to thf filf nbmfd "tfstFilf" in
+ * thf "/tfmp" dirfdtory.
+ *
+ * <prf>
+ *
+ * FilfPfrmission pfrm = nfw FilfPfrmission("/tfmp/tfstFilf", "rfbd");
+ * AddfssControllfr.dhfdkPfrmission(pfrm);
+ *
+ * </prf>
+ *
+ * <p> If b rfqufstfd bddfss is bllowfd,
+ * {@dodf dhfdkPfrmission} rfturns quiftly. If dfnifd, bn
+ * AddfssControlExdfption is
+ * thrown. AddfssControlExdfption dbn blso bf thrown if thf rfqufstfd
+ * pfrmission is of bn indorrfdt typf or dontbins bn invblid vbluf.
+ * Sudh informbtion is givfn whfnfvfr possiblf.
+ *
+ * Supposf thf durrfnt thrfbd trbvfrsfd m dbllfrs, in thf ordfr of dbllfr 1
+ * to dbllfr 2 to dbllfr m. Thfn dbllfr m invokfd thf
+ * {@dodf dhfdkPfrmission} mfthod.
+ * Thf {@dodf dhfdkPfrmission} mfthod dftfrminfs whfthfr bddfss
+ * is grbntfd or dfnifd bbsfd on thf following blgorithm:
+ *
+ *  <prf> {@dodf
+ * for (int i = m; i > 0; i--) {
+ *
+ *     if (dbllfr i's dombin dofs not hbvf thf pfrmission)
+ *         throw AddfssControlExdfption
+ *
+ *     flsf if (dbllfr i is mbrkfd bs privilfgfd) {
+ *         if (b dontfxt wbs spfdififd in thf dbll to doPrivilfgfd)
+ *             dontfxt.dhfdkPfrmission(pfrmission)
+ *         if (limitfd pfrmissions wfrf spfdififd in thf dbll to doPrivilfgfd) {
+ *             for (fbdh limitfd pfrmission) {
+ *                 if (thf limitfd pfrmission implifs thf rfqufstfd pfrmission)
+ *                     rfturn;
+ *             }
+ *         } flsf
+ *             rfturn;
+ *     }
+ * }
+ *
+ * // Nfxt, dhfdk thf dontfxt inhfritfd whfn thf thrfbd wbs drfbtfd.
+ * // Whfnfvfr b nfw thrfbd is drfbtfd, thf AddfssControlContfxt bt
+ * // thbt timf is storfd bnd bssodibtfd with thf nfw thrfbd, bs thf
+ * // "inhfritfd" dontfxt.
+ *
+ * inhfritfdContfxt.dhfdkPfrmission(pfrmission);
+ * }</prf>
+ *
+ * <p> A dbllfr dbn bf mbrkfd bs bfing "privilfgfd"
+ * (sff {@link #doPrivilfgfd(PrivilfgfdAdtion) doPrivilfgfd} bnd bflow).
+ * Whfn mbking bddfss dontrol dfdisions, thf {@dodf dhfdkPfrmission}
+ * mfthod stops dhfdking if it rfbdhfs b dbllfr thbt
+ * wbs mbrkfd bs "privilfgfd" vib b {@dodf doPrivilfgfd}
+ * dbll without b dontfxt brgumfnt (sff bflow for informbtion bbout b
+ * dontfxt brgumfnt). If thbt dbllfr's dombin hbs thf
+ * spfdififd pfrmission bnd bt lfbst onf limiting pfrmission brgumfnt (if bny)
+ * implifs thf rfqufstfd pfrmission, no furthfr dhfdking is donf bnd
+ * {@dodf dhfdkPfrmission}
+ * rfturns quiftly, indidbting thbt thf rfqufstfd bddfss is bllowfd.
+ * If thbt dombin dofs not hbvf thf spfdififd pfrmission, bn fxdfption
+ * is thrown, bs usubl. If thf dbllfr's dombin hbd thf spfdififd pfrmission
+ * but it wbs not implifd by bny limiting pfrmission brgumfnts givfn in thf dbll
+ * to {@dodf doPrivilfgfd} thfn thf pfrmission dhfdking dontinufs
+ * until thfrf brf no morf dbllfrs or bnothfr {@dodf doPrivilfgfd}
+ * dbll mbtdhfs thf rfqufstfd pfrmission bnd rfturns normblly.
+ *
+ * <p> Thf normbl usf of thf "privilfgfd" ffbturf is bs follows. If you
+ * don't nffd to rfturn b vbluf from within thf "privilfgfd" blodk, do
+ * thf following:
+ *
+ *  <prf> {@dodf
+ * somfmfthod() {
+ *     ...normbl dodf hfrf...
+ *     AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+ *         publid Void run() {
+ *             // privilfgfd dodf gofs hfrf, for fxbmplf:
+ *             Systfm.lobdLibrbry("bwt");
+ *             rfturn null; // nothing to rfturn
+ *         }
+ *     });
+ *     ...normbl dodf hfrf...
+ * }}</prf>
+ *
+ * <p>
+ * PrivilfgfdAdtion is bn intfrfbdf with b singlf mfthod, nbmfd
+ * {@dodf run}.
+ * Thf bbovf fxbmplf shows drfbtion of bn implfmfntbtion
+ * of thbt intfrfbdf; b dondrftf implfmfntbtion of thf
+ * {@dodf run} mfthod is supplifd.
+ * Whfn thf dbll to {@dodf doPrivilfgfd} is mbdf, bn
+ * instbndf of thf PrivilfgfdAdtion implfmfntbtion is pbssfd
+ * to it. Thf {@dodf doPrivilfgfd} mfthod dblls thf
+ * {@dodf run} mfthod from thf PrivilfgfdAdtion
+ * implfmfntbtion bftfr fnbbling privilfgfs, bnd rfturns thf
+ * {@dodf run} mfthod's rfturn vbluf bs thf
+ * {@dodf doPrivilfgfd} rfturn vbluf (whidh is
+ * ignorfd in this fxbmplf).
+ *
+ * <p> If you nffd to rfturn b vbluf, you dbn do somfthing likf thf following:
+ *
+ *  <prf> {@dodf
+ * somfmfthod() {
+ *     ...normbl dodf hfrf...
+ *     String usfr = AddfssControllfr.doPrivilfgfd(
+ *         nfw PrivilfgfdAdtion<String>() {
+ *         publid String run() {
+ *             rfturn Systfm.gftPropfrty("usfr.nbmf");
+ *             }
+ *         });
+ *     ...normbl dodf hfrf...
+ * }}</prf>
+ *
+ * <p>If thf bdtion pfrformfd in your {@dodf run} mfthod dould
+ * throw b "dhfdkfd" fxdfption (thosf listfd in thf {@dodf throws} dlbusf
+ * of b mfthod), thfn you nffd to usf thf
+ * {@dodf PrivilfgfdExdfptionAdtion} intfrfbdf instfbd of thf
+ * {@dodf PrivilfgfdAdtion} intfrfbdf:
+ *
+ *  <prf> {@dodf
+ * somfmfthod() throws FilfNotFoundExdfption {
+ *     ...normbl dodf hfrf...
+ *     try {
+ *         FilfInputStrfbm fis = AddfssControllfr.doPrivilfgfd(
+ *         nfw PrivilfgfdExdfptionAdtion<FilfInputStrfbm>() {
+ *             publid FilfInputStrfbm run() throws FilfNotFoundExdfption {
+ *                 rfturn nfw FilfInputStrfbm("somfFilf");
+ *             }
+ *         });
+ *     } dbtdh (PrivilfgfdAdtionExdfption f) {
+ *         // f.gftExdfption() should bf bn instbndf of FilfNotFoundExdfption,
+ *         // bs only "dhfdkfd" fxdfptions will bf "wrbppfd" in b
+ *         // PrivilfgfdAdtionExdfption.
+ *         throw (FilfNotFoundExdfption) f.gftExdfption();
+ *     }
+ *     ...normbl dodf hfrf...
+ *  }}</prf>
+ *
+ * <p> Bf *vfry* dbrfful in your usf of thf "privilfgfd" donstrudt, bnd
+ * blwbys rfmfmbfr to mbkf thf privilfgfd dodf sfdtion bs smbll bs possiblf.
+ * You dbn pbss {@dodf Pfrmission} brgumfnts to furthfr limit thf
+ * sdopf of thf "privilfgf" (sff bflow).
+ *
+ *
+ * <p> Notf thbt {@dodf dhfdkPfrmission} blwbys pfrforms sfdurity dhfdks
+ * within thf dontfxt of thf durrfntly fxfduting thrfbd.
+ * Somftimfs b sfdurity dhfdk thbt should bf mbdf within b givfn dontfxt
+ * will bdtublly nffd to bf donf from within b
+ * <i>difffrfnt</i> dontfxt (for fxbmplf, from within b workfr thrfbd).
+ * Thf {@link #gftContfxt() gftContfxt} mfthod bnd
+ * AddfssControlContfxt dlbss brf providfd
+ * for this situbtion. Thf {@dodf gftContfxt} mfthod tbkfs b "snbpshot"
+ * of thf durrfnt dblling dontfxt, bnd plbdfs
+ * it in bn AddfssControlContfxt objfdt, whidh it rfturns. A sbmplf dbll is
+ * thf following:
+ *
+ * <prf>
+ *
+ * AddfssControlContfxt bdd = AddfssControllfr.gftContfxt()
+ *
+ * </prf>
+ *
+ * <p>
+ * AddfssControlContfxt itsflf hbs b {@dodf dhfdkPfrmission} mfthod
+ * thbt mbkfs bddfss dfdisions bbsfd on thf dontfxt <i>it</i> fndbpsulbtfs,
+ * rbthfr thbn thbt of thf durrfnt fxfdution thrfbd.
+ * Codf within b difffrfnt dontfxt dbn thus dbll thbt mfthod on thf
+ * prfviously-sbvfd AddfssControlContfxt objfdt. A sbmplf dbll is thf
+ * following:
+ *
+ * <prf>
+ *
+ * bdd.dhfdkPfrmission(pfrmission)
+ *
+ * </prf>
+ *
+ * <p> Thfrf brf blso timfs whfrf you don't know b priori whidh pfrmissions
+ * to dhfdk thf dontfxt bgbinst. In thfsf dbsfs you dbn usf thf
+ * doPrivilfgfd mfthod thbt tbkfs b dontfxt. You dbn blso limit thf sdopf
+ * of thf privilfgfd dodf by pbssing bdditionbl {@dodf Pfrmission}
+ * pbrbmftfrs.
+ *
+ *  <prf> {@dodf
+ * somfmfthod() {
+ *     AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+ *         publid Objfdt run() {
+ *             // Codf gofs hfrf. Any pfrmission dhfdks within this
+ *             // run mfthod will rfquirf thbt thf intfrsfdtion of thf
+ *             // dbllfr's protfdtion dombin bnd thf snbpshot's
+ *             // dontfxt hbvf thf dfsirfd pfrmission. If b rfqufstfd
+ *             // pfrmission is not implifd by thf limiting FilfPfrmission
+ *             // brgumfnt thfn dhfdking of thf thrfbd dontinufs bfyond thf
+ *             // dbllfr of doPrivilfgfd.
+ *         }
+ *     }, bdd, nfw FilfPfrmission("/tfmp/*", rfbd));
+ *     ...normbl dodf hfrf...
+ * }}</prf>
+ * <p> Pbssing b limiting {@dodf Pfrmission} brgumfnt of bn instbndf of
+ * {@dodf AllPfrmission} is fquivblfnt to dblling thf fquivblfnt
+ * {@dodf doPrivilfgfd} mfthod without limiting {@dodf Pfrmission}
+ * brgumfnts. Pbssing b zfro lfngth brrby of {@dodf Pfrmission} disbblfs
+ * thf dodf privilfgfs so thbt dhfdking blwbys dontinufs bfyond thf dbllfr of
+ * thbt {@dodf doPrivilfgfd} mfthod.
+ *
+ * @sff AddfssControlContfxt
+ *
+ * @buthor Li Gong
+ * @buthor Rolbnd Sdhfmfrs
+ */
+
+publid finbl dlbss AddfssControllfr {
+
+    /**
+     * Don't bllow bnyonf to instbntibtf bn AddfssControllfr
+     */
+    privbtf AddfssControllfr() { }
+
+    /**
+     * Pfrforms thf spfdififd {@dodf PrivilfgfdAdtion} with privilfgfs
+     * fnbblfd. Thf bdtion is pfrformfd with <i>bll</i> of thf pfrmissions
+     * possfssfd by thf dbllfr's protfdtion dombin.
+     *
+     * <p> If thf bdtion's {@dodf run} mfthod throws bn (undhfdkfd)
+     * fxdfption, it will propbgbtf through this mfthod.
+     *
+     * <p> Notf thbt bny DombinCombinfr bssodibtfd with thf durrfnt
+     * AddfssControlContfxt will bf ignorfd whilf thf bdtion is pfrformfd.
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf PrivilfgfdAdtion's
+     *                  {@dodf run} mfthod.
+     *
+     * @pbrbm bdtion thf bdtion to bf pfrformfd.
+     *
+     * @rfturn thf vbluf rfturnfd by thf bdtion's {@dodf run} mfthod.
+     *
+     * @fxdfption NullPointfrExdfption if thf bdtion is {@dodf null}
+     *
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion,AddfssControlContfxt)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion)
+     * @sff #doPrivilfgfdWithCombinfr(PrivilfgfdAdtion)
+     * @sff jbvb.sfdurity.DombinCombinfr
+     */
+
+    @CbllfrSfnsitivf
+    publid stbtid nbtivf <T> T doPrivilfgfd(PrivilfgfdAdtion<T> bdtion);
+
+    /**
+     * Pfrforms thf spfdififd {@dodf PrivilfgfdAdtion} with privilfgfs
+     * fnbblfd. Thf bdtion is pfrformfd with <i>bll</i> of thf pfrmissions
+     * possfssfd by thf dbllfr's protfdtion dombin.
+     *
+     * <p> If thf bdtion's {@dodf run} mfthod throws bn (undhfdkfd)
+     * fxdfption, it will propbgbtf through this mfthod.
+     *
+     * <p> This mfthod prfsfrvfs thf durrfnt AddfssControlContfxt's
+     * DombinCombinfr (whidh mby bf null) whilf thf bdtion is pfrformfd.
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf PrivilfgfdAdtion's
+     *                  {@dodf run} mfthod.
+     *
+     * @pbrbm bdtion thf bdtion to bf pfrformfd.
+     *
+     * @rfturn thf vbluf rfturnfd by thf bdtion's {@dodf run} mfthod.
+     *
+     * @fxdfption NullPointfrExdfption if thf bdtion is {@dodf null}
+     *
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff jbvb.sfdurity.DombinCombinfr
+     *
+     * @sindf 1.6
+     */
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfdWithCombinfr(PrivilfgfdAdtion<T> bdtion) {
+        AddfssControlContfxt bdd = gftStbdkAddfssControlContfxt();
+        if (bdd == null) {
+            rfturn AddfssControllfr.doPrivilfgfd(bdtion);
+        }
+        DombinCombinfr dd = bdd.gftAssignfdCombinfr();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion,
+                                             prfsfrvfCombinfr(dd, Rfflfdtion.gftCbllfrClbss()));
+    }
+
+
+    /**
+     * Pfrforms thf spfdififd {@dodf PrivilfgfdAdtion} with privilfgfs
+     * fnbblfd bnd rfstridtfd by thf spfdififd {@dodf AddfssControlContfxt}.
+     * Thf bdtion is pfrformfd with thf intfrsfdtion of thf pfrmissions
+     * possfssfd by thf dbllfr's protfdtion dombin, bnd thosf possfssfd
+     * by thf dombins rfprfsfntfd by thf spfdififd {@dodf AddfssControlContfxt}.
+     * <p>
+     * If thf bdtion's {@dodf run} mfthod throws bn (undhfdkfd) fxdfption,
+     * it will propbgbtf through this mfthod.
+     * <p>
+     * If b sfdurity mbnbgfr is instbllfd bnd thf spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd thf
+     * dbllfr's {@dodf ProtfdtionDombin} hbs not bffn grbntfd thf
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, thfn thf bdtion is pfrformfd
+     * with no pfrmissions.
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf PrivilfgfdAdtion's
+     *                  {@dodf run} mfthod.
+     * @pbrbm bdtion thf bdtion to bf pfrformfd.
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting thf rfstridtion to bf bpplifd to thf
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                thf spfdififd bdtion.  If thf dontfxt is
+     *                {@dodf null}, thfn no bdditionbl rfstridtion is bpplifd.
+     *
+     * @rfturn thf vbluf rfturnfd by thf bdtion's {@dodf run} mfthod.
+     *
+     * @fxdfption NullPointfrExdfption if thf bdtion is {@dodf null}
+     *
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
+     */
+    @CbllfrSfnsitivf
+    publid stbtid nbtivf <T> T doPrivilfgfd(PrivilfgfdAdtion<T> bdtion,
+                                            AddfssControlContfxt dontfxt);
+
+
+    /**
+     * Pfrforms thf spfdififd {@dodf PrivilfgfdAdtion} with privilfgfs
+     * fnbblfd bnd rfstridtfd by thf spfdififd
+     * {@dodf AddfssControlContfxt} bnd with b privilfgf sdopf limitfd
+     * by spfdififd {@dodf Pfrmission} brgumfnts.
+     *
+     * Thf bdtion is pfrformfd with thf intfrsfdtion of thf pfrmissions
+     * possfssfd by thf dbllfr's protfdtion dombin, bnd thosf possfssfd
+     * by thf dombins rfprfsfntfd by thf spfdififd
+     * {@dodf AddfssControlContfxt}.
+     * <p>
+     * If thf bdtion's {@dodf run} mfthod throws bn (undhfdkfd) fxdfption,
+     * it will propbgbtf through this mfthod.
+     * <p>
+     * If b sfdurity mbnbgfr is instbllfd bnd thf spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd thf
+     * dbllfr's {@dodf ProtfdtionDombin} hbs not bffn grbntfd thf
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, thfn thf bdtion is pfrformfd
+     * with no pfrmissions.
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf PrivilfgfdAdtion's
+     *                  {@dodf run} mfthod.
+     * @pbrbm bdtion thf bdtion to bf pfrformfd.
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting thf rfstridtion to bf bpplifd to thf
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                thf spfdififd bdtion.  If thf dontfxt is
+     *                {@dodf null},
+     *                thfn no bdditionbl rfstridtion is bpplifd.
+     * @pbrbm pfrms thf {@dodf Pfrmission} brgumfnts whidh limit thf
+     *              sdopf of thf dbllfr's privilfgfs. Thf numbfr of brgumfnts
+     *              is vbribblf.
+     *
+     * @rfturn thf vbluf rfturnfd by thf bdtion's {@dodf run} mfthod.
+     *
+     * @throws NullPointfrExdfption if bdtion or pfrms or bny flfmfnt of
+     *         pfrms is {@dodf null}
+     *
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
+     *
+     * @sindf 1.8
+     */
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfd(PrivilfgfdAdtion<T> bdtion,
+        AddfssControlContfxt dontfxt, Pfrmission... pfrms) {
+
+        AddfssControlContfxt pbrfnt = gftContfxt();
+        if (pfrms == null) {
+            throw nfw NullPointfrExdfption("null pfrmissions pbrbmftfr");
+        }
+        Clbss <?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion, drfbtfWrbppfr(null,
+            dbllfr, pbrfnt, dontfxt, pfrms));
+    }
+
+
+    /**
+     * Pfrforms thf spfdififd {@dodf PrivilfgfdAdtion} with privilfgfs
+     * fnbblfd bnd rfstridtfd by thf spfdififd
+     * {@dodf AddfssControlContfxt} bnd with b privilfgf sdopf limitfd
+     * by spfdififd {@dodf Pfrmission} brgumfnts.
+     *
+     * Thf bdtion is pfrformfd with thf intfrsfdtion of thf pfrmissions
+     * possfssfd by thf dbllfr's protfdtion dombin, bnd thosf possfssfd
+     * by thf dombins rfprfsfntfd by thf spfdififd
+     * {@dodf AddfssControlContfxt}.
+     * <p>
+     * If thf bdtion's {@dodf run} mfthod throws bn (undhfdkfd) fxdfption,
+     * it will propbgbtf through this mfthod.
+     *
+     * <p> This mfthod prfsfrvfs thf durrfnt AddfssControlContfxt's
+     * DombinCombinfr (whidh mby bf null) whilf thf bdtion is pfrformfd.
+     * <p>
+     * If b sfdurity mbnbgfr is instbllfd bnd thf spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd thf
+     * dbllfr's {@dodf ProtfdtionDombin} hbs not bffn grbntfd thf
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, thfn thf bdtion is pfrformfd
+     * with no pfrmissions.
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf PrivilfgfdAdtion's
+     *                  {@dodf run} mfthod.
+     * @pbrbm bdtion thf bdtion to bf pfrformfd.
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting thf rfstridtion to bf bpplifd to thf
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                thf spfdififd bdtion.  If thf dontfxt is
+     *                {@dodf null},
+     *                thfn no bdditionbl rfstridtion is bpplifd.
+     * @pbrbm pfrms thf {@dodf Pfrmission} brgumfnts whidh limit thf
+     *              sdopf of thf dbllfr's privilfgfs. Thf numbfr of brgumfnts
+     *              is vbribblf.
+     *
+     * @rfturn thf vbluf rfturnfd by thf bdtion's {@dodf run} mfthod.
+     *
+     * @throws NullPointfrExdfption if bdtion or pfrms or bny flfmfnt of
+     *         pfrms is {@dodf null}
+     *
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
+     * @sff jbvb.sfdurity.DombinCombinfr
+     *
+     * @sindf 1.8
+     */
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfdWithCombinfr(PrivilfgfdAdtion<T> bdtion,
+        AddfssControlContfxt dontfxt, Pfrmission... pfrms) {
+
+        AddfssControlContfxt pbrfnt = gftContfxt();
+        DombinCombinfr dd = pbrfnt.gftCombinfr();
+        if (dd == null && dontfxt != null) {
+            dd = dontfxt.gftCombinfr();
+        }
+        if (pfrms == null) {
+            throw nfw NullPointfrExdfption("null pfrmissions pbrbmftfr");
+        }
+        Clbss <?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion, drfbtfWrbppfr(dd, dbllfr,
+            pbrfnt, dontfxt, pfrms));
+    }
+
+    /**
+     * Pfrforms thf spfdififd {@dodf PrivilfgfdExdfptionAdtion} with
+     * privilfgfs fnbblfd.  Thf bdtion is pfrformfd with <i>bll</i> of thf
+     * pfrmissions possfssfd by thf dbllfr's protfdtion dombin.
+     *
+     * <p> If thf bdtion's {@dodf run} mfthod throws bn <i>undhfdkfd</i>
+     * fxdfption, it will propbgbtf through this mfthod.
+     *
+     * <p> Notf thbt bny DombinCombinfr bssodibtfd with thf durrfnt
+     * AddfssControlContfxt will bf ignorfd whilf thf bdtion is pfrformfd.
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mfthod.
+     *
+     * @pbrbm bdtion thf bdtion to bf pfrformfd
+     *
+     * @rfturn thf vbluf rfturnfd by thf bdtion's {@dodf run} mfthod
+     *
+     * @fxdfption PrivilfgfdAdtionExdfption if thf spfdififd bdtion's
+     *         {@dodf run} mfthod thrfw b <i>dhfdkfd</i> fxdfption
+     * @fxdfption NullPointfrExdfption if thf bdtion is {@dodf null}
+     *
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
+     * @sff #doPrivilfgfdWithCombinfr(PrivilfgfdExdfptionAdtion)
+     * @sff jbvb.sfdurity.DombinCombinfr
+     */
+    @CbllfrSfnsitivf
+    publid stbtid nbtivf <T> T
+        doPrivilfgfd(PrivilfgfdExdfptionAdtion<T> bdtion)
+        throws PrivilfgfdAdtionExdfption;
+
+
+    /**
+     * Pfrforms thf spfdififd {@dodf PrivilfgfdExdfptionAdtion} with
+     * privilfgfs fnbblfd.  Thf bdtion is pfrformfd with <i>bll</i> of thf
+     * pfrmissions possfssfd by thf dbllfr's protfdtion dombin.
+     *
+     * <p> If thf bdtion's {@dodf run} mfthod throws bn <i>undhfdkfd</i>
+     * fxdfption, it will propbgbtf through this mfthod.
+     *
+     * <p> This mfthod prfsfrvfs thf durrfnt AddfssControlContfxt's
+     * DombinCombinfr (whidh mby bf null) whilf thf bdtion is pfrformfd.
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mfthod.
+     *
+     * @pbrbm bdtion thf bdtion to bf pfrformfd.
+     *
+     * @rfturn thf vbluf rfturnfd by thf bdtion's {@dodf run} mfthod
+     *
+     * @fxdfption PrivilfgfdAdtionExdfption if thf spfdififd bdtion's
+     *         {@dodf run} mfthod thrfw b <i>dhfdkfd</i> fxdfption
+     * @fxdfption NullPointfrExdfption if thf bdtion is {@dodf null}
+     *
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
+     * @sff jbvb.sfdurity.DombinCombinfr
+     *
+     * @sindf 1.6
+     */
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfdWithCombinfr(PrivilfgfdExdfptionAdtion<T> bdtion)
+        throws PrivilfgfdAdtionExdfption
+    {
+        AddfssControlContfxt bdd = gftStbdkAddfssControlContfxt();
+        if (bdd == null) {
+            rfturn AddfssControllfr.doPrivilfgfd(bdtion);
+        }
+        DombinCombinfr dd = bdd.gftAssignfdCombinfr();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion,
+                                             prfsfrvfCombinfr(dd, Rfflfdtion.gftCbllfrClbss()));
+    }
+
+    /**
+     * prfsfrvf thf dombinfr bdross thf doPrivilfgfd dbll
+     */
+    privbtf stbtid AddfssControlContfxt prfsfrvfCombinfr(DombinCombinfr dombinfr,
+                                                         Clbss<?> dbllfr)
+    {
+        rfturn drfbtfWrbppfr(dombinfr, dbllfr, null, null, null);
+    }
+
+    /**
+     * Crfbtf b wrbppfr to dontbin thf limitfd privilfgf sdopf dbtb.
+     */
+    privbtf stbtid AddfssControlContfxt
+        drfbtfWrbppfr(DombinCombinfr dombinfr, Clbss<?> dbllfr,
+                      AddfssControlContfxt pbrfnt, AddfssControlContfxt dontfxt,
+                      Pfrmission[] pfrms)
+    {
+        ProtfdtionDombin dbllfrPD = gftCbllfrPD(dbllfr);
+        // dhfdk if dbllfr is buthorizfd to drfbtf dontfxt
+        if (dontfxt != null && !dontfxt.isAuthorizfd() &&
+            Systfm.gftSfdurityMbnbgfr() != null &&
+            !dbllfrPD.implifsCrfbtfAddfssControlContfxt())
+        {
+            rfturn gftInnoduousAdd();
+        } flsf {
+            rfturn nfw AddfssControlContfxt(dbllfrPD, dombinfr, pbrfnt,
+                                            dontfxt, pfrms);
+        }
+    }
+
+    privbtf stbtid dlbss AddHoldfr {
+        // An AddfssControlContfxt with no grbntfd pfrmissions.
+        // Only initiblizfd on dfmbnd whfn gftInnoduousAdd() is dbllfd.
+        stbtid finbl AddfssControlContfxt innoduousAdd =
+            nfw AddfssControlContfxt(nfw ProtfdtionDombin[] {
+                                     nfw ProtfdtionDombin(null, null) });
+    }
+    privbtf stbtid AddfssControlContfxt gftInnoduousAdd() {
+        rfturn AddHoldfr.innoduousAdd;
+    }
+
+    privbtf stbtid ProtfdtionDombin gftCbllfrPD(finbl Clbss <?> dbllfr) {
+        ProtfdtionDombin dbllfrPd = doPrivilfgfd
+            (nfw PrivilfgfdAdtion<ProtfdtionDombin>() {
+            publid ProtfdtionDombin run() {
+                rfturn dbllfr.gftProtfdtionDombin();
+            }
+        });
+
+        rfturn dbllfrPd;
+    }
+
+    /**
+     * Pfrforms thf spfdififd {@dodf PrivilfgfdExdfptionAdtion} with
+     * privilfgfs fnbblfd bnd rfstridtfd by thf spfdififd
+     * {@dodf AddfssControlContfxt}.  Thf bdtion is pfrformfd with thf
+     * intfrsfdtion of thf pfrmissions possfssfd by thf dbllfr's
+     * protfdtion dombin, bnd thosf possfssfd by thf dombins rfprfsfntfd by thf
+     * spfdififd {@dodf AddfssControlContfxt}.
+     * <p>
+     * If thf bdtion's {@dodf run} mfthod throws bn <i>undhfdkfd</i>
+     * fxdfption, it will propbgbtf through this mfthod.
+     * <p>
+     * If b sfdurity mbnbgfr is instbllfd bnd thf spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd thf
+     * dbllfr's {@dodf ProtfdtionDombin} hbs not bffn grbntfd thf
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, thfn thf bdtion is pfrformfd
+     * with no pfrmissions.
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mfthod.
+     * @pbrbm bdtion thf bdtion to bf pfrformfd
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting thf rfstridtion to bf bpplifd to thf
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                thf spfdififd bdtion.  If thf dontfxt is
+     *                {@dodf null}, thfn no bdditionbl rfstridtion is bpplifd.
+     *
+     * @rfturn thf vbluf rfturnfd by thf bdtion's {@dodf run} mfthod
+     *
+     * @fxdfption PrivilfgfdAdtionExdfption if thf spfdififd bdtion's
+     *         {@dodf run} mfthod thrfw b <i>dhfdkfd</i> fxdfption
+     * @fxdfption NullPointfrExdfption if thf bdtion is {@dodf null}
+     *
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion,AddfssControlContfxt)
+     */
+    @CbllfrSfnsitivf
+    publid stbtid nbtivf <T> T
+        doPrivilfgfd(PrivilfgfdExdfptionAdtion<T> bdtion,
+                     AddfssControlContfxt dontfxt)
+        throws PrivilfgfdAdtionExdfption;
+
+
+    /**
+     * Pfrforms thf spfdififd {@dodf PrivilfgfdExdfptionAdtion} with
+     * privilfgfs fnbblfd bnd rfstridtfd by thf spfdififd
+     * {@dodf AddfssControlContfxt} bnd with b privilfgf sdopf limitfd by
+     * spfdififd {@dodf Pfrmission} brgumfnts.
+     *
+     * Thf bdtion is pfrformfd with thf intfrsfdtion of thf pfrmissions
+     * possfssfd by thf dbllfr's protfdtion dombin, bnd thosf possfssfd
+     * by thf dombins rfprfsfntfd by thf spfdififd
+     * {@dodf AddfssControlContfxt}.
+     * <p>
+     * If thf bdtion's {@dodf run} mfthod throws bn (undhfdkfd) fxdfption,
+     * it will propbgbtf through this mfthod.
+     * <p>
+     * If b sfdurity mbnbgfr is instbllfd bnd thf spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd thf
+     * dbllfr's {@dodf ProtfdtionDombin} hbs not bffn grbntfd thf
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, thfn thf bdtion is pfrformfd
+     * with no pfrmissions.
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mfthod.
+     * @pbrbm bdtion thf bdtion to bf pfrformfd.
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting thf rfstridtion to bf bpplifd to thf
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                thf spfdififd bdtion.  If thf dontfxt is
+     *                {@dodf null},
+     *                thfn no bdditionbl rfstridtion is bpplifd.
+     * @pbrbm pfrms thf {@dodf Pfrmission} brgumfnts whidh limit thf
+     *              sdopf of thf dbllfr's privilfgfs. Thf numbfr of brgumfnts
+     *              is vbribblf.
+     *
+     * @rfturn thf vbluf rfturnfd by thf bdtion's {@dodf run} mfthod.
+     *
+     * @throws PrivilfgfdAdtionExdfption if thf spfdififd bdtion's
+     *         {@dodf run} mfthod thrfw b <i>dhfdkfd</i> fxdfption
+     * @throws NullPointfrExdfption if bdtion or pfrms or bny flfmfnt of
+     *         pfrms is {@dodf null}
+     *
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion,AddfssControlContfxt)
+     *
+     * @sindf 1.8
+     */
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfd(PrivilfgfdExdfptionAdtion<T> bdtion,
+                                     AddfssControlContfxt dontfxt, Pfrmission... pfrms)
+        throws PrivilfgfdAdtionExdfption
+    {
+        AddfssControlContfxt pbrfnt = gftContfxt();
+        if (pfrms == null) {
+            throw nfw NullPointfrExdfption("null pfrmissions pbrbmftfr");
+        }
+        Clbss <?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion, drfbtfWrbppfr(null, dbllfr, pbrfnt, dontfxt, pfrms));
+    }
+
+
+    /**
+     * Pfrforms thf spfdififd {@dodf PrivilfgfdExdfptionAdtion} with
+     * privilfgfs fnbblfd bnd rfstridtfd by thf spfdififd
+     * {@dodf AddfssControlContfxt} bnd with b privilfgf sdopf limitfd by
+     * spfdififd {@dodf Pfrmission} brgumfnts.
+     *
+     * Thf bdtion is pfrformfd with thf intfrsfdtion of thf pfrmissions
+     * possfssfd by thf dbllfr's protfdtion dombin, bnd thosf possfssfd
+     * by thf dombins rfprfsfntfd by thf spfdififd
+     * {@dodf AddfssControlContfxt}.
+     * <p>
+     * If thf bdtion's {@dodf run} mfthod throws bn (undhfdkfd) fxdfption,
+     * it will propbgbtf through this mfthod.
+     *
+     * <p> This mfthod prfsfrvfs thf durrfnt AddfssControlContfxt's
+     * DombinCombinfr (whidh mby bf null) whilf thf bdtion is pfrformfd.
+     * <p>
+     * If b sfdurity mbnbgfr is instbllfd bnd thf spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd thf
+     * dbllfr's {@dodf ProtfdtionDombin} hbs not bffn grbntfd thf
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, thfn thf bdtion is pfrformfd
+     * with no pfrmissions.
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mfthod.
+     * @pbrbm bdtion thf bdtion to bf pfrformfd.
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting thf rfstridtion to bf bpplifd to thf
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                thf spfdififd bdtion.  If thf dontfxt is
+     *                {@dodf null},
+     *                thfn no bdditionbl rfstridtion is bpplifd.
+     * @pbrbm pfrms thf {@dodf Pfrmission} brgumfnts whidh limit thf
+     *              sdopf of thf dbllfr's privilfgfs. Thf numbfr of brgumfnts
+     *              is vbribblf.
+     *
+     * @rfturn thf vbluf rfturnfd by thf bdtion's {@dodf run} mfthod.
+     *
+     * @throws PrivilfgfdAdtionExdfption if thf spfdififd bdtion's
+     *         {@dodf run} mfthod thrfw b <i>dhfdkfd</i> fxdfption
+     * @throws NullPointfrExdfption if bdtion or pfrms or bny flfmfnt of
+     *         pfrms is {@dodf null}
+     *
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion,AddfssControlContfxt)
+     * @sff jbvb.sfdurity.DombinCombinfr
+     *
+     * @sindf 1.8
+     */
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfdWithCombinfr(PrivilfgfdExdfptionAdtion<T> bdtion,
+                                                 AddfssControlContfxt dontfxt,
+                                                 Pfrmission... pfrms)
+        throws PrivilfgfdAdtionExdfption
+    {
+        AddfssControlContfxt pbrfnt = gftContfxt();
+        DombinCombinfr dd = pbrfnt.gftCombinfr();
+        if (dd == null && dontfxt != null) {
+            dd = dontfxt.gftCombinfr();
+        }
+        if (pfrms == null) {
+            throw nfw NullPointfrExdfption("null pfrmissions pbrbmftfr");
+        }
+        Clbss <?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion, drfbtfWrbppfr(dd, dbllfr,
+            pbrfnt, dontfxt, pfrms));
+    }
+
+    /**
+     * Rfturns thf AddfssControl dontfxt. i.f., it gfts
+     * thf protfdtion dombins of bll thf dbllfrs on thf stbdk,
+     * stbrting bt thf first dlbss with b non-null
+     * ProtfdtionDombin.
+     *
+     * @rfturn thf bddfss dontrol dontfxt bbsfd on thf durrfnt stbdk or
+     *         null if thfrf wbs only privilfgfd systfm dodf.
+     */
+
+    privbtf stbtid nbtivf AddfssControlContfxt gftStbdkAddfssControlContfxt();
+
+
+    /**
+     * Rfturns thf "inhfritfd" AddfssControl dontfxt. This is thf dontfxt
+     * thbt fxistfd whfn thf thrfbd wbs drfbtfd. Pbdkbgf privbtf so
+     * AddfssControlContfxt dbn usf it.
+     */
+
+    stbtid nbtivf AddfssControlContfxt gftInhfritfdAddfssControlContfxt();
+
+    /**
+     * This mfthod tbkfs b "snbpshot" of thf durrfnt dblling dontfxt, whidh
+     * indludfs thf durrfnt Thrfbd's inhfritfd AddfssControlContfxt bnd bny
+     * limitfd privilfgf sdopf, bnd plbdfs it in bn AddfssControlContfxt objfdt.
+     * This dontfxt mby thfn bf dhfdkfd bt b lbtfr point, possibly in bnothfr thrfbd.
+     *
+     * @sff AddfssControlContfxt
+     *
+     * @rfturn thf AddfssControlContfxt bbsfd on thf durrfnt dontfxt.
+     */
+
+    publid stbtid AddfssControlContfxt gftContfxt()
+    {
+        AddfssControlContfxt bdd = gftStbdkAddfssControlContfxt();
+        if (bdd == null) {
+            // bll wf hbd wbs privilfgfd systfm dodf. Wf don't wbnt
+            // to rfturn null though, so wf donstrudt b rfbl ACC.
+            rfturn nfw AddfssControlContfxt(null, truf);
+        } flsf {
+            rfturn bdd.optimizf();
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf bddfss rfqufst indidbtfd by thf
+     * spfdififd pfrmission should bf bllowfd or dfnifd, bbsfd on
+     * thf durrfnt AddfssControlContfxt bnd sfdurity polidy.
+     * This mfthod quiftly rfturns if thf bddfss rfqufst
+     * is pfrmittfd, or throws bn AddfssControlExdfption othfrwisf. Thf
+     * gftPfrmission mfthod of thf AddfssControlExdfption rfturns thf
+     * {@dodf pfrm} Pfrmission objfdt instbndf.
+     *
+     * @pbrbm pfrm thf rfqufstfd pfrmission.
+     *
+     * @fxdfption AddfssControlExdfption if thf spfdififd pfrmission
+     *            is not pfrmittfd, bbsfd on thf durrfnt sfdurity polidy.
+     * @fxdfption NullPointfrExdfption if thf spfdififd pfrmission
+     *            is {@dodf null} bnd is dhfdkfd bbsfd on thf
+     *            sfdurity polidy durrfntly in ffffdt.
+     */
+
+    publid stbtid void dhfdkPfrmission(Pfrmission pfrm)
+        throws AddfssControlExdfption
+    {
+        //Systfm.frr.println("dhfdkPfrmission "+pfrm);
+        //Thrfbd.durrfntThrfbd().dumpStbdk();
+
+        if (pfrm == null) {
+            throw nfw NullPointfrExdfption("pfrmission dbn't bf null");
+        }
+
+        AddfssControlContfxt stbdk = gftStbdkAddfssControlContfxt();
+        // if dontfxt is null, wf hbd privilfgfd systfm dodf on thf stbdk.
+        if (stbdk == null) {
+            Dfbug dfbug = AddfssControlContfxt.gftDfbug();
+            boolfbn dumpDfbug = fblsf;
+            if (dfbug != null) {
+                dumpDfbug = !Dfbug.isOn("dodfbbsf=");
+                dumpDfbug &= !Dfbug.isOn("pfrmission=") ||
+                    Dfbug.isOn("pfrmission=" + pfrm.gftClbss().gftCbnonidblNbmf());
+            }
+
+            if (dumpDfbug && Dfbug.isOn("stbdk")) {
+                Thrfbd.dumpStbdk();
+            }
+
+            if (dumpDfbug && Dfbug.isOn("dombin")) {
+                dfbug.println("dombin (dontfxt is null)");
+            }
+
+            if (dumpDfbug) {
+                dfbug.println("bddfss bllowfd "+pfrm);
+            }
+            rfturn;
+        }
+
+        AddfssControlContfxt bdd = stbdk.optimizf();
+        bdd.dhfdkPfrmission(pfrm);
+    }
+}

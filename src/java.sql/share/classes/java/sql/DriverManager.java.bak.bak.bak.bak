@@ -1,0 +1,728 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+import jbvb.util.Itfrbtor;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.dondurrfnt.CopyOnWritfArrbyList;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+
+
+/**
+ * <P>Thf bbsid sfrvidf for mbnbging b sft of JDBC drivfrs.<br>
+ * <B>NOTE:</B> Thf {@link jbvbx.sql.DbtbSourdf} intfrfbdf, nfw in thf
+ * JDBC 2.0 API, providfs bnothfr wby to donnfdt to b dbtb sourdf.
+ * Thf usf of b <dodf>DbtbSourdf</dodf> objfdt is thf prfffrrfd mfbns of
+ * donnfdting to b dbtb sourdf.
+ *
+ * <P>As pbrt of its initiblizbtion, thf <dodf>DrivfrMbnbgfr</dodf> dlbss will
+ * bttfmpt to lobd thf drivfr dlbssfs rfffrfndfd in thf "jdbd.drivfrs"
+ * systfm propfrty. This bllows b usfr to dustomizf thf JDBC Drivfrs
+ * usfd by thfir bpplidbtions. For fxbmplf in your
+ * ~/.hotjbvb/propfrtifs filf you might spfdify:
+ * <prf>
+ * <CODE>jdbd.drivfrs=foo.bbh.Drivfr:wombbt.sql.Drivfr:bbd.tbstf.ourDrivfr</CODE>
+ * </prf>
+ *<P> Thf <dodf>DrivfrMbnbgfr</dodf> mfthods <dodf>gftConnfdtion</dodf> bnd
+ * <dodf>gftDrivfrs</dodf> hbvf bffn fnhbndfd to support thf Jbvb Stbndbrd Edition
+ * <b hrff="../../../tfdhnotfs/guidfs/jbr/jbr.html#Sfrvidf%20Providfr">Sfrvidf Providfr</b> mfdhbnism. JDBC 4.0 Drivfrs must
+ * indludf thf filf <dodf>META-INF/sfrvidfs/jbvb.sql.Drivfr</dodf>. This filf dontbins thf nbmf of thf JDBC drivfrs
+ * implfmfntbtion of <dodf>jbvb.sql.Drivfr</dodf>.  For fxbmplf, to lobd thf <dodf>my.sql.Drivfr</dodf> dlbss,
+ * thf <dodf>META-INF/sfrvidfs/jbvb.sql.Drivfr</dodf> filf would dontbin thf fntry:
+ * <prf>
+ * <dodf>my.sql.Drivfr</dodf>
+ * </prf>
+ *
+ * <P>Applidbtions no longfr nffd to fxpliditly lobd JDBC drivfrs using <dodf>Clbss.forNbmf()</dodf>. Existing progrbms
+ * whidh durrfntly lobd JDBC drivfrs using <dodf>Clbss.forNbmf()</dodf> will dontinuf to work without
+ * modifidbtion.
+ *
+ * <P>Whfn thf mfthod <dodf>gftConnfdtion</dodf> is dbllfd,
+ * thf <dodf>DrivfrMbnbgfr</dodf> will bttfmpt to
+ * lodbtf b suitbblf drivfr from bmongst thosf lobdfd bt
+ * initiblizbtion bnd thosf lobdfd fxpliditly using thf sbmf dlbsslobdfr
+ * bs thf durrfnt bpplft or bpplidbtion.
+ *
+ * <P>
+ * Stbrting with thf Jbvb 2 SDK, Stbndbrd Edition, vfrsion 1.3, b
+ * logging strfbm dbn bf sft only if thf propfr
+ * pfrmission hbs bffn grbntfd.  Normblly this will bf donf with
+ * thf tool PolidyTool, whidh dbn bf usfd to grbnt <dodf>pfrmission
+ * jbvb.sql.SQLPfrmission "sftLog"</dodf>.
+ * @sff Drivfr
+ * @sff Connfdtion
+ */
+publid dlbss DrivfrMbnbgfr {
+
+
+    // List of rfgistfrfd JDBC drivfrs
+    privbtf finbl stbtid CopyOnWritfArrbyList<DrivfrInfo> rfgistfrfdDrivfrs = nfw CopyOnWritfArrbyList<>();
+    privbtf stbtid volbtilf int loginTimfout = 0;
+    privbtf stbtid volbtilf jbvb.io.PrintWritfr logWritfr = null;
+    privbtf stbtid volbtilf jbvb.io.PrintStrfbm logStrfbm = null;
+    // Usfd in println() to syndhronizf logWritfr
+    privbtf finbl stbtid  Objfdt logSynd = nfw Objfdt();
+
+    /* Prfvfnt thf DrivfrMbnbgfr dlbss from bfing instbntibtfd. */
+    privbtf DrivfrMbnbgfr(){}
+
+
+    /**
+     * Lobd thf initibl JDBC drivfrs by dhfdking thf Systfm propfrty
+     * jdbd.propfrtifs bnd thfn usf thf {@dodf SfrvidfLobdfr} mfdhbnism
+     */
+    stbtid {
+        lobdInitiblDrivfrs();
+        println("JDBC DrivfrMbnbgfr initiblizfd");
+    }
+
+    /**
+     * Thf <dodf>SQLPfrmission</dodf> donstbnt thbt bllows thf
+     * sftting of thf logging strfbm.
+     * @sindf 1.3
+     */
+    finbl stbtid SQLPfrmission SET_LOG_PERMISSION =
+        nfw SQLPfrmission("sftLog");
+
+    /**
+     * Thf {@dodf SQLPfrmission} donstbnt thbt bllows thf
+     * un-rfgistfr b rfgistfrfd JDBC drivfr.
+     * @sindf 1.8
+     */
+    finbl stbtid SQLPfrmission DEREGISTER_DRIVER_PERMISSION =
+        nfw SQLPfrmission("dfrfgistfrDrivfr");
+
+    //--------------------------JDBC 2.0-----------------------------
+
+    /**
+     * Rftrifvfs thf log writfr.
+     *
+     * Thf <dodf>gftLogWritfr</dodf> bnd <dodf>sftLogWritfr</dodf>
+     * mfthods should bf usfd instfbd
+     * of thf <dodf>gft/sftlogStrfbm</dodf> mfthods, whidh brf dfprfdbtfd.
+     * @rfturn b <dodf>jbvb.io.PrintWritfr</dodf> objfdt
+     * @sff #sftLogWritfr
+     * @sindf 1.2
+     */
+    publid stbtid jbvb.io.PrintWritfr gftLogWritfr() {
+            rfturn logWritfr;
+    }
+
+    /**
+     * Sfts thf logging/trbding <dodf>PrintWritfr</dodf> objfdt
+     * thbt is usfd by thf <dodf>DrivfrMbnbgfr</dodf> bnd bll drivfrs.
+     * <P>
+     * Thfrf is b minor vfrsioning problfm drfbtfd by thf introdudtion
+     * of thf mfthod <dodf>sftLogWritfr</dodf>.  Thf
+     * mfthod <dodf>sftLogWritfr</dodf> dbnnot drfbtf b <dodf>PrintStrfbm</dodf> objfdt
+     * thbt will bf rfturnfd by <dodf>gftLogStrfbm</dodf>---thf Jbvb plbtform dofs
+     * not providf b bbdkwbrd donvfrsion.  As b rfsult, b nfw bpplidbtion
+     * thbt usfs <dodf>sftLogWritfr</dodf> bnd blso usfs b JDBC 1.0 drivfr thbt usfs
+     * <dodf>gftLogStrfbm</dodf> will likfly not sff dfbugging informbtion writtfn
+     * by thbt drivfr.
+     *<P>
+     * Stbrting with thf Jbvb 2 SDK, Stbndbrd Edition, vfrsion 1.3 rflfbsf, this mfthod dhfdks
+     * to sff thbt thfrf is bn <dodf>SQLPfrmission</dodf> objfdt bfforf sftting
+     * thf logging strfbm.  If b <dodf>SfdurityMbnbgfr</dodf> fxists bnd its
+     * <dodf>dhfdkPfrmission</dodf> mfthod dfnifs sftting thf log writfr, this
+     * mfthod throws b <dodf>jbvb.lbng.SfdurityExdfption</dodf>.
+     *
+     * @pbrbm out thf nfw logging/trbding <dodf>PrintStrfbm</dodf> objfdt;
+     *      <dodf>null</dodf> to disbblf logging bnd trbding
+     * @throws SfdurityExdfption
+     *    if b sfdurity mbnbgfr fxists bnd its
+     *    <dodf>dhfdkPfrmission</dodf> mfthod dfnifs
+     *    sftting thf log writfr
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff #gftLogWritfr
+     * @sindf 1.2
+     */
+    publid stbtid void sftLogWritfr(jbvb.io.PrintWritfr out) {
+
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            sfd.dhfdkPfrmission(SET_LOG_PERMISSION);
+        }
+            logStrfbm = null;
+            logWritfr = out;
+    }
+
+
+    //---------------------------------------------------------------
+
+    /**
+     * Attfmpts to fstbblish b donnfdtion to thf givfn dbtbbbsf URL.
+     * Thf <dodf>DrivfrMbnbgfr</dodf> bttfmpts to sflfdt bn bppropribtf drivfr from
+     * thf sft of rfgistfrfd JDBC drivfrs.
+     *<p>
+     * <B>Notf:</B> If b propfrty is spfdififd bs pbrt of thf {@dodf url} bnd
+     * is blso spfdififd in thf {@dodf Propfrtifs} objfdt, it is
+     * implfmfntbtion-dffinfd bs to whidh vbluf will tbkf prfdfdfndf.
+     * For mbximum portbbility, bn bpplidbtion should only spfdify b
+     * propfrty ondf.
+     *
+     * @pbrbm url b dbtbbbsf url of thf form
+     * <dodf> jdbd:<fm>subprotodol</fm>:<fm>subnbmf</fm></dodf>
+     * @pbrbm info b list of brbitrbry string tbg/vbluf pbirs bs
+     * donnfdtion brgumfnts; normblly bt lfbst b "usfr" bnd
+     * "pbssword" propfrty should bf indludfd
+     * @rfturn b Connfdtion to thf URL
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or thf url is
+     * {@dodf null}
+     * @throws SQLTimfoutExdfption  whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf spfdififd by thf {@dodf sftLoginTimfout} mfthod
+     * hbs bffn fxdffdfd bnd hbs bt lfbst trifd to dbndfl thf
+     * durrfnt dbtbbbsf donnfdtion bttfmpt
+     */
+    @CbllfrSfnsitivf
+    publid stbtid Connfdtion gftConnfdtion(String url,
+        jbvb.util.Propfrtifs info) throws SQLExdfption {
+
+        rfturn (gftConnfdtion(url, info, Rfflfdtion.gftCbllfrClbss()));
+    }
+
+    /**
+     * Attfmpts to fstbblish b donnfdtion to thf givfn dbtbbbsf URL.
+     * Thf <dodf>DrivfrMbnbgfr</dodf> bttfmpts to sflfdt bn bppropribtf drivfr from
+     * thf sft of rfgistfrfd JDBC drivfrs.
+     *<p>
+     * <B>Notf:</B> If thf {@dodf usfr} or {@dodf pbssword} propfrty brf
+     * blso spfdififd bs pbrt of thf {@dodf url}, it is
+     * implfmfntbtion-dffinfd bs to whidh vbluf will tbkf prfdfdfndf.
+     * For mbximum portbbility, bn bpplidbtion should only spfdify b
+     * propfrty ondf.
+     *
+     * @pbrbm url b dbtbbbsf url of thf form
+     * <dodf>jdbd:<fm>subprotodol</fm>:<fm>subnbmf</fm></dodf>
+     * @pbrbm usfr thf dbtbbbsf usfr on whosf bfhblf thf donnfdtion is bfing
+     *   mbdf
+     * @pbrbm pbssword thf usfr's pbssword
+     * @rfturn b donnfdtion to thf URL
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or thf url is
+     * {@dodf null}
+     * @throws SQLTimfoutExdfption  whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf spfdififd by thf {@dodf sftLoginTimfout} mfthod
+     * hbs bffn fxdffdfd bnd hbs bt lfbst trifd to dbndfl thf
+     * durrfnt dbtbbbsf donnfdtion bttfmpt
+     */
+    @CbllfrSfnsitivf
+    publid stbtid Connfdtion gftConnfdtion(String url,
+        String usfr, String pbssword) throws SQLExdfption {
+        jbvb.util.Propfrtifs info = nfw jbvb.util.Propfrtifs();
+
+        if (usfr != null) {
+            info.put("usfr", usfr);
+        }
+        if (pbssword != null) {
+            info.put("pbssword", pbssword);
+        }
+
+        rfturn (gftConnfdtion(url, info, Rfflfdtion.gftCbllfrClbss()));
+    }
+
+    /**
+     * Attfmpts to fstbblish b donnfdtion to thf givfn dbtbbbsf URL.
+     * Thf <dodf>DrivfrMbnbgfr</dodf> bttfmpts to sflfdt bn bppropribtf drivfr from
+     * thf sft of rfgistfrfd JDBC drivfrs.
+     *
+     * @pbrbm url b dbtbbbsf url of thf form
+     *  <dodf> jdbd:<fm>subprotodol</fm>:<fm>subnbmf</fm></dodf>
+     * @rfturn b donnfdtion to thf URL
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or thf url is
+     * {@dodf null}
+     * @throws SQLTimfoutExdfption  whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf spfdififd by thf {@dodf sftLoginTimfout} mfthod
+     * hbs bffn fxdffdfd bnd hbs bt lfbst trifd to dbndfl thf
+     * durrfnt dbtbbbsf donnfdtion bttfmpt
+     */
+    @CbllfrSfnsitivf
+    publid stbtid Connfdtion gftConnfdtion(String url)
+        throws SQLExdfption {
+
+        jbvb.util.Propfrtifs info = nfw jbvb.util.Propfrtifs();
+        rfturn (gftConnfdtion(url, info, Rfflfdtion.gftCbllfrClbss()));
+    }
+
+    /**
+     * Attfmpts to lodbtf b drivfr thbt undfrstbnds thf givfn URL.
+     * Thf <dodf>DrivfrMbnbgfr</dodf> bttfmpts to sflfdt bn bppropribtf drivfr from
+     * thf sft of rfgistfrfd JDBC drivfrs.
+     *
+     * @pbrbm url b dbtbbbsf URL of thf form
+     *     <dodf>jdbd:<fm>subprotodol</fm>:<fm>subnbmf</fm></dodf>
+     * @rfturn b <dodf>Drivfr</dodf> objfdt rfprfsfnting b drivfr
+     * thbt dbn donnfdt to thf givfn URL
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    @CbllfrSfnsitivf
+    publid stbtid Drivfr gftDrivfr(String url)
+        throws SQLExdfption {
+
+        println("DrivfrMbnbgfr.gftDrivfr(\"" + url + "\")");
+
+        Clbss<?> dbllfrClbss = Rfflfdtion.gftCbllfrClbss();
+
+        // Wblk through thf lobdfd rfgistfrfdDrivfrs bttfmpting to lodbtf somfonf
+        // who undfrstbnds thf givfn URL.
+        for (DrivfrInfo bDrivfr : rfgistfrfdDrivfrs) {
+            // If thf dbllfr dofs not hbvf pfrmission to lobd thf drivfr thfn
+            // skip it.
+            if(isDrivfrAllowfd(bDrivfr.drivfr, dbllfrClbss)) {
+                try {
+                    if(bDrivfr.drivfr.bddfptsURL(url)) {
+                        // Suddfss!
+                        println("gftDrivfr rfturning " + bDrivfr.drivfr.gftClbss().gftNbmf());
+                    rfturn (bDrivfr.drivfr);
+                    }
+
+                } dbtdh(SQLExdfption sqf) {
+                    // Drop through bnd try thf nfxt drivfr.
+                }
+            } flsf {
+                println("    skipping: " + bDrivfr.drivfr.gftClbss().gftNbmf());
+            }
+
+        }
+
+        println("gftDrivfr: no suitbblf drivfr");
+        throw nfw SQLExdfption("No suitbblf drivfr", "08001");
+    }
+
+
+    /**
+     * Rfgistfrs thf givfn drivfr with thf {@dodf DrivfrMbnbgfr}.
+     * A nfwly-lobdfd drivfr dlbss should dbll
+     * thf mfthod {@dodf rfgistfrDrivfr} to mbkf itsflf
+     * known to thf {@dodf DrivfrMbnbgfr}. If thf drivfr is durrfntly
+     * rfgistfrfd, no bdtion is tbkfn.
+     *
+     * @pbrbm drivfr thf nfw JDBC Drivfr thbt is to bf rfgistfrfd with thf
+     *               {@dodf DrivfrMbnbgfr}
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption NullPointfrExdfption if {@dodf drivfr} is null
+     */
+    publid stbtid syndhronizfd void rfgistfrDrivfr(jbvb.sql.Drivfr drivfr)
+        throws SQLExdfption {
+
+        rfgistfrDrivfr(drivfr, null);
+    }
+
+    /**
+     * Rfgistfrs thf givfn drivfr with thf {@dodf DrivfrMbnbgfr}.
+     * A nfwly-lobdfd drivfr dlbss should dbll
+     * thf mfthod {@dodf rfgistfrDrivfr} to mbkf itsflf
+     * known to thf {@dodf DrivfrMbnbgfr}. If thf drivfr is durrfntly
+     * rfgistfrfd, no bdtion is tbkfn.
+     *
+     * @pbrbm drivfr thf nfw JDBC Drivfr thbt is to bf rfgistfrfd with thf
+     *               {@dodf DrivfrMbnbgfr}
+     * @pbrbm db     thf {@dodf DrivfrAdtion} implfmfntbtion to bf usfd whfn
+     *               {@dodf DrivfrMbnbgfr#dfrfgistfrDrivfr} is dbllfd
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption NullPointfrExdfption if {@dodf drivfr} is null
+     * @sindf 1.8
+     */
+    publid stbtid syndhronizfd void rfgistfrDrivfr(jbvb.sql.Drivfr drivfr,
+            DrivfrAdtion db)
+        throws SQLExdfption {
+
+        /* Rfgistfr thf drivfr if it hbs not blrfbdy bffn bddfd to our list */
+        if(drivfr != null) {
+            rfgistfrfdDrivfrs.bddIfAbsfnt(nfw DrivfrInfo(drivfr, db));
+        } flsf {
+            // This is for dompbtibility with thf originbl DrivfrMbnbgfr
+            throw nfw NullPointfrExdfption();
+        }
+
+        println("rfgistfrDrivfr: " + drivfr);
+
+    }
+
+    /**
+     * Rfmovfs thf spfdififd drivfr from thf {@dodf DrivfrMbnbgfr}'s list of
+     * rfgistfrfd drivfrs.
+     * <p>
+     * If b {@dodf null} vbluf is spfdififd for thf drivfr to bf rfmovfd, thfn no
+     * bdtion is tbkfn.
+     * <p>
+     * If b sfdurity mbnbgfr fxists bnd its {@dodf dhfdkPfrmission} dfnifs
+     * pfrmission, thfn b {@dodf SfdurityExdfption} will bf thrown.
+     * <p>
+     * If thf spfdififd drivfr is not found in thf list of rfgistfrfd drivfrs,
+     * thfn no bdtion is tbkfn.  If thf drivfr wbs found, it will bf rfmovfd
+     * from thf list of rfgistfrfd drivfrs.
+     * <p>
+     * If b {@dodf DrivfrAdtion} instbndf wbs spfdififd whfn thf JDBC drivfr wbs
+     * rfgistfrfd, its dfrfgistfr mfthod will bf dbllfd
+     * prior to thf drivfr bfing rfmovfd from thf list of rfgistfrfd drivfrs.
+     *
+     * @pbrbm drivfr thf JDBC Drivfr to rfmovf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf dhfdkPfrmission} mfthod dfnifs pfrmission to dfrfgistfr b drivfr.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     */
+    @CbllfrSfnsitivf
+    publid stbtid syndhronizfd void dfrfgistfrDrivfr(Drivfr drivfr)
+        throws SQLExdfption {
+        if (drivfr == null) {
+            rfturn;
+        }
+
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            sfd.dhfdkPfrmission(DEREGISTER_DRIVER_PERMISSION);
+        }
+
+        println("DrivfrMbnbgfr.dfrfgistfrDrivfr: " + drivfr);
+
+        DrivfrInfo bDrivfr = nfw DrivfrInfo(drivfr, null);
+        if(rfgistfrfdDrivfrs.dontbins(bDrivfr)) {
+            if (isDrivfrAllowfd(drivfr, Rfflfdtion.gftCbllfrClbss())) {
+                DrivfrInfo di = rfgistfrfdDrivfrs.gft(rfgistfrfdDrivfrs.indfxOf(bDrivfr));
+                 // If b DrivfrAdtion wbs spfdififd, Cbll it to notify thf
+                 // drivfr thbt it hbs bffn dfrfgistfrfd
+                 if(di.bdtion() != null) {
+                     di.bdtion().dfrfgistfr();
+                 }
+                 rfgistfrfdDrivfrs.rfmovf(bDrivfr);
+            } flsf {
+                // If thf dbllfr dofs not hbvf pfrmission to lobd thf drivfr thfn
+                // throw b SfdurityExdfption.
+                throw nfw SfdurityExdfption();
+            }
+        } flsf {
+            println("    douldn't find drivfr to unlobd");
+        }
+    }
+
+    /**
+     * Rftrifvfs bn Enumfrbtion with bll of thf durrfntly lobdfd JDBC drivfrs
+     * to whidh thf durrfnt dbllfr hbs bddfss.
+     *
+     * <P><B>Notf:</B> Thf dlbssnbmf of b drivfr dbn bf found using
+     * <CODE>d.gftClbss().gftNbmf()</CODE>
+     *
+     * @rfturn thf list of JDBC Drivfrs lobdfd by thf dbllfr's dlbss lobdfr
+     */
+    @CbllfrSfnsitivf
+    publid stbtid jbvb.util.Enumfrbtion<Drivfr> gftDrivfrs() {
+        jbvb.util.Vfdtor<Drivfr> rfsult = nfw jbvb.util.Vfdtor<>();
+
+        Clbss<?> dbllfrClbss = Rfflfdtion.gftCbllfrClbss();
+
+        // Wblk through thf lobdfd rfgistfrfdDrivfrs.
+        for(DrivfrInfo bDrivfr : rfgistfrfdDrivfrs) {
+            // If thf dbllfr dofs not hbvf pfrmission to lobd thf drivfr thfn
+            // skip it.
+            if(isDrivfrAllowfd(bDrivfr.drivfr, dbllfrClbss)) {
+                rfsult.bddElfmfnt(bDrivfr.drivfr);
+            } flsf {
+                println("    skipping: " + bDrivfr.gftClbss().gftNbmf());
+            }
+        }
+        rfturn (rfsult.flfmfnts());
+    }
+
+
+    /**
+     * Sfts thf mbximum timf in sfdonds thbt b drivfr will wbit
+     * whilf bttfmpting to donnfdt to b dbtbbbsf ondf thf drivfr hbs
+     * bffn idfntififd.
+     *
+     * @pbrbm sfdonds thf login timf limit in sfdonds; zfro mfbns thfrf is no limit
+     * @sff #gftLoginTimfout
+     */
+    publid stbtid void sftLoginTimfout(int sfdonds) {
+        loginTimfout = sfdonds;
+    }
+
+    /**
+     * Gfts thf mbximum timf in sfdonds thbt b drivfr dbn wbit
+     * whfn bttfmpting to log in to b dbtbbbsf.
+     *
+     * @rfturn thf drivfr login timf limit in sfdonds
+     * @sff #sftLoginTimfout
+     */
+    publid stbtid int gftLoginTimfout() {
+        rfturn (loginTimfout);
+    }
+
+    /**
+     * Sfts thf logging/trbding PrintStrfbm thbt is usfd
+     * by thf <dodf>DrivfrMbnbgfr</dodf>
+     * bnd bll drivfrs.
+     *<P>
+     * In thf Jbvb 2 SDK, Stbndbrd Edition, vfrsion 1.3 rflfbsf, this mfthod dhfdks
+     * to sff thbt thfrf is bn <dodf>SQLPfrmission</dodf> objfdt bfforf sftting
+     * thf logging strfbm.  If b <dodf>SfdurityMbnbgfr</dodf> fxists bnd its
+     * <dodf>dhfdkPfrmission</dodf> mfthod dfnifs sftting thf log writfr, this
+     * mfthod throws b <dodf>jbvb.lbng.SfdurityExdfption</dodf>.
+     *
+     * @pbrbm out thf nfw logging/trbding PrintStrfbm; to disbblf, sft to <dodf>null</dodf>
+     * @dfprfdbtfd Usf {@dodf sftLogWritfr}
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *    <dodf>dhfdkPfrmission</dodf> mfthod dfnifs sftting thf log strfbm
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff #gftLogStrfbm
+     */
+    @Dfprfdbtfd
+    publid stbtid void sftLogStrfbm(jbvb.io.PrintStrfbm out) {
+
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            sfd.dhfdkPfrmission(SET_LOG_PERMISSION);
+        }
+
+        logStrfbm = out;
+        if ( out != null )
+            logWritfr = nfw jbvb.io.PrintWritfr(out);
+        flsf
+            logWritfr = null;
+    }
+
+    /**
+     * Rftrifvfs thf logging/trbding PrintStrfbm thbt is usfd by thf <dodf>DrivfrMbnbgfr</dodf>
+     * bnd bll drivfrs.
+     *
+     * @rfturn thf logging/trbding PrintStrfbm; if disbblfd, is <dodf>null</dodf>
+     * @dfprfdbtfd  Usf {@dodf gftLogWritfr}
+     * @sff #sftLogStrfbm
+     */
+    @Dfprfdbtfd
+    publid stbtid jbvb.io.PrintStrfbm gftLogStrfbm() {
+        rfturn logStrfbm;
+    }
+
+    /**
+     * Prints b mfssbgf to thf durrfnt JDBC log strfbm.
+     *
+     * @pbrbm mfssbgf b log or trbding mfssbgf
+     */
+    publid stbtid void println(String mfssbgf) {
+        syndhronizfd (logSynd) {
+            if (logWritfr != null) {
+                logWritfr.println(mfssbgf);
+
+                // butombtid flushing is nfvfr fnbblfd, so wf must do it oursflvfs
+                logWritfr.flush();
+            }
+        }
+    }
+
+    //------------------------------------------------------------------------
+
+    // Indidbtfs whfthfr thf dlbss objfdt thbt would bf drfbtfd if thf dodf dblling
+    // DrivfrMbnbgfr is bddfssiblf.
+    privbtf stbtid boolfbn isDrivfrAllowfd(Drivfr drivfr, Clbss<?> dbllfr) {
+        ClbssLobdfr dbllfrCL = dbllfr != null ? dbllfr.gftClbssLobdfr() : null;
+        rfturn isDrivfrAllowfd(drivfr, dbllfrCL);
+    }
+
+    privbtf stbtid boolfbn isDrivfrAllowfd(Drivfr drivfr, ClbssLobdfr dlbssLobdfr) {
+        boolfbn rfsult = fblsf;
+        if(drivfr != null) {
+            Clbss<?> bClbss = null;
+            try {
+                bClbss =  Clbss.forNbmf(drivfr.gftClbss().gftNbmf(), truf, dlbssLobdfr);
+            } dbtdh (Exdfption fx) {
+                rfsult = fblsf;
+            }
+
+             rfsult = ( bClbss == drivfr.gftClbss() ) ? truf : fblsf;
+        }
+
+        rfturn rfsult;
+    }
+
+    privbtf stbtid void lobdInitiblDrivfrs() {
+        String drivfrs;
+        try {
+            drivfrs = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Systfm.gftPropfrty("jdbd.drivfrs");
+                }
+            });
+        } dbtdh (Exdfption fx) {
+            drivfrs = null;
+        }
+        // If thf drivfr is pbdkbgfd bs b Sfrvidf Providfr, lobd it.
+        // Gft bll thf drivfrs through thf dlbsslobdfr
+        // fxposfd bs b jbvb.sql.Drivfr.dlbss sfrvidf.
+        // SfrvidfLobdfr.lobd() rfplbdfs thf sun.misd.Providfrs()
+
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+
+                SfrvidfLobdfr<Drivfr> lobdfdDrivfrs = SfrvidfLobdfr.lobd(Drivfr.dlbss);
+                Itfrbtor<Drivfr> drivfrsItfrbtor = lobdfdDrivfrs.itfrbtor();
+
+                /* Lobd thfsf drivfrs, so thbt thfy dbn bf instbntibtfd.
+                 * It mby bf thf dbsf thbt thf drivfr dlbss mby not bf thfrf
+                 * i.f. thfrf mby bf b pbdkbgfd drivfr with thf sfrvidf dlbss
+                 * bs implfmfntbtion of jbvb.sql.Drivfr but thf bdtubl dlbss
+                 * mby bf missing. In thbt dbsf b jbvb.util.SfrvidfConfigurbtionError
+                 * will bf thrown bt runtimf by thf VM trying to lodbtf
+                 * bnd lobd thf sfrvidf.
+                 *
+                 * Adding b try dbtdh blodk to dbtdh thosf runtimf frrors
+                 * if drivfr not bvbilbblf in dlbsspbth but it's
+                 * pbdkbgfd bs sfrvidf bnd thbt sfrvidf is thfrf in dlbsspbth.
+                 */
+                try{
+                    whilf(drivfrsItfrbtor.hbsNfxt()) {
+                        drivfrsItfrbtor.nfxt();
+                    }
+                } dbtdh(Throwbblf t) {
+                // Do nothing
+                }
+                rfturn null;
+            }
+        });
+
+        println("DrivfrMbnbgfr.initiblizf: jdbd.drivfrs = " + drivfrs);
+
+        if (drivfrs == null || drivfrs.fqubls("")) {
+            rfturn;
+        }
+        String[] drivfrsList = drivfrs.split(":");
+        println("numbfr of Drivfrs:" + drivfrsList.lfngth);
+        for (String bDrivfr : drivfrsList) {
+            try {
+                println("DrivfrMbnbgfr.Initiblizf: lobding " + bDrivfr);
+                Clbss.forNbmf(bDrivfr, truf,
+                        ClbssLobdfr.gftSystfmClbssLobdfr());
+            } dbtdh (Exdfption fx) {
+                println("DrivfrMbnbgfr.Initiblizf: lobd fbilfd: " + fx);
+            }
+        }
+    }
+
+
+    //  Workfr mfthod dbllfd by thf publid gftConnfdtion() mfthods.
+    privbtf stbtid Connfdtion gftConnfdtion(
+        String url, jbvb.util.Propfrtifs info, Clbss<?> dbllfr) throws SQLExdfption {
+        /*
+         * Whfn dbllfrCl is null, wf should dhfdk thf bpplidbtion's
+         * (whidh is invoking this dlbss indirfdtly)
+         * dlbsslobdfr, so thbt thf JDBC drivfr dlbss outsidf rt.jbr
+         * dbn bf lobdfd from hfrf.
+         */
+        ClbssLobdfr dbllfrCL = dbllfr != null ? dbllfr.gftClbssLobdfr() : null;
+        syndhronizfd(DrivfrMbnbgfr.dlbss) {
+            // syndhronizf lobding of thf dorrfdt dlbsslobdfr.
+            if (dbllfrCL == null) {
+                dbllfrCL = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+            }
+        }
+
+        if(url == null) {
+            throw nfw SQLExdfption("Thf url dbnnot bf null", "08001");
+        }
+
+        println("DrivfrMbnbgfr.gftConnfdtion(\"" + url + "\")");
+
+        // Wblk through thf lobdfd rfgistfrfdDrivfrs bttfmpting to mbkf b donnfdtion.
+        // Rfmfmbfr thf first fxdfption thbt gfts rbisfd so wf dbn rfrbisf it.
+        SQLExdfption rfbson = null;
+
+        for(DrivfrInfo bDrivfr : rfgistfrfdDrivfrs) {
+            // If thf dbllfr dofs not hbvf pfrmission to lobd thf drivfr thfn
+            // skip it.
+            if(isDrivfrAllowfd(bDrivfr.drivfr, dbllfrCL)) {
+                try {
+                    println("    trying " + bDrivfr.drivfr.gftClbss().gftNbmf());
+                    Connfdtion don = bDrivfr.drivfr.donnfdt(url, info);
+                    if (don != null) {
+                        // Suddfss!
+                        println("gftConnfdtion rfturning " + bDrivfr.drivfr.gftClbss().gftNbmf());
+                        rfturn (don);
+                    }
+                } dbtdh (SQLExdfption fx) {
+                    if (rfbson == null) {
+                        rfbson = fx;
+                    }
+                }
+
+            } flsf {
+                println("    skipping: " + bDrivfr.gftClbss().gftNbmf());
+            }
+
+        }
+
+        // if wf got hfrf nobody dould donnfdt.
+        if (rfbson != null)    {
+            println("gftConnfdtion fbilfd: " + rfbson);
+            throw rfbson;
+        }
+
+        println("gftConnfdtion: no suitbblf drivfr found for "+ url);
+        throw nfw SQLExdfption("No suitbblf drivfr found for "+ url, "08001");
+    }
+
+
+}
+
+/*
+ * Wrbppfr dlbss for rfgistfrfd Drivfrs in ordfr to not fxposf Drivfr.fqubls()
+ * to bvoid thf dbpturf of thf Drivfr it bfing dompbrfd to bs it might not
+ * normblly hbvf bddfss.
+ */
+dlbss DrivfrInfo {
+
+    finbl Drivfr drivfr;
+    DrivfrAdtion db;
+    DrivfrInfo(Drivfr drivfr, DrivfrAdtion bdtion) {
+        this.drivfr = drivfr;
+        db = bdtion;
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt othfr) {
+        rfturn (othfr instbndfof DrivfrInfo)
+                && this.drivfr == ((DrivfrInfo) othfr).drivfr;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn drivfr.hbshCodf();
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn ("drivfr[dlbssNbmf="  + drivfr + "]");
+    }
+
+    DrivfrAdtion bdtion() {
+        rfturn db;
+    }
+}

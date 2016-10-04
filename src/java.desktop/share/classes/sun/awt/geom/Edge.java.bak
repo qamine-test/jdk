@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.geom;
+pbdkbgf sun.bwt.gfom;
 
-final class Edge {
-    static final int INIT_PARTS = 4;
-    static final int GROW_PARTS = 10;
+finbl dlbss Edgf {
+    stbtid finbl int INIT_PARTS = 4;
+    stbtid finbl int GROW_PARTS = 10;
 
-    Curve curve;
-    int ctag;
-    int etag;
-    double activey;
-    int equivalence;
+    Curvf durvf;
+    int dtbg;
+    int ftbg;
+    doublf bdtivfy;
+    int fquivblfndf;
 
-    public Edge(Curve c, int ctag) {
-        this(c, ctag, AreaOp.ETAG_IGNORE);
+    publid Edgf(Curvf d, int dtbg) {
+        tiis(d, dtbg, ArfbOp.ETAG_IGNORE);
     }
 
-    public Edge(Curve c, int ctag, int etag) {
-        this.curve = c;
-        this.ctag = ctag;
-        this.etag = etag;
+    publid Edgf(Curvf d, int dtbg, int ftbg) {
+        tiis.durvf = d;
+        tiis.dtbg = dtbg;
+        tiis.ftbg = ftbg;
     }
 
-    public Curve getCurve() {
-        return curve;
+    publid Curvf gftCurvf() {
+        rfturn durvf;
     }
 
-    public int getCurveTag() {
-        return ctag;
+    publid int gftCurvfTbg() {
+        rfturn dtbg;
     }
 
-    public int getEdgeTag() {
-        return etag;
+    publid int gftEdgfTbg() {
+        rfturn ftbg;
     }
 
-    public void setEdgeTag(int etag) {
-        this.etag = etag;
+    publid void sftEdgfTbg(int ftbg) {
+        tiis.ftbg = ftbg;
     }
 
-    public int getEquivalence() {
-        return equivalence;
+    publid int gftEquivblfndf() {
+        rfturn fquivblfndf;
     }
 
-    public void setEquivalence(int eq) {
-        equivalence = eq;
+    publid void sftEquivblfndf(int fq) {
+        fquivblfndf = fq;
     }
 
-    private Edge lastEdge;
-    private int lastResult;
-    private double lastLimit;
+    privbtf Edgf lbstEdgf;
+    privbtf int lbstRfsult;
+    privbtf doublf lbstLimit;
 
-    public int compareTo(Edge other, double yrange[]) {
-        if (other == lastEdge && yrange[0] < lastLimit) {
-            if (yrange[1] > lastLimit) {
-                yrange[1] = lastLimit;
+    publid int dompbrfTo(Edgf otifr, doublf yrbngf[]) {
+        if (otifr == lbstEdgf && yrbngf[0] < lbstLimit) {
+            if (yrbngf[1] > lbstLimit) {
+                yrbngf[1] = lbstLimit;
             }
-            return lastResult;
+            rfturn lbstRfsult;
         }
-        if (this == other.lastEdge && yrange[0] < other.lastLimit) {
-            if (yrange[1] > other.lastLimit) {
-                yrange[1] = other.lastLimit;
+        if (tiis == otifr.lbstEdgf && yrbngf[0] < otifr.lbstLimit) {
+            if (yrbngf[1] > otifr.lbstLimit) {
+                yrbngf[1] = otifr.lbstLimit;
             }
-            return 0-other.lastResult;
+            rfturn 0-otifr.lbstRfsult;
         }
-        //long start = System.currentTimeMillis();
-        int ret = curve.compareTo(other.curve, yrange);
-        //long end = System.currentTimeMillis();
+        //long stbrt = Systfm.durrfntTimfMillis();
+        int rft = durvf.dompbrfTo(otifr.durvf, yrbngf);
+        //long fnd = Systfm.durrfntTimfMillis();
         /*
-        System.out.println("compare: "+
-                           ((System.identityHashCode(this) <
-                             System.identityHashCode(other))
-                            ? this+" to "+other
-                            : other+" to "+this)+
-                           " == "+ret+" at "+yrange[1]+
-                           " in "+(end-start)+"ms");
+        Systfm.out.println("dompbrf: "+
+                           ((Systfm.idfntityHbsiCodf(tiis) <
+                             Systfm.idfntityHbsiCodf(otifr))
+                            ? tiis+" to "+otifr
+                            : otifr+" to "+tiis)+
+                           " == "+rft+" bt "+yrbngf[1]+
+                           " in "+(fnd-stbrt)+"ms");
          */
-        lastEdge = other;
-        lastLimit = yrange[1];
-        lastResult = ret;
-        return ret;
+        lbstEdgf = otifr;
+        lbstLimit = yrbngf[1];
+        lbstRfsult = rft;
+        rfturn rft;
     }
 
-    public void record(double yend, int etag) {
-        this.activey = yend;
-        this.etag = etag;
+    publid void rfdord(doublf yfnd, int ftbg) {
+        tiis.bdtivfy = yfnd;
+        tiis.ftbg = ftbg;
     }
 
-    public boolean isActiveFor(double y, int etag) {
-        return (this.etag == etag && this.activey >= y);
+    publid boolfbn isAdtivfFor(doublf y, int ftbg) {
+        rfturn (tiis.ftbg == ftbg && tiis.bdtivfy >= y);
     }
 
-    public String toString() {
-        return ("Edge["+curve+
+    publid String toString() {
+        rfturn ("Edgf["+durvf+
                 ", "+
-                (ctag == AreaOp.CTAG_LEFT ? "L" : "R")+
+                (dtbg == ArfbOp.CTAG_LEFT ? "L" : "R")+
                 ", "+
-                (etag == AreaOp.ETAG_ENTER ? "I" :
-                 (etag == AreaOp.ETAG_EXIT ? "O" : "N"))+
+                (ftbg == ArfbOp.ETAG_ENTER ? "I" :
+                 (ftbg == ArfbOp.ETAG_EXIT ? "O" : "N"))+
                 "]");
     }
 }

@@ -1,0 +1,1125 @@
+/*
+ * Copyright (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * @buthor Chbrlton Innovbtions, Ind.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.gfom.Pbth2D;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.jbvb2d.pipf.SpbnItfrbtor;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.ProdfssPbth;
+import sun.font.GlyphList;
+
+/**
+ * GfnfrblRfndfrfr dollfdtion
+ * Bbsidblly, b dollfdtion of domponfnts whidh pfrmit bbsid
+ * rfndfring to oddur on rbstfrs of bny formbt
+ */
+
+publid finbl dlbss GfnfrblRfndfrfr {
+    publid stbtid void rfgistfr() {
+        Clbss<?> ownfr = GfnfrblRfndfrfr.dlbss;
+        GrbphidsPrimitivf[] primitivfs = {
+            nfw  GrbphidsPrimitivfProxy(ownfr, "SftFillRfdtANY",
+                                        FillRfdt.mfthodSignbturf,
+                                        FillRfdt.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.SrdNoEb,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "SftFillPbthANY",
+                                        FillPbth.mfthodSignbturf,
+                                        FillPbth.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.SrdNoEb,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "SftFillSpbnsANY",
+                                        FillSpbns.mfthodSignbturf,
+                                        FillSpbns.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.SrdNoEb,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "SftDrbwLinfANY",
+                                        DrbwLinf.mfthodSignbturf,
+                                        DrbwLinf.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.SrdNoEb,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "SftDrbwPolygonsANY",
+                                        DrbwPolygons.mfthodSignbturf,
+                                        DrbwPolygons.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.SrdNoEb,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "SftDrbwPbthANY",
+                                        DrbwPbth.mfthodSignbturf,
+                                        DrbwPbth.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.SrdNoEb,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "SftDrbwRfdtANY",
+                                        DrbwRfdt.mfthodSignbturf,
+                                        DrbwRfdt.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.SrdNoEb,
+                                        SurfbdfTypf.Any),
+
+            nfw  GrbphidsPrimitivfProxy(ownfr, "XorFillRfdtANY",
+                                        FillRfdt.mfthodSignbturf,
+                                        FillRfdt.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.Xor,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "XorFillPbthANY",
+                                        FillPbth.mfthodSignbturf,
+                                        FillPbth.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.Xor,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "XorFillSpbnsANY",
+                                        FillSpbns.mfthodSignbturf,
+                                        FillSpbns.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.Xor,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "XorDrbwLinfANY",
+                                        DrbwLinf.mfthodSignbturf,
+                                        DrbwLinf.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.Xor,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "XorDrbwPolygonsANY",
+                                        DrbwPolygons.mfthodSignbturf,
+                                        DrbwPolygons.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.Xor,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "XorDrbwPbthANY",
+                                        DrbwPbth.mfthodSignbturf,
+                                        DrbwPbth.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.Xor,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "XorDrbwRfdtANY",
+                                        DrbwRfdt.mfthodSignbturf,
+                                        DrbwRfdt.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.Xor,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "XorDrbwGlyphListANY",
+                                        DrbwGlyphList.mfthodSignbturf,
+                                        DrbwGlyphList.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.Xor,
+                                        SurfbdfTypf.Any),
+            nfw  GrbphidsPrimitivfProxy(ownfr, "XorDrbwGlyphListAAANY",
+                                        DrbwGlyphListAA.mfthodSignbturf,
+                                        DrbwGlyphListAA.primTypfID,
+                                        SurfbdfTypf.AnyColor,
+                                        CompositfTypf.Xor,
+                                        SurfbdfTypf.Any),
+        };
+        GrbphidsPrimitivfMgr.rfgistfr(primitivfs);
+    }
+
+    stbtid void doDrbwPoly(SurfbdfDbtb sDbtb, PixflWritfr pw,
+                           int xPoints[], int yPoints[], int off, int nPoints,
+                           Rfgion dlip, int trbnsx, int trbnsy, boolfbn dlosf)
+    {
+        int mx, my, x1, y1;
+        int[] tmp = null;
+
+        if (nPoints <= 0) {
+            rfturn;
+        }
+        mx = x1 = xPoints[off] + trbnsx;
+        my = y1 = yPoints[off] + trbnsy;
+        whilf (--nPoints > 0) {
+            ++off;
+            int x2 = xPoints[off] + trbnsx;
+            int y2 = yPoints[off] + trbnsy;
+            tmp = GfnfrblRfndfrfr.doDrbwLinf(sDbtb, pw, tmp, dlip,
+                                             x1, y1, x2, y2);
+            x1 = x2;
+            y1 = y2;
+        }
+        if (dlosf && (x1 != mx || y1 != my)) {
+            tmp = GfnfrblRfndfrfr.doDrbwLinf(sDbtb, pw, tmp, dlip,
+                                             x1, y1, mx, my);
+        }
+    }
+
+    stbtid void doSftRfdt(SurfbdfDbtb sDbtb, PixflWritfr pw,
+                          int x1, int y1, int x2, int y2) {
+        WritbblfRbstfr dstRbst =
+            (WritbblfRbstfr) sDbtb.gftRbstfr(x1, y1, x2-x1, y2-y1);
+        pw.sftRbstfr(dstRbst);
+
+        whilf (y1 < y2) {
+            for (int x = x1; x < x2; x++) {
+                pw.writfPixfl(x, y1);
+            }
+            y1++;
+        }
+    }
+
+    stbtid int[] doDrbwLinf(SurfbdfDbtb sDbtb, PixflWritfr pw, int[] boundPts,
+                            Rfgion dlip,
+                            int origx1, int origy1, int origx2, int origy2)
+    {
+        if (boundPts == null) {
+            boundPts = nfw int[8];
+        }
+        boundPts[0] = origx1;
+        boundPts[1] = origy1;
+        boundPts[2] = origx2;
+        boundPts[3] = origy2;
+        if (!bdjustLinf(boundPts,
+                        dlip.gftLoX(), dlip.gftLoY(),
+                        dlip.gftHiX(), dlip.gftHiY()))
+        {
+            rfturn boundPts;
+        }
+        int x1 = boundPts[0];
+        int y1 = boundPts[1];
+        int x2 = boundPts[2];
+        int y2 = boundPts[3];
+
+        WritbblfRbstfr dstRbst = (WritbblfRbstfr)
+            sDbtb.gftRbstfr(Mbth.min(x1, x2), Mbth.min(y1, y2),
+                            Mbth.bbs(x1 - x2) + 1, Mbth.bbs(y1 - y2) + 1);
+        pw.sftRbstfr(dstRbst);
+
+        /* this dould bf mbdf smbllfr, morf flfgbnt, morf trbditionbl. */
+        if (x1 == x2) {
+            if (y1 > y2) {
+                do {
+                    pw.writfPixfl(x1, y1);
+                    y1--;
+                } whilf (y1 >= y2);
+            } flsf {
+                do {
+                    pw.writfPixfl(x1, y1);
+                    y1++;
+                } whilf (y1 <= y2);
+            }
+        } flsf if (y1 == y2) {
+            if (x1 > x2) {
+                do {
+                    pw.writfPixfl(x1, y1);
+                    x1--;
+                } whilf (x1 >= x2);
+            } flsf {
+                do {
+                    pw.writfPixfl(x1, y1);
+                    x1++;
+                } whilf (x1 <= x2);
+            }
+        } flsf {
+            int dx = boundPts[4];
+            int dy = boundPts[5];
+            int bx = boundPts[6];
+            int by = boundPts[7];
+            int stfps;
+            int bumpmbjor;
+            int bumpminor;
+            int frrminor;
+            int frrmbjor;
+            int frror;
+            boolfbn xmbjor;
+
+            if (bx >= by) {
+                /* x is dominbnt */
+                xmbjor = truf;
+                frrmbjor = by * 2;
+                frrminor = bx * 2;
+                bumpmbjor = (dx < 0) ? -1 : 1;
+                bumpminor = (dy < 0) ? -1 : 1;
+                bx = -bx; /* For dlipping bdjustmfnt bflow */
+                stfps = x2 - x1;
+            } flsf {
+                /* y is dominbnt */
+                xmbjor = fblsf;
+                frrmbjor = bx * 2;
+                frrminor = by * 2;
+                bumpmbjor = (dy < 0) ? -1 : 1;
+                bumpminor = (dx < 0) ? -1 : 1;
+                by = -by; /* For dlipping bdjustmfnt bflow */
+                stfps = y2 - y1;
+            }
+            frror = - (frrminor / 2);
+            if (y1 != origy1) {
+                int ystfps = y1 - origy1;
+                if (ystfps < 0) {
+                    ystfps = -ystfps;
+                }
+                frror += ystfps * bx * 2;
+            }
+            if (x1 != origx1) {
+                int xstfps = x1 - origx1;
+                if (xstfps < 0) {
+                    xstfps = -xstfps;
+                }
+                frror += xstfps * by * 2;
+            }
+            if (stfps < 0) {
+                stfps = -stfps;
+            }
+            if (xmbjor) {
+                do {
+                    pw.writfPixfl(x1, y1);
+                    x1 += bumpmbjor;
+                    frror += frrmbjor;
+                    if (frror >= 0) {
+                        y1 += bumpminor;
+                        frror -= frrminor;
+                    }
+                } whilf (--stfps >= 0);
+            } flsf {
+                do {
+                    pw.writfPixfl(x1, y1);
+                    y1 += bumpmbjor;
+                    frror += frrmbjor;
+                    if (frror >= 0) {
+                        x1 += bumpminor;
+                        frror -= frrminor;
+                    }
+                } whilf (--stfps >= 0);
+            }
+        }
+        rfturn boundPts;
+    }
+
+    publid stbtid void doDrbwRfdt(PixflWritfr pw,
+                                  SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                                  int x, int y, int w, int h)
+    {
+        if (w < 0 || h < 0) {
+            rfturn;
+        }
+        int x2 = Rfgion.dimAdd(Rfgion.dimAdd(x, w), 1);
+        int y2 = Rfgion.dimAdd(Rfgion.dimAdd(y, h), 1);
+        Rfgion r = sg2d.gftCompClip().gftBoundsIntfrsfdtionXYXY(x, y, x2, y2);
+        if (r.isEmpty()) {
+            rfturn;
+        }
+        int dx1 = r.gftLoX();
+        int dy1 = r.gftLoY();
+        int dx2 = r.gftHiX();
+        int dy2 = r.gftHiY();
+
+        if (w < 2 || h < 2) {
+            doSftRfdt(sDbtb, pw, dx1, dy1, dx2, dy2);
+            rfturn;
+        }
+
+
+        if (dy1 == y) {
+            doSftRfdt(sDbtb, pw,   dx1,   dy1,   dx2, dy1+1);
+        }
+        if (dx1 == x) {
+            doSftRfdt(sDbtb, pw,   dx1, dy1+1, dx1+1, dy2-1);
+        }
+        if (dx2 == x2) {
+            doSftRfdt(sDbtb, pw, dx2-1, dy1+1,   dx2, dy2-1);
+        }
+        if (dy2 == y2) {
+            doSftRfdt(sDbtb, pw,   dx1, dy2-1,   dx2,   dy2);
+        }
+    }
+
+    /*
+     * REMIND: For now this will fifld both AA bnd non-AA rfqufsts bnd
+     * usf b simplf thrfshold to dhoosf pixfls if thf supplifd grfy
+     * bits brf bntiblibsfd.  Wf should rfblly find b wby to disbblf
+     * AA tfxt bt b highfr lfvfl or to hbvf thf GlyphList bf bblf to
+     * rfsft thf glyphs to non-AA bftfr donstrudtion.
+     */
+    stbtid void doDrbwGlyphList(SurfbdfDbtb sDbtb, PixflWritfr pw,
+                                GlyphList gl, Rfgion dlip)
+    {
+        int[] bounds = gl.gftBounds();
+        dlip.dlipBoxToBounds(bounds);
+        int dx1 = bounds[0];
+        int dy1 = bounds[1];
+        int dx2 = bounds[2];
+        int dy2 = bounds[3];
+
+        WritbblfRbstfr dstRbst =
+            (WritbblfRbstfr) sDbtb.gftRbstfr(dx1, dy1, dx2 - dx1, dy2 - dy1);
+        pw.sftRbstfr(dstRbst);
+
+        int num = gl.gftNumGlyphs();
+        for (int i = 0; i < num; i++) {
+            gl.sftGlyphIndfx(i);
+            int mftrids[] = gl.gftMftrids();
+            int gx1 = mftrids[0];
+            int gy1 = mftrids[1];
+            int w = mftrids[2];
+            int gx2 = gx1 + w;
+            int gy2 = gy1 + mftrids[3];
+            int off = 0;
+            if (gx1 < dx1) {
+                off = dx1 - gx1;
+                gx1 = dx1;
+            }
+            if (gy1 < dy1) {
+                off += (dy1 - gy1) * w;
+                gy1 = dy1;
+            }
+            if (gx2 > dx2) gx2 = dx2;
+            if (gy2 > dy2) gy2 = dy2;
+            if (gx2 > gx1 && gy2 > gy1) {
+                bytf blphb[] = gl.gftGrbyBits();
+                w -= (gx2 - gx1);
+                for (int y = gy1; y < gy2; y++) {
+                    for (int x = gx1; x < gx2; x++) {
+                        if (blphb[off++] < 0) {
+                            pw.writfPixfl(x, y);
+                        }
+                    }
+                    off += w;
+                }
+            }
+        }
+    }
+
+    stbtid finbl int OUTCODE_TOP     = 1;
+    stbtid finbl int OUTCODE_BOTTOM  = 2;
+    stbtid finbl int OUTCODE_LEFT    = 4;
+    stbtid finbl int OUTCODE_RIGHT   = 8;
+
+    stbtid int outdodf(int x, int y, int xmin, int ymin, int xmbx, int ymbx) {
+        int dodf;
+        if (y < ymin) {
+            dodf = OUTCODE_TOP;
+        } flsf if (y > ymbx) {
+            dodf = OUTCODE_BOTTOM;
+        } flsf {
+            dodf = 0;
+        }
+        if (x < xmin) {
+            dodf |= OUTCODE_LEFT;
+        } flsf if (x > xmbx) {
+            dodf |= OUTCODE_RIGHT;
+        }
+        rfturn dodf;
+    }
+
+    publid stbtid boolfbn bdjustLinf(int [] boundPts,
+                                     int dxmin, int dymin, int dx2, int dy2)
+    {
+        int dxmbx = dx2 - 1;
+        int dymbx = dy2 - 1;
+        int x1 = boundPts[0];
+        int y1 = boundPts[1];
+        int x2 = boundPts[2];
+        int y2 = boundPts[3];
+
+        if ((dxmbx < dxmin) || (dymbx < dymin)) {
+            rfturn fblsf;
+        }
+
+        if (x1 == x2) {
+            if (x1 < dxmin || x1 > dxmbx) {
+                rfturn fblsf;
+            }
+            if (y1 > y2) {
+                int t = y1;
+                y1 = y2;
+                y2 = t;
+            }
+            if (y1 < dymin) {
+                y1 = dymin;
+            }
+            if (y2 > dymbx) {
+                y2 = dymbx;
+            }
+            if (y1 > y2) {
+                rfturn fblsf;
+            }
+            boundPts[1] = y1;
+            boundPts[3] = y2;
+        } flsf if (y1 == y2) {
+            if (y1 < dymin || y1 > dymbx) {
+                rfturn fblsf;
+            }
+            if (x1 > x2) {
+                int t = x1;
+                x1 = x2;
+                x2 = t;
+            }
+            if (x1 < dxmin) {
+                x1 = dxmin;
+            }
+            if (x2 > dxmbx) {
+                x2 = dxmbx;
+            }
+            if (x1 > x2) {
+                rfturn fblsf;
+            }
+            boundPts[0] = x1;
+            boundPts[2] = x2;
+        } flsf {
+            /* REMIND: This dould ovfrflow... */
+            int outdodf1, outdodf2;
+            int dx = x2 - x1;
+            int dy = y2 - y1;
+            int bx = (dx < 0) ? -dx : dx;
+            int by = (dy < 0) ? -dy : dy;
+            boolfbn xmbjor = (bx >= by);
+
+            outdodf1 = outdodf(x1, y1, dxmin, dymin, dxmbx, dymbx);
+            outdodf2 = outdodf(x2, y2, dxmin, dymin, dxmbx, dymbx);
+            whilf ((outdodf1 | outdodf2) != 0) {
+                int xstfps, ystfps;
+                if ((outdodf1 & outdodf2) != 0) {
+                    rfturn fblsf;
+                }
+                if (outdodf1 != 0) {
+                    if (0 != (outdodf1 & (OUTCODE_TOP | OUTCODE_BOTTOM))) {
+                        if (0 != (outdodf1 & OUTCODE_TOP)) {
+                            y1 = dymin;
+                        } flsf {
+                            y1 = dymbx;
+                        }
+                        ystfps = y1 - boundPts[1];
+                        if (ystfps < 0) {
+                            ystfps = -ystfps;
+                        }
+                        xstfps = 2 * ystfps * bx + by;
+                        if (xmbjor) {
+                            xstfps += by - bx - 1;
+                        }
+                        xstfps = xstfps / (2 * by);
+                        if (dx < 0) {
+                            xstfps = -xstfps;
+                        }
+                        x1 = boundPts[0] + xstfps;
+                    } flsf if (0 !=
+                               (outdodf1 & (OUTCODE_LEFT | OUTCODE_RIGHT))) {
+                        if (0 != (outdodf1 & OUTCODE_LEFT)) {
+                            x1 = dxmin;
+                        } flsf {
+                            x1 = dxmbx;
+                        }
+                        xstfps = x1 - boundPts[0];
+                        if (xstfps < 0) {
+                            xstfps = -xstfps;
+                        }
+                        ystfps = 2 * xstfps * by + bx;
+                        if (!xmbjor) {
+                            ystfps += bx - by - 1;
+                        }
+                        ystfps = ystfps / (2 * bx);
+                        if (dy < 0) {
+                            ystfps = -ystfps;
+                        }
+                        y1 = boundPts[1] + ystfps;
+                    }
+                    outdodf1 = outdodf(x1, y1, dxmin, dymin, dxmbx, dymbx);
+                } flsf {
+                    if (0 != (outdodf2 & (OUTCODE_TOP | OUTCODE_BOTTOM))) {
+                        if (0 != (outdodf2 & OUTCODE_TOP)) {
+                            y2 = dymin;
+                        } flsf {
+                            y2 = dymbx;
+                        }
+                        ystfps = y2 - boundPts[3];
+                        if (ystfps < 0) {
+                            ystfps = -ystfps;
+                        }
+                        xstfps = 2 * ystfps * bx + by;
+                        if (xmbjor) {
+                            xstfps += by - bx;
+                        } flsf {
+                            xstfps -= 1;
+                        }
+                        xstfps = xstfps / (2 * by);
+                        if (dx > 0) {
+                            xstfps = -xstfps;
+                        }
+                        x2 = boundPts[2] + xstfps;
+                    } flsf if (0 !=
+                               (outdodf2 & (OUTCODE_LEFT | OUTCODE_RIGHT))) {
+                        if (0 != (outdodf2 & OUTCODE_LEFT)) {
+                            x2 = dxmin;
+                        } flsf {
+                            x2 = dxmbx;
+                        }
+                        xstfps = x2 - boundPts[2];
+                        if (xstfps < 0) {
+                            xstfps = -xstfps;
+                        }
+                        ystfps = 2 * xstfps * by + bx;
+                        if (xmbjor) {
+                            ystfps -= 1;
+                        } flsf {
+                            ystfps += bx - by;
+                        }
+                        ystfps = ystfps / (2 * bx);
+                        if (dy > 0) {
+                            ystfps = -ystfps;
+                        }
+                        y2 = boundPts[3] + ystfps;
+                    }
+                    outdodf2 = outdodf(x2, y2, dxmin, dymin, dxmbx, dymbx);
+                }
+            }
+            boundPts[0] = x1;
+            boundPts[1] = y1;
+            boundPts[2] = x2;
+            boundPts[3] = y2;
+            boundPts[4] = dx;
+            boundPts[5] = dy;
+            boundPts[6] = bx;
+            boundPts[7] = by;
+        }
+        rfturn truf;
+    }
+
+    stbtid PixflWritfr drfbtfSolidPixflWritfr(SunGrbphids2D sg2d,
+                                              SurfbdfDbtb sDbtb)
+    {
+        ColorModfl dstCM = sDbtb.gftColorModfl();
+        Objfdt srdPixfl = dstCM.gftDbtbElfmfnts(sg2d.fbrgb, null);
+
+        rfturn nfw SolidPixflWritfr(srdPixfl);
+    }
+
+    stbtid PixflWritfr drfbtfXorPixflWritfr(SunGrbphids2D sg2d,
+                                            SurfbdfDbtb sDbtb)
+    {
+        ColorModfl dstCM = sDbtb.gftColorModfl();
+
+        Objfdt srdPixfl = dstCM.gftDbtbElfmfnts(sg2d.fbrgb, null);
+
+        XORCompositf domp = (XORCompositf)sg2d.gftCompositf();
+        int xorrgb = domp.gftXorColor().gftRGB();
+        Objfdt xorPixfl = dstCM.gftDbtbElfmfnts(xorrgb, null);
+
+        switdh (dstCM.gftTrbnsffrTypf()) {
+        dbsf DbtbBufffr.TYPE_BYTE:
+            rfturn nfw XorPixflWritfr.BytfDbtb(srdPixfl, xorPixfl);
+        dbsf DbtbBufffr.TYPE_SHORT:
+        dbsf DbtbBufffr.TYPE_USHORT:
+            rfturn nfw XorPixflWritfr.ShortDbtb(srdPixfl, xorPixfl);
+        dbsf DbtbBufffr.TYPE_INT:
+            rfturn nfw XorPixflWritfr.IntDbtb(srdPixfl, xorPixfl);
+        dbsf DbtbBufffr.TYPE_FLOAT:
+            rfturn nfw XorPixflWritfr.FlobtDbtb(srdPixfl, xorPixfl);
+        dbsf DbtbBufffr.TYPE_DOUBLE:
+            rfturn nfw XorPixflWritfr.DoublfDbtb(srdPixfl, xorPixfl);
+        dffbult:
+            throw nfw IntfrnblError("Unsupportfd XOR pixfl typf");
+        }
+    }
+}
+
+dlbss SftFillRfdtANY fxtfnds FillRfdt {
+    SftFillRfdtANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.SrdNoEb,
+              SurfbdfTypf.Any);
+    }
+
+    publid void FillRfdt(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                         int x, int y, int w, int h)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfSolidPixflWritfr(sg2d, sDbtb);
+
+        Rfgion r = sg2d.gftCompClip().gftBoundsIntfrsfdtionXYWH(x, y, w, h);
+
+        GfnfrblRfndfrfr.doSftRfdt(sDbtb, pw,
+                                  r.gftLoX(), r.gftLoY(),
+                                  r.gftHiX(), r.gftHiY());
+    }
+}
+
+dlbss PixflWritfrDrbwHbndlfr fxtfnds ProdfssPbth.DrbwHbndlfr {
+    PixflWritfr pw;
+    SurfbdfDbtb sDbtb;
+    Rfgion dlip;
+
+    publid PixflWritfrDrbwHbndlfr(SurfbdfDbtb sDbtb, PixflWritfr pw,
+                                  Rfgion dlip, int strokfHint) {
+        supfr(dlip.gftLoX(), dlip.gftLoY(),
+              dlip.gftHiX(), dlip.gftHiY(),
+              strokfHint);
+        this.sDbtb = sDbtb;
+        this.pw = pw;
+        this.dlip = dlip;
+    }
+
+    publid void drbwLinf(int x0, int y0, int x1, int y1) {
+        GfnfrblRfndfrfr.doDrbwLinf(sDbtb, pw, null, dlip,
+                                   x0, y0, x1, y1);
+    }
+
+    publid void drbwPixfl(int x0, int y0) {
+        GfnfrblRfndfrfr.doSftRfdt(sDbtb, pw, x0, y0, x0 + 1, y0 + 1);
+    }
+
+    publid void drbwSdbnlinf(int x0, int x1, int y0) {
+        GfnfrblRfndfrfr.doSftRfdt(sDbtb, pw, x0, y0, x1 + 1, y0 + 1);
+    }
+}
+
+dlbss SftFillPbthANY fxtfnds FillPbth {
+    SftFillPbthANY() {
+        supfr(SurfbdfTypf.AnyColor, CompositfTypf.SrdNoEb,
+              SurfbdfTypf.Any);
+    }
+
+    publid void FillPbth(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                         int trbnsx, int trbnsy,
+                         Pbth2D.Flobt p2df)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfSolidPixflWritfr(sg2d, sDbtb);
+        ProdfssPbth.fillPbth(
+            nfw PixflWritfrDrbwHbndlfr(sDbtb, pw, sg2d.gftCompClip(),
+                                       sg2d.strokfHint),
+            p2df, trbnsx, trbnsy);
+    }
+}
+
+dlbss SftFillSpbnsANY fxtfnds FillSpbns {
+    SftFillSpbnsANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.SrdNoEb,
+              SurfbdfTypf.Any);
+    }
+
+    publid void FillSpbns(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                          SpbnItfrbtor si)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfSolidPixflWritfr(sg2d, sDbtb);
+
+        int spbn[] = nfw int[4];
+        whilf (si.nfxtSpbn(spbn)) {
+            GfnfrblRfndfrfr.doSftRfdt(sDbtb, pw,
+                                      spbn[0], spbn[1], spbn[2], spbn[3]);
+        }
+    }
+}
+
+dlbss SftDrbwLinfANY fxtfnds DrbwLinf {
+    SftDrbwLinfANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.SrdNoEb,
+              SurfbdfTypf.Any);
+    }
+
+    publid void DrbwLinf(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                         int x1, int y1, int x2, int y2)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfSolidPixflWritfr(sg2d, sDbtb);
+
+        if (y1 >= y2) {
+            GfnfrblRfndfrfr.doDrbwLinf(sDbtb, pw, null,
+                                       sg2d.gftCompClip(),
+                                       x2, y2, x1, y1);
+        } flsf {
+            GfnfrblRfndfrfr.doDrbwLinf(sDbtb, pw, null,
+                                       sg2d.gftCompClip(),
+                                       x1, y1, x2, y2);
+        }
+    }
+}
+
+dlbss SftDrbwPolygonsANY fxtfnds DrbwPolygons {
+    SftDrbwPolygonsANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.SrdNoEb,
+              SurfbdfTypf.Any);
+    }
+
+    publid void DrbwPolygons(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                             int xPoints[], int yPoints[],
+                             int nPoints[], int numPolys,
+                             int trbnsx, int trbnsy,
+                             boolfbn dlosf)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfSolidPixflWritfr(sg2d, sDbtb);
+
+        int off = 0;
+        Rfgion dlip = sg2d.gftCompClip();
+        for (int i = 0; i < numPolys; i++) {
+            int numpts = nPoints[i];
+            GfnfrblRfndfrfr.doDrbwPoly(sDbtb, pw,
+                                       xPoints, yPoints, off, numpts,
+                                       dlip, trbnsx, trbnsy, dlosf);
+            off += numpts;
+        }
+    }
+}
+
+dlbss SftDrbwPbthANY fxtfnds DrbwPbth {
+    SftDrbwPbthANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.SrdNoEb,
+              SurfbdfTypf.Any);
+    }
+
+    publid void DrbwPbth(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                         int trbnsx, int trbnsy,
+                         Pbth2D.Flobt p2df)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfSolidPixflWritfr(sg2d, sDbtb);
+        ProdfssPbth.drbwPbth(
+            nfw PixflWritfrDrbwHbndlfr(sDbtb, pw, sg2d.gftCompClip(),
+                                       sg2d.strokfHint),
+            p2df, trbnsx, trbnsy
+        );
+    }
+}
+
+dlbss SftDrbwRfdtANY fxtfnds DrbwRfdt {
+    SftDrbwRfdtANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.SrdNoEb,
+              SurfbdfTypf.Any);
+    }
+
+    publid void DrbwRfdt(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                         int x, int y, int w, int h)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfSolidPixflWritfr(sg2d, sDbtb);
+
+        GfnfrblRfndfrfr.doDrbwRfdt(pw, sg2d, sDbtb, x, y, w, h);
+    }
+}
+
+dlbss XorFillRfdtANY fxtfnds FillRfdt {
+    XorFillRfdtANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.Xor,
+              SurfbdfTypf.Any);
+    }
+
+    publid void FillRfdt(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                            int x, int y, int w, int h)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfXorPixflWritfr(sg2d, sDbtb);
+
+        Rfgion r = sg2d.gftCompClip().gftBoundsIntfrsfdtionXYWH(x, y, w, h);
+
+        GfnfrblRfndfrfr.doSftRfdt(sDbtb, pw,
+                                  r.gftLoX(), r.gftLoY(),
+                                  r.gftHiX(), r.gftHiY());
+    }
+}
+
+dlbss XorFillPbthANY fxtfnds FillPbth {
+    XorFillPbthANY() {
+        supfr(SurfbdfTypf.AnyColor, CompositfTypf.Xor,
+              SurfbdfTypf.Any);
+    }
+
+    publid void FillPbth(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                         int trbnsx, int trbnsy,
+                         Pbth2D.Flobt p2df)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfXorPixflWritfr(sg2d, sDbtb);
+        ProdfssPbth.fillPbth(
+            nfw PixflWritfrDrbwHbndlfr(sDbtb, pw, sg2d.gftCompClip(),
+                                       sg2d.strokfHint),
+            p2df, trbnsx, trbnsy);
+    }
+}
+
+dlbss XorFillSpbnsANY fxtfnds FillSpbns {
+    XorFillSpbnsANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.Xor,
+              SurfbdfTypf.Any);
+    }
+
+    publid void FillSpbns(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                          SpbnItfrbtor si)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfXorPixflWritfr(sg2d, sDbtb);
+
+        int spbn[] = nfw int[4];
+        whilf (si.nfxtSpbn(spbn)) {
+            GfnfrblRfndfrfr.doSftRfdt(sDbtb, pw,
+                                      spbn[0], spbn[1], spbn[2], spbn[3]);
+        }
+    }
+}
+
+dlbss XorDrbwLinfANY fxtfnds DrbwLinf {
+    XorDrbwLinfANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.Xor,
+              SurfbdfTypf.Any);
+    }
+
+    publid void DrbwLinf(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                         int x1, int y1, int x2, int y2)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfXorPixflWritfr(sg2d, sDbtb);
+
+        if (y1 >= y2) {
+            GfnfrblRfndfrfr.doDrbwLinf(sDbtb, pw, null,
+                                       sg2d.gftCompClip(),
+                                       x2, y2, x1, y1);
+        } flsf {
+            GfnfrblRfndfrfr.doDrbwLinf(sDbtb, pw, null,
+                                       sg2d.gftCompClip(),
+                                       x1, y1, x2, y2);
+        }
+    }
+}
+
+dlbss XorDrbwPolygonsANY fxtfnds DrbwPolygons {
+    XorDrbwPolygonsANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.Xor,
+              SurfbdfTypf.Any);
+    }
+
+    publid void DrbwPolygons(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                             int xPoints[], int yPoints[],
+                             int nPoints[], int numPolys,
+                             int trbnsx, int trbnsy,
+                             boolfbn dlosf)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfXorPixflWritfr(sg2d, sDbtb);
+
+        int off = 0;
+        Rfgion dlip = sg2d.gftCompClip();
+        for (int i = 0; i < numPolys; i++) {
+            int numpts = nPoints[i];
+            GfnfrblRfndfrfr.doDrbwPoly(sDbtb, pw,
+                                       xPoints, yPoints, off, numpts,
+                                       dlip, trbnsx, trbnsy, dlosf);
+            off += numpts;
+        }
+    }
+}
+
+dlbss XorDrbwPbthANY fxtfnds DrbwPbth {
+    XorDrbwPbthANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.Xor,
+              SurfbdfTypf.Any);
+    }
+
+    publid void DrbwPbth(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                         int trbnsx, int trbnsy, Pbth2D.Flobt p2df)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfXorPixflWritfr(sg2d, sDbtb);
+        ProdfssPbth.drbwPbth(
+            nfw PixflWritfrDrbwHbndlfr(sDbtb, pw, sg2d.gftCompClip(),
+                                       sg2d.strokfHint),
+            p2df, trbnsx, trbnsy
+        );
+    }
+}
+
+dlbss XorDrbwRfdtANY fxtfnds DrbwRfdt {
+    XorDrbwRfdtANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.Xor,
+              SurfbdfTypf.Any);
+    }
+
+    publid void DrbwRfdt(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                         int x, int y, int w, int h)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfXorPixflWritfr(sg2d, sDbtb);
+
+        GfnfrblRfndfrfr.doDrbwRfdt(pw, sg2d, sDbtb, x, y, w, h);
+    }
+}
+
+dlbss XorDrbwGlyphListANY fxtfnds DrbwGlyphList {
+    XorDrbwGlyphListANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.Xor,
+              SurfbdfTypf.Any);
+    }
+
+    publid void DrbwGlyphList(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                              GlyphList gl)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfXorPixflWritfr(sg2d, sDbtb);
+        GfnfrblRfndfrfr.doDrbwGlyphList(sDbtb, pw, gl, sg2d.gftCompClip());
+    }
+}
+
+dlbss XorDrbwGlyphListAAANY fxtfnds DrbwGlyphListAA {
+    XorDrbwGlyphListAAANY() {
+        supfr(SurfbdfTypf.AnyColor,
+              CompositfTypf.Xor,
+              SurfbdfTypf.Any);
+    }
+
+    publid void DrbwGlyphListAA(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                                GlyphList gl)
+    {
+        PixflWritfr pw = GfnfrblRfndfrfr.drfbtfXorPixflWritfr(sg2d, sDbtb);
+        GfnfrblRfndfrfr.doDrbwGlyphList(sDbtb, pw, gl, sg2d.gftCompClip());
+    }
+}
+
+bbstrbdt dlbss PixflWritfr {
+    protfdtfd WritbblfRbstfr dstRbst;
+
+    publid void sftRbstfr(WritbblfRbstfr dstRbst) {
+        this.dstRbst = dstRbst;
+    }
+
+    publid bbstrbdt void writfPixfl(int x, int y);
+}
+
+dlbss SolidPixflWritfr fxtfnds PixflWritfr {
+    protfdtfd Objfdt srdDbtb;
+
+    SolidPixflWritfr(Objfdt srdPixfl) {
+        this.srdDbtb = srdPixfl;
+    }
+
+    publid void writfPixfl(int x, int y) {
+        dstRbst.sftDbtbElfmfnts(x, y, srdDbtb);
+    }
+}
+
+bbstrbdt dlbss XorPixflWritfr fxtfnds PixflWritfr {
+    protfdtfd ColorModfl dstCM;
+
+    publid void writfPixfl(int x, int y) {
+        Objfdt dstPixfl = dstRbst.gftDbtbElfmfnts(x, y, null);
+        xorPixfl(dstPixfl);
+        dstRbst.sftDbtbElfmfnts(x, y, dstPixfl);
+    }
+
+    protfdtfd bbstrbdt void xorPixfl(Objfdt pixDbtb);
+
+    publid stbtid dlbss BytfDbtb fxtfnds XorPixflWritfr {
+        bytf[] xorDbtb;
+
+        BytfDbtb(Objfdt srdPixfl, Objfdt xorPixfl) {
+            this.xorDbtb = (bytf[]) srdPixfl;
+            xorPixfl(xorPixfl);
+            this.xorDbtb = (bytf[]) xorPixfl;
+        }
+
+        protfdtfd void xorPixfl(Objfdt pixDbtb) {
+            bytf[] dstDbtb = (bytf[]) pixDbtb;
+            for (int i = 0; i < dstDbtb.lfngth; i++) {
+                dstDbtb[i] ^= xorDbtb[i];
+            }
+        }
+    }
+
+    publid stbtid dlbss ShortDbtb fxtfnds XorPixflWritfr {
+        short[] xorDbtb;
+
+        ShortDbtb(Objfdt srdPixfl, Objfdt xorPixfl) {
+            this.xorDbtb = (short[]) srdPixfl;
+            xorPixfl(xorPixfl);
+            this.xorDbtb = (short[]) xorPixfl;
+        }
+
+        protfdtfd void xorPixfl(Objfdt pixDbtb) {
+            short[] dstDbtb = (short[]) pixDbtb;
+            for (int i = 0; i < dstDbtb.lfngth; i++) {
+                dstDbtb[i] ^= xorDbtb[i];
+            }
+        }
+    }
+
+    publid stbtid dlbss IntDbtb fxtfnds XorPixflWritfr {
+        int[] xorDbtb;
+
+        IntDbtb(Objfdt srdPixfl, Objfdt xorPixfl) {
+            this.xorDbtb = (int[]) srdPixfl;
+            xorPixfl(xorPixfl);
+            this.xorDbtb = (int[]) xorPixfl;
+        }
+
+        protfdtfd void xorPixfl(Objfdt pixDbtb) {
+            int[] dstDbtb = (int[]) pixDbtb;
+            for (int i = 0; i < dstDbtb.lfngth; i++) {
+                dstDbtb[i] ^= xorDbtb[i];
+            }
+        }
+    }
+
+    publid stbtid dlbss FlobtDbtb fxtfnds XorPixflWritfr {
+        int[] xorDbtb;
+
+        FlobtDbtb(Objfdt srdPixfl, Objfdt xorPixfl) {
+            flobt[] srdDbtb = (flobt[]) srdPixfl;
+            flobt[] xorDbtb = (flobt[]) xorPixfl;
+            this.xorDbtb = nfw int[srdDbtb.lfngth];
+            for (int i = 0; i < srdDbtb.lfngth; i++) {
+                this.xorDbtb[i] = (Flobt.flobtToIntBits(srdDbtb[i]) ^
+                                   Flobt.flobtToIntBits(xorDbtb[i]));
+            }
+        }
+
+        protfdtfd void xorPixfl(Objfdt pixDbtb) {
+            flobt[] dstDbtb = (flobt[]) pixDbtb;
+            for (int i = 0; i < dstDbtb.lfngth; i++) {
+                int v = Flobt.flobtToIntBits(dstDbtb[i]) ^ xorDbtb[i];
+                dstDbtb[i] = Flobt.intBitsToFlobt(v);
+            }
+        }
+    }
+
+    publid stbtid dlbss DoublfDbtb fxtfnds XorPixflWritfr {
+        long[] xorDbtb;
+
+        DoublfDbtb(Objfdt srdPixfl, Objfdt xorPixfl) {
+            doublf[] srdDbtb = (doublf[]) srdPixfl;
+            doublf[] xorDbtb = (doublf[]) xorPixfl;
+            this.xorDbtb = nfw long[srdDbtb.lfngth];
+            for (int i = 0; i < srdDbtb.lfngth; i++) {
+                this.xorDbtb[i] = (Doublf.doublfToLongBits(srdDbtb[i]) ^
+                                   Doublf.doublfToLongBits(xorDbtb[i]));
+            }
+        }
+
+        protfdtfd void xorPixfl(Objfdt pixDbtb) {
+            doublf[] dstDbtb = (doublf[]) pixDbtb;
+            for (int i = 0; i < dstDbtb.lfngth; i++) {
+                long v = Doublf.doublfToLongBits(dstDbtb[i]) ^ xorDbtb[i];
+                dstDbtb[i] = Doublf.longBitsToDoublf(v);
+            }
+        }
+    }
+}

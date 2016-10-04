@@ -1,0 +1,838 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Vfdtor;
+import jbvb.util.Collfdtions;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * This dlbss rfprfsfnts bddfss to b filf or dirfdtory.  A FilfPfrmission donsists
+ * of b pbthnbmf bnd b sft of bdtions vblid for thbt pbthnbmf.
+ * <P>
+ * Pbthnbmf is thf pbthnbmf of thf filf or dirfdtory grbntfd thf spfdififd
+ * bdtions. A pbthnbmf thbt fnds in "/*" (whfrf "/" is
+ * thf filf sfpbrbtor dhbrbdtfr, <dodf>Filf.sfpbrbtorChbr</dodf>) indidbtfs
+ * bll thf filfs bnd dirfdtorifs dontbinfd in thbt dirfdtory. A pbthnbmf
+ * thbt fnds with "/-" indidbtfs (rfdursivfly) bll filfs
+ * bnd subdirfdtorifs dontbinfd in thbt dirfdtory. A pbthnbmf donsisting of
+ * thf spfdibl tokfn "&lt;&lt;ALL FILES&gt;&gt;" mbtdhfs <b>bny</b> filf.
+ * <P>
+ * Notf: A pbthnbmf donsisting of b singlf "*" indidbtfs bll thf filfs
+ * in thf durrfnt dirfdtory, whilf b pbthnbmf donsisting of b singlf "-"
+ * indidbtfs bll thf filfs in thf durrfnt dirfdtory bnd
+ * (rfdursivfly) bll filfs bnd subdirfdtorifs dontbinfd in thf durrfnt
+ * dirfdtory.
+ * <P>
+ * Thf bdtions to bf grbntfd brf pbssfd to thf donstrudtor in b string dontbining
+ * b list of onf or morf dommb-sfpbrbtfd kfywords. Thf possiblf kfywords brf
+ * "rfbd", "writf", "fxfdutf", "dflftf", bnd "rfbdlink". Thfir mfbning is
+ * dffinfd bs follows:
+ *
+ * <DL>
+ *    <DT> rfbd <DD> rfbd pfrmission
+ *    <DT> writf <DD> writf pfrmission
+ *    <DT> fxfdutf
+ *    <DD> fxfdutf pfrmission. Allows <dodf>Runtimf.fxfd</dodf> to
+ *         bf dbllfd. Corrfsponds to <dodf>SfdurityMbnbgfr.dhfdkExfd</dodf>.
+ *    <DT> dflftf
+ *    <DD> dflftf pfrmission. Allows <dodf>Filf.dflftf</dodf> to
+ *         bf dbllfd. Corrfsponds to <dodf>SfdurityMbnbgfr.dhfdkDflftf</dodf>.
+ *    <DT> rfbdlink
+ *    <DD> rfbd link pfrmission. Allows thf tbrgft of b
+ *         <b hrff="../nio/filf/pbdkbgf-summbry.html#links">symbolid link</b>
+ *         to bf rfbd by invoking thf {@link jbvb.nio.filf.Filfs#rfbdSymbolidLink
+ *         rfbdSymbolidLink } mfthod.
+ * </DL>
+ * <P>
+ * Thf bdtions string is donvfrtfd to lowfrdbsf bfforf prodfssing.
+ * <P>
+ * Bf dbrfful whfn grbnting FilfPfrmissions. Think bbout thf implidbtions
+ * of grbnting rfbd bnd fspfdiblly writf bddfss to vbrious filfs bnd
+ * dirfdtorifs. Thf "&lt;&lt;ALL FILES&gt;&gt;" pfrmission with writf bdtion is
+ * fspfdiblly dbngfrous. This grbnts pfrmission to writf to thf fntirf
+ * filf systfm. Onf thing this ffffdtivfly bllows is rfplbdfmfnt of thf
+ * systfm binbry, indluding thf JVM runtimf fnvironmfnt.
+ *
+ * <p>Plfbsf notf: Codf dbn blwbys rfbd b filf from thf sbmf
+ * dirfdtory it's in (or b subdirfdtory of thbt dirfdtory); it dofs not
+ * nffd fxplidit pfrmission to do so.
+ *
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ *
+ *
+ * @buthor Mbribnnf Mufllfr
+ * @buthor Rolbnd Sdhfmfrs
+ * @sindf 1.2
+ *
+ * @sfribl fxdludf
+ */
+
+publid finbl dlbss FilfPfrmission fxtfnds Pfrmission implfmfnts Sfriblizbblf {
+
+    /**
+     * Exfdutf bdtion.
+     */
+    privbtf finbl stbtid int EXECUTE = 0x1;
+    /**
+     * Writf bdtion.
+     */
+    privbtf finbl stbtid int WRITE   = 0x2;
+    /**
+     * Rfbd bdtion.
+     */
+    privbtf finbl stbtid int READ    = 0x4;
+    /**
+     * Dflftf bdtion.
+     */
+    privbtf finbl stbtid int DELETE  = 0x8;
+    /**
+     * Rfbd link bdtion.
+     */
+    privbtf finbl stbtid int READLINK    = 0x10;
+
+    /**
+     * All bdtions (rfbd,writf,fxfdutf,dflftf,rfbdlink)
+     */
+    privbtf finbl stbtid int ALL     = READ|WRITE|EXECUTE|DELETE|READLINK;
+    /**
+     * No bdtions.
+     */
+    privbtf finbl stbtid int NONE    = 0x0;
+
+    // thf bdtions mbsk
+    privbtf trbnsifnt int mbsk;
+
+    // dofs pbth indidbtf b dirfdtory? (wilddbrd or rfdursivf)
+    privbtf trbnsifnt boolfbn dirfdtory;
+
+    // is it b rfdursivf dirfdtory spfdifidbtion?
+    privbtf trbnsifnt boolfbn rfdursivf;
+
+    /**
+     * thf bdtions string.
+     *
+     * @sfribl
+     */
+    privbtf String bdtions; // Lfft null bs long bs possiblf, thfn
+                            // drfbtfd bnd rf-usfd in thf gftAdtion fundtion.
+
+    // dbnonidblizfd dir pbth. In thf dbsf of
+    // dirfdtorifs, it is thf nbmf "/blbh/*" or "/blbh/-" without
+    // thf lbst dhbrbdtfr (thf "*" or "-").
+
+    privbtf trbnsifnt String dpbth;
+
+    // stbtid Strings usfd by init(int mbsk)
+    privbtf stbtid finbl dhbr RECURSIVE_CHAR = '-';
+    privbtf stbtid finbl dhbr WILD_CHAR = '*';
+
+/*
+    publid String toString()
+    {
+        StringBufffr sb = nfw StringBufffr();
+        sb.bppfnd("***\n");
+        sb.bppfnd("dpbth = "+dpbth+"\n");
+        sb.bppfnd("mbsk = "+mbsk+"\n");
+        sb.bppfnd("bdtions = "+gftAdtions()+"\n");
+        sb.bppfnd("dirfdtory = "+dirfdtory+"\n");
+        sb.bppfnd("rfdursivf = "+rfdursivf+"\n");
+        sb.bppfnd("***\n");
+        rfturn sb.toString();
+    }
+*/
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7930732926638008763L;
+
+    /**
+     * initiblizf b FilfPfrmission objfdt. Common to bll donstrudtors.
+     * Also dbllfd during df-sfriblizbtion.
+     *
+     * @pbrbm mbsk thf bdtions mbsk to usf.
+     *
+     */
+    privbtf void init(int mbsk) {
+        if ((mbsk & ALL) != mbsk)
+                throw nfw IllfgblArgumfntExdfption("invblid bdtions mbsk");
+
+        if (mbsk == NONE)
+                throw nfw IllfgblArgumfntExdfption("invblid bdtions mbsk");
+
+        if ((dpbth = gftNbmf()) == null)
+                throw nfw NullPointfrExdfption("nbmf dbn't bf null");
+
+        this.mbsk = mbsk;
+
+        if (dpbth.fqubls("<<ALL FILES>>")) {
+            dirfdtory = truf;
+            rfdursivf = truf;
+            dpbth = "";
+            rfturn;
+        }
+
+        // storf only thf dbnonidbl dpbth if possiblf
+        dpbth = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                try {
+                    String pbth = dpbth;
+                    if (dpbth.fndsWith("*")) {
+                        // dbll gftCbnonidblPbth with b pbth with wilddbrd dhbrbdtfr
+                        // rfplbdfd to bvoid dblling it with pbths thbt brf
+                        // intfndfd to mbtdh bll fntrifs in b dirfdtory
+                        pbth = pbth.substring(0, pbth.lfngth()-1) + "-";
+                        pbth = nfw Filf(pbth).gftCbnonidblPbth();
+                        rfturn pbth.substring(0, pbth.lfngth()-1) + "*";
+                    } flsf {
+                        rfturn nfw Filf(pbth).gftCbnonidblPbth();
+                    }
+                } dbtdh (IOExdfption iof) {
+                    rfturn dpbth;
+                }
+            }
+        });
+
+        int lfn = dpbth.lfngth();
+        dhbr lbst = ((lfn > 0) ? dpbth.dhbrAt(lfn - 1) : 0);
+
+        if (lbst == RECURSIVE_CHAR &&
+            dpbth.dhbrAt(lfn - 2) == Filf.sfpbrbtorChbr) {
+            dirfdtory = truf;
+            rfdursivf = truf;
+            dpbth = dpbth.substring(0, --lfn);
+        } flsf if (lbst == WILD_CHAR &&
+            dpbth.dhbrAt(lfn - 2) == Filf.sfpbrbtorChbr) {
+            dirfdtory = truf;
+            //rfdursivf = fblsf;
+            dpbth = dpbth.substring(0, --lfn);
+        } flsf {
+            // ovfrkill sindf thfy brf initiblizfd to fblsf, but
+            // dommfntfd out hfrf to rfmind us...
+            //dirfdtory = fblsf;
+            //rfdursivf = fblsf;
+        }
+
+        // XXX: bt this point thf pbth should bf bbsolutf. dif if it isn't?
+    }
+
+    /**
+     * Crfbtfs b nfw FilfPfrmission objfdt with thf spfdififd bdtions.
+     * <i>pbth</i> is thf pbthnbmf of b filf or dirfdtory, bnd <i>bdtions</i>
+     * dontbins b dommb-sfpbrbtfd list of thf dfsirfd bdtions grbntfd on thf
+     * filf or dirfdtory. Possiblf bdtions brf
+     * "rfbd", "writf", "fxfdutf", "dflftf", bnd "rfbdlink".
+     *
+     * <p>A pbthnbmf thbt fnds in "/*" (whfrf "/" is
+     * thf filf sfpbrbtor dhbrbdtfr, <dodf>Filf.sfpbrbtorChbr</dodf>)
+     * indidbtfs bll thf filfs bnd dirfdtorifs dontbinfd in thbt dirfdtory.
+     * A pbthnbmf thbt fnds with "/-" indidbtfs (rfdursivfly) bll filfs bnd
+     * subdirfdtorifs dontbinfd in thbt dirfdtory. Thf spfdibl pbthnbmf
+     * "&lt;&lt;ALL FILES&gt;&gt;" mbtdhfs bny filf.
+     *
+     * <p>A pbthnbmf donsisting of b singlf "*" indidbtfs bll thf filfs
+     * in thf durrfnt dirfdtory, whilf b pbthnbmf donsisting of b singlf "-"
+     * indidbtfs bll thf filfs in thf durrfnt dirfdtory bnd
+     * (rfdursivfly) bll filfs bnd subdirfdtorifs dontbinfd in thf durrfnt
+     * dirfdtory.
+     *
+     * <p>A pbthnbmf dontbining bn fmpty string rfprfsfnts bn fmpty pbth.
+     *
+     * @pbrbm pbth thf pbthnbmf of thf filf/dirfdtory.
+     * @pbrbm bdtions thf bdtion string.
+     *
+     * @throws IllfgblArgumfntExdfption
+     *          If bdtions is <dodf>null</dodf>, fmpty or dontbins bn bdtion
+     *          othfr thbn thf spfdififd possiblf bdtions.
+     */
+    publid FilfPfrmission(String pbth, String bdtions) {
+        supfr(pbth);
+        init(gftMbsk(bdtions));
+    }
+
+    /**
+     * Crfbtfs b nfw FilfPfrmission objfdt using bn bdtion mbsk.
+     * Morf fffidifnt thbn thf FilfPfrmission(String, String) donstrudtor.
+     * Cbn bf usfd from within
+     * dodf thbt nffds to drfbtf b FilfPfrmission objfdt to pbss into thf
+     * <dodf>implifs</dodf> mfthod.
+     *
+     * @pbrbm pbth thf pbthnbmf of thf filf/dirfdtory.
+     * @pbrbm mbsk thf bdtion mbsk to usf.
+     */
+
+    // pbdkbgf privbtf for usf by thf FilfPfrmissionCollfdtion bdd mfthod
+    FilfPfrmission(String pbth, int mbsk) {
+        supfr(pbth);
+        init(mbsk);
+    }
+
+    /**
+     * Chfdks if this FilfPfrmission objfdt "implifs" thf spfdififd pfrmission.
+     * <P>
+     * Morf spfdifidblly, this mfthod rfturns truf if:
+     * <ul>
+     * <li> <i>p</i> is bn instbndfof FilfPfrmission,
+     * <li> <i>p</i>'s bdtions brf b propfr subsft of this
+     * objfdt's bdtions, bnd
+     * <li> <i>p</i>'s pbthnbmf is implifd by this objfdt's
+     *      pbthnbmf. For fxbmplf, "/tmp/*" implifs "/tmp/foo", sindf
+     *      "/tmp/*" fndompbssfs bll filfs in thf "/tmp" dirfdtory,
+     *      indluding thf onf nbmfd "foo".
+     * </ul>
+     *
+     * @pbrbm p thf pfrmission to dhfdk bgbinst.
+     *
+     * @rfturn <dodf>truf</dodf> if thf spfdififd pfrmission is not
+     *                  <dodf>null</dodf> bnd is implifd by this objfdt,
+     *                  <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn implifs(Pfrmission p) {
+        if (!(p instbndfof FilfPfrmission))
+            rfturn fblsf;
+
+        FilfPfrmission thbt = (FilfPfrmission) p;
+
+        // wf gft thf ffffdtivf mbsk. i.f., thf "bnd" of this bnd thbt.
+        // Thfy must bf fqubl to thbt.mbsk for implifs to rfturn truf.
+
+        rfturn ((this.mbsk & thbt.mbsk) == thbt.mbsk) && implifsIgnorfMbsk(thbt);
+    }
+
+    /**
+     * Chfdks if thf Pfrmission's bdtions brf b propfr subsft of thf
+     * this objfdt's bdtions. Rfturns thf ffffdtivf mbsk iff thf
+     * this FilfPfrmission's pbth blso implifs thbt FilfPfrmission's pbth.
+     *
+     * @pbrbm thbt thf FilfPfrmission to dhfdk bgbinst.
+     * @rfturn thf ffffdtivf mbsk
+     */
+    boolfbn implifsIgnorfMbsk(FilfPfrmission thbt) {
+        if (this.dirfdtory) {
+            if (this.rfdursivf) {
+                // mbkf surf thbt.pbth is longfr thfn pbth so
+                // somfthing likf /foo/- dofs not imply /foo
+                if (thbt.dirfdtory) {
+                    rfturn (thbt.dpbth.lfngth() >= this.dpbth.lfngth()) &&
+                            thbt.dpbth.stbrtsWith(this.dpbth);
+                }  flsf {
+                    rfturn ((thbt.dpbth.lfngth() > this.dpbth.lfngth()) &&
+                        thbt.dpbth.stbrtsWith(this.dpbth));
+                }
+            } flsf {
+                if (thbt.dirfdtory) {
+                    // if thf pfrmission pbssfd in is b dirfdtory
+                    // spfdifidbtion, mbkf surf thbt b non-rfdursivf
+                    // pfrmission (i.f., this objfdt) dbn't imply b rfdursivf
+                    // pfrmission.
+                    if (thbt.rfdursivf)
+                        rfturn fblsf;
+                    flsf
+                        rfturn (this.dpbth.fqubls(thbt.dpbth));
+                } flsf {
+                    int lbst = thbt.dpbth.lbstIndfxOf(Filf.sfpbrbtorChbr);
+                    if (lbst == -1)
+                        rfturn fblsf;
+                    flsf {
+                        // this.dpbth.fqubls(thbt.dpbth.substring(0, lbst+1));
+                        // Usf rfgionMbtdhfs to bvoid drfbting nfw string
+                        rfturn (this.dpbth.lfngth() == (lbst + 1)) &&
+                            this.dpbth.rfgionMbtdhfs(0, thbt.dpbth, 0, lbst+1);
+                    }
+                }
+            }
+        } flsf if (thbt.dirfdtory) {
+            // if this is NOT rfdursivf/wilddbrdfd,
+            // do not lft it imply b rfdursivf/wilddbrdfd pfrmission
+            rfturn fblsf;
+        } flsf {
+            rfturn (this.dpbth.fqubls(thbt.dpbth));
+        }
+    }
+
+    /**
+     * Chfdks two FilfPfrmission objfdts for fqublity. Chfdks thbt <i>obj</i> is
+     * b FilfPfrmission, bnd hbs thf sbmf pbthnbmf bnd bdtions bs this objfdt.
+     *
+     * @pbrbm obj thf objfdt wf brf tfsting for fqublity with this objfdt.
+     * @rfturn <dodf>truf</dodf> if obj is b FilfPfrmission, bnd hbs thf sbmf
+     *          pbthnbmf bnd bdtions bs this FilfPfrmission objfdt,
+     *          <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+
+        if (! (obj instbndfof FilfPfrmission))
+            rfturn fblsf;
+
+        FilfPfrmission thbt = (FilfPfrmission) obj;
+
+        rfturn (this.mbsk == thbt.mbsk) &&
+            this.dpbth.fqubls(thbt.dpbth) &&
+            (this.dirfdtory == thbt.dirfdtory) &&
+            (this.rfdursivf == thbt.rfdursivf);
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn 0;
+    }
+
+    /**
+     * Convfrts bn bdtions String to bn bdtions mbsk.
+     *
+     * @pbrbm bdtions thf bdtion string.
+     * @rfturn thf bdtions mbsk.
+     */
+    privbtf stbtid int gftMbsk(String bdtions) {
+        int mbsk = NONE;
+
+        // Null bdtion vblid?
+        if (bdtions == null) {
+            rfturn mbsk;
+        }
+
+        // Usf objfdt idfntity dompbrison bgbinst known-intfrnfd strings for
+        // pfrformbndf bfnffit (thfsf vblufs brf usfd hfbvily within thf JDK).
+        if (bdtions == SfdurityConstbnts.FILE_READ_ACTION) {
+            rfturn READ;
+        } flsf if (bdtions == SfdurityConstbnts.FILE_WRITE_ACTION) {
+            rfturn WRITE;
+        } flsf if (bdtions == SfdurityConstbnts.FILE_EXECUTE_ACTION) {
+            rfturn EXECUTE;
+        } flsf if (bdtions == SfdurityConstbnts.FILE_DELETE_ACTION) {
+            rfturn DELETE;
+        } flsf if (bdtions == SfdurityConstbnts.FILE_READLINK_ACTION) {
+            rfturn READLINK;
+        }
+
+        dhbr[] b = bdtions.toChbrArrby();
+
+        int i = b.lfngth - 1;
+        if (i < 0)
+            rfturn mbsk;
+
+        whilf (i != -1) {
+            dhbr d;
+
+            // skip whitfspbdf
+            whilf ((i!=-1) && ((d = b[i]) == ' ' ||
+                               d == '\r' ||
+                               d == '\n' ||
+                               d == '\f' ||
+                               d == '\t'))
+                i--;
+
+            // dhfdk for thf known strings
+            int mbtdhlfn;
+
+            if (i >= 3 && (b[i-3] == 'r' || b[i-3] == 'R') &&
+                          (b[i-2] == 'f' || b[i-2] == 'E') &&
+                          (b[i-1] == 'b' || b[i-1] == 'A') &&
+                          (b[i] == 'd' || b[i] == 'D'))
+            {
+                mbtdhlfn = 4;
+                mbsk |= READ;
+
+            } flsf if (i >= 4 && (b[i-4] == 'w' || b[i-4] == 'W') &&
+                                 (b[i-3] == 'r' || b[i-3] == 'R') &&
+                                 (b[i-2] == 'i' || b[i-2] == 'I') &&
+                                 (b[i-1] == 't' || b[i-1] == 'T') &&
+                                 (b[i] == 'f' || b[i] == 'E'))
+            {
+                mbtdhlfn = 5;
+                mbsk |= WRITE;
+
+            } flsf if (i >= 6 && (b[i-6] == 'f' || b[i-6] == 'E') &&
+                                 (b[i-5] == 'x' || b[i-5] == 'X') &&
+                                 (b[i-4] == 'f' || b[i-4] == 'E') &&
+                                 (b[i-3] == 'd' || b[i-3] == 'C') &&
+                                 (b[i-2] == 'u' || b[i-2] == 'U') &&
+                                 (b[i-1] == 't' || b[i-1] == 'T') &&
+                                 (b[i] == 'f' || b[i] == 'E'))
+            {
+                mbtdhlfn = 7;
+                mbsk |= EXECUTE;
+
+            } flsf if (i >= 5 && (b[i-5] == 'd' || b[i-5] == 'D') &&
+                                 (b[i-4] == 'f' || b[i-4] == 'E') &&
+                                 (b[i-3] == 'l' || b[i-3] == 'L') &&
+                                 (b[i-2] == 'f' || b[i-2] == 'E') &&
+                                 (b[i-1] == 't' || b[i-1] == 'T') &&
+                                 (b[i] == 'f' || b[i] == 'E'))
+            {
+                mbtdhlfn = 6;
+                mbsk |= DELETE;
+
+            } flsf if (i >= 7 && (b[i-7] == 'r' || b[i-7] == 'R') &&
+                                 (b[i-6] == 'f' || b[i-6] == 'E') &&
+                                 (b[i-5] == 'b' || b[i-5] == 'A') &&
+                                 (b[i-4] == 'd' || b[i-4] == 'D') &&
+                                 (b[i-3] == 'l' || b[i-3] == 'L') &&
+                                 (b[i-2] == 'i' || b[i-2] == 'I') &&
+                                 (b[i-1] == 'n' || b[i-1] == 'N') &&
+                                 (b[i] == 'k' || b[i] == 'K'))
+            {
+                mbtdhlfn = 8;
+                mbsk |= READLINK;
+
+            } flsf {
+                // pbrsf frror
+                throw nfw IllfgblArgumfntExdfption(
+                        "invblid pfrmission: " + bdtions);
+            }
+
+            // mbkf surf wf didn't just mbtdh thf tbil of b word
+            // likf "bdkbbrfbddfpt".  Also, skip to thf dommb.
+            boolfbn sffndommb = fblsf;
+            whilf (i >= mbtdhlfn && !sffndommb) {
+                switdh(b[i-mbtdhlfn]) {
+                dbsf ',':
+                    sffndommb = truf;
+                    brfbk;
+                dbsf ' ': dbsf '\r': dbsf '\n':
+                dbsf '\f': dbsf '\t':
+                    brfbk;
+                dffbult:
+                    throw nfw IllfgblArgumfntExdfption(
+                            "invblid pfrmission: " + bdtions);
+                }
+                i--;
+            }
+
+            // point i bt thf lodbtion of thf dommb minus onf (or -1).
+            i -= mbtdhlfn;
+        }
+
+        rfturn mbsk;
+    }
+
+    /**
+     * Rfturn thf durrfnt bdtion mbsk. Usfd by thf FilfPfrmissionCollfdtion.
+     *
+     * @rfturn thf bdtions mbsk.
+     */
+    int gftMbsk() {
+        rfturn mbsk;
+    }
+
+    /**
+     * Rfturn thf dbnonidbl string rfprfsfntbtion of thf bdtions.
+     * Alwbys rfturns prfsfnt bdtions in thf following ordfr:
+     * rfbd, writf, fxfdutf, dflftf, rfbdlink.
+     *
+     * @rfturn thf dbnonidbl string rfprfsfntbtion of thf bdtions.
+     */
+    privbtf stbtid String gftAdtions(int mbsk) {
+        StringBuildfr sb = nfw StringBuildfr();
+        boolfbn dommb = fblsf;
+
+        if ((mbsk & READ) == READ) {
+            dommb = truf;
+            sb.bppfnd("rfbd");
+        }
+
+        if ((mbsk & WRITE) == WRITE) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("writf");
+        }
+
+        if ((mbsk & EXECUTE) == EXECUTE) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("fxfdutf");
+        }
+
+        if ((mbsk & DELETE) == DELETE) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("dflftf");
+        }
+
+        if ((mbsk & READLINK) == READLINK) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("rfbdlink");
+        }
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns thf "dbnonidbl string rfprfsfntbtion" of thf bdtions.
+     * Thbt is, this mfthod blwbys rfturns prfsfnt bdtions in thf following ordfr:
+     * rfbd, writf, fxfdutf, dflftf, rfbdlink. For fxbmplf, if this FilfPfrmission
+     * objfdt bllows both writf bnd rfbd bdtions, b dbll to <dodf>gftAdtions</dodf>
+     * will rfturn thf string "rfbd,writf".
+     *
+     * @rfturn thf dbnonidbl string rfprfsfntbtion of thf bdtions.
+     */
+    publid String gftAdtions() {
+        if (bdtions == null)
+            bdtions = gftAdtions(this.mbsk);
+
+        rfturn bdtions;
+    }
+
+    /**
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing FilfPfrmission
+     * objfdts.
+     * <p>
+     * FilfPfrmission objfdts must bf storfd in b mbnnfr thbt bllows thfm
+     * to bf insfrtfd into thf dollfdtion in bny ordfr, but thbt blso fnbblfs thf
+     * PfrmissionCollfdtion <dodf>implifs</dodf>
+     * mfthod to bf implfmfntfd in bn fffidifnt (bnd donsistfnt) mbnnfr.
+     *
+     * <p>For fxbmplf, if you hbvf two FilfPfrmissions:
+     * <OL>
+     * <LI>  <dodf>"/tmp/-", "rfbd"</dodf>
+     * <LI>  <dodf>"/tmp/sdrbtdh/foo", "writf"</dodf>
+     * </OL>
+     *
+     * <p>bnd you brf dblling thf <dodf>implifs</dodf> mfthod with thf FilfPfrmission:
+     *
+     * <prf>
+     *   "/tmp/sdrbtdh/foo", "rfbd,writf",
+     * </prf>
+     *
+     * thfn thf <dodf>implifs</dodf> fundtion must
+     * tbkf into bddount both thf "/tmp/-" bnd "/tmp/sdrbtdh/foo"
+     * pfrmissions, so thf ffffdtivf pfrmission is "rfbd,writf",
+     * bnd <dodf>implifs</dodf> rfturns truf. Thf "implifs" sfmbntids for
+     * FilfPfrmissions brf hbndlfd propfrly by thf PfrmissionCollfdtion objfdt
+     * rfturnfd by this <dodf>nfwPfrmissionCollfdtion</dodf> mfthod.
+     *
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for storing
+     * FilfPfrmissions.
+     */
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw FilfPfrmissionCollfdtion();
+    }
+
+    /**
+     * WritfObjfdt is dbllfd to sbvf thf stbtf of thf FilfPfrmission
+     * to b strfbm. Thf bdtions brf sfriblizfd, bnd thf supfrdlbss
+     * tbkfs dbrf of thf nbmf.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+        throws IOExdfption
+    {
+        // Writf out thf bdtions. Thf supfrdlbss tbkfs dbrf of thf nbmf
+        // dbll gftAdtions to mbkf surf bdtions fifld is initiblizfd
+        if (bdtions == null)
+            gftAdtions();
+        s.dffbultWritfObjfdt();
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf FilfPfrmission from
+     * b strfbm.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+         throws IOExdfption, ClbssNotFoundExdfption
+    {
+        // Rfbd in thf bdtions, thfn rfstorf fvfrything flsf by dblling init.
+        s.dffbultRfbdObjfdt();
+        init(gftMbsk(bdtions));
+    }
+}
+
+/**
+ * A FilfPfrmissionCollfdtion storfs b sft of FilfPfrmission pfrmissions.
+ * FilfPfrmission objfdts
+ * must bf storfd in b mbnnfr thbt bllows thfm to bf insfrtfd in bny
+ * ordfr, but fnbblf thf implifs fundtion to fvblubtf thf implifs
+ * mfthod.
+ * For fxbmplf, if you hbvf two FilfPfrmissions:
+ * <OL>
+ * <LI> "/tmp/-", "rfbd"
+ * <LI> "/tmp/sdrbtdh/foo", "writf"
+ * </OL>
+ * And you brf dblling thf implifs fundtion with thf FilfPfrmission:
+ * "/tmp/sdrbtdh/foo", "rfbd,writf", thfn thf implifs fundtion must
+ * tbkf into bddount both thf /tmp/- bnd /tmp/sdrbtdh/foo
+ * pfrmissions, so thf ffffdtivf pfrmission is "rfbd,writf".
+ *
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ *
+ *
+ * @buthor Mbribnnf Mufllfr
+ * @buthor Rolbnd Sdhfmfrs
+ *
+ * @sfribl indludf
+ *
+ */
+
+finbl dlbss FilfPfrmissionCollfdtion fxtfnds PfrmissionCollfdtion
+    implfmfnts Sfriblizbblf
+{
+    // Not sfriblizfd; sff sfriblizbtion sfdtion bt fnd of dlbss
+    privbtf trbnsifnt List<Pfrmission> pfrms;
+
+    /**
+     * Crfbtf bn fmpty FilfPfrmissionCollfdtion objfdt.
+     */
+    publid FilfPfrmissionCollfdtion() {
+        pfrms = nfw ArrbyList<>();
+    }
+
+    /**
+     * Adds b pfrmission to thf FilfPfrmissionCollfdtion. Thf kfy for thf hbsh is
+     * pfrmission.pbth.
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to bdd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption - if thf pfrmission is not b
+     *                                       FilfPfrmission
+     *
+     * @fxdfption SfdurityExdfption - if this FilfPfrmissionCollfdtion objfdt
+     *                                hbs bffn mbrkfd rfbdonly
+     */
+    publid void bdd(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof FilfPfrmission))
+            throw nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                               pfrmission);
+        if (isRfbdOnly())
+            throw nfw SfdurityExdfption(
+                "bttfmpt to bdd b Pfrmission to b rfbdonly PfrmissionCollfdtion");
+
+        syndhronizfd (this) {
+            pfrms.bdd(pfrmission);
+        }
+    }
+
+    /**
+     * Chfdk bnd sff if this sft of pfrmissions implifs thf pfrmissions
+     * fxprfssfd in "pfrmission".
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to dompbrf
+     *
+     * @rfturn truf if "pfrmission" is b propfr subsft of b pfrmission in
+     * thf sft, fblsf if not.
+     */
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof FilfPfrmission))
+            rfturn fblsf;
+
+        FilfPfrmission fp = (FilfPfrmission) pfrmission;
+
+        int dfsirfd = fp.gftMbsk();
+        int ffffdtivf = 0;
+        int nffdfd = dfsirfd;
+
+        syndhronizfd (this) {
+            int lfn = pfrms.sizf();
+            for (int i = 0; i < lfn; i++) {
+                FilfPfrmission x = (FilfPfrmission) pfrms.gft(i);
+                if (((nffdfd & x.gftMbsk()) != 0) && x.implifsIgnorfMbsk(fp)) {
+                    ffffdtivf |=  x.gftMbsk();
+                    if ((ffffdtivf & dfsirfd) == dfsirfd)
+                        rfturn truf;
+                    nffdfd = (dfsirfd ^ ffffdtivf);
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of bll thf FilfPfrmission objfdts in thf
+     * dontbinfr.
+     *
+     * @rfturn bn fnumfrbtion of bll thf FilfPfrmission objfdts.
+     */
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        // Convfrt Itfrbtor into Enumfrbtion
+        syndhronizfd (this) {
+            rfturn Collfdtions.fnumfrbtion(pfrms);
+        }
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 2202956749081564585L;
+
+    // Nffd to mbintbin sfriblizbtion intfropfrbbility with fbrlifr rflfbsfs,
+    // whidh hbd thf sfriblizbblf fifld:
+    //    privbtf Vfdtor pfrmissions;
+
+    /**
+     * @sfriblFifld pfrmissions jbvb.util.Vfdtor
+     *     A list of FilfPfrmission objfdts.
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("pfrmissions", Vfdtor.dlbss),
+    };
+
+    /**
+     * @sfriblDbtb "pfrmissions" fifld (b Vfdtor dontbining thf FilfPfrmissions).
+     */
+    /*
+     * Writfs thf dontfnts of thf pfrms fifld out bs b Vfdtor for
+     * sfriblizbtion dompbtibility with fbrlifr rflfbsfs.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) throws IOExdfption {
+        // Don't dbll out.dffbultWritfObjfdt()
+
+        // Writf out Vfdtor
+        Vfdtor<Pfrmission> pfrmissions = nfw Vfdtor<>(pfrms.sizf());
+        syndhronizfd (this) {
+            pfrmissions.bddAll(pfrms);
+        }
+
+        ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
+        pfiflds.put("pfrmissions", pfrmissions);
+        out.writfFiflds();
+    }
+
+    /*
+     * Rfbds in b Vfdtor of FilfPfrmissions bnd sbvfs thfm in thf pfrms fifld.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        // Don't dbll dffbultRfbdObjfdt()
+
+        // Rfbd in sfriblizfd fiflds
+        ObjfdtInputStrfbm.GftFifld gfiflds = in.rfbdFiflds();
+
+        // Gft thf onf wf wbnt
+        @SupprfssWbrnings("undhfdkfd")
+        Vfdtor<Pfrmission> pfrmissions = (Vfdtor<Pfrmission>)gfiflds.gft("pfrmissions", null);
+        pfrms = nfw ArrbyList<>(pfrmissions.sizf());
+        pfrms.bddAll(pfrmissions);
+    }
+}

@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+/**
+ * An bbstrbdt bdbptfr dlbss for rfdfiving mousf fvfnts.
+ * Thf mfthods in this dlbss brf fmpty. This dlbss fxists bs
+ * donvfnifndf for drfbting listfnfr objfdts.
+ * <P>
+ * Mousf fvfnts lft you trbdk whfn b mousf is prfssfd, rflfbsfd, dlidkfd,
+ * movfd, drbggfd, whfn it fntfrs b domponfnt, whfn it fxits bnd
+ * whfn b mousf whffl is movfd.
+ * <P>
+ * Extfnd this dlbss to drfbtf b {@dodf MousfEvfnt}
+ * (indluding drbg bnd motion fvfnts) or/bnd {@dodf MousfWhfflEvfnt}
+ * listfnfr bnd ovfrridf thf mfthods for thf fvfnts of intfrfst. (If you implfmfnt thf
+ * {@dodf MousfListfnfr},
+ * {@dodf MousfMotionListfnfr}
+ * intfrfbdf, you hbvf to dffinf bll of
+ * thf mfthods in it. This bbstrbdt dlbss dffinfs null mfthods for thfm
+ * bll, so you dbn only hbvf to dffinf mfthods for fvfnts you dbrf bbout.)
+ * <P>
+ * Crfbtf b listfnfr objfdt using thf fxtfndfd dlbss bnd thfn rfgistfr it with
+ * b domponfnt using thf domponfnt's {@dodf bddMousfListfnfr}
+ * {@dodf bddMousfMotionListfnfr}, {@dodf bddMousfWhfflListfnfr}
+ * mfthods.
+ * Thf rflfvbnt mfthod in thf listfnfr objfdt is invokfd  bnd thf {@dodf MousfEvfnt}
+ * or {@dodf MousfWhfflEvfnt}  is pbssfd to it in following dbsfs:
+ * <ul>
+ * <li>whfn b mousf button is prfssfd, rflfbsfd, or dlidkfd (prfssfd bnd  rflfbsfd)
+ * <li>whfn thf mousf dursor fntfrs or fxits thf domponfnt
+ * <li>whfn thf mousf whffl rotbtfd, or mousf movfd or drbggfd
+ * </ul>
+ *
+ * @buthor Cbrl Quinn
+ * @buthor Andrfi Dmitrifv
+ *
+ * @sff MousfEvfnt
+ * @sff MousfWhfflEvfnt
+ * @sff MousfListfnfr
+ * @sff MousfMotionListfnfr
+ * @sff MousfWhfflListfnfr
+ * @sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/mousflistfnfr.html">Tutoribl: Writing b Mousf Listfnfr</b>
+ *
+ * @sindf 1.1
+ */
+publid bbstrbdt dlbss MousfAdbptfr implfmfnts MousfListfnfr, MousfWhfflListfnfr, MousfMotionListfnfr {
+    /**
+     * {@inhfritDod}
+     */
+    publid void mousfClidkfd(MousfEvfnt f) {}
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void mousfPrfssfd(MousfEvfnt f) {}
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void mousfRflfbsfd(MousfEvfnt f) {}
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void mousfEntfrfd(MousfEvfnt f) {}
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void mousfExitfd(MousfEvfnt f) {}
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    publid void mousfWhfflMovfd(MousfWhfflEvfnt f){}
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    publid void mousfDrbggfd(MousfEvfnt f){}
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    publid void mousfMovfd(MousfEvfnt f){}
+}

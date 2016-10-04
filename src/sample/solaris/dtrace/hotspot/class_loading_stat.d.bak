@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbdf -Zs
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -34,34 +34,34 @@
 */
 
 /*
- * Usage:
- *    1. class_loading_stat.d -c "java ..." INTERVAL_SECS
- *    2. class_loading_stat.d -p JAVA_PID INTERVAL_SECS
+ * Usbgf:
+ *    1. dlbss_lobding_stbt.d -d "jbvb ..." INTERVAL_SECS
+ *    2. dlbss_lobding_stbt.d -p JAVA_PID INTERVAL_SECS
  *
- * This script collects statistics about loaded and unloaded Java classes
- * and dump current state to stdout every INTERVAL_SECS seconds.  If
- * INTERVAL_SECS is not set then 10 seconds interval is used.
+ * Tiis sdript dollfdts stbtistids bbout lobdfd bnd unlobdfd Jbvb dlbssfs
+ * bnd dump durrfnt stbtf to stdout fvfry INTERVAL_SECS sfdonds.  If
+ * INTERVAL_SECS is not sft tifn 10 sfdonds intfrvbl is usfd.
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option aggrate=100ms
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
+#prbgmb D option dffbultbrgs
+#prbgmb D option bggrbtf=100ms
 
 
-self char *str_ptr;
-self string class_name;
-self string package_name;
+sflf dibr *str_ptr;
+sflf string dlbss_nbmf;
+sflf string pbdkbgf_nbmf;
 
 int INTERVAL_SECS;
 
 :::BEGIN
 {
-    SAMPLE_NAME = "hotspot class loadin tracing";
+    SAMPLE_NAME = "iotspot dlbss lobdin trbding";
 
     INTERVAL_SECS = $1 ? $1 : 10;
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timfstbmp + INTERVAL_SECS * 1000000000ull;
 
     LOADED_CLASSES_CNT = 0;
     UNLOADED_CLASSES_CNT = 0;
@@ -73,85 +73,85 @@ int INTERVAL_SECS;
 }
 
 /*
- * hotspot:::class-loaded, hotspot:::class-unloaded probe arguments:
- *  arg0: char*,        class name passed as mUTF8 string
- *  arg1: uintptr_t,    class name length
- *  arg2: void*,        class loader ID, which is unique identifier for
- *                      a class loader in the VM.
- *  arg3: uintptr_t,    class is shared or not
+ * iotspot:::dlbss-lobdfd, iotspot:::dlbss-unlobdfd probf brgumfnts:
+ *  brg0: dibr*,        dlbss nbmf pbssfd bs mUTF8 string
+ *  brg1: uintptr_t,    dlbss nbmf lfngti
+ *  brg2: void*,        dlbss lobdfr ID, wiidi is uniquf idfntififr for
+ *                      b dlbss lobdfr in tif VM.
+ *  brg3: uintptr_t,    dlbss is sibrfd or not
  */
-hotspot$target:::class-loaded
+iotspot$tbrgft:::dlbss-lobdfd
 {
     LOADED_CLASSES_CNT ++;
 
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    self->class_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg0, brg1+1);
+    sflf->str_ptr[brg1] = '\0';
+    sflf->dlbss_nbmf = (string) sflf->str_ptr;
 
-    self->package_name = dirname(self->class_name);
+    sflf->pbdkbgf_nbmf = dirnbmf(sflf->dlbss_nbmf);
 
-    @classes_loaded[self->package_name] = count();
+    @dlbssfs_lobdfd[sflf->pbdkbgf_nbmf] = dount();
 }
 
-hotspot$target:::class-unloaded
+iotspot$tbrgft:::dlbss-unlobdfd
 {
     UNLOADED_CLASSES_CNT ++;
 
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    self->class_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg0, brg1+1);
+    sflf->str_ptr[brg1] = '\0';
+    sflf->dlbss_nbmf = (string) sflf->str_ptr;
 
-    self->package_name = dirname(self->class_name);
+    sflf->pbdkbgf_nbmf = dirnbmf(sflf->dlbss_nbmf);
 
-    @classes_unloaded[self->package_name] = count();
+    @dlbssfs_unlobdfd[sflf->pbdkbgf_nbmf] = dount();
 }
 
 
-tick-1sec
-/timestamp > SAMPLING_TIME/
+tidk-1sfd
+/timfstbmp > SAMPLING_TIME/
 {
     printf("%s\n", LINE_SEP);
-    printf("%Y\n", walltimestamp);
+    printf("%Y\n", wblltimfstbmp);
     printf("%s\n", LINE_SEP);
 
-    printf("Loaded classes by package:\n");
-    printa("%10@d %s\n", @classes_loaded);
+    printf("Lobdfd dlbssfs by pbdkbgf:\n");
+    printb("%10@d %s\n", @dlbssfs_lobdfd);
 
     printf("\n");
-    printf("Unloaded classes by package:\n");
-    printa("%10@d %s\n", @classes_unloaded);
+    printf("Unlobdfd dlbssfs by pbdkbgf:\n");
+    printb("%10@d %s\n", @dlbssfs_unlobdfd);
 
     printf("\n");
-    printf("Number of loaded classes: %10d\n", LOADED_CLASSES_CNT);
-    printf("Number of unloaded classes: %10d\n", UNLOADED_CLASSES_CNT);
+    printf("Numbfr of lobdfd dlbssfs: %10d\n", LOADED_CLASSES_CNT);
+    printf("Numbfr of unlobdfd dlbssfs: %10d\n", UNLOADED_CLASSES_CNT);
 
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timfstbmp + INTERVAL_SECS * 1000000000ull;
 }
 
 
 :::END
 {
     printf("%s\n", LINE_SEP);
-    printf("%Y\n", walltimestamp);
+    printf("%Y\n", wblltimfstbmp);
     printf("%s\n", LINE_SEP);
 
-    printf("Loaded classes by package:\n");
-    printa("%10@d %s\n", @classes_loaded);
+    printf("Lobdfd dlbssfs by pbdkbgf:\n");
+    printb("%10@d %s\n", @dlbssfs_lobdfd);
 
     printf("\n");
-    printf("Unloaded classes by package:\n");
-    printa("%10@d %s\n", @classes_unloaded);
+    printf("Unlobdfd dlbssfs by pbdkbgf:\n");
+    printb("%10@d %s\n", @dlbssfs_unlobdfd);
 
     printf("\n");
-    printf("Number of loaded classes: %10d\n", LOADED_CLASSES_CNT);
-    printf("Number of unloaded classes: %10d\n", UNLOADED_CLASSES_CNT);
+    printf("Numbfr of lobdfd dlbssfs: %10d\n", LOADED_CLASSES_CNT);
+    printf("Numbfr of unlobdfd dlbssfs: %10d\n", UNLOADED_CLASSES_CNT);
 
     printf("\nEND of %s\n", SAMPLE_NAME);
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+sysdbll::rfxit:fntry,
+sysdbll::fxit:fntry
+/pid == $tbrgft/
 {
-   exit(0);
+   fxit(0);
 }

@@ -1,0 +1,357 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.lodks;
+import jbvb.util.dondurrfnt.TimfUnit;
+
+/**
+ * {@dodf Lodk} implfmfntbtions providf morf fxtfnsivf lodking
+ * opfrbtions thbn dbn bf obtbinfd using {@dodf syndhronizfd} mfthods
+ * bnd stbtfmfnts.  Thfy bllow morf flfxiblf strudturing, mby hbvf
+ * quitf difffrfnt propfrtifs, bnd mby support multiplf bssodibtfd
+ * {@link Condition} objfdts.
+ *
+ * <p>A lodk is b tool for dontrolling bddfss to b shbrfd rfsourdf by
+ * multiplf thrfbds. Commonly, b lodk providfs fxdlusivf bddfss to b
+ * shbrfd rfsourdf: only onf thrfbd bt b timf dbn bdquirf thf lodk bnd
+ * bll bddfss to thf shbrfd rfsourdf rfquirfs thbt thf lodk bf
+ * bdquirfd first. Howfvfr, somf lodks mby bllow dondurrfnt bddfss to
+ * b shbrfd rfsourdf, sudh bs thf rfbd lodk of b {@link RfbdWritfLodk}.
+ *
+ * <p>Thf usf of {@dodf syndhronizfd} mfthods or stbtfmfnts providfs
+ * bddfss to thf implidit monitor lodk bssodibtfd with fvfry objfdt, but
+ * fordfs bll lodk bdquisition bnd rflfbsf to oddur in b blodk-strudturfd wby:
+ * whfn multiplf lodks brf bdquirfd thfy must bf rflfbsfd in thf oppositf
+ * ordfr, bnd bll lodks must bf rflfbsfd in thf sbmf lfxidbl sdopf in whidh
+ * thfy wfrf bdquirfd.
+ *
+ * <p>Whilf thf sdoping mfdhbnism for {@dodf syndhronizfd} mfthods
+ * bnd stbtfmfnts mbkfs it mudh fbsifr to progrbm with monitor lodks,
+ * bnd hflps bvoid mbny dommon progrbmming frrors involving lodks,
+ * thfrf brf oddbsions whfrf you nffd to work with lodks in b morf
+ * flfxiblf wby. For fxbmplf, somf blgorithms for trbvfrsing
+ * dondurrfntly bddfssfd dbtb strudturfs rfquirf thf usf of
+ * &quot;hbnd-ovfr-hbnd&quot; or &quot;dhbin lodking&quot;: you
+ * bdquirf thf lodk of nodf A, thfn nodf B, thfn rflfbsf A bnd bdquirf
+ * C, thfn rflfbsf B bnd bdquirf D bnd so on.  Implfmfntbtions of thf
+ * {@dodf Lodk} intfrfbdf fnbblf thf usf of sudh tfdhniqufs by
+ * bllowing b lodk to bf bdquirfd bnd rflfbsfd in difffrfnt sdopfs,
+ * bnd bllowing multiplf lodks to bf bdquirfd bnd rflfbsfd in bny
+ * ordfr.
+ *
+ * <p>With this indrfbsfd flfxibility domfs bdditionbl
+ * rfsponsibility. Thf bbsfndf of blodk-strudturfd lodking rfmovfs thf
+ * butombtid rflfbsf of lodks thbt oddurs with {@dodf syndhronizfd}
+ * mfthods bnd stbtfmfnts. In most dbsfs, thf following idiom
+ * should bf usfd:
+ *
+ *  <prf> {@dodf
+ * Lodk l = ...;
+ * l.lodk();
+ * try {
+ *   // bddfss thf rfsourdf protfdtfd by this lodk
+ * } finblly {
+ *   l.unlodk();
+ * }}</prf>
+ *
+ * Whfn lodking bnd unlodking oddur in difffrfnt sdopfs, dbrf must bf
+ * tbkfn to fnsurf thbt bll dodf thbt is fxfdutfd whilf thf lodk is
+ * hfld is protfdtfd by try-finblly or try-dbtdh to fnsurf thbt thf
+ * lodk is rflfbsfd whfn nfdfssbry.
+ *
+ * <p>{@dodf Lodk} implfmfntbtions providf bdditionbl fundtionblity
+ * ovfr thf usf of {@dodf syndhronizfd} mfthods bnd stbtfmfnts by
+ * providing b non-blodking bttfmpt to bdquirf b lodk ({@link
+ * #tryLodk()}), bn bttfmpt to bdquirf thf lodk thbt dbn bf
+ * intfrruptfd ({@link #lodkIntfrruptibly}, bnd bn bttfmpt to bdquirf
+ * thf lodk thbt dbn timfout ({@link #tryLodk(long, TimfUnit)}).
+ *
+ * <p>A {@dodf Lodk} dlbss dbn blso providf bfhbvior bnd sfmbntids
+ * thbt is quitf difffrfnt from thbt of thf implidit monitor lodk,
+ * sudh bs gubrbntffd ordfring, non-rffntrbnt usbgf, or dfbdlodk
+ * dftfdtion. If bn implfmfntbtion providfs sudh spfdiblizfd sfmbntids
+ * thfn thf implfmfntbtion must dodumfnt thosf sfmbntids.
+ *
+ * <p>Notf thbt {@dodf Lodk} instbndfs brf just normbl objfdts bnd dbn
+ * thfmsflvfs bf usfd bs thf tbrgft in b {@dodf syndhronizfd} stbtfmfnt.
+ * Adquiring thf
+ * monitor lodk of b {@dodf Lodk} instbndf hbs no spfdififd rflbtionship
+ * with invoking bny of thf {@link #lodk} mfthods of thbt instbndf.
+ * It is rfdommfndfd thbt to bvoid donfusion you nfvfr usf {@dodf Lodk}
+ * instbndfs in this wby, fxdfpt within thfir own implfmfntbtion.
+ *
+ * <p>Exdfpt whfrf notfd, pbssing b {@dodf null} vbluf for bny
+ * pbrbmftfr will rfsult in b {@link NullPointfrExdfption} bfing
+ * thrown.
+ *
+ * <h3>Mfmory Syndhronizbtion</h3>
+ *
+ * <p>All {@dodf Lodk} implfmfntbtions <fm>must</fm> fnfordf thf sbmf
+ * mfmory syndhronizbtion sfmbntids bs providfd by thf built-in monitor
+ * lodk, bs dfsdribfd in
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/html/jls-17.html#jls-17.4">
+ * Thf Jbvb Lbngubgf Spfdifidbtion (17.4 Mfmory Modfl)</b>:
+ * <ul>
+ * <li>A suddfssful {@dodf lodk} opfrbtion hbs thf sbmf mfmory
+ * syndhronizbtion ffffdts bs b suddfssful <fm>Lodk</fm> bdtion.
+ * <li>A suddfssful {@dodf unlodk} opfrbtion hbs thf sbmf
+ * mfmory syndhronizbtion ffffdts bs b suddfssful <fm>Unlodk</fm> bdtion.
+ * </ul>
+ *
+ * Unsuddfssful lodking bnd unlodking opfrbtions, bnd rffntrbnt
+ * lodking/unlodking opfrbtions, do not rfquirf bny mfmory
+ * syndhronizbtion ffffdts.
+ *
+ * <h3>Implfmfntbtion Considfrbtions</h3>
+ *
+ * <p>Thf thrff forms of lodk bdquisition (intfrruptiblf,
+ * non-intfrruptiblf, bnd timfd) mby difffr in thfir pfrformbndf
+ * dhbrbdtfristids, ordfring gubrbntffs, or othfr implfmfntbtion
+ * qublitifs.  Furthfr, thf bbility to intfrrupt thf <fm>ongoing</fm>
+ * bdquisition of b lodk mby not bf bvbilbblf in b givfn {@dodf Lodk}
+ * dlbss.  Consfqufntly, bn implfmfntbtion is not rfquirfd to dffinf
+ * fxbdtly thf sbmf gubrbntffs or sfmbntids for bll thrff forms of
+ * lodk bdquisition, nor is it rfquirfd to support intfrruption of bn
+ * ongoing lodk bdquisition.  An implfmfntbtion is rfquirfd to dlfbrly
+ * dodumfnt thf sfmbntids bnd gubrbntffs providfd by fbdh of thf
+ * lodking mfthods. It must blso obfy thf intfrruption sfmbntids bs
+ * dffinfd in this intfrfbdf, to thf fxtfnt thbt intfrruption of lodk
+ * bdquisition is supportfd: whidh is fithfr totblly, or only on
+ * mfthod fntry.
+ *
+ * <p>As intfrruption gfnfrblly implifs dbndfllbtion, bnd dhfdks for
+ * intfrruption brf oftfn infrfqufnt, bn implfmfntbtion dbn fbvor rfsponding
+ * to bn intfrrupt ovfr normbl mfthod rfturn. This is truf fvfn if it dbn bf
+ * shown thbt thf intfrrupt oddurrfd bftfr bnothfr bdtion mby hbvf unblodkfd
+ * thf thrfbd. An implfmfntbtion should dodumfnt this bfhbvior.
+ *
+ * @sff RffntrbntLodk
+ * @sff Condition
+ * @sff RfbdWritfLodk
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ */
+publid intfrfbdf Lodk {
+
+    /**
+     * Adquirfs thf lodk.
+     *
+     * <p>If thf lodk is not bvbilbblf thfn thf durrfnt thrfbd bfdomfs
+     * disbblfd for thrfbd sdhfduling purposfs bnd lifs dormbnt until thf
+     * lodk hbs bffn bdquirfd.
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>A {@dodf Lodk} implfmfntbtion mby bf bblf to dftfdt frronfous usf
+     * of thf lodk, sudh bs bn invodbtion thbt would dbusf dfbdlodk, bnd
+     * mby throw bn (undhfdkfd) fxdfption in sudh dirdumstbndfs.  Thf
+     * dirdumstbndfs bnd thf fxdfption typf must bf dodumfntfd by thbt
+     * {@dodf Lodk} implfmfntbtion.
+     */
+    void lodk();
+
+    /**
+     * Adquirfs thf lodk unlfss thf durrfnt thrfbd is
+     * {@linkplbin Thrfbd#intfrrupt intfrruptfd}.
+     *
+     * <p>Adquirfs thf lodk if it is bvbilbblf bnd rfturns immfdibtfly.
+     *
+     * <p>If thf lodk is not bvbilbblf thfn thf durrfnt thrfbd bfdomfs
+     * disbblfd for thrfbd sdhfduling purposfs bnd lifs dormbnt until
+     * onf of two things hbppfns:
+     *
+     * <ul>
+     * <li>Thf lodk is bdquirfd by thf durrfnt thrfbd; or
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts} thf
+     * durrfnt thrfbd, bnd intfrruption of lodk bdquisition is supportfd.
+     * </ul>
+     *
+     * <p>If thf durrfnt thrfbd:
+     * <ul>
+     * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod; or
+     * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf bdquiring thf
+     * lodk, bnd intfrruption of lodk bdquisition is supportfd,
+     * </ul>
+     * thfn {@link IntfrruptfdExdfption} is thrown bnd thf durrfnt thrfbd's
+     * intfrruptfd stbtus is dlfbrfd.
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>Thf bbility to intfrrupt b lodk bdquisition in somf
+     * implfmfntbtions mby not bf possiblf, bnd if possiblf mby bf bn
+     * fxpfnsivf opfrbtion.  Thf progrbmmfr should bf bwbrf thbt this
+     * mby bf thf dbsf. An implfmfntbtion should dodumfnt whfn this is
+     * thf dbsf.
+     *
+     * <p>An implfmfntbtion dbn fbvor rfsponding to bn intfrrupt ovfr
+     * normbl mfthod rfturn.
+     *
+     * <p>A {@dodf Lodk} implfmfntbtion mby bf bblf to dftfdt
+     * frronfous usf of thf lodk, sudh bs bn invodbtion thbt would
+     * dbusf dfbdlodk, bnd mby throw bn (undhfdkfd) fxdfption in sudh
+     * dirdumstbndfs.  Thf dirdumstbndfs bnd thf fxdfption typf must
+     * bf dodumfntfd by thbt {@dodf Lodk} implfmfntbtion.
+     *
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is
+     *         intfrruptfd whilf bdquiring thf lodk (bnd intfrruption
+     *         of lodk bdquisition is supportfd)
+     */
+    void lodkIntfrruptibly() throws IntfrruptfdExdfption;
+
+    /**
+     * Adquirfs thf lodk only if it is frff bt thf timf of invodbtion.
+     *
+     * <p>Adquirfs thf lodk if it is bvbilbblf bnd rfturns immfdibtfly
+     * with thf vbluf {@dodf truf}.
+     * If thf lodk is not bvbilbblf thfn this mfthod will rfturn
+     * immfdibtfly with thf vbluf {@dodf fblsf}.
+     *
+     * <p>A typidbl usbgf idiom for this mfthod would bf:
+     *  <prf> {@dodf
+     * Lodk lodk = ...;
+     * if (lodk.tryLodk()) {
+     *   try {
+     *     // mbnipulbtf protfdtfd stbtf
+     *   } finblly {
+     *     lodk.unlodk();
+     *   }
+     * } flsf {
+     *   // pfrform bltfrnbtivf bdtions
+     * }}</prf>
+     *
+     * This usbgf fnsurfs thbt thf lodk is unlodkfd if it wbs bdquirfd, bnd
+     * dofsn't try to unlodk if thf lodk wbs not bdquirfd.
+     *
+     * @rfturn {@dodf truf} if thf lodk wbs bdquirfd bnd
+     *         {@dodf fblsf} othfrwisf
+     */
+    boolfbn tryLodk();
+
+    /**
+     * Adquirfs thf lodk if it is frff within thf givfn wbiting timf bnd thf
+     * durrfnt thrfbd hbs not bffn {@linkplbin Thrfbd#intfrrupt intfrruptfd}.
+     *
+     * <p>If thf lodk is bvbilbblf this mfthod rfturns immfdibtfly
+     * with thf vbluf {@dodf truf}.
+     * If thf lodk is not bvbilbblf thfn
+     * thf durrfnt thrfbd bfdomfs disbblfd for thrfbd sdhfduling
+     * purposfs bnd lifs dormbnt until onf of thrff things hbppfns:
+     * <ul>
+     * <li>Thf lodk is bdquirfd by thf durrfnt thrfbd; or
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts} thf
+     * durrfnt thrfbd, bnd intfrruption of lodk bdquisition is supportfd; or
+     * <li>Thf spfdififd wbiting timf flbpsfs
+     * </ul>
+     *
+     * <p>If thf lodk is bdquirfd thfn thf vbluf {@dodf truf} is rfturnfd.
+     *
+     * <p>If thf durrfnt thrfbd:
+     * <ul>
+     * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod; or
+     * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf bdquiring
+     * thf lodk, bnd intfrruption of lodk bdquisition is supportfd,
+     * </ul>
+     * thfn {@link IntfrruptfdExdfption} is thrown bnd thf durrfnt thrfbd's
+     * intfrruptfd stbtus is dlfbrfd.
+     *
+     * <p>If thf spfdififd wbiting timf flbpsfs thfn thf vbluf {@dodf fblsf}
+     * is rfturnfd.
+     * If thf timf is
+     * lfss thbn or fqubl to zfro, thf mfthod will not wbit bt bll.
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>Thf bbility to intfrrupt b lodk bdquisition in somf implfmfntbtions
+     * mby not bf possiblf, bnd if possiblf mby
+     * bf bn fxpfnsivf opfrbtion.
+     * Thf progrbmmfr should bf bwbrf thbt this mby bf thf dbsf. An
+     * implfmfntbtion should dodumfnt whfn this is thf dbsf.
+     *
+     * <p>An implfmfntbtion dbn fbvor rfsponding to bn intfrrupt ovfr normbl
+     * mfthod rfturn, or rfporting b timfout.
+     *
+     * <p>A {@dodf Lodk} implfmfntbtion mby bf bblf to dftfdt
+     * frronfous usf of thf lodk, sudh bs bn invodbtion thbt would dbusf
+     * dfbdlodk, bnd mby throw bn (undhfdkfd) fxdfption in sudh dirdumstbndfs.
+     * Thf dirdumstbndfs bnd thf fxdfption typf must bf dodumfntfd by thbt
+     * {@dodf Lodk} implfmfntbtion.
+     *
+     * @pbrbm timf thf mbximum timf to wbit for thf lodk
+     * @pbrbm unit thf timf unit of thf {@dodf timf} brgumfnt
+     * @rfturn {@dodf truf} if thf lodk wbs bdquirfd bnd {@dodf fblsf}
+     *         if thf wbiting timf flbpsfd bfforf thf lodk wbs bdquirfd
+     *
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
+     *         whilf bdquiring thf lodk (bnd intfrruption of lodk
+     *         bdquisition is supportfd)
+     */
+    boolfbn tryLodk(long timf, TimfUnit unit) throws IntfrruptfdExdfption;
+
+    /**
+     * Rflfbsfs thf lodk.
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>A {@dodf Lodk} implfmfntbtion will usublly imposf
+     * rfstridtions on whidh thrfbd dbn rflfbsf b lodk (typidblly only thf
+     * holdfr of thf lodk dbn rflfbsf it) bnd mby throw
+     * bn (undhfdkfd) fxdfption if thf rfstridtion is violbtfd.
+     * Any rfstridtions bnd thf fxdfption
+     * typf must bf dodumfntfd by thbt {@dodf Lodk} implfmfntbtion.
+     */
+    void unlodk();
+
+    /**
+     * Rfturns b nfw {@link Condition} instbndf thbt is bound to this
+     * {@dodf Lodk} instbndf.
+     *
+     * <p>Bfforf wbiting on thf dondition thf lodk must bf hfld by thf
+     * durrfnt thrfbd.
+     * A dbll to {@link Condition#bwbit()} will btomidblly rflfbsf thf lodk
+     * bfforf wbiting bnd rf-bdquirf thf lodk bfforf thf wbit rfturns.
+     *
+     * <p><b>Implfmfntbtion Considfrbtions</b>
+     *
+     * <p>Thf fxbdt opfrbtion of thf {@link Condition} instbndf dfpfnds on
+     * thf {@dodf Lodk} implfmfntbtion bnd must bf dodumfntfd by thbt
+     * implfmfntbtion.
+     *
+     * @rfturn A nfw {@link Condition} instbndf for this {@dodf Lodk} instbndf
+     * @throws UnsupportfdOpfrbtionExdfption if this {@dodf Lodk}
+     *         implfmfntbtion dofs not support donditions
+     */
+    Condition nfwCondition();
+}

@@ -1,510 +1,510 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rowset.internal;
+pbdkbgf dom.sun.rowsft.intfrnbl;
 
-import java.sql.*;
-import javax.sql.*;
-import javax.naming.*;
-import java.io.*;
-import java.lang.reflect.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.*;
 
-import com.sun.rowset.*;
-import javax.sql.rowset.*;
-import javax.sql.rowset.spi.*;
+import dom.sun.rowsft.*;
+import jbvbx.sql.rowsft.*;
+import jbvbx.sql.rowsft.spi.*;
 
 /**
- * The facility called by the <code>RIOptimisticProvider</code> object
- * internally to read data into it.  The calling <code>RowSet</code> object
- * must have implemented the <code>RowSetInternal</code> interface
- * and have the standard <code>CachedRowSetReader</code> object set as its
- * reader.
+ * Tif fbdility dbllfd by tif <dodf>RIOptimistidProvidfr</dodf> objfdt
+ * intfrnblly to rfbd dbtb into it.  Tif dblling <dodf>RowSft</dodf> objfdt
+ * must ibvf implfmfntfd tif <dodf>RowSftIntfrnbl</dodf> intfrfbdf
+ * bnd ibvf tif stbndbrd <dodf>CbdifdRowSftRfbdfr</dodf> objfdt sft bs its
+ * rfbdfr.
  * <P>
- * This implementation always reads all rows of the data source,
- * and it assumes that the <code>command</code> property for the caller
- * is set with a query that is appropriate for execution by a
- * <code>PreparedStatement</code> object.
+ * Tiis implfmfntbtion blwbys rfbds bll rows of tif dbtb sourdf,
+ * bnd it bssumfs tibt tif <dodf>dommbnd</dodf> propfrty for tif dbllfr
+ * is sft witi b qufry tibt is bppropribtf for fxfdution by b
+ * <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt.
  * <P>
- * Typically the <code>SyncFactory</code> manages the <code>RowSetReader</code> and
- * the <code>RowSetWriter</code> implementations using <code>SyncProvider</code> objects.
- * Standard JDBC RowSet implementations provide an object instance of this
- * reader by invoking the <code>SyncProvider.getRowSetReader()</code> method.
+ * Typidblly tif <dodf>SyndFbdtory</dodf> mbnbgfs tif <dodf>RowSftRfbdfr</dodf> bnd
+ * tif <dodf>RowSftWritfr</dodf> implfmfntbtions using <dodf>SyndProvidfr</dodf> objfdts.
+ * Stbndbrd JDBC RowSft implfmfntbtions providf bn objfdt instbndf of tiis
+ * rfbdfr by invoking tif <dodf>SyndProvidfr.gftRowSftRfbdfr()</dodf> mftiod.
  *
- * @author Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncProvider
- * @see javax.sql.rowset.spi.SyncFactory
- * @see javax.sql.rowset.spi.SyncFactoryException
+ * @butior Jonbtibn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
  */
-public class CachedRowSetReader implements RowSetReader, Serializable {
+publid dlbss CbdifdRowSftRfbdfr implfmfnts RowSftRfbdfr, Sfriblizbblf {
 
     /**
-     * The field that keeps track of whether the writer associated with
-     * this <code>CachedRowSetReader</code> object's rowset has been called since
-     * the rowset was populated.
+     * Tif fifld tibt kffps trbdk of wiftifr tif writfr bssodibtfd witi
+     * tiis <dodf>CbdifdRowSftRfbdfr</dodf> objfdt's rowsft ibs bffn dbllfd sindf
+     * tif rowsft wbs populbtfd.
      * <P>
-     * When this <code>CachedRowSetReader</code> object reads data into
-     * its rowset, it sets the field <code>writerCalls</code> to 0.
-     * When the writer associated with the rowset is called to write
-     * data back to the underlying data source, its <code>writeData</code>
-     * method calls the method <code>CachedRowSetReader.reset</code>,
-     * which increments <code>writerCalls</code> and returns <code>true</code>
-     * if <code>writerCalls</code> is 1. Thus, <code>writerCalls</code> equals
-     * 1 after the first call to <code>writeData</code> that occurs
-     * after the rowset has had data read into it.
+     * Wifn tiis <dodf>CbdifdRowSftRfbdfr</dodf> objfdt rfbds dbtb into
+     * its rowsft, it sfts tif fifld <dodf>writfrCblls</dodf> to 0.
+     * Wifn tif writfr bssodibtfd witi tif rowsft is dbllfd to writf
+     * dbtb bbdk to tif undfrlying dbtb sourdf, its <dodf>writfDbtb</dodf>
+     * mftiod dblls tif mftiod <dodf>CbdifdRowSftRfbdfr.rfsft</dodf>,
+     * wiidi indrfmfnts <dodf>writfrCblls</dodf> bnd rfturns <dodf>truf</dodf>
+     * if <dodf>writfrCblls</dodf> is 1. Tius, <dodf>writfrCblls</dodf> fqubls
+     * 1 bftfr tif first dbll to <dodf>writfDbtb</dodf> tibt oddurs
+     * bftfr tif rowsft ibs ibd dbtb rfbd into it.
      *
-     * @serial
+     * @sfribl
      */
-    private int writerCalls = 0;
+    privbtf int writfrCblls = 0;
 
-    private boolean userCon = false;
+    privbtf boolfbn usfrCon = fblsf;
 
-    private int startPosition;
+    privbtf int stbrtPosition;
 
-    private JdbcRowSetResourceBundle resBundle;
+    privbtf JdbdRowSftRfsourdfBundlf rfsBundlf;
 
-    public CachedRowSetReader() {
+    publid CbdifdRowSftRfbdfr() {
         try {
-                resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+                rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
     }
 
 
     /**
-     * Reads data from a data source and populates the given
-     * <code>RowSet</code> object with that data.
-     * This method is called by the rowset internally when
-     * the application invokes the method <code>execute</code>
-     * to read a new set of rows.
+     * Rfbds dbtb from b dbtb sourdf bnd populbtfs tif givfn
+     * <dodf>RowSft</dodf> objfdt witi tibt dbtb.
+     * Tiis mftiod is dbllfd by tif rowsft intfrnblly wifn
+     * tif bpplidbtion invokfs tif mftiod <dodf>fxfdutf</dodf>
+     * to rfbd b nfw sft of rows.
      * <P>
-     * After clearing the rowset of its contents, if any, and setting
-     * the number of writer calls to <code>0</code>, this reader calls
-     * its <code>connect</code> method to make
-     * a connection to the rowset's data source. Depending on which
-     * of the rowset's properties have been set, the <code>connect</code>
-     * method will use a <code>DataSource</code> object or the
-     * <code>DriverManager</code> facility to make a connection to the
-     * data source.
+     * Aftfr dlfbring tif rowsft of its dontfnts, if bny, bnd sftting
+     * tif numbfr of writfr dblls to <dodf>0</dodf>, tiis rfbdfr dblls
+     * its <dodf>donnfdt</dodf> mftiod to mbkf
+     * b donnfdtion to tif rowsft's dbtb sourdf. Dfpfnding on wiidi
+     * of tif rowsft's propfrtifs ibvf bffn sft, tif <dodf>donnfdt</dodf>
+     * mftiod will usf b <dodf>DbtbSourdf</dodf> objfdt or tif
+     * <dodf>DrivfrMbnbgfr</dodf> fbdility to mbkf b donnfdtion to tif
+     * dbtb sourdf.
      * <P>
-     * Once the connection to the data source is made, this reader
-     * executes the query in the calling <code>CachedRowSet</code> object's
-     * <code>command</code> property. Then it calls the rowset's
-     * <code>populate</code> method, which reads data from the
-     * <code>ResultSet</code> object produced by executing the rowset's
-     * command. The rowset is then populated with this data.
+     * Ondf tif donnfdtion to tif dbtb sourdf is mbdf, tiis rfbdfr
+     * fxfdutfs tif qufry in tif dblling <dodf>CbdifdRowSft</dodf> objfdt's
+     * <dodf>dommbnd</dodf> propfrty. Tifn it dblls tif rowsft's
+     * <dodf>populbtf</dodf> mftiod, wiidi rfbds dbtb from tif
+     * <dodf>RfsultSft</dodf> objfdt produdfd by fxfduting tif rowsft's
+     * dommbnd. Tif rowsft is tifn populbtfd witi tiis dbtb.
      * <P>
-     * This method's final act is to close the connection it made, thus
-     * leaving the rowset disconnected from its data source.
+     * Tiis mftiod's finbl bdt is to dlosf tif donnfdtion it mbdf, tius
+     * lfbving tif rowsft disdonnfdtfd from its dbtb sourdf.
      *
-     * @param caller a <code>RowSet</code> object that has implemented
-     *               the <code>RowSetInternal</code> interface and had
-     *               this <code>CachedRowSetReader</code> object set as
-     *               its reader
-     * @throws SQLException if there is a database access error, there is a
-     *         problem making the connection, or the command property has not
-     *         been set
+     * @pbrbm dbllfr b <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd
+     *               tif <dodf>RowSftIntfrnbl</dodf> intfrfbdf bnd ibd
+     *               tiis <dodf>CbdifdRowSftRfbdfr</dodf> objfdt sft bs
+     *               its rfbdfr
+     * @tirows SQLExdfption if tifrf is b dbtbbbsf bddfss frror, tifrf is b
+     *         problfm mbking tif donnfdtion, or tif dommbnd propfrty ibs not
+     *         bffn sft
      */
-    public void readData(RowSetInternal caller) throws SQLException
+    publid void rfbdDbtb(RowSftIntfrnbl dbllfr) tirows SQLExdfption
     {
-        Connection con = null;
+        Connfdtion don = null;
         try {
-            CachedRowSet crs = (CachedRowSet)caller;
+            CbdifdRowSft drs = (CbdifdRowSft)dbllfr;
 
-            // Get rid of the current contents of the rowset.
+            // Gft rid of tif durrfnt dontfnts of tif rowsft.
 
             /**
-             * Checking added to verify whether page size has been set or not.
-             * If set then do not close the object as certain parameters need
-             * to be maintained.
+             * Cifdking bddfd to vfrify wiftifr pbgf sizf ibs bffn sft or not.
+             * If sft tifn do not dlosf tif objfdt bs dfrtbin pbrbmftfrs nffd
+             * to bf mbintbinfd.
              */
 
-            if(crs.getPageSize() == 0 && crs.size() >0 ) {
-               // When page size is not set,
-               // crs.size() will show the total no of rows.
-               crs.close();
+            if(drs.gftPbgfSizf() == 0 && drs.sizf() >0 ) {
+               // Wifn pbgf sizf is not sft,
+               // drs.sizf() will siow tif totbl no of rows.
+               drs.dlosf();
             }
 
-            writerCalls = 0;
+            writfrCblls = 0;
 
-            // Get a connection.  This reader assumes that the necessary
-            // properties have been set on the caller to let it supply a
-            // connection.
-            userCon = false;
+            // Gft b donnfdtion.  Tiis rfbdfr bssumfs tibt tif nfdfssbry
+            // propfrtifs ibvf bffn sft on tif dbllfr to lft it supply b
+            // donnfdtion.
+            usfrCon = fblsf;
 
-            con = this.connect(caller);
+            don = tiis.donnfdt(dbllfr);
 
-            // Check our assumptions.
-            if (con == null || crs.getCommand() == null)
-                throw new SQLException(resBundle.handleGetObject("crsreader.connecterr").toString());
+            // Cifdk our bssumptions.
+            if (don == null || drs.gftCommbnd() == null)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("drsrfbdfr.donnfdtfrr").toString());
 
             try {
-                con.setTransactionIsolation(crs.getTransactionIsolation());
-            } catch (Exception ex) {
+                don.sftTrbnsbdtionIsolbtion(drs.gftTrbnsbdtionIsolbtion());
+            } dbtdi (Exdfption fx) {
                 ;
             }
-            // Use JDBC to read the data.
-            PreparedStatement pstmt = con.prepareStatement(crs.getCommand());
-            // Pass any input parameters to JDBC.
+            // Usf JDBC to rfbd tif dbtb.
+            PrfpbrfdStbtfmfnt pstmt = don.prfpbrfStbtfmfnt(drs.gftCommbnd());
+            // Pbss bny input pbrbmftfrs to JDBC.
 
-            decodeParams(caller.getParams(), pstmt);
+            dfdodfPbrbms(dbllfr.gftPbrbms(), pstmt);
             try {
-                pstmt.setMaxRows(crs.getMaxRows());
-                pstmt.setMaxFieldSize(crs.getMaxFieldSize());
-                pstmt.setEscapeProcessing(crs.getEscapeProcessing());
-                pstmt.setQueryTimeout(crs.getQueryTimeout());
-            } catch (Exception ex) {
+                pstmt.sftMbxRows(drs.gftMbxRows());
+                pstmt.sftMbxFifldSizf(drs.gftMbxFifldSizf());
+                pstmt.sftEsdbpfProdfssing(drs.gftEsdbpfProdfssing());
+                pstmt.sftQufryTimfout(drs.gftQufryTimfout());
+            } dbtdi (Exdfption fx) {
                 /*
-                 * drivers may not support the above - esp. older
-                 * drivers being used by the bridge..
+                 * drivfrs mby not support tif bbovf - fsp. oldfr
+                 * drivfrs bfing usfd by tif bridgf..
                  */
-                throw new SQLException(ex.getMessage());
+                tirow nfw SQLExdfption(fx.gftMfssbgf());
             }
 
-            if(crs.getCommand().toLowerCase().indexOf("select") != -1) {
-                // can be (crs.getCommand()).indexOf("select")) == 0
-                // because we will be getting resultset when
-                // it may be the case that some false select query with
-                // select coming in between instead of first.
+            if(drs.gftCommbnd().toLowfrCbsf().indfxOf("sflfdt") != -1) {
+                // dbn bf (drs.gftCommbnd()).indfxOf("sflfdt")) == 0
+                // bfdbusf wf will bf gftting rfsultsft wifn
+                // it mby bf tif dbsf tibt somf fblsf sflfdt qufry witi
+                // sflfdt doming in bftwffn instfbd of first.
 
-                // if ((crs.getCommand()).indexOf("?")) does not return -1
-                // implies a Prepared Statement like query exists.
+                // if ((drs.gftCommbnd()).indfxOf("?")) dofs not rfturn -1
+                // implifs b Prfpbrfd Stbtfmfnt likf qufry fxists.
 
-                ResultSet rs = pstmt.executeQuery();
-               if(crs.getPageSize() == 0){
-                      crs.populate(rs);
+                RfsultSft rs = pstmt.fxfdutfQufry();
+               if(drs.gftPbgfSizf() == 0){
+                      drs.populbtf(rs);
                }
-               else {
+               flsf {
                        /**
-                        * If page size has been set then create a ResultSet object that is scrollable using a
-                        * PreparedStatement handle.Also call the populate(ResultSet,int) function to populate
-                        * a page of data as specified by the page size.
+                        * If pbgf sizf ibs bffn sft tifn drfbtf b RfsultSft objfdt tibt is sdrollbblf using b
+                        * PrfpbrfdStbtfmfnt ibndlf.Also dbll tif populbtf(RfsultSft,int) fundtion to populbtf
+                        * b pbgf of dbtb bs spfdififd by tif pbgf sizf.
                         */
-                       pstmt = con.prepareStatement(crs.getCommand(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-                       decodeParams(caller.getParams(), pstmt);
+                       pstmt = don.prfpbrfStbtfmfnt(drs.gftCommbnd(),RfsultSft.TYPE_SCROLL_INSENSITIVE,RfsultSft.CONCUR_UPDATABLE);
+                       dfdodfPbrbms(dbllfr.gftPbrbms(), pstmt);
                        try {
-                               pstmt.setMaxRows(crs.getMaxRows());
-                               pstmt.setMaxFieldSize(crs.getMaxFieldSize());
-                               pstmt.setEscapeProcessing(crs.getEscapeProcessing());
-                               pstmt.setQueryTimeout(crs.getQueryTimeout());
-                           } catch (Exception ex) {
+                               pstmt.sftMbxRows(drs.gftMbxRows());
+                               pstmt.sftMbxFifldSizf(drs.gftMbxFifldSizf());
+                               pstmt.sftEsdbpfProdfssing(drs.gftEsdbpfProdfssing());
+                               pstmt.sftQufryTimfout(drs.gftQufryTimfout());
+                           } dbtdi (Exdfption fx) {
                           /*
-                           * drivers may not support the above - esp. older
-                           * drivers being used by the bridge..
+                           * drivfrs mby not support tif bbovf - fsp. oldfr
+                           * drivfrs bfing usfd by tif bridgf..
                            */
-                            throw new SQLException(ex.getMessage());
+                            tirow nfw SQLExdfption(fx.gftMfssbgf());
                           }
-                       rs = pstmt.executeQuery();
-                       crs.populate(rs,startPosition);
+                       rs = pstmt.fxfdutfQufry();
+                       drs.populbtf(rs,stbrtPosition);
                }
-                rs.close();
-            } else  {
-                pstmt.executeUpdate();
+                rs.dlosf();
+            } flsf  {
+                pstmt.fxfdutfUpdbtf();
             }
 
-            // Get the data.
-            pstmt.close();
+            // Gft tif dbtb.
+            pstmt.dlosf();
             try {
-                con.commit();
-            } catch (SQLException ex) {
+                don.dommit();
+            } dbtdi (SQLExdfption fx) {
                 ;
             }
-            // only close connections we created...
-            if (getCloseConnection() == true)
-                con.close();
+            // only dlosf donnfdtions wf drfbtfd...
+            if (gftClosfConnfdtion() == truf)
+                don.dlosf();
         }
-        catch (SQLException ex) {
-            // Throw an exception if reading fails for any reason.
-            throw ex;
-        } finally {
+        dbtdi (SQLExdfption fx) {
+            // Tirow bn fxdfption if rfbding fbils for bny rfbson.
+            tirow fx;
+        } finblly {
             try {
-                // only close connections we created...
-                if (con != null && getCloseConnection() == true) {
+                // only dlosf donnfdtions wf drfbtfd...
+                if (don != null && gftClosfConnfdtion() == truf) {
                     try {
-                        if (!con.getAutoCommit()) {
-                            con.rollback();
+                        if (!don.gftAutoCommit()) {
+                            don.rollbbdk();
                         }
-                    } catch (Exception dummy) {
+                    } dbtdi (Exdfption dummy) {
                         /*
-                         * not an error condition, we're closing anyway, but
-                         * we'd like to clean up any locks if we can since
-                         * it is not clear the connection pool will clean
-                         * these connections in a timely manner
+                         * not bn frror dondition, wf'rf dlosing bnywby, but
+                         * wf'd likf to dlfbn up bny lodks if wf dbn sindf
+                         * it is not dlfbr tif donnfdtion pool will dlfbn
+                         * tifsf donnfdtions in b timfly mbnnfr
                          */
                     }
-                    con.close();
-                    con = null;
+                    don.dlosf();
+                    don = null;
                 }
-            } catch (SQLException e) {
-                // will get exception if something already went wrong, but don't
-                // override that exception with this one
+            } dbtdi (SQLExdfption f) {
+                // will gft fxdfption if somftiing blrfbdy wfnt wrong, but don't
+                // ovfrridf tibt fxdfption witi tiis onf
             }
         }
     }
 
     /**
-     * Checks to see if the writer associated with this reader needs
-     * to reset its state.  The writer will need to initialize its state
-     * if new contents have been read since the writer was last called.
-     * This method is called by the writer that was registered with
-     * this reader when components were being wired together.
+     * Cifdks to sff if tif writfr bssodibtfd witi tiis rfbdfr nffds
+     * to rfsft its stbtf.  Tif writfr will nffd to initiblizf its stbtf
+     * if nfw dontfnts ibvf bffn rfbd sindf tif writfr wbs lbst dbllfd.
+     * Tiis mftiod is dbllfd by tif writfr tibt wbs rfgistfrfd witi
+     * tiis rfbdfr wifn domponfnts wfrf bfing wirfd togftifr.
      *
-     * @return <code>true</code> if writer associated with this reader needs
-     *         to reset the values of its fields; <code>false</code> otherwise
-     * @throws SQLException if an access error occurs
+     * @rfturn <dodf>truf</dodf> if writfr bssodibtfd witi tiis rfbdfr nffds
+     *         to rfsft tif vblufs of its fiflds; <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if bn bddfss frror oddurs
      */
-    public boolean reset() throws SQLException {
-        writerCalls++;
-        return writerCalls == 1;
+    publid boolfbn rfsft() tirows SQLExdfption {
+        writfrCblls++;
+        rfturn writfrCblls == 1;
     }
 
     /**
-     * Establishes a connection with the data source for the given
-     * <code>RowSet</code> object.  If the rowset's <code>dataSourceName</code>
-     * property has been set, this method uses the JNDI API to retrieve the
-     * <code>DataSource</code> object that it can use to make the connection.
-     * If the url, username, and password properties have been set, this
-     * method uses the <code>DriverManager.getConnection</code> method to
-     * make the connection.
+     * Estbblisifs b donnfdtion witi tif dbtb sourdf for tif givfn
+     * <dodf>RowSft</dodf> objfdt.  If tif rowsft's <dodf>dbtbSourdfNbmf</dodf>
+     * propfrty ibs bffn sft, tiis mftiod usfs tif JNDI API to rftrifvf tif
+     * <dodf>DbtbSourdf</dodf> objfdt tibt it dbn usf to mbkf tif donnfdtion.
+     * If tif url, usfrnbmf, bnd pbssword propfrtifs ibvf bffn sft, tiis
+     * mftiod usfs tif <dodf>DrivfrMbnbgfr.gftConnfdtion</dodf> mftiod to
+     * mbkf tif donnfdtion.
      * <P>
-     * This method is used internally by the reader and writer associated with
-     * the calling <code>RowSet</code> object; an application never calls it
-     * directly.
+     * Tiis mftiod is usfd intfrnblly by tif rfbdfr bnd writfr bssodibtfd witi
+     * tif dblling <dodf>RowSft</dodf> objfdt; bn bpplidbtion nfvfr dblls it
+     * dirfdtly.
      *
-     * @param caller a <code>RowSet</code> object that has implemented
-     *               the <code>RowSetInternal</code> interface and had
-     *               this <code>CachedRowSetReader</code> object set as
-     *               its reader
-     * @return a <code>Connection</code> object that represents a connection
-     *         to the caller's data source
-     * @throws SQLException if an access error occurs
+     * @pbrbm dbllfr b <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd
+     *               tif <dodf>RowSftIntfrnbl</dodf> intfrfbdf bnd ibd
+     *               tiis <dodf>CbdifdRowSftRfbdfr</dodf> objfdt sft bs
+     *               its rfbdfr
+     * @rfturn b <dodf>Connfdtion</dodf> objfdt tibt rfprfsfnts b donnfdtion
+     *         to tif dbllfr's dbtb sourdf
+     * @tirows SQLExdfption if bn bddfss frror oddurs
      */
-    public Connection connect(RowSetInternal caller) throws SQLException {
+    publid Connfdtion donnfdt(RowSftIntfrnbl dbllfr) tirows SQLExdfption {
 
-        // Get a JDBC connection.
-        if (caller.getConnection() != null) {
-            // A connection was passed to execute(), so use it.
-            // As we are using a connection the user gave us we
-            // won't close it.
-            userCon = true;
-            return caller.getConnection();
+        // Gft b JDBC donnfdtion.
+        if (dbllfr.gftConnfdtion() != null) {
+            // A donnfdtion wbs pbssfd to fxfdutf(), so usf it.
+            // As wf brf using b donnfdtion tif usfr gbvf us wf
+            // won't dlosf it.
+            usfrCon = truf;
+            rfturn dbllfr.gftConnfdtion();
         }
-        else if (((RowSet)caller).getDataSourceName() != null) {
-            // Connect using JNDI.
+        flsf if (((RowSft)dbllfr).gftDbtbSourdfNbmf() != null) {
+            // Connfdt using JNDI.
             try {
-                Context ctx = new InitialContext();
-                DataSource ds = (DataSource)ctx.lookup
-                    (((RowSet)caller).getDataSourceName());
+                Contfxt dtx = nfw InitiblContfxt();
+                DbtbSourdf ds = (DbtbSourdf)dtx.lookup
+                    (((RowSft)dbllfr).gftDbtbSourdfNbmf());
 
-                // Check for username, password,
-                // if it exists try getting a Connection handle through them
-                // else try without these
-                // else throw SQLException
+                // Cifdk for usfrnbmf, pbssword,
+                // if it fxists try gftting b Connfdtion ibndlf tirougi tifm
+                // flsf try witiout tifsf
+                // flsf tirow SQLExdfption
 
-                if(((RowSet)caller).getUsername() != null) {
-                     return ds.getConnection(((RowSet)caller).getUsername(),
-                                            ((RowSet)caller).getPassword());
-                } else {
-                     return ds.getConnection();
+                if(((RowSft)dbllfr).gftUsfrnbmf() != null) {
+                     rfturn ds.gftConnfdtion(((RowSft)dbllfr).gftUsfrnbmf(),
+                                            ((RowSft)dbllfr).gftPbssword());
+                } flsf {
+                     rfturn ds.gftConnfdtion();
                 }
             }
-            catch (javax.naming.NamingException ex) {
-                SQLException sqlEx = new SQLException(resBundle.handleGetObject("crsreader.connect").toString());
-                sqlEx.initCause(ex);
-                throw sqlEx;
+            dbtdi (jbvbx.nbming.NbmingExdfption fx) {
+                SQLExdfption sqlEx = nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("drsrfbdfr.donnfdt").toString());
+                sqlEx.initCbusf(fx);
+                tirow sqlEx;
             }
-        } else if (((RowSet)caller).getUrl() != null) {
-            // Connect using the driver manager.
-            return DriverManager.getConnection(((RowSet)caller).getUrl(),
-                                               ((RowSet)caller).getUsername(),
-                                               ((RowSet)caller).getPassword());
+        } flsf if (((RowSft)dbllfr).gftUrl() != null) {
+            // Connfdt using tif drivfr mbnbgfr.
+            rfturn DrivfrMbnbgfr.gftConnfdtion(((RowSft)dbllfr).gftUrl(),
+                                               ((RowSft)dbllfr).gftUsfrnbmf(),
+                                               ((RowSft)dbllfr).gftPbssword());
         }
-        else {
-            return null;
+        flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Sets the parameter placeholders
-     * in the rowset's command (the given <code>PreparedStatement</code>
-     * object) with the parameters in the given array.
-     * This method, called internally by the method
-     * <code>CachedRowSetReader.readData</code>, reads each parameter, and
-     * based on its type, determines the correct
-     * <code>PreparedStatement.setXXX</code> method to use for setting
-     * that parameter.
+     * Sfts tif pbrbmftfr plbdfioldfrs
+     * in tif rowsft's dommbnd (tif givfn <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt) witi tif pbrbmftfrs in tif givfn brrby.
+     * Tiis mftiod, dbllfd intfrnblly by tif mftiod
+     * <dodf>CbdifdRowSftRfbdfr.rfbdDbtb</dodf>, rfbds fbdi pbrbmftfr, bnd
+     * bbsfd on its typf, dftfrminfs tif dorrfdt
+     * <dodf>PrfpbrfdStbtfmfnt.sftXXX</dodf> mftiod to usf for sftting
+     * tibt pbrbmftfr.
      *
-     * @param params an array of parameters to be used with the given
-     *               <code>PreparedStatement</code> object
-     * @param pstmt  the <code>PreparedStatement</code> object that is the
-     *               command for the calling rowset and into which
-     *               the given parameters are to be set
-     * @throws SQLException if an access error occurs
+     * @pbrbm pbrbms bn brrby of pbrbmftfrs to bf usfd witi tif givfn
+     *               <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+     * @pbrbm pstmt  tif <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt tibt is tif
+     *               dommbnd for tif dblling rowsft bnd into wiidi
+     *               tif givfn pbrbmftfrs brf to bf sft
+     * @tirows SQLExdfption if bn bddfss frror oddurs
      */
-    @SuppressWarnings("deprecation")
-    private void decodeParams(Object[] params,
-                              PreparedStatement pstmt) throws SQLException {
-    // There is a corresponding decodeParams in JdbcRowSetImpl
-    // which does the same as this method. This is a design flaw.
-    // Update the JdbcRowSetImpl.decodeParams when you update
-    // this method.
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf void dfdodfPbrbms(Objfdt[] pbrbms,
+                              PrfpbrfdStbtfmfnt pstmt) tirows SQLExdfption {
+    // Tifrf is b dorrfsponding dfdodfPbrbms in JdbdRowSftImpl
+    // wiidi dofs tif sbmf bs tiis mftiod. Tiis is b dfsign flbw.
+    // Updbtf tif JdbdRowSftImpl.dfdodfPbrbms wifn you updbtf
+    // tiis mftiod.
 
-    // Adding the same comments to JdbcRowSetImpl.decodeParams.
+    // Adding tif sbmf dommfnts to JdbdRowSftImpl.dfdodfPbrbms.
 
-        int arraySize;
-        Object[] param = null;
+        int brrbySizf;
+        Objfdt[] pbrbm = null;
 
-        for (int i=0; i < params.length; i++) {
-            if (params[i] instanceof Object[]) {
-                param = (Object[])params[i];
+        for (int i=0; i < pbrbms.lfngti; i++) {
+            if (pbrbms[i] instbndfof Objfdt[]) {
+                pbrbm = (Objfdt[])pbrbms[i];
 
-                if (param.length == 2) {
-                    if (param[0] == null) {
-                        pstmt.setNull(i + 1, ((Integer)param[1]).intValue());
-                        continue;
+                if (pbrbm.lfngti == 2) {
+                    if (pbrbm[0] == null) {
+                        pstmt.sftNull(i + 1, ((Intfgfr)pbrbm[1]).intVbluf());
+                        dontinuf;
                     }
 
-                    if (param[0] instanceof java.sql.Date ||
-                        param[0] instanceof java.sql.Time ||
-                        param[0] instanceof java.sql.Timestamp) {
-                        System.err.println(resBundle.handleGetObject("crsreader.datedetected").toString());
-                        if (param[1] instanceof java.util.Calendar) {
-                            System.err.println(resBundle.handleGetObject("crsreader.caldetected").toString());
-                            pstmt.setDate(i + 1, (java.sql.Date)param[0],
-                                       (java.util.Calendar)param[1]);
-                            continue;
+                    if (pbrbm[0] instbndfof jbvb.sql.Dbtf ||
+                        pbrbm[0] instbndfof jbvb.sql.Timf ||
+                        pbrbm[0] instbndfof jbvb.sql.Timfstbmp) {
+                        Systfm.frr.println(rfsBundlf.ibndlfGftObjfdt("drsrfbdfr.dbtfdftfdtfd").toString());
+                        if (pbrbm[1] instbndfof jbvb.util.Cblfndbr) {
+                            Systfm.frr.println(rfsBundlf.ibndlfGftObjfdt("drsrfbdfr.dbldftfdtfd").toString());
+                            pstmt.sftDbtf(i + 1, (jbvb.sql.Dbtf)pbrbm[0],
+                                       (jbvb.util.Cblfndbr)pbrbm[1]);
+                            dontinuf;
                         }
-                        else {
-                            throw new SQLException(resBundle.handleGetObject("crsreader.paramtype").toString());
+                        flsf {
+                            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("drsrfbdfr.pbrbmtypf").toString());
                         }
                     }
 
-                    if (param[0] instanceof Reader) {
-                        pstmt.setCharacterStream(i + 1, (Reader)param[0],
-                                              ((Integer)param[1]).intValue());
-                        continue;
+                    if (pbrbm[0] instbndfof Rfbdfr) {
+                        pstmt.sftCibrbdtfrStrfbm(i + 1, (Rfbdfr)pbrbm[0],
+                                              ((Intfgfr)pbrbm[1]).intVbluf());
+                        dontinuf;
                     }
 
                     /*
-                     * What's left should be setObject(int, Object, scale)
+                     * Wibt's lfft siould bf sftObjfdt(int, Objfdt, sdblf)
                      */
-                    if (param[1] instanceof Integer) {
-                        pstmt.setObject(i + 1, param[0], ((Integer)param[1]).intValue());
-                        continue;
+                    if (pbrbm[1] instbndfof Intfgfr) {
+                        pstmt.sftObjfdt(i + 1, pbrbm[0], ((Intfgfr)pbrbm[1]).intVbluf());
+                        dontinuf;
                     }
 
-                } else if (param.length == 3) {
+                } flsf if (pbrbm.lfngti == 3) {
 
-                    if (param[0] == null) {
-                        pstmt.setNull(i + 1, ((Integer)param[1]).intValue(),
-                                   (String)param[2]);
-                        continue;
+                    if (pbrbm[0] == null) {
+                        pstmt.sftNull(i + 1, ((Intfgfr)pbrbm[1]).intVbluf(),
+                                   (String)pbrbm[2]);
+                        dontinuf;
                     }
 
-                    if (param[0] instanceof java.io.InputStream) {
-                        switch (((Integer)param[2]).intValue()) {
-                        case CachedRowSetImpl.UNICODE_STREAM_PARAM:
-                            pstmt.setUnicodeStream(i + 1,
-                                                (java.io.InputStream)param[0],
-                                                ((Integer)param[1]).intValue());
-                            break;
-                        case CachedRowSetImpl.BINARY_STREAM_PARAM:
-                            pstmt.setBinaryStream(i + 1,
-                                               (java.io.InputStream)param[0],
-                                               ((Integer)param[1]).intValue());
-                            break;
-                        case CachedRowSetImpl.ASCII_STREAM_PARAM:
-                            pstmt.setAsciiStream(i + 1,
-                                              (java.io.InputStream)param[0],
-                                              ((Integer)param[1]).intValue());
-                            break;
-                        default:
-                            throw new SQLException(resBundle.handleGetObject("crsreader.paramtype").toString());
+                    if (pbrbm[0] instbndfof jbvb.io.InputStrfbm) {
+                        switdi (((Intfgfr)pbrbm[2]).intVbluf()) {
+                        dbsf CbdifdRowSftImpl.UNICODE_STREAM_PARAM:
+                            pstmt.sftUnidodfStrfbm(i + 1,
+                                                (jbvb.io.InputStrfbm)pbrbm[0],
+                                                ((Intfgfr)pbrbm[1]).intVbluf());
+                            brfbk;
+                        dbsf CbdifdRowSftImpl.BINARY_STREAM_PARAM:
+                            pstmt.sftBinbryStrfbm(i + 1,
+                                               (jbvb.io.InputStrfbm)pbrbm[0],
+                                               ((Intfgfr)pbrbm[1]).intVbluf());
+                            brfbk;
+                        dbsf CbdifdRowSftImpl.ASCII_STREAM_PARAM:
+                            pstmt.sftAsdiiStrfbm(i + 1,
+                                              (jbvb.io.InputStrfbm)pbrbm[0],
+                                              ((Intfgfr)pbrbm[1]).intVbluf());
+                            brfbk;
+                        dffbult:
+                            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("drsrfbdfr.pbrbmtypf").toString());
                         }
                     }
 
                     /*
-                     * no point at looking at the first element now;
-                     * what's left must be the setObject() cases.
+                     * no point bt looking bt tif first flfmfnt now;
+                     * wibt's lfft must bf tif sftObjfdt() dbsfs.
                      */
-                    if (param[1] instanceof Integer && param[2] instanceof Integer) {
-                        pstmt.setObject(i + 1, param[0], ((Integer)param[1]).intValue(),
-                                     ((Integer)param[2]).intValue());
-                        continue;
+                    if (pbrbm[1] instbndfof Intfgfr && pbrbm[2] instbndfof Intfgfr) {
+                        pstmt.sftObjfdt(i + 1, pbrbm[0], ((Intfgfr)pbrbm[1]).intVbluf(),
+                                     ((Intfgfr)pbrbm[2]).intVbluf());
+                        dontinuf;
                     }
 
-                    throw new SQLException(resBundle.handleGetObject("crsreader.paramtype").toString());
+                    tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("drsrfbdfr.pbrbmtypf").toString());
 
-                } else {
-                    // common case - this catches all SQL92 types
-                    pstmt.setObject(i + 1, params[i]);
-                    continue;
+                } flsf {
+                    // dommon dbsf - tiis dbtdifs bll SQL92 typfs
+                    pstmt.sftObjfdt(i + 1, pbrbms[i]);
+                    dontinuf;
                 }
-            }  else {
-               // Try to get all the params to be set here
-               pstmt.setObject(i + 1, params[i]);
+            }  flsf {
+               // Try to gft bll tif pbrbms to bf sft ifrf
+               pstmt.sftObjfdt(i + 1, pbrbms[i]);
 
             }
         }
     }
 
     /**
-     * Assists in determining whether the current connection was created by this
-     * CachedRowSet to ensure incorrect connections are not prematurely terminated.
+     * Assists in dftfrmining wiftifr tif durrfnt donnfdtion wbs drfbtfd by tiis
+     * CbdifdRowSft to fnsurf indorrfdt donnfdtions brf not prfmbturfly tfrminbtfd.
      *
-     * @return a boolean giving the status of whether the connection has been closed.
+     * @rfturn b boolfbn giving tif stbtus of wiftifr tif donnfdtion ibs bffn dlosfd.
      */
-    protected boolean getCloseConnection() {
-        if (userCon == true)
-            return false;
+    protfdtfd boolfbn gftClosfConnfdtion() {
+        if (usfrCon == truf)
+            rfturn fblsf;
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     *  This sets the start position in the ResultSet from where to begin. This is
-     * called by the Reader in the CachedRowSetImpl to set the position on the page
-     * to begin populating from.
-     * @param pos integer indicating the position in the <code>ResultSet</code> to begin
-     *        populating from.
+     *  Tiis sfts tif stbrt position in tif RfsultSft from wifrf to bfgin. Tiis is
+     * dbllfd by tif Rfbdfr in tif CbdifdRowSftImpl to sft tif position on tif pbgf
+     * to bfgin populbting from.
+     * @pbrbm pos intfgfr indidbting tif position in tif <dodf>RfsultSft</dodf> to bfgin
+     *        populbting from.
      */
-    public void setStartPosition(int pos){
-        startPosition = pos;
+    publid void sftStbrtPosition(int pos){
+        stbrtPosition = pos;
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of  Res Bundle happens here .
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion ibppfns ifrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of  Rfs Bundlf ibppfns ifrf .
         try {
-           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
 
     }
 
-    static final long serialVersionUID =5049738185801363801L;
+    stbtid finbl long sfriblVfrsionUID =5049738185801363801L;
 }

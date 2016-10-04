@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.MGF1PbrbmftfrSpfd;
+
+/**
+ * This dlbss spfdififs thf sft of pbrbmftfrs usfd with OAEP Pbdding,
+ * bs dffinfd in thf
+ * <b hrff="http://www.iftf.org/rfd/rfd3447.txt">PKCS #1</b>
+ * stbndbrd.
+ *
+ * Its ASN.1 dffinition in PKCS#1 stbndbrd is dfsdribfd bflow:
+ * <prf>
+ * RSAES-OAEP-pbrbms ::= SEQUENCE {
+ *   hbshAlgorithm      [0] OAEP-PSSDigfstAlgorithms     DEFAULT shb1,
+ *   mbskGfnAlgorithm   [1] PKCS1MGFAlgorithms  DEFAULT mgf1SHA1,
+ *   pSourdfAlgorithm   [2] PKCS1PSourdfAlgorithms  DEFAULT pSpfdififdEmpty
+ * }
+ * </prf>
+ * whfrf
+ * <prf>
+ * OAEP-PSSDigfstAlgorithms    ALGORITHM-IDENTIFIER ::= {
+ *   { OID id-shb1 PARAMETERS NULL   }|
+ *   { OID id-shb256 PARAMETERS NULL }|
+ *   { OID id-shb384 PARAMETERS NULL }|
+ *   { OID id-shb512 PARAMETERS NULL },
+ *   ...  -- Allows for futurf fxpbnsion --
+ * }
+ * PKCS1MGFAlgorithms    ALGORITHM-IDENTIFIER ::= {
+ *   { OID id-mgf1 PARAMETERS OAEP-PSSDigfstAlgorithms },
+ *   ...  -- Allows for futurf fxpbnsion --
+ * }
+ * PKCS1PSourdfAlgorithms    ALGORITHM-IDENTIFIER ::= {
+ *   { OID id-pSpfdififd PARAMETERS OCTET STRING },
+ *   ...  -- Allows for futurf fxpbnsion --
+ * }
+ * </prf>
+ * <p>Notf: thf OAEPPbrbmftfrSpfd.DEFAULT usfs thf following:
+ *     mfssbgf digfst  -- "SHA-1"
+ *     mbsk gfnfrbtion fundtion (mgf) -- "MGF1"
+ *     pbrbmftfrs for mgf -- MGF1PbrbmftfrSpfd.SHA1
+ *     sourdf of fndoding input -- PSourdf.PSpfdififd.DEFAULT
+ *
+ * @sff jbvb.sfdurity.spfd.MGF1PbrbmftfrSpfd
+ * @sff PSourdf
+ *
+ * @buthor Vblfrif Pfng
+ *
+ * @sindf 1.5
+ */
+publid dlbss OAEPPbrbmftfrSpfd implfmfnts AlgorithmPbrbmftfrSpfd {
+
+    privbtf String mdNbmf = "SHA-1";
+    privbtf String mgfNbmf = "MGF1";
+    privbtf AlgorithmPbrbmftfrSpfd mgfSpfd = MGF1PbrbmftfrSpfd.SHA1;
+    privbtf PSourdf pSrd = PSourdf.PSpfdififd.DEFAULT;
+
+    /**
+     * Thf OAEP pbrbmftfr sft with bll dffbult vblufs.
+     */
+    publid stbtid finbl OAEPPbrbmftfrSpfd DEFAULT = nfw OAEPPbrbmftfrSpfd();
+
+    /**
+     * Construdts b pbrbmftfr sft for OAEP pbdding bs dffinfd in
+     * thf PKCS #1 stbndbrd using thf dffbult vblufs.
+     */
+    privbtf OAEPPbrbmftfrSpfd() {
+    }
+
+    /**
+     * Construdts b pbrbmftfr sft for OAEP pbdding bs dffinfd in
+     * thf PKCS #1 stbndbrd using thf spfdififd mfssbgf digfst
+     * blgorithm <dodf>mdNbmf</dodf>, mbsk gfnfrbtion fundtion
+     * blgorithm <dodf>mgfNbmf</dodf>, pbrbmftfrs for thf mbsk
+     * gfnfrbtion fundtion <dodf>mgfSpfd</dodf>, bnd sourdf of
+     * thf fndoding input P <dodf>pSrd</dodf>.
+     *
+     * @pbrbm mdNbmf thf blgorithm nbmf for thf mfssbgf digfst.
+     * @pbrbm mgfNbmf thf blgorithm nbmf for thf mbsk gfnfrbtion
+     * fundtion.
+     * @pbrbm mgfSpfd thf pbrbmftfrs for thf mbsk gfnfrbtion fundtion.
+     * If null is spfdififd, null will bf rfturnfd by gftMGFPbrbmftfrs().
+     * @pbrbm pSrd thf sourdf of thf fndoding input P.
+     * @fxdfption NullPointfrExdfption if <dodf>mdNbmf</dodf>,
+     * <dodf>mgfNbmf</dodf>, or <dodf>pSrd</dodf> is null.
+     */
+    publid OAEPPbrbmftfrSpfd(String mdNbmf, String mgfNbmf,
+                             AlgorithmPbrbmftfrSpfd mgfSpfd,
+                             PSourdf pSrd) {
+        if (mdNbmf == null) {
+            throw nfw NullPointfrExdfption("digfst blgorithm is null");
+        }
+        if (mgfNbmf == null) {
+            throw nfw NullPointfrExdfption("mbsk gfnfrbtion fundtion " +
+                                           "blgorithm is null");
+        }
+        if (pSrd == null) {
+            throw nfw NullPointfrExdfption("sourdf of thf fndoding input " +
+                                           "is null");
+        }
+        this.mdNbmf =  mdNbmf;
+        this.mgfNbmf =  mgfNbmf;
+        this.mgfSpfd =  mgfSpfd;
+        this.pSrd =  pSrd;
+    }
+
+    /**
+     * Rfturns thf mfssbgf digfst blgorithm nbmf.
+     *
+     * @rfturn thf mfssbgf digfst blgorithm nbmf.
+     */
+    publid String gftDigfstAlgorithm() {
+        rfturn mdNbmf;
+    }
+
+    /**
+     * Rfturns thf mbsk gfnfrbtion fundtion blgorithm nbmf.
+     *
+     * @rfturn thf mbsk gfnfrbtion fundtion blgorithm nbmf.
+     */
+    publid String gftMGFAlgorithm() {
+        rfturn mgfNbmf;
+    }
+
+    /**
+     * Rfturns thf pbrbmftfrs for thf mbsk gfnfrbtion fundtion.
+     *
+     * @rfturn thf pbrbmftfrs for thf mbsk gfnfrbtion fundtion.
+     */
+    publid AlgorithmPbrbmftfrSpfd gftMGFPbrbmftfrs() {
+        rfturn mgfSpfd;
+    }
+
+    /**
+     * Rfturns thf sourdf of fndoding input P.
+     *
+     * @rfturn thf sourdf of fndoding input P.
+     */
+    publid PSourdf gftPSourdf() {
+        rfturn pSrd;
+    }
+}

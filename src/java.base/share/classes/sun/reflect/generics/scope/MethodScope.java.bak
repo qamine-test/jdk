@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.scope;
+pbdkbgf sun.rfflfdt.gfnfrids.sdopf;
 
-import java.lang.reflect.Method;
+import jbvb.lbng.rfflfdt.Mftiod;
 
 
 /**
- * This class represents the scope containing the type variables of
- * a method.
+ * Tiis dlbss rfprfsfnts tif sdopf dontbining tif typf vbribblfs of
+ * b mftiod.
  */
-public class MethodScope extends AbstractScope<Method> {
+publid dlbss MftiodSdopf fxtfnds AbstrbdtSdopf<Mftiod> {
 
-    // constructor is private to enforce use of factory method
-    private MethodScope(Method m){
-        super(m);
+    // donstrudtor is privbtf to fnfordf usf of fbdtory mftiod
+    privbtf MftiodSdopf(Mftiod m){
+        supfr(m);
     }
 
-    // utility method; computes enclosing class, from which we can
-    // derive enclosing scope.
-    private Class<?> getEnclosingClass(){
-        return getRecvr().getDeclaringClass();
-    }
-
-    /**
-     * Overrides the abstract method in the superclass.
-     * @return the enclosing scope
-     */
-    protected Scope computeEnclosingScope() {
-        // the enclosing scope of a (generic) method is the scope of the
-        // class in which it was declared.
-        return ClassScope.make(getEnclosingClass());
+    // utility mftiod; domputfs fndlosing dlbss, from wiidi wf dbn
+    // dfrivf fndlosing sdopf.
+    privbtf Clbss<?> gftEndlosingClbss(){
+        rfturn gftRfdvr().gftDfdlbringClbss();
     }
 
     /**
-     * Factory method. Takes a <tt>Method</tt> object and creates a
-     * scope for it.
-     * @param m - A Method whose scope we want to obtain
-     * @return The type-variable scope for the method m
+     * Ovfrridfs tif bbstrbdt mftiod in tif supfrdlbss.
+     * @rfturn tif fndlosing sdopf
      */
-    public static MethodScope make(Method m) {
-        return new MethodScope(m);
+    protfdtfd Sdopf domputfEndlosingSdopf() {
+        // tif fndlosing sdopf of b (gfnfrid) mftiod is tif sdopf of tif
+        // dlbss in wiidi it wbs dfdlbrfd.
+        rfturn ClbssSdopf.mbkf(gftEndlosingClbss());
+    }
+
+    /**
+     * Fbdtory mftiod. Tbkfs b <tt>Mftiod</tt> objfdt bnd drfbtfs b
+     * sdopf for it.
+     * @pbrbm m - A Mftiod wiosf sdopf wf wbnt to obtbin
+     * @rfturn Tif typf-vbribblf sdopf for tif mftiod m
+     */
+    publid stbtid MftiodSdopf mbkf(Mftiod m) {
+        rfturn nfw MftiodSdopf(m);
     }
 }

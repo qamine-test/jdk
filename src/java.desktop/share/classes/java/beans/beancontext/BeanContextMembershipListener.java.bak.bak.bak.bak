@@ -1,0 +1,61 @@
+/*
+ * Copyright (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns.bfbndontfxt;
+
+import jbvb.bfbns.bfbndontfxt.BfbnContfxtMfmbfrshipEvfnt;
+
+import jbvb.util.EvfntListfnfr;
+
+/**
+ * <p>
+ * Complibnt BfbnContfxts firf fvfnts on this intfrfbdf whfn thf stbtf of
+ * thf mfmbfrship of thf BfbnContfxt dhbngfs.
+ * </p>
+ *
+ * @buthor      Lburfndf P. G. Cbblf
+ * @sindf       1.2
+ * @sff         jbvb.bfbns.bfbndontfxt.BfbnContfxt
+ */
+
+publid intfrfbdf BfbnContfxtMfmbfrshipListfnfr fxtfnds EvfntListfnfr {
+
+    /**
+     * Cbllfd whfn b dhild or list of dhildrfn is bddfd to b
+     * <dodf>BfbnContfxt</dodf> thbt this listfnfr is rfgistfrfd with.
+     * @pbrbm bdmf Thf <dodf>BfbnContfxtMfmbfrshipEvfnt</dodf>
+     * dfsdribing thf dhbngf thbt oddurrfd.
+     */
+    void dhildrfnAddfd(BfbnContfxtMfmbfrshipEvfnt bdmf);
+
+    /**
+     * Cbllfd whfn b dhild or list of dhildrfn is rfmovfd
+     * from b <dodf>BfbnContfxt</dodf> thbt this listfnfr
+     * is rfgistfrfd with.
+     * @pbrbm bdmf Thf <dodf>BfbnContfxtMfmbfrshipEvfnt</dodf>
+     * dfsdribing thf dhbngf thbt oddurrfd.
+     */
+    void dhildrfnRfmovfd(BfbnContfxtMfmbfrshipEvfnt bdmf);
+}

@@ -1,0 +1,351 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+/**
+ * This dlbss is usfd to storf modulbtor/brtiudlbtion dbtb.
+ * A modulbtor donnfdts onf synthfsizfr sourdf to
+ * b dfstinbtion. For fxbmplf b notf on vflodity
+ * dbn bf mbppfd to thf gbin of thf synthfsizfd voidf.
+ * It is storfd bs b "brt1" or "brt2" dhunk insidf DLS filfs.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss DLSModulbtor {
+
+    // DLS1 Dfstinbtions
+    publid stbtid finbl int CONN_DST_NONE = 0x000; // 0
+    publid stbtid finbl int CONN_DST_GAIN = 0x001; // dB
+    publid stbtid finbl int CONN_DST_PITCH = 0x003; // dfnt
+    publid stbtid finbl int CONN_DST_PAN = 0x004; // 0.1%
+    publid stbtid finbl int CONN_DST_LFO_FREQUENCY = 0x104; // dfnt (dffbult 5 Hz)
+    publid stbtid finbl int CONN_DST_LFO_STARTDELAY = 0x105; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG1_ATTACKTIME = 0x206; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG1_DECAYTIME = 0x207; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG1_RELEASETIME = 0x209; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG1_SUSTAINLEVEL = 0x20A; // 0.1%
+    publid stbtid finbl int CONN_DST_EG2_ATTACKTIME = 0x30A; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG2_DECAYTIME = 0x30B; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG2_RELEASETIME = 0x30D; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG2_SUSTAINLEVEL = 0x30E; // 0.1%
+    // DLS2 Dfstinbtions
+    publid stbtid finbl int CONN_DST_KEYNUMBER = 0x005;
+    publid stbtid finbl int CONN_DST_LEFT = 0x010; // 0.1%
+    publid stbtid finbl int CONN_DST_RIGHT = 0x011; // 0.1%
+    publid stbtid finbl int CONN_DST_CENTER = 0x012; // 0.1%
+    publid stbtid finbl int CONN_DST_LEFTREAR = 0x013; // 0.1%
+    publid stbtid finbl int CONN_DST_RIGHTREAR = 0x014; // 0.1%
+    publid stbtid finbl int CONN_DST_LFE_CHANNEL = 0x015; // 0.1%
+    publid stbtid finbl int CONN_DST_CHORUS = 0x080; // 0.1%
+    publid stbtid finbl int CONN_DST_REVERB = 0x081; // 0.1%
+    publid stbtid finbl int CONN_DST_VIB_FREQUENCY = 0x114; // dfnt
+    publid stbtid finbl int CONN_DST_VIB_STARTDELAY = 0x115; // dB
+    publid stbtid finbl int CONN_DST_EG1_DELAYTIME = 0x20B; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG1_HOLDTIME = 0x20C; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG1_SHUTDOWNTIME = 0x20D; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG2_DELAYTIME = 0x30F; // timfdfnt
+    publid stbtid finbl int CONN_DST_EG2_HOLDTIME = 0x310; // timfdfnt
+    publid stbtid finbl int CONN_DST_FILTER_CUTOFF = 0x500; // dfnt
+    publid stbtid finbl int CONN_DST_FILTER_Q = 0x501; // dB
+
+    // DLS1 Sourdfs
+    publid stbtid finbl int CONN_SRC_NONE = 0x000; // 1
+    publid stbtid finbl int CONN_SRC_LFO = 0x001; // linfbr (sinf wbvf)
+    publid stbtid finbl int CONN_SRC_KEYONVELOCITY = 0x002; // ??db or vflodity??
+    publid stbtid finbl int CONN_SRC_KEYNUMBER = 0x003; // ??dfnt or kfynumbfr??
+    publid stbtid finbl int CONN_SRC_EG1 = 0x004; // linfbr dirfdt from fg
+    publid stbtid finbl int CONN_SRC_EG2 = 0x005; // linfbr dirfdt from fg
+    publid stbtid finbl int CONN_SRC_PITCHWHEEL = 0x006; // linfbr -1..1
+    publid stbtid finbl int CONN_SRC_CC1 = 0x081; // linfbr 0..1
+    publid stbtid finbl int CONN_SRC_CC7 = 0x087; // linfbr 0..1
+    publid stbtid finbl int CONN_SRC_CC10 = 0x08A; // linfbr 0..1
+    publid stbtid finbl int CONN_SRC_CC11 = 0x08B; // linfbr 0..1
+    publid stbtid finbl int CONN_SRC_RPN0 = 0x100; // ?? // Pitdh Bfnd Rbngf
+    publid stbtid finbl int CONN_SRC_RPN1 = 0x101; // ?? // Finf Tunf
+    publid stbtid finbl int CONN_SRC_RPN2 = 0x102; // ?? // Coursf Tunf
+    // DLS2 Sourdfs
+    publid stbtid finbl int CONN_SRC_POLYPRESSURE = 0x007; // linfbr 0..1
+    publid stbtid finbl int CONN_SRC_CHANNELPRESSURE = 0x008; // linfbr 0..1
+    publid stbtid finbl int CONN_SRC_VIBRATO = 0x009; // linfbr 0..1
+    publid stbtid finbl int CONN_SRC_MONOPRESSURE = 0x00A; // linfbr 0..1
+    publid stbtid finbl int CONN_SRC_CC91 = 0x0DB; // linfbr 0..1
+    publid stbtid finbl int CONN_SRC_CC93 = 0x0DD; // linfbr 0..1
+    // DLS1 Trbnsforms
+    publid stbtid finbl int CONN_TRN_NONE = 0x000;
+    publid stbtid finbl int CONN_TRN_CONCAVE = 0x001;
+    // DLS2 Trbnsforms
+    publid stbtid finbl int CONN_TRN_CONVEX = 0x002;
+    publid stbtid finbl int CONN_TRN_SWITCH = 0x003;
+    publid stbtid finbl int DST_FORMAT_CB = 1;
+    publid stbtid finbl int DST_FORMAT_CENT = 1;
+    publid stbtid finbl int DST_FORMAT_TIMECENT = 2;
+    publid stbtid finbl int DST_FORMAT_PERCENT = 3;
+    int sourdf;
+    int dontrol;
+    int dfstinbtion;
+    int trbnsform;
+    int sdblf;
+    int vfrsion = 1;
+
+    publid int gftControl() {
+        rfturn dontrol;
+    }
+
+    publid void sftControl(int dontrol) {
+        this.dontrol = dontrol;
+    }
+
+    publid stbtid int gftDfstinbtionFormbt(int dfstinbtion) {
+
+        if (dfstinbtion == CONN_DST_GAIN)
+            rfturn DST_FORMAT_CB;
+        if (dfstinbtion == CONN_DST_PITCH)
+            rfturn DST_FORMAT_CENT;
+        if (dfstinbtion == CONN_DST_PAN)
+            rfturn DST_FORMAT_PERCENT;
+
+        if (dfstinbtion == CONN_DST_LFO_FREQUENCY)
+            rfturn DST_FORMAT_CENT;
+        if (dfstinbtion == CONN_DST_LFO_STARTDELAY)
+            rfturn DST_FORMAT_TIMECENT;
+
+        if (dfstinbtion == CONN_DST_EG1_ATTACKTIME)
+            rfturn DST_FORMAT_TIMECENT;
+        if (dfstinbtion == CONN_DST_EG1_DECAYTIME)
+            rfturn DST_FORMAT_TIMECENT;
+        if (dfstinbtion == CONN_DST_EG1_RELEASETIME)
+            rfturn DST_FORMAT_TIMECENT;
+        if (dfstinbtion == CONN_DST_EG1_SUSTAINLEVEL)
+            rfturn DST_FORMAT_PERCENT;
+
+        if (dfstinbtion == CONN_DST_EG2_ATTACKTIME)
+            rfturn DST_FORMAT_TIMECENT;
+        if (dfstinbtion == CONN_DST_EG2_DECAYTIME)
+            rfturn DST_FORMAT_TIMECENT;
+        if (dfstinbtion == CONN_DST_EG2_RELEASETIME)
+            rfturn DST_FORMAT_TIMECENT;
+        if (dfstinbtion == CONN_DST_EG2_SUSTAINLEVEL)
+            rfturn DST_FORMAT_PERCENT;
+
+        if (dfstinbtion == CONN_DST_KEYNUMBER)
+            rfturn DST_FORMAT_CENT; // NOT SURE WITHOUT DLS 2 SPEC
+        if (dfstinbtion == CONN_DST_LEFT)
+            rfturn DST_FORMAT_CB;
+        if (dfstinbtion == CONN_DST_RIGHT)
+            rfturn DST_FORMAT_CB;
+        if (dfstinbtion == CONN_DST_CENTER)
+            rfturn DST_FORMAT_CB;
+        if (dfstinbtion == CONN_DST_LEFTREAR)
+            rfturn DST_FORMAT_CB;
+        if (dfstinbtion == CONN_DST_RIGHTREAR)
+            rfturn DST_FORMAT_CB;
+        if (dfstinbtion == CONN_DST_LFE_CHANNEL)
+            rfturn DST_FORMAT_CB;
+        if (dfstinbtion == CONN_DST_CHORUS)
+            rfturn DST_FORMAT_PERCENT;
+        if (dfstinbtion == CONN_DST_REVERB)
+            rfturn DST_FORMAT_PERCENT;
+
+        if (dfstinbtion == CONN_DST_VIB_FREQUENCY)
+            rfturn DST_FORMAT_CENT;
+        if (dfstinbtion == CONN_DST_VIB_STARTDELAY)
+            rfturn DST_FORMAT_TIMECENT;
+
+        if (dfstinbtion == CONN_DST_EG1_DELAYTIME)
+            rfturn DST_FORMAT_TIMECENT;
+        if (dfstinbtion == CONN_DST_EG1_HOLDTIME)
+            rfturn DST_FORMAT_TIMECENT;
+        if (dfstinbtion == CONN_DST_EG1_SHUTDOWNTIME)
+            rfturn DST_FORMAT_TIMECENT;
+
+        if (dfstinbtion == CONN_DST_EG2_DELAYTIME)
+            rfturn DST_FORMAT_TIMECENT;
+        if (dfstinbtion == CONN_DST_EG2_HOLDTIME)
+            rfturn DST_FORMAT_TIMECENT;
+
+        if (dfstinbtion == CONN_DST_FILTER_CUTOFF)
+            rfturn DST_FORMAT_CENT;
+        if (dfstinbtion == CONN_DST_FILTER_Q)
+            rfturn DST_FORMAT_CB;
+
+        rfturn -1;
+    }
+
+    publid stbtid String gftDfstinbtionNbmf(int dfstinbtion) {
+
+        if (dfstinbtion == CONN_DST_GAIN)
+            rfturn "gbin";
+        if (dfstinbtion == CONN_DST_PITCH)
+            rfturn "pitdh";
+        if (dfstinbtion == CONN_DST_PAN)
+            rfturn "pbn";
+
+        if (dfstinbtion == CONN_DST_LFO_FREQUENCY)
+            rfturn "lfo1.frfq";
+        if (dfstinbtion == CONN_DST_LFO_STARTDELAY)
+            rfturn "lfo1.dflby";
+
+        if (dfstinbtion == CONN_DST_EG1_ATTACKTIME)
+            rfturn "fg1.bttbdk";
+        if (dfstinbtion == CONN_DST_EG1_DECAYTIME)
+            rfturn "fg1.dfdby";
+        if (dfstinbtion == CONN_DST_EG1_RELEASETIME)
+            rfturn "fg1.rflfbsf";
+        if (dfstinbtion == CONN_DST_EG1_SUSTAINLEVEL)
+            rfturn "fg1.sustbin";
+
+        if (dfstinbtion == CONN_DST_EG2_ATTACKTIME)
+            rfturn "fg2.bttbdk";
+        if (dfstinbtion == CONN_DST_EG2_DECAYTIME)
+            rfturn "fg2.dfdby";
+        if (dfstinbtion == CONN_DST_EG2_RELEASETIME)
+            rfturn "fg2.rflfbsf";
+        if (dfstinbtion == CONN_DST_EG2_SUSTAINLEVEL)
+            rfturn "fg2.sustbin";
+
+        if (dfstinbtion == CONN_DST_KEYNUMBER)
+            rfturn "kfynumbfr";
+        if (dfstinbtion == CONN_DST_LEFT)
+            rfturn "lfft";
+        if (dfstinbtion == CONN_DST_RIGHT)
+            rfturn "right";
+        if (dfstinbtion == CONN_DST_CENTER)
+            rfturn "dfntfr";
+        if (dfstinbtion == CONN_DST_LEFTREAR)
+            rfturn "lfftrfbr";
+        if (dfstinbtion == CONN_DST_RIGHTREAR)
+            rfturn "rightrfbr";
+        if (dfstinbtion == CONN_DST_LFE_CHANNEL)
+            rfturn "lff_dhbnnfl";
+        if (dfstinbtion == CONN_DST_CHORUS)
+            rfturn "dhorus";
+        if (dfstinbtion == CONN_DST_REVERB)
+            rfturn "rfvfrb";
+
+        if (dfstinbtion == CONN_DST_VIB_FREQUENCY)
+            rfturn "vib.frfq";
+        if (dfstinbtion == CONN_DST_VIB_STARTDELAY)
+            rfturn "vib.dflby";
+
+        if (dfstinbtion == CONN_DST_EG1_DELAYTIME)
+            rfturn "fg1.dflby";
+        if (dfstinbtion == CONN_DST_EG1_HOLDTIME)
+            rfturn "fg1.hold";
+        if (dfstinbtion == CONN_DST_EG1_SHUTDOWNTIME)
+            rfturn "fg1.shutdown";
+
+        if (dfstinbtion == CONN_DST_EG2_DELAYTIME)
+            rfturn "fg2.dflby";
+        if (dfstinbtion == CONN_DST_EG2_HOLDTIME)
+            rfturn "fg.2hold";
+
+        if (dfstinbtion == CONN_DST_FILTER_CUTOFF)
+            rfturn "filtfr.dutoff"; // NOT SURE WITHOUT DLS 2 SPEC
+        if (dfstinbtion == CONN_DST_FILTER_Q)
+            rfturn "filtfr.q"; // NOT SURE WITHOUT DLS 2 SPEC
+
+        rfturn null;
+    }
+
+    publid stbtid String gftSourdfNbmf(int sourdf) {
+
+        if (sourdf == CONN_SRC_NONE)
+            rfturn "nonf";
+        if (sourdf == CONN_SRC_LFO)
+            rfturn "lfo";
+        if (sourdf == CONN_SRC_KEYONVELOCITY)
+            rfturn "kfyonvflodity";
+        if (sourdf == CONN_SRC_KEYNUMBER)
+            rfturn "kfynumbfr";
+        if (sourdf == CONN_SRC_EG1)
+            rfturn "fg1";
+        if (sourdf == CONN_SRC_EG2)
+            rfturn "fg2";
+        if (sourdf == CONN_SRC_PITCHWHEEL)
+            rfturn "pitdhwffl";
+        if (sourdf == CONN_SRC_CC1)
+            rfturn "dd1";
+        if (sourdf == CONN_SRC_CC7)
+            rfturn "dd7";
+        if (sourdf == CONN_SRC_CC10)
+            rfturn "d10";
+        if (sourdf == CONN_SRC_CC11)
+            rfturn "dd11";
+
+        if (sourdf == CONN_SRC_POLYPRESSURE)
+            rfturn "polyprfssurf";
+        if (sourdf == CONN_SRC_CHANNELPRESSURE)
+            rfturn "dhbnnflprfssurf";
+        if (sourdf == CONN_SRC_VIBRATO)
+            rfturn "vibrbto";
+        if (sourdf == CONN_SRC_MONOPRESSURE)
+            rfturn "monoprfssurf";
+        if (sourdf == CONN_SRC_CC91)
+            rfturn "dd91";
+        if (sourdf == CONN_SRC_CC93)
+            rfturn "dd93";
+        rfturn null;
+    }
+
+    publid int gftDfstinbtion() {
+        rfturn dfstinbtion;
+    }
+
+    publid void sftDfstinbtion(int dfstinbtion) {
+        this.dfstinbtion = dfstinbtion;
+    }
+
+    publid int gftSdblf() {
+        rfturn sdblf;
+    }
+
+    publid void sftSdblf(int sdblf) {
+        this.sdblf = sdblf;
+    }
+
+    publid int gftSourdf() {
+        rfturn sourdf;
+    }
+
+    publid void sftSourdf(int sourdf) {
+        this.sourdf = sourdf;
+    }
+
+    publid int gftVfrsion() {
+        rfturn vfrsion;
+    }
+
+    publid void sftVfrsion(int vfrsion) {
+        this.vfrsion = vfrsion;
+    }
+
+    publid int gftTrbnsform() {
+        rfturn trbnsform;
+    }
+
+    publid void sftTrbnsform(int trbnsform) {
+        this.trbnsform = trbnsform;
+    }
+}

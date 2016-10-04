@@ -1,253 +1,253 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbdkbgf dom.sun.imbgfio.plugins.gif;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBufferByte;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
-import java.io.IOException;
-import java.nio.ByteOrder;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Locale;
-import javax.imageio.IIOException;
-import javax.imageio.IIOImage;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import com.sun.imageio.plugins.common.LZWCompressor;
-import com.sun.imageio.plugins.common.PaletteBuilder;
-import sun.awt.image.ByteComponentRaster;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ComponfntSbmplfModfl;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfOrdfr;
+import jbvb.util.Arrbys;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.IIOImbgf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfWritfPbrbm;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import dom.sun.imbgfio.plugins.dommon.LZWComprfssor;
+import dom.sun.imbgfio.plugins.dommon.PblfttfBuildfr;
+import sun.bwt.imbgf.BytfComponfntRbstfr;
 
-public class GIFImageWriter extends ImageWriter {
-    private static final boolean DEBUG = false; // XXX false for release!
+publid dlbss GIFImbgfWritfr fxtfnds ImbgfWritfr {
+    privbtf stbtid finbl boolfbn DEBUG = fblsf; // XXX fblsf for rflfbsf!
 
-    static final String STANDARD_METADATA_NAME =
-    IIOMetadataFormatImpl.standardMetadataFormatName;
+    stbtid finbl String STANDARD_METADATA_NAME =
+    IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf;
 
-    static final String STREAM_METADATA_NAME =
-    GIFWritableStreamMetadata.NATIVE_FORMAT_NAME;
+    stbtid finbl String STREAM_METADATA_NAME =
+    GIFWritbblfStrfbmMftbdbtb.NATIVE_FORMAT_NAME;
 
-    static final String IMAGE_METADATA_NAME =
-    GIFWritableImageMetadata.NATIVE_FORMAT_NAME;
-
-    /**
-     * The <code>output</code> case to an <code>ImageOutputStream</code>.
-     */
-    private ImageOutputStream stream = null;
+    stbtid finbl String IMAGE_METADATA_NAME =
+    GIFWritbblfImbgfMftbdbtb.NATIVE_FORMAT_NAME;
 
     /**
-     * Whether a sequence is being written.
+     * Tif <dodf>output</dodf> dbsf to bn <dodf>ImbgfOutputStrfbm</dodf>.
      */
-    private boolean isWritingSequence = false;
+    privbtf ImbgfOutputStrfbm strfbm = null;
 
     /**
-     * Whether the header has been written.
+     * Wiftifr b sfqufndf is bfing writtfn.
      */
-    private boolean wroteSequenceHeader = false;
+    privbtf boolfbn isWritingSfqufndf = fblsf;
 
     /**
-     * The stream metadata of a sequence.
+     * Wiftifr tif ifbdfr ibs bffn writtfn.
      */
-    private GIFWritableStreamMetadata theStreamMetadata = null;
+    privbtf boolfbn wrotfSfqufndfHfbdfr = fblsf;
 
     /**
-     * The index of the image being written.
+     * Tif strfbm mftbdbtb of b sfqufndf.
      */
-    private int imageIndex = 0;
+    privbtf GIFWritbblfStrfbmMftbdbtb tifStrfbmMftbdbtb = null;
 
     /**
-     * The number of bits represented by the value which should be a
-     * legal length for a color table.
+     * Tif indfx of tif imbgf bfing writtfn.
      */
-    private static int getNumBits(int value) throws IOException {
+    privbtf int imbgfIndfx = 0;
+
+    /**
+     * Tif numbfr of bits rfprfsfntfd by tif vbluf wiidi siould bf b
+     * lfgbl lfngti for b dolor tbblf.
+     */
+    privbtf stbtid int gftNumBits(int vbluf) tirows IOExdfption {
         int numBits;
-        switch(value) {
-        case 2:
+        switdi(vbluf) {
+        dbsf 2:
             numBits = 1;
-            break;
-        case 4:
+            brfbk;
+        dbsf 4:
             numBits = 2;
-            break;
-        case 8:
+            brfbk;
+        dbsf 8:
             numBits = 3;
-            break;
-        case 16:
+            brfbk;
+        dbsf 16:
             numBits = 4;
-            break;
-        case 32:
+            brfbk;
+        dbsf 32:
             numBits = 5;
-            break;
-        case 64:
+            brfbk;
+        dbsf 64:
             numBits = 6;
-            break;
-        case 128:
+            brfbk;
+        dbsf 128:
             numBits = 7;
-            break;
-        case 256:
+            brfbk;
+        dbsf 256:
             numBits = 8;
-            break;
-        default:
-            throw new IOException("Bad palette length: "+value+"!");
+            brfbk;
+        dffbult:
+            tirow nfw IOExdfption("Bbd pblfttf lfngti: "+vbluf+"!");
         }
 
-        return numBits;
+        rfturn numBits;
     }
 
     /**
-     * Compute the source region and destination dimensions taking any
-     * parameter settings into account.
+     * Computf tif sourdf rfgion bnd dfstinbtion dimfnsions tbking bny
+     * pbrbmftfr sfttings into bddount.
      */
-    private static void computeRegions(Rectangle sourceBounds,
-                                       Dimension destSize,
-                                       ImageWriteParam p) {
-        ImageWriteParam param;
-        int periodX = 1;
-        int periodY = 1;
+    privbtf stbtid void domputfRfgions(Rfdtbnglf sourdfBounds,
+                                       Dimfnsion dfstSizf,
+                                       ImbgfWritfPbrbm p) {
+        ImbgfWritfPbrbm pbrbm;
+        int pfriodX = 1;
+        int pfriodY = 1;
         if (p != null) {
-            int[] sourceBands = p.getSourceBands();
-            if (sourceBands != null &&
-                (sourceBands.length != 1 ||
-                 sourceBands[0] != 0)) {
-                throw new IllegalArgumentException("Cannot sub-band image!");
+            int[] sourdfBbnds = p.gftSourdfBbnds();
+            if (sourdfBbnds != null &&
+                (sourdfBbnds.lfngti != 1 ||
+                 sourdfBbnds[0] != 0)) {
+                tirow nfw IllfgblArgumfntExdfption("Cbnnot sub-bbnd imbgf!");
             }
 
-            // Get source region and subsampling factors
-            Rectangle sourceRegion = p.getSourceRegion();
-            if (sourceRegion != null) {
-                // Clip to actual image bounds
-                sourceRegion = sourceRegion.intersection(sourceBounds);
-                sourceBounds.setBounds(sourceRegion);
+            // Gft sourdf rfgion bnd subsbmpling fbdtors
+            Rfdtbnglf sourdfRfgion = p.gftSourdfRfgion();
+            if (sourdfRfgion != null) {
+                // Clip to bdtubl imbgf bounds
+                sourdfRfgion = sourdfRfgion.intfrsfdtion(sourdfBounds);
+                sourdfBounds.sftBounds(sourdfRfgion);
             }
 
-            // Adjust for subsampling offsets
-            int gridX = p.getSubsamplingXOffset();
-            int gridY = p.getSubsamplingYOffset();
-            sourceBounds.x += gridX;
-            sourceBounds.y += gridY;
-            sourceBounds.width -= gridX;
-            sourceBounds.height -= gridY;
+            // Adjust for subsbmpling offsfts
+            int gridX = p.gftSubsbmplingXOffsft();
+            int gridY = p.gftSubsbmplingYOffsft();
+            sourdfBounds.x += gridX;
+            sourdfBounds.y += gridY;
+            sourdfBounds.widti -= gridX;
+            sourdfBounds.ifigit -= gridY;
 
-            // Get subsampling factors
-            periodX = p.getSourceXSubsampling();
-            periodY = p.getSourceYSubsampling();
+            // Gft subsbmpling fbdtors
+            pfriodX = p.gftSourdfXSubsbmpling();
+            pfriodY = p.gftSourdfYSubsbmpling();
         }
 
-        // Compute output dimensions
-        destSize.setSize((sourceBounds.width + periodX - 1)/periodX,
-                         (sourceBounds.height + periodY - 1)/periodY);
-        if (destSize.width <= 0 || destSize.height <= 0) {
-            throw new IllegalArgumentException("Empty source region!");
+        // Computf output dimfnsions
+        dfstSizf.sftSizf((sourdfBounds.widti + pfriodX - 1)/pfriodX,
+                         (sourdfBounds.ifigit + pfriodY - 1)/pfriodY);
+        if (dfstSizf.widti <= 0 || dfstSizf.ifigit <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Empty sourdf rfgion!");
         }
     }
 
     /**
-     * Create a color table from the image ColorModel and SampleModel.
+     * Crfbtf b dolor tbblf from tif imbgf ColorModfl bnd SbmplfModfl.
      */
-    private static byte[] createColorTable(ColorModel colorModel,
-                                           SampleModel sampleModel)
+    privbtf stbtid bytf[] drfbtfColorTbblf(ColorModfl dolorModfl,
+                                           SbmplfModfl sbmplfModfl)
     {
-        byte[] colorTable;
-        if (colorModel instanceof IndexColorModel) {
-            IndexColorModel icm = (IndexColorModel)colorModel;
-            int mapSize = icm.getMapSize();
+        bytf[] dolorTbblf;
+        if (dolorModfl instbndfof IndfxColorModfl) {
+            IndfxColorModfl idm = (IndfxColorModfl)dolorModfl;
+            int mbpSizf = idm.gftMbpSizf();
 
             /**
-             * The GIF image format assumes that size of image palette
-             * is power of two. We will use closest larger power of two
-             * as size of color table.
+             * Tif GIF imbgf formbt bssumfs tibt sizf of imbgf pblfttf
+             * is powfr of two. Wf will usf dlosfst lbrgfr powfr of two
+             * bs sizf of dolor tbblf.
              */
-            int ctSize = getGifPaletteSize(mapSize);
+            int dtSizf = gftGifPblfttfSizf(mbpSizf);
 
-            byte[] reds = new byte[ctSize];
-            byte[] greens = new byte[ctSize];
-            byte[] blues = new byte[ctSize];
-            icm.getReds(reds);
-            icm.getGreens(greens);
-            icm.getBlues(blues);
+            bytf[] rfds = nfw bytf[dtSizf];
+            bytf[] grffns = nfw bytf[dtSizf];
+            bytf[] blufs = nfw bytf[dtSizf];
+            idm.gftRfds(rfds);
+            idm.gftGrffns(grffns);
+            idm.gftBlufs(blufs);
 
             /**
-             * fill tail of color component arrays by replica of first color
-             * in order to avoid appearance of extra colors in the color table
+             * fill tbil of dolor domponfnt brrbys by rfplidb of first dolor
+             * in ordfr to bvoid bppfbrbndf of fxtrb dolors in tif dolor tbblf
              */
-            for (int i = mapSize; i < ctSize; i++) {
-                reds[i] = reds[0];
-                greens[i] = greens[0];
-                blues[i] = blues[0];
+            for (int i = mbpSizf; i < dtSizf; i++) {
+                rfds[i] = rfds[0];
+                grffns[i] = grffns[0];
+                blufs[i] = blufs[0];
             }
 
-            colorTable = new byte[3*ctSize];
+            dolorTbblf = nfw bytf[3*dtSizf];
             int idx = 0;
-            for (int i = 0; i < ctSize; i++) {
-                colorTable[idx++] = reds[i];
-                colorTable[idx++] = greens[i];
-                colorTable[idx++] = blues[i];
+            for (int i = 0; i < dtSizf; i++) {
+                dolorTbblf[idx++] = rfds[i];
+                dolorTbblf[idx++] = grffns[i];
+                dolorTbblf[idx++] = blufs[i];
             }
-        } else if (sampleModel.getNumBands() == 1) {
-            // create gray-scaled color table for single-banded images
-            int numBits = sampleModel.getSampleSize()[0];
+        } flsf if (sbmplfModfl.gftNumBbnds() == 1) {
+            // drfbtf grby-sdblfd dolor tbblf for singlf-bbndfd imbgfs
+            int numBits = sbmplfModfl.gftSbmplfSizf()[0];
             if (numBits > 8) {
                 numBits = 8;
             }
-            int colorTableLength = 3*(1 << numBits);
-            colorTable = new byte[colorTableLength];
-            for (int i = 0; i < colorTableLength; i++) {
-                colorTable[i] = (byte)(i/3);
+            int dolorTbblfLfngti = 3*(1 << numBits);
+            dolorTbblf = nfw bytf[dolorTbblfLfngti];
+            for (int i = 0; i < dolorTbblfLfngti; i++) {
+                dolorTbblf[i] = (bytf)(i/3);
             }
-        } else {
-            // We do not have enough information here
-            // to create well-fit color table for RGB image.
-            colorTable = null;
+        } flsf {
+            // Wf do not ibvf fnougi informbtion ifrf
+            // to drfbtf wfll-fit dolor tbblf for RGB imbgf.
+            dolorTbblf = null;
         }
 
-        return colorTable;
+        rfturn dolorTbblf;
     }
 
     /**
-     * According do GIF specification size of clor table (palette here)
-     * must be in range from 2 to 256 and must be power of 2.
+     * Addording do GIF spfdifidbtion sizf of dlor tbblf (pblfttf ifrf)
+     * must bf in rbngf from 2 to 256 bnd must bf powfr of 2.
      */
-    private static int getGifPaletteSize(int x) {
+    privbtf stbtid int gftGifPblfttfSizf(int x) {
         if (x <= 2) {
-            return 2;
+            rfturn 2;
         }
         x = x - 1;
         x = x | (x >> 1);
@@ -255,1063 +255,1063 @@ public class GIFImageWriter extends ImageWriter {
         x = x | (x >> 4);
         x = x | (x >> 8);
         x = x | (x >> 16);
-        return x + 1;
+        rfturn x + 1;
     }
 
 
 
-    public GIFImageWriter(GIFImageWriterSpi originatingProvider) {
-        super(originatingProvider);
+    publid GIFImbgfWritfr(GIFImbgfWritfrSpi originbtingProvidfr) {
+        supfr(originbtingProvidfr);
         if (DEBUG) {
-            System.err.println("GIF Writer is created");
+            Systfm.frr.println("GIF Writfr is drfbtfd");
         }
     }
 
-    public boolean canWriteSequence() {
-        return true;
+    publid boolfbn dbnWritfSfqufndf() {
+        rfturn truf;
     }
 
     /**
-     * Merges <code>inData</code> into <code>outData</code>. The supplied
-     * metadata format name is attempted first and failing that the standard
-     * metadata format name is attempted.
+     * Mfrgfs <dodf>inDbtb</dodf> into <dodf>outDbtb</dodf>. Tif supplifd
+     * mftbdbtb formbt nbmf is bttfmptfd first bnd fbiling tibt tif stbndbrd
+     * mftbdbtb formbt nbmf is bttfmptfd.
      */
-    private void convertMetadata(String metadataFormatName,
-                                 IIOMetadata inData,
-                                 IIOMetadata outData) {
-        String formatName = null;
+    privbtf void donvfrtMftbdbtb(String mftbdbtbFormbtNbmf,
+                                 IIOMftbdbtb inDbtb,
+                                 IIOMftbdbtb outDbtb) {
+        String formbtNbmf = null;
 
-        String nativeFormatName = inData.getNativeMetadataFormatName();
-        if (nativeFormatName != null &&
-            nativeFormatName.equals(metadataFormatName)) {
-            formatName = metadataFormatName;
-        } else {
-            String[] extraFormatNames = inData.getExtraMetadataFormatNames();
+        String nbtivfFormbtNbmf = inDbtb.gftNbtivfMftbdbtbFormbtNbmf();
+        if (nbtivfFormbtNbmf != null &&
+            nbtivfFormbtNbmf.fqubls(mftbdbtbFormbtNbmf)) {
+            formbtNbmf = mftbdbtbFormbtNbmf;
+        } flsf {
+            String[] fxtrbFormbtNbmfs = inDbtb.gftExtrbMftbdbtbFormbtNbmfs();
 
-            if (extraFormatNames != null) {
-                for (int i = 0; i < extraFormatNames.length; i++) {
-                    if (extraFormatNames[i].equals(metadataFormatName)) {
-                        formatName = metadataFormatName;
-                        break;
+            if (fxtrbFormbtNbmfs != null) {
+                for (int i = 0; i < fxtrbFormbtNbmfs.lfngti; i++) {
+                    if (fxtrbFormbtNbmfs[i].fqubls(mftbdbtbFormbtNbmf)) {
+                        formbtNbmf = mftbdbtbFormbtNbmf;
+                        brfbk;
                     }
                 }
             }
         }
 
-        if (formatName == null &&
-            inData.isStandardMetadataFormatSupported()) {
-            formatName = STANDARD_METADATA_NAME;
+        if (formbtNbmf == null &&
+            inDbtb.isStbndbrdMftbdbtbFormbtSupportfd()) {
+            formbtNbmf = STANDARD_METADATA_NAME;
         }
 
-        if (formatName != null) {
+        if (formbtNbmf != null) {
             try {
-                Node root = inData.getAsTree(formatName);
-                outData.mergeTree(formatName, root);
-            } catch(IIOInvalidTreeException e) {
-                // ignore
+                Nodf root = inDbtb.gftAsTrff(formbtNbmf);
+                outDbtb.mfrgfTrff(formbtNbmf, root);
+            } dbtdi(IIOInvblidTrffExdfption f) {
+                // ignorf
             }
         }
     }
 
     /**
-     * Creates a default stream metadata object and merges in the
-     * supplied metadata.
+     * Crfbtfs b dffbult strfbm mftbdbtb objfdt bnd mfrgfs in tif
+     * supplifd mftbdbtb.
      */
-    public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                             ImageWriteParam param) {
-        if (inData == null) {
-            throw new IllegalArgumentException("inData == null!");
+    publid IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                             ImbgfWritfPbrbm pbrbm) {
+        if (inDbtb == null) {
+            tirow nfw IllfgblArgumfntExdfption("inDbtb == null!");
         }
 
-        IIOMetadata sm = getDefaultStreamMetadata(param);
+        IIOMftbdbtb sm = gftDffbultStrfbmMftbdbtb(pbrbm);
 
-        convertMetadata(STREAM_METADATA_NAME, inData, sm);
+        donvfrtMftbdbtb(STREAM_METADATA_NAME, inDbtb, sm);
 
-        return sm;
+        rfturn sm;
     }
 
     /**
-     * Creates a default image metadata object and merges in the
-     * supplied metadata.
+     * Crfbtfs b dffbult imbgf mftbdbtb objfdt bnd mfrgfs in tif
+     * supplifd mftbdbtb.
      */
-    public IIOMetadata convertImageMetadata(IIOMetadata inData,
-                                            ImageTypeSpecifier imageType,
-                                            ImageWriteParam param) {
-        if (inData == null) {
-            throw new IllegalArgumentException("inData == null!");
+    publid IIOMftbdbtb donvfrtImbgfMftbdbtb(IIOMftbdbtb inDbtb,
+                                            ImbgfTypfSpfdififr imbgfTypf,
+                                            ImbgfWritfPbrbm pbrbm) {
+        if (inDbtb == null) {
+            tirow nfw IllfgblArgumfntExdfption("inDbtb == null!");
         }
-        if (imageType == null) {
-            throw new IllegalArgumentException("imageType == null!");
-        }
-
-        GIFWritableImageMetadata im =
-            (GIFWritableImageMetadata)getDefaultImageMetadata(imageType,
-                                                              param);
-
-        // Save interlace flag state.
-
-        boolean isProgressive = im.interlaceFlag;
-
-        convertMetadata(IMAGE_METADATA_NAME, inData, im);
-
-        // Undo change to interlace flag if not MODE_COPY_FROM_METADATA.
-
-        if (param != null && param.canWriteProgressive() &&
-            param.getProgressiveMode() != ImageWriteParam.MODE_COPY_FROM_METADATA) {
-            im.interlaceFlag = isProgressive;
+        if (imbgfTypf == null) {
+            tirow nfw IllfgblArgumfntExdfption("imbgfTypf == null!");
         }
 
-        return im;
+        GIFWritbblfImbgfMftbdbtb im =
+            (GIFWritbblfImbgfMftbdbtb)gftDffbultImbgfMftbdbtb(imbgfTypf,
+                                                              pbrbm);
+
+        // Sbvf intfrlbdf flbg stbtf.
+
+        boolfbn isProgrfssivf = im.intfrlbdfFlbg;
+
+        donvfrtMftbdbtb(IMAGE_METADATA_NAME, inDbtb, im);
+
+        // Undo dibngf to intfrlbdf flbg if not MODE_COPY_FROM_METADATA.
+
+        if (pbrbm != null && pbrbm.dbnWritfProgrfssivf() &&
+            pbrbm.gftProgrfssivfModf() != ImbgfWritfPbrbm.MODE_COPY_FROM_METADATA) {
+            im.intfrlbdfFlbg = isProgrfssivf;
+        }
+
+        rfturn im;
     }
 
-    public void endWriteSequence() throws IOException {
-        if (stream == null) {
-            throw new IllegalStateException("output == null!");
+    publid void fndWritfSfqufndf() tirows IOExdfption {
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption("output == null!");
         }
-        if (!isWritingSequence) {
-            throw new IllegalStateException("prepareWriteSequence() was not invoked!");
+        if (!isWritingSfqufndf) {
+            tirow nfw IllfgblStbtfExdfption("prfpbrfWritfSfqufndf() wbs not invokfd!");
         }
-        writeTrailer();
-        resetLocal();
+        writfTrbilfr();
+        rfsftLodbl();
     }
 
-    public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                               ImageWriteParam param) {
-        GIFWritableImageMetadata imageMetadata =
-            new GIFWritableImageMetadata();
+    publid IIOMftbdbtb gftDffbultImbgfMftbdbtb(ImbgfTypfSpfdififr imbgfTypf,
+                                               ImbgfWritfPbrbm pbrbm) {
+        GIFWritbblfImbgfMftbdbtb imbgfMftbdbtb =
+            nfw GIFWritbblfImbgfMftbdbtb();
 
-        // Image dimensions
+        // Imbgf dimfnsions
 
-        SampleModel sampleModel = imageType.getSampleModel();
+        SbmplfModfl sbmplfModfl = imbgfTypf.gftSbmplfModfl();
 
-        Rectangle sourceBounds = new Rectangle(sampleModel.getWidth(),
-                                               sampleModel.getHeight());
-        Dimension destSize = new Dimension();
-        computeRegions(sourceBounds, destSize, param);
+        Rfdtbnglf sourdfBounds = nfw Rfdtbnglf(sbmplfModfl.gftWidti(),
+                                               sbmplfModfl.gftHfigit());
+        Dimfnsion dfstSizf = nfw Dimfnsion();
+        domputfRfgions(sourdfBounds, dfstSizf, pbrbm);
 
-        imageMetadata.imageWidth = destSize.width;
-        imageMetadata.imageHeight = destSize.height;
+        imbgfMftbdbtb.imbgfWidti = dfstSizf.widti;
+        imbgfMftbdbtb.imbgfHfigit = dfstSizf.ifigit;
 
-        // Interlacing
+        // Intfrlbding
 
-        if (param != null && param.canWriteProgressive() &&
-            param.getProgressiveMode() == ImageWriteParam.MODE_DISABLED) {
-            imageMetadata.interlaceFlag = false;
-        } else {
-            imageMetadata.interlaceFlag = true;
+        if (pbrbm != null && pbrbm.dbnWritfProgrfssivf() &&
+            pbrbm.gftProgrfssivfModf() == ImbgfWritfPbrbm.MODE_DISABLED) {
+            imbgfMftbdbtb.intfrlbdfFlbg = fblsf;
+        } flsf {
+            imbgfMftbdbtb.intfrlbdfFlbg = truf;
         }
 
-        // Local color table
+        // Lodbl dolor tbblf
 
-        ColorModel colorModel = imageType.getColorModel();
+        ColorModfl dolorModfl = imbgfTypf.gftColorModfl();
 
-        imageMetadata.localColorTable =
-            createColorTable(colorModel, sampleModel);
+        imbgfMftbdbtb.lodblColorTbblf =
+            drfbtfColorTbblf(dolorModfl, sbmplfModfl);
 
-        // Transparency
+        // Trbnspbrfndy
 
-        if (colorModel instanceof IndexColorModel) {
-            int transparentIndex =
-                ((IndexColorModel)colorModel).getTransparentPixel();
-            if (transparentIndex != -1) {
-                imageMetadata.transparentColorFlag = true;
-                imageMetadata.transparentColorIndex = transparentIndex;
+        if (dolorModfl instbndfof IndfxColorModfl) {
+            int trbnspbrfntIndfx =
+                ((IndfxColorModfl)dolorModfl).gftTrbnspbrfntPixfl();
+            if (trbnspbrfntIndfx != -1) {
+                imbgfMftbdbtb.trbnspbrfntColorFlbg = truf;
+                imbgfMftbdbtb.trbnspbrfntColorIndfx = trbnspbrfntIndfx;
             }
         }
 
-        return imageMetadata;
+        rfturn imbgfMftbdbtb;
     }
 
-    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
-        GIFWritableStreamMetadata streamMetadata =
-            new GIFWritableStreamMetadata();
-        streamMetadata.version = "89a";
-        return streamMetadata;
+    publid IIOMftbdbtb gftDffbultStrfbmMftbdbtb(ImbgfWritfPbrbm pbrbm) {
+        GIFWritbblfStrfbmMftbdbtb strfbmMftbdbtb =
+            nfw GIFWritbblfStrfbmMftbdbtb();
+        strfbmMftbdbtb.vfrsion = "89b";
+        rfturn strfbmMftbdbtb;
     }
 
-    public ImageWriteParam getDefaultWriteParam() {
-        return new GIFImageWriteParam(getLocale());
+    publid ImbgfWritfPbrbm gftDffbultWritfPbrbm() {
+        rfturn nfw GIFImbgfWritfPbrbm(gftLodblf());
     }
 
-    public void prepareWriteSequence(IIOMetadata streamMetadata)
-      throws IOException {
+    publid void prfpbrfWritfSfqufndf(IIOMftbdbtb strfbmMftbdbtb)
+      tirows IOExdfption {
 
-        if (stream == null) {
-            throw new IllegalStateException("Output is not set.");
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption("Output is not sft.");
         }
 
-        resetLocal();
+        rfsftLodbl();
 
-        // Save the possibly converted stream metadata as an instance variable.
-        if (streamMetadata == null) {
-            this.theStreamMetadata =
-                (GIFWritableStreamMetadata)getDefaultStreamMetadata(null);
-        } else {
-            this.theStreamMetadata = new GIFWritableStreamMetadata();
-            convertMetadata(STREAM_METADATA_NAME, streamMetadata,
-                            theStreamMetadata);
+        // Sbvf tif possibly donvfrtfd strfbm mftbdbtb bs bn instbndf vbribblf.
+        if (strfbmMftbdbtb == null) {
+            tiis.tifStrfbmMftbdbtb =
+                (GIFWritbblfStrfbmMftbdbtb)gftDffbultStrfbmMftbdbtb(null);
+        } flsf {
+            tiis.tifStrfbmMftbdbtb = nfw GIFWritbblfStrfbmMftbdbtb();
+            donvfrtMftbdbtb(STREAM_METADATA_NAME, strfbmMftbdbtb,
+                            tifStrfbmMftbdbtb);
         }
 
-        this.isWritingSequence = true;
+        tiis.isWritingSfqufndf = truf;
     }
 
-    public void reset() {
-        super.reset();
-        resetLocal();
+    publid void rfsft() {
+        supfr.rfsft();
+        rfsftLodbl();
     }
 
     /**
-     * Resets locally defined instance variables.
+     * Rfsfts lodblly dffinfd instbndf vbribblfs.
      */
-    private void resetLocal() {
-        this.isWritingSequence = false;
-        this.wroteSequenceHeader = false;
-        this.theStreamMetadata = null;
-        this.imageIndex = 0;
+    privbtf void rfsftLodbl() {
+        tiis.isWritingSfqufndf = fblsf;
+        tiis.wrotfSfqufndfHfbdfr = fblsf;
+        tiis.tifStrfbmMftbdbtb = null;
+        tiis.imbgfIndfx = 0;
     }
 
-    public void setOutput(Object output) {
-        super.setOutput(output);
+    publid void sftOutput(Objfdt output) {
+        supfr.sftOutput(output);
         if (output != null) {
-            if (!(output instanceof ImageOutputStream)) {
-                throw new
-                    IllegalArgumentException("output is not an ImageOutputStream");
+            if (!(output instbndfof ImbgfOutputStrfbm)) {
+                tirow nfw
+                    IllfgblArgumfntExdfption("output is not bn ImbgfOutputStrfbm");
             }
-            this.stream = (ImageOutputStream)output;
-            this.stream.setByteOrder(ByteOrder.LITTLE_ENDIAN);
-        } else {
-            this.stream = null;
+            tiis.strfbm = (ImbgfOutputStrfbm)output;
+            tiis.strfbm.sftBytfOrdfr(BytfOrdfr.LITTLE_ENDIAN);
+        } flsf {
+            tiis.strfbm = null;
         }
     }
 
-    public void write(IIOMetadata sm,
-                      IIOImage iioimage,
-                      ImageWriteParam p) throws IOException {
-        if (stream == null) {
-            throw new IllegalStateException("output == null!");
+    publid void writf(IIOMftbdbtb sm,
+                      IIOImbgf iioimbgf,
+                      ImbgfWritfPbrbm p) tirows IOExdfption {
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption("output == null!");
         }
-        if (iioimage == null) {
-            throw new IllegalArgumentException("iioimage == null!");
+        if (iioimbgf == null) {
+            tirow nfw IllfgblArgumfntExdfption("iioimbgf == null!");
         }
-        if (iioimage.hasRaster()) {
-            throw new UnsupportedOperationException("canWriteRasters() == false!");
+        if (iioimbgf.ibsRbstfr()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("dbnWritfRbstfrs() == fblsf!");
         }
 
-        resetLocal();
+        rfsftLodbl();
 
-        GIFWritableStreamMetadata streamMetadata;
+        GIFWritbblfStrfbmMftbdbtb strfbmMftbdbtb;
         if (sm == null) {
-            streamMetadata =
-                (GIFWritableStreamMetadata)getDefaultStreamMetadata(p);
-        } else {
-            streamMetadata =
-                (GIFWritableStreamMetadata)convertStreamMetadata(sm, p);
+            strfbmMftbdbtb =
+                (GIFWritbblfStrfbmMftbdbtb)gftDffbultStrfbmMftbdbtb(p);
+        } flsf {
+            strfbmMftbdbtb =
+                (GIFWritbblfStrfbmMftbdbtb)donvfrtStrfbmMftbdbtb(sm, p);
         }
 
-        write(true, true, streamMetadata, iioimage, p);
+        writf(truf, truf, strfbmMftbdbtb, iioimbgf, p);
     }
 
-    public void writeToSequence(IIOImage image, ImageWriteParam param)
-      throws IOException {
-        if (stream == null) {
-            throw new IllegalStateException("output == null!");
+    publid void writfToSfqufndf(IIOImbgf imbgf, ImbgfWritfPbrbm pbrbm)
+      tirows IOExdfption {
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption("output == null!");
         }
-        if (image == null) {
-            throw new IllegalArgumentException("image == null!");
+        if (imbgf == null) {
+            tirow nfw IllfgblArgumfntExdfption("imbgf == null!");
         }
-        if (image.hasRaster()) {
-            throw new UnsupportedOperationException("canWriteRasters() == false!");
+        if (imbgf.ibsRbstfr()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("dbnWritfRbstfrs() == fblsf!");
         }
-        if (!isWritingSequence) {
-            throw new IllegalStateException("prepareWriteSequence() was not invoked!");
-        }
-
-        write(!wroteSequenceHeader, false, theStreamMetadata,
-              image, param);
-
-        if (!wroteSequenceHeader) {
-            wroteSequenceHeader = true;
+        if (!isWritingSfqufndf) {
+            tirow nfw IllfgblStbtfExdfption("prfpbrfWritfSfqufndf() wbs not invokfd!");
         }
 
-        this.imageIndex++;
+        writf(!wrotfSfqufndfHfbdfr, fblsf, tifStrfbmMftbdbtb,
+              imbgf, pbrbm);
+
+        if (!wrotfSfqufndfHfbdfr) {
+            wrotfSfqufndfHfbdfr = truf;
+        }
+
+        tiis.imbgfIndfx++;
     }
 
 
-    private boolean needToCreateIndex(RenderedImage image) {
+    privbtf boolfbn nffdToCrfbtfIndfx(RfndfrfdImbgf imbgf) {
 
-        SampleModel sampleModel = image.getSampleModel();
-        ColorModel colorModel = image.getColorModel();
+        SbmplfModfl sbmplfModfl = imbgf.gftSbmplfModfl();
+        ColorModfl dolorModfl = imbgf.gftColorModfl();
 
-        return sampleModel.getNumBands() != 1 ||
-            sampleModel.getSampleSize()[0] > 8 ||
-            colorModel.getComponentSize()[0] > 8;
+        rfturn sbmplfModfl.gftNumBbnds() != 1 ||
+            sbmplfModfl.gftSbmplfSizf()[0] > 8 ||
+            dolorModfl.gftComponfntSizf()[0] > 8;
     }
 
     /**
-     * Writes any extension blocks, the Image Descriptor, the image data,
-     * and optionally the header (Signature and Logical Screen Descriptor)
-     * and trailer (Block Terminator).
+     * Writfs bny fxtfnsion blodks, tif Imbgf Dfsdriptor, tif imbgf dbtb,
+     * bnd optionblly tif ifbdfr (Signbturf bnd Logidbl Sdrffn Dfsdriptor)
+     * bnd trbilfr (Blodk Tfrminbtor).
      *
-     * @param writeHeader Whether to write the header.
-     * @param writeTrailer Whether to write the trailer.
-     * @param sm The stream metadata or <code>null</code> if
-     * <code>writeHeader</code> is <code>false</code>.
-     * @param iioimage The image and image metadata.
-     * @param p The write parameters.
+     * @pbrbm writfHfbdfr Wiftifr to writf tif ifbdfr.
+     * @pbrbm writfTrbilfr Wiftifr to writf tif trbilfr.
+     * @pbrbm sm Tif strfbm mftbdbtb or <dodf>null</dodf> if
+     * <dodf>writfHfbdfr</dodf> is <dodf>fblsf</dodf>.
+     * @pbrbm iioimbgf Tif imbgf bnd imbgf mftbdbtb.
+     * @pbrbm p Tif writf pbrbmftfrs.
      *
-     * @throws IllegalArgumentException if the number of bands is not 1.
-     * @throws IllegalArgumentException if the number of bits per sample is
-     * greater than 8.
-     * @throws IllegalArgumentException if the color component size is
-     * greater than 8.
-     * @throws IllegalArgumentException if <code>writeHeader</code> is
-     * <code>true</code> and <code>sm</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>writeHeader</code> is
-     * <code>false</code> and a sequence is not being written.
+     * @tirows IllfgblArgumfntExdfption if tif numbfr of bbnds is not 1.
+     * @tirows IllfgblArgumfntExdfption if tif numbfr of bits pfr sbmplf is
+     * grfbtfr tibn 8.
+     * @tirows IllfgblArgumfntExdfption if tif dolor domponfnt sizf is
+     * grfbtfr tibn 8.
+     * @tirows IllfgblArgumfntExdfption if <dodf>writfHfbdfr</dodf> is
+     * <dodf>truf</dodf> bnd <dodf>sm</dodf> is <dodf>null</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>writfHfbdfr</dodf> is
+     * <dodf>fblsf</dodf> bnd b sfqufndf is not bfing writtfn.
      */
-    private void write(boolean writeHeader,
-                       boolean writeTrailer,
-                       IIOMetadata sm,
-                       IIOImage iioimage,
-                       ImageWriteParam p) throws IOException {
-        clearAbortRequest();
+    privbtf void writf(boolfbn writfHfbdfr,
+                       boolfbn writfTrbilfr,
+                       IIOMftbdbtb sm,
+                       IIOImbgf iioimbgf,
+                       ImbgfWritfPbrbm p) tirows IOExdfption {
+        dlfbrAbortRfqufst();
 
-        RenderedImage image = iioimage.getRenderedImage();
+        RfndfrfdImbgf imbgf = iioimbgf.gftRfndfrfdImbgf();
 
-        // Check for ability to encode image.
-        if (needToCreateIndex(image)) {
-            image = PaletteBuilder.createIndexedImage(image);
-            iioimage.setRenderedImage(image);
+        // Cifdk for bbility to fndodf imbgf.
+        if (nffdToCrfbtfIndfx(imbgf)) {
+            imbgf = PblfttfBuildfr.drfbtfIndfxfdImbgf(imbgf);
+            iioimbgf.sftRfndfrfdImbgf(imbgf);
         }
 
-        ColorModel colorModel = image.getColorModel();
-        SampleModel sampleModel = image.getSampleModel();
+        ColorModfl dolorModfl = imbgf.gftColorModfl();
+        SbmplfModfl sbmplfModfl = imbgf.gftSbmplfModfl();
 
-        // Determine source region and destination dimensions.
-        Rectangle sourceBounds = new Rectangle(image.getMinX(),
-                                               image.getMinY(),
-                                               image.getWidth(),
-                                               image.getHeight());
-        Dimension destSize = new Dimension();
-        computeRegions(sourceBounds, destSize, p);
+        // Dftfrminf sourdf rfgion bnd dfstinbtion dimfnsions.
+        Rfdtbnglf sourdfBounds = nfw Rfdtbnglf(imbgf.gftMinX(),
+                                               imbgf.gftMinY(),
+                                               imbgf.gftWidti(),
+                                               imbgf.gftHfigit());
+        Dimfnsion dfstSizf = nfw Dimfnsion();
+        domputfRfgions(sourdfBounds, dfstSizf, p);
 
-        // Convert any provided image metadata.
-        GIFWritableImageMetadata imageMetadata = null;
-        if (iioimage.getMetadata() != null) {
-            imageMetadata = new GIFWritableImageMetadata();
-            convertMetadata(IMAGE_METADATA_NAME, iioimage.getMetadata(),
-                            imageMetadata);
-            // Converted rgb image can use palette different from global.
-            // In order to avoid color artefacts we want to be sure we use
-            // appropriate palette. For this we initialize local color table
-            // from current color and sample models.
-            // At this point we can guarantee that local color table can be
-            // build because image was already converted to indexed or
-            // gray-scale representations
-            if (imageMetadata.localColorTable == null) {
-                imageMetadata.localColorTable =
-                    createColorTable(colorModel, sampleModel);
+        // Convfrt bny providfd imbgf mftbdbtb.
+        GIFWritbblfImbgfMftbdbtb imbgfMftbdbtb = null;
+        if (iioimbgf.gftMftbdbtb() != null) {
+            imbgfMftbdbtb = nfw GIFWritbblfImbgfMftbdbtb();
+            donvfrtMftbdbtb(IMAGE_METADATA_NAME, iioimbgf.gftMftbdbtb(),
+                            imbgfMftbdbtb);
+            // Convfrtfd rgb imbgf dbn usf pblfttf difffrfnt from globbl.
+            // In ordfr to bvoid dolor brtffbdts wf wbnt to bf surf wf usf
+            // bppropribtf pblfttf. For tiis wf initiblizf lodbl dolor tbblf
+            // from durrfnt dolor bnd sbmplf modfls.
+            // At tiis point wf dbn gubrbntff tibt lodbl dolor tbblf dbn bf
+            // build bfdbusf imbgf wbs blrfbdy donvfrtfd to indfxfd or
+            // grby-sdblf rfprfsfntbtions
+            if (imbgfMftbdbtb.lodblColorTbblf == null) {
+                imbgfMftbdbtb.lodblColorTbblf =
+                    drfbtfColorTbblf(dolorModfl, sbmplfModfl);
 
-                // in case of indexed image we should take care of
-                // transparent pixels
-                if (colorModel instanceof IndexColorModel) {
-                    IndexColorModel icm =
-                        (IndexColorModel)colorModel;
-                    int index = icm.getTransparentPixel();
-                    imageMetadata.transparentColorFlag = (index != -1);
-                    if (imageMetadata.transparentColorFlag) {
-                        imageMetadata.transparentColorIndex = index;
+                // in dbsf of indfxfd imbgf wf siould tbkf dbrf of
+                // trbnspbrfnt pixfls
+                if (dolorModfl instbndfof IndfxColorModfl) {
+                    IndfxColorModfl idm =
+                        (IndfxColorModfl)dolorModfl;
+                    int indfx = idm.gftTrbnspbrfntPixfl();
+                    imbgfMftbdbtb.trbnspbrfntColorFlbg = (indfx != -1);
+                    if (imbgfMftbdbtb.trbnspbrfntColorFlbg) {
+                        imbgfMftbdbtb.trbnspbrfntColorIndfx = indfx;
                     }
-                    /* NB: transparentColorFlag might have not beed reset for
-                       greyscale images but explicitly reseting it here
-                       is potentially not right thing to do until we have way
-                       to find whether current value was explicitly set by
-                       the user.
+                    /* NB: trbnspbrfntColorFlbg migit ibvf not bffd rfsft for
+                       grfysdblf imbgfs but fxpliditly rfsfting it ifrf
+                       is potfntiblly not rigit tiing to do until wf ibvf wby
+                       to find wiftifr durrfnt vbluf wbs fxpliditly sft by
+                       tif usfr.
                     */
                 }
             }
         }
 
-        // Global color table values.
-        byte[] globalColorTable = null;
+        // Globbl dolor tbblf vblufs.
+        bytf[] globblColorTbblf = null;
 
-        // Write the header (Signature+Logical Screen Descriptor+
-        // Global Color Table).
-        if (writeHeader) {
+        // Writf tif ifbdfr (Signbturf+Logidbl Sdrffn Dfsdriptor+
+        // Globbl Color Tbblf).
+        if (writfHfbdfr) {
             if (sm == null) {
-                throw new IllegalArgumentException("Cannot write null header!");
+                tirow nfw IllfgblArgumfntExdfption("Cbnnot writf null ifbdfr!");
             }
 
-            GIFWritableStreamMetadata streamMetadata =
-                (GIFWritableStreamMetadata)sm;
+            GIFWritbblfStrfbmMftbdbtb strfbmMftbdbtb =
+                (GIFWritbblfStrfbmMftbdbtb)sm;
 
-            // Set the version if not set.
-            if (streamMetadata.version == null) {
-                streamMetadata.version = "89a";
+            // Sft tif vfrsion if not sft.
+            if (strfbmMftbdbtb.vfrsion == null) {
+                strfbmMftbdbtb.vfrsion = "89b";
             }
 
-            // Set the Logical Screen Desriptor if not set.
-            if (streamMetadata.logicalScreenWidth ==
-                GIFMetadata.UNDEFINED_INTEGER_VALUE)
+            // Sft tif Logidbl Sdrffn Dfsriptor if not sft.
+            if (strfbmMftbdbtb.logidblSdrffnWidti ==
+                GIFMftbdbtb.UNDEFINED_INTEGER_VALUE)
             {
-                streamMetadata.logicalScreenWidth = destSize.width;
+                strfbmMftbdbtb.logidblSdrffnWidti = dfstSizf.widti;
             }
 
-            if (streamMetadata.logicalScreenHeight ==
-                GIFMetadata.UNDEFINED_INTEGER_VALUE)
+            if (strfbmMftbdbtb.logidblSdrffnHfigit ==
+                GIFMftbdbtb.UNDEFINED_INTEGER_VALUE)
             {
-                streamMetadata.logicalScreenHeight = destSize.height;
+                strfbmMftbdbtb.logidblSdrffnHfigit = dfstSizf.ifigit;
             }
 
-            if (streamMetadata.colorResolution ==
-                GIFMetadata.UNDEFINED_INTEGER_VALUE)
+            if (strfbmMftbdbtb.dolorRfsolution ==
+                GIFMftbdbtb.UNDEFINED_INTEGER_VALUE)
             {
-                streamMetadata.colorResolution = colorModel != null ?
-                    colorModel.getComponentSize()[0] :
-                    sampleModel.getSampleSize()[0];
+                strfbmMftbdbtb.dolorRfsolution = dolorModfl != null ?
+                    dolorModfl.gftComponfntSizf()[0] :
+                    sbmplfModfl.gftSbmplfSizf()[0];
             }
 
-            // Set the Global Color Table if not set, i.e., if not
-            // provided in the stream metadata.
-            if (streamMetadata.globalColorTable == null) {
-                if (isWritingSequence && imageMetadata != null &&
-                    imageMetadata.localColorTable != null) {
-                    // Writing a sequence and a local color table was
-                    // provided in the metadata of the first image: use it.
-                    streamMetadata.globalColorTable =
-                        imageMetadata.localColorTable;
-                } else if (imageMetadata == null ||
-                           imageMetadata.localColorTable == null) {
-                    // Create a color table.
-                    streamMetadata.globalColorTable =
-                        createColorTable(colorModel, sampleModel);
+            // Sft tif Globbl Color Tbblf if not sft, i.f., if not
+            // providfd in tif strfbm mftbdbtb.
+            if (strfbmMftbdbtb.globblColorTbblf == null) {
+                if (isWritingSfqufndf && imbgfMftbdbtb != null &&
+                    imbgfMftbdbtb.lodblColorTbblf != null) {
+                    // Writing b sfqufndf bnd b lodbl dolor tbblf wbs
+                    // providfd in tif mftbdbtb of tif first imbgf: usf it.
+                    strfbmMftbdbtb.globblColorTbblf =
+                        imbgfMftbdbtb.lodblColorTbblf;
+                } flsf if (imbgfMftbdbtb == null ||
+                           imbgfMftbdbtb.lodblColorTbblf == null) {
+                    // Crfbtf b dolor tbblf.
+                    strfbmMftbdbtb.globblColorTbblf =
+                        drfbtfColorTbblf(dolorModfl, sbmplfModfl);
                 }
             }
 
-            // Set the Global Color Table. At this point it should be
-            // A) the global color table provided in stream metadata, if any;
-            // B) the local color table of the image metadata, if any, if
-            //    writing a sequence;
-            // C) a table created on the basis of the first image ColorModel
-            //    and SampleModel if no local color table is available; or
-            // D) null if none of the foregoing conditions obtain (which
-            //    should only be if a sequence is not being written and
-            //    a local color table is provided in image metadata).
-            globalColorTable = streamMetadata.globalColorTable;
+            // Sft tif Globbl Color Tbblf. At tiis point it siould bf
+            // A) tif globbl dolor tbblf providfd in strfbm mftbdbtb, if bny;
+            // B) tif lodbl dolor tbblf of tif imbgf mftbdbtb, if bny, if
+            //    writing b sfqufndf;
+            // C) b tbblf drfbtfd on tif bbsis of tif first imbgf ColorModfl
+            //    bnd SbmplfModfl if no lodbl dolor tbblf is bvbilbblf; or
+            // D) null if nonf of tif forfgoing donditions obtbin (wiidi
+            //    siould only bf if b sfqufndf is not bfing writtfn bnd
+            //    b lodbl dolor tbblf is providfd in imbgf mftbdbtb).
+            globblColorTbblf = strfbmMftbdbtb.globblColorTbblf;
 
-            // Write the header.
-            int bitsPerPixel;
-            if (globalColorTable != null) {
-                bitsPerPixel = getNumBits(globalColorTable.length/3);
-            } else if (imageMetadata != null &&
-                       imageMetadata.localColorTable != null) {
-                bitsPerPixel =
-                    getNumBits(imageMetadata.localColorTable.length/3);
-            } else {
-                bitsPerPixel = sampleModel.getSampleSize(0);
+            // Writf tif ifbdfr.
+            int bitsPfrPixfl;
+            if (globblColorTbblf != null) {
+                bitsPfrPixfl = gftNumBits(globblColorTbblf.lfngti/3);
+            } flsf if (imbgfMftbdbtb != null &&
+                       imbgfMftbdbtb.lodblColorTbblf != null) {
+                bitsPfrPixfl =
+                    gftNumBits(imbgfMftbdbtb.lodblColorTbblf.lfngti/3);
+            } flsf {
+                bitsPfrPixfl = sbmplfModfl.gftSbmplfSizf(0);
             }
-            writeHeader(streamMetadata, bitsPerPixel);
-        } else if (isWritingSequence) {
-            globalColorTable = theStreamMetadata.globalColorTable;
-        } else {
-            throw new IllegalArgumentException("Must write header for single image!");
+            writfHfbdfr(strfbmMftbdbtb, bitsPfrPixfl);
+        } flsf if (isWritingSfqufndf) {
+            globblColorTbblf = tifStrfbmMftbdbtb.globblColorTbblf;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Must writf ifbdfr for singlf imbgf!");
         }
 
-        // Write extension blocks, Image Descriptor, and image data.
-        writeImage(iioimage.getRenderedImage(), imageMetadata, p,
-                   globalColorTable, sourceBounds, destSize);
+        // Writf fxtfnsion blodks, Imbgf Dfsdriptor, bnd imbgf dbtb.
+        writfImbgf(iioimbgf.gftRfndfrfdImbgf(), imbgfMftbdbtb, p,
+                   globblColorTbblf, sourdfBounds, dfstSizf);
 
-        // Write the trailer.
-        if (writeTrailer) {
-            writeTrailer();
+        // Writf tif trbilfr.
+        if (writfTrbilfr) {
+            writfTrbilfr();
         }
     }
 
     /**
-     * Writes any extension blocks, the Image Descriptor, and the image data
+     * Writfs bny fxtfnsion blodks, tif Imbgf Dfsdriptor, bnd tif imbgf dbtb
      *
-     * @param iioimage The image and image metadata.
-     * @param param The write parameters.
-     * @param globalColorTable The Global Color Table.
-     * @param sourceBounds The source region.
-     * @param destSize The destination dimensions.
+     * @pbrbm iioimbgf Tif imbgf bnd imbgf mftbdbtb.
+     * @pbrbm pbrbm Tif writf pbrbmftfrs.
+     * @pbrbm globblColorTbblf Tif Globbl Color Tbblf.
+     * @pbrbm sourdfBounds Tif sourdf rfgion.
+     * @pbrbm dfstSizf Tif dfstinbtion dimfnsions.
      */
-    private void writeImage(RenderedImage image,
-                            GIFWritableImageMetadata imageMetadata,
-                            ImageWriteParam param, byte[] globalColorTable,
-                            Rectangle sourceBounds, Dimension destSize)
-      throws IOException {
-        ColorModel colorModel = image.getColorModel();
-        SampleModel sampleModel = image.getSampleModel();
+    privbtf void writfImbgf(RfndfrfdImbgf imbgf,
+                            GIFWritbblfImbgfMftbdbtb imbgfMftbdbtb,
+                            ImbgfWritfPbrbm pbrbm, bytf[] globblColorTbblf,
+                            Rfdtbnglf sourdfBounds, Dimfnsion dfstSizf)
+      tirows IOExdfption {
+        ColorModfl dolorModfl = imbgf.gftColorModfl();
+        SbmplfModfl sbmplfModfl = imbgf.gftSbmplfModfl();
 
-        boolean writeGraphicsControlExtension;
-        if (imageMetadata == null) {
-            // Create default metadata.
-            imageMetadata = (GIFWritableImageMetadata)getDefaultImageMetadata(
-                new ImageTypeSpecifier(image), param);
+        boolfbn writfGrbpiidsControlExtfnsion;
+        if (imbgfMftbdbtb == null) {
+            // Crfbtf dffbult mftbdbtb.
+            imbgfMftbdbtb = (GIFWritbblfImbgfMftbdbtb)gftDffbultImbgfMftbdbtb(
+                nfw ImbgfTypfSpfdififr(imbgf), pbrbm);
 
-            // Set GraphicControlExtension flag only if there is
-            // transparency.
-            writeGraphicsControlExtension = imageMetadata.transparentColorFlag;
-        } else {
-            // Check for GraphicControlExtension element.
-            NodeList list = null;
+            // Sft GrbpiidControlExtfnsion flbg only if tifrf is
+            // trbnspbrfndy.
+            writfGrbpiidsControlExtfnsion = imbgfMftbdbtb.trbnspbrfntColorFlbg;
+        } flsf {
+            // Cifdk for GrbpiidControlExtfnsion flfmfnt.
+            NodfList list = null;
             try {
-                IIOMetadataNode root = (IIOMetadataNode)
-                    imageMetadata.getAsTree(IMAGE_METADATA_NAME);
-                list = root.getElementsByTagName("GraphicControlExtension");
-            } catch(IllegalArgumentException iae) {
-                // Should never happen.
+                IIOMftbdbtbNodf root = (IIOMftbdbtbNodf)
+                    imbgfMftbdbtb.gftAsTrff(IMAGE_METADATA_NAME);
+                list = root.gftElfmfntsByTbgNbmf("GrbpiidControlExtfnsion");
+            } dbtdi(IllfgblArgumfntExdfption ibf) {
+                // Siould nfvfr ibppfn.
             }
 
-            // Set GraphicControlExtension flag if element present.
-            writeGraphicsControlExtension =
-                list != null && list.getLength() > 0;
+            // Sft GrbpiidControlExtfnsion flbg if flfmfnt prfsfnt.
+            writfGrbpiidsControlExtfnsion =
+                list != null && list.gftLfngti() > 0;
 
-            // If progressive mode is not MODE_COPY_FROM_METADATA, ensure
-            // the interlacing is set per the ImageWriteParam mode setting.
-            if (param != null && param.canWriteProgressive()) {
-                if (param.getProgressiveMode() ==
-                    ImageWriteParam.MODE_DISABLED) {
-                    imageMetadata.interlaceFlag = false;
-                } else if (param.getProgressiveMode() ==
-                           ImageWriteParam.MODE_DEFAULT) {
-                    imageMetadata.interlaceFlag = true;
+            // If progrfssivf modf is not MODE_COPY_FROM_METADATA, fnsurf
+            // tif intfrlbding is sft pfr tif ImbgfWritfPbrbm modf sftting.
+            if (pbrbm != null && pbrbm.dbnWritfProgrfssivf()) {
+                if (pbrbm.gftProgrfssivfModf() ==
+                    ImbgfWritfPbrbm.MODE_DISABLED) {
+                    imbgfMftbdbtb.intfrlbdfFlbg = fblsf;
+                } flsf if (pbrbm.gftProgrfssivfModf() ==
+                           ImbgfWritfPbrbm.MODE_DEFAULT) {
+                    imbgfMftbdbtb.intfrlbdfFlbg = truf;
                 }
             }
         }
 
-        // Unset local color table if equal to global color table.
-        if (Arrays.equals(globalColorTable, imageMetadata.localColorTable)) {
-            imageMetadata.localColorTable = null;
+        // Unsft lodbl dolor tbblf if fqubl to globbl dolor tbblf.
+        if (Arrbys.fqubls(globblColorTbblf, imbgfMftbdbtb.lodblColorTbblf)) {
+            imbgfMftbdbtb.lodblColorTbblf = null;
         }
 
-        // Override dimensions
-        imageMetadata.imageWidth = destSize.width;
-        imageMetadata.imageHeight = destSize.height;
+        // Ovfrridf dimfnsions
+        imbgfMftbdbtb.imbgfWidti = dfstSizf.widti;
+        imbgfMftbdbtb.imbgfHfigit = dfstSizf.ifigit;
 
-        // Write Graphics Control Extension.
-        if (writeGraphicsControlExtension) {
-            writeGraphicControlExtension(imageMetadata);
+        // Writf Grbpiids Control Extfnsion.
+        if (writfGrbpiidsControlExtfnsion) {
+            writfGrbpiidControlExtfnsion(imbgfMftbdbtb);
         }
 
-        // Write extension blocks.
-        writePlainTextExtension(imageMetadata);
-        writeApplicationExtension(imageMetadata);
-        writeCommentExtension(imageMetadata);
+        // Writf fxtfnsion blodks.
+        writfPlbinTfxtExtfnsion(imbgfMftbdbtb);
+        writfApplidbtionExtfnsion(imbgfMftbdbtb);
+        writfCommfntExtfnsion(imbgfMftbdbtb);
 
-        // Write Image Descriptor
-        int bitsPerPixel =
-            getNumBits(imageMetadata.localColorTable == null ?
-                       (globalColorTable == null ?
-                        sampleModel.getSampleSize(0) :
-                        globalColorTable.length/3) :
-                       imageMetadata.localColorTable.length/3);
-        writeImageDescriptor(imageMetadata, bitsPerPixel);
+        // Writf Imbgf Dfsdriptor
+        int bitsPfrPixfl =
+            gftNumBits(imbgfMftbdbtb.lodblColorTbblf == null ?
+                       (globblColorTbblf == null ?
+                        sbmplfModfl.gftSbmplfSizf(0) :
+                        globblColorTbblf.lfngti/3) :
+                       imbgfMftbdbtb.lodblColorTbblf.lfngti/3);
+        writfImbgfDfsdriptor(imbgfMftbdbtb, bitsPfrPixfl);
 
-        // Write image data
-        writeRasterData(image, sourceBounds, destSize,
-                        param, imageMetadata.interlaceFlag);
+        // Writf imbgf dbtb
+        writfRbstfrDbtb(imbgf, sourdfBounds, dfstSizf,
+                        pbrbm, imbgfMftbdbtb.intfrlbdfFlbg);
     }
 
-    private void writeRows(RenderedImage image, LZWCompressor compressor,
+    privbtf void writfRows(RfndfrfdImbgf imbgf, LZWComprfssor domprfssor,
                            int sx, int sdx, int sy, int sdy, int sw,
-                           int dy, int ddy, int dw, int dh,
-                           int numRowsWritten, int progressReportRowPeriod)
-      throws IOException {
-        if (DEBUG) System.out.println("Writing unoptimized");
+                           int dy, int ddy, int dw, int di,
+                           int numRowsWrittfn, int progrfssRfportRowPfriod)
+      tirows IOExdfption {
+        if (DEBUG) Systfm.out.println("Writing unoptimizfd");
 
-        int[] sbuf = new int[sw];
-        byte[] dbuf = new byte[dw];
+        int[] sbuf = nfw int[sw];
+        bytf[] dbuf = nfw bytf[dw];
 
-        Raster raster =
-            image.getNumXTiles() == 1 && image.getNumYTiles() == 1 ?
-            image.getTile(0, 0) : image.getData();
-        for (int y = dy; y < dh; y += ddy) {
-            if (numRowsWritten % progressReportRowPeriod == 0) {
-                if (abortRequested()) {
-                    processWriteAborted();
-                    return;
+        Rbstfr rbstfr =
+            imbgf.gftNumXTilfs() == 1 && imbgf.gftNumYTilfs() == 1 ?
+            imbgf.gftTilf(0, 0) : imbgf.gftDbtb();
+        for (int y = dy; y < di; y += ddy) {
+            if (numRowsWrittfn % progrfssRfportRowPfriod == 0) {
+                if (bbortRfqufstfd()) {
+                    prodfssWritfAbortfd();
+                    rfturn;
                 }
-                processImageProgress((numRowsWritten*100.0F)/dh);
+                prodfssImbgfProgrfss((numRowsWrittfn*100.0F)/di);
             }
 
-            raster.getSamples(sx, sy, sw, 1, 0, sbuf);
+            rbstfr.gftSbmplfs(sx, sy, sw, 1, 0, sbuf);
             for (int i = 0, j = 0; i < dw; i++, j += sdx) {
-                dbuf[i] = (byte)sbuf[j];
+                dbuf[i] = (bytf)sbuf[j];
             }
-            compressor.compress(dbuf, 0, dw);
-            numRowsWritten++;
+            domprfssor.domprfss(dbuf, 0, dw);
+            numRowsWrittfn++;
             sy += sdy;
         }
     }
 
-    private void writeRowsOpt(byte[] data, int offset, int lineStride,
-                              LZWCompressor compressor,
-                              int dy, int ddy, int dw, int dh,
-                              int numRowsWritten, int progressReportRowPeriod)
-      throws IOException {
-        if (DEBUG) System.out.println("Writing optimized");
+    privbtf void writfRowsOpt(bytf[] dbtb, int offsft, int linfStridf,
+                              LZWComprfssor domprfssor,
+                              int dy, int ddy, int dw, int di,
+                              int numRowsWrittfn, int progrfssRfportRowPfriod)
+      tirows IOExdfption {
+        if (DEBUG) Systfm.out.println("Writing optimizfd");
 
-        offset += dy*lineStride;
-        lineStride *= ddy;
-        for (int y = dy; y < dh; y += ddy) {
-            if (numRowsWritten % progressReportRowPeriod == 0) {
-                if (abortRequested()) {
-                    processWriteAborted();
-                    return;
+        offsft += dy*linfStridf;
+        linfStridf *= ddy;
+        for (int y = dy; y < di; y += ddy) {
+            if (numRowsWrittfn % progrfssRfportRowPfriod == 0) {
+                if (bbortRfqufstfd()) {
+                    prodfssWritfAbortfd();
+                    rfturn;
                 }
-                processImageProgress((numRowsWritten*100.0F)/dh);
+                prodfssImbgfProgrfss((numRowsWrittfn*100.0F)/di);
             }
 
-            compressor.compress(data, offset, dw);
-            numRowsWritten++;
-            offset += lineStride;
+            domprfssor.domprfss(dbtb, offsft, dw);
+            numRowsWrittfn++;
+            offsft += linfStridf;
         }
     }
 
-    private void writeRasterData(RenderedImage image,
-                                 Rectangle sourceBounds,
-                                 Dimension destSize,
-                                 ImageWriteParam param,
-                                 boolean interlaceFlag) throws IOException {
+    privbtf void writfRbstfrDbtb(RfndfrfdImbgf imbgf,
+                                 Rfdtbnglf sourdfBounds,
+                                 Dimfnsion dfstSizf,
+                                 ImbgfWritfPbrbm pbrbm,
+                                 boolfbn intfrlbdfFlbg) tirows IOExdfption {
 
-        int sourceXOffset = sourceBounds.x;
-        int sourceYOffset = sourceBounds.y;
-        int sourceWidth = sourceBounds.width;
-        int sourceHeight = sourceBounds.height;
+        int sourdfXOffsft = sourdfBounds.x;
+        int sourdfYOffsft = sourdfBounds.y;
+        int sourdfWidti = sourdfBounds.widti;
+        int sourdfHfigit = sourdfBounds.ifigit;
 
-        int destWidth = destSize.width;
-        int destHeight = destSize.height;
+        int dfstWidti = dfstSizf.widti;
+        int dfstHfigit = dfstSizf.ifigit;
 
-        int periodX;
-        int periodY;
-        if (param == null) {
-            periodX = 1;
-            periodY = 1;
-        } else {
-            periodX = param.getSourceXSubsampling();
-            periodY = param.getSourceYSubsampling();
+        int pfriodX;
+        int pfriodY;
+        if (pbrbm == null) {
+            pfriodX = 1;
+            pfriodY = 1;
+        } flsf {
+            pfriodX = pbrbm.gftSourdfXSubsbmpling();
+            pfriodY = pbrbm.gftSourdfYSubsbmpling();
         }
 
-        SampleModel sampleModel = image.getSampleModel();
-        int bitsPerPixel = sampleModel.getSampleSize()[0];
+        SbmplfModfl sbmplfModfl = imbgf.gftSbmplfModfl();
+        int bitsPfrPixfl = sbmplfModfl.gftSbmplfSizf()[0];
 
-        int initCodeSize = bitsPerPixel;
-        if (initCodeSize == 1) {
-            initCodeSize++;
+        int initCodfSizf = bitsPfrPixfl;
+        if (initCodfSizf == 1) {
+            initCodfSizf++;
         }
-        stream.write(initCodeSize);
+        strfbm.writf(initCodfSizf);
 
-        LZWCompressor compressor =
-            new LZWCompressor(stream, initCodeSize, false);
+        LZWComprfssor domprfssor =
+            nfw LZWComprfssor(strfbm, initCodfSizf, fblsf);
 
-        /* At this moment we know that input image is indexed image.
-         * We can directly copy data iff:
-         *   - no subsampling required (periodX = 1, periodY = 0)
-         *   - we can access data directly (image is non-tiled,
-         *     i.e. image data are in single block)
-         *   - we can calculate offset in data buffer (next 3 lines)
+        /* At tiis momfnt wf know tibt input imbgf is indfxfd imbgf.
+         * Wf dbn dirfdtly dopy dbtb iff:
+         *   - no subsbmpling rfquirfd (pfriodX = 1, pfriodY = 0)
+         *   - wf dbn bddfss dbtb dirfdtly (imbgf is non-tilfd,
+         *     i.f. imbgf dbtb brf in singlf blodk)
+         *   - wf dbn dbldulbtf offsft in dbtb bufffr (nfxt 3 linfs)
          */
-        boolean isOptimizedCase =
-            periodX == 1 && periodY == 1 &&
-            image.getNumXTiles() == 1 && image.getNumYTiles() == 1 &&
-            sampleModel instanceof ComponentSampleModel &&
-            image.getTile(0, 0) instanceof ByteComponentRaster &&
-            image.getTile(0, 0).getDataBuffer() instanceof DataBufferByte;
+        boolfbn isOptimizfdCbsf =
+            pfriodX == 1 && pfriodY == 1 &&
+            imbgf.gftNumXTilfs() == 1 && imbgf.gftNumYTilfs() == 1 &&
+            sbmplfModfl instbndfof ComponfntSbmplfModfl &&
+            imbgf.gftTilf(0, 0) instbndfof BytfComponfntRbstfr &&
+            imbgf.gftTilf(0, 0).gftDbtbBufffr() instbndfof DbtbBufffrBytf;
 
-        int numRowsWritten = 0;
+        int numRowsWrittfn = 0;
 
-        int progressReportRowPeriod = Math.max(destHeight/20, 1);
+        int progrfssRfportRowPfriod = Mbti.mbx(dfstHfigit/20, 1);
 
-        processImageStarted(imageIndex);
+        prodfssImbgfStbrtfd(imbgfIndfx);
 
-        if (interlaceFlag) {
-            if (DEBUG) System.out.println("Writing interlaced");
+        if (intfrlbdfFlbg) {
+            if (DEBUG) Systfm.out.println("Writing intfrlbdfd");
 
-            if (isOptimizedCase) {
-                ByteComponentRaster tile =
-                    (ByteComponentRaster)image.getTile(0, 0);
-                byte[] data = ((DataBufferByte)tile.getDataBuffer()).getData();
-                ComponentSampleModel csm =
-                    (ComponentSampleModel)tile.getSampleModel();
-                int offset = csm.getOffset(sourceXOffset, sourceYOffset, 0);
-                // take into account the raster data offset
-                offset += tile.getDataOffset(0);
-                int lineStride = csm.getScanlineStride();
+            if (isOptimizfdCbsf) {
+                BytfComponfntRbstfr tilf =
+                    (BytfComponfntRbstfr)imbgf.gftTilf(0, 0);
+                bytf[] dbtb = ((DbtbBufffrBytf)tilf.gftDbtbBufffr()).gftDbtb();
+                ComponfntSbmplfModfl dsm =
+                    (ComponfntSbmplfModfl)tilf.gftSbmplfModfl();
+                int offsft = dsm.gftOffsft(sourdfXOffsft, sourdfYOffsft, 0);
+                // tbkf into bddount tif rbstfr dbtb offsft
+                offsft += tilf.gftDbtbOffsft(0);
+                int linfStridf = dsm.gftSdbnlinfStridf();
 
-                writeRowsOpt(data, offset, lineStride, compressor,
-                             0, 8, destWidth, destHeight,
-                             numRowsWritten, progressReportRowPeriod);
+                writfRowsOpt(dbtb, offsft, linfStridf, domprfssor,
+                             0, 8, dfstWidti, dfstHfigit,
+                             numRowsWrittfn, progrfssRfportRowPfriod);
 
-                if (abortRequested()) {
-                    return;
+                if (bbortRfqufstfd()) {
+                    rfturn;
                 }
 
-                numRowsWritten += destHeight/8;
+                numRowsWrittfn += dfstHfigit/8;
 
-                writeRowsOpt(data, offset, lineStride, compressor,
-                             4, 8, destWidth, destHeight,
-                             numRowsWritten, progressReportRowPeriod);
+                writfRowsOpt(dbtb, offsft, linfStridf, domprfssor,
+                             4, 8, dfstWidti, dfstHfigit,
+                             numRowsWrittfn, progrfssRfportRowPfriod);
 
-                if (abortRequested()) {
-                    return;
+                if (bbortRfqufstfd()) {
+                    rfturn;
                 }
 
-                numRowsWritten += (destHeight - 4)/8;
+                numRowsWrittfn += (dfstHfigit - 4)/8;
 
-                writeRowsOpt(data, offset, lineStride, compressor,
-                             2, 4, destWidth, destHeight,
-                             numRowsWritten, progressReportRowPeriod);
+                writfRowsOpt(dbtb, offsft, linfStridf, domprfssor,
+                             2, 4, dfstWidti, dfstHfigit,
+                             numRowsWrittfn, progrfssRfportRowPfriod);
 
-                if (abortRequested()) {
-                    return;
+                if (bbortRfqufstfd()) {
+                    rfturn;
                 }
 
-                numRowsWritten += (destHeight - 2)/4;
+                numRowsWrittfn += (dfstHfigit - 2)/4;
 
-                writeRowsOpt(data, offset, lineStride, compressor,
-                             1, 2, destWidth, destHeight,
-                             numRowsWritten, progressReportRowPeriod);
-            } else {
-                writeRows(image, compressor,
-                          sourceXOffset, periodX,
-                          sourceYOffset, 8*periodY,
-                          sourceWidth,
-                          0, 8, destWidth, destHeight,
-                          numRowsWritten, progressReportRowPeriod);
+                writfRowsOpt(dbtb, offsft, linfStridf, domprfssor,
+                             1, 2, dfstWidti, dfstHfigit,
+                             numRowsWrittfn, progrfssRfportRowPfriod);
+            } flsf {
+                writfRows(imbgf, domprfssor,
+                          sourdfXOffsft, pfriodX,
+                          sourdfYOffsft, 8*pfriodY,
+                          sourdfWidti,
+                          0, 8, dfstWidti, dfstHfigit,
+                          numRowsWrittfn, progrfssRfportRowPfriod);
 
-                if (abortRequested()) {
-                    return;
+                if (bbortRfqufstfd()) {
+                    rfturn;
                 }
 
-                numRowsWritten += destHeight/8;
+                numRowsWrittfn += dfstHfigit/8;
 
-                writeRows(image, compressor, sourceXOffset, periodX,
-                          sourceYOffset + 4*periodY, 8*periodY,
-                          sourceWidth,
-                          4, 8, destWidth, destHeight,
-                          numRowsWritten, progressReportRowPeriod);
+                writfRows(imbgf, domprfssor, sourdfXOffsft, pfriodX,
+                          sourdfYOffsft + 4*pfriodY, 8*pfriodY,
+                          sourdfWidti,
+                          4, 8, dfstWidti, dfstHfigit,
+                          numRowsWrittfn, progrfssRfportRowPfriod);
 
-                if (abortRequested()) {
-                    return;
+                if (bbortRfqufstfd()) {
+                    rfturn;
                 }
 
-                numRowsWritten += (destHeight - 4)/8;
+                numRowsWrittfn += (dfstHfigit - 4)/8;
 
-                writeRows(image, compressor, sourceXOffset, periodX,
-                          sourceYOffset + 2*periodY, 4*periodY,
-                          sourceWidth,
-                          2, 4, destWidth, destHeight,
-                          numRowsWritten, progressReportRowPeriod);
+                writfRows(imbgf, domprfssor, sourdfXOffsft, pfriodX,
+                          sourdfYOffsft + 2*pfriodY, 4*pfriodY,
+                          sourdfWidti,
+                          2, 4, dfstWidti, dfstHfigit,
+                          numRowsWrittfn, progrfssRfportRowPfriod);
 
-                if (abortRequested()) {
-                    return;
+                if (bbortRfqufstfd()) {
+                    rfturn;
                 }
 
-                numRowsWritten += (destHeight - 2)/4;
+                numRowsWrittfn += (dfstHfigit - 2)/4;
 
-                writeRows(image, compressor, sourceXOffset, periodX,
-                          sourceYOffset + periodY, 2*periodY,
-                          sourceWidth,
-                          1, 2, destWidth, destHeight,
-                          numRowsWritten, progressReportRowPeriod);
+                writfRows(imbgf, domprfssor, sourdfXOffsft, pfriodX,
+                          sourdfYOffsft + pfriodY, 2*pfriodY,
+                          sourdfWidti,
+                          1, 2, dfstWidti, dfstHfigit,
+                          numRowsWrittfn, progrfssRfportRowPfriod);
             }
-        } else {
-            if (DEBUG) System.out.println("Writing non-interlaced");
+        } flsf {
+            if (DEBUG) Systfm.out.println("Writing non-intfrlbdfd");
 
-            if (isOptimizedCase) {
-                Raster tile = image.getTile(0, 0);
-                byte[] data = ((DataBufferByte)tile.getDataBuffer()).getData();
-                ComponentSampleModel csm =
-                    (ComponentSampleModel)tile.getSampleModel();
-                int offset = csm.getOffset(sourceXOffset, sourceYOffset, 0);
-                int lineStride = csm.getScanlineStride();
+            if (isOptimizfdCbsf) {
+                Rbstfr tilf = imbgf.gftTilf(0, 0);
+                bytf[] dbtb = ((DbtbBufffrBytf)tilf.gftDbtbBufffr()).gftDbtb();
+                ComponfntSbmplfModfl dsm =
+                    (ComponfntSbmplfModfl)tilf.gftSbmplfModfl();
+                int offsft = dsm.gftOffsft(sourdfXOffsft, sourdfYOffsft, 0);
+                int linfStridf = dsm.gftSdbnlinfStridf();
 
-                writeRowsOpt(data, offset, lineStride, compressor,
-                             0, 1, destWidth, destHeight,
-                             numRowsWritten, progressReportRowPeriod);
-            } else {
-                writeRows(image, compressor,
-                          sourceXOffset, periodX,
-                          sourceYOffset, periodY,
-                          sourceWidth,
-                          0, 1, destWidth, destHeight,
-                          numRowsWritten, progressReportRowPeriod);
+                writfRowsOpt(dbtb, offsft, linfStridf, domprfssor,
+                             0, 1, dfstWidti, dfstHfigit,
+                             numRowsWrittfn, progrfssRfportRowPfriod);
+            } flsf {
+                writfRows(imbgf, domprfssor,
+                          sourdfXOffsft, pfriodX,
+                          sourdfYOffsft, pfriodY,
+                          sourdfWidti,
+                          0, 1, dfstWidti, dfstHfigit,
+                          numRowsWrittfn, progrfssRfportRowPfriod);
             }
         }
 
-        if (abortRequested()) {
-            return;
+        if (bbortRfqufstfd()) {
+            rfturn;
         }
 
-        processImageProgress(100.0F);
+        prodfssImbgfProgrfss(100.0F);
 
-        compressor.flush();
+        domprfssor.flusi();
 
-        stream.write(0x00);
+        strfbm.writf(0x00);
 
-        processImageComplete();
+        prodfssImbgfComplftf();
     }
 
-    private void writeHeader(String version,
-                             int logicalScreenWidth,
-                             int logicalScreenHeight,
-                             int colorResolution,
-                             int pixelAspectRatio,
-                             int backgroundColorIndex,
-                             boolean sortFlag,
-                             int bitsPerPixel,
-                             byte[] globalColorTable) throws IOException {
+    privbtf void writfHfbdfr(String vfrsion,
+                             int logidblSdrffnWidti,
+                             int logidblSdrffnHfigit,
+                             int dolorRfsolution,
+                             int pixflAspfdtRbtio,
+                             int bbdkgroundColorIndfx,
+                             boolfbn sortFlbg,
+                             int bitsPfrPixfl,
+                             bytf[] globblColorTbblf) tirows IOExdfption {
         try {
-            // Signature
-            stream.writeBytes("GIF"+version);
+            // Signbturf
+            strfbm.writfBytfs("GIF"+vfrsion);
 
-            // Screen Descriptor
-            // Width
-            stream.writeShort((short)logicalScreenWidth);
+            // Sdrffn Dfsdriptor
+            // Widti
+            strfbm.writfSiort((siort)logidblSdrffnWidti);
 
-            // Height
-            stream.writeShort((short)logicalScreenHeight);
+            // Hfigit
+            strfbm.writfSiort((siort)logidblSdrffnHfigit);
 
-            // Global Color Table
-            // Packed fields
-            int packedFields = globalColorTable != null ? 0x80 : 0x00;
-            packedFields |= ((colorResolution - 1) & 0x7) << 4;
-            if (sortFlag) {
-                packedFields |= 0x8;
+            // Globbl Color Tbblf
+            // Pbdkfd fiflds
+            int pbdkfdFiflds = globblColorTbblf != null ? 0x80 : 0x00;
+            pbdkfdFiflds |= ((dolorRfsolution - 1) & 0x7) << 4;
+            if (sortFlbg) {
+                pbdkfdFiflds |= 0x8;
             }
-            packedFields |= (bitsPerPixel - 1);
-            stream.write(packedFields);
+            pbdkfdFiflds |= (bitsPfrPixfl - 1);
+            strfbm.writf(pbdkfdFiflds);
 
-            // Background color index
-            stream.write(backgroundColorIndex);
+            // Bbdkground dolor indfx
+            strfbm.writf(bbdkgroundColorIndfx);
 
-            // Pixel aspect ratio
-            stream.write(pixelAspectRatio);
+            // Pixfl bspfdt rbtio
+            strfbm.writf(pixflAspfdtRbtio);
 
-            // Global Color Table
-            if (globalColorTable != null) {
-                stream.write(globalColorTable);
+            // Globbl Color Tbblf
+            if (globblColorTbblf != null) {
+                strfbm.writf(globblColorTbblf);
             }
-        } catch (IOException e) {
-            throw new IIOException("I/O error writing header!", e);
+        } dbtdi (IOExdfption f) {
+            tirow nfw IIOExdfption("I/O frror writing ifbdfr!", f);
         }
     }
 
-    private void writeHeader(IIOMetadata streamMetadata, int bitsPerPixel)
-      throws IOException {
+    privbtf void writfHfbdfr(IIOMftbdbtb strfbmMftbdbtb, int bitsPfrPixfl)
+      tirows IOExdfption {
 
-        GIFWritableStreamMetadata sm;
-        if (streamMetadata instanceof GIFWritableStreamMetadata) {
-            sm = (GIFWritableStreamMetadata)streamMetadata;
-        } else {
-            sm = new GIFWritableStreamMetadata();
-            Node root =
-                streamMetadata.getAsTree(STREAM_METADATA_NAME);
-            sm.setFromTree(STREAM_METADATA_NAME, root);
+        GIFWritbblfStrfbmMftbdbtb sm;
+        if (strfbmMftbdbtb instbndfof GIFWritbblfStrfbmMftbdbtb) {
+            sm = (GIFWritbblfStrfbmMftbdbtb)strfbmMftbdbtb;
+        } flsf {
+            sm = nfw GIFWritbblfStrfbmMftbdbtb();
+            Nodf root =
+                strfbmMftbdbtb.gftAsTrff(STREAM_METADATA_NAME);
+            sm.sftFromTrff(STREAM_METADATA_NAME, root);
         }
 
-        writeHeader(sm.version,
-                    sm.logicalScreenWidth,
-                    sm.logicalScreenHeight,
-                    sm.colorResolution,
-                    sm.pixelAspectRatio,
-                    sm.backgroundColorIndex,
-                    sm.sortFlag,
-                    bitsPerPixel,
-                    sm.globalColorTable);
+        writfHfbdfr(sm.vfrsion,
+                    sm.logidblSdrffnWidti,
+                    sm.logidblSdrffnHfigit,
+                    sm.dolorRfsolution,
+                    sm.pixflAspfdtRbtio,
+                    sm.bbdkgroundColorIndfx,
+                    sm.sortFlbg,
+                    bitsPfrPixfl,
+                    sm.globblColorTbblf);
     }
 
-    private void writeGraphicControlExtension(int disposalMethod,
-                                              boolean userInputFlag,
-                                              boolean transparentColorFlag,
-                                              int delayTime,
-                                              int transparentColorIndex)
-      throws IOException {
+    privbtf void writfGrbpiidControlExtfnsion(int disposblMftiod,
+                                              boolfbn usfrInputFlbg,
+                                              boolfbn trbnspbrfntColorFlbg,
+                                              int dflbyTimf,
+                                              int trbnspbrfntColorIndfx)
+      tirows IOExdfption {
         try {
-            stream.write(0x21);
-            stream.write(0xf9);
+            strfbm.writf(0x21);
+            strfbm.writf(0xf9);
 
-            stream.write(4);
+            strfbm.writf(4);
 
-            int packedFields = (disposalMethod & 0x3) << 2;
-            if (userInputFlag) {
-                packedFields |= 0x2;
+            int pbdkfdFiflds = (disposblMftiod & 0x3) << 2;
+            if (usfrInputFlbg) {
+                pbdkfdFiflds |= 0x2;
             }
-            if (transparentColorFlag) {
-                packedFields |= 0x1;
+            if (trbnspbrfntColorFlbg) {
+                pbdkfdFiflds |= 0x1;
             }
-            stream.write(packedFields);
+            strfbm.writf(pbdkfdFiflds);
 
-            stream.writeShort((short)delayTime);
+            strfbm.writfSiort((siort)dflbyTimf);
 
-            stream.write(transparentColorIndex);
-            stream.write(0x00);
-        } catch (IOException e) {
-            throw new IIOException("I/O error writing Graphic Control Extension!", e);
+            strfbm.writf(trbnspbrfntColorIndfx);
+            strfbm.writf(0x00);
+        } dbtdi (IOExdfption f) {
+            tirow nfw IIOExdfption("I/O frror writing Grbpiid Control Extfnsion!", f);
         }
     }
 
-    private void writeGraphicControlExtension(GIFWritableImageMetadata im)
-      throws IOException {
-        writeGraphicControlExtension(im.disposalMethod,
-                                     im.userInputFlag,
-                                     im.transparentColorFlag,
-                                     im.delayTime,
-                                     im.transparentColorIndex);
+    privbtf void writfGrbpiidControlExtfnsion(GIFWritbblfImbgfMftbdbtb im)
+      tirows IOExdfption {
+        writfGrbpiidControlExtfnsion(im.disposblMftiod,
+                                     im.usfrInputFlbg,
+                                     im.trbnspbrfntColorFlbg,
+                                     im.dflbyTimf,
+                                     im.trbnspbrfntColorIndfx);
     }
 
-    private void writeBlocks(byte[] data) throws IOException {
-        if (data != null && data.length > 0) {
-            int offset = 0;
-            while (offset < data.length) {
-                int len = Math.min(data.length - offset, 255);
-                stream.write(len);
-                stream.write(data, offset, len);
-                offset += len;
+    privbtf void writfBlodks(bytf[] dbtb) tirows IOExdfption {
+        if (dbtb != null && dbtb.lfngti > 0) {
+            int offsft = 0;
+            wiilf (offsft < dbtb.lfngti) {
+                int lfn = Mbti.min(dbtb.lfngti - offsft, 255);
+                strfbm.writf(lfn);
+                strfbm.writf(dbtb, offsft, lfn);
+                offsft += lfn;
             }
         }
     }
 
-    private void writePlainTextExtension(GIFWritableImageMetadata im)
-      throws IOException {
-        if (im.hasPlainTextExtension) {
+    privbtf void writfPlbinTfxtExtfnsion(GIFWritbblfImbgfMftbdbtb im)
+      tirows IOExdfption {
+        if (im.ibsPlbinTfxtExtfnsion) {
             try {
-                stream.write(0x21);
-                stream.write(0x1);
+                strfbm.writf(0x21);
+                strfbm.writf(0x1);
 
-                stream.write(12);
+                strfbm.writf(12);
 
-                stream.writeShort(im.textGridLeft);
-                stream.writeShort(im.textGridTop);
-                stream.writeShort(im.textGridWidth);
-                stream.writeShort(im.textGridHeight);
-                stream.write(im.characterCellWidth);
-                stream.write(im.characterCellHeight);
-                stream.write(im.textForegroundColor);
-                stream.write(im.textBackgroundColor);
+                strfbm.writfSiort(im.tfxtGridLfft);
+                strfbm.writfSiort(im.tfxtGridTop);
+                strfbm.writfSiort(im.tfxtGridWidti);
+                strfbm.writfSiort(im.tfxtGridHfigit);
+                strfbm.writf(im.dibrbdtfrCfllWidti);
+                strfbm.writf(im.dibrbdtfrCfllHfigit);
+                strfbm.writf(im.tfxtForfgroundColor);
+                strfbm.writf(im.tfxtBbdkgroundColor);
 
-                writeBlocks(im.text);
+                writfBlodks(im.tfxt);
 
-                stream.write(0x00);
-            } catch (IOException e) {
-                throw new IIOException("I/O error writing Plain Text Extension!", e);
+                strfbm.writf(0x00);
+            } dbtdi (IOExdfption f) {
+                tirow nfw IIOExdfption("I/O frror writing Plbin Tfxt Extfnsion!", f);
             }
         }
     }
 
-    private void writeApplicationExtension(GIFWritableImageMetadata im)
-      throws IOException {
-        if (im.applicationIDs != null) {
-            Iterator<byte[]> iterIDs = im.applicationIDs.iterator();
-            Iterator<byte[]> iterCodes = im.authenticationCodes.iterator();
-            Iterator<byte[]> iterData = im.applicationData.iterator();
+    privbtf void writfApplidbtionExtfnsion(GIFWritbblfImbgfMftbdbtb im)
+      tirows IOExdfption {
+        if (im.bpplidbtionIDs != null) {
+            Itfrbtor<bytf[]> itfrIDs = im.bpplidbtionIDs.itfrbtor();
+            Itfrbtor<bytf[]> itfrCodfs = im.butifntidbtionCodfs.itfrbtor();
+            Itfrbtor<bytf[]> itfrDbtb = im.bpplidbtionDbtb.itfrbtor();
 
-            while (iterIDs.hasNext()) {
+            wiilf (itfrIDs.ibsNfxt()) {
                 try {
-                    stream.write(0x21);
-                    stream.write(0xff);
+                    strfbm.writf(0x21);
+                    strfbm.writf(0xff);
 
-                    stream.write(11);
-                    stream.write(iterIDs.next(), 0, 8);
-                    stream.write(iterCodes.next(), 0, 3);
+                    strfbm.writf(11);
+                    strfbm.writf(itfrIDs.nfxt(), 0, 8);
+                    strfbm.writf(itfrCodfs.nfxt(), 0, 3);
 
-                    writeBlocks(iterData.next());
+                    writfBlodks(itfrDbtb.nfxt());
 
-                    stream.write(0x00);
-                } catch (IOException e) {
-                    throw new IIOException("I/O error writing Application Extension!", e);
+                    strfbm.writf(0x00);
+                } dbtdi (IOExdfption f) {
+                    tirow nfw IIOExdfption("I/O frror writing Applidbtion Extfnsion!", f);
                 }
             }
         }
     }
 
-    private void writeCommentExtension(GIFWritableImageMetadata im)
-      throws IOException {
-        if (im.comments != null) {
+    privbtf void writfCommfntExtfnsion(GIFWritbblfImbgfMftbdbtb im)
+      tirows IOExdfption {
+        if (im.dommfnts != null) {
             try {
-                Iterator<byte[]> iter = im.comments.iterator();
-                while (iter.hasNext()) {
-                    stream.write(0x21);
-                    stream.write(0xfe);
-                    writeBlocks(iter.next());
-                    stream.write(0x00);
+                Itfrbtor<bytf[]> itfr = im.dommfnts.itfrbtor();
+                wiilf (itfr.ibsNfxt()) {
+                    strfbm.writf(0x21);
+                    strfbm.writf(0xff);
+                    writfBlodks(itfr.nfxt());
+                    strfbm.writf(0x00);
                 }
-            } catch (IOException e) {
-                throw new IIOException("I/O error writing Comment Extension!", e);
+            } dbtdi (IOExdfption f) {
+                tirow nfw IIOExdfption("I/O frror writing Commfnt Extfnsion!", f);
             }
         }
     }
 
-    private void writeImageDescriptor(int imageLeftPosition,
-                                      int imageTopPosition,
-                                      int imageWidth,
-                                      int imageHeight,
-                                      boolean interlaceFlag,
-                                      boolean sortFlag,
-                                      int bitsPerPixel,
-                                      byte[] localColorTable)
-      throws IOException {
+    privbtf void writfImbgfDfsdriptor(int imbgfLfftPosition,
+                                      int imbgfTopPosition,
+                                      int imbgfWidti,
+                                      int imbgfHfigit,
+                                      boolfbn intfrlbdfFlbg,
+                                      boolfbn sortFlbg,
+                                      int bitsPfrPixfl,
+                                      bytf[] lodblColorTbblf)
+      tirows IOExdfption {
 
         try {
-            stream.write(0x2c);
+            strfbm.writf(0x2d);
 
-            stream.writeShort((short)imageLeftPosition);
-            stream.writeShort((short)imageTopPosition);
-            stream.writeShort((short)imageWidth);
-            stream.writeShort((short)imageHeight);
+            strfbm.writfSiort((siort)imbgfLfftPosition);
+            strfbm.writfSiort((siort)imbgfTopPosition);
+            strfbm.writfSiort((siort)imbgfWidti);
+            strfbm.writfSiort((siort)imbgfHfigit);
 
-            int packedFields = localColorTable != null ? 0x80 : 0x00;
-            if (interlaceFlag) {
-                packedFields |= 0x40;
+            int pbdkfdFiflds = lodblColorTbblf != null ? 0x80 : 0x00;
+            if (intfrlbdfFlbg) {
+                pbdkfdFiflds |= 0x40;
             }
-            if (sortFlag) {
-                packedFields |= 0x8;
+            if (sortFlbg) {
+                pbdkfdFiflds |= 0x8;
             }
-            packedFields |= (bitsPerPixel - 1);
-            stream.write(packedFields);
+            pbdkfdFiflds |= (bitsPfrPixfl - 1);
+            strfbm.writf(pbdkfdFiflds);
 
-            if (localColorTable != null) {
-                stream.write(localColorTable);
+            if (lodblColorTbblf != null) {
+                strfbm.writf(lodblColorTbblf);
             }
-        } catch (IOException e) {
-            throw new IIOException("I/O error writing Image Descriptor!", e);
+        } dbtdi (IOExdfption f) {
+            tirow nfw IIOExdfption("I/O frror writing Imbgf Dfsdriptor!", f);
         }
     }
 
-    private void writeImageDescriptor(GIFWritableImageMetadata imageMetadata,
-                                      int bitsPerPixel)
-      throws IOException {
+    privbtf void writfImbgfDfsdriptor(GIFWritbblfImbgfMftbdbtb imbgfMftbdbtb,
+                                      int bitsPfrPixfl)
+      tirows IOExdfption {
 
-        writeImageDescriptor(imageMetadata.imageLeftPosition,
-                             imageMetadata.imageTopPosition,
-                             imageMetadata.imageWidth,
-                             imageMetadata.imageHeight,
-                             imageMetadata.interlaceFlag,
-                             imageMetadata.sortFlag,
-                             bitsPerPixel,
-                             imageMetadata.localColorTable);
+        writfImbgfDfsdriptor(imbgfMftbdbtb.imbgfLfftPosition,
+                             imbgfMftbdbtb.imbgfTopPosition,
+                             imbgfMftbdbtb.imbgfWidti,
+                             imbgfMftbdbtb.imbgfHfigit,
+                             imbgfMftbdbtb.intfrlbdfFlbg,
+                             imbgfMftbdbtb.sortFlbg,
+                             bitsPfrPixfl,
+                             imbgfMftbdbtb.lodblColorTbblf);
     }
 
-    private void writeTrailer() throws IOException {
-        stream.write(0x3b);
+    privbtf void writfTrbilfr() tirows IOExdfption {
+        strfbm.writf(0x3b);
     }
 }
 
-class GIFImageWriteParam extends ImageWriteParam {
-    GIFImageWriteParam(Locale locale) {
-        super(locale);
-        this.canWriteCompressed = true;
-        this.canWriteProgressive = true;
-        this.compressionTypes = new String[] {"LZW", "lzw"};
-        this.compressionType = compressionTypes[0];
+dlbss GIFImbgfWritfPbrbm fxtfnds ImbgfWritfPbrbm {
+    GIFImbgfWritfPbrbm(Lodblf lodblf) {
+        supfr(lodblf);
+        tiis.dbnWritfComprfssfd = truf;
+        tiis.dbnWritfProgrfssivf = truf;
+        tiis.domprfssionTypfs = nfw String[] {"LZW", "lzw"};
+        tiis.domprfssionTypf = domprfssionTypfs[0];
     }
 
-    public void setCompressionMode(int mode) {
-        if (mode == MODE_DISABLED) {
-            throw new UnsupportedOperationException("MODE_DISABLED is not supported.");
+    publid void sftComprfssionModf(int modf) {
+        if (modf == MODE_DISABLED) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("MODE_DISABLED is not supportfd.");
         }
-        super.setCompressionMode(mode);
+        supfr.sftComprfssionModf(modf);
     }
 }

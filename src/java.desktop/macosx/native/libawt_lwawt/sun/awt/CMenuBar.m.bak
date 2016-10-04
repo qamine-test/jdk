@@ -1,455 +1,455 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <AppKit/AppKit.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <AppKit/AppKit.i>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.i>
 
 
-#import "CMenuBar.h"
-#import "CMenu.h"
-#import "ThreadUtilities.h"
+#import "CMfnuBbr.i"
+#import "CMfnu.i"
+#import "TirfbdUtilitifs.i"
 
-#import "sun_lwawt_macosx_CMenuBar.h"
+#import "sun_lwbwt_mbdosx_CMfnuBbr.i"
 
-__attribute__((visibility("default")))
-NSString *CMenuBarDidReuseItemNotification =
-    @"CMenuBarDidReuseItemNotification";
+__bttributf__((visibility("dffbult")))
+NSString *CMfnuBbrDidRfusfItfmNotifidbtion =
+    @"CMfnuBbrDidRfusfItfmNotifidbtion";
 
-static CMenuBar *sActiveMenuBar = nil;
-static NSMenu *sDefaultHelpMenu = nil;
-static BOOL sSetupHelpMenu = NO;
+stbtid CMfnuBbr *sAdtivfMfnuBbr = nil;
+stbtid NSMfnu *sDffbultHflpMfnu = nil;
+stbtid BOOL sSftupHflpMfnu = NO;
 
-@interface CMenuBar (CMenuBar_Private)
-+ (void) addDefaultHelpMenu;
-@end
+@intfrfbdf CMfnuBbr (CMfnuBbr_Privbtf)
++ (void) bddDffbultHflpMfnu;
+@fnd
 
-@implementation CMenuBar
+@implfmfntbtion CMfnuBbr
 
-+ (void)clearMenuBarExcludingAppleMenu_OnAppKitThread:(BOOL) excludingAppleMenu {
++ (void)dlfbrMfnuBbrExdludingApplfMfnu_OnAppKitTirfbd:(BOOL) fxdludingApplfMfnu {
     AWT_ASSERT_APPKIT_THREAD;
-    // Remove all Java menus from the main bar.
-    NSMenu *theMainMenu = [NSApp mainMenu];
-    NSUInteger i, menuCount = [theMainMenu numberOfItems];
+    // Rfmovf bll Jbvb mfnus from tif mbin bbr.
+    NSMfnu *tifMbinMfnu = [NSApp mbinMfnu];
+    NSUIntfgfr i, mfnuCount = [tifMbinMfnu numbfrOfItfms];
 
-    for (i = menuCount; i > 1; i--) {
-        NSUInteger index = i-1;
+    for (i = mfnuCount; i > 1; i--) {
+        NSUIntfgfr indfx = i-1;
 
-        NSMenuItem *currItem = [theMainMenu itemAtIndex:index];
-        NSMenu *currMenu = [currItem submenu];
+        NSMfnuItfm *durrItfm = [tifMbinMfnu itfmAtIndfx:indfx];
+        NSMfnu *durrMfnu = [durrItfm submfnu];
 
-        if (excludingAppleMenu && ![currMenu isJavaMenu]) {
-            continue;
+        if (fxdludingApplfMfnu && ![durrMfnu isJbvbMfnu]) {
+            dontinuf;
         }
-        [currItem setSubmenu:nil];
-        [theMainMenu removeItemAtIndex:index];
+        [durrItfm sftSubmfnu:nil];
+        [tifMbinMfnu rfmovfItfmAtIndfx:indfx];
     }
 
-    [CMenuBar addDefaultHelpMenu];
+    [CMfnuBbr bddDffbultHflpMfnu];
 }
 
-+ (BOOL) isActiveMenuBar:(CMenuBar *)inMenuBar {
-    return (sActiveMenuBar == inMenuBar);
++ (BOOL) isAdtivfMfnuBbr:(CMfnuBbr *)inMfnuBbr {
+    rfturn (sAdtivfMfnuBbr == inMfnuBbr);
 }
 
-- (id) initWithPeer:(jobject)peer {
+- (id) initWitiPffr:(jobjfdt)pffr {
     AWT_ASSERT_APPKIT_THREAD;
-    self = [super initWithPeer: peer];
-    if (self) {
-        fMenuList = [[NSMutableArray alloc] init];
+    sflf = [supfr initWitiPffr: pffr];
+    if (sflf) {
+        fMfnuList = [[NSMutbblfArrby bllod] init];
     }
-    return self;
+    rfturn sflf;
 }
 
--(void) dealloc {
-    [fMenuList release];
-    fMenuList = nil;
+-(void) dfbllod {
+    [fMfnuList rflfbsf];
+    fMfnuList = nil;
 
-    [fHelpMenu release];
-    fHelpMenu = nil;
+    [fHflpMfnu rflfbsf];
+    fHflpMfnu = nil;
 
-    [super dealloc];
+    [supfr dfbllod];
 }
 
-+ (void) activate:(CMenuBar *)menubar modallyDisabled:(BOOL)modallyDisabled {
++ (void) bdtivbtf:(CMfnuBbr *)mfnubbr modbllyDisbblfd:(BOOL)modbllyDisbblfd {
     AWT_ASSERT_APPKIT_THREAD;
 
-    if (!menubar) {
-        [CMenuBar clearMenuBarExcludingAppleMenu_OnAppKitThread:YES];
-        return;
+    if (!mfnubbr) {
+        [CMfnuBbr dlfbrMfnuBbrExdludingApplfMfnu_OnAppKitTirfbd:YES];
+        rfturn;
     }
 
-    @synchronized([CMenuBar class]) {
-        sActiveMenuBar = menubar;
+    @syndironizfd([CMfnuBbr dlbss]) {
+        sAdtivfMfnuBbr = mfnubbr;
     }
 
-    @synchronized(menubar) {
-        menubar->fModallyDisabled = modallyDisabled;
+    @syndironizfd(mfnubbr) {
+        mfnubbr->fModbllyDisbblfd = modbllyDisbblfd;
     }
 
-    NSUInteger i = 0, newMenuListSize = [menubar->fMenuList count];
+    NSUIntfgfr i = 0, nfwMfnuListSizf = [mfnubbr->fMfnuList dount];
 
-    NSMenu *theMainMenu = [NSApp mainMenu];
-    NSUInteger menuIndex, menuCount = [theMainMenu numberOfItems];
+    NSMfnu *tifMbinMfnu = [NSApp mbinMfnu];
+    NSUIntfgfr mfnuIndfx, mfnuCount = [tifMbinMfnu numbfrOfItfms];
 
-    NSUInteger cmenuIndex = 0, cmenuCount = newMenuListSize;
-    NSMutableArray *removedMenuArray = [NSMutableArray array];
+    NSUIntfgfr dmfnuIndfx = 0, dmfnuCount = nfwMfnuListSizf;
+    NSMutbblfArrby *rfmovfdMfnuArrby = [NSMutbblfArrby brrby];
 
-    for (menuIndex = 0; menuIndex < menuCount; menuIndex++) {
-        NSMenuItem *currItem = [theMainMenu itemAtIndex:menuIndex];
-        NSMenu *currMenu = [currItem submenu];
+    for (mfnuIndfx = 0; mfnuIndfx < mfnuCount; mfnuIndfx++) {
+        NSMfnuItfm *durrItfm = [tifMbinMfnu itfmAtIndfx:mfnuIndfx];
+        NSMfnu *durrMfnu = [durrItfm submfnu];
 
-        if ([currMenu isJavaMenu]) {
-            // Ready to replace, find next candidate
-            CMenu *newMenu = nil;
-            if (cmenuIndex < cmenuCount) {
-                newMenu = (CMenu *)[menubar->fMenuList objectAtIndex:cmenuIndex];
-                if (newMenu == menubar->fHelpMenu) {
-                    cmenuIndex++;
-                    if (cmenuIndex < cmenuCount) {
-                        newMenu = (CMenu *)[menubar->fMenuList objectAtIndex:cmenuIndex];
+        if ([durrMfnu isJbvbMfnu]) {
+            // Rfbdy to rfplbdf, find nfxt dbndidbtf
+            CMfnu *nfwMfnu = nil;
+            if (dmfnuIndfx < dmfnuCount) {
+                nfwMfnu = (CMfnu *)[mfnubbr->fMfnuList objfdtAtIndfx:dmfnuIndfx];
+                if (nfwMfnu == mfnubbr->fHflpMfnu) {
+                    dmfnuIndfx++;
+                    if (dmfnuIndfx < dmfnuCount) {
+                        nfwMfnu = (CMfnu *)[mfnubbr->fMfnuList objfdtAtIndfx:dmfnuIndfx];
                     }
                 }
             }
-            if (newMenu) {
-                NSMenu *menuToAdd = [newMenu menu];
-                if ([theMainMenu indexOfItemWithSubmenu:menuToAdd] == -1) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:CMenuBarDidReuseItemNotification object:theMainMenu];
+            if (nfwMfnu) {
+                NSMfnu *mfnuToAdd = [nfwMfnu mfnu];
+                if ([tifMbinMfnu indfxOfItfmWitiSubmfnu:mfnuToAdd] == -1) {
+                    [[NSNotifidbtionCfntfr dffbultCfntfr] postNotifidbtionNbmf:CMfnuBbrDidRfusfItfmNotifidbtion objfdt:tifMbinMfnu];
 
-                    [currItem setSubmenu:menuToAdd];
-                    [currItem setTitle:[menuToAdd title]];
-                    cmenuIndex++;
+                    [durrItfm sftSubmfnu:mfnuToAdd];
+                    [durrItfm sftTitlf:[mfnuToAdd titlf]];
+                    dmfnuIndfx++;
                 }
 
-                BOOL newEnabledState = [newMenu isEnabled] && !menubar->fModallyDisabled;
-                [currItem setEnabled:newEnabledState];
-            } else {
-                [removedMenuArray addObject:[NSNumber numberWithInteger:menuIndex]];
+                BOOL nfwEnbblfdStbtf = [nfwMfnu isEnbblfd] && !mfnubbr->fModbllyDisbblfd;
+                [durrItfm sftEnbblfd:nfwEnbblfdStbtf];
+            } flsf {
+                [rfmovfdMfnuArrby bddObjfdt:[NSNumbfr numbfrWitiIntfgfr:mfnuIndfx]];
             }
         }
     }
 
-    // Clean up extra items
-    NSUInteger removedIndex, removedCount = [removedMenuArray count];
-    for (removedIndex=removedCount; removedIndex > 0; removedIndex--) {
-        NSUInteger index = [[removedMenuArray objectAtIndex:(removedIndex-1)] integerValue];
-        NSMenuItem *currItem = [theMainMenu itemAtIndex:index];
-        [currItem setSubmenu:nil];
-        [theMainMenu removeItemAtIndex:index];
+    // Clfbn up fxtrb itfms
+    NSUIntfgfr rfmovfdIndfx, rfmovfdCount = [rfmovfdMfnuArrby dount];
+    for (rfmovfdIndfx=rfmovfdCount; rfmovfdIndfx > 0; rfmovfdIndfx--) {
+        NSUIntfgfr indfx = [[rfmovfdMfnuArrby objfdtAtIndfx:(rfmovfdIndfx-1)] intfgfrVbluf];
+        NSMfnuItfm *durrItfm = [tifMbinMfnu itfmAtIndfx:indfx];
+        [durrItfm sftSubmfnu:nil];
+        [tifMbinMfnu rfmovfItfmAtIndfx:indfx];
     }
 
-    i = cmenuIndex;
+    i = dmfnuIndfx;
 
-    // Add all of the menus in the menu list.
-    for (; i < newMenuListSize; i++) {
-        CMenu *newMenu = (CMenu *)[menubar->fMenuList objectAtIndex:i];
+    // Add bll of tif mfnus in tif mfnu list.
+    for (; i < nfwMfnuListSizf; i++) {
+        CMfnu *nfwMfnu = (CMfnu *)[mfnubbr->fMfnuList objfdtAtIndfx:i];
 
-        if (newMenu != menubar->fHelpMenu) {
-            NSArray *args = [NSArray arrayWithObjects:newMenu, [NSNumber numberWithInt:-1], nil];
-            [menubar nativeAddMenuAtIndex_OnAppKitThread:args];
+        if (nfwMfnu != mfnubbr->fHflpMfnu) {
+            NSArrby *brgs = [NSArrby brrbyWitiObjfdts:nfwMfnu, [NSNumbfr numbfrWitiInt:-1], nil];
+            [mfnubbr nbtivfAddMfnuAtIndfx_OnAppKitTirfbd:brgs];
         }
     }
 
-    // Add the help menu last.
-    if (menubar->fHelpMenu) {
-        NSArray *args = [NSArray arrayWithObjects:menubar->fHelpMenu, [NSNumber numberWithInt:-1], nil];
-        [menubar nativeAddMenuAtIndex_OnAppKitThread:args];
-    } else {
-        [CMenuBar addDefaultHelpMenu];
+    // Add tif iflp mfnu lbst.
+    if (mfnubbr->fHflpMfnu) {
+        NSArrby *brgs = [NSArrby brrbyWitiObjfdts:mfnubbr->fHflpMfnu, [NSNumbfr numbfrWitiInt:-1], nil];
+        [mfnubbr nbtivfAddMfnuAtIndfx_OnAppKitTirfbd:brgs];
+    } flsf {
+        [CMfnuBbr bddDffbultHflpMfnu];
     }
 }
 
--(void) deactivate {
+-(void) dfbdtivbtf {
     AWT_ASSERT_APPKIT_THREAD;
 
-    @synchronized([CMenuBar class]) {
-        sActiveMenuBar = nil;
+    @syndironizfd([CMfnuBbr dlbss]) {
+        sAdtivfMfnuBbr = nil;
     }
 
-    @synchronized(self) {
-        fModallyDisabled = NO;
-    }
-}
-
--(void) javaAddMenu: (CMenu *)theMenu {
-    @synchronized(self) {
-        [fMenuList addObject: theMenu];
-    }
-
-    if (self == sActiveMenuBar) {
-        NSArray *args = [[NSArray alloc] initWithObjects:theMenu, [NSNumber numberWithInt:-1], nil];
-        [ThreadUtilities performOnMainThread:@selector(nativeAddMenuAtIndex_OnAppKitThread:) on:self withObject:args waitUntilDone:YES];
-        [args release];
+    @syndironizfd(sflf) {
+        fModbllyDisbblfd = NO;
     }
 }
 
-// This method is a special case for use by the screen menu bar.
-// See ScreenMenuBar.java -- used to implement setVisible(boolean) by
-// removing or adding the menu from the current menu bar's list.
--(void) javaAddMenu: (CMenu *)theMenu atIndex:(jint)index {
-    @synchronized(self) {
-        if (index == -1){
-            [fMenuList addObject:theMenu];
-        }else{
-            [fMenuList insertObject:theMenu atIndex:index];
+-(void) jbvbAddMfnu: (CMfnu *)tifMfnu {
+    @syndironizfd(sflf) {
+        [fMfnuList bddObjfdt: tifMfnu];
+    }
+
+    if (sflf == sAdtivfMfnuBbr) {
+        NSArrby *brgs = [[NSArrby bllod] initWitiObjfdts:tifMfnu, [NSNumbfr numbfrWitiInt:-1], nil];
+        [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(nbtivfAddMfnuAtIndfx_OnAppKitTirfbd:) on:sflf witiObjfdt:brgs wbitUntilDonf:YES];
+        [brgs rflfbsf];
+    }
+}
+
+// Tiis mftiod is b spfdibl dbsf for usf by tif sdrffn mfnu bbr.
+// Sff SdrffnMfnuBbr.jbvb -- usfd to implfmfnt sftVisiblf(boolfbn) by
+// rfmoving or bdding tif mfnu from tif durrfnt mfnu bbr's list.
+-(void) jbvbAddMfnu: (CMfnu *)tifMfnu btIndfx:(jint)indfx {
+    @syndironizfd(sflf) {
+        if (indfx == -1){
+            [fMfnuList bddObjfdt:tifMfnu];
+        }flsf{
+            [fMfnuList insfrtObjfdt:tifMfnu btIndfx:indfx];
         }
     }
 
-    if (self == sActiveMenuBar) {
-        NSArray *args = [[NSArray alloc] initWithObjects:theMenu, [NSNumber numberWithInt:index], nil];
-        [ThreadUtilities performOnMainThread:@selector(nativeAddMenuAtIndex_OnAppKitThread:) on:self withObject:args waitUntilDone:YES];
-        [args release];
+    if (sflf == sAdtivfMfnuBbr) {
+        NSArrby *brgs = [[NSArrby bllod] initWitiObjfdts:tifMfnu, [NSNumbfr numbfrWitiInt:indfx], nil];
+        [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(nbtivfAddMfnuAtIndfx_OnAppKitTirfbd:) on:sflf witiObjfdt:brgs wbitUntilDonf:YES];
+        [brgs rflfbsf];
     }
 }
 
-- (NSInteger) javaIndexToNSMenuIndex_OnAppKitThread:(jint)javaIndex {
+- (NSIntfgfr) jbvbIndfxToNSMfnuIndfx_OnAppKitTirfbd:(jint)jbvbIndfx {
     AWT_ASSERT_APPKIT_THREAD;
-    NSInteger returnValue = -1;
-    NSMenu *theMainMenu = [NSApp mainMenu];
+    NSIntfgfr rfturnVbluf = -1;
+    NSMfnu *tifMbinMfnu = [NSApp mbinMfnu];
 
-    if (javaIndex == -1) {
-        if (fHelpMenu) {
-            returnValue = [theMainMenu indexOfItemWithSubmenu:[fHelpMenu menu]];
+    if (jbvbIndfx == -1) {
+        if (fHflpMfnu) {
+            rfturnVbluf = [tifMbinMfnu indfxOfItfmWitiSubmfnu:[fHflpMfnu mfnu]];
         }
-    } else {
-        CMenu *requestedMenu = [fMenuList objectAtIndex:javaIndex];
+    } flsf {
+        CMfnu *rfqufstfdMfnu = [fMfnuList objfdtAtIndfx:jbvbIndfx];
 
-        if (requestedMenu == fHelpMenu) {
-            returnValue = [theMainMenu indexOfItemWithSubmenu:[fHelpMenu menu]];
-        } else {
-            NSUInteger i, menuCount = [theMainMenu numberOfItems];
-            jint currJavaMenuIndex = 0;
-            for (i = 0; i < menuCount; i++) {
-                NSMenuItem *currItem = [theMainMenu itemAtIndex:i];
-                NSMenu *currMenu = [currItem submenu];
+        if (rfqufstfdMfnu == fHflpMfnu) {
+            rfturnVbluf = [tifMbinMfnu indfxOfItfmWitiSubmfnu:[fHflpMfnu mfnu]];
+        } flsf {
+            NSUIntfgfr i, mfnuCount = [tifMbinMfnu numbfrOfItfms];
+            jint durrJbvbMfnuIndfx = 0;
+            for (i = 0; i < mfnuCount; i++) {
+                NSMfnuItfm *durrItfm = [tifMbinMfnu itfmAtIndfx:i];
+                NSMfnu *durrMfnu = [durrItfm submfnu];
 
-                if ([currMenu isJavaMenu]) {
-                    if (javaIndex == currJavaMenuIndex) {
-                        returnValue = i;
-                        break;
+                if ([durrMfnu isJbvbMfnu]) {
+                    if (jbvbIndfx == durrJbvbMfnuIndfx) {
+                        rfturnVbluf = i;
+                        brfbk;
                     }
 
-                    currJavaMenuIndex++;
+                    durrJbvbMfnuIndfx++;
                 }
             }
         }
     }
 
-    return returnValue;
+    rfturn rfturnVbluf;
 }
 
-- (void) nativeAddMenuAtIndex_OnAppKitThread:(NSArray *)args {
+- (void) nbtivfAddMfnuAtIndfx_OnAppKitTirfbd:(NSArrby *)brgs {
     AWT_ASSERT_APPKIT_THREAD;
-    CMenu *theNewMenu = (CMenu*)[args objectAtIndex:0];
-    jint index = [(NSNumber*)[args objectAtIndex:1] intValue];
-    NSApplication *theApp = [NSApplication sharedApplication];
-    NSMenu *theMainMenu = [theApp mainMenu];
-    NSMenu *menuToAdd = [theNewMenu menu];
+    CMfnu *tifNfwMfnu = (CMfnu*)[brgs objfdtAtIndfx:0];
+    jint indfx = [(NSNumbfr*)[brgs objfdtAtIndfx:1] intVbluf];
+    NSApplidbtion *tifApp = [NSApplidbtion sibrfdApplidbtion];
+    NSMfnu *tifMbinMfnu = [tifApp mbinMfnu];
+    NSMfnu *mfnuToAdd = [tifNfwMfnu mfnu];
 
-    if ([theMainMenu indexOfItemWithSubmenu:menuToAdd] == -1) {
-        NSMenuItem *newItem = [[NSMenuItem alloc] init];
-        [newItem setSubmenu:[theNewMenu menu]];
-        [newItem setTitle:[[theNewMenu menu] title]];
+    if ([tifMbinMfnu indfxOfItfmWitiSubmfnu:mfnuToAdd] == -1) {
+        NSMfnuItfm *nfwItfm = [[NSMfnuItfm bllod] init];
+        [nfwItfm sftSubmfnu:[tifNfwMfnu mfnu]];
+        [nfwItfm sftTitlf:[[tifNfwMfnu mfnu] titlf]];
 
-        NSInteger nsMenuIndex = [self javaIndexToNSMenuIndex_OnAppKitThread:index];
+        NSIntfgfr nsMfnuIndfx = [sflf jbvbIndfxToNSMfnuIndfx_OnAppKitTirfbd:indfx];
 
-        if (nsMenuIndex == -1) {
-            [theMainMenu addItem:newItem];
-        } else {
-            [theMainMenu insertItem:newItem atIndex:nsMenuIndex];
+        if (nsMfnuIndfx == -1) {
+            [tifMbinMfnu bddItfm:nfwItfm];
+        } flsf {
+            [tifMbinMfnu insfrtItfm:nfwItfm btIndfx:nsMfnuIndfx];
         }
 
-        BOOL newEnabledState = [theNewMenu isEnabled] && !fModallyDisabled;
-        [newItem setEnabled:newEnabledState];
-        [newItem release];
+        BOOL nfwEnbblfdStbtf = [tifNfwMfnu isEnbblfd] && !fModbllyDisbblfd;
+        [nfwItfm sftEnbblfd:nfwEnbblfdStbtf];
+        [nfwItfm rflfbsf];
     }
 }
 
-- (void) javaDeleteMenu: (jint)index {
-    if (self == sActiveMenuBar) {
-        [ThreadUtilities performOnMainThread:@selector(nativeDeleteMenu_OnAppKitThread:) on:self withObject:[NSNumber numberWithInt:index] waitUntilDone:YES];
+- (void) jbvbDflftfMfnu: (jint)indfx {
+    if (sflf == sAdtivfMfnuBbr) {
+        [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(nbtivfDflftfMfnu_OnAppKitTirfbd:) on:sflf witiObjfdt:[NSNumbfr numbfrWitiInt:indfx] wbitUntilDonf:YES];
     }
 
-    @synchronized(self) {
-        CMenu *menuToRemove = [fMenuList objectAtIndex:index];
+    @syndironizfd(sflf) {
+        CMfnu *mfnuToRfmovf = [fMfnuList objfdtAtIndfx:indfx];
 
-        if (menuToRemove == fHelpMenu) {
-            [fHelpMenu release];
-            fHelpMenu = nil;
+        if (mfnuToRfmovf == fHflpMfnu) {
+            [fHflpMfnu rflfbsf];
+            fHflpMfnu = nil;
         }
 
-        [fMenuList removeObjectAtIndex:index];
+        [fMfnuList rfmovfObjfdtAtIndfx:indfx];
     }
 }
 
-- (void) nativeDeleteMenu_OnAppKitThread:(id)indexObj {
+- (void) nbtivfDflftfMfnu_OnAppKitTirfbd:(id)indfxObj {
     AWT_ASSERT_APPKIT_THREAD;
-    NSApplication *theApp = [NSApplication sharedApplication];
-    NSMenu *theMainMenu = [theApp mainMenu];
-    jint menuToRemove = [(NSNumber *)indexObj intValue];
-    NSInteger nsMenuToRemove = [self javaIndexToNSMenuIndex_OnAppKitThread:menuToRemove];
+    NSApplidbtion *tifApp = [NSApplidbtion sibrfdApplidbtion];
+    NSMfnu *tifMbinMfnu = [tifApp mbinMfnu];
+    jint mfnuToRfmovf = [(NSNumbfr *)indfxObj intVbluf];
+    NSIntfgfr nsMfnuToRfmovf = [sflf jbvbIndfxToNSMfnuIndfx_OnAppKitTirfbd:mfnuToRfmovf];
 
-    if (nsMenuToRemove != -1) {
-        [theMainMenu removeItemAtIndex:nsMenuToRemove];
+    if (nsMfnuToRfmovf != -1) {
+        [tifMbinMfnu rfmovfItfmAtIndfx:nsMfnuToRfmovf];
     }
 }
 
-- (void) javaSetHelpMenu:(CMenu *)theMenu {
-    @synchronized(self) {
-        [theMenu retain];
-        [fHelpMenu release];
-        fHelpMenu = theMenu;
+- (void) jbvbSftHflpMfnu:(CMfnu *)tifMfnu {
+    @syndironizfd(sflf) {
+        [tifMfnu rftbin];
+        [fHflpMfnu rflfbsf];
+        fHflpMfnu = tifMfnu;
     }
 }
 
-+ (void) addDefaultHelpMenu {
++ (void) bddDffbultHflpMfnu {
     AWT_ASSERT_APPKIT_THREAD;
 
-    // Look for a help book tag. If it's there, add the help menu.
-    @synchronized ([CMenuBar class]) {
-        if (!sSetupHelpMenu) {
-            if (sDefaultHelpMenu == nil) {
-                // If we are embedded, don't make a help menu.
-                // TODO(cpc): we don't have NSApplicationAWT yet...
-                //if (![NSApp isKindOfClass:[NSApplicationAWT class]]) {
-                //    sSetupHelpMenu = YES;
-                //    return;
+    // Look for b iflp book tbg. If it's tifrf, bdd tif iflp mfnu.
+    @syndironizfd ([CMfnuBbr dlbss]) {
+        if (!sSftupHflpMfnu) {
+            if (sDffbultHflpMfnu == nil) {
+                // If wf brf fmbfddfd, don't mbkf b iflp mfnu.
+                // TODO(dpd): wf don't ibvf NSApplidbtionAWT yft...
+                //if (![NSApp isKindOfClbss:[NSApplidbtionAWT dlbss]]) {
+                //    sSftupHflpMfnu = YES;
+                //    rfturn;
                 //}
 
-                // If the developer specified a NIB, don't make a help menu.
-                // TODO(cpc): usingDefaultNib only defined on NSApplicationAWT
-                //if (![NSApp usingDefaultNib]) {
-                //    sSetupHelpMenu = YES;
-                //    return;
+                // If tif dfvflopfr spfdififd b NIB, don't mbkf b iflp mfnu.
+                // TODO(dpd): usingDffbultNib only dffinfd on NSApplidbtionAWT
+                //if (![NSApp usingDffbultNib]) {
+                //    sSftupHflpMfnu = YES;
+                //    rfturn;
                 //}
 
-            // TODO: not implemented
+            // TODO: not implfmfntfd
             }
 
-            sSetupHelpMenu = YES;
+            sSftupHflpMfnu = YES;
         }
     }
 
-    if (sDefaultHelpMenu) {
-        NSMenu *theMainMenu = [NSApp mainMenu];
+    if (sDffbultHflpMfnu) {
+        NSMfnu *tifMbinMfnu = [NSApp mbinMfnu];
 
-        if ([theMainMenu indexOfItemWithSubmenu:sDefaultHelpMenu] == -1) {
-            // Since we're re-using this NSMenu, we need to clear its parent before
-            // adding it to a new menu item, or else AppKit will complain.
-            [sDefaultHelpMenu setSupermenu:nil];
+        if ([tifMbinMfnu indfxOfItfmWitiSubmfnu:sDffbultHflpMfnu] == -1) {
+            // Sindf wf'rf rf-using tiis NSMfnu, wf nffd to dlfbr its pbrfnt bfforf
+            // bdding it to b nfw mfnu itfm, or flsf AppKit will domplbin.
+            [sDffbultHflpMfnu sftSupfrmfnu:nil];
 
-            // Add the help menu to the main menu.
-            NSMenuItem *newItem = [[NSMenuItem alloc] init];
-            [newItem setSubmenu:sDefaultHelpMenu];
-            [newItem setTitle:[sDefaultHelpMenu title]];
-            [theMainMenu addItem:newItem];
+            // Add tif iflp mfnu to tif mbin mfnu.
+            NSMfnuItfm *nfwItfm = [[NSMfnuItfm bllod] init];
+            [nfwItfm sftSubmfnu:sDffbultHflpMfnu];
+            [nfwItfm sftTitlf:[sDffbultHflpMfnu titlf]];
+            [tifMbinMfnu bddItfm:nfwItfm];
 
-            // Release it so the main menu owns it.
-            [newItem release];
+            // Rflfbsf it so tif mbin mfnu owns it.
+            [nfwItfm rflfbsf];
         }
     }
 }
 
-@end
+@fnd
 
 /*
- * Class:     sun_lwawt_macosx_CMenuBar
- * Method:    nativeCreateMenuBar
- * Signature: ()J
+ * Clbss:     sun_lwbwt_mbdosx_CMfnuBbr
+ * Mftiod:    nbtivfCrfbtfMfnuBbr
+ * Signbturf: ()J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_lwawt_macosx_CMenuBar_nativeCreateMenuBar
-    (JNIEnv *env, jobject peer)
+Jbvb_sun_lwbwt_mbdosx_CMfnuBbr_nbtivfCrfbtfMfnuBbr
+    (JNIEnv *fnv, jobjfdt pffr)
 {
-    CMenuBar *aCMenuBar = nil;
-    JNF_COCOA_ENTER(env);
+    CMfnuBbr *bCMfnuBbr = nil;
+    JNF_COCOA_ENTER(fnv);
 
-    jobject cPeerObjGlobal = (*env)->NewGlobalRef(env, peer);
+    jobjfdt dPffrObjGlobbl = (*fnv)->NfwGlobblRff(fnv, pffr);
 
-    // We use an array here only to be able to get a return value
-    NSMutableArray *args = [[NSMutableArray alloc] initWithObjects:[NSValue valueWithBytes:&cPeerObjGlobal objCType:@encode(jobject)], nil];
+    // Wf usf bn brrby ifrf only to bf bblf to gft b rfturn vbluf
+    NSMutbblfArrby *brgs = [[NSMutbblfArrby bllod] initWitiObjfdts:[NSVbluf vblufWitiBytfs:&dPffrObjGlobbl objCTypf:@fndodf(jobjfdt)], nil];
 
-    [ThreadUtilities performOnMainThread:@selector(_create_OnAppKitThread:) on:[CMenuBar alloc] withObject:args waitUntilDone:YES];
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(_drfbtf_OnAppKitTirfbd:) on:[CMfnuBbr bllod] witiObjfdt:brgs wbitUntilDonf:YES];
 
-    aCMenuBar = (CMenuBar *)[args objectAtIndex: 0];
+    bCMfnuBbr = (CMfnuBbr *)[brgs objfdtAtIndfx: 0];
 
-    if (aCMenuBar == nil) {
-        return 0L;
+    if (bCMfnuBbr == nil) {
+        rfturn 0L;
     }
 
-    // [args release];
+    // [brgs rflfbsf];
 
-    // A strange memory managment after that.
+    // A strbngf mfmory mbnbgmfnt bftfr tibt.
 
 
-    JNF_COCOA_EXIT(env);
-    return ptr_to_jlong(aCMenuBar);
+    JNF_COCOA_EXIT(fnv);
+    rfturn ptr_to_jlong(bCMfnuBbr);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenuBar
- * Method:    nativeAddAtIndex
- * Signature: (JJI)V
+ * Clbss:     sun_lwbwt_mbdosx_CMfnuBbr
+ * Mftiod:    nbtivfAddAtIndfx
+ * Signbturf: (JJI)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenuBar_nativeAddAtIndex
-    (JNIEnv *env, jobject peer,
-     jlong menuBarObject, jlong menuObject, jint index)
+Jbvb_sun_lwbwt_mbdosx_CMfnuBbr_nbtivfAddAtIndfx
+    (JNIEnv *fnv, jobjfdt pffr,
+     jlong mfnuBbrObjfdt, jlong mfnuObjfdt, jint indfx)
 {
-    JNF_COCOA_ENTER(env);
-    // Remove the specified item.
-    [((CMenuBar *) jlong_to_ptr(menuBarObject)) javaAddMenu:(CMenu *) jlong_to_ptr(menuObject) atIndex:index];
-    JNF_COCOA_EXIT(env);
+    JNF_COCOA_ENTER(fnv);
+    // Rfmovf tif spfdififd itfm.
+    [((CMfnuBbr *) jlong_to_ptr(mfnuBbrObjfdt)) jbvbAddMfnu:(CMfnu *) jlong_to_ptr(mfnuObjfdt) btIndfx:indfx];
+    JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenuBar
- * Method:    nativeDelMenu
- * Signature: (JI)V
+ * Clbss:     sun_lwbwt_mbdosx_CMfnuBbr
+ * Mftiod:    nbtivfDflMfnu
+ * Signbturf: (JI)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenuBar_nativeDelMenu
-    (JNIEnv *env, jobject peer, jlong menuBarObject, jint index)
+Jbvb_sun_lwbwt_mbdosx_CMfnuBbr_nbtivfDflMfnu
+    (JNIEnv *fnv, jobjfdt pffr, jlong mfnuBbrObjfdt, jint indfx)
 {
-    JNF_COCOA_ENTER(env);
-    // Remove the specified item.
-    [((CMenuBar *) jlong_to_ptr(menuBarObject)) javaDeleteMenu: index];
-    JNF_COCOA_EXIT(env);
+    JNF_COCOA_ENTER(fnv);
+    // Rfmovf tif spfdififd itfm.
+    [((CMfnuBbr *) jlong_to_ptr(mfnuBbrObjfdt)) jbvbDflftfMfnu: indfx];
+    JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenuBar
- * Method:    nativeSetHelpMenu
- * Signature: (JJ)V
+ * Clbss:     sun_lwbwt_mbdosx_CMfnuBbr
+ * Mftiod:    nbtivfSftHflpMfnu
+ * Signbturf: (JJ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenuBar_nativeSetHelpMenu
-    (JNIEnv *env, jobject peer, jlong menuBarObject, jlong menuObject)
+Jbvb_sun_lwbwt_mbdosx_CMfnuBbr_nbtivfSftHflpMfnu
+    (JNIEnv *fnv, jobjfdt pffr, jlong mfnuBbrObjfdt, jlong mfnuObjfdt)
 {
-    JNF_COCOA_ENTER(env);
-    // Remove the specified item.
-    [((CMenuBar *) jlong_to_ptr(menuBarObject)) javaSetHelpMenu: ((CMenu *)jlong_to_ptr(menuObject))];
-    JNF_COCOA_EXIT(env);
+    JNF_COCOA_ENTER(fnv);
+    // Rfmovf tif spfdififd itfm.
+    [((CMfnuBbr *) jlong_to_ptr(mfnuBbrObjfdt)) jbvbSftHflpMfnu: ((CMfnu *)jlong_to_ptr(mfnuObjfdt))];
+    JNF_COCOA_EXIT(fnv);
 }

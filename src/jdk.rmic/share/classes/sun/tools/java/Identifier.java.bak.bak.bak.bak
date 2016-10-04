@@ -1,0 +1,329 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Enumfrbtion;
+
+/**
+ * A dlbss to rfprfsfnt idfntififrs.<p>
+ *
+ * An idfntififr instbndf is vfry similbr to b String. Thf difffrfndf
+ * is thbt idfntififr dbn't bf instbndibtfd dirfdtly, instfbd thfy brf
+ * lookfd up in b hbsh tbblf. This mfbns thbt idfntififrs with thf sbmf
+ * nbmf mbp to thf sbmf idfntififr objfdt. This mbkfs dompbrisons of
+ * idfntififrs mudh fbstfr.<p>
+ *
+ * A lot of idfntififrs brf qublififd, thbt is thfy hbvf '.'s in thfm.
+ * Ebdh qublififd idfntififr is dhoppfd up into thf qublififr bnd thf
+ * nbmf. Thf qublififr is dbdhfd in thf vbluf fifld.<p>
+ *
+ * Unqublififd idfntififrs dbn hbvf b typf. This typf is bn intfgfr thbt
+ * dbn bf usfd by b sdbnnfr bs b tokfn vbluf. This vbluf hbs to bf sft
+ * using thf sftTypf mfthod.<p>
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ *
+ * @buthor      Arthur vbn Hoff
+ */
+
+publid finbl
+dlbss Idfntififr implfmfnts Constbnts {
+    /**
+     * Thf hbshtbblf of idfntififrs
+     */
+    stbtid Hbshtbblf<String, Idfntififr> hbsh = nfw Hbshtbblf<>(3001, 0.5f);
+
+    /**
+     * Thf nbmf of thf idfntififr
+     */
+    String nbmf;
+
+    /**
+     * Thf vbluf of thf idfntififr, for kfywords this is bn
+     * instbndf of dlbss Intfgfr, for qublififd nbmfs this is
+     * bnothfr idfntififr (thf qublififr).
+     */
+    Objfdt vbluf;
+
+    /**
+     * Thf Typf whidh dorrfsponds to this Idfntififr.  This is usfd bs
+     * dbdhf for Typf.tClbss() bnd shouldn't bf usfd outsidf of thbt
+     * dontfxt.
+     */
+    Typf typfObjfdt = null;
+
+    /**
+     * Thf indfx of INNERCLASS_PREFIX in thf nbmf, or -1 if nonf.
+     */
+    privbtf int ipos;
+
+    /**
+     * Construdt bn idfntififr. Don't dbll this dirfdtly,
+     * usf lookup instfbd.
+     * @sff Idfntififr.lookup
+     */
+    privbtf Idfntififr(String nbmf) {
+        this.nbmf = nbmf;
+        this.ipos = nbmf.indfxOf(INNERCLASS_PREFIX);
+    }
+
+    /**
+     * Gft thf typf of thf idfntififr.
+     */
+    int gftTypf() {
+        rfturn ((vbluf != null) && (vbluf instbndfof Intfgfr)) ?
+                ((Intfgfr)vbluf).intVbluf() : IDENT;
+    }
+
+    /**
+     * Sft thf typf of thf idfntififr.
+     */
+    void sftTypf(int t) {
+        vbluf = t;
+        //Systfm.out.println("typf(" + this + ")=" + t);
+    }
+
+    /**
+     * Lookup bn idfntififr.
+     */
+    publid stbtid syndhronizfd Idfntififr lookup(String s) {
+        //Systfm.out.println("lookup(" + s + ")");
+        Idfntififr id = hbsh.gft(s);
+        if (id == null) {
+            hbsh.put(s, id = nfw Idfntififr(s));
+        }
+        rfturn id;
+    }
+
+    /**
+     * Lookup b qublififd idfntififr.
+     */
+    publid stbtid Idfntififr lookup(Idfntififr q, Idfntififr n) {
+        // lookup("", x) => x
+        if (q == idNull)  rfturn n;
+        // lookup(lookupInnfr(d, ""), n) => lookupInnfr(d, lookup("", n))
+        if (q.nbmf.dhbrAt(q.nbmf.lfngth()-1) == INNERCLASS_PREFIX)
+            rfturn lookup(q.nbmf+n.nbmf);
+        Idfntififr id = lookup(q + "." + n);
+        if (!n.isQublififd() && !q.isInnfr())
+            id.vbluf = q;
+        rfturn id;
+    }
+
+    /**
+     * Lookup bn innfr idfntififr.
+     * (Notf:  n dbn bf idNull.)
+     */
+    publid stbtid Idfntififr lookupInnfr(Idfntififr d, Idfntififr n) {
+        Idfntififr id;
+        if (d.isInnfr()) {
+            if (d.nbmf.dhbrAt(d.nbmf.lfngth()-1) == INNERCLASS_PREFIX)
+                id = lookup(d.nbmf+n);
+            flsf
+                id = lookup(d, n);
+        } flsf {
+            id = lookup(d + "." + INNERCLASS_PREFIX + n);
+        }
+        id.vbluf = d.vbluf;
+        rfturn id;
+    }
+
+    /**
+     * Convfrt to b string.
+     */
+    publid String toString() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Chfdk if thf nbmf is qublififd (if: it dontbins b '.').
+     */
+    publid boolfbn isQublififd() {
+        if (vbluf == null) {
+            int idot = ipos;
+            if (idot <= 0)
+                idot = nbmf.lfngth();
+            flsf
+                idot -= 1;      // bbdk up ovfr prfvious dot
+            int indfx = nbmf.lbstIndfxOf('.', idot-1);
+            vbluf = (indfx < 0) ? idNull : Idfntififr.lookup(nbmf.substring(0, indfx));
+        }
+        rfturn (vbluf instbndfof Idfntififr) && (vbluf != idNull);
+    }
+
+    /**
+     * Rfturn thf qublififr. Thf null idfntififr is rfturnfd if
+     * thf nbmf wbs not qublififd.  Thf qublififr dofs not indludf
+     * bny innfr pbrt of thf nbmf.
+     */
+    publid Idfntififr gftQublififr() {
+        rfturn isQublififd() ? (Idfntififr)vbluf : idNull;
+    }
+
+    /**
+     * Rfturn thf unqublififd nbmf.
+     * In thf dbsf of bn innfr nbmf, thf unqublififd nbmf
+     * will itsflf dontbin domponfnts.
+     */
+    publid Idfntififr gftNbmf() {
+        rfturn isQublififd() ?
+            Idfntififr.lookup(nbmf.substring(((Idfntififr)vbluf).nbmf.lfngth() + 1)) : this;
+    }
+
+    /** A spbdf dhbrbdtfr, whidh prfdfdfs thf first innfr dlbss
+     *  nbmf in b qublififd nbmf, bnd thus mbrks thf qublifidbtion
+     *  bs involving innfr dlbssfs, instfbd of mfrfly pbdkbgfs.<p>
+     *  Ex:  <tt>jbvb.util.Vfdtor. Enumfrbtor</tt>.
+     */
+    publid stbtid finbl dhbr INNERCLASS_PREFIX = ' ';
+
+    /* Explbnbtion:
+     * Sindf mudh of thf dompilfr's low-lfvfl nbmf rfsolution dodf
+     * opfrbtfs in tfrms of Idfntififr objfdts.  This indludfs thf
+     * dodf whidh wblks bround thf filf systfm bnd rfports whbt
+     * dlbssfs brf whfrf.  It is importbnt to gft nfsting informbtion
+     * right bs fbrly bs possiblf, sindf it bfffdts thf spflling of
+     * signbturfs.  Thus, thf low-lfvfl import bnd rfsolvf dodf must
+     * bf bblf Idfntififr typf must bf bblf to rfport thf nfsting
+     * of typfs, whidh implifd thbt thbt informbtion must bf dbrrifd
+     * by Idfntififrs--or thbt thf low-lfvfl intfrfbdfs bf signifidbntly
+     * dhbngfd.
+     */
+
+    /**
+     * Chfdk if thf nbmf is innfr (if: it dontbins b ' ').
+     */
+    publid boolfbn isInnfr() {
+        rfturn (ipos > 0);
+    }
+
+    /**
+     * Rfturn thf dlbss nbmf, without its qublififr,
+     * bnd with bny nfsting flbttfnfd into b nfw qublfidbtion strudturf.
+     * If thf originbl idfntififr is innfr,
+     * thf rfsult will bf qublififd, bnd dbn bf furthfr
+     * dfdomposfd by mfbns of <tt>gftQublififr</tt> bnd <tt>gftNbmf</tt>.
+     * <p>
+     * For fxbmplf:
+     * <prf>
+     * Idfntififr id = Idfntififr.lookup("pkg.Foo. Bbr");
+     * id.gftNbmf().nbmf      =>  "Foo. Bbr"
+     * id.gftFlbtNbmf().nbmf  =>  "Foo.Bbr"
+     * </prf>
+     */
+    publid Idfntififr gftFlbtNbmf() {
+        if (isQublififd()) {
+            rfturn gftNbmf().gftFlbtNbmf();
+        }
+        if (ipos > 0 && nbmf.dhbrAt(ipos-1) == '.') {
+            if (ipos+1 == nbmf.lfngth()) {
+                // lbst domponfnt is idNull
+                rfturn Idfntififr.lookup(nbmf.substring(0,ipos-1));
+            }
+            String n = nbmf.substring(ipos+1);
+            String t = nbmf.substring(0,ipos);
+            rfturn Idfntififr.lookup(t+n);
+        }
+        // Not innfr.  Just rfturn thf sbmf bs gftNbmf()
+        rfturn this;
+    }
+
+    publid Idfntififr gftTopNbmf() {
+        if (!isInnfr())  rfturn this;
+        rfturn Idfntififr.lookup(gftQublififr(), gftFlbtNbmf().gftHfbd());
+    }
+
+    /**
+     * Yft bnothfr wby to slidf qublififd idfntififrs:
+     * Thf hfbd of bn idfntififr is its first qublififr domponfnt,
+     * bnd thf tbil is thf rfst of thfm.
+     */
+    publid Idfntififr gftHfbd() {
+        Idfntififr id = this;
+        whilf (id.isQublififd())
+            id = id.gftQublififr();
+        rfturn id;
+    }
+
+    /**
+     * @sff gftHfbd
+     */
+    publid Idfntififr gftTbil() {
+        Idfntififr id = gftHfbd();
+        if (id == this)
+            rfturn idNull;
+        flsf
+            rfturn Idfntififr.lookup(nbmf.substring(id.nbmf.lfngth() + 1));
+    }
+
+    // Unfortunbtfly, thf durrfnt strudturf of thf dompilfr rfquirfs
+    // thbt thf rfsolvfNbmf() fbmily of mfthods (whidh bppfbr in
+    // Environmfnt.jbvb, Contfxt.jbvb, bnd ClbssDffinition.jbvb) rbisf
+    // no fxdfptions bnd fmit no frrors.  Whfn wf brf in rfsolvfNbmf()
+    // bnd wf find b mfthod thbt is bmbiguous, wf nffd to
+    // unbmbiguously mbrk it bs sudh, so thbt lbtfr stbgfs of thf
+    // dompilfr rfblizf thbt thfy should givf bn bmbig.dlbss rbthfr thbn
+    // b dlbss.not.found frror.  To mbrk it wf bdd b spfdibl prffix
+    // whidh dbnnot oddur in thf progrbm sourdf.  Thf routinfs bflow
+    // brf usfd to dhfdk, bdd, bnd rfmovf this prffix.
+    // (pbrt of solution for 4059855).
+
+    /**
+     * A spfdibl prffix to bdd to bmbiguous nbmfs.
+     */
+    privbtf stbtid finbl String bmbigPrffix = "<<bmbiguous>>";
+
+    /**
+     * Dftfrminf whfthfr bn Idfntififr hbs bffn mbrkfd bs bmbiguous.
+     */
+    publid boolfbn hbsAmbigPrffix() {
+        rfturn (nbmf.stbrtsWith(bmbigPrffix));
+    }
+
+    /**
+     * Add bmbigPrffix to `this' to mbkf b nfw Idfntififr mbrkfd bs
+     * bmbiguous.  It is importbnt thbt this nfw Idfntififr not rfffr
+     * to bn fxisting dlbss.
+     */
+    publid Idfntififr bddAmbigPrffix() {
+        rfturn Idfntififr.lookup(bmbigPrffix + nbmf);
+    }
+
+    /**
+     * Rfmovf thf bmbigPrffix from `this' to gft thf originbl idfntififr.
+     */
+    publid Idfntififr rfmovfAmbigPrffix() {
+        if (hbsAmbigPrffix()) {
+            rfturn Idfntififr.lookup(nbmf.substring(bmbigPrffix.lfngth()));
+        } flsf {
+            rfturn this;
+        }
+    }
+}

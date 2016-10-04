@@ -1,480 +1,480 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.util.Enumeration;
-import java.util.Vector;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
-import java.net.InetAddress;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.PrivilegedAction;
-import java.security.AccessController;
-import java.security.Security;
-import java.io.Serializable;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import sun.net.util.IPAddressUtil;
-import sun.net.RegisteredDomain;
-import sun.net.PortConfig;
-import sun.security.util.SecurityConstants;
-import sun.security.util.Debug;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.StringTokfnizfr;
+import jbvb.nft.InftAddrfss;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.nft.util.IPAddrfssUtil;
+import sun.nft.RfgistfrfdDombin;
+import sun.nft.PortConfig;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.sfdurity.util.Dfbug;
 
 
 /**
- * This class represents access to a network via sockets.
- * A SocketPermission consists of a
- * host specification and a set of "actions" specifying ways to
- * connect to that host. The host is specified as
- * <pre>
- *    host = (hostname | IPv4address | iPv6reference) [:portrange]
- *    portrange = portnumber | -portnumber | portnumber-[portnumber]
- * </pre>
- * The host is expressed as a DNS name, as a numerical IP address,
- * or as "localhost" (for the local machine).
- * The wildcard "*" may be included once in a DNS name host
- * specification. If it is included, it must be in the leftmost
- * position, as in "*.sun.com".
+ * Tiis dlbss rfprfsfnts bddfss to b nftwork vib sodkfts.
+ * A SodkftPfrmission donsists of b
+ * iost spfdifidbtion bnd b sft of "bdtions" spfdifying wbys to
+ * donnfdt to tibt iost. Tif iost is spfdififd bs
+ * <prf>
+ *    iost = (iostnbmf | IPv4bddrfss | iPv6rfffrfndf) [:portrbngf]
+ *    portrbngf = portnumbfr | -portnumbfr | portnumbfr-[portnumbfr]
+ * </prf>
+ * Tif iost is fxprfssfd bs b DNS nbmf, bs b numfridbl IP bddrfss,
+ * or bs "lodbliost" (for tif lodbl mbdiinf).
+ * Tif wilddbrd "*" mby bf indludfd ondf in b DNS nbmf iost
+ * spfdifidbtion. If it is indludfd, it must bf in tif lfftmost
+ * position, bs in "*.sun.dom".
  * <p>
- * The format of the IPv6reference should follow that specified in <a
- * href="http://www.ietf.org/rfc/rfc2732.txt"><i>RFC&nbsp;2732: Format
- * for Literal IPv6 Addresses in URLs</i></a>:
- * <pre>
- *    ipv6reference = "[" IPv6address "]"
- *</pre>
- * For example, you can construct a SocketPermission instance
- * as the following:
- * <pre>
- *    String hostAddress = inetaddress.getHostAddress();
- *    if (inetaddress instanceof Inet6Address) {
- *        sp = new SocketPermission("[" + hostAddress + "]:" + port, action);
- *    } else {
- *        sp = new SocketPermission(hostAddress + ":" + port, action);
+ * Tif formbt of tif IPv6rfffrfndf siould follow tibt spfdififd in <b
+ * irff="ittp://www.iftf.org/rfd/rfd2732.txt"><i>RFC&nbsp;2732: Formbt
+ * for Litfrbl IPv6 Addrfssfs in URLs</i></b>:
+ * <prf>
+ *    ipv6rfffrfndf = "[" IPv6bddrfss "]"
+ *</prf>
+ * For fxbmplf, you dbn donstrudt b SodkftPfrmission instbndf
+ * bs tif following:
+ * <prf>
+ *    String iostAddrfss = inftbddrfss.gftHostAddrfss();
+ *    if (inftbddrfss instbndfof Inft6Addrfss) {
+ *        sp = nfw SodkftPfrmission("[" + iostAddrfss + "]:" + port, bdtion);
+ *    } flsf {
+ *        sp = nfw SodkftPfrmission(iostAddrfss + ":" + port, bdtion);
  *    }
- * </pre>
+ * </prf>
  * or
- * <pre>
- *    String host = url.getHost();
- *    sp = new SocketPermission(host + ":" + port, action);
- * </pre>
+ * <prf>
+ *    String iost = url.gftHost();
+ *    sp = nfw SodkftPfrmission(iost + ":" + port, bdtion);
+ * </prf>
  * <p>
- * The <A HREF="Inet6Address.html#lform">full uncompressed form</A> of
- * an IPv6 literal address is also valid.
+ * Tif <A HREF="Inft6Addrfss.itml#lform">full undomprfssfd form</A> of
+ * bn IPv6 litfrbl bddrfss is blso vblid.
  * <p>
- * The port or portrange is optional. A port specification of the
- * form "N-", where <i>N</i> is a port number, signifies all ports
- * numbered <i>N</i> and above, while a specification of the
- * form "-N" indicates all ports numbered <i>N</i> and below.
- * The special port value {@code 0} refers to the entire <i>ephemeral</i>
- * port range. This is a fixed range of ports a system may use to
- * allocate dynamic ports from. The actual range may be system dependent.
+ * Tif port or portrbngf is optionbl. A port spfdifidbtion of tif
+ * form "N-", wifrf <i>N</i> is b port numbfr, signififs bll ports
+ * numbfrfd <i>N</i> bnd bbovf, wiilf b spfdifidbtion of tif
+ * form "-N" indidbtfs bll ports numbfrfd <i>N</i> bnd bflow.
+ * Tif spfdibl port vbluf {@dodf 0} rfffrs to tif fntirf <i>fpifmfrbl</i>
+ * port rbngf. Tiis is b fixfd rbngf of ports b systfm mby usf to
+ * bllodbtf dynbmid ports from. Tif bdtubl rbngf mby bf systfm dfpfndfnt.
  * <p>
- * The possible ways to connect to the host are
- * <pre>
- * accept
- * connect
- * listen
- * resolve
- * </pre>
- * The "listen" action is only meaningful when used with "localhost" and
- * means the ability to bind to a specified port.
- * The "resolve" action is implied when any of the other actions are present.
- * The action "resolve" refers to host/ip name service lookups.
+ * Tif possiblf wbys to donnfdt to tif iost brf
+ * <prf>
+ * bddfpt
+ * donnfdt
+ * listfn
+ * rfsolvf
+ * </prf>
+ * Tif "listfn" bdtion is only mfbningful wifn usfd witi "lodbliost" bnd
+ * mfbns tif bbility to bind to b spfdififd port.
+ * Tif "rfsolvf" bdtion is implifd wifn bny of tif otifr bdtions brf prfsfnt.
+ * Tif bdtion "rfsolvf" rfffrs to iost/ip nbmf sfrvidf lookups.
  * <P>
- * The actions string is converted to lowercase before processing.
- * <p>As an example of the creation and meaning of SocketPermissions,
- * note that if the following permission:
+ * Tif bdtions string is donvfrtfd to lowfrdbsf bfforf prodfssing.
+ * <p>As bn fxbmplf of tif drfbtion bnd mfbning of SodkftPfrmissions,
+ * notf tibt if tif following pfrmission:
  *
- * <pre>
- *   p1 = new SocketPermission("puffin.eng.sun.com:7777", "connect,accept");
- * </pre>
+ * <prf>
+ *   p1 = nfw SodkftPfrmission("puffin.fng.sun.dom:7777", "donnfdt,bddfpt");
+ * </prf>
  *
- * is granted to some code, it allows that code to connect to port 7777 on
- * {@code puffin.eng.sun.com}, and to accept connections on that port.
+ * is grbntfd to somf dodf, it bllows tibt dodf to donnfdt to port 7777 on
+ * {@dodf puffin.fng.sun.dom}, bnd to bddfpt donnfdtions on tibt port.
  *
- * <p>Similarly, if the following permission:
+ * <p>Similbrly, if tif following pfrmission:
  *
- * <pre>
- *   p2 = new SocketPermission("localhost:1024-", "accept,connect,listen");
- * </pre>
+ * <prf>
+ *   p2 = nfw SodkftPfrmission("lodbliost:1024-", "bddfpt,donnfdt,listfn");
+ * </prf>
  *
- * is granted to some code, it allows that code to
- * accept connections on, connect to, or listen on any port between
- * 1024 and 65535 on the local host.
+ * is grbntfd to somf dodf, it bllows tibt dodf to
+ * bddfpt donnfdtions on, donnfdt to, or listfn on bny port bftwffn
+ * 1024 bnd 65535 on tif lodbl iost.
  *
- * <p>Note: Granting code permission to accept or make connections to remote
- * hosts may be dangerous because malevolent code can then more easily
- * transfer and share confidential data among parties who may not
- * otherwise have access to the data.
+ * <p>Notf: Grbnting dodf pfrmission to bddfpt or mbkf donnfdtions to rfmotf
+ * iosts mby bf dbngfrous bfdbusf mblfvolfnt dodf dbn tifn morf fbsily
+ * trbnsffr bnd sibrf donfidfntibl dbtb bmong pbrtifs wio mby not
+ * otifrwisf ibvf bddfss to tif dbtb.
  *
- * @see java.security.Permissions
- * @see SocketPermission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff SodkftPfrmission
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @butior Mbribnnf Mufllfr
+ * @butior Rolbnd Sdifmfrs
  *
- * @serial exclude
+ * @sfribl fxdludf
  */
 
-public final class SocketPermission extends Permission
-    implements java.io.Serializable
+publid finbl dlbss SodkftPfrmission fxtfnds Pfrmission
+    implfmfnts jbvb.io.Sfriblizbblf
 {
-    private static final long serialVersionUID = -7204263841984476862L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7204263841984476862L;
 
     /**
-     * Connect to host:port
+     * Connfdt to iost:port
      */
-    private final static int CONNECT    = 0x1;
+    privbtf finbl stbtid int CONNECT    = 0x1;
 
     /**
-     * Listen on host:port
+     * Listfn on iost:port
      */
-    private final static int LISTEN     = 0x2;
+    privbtf finbl stbtid int LISTEN     = 0x2;
 
     /**
-     * Accept a connection from host:port
+     * Addfpt b donnfdtion from iost:port
      */
-    private final static int ACCEPT     = 0x4;
+    privbtf finbl stbtid int ACCEPT     = 0x4;
 
     /**
-     * Resolve DNS queries
+     * Rfsolvf DNS qufrifs
      */
-    private final static int RESOLVE    = 0x8;
+    privbtf finbl stbtid int RESOLVE    = 0x8;
 
     /**
-     * No actions
+     * No bdtions
      */
-    private final static int NONE               = 0x0;
+    privbtf finbl stbtid int NONE               = 0x0;
 
     /**
-     * All actions
+     * All bdtions
      */
-    private final static int ALL        = CONNECT|LISTEN|ACCEPT|RESOLVE;
+    privbtf finbl stbtid int ALL        = CONNECT|LISTEN|ACCEPT|RESOLVE;
 
-    // various port constants
-    private static final int PORT_MIN = 0;
-    private static final int PORT_MAX = 65535;
-    private static final int PRIV_PORT_MAX = 1023;
-    private static final int DEF_EPH_LOW = 49152;
+    // vbrious port donstbnts
+    privbtf stbtid finbl int PORT_MIN = 0;
+    privbtf stbtid finbl int PORT_MAX = 65535;
+    privbtf stbtid finbl int PRIV_PORT_MAX = 1023;
+    privbtf stbtid finbl int DEF_EPH_LOW = 49152;
 
-    // the actions mask
-    private transient int mask;
+    // tif bdtions mbsk
+    privbtf trbnsifnt int mbsk;
 
     /**
-     * the actions string.
+     * tif bdtions string.
      *
-     * @serial
+     * @sfribl
      */
 
-    private String actions; // Left null as long as possible, then
-                            // created and re-used in the getAction function.
+    privbtf String bdtions; // Lfft null bs long bs possiblf, tifn
+                            // drfbtfd bnd rf-usfd in tif gftAdtion fundtion.
 
-    // hostname part as it is passed
-    private transient String hostname;
+    // iostnbmf pbrt bs it is pbssfd
+    privbtf trbnsifnt String iostnbmf;
 
-    // the canonical name of the host
-    // in the case of "*.foo.com", cname is ".foo.com".
+    // tif dbnonidbl nbmf of tif iost
+    // in tif dbsf of "*.foo.dom", dnbmf is ".foo.dom".
 
-    private transient String cname;
+    privbtf trbnsifnt String dnbmf;
 
-    // all the IP addresses of the host
-    private transient InetAddress[] addresses;
+    // bll tif IP bddrfssfs of tif iost
+    privbtf trbnsifnt InftAddrfss[] bddrfssfs;
 
-    // true if the hostname is a wildcard (e.g. "*.sun.com")
-    private transient boolean wildcard;
+    // truf if tif iostnbmf is b wilddbrd (f.g. "*.sun.dom")
+    privbtf trbnsifnt boolfbn wilddbrd;
 
-    // true if we were initialized with a single numeric IP address
-    private transient boolean init_with_ip;
+    // truf if wf wfrf initiblizfd witi b singlf numfrid IP bddrfss
+    privbtf trbnsifnt boolfbn init_witi_ip;
 
-    // true if this SocketPermission represents an invalid/unknown host
-    // used for implies when the delayed lookup has already failed
-    private transient boolean invalid;
+    // truf if tiis SodkftPfrmission rfprfsfnts bn invblid/unknown iost
+    // usfd for implifs wifn tif dflbyfd lookup ibs blrfbdy fbilfd
+    privbtf trbnsifnt boolfbn invblid;
 
-    // port range on host
-    private transient int[] portrange;
+    // port rbngf on iost
+    privbtf trbnsifnt int[] portrbngf;
 
-    private transient boolean defaultDeny = false;
+    privbtf trbnsifnt boolfbn dffbultDfny = fblsf;
 
-    // true if this SocketPermission represents a hostname
-    // that failed our reverse mapping heuristic test
-    private transient boolean untrusted;
-    private transient boolean trusted;
+    // truf if tiis SodkftPfrmission rfprfsfnts b iostnbmf
+    // tibt fbilfd our rfvfrsf mbpping ifuristid tfst
+    privbtf trbnsifnt boolfbn untrustfd;
+    privbtf trbnsifnt boolfbn trustfd;
 
-    // true if the sun.net.trustNameService system property is set
-    private static boolean trustNameService;
+    // truf if tif sun.nft.trustNbmfSfrvidf systfm propfrty is sft
+    privbtf stbtid boolfbn trustNbmfSfrvidf;
 
-    private static Debug debug = null;
-    private static boolean debugInit = false;
+    privbtf stbtid Dfbug dfbug = null;
+    privbtf stbtid boolfbn dfbugInit = fblsf;
 
-    // lazy initializer
-    private static class EphemeralRange {
-        static final int low = initEphemeralPorts("low", DEF_EPH_LOW);
-            static final int high = initEphemeralPorts("high", PORT_MAX);
+    // lbzy initiblizfr
+    privbtf stbtid dlbss EpifmfrblRbngf {
+        stbtid finbl int low = initEpifmfrblPorts("low", DEF_EPH_LOW);
+            stbtid finbl int iigi = initEpifmfrblPorts("iigi", PORT_MAX);
     };
 
-    static {
-        Boolean tmp = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetBooleanAction("sun.net.trustNameService"));
-        trustNameService = tmp.booleanValue();
+    stbtid {
+        Boolfbn tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftBoolfbnAdtion("sun.nft.trustNbmfSfrvidf"));
+        trustNbmfSfrvidf = tmp.boolfbnVbluf();
     }
 
-    private static synchronized Debug getDebug() {
-        if (!debugInit) {
-            debug = Debug.getInstance("access");
-            debugInit = true;
+    privbtf stbtid syndironizfd Dfbug gftDfbug() {
+        if (!dfbugInit) {
+            dfbug = Dfbug.gftInstbndf("bddfss");
+            dfbugInit = truf;
         }
-        return debug;
+        rfturn dfbug;
     }
 
     /**
-     * Creates a new SocketPermission object with the specified actions.
-     * The host is expressed as a DNS name, or as a numerical IP address.
-     * Optionally, a port or a portrange may be supplied (separated
-     * from the DNS name or IP address by a colon).
+     * Crfbtfs b nfw SodkftPfrmission objfdt witi tif spfdififd bdtions.
+     * Tif iost is fxprfssfd bs b DNS nbmf, or bs b numfridbl IP bddrfss.
+     * Optionblly, b port or b portrbngf mby bf supplifd (sfpbrbtfd
+     * from tif DNS nbmf or IP bddrfss by b dolon).
      * <p>
-     * To specify the local machine, use "localhost" as the <i>host</i>.
-     * Also note: An empty <i>host</i> String ("") is equivalent to "localhost".
+     * To spfdify tif lodbl mbdiinf, usf "lodbliost" bs tif <i>iost</i>.
+     * Also notf: An fmpty <i>iost</i> String ("") is fquivblfnt to "lodbliost".
      * <p>
-     * The <i>actions</i> parameter contains a comma-separated list of the
-     * actions granted for the specified host (and port(s)). Possible actions are
-     * "connect", "listen", "accept", "resolve", or
-     * any combination of those. "resolve" is automatically added
-     * when any of the other three are specified.
+     * Tif <i>bdtions</i> pbrbmftfr dontbins b dommb-sfpbrbtfd list of tif
+     * bdtions grbntfd for tif spfdififd iost (bnd port(s)). Possiblf bdtions brf
+     * "donnfdt", "listfn", "bddfpt", "rfsolvf", or
+     * bny dombinbtion of tiosf. "rfsolvf" is butombtidblly bddfd
+     * wifn bny of tif otifr tirff brf spfdififd.
      * <p>
-     * Examples of SocketPermission instantiation are the following:
-     * <pre>
-     *    nr = new SocketPermission("www.catalog.com", "connect");
-     *    nr = new SocketPermission("www.sun.com:80", "connect");
-     *    nr = new SocketPermission("*.sun.com", "connect");
-     *    nr = new SocketPermission("*.edu", "resolve");
-     *    nr = new SocketPermission("204.160.241.0", "connect");
-     *    nr = new SocketPermission("localhost:1024-65535", "listen");
-     *    nr = new SocketPermission("204.160.241.0:1024-65535", "connect");
-     * </pre>
+     * Exbmplfs of SodkftPfrmission instbntibtion brf tif following:
+     * <prf>
+     *    nr = nfw SodkftPfrmission("www.dbtblog.dom", "donnfdt");
+     *    nr = nfw SodkftPfrmission("www.sun.dom:80", "donnfdt");
+     *    nr = nfw SodkftPfrmission("*.sun.dom", "donnfdt");
+     *    nr = nfw SodkftPfrmission("*.fdu", "rfsolvf");
+     *    nr = nfw SodkftPfrmission("204.160.241.0", "donnfdt");
+     *    nr = nfw SodkftPfrmission("lodbliost:1024-65535", "listfn");
+     *    nr = nfw SodkftPfrmission("204.160.241.0:1024-65535", "donnfdt");
+     * </prf>
      *
-     * @param host the hostname or IPaddress of the computer, optionally
-     * including a colon followed by a port or port range.
-     * @param action the action string.
+     * @pbrbm iost tif iostnbmf or IPbddrfss of tif domputfr, optionblly
+     * indluding b dolon followfd by b port or port rbngf.
+     * @pbrbm bdtion tif bdtion string.
      */
-    public SocketPermission(String host, String action) {
-        super(getHost(host));
-        // name initialized to getHost(host); NPE detected in getHost()
-        init(getName(), getMask(action));
+    publid SodkftPfrmission(String iost, String bdtion) {
+        supfr(gftHost(iost));
+        // nbmf initiblizfd to gftHost(iost); NPE dftfdtfd in gftHost()
+        init(gftNbmf(), gftMbsk(bdtion));
     }
 
 
-    SocketPermission(String host, int mask) {
-        super(getHost(host));
-        // name initialized to getHost(host); NPE detected in getHost()
-        init(getName(), mask);
+    SodkftPfrmission(String iost, int mbsk) {
+        supfr(gftHost(iost));
+        // nbmf initiblizfd to gftHost(iost); NPE dftfdtfd in gftHost()
+        init(gftNbmf(), mbsk);
     }
 
-    private void setDeny() {
-        defaultDeny = true;
+    privbtf void sftDfny() {
+        dffbultDfny = truf;
     }
 
-    private static String getHost(String host) {
-        if (host.equals("")) {
-            return "localhost";
-        } else {
-            /* IPv6 literal address used in this context should follow
-             * the format specified in RFC 2732;
-             * if not, we try to solve the unambiguous case
+    privbtf stbtid String gftHost(String iost) {
+        if (iost.fqubls("")) {
+            rfturn "lodbliost";
+        } flsf {
+            /* IPv6 litfrbl bddrfss usfd in tiis dontfxt siould follow
+             * tif formbt spfdififd in RFC 2732;
+             * if not, wf try to solvf tif unbmbiguous dbsf
              */
             int ind;
-            if (host.charAt(0) != '[') {
-                if ((ind = host.indexOf(':')) != host.lastIndexOf(':')) {
-                    /* More than one ":", meaning IPv6 address is not
-                     * in RFC 2732 format;
-                     * We will rectify user errors for all unambiguious cases
+            if (iost.dibrAt(0) != '[') {
+                if ((ind = iost.indfxOf(':')) != iost.lbstIndfxOf(':')) {
+                    /* Morf tibn onf ":", mfbning IPv6 bddrfss is not
+                     * in RFC 2732 formbt;
+                     * Wf will rfdtify usfr frrors for bll unbmbiguious dbsfs
                      */
-                    StringTokenizer st = new StringTokenizer(host, ":");
-                    int tokens = st.countTokens();
-                    if (tokens == 9) {
-                        // IPv6 address followed by port
-                        ind = host.lastIndexOf(':');
-                        host = "[" + host.substring(0, ind) + "]" +
-                            host.substring(ind);
-                    } else if (tokens == 8 && host.indexOf("::") == -1) {
-                        // IPv6 address only, not followed by port
-                        host = "[" + host + "]";
-                    } else {
-                        // could be ambiguous
-                        throw new IllegalArgumentException("Ambiguous"+
-                                                           " hostport part");
+                    StringTokfnizfr st = nfw StringTokfnizfr(iost, ":");
+                    int tokfns = st.dountTokfns();
+                    if (tokfns == 9) {
+                        // IPv6 bddrfss followfd by port
+                        ind = iost.lbstIndfxOf(':');
+                        iost = "[" + iost.substring(0, ind) + "]" +
+                            iost.substring(ind);
+                    } flsf if (tokfns == 8 && iost.indfxOf("::") == -1) {
+                        // IPv6 bddrfss only, not followfd by port
+                        iost = "[" + iost + "]";
+                    } flsf {
+                        // dould bf bmbiguous
+                        tirow nfw IllfgblArgumfntExdfption("Ambiguous"+
+                                                           " iostport pbrt");
                     }
                 }
             }
-            return host;
+            rfturn iost;
         }
     }
 
-    private int[] parsePort(String port)
-        throws Exception
+    privbtf int[] pbrsfPort(String port)
+        tirows Exdfption
     {
 
-        if (port == null || port.equals("") || port.equals("*")) {
-            return new int[] {PORT_MIN, PORT_MAX};
+        if (port == null || port.fqubls("") || port.fqubls("*")) {
+            rfturn nfw int[] {PORT_MIN, PORT_MAX};
         }
 
-        int dash = port.indexOf('-');
+        int dbsi = port.indfxOf('-');
 
-        if (dash == -1) {
-            int p = Integer.parseInt(port);
-            return new int[] {p, p};
-        } else {
-            String low = port.substring(0, dash);
-            String high = port.substring(dash+1);
-            int l,h;
+        if (dbsi == -1) {
+            int p = Intfgfr.pbrsfInt(port);
+            rfturn nfw int[] {p, p};
+        } flsf {
+            String low = port.substring(0, dbsi);
+            String iigi = port.substring(dbsi+1);
+            int l,i;
 
-            if (low.equals("")) {
+            if (low.fqubls("")) {
                 l = PORT_MIN;
-            } else {
-                l = Integer.parseInt(low);
+            } flsf {
+                l = Intfgfr.pbrsfInt(low);
             }
 
-            if (high.equals("")) {
-                h = PORT_MAX;
-            } else {
-                h = Integer.parseInt(high);
+            if (iigi.fqubls("")) {
+                i = PORT_MAX;
+            } flsf {
+                i = Intfgfr.pbrsfInt(iigi);
             }
-            if (l < 0 || h < 0 || h<l)
-                throw new IllegalArgumentException("invalid port range");
+            if (l < 0 || i < 0 || i<l)
+                tirow nfw IllfgblArgumfntExdfption("invblid port rbngf");
 
-            return new int[] {l, h};
+            rfturn nfw int[] {l, i};
         }
     }
 
     /**
-     * Returns true if the permission has specified zero
-     * as its value (or lower bound) signifying the ephemeral range
+     * Rfturns truf if tif pfrmission ibs spfdififd zfro
+     * bs its vbluf (or lowfr bound) signifying tif fpifmfrbl rbngf
      */
-    private boolean includesEphemerals() {
-        return portrange[0] == 0;
+    privbtf boolfbn indludfsEpifmfrbls() {
+        rfturn portrbngf[0] == 0;
     }
 
     /**
-     * Initialize the SocketPermission object. We don't do any DNS lookups
-     * as this point, instead we hold off until the implies method is
-     * called.
+     * Initiblizf tif SodkftPfrmission objfdt. Wf don't do bny DNS lookups
+     * bs tiis point, instfbd wf iold off until tif implifs mftiod is
+     * dbllfd.
      */
-    private void init(String host, int mask) {
-        // Set the integer mask that represents the actions
+    privbtf void init(String iost, int mbsk) {
+        // Sft tif intfgfr mbsk tibt rfprfsfnts tif bdtions
 
-        if ((mask & ALL) != mask)
-            throw new IllegalArgumentException("invalid actions mask");
+        if ((mbsk & ALL) != mbsk)
+            tirow nfw IllfgblArgumfntExdfption("invblid bdtions mbsk");
 
-        // always OR in RESOLVE if we allow any of the others
-        this.mask = mask | RESOLVE;
+        // blwbys OR in RESOLVE if wf bllow bny of tif otifrs
+        tiis.mbsk = mbsk | RESOLVE;
 
-        // Parse the host name.  A name has up to three components, the
-        // hostname, a port number, or two numbers representing a port
-        // range.   "www.sun.com:8080-9090" is a valid host name.
+        // Pbrsf tif iost nbmf.  A nbmf ibs up to tirff domponfnts, tif
+        // iostnbmf, b port numbfr, or two numbfrs rfprfsfnting b port
+        // rbngf.   "www.sun.dom:8080-9090" is b vblid iost nbmf.
 
-        // With IPv6 an address can be 2010:836B:4179::836B:4179
-        // An IPv6 address needs to be enclose in []
-        // For ex: [2010:836B:4179::836B:4179]:8080-9090
-        // Refer to RFC 2732 for more information.
+        // Witi IPv6 bn bddrfss dbn bf 2010:836B:4179::836B:4179
+        // An IPv6 bddrfss nffds to bf fndlosf in []
+        // For fx: [2010:836B:4179::836B:4179]:8080-9090
+        // Rfffr to RFC 2732 for morf informbtion.
 
         int rb = 0 ;
-        int start = 0, end = 0;
-        int sep = -1;
-        String hostport = host;
-        if (host.charAt(0) == '[') {
-            start = 1;
-            rb = host.indexOf(']');
+        int stbrt = 0, fnd = 0;
+        int sfp = -1;
+        String iostport = iost;
+        if (iost.dibrAt(0) == '[') {
+            stbrt = 1;
+            rb = iost.indfxOf(']');
             if (rb != -1) {
-                host = host.substring(start, rb);
-            } else {
-                throw new
-                    IllegalArgumentException("invalid host/port: "+host);
+                iost = iost.substring(stbrt, rb);
+            } flsf {
+                tirow nfw
+                    IllfgblArgumfntExdfption("invblid iost/port: "+iost);
             }
-            sep = hostport.indexOf(':', rb+1);
-        } else {
-            start = 0;
-            sep = host.indexOf(':', rb);
-            end = sep;
-            if (sep != -1) {
-                host = host.substring(start, end);
+            sfp = iostport.indfxOf(':', rb+1);
+        } flsf {
+            stbrt = 0;
+            sfp = iost.indfxOf(':', rb);
+            fnd = sfp;
+            if (sfp != -1) {
+                iost = iost.substring(stbrt, fnd);
             }
         }
 
-        if (sep != -1) {
-            String port = hostport.substring(sep+1);
+        if (sfp != -1) {
+            String port = iostport.substring(sfp+1);
             try {
-                portrange = parsePort(port);
-            } catch (Exception e) {
-                throw new
-                    IllegalArgumentException("invalid port range: "+port);
+                portrbngf = pbrsfPort(port);
+            } dbtdi (Exdfption f) {
+                tirow nfw
+                    IllfgblArgumfntExdfption("invblid port rbngf: "+port);
             }
-        } else {
-            portrange = new int[] { PORT_MIN, PORT_MAX };
+        } flsf {
+            portrbngf = nfw int[] { PORT_MIN, PORT_MAX };
         }
 
-        hostname = host;
+        iostnbmf = iost;
 
-        // is this a domain wildcard specification
-        if (host.lastIndexOf('*') > 0) {
-            throw new
-               IllegalArgumentException("invalid host wildcard specification");
-        } else if (host.startsWith("*")) {
-            wildcard = true;
-            if (host.equals("*")) {
-                cname = "";
-            } else if (host.startsWith("*.")) {
-                cname = host.substring(1).toLowerCase();
-            } else {
-              throw new
-               IllegalArgumentException("invalid host wildcard specification");
+        // is tiis b dombin wilddbrd spfdifidbtion
+        if (iost.lbstIndfxOf('*') > 0) {
+            tirow nfw
+               IllfgblArgumfntExdfption("invblid iost wilddbrd spfdifidbtion");
+        } flsf if (iost.stbrtsWiti("*")) {
+            wilddbrd = truf;
+            if (iost.fqubls("*")) {
+                dnbmf = "";
+            } flsf if (iost.stbrtsWiti("*.")) {
+                dnbmf = iost.substring(1).toLowfrCbsf();
+            } flsf {
+              tirow nfw
+               IllfgblArgumfntExdfption("invblid iost wilddbrd spfdifidbtion");
             }
-            return;
-        } else {
-            if (host.length() > 0) {
-                // see if we are being initialized with an IP address.
-                char ch = host.charAt(0);
-                if (ch == ':' || Character.digit(ch, 16) != -1) {
-                    byte ip[] = IPAddressUtil.textToNumericFormatV4(host);
+            rfturn;
+        } flsf {
+            if (iost.lfngti() > 0) {
+                // sff if wf brf bfing initiblizfd witi bn IP bddrfss.
+                dibr di = iost.dibrAt(0);
+                if (di == ':' || Cibrbdtfr.digit(di, 16) != -1) {
+                    bytf ip[] = IPAddrfssUtil.tfxtToNumfridFormbtV4(iost);
                     if (ip == null) {
-                        ip = IPAddressUtil.textToNumericFormatV6(host);
+                        ip = IPAddrfssUtil.tfxtToNumfridFormbtV6(iost);
                     }
                     if (ip != null) {
                         try {
-                            addresses =
-                                new InetAddress[]
-                                {InetAddress.getByAddress(ip) };
-                            init_with_ip = true;
-                        } catch (UnknownHostException uhe) {
-                            // this shouldn't happen
-                            invalid = true;
+                            bddrfssfs =
+                                nfw InftAddrfss[]
+                                {InftAddrfss.gftByAddrfss(ip) };
+                            init_witi_ip = truf;
+                        } dbtdi (UnknownHostExdfption uif) {
+                            // tiis siouldn't ibppfn
+                            invblid = truf;
                         }
                     }
                 }
@@ -483,741 +483,741 @@ public final class SocketPermission extends Permission
     }
 
     /**
-     * Convert an action string to an integer actions mask.
+     * Convfrt bn bdtion string to bn intfgfr bdtions mbsk.
      *
-     * @param action the action string
-     * @return the action mask
+     * @pbrbm bdtion tif bdtion string
+     * @rfturn tif bdtion mbsk
      */
-    private static int getMask(String action) {
+    privbtf stbtid int gftMbsk(String bdtion) {
 
-        if (action == null) {
-            throw new NullPointerException("action can't be null");
+        if (bdtion == null) {
+            tirow nfw NullPointfrExdfption("bdtion dbn't bf null");
         }
 
-        if (action.equals("")) {
-            throw new IllegalArgumentException("action can't be empty");
+        if (bdtion.fqubls("")) {
+            tirow nfw IllfgblArgumfntExdfption("bdtion dbn't bf fmpty");
         }
 
-        int mask = NONE;
+        int mbsk = NONE;
 
-        // Use object identity comparison against known-interned strings for
-        // performance benefit (these values are used heavily within the JDK).
-        if (action == SecurityConstants.SOCKET_RESOLVE_ACTION) {
-            return RESOLVE;
-        } else if (action == SecurityConstants.SOCKET_CONNECT_ACTION) {
-            return CONNECT;
-        } else if (action == SecurityConstants.SOCKET_LISTEN_ACTION) {
-            return LISTEN;
-        } else if (action == SecurityConstants.SOCKET_ACCEPT_ACTION) {
-            return ACCEPT;
-        } else if (action == SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION) {
-            return CONNECT|ACCEPT;
+        // Usf objfdt idfntity dompbrison bgbinst known-intfrnfd strings for
+        // pfrformbndf bfnffit (tifsf vblufs brf usfd ifbvily witiin tif JDK).
+        if (bdtion == SfdurityConstbnts.SOCKET_RESOLVE_ACTION) {
+            rfturn RESOLVE;
+        } flsf if (bdtion == SfdurityConstbnts.SOCKET_CONNECT_ACTION) {
+            rfturn CONNECT;
+        } flsf if (bdtion == SfdurityConstbnts.SOCKET_LISTEN_ACTION) {
+            rfturn LISTEN;
+        } flsf if (bdtion == SfdurityConstbnts.SOCKET_ACCEPT_ACTION) {
+            rfturn ACCEPT;
+        } flsf if (bdtion == SfdurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION) {
+            rfturn CONNECT|ACCEPT;
         }
 
-        char[] a = action.toCharArray();
+        dibr[] b = bdtion.toCibrArrby();
 
-        int i = a.length - 1;
+        int i = b.lfngti - 1;
         if (i < 0)
-            return mask;
+            rfturn mbsk;
 
-        while (i != -1) {
-            char c;
+        wiilf (i != -1) {
+            dibr d;
 
-            // skip whitespace
-            while ((i!=-1) && ((c = a[i]) == ' ' ||
-                               c == '\r' ||
-                               c == '\n' ||
-                               c == '\f' ||
-                               c == '\t'))
+            // skip wiitfspbdf
+            wiilf ((i!=-1) && ((d = b[i]) == ' ' ||
+                               d == '\r' ||
+                               d == '\n' ||
+                               d == '\f' ||
+                               d == '\t'))
                 i--;
 
-            // check for the known strings
-            int matchlen;
+            // difdk for tif known strings
+            int mbtdilfn;
 
-            if (i >= 6 && (a[i-6] == 'c' || a[i-6] == 'C') &&
-                          (a[i-5] == 'o' || a[i-5] == 'O') &&
-                          (a[i-4] == 'n' || a[i-4] == 'N') &&
-                          (a[i-3] == 'n' || a[i-3] == 'N') &&
-                          (a[i-2] == 'e' || a[i-2] == 'E') &&
-                          (a[i-1] == 'c' || a[i-1] == 'C') &&
-                          (a[i] == 't' || a[i] == 'T'))
+            if (i >= 6 && (b[i-6] == 'd' || b[i-6] == 'C') &&
+                          (b[i-5] == 'o' || b[i-5] == 'O') &&
+                          (b[i-4] == 'n' || b[i-4] == 'N') &&
+                          (b[i-3] == 'n' || b[i-3] == 'N') &&
+                          (b[i-2] == 'f' || b[i-2] == 'E') &&
+                          (b[i-1] == 'd' || b[i-1] == 'C') &&
+                          (b[i] == 't' || b[i] == 'T'))
             {
-                matchlen = 7;
-                mask |= CONNECT;
+                mbtdilfn = 7;
+                mbsk |= CONNECT;
 
-            } else if (i >= 6 && (a[i-6] == 'r' || a[i-6] == 'R') &&
-                                 (a[i-5] == 'e' || a[i-5] == 'E') &&
-                                 (a[i-4] == 's' || a[i-4] == 'S') &&
-                                 (a[i-3] == 'o' || a[i-3] == 'O') &&
-                                 (a[i-2] == 'l' || a[i-2] == 'L') &&
-                                 (a[i-1] == 'v' || a[i-1] == 'V') &&
-                                 (a[i] == 'e' || a[i] == 'E'))
+            } flsf if (i >= 6 && (b[i-6] == 'r' || b[i-6] == 'R') &&
+                                 (b[i-5] == 'f' || b[i-5] == 'E') &&
+                                 (b[i-4] == 's' || b[i-4] == 'S') &&
+                                 (b[i-3] == 'o' || b[i-3] == 'O') &&
+                                 (b[i-2] == 'l' || b[i-2] == 'L') &&
+                                 (b[i-1] == 'v' || b[i-1] == 'V') &&
+                                 (b[i] == 'f' || b[i] == 'E'))
             {
-                matchlen = 7;
-                mask |= RESOLVE;
+                mbtdilfn = 7;
+                mbsk |= RESOLVE;
 
-            } else if (i >= 5 && (a[i-5] == 'l' || a[i-5] == 'L') &&
-                                 (a[i-4] == 'i' || a[i-4] == 'I') &&
-                                 (a[i-3] == 's' || a[i-3] == 'S') &&
-                                 (a[i-2] == 't' || a[i-2] == 'T') &&
-                                 (a[i-1] == 'e' || a[i-1] == 'E') &&
-                                 (a[i] == 'n' || a[i] == 'N'))
+            } flsf if (i >= 5 && (b[i-5] == 'l' || b[i-5] == 'L') &&
+                                 (b[i-4] == 'i' || b[i-4] == 'I') &&
+                                 (b[i-3] == 's' || b[i-3] == 'S') &&
+                                 (b[i-2] == 't' || b[i-2] == 'T') &&
+                                 (b[i-1] == 'f' || b[i-1] == 'E') &&
+                                 (b[i] == 'n' || b[i] == 'N'))
             {
-                matchlen = 6;
-                mask |= LISTEN;
+                mbtdilfn = 6;
+                mbsk |= LISTEN;
 
-            } else if (i >= 5 && (a[i-5] == 'a' || a[i-5] == 'A') &&
-                                 (a[i-4] == 'c' || a[i-4] == 'C') &&
-                                 (a[i-3] == 'c' || a[i-3] == 'C') &&
-                                 (a[i-2] == 'e' || a[i-2] == 'E') &&
-                                 (a[i-1] == 'p' || a[i-1] == 'P') &&
-                                 (a[i] == 't' || a[i] == 'T'))
+            } flsf if (i >= 5 && (b[i-5] == 'b' || b[i-5] == 'A') &&
+                                 (b[i-4] == 'd' || b[i-4] == 'C') &&
+                                 (b[i-3] == 'd' || b[i-3] == 'C') &&
+                                 (b[i-2] == 'f' || b[i-2] == 'E') &&
+                                 (b[i-1] == 'p' || b[i-1] == 'P') &&
+                                 (b[i] == 't' || b[i] == 'T'))
             {
-                matchlen = 6;
-                mask |= ACCEPT;
+                mbtdilfn = 6;
+                mbsk |= ACCEPT;
 
-            } else {
-                // parse error
-                throw new IllegalArgumentException(
-                        "invalid permission: " + action);
+            } flsf {
+                // pbrsf frror
+                tirow nfw IllfgblArgumfntExdfption(
+                        "invblid pfrmission: " + bdtion);
             }
 
-            // make sure we didn't just match the tail of a word
-            // like "ackbarfaccept".  Also, skip to the comma.
-            boolean seencomma = false;
-            while (i >= matchlen && !seencomma) {
-                switch(a[i-matchlen]) {
-                case ',':
-                    seencomma = true;
-                    break;
-                case ' ': case '\r': case '\n':
-                case '\f': case '\t':
-                    break;
-                default:
-                    throw new IllegalArgumentException(
-                            "invalid permission: " + action);
+            // mbkf surf wf didn't just mbtdi tif tbil of b word
+            // likf "bdkbbrfbddfpt".  Also, skip to tif dommb.
+            boolfbn sffndommb = fblsf;
+            wiilf (i >= mbtdilfn && !sffndommb) {
+                switdi(b[i-mbtdilfn]) {
+                dbsf ',':
+                    sffndommb = truf;
+                    brfbk;
+                dbsf ' ': dbsf '\r': dbsf '\n':
+                dbsf '\f': dbsf '\t':
+                    brfbk;
+                dffbult:
+                    tirow nfw IllfgblArgumfntExdfption(
+                            "invblid pfrmission: " + bdtion);
                 }
                 i--;
             }
 
-            // point i at the location of the comma minus one (or -1).
-            i -= matchlen;
+            // point i bt tif lodbtion of tif dommb minus onf (or -1).
+            i -= mbtdilfn;
         }
 
-        return mask;
+        rfturn mbsk;
     }
 
-    private boolean isUntrusted()
-        throws UnknownHostException
+    privbtf boolfbn isUntrustfd()
+        tirows UnknownHostExdfption
     {
-        if (trusted) return false;
-        if (invalid || untrusted) return true;
+        if (trustfd) rfturn fblsf;
+        if (invblid || untrustfd) rfturn truf;
         try {
-            if (!trustNameService && (defaultDeny ||
-                sun.net.www.URLConnection.isProxiedHost(hostname))) {
-                if (this.cname == null) {
-                    this.getCanonName();
+            if (!trustNbmfSfrvidf && (dffbultDfny ||
+                sun.nft.www.URLConnfdtion.isProxifdHost(iostnbmf))) {
+                if (tiis.dnbmf == null) {
+                    tiis.gftCbnonNbmf();
                 }
-                if (!match(cname, hostname)) {
-                    // Last chance
-                    if (!authorized(hostname, addresses[0].getAddress())) {
-                        untrusted = true;
-                        Debug debug = getDebug();
-                        if (debug != null && Debug.isOn("failure")) {
-                            debug.println("socket access restriction: proxied host " + "(" + addresses[0] + ")" + " does not match " + cname + " from reverse lookup");
+                if (!mbtdi(dnbmf, iostnbmf)) {
+                    // Lbst dibndf
+                    if (!butiorizfd(iostnbmf, bddrfssfs[0].gftAddrfss())) {
+                        untrustfd = truf;
+                        Dfbug dfbug = gftDfbug();
+                        if (dfbug != null && Dfbug.isOn("fbilurf")) {
+                            dfbug.println("sodkft bddfss rfstridtion: proxifd iost " + "(" + bddrfssfs[0] + ")" + " dofs not mbtdi " + dnbmf + " from rfvfrsf lookup");
                         }
-                        return true;
+                        rfturn truf;
                     }
                 }
-                trusted = true;
+                trustfd = truf;
             }
-        } catch (UnknownHostException uhe) {
-            invalid = true;
-            throw uhe;
+        } dbtdi (UnknownHostExdfption uif) {
+            invblid = truf;
+            tirow uif;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * attempt to get the fully qualified domain name
+     * bttfmpt to gft tif fully qublififd dombin nbmf
      *
      */
-    void getCanonName()
-        throws UnknownHostException
+    void gftCbnonNbmf()
+        tirows UnknownHostExdfption
     {
-        if (cname != null || invalid || untrusted) return;
+        if (dnbmf != null || invblid || untrustfd) rfturn;
 
-        // attempt to get the canonical name
+        // bttfmpt to gft tif dbnonidbl nbmf
 
         try {
-            // first get the IP addresses if we don't have them yet
-            // this is because we need the IP address to then get
+            // first gft tif IP bddrfssfs if wf don't ibvf tifm yft
+            // tiis is bfdbusf wf nffd tif IP bddrfss to tifn gft
             // FQDN.
-            if (addresses == null) {
-                getIP();
+            if (bddrfssfs == null) {
+                gftIP();
             }
 
-            // we have to do this check, otherwise we might not
-            // get the fully qualified domain name
-            if (init_with_ip) {
-                cname = addresses[0].getHostName(false).toLowerCase();
-            } else {
-             cname = InetAddress.getByName(addresses[0].getHostAddress()).
-                                              getHostName(false).toLowerCase();
+            // wf ibvf to do tiis difdk, otifrwisf wf migit not
+            // gft tif fully qublififd dombin nbmf
+            if (init_witi_ip) {
+                dnbmf = bddrfssfs[0].gftHostNbmf(fblsf).toLowfrCbsf();
+            } flsf {
+             dnbmf = InftAddrfss.gftByNbmf(bddrfssfs[0].gftHostAddrfss()).
+                                              gftHostNbmf(fblsf).toLowfrCbsf();
             }
-        } catch (UnknownHostException uhe) {
-            invalid = true;
-            throw uhe;
+        } dbtdi (UnknownHostExdfption uif) {
+            invblid = truf;
+            tirow uif;
         }
     }
 
-    private transient String cdomain, hdomain;
+    privbtf trbnsifnt String ddombin, idombin;
 
-    private boolean match(String cname, String hname) {
-        String a = cname.toLowerCase();
-        String b = hname.toLowerCase();
-        if (a.startsWith(b)  &&
-            ((a.length() == b.length()) || (a.charAt(b.length()) == '.')))
-            return true;
-        if (cdomain == null) {
-            cdomain = RegisteredDomain.getRegisteredDomain(a);
+    privbtf boolfbn mbtdi(String dnbmf, String inbmf) {
+        String b = dnbmf.toLowfrCbsf();
+        String b = inbmf.toLowfrCbsf();
+        if (b.stbrtsWiti(b)  &&
+            ((b.lfngti() == b.lfngti()) || (b.dibrAt(b.lfngti()) == '.')))
+            rfturn truf;
+        if (ddombin == null) {
+            ddombin = RfgistfrfdDombin.gftRfgistfrfdDombin(b);
         }
-        if (hdomain == null) {
-            hdomain = RegisteredDomain.getRegisteredDomain(b);
+        if (idombin == null) {
+            idombin = RfgistfrfdDombin.gftRfgistfrfdDombin(b);
         }
 
-        return cdomain.length() != 0 && hdomain.length() != 0
-                        && cdomain.equals(hdomain);
+        rfturn ddombin.lfngti() != 0 && idombin.lfngti() != 0
+                        && ddombin.fqubls(idombin);
     }
 
-    private boolean authorized(String cname, byte[] addr) {
-        if (addr.length == 4)
-            return authorizedIPv4(cname, addr);
-        else if (addr.length == 16)
-            return authorizedIPv6(cname, addr);
-        else
-            return false;
+    privbtf boolfbn butiorizfd(String dnbmf, bytf[] bddr) {
+        if (bddr.lfngti == 4)
+            rfturn butiorizfdIPv4(dnbmf, bddr);
+        flsf if (bddr.lfngti == 16)
+            rfturn butiorizfdIPv6(dnbmf, bddr);
+        flsf
+            rfturn fblsf;
     }
 
-    private boolean authorizedIPv4(String cname, byte[] addr) {
-        String authHost = "";
-        InetAddress auth;
+    privbtf boolfbn butiorizfdIPv4(String dnbmf, bytf[] bddr) {
+        String butiHost = "";
+        InftAddrfss buti;
 
         try {
-            authHost = "auth." +
-                        (addr[3] & 0xff) + "." + (addr[2] & 0xff) + "." +
-                        (addr[1] & 0xff) + "." + (addr[0] & 0xff) +
-                        ".in-addr.arpa";
-            // Following check seems unnecessary
-            // auth = InetAddress.getAllByName0(authHost, false)[0];
-            authHost = hostname + '.' + authHost;
-            auth = InetAddress.getAllByName0(authHost, false)[0];
-            if (auth.equals(InetAddress.getByAddress(addr))) {
-                return true;
+            butiHost = "buti." +
+                        (bddr[3] & 0xff) + "." + (bddr[2] & 0xff) + "." +
+                        (bddr[1] & 0xff) + "." + (bddr[0] & 0xff) +
+                        ".in-bddr.brpb";
+            // Following difdk sffms unnfdfssbry
+            // buti = InftAddrfss.gftAllByNbmf0(butiHost, fblsf)[0];
+            butiHost = iostnbmf + '.' + butiHost;
+            buti = InftAddrfss.gftAllByNbmf0(butiHost, fblsf)[0];
+            if (buti.fqubls(InftAddrfss.gftByAddrfss(bddr))) {
+                rfturn truf;
             }
-            Debug debug = getDebug();
-            if (debug != null && Debug.isOn("failure")) {
-                debug.println("socket access restriction: IP address of " + auth + " != " + InetAddress.getByAddress(addr));
+            Dfbug dfbug = gftDfbug();
+            if (dfbug != null && Dfbug.isOn("fbilurf")) {
+                dfbug.println("sodkft bddfss rfstridtion: IP bddrfss of " + buti + " != " + InftAddrfss.gftByAddrfss(bddr));
             }
-        } catch (UnknownHostException uhe) {
-            Debug debug = getDebug();
-            if (debug != null && Debug.isOn("failure")) {
-                debug.println("socket access restriction: forward lookup failed for " + authHost);
+        } dbtdi (UnknownHostExdfption uif) {
+            Dfbug dfbug = gftDfbug();
+            if (dfbug != null && Dfbug.isOn("fbilurf")) {
+                dfbug.println("sodkft bddfss rfstridtion: forwbrd lookup fbilfd for " + butiHost);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private boolean authorizedIPv6(String cname, byte[] addr) {
-        String authHost = "";
-        InetAddress auth;
+    privbtf boolfbn butiorizfdIPv6(String dnbmf, bytf[] bddr) {
+        String butiHost = "";
+        InftAddrfss buti;
 
         try {
-            StringBuilder sb = new StringBuilder(39);
+            StringBuildfr sb = nfw StringBuildfr(39);
 
             for (int i = 15; i >= 0; i--) {
-                sb.append(Integer.toHexString(((addr[i]) & 0x0f)));
-                sb.append('.');
-                sb.append(Integer.toHexString(((addr[i] >> 4) & 0x0f)));
-                sb.append('.');
+                sb.bppfnd(Intfgfr.toHfxString(((bddr[i]) & 0x0f)));
+                sb.bppfnd('.');
+                sb.bppfnd(Intfgfr.toHfxString(((bddr[i] >> 4) & 0x0f)));
+                sb.bppfnd('.');
             }
-            authHost = "auth." + sb.toString() + "IP6.ARPA";
-            //auth = InetAddress.getAllByName0(authHost, false)[0];
-            authHost = hostname + '.' + authHost;
-            auth = InetAddress.getAllByName0(authHost, false)[0];
-            if (auth.equals(InetAddress.getByAddress(addr)))
-                return true;
-            Debug debug = getDebug();
-            if (debug != null && Debug.isOn("failure")) {
-                debug.println("socket access restriction: IP address of " + auth + " != " + InetAddress.getByAddress(addr));
+            butiHost = "buti." + sb.toString() + "IP6.ARPA";
+            //buti = InftAddrfss.gftAllByNbmf0(butiHost, fblsf)[0];
+            butiHost = iostnbmf + '.' + butiHost;
+            buti = InftAddrfss.gftAllByNbmf0(butiHost, fblsf)[0];
+            if (buti.fqubls(InftAddrfss.gftByAddrfss(bddr)))
+                rfturn truf;
+            Dfbug dfbug = gftDfbug();
+            if (dfbug != null && Dfbug.isOn("fbilurf")) {
+                dfbug.println("sodkft bddfss rfstridtion: IP bddrfss of " + buti + " != " + InftAddrfss.gftByAddrfss(bddr));
             }
-        } catch (UnknownHostException uhe) {
-            Debug debug = getDebug();
-            if (debug != null && Debug.isOn("failure")) {
-                debug.println("socket access restriction: forward lookup failed for " + authHost);
+        } dbtdi (UnknownHostExdfption uif) {
+            Dfbug dfbug = gftDfbug();
+            if (dfbug != null && Dfbug.isOn("fbilurf")) {
+                dfbug.println("sodkft bddfss rfstridtion: forwbrd lookup fbilfd for " + butiHost);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * get IP addresses. Sets invalid to true if we can't get them.
+     * gft IP bddrfssfs. Sfts invblid to truf if wf dbn't gft tifm.
      *
      */
-    void getIP()
-        throws UnknownHostException
+    void gftIP()
+        tirows UnknownHostExdfption
     {
-        if (addresses != null || wildcard || invalid) return;
+        if (bddrfssfs != null || wilddbrd || invblid) rfturn;
 
         try {
-            // now get all the IP addresses
-            String host;
-            if (getName().charAt(0) == '[') {
-                // Literal IPv6 address
-                host = getName().substring(1, getName().indexOf(']'));
-            } else {
-                int i = getName().indexOf(':');
+            // now gft bll tif IP bddrfssfs
+            String iost;
+            if (gftNbmf().dibrAt(0) == '[') {
+                // Litfrbl IPv6 bddrfss
+                iost = gftNbmf().substring(1, gftNbmf().indfxOf(']'));
+            } flsf {
+                int i = gftNbmf().indfxOf(':');
                 if (i == -1)
-                    host = getName();
-                else {
-                    host = getName().substring(0,i);
+                    iost = gftNbmf();
+                flsf {
+                    iost = gftNbmf().substring(0,i);
                 }
             }
 
-            addresses =
-                new InetAddress[] {InetAddress.getAllByName0(host, false)[0]};
+            bddrfssfs =
+                nfw InftAddrfss[] {InftAddrfss.gftAllByNbmf0(iost, fblsf)[0]};
 
-        } catch (UnknownHostException uhe) {
-            invalid = true;
-            throw uhe;
-        }  catch (IndexOutOfBoundsException iobe) {
-            invalid = true;
-            throw new UnknownHostException(getName());
+        } dbtdi (UnknownHostExdfption uif) {
+            invblid = truf;
+            tirow uif;
+        }  dbtdi (IndfxOutOfBoundsExdfption iobf) {
+            invblid = truf;
+            tirow nfw UnknownHostExdfption(gftNbmf());
         }
     }
 
     /**
-     * Checks if this socket permission object "implies" the
-     * specified permission.
+     * Cifdks if tiis sodkft pfrmission objfdt "implifs" tif
+     * spfdififd pfrmission.
      * <P>
-     * More specifically, this method first ensures that all of the following
-     * are true (and returns false if any of them are not):
+     * Morf spfdifidblly, tiis mftiod first fnsurfs tibt bll of tif following
+     * brf truf (bnd rfturns fblsf if bny of tifm brf not):
      * <ul>
-     * <li> <i>p</i> is an instanceof SocketPermission,
-     * <li> <i>p</i>'s actions are a proper subset of this
-     * object's actions, and
-     * <li> <i>p</i>'s port range is included in this port range. Note:
-     * port range is ignored when p only contains the action, 'resolve'.
+     * <li> <i>p</i> is bn instbndfof SodkftPfrmission,
+     * <li> <i>p</i>'s bdtions brf b propfr subsft of tiis
+     * objfdt's bdtions, bnd
+     * <li> <i>p</i>'s port rbngf is indludfd in tiis port rbngf. Notf:
+     * port rbngf is ignorfd wifn p only dontbins tif bdtion, 'rfsolvf'.
      * </ul>
      *
-     * Then {@code implies} checks each of the following, in order,
-     * and for each returns true if the stated condition is true:
+     * Tifn {@dodf implifs} difdks fbdi of tif following, in ordfr,
+     * bnd for fbdi rfturns truf if tif stbtfd dondition is truf:
      * <ul>
-     * <li> If this object was initialized with a single IP address and one of <i>p</i>'s
-     * IP addresses is equal to this object's IP address.
-     * <li>If this object is a wildcard domain (such as *.sun.com), and
-     * <i>p</i>'s canonical name (the name without any preceding *)
-     * ends with this object's canonical host name. For example, *.sun.com
-     * implies *.eng.sun.com.
-     * <li>If this object was not initialized with a single IP address, and one of this
-     * object's IP addresses equals one of <i>p</i>'s IP addresses.
-     * <li>If this canonical name equals <i>p</i>'s canonical name.
+     * <li> If tiis objfdt wbs initiblizfd witi b singlf IP bddrfss bnd onf of <i>p</i>'s
+     * IP bddrfssfs is fqubl to tiis objfdt's IP bddrfss.
+     * <li>If tiis objfdt is b wilddbrd dombin (sudi bs *.sun.dom), bnd
+     * <i>p</i>'s dbnonidbl nbmf (tif nbmf witiout bny prfdfding *)
+     * fnds witi tiis objfdt's dbnonidbl iost nbmf. For fxbmplf, *.sun.dom
+     * implifs *.fng.sun.dom.
+     * <li>If tiis objfdt wbs not initiblizfd witi b singlf IP bddrfss, bnd onf of tiis
+     * objfdt's IP bddrfssfs fqubls onf of <i>p</i>'s IP bddrfssfs.
+     * <li>If tiis dbnonidbl nbmf fqubls <i>p</i>'s dbnonidbl nbmf.
      * </ul>
      *
-     * If none of the above are true, {@code implies} returns false.
-     * @param p the permission to check against.
+     * If nonf of tif bbovf brf truf, {@dodf implifs} rfturns fblsf.
+     * @pbrbm p tif pfrmission to difdk bgbinst.
      *
-     * @return true if the specified permission is implied by this object,
-     * false if not.
+     * @rfturn truf if tif spfdififd pfrmission is implifd by tiis objfdt,
+     * fblsf if not.
      */
-    public boolean implies(Permission p) {
+    publid boolfbn implifs(Pfrmission p) {
         int i,j;
 
-        if (!(p instanceof SocketPermission))
-            return false;
+        if (!(p instbndfof SodkftPfrmission))
+            rfturn fblsf;
 
-        if (p == this)
-            return true;
+        if (p == tiis)
+            rfturn truf;
 
-        SocketPermission that = (SocketPermission) p;
+        SodkftPfrmission tibt = (SodkftPfrmission) p;
 
-        return ((this.mask & that.mask) == that.mask) &&
-                                        impliesIgnoreMask(that);
+        rfturn ((tiis.mbsk & tibt.mbsk) == tibt.mbsk) &&
+                                        implifsIgnorfMbsk(tibt);
     }
 
     /**
-     * Checks if the incoming Permission's action are a proper subset of
-     * the this object's actions.
+     * Cifdks if tif indoming Pfrmission's bdtion brf b propfr subsft of
+     * tif tiis objfdt's bdtions.
      * <P>
-     * Check, in the following order:
+     * Cifdk, in tif following ordfr:
      * <ul>
-     * <li> Checks that "p" is an instanceof a SocketPermission
-     * <li> Checks that "p"'s actions are a proper subset of the
-     * current object's actions.
-     * <li> Checks that "p"'s port range is included in this port range
-     * <li> If this object was initialized with an IP address, checks that
-     *      one of "p"'s IP addresses is equal to this object's IP address.
-     * <li> If either object is a wildcard domain (i.e., "*.sun.com"),
-     *      attempt to match based on the wildcard.
-     * <li> If this object was not initialized with an IP address, attempt
-     *      to find a match based on the IP addresses in both objects.
-     * <li> Attempt to match on the canonical hostnames of both objects.
+     * <li> Cifdks tibt "p" is bn instbndfof b SodkftPfrmission
+     * <li> Cifdks tibt "p"'s bdtions brf b propfr subsft of tif
+     * durrfnt objfdt's bdtions.
+     * <li> Cifdks tibt "p"'s port rbngf is indludfd in tiis port rbngf
+     * <li> If tiis objfdt wbs initiblizfd witi bn IP bddrfss, difdks tibt
+     *      onf of "p"'s IP bddrfssfs is fqubl to tiis objfdt's IP bddrfss.
+     * <li> If fitifr objfdt is b wilddbrd dombin (i.f., "*.sun.dom"),
+     *      bttfmpt to mbtdi bbsfd on tif wilddbrd.
+     * <li> If tiis objfdt wbs not initiblizfd witi bn IP bddrfss, bttfmpt
+     *      to find b mbtdi bbsfd on tif IP bddrfssfs in boti objfdts.
+     * <li> Attfmpt to mbtdi on tif dbnonidbl iostnbmfs of boti objfdts.
      * </ul>
-     * @param that the incoming permission request
+     * @pbrbm tibt tif indoming pfrmission rfqufst
      *
-     * @return true if "permission" is a proper subset of the current object,
-     * false if not.
+     * @rfturn truf if "pfrmission" is b propfr subsft of tif durrfnt objfdt,
+     * fblsf if not.
      */
-    boolean impliesIgnoreMask(SocketPermission that) {
+    boolfbn implifsIgnorfMbsk(SodkftPfrmission tibt) {
         int i,j;
 
-        if ((that.mask & RESOLVE) != that.mask) {
+        if ((tibt.mbsk & RESOLVE) != tibt.mbsk) {
 
-            // check simple port range
-            if ((that.portrange[0] < this.portrange[0]) ||
-                    (that.portrange[1] > this.portrange[1])) {
+            // difdk simplf port rbngf
+            if ((tibt.portrbngf[0] < tiis.portrbngf[0]) ||
+                    (tibt.portrbngf[1] > tiis.portrbngf[1])) {
 
-                // if either includes the ephemeral range, do full check
-                if (this.includesEphemerals() || that.includesEphemerals()) {
-                    if (!inRange(this.portrange[0], this.portrange[1],
-                                     that.portrange[0], that.portrange[1]))
+                // if fitifr indludfs tif fpifmfrbl rbngf, do full difdk
+                if (tiis.indludfsEpifmfrbls() || tibt.indludfsEpifmfrbls()) {
+                    if (!inRbngf(tiis.portrbngf[0], tiis.portrbngf[1],
+                                     tibt.portrbngf[0], tibt.portrbngf[1]))
                     {
-                                return false;
+                                rfturn fblsf;
                     }
-                } else {
-                    return false;
+                } flsf {
+                    rfturn fblsf;
                 }
             }
         }
 
-        // allow a "*" wildcard to always match anything
-        if (this.wildcard && "".equals(this.cname))
-            return true;
+        // bllow b "*" wilddbrd to blwbys mbtdi bnytiing
+        if (tiis.wilddbrd && "".fqubls(tiis.dnbmf))
+            rfturn truf;
 
-        // return if either one of these NetPerm objects are invalid...
-        if (this.invalid || that.invalid) {
-            return compareHostnames(that);
+        // rfturn if fitifr onf of tifsf NftPfrm objfdts brf invblid...
+        if (tiis.invblid || tibt.invblid) {
+            rfturn dompbrfHostnbmfs(tibt);
         }
 
         try {
-            if (this.init_with_ip) { // we only check IP addresses
-                if (that.wildcard)
-                    return false;
+            if (tiis.init_witi_ip) { // wf only difdk IP bddrfssfs
+                if (tibt.wilddbrd)
+                    rfturn fblsf;
 
-                if (that.init_with_ip) {
-                    return (this.addresses[0].equals(that.addresses[0]));
-                } else {
-                    if (that.addresses == null) {
-                        that.getIP();
+                if (tibt.init_witi_ip) {
+                    rfturn (tiis.bddrfssfs[0].fqubls(tibt.bddrfssfs[0]));
+                } flsf {
+                    if (tibt.bddrfssfs == null) {
+                        tibt.gftIP();
                     }
-                    for (i=0; i < that.addresses.length; i++) {
-                        if (this.addresses[0].equals(that.addresses[i]))
-                            return true;
+                    for (i=0; i < tibt.bddrfssfs.lfngti; i++) {
+                        if (tiis.bddrfssfs[0].fqubls(tibt.bddrfssfs[i]))
+                            rfturn truf;
                     }
                 }
-                // since "this" was initialized with an IP address, we
-                // don't check any other cases
-                return false;
+                // sindf "tiis" wbs initiblizfd witi bn IP bddrfss, wf
+                // don't difdk bny otifr dbsfs
+                rfturn fblsf;
             }
 
-            // check and see if we have any wildcards...
-            if (this.wildcard || that.wildcard) {
-                // if they are both wildcards, return true iff
-                // that's cname ends with this cname (i.e., *.sun.com
-                // implies *.eng.sun.com)
-                if (this.wildcard && that.wildcard)
-                    return (that.cname.endsWith(this.cname));
+            // difdk bnd sff if wf ibvf bny wilddbrds...
+            if (tiis.wilddbrd || tibt.wilddbrd) {
+                // if tify brf boti wilddbrds, rfturn truf iff
+                // tibt's dnbmf fnds witi tiis dnbmf (i.f., *.sun.dom
+                // implifs *.fng.sun.dom)
+                if (tiis.wilddbrd && tibt.wilddbrd)
+                    rfturn (tibt.dnbmf.fndsWiti(tiis.dnbmf));
 
-                // a non-wildcard can't imply a wildcard
-                if (that.wildcard)
-                    return false;
+                // b non-wilddbrd dbn't imply b wilddbrd
+                if (tibt.wilddbrd)
+                    rfturn fblsf;
 
-                // this is a wildcard, lets see if that's cname ends with
+                // tiis is b wilddbrd, lfts sff if tibt's dnbmf fnds witi
                 // it...
-                if (that.cname == null) {
-                    that.getCanonName();
+                if (tibt.dnbmf == null) {
+                    tibt.gftCbnonNbmf();
                 }
-                return (that.cname.endsWith(this.cname));
+                rfturn (tibt.dnbmf.fndsWiti(tiis.dnbmf));
             }
 
-            // comapare IP addresses
-            if (this.addresses == null) {
-                this.getIP();
+            // dombpbrf IP bddrfssfs
+            if (tiis.bddrfssfs == null) {
+                tiis.gftIP();
             }
 
-            if (that.addresses == null) {
-                that.getIP();
+            if (tibt.bddrfssfs == null) {
+                tibt.gftIP();
             }
 
-            if (!(that.init_with_ip && this.isUntrusted())) {
-                for (j = 0; j < this.addresses.length; j++) {
-                    for (i=0; i < that.addresses.length; i++) {
-                        if (this.addresses[j].equals(that.addresses[i]))
-                            return true;
+            if (!(tibt.init_witi_ip && tiis.isUntrustfd())) {
+                for (j = 0; j < tiis.bddrfssfs.lfngti; j++) {
+                    for (i=0; i < tibt.bddrfssfs.lfngti; i++) {
+                        if (tiis.bddrfssfs[j].fqubls(tibt.bddrfssfs[i]))
+                            rfturn truf;
                     }
                 }
 
-                // XXX: if all else fails, compare hostnames?
-                // Do we really want this?
-                if (this.cname == null) {
-                    this.getCanonName();
+                // XXX: if bll flsf fbils, dompbrf iostnbmfs?
+                // Do wf rfblly wbnt tiis?
+                if (tiis.dnbmf == null) {
+                    tiis.gftCbnonNbmf();
                 }
 
-                if (that.cname == null) {
-                    that.getCanonName();
+                if (tibt.dnbmf == null) {
+                    tibt.gftCbnonNbmf();
                 }
 
-                return (this.cname.equalsIgnoreCase(that.cname));
+                rfturn (tiis.dnbmf.fqublsIgnorfCbsf(tibt.dnbmf));
             }
 
-        } catch (UnknownHostException uhe) {
-            return compareHostnames(that);
+        } dbtdi (UnknownHostExdfption uif) {
+            rfturn dompbrfHostnbmfs(tibt);
         }
 
-        // make sure the first thing that is done here is to return
-        // false. If not, uncomment the return false in the above catch.
+        // mbkf surf tif first tiing tibt is donf ifrf is to rfturn
+        // fblsf. If not, undommfnt tif rfturn fblsf in tif bbovf dbtdi.
 
-        return false;
+        rfturn fblsf;
     }
 
-    private boolean compareHostnames(SocketPermission that) {
-        // we see if the original names/IPs passed in were equal.
+    privbtf boolfbn dompbrfHostnbmfs(SodkftPfrmission tibt) {
+        // wf sff if tif originbl nbmfs/IPs pbssfd in wfrf fqubl.
 
-        String thisHost = hostname;
-        String thatHost = that.hostname;
+        String tiisHost = iostnbmf;
+        String tibtHost = tibt.iostnbmf;
 
-        if (thisHost == null) {
-            return false;
-        } else if (this.wildcard) {
-            final int cnameLength = this.cname.length();
-            return thatHost.regionMatches(true,
-                                          (thatHost.length() - cnameLength),
-                                          this.cname, 0, cnameLength);
-        } else {
-            return thisHost.equalsIgnoreCase(thatHost);
+        if (tiisHost == null) {
+            rfturn fblsf;
+        } flsf if (tiis.wilddbrd) {
+            finbl int dnbmfLfngti = tiis.dnbmf.lfngti();
+            rfturn tibtHost.rfgionMbtdifs(truf,
+                                          (tibtHost.lfngti() - dnbmfLfngti),
+                                          tiis.dnbmf, 0, dnbmfLfngti);
+        } flsf {
+            rfturn tiisHost.fqublsIgnorfCbsf(tibtHost);
         }
     }
 
     /**
-     * Checks two SocketPermission objects for equality.
+     * Cifdks two SodkftPfrmission objfdts for fqublity.
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis objfdt.
      *
-     * @return true if <i>obj</i> is a SocketPermission, and has the
-     *  same hostname, port range, and actions as this
-     *  SocketPermission object. However, port range will be ignored
-     *  in the comparison if <i>obj</i> only contains the action, 'resolve'.
+     * @rfturn truf if <i>obj</i> is b SodkftPfrmission, bnd ibs tif
+     *  sbmf iostnbmf, port rbngf, bnd bdtions bs tiis
+     *  SodkftPfrmission objfdt. Howfvfr, port rbngf will bf ignorfd
+     *  in tif dompbrison if <i>obj</i> only dontbins tif bdtion, 'rfsolvf'.
      */
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
 
-        if (! (obj instanceof SocketPermission))
-            return false;
+        if (! (obj instbndfof SodkftPfrmission))
+            rfturn fblsf;
 
-        SocketPermission that = (SocketPermission) obj;
+        SodkftPfrmission tibt = (SodkftPfrmission) obj;
 
-        //this is (overly?) complex!!!
+        //tiis is (ovfrly?) domplfx!!!
 
-        // check the mask first
-        if (this.mask != that.mask) return false;
+        // difdk tif mbsk first
+        if (tiis.mbsk != tibt.mbsk) rfturn fblsf;
 
-        if ((that.mask & RESOLVE) != that.mask) {
-            // now check the port range...
-            if ((this.portrange[0] != that.portrange[0]) ||
-                (this.portrange[1] != that.portrange[1])) {
-                return false;
+        if ((tibt.mbsk & RESOLVE) != tibt.mbsk) {
+            // now difdk tif port rbngf...
+            if ((tiis.portrbngf[0] != tibt.portrbngf[0]) ||
+                (tiis.portrbngf[1] != tibt.portrbngf[1])) {
+                rfturn fblsf;
             }
         }
 
-        // short cut. This catches:
-        //  "crypto" equal to "crypto", or
-        // "1.2.3.4" equal to "1.2.3.4.", or
-        //  "*.edu" equal to "*.edu", but it
-        //  does not catch "crypto" equal to
-        // "crypto.eng.sun.com".
+        // siort dut. Tiis dbtdifs:
+        //  "drypto" fqubl to "drypto", or
+        // "1.2.3.4" fqubl to "1.2.3.4.", or
+        //  "*.fdu" fqubl to "*.fdu", but it
+        //  dofs not dbtdi "drypto" fqubl to
+        // "drypto.fng.sun.dom".
 
-        if (this.getName().equalsIgnoreCase(that.getName())) {
-            return true;
+        if (tiis.gftNbmf().fqublsIgnorfCbsf(tibt.gftNbmf())) {
+            rfturn truf;
         }
 
-        // we now attempt to get the Canonical (FQDN) name and
-        // compare that. If this fails, about all we can do is return
-        // false.
+        // wf now bttfmpt to gft tif Cbnonidbl (FQDN) nbmf bnd
+        // dompbrf tibt. If tiis fbils, bbout bll wf dbn do is rfturn
+        // fblsf.
 
         try {
-            this.getCanonName();
-            that.getCanonName();
-        } catch (UnknownHostException uhe) {
-            return false;
+            tiis.gftCbnonNbmf();
+            tibt.gftCbnonNbmf();
+        } dbtdi (UnknownHostExdfption uif) {
+            rfturn fblsf;
         }
 
-        if (this.invalid || that.invalid)
-            return false;
+        if (tiis.invblid || tibt.invblid)
+            rfturn fblsf;
 
-        if (this.cname != null) {
-            return this.cname.equalsIgnoreCase(that.cname);
+        if (tiis.dnbmf != null) {
+            rfturn tiis.dnbmf.fqublsIgnorfCbsf(tibt.dnbmf);
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt.
      *
-     * @return a hash code value for this object.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
      */
 
-    public int hashCode() {
+    publid int ibsiCodf() {
         /*
-         * If this SocketPermission was initialized with an IP address
-         * or a wildcard, use getName().hashCode(), otherwise use
-         * the hashCode() of the host name returned from
-         * java.net.InetAddress.getHostName method.
+         * If tiis SodkftPfrmission wbs initiblizfd witi bn IP bddrfss
+         * or b wilddbrd, usf gftNbmf().ibsiCodf(), otifrwisf usf
+         * tif ibsiCodf() of tif iost nbmf rfturnfd from
+         * jbvb.nft.InftAddrfss.gftHostNbmf mftiod.
          */
 
-        if (init_with_ip || wildcard) {
-            return this.getName().hashCode();
+        if (init_witi_ip || wilddbrd) {
+            rfturn tiis.gftNbmf().ibsiCodf();
         }
 
         try {
-            getCanonName();
-        } catch (UnknownHostException uhe) {
+            gftCbnonNbmf();
+        } dbtdi (UnknownHostExdfption uif) {
 
         }
 
-        if (invalid || cname == null)
-            return this.getName().hashCode();
-        else
-            return this.cname.hashCode();
+        if (invblid || dnbmf == null)
+            rfturn tiis.gftNbmf().ibsiCodf();
+        flsf
+            rfturn tiis.dnbmf.ibsiCodf();
     }
 
     /**
-     * Return the current action mask.
+     * Rfturn tif durrfnt bdtion mbsk.
      *
-     * @return the actions mask.
+     * @rfturn tif bdtions mbsk.
      */
 
-    int getMask() {
-        return mask;
+    int gftMbsk() {
+        rfturn mbsk;
     }
 
     /**
-     * Returns the "canonical string representation" of the actions in the
-     * specified mask.
-     * Always returns present actions in the following order:
-     * connect, listen, accept, resolve.
+     * Rfturns tif "dbnonidbl string rfprfsfntbtion" of tif bdtions in tif
+     * spfdififd mbsk.
+     * Alwbys rfturns prfsfnt bdtions in tif following ordfr:
+     * donnfdt, listfn, bddfpt, rfsolvf.
      *
-     * @param mask a specific integer action mask to translate into a string
-     * @return the canonical string representation of the actions
+     * @pbrbm mbsk b spfdifid intfgfr bdtion mbsk to trbnslbtf into b string
+     * @rfturn tif dbnonidbl string rfprfsfntbtion of tif bdtions
      */
-    private static String getActions(int mask)
+    privbtf stbtid String gftAdtions(int mbsk)
     {
-        StringBuilder sb = new StringBuilder();
-        boolean comma = false;
+        StringBuildfr sb = nfw StringBuildfr();
+        boolfbn dommb = fblsf;
 
-        if ((mask & CONNECT) == CONNECT) {
-            comma = true;
-            sb.append("connect");
+        if ((mbsk & CONNECT) == CONNECT) {
+            dommb = truf;
+            sb.bppfnd("donnfdt");
         }
 
-        if ((mask & LISTEN) == LISTEN) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("listen");
+        if ((mbsk & LISTEN) == LISTEN) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("listfn");
         }
 
-        if ((mask & ACCEPT) == ACCEPT) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("accept");
+        if ((mbsk & ACCEPT) == ACCEPT) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("bddfpt");
         }
 
 
-        if ((mask & RESOLVE) == RESOLVE) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("resolve");
+        if ((mbsk & RESOLVE) == RESOLVE) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("rfsolvf");
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /**
-     * Returns the canonical string representation of the actions.
-     * Always returns present actions in the following order:
-     * connect, listen, accept, resolve.
+     * Rfturns tif dbnonidbl string rfprfsfntbtion of tif bdtions.
+     * Alwbys rfturns prfsfnt bdtions in tif following ordfr:
+     * donnfdt, listfn, bddfpt, rfsolvf.
      *
-     * @return the canonical string representation of the actions.
+     * @rfturn tif dbnonidbl string rfprfsfntbtion of tif bdtions.
      */
-    public String getActions()
+    publid String gftAdtions()
     {
-        if (actions == null)
-            actions = getActions(this.mask);
+        if (bdtions == null)
+            bdtions = gftAdtions(tiis.mbsk);
 
-        return actions;
+        rfturn bdtions;
     }
 
     /**
-     * Returns a new PermissionCollection object for storing SocketPermission
-     * objects.
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing SodkftPfrmission
+     * objfdts.
      * <p>
-     * SocketPermission objects must be stored in a manner that allows them
-     * to be inserted into the collection in any order, but that also enables the
-     * PermissionCollection {@code implies}
-     * method to be implemented in an efficient (and consistent) manner.
+     * SodkftPfrmission objfdts must bf storfd in b mbnnfr tibt bllows tifm
+     * to bf insfrtfd into tif dollfdtion in bny ordfr, but tibt blso fnbblfs tif
+     * PfrmissionCollfdtion {@dodf implifs}
+     * mftiod to bf implfmfntfd in bn fffidifnt (bnd donsistfnt) mbnnfr.
      *
-     * @return a new PermissionCollection object suitable for storing SocketPermissions.
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for storing SodkftPfrmissions.
      */
 
-    public PermissionCollection newPermissionCollection() {
-        return new SocketPermissionCollection();
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw SodkftPfrmissionCollfdtion();
     }
 
     /**
-     * WriteObject is called to save the state of the SocketPermission
-     * to a stream. The actions are serialized, and the superclass
-     * takes care of the name.
+     * WritfObjfdt is dbllfd to sbvf tif stbtf of tif SodkftPfrmission
+     * to b strfbm. Tif bdtions brf sfriblizfd, bnd tif supfrdlbss
+     * tbkfs dbrf of tif nbmf.
      */
-    private synchronized void writeObject(java.io.ObjectOutputStream s)
-        throws IOException
+    privbtf syndironizfd void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows IOExdfption
     {
-        // Write out the actions. The superclass takes care of the name
-        // call getActions to make sure actions field is initialized
-        if (actions == null)
-            getActions();
-        s.defaultWriteObject();
+        // Writf out tif bdtions. Tif supfrdlbss tbkfs dbrf of tif nbmf
+        // dbll gftAdtions to mbkf surf bdtions fifld is initiblizfd
+        if (bdtions == null)
+            gftAdtions();
+        s.dffbultWritfObjfdt();
     }
 
     /**
-     * readObject is called to restore the state of the SocketPermission from
-     * a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SodkftPfrmission from
+     * b strfbm.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbtf syndironizfd void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         tirows IOExdfption, ClbssNotFoundExdfption
     {
-        // Read in the action, then initialize the rest
-        s.defaultReadObject();
-        init(getName(),getMask(actions));
+        // Rfbd in tif bdtion, tifn initiblizf tif rfst
+        s.dffbultRfbdObjfdt();
+        init(gftNbmf(),gftMbsk(bdtions));
     }
 
     /**
-     * Check the system/security property for the ephemeral port range
-     * for this system. The suffix is either "high" or "low"
+     * Cifdk tif systfm/sfdurity propfrty for tif fpifmfrbl port rbngf
+     * for tiis systfm. Tif suffix is fitifr "iigi" or "low"
      */
-    private static int initEphemeralPorts(String suffix, int defval) {
-        return AccessController.doPrivileged(
-            new PrivilegedAction<Integer>(){
-                public Integer run() {
-                    int val = Integer.getInteger(
-                            "jdk.net.ephemeralPortRange."+suffix, -1
+    privbtf stbtid int initEpifmfrblPorts(String suffix, int dffvbl) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Intfgfr>(){
+                publid Intfgfr run() {
+                    int vbl = Intfgfr.gftIntfgfr(
+                            "jdk.nft.fpifmfrblPortRbngf."+suffix, -1
                     );
-                    if (val != -1) {
-                        return val;
-                    } else {
-                        return suffix.equals("low") ?
-                            PortConfig.getLower() : PortConfig.getUpper();
+                    if (vbl != -1) {
+                        rfturn vbl;
+                    } flsf {
+                        rfturn suffix.fqubls("low") ?
+                            PortConfig.gftLowfr() : PortConfig.gftUppfr();
                     }
                 }
             }
@@ -1225,262 +1225,262 @@ public final class SocketPermission extends Permission
     }
 
     /**
-     * Check if the target range is within the policy range
-     * together with the ephemeral range for this platform
-     * (if policy includes ephemeral range)
+     * Cifdk if tif tbrgft rbngf is witiin tif polidy rbngf
+     * togftifr witi tif fpifmfrbl rbngf for tiis plbtform
+     * (if polidy indludfs fpifmfrbl rbngf)
      */
-    private static boolean inRange(
-        int policyLow, int policyHigh, int targetLow, int targetHigh
+    privbtf stbtid boolfbn inRbngf(
+        int polidyLow, int polidyHigi, int tbrgftLow, int tbrgftHigi
     )
     {
-        final int ephemeralLow = EphemeralRange.low;
-        final int ephemeralHigh = EphemeralRange.high;
+        finbl int fpifmfrblLow = EpifmfrblRbngf.low;
+        finbl int fpifmfrblHigi = EpifmfrblRbngf.iigi;
 
-        if (targetLow == 0) {
-            // check policy includes ephemeral range
-            if (!inRange(policyLow, policyHigh, ephemeralLow, ephemeralHigh)) {
-                return false;
+        if (tbrgftLow == 0) {
+            // difdk polidy indludfs fpifmfrbl rbngf
+            if (!inRbngf(polidyLow, polidyHigi, fpifmfrblLow, fpifmfrblHigi)) {
+                rfturn fblsf;
             }
-            if (targetHigh == 0) {
-                // nothing left to do
-                return true;
+            if (tbrgftHigi == 0) {
+                // notiing lfft to do
+                rfturn truf;
             }
-            // continue check with first real port number
-            targetLow = 1;
+            // dontinuf difdk witi first rfbl port numbfr
+            tbrgftLow = 1;
         }
 
-        if (policyLow == 0 && policyHigh == 0) {
-            // ephemeral range only
-            return targetLow >= ephemeralLow && targetHigh <= ephemeralHigh;
+        if (polidyLow == 0 && polidyHigi == 0) {
+            // fpifmfrbl rbngf only
+            rfturn tbrgftLow >= fpifmfrblLow && tbrgftHigi <= fpifmfrblHigi;
         }
 
-        if (policyLow != 0) {
-            // simple check of policy only
-            return targetLow >= policyLow && targetHigh <= policyHigh;
+        if (polidyLow != 0) {
+            // simplf difdk of polidy only
+            rfturn tbrgftLow >= polidyLow && tbrgftHigi <= polidyHigi;
         }
 
-        // policyLow == 0 which means possibly two ranges to check
+        // polidyLow == 0 wiidi mfbns possibly two rbngfs to difdk
 
-        // first check if policy and ephem range overlap/contiguous
+        // first difdk if polidy bnd fpifm rbngf ovfrlbp/dontiguous
 
-        if (policyHigh >= ephemeralLow - 1) {
-            return targetHigh <= ephemeralHigh;
+        if (polidyHigi >= fpifmfrblLow - 1) {
+            rfturn tbrgftHigi <= fpifmfrblHigi;
         }
 
-        // policy and ephem range do not overlap
+        // polidy bnd fpifm rbngf do not ovfrlbp
 
-        // target range must lie entirely inside policy range or eph range
+        // tbrgft rbngf must lif fntirfly insidf polidy rbngf or fpi rbngf
 
-        return  (targetLow <= policyHigh && targetHigh <= policyHigh) ||
-                (targetLow >= ephemeralLow && targetHigh <= ephemeralHigh);
+        rfturn  (tbrgftLow <= polidyHigi && tbrgftHigi <= polidyHigi) ||
+                (tbrgftLow >= fpifmfrblLow && tbrgftHigi <= fpifmfrblHigi);
     }
     /*
-    public String toString()
+    publid String toString()
     {
-        StringBuffer s = new StringBuffer(super.toString() + "\n" +
-            "cname = " + cname + "\n" +
-            "wildcard = " + wildcard + "\n" +
-            "invalid = " + invalid + "\n" +
-            "portrange = " + portrange[0] + "," + portrange[1] + "\n");
-        if (addresses != null) for (int i=0; i<addresses.length; i++) {
-            s.append( addresses[i].getHostAddress());
-            s.append("\n");
-        } else {
-            s.append("(no addresses)\n");
+        StringBufffr s = nfw StringBufffr(supfr.toString() + "\n" +
+            "dnbmf = " + dnbmf + "\n" +
+            "wilddbrd = " + wilddbrd + "\n" +
+            "invblid = " + invblid + "\n" +
+            "portrbngf = " + portrbngf[0] + "," + portrbngf[1] + "\n");
+        if (bddrfssfs != null) for (int i=0; i<bddrfssfs.lfngti; i++) {
+            s.bppfnd( bddrfssfs[i].gftHostAddrfss());
+            s.bppfnd("\n");
+        } flsf {
+            s.bppfnd("(no bddrfssfs)\n");
         }
 
-        return s.toString();
+        rfturn s.toString();
     }
 
-    public static void main(String args[]) throws Exception {
-        SocketPermission this_ = new SocketPermission(args[0], "connect");
-        SocketPermission that_ = new SocketPermission(args[1], "connect");
-        System.out.println("-----\n");
-        System.out.println("this.implies(that) = " + this_.implies(that_));
-        System.out.println("-----\n");
-        System.out.println("this = "+this_);
-        System.out.println("-----\n");
-        System.out.println("that = "+that_);
-        System.out.println("-----\n");
+    publid stbtid void mbin(String brgs[]) tirows Exdfption {
+        SodkftPfrmission tiis_ = nfw SodkftPfrmission(brgs[0], "donnfdt");
+        SodkftPfrmission tibt_ = nfw SodkftPfrmission(brgs[1], "donnfdt");
+        Systfm.out.println("-----\n");
+        Systfm.out.println("tiis.implifs(tibt) = " + tiis_.implifs(tibt_));
+        Systfm.out.println("-----\n");
+        Systfm.out.println("tiis = "+tiis_);
+        Systfm.out.println("-----\n");
+        Systfm.out.println("tibt = "+tibt_);
+        Systfm.out.println("-----\n");
 
-        SocketPermissionCollection nps = new SocketPermissionCollection();
-        nps.add(this_);
-        nps.add(new SocketPermission("www-leland.stanford.edu","connect"));
-        nps.add(new SocketPermission("www-sun.com","connect"));
-        System.out.println("nps.implies(that) = " + nps.implies(that_));
-        System.out.println("-----\n");
+        SodkftPfrmissionCollfdtion nps = nfw SodkftPfrmissionCollfdtion();
+        nps.bdd(tiis_);
+        nps.bdd(nfw SodkftPfrmission("www-lflbnd.stbnford.fdu","donnfdt"));
+        nps.bdd(nfw SodkftPfrmission("www-sun.dom","donnfdt"));
+        Systfm.out.println("nps.implifs(tibt) = " + nps.implifs(tibt_));
+        Systfm.out.println("-----\n");
     }
     */
 }
 
 /**
 
-if (init'd with IP, key is IP as string)
-if wildcard, its the wild card
-else its the cname?
+if (init'd witi IP, kfy is IP bs string)
+if wilddbrd, its tif wild dbrd
+flsf its tif dnbmf?
 
  *
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
  *
  *
- * @author Roland Schemers
+ * @butior Rolbnd Sdifmfrs
  *
- * @serial include
+ * @sfribl indludf
  */
 
-final class SocketPermissionCollection extends PermissionCollection
-    implements Serializable
+finbl dlbss SodkftPfrmissionCollfdtion fxtfnds PfrmissionCollfdtion
+    implfmfnts Sfriblizbblf
 {
-    // Not serialized; see serialization section at end of class
-    private transient List<SocketPermission> perms;
+    // Not sfriblizfd; sff sfriblizbtion sfdtion bt fnd of dlbss
+    privbtf trbnsifnt List<SodkftPfrmission> pfrms;
 
     /**
-     * Create an empty SocketPermissions object.
+     * Crfbtf bn fmpty SodkftPfrmissions objfdt.
      *
      */
 
-    public SocketPermissionCollection() {
-        perms = new ArrayList<SocketPermission>();
+    publid SodkftPfrmissionCollfdtion() {
+        pfrms = nfw ArrbyList<SodkftPfrmission>();
     }
 
     /**
-     * Adds a permission to the SocketPermissions. The key for the hash is
-     * the name in the case of wildcards, or all the IP addresses.
+     * Adds b pfrmission to tif SodkftPfrmissions. Tif kfy for tif ibsi is
+     * tif nbmf in tif dbsf of wilddbrds, or bll tif IP bddrfssfs.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
-     *                                       SocketPermission
+     * @fxdfption IllfgblArgumfntExdfption - if tif pfrmission is not b
+     *                                       SodkftPfrmission
      *
-     * @exception SecurityException - if this SocketPermissionCollection object
-     *                                has been marked readonly
+     * @fxdfption SfdurityExdfption - if tiis SodkftPfrmissionCollfdtion objfdt
+     *                                ibs bffn mbrkfd rfbdonly
      */
-    public void add(Permission permission) {
-        if (! (permission instanceof SocketPermission))
-            throw new IllegalArgumentException("invalid permission: "+
-                                               permission);
-        if (isReadOnly())
-            throw new SecurityException(
-                "attempt to add a Permission to a readonly PermissionCollection");
+    publid void bdd(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof SodkftPfrmission))
+            tirow nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                               pfrmission);
+        if (isRfbdOnly())
+            tirow nfw SfdurityExdfption(
+                "bttfmpt to bdd b Pfrmission to b rfbdonly PfrmissionCollfdtion");
 
-        // optimization to ensure perms most likely to be tested
-        // show up early (4301064)
-        synchronized (this) {
-            perms.add(0, (SocketPermission)permission);
+        // optimizbtion to fnsurf pfrms most likfly to bf tfstfd
+        // siow up fbrly (4301064)
+        syndironizfd (tiis) {
+            pfrms.bdd(0, (SodkftPfrmission)pfrmission);
         }
     }
 
     /**
-     * Check and see if this collection of permissions implies the permissions
-     * expressed in "permission".
+     * Cifdk bnd sff if tiis dollfdtion of pfrmissions implifs tif pfrmissions
+     * fxprfssfd in "pfrmission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the collection, false if not.
+     * @rfturn truf if "pfrmission" is b propfr subsft of b pfrmission in
+     * tif dollfdtion, fblsf if not.
      */
 
-    public boolean implies(Permission permission)
+    publid boolfbn implifs(Pfrmission pfrmission)
     {
-        if (! (permission instanceof SocketPermission))
-                return false;
+        if (! (pfrmission instbndfof SodkftPfrmission))
+                rfturn fblsf;
 
-        SocketPermission np = (SocketPermission) permission;
+        SodkftPfrmission np = (SodkftPfrmission) pfrmission;
 
-        int desired = np.getMask();
-        int effective = 0;
-        int needed = desired;
+        int dfsirfd = np.gftMbsk();
+        int ffffdtivf = 0;
+        int nffdfd = dfsirfd;
 
-        synchronized (this) {
-            int len = perms.size();
-            //System.out.println("implies "+np);
-            for (int i = 0; i < len; i++) {
-                SocketPermission x = perms.get(i);
-                //System.out.println("  trying "+x);
-                if (((needed & x.getMask()) != 0) && x.impliesIgnoreMask(np)) {
-                    effective |=  x.getMask();
-                    if ((effective & desired) == desired)
-                        return true;
-                    needed = (desired ^ effective);
+        syndironizfd (tiis) {
+            int lfn = pfrms.sizf();
+            //Systfm.out.println("implifs "+np);
+            for (int i = 0; i < lfn; i++) {
+                SodkftPfrmission x = pfrms.gft(i);
+                //Systfm.out.println("  trying "+x);
+                if (((nffdfd & x.gftMbsk()) != 0) && x.implifsIgnorfMbsk(np)) {
+                    ffffdtivf |=  x.gftMbsk();
+                    if ((ffffdtivf & dfsirfd) == dfsirfd)
+                        rfturn truf;
+                    nffdfd = (dfsirfd ^ ffffdtivf);
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns an enumeration of all the SocketPermission objects in the
-     * container.
+     * Rfturns bn fnumfrbtion of bll tif SodkftPfrmission objfdts in tif
+     * dontbinfr.
      *
-     * @return an enumeration of all the SocketPermission objects.
+     * @rfturn bn fnumfrbtion of bll tif SodkftPfrmission objfdts.
      */
 
-    @SuppressWarnings("unchecked")
-    public Enumeration<Permission> elements() {
-        // Convert Iterator into Enumeration
-        synchronized (this) {
-            return Collections.enumeration((List<Permission>)(List)perms);
+    @SupprfssWbrnings("undifdkfd")
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        // Convfrt Itfrbtor into Enumfrbtion
+        syndironizfd (tiis) {
+            rfturn Collfdtions.fnumfrbtion((List<Pfrmission>)(List)pfrms);
         }
     }
 
-    private static final long serialVersionUID = 2787186408602843674L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2787186408602843674L;
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
+    // Nffd to mbintbin sfriblizbtion intfropfrbbility witi fbrlifr rflfbsfs,
+    // wiidi ibd tif sfriblizbblf fifld:
 
     //
-    // The SocketPermissions for this set.
-    // @serial
+    // Tif SodkftPfrmissions for tiis sft.
+    // @sfribl
     //
-    // private Vector permissions;
+    // privbtf Vfdtor pfrmissions;
 
     /**
-     * @serialField permissions java.util.Vector
-     *     A list of the SocketPermissions for this set.
+     * @sfriblFifld pfrmissions jbvb.util.Vfdtor
+     *     A list of tif SodkftPfrmissions for tiis sft.
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("permissions", Vector.class),
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("pfrmissions", Vfdtor.dlbss),
     };
 
     /**
-     * @serialData "permissions" field (a Vector containing the SocketPermissions).
+     * @sfriblDbtb "pfrmissions" fifld (b Vfdtor dontbining tif SodkftPfrmissions).
      */
     /*
-     * Writes the contents of the perms field out as a Vector for
-     * serialization compatibility with earlier releases.
+     * Writfs tif dontfnts of tif pfrms fifld out bs b Vfdtor for
+     * sfriblizbtion dompbtibility witi fbrlifr rflfbsfs.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) tirows IOExdfption {
+        // Don't dbll out.dffbultWritfObjfdt()
 
-        // Write out Vector
-        Vector<SocketPermission> permissions = new Vector<>(perms.size());
+        // Writf out Vfdtor
+        Vfdtor<SodkftPfrmission> pfrmissions = nfw Vfdtor<>(pfrms.sizf());
 
-        synchronized (this) {
-            permissions.addAll(perms);
+        syndironizfd (tiis) {
+            pfrmissions.bddAll(pfrms);
         }
 
-        ObjectOutputStream.PutField pfields = out.putFields();
-        pfields.put("permissions", permissions);
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
+        pfiflds.put("pfrmissions", pfrmissions);
+        out.writfFiflds();
     }
 
     /*
-     * Reads in a Vector of SocketPermissions and saves them in the perms field.
+     * Rfbds in b Vfdtor of SodkftPfrmissions bnd sbvfs tifm in tif pfrms fifld.
      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        // Don't call in.defaultReadObject()
+        // Don't dbll in.dffbultRfbdObjfdt()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rfbd in sfriblizfd fiflds
+        ObjfdtInputStrfbm.GftFifld gfiflds = in.rfbdFiflds();
 
-        // Get the one we want
-        @SuppressWarnings("unchecked")
-        Vector<SocketPermission> permissions = (Vector<SocketPermission>)gfields.get("permissions", null);
-        perms = new ArrayList<SocketPermission>(permissions.size());
-        perms.addAll(permissions);
+        // Gft tif onf wf wbnt
+        @SupprfssWbrnings("undifdkfd")
+        Vfdtor<SodkftPfrmission> pfrmissions = (Vfdtor<SodkftPfrmission>)gfiflds.gft("pfrmissions", null);
+        pfrms = nfw ArrbyList<SodkftPfrmission>(pfrmissions.sizf());
+        pfrms.bddAll(pfrmissions);
     }
 }

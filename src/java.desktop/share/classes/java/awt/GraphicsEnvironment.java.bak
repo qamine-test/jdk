@@ -1,464 +1,464 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.image.BufferedImage;
-import java.security.AccessController;
-import java.util.Locale;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.Lodblf;
 
-import sun.font.FontManager;
-import sun.font.FontManagerFactory;
-import sun.java2d.HeadlessGraphicsEnvironment;
-import sun.java2d.SunGraphicsEnvironment;
-import sun.security.action.GetPropertyAction;
+import sun.font.FontMbnbgfr;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.jbvb2d.HfbdlfssGrbpiidsEnvironmfnt;
+import sun.jbvb2d.SunGrbpiidsEnvironmfnt;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 /**
  *
- * The <code>GraphicsEnvironment</code> class describes the collection
- * of {@link GraphicsDevice} objects and {@link java.awt.Font} objects
- * available to a Java(tm) application on a particular platform.
- * The resources in this <code>GraphicsEnvironment</code> might be local
- * or on a remote machine.  <code>GraphicsDevice</code> objects can be
- * screens, printers or image buffers and are the destination of
- * {@link Graphics2D} drawing methods.  Each <code>GraphicsDevice</code>
- * has a number of {@link GraphicsConfiguration} objects associated with
- * it.  These objects specify the different configurations in which the
- * <code>GraphicsDevice</code> can be used.
- * @see GraphicsDevice
- * @see GraphicsConfiguration
+ * Tif <dodf>GrbpiidsEnvironmfnt</dodf> dlbss dfsdribfs tif dollfdtion
+ * of {@link GrbpiidsDfvidf} objfdts bnd {@link jbvb.bwt.Font} objfdts
+ * bvbilbblf to b Jbvb(tm) bpplidbtion on b pbrtidulbr plbtform.
+ * Tif rfsourdfs in tiis <dodf>GrbpiidsEnvironmfnt</dodf> migit bf lodbl
+ * or on b rfmotf mbdiinf.  <dodf>GrbpiidsDfvidf</dodf> objfdts dbn bf
+ * sdrffns, printfrs or imbgf bufffrs bnd brf tif dfstinbtion of
+ * {@link Grbpiids2D} drbwing mftiods.  Ebdi <dodf>GrbpiidsDfvidf</dodf>
+ * ibs b numbfr of {@link GrbpiidsConfigurbtion} objfdts bssodibtfd witi
+ * it.  Tifsf objfdts spfdify tif difffrfnt donfigurbtions in wiidi tif
+ * <dodf>GrbpiidsDfvidf</dodf> dbn bf usfd.
+ * @sff GrbpiidsDfvidf
+ * @sff GrbpiidsConfigurbtion
  */
 
-public abstract class GraphicsEnvironment {
-    private static GraphicsEnvironment localEnv;
+publid bbstrbdt dlbss GrbpiidsEnvironmfnt {
+    privbtf stbtid GrbpiidsEnvironmfnt lodblEnv;
 
     /**
-     * The headless state of the Toolkit and GraphicsEnvironment
+     * Tif ifbdlfss stbtf of tif Toolkit bnd GrbpiidsEnvironmfnt
      */
-    private static Boolean headless;
+    privbtf stbtid Boolfbn ifbdlfss;
 
     /**
-     * The headless state assumed by default
+     * Tif ifbdlfss stbtf bssumfd by dffbult
      */
-    private static Boolean defaultHeadless;
+    privbtf stbtid Boolfbn dffbultHfbdlfss;
 
     /**
-     * This is an abstract class and cannot be instantiated directly.
-     * Instances must be obtained from a suitable factory or query method.
+     * Tiis is bn bbstrbdt dlbss bnd dbnnot bf instbntibtfd dirfdtly.
+     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mftiod.
      */
-    protected GraphicsEnvironment() {
+    protfdtfd GrbpiidsEnvironmfnt() {
     }
 
     /**
-     * Returns the local <code>GraphicsEnvironment</code>.
-     * @return the local <code>GraphicsEnvironment</code>
+     * Rfturns tif lodbl <dodf>GrbpiidsEnvironmfnt</dodf>.
+     * @rfturn tif lodbl <dodf>GrbpiidsEnvironmfnt</dodf>
      */
-    public static synchronized GraphicsEnvironment getLocalGraphicsEnvironment() {
-        if (localEnv == null) {
-            localEnv = createGE();
+    publid stbtid syndironizfd GrbpiidsEnvironmfnt gftLodblGrbpiidsEnvironmfnt() {
+        if (lodblEnv == null) {
+            lodblEnv = drfbtfGE();
         }
 
-        return localEnv;
+        rfturn lodblEnv;
     }
 
     /**
-     * Creates and returns the GraphicsEnvironment, according to the
-     * system property 'java.awt.graphicsenv'.
+     * Crfbtfs bnd rfturns tif GrbpiidsEnvironmfnt, bddording to tif
+     * systfm propfrty 'jbvb.bwt.grbpiidsfnv'.
      *
-     * @return the graphics environment
+     * @rfturn tif grbpiids fnvironmfnt
      */
-    private static GraphicsEnvironment createGE() {
-        GraphicsEnvironment ge;
-        String nm = AccessController.doPrivileged(new GetPropertyAction("java.awt.graphicsenv", null));
+    privbtf stbtid GrbpiidsEnvironmfnt drfbtfGE() {
+        GrbpiidsEnvironmfnt gf;
+        String nm = AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.bwt.grbpiidsfnv", null));
         try {
-//          long t0 = System.currentTimeMillis();
-            Class<?> geCls;
+//          long t0 = Systfm.durrfntTimfMillis();
+            Clbss<?> gfCls;
             try {
-                // First we try if the bootclassloader finds the requested
-                // class. This way we can avoid to run in a privileged block.
-                geCls = Class.forName(nm);
-            } catch (ClassNotFoundException ex) {
-                // If the bootclassloader fails, we try again with the
-                // application classloader.
-                ClassLoader cl = ClassLoader.getSystemClassLoader();
-                geCls = Class.forName(nm, true, cl);
+                // First wf try if tif bootdlbsslobdfr finds tif rfqufstfd
+                // dlbss. Tiis wby wf dbn bvoid to run in b privilfgfd blodk.
+                gfCls = Clbss.forNbmf(nm);
+            } dbtdi (ClbssNotFoundExdfption fx) {
+                // If tif bootdlbsslobdfr fbils, wf try bgbin witi tif
+                // bpplidbtion dlbsslobdfr.
+                ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                gfCls = Clbss.forNbmf(nm, truf, dl);
             }
-            ge = (GraphicsEnvironment)geCls.newInstance();
-//          long t1 = System.currentTimeMillis();
-//          System.out.println("GE creation took " + (t1-t0)+ "ms.");
-            if (isHeadless()) {
-                ge = new HeadlessGraphicsEnvironment(ge);
+            gf = (GrbpiidsEnvironmfnt)gfCls.nfwInstbndf();
+//          long t1 = Systfm.durrfntTimfMillis();
+//          Systfm.out.println("GE drfbtion took " + (t1-t0)+ "ms.");
+            if (isHfbdlfss()) {
+                gf = nfw HfbdlfssGrbpiidsEnvironmfnt(gf);
             }
-        } catch (ClassNotFoundException e) {
-            throw new Error("Could not find class: "+nm);
-        } catch (InstantiationException e) {
-            throw new Error("Could not instantiate Graphics Environment: "
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw Error("Could not find dlbss: "+nm);
+        } dbtdi (InstbntibtionExdfption f) {
+            tirow nfw Error("Could not instbntibtf Grbpiids Environmfnt: "
                             + nm);
-        } catch (IllegalAccessException e) {
-            throw new Error ("Could not access Graphics Environment: "
+        } dbtdi (IllfgblAddfssExdfption f) {
+            tirow nfw Error ("Could not bddfss Grbpiids Environmfnt: "
                              + nm);
         }
-        return ge;
+        rfturn gf;
     }
 
     /**
-     * Tests whether or not a display, keyboard, and mouse can be
-     * supported in this environment.  If this method returns true,
-     * a HeadlessException is thrown from areas of the Toolkit
-     * and GraphicsEnvironment that are dependent on a display,
-     * keyboard, or mouse.
-     * @return <code>true</code> if this environment cannot support
-     * a display, keyboard, and mouse; <code>false</code>
-     * otherwise
-     * @see java.awt.HeadlessException
-     * @since 1.4
+     * Tfsts wiftifr or not b displby, kfybobrd, bnd mousf dbn bf
+     * supportfd in tiis fnvironmfnt.  If tiis mftiod rfturns truf,
+     * b HfbdlfssExdfption is tirown from brfbs of tif Toolkit
+     * bnd GrbpiidsEnvironmfnt tibt brf dfpfndfnt on b displby,
+     * kfybobrd, or mousf.
+     * @rfturn <dodf>truf</dodf> if tiis fnvironmfnt dbnnot support
+     * b displby, kfybobrd, bnd mousf; <dodf>fblsf</dodf>
+     * otifrwisf
+     * @sff jbvb.bwt.HfbdlfssExdfption
+     * @sindf 1.4
      */
-    public static boolean isHeadless() {
-        return getHeadlessProperty();
+    publid stbtid boolfbn isHfbdlfss() {
+        rfturn gftHfbdlfssPropfrty();
     }
 
     /**
-     * @return warning message if headless state is assumed by default;
-     * null otherwise
-     * @since 1.5
+     * @rfturn wbrning mfssbgf if ifbdlfss stbtf is bssumfd by dffbult;
+     * null otifrwisf
+     * @sindf 1.5
      */
-    static String getHeadlessMessage() {
-        if (headless == null) {
-            getHeadlessProperty(); // initialize the values
+    stbtid String gftHfbdlfssMfssbgf() {
+        if (ifbdlfss == null) {
+            gftHfbdlfssPropfrty(); // initiblizf tif vblufs
         }
-        return defaultHeadless != Boolean.TRUE ? null :
-            "\nNo X11 DISPLAY variable was set, " +
-            "but this program performed an operation which requires it.";
+        rfturn dffbultHfbdlfss != Boolfbn.TRUE ? null :
+            "\nNo X11 DISPLAY vbribblf wbs sft, " +
+            "but tiis progrbm pfrformfd bn opfrbtion wiidi rfquirfs it.";
     }
 
     /**
-     * @return the value of the property "java.awt.headless"
-     * @since 1.4
+     * @rfturn tif vbluf of tif propfrty "jbvb.bwt.ifbdlfss"
+     * @sindf 1.4
      */
-    private static boolean getHeadlessProperty() {
-        if (headless == null) {
-            java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Object>() {
-                public Object run() {
-                    String nm = System.getProperty("java.awt.headless");
+    privbtf stbtid boolfbn gftHfbdlfssPropfrty() {
+        if (ifbdlfss == null) {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    String nm = Systfm.gftPropfrty("jbvb.bwt.ifbdlfss");
 
                     if (nm == null) {
-                        /* No need to ask for DISPLAY when run in a browser */
-                        if (System.getProperty("javaplugin.version") != null) {
-                            headless = defaultHeadless = Boolean.FALSE;
-                        } else {
-                            String osName = System.getProperty("os.name");
-                            if (osName.contains("OS X") && "sun.awt.HToolkit".equals(
-                                    System.getProperty("awt.toolkit")))
+                        /* No nffd to bsk for DISPLAY wifn run in b browsfr */
+                        if (Systfm.gftPropfrty("jbvbplugin.vfrsion") != null) {
+                            ifbdlfss = dffbultHfbdlfss = Boolfbn.FALSE;
+                        } flsf {
+                            String osNbmf = Systfm.gftPropfrty("os.nbmf");
+                            if (osNbmf.dontbins("OS X") && "sun.bwt.HToolkit".fqubls(
+                                    Systfm.gftPropfrty("bwt.toolkit")))
                             {
-                                headless = defaultHeadless = Boolean.TRUE;
-                            } else {
-                                headless = defaultHeadless =
-                                    Boolean.valueOf(("Linux".equals(osName) ||
-                                                     "SunOS".equals(osName) ||
-                                                     "FreeBSD".equals(osName) ||
-                                                     "NetBSD".equals(osName) ||
-                                                     "OpenBSD".equals(osName)) &&
-                                                     (System.getenv("DISPLAY") == null));
+                                ifbdlfss = dffbultHfbdlfss = Boolfbn.TRUE;
+                            } flsf {
+                                ifbdlfss = dffbultHfbdlfss =
+                                    Boolfbn.vblufOf(("Linux".fqubls(osNbmf) ||
+                                                     "SunOS".fqubls(osNbmf) ||
+                                                     "FrffBSD".fqubls(osNbmf) ||
+                                                     "NftBSD".fqubls(osNbmf) ||
+                                                     "OpfnBSD".fqubls(osNbmf)) &&
+                                                     (Systfm.gftfnv("DISPLAY") == null));
                             }
                         }
-                    } else if (nm.equals("true")) {
-                        headless = Boolean.TRUE;
-                    } else {
-                        headless = Boolean.FALSE;
+                    } flsf if (nm.fqubls("truf")) {
+                        ifbdlfss = Boolfbn.TRUE;
+                    } flsf {
+                        ifbdlfss = Boolfbn.FALSE;
                     }
-                    return null;
+                    rfturn null;
                 }
                 }
             );
         }
-        return headless.booleanValue();
+        rfturn ifbdlfss.boolfbnVbluf();
     }
 
     /**
-     * Check for headless state and throw HeadlessException if headless
-     * @since 1.4
+     * Cifdk for ifbdlfss stbtf bnd tirow HfbdlfssExdfption if ifbdlfss
+     * @sindf 1.4
      */
-    static void checkHeadless() throws HeadlessException {
-        if (isHeadless()) {
-            throw new HeadlessException();
+    stbtid void difdkHfbdlfss() tirows HfbdlfssExdfption {
+        if (isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
     }
 
     /**
-     * Returns whether or not a display, keyboard, and mouse can be
-     * supported in this graphics environment.  If this returns true,
-     * <code>HeadlessException</code> will be thrown from areas of the
-     * graphics environment that are dependent on a display, keyboard, or
-     * mouse.
-     * @return <code>true</code> if a display, keyboard, and mouse
-     * can be supported in this environment; <code>false</code>
-     * otherwise
-     * @see java.awt.HeadlessException
-     * @see #isHeadless
-     * @since 1.4
+     * Rfturns wiftifr or not b displby, kfybobrd, bnd mousf dbn bf
+     * supportfd in tiis grbpiids fnvironmfnt.  If tiis rfturns truf,
+     * <dodf>HfbdlfssExdfption</dodf> will bf tirown from brfbs of tif
+     * grbpiids fnvironmfnt tibt brf dfpfndfnt on b displby, kfybobrd, or
+     * mousf.
+     * @rfturn <dodf>truf</dodf> if b displby, kfybobrd, bnd mousf
+     * dbn bf supportfd in tiis fnvironmfnt; <dodf>fblsf</dodf>
+     * otifrwisf
+     * @sff jbvb.bwt.HfbdlfssExdfption
+     * @sff #isHfbdlfss
+     * @sindf 1.4
      */
-    public boolean isHeadlessInstance() {
-        // By default (local graphics environment), simply check the
-        // headless property.
-        return getHeadlessProperty();
+    publid boolfbn isHfbdlfssInstbndf() {
+        // By dffbult (lodbl grbpiids fnvironmfnt), simply difdk tif
+        // ifbdlfss propfrty.
+        rfturn gftHfbdlfssPropfrty();
     }
 
     /**
-     * Returns an array of all of the screen <code>GraphicsDevice</code>
-     * objects.
-     * @return an array containing all the <code>GraphicsDevice</code>
-     * objects that represent screen devices
-     * @exception HeadlessException if isHeadless() returns true
-     * @see #isHeadless()
+     * Rfturns bn brrby of bll of tif sdrffn <dodf>GrbpiidsDfvidf</dodf>
+     * objfdts.
+     * @rfturn bn brrby dontbining bll tif <dodf>GrbpiidsDfvidf</dodf>
+     * objfdts tibt rfprfsfnt sdrffn dfvidfs
+     * @fxdfption HfbdlfssExdfption if isHfbdlfss() rfturns truf
+     * @sff #isHfbdlfss()
      */
-    public abstract GraphicsDevice[] getScreenDevices()
-        throws HeadlessException;
+    publid bbstrbdt GrbpiidsDfvidf[] gftSdrffnDfvidfs()
+        tirows HfbdlfssExdfption;
 
     /**
-     * Returns the default screen <code>GraphicsDevice</code>.
-     * @return the <code>GraphicsDevice</code> that represents the
-     * default screen device
-     * @exception HeadlessException if isHeadless() returns true
-     * @see #isHeadless()
+     * Rfturns tif dffbult sdrffn <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn tif <dodf>GrbpiidsDfvidf</dodf> tibt rfprfsfnts tif
+     * dffbult sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption if isHfbdlfss() rfturns truf
+     * @sff #isHfbdlfss()
      */
-    public abstract GraphicsDevice getDefaultScreenDevice()
-        throws HeadlessException;
+    publid bbstrbdt GrbpiidsDfvidf gftDffbultSdrffnDfvidf()
+        tirows HfbdlfssExdfption;
 
     /**
-     * Returns a <code>Graphics2D</code> object for rendering into the
-     * specified {@link BufferedImage}.
-     * @param img the specified <code>BufferedImage</code>
-     * @return a <code>Graphics2D</code> to be used for rendering into
-     * the specified <code>BufferedImage</code>
-     * @throws NullPointerException if <code>img</code> is null
+     * Rfturns b <dodf>Grbpiids2D</dodf> objfdt for rfndfring into tif
+     * spfdififd {@link BufffrfdImbgf}.
+     * @pbrbm img tif spfdififd <dodf>BufffrfdImbgf</dodf>
+     * @rfturn b <dodf>Grbpiids2D</dodf> to bf usfd for rfndfring into
+     * tif spfdififd <dodf>BufffrfdImbgf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>img</dodf> is null
      */
-    public abstract Graphics2D createGraphics(BufferedImage img);
+    publid bbstrbdt Grbpiids2D drfbtfGrbpiids(BufffrfdImbgf img);
 
     /**
-     * Returns an array containing a one-point size instance of all fonts
-     * available in this <code>GraphicsEnvironment</code>.  Typical usage
-     * would be to allow a user to select a particular font.  Then, the
-     * application can size the font and set various font attributes by
-     * calling the <code>deriveFont</code> method on the chosen instance.
+     * Rfturns bn brrby dontbining b onf-point sizf instbndf of bll fonts
+     * bvbilbblf in tiis <dodf>GrbpiidsEnvironmfnt</dodf>.  Typidbl usbgf
+     * would bf to bllow b usfr to sflfdt b pbrtidulbr font.  Tifn, tif
+     * bpplidbtion dbn sizf tif font bnd sft vbrious font bttributfs by
+     * dblling tif <dodf>dfrivfFont</dodf> mftiod on tif diosfn instbndf.
      * <p>
-     * This method provides for the application the most precise control
-     * over which <code>Font</code> instance is used to render text.
-     * If a font in this <code>GraphicsEnvironment</code> has multiple
-     * programmable variations, only one
-     * instance of that <code>Font</code> is returned in the array, and
-     * other variations must be derived by the application.
+     * Tiis mftiod providfs for tif bpplidbtion tif most prfdisf dontrol
+     * ovfr wiidi <dodf>Font</dodf> instbndf is usfd to rfndfr tfxt.
+     * If b font in tiis <dodf>GrbpiidsEnvironmfnt</dodf> ibs multiplf
+     * progrbmmbblf vbribtions, only onf
+     * instbndf of tibt <dodf>Font</dodf> is rfturnfd in tif brrby, bnd
+     * otifr vbribtions must bf dfrivfd by tif bpplidbtion.
      * <p>
-     * If a font in this environment has multiple programmable variations,
-     * such as Multiple-Master fonts, only one instance of that font is
-     * returned in the <code>Font</code> array.  The other variations
-     * must be derived by the application.
+     * If b font in tiis fnvironmfnt ibs multiplf progrbmmbblf vbribtions,
+     * sudi bs Multiplf-Mbstfr fonts, only onf instbndf of tibt font is
+     * rfturnfd in tif <dodf>Font</dodf> brrby.  Tif otifr vbribtions
+     * must bf dfrivfd by tif bpplidbtion.
      *
-     * @return an array of <code>Font</code> objects
-     * @see #getAvailableFontFamilyNames
-     * @see java.awt.Font
-     * @see java.awt.Font#deriveFont
-     * @see java.awt.Font#getFontName
-     * @since 1.2
+     * @rfturn bn brrby of <dodf>Font</dodf> objfdts
+     * @sff #gftAvbilbblfFontFbmilyNbmfs
+     * @sff jbvb.bwt.Font
+     * @sff jbvb.bwt.Font#dfrivfFont
+     * @sff jbvb.bwt.Font#gftFontNbmf
+     * @sindf 1.2
      */
-    public abstract Font[] getAllFonts();
+    publid bbstrbdt Font[] gftAllFonts();
 
     /**
-     * Returns an array containing the names of all font families in this
-     * <code>GraphicsEnvironment</code> localized for the default locale,
-     * as returned by <code>Locale.getDefault()</code>.
+     * Rfturns bn brrby dontbining tif nbmfs of bll font fbmilifs in tiis
+     * <dodf>GrbpiidsEnvironmfnt</dodf> lodblizfd for tif dffbult lodblf,
+     * bs rfturnfd by <dodf>Lodblf.gftDffbult()</dodf>.
      * <p>
-     * Typical usage would be for presentation to a user for selection of
-     * a particular family name. An application can then specify this name
-     * when creating a font, in conjunction with a style, such as bold or
-     * italic, giving the font system flexibility in choosing its own best
-     * match among multiple fonts in the same font family.
+     * Typidbl usbgf would bf for prfsfntbtion to b usfr for sflfdtion of
+     * b pbrtidulbr fbmily nbmf. An bpplidbtion dbn tifn spfdify tiis nbmf
+     * wifn drfbting b font, in donjundtion witi b stylf, sudi bs bold or
+     * itblid, giving tif font systfm flfxibility in dioosing its own bfst
+     * mbtdi bmong multiplf fonts in tif sbmf font fbmily.
      *
-     * @return an array of <code>String</code> containing font family names
-     * localized for the default locale, or a suitable alternative
-     * name if no name exists for this locale.
-     * @see #getAllFonts
-     * @see java.awt.Font
-     * @see java.awt.Font#getFamily
-     * @since 1.2
+     * @rfturn bn brrby of <dodf>String</dodf> dontbining font fbmily nbmfs
+     * lodblizfd for tif dffbult lodblf, or b suitbblf bltfrnbtivf
+     * nbmf if no nbmf fxists for tiis lodblf.
+     * @sff #gftAllFonts
+     * @sff jbvb.bwt.Font
+     * @sff jbvb.bwt.Font#gftFbmily
+     * @sindf 1.2
      */
-    public abstract String[] getAvailableFontFamilyNames();
+    publid bbstrbdt String[] gftAvbilbblfFontFbmilyNbmfs();
 
     /**
-     * Returns an array containing the names of all font families in this
-     * <code>GraphicsEnvironment</code> localized for the specified locale.
+     * Rfturns bn brrby dontbining tif nbmfs of bll font fbmilifs in tiis
+     * <dodf>GrbpiidsEnvironmfnt</dodf> lodblizfd for tif spfdififd lodblf.
      * <p>
-     * Typical usage would be for presentation to a user for selection of
-     * a particular family name. An application can then specify this name
-     * when creating a font, in conjunction with a style, such as bold or
-     * italic, giving the font system flexibility in choosing its own best
-     * match among multiple fonts in the same font family.
+     * Typidbl usbgf would bf for prfsfntbtion to b usfr for sflfdtion of
+     * b pbrtidulbr fbmily nbmf. An bpplidbtion dbn tifn spfdify tiis nbmf
+     * wifn drfbting b font, in donjundtion witi b stylf, sudi bs bold or
+     * itblid, giving tif font systfm flfxibility in dioosing its own bfst
+     * mbtdi bmong multiplf fonts in tif sbmf font fbmily.
      *
-     * @param l a {@link Locale} object that represents a
-     * particular geographical, political, or cultural region.
-     * Specifying <code>null</code> is equivalent to
-     * specifying <code>Locale.getDefault()</code>.
-     * @return an array of <code>String</code> containing font family names
-     * localized for the specified <code>Locale</code>, or a
-     * suitable alternative name if no name exists for the specified locale.
-     * @see #getAllFonts
-     * @see java.awt.Font
-     * @see java.awt.Font#getFamily
-     * @since 1.2
+     * @pbrbm l b {@link Lodblf} objfdt tibt rfprfsfnts b
+     * pbrtidulbr gfogrbpiidbl, politidbl, or dulturbl rfgion.
+     * Spfdifying <dodf>null</dodf> is fquivblfnt to
+     * spfdifying <dodf>Lodblf.gftDffbult()</dodf>.
+     * @rfturn bn brrby of <dodf>String</dodf> dontbining font fbmily nbmfs
+     * lodblizfd for tif spfdififd <dodf>Lodblf</dodf>, or b
+     * suitbblf bltfrnbtivf nbmf if no nbmf fxists for tif spfdififd lodblf.
+     * @sff #gftAllFonts
+     * @sff jbvb.bwt.Font
+     * @sff jbvb.bwt.Font#gftFbmily
+     * @sindf 1.2
      */
-    public abstract String[] getAvailableFontFamilyNames(Locale l);
+    publid bbstrbdt String[] gftAvbilbblfFontFbmilyNbmfs(Lodblf l);
 
     /**
-     * Registers a <i>created</i> <code>Font</code>in this
-     * <code>GraphicsEnvironment</code>.
-     * A created font is one that was returned from calling
-     * {@link Font#createFont}, or derived from a created font by
-     * calling {@link Font#deriveFont}.
-     * After calling this method for such a font, it is available to
-     * be used in constructing new <code>Font</code>s by name or family name,
-     * and is enumerated by {@link #getAvailableFontFamilyNames} and
-     * {@link #getAllFonts} within the execution context of this
-     * application or applet. This means applets cannot register fonts in
-     * a way that they are visible to other applets.
+     * Rfgistfrs b <i>drfbtfd</i> <dodf>Font</dodf>in tiis
+     * <dodf>GrbpiidsEnvironmfnt</dodf>.
+     * A drfbtfd font is onf tibt wbs rfturnfd from dblling
+     * {@link Font#drfbtfFont}, or dfrivfd from b drfbtfd font by
+     * dblling {@link Font#dfrivfFont}.
+     * Aftfr dblling tiis mftiod for sudi b font, it is bvbilbblf to
+     * bf usfd in donstrudting nfw <dodf>Font</dodf>s by nbmf or fbmily nbmf,
+     * bnd is fnumfrbtfd by {@link #gftAvbilbblfFontFbmilyNbmfs} bnd
+     * {@link #gftAllFonts} witiin tif fxfdution dontfxt of tiis
+     * bpplidbtion or bpplft. Tiis mfbns bpplfts dbnnot rfgistfr fonts in
+     * b wby tibt tify brf visiblf to otifr bpplfts.
      * <p>
-     * Reasons that this method might not register the font and therefore
-     * return <code>false</code> are:
+     * Rfbsons tibt tiis mftiod migit not rfgistfr tif font bnd tifrfforf
+     * rfturn <dodf>fblsf</dodf> brf:
      * <ul>
-     * <li>The font is not a <i>created</i> <code>Font</code>.
-     * <li>The font conflicts with a non-created <code>Font</code> already
-     * in this <code>GraphicsEnvironment</code>. For example if the name
-     * is that of a system font, or a logical font as described in the
-     * documentation of the {@link Font} class. It is implementation dependent
-     * whether a font may also conflict if it has the same family name
-     * as a system font.
-     * <p>Notice that an application can supersede the registration
-     * of an earlier created font with a new one.
+     * <li>Tif font is not b <i>drfbtfd</i> <dodf>Font</dodf>.
+     * <li>Tif font donflidts witi b non-drfbtfd <dodf>Font</dodf> blrfbdy
+     * in tiis <dodf>GrbpiidsEnvironmfnt</dodf>. For fxbmplf if tif nbmf
+     * is tibt of b systfm font, or b logidbl font bs dfsdribfd in tif
+     * dodumfntbtion of tif {@link Font} dlbss. It is implfmfntbtion dfpfndfnt
+     * wiftifr b font mby blso donflidt if it ibs tif sbmf fbmily nbmf
+     * bs b systfm font.
+     * <p>Notidf tibt bn bpplidbtion dbn supfrsfdf tif rfgistrbtion
+     * of bn fbrlifr drfbtfd font witi b nfw onf.
      * </ul>
      *
-     * @param  font the font to be registered
-     * @return true if the <code>font</code> is successfully
-     * registered in this <code>GraphicsEnvironment</code>.
-     * @throws NullPointerException if <code>font</code> is null
-     * @since 1.6
+     * @pbrbm  font tif font to bf rfgistfrfd
+     * @rfturn truf if tif <dodf>font</dodf> is suddfssfully
+     * rfgistfrfd in tiis <dodf>GrbpiidsEnvironmfnt</dodf>.
+     * @tirows NullPointfrExdfption if <dodf>font</dodf> is null
+     * @sindf 1.6
      */
-    public boolean registerFont(Font font) {
+    publid boolfbn rfgistfrFont(Font font) {
         if (font == null) {
-            throw new NullPointerException("font cannot be null.");
+            tirow nfw NullPointfrExdfption("font dbnnot bf null.");
         }
-        FontManager fm = FontManagerFactory.getInstance();
-        return fm.registerFont(font);
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        rfturn fm.rfgistfrFont(font);
     }
 
     /**
-     * Indicates a preference for locale-specific fonts in the mapping of
-     * logical fonts to physical fonts. Calling this method indicates that font
-     * rendering should primarily use fonts specific to the primary writing
-     * system (the one indicated by the default encoding and the initial
-     * default locale). For example, if the primary writing system is
-     * Japanese, then characters should be rendered using a Japanese font
-     * if possible, and other fonts should only be used for characters for
-     * which the Japanese font doesn't have glyphs.
+     * Indidbtfs b prfffrfndf for lodblf-spfdifid fonts in tif mbpping of
+     * logidbl fonts to piysidbl fonts. Cblling tiis mftiod indidbtfs tibt font
+     * rfndfring siould primbrily usf fonts spfdifid to tif primbry writing
+     * systfm (tif onf indidbtfd by tif dffbult fndoding bnd tif initibl
+     * dffbult lodblf). For fxbmplf, if tif primbry writing systfm is
+     * Jbpbnfsf, tifn dibrbdtfrs siould bf rfndfrfd using b Jbpbnfsf font
+     * if possiblf, bnd otifr fonts siould only bf usfd for dibrbdtfrs for
+     * wiidi tif Jbpbnfsf font dofsn't ibvf glypis.
      * <p>
-     * The actual change in font rendering behavior resulting from a call
-     * to this method is implementation dependent; it may have no effect at
-     * all, or the requested behavior may already match the default behavior.
-     * The behavior may differ between font rendering in lightweight
-     * and peered components.  Since calling this method requests a
-     * different font, clients should expect different metrics, and may need
-     * to recalculate window sizes and layout. Therefore this method should
-     * be called before user interface initialisation.
-     * @since 1.5
+     * Tif bdtubl dibngf in font rfndfring bfibvior rfsulting from b dbll
+     * to tiis mftiod is implfmfntbtion dfpfndfnt; it mby ibvf no ffffdt bt
+     * bll, or tif rfqufstfd bfibvior mby blrfbdy mbtdi tif dffbult bfibvior.
+     * Tif bfibvior mby difffr bftwffn font rfndfring in ligitwfigit
+     * bnd pffrfd domponfnts.  Sindf dblling tiis mftiod rfqufsts b
+     * difffrfnt font, dlifnts siould fxpfdt difffrfnt mftrids, bnd mby nffd
+     * to rfdbldulbtf window sizfs bnd lbyout. Tifrfforf tiis mftiod siould
+     * bf dbllfd bfforf usfr intfrfbdf initiblisbtion.
+     * @sindf 1.5
      */
-    public void preferLocaleFonts() {
-        FontManager fm = FontManagerFactory.getInstance();
-        fm.preferLocaleFonts();
+    publid void prfffrLodblfFonts() {
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        fm.prfffrLodblfFonts();
     }
 
     /**
-     * Indicates a preference for proportional over non-proportional (e.g.
-     * dual-spaced CJK fonts) fonts in the mapping of logical fonts to
-     * physical fonts. If the default mapping contains fonts for which
-     * proportional and non-proportional variants exist, then calling
-     * this method indicates the mapping should use a proportional variant.
+     * Indidbtfs b prfffrfndf for proportionbl ovfr non-proportionbl (f.g.
+     * dubl-spbdfd CJK fonts) fonts in tif mbpping of logidbl fonts to
+     * piysidbl fonts. If tif dffbult mbpping dontbins fonts for wiidi
+     * proportionbl bnd non-proportionbl vbribnts fxist, tifn dblling
+     * tiis mftiod indidbtfs tif mbpping siould usf b proportionbl vbribnt.
      * <p>
-     * The actual change in font rendering behavior resulting from a call to
-     * this method is implementation dependent; it may have no effect at all.
-     * The behavior may differ between font rendering in lightweight and
-     * peered components. Since calling this method requests a
-     * different font, clients should expect different metrics, and may need
-     * to recalculate window sizes and layout. Therefore this method should
-     * be called before user interface initialisation.
-     * @since 1.5
+     * Tif bdtubl dibngf in font rfndfring bfibvior rfsulting from b dbll to
+     * tiis mftiod is implfmfntbtion dfpfndfnt; it mby ibvf no ffffdt bt bll.
+     * Tif bfibvior mby difffr bftwffn font rfndfring in ligitwfigit bnd
+     * pffrfd domponfnts. Sindf dblling tiis mftiod rfqufsts b
+     * difffrfnt font, dlifnts siould fxpfdt difffrfnt mftrids, bnd mby nffd
+     * to rfdbldulbtf window sizfs bnd lbyout. Tifrfforf tiis mftiod siould
+     * bf dbllfd bfforf usfr intfrfbdf initiblisbtion.
+     * @sindf 1.5
      */
-    public void preferProportionalFonts() {
-        FontManager fm = FontManagerFactory.getInstance();
-        fm.preferProportionalFonts();
+    publid void prfffrProportionblFonts() {
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        fm.prfffrProportionblFonts();
     }
 
     /**
-     * Returns the Point where Windows should be centered.
-     * It is recommended that centered Windows be checked to ensure they fit
-     * within the available display area using getMaximumWindowBounds().
-     * @return the point where Windows should be centered
+     * Rfturns tif Point wifrf Windows siould bf dfntfrfd.
+     * It is rfdommfndfd tibt dfntfrfd Windows bf difdkfd to fnsurf tify fit
+     * witiin tif bvbilbblf displby brfb using gftMbximumWindowBounds().
+     * @rfturn tif point wifrf Windows siould bf dfntfrfd
      *
-     * @exception HeadlessException if isHeadless() returns true
-     * @see #getMaximumWindowBounds
-     * @since 1.4
+     * @fxdfption HfbdlfssExdfption if isHfbdlfss() rfturns truf
+     * @sff #gftMbximumWindowBounds
+     * @sindf 1.4
      */
-    public Point getCenterPoint() throws HeadlessException {
-    // Default implementation: return the center of the usable bounds of the
-    // default screen device.
-        Rectangle usableBounds =
-         SunGraphicsEnvironment.getUsableBounds(getDefaultScreenDevice());
-        return new Point((usableBounds.width / 2) + usableBounds.x,
-                         (usableBounds.height / 2) + usableBounds.y);
+    publid Point gftCfntfrPoint() tirows HfbdlfssExdfption {
+    // Dffbult implfmfntbtion: rfturn tif dfntfr of tif usbblf bounds of tif
+    // dffbult sdrffn dfvidf.
+        Rfdtbnglf usbblfBounds =
+         SunGrbpiidsEnvironmfnt.gftUsbblfBounds(gftDffbultSdrffnDfvidf());
+        rfturn nfw Point((usbblfBounds.widti / 2) + usbblfBounds.x,
+                         (usbblfBounds.ifigit / 2) + usbblfBounds.y);
     }
 
     /**
-     * Returns the maximum bounds for centered Windows.
-     * These bounds account for objects in the native windowing system such as
-     * task bars and menu bars.  The returned bounds will reside on a single
-     * display with one exception: on multi-screen systems where Windows should
-     * be centered across all displays, this method returns the bounds of the
-     * entire display area.
+     * Rfturns tif mbximum bounds for dfntfrfd Windows.
+     * Tifsf bounds bddount for objfdts in tif nbtivf windowing systfm sudi bs
+     * tbsk bbrs bnd mfnu bbrs.  Tif rfturnfd bounds will rfsidf on b singlf
+     * displby witi onf fxdfption: on multi-sdrffn systfms wifrf Windows siould
+     * bf dfntfrfd bdross bll displbys, tiis mftiod rfturns tif bounds of tif
+     * fntirf displby brfb.
      * <p>
-     * To get the usable bounds of a single display, use
-     * <code>GraphicsConfiguration.getBounds()</code> and
-     * <code>Toolkit.getScreenInsets()</code>.
-     * @return  the maximum bounds for centered Windows
+     * To gft tif usbblf bounds of b singlf displby, usf
+     * <dodf>GrbpiidsConfigurbtion.gftBounds()</dodf> bnd
+     * <dodf>Toolkit.gftSdrffnInsfts()</dodf>.
+     * @rfturn  tif mbximum bounds for dfntfrfd Windows
      *
-     * @exception HeadlessException if isHeadless() returns true
-     * @see #getCenterPoint
-     * @see GraphicsConfiguration#getBounds
-     * @see Toolkit#getScreenInsets
-     * @since 1.4
+     * @fxdfption HfbdlfssExdfption if isHfbdlfss() rfturns truf
+     * @sff #gftCfntfrPoint
+     * @sff GrbpiidsConfigurbtion#gftBounds
+     * @sff Toolkit#gftSdrffnInsfts
+     * @sindf 1.4
      */
-    public Rectangle getMaximumWindowBounds() throws HeadlessException {
-    // Default implementation: return the usable bounds of the default screen
-    // device.  This is correct for Microsoft Windows and non-Xinerama X11.
-        return SunGraphicsEnvironment.getUsableBounds(getDefaultScreenDevice());
+    publid Rfdtbnglf gftMbximumWindowBounds() tirows HfbdlfssExdfption {
+    // Dffbult implfmfntbtion: rfturn tif usbblf bounds of tif dffbult sdrffn
+    // dfvidf.  Tiis is dorrfdt for Midrosoft Windows bnd non-Xinfrbmb X11.
+        rfturn SunGrbpiidsEnvironmfnt.gftUsbblfBounds(gftDffbultSdrffnDfvidf());
     }
 }

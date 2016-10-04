@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import java.util.Locale;
+import jbvb.util.Lodblf;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
 
 /**
- * Class JobSheets is a printing attribute class, an enumeration, that
- * determines which job start and end sheets, if any, must be printed with a
- * job. Class JobSheets declares keywords for standard job sheets values.
- * Implementation- or site-defined names for a job sheets attribute may also be
- * created by defining a subclass of class JobSheets.
+ * Clbss JobSiffts is b printing bttributf dlbss, bn fnumfrbtion, tibt
+ * dftfrminfs wiidi job stbrt bnd fnd siffts, if bny, must bf printfd witi b
+ * job. Clbss JobSiffts dfdlbrfs kfywords for stbndbrd job siffts vblufs.
+ * Implfmfntbtion- or sitf-dffinfd nbmfs for b job siffts bttributf mby blso bf
+ * drfbtfd by dffining b subdlbss of dlbss JobSiffts.
  * <P>
- * The effect of a JobSheets attribute on multidoc print jobs (jobs with
- * multiple documents) may be affected by the {@link MultipleDocumentHandling
- * MultipleDocumentHandling} job attribute, depending on the meaning of the
- * particular JobSheets value.
+ * Tif ffffdt of b JobSiffts bttributf on multidod print jobs (jobs witi
+ * multiplf dodumfnts) mby bf bfffdtfd by tif {@link MultiplfDodumfntHbndling
+ * MultiplfDodumfntHbndling} job bttributf, dfpfnding on tif mfbning of tif
+ * pbrtidulbr JobSiffts vbluf.
  * <P>
- * <B>IPP Compatibility:</B>  The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The
- * enumeration's integer value is the IPP enum value.  The
- * <code>toString()</code> method returns the IPP string representation of
- * the attribute value. For a subclass, the attribute value must be
- * localized to give the IPP name and natural language values.
+ * <B>IPP Compbtibility:</B>  Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is tif IPP bttributf nbmf.  Tif
+ * fnumfrbtion's intfgfr vbluf is tif IPP fnum vbluf.  Tif
+ * <dodf>toString()</dodf> mftiod rfturns tif IPP string rfprfsfntbtion of
+ * tif bttributf vbluf. For b subdlbss, tif bttributf vbluf must bf
+ * lodblizfd to givf tif IPP nbmf bnd nbturbl lbngubgf vblufs.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public class JobSheets extends EnumSyntax
-        implements PrintRequestAttribute, PrintJobAttribute {
+publid dlbss JobSiffts fxtfnds EnumSyntbx
+        implfmfnts PrintRfqufstAttributf, PrintJobAttributf {
 
-    private static final long serialVersionUID = -4735258056132519759L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4735258056132519759L;
 
     /**
-     * No job sheets are printed.
+     * No job siffts brf printfd.
      */
-    public static final JobSheets NONE = new JobSheets(0);
+    publid stbtid finbl JobSiffts NONE = nfw JobSiffts(0);
 
     /**
-     * One or more site specific standard job sheets are printed. e.g. a
-     * single start sheet is printed, or both start and end sheets are
-     * printed.
+     * Onf or morf sitf spfdifid stbndbrd job siffts brf printfd. f.g. b
+     * singlf stbrt sifft is printfd, or boti stbrt bnd fnd siffts brf
+     * printfd.
      */
-    public static final JobSheets STANDARD = new JobSheets(1);
+    publid stbtid finbl JobSiffts STANDARD = nfw JobSiffts(1);
 
     /**
-     * Construct a new job sheets enumeration value with the given integer
-     * value.
+     * Construdt b nfw job siffts fnumfrbtion vbluf witi tif givfn intfgfr
+     * vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected JobSheets(int value) {
-        super (value);
+    protfdtfd JobSiffts(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable = {
-        "none",
-        "standard"
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "nonf",
+        "stbndbrd"
     };
 
-    private static final JobSheets[] myEnumValueTable = {
+    privbtf stbtid finbl JobSiffts[] myEnumVblufTbblf = {
         NONE,
         STANDARD
     };
 
     /**
-     * Returns the string table for class JobSheets.
+     * Rfturns tif string tbblf for dlbss JobSiffts.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf.dlonf();
     }
 
     /**
-     * Returns the enumeration value table for class JobSheets.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss JobSiffts.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class JobSheets and any vendor-defined subclasses, the category is
-     * class JobSheets itself.
+     * For dlbss JobSiffts bnd bny vfndor-dffinfd subdlbssfs, tif dbtfgory is
+     * dlbss JobSiffts itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobSheets.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobSiffts.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class JobSheets and any vendor-defined subclasses, the category
-     * name is <CODE>"job-sheets"</CODE>.
+     * For dlbss JobSiffts bnd bny vfndor-dffinfd subdlbssfs, tif dbtfgory
+     * nbmf is <CODE>"job-siffts"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "job-sheets";
+    publid finbl String gftNbmf() {
+        rfturn "job-siffts";
     }
 
 }

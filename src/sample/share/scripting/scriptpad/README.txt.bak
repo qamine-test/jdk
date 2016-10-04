@@ -1,122 +1,122 @@
-Scriptpad Sample
+Sdriptpbd Sbmplf
 
-* Introduction
+* Introdudtion
 
-Scriptpad is a notepad like editor to open/edit/save and run 
-script (JavaScript) files. This sample demonstrates the use of 
-javax.script (JSR-223) API and JavaScript engine that is bundled 
-with JDK 6.
+Sdriptpbd is b notfpbd likf fditor to opfn/fdit/sbvf bnd run 
+sdript (JbvbSdript) filfs. Tiis sbmplf dfmonstrbtfs tif usf of 
+jbvbx.sdript (JSR-223) API bnd JbvbSdript fnginf tibt is bundlfd 
+witi JDK 6.
 
-Scriptpad sample demonstrates how to use Javascript to use Java 
-classes and objects to perform various tasks such as to modify,
-customize Swing GUI or to connect to a running application and 
-monitor it using JMX (Java Management Extensions) API.
+Sdriptpbd sbmplf dfmonstrbtfs iow to usf Jbvbsdript to usf Jbvb 
+dlbssfs bnd objfdts to pfrform vbrious tbsks sudi bs to modify,
+dustomizf Swing GUI or to donnfdt to b running bpplidbtion bnd 
+monitor it using JMX (Jbvb Mbnbgfmfnt Extfnsions) API.
 
-* How to run Scriptpad?
+* How to run Sdriptpbd?
 
-Scriptpad can be run with the following command:
+Sdriptpbd dbn bf run witi tif following dommbnd:
     
-    java -jar ./build/scriptpad.jar
+    jbvb -jbr ./build/sdriptpbd.jbr
 
-(be sure to use the correct version of java).  You can
-open/edit/save scripts using menu items under "File" menu.
-To run currently edited script, you can use "Tools->Run" menu.
+(bf surf to usf tif dorrfdt vfrsion of jbvb).  You dbn
+opfn/fdit/sbvf sdripts using mfnu itfms undfr "Filf" mfnu.
+To run durrfntly fditfd sdript, you dbn usf "Tools->Run" mfnu.
 
-For example, you may enter
+For fxbmplf, you mby fntfr
 
-    alert("hello, world");
+    blfrt("ifllo, world");
 
-in the editor and run the same with "Tools->Run" menu. 
-You will see an alert box with the message "hello, world".
+in tif fditor bnd run tif sbmf witi "Tools->Run" mfnu. 
+You will sff bn blfrt box witi tif mfssbgf "ifllo, world".
 
-In addition to being a simple script editor/runner, scriptpad 
-can be used to connect to a JMX MBean server ("Tools->JMX Connect" 
-menu). User can specify JMX hostname and port. After connecting, 
-user can use "monitoring and management" script functions defined 
-in "mm.js" (see below).
+In bddition to bfing b simplf sdript fditor/runnfr, sdriptpbd 
+dbn bf usfd to donnfdt to b JMX MBfbn sfrvfr ("Tools->JMX Connfdt" 
+mfnu). Usfr dbn spfdify JMX iostnbmf bnd port. Aftfr donnfdting, 
+usfr dbn usf "monitoring bnd mbnbgfmfnt" sdript fundtions dffinfd 
+in "mm.js" (sff bflow).
 
-* Scriptpad Sources
+* Sdriptpbd Sourdfs
 
-com.sun.demo.scriptpad.Main class is the entry point of this
-sample. This class creates ScriptEngine and evaluates few
-JavaScript "files" -- which are stored as resources (please
-refer to src/resources/*.js). Actual code for the scriptpad's
-main functionality lives in these JavaScript files.
+dom.sun.dfmo.sdriptpbd.Mbin dlbss is tif fntry point of tiis
+sbmplf. Tiis dlbss drfbtfs SdriptEnginf bnd fvblubtfs ffw
+JbvbSdript "filfs" -- wiidi brf storfd bs rfsourdfs (plfbsf
+rfffr to srd/rfsourdfs/*.js). Adtubl dodf for tif sdriptpbd's
+mbin fundtionblity livfs in tifsf JbvbSdript filfs.
 
-1. conc.js
- -- simple concurrency utilities for JavaScript
+1. dond.js
+ -- simplf dondurrfndy utilitifs for JbvbSdript
 
 2. gui.js
- -- simple GUI utilities for JavaScript
+ -- simplf GUI utilitifs for JbvbSdript
 
 3. mm.js
- -- Monitoring and Management utilities for JavaScript
+ -- Monitoring bnd Mbnbgfmfnt utilitifs for JbvbSdript
 
-4. scriptpad.js
- -- This creates main "notepad"-like GUI for open/edit/save
-    and run script files
+4. sdriptpbd.js
+ -- Tiis drfbtfs mbin "notfpbd"-likf GUI for opfn/fdit/sbvf
+    bnd run sdript filfs
 
-5. Main.js
- -- This script file can be used under "jrunscript" tool.
-    jrunscript is an experimental tool shipped with JDK (under
-    $JDK_HOME/bin directory). The scriptpad application can be
-    run by the following commands:
+5. Mbin.js
+ -- Tiis sdript filf dbn bf usfd undfr "jrunsdript" tool.
+    jrunsdript is bn fxpfrimfntbl tool siippfd witi JDK (undfr
+    $JDK_HOME/bin dirfdtory). Tif sdriptpbd bpplidbtion dbn bf
+    run by tif following dommbnds:
 
-    cd ./src/resources
-    $JDK_HOME/bin/jrunscript -f Main.js -f -
+    dd ./srd/rfsourdfs
+    $JDK_HOME/bin/jrunsdript -f Mbin.js -f -
 
 
-* Extending Scriptpad:
+* Extfnding Sdriptpbd:
 
-It is possible to extend scriptpad using scripts. There is a global
-object called "application". This object has 2 fields and a method.
+It is possiblf to fxtfnd sdriptpbd using sdripts. Tifrf is b globbl
+objfdt dbllfd "bpplidbtion". Tiis objfdt ibs 2 fiflds bnd b mftiod.
 
-    Fields of the application object:
+    Fiflds of tif bpplidbtion objfdt:
 
-        frame  -> JFrame of the scriptpad
-        editor -> editor pane of the scriptpad
+        frbmf  -> JFrbmf of tif sdriptpbd
+        fditor -> fditor pbnf of tif sdriptpbd
  
-    Method of the application object:
+    Mftiod of tif bpplidbtion objfdt:
 
-        addTool -> adds a menu item under "Tools" menu
+        bddTool -> bdds b mfnu itfm undfr "Tools" mfnu
 
-    Example script to add "Tools->Hello" menu item:
+    Exbmplf sdript to bdd "Tools->Hfllo" mfnu itfm:
 
-        application.addTool("Hello", 
-            function() { alert("hello, world"); });
+        bpplidbtion.bddTool("Hfllo", 
+            fundtion() { blfrt("ifllo, world"); });
 
-After running the above script, you can click Tools->Hello menu item
-and you'll see an alert box.
+Aftfr running tif bbovf sdript, you dbn dlidk Tools->Hfllo mfnu itfm
+bnd you'll sff bn blfrt box.
 
-Scriptpad customization may also be done by defining a file named 
-"scriptpad.js" under your home directory,. If this file is found, 
-scriptpad loads this file just after initializating everything. 
-In your initialization file, you can additional script functions 
-by "load" function.
+Sdriptpbd dustomizbtion mby blso bf donf by dffining b filf nbmfd 
+"sdriptpbd.js" undfr your iomf dirfdtory,. If tiis filf is found, 
+sdriptpbd lobds tiis filf just bftfr initiblizbting fvfrytiing. 
+In your initiblizbtion filf, you dbn bdditionbl sdript fundtions 
+by "lobd" fundtion.
 
-* Script Samples:
+* Sdript Sbmplfs:
 
-On clicking the menu items under "Examples" menu, scriptpad shows 
-built-in examples in the editor. Also, there are few script samples
-under the ./src/scripts directory.
+On dlidking tif mfnu itfms undfr "Exbmplfs" mfnu, sdriptpbd siows 
+built-in fxbmplfs in tif fditor. Also, tifrf brf ffw sdript sbmplfs
+undfr tif ./srd/sdripts dirfdtory.
 
-* Monitoring and Management with Scriptpad:
+* Monitoring bnd Mbnbgfmfnt witi Sdriptpbd:
 
-(1) Start the application with the JMX agent - here's an example of 
-    how the Java2D demo is started
+(1) Stbrt tif bpplidbtion witi tif JMX bgfnt - ifrf's bn fxbmplf of 
+    iow tif Jbvb2D dfmo is stbrtfd
    
-      java -Dcom.sun.management.jmxremote.port=1090          \
-           -Dcom.sun.management.jmxremote.ssl=false          \
-           -Dcom.sun.management.jmxremote.authenticate=false \
-           -jar $JDK_HOME/demo/jfc/Font2DTest/Font2DTest.jar
+      jbvb -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=1090          \
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf          \
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=fblsf \
+           -jbr $JDK_HOME/dfmo/jfd/Font2DTfst/Font2DTfst.jbr
 
-(2) Start scriptpad and click on "Tools->JMX Connect" menu.
-    In the prompt, enter "localhost:1090" to connect to the above
-    program.
+(2) Stbrt sdriptpbd bnd dlidk on "Tools->JMX Connfdt" mfnu.
+    In tif prompt, fntfr "lodbliost:1090" to donnfdt to tif bbovf
+    progrbm.
 
-After connecting to a MBeanServer (using "Tools->JMX Connect"),
-you can run any script that uses functions defined in "mm.js". 
-For example, it is possible to load and run management scripts that
-are part of JConsole script shell plugin under the directory:
+Aftfr donnfdting to b MBfbnSfrvfr (using "Tools->JMX Connfdt"),
+you dbn run bny sdript tibt usfs fundtions dffinfd in "mm.js". 
+For fxbmplf, it is possiblf to lobd bnd run mbnbgfmfnt sdripts tibt
+brf pbrt of JConsolf sdript sifll plugin undfr tif dirfdtory:
 
-    $JDK_HOME/demo/scripting/jconsole-plugin/src/scripts
+    $JDK_HOME/dfmo/sdripting/jdonsolf-plugin/srd/sdripts

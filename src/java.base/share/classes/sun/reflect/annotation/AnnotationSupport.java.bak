@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.annotation;
+pbdkbgf sun.rfflfdt.bnnotbtion;
 
-import java.lang.annotation.*;
-import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
 
-import sun.misc.JavaLangAccess;
+import sun.misd.JbvbLbngAddfss;
 
-public final class AnnotationSupport {
-    private static final JavaLangAccess LANG_ACCESS = sun.misc.SharedSecrets.getJavaLangAccess();
+publid finbl dlbss AnnotbtionSupport {
+    privbtf stbtid finbl JbvbLbngAddfss LANG_ACCESS = sun.misd.SibrfdSfdrfts.gftJbvbLbngAddfss();
 
     /**
-     * Finds and returns all annotations in {@code annotations} matching
-     * the given {@code annoClass}.
+     * Finds bnd rfturns bll bnnotbtions in {@dodf bnnotbtions} mbtdiing
+     * tif givfn {@dodf bnnoClbss}.
      *
-     * Apart from annotations directly present in {@code annotations} this
-     * method searches for annotations inside containers i.e. indirectly
-     * present annotations.
+     * Apbrt from bnnotbtions dirfdtly prfsfnt in {@dodf bnnotbtions} tiis
+     * mftiod sfbrdifs for bnnotbtions insidf dontbinfrs i.f. indirfdtly
+     * prfsfnt bnnotbtions.
      *
-     * The order of the elements in the array returned depends on the iteration
-     * order of the provided map. Specifically, the directly present annotations
-     * come before the indirectly present annotations if and only if the
-     * directly present annotations come before the indirectly present
-     * annotations in the map.
+     * Tif ordfr of tif flfmfnts in tif brrby rfturnfd dfpfnds on tif itfrbtion
+     * ordfr of tif providfd mbp. Spfdifidblly, tif dirfdtly prfsfnt bnnotbtions
+     * domf bfforf tif indirfdtly prfsfnt bnnotbtions if bnd only if tif
+     * dirfdtly prfsfnt bnnotbtions domf bfforf tif indirfdtly prfsfnt
+     * bnnotbtions in tif mbp.
      *
-     * @param annotations the {@code Map} in which to search for annotations
-     * @param annoClass the type of annotation to search for
+     * @pbrbm bnnotbtions tif {@dodf Mbp} in wiidi to sfbrdi for bnnotbtions
+     * @pbrbm bnnoClbss tif typf of bnnotbtion to sfbrdi for
      *
-     * @return an array of instances of {@code annoClass} or an empty
-     *         array if none were found
+     * @rfturn bn brrby of instbndfs of {@dodf bnnoClbss} or bn fmpty
+     *         brrby if nonf wfrf found
      */
-    public static <A extends Annotation> A[] getDirectlyAndIndirectlyPresent(
-            Map<Class<? extends Annotation>, Annotation> annotations,
-            Class<A> annoClass) {
-        List<A> result = new ArrayList<A>();
+    publid stbtid <A fxtfnds Annotbtion> A[] gftDirfdtlyAndIndirfdtlyPrfsfnt(
+            Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> bnnotbtions,
+            Clbss<A> bnnoClbss) {
+        List<A> rfsult = nfw ArrbyList<A>();
 
-        @SuppressWarnings("unchecked")
-        A direct = (A) annotations.get(annoClass);
-        if (direct != null)
-            result.add(direct);
+        @SupprfssWbrnings("undifdkfd")
+        A dirfdt = (A) bnnotbtions.gft(bnnoClbss);
+        if (dirfdt != null)
+            rfsult.bdd(dirfdt);
 
-        A[] indirect = getIndirectlyPresent(annotations, annoClass);
-        if (indirect != null && indirect.length != 0) {
-            boolean indirectFirst = direct == null ||
-                                    containerBeforeContainee(annotations, annoClass);
+        A[] indirfdt = gftIndirfdtlyPrfsfnt(bnnotbtions, bnnoClbss);
+        if (indirfdt != null && indirfdt.lfngti != 0) {
+            boolfbn indirfdtFirst = dirfdt == null ||
+                                    dontbinfrBfforfContbinff(bnnotbtions, bnnoClbss);
 
-            result.addAll((indirectFirst ? 0 : 1), Arrays.asList(indirect));
+            rfsult.bddAll((indirfdtFirst ? 0 : 1), Arrbys.bsList(indirfdt));
         }
 
-        @SuppressWarnings("unchecked")
-        A[] arr = (A[]) Array.newInstance(annoClass, result.size());
-        return result.toArray(arr);
+        @SupprfssWbrnings("undifdkfd")
+        A[] brr = (A[]) Arrby.nfwInstbndf(bnnoClbss, rfsult.sizf());
+        rfturn rfsult.toArrby(brr);
     }
 
     /**
-     * Finds and returns all annotations matching the given {@code annoClass}
-     * indirectly present in {@code annotations}.
+     * Finds bnd rfturns bll bnnotbtions mbtdiing tif givfn {@dodf bnnoClbss}
+     * indirfdtly prfsfnt in {@dodf bnnotbtions}.
      *
-     * @param annotations annotations to search indexed by their types
-     * @param annoClass the type of annotation to search for
+     * @pbrbm bnnotbtions bnnotbtions to sfbrdi indfxfd by tifir typfs
+     * @pbrbm bnnoClbss tif typf of bnnotbtion to sfbrdi for
      *
-     * @return an array of instances of {@code annoClass} or an empty array if no
-     *         indirectly present annotations were found
+     * @rfturn bn brrby of instbndfs of {@dodf bnnoClbss} or bn fmpty brrby if no
+     *         indirfdtly prfsfnt bnnotbtions wfrf found
      */
-    private static <A extends Annotation> A[] getIndirectlyPresent(
-            Map<Class<? extends Annotation>, Annotation> annotations,
-            Class<A> annoClass) {
+    privbtf stbtid <A fxtfnds Annotbtion> A[] gftIndirfdtlyPrfsfnt(
+            Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> bnnotbtions,
+            Clbss<A> bnnoClbss) {
 
-        Repeatable repeatable = annoClass.getDeclaredAnnotation(Repeatable.class);
-        if (repeatable == null)
-            return null;  // Not repeatable -> no indirectly present annotations
+        Rfpfbtbblf rfpfbtbblf = bnnoClbss.gftDfdlbrfdAnnotbtion(Rfpfbtbblf.dlbss);
+        if (rfpfbtbblf == null)
+            rfturn null;  // Not rfpfbtbblf -> no indirfdtly prfsfnt bnnotbtions
 
-        Class<? extends Annotation> containerClass = repeatable.value();
+        Clbss<? fxtfnds Annotbtion> dontbinfrClbss = rfpfbtbblf.vbluf();
 
-        Annotation container = annotations.get(containerClass);
-        if (container == null)
-            return null;
+        Annotbtion dontbinfr = bnnotbtions.gft(dontbinfrClbss);
+        if (dontbinfr == null)
+            rfturn null;
 
-        // Unpack container
-        A[] valueArray = getValueArray(container);
-        checkTypes(valueArray, container, annoClass);
+        // Unpbdk dontbinfr
+        A[] vblufArrby = gftVblufArrby(dontbinfr);
+        difdkTypfs(vblufArrby, dontbinfr, bnnoClbss);
 
-        return valueArray;
+        rfturn vblufArrby;
     }
 
 
     /**
-     * Figures out if conatiner class comes before containee class among the
-     * keys of the given map.
+     * Figurfs out if donbtinfr dlbss domfs bfforf dontbinff dlbss bmong tif
+     * kfys of tif givfn mbp.
      *
-     * @return true if container class is found before containee class when
-     *         iterating over annotations.keySet().
+     * @rfturn truf if dontbinfr dlbss is found bfforf dontbinff dlbss wifn
+     *         itfrbting ovfr bnnotbtions.kfySft().
      */
-    private static <A extends Annotation> boolean containerBeforeContainee(
-            Map<Class<? extends Annotation>, Annotation> annotations,
-            Class<A> annoClass) {
+    privbtf stbtid <A fxtfnds Annotbtion> boolfbn dontbinfrBfforfContbinff(
+            Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> bnnotbtions,
+            Clbss<A> bnnoClbss) {
 
-        Class<? extends Annotation> containerClass =
-                annoClass.getDeclaredAnnotation(Repeatable.class).value();
+        Clbss<? fxtfnds Annotbtion> dontbinfrClbss =
+                bnnoClbss.gftDfdlbrfdAnnotbtion(Rfpfbtbblf.dlbss).vbluf();
 
-        for (Class<? extends Annotation> c : annotations.keySet()) {
-            if (c == containerClass) return true;
-            if (c == annoClass) return false;
+        for (Clbss<? fxtfnds Annotbtion> d : bnnotbtions.kfySft()) {
+            if (d == dontbinfrClbss) rfturn truf;
+            if (d == bnnoClbss) rfturn fblsf;
         }
 
-        // Neither containee nor container present
-        return false;
+        // Nfitifr dontbinff nor dontbinfr prfsfnt
+        rfturn fblsf;
     }
 
 
     /**
-     * Finds and returns all associated annotations matching the given class.
+     * Finds bnd rfturns bll bssodibtfd bnnotbtions mbtdiing tif givfn dlbss.
      *
-     * The order of the elements in the array returned depends on the iteration
-     * order of the provided maps. Specifically, the directly present annotations
-     * come before the indirectly present annotations if and only if the
-     * directly present annotations come before the indirectly present
-     * annotations in the relevant map.
+     * Tif ordfr of tif flfmfnts in tif brrby rfturnfd dfpfnds on tif itfrbtion
+     * ordfr of tif providfd mbps. Spfdifidblly, tif dirfdtly prfsfnt bnnotbtions
+     * domf bfforf tif indirfdtly prfsfnt bnnotbtions if bnd only if tif
+     * dirfdtly prfsfnt bnnotbtions domf bfforf tif indirfdtly prfsfnt
+     * bnnotbtions in tif rflfvbnt mbp.
      *
-     * @param declaredAnnotations the declared annotations indexed by their types
-     * @param decl the class declaration on which to search for annotations
-     * @param annoClass the type of annotation to search for
+     * @pbrbm dfdlbrfdAnnotbtions tif dfdlbrfd bnnotbtions indfxfd by tifir typfs
+     * @pbrbm dfdl tif dlbss dfdlbrbtion on wiidi to sfbrdi for bnnotbtions
+     * @pbrbm bnnoClbss tif typf of bnnotbtion to sfbrdi for
      *
-     * @return an array of instances of {@code annoClass} or an empty array if none were found.
+     * @rfturn bn brrby of instbndfs of {@dodf bnnoClbss} or bn fmpty brrby if nonf wfrf found.
      */
-    public static <A extends Annotation> A[] getAssociatedAnnotations(
-            Map<Class<? extends Annotation>, Annotation> declaredAnnotations,
-            Class<?> decl,
-            Class<A> annoClass) {
-        Objects.requireNonNull(decl);
+    publid stbtid <A fxtfnds Annotbtion> A[] gftAssodibtfdAnnotbtions(
+            Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> dfdlbrfdAnnotbtions,
+            Clbss<?> dfdl,
+            Clbss<A> bnnoClbss) {
+        Objfdts.rfquirfNonNull(dfdl);
 
-        // Search declared
-        A[] result = getDirectlyAndIndirectlyPresent(declaredAnnotations, annoClass);
+        // Sfbrdi dfdlbrfd
+        A[] rfsult = gftDirfdtlyAndIndirfdtlyPrfsfnt(dfdlbrfdAnnotbtions, bnnoClbss);
 
-        // Search inherited
-        if(AnnotationType.getInstance(annoClass).isInherited()) {
-            Class<?> superDecl = decl.getSuperclass();
-            while (result.length == 0 && superDecl != null) {
-                result = getDirectlyAndIndirectlyPresent(LANG_ACCESS.getDeclaredAnnotationMap(superDecl), annoClass);
-                superDecl = superDecl.getSuperclass();
+        // Sfbrdi inifritfd
+        if(AnnotbtionTypf.gftInstbndf(bnnoClbss).isInifritfd()) {
+            Clbss<?> supfrDfdl = dfdl.gftSupfrdlbss();
+            wiilf (rfsult.lfngti == 0 && supfrDfdl != null) {
+                rfsult = gftDirfdtlyAndIndirfdtlyPrfsfnt(LANG_ACCESS.gftDfdlbrfdAnnotbtionMbp(supfrDfdl), bnnoClbss);
+                supfrDfdl = supfrDfdl.gftSupfrdlbss();
             }
         }
 
-        return result;
+        rfturn rfsult;
     }
 
 
-    /* Reflectively invoke the values-method of the given annotation
-     * (container), cast it to an array of annotations and return the result.
+    /* Rfflfdtivfly invokf tif vblufs-mftiod of tif givfn bnnotbtion
+     * (dontbinfr), dbst it to bn brrby of bnnotbtions bnd rfturn tif rfsult.
      */
-    private static <A extends Annotation> A[] getValueArray(Annotation container) {
+    privbtf stbtid <A fxtfnds Annotbtion> A[] gftVblufArrby(Annotbtion dontbinfr) {
         try {
-            // According to JLS the container must have an array-valued value
-            // method. Get the AnnotationType, get the "value" method and invoke
-            // it to get the content.
+            // Addording to JLS tif dontbinfr must ibvf bn brrby-vblufd vbluf
+            // mftiod. Gft tif AnnotbtionTypf, gft tif "vbluf" mftiod bnd invokf
+            // it to gft tif dontfnt.
 
-            Class<? extends Annotation> containerClass = container.annotationType();
-            AnnotationType annoType = AnnotationType.getInstance(containerClass);
-            if (annoType == null)
-                throw invalidContainerException(container, null);
+            Clbss<? fxtfnds Annotbtion> dontbinfrClbss = dontbinfr.bnnotbtionTypf();
+            AnnotbtionTypf bnnoTypf = AnnotbtionTypf.gftInstbndf(dontbinfrClbss);
+            if (bnnoTypf == null)
+                tirow invblidContbinfrExdfption(dontbinfr, null);
 
-            Method m = annoType.members().get("value");
+            Mftiod m = bnnoTypf.mfmbfrs().gft("vbluf");
             if (m == null)
-                throw invalidContainerException(container, null);
+                tirow invblidContbinfrExdfption(dontbinfr, null);
 
-            m.setAccessible(true);
+            m.sftAddfssiblf(truf);
 
-            // This will erase to (Annotation[]) but we do a runtime cast on the
-            // return-value in the method that call this method.
-            @SuppressWarnings("unchecked")
-            A[] values = (A[]) m.invoke(container);
+            // Tiis will frbsf to (Annotbtion[]) but wf do b runtimf dbst on tif
+            // rfturn-vbluf in tif mftiod tibt dbll tiis mftiod.
+            @SupprfssWbrnings("undifdkfd")
+            A[] vblufs = (A[]) m.invokf(dontbinfr);
 
-            return values;
+            rfturn vblufs;
 
-        } catch (IllegalAccessException    | // couldn't loosen security
-                 IllegalArgumentException  | // parameters doesn't match
-                 InvocationTargetException | // the value method threw an exception
-                 ClassCastException e) {
+        } dbtdi (IllfgblAddfssExdfption    | // douldn't loosfn sfdurity
+                 IllfgblArgumfntExdfption  | // pbrbmftfrs dofsn't mbtdi
+                 InvodbtionTbrgftExdfption | // tif vbluf mftiod tirfw bn fxdfption
+                 ClbssCbstExdfption f) {
 
-            throw invalidContainerException(container, e);
+            tirow invblidContbinfrExdfption(dontbinfr, f);
 
         }
     }
 
 
-    private static AnnotationFormatError invalidContainerException(Annotation anno,
-                                                                   Throwable cause) {
-        return new AnnotationFormatError(
-                anno + " is an invalid container for repeating annotations",
-                cause);
+    privbtf stbtid AnnotbtionFormbtError invblidContbinfrExdfption(Annotbtion bnno,
+                                                                   Tirowbblf dbusf) {
+        rfturn nfw AnnotbtionFormbtError(
+                bnno + " is bn invblid dontbinfr for rfpfbting bnnotbtions",
+                dbusf);
     }
 
 
-    /* Sanity check type of all the annotation instances of type {@code annoClass}
-     * from {@code container}.
+    /* Sbnity difdk typf of bll tif bnnotbtion instbndfs of typf {@dodf bnnoClbss}
+     * from {@dodf dontbinfr}.
      */
-    private static <A extends Annotation> void checkTypes(A[] annotations,
-                                                          Annotation container,
-                                                          Class<A> annoClass) {
-        for (A a : annotations) {
-            if (!annoClass.isInstance(a)) {
-                throw new AnnotationFormatError(
-                        String.format("%s is an invalid container for " +
-                                      "repeating annotations of type: %s",
-                                      container, annoClass));
+    privbtf stbtid <A fxtfnds Annotbtion> void difdkTypfs(A[] bnnotbtions,
+                                                          Annotbtion dontbinfr,
+                                                          Clbss<A> bnnoClbss) {
+        for (A b : bnnotbtions) {
+            if (!bnnoClbss.isInstbndf(b)) {
+                tirow nfw AnnotbtionFormbtError(
+                        String.formbt("%s is bn invblid dontbinfr for " +
+                                      "rfpfbting bnnotbtions of typf: %s",
+                                      dontbinfr, bnnoClbss));
             }
         }
     }

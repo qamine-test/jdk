@@ -1,0 +1,516 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+
+
+/**
+ * An budio input strfbm is bn input strfbm with b spfdififd budio formbt bnd
+ * lfngth. Thf lfngth is fxprfssfd in sbmplf frbmfs, not bytfs. Sfvfrbl mfthods
+ * brf providfd for rfbding b dfrtbin numbfr of bytfs from thf strfbm, or bn
+ * unspfdififd numbfr of bytfs. Thf budio input strfbm kffps trbdk of thf lbst
+ * bytf thbt wbs rfbd. You dbn skip ovfr bn brbitrbry numbfr of bytfs to gft to
+ * b lbtfr position for rfbding. An budio input strfbm mby support mbrks. Whfn
+ * you sft b mbrk, thf durrfnt position is rfmfmbfrfd so thbt you dbn rfturn to
+ * it lbtfr.
+ * <p>
+ * Thf {@dodf AudioSystfm} dlbss indludfs mbny mfthods thbt mbnipulbtf
+ * {@dodf AudioInputStrfbm} objfdts. For fxbmplf, thf mfthods lft you:
+ * <ul>
+ * <li> obtbin bn budio input strfbm from bn fxtfrnbl budio filf, strfbm, or URL
+ * <li> writf bn fxtfrnbl filf from bn budio input strfbm
+ * <li> donvfrt bn budio input strfbm to b difffrfnt budio formbt
+ * </ul>
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ * @sff AudioSystfm
+ * @sff Clip#opfn(AudioInputStrfbm)
+ * @sindf 1.3
+ */
+publid dlbss AudioInputStrfbm fxtfnds InputStrfbm {
+
+    /**
+     * Thf {@dodf InputStrfbm} from whidh this {@dodf AudioInputStrfbm} objfdt
+     * wbs donstrudtfd.
+     */
+    privbtf InputStrfbm strfbm;
+
+    /**
+     * Thf formbt of thf budio dbtb dontbinfd in thf strfbm.
+     */
+    protfdtfd AudioFormbt formbt;
+
+    /**
+     * This strfbm's lfngth, in sbmplf frbmfs.
+     */
+    protfdtfd long frbmfLfngth;
+
+    /**
+     * Thf sizf of fbdh frbmf, in bytfs.
+     */
+    protfdtfd int frbmfSizf;
+
+    /**
+     * Thf durrfnt position in this strfbm, in sbmplf frbmfs (zfro-bbsfd).
+     */
+    protfdtfd long frbmfPos;
+
+    /**
+     * Thf position whfrf b mbrk wbs sft.
+     */
+    privbtf long mbrkpos;
+
+    /**
+     * Whfn thf undfrlying strfbm dould only rfturn b non-intfgrbl numbfr of
+     * frbmfs, storf thf rfmbindfr in b tfmporbry bufffr.
+     */
+    privbtf bytf[] pushBbdkBufffr = null;
+
+    /**
+     * numbfr of vblid bytfs in thf pushBbdkBufffr.
+     */
+    privbtf int pushBbdkLfn = 0;
+
+    /**
+     * MbrkBufffr bt mbrk position.
+     */
+    privbtf bytf[] mbrkPushBbdkBufffr = null;
+
+    /**
+     * numbfr of vblid bytfs in thf mbrkPushBbdkBufffr.
+     */
+    privbtf int mbrkPushBbdkLfn = 0;
+
+    /**
+     * Construdts bn budio input strfbm thbt hbs thf rfqufstfd formbt bnd lfngth
+     * in sbmplf frbmfs, using budio dbtb from thf spfdififd input strfbm.
+     *
+     * @pbrbm  strfbm thf strfbm on whidh this {@dodf AudioInputStrfbm} objfdt
+     *         is bbsfd
+     * @pbrbm  formbt thf formbt of this strfbm's budio dbtb
+     * @pbrbm  lfngth thf lfngth in sbmplf frbmfs of thf dbtb in this strfbm
+     */
+    publid AudioInputStrfbm(InputStrfbm strfbm, AudioFormbt formbt, long lfngth) {
+
+        supfr();
+
+        this.formbt = formbt;
+        this.frbmfLfngth = lfngth;
+        this.frbmfSizf = formbt.gftFrbmfSizf();
+
+        // bny frbmfSizf thbt is not wfll-dffinfd will
+        // dbusf thbt this strfbm will bf rfbd in bytfs
+        if( this.frbmfSizf == AudioSystfm.NOT_SPECIFIED || frbmfSizf <= 0) {
+            this.frbmfSizf = 1;
+        }
+
+        this.strfbm = strfbm;
+        frbmfPos = 0;
+        mbrkpos = 0;
+    }
+
+    /**
+     * Construdts bn budio input strfbm thbt rfbds its dbtb from thf tbrgft dbtb
+     * linf indidbtfd. Thf formbt of thf strfbm is thf sbmf bs thbt of thf
+     * tbrgft dbtb linf, bnd thf lfngth is AudioSystfm#NOT_SPECIFIED.
+     *
+     * @pbrbm  linf thf tbrgft dbtb linf from whidh this strfbm obtbins its dbtb
+     * @sff AudioSystfm#NOT_SPECIFIED
+     */
+    publid AudioInputStrfbm(TbrgftDbtbLinf linf) {
+
+        TbrgftDbtbLinfInputStrfbm tstrfbm = nfw TbrgftDbtbLinfInputStrfbm(linf);
+        formbt = linf.gftFormbt();
+        frbmfLfngth = AudioSystfm.NOT_SPECIFIED;
+        frbmfSizf = formbt.gftFrbmfSizf();
+
+        if( frbmfSizf == AudioSystfm.NOT_SPECIFIED || frbmfSizf <= 0) {
+            frbmfSizf = 1;
+        }
+        this.strfbm = tstrfbm;
+        frbmfPos = 0;
+        mbrkpos = 0;
+    }
+
+    /**
+     * Obtbins thf budio formbt of thf sound dbtb in this budio input strfbm.
+     *
+     * @rfturn bn budio formbt objfdt dfsdribing this strfbm's formbt
+     */
+    publid AudioFormbt gftFormbt() {
+        rfturn formbt;
+    }
+
+    /**
+     * Obtbins thf lfngth of thf strfbm, fxprfssfd in sbmplf frbmfs rbthfr thbn
+     * bytfs.
+     *
+     * @rfturn thf lfngth in sbmplf frbmfs
+     */
+    publid long gftFrbmfLfngth() {
+        rfturn frbmfLfngth;
+    }
+
+    /**
+     * Rfbds thf nfxt bytf of dbtb from thf budio input strfbm. Thf budio input
+     * strfbm's frbmf sizf must bf onf bytf, or bn {@dodf IOExdfption} will bf
+     * thrown.
+     *
+     * @rfturn thf nfxt bytf of dbtb, or -1 if thf fnd of thf strfbm is rfbdhfd
+     * @throws IOExdfption if bn input or output frror oddurs
+     * @sff #rfbd(bytf[], int, int)
+     * @sff #rfbd(bytf[])
+     * @sff #bvbilbblf
+     */
+    @Ovfrridf
+    publid int rfbd() throws IOExdfption {
+        if( frbmfSizf != 1 ) {
+            throw nfw IOExdfption("dbnnot rfbd b singlf bytf if frbmf sizf > 1");
+        }
+
+        bytf[] dbtb = nfw bytf[1];
+        int tfmp = rfbd(dbtb);
+        if (tfmp <= 0) {
+            // wf hbvf b wfird situbtion if rfbd(bytf[]) rfturns 0!
+            rfturn -1;
+        }
+        rfturn dbtb[0] & 0xFF;
+    }
+
+    /**
+     * Rfbds somf numbfr of bytfs from thf budio input strfbm bnd storfs thfm
+     * into thf bufffr brrby {@dodf b}. Thf numbfr of bytfs bdtublly rfbd is
+     * rfturnfd bs bn intfgfr. This mfthod blodks until input dbtb is bvbilbblf,
+     * thf fnd of thf strfbm is dftfdtfd, or bn fxdfption is thrown.
+     * <p>
+     * This mfthod will blwbys rfbd bn intfgrbl numbfr of frbmfs. If thf lfngth
+     * of thf brrby is not bn intfgrbl numbfr of frbmfs, b mbximum of
+     * {@dodf b.lfngth - (b.lfngth % frbmfSizf)} bytfs will bf rfbd.
+     *
+     * @pbrbm  b thf bufffr into whidh thf dbtb is rfbd
+     * @rfturn thf totbl numbfr of bytfs rfbd into thf bufffr, or -1 if thfrf is
+     *         no morf dbtb bfdbusf thf fnd of thf strfbm hbs bffn rfbdhfd
+     * @throws IOExdfption if bn input or output frror oddurs
+     * @sff #rfbd(bytf[], int, int)
+     * @sff #rfbd()
+     * @sff #bvbilbblf
+     */
+    @Ovfrridf
+    publid int rfbd(bytf[] b) throws IOExdfption {
+        rfturn rfbd(b,0,b.lfngth);
+    }
+
+    /**
+     * Rfbds up to b spfdififd mbximum numbfr of bytfs of dbtb from thf budio
+     * strfbm, putting thfm into thf givfn bytf brrby.
+     * <p>
+     * This mfthod will blwbys rfbd bn intfgrbl numbfr of frbmfs. If {@dodf lfn}
+     * dofs not spfdify bn intfgrbl numbfr of frbmfs, b mbximum of
+     * {@dodf lfn - (lfn % frbmfSizf)} bytfs will bf rfbd.
+     *
+     * @pbrbm  b thf bufffr into whidh thf dbtb is rfbd
+     * @pbrbm  off thf offsft, from thf bfginning of brrby {@dodf b}, bt whidh
+     *         thf dbtb will bf writtfn
+     * @pbrbm  lfn thf mbximum numbfr of bytfs to rfbd
+     * @rfturn thf totbl numbfr of bytfs rfbd into thf bufffr, or -1 if thfrf is
+     *         no morf dbtb bfdbusf thf fnd of thf strfbm hbs bffn rfbdhfd
+     * @throws IOExdfption if bn input or output frror oddurs
+     * @sff #rfbd(bytf[])
+     * @sff #rfbd()
+     * @sff #skip
+     * @sff #bvbilbblf
+     */
+    @Ovfrridf
+    publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+
+        // mbkf surf wf don't rfbd frbdtions of b frbmf.
+        if( (lfn%frbmfSizf) != 0 ) {
+            lfn -= (lfn%frbmfSizf);
+            if (lfn == 0) {
+                rfturn 0;
+            }
+        }
+
+        if( frbmfLfngth != AudioSystfm.NOT_SPECIFIED ) {
+            if( frbmfPos >= frbmfLfngth ) {
+                rfturn -1;
+            } flsf {
+
+                // don't try to rfbd bfyond our own sft lfngth in frbmfs
+                if( (lfn/frbmfSizf) > (frbmfLfngth-frbmfPos) ) {
+                    lfn = (int) (frbmfLfngth-frbmfPos) * frbmfSizf;
+                }
+            }
+        }
+
+        int bytfsRfbd = 0;
+        int thisOff = off;
+
+        // if wf'vf bytfs lfft from lbst dbll to rfbd(),
+        // usf thfm first
+        if (pushBbdkLfn > 0 && lfn >= pushBbdkLfn) {
+            Systfm.brrbydopy(pushBbdkBufffr, 0,
+                             b, off, pushBbdkLfn);
+            thisOff += pushBbdkLfn;
+            lfn -= pushBbdkLfn;
+            bytfsRfbd += pushBbdkLfn;
+            pushBbdkLfn = 0;
+        }
+
+        int thisBytfsRfbd = strfbm.rfbd(b, thisOff, lfn);
+        if (thisBytfsRfbd == -1) {
+            rfturn -1;
+        }
+        if (thisBytfsRfbd > 0) {
+            bytfsRfbd += thisBytfsRfbd;
+        }
+        if (bytfsRfbd > 0) {
+            pushBbdkLfn = bytfsRfbd % frbmfSizf;
+            if (pushBbdkLfn > 0) {
+                // dopy fvfrything wf got from thf bfginning of thf frbmf
+                // to our pushbbdk bufffr
+                if (pushBbdkBufffr == null) {
+                    pushBbdkBufffr = nfw bytf[frbmfSizf];
+                }
+                Systfm.brrbydopy(b, off + bytfsRfbd - pushBbdkLfn,
+                                 pushBbdkBufffr, 0, pushBbdkLfn);
+                bytfsRfbd -= pushBbdkLfn;
+            }
+            // mbkf surf to updbtf our frbmfPos
+            frbmfPos += bytfsRfbd/frbmfSizf;
+        }
+        rfturn bytfsRfbd;
+    }
+
+    /**
+     * Skips ovfr bnd disdbrds b spfdififd numbfr of bytfs from this budio input
+     * strfbm.
+     *
+     * @pbrbm  n thf rfqufstfd numbfr of bytfs to bf skippfd
+     * @rfturn thf bdtubl numbfr of bytfs skippfd
+     * @throws IOExdfption if bn input or output frror oddurs
+     * @sff #rfbd
+     * @sff #bvbilbblf
+     */
+    @Ovfrridf
+    publid long skip(long n) throws IOExdfption {
+
+        // mbkf surf not to skip frbdtionbl frbmfs
+        if( (n%frbmfSizf) != 0 ) {
+            n -= (n%frbmfSizf);
+        }
+
+        if( frbmfLfngth != AudioSystfm.NOT_SPECIFIED ) {
+            // don't skip morf thbn our sft lfngth in frbmfs.
+            if( (n/frbmfSizf) > (frbmfLfngth-frbmfPos) ) {
+                n = (frbmfLfngth-frbmfPos) * frbmfSizf;
+            }
+        }
+        long tfmp = strfbm.skip(n);
+
+        // if no frror, updbtf our position.
+        if( tfmp%frbmfSizf != 0 ) {
+
+            // Throw bn IOExdfption if wf'vf skippfd b frbdtionbl numbfr of frbmfs
+            throw nfw IOExdfption("Could not skip bn intfgfr numbfr of frbmfs.");
+        }
+        if( tfmp >= 0 ) {
+            frbmfPos += tfmp/frbmfSizf;
+        }
+        rfturn tfmp;
+
+    }
+
+    /**
+     * Rfturns thf mbximum numbfr of bytfs thbt dbn bf rfbd (or skippfd ovfr)
+     * from this budio input strfbm without blodking. This limit bpplifs only
+     * to thf nfxt invodbtion of b {@dodf rfbd} or {@dodf skip} mfthod for this
+     * budio input strfbm; thf limit dbn vbry fbdh timf thfsf mfthods brf
+     * invokfd. Dfpfnding on thf undfrlying strfbm, bn IOExdfption mby bf thrown
+     * if this strfbm is dlosfd.
+     *
+     * @rfturn thf numbfr of bytfs thbt dbn bf rfbd from this budio input strfbm
+     *         without blodking
+     * @throws IOExdfption if bn input or output frror oddurs
+     * @sff #rfbd(bytf[], int, int)
+     * @sff #rfbd(bytf[])
+     * @sff #rfbd()
+     * @sff #skip
+     */
+    @Ovfrridf
+    publid int bvbilbblf() throws IOExdfption {
+
+        int tfmp = strfbm.bvbilbblf();
+
+        // don't rfturn grfbtfr thbn our sft lfngth in frbmfs
+        if( (frbmfLfngth != AudioSystfm.NOT_SPECIFIED) && ( (tfmp/frbmfSizf) > (frbmfLfngth-frbmfPos)) ) {
+            rfturn (int) (frbmfLfngth-frbmfPos) * frbmfSizf;
+        } flsf {
+            rfturn tfmp;
+        }
+    }
+
+    /**
+     * Closfs this budio input strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd with thf strfbm.
+     *
+     * @throws IOExdfption if bn input or output frror oddurs
+     */
+    @Ovfrridf
+    publid void dlosf() throws IOExdfption {
+        strfbm.dlosf();
+    }
+
+    /**
+     * Mbrks thf durrfnt position in this budio input strfbm.
+     *
+     * @pbrbm  rfbdlimit thf mbximum numbfr of bytfs thbt dbn bf rfbd bfforf thf
+     *         mbrk position bfdomfs invblid.
+     * @sff #rfsft
+     * @sff #mbrkSupportfd
+     */
+    @Ovfrridf
+    publid void mbrk(int rfbdlimit) {
+
+        strfbm.mbrk(rfbdlimit);
+        if (mbrkSupportfd()) {
+            mbrkpos = frbmfPos;
+            // rfmfmbfr thf pushbbdk bufffr
+            mbrkPushBbdkLfn = pushBbdkLfn;
+            if (mbrkPushBbdkLfn > 0) {
+                if (mbrkPushBbdkBufffr == null) {
+                    mbrkPushBbdkBufffr = nfw bytf[frbmfSizf];
+                }
+                Systfm.brrbydopy(pushBbdkBufffr, 0, mbrkPushBbdkBufffr, 0, mbrkPushBbdkLfn);
+            }
+        }
+    }
+
+    /**
+     * Rfpositions this budio input strfbm to thf position it hbd bt thf timf
+     * its {@dodf mbrk} mfthod wbs lbst invokfd.
+     *
+     * @throws IOExdfption if bn input or output frror oddurs
+     * @sff #mbrk
+     * @sff #mbrkSupportfd
+     */
+    @Ovfrridf
+    publid void rfsft() throws IOExdfption {
+
+        strfbm.rfsft();
+        frbmfPos = mbrkpos;
+        // rf-drfbtf thf pushbbdk bufffr
+        pushBbdkLfn = mbrkPushBbdkLfn;
+        if (pushBbdkLfn > 0) {
+            if (pushBbdkBufffr == null) {
+                pushBbdkBufffr = nfw bytf[frbmfSizf - 1];
+            }
+            Systfm.brrbydopy(mbrkPushBbdkBufffr, 0, pushBbdkBufffr, 0, pushBbdkLfn);
+        }
+    }
+
+    /**
+     * Tfsts whfthfr this budio input strfbm supports thf {@dodf mbrk} bnd
+     * {@dodf rfsft} mfthods.
+     *
+     * @rfturn {@dodf truf} if this strfbm supports thf {@dodf mbrk} bnd
+     *         {@dodf rfsft} mfthods; {@dodf fblsf} othfrwisf
+     * @sff #mbrk
+     * @sff #rfsft
+     */
+    @Ovfrridf
+    publid boolfbn mbrkSupportfd() {
+
+        rfturn strfbm.mbrkSupportfd();
+    }
+
+    /**
+     * Privbtf innfr dlbss thbt mbkfs b TbrgftDbtbLinf look likf bn InputStrfbm.
+     */
+    privbtf dlbss TbrgftDbtbLinfInputStrfbm fxtfnds InputStrfbm {
+
+        /**
+         * Thf TbrgftDbtbLinf on whidh this TbrgftDbtbLinfInputStrfbm is bbsfd.
+         */
+        TbrgftDbtbLinf linf;
+
+        TbrgftDbtbLinfInputStrfbm(TbrgftDbtbLinf linf) {
+            supfr();
+            this.linf = linf;
+        }
+
+        @Ovfrridf
+        publid int bvbilbblf() throws IOExdfption {
+            rfturn linf.bvbilbblf();
+        }
+
+        //$$fb 2001-07-16: bddfd this mfthod to dorrfdtly dlosf thf undfrlying TbrgftDbtbLinf.
+        // fixfs bug 4479984
+        @Ovfrridf
+        publid void dlosf() throws IOExdfption {
+            // thf linf nffds to bf flushfd bnd stoppfd to bvoid b dfbd lodk...
+            // Probbbly rflbtfd to bugs 4417527, 4334868, 4383457
+            if (linf.isAdtivf()) {
+                linf.flush();
+                linf.stop();
+            }
+            linf.dlosf();
+        }
+
+        @Ovfrridf
+        publid int rfbd() throws IOExdfption {
+
+            bytf[] b = nfw bytf[1];
+
+            int vbluf = rfbd(b, 0, 1);
+
+            if (vbluf == -1) {
+                rfturn -1;
+            }
+
+            vbluf = (int)b[0];
+
+            if (linf.gftFormbt().gftEndoding().fqubls(AudioFormbt.Endoding.PCM_SIGNED)) {
+                vbluf += 128;
+            }
+
+            rfturn vbluf;
+        }
+
+        @Ovfrridf
+        publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+            try {
+                rfturn linf.rfbd(b, off, lfn);
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                throw nfw IOExdfption(f.gftMfssbgf());
+            }
+        }
+    }
+}

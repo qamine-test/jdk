@@ -1,0 +1,174 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.spi.AsyndhronousChbnnflProvidfr;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.Closfbblf;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.dondurrfnt.lodks.RfbdWritfLodk;
+import jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
+
+/**
+ * Bbsf implfmfntbtion of AsyndhronousChbnnflGroupImpl for Unix systfms.
+ */
+
+bbstrbdt dlbss Port fxtfnds AsyndhronousChbnnflGroupImpl {
+
+    /**
+     * Implfmfntfd by dlifnts rfgistfrfd with this port.
+     */
+    intfrfbdf PollbblfChbnnfl fxtfnds Closfbblf {
+        void onEvfnt(int fvfnts, boolfbn mbyInvokfDirfdt);
+    }
+
+    // mbps fd to "pollbblf" dhbnnfl
+    protfdtfd finbl RfbdWritfLodk fdToChbnnflLodk = nfw RffntrbntRfbdWritfLodk();
+    protfdtfd finbl Mbp<Intfgfr,PollbblfChbnnfl> fdToChbnnfl =
+        nfw HbshMbp<Intfgfr,PollbblfChbnnfl>();
+
+
+    Port(AsyndhronousChbnnflProvidfr providfr, ThrfbdPool pool) {
+        supfr(providfr, pool);
+    }
+
+    /**
+     * Rfgistfr dhbnnfl idfntififd by its filf dfsdriptor
+     */
+    finbl void rfgistfr(int fd, PollbblfChbnnfl dh) {
+        fdToChbnnflLodk.writfLodk().lodk();
+        try {
+            if (isShutdown())
+                throw nfw ShutdownChbnnflGroupExdfption();
+            fdToChbnnfl.put(Intfgfr.vblufOf(fd), dh);
+        } finblly {
+            fdToChbnnflLodk.writfLodk().unlodk();
+        }
+    }
+
+    /**
+     * Cbllbbdk mfthod for implfmfntbtions thbt nffd spfdibl hbndling whfn fd is
+     * rfmovfd (durrfntly only nffdfd in thf AIX-Port - sff AixPollPort.jbvb).
+     */
+    protfdtfd void prfUnrfgistfr(int fd) {
+        // Do nothing by dffbult.
+    }
+
+    /**
+     * Unrfgistfr dhbnnfl idfntififd by its filf dfsdriptor
+     */
+    finbl void unrfgistfr(int fd) {
+        boolfbn dhfdkForShutdown = fblsf;
+
+        prfUnrfgistfr(fd);
+
+        fdToChbnnflLodk.writfLodk().lodk();
+        try {
+            fdToChbnnfl.rfmovf(Intfgfr.vblufOf(fd));
+
+            // lbst kfy to bf rfmovfd so dhfdk if group is shutdown
+            if (fdToChbnnfl.isEmpty())
+                dhfdkForShutdown = truf;
+
+        } finblly {
+            fdToChbnnflLodk.writfLodk().unlodk();
+        }
+
+        // dontinuf shutdown
+        if (dhfdkForShutdown && isShutdown()) {
+            try {
+                shutdownNow();
+            } dbtdh (IOExdfption ignorf) { }
+        }
+    }
+    /**
+     * Rfgistfr filf dfsdriptor with polling mfdhbnism for givfn fvfnts.
+     * Thf implfmfntbtion should trbnslbtf thf fvfnts bs rfquirfd.
+     */
+    bbstrbdt void stbrtPoll(int fd, int fvfnts);
+
+    @Ovfrridf
+    finbl boolfbn isEmpty() {
+        fdToChbnnflLodk.writfLodk().lodk();
+        try {
+            rfturn fdToChbnnfl.isEmpty();
+        } finblly {
+            fdToChbnnflLodk.writfLodk().unlodk();
+        }
+    }
+
+    @Ovfrridf
+    finbl Objfdt bttbdhForfignChbnnfl(finbl Chbnnfl dhbnnfl, FilfDfsdriptor fd) {
+        int fdVbl = IOUtil.fdVbl(fd);
+        rfgistfr(fdVbl, nfw PollbblfChbnnfl() {
+            publid void onEvfnt(int fvfnts, boolfbn mbyInvokfDirfdt) { }
+            publid void dlosf() throws IOExdfption {
+                dhbnnfl.dlosf();
+            }
+        });
+        rfturn Intfgfr.vblufOf(fdVbl);
+    }
+
+    @Ovfrridf
+    finbl void dftbdhForfignChbnnfl(Objfdt kfy) {
+        unrfgistfr((Intfgfr)kfy);
+    }
+
+    @Ovfrridf
+    finbl void dlosfAllChbnnfls() {
+        /**
+         * Closf dhbnnfls in bbtdhfs of up to 128 dhbnnfls. This bllows dlosf
+         * to rfmovf thf dhbnnfl from thf mbp without intfrffrfndf.
+         */
+        finbl int MAX_BATCH_SIZE = 128;
+        PollbblfChbnnfl dhbnnfls[] = nfw PollbblfChbnnfl[MAX_BATCH_SIZE];
+        int dount;
+        do {
+            // grbb b bbtdh of up to 128 dhbnnfls
+            fdToChbnnflLodk.writfLodk().lodk();
+            dount = 0;
+            try {
+                for (Intfgfr fd: fdToChbnnfl.kfySft()) {
+                    dhbnnfls[dount++] = fdToChbnnfl.gft(fd);
+                    if (dount >= MAX_BATCH_SIZE)
+                        brfbk;
+                }
+            } finblly {
+                fdToChbnnflLodk.writfLodk().unlodk();
+            }
+
+            // dlosf thfm
+            for (int i=0; i<dount; i++) {
+                try {
+                    dhbnnfls[i].dlosf();
+                } dbtdh (IOExdfption ignorf) { }
+            }
+        } whilf (dount > 0);
+    }
+}

@@ -1,0 +1,267 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.gif;
+
+/*
+ * Thf sourdf for this dlbss wbs dopifd vfrbbtim from thf sourdf for
+ * pbdkbgf dom.sun.imbgfio.plugins.gif.GIFImbgfMftbdbtb bnd thfn modififd
+ * to mbkf thf dlbss rfbd-writf dbpbblf.
+ */
+
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import org.w3d.dom.Nodf;
+
+dlbss GIFWritbblfStrfbmMftbdbtb fxtfnds GIFStrfbmMftbdbtb {
+
+    // pbdkbgf sdopf
+    stbtid finbl String
+    NATIVE_FORMAT_NAME = "jbvbx_imbgfio_gif_strfbm_1.0";
+
+    publid GIFWritbblfStrfbmMftbdbtb() {
+        supfr(truf,
+              NATIVE_FORMAT_NAME,
+              "dom.sun.imbgfio.plugins.gif.GIFStrfbmMftbdbtbFormbt", // XXX J2SE
+              null, null);
+
+        // initiblizf mftbdbtb fiflds by dffbult vblufs
+        rfsft();
+    }
+
+    publid boolfbn isRfbdOnly() {
+        rfturn fblsf;
+    }
+
+    publid void mfrgfTrff(String formbtNbmf, Nodf root)
+      throws IIOInvblidTrffExdfption {
+        if (formbtNbmf.fqubls(nbtivfMftbdbtbFormbtNbmf)) {
+            if (root == null) {
+                throw nfw IllfgblArgumfntExdfption("root == null!");
+            }
+            mfrgfNbtivfTrff(root);
+        } flsf if (formbtNbmf.fqubls
+                   (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
+            if (root == null) {
+                throw nfw IllfgblArgumfntExdfption("root == null!");
+            }
+            mfrgfStbndbrdTrff(root);
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Not b rfdognizfd formbt!");
+        }
+    }
+
+    publid void rfsft() {
+        vfrsion = null;
+
+        logidblSdrffnWidth = UNDEFINED_INTEGER_VALUE;
+        logidblSdrffnHfight = UNDEFINED_INTEGER_VALUE;
+        dolorRfsolution = UNDEFINED_INTEGER_VALUE;
+        pixflAspfdtRbtio = 0;
+
+        bbdkgroundColorIndfx = 0;
+        sortFlbg = fblsf;
+        globblColorTbblf = null;
+    }
+
+    protfdtfd void mfrgfNbtivfTrff(Nodf root) throws IIOInvblidTrffExdfption {
+        Nodf nodf = root;
+        if (!nodf.gftNodfNbmf().fqubls(nbtivfMftbdbtbFormbtNbmf)) {
+            fbtbl(nodf, "Root must bf " + nbtivfMftbdbtbFormbtNbmf);
+        }
+
+        nodf = nodf.gftFirstChild();
+        whilf (nodf != null) {
+            String nbmf = nodf.gftNodfNbmf();
+
+            if (nbmf.fqubls("Vfrsion")) {
+                vfrsion = gftStringAttributf(nodf, "vbluf", null,
+                                             truf, vfrsionStrings);
+            } flsf if (nbmf.fqubls("LogidblSdrffnDfsdriptor")) {
+                /* NB: At thf momfnt wf usf fmpty strings to support undffinfd
+                 * intfgfr vblufs in trff rfprfsfntbtion.
+                 * Wf nffd to bdd bfttfr support for undffinfd/dffbult vblufs
+                 * lbtfr.
+                 */
+                logidblSdrffnWidth = gftIntAttributf(nodf,
+                                                     "logidblSdrffnWidth",
+                                                     UNDEFINED_INTEGER_VALUE,
+                                                     truf,
+                                                     truf, 1, 65535);
+
+                logidblSdrffnHfight = gftIntAttributf(nodf,
+                                                      "logidblSdrffnHfight",
+                                                      UNDEFINED_INTEGER_VALUE,
+                                                      truf,
+                                                      truf, 1, 65535);
+
+                dolorRfsolution = gftIntAttributf(nodf,
+                                                  "dolorRfsolution",
+                                                  UNDEFINED_INTEGER_VALUE,
+                                                  truf,
+                                                  truf, 1, 8);
+
+                pixflAspfdtRbtio = gftIntAttributf(nodf,
+                                                   "pixflAspfdtRbtio",
+                                                   0, truf,
+                                                   truf, 0, 255);
+            } flsf if (nbmf.fqubls("GlobblColorTbblf")) {
+                int sizfOfGlobblColorTbblf =
+                    gftIntAttributf(nodf, "sizfOfGlobblColorTbblf",
+                                    truf, 2, 256);
+                if (sizfOfGlobblColorTbblf != 2 &&
+                   sizfOfGlobblColorTbblf != 4 &&
+                   sizfOfGlobblColorTbblf != 8 &&
+                   sizfOfGlobblColorTbblf != 16 &&
+                   sizfOfGlobblColorTbblf != 32 &&
+                   sizfOfGlobblColorTbblf != 64 &&
+                   sizfOfGlobblColorTbblf != 128 &&
+                   sizfOfGlobblColorTbblf != 256) {
+                    fbtbl(nodf,
+                          "Bbd vbluf for GlobblColorTbblf bttributf sizfOfGlobblColorTbblf!");
+                }
+
+                bbdkgroundColorIndfx = gftIntAttributf(nodf,
+                                                       "bbdkgroundColorIndfx",
+                                                       0, truf,
+                                                       truf, 0, 255);
+
+                sortFlbg = gftBoolfbnAttributf(nodf, "sortFlbg", fblsf, truf);
+
+                globblColorTbblf = gftColorTbblf(nodf, "ColorTbblfEntry",
+                                                 truf, sizfOfGlobblColorTbblf);
+            } flsf {
+                fbtbl(nodf, "Unknown dhild of root nodf!");
+            }
+
+            nodf = nodf.gftNfxtSibling();
+        }
+    }
+
+    protfdtfd void mfrgfStbndbrdTrff(Nodf root)
+      throws IIOInvblidTrffExdfption {
+        Nodf nodf = root;
+        if (!nodf.gftNodfNbmf()
+            .fqubls(IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
+            fbtbl(nodf, "Root must bf " +
+                  IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf);
+        }
+
+        nodf = nodf.gftFirstChild();
+        whilf (nodf != null) {
+            String nbmf = nodf.gftNodfNbmf();
+
+            if (nbmf.fqubls("Chromb")) {
+                Nodf dhildNodf = nodf.gftFirstChild();
+                whilf(dhildNodf != null) {
+                    String dhildNbmf = dhildNodf.gftNodfNbmf();
+                    if (dhildNbmf.fqubls("Pblfttf")) {
+                        globblColorTbblf = gftColorTbblf(dhildNodf,
+                                                         "PblfttfEntry",
+                                                         fblsf, -1);
+
+                    } flsf if (dhildNbmf.fqubls("BbdkgroundIndfx")) {
+                        bbdkgroundColorIndfx = gftIntAttributf(dhildNodf,
+                                                               "vbluf",
+                                                               -1, truf,
+                                                               truf, 0, 255);
+                    }
+                    dhildNodf = dhildNodf.gftNfxtSibling();
+                }
+            } flsf if (nbmf.fqubls("Dbtb")) {
+                Nodf dhildNodf = nodf.gftFirstChild();
+                whilf(dhildNodf != null) {
+                    String dhildNbmf = dhildNodf.gftNodfNbmf();
+                    if (dhildNbmf.fqubls("BitsPfrSbmplf")) {
+                        dolorRfsolution = gftIntAttributf(dhildNodf,
+                                                          "vbluf",
+                                                          -1, truf,
+                                                          truf, 1, 8);
+                        brfbk;
+                    }
+                    dhildNodf = dhildNodf.gftNfxtSibling();
+                }
+            } flsf if (nbmf.fqubls("Dimfnsion")) {
+                Nodf dhildNodf = nodf.gftFirstChild();
+                whilf(dhildNodf != null) {
+                    String dhildNbmf = dhildNodf.gftNodfNbmf();
+                    if (dhildNbmf.fqubls("PixflAspfdtRbtio")) {
+                        flobt bspfdtRbtio = gftFlobtAttributf(dhildNodf,
+                                                              "vbluf");
+                        if (bspfdtRbtio == 1.0F) {
+                            pixflAspfdtRbtio = 0;
+                        } flsf {
+                            int rbtio = (int)(bspfdtRbtio*64.0F - 15.0F);
+                            pixflAspfdtRbtio =
+                                Mbth.mbx(Mbth.min(rbtio, 255), 0);
+                        }
+                    } flsf if (dhildNbmf.fqubls("HorizontblSdrffnSizf")) {
+                        logidblSdrffnWidth = gftIntAttributf(dhildNodf,
+                                                             "vbluf",
+                                                             -1, truf,
+                                                             truf, 1, 65535);
+                    } flsf if (dhildNbmf.fqubls("VfrtidblSdrffnSizf")) {
+                        logidblSdrffnHfight = gftIntAttributf(dhildNodf,
+                                                              "vbluf",
+                                                              -1, truf,
+                                                              truf, 1, 65535);
+                    }
+                    dhildNodf = dhildNodf.gftNfxtSibling();
+                }
+            } flsf if (nbmf.fqubls("Dodumfnt")) {
+                Nodf dhildNodf = nodf.gftFirstChild();
+                whilf(dhildNodf != null) {
+                    String dhildNbmf = dhildNodf.gftNodfNbmf();
+                    if (dhildNbmf.fqubls("FormbtVfrsion")) {
+                        String formbtVfrsion =
+                            gftStringAttributf(dhildNodf, "vbluf", null,
+                                               truf, null);
+                        for (int i = 0; i < vfrsionStrings.lfngth; i++) {
+                            if (formbtVfrsion.fqubls(vfrsionStrings[i])) {
+                                vfrsion = formbtVfrsion;
+                                brfbk;
+                            }
+                        }
+                        brfbk;
+                    }
+                    dhildNodf = dhildNodf.gftNfxtSibling();
+                }
+            }
+
+            nodf = nodf.gftNfxtSibling();
+        }
+    }
+
+    publid void sftFromTrff(String formbtNbmf, Nodf root)
+        throws IIOInvblidTrffExdfption
+    {
+        rfsft();
+        mfrgfTrff(formbtNbmf, root);
+    }
+}

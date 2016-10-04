@@ -1,1258 +1,1258 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.prefs;
+pbdkbgf jbvb.util.prffs;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.PrivilegedAction;
-import java.util.Iterator;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
 
-// These imports needed only as a workaround for a JavaDoc bug
-import java.lang.RuntimePermission;
-import java.lang.Integer;
-import java.lang.Long;
-import java.lang.Float;
-import java.lang.Double;
+// Tifsf imports nffdfd only bs b workbround for b JbvbDod bug
+import jbvb.lbng.RuntimfPfrmission;
+import jbvb.lbng.Intfgfr;
+import jbvb.lbng.Long;
+import jbvb.lbng.Flobt;
+import jbvb.lbng.Doublf;
 
 /**
- * A node in a hierarchical collection of preference data.  This class
- * allows applications to store and retrieve user and system
- * preference and configuration data.  This data is stored
- * persistently in an implementation-dependent backing store.  Typical
- * implementations include flat files, OS-specific registries,
- * directory servers and SQL databases.  The user of this class needn't
- * be concerned with details of the backing store.
+ * A nodf in b iifrbrdiidbl dollfdtion of prfffrfndf dbtb.  Tiis dlbss
+ * bllows bpplidbtions to storf bnd rftrifvf usfr bnd systfm
+ * prfffrfndf bnd donfigurbtion dbtb.  Tiis dbtb is storfd
+ * pfrsistfntly in bn implfmfntbtion-dfpfndfnt bbdking storf.  Typidbl
+ * implfmfntbtions indludf flbt filfs, OS-spfdifid rfgistrifs,
+ * dirfdtory sfrvfrs bnd SQL dbtbbbsfs.  Tif usfr of tiis dlbss nffdn't
+ * bf dondfrnfd witi dftbils of tif bbdking storf.
  *
- * <p>There are two separate trees of preference nodes, one for user
- * preferences and one for system preferences.  Each user has a separate user
- * preference tree, and all users in a given system share the same system
- * preference tree.  The precise description of "user" and "system" will vary
- * from implementation to implementation.  Typical information stored in the
- * user preference tree might include font choice, color choice, or preferred
- * window location and size for a particular application.  Typical information
- * stored in the system preference tree might include installation
- * configuration data for an application.
+ * <p>Tifrf brf two sfpbrbtf trffs of prfffrfndf nodfs, onf for usfr
+ * prfffrfndfs bnd onf for systfm prfffrfndfs.  Ebdi usfr ibs b sfpbrbtf usfr
+ * prfffrfndf trff, bnd bll usfrs in b givfn systfm sibrf tif sbmf systfm
+ * prfffrfndf trff.  Tif prfdisf dfsdription of "usfr" bnd "systfm" will vbry
+ * from implfmfntbtion to implfmfntbtion.  Typidbl informbtion storfd in tif
+ * usfr prfffrfndf trff migit indludf font dioidf, dolor dioidf, or prfffrrfd
+ * window lodbtion bnd sizf for b pbrtidulbr bpplidbtion.  Typidbl informbtion
+ * storfd in tif systfm prfffrfndf trff migit indludf instbllbtion
+ * donfigurbtion dbtb for bn bpplidbtion.
  *
- * <p>Nodes in a preference tree are named in a similar fashion to
- * directories in a hierarchical file system.   Every node in a preference
- * tree has a <i>node name</i> (which is not necessarily unique),
- * a unique <i>absolute path name</i>, and a path name <i>relative</i> to each
- * ancestor including itself.
+ * <p>Nodfs in b prfffrfndf trff brf nbmfd in b similbr fbsiion to
+ * dirfdtorifs in b iifrbrdiidbl filf systfm.   Evfry nodf in b prfffrfndf
+ * trff ibs b <i>nodf nbmf</i> (wiidi is not nfdfssbrily uniquf),
+ * b uniquf <i>bbsolutf pbti nbmf</i>, bnd b pbti nbmf <i>rflbtivf</i> to fbdi
+ * bndfstor indluding itsflf.
  *
- * <p>The root node has a node name of the empty string ("").  Every other
- * node has an arbitrary node name, specified at the time it is created.  The
- * only restrictions on this name are that it cannot be the empty string, and
- * it cannot contain the slash character ('/').
+ * <p>Tif root nodf ibs b nodf nbmf of tif fmpty string ("").  Evfry otifr
+ * nodf ibs bn brbitrbry nodf nbmf, spfdififd bt tif timf it is drfbtfd.  Tif
+ * only rfstridtions on tiis nbmf brf tibt it dbnnot bf tif fmpty string, bnd
+ * it dbnnot dontbin tif slbsi dibrbdtfr ('/').
  *
- * <p>The root node has an absolute path name of <tt>"/"</tt>.  Children of
- * the root node have absolute path names of <tt>"/" + </tt><i>&lt;node
- * name&gt;</i>.  All other nodes have absolute path names of <i>&lt;parent's
- * absolute path name&gt;</i><tt> + "/" + </tt><i>&lt;node name&gt;</i>.
- * Note that all absolute path names begin with the slash character.
+ * <p>Tif root nodf ibs bn bbsolutf pbti nbmf of <tt>"/"</tt>.  Ciildrfn of
+ * tif root nodf ibvf bbsolutf pbti nbmfs of <tt>"/" + </tt><i>&lt;nodf
+ * nbmf&gt;</i>.  All otifr nodfs ibvf bbsolutf pbti nbmfs of <i>&lt;pbrfnt's
+ * bbsolutf pbti nbmf&gt;</i><tt> + "/" + </tt><i>&lt;nodf nbmf&gt;</i>.
+ * Notf tibt bll bbsolutf pbti nbmfs bfgin witi tif slbsi dibrbdtfr.
  *
- * <p>A node <i>n</i>'s path name relative to its ancestor <i>a</i>
- * is simply the string that must be appended to <i>a</i>'s absolute path name
- * in order to form <i>n</i>'s absolute path name, with the initial slash
- * character (if present) removed.  Note that:
+ * <p>A nodf <i>n</i>'s pbti nbmf rflbtivf to its bndfstor <i>b</i>
+ * is simply tif string tibt must bf bppfndfd to <i>b</i>'s bbsolutf pbti nbmf
+ * in ordfr to form <i>n</i>'s bbsolutf pbti nbmf, witi tif initibl slbsi
+ * dibrbdtfr (if prfsfnt) rfmovfd.  Notf tibt:
  * <ul>
- * <li>No relative path names begin with the slash character.
- * <li>Every node's path name relative to itself is the empty string.
- * <li>Every node's path name relative to its parent is its node name (except
- * for the root node, which does not have a parent).
- * <li>Every node's path name relative to the root is its absolute path name
- * with the initial slash character removed.
+ * <li>No rflbtivf pbti nbmfs bfgin witi tif slbsi dibrbdtfr.
+ * <li>Evfry nodf's pbti nbmf rflbtivf to itsflf is tif fmpty string.
+ * <li>Evfry nodf's pbti nbmf rflbtivf to its pbrfnt is its nodf nbmf (fxdfpt
+ * for tif root nodf, wiidi dofs not ibvf b pbrfnt).
+ * <li>Evfry nodf's pbti nbmf rflbtivf to tif root is its bbsolutf pbti nbmf
+ * witi tif initibl slbsi dibrbdtfr rfmovfd.
  * </ul>
  *
- * <p>Note finally that:
+ * <p>Notf finblly tibt:
  * <ul>
- * <li>No path name contains multiple consecutive slash characters.
- * <li>No path name with the exception of the root's absolute path name
- * ends in the slash character.
- * <li>Any string that conforms to these two rules is a valid path name.
+ * <li>No pbti nbmf dontbins multiplf donsfdutivf slbsi dibrbdtfrs.
+ * <li>No pbti nbmf witi tif fxdfption of tif root's bbsolutf pbti nbmf
+ * fnds in tif slbsi dibrbdtfr.
+ * <li>Any string tibt donforms to tifsf two rulfs is b vblid pbti nbmf.
  * </ul>
  *
- * <p>All of the methods that modify preferences data are permitted to operate
- * asynchronously; they may return immediately, and changes will eventually
- * propagate to the persistent backing store with an implementation-dependent
- * delay.  The <tt>flush</tt> method may be used to synchronously force
- * updates to the backing store.  Normal termination of the Java Virtual
- * Machine will <i>not</i> result in the loss of pending updates -- an explicit
- * <tt>flush</tt> invocation is <i>not</i> required upon termination to ensure
- * that pending updates are made persistent.
+ * <p>All of tif mftiods tibt modify prfffrfndfs dbtb brf pfrmittfd to opfrbtf
+ * bsyndironously; tify mby rfturn immfdibtfly, bnd dibngfs will fvfntublly
+ * propbgbtf to tif pfrsistfnt bbdking storf witi bn implfmfntbtion-dfpfndfnt
+ * dflby.  Tif <tt>flusi</tt> mftiod mby bf usfd to syndironously fordf
+ * updbtfs to tif bbdking storf.  Normbl tfrminbtion of tif Jbvb Virtubl
+ * Mbdiinf will <i>not</i> rfsult in tif loss of pfnding updbtfs -- bn fxplidit
+ * <tt>flusi</tt> invodbtion is <i>not</i> rfquirfd upon tfrminbtion to fnsurf
+ * tibt pfnding updbtfs brf mbdf pfrsistfnt.
  *
- * <p>All of the methods that read preferences from a <tt>Preferences</tt>
- * object require the invoker to provide a default value.  The default value is
- * returned if no value has been previously set <i>or if the backing store is
- * unavailable</i>.  The intent is to allow applications to operate, albeit
- * with slightly degraded functionality, even if the backing store becomes
- * unavailable.  Several methods, like <tt>flush</tt>, have semantics that
- * prevent them from operating if the backing store is unavailable.  Ordinary
- * applications should have no need to invoke any of these methods, which can
- * be identified by the fact that they are declared to throw {@link
- * BackingStoreException}.
+ * <p>All of tif mftiods tibt rfbd prfffrfndfs from b <tt>Prfffrfndfs</tt>
+ * objfdt rfquirf tif invokfr to providf b dffbult vbluf.  Tif dffbult vbluf is
+ * rfturnfd if no vbluf ibs bffn prfviously sft <i>or if tif bbdking storf is
+ * unbvbilbblf</i>.  Tif intfnt is to bllow bpplidbtions to opfrbtf, blbfit
+ * witi sligitly dfgrbdfd fundtionblity, fvfn if tif bbdking storf bfdomfs
+ * unbvbilbblf.  Sfvfrbl mftiods, likf <tt>flusi</tt>, ibvf sfmbntids tibt
+ * prfvfnt tifm from opfrbting if tif bbdking storf is unbvbilbblf.  Ordinbry
+ * bpplidbtions siould ibvf no nffd to invokf bny of tifsf mftiods, wiidi dbn
+ * bf idfntififd by tif fbdt tibt tify brf dfdlbrfd to tirow {@link
+ * BbdkingStorfExdfption}.
  *
- * <p>The methods in this class may be invoked concurrently by multiple threads
- * in a single JVM without the need for external synchronization, and the
- * results will be equivalent to some serial execution.  If this class is used
- * concurrently <i>by multiple JVMs</i> that store their preference data in
- * the same backing store, the data store will not be corrupted, but no
- * other guarantees are made concerning the consistency of the preference
- * data.
+ * <p>Tif mftiods in tiis dlbss mby bf invokfd dondurrfntly by multiplf tirfbds
+ * in b singlf JVM witiout tif nffd for fxtfrnbl syndironizbtion, bnd tif
+ * rfsults will bf fquivblfnt to somf sfribl fxfdution.  If tiis dlbss is usfd
+ * dondurrfntly <i>by multiplf JVMs</i> tibt storf tifir prfffrfndf dbtb in
+ * tif sbmf bbdking storf, tif dbtb storf will not bf dorruptfd, but no
+ * otifr gubrbntffs brf mbdf dondfrning tif donsistfndy of tif prfffrfndf
+ * dbtb.
  *
- * <p>This class contains an export/import facility, allowing preferences
- * to be "exported" to an XML document, and XML documents representing
- * preferences to be "imported" back into the system.  This facility
- * may be used to back up all or part of a preference tree, and
- * subsequently restore from the backup.
+ * <p>Tiis dlbss dontbins bn fxport/import fbdility, bllowing prfffrfndfs
+ * to bf "fxportfd" to bn XML dodumfnt, bnd XML dodumfnts rfprfsfnting
+ * prfffrfndfs to bf "importfd" bbdk into tif systfm.  Tiis fbdility
+ * mby bf usfd to bbdk up bll or pbrt of b prfffrfndf trff, bnd
+ * subsfqufntly rfstorf from tif bbdkup.
  *
- * <p>The XML document has the following DOCTYPE declaration:
- * <pre>{@code
- * <!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
- * }</pre>
- * Note that the system URI (http://java.sun.com/dtd/preferences.dtd) is
- * <i>not</i> accessed when exporting or importing preferences; it merely
- * serves as a string to uniquely identify the DTD, which is:
- * <pre>{@code
- *    <?xml version="1.0" encoding="UTF-8"?>
+ * <p>Tif XML dodumfnt ibs tif following DOCTYPE dfdlbrbtion:
+ * <prf>{@dodf
+ * <!DOCTYPE prfffrfndfs SYSTEM "ittp://jbvb.sun.dom/dtd/prfffrfndfs.dtd">
+ * }</prf>
+ * Notf tibt tif systfm URI (ittp://jbvb.sun.dom/dtd/prfffrfndfs.dtd) is
+ * <i>not</i> bddfssfd wifn fxporting or importing prfffrfndfs; it mfrfly
+ * sfrvfs bs b string to uniqufly idfntify tif DTD, wiidi is:
+ * <prf>{@dodf
+ *    <?xml vfrsion="1.0" fndoding="UTF-8"?>
  *
- *    <!-- DTD for a Preferences tree. -->
+ *    <!-- DTD for b Prfffrfndfs trff. -->
  *
- *    <!-- The preferences element is at the root of an XML document
- *         representing a Preferences tree. -->
- *    <!ELEMENT preferences (root)>
+ *    <!-- Tif prfffrfndfs flfmfnt is bt tif root of bn XML dodumfnt
+ *         rfprfsfnting b Prfffrfndfs trff. -->
+ *    <!ELEMENT prfffrfndfs (root)>
  *
- *    <!-- The preferences element contains an optional version attribute,
- *          which specifies version of DTD. -->
- *    <!ATTLIST preferences EXTERNAL_XML_VERSION CDATA "0.0" >
+ *    <!-- Tif prfffrfndfs flfmfnt dontbins bn optionbl vfrsion bttributf,
+ *          wiidi spfdififs vfrsion of DTD. -->
+ *    <!ATTLIST prfffrfndfs EXTERNAL_XML_VERSION CDATA "0.0" >
  *
- *    <!-- The root element has a map representing the root's preferences
- *         (if any), and one node for each child of the root (if any). -->
- *    <!ELEMENT root (map, node*) >
+ *    <!-- Tif root flfmfnt ibs b mbp rfprfsfnting tif root's prfffrfndfs
+ *         (if bny), bnd onf nodf for fbdi diild of tif root (if bny). -->
+ *    <!ELEMENT root (mbp, nodf*) >
  *
- *    <!-- Additionally, the root contains a type attribute, which
- *         specifies whether it's the system or user root. -->
+ *    <!-- Additionblly, tif root dontbins b typf bttributf, wiidi
+ *         spfdififs wiftifr it's tif systfm or usfr root. -->
  *    <!ATTLIST root
- *              type (system|user) #REQUIRED >
+ *              typf (systfm|usfr) #REQUIRED >
  *
- *    <!-- Each node has a map representing its preferences (if any),
- *         and one node for each child (if any). -->
- *    <!ELEMENT node (map, node*) >
+ *    <!-- Ebdi nodf ibs b mbp rfprfsfnting its prfffrfndfs (if bny),
+ *         bnd onf nodf for fbdi diild (if bny). -->
+ *    <!ELEMENT nodf (mbp, nodf*) >
  *
- *    <!-- Additionally, each node has a name attribute -->
- *    <!ATTLIST node
- *              name CDATA #REQUIRED >
+ *    <!-- Additionblly, fbdi nodf ibs b nbmf bttributf -->
+ *    <!ATTLIST nodf
+ *              nbmf CDATA #REQUIRED >
  *
- *    <!-- A map represents the preferences stored at a node (if any). -->
- *    <!ELEMENT map (entry*) >
+ *    <!-- A mbp rfprfsfnts tif prfffrfndfs storfd bt b nodf (if bny). -->
+ *    <!ELEMENT mbp (fntry*) >
  *
- *    <!-- An entry represents a single preference, which is simply
- *          a key-value pair. -->
- *    <!ELEMENT entry EMPTY >
- *    <!ATTLIST entry
- *              key   CDATA #REQUIRED
- *              value CDATA #REQUIRED >
- * }</pre>
+ *    <!-- An fntry rfprfsfnts b singlf prfffrfndf, wiidi is simply
+ *          b kfy-vbluf pbir. -->
+ *    <!ELEMENT fntry EMPTY >
+ *    <!ATTLIST fntry
+ *              kfy   CDATA #REQUIRED
+ *              vbluf CDATA #REQUIRED >
+ * }</prf>
  *
- * Every <tt>Preferences</tt> implementation must have an associated {@link
- * PreferencesFactory} implementation.  Every Java(TM) SE implementation must provide
- * some means of specifying which <tt>PreferencesFactory</tt> implementation
- * is used to generate the root preferences nodes.  This allows the
- * administrator to replace the default preferences implementation with an
- * alternative implementation.
+ * Evfry <tt>Prfffrfndfs</tt> implfmfntbtion must ibvf bn bssodibtfd {@link
+ * PrfffrfndfsFbdtory} implfmfntbtion.  Evfry Jbvb(TM) SE implfmfntbtion must providf
+ * somf mfbns of spfdifying wiidi <tt>PrfffrfndfsFbdtory</tt> implfmfntbtion
+ * is usfd to gfnfrbtf tif root prfffrfndfs nodfs.  Tiis bllows tif
+ * bdministrbtor to rfplbdf tif dffbult prfffrfndfs implfmfntbtion witi bn
+ * bltfrnbtivf implfmfntbtion.
  *
- * <p>Implementation note: In Sun's JRE, the <tt>PreferencesFactory</tt>
- * implementation is located as follows:
+ * <p>Implfmfntbtion notf: In Sun's JRE, tif <tt>PrfffrfndfsFbdtory</tt>
+ * implfmfntbtion is lodbtfd bs follows:
  *
  * <ol>
  *
- * <li><p>If the system property
- * <tt>java.util.prefs.PreferencesFactory</tt> is defined, then it is
- * taken to be the fully-qualified name of a class implementing the
- * <tt>PreferencesFactory</tt> interface.  The class is loaded and
- * instantiated; if this process fails then an unspecified error is
- * thrown.</p></li>
+ * <li><p>If tif systfm propfrty
+ * <tt>jbvb.util.prffs.PrfffrfndfsFbdtory</tt> is dffinfd, tifn it is
+ * tbkfn to bf tif fully-qublififd nbmf of b dlbss implfmfnting tif
+ * <tt>PrfffrfndfsFbdtory</tt> intfrfbdf.  Tif dlbss is lobdfd bnd
+ * instbntibtfd; if tiis prodfss fbils tifn bn unspfdififd frror is
+ * tirown.</p></li>
  *
- * <li><p> If a <tt>PreferencesFactory</tt> implementation class file
- * has been installed in a jar file that is visible to the
- * {@link java.lang.ClassLoader#getSystemClassLoader system class loader},
- * and that jar file contains a provider-configuration file named
- * <tt>java.util.prefs.PreferencesFactory</tt> in the resource
- * directory <tt>META-INF/services</tt>, then the first class name
- * specified in that file is taken.  If more than one such jar file is
- * provided, the first one found will be used.  The class is loaded
- * and instantiated; if this process fails then an unspecified error
- * is thrown.  </p></li>
+ * <li><p> If b <tt>PrfffrfndfsFbdtory</tt> implfmfntbtion dlbss filf
+ * ibs bffn instbllfd in b jbr filf tibt is visiblf to tif
+ * {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr systfm dlbss lobdfr},
+ * bnd tibt jbr filf dontbins b providfr-donfigurbtion filf nbmfd
+ * <tt>jbvb.util.prffs.PrfffrfndfsFbdtory</tt> in tif rfsourdf
+ * dirfdtory <tt>META-INF/sfrvidfs</tt>, tifn tif first dlbss nbmf
+ * spfdififd in tibt filf is tbkfn.  If morf tibn onf sudi jbr filf is
+ * providfd, tif first onf found will bf usfd.  Tif dlbss is lobdfd
+ * bnd instbntibtfd; if tiis prodfss fbils tifn bn unspfdififd frror
+ * is tirown.  </p></li>
  *
- * <li><p>Finally, if neither the above-mentioned system property nor
- * an extension jar file is provided, then the system-wide default
- * <tt>PreferencesFactory</tt> implementation for the underlying
- * platform is loaded and instantiated.</p></li>
+ * <li><p>Finblly, if nfitifr tif bbovf-mfntionfd systfm propfrty nor
+ * bn fxtfnsion jbr filf is providfd, tifn tif systfm-widf dffbult
+ * <tt>PrfffrfndfsFbdtory</tt> implfmfntbtion for tif undfrlying
+ * plbtform is lobdfd bnd instbntibtfd.</p></li>
  *
  * </ol>
  *
- * @author  Josh Bloch
- * @since   1.4
+ * @butior  Josi Blodi
+ * @sindf   1.4
  */
-public abstract class Preferences {
+publid bbstrbdt dlbss Prfffrfndfs {
 
-    private static final PreferencesFactory factory = factory();
+    privbtf stbtid finbl PrfffrfndfsFbdtory fbdtory = fbdtory();
 
-    private static PreferencesFactory factory() {
-        // 1. Try user-specified system property
-        String factoryName = AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-                public String run() {
-                    return System.getProperty(
-                        "java.util.prefs.PreferencesFactory");}});
-        if (factoryName != null) {
-            // FIXME: This code should be run in a doPrivileged and
-            // not use the context classloader, to avoid being
-            // dependent on the invoking thread.
-            // Checking AllPermission also seems wrong.
+    privbtf stbtid PrfffrfndfsFbdtory fbdtory() {
+        // 1. Try usfr-spfdififd systfm propfrty
+        String fbdtoryNbmf = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Systfm.gftPropfrty(
+                        "jbvb.util.prffs.PrfffrfndfsFbdtory");}});
+        if (fbdtoryNbmf != null) {
+            // FIXME: Tiis dodf siould bf run in b doPrivilfgfd bnd
+            // not usf tif dontfxt dlbsslobdfr, to bvoid bfing
+            // dfpfndfnt on tif invoking tirfbd.
+            // Cifdking AllPfrmission blso sffms wrong.
             try {
-                return (PreferencesFactory)
-                    Class.forName(factoryName, false,
-                                  ClassLoader.getSystemClassLoader())
-                    .newInstance();
-            } catch (Exception ex) {
+                rfturn (PrfffrfndfsFbdtory)
+                    Clbss.forNbmf(fbdtoryNbmf, fblsf,
+                                  ClbssLobdfr.gftSystfmClbssLobdfr())
+                    .nfwInstbndf();
+            } dbtdi (Exdfption fx) {
                 try {
-                    // workaround for javaws, plugin,
-                    // load factory class using non-system classloader
-                    SecurityManager sm = System.getSecurityManager();
+                    // workbround for jbvbws, plugin,
+                    // lobd fbdtory dlbss using non-systfm dlbsslobdfr
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                     if (sm != null) {
-                        sm.checkPermission(new java.security.AllPermission());
+                        sm.difdkPfrmission(nfw jbvb.sfdurity.AllPfrmission());
                     }
-                    return (PreferencesFactory)
-                        Class.forName(factoryName, false,
-                                      Thread.currentThread()
-                                      .getContextClassLoader())
-                        .newInstance();
-                } catch (Exception e) {
-                    throw new InternalError(
-                        "Can't instantiate Preferences factory "
-                        + factoryName, e);
+                    rfturn (PrfffrfndfsFbdtory)
+                        Clbss.forNbmf(fbdtoryNbmf, fblsf,
+                                      Tirfbd.durrfntTirfbd()
+                                      .gftContfxtClbssLobdfr())
+                        .nfwInstbndf();
+                } dbtdi (Exdfption f) {
+                    tirow nfw IntfrnblError(
+                        "Cbn't instbntibtf Prfffrfndfs fbdtory "
+                        + fbdtoryNbmf, f);
                 }
             }
         }
 
-        return AccessController.doPrivileged(
-            new PrivilegedAction<PreferencesFactory>() {
-                public PreferencesFactory run() {
-                    return factory1();}});
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<PrfffrfndfsFbdtory>() {
+                publid PrfffrfndfsFbdtory run() {
+                    rfturn fbdtory1();}});
     }
 
-    private static PreferencesFactory factory1() {
-        // 2. Try service provider interface
-        Iterator<PreferencesFactory> itr = ServiceLoader
-            .load(PreferencesFactory.class, ClassLoader.getSystemClassLoader())
-            .iterator();
+    privbtf stbtid PrfffrfndfsFbdtory fbdtory1() {
+        // 2. Try sfrvidf providfr intfrfbdf
+        Itfrbtor<PrfffrfndfsFbdtory> itr = SfrvidfLobdfr
+            .lobd(PrfffrfndfsFbdtory.dlbss, ClbssLobdfr.gftSystfmClbssLobdfr())
+            .itfrbtor();
 
-        // choose first provider instance
-        while (itr.hasNext()) {
+        // dioosf first providfr instbndf
+        wiilf (itr.ibsNfxt()) {
             try {
-                return itr.next();
-            } catch (ServiceConfigurationError sce) {
-                if (sce.getCause() instanceof SecurityException) {
-                    // Ignore the security exception, try the next provider
-                    continue;
+                rfturn itr.nfxt();
+            } dbtdi (SfrvidfConfigurbtionError sdf) {
+                if (sdf.gftCbusf() instbndfof SfdurityExdfption) {
+                    // Ignorf tif sfdurity fxdfption, try tif nfxt providfr
+                    dontinuf;
                 }
-                throw sce;
+                tirow sdf;
             }
         }
 
-        // 3. Use platform-specific system-wide default
-        String osName = System.getProperty("os.name");
-        String platformFactory;
-        if (osName.startsWith("Windows")) {
-            platformFactory = "java.util.prefs.WindowsPreferencesFactory";
-        } else if (osName.contains("OS X")) {
-            platformFactory = "java.util.prefs.MacOSXPreferencesFactory";
-        } else {
-            platformFactory = "java.util.prefs.FileSystemPreferencesFactory";
+        // 3. Usf plbtform-spfdifid systfm-widf dffbult
+        String osNbmf = Systfm.gftPropfrty("os.nbmf");
+        String plbtformFbdtory;
+        if (osNbmf.stbrtsWiti("Windows")) {
+            plbtformFbdtory = "jbvb.util.prffs.WindowsPrfffrfndfsFbdtory";
+        } flsf if (osNbmf.dontbins("OS X")) {
+            plbtformFbdtory = "jbvb.util.prffs.MbdOSXPrfffrfndfsFbdtory";
+        } flsf {
+            plbtformFbdtory = "jbvb.util.prffs.FilfSystfmPrfffrfndfsFbdtory";
         }
         try {
-            return (PreferencesFactory)
-                Class.forName(platformFactory, false,
-                              Preferences.class.getClassLoader()).newInstance();
-        } catch (Exception e) {
-            throw new InternalError(
-                "Can't instantiate platform default Preferences factory "
-                + platformFactory, e);
+            rfturn (PrfffrfndfsFbdtory)
+                Clbss.forNbmf(plbtformFbdtory, fblsf,
+                              Prfffrfndfs.dlbss.gftClbssLobdfr()).nfwInstbndf();
+        } dbtdi (Exdfption f) {
+            tirow nfw IntfrnblError(
+                "Cbn't instbntibtf plbtform dffbult Prfffrfndfs fbdtory "
+                + plbtformFbdtory, f);
         }
     }
 
     /**
-     * Maximum length of string allowed as a key (80 characters).
+     * Mbximum lfngti of string bllowfd bs b kfy (80 dibrbdtfrs).
      */
-    public static final int MAX_KEY_LENGTH = 80;
+    publid stbtid finbl int MAX_KEY_LENGTH = 80;
 
     /**
-     * Maximum length of string allowed as a value (8192 characters).
+     * Mbximum lfngti of string bllowfd bs b vbluf (8192 dibrbdtfrs).
      */
-    public static final int MAX_VALUE_LENGTH = 8*1024;
+    publid stbtid finbl int MAX_VALUE_LENGTH = 8*1024;
 
     /**
-     * Maximum length of a node name (80 characters).
+     * Mbximum lfngti of b nodf nbmf (80 dibrbdtfrs).
      */
-    public static final int MAX_NAME_LENGTH = 80;
+    publid stbtid finbl int MAX_NAME_LENGTH = 80;
 
     /**
-     * Returns the preference node from the calling user's preference tree
-     * that is associated (by convention) with the specified class's package.
-     * The convention is as follows: the absolute path name of the node is the
-     * fully qualified package name, preceded by a slash (<tt>'/'</tt>), and
-     * with each period (<tt>'.'</tt>) replaced by a slash.  For example the
-     * absolute path name of the node associated with the class
-     * <tt>com.acme.widget.Foo</tt> is <tt>/com/acme/widget</tt>.
+     * Rfturns tif prfffrfndf nodf from tif dblling usfr's prfffrfndf trff
+     * tibt is bssodibtfd (by donvfntion) witi tif spfdififd dlbss's pbdkbgf.
+     * Tif donvfntion is bs follows: tif bbsolutf pbti nbmf of tif nodf is tif
+     * fully qublififd pbdkbgf nbmf, prfdfdfd by b slbsi (<tt>'/'</tt>), bnd
+     * witi fbdi pfriod (<tt>'.'</tt>) rfplbdfd by b slbsi.  For fxbmplf tif
+     * bbsolutf pbti nbmf of tif nodf bssodibtfd witi tif dlbss
+     * <tt>dom.bdmf.widgft.Foo</tt> is <tt>/dom/bdmf/widgft</tt>.
      *
-     * <p>This convention does not apply to the unnamed package, whose
-     * associated preference node is <tt>&lt;unnamed&gt;</tt>.  This node
-     * is not intended for long term use, but for convenience in the early
-     * development of programs that do not yet belong to a package, and
-     * for "throwaway" programs.  <i>Valuable data should not be stored
-     * at this node as it is shared by all programs that use it.</i>
+     * <p>Tiis donvfntion dofs not bpply to tif unnbmfd pbdkbgf, wiosf
+     * bssodibtfd prfffrfndf nodf is <tt>&lt;unnbmfd&gt;</tt>.  Tiis nodf
+     * is not intfndfd for long tfrm usf, but for donvfnifndf in tif fbrly
+     * dfvflopmfnt of progrbms tibt do not yft bflong to b pbdkbgf, bnd
+     * for "tirowbwby" progrbms.  <i>Vblubblf dbtb siould not bf storfd
+     * bt tiis nodf bs it is sibrfd by bll progrbms tibt usf it.</i>
      *
-     * <p>A class <tt>Foo</tt> wishing to access preferences pertaining to its
-     * package can obtain a preference node as follows: <pre>
-     *    static Preferences prefs = Preferences.userNodeForPackage(Foo.class);
-     * </pre>
-     * This idiom obviates the need for using a string to describe the
-     * preferences node and decreases the likelihood of a run-time failure.
-     * (If the class name is misspelled, it will typically result in a
-     * compile-time error.)
+     * <p>A dlbss <tt>Foo</tt> wisiing to bddfss prfffrfndfs pfrtbining to its
+     * pbdkbgf dbn obtbin b prfffrfndf nodf bs follows: <prf>
+     *    stbtid Prfffrfndfs prffs = Prfffrfndfs.usfrNodfForPbdkbgf(Foo.dlbss);
+     * </prf>
+     * Tiis idiom obvibtfs tif nffd for using b string to dfsdribf tif
+     * prfffrfndfs nodf bnd dfdrfbsfs tif likfliiood of b run-timf fbilurf.
+     * (If tif dlbss nbmf is misspfllfd, it will typidblly rfsult in b
+     * dompilf-timf frror.)
      *
-     * <p>Invoking this method will result in the creation of the returned
-     * node and its ancestors if they do not already exist.  If the returned
-     * node did not exist prior to this call, this node and any ancestors that
-     * were created by this call are not guaranteed to become permanent until
-     * the <tt>flush</tt> method is called on the returned node (or one of its
-     * ancestors or descendants).
+     * <p>Invoking tiis mftiod will rfsult in tif drfbtion of tif rfturnfd
+     * nodf bnd its bndfstors if tify do not blrfbdy fxist.  If tif rfturnfd
+     * nodf did not fxist prior to tiis dbll, tiis nodf bnd bny bndfstors tibt
+     * wfrf drfbtfd by tiis dbll brf not gubrbntffd to bfdomf pfrmbnfnt until
+     * tif <tt>flusi</tt> mftiod is dbllfd on tif rfturnfd nodf (or onf of its
+     * bndfstors or dfsdfndbnts).
      *
-     * @param c the class for whose package a user preference node is desired.
-     * @return the user preference node associated with the package of which
-     *         <tt>c</tt> is a member.
-     * @throws NullPointerException if <tt>c</tt> is <tt>null</tt>.
-     * @throws SecurityException if a security manager is present and
-     *         it denies <tt>RuntimePermission("preferences")</tt>.
-     * @see    RuntimePermission
+     * @pbrbm d tif dlbss for wiosf pbdkbgf b usfr prfffrfndf nodf is dfsirfd.
+     * @rfturn tif usfr prfffrfndf nodf bssodibtfd witi tif pbdkbgf of wiidi
+     *         <tt>d</tt> is b mfmbfr.
+     * @tirows NullPointfrExdfption if <tt>d</tt> is <tt>null</tt>.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is prfsfnt bnd
+     *         it dfnifs <tt>RuntimfPfrmission("prfffrfndfs")</tt>.
+     * @sff    RuntimfPfrmission
      */
-    public static Preferences userNodeForPackage(Class<?> c) {
-        return userRoot().node(nodeName(c));
+    publid stbtid Prfffrfndfs usfrNodfForPbdkbgf(Clbss<?> d) {
+        rfturn usfrRoot().nodf(nodfNbmf(d));
     }
 
     /**
-     * Returns the preference node from the system preference tree that is
-     * associated (by convention) with the specified class's package.  The
-     * convention is as follows: the absolute path name of the node is the
-     * fully qualified package name, preceded by a slash (<tt>'/'</tt>), and
-     * with each period (<tt>'.'</tt>) replaced by a slash.  For example the
-     * absolute path name of the node associated with the class
-     * <tt>com.acme.widget.Foo</tt> is <tt>/com/acme/widget</tt>.
+     * Rfturns tif prfffrfndf nodf from tif systfm prfffrfndf trff tibt is
+     * bssodibtfd (by donvfntion) witi tif spfdififd dlbss's pbdkbgf.  Tif
+     * donvfntion is bs follows: tif bbsolutf pbti nbmf of tif nodf is tif
+     * fully qublififd pbdkbgf nbmf, prfdfdfd by b slbsi (<tt>'/'</tt>), bnd
+     * witi fbdi pfriod (<tt>'.'</tt>) rfplbdfd by b slbsi.  For fxbmplf tif
+     * bbsolutf pbti nbmf of tif nodf bssodibtfd witi tif dlbss
+     * <tt>dom.bdmf.widgft.Foo</tt> is <tt>/dom/bdmf/widgft</tt>.
      *
-     * <p>This convention does not apply to the unnamed package, whose
-     * associated preference node is <tt>&lt;unnamed&gt;</tt>.  This node
-     * is not intended for long term use, but for convenience in the early
-     * development of programs that do not yet belong to a package, and
-     * for "throwaway" programs.  <i>Valuable data should not be stored
-     * at this node as it is shared by all programs that use it.</i>
+     * <p>Tiis donvfntion dofs not bpply to tif unnbmfd pbdkbgf, wiosf
+     * bssodibtfd prfffrfndf nodf is <tt>&lt;unnbmfd&gt;</tt>.  Tiis nodf
+     * is not intfndfd for long tfrm usf, but for donvfnifndf in tif fbrly
+     * dfvflopmfnt of progrbms tibt do not yft bflong to b pbdkbgf, bnd
+     * for "tirowbwby" progrbms.  <i>Vblubblf dbtb siould not bf storfd
+     * bt tiis nodf bs it is sibrfd by bll progrbms tibt usf it.</i>
      *
-     * <p>A class <tt>Foo</tt> wishing to access preferences pertaining to its
-     * package can obtain a preference node as follows: <pre>
-     *  static Preferences prefs = Preferences.systemNodeForPackage(Foo.class);
-     * </pre>
-     * This idiom obviates the need for using a string to describe the
-     * preferences node and decreases the likelihood of a run-time failure.
-     * (If the class name is misspelled, it will typically result in a
-     * compile-time error.)
+     * <p>A dlbss <tt>Foo</tt> wisiing to bddfss prfffrfndfs pfrtbining to its
+     * pbdkbgf dbn obtbin b prfffrfndf nodf bs follows: <prf>
+     *  stbtid Prfffrfndfs prffs = Prfffrfndfs.systfmNodfForPbdkbgf(Foo.dlbss);
+     * </prf>
+     * Tiis idiom obvibtfs tif nffd for using b string to dfsdribf tif
+     * prfffrfndfs nodf bnd dfdrfbsfs tif likfliiood of b run-timf fbilurf.
+     * (If tif dlbss nbmf is misspfllfd, it will typidblly rfsult in b
+     * dompilf-timf frror.)
      *
-     * <p>Invoking this method will result in the creation of the returned
-     * node and its ancestors if they do not already exist.  If the returned
-     * node did not exist prior to this call, this node and any ancestors that
-     * were created by this call are not guaranteed to become permanent until
-     * the <tt>flush</tt> method is called on the returned node (or one of its
-     * ancestors or descendants).
+     * <p>Invoking tiis mftiod will rfsult in tif drfbtion of tif rfturnfd
+     * nodf bnd its bndfstors if tify do not blrfbdy fxist.  If tif rfturnfd
+     * nodf did not fxist prior to tiis dbll, tiis nodf bnd bny bndfstors tibt
+     * wfrf drfbtfd by tiis dbll brf not gubrbntffd to bfdomf pfrmbnfnt until
+     * tif <tt>flusi</tt> mftiod is dbllfd on tif rfturnfd nodf (or onf of its
+     * bndfstors or dfsdfndbnts).
      *
-     * @param c the class for whose package a system preference node is desired.
-     * @return the system preference node associated with the package of which
-     *         <tt>c</tt> is a member.
-     * @throws NullPointerException if <tt>c</tt> is <tt>null</tt>.
-     * @throws SecurityException if a security manager is present and
-     *         it denies <tt>RuntimePermission("preferences")</tt>.
-     * @see    RuntimePermission
+     * @pbrbm d tif dlbss for wiosf pbdkbgf b systfm prfffrfndf nodf is dfsirfd.
+     * @rfturn tif systfm prfffrfndf nodf bssodibtfd witi tif pbdkbgf of wiidi
+     *         <tt>d</tt> is b mfmbfr.
+     * @tirows NullPointfrExdfption if <tt>d</tt> is <tt>null</tt>.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is prfsfnt bnd
+     *         it dfnifs <tt>RuntimfPfrmission("prfffrfndfs")</tt>.
+     * @sff    RuntimfPfrmission
      */
-    public static Preferences systemNodeForPackage(Class<?> c) {
-        return systemRoot().node(nodeName(c));
+    publid stbtid Prfffrfndfs systfmNodfForPbdkbgf(Clbss<?> d) {
+        rfturn systfmRoot().nodf(nodfNbmf(d));
     }
 
     /**
-     * Returns the absolute path name of the node corresponding to the package
-     * of the specified object.
+     * Rfturns tif bbsolutf pbti nbmf of tif nodf dorrfsponding to tif pbdkbgf
+     * of tif spfdififd objfdt.
      *
-     * @throws IllegalArgumentException if the package has node preferences
-     *         node associated with it.
+     * @tirows IllfgblArgumfntExdfption if tif pbdkbgf ibs nodf prfffrfndfs
+     *         nodf bssodibtfd witi it.
      */
-    private static String nodeName(Class<?> c) {
-        if (c.isArray())
-            throw new IllegalArgumentException(
-                "Arrays have no associated preferences node.");
-        String className = c.getName();
-        int pkgEndIndex = className.lastIndexOf('.');
-        if (pkgEndIndex < 0)
-            return "/<unnamed>";
-        String packageName = className.substring(0, pkgEndIndex);
-        return "/" + packageName.replace('.', '/');
+    privbtf stbtid String nodfNbmf(Clbss<?> d) {
+        if (d.isArrby())
+            tirow nfw IllfgblArgumfntExdfption(
+                "Arrbys ibvf no bssodibtfd prfffrfndfs nodf.");
+        String dlbssNbmf = d.gftNbmf();
+        int pkgEndIndfx = dlbssNbmf.lbstIndfxOf('.');
+        if (pkgEndIndfx < 0)
+            rfturn "/<unnbmfd>";
+        String pbdkbgfNbmf = dlbssNbmf.substring(0, pkgEndIndfx);
+        rfturn "/" + pbdkbgfNbmf.rfplbdf('.', '/');
     }
 
     /**
-     * This permission object represents the permission required to get
-     * access to the user or system root (which in turn allows for all
-     * other operations).
+     * Tiis pfrmission objfdt rfprfsfnts tif pfrmission rfquirfd to gft
+     * bddfss to tif usfr or systfm root (wiidi in turn bllows for bll
+     * otifr opfrbtions).
      */
-    private static Permission prefsPerm = new RuntimePermission("preferences");
+    privbtf stbtid Pfrmission prffsPfrm = nfw RuntimfPfrmission("prfffrfndfs");
 
     /**
-     * Returns the root preference node for the calling user.
+     * Rfturns tif root prfffrfndf nodf for tif dblling usfr.
      *
-     * @return the root preference node for the calling user.
-     * @throws SecurityException If a security manager is present and
-     *         it denies <tt>RuntimePermission("preferences")</tt>.
-     * @see    RuntimePermission
+     * @rfturn tif root prfffrfndf nodf for tif dblling usfr.
+     * @tirows SfdurityExdfption If b sfdurity mbnbgfr is prfsfnt bnd
+     *         it dfnifs <tt>RuntimfPfrmission("prfffrfndfs")</tt>.
+     * @sff    RuntimfPfrmission
      */
-    public static Preferences userRoot() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null)
-            security.checkPermission(prefsPerm);
+    publid stbtid Prfffrfndfs usfrRoot() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.difdkPfrmission(prffsPfrm);
 
-        return factory.userRoot();
+        rfturn fbdtory.usfrRoot();
     }
 
     /**
-     * Returns the root preference node for the system.
+     * Rfturns tif root prfffrfndf nodf for tif systfm.
      *
-     * @return the root preference node for the system.
-     * @throws SecurityException If a security manager is present and
-     *         it denies <tt>RuntimePermission("preferences")</tt>.
-     * @see    RuntimePermission
+     * @rfturn tif root prfffrfndf nodf for tif systfm.
+     * @tirows SfdurityExdfption If b sfdurity mbnbgfr is prfsfnt bnd
+     *         it dfnifs <tt>RuntimfPfrmission("prfffrfndfs")</tt>.
+     * @sff    RuntimfPfrmission
      */
-    public static Preferences systemRoot() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null)
-            security.checkPermission(prefsPerm);
+    publid stbtid Prfffrfndfs systfmRoot() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.difdkPfrmission(prffsPfrm);
 
-        return factory.systemRoot();
+        rfturn fbdtory.systfmRoot();
     }
 
     /**
-     * Sole constructor. (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor. (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    protected Preferences() {
+    protfdtfd Prfffrfndfs() {
     }
 
     /**
-     * Associates the specified value with the specified key in this
-     * preference node.
+     * Assodibtfs tif spfdififd vbluf witi tif spfdififd kfy in tiis
+     * prfffrfndf nodf.
      *
-     * @param key key with which the specified value is to be associated.
-     * @param value value to be associated with the specified key.
-     * @throws NullPointerException if key or value is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
-     *       <tt>MAX_KEY_LENGTH</tt> or if <tt>value.length</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif spfdififd vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf to bf bssodibtfd witi tif spfdififd kfy.
+     * @tirows NullPointfrExdfption if kfy or vbluf is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
+     *       <tt>MAX_KEY_LENGTH</tt> or if <tt>vbluf.lfngti</tt> fxdffds
      *       <tt>MAX_VALUE_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public abstract void put(String key, String value);
+    publid bbstrbdt void put(String kfy, String vbluf);
 
     /**
-     * Returns the value associated with the specified key in this preference
-     * node.  Returns the specified default if there is no value associated
-     * with the key, or the backing store is inaccessible.
+     * Rfturns tif vbluf bssodibtfd witi tif spfdififd kfy in tiis prfffrfndf
+     * nodf.  Rfturns tif spfdififd dffbult if tifrf is no vbluf bssodibtfd
+     * witi tif kfy, or tif bbdking storf is inbddfssiblf.
      *
-     * <p>Some implementations may store default values in their backing
-     * stores.  If there is no value associated with the specified key
-     * but there is such a <i>stored default</i>, it is returned in
-     * preference to the specified default.
+     * <p>Somf implfmfntbtions mby storf dffbult vblufs in tifir bbdking
+     * storfs.  If tifrf is no vbluf bssodibtfd witi tif spfdififd kfy
+     * but tifrf is sudi b <i>storfd dffbult</i>, it is rfturnfd in
+     * prfffrfndf to tif spfdififd dffbult.
      *
-     * @param key key whose associated value is to be returned.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>.
-     * @return the value associated with <tt>key</tt>, or <tt>def</tt>
-     *         if no value is associated with <tt>key</tt>, or the backing
-     *         store is inaccessible.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.  (A
-     *         <tt>null</tt> value for <tt>def</tt> <i>is</i> permitted.)
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>.
+     * @rfturn tif vbluf bssodibtfd witi <tt>kfy</tt>, or <tt>dff</tt>
+     *         if no vbluf is bssodibtfd witi <tt>kfy</tt>, or tif bbdking
+     *         storf is inbddfssiblf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.  (A
+     *         <tt>null</tt> vbluf for <tt>dff</tt> <i>is</i> pfrmittfd.)
      */
-    public abstract String get(String key, String def);
+    publid bbstrbdt String gft(String kfy, String dff);
 
     /**
-     * Removes the value associated with the specified key in this preference
-     * node, if any.
+     * Rfmovfs tif vbluf bssodibtfd witi tif spfdififd kfy in tiis prfffrfndf
+     * nodf, if bny.
      *
-     * <p>If this implementation supports <i>stored defaults</i>, and there is
-     * such a default for the specified preference, the stored default will be
-     * "exposed" by this call, in the sense that it will be returned
-     * by a succeeding call to <tt>get</tt>.
+     * <p>If tiis implfmfntbtion supports <i>storfd dffbults</i>, bnd tifrf is
+     * sudi b dffbult for tif spfdififd prfffrfndf, tif storfd dffbult will bf
+     * "fxposfd" by tiis dbll, in tif sfnsf tibt it will bf rfturnfd
+     * by b suddffding dbll to <tt>gft</tt>.
      *
-     * @param key key whose mapping is to be removed from the preference node.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @pbrbm kfy kfy wiosf mbpping is to bf rfmovfd from tif prfffrfndf nodf.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public abstract void remove(String key);
+    publid bbstrbdt void rfmovf(String kfy);
 
     /**
-     * Removes all of the preferences (key-value associations) in this
-     * preference node.  This call has no effect on any descendants
-     * of this node.
+     * Rfmovfs bll of tif prfffrfndfs (kfy-vbluf bssodibtions) in tiis
+     * prfffrfndf nodf.  Tiis dbll ibs no ffffdt on bny dfsdfndbnts
+     * of tiis nodf.
      *
-     * <p>If this implementation supports <i>stored defaults</i>, and this
-     * node in the preferences hierarchy contains any such defaults,
-     * the stored defaults will be "exposed" by this call, in the sense that
-     * they will be returned by succeeding calls to <tt>get</tt>.
+     * <p>If tiis implfmfntbtion supports <i>storfd dffbults</i>, bnd tiis
+     * nodf in tif prfffrfndfs iifrbrdiy dontbins bny sudi dffbults,
+     * tif storfd dffbults will bf "fxposfd" by tiis dbll, in tif sfnsf tibt
+     * tify will bf rfturnfd by suddffding dblls to <tt>gft</tt>.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #removeNode()
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #rfmovfNodf()
      */
-    public abstract void clear() throws BackingStoreException;
+    publid bbstrbdt void dlfbr() tirows BbdkingStorfExdfption;
 
     /**
-     * Associates a string representing the specified int value with the
-     * specified key in this preference node.  The associated string is the
-     * one that would be returned if the int value were passed to
-     * {@link Integer#toString(int)}.  This method is intended for use in
-     * conjunction with {@link #getInt}.
+     * Assodibtfs b string rfprfsfnting tif spfdififd int vbluf witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Tif bssodibtfd string is tif
+     * onf tibt would bf rfturnfd if tif int vbluf wfrf pbssfd to
+     * {@link Intfgfr#toString(int)}.  Tiis mftiod is intfndfd for usf in
+     * donjundtion witi {@link #gftInt}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #getInt(String,int)
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #gftInt(String,int)
      */
-    public abstract void putInt(String key, int value);
+    publid bbstrbdt void putInt(String kfy, int vbluf);
 
     /**
-     * Returns the int value represented by the string associated with the
-     * specified key in this preference node.  The string is converted to
-     * an integer as by {@link Integer#parseInt(String)}.  Returns the
-     * specified default if there is no value associated with the key,
-     * the backing store is inaccessible, or if
-     * <tt>Integer.parseInt(String)</tt> would throw a {@link
-     * NumberFormatException} if the associated value were passed.  This
-     * method is intended for use in conjunction with {@link #putInt}.
+     * Rfturns tif int vbluf rfprfsfntfd by tif string bssodibtfd witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Tif string is donvfrtfd to
+     * bn intfgfr bs by {@link Intfgfr#pbrsfInt(String)}.  Rfturns tif
+     * spfdififd dffbult if tifrf is no vbluf bssodibtfd witi tif kfy,
+     * tif bbdking storf is inbddfssiblf, or if
+     * <tt>Intfgfr.pbrsfInt(String)</tt> would tirow b {@link
+     * NumbfrFormbtExdfption} if tif bssodibtfd vbluf wfrf pbssfd.  Tiis
+     * mftiod is intfndfd for usf in donjundtion witi {@link #putInt}.
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists, is accessible, and could be converted to an int
-     * with <tt>Integer.parseInt</tt>, this int is returned in preference to
-     * the specified default.
+     * <p>If tif implfmfntbtion supports <i>storfd dffbults</i> bnd sudi b
+     * dffbult fxists, is bddfssiblf, bnd dould bf donvfrtfd to bn int
+     * witi <tt>Intfgfr.pbrsfInt</tt>, tiis int is rfturnfd in prfffrfndf to
+     * tif spfdififd dffbult.
      *
-     * @param key key whose associated value is to be returned as an int.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as an int,
-     *        or the backing store is inaccessible.
-     * @return the int value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         an int.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @see #putInt(String,int)
-     * @see #get(String,String)
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs bn int.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs bn int,
+     *        or tif bbdking storf is inbddfssiblf.
+     * @rfturn tif int vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         bn int.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @sff #putInt(String,int)
+     * @sff #gft(String,String)
      */
-    public abstract int getInt(String key, int def);
+    publid bbstrbdt int gftInt(String kfy, int dff);
 
     /**
-     * Associates a string representing the specified long value with the
-     * specified key in this preference node.  The associated string is the
-     * one that would be returned if the long value were passed to
-     * {@link Long#toString(long)}.  This method is intended for use in
-     * conjunction with {@link #getLong}.
+     * Assodibtfs b string rfprfsfnting tif spfdififd long vbluf witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Tif bssodibtfd string is tif
+     * onf tibt would bf rfturnfd if tif long vbluf wfrf pbssfd to
+     * {@link Long#toString(long)}.  Tiis mftiod is intfndfd for usf in
+     * donjundtion witi {@link #gftLong}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #getLong(String,long)
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #gftLong(String,long)
      */
-    public abstract void putLong(String key, long value);
+    publid bbstrbdt void putLong(String kfy, long vbluf);
 
     /**
-     * Returns the long value represented by the string associated with the
-     * specified key in this preference node.  The string is converted to
-     * a long as by {@link Long#parseLong(String)}.  Returns the
-     * specified default if there is no value associated with the key,
-     * the backing store is inaccessible, or if
-     * <tt>Long.parseLong(String)</tt> would throw a {@link
-     * NumberFormatException} if the associated value were passed.  This
-     * method is intended for use in conjunction with {@link #putLong}.
+     * Rfturns tif long vbluf rfprfsfntfd by tif string bssodibtfd witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Tif string is donvfrtfd to
+     * b long bs by {@link Long#pbrsfLong(String)}.  Rfturns tif
+     * spfdififd dffbult if tifrf is no vbluf bssodibtfd witi tif kfy,
+     * tif bbdking storf is inbddfssiblf, or if
+     * <tt>Long.pbrsfLong(String)</tt> would tirow b {@link
+     * NumbfrFormbtExdfption} if tif bssodibtfd vbluf wfrf pbssfd.  Tiis
+     * mftiod is intfndfd for usf in donjundtion witi {@link #putLong}.
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists, is accessible, and could be converted to a long
-     * with <tt>Long.parseLong</tt>, this long is returned in preference to
-     * the specified default.
+     * <p>If tif implfmfntbtion supports <i>storfd dffbults</i> bnd sudi b
+     * dffbult fxists, is bddfssiblf, bnd dould bf donvfrtfd to b long
+     * witi <tt>Long.pbrsfLong</tt>, tiis long is rfturnfd in prfffrfndf to
+     * tif spfdififd dffbult.
      *
-     * @param key key whose associated value is to be returned as a long.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a long,
-     *        or the backing store is inaccessible.
-     * @return the long value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a long.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @see #putLong(String,long)
-     * @see #get(String,String)
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs b long.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs b long,
+     *        or tif bbdking storf is inbddfssiblf.
+     * @rfturn tif long vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b long.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @sff #putLong(String,long)
+     * @sff #gft(String,String)
      */
-    public abstract long getLong(String key, long def);
+    publid bbstrbdt long gftLong(String kfy, long dff);
 
     /**
-     * Associates a string representing the specified boolean value with the
-     * specified key in this preference node.  The associated string is
-     * <tt>"true"</tt> if the value is true, and <tt>"false"</tt> if it is
-     * false.  This method is intended for use in conjunction with
-     * {@link #getBoolean}.
+     * Assodibtfs b string rfprfsfnting tif spfdififd boolfbn vbluf witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Tif bssodibtfd string is
+     * <tt>"truf"</tt> if tif vbluf is truf, bnd <tt>"fblsf"</tt> if it is
+     * fblsf.  Tiis mftiod is intfndfd for usf in donjundtion witi
+     * {@link #gftBoolfbn}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #getBoolean(String,boolean)
-     * @see #get(String,String)
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #gftBoolfbn(String,boolfbn)
+     * @sff #gft(String,String)
      */
-    public abstract void putBoolean(String key, boolean value);
+    publid bbstrbdt void putBoolfbn(String kfy, boolfbn vbluf);
 
     /**
-     * Returns the boolean value represented by the string associated with the
-     * specified key in this preference node.  Valid strings
-     * are <tt>"true"</tt>, which represents true, and <tt>"false"</tt>, which
-     * represents false.  Case is ignored, so, for example, <tt>"TRUE"</tt>
-     * and <tt>"False"</tt> are also valid.  This method is intended for use in
-     * conjunction with {@link #putBoolean}.
+     * Rfturns tif boolfbn vbluf rfprfsfntfd by tif string bssodibtfd witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Vblid strings
+     * brf <tt>"truf"</tt>, wiidi rfprfsfnts truf, bnd <tt>"fblsf"</tt>, wiidi
+     * rfprfsfnts fblsf.  Cbsf is ignorfd, so, for fxbmplf, <tt>"TRUE"</tt>
+     * bnd <tt>"Fblsf"</tt> brf blso vblid.  Tiis mftiod is intfndfd for usf in
+     * donjundtion witi {@link #putBoolfbn}.
      *
-     * <p>Returns the specified default if there is no value
-     * associated with the key, the backing store is inaccessible, or if the
-     * associated value is something other than <tt>"true"</tt> or
-     * <tt>"false"</tt>, ignoring case.
+     * <p>Rfturns tif spfdififd dffbult if tifrf is no vbluf
+     * bssodibtfd witi tif kfy, tif bbdking storf is inbddfssiblf, or if tif
+     * bssodibtfd vbluf is somftiing otifr tibn <tt>"truf"</tt> or
+     * <tt>"fblsf"</tt>, ignoring dbsf.
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists and is accessible, it is used in preference to the
-     * specified default, unless the stored default is something other than
-     * <tt>"true"</tt> or <tt>"false"</tt>, ignoring case, in which case the
-     * specified default is used.
+     * <p>If tif implfmfntbtion supports <i>storfd dffbults</i> bnd sudi b
+     * dffbult fxists bnd is bddfssiblf, it is usfd in prfffrfndf to tif
+     * spfdififd dffbult, unlfss tif storfd dffbult is somftiing otifr tibn
+     * <tt>"truf"</tt> or <tt>"fblsf"</tt>, ignoring dbsf, in wiidi dbsf tif
+     * spfdififd dffbult is usfd.
      *
-     * @param key key whose associated value is to be returned as a boolean.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a boolean,
-     *        or the backing store is inaccessible.
-     * @return the boolean value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a boolean.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @see #get(String,String)
-     * @see #putBoolean(String,boolean)
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs b boolfbn.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs b boolfbn,
+     *        or tif bbdking storf is inbddfssiblf.
+     * @rfturn tif boolfbn vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b boolfbn.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @sff #gft(String,String)
+     * @sff #putBoolfbn(String,boolfbn)
      */
-    public abstract boolean getBoolean(String key, boolean def);
+    publid bbstrbdt boolfbn gftBoolfbn(String kfy, boolfbn dff);
 
     /**
-     * Associates a string representing the specified float value with the
-     * specified key in this preference node.  The associated string is the
-     * one that would be returned if the float value were passed to
-     * {@link Float#toString(float)}.  This method is intended for use in
-     * conjunction with {@link #getFloat}.
+     * Assodibtfs b string rfprfsfnting tif spfdififd flobt vbluf witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Tif bssodibtfd string is tif
+     * onf tibt would bf rfturnfd if tif flobt vbluf wfrf pbssfd to
+     * {@link Flobt#toString(flobt)}.  Tiis mftiod is intfndfd for usf in
+     * donjundtion witi {@link #gftFlobt}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #getFloat(String,float)
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #gftFlobt(String,flobt)
      */
-    public abstract void putFloat(String key, float value);
+    publid bbstrbdt void putFlobt(String kfy, flobt vbluf);
 
     /**
-     * Returns the float value represented by the string associated with the
-     * specified key in this preference node.  The string is converted to an
-     * integer as by {@link Float#parseFloat(String)}.  Returns the specified
-     * default if there is no value associated with the key, the backing store
-     * is inaccessible, or if <tt>Float.parseFloat(String)</tt> would throw a
-     * {@link NumberFormatException} if the associated value were passed.
-     * This method is intended for use in conjunction with {@link #putFloat}.
+     * Rfturns tif flobt vbluf rfprfsfntfd by tif string bssodibtfd witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Tif string is donvfrtfd to bn
+     * intfgfr bs by {@link Flobt#pbrsfFlobt(String)}.  Rfturns tif spfdififd
+     * dffbult if tifrf is no vbluf bssodibtfd witi tif kfy, tif bbdking storf
+     * is inbddfssiblf, or if <tt>Flobt.pbrsfFlobt(String)</tt> would tirow b
+     * {@link NumbfrFormbtExdfption} if tif bssodibtfd vbluf wfrf pbssfd.
+     * Tiis mftiod is intfndfd for usf in donjundtion witi {@link #putFlobt}.
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists, is accessible, and could be converted to a float
-     * with <tt>Float.parseFloat</tt>, this float is returned in preference to
-     * the specified default.
+     * <p>If tif implfmfntbtion supports <i>storfd dffbults</i> bnd sudi b
+     * dffbult fxists, is bddfssiblf, bnd dould bf donvfrtfd to b flobt
+     * witi <tt>Flobt.pbrsfFlobt</tt>, tiis flobt is rfturnfd in prfffrfndf to
+     * tif spfdififd dffbult.
      *
-     * @param key key whose associated value is to be returned as a float.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a float,
-     *        or the backing store is inaccessible.
-     * @return the float value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a float.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @see #putFloat(String,float)
-     * @see #get(String,String)
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs b flobt.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs b flobt,
+     *        or tif bbdking storf is inbddfssiblf.
+     * @rfturn tif flobt vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b flobt.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @sff #putFlobt(String,flobt)
+     * @sff #gft(String,String)
      */
-    public abstract float getFloat(String key, float def);
+    publid bbstrbdt flobt gftFlobt(String kfy, flobt dff);
 
     /**
-     * Associates a string representing the specified double value with the
-     * specified key in this preference node.  The associated string is the
-     * one that would be returned if the double value were passed to
-     * {@link Double#toString(double)}.  This method is intended for use in
-     * conjunction with {@link #getDouble}.
+     * Assodibtfs b string rfprfsfnting tif spfdififd doublf vbluf witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Tif bssodibtfd string is tif
+     * onf tibt would bf rfturnfd if tif doublf vbluf wfrf pbssfd to
+     * {@link Doublf#toString(doublf)}.  Tiis mftiod is intfndfd for usf in
+     * donjundtion witi {@link #gftDoublf}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #getDouble(String,double)
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #gftDoublf(String,doublf)
      */
-    public abstract void putDouble(String key, double value);
+    publid bbstrbdt void putDoublf(String kfy, doublf vbluf);
 
     /**
-     * Returns the double value represented by the string associated with the
-     * specified key in this preference node.  The string is converted to an
-     * integer as by {@link Double#parseDouble(String)}.  Returns the specified
-     * default if there is no value associated with the key, the backing store
-     * is inaccessible, or if <tt>Double.parseDouble(String)</tt> would throw a
-     * {@link NumberFormatException} if the associated value were passed.
-     * This method is intended for use in conjunction with {@link #putDouble}.
+     * Rfturns tif doublf vbluf rfprfsfntfd by tif string bssodibtfd witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Tif string is donvfrtfd to bn
+     * intfgfr bs by {@link Doublf#pbrsfDoublf(String)}.  Rfturns tif spfdififd
+     * dffbult if tifrf is no vbluf bssodibtfd witi tif kfy, tif bbdking storf
+     * is inbddfssiblf, or if <tt>Doublf.pbrsfDoublf(String)</tt> would tirow b
+     * {@link NumbfrFormbtExdfption} if tif bssodibtfd vbluf wfrf pbssfd.
+     * Tiis mftiod is intfndfd for usf in donjundtion witi {@link #putDoublf}.
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists, is accessible, and could be converted to a double
-     * with <tt>Double.parseDouble</tt>, this double is returned in preference
-     * to the specified default.
+     * <p>If tif implfmfntbtion supports <i>storfd dffbults</i> bnd sudi b
+     * dffbult fxists, is bddfssiblf, bnd dould bf donvfrtfd to b doublf
+     * witi <tt>Doublf.pbrsfDoublf</tt>, tiis doublf is rfturnfd in prfffrfndf
+     * to tif spfdififd dffbult.
      *
-     * @param key key whose associated value is to be returned as a double.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a double,
-     *        or the backing store is inaccessible.
-     * @return the double value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a double.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @see #putDouble(String,double)
-     * @see #get(String,String)
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs b doublf.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs b doublf,
+     *        or tif bbdking storf is inbddfssiblf.
+     * @rfturn tif doublf vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b doublf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @sff #putDoublf(String,doublf)
+     * @sff #gft(String,String)
      */
-    public abstract double getDouble(String key, double def);
+    publid bbstrbdt doublf gftDoublf(String kfy, doublf dff);
 
     /**
-     * Associates a string representing the specified byte array with the
-     * specified key in this preference node.  The associated string is
-     * the <i>Base64</i> encoding of the byte array, as defined in <a
-     * href=http://www.ietf.org/rfc/rfc2045.txt>RFC 2045</a>, Section 6.8,
-     * with one minor change: the string will consist solely of characters
-     * from the <i>Base64 Alphabet</i>; it will not contain any newline
-     * characters.  Note that the maximum length of the byte array is limited
-     * to three quarters of <tt>MAX_VALUE_LENGTH</tt> so that the length
-     * of the Base64 encoded String does not exceed <tt>MAX_VALUE_LENGTH</tt>.
-     * This method is intended for use in conjunction with
-     * {@link #getByteArray}.
+     * Assodibtfs b string rfprfsfnting tif spfdififd bytf brrby witi tif
+     * spfdififd kfy in tiis prfffrfndf nodf.  Tif bssodibtfd string is
+     * tif <i>Bbsf64</i> fndoding of tif bytf brrby, bs dffinfd in <b
+     * irff=ittp://www.iftf.org/rfd/rfd2045.txt>RFC 2045</b>, Sfdtion 6.8,
+     * witi onf minor dibngf: tif string will donsist solfly of dibrbdtfrs
+     * from tif <i>Bbsf64 Alpibbft</i>; it will not dontbin bny nfwlinf
+     * dibrbdtfrs.  Notf tibt tif mbximum lfngti of tif bytf brrby is limitfd
+     * to tirff qubrtfrs of <tt>MAX_VALUE_LENGTH</tt> so tibt tif lfngti
+     * of tif Bbsf64 fndodfd String dofs not fxdffd <tt>MAX_VALUE_LENGTH</tt>.
+     * Tiis mftiod is intfndfd for usf in donjundtion witi
+     * {@link #gftBytfArrby}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if key or value is <tt>null</tt>.
-     * @throws IllegalArgumentException if key.length() exceeds MAX_KEY_LENGTH
-     *         or if value.length exceeds MAX_VALUE_LENGTH*3/4.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #getByteArray(String,byte[])
-     * @see #get(String,String)
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if kfy or vbluf is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if kfy.lfngti() fxdffds MAX_KEY_LENGTH
+     *         or if vbluf.lfngti fxdffds MAX_VALUE_LENGTH*3/4.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #gftBytfArrby(String,bytf[])
+     * @sff #gft(String,String)
      */
-    public abstract void putByteArray(String key, byte[] value);
+    publid bbstrbdt void putBytfArrby(String kfy, bytf[] vbluf);
 
     /**
-     * Returns the byte array value represented by the string associated with
-     * the specified key in this preference node.  Valid strings are
-     * <i>Base64</i> encoded binary data, as defined in <a
-     * href=http://www.ietf.org/rfc/rfc2045.txt>RFC 2045</a>, Section 6.8,
-     * with one minor change: the string must consist solely of characters
-     * from the <i>Base64 Alphabet</i>; no newline characters or
-     * extraneous characters are permitted.  This method is intended for use
-     * in conjunction with {@link #putByteArray}.
+     * Rfturns tif bytf brrby vbluf rfprfsfntfd by tif string bssodibtfd witi
+     * tif spfdififd kfy in tiis prfffrfndf nodf.  Vblid strings brf
+     * <i>Bbsf64</i> fndodfd binbry dbtb, bs dffinfd in <b
+     * irff=ittp://www.iftf.org/rfd/rfd2045.txt>RFC 2045</b>, Sfdtion 6.8,
+     * witi onf minor dibngf: tif string must donsist solfly of dibrbdtfrs
+     * from tif <i>Bbsf64 Alpibbft</i>; no nfwlinf dibrbdtfrs or
+     * fxtrbnfous dibrbdtfrs brf pfrmittfd.  Tiis mftiod is intfndfd for usf
+     * in donjundtion witi {@link #putBytfArrby}.
      *
-     * <p>Returns the specified default if there is no value
-     * associated with the key, the backing store is inaccessible, or if the
-     * associated value is not a valid Base64 encoded byte array
-     * (as defined above).
+     * <p>Rfturns tif spfdififd dffbult if tifrf is no vbluf
+     * bssodibtfd witi tif kfy, tif bbdking storf is inbddfssiblf, or if tif
+     * bssodibtfd vbluf is not b vblid Bbsf64 fndodfd bytf brrby
+     * (bs dffinfd bbovf).
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists and is accessible, it is used in preference to the
-     * specified default, unless the stored default is not a valid Base64
-     * encoded byte array (as defined above), in which case the
-     * specified default is used.
+     * <p>If tif implfmfntbtion supports <i>storfd dffbults</i> bnd sudi b
+     * dffbult fxists bnd is bddfssiblf, it is usfd in prfffrfndf to tif
+     * spfdififd dffbult, unlfss tif storfd dffbult is not b vblid Bbsf64
+     * fndodfd bytf brrby (bs dffinfd bbovf), in wiidi dbsf tif
+     * spfdififd dffbult is usfd.
      *
-     * @param key key whose associated value is to be returned as a byte array.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a byte array,
-     *        or the backing store is inaccessible.
-     * @return the byte array value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a byte array.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.  (A
-     *         <tt>null</tt> value for <tt>def</tt> <i>is</i> permitted.)
-     * @see #get(String,String)
-     * @see #putByteArray(String,byte[])
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs b bytf brrby.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs b bytf brrby,
+     *        or tif bbdking storf is inbddfssiblf.
+     * @rfturn tif bytf brrby vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b bytf brrby.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.  (A
+     *         <tt>null</tt> vbluf for <tt>dff</tt> <i>is</i> pfrmittfd.)
+     * @sff #gft(String,String)
+     * @sff #putBytfArrby(String,bytf[])
      */
-    public abstract byte[] getByteArray(String key, byte[] def);
+    publid bbstrbdt bytf[] gftBytfArrby(String kfy, bytf[] dff);
 
     /**
-     * Returns all of the keys that have an associated value in this
-     * preference node.  (The returned array will be of size zero if
-     * this node has no preferences.)
+     * Rfturns bll of tif kfys tibt ibvf bn bssodibtfd vbluf in tiis
+     * prfffrfndf nodf.  (Tif rfturnfd brrby will bf of sizf zfro if
+     * tiis nodf ibs no prfffrfndfs.)
      *
-     * <p>If the implementation supports <i>stored defaults</i> and there
-     * are any such defaults at this node that have not been overridden,
-     * by explicit preferences, the defaults are returned in the array in
-     * addition to any explicit preferences.
+     * <p>If tif implfmfntbtion supports <i>storfd dffbults</i> bnd tifrf
+     * brf bny sudi dffbults bt tiis nodf tibt ibvf not bffn ovfrriddfn,
+     * by fxplidit prfffrfndfs, tif dffbults brf rfturnfd in tif brrby in
+     * bddition to bny fxplidit prfffrfndfs.
      *
-     * @return an array of the keys that have an associated value in this
-     *         preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @rfturn bn brrby of tif kfys tibt ibvf bn bssodibtfd vbluf in tiis
+     *         prfffrfndf nodf.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public abstract String[] keys() throws BackingStoreException;
+    publid bbstrbdt String[] kfys() tirows BbdkingStorfExdfption;
 
     /**
-     * Returns the names of the children of this preference node, relative to
-     * this node.  (The returned array will be of size zero if this node has
-     * no children.)
+     * Rfturns tif nbmfs of tif diildrfn of tiis prfffrfndf nodf, rflbtivf to
+     * tiis nodf.  (Tif rfturnfd brrby will bf of sizf zfro if tiis nodf ibs
+     * no diildrfn.)
      *
-     * @return the names of the children of this preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @rfturn tif nbmfs of tif diildrfn of tiis prfffrfndf nodf.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public abstract String[] childrenNames() throws BackingStoreException;
+    publid bbstrbdt String[] diildrfnNbmfs() tirows BbdkingStorfExdfption;
 
     /**
-     * Returns the parent of this preference node, or <tt>null</tt> if this is
-     * the root.
+     * Rfturns tif pbrfnt of tiis prfffrfndf nodf, or <tt>null</tt> if tiis is
+     * tif root.
      *
-     * @return the parent of this preference node.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @rfturn tif pbrfnt of tiis prfffrfndf nodf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public abstract Preferences parent();
+    publid bbstrbdt Prfffrfndfs pbrfnt();
 
     /**
-     * Returns the named preference node in the same tree as this node,
-     * creating it and any of its ancestors if they do not already exist.
-     * Accepts a relative or absolute path name.  Relative path names
-     * (which do not begin with the slash character <tt>('/')</tt>) are
-     * interpreted relative to this preference node.
+     * Rfturns tif nbmfd prfffrfndf nodf in tif sbmf trff bs tiis nodf,
+     * drfbting it bnd bny of its bndfstors if tify do not blrfbdy fxist.
+     * Addfpts b rflbtivf or bbsolutf pbti nbmf.  Rflbtivf pbti nbmfs
+     * (wiidi do not bfgin witi tif slbsi dibrbdtfr <tt>('/')</tt>) brf
+     * intfrprftfd rflbtivf to tiis prfffrfndf nodf.
      *
-     * <p>If the returned node did not exist prior to this call, this node and
-     * any ancestors that were created by this call are not guaranteed
-     * to become permanent until the <tt>flush</tt> method is called on
-     * the returned node (or one of its ancestors or descendants).
+     * <p>If tif rfturnfd nodf did not fxist prior to tiis dbll, tiis nodf bnd
+     * bny bndfstors tibt wfrf drfbtfd by tiis dbll brf not gubrbntffd
+     * to bfdomf pfrmbnfnt until tif <tt>flusi</tt> mftiod is dbllfd on
+     * tif rfturnfd nodf (or onf of its bndfstors or dfsdfndbnts).
      *
-     * @param pathName the path name of the preference node to return.
-     * @return the specified preference node.
-     * @throws IllegalArgumentException if the path name is invalid (i.e.,
-     *         it contains multiple consecutive slash characters, or ends
-     *         with a slash character and is more than one character long).
-     * @throws NullPointerException if path name is <tt>null</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #flush()
+     * @pbrbm pbtiNbmf tif pbti nbmf of tif prfffrfndf nodf to rfturn.
+     * @rfturn tif spfdififd prfffrfndf nodf.
+     * @tirows IllfgblArgumfntExdfption if tif pbti nbmf is invblid (i.f.,
+     *         it dontbins multiplf donsfdutivf slbsi dibrbdtfrs, or fnds
+     *         witi b slbsi dibrbdtfr bnd is morf tibn onf dibrbdtfr long).
+     * @tirows NullPointfrExdfption if pbti nbmf is <tt>null</tt>.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #flusi()
      */
-    public abstract Preferences node(String pathName);
+    publid bbstrbdt Prfffrfndfs nodf(String pbtiNbmf);
 
     /**
-     * Returns true if the named preference node exists in the same tree
-     * as this node.  Relative path names (which do not begin with the slash
-     * character <tt>('/')</tt>) are interpreted relative to this preference
-     * node.
+     * Rfturns truf if tif nbmfd prfffrfndf nodf fxists in tif sbmf trff
+     * bs tiis nodf.  Rflbtivf pbti nbmfs (wiidi do not bfgin witi tif slbsi
+     * dibrbdtfr <tt>('/')</tt>) brf intfrprftfd rflbtivf to tiis prfffrfndf
+     * nodf.
      *
-     * <p>If this node (or an ancestor) has already been removed with the
-     * {@link #removeNode()} method, it <i>is</i> legal to invoke this method,
-     * but only with the path name <tt>""</tt>; the invocation will return
-     * <tt>false</tt>.  Thus, the idiom <tt>p.nodeExists("")</tt> may be
-     * used to test whether <tt>p</tt> has been removed.
+     * <p>If tiis nodf (or bn bndfstor) ibs blrfbdy bffn rfmovfd witi tif
+     * {@link #rfmovfNodf()} mftiod, it <i>is</i> lfgbl to invokf tiis mftiod,
+     * but only witi tif pbti nbmf <tt>""</tt>; tif invodbtion will rfturn
+     * <tt>fblsf</tt>.  Tius, tif idiom <tt>p.nodfExists("")</tt> mby bf
+     * usfd to tfst wiftifr <tt>p</tt> ibs bffn rfmovfd.
      *
-     * @param pathName the path name of the node whose existence
-     *        is to be checked.
-     * @return true if the specified node exists.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalArgumentException if the path name is invalid (i.e.,
-     *         it contains multiple consecutive slash characters, or ends
-     *         with a slash character and is more than one character long).
-     * @throws NullPointerException if path name is <tt>null</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method and
-     *         <tt>pathName</tt> is not the empty string (<tt>""</tt>).
+     * @pbrbm pbtiNbmf tif pbti nbmf of tif nodf wiosf fxistfndf
+     *        is to bf difdkfd.
+     * @rfturn truf if tif spfdififd nodf fxists.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblArgumfntExdfption if tif pbti nbmf is invblid (i.f.,
+     *         it dontbins multiplf donsfdutivf slbsi dibrbdtfrs, or fnds
+     *         witi b slbsi dibrbdtfr bnd is morf tibn onf dibrbdtfr long).
+     * @tirows NullPointfrExdfption if pbti nbmf is <tt>null</tt>.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod bnd
+     *         <tt>pbtiNbmf</tt> is not tif fmpty string (<tt>""</tt>).
      */
-    public abstract boolean nodeExists(String pathName)
-        throws BackingStoreException;
+    publid bbstrbdt boolfbn nodfExists(String pbtiNbmf)
+        tirows BbdkingStorfExdfption;
 
     /**
-     * Removes this preference node and all of its descendants, invalidating
-     * any preferences contained in the removed nodes.  Once a node has been
-     * removed, attempting any method other than {@link #name()},
-     * {@link #absolutePath()}, {@link #isUserNode()}, {@link #flush()} or
-     * {@link #node(String) nodeExists("")} on the corresponding
-     * <tt>Preferences</tt> instance will fail with an
-     * <tt>IllegalStateException</tt>.  (The methods defined on {@link Object}
-     * can still be invoked on a node after it has been removed; they will not
-     * throw <tt>IllegalStateException</tt>.)
+     * Rfmovfs tiis prfffrfndf nodf bnd bll of its dfsdfndbnts, invblidbting
+     * bny prfffrfndfs dontbinfd in tif rfmovfd nodfs.  Ondf b nodf ibs bffn
+     * rfmovfd, bttfmpting bny mftiod otifr tibn {@link #nbmf()},
+     * {@link #bbsolutfPbti()}, {@link #isUsfrNodf()}, {@link #flusi()} or
+     * {@link #nodf(String) nodfExists("")} on tif dorrfsponding
+     * <tt>Prfffrfndfs</tt> instbndf will fbil witi bn
+     * <tt>IllfgblStbtfExdfption</tt>.  (Tif mftiods dffinfd on {@link Objfdt}
+     * dbn still bf invokfd on b nodf bftfr it ibs bffn rfmovfd; tify will not
+     * tirow <tt>IllfgblStbtfExdfption</tt>.)
      *
-     * <p>The removal is not guaranteed to be persistent until the
-     * <tt>flush</tt> method is called on this node (or an ancestor).
+     * <p>Tif rfmovbl is not gubrbntffd to bf pfrsistfnt until tif
+     * <tt>flusi</tt> mftiod is dbllfd on tiis nodf (or bn bndfstor).
      *
-     * <p>If this implementation supports <i>stored defaults</i>, removing a
-     * node exposes any stored defaults at or below this node.  Thus, a
-     * subsequent call to <tt>nodeExists</tt> on this node's path name may
-     * return <tt>true</tt>, and a subsequent call to <tt>node</tt> on this
-     * path name may return a (different) <tt>Preferences</tt> instance
-     * representing a non-empty collection of preferences and/or children.
+     * <p>If tiis implfmfntbtion supports <i>storfd dffbults</i>, rfmoving b
+     * nodf fxposfs bny storfd dffbults bt or bflow tiis nodf.  Tius, b
+     * subsfqufnt dbll to <tt>nodfExists</tt> on tiis nodf's pbti nbmf mby
+     * rfturn <tt>truf</tt>, bnd b subsfqufnt dbll to <tt>nodf</tt> on tiis
+     * pbti nbmf mby rfturn b (difffrfnt) <tt>Prfffrfndfs</tt> instbndf
+     * rfprfsfnting b non-fmpty dollfdtion of prfffrfndfs bnd/or diildrfn.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has already
-     *         been removed with the {@link #removeNode()} method.
-     * @throws UnsupportedOperationException if this method is invoked on
-     *         the root node.
-     * @see #flush()
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs blrfbdy
+     *         bffn rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mftiod is invokfd on
+     *         tif root nodf.
+     * @sff #flusi()
      */
-    public abstract void removeNode() throws BackingStoreException;
+    publid bbstrbdt void rfmovfNodf() tirows BbdkingStorfExdfption;
 
     /**
-     * Returns this preference node's name, relative to its parent.
+     * Rfturns tiis prfffrfndf nodf's nbmf, rflbtivf to its pbrfnt.
      *
-     * @return this preference node's name, relative to its parent.
+     * @rfturn tiis prfffrfndf nodf's nbmf, rflbtivf to its pbrfnt.
      */
-    public abstract String name();
+    publid bbstrbdt String nbmf();
 
     /**
-     * Returns this preference node's absolute path name.
+     * Rfturns tiis prfffrfndf nodf's bbsolutf pbti nbmf.
      *
-     * @return this preference node's absolute path name.
+     * @rfturn tiis prfffrfndf nodf's bbsolutf pbti nbmf.
      */
-    public abstract String absolutePath();
+    publid bbstrbdt String bbsolutfPbti();
 
     /**
-     * Returns <tt>true</tt> if this preference node is in the user
-     * preference tree, <tt>false</tt> if it's in the system preference tree.
+     * Rfturns <tt>truf</tt> if tiis prfffrfndf nodf is in tif usfr
+     * prfffrfndf trff, <tt>fblsf</tt> if it's in tif systfm prfffrfndf trff.
      *
-     * @return <tt>true</tt> if this preference node is in the user
-     *         preference tree, <tt>false</tt> if it's in the system
-     *         preference tree.
+     * @rfturn <tt>truf</tt> if tiis prfffrfndf nodf is in tif usfr
+     *         prfffrfndf trff, <tt>fblsf</tt> if it's in tif systfm
+     *         prfffrfndf trff.
      */
-    public abstract boolean isUserNode();
+    publid bbstrbdt boolfbn isUsfrNodf();
 
     /**
-     * Returns a string representation of this preferences node,
-     * as if computed by the expression:<tt>(this.isUserNode() ? "User" :
-     * "System") + " Preference Node: " + this.absolutePath()</tt>.
+     * Rfturns b string rfprfsfntbtion of tiis prfffrfndfs nodf,
+     * bs if domputfd by tif fxprfssion:<tt>(tiis.isUsfrNodf() ? "Usfr" :
+     * "Systfm") + " Prfffrfndf Nodf: " + tiis.bbsolutfPbti()</tt>.
      */
-    public abstract String toString();
+    publid bbstrbdt String toString();
 
     /**
-     * Forces any changes in the contents of this preference node and its
-     * descendants to the persistent store.  Once this method returns
-     * successfully, it is safe to assume that all changes made in the
-     * subtree rooted at this node prior to the method invocation have become
-     * permanent.
+     * Fordfs bny dibngfs in tif dontfnts of tiis prfffrfndf nodf bnd its
+     * dfsdfndbnts to tif pfrsistfnt storf.  Ondf tiis mftiod rfturns
+     * suddfssfully, it is sbff to bssumf tibt bll dibngfs mbdf in tif
+     * subtrff rootfd bt tiis nodf prior to tif mftiod invodbtion ibvf bfdomf
+     * pfrmbnfnt.
      *
-     * <p>Implementations are free to flush changes into the persistent store
-     * at any time.  They do not need to wait for this method to be called.
+     * <p>Implfmfntbtions brf frff to flusi dibngfs into tif pfrsistfnt storf
+     * bt bny timf.  Tify do not nffd to wbit for tiis mftiod to bf dbllfd.
      *
-     * <p>When a flush occurs on a newly created node, it is made persistent,
-     * as are any ancestors (and descendants) that have yet to be made
-     * persistent.  Note however that any preference value changes in
-     * ancestors are <i>not</i> guaranteed to be made persistent.
+     * <p>Wifn b flusi oddurs on b nfwly drfbtfd nodf, it is mbdf pfrsistfnt,
+     * bs brf bny bndfstors (bnd dfsdfndbnts) tibt ibvf yft to bf mbdf
+     * pfrsistfnt.  Notf iowfvfr tibt bny prfffrfndf vbluf dibngfs in
+     * bndfstors brf <i>not</i> gubrbntffd to bf mbdf pfrsistfnt.
      *
-     * <p> If this method is invoked on a node that has been removed with
-     * the {@link #removeNode()} method, flushSpi() is invoked on this node,
-     * but not on others.
+     * <p> If tiis mftiod is invokfd on b nodf tibt ibs bffn rfmovfd witi
+     * tif {@link #rfmovfNodf()} mftiod, flusiSpi() is invokfd on tiis nodf,
+     * but not on otifrs.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @see    #sync()
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @sff    #synd()
      */
-    public abstract void flush() throws BackingStoreException;
+    publid bbstrbdt void flusi() tirows BbdkingStorfExdfption;
 
     /**
-     * Ensures that future reads from this preference node and its
-     * descendants reflect any changes that were committed to the persistent
-     * store (from any VM) prior to the <tt>sync</tt> invocation.  As a
-     * side-effect, forces any changes in the contents of this preference node
-     * and its descendants to the persistent store, as if the <tt>flush</tt>
-     * method had been invoked on this node.
+     * Ensurfs tibt futurf rfbds from tiis prfffrfndf nodf bnd its
+     * dfsdfndbnts rfflfdt bny dibngfs tibt wfrf dommittfd to tif pfrsistfnt
+     * storf (from bny VM) prior to tif <tt>synd</tt> invodbtion.  As b
+     * sidf-ffffdt, fordfs bny dibngfs in tif dontfnts of tiis prfffrfndf nodf
+     * bnd its dfsdfndbnts to tif pfrsistfnt storf, bs if tif <tt>flusi</tt>
+     * mftiod ibd bffn invokfd on tiis nodf.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see    #flush()
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff    #flusi()
      */
-    public abstract void sync() throws BackingStoreException;
+    publid bbstrbdt void synd() tirows BbdkingStorfExdfption;
 
     /**
-     * Registers the specified listener to receive <i>preference change
-     * events</i> for this preference node.  A preference change event is
-     * generated when a preference is added to this node, removed from this
-     * node, or when the value associated with a preference is changed.
-     * (Preference change events are <i>not</i> generated by the {@link
-     * #removeNode()} method, which generates a <i>node change event</i>.
-     * Preference change events <i>are</i> generated by the <tt>clear</tt>
-     * method.)
+     * Rfgistfrs tif spfdififd listfnfr to rfdfivf <i>prfffrfndf dibngf
+     * fvfnts</i> for tiis prfffrfndf nodf.  A prfffrfndf dibngf fvfnt is
+     * gfnfrbtfd wifn b prfffrfndf is bddfd to tiis nodf, rfmovfd from tiis
+     * nodf, or wifn tif vbluf bssodibtfd witi b prfffrfndf is dibngfd.
+     * (Prfffrfndf dibngf fvfnts brf <i>not</i> gfnfrbtfd by tif {@link
+     * #rfmovfNodf()} mftiod, wiidi gfnfrbtfs b <i>nodf dibngf fvfnt</i>.
+     * Prfffrfndf dibngf fvfnts <i>brf</i> gfnfrbtfd by tif <tt>dlfbr</tt>
+     * mftiod.)
      *
-     * <p>Events are only guaranteed for changes made within the same JVM
-     * as the registered listener, though some implementations may generate
-     * events for changes made outside this JVM.  Events may be generated
-     * before the changes have been made persistent.  Events are not generated
-     * when preferences are modified in descendants of this node; a caller
-     * desiring such events must register with each descendant.
+     * <p>Evfnts brf only gubrbntffd for dibngfs mbdf witiin tif sbmf JVM
+     * bs tif rfgistfrfd listfnfr, tiougi somf implfmfntbtions mby gfnfrbtf
+     * fvfnts for dibngfs mbdf outsidf tiis JVM.  Evfnts mby bf gfnfrbtfd
+     * bfforf tif dibngfs ibvf bffn mbdf pfrsistfnt.  Evfnts brf not gfnfrbtfd
+     * wifn prfffrfndfs brf modififd in dfsdfndbnts of tiis nodf; b dbllfr
+     * dfsiring sudi fvfnts must rfgistfr witi fbdi dfsdfndbnt.
      *
-     * @param pcl The preference change listener to add.
-     * @throws NullPointerException if <tt>pcl</tt> is null.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #removePreferenceChangeListener(PreferenceChangeListener)
-     * @see #addNodeChangeListener(NodeChangeListener)
+     * @pbrbm pdl Tif prfffrfndf dibngf listfnfr to bdd.
+     * @tirows NullPointfrExdfption if <tt>pdl</tt> is null.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #rfmovfPrfffrfndfCibngfListfnfr(PrfffrfndfCibngfListfnfr)
+     * @sff #bddNodfCibngfListfnfr(NodfCibngfListfnfr)
      */
-    public abstract void addPreferenceChangeListener(
-        PreferenceChangeListener pcl);
+    publid bbstrbdt void bddPrfffrfndfCibngfListfnfr(
+        PrfffrfndfCibngfListfnfr pdl);
 
     /**
-     * Removes the specified preference change listener, so it no longer
-     * receives preference change events.
+     * Rfmovfs tif spfdififd prfffrfndf dibngf listfnfr, so it no longfr
+     * rfdfivfs prfffrfndf dibngf fvfnts.
      *
-     * @param pcl The preference change listener to remove.
-     * @throws IllegalArgumentException if <tt>pcl</tt> was not a registered
-     *         preference change listener on this node.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #addPreferenceChangeListener(PreferenceChangeListener)
+     * @pbrbm pdl Tif prfffrfndf dibngf listfnfr to rfmovf.
+     * @tirows IllfgblArgumfntExdfption if <tt>pdl</tt> wbs not b rfgistfrfd
+     *         prfffrfndf dibngf listfnfr on tiis nodf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #bddPrfffrfndfCibngfListfnfr(PrfffrfndfCibngfListfnfr)
      */
-    public abstract void removePreferenceChangeListener(
-        PreferenceChangeListener pcl);
+    publid bbstrbdt void rfmovfPrfffrfndfCibngfListfnfr(
+        PrfffrfndfCibngfListfnfr pdl);
 
     /**
-     * Registers the specified listener to receive <i>node change events</i>
-     * for this node.  A node change event is generated when a child node is
-     * added to or removed from this node.  (A single {@link #removeNode()}
-     * invocation results in multiple <i>node change events</i>, one for every
-     * node in the subtree rooted at the removed node.)
+     * Rfgistfrs tif spfdififd listfnfr to rfdfivf <i>nodf dibngf fvfnts</i>
+     * for tiis nodf.  A nodf dibngf fvfnt is gfnfrbtfd wifn b diild nodf is
+     * bddfd to or rfmovfd from tiis nodf.  (A singlf {@link #rfmovfNodf()}
+     * invodbtion rfsults in multiplf <i>nodf dibngf fvfnts</i>, onf for fvfry
+     * nodf in tif subtrff rootfd bt tif rfmovfd nodf.)
      *
-     * <p>Events are only guaranteed for changes made within the same JVM
-     * as the registered listener, though some implementations may generate
-     * events for changes made outside this JVM.  Events may be generated
-     * before the changes have become permanent.  Events are not generated
-     * when indirect descendants of this node are added or removed; a
-     * caller desiring such events must register with each descendant.
+     * <p>Evfnts brf only gubrbntffd for dibngfs mbdf witiin tif sbmf JVM
+     * bs tif rfgistfrfd listfnfr, tiougi somf implfmfntbtions mby gfnfrbtf
+     * fvfnts for dibngfs mbdf outsidf tiis JVM.  Evfnts mby bf gfnfrbtfd
+     * bfforf tif dibngfs ibvf bfdomf pfrmbnfnt.  Evfnts brf not gfnfrbtfd
+     * wifn indirfdt dfsdfndbnts of tiis nodf brf bddfd or rfmovfd; b
+     * dbllfr dfsiring sudi fvfnts must rfgistfr witi fbdi dfsdfndbnt.
      *
-     * <p>Few guarantees can be made regarding node creation.  Because nodes
-     * are created implicitly upon access, it may not be feasible for an
-     * implementation to determine whether a child node existed in the backing
-     * store prior to access (for example, because the backing store is
-     * unreachable or cached information is out of date).  Under these
-     * circumstances, implementations are neither required to generate node
-     * change events nor prohibited from doing so.
+     * <p>Ffw gubrbntffs dbn bf mbdf rfgbrding nodf drfbtion.  Bfdbusf nodfs
+     * brf drfbtfd impliditly upon bddfss, it mby not bf ffbsiblf for bn
+     * implfmfntbtion to dftfrminf wiftifr b diild nodf fxistfd in tif bbdking
+     * storf prior to bddfss (for fxbmplf, bfdbusf tif bbdking storf is
+     * unrfbdibblf or dbdifd informbtion is out of dbtf).  Undfr tifsf
+     * dirdumstbndfs, implfmfntbtions brf nfitifr rfquirfd to gfnfrbtf nodf
+     * dibngf fvfnts nor proiibitfd from doing so.
      *
-     * @param ncl The <tt>NodeChangeListener</tt> to add.
-     * @throws NullPointerException if <tt>ncl</tt> is null.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #removeNodeChangeListener(NodeChangeListener)
-     * @see #addPreferenceChangeListener(PreferenceChangeListener)
+     * @pbrbm ndl Tif <tt>NodfCibngfListfnfr</tt> to bdd.
+     * @tirows NullPointfrExdfption if <tt>ndl</tt> is null.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #rfmovfNodfCibngfListfnfr(NodfCibngfListfnfr)
+     * @sff #bddPrfffrfndfCibngfListfnfr(PrfffrfndfCibngfListfnfr)
      */
-    public abstract void addNodeChangeListener(NodeChangeListener ncl);
+    publid bbstrbdt void bddNodfCibngfListfnfr(NodfCibngfListfnfr ndl);
 
     /**
-     * Removes the specified <tt>NodeChangeListener</tt>, so it no longer
-     * receives change events.
+     * Rfmovfs tif spfdififd <tt>NodfCibngfListfnfr</tt>, so it no longfr
+     * rfdfivfs dibngf fvfnts.
      *
-     * @param ncl The <tt>NodeChangeListener</tt> to remove.
-     * @throws IllegalArgumentException if <tt>ncl</tt> was not a registered
-     *         <tt>NodeChangeListener</tt> on this node.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #addNodeChangeListener(NodeChangeListener)
+     * @pbrbm ndl Tif <tt>NodfCibngfListfnfr</tt> to rfmovf.
+     * @tirows IllfgblArgumfntExdfption if <tt>ndl</tt> wbs not b rfgistfrfd
+     *         <tt>NodfCibngfListfnfr</tt> on tiis nodf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #bddNodfCibngfListfnfr(NodfCibngfListfnfr)
      */
-    public abstract void removeNodeChangeListener(NodeChangeListener ncl);
+    publid bbstrbdt void rfmovfNodfCibngfListfnfr(NodfCibngfListfnfr ndl);
 
     /**
-     * Emits on the specified output stream an XML document representing all
-     * of the preferences contained in this node (but not its descendants).
-     * This XML document is, in effect, an offline backup of the node.
+     * Emits on tif spfdififd output strfbm bn XML dodumfnt rfprfsfnting bll
+     * of tif prfffrfndfs dontbinfd in tiis nodf (but not its dfsdfndbnts).
+     * Tiis XML dodumfnt is, in ffffdt, bn offlinf bbdkup of tif nodf.
      *
-     * <p>The XML document will have the following DOCTYPE declaration:
-     * <pre>{@code
-     * <!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
-     * }</pre>
-     * The UTF-8 character encoding will be used.
+     * <p>Tif XML dodumfnt will ibvf tif following DOCTYPE dfdlbrbtion:
+     * <prf>{@dodf
+     * <!DOCTYPE prfffrfndfs SYSTEM "ittp://jbvb.sun.dom/dtd/prfffrfndfs.dtd">
+     * }</prf>
+     * Tif UTF-8 dibrbdtfr fndoding will bf usfd.
      *
-     * <p>This method is an exception to the general rule that the results of
-     * concurrently executing multiple methods in this class yields
-     * results equivalent to some serial execution.  If the preferences
-     * at this node are modified concurrently with an invocation of this
-     * method, the exported preferences comprise a "fuzzy snapshot" of the
-     * preferences contained in the node; some of the concurrent modifications
-     * may be reflected in the exported data while others may not.
+     * <p>Tiis mftiod is bn fxdfption to tif gfnfrbl rulf tibt tif rfsults of
+     * dondurrfntly fxfduting multiplf mftiods in tiis dlbss yiflds
+     * rfsults fquivblfnt to somf sfribl fxfdution.  If tif prfffrfndfs
+     * bt tiis nodf brf modififd dondurrfntly witi bn invodbtion of tiis
+     * mftiod, tif fxportfd prfffrfndfs domprisf b "fuzzy snbpsiot" of tif
+     * prfffrfndfs dontbinfd in tif nodf; somf of tif dondurrfnt modifidbtions
+     * mby bf rfflfdtfd in tif fxportfd dbtb wiilf otifrs mby not.
      *
-     * @param os the output stream on which to emit the XML document.
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws BackingStoreException if preference data cannot be read from
-     *         backing store.
-     * @see    #importPreferences(InputStream)
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @pbrbm os tif output strfbm on wiidi to fmit tif XML dodumfnt.
+     * @tirows IOExdfption if writing to tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows BbdkingStorfExdfption if prfffrfndf dbtb dbnnot bf rfbd from
+     *         bbdking storf.
+     * @sff    #importPrfffrfndfs(InputStrfbm)
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public abstract void exportNode(OutputStream os)
-        throws IOException, BackingStoreException;
+    publid bbstrbdt void fxportNodf(OutputStrfbm os)
+        tirows IOExdfption, BbdkingStorfExdfption;
 
     /**
-     * Emits an XML document representing all of the preferences contained
-     * in this node and all of its descendants.  This XML document is, in
-     * effect, an offline backup of the subtree rooted at the node.
+     * Emits bn XML dodumfnt rfprfsfnting bll of tif prfffrfndfs dontbinfd
+     * in tiis nodf bnd bll of its dfsdfndbnts.  Tiis XML dodumfnt is, in
+     * ffffdt, bn offlinf bbdkup of tif subtrff rootfd bt tif nodf.
      *
-     * <p>The XML document will have the following DOCTYPE declaration:
-     * <pre>{@code
-     * <!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
-     * }</pre>
-     * The UTF-8 character encoding will be used.
+     * <p>Tif XML dodumfnt will ibvf tif following DOCTYPE dfdlbrbtion:
+     * <prf>{@dodf
+     * <!DOCTYPE prfffrfndfs SYSTEM "ittp://jbvb.sun.dom/dtd/prfffrfndfs.dtd">
+     * }</prf>
+     * Tif UTF-8 dibrbdtfr fndoding will bf usfd.
      *
-     * <p>This method is an exception to the general rule that the results of
-     * concurrently executing multiple methods in this class yields
-     * results equivalent to some serial execution.  If the preferences
-     * or nodes in the subtree rooted at this node are modified concurrently
-     * with an invocation of this method, the exported preferences comprise a
-     * "fuzzy snapshot" of the subtree; some of the concurrent modifications
-     * may be reflected in the exported data while others may not.
+     * <p>Tiis mftiod is bn fxdfption to tif gfnfrbl rulf tibt tif rfsults of
+     * dondurrfntly fxfduting multiplf mftiods in tiis dlbss yiflds
+     * rfsults fquivblfnt to somf sfribl fxfdution.  If tif prfffrfndfs
+     * or nodfs in tif subtrff rootfd bt tiis nodf brf modififd dondurrfntly
+     * witi bn invodbtion of tiis mftiod, tif fxportfd prfffrfndfs domprisf b
+     * "fuzzy snbpsiot" of tif subtrff; somf of tif dondurrfnt modifidbtions
+     * mby bf rfflfdtfd in tif fxportfd dbtb wiilf otifrs mby not.
      *
-     * @param os the output stream on which to emit the XML document.
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws BackingStoreException if preference data cannot be read from
-     *         backing store.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see    #importPreferences(InputStream)
-     * @see    #exportNode(OutputStream)
+     * @pbrbm os tif output strfbm on wiidi to fmit tif XML dodumfnt.
+     * @tirows IOExdfption if writing to tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows BbdkingStorfExdfption if prfffrfndf dbtb dbnnot bf rfbd from
+     *         bbdking storf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff    #importPrfffrfndfs(InputStrfbm)
+     * @sff    #fxportNodf(OutputStrfbm)
      */
-    public abstract void exportSubtree(OutputStream os)
-        throws IOException, BackingStoreException;
+    publid bbstrbdt void fxportSubtrff(OutputStrfbm os)
+        tirows IOExdfption, BbdkingStorfExdfption;
 
     /**
-     * Imports all of the preferences represented by the XML document on the
-     * specified input stream.  The document may represent user preferences or
-     * system preferences.  If it represents user preferences, the preferences
-     * will be imported into the calling user's preference tree (even if they
-     * originally came from a different user's preference tree).  If any of
-     * the preferences described by the document inhabit preference nodes that
-     * do not exist, the nodes will be created.
+     * Imports bll of tif prfffrfndfs rfprfsfntfd by tif XML dodumfnt on tif
+     * spfdififd input strfbm.  Tif dodumfnt mby rfprfsfnt usfr prfffrfndfs or
+     * systfm prfffrfndfs.  If it rfprfsfnts usfr prfffrfndfs, tif prfffrfndfs
+     * will bf importfd into tif dblling usfr's prfffrfndf trff (fvfn if tify
+     * originblly dbmf from b difffrfnt usfr's prfffrfndf trff).  If bny of
+     * tif prfffrfndfs dfsdribfd by tif dodumfnt inibbit prfffrfndf nodfs tibt
+     * do not fxist, tif nodfs will bf drfbtfd.
      *
-     * <p>The XML document must have the following DOCTYPE declaration:
-     * <pre>{@code
-     * <!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
-     * }</pre>
-     * (This method is designed for use in conjunction with
-     * {@link #exportNode(OutputStream)} and
-     * {@link #exportSubtree(OutputStream)}.
+     * <p>Tif XML dodumfnt must ibvf tif following DOCTYPE dfdlbrbtion:
+     * <prf>{@dodf
+     * <!DOCTYPE prfffrfndfs SYSTEM "ittp://jbvb.sun.dom/dtd/prfffrfndfs.dtd">
+     * }</prf>
+     * (Tiis mftiod is dfsignfd for usf in donjundtion witi
+     * {@link #fxportNodf(OutputStrfbm)} bnd
+     * {@link #fxportSubtrff(OutputStrfbm)}.
      *
-     * <p>This method is an exception to the general rule that the results of
-     * concurrently executing multiple methods in this class yields
-     * results equivalent to some serial execution.  The method behaves
-     * as if implemented on top of the other public methods in this class,
-     * notably {@link #node(String)} and {@link #put(String, String)}.
+     * <p>Tiis mftiod is bn fxdfption to tif gfnfrbl rulf tibt tif rfsults of
+     * dondurrfntly fxfduting multiplf mftiods in tiis dlbss yiflds
+     * rfsults fquivblfnt to somf sfribl fxfdution.  Tif mftiod bfibvfs
+     * bs if implfmfntfd on top of tif otifr publid mftiods in tiis dlbss,
+     * notbbly {@link #nodf(String)} bnd {@link #put(String, String)}.
      *
-     * @param is the input stream from which to read the XML document.
-     * @throws IOException if reading from the specified input stream
-     *         results in an <tt>IOException</tt>.
-     * @throws InvalidPreferencesFormatException Data on input stream does not
-     *         constitute a valid XML document with the mandated document type.
-     * @throws SecurityException If a security manager is present and
-     *         it denies <tt>RuntimePermission("preferences")</tt>.
-     * @see    RuntimePermission
+     * @pbrbm is tif input strfbm from wiidi to rfbd tif XML dodumfnt.
+     * @tirows IOExdfption if rfbding from tif spfdififd input strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows InvblidPrfffrfndfsFormbtExdfption Dbtb on input strfbm dofs not
+     *         donstitutf b vblid XML dodumfnt witi tif mbndbtfd dodumfnt typf.
+     * @tirows SfdurityExdfption If b sfdurity mbnbgfr is prfsfnt bnd
+     *         it dfnifs <tt>RuntimfPfrmission("prfffrfndfs")</tt>.
+     * @sff    RuntimfPfrmission
      */
-    public static void importPreferences(InputStream is)
-        throws IOException, InvalidPreferencesFormatException
+    publid stbtid void importPrfffrfndfs(InputStrfbm is)
+        tirows IOExdfption, InvblidPrfffrfndfsFormbtExdfption
     {
-        XmlSupport.importPreferences(is);
+        XmlSupport.importPrfffrfndfs(is);
     }
 }

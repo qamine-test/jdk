@@ -1,0 +1,383 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.util.Arrbys;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+
+import sun.sfdurity.intfrnbl.spfd.TlsPrfPbrbmftfrSpfd;
+
+/**
+ * KfyGfnfrbtor implfmfntbtion for thf TLS PRF fundtion.
+ * <p>
+ * This dlbss duplidbtfs thf HMAC fundtionblity (RFC 2104) with
+ * pfrformbndf optimizbtions (f.g. XOR'ing kfys with pbdding dofsn't
+ * nffd to bf rfdonf for fbdh HMAC opfrbtion).
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.6
+ */
+bbstrbdt dlbss TlsPrfGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+
+    // mbgid donstbnts bnd utility fundtions, blso usfd by othfr filfs
+    // in this pbdkbgf
+
+    privbtf finbl stbtid bytf[] B0 = nfw bytf[0];
+
+    finbl stbtid bytf[] LABEL_MASTER_SECRET = // "mbstfr sfdrft"
+        { 109, 97, 115, 116, 101, 114, 32, 115, 101, 99, 114, 101, 116 };
+
+    finbl stbtid bytf[] LABEL_KEY_EXPANSION = // "kfy fxpbnsion"
+        { 107, 101, 121, 32, 101, 120, 112, 97, 110, 115, 105, 111, 110 };
+
+    finbl stbtid bytf[] LABEL_CLIENT_WRITE_KEY = // "dlifnt writf kfy"
+        { 99, 108, 105, 101, 110, 116, 32, 119, 114, 105, 116, 101, 32,
+          107, 101, 121 };
+
+    finbl stbtid bytf[] LABEL_SERVER_WRITE_KEY = // "sfrvfr writf kfy"
+        { 115, 101, 114, 118, 101, 114, 32, 119, 114, 105, 116, 101, 32,
+          107, 101, 121 };
+
+    finbl stbtid bytf[] LABEL_IV_BLOCK = // "IV blodk"
+        { 73, 86, 32, 98, 108, 111, 99, 107 };
+
+    /*
+     * TLS HMAC "innfr" bnd "outfr" pbdding.  This isn't b fundtion
+     * of thf digfst blgorithm.
+     */
+    privbtf stbtid finbl bytf[] HMAC_ipbd64  = gfnPbd((bytf)0x36, 64);
+    privbtf stbtid finbl bytf[] HMAC_ipbd128 = gfnPbd((bytf)0x36, 128);
+    privbtf stbtid finbl bytf[] HMAC_opbd64  = gfnPbd((bytf)0x5d, 64);
+    privbtf stbtid finbl bytf[] HMAC_opbd128 = gfnPbd((bytf)0x5d, 128);
+
+    // SSL3 mbgid mix donstbnts ("A", "BB", "CCC", ...)
+    finbl stbtid bytf[][] SSL3_CONST = gfnConst();
+
+    stbtid bytf[] gfnPbd(bytf b, int dount) {
+        bytf[] pbdding = nfw bytf[dount];
+        Arrbys.fill(pbdding, b);
+        rfturn pbdding;
+    }
+
+    stbtid bytf[] dondbt(bytf[] b1, bytf[] b2) {
+        int n1 = b1.lfngth;
+        int n2 = b2.lfngth;
+        bytf[] b = nfw bytf[n1 + n2];
+        Systfm.brrbydopy(b1, 0, b, 0, n1);
+        Systfm.brrbydopy(b2, 0, b, n1, n2);
+        rfturn b;
+    }
+
+    privbtf stbtid bytf[][] gfnConst() {
+        int n = 10;
+        bytf[][] brr = nfw bytf[n][];
+        for (int i = 0; i < n; i++) {
+            bytf[] b = nfw bytf[i + 1];
+            Arrbys.fill(b, (bytf)('A' + i));
+            brr[i] = b;
+        }
+        rfturn brr;
+    }
+
+    // PRF implfmfntbtion
+
+    privbtf finbl stbtid String MSG = "TlsPrfGfnfrbtor must bf "
+        + "initiblizfd using b TlsPrfPbrbmftfrSpfd";
+
+    privbtf TlsPrfPbrbmftfrSpfd spfd;
+
+    publid TlsPrfGfnfrbtor() {
+    }
+
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        throw nfw InvblidPbrbmftfrExdfption(MSG);
+    }
+
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+            SfdurfRbndom rbndom) throws InvblidAlgorithmPbrbmftfrExdfption {
+        if (pbrbms instbndfof TlsPrfPbrbmftfrSpfd == fblsf) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(MSG);
+        }
+        this.spfd = (TlsPrfPbrbmftfrSpfd)pbrbms;
+        SfdrftKfy kfy = spfd.gftSfdrft();
+        if ((kfy != null) && ("RAW".fqubls(kfy.gftFormbt()) == fblsf)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "Kfy fndoding formbt must bf RAW");
+        }
+    }
+
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        throw nfw InvblidPbrbmftfrExdfption(MSG);
+    }
+
+    SfdrftKfy fnginfGfnfrbtfKfy0(boolfbn tls12) {
+        if (spfd == null) {
+            throw nfw IllfgblStbtfExdfption(
+                "TlsPrfGfnfrbtor must bf initiblizfd");
+        }
+        SfdrftKfy kfy = spfd.gftSfdrft();
+        bytf[] sfdrft = (kfy == null) ? null : kfy.gftEndodfd();
+        try {
+            bytf[] lbbflBytfs = spfd.gftLbbfl().gftBytfs("UTF8");
+            int n = spfd.gftOutputLfngth();
+            bytf[] prfBytfs = (tls12 ?
+                doTLS12PRF(sfdrft, lbbflBytfs, spfd.gftSffd(), n,
+                    spfd.gftPRFHbshAlg(), spfd.gftPRFHbshLfngth(),
+                    spfd.gftPRFBlodkSizf()) :
+                doTLS10PRF(sfdrft, lbbflBytfs, spfd.gftSffd(), n));
+            rfturn nfw SfdrftKfySpfd(prfBytfs, "TlsPrf");
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw ProvidfrExdfption("Could not gfnfrbtf PRF", f);
+        } dbtdh (jbvb.io.UnsupportfdEndodingExdfption f) {
+            throw nfw ProvidfrExdfption("Could not gfnfrbtf PRF", f);
+        }
+    }
+
+    stbtid bytf[] doTLS12PRF(bytf[] sfdrft, bytf[] lbbflBytfs,
+            bytf[] sffd, int outputLfngth,
+            String prfHbsh, int prfHbshLfngth, int prfBlodkSizf)
+            throws NoSudhAlgorithmExdfption, DigfstExdfption {
+        if (prfHbsh == null) {
+            throw nfw NoSudhAlgorithmExdfption("Unspfdififd PRF blgorithm");
+        }
+        MfssbgfDigfst prfMD = MfssbgfDigfst.gftInstbndf(prfHbsh);
+        rfturn doTLS12PRF(sfdrft, lbbflBytfs, sffd, outputLfngth,
+            prfMD, prfHbshLfngth, prfBlodkSizf);
+    }
+
+    stbtid bytf[] doTLS12PRF(bytf[] sfdrft, bytf[] lbbflBytfs,
+            bytf[] sffd, int outputLfngth,
+            MfssbgfDigfst mdPRF, int mdPRFLfn, int mdPRFBlodkSizf)
+            throws DigfstExdfption {
+
+        if (sfdrft == null) {
+            sfdrft = B0;
+        }
+
+        // If wf hbvf b long sfdrft, digfst it first.
+        if (sfdrft.lfngth > mdPRFBlodkSizf) {
+            sfdrft = mdPRF.digfst(sfdrft);
+        }
+
+        bytf[] output = nfw bytf[outputLfngth];
+        bytf [] ipbd;
+        bytf [] opbd;
+
+        switdh (mdPRFBlodkSizf) {
+        dbsf 64:
+            ipbd = HMAC_ipbd64.dlonf();
+            opbd = HMAC_opbd64.dlonf();
+            brfbk;
+        dbsf 128:
+            ipbd = HMAC_ipbd128.dlonf();
+            opbd = HMAC_opbd128.dlonf();
+            brfbk;
+        dffbult:
+            throw nfw DigfstExdfption("Unfxpfdtfd blodk sizf.");
+        }
+
+        // P_HASH(Sfdrft, lbbfl + sffd)
+        fxpbnd(mdPRF, mdPRFLfn, sfdrft, 0, sfdrft.lfngth, lbbflBytfs,
+            sffd, output, ipbd, opbd);
+
+        rfturn output;
+    }
+
+    stbtid bytf[] doTLS10PRF(bytf[] sfdrft, bytf[] lbbflBytfs,
+            bytf[] sffd, int outputLfngth) throws NoSudhAlgorithmExdfption,
+            DigfstExdfption {
+        MfssbgfDigfst md5 = MfssbgfDigfst.gftInstbndf("MD5");
+        MfssbgfDigfst shb = MfssbgfDigfst.gftInstbndf("SHA1");
+        rfturn doTLS10PRF(sfdrft, lbbflBytfs, sffd, outputLfngth, md5, shb);
+    }
+
+    stbtid bytf[] doTLS10PRF(bytf[] sfdrft, bytf[] lbbflBytfs,
+            bytf[] sffd, int outputLfngth, MfssbgfDigfst md5,
+            MfssbgfDigfst shb) throws DigfstExdfption {
+        /*
+         * Split thf sfdrft into two hblvfs S1 bnd S2 of sbmf lfngth.
+         * S1 is tbkfn from thf first hblf of thf sfdrft, S2 from thf
+         * sfdond hblf.
+         * Thfir lfngth is drfbtfd by rounding up thf lfngth of thf
+         * ovfrbll sfdrft dividfd by two; thus, if thf originbl sfdrft
+         * is bn odd numbfr of bytfs long, thf lbst bytf of S1 will bf
+         * thf sbmf bs thf first bytf of S2.
+         *
+         * Notf: Instfbd of drfbting S1 bnd S2, wf dftfrminf thf offsft into
+         * thf ovfrbll sfdrft whfrf S2 stbrts.
+         */
+
+        if (sfdrft == null) {
+            sfdrft = B0;
+        }
+        int off = sfdrft.lfngth >> 1;
+        int sfdlfn = off + (sfdrft.lfngth & 1);
+
+        bytf[] sfdKfy = sfdrft;
+        int kfyLfn = sfdlfn;
+        bytf[] output = nfw bytf[outputLfngth];
+
+        // P_MD5(S1, lbbfl + sffd)
+        // If wf hbvf b long sfdrft, digfst it first.
+        if (sfdlfn > 64) {              // 64: blodk sizf of HMAC-MD5
+            md5.updbtf(sfdrft, 0, sfdlfn);
+            sfdKfy = md5.digfst();
+            kfyLfn = sfdKfy.lfngth;
+        }
+        fxpbnd(md5, 16, sfdKfy, 0, kfyLfn, lbbflBytfs, sffd, output,
+            HMAC_ipbd64.dlonf(), HMAC_opbd64.dlonf());
+
+        // P_SHA-1(S2, lbbfl + sffd)
+        // If wf hbvf b long sfdrft, digfst it first.
+        if (sfdlfn > 64) {              // 64: blodk sizf of HMAC-SHA1
+            shb.updbtf(sfdrft, off, sfdlfn);
+            sfdKfy = shb.digfst();
+            kfyLfn = sfdKfy.lfngth;
+            off = 0;
+        }
+        fxpbnd(shb, 20, sfdKfy, off, kfyLfn, lbbflBytfs, sffd, output,
+            HMAC_ipbd64.dlonf(), HMAC_opbd64.dlonf());
+
+        rfturn output;
+    }
+
+    /*
+     * @pbrbm digfst thf MfssbgfDigfst to produdf thf HMAC
+     * @pbrbm hmbdSizf thf HMAC sizf
+     * @pbrbm sfdrft thf sfdrft
+     * @pbrbm sfdOff thf offsft into thf sfdrft
+     * @pbrbm sfdLfn thf sfdrft lfngth
+     * @pbrbm lbbfl thf lbbfl
+     * @pbrbm sffd thf sffd
+     * @pbrbm output thf output brrby
+     */
+    privbtf stbtid void fxpbnd(MfssbgfDigfst digfst, int hmbdSizf,
+            bytf[] sfdrft, int sfdOff, int sfdLfn, bytf[] lbbfl, bytf[] sffd,
+            bytf[] output, bytf[] pbd1, bytf[] pbd2) throws DigfstExdfption {
+        /*
+         * modify thf pbdding usfd, by XORing thf kfy into our dopy of thbt
+         * pbdding.  Thbt's to bvoid doing thbt for fbdh HMAC domputbtion.
+         */
+        for (int i = 0; i < sfdLfn; i++) {
+            pbd1[i] ^= sfdrft[i + sfdOff];
+            pbd2[i] ^= sfdrft[i + sfdOff];
+        }
+
+        bytf[] tmp = nfw bytf[hmbdSizf];
+        bytf[] bBytfs = null;
+
+        /*
+         * domputf:
+         *
+         *     P_hbsh(sfdrft, sffd) = HMAC_hbsh(sfdrft, A(1) + sffd) +
+         *                            HMAC_hbsh(sfdrft, A(2) + sffd) +
+         *                            HMAC_hbsh(sfdrft, A(3) + sffd) + ...
+         * A() is dffinfd bs:
+         *
+         *     A(0) = sffd
+         *     A(i) = HMAC_hbsh(sfdrft, A(i-1))
+         */
+        int rfmbining = output.lfngth;
+        int ofs = 0;
+        whilf (rfmbining > 0) {
+            /*
+             * domputf A() ...
+             */
+            // innfr digfst
+            digfst.updbtf(pbd1);
+            if (bBytfs == null) {
+                digfst.updbtf(lbbfl);
+                digfst.updbtf(sffd);
+            } flsf {
+                digfst.updbtf(bBytfs);
+            }
+            digfst.digfst(tmp, 0, hmbdSizf);
+
+            // outfr digfst
+            digfst.updbtf(pbd2);
+            digfst.updbtf(tmp);
+            if (bBytfs == null) {
+                bBytfs = nfw bytf[hmbdSizf];
+            }
+            digfst.digfst(bBytfs, 0, hmbdSizf);
+
+            /*
+             * domputf HMAC_hbsh() ...
+             */
+            // innfr digfst
+            digfst.updbtf(pbd1);
+            digfst.updbtf(bBytfs);
+            digfst.updbtf(lbbfl);
+            digfst.updbtf(sffd);
+            digfst.digfst(tmp, 0, hmbdSizf);
+
+            // outfr digfst
+            digfst.updbtf(pbd2);
+            digfst.updbtf(tmp);
+            digfst.digfst(tmp, 0, hmbdSizf);
+
+            int k = Mbth.min(hmbdSizf, rfmbining);
+            for (int i = 0; i < k; i++) {
+                output[ofs++] ^= tmp[i];
+            }
+            rfmbining -= k;
+        }
+    }
+
+    /**
+     * A KfyGfnfrbtor implfmfntbtion thbt supports TLS 1.2.
+     * <p>
+     * TLS 1.2 usfs b difffrfnt hbsh blgorithm thbn 1.0/1.1 for thf PRF
+     * dbldulbtions.  As of 2010, thfrf is no PKCS11-lfvfl support for TLS
+     * 1.2 PRF dbldulbtions, bnd no known OS's hbvf bn intfrnbl vbribnt
+     * wf dould usf.  Thfrfforf for TLS 1.2, wf brf updbting JSSE to rfqufst
+     * b difffrfnt providfr blgorithm:  "SunTls12Prf".  If wf rfusfd thf
+     * nbmf "SunTlsPrf", thf PKCS11 providfr would nffd bf updbtfd to
+     * fbil dorrfdtly whfn prfsfntfd with thf wrong vfrsion numbfr
+     * (vib Providfr.Sfrvidf.supportsPbrbmftfrs()), bnd bdd thf
+     * bppropribtf supportsPbrbmtfrs() dhfdks into KfyGfnfrbtors (not
+     * durrfntly thfrf).
+     */
+    stbtid publid dlbss V12 fxtfnds TlsPrfGfnfrbtor {
+        protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+            rfturn fnginfGfnfrbtfKfy0(truf);
+        }
+    }
+
+    /**
+     * A KfyGfnfrbtor implfmfntbtion thbt supports TLS 1.0/1.1.
+     */
+    stbtid publid dlbss V10 fxtfnds TlsPrfGfnfrbtor {
+        protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+            rfturn fnginfGfnfrbtfKfy0(fblsf);
+        }
+    }
+}

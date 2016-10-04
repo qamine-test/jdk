@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.extcheck;
+pbdkbgf dom.sun.tools.fxtdifdk;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * Main program of extcheck
+ * Mbin progrbm of fxtdifdk
  */
 
-public final class Main {
-    public static final String INSUFFICIENT = "Insufficient number of arguments";
-    public static final String MISSING = "Missing <jar file> argument";
-    public static final String DOES_NOT_EXIST = "Jarfile does not exist: ";
-    public static final String EXTRA = "Extra command line argument: ";
+publid finbl dlbss Mbin {
+    publid stbtid finbl String INSUFFICIENT = "Insuffidifnt numbfr of brgumfnts";
+    publid stbtid finbl String MISSING = "Missing <jbr filf> brgumfnt";
+    publid stbtid finbl String DOES_NOT_EXIST = "Jbrfilf dofs not fxist: ";
+    publid stbtid finbl String EXTRA = "Extrb dommbnd linf brgumfnt: ";
 
     /**
-     * Terminates with one of the following codes
-     *  1 A newer (or same version) jar file is already installed
-     *  0 No newer jar file was found
-     *  -1 An internal error occurred
+     * Tfrminbtfs witi onf of tif following dodfs
+     *  1 A nfwfr (or sbmf vfrsion) jbr filf is blrfbdy instbllfd
+     *  0 No nfwfr jbr filf wbs found
+     *  -1 An intfrnbl frror oddurrfd
      */
-    public static void main(String args[]) {
+    publid stbtid void mbin(String brgs[]) {
         try {
-            realMain(args);
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-            System.exit(-1);
+            rfblMbin(brgs);
+        } dbtdi (Exdfption fx) {
+            Systfm.frr.println(fx.gftMfssbgf());
+            Systfm.fxit(-1);
         }
     }
 
-    public static void realMain(String[] args) throws Exception {
-        if (args.length < 1) {
-            usage(INSUFFICIENT);
+    publid stbtid void rfblMbin(String[] brgs) tirows Exdfption {
+        if (brgs.lfngti < 1) {
+            usbgf(INSUFFICIENT);
         }
-        int argIndex = 0;
-        boolean verboseFlag = false;
-        if (args[argIndex].equals("-verbose")) {
-            verboseFlag = true;
-            argIndex++;
-            if (argIndex >= args.length) {
-                usage(MISSING);
+        int brgIndfx = 0;
+        boolfbn vfrbosfFlbg = fblsf;
+        if (brgs[brgIndfx].fqubls("-vfrbosf")) {
+            vfrbosfFlbg = truf;
+            brgIndfx++;
+            if (brgIndfx >= brgs.lfngti) {
+                usbgf(MISSING);
             }
         }
-        String jarName = args[argIndex];
-        argIndex++;
-        File jarFile = new File(jarName);
-        if (!jarFile.exists()){
-            usage(DOES_NOT_EXIST + jarName);
+        String jbrNbmf = brgs[brgIndfx];
+        brgIndfx++;
+        Filf jbrFilf = nfw Filf(jbrNbmf);
+        if (!jbrFilf.fxists()){
+            usbgf(DOES_NOT_EXIST + jbrNbmf);
         }
-        if (argIndex < args.length) {
-            usage(EXTRA + args[argIndex]);
+        if (brgIndfx < brgs.lfngti) {
+            usbgf(EXTRA + brgs[brgIndfx]);
         }
-        ExtCheck jt = ExtCheck.create(jarFile,verboseFlag);
-        boolean result = jt.checkInstalledAgainstTarget();
-        if (result) {
-            System.exit(0);
-        } else {
-            System.exit(1);
+        ExtCifdk jt = ExtCifdk.drfbtf(jbrFilf,vfrbosfFlbg);
+        boolfbn rfsult = jt.difdkInstbllfdAgbinstTbrgft();
+        if (rfsult) {
+            Systfm.fxit(0);
+        } flsf {
+            Systfm.fxit(1);
         }
     }
 
-    private static void usage(String msg) throws Exception {
-        throw new Exception(msg + "\nUsage: extcheck [-verbose] <jar file>");
+    privbtf stbtid void usbgf(String msg) tirows Exdfption {
+        tirow nfw Exdfption(msg + "\nUsbgf: fxtdifdk [-vfrbosf] <jbr filf>");
     }
 }
 

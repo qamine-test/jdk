@@ -1,0 +1,440 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.spi;
+
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.io.IOExdfption;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+
+/**
+ * Thf sfrvidf providfr intfrfbdf (SPI) for <dodf>ImbgfWritfr</dodf>s.
+ * For morf informbtion on sfrvidf providfr dlbssfs, sff thf dlbss dommfnt
+ * for thf <dodf>IIORfgistry</dodf> dlbss.
+ *
+ * <p> Ebdh <dodf>ImbgfWritfrSpi</dodf> providfs sfvfrbl typfs of informbtion
+ * bbout thf <dodf>ImbgfWritfr</dodf> dlbss with whidh it is bssodibtfd.
+ *
+ * <p> Thf nbmf of thf vfndor who dffinfd thf SPI dlbss bnd b
+ * briff dfsdription of thf dlbss brf bvbilbblf vib thf
+ * <dodf>gftVfndorNbmf</dodf>, <dodf>gftDfsdription</dodf>,
+ * bnd <dodf>gftVfrsion</dodf> mfthods.
+ * Thfsf mfthods mby bf intfrnbtionblizfd to providf lodblf-spfdifid
+ * output.  Thfsf mfthods brf intfndfd mbinly to providf short,
+ * humbn-writbblf informbtion thbt might bf usfd to orgbnizf b pop-up
+ * mfnu or othfr list.
+ *
+ * <p> Lists of formbt nbmfs, filf suffixfs, bnd MIME typfs bssodibtfd
+ * with thf sfrvidf mby bf obtbinfd by mfbns of thf
+ * <dodf>gftFormbtNbmfs</dodf>, <dodf>gftFilfSuffixfs</dodf>, bnd
+ * <dodf>gftMIMETypf</dodf> mfthods.  Thfsf mfthods mby bf usfd to
+ * idfntify dbndidbtf <dodf>ImbgfWritfr</dodf>s for writing b
+ * pbrtidulbr filf or strfbm bbsfd on mbnubl formbt sflfdtion, filf
+ * nbming, or MIME bssodibtions.
+ *
+ * <p> A morf rflibblf wby to dftfrminf whidh <dodf>ImbgfWritfr</dodf>s
+ * brf likfly to bf bblf to pbrsf b pbrtidulbr dbtb strfbm is providfd
+ * by thf <dodf>dbnEndodfImbgf</dodf> mfthod.  This mfthods bllows thf
+ * sfrvidf providfr to inspfdt thf bdtubl imbgf dontfnts.
+ *
+ * <p> Finblly, bn instbndf of thf <dodf>ImbgfWritfr</dodf> dlbss
+ * bssodibtfd with this sfrvidf providfr mby bf obtbinfd by dblling
+ * thf <dodf>drfbtfWritfrInstbndf</dodf> mfthod.  Any hfbvywfight
+ * initiblizbtion, sudh bs thf lobding of nbtivf librbrifs or drfbtion
+ * of lbrgf tbblfs, should bf dfffrrfd bt lfbst until thf first
+ * invodbtion of this mfthod.
+ *
+ * @sff IIORfgistry
+ * @sff jbvbx.imbgfio.ImbgfTypfSpfdififr
+ * @sff jbvbx.imbgfio.ImbgfWritfr
+ *
+ */
+publid bbstrbdt dlbss ImbgfWritfrSpi fxtfnds ImbgfRfbdfrWritfrSpi {
+
+    /**
+     * A singlf-flfmfnt brrby, initiblly dontbining
+     * <dodf>ImbgfOutputStrfbm.dlbss</dodf>, to bf rfturnfd from
+     * <dodf>gftOutputTypfs</dodf>.
+     * @dfprfdbtfd Instfbd of using this fifld, dirfdtly drfbtf
+     * thf fquivblfnt brrby <dodf>{ ImbgfOutputStrfbm.dlbss }</dodf>.
+     */
+    @Dfprfdbtfd
+    publid stbtid finbl Clbss<?>[] STANDARD_OUTPUT_TYPE =
+        { ImbgfOutputStrfbm.dlbss };
+
+    /**
+     * An brrby of <dodf>Clbss</dodf> objfdts to bf rfturnfd from
+     * <dodf>gftOutputTypfs</dodf>, initiblly <dodf>null</dodf>.
+     */
+    protfdtfd Clbss<?>[] outputTypfs = null;
+
+    /**
+     * An brrby of strings to bf rfturnfd from
+     * <dodf>gftImbgfRfbdfrSpiNbmfs</dodf>, initiblly
+     * <dodf>null</dodf>.
+     */
+    protfdtfd String[] rfbdfrSpiNbmfs = null;
+
+    /**
+     * Thf <dodf>Clbss</dodf> of thf writfr, initiblly
+     * <dodf>null</dodf>.
+     */
+    privbtf Clbss<?> writfrClbss = null;
+
+    /**
+     * Construdts b blbnk <dodf>ImbgfWritfrSpi</dodf>.  It is up to
+     * thf subdlbss to initiblizf instbndf vbribblfs bnd/or ovfrridf
+     * mfthod implfmfntbtions in ordfr to providf working vfrsions of
+     * bll mfthods.
+     */
+    protfdtfd ImbgfWritfrSpi() {
+    }
+
+    /**
+     * Construdts bn <dodf>ImbgfWritfrSpi</dodf> with b givfn
+     * sft of vblufs.
+     *
+     * @pbrbm vfndorNbmf thf vfndor nbmf, bs b non-<dodf>null</dodf>
+     * <dodf>String</dodf>.
+     * @pbrbm vfrsion b vfrsion idfntififr, bs b non-<dodf>null</dodf>
+     * <dodf>String</dodf>.
+     * @pbrbm nbmfs b non-<dodf>null</dodf> brrby of
+     * <dodf>String</dodf>s indidbting thf formbt nbmfs.  At lfbst onf
+     * fntry must bf prfsfnt.
+     * @pbrbm suffixfs bn brrby of <dodf>String</dodf>s indidbting thf
+     * dommon filf suffixfs.  If no suffixfs brf dffinfd,
+     * <dodf>null</dodf> should bf supplifd.  An brrby of lfngth 0
+     * will bf normblizfd to <dodf>null</dodf>.
+     * @pbrbm MIMETypfs bn brrby of <dodf>String</dodf>s indidbting
+     * thf formbt's MIME typfs.  If no suffixfs brf dffinfd,
+     * <dodf>null</dodf> should bf supplifd.  An brrby of lfngth 0
+     * will bf normblizfd to <dodf>null</dodf>.
+     * @pbrbm writfrClbssNbmf thf fully-qublififd nbmf of thf
+     * bssodibtfd <dodf>ImbgfWritfrSpi</dodf> dlbss, bs b
+     * non-<dodf>null</dodf> <dodf>String</dodf>.
+     * @pbrbm outputTypfs bn brrby of <dodf>Clbss</dodf> objfdts of
+     * lfngth bt lfbst 1 indidbting thf lfgbl output typfs.
+     * @pbrbm rfbdfrSpiNbmfs bn brrby <dodf>String</dodf>s of lfngth
+     * bt lfbst 1 nbming thf dlbssfs of bll bssodibtfd
+     * <dodf>ImbgfRfbdfr</dodf>s, or <dodf>null</dodf>.  An brrby of
+     * lfngth 0 is normblizfd to <dodf>null</dodf>.
+     * @pbrbm supportsStbndbrdStrfbmMftbdbtbFormbt b
+     * <dodf>boolfbn</dodf> thbt indidbtfs whfthfr b strfbm mftbdbtb
+     * objfdt dbn usf trffs dfsdribfd by thf stbndbrd mftbdbtb formbt.
+     * @pbrbm nbtivfStrfbmMftbdbtbFormbtNbmf b
+     * <dodf>String</dodf>, or <dodf>null</dodf>, to bf rfturnfd from
+     * <dodf>gftNbtivfStrfbmMftbdbtbFormbtNbmf</dodf>.
+     * @pbrbm nbtivfStrfbmMftbdbtbFormbtClbssNbmf b
+     * <dodf>String</dodf>, or <dodf>null</dodf>, to bf usfd to instbntibtf
+     * b mftbdbtb formbt objfdt to bf rfturnfd from
+     * <dodf>gftNbtivfStrfbmMftbdbtbFormbt</dodf>.
+     * @pbrbm fxtrbStrfbmMftbdbtbFormbtNbmfs bn brrby of
+     * <dodf>String</dodf>s, or <dodf>null</dodf>, to bf rfturnfd from
+     * <dodf>gftExtrbStrfbmMftbdbtbFormbtNbmfs</dodf>.  An brrby of lfngth
+     * 0 is normblizfd to <dodf>null</dodf>.
+     * @pbrbm fxtrbStrfbmMftbdbtbFormbtClbssNbmfs bn brrby of
+     * <dodf>String</dodf>s, or <dodf>null</dodf>, to bf usfd to instbntibtf
+     * b mftbdbtb formbt objfdt to bf rfturnfd from
+     * <dodf>gftStrfbmMftbdbtbFormbt</dodf>.  An brrby of lfngth
+     * 0 is normblizfd to <dodf>null</dodf>.
+     * @pbrbm supportsStbndbrdImbgfMftbdbtbFormbt b
+     * <dodf>boolfbn</dodf> thbt indidbtfs whfthfr bn imbgf mftbdbtb
+     * objfdt dbn usf trffs dfsdribfd by thf stbndbrd mftbdbtb formbt.
+     * @pbrbm nbtivfImbgfMftbdbtbFormbtNbmf b
+     * <dodf>String</dodf>, or <dodf>null</dodf>, to bf rfturnfd from
+     * <dodf>gftNbtivfImbgfMftbdbtbFormbtNbmf</dodf>.
+     * @pbrbm nbtivfImbgfMftbdbtbFormbtClbssNbmf b
+     * <dodf>String</dodf>, or <dodf>null</dodf>, to bf usfd to instbntibtf
+     * b mftbdbtb formbt objfdt to bf rfturnfd from
+     * <dodf>gftNbtivfImbgfMftbdbtbFormbt</dodf>.
+     * @pbrbm fxtrbImbgfMftbdbtbFormbtNbmfs bn brrby of
+     * <dodf>String</dodf>s to bf rfturnfd from
+     * <dodf>gftExtrbImbgfMftbdbtbFormbtNbmfs</dodf>.  An brrby of lfngth 0
+     * is normblizfd to <dodf>null</dodf>.
+     * @pbrbm fxtrbImbgfMftbdbtbFormbtClbssNbmfs bn brrby of
+     * <dodf>String</dodf>s, or <dodf>null</dodf>, to bf usfd to instbntibtf
+     * b mftbdbtb formbt objfdt to bf rfturnfd from
+     * <dodf>gftImbgfMftbdbtbFormbt</dodf>.  An brrby of lfngth
+     * 0 is normblizfd to <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>vfndorNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>vfrsion</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>nbmfs</dodf>
+     * is <dodf>null</dodf> or hbs lfngth 0.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>writfrClbssNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>outputTypfs</dodf>
+     * is <dodf>null</dodf> or hbs lfngth 0.
+     */
+    publid ImbgfWritfrSpi(String vfndorNbmf,
+                          String vfrsion,
+                          String[] nbmfs,
+                          String[] suffixfs,
+                          String[] MIMETypfs,
+                          String writfrClbssNbmf,
+                          Clbss<?>[] outputTypfs,
+                          String[] rfbdfrSpiNbmfs,
+                          boolfbn supportsStbndbrdStrfbmMftbdbtbFormbt,
+                          String nbtivfStrfbmMftbdbtbFormbtNbmf,
+                          String nbtivfStrfbmMftbdbtbFormbtClbssNbmf,
+                          String[] fxtrbStrfbmMftbdbtbFormbtNbmfs,
+                          String[] fxtrbStrfbmMftbdbtbFormbtClbssNbmfs,
+                          boolfbn supportsStbndbrdImbgfMftbdbtbFormbt,
+                          String nbtivfImbgfMftbdbtbFormbtNbmf,
+                          String nbtivfImbgfMftbdbtbFormbtClbssNbmf,
+                          String[] fxtrbImbgfMftbdbtbFormbtNbmfs,
+                          String[] fxtrbImbgfMftbdbtbFormbtClbssNbmfs) {
+        supfr(vfndorNbmf, vfrsion,
+              nbmfs, suffixfs, MIMETypfs, writfrClbssNbmf,
+              supportsStbndbrdStrfbmMftbdbtbFormbt,
+              nbtivfStrfbmMftbdbtbFormbtNbmf,
+              nbtivfStrfbmMftbdbtbFormbtClbssNbmf,
+              fxtrbStrfbmMftbdbtbFormbtNbmfs,
+              fxtrbStrfbmMftbdbtbFormbtClbssNbmfs,
+              supportsStbndbrdImbgfMftbdbtbFormbt,
+              nbtivfImbgfMftbdbtbFormbtNbmf,
+              nbtivfImbgfMftbdbtbFormbtClbssNbmf,
+              fxtrbImbgfMftbdbtbFormbtNbmfs,
+              fxtrbImbgfMftbdbtbFormbtClbssNbmfs);
+
+        if (outputTypfs == null) {
+            throw nfw IllfgblArgumfntExdfption
+                ("outputTypfs == null!");
+        }
+        if (outputTypfs.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption
+                ("outputTypfs.lfngth == 0!");
+        }
+
+        this.outputTypfs = (outputTypfs == STANDARD_OUTPUT_TYPE) ?
+            nfw Clbss<?>[] { ImbgfOutputStrfbm.dlbss } :
+            outputTypfs.dlonf();
+
+        // If lfngth == 0, lfbvf it null
+        if (rfbdfrSpiNbmfs != null && rfbdfrSpiNbmfs.lfngth > 0) {
+            this.rfbdfrSpiNbmfs = rfbdfrSpiNbmfs.dlonf();
+        }
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf formbt thbt this writfr
+     * outputs prfsfrvfs pixfl dbtb bit-bddurbtfly.  Thf dffbult
+     * implfmfntbtion rfturns <dodf>truf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if thf formbt prfsfrvfs full pixfl
+     * bddurbdy.
+     */
+    publid boolfbn isFormbtLosslfss() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns bn brrby of <dodf>Clbss</dodf> objfdts indidbting whbt
+     * typfs of objfdts mby bf usfd bs brgumfnts to thf writfr's
+     * <dodf>sftOutput</dodf> mfthod.
+     *
+     * <p> For most writfrs, whidh only output to bn
+     * <dodf>ImbgfOutputStrfbm</dodf>, b singlf-flfmfnt brrby
+     * dontbining <dodf>ImbgfOutputStrfbm.dlbss</dodf> should bf
+     * rfturnfd.
+     *
+     * @rfturn b non-<dodf>null</dodf> brrby of
+     * <dodf>Clbss</dodf> objfdts of lfngth bt lfbst 1.
+     */
+    publid Clbss<?>[] gftOutputTypfs() {
+        rfturn outputTypfs.dlonf();
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf <dodf>ImbgfWritfr</dodf>
+     * implfmfntbtion bssodibtfd with this sfrvidf providfr is bblf to
+     * fndodf bn imbgf with thf givfn lbyout.  Thf lbyout
+     * (<i>i.f.</i>, thf imbgf's <dodf>SbmplfModfl</dodf> bnd
+     * <dodf>ColorModfl</dodf>) is dfsdribfd by bn
+     * <dodf>ImbgfTypfSpfdififr</dodf> objfdt.
+     *
+     * <p> A rfturn vbluf of <dodf>truf</dodf> is not bn bbsolutf
+     * gubrbntff of suddfssful fndoding; thf fndoding prodfss mby still
+     * produdf frrors duf to fbdtors sudh bs I/O frrors, indonsistfnt
+     * or mblformfd dbtb strudturfs, ftd.  Thf intfnt is thbt b
+     * rfbsonbblf inspfdtion of thf bbsid strudturf of thf imbgf bf
+     * pfrformfd in ordfr to dftfrminf if it is within thf sdopf of
+     * thf fndoding formbt.  For fxbmplf, b sfrvidf providfr for b
+     * formbt thbt dbn only fndodf grfysdblf would rfturn
+     * <dodf>fblsf</dodf> if hbndfd bn RGB <dodf>BufffrfdImbgf</dodf>.
+     * Similbrly, b sfrvidf providfr for b formbt thbt dbn fndodf
+     * 8-bit RGB imbgfry might rffusf to fndodf bn imbgf with bn
+     * bssodibtfd blphb dhbnnfl.
+     *
+     * <p> Difffrfnt <dodf>ImbgfWritfr</dodf>s, bnd thus sfrvidf
+     * providfrs, mby dhoosf to bf morf or lfss stridt.  For fxbmplf,
+     * thfy might bddfpt bn imbgf with prfmultiplifd blphb fvfn though
+     * it will hbvf to bf dividfd out of fbdh pixfl, bt somf loss of
+     * prfdision, in ordfr to bf storfd.
+     *
+     * @pbrbm typf bn <dodf>ImbgfTypfSpfdififr</dodf> spfdifying thf
+     * lbyout of thf imbgf to bf writtfn.
+     *
+     * @rfturn <dodf>truf</dodf> if this writfr is likfly to bf bblf
+     * to fndodf imbgfs with thf givfn lbyout.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>typf</dodf>
+     * is <dodf>null</dodf>.
+     */
+    publid bbstrbdt boolfbn dbnEndodfImbgf(ImbgfTypfSpfdififr typf);
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf <dodf>ImbgfWritfr</dodf>
+     * implfmfntbtion bssodibtfd with this sfrvidf providfr is bblf to
+     * fndodf thf givfn <dodf>RfndfrfdImbgf</dodf> instbndf.  Notf
+     * thbt this indludfs instbndfs of
+     * <dodf>jbvb.bwt.imbgf.BufffrfdImbgf</dodf>.
+     *
+     * <p> Sff thf disdussion for
+     * <dodf>dbnEndodfImbgf(ImbgfTypfSpfdififr)</dodf> for informbtion
+     * on thf sfmbntids of this mfthod.
+     *
+     * @pbrbm im bn instbndf of <dodf>RfndfrfdImbgf</dodf> to bf fndodfd.
+     *
+     * @rfturn <dodf>truf</dodf> if this writfr is likfly to bf bblf
+     * to fndodf this imbgf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>im</dodf>
+     * is <dodf>null</dodf>.
+     */
+    publid boolfbn dbnEndodfImbgf(RfndfrfdImbgf im) {
+        rfturn dbnEndodfImbgf(ImbgfTypfSpfdififr.drfbtfFromRfndfrfdImbgf(im));
+    }
+
+    /**
+     * Rfturns bn instbndf of thf <dodf>ImbgfWritfr</dodf>
+     * implfmfntbtion bssodibtfd with this sfrvidf providfr.
+     * Thf rfturnfd objfdt will initiblly bf in bn initibl stbtf bs if
+     * its <dodf>rfsft</dodf> mfthod hbd bffn dbllfd.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns
+     * <dodf>drfbtfWritfrInstbndf(null)</dodf>.
+     *
+     * @rfturn bn <dodf>ImbgfWritfr</dodf> instbndf.
+     *
+     * @fxdfption IOExdfption if bn frror oddurs during lobding,
+     * or initiblizbtion of thf writfr dlbss, or during instbntibtion
+     * or initiblizbtion of thf writfr objfdt.
+     */
+    publid ImbgfWritfr drfbtfWritfrInstbndf() throws IOExdfption {
+        rfturn drfbtfWritfrInstbndf(null);
+    }
+
+    /**
+     * Rfturns bn instbndf of thf <dodf>ImbgfWritfr</dodf>
+     * implfmfntbtion bssodibtfd with this sfrvidf providfr.
+     * Thf rfturnfd objfdt will initiblly bf in bn initibl stbtf
+     * bs if its <dodf>rfsft</dodf> mfthod hbd bffn dbllfd.
+     *
+     * <p> An <dodf>Objfdt</dodf> mby bf supplifd to thf plug-in bt
+     * donstrudtion timf.  Thf nbturf of thf objfdt is fntirfly
+     * plug-in spfdifid.
+     *
+     * <p> Typidblly, b plug-in will implfmfnt this mfthod using dodf
+     * sudh bs <dodf>rfturn nfw MyImbgfWritfr(this)</dodf>.
+     *
+     * @pbrbm fxtfnsion b plug-in spfdifid fxtfnsion objfdt, whidh mby
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn bn <dodf>ImbgfWritfr</dodf> instbndf.
+     *
+     * @fxdfption IOExdfption if thf bttfmpt to instbntibtf
+     * thf writfr fbils.
+     * @fxdfption IllfgblArgumfntExdfption if thf
+     * <dodf>ImbgfWritfr</dodf>'s donstrudtor throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> to indidbtf thbt thf
+     * fxtfnsion objfdt is unsuitbblf.
+     */
+    publid bbstrbdt ImbgfWritfr drfbtfWritfrInstbndf(Objfdt fxtfnsion)
+        throws IOExdfption;
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf <dodf>ImbgfWritfr</dodf> objfdt
+     * pbssfd in is bn instbndf of thf <dodf>ImbgfWritfr</dodf>
+     * bssodibtfd with this sfrvidf providfr.
+     *
+     * @pbrbm writfr bn <dodf>ImbgfWritfr</dodf> instbndf.
+     *
+     * @rfturn <dodf>truf</dodf> if <dodf>writfr</dodf> is rfdognizfd
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>writfr</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid boolfbn isOwnWritfr(ImbgfWritfr writfr) {
+        if (writfr == null) {
+            throw nfw IllfgblArgumfntExdfption("writfr == null!");
+        }
+        String nbmf = writfr.gftClbss().gftNbmf();
+        rfturn nbmf.fqubls(pluginClbssNbmf);
+    }
+
+    /**
+     * Rfturns bn brrby of <dodf>String</dodf>s dontbining bll thf
+     * fully qublififd nbmfs of bll thf <dodf>ImbgfRfbdfrSpi</dodf>
+     * dlbssfs thbt dbn undfrstbnd thf intfrnbl mftbdbtb
+     * rfprfsfntbtion usfd by thf <dodf>ImbgfWritfr</dodf> bssodibtfd
+     * with this sfrvidf providfr, or <dodf>null</dodf> if thfrf brf
+     * no sudh <dodf>ImbgfRfbdfrs</dodf> spfdififd.  If b
+     * non-<dodf>null</dodf> vbluf is rfturnfd, it must hbvf non-zfro
+     * lfngth.
+     *
+     * <p> Thf first itfm in thf brrby must bf thf nbmf of thf sfrvidf
+     * providfr for thf "prfffrrfd" rfbdfr, bs it will bf usfd to
+     * instbntibtf thf <dodf>ImbgfRfbdfr</dodf> rfturnfd by
+     * <dodf>ImbgfIO.gftImbgfRfbdfr(ImbgfWritfr)</dodf>.
+     *
+     * <p> This mfdhbnism mby bf usfd to obtbin
+     * <dodf>ImbgfRfbdfrs</dodf> thbt will gfnfrbtfd non-pixfl
+     * mftb-dbtb (sff <dodf>IIOExtrbDbtbInfo</dodf>) in b strudturf
+     * undfrstood by bn <dodf>ImbgfWritfr</dodf>.  By rfbding thf
+     * imbgf bnd obtbining this dbtb from onf of thf
+     * <dodf>ImbgfRfbdfrs</dodf> obtbinfd with this mfthod bnd pbssing
+     * it on to thf <dodf>ImbgfWritfr</dodf>, b dlifnt progrbm dbn
+     * rfbd bn imbgf, modify it in somf wby, bnd writf it bbdk out
+     * prfsfrving bll mftb-dbtb, without hbving to undfrstbnd bnything
+     * bbout thf intfrnbl strudturf of thf mftb-dbtb, or fvfn bbout
+     * thf imbgf formbt.
+     *
+     * @rfturn bn brrby of <dodf>String</dodf>s of lfngth bt lfbst 1
+     * dontbining nbmfs of <dodf>ImbgfRfbdfrSpi</dodf>s, or
+     * <dodf>null</dodf>.
+     *
+     * @sff jbvbx.imbgfio.ImbgfIO#gftImbgfRfbdfr(ImbgfWritfr)
+     * @sff ImbgfRfbdfrSpi#gftImbgfWritfrSpiNbmfs()
+     */
+    publid String[] gftImbgfRfbdfrSpiNbmfs() {
+        rfturn rfbdfrSpiNbmfs == null ?
+            null : rfbdfrSpiNbmfs.dlonf();
+    }
+}

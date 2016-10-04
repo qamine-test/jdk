@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf "mbnbgfmfnt.h"
+#indludf "sun_mbnbgfmfnt_MfmoryPoolImpl.h"
+
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_mbnbgfmfnt_MfmoryPoolImpl_gftMfmoryMbnbgfrs0
+  (JNIEnv *fnv, jobjfdt pool)
+{
+    jobjfdt mgrs = jmm_intfrfbdf->GftMfmoryMbnbgfrs(fnv, pool);
+    if (mgrs == NULL) {
+        // Throw intfrnbl frror sindf this implfmfntbtion fxpfdts thf
+        // pool will nfvfr bfdomf invblid.
+        JNU_ThrowIntfrnblError(fnv, "Mfmory Pool not found");
+    }
+    rfturn mgrs;
+}
+
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_mbnbgfmfnt_MfmoryPoolImpl_gftUsbgf0
+  (JNIEnv *fnv, jobjfdt pool)
+{
+    jobjfdt usbgf = jmm_intfrfbdf->GftMfmoryPoolUsbgf(fnv, pool);
+    if (usbgf == NULL) {
+        // Throw intfrnbl frror sindf this implfmfntbtion fxpfdts thf
+        // pool will nfvfr bfdomf invblid.
+        JNU_ThrowIntfrnblError(fnv, "Mfmory Pool not found");
+    }
+    rfturn usbgf;
+}
+
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_mbnbgfmfnt_MfmoryPoolImpl_gftPfbkUsbgf0
+  (JNIEnv *fnv, jobjfdt pool)
+{
+    jobjfdt usbgf = jmm_intfrfbdf->GftPfbkMfmoryPoolUsbgf(fnv, pool);
+    if (usbgf == NULL) {
+        // Throw intfrnbl frror sindf this implfmfntbtion fxpfdts thf
+        // pool will nfvfr bfdomf invblid.
+        JNU_ThrowIntfrnblError(fnv, "Mfmory Pool not found");
+    }
+    rfturn usbgf;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_MfmoryPoolImpl_sftUsbgfThrfshold0
+  (JNIEnv *fnv, jobjfdt pool, jlong durrfnt, jlong nfwThrfshold)
+{
+    // Sft both high bnd low thrfshold to thf sbmf thrfshold
+    if (nfwThrfshold > durrfnt) {
+        // high thrfshold hbs to bf sft first so thbt high >= low
+        jmm_intfrfbdf->SftPoolThrfshold(fnv, pool,
+                                        JMM_USAGE_THRESHOLD_HIGH, nfwThrfshold);
+        jmm_intfrfbdf->SftPoolThrfshold(fnv, pool,
+                                        JMM_USAGE_THRESHOLD_LOW, nfwThrfshold);
+    } flsf {
+        // low thrfshold hbs to bf sft first so thbt high >= low
+        jmm_intfrfbdf->SftPoolThrfshold(fnv, pool,
+                                        JMM_USAGE_THRESHOLD_LOW, nfwThrfshold);
+        jmm_intfrfbdf->SftPoolThrfshold(fnv, pool,
+                                        JMM_USAGE_THRESHOLD_HIGH, nfwThrfshold);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_MfmoryPoolImpl_sftCollfdtionThrfshold0
+  (JNIEnv *fnv, jobjfdt pool, jlong durrfnt, jlong nfwThrfshold)
+{
+    // Sft both high bnd low thrfshold to thf sbmf thrfshold
+    if (nfwThrfshold > durrfnt) {
+        // high thrfshold hbs to bf sft first so thbt high >= low
+        jmm_intfrfbdf->SftPoolThrfshold(fnv, pool,
+                                        JMM_COLLECTION_USAGE_THRESHOLD_HIGH,
+                                        nfwThrfshold);
+        jmm_intfrfbdf->SftPoolThrfshold(fnv, pool,
+                                        JMM_COLLECTION_USAGE_THRESHOLD_LOW,
+                                        nfwThrfshold);
+    } flsf {
+        // low thrfshold hbs to bf sft first so thbt high >= low
+        jmm_intfrfbdf->SftPoolThrfshold(fnv, pool,
+                                        JMM_COLLECTION_USAGE_THRESHOLD_LOW,
+                                        nfwThrfshold);
+        jmm_intfrfbdf->SftPoolThrfshold(fnv, pool,
+                                        JMM_COLLECTION_USAGE_THRESHOLD_HIGH,
+                                        nfwThrfshold);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_MfmoryPoolImpl_rfsftPfbkUsbgf0
+  (JNIEnv *fnv, jobjfdt pool)
+{
+    jvbluf vbluf;
+    vbluf.l = pool;
+    jmm_intfrfbdf->RfsftStbtistid(fnv, vbluf, JMM_STAT_PEAK_POOL_USAGE);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_MfmoryPoolImpl_sftPoolUsbgfSfnsor
+  (JNIEnv *fnv, jobjfdt pool, jobjfdt sfnsor)
+{
+    jmm_intfrfbdf->SftPoolSfnsor(fnv, pool,
+                                 JMM_USAGE_THRESHOLD_HIGH, sfnsor);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_MfmoryPoolImpl_sftPoolCollfdtionSfnsor
+  (JNIEnv *fnv, jobjfdt pool, jobjfdt sfnsor)
+{
+    jmm_intfrfbdf->SftPoolSfnsor(fnv, pool,
+                                 JMM_COLLECTION_USAGE_THRESHOLD_HIGH, sfnsor);
+}
+
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_mbnbgfmfnt_MfmoryPoolImpl_gftCollfdtionUsbgf0
+  (JNIEnv *fnv, jobjfdt pool)
+{
+    rfturn jmm_intfrfbdf->GftPoolCollfdtionUsbgf(fnv, pool);
+}

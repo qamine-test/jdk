@@ -1,0 +1,258 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft.sfribl;
+
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.util.*;
+
+/**
+ * A sfriblizfd mbpping of b <dodf>Rff</dodf> objfdt, whidh is thf mbpping in thf
+ * Jbvb progrbmming lbngubgf of bn SQL <dodf>REF</dodf> vbluf.
+ * <p>
+ * Thf <dodf>SfriblRff</dodf> dlbss providfs b donstrudtor  for
+ * drfbting b <dodf>SfriblRff</dodf> instbndf from b <dodf>Rff</dodf>
+ * objfdt bnd providfs mfthods for gftting bnd sftting thf <dodf>Rff</dodf> objfdt.
+ *
+ * <h3> Thrfbd sbffty </h3>
+ *
+ * A SfriblRff is not sbff for usf by multiplf dondurrfnt thrfbds.  If b
+ * SfriblRff is to bf usfd by morf thbn onf thrfbd thfn bddfss to thf SfriblRff
+ * should bf dontrollfd by bppropribtf syndhronizbtion.
+ *
+ * @sindf 1.5
+ */
+publid dlbss SfriblRff implfmfnts Rff, Sfriblizbblf, Clonfbblf {
+
+    /**
+     * String dontbining thf bbsf typf nbmf.
+     * @sfribl
+     */
+    privbtf String bbsfTypfNbmf;
+
+    /**
+     * This will storf thf typf <dodf>Rff</dodf> bs bn <dodf>Objfdt</dodf>.
+     */
+    privbtf Objfdt objfdt;
+
+    /**
+     * Privbtf dopy of thf Rff rfffrfndf.
+     */
+    privbtf Rff rfffrfndf;
+
+    /**
+     * Construdts b <dodf>SfriblRff</dodf> objfdt from thf givfn <dodf>Rff</dodf>
+     * objfdt.
+     *
+     * @pbrbm rff b Rff objfdt; dbnnot bf <dodf>null</dodf>
+     * @throws SQLExdfption if b dbtbbbsf bddfss oddurs; if <dodf>rff</dodf>
+     *     is <dodf>null</dodf>; or if thf <dodf>Rff</dodf> objfdt rfturns b
+     *     <dodf>null</dodf> vbluf bbsf typf nbmf.
+     * @throws SfriblExdfption if bn frror oddurs sfriblizing thf <dodf>Rff</dodf>
+     *     objfdt
+     */
+    publid SfriblRff(Rff rff) throws SfriblExdfption, SQLExdfption {
+        if (rff == null) {
+            throw nfw SQLExdfption("Cbnnot instbntibtf b SfriblRff objfdt " +
+                "with b null Rff objfdt");
+        }
+        rfffrfndf = rff;
+        objfdt = rff;
+        if (rff.gftBbsfTypfNbmf() == null) {
+            throw nfw SQLExdfption("Cbnnot instbntibtf b SfriblRff objfdt " +
+                "thbt rfturns b null bbsf typf nbmf");
+        } flsf {
+            bbsfTypfNbmf = rff.gftBbsfTypfNbmf();
+        }
+    }
+
+    /**
+     * Rfturns b string dfsdribing thf bbsf typf nbmf of thf <dodf>Rff</dodf>.
+     *
+     * @rfturn b string of thf bbsf typf nbmf of thf Rff
+     * @throws SfriblExdfption in no Rff objfdt hbs bffn sft
+     */
+    publid String gftBbsfTypfNbmf() throws SfriblExdfption {
+        rfturn bbsfTypfNbmf;
+    }
+
+    /**
+     * Rfturns bn <dodf>Objfdt</dodf> rfprfsfnting thf SQL strudturfd typf
+     * to whidh this <dodf>SfriblRff</dodf> objfdt rfffrs.  Thf bttributfs
+     * of thf strudturfd typf brf mbppfd bddording to thf givfn typf mbp.
+     *
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt dontbining zfro or
+     *        morf fntrifs, with fbdh fntry donsisting of 1) b <dodf>String</dodf>
+     *        giving thf fully qublififd nbmf of b UDT bnd 2) thf
+     *        <dodf>Clbss</dodf> objfdt for thf <dodf>SQLDbtb</dodf> implfmfntbtion
+     *        thbt dffinfs how thf UDT is to bf mbppfd
+     * @rfturn bn objfdt instbndf rfsolvfd from thf Rff rfffrfndf bnd mbppfd
+     *        bddording to thf supplifd typf mbp
+     * @throws SfriblExdfption if bn frror is fndountfrfd in thf rfffrfndf
+     *        rfsolution
+     */
+    publid Objfdt gftObjfdt(jbvb.util.Mbp<String,Clbss<?>> mbp)
+        throws SfriblExdfption
+    {
+        mbp = nfw Hbshtbblf<String, Clbss<?>>(mbp);
+        if (objfdt != null) {
+            rfturn mbp.gft(objfdt);
+        } flsf {
+            throw nfw SfriblExdfption("Thf objfdt is not sft");
+        }
+    }
+
+    /**
+     * Rfturns bn <dodf>Objfdt</dodf> rfprfsfnting thf SQL strudturfd typf
+     * to whidh this <dodf>SfriblRff</dodf> objfdt rfffrs.
+     *
+     * @rfturn bn objfdt instbndf rfsolvfd from thf Rff rfffrfndf
+     * @throws SfriblExdfption if bn frror is fndountfrfd in thf rfffrfndf
+     *         rfsolution
+     */
+    publid Objfdt gftObjfdt() throws SfriblExdfption {
+
+        if (rfffrfndf != null) {
+            try {
+                rfturn rfffrfndf.gftObjfdt();
+            } dbtdh (SQLExdfption f) {
+                throw nfw SfriblExdfption("SQLExdfption: " + f.gftMfssbgf());
+            }
+        }
+
+        if (objfdt != null) {
+            rfturn objfdt;
+        }
+
+
+        throw nfw SfriblExdfption("Thf objfdt is not sft");
+
+    }
+
+    /**
+     * Sfts thf SQL strudturfd typf thbt this <dodf>SfriblRff</dodf> objfdt
+     * rfffrfndfs to thf givfn <dodf>Objfdt</dodf> objfdt.
+     *
+     * @pbrbm obj bn <dodf>Objfdt</dodf> rfprfsfnting thf SQL strudturfd typf
+     *        to bf rfffrfndfd
+     * @throws SfriblExdfption if bn frror is fndountfrfd gfnfrbting thf
+     * thf strudturfd typf rfffrfndfd by this <dodf>SfriblRff</dodf> objfdt
+     */
+    publid void sftObjfdt(Objfdt obj) throws SfriblExdfption {
+        try {
+            rfffrfndf.sftObjfdt(obj);
+        } dbtdh (SQLExdfption f) {
+            throw nfw SfriblExdfption("SQLExdfption: " + f.gftMfssbgf());
+        }
+        objfdt = obj;
+    }
+
+    /**
+     * Compbrfs this SfriblRff to thf spfdififd objfdt.  Thf rfsult is {@dodf
+     * truf} if bnd only if thf brgumfnt is not {@dodf null} bnd is b {@dodf
+     * SfriblRff} objfdt thbt rfprfsfnts thf sbmf objfdt bs this
+     * objfdt.
+     *
+     * @pbrbm  obj Thf objfdt to dompbrf this {@dodf SfriblRff} bgbinst
+     *
+     * @rfturn  {@dodf truf} if thf givfn objfdt rfprfsfnts b {@dodf SfriblRff}
+     *          fquivblfnt to this SfriblRff, {@dodf fblsf} othfrwisf
+     *
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if(obj instbndfof SfriblRff) {
+            SfriblRff rff = (SfriblRff)obj;
+            rfturn bbsfTypfNbmf.fqubls(rff.bbsfTypfNbmf) &&
+                    objfdt.fqubls(rff.objfdt);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this {@dodf SfriblRff}.
+     * @rfturn  b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn (31 + objfdt.hbshCodf()) * 31 + bbsfTypfNbmf.hbshCodf();
+    }
+
+    /**
+     * Rfturns b dlonf of this {@dodf SfriblRff}.
+     * Thf undfrlying {@dodf Rff} objfdt will bf sft to null.
+     *
+     * @rfturn  b dlonf of this SfriblRff
+     */
+    publid Objfdt dlonf() {
+        try {
+            SfriblRff rff = (SfriblRff) supfr.dlonf();
+            rff.rfffrfndf = null;
+            rfturn rff;
+        } dbtdh (ClonfNotSupportfdExdfption fx) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError();
+        }
+
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf SfriblRff from
+     * b strfbm.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+        objfdt = fiflds.gft("objfdt", null);
+        bbsfTypfNbmf = (String) fiflds.gft("bbsfTypfNbmf", null);
+        rfffrfndf = (Rff) fiflds.gft("rfffrfndf", null);
+    }
+
+    /**
+     * writfObjfdt is dbllfd to sbvf thf stbtf of thf SfriblRff
+     * to b strfbm.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            throws IOExdfption, ClbssNotFoundExdfption {
+
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("bbsfTypfNbmf", bbsfTypfNbmf);
+        fiflds.put("objfdt", objfdt);
+        // Notf: this dhfdk to sff if it is bn instbndf of Sfriblizbblf
+        // is for bbdkwbrds dompbtibiity
+        fiflds.put("rfffrfndf", rfffrfndf instbndfof Sfriblizbblf ? rfffrfndf : null);
+        s.writfFiflds();
+    }
+
+    /**
+     * Thf idfntififr thbt bssists in thf sfriblizbtion of this <dodf>SfriblRff</dodf>
+     * objfdt.
+     */
+    stbtid finbl long sfriblVfrsionUID = -4727123500609662274L;
+
+
+}

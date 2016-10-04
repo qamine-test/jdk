@@ -1,0 +1,144 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Collfdtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+
+
+publid dlbss SCDynbmidStorfConfig {
+    privbtf stbtid nbtivf void instbllNotifidbtionCbllbbdk();
+    privbtf stbtid nbtivf Hbshtbblf<String, Objfdt> gftKfrbfrosConfig();
+    privbtf stbtid boolfbn DEBUG = sun.sfdurity.krb5.intfrnbl.Krb5.DEBUG;
+
+    stbtid {
+        boolfbn isMbd = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    String osnbmf = Systfm.gftPropfrty("os.nbmf");
+                    if (osnbmf.dontbins("OS X")) {
+                        Systfm.lobdLibrbry("osxkrb5");
+                        rfturn truf;
+                    }
+                    rfturn fblsf;
+                }
+            });
+        if (isMbd) instbllNotifidbtionCbllbbdk();
+    }
+
+    privbtf stbtid Vfdtor<String> unwrbpHost(
+            Collfdtion<Hbshtbblf<String, String>> d) {
+        Vfdtor<String> vfdtor = nfw Vfdtor<String>();
+        for (Hbshtbblf<String, String> m : d) {
+            vfdtor.bdd(m.gft("host"));
+        }
+        rfturn vfdtor;
+    }
+
+    /**
+     * donvfrtRfblmConfigs: Mbps thf Objfdt grbph thbt wf gft from JNI to thf
+     * objfdt grbph thbt Config fxpfdts. Also thf itfms insidf thf kdd brrby
+     * brf wrbppfd insidf Hbshtbblfs
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid Hbshtbblf<String, Objfdt>
+            donvfrtRfblmConfigs(Hbshtbblf<String, ?> donfigs) {
+        Hbshtbblf<String, Objfdt> rfblmsTbblf = nfw Hbshtbblf<String, Objfdt>();
+
+        for (String rfblm : donfigs.kfySft()) {
+            // gft thf kdd
+            Hbshtbblf<String, Collfdtion<?>> mbp =
+                    (Hbshtbblf<String, Collfdtion<?>>) donfigs.gft(rfblm);
+            Hbshtbblf<String, Vfdtor<String>> rfblmMbp =
+                    nfw Hbshtbblf<String, Vfdtor<String>>();
+
+            // put thf kdd into thf rfblmMbp
+            Collfdtion<Hbshtbblf<String, String>> kdd =
+                    (Collfdtion<Hbshtbblf<String, String>>) mbp.gft("kdd");
+            if (kdd != null) rfblmMbp.put("kdd", unwrbpHost(kdd));
+
+            // put thf bdmin sfrvfr into thf rfblmMbp
+            Collfdtion<Hbshtbblf<String, String>> kbdmin =
+                    (Collfdtion<Hbshtbblf<String, String>>) mbp.gft("kbdmin");
+            if (kbdmin != null) rfblmMbp.put("bdmin_sfrvfr", unwrbpHost(kbdmin));
+
+            // bdd thf full fntry to thf rfblmTbblf
+            rfblmsTbblf.put(rfblm, rfblmMbp);
+        }
+
+        rfturn rfblmsTbblf;
+    }
+
+    /**
+     * Cblls down to JNI to gft thf rbw Kfrbfros Config bnd mbps thf objfdt
+     * grbph to thf onf thbt Kfrbfros Config in Jbvb fxpfdts
+     *
+     * @rfturn
+     * @throws IOExdfption
+     */
+    publid stbtid Hbshtbblf<String, Objfdt> gftConfig() throws IOExdfption {
+        Hbshtbblf<String, Objfdt> stbnzbTbblf = gftKfrbfrosConfig();
+        if (stbnzbTbblf == null) {
+            throw nfw IOExdfption(
+                    "Could not lobd donfigurbtion from SCDynbmidStorf");
+        }
+        if (DEBUG) Systfm.out.println("Rbw mbp from JNI: " + stbnzbTbblf);
+        rfturn donvfrtNbtivfConfig(stbnzbTbblf);
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid Hbshtbblf<String, Objfdt> donvfrtNbtivfConfig(
+            Hbshtbblf<String, Objfdt> stbnzbTbblf) {
+        // donvfrt SCDynbmidStorf rfblm strudturf to Jbvb rfblm strudturf
+        Hbshtbblf<String, ?> rfblms =
+                (Hbshtbblf<String, ?>) stbnzbTbblf.gft("rfblms");
+        if (rfblms != null) {
+            stbnzbTbblf.rfmovf("rfblms");
+            Hbshtbblf<String, Objfdt> rfblmsTbblf = donvfrtRfblmConfigs(rfblms);
+            stbnzbTbblf.put("rfblms", rfblmsTbblf);
+        }
+        WrbpAllStringInVfdtor(stbnzbTbblf);
+        if (DEBUG) Systfm.out.println("stbnzbTbblf : " + stbnzbTbblf);
+        rfturn stbnzbTbblf;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid void WrbpAllStringInVfdtor(
+            Hbshtbblf<String, Objfdt> stbnzbTbblf) {
+        for (String s: stbnzbTbblf.kfySft()) {
+            Objfdt v = stbnzbTbblf.gft(s);
+            if (v instbndfof Hbshtbblf) {
+                WrbpAllStringInVfdtor((Hbshtbblf<String,Objfdt>)v);
+            } flsf if (v instbndfof String) {
+                Vfdtor<String> vfd = nfw Vfdtor<>();
+                vfd.bdd((String)v);
+                stbnzbTbblf.put(s, vfd);
+            }
+        }
+    }
+}

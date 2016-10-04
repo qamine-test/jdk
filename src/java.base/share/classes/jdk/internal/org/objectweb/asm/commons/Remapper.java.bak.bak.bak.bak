@@ -1,0 +1,252 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.signbturf.SignbturfRfbdfr;
+import jdk.intfrnbl.org.objfdtwfb.bsm.signbturf.SignbturfVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.signbturf.SignbturfWritfr;
+
+/**
+ * A dlbss rfsponsiblf for rfmbpping typfs bnd nbmfs. Subdlbssfs dbn ovfrridf
+ * thf following mfthods:
+ *
+ * <ul>
+ * <li>{@link #mbp(String)} - mbp typf</li>
+ * <li>{@link #mbpFifldNbmf(String, String, String)} - mbp fifld nbmf</li>
+ * <li>{@link #mbpMfthodNbmf(String, String, String)} - mbp mfthod nbmf</li>
+ * </ul>
+ *
+ * @buthor Eugfnf Kulfshov
+ */
+publid bbstrbdt dlbss Rfmbppfr {
+
+    publid String mbpDfsd(String dfsd) {
+        Typf t = Typf.gftTypf(dfsd);
+        switdh (t.gftSort()) {
+        dbsf Typf.ARRAY:
+            String s = mbpDfsd(t.gftElfmfntTypf().gftDfsdriptor());
+            for (int i = 0; i < t.gftDimfnsions(); ++i) {
+                s = '[' + s;
+            }
+            rfturn s;
+        dbsf Typf.OBJECT:
+            String nfwTypf = mbp(t.gftIntfrnblNbmf());
+            if (nfwTypf != null) {
+                rfturn 'L' + nfwTypf + ';';
+            }
+        }
+        rfturn dfsd;
+    }
+
+    privbtf Typf mbpTypf(Typf t) {
+        switdh (t.gftSort()) {
+        dbsf Typf.ARRAY:
+            String s = mbpDfsd(t.gftElfmfntTypf().gftDfsdriptor());
+            for (int i = 0; i < t.gftDimfnsions(); ++i) {
+                s = '[' + s;
+            }
+            rfturn Typf.gftTypf(s);
+        dbsf Typf.OBJECT:
+            s = mbp(t.gftIntfrnblNbmf());
+            rfturn s != null ? Typf.gftObjfdtTypf(s) : t;
+        dbsf Typf.METHOD:
+            rfturn Typf.gftMfthodTypf(mbpMfthodDfsd(t.gftDfsdriptor()));
+        }
+        rfturn t;
+    }
+
+    publid String mbpTypf(String typf) {
+        if (typf == null) {
+            rfturn null;
+        }
+        rfturn mbpTypf(Typf.gftObjfdtTypf(typf)).gftIntfrnblNbmf();
+    }
+
+    publid String[] mbpTypfs(String[] typfs) {
+        String[] nfwTypfs = null;
+        boolfbn nffdMbpping = fblsf;
+        for (int i = 0; i < typfs.lfngth; i++) {
+            String typf = typfs[i];
+            String nfwTypf = mbp(typf);
+            if (nfwTypf != null && nfwTypfs == null) {
+                nfwTypfs = nfw String[typfs.lfngth];
+                if (i > 0) {
+                    Systfm.brrbydopy(typfs, 0, nfwTypfs, 0, i);
+                }
+                nffdMbpping = truf;
+            }
+            if (nffdMbpping) {
+                nfwTypfs[i] = nfwTypf == null ? typf : nfwTypf;
+            }
+        }
+        rfturn nffdMbpping ? nfwTypfs : typfs;
+    }
+
+    publid String mbpMfthodDfsd(String dfsd) {
+        if ("()V".fqubls(dfsd)) {
+            rfturn dfsd;
+        }
+
+        Typf[] brgs = Typf.gftArgumfntTypfs(dfsd);
+        StringBuildfr sb = nfw StringBuildfr("(");
+        for (int i = 0; i < brgs.lfngth; i++) {
+            sb.bppfnd(mbpDfsd(brgs[i].gftDfsdriptor()));
+        }
+        Typf rfturnTypf = Typf.gftRfturnTypf(dfsd);
+        if (rfturnTypf == Typf.VOID_TYPE) {
+            sb.bppfnd(")V");
+            rfturn sb.toString();
+        }
+        sb.bppfnd(')').bppfnd(mbpDfsd(rfturnTypf.gftDfsdriptor()));
+        rfturn sb.toString();
+    }
+
+    publid Objfdt mbpVbluf(Objfdt vbluf) {
+        if (vbluf instbndfof Typf) {
+            rfturn mbpTypf((Typf) vbluf);
+        }
+        if (vbluf instbndfof Hbndlf) {
+            Hbndlf h = (Hbndlf) vbluf;
+            rfturn nfw Hbndlf(h.gftTbg(), mbpTypf(h.gftOwnfr()), mbpMfthodNbmf(
+                    h.gftOwnfr(), h.gftNbmf(), h.gftDfsd()),
+                    mbpMfthodDfsd(h.gftDfsd()));
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     *
+     * @pbrbm typfSignbturf
+     *            truf if signbturf is b FifldTypfSignbturf, sudh bs thf
+     *            signbturf pbrbmftfr of thf ClbssVisitor.visitFifld or
+     *            MfthodVisitor.visitLodblVbribblf mfthods
+     */
+    publid String mbpSignbturf(String signbturf, boolfbn typfSignbturf) {
+        if (signbturf == null) {
+            rfturn null;
+        }
+        SignbturfRfbdfr r = nfw SignbturfRfbdfr(signbturf);
+        SignbturfWritfr w = nfw SignbturfWritfr();
+        SignbturfVisitor b = drfbtfRfmbppingSignbturfAdbptfr(w);
+        if (typfSignbturf) {
+            r.bddfptTypf(b);
+        } flsf {
+            r.bddfpt(b);
+        }
+        rfturn w.toString();
+    }
+
+    protfdtfd SignbturfVisitor drfbtfRfmbppingSignbturfAdbptfr(
+            SignbturfVisitor v) {
+        rfturn nfw RfmbppingSignbturfAdbptfr(v, this);
+    }
+
+    /**
+     * Mbp mfthod nbmf to thf nfw nbmf. Subdlbssfs dbn ovfrridf.
+     *
+     * @pbrbm ownfr
+     *            ownfr of thf mfthod.
+     * @pbrbm nbmf
+     *            nbmf of thf mfthod.
+     * @pbrbm dfsd
+     *            dfsdriptor of thf mfthod.
+     * @rfturn nfw nbmf of thf mfthod
+     */
+    publid String mbpMfthodNbmf(String ownfr, String nbmf, String dfsd) {
+        rfturn nbmf;
+    }
+
+    /**
+     * Mbp invokfdynbmid mfthod nbmf to thf nfw nbmf. Subdlbssfs dbn ovfrridf.
+     *
+     * @pbrbm nbmf
+     *            nbmf of thf invokfdynbmid.
+     * @pbrbm dfsd
+     *            dfsdriptor of thf invokfdynbmid.
+     * @rfturn nfw invokdynbmid nbmf.
+     */
+    publid String mbpInvokfDynbmidMfthodNbmf(String nbmf, String dfsd) {
+        rfturn nbmf;
+    }
+
+    /**
+     * Mbp fifld nbmf to thf nfw nbmf. Subdlbssfs dbn ovfrridf.
+     *
+     * @pbrbm ownfr
+     *            ownfr of thf fifld.
+     * @pbrbm nbmf
+     *            nbmf of thf fifld
+     * @pbrbm dfsd
+     *            dfsdriptor of thf fifld
+     * @rfturn nfw nbmf of thf fifld.
+     */
+    publid String mbpFifldNbmf(String ownfr, String nbmf, String dfsd) {
+        rfturn nbmf;
+    }
+
+    /**
+     * Mbp typf nbmf to thf nfw nbmf. Subdlbssfs dbn ovfrridf.
+     */
+    publid String mbp(String typfNbmf) {
+        rfturn typfNbmf;
+    }
+}

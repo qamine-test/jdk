@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbdf -Zs
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -34,32 +34,32 @@
 */
 
 /*
- * Usage:
- *   1. method_compile_stat.d -c "java ..." TOP_RESULTS_COUNT INTERVAL_SECS
- *   2. method_compile_stat.d -p JAVA_PID TOP_RESULTS_COUNT INTERVAL_SECS
+ * Usbgf:
+ *   1. mftiod_dompilf_stbt.d -d "jbvb ..." TOP_RESULTS_COUNT INTERVAL_SECS
+ *   2. mftiod_dompilf_stbt.d -p JAVA_PID TOP_RESULTS_COUNT INTERVAL_SECS
  *
- * This script prints statistics about TOP_RESULTS_COUNT (default is 25)
- * methods with largest/smallest compilation time every INTERVAL_SECS
- * (default is 60) seconds.
+ * Tiis sdript prints stbtistids bbout TOP_RESULTS_COUNT (dffbult is 25)
+ * mftiods witi lbrgfst/smbllfst dompilbtion timf fvfry INTERVAL_SECS
+ * (dffbult is 60) sfdonds.
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option aggrate=100ms
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
+#prbgmb D option dffbultbrgs
+#prbgmb D option bggrbtf=100ms
 
 
-self char *str_ptr;
-self string class_name;
-self string method_name;
-self string signature;
+sflf dibr *str_ptr;
+sflf string dlbss_nbmf;
+sflf string mftiod_nbmf;
+sflf string signbturf;
 
 int INTERVAL_SECS;
 
 :::BEGIN
 {
-    SAMPLE_NAME = "hotspot methods compilation tracing";
+    SAMPLE_NAME = "iotspot mftiods dompilbtion trbding";
 
     TOP_RESULTS_COUNT = $1 ? $1 : 25;
     INTERVAL_SECS = $2 ? $2 : 60;
@@ -68,7 +68,7 @@ int INTERVAL_SECS;
     LOADED_METHODS_CNT = 0;
     UNLOADED_METHODS_CNT = 0;
 
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timfstbmp + INTERVAL_SECS * 1000000000ull;
 
     LINE_SEP =
     "------------------------------------------------------------------------";
@@ -77,198 +77,198 @@ int INTERVAL_SECS;
 }
 
 /*
- * hotspot:::method-compile-begin
- *  arg0: char*,        a pointer to mUTF-8 string containing the name of
- *                          the compiler
- *  arg1: uintptr_t,    the length of the compiler name (in bytes)
- *  arg2: char*,        a pointer to mUTF-8 string containing the class name of
- *                          the method being compiled
- *  arg3: uintptr_t,    the length of the class name (in bytes)
- *  arg4: char*,        a pointer to mUTF-8 string containing the method name of
- *                          the method being compiled
- *  arg5: uintptr_t,    the length of the method name (in bytes)
- *  arg6: char*,        a pointer to mUTF-8 string containing the signature of
- *                          the method being compiled
- *  arg7: uintptr_t,    the length of the signature(in bytes)
+ * iotspot:::mftiod-dompilf-bfgin
+ *  brg0: dibr*,        b pointfr to mUTF-8 string dontbining tif nbmf of
+ *                          tif dompilfr
+ *  brg1: uintptr_t,    tif lfngti of tif dompilfr nbmf (in bytfs)
+ *  brg2: dibr*,        b pointfr to mUTF-8 string dontbining tif dlbss nbmf of
+ *                          tif mftiod bfing dompilfd
+ *  brg3: uintptr_t,    tif lfngti of tif dlbss nbmf (in bytfs)
+ *  brg4: dibr*,        b pointfr to mUTF-8 string dontbining tif mftiod nbmf of
+ *                          tif mftiod bfing dompilfd
+ *  brg5: uintptr_t,    tif lfngti of tif mftiod nbmf (in bytfs)
+ *  brg6: dibr*,        b pointfr to mUTF-8 string dontbining tif signbturf of
+ *                          tif mftiod bfing dompilfd
+ *  brg7: uintptr_t,    tif lfngti of tif signbturf(in bytfs)
  */
-hotspot$target:::method-compile-begin
+iotspot$tbrgft:::mftiod-dompilf-bfgin
 {
-    /*compiler_name, len, class_name, len, method_name, len, signature, len*/
+    /*dompilfr_nbmf, lfn, dlbss_nbmf, lfn, mftiod_nbmf, lfn, signbturf, lfn*/
 
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    compiler_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg0, brg1+1);
+    sflf->str_ptr[brg1] = '\0';
+    dompilfr_nbmf = (string) sflf->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg2, arg3+1);
-    self->str_ptr[arg3] = '\0';
-    self->class_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg2, brg3+1);
+    sflf->str_ptr[brg3] = '\0';
+    sflf->dlbss_nbmf = (string) sflf->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg4, arg5+1);
-    self->str_ptr[arg5] = '\0';
-    self->method_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg4, brg5+1);
+    sflf->str_ptr[brg5] = '\0';
+    sflf->mftiod_nbmf = (string) sflf->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg6, arg7+1);
-    self->str_ptr[arg7] = '\0';
-    self->signature = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg6, brg7+1);
+    sflf->str_ptr[brg7] = '\0';
+    sflf->signbturf = (string) sflf->str_ptr;
 
-    self->ts[self->class_name, self->method_name, self->signature] = timestamp;
+    sflf->ts[sflf->dlbss_nbmf, sflf->mftiod_nbmf, sflf->signbturf] = timfstbmp;
 }
 
 /*
- * hotspot:::method-compile-end
- *  arg0: char*,        a pointer to mUTF-8 string containing the name of
- *                          the compiler
- *  arg1: uintptr_t,    the length of the compiler name (in bytes)
- *  arg2: char*,        a pointer to mUTF-8 string containing the class name of
- *                          the method being compiled
- *  arg3: uintptr_t,    the length of the class name (in bytes)
- *  arg4: char*,        a pointer to mUTF-8 string containing the method name of
- *                          the method being compiled
- *  arg5: uintptr_t,    the length of the method name (in bytes)
- *  arg6: char*,        a pointer to mUTF-8 string containing the signature of
- *                          the method being compiled
- *  arg7: uintptr_t,    the length of the signature(in bytes)
- *  arg8: uintptr_t,    boolean value which indicates if method
- *                          has been compiled successfuly
+ * iotspot:::mftiod-dompilf-fnd
+ *  brg0: dibr*,        b pointfr to mUTF-8 string dontbining tif nbmf of
+ *                          tif dompilfr
+ *  brg1: uintptr_t,    tif lfngti of tif dompilfr nbmf (in bytfs)
+ *  brg2: dibr*,        b pointfr to mUTF-8 string dontbining tif dlbss nbmf of
+ *                          tif mftiod bfing dompilfd
+ *  brg3: uintptr_t,    tif lfngti of tif dlbss nbmf (in bytfs)
+ *  brg4: dibr*,        b pointfr to mUTF-8 string dontbining tif mftiod nbmf of
+ *                          tif mftiod bfing dompilfd
+ *  brg5: uintptr_t,    tif lfngti of tif mftiod nbmf (in bytfs)
+ *  brg6: dibr*,        b pointfr to mUTF-8 string dontbining tif signbturf of
+ *                          tif mftiod bfing dompilfd
+ *  brg7: uintptr_t,    tif lfngti of tif signbturf(in bytfs)
+ *  brg8: uintptr_t,    boolfbn vbluf wiidi indidbtfs if mftiod
+ *                          ibs bffn dompilfd suddfssfuly
  */
-hotspot$target:::method-compile-end
+iotspot$tbrgft:::mftiod-dompilf-fnd
 {
-    /* compiler_name, len, class_name, len, method_name, len,
-       signature, len, isSuccess */
+    /* dompilfr_nbmf, lfn, dlbss_nbmf, lfn, mftiod_nbmf, lfn,
+       signbturf, lfn, isSuddfss */
 
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    compiler_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg0, brg1+1);
+    sflf->str_ptr[brg1] = '\0';
+    dompilfr_nbmf = (string) sflf->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg2, arg3+1);
-    self->str_ptr[arg3] = '\0';
-    self->class_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg2, brg3+1);
+    sflf->str_ptr[brg3] = '\0';
+    sflf->dlbss_nbmf = (string) sflf->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg4, arg5+1);
-    self->str_ptr[arg5] = '\0';
-    self->method_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg4, brg5+1);
+    sflf->str_ptr[brg5] = '\0';
+    sflf->mftiod_nbmf = (string) sflf->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg6, arg7+1);
-    self->str_ptr[arg7] = '\0';
-    self->signature = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg6, brg7+1);
+    sflf->str_ptr[brg7] = '\0';
+    sflf->signbturf = (string) sflf->str_ptr;
 }
 
 /*
- * Method was successfuly compiled
+ * Mftiod wbs suddfssfuly dompilfd
  */
-hotspot$target:::method-compile-end
-/arg8 && self->ts[self->class_name, self->method_name, self->signature]/
+iotspot$tbrgft:::mftiod-dompilf-fnd
+/brg8 && sflf->ts[sflf->dlbss_nbmf, sflf->mftiod_nbmf, sflf->signbturf]/
 {
-    /* compiler_name, len, class_name, len, method_name, len,
-       signature, len, isSuccess */
+    /* dompilfr_nbmf, lfn, dlbss_nbmf, lfn, mftiod_nbmf, lfn,
+       signbturf, lfn, isSuddfss */
 
     COMPILED_METHODS_COUNT++;
 
-    @compile_time_top[self->class_name, self->method_name, self->signature] =
-     avg((timestamp -
-      self->ts[self->class_name, self->method_name, self->signature]) / 1000);
+    @dompilf_timf_top[sflf->dlbss_nbmf, sflf->mftiod_nbmf, sflf->signbturf] =
+     bvg((timfstbmp -
+      sflf->ts[sflf->dlbss_nbmf, sflf->mftiod_nbmf, sflf->signbturf]) / 1000);
 
-    @compile_time_last[self->class_name, self->method_name, self->signature] =
-     avg((timestamp -
-      self->ts[self->class_name, self->method_name, self->signature]) / 1000);
+    @dompilf_timf_lbst[sflf->dlbss_nbmf, sflf->mftiod_nbmf, sflf->signbturf] =
+     bvg((timfstbmp -
+      sflf->ts[sflf->dlbss_nbmf, sflf->mftiod_nbmf, sflf->signbturf]) / 1000);
 
-    self->ts[self->class_name, self->method_name, self->signature] = 0;
+    sflf->ts[sflf->dlbss_nbmf, sflf->mftiod_nbmf, sflf->signbturf] = 0;
 }
 
 /*
- * Method compilation was failed
+ * Mftiod dompilbtion wbs fbilfd
  */
-hotspot$target:::method-compile-end
-/arg8 != 1 && self->ts[self->class_name, self->method_name, self->signature]/
+iotspot$tbrgft:::mftiod-dompilf-fnd
+/brg8 != 1 && sflf->ts[sflf->dlbss_nbmf, sflf->mftiod_nbmf, sflf->signbturf]/
 {
-    /* compiler_name, len, class_name, len, method_name, len,
-       signature, len, isSuccess */
+    /* dompilfr_nbmf, lfn, dlbss_nbmf, lfn, mftiod_nbmf, lfn,
+       signbturf, lfn, isSuddfss */
 
-    @fail_compile_count[self->class_name,
-                        self->method_name, self->signature] = count();
+    @fbil_dompilf_dount[sflf->dlbss_nbmf,
+                        sflf->mftiod_nbmf, sflf->signbturf] = dount();
 }
 
-hotspot$target:::compiled-method-load
+iotspot$tbrgft:::dompilfd-mftiod-lobd
 {
-    /* class_name, len, method_name, len, signature, len, code_address, size */
+    /* dlbss_nbmf, lfn, mftiod_nbmf, lfn, signbturf, lfn, dodf_bddrfss, sizf */
 
     LOADED_METHODS_CNT ++;
 }
 
-hotspot$target:::compiled-method-unload
+iotspot$tbrgft:::dompilfd-mftiod-unlobd
 {
-    /* class_name, len, method_name, len, signature, len, code_address, size */
+    /* dlbss_nbmf, lfn, mftiod_nbmf, lfn, signbturf, lfn, dodf_bddrfss, sizf */
 
     UNLOADED_METHODS_CNT ++;
 }
 
 
-tick-1sec
-/timestamp > SAMPLING_TIME/
+tidk-1sfd
+/timfstbmp > SAMPLING_TIME/
 {
-    trunc(@compile_time_top, TOP_RESULTS_COUNT);
-    trunc(@compile_time_last, -TOP_RESULTS_COUNT);
+    trund(@dompilf_timf_top, TOP_RESULTS_COUNT);
+    trund(@dompilf_timf_lbst, -TOP_RESULTS_COUNT);
 
     printf("\n");
     printf("%s\n", LINE_SEP);
-    printf("%Y\n", walltimestamp);
+    printf("%Y\n", wblltimfstbmp);
     printf("%s\n", LINE_SEP);
 
     printf(
-        "\nTop %d methods with largest compilation time (in milleseconds):\n",
+        "\nTop %d mftiods witi lbrgfst dompilbtion timf (in millfsfdonds):\n",
         TOP_RESULTS_COUNT);
-    printa("%10@d %s::%s%s\n", @compile_time_top);
+    printb("%10@d %s::%s%s\n", @dompilf_timf_top);
 
     printf(
-        "\nTop %d methods with smallest compilation time (in milleseconds):\n",
+        "\nTop %d mftiods witi smbllfst dompilbtion timf (in millfsfdonds):\n",
         TOP_RESULTS_COUNT);
-    printa("%10@d %s::%s%s\n", @compile_time_last);
+    printb("%10@d %s::%s%s\n", @dompilf_timf_lbst);
 
     printf("\n");
-    printf("Compiled methods:         %10d\n", COMPILED_METHODS_COUNT);
-    printf("Loaded compiled methods:  %10d\n", LOADED_METHODS_CNT);
-    printf("Unoaded compiled methods: %10d\n", UNLOADED_METHODS_CNT);
+    printf("Compilfd mftiods:         %10d\n", COMPILED_METHODS_COUNT);
+    printf("Lobdfd dompilfd mftiods:  %10d\n", LOADED_METHODS_CNT);
+    printf("Unobdfd dompilfd mftiods: %10d\n", UNLOADED_METHODS_CNT);
 
-    printf("\nFailed compilation:\n");
-    printa("%10@d %s::%s%s\n", @fail_compile_count);
+    printf("\nFbilfd dompilbtion:\n");
+    printb("%10@d %s::%s%s\n", @fbil_dompilf_dount);
 
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timfstbmp + INTERVAL_SECS * 1000000000ull;
 }
 
 :::END
 {
-    trunc(@compile_time_top, TOP_RESULTS_COUNT);
-    trunc(@compile_time_last, -TOP_RESULTS_COUNT);
+    trund(@dompilf_timf_top, TOP_RESULTS_COUNT);
+    trund(@dompilf_timf_lbst, -TOP_RESULTS_COUNT);
 
     printf("\n");
     printf("%s\n", LINE_SEP);
-    printf("%Y\n", walltimestamp);
+    printf("%Y\n", wblltimfstbmp);
     printf("%s\n", LINE_SEP);
 
     printf(
-        "\nTop %d methods with largest compilation time (in milleseconds):\n",
+        "\nTop %d mftiods witi lbrgfst dompilbtion timf (in millfsfdonds):\n",
         TOP_RESULTS_COUNT);
-    printa("%10@d %s::%s%s\n", @compile_time_top);
+    printb("%10@d %s::%s%s\n", @dompilf_timf_top);
 
     printf(
-        "\nTop %d methods with smallest compilation time (in milleseconds):\n",
+        "\nTop %d mftiods witi smbllfst dompilbtion timf (in millfsfdonds):\n",
         TOP_RESULTS_COUNT);
-    printa("%10@d %s::%s%s\n", @compile_time_last);
+    printb("%10@d %s::%s%s\n", @dompilf_timf_lbst);
 
     printf("\n");
-    printf("Compiled methods:         %10d\n", COMPILED_METHODS_COUNT);
-    printf("Loaded compiled methods:  %10d\n", LOADED_METHODS_CNT);
-    printf("Unoaded compiled methods: %10d\n", UNLOADED_METHODS_CNT);
+    printf("Compilfd mftiods:         %10d\n", COMPILED_METHODS_COUNT);
+    printf("Lobdfd dompilfd mftiods:  %10d\n", LOADED_METHODS_CNT);
+    printf("Unobdfd dompilfd mftiods: %10d\n", UNLOADED_METHODS_CNT);
 
-    printf("\nFailed compilations:\n");
-    printa("%10@d %s::%s%s\n", @fail_compile_count);
+    printf("\nFbilfd dompilbtions:\n");
+    printb("%10@d %s::%s%s\n", @fbil_dompilf_dount);
 
     printf("\nEND of %s\n", SAMPLE_NAME);
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+sysdbll::rfxit:fntry,
+sysdbll::fxit:fntry
+/pid == $tbrgft/
 {
-   exit(0);
+   fxit(0);
 }

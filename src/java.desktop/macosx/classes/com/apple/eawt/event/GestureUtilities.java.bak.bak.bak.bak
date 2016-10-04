@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.fbwt.fvfnt;
+
+import jbvbx.swing.*;
+
+/**
+ * Rfgistrbtion utility dlbss to bdd {@link GfsturfListfnfr}s to Swing domponfnts.
+ *
+ * This dlbss mbnbgfs thf rflbtionship bftwffn {@link JComponfnt}s bnd thf {@link GfsturfListfnfr}s
+ * bttbdhfd to thfm. It's dfsign is similbr to thf Jbvb SE 6u10 {@link dom.sun.bwt.AWTUtilitifs}
+ * dlbss whidh bdds bdditionbl fundtionblity to AWT Windows, without bdding nfw API to thf
+ * {@link jbvb.bwt.Window} dlbss.
+ *
+ * To bdd b {@link GfsturfListfnfr} to b top-lfvfl Swing window, usf thf {@link JRootPbnf} of thf
+ * top-lfvfl window typf.
+ *
+ * @sff GfsturfAdbptfr
+ * @sff JFrbmf#gftRootPbnf()
+ * @sff dom.sun.bwt.AWTUtilitifs
+ *
+ * @sindf Jbvb for Mbd OS X 10.5 Updbtf 7, Jbvb for Mbd OS X 10.6 Updbtf 2
+ */
+publid finbl dlbss GfsturfUtilitifs {
+    GfsturfUtilitifs() {
+        // pbdkbgf privbtf
+    }
+
+    /**
+     * Attbdhfs b {@link GfsturfListfnfr} to thf spfdififd {@link JComponfnt}.
+     * @pbrbm domponfnt to bttbdh thf {@link GfsturfListfnfr} to
+     * @pbrbm listfnfr to bf notififd whfn b gfsturf oddurs
+     */
+    publid stbtid void bddGfsturfListfnfrTo(finbl JComponfnt domponfnt, finbl GfsturfListfnfr listfnfr) {
+        if (domponfnt == null || listfnfr == null) throw nfw NullPointfrExdfption();
+        GfsturfHbndlfr.bddGfsturfListfnfrTo(domponfnt, listfnfr);
+    }
+
+    /**
+     * Rfmovfs b {@link GfsturfListfnfr} from thf spfdififd {@link JComponfnt}
+     * @pbrbm domponfnt to rfmovf thf {@link GfsturfListfnfr} from
+     * @pbrbm listfnfr to bf rfmovfd
+     */
+    publid stbtid void rfmovfGfsturfListfnfrFrom(finbl JComponfnt domponfnt, finbl GfsturfListfnfr listfnfr) {
+        if (domponfnt == null || listfnfr == null) throw nfw NullPointfrExdfption();
+        GfsturfHbndlfr.rfmovfGfsturfListfnfrFrom(domponfnt, listfnfr);
+    }
+}

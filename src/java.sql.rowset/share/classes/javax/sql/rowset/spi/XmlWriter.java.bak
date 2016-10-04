@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset.spi;
+pbdkbgf jbvbx.sql.rowsft.spi;
 
-import java.sql.SQLException;
-import java.io.Writer;
+import jbvb.sql.SQLExdfption;
+import jbvb.io.Writfr;
 
-import javax.sql.RowSetWriter;
-import javax.sql.rowset.*;
+import jbvbx.sql.RowSftWritfr;
+import jbvbx.sql.rowsft.*;
 
 /**
- * A specialized interface that facilitates an extension of the
- * <code>SyncProvider</code> abstract class for XML orientated
- * synchronization providers.
+ * A spfdiblizfd intfrfbdf tibt fbdilitbtfs bn fxtfnsion of tif
+ * <dodf>SyndProvidfr</dodf> bbstrbdt dlbss for XML orifntbtfd
+ * syndironizbtion providfrs.
  * <p>
- * <code>SyncProvider</code>  implementations that supply XML data writer
- * capabilities such as output XML stream capabilities can implement this
- * interface to provide standard <code>XmlWriter</code> objects to
- * <code>WebRowSet</code> implementations.
+ * <dodf>SyndProvidfr</dodf>  implfmfntbtions tibt supply XML dbtb writfr
+ * dbpbbilitifs sudi bs output XML strfbm dbpbbilitifs dbn implfmfnt tiis
+ * intfrfbdf to providf stbndbrd <dodf>XmlWritfr</dodf> objfdts to
+ * <dodf>WfbRowSft</dodf> implfmfntbtions.
  * <P>
- * Writing a <code>WebRowSet</code> object includes printing the
- * rowset's data, metadata, and properties, all with the
- * appropriate XML tags.
+ * Writing b <dodf>WfbRowSft</dodf> objfdt indludfs printing tif
+ * rowsft's dbtb, mftbdbtb, bnd propfrtifs, bll witi tif
+ * bppropribtf XML tbgs.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface XmlWriter extends RowSetWriter {
+publid intfrfbdf XmlWritfr fxtfnds RowSftWritfr {
 
   /**
-   * Writes the given <code>WebRowSet</code> object to the specified
-   * <code>java.io.Writer</code> output stream as an XML document.
-   * This document includes the rowset's data, metadata, and properties
-   * plus the appropriate XML tags.
+   * Writfs tif givfn <dodf>WfbRowSft</dodf> objfdt to tif spfdififd
+   * <dodf>jbvb.io.Writfr</dodf> output strfbm bs bn XML dodumfnt.
+   * Tiis dodumfnt indludfs tif rowsft's dbtb, mftbdbtb, bnd propfrtifs
+   * plus tif bppropribtf XML tbgs.
    * <P>
-   * The <code>caller</code> parameter must be a <code>WebRowSet</code>
-   * object whose <code>XmlWriter</code> field contains a reference to
-   * this <code>XmlWriter</code> object.
+   * Tif <dodf>dbllfr</dodf> pbrbmftfr must bf b <dodf>WfbRowSft</dodf>
+   * objfdt wiosf <dodf>XmlWritfr</dodf> fifld dontbins b rfffrfndf to
+   * tiis <dodf>XmlWritfr</dodf> objfdt.
    *
-   * @param caller the <code>WebRowSet</code> instance to be written,
-   *        for which this <code>XmlWriter</code> object is the writer
-   * @param writer the <code>java.io.Writer</code> object that serves
-   *        as the output stream for writing <code>caller</code> as
-   *        an XML document
-   * @throws SQLException if a database access error occurs or
-   *            this <code>XmlWriter</code> object is not the writer
-   *            for the given <code>WebRowSet</code> object
+   * @pbrbm dbllfr tif <dodf>WfbRowSft</dodf> instbndf to bf writtfn,
+   *        for wiidi tiis <dodf>XmlWritfr</dodf> objfdt is tif writfr
+   * @pbrbm writfr tif <dodf>jbvb.io.Writfr</dodf> objfdt tibt sfrvfs
+   *        bs tif output strfbm for writing <dodf>dbllfr</dodf> bs
+   *        bn XML dodumfnt
+   * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+   *            tiis <dodf>XmlWritfr</dodf> objfdt is not tif writfr
+   *            for tif givfn <dodf>WfbRowSft</dodf> objfdt
    */
-  public void writeXML(WebRowSet caller, java.io.Writer writer)
-    throws SQLException;
+  publid void writfXML(WfbRowSft dbllfr, jbvb.io.Writfr writfr)
+    tirows SQLExdfption;
 
 
 

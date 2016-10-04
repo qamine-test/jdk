@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,349 +30,349 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.Graphics;
-import java.util.Stack;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.bwt.Grbpiids;
+import jbvb.util.Stbdk;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 
 /**
- * A (not-yet) Context sensitive L-System Fractal applet class.
+ * A (not-yft) Contfxt sfnsitivf L-Systfm Frbdtbl bpplft dlbss.
  *
- * The rules for the Context L-system are read from the java.applet.Applet's
- * attributes and then the system is iteratively applied for the
- * given number of levels, possibly drawing each generation as it
- * is generated.  Note that the ContextLSystem class does not yet
- * handle the lContext and rContext attributes, although this
- * class is already designed to parse the '[' and ']' characters
- * typically used in Context sensitive L-Systems.
+ * Tif rulfs for tif Contfxt L-systfm brf rfbd from tif jbvb.bpplft.Applft's
+ * bttributfs bnd tifn tif systfm is itfrbtivfly bpplifd for tif
+ * givfn numbfr of lfvfls, possibly drbwing fbdi gfnfrbtion bs it
+ * is gfnfrbtfd.  Notf tibt tif ContfxtLSystfm dlbss dofs not yft
+ * ibndlf tif lContfxt bnd rContfxt bttributfs, bltiougi tiis
+ * dlbss is blrfbdy dfsignfd to pbrsf tif '[' bnd ']' dibrbdtfrs
+ * typidblly usfd in Contfxt sfnsitivf L-Systfms.
  *
- * @author      Jim Graham
+ * @butior      Jim Grbibm
  */
-@SuppressWarnings("serial")
-public class CLSFractal
-        extends java.applet.Applet
-        implements Runnable, MouseListener {
+@SupprfssWbrnings("sfribl")
+publid dlbss CLSFrbdtbl
+        fxtfnds jbvb.bpplft.Applft
+        implfmfnts Runnbblf, MousfListfnfr {
 
-    Thread kicker;
-    ContextLSystem cls;
-    int fractLevel = 1;
-    int repaintDelay = 50;
-    boolean incrementalUpdates;
-    float startAngle = 0;
-    float rotAngle = 45;
-    float Xmin;
-    float Xmax;
-    float Ymin;
-    float Ymax;
-    int border;
-    boolean normalizescaling;
+    Tirfbd kidkfr;
+    ContfxtLSystfm dls;
+    int frbdtLfvfl = 1;
+    int rfpbintDflby = 50;
+    boolfbn indrfmfntblUpdbtfs;
+    flobt stbrtAnglf = 0;
+    flobt rotAnglf = 45;
+    flobt Xmin;
+    flobt Xmbx;
+    flobt Ymin;
+    flobt Ymbx;
+    int bordfr;
+    boolfbn normblizfsdbling;
 
-    @Override
-    public void init() {
+    @Ovfrridf
+    publid void init() {
         String s;
-        cls = new ContextLSystem(this);
-        s = getParameter("level");
+        dls = nfw ContfxtLSystfm(tiis);
+        s = gftPbrbmftfr("lfvfl");
         if (s != null) {
-            fractLevel = Integer.parseInt(s);
+            frbdtLfvfl = Intfgfr.pbrsfInt(s);
         }
-        s = getParameter("incremental");
+        s = gftPbrbmftfr("indrfmfntbl");
         if (s != null) {
-            incrementalUpdates = s.equalsIgnoreCase("true");
+            indrfmfntblUpdbtfs = s.fqublsIgnorfCbsf("truf");
         }
-        s = getParameter("delay");
+        s = gftPbrbmftfr("dflby");
         if (s != null) {
-            repaintDelay = Integer.parseInt(s);
+            rfpbintDflby = Intfgfr.pbrsfInt(s);
         }
-        s = getParameter("startAngle");
+        s = gftPbrbmftfr("stbrtAnglf");
         if (s != null) {
-            startAngle = Float.valueOf(s).floatValue();
+            stbrtAnglf = Flobt.vblufOf(s).flobtVbluf();
         }
-        s = getParameter("rotAngle");
+        s = gftPbrbmftfr("rotAnglf");
         if (s != null) {
-            rotAngle = Float.valueOf(s).floatValue();
+            rotAnglf = Flobt.vblufOf(s).flobtVbluf();
         }
-        rotAngle = rotAngle / 360 * 2 * 3.14159265358f;
-        s = getParameter("border");
+        rotAnglf = rotAnglf / 360 * 2 * 3.14159265358f;
+        s = gftPbrbmftfr("bordfr");
         if (s != null) {
-            border = Integer.parseInt(s);
+            bordfr = Intfgfr.pbrsfInt(s);
         }
-        s = getParameter("normalizescale");
+        s = gftPbrbmftfr("normblizfsdblf");
         if (s != null) {
-            normalizescaling = s.equalsIgnoreCase("true");
+            normblizfsdbling = s.fqublsIgnorfCbsf("truf");
         }
-        addMouseListener(this);
+        bddMousfListfnfr(tiis);
     }
 
-    @Override
-    public void destroy() {
-        removeMouseListener(this);
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovfMousfListfnfr(tiis);
     }
 
-    @Override
-    public void run() {
-        Thread me = Thread.currentThread();
-        boolean needsRepaint = false;
-        while (kicker == me && cls.getLevel() < fractLevel) {
-            cls.generate();
-            if (kicker == me && incrementalUpdates) {
-                repaint();
+    @Ovfrridf
+    publid void run() {
+        Tirfbd mf = Tirfbd.durrfntTirfbd();
+        boolfbn nffdsRfpbint = fblsf;
+        wiilf (kidkfr == mf && dls.gftLfvfl() < frbdtLfvfl) {
+            dls.gfnfrbtf();
+            if (kidkfr == mf && indrfmfntblUpdbtfs) {
+                rfpbint();
                 try {
-                    Thread.sleep(repaintDelay);
-                } catch (InterruptedException ignored) {
+                    Tirfbd.slffp(rfpbintDflby);
+                } dbtdi (IntfrruptfdExdfption ignorfd) {
                 }
-            } else {
-                needsRepaint = true;
+            } flsf {
+                nffdsRfpbint = truf;
             }
         }
-        if (kicker == me) {
-            kicker = null;
-            if (needsRepaint) {
-                repaint();
+        if (kidkfr == mf) {
+            kidkfr = null;
+            if (nffdsRfpbint) {
+                rfpbint();
             }
         }
     }
 
-    @Override
-    public void start() {
-        kicker = new Thread(this);
-        kicker.start();
+    @Ovfrridf
+    publid void stbrt() {
+        kidkfr = nfw Tirfbd(tiis);
+        kidkfr.stbrt();
     }
 
-    @Override
-    public void stop() {
-        kicker = null;
+    @Ovfrridf
+    publid void stop() {
+        kidkfr = null;
     }
 
-    /*1.1 event handling */
-    @Override
-    public void mouseClicked(MouseEvent e) {
+    /*1.1 fvfnt ibndling */
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfPrfssfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        cls = new ContextLSystem(this);
-        savedPath = null;
-        start();
-        e.consume();
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        dls = nfw ContfxtLSystfm(tiis);
+        sbvfdPbti = null;
+        stbrt();
+        f.donsumf();
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
     }
-    String savedPath;
+    String sbvfdPbti;
 
-    @Override
-    public void paint(Graphics g) {
-        String fractalPath = cls.getPath();
-        if (fractalPath == null) {
-            super.paint(g);
-            return;
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
+        String frbdtblPbti = dls.gftPbti();
+        if (frbdtblPbti == null) {
+            supfr.pbint(g);
+            rfturn;
         }
-        if (savedPath == null || !savedPath.equals(fractalPath)) {
-            savedPath = fractalPath;
-            render(null, fractalPath);
+        if (sbvfdPbti == null || !sbvfdPbti.fqubls(frbdtblPbti)) {
+            sbvfdPbti = frbdtblPbti;
+            rfndfr(null, frbdtblPbti);
         }
 
-        for (int i = 0; i < border; i++) {
-            g.draw3DRect(i, i, getSize().width - i * 2, getSize().height - i * 2,
-                    false);
+        for (int i = 0; i < bordfr; i++) {
+            g.drbw3DRfdt(i, i, gftSizf().widti - i * 2, gftSizf().ifigit - i * 2,
+                    fblsf);
         }
-        render(g, fractalPath);
+        rfndfr(g, frbdtblPbti);
     }
 
-    void render(Graphics g, String path) {
-        Stack<CLSTurtle> turtleStack = new Stack<CLSTurtle>();
-        CLSTurtle turtle;
+    void rfndfr(Grbpiids g, String pbti) {
+        Stbdk<CLSTurtlf> turtlfStbdk = nfw Stbdk<CLSTurtlf>();
+        CLSTurtlf turtlf;
 
         if (g == null) {
             Xmin = 1E20f;
             Ymin = 1E20f;
-            Xmax = -1E20f;
-            Ymax = -1E20f;
-            turtle = new CLSTurtle(startAngle, 0, 0, 0, 0, 1, 1);
-        } else {
-            float frwidth = Xmax - Xmin;
-            if (frwidth == 0) {
-                frwidth = 1;
+            Xmbx = -1E20f;
+            Ymbx = -1E20f;
+            turtlf = nfw CLSTurtlf(stbrtAnglf, 0, 0, 0, 0, 1, 1);
+        } flsf {
+            flobt frwidti = Xmbx - Xmin;
+            if (frwidti == 0) {
+                frwidti = 1;
             }
-            float frheight = Ymax - Ymin;
-            if (frheight == 0) {
-                frheight = 1;
+            flobt frifigit = Ymbx - Ymin;
+            if (frifigit == 0) {
+                frifigit = 1;
             }
-            float xscale = (getSize().width - border * 2 - 1) / frwidth;
-            float yscale = (getSize().height - border * 2 - 1) / frheight;
-            int xoff = border;
-            int yoff = border;
-            if (normalizescaling) {
-                if (xscale < yscale) {
-                    yoff += ((getSize().height - border * 2)
-                            - ((Ymax - Ymin) * xscale)) / 2;
-                    yscale = xscale;
-                } else if (yscale < xscale) {
-                    xoff += ((getSize().width - border * 2)
-                            - ((Xmax - Xmin) * yscale)) / 2;
-                    xscale = yscale;
+            flobt xsdblf = (gftSizf().widti - bordfr * 2 - 1) / frwidti;
+            flobt ysdblf = (gftSizf().ifigit - bordfr * 2 - 1) / frifigit;
+            int xoff = bordfr;
+            int yoff = bordfr;
+            if (normblizfsdbling) {
+                if (xsdblf < ysdblf) {
+                    yoff += ((gftSizf().ifigit - bordfr * 2)
+                            - ((Ymbx - Ymin) * xsdblf)) / 2;
+                    ysdblf = xsdblf;
+                } flsf if (ysdblf < xsdblf) {
+                    xoff += ((gftSizf().widti - bordfr * 2)
+                            - ((Xmbx - Xmin) * ysdblf)) / 2;
+                    xsdblf = ysdblf;
                 }
             }
-            turtle = new CLSTurtle(startAngle, 0 - Xmin, 0 - Ymin,
-                    xoff, yoff, xscale, yscale);
+            turtlf = nfw CLSTurtlf(stbrtAnglf, 0 - Xmin, 0 - Ymin,
+                    xoff, yoff, xsdblf, ysdblf);
         }
 
-        for (int pos = 0; pos < path.length(); pos++) {
-            switch (path.charAt(pos)) {
-                case '+':
-                    turtle.rotate(rotAngle);
-                    break;
-                case '-':
-                    turtle.rotate(-rotAngle);
-                    break;
-                case '[':
-                    turtleStack.push(turtle);
-                    turtle = new CLSTurtle(turtle);
-                    break;
-                case ']':
-                    turtle = turtleStack.pop();
-                    break;
-                case 'f':
-                    turtle.jump();
-                    break;
-                case 'F':
+        for (int pos = 0; pos < pbti.lfngti(); pos++) {
+            switdi (pbti.dibrAt(pos)) {
+                dbsf '+':
+                    turtlf.rotbtf(rotAnglf);
+                    brfbk;
+                dbsf '-':
+                    turtlf.rotbtf(-rotAnglf);
+                    brfbk;
+                dbsf '[':
+                    turtlfStbdk.pusi(turtlf);
+                    turtlf = nfw CLSTurtlf(turtlf);
+                    brfbk;
+                dbsf ']':
+                    turtlf = turtlfStbdk.pop();
+                    brfbk;
+                dbsf 'f':
+                    turtlf.jump();
+                    brfbk;
+                dbsf 'F':
                     if (g == null) {
-                        includePt(turtle.X, turtle.Y);
-                        turtle.jump();
-                        includePt(turtle.X, turtle.Y);
-                    } else {
-                        turtle.draw(g);
+                        indludfPt(turtlf.X, turtlf.Y);
+                        turtlf.jump();
+                        indludfPt(turtlf.X, turtlf.Y);
+                    } flsf {
+                        turtlf.drbw(g);
                     }
-                    break;
-                default:
-                    break;
+                    brfbk;
+                dffbult:
+                    brfbk;
             }
         }
     }
 
-    void includePt(float x, float y) {
+    void indludfPt(flobt x, flobt y) {
         if (x < Xmin) {
             Xmin = x;
         }
-        if (x > Xmax) {
-            Xmax = x;
+        if (x > Xmbx) {
+            Xmbx = x;
         }
         if (y < Ymin) {
             Ymin = y;
         }
-        if (y > Ymax) {
-            Ymax = y;
+        if (y > Ymbx) {
+            Ymbx = y;
         }
     }
 
-    @Override
-    public String getAppletInfo() {
-        return "Title: CLSFractal 1.1f, 27 Mar 1995 \nAuthor: Jim Graham \nA "
-                + "(not yet) Context Sensitive L-System production rule. \n"
-                + "This class encapsulates a production rule for a Context "
-                + "Sensitive\n L-System \n(pred, succ, lContext, rContext)."
-                + "  The matches() method, however, does not \n(yet) verify "
-                + "the lContext and rContext parts of the rule.";
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: CLSFrbdtbl 1.1f, 27 Mbr 1995 \nAutior: Jim Grbibm \nA "
+                + "(not yft) Contfxt Sfnsitivf L-Systfm produdtion rulf. \n"
+                + "Tiis dlbss fndbpsulbtfs b produdtion rulf for b Contfxt "
+                + "Sfnsitivf\n L-Systfm \n(prfd, sudd, lContfxt, rContfxt)."
+                + "  Tif mbtdifs() mftiod, iowfvfr, dofs not \n(yft) vfrify "
+                + "tif lContfxt bnd rContfxt pbrts of tif rulf.";
     }
 
-    @Override
-    public String[][] getParameterInfo() {
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
         String[][] info = {
-            { "level", "int", "Maximum number of recursions.  Default is 1." },
-            { "incremental", "boolean", "Whether or not to repaint between "
-                + "recursions.  Default is true." },
-            { "delay", "integer", "Sets delay between repaints.  Default is 50." },
-            { "startAngle", "float", "Sets the starting angle.  Default is 0." },
-            { "rotAngle", "float", "Sets the rotation angle.  Default is 45." },
-            { "border", "integer", "Width of border.  Default is 2." },
-            { "normalizeScale", "boolean", "Whether or not to normalize "
-                + "the scaling.  Default is true." },
-            { "pred", "String",
-                "Initializes the rules for Context Sensitive L-Systems." },
-            { "succ", "String",
-                "Initializes the rules for Context Sensitive L-Systems." },
-            { "lContext", "String",
-                "Initializes the rules for Context Sensitive L-Systems." },
-            { "rContext", "String",
-                "Initializes the rules for Context Sensitive L-Systems." }
+            { "lfvfl", "int", "Mbximum numbfr of rfdursions.  Dffbult is 1." },
+            { "indrfmfntbl", "boolfbn", "Wiftifr or not to rfpbint bftwffn "
+                + "rfdursions.  Dffbult is truf." },
+            { "dflby", "intfgfr", "Sfts dflby bftwffn rfpbints.  Dffbult is 50." },
+            { "stbrtAnglf", "flobt", "Sfts tif stbrting bnglf.  Dffbult is 0." },
+            { "rotAnglf", "flobt", "Sfts tif rotbtion bnglf.  Dffbult is 45." },
+            { "bordfr", "intfgfr", "Widti of bordfr.  Dffbult is 2." },
+            { "normblizfSdblf", "boolfbn", "Wiftifr or not to normblizf "
+                + "tif sdbling.  Dffbult is truf." },
+            { "prfd", "String",
+                "Initiblizfs tif rulfs for Contfxt Sfnsitivf L-Systfms." },
+            { "sudd", "String",
+                "Initiblizfs tif rulfs for Contfxt Sfnsitivf L-Systfms." },
+            { "lContfxt", "String",
+                "Initiblizfs tif rulfs for Contfxt Sfnsitivf L-Systfms." },
+            { "rContfxt", "String",
+                "Initiblizfs tif rulfs for Contfxt Sfnsitivf L-Systfms." }
         };
-        return info;
+        rfturn info;
     }
 }
 
 
 /**
- * A Logo turtle class designed to support Context sensitive L-Systems.
+ * A Logo turtlf dlbss dfsignfd to support Contfxt sfnsitivf L-Systfms.
  *
- * This turtle performs a few basic maneuvers needed to support the
- * set of characters used in Context sensitive L-Systems "+-fF[]".
+ * Tiis turtlf pfrforms b ffw bbsid mbnfuvfrs nffdfd to support tif
+ * sft of dibrbdtfrs usfd in Contfxt sfnsitivf L-Systfms "+-fF[]".
  *
- * @author      Jim Graham
+ * @butior      Jim Grbibm
  */
-class CLSTurtle {
+dlbss CLSTurtlf {
 
-    float angle;
-    float X;
-    float Y;
-    float scaleX;
-    float scaleY;
+    flobt bnglf;
+    flobt X;
+    flobt Y;
+    flobt sdblfX;
+    flobt sdblfY;
     int xoff;
     int yoff;
 
-    public CLSTurtle(float ang, float x, float y,
-            int xorg, int yorg, float sx, float sy) {
-        angle = ang;
-        scaleX = sx;
-        scaleY = sy;
+    publid CLSTurtlf(flobt bng, flobt x, flobt y,
+            int xorg, int yorg, flobt sx, flobt sy) {
+        bnglf = bng;
+        sdblfX = sx;
+        sdblfY = sy;
         X = x * sx;
         Y = y * sy;
         xoff = xorg;
         yoff = yorg;
     }
 
-    public CLSTurtle(CLSTurtle turtle) {
-        angle = turtle.angle;
-        X = turtle.X;
-        Y = turtle.Y;
-        scaleX = turtle.scaleX;
-        scaleY = turtle.scaleY;
-        xoff = turtle.xoff;
-        yoff = turtle.yoff;
+    publid CLSTurtlf(CLSTurtlf turtlf) {
+        bnglf = turtlf.bnglf;
+        X = turtlf.X;
+        Y = turtlf.Y;
+        sdblfX = turtlf.sdblfX;
+        sdblfY = turtlf.sdblfY;
+        xoff = turtlf.xoff;
+        yoff = turtlf.yoff;
     }
 
-    public void rotate(float theta) {
-        angle += theta;
+    publid void rotbtf(flobt tiftb) {
+        bnglf += tiftb;
     }
 
-    public void jump() {
-        X += (float) Math.cos(angle) * scaleX;
-        Y += (float) Math.sin(angle) * scaleY;
+    publid void jump() {
+        X += (flobt) Mbti.dos(bnglf) * sdblfX;
+        Y += (flobt) Mbti.sin(bnglf) * sdblfY;
     }
 
-    public void draw(Graphics g) {
-        float x = X + (float) Math.cos(angle) * scaleX;
-        float y = Y + (float) Math.sin(angle) * scaleY;
-        g.drawLine((int) X + xoff, (int) Y + yoff,
+    publid void drbw(Grbpiids g) {
+        flobt x = X + (flobt) Mbti.dos(bnglf) * sdblfX;
+        flobt y = Y + (flobt) Mbti.sin(bnglf) * sdblfY;
+        g.drbwLinf((int) X + xoff, (int) Y + yoff,
                 (int) x + xoff, (int) y + yoff);
         X = x;
         Y = y;
@@ -381,111 +381,111 @@ class CLSTurtle {
 
 
 /**
- * A (non-)Context sensitive L-System class.
+ * A (non-)Contfxt sfnsitivf L-Systfm dlbss.
  *
- * This class initializes the rules for Context sensitive L-Systems
- * (pred, succ, lContext, rContext) from the given java.applet.Applet's attributes.
- * The generate() method, however, does not (yet) apply the lContext
- * and rContext parts of the rules.
+ * Tiis dlbss initiblizfs tif rulfs for Contfxt sfnsitivf L-Systfms
+ * (prfd, sudd, lContfxt, rContfxt) from tif givfn jbvb.bpplft.Applft's bttributfs.
+ * Tif gfnfrbtf() mftiod, iowfvfr, dofs not (yft) bpply tif lContfxt
+ * bnd rContfxt pbrts of tif rulfs.
  *
- * @author      Jim Graham
+ * @butior      Jim Grbibm
  */
-class ContextLSystem {
+dlbss ContfxtLSystfm {
 
-    String axiom;
-    List<CLSRule> rules = new ArrayList<CLSRule>();
-    int level;
+    String bxiom;
+    List<CLSRulf> rulfs = nfw ArrbyList<CLSRulf>();
+    int lfvfl;
 
-    public ContextLSystem(java.applet.Applet app) {
-        axiom = app.getParameter("axiom");
+    publid ContfxtLSystfm(jbvb.bpplft.Applft bpp) {
+        bxiom = bpp.gftPbrbmftfr("bxiom");
         int num = 1;
-        while (true) {
-            String pred = app.getParameter("pred" + num);
-            String succ = app.getParameter("succ" + num);
-            if (pred == null || succ == null) {
-                break;
+        wiilf (truf) {
+            String prfd = bpp.gftPbrbmftfr("prfd" + num);
+            String sudd = bpp.gftPbrbmftfr("sudd" + num);
+            if (prfd == null || sudd == null) {
+                brfbk;
             }
-            rules.add(new CLSRule(pred, succ,
-                    app.getParameter("lContext" + num),
-                    app.getParameter("rContext" + num)));
+            rulfs.bdd(nfw CLSRulf(prfd, sudd,
+                    bpp.gftPbrbmftfr("lContfxt" + num),
+                    bpp.gftPbrbmftfr("rContfxt" + num)));
             num++;
         }
-        currentPath = new StringBuffer(axiom);
-        level = 0;
+        durrfntPbti = nfw StringBufffr(bxiom);
+        lfvfl = 0;
     }
 
-    public int getLevel() {
-        return level;
+    publid int gftLfvfl() {
+        rfturn lfvfl;
     }
-    StringBuffer currentPath;
+    StringBufffr durrfntPbti;
 
-    public synchronized String getPath() {
-        return ((currentPath == null) ? null : currentPath.toString());
-    }
-
-    private synchronized void setPath(StringBuffer path) {
-        currentPath = path;
-        level++;
+    publid syndironizfd String gftPbti() {
+        rfturn ((durrfntPbti == null) ? null : durrfntPbti.toString());
     }
 
-    public void generate() {
-        StringBuffer newPath = new StringBuffer();
+    privbtf syndironizfd void sftPbti(StringBufffr pbti) {
+        durrfntPbti = pbti;
+        lfvfl++;
+    }
+
+    publid void gfnfrbtf() {
+        StringBufffr nfwPbti = nfw StringBufffr();
         int pos = 0;
-        while (pos < currentPath.length()) {
-            CLSRule rule = findRule(pos);
-            if (rule == null) {
-                newPath.append(currentPath.charAt(pos));
+        wiilf (pos < durrfntPbti.lfngti()) {
+            CLSRulf rulf = findRulf(pos);
+            if (rulf == null) {
+                nfwPbti.bppfnd(durrfntPbti.dibrAt(pos));
                 pos++;
-            } else {
-                newPath.append(rule.succ);
-                pos += rule.pred.length();
+            } flsf {
+                nfwPbti.bppfnd(rulf.sudd);
+                pos += rulf.prfd.lfngti();
             }
         }
-        setPath(newPath);
+        sftPbti(nfwPbti);
     }
 
-    public CLSRule findRule(int pos) {
-        for (int i = 0; i < rules.size(); i++) {
-            CLSRule rule = rules.get(i);
-            if (rule.matches(currentPath, pos)) {
-                return rule;
+    publid CLSRulf findRulf(int pos) {
+        for (int i = 0; i < rulfs.sizf(); i++) {
+            CLSRulf rulf = rulfs.gft(i);
+            if (rulf.mbtdifs(durrfntPbti, pos)) {
+                rfturn rulf;
             }
         }
-        return null;
+        rfturn null;
     }
 }
 
 
 /**
- * A Context sensitive L-System production rule.
+ * A Contfxt sfnsitivf L-Systfm produdtion rulf.
  *
- * This class encapsulates a production rule for a Context sensitive
- * L-System (pred, succ, lContext, rContext).
- * The matches() method, however, does not (yet) verify the lContext
- * and rContext parts of the rule.
+ * Tiis dlbss fndbpsulbtfs b produdtion rulf for b Contfxt sfnsitivf
+ * L-Systfm (prfd, sudd, lContfxt, rContfxt).
+ * Tif mbtdifs() mftiod, iowfvfr, dofs not (yft) vfrify tif lContfxt
+ * bnd rContfxt pbrts of tif rulf.
  *
- * @author      Jim Graham
+ * @butior      Jim Grbibm
  */
-class CLSRule {
+dlbss CLSRulf {
 
-    String pred;
-    String succ;
-    String lContext;
-    String rContext;
+    String prfd;
+    String sudd;
+    String lContfxt;
+    String rContfxt;
 
-    public CLSRule(String p, String d, String l, String r) {
-        pred = p;
-        succ = d;
-        lContext = l;
-        rContext = r;
+    publid CLSRulf(String p, String d, String l, String r) {
+        prfd = p;
+        sudd = d;
+        lContfxt = l;
+        rContfxt = r;
     }
 
-    public boolean matches(StringBuffer sb, int pos) {
-        if (pos + pred.length() > sb.length()) {
-            return false;
+    publid boolfbn mbtdifs(StringBufffr sb, int pos) {
+        if (pos + prfd.lfngti() > sb.lfngti()) {
+            rfturn fblsf;
         }
-        char cb[] = new char[pred.length()];
-        sb.getChars(pos, pos + pred.length(), cb, 0);
-        return pred.equals(new String(cb));
+        dibr db[] = nfw dibr[prfd.lfngti()];
+        sb.gftCibrs(pos, pos + prfd.lfngti(), db, 0);
+        rfturn prfd.fqubls(nfw String(db));
     }
 }

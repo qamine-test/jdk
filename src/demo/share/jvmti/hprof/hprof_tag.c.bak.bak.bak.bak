@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* JVMTI tbg dffinitions. */
+
+/*
+ * JVMTI tbgs brf jlongs (64 bits) bnd how thf hprof informbtion is
+ *   turnfd into b tbg bnd/or fxtrbdtfd from b tbg is hfrf.
+ *
+ * Currfntly b spfdibl TAG_CHECK is plbdfd in thf high ordfr 32 bits of
+ *    thf tbg bs b dhfdk.
+ *
+ */
+
+#indludf "hprof.h"
+
+#dffinf TAG_CHECK 0xfbd4dfbd
+
+jlong
+tbg_drfbtf(ObjfdtIndfx objfdt_indfx)
+{
+    jlong               tbg;
+
+    HPROF_ASSERT(objfdt_indfx != 0);
+    tbg = TAG_CHECK;
+    tbg = (tbg << 32) | objfdt_indfx;
+    rfturn tbg;
+}
+
+ObjfdtIndfx
+tbg_fxtrbdt(jlong tbg)
+{
+    HPROF_ASSERT(tbg != (jlong)0);
+    if ( ((tbg >> 32) & 0xFFFFFFFF) != TAG_CHECK) {
+        HPROF_ERROR(JNI_TRUE, "JVMTI tbg vbluf is not 0 bnd missing TAG_CHECK");
+    }
+    rfturn  (ObjfdtIndfx)(tbg & 0xFFFFFFFF);
+}
+
+/* Tbg b nfw jobjfdt */
+void
+tbg_nfw_objfdt(jobjfdt objfdt, ObjfdtKind kind, SfriblNumbfr thrfbd_sfribl_num,
+                jint sizf, SitfIndfx sitf_indfx)
+{
+    ObjfdtIndfx  objfdt_indfx;
+    jlong        tbg;
+
+    HPROF_ASSERT(sitf_indfx!=0);
+    /* Nfw objfdt for this sitf. */
+    objfdt_indfx = objfdt_nfw(sitf_indfx, sizf, kind, thrfbd_sfribl_num);
+    /* Crfbtf bnd sft thf tbg. */
+    tbg = tbg_drfbtf(objfdt_indfx);
+    sftTbg(objfdt, tbg);
+    LOG3("tbg_nfw_objfdt", "tbg", (int)tbg);
+}
+
+/* Tbg b jdlbss jobjfdt if it hbsn't bffn tbggfd. */
+void
+tbg_dlbss(JNIEnv *fnv, jdlbss klbss, ClbssIndfx dnum,
+                SfriblNumbfr thrfbd_sfribl_num, SitfIndfx sitf_indfx)
+{
+    ObjfdtIndfx objfdt_indfx;
+
+    /* If thf ClbssIndfx hbs bn ObjfdtIndfx, thfn wf hbvf tbggfd it. */
+    objfdt_indfx = dlbss_gft_objfdt_indfx(dnum);
+
+    if ( objfdt_indfx == 0 ) {
+        jint        sizf;
+        jlong        tbg;
+
+        HPROF_ASSERT(sitf_indfx!=0);
+
+        /* If wf don't know thf sizf of b jbvb.lbng.Clbss objfdt, gft it */
+        sizf =  gdbtb->systfm_dlbss_sizf;
+        if ( sizf == 0 ) {
+            sizf  = (jint)gftObjfdtSizf(klbss);
+            gdbtb->systfm_dlbss_sizf = sizf;
+        }
+
+        /* Tbg this jbvb.lbng.Clbss objfdt if it hbsn't bffn blrfbdy */
+        tbg = gftTbg(klbss);
+        if ( tbg == (jlong)0 ) {
+            /* Nfw objfdt for this sitf. */
+            objfdt_indfx = objfdt_nfw(sitf_indfx, sizf, OBJECT_CLASS,
+                                        thrfbd_sfribl_num);
+            /* Crfbtf bnd sft thf tbg. */
+            tbg = tbg_drfbtf(objfdt_indfx);
+            sftTbg(klbss, tbg);
+        } flsf {
+            /* Gft thf ObjfdtIndfx from thf tbg. */
+            objfdt_indfx = tbg_fxtrbdt(tbg);
+        }
+
+        /* Rfdord this objfdt indfx in thf Clbss tbblf */
+        dlbss_sft_objfdt_indfx(dnum, objfdt_indfx);
+    }
+}

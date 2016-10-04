@@ -1,269 +1,269 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.rmi.server;
+pbdkbgf jbvb.rmi.sfrvfr;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.Serializable;
-import java.security.SecureRandom;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.SfdurfRbndom;
 
 /**
- * A <code>UID</code> represents an identifier that is unique over time
- * with respect to the host it is generated on, or one of 2<sup>16</sup>
- * "well-known" identifiers.
+ * A <dodf>UID</dodf> rfprfsfnts bn idfntififr tibt is uniquf ovfr timf
+ * witi rfspfdt to tif iost it is gfnfrbtfd on, or onf of 2<sup>16</sup>
+ * "wfll-known" idfntififrs.
  *
- * <p>The {@link #UID()} constructor can be used to generate an
- * identifier that is unique over time with respect to the host it is
- * generated on.  The {@link #UID(short)} constructor can be used to
- * create one of 2<sup>16</sup> well-known identifiers.
+ * <p>Tif {@link #UID()} donstrudtor dbn bf usfd to gfnfrbtf bn
+ * idfntififr tibt is uniquf ovfr timf witi rfspfdt to tif iost it is
+ * gfnfrbtfd on.  Tif {@link #UID(siort)} donstrudtor dbn bf usfd to
+ * drfbtf onf of 2<sup>16</sup> wfll-known idfntififrs.
  *
- * <p>A <code>UID</code> instance contains three primitive values:
+ * <p>A <dodf>UID</dodf> instbndf dontbins tirff primitivf vblufs:
  * <ul>
- * <li><code>unique</code>, an <code>int</code> that uniquely identifies
- * the VM that this <code>UID</code> was generated in, with respect to its
- * host and at the time represented by the <code>time</code> value (an
- * example implementation of the <code>unique</code> value would be a
- * process identifier),
- *  or zero for a well-known <code>UID</code>
- * <li><code>time</code>, a <code>long</code> equal to a time (as returned
- * by {@link System#currentTimeMillis()}) at which the VM that this
- * <code>UID</code> was generated in was alive,
- * or zero for a well-known <code>UID</code>
- * <li><code>count</code>, a <code>short</code> to distinguish
- * <code>UID</code>s generated in the same VM with the same
- * <code>time</code> value
+ * <li><dodf>uniquf</dodf>, bn <dodf>int</dodf> tibt uniqufly idfntififs
+ * tif VM tibt tiis <dodf>UID</dodf> wbs gfnfrbtfd in, witi rfspfdt to its
+ * iost bnd bt tif timf rfprfsfntfd by tif <dodf>timf</dodf> vbluf (bn
+ * fxbmplf implfmfntbtion of tif <dodf>uniquf</dodf> vbluf would bf b
+ * prodfss idfntififr),
+ *  or zfro for b wfll-known <dodf>UID</dodf>
+ * <li><dodf>timf</dodf>, b <dodf>long</dodf> fqubl to b timf (bs rfturnfd
+ * by {@link Systfm#durrfntTimfMillis()}) bt wiidi tif VM tibt tiis
+ * <dodf>UID</dodf> wbs gfnfrbtfd in wbs blivf,
+ * or zfro for b wfll-known <dodf>UID</dodf>
+ * <li><dodf>dount</dodf>, b <dodf>siort</dodf> to distinguisi
+ * <dodf>UID</dodf>s gfnfrbtfd in tif sbmf VM witi tif sbmf
+ * <dodf>timf</dodf> vbluf
  * </ul>
  *
- * <p>An independently generated <code>UID</code> instance is unique
- * over time with respect to the host it is generated on as long as
- * the host requires more than one millisecond to reboot and its system
- * clock is never set backward.  A globally unique identifier can be
- * constructed by pairing a <code>UID</code> instance with a unique host
- * identifier, such as an IP address.
+ * <p>An indfpfndfntly gfnfrbtfd <dodf>UID</dodf> instbndf is uniquf
+ * ovfr timf witi rfspfdt to tif iost it is gfnfrbtfd on bs long bs
+ * tif iost rfquirfs morf tibn onf millisfdond to rfboot bnd its systfm
+ * dlodk is nfvfr sft bbdkwbrd.  A globblly uniquf idfntififr dbn bf
+ * donstrudtfd by pbiring b <dodf>UID</dodf> instbndf witi b uniquf iost
+ * idfntififr, sudi bs bn IP bddrfss.
  *
- * @author      Ann Wollrath
- * @author      Peter Jones
- * @since       1.1
+ * @butior      Ann Wollrbti
+ * @butior      Pftfr Jonfs
+ * @sindf       1.1
  */
-public final class UID implements Serializable {
+publid finbl dlbss UID implfmfnts Sfriblizbblf {
 
-    private static int hostUnique;
-    private static boolean hostUniqueSet = false;
+    privbtf stbtid int iostUniquf;
+    privbtf stbtid boolfbn iostUniqufSft = fblsf;
 
-    private static final Object lock = new Object();
-    private static long lastTime = System.currentTimeMillis();
-    private static short lastCount = Short.MIN_VALUE;
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid long lbstTimf = Systfm.durrfntTimfMillis();
+    privbtf stbtid siort lbstCount = Siort.MIN_VALUE;
 
-    /** indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = 1086053664494604050L;
-
-    /**
-     * number that uniquely identifies the VM that this <code>UID</code>
-     * was generated in with respect to its host and at the given time
-     * @serial
-     */
-    private final int unique;
+    /** indidbtf dompbtibility witi JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1086053664494604050L;
 
     /**
-     * a time (as returned by {@link System#currentTimeMillis()}) at which
-     * the VM that this <code>UID</code> was generated in was alive
-     * @serial
+     * numbfr tibt uniqufly idfntififs tif VM tibt tiis <dodf>UID</dodf>
+     * wbs gfnfrbtfd in witi rfspfdt to its iost bnd bt tif givfn timf
+     * @sfribl
      */
-    private final long time;
+    privbtf finbl int uniquf;
 
     /**
-     * 16-bit number to distinguish <code>UID</code> instances created
-     * in the same VM with the same time value
-     * @serial
+     * b timf (bs rfturnfd by {@link Systfm#durrfntTimfMillis()}) bt wiidi
+     * tif VM tibt tiis <dodf>UID</dodf> wbs gfnfrbtfd in wbs blivf
+     * @sfribl
      */
-    private final short count;
+    privbtf finbl long timf;
 
     /**
-     * Generates a <code>UID</code> that is unique over time with
-     * respect to the host that it was generated on.
+     * 16-bit numbfr to distinguisi <dodf>UID</dodf> instbndfs drfbtfd
+     * in tif sbmf VM witi tif sbmf timf vbluf
+     * @sfribl
      */
-    public UID() {
+    privbtf finbl siort dount;
 
-        synchronized (lock) {
-            if (!hostUniqueSet) {
-                hostUnique = (new SecureRandom()).nextInt();
-                hostUniqueSet = true;
+    /**
+     * Gfnfrbtfs b <dodf>UID</dodf> tibt is uniquf ovfr timf witi
+     * rfspfdt to tif iost tibt it wbs gfnfrbtfd on.
+     */
+    publid UID() {
+
+        syndironizfd (lodk) {
+            if (!iostUniqufSft) {
+                iostUniquf = (nfw SfdurfRbndom()).nfxtInt();
+                iostUniqufSft = truf;
             }
-            unique = hostUnique;
-            if (lastCount == Short.MAX_VALUE) {
-                boolean interrupted = Thread.interrupted();
-                boolean done = false;
-                while (!done) {
-                    long now = System.currentTimeMillis();
-                    if (now == lastTime) {
-                        // wait for time to change
+            uniquf = iostUniquf;
+            if (lbstCount == Siort.MAX_VALUE) {
+                boolfbn intfrruptfd = Tirfbd.intfrruptfd();
+                boolfbn donf = fblsf;
+                wiilf (!donf) {
+                    long now = Systfm.durrfntTimfMillis();
+                    if (now == lbstTimf) {
+                        // wbit for timf to dibngf
                         try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            interrupted = true;
+                            Tirfbd.slffp(1);
+                        } dbtdi (IntfrruptfdExdfption f) {
+                            intfrruptfd = truf;
                         }
-                    } else {
-                        // If system time has gone backwards increase
-                        // original by 1ms to maintain uniqueness
-                        lastTime = (now < lastTime) ? lastTime+1 : now;
-                        lastCount = Short.MIN_VALUE;
-                        done = true;
+                    } flsf {
+                        // If systfm timf ibs gonf bbdkwbrds indrfbsf
+                        // originbl by 1ms to mbintbin uniqufnfss
+                        lbstTimf = (now < lbstTimf) ? lbstTimf+1 : now;
+                        lbstCount = Siort.MIN_VALUE;
+                        donf = truf;
                     }
                 }
-                if (interrupted) {
-                    Thread.currentThread().interrupt();
+                if (intfrruptfd) {
+                    Tirfbd.durrfntTirfbd().intfrrupt();
                 }
             }
-            time = lastTime;
-            count = lastCount++;
+            timf = lbstTimf;
+            dount = lbstCount++;
         }
     }
 
     /**
-     * Creates a "well-known" <code>UID</code>.
+     * Crfbtfs b "wfll-known" <dodf>UID</dodf>.
      *
-     * There are 2<sup>16</sup> possible such well-known ids.
+     * Tifrf brf 2<sup>16</sup> possiblf sudi wfll-known ids.
      *
-     * <p>A <code>UID</code> created via this constructor will not
-     * clash with any <code>UID</code>s generated via the no-arg
-     * constructor.
+     * <p>A <dodf>UID</dodf> drfbtfd vib tiis donstrudtor will not
+     * dlbsi witi bny <dodf>UID</dodf>s gfnfrbtfd vib tif no-brg
+     * donstrudtor.
      *
-     * @param   num number for well-known <code>UID</code>
+     * @pbrbm   num numbfr for wfll-known <dodf>UID</dodf>
      */
-    public UID(short num) {
-        unique = 0;
-        time = 0;
-        count = num;
+    publid UID(siort num) {
+        uniquf = 0;
+        timf = 0;
+        dount = num;
     }
 
     /**
-     * Constructs a <code>UID</code> given data read from a stream.
+     * Construdts b <dodf>UID</dodf> givfn dbtb rfbd from b strfbm.
      */
-    private UID(int unique, long time, short count) {
-        this.unique = unique;
-        this.time = time;
-        this.count = count;
+    privbtf UID(int uniquf, long timf, siort dount) {
+        tiis.uniquf = uniquf;
+        tiis.timf = timf;
+        tiis.dount = dount;
     }
 
     /**
-     * Returns the hash code value for this <code>UID</code>.
+     * Rfturns tif ibsi dodf vbluf for tiis <dodf>UID</dodf>.
      *
-     * @return  the hash code value for this <code>UID</code>
+     * @rfturn  tif ibsi dodf vbluf for tiis <dodf>UID</dodf>
      */
-    public int hashCode() {
-        return (int) time + (int) count;
+    publid int ibsiCodf() {
+        rfturn (int) timf + (int) dount;
     }
 
     /**
-     * Compares the specified object with this <code>UID</code> for
-     * equality.
+     * Compbrfs tif spfdififd objfdt witi tiis <dodf>UID</dodf> for
+     * fqublity.
      *
-     * This method returns <code>true</code> if and only if the
-     * specified object is a <code>UID</code> instance with the same
-     * <code>unique</code>, <code>time</code>, and <code>count</code>
-     * values as this one.
+     * Tiis mftiod rfturns <dodf>truf</dodf> if bnd only if tif
+     * spfdififd objfdt is b <dodf>UID</dodf> instbndf witi tif sbmf
+     * <dodf>uniquf</dodf>, <dodf>timf</dodf>, bnd <dodf>dount</dodf>
+     * vblufs bs tiis onf.
      *
-     * @param   obj the object to compare this <code>UID</code> to
+     * @pbrbm   obj tif objfdt to dompbrf tiis <dodf>UID</dodf> to
      *
-     * @return  <code>true</code> if the given object is equivalent to
-     * this one, and <code>false</code> otherwise
+     * @rfturn  <dodf>truf</dodf> if tif givfn objfdt is fquivblfnt to
+     * tiis onf, bnd <dodf>fblsf</dodf> otifrwisf
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof UID) {
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof UID) {
             UID uid = (UID) obj;
-            return (unique == uid.unique &&
-                    count == uid.count &&
-                    time == uid.time);
-        } else {
-            return false;
+            rfturn (uniquf == uid.uniquf &&
+                    dount == uid.dount &&
+                    timf == uid.timf);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Returns a string representation of this <code>UID</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>UID</dodf>.
      *
-     * @return  a string representation of this <code>UID</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>UID</dodf>
      */
-    public String toString() {
-        return Integer.toString(unique,16) + ":" +
-            Long.toString(time,16) + ":" +
-            Integer.toString(count,16);
+    publid String toString() {
+        rfturn Intfgfr.toString(uniquf,16) + ":" +
+            Long.toString(timf,16) + ":" +
+            Intfgfr.toString(dount,16);
     }
 
     /**
-     * Marshals a binary representation of this <code>UID</code> to
-     * a <code>DataOutput</code> instance.
+     * Mbrsibls b binbry rfprfsfntbtion of tiis <dodf>UID</dodf> to
+     * b <dodf>DbtbOutput</dodf> instbndf.
      *
-     * <p>Specifically, this method first invokes the given stream's
-     * {@link DataOutput#writeInt(int)} method with this <code>UID</code>'s
-     * <code>unique</code> value, then it invokes the stream's
-     * {@link DataOutput#writeLong(long)} method with this <code>UID</code>'s
-     * <code>time</code> value, and then it invokes the stream's
-     * {@link DataOutput#writeShort(int)} method with this <code>UID</code>'s
-     * <code>count</code> value.
+     * <p>Spfdifidblly, tiis mftiod first invokfs tif givfn strfbm's
+     * {@link DbtbOutput#writfInt(int)} mftiod witi tiis <dodf>UID</dodf>'s
+     * <dodf>uniquf</dodf> vbluf, tifn it invokfs tif strfbm's
+     * {@link DbtbOutput#writfLong(long)} mftiod witi tiis <dodf>UID</dodf>'s
+     * <dodf>timf</dodf> vbluf, bnd tifn it invokfs tif strfbm's
+     * {@link DbtbOutput#writfSiort(int)} mftiod witi tiis <dodf>UID</dodf>'s
+     * <dodf>dount</dodf> vbluf.
      *
-     * @param   out the <code>DataOutput</code> instance to write
-     * this <code>UID</code> to
+     * @pbrbm   out tif <dodf>DbtbOutput</dodf> instbndf to writf
+     * tiis <dodf>UID</dodf> to
      *
-     * @throws  IOException if an I/O error occurs while performing
-     * this operation
+     * @tirows  IOExdfption if bn I/O frror oddurs wiilf pfrforming
+     * tiis opfrbtion
      */
-    public void write(DataOutput out) throws IOException {
-        out.writeInt(unique);
-        out.writeLong(time);
-        out.writeShort(count);
+    publid void writf(DbtbOutput out) tirows IOExdfption {
+        out.writfInt(uniquf);
+        out.writfLong(timf);
+        out.writfSiort(dount);
     }
 
     /**
-     * Constructs and returns a new <code>UID</code> instance by
-     * unmarshalling a binary representation from an
-     * <code>DataInput</code> instance.
+     * Construdts bnd rfturns b nfw <dodf>UID</dodf> instbndf by
+     * unmbrsiblling b binbry rfprfsfntbtion from bn
+     * <dodf>DbtbInput</dodf> instbndf.
      *
-     * <p>Specifically, this method first invokes the given stream's
-     * {@link DataInput#readInt()} method to read a <code>unique</code> value,
-     * then it invoke's the stream's
-     * {@link DataInput#readLong()} method to read a <code>time</code> value,
-     * then it invoke's the stream's
-     * {@link DataInput#readShort()} method to read a <code>count</code> value,
-     * and then it creates and returns a new <code>UID</code> instance
-     * that contains the <code>unique</code>, <code>time</code>, and
-     * <code>count</code> values that were read from the stream.
+     * <p>Spfdifidblly, tiis mftiod first invokfs tif givfn strfbm's
+     * {@link DbtbInput#rfbdInt()} mftiod to rfbd b <dodf>uniquf</dodf> vbluf,
+     * tifn it invokf's tif strfbm's
+     * {@link DbtbInput#rfbdLong()} mftiod to rfbd b <dodf>timf</dodf> vbluf,
+     * tifn it invokf's tif strfbm's
+     * {@link DbtbInput#rfbdSiort()} mftiod to rfbd b <dodf>dount</dodf> vbluf,
+     * bnd tifn it drfbtfs bnd rfturns b nfw <dodf>UID</dodf> instbndf
+     * tibt dontbins tif <dodf>uniquf</dodf>, <dodf>timf</dodf>, bnd
+     * <dodf>dount</dodf> vblufs tibt wfrf rfbd from tif strfbm.
      *
-     * @param   in the <code>DataInput</code> instance to read
-     * <code>UID</code> from
+     * @pbrbm   in tif <dodf>DbtbInput</dodf> instbndf to rfbd
+     * <dodf>UID</dodf> from
      *
-     * @return  unmarshalled <code>UID</code> instance
+     * @rfturn  unmbrsibllfd <dodf>UID</dodf> instbndf
      *
-     * @throws  IOException if an I/O error occurs while performing
-     * this operation
+     * @tirows  IOExdfption if bn I/O frror oddurs wiilf pfrforming
+     * tiis opfrbtion
      */
-    public static UID read(DataInput in) throws IOException {
-        int unique = in.readInt();
-        long time = in.readLong();
-        short count = in.readShort();
-        return new UID(unique, time, count);
+    publid stbtid UID rfbd(DbtbInput in) tirows IOExdfption {
+        int uniquf = in.rfbdInt();
+        long timf = in.rfbdLong();
+        siort dount = in.rfbdSiort();
+        rfturn nfw UID(uniquf, timf, dount);
     }
 }

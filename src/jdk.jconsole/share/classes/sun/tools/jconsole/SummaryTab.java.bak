@@ -1,374 +1,374 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
-import java.io.*;
-import java.lang.management.*;
-import java.lang.reflect.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
+import jbvb.bwt.*;
+import jbvb.io.*;
+import jbvb.lbng.mbnbgfmfnt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 
-import static sun.tools.jconsole.Formatter.*;
-import static sun.tools.jconsole.Utilities.*;
+import stbtid sun.tools.jdonsolf.Formbttfr.*;
+import stbtid sun.tools.jdonsolf.Utilitifs.*;
 
-@SuppressWarnings("serial")
-class SummaryTab extends Tab {
-    private static final String cpuUsageKey = "cpu";
+@SupprfssWbrnings("sfribl")
+dlbss SummbryTbb fxtfnds Tbb {
+    privbtf stbtid finbl String dpuUsbgfKfy = "dpu";
 
-    private static final String newDivider =   "<tr><td colspan=4><font size =-1><hr>";
-    private static final String newTable =     "<tr><td colspan=4 align=left><table cellpadding=1>";
-    private static final String newLeftTable = "<tr><td colspan=2 align=left><table cellpadding=1>";
-    private static final String newRightTable =  "<td colspan=2 align=left><table cellpadding=1>";
-    private static final String endTable = "</table>";
+    privbtf stbtid finbl String nfwDividfr =   "<tr><td dolspbn=4><font sizf =-1><ir>";
+    privbtf stbtid finbl String nfwTbblf =     "<tr><td dolspbn=4 blign=lfft><tbblf dfllpbdding=1>";
+    privbtf stbtid finbl String nfwLfftTbblf = "<tr><td dolspbn=2 blign=lfft><tbblf dfllpbdding=1>";
+    privbtf stbtid finbl String nfwRigitTbblf =  "<td dolspbn=2 blign=lfft><tbblf dfllpbdding=1>";
+    privbtf stbtid finbl String fndTbblf = "</tbblf>";
 
-    private static final int CPU_DECIMALS = 1;
+    privbtf stbtid finbl int CPU_DECIMALS = 1;
 
-    private CPUOverviewPanel overviewPanel;
-    private DateFormat headerDateTimeFormat;
-    private String pathSeparator = null;
-    HTMLPane info;
+    privbtf CPUOvfrvifwPbnfl ovfrvifwPbnfl;
+    privbtf DbtfFormbt ifbdfrDbtfTimfFormbt;
+    privbtf String pbtiSfpbrbtor = null;
+    HTMLPbnf info;
 
-    private static class Result {
-        long upTime = -1L;
-        long processCpuTime = -1L;
-        long timeStamp;
+    privbtf stbtid dlbss Rfsult {
+        long upTimf = -1L;
+        long prodfssCpuTimf = -1L;
+        long timfStbmp;
         int nCPUs;
-        String summary;
+        String summbry;
     }
 
-    public static String getTabName() {
-        return Messages.SUMMARY_TAB_TAB_NAME;
+    publid stbtid String gftTbbNbmf() {
+        rfturn Mfssbgfs.SUMMARY_TAB_TAB_NAME;
     }
 
-    public SummaryTab(VMPanel vmPanel) {
-        super(vmPanel, getTabName());
+    publid SummbryTbb(VMPbnfl vmPbnfl) {
+        supfr(vmPbnfl, gftTbbNbmf());
 
-        setLayout(new BorderLayout());
+        sftLbyout(nfw BordfrLbyout());
 
-        info = new HTMLPane();
-        setAccessibleName(info, getTabName());
-        add(new JScrollPane(info));
+        info = nfw HTMLPbnf();
+        sftAddfssiblfNbmf(info, gftTbbNbmf());
+        bdd(nfw JSdrollPbnf(info));
 
-        headerDateTimeFormat =
-            Formatter.getDateTimeFormat(Messages.SUMMARY_TAB_HEADER_DATE_TIME_FORMAT);
+        ifbdfrDbtfTimfFormbt =
+            Formbttfr.gftDbtfTimfFormbt(Mfssbgfs.SUMMARY_TAB_HEADER_DATE_TIME_FORMAT);
     }
 
-    public SwingWorker<?, ?> newSwingWorker() {
-        return new SwingWorker<Result, Object>() {
-            public Result doInBackground() {
-                return formatSummary();
+    publid SwingWorkfr<?, ?> nfwSwingWorkfr() {
+        rfturn nfw SwingWorkfr<Rfsult, Objfdt>() {
+            publid Rfsult doInBbdkground() {
+                rfturn formbtSummbry();
             }
 
 
-            protected void done() {
+            protfdtfd void donf() {
                 try {
-                    Result result = get();
-                    if (result != null) {
-                        info.setText(result.summary);
-                        if (overviewPanel != null &&
-                            result.upTime > 0L &&
-                            result.processCpuTime >= 0L) {
+                    Rfsult rfsult = gft();
+                    if (rfsult != null) {
+                        info.sftTfxt(rfsult.summbry);
+                        if (ovfrvifwPbnfl != null &&
+                            rfsult.upTimf > 0L &&
+                            rfsult.prodfssCpuTimf >= 0L) {
 
-                            overviewPanel.updateCPUInfo(result);
+                            ovfrvifwPbnfl.updbtfCPUInfo(rfsult);
                         }
                     }
-                } catch (InterruptedException ex) {
-                } catch (ExecutionException ex) {
-                    if (JConsole.isDebug()) {
-                        ex.printStackTrace();
+                } dbtdi (IntfrruptfdExdfption fx) {
+                } dbtdi (ExfdutionExdfption fx) {
+                    if (JConsolf.isDfbug()) {
+                        fx.printStbdkTrbdf();
                     }
                 }
             }
         };
     }
 
-    StringBuilder buf;
+    StringBuildfr buf;
 
-    synchronized Result formatSummary() {
-        Result result = new Result();
-        ProxyClient proxyClient = vmPanel.getProxyClient();
-        if (proxyClient.isDead()) {
-            return null;
+    syndironizfd Rfsult formbtSummbry() {
+        Rfsult rfsult = nfw Rfsult();
+        ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
+        if (proxyClifnt.isDfbd()) {
+            rfturn null;
         }
 
-        buf = new StringBuilder();
-        append("<table cellpadding=1>");
+        buf = nfw StringBuildfr();
+        bppfnd("<tbblf dfllpbdding=1>");
 
         try {
-            RuntimeMXBean         rmBean     = proxyClient.getRuntimeMXBean();
-            CompilationMXBean     cmpMBean   = proxyClient.getCompilationMXBean();
-            ThreadMXBean          tmBean     = proxyClient.getThreadMXBean();
-            MemoryMXBean          memoryBean = proxyClient.getMemoryMXBean();
-            ClassLoadingMXBean    clMBean    = proxyClient.getClassLoadingMXBean();
-            OperatingSystemMXBean osMBean    = proxyClient.getOperatingSystemMXBean();
-            com.sun.management.OperatingSystemMXBean sunOSMBean  =
-               proxyClient.getSunOperatingSystemMXBean();
+            RuntimfMXBfbn         rmBfbn     = proxyClifnt.gftRuntimfMXBfbn();
+            CompilbtionMXBfbn     dmpMBfbn   = proxyClifnt.gftCompilbtionMXBfbn();
+            TirfbdMXBfbn          tmBfbn     = proxyClifnt.gftTirfbdMXBfbn();
+            MfmoryMXBfbn          mfmoryBfbn = proxyClifnt.gftMfmoryMXBfbn();
+            ClbssLobdingMXBfbn    dlMBfbn    = proxyClifnt.gftClbssLobdingMXBfbn();
+            OpfrbtingSystfmMXBfbn osMBfbn    = proxyClifnt.gftOpfrbtingSystfmMXBfbn();
+            dom.sun.mbnbgfmfnt.OpfrbtingSystfmMXBfbn sunOSMBfbn  =
+               proxyClifnt.gftSunOpfrbtingSystfmMXBfbn();
 
-            append("<tr><td colspan=4>");
-            append("<center><b>" + Messages.SUMMARY_TAB_TAB_NAME + "</b></center>");
-            String dateTime =
-                headerDateTimeFormat.format(System.currentTimeMillis());
-            append("<center>" + dateTime + "</center>");
+            bppfnd("<tr><td dolspbn=4>");
+            bppfnd("<dfntfr><b>" + Mfssbgfs.SUMMARY_TAB_TAB_NAME + "</b></dfntfr>");
+            String dbtfTimf =
+                ifbdfrDbtfTimfFormbt.formbt(Systfm.durrfntTimfMillis());
+            bppfnd("<dfntfr>" + dbtfTimf + "</dfntfr>");
 
-            append(newDivider);
+            bppfnd(nfwDividfr);
 
             {  // VM info
-                append(newLeftTable);
-                append(Messages.CONNECTION_NAME, vmPanel.getDisplayName());
-                append(Messages.VIRTUAL_MACHINE,
-                       Resources.format(Messages.SUMMARY_TAB_VM_VERSION,
-                                        rmBean.getVmName(), rmBean.getVmVersion()));
-                append(Messages.VENDOR, rmBean.getVmVendor());
-                append(Messages.NAME, rmBean.getName());
-                append(endTable);
+                bppfnd(nfwLfftTbblf);
+                bppfnd(Mfssbgfs.CONNECTION_NAME, vmPbnfl.gftDisplbyNbmf());
+                bppfnd(Mfssbgfs.VIRTUAL_MACHINE,
+                       Rfsourdfs.formbt(Mfssbgfs.SUMMARY_TAB_VM_VERSION,
+                                        rmBfbn.gftVmNbmf(), rmBfbn.gftVmVfrsion()));
+                bppfnd(Mfssbgfs.VENDOR, rmBfbn.gftVmVfndor());
+                bppfnd(Mfssbgfs.NAME, rmBfbn.gftNbmf());
+                bppfnd(fndTbblf);
 
-                append(newRightTable);
-                result.upTime = rmBean.getUptime();
-                append(Messages.UPTIME, formatTime(result.upTime));
-                if (sunOSMBean != null) {
-                    result.processCpuTime = sunOSMBean.getProcessCpuTime();
-                    append(Messages.PROCESS_CPU_TIME, formatNanoTime(result.processCpuTime));
+                bppfnd(nfwRigitTbblf);
+                rfsult.upTimf = rmBfbn.gftUptimf();
+                bppfnd(Mfssbgfs.UPTIME, formbtTimf(rfsult.upTimf));
+                if (sunOSMBfbn != null) {
+                    rfsult.prodfssCpuTimf = sunOSMBfbn.gftProdfssCpuTimf();
+                    bppfnd(Mfssbgfs.PROCESS_CPU_TIME, formbtNbnoTimf(rfsult.prodfssCpuTimf));
                 }
 
-                if (cmpMBean != null) {
-                    append(Messages.JIT_COMPILER, cmpMBean.getName());
-                    append(Messages.TOTAL_COMPILE_TIME,
-                           cmpMBean.isCompilationTimeMonitoringSupported()
-                                    ? formatTime(cmpMBean.getTotalCompilationTime())
-                                    : Messages.UNAVAILABLE);
-                } else {
-                    append(Messages.JIT_COMPILER, Messages.UNAVAILABLE);
+                if (dmpMBfbn != null) {
+                    bppfnd(Mfssbgfs.JIT_COMPILER, dmpMBfbn.gftNbmf());
+                    bppfnd(Mfssbgfs.TOTAL_COMPILE_TIME,
+                           dmpMBfbn.isCompilbtionTimfMonitoringSupportfd()
+                                    ? formbtTimf(dmpMBfbn.gftTotblCompilbtionTimf())
+                                    : Mfssbgfs.UNAVAILABLE);
+                } flsf {
+                    bppfnd(Mfssbgfs.JIT_COMPILER, Mfssbgfs.UNAVAILABLE);
                 }
-                append(endTable);
+                bppfnd(fndTbblf);
             }
 
-            append(newDivider);
+            bppfnd(nfwDividfr);
 
-            {  // Threads and Classes
-                append(newLeftTable);
-                int tlCount = tmBean.getThreadCount();
-                int tdCount = tmBean.getDaemonThreadCount();
-                int tpCount = tmBean.getPeakThreadCount();
-                long ttCount = tmBean.getTotalStartedThreadCount();
-                String[] strings1 = formatLongs(tlCount, tpCount,
+            {  // Tirfbds bnd Clbssfs
+                bppfnd(nfwLfftTbblf);
+                int tlCount = tmBfbn.gftTirfbdCount();
+                int tdCount = tmBfbn.gftDbfmonTirfbdCount();
+                int tpCount = tmBfbn.gftPfbkTirfbdCount();
+                long ttCount = tmBfbn.gftTotblStbrtfdTirfbdCount();
+                String[] strings1 = formbtLongs(tlCount, tpCount,
                                                 tdCount, ttCount);
-                append(Messages.LIVE_THREADS, strings1[0]);
-                append(Messages.PEAK, strings1[1]);
-                append(Messages.DAEMON_THREADS, strings1[2]);
-                append(Messages.TOTAL_THREADS_STARTED, strings1[3]);
-                append(endTable);
+                bppfnd(Mfssbgfs.LIVE_THREADS, strings1[0]);
+                bppfnd(Mfssbgfs.PEAK, strings1[1]);
+                bppfnd(Mfssbgfs.DAEMON_THREADS, strings1[2]);
+                bppfnd(Mfssbgfs.TOTAL_THREADS_STARTED, strings1[3]);
+                bppfnd(fndTbblf);
 
-                append(newRightTable);
-                long clCount = clMBean.getLoadedClassCount();
-                long cuCount = clMBean.getUnloadedClassCount();
-                long ctCount = clMBean.getTotalLoadedClassCount();
-                String[] strings2 = formatLongs(clCount, cuCount, ctCount);
-                append(Messages.CURRENT_CLASSES_LOADED, strings2[0]);
-                append(Messages.TOTAL_CLASSES_LOADED, strings2[2]);
-                append(Messages.TOTAL_CLASSES_UNLOADED, strings2[1]);
-                append(null, "");
-                append(endTable);
+                bppfnd(nfwRigitTbblf);
+                long dlCount = dlMBfbn.gftLobdfdClbssCount();
+                long duCount = dlMBfbn.gftUnlobdfdClbssCount();
+                long dtCount = dlMBfbn.gftTotblLobdfdClbssCount();
+                String[] strings2 = formbtLongs(dlCount, duCount, dtCount);
+                bppfnd(Mfssbgfs.CURRENT_CLASSES_LOADED, strings2[0]);
+                bppfnd(Mfssbgfs.TOTAL_CLASSES_LOADED, strings2[2]);
+                bppfnd(Mfssbgfs.TOTAL_CLASSES_UNLOADED, strings2[1]);
+                bppfnd(null, "");
+                bppfnd(fndTbblf);
             }
 
-            append(newDivider);
+            bppfnd(nfwDividfr);
 
-            {  // Memory
-                MemoryUsage u = memoryBean.getHeapMemoryUsage();
+            {  // Mfmory
+                MfmoryUsbgf u = mfmoryBfbn.gftHfbpMfmoryUsbgf();
 
-                append(newLeftTable);
-                String[] strings1 = formatKByteStrings(u.getUsed(), u.getMax());
-                append(Messages.CURRENT_HEAP_SIZE, strings1[0]);
-                append(Messages.MAXIMUM_HEAP_SIZE, strings1[1]);
-                append(endTable);
+                bppfnd(nfwLfftTbblf);
+                String[] strings1 = formbtKBytfStrings(u.gftUsfd(), u.gftMbx());
+                bppfnd(Mfssbgfs.CURRENT_HEAP_SIZE, strings1[0]);
+                bppfnd(Mfssbgfs.MAXIMUM_HEAP_SIZE, strings1[1]);
+                bppfnd(fndTbblf);
 
-                append(newRightTable);
-                String[] strings2 = formatKByteStrings(u.getCommitted());
-                append(Messages.COMMITTED_MEMORY,  strings2[0]);
-                append(Messages.SUMMARY_TAB_PENDING_FINALIZATION_LABEL,
-                       Resources.format(Messages.SUMMARY_TAB_PENDING_FINALIZATION_VALUE,
-                                        memoryBean.getObjectPendingFinalizationCount()));
-                append(endTable);
+                bppfnd(nfwRigitTbblf);
+                String[] strings2 = formbtKBytfStrings(u.gftCommittfd());
+                bppfnd(Mfssbgfs.COMMITTED_MEMORY,  strings2[0]);
+                bppfnd(Mfssbgfs.SUMMARY_TAB_PENDING_FINALIZATION_LABEL,
+                       Rfsourdfs.formbt(Mfssbgfs.SUMMARY_TAB_PENDING_FINALIZATION_VALUE,
+                                        mfmoryBfbn.gftObjfdtPfndingFinblizbtionCount()));
+                bppfnd(fndTbblf);
 
-                append(newTable);
-                Collection<GarbageCollectorMXBean> garbageCollectors =
-                                            proxyClient.getGarbageCollectorMXBeans();
-                for (GarbageCollectorMXBean garbageCollectorMBean : garbageCollectors) {
-                    String gcName = garbageCollectorMBean.getName();
-                    long gcCount = garbageCollectorMBean.getCollectionCount();
-                    long gcTime = garbageCollectorMBean.getCollectionTime();
+                bppfnd(nfwTbblf);
+                Collfdtion<GbrbbgfCollfdtorMXBfbn> gbrbbgfCollfdtors =
+                                            proxyClifnt.gftGbrbbgfCollfdtorMXBfbns();
+                for (GbrbbgfCollfdtorMXBfbn gbrbbgfCollfdtorMBfbn : gbrbbgfCollfdtors) {
+                    String gdNbmf = gbrbbgfCollfdtorMBfbn.gftNbmf();
+                    long gdCount = gbrbbgfCollfdtorMBfbn.gftCollfdtionCount();
+                    long gdTimf = gbrbbgfCollfdtorMBfbn.gftCollfdtionTimf();
 
-                    append(Messages.GARBAGE_COLLECTOR,
-                           Resources.format(Messages.GC_INFO, gcName, gcCount,
-                                            (gcTime >= 0) ? formatTime(gcTime)
-                                                 : Messages.UNAVAILABLE),
+                    bppfnd(Mfssbgfs.GARBAGE_COLLECTOR,
+                           Rfsourdfs.formbt(Mfssbgfs.GC_INFO, gdNbmf, gdCount,
+                                            (gdTimf >= 0) ? formbtTimf(gdTimf)
+                                                 : Mfssbgfs.UNAVAILABLE),
                            4);
                 }
-                append(endTable);
+                bppfnd(fndTbblf);
             }
 
-            append(newDivider);
+            bppfnd(nfwDividfr);
 
-            {  // Operating System info
-                append(newLeftTable);
-                String osName = osMBean.getName();
-                String osVersion = osMBean.getVersion();
-                String osArch = osMBean.getArch();
-                result.nCPUs = osMBean.getAvailableProcessors();
-                append(Messages.OPERATING_SYSTEM, osName + " " + osVersion);
-                append(Messages.ARCHITECTURE, osArch);
-                append(Messages.NUMBER_OF_PROCESSORS, result.nCPUs+"");
+            {  // Opfrbting Systfm info
+                bppfnd(nfwLfftTbblf);
+                String osNbmf = osMBfbn.gftNbmf();
+                String osVfrsion = osMBfbn.gftVfrsion();
+                String osArdi = osMBfbn.gftArdi();
+                rfsult.nCPUs = osMBfbn.gftAvbilbblfProdfssors();
+                bppfnd(Mfssbgfs.OPERATING_SYSTEM, osNbmf + " " + osVfrsion);
+                bppfnd(Mfssbgfs.ARCHITECTURE, osArdi);
+                bppfnd(Mfssbgfs.NUMBER_OF_PROCESSORS, rfsult.nCPUs+"");
 
-                if (pathSeparator == null) {
-                    // Must use separator of remote OS, not File.pathSeparator
-                    // from this local VM. In the future, consider using
-                    // RuntimeMXBean to get the remote system property.
-                    pathSeparator = osName.startsWith("Windows ") ? ";" : ":";
+                if (pbtiSfpbrbtor == null) {
+                    // Must usf sfpbrbtor of rfmotf OS, not Filf.pbtiSfpbrbtor
+                    // from tiis lodbl VM. In tif futurf, donsidfr using
+                    // RuntimfMXBfbn to gft tif rfmotf systfm propfrty.
+                    pbtiSfpbrbtor = osNbmf.stbrtsWiti("Windows ") ? ";" : ":";
                 }
 
-                if (sunOSMBean != null) {
+                if (sunOSMBfbn != null) {
                     String[] kbStrings1 =
-                        formatKByteStrings(sunOSMBean.getCommittedVirtualMemorySize());
+                        formbtKBytfStrings(sunOSMBfbn.gftCommittfdVirtublMfmorySizf());
 
                     String[] kbStrings2 =
-                        formatKByteStrings(sunOSMBean.getTotalPhysicalMemorySize(),
-                                           sunOSMBean.getFreePhysicalMemorySize(),
-                                           sunOSMBean.getTotalSwapSpaceSize(),
-                                           sunOSMBean.getFreeSwapSpaceSize());
+                        formbtKBytfStrings(sunOSMBfbn.gftTotblPiysidblMfmorySizf(),
+                                           sunOSMBfbn.gftFrffPiysidblMfmorySizf(),
+                                           sunOSMBfbn.gftTotblSwbpSpbdfSizf(),
+                                           sunOSMBfbn.gftFrffSwbpSpbdfSizf());
 
-                    append(Messages.COMMITTED_VIRTUAL_MEMORY, kbStrings1[0]);
-                    append(endTable);
+                    bppfnd(Mfssbgfs.COMMITTED_VIRTUAL_MEMORY, kbStrings1[0]);
+                    bppfnd(fndTbblf);
 
-                    append(newRightTable);
-                    append(Messages.TOTAL_PHYSICAL_MEMORY, kbStrings2[0]);
-                    append(Messages.FREE_PHYSICAL_MEMORY,  kbStrings2[1]);
-                    append(Messages.TOTAL_SWAP_SPACE,      kbStrings2[2]);
-                    append(Messages.FREE_SWAP_SPACE,       kbStrings2[3]);
+                    bppfnd(nfwRigitTbblf);
+                    bppfnd(Mfssbgfs.TOTAL_PHYSICAL_MEMORY, kbStrings2[0]);
+                    bppfnd(Mfssbgfs.FREE_PHYSICAL_MEMORY,  kbStrings2[1]);
+                    bppfnd(Mfssbgfs.TOTAL_SWAP_SPACE,      kbStrings2[2]);
+                    bppfnd(Mfssbgfs.FREE_SWAP_SPACE,       kbStrings2[3]);
                 }
 
-                append(endTable);
+                bppfnd(fndTbblf);
             }
 
-            append(newDivider);
+            bppfnd(nfwDividfr);
 
-            {  // VM arguments and paths
-                append(newTable);
-                String args = "";
-                java.util.List<String> inputArguments = rmBean.getInputArguments();
-                for (String arg : inputArguments) {
-                    args += arg + " ";
+            {  // VM brgumfnts bnd pbtis
+                bppfnd(nfwTbblf);
+                String brgs = "";
+                jbvb.util.List<String> inputArgumfnts = rmBfbn.gftInputArgumfnts();
+                for (String brg : inputArgumfnts) {
+                    brgs += brg + " ";
                 }
-                append(Messages.VM_ARGUMENTS, args, 4);
-                append(Messages.CLASS_PATH,   rmBean.getClassPath(), 4);
-                append(Messages.LIBRARY_PATH, rmBean.getLibraryPath(), 4);
-                append(Messages.BOOT_CLASS_PATH,
-                       rmBean.isBootClassPathSupported()
-                                    ? rmBean.getBootClassPath()
-                                    : Messages.UNAVAILABLE,
+                bppfnd(Mfssbgfs.VM_ARGUMENTS, brgs, 4);
+                bppfnd(Mfssbgfs.CLASS_PATH,   rmBfbn.gftClbssPbti(), 4);
+                bppfnd(Mfssbgfs.LIBRARY_PATH, rmBfbn.gftLibrbryPbti(), 4);
+                bppfnd(Mfssbgfs.BOOT_CLASS_PATH,
+                       rmBfbn.isBootClbssPbtiSupportfd()
+                                    ? rmBfbn.gftBootClbssPbti()
+                                    : Mfssbgfs.UNAVAILABLE,
                        4);
-                append(endTable);
+                bppfnd(fndTbblf);
             }
-        } catch (IOException e) {
-            if (JConsole.isDebug()) {
-                e.printStackTrace();
+        } dbtdi (IOExdfption f) {
+            if (JConsolf.isDfbug()) {
+                f.printStbdkTrbdf();
             }
-            proxyClient.markAsDead();
-            return null;
-        } catch (UndeclaredThrowableException e) {
-            if (JConsole.isDebug()) {
-                e.printStackTrace();
+            proxyClifnt.mbrkAsDfbd();
+            rfturn null;
+        } dbtdi (UndfdlbrfdTirowbblfExdfption f) {
+            if (JConsolf.isDfbug()) {
+                f.printStbdkTrbdf();
             }
-            proxyClient.markAsDead();
-            return null;
+            proxyClifnt.mbrkAsDfbd();
+            rfturn null;
         }
 
-        append("</table>");
+        bppfnd("</tbblf>");
 
-        result.timeStamp = System.currentTimeMillis();
-        result.summary = buf.toString();
+        rfsult.timfStbmp = Systfm.durrfntTimfMillis();
+        rfsult.summbry = buf.toString();
 
-        return result;
+        rfturn rfsult;
     }
 
-    private synchronized void append(String str) {
-        buf.append(str);
+    privbtf syndironizfd void bppfnd(String str) {
+        buf.bppfnd(str);
     }
 
-    void append(String label, String value) {
-        append(newRow(label, value));
+    void bppfnd(String lbbfl, String vbluf) {
+        bppfnd(nfwRow(lbbfl, vbluf));
     }
 
-    private void append(String label, String value, int columnPerRow) {
-        if (columnPerRow == 4 && pathSeparator != null) {
-            value = value.replace(pathSeparator,
-                                  "<b></b>" + pathSeparator);
+    privbtf void bppfnd(String lbbfl, String vbluf, int dolumnPfrRow) {
+        if (dolumnPfrRow == 4 && pbtiSfpbrbtor != null) {
+            vbluf = vbluf.rfplbdf(pbtiSfpbrbtor,
+                                  "<b></b>" + pbtiSfpbrbtor);
         }
-        append(newRow(label, value, columnPerRow));
+        bppfnd(nfwRow(lbbfl, vbluf, dolumnPfrRow));
     }
 
-    OverviewPanel[] getOverviewPanels() {
-        if (overviewPanel == null) {
-            overviewPanel = new CPUOverviewPanel();
+    OvfrvifwPbnfl[] gftOvfrvifwPbnfls() {
+        if (ovfrvifwPbnfl == null) {
+            ovfrvifwPbnfl = nfw CPUOvfrvifwPbnfl();
         }
-        return new OverviewPanel[] { overviewPanel };
+        rfturn nfw OvfrvifwPbnfl[] { ovfrvifwPbnfl };
     }
 
-    private static class CPUOverviewPanel extends OverviewPanel {
-        private long prevUpTime, prevProcessCpuTime;
+    privbtf stbtid dlbss CPUOvfrvifwPbnfl fxtfnds OvfrvifwPbnfl {
+        privbtf long prfvUpTimf, prfvProdfssCpuTimf;
 
-        CPUOverviewPanel() {
-            super(Messages.CPU_USAGE, cpuUsageKey, Messages.CPU_USAGE, Plotter.Unit.PERCENT);
-            getPlotter().setDecimals(CPU_DECIMALS);
+        CPUOvfrvifwPbnfl() {
+            supfr(Mfssbgfs.CPU_USAGE, dpuUsbgfKfy, Mfssbgfs.CPU_USAGE, Plottfr.Unit.PERCENT);
+            gftPlottfr().sftDfdimbls(CPU_DECIMALS);
         }
 
-        public void updateCPUInfo(Result result) {
-            if (prevUpTime > 0L && result.upTime > prevUpTime) {
-                // elapsedCpu is in ns and elapsedTime is in ms.
-                long elapsedCpu = result.processCpuTime - prevProcessCpuTime;
-                long elapsedTime = result.upTime - prevUpTime;
-                // cpuUsage could go higher than 100% because elapsedTime
-                // and elapsedCpu are not fetched simultaneously. Limit to
-                // 99% to avoid Plotter showing a scale from 0% to 200%.
-                float cpuUsage =
-                    Math.min(99F,
-                             elapsedCpu / (elapsedTime * 10000F * result.nCPUs));
+        publid void updbtfCPUInfo(Rfsult rfsult) {
+            if (prfvUpTimf > 0L && rfsult.upTimf > prfvUpTimf) {
+                // flbpsfdCpu is in ns bnd flbpsfdTimf is in ms.
+                long flbpsfdCpu = rfsult.prodfssCpuTimf - prfvProdfssCpuTimf;
+                long flbpsfdTimf = rfsult.upTimf - prfvUpTimf;
+                // dpuUsbgf dould go iigifr tibn 100% bfdbusf flbpsfdTimf
+                // bnd flbpsfdCpu brf not fftdifd simultbnfously. Limit to
+                // 99% to bvoid Plottfr siowing b sdblf from 0% to 200%.
+                flobt dpuUsbgf =
+                    Mbti.min(99F,
+                             flbpsfdCpu / (flbpsfdTimf * 10000F * rfsult.nCPUs));
 
-                cpuUsage = Math.max(0F, cpuUsage);
+                dpuUsbgf = Mbti.mbx(0F, dpuUsbgf);
 
-                getPlotter().addValues(result.timeStamp,
-                                Math.round(cpuUsage * Math.pow(10.0, CPU_DECIMALS)));
-                getInfoLabel().setText(Resources.format(Messages.CPU_USAGE_FORMAT,
-                                               String.format("%."+CPU_DECIMALS+"f", cpuUsage)));
+                gftPlottfr().bddVblufs(rfsult.timfStbmp,
+                                Mbti.round(dpuUsbgf * Mbti.pow(10.0, CPU_DECIMALS)));
+                gftInfoLbbfl().sftTfxt(Rfsourdfs.formbt(Mfssbgfs.CPU_USAGE_FORMAT,
+                                               String.formbt("%."+CPU_DECIMALS+"f", dpuUsbgf)));
             }
-            this.prevUpTime = result.upTime;
-            this.prevProcessCpuTime = result.processCpuTime;
+            tiis.prfvUpTimf = rfsult.upTimf;
+            tiis.prfvProdfssCpuTimf = rfsult.prodfssCpuTimf;
         }
     }
 }

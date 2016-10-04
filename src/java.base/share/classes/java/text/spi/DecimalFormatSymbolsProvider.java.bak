@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.text.spi;
+pbdkbgf jbvb.tfxt.spi;
 
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-import java.util.spi.LocaleServiceProvider;
+import jbvb.tfxt.DfdimblFormbtSymbols;
+import jbvb.util.Lodblf;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
 
 /**
- * An abstract class for service providers that
- * provide instances of the
- * {@link java.text.DecimalFormatSymbols DecimalFormatSymbols} class.
+ * An bbstrbdt dlbss for sfrvidf providfrs tibt
+ * providf instbndfs of tif
+ * {@link jbvb.tfxt.DfdimblFormbtSymbols DfdimblFormbtSymbols} dlbss.
  *
- * <p>The requested {@code Locale} may contain an <a
- * href="../../util/Locale.html#def_locale_extension"> extension</a> for
- * specifying the desired numbering system. For example, {@code "ar-u-nu-arab"}
- * (in the BCP 47 language tag form) specifies Arabic with the Arabic-Indic
- * digits and symbols, while {@code "ar-u-nu-latn"} specifies Arabic with the
- * Latin digits and symbols. Refer to the <em>Unicode Locale Data Markup
- * Language (LDML)</em> specification for numbering systems.
+ * <p>Tif rfqufstfd {@dodf Lodblf} mby dontbin bn <b
+ * irff="../../util/Lodblf.itml#dff_lodblf_fxtfnsion"> fxtfnsion</b> for
+ * spfdifying tif dfsirfd numbfring systfm. For fxbmplf, {@dodf "br-u-nu-brbb"}
+ * (in tif BCP 47 lbngubgf tbg form) spfdififs Arbbid witi tif Arbbid-Indid
+ * digits bnd symbols, wiilf {@dodf "br-u-nu-lbtn"} spfdififs Arbbid witi tif
+ * Lbtin digits bnd symbols. Rfffr to tif <fm>Unidodf Lodblf Dbtb Mbrkup
+ * Lbngubgf (LDML)</fm> spfdifidbtion for numbfring systfms.
  *
- * @since        1.6
- * @see Locale#forLanguageTag(String)
- * @see Locale#getExtension(char)
+ * @sindf        1.6
+ * @sff Lodblf#forLbngubgfTbg(String)
+ * @sff Lodblf#gftExtfnsion(dibr)
  */
-public abstract class DecimalFormatSymbolsProvider extends LocaleServiceProvider {
+publid bbstrbdt dlbss DfdimblFormbtSymbolsProvidfr fxtfnds LodblfSfrvidfProvidfr {
 
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    protected DecimalFormatSymbolsProvider() {
+    protfdtfd DfdimblFormbtSymbolsProvidfr() {
     }
 
     /**
-     * Returns a new <code>DecimalFormatSymbols</code> instance for the
-     * specified locale.
+     * Rfturns b nfw <dodf>DfdimblFormbtSymbols</dodf> instbndf for tif
+     * spfdififd lodblf.
      *
-     * @param locale the desired locale
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a <code>DecimalFormatSymbols</code> instance.
-     * @see java.text.DecimalFormatSymbols#getInstance(java.util.Locale)
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b <dodf>DfdimblFormbtSymbols</dodf> instbndf.
+     * @sff jbvb.tfxt.DfdimblFormbtSymbols#gftInstbndf(jbvb.util.Lodblf)
      */
-    public abstract DecimalFormatSymbols getInstance(Locale locale);
+    publid bbstrbdt DfdimblFormbtSymbols gftInstbndf(Lodblf lodblf);
 }

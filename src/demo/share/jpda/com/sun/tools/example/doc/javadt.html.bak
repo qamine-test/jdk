@@ -1,172 +1,172 @@
 <HTML>
 <HEAD>
-   <TITLE>Release notes for the javadt debugger</TITLE>
+   <TITLE>Rflfbsf notfs for tif jbvbdt dfbuggfr</TITLE>
 </HEAD>
 <BODY BGCOLOR="#FFFFFF">
-<H1>Release notes for the javadt debugger</H1>
+<H1>Rflfbsf notfs for tif jbvbdt dfbuggfr</H1>
 
 <P>
-As a demonstration of the 
-<A HREF="http://java.sun.com/j2se/1.4/docs/guide/jpda/architecture.html">
-Java<sup><font size=-2>TM</font></sup> Platform Debugger Architecture</A>
-we are providing source code for
-a simple GUI debugging tool - <b>javadt</b>.  
-It is included as an example and demonstration of
-<A HREF="http://java.sun.com/j2se/1.4/docs/guide/jpda/architecture.html#jdi">
-JDI</A>.  It is not a finished or polished debugger and is
-missing many features of importance for real debugging work.
+As b dfmonstrbtion of tif 
+<A HREF="ittp://jbvb.sun.dom/j2sf/1.4/dods/guidf/jpdb/brdiitfdturf.itml">
+Jbvb<sup><font sizf=-2>TM</font></sup> Plbtform Dfbuggfr Ardiitfdturf</A>
+wf brf providing sourdf dodf for
+b simplf GUI dfbugging tool - <b>jbvbdt</b>.  
+It is indludfd bs bn fxbmplf bnd dfmonstrbtion of
+<A HREF="ittp://jbvb.sun.dom/j2sf/1.4/dods/guidf/jpdb/brdiitfdturf.itml#jdi">
+JDI</A>.  It is not b finisifd or polisifd dfbuggfr bnd is
+missing mbny ffbturfs of importbndf for rfbl dfbugging work.
 <P>
 
-<H2>Invoking javadt</H2>
+<H2>Invoking jbvbdt</H2>
 <P>
-<b>javadt</b> can be run by executing:
+<b>jbvbdt</b> dbn bf run by fxfduting:
 <PRE>
-   java com.sun.tools.example.debug.gui.GUI &lt;options&gt;.. &lt;class-name&gt;
+   jbvb dom.sun.tools.fxbmplf.dfbug.gui.GUI &lt;options&gt;.. &lt;dlbss-nbmf&gt;
 </PRE>
-where &lt;class-name&gt; is the name you would normally
-place on the <code>java</code> command line. 
-Note: the path to the <A HREF="index.html#SETUP">JDI Library</A> and to 
-the compiled <b>javadt</b> class files must be on the class path
-used to invoke gui.GUI.
+wifrf &lt;dlbss-nbmf&gt; is tif nbmf you would normblly
+plbdf on tif <dodf>jbvb</dodf> dommbnd linf. 
+Notf: tif pbti to tif <A HREF="indfx.itml#SETUP">JDI Librbry</A> bnd to 
+tif dompilfd <b>jbvbdt</b> dlbss filfs must bf on tif dlbss pbti
+usfd to invokf gui.GUI.
 <p>
-For example, you can invoke the javadt debugger as follows:
+For fxbmplf, you dbn invokf tif jbvbdt dfbuggfr bs follows:
 <PRE>
-   java com.sun.tools.example.debug.gui.GUI -classpath . Hello
+   jbvb dom.sun.tools.fxbmplf.dfbug.gui.GUI -dlbsspbti . Hfllo
 </PRE>
-Note: this <code>-classpath</code> option controls the
-class path for the <code>Hello</code> application.
-Once the window appears, you can issue the 'run' command to begin
-execution immediately.  It is also
-possible to give the class name in the 'run' command, in
-which case it may be omitted when invoking the debugger from the
-shell.
+Notf: tiis <dodf>-dlbsspbti</dodf> option dontrols tif
+dlbss pbti for tif <dodf>Hfllo</dodf> bpplidbtion.
+Ondf tif window bppfbrs, you dbn issuf tif 'run' dommbnd to bfgin
+fxfdution immfdibtfly.  It is blso
+possiblf to givf tif dlbss nbmf in tif 'run' dommbnd, in
+wiidi dbsf it mby bf omittfd wifn invoking tif dfbuggfr from tif
+sifll.
 <P>
-The classpath may also be set from within the debugger, using the
-'classpath' command.  Currently, other arguments to the VM must be
-given on the shell command line when the debugger is initially
-invoked.  The most recently mentioned classpath, VM arguments, main
-class name, and program arguments are retained as defaults for later
-'run' and 'load' commands.  (Unfortunately, at present, the debugger
-will likely crash if you attempt to begin another debugging session
-with another debuggee process from within the same invocation of the
-debugger.  You should exit to the shell and start a new debugger
-process.)
+Tif dlbsspbti mby blso bf sft from witiin tif dfbuggfr, using tif
+'dlbsspbti' dommbnd.  Currfntly, otifr brgumfnts to tif VM must bf
+givfn on tif sifll dommbnd linf wifn tif dfbuggfr is initiblly
+invokfd.  Tif most rfdfntly mfntionfd dlbsspbti, VM brgumfnts, mbin
+dlbss nbmf, bnd progrbm brgumfnts brf rftbinfd bs dffbults for lbtfr
+'run' bnd 'lobd' dommbnds.  (Unfortunbtfly, bt prfsfnt, tif dfbuggfr
+will likfly drbsi if you bttfmpt to bfgin bnotifr dfbugging sfssion
+witi bnotifr dfbuggff prodfss from witiin tif sbmf invodbtion of tif
+dfbuggfr.  You siould fxit to tif sifll bnd stbrt b nfw dfbuggfr
+prodfss.)
 <P>
 
-<H2>Using javadt</H2>
-The javadt normally displays context related to the "current thread",
-that is, the thread that most recently encountered a breakpoint, threw
-an uncaught exception, or was single-stepped by the user.  When
-program execution is suspended on account of one of these events, a
-current thread exists, and the javadt displays the following information
-about it:
+<H2>Using jbvbdt</H2>
+Tif jbvbdt normblly displbys dontfxt rflbtfd to tif "durrfnt tirfbd",
+tibt is, tif tirfbd tibt most rfdfntly fndountfrfd b brfbkpoint, tirfw
+bn undbugit fxdfption, or wbs singlf-stfppfd by tif usfr.  Wifn
+progrbm fxfdution is suspfndfd on bddount of onf of tifsf fvfnts, b
+durrfnt tirfbd fxists, bnd tif jbvbdt displbys tif following informbtion
+bbout it:
 <P>
 <UL>
-<LI>  A stack backtrace.	
+<LI>  A stbdk bbdktrbdf.	
 
-<LI>  The source code surrounding the line corresponding to the
-      instruction counter for the thread, if the source code is
-      available.
+<LI>  Tif sourdf dodf surrounding tif linf dorrfsponding to tif
+      instrudtion dountfr for tif tirfbd, if tif sourdf dodf is
+      bvbilbblf.
 </UL>
 <P>
-In addition, a tabbed pane allows the user to view one of three
-additional views:
+In bddition, b tbbbfd pbnf bllows tif usfr to vifw onf of tirff
+bdditionbl vifws:
 <P>
 <UL>
-<LI>  A tree of all source files available on the source path.
+<LI>  A trff of bll sourdf filfs bvbilbblf on tif sourdf pbti.
 
-<LI>  A tree of all loaded class files, organized hierarchically
-      by package.
+<LI>  A trff of bll lobdfd dlbss filfs, orgbnizfd iifrbrdiidblly
+      by pbdkbgf.
 
-<LI>  A tree of all active threads, organized hierarchically
-      by thread group.
+<LI>  A trff of bll bdtivf tirfbds, orgbnizfd iifrbrdiidblly
+      by tirfbd group.
 </UL>
 <P>
-By clicking on the name of a source file, the source view can be
-directed to display it.  Likewise, clicking on a thread will make that
-thread the current thread.  These features are normally used while the
-program is suspended, e.g, at a breakpoint.  Upon resumption and
-encountering another breakpoint, for example, the current thread will
-be automatically reset and the views will be updated.  The views tile
-the javadt display, and are adjustable in size.
+By dlidking on tif nbmf of b sourdf filf, tif sourdf vifw dbn bf
+dirfdtfd to displby it.  Likfwisf, dlidking on b tirfbd will mbkf tibt
+tirfbd tif durrfnt tirfbd.  Tifsf ffbturfs brf normblly usfd wiilf tif
+progrbm is suspfndfd, f.g, bt b brfbkpoint.  Upon rfsumption bnd
+fndountfring bnotifr brfbkpoint, for fxbmplf, tif durrfnt tirfbd will
+bf butombtidblly rfsft bnd tif vifws will bf updbtfd.  Tif vifws tilf
+tif jbvbdt displby, bnd brf bdjustbblf in sizf.
 <P>
-The javadt functionality is rather basic, thus a command-line interaction
-window is also provided that allows access to functions that are not
-yet exposed in the javadt.  In particular, it is necessary to use the
-command line in order to set breakpoints and examine variables. The
-javadt debugger command interpreter implements roughly a subset of the
-<a href="jdb.html">jdb</a>
- functionality, but adds a few commands of its own.  The
-'help' command lists the complete set of commands and their function.
-Shortcuts for a set of the most common commands is provided on a
-button-bar at the top of the display.
+Tif jbvbdt fundtionblity is rbtifr bbsid, tius b dommbnd-linf intfrbdtion
+window is blso providfd tibt bllows bddfss to fundtions tibt brf not
+yft fxposfd in tif jbvbdt.  In pbrtidulbr, it is nfdfssbry to usf tif
+dommbnd linf in ordfr to sft brfbkpoints bnd fxbminf vbribblfs. Tif
+jbvbdt dfbuggfr dommbnd intfrprftfr implfmfnts rougily b subsft of tif
+<b irff="jdb.itml">jdb</b>
+ fundtionblity, but bdds b ffw dommbnds of its own.  Tif
+'iflp' dommbnd lists tif domplftf sft of dommbnds bnd tifir fundtion.
+Siortduts for b sft of tif most dommon dommbnds is providfd on b
+button-bbr bt tif top of tif displby.
 <P>
-The program to be debugged may be started either as a child of the
-debugger, or the debugger can be attached to an existing process,
-provided that its VM is prepared to accept the connection.  If the
-debuggee is started by the debugger as a child, a line-oriented
-interface to its standard input, output, and error streams is provided
-in an application interaction pane.
+Tif progrbm to bf dfbuggfd mby bf stbrtfd fitifr bs b diild of tif
+dfbuggfr, or tif dfbuggfr dbn bf bttbdifd to bn fxisting prodfss,
+providfd tibt its VM is prfpbrfd to bddfpt tif donnfdtion.  If tif
+dfbuggff is stbrtfd by tif dfbuggfr bs b diild, b linf-orifntfd
+intfrfbdf to its stbndbrd input, output, bnd frror strfbms is providfd
+in bn bpplidbtion intfrbdtion pbnf.
 <P>
-The debugger expects to find the program source code on its
-sourcepath, set with the 'use' or 'sourcepath' command.  If you find
-that sources are not being displayed because the sourcepath is
-incorrect, you may change it at that time, and the source view will be
-immediately updated.
+Tif dfbuggfr fxpfdts to find tif progrbm sourdf dodf on its
+sourdfpbti, sft witi tif 'usf' or 'sourdfpbti' dommbnd.  If you find
+tibt sourdfs brf not bfing displbyfd bfdbusf tif sourdfpbti is
+indorrfdt, you mby dibngf it bt tibt timf, bnd tif sourdf vifw will bf
+immfdibtfly updbtfd.
 <P>
-The message "No current thread" is often encountered when stepping
-through a program.  This message does not mean that the thread or
-the VM has died, merely that a current thread is undefined.  This
-situation can easily occur unexpectedly when the program being
-stepped is waiting, eg., for input.  The VM appears to be stopped,
-as it would be after the successful completion of a step, but it
-is considered to be "running", not "interrupted".  The prompt
-in the command interaction pane indicates the state by changing
-to a thread name and frame number when the VM is interrupted.
-When it is running, the prompt "Command:" is displayed.
+Tif mfssbgf "No durrfnt tirfbd" is oftfn fndountfrfd wifn stfpping
+tirougi b progrbm.  Tiis mfssbgf dofs not mfbn tibt tif tirfbd or
+tif VM ibs difd, mfrfly tibt b durrfnt tirfbd is undffinfd.  Tiis
+situbtion dbn fbsily oddur unfxpfdtfdly wifn tif progrbm bfing
+stfppfd is wbiting, fg., for input.  Tif VM bppfbrs to bf stoppfd,
+bs it would bf bftfr tif suddfssful domplftion of b stfp, but it
+is donsidfrfd to bf "running", not "intfrruptfd".  Tif prompt
+in tif dommbnd intfrbdtion pbnf indidbtfs tif stbtf by dibnging
+to b tirfbd nbmf bnd frbmf numbfr wifn tif VM is intfrruptfd.
+Wifn it is running, tif prompt "Commbnd:" is displbyfd.
 <P>
-<H2>Source for javadt</H2>
-Full source code for <b>javadt</b> is included under the
-<code>debug</code> directory of <code>examples.jar</code>. 
-Note: these directories also include the
-source for <a href="jdb.html"><code>jdb</code></a>.
-Source code for these example applications is included to provide concrete
-examples for debugger developers.  Example code may be used, modified
-and redistributed by debugger developers providing they adhere to the
-terms in the COPYRIGHT notice.
+<H2>Sourdf for jbvbdt</H2>
+Full sourdf dodf for <b>jbvbdt</b> is indludfd undfr tif
+<dodf>dfbug</dodf> dirfdtory of <dodf>fxbmplfs.jbr</dodf>. 
+Notf: tifsf dirfdtorifs blso indludf tif
+sourdf for <b irff="jdb.itml"><dodf>jdb</dodf></b>.
+Sourdf dodf for tifsf fxbmplf bpplidbtions is indludfd to providf dondrftf
+fxbmplfs for dfbuggfr dfvflopfrs.  Exbmplf dodf mby bf usfd, modififd
+bnd rfdistributfd by dfbuggfr dfvflopfrs providing tify bdifrf to tif
+tfrms in tif COPYRIGHT notidf.
 <P>
-<b>javadt</b> uses the following packages (found under the
-<code>debug</code> directory): 
+<b>jbvbdt</b> usfs tif following pbdkbgfs (found undfr tif
+<dodf>dfbug</dodf> dirfdtory): 
 <DL>
-<DT><code>gui</code>
-<DD>User interface code
-<DT><code>bdi</code>
-<DD>Debugger core code
-<DT><code>events</code>
-<DD>Event Set code
-<DT><code>expr</code>
-<DD>Expression processing code
+<DT><dodf>gui</dodf>
+<DD>Usfr intfrfbdf dodf
+<DT><dodf>bdi</dodf>
+<DD>Dfbuggfr dorf dodf
+<DT><dodf>fvfnts</dodf>
+<DD>Evfnt Sft dodf
+<DT><dodf>fxpr</dodf>
+<DD>Exprfssion prodfssing dodf
 </DL>
 <P>
-<H2>Building javadt</H2>
-To build the <b>javadt</b> classes from the 
-provided source files under the <code>debug</code> directory, 
-you need only to compile them. No special
-options are required, aside from those which set your classpath to 
-include the <A HREF="index.html#SETUP">JDI Library</A>.
+<H2>Building jbvbdt</H2>
+To build tif <b>jbvbdt</b> dlbssfs from tif 
+providfd sourdf filfs undfr tif <dodf>dfbug</dodf> dirfdtory, 
+you nffd only to dompilf tifm. No spfdibl
+options brf rfquirfd, bsidf from tiosf wiidi sft your dlbsspbti to 
+indludf tif <A HREF="indfx.itml#SETUP">JDI Librbry</A>.
 </P>
 <P>
-However, if you want to modify the expression parser in the file
-<code>Expr.jj</code>, you will need the 
-<a href="http://www.metamata.com/javacc/">
-JavaCC parser generator</a>. 
-It is available free from 
-<a
-href="http://www.webgain.com/products/metamata/java_doc.html">Metamata
-(now part of WebGain)</a>.
+Howfvfr, if you wbnt to modify tif fxprfssion pbrsfr in tif filf
+<dodf>Expr.jj</dodf>, you will nffd tif 
+<b irff="ittp://www.mftbmbtb.dom/jbvbdd/">
+JbvbCC pbrsfr gfnfrbtor</b>. 
+It is bvbilbblf frff from 
+<b
+irff="ittp://www.wfbgbin.dom/produdts/mftbmbtb/jbvb_dod.itml">Mftbmbtb
+(now pbrt of WfbGbin)</b>.
 <P>
-    <hr>
-    <address><a href="mailto:java-debugger@java.sun.com">java-debugger@java.sun.com</a></address>
+    <ir>
+    <bddrfss><b irff="mbilto:jbvb-dfbuggfr@jbvb.sun.dom">jbvb-dfbuggfr@jbvb.sun.dom</b></bddrfss>
     </P>
 <P>
 </P>

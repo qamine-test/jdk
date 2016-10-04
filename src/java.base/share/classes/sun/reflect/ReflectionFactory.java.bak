@@ -1,424 +1,424 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect;
+pbdkbgf sun.rfflfdt;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Executable;
-import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.PrivilegedAction;
-import sun.reflect.misc.ReflectUtil;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Exfdutbblf;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
-/** <P> The master factory for all reflective objects, both those in
-    java.lang.reflect (Fields, Methods, Constructors) as well as their
-    delegates (FieldAccessors, MethodAccessors, ConstructorAccessors).
+/** <P> Tif mbstfr fbdtory for bll rfflfdtivf objfdts, boti tiosf in
+    jbvb.lbng.rfflfdt (Fiflds, Mftiods, Construdtors) bs wfll bs tifir
+    dflfgbtfs (FifldAddfssors, MftiodAddfssors, ConstrudtorAddfssors).
     </P>
 
-    <P> The methods in this class are extremely unsafe and can cause
-    subversion of both the language and the verifier. For this reason,
-    they are all instance methods, and access to the constructor of
-    this factory is guarded by a security check, in similar style to
-    {@link sun.misc.Unsafe}. </P>
+    <P> Tif mftiods in tiis dlbss brf fxtrfmfly unsbff bnd dbn dbusf
+    subvfrsion of boti tif lbngubgf bnd tif vfrififr. For tiis rfbson,
+    tify brf bll instbndf mftiods, bnd bddfss to tif donstrudtor of
+    tiis fbdtory is gubrdfd by b sfdurity difdk, in similbr stylf to
+    {@link sun.misd.Unsbff}. </P>
 */
 
-public class ReflectionFactory {
+publid dlbss RfflfdtionFbdtory {
 
-    private static boolean initted = false;
-    private static Permission reflectionFactoryAccessPerm
-        = new RuntimePermission("reflectionFactoryAccess");
-    private static ReflectionFactory soleInstance = new ReflectionFactory();
-    // Provides access to package-private mechanisms in java.lang.reflect
-    private static volatile LangReflectAccess langReflectAccess;
+    privbtf stbtid boolfbn inittfd = fblsf;
+    privbtf stbtid Pfrmission rfflfdtionFbdtoryAddfssPfrm
+        = nfw RuntimfPfrmission("rfflfdtionFbdtoryAddfss");
+    privbtf stbtid RfflfdtionFbdtory solfInstbndf = nfw RfflfdtionFbdtory();
+    // Providfs bddfss to pbdkbgf-privbtf mfdibnisms in jbvb.lbng.rfflfdt
+    privbtf stbtid volbtilf LbngRfflfdtAddfss lbngRfflfdtAddfss;
 
     //
-    // "Inflation" mechanism. Loading bytecodes to implement
-    // Method.invoke() and Constructor.newInstance() currently costs
-    // 3-4x more than an invocation via native code for the first
-    // invocation (though subsequent invocations have been benchmarked
-    // to be over 20x faster). Unfortunately this cost increases
-    // startup time for certain applications that use reflection
-    // intensively (but only once per class) to bootstrap themselves.
-    // To avoid this penalty we reuse the existing JVM entry points
-    // for the first few invocations of Methods and Constructors and
-    // then switch to the bytecode-based implementations.
+    // "Inflbtion" mfdibnism. Lobding bytfdodfs to implfmfnt
+    // Mftiod.invokf() bnd Construdtor.nfwInstbndf() durrfntly dosts
+    // 3-4x morf tibn bn invodbtion vib nbtivf dodf for tif first
+    // invodbtion (tiougi subsfqufnt invodbtions ibvf bffn bfndimbrkfd
+    // to bf ovfr 20x fbstfr). Unfortunbtfly tiis dost indrfbsfs
+    // stbrtup timf for dfrtbin bpplidbtions tibt usf rfflfdtion
+    // intfnsivfly (but only ondf pfr dlbss) to bootstrbp tifmsflvfs.
+    // To bvoid tiis pfnblty wf rfusf tif fxisting JVM fntry points
+    // for tif first ffw invodbtions of Mftiods bnd Construdtors bnd
+    // tifn switdi to tif bytfdodf-bbsfd implfmfntbtions.
     //
-    // Package-private to be accessible to NativeMethodAccessorImpl
-    // and NativeConstructorAccessorImpl
-    private static boolean noInflation        = false;
-    private static int     inflationThreshold = 15;
+    // Pbdkbgf-privbtf to bf bddfssiblf to NbtivfMftiodAddfssorImpl
+    // bnd NbtivfConstrudtorAddfssorImpl
+    privbtf stbtid boolfbn noInflbtion        = fblsf;
+    privbtf stbtid int     inflbtionTirfsiold = 15;
 
-    private ReflectionFactory() {
+    privbtf RfflfdtionFbdtory() {
     }
 
     /**
-     * A convenience class for acquiring the capability to instantiate
-     * reflective objects.  Use this instead of a raw call to {@link
-     * #getReflectionFactory} in order to avoid being limited by the
-     * permissions of your callers.
+     * A donvfnifndf dlbss for bdquiring tif dbpbbility to instbntibtf
+     * rfflfdtivf objfdts.  Usf tiis instfbd of b rbw dbll to {@link
+     * #gftRfflfdtionFbdtory} in ordfr to bvoid bfing limitfd by tif
+     * pfrmissions of your dbllfrs.
      *
-     * <p>An instance of this class can be used as the argument of
-     * <code>AccessController.doPrivileged</code>.
+     * <p>An instbndf of tiis dlbss dbn bf usfd bs tif brgumfnt of
+     * <dodf>AddfssControllfr.doPrivilfgfd</dodf>.
      */
-    public static final class GetReflectionFactoryAction
-        implements PrivilegedAction<ReflectionFactory> {
-        public ReflectionFactory run() {
-            return getReflectionFactory();
+    publid stbtid finbl dlbss GftRfflfdtionFbdtoryAdtion
+        implfmfnts PrivilfgfdAdtion<RfflfdtionFbdtory> {
+        publid RfflfdtionFbdtory run() {
+            rfturn gftRfflfdtionFbdtory();
         }
     }
 
     /**
-     * Provides the caller with the capability to instantiate reflective
-     * objects.
+     * Providfs tif dbllfr witi tif dbpbbility to instbntibtf rfflfdtivf
+     * objfdts.
      *
-     * <p> First, if there is a security manager, its
-     * <code>checkPermission</code> method is called with a {@link
-     * java.lang.RuntimePermission} with target
-     * <code>"reflectionFactoryAccess"</code>.  This may result in a
-     * security exception.
+     * <p> First, if tifrf is b sfdurity mbnbgfr, its
+     * <dodf>difdkPfrmission</dodf> mftiod is dbllfd witi b {@link
+     * jbvb.lbng.RuntimfPfrmission} witi tbrgft
+     * <dodf>"rfflfdtionFbdtoryAddfss"</dodf>.  Tiis mby rfsult in b
+     * sfdurity fxdfption.
      *
-     * <p> The returned <code>ReflectionFactory</code> object should be
-     * carefully guarded by the caller, since it can be used to read and
-     * write private data and invoke private methods, as well as to load
-     * unverified bytecodes.  It must never be passed to untrusted code.
+     * <p> Tif rfturnfd <dodf>RfflfdtionFbdtory</dodf> objfdt siould bf
+     * dbrffully gubrdfd by tif dbllfr, sindf it dbn bf usfd to rfbd bnd
+     * writf privbtf dbtb bnd invokf privbtf mftiods, bs wfll bs to lobd
+     * unvfrififd bytfdodfs.  It must nfvfr bf pbssfd to untrustfd dodf.
      *
-     * @exception SecurityException if a security manager exists and its
-     *             <code>checkPermission</code> method doesn't allow
-     *             access to the RuntimePermission "reflectionFactoryAccess".  */
-    public static ReflectionFactory getReflectionFactory() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            // TO DO: security.checkReflectionFactoryAccess();
-            security.checkPermission(reflectionFactoryAccessPerm);
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPfrmission</dodf> mftiod dofsn't bllow
+     *             bddfss to tif RuntimfPfrmission "rfflfdtionFbdtoryAddfss".  */
+    publid stbtid RfflfdtionFbdtory gftRfflfdtionFbdtory() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            // TO DO: sfdurity.difdkRfflfdtionFbdtoryAddfss();
+            sfdurity.difdkPfrmission(rfflfdtionFbdtoryAddfssPfrm);
         }
-        return soleInstance;
+        rfturn solfInstbndf;
     }
 
     //--------------------------------------------------------------------------
     //
-    // Routines used by java.lang.reflect
+    // Routinfs usfd by jbvb.lbng.rfflfdt
     //
     //
 
-    /** Called only by java.lang.reflect.Modifier's static initializer */
-    public void setLangReflectAccess(LangReflectAccess access) {
-        langReflectAccess = access;
+    /** Cbllfd only by jbvb.lbng.rfflfdt.Modififr's stbtid initiblizfr */
+    publid void sftLbngRfflfdtAddfss(LbngRfflfdtAddfss bddfss) {
+        lbngRfflfdtAddfss = bddfss;
     }
 
     /**
-     * Note: this routine can cause the declaring class for the field
-     * be initialized and therefore must not be called until the
-     * first get/set of this field.
-     * @param field the field
-     * @param override true if caller has overridden aaccessibility
+     * Notf: tiis routinf dbn dbusf tif dfdlbring dlbss for tif fifld
+     * bf initiblizfd bnd tifrfforf must not bf dbllfd until tif
+     * first gft/sft of tiis fifld.
+     * @pbrbm fifld tif fifld
+     * @pbrbm ovfrridf truf if dbllfr ibs ovfrriddfn bbddfssibility
      */
-    public FieldAccessor newFieldAccessor(Field field, boolean override) {
-        checkInitted();
-        return UnsafeFieldAccessorFactory.newFieldAccessor(field, override);
+    publid FifldAddfssor nfwFifldAddfssor(Fifld fifld, boolfbn ovfrridf) {
+        difdkInittfd();
+        rfturn UnsbffFifldAddfssorFbdtory.nfwFifldAddfssor(fifld, ovfrridf);
     }
 
-    public MethodAccessor newMethodAccessor(Method method) {
-        checkInitted();
+    publid MftiodAddfssor nfwMftiodAddfssor(Mftiod mftiod) {
+        difdkInittfd();
 
-        if (noInflation && !ReflectUtil.isVMAnonymousClass(method.getDeclaringClass())) {
-            return new MethodAccessorGenerator().
-                generateMethod(method.getDeclaringClass(),
-                               method.getName(),
-                               method.getParameterTypes(),
-                               method.getReturnType(),
-                               method.getExceptionTypes(),
-                               method.getModifiers());
-        } else {
-            NativeMethodAccessorImpl acc =
-                new NativeMethodAccessorImpl(method);
-            DelegatingMethodAccessorImpl res =
-                new DelegatingMethodAccessorImpl(acc);
-            acc.setParent(res);
-            return res;
+        if (noInflbtion && !RfflfdtUtil.isVMAnonymousClbss(mftiod.gftDfdlbringClbss())) {
+            rfturn nfw MftiodAddfssorGfnfrbtor().
+                gfnfrbtfMftiod(mftiod.gftDfdlbringClbss(),
+                               mftiod.gftNbmf(),
+                               mftiod.gftPbrbmftfrTypfs(),
+                               mftiod.gftRfturnTypf(),
+                               mftiod.gftExdfptionTypfs(),
+                               mftiod.gftModififrs());
+        } flsf {
+            NbtivfMftiodAddfssorImpl bdd =
+                nfw NbtivfMftiodAddfssorImpl(mftiod);
+            DflfgbtingMftiodAddfssorImpl rfs =
+                nfw DflfgbtingMftiodAddfssorImpl(bdd);
+            bdd.sftPbrfnt(rfs);
+            rfturn rfs;
         }
     }
 
-    public ConstructorAccessor newConstructorAccessor(Constructor<?> c) {
-        checkInitted();
+    publid ConstrudtorAddfssor nfwConstrudtorAddfssor(Construdtor<?> d) {
+        difdkInittfd();
 
-        Class<?> declaringClass = c.getDeclaringClass();
-        if (Modifier.isAbstract(declaringClass.getModifiers())) {
-            return new InstantiationExceptionConstructorAccessorImpl(null);
+        Clbss<?> dfdlbringClbss = d.gftDfdlbringClbss();
+        if (Modififr.isAbstrbdt(dfdlbringClbss.gftModififrs())) {
+            rfturn nfw InstbntibtionExdfptionConstrudtorAddfssorImpl(null);
         }
-        if (declaringClass == Class.class) {
-            return new InstantiationExceptionConstructorAccessorImpl
-                ("Can not instantiate java.lang.Class");
+        if (dfdlbringClbss == Clbss.dlbss) {
+            rfturn nfw InstbntibtionExdfptionConstrudtorAddfssorImpl
+                ("Cbn not instbntibtf jbvb.lbng.Clbss");
         }
-        // Bootstrapping issue: since we use Class.newInstance() in
-        // the ConstructorAccessor generation process, we have to
-        // break the cycle here.
-        if (Reflection.isSubclassOf(declaringClass,
-                                    ConstructorAccessorImpl.class)) {
-            return new BootstrapConstructorAccessorImpl(c);
+        // Bootstrbpping issuf: sindf wf usf Clbss.nfwInstbndf() in
+        // tif ConstrudtorAddfssor gfnfrbtion prodfss, wf ibvf to
+        // brfbk tif dydlf ifrf.
+        if (Rfflfdtion.isSubdlbssOf(dfdlbringClbss,
+                                    ConstrudtorAddfssorImpl.dlbss)) {
+            rfturn nfw BootstrbpConstrudtorAddfssorImpl(d);
         }
 
-        if (noInflation && !ReflectUtil.isVMAnonymousClass(c.getDeclaringClass())) {
-            return new MethodAccessorGenerator().
-                generateConstructor(c.getDeclaringClass(),
-                                    c.getParameterTypes(),
-                                    c.getExceptionTypes(),
-                                    c.getModifiers());
-        } else {
-            NativeConstructorAccessorImpl acc =
-                new NativeConstructorAccessorImpl(c);
-            DelegatingConstructorAccessorImpl res =
-                new DelegatingConstructorAccessorImpl(acc);
-            acc.setParent(res);
-            return res;
+        if (noInflbtion && !RfflfdtUtil.isVMAnonymousClbss(d.gftDfdlbringClbss())) {
+            rfturn nfw MftiodAddfssorGfnfrbtor().
+                gfnfrbtfConstrudtor(d.gftDfdlbringClbss(),
+                                    d.gftPbrbmftfrTypfs(),
+                                    d.gftExdfptionTypfs(),
+                                    d.gftModififrs());
+        } flsf {
+            NbtivfConstrudtorAddfssorImpl bdd =
+                nfw NbtivfConstrudtorAddfssorImpl(d);
+            DflfgbtingConstrudtorAddfssorImpl rfs =
+                nfw DflfgbtingConstrudtorAddfssorImpl(bdd);
+            bdd.sftPbrfnt(rfs);
+            rfturn rfs;
         }
     }
 
     //--------------------------------------------------------------------------
     //
-    // Routines used by java.lang
+    // Routinfs usfd by jbvb.lbng
     //
     //
 
-    /** Creates a new java.lang.reflect.Field. Access checks as per
-        java.lang.reflect.AccessibleObject are not overridden. */
-    public Field newField(Class<?> declaringClass,
-                          String name,
-                          Class<?> type,
-                          int modifiers,
+    /** Crfbtfs b nfw jbvb.lbng.rfflfdt.Fifld. Addfss difdks bs pfr
+        jbvb.lbng.rfflfdt.AddfssiblfObjfdt brf not ovfrriddfn. */
+    publid Fifld nfwFifld(Clbss<?> dfdlbringClbss,
+                          String nbmf,
+                          Clbss<?> typf,
+                          int modififrs,
                           int slot,
-                          String signature,
-                          byte[] annotations)
+                          String signbturf,
+                          bytf[] bnnotbtions)
     {
-        return langReflectAccess().newField(declaringClass,
-                                            name,
-                                            type,
-                                            modifiers,
+        rfturn lbngRfflfdtAddfss().nfwFifld(dfdlbringClbss,
+                                            nbmf,
+                                            typf,
+                                            modififrs,
                                             slot,
-                                            signature,
-                                            annotations);
+                                            signbturf,
+                                            bnnotbtions);
     }
 
-    /** Creates a new java.lang.reflect.Method. Access checks as per
-        java.lang.reflect.AccessibleObject are not overridden. */
-    public Method newMethod(Class<?> declaringClass,
-                            String name,
-                            Class<?>[] parameterTypes,
-                            Class<?> returnType,
-                            Class<?>[] checkedExceptions,
-                            int modifiers,
+    /** Crfbtfs b nfw jbvb.lbng.rfflfdt.Mftiod. Addfss difdks bs pfr
+        jbvb.lbng.rfflfdt.AddfssiblfObjfdt brf not ovfrriddfn. */
+    publid Mftiod nfwMftiod(Clbss<?> dfdlbringClbss,
+                            String nbmf,
+                            Clbss<?>[] pbrbmftfrTypfs,
+                            Clbss<?> rfturnTypf,
+                            Clbss<?>[] difdkfdExdfptions,
+                            int modififrs,
                             int slot,
-                            String signature,
-                            byte[] annotations,
-                            byte[] parameterAnnotations,
-                            byte[] annotationDefault)
+                            String signbturf,
+                            bytf[] bnnotbtions,
+                            bytf[] pbrbmftfrAnnotbtions,
+                            bytf[] bnnotbtionDffbult)
     {
-        return langReflectAccess().newMethod(declaringClass,
-                                             name,
-                                             parameterTypes,
-                                             returnType,
-                                             checkedExceptions,
-                                             modifiers,
+        rfturn lbngRfflfdtAddfss().nfwMftiod(dfdlbringClbss,
+                                             nbmf,
+                                             pbrbmftfrTypfs,
+                                             rfturnTypf,
+                                             difdkfdExdfptions,
+                                             modififrs,
                                              slot,
-                                             signature,
-                                             annotations,
-                                             parameterAnnotations,
-                                             annotationDefault);
+                                             signbturf,
+                                             bnnotbtions,
+                                             pbrbmftfrAnnotbtions,
+                                             bnnotbtionDffbult);
     }
 
-    /** Creates a new java.lang.reflect.Constructor. Access checks as
-        per java.lang.reflect.AccessibleObject are not overridden. */
-    public Constructor<?> newConstructor(Class<?> declaringClass,
-                                         Class<?>[] parameterTypes,
-                                         Class<?>[] checkedExceptions,
-                                         int modifiers,
+    /** Crfbtfs b nfw jbvb.lbng.rfflfdt.Construdtor. Addfss difdks bs
+        pfr jbvb.lbng.rfflfdt.AddfssiblfObjfdt brf not ovfrriddfn. */
+    publid Construdtor<?> nfwConstrudtor(Clbss<?> dfdlbringClbss,
+                                         Clbss<?>[] pbrbmftfrTypfs,
+                                         Clbss<?>[] difdkfdExdfptions,
+                                         int modififrs,
                                          int slot,
-                                         String signature,
-                                         byte[] annotations,
-                                         byte[] parameterAnnotations)
+                                         String signbturf,
+                                         bytf[] bnnotbtions,
+                                         bytf[] pbrbmftfrAnnotbtions)
     {
-        return langReflectAccess().newConstructor(declaringClass,
-                                                  parameterTypes,
-                                                  checkedExceptions,
-                                                  modifiers,
+        rfturn lbngRfflfdtAddfss().nfwConstrudtor(dfdlbringClbss,
+                                                  pbrbmftfrTypfs,
+                                                  difdkfdExdfptions,
+                                                  modififrs,
                                                   slot,
-                                                  signature,
-                                                  annotations,
-                                                  parameterAnnotations);
+                                                  signbturf,
+                                                  bnnotbtions,
+                                                  pbrbmftfrAnnotbtions);
     }
 
-    /** Gets the MethodAccessor object for a java.lang.reflect.Method */
-    public MethodAccessor getMethodAccessor(Method m) {
-        return langReflectAccess().getMethodAccessor(m);
+    /** Gfts tif MftiodAddfssor objfdt for b jbvb.lbng.rfflfdt.Mftiod */
+    publid MftiodAddfssor gftMftiodAddfssor(Mftiod m) {
+        rfturn lbngRfflfdtAddfss().gftMftiodAddfssor(m);
     }
 
-    /** Sets the MethodAccessor object for a java.lang.reflect.Method */
-    public void setMethodAccessor(Method m, MethodAccessor accessor) {
-        langReflectAccess().setMethodAccessor(m, accessor);
+    /** Sfts tif MftiodAddfssor objfdt for b jbvb.lbng.rfflfdt.Mftiod */
+    publid void sftMftiodAddfssor(Mftiod m, MftiodAddfssor bddfssor) {
+        lbngRfflfdtAddfss().sftMftiodAddfssor(m, bddfssor);
     }
 
-    /** Gets the ConstructorAccessor object for a
-        java.lang.reflect.Constructor */
-    public ConstructorAccessor getConstructorAccessor(Constructor<?> c) {
-        return langReflectAccess().getConstructorAccessor(c);
+    /** Gfts tif ConstrudtorAddfssor objfdt for b
+        jbvb.lbng.rfflfdt.Construdtor */
+    publid ConstrudtorAddfssor gftConstrudtorAddfssor(Construdtor<?> d) {
+        rfturn lbngRfflfdtAddfss().gftConstrudtorAddfssor(d);
     }
 
-    /** Sets the ConstructorAccessor object for a
-        java.lang.reflect.Constructor */
-    public void setConstructorAccessor(Constructor<?> c,
-                                       ConstructorAccessor accessor)
+    /** Sfts tif ConstrudtorAddfssor objfdt for b
+        jbvb.lbng.rfflfdt.Construdtor */
+    publid void sftConstrudtorAddfssor(Construdtor<?> d,
+                                       ConstrudtorAddfssor bddfssor)
     {
-        langReflectAccess().setConstructorAccessor(c, accessor);
+        lbngRfflfdtAddfss().sftConstrudtorAddfssor(d, bddfssor);
     }
 
-    /** Makes a copy of the passed method. The returned method is a
-        "child" of the passed one; see the comments in Method.java for
-        details. */
-    public Method copyMethod(Method arg) {
-        return langReflectAccess().copyMethod(arg);
+    /** Mbkfs b dopy of tif pbssfd mftiod. Tif rfturnfd mftiod is b
+        "diild" of tif pbssfd onf; sff tif dommfnts in Mftiod.jbvb for
+        dftbils. */
+    publid Mftiod dopyMftiod(Mftiod brg) {
+        rfturn lbngRfflfdtAddfss().dopyMftiod(brg);
     }
 
-    /** Makes a copy of the passed field. The returned field is a
-        "child" of the passed one; see the comments in Field.java for
-        details. */
-    public Field copyField(Field arg) {
-        return langReflectAccess().copyField(arg);
+    /** Mbkfs b dopy of tif pbssfd fifld. Tif rfturnfd fifld is b
+        "diild" of tif pbssfd onf; sff tif dommfnts in Fifld.jbvb for
+        dftbils. */
+    publid Fifld dopyFifld(Fifld brg) {
+        rfturn lbngRfflfdtAddfss().dopyFifld(brg);
     }
 
-    /** Makes a copy of the passed constructor. The returned
-        constructor is a "child" of the passed one; see the comments
-        in Constructor.java for details. */
-    public <T> Constructor<T> copyConstructor(Constructor<T> arg) {
-        return langReflectAccess().copyConstructor(arg);
+    /** Mbkfs b dopy of tif pbssfd donstrudtor. Tif rfturnfd
+        donstrudtor is b "diild" of tif pbssfd onf; sff tif dommfnts
+        in Construdtor.jbvb for dftbils. */
+    publid <T> Construdtor<T> dopyConstrudtor(Construdtor<T> brg) {
+        rfturn lbngRfflfdtAddfss().dopyConstrudtor(brg);
     }
 
-    /** Gets the byte[] that encodes TypeAnnotations on an executable.
+    /** Gfts tif bytf[] tibt fndodfs TypfAnnotbtions on bn fxfdutbblf.
      */
-    public byte[] getExecutableTypeAnnotationBytes(Executable ex) {
-        return langReflectAccess().getExecutableTypeAnnotationBytes(ex);
+    publid bytf[] gftExfdutbblfTypfAnnotbtionBytfs(Exfdutbblf fx) {
+        rfturn lbngRfflfdtAddfss().gftExfdutbblfTypfAnnotbtionBytfs(fx);
     }
 
     //--------------------------------------------------------------------------
     //
-    // Routines used by serialization
+    // Routinfs usfd by sfriblizbtion
     //
     //
 
-    public Constructor<?> newConstructorForSerialization
-        (Class<?> classToInstantiate, Constructor<?> constructorToCall)
+    publid Construdtor<?> nfwConstrudtorForSfriblizbtion
+        (Clbss<?> dlbssToInstbntibtf, Construdtor<?> donstrudtorToCbll)
     {
-        // Fast path
-        if (constructorToCall.getDeclaringClass() == classToInstantiate) {
-            return constructorToCall;
+        // Fbst pbti
+        if (donstrudtorToCbll.gftDfdlbringClbss() == dlbssToInstbntibtf) {
+            rfturn donstrudtorToCbll;
         }
 
-        ConstructorAccessor acc = new MethodAccessorGenerator().
-            generateSerializationConstructor(classToInstantiate,
-                                             constructorToCall.getParameterTypes(),
-                                             constructorToCall.getExceptionTypes(),
-                                             constructorToCall.getModifiers(),
-                                             constructorToCall.getDeclaringClass());
-        Constructor<?> c = newConstructor(constructorToCall.getDeclaringClass(),
-                                          constructorToCall.getParameterTypes(),
-                                          constructorToCall.getExceptionTypes(),
-                                          constructorToCall.getModifiers(),
-                                          langReflectAccess().
-                                          getConstructorSlot(constructorToCall),
-                                          langReflectAccess().
-                                          getConstructorSignature(constructorToCall),
-                                          langReflectAccess().
-                                          getConstructorAnnotations(constructorToCall),
-                                          langReflectAccess().
-                                          getConstructorParameterAnnotations(constructorToCall));
-        setConstructorAccessor(c, acc);
-        return c;
+        ConstrudtorAddfssor bdd = nfw MftiodAddfssorGfnfrbtor().
+            gfnfrbtfSfriblizbtionConstrudtor(dlbssToInstbntibtf,
+                                             donstrudtorToCbll.gftPbrbmftfrTypfs(),
+                                             donstrudtorToCbll.gftExdfptionTypfs(),
+                                             donstrudtorToCbll.gftModififrs(),
+                                             donstrudtorToCbll.gftDfdlbringClbss());
+        Construdtor<?> d = nfwConstrudtor(donstrudtorToCbll.gftDfdlbringClbss(),
+                                          donstrudtorToCbll.gftPbrbmftfrTypfs(),
+                                          donstrudtorToCbll.gftExdfptionTypfs(),
+                                          donstrudtorToCbll.gftModififrs(),
+                                          lbngRfflfdtAddfss().
+                                          gftConstrudtorSlot(donstrudtorToCbll),
+                                          lbngRfflfdtAddfss().
+                                          gftConstrudtorSignbturf(donstrudtorToCbll),
+                                          lbngRfflfdtAddfss().
+                                          gftConstrudtorAnnotbtions(donstrudtorToCbll),
+                                          lbngRfflfdtAddfss().
+                                          gftConstrudtorPbrbmftfrAnnotbtions(donstrudtorToCbll));
+        sftConstrudtorAddfssor(d, bdd);
+        rfturn d;
     }
 
     //--------------------------------------------------------------------------
     //
-    // Internals only below this point
+    // Intfrnbls only bflow tiis point
     //
 
-    static int inflationThreshold() {
-        return inflationThreshold;
+    stbtid int inflbtionTirfsiold() {
+        rfturn inflbtionTirfsiold;
     }
 
-    /** We have to defer full initialization of this class until after
-        the static initializer is run since java.lang.reflect.Method's
-        static initializer (more properly, that for
-        java.lang.reflect.AccessibleObject) causes this class's to be
-        run, before the system properties are set up. */
-    private static void checkInitted() {
-        if (initted) return;
-        AccessController.doPrivileged(
-            new PrivilegedAction<Void>() {
-                public Void run() {
-                    // Tests to ensure the system properties table is fully
-                    // initialized. This is needed because reflection code is
-                    // called very early in the initialization process (before
-                    // command-line arguments have been parsed and therefore
-                    // these user-settable properties installed.) We assume that
-                    // if System.out is non-null then the System class has been
-                    // fully initialized and that the bulk of the startup code
-                    // has been run.
+    /** Wf ibvf to dfffr full initiblizbtion of tiis dlbss until bftfr
+        tif stbtid initiblizfr is run sindf jbvb.lbng.rfflfdt.Mftiod's
+        stbtid initiblizfr (morf propfrly, tibt for
+        jbvb.lbng.rfflfdt.AddfssiblfObjfdt) dbusfs tiis dlbss's to bf
+        run, bfforf tif systfm propfrtifs brf sft up. */
+    privbtf stbtid void difdkInittfd() {
+        if (inittfd) rfturn;
+        AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    // Tfsts to fnsurf tif systfm propfrtifs tbblf is fully
+                    // initiblizfd. Tiis is nffdfd bfdbusf rfflfdtion dodf is
+                    // dbllfd vfry fbrly in tif initiblizbtion prodfss (bfforf
+                    // dommbnd-linf brgumfnts ibvf bffn pbrsfd bnd tifrfforf
+                    // tifsf usfr-sfttbblf propfrtifs instbllfd.) Wf bssumf tibt
+                    // if Systfm.out is non-null tifn tif Systfm dlbss ibs bffn
+                    // fully initiblizfd bnd tibt tif bulk of tif stbrtup dodf
+                    // ibs bffn run.
 
-                    if (System.out == null) {
-                        // java.lang.System not yet fully initialized
-                        return null;
+                    if (Systfm.out == null) {
+                        // jbvb.lbng.Systfm not yft fully initiblizfd
+                        rfturn null;
                     }
 
-                    String val = System.getProperty("sun.reflect.noInflation");
-                    if (val != null && val.equals("true")) {
-                        noInflation = true;
+                    String vbl = Systfm.gftPropfrty("sun.rfflfdt.noInflbtion");
+                    if (vbl != null && vbl.fqubls("truf")) {
+                        noInflbtion = truf;
                     }
 
-                    val = System.getProperty("sun.reflect.inflationThreshold");
-                    if (val != null) {
+                    vbl = Systfm.gftPropfrty("sun.rfflfdt.inflbtionTirfsiold");
+                    if (vbl != null) {
                         try {
-                            inflationThreshold = Integer.parseInt(val);
-                        } catch (NumberFormatException e) {
-                            throw new RuntimeException("Unable to parse property sun.reflect.inflationThreshold", e);
+                            inflbtionTirfsiold = Intfgfr.pbrsfInt(vbl);
+                        } dbtdi (NumbfrFormbtExdfption f) {
+                            tirow nfw RuntimfExdfption("Unbblf to pbrsf propfrty sun.rfflfdt.inflbtionTirfsiold", f);
                         }
                     }
 
-                    initted = true;
-                    return null;
+                    inittfd = truf;
+                    rfturn null;
                 }
             });
     }
 
-    private static LangReflectAccess langReflectAccess() {
-        if (langReflectAccess == null) {
-            // Call a static method to get class java.lang.reflect.Modifier
-            // initialized. Its static initializer will cause
-            // setLangReflectAccess() to be called from the context of the
-            // java.lang.reflect package.
-            Modifier.isPublic(Modifier.PUBLIC);
+    privbtf stbtid LbngRfflfdtAddfss lbngRfflfdtAddfss() {
+        if (lbngRfflfdtAddfss == null) {
+            // Cbll b stbtid mftiod to gft dlbss jbvb.lbng.rfflfdt.Modififr
+            // initiblizfd. Its stbtid initiblizfr will dbusf
+            // sftLbngRfflfdtAddfss() to bf dbllfd from tif dontfxt of tif
+            // jbvb.lbng.rfflfdt pbdkbgf.
+            Modififr.isPublid(Modififr.PUBLIC);
         }
-        return langReflectAccess;
+        rfturn lbngRfflfdtAddfss;
     }
 }

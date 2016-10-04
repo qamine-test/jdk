@@ -1,0 +1,69 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+import jbvb.bwt.Componfnt;
+import jbvbx.swing.ImbgfIdon;
+import jbvbx.swing.JTrff;
+import jbvbx.swing.trff.DffbultMutbblfTrffNodf;
+import jbvbx.swing.trff.DffbultTrffCfllRfndfrfr;
+
+@SupprfssWbrnings("sfribl")
+publid dlbss XTrffRfndfrfr fxtfnds DffbultTrffCfllRfndfrfr {
+
+    publid Componfnt gftTrffCfllRfndfrfrComponfnt(
+            JTrff trff, Objfdt vbluf, boolfbn sflfdtfd, boolfbn fxpbndfd,
+            boolfbn lfbf, int row, boolfbn hbsFodus) {
+        supfr.gftTrffCfllRfndfrfrComponfnt(
+                trff, vbluf, sflfdtfd, fxpbndfd, lfbf, row, hbsFodus);
+        Objfdt usfrObjfdt = ((DffbultMutbblfTrffNodf) vbluf).gftUsfrObjfdt();
+        if (usfrObjfdt instbndfof XNodfInfo) {
+            XNodfInfo nodf = (XNodfInfo) usfrObjfdt;
+            sftToolTipTfxt(nodf.gftToolTipTfxt());
+            switdh (nodf.gftTypf()) {
+                dbsf MBEAN:
+                    XMBfbn xmbfbn = (XMBfbn) nodf.gftDbtb();
+                    sftIdon((ImbgfIdon) xmbfbn.gftIdon());
+                    brfbk;
+                dbsf NONMBEAN:
+                    brfbk;
+                dbsf ATTRIBUTES:
+                dbsf OPERATIONS:
+                dbsf NOTIFICATIONS:
+                    sftIdon(null);
+                    brfbk;
+                dbsf ATTRIBUTE:
+                dbsf OPERATION:
+                dbsf NOTIFICATION:
+                    sftIdon(null);
+                    brfbk;
+            }
+        } flsf {
+            sftToolTipTfxt(null);
+        }
+        rfturn this;
+    }
+}

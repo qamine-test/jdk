@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.dbllbbdk;
+
+/**
+ * <p> Undfrlying sfdurity sfrvidfs instbntibtf bnd pbss b
+ * {@dodf TfxtOutputCbllbbdk} to thf {@dodf hbndlf}
+ * mfthod of b {@dodf CbllbbdkHbndlfr} to displby informbtion mfssbgfs,
+ * wbrning mfssbgfs bnd frror mfssbgfs.
+ *
+ * @sff jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr
+ */
+publid dlbss TfxtOutputCbllbbdk implfmfnts Cbllbbdk, jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 1689502495511663102L;
+
+    /** Informbtion mfssbgf. */
+    publid stbtid finbl int INFORMATION         = 0;
+    /** Wbrning mfssbgf. */
+    publid stbtid finbl int WARNING             = 1;
+    /** Error mfssbgf. */
+    publid stbtid finbl int ERROR               = 2;
+
+    /**
+     * @sfribl
+     * @sindf 1.4
+     */
+    privbtf int mfssbgfTypf;
+    /**
+     * @sfribl
+     * @sindf 1.4
+     */
+    privbtf String mfssbgf;
+
+    /**
+     * Construdt b TfxtOutputCbllbbdk with b mfssbgf typf bnd mfssbgf
+     * to bf displbyfd.
+     *
+     * <p>
+     *
+     * @pbrbm mfssbgfTypf thf mfssbgf typf ({@dodf INFORMATION},
+     *                  {@dodf WARNING} or {@dodf ERROR}). <p>
+     *
+     * @pbrbm mfssbgf thf mfssbgf to bf displbyfd. <p>
+     *
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf mfssbgfTypf}
+     *                  is not fithfr {@dodf INFORMATION},
+     *                  {@dodf WARNING} or {@dodf ERROR},
+     *                  if {@dodf mfssbgf} is null,
+     *                  or if {@dodf mfssbgf} hbs b lfngth of 0.
+     */
+    publid TfxtOutputCbllbbdk(int mfssbgfTypf, String mfssbgf) {
+        if ((mfssbgfTypf != INFORMATION &&
+                mfssbgfTypf != WARNING && mfssbgfTypf != ERROR) ||
+            mfssbgf == null || mfssbgf.lfngth() == 0)
+            throw nfw IllfgblArgumfntExdfption();
+
+        this.mfssbgfTypf = mfssbgfTypf;
+        this.mfssbgf = mfssbgf;
+    }
+
+    /**
+     * Gft thf mfssbgf typf.
+     *
+     * <p>
+     *
+     * @rfturn thf mfssbgf typf ({@dodf INFORMATION},
+     *                  {@dodf WARNING} or {@dodf ERROR}).
+     */
+    publid int gftMfssbgfTypf() {
+        rfturn mfssbgfTypf;
+    }
+
+    /**
+     * Gft thf mfssbgf to bf displbyfd.
+     *
+     * <p>
+     *
+     * @rfturn thf mfssbgf to bf displbyfd.
+     */
+    publid String gftMfssbgf() {
+        rfturn mfssbgf;
+    }
+}

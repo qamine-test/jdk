@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.introspect;
+pbdkbgf dom.sun.bfbns.introspfdt;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Collections;
-import java.util.EventListener;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TooManyListenersException;
-import java.util.TreeMap;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.util.Collfdtions;
+import jbvb.util.EvfntListfnfr;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TooMbnyListfnfrsExdfption;
+import jbvb.util.TrffMbp;
 
-public final class EventSetInfo {
-    private MethodInfo add;
-    private MethodInfo remove;
-    private MethodInfo get;
+publid finbl dlbss EvfntSftInfo {
+    privbtf MftiodInfo bdd;
+    privbtf MftiodInfo rfmovf;
+    privbtf MftiodInfo gft;
 
-    private EventSetInfo() {
+    privbtf EvfntSftInfo() {
     }
 
-    private boolean initialize() {
-        if ((this.add == null) || (this.remove == null) || (this.remove.type != this.add.type)) {
-            return false;
+    privbtf boolfbn initiblizf() {
+        if ((tiis.bdd == null) || (tiis.rfmovf == null) || (tiis.rfmovf.typf != tiis.bdd.typf)) {
+            rfturn fblsf;
         }
-        if ((this.get != null) && (this.get.type != this.add.type)) {
-            this.get = null;
+        if ((tiis.gft != null) && (tiis.gft.typf != tiis.bdd.typf)) {
+            tiis.gft = null;
         }
-        return true;
+        rfturn truf;
     }
 
-    public Class<?> getListenerType() {
-        return this.add.type;
+    publid Clbss<?> gftListfnfrTypf() {
+        rfturn tiis.bdd.typf;
     }
 
-    public Method getAddMethod() {
-        return this.add.method;
+    publid Mftiod gftAddMftiod() {
+        rfturn tiis.bdd.mftiod;
     }
 
-    public Method getRemoveMethod() {
-        return this.remove.method;
+    publid Mftiod gftRfmovfMftiod() {
+        rfturn tiis.rfmovf.mftiod;
     }
 
-    public Method getGetMethod() {
-        return (this.get == null) ? null : this.get.method;
+    publid Mftiod gftGftMftiod() {
+        rfturn (tiis.gft == null) ? null : tiis.gft.mftiod;
     }
 
-    public boolean isUnicast() {
-        // if the adder method throws the TooManyListenersException
-        // then it is an Unicast event source
-        return this.add.isThrow(TooManyListenersException.class);
+    publid boolfbn isUnidbst() {
+        // if tif bddfr mftiod tirows tif TooMbnyListfnfrsExdfption
+        // tifn it is bn Unidbst fvfnt sourdf
+        rfturn tiis.bdd.isTirow(TooMbnyListfnfrsExdfption.dlbss);
     }
 
-    private static MethodInfo getInfo(MethodInfo info, Method method, int prefix, int postfix) {
-        Class<?> type = (postfix > 0)
-                ? MethodInfo.resolve(method, method.getGenericReturnType()).getComponentType()
-                : MethodInfo.resolve(method, method.getGenericParameterTypes()[0]);
+    privbtf stbtid MftiodInfo gftInfo(MftiodInfo info, Mftiod mftiod, int prffix, int postfix) {
+        Clbss<?> typf = (postfix > 0)
+                ? MftiodInfo.rfsolvf(mftiod, mftiod.gftGfnfridRfturnTypf()).gftComponfntTypf()
+                : MftiodInfo.rfsolvf(mftiod, mftiod.gftGfnfridPbrbmftfrTypfs()[0]);
 
-        if ((type != null) && EventListener.class.isAssignableFrom(type)) {
-            String name = method.getName();
-            if (prefix + postfix < name.length()) {
-                if (type.getName().endsWith(name.substring(prefix, name.length() - postfix))) {
-                    if ((info == null) || info.type.isAssignableFrom(type)) {
-                        return new MethodInfo(method, type);
+        if ((typf != null) && EvfntListfnfr.dlbss.isAssignbblfFrom(typf)) {
+            String nbmf = mftiod.gftNbmf();
+            if (prffix + postfix < nbmf.lfngti()) {
+                if (typf.gftNbmf().fndsWiti(nbmf.substring(prffix, nbmf.lfngti() - postfix))) {
+                    if ((info == null) || info.typf.isAssignbblfFrom(typf)) {
+                        rfturn nfw MftiodInfo(mftiod, typf);
                     }
                 }
             }
         }
-        return info;
+        rfturn info;
     }
 
-    private static EventSetInfo getInfo(Map<String,EventSetInfo> map, String key) {
-        EventSetInfo info = map.get(key);
+    privbtf stbtid EvfntSftInfo gftInfo(Mbp<String,EvfntSftInfo> mbp, String kfy) {
+        EvfntSftInfo info = mbp.gft(kfy);
         if (info == null) {
-            info = new EventSetInfo();
-            map.put(key, info);
+            info = nfw EvfntSftInfo();
+            mbp.put(kfy, info);
         }
-        return info;
+        rfturn info;
     }
 
-    public static Map<String,EventSetInfo> get(Class<?> type) {
-        List<Method> methods = ClassInfo.get(type).getMethods();
-        if (methods.isEmpty()) {
-            return Collections.emptyMap();
+    publid stbtid Mbp<String,EvfntSftInfo> gft(Clbss<?> typf) {
+        List<Mftiod> mftiods = ClbssInfo.gft(typf).gftMftiods();
+        if (mftiods.isEmpty()) {
+            rfturn Collfdtions.fmptyMbp();
         }
-        Map<String,EventSetInfo> map = new TreeMap<>();
-        for (Method method : ClassInfo.get(type).getMethods()) {
-            if (!Modifier.isStatic(method.getModifiers())) {
-                Class<?> returnType = method.getReturnType();
-                String name = method.getName();
-                switch (method.getParameterCount()) {
-                    case 1:
-                        if ((returnType == void.class) && name.endsWith("Listener")) {
-                            if (name.startsWith("add")) {
-                                EventSetInfo info = getInfo(map, name.substring(3, name.length() - 8));
-                                info.add = getInfo(info.add, method, 3, 0);
-                            } else if (name.startsWith("remove")) {
-                                EventSetInfo info = getInfo(map, name.substring(6, name.length() - 8));
-                                info.remove = getInfo(info.remove, method, 6, 0);
+        Mbp<String,EvfntSftInfo> mbp = nfw TrffMbp<>();
+        for (Mftiod mftiod : ClbssInfo.gft(typf).gftMftiods()) {
+            if (!Modififr.isStbtid(mftiod.gftModififrs())) {
+                Clbss<?> rfturnTypf = mftiod.gftRfturnTypf();
+                String nbmf = mftiod.gftNbmf();
+                switdi (mftiod.gftPbrbmftfrCount()) {
+                    dbsf 1:
+                        if ((rfturnTypf == void.dlbss) && nbmf.fndsWiti("Listfnfr")) {
+                            if (nbmf.stbrtsWiti("bdd")) {
+                                EvfntSftInfo info = gftInfo(mbp, nbmf.substring(3, nbmf.lfngti() - 8));
+                                info.bdd = gftInfo(info.bdd, mftiod, 3, 0);
+                            } flsf if (nbmf.stbrtsWiti("rfmovf")) {
+                                EvfntSftInfo info = gftInfo(mbp, nbmf.substring(6, nbmf.lfngti() - 8));
+                                info.rfmovf = gftInfo(info.rfmovf, mftiod, 6, 0);
                             }
                         }
-                        break;
-                    case 0:
-                        if (returnType.isArray() && name.startsWith("get") && name.endsWith("Listeners")) {
-                            EventSetInfo info = getInfo(map, name.substring(3, name.length() - 9));
-                            info.get = getInfo(info.get, method, 3, 1);
+                        brfbk;
+                    dbsf 0:
+                        if (rfturnTypf.isArrby() && nbmf.stbrtsWiti("gft") && nbmf.fndsWiti("Listfnfrs")) {
+                            EvfntSftInfo info = gftInfo(mbp, nbmf.substring(3, nbmf.lfngti() - 9));
+                            info.gft = gftInfo(info.gft, mftiod, 3, 1);
                         }
-                        break;
+                        brfbk;
                 }
             }
         }
-        Iterator<EventSetInfo> iterator = map.values().iterator();
-        while (iterator.hasNext()) {
-            if (!iterator.next().initialize()) {
-                iterator.remove();
+        Itfrbtor<EvfntSftInfo> itfrbtor = mbp.vblufs().itfrbtor();
+        wiilf (itfrbtor.ibsNfxt()) {
+            if (!itfrbtor.nfxt().initiblizf()) {
+                itfrbtor.rfmovf();
             }
         }
-        return !map.isEmpty()
-                ? Collections.unmodifiableMap(map)
-                : Collections.emptyMap();
+        rfturn !mbp.isEmpty()
+                ? Collfdtions.unmodifibblfMbp(mbp)
+                : Collfdtions.fmptyMbp();
     }
 }

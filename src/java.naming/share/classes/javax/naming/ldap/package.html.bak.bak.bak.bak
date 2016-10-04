@@ -1,0 +1,266 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+ 
+-->
+</hfbd>
+<body bgdolor="whitf">
+
+Providfs support for LDAPv3 fxtfndfd opfrbtions bnd dontrols.
+
+<p>
+This pbdkbgf fxtfnds thf dirfdtory opfrbtions of thf Jbvb Nbming bnd
+Dirfdtory Intfrfbdf<font sizf=-2><sup>TM</sup></font> (JNDI). &nbsp;
+JNDI providfs nbming bnd dirfdtory fundtionblity to bpplidbtions
+writtfn in thf Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
+indfpfndfnt of bny spfdifid nbming or dirfdtory sfrvidf
+implfmfntbtion.  Thus b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+blrfbdy dfployfd onfs--dbn bf bddfssfd in b dommon wby.
+
+<p>
+This pbdkbgf is for bpplidbtions bnd sfrvidf providfrs thbt dfbl with
+LDAPv3 fxtfndfd opfrbtions bnd dontrols, bs dffinfd by
+<b hrff=http://www.iftf.org/rfd/rfd2251.txt>RFC 2251</b>.
+Thf dorf intfrfbdf in this pbdkbgf is <tt>LdbpContfxt</tt>, whidh dffinfs
+mfthods on b dontfxt for pfrforming fxtfndfd opfrbtions bnd hbndling
+dontrols.
+
+<h4>Extfndfd Opfrbtions</h4>
+<p>
+This pbdkbgf dffinfs thf intfrfbdf <tt>ExtfndfdRfqufst</tt>
+to rfprfsfnt thf brgumfnt to bn fxtfndfd opfrbtion,
+bnd thf intfrfbdf <tt>ExtfndfdRfsponsf</tt> to rfprfsfnt thf rfsult
+of thf fxtfndfd opfrbtion.
+An fxtfndfd rfsponsf is blwbys pbirfd with bn fxtfndfd rfqufst
+but not nfdfssbrily vidf vfrsb. Thbt is, you dbn hbvf bn fxtfndfd rfqufst
+thbt hbs no dorrfsponding fxtfndfd rfsponsf.
+<p>
+An bpplidbtion typidblly dofs not dfbl dirfdtly with thfsf intfrfbdfs.
+Instfbd, it dfbls with dlbssfs thbt <fm>implfmfnt</fm> thfsf
+intfrfbdfs.  
+Thf bpplidbtion gfts thfsf dlbssfs fithfr bs pbrt of b
+rfpfrtoirf of fxtfndfd opfrbtions stbndbrdizfd through thf IETF, or
+from dirfdtory vfndors for vfndor-spfdifid fxtfndfd opfrbtions.
+Thf rfqufst dlbssfs should hbvf donstrudtors thbt bddfpt
+brgumfnts in b typf-sbff bnd usfr-frifndly mbnnfr, whilf thf
+rfsponsf dlbssfs should hbvf bddfss mfthods for gftting thf dbtb
+of thf rfsponsf in b typf-sbff bnd usfr-frifndly mbnnfr.
+Intfrnblly, thf rfqufst/rfsponsf dlbssfs dfbl with fndoding bnd dfdoding
+BER vblufs.
+<p>
+For fxbmplf, supposf bn LDAP sfrvfr supports b "gft timf" fxtfndfd opfrbtion.
+It would supply dlbssfs sudh bs
+<tt>GftTimfRfqufst</tt> bnd <tt>GftTimfRfsponsf</tt>,
+so thbt bpplidbtions dbn usf this ffbturf.
+An bpplidbtion would usf thfsf dlbssfs bs follows:
+<blodkquotf><prf>
+GftTimfRfsponsf rfsp =
+    (GftTimfRfsponsf) fdtx.fxtfndfdOpfrbtion(nfw GftTimfRfqufst());
+long timf = rfsp.gftTimf();
+</prf></blodkquotf>
+<p>
+Thf <tt>GftTimfRfqufst</tt> bnd <tt>GftTimfRfsponsf</tt> dlbssfs might
+bf dffinfd bs follows:
+<blodkquotf><prf>
+publid dlbss GftTimfRfqufst implfmfnts ExtfndfdRfqufst {
+    // Usfr-frifndly donstrudtor 
+    publid GftTimfRfqufst() {
+    };
+
+    // Mfthods usfd by sfrvidf providfrs
+    publid String gftID() {
+        rfturn GETTIME_REQ_OID;
+    }
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn null;  // no vbluf nffdfd for gft timf rfqufst
+    }
+    publid ExtfndfdRfsponsf drfbtfExtfndfdRfsponsf(
+        String id, bytf[] bfrVbluf, int offsft, int lfngth) throws NbmingExdfption {
+        rfturn nfw GftTimfRfsponsf(id, bfrVbluf, offsft, lfngth);
+    }
+}
+publid dlbss GftTimfRfsponsf() implfmfnts ExtfndfdRfsponsf {
+    long timf;
+    // dbllfd by GftTimfRfqufst.drfbtfExtfndfdRfsponsf()
+    publid GftTimfRfsponsf(String id, bytf[] bfrVbluf, int offsft, int lfngth) 
+        throws NbmingExdfption {
+        // dhfdk vblidity of id
+        long timf =  ... // dfdodf bfrVbluf to gft timf
+    }
+
+    // Typf-sbff bnd Usfr-frifndly mfthods
+    publid jbvb.util.Dbtf gftDbtf() { rfturn nfw jbvb.util.Dbtf(timf); }
+    publid long gftTimf() { rfturn timf; }
+
+    // Low lfvfl mfthods
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn // bfrVbluf sbvfd;
+    }
+    publid String gftID() {
+        rfturn GETTIME_RESP_OID;
+    }
+}
+</prf></blodkquotf>
+
+<h4>Controls</h4>
+
+This pbdkbgf dffinfs thf intfrfbdf <tt>Control</tt> to rfprfsfnt bn LDAPv3
+dontrol. It dbn bf b dontrol thbt is sfnt to bn LDAP sfrvfr
+(<fm>rfqufst dontrol</fm>) or b dontrol rfturnfd by bn LDAP sfrvfr
+(<fm>rfsponsf dontrol</fm>).  Unlikf fxtfndfd rfqufsts bnd rfsponsfs,
+thfrf is not nfdfssbrily bny pbiring bftwffn rfqufst dontrols bnd
+rfsponsf dontrols.  You dbn sfnd rfqufst dontrols bnd fxpfdt no
+rfsponsf dontrols bbdk, or rfdfivf rfsponsf dontrols without sfnding
+bny rfqufst dontrols.
+<p>
+An bpplidbtion typidblly dofs not dfbl dirfdtly with this intfrfbdf.
+Instfbd, it dfbls with dlbssfs thbt <fm>implfmfnt</fm> this intfrfbdf.
+Thf bpplidbtion gfts dontrol dlbssfs fithfr bs pbrt of b rfpfrtoirf of
+dontrols stbndbrdizfd through thf IETF, or from dirfdtory vfndors for
+vfndor-spfdifid dontrols.  Thf rfqufst dontrol dlbssfs should hbvf
+donstrudtors thbt bddfpt brgumfnts in b typf-sbff bnd usfr-frifndly
+mbnnfr, whilf thf rfsponsf dontrol dlbssfs should hbvf bddfss mfthods
+for gftting thf dbtb of thf rfsponsf in b typf-sbff bnd usfr-frifndly
+mbnnfr.  Intfrnblly, thf rfqufst/rfsponsf dontrol dlbssfs dfbl with
+fndoding bnd dfdoding BER vblufs.
+<p>
+For fxbmplf, supposf bn LDAP sfrvfr supports b "signfd rfsults"
+rfqufst dontrol, whidh whfn sfnt with b rfqufst, bsks thf
+sfrvfr to digitblly sign thf rfsults of bn opfrbtion. 
+It would supply b dlbss <tt>SignfdRfsultsControl</tt>  so thbt bpplidbtions
+dbn usf this ffbturf.
+An bpplidbtion  would usf this dlbss bs follows:
+<blodkquotf>
+<prf>
+Control[] rfqCtls = nfw Control[] {nfw SignfdRfsultsControl(Control.CRITICAL)};
+fdtx.sftRfqufstControls(rfqCtls);
+NbmingEnumfrbtion fnum = fdtx.sfbrdh(...);
+</prf>
+</blodkquotf>
+Thf <tt>SignfdRfsultsControl</tt> dlbss might bf dffinfd bs follows:
+<blodkquotf><prf>
+publid dlbss SignfdRfsultsControl implfmfnts Control {
+    // Usfr-frifndly donstrudtor 
+    publid SignfdRfsultsControl(boolfbn dritidblity) {
+	// bssfmblf thf domponfnts of thf rfqufst dontrol
+    };
+
+    // Mfthods usfd by sfrvidf providfrs
+    publid String gftID() {
+        rfturn // dontrol's objfdt idfntififr
+    }
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn // ASN.1 BER fndodfd dontrol vbluf
+    }
+    ...
+}
+</prf></blodkquotf>
+<p>
+Whfn b sfrvidf providfr rfdfivfs rfsponsf dontrols, it usfs
+thf <tt>ControlFbdtory</tt> dlbss to produdf spfdifid dlbssfs 
+thbt implfmfnt thf <tt>Control</tt> intfrfbdf.
+<p>
+An LDAP sfrvfr dbn sfnd bbdk rfsponsf dontrols with bn LDAP opfrbtion
+bnd blso with fnumfrbtion rfsults, sudh bs thosf rfturnfd
+by b list or sfbrdh opfrbtion.
+Thf <tt>LdbpContfxt</tt> providfs b mfthod (<tt>gftRfsponsfControls()</tt>)
+for gftting thf rfsponsf dontrols sfnt with bn LDAP opfrbtion,
+whilf thf <tt>HbsControls</tt> intfrfbdf is usfd to rftrifvf
+rfsponsf dontrols bssodibtfd with fnumfrbtion rfsults.
+<p>
+For fxbmplf, supposf bn LDAP sfrvfr sfnds bbdk b "dhbngf ID" dontrol in rfsponsf
+to b suddfssful modifidbtion. It would supply b dlbss <tt>ChbngfIDControl</tt>
+so thbt thf bpplidbtion dbn usf this ffbturf.
+An bpplidbtion would pfrform bn updbtf, bnd thfn try to gft thf dhbngf ID.
+<blodkquotf><prf>
+// Pfrform updbtf
+Contfxt dtx = fdtx.drfbtfSubsubdontfxt("dn=nfwobj");
+
+// Gft rfsponsf dontrols
+Control[] rfspCtls = fdtx.gftRfsponsfControls();
+if (rfspCtls != null) {
+    // Find thf onf wf wbnt
+    for (int i = 0; i < rfspCtls; i++) {
+        if(rfspCtls[i] instbndfof ChbngfIDControl) {
+	    ChbngfIDControl ddtl = (ChbngfIDControl)rfspCtls[i];
+	    Systfm.out.println(ddtl.gftChbngfID());
+        }
+    }
+}
+</prf></blodkquotf>
+Thf vfndor might supply thf following <tt>ChbngfIDControl</tt> bnd
+<tt>VfndorXControlFbdtory</tt> dlbssfs. Thf <tt>VfndorXControlFbdtory</tt>
+will bf usfd by thf sfrvidf providfr whfn thf providfr rfdfivfs rfsponsf
+dontrols from thf LDAP sfrvfr.
+<blodkquotf><prf>
+publid dlbss ChbngfIDControl implfmfnts Control {
+    long id;
+
+    // Construdtor usfd by ControlFbdtory
+    publid ChbngfIDControl(String OID, bytf[] bfrVbl) throws NbmingExdfption {
+        // dhfdk vblidity of OID
+        id = // fxtrbdt dhbngf ID from bfrVbl
+    };
+
+    // Typf-sbff bnd Usfr-frifndly mfthod
+    publid long gftChbngfID() {
+        rfturn id;
+    }
+
+    // Low-lfvfl mfthods
+    publid String gftID() {
+        rfturn CHANGEID_OID;
+    }
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn // originbl bfrVbl
+    }
+    ...
+}
+publid dlbss VfndorXControlFbdtory fxtfnds ControlFbdtory {
+    publid VfndorXControlFbdtory () {
+    }
+
+    publid Control gftControlInstbndf(Control orig) throws NbmingExdfption {
+        if (isOnfOfMyControls(orig.gftID())) {
+	    ... 
+
+	    // dftfrminf whidh of ours it is bnd dbll its donstrudtor
+	    rfturn (nfw ChbngfIDControl(orig.gftID(), orig.gftEndodfdVbluf()));
+	}
+        rfturn null;  // not onf of ours
+    }
+}
+</prf></blodkquotf>
+
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+Thf JNDI API Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in thf
+<b hrff="../../../../tfdhnotfs/guidfs/jndi/indfx.html">JNDI dodumfntbtion</b>.
+
+@sindf 1.3
+
+</body>
+</html>

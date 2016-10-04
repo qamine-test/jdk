@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap.pool;
+pbdkbgf dom.sun.jndi.ldbp.pool;
 
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
 
-import java.io.PrintStream;
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import javax.naming.NamingException;
+import jbvb.io.PrintStrfbm;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvbx.nbming.NbmingExdfption;
 
 /**
- * A map of pool ids to Connections.
- * Key is an object that uniquely identifies a PooledConnection request
- * (typically information needed to create the connection).
- * The definitions of the key's equals() and hashCode() methods are
- * vital to its unique identification in a Pool.
+ * A mbp of pool ids to Connfdtions.
+ * Kfy is bn objfdt tibt uniqufly idfntififs b PoolfdConnfdtion rfqufst
+ * (typidblly informbtion nffdfd to drfbtf tif donnfdtion).
+ * Tif dffinitions of tif kfy's fqubls() bnd ibsiCodf() mftiods brf
+ * vitbl to its uniquf idfntifidbtion in b Pool.
  *
- * Value is a ConnectionsRef, which is a reference to Connections,
- * a list of equivalent connections.
+ * Vbluf is b ConnfdtionsRff, wiidi is b rfffrfndf to Connfdtions,
+ * b list of fquivblfnt donnfdtions.
  *
- * Supports methods that
- * - retrieves (or creates as necessary) a connection from the pool
- * - removes expired connections from the pool
+ * Supports mftiods tibt
+ * - rftrifvfs (or drfbtfs bs nfdfssbry) b donnfdtion from tif pool
+ * - rfmovfs fxpirfd donnfdtions from tif pool
  *
- * Connections cleanup:
- * A WeakHashMap is used for mapping the pool ids and Connections.
- * A SoftReference from the value to the key is kept to hold the map
- * entry as long as possible. This allows the GC to remove Connections
- * from the Pool under situations of VM running out of resources.
- * To take an appropriate action of 'closing the connections' before the GC
- * reclaims the ConnectionsRef objects, the ConnectionsRef objects are made
- * weakly reachable through a list of weak references registered with
- * a reference queue.
- * Upon an entry gets removed from the WeakHashMap, the ConnectionsRef (value
- * in the map) object is weakly reachable. When another sweep of
- * clearing the weak references is made by the GC it puts the corresponding
- * ConnectionsWeakRef object into the reference queue.
- * The reference queue is monitored lazily for reclaimable Connections
- * whenever a pooled connection is requested or a call to remove the expired
- * connections is made. The monitoring is done regularly when idle connection
- * timeout is set as the PoolCleaner removes expired connections periodically.
- * As determined by experimentation, cleanup of resources using the
- * ReferenceQueue mechanism is reliable and has more immediate effect than the
- * finalizer approach.
+ * Connfdtions dlfbnup:
+ * A WfbkHbsiMbp is usfd for mbpping tif pool ids bnd Connfdtions.
+ * A SoftRfffrfndf from tif vbluf to tif kfy is kfpt to iold tif mbp
+ * fntry bs long bs possiblf. Tiis bllows tif GC to rfmovf Connfdtions
+ * from tif Pool undfr situbtions of VM running out of rfsourdfs.
+ * To tbkf bn bppropribtf bdtion of 'dlosing tif donnfdtions' bfforf tif GC
+ * rfdlbims tif ConnfdtionsRff objfdts, tif ConnfdtionsRff objfdts brf mbdf
+ * wfbkly rfbdibblf tirougi b list of wfbk rfffrfndfs rfgistfrfd witi
+ * b rfffrfndf qufuf.
+ * Upon bn fntry gfts rfmovfd from tif WfbkHbsiMbp, tif ConnfdtionsRff (vbluf
+ * in tif mbp) objfdt is wfbkly rfbdibblf. Wifn bnotifr swffp of
+ * dlfbring tif wfbk rfffrfndfs is mbdf by tif GC it puts tif dorrfsponding
+ * ConnfdtionsWfbkRff objfdt into tif rfffrfndf qufuf.
+ * Tif rfffrfndf qufuf is monitorfd lbzily for rfdlbimbblf Connfdtions
+ * wifnfvfr b poolfd donnfdtion is rfqufstfd or b dbll to rfmovf tif fxpirfd
+ * donnfdtions is mbdf. Tif monitoring is donf rfgulbrly wifn idlf donnfdtion
+ * timfout is sft bs tif PoolClfbnfr rfmovfs fxpirfd donnfdtions pfriodidblly.
+ * As dftfrminfd by fxpfrimfntbtion, dlfbnup of rfsourdfs using tif
+ * RfffrfndfQufuf mfdibnism is rflibblf bnd ibs morf immfdibtf ffffdt tibn tif
+ * finblizfr bpprobdi.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
 
-final public class Pool {
+finbl publid dlbss Pool {
 
-    static final boolean debug = com.sun.jndi.ldap.LdapPoolManager.debug;
+    stbtid finbl boolfbn dfbug = dom.sun.jndi.ldbp.LdbpPoolMbnbgfr.dfbug;
 
     /*
-     * Used for connections cleanup
+     * Usfd for donnfdtions dlfbnup
      */
-    private static final ReferenceQueue<ConnectionsRef> queue =
-        new ReferenceQueue<>();
-    private static final Collection<Reference<ConnectionsRef>> weakRefs =
-        Collections.synchronizedList(new LinkedList<Reference<ConnectionsRef>>());
+    privbtf stbtid finbl RfffrfndfQufuf<ConnfdtionsRff> qufuf =
+        nfw RfffrfndfQufuf<>();
+    privbtf stbtid finbl Collfdtion<Rfffrfndf<ConnfdtionsRff>> wfbkRffs =
+        Collfdtions.syndironizfdList(nfw LinkfdList<Rfffrfndf<ConnfdtionsRff>>());
 
-    final private int maxSize;    // max num of identical conn per pool
-    final private int prefSize;   // preferred num of identical conn per pool
-    final private int initSize;   // initial number of identical conn to create
-    final private Map<Object, ConnectionsRef> map;
+    finbl privbtf int mbxSizf;    // mbx num of idfntidbl donn pfr pool
+    finbl privbtf int prffSizf;   // prfffrrfd num of idfntidbl donn pfr pool
+    finbl privbtf int initSizf;   // initibl numbfr of idfntidbl donn to drfbtf
+    finbl privbtf Mbp<Objfdt, ConnfdtionsRff> mbp;
 
-    public Pool(int initSize, int prefSize, int maxSize) {
-        map = new WeakHashMap<>();
-        this.prefSize = prefSize;
-        this.maxSize = maxSize;
-        this.initSize = initSize;
+    publid Pool(int initSizf, int prffSizf, int mbxSizf) {
+        mbp = nfw WfbkHbsiMbp<>();
+        tiis.prffSizf = prffSizf;
+        tiis.mbxSizf = mbxSizf;
+        tiis.initSizf = initSizf;
     }
 
     /**
-     * Gets a pooled connection for id. The pooled connection might be
-     * newly created, as governed by the maxSize and prefSize settings.
-     * If a pooled connection is unavailable and cannot be created due
-     * to the maxSize constraint, this call blocks until the constraint
-     * is removed or until 'timeout' ms has elapsed.
+     * Gfts b poolfd donnfdtion for id. Tif poolfd donnfdtion migit bf
+     * nfwly drfbtfd, bs govfrnfd by tif mbxSizf bnd prffSizf sfttings.
+     * If b poolfd donnfdtion is unbvbilbblf bnd dbnnot bf drfbtfd duf
+     * to tif mbxSizf donstrbint, tiis dbll blodks until tif donstrbint
+     * is rfmovfd or until 'timfout' ms ibs flbpsfd.
      *
-     * @param id identity of the connection to get
-     * @param timeout the number of milliseconds to wait before giving up
-     * @param factory the factory to use for creating the connection if
-     *          creation is necessary
-     * @return a pooled connection
-     * @throws NamingException the connection could not be created due to
-     *                          an error.
+     * @pbrbm id idfntity of tif donnfdtion to gft
+     * @pbrbm timfout tif numbfr of millisfdonds to wbit bfforf giving up
+     * @pbrbm fbdtory tif fbdtory to usf for drfbting tif donnfdtion if
+     *          drfbtion is nfdfssbry
+     * @rfturn b poolfd donnfdtion
+     * @tirows NbmingExdfption tif donnfdtion dould not bf drfbtfd duf to
+     *                          bn frror.
      */
-    public PooledConnection getPooledConnection(Object id, long timeout,
-        PooledConnectionFactory factory) throws NamingException {
+    publid PoolfdConnfdtion gftPoolfdConnfdtion(Objfdt id, long timfout,
+        PoolfdConnfdtionFbdtory fbdtory) tirows NbmingExdfption {
 
-        d("get(): ", id);
-        d("size: ", map.size());
+        d("gft(): ", id);
+        d("sizf: ", mbp.sizf());
 
-        expungeStaleConnections();
+        fxpungfStblfConnfdtions();
 
-        Connections conns;
-        synchronized (map) {
-            conns = getConnections(id);
-            if (conns == null) {
-                d("get(): creating new connections list for ", id);
+        Connfdtions donns;
+        syndironizfd (mbp) {
+            donns = gftConnfdtions(id);
+            if (donns == null) {
+                d("gft(): drfbting nfw donnfdtions list for ", id);
 
-                // No connections for this id so create a new list
-                conns = new Connections(id, initSize, prefSize, maxSize,
-                    factory);
-                ConnectionsRef connsRef = new ConnectionsRef(conns);
-                map.put(id, connsRef);
+                // No donnfdtions for tiis id so drfbtf b nfw list
+                donns = nfw Connfdtions(id, initSizf, prffSizf, mbxSizf,
+                    fbdtory);
+                ConnfdtionsRff donnsRff = nfw ConnfdtionsRff(donns);
+                mbp.put(id, donnsRff);
 
-                // Create a weak reference to ConnectionsRef
-                Reference<ConnectionsRef> weakRef =
-                        new ConnectionsWeakRef(connsRef, queue);
+                // Crfbtf b wfbk rfffrfndf to ConnfdtionsRff
+                Rfffrfndf<ConnfdtionsRff> wfbkRff =
+                        nfw ConnfdtionsWfbkRff(donnsRff, qufuf);
 
-                // Keep the weak reference through the element of a linked list
-                weakRefs.add(weakRef);
+                // Kffp tif wfbk rfffrfndf tirougi tif flfmfnt of b linkfd list
+                wfbkRffs.bdd(wfbkRff);
             }
         }
 
-        d("get(): size after: ", map.size());
+        d("gft(): sizf bftfr: ", mbp.sizf());
 
-        return conns.get(timeout, factory); // get one connection from list
+        rfturn donns.gft(timfout, fbdtory); // gft onf donnfdtion from list
     }
 
-    private Connections getConnections(Object id) {
-        ConnectionsRef ref = map.get(id);
-        return (ref != null) ? ref.getConnections() : null;
+    privbtf Connfdtions gftConnfdtions(Objfdt id) {
+        ConnfdtionsRff rff = mbp.gft(id);
+        rfturn (rff != null) ? rff.gftConnfdtions() : null;
     }
 
     /**
-     * Goes through the connections in this Pool and expires ones that
-     * have been idle before 'threshold'. An expired connection is closed
-     * and then removed from the pool (removePooledConnection() will eventually
-     * be called, and the list of pools itself removed if it becomes empty).
+     * Gofs tirougi tif donnfdtions in tiis Pool bnd fxpirfs onfs tibt
+     * ibvf bffn idlf bfforf 'tirfsiold'. An fxpirfd donnfdtion is dlosfd
+     * bnd tifn rfmovfd from tif pool (rfmovfPoolfdConnfdtion() will fvfntublly
+     * bf dbllfd, bnd tif list of pools itsflf rfmovfd if it bfdomfs fmpty).
      *
-     * @param threshold connections idle before 'threshold' should be closed
-     *          and removed.
+     * @pbrbm tirfsiold donnfdtions idlf bfforf 'tirfsiold' siould bf dlosfd
+     *          bnd rfmovfd.
      */
-    public void expire(long threshold) {
-        synchronized (map) {
-            Iterator<ConnectionsRef> iter = map.values().iterator();
-            Connections conns;
-            while (iter.hasNext()) {
-                conns = iter.next().getConnections();
-                if (conns.expire(threshold)) {
-                    d("expire(): removing ", conns);
-                    iter.remove();
+    publid void fxpirf(long tirfsiold) {
+        syndironizfd (mbp) {
+            Itfrbtor<ConnfdtionsRff> itfr = mbp.vblufs().itfrbtor();
+            Connfdtions donns;
+            wiilf (itfr.ibsNfxt()) {
+                donns = itfr.nfxt().gftConnfdtions();
+                if (donns.fxpirf(tirfsiold)) {
+                    d("fxpirf(): rfmoving ", donns);
+                    itfr.rfmovf();
                 }
             }
         }
-        expungeStaleConnections();
+        fxpungfStblfConnfdtions();
     }
 
     /*
-     * Closes the connections contained in the ConnectionsRef object that
-     * is going to be reclaimed by the GC. Called by getPooledConnection()
-     * and expire() methods of this class.
+     * Closfs tif donnfdtions dontbinfd in tif ConnfdtionsRff objfdt tibt
+     * is going to bf rfdlbimfd by tif GC. Cbllfd by gftPoolfdConnfdtion()
+     * bnd fxpirf() mftiods of tiis dlbss.
      */
-    private static void expungeStaleConnections() {
-        ConnectionsWeakRef releaseRef = null;
-        while ((releaseRef = (ConnectionsWeakRef) queue.poll())
+    privbtf stbtid void fxpungfStblfConnfdtions() {
+        ConnfdtionsWfbkRff rflfbsfRff = null;
+        wiilf ((rflfbsfRff = (ConnfdtionsWfbkRff) qufuf.poll())
                                         != null) {
-            Connections conns = releaseRef.getConnections();
+            Connfdtions donns = rflfbsfRff.gftConnfdtions();
 
-            if (debug) {
-                System.err.println(
-                        "weak reference cleanup: Closing Connections:" + conns);
+            if (dfbug) {
+                Systfm.frr.println(
+                        "wfbk rfffrfndf dlfbnup: Closing Connfdtions:" + donns);
             }
 
-            // cleanup
-            conns.close();
-            weakRefs.remove(releaseRef);
-            releaseRef.clear();
+            // dlfbnup
+            donns.dlosf();
+            wfbkRffs.rfmovf(rflfbsfRff);
+            rflfbsfRff.dlfbr();
          }
     }
 
 
-    public void showStats(PrintStream out) {
-        Object id;
-        Connections conns;
+    publid void siowStbts(PrintStrfbm out) {
+        Objfdt id;
+        Connfdtions donns;
 
-        out.println("===== Pool start ======================");
-        out.println("maximum pool size: " + maxSize);
-        out.println("preferred pool size: " + prefSize);
-        out.println("initial pool size: " + initSize);
-        out.println("current pool size: " + map.size());
+        out.println("===== Pool stbrt ======================");
+        out.println("mbximum pool sizf: " + mbxSizf);
+        out.println("prfffrrfd pool sizf: " + prffSizf);
+        out.println("initibl pool sizf: " + initSizf);
+        out.println("durrfnt pool sizf: " + mbp.sizf());
 
-        for (Map.Entry<Object, ConnectionsRef> entry : map.entrySet()) {
-            id = entry.getKey();
-            conns = entry.getValue().getConnections();
-            out.println("   " + id + ":" + conns.getStats());
+        for (Mbp.Entry<Objfdt, ConnfdtionsRff> fntry : mbp.fntrySft()) {
+            id = fntry.gftKfy();
+            donns = fntry.gftVbluf().gftConnfdtions();
+            out.println("   " + id + ":" + donns.gftStbts());
         }
 
-        out.println("====== Pool end =====================");
+        out.println("====== Pool fnd =====================");
     }
 
-    public String toString() {
-        return super.toString() + " " + map.toString();
+    publid String toString() {
+        rfturn supfr.toString() + " " + mbp.toString();
     }
 
-    private void d(String msg, int i) {
-        if (debug) {
-            System.err.println(this + "." + msg + i);
+    privbtf void d(String msg, int i) {
+        if (dfbug) {
+            Systfm.frr.println(tiis + "." + msg + i);
         }
     }
 
-    private void d(String msg, Object obj) {
-        if (debug) {
-            System.err.println(this + "." + msg + obj);
+    privbtf void d(String msg, Objfdt obj) {
+        if (dfbug) {
+            Systfm.frr.println(tiis + "." + msg + obj);
         }
     }
 }

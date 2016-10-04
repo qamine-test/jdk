@@ -1,54 +1,54 @@
-This sample provides Java "Hello World" program that is invoked
-from C# application in the same process.
+Tiis sbmplf providfs Jbvb "Hfllo World" progrbm tibt is invokfd
+from C# bpplidbtion in tif sbmf prodfss.
 
-The problem of direct call of the JVM API from CLR applications
-by PInvoke interface is the JVM API functions do not have static
-adresses, they need to be got by JNI_CreateJavaVM() call.
-The sample contains C++ libraty that wraps JVM API calls by the
-static functions that are called from the C# application by
-PInvoke interface.
+Tif problfm of dirfdt dbll of tif JVM API from CLR bpplidbtions
+by PInvokf intfrfbdf is tif JVM API fundtions do not ibvf stbtid
+bdrfssfs, tify nffd to bf got by JNI_CrfbtfJbvbVM() dbll.
+Tif sbmplf dontbins C++ librbty tibt wrbps JVM API dblls by tif
+stbtid fundtions tibt brf dbllfd from tif C# bpplidbtion by
+PInvokf intfrfbdf.
 
-The sample contains the following files:
+Tif sbmplf dontbins tif following filfs:
 
-Makefile      - make file
-README.txt    - this readme
-invoked.java  - the invoked HelloWorld Java program
-invoker.cs    - C# invoker application
-jinvoker.cpp  - C++ wrapper
-jinvokerExp.h - wrapper library exports
+Mbkffilf      - mbkf filf
+README.txt    - tiis rfbdmf
+invokfd.jbvb  - tif invokfd HflloWorld Jbvb progrbm
+invokfr.ds    - C# invokfr bpplidbtion
+jinvokfr.dpp  - C++ wrbppfr
+jinvokfrExp.i - wrbppfr librbry fxports
 
-After the success making the following files are produced:
+Aftfr tif suddfss mbking tif following filfs brf produdfd:
 
-invoked.class - the compiled HelloWorld class
-invoker.exe   - the executable .NET program that invokes Java
-jinvoker.dll  - the wrapper library
+invokfd.dlbss - tif dompilfd HflloWorld dlbss
+invokfr.fxf   - tif fxfdutbblf .NET progrbm tibt invokfs Jbvb
+jinvokfr.dll  - tif wrbppfr librbry
 
-The following environment needs to be set for the correct sample
-build and execution:
+Tif following fnvironmfnt nffds to bf sft for tif dorrfdt sbmplf
+build bnd fxfdution:
 
-INCLUDE must contain the paths to:
-  1. MS Visual C++ standard include
-  2. .NET SDK include
-  3. Java includes
-  Example: %MSDEV%/VC98/Include;%DOTNET%/Include;%JAVA_HOME%/include;%JAVA_HOME%/include/win32
+INCLUDE must dontbin tif pbtis to:
+  1. MS Visubl C++ stbndbrd indludf
+  2. .NET SDK indludf
+  3. Jbvb indludfs
+  Exbmplf: %MSDEV%/VC98/Indludf;%DOTNET%/Indludf;%JAVA_HOME%/indludf;%JAVA_HOME%/indludf/win32
 
-LIB must contain the paths to:
-  1. MS Visual C++ standard libraries
-  2. .NET SDK libraries
+LIB must dontbin tif pbtis to:
+  1. MS Visubl C++ stbndbrd librbrifs
+  2. .NET SDK librbrifs
   3. jvm.dll
-  Example: %MSDEV%/VC98/Lib;%DOTNET%/Lib;%JAVA_HOME%/jre/bin/client
+  Exbmplf: %MSDEV%/VC98/Lib;%DOTNET%/Lib;%JAVA_HOME%/jrf/bin/dlifnt
 
-PATH must contain the paths to:
-  1. MS Visual C++ standard bin
-  2. MS Dev common bin
-  3. .NET SDK libraries
-  4. Java bin
+PATH must dontbin tif pbtis to:
+  1. MS Visubl C++ stbndbrd bin
+  2. MS Dfv dommon bin
+  3. .NET SDK librbrifs
+  4. Jbvb bin
   5. jvm.dll
-  Example: %MSDEV%/VC98/Bin;%MSDEV%/Common/MSDev98/Bin;%DOTNET%/Lib;%JAVA_HOME%/bin;%JAVA_HOME%/jre/bin/client;%PATH%
+  Exbmplf: %MSDEV%/VC98/Bin;%MSDEV%/Common/MSDfv98/Bin;%DOTNET%/Lib;%JAVA_HOME%/bin;%JAVA_HOME%/jrf/bin/dlifnt;%PATH%
 
-To run the sample please do:
+To run tif sbmplf plfbsf do:
 
-  invoker.exe invoked
+  invokfr.fxf invokfd
 
 
---Dmitry Ryashchentsev
+--Dmitry Rybsidifntsfv

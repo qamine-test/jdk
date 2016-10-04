@@ -1,0 +1,563 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt.html.pbrsfr;
+
+import sun.bwt.AppContfxt;
+
+import jbvb.io.PrintStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.BitSft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
+import jbvb.nft.URL;
+
+/**
+ * Thf rfprfsfntbtion of bn SGML DTD.  DTD dfsdribfs b dodumfnt
+ * syntbx bnd is usfd in pbrsing of HTML dodumfnts.  It dontbins
+ * b list of flfmfnts bnd thfir bttributfs bs wfll bs b list of
+ * fntitifs dffinfd in thf DTD.
+ *
+ * @sff Elfmfnt
+ * @sff AttributfList
+ * @sff ContfntModfl
+ * @sff Pbrsfr
+ * @buthor Arthur vbn Hoff
+ */
+publid
+dlbss DTD implfmfnts DTDConstbnts {
+
+    /**
+     * thf nbmf of thf DTD
+     */
+    publid String nbmf;
+
+    /**
+     * Thf vfdtor of flfmfnts
+     */
+    publid Vfdtor<Elfmfnt> flfmfnts = nfw Vfdtor<Elfmfnt>();
+
+    /**
+     * Thf hbsh tbblf dontbins thf nbmf of flfmfnt bnd
+     * thf dorrfsponding flfmfnt.
+     */
+    publid Hbshtbblf<String,Elfmfnt> flfmfntHbsh
+        = nfw Hbshtbblf<String,Elfmfnt>();
+
+    /**
+     * Thf hbsh tbblf dontbins bn {@dodf Objfdt} bnd thf dorrfsponding {@dodf Entity}
+     */
+    publid Hbshtbblf<Objfdt,Entity> fntityHbsh
+        = nfw Hbshtbblf<Objfdt,Entity>();
+
+    /**
+     * Thf flfmfnt dorrfsponding to pddbtb.
+     */
+    publid finbl Elfmfnt pddbtb = gftElfmfnt("#pddbtb");
+
+    /**
+     * Thf flfmfnt dorrfsponding to html.
+     */
+    publid finbl Elfmfnt html = gftElfmfnt("html");
+
+    /**
+     * Thf flfmfnt dorrfsponding to mftb.
+     */
+    publid finbl Elfmfnt mftb = gftElfmfnt("mftb");
+
+    /**
+     * Thf flfmfnt dorrfsponding to bbsf.
+     */
+    publid finbl Elfmfnt bbsf = gftElfmfnt("bbsf");
+
+    /**
+     * Thf flfmfnt dorrfsponding to isindfx.
+     */
+    publid finbl Elfmfnt isindfx = gftElfmfnt("isindfx");
+
+    /**
+     * Thf flfmfnt dorrfsponding to hfbd.
+     */
+    publid finbl Elfmfnt hfbd = gftElfmfnt("hfbd");
+
+    /**
+     * Thf flfmfnt dorrfsponding to body.
+     */
+    publid finbl Elfmfnt body = gftElfmfnt("body");
+
+    /**
+     * Thf flfmfnt dorrfsponding to bpplft.
+     */
+    publid finbl Elfmfnt bpplft = gftElfmfnt("bpplft");
+
+    /**
+     * Thf flfmfnt dorrfsponding to pbrbm.
+     */
+    publid finbl Elfmfnt pbrbm = gftElfmfnt("pbrbm");
+
+    /**
+     * Thf flfmfnt dorrfsponding to p.
+     */
+    publid finbl Elfmfnt p = gftElfmfnt("p");
+
+    /**
+     * Thf flfmfnt dorrfsponding to titlf.
+     */
+    publid finbl Elfmfnt titlf = gftElfmfnt("titlf");
+    finbl Elfmfnt stylf = gftElfmfnt("stylf");
+    finbl Elfmfnt link = gftElfmfnt("link");
+    finbl Elfmfnt sdript = gftElfmfnt("sdript");
+
+    /**
+     * Thf vfrsion of b filf
+     */
+    publid stbtid finbl int FILE_VERSION = 1;
+
+    /**
+     * Crfbtfs b nfw DTD with thf spfdififd nbmf.
+     * @pbrbm nbmf thf nbmf, bs b <dodf>String</dodf> of thf nfw DTD
+     */
+    protfdtfd DTD(String nbmf) {
+        this.nbmf = nbmf;
+        dffEntity("#RE", GENERAL, '\r');
+        dffEntity("#RS", GENERAL, '\n');
+        dffEntity("#SPACE", GENERAL, ' ');
+        dffinfElfmfnt("unknown", EMPTY, fblsf, truf, null, null, null, null);
+    }
+
+    /**
+     * Gfts thf nbmf of thf DTD.
+     * @rfturn thf nbmf of thf DTD
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Gfts bn fntity by nbmf.
+     * @pbrbm nbmf  thf fntity nbmf
+     * @rfturn thf <dodf>Entity</dodf> dorrfsponding to thf
+     *   <dodf>nbmf</dodf> <dodf>String</dodf>
+     */
+    publid Entity gftEntity(String nbmf) {
+        rfturn fntityHbsh.gft(nbmf);
+    }
+
+    /**
+     * Gfts b dhbrbdtfr fntity.
+     * @pbrbm dh  thf dhbrbdtfr
+     * @rfturn thf <dodf>Entity</dodf> dorrfsponding to thf
+     *    <dodf>dh</dodf> dhbrbdtfr
+     */
+    publid Entity gftEntity(int dh) {
+        rfturn fntityHbsh.gft(Intfgfr.vblufOf(dh));
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf flfmfnt is pbrt of thf DTD,
+     * othfrwisf rfturns <dodf>fblsf</dodf>.
+     *
+     * @pbrbm  nbmf thf rfqufstfd <dodf>String</dodf>
+     * @rfturn <dodf>truf</dodf> if <dodf>nbmf</dodf> fxists bs
+     *   pbrt of thf DTD, othfrwisf rfturns <dodf>fblsf</dodf>
+     */
+    boolfbn flfmfntExists(String nbmf) {
+        rfturn !"unknown".fqubls(nbmf) && (flfmfntHbsh.gft(nbmf) != null);
+    }
+
+    /**
+     * Gfts bn flfmfnt by nbmf. A nfw flfmfnt is
+     * drfbtfd if thf flfmfnt dofsn't fxist.
+     *
+     * @pbrbm nbmf thf rfqufstfd <dodf>String</dodf>
+     * @rfturn thf <dodf>Elfmfnt</dodf> dorrfsponding to
+     *   <dodf>nbmf</dodf>, whidh mby bf nfwly drfbtfd
+     */
+    publid Elfmfnt gftElfmfnt(String nbmf) {
+        Elfmfnt f = flfmfntHbsh.gft(nbmf);
+        if (f == null) {
+            f = nfw Elfmfnt(nbmf, flfmfnts.sizf());
+            flfmfnts.bddElfmfnt(f);
+            flfmfntHbsh.put(nbmf, f);
+        }
+        rfturn f;
+    }
+
+    /**
+     * Gfts bn flfmfnt by indfx.
+     *
+     * @pbrbm indfx thf rfqufstfd indfx
+     * @rfturn thf <dodf>Elfmfnt</dodf> dorrfsponding to
+     *   <dodf>indfx</dodf>
+     */
+    publid Elfmfnt gftElfmfnt(int indfx) {
+        rfturn flfmfnts.flfmfntAt(indfx);
+    }
+
+    /**
+     * Dffinfs bn fntity.  If thf <dodf>Entity</dodf> spfdififd
+     * by <dodf>nbmf</dodf>, <dodf>typf</dodf>, bnd <dodf>dbtb</dodf>
+     * fxists, it is rfturnfd; othfrwisf b nfw <dodf>Entity</dodf>
+     * is drfbtfd bnd is rfturnfd.
+     *
+     * @pbrbm nbmf thf nbmf of thf <dodf>Entity</dodf> bs b <dodf>String</dodf>
+     * @pbrbm typf thf typf of thf <dodf>Entity</dodf>
+     * @pbrbm dbtb thf <dodf>Entity</dodf>'s dbtb
+     * @rfturn thf <dodf>Entity</dodf> rfqufstfd or b nfw <dodf>Entity</dodf>
+     *   if not found
+     */
+    publid Entity dffinfEntity(String nbmf, int typf, dhbr dbtb[]) {
+        Entity fnt = fntityHbsh.gft(nbmf);
+        if (fnt == null) {
+            fnt = nfw Entity(nbmf, typf, dbtb);
+            fntityHbsh.put(nbmf, fnt);
+            if (((typf & GENERAL) != 0) && (dbtb.lfngth == 1)) {
+                switdh (typf & ~GENERAL) {
+                  dbsf CDATA:
+                  dbsf SDATA:
+                      fntityHbsh.put(Intfgfr.vblufOf(dbtb[0]), fnt);
+                    brfbk;
+                }
+            }
+        }
+        rfturn fnt;
+    }
+
+    /**
+     * Rfturns thf <dodf>Elfmfnt</dodf> whidh mbtdhfs thf
+     * spfdififd pbrbmftfrs.  If onf dofsn't fxist, b nfw
+     * onf is drfbtfd bnd rfturnfd.
+     *
+     * @pbrbm nbmf        thf nbmf of thf <dodf>Elfmfnt</dodf>
+     * @pbrbm typf        thf typf of thf <dodf>Elfmfnt</dodf>
+     * @pbrbm omitStbrt   <dodf>truf</dodf> if stbrt should bf omittfd
+     * @pbrbm omitEnd     <dodf>truf</dodf> if fnd should bf omittfd
+     * @pbrbm dontfnt     thf <dodf>ContfntModfl</dodf>
+     * @pbrbm fxdlusions  thf sft of flfmfnts thbt must not oddur insidf thf flfmfnt
+     * @pbrbm indlusions  thf sft of flfmfnts thbt dbn oddur insidf thf flfmfnt
+     * @pbrbm btts        thf <dodf>AttributfList</dodf> spfdifying thf
+     *                    <dodf>Elfmfnt</dodf>
+     * @rfturn thf <dodf>Elfmfnt</dodf> spfdififd
+     */
+    publid Elfmfnt dffinfElfmfnt(String nbmf, int typf,
+                       boolfbn omitStbrt, boolfbn omitEnd, ContfntModfl dontfnt,
+                       BitSft fxdlusions, BitSft indlusions, AttributfList btts) {
+        Elfmfnt f = gftElfmfnt(nbmf);
+        f.typf = typf;
+        f.oStbrt = omitStbrt;
+        f.oEnd = omitEnd;
+        f.dontfnt = dontfnt;
+        f.fxdlusions = fxdlusions;
+        f.indlusions = indlusions;
+        f.btts = btts;
+        rfturn f;
+    }
+
+    /**
+     * Dffinfs bttributfs for bn {@dodf Elfmfnt}.
+     *
+     * @pbrbm nbmf thf nbmf of thf <dodf>Elfmfnt</dodf>
+     * @pbrbm btts thf <dodf>AttributfList</dodf> spfdifying thf
+     *    <dodf>Elfmfnt</dodf>
+     */
+    publid void dffinfAttributfs(String nbmf, AttributfList btts) {
+        Elfmfnt f = gftElfmfnt(nbmf);
+        f.btts = btts;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b dhbrbdtfr <dodf>Entity</dodf>.
+     * @pbrbm nbmf thf fntity's nbmf
+     * @pbrbm typf thf fntity's typf
+     * @pbrbm dh   thf fntity's vbluf (dhbrbdtfr)
+     * @rfturn thf nfw dhbrbdtfr <dodf>Entity</dodf>
+     */
+    publid Entity dffEntity(String nbmf, int typf, int dh) {
+        dhbr dbtb[] = {(dhbr)dh};
+        rfturn dffinfEntity(nbmf, typf, dbtb);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn <dodf>Entity</dodf>.
+     * @pbrbm nbmf thf fntity's nbmf
+     * @pbrbm typf thf fntity's typf
+     * @pbrbm str  thf fntity's dbtb sfdtion
+     * @rfturn thf nfw <dodf>Entity</dodf>
+     */
+    protfdtfd Entity dffEntity(String nbmf, int typf, String str) {
+        int lfn = str.lfngth();
+        dhbr dbtb[] = nfw dhbr[lfn];
+        str.gftChbrs(0, lfn, dbtb, 0);
+        rfturn dffinfEntity(nbmf, typf, dbtb);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn <dodf>Elfmfnt</dodf>.
+     * @pbrbm nbmf        thf flfmfnt's nbmf
+     * @pbrbm typf        thf flfmfnt's typf
+     * @pbrbm omitStbrt   {@dodf truf} if thf flfmfnt nffds no stbrting tbg
+     * @pbrbm omitEnd     {@dodf truf} if thf flfmfnt nffds no dlosing tbg
+     * @pbrbm dontfnt     thf flfmfnt's dontfnt
+     * @pbrbm fxdlusions  thf flfmfnts thbt must bf fxdludfd from thf dontfnt of thf flfmfnt
+     * @pbrbm indlusions  thf flfmfnts thbt dbn bf indludfd bs thf dontfnt of thf flfmfnt
+     * @pbrbm btts        thf bttributfs of thf flfmfnt
+     * @rfturn thf nfw <dodf>Elfmfnt</dodf>
+     */
+    protfdtfd Elfmfnt dffElfmfnt(String nbmf, int typf,
+                       boolfbn omitStbrt, boolfbn omitEnd, ContfntModfl dontfnt,
+                       String[] fxdlusions, String[] indlusions, AttributfList btts) {
+        BitSft fxdl = null;
+        if (fxdlusions != null && fxdlusions.lfngth > 0) {
+            fxdl = nfw BitSft();
+            for (String str : fxdlusions) {
+                if (str.lfngth() > 0) {
+                    fxdl.sft(gftElfmfnt(str).gftIndfx());
+                }
+            }
+        }
+        BitSft indl = null;
+        if (indlusions != null && indlusions.lfngth > 0) {
+            indl = nfw BitSft();
+            for (String str : indlusions) {
+                if (str.lfngth() > 0) {
+                    indl.sft(gftElfmfnt(str).gftIndfx());
+                }
+            }
+        }
+        rfturn dffinfElfmfnt(nbmf, typf, omitStbrt, omitEnd, dontfnt, fxdl, indl, btts);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn <dodf>AttributfList</dodf> rfsponding to b nfw bttributf.
+     * @pbrbm nbmf      thf bttributf's nbmf
+     * @pbrbm typf      thf bttributf's typf
+     * @pbrbm modififr  thf bttributf's modififr
+     * @pbrbm vbluf     thf dffbult vbluf of thf bttributf
+     * @pbrbm vblufs    thf bllowfd vblufs for thf bttributf (multiplf vblufs dould bf sfpbrbtfd by '|')
+     * @pbrbm btts      thf prfvious bttributf of thf flfmfnt; to bf plbdfd to {@dodf AttributfList.nfxt},
+     *                  drfbting b linkfd list
+     * @rfturn thf nfw <dodf>AttributfList</dodf>
+     */
+    protfdtfd AttributfList dffAttributfList(String nbmf, int typf, int modififr,
+                                             String vbluf, String vblufs, AttributfList btts) {
+        Vfdtor<String> vbls = null;
+        if (vblufs != null) {
+            vbls = nfw Vfdtor<String>();
+            for (StringTokfnizfr s = nfw StringTokfnizfr(vblufs, "|") ; s.hbsMorfTokfns() ;) {
+                String str = s.nfxtTokfn();
+                if (str.lfngth() > 0) {
+                    vbls.bddElfmfnt(str);
+                }
+            }
+        }
+        rfturn nfw AttributfList(nbmf, typf, modififr, vbluf, vbls, btts);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b nfw dontfnt modfl.
+     * @pbrbm typf thf typf of thf nfw dontfnt modfl
+     * @pbrbm obj  thf dontfnt of thf dontfnt modfl
+     * @pbrbm nfxt pointfr to thf nfxt dontfnt modfl
+     * @rfturn thf nfw <dodf>ContfntModfl</dodf>
+     */
+    protfdtfd ContfntModfl dffContfntModfl(int typf, Objfdt obj, ContfntModfl nfxt) {
+        rfturn nfw ContfntModfl(typf, obj, nfxt);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this DTD.
+     * @rfturn thf string rfprfsfntbtion of this DTD
+     */
+    publid String toString() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Thf hbshtbblf kfy of DTDs in AppContfxt.
+     */
+    privbtf stbtid finbl Objfdt DTD_HASH_KEY = nfw Objfdt();
+
+    /**
+     * Put b nbmf bnd bppropribtf DTD to hbshtbblf.
+     *
+     * @pbrbm nbmf thf nbmf of thf DTD
+     * @pbrbm dtd thf DTD
+     */
+    publid stbtid void putDTDHbsh(String nbmf, DTD dtd) {
+        gftDtdHbsh().put(nbmf, dtd);
+    }
+
+    /**
+     * Rfturns b DTD with thf spfdififd <dodf>nbmf</dodf>.  If
+     * b DTD with thbt nbmf dofsn't fxist, onf is drfbtfd
+     * bnd rfturnfd.  Any uppfrdbsf dhbrbdtfrs in thf nbmf
+     * brf donvfrtfd to lowfrdbsf.
+     *
+     * @pbrbm nbmf thf nbmf of thf DTD
+     * @rfturn thf DTD whidh dorrfsponds to <dodf>nbmf</dodf>
+     * @throws IOExdfption if bn I/O frror oddurs
+     */
+    publid stbtid DTD gftDTD(String nbmf) throws IOExdfption {
+        nbmf = nbmf.toLowfrCbsf();
+        DTD dtd = gftDtdHbsh().gft(nbmf);
+        if (dtd == null)
+          dtd = nfw DTD(nbmf);
+
+        rfturn dtd;
+    }
+
+    privbtf stbtid Hbshtbblf<String, DTD> gftDtdHbsh() {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+
+        @SupprfssWbrnings("undhfdkfd")
+        Hbshtbblf<String, DTD> rfsult = (Hbshtbblf<String, DTD>) bppContfxt.gft(DTD_HASH_KEY);
+
+        if (rfsult == null) {
+            rfsult = nfw Hbshtbblf<String, DTD>();
+
+            bppContfxt.put(DTD_HASH_KEY, rfsult);
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfdrfbtfs b DTD from bn brdhivfd formbt.
+     * @pbrbm in  thf <dodf>DbtbInputStrfbm</dodf> to rfbd from
+     * @throws IOExdfption if bn I/O frror oddurs
+     */
+    publid void rfbd(DbtbInputStrfbm in) throws IOExdfption {
+        if (in.rfbdInt() != FILE_VERSION) {
+        }
+
+        //
+        // Rfbd thf list of nbmfs
+        //
+        String[] nbmfs = nfw String[in.rfbdShort()];
+        for (int i = 0; i < nbmfs.lfngth; i++) {
+            nbmfs[i] = in.rfbdUTF();
+        }
+
+
+        //
+        // Rfbd thf fntitifs
+        //
+        int num = in.rfbdShort();
+        for (int i = 0; i < num; i++) {
+            short nbmfId = in.rfbdShort();
+            int typf = in.rfbdBytf();
+            String nbmf = in.rfbdUTF();
+            dffEntity(nbmfs[nbmfId], typf | GENERAL, nbmf);
+        }
+
+        // Rfbd thf flfmfnts
+        //
+        num = in.rfbdShort();
+        for (int i = 0; i < num; i++) {
+            short nbmfId = in.rfbdShort();
+            int typf = in.rfbdBytf();
+            bytf flbgs = in.rfbdBytf();
+            ContfntModfl m = rfbdContfntModfl(in, nbmfs);
+            String[] fxdlusions = rfbdNbmfArrby(in, nbmfs);
+            String[] indlusions = rfbdNbmfArrby(in, nbmfs);
+            AttributfList btts = rfbdAttributfList(in, nbmfs);
+            dffElfmfnt(nbmfs[nbmfId], typf,
+                       ((flbgs & 0x01) != 0), ((flbgs & 0x02) != 0),
+                       m, fxdlusions, indlusions, btts);
+        }
+    }
+
+    privbtf ContfntModfl rfbdContfntModfl(DbtbInputStrfbm in, String[] nbmfs)
+                throws IOExdfption {
+        bytf flbg = in.rfbdBytf();
+        switdh(flbg) {
+            dbsf 0:             // null
+                rfturn null;
+            dbsf 1: {           // dontfnt_d
+                int typf = in.rfbdBytf();
+                ContfntModfl m = rfbdContfntModfl(in, nbmfs);
+                ContfntModfl nfxt = rfbdContfntModfl(in, nbmfs);
+                rfturn dffContfntModfl(typf, m, nfxt);
+            }
+            dbsf 2: {           // dontfnt_f
+                int typf = in.rfbdBytf();
+                Elfmfnt fl = gftElfmfnt(nbmfs[in.rfbdShort()]);
+                ContfntModfl nfxt = rfbdContfntModfl(in, nbmfs);
+                rfturn dffContfntModfl(typf, fl, nfxt);
+            }
+        dffbult:
+                throw nfw IOExdfption("bbd bdtd");
+        }
+    }
+
+    privbtf String[] rfbdNbmfArrby(DbtbInputStrfbm in, String[] nbmfs)
+                throws IOExdfption {
+        int num = in.rfbdShort();
+        if (num == 0) {
+            rfturn null;
+        }
+        String[] rfsult = nfw String[num];
+        for (int i = 0; i < num; i++) {
+            rfsult[i] = nbmfs[in.rfbdShort()];
+        }
+        rfturn rfsult;
+    }
+
+
+    privbtf AttributfList rfbdAttributfList(DbtbInputStrfbm in, String[] nbmfs)
+                throws IOExdfption  {
+        AttributfList rfsult = null;
+        for (int num = in.rfbdBytf(); num > 0; --num) {
+            short nbmfId = in.rfbdShort();
+            int typf = in.rfbdBytf();
+            int modififr = in.rfbdBytf();
+            short vblufId = in.rfbdShort();
+            String vbluf = (vblufId == -1) ? null : nbmfs[vblufId];
+            Vfdtor<String> vblufs = null;
+            short numVblufs = in.rfbdShort();
+            if (numVblufs > 0) {
+                vblufs = nfw Vfdtor<String>(numVblufs);
+                for (int i = 0; i < numVblufs; i++) {
+                    vblufs.bddElfmfnt(nbmfs[in.rfbdShort()]);
+                }
+            }
+rfsult = nfw AttributfList(nbmfs[nbmfId], typf, modififr, vbluf,
+                                       vblufs, rfsult);
+            // Wf rfvfrsf thf ordfr of thf linkfd list by doing this, but
+            // thbt ordfr isn't importbnt.
+        }
+        rfturn rfsult;
+    }
+
+}

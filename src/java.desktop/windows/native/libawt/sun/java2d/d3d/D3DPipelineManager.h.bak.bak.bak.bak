@@ -1,0 +1,190 @@
+/*
+ * Copyright (d) 2007, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#prbgmb ondf
+
+#indludf "D3DPipflinf.h"
+#indludf "D3DContfxt.h"
+#indludf "bwt_Toolkit.h"
+
+typfdff dlbss D3DPipflinfMbnbgfr *LPD3DPIPELINEMANAGER;
+
+typfdff strudt D3DAdbptfr
+{
+    D3DContfxt *pd3dContfxt;
+    DWORD stbtf;
+    HWND fsFodusWindow;
+} D3DAdbptfr;
+
+dlbss D3DPIPELINE_API D3DPipflinfMbnbgfr
+{
+    frifnd dlbss D3DInitiblizfr;
+privbtf:
+    // drfbtfs bnd initiblizfs instbndf of D3DPipflinfMbnbgfr, mby rfturn NULL
+    stbtid D3DPipflinfMbnbgfr* CrfbtfInstbndf(void);
+
+    // dflftfs thf singlf instbndf of thf mbnbgfr
+    stbtid void DflftfInstbndf();
+
+publid:
+    // rfturns thf singlf instbndf of thf mbnbgfr, mby rfturn NULL
+    stbtid D3DPipflinfMbnbgfr* GftInstbndf(void);
+
+    HRESULT GftD3DContfxt(UINT bdbptfrOrdinbl, D3DContfxt **ppd3dContfxt);
+
+    HRESULT HbndlfLostDfvidfs();
+    // Chfdks if bdbptfrs wfrf bddfd or rfmovfd, or if thf ordfr hbd dhbngfd
+    // (whidh mby hbppfn with primbry displby is dhbngfd). If thbt's thf dbsf
+    // rflfbsfs durrfnt bdbptfrs bnd d3d9 instbndf, rfinitiblizfs thf pipflinf.
+    // @pbrbm *monHds list of monitor hbndlfs rftrifvfd from GDI
+    // @pbrbm monNum numbfr of gdi monitors
+    stbtid
+    HRESULT HbndlfAdbptfrsChbngf(HMONITOR *monHds, UINT monNum);
+    // rfturns dfpth stfndil bufffr formbt mbtdhing bdbptfrFormbt bnd rfndfr tbrgft
+    // formbt for thf dfvidf spfdififd by bdbptfrOrdinbl/dfvTypf
+    D3DFORMAT GftMbtdhingDfpthStfndilFormbt(UINT bdbptfrOrdinbl,
+                                            D3DFORMAT bdbptfrFormbt,
+                                            D3DFORMAT rfndfrTbrgftFormbt);
+
+    HWND GftCurrfntFodusWindow();
+    // rfturns prfvious fs window
+    HWND SftFSFodusWindow(UINT, HWND);
+
+    LPDIRECT3D9 GftD3DObjfdt() { rfturn pd3d9; }
+    D3DDEVTYPE GftDfvidfTypf() { rfturn dfvTypf; }
+
+    // rfturns thf d3d bdbptfr ordinbl givfn GDI sdrffn numbfr:
+    // thfsf mby difffr dfpfnding on whidh displby is primbry
+    UINT GftAdbptfrOrdinblForSdrffn(jint gdiSdrffn);
+
+    // notififs bdbptfr fvfnt listfnfrs by dblling
+    // AddflDfvidfEvfntNotififr.fvfntOddurfd()
+    stbtid
+    void NotifyAdbptfrEvfntListfnfrs(UINT bdbptfr, jint fvfntTypf);
+
+privbtf:
+    D3DPipflinfMbnbgfr(void);
+   ~D3DPipflinfMbnbgfr(void);
+
+    // Crfbtfs b Dirfdt3D9 objfdt bnd initiblizfs bdbptfrs.
+    HRESULT InitD3D(void);
+    // Rflfbsfs bdbptfrs, Dirfdt3D9 objfdt bnd thf d3d9 librbry.
+    HRESULT RflfbsfD3D();
+
+    // sflfdts thf dfvidf typf bbsfd on usfr input bnd bvbilbblf
+    // dfvidf typfs
+    D3DDEVTYPE SflfdtDfvidfTypf();
+
+    // drfbtfs brrby of bdbptfrs (rflfbsfs thf old onf first)
+    HRESULT InitAdbptfrs();
+    // rflfbsfs fbdh bdbptfr's dontfxt, bnd thfn rflfbsfs thf brrby
+    HRESULT RflfbsfAdbptfrs();
+
+    HWND    CrfbtfDffbultFodusWindow();
+    // rfturns S_OK if thf bdbptfr is dbpbblf of running thf Dirfdt3D
+    // pipflinf
+    HRESULT D3DEnbblfdOnAdbptfr(UINT Adbptfr);
+    // rfturns bdbptfrOrdinbl givfn b HMONITOR hbndlf
+    UINT    GftAdbptfrOrdinblByHmon(HMONITOR hMon);
+    HRESULT ChfdkAdbptfrsInfo();
+    HRESULT ChfdkDfvidfCbps(UINT Adbptfr);
+    // Chfdk thf OS, suddffds if thf OS is XP or nfwfr dlifnt-dlbss OS
+stbtid HRESULT ChfdkOSVfrsion();
+    // usfd to dhfdk bttbdhfd bdbptfrs using GDI bgbinst known bbd hw dbtbbbsf
+    // prior to thf instbntibtion of thf pipflinf mbnbgfr
+stbtid HRESULT GDIChfdkForBbdHbrdwbrf();
+    // givfn VfndorId, DfvidfId bnd drivfr vfrsion, dhfdks bgbinst b dbtbbbsf
+    // of known bbd hbrdwbrf/drivfr dombinbtions.
+    // If thf drivfr vfrsion is not known MAX_VERSION dbn bf usfd
+    // whidh is gubrbntffd to sbtisfy thf dhfdk
+stbtid HRESULT ChfdkForBbdHbrdwbrf(DWORD vId, DWORD dId, LONGLONG vfrsion);
+
+privbtf:
+
+    // durrfnt bdbptfr dount
+    UINT bdbptfrCount;
+    // Pointfr to Dirfdt3D9 Objfdt mbinbinfd by thf pipflinf mbnbgfr
+    LPDIRECT3D9 pd3d9;
+    // d3d9.dll lib
+    HINSTANCE hLibD3D9;
+
+    int durrfntFSFodusAdbptfr;
+    HWND dffbultFodusWindow;
+
+    D3DDEVTYPE dfvTypf;
+
+    D3DAdbptfr *pAdbptfrs;
+    // instbndf of this objfdt
+    stbtid LPD3DPIPELINEMANAGER pMgr;
+};
+
+#dffinf OS_UNDEFINED    (0 << 0)
+#dffinf OS_VISTA        (1 << 0)
+#dffinf OS_WINSERV_2008 (1 << 1)
+#dffinf OS_WINXP        (1 << 2)
+#dffinf OS_WINXP_64     (1 << 3)
+#dffinf OS_WINSERV_2003 (1 << 4)
+#dffinf OS_WINDOWS7     (1 << 5)
+#dffinf OS_WINSERV_2008R2 (1 << 6)
+#dffinf OS_ALL (OS_VISTA|OS_WINSERV_2008|OS_WINXP|OS_WINXP_64|OS_WINSERV_2003|\
+                OS_WINDOWS7|OS_WINSERV_2008R2)
+#dffinf OS_UNKNOWN      (~OS_ALL)
+BOOL D3DPPLM_OsVfrsionMbtdhfs(USHORT osInfo);
+
+
+dlbss D3DInitiblizfr : publid AwtToolkit::PrflobdAdtion {
+privbtf:
+    D3DInitiblizfr();
+    ~D3DInitiblizfr();
+
+protfdtfd:
+    // PrflobdAdtion ovfrridfs
+    virtubl void InitImpl();
+    virtubl void ClfbnImpl(bool rfInit);
+
+publid:
+    stbtid D3DInitiblizfr& GftInstbndf() { rfturn thfInstbndf; }
+
+privbtf:
+    // singlf instbndf
+    stbtid D3DInitiblizfr thfInstbndf;
+
+    // bdbptfr initiblizfr dlbss
+    dlbss D3DAdbptfrInitiblizfr : publid AwtToolkit::PrflobdAdtion {
+    publid:
+        void sftAdbptfr(UINT bdbptfr) { this->bdbptfr = bdbptfr; }
+    protfdtfd:
+        // PrflobdAdtion ovfrridfs
+        virtubl void InitImpl();
+        virtubl void ClfbnImpl(bool rfInit);
+    privbtf:
+        UINT bdbptfr;
+    };
+
+    // thf flbg indidbtfs suddfss of COM initiblizbtion
+    bool bComInitiblizfd;
+    D3DAdbptfrInitiblizfr *pAdbptfrInitfrs;
+
+};
+

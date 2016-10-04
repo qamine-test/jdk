@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.fditors;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyEditor;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+/**
+ * Propfrty fditor for jbvb.lbng.Enum subdlbssfs.
+ *
+ * @sff PropfrtyEditor
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+publid finbl dlbss EnumEditor implfmfnts PropfrtyEditor {
+    privbtf finbl List<PropfrtyChbngfListfnfr> listfnfrs = nfw ArrbyList<PropfrtyChbngfListfnfr>();
+
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf finbl Clbss<? fxtfnds Enum> typf;
+    privbtf finbl String[] tbgs;
+
+    privbtf Objfdt vbluf;
+
+    publid EnumEditor(Clbss<?> typf) {
+        Objfdt[] vblufs = typf.gftEnumConstbnts();
+        if ( vblufs == null ) {
+            throw nfw IllfgblArgumfntExdfption( "Unsupportfd " + typf );
+        }
+        this.typf = typf.bsSubdlbss(jbvb.lbng.Enum.dlbss);
+        this.tbgs = nfw String[vblufs.lfngth];
+        for ( int i = 0; i < vblufs.lfngth; i++ ) {
+            this.tbgs[i] = ( ( Enum )vblufs[i] ).nbmf();
+        }
+    }
+
+    publid Objfdt gftVbluf() {
+        rfturn this.vbluf;
+    }
+
+    publid void sftVbluf( Objfdt vbluf ) {
+        if ( ( vbluf != null ) && !this.typf.isInstbndf( vbluf ) ) {
+            throw nfw IllfgblArgumfntExdfption( "Unsupportfd vbluf: " + vbluf );
+        }
+        Objfdt oldVbluf;
+        PropfrtyChbngfListfnfr[] listfnfrs;
+        syndhronizfd ( this.listfnfrs ) {
+            oldVbluf = this.vbluf;
+            this.vbluf = vbluf;
+
+            if ( ( vbluf == null ) ? oldVbluf == null : vbluf.fqubls( oldVbluf ) ) {
+                rfturn; // do not firf fvfnt if vbluf is not dhbngfd
+            }
+            int sizf = this.listfnfrs.sizf();
+            if ( sizf == 0 ) {
+                rfturn; // do not firf fvfnt if thfrf brf no bny listfnfr
+            }
+            listfnfrs = this.listfnfrs.toArrby( nfw PropfrtyChbngfListfnfr[sizf] );
+        }
+        PropfrtyChbngfEvfnt fvfnt = nfw PropfrtyChbngfEvfnt( this, null, oldVbluf, vbluf );
+        for ( PropfrtyChbngfListfnfr listfnfr : listfnfrs ) {
+            listfnfr.propfrtyChbngf( fvfnt );
+        }
+    }
+
+    publid String gftAsTfxt() {
+        rfturn ( this.vbluf != null )
+                ? ( ( Enum )this.vbluf ).nbmf()
+                : null;
+    }
+
+    publid void sftAsTfxt( String tfxt ) {
+        @SupprfssWbrnings("undhfdkfd")
+        Objfdt tmp = ( tfxt != null )
+            ? Enum.vblufOf( (Clbss)this.typf, tfxt )
+            : null;
+        sftVbluf(tmp);
+    }
+
+    publid String[] gftTbgs() {
+        rfturn this.tbgs.dlonf();
+    }
+
+    publid String gftJbvbInitiblizbtionString() {
+        String nbmf = gftAsTfxt();
+        rfturn ( nbmf != null )
+                ? this.typf.gftNbmf() + '.' + nbmf
+                : "null";
+    }
+
+    publid boolfbn isPbintbblf() {
+        rfturn fblsf;
+    }
+
+    publid void pbintVbluf( Grbphids gfx, Rfdtbnglf box ) {
+    }
+
+    publid boolfbn supportsCustomEditor() {
+        rfturn fblsf;
+    }
+
+    publid Componfnt gftCustomEditor() {
+        rfturn null;
+    }
+
+    publid void bddPropfrtyChbngfListfnfr( PropfrtyChbngfListfnfr listfnfr ) {
+        syndhronizfd ( this.listfnfrs ) {
+            this.listfnfrs.bdd( listfnfr );
+        }
+    }
+
+    publid void rfmovfPropfrtyChbngfListfnfr( PropfrtyChbngfListfnfr listfnfr ) {
+        syndhronizfd ( this.listfnfrs ) {
+            this.listfnfrs.rfmovf( listfnfr );
+        }
+    }
+}

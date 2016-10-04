@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.activation;
+pbdkbgf jbvb.rmi.bdtivbtion;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.activation.UnknownGroupException;
-import java.rmi.activation.UnknownObjectException;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
 
 /**
- * The <code>ActivationSystem</code> provides a means for registering
- * groups and "activatable" objects to be activated within those groups.
- * The <code>ActivationSystem</code> works closely with the
- * <code>Activator</code>, which activates objects registered via the
- * <code>ActivationSystem</code>, and the <code>ActivationMonitor</code>,
- * which obtains information about active and inactive objects,
- * and inactive groups.
+ * Tif <dodf>AdtivbtionSystfm</dodf> providfs b mfbns for rfgistfring
+ * groups bnd "bdtivbtbblf" objfdts to bf bdtivbtfd witiin tiosf groups.
+ * Tif <dodf>AdtivbtionSystfm</dodf> works dlosfly witi tif
+ * <dodf>Adtivbtor</dodf>, wiidi bdtivbtfs objfdts rfgistfrfd vib tif
+ * <dodf>AdtivbtionSystfm</dodf>, bnd tif <dodf>AdtivbtionMonitor</dodf>,
+ * wiidi obtbins informbtion bbout bdtivf bnd inbdtivf objfdts,
+ * bnd inbdtivf groups.
  *
- * @author      Ann Wollrath
- * @see         Activator
- * @see         ActivationMonitor
- * @since       1.2
+ * @butior      Ann Wollrbti
+ * @sff         Adtivbtor
+ * @sff         AdtivbtionMonitor
+ * @sindf       1.2
  */
-public interface ActivationSystem extends Remote {
+publid intfrfbdf AdtivbtionSystfm fxtfnds Rfmotf {
 
-    /** The port to lookup the activation system. */
-    public static final int SYSTEM_PORT = 1098;
+    /** Tif port to lookup tif bdtivbtion systfm. */
+    publid stbtid finbl int SYSTEM_PORT = 1098;
 
     /**
-     * The <code>registerObject</code> method is used to register an
-     * activation descriptor, <code>desc</code>, and obtain an
-     * activation identifier for a activatable remote object. The
-     * <code>ActivationSystem</code> creates an
-     * <code>ActivationID</code> (a activation identifier) for the
-     * object specified by the descriptor, <code>desc</code>, and
-     * records, in stable storage, the activation descriptor and its
-     * associated identifier for later use. When the <code>Activator</code>
-     * receives an <code>activate</code> request for a specific identifier, it
-     * looks up the activation descriptor (registered previously) for
-     * the specified identifier and uses that information to activate
-     * the object.
+     * Tif <dodf>rfgistfrObjfdt</dodf> mftiod is usfd to rfgistfr bn
+     * bdtivbtion dfsdriptor, <dodf>dfsd</dodf>, bnd obtbin bn
+     * bdtivbtion idfntififr for b bdtivbtbblf rfmotf objfdt. Tif
+     * <dodf>AdtivbtionSystfm</dodf> drfbtfs bn
+     * <dodf>AdtivbtionID</dodf> (b bdtivbtion idfntififr) for tif
+     * objfdt spfdififd by tif dfsdriptor, <dodf>dfsd</dodf>, bnd
+     * rfdords, in stbblf storbgf, tif bdtivbtion dfsdriptor bnd its
+     * bssodibtfd idfntififr for lbtfr usf. Wifn tif <dodf>Adtivbtor</dodf>
+     * rfdfivfs bn <dodf>bdtivbtf</dodf> rfqufst for b spfdifid idfntififr, it
+     * looks up tif bdtivbtion dfsdriptor (rfgistfrfd prfviously) for
+     * tif spfdififd idfntififr bnd usfs tibt informbtion to bdtivbtf
+     * tif objfdt.
      *
-     * @param desc the object's activation descriptor
-     * @return the activation id that can be used to activate the object
-     * @exception ActivationException if registration fails (e.g., database
-     * update failure, etc).
-     * @exception UnknownGroupException if group referred to in
-     * <code>desc</code> is not registered with this system
-     * @exception RemoteException if remote call fails
-     * @since 1.2
+     * @pbrbm dfsd tif objfdt's bdtivbtion dfsdriptor
+     * @rfturn tif bdtivbtion id tibt dbn bf usfd to bdtivbtf tif objfdt
+     * @fxdfption AdtivbtionExdfption if rfgistrbtion fbils (f.g., dbtbbbsf
+     * updbtf fbilurf, ftd).
+     * @fxdfption UnknownGroupExdfption if group rfffrrfd to in
+     * <dodf>dfsd</dodf> is not rfgistfrfd witi tiis systfm
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
      */
-    public ActivationID registerObject(ActivationDesc desc)
-        throws ActivationException, UnknownGroupException, RemoteException;
+    publid AdtivbtionID rfgistfrObjfdt(AdtivbtionDfsd dfsd)
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
 
     /**
-     * Remove the activation id and associated descriptor previously
-     * registered with the <code>ActivationSystem</code>; the object
-     * can no longer be activated via the object's activation id.
+     * Rfmovf tif bdtivbtion id bnd bssodibtfd dfsdriptor prfviously
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf>; tif objfdt
+     * dbn no longfr bf bdtivbtfd vib tif objfdt's bdtivbtion id.
      *
-     * @param id the object's activation id (from previous registration)
-     * @exception ActivationException if unregister fails (e.g., database
-     * update failure, etc).
-     * @exception UnknownObjectException if object is unknown (not registered)
-     * @exception RemoteException if remote call fails
-     * @since 1.2
+     * @pbrbm id tif objfdt's bdtivbtion id (from prfvious rfgistrbtion)
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * updbtf fbilurf, ftd).
+     * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (not rfgistfrfd)
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
      */
-    public void unregisterObject(ActivationID id)
-        throws ActivationException, UnknownObjectException, RemoteException;
+    publid void unrfgistfrObjfdt(AdtivbtionID id)
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
 
     /**
-     * Register the activation group. An activation group must be
-     * registered with the <code>ActivationSystem</code> before objects
-     * can be registered within that group.
+     * Rfgistfr tif bdtivbtion group. An bdtivbtion group must bf
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf> bfforf objfdts
+     * dbn bf rfgistfrfd witiin tibt group.
      *
-     * @param desc the group's descriptor
-     * @return an identifier for the group
-     * @exception ActivationException if group registration fails
-     * @exception RemoteException if remote call fails
-     * @since 1.2
+     * @pbrbm dfsd tif group's dfsdriptor
+     * @rfturn bn idfntififr for tif group
+     * @fxdfption AdtivbtionExdfption if group rfgistrbtion fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
      */
-    public ActivationGroupID registerGroup(ActivationGroupDesc desc)
-        throws ActivationException, RemoteException;
+    publid AdtivbtionGroupID rfgistfrGroup(AdtivbtionGroupDfsd dfsd)
+        tirows AdtivbtionExdfption, RfmotfExdfption;
 
     /**
-     * Callback to inform activation system that group is now
-     * active. This call is made internally by the
-     * <code>ActivationGroup.createGroup</code> method to inform
-     * the <code>ActivationSystem</code> that the group is now
-     * active.
+     * Cbllbbdk to inform bdtivbtion systfm tibt group is now
+     * bdtivf. Tiis dbll is mbdf intfrnblly by tif
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mftiod to inform
+     * tif <dodf>AdtivbtionSystfm</dodf> tibt tif group is now
+     * bdtivf.
      *
-     * @param id the activation group's identifier
-     * @param group the group's instantiator
-     * @param incarnation the group's incarnation number
-     * @return monitor for activation group
-     * @exception UnknownGroupException if group is not registered
-     * @exception ActivationException if a group for the specified
-     * <code>id</code> is already active and that group is not equal
-     * to the specified <code>group</code> or that group has a different
-     * <code>incarnation</code> than the specified <code>group</code>
-     * @exception RemoteException if remote call fails
-     * @since 1.2
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @pbrbm group tif group's instbntibtor
+     * @pbrbm indbrnbtion tif group's indbrnbtion numbfr
+     * @rfturn monitor for bdtivbtion group
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption if b group for tif spfdififd
+     * <dodf>id</dodf> is blrfbdy bdtivf bnd tibt group is not fqubl
+     * to tif spfdififd <dodf>group</dodf> or tibt group ibs b difffrfnt
+     * <dodf>indbrnbtion</dodf> tibn tif spfdififd <dodf>group</dodf>
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
      */
-    public ActivationMonitor activeGroup(ActivationGroupID id,
-                                         ActivationInstantiator group,
-                                         long incarnation)
-        throws UnknownGroupException, ActivationException, RemoteException;
+    publid AdtivbtionMonitor bdtivfGroup(AdtivbtionGroupID id,
+                                         AdtivbtionInstbntibtor group,
+                                         long indbrnbtion)
+        tirows UnknownGroupExdfption, AdtivbtionExdfption, RfmotfExdfption;
 
     /**
-     * Remove the activation group. An activation group makes this call back
-     * to inform the activator that the group should be removed (destroyed).
-     * If this call completes successfully, objects can no longer be
-     * registered or activated within the group. All information of the
-     * group and its associated objects is removed from the system.
+     * Rfmovf tif bdtivbtion group. An bdtivbtion group mbkfs tiis dbll bbdk
+     * to inform tif bdtivbtor tibt tif group siould bf rfmovfd (dfstroyfd).
+     * If tiis dbll domplftfs suddfssfully, objfdts dbn no longfr bf
+     * rfgistfrfd or bdtivbtfd witiin tif group. All informbtion of tif
+     * group bnd its bssodibtfd objfdts is rfmovfd from tif systfm.
      *
-     * @param id the activation group's identifier
-     * @exception ActivationException if unregister fails (e.g., database
-     * update failure, etc).
-     * @exception UnknownGroupException if group is not registered
-     * @exception RemoteException if remote call fails
-     * @since 1.2
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * updbtf fbilurf, ftd).
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
      */
-    public void unregisterGroup(ActivationGroupID id)
-        throws ActivationException, UnknownGroupException, RemoteException;
+    publid void unrfgistfrGroup(AdtivbtionGroupID id)
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
 
     /**
-     * Shutdown the activation system. Destroys all groups spawned by
-     * the activation daemon and exits the activation daemon.
-     * @exception RemoteException if failed to contact/shutdown the activation
-     * daemon
-     * @since 1.2
+     * Siutdown tif bdtivbtion systfm. Dfstroys bll groups spbwnfd by
+     * tif bdtivbtion dbfmon bnd fxits tif bdtivbtion dbfmon.
+     * @fxdfption RfmotfExdfption if fbilfd to dontbdt/siutdown tif bdtivbtion
+     * dbfmon
+     * @sindf 1.2
      */
-    public void shutdown() throws RemoteException;
+    publid void siutdown() tirows RfmotfExdfption;
 
     /**
-     * Set the activation descriptor, <code>desc</code> for the object with
-     * the activation identifier, <code>id</code>. The change will take
-     * effect upon subsequent activation of the object.
+     * Sft tif bdtivbtion dfsdriptor, <dodf>dfsd</dodf> for tif objfdt witi
+     * tif bdtivbtion idfntififr, <dodf>id</dodf>. Tif dibngf will tbkf
+     * ffffdt upon subsfqufnt bdtivbtion of tif objfdt.
      *
-     * @param id the activation identifier for the activatable object
-     * @param desc the activation descriptor for the activatable object
-     * @exception UnknownGroupException the group associated with
-     * <code>desc</code> is not a registered group
-     * @exception UnknownObjectException the activation <code>id</code>
-     * is not registered
-     * @exception ActivationException for general failure (e.g., unable
-     * to update log)
-     * @exception RemoteException if remote call fails
-     * @return the previous value of the activation descriptor
-     * @see #getActivationDesc
-     * @since 1.2
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @pbrbm dfsd tif bdtivbtion dfsdriptor for tif bdtivbtbblf objfdt
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * <dodf>dfsd</dodf> is not b rfgistfrfd group
+     * @fxdfption UnknownObjfdtExdfption tif bdtivbtion <dodf>id</dodf>
+     * is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * to updbtf log)
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn tif prfvious vbluf of tif bdtivbtion dfsdriptor
+     * @sff #gftAdtivbtionDfsd
+     * @sindf 1.2
      */
-    public ActivationDesc setActivationDesc(ActivationID id,
-                                            ActivationDesc desc)
-        throws ActivationException, UnknownObjectException,
-            UnknownGroupException, RemoteException;
+    publid AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+                                            AdtivbtionDfsd dfsd)
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption,
+            UnknownGroupExdfption, RfmotfExdfption;
 
     /**
-     * Set the activation group descriptor, <code>desc</code> for the object
-     * with the activation group identifier, <code>id</code>. The change will
-     * take effect upon subsequent activation of the group.
+     * Sft tif bdtivbtion group dfsdriptor, <dodf>dfsd</dodf> for tif objfdt
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>. Tif dibngf will
+     * tbkf ffffdt upon subsfqufnt bdtivbtion of tif group.
      *
-     * @param id the activation group identifier for the activation group
-     * @param desc the activation group descriptor for the activation group
-     * @exception UnknownGroupException the group associated with
-     * <code>id</code> is not a registered group
-     * @exception ActivationException for general failure (e.g., unable
-     * to update log)
-     * @exception RemoteException if remote call fails
-     * @return the previous value of the activation group descriptor
-     * @see #getActivationGroupDesc
-     * @since 1.2
+     * @pbrbm id tif bdtivbtion group idfntififr for tif bdtivbtion group
+     * @pbrbm dfsd tif bdtivbtion group dfsdriptor for tif bdtivbtion group
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * <dodf>id</dodf> is not b rfgistfrfd group
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * to updbtf log)
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn tif prfvious vbluf of tif bdtivbtion group dfsdriptor
+     * @sff #gftAdtivbtionGroupDfsd
+     * @sindf 1.2
      */
-    public ActivationGroupDesc setActivationGroupDesc(ActivationGroupID id,
-                                                      ActivationGroupDesc desc)
-       throws ActivationException, UnknownGroupException, RemoteException;
+    publid AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(AdtivbtionGroupID id,
+                                                      AdtivbtionGroupDfsd dfsd)
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
 
     /**
-     * Returns the activation descriptor, for the object with the activation
-     * identifier, <code>id</code>.
+     * Rfturns tif bdtivbtion dfsdriptor, for tif objfdt witi tif bdtivbtion
+     * idfntififr, <dodf>id</dodf>.
      *
-     * @param id the activation identifier for the activatable object
-     * @exception UnknownObjectException if <code>id</code> is not registered
-     * @exception ActivationException for general failure
-     * @exception RemoteException if remote call fails
-     * @return the activation descriptor
-     * @see #setActivationDesc
-     * @since 1.2
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @fxdfption UnknownObjfdtExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn tif bdtivbtion dfsdriptor
+     * @sff #sftAdtivbtionDfsd
+     * @sindf 1.2
      */
-    public ActivationDesc getActivationDesc(ActivationID id)
-       throws ActivationException, UnknownObjectException, RemoteException;
+    publid AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+       tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
 
     /**
-     * Returns the activation group descriptor, for the group
-     * with the activation group identifier, <code>id</code>.
+     * Rfturns tif bdtivbtion group dfsdriptor, for tif group
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>.
      *
-     * @param id the activation group identifier for the group
-     * @exception UnknownGroupException if <code>id</code> is not registered
-     * @exception ActivationException for general failure
-     * @exception RemoteException if remote call fails
-     * @return the activation group descriptor
-     * @see #setActivationGroupDesc
-     * @since 1.2
+     * @pbrbm id tif bdtivbtion group idfntififr for tif group
+     * @fxdfption UnknownGroupExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn tif bdtivbtion group dfsdriptor
+     * @sff #sftAdtivbtionGroupDfsd
+     * @sindf 1.2
      */
-    public ActivationGroupDesc getActivationGroupDesc(ActivationGroupID id)
-       throws ActivationException, UnknownGroupException, RemoteException;
+    publid AdtivbtionGroupDfsd gftAdtivbtionGroupDfsd(AdtivbtionGroupID id)
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
 }

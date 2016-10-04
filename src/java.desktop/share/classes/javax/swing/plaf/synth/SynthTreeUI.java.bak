@@ -1,822 +1,822 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Enumeration;
-import javax.swing.DefaultCellEditor;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JTextField;
-import javax.swing.JTree;
-import javax.swing.LookAndFeel;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.basic.BasicTreeUI;
-import javax.swing.tree.DefaultTreeCellEditor;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeCellEditor;
-import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
-import sun.swing.plaf.synth.SynthIcon;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.util.Enumfrbtion;
+import jbvbx.swing.DffbultCfllEditor;
+import jbvbx.swing.Idon;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.JTrff;
+import jbvbx.swing.LookAndFffl;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.plbf.bbsid.BbsidTrffUI;
+import jbvbx.swing.trff.DffbultTrffCfllEditor;
+import jbvbx.swing.trff.DffbultTrffCfllRfndfrfr;
+import jbvbx.swing.trff.TrffCfllEditor;
+import jbvbx.swing.trff.TrffCfllRfndfrfr;
+import jbvbx.swing.trff.TrffModfl;
+import jbvbx.swing.trff.TrffPbti;
+import sun.swing.plbf.synti.SyntiIdon;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JTree}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JTrff}.
  *
- * @author Scott Violet
- * @since 1.7
+ * @butior Sdott Violft
+ * @sindf 1.7
  */
-public class SynthTreeUI extends BasicTreeUI
-                         implements PropertyChangeListener, SynthUI {
-    private SynthStyle style;
-    private SynthStyle cellStyle;
+publid dlbss SyntiTrffUI fxtfnds BbsidTrffUI
+                         implfmfnts PropfrtyCibngfListfnfr, SyntiUI {
+    privbtf SyntiStylf stylf;
+    privbtf SyntiStylf dfllStylf;
 
-    private SynthContext paintContext;
+    privbtf SyntiContfxt pbintContfxt;
 
-    private boolean drawHorizontalLines;
-    private boolean drawVerticalLines;
+    privbtf boolfbn drbwHorizontblLinfs;
+    privbtf boolfbn drbwVfrtidblLinfs;
 
-    private Object linesStyle;
+    privbtf Objfdt linfsStylf;
 
-    private int padding;
+    privbtf int pbdding;
 
-    private boolean useTreeColors;
+    privbtf boolfbn usfTrffColors;
 
-    private Icon expandedIconWrapper = new ExpandedIconWrapper();
+    privbtf Idon fxpbndfdIdonWrbppfr = nfw ExpbndfdIdonWrbppfr();
 
     /**
-     * Creates a new UI object for the given component.
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
      *
-     * @param x component to create UI object for
-     * @return the UI object
+     * @pbrbm x domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new SynthTreeUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw SyntiTrffUI();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Icon getExpandedIcon() {
-        return expandedIconWrapper;
+    @Ovfrridf
+    publid Idon gftExpbndfdIdon() {
+        rfturn fxpbndfdIdonWrbppfr;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installDefaults() {
-        updateStyle(tree);
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        updbtfStylf(trff);
     }
 
-    private void updateStyle(JTree tree) {
-        SynthContext context = getContext(tree, ENABLED);
-        SynthStyle oldStyle = style;
+    privbtf void updbtfStylf(JTrff trff) {
+        SyntiContfxt dontfxt = gftContfxt(trff, ENABLED);
+        SyntiStylf oldStylf = stylf;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
-        if (style != oldStyle) {
-            Object value;
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        if (stylf != oldStylf) {
+            Objfdt vbluf;
 
-            setExpandedIcon(style.getIcon(context, "Tree.expandedIcon"));
-            setCollapsedIcon(style.getIcon(context, "Tree.collapsedIcon"));
+            sftExpbndfdIdon(stylf.gftIdon(dontfxt, "Trff.fxpbndfdIdon"));
+            sftCollbpsfdIdon(stylf.gftIdon(dontfxt, "Trff.dollbpsfdIdon"));
 
-            setLeftChildIndent(style.getInt(context, "Tree.leftChildIndent",
+            sftLfftCiildIndfnt(stylf.gftInt(dontfxt, "Trff.lfftCiildIndfnt",
                                             0));
-            setRightChildIndent(style.getInt(context, "Tree.rightChildIndent",
+            sftRigitCiildIndfnt(stylf.gftInt(dontfxt, "Trff.rigitCiildIndfnt",
                                              0));
 
-            drawHorizontalLines = style.getBoolean(
-                          context, "Tree.drawHorizontalLines",true);
-            drawVerticalLines = style.getBoolean(
-                        context, "Tree.drawVerticalLines", true);
-            linesStyle = style.get(context, "Tree.linesStyle");
+            drbwHorizontblLinfs = stylf.gftBoolfbn(
+                          dontfxt, "Trff.drbwHorizontblLinfs",truf);
+            drbwVfrtidblLinfs = stylf.gftBoolfbn(
+                        dontfxt, "Trff.drbwVfrtidblLinfs", truf);
+            linfsStylf = stylf.gft(dontfxt, "Trff.linfsStylf");
 
-                value = style.get(context, "Tree.rowHeight");
-                if (value != null) {
-                    LookAndFeel.installProperty(tree, "rowHeight", value);
+                vbluf = stylf.gft(dontfxt, "Trff.rowHfigit");
+                if (vbluf != null) {
+                    LookAndFffl.instbllPropfrty(trff, "rowHfigit", vbluf);
                 }
 
-                value = style.get(context, "Tree.scrollsOnExpand");
-                LookAndFeel.installProperty(tree, "scrollsOnExpand",
-                                                    value != null? value : Boolean.TRUE);
+                vbluf = stylf.gft(dontfxt, "Trff.sdrollsOnExpbnd");
+                LookAndFffl.instbllPropfrty(trff, "sdrollsOnExpbnd",
+                                                    vbluf != null? vbluf : Boolfbn.TRUE);
 
-            padding = style.getInt(context, "Tree.padding", 0);
+            pbdding = stylf.gftInt(dontfxt, "Trff.pbdding", 0);
 
-            largeModel = (tree.isLargeModel() && tree.getRowHeight() > 0);
+            lbrgfModfl = (trff.isLbrgfModfl() && trff.gftRowHfigit() > 0);
 
-            useTreeColors = style.getBoolean(context,
-                                  "Tree.rendererUseTreeColors", true);
+            usfTrffColors = stylf.gftBoolfbn(dontfxt,
+                                  "Trff.rfndfrfrUsfTrffColors", truf);
 
-            Boolean showsRootHandles = style.getBoolean(
-                    context, "Tree.showsRootHandles", Boolean.TRUE);
-            LookAndFeel.installProperty(
-                    tree, JTree.SHOWS_ROOT_HANDLES_PROPERTY, showsRootHandles);
+            Boolfbn siowsRootHbndlfs = stylf.gftBoolfbn(
+                    dontfxt, "Trff.siowsRootHbndlfs", Boolfbn.TRUE);
+            LookAndFffl.instbllPropfrty(
+                    trff, JTrff.SHOWS_ROOT_HANDLES_PROPERTY, siowsRootHbndlfs);
 
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
             }
         }
-        context.dispose();
+        dontfxt.disposf();
 
-        context = getContext(tree, Region.TREE_CELL, ENABLED);
-        cellStyle = SynthLookAndFeel.updateStyle(context, this);
-        context.dispose();
+        dontfxt = gftContfxt(trff, Rfgion.TREE_CELL, ENABLED);
+        dfllStylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installListeners() {
-        super.installListeners();
-        tree.addPropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        trff.bddPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SyntiLookAndFffl.gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
-    private SynthContext getContext(JComponent c, Region region) {
-        return getContext(c, region, getComponentState(c, region));
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, Rfgion rfgion) {
+        rfturn gftContfxt(d, rfgion, gftComponfntStbtf(d, rfgion));
     }
 
-    private SynthContext getContext(JComponent c, Region region, int state) {
-        return SynthContext.getContext(c, region, cellStyle, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, Rfgion rfgion, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, rfgion, dfllStylf, stbtf);
     }
 
-    private int getComponentState(JComponent c, Region region) {
-        // Always treat the cell as selected, will be adjusted appropriately
-        // when painted.
-        return ENABLED | SELECTED;
+    privbtf int gftComponfntStbtf(JComponfnt d, Rfgion rfgion) {
+        // Alwbys trfbt tif dfll bs sflfdtfd, will bf bdjustfd bppropribtfly
+        // wifn pbintfd.
+        rfturn ENABLED | SELECTED;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected TreeCellEditor createDefaultCellEditor() {
-        TreeCellRenderer renderer = tree.getCellRenderer();
-        DefaultTreeCellEditor editor;
+    @Ovfrridf
+    protfdtfd TrffCfllEditor drfbtfDffbultCfllEditor() {
+        TrffCfllRfndfrfr rfndfrfr = trff.gftCfllRfndfrfr();
+        DffbultTrffCfllEditor fditor;
 
-        if(renderer != null && (renderer instanceof DefaultTreeCellRenderer)) {
-            editor = new SynthTreeCellEditor(tree, (DefaultTreeCellRenderer)
-                                             renderer);
+        if(rfndfrfr != null && (rfndfrfr instbndfof DffbultTrffCfllRfndfrfr)) {
+            fditor = nfw SyntiTrffCfllEditor(trff, (DffbultTrffCfllRfndfrfr)
+                                             rfndfrfr);
         }
-        else {
-            editor = new SynthTreeCellEditor(tree, null);
+        flsf {
+            fditor = nfw SyntiTrffCfllEditor(trff, null);
         }
-        return editor;
+        rfturn fditor;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected TreeCellRenderer createDefaultCellRenderer() {
-        return new SynthTreeCellRenderer();
+    @Ovfrridf
+    protfdtfd TrffCfllRfndfrfr drfbtfDffbultCfllRfndfrfr() {
+        rfturn nfw SyntiTrffCfllRfndfrfr();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(tree, ENABLED);
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SyntiContfxt dontfxt = gftContfxt(trff, ENABLED);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
 
-        context = getContext(tree, Region.TREE_CELL, ENABLED);
-        cellStyle.uninstallDefaults(context);
-        context.dispose();
-        cellStyle = null;
+        dontfxt = gftContfxt(trff, Rfgion.TREE_CELL, ENABLED);
+        dfllStylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        dfllStylf = null;
 
 
-        if (tree.getTransferHandler() instanceof UIResource) {
-            tree.setTransferHandler(null);
+        if (trff.gftTrbnsffrHbndlfr() instbndfof UIRfsourdf) {
+            trff.sftTrbnsffrHbndlfr(null);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        tree.removePropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        trff.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintTreeBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintTrffBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintTreeBorder(context, g, x, y, w, h);
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintTrffBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints tif spfdififd domponfnt.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        paintContext = context;
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        pbintContfxt = dontfxt;
 
-        updateLeadSelectionRow();
+        updbtfLfbdSflfdtionRow();
 
-        Rectangle paintBounds = g.getClipBounds();
-        Insets insets = tree.getInsets();
-        TreePath initialPath = getClosestPathForLocation(tree, 0,
-                                                         paintBounds.y);
-        Enumeration<?> paintingEnumerator = treeState.getVisiblePathsFrom
-                                              (initialPath);
-        int row = treeState.getRowForPath(initialPath);
-        int endY = paintBounds.y + paintBounds.height;
-        TreeModel treeModel = tree.getModel();
-        SynthContext cellContext = getContext(tree, Region.TREE_CELL);
+        Rfdtbnglf pbintBounds = g.gftClipBounds();
+        Insfts insfts = trff.gftInsfts();
+        TrffPbti initiblPbti = gftClosfstPbtiForLodbtion(trff, 0,
+                                                         pbintBounds.y);
+        Enumfrbtion<?> pbintingEnumfrbtor = trffStbtf.gftVisiblfPbtisFrom
+                                              (initiblPbti);
+        int row = trffStbtf.gftRowForPbti(initiblPbti);
+        int fndY = pbintBounds.y + pbintBounds.ifigit;
+        TrffModfl trffModfl = trff.gftModfl();
+        SyntiContfxt dfllContfxt = gftContfxt(trff, Rfgion.TREE_CELL);
 
-        drawingCache.clear();
+        drbwingCbdif.dlfbr();
 
-        setHashColor(context.getStyle().getColor(context,
-                                                ColorType.FOREGROUND));
+        sftHbsiColor(dontfxt.gftStylf().gftColor(dontfxt,
+                                                ColorTypf.FOREGROUND));
 
-        if (paintingEnumerator != null) {
-            // First pass, draw the rows
+        if (pbintingEnumfrbtor != null) {
+            // First pbss, drbw tif rows
 
-            boolean done = false;
-            boolean isExpanded;
-            boolean hasBeenExpanded;
-            boolean isLeaf;
-            Rectangle rowBounds = new Rectangle(0, 0, tree.getWidth(),0);
-            Rectangle bounds;
-            TreePath path;
-            TreeCellRenderer renderer = tree.getCellRenderer();
-            DefaultTreeCellRenderer dtcr = (renderer instanceof
-                       DefaultTreeCellRenderer) ? (DefaultTreeCellRenderer)
-                       renderer : null;
+            boolfbn donf = fblsf;
+            boolfbn isExpbndfd;
+            boolfbn ibsBffnExpbndfd;
+            boolfbn isLfbf;
+            Rfdtbnglf rowBounds = nfw Rfdtbnglf(0, 0, trff.gftWidti(),0);
+            Rfdtbnglf bounds;
+            TrffPbti pbti;
+            TrffCfllRfndfrfr rfndfrfr = trff.gftCfllRfndfrfr();
+            DffbultTrffCfllRfndfrfr dtdr = (rfndfrfr instbndfof
+                       DffbultTrffCfllRfndfrfr) ? (DffbultTrffCfllRfndfrfr)
+                       rfndfrfr : null;
 
-            configureRenderer(cellContext);
-            while (!done && paintingEnumerator.hasMoreElements()) {
-                path = (TreePath)paintingEnumerator.nextElement();
-                bounds = getPathBounds(tree, path);
-                if ((path != null) && (bounds != null)) {
-                    isLeaf = treeModel.isLeaf(path.getLastPathComponent());
-                    if (isLeaf) {
-                        isExpanded = hasBeenExpanded = false;
+            donfigurfRfndfrfr(dfllContfxt);
+            wiilf (!donf && pbintingEnumfrbtor.ibsMorfElfmfnts()) {
+                pbti = (TrffPbti)pbintingEnumfrbtor.nfxtElfmfnt();
+                bounds = gftPbtiBounds(trff, pbti);
+                if ((pbti != null) && (bounds != null)) {
+                    isLfbf = trffModfl.isLfbf(pbti.gftLbstPbtiComponfnt());
+                    if (isLfbf) {
+                        isExpbndfd = ibsBffnExpbndfd = fblsf;
                     }
-                    else {
-                        isExpanded = treeState.getExpandedState(path);
-                        hasBeenExpanded = tree.hasBeenExpanded(path);
+                    flsf {
+                        isExpbndfd = trffStbtf.gftExpbndfdStbtf(pbti);
+                        ibsBffnExpbndfd = trff.ibsBffnExpbndfd(pbti);
                     }
                     rowBounds.y = bounds.y;
-                    rowBounds.height = bounds.height;
-                    paintRow(renderer, dtcr, context, cellContext, g,
-                             paintBounds, insets, bounds, rowBounds, path,
-                             row, isExpanded, hasBeenExpanded, isLeaf);
-                    if ((bounds.y + bounds.height) >= endY) {
-                        done = true;
+                    rowBounds.ifigit = bounds.ifigit;
+                    pbintRow(rfndfrfr, dtdr, dontfxt, dfllContfxt, g,
+                             pbintBounds, insfts, bounds, rowBounds, pbti,
+                             row, isExpbndfd, ibsBffnExpbndfd, isLfbf);
+                    if ((bounds.y + bounds.ifigit) >= fndY) {
+                        donf = truf;
                     }
                 }
-                else {
-                    done = true;
+                flsf {
+                    donf = truf;
                 }
                 row++;
             }
 
-            // Draw the connecting lines and controls.
-            // Find each parent and have them draw a line to their last child
-            boolean rootVisible = tree.isRootVisible();
-            TreePath parentPath = initialPath;
-            parentPath = parentPath.getParentPath();
-            while (parentPath != null) {
-                paintVerticalPartOfLeg(g, paintBounds, insets, parentPath);
-                drawingCache.put(parentPath, Boolean.TRUE);
-                parentPath = parentPath.getParentPath();
+            // Drbw tif donnfdting linfs bnd dontrols.
+            // Find fbdi pbrfnt bnd ibvf tifm drbw b linf to tifir lbst diild
+            boolfbn rootVisiblf = trff.isRootVisiblf();
+            TrffPbti pbrfntPbti = initiblPbti;
+            pbrfntPbti = pbrfntPbti.gftPbrfntPbti();
+            wiilf (pbrfntPbti != null) {
+                pbintVfrtidblPbrtOfLfg(g, pbintBounds, insfts, pbrfntPbti);
+                drbwingCbdif.put(pbrfntPbti, Boolfbn.TRUE);
+                pbrfntPbti = pbrfntPbti.gftPbrfntPbti();
             }
-            done = false;
-            paintingEnumerator = treeState.getVisiblePathsFrom(initialPath);
-            while (!done && paintingEnumerator.hasMoreElements()) {
-                path = (TreePath)paintingEnumerator.nextElement();
-                bounds = getPathBounds(tree, path);
-                if ((path != null) && (bounds != null)) {
-                    isLeaf = treeModel.isLeaf(path.getLastPathComponent());
-                    if (isLeaf) {
-                        isExpanded = hasBeenExpanded = false;
+            donf = fblsf;
+            pbintingEnumfrbtor = trffStbtf.gftVisiblfPbtisFrom(initiblPbti);
+            wiilf (!donf && pbintingEnumfrbtor.ibsMorfElfmfnts()) {
+                pbti = (TrffPbti)pbintingEnumfrbtor.nfxtElfmfnt();
+                bounds = gftPbtiBounds(trff, pbti);
+                if ((pbti != null) && (bounds != null)) {
+                    isLfbf = trffModfl.isLfbf(pbti.gftLbstPbtiComponfnt());
+                    if (isLfbf) {
+                        isExpbndfd = ibsBffnExpbndfd = fblsf;
                     }
-                    else {
-                        isExpanded = treeState.getExpandedState(path);
-                        hasBeenExpanded = tree.hasBeenExpanded(path);
+                    flsf {
+                        isExpbndfd = trffStbtf.gftExpbndfdStbtf(pbti);
+                        ibsBffnExpbndfd = trff.ibsBffnExpbndfd(pbti);
                     }
-                    // See if the vertical line to the parent has been drawn.
-                    parentPath = path.getParentPath();
-                    if (parentPath != null) {
-                        if (drawingCache.get(parentPath) == null) {
-                            paintVerticalPartOfLeg(g, paintBounds, insets,
-                                                   parentPath);
-                            drawingCache.put(parentPath, Boolean.TRUE);
+                    // Sff if tif vfrtidbl linf to tif pbrfnt ibs bffn drbwn.
+                    pbrfntPbti = pbti.gftPbrfntPbti();
+                    if (pbrfntPbti != null) {
+                        if (drbwingCbdif.gft(pbrfntPbti) == null) {
+                            pbintVfrtidblPbrtOfLfg(g, pbintBounds, insfts,
+                                                   pbrfntPbti);
+                            drbwingCbdif.put(pbrfntPbti, Boolfbn.TRUE);
                         }
-                        paintHorizontalPartOfLeg(g,
-                                                 paintBounds, insets, bounds,
-                                                 path, row, isExpanded,
-                                                 hasBeenExpanded, isLeaf);
+                        pbintHorizontblPbrtOfLfg(g,
+                                                 pbintBounds, insfts, bounds,
+                                                 pbti, row, isExpbndfd,
+                                                 ibsBffnExpbndfd, isLfbf);
                     }
-                    else if (rootVisible && row == 0) {
-                        paintHorizontalPartOfLeg(g,
-                                                 paintBounds, insets, bounds,
-                                                 path, row, isExpanded,
-                                                 hasBeenExpanded, isLeaf);
+                    flsf if (rootVisiblf && row == 0) {
+                        pbintHorizontblPbrtOfLfg(g,
+                                                 pbintBounds, insfts, bounds,
+                                                 pbti, row, isExpbndfd,
+                                                 ibsBffnExpbndfd, isLfbf);
                     }
-                    if (shouldPaintExpandControl(path, row, isExpanded,
-                                                 hasBeenExpanded, isLeaf)) {
-                        paintExpandControl(g, paintBounds,
-                                           insets, bounds, path, row,
-                                           isExpanded, hasBeenExpanded,isLeaf);
+                    if (siouldPbintExpbndControl(pbti, row, isExpbndfd,
+                                                 ibsBffnExpbndfd, isLfbf)) {
+                        pbintExpbndControl(g, pbintBounds,
+                                           insfts, bounds, pbti, row,
+                                           isExpbndfd, ibsBffnExpbndfd,isLfbf);
                     }
-                    if ((bounds.y + bounds.height) >= endY) {
-                        done = true;
+                    if ((bounds.y + bounds.ifigit) >= fndY) {
+                        donf = truf;
                     }
                 }
-                else {
-                    done = true;
+                flsf {
+                    donf = truf;
                 }
                 row++;
             }
         }
-        cellContext.dispose();
+        dfllContfxt.disposf();
 
-        paintDropLine(g);
+        pbintDropLinf(g);
 
-        // Empty out the renderer pane, allowing renderers to be gc'ed.
-        rendererPane.removeAll();
+        // Empty out tif rfndfrfr pbnf, bllowing rfndfrfrs to bf gd'fd.
+        rfndfrfrPbnf.rfmovfAll();
 
-        paintContext = null;
+        pbintContfxt = null;
     }
 
-    private void configureRenderer(SynthContext context) {
-        TreeCellRenderer renderer = tree.getCellRenderer();
+    privbtf void donfigurfRfndfrfr(SyntiContfxt dontfxt) {
+        TrffCfllRfndfrfr rfndfrfr = trff.gftCfllRfndfrfr();
 
-        if (renderer instanceof DefaultTreeCellRenderer) {
-            DefaultTreeCellRenderer r = (DefaultTreeCellRenderer)renderer;
-            SynthStyle style = context.getStyle();
+        if (rfndfrfr instbndfof DffbultTrffCfllRfndfrfr) {
+            DffbultTrffCfllRfndfrfr r = (DffbultTrffCfllRfndfrfr)rfndfrfr;
+            SyntiStylf stylf = dontfxt.gftStylf();
 
-            context.setComponentState(ENABLED | SELECTED);
-            Color color = r.getTextSelectionColor();
-            if (color == null || (color instanceof UIResource)) {
-                r.setTextSelectionColor(style.getColor(
-                                     context, ColorType.TEXT_FOREGROUND));
+            dontfxt.sftComponfntStbtf(ENABLED | SELECTED);
+            Color dolor = r.gftTfxtSflfdtionColor();
+            if (dolor == null || (dolor instbndfof UIRfsourdf)) {
+                r.sftTfxtSflfdtionColor(stylf.gftColor(
+                                     dontfxt, ColorTypf.TEXT_FOREGROUND));
             }
-            color = r.getBackgroundSelectionColor();
-            if (color == null || (color instanceof UIResource)) {
-                r.setBackgroundSelectionColor(style.getColor(
-                                        context, ColorType.TEXT_BACKGROUND));
+            dolor = r.gftBbdkgroundSflfdtionColor();
+            if (dolor == null || (dolor instbndfof UIRfsourdf)) {
+                r.sftBbdkgroundSflfdtionColor(stylf.gftColor(
+                                        dontfxt, ColorTypf.TEXT_BACKGROUND));
             }
 
-            context.setComponentState(ENABLED);
-            color = r.getTextNonSelectionColor();
-            if (color == null || color instanceof UIResource) {
-                r.setTextNonSelectionColor(style.getColorForState(
-                                        context, ColorType.TEXT_FOREGROUND));
+            dontfxt.sftComponfntStbtf(ENABLED);
+            dolor = r.gftTfxtNonSflfdtionColor();
+            if (dolor == null || dolor instbndfof UIRfsourdf) {
+                r.sftTfxtNonSflfdtionColor(stylf.gftColorForStbtf(
+                                        dontfxt, ColorTypf.TEXT_FOREGROUND));
             }
-            color = r.getBackgroundNonSelectionColor();
-            if (color == null || color instanceof UIResource) {
-                r.setBackgroundNonSelectionColor(style.getColorForState(
-                                  context, ColorType.TEXT_BACKGROUND));
+            dolor = r.gftBbdkgroundNonSflfdtionColor();
+            if (dolor == null || dolor instbndfof UIRfsourdf) {
+                r.sftBbdkgroundNonSflfdtionColor(stylf.gftColorForStbtf(
+                                  dontfxt, ColorTypf.TEXT_BACKGROUND));
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void paintHorizontalPartOfLeg(Graphics g, Rectangle clipBounds,
-                                            Insets insets, Rectangle bounds,
-                                            TreePath path, int row,
-                                            boolean isExpanded,
-                                            boolean hasBeenExpanded, boolean
-                                            isLeaf) {
-        if (drawHorizontalLines) {
-            super.paintHorizontalPartOfLeg(g, clipBounds, insets, bounds,
-                                           path, row, isExpanded,
-                                           hasBeenExpanded, isLeaf);
+    @Ovfrridf
+    protfdtfd void pbintHorizontblPbrtOfLfg(Grbpiids g, Rfdtbnglf dlipBounds,
+                                            Insfts insfts, Rfdtbnglf bounds,
+                                            TrffPbti pbti, int row,
+                                            boolfbn isExpbndfd,
+                                            boolfbn ibsBffnExpbndfd, boolfbn
+                                            isLfbf) {
+        if (drbwHorizontblLinfs) {
+            supfr.pbintHorizontblPbrtOfLfg(g, dlipBounds, insfts, bounds,
+                                           pbti, row, isExpbndfd,
+                                           ibsBffnExpbndfd, isLfbf);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void paintHorizontalLine(Graphics g, JComponent c, int y,
-                                      int left, int right) {
-        paintContext.getStyle().getGraphicsUtils(paintContext).drawLine(
-            paintContext, "Tree.horizontalLine", g, left, y, right, y, linesStyle);
+    @Ovfrridf
+    protfdtfd void pbintHorizontblLinf(Grbpiids g, JComponfnt d, int y,
+                                      int lfft, int rigit) {
+        pbintContfxt.gftStylf().gftGrbpiidsUtils(pbintContfxt).drbwLinf(
+            pbintContfxt, "Trff.iorizontblLinf", g, lfft, y, rigit, y, linfsStylf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void paintVerticalPartOfLeg(Graphics g,
-                                          Rectangle clipBounds, Insets insets,
-                                          TreePath path) {
-        if (drawVerticalLines) {
-            super.paintVerticalPartOfLeg(g, clipBounds, insets, path);
+    @Ovfrridf
+    protfdtfd void pbintVfrtidblPbrtOfLfg(Grbpiids g,
+                                          Rfdtbnglf dlipBounds, Insfts insfts,
+                                          TrffPbti pbti) {
+        if (drbwVfrtidblLinfs) {
+            supfr.pbintVfrtidblPbrtOfLfg(g, dlipBounds, insfts, pbti);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void paintVerticalLine(Graphics g, JComponent c, int x, int top,
+    @Ovfrridf
+    protfdtfd void pbintVfrtidblLinf(Grbpiids g, JComponfnt d, int x, int top,
                                     int bottom) {
-        paintContext.getStyle().getGraphicsUtils(paintContext).drawLine(
-            paintContext, "Tree.verticalLine", g, x, top, x, bottom, linesStyle);
+        pbintContfxt.gftStylf().gftGrbpiidsUtils(pbintContfxt).drbwLinf(
+            pbintContfxt, "Trff.vfrtidblLinf", g, x, top, x, bottom, linfsStylf);
     }
 
-    private void paintRow(TreeCellRenderer renderer,
-               DefaultTreeCellRenderer dtcr, SynthContext treeContext,
-               SynthContext cellContext, Graphics g, Rectangle clipBounds,
-               Insets insets, Rectangle bounds, Rectangle rowBounds,
-               TreePath path, int row, boolean isExpanded,
-               boolean hasBeenExpanded, boolean isLeaf) {
-        // Don't paint the renderer if editing this row.
-        boolean selected = tree.isRowSelected(row);
+    privbtf void pbintRow(TrffCfllRfndfrfr rfndfrfr,
+               DffbultTrffCfllRfndfrfr dtdr, SyntiContfxt trffContfxt,
+               SyntiContfxt dfllContfxt, Grbpiids g, Rfdtbnglf dlipBounds,
+               Insfts insfts, Rfdtbnglf bounds, Rfdtbnglf rowBounds,
+               TrffPbti pbti, int row, boolfbn isExpbndfd,
+               boolfbn ibsBffnExpbndfd, boolfbn isLfbf) {
+        // Don't pbint tif rfndfrfr if fditing tiis row.
+        boolfbn sflfdtfd = trff.isRowSflfdtfd(row);
 
-        JTree.DropLocation dropLocation = tree.getDropLocation();
-        boolean isDrop = dropLocation != null
-                         && dropLocation.getChildIndex() == -1
-                         && path == dropLocation.getPath();
+        JTrff.DropLodbtion dropLodbtion = trff.gftDropLodbtion();
+        boolfbn isDrop = dropLodbtion != null
+                         && dropLodbtion.gftCiildIndfx() == -1
+                         && pbti == dropLodbtion.gftPbti();
 
-        int state = ENABLED;
-        if (selected || isDrop) {
-            state |= SELECTED;
+        int stbtf = ENABLED;
+        if (sflfdtfd || isDrop) {
+            stbtf |= SELECTED;
         }
 
-        if (tree.isFocusOwner() && row == getLeadSelectionRow()) {
-            state |= FOCUSED;
+        if (trff.isFodusOwnfr() && row == gftLfbdSflfdtionRow()) {
+            stbtf |= FOCUSED;
         }
 
-        cellContext.setComponentState(state);
+        dfllContfxt.sftComponfntStbtf(stbtf);
 
-        if (dtcr != null && (dtcr.getBorderSelectionColor() instanceof
-                             UIResource)) {
-            dtcr.setBorderSelectionColor(style.getColor(
-                                             cellContext, ColorType.FOCUS));
+        if (dtdr != null && (dtdr.gftBordfrSflfdtionColor() instbndfof
+                             UIRfsourdf)) {
+            dtdr.sftBordfrSflfdtionColor(stylf.gftColor(
+                                             dfllContfxt, ColorTypf.FOCUS));
         }
-        SynthLookAndFeel.updateSubregion(cellContext, g, rowBounds);
-        cellContext.getPainter().paintTreeCellBackground(cellContext, g,
-                    rowBounds.x, rowBounds.y, rowBounds.width,
-                    rowBounds.height);
-        cellContext.getPainter().paintTreeCellBorder(cellContext, g,
-                    rowBounds.x, rowBounds.y, rowBounds.width,
-                    rowBounds.height);
-        if (editingComponent != null && editingRow == row) {
-            return;
-        }
-
-        int leadIndex;
-
-        if (tree.hasFocus()) {
-            leadIndex = getLeadSelectionRow();
-        }
-        else {
-            leadIndex = -1;
+        SyntiLookAndFffl.updbtfSubrfgion(dfllContfxt, g, rowBounds);
+        dfllContfxt.gftPbintfr().pbintTrffCfllBbdkground(dfllContfxt, g,
+                    rowBounds.x, rowBounds.y, rowBounds.widti,
+                    rowBounds.ifigit);
+        dfllContfxt.gftPbintfr().pbintTrffCfllBordfr(dfllContfxt, g,
+                    rowBounds.x, rowBounds.y, rowBounds.widti,
+                    rowBounds.ifigit);
+        if (fditingComponfnt != null && fditingRow == row) {
+            rfturn;
         }
 
-        Component component = renderer.getTreeCellRendererComponent(
-                         tree, path.getLastPathComponent(),
-                         selected, isExpanded, isLeaf, row,
-                         (leadIndex == row));
+        int lfbdIndfx;
 
-        rendererPane.paintComponent(g, component, tree, bounds.x, bounds.y,
-                                    bounds.width, bounds.height, true);
+        if (trff.ibsFodus()) {
+            lfbdIndfx = gftLfbdSflfdtionRow();
+        }
+        flsf {
+            lfbdIndfx = -1;
+        }
+
+        Componfnt domponfnt = rfndfrfr.gftTrffCfllRfndfrfrComponfnt(
+                         trff, pbti.gftLbstPbtiComponfnt(),
+                         sflfdtfd, isExpbndfd, isLfbf, row,
+                         (lfbdIndfx == row));
+
+        rfndfrfrPbnf.pbintComponfnt(g, domponfnt, trff, bounds.x, bounds.y,
+                                    bounds.widti, bounds.ifigit, truf);
     }
 
-    private int findCenteredX(int x, int iconWidth) {
-        return tree.getComponentOrientation().isLeftToRight()
-               ? x - (int)Math.ceil(iconWidth / 2.0)
-               : x - (int)Math.floor(iconWidth / 2.0);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void paintExpandControl(Graphics g, Rectangle clipBounds,
-            Insets insets, Rectangle bounds, TreePath path, int row,
-            boolean isExpanded, boolean hasBeenExpanded, boolean isLeaf) {
-        //modify the paintContext's state to match the state for the row
-        //this is a hack in that it requires knowledge of the subsequent
-        //method calls. The point is, the context used in drawCentered
-        //should reflect the state of the row, not of the tree.
-        boolean isSelected = tree.getSelectionModel().isPathSelected(path);
-        int state = paintContext.getComponentState();
-        if (isSelected) {
-            paintContext.setComponentState(state | SynthConstants.SELECTED);
-        }
-        super.paintExpandControl(g, clipBounds, insets, bounds, path, row,
-                isExpanded, hasBeenExpanded, isLeaf);
-        paintContext.setComponentState(state);
+    privbtf int findCfntfrfdX(int x, int idonWidti) {
+        rfturn trff.gftComponfntOrifntbtion().isLfftToRigit()
+               ? x - (int)Mbti.dfil(idonWidti / 2.0)
+               : x - (int)Mbti.floor(idonWidti / 2.0);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void drawCentered(Component c, Graphics graphics, Icon icon,
+    @Ovfrridf
+    protfdtfd void pbintExpbndControl(Grbpiids g, Rfdtbnglf dlipBounds,
+            Insfts insfts, Rfdtbnglf bounds, TrffPbti pbti, int row,
+            boolfbn isExpbndfd, boolfbn ibsBffnExpbndfd, boolfbn isLfbf) {
+        //modify tif pbintContfxt's stbtf to mbtdi tif stbtf for tif row
+        //tiis is b ibdk in tibt it rfquirfs knowlfdgf of tif subsfqufnt
+        //mftiod dblls. Tif point is, tif dontfxt usfd in drbwCfntfrfd
+        //siould rfflfdt tif stbtf of tif row, not of tif trff.
+        boolfbn isSflfdtfd = trff.gftSflfdtionModfl().isPbtiSflfdtfd(pbti);
+        int stbtf = pbintContfxt.gftComponfntStbtf();
+        if (isSflfdtfd) {
+            pbintContfxt.sftComponfntStbtf(stbtf | SyntiConstbnts.SELECTED);
+        }
+        supfr.pbintExpbndControl(g, dlipBounds, insfts, bounds, pbti, row,
+                isExpbndfd, ibsBffnExpbndfd, isLfbf);
+        pbintContfxt.sftComponfntStbtf(stbtf);
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    protfdtfd void drbwCfntfrfd(Componfnt d, Grbpiids grbpiids, Idon idon,
                                 int x, int y) {
-        int w = SynthIcon.getIconWidth(icon, paintContext);
-        int h = SynthIcon.getIconHeight(icon, paintContext);
+        int w = SyntiIdon.gftIdonWidti(idon, pbintContfxt);
+        int i = SyntiIdon.gftIdonHfigit(idon, pbintContfxt);
 
-        SynthIcon.paintIcon(icon, paintContext, graphics,
-                            findCenteredX(x, w),
-                            y - h/2, w, h);
+        SyntiIdon.pbintIdon(idon, pbintContfxt, grbpiids,
+                            findCfntfrfdX(x, w),
+                            y - i/2, w, i);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent event) {
-        if (SynthLookAndFeel.shouldUpdateStyle(event)) {
-            updateStyle((JTree)event.getSource());
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(fvfnt)) {
+            updbtfStylf((JTrff)fvfnt.gftSourdf());
         }
 
-        if ("dropLocation" == event.getPropertyName()) {
-            JTree.DropLocation oldValue = (JTree.DropLocation)event.getOldValue();
-            repaintDropLocation(oldValue);
-            repaintDropLocation(tree.getDropLocation());
+        if ("dropLodbtion" == fvfnt.gftPropfrtyNbmf()) {
+            JTrff.DropLodbtion oldVbluf = (JTrff.DropLodbtion)fvfnt.gftOldVbluf();
+            rfpbintDropLodbtion(oldVbluf);
+            rfpbintDropLodbtion(trff.gftDropLodbtion());
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void paintDropLine(Graphics g) {
-        JTree.DropLocation loc = tree.getDropLocation();
-        if (!isDropLine(loc)) {
-            return;
+    @Ovfrridf
+    protfdtfd void pbintDropLinf(Grbpiids g) {
+        JTrff.DropLodbtion lod = trff.gftDropLodbtion();
+        if (!isDropLinf(lod)) {
+            rfturn;
         }
 
-        Color c = (Color)style.get(paintContext, "Tree.dropLineColor");
-        if (c != null) {
-            g.setColor(c);
-            Rectangle rect = getDropLineRect(loc);
-            g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        Color d = (Color)stylf.gft(pbintContfxt, "Trff.dropLinfColor");
+        if (d != null) {
+            g.sftColor(d);
+            Rfdtbnglf rfdt = gftDropLinfRfdt(lod);
+            g.fillRfdt(rfdt.x, rfdt.y, rfdt.widti, rfdt.ifigit);
         }
     }
 
-    private void repaintDropLocation(JTree.DropLocation loc) {
-        if (loc == null) {
-            return;
+    privbtf void rfpbintDropLodbtion(JTrff.DropLodbtion lod) {
+        if (lod == null) {
+            rfturn;
         }
 
-        Rectangle r;
+        Rfdtbnglf r;
 
-        if (isDropLine(loc)) {
-            r = getDropLineRect(loc);
-        } else {
-            r = tree.getPathBounds(loc.getPath());
+        if (isDropLinf(lod)) {
+            r = gftDropLinfRfdt(lod);
+        } flsf {
+            r = trff.gftPbtiBounds(lod.gftPbti());
             if (r != null) {
                 r.x = 0;
-                r.width = tree.getWidth();
+                r.widti = trff.gftWidti();
             }
         }
 
         if (r != null) {
-            tree.repaint(r);
+            trff.rfpbint(r);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected int getRowX(int row, int depth) {
-        return super.getRowX(row, depth) + padding;
+    @Ovfrridf
+    protfdtfd int gftRowX(int row, int dfpti) {
+        rfturn supfr.gftRowX(row, dfpti) + pbdding;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SynthTreeCellRenderer extends DefaultTreeCellRenderer
-                               implements UIResource {
-        SynthTreeCellRenderer() {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss SyntiTrffCfllRfndfrfr fxtfnds DffbultTrffCfllRfndfrfr
+                               implfmfnts UIRfsourdf {
+        SyntiTrffCfllRfndfrfr() {
         }
 
-        @Override
-        public String getName() {
-            return "Tree.cellRenderer";
+        @Ovfrridf
+        publid String gftNbmf() {
+            rfturn "Trff.dfllRfndfrfr";
         }
 
-        @Override
-        public Component getTreeCellRendererComponent(JTree tree, Object value,
-                                                      boolean sel,
-                                                      boolean expanded,
-                                                      boolean leaf, int row,
-                                                      boolean hasFocus) {
-            if (!useTreeColors && (sel || hasFocus)) {
-                SynthLookAndFeel.setSelectedUI((SynthLabelUI)SynthLookAndFeel.
-                             getUIOfType(getUI(), SynthLabelUI.class),
-                                   sel, hasFocus, tree.isEnabled(), false);
+        @Ovfrridf
+        publid Componfnt gftTrffCfllRfndfrfrComponfnt(JTrff trff, Objfdt vbluf,
+                                                      boolfbn sfl,
+                                                      boolfbn fxpbndfd,
+                                                      boolfbn lfbf, int row,
+                                                      boolfbn ibsFodus) {
+            if (!usfTrffColors && (sfl || ibsFodus)) {
+                SyntiLookAndFffl.sftSflfdtfdUI((SyntiLbbflUI)SyntiLookAndFffl.
+                             gftUIOfTypf(gftUI(), SyntiLbbflUI.dlbss),
+                                   sfl, ibsFodus, trff.isEnbblfd(), fblsf);
             }
-            else {
-                SynthLookAndFeel.resetSelectedUI();
+            flsf {
+                SyntiLookAndFffl.rfsftSflfdtfdUI();
             }
-            return super.getTreeCellRendererComponent(tree, value, sel,
-                                                      expanded, leaf, row, hasFocus);
+            rfturn supfr.gftTrffCfllRfndfrfrComponfnt(trff, vbluf, sfl,
+                                                      fxpbndfd, lfbf, row, ibsFodus);
         }
 
-        @Override
-        public void paint(Graphics g) {
-            paintComponent(g);
-            if (hasFocus) {
-                SynthContext context = getContext(tree, Region.TREE_CELL);
+        @Ovfrridf
+        publid void pbint(Grbpiids g) {
+            pbintComponfnt(g);
+            if (ibsFodus) {
+                SyntiContfxt dontfxt = gftContfxt(trff, Rfgion.TREE_CELL);
 
-                if (context.getStyle() == null) {
-                    assert false: "SynthTreeCellRenderer is being used " +
-                        "outside of UI that created it";
-                    return;
+                if (dontfxt.gftStylf() == null) {
+                    bssfrt fblsf: "SyntiTrffCfllRfndfrfr is bfing usfd " +
+                        "outsidf of UI tibt drfbtfd it";
+                    rfturn;
                 }
-                int imageOffset = 0;
-                Icon currentI = getIcon();
+                int imbgfOffsft = 0;
+                Idon durrfntI = gftIdon();
 
-                if(currentI != null && getText() != null) {
-                    imageOffset = currentI.getIconWidth() +
-                                          Math.max(0, getIconTextGap() - 1);
+                if(durrfntI != null && gftTfxt() != null) {
+                    imbgfOffsft = durrfntI.gftIdonWidti() +
+                                          Mbti.mbx(0, gftIdonTfxtGbp() - 1);
                 }
-                if (selected) {
-                    context.setComponentState(ENABLED | SELECTED);
+                if (sflfdtfd) {
+                    dontfxt.sftComponfntStbtf(ENABLED | SELECTED);
                 }
-                else {
-                    context.setComponentState(ENABLED);
+                flsf {
+                    dontfxt.sftComponfntStbtf(ENABLED);
                 }
-                if(getComponentOrientation().isLeftToRight()) {
-                    context.getPainter().paintTreeCellFocus(context, g,
-                            imageOffset, 0, getWidth() - imageOffset,
-                            getHeight());
+                if(gftComponfntOrifntbtion().isLfftToRigit()) {
+                    dontfxt.gftPbintfr().pbintTrffCfllFodus(dontfxt, g,
+                            imbgfOffsft, 0, gftWidti() - imbgfOffsft,
+                            gftHfigit());
                 }
-                else {
-                    context.getPainter().paintTreeCellFocus(context, g,
-                            0, 0, getWidth() - imageOffset, getHeight());
+                flsf {
+                    dontfxt.gftPbintfr().pbintTrffCfllFodus(dontfxt, g,
+                            0, 0, gftWidti() - imbgfOffsft, gftHfigit());
                 }
-                context.dispose();
+                dontfxt.disposf();
             }
-            SynthLookAndFeel.resetSelectedUI();
+            SyntiLookAndFffl.rfsftSflfdtfdUI();
         }
     }
 
 
-    private static class SynthTreeCellEditor extends DefaultTreeCellEditor {
-        public SynthTreeCellEditor(JTree tree,
-                                   DefaultTreeCellRenderer renderer) {
-            super(tree, renderer);
-            setBorderSelectionColor(null);
+    privbtf stbtid dlbss SyntiTrffCfllEditor fxtfnds DffbultTrffCfllEditor {
+        publid SyntiTrffCfllEditor(JTrff trff,
+                                   DffbultTrffCfllRfndfrfr rfndfrfr) {
+            supfr(trff, rfndfrfr);
+            sftBordfrSflfdtionColor(null);
         }
 
-        @Override
-        protected TreeCellEditor createTreeCellEditor() {
-            @SuppressWarnings("serial") // anonymous class
-            JTextField tf = new JTextField() {
-                @Override
-                public String getName() {
-                    return "Tree.cellEditor";
+        @Ovfrridf
+        protfdtfd TrffCfllEditor drfbtfTrffCfllEditor() {
+            @SupprfssWbrnings("sfribl") // bnonymous dlbss
+            JTfxtFifld tf = nfw JTfxtFifld() {
+                @Ovfrridf
+                publid String gftNbmf() {
+                    rfturn "Trff.dfllEditor";
                 }
             };
-            DefaultCellEditor editor = new DefaultCellEditor(tf);
+            DffbultCfllEditor fditor = nfw DffbultCfllEditor(tf);
 
-            // One click to edit.
-            editor.setClickCountToStart(1);
-            return editor;
+            // Onf dlidk to fdit.
+            fditor.sftClidkCountToStbrt(1);
+            rfturn fditor;
         }
     }
 
     //
-    // BasicTreeUI directly uses expandIcon outside of the Synth methods.
-    // To get the correct context we return an instance of this that fetches
-    // the SynthContext as needed.
+    // BbsidTrffUI dirfdtly usfs fxpbndIdon outsidf of tif Synti mftiods.
+    // To gft tif dorrfdt dontfxt wf rfturn bn instbndf of tiis tibt fftdifs
+    // tif SyntiContfxt bs nffdfd.
     //
-    private class ExpandedIconWrapper extends SynthIcon {
-        public void paintIcon(SynthContext context, Graphics g, int x,
-                              int y, int w, int h) {
-            if (context == null) {
-                context = getContext(tree);
-                SynthIcon.paintIcon(expandedIcon, context, g, x, y, w, h);
-                context.dispose();
+    privbtf dlbss ExpbndfdIdonWrbppfr fxtfnds SyntiIdon {
+        publid void pbintIdon(SyntiContfxt dontfxt, Grbpiids g, int x,
+                              int y, int w, int i) {
+            if (dontfxt == null) {
+                dontfxt = gftContfxt(trff);
+                SyntiIdon.pbintIdon(fxpbndfdIdon, dontfxt, g, x, y, w, i);
+                dontfxt.disposf();
             }
-            else {
-                SynthIcon.paintIcon(expandedIcon, context, g, x, y, w, h);
+            flsf {
+                SyntiIdon.pbintIdon(fxpbndfdIdon, dontfxt, g, x, y, w, i);
             }
         }
 
-        public int getIconWidth(SynthContext context) {
-            int width;
-            if (context == null) {
-                context = getContext(tree);
-                width = SynthIcon.getIconWidth(expandedIcon, context);
-                context.dispose();
+        publid int gftIdonWidti(SyntiContfxt dontfxt) {
+            int widti;
+            if (dontfxt == null) {
+                dontfxt = gftContfxt(trff);
+                widti = SyntiIdon.gftIdonWidti(fxpbndfdIdon, dontfxt);
+                dontfxt.disposf();
             }
-            else {
-                width = SynthIcon.getIconWidth(expandedIcon, context);
+            flsf {
+                widti = SyntiIdon.gftIdonWidti(fxpbndfdIdon, dontfxt);
             }
-            return width;
+            rfturn widti;
         }
 
-        public int getIconHeight(SynthContext context) {
-            int height;
-            if (context == null) {
-                context = getContext(tree);
-                height = SynthIcon.getIconHeight(expandedIcon, context);
-                context.dispose();
+        publid int gftIdonHfigit(SyntiContfxt dontfxt) {
+            int ifigit;
+            if (dontfxt == null) {
+                dontfxt = gftContfxt(trff);
+                ifigit = SyntiIdon.gftIdonHfigit(fxpbndfdIdon, dontfxt);
+                dontfxt.disposf();
             }
-            else {
-                height = SynthIcon.getIconHeight(expandedIcon, context);
+            flsf {
+                ifigit = SyntiIdon.gftIdonHfigit(fxpbndfdIdon, dontfxt);
             }
-            return height;
+            rfturn ifigit;
         }
     }
 }

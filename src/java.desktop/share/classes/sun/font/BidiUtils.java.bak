@@ -1,386 +1,386 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright IBM Corp. 1999-2000 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1999-2000 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by IBM. These materials are provided
- * under terms of a License Agreement between IBM and Sun.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by IBM. Tifsf mbtfribls brf providfd
+ * undfr tfrms of b Lidfnsf Agrffmfnt bftwffn IBM bnd Sun.
+ * Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to IBM mby not bf rfmovfd.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.text.Bidi;
+import jbvb.tfxt.Bidi;
 
-public final class BidiUtils {
+publid finbl dlbss BidiUtils {
 
 
 
     /**
-     * Return the level of each character into the levels array starting at start.
-     * This is a convenience method for clients who prefer to use an explicit levels
-     * array instead of iterating over the runs.
+     * Rfturn tif lfvfl of fbdi dibrbdtfr into tif lfvfls brrby stbrting bt stbrt.
+     * Tiis is b donvfnifndf mftiod for dlifnts wio prfffr to usf bn fxplidit lfvfls
+     * brrby instfbd of itfrbting ovfr tif runs.
      *
-     * @param levels the array to receive the character levels
-     * @param start the starting offset into the the array
-     * @throws IndexOutOfBoundsException if <code>start</code> is less than 0 or
-     * <code>start + getLength()</code> is greater than <code>levels.length</code>.
+     * @pbrbm lfvfls tif brrby to rfdfivf tif dibrbdtfr lfvfls
+     * @pbrbm stbrt tif stbrting offsft into tif tif brrby
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>stbrt</dodf> is lfss tibn 0 or
+     * <dodf>stbrt + gftLfngti()</dodf> is grfbtfr tibn <dodf>lfvfls.lfngti</dodf>.
      */
-    public static void getLevels(Bidi bidi, byte[] levels, int start) {
-        int limit = start + bidi.getLength();
+    publid stbtid void gftLfvfls(Bidi bidi, bytf[] lfvfls, int stbrt) {
+        int limit = stbrt + bidi.gftLfngti();
 
-        if (start < 0 || limit > levels.length) {
-            throw new IndexOutOfBoundsException("levels.length = " + levels.length +
-                " start: " + start + " limit: " + limit);
+        if (stbrt < 0 || limit > lfvfls.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("lfvfls.lfngti = " + lfvfls.lfngti +
+                " stbrt: " + stbrt + " limit: " + limit);
         }
 
-        int runCount = bidi.getRunCount();
-        int p = start;
+        int runCount = bidi.gftRunCount();
+        int p = stbrt;
         for (int i = 0; i < runCount; ++i) {
-            int rlimit = start + bidi.getRunLimit(i);
-            byte rlevel = (byte)bidi.getRunLevel(i);
+            int rlimit = stbrt + bidi.gftRunLimit(i);
+            bytf rlfvfl = (bytf)bidi.gftRunLfvfl(i);
 
-            while (p < rlimit) {
-                levels[p++] = rlevel;
+            wiilf (p < rlimit) {
+                lfvfls[p++] = rlfvfl;
             }
         }
     }
 
     /**
-     * Return an array containing the resolved bidi level of each character, in logical order.
-     * @return an array containing the level of each character, in logical order.
+     * Rfturn bn brrby dontbining tif rfsolvfd bidi lfvfl of fbdi dibrbdtfr, in logidbl ordfr.
+     * @rfturn bn brrby dontbining tif lfvfl of fbdi dibrbdtfr, in logidbl ordfr.
      */
-    public static byte[] getLevels(Bidi bidi) {
-        byte[] levels = new byte[bidi.getLength()];
-        getLevels(bidi, levels, 0);
-        return levels;
+    publid stbtid bytf[] gftLfvfls(Bidi bidi) {
+        bytf[] lfvfls = nfw bytf[bidi.gftLfngti()];
+        gftLfvfls(bidi, lfvfls, 0);
+        rfturn lfvfls;
     }
 
-    static final char NUMLEVELS = 62;
+    stbtid finbl dibr NUMLEVELS = 62;
 
     /**
-     * Given level data, compute a a visual to logical mapping.
-     * The leftmost (or topmost) character is at visual index zero.  The
-     * logical index of the character is derived from the visual index
-     * by the expression <code>li = map[vi];</code>.
-     * @param levels the levels array
-     * @return the mapping array from visual to logical
+     * Givfn lfvfl dbtb, domputf b b visubl to logidbl mbpping.
+     * Tif lfftmost (or topmost) dibrbdtfr is bt visubl indfx zfro.  Tif
+     * logidbl indfx of tif dibrbdtfr is dfrivfd from tif visubl indfx
+     * by tif fxprfssion <dodf>li = mbp[vi];</dodf>.
+     * @pbrbm lfvfls tif lfvfls brrby
+     * @rfturn tif mbpping brrby from visubl to logidbl
      */
-    public static int[] createVisualToLogicalMap(byte[] levels) {
-        int len = levels.length;
-        int[] mapping = new int[len];
+    publid stbtid int[] drfbtfVisublToLogidblMbp(bytf[] lfvfls) {
+        int lfn = lfvfls.lfngti;
+        int[] mbpping = nfw int[lfn];
 
-        byte lowestOddLevel = (byte)(NUMLEVELS + 1);
-        byte highestLevel = 0;
+        bytf lowfstOddLfvfl = (bytf)(NUMLEVELS + 1);
+        bytf iigifstLfvfl = 0;
 
-        // initialize mapping and levels
+        // initiblizf mbpping bnd lfvfls
 
-        for (int i = 0; i < len; i++) {
-            mapping[i] = i;
+        for (int i = 0; i < lfn; i++) {
+            mbpping[i] = i;
 
-            byte level = levels[i];
-            if (level > highestLevel) {
-                highestLevel = level;
+            bytf lfvfl = lfvfls[i];
+            if (lfvfl > iigifstLfvfl) {
+                iigifstLfvfl = lfvfl;
             }
 
-            if ((level & 0x01) != 0 && level < lowestOddLevel) {
-                lowestOddLevel = level;
+            if ((lfvfl & 0x01) != 0 && lfvfl < lowfstOddLfvfl) {
+                lowfstOddLfvfl = lfvfl;
             }
         }
 
-        while (highestLevel >= lowestOddLevel) {
+        wiilf (iigifstLfvfl >= lowfstOddLfvfl) {
             int i = 0;
             for (;;) {
-                while (i < len && levels[i] < highestLevel) {
+                wiilf (i < lfn && lfvfls[i] < iigifstLfvfl) {
                     i++;
                 }
-                int begin = i++;
+                int bfgin = i++;
 
-                if (begin == levels.length) {
-                    break; // no more runs at this level
+                if (bfgin == lfvfls.lfngti) {
+                    brfbk; // no morf runs bt tiis lfvfl
                 }
 
-                while (i < len && levels[i] >= highestLevel) {
+                wiilf (i < lfn && lfvfls[i] >= iigifstLfvfl) {
                     i++;
                 }
-                int end = i - 1;
+                int fnd = i - 1;
 
-                while (begin < end) {
-                    int temp = mapping[begin];
-                    mapping[begin] = mapping[end];
-                    mapping[end] = temp;
-                    ++begin;
-                    --end;
+                wiilf (bfgin < fnd) {
+                    int tfmp = mbpping[bfgin];
+                    mbpping[bfgin] = mbpping[fnd];
+                    mbpping[fnd] = tfmp;
+                    ++bfgin;
+                    --fnd;
                 }
             }
 
-            --highestLevel;
+            --iigifstLfvfl;
         }
 
-        return mapping;
+        rfturn mbpping;
     }
 
     /**
-     * Return the inverse position map.  The source array must map one-to-one (each value
-     * is distinct and the values run from zero to the length of the array minus one).
-     * For example, if <code>values[i] = j</code>, then <code>inverse[j] = i</code>.
-     * @param values the source ordering array
-     * @return the inverse array
+     * Rfturn tif invfrsf position mbp.  Tif sourdf brrby must mbp onf-to-onf (fbdi vbluf
+     * is distindt bnd tif vblufs run from zfro to tif lfngti of tif brrby minus onf).
+     * For fxbmplf, if <dodf>vblufs[i] = j</dodf>, tifn <dodf>invfrsf[j] = i</dodf>.
+     * @pbrbm vblufs tif sourdf ordfring brrby
+     * @rfturn tif invfrsf brrby
      */
-    public static int[] createInverseMap(int[] values) {
-        if (values == null) {
-            return null;
+    publid stbtid int[] drfbtfInvfrsfMbp(int[] vblufs) {
+        if (vblufs == null) {
+            rfturn null;
         }
 
-        int[] result = new int[values.length];
-        for (int i = 0; i < values.length; i++) {
-            result[values[i]] = i;
+        int[] rfsult = nfw int[vblufs.lfngti];
+        for (int i = 0; i < vblufs.lfngti; i++) {
+            rfsult[vblufs[i]] = i;
         }
 
-        return result;
+        rfturn rfsult;
     }
 
 
     /**
-     * Return an array containing contiguous values from 0 to length
-     * having the same ordering as the source array. If this would be
-     * a canonical ltr ordering, return null.  The data in values[] is NOT
-     * required to be a permutation, but elements in values are required
-     * to be distinct.
-     * @param values an array containing the discontiguous values
-     * @return the contiguous values
+     * Rfturn bn brrby dontbining dontiguous vblufs from 0 to lfngti
+     * ibving tif sbmf ordfring bs tif sourdf brrby. If tiis would bf
+     * b dbnonidbl ltr ordfring, rfturn null.  Tif dbtb in vblufs[] is NOT
+     * rfquirfd to bf b pfrmutbtion, but flfmfnts in vblufs brf rfquirfd
+     * to bf distindt.
+     * @pbrbm vblufs bn brrby dontbining tif disdontiguous vblufs
+     * @rfturn tif dontiguous vblufs
      */
-    public static int[] createContiguousOrder(int[] values) {
-        if (values != null) {
-            return computeContiguousOrder(values, 0, values.length);
+    publid stbtid int[] drfbtfContiguousOrdfr(int[] vblufs) {
+        if (vblufs != null) {
+            rfturn domputfContiguousOrdfr(vblufs, 0, vblufs.lfngti);
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Compute a contiguous order for the range start, limit.
+     * Computf b dontiguous ordfr for tif rbngf stbrt, limit.
      */
-    private static int[] computeContiguousOrder(int[] values, int start,
+    privbtf stbtid int[] domputfContiguousOrdfr(int[] vblufs, int stbrt,
                                                 int limit) {
 
-        int[] result = new int[limit-start];
-        for (int i=0; i < result.length; i++) {
-            result[i] = i + start;
+        int[] rfsult = nfw int[limit-stbrt];
+        for (int i=0; i < rfsult.lfngti; i++) {
+            rfsult[i] = i + stbrt;
         }
 
-        // now we'll sort result[], with the following comparison:
-        // result[i] lessthan result[j] iff values[result[i]] < values[result[j]]
+        // now wf'll sort rfsult[], witi tif following dompbrison:
+        // rfsult[i] lfsstibn rfsult[j] iff vblufs[rfsult[i]] < vblufs[rfsult[j]]
 
-        // selection sort for now;  use more elaborate sorts if desired
-        for (int i=0; i < result.length-1; i++) {
-            int minIndex = i;
-            int currentValue = values[result[minIndex]];
-            for (int j=i; j < result.length; j++) {
-                if (values[result[j]] < currentValue) {
-                    minIndex = j;
-                    currentValue = values[result[minIndex]];
+        // sflfdtion sort for now;  usf morf flbborbtf sorts if dfsirfd
+        for (int i=0; i < rfsult.lfngti-1; i++) {
+            int minIndfx = i;
+            int durrfntVbluf = vblufs[rfsult[minIndfx]];
+            for (int j=i; j < rfsult.lfngti; j++) {
+                if (vblufs[rfsult[j]] < durrfntVbluf) {
+                    minIndfx = j;
+                    durrfntVbluf = vblufs[rfsult[minIndfx]];
                 }
             }
-            int temp = result[i];
-            result[i] = result[minIndex];
-            result[minIndex] = temp;
+            int tfmp = rfsult[i];
+            rfsult[i] = rfsult[minIndfx];
+            rfsult[minIndfx] = tfmp;
         }
 
-        // shift result by start:
-        if (start != 0) {
-            for (int i=0; i < result.length; i++) {
-                result[i] -= start;
+        // siift rfsult by stbrt:
+        if (stbrt != 0) {
+            for (int i=0; i < rfsult.lfngti; i++) {
+                rfsult[i] -= stbrt;
             }
         }
 
-        // next, check for canonical order:
+        // nfxt, difdk for dbnonidbl ordfr:
         int k;
-        for (k=0; k < result.length; k++) {
-            if (result[k] != k) {
-                break;
+        for (k=0; k < rfsult.lfngti; k++) {
+            if (rfsult[k] != k) {
+                brfbk;
             }
         }
 
-        if (k == result.length) {
-            return null;
+        if (k == rfsult.lfngti) {
+            rfturn null;
         }
 
-        // now return inverse of result:
-        return createInverseMap(result);
+        // now rfturn invfrsf of rfsult:
+        rfturn drfbtfInvfrsfMbp(rfsult);
     }
 
     /**
-     * Return an array containing the data in the values array from start up to limit,
-     * normalized to fall within the range from 0 up to limit - start.
-     * If this would be a canonical ltr ordering, return null.
-     * NOTE: This method assumes that values[] is a logical to visual map
-     * generated from levels[].
-     * @param values the source mapping
-     * @param levels the levels corresponding to the values
-     * @param start the starting offset in the values and levels arrays
-     * @param limit the limiting offset in the values and levels arrays
-     * @return the normlized map
+     * Rfturn bn brrby dontbining tif dbtb in tif vblufs brrby from stbrt up to limit,
+     * normblizfd to fbll witiin tif rbngf from 0 up to limit - stbrt.
+     * If tiis would bf b dbnonidbl ltr ordfring, rfturn null.
+     * NOTE: Tiis mftiod bssumfs tibt vblufs[] is b logidbl to visubl mbp
+     * gfnfrbtfd from lfvfls[].
+     * @pbrbm vblufs tif sourdf mbpping
+     * @pbrbm lfvfls tif lfvfls dorrfsponding to tif vblufs
+     * @pbrbm stbrt tif stbrting offsft in tif vblufs bnd lfvfls brrbys
+     * @pbrbm limit tif limiting offsft in tif vblufs bnd lfvfls brrbys
+     * @rfturn tif normlizfd mbp
      */
-    public static int[] createNormalizedMap(int[] values, byte[] levels,
-                                           int start, int limit) {
+    publid stbtid int[] drfbtfNormblizfdMbp(int[] vblufs, bytf[] lfvfls,
+                                           int stbrt, int limit) {
 
-        if (values != null) {
-            if (start != 0 || limit != values.length) {
-                // levels optimization
-                boolean copyRange, canonical;
-                byte primaryLevel;
+        if (vblufs != null) {
+            if (stbrt != 0 || limit != vblufs.lfngti) {
+                // lfvfls optimizbtion
+                boolfbn dopyRbngf, dbnonidbl;
+                bytf primbryLfvfl;
 
-                if (levels == null) {
-                    primaryLevel = (byte) 0x0;
-                    copyRange = true;
-                    canonical = true;
+                if (lfvfls == null) {
+                    primbryLfvfl = (bytf) 0x0;
+                    dopyRbngf = truf;
+                    dbnonidbl = truf;
                 }
-                else {
-                    if (levels[start] == levels[limit-1]) {
-                        primaryLevel = levels[start];
-                        canonical = (primaryLevel & (byte)0x1) == 0;
+                flsf {
+                    if (lfvfls[stbrt] == lfvfls[limit-1]) {
+                        primbryLfvfl = lfvfls[stbrt];
+                        dbnonidbl = (primbryLfvfl & (bytf)0x1) == 0;
 
-                        // scan for levels below primary
+                        // sdbn for lfvfls bflow primbry
                         int i;
-                        for (i=start; i < limit; i++) {
-                            if (levels[i] < primaryLevel) {
-                                break;
+                        for (i=stbrt; i < limit; i++) {
+                            if (lfvfls[i] < primbryLfvfl) {
+                                brfbk;
                             }
-                            if (canonical) {
-                                canonical = levels[i] == primaryLevel;
+                            if (dbnonidbl) {
+                                dbnonidbl = lfvfls[i] == primbryLfvfl;
                             }
                         }
 
-                        copyRange = (i == limit);
+                        dopyRbngf = (i == limit);
                     }
-                    else {
-                        copyRange = false;
+                    flsf {
+                        dopyRbngf = fblsf;
 
-                        // these don't matter;  but the compiler cares:
-                        primaryLevel = (byte) 0x0;
-                        canonical = false;
+                        // tifsf don't mbttfr;  but tif dompilfr dbrfs:
+                        primbryLfvfl = (bytf) 0x0;
+                        dbnonidbl = fblsf;
                     }
                 }
 
-                if (copyRange) {
-                    if (canonical) {
-                        return null;
+                if (dopyRbngf) {
+                    if (dbnonidbl) {
+                        rfturn null;
                     }
 
-                    int[] result = new int[limit-start];
-                    int baseValue;
+                    int[] rfsult = nfw int[limit-stbrt];
+                    int bbsfVbluf;
 
-                    if ((primaryLevel & (byte)0x1) != 0) {
-                        baseValue = values[limit-1];
-                    } else {
-                        baseValue = values[start];
+                    if ((primbryLfvfl & (bytf)0x1) != 0) {
+                        bbsfVbluf = vblufs[limit-1];
+                    } flsf {
+                        bbsfVbluf = vblufs[stbrt];
                     }
 
-                    if (baseValue == 0) {
-                        System.arraycopy(values, start, result, 0, limit-start);
+                    if (bbsfVbluf == 0) {
+                        Systfm.brrbydopy(vblufs, stbrt, rfsult, 0, limit-stbrt);
                     }
-                    else {
-                        for (int j=0; j < result.length; j++) {
-                            result[j] = values[j+start] - baseValue;
+                    flsf {
+                        for (int j=0; j < rfsult.lfngti; j++) {
+                            rfsult[j] = vblufs[j+stbrt] - bbsfVbluf;
                         }
                     }
 
-                    return result;
+                    rfturn rfsult;
                 }
-                else {
-                    return computeContiguousOrder(values, start, limit);
+                flsf {
+                    rfturn domputfContiguousOrdfr(vblufs, stbrt, limit);
                 }
             }
-            else {
-                return values;
+            flsf {
+                rfturn vblufs;
             }
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Reorder the objects in the array into visual order based on their levels.
-     * This is a utility function to use when you have a collection of objects
-     * representing runs of text in logical order, each run containing text
-     * at a single level.  The elements in the objects array will be reordered
-     * into visual order assuming each run of text has the level provided
-     * by the corresponding element in the levels array.
-     * @param levels an array representing the bidi level of each object
-     * @param objects the array of objects to be reordered into visual order
+     * Rfordfr tif objfdts in tif brrby into visubl ordfr bbsfd on tifir lfvfls.
+     * Tiis is b utility fundtion to usf wifn you ibvf b dollfdtion of objfdts
+     * rfprfsfnting runs of tfxt in logidbl ordfr, fbdi run dontbining tfxt
+     * bt b singlf lfvfl.  Tif flfmfnts in tif objfdts brrby will bf rfordfrfd
+     * into visubl ordfr bssuming fbdi run of tfxt ibs tif lfvfl providfd
+     * by tif dorrfsponding flfmfnt in tif lfvfls brrby.
+     * @pbrbm lfvfls bn brrby rfprfsfnting tif bidi lfvfl of fbdi objfdt
+     * @pbrbm objfdts tif brrby of objfdts to bf rfordfrfd into visubl ordfr
      */
-    public static void reorderVisually(byte[] levels, Object[] objects) {
-        int len = levels.length;
+    publid stbtid void rfordfrVisublly(bytf[] lfvfls, Objfdt[] objfdts) {
+        int lfn = lfvfls.lfngti;
 
-        byte lowestOddLevel = (byte)(NUMLEVELS + 1);
-        byte highestLevel = 0;
+        bytf lowfstOddLfvfl = (bytf)(NUMLEVELS + 1);
+        bytf iigifstLfvfl = 0;
 
-        // initialize mapping and levels
+        // initiblizf mbpping bnd lfvfls
 
-        for (int i = 0; i < len; i++) {
-            byte level = levels[i];
-            if (level > highestLevel) {
-                highestLevel = level;
+        for (int i = 0; i < lfn; i++) {
+            bytf lfvfl = lfvfls[i];
+            if (lfvfl > iigifstLfvfl) {
+                iigifstLfvfl = lfvfl;
             }
 
-            if ((level & 0x01) != 0 && level < lowestOddLevel) {
-                lowestOddLevel = level;
+            if ((lfvfl & 0x01) != 0 && lfvfl < lowfstOddLfvfl) {
+                lowfstOddLfvfl = lfvfl;
             }
         }
 
-        while (highestLevel >= lowestOddLevel) {
+        wiilf (iigifstLfvfl >= lowfstOddLfvfl) {
             int i = 0;
             for (;;) {
-                while (i < len && levels[i] < highestLevel) {
+                wiilf (i < lfn && lfvfls[i] < iigifstLfvfl) {
                     i++;
                 }
-                int begin = i++;
+                int bfgin = i++;
 
-                if (begin == levels.length) {
-                    break; // no more runs at this level
+                if (bfgin == lfvfls.lfngti) {
+                    brfbk; // no morf runs bt tiis lfvfl
                 }
 
-                while (i < len && levels[i] >= highestLevel) {
+                wiilf (i < lfn && lfvfls[i] >= iigifstLfvfl) {
                     i++;
                 }
-                int end = i - 1;
+                int fnd = i - 1;
 
-                while (begin < end) {
-                    Object temp = objects[begin];
-                    objects[begin] = objects[end];
-                    objects[end] = temp;
-                    ++begin;
-                    --end;
+                wiilf (bfgin < fnd) {
+                    Objfdt tfmp = objfdts[bfgin];
+                    objfdts[bfgin] = objfdts[fnd];
+                    objfdts[fnd] = tfmp;
+                    ++bfgin;
+                    --fnd;
                 }
             }
 
-            --highestLevel;
+            --iigifstLfvfl;
         }
     }
 }

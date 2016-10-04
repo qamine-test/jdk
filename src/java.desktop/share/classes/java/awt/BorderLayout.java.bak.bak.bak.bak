@@ -1,0 +1,892 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.util.Hbshtbblf;
+
+/**
+ * A bordfr lbyout lbys out b dontbinfr, brrbnging bnd rfsizing
+ * its domponfnts to fit in fivf rfgions:
+ * north, south, fbst, wfst, bnd dfntfr.
+ * Ebdh rfgion mby dontbin no morf thbn onf domponfnt, bnd
+ * is idfntififd by b dorrfsponding donstbnt:
+ * <dodf>NORTH</dodf>, <dodf>SOUTH</dodf>, <dodf>EAST</dodf>,
+ * <dodf>WEST</dodf>, bnd <dodf>CENTER</dodf>.  Whfn bdding b
+ * domponfnt to b dontbinfr with b bordfr lbyout, usf onf of thfsf
+ * fivf donstbnts, for fxbmplf:
+ * <prf>
+ *    Pbnfl p = nfw Pbnfl();
+ *    p.sftLbyout(nfw BordfrLbyout());
+ *    p.bdd(nfw Button("Okby"), BordfrLbyout.SOUTH);
+ * </prf>
+ * As b donvfnifndf, <dodf>BordfrLbyout</dodf> intfrprfts thf
+ * bbsfndf of b string spfdifidbtion thf sbmf bs thf donstbnt
+ * <dodf>CENTER</dodf>:
+ * <prf>
+ *    Pbnfl p2 = nfw Pbnfl();
+ *    p2.sftLbyout(nfw BordfrLbyout());
+ *    p2.bdd(nfw TfxtArfb());  // Sbmf bs p.bdd(nfw TfxtArfb(), BordfrLbyout.CENTER);
+ * </prf>
+ * <p>
+ * In bddition, <dodf>BordfrLbyout</dodf> supports thf rflbtivf
+ * positioning donstbnts, <dodf>PAGE_START</dodf>, <dodf>PAGE_END</dodf>,
+ * <dodf>LINE_START</dodf>, bnd <dodf>LINE_END</dodf>.
+ * In b dontbinfr whosf <dodf>ComponfntOrifntbtion</dodf> is sft to
+ * <dodf>ComponfntOrifntbtion.LEFT_TO_RIGHT</dodf>, thfsf donstbnts mbp to
+ * <dodf>NORTH</dodf>, <dodf>SOUTH</dodf>, <dodf>WEST</dodf>, bnd
+ * <dodf>EAST</dodf>, rfspfdtivfly.
+ * <p>
+ * For dompbtibility with prfvious rflfbsfs, <dodf>BordfrLbyout</dodf>
+ * blso indludfs thf rflbtivf positioning donstbnts <dodf>BEFORE_FIRST_LINE</dodf>,
+ * <dodf>AFTER_LAST_LINE</dodf>, <dodf>BEFORE_LINE_BEGINS</dodf> bnd
+ * <dodf>AFTER_LINE_ENDS</dodf>.  Thfsf brf fquivblfnt to
+ * <dodf>PAGE_START</dodf>, <dodf>PAGE_END</dodf>, <dodf>LINE_START</dodf>
+ * bnd <dodf>LINE_END</dodf> rfspfdtivfly.  For
+ * donsistfndy with thf rflbtivf positioning donstbnts usfd by othfr
+ * domponfnts, thf lbttfr donstbnts brf prfffrrfd.
+ * <p>
+ * Mixing both bbsolutf bnd rflbtivf positioning donstbnts dbn lfbd to
+ * unprfdidtbblf rfsults.  If
+ * you usf both typfs, thf rflbtivf donstbnts will tbkf prfdfdfndf.
+ * For fxbmplf, if you bdd domponfnts using both thf <dodf>NORTH</dodf>
+ * bnd <dodf>PAGE_START</dodf> donstbnts in b dontbinfr whosf
+ * orifntbtion is <dodf>LEFT_TO_RIGHT</dodf>, only thf
+ * <dodf>PAGE_START</dodf> will bf lbyfd out.
+ * <p>
+ * NOTE: Currfntly (in thf Jbvb 2 plbtform v1.2),
+ * <dodf>BordfrLbyout</dodf> dofs not support vfrtidbl
+ * orifntbtions.  Thf <dodf>isVfrtidbl</dodf> sftting on thf dontbinfr's
+ * <dodf>ComponfntOrifntbtion</dodf> is not rfspfdtfd.
+ * <p>
+ * Thf domponfnts brf lbid out bddording to thfir
+ * prfffrrfd sizfs bnd thf donstrbints of thf dontbinfr's sizf.
+ * Thf <dodf>NORTH</dodf> bnd <dodf>SOUTH</dodf> domponfnts mby
+ * bf strftdhfd horizontblly; thf <dodf>EAST</dodf> bnd
+ * <dodf>WEST</dodf> domponfnts mby bf strftdhfd vfrtidblly;
+ * thf <dodf>CENTER</dodf> domponfnt mby strftdh both horizontblly
+ * bnd vfrtidblly to fill bny spbdf lfft ovfr.
+ * <p>
+ * Hfrf is bn fxbmplf of fivf buttons in bn bpplft lbid out using
+ * thf <dodf>BordfrLbyout</dodf> lbyout mbnbgfr:
+ * <p>
+ * <img srd="dod-filfs/BordfrLbyout-1.gif"
+ * blt="Dibgrbm of bn bpplft dfmonstrbting BordfrLbyout.
+ *      Ebdh sfdtion of thf BordfrLbyout dontbins b Button dorrfsponding to its position in thf lbyout, onf of:
+ *      North, Wfst, Cfntfr, Ebst, or South."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <p>
+ * Thf dodf for this bpplft is bs follows:
+ *
+ * <hr><blodkquotf><prf>
+ * import jbvb.bwt.*;
+ * import jbvb.bpplft.Applft;
+ *
+ * publid dlbss buttonDir fxtfnds Applft {
+ *   publid void init() {
+ *     sftLbyout(nfw BordfrLbyout());
+ *     bdd(nfw Button("North"), BordfrLbyout.NORTH);
+ *     bdd(nfw Button("South"), BordfrLbyout.SOUTH);
+ *     bdd(nfw Button("Ebst"), BordfrLbyout.EAST);
+ *     bdd(nfw Button("Wfst"), BordfrLbyout.WEST);
+ *     bdd(nfw Button("Cfntfr"), BordfrLbyout.CENTER);
+ *   }
+ * }
+ * </prf></blodkquotf><hr>
+ *
+ * @buthor      Arthur vbn Hoff
+ * @sff         jbvb.bwt.Contbinfr#bdd(String, Componfnt)
+ * @sff         jbvb.bwt.ComponfntOrifntbtion
+ * @sindf       1.0
+ */
+publid dlbss BordfrLbyout implfmfnts LbyoutMbnbgfr2,
+                                     jbvb.io.Sfriblizbblf {
+    /**
+     * Construdts b bordfr lbyout with thf horizontbl gbps
+     * bftwffn domponfnts.
+     * Thf horizontbl gbp is spfdififd by <dodf>hgbp</dodf>.
+     *
+     * @sff #gftHgbp()
+     * @sff #sftHgbp(int)
+     *
+     * @sfribl
+     */
+        int hgbp;
+
+    /**
+     * Construdts b bordfr lbyout with thf vfrtidbl gbps
+     * bftwffn domponfnts.
+     * Thf vfrtidbl gbp is spfdififd by <dodf>vgbp</dodf>.
+     *
+     * @sff #gftVgbp()
+     * @sff #sftVgbp(int)
+     * @sfribl
+     */
+        int vgbp;
+
+    /**
+     * Constbnt to spfdify domponfnts lodbtion to bf thf
+     *      north portion of thf bordfr lbyout.
+     * @sfribl
+     * @sff #gftChild(String, boolfbn)
+     * @sff #bddLbyoutComponfnt
+     * @sff #gftLbyoutAlignmfntX
+     * @sff #gftLbyoutAlignmfntY
+     * @sff #rfmovfLbyoutComponfnt
+     */
+        Componfnt north;
+     /**
+     * Constbnt to spfdify domponfnts lodbtion to bf thf
+     *      wfst portion of thf bordfr lbyout.
+     * @sfribl
+     * @sff #gftChild(String, boolfbn)
+     * @sff #bddLbyoutComponfnt
+     * @sff #gftLbyoutAlignmfntX
+     * @sff #gftLbyoutAlignmfntY
+     * @sff #rfmovfLbyoutComponfnt
+     */
+        Componfnt wfst;
+    /**
+     * Constbnt to spfdify domponfnts lodbtion to bf thf
+     *      fbst portion of thf bordfr lbyout.
+     * @sfribl
+     * @sff #gftChild(String, boolfbn)
+     * @sff #bddLbyoutComponfnt
+     * @sff #gftLbyoutAlignmfntX
+     * @sff #gftLbyoutAlignmfntY
+     * @sff #rfmovfLbyoutComponfnt
+     */
+        Componfnt fbst;
+    /**
+     * Constbnt to spfdify domponfnts lodbtion to bf thf
+     *      south portion of thf bordfr lbyout.
+     * @sfribl
+     * @sff #gftChild(String, boolfbn)
+     * @sff #bddLbyoutComponfnt
+     * @sff #gftLbyoutAlignmfntX
+     * @sff #gftLbyoutAlignmfntY
+     * @sff #rfmovfLbyoutComponfnt
+     */
+    Componfnt south;
+    /**
+     * Constbnt to spfdify domponfnts lodbtion to bf thf
+     *      dfntfr portion of thf bordfr lbyout.
+     * @sfribl
+     * @sff #gftChild(String, boolfbn)
+     * @sff #bddLbyoutComponfnt
+     * @sff #gftLbyoutAlignmfntX
+     * @sff #gftLbyoutAlignmfntY
+     * @sff #rfmovfLbyoutComponfnt
+     */
+        Componfnt dfntfr;
+
+    /**
+     *
+     * A rflbtivf positioning donstbnt, thbt dbn bf usfd instfbd of
+     * north, south, fbst, wfst or dfntfr.
+     * mixing thf two typfs of donstbnts dbn lfbd to unprfdidtbblf rfsults.  If
+     * you usf both typfs, thf rflbtivf donstbnts will tbkf prfdfdfndf.
+     * For fxbmplf, if you bdd domponfnts using both thf <dodf>NORTH</dodf>
+     * bnd <dodf>BEFORE_FIRST_LINE</dodf> donstbnts in b dontbinfr whosf
+     * orifntbtion is <dodf>LEFT_TO_RIGHT</dodf>, only thf
+     * <dodf>BEFORE_FIRST_LINE</dodf> will bf lbyfd out.
+     * This will bf thf sbmf for lbstLinf, firstItfm, lbstItfm.
+     * @sfribl
+     */
+    Componfnt firstLinf;
+     /**
+     * A rflbtivf positioning donstbnt, thbt dbn bf usfd instfbd of
+     * north, south, fbst, wfst or dfntfr.
+     * Plfbsf rfbd Dfsdription for firstLinf.
+     * @sfribl
+     */
+        Componfnt lbstLinf;
+     /**
+     * A rflbtivf positioning donstbnt, thbt dbn bf usfd instfbd of
+     * north, south, fbst, wfst or dfntfr.
+     * Plfbsf rfbd Dfsdription for firstLinf.
+     * @sfribl
+     */
+        Componfnt firstItfm;
+    /**
+     * A rflbtivf positioning donstbnt, thbt dbn bf usfd instfbd of
+     * north, south, fbst, wfst or dfntfr.
+     * Plfbsf rfbd Dfsdription for firstLinf.
+     * @sfribl
+     */
+        Componfnt lbstItfm;
+
+    /**
+     * Thf north lbyout donstrbint (top of dontbinfr).
+     */
+    publid stbtid finbl String NORTH  = "North";
+
+    /**
+     * Thf south lbyout donstrbint (bottom of dontbinfr).
+     */
+    publid stbtid finbl String SOUTH  = "South";
+
+    /**
+     * Thf fbst lbyout donstrbint (right sidf of dontbinfr).
+     */
+    publid stbtid finbl String EAST   = "Ebst";
+
+    /**
+     * Thf wfst lbyout donstrbint (lfft sidf of dontbinfr).
+     */
+    publid stbtid finbl String WEST   = "Wfst";
+
+    /**
+     * Thf dfntfr lbyout donstrbint (middlf of dontbinfr).
+     */
+    publid stbtid finbl String CENTER = "Cfntfr";
+
+    /**
+     * Synonym for PAGE_START.  Exists for dompbtibility with prfvious
+     * vfrsions.  PAGE_START is prfffrrfd.
+     *
+     * @sff #PAGE_START
+     * @sindf 1.2
+     */
+    publid stbtid finbl String BEFORE_FIRST_LINE = "First";
+
+    /**
+     * Synonym for PAGE_END.  Exists for dompbtibility with prfvious
+     * vfrsions.  PAGE_END is prfffrrfd.
+     *
+     * @sff #PAGE_END
+     * @sindf 1.2
+     */
+    publid stbtid finbl String AFTER_LAST_LINE = "Lbst";
+
+    /**
+     * Synonym for LINE_START.  Exists for dompbtibility with prfvious
+     * vfrsions.  LINE_START is prfffrrfd.
+     *
+     * @sff #LINE_START
+     * @sindf 1.2
+     */
+    publid stbtid finbl String BEFORE_LINE_BEGINS = "Bfforf";
+
+    /**
+     * Synonym for LINE_END.  Exists for dompbtibility with prfvious
+     * vfrsions.  LINE_END is prfffrrfd.
+     *
+     * @sff #LINE_END
+     * @sindf 1.2
+     */
+    publid stbtid finbl String AFTER_LINE_ENDS = "Aftfr";
+
+    /**
+     * Thf domponfnt domfs bfforf thf first linf of thf lbyout's dontfnt.
+     * For Wfstfrn, lfft-to-right bnd top-to-bottom orifntbtions, this is
+     * fquivblfnt to NORTH.
+     *
+     * @sff jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sindf 1.4
+     */
+    publid stbtid finbl String PAGE_START = BEFORE_FIRST_LINE;
+
+    /**
+     * Thf domponfnt domfs bftfr thf lbst linf of thf lbyout's dontfnt.
+     * For Wfstfrn, lfft-to-right bnd top-to-bottom orifntbtions, this is
+     * fquivblfnt to SOUTH.
+     *
+     * @sff jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sindf 1.4
+     */
+    publid stbtid finbl String PAGE_END = AFTER_LAST_LINE;
+
+    /**
+     * Thf domponfnt gofs bt thf bfginning of thf linf dirfdtion for thf
+     * lbyout. For Wfstfrn, lfft-to-right bnd top-to-bottom orifntbtions,
+     * this is fquivblfnt to WEST.
+     *
+     * @sff jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sindf 1.4
+     */
+    publid stbtid finbl String LINE_START = BEFORE_LINE_BEGINS;
+
+    /**
+     * Thf domponfnt gofs bt thf fnd of thf linf dirfdtion for thf
+     * lbyout. For Wfstfrn, lfft-to-right bnd top-to-bottom orifntbtions,
+     * this is fquivblfnt to EAST.
+     *
+     * @sff jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sindf 1.4
+     */
+    publid stbtid finbl String LINE_END = AFTER_LINE_ENDS;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = -8658291919501921765L;
+
+    /**
+     * Construdts b nfw bordfr lbyout with
+     * no gbps bftwffn domponfnts.
+     */
+    publid BordfrLbyout() {
+        this(0, 0);
+    }
+
+    /**
+     * Construdts b bordfr lbyout with thf spfdififd gbps
+     * bftwffn domponfnts.
+     * Thf horizontbl gbp is spfdififd by <dodf>hgbp</dodf>
+     * bnd thf vfrtidbl gbp is spfdififd by <dodf>vgbp</dodf>.
+     * @pbrbm   hgbp   thf horizontbl gbp.
+     * @pbrbm   vgbp   thf vfrtidbl gbp.
+     */
+    publid BordfrLbyout(int hgbp, int vgbp) {
+        this.hgbp = hgbp;
+        this.vgbp = vgbp;
+    }
+
+    /**
+     * Rfturns thf horizontbl gbp bftwffn domponfnts.
+     *
+     * @rfturn thf horizontbl gbp bftwffn domponfnts
+     * @sindf   1.1
+     */
+    publid int gftHgbp() {
+        rfturn hgbp;
+    }
+
+    /**
+     * Sfts thf horizontbl gbp bftwffn domponfnts.
+     *
+     * @pbrbm hgbp thf horizontbl gbp bftwffn domponfnts
+     * @sindf   1.1
+     */
+    publid void sftHgbp(int hgbp) {
+        this.hgbp = hgbp;
+    }
+
+    /**
+     * Rfturns thf vfrtidbl gbp bftwffn domponfnts.
+     *
+     * @rfturn thf vfrtidbl gbp bftwffn domponfnts
+     * @sindf   1.1
+     */
+    publid int gftVgbp() {
+        rfturn vgbp;
+    }
+
+    /**
+     * Sfts thf vfrtidbl gbp bftwffn domponfnts.
+     *
+     * @pbrbm vgbp thf vfrtidbl gbp bftwffn domponfnts
+     * @sindf   1.1
+     */
+    publid void sftVgbp(int vgbp) {
+        this.vgbp = vgbp;
+    }
+
+    /**
+     * Adds thf spfdififd domponfnt to thf lbyout, using thf spfdififd
+     * donstrbint objfdt.  For bordfr lbyouts, thf donstrbint must bf
+     * onf of thf following donstbnts:  <dodf>NORTH</dodf>,
+     * <dodf>SOUTH</dodf>, <dodf>EAST</dodf>,
+     * <dodf>WEST</dodf>, or <dodf>CENTER</dodf>.
+     * <p>
+     * Most bpplidbtions do not dbll this mfthod dirfdtly. This mfthod
+     * is dbllfd whfn b domponfnt is bddfd to b dontbinfr using thf
+     * <dodf>Contbinfr.bdd</dodf> mfthod with thf sbmf brgumfnt typfs.
+     * @pbrbm   domp         thf domponfnt to bf bddfd.
+     * @pbrbm   donstrbints  bn objfdt thbt spfdififs how bnd whfrf
+     *                       thf domponfnt is bddfd to thf lbyout.
+     * @sff     jbvb.bwt.Contbinfr#bdd(jbvb.bwt.Componfnt, jbvb.lbng.Objfdt)
+     * @fxdfption   IllfgblArgumfntExdfption  if thf donstrbint objfdt is not
+     *              b string, or if it not onf of thf fivf spfdififd donstbnts.
+     * @sindf   1.1
+     */
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+      syndhronizfd (domp.gftTrffLodk()) {
+        if ((donstrbints == null) || (donstrbints instbndfof String)) {
+            bddLbyoutComponfnt((String)donstrbints, domp);
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("dbnnot bdd to lbyout: donstrbint must bf b string (or null)");
+        }
+      }
+    }
+
+    /**
+     * @dfprfdbtfd  rfplbdfd by <dodf>bddLbyoutComponfnt(Componfnt, Objfdt)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+      syndhronizfd (domp.gftTrffLodk()) {
+        /* Spfdibl dbsf:  trfbt null thf sbmf bs "Cfntfr". */
+        if (nbmf == null) {
+            nbmf = "Cfntfr";
+        }
+
+        /* Assign thf domponfnt to onf of thf known rfgions of thf lbyout.
+         */
+        if ("Cfntfr".fqubls(nbmf)) {
+            dfntfr = domp;
+        } flsf if ("North".fqubls(nbmf)) {
+            north = domp;
+        } flsf if ("South".fqubls(nbmf)) {
+            south = domp;
+        } flsf if ("Ebst".fqubls(nbmf)) {
+            fbst = domp;
+        } flsf if ("Wfst".fqubls(nbmf)) {
+            wfst = domp;
+        } flsf if (BEFORE_FIRST_LINE.fqubls(nbmf)) {
+            firstLinf = domp;
+        } flsf if (AFTER_LAST_LINE.fqubls(nbmf)) {
+            lbstLinf = domp;
+        } flsf if (BEFORE_LINE_BEGINS.fqubls(nbmf)) {
+            firstItfm = domp;
+        } flsf if (AFTER_LINE_ENDS.fqubls(nbmf)) {
+            lbstItfm = domp;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("dbnnot bdd to lbyout: unknown donstrbint: " + nbmf);
+        }
+      }
+    }
+
+    /**
+     * Rfmovfs thf spfdififd domponfnt from this bordfr lbyout. This
+     * mfthod is dbllfd whfn b dontbinfr dblls its <dodf>rfmovf</dodf> or
+     * <dodf>rfmovfAll</dodf> mfthods. Most bpplidbtions do not dbll this
+     * mfthod dirfdtly.
+     * @pbrbm   domp   thf domponfnt to bf rfmovfd.
+     * @sff     jbvb.bwt.Contbinfr#rfmovf(jbvb.bwt.Componfnt)
+     * @sff     jbvb.bwt.Contbinfr#rfmovfAll()
+     */
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+      syndhronizfd (domp.gftTrffLodk()) {
+        if (domp == dfntfr) {
+            dfntfr = null;
+        } flsf if (domp == north) {
+            north = null;
+        } flsf if (domp == south) {
+            south = null;
+        } flsf if (domp == fbst) {
+            fbst = null;
+        } flsf if (domp == wfst) {
+            wfst = null;
+        }
+        if (domp == firstLinf) {
+            firstLinf = null;
+        } flsf if (domp == lbstLinf) {
+            lbstLinf = null;
+        } flsf if (domp == firstItfm) {
+            firstItfm = null;
+        } flsf if (domp == lbstItfm) {
+            lbstItfm = null;
+        }
+      }
+    }
+
+    /**
+     * Gfts thf domponfnt thbt wbs bddfd using thf givfn donstrbint
+     *
+     * @pbrbm   donstrbints  thf dfsirfd donstrbint, onf of <dodf>CENTER</dodf>,
+     *                       <dodf>NORTH</dodf>, <dodf>SOUTH</dodf>,
+     *                       <dodf>WEST</dodf>, <dodf>EAST</dodf>,
+     *                       <dodf>PAGE_START</dodf>, <dodf>PAGE_END</dodf>,
+     *                       <dodf>LINE_START</dodf>, <dodf>LINE_END</dodf>
+     * @rfturn  thf domponfnt bt thf givfn lodbtion, or <dodf>null</dodf> if
+     *          thf lodbtion is fmpty
+     * @fxdfption   IllfgblArgumfntExdfption  if thf donstrbint objfdt is
+     *              not onf of thf ninf spfdififd donstbnts
+     * @sff     #bddLbyoutComponfnt(jbvb.bwt.Componfnt, jbvb.lbng.Objfdt)
+     * @sindf 1.5
+     */
+    publid Componfnt gftLbyoutComponfnt(Objfdt donstrbints) {
+        if (CENTER.fqubls(donstrbints)) {
+            rfturn dfntfr;
+        } flsf if (NORTH.fqubls(donstrbints)) {
+            rfturn north;
+        } flsf if (SOUTH.fqubls(donstrbints)) {
+            rfturn south;
+        } flsf if (WEST.fqubls(donstrbints)) {
+            rfturn wfst;
+        } flsf if (EAST.fqubls(donstrbints)) {
+            rfturn fbst;
+        } flsf if (PAGE_START.fqubls(donstrbints)) {
+            rfturn firstLinf;
+        } flsf if (PAGE_END.fqubls(donstrbints)) {
+            rfturn lbstLinf;
+        } flsf if (LINE_START.fqubls(donstrbints)) {
+            rfturn firstItfm;
+        } flsf if (LINE_END.fqubls(donstrbints)) {
+            rfturn lbstItfm;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("dbnnot gft domponfnt: unknown donstrbint: " + donstrbints);
+        }
+    }
+
+
+    /**
+     * Rfturns thf domponfnt thbt dorrfsponds to thf givfn donstrbint lodbtion
+     * bbsfd on thf tbrgft <dodf>Contbinfr</dodf>'s domponfnt orifntbtion.
+     * Componfnts bddfd with thf rflbtivf donstrbints <dodf>PAGE_START</dodf>,
+     * <dodf>PAGE_END</dodf>, <dodf>LINE_START</dodf>, bnd <dodf>LINE_END</dodf>
+     * tbkf prfdfdfndf ovfr domponfnts bddfd with thf fxplidit donstrbints
+     * <dodf>NORTH</dodf>, <dodf>SOUTH</dodf>, <dodf>WEST</dodf>, bnd <dodf>EAST</dodf>.
+     * Thf <dodf>Contbinfr</dodf>'s domponfnt orifntbtion is usfd to dftfrminf thf lodbtion of domponfnts
+     * bddfd with <dodf>LINE_START</dodf> bnd <dodf>LINE_END</dodf>.
+     *
+     * @pbrbm   donstrbints     thf dfsirfd bbsolutf position, onf of <dodf>CENTER</dodf>,
+     *                          <dodf>NORTH</dodf>, <dodf>SOUTH</dodf>,
+     *                          <dodf>EAST</dodf>, <dodf>WEST</dodf>
+     * @pbrbm   tbrgft     thf {@dodf Contbinfr} usfd to obtbin
+     *                     thf donstrbint lodbtion bbsfd on thf tbrgft
+     *                     {@dodf Contbinfr}'s domponfnt orifntbtion.
+     * @rfturn  thf domponfnt bt thf givfn lodbtion, or <dodf>null</dodf> if
+     *          thf lodbtion is fmpty
+     * @fxdfption   IllfgblArgumfntExdfption  if thf donstrbint objfdt is
+     *              not onf of thf fivf spfdififd donstbnts
+     * @fxdfption   NullPointfrExdfption  if thf tbrgft pbrbmftfr is null
+     * @sff     #bddLbyoutComponfnt(jbvb.bwt.Componfnt, jbvb.lbng.Objfdt)
+     * @sindf 1.5
+     */
+    publid Componfnt gftLbyoutComponfnt(Contbinfr tbrgft, Objfdt donstrbints) {
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRight();
+        Componfnt rfsult = null;
+
+        if (NORTH.fqubls(donstrbints)) {
+            rfsult = (firstLinf != null) ? firstLinf : north;
+        } flsf if (SOUTH.fqubls(donstrbints)) {
+            rfsult = (lbstLinf != null) ? lbstLinf : south;
+        } flsf if (WEST.fqubls(donstrbints)) {
+            rfsult = ltr ? firstItfm : lbstItfm;
+            if (rfsult == null) {
+                rfsult = wfst;
+            }
+        } flsf if (EAST.fqubls(donstrbints)) {
+            rfsult = ltr ? lbstItfm : firstItfm;
+            if (rfsult == null) {
+                rfsult = fbst;
+            }
+        } flsf if (CENTER.fqubls(donstrbints)) {
+            rfsult = dfntfr;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("dbnnot gft domponfnt: invblid donstrbint: " + donstrbints);
+        }
+
+        rfturn rfsult;
+    }
+
+
+    /**
+     * Gfts thf donstrbints for thf spfdififd domponfnt
+     *
+     * @pbrbm   domp thf domponfnt to bf qufrifd
+     * @rfturn  thf donstrbint for thf spfdififd domponfnt,
+     *          or null if domponfnt is null or is not prfsfnt
+     *          in this lbyout
+     * @sff #bddLbyoutComponfnt(jbvb.bwt.Componfnt, jbvb.lbng.Objfdt)
+     * @sindf 1.5
+     */
+    publid Objfdt gftConstrbints(Componfnt domp) {
+        //fix for 6242148 : API mfthod jbvb.bwt.BordfrLbyout.gftConstrbints(null) should rfturn null
+        if (domp == null){
+            rfturn null;
+        }
+        if (domp == dfntfr) {
+            rfturn CENTER;
+        } flsf if (domp == north) {
+            rfturn NORTH;
+        } flsf if (domp == south) {
+            rfturn SOUTH;
+        } flsf if (domp == wfst) {
+            rfturn WEST;
+        } flsf if (domp == fbst) {
+            rfturn EAST;
+        } flsf if (domp == firstLinf) {
+            rfturn PAGE_START;
+        } flsf if (domp == lbstLinf) {
+            rfturn PAGE_END;
+        } flsf if (domp == firstItfm) {
+            rfturn LINE_START;
+        } flsf if (domp == lbstItfm) {
+            rfturn LINE_END;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Dftfrminfs thf minimum sizf of thf <dodf>tbrgft</dodf> dontbinfr
+     * using this lbyout mbnbgfr.
+     * <p>
+     * This mfthod is dbllfd whfn b dontbinfr dblls its
+     * <dodf>gftMinimumSizf</dodf> mfthod. Most bpplidbtions do not dbll
+     * this mfthod dirfdtly.
+     * @pbrbm   tbrgft   thf dontbinfr in whidh to do thf lbyout.
+     * @rfturn  thf minimum dimfnsions nffdfd to lby out thf subdomponfnts
+     *          of thf spfdififd dontbinfr.
+     * @sff     jbvb.bwt.Contbinfr
+     * @sff     jbvb.bwt.BordfrLbyout#prfffrrfdLbyoutSizf
+     * @sff     jbvb.bwt.Contbinfr#gftMinimumSizf()
+     */
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+      syndhronizfd (tbrgft.gftTrffLodk()) {
+        Dimfnsion dim = nfw Dimfnsion(0, 0);
+
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRight();
+        Componfnt d = null;
+
+        if ((d=gftChild(EAST,ltr)) != null) {
+            Dimfnsion d = d.gftMinimumSizf();
+            dim.width += d.width + hgbp;
+            dim.hfight = Mbth.mbx(d.hfight, dim.hfight);
+        }
+        if ((d=gftChild(WEST,ltr)) != null) {
+            Dimfnsion d = d.gftMinimumSizf();
+            dim.width += d.width + hgbp;
+            dim.hfight = Mbth.mbx(d.hfight, dim.hfight);
+        }
+        if ((d=gftChild(CENTER,ltr)) != null) {
+            Dimfnsion d = d.gftMinimumSizf();
+            dim.width += d.width;
+            dim.hfight = Mbth.mbx(d.hfight, dim.hfight);
+        }
+        if ((d=gftChild(NORTH,ltr)) != null) {
+            Dimfnsion d = d.gftMinimumSizf();
+            dim.width = Mbth.mbx(d.width, dim.width);
+            dim.hfight += d.hfight + vgbp;
+        }
+        if ((d=gftChild(SOUTH,ltr)) != null) {
+            Dimfnsion d = d.gftMinimumSizf();
+            dim.width = Mbth.mbx(d.width, dim.width);
+            dim.hfight += d.hfight + vgbp;
+        }
+
+        Insfts insfts = tbrgft.gftInsfts();
+        dim.width += insfts.lfft + insfts.right;
+        dim.hfight += insfts.top + insfts.bottom;
+
+        rfturn dim;
+      }
+    }
+
+    /**
+     * Dftfrminfs thf prfffrrfd sizf of thf <dodf>tbrgft</dodf>
+     * dontbinfr using this lbyout mbnbgfr, bbsfd on thf domponfnts
+     * in thf dontbinfr.
+     * <p>
+     * Most bpplidbtions do not dbll this mfthod dirfdtly. This mfthod
+     * is dbllfd whfn b dontbinfr dblls its <dodf>gftPrfffrrfdSizf</dodf>
+     * mfthod.
+     * @pbrbm   tbrgft   thf dontbinfr in whidh to do thf lbyout.
+     * @rfturn  thf prfffrrfd dimfnsions to lby out thf subdomponfnts
+     *          of thf spfdififd dontbinfr.
+     * @sff     jbvb.bwt.Contbinfr
+     * @sff     jbvb.bwt.BordfrLbyout#minimumLbyoutSizf
+     * @sff     jbvb.bwt.Contbinfr#gftPrfffrrfdSizf()
+     */
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+      syndhronizfd (tbrgft.gftTrffLodk()) {
+        Dimfnsion dim = nfw Dimfnsion(0, 0);
+
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRight();
+        Componfnt d = null;
+
+        if ((d=gftChild(EAST,ltr)) != null) {
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            dim.width += d.width + hgbp;
+            dim.hfight = Mbth.mbx(d.hfight, dim.hfight);
+        }
+        if ((d=gftChild(WEST,ltr)) != null) {
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            dim.width += d.width + hgbp;
+            dim.hfight = Mbth.mbx(d.hfight, dim.hfight);
+        }
+        if ((d=gftChild(CENTER,ltr)) != null) {
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            dim.width += d.width;
+            dim.hfight = Mbth.mbx(d.hfight, dim.hfight);
+        }
+        if ((d=gftChild(NORTH,ltr)) != null) {
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            dim.width = Mbth.mbx(d.width, dim.width);
+            dim.hfight += d.hfight + vgbp;
+        }
+        if ((d=gftChild(SOUTH,ltr)) != null) {
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            dim.width = Mbth.mbx(d.width, dim.width);
+            dim.hfight += d.hfight + vgbp;
+        }
+
+        Insfts insfts = tbrgft.gftInsfts();
+        dim.width += insfts.lfft + insfts.right;
+        dim.hfight += insfts.top + insfts.bottom;
+
+        rfturn dim;
+      }
+    }
+
+    /**
+     * Rfturns thf mbximum dimfnsions for this lbyout givfn thf domponfnts
+     * in thf spfdififd tbrgft dontbinfr.
+     * @pbrbm tbrgft thf domponfnt whidh nffds to bf lbid out
+     * @sff Contbinfr
+     * @sff #minimumLbyoutSizf
+     * @sff #prfffrrfdLbyoutSizf
+     */
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+        rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
+    }
+
+    /**
+     * Rfturns thf blignmfnt blong thf x bxis.  This spfdififs how
+     * thf domponfnt would likf to bf blignfd rflbtivf to othfr
+     * domponfnts.  Thf vbluf should bf b numbfr bftwffn 0 bnd 1
+     * whfrf 0 rfprfsfnts blignmfnt blong thf origin, 1 is blignfd
+     * thf furthfst bwby from thf origin, 0.5 is dfntfrfd, ftd.
+     */
+    publid flobt gftLbyoutAlignmfntX(Contbinfr pbrfnt) {
+        rfturn 0.5f;
+    }
+
+    /**
+     * Rfturns thf blignmfnt blong thf y bxis.  This spfdififs how
+     * thf domponfnt would likf to bf blignfd rflbtivf to othfr
+     * domponfnts.  Thf vbluf should bf b numbfr bftwffn 0 bnd 1
+     * whfrf 0 rfprfsfnts blignmfnt blong thf origin, 1 is blignfd
+     * thf furthfst bwby from thf origin, 0.5 is dfntfrfd, ftd.
+     */
+    publid flobt gftLbyoutAlignmfntY(Contbinfr pbrfnt) {
+        rfturn 0.5f;
+    }
+
+    /**
+     * Invblidbtfs thf lbyout, indidbting thbt if thf lbyout mbnbgfr
+     * hbs dbdhfd informbtion it should bf disdbrdfd.
+     */
+    publid void invblidbtfLbyout(Contbinfr tbrgft) {
+    }
+
+    /**
+     * Lbys out thf dontbinfr brgumfnt using this bordfr lbyout.
+     * <p>
+     * This mfthod bdtublly rfshbpfs thf domponfnts in thf spfdififd
+     * dontbinfr in ordfr to sbtisfy thf donstrbints of this
+     * <dodf>BordfrLbyout</dodf> objfdt. Thf <dodf>NORTH</dodf>
+     * bnd <dodf>SOUTH</dodf> domponfnts, if bny, brf plbdfd bt
+     * thf top bnd bottom of thf dontbinfr, rfspfdtivfly. Thf
+     * <dodf>WEST</dodf> bnd <dodf>EAST</dodf> domponfnts brf
+     * thfn plbdfd on thf lfft bnd right, rfspfdtivfly. Finblly,
+     * thf <dodf>CENTER</dodf> objfdt is plbdfd in bny rfmbining
+     * spbdf in thf middlf.
+     * <p>
+     * Most bpplidbtions do not dbll this mfthod dirfdtly. This mfthod
+     * is dbllfd whfn b dontbinfr dblls its <dodf>doLbyout</dodf> mfthod.
+     * @pbrbm   tbrgft   thf dontbinfr in whidh to do thf lbyout.
+     * @sff     jbvb.bwt.Contbinfr
+     * @sff     jbvb.bwt.Contbinfr#doLbyout()
+     */
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+      syndhronizfd (tbrgft.gftTrffLodk()) {
+        Insfts insfts = tbrgft.gftInsfts();
+        int top = insfts.top;
+        int bottom = tbrgft.hfight - insfts.bottom;
+        int lfft = insfts.lfft;
+        int right = tbrgft.width - insfts.right;
+
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRight();
+        Componfnt d = null;
+
+        if ((d=gftChild(NORTH,ltr)) != null) {
+            d.sftSizf(right - lfft, d.hfight);
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            d.sftBounds(lfft, top, right - lfft, d.hfight);
+            top += d.hfight + vgbp;
+        }
+        if ((d=gftChild(SOUTH,ltr)) != null) {
+            d.sftSizf(right - lfft, d.hfight);
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            d.sftBounds(lfft, bottom - d.hfight, right - lfft, d.hfight);
+            bottom -= d.hfight + vgbp;
+        }
+        if ((d=gftChild(EAST,ltr)) != null) {
+            d.sftSizf(d.width, bottom - top);
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            d.sftBounds(right - d.width, top, d.width, bottom - top);
+            right -= d.width + hgbp;
+        }
+        if ((d=gftChild(WEST,ltr)) != null) {
+            d.sftSizf(d.width, bottom - top);
+            Dimfnsion d = d.gftPrfffrrfdSizf();
+            d.sftBounds(lfft, top, d.width, bottom - top);
+            lfft += d.width + hgbp;
+        }
+        if ((d=gftChild(CENTER,ltr)) != null) {
+            d.sftBounds(lfft, top, right - lfft, bottom - top);
+        }
+      }
+    }
+
+    /**
+     * Gft thf domponfnt thbt dorrfsponds to thf givfn donstrbint lodbtion
+     *
+     * @pbrbm   kfy     Thf dfsirfd bbsolutf position,
+     *                  fithfr NORTH, SOUTH, EAST, or WEST.
+     * @pbrbm   ltr     Is thf domponfnt linf dirfdtion lfft-to-right?
+     */
+    privbtf Componfnt gftChild(String kfy, boolfbn ltr) {
+        Componfnt rfsult = null;
+
+        if (kfy == NORTH) {
+            rfsult = (firstLinf != null) ? firstLinf : north;
+        }
+        flsf if (kfy == SOUTH) {
+            rfsult = (lbstLinf != null) ? lbstLinf : south;
+        }
+        flsf if (kfy == WEST) {
+            rfsult = ltr ? firstItfm : lbstItfm;
+            if (rfsult == null) {
+                rfsult = wfst;
+            }
+        }
+        flsf if (kfy == EAST) {
+            rfsult = ltr ? lbstItfm : firstItfm;
+            if (rfsult == null) {
+                rfsult = fbst;
+            }
+        }
+        flsf if (kfy == CENTER) {
+            rfsult = dfntfr;
+        }
+        if (rfsult != null && !rfsult.visiblf) {
+            rfsult = null;
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf stbtf of this bordfr lbyout.
+     * @rfturn    b string rfprfsfntbtion of this bordfr lbyout.
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[hgbp=" + hgbp + ",vgbp=" + vgbp + "]";
+    }
+}

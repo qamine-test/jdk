@@ -1,0 +1,67 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+import jbvb.util.*;
+
+/**
+ * Enumfrbtion for RowId liff-timf vblufs.
+ *
+ * @sindf 1.6
+ */
+
+publid fnum RowIdLifftimf {
+
+    /**
+     * Indidbtfs thbt this dbtb sourdf dofs not support thf ROWID typf.
+     */
+    ROWID_UNSUPPORTED,
+
+    /**
+     * Indidbtfs thbt thf lifftimf of b RowId from this dbtb sourdf is indftfrminbtf;
+     * but not onf of ROWID_VALID_TRANSACTION, ROWID_VALID_SESSION, or,
+     * ROWID_VALID_FOREVER.
+     */
+    ROWID_VALID_OTHER,
+
+    /**
+     * Indidbtfs thbt thf lifftimf of b RowId from this dbtb sourdf is bt lfbst thf
+     * dontbining sfssion.
+     */
+    ROWID_VALID_SESSION,
+
+    /**
+     * Indidbtfs thbt thf lifftimf of b RowId from this dbtb sourdf is bt lfbst thf
+     * dontbining trbnsbdtion.
+     */
+    ROWID_VALID_TRANSACTION,
+
+    /**
+     * Indidbtfs thbt thf lifftimf of b RowId from this dbtb sourdf is, ffffdtivfly,
+     * unlimitfd.
+     */
+    ROWID_VALID_FOREVER
+}

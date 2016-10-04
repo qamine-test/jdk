@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.tfxt.DbtfFormbtSymbols;
+import jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr;
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+
+/**
+ * Condrftf implfmfntbtion of thf  {@link jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr
+ * DbtfFormbtSymbolsProvidfr} dlbss for thf JRE LodblfProvidfrAdbptfr.
+ *
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
+ */
+publid dlbss DbtfFormbtSymbolsProvidfrImpl fxtfnds DbtfFormbtSymbolsProvidfr implfmfnts AvbilbblfLbngubgfTbgs {
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+    privbtf finbl Sft<String> lbngtbgs;
+
+    publid DbtfFormbtSymbolsProvidfrImpl(LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        this.typf = typf;
+        this.lbngtbgs = lbngtbgs;
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh this lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     *
+     * @rfturn An brrby of bll lodblfs for whidh this lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     */
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn LodblfProvidfrAdbptfr.toLodblfArrby(lbngtbgs);
+    }
+
+    @Ovfrridf
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        rfturn LodblfProvidfrAdbptfr.isSupportfdLodblf(lodblf, typf, lbngtbgs);
+    }
+
+    /**
+     * Rfturns b nfw <dodf>DbtfFormbtSymbols</dodf> instbndf for thf
+     * spfdififd lodblf.
+     *
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b <dodf>DbtfFormbtSymbols</dodf> instbndf.
+     * @sff jbvb.tfxt.DbtfFormbtSymbols#gftInstbndf(jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid DbtfFormbtSymbols gftInstbndf(Lodblf lodblf) {
+        if (lodblf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        rfturn nfw DbtfFormbtSymbols(lodblf);
+    }
+
+    @Ovfrridf
+    publid Sft<String> gftAvbilbblfLbngubgfTbgs() {
+        rfturn lbngtbgs;
+    }
+}

@@ -1,0 +1,57 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: NodfSftDbtb.jbvb,v 1.5 2005/05/10 15:47:42 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto;
+
+import jbvb.util.Itfrbtor;
+
+/**
+ * An bbstrbdt rfprfsfntbtion of b <dodf>Dbtb</dodf> typf dontbining b
+ * nodf-sft. Thf typf (dlbss) bnd ordfring of thf nodfs dontbinfd in thf sft
+ * brf not dffinfd by this dlbss; instfbd thbt bfhbvior should bf
+ * dffinfd by <dodf>NodfSftDbtb</dodf> subdlbssfs.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ */
+publid intfrfbdf NodfSftDbtb fxtfnds Dbtb {
+
+    /**
+     * Rfturns b rfbd-only itfrbtor ovfr thf nodfs dontbinfd in this
+     * <dodf>NodfSftDbtb</dodf> in
+     * <b hrff="http://www.w3.org/TR/1999/REC-xpbth-19991116#dt-dodumfnt-ordfr">
+     * dodumfnt ordfr</b>. Attfmpts to modify thf rfturnfd itfrbtor
+     * vib thf <dodf>rfmovf</dodf> mfthod throw
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @rfturn bn <dodf>Itfrbtor</dodf> ovfr thf nodfs in this
+     *    <dodf>NodfSftDbtb</dodf> in dodumfnt ordfr
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    Itfrbtor itfrbtor();
+}

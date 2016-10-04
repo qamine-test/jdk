@@ -1,0 +1,736 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.KfyStorf;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Dbtf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Sft;
+
+/**
+ * Pbrbmftfrs usfd bs input for thf PKIX {@dodf CfrtPbthVblidbtor}
+ * blgorithm.
+ * <p>
+ * A PKIX {@dodf CfrtPbthVblidbtor} usfs thfsf pbrbmftfrs to
+ * vblidbtf b {@dodf CfrtPbth} bddording to thf PKIX dfrtifidbtion pbth
+ * vblidbtion blgorithm.
+ *
+ * <p>To instbntibtf b {@dodf PKIXPbrbmftfrs} objfdt, bn
+ * bpplidbtion must spfdify onf or morf <i>most-trustfd CAs</i> bs dffinfd by
+ * thf PKIX dfrtifidbtion pbth vblidbtion blgorithm. Thf most-trustfd CAs
+ * dbn bf spfdififd using onf of two donstrudtors. An bpplidbtion
+ * dbn dbll {@link #PKIXPbrbmftfrs(Sft) PKIXPbrbmftfrs(Sft)},
+ * spfdifying b {@dodf Sft} of {@dodf TrustAndhor} objfdts, fbdh
+ * of whidh idfntify b most-trustfd CA. Altfrnbtivfly, bn bpplidbtion dbn dbll
+ * {@link #PKIXPbrbmftfrs(KfyStorf) PKIXPbrbmftfrs(KfyStorf)}, spfdifying b
+ * {@dodf KfyStorf} instbndf dontbining trustfd dfrtifidbtf fntrifs, fbdh
+ * of whidh will bf donsidfrfd bs b most-trustfd CA.
+ * <p>
+ * Ondf b {@dodf PKIXPbrbmftfrs} objfdt hbs bffn drfbtfd, othfr pbrbmftfrs
+ * dbn bf spfdififd (by dblling {@link #sftInitiblPolidifs sftInitiblPolidifs}
+ * or {@link #sftDbtf sftDbtf}, for instbndf) bnd thfn thf
+ * {@dodf PKIXPbrbmftfrs} is pbssfd blong with thf {@dodf CfrtPbth}
+ * to bf vblidbtfd to {@link CfrtPbthVblidbtor#vblidbtf
+ * CfrtPbthVblidbtor.vblidbtf}.
+ * <p>
+ * Any pbrbmftfr thbt is not sft (or is sft to {@dodf null}) will
+ * bf sft to thf dffbult vbluf for thbt pbrbmftfr. Thf dffbult vbluf for thf
+ * {@dodf dbtf} pbrbmftfr is {@dodf null}, whidh indidbtfs
+ * thf durrfnt timf whfn thf pbth is vblidbtfd. Thf dffbult for thf
+ * rfmbining pbrbmftfrs is thf lfbst donstrbinfd.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Unlfss othfrwisf spfdififd, thf mfthods dffinfd in this dlbss brf not
+ * thrfbd-sbff. Multiplf thrfbds thbt nffd to bddfss b singlf
+ * objfdt dondurrfntly should syndhronizf bmongst thfmsflvfs bnd
+ * providf thf nfdfssbry lodking. Multiplf thrfbds fbdh mbnipulbting
+ * sfpbrbtf objfdts nffd not syndhronizf.
+ *
+ * @sff CfrtPbthVblidbtor
+ *
+ * @sindf       1.4
+ * @buthor      Sfbn Mullbn
+ * @buthor      Ybssir Ellfy
+ */
+publid dlbss PKIXPbrbmftfrs implfmfnts CfrtPbthPbrbmftfrs {
+
+    privbtf Sft<TrustAndhor> unmodTrustAndhors;
+    privbtf Dbtf dbtf;
+    privbtf List<PKIXCfrtPbthChfdkfr> dfrtPbthChfdkfrs;
+    privbtf String sigProvidfr;
+    privbtf boolfbn rfvodbtionEnbblfd = truf;
+    privbtf Sft<String> unmodInitiblPolidifs;
+    privbtf boolfbn fxpliditPolidyRfquirfd = fblsf;
+    privbtf boolfbn polidyMbppingInhibitfd = fblsf;
+    privbtf boolfbn bnyPolidyInhibitfd = fblsf;
+    privbtf boolfbn polidyQublififrsRfjfdtfd = truf;
+    privbtf List<CfrtStorf> dfrtStorfs;
+    privbtf CfrtSflfdtor dfrtSflfdtor;
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf PKIXPbrbmftfrs} with thf spfdififd
+     * {@dodf Sft} of most-trustfd CAs. Ebdh flfmfnt of thf
+     * sft is b {@link TrustAndhor TrustAndhor}.
+     * <p>
+     * Notf thbt thf {@dodf Sft} is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
+     *
+     * @pbrbm trustAndhors b {@dodf Sft} of {@dodf TrustAndhor}s
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf spfdififd
+     * {@dodf Sft} is fmpty {@dodf (trustAndhors.isEmpty() == truf)}
+     * @throws NullPointfrExdfption if thf spfdififd {@dodf Sft} is
+     * {@dodf null}
+     * @throws ClbssCbstExdfption if bny of thf flfmfnts in thf {@dodf Sft}
+     * brf not of typf {@dodf jbvb.sfdurity.dfrt.TrustAndhor}
+     */
+    publid PKIXPbrbmftfrs(Sft<TrustAndhor> trustAndhors)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        sftTrustAndhors(trustAndhors);
+
+        this.unmodInitiblPolidifs = Collfdtions.<String>fmptySft();
+        this.dfrtPbthChfdkfrs = nfw ArrbyList<PKIXCfrtPbthChfdkfr>();
+        this.dfrtStorfs = nfw ArrbyList<CfrtStorf>();
+    }
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf PKIXPbrbmftfrs} thbt
+     * populbtfs thf sft of most-trustfd CAs from thf trustfd
+     * dfrtifidbtf fntrifs dontbinfd in thf spfdififd {@dodf KfyStorf}.
+     * Only kfystorf fntrifs thbt dontbin trustfd {@dodf X509Cfrtifidbtfs}
+     * brf donsidfrfd; bll othfr dfrtifidbtf typfs brf ignorfd.
+     *
+     * @pbrbm kfystorf b {@dodf KfyStorf} from whidh thf sft of
+     * most-trustfd CAs will bf populbtfd
+     * @throws KfyStorfExdfption if thf kfystorf hbs not bffn initiblizfd
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf kfystorf dofs
+     * not dontbin bt lfbst onf trustfd dfrtifidbtf fntry
+     * @throws NullPointfrExdfption if thf kfystorf is {@dodf null}
+     */
+    publid PKIXPbrbmftfrs(KfyStorf kfystorf)
+        throws KfyStorfExdfption, InvblidAlgorithmPbrbmftfrExdfption
+    {
+        if (kfystorf == null)
+            throw nfw NullPointfrExdfption("thf kfystorf pbrbmftfr must bf " +
+                "non-null");
+        Sft<TrustAndhor> hbshSft = nfw HbshSft<TrustAndhor>();
+        Enumfrbtion<String> blibsfs = kfystorf.blibsfs();
+        whilf (blibsfs.hbsMorfElfmfnts()) {
+            String blibs = blibsfs.nfxtElfmfnt();
+            if (kfystorf.isCfrtifidbtfEntry(blibs)) {
+                Cfrtifidbtf dfrt = kfystorf.gftCfrtifidbtf(blibs);
+                if (dfrt instbndfof X509Cfrtifidbtf)
+                    hbshSft.bdd(nfw TrustAndhor((X509Cfrtifidbtf)dfrt, null));
+            }
+        }
+        sftTrustAndhors(hbshSft);
+        this.unmodInitiblPolidifs = Collfdtions.<String>fmptySft();
+        this.dfrtPbthChfdkfrs = nfw ArrbyList<PKIXCfrtPbthChfdkfr>();
+        this.dfrtStorfs = nfw ArrbyList<CfrtStorf>();
+    }
+
+    /**
+     * Rfturns bn immutbblf {@dodf Sft} of thf most-trustfd
+     * CAs.
+     *
+     * @rfturn bn immutbblf {@dodf Sft} of {@dodf TrustAndhor}s
+     * (nfvfr {@dodf null})
+     *
+     * @sff #sftTrustAndhors
+     */
+    publid Sft<TrustAndhor> gftTrustAndhors() {
+        rfturn this.unmodTrustAndhors;
+    }
+
+    /**
+     * Sfts thf {@dodf Sft} of most-trustfd CAs.
+     * <p>
+     * Notf thbt thf {@dodf Sft} is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
+     *
+     * @pbrbm trustAndhors b {@dodf Sft} of {@dodf TrustAndhor}s
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf spfdififd
+     * {@dodf Sft} is fmpty {@dodf (trustAndhors.isEmpty() == truf)}
+     * @throws NullPointfrExdfption if thf spfdififd {@dodf Sft} is
+     * {@dodf null}
+     * @throws ClbssCbstExdfption if bny of thf flfmfnts in thf sft
+     * brf not of typf {@dodf jbvb.sfdurity.dfrt.TrustAndhor}
+     *
+     * @sff #gftTrustAndhors
+     */
+    publid void sftTrustAndhors(Sft<TrustAndhor> trustAndhors)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        if (trustAndhors == null) {
+            throw nfw NullPointfrExdfption("thf trustAndhors pbrbmftfrs must" +
+                " bf non-null");
+        }
+        if (trustAndhors.isEmpty()) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption("thf trustAndhors " +
+                "pbrbmftfr must bf non-fmpty");
+        }
+        for (Itfrbtor<TrustAndhor> i = trustAndhors.itfrbtor(); i.hbsNfxt(); ) {
+            if (!(i.nfxt() instbndfof TrustAndhor)) {
+                throw nfw ClbssCbstExdfption("bll flfmfnts of sft must bf "
+                    + "of typf jbvb.sfdurity.dfrt.TrustAndhor");
+            }
+        }
+        this.unmodTrustAndhors = Collfdtions.unmodifibblfSft
+                (nfw HbshSft<TrustAndhor>(trustAndhors));
+    }
+
+    /**
+     * Rfturns bn immutbblf {@dodf Sft} of initibl
+     * polidy idfntififrs (OID strings), indidbting thbt bny onf of thfsf
+     * polidifs would bf bddfptbblf to thf dfrtifidbtf usfr for thf purposfs of
+     * dfrtifidbtion pbth prodfssing. Thf dffbult rfturn vbluf is bn fmpty
+     * {@dodf Sft}, whidh is intfrprftfd bs mfbning thbt bny polidy would
+     * bf bddfptbblf.
+     *
+     * @rfturn bn immutbblf {@dodf Sft} of initibl polidy OIDs in
+     * {@dodf String} formbt, or bn fmpty {@dodf Sft} (implying bny
+     * polidy is bddfptbblf). Nfvfr rfturns {@dodf null}.
+     *
+     * @sff #sftInitiblPolidifs
+     */
+    publid Sft<String> gftInitiblPolidifs() {
+        rfturn this.unmodInitiblPolidifs;
+    }
+
+    /**
+     * Sfts thf {@dodf Sft} of initibl polidy idfntififrs
+     * (OID strings), indidbting thbt bny onf of thfsf
+     * polidifs would bf bddfptbblf to thf dfrtifidbtf usfr for thf purposfs of
+     * dfrtifidbtion pbth prodfssing. By dffbult, bny polidy is bddfptbblf
+     * (i.f. bll polidifs), so b usfr thbt wbnts to bllow bny polidy bs
+     * bddfptbblf dofs not nffd to dbll this mfthod, or dbn dbll it
+     * with bn fmpty {@dodf Sft} (or {@dodf null}).
+     * <p>
+     * Notf thbt thf {@dodf Sft} is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
+     *
+     * @pbrbm initiblPolidifs b {@dodf Sft} of initibl polidy
+     * OIDs in {@dodf String} formbt (or {@dodf null})
+     * @throws ClbssCbstExdfption if bny of thf flfmfnts in thf sft brf
+     * not of typf {@dodf String}
+     *
+     * @sff #gftInitiblPolidifs
+     */
+    publid void sftInitiblPolidifs(Sft<String> initiblPolidifs) {
+        if (initiblPolidifs != null) {
+            for (Itfrbtor<String> i = initiblPolidifs.itfrbtor();
+                        i.hbsNfxt();) {
+                if (!(i.nfxt() instbndfof String))
+                    throw nfw ClbssCbstExdfption("bll flfmfnts of sft must bf "
+                        + "of typf jbvb.lbng.String");
+            }
+            this.unmodInitiblPolidifs =
+                Collfdtions.unmodifibblfSft(nfw HbshSft<String>(initiblPolidifs));
+        } flsf
+            this.unmodInitiblPolidifs = Collfdtions.<String>fmptySft();
+    }
+
+    /**
+     * Sfts thf list of {@dodf CfrtStorf}s to bf usfd in finding
+     * dfrtifidbtfs bnd CRLs. Mby bf {@dodf null}, in whidh dbsf
+     * no {@dodf CfrtStorf}s will bf usfd. Thf first
+     * {@dodf CfrtStorf}s in thf list mby bf prfffrrfd to thosf thbt
+     * bppfbr lbtfr.
+     * <p>
+     * Notf thbt thf {@dodf List} is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
+     *
+     * @pbrbm storfs b {@dodf List} of {@dodf CfrtStorf}s (or
+     * {@dodf null})
+     * @throws ClbssCbstExdfption if bny of thf flfmfnts in thf list brf
+     * not of typf {@dodf jbvb.sfdurity.dfrt.CfrtStorf}
+     *
+     * @sff #gftCfrtStorfs
+     */
+    publid void sftCfrtStorfs(List<CfrtStorf> storfs) {
+        if (storfs == null) {
+            this.dfrtStorfs = nfw ArrbyList<CfrtStorf>();
+        } flsf {
+            for (Itfrbtor<CfrtStorf> i = storfs.itfrbtor(); i.hbsNfxt();) {
+                if (!(i.nfxt() instbndfof CfrtStorf)) {
+                    throw nfw ClbssCbstExdfption("bll flfmfnts of list must bf "
+                        + "of typf jbvb.sfdurity.dfrt.CfrtStorf");
+                }
+            }
+            this.dfrtStorfs = nfw ArrbyList<CfrtStorf>(storfs);
+        }
+    }
+
+    /**
+     * Adds b {@dodf CfrtStorf} to thf fnd of thf list of
+     * {@dodf CfrtStorf}s usfd in finding dfrtifidbtfs bnd CRLs.
+     *
+     * @pbrbm storf thf {@dodf CfrtStorf} to bdd. If {@dodf null},
+     * thf storf is ignorfd (not bddfd to list).
+     */
+    publid void bddCfrtStorf(CfrtStorf storf) {
+        if (storf != null) {
+            this.dfrtStorfs.bdd(storf);
+        }
+    }
+
+    /**
+     * Rfturns bn immutbblf {@dodf List} of {@dodf CfrtStorf}s thbt
+     * brf usfd to find dfrtifidbtfs bnd CRLs.
+     *
+     * @rfturn bn immutbblf {@dodf List} of {@dodf CfrtStorf}s
+     * (mby bf fmpty, but nfvfr {@dodf null})
+     *
+     * @sff #sftCfrtStorfs
+     */
+    publid List<CfrtStorf> gftCfrtStorfs() {
+        rfturn Collfdtions.unmodifibblfList
+                (nfw ArrbyList<CfrtStorf>(this.dfrtStorfs));
+    }
+
+    /**
+     * Sfts thf RfvodbtionEnbblfd flbg. If this flbg is truf, thf dffbult
+     * rfvodbtion dhfdking mfdhbnism of thf undfrlying PKIX sfrvidf providfr
+     * will bf usfd. If this flbg is fblsf, thf dffbult rfvodbtion dhfdking
+     * mfdhbnism will bf disbblfd (not usfd).
+     * <p>
+     * Whfn b {@dodf PKIXPbrbmftfrs} objfdt is drfbtfd, this flbg is sft
+     * to truf. This sftting rfflfdts thf most dommon strbtfgy for dhfdking
+     * rfvodbtion, sindf fbdh sfrvidf providfr must support rfvodbtion
+     * dhfdking to bf PKIX domplibnt. Sophistidbtfd bpplidbtions should sft
+     * this flbg to fblsf whfn it is not prbdtidbl to usf b PKIX sfrvidf
+     * providfr's dffbult rfvodbtion dhfdking mfdhbnism or whfn bn bltfrnbtivf
+     * rfvodbtion dhfdking mfdhbnism is to bf substitutfd (by blso dblling thf
+     * {@link #bddCfrtPbthChfdkfr bddCfrtPbthChfdkfr} or {@link
+     * #sftCfrtPbthChfdkfrs sftCfrtPbthChfdkfrs} mfthods).
+     *
+     * @pbrbm vbl thf nfw vbluf of thf RfvodbtionEnbblfd flbg
+     */
+    publid void sftRfvodbtionEnbblfd(boolfbn vbl) {
+        rfvodbtionEnbblfd = vbl;
+    }
+
+    /**
+     * Chfdks thf RfvodbtionEnbblfd flbg. If this flbg is truf, thf dffbult
+     * rfvodbtion dhfdking mfdhbnism of thf undfrlying PKIX sfrvidf providfr
+     * will bf usfd. If this flbg is fblsf, thf dffbult rfvodbtion dhfdking
+     * mfdhbnism will bf disbblfd (not usfd). Sff thf {@link
+     * #sftRfvodbtionEnbblfd sftRfvodbtionEnbblfd} mfthod for morf dftbils on
+     * sftting thf vbluf of this flbg.
+     *
+     * @rfturn thf durrfnt vbluf of thf RfvodbtionEnbblfd flbg
+     */
+    publid boolfbn isRfvodbtionEnbblfd() {
+        rfturn rfvodbtionEnbblfd;
+    }
+
+    /**
+     * Sfts thf ExpliditPolidyRfquirfd flbg. If this flbg is truf, bn
+     * bddfptbblf polidy nffds to bf fxpliditly idfntififd in fvfry dfrtifidbtf.
+     * By dffbult, thf ExpliditPolidyRfquirfd flbg is fblsf.
+     *
+     * @pbrbm vbl {@dodf truf} if fxplidit polidy is to bf rfquirfd,
+     * {@dodf fblsf} othfrwisf
+     */
+    publid void sftExpliditPolidyRfquirfd(boolfbn vbl) {
+        fxpliditPolidyRfquirfd = vbl;
+    }
+
+    /**
+     * Chfdks if fxplidit polidy is rfquirfd. If this flbg is truf, bn
+     * bddfptbblf polidy nffds to bf fxpliditly idfntififd in fvfry dfrtifidbtf.
+     * By dffbult, thf ExpliditPolidyRfquirfd flbg is fblsf.
+     *
+     * @rfturn {@dodf truf} if fxplidit polidy is rfquirfd,
+     * {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn isExpliditPolidyRfquirfd() {
+        rfturn fxpliditPolidyRfquirfd;
+    }
+
+    /**
+     * Sfts thf PolidyMbppingInhibitfd flbg. If this flbg is truf, polidy
+     * mbpping is inhibitfd. By dffbult, polidy mbpping is not inhibitfd (thf
+     * flbg is fblsf).
+     *
+     * @pbrbm vbl {@dodf truf} if polidy mbpping is to bf inhibitfd,
+     * {@dodf fblsf} othfrwisf
+     */
+    publid void sftPolidyMbppingInhibitfd(boolfbn vbl) {
+        polidyMbppingInhibitfd = vbl;
+    }
+
+    /**
+     * Chfdks if polidy mbpping is inhibitfd. If this flbg is truf, polidy
+     * mbpping is inhibitfd. By dffbult, polidy mbpping is not inhibitfd (thf
+     * flbg is fblsf).
+     *
+     * @rfturn truf if polidy mbpping is inhibitfd, fblsf othfrwisf
+     */
+    publid boolfbn isPolidyMbppingInhibitfd() {
+        rfturn polidyMbppingInhibitfd;
+    }
+
+    /**
+     * Sfts stbtf to dftfrminf if thf bny polidy OID should bf prodfssfd
+     * if it is indludfd in b dfrtifidbtf. By dffbult, thf bny polidy OID
+     * is not inhibitfd ({@link #isAnyPolidyInhibitfd isAnyPolidyInhibitfd()}
+     * rfturns {@dodf fblsf}).
+     *
+     * @pbrbm vbl {@dodf truf} if thf bny polidy OID is to bf
+     * inhibitfd, {@dodf fblsf} othfrwisf
+     */
+    publid void sftAnyPolidyInhibitfd(boolfbn vbl) {
+        bnyPolidyInhibitfd = vbl;
+    }
+
+    /**
+     * Chfdks whfthfr thf bny polidy OID should bf prodfssfd if it
+     * is indludfd in b dfrtifidbtf.
+     *
+     * @rfturn {@dodf truf} if thf bny polidy OID is inhibitfd,
+     * {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn isAnyPolidyInhibitfd() {
+        rfturn bnyPolidyInhibitfd;
+    }
+
+    /**
+     * Sfts thf PolidyQublififrsRfjfdtfd flbg. If this flbg is truf,
+     * dfrtifidbtfs thbt indludf polidy qublififrs in b dfrtifidbtf
+     * polidifs fxtfnsion thbt is mbrkfd dritidbl brf rfjfdtfd.
+     * If thf flbg is fblsf, dfrtifidbtfs brf not rfjfdtfd on this bbsis.
+     *
+     * <p> Whfn b {@dodf PKIXPbrbmftfrs} objfdt is drfbtfd, this flbg is
+     * sft to truf. This sftting rfflfdts thf most dommon (bnd simplfst)
+     * strbtfgy for prodfssing polidy qublififrs. Applidbtions thbt wbnt to usf
+     * b morf sophistidbtfd polidy must sft this flbg to fblsf.
+     * <p>
+     * Notf thbt thf PKIX dfrtifidbtion pbth vblidbtion blgorithm spfdififs
+     * thbt bny polidy qublififr in b dfrtifidbtf polidifs fxtfnsion thbt is
+     * mbrkfd dritidbl must bf prodfssfd bnd vblidbtfd. Othfrwisf thf
+     * dfrtifidbtion pbth must bf rfjfdtfd. If thf polidyQublififrsRfjfdtfd flbg
+     * is sft to fblsf, it is up to thf bpplidbtion to vblidbtf bll polidy
+     * qublififrs in this mbnnfr in ordfr to bf PKIX domplibnt.
+     *
+     * @pbrbm qublififrsRfjfdtfd thf nfw vbluf of thf PolidyQublififrsRfjfdtfd
+     * flbg
+     * @sff #gftPolidyQublififrsRfjfdtfd
+     * @sff PolidyQublififrInfo
+     */
+    publid void sftPolidyQublififrsRfjfdtfd(boolfbn qublififrsRfjfdtfd) {
+        polidyQublififrsRfjfdtfd = qublififrsRfjfdtfd;
+    }
+
+    /**
+     * Gfts thf PolidyQublififrsRfjfdtfd flbg. If this flbg is truf,
+     * dfrtifidbtfs thbt indludf polidy qublififrs in b dfrtifidbtf polidifs
+     * fxtfnsion thbt is mbrkfd dritidbl brf rfjfdtfd.
+     * If thf flbg is fblsf, dfrtifidbtfs brf not rfjfdtfd on this bbsis.
+     *
+     * <p> Whfn b {@dodf PKIXPbrbmftfrs} objfdt is drfbtfd, this flbg is
+     * sft to truf. This sftting rfflfdts thf most dommon (bnd simplfst)
+     * strbtfgy for prodfssing polidy qublififrs. Applidbtions thbt wbnt to usf
+     * b morf sophistidbtfd polidy must sft this flbg to fblsf.
+     *
+     * @rfturn thf durrfnt vbluf of thf PolidyQublififrsRfjfdtfd flbg
+     * @sff #sftPolidyQublififrsRfjfdtfd
+     */
+    publid boolfbn gftPolidyQublififrsRfjfdtfd() {
+        rfturn polidyQublififrsRfjfdtfd;
+    }
+
+    /**
+     * Rfturns thf timf for whidh thf vblidity of thf dfrtifidbtion pbth
+     * should bf dftfrminfd. If {@dodf null}, thf durrfnt timf is usfd.
+     * <p>
+     * Notf thbt thf {@dodf Dbtf} rfturnfd is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
+     *
+     * @rfturn thf {@dodf Dbtf}, or {@dodf null} if not sft
+     * @sff #sftDbtf
+     */
+    publid Dbtf gftDbtf() {
+        if (dbtf == null)
+            rfturn null;
+        flsf
+            rfturn (Dbtf) this.dbtf.dlonf();
+    }
+
+    /**
+     * Sfts thf timf for whidh thf vblidity of thf dfrtifidbtion pbth
+     * should bf dftfrminfd. If {@dodf null}, thf durrfnt timf is usfd.
+     * <p>
+     * Notf thbt thf {@dodf Dbtf} supplifd hfrf is dopifd to protfdt
+     * bgbinst subsfqufnt modifidbtions.
+     *
+     * @pbrbm dbtf thf {@dodf Dbtf}, or {@dodf null} for thf
+     * durrfnt timf
+     * @sff #gftDbtf
+     */
+    publid void sftDbtf(Dbtf dbtf) {
+        if (dbtf != null)
+            this.dbtf = (Dbtf) dbtf.dlonf();
+        flsf
+            dbtf = null;
+    }
+
+    /**
+     * Sfts b {@dodf List} of bdditionbl dfrtifidbtion pbth dhfdkfrs. If
+     * thf spfdififd {@dodf List} dontbins bn objfdt thbt is not b
+     * {@dodf PKIXCfrtPbthChfdkfr}, it is ignorfd.
+     * <p>
+     * Ebdh {@dodf PKIXCfrtPbthChfdkfr} spfdififd implfmfnts
+     * bdditionbl dhfdks on b dfrtifidbtf. Typidblly, thfsf brf dhfdks to
+     * prodfss bnd vfrify privbtf fxtfnsions dontbinfd in dfrtifidbtfs.
+     * Ebdh {@dodf PKIXCfrtPbthChfdkfr} should bf instbntibtfd with bny
+     * initiblizbtion pbrbmftfrs nffdfd to fxfdutf thf dhfdk.
+     * <p>
+     * This mfthod bllows sophistidbtfd bpplidbtions to fxtfnd b PKIX
+     * {@dodf CfrtPbthVblidbtor} or {@dodf CfrtPbthBuildfr}.
+     * Ebdh of thf spfdififd {@dodf PKIXCfrtPbthChfdkfr}s will bf dbllfd,
+     * in turn, by b PKIX {@dodf CfrtPbthVblidbtor} or
+     * {@dodf CfrtPbthBuildfr} for fbdh dfrtifidbtf prodfssfd or
+     * vblidbtfd.
+     * <p>
+     * Rfgbrdlfss of whfthfr thfsf bdditionbl {@dodf PKIXCfrtPbthChfdkfr}s
+     * brf sft, b PKIX {@dodf CfrtPbthVblidbtor} or
+     * {@dodf CfrtPbthBuildfr} must pfrform bll of thf rfquirfd PKIX
+     * dhfdks on fbdh dfrtifidbtf. Thf onf fxdfption to this rulf is if thf
+     * RfvodbtionEnbblfd flbg is sft to fblsf (sff thf {@link
+     * #sftRfvodbtionEnbblfd sftRfvodbtionEnbblfd} mfthod).
+     * <p>
+     * Notf thbt thf {@dodf List} supplifd hfrf is dopifd bnd fbdh
+     * {@dodf PKIXCfrtPbthChfdkfr} in thf list is dlonfd to protfdt
+     * bgbinst subsfqufnt modifidbtions.
+     *
+     * @pbrbm dhfdkfrs b {@dodf List} of {@dodf PKIXCfrtPbthChfdkfr}s.
+     * Mby bf {@dodf null}, in whidh dbsf no bdditionbl dhfdkfrs will bf
+     * usfd.
+     * @throws ClbssCbstExdfption if bny of thf flfmfnts in thf list
+     * brf not of typf {@dodf jbvb.sfdurity.dfrt.PKIXCfrtPbthChfdkfr}
+     * @sff #gftCfrtPbthChfdkfrs
+     */
+    publid void sftCfrtPbthChfdkfrs(List<PKIXCfrtPbthChfdkfr> dhfdkfrs) {
+        if (dhfdkfrs != null) {
+            List<PKIXCfrtPbthChfdkfr> tmpList =
+                        nfw ArrbyList<PKIXCfrtPbthChfdkfr>();
+            for (PKIXCfrtPbthChfdkfr dhfdkfr : dhfdkfrs) {
+                tmpList.bdd((PKIXCfrtPbthChfdkfr)dhfdkfr.dlonf());
+            }
+            this.dfrtPbthChfdkfrs = tmpList;
+        } flsf {
+            this.dfrtPbthChfdkfrs = nfw ArrbyList<PKIXCfrtPbthChfdkfr>();
+        }
+    }
+
+    /**
+     * Rfturns thf {@dodf List} of dfrtifidbtion pbth dhfdkfrs.
+     * Thf rfturnfd {@dodf List} is immutbblf, bnd fbdh
+     * {@dodf PKIXCfrtPbthChfdkfr} in thf {@dodf List} is dlonfd
+     * to protfdt bgbinst subsfqufnt modifidbtions.
+     *
+     * @rfturn bn immutbblf {@dodf List} of
+     * {@dodf PKIXCfrtPbthChfdkfr}s (mby bf fmpty, but not
+     * {@dodf null})
+     * @sff #sftCfrtPbthChfdkfrs
+     */
+    publid List<PKIXCfrtPbthChfdkfr> gftCfrtPbthChfdkfrs() {
+        List<PKIXCfrtPbthChfdkfr> tmpList = nfw ArrbyList<PKIXCfrtPbthChfdkfr>();
+        for (PKIXCfrtPbthChfdkfr dk : dfrtPbthChfdkfrs) {
+            tmpList.bdd((PKIXCfrtPbthChfdkfr)dk.dlonf());
+        }
+        rfturn Collfdtions.unmodifibblfList(tmpList);
+    }
+
+    /**
+     * Adds b {@dodf PKIXCfrtPbthChfdkfr} to thf list of dfrtifidbtion
+     * pbth dhfdkfrs. Sff thf {@link #sftCfrtPbthChfdkfrs sftCfrtPbthChfdkfrs}
+     * mfthod for morf dftbils.
+     * <p>
+     * Notf thbt thf {@dodf PKIXCfrtPbthChfdkfr} is dlonfd to protfdt
+     * bgbinst subsfqufnt modifidbtions.
+     *
+     * @pbrbm dhfdkfr b {@dodf PKIXCfrtPbthChfdkfr} to bdd to thf list of
+     * dhfdks. If {@dodf null}, thf dhfdkfr is ignorfd (not bddfd to list).
+     */
+    publid void bddCfrtPbthChfdkfr(PKIXCfrtPbthChfdkfr dhfdkfr) {
+        if (dhfdkfr != null) {
+            dfrtPbthChfdkfrs.bdd((PKIXCfrtPbthChfdkfr)dhfdkfr.dlonf());
+        }
+    }
+
+    /**
+     * Rfturns thf signbturf providfr's nbmf, or {@dodf null}
+     * if not sft.
+     *
+     * @rfturn thf signbturf providfr's nbmf (or {@dodf null})
+     * @sff #sftSigProvidfr
+     */
+    publid String gftSigProvidfr() {
+        rfturn this.sigProvidfr;
+    }
+
+    /**
+     * Sfts thf signbturf providfr's nbmf. Thf spfdififd providfr will bf
+     * prfffrrfd whfn drfbting {@link jbvb.sfdurity.Signbturf Signbturf}
+     * objfdts. If {@dodf null} or not sft, thf first providfr found
+     * supporting thf blgorithm will bf usfd.
+     *
+     * @pbrbm sigProvidfr thf signbturf providfr's nbmf (or {@dodf null})
+     * @sff #gftSigProvidfr
+    */
+    publid void sftSigProvidfr(String sigProvidfr) {
+        this.sigProvidfr = sigProvidfr;
+    }
+
+    /**
+     * Rfturns thf rfquirfd donstrbints on thf tbrgft dfrtifidbtf.
+     * Thf donstrbints brf rfturnfd bs bn instbndf of {@dodf CfrtSflfdtor}.
+     * If {@dodf null}, no donstrbints brf dffinfd.
+     *
+     * <p>Notf thbt thf {@dodf CfrtSflfdtor} rfturnfd is dlonfd
+     * to protfdt bgbinst subsfqufnt modifidbtions.
+     *
+     * @rfturn b {@dodf CfrtSflfdtor} spfdifying thf donstrbints
+     * on thf tbrgft dfrtifidbtf (or {@dodf null})
+     * @sff #sftTbrgftCfrtConstrbints
+     */
+    publid CfrtSflfdtor gftTbrgftCfrtConstrbints() {
+        if (dfrtSflfdtor != null) {
+            rfturn (CfrtSflfdtor) dfrtSflfdtor.dlonf();
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Sfts thf rfquirfd donstrbints on thf tbrgft dfrtifidbtf.
+     * Thf donstrbints brf spfdififd bs bn instbndf of
+     * {@dodf CfrtSflfdtor}. If {@dodf null}, no donstrbints brf
+     * dffinfd.
+     *
+     * <p>Notf thbt thf {@dodf CfrtSflfdtor} spfdififd is dlonfd
+     * to protfdt bgbinst subsfqufnt modifidbtions.
+     *
+     * @pbrbm sflfdtor b {@dodf CfrtSflfdtor} spfdifying thf donstrbints
+     * on thf tbrgft dfrtifidbtf (or {@dodf null})
+     * @sff #gftTbrgftCfrtConstrbints
+     */
+    publid void sftTbrgftCfrtConstrbints(CfrtSflfdtor sflfdtor) {
+        if (sflfdtor != null)
+            dfrtSflfdtor = (CfrtSflfdtor) sflfdtor.dlonf();
+        flsf
+            dfrtSflfdtor = null;
+    }
+
+    /**
+     * Mbkfs b dopy of this {@dodf PKIXPbrbmftfrs} objfdt. Chbngfs
+     * to thf dopy will not bfffdt thf originbl bnd vidf vfrsb.
+     *
+     * @rfturn b dopy of this {@dodf PKIXPbrbmftfrs} objfdt
+     */
+    publid Objfdt dlonf() {
+        try {
+            PKIXPbrbmftfrs dopy = (PKIXPbrbmftfrs)supfr.dlonf();
+
+            // must dlonf thfsf bfdbusf bddCfrtStorf, ft bl. modify thfm
+            if (dfrtStorfs != null) {
+                dopy.dfrtStorfs = nfw ArrbyList<CfrtStorf>(dfrtStorfs);
+            }
+            if (dfrtPbthChfdkfrs != null) {
+                dopy.dfrtPbthChfdkfrs =
+                    nfw ArrbyList<PKIXCfrtPbthChfdkfr>(dfrtPbthChfdkfrs.sizf());
+                for (PKIXCfrtPbthChfdkfr dhfdkfr : dfrtPbthChfdkfrs) {
+                    dopy.dfrtPbthChfdkfrs.bdd(
+                                    (PKIXCfrtPbthChfdkfr)dhfdkfr.dlonf());
+                }
+            }
+
+            // othfr dlbss fiflds brf immutbblf to publid, don't bothfr
+            // to dlonf thf rfbd-only fiflds.
+            rfturn dopy;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            /* Cbnnot hbppfn */
+            throw nfw IntfrnblError(f.toString(), f);
+        }
+    }
+
+    /**
+     * Rfturns b formbttfd string dfsdribing thf pbrbmftfrs.
+     *
+     * @rfturn b formbttfd string dfsdribing thf pbrbmftfrs.
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("[\n");
+
+        /* stbrt with trustfd bndhor info */
+        if (unmodTrustAndhors != null) {
+            sb.bppfnd("  Trust Andhors: " + unmodTrustAndhors.toString()
+                + "\n");
+        }
+
+        /* now, bppfnd initibl stbtf informbtion */
+        if (unmodInitiblPolidifs != null) {
+            if (unmodInitiblPolidifs.isEmpty()) {
+                sb.bppfnd("  Initibl Polidy OIDs: bny\n");
+            } flsf {
+                sb.bppfnd("  Initibl Polidy OIDs: ["
+                    + unmodInitiblPolidifs.toString() + "]\n");
+            }
+        }
+
+        /* now, bppfnd donstrbints on bll dfrtifidbtfs in thf pbth */
+        sb.bppfnd("  Vblidity Dbtf: " + String.vblufOf(dbtf) + "\n");
+        sb.bppfnd("  Signbturf Providfr: " + String.vblufOf(sigProvidfr) + "\n");
+        sb.bppfnd("  Dffbult Rfvodbtion Enbblfd: " + rfvodbtionEnbblfd + "\n");
+        sb.bppfnd("  Explidit Polidy Rfquirfd: " + fxpliditPolidyRfquirfd + "\n");
+        sb.bppfnd("  Polidy Mbpping Inhibitfd: " + polidyMbppingInhibitfd + "\n");
+        sb.bppfnd("  Any Polidy Inhibitfd: " + bnyPolidyInhibitfd + "\n");
+        sb.bppfnd("  Polidy Qublififrs Rfjfdtfd: " + polidyQublififrsRfjfdtfd + "\n");
+
+        /* now, bppfnd tbrgft dfrt rfquirfmfnts */
+        sb.bppfnd("  Tbrgft Cfrt Constrbints: " + String.vblufOf(dfrtSflfdtor) + "\n");
+
+        /* finblly, bppfnd misdfllbnfous pbrbmftfrs */
+        if (dfrtPbthChfdkfrs != null)
+            sb.bppfnd("  Cfrtifidbtion Pbth Chfdkfrs: ["
+                + dfrtPbthChfdkfrs.toString() + "]\n");
+        if (dfrtStorfs != null)
+            sb.bppfnd("  CfrtStorfs: [" + dfrtStorfs.toString() + "]\n");
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+}

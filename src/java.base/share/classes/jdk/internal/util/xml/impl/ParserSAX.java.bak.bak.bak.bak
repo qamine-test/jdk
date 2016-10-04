@@ -1,0 +1,695 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.intfrnbl.util.xml.impl;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jdk.intfrnbl.org.xml.sbx.ContfntHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.DTDHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.EntityRfsolvfr;
+import jdk.intfrnbl.org.xml.sbx.ErrorHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.InputSourdf;
+import jdk.intfrnbl.org.xml.sbx.Lodbtor;
+import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
+import jdk.intfrnbl.org.xml.sbx.SAXPbrsfExdfption;
+import jdk.intfrnbl.org.xml.sbx.XMLRfbdfr;
+import jdk.intfrnbl.org.xml.sbx.hflpfrs.DffbultHbndlfr;
+
+/**
+ * XML non-vblidbting push pbrsfr.
+ *
+ * This non-vblidbting pbrsfr donforms to <b hrff="http://www.w3.org/TR/REC-xml"
+ * >Extfnsiblf Mbrkup Lbngubgf (XML) 1.0</b> bnd <b
+ * hrff="http://www.w3.org/TR/REC-xml-nbmfs" >"Nbmfspbdfs in XML"</b>
+ * spfdifidbtions. Thf API supportfd by thf pbrsfr brf <b
+ * hrff="http://jbvb.sun.dom/bboutJbvb/dommunityprodfss/finbl/jsr030/indfx.html">CLDC
+ * 1.0</b> bnd <b hrff="http://www.jdp.org/fn/jsr/dftbil?id=280">JSR-280</b>, b
+ * JbvbME subsft of <b hrff="http://jbvb.sun.dom/xml/jbxp/indfx.html">JAXP</b>
+ * bnd <b hrff="http://www.sbxprojfdt.org/">SAX2</b>.
+ *
+ * @sff org.xml.sbx.XMLRfbdfr
+ */
+
+finbl dlbss PbrsfrSAX
+    fxtfnds Pbrsfr implfmfnts XMLRfbdfr, Lodbtor
+{
+    publid finbl stbtid String FEATURE_NS =
+            "http://xml.org/sbx/ffbturfs/nbmfspbdfs";
+    publid finbl stbtid String FEATURE_PREF =
+            "http://xml.org/sbx/ffbturfs/nbmfspbdf-prffixfs";
+    //          SAX ffbturf flbgs
+    privbtf boolfbn mFNbmfspbdfs;
+    privbtf boolfbn mFPrffixfs;
+    //          SAX hbndlfrs
+    privbtf DffbultHbndlfr mHbnd;      // thf dffbult hbndlfr
+    privbtf ContfntHbndlfr mHbndCont;  // thf dontfnt hbndlfr
+    privbtf DTDHbndlfr mHbndDtd;   // thf DTD hbndlfr
+    privbtf ErrorHbndlfr mHbndErr;   // thf frror hbndlfr
+    privbtf EntityRfsolvfr mHbndEnt;   // thf fntity rfsolvfr
+
+    /**
+     * Construdtor.
+     */
+    publid PbrsfrSAX() {
+        supfr();
+
+        //              SAX ffbturf dffbut vblufs
+        mFNbmfspbdfs = truf;
+        mFPrffixfs = fblsf;
+
+        //              Dffbult hbndlfr whidh will bf usfd in dbsf thf bpplidbtion
+        //              do not sft onf of hbndlfrs.
+        mHbnd = nfw DffbultHbndlfr();
+        mHbndCont = mHbnd;
+        mHbndDtd = mHbnd;
+        mHbndErr = mHbnd;
+        mHbndEnt = mHbnd;
+    }
+
+    /**
+     * Rfturn thf durrfnt dontfnt hbndlfr.
+     *
+     * @rfturn Thf durrfnt dontfnt hbndlfr, or null if nonf hbs bffn rfgistfrfd.
+     * @sff #sftContfntHbndlfr
+     */
+    publid ContfntHbndlfr gftContfntHbndlfr() {
+        rfturn (mHbndCont != mHbnd) ? mHbndCont : null;
+    }
+
+    /**
+     * Allow bn bpplidbtion to rfgistfr b dontfnt fvfnt hbndlfr.
+     *
+     * <p>If thf bpplidbtion dofs not rfgistfr b dontfnt hbndlfr, bll dontfnt
+     * fvfnts rfportfd by thf SAX pbrsfr will bf silfntly ignorfd.</p>
+     *
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt hbndlfr in thf middlf of
+     * b pbrsf, bnd thf SAX pbrsfr must bfgin using thf nfw hbndlfr
+     * immfdibtfly.</p>
+     *
+     * @pbrbm hbndlfr Thf dontfnt hbndlfr.
+     * @fxdfption jbvb.lbng.NullPointfrExdfption If thf hbndlfr brgumfnt is
+     * null.
+     * @sff #gftContfntHbndlfr
+     */
+    publid void sftContfntHbndlfr(ContfntHbndlfr hbndlfr) {
+        if (hbndlfr == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        mHbndCont = hbndlfr;
+    }
+
+    /**
+     * Rfturn thf durrfnt DTD hbndlfr.
+     *
+     * @rfturn Thf durrfnt DTD hbndlfr, or null if nonf hbs bffn rfgistfrfd.
+     * @sff #sftDTDHbndlfr
+     */
+    publid DTDHbndlfr gftDTDHbndlfr() {
+        rfturn (mHbndDtd != mHbnd) ? mHbndDtd : null;
+    }
+
+    /**
+     * Allow bn bpplidbtion to rfgistfr b DTD fvfnt hbndlfr.
+     *
+     * <p>If thf bpplidbtion dofs not rfgistfr b DTD hbndlfr, bll DTD fvfnts
+     * rfportfd by thf SAX pbrsfr will bf silfntly ignorfd.</p>
+     *
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt hbndlfr in thf middlf of
+     * b pbrsf, bnd thf SAX pbrsfr must bfgin using thf nfw hbndlfr
+     * immfdibtfly.</p>
+     *
+     * @pbrbm hbndlfr Thf DTD hbndlfr.
+     * @fxdfption jbvb.lbng.NullPointfrExdfption If thf hbndlfr brgumfnt is
+     * null.
+     * @sff #gftDTDHbndlfr
+     */
+    publid void sftDTDHbndlfr(DTDHbndlfr hbndlfr) {
+        if (hbndlfr == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        mHbndDtd = hbndlfr;
+    }
+
+    /**
+     * Rfturn thf durrfnt frror hbndlfr.
+     *
+     * @rfturn Thf durrfnt frror hbndlfr, or null if nonf hbs bffn rfgistfrfd.
+     * @sff #sftErrorHbndlfr
+     */
+    publid ErrorHbndlfr gftErrorHbndlfr() {
+        rfturn (mHbndErr != mHbnd) ? mHbndErr : null;
+    }
+
+    /**
+     * Allow bn bpplidbtion to rfgistfr bn frror fvfnt hbndlfr.
+     *
+     * <p>If thf bpplidbtion dofs not rfgistfr bn frror hbndlfr, bll frror
+     * fvfnts rfportfd by thf SAX pbrsfr will bf silfntly ignorfd; howfvfr,
+     * normbl prodfssing mby not dontinuf. It is highly rfdommfndfd thbt bll SAX
+     * bpplidbtions implfmfnt bn frror hbndlfr to bvoid unfxpfdtfd bugs.</p>
+     *
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt hbndlfr in thf middlf of
+     * b pbrsf, bnd thf SAX pbrsfr must bfgin using thf nfw hbndlfr
+     * immfdibtfly.</p>
+     *
+     * @pbrbm hbndlfr Thf frror hbndlfr.
+     * @fxdfption jbvb.lbng.NullPointfrExdfption If thf hbndlfr brgumfnt is
+     * null.
+     * @sff #gftErrorHbndlfr
+     */
+    publid void sftErrorHbndlfr(ErrorHbndlfr hbndlfr) {
+        if (hbndlfr == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        mHbndErr = hbndlfr;
+    }
+
+    /**
+     * Rfturn thf durrfnt fntity rfsolvfr.
+     *
+     * @rfturn Thf durrfnt fntity rfsolvfr, or null if nonf hbs bffn rfgistfrfd.
+     * @sff #sftEntityRfsolvfr
+     */
+    publid EntityRfsolvfr gftEntityRfsolvfr() {
+        rfturn (mHbndEnt != mHbnd) ? mHbndEnt : null;
+    }
+
+    /**
+     * Allow bn bpplidbtion to rfgistfr bn fntity rfsolvfr.
+     *
+     * <p>If thf bpplidbtion dofs not rfgistfr bn fntity rfsolvfr, thf XMLRfbdfr
+     * will pfrform its own dffbult rfsolution.</p>
+     *
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt rfsolvfr in thf middlf of
+     * b pbrsf, bnd thf SAX pbrsfr must bfgin using thf nfw rfsolvfr
+     * immfdibtfly.</p>
+     *
+     * @pbrbm rfsolvfr Thf fntity rfsolvfr.
+     * @fxdfption jbvb.lbng.NullPointfrExdfption If thf rfsolvfr brgumfnt is
+     * null.
+     * @sff #gftEntityRfsolvfr
+     */
+    publid void sftEntityRfsolvfr(EntityRfsolvfr rfsolvfr) {
+        if (rfsolvfr == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        mHbndEnt = rfsolvfr;
+    }
+
+    /**
+     * Rfturn thf publid idfntififr for thf durrfnt dodumfnt fvfnt.
+     *
+     * <p>Thf rfturn vbluf is thf publid idfntififr of thf dodumfnt fntity or of
+     * thf fxtfrnbl pbrsfd fntity in whidh thf mbrkup triggfring thf fvfnt
+     * bppfbrs.</p>
+     *
+     * @rfturn A string dontbining thf publid idfntififr, or null if nonf is
+     * bvbilbblf.
+     *
+     * @sff #gftSystfmId
+     */
+    publid String gftPublidId() {
+        rfturn (mInp != null) ? mInp.pubid : null;
+    }
+
+    /**
+     * Rfturn thf systfm idfntififr for thf durrfnt dodumfnt fvfnt.
+     *
+     * <p>Thf rfturn vbluf is thf systfm idfntififr of thf dodumfnt fntity or of
+     * thf fxtfrnbl pbrsfd fntity in whidh thf mbrkup triggfring thf fvfnt
+     * bppfbrs.</p>
+     *
+     * <p>If thf systfm idfntififr is b URL, thf pbrsfr must rfsolvf it fully
+     * bfforf pbssing it to thf bpplidbtion.</p>
+     *
+     * @rfturn A string dontbining thf systfm idfntififr, or null if nonf is
+     * bvbilbblf.
+     *
+     * @sff #gftPublidId
+     */
+    publid String gftSystfmId() {
+        rfturn (mInp != null) ? mInp.sysid : null;
+    }
+
+    /**
+     * Rfturn thf linf numbfr whfrf thf durrfnt dodumfnt fvfnt fnds.
+     *
+     * @rfturn Alwbys rfturns -1 indidbting thf linf numbfr is not bvbilbblf.
+     *
+     * @sff #gftColumnNumbfr
+     */
+    publid int gftLinfNumbfr() {
+        rfturn -1;
+    }
+
+    /**
+     * Rfturn thf dolumn numbfr whfrf thf durrfnt dodumfnt fvfnt fnds.
+     *
+     * @rfturn Alwbys rfturns -1 indidbting thf dolumn numbfr is not bvbilbblf.
+     *
+     * @sff #gftLinfNumbfr
+     */
+    publid int gftColumnNumbfr() {
+        rfturn -1;
+    }
+
+    /**
+     * Pbrsf bn XML dodumfnt from b systfm idfntififr (URI).
+     *
+     * <p>This mfthod is b shortdut for thf dommon dbsf of rfbding b dodumfnt
+     * from b systfm idfntififr. It is thf fxbdt fquivblfnt of thf
+     * following:</p>
+     *
+     * <prf>
+     * pbrsf(nfw InputSourdf(systfmId));
+     * </prf>
+     *
+     * <p>If thf systfm idfntififr is b URL, it must bf fully rfsolvfd by thf
+     * bpplidbtion bfforf it is pbssfd to thf pbrsfr.</p>
+     *
+     * @pbrbm systfmId Thf systfm idfntififr (URI).
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly wrbpping
+     * bnothfr fxdfption.
+     * @fxdfption jbvb.io.IOExdfption An IO fxdfption from thf pbrsfr, possibly
+     * from b bytf strfbm or dhbrbdtfr strfbm supplifd by thf bpplidbtion.
+     * @sff #pbrsf(org.xml.sbx.InputSourdf)
+     */
+    publid void pbrsf(String systfmId) throws IOExdfption, SAXExdfption {
+        pbrsf(nfw InputSourdf(systfmId));
+    }
+
+    /**
+     * Pbrsf bn XML dodumfnt.
+     *
+     * <p>Thf bpplidbtion dbn usf this mfthod to instrudt thf XML rfbdfr to
+     * bfgin pbrsing bn XML dodumfnt from bny vblid input sourdf (b dhbrbdtfr
+     * strfbm, b bytf strfbm, or b URI).</p>
+     *
+     * <p>Applidbtions mby not invokf this mfthod whilf b pbrsf is in progrfss
+     * (thfy should drfbtf b nfw XMLRfbdfr instfbd for fbdh nfstfd XML
+     * dodumfnt). Ondf b pbrsf is domplftf, bn bpplidbtion mby rfusf thf sbmf
+     * XMLRfbdfr objfdt, possibly with b difffrfnt input sourdf.</p>
+     *
+     * <p>During thf pbrsf, thf XMLRfbdfr will providf informbtion bbout thf XML
+     * dodumfnt through thf rfgistfrfd fvfnt hbndlfrs.</p>
+     *
+     * <p>This mfthod is syndhronous: it will not rfturn until pbrsing hbs
+     * fndfd. If b dlifnt bpplidbtion wbnts to tfrminbtf pbrsing fbrly, it
+     * should throw bn fxdfption.</p>
+     *
+     * @pbrbm is Thf input sourdf for thf top-lfvfl of thf XML dodumfnt.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly wrbpping
+     * bnothfr fxdfption.
+     * @fxdfption jbvb.io.IOExdfption An IO fxdfption from thf pbrsfr, possibly
+     * from b bytf strfbm or dhbrbdtfr strfbm supplifd by thf bpplidbtion.
+     * @sff org.xml.sbx.InputSourdf
+     * @sff #pbrsf(jbvb.lbng.String)
+     * @sff #sftEntityRfsolvfr
+     * @sff #sftDTDHbndlfr
+     * @sff #sftContfntHbndlfr
+     * @sff #sftErrorHbndlfr
+     */
+    publid void pbrsf(InputSourdf is) throws IOExdfption, SAXExdfption {
+        if (is == null) {
+            throw nfw IllfgblArgumfntExdfption("");
+        }
+        //              Sft up thf dodumfnt
+        mInp = nfw Input(BUFFSIZE_READER);
+        mPh = PH_BEFORE_DOC;  // bfforf pbrsing
+        try {
+            sftinp(is);
+        } dbtdh (SAXExdfption sbxf) {
+            throw sbxf;
+        } dbtdh (IOExdfption iof) {
+            throw iof;
+        } dbtdh (RuntimfExdfption rtf) {
+            throw rtf;
+        } dbtdh (Exdfption f) {
+            pbnid(f.toString());
+        }
+        pbrsf();
+    }
+
+    /**
+     * Pbrsf thf dontfnt of thf givfn {@link jbvb.io.InputStrfbm} instbndf bs
+     * XML using thf spfdififd {@link org.xml.sbx.hflpfrs.DffbultHbndlfr}.
+     *
+     * @pbrbm srd InputStrfbm dontbining thf dontfnt to bf pbrsfd.
+     * @pbrbm hbndlfr Thf SAX DffbultHbndlfr to usf.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
+     * @fxdfption IllfgblArgumfntExdfption If thf givfn InputStrfbm or hbndlfr
+     * is null.
+     * @fxdfption SAXExdfption If thf undfrlying pbrsfr throws b SAXExdfption
+     * whilf pbrsing.
+     * @sff org.xml.sbx.hflpfrs.DffbultHbndlfr
+     */
+    publid void pbrsf(InputStrfbm srd, DffbultHbndlfr hbndlfr)
+            throws SAXExdfption, IOExdfption {
+        if ((srd == null) || (hbndlfr == null)) {
+            throw nfw IllfgblArgumfntExdfption("");
+        }
+        pbrsf(nfw InputSourdf(srd), hbndlfr);
+    }
+
+    /**
+     * Pbrsf thf dontfnt givfn {@link org.xml.sbx.InputSourdf} bs XML using thf
+     * spfdififd {@link org.xml.sbx.hflpfrs.DffbultHbndlfr}.
+     *
+     * @pbrbm is Thf InputSourdf dontbining thf dontfnt to bf pbrsfd.
+     * @pbrbm hbndlfr Thf SAX DffbultHbndlfr to usf.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
+     * @fxdfption IllfgblArgumfntExdfption If thf InputSourdf or hbndlfr is
+     * null.
+     * @fxdfption SAXExdfption If thf undfrlying pbrsfr throws b SAXExdfption
+     * whilf pbrsing.
+     * @sff org.xml.sbx.hflpfrs.DffbultHbndlfr
+     */
+    publid void pbrsf(InputSourdf is, DffbultHbndlfr hbndlfr)
+        throws SAXExdfption, IOExdfption
+    {
+        if ((is == null) || (hbndlfr == null)) {
+            throw nfw IllfgblArgumfntExdfption("");
+        }
+        //              Sft up thf hbndlfr
+        mHbndCont = hbndlfr;
+        mHbndDtd = hbndlfr;
+        mHbndErr = hbndlfr;
+        mHbndEnt = hbndlfr;
+        //              Sft up thf dodumfnt
+        mInp = nfw Input(BUFFSIZE_READER);
+        mPh = PH_BEFORE_DOC;  // bfforf pbrsing
+        try {
+            sftinp(is);
+        } dbtdh (SAXExdfption | IOExdfption | RuntimfExdfption sbxf) {
+            throw sbxf;
+        } dbtdh (Exdfption f) {
+            pbnid(f.toString());
+        }
+        pbrsf();
+    }
+
+    /**
+     * Pbrsf thf XML dodumfnt dontfnt using spfdififd hbndlfrs bnd bn input
+     * sourdf.
+     *
+     * @fxdfption IOExdfption If bny IO frrors oddur.
+     * @fxdfption SAXExdfption If thf undfrlying pbrsfr throws b SAXExdfption
+     * whilf pbrsing.
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void pbrsf() throws SAXExdfption, IOExdfption {
+        init();
+        try {
+            mHbndCont.sftDodumfntLodbtor(this);
+            mHbndCont.stbrtDodumfnt();
+
+            if (mPh != PH_MISC_DTD) {
+                mPh = PH_MISC_DTD;  // misd bfforf DTD
+            }
+            int fvt = EV_NULL;
+            //          XML dodumfnt prolog
+            do {
+                wsskip();
+                switdh (fvt = stfp()) {
+                    dbsf EV_ELM:
+                    dbsf EV_ELMS:
+                        mPh = PH_DOCELM;
+                        brfbk;
+
+                    dbsf EV_COMM:
+                    dbsf EV_PI:
+                        brfbk;
+
+                    dbsf EV_DTD:
+                        if (mPh >= PH_DTD_MISC) {
+                            pbnid(FAULT);
+                        }
+                        mPh = PH_DTD_MISC;  // misd bftfr DTD
+                        brfbk;
+
+                    dffbult:
+                        pbnid(FAULT);
+                }
+            } whilf (mPh < PH_DOCELM);  // misd bfforf DTD
+            //          XML dodumfnt stbrting with dodumfnt's flfmfnt
+            do {
+                switdh (fvt) {
+                    dbsf EV_ELM:
+                    dbsf EV_ELMS:
+                        //              Rfport thf flfmfnt
+                        if (mIsNSAwbrf == truf) {
+                            mHbndCont.stbrtElfmfnt(
+                                    mElm.vbluf,
+                                    mElm.nbmf,
+                                    "",
+                                    mAttrs);
+                        } flsf {
+                            mHbndCont.stbrtElfmfnt(
+                                    "",
+                                    "",
+                                    mElm.nbmf,
+                                    mAttrs);
+                        }
+                        if (fvt == EV_ELMS) {
+                            fvt = stfp();
+                            brfbk;
+                        }
+
+                    dbsf EV_ELME:
+                        //              Rfport thf fnd of flfmfnt
+                        if (mIsNSAwbrf == truf) {
+                            mHbndCont.fndElfmfnt(mElm.vbluf, mElm.nbmf, "");
+                        } flsf {
+                            mHbndCont.fndElfmfnt("", "", mElm.nbmf);
+                        }
+                        //              Rfstorf thf top of thf prffix stbdk
+                        whilf (mPrff.list == mElm) {
+                            mHbndCont.fndPrffixMbpping(mPrff.nbmf);
+                            mPrff = dfl(mPrff);
+                        }
+                        //              Rfmovf thf top flfmfnt tbg
+                        mElm = dfl(mElm);
+                        if (mElm == null) {
+                            mPh = PH_DOCELM_MISC;
+                        } flsf {
+                            fvt = stfp();
+                        }
+                        brfbk;
+
+                    dbsf EV_TEXT:
+                    dbsf EV_WSPC:
+                    dbsf EV_CDAT:
+                    dbsf EV_COMM:
+                    dbsf EV_PI:
+                    dbsf EV_ENT:
+                        fvt = stfp();
+                        brfbk;
+
+                    dffbult:
+                        pbnid(FAULT);
+                }
+            } whilf (mPh == PH_DOCELM);
+            //          Misd bftfr dodumfnt's flfmfnt
+            do {
+                if (wsskip() == EOS) {
+                    brfbk;
+                }
+
+                switdh (stfp()) {
+                    dbsf EV_COMM:
+                    dbsf EV_PI:
+                        brfbk;
+
+                    dffbult:
+                        pbnid(FAULT);
+                }
+            } whilf (mPh == PH_DOCELM_MISC);
+            mPh = PH_AFTER_DOC;  // pbrsing is domplftfd
+
+        } dbtdh (SAXExdfption sbxf) {
+            throw sbxf;
+        } dbtdh (IOExdfption iof) {
+            throw iof;
+        } dbtdh (RuntimfExdfption rtf) {
+            throw rtf;
+        } dbtdh (Exdfption f) {
+            pbnid(f.toString());
+        } finblly {
+            mHbndCont.fndDodumfnt();
+            dlfbnup();
+        }
+    }
+
+    /**
+     * Rfports dodumfnt typf.
+     *
+     * @pbrbm nbmf Thf nbmf of thf fntity.
+     * @pbrbm pubid Thf publid idfntififr of thf fntity or <dodf>null</dodf>.
+     * @pbrbm sysid Thf systfm idfntififr of thf fntity or <dodf>null</dodf>.
+     */
+    protfdtfd void dodTypf(String nbmf, String pubid, String sysid) throws SAXExdfption {
+        mHbndDtd.notbtionDfdl(nbmf, pubid, sysid);
+    }
+
+    /**
+     * Rfports b dommfnt.
+     *
+     * @pbrbm tfxt Thf dommfnt tfxt stbrting from first dhbrdbtfr.
+     * @pbrbm lfngth Thf numbfr of dhbrbdtfrs in dommfnt.
+     */
+    protfdtfd void domm(dhbr[] tfxt, int lfngth) {
+    }
+
+    /**
+     * Rfports b prodfssing instrudtion.
+     *
+     * @pbrbm tbrgft Thf prodfssing instrudtion tbrgft nbmf.
+     * @pbrbm body Thf prodfssing instrudtion body tfxt.
+     */
+    protfdtfd void pi(String tbrgft, String body) throws SAXExdfption {
+        mHbndCont.prodfssingInstrudtion(tbrgft, body);
+    }
+
+    /**
+     * Rfports nfw nbmfspbdf prffix. Thf Nbmfspbdf prffix (
+     * <dodf>mPrff.nbmf</dodf>) bfing dfdlbrfd bnd thf Nbmfspbdf URI (
+     * <dodf>mPrff.vbluf</dodf>) thf prffix is mbppfd to. An fmpty string is
+     * usfd for thf dffbult flfmfnt nbmfspbdf, whidh hbs no prffix.
+     */
+    protfdtfd void nfwPrffix() throws SAXExdfption {
+        mHbndCont.stbrtPrffixMbpping(mPrff.nbmf, mPrff.vbluf);
+    }
+
+    /**
+     * Rfports skippfd fntity nbmf.
+     *
+     * @pbrbm nbmf Thf fntity nbmf.
+     */
+    protfdtfd void skippfdEnt(String nbmf) throws SAXExdfption {
+        mHbndCont.skippfdEntity(nbmf);
+    }
+
+    /**
+     * Rfturns bn
+     * <dodf>InputSourdf</dodf> for spfdififd fntity or
+     * <dodf>null</dodf>.
+     *
+     * @pbrbm nbmf Thf nbmf of thf fntity.
+     * @pbrbm pubid Thf publid idfntififr of thf fntity.
+     * @pbrbm sysid Thf systfm idfntififr of thf fntity.
+     */
+    protfdtfd InputSourdf rfsolvfEnt(String nbmf, String pubid, String sysid)
+        throws SAXExdfption, IOExdfption
+    {
+        rfturn mHbndEnt.rfsolvfEntity(pubid, sysid);
+    }
+
+    /**
+     * Rfports notbtion dfdlbrbtion.
+     *
+     * @pbrbm nbmf Thf notbtion's nbmf.
+     * @pbrbm pubid Thf notbtion's publid idfntififr, or null if nonf wbs givfn.
+     * @pbrbm sysid Thf notbtion's systfm idfntififr, or null if nonf wbs givfn.
+     */
+    protfdtfd void notDfdl(String nbmf, String pubid, String sysid)
+        throws SAXExdfption
+    {
+        mHbndDtd.notbtionDfdl(nbmf, pubid, sysid);
+    }
+
+    /**
+     * Rfports unpbrsfd fntity nbmf.
+     *
+     * @pbrbm nbmf Thf unpbrsfd fntity's nbmf.
+     * @pbrbm pubid Thf fntity's publid idfntififr, or null if nonf wbs givfn.
+     * @pbrbm sysid Thf fntity's systfm idfntififr.
+     * @pbrbm notbtion Thf nbmf of thf bssodibtfd notbtion.
+     */
+    protfdtfd void unpbrsfdEntDfdl(String nbmf, String pubid, String sysid, String notbtion)
+        throws SAXExdfption
+    {
+        mHbndDtd.unpbrsfdEntityDfdl(nbmf, pubid, sysid, notbtion);
+    }
+
+    /**
+     * Notififs thf hbndlfr bbout fbtbl pbrsing frror.
+     *
+     * @pbrbm msg Thf problfm dfsdription mfssbgf.
+     */
+    protfdtfd void pbnid(String msg) throws SAXExdfption {
+        SAXPbrsfExdfption spf = nfw SAXPbrsfExdfption(msg, this);
+        mHbndErr.fbtblError(spf);
+        throw spf;  // [#1.2] fbtbl frror dffinition
+    }
+
+    /**
+     * Rfports dhbrbdtfrs bnd fmptifs thf pbrsfr's bufffr. This mfthod is dbllfd
+     * only if pbrsfr is going to rfturn dontrol to thf mbin loop. This mfbns
+     * thbt this mfthod mby usf pbrsfr bufffr to rfport whitf spbdf without
+     * dopfing dhbrbdtfrs to tfmporbry bufffr.
+     */
+    protfdtfd void bflbsh() throws SAXExdfption {
+        if (mBuffIdx >= 0) {
+            //          Tfxtubl dbtb hbs bffn rfbd
+            mHbndCont.dhbrbdtfrs(mBuff, 0, (mBuffIdx + 1));
+            mBuffIdx = -1;
+        }
+    }
+
+    /**
+     * Rfports whitf spbdf dhbrbdtfrs bnd fmptifs thf pbrsfr's bufffr. This
+     * mfthod is dbllfd only if pbrsfr is going to rfturn dontrol to thf mbin
+     * loop. This mfbns thbt this mfthod mby usf pbrsfr bufffr to rfport whitf
+     * spbdf without dopfing dhbrbdtfrs to tfmporbry bufffr.
+     */
+    protfdtfd void bflbsh_ws() throws SAXExdfption {
+        if (mBuffIdx >= 0) {
+            // BUG: With bdditionbl info from DTD bnd xml:spbdf bttr [#2.10]
+            // thf following dbll dbn bf supportfd:
+            // mHbndCont.ignorbblfWhitfspbdf(mBuff, 0, (mBuffIdx + 1));
+
+            //          Tfxtubl dbtb hbs bffn rfbd
+            mHbndCont.dhbrbdtfrs(mBuff, 0, (mBuffIdx + 1));
+            mBuffIdx = -1;
+        }
+    }
+
+    publid boolfbn gftFfbturf(String nbmf) {
+        throw nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
+    }
+
+    publid void sftFfbturf(String nbmf, boolfbn vbluf) {
+        throw nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
+    }
+
+    publid Objfdt gftPropfrty(String nbmf) {
+        throw nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
+    }
+
+    publid void sftPropfrty(String nbmf, Objfdt vbluf) {
+        throw nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
+    }
+}

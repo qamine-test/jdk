@@ -1,0 +1,491 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.bwt.Grbphids;
+import jbvb.util.Stbdk;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+
+/**
+ * A (not-yft) Contfxt sfnsitivf L-Systfm Frbdtbl bpplft dlbss.
+ *
+ * Thf rulfs for thf Contfxt L-systfm brf rfbd from thf jbvb.bpplft.Applft's
+ * bttributfs bnd thfn thf systfm is itfrbtivfly bpplifd for thf
+ * givfn numbfr of lfvfls, possibly drbwing fbdh gfnfrbtion bs it
+ * is gfnfrbtfd.  Notf thbt thf ContfxtLSystfm dlbss dofs not yft
+ * hbndlf thf lContfxt bnd rContfxt bttributfs, blthough this
+ * dlbss is blrfbdy dfsignfd to pbrsf thf '[' bnd ']' dhbrbdtfrs
+ * typidblly usfd in Contfxt sfnsitivf L-Systfms.
+ *
+ * @buthor      Jim Grbhbm
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss CLSFrbdtbl
+        fxtfnds jbvb.bpplft.Applft
+        implfmfnts Runnbblf, MousfListfnfr {
+
+    Thrfbd kidkfr;
+    ContfxtLSystfm dls;
+    int frbdtLfvfl = 1;
+    int rfpbintDflby = 50;
+    boolfbn indrfmfntblUpdbtfs;
+    flobt stbrtAnglf = 0;
+    flobt rotAnglf = 45;
+    flobt Xmin;
+    flobt Xmbx;
+    flobt Ymin;
+    flobt Ymbx;
+    int bordfr;
+    boolfbn normblizfsdbling;
+
+    @Ovfrridf
+    publid void init() {
+        String s;
+        dls = nfw ContfxtLSystfm(this);
+        s = gftPbrbmftfr("lfvfl");
+        if (s != null) {
+            frbdtLfvfl = Intfgfr.pbrsfInt(s);
+        }
+        s = gftPbrbmftfr("indrfmfntbl");
+        if (s != null) {
+            indrfmfntblUpdbtfs = s.fqublsIgnorfCbsf("truf");
+        }
+        s = gftPbrbmftfr("dflby");
+        if (s != null) {
+            rfpbintDflby = Intfgfr.pbrsfInt(s);
+        }
+        s = gftPbrbmftfr("stbrtAnglf");
+        if (s != null) {
+            stbrtAnglf = Flobt.vblufOf(s).flobtVbluf();
+        }
+        s = gftPbrbmftfr("rotAnglf");
+        if (s != null) {
+            rotAnglf = Flobt.vblufOf(s).flobtVbluf();
+        }
+        rotAnglf = rotAnglf / 360 * 2 * 3.14159265358f;
+        s = gftPbrbmftfr("bordfr");
+        if (s != null) {
+            bordfr = Intfgfr.pbrsfInt(s);
+        }
+        s = gftPbrbmftfr("normblizfsdblf");
+        if (s != null) {
+            normblizfsdbling = s.fqublsIgnorfCbsf("truf");
+        }
+        bddMousfListfnfr(this);
+    }
+
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovfMousfListfnfr(this);
+    }
+
+    @Ovfrridf
+    publid void run() {
+        Thrfbd mf = Thrfbd.durrfntThrfbd();
+        boolfbn nffdsRfpbint = fblsf;
+        whilf (kidkfr == mf && dls.gftLfvfl() < frbdtLfvfl) {
+            dls.gfnfrbtf();
+            if (kidkfr == mf && indrfmfntblUpdbtfs) {
+                rfpbint();
+                try {
+                    Thrfbd.slffp(rfpbintDflby);
+                } dbtdh (IntfrruptfdExdfption ignorfd) {
+                }
+            } flsf {
+                nffdsRfpbint = truf;
+            }
+        }
+        if (kidkfr == mf) {
+            kidkfr = null;
+            if (nffdsRfpbint) {
+                rfpbint();
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid void stbrt() {
+        kidkfr = nfw Thrfbd(this);
+        kidkfr.stbrt();
+    }
+
+    @Ovfrridf
+    publid void stop() {
+        kidkfr = null;
+    }
+
+    /*1.1 fvfnt hbndling */
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfPrfssfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        dls = nfw ContfxtLSystfm(this);
+        sbvfdPbth = null;
+        stbrt();
+        f.donsumf();
+    }
+
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
+    }
+    String sbvfdPbth;
+
+    @Ovfrridf
+    publid void pbint(Grbphids g) {
+        String frbdtblPbth = dls.gftPbth();
+        if (frbdtblPbth == null) {
+            supfr.pbint(g);
+            rfturn;
+        }
+        if (sbvfdPbth == null || !sbvfdPbth.fqubls(frbdtblPbth)) {
+            sbvfdPbth = frbdtblPbth;
+            rfndfr(null, frbdtblPbth);
+        }
+
+        for (int i = 0; i < bordfr; i++) {
+            g.drbw3DRfdt(i, i, gftSizf().width - i * 2, gftSizf().hfight - i * 2,
+                    fblsf);
+        }
+        rfndfr(g, frbdtblPbth);
+    }
+
+    void rfndfr(Grbphids g, String pbth) {
+        Stbdk<CLSTurtlf> turtlfStbdk = nfw Stbdk<CLSTurtlf>();
+        CLSTurtlf turtlf;
+
+        if (g == null) {
+            Xmin = 1E20f;
+            Ymin = 1E20f;
+            Xmbx = -1E20f;
+            Ymbx = -1E20f;
+            turtlf = nfw CLSTurtlf(stbrtAnglf, 0, 0, 0, 0, 1, 1);
+        } flsf {
+            flobt frwidth = Xmbx - Xmin;
+            if (frwidth == 0) {
+                frwidth = 1;
+            }
+            flobt frhfight = Ymbx - Ymin;
+            if (frhfight == 0) {
+                frhfight = 1;
+            }
+            flobt xsdblf = (gftSizf().width - bordfr * 2 - 1) / frwidth;
+            flobt ysdblf = (gftSizf().hfight - bordfr * 2 - 1) / frhfight;
+            int xoff = bordfr;
+            int yoff = bordfr;
+            if (normblizfsdbling) {
+                if (xsdblf < ysdblf) {
+                    yoff += ((gftSizf().hfight - bordfr * 2)
+                            - ((Ymbx - Ymin) * xsdblf)) / 2;
+                    ysdblf = xsdblf;
+                } flsf if (ysdblf < xsdblf) {
+                    xoff += ((gftSizf().width - bordfr * 2)
+                            - ((Xmbx - Xmin) * ysdblf)) / 2;
+                    xsdblf = ysdblf;
+                }
+            }
+            turtlf = nfw CLSTurtlf(stbrtAnglf, 0 - Xmin, 0 - Ymin,
+                    xoff, yoff, xsdblf, ysdblf);
+        }
+
+        for (int pos = 0; pos < pbth.lfngth(); pos++) {
+            switdh (pbth.dhbrAt(pos)) {
+                dbsf '+':
+                    turtlf.rotbtf(rotAnglf);
+                    brfbk;
+                dbsf '-':
+                    turtlf.rotbtf(-rotAnglf);
+                    brfbk;
+                dbsf '[':
+                    turtlfStbdk.push(turtlf);
+                    turtlf = nfw CLSTurtlf(turtlf);
+                    brfbk;
+                dbsf ']':
+                    turtlf = turtlfStbdk.pop();
+                    brfbk;
+                dbsf 'f':
+                    turtlf.jump();
+                    brfbk;
+                dbsf 'F':
+                    if (g == null) {
+                        indludfPt(turtlf.X, turtlf.Y);
+                        turtlf.jump();
+                        indludfPt(turtlf.X, turtlf.Y);
+                    } flsf {
+                        turtlf.drbw(g);
+                    }
+                    brfbk;
+                dffbult:
+                    brfbk;
+            }
+        }
+    }
+
+    void indludfPt(flobt x, flobt y) {
+        if (x < Xmin) {
+            Xmin = x;
+        }
+        if (x > Xmbx) {
+            Xmbx = x;
+        }
+        if (y < Ymin) {
+            Ymin = y;
+        }
+        if (y > Ymbx) {
+            Ymbx = y;
+        }
+    }
+
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: CLSFrbdtbl 1.1f, 27 Mbr 1995 \nAuthor: Jim Grbhbm \nA "
+                + "(not yft) Contfxt Sfnsitivf L-Systfm produdtion rulf. \n"
+                + "This dlbss fndbpsulbtfs b produdtion rulf for b Contfxt "
+                + "Sfnsitivf\n L-Systfm \n(prfd, sudd, lContfxt, rContfxt)."
+                + "  Thf mbtdhfs() mfthod, howfvfr, dofs not \n(yft) vfrify "
+                + "thf lContfxt bnd rContfxt pbrts of thf rulf.";
+    }
+
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
+        String[][] info = {
+            { "lfvfl", "int", "Mbximum numbfr of rfdursions.  Dffbult is 1." },
+            { "indrfmfntbl", "boolfbn", "Whfthfr or not to rfpbint bftwffn "
+                + "rfdursions.  Dffbult is truf." },
+            { "dflby", "intfgfr", "Sfts dflby bftwffn rfpbints.  Dffbult is 50." },
+            { "stbrtAnglf", "flobt", "Sfts thf stbrting bnglf.  Dffbult is 0." },
+            { "rotAnglf", "flobt", "Sfts thf rotbtion bnglf.  Dffbult is 45." },
+            { "bordfr", "intfgfr", "Width of bordfr.  Dffbult is 2." },
+            { "normblizfSdblf", "boolfbn", "Whfthfr or not to normblizf "
+                + "thf sdbling.  Dffbult is truf." },
+            { "prfd", "String",
+                "Initiblizfs thf rulfs for Contfxt Sfnsitivf L-Systfms." },
+            { "sudd", "String",
+                "Initiblizfs thf rulfs for Contfxt Sfnsitivf L-Systfms." },
+            { "lContfxt", "String",
+                "Initiblizfs thf rulfs for Contfxt Sfnsitivf L-Systfms." },
+            { "rContfxt", "String",
+                "Initiblizfs thf rulfs for Contfxt Sfnsitivf L-Systfms." }
+        };
+        rfturn info;
+    }
+}
+
+
+/**
+ * A Logo turtlf dlbss dfsignfd to support Contfxt sfnsitivf L-Systfms.
+ *
+ * This turtlf pfrforms b ffw bbsid mbnfuvfrs nffdfd to support thf
+ * sft of dhbrbdtfrs usfd in Contfxt sfnsitivf L-Systfms "+-fF[]".
+ *
+ * @buthor      Jim Grbhbm
+ */
+dlbss CLSTurtlf {
+
+    flobt bnglf;
+    flobt X;
+    flobt Y;
+    flobt sdblfX;
+    flobt sdblfY;
+    int xoff;
+    int yoff;
+
+    publid CLSTurtlf(flobt bng, flobt x, flobt y,
+            int xorg, int yorg, flobt sx, flobt sy) {
+        bnglf = bng;
+        sdblfX = sx;
+        sdblfY = sy;
+        X = x * sx;
+        Y = y * sy;
+        xoff = xorg;
+        yoff = yorg;
+    }
+
+    publid CLSTurtlf(CLSTurtlf turtlf) {
+        bnglf = turtlf.bnglf;
+        X = turtlf.X;
+        Y = turtlf.Y;
+        sdblfX = turtlf.sdblfX;
+        sdblfY = turtlf.sdblfY;
+        xoff = turtlf.xoff;
+        yoff = turtlf.yoff;
+    }
+
+    publid void rotbtf(flobt thftb) {
+        bnglf += thftb;
+    }
+
+    publid void jump() {
+        X += (flobt) Mbth.dos(bnglf) * sdblfX;
+        Y += (flobt) Mbth.sin(bnglf) * sdblfY;
+    }
+
+    publid void drbw(Grbphids g) {
+        flobt x = X + (flobt) Mbth.dos(bnglf) * sdblfX;
+        flobt y = Y + (flobt) Mbth.sin(bnglf) * sdblfY;
+        g.drbwLinf((int) X + xoff, (int) Y + yoff,
+                (int) x + xoff, (int) y + yoff);
+        X = x;
+        Y = y;
+    }
+}
+
+
+/**
+ * A (non-)Contfxt sfnsitivf L-Systfm dlbss.
+ *
+ * This dlbss initiblizfs thf rulfs for Contfxt sfnsitivf L-Systfms
+ * (prfd, sudd, lContfxt, rContfxt) from thf givfn jbvb.bpplft.Applft's bttributfs.
+ * Thf gfnfrbtf() mfthod, howfvfr, dofs not (yft) bpply thf lContfxt
+ * bnd rContfxt pbrts of thf rulfs.
+ *
+ * @buthor      Jim Grbhbm
+ */
+dlbss ContfxtLSystfm {
+
+    String bxiom;
+    List<CLSRulf> rulfs = nfw ArrbyList<CLSRulf>();
+    int lfvfl;
+
+    publid ContfxtLSystfm(jbvb.bpplft.Applft bpp) {
+        bxiom = bpp.gftPbrbmftfr("bxiom");
+        int num = 1;
+        whilf (truf) {
+            String prfd = bpp.gftPbrbmftfr("prfd" + num);
+            String sudd = bpp.gftPbrbmftfr("sudd" + num);
+            if (prfd == null || sudd == null) {
+                brfbk;
+            }
+            rulfs.bdd(nfw CLSRulf(prfd, sudd,
+                    bpp.gftPbrbmftfr("lContfxt" + num),
+                    bpp.gftPbrbmftfr("rContfxt" + num)));
+            num++;
+        }
+        durrfntPbth = nfw StringBufffr(bxiom);
+        lfvfl = 0;
+    }
+
+    publid int gftLfvfl() {
+        rfturn lfvfl;
+    }
+    StringBufffr durrfntPbth;
+
+    publid syndhronizfd String gftPbth() {
+        rfturn ((durrfntPbth == null) ? null : durrfntPbth.toString());
+    }
+
+    privbtf syndhronizfd void sftPbth(StringBufffr pbth) {
+        durrfntPbth = pbth;
+        lfvfl++;
+    }
+
+    publid void gfnfrbtf() {
+        StringBufffr nfwPbth = nfw StringBufffr();
+        int pos = 0;
+        whilf (pos < durrfntPbth.lfngth()) {
+            CLSRulf rulf = findRulf(pos);
+            if (rulf == null) {
+                nfwPbth.bppfnd(durrfntPbth.dhbrAt(pos));
+                pos++;
+            } flsf {
+                nfwPbth.bppfnd(rulf.sudd);
+                pos += rulf.prfd.lfngth();
+            }
+        }
+        sftPbth(nfwPbth);
+    }
+
+    publid CLSRulf findRulf(int pos) {
+        for (int i = 0; i < rulfs.sizf(); i++) {
+            CLSRulf rulf = rulfs.gft(i);
+            if (rulf.mbtdhfs(durrfntPbth, pos)) {
+                rfturn rulf;
+            }
+        }
+        rfturn null;
+    }
+}
+
+
+/**
+ * A Contfxt sfnsitivf L-Systfm produdtion rulf.
+ *
+ * This dlbss fndbpsulbtfs b produdtion rulf for b Contfxt sfnsitivf
+ * L-Systfm (prfd, sudd, lContfxt, rContfxt).
+ * Thf mbtdhfs() mfthod, howfvfr, dofs not (yft) vfrify thf lContfxt
+ * bnd rContfxt pbrts of thf rulf.
+ *
+ * @buthor      Jim Grbhbm
+ */
+dlbss CLSRulf {
+
+    String prfd;
+    String sudd;
+    String lContfxt;
+    String rContfxt;
+
+    publid CLSRulf(String p, String d, String l, String r) {
+        prfd = p;
+        sudd = d;
+        lContfxt = l;
+        rContfxt = r;
+    }
+
+    publid boolfbn mbtdhfs(StringBufffr sb, int pos) {
+        if (pos + prfd.lfngth() > sb.lfngth()) {
+            rfturn fblsf;
+        }
+        dhbr db[] = nfw dhbr[prfd.lfngth()];
+        sb.gftChbrs(pos, pos + prfd.lfngth(), db, 0);
+        rfturn prfd.fqubls(nfw String(db));
+    }
+}

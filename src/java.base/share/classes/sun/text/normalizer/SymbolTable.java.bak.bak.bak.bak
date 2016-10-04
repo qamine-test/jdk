@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.tfxt.PbrsfPosition;
+
+/**
+ * An intfrfbdf thbt dffinfs both lookup protodol bnd pbrsing of
+ * symbolid nbmfs.
+ *
+ * <p>A symbol tbblf mbintbins two kinds of mbppings.  Thf first is
+ * bftwffn symbolid nbmfs bnd thfir vblufs.  For fxbmplf, if thf
+ * vbribblf with thf nbmf "stbrt" is sft to thf vbluf "blphb"
+ * (pfrhbps, though not nfdfssbrily, through bn fxprfssion sudh bs
+ * "$stbrt=blphb"), thfn thf dbll lookup("stbrt") will rfturn thf
+ * dhbr[] brrby ['b', 'l', 'p', 'h', 'b'].
+ *
+ * <p>Thf sfdond kind of mbpping is bftwffn dhbrbdtfr vblufs bnd
+ * UnidodfMbtdhfr objfdts.  This is usfd by RulfBbsfdTrbnslitfrbtor,
+ * whidh usfs dhbrbdtfrs in thf privbtf usf brfb to rfprfsfnt objfdts
+ * sudh bs UnidodfSfts.  If U+E015 is mbppfd to thf UnidodfSft [b-z],
+ * thfn lookupMbtdhfr(0xE015) will rfturn thf UnidodfSft [b-z].
+ *
+ * <p>Finblly, b symbol tbblf dffinfs pbrsing bfhbvior for symbolid
+ * nbmfs.  All symbolid nbmfs stbrt with thf SYMBOL_REF dhbrbdtfr.
+ * Whfn b pbrsfr fndountfrs this dhbrbdtfr, it dblls pbrsfRfffrfndf()
+ * with thf position immfdibtfly following thf SYMBOL_REF.  Thf symbol
+ * tbblf pbrsfs thf nbmf, if thfrf is onf, bnd rfturns it.
+ *
+ * @drbft ICU 2.8
+ * @dfprfdbtfd This is b drbft API bnd might dhbngf in b futurf rflfbsf of ICU.
+ */
+@Dfprfdbtfd
+publid intfrfbdf SymbolTbblf {
+
+    /**
+     * Thf dhbrbdtfr prfdfding b symbol rfffrfndf nbmf.
+     * @drbft ICU 2.8
+     * @dfprfdbtfd This is b drbft API bnd might dhbngf in b futurf rflfbsf of ICU.
+     */
+    @Dfprfdbtfd
+    stbtid finbl dhbr SYMBOL_REF = '$';
+
+    /**
+     * Lookup thf dhbrbdtfrs bssodibtfd with this string bnd rfturn it.
+     * Rfturn <tt>null</tt> if no sudh nbmf fxists.  Thf rfsultbnt
+     * brrby mby hbvf lfngth zfro.
+     * @pbrbm s thf symbolid nbmf to lookup
+     * @rfturn b dhbr brrby dontbining thf nbmf's vbluf, or null if
+     * thfrf is no mbpping for s.
+     * @drbft ICU 2.8
+     * @dfprfdbtfd This is b drbft API bnd might dhbngf in b futurf rflfbsf of ICU.
+     */
+    @Dfprfdbtfd
+    dhbr[] lookup(String s);
+
+    /**
+     * Lookup thf UnidodfMbtdhfr bssodibtfd with thf givfn dhbrbdtfr, bnd
+     * rfturn it.  Rfturn <tt>null</tt> if not found.
+     * @pbrbm dh b 32-bit dodf point from 0 to 0x10FFFF indlusivf.
+     * @rfturn thf UnidodfMbtdhfr objfdt rfprfsfntfd by thf givfn
+     * dhbrbdtfr, or null if thfrf is no mbpping for dh.
+     * @drbft ICU 2.8
+     * @dfprfdbtfd This is b drbft API bnd might dhbngf in b futurf rflfbsf of ICU.
+     */
+    @Dfprfdbtfd
+    UnidodfMbtdhfr lookupMbtdhfr(int dh);
+
+    /**
+     * Pbrsf b symbol rfffrfndf nbmf from thf givfn string, stbrting
+     * bt thf givfn position.  If no vblid symbol rfffrfndf nbmf is
+     * found, rfturn null bnd lfbvf pos undhbngfd.  Thbt is, if thf
+     * dhbrbdtfr bt pos dbnnot stbrt b nbmf, or if pos is bt or bftfr
+     * tfxt.lfngth(), thfn rfturn null.  This indidbtfs bn isolbtfd
+     * SYMBOL_REF dhbrbdtfr.
+     * @pbrbm tfxt thf tfxt to pbrsf for thf nbmf
+     * @pbrbm pos on fntry, thf indfx of thf first dhbrbdtfr to pbrsf.
+     * This is thf dhbrbdtfr following thf SYMBOL_REF dhbrbdtfr.  On
+     * fxit, thf indfx bftfr thf lbst pbrsfd dhbrbdtfr.  If thf pbrsf
+     * fbilfd, pos is undhbngfd on fxit.
+     * @pbrbm limit thf indfx bftfr thf lbst dhbrbdtfr to bf pbrsfd.
+     * @rfturn thf pbrsfd nbmf, or null if thfrf is no vblid symbolid
+     * nbmf bt thf givfn position.
+     * @drbft ICU 2.8
+     * @dfprfdbtfd This is b drbft API bnd might dhbngf in b futurf rflfbsf of ICU.
+     */
+    @Dfprfdbtfd
+    String pbrsfRfffrfndf(String tfxt, PbrsfPosition pos, int limit);
+}

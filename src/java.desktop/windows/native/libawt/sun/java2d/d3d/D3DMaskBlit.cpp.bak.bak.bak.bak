@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <jlong.h>
+
+#indludf "D3DMbskBlit.h"
+#indludf "D3DRfndfrQufuf.h"
+#indludf "D3DSurfbdfDbtb.h"
+
+/**
+ * REMIND: This mfthod bssumfs thbt thf dimfnsions of thf indoming pixfl
+ *         brrby brf lfss thbn or fqubl to thf dbdhfd blit tfxturf tilf;
+ *         thfsf brf rbthfr frbgilf bssumptions, bnd should bf dlfbnfd up...
+ */
+HRESULT
+D3DMbskBlit_MbskBlit(JNIEnv *fnv, D3DContfxt *d3dd,
+                     jint dstx, jint dsty,
+                     jint width, jint hfight,
+                     void *pPixfls)
+{
+    HRESULT rfs = S_OK;
+    jflobt dx1, dy1, dx2, dy2;
+    jflobt tx1, ty1, tx2, ty2;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskBlit_MbskBlit");
+
+    if (width <= 0 || hfight <= 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DMbskBlit_MbskBlit: invblid dimfnsions");
+        rfturn rfs;
+    }
+
+    RETURN_STATUS_IF_NULL(pPixfls, E_FAIL);
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+    if (FAILED(rfs = d3dd->BfginSdfnf(STATE_TEXTUREOP))) {
+        rfturn rfs;
+    }
+
+    D3DRfsourdf *pBlitTfxRfs;
+    if (FAILED(rfs =
+               d3dd->GftRfsourdfMbnbgfr()->GftBlitTfxturf(&pBlitTfxRfs)))
+    {
+        rfturn rfs;
+    }
+    IDirfdt3DTfxturf9 *pBlitTfx = pBlitTfxRfs->GftTfxturf();
+
+    if (FAILED(rfs = d3dd->SftTfxturf(pBlitTfx, 0))) {
+        rfturn rfs;
+    }
+
+    IDirfdt3DDfvidf9 *pd3dDfvidf = d3dd->Gft3DDfvidf();
+    D3DTEXTUREFILTERTYPE fhint =
+        d3dd->IsTfxturfFiltfringSupportfd(D3DTEXF_NONE) ?
+            D3DTEXF_NONE : D3DTEXF_POINT;
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MAGFILTER, fhint);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MINFILTER, fhint);
+
+    // dopy systfm mfmory IntArgbPrf surfbdf into dbdhfd tfxturf
+    if (FAILED(rfs = d3dd->UplobdTilfToTfxturf(pBlitTfxRfs, pPixfls,
+                                               0, 0, 0, 0,
+                                               width, hfight,
+                                               width*4,
+                                               TILEFMT_4BYTE_ARGB_PRE)))
+    {
+        rfturn rfs;
+    }
+
+    dx1 = (jflobt)dstx;
+    dy1 = (jflobt)dsty;
+    dx2 = dx1 + width;
+    dy2 = dy1 + hfight;
+
+    tx1 = 0.0f;
+    ty1 = 0.0f;
+    tx2 = ((jflobt)width) / D3DC_BLIT_TILE_SIZE;
+    ty2 = ((jflobt)hfight) / D3DC_BLIT_TILE_SIZE;
+
+    // rfndfr dbdhfd tfxturf to thf dfstinbtion surfbdf
+    rfs = d3dd->pVCbdhfr->DrbwTfxturf(dx1, dy1, dx2, dy2,
+                                      tx1, ty1, tx2, ty2);
+    rfs = d3dd->pVCbdhfr->Rfndfr();
+
+    rfturn rfs;
+}

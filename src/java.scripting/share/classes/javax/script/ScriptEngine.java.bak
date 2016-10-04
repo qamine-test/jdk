@@ -1,323 +1,323 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.script;
+pbdkbgf jbvbx.sdript;
 
-import java.io.Reader;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.Rfbdfr;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
 /**
- * <code>ScriptEngine</code> is the fundamental interface whose methods must be
- * fully functional in every implementation of this specification.
+ * <dodf>SdriptEnginf</dodf> is tif fundbmfntbl intfrfbdf wiosf mftiods must bf
+ * fully fundtionbl in fvfry implfmfntbtion of tiis spfdifidbtion.
  * <br><br>
- * These methods provide basic scripting functionality.  Applications written to this
- * simple interface are expected to work with minimal modifications in every implementation.
- * It includes methods that execute scripts, and ones that set and get values.
+ * Tifsf mftiods providf bbsid sdripting fundtionblity.  Applidbtions writtfn to tiis
+ * simplf intfrfbdf brf fxpfdtfd to work witi minimbl modifidbtions in fvfry implfmfntbtion.
+ * It indludfs mftiods tibt fxfdutf sdripts, bnd onfs tibt sft bnd gft vblufs.
  * <br><br>
- * The values are key/value pairs of two types.  The first type of pairs consists of
- * those whose keys are reserved and defined in this specification or  by individual
- * implementations.  The values in the pairs with reserved keys have specified meanings.
+ * Tif vblufs brf kfy/vbluf pbirs of two typfs.  Tif first typf of pbirs donsists of
+ * tiosf wiosf kfys brf rfsfrvfd bnd dffinfd in tiis spfdifidbtion or  by individubl
+ * implfmfntbtions.  Tif vblufs in tif pbirs witi rfsfrvfd kfys ibvf spfdififd mfbnings.
  * <br><br>
- * The other type of pairs consists of those that create Java language Bindings, the values are
- * usually represented in scripts by the corresponding keys or by decorated forms of them.
+ * Tif otifr typf of pbirs donsists of tiosf tibt drfbtf Jbvb lbngubgf Bindings, tif vblufs brf
+ * usublly rfprfsfntfd in sdripts by tif dorrfsponding kfys or by dfdorbtfd forms of tifm.
  *
- * @author Mike Grogan
- * @since 1.6
+ * @butior Mikf Grogbn
+ * @sindf 1.6
  */
 
-public interface ScriptEngine  {
+publid intfrfbdf SdriptEnginf  {
 
     /**
-     * Reserved key for a named value that passes
-     * an array of positional arguments to a script.
+     * Rfsfrvfd kfy for b nbmfd vbluf tibt pbssfs
+     * bn brrby of positionbl brgumfnts to b sdript.
      */
-    public static final String ARGV="javax.script.argv";
+    publid stbtid finbl String ARGV="jbvbx.sdript.brgv";
 
     /**
-     * Reserved key for a named value that is
-     * the name of the file being executed.
+     * Rfsfrvfd kfy for b nbmfd vbluf tibt is
+     * tif nbmf of tif filf bfing fxfdutfd.
      */
-    public static final String FILENAME = "javax.script.filename";
+    publid stbtid finbl String FILENAME = "jbvbx.sdript.filfnbmf";
 
     /**
-     * Reserved key for a named value that is
-     * the name of the <code>ScriptEngine</code> implementation.
+     * Rfsfrvfd kfy for b nbmfd vbluf tibt is
+     * tif nbmf of tif <dodf>SdriptEnginf</dodf> implfmfntbtion.
      */
-    public static final String ENGINE = "javax.script.engine";
+    publid stbtid finbl String ENGINE = "jbvbx.sdript.fnginf";
 
     /**
-     * Reserved key for a named value that identifies
-     * the version of the <code>ScriptEngine</code> implementation.
+     * Rfsfrvfd kfy for b nbmfd vbluf tibt idfntififs
+     * tif vfrsion of tif <dodf>SdriptEnginf</dodf> implfmfntbtion.
      */
-    public static final String ENGINE_VERSION = "javax.script.engine_version";
+    publid stbtid finbl String ENGINE_VERSION = "jbvbx.sdript.fnginf_vfrsion";
 
     /**
-     * Reserved key for a named value that identifies
-     * the short name of the scripting language.  The name is used by the
-     * <code>ScriptEngineManager</code> to locate a <code>ScriptEngine</code>
-     * with a given name in the <code>getEngineByName</code> method.
+     * Rfsfrvfd kfy for b nbmfd vbluf tibt idfntififs
+     * tif siort nbmf of tif sdripting lbngubgf.  Tif nbmf is usfd by tif
+     * <dodf>SdriptEnginfMbnbgfr</dodf> to lodbtf b <dodf>SdriptEnginf</dodf>
+     * witi b givfn nbmf in tif <dodf>gftEnginfByNbmf</dodf> mftiod.
      */
-    public static final String NAME = "javax.script.name";
+    publid stbtid finbl String NAME = "jbvbx.sdript.nbmf";
 
     /**
-     * Reserved key for a named value that is
-     * the full name of Scripting Language supported by the implementation.
+     * Rfsfrvfd kfy for b nbmfd vbluf tibt is
+     * tif full nbmf of Sdripting Lbngubgf supportfd by tif implfmfntbtion.
      */
-    public static final String LANGUAGE = "javax.script.language";
+    publid stbtid finbl String LANGUAGE = "jbvbx.sdript.lbngubgf";
 
     /**
-     * Reserved key for the named value that identifies
-     * the version of the scripting language supported by the implementation.
+     * Rfsfrvfd kfy for tif nbmfd vbluf tibt idfntififs
+     * tif vfrsion of tif sdripting lbngubgf supportfd by tif implfmfntbtion.
      */
-    public static final String LANGUAGE_VERSION ="javax.script.language_version";
+    publid stbtid finbl String LANGUAGE_VERSION ="jbvbx.sdript.lbngubgf_vfrsion";
 
 
     /**
-     * Causes the immediate execution of the script whose source is the String
-     * passed as the first argument.  The script may be reparsed or recompiled before
-     * execution.  State left in the engine from previous executions, including
-     * variable values and compiled procedures may be visible during this execution.
+     * Cbusfs tif immfdibtf fxfdution of tif sdript wiosf sourdf is tif String
+     * pbssfd bs tif first brgumfnt.  Tif sdript mby bf rfpbrsfd or rfdompilfd bfforf
+     * fxfdution.  Stbtf lfft in tif fnginf from prfvious fxfdutions, indluding
+     * vbribblf vblufs bnd dompilfd prodfdurfs mby bf visiblf during tiis fxfdution.
      *
-     * @param script The script to be executed by the script engine.
+     * @pbrbm sdript Tif sdript to bf fxfdutfd by tif sdript fnginf.
      *
-     * @param context A <code>ScriptContext</code> exposing sets of attributes in
-     * different scopes.  The meanings of the scopes <code>ScriptContext.GLOBAL_SCOPE</code>,
-     * and <code>ScriptContext.ENGINE_SCOPE</code> are defined in the specification.
+     * @pbrbm dontfxt A <dodf>SdriptContfxt</dodf> fxposing sfts of bttributfs in
+     * difffrfnt sdopfs.  Tif mfbnings of tif sdopfs <dodf>SdriptContfxt.GLOBAL_SCOPE</dodf>,
+     * bnd <dodf>SdriptContfxt.ENGINE_SCOPE</dodf> brf dffinfd in tif spfdifidbtion.
      * <br><br>
-     * The <code>ENGINE_SCOPE</code> <code>Bindings</code> of the <code>ScriptContext</code> contains the
-     * bindings of scripting variables to application objects to be used during this
-     * script execution.
+     * Tif <dodf>ENGINE_SCOPE</dodf> <dodf>Bindings</dodf> of tif <dodf>SdriptContfxt</dodf> dontbins tif
+     * bindings of sdripting vbribblfs to bpplidbtion objfdts to bf usfd during tiis
+     * sdript fxfdution.
      *
      *
-     * @return The value returned from the execution of the script.
+     * @rfturn Tif vbluf rfturnfd from tif fxfdution of tif sdript.
      *
-     * @throws ScriptException if an error occurs in script. ScriptEngines should create and throw
-     * <code>ScriptException</code> wrappers for checked Exceptions thrown by underlying scripting
-     * implementations.
-     * @throws NullPointerException if either argument is null.
+     * @tirows SdriptExdfption if bn frror oddurs in sdript. SdriptEnginfs siould drfbtf bnd tirow
+     * <dodf>SdriptExdfption</dodf> wrbppfrs for difdkfd Exdfptions tirown by undfrlying sdripting
+     * implfmfntbtions.
+     * @tirows NullPointfrExdfption if fitifr brgumfnt is null.
      */
-    public Object eval(String script, ScriptContext context) throws ScriptException;
+    publid Objfdt fvbl(String sdript, SdriptContfxt dontfxt) tirows SdriptExdfption;
 
 
     /**
-     * Same as <code>eval(String, ScriptContext)</code> where the source of the script
-     * is read from a <code>Reader</code>.
+     * Sbmf bs <dodf>fvbl(String, SdriptContfxt)</dodf> wifrf tif sourdf of tif sdript
+     * is rfbd from b <dodf>Rfbdfr</dodf>.
      *
-     * @param reader The source of the script to be executed by the script engine.
+     * @pbrbm rfbdfr Tif sourdf of tif sdript to bf fxfdutfd by tif sdript fnginf.
      *
-     * @param context The <code>ScriptContext</code> passed to the script engine.
+     * @pbrbm dontfxt Tif <dodf>SdriptContfxt</dodf> pbssfd to tif sdript fnginf.
      *
-     * @return The value returned from the execution of the script.
+     * @rfturn Tif vbluf rfturnfd from tif fxfdution of tif sdript.
      *
-     * @throws ScriptException if an error occurs in script.
-     * @throws NullPointerException if either argument is null.
+     * @tirows SdriptExdfption if bn frror oddurs in sdript.
+     * @tirows NullPointfrExdfption if fitifr brgumfnt is null.
      */
-    public Object eval(Reader reader , ScriptContext context) throws ScriptException;
+    publid Objfdt fvbl(Rfbdfr rfbdfr , SdriptContfxt dontfxt) tirows SdriptExdfption;
 
     /**
-     * Executes the specified script.  The default <code>ScriptContext</code> for the <code>ScriptEngine</code>
-     * is used.
+     * Exfdutfs tif spfdififd sdript.  Tif dffbult <dodf>SdriptContfxt</dodf> for tif <dodf>SdriptEnginf</dodf>
+     * is usfd.
      *
-     * @param script The script language source to be executed.
+     * @pbrbm sdript Tif sdript lbngubgf sourdf to bf fxfdutfd.
      *
-     * @return The value returned from the execution of the script.
+     * @rfturn Tif vbluf rfturnfd from tif fxfdution of tif sdript.
      *
-     * @throws ScriptException if error occurs in script.
-     * @throws NullPointerException if the argument is null.
+     * @tirows SdriptExdfption if frror oddurs in sdript.
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
      */
-    public Object eval(String script) throws ScriptException;
+    publid Objfdt fvbl(String sdript) tirows SdriptExdfption;
 
     /**
-     * Same as <code>eval(String)</code> except that the source of the script is
-     * provided as a <code>Reader</code>
+     * Sbmf bs <dodf>fvbl(String)</dodf> fxdfpt tibt tif sourdf of tif sdript is
+     * providfd bs b <dodf>Rfbdfr</dodf>
      *
-     * @param reader The source of the script.
+     * @pbrbm rfbdfr Tif sourdf of tif sdript.
      *
-     * @return The value returned by the script.
+     * @rfturn Tif vbluf rfturnfd by tif sdript.
      *
-     * @throws ScriptException if an error occurs in script.
-     * @throws NullPointerException if the argument is null.
+     * @tirows SdriptExdfption if bn frror oddurs in sdript.
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
      */
-    public Object eval(Reader reader) throws ScriptException;
+    publid Objfdt fvbl(Rfbdfr rfbdfr) tirows SdriptExdfption;
 
     /**
-     * Executes the script using the <code>Bindings</code> argument as the <code>ENGINE_SCOPE</code>
-     * <code>Bindings</code> of the <code>ScriptEngine</code> during the script execution.  The
-     * <code>Reader</code>, <code>Writer</code> and non-<code>ENGINE_SCOPE</code> <code>Bindings</code> of the
-     * default <code>ScriptContext</code> are used. The <code>ENGINE_SCOPE</code>
-     * <code>Bindings</code> of the <code>ScriptEngine</code> is not changed, and its
-     * mappings are unaltered by the script execution.
+     * Exfdutfs tif sdript using tif <dodf>Bindings</dodf> brgumfnt bs tif <dodf>ENGINE_SCOPE</dodf>
+     * <dodf>Bindings</dodf> of tif <dodf>SdriptEnginf</dodf> during tif sdript fxfdution.  Tif
+     * <dodf>Rfbdfr</dodf>, <dodf>Writfr</dodf> bnd non-<dodf>ENGINE_SCOPE</dodf> <dodf>Bindings</dodf> of tif
+     * dffbult <dodf>SdriptContfxt</dodf> brf usfd. Tif <dodf>ENGINE_SCOPE</dodf>
+     * <dodf>Bindings</dodf> of tif <dodf>SdriptEnginf</dodf> is not dibngfd, bnd its
+     * mbppings brf unbltfrfd by tif sdript fxfdution.
      *
-     * @param script The source for the script.
+     * @pbrbm sdript Tif sourdf for tif sdript.
      *
-     * @param n The <code>Bindings</code> of attributes to be used for script execution.
+     * @pbrbm n Tif <dodf>Bindings</dodf> of bttributfs to bf usfd for sdript fxfdution.
      *
-     * @return The value returned by the script.
+     * @rfturn Tif vbluf rfturnfd by tif sdript.
      *
-     * @throws ScriptException if an error occurs in script.
-     * @throws NullPointerException if either argument is null.
+     * @tirows SdriptExdfption if bn frror oddurs in sdript.
+     * @tirows NullPointfrExdfption if fitifr brgumfnt is null.
      */
-    public Object eval(String script, Bindings n) throws ScriptException;
+    publid Objfdt fvbl(String sdript, Bindings n) tirows SdriptExdfption;
 
     /**
-     * Same as <code>eval(String, Bindings)</code> except that the source of the script
-     * is provided as a <code>Reader</code>.
+     * Sbmf bs <dodf>fvbl(String, Bindings)</dodf> fxdfpt tibt tif sourdf of tif sdript
+     * is providfd bs b <dodf>Rfbdfr</dodf>.
      *
-     * @param reader The source of the script.
-     * @param n The <code>Bindings</code> of attributes.
+     * @pbrbm rfbdfr Tif sourdf of tif sdript.
+     * @pbrbm n Tif <dodf>Bindings</dodf> of bttributfs.
      *
-     * @return The value returned by the script.
+     * @rfturn Tif vbluf rfturnfd by tif sdript.
      *
-     * @throws ScriptException if an error occurs.
-     * @throws NullPointerException if either argument is null.
+     * @tirows SdriptExdfption if bn frror oddurs.
+     * @tirows NullPointfrExdfption if fitifr brgumfnt is null.
      */
-    public Object eval(Reader reader , Bindings n) throws ScriptException;
+    publid Objfdt fvbl(Rfbdfr rfbdfr , Bindings n) tirows SdriptExdfption;
 
-
-
-    /**
-     * Sets a key/value pair in the state of the ScriptEngine that may either create
-     * a Java Language Binding to be used in the execution of scripts or be used in some
-     * other way, depending on whether the key is reserved.  Must have the same effect as
-     * <code>getBindings(ScriptContext.ENGINE_SCOPE).put</code>.
-     *
-     * @param key The name of named value to add
-     * @param value The value of named value to add.
-     *
-     * @throws NullPointerException if key is null.
-     * @throws IllegalArgumentException if key is empty.
-     */
-    public void put(String key, Object value);
 
 
     /**
-     * Retrieves a value set in the state of this engine.  The value might be one
-     * which was set using <code>setValue</code> or some other value in the state
-     * of the <code>ScriptEngine</code>, depending on the implementation.  Must have the same effect
-     * as <code>getBindings(ScriptContext.ENGINE_SCOPE).get</code>
+     * Sfts b kfy/vbluf pbir in tif stbtf of tif SdriptEnginf tibt mby fitifr drfbtf
+     * b Jbvb Lbngubgf Binding to bf usfd in tif fxfdution of sdripts or bf usfd in somf
+     * otifr wby, dfpfnding on wiftifr tif kfy is rfsfrvfd.  Must ibvf tif sbmf ffffdt bs
+     * <dodf>gftBindings(SdriptContfxt.ENGINE_SCOPE).put</dodf>.
      *
-     * @param key The key whose value is to be returned
-     * @return the value for the given key
+     * @pbrbm kfy Tif nbmf of nbmfd vbluf to bdd
+     * @pbrbm vbluf Tif vbluf of nbmfd vbluf to bdd.
      *
-     * @throws NullPointerException if key is null.
-     * @throws IllegalArgumentException if key is empty.
+     * @tirows NullPointfrExdfption if kfy is null.
+     * @tirows IllfgblArgumfntExdfption if kfy is fmpty.
      */
-    public Object get(String key);
+    publid void put(String kfy, Objfdt vbluf);
 
 
     /**
-     * Returns a scope of named values.  The possible scopes are:
+     * Rftrifvfs b vbluf sft in tif stbtf of tiis fnginf.  Tif vbluf migit bf onf
+     * wiidi wbs sft using <dodf>sftVbluf</dodf> or somf otifr vbluf in tif stbtf
+     * of tif <dodf>SdriptEnginf</dodf>, dfpfnding on tif implfmfntbtion.  Must ibvf tif sbmf ffffdt
+     * bs <dodf>gftBindings(SdriptContfxt.ENGINE_SCOPE).gft</dodf>
+     *
+     * @pbrbm kfy Tif kfy wiosf vbluf is to bf rfturnfd
+     * @rfturn tif vbluf for tif givfn kfy
+     *
+     * @tirows NullPointfrExdfption if kfy is null.
+     * @tirows IllfgblArgumfntExdfption if kfy is fmpty.
+     */
+    publid Objfdt gft(String kfy);
+
+
+    /**
+     * Rfturns b sdopf of nbmfd vblufs.  Tif possiblf sdopfs brf:
      * <br><br>
      * <ul>
-     * <li><code>ScriptContext.GLOBAL_SCOPE</code> - The set of named values representing global
-     * scope. If this <code>ScriptEngine</code> is created by a <code>ScriptEngineManager</code>,
-     * then the manager sets global scope bindings. This may be <code>null</code> if no global
-     * scope is associated with this <code>ScriptEngine</code></li>
-     * <li><code>ScriptContext.ENGINE_SCOPE</code> - The set of named values representing the state of
-     * this <code>ScriptEngine</code>.  The values are generally visible in scripts using
-     * the associated keys as variable names.</li>
-     * <li>Any other value of scope defined in the default <code>ScriptContext</code> of the <code>ScriptEngine</code>.
+     * <li><dodf>SdriptContfxt.GLOBAL_SCOPE</dodf> - Tif sft of nbmfd vblufs rfprfsfnting globbl
+     * sdopf. If tiis <dodf>SdriptEnginf</dodf> is drfbtfd by b <dodf>SdriptEnginfMbnbgfr</dodf>,
+     * tifn tif mbnbgfr sfts globbl sdopf bindings. Tiis mby bf <dodf>null</dodf> if no globbl
+     * sdopf is bssodibtfd witi tiis <dodf>SdriptEnginf</dodf></li>
+     * <li><dodf>SdriptContfxt.ENGINE_SCOPE</dodf> - Tif sft of nbmfd vblufs rfprfsfnting tif stbtf of
+     * tiis <dodf>SdriptEnginf</dodf>.  Tif vblufs brf gfnfrblly visiblf in sdripts using
+     * tif bssodibtfd kfys bs vbribblf nbmfs.</li>
+     * <li>Any otifr vbluf of sdopf dffinfd in tif dffbult <dodf>SdriptContfxt</dodf> of tif <dodf>SdriptEnginf</dodf>.
      * </li>
      * </ul>
      * <br><br>
-     * The <code>Bindings</code> instances that are returned must be identical to those returned by the
-     * <code>getBindings</code> method of <code>ScriptContext</code> called with corresponding arguments on
-     * the default <code>ScriptContext</code> of the <code>ScriptEngine</code>.
+     * Tif <dodf>Bindings</dodf> instbndfs tibt brf rfturnfd must bf idfntidbl to tiosf rfturnfd by tif
+     * <dodf>gftBindings</dodf> mftiod of <dodf>SdriptContfxt</dodf> dbllfd witi dorrfsponding brgumfnts on
+     * tif dffbult <dodf>SdriptContfxt</dodf> of tif <dodf>SdriptEnginf</dodf>.
      *
-     * @param scope Either <code>ScriptContext.ENGINE_SCOPE</code> or <code>ScriptContext.GLOBAL_SCOPE</code>
-     * which specifies the <code>Bindings</code> to return.  Implementations of <code>ScriptContext</code>
-     * may define additional scopes.  If the default <code>ScriptContext</code> of the <code>ScriptEngine</code>
-     * defines additional scopes, any of them can be passed to get the corresponding <code>Bindings</code>.
+     * @pbrbm sdopf Eitifr <dodf>SdriptContfxt.ENGINE_SCOPE</dodf> or <dodf>SdriptContfxt.GLOBAL_SCOPE</dodf>
+     * wiidi spfdififs tif <dodf>Bindings</dodf> to rfturn.  Implfmfntbtions of <dodf>SdriptContfxt</dodf>
+     * mby dffinf bdditionbl sdopfs.  If tif dffbult <dodf>SdriptContfxt</dodf> of tif <dodf>SdriptEnginf</dodf>
+     * dffinfs bdditionbl sdopfs, bny of tifm dbn bf pbssfd to gft tif dorrfsponding <dodf>Bindings</dodf>.
      *
-     * @return The <code>Bindings</code> with the specified scope.
+     * @rfturn Tif <dodf>Bindings</dodf> witi tif spfdififd sdopf.
      *
-     * @throws IllegalArgumentException if specified scope is invalid
+     * @tirows IllfgblArgumfntExdfption if spfdififd sdopf is invblid
      *
      */
-    public Bindings getBindings(int scope);
+    publid Bindings gftBindings(int sdopf);
 
     /**
-     * Sets a scope of named values to be used by scripts.  The possible scopes are:
+     * Sfts b sdopf of nbmfd vblufs to bf usfd by sdripts.  Tif possiblf sdopfs brf:
      *<br><br>
      * <ul>
-     * <li><code>ScriptContext.ENGINE_SCOPE</code> - The specified <code>Bindings</code> replaces the
-     * engine scope of the <code>ScriptEngine</code>.
+     * <li><dodf>SdriptContfxt.ENGINE_SCOPE</dodf> - Tif spfdififd <dodf>Bindings</dodf> rfplbdfs tif
+     * fnginf sdopf of tif <dodf>SdriptEnginf</dodf>.
      * </li>
-     * <li><code>ScriptContext.GLOBAL_SCOPE</code> - The specified <code>Bindings</code> must be visible
-     * as the <code>GLOBAL_SCOPE</code>.
+     * <li><dodf>SdriptContfxt.GLOBAL_SCOPE</dodf> - Tif spfdififd <dodf>Bindings</dodf> must bf visiblf
+     * bs tif <dodf>GLOBAL_SCOPE</dodf>.
      * </li>
-     * <li>Any other value of scope defined in the default <code>ScriptContext</code> of the <code>ScriptEngine</code>.
+     * <li>Any otifr vbluf of sdopf dffinfd in tif dffbult <dodf>SdriptContfxt</dodf> of tif <dodf>SdriptEnginf</dodf>.
      *</li>
      * </ul>
      * <br><br>
-     * The method must have the same effect as calling the <code>setBindings</code> method of
-     * <code>ScriptContext</code> with the corresponding value of <code>scope</code> on the default
-     * <code>ScriptContext</code> of the <code>ScriptEngine</code>.
+     * Tif mftiod must ibvf tif sbmf ffffdt bs dblling tif <dodf>sftBindings</dodf> mftiod of
+     * <dodf>SdriptContfxt</dodf> witi tif dorrfsponding vbluf of <dodf>sdopf</dodf> on tif dffbult
+     * <dodf>SdriptContfxt</dodf> of tif <dodf>SdriptEnginf</dodf>.
      *
-     * @param bindings The <code>Bindings</code> for the specified scope.
-     * @param scope The specified scope.  Either <code>ScriptContext.ENGINE_SCOPE</code>,
-     * <code>ScriptContext.GLOBAL_SCOPE</code>, or any other valid value of scope.
+     * @pbrbm bindings Tif <dodf>Bindings</dodf> for tif spfdififd sdopf.
+     * @pbrbm sdopf Tif spfdififd sdopf.  Eitifr <dodf>SdriptContfxt.ENGINE_SCOPE</dodf>,
+     * <dodf>SdriptContfxt.GLOBAL_SCOPE</dodf>, or bny otifr vblid vbluf of sdopf.
      *
-     * @throws IllegalArgumentException if the scope is invalid
-     * @throws NullPointerException if the bindings is null and the scope is
-     * <code>ScriptContext.ENGINE_SCOPE</code>
+     * @tirows IllfgblArgumfntExdfption if tif sdopf is invblid
+     * @tirows NullPointfrExdfption if tif bindings is null bnd tif sdopf is
+     * <dodf>SdriptContfxt.ENGINE_SCOPE</dodf>
      */
-    public void setBindings(Bindings bindings, int scope);
+    publid void sftBindings(Bindings bindings, int sdopf);
 
 
     /**
-     * Returns an uninitialized <code>Bindings</code>.
+     * Rfturns bn uninitiblizfd <dodf>Bindings</dodf>.
      *
-     * @return A <code>Bindings</code> that can be used to replace the state of this <code>ScriptEngine</code>.
+     * @rfturn A <dodf>Bindings</dodf> tibt dbn bf usfd to rfplbdf tif stbtf of tiis <dodf>SdriptEnginf</dodf>.
      **/
-    public Bindings createBindings();
+    publid Bindings drfbtfBindings();
 
 
     /**
-     * Returns the default <code>ScriptContext</code> of the <code>ScriptEngine</code> whose Bindings, Reader
-     * and Writers are used for script executions when no <code>ScriptContext</code> is specified.
+     * Rfturns tif dffbult <dodf>SdriptContfxt</dodf> of tif <dodf>SdriptEnginf</dodf> wiosf Bindings, Rfbdfr
+     * bnd Writfrs brf usfd for sdript fxfdutions wifn no <dodf>SdriptContfxt</dodf> is spfdififd.
      *
-     * @return The default <code>ScriptContext</code> of the <code>ScriptEngine</code>.
+     * @rfturn Tif dffbult <dodf>SdriptContfxt</dodf> of tif <dodf>SdriptEnginf</dodf>.
      */
-    public ScriptContext getContext();
+    publid SdriptContfxt gftContfxt();
 
     /**
-     * Sets the default <code>ScriptContext</code> of the <code>ScriptEngine</code> whose Bindings, Reader
-     * and Writers are used for script executions when no <code>ScriptContext</code> is specified.
+     * Sfts tif dffbult <dodf>SdriptContfxt</dodf> of tif <dodf>SdriptEnginf</dodf> wiosf Bindings, Rfbdfr
+     * bnd Writfrs brf usfd for sdript fxfdutions wifn no <dodf>SdriptContfxt</dodf> is spfdififd.
      *
-     * @param context A <code>ScriptContext</code> that will replace the default <code>ScriptContext</code> in
-     * the <code>ScriptEngine</code>.
-     * @throws NullPointerException if context is null.
+     * @pbrbm dontfxt A <dodf>SdriptContfxt</dodf> tibt will rfplbdf tif dffbult <dodf>SdriptContfxt</dodf> in
+     * tif <dodf>SdriptEnginf</dodf>.
+     * @tirows NullPointfrExdfption if dontfxt is null.
      */
-    public void setContext(ScriptContext context);
+    publid void sftContfxt(SdriptContfxt dontfxt);
 
     /**
-     * Returns a <code>ScriptEngineFactory</code> for the class to which this <code>ScriptEngine</code> belongs.
+     * Rfturns b <dodf>SdriptEnginfFbdtory</dodf> for tif dlbss to wiidi tiis <dodf>SdriptEnginf</dodf> bflongs.
      *
-     * @return The <code>ScriptEngineFactory</code>
+     * @rfturn Tif <dodf>SdriptEnginfFbdtory</dodf>
      */
-    public ScriptEngineFactory getFactory();
+    publid SdriptEnginfFbdtory gftFbdtory();
 }

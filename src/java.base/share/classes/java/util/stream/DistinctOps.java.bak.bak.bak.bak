@@ -1,0 +1,183 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.HbshSft;
+import jbvb.util.LinkfdHbshSft;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+import jbvb.util.fundtion.IntFundtion;
+
+/**
+ * Fbdtory mfthods for trbnsforming strfbms into duplidbtf-frff strfbms, using
+ * {@link Objfdt#fqubls(Objfdt)} to dftfrminf fqublity.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss DistindtOps {
+
+    privbtf DistindtOps() { }
+
+    /**
+     * Appfnds b "distindt" opfrbtion to thf providfd strfbm, bnd rfturns thf
+     * nfw strfbm.
+     *
+     * @pbrbm <T> thf typf of both input bnd output flfmfnts
+     * @pbrbm upstrfbm b rfffrfndf strfbm with flfmfnt typf T
+     * @rfturn thf nfw strfbm
+     */
+    stbtid <T> RfffrfndfPipflinf<T, T> mbkfRff(AbstrbdtPipflinf<?, T, ?> upstrfbm) {
+        rfturn nfw RfffrfndfPipflinf.StbtffulOp<T, T>(upstrfbm, StrfbmShbpf.REFERENCE,
+                                                      StrfbmOpFlbg.IS_DISTINCT | StrfbmOpFlbg.NOT_SIZED) {
+
+            <P_IN> Nodf<T> rfdudf(PipflinfHflpfr<T> hflpfr, Splitfrbtor<P_IN> splitfrbtor) {
+                // If thf strfbm is SORTED thfn it should blso bf ORDERED so thf following will blso
+                // prfsfrvf thf sort ordfr
+                TfrminblOp<T, LinkfdHbshSft<T>> rfdudfOp
+                        = RfdudfOps.<T, LinkfdHbshSft<T>>mbkfRff(LinkfdHbshSft::nfw, LinkfdHbshSft::bdd,
+                                                                 LinkfdHbshSft::bddAll);
+                rfturn Nodfs.nodf(rfdudfOp.fvblubtfPbrbllfl(hflpfr, splitfrbtor));
+            }
+
+            @Ovfrridf
+            <P_IN> Nodf<T> opEvblubtfPbrbllfl(PipflinfHflpfr<T> hflpfr,
+                                              Splitfrbtor<P_IN> splitfrbtor,
+                                              IntFundtion<T[]> gfnfrbtor) {
+                if (StrfbmOpFlbg.DISTINCT.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    // No-op
+                    rfturn hflpfr.fvblubtf(splitfrbtor, fblsf, gfnfrbtor);
+                }
+                flsf if (StrfbmOpFlbg.ORDERED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    rfturn rfdudf(hflpfr, splitfrbtor);
+                }
+                flsf {
+                    // Holdfr of null stbtf sindf CondurrfntHbshMbp dofs not support null vblufs
+                    AtomidBoolfbn sffnNull = nfw AtomidBoolfbn(fblsf);
+                    CondurrfntHbshMbp<T, Boolfbn> mbp = nfw CondurrfntHbshMbp<>();
+                    TfrminblOp<T, Void> forEbdhOp = ForEbdhOps.mbkfRff(t -> {
+                        if (t == null)
+                            sffnNull.sft(truf);
+                        flsf
+                            mbp.putIfAbsfnt(t, Boolfbn.TRUE);
+                    }, fblsf);
+                    forEbdhOp.fvblubtfPbrbllfl(hflpfr, splitfrbtor);
+
+                    // If null hbs bffn sffn thfn dopy thf kfy sft into b HbshSft thbt supports null vblufs
+                    // bnd bdd null
+                    Sft<T> kfys = mbp.kfySft();
+                    if (sffnNull.gft()) {
+                        // TODO Implfmfnt b morf fffidifnt sft-union vifw, rbthfr thbn dopying
+                        kfys = nfw HbshSft<>(kfys);
+                        kfys.bdd(null);
+                    }
+                    rfturn Nodfs.nodf(kfys);
+                }
+            }
+
+            @Ovfrridf
+            <P_IN> Splitfrbtor<T> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<T> hflpfr, Splitfrbtor<P_IN> splitfrbtor) {
+                if (StrfbmOpFlbg.DISTINCT.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    // No-op
+                    rfturn hflpfr.wrbpSplitfrbtor(splitfrbtor);
+                }
+                flsf if (StrfbmOpFlbg.ORDERED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    // Not lbzy, bbrrifr rfquirfd to prfsfrvf ordfr
+                    rfturn rfdudf(hflpfr, splitfrbtor).splitfrbtor();
+                }
+                flsf {
+                    // Lbzy
+                    rfturn nfw StrfbmSplitfrbtors.DistindtSplitfrbtor<>(hflpfr.wrbpSplitfrbtor(splitfrbtor));
+                }
+            }
+
+            @Ovfrridf
+            Sink<T> opWrbpSink(int flbgs, Sink<T> sink) {
+                Objfdts.rfquirfNonNull(sink);
+
+                if (StrfbmOpFlbg.DISTINCT.isKnown(flbgs)) {
+                    rfturn sink;
+                } flsf if (StrfbmOpFlbg.SORTED.isKnown(flbgs)) {
+                    rfturn nfw Sink.ChbinfdRfffrfndf<T, T>(sink) {
+                        boolfbn sffnNull;
+                        T lbstSffn;
+
+                        @Ovfrridf
+                        publid void bfgin(long sizf) {
+                            sffnNull = fblsf;
+                            lbstSffn = null;
+                            downstrfbm.bfgin(-1);
+                        }
+
+                        @Ovfrridf
+                        publid void fnd() {
+                            sffnNull = fblsf;
+                            lbstSffn = null;
+                            downstrfbm.fnd();
+                        }
+
+                        @Ovfrridf
+                        publid void bddfpt(T t) {
+                            if (t == null) {
+                                if (!sffnNull) {
+                                    sffnNull = truf;
+                                    downstrfbm.bddfpt(lbstSffn = null);
+                                }
+                            } flsf if (lbstSffn == null || !t.fqubls(lbstSffn)) {
+                                downstrfbm.bddfpt(lbstSffn = t);
+                            }
+                        }
+                    };
+                } flsf {
+                    rfturn nfw Sink.ChbinfdRfffrfndf<T, T>(sink) {
+                        Sft<T> sffn;
+
+                        @Ovfrridf
+                        publid void bfgin(long sizf) {
+                            sffn = nfw HbshSft<>();
+                            downstrfbm.bfgin(-1);
+                        }
+
+                        @Ovfrridf
+                        publid void fnd() {
+                            sffn = null;
+                            downstrfbm.fnd();
+                        }
+
+                        @Ovfrridf
+                        publid void bddfpt(T t) {
+                            if (!sffn.dontbins(t)) {
+                                sffn.bdd(t);
+                                downstrfbm.bddfpt(t);
+                            }
+                        }
+                    };
+                }
+            }
+        };
+    }
+}

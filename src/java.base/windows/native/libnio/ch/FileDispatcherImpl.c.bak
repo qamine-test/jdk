@@ -1,484 +1,484 @@
 /*
- * Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windows.h>
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
-#include "sun_nio_ch_FileDispatcherImpl.h"
-#include <io.h>
-#include "nio.h"
-#include "nio_util.h"
-#include "jlong.h"
+#indludf <windows.i>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "sun_nio_di_FilfDispbtdifrImpl.i"
+#indludf <io.i>
+#indludf "nio.i"
+#indludf "nio_util.i"
+#indludf "jlong.i"
 
 
 /**************************************************************
- * FileDispatcherImpl.c
+ * FilfDispbtdifrImpl.d
  */
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_read0(JNIEnv *env, jclass clazz, jobject fdo,
-                                      jlong address, jint len)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_rfbd0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                      jlong bddrfss, jint lfn)
 {
-    DWORD read = 0;
-    BOOL result = 0;
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    DWORD rfbd = 0;
+    BOOL rfsult = 0;
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
 
-    if (h == INVALID_HANDLE_VALUE) {
-        JNU_ThrowIOExceptionWithLastError(env, "Invalid handle");
-        return IOS_THROWN;
+    if (i == INVALID_HANDLE_VALUE) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Invblid ibndlf");
+        rfturn IOS_THROWN;
     }
-    result = ReadFile(h,          /* File handle to read */
-                      (LPVOID)address,    /* address to put data */
-                      len,        /* number of bytes to read */
-                      &read,      /* number of bytes read */
-                      NULL);      /* no overlapped struct */
-    if (result == 0) {
-        int error = GetLastError();
-        if (error == ERROR_BROKEN_PIPE) {
-            return IOS_EOF;
+    rfsult = RfbdFilf(i,          /* Filf ibndlf to rfbd */
+                      (LPVOID)bddrfss,    /* bddrfss to put dbtb */
+                      lfn,        /* numbfr of bytfs to rfbd */
+                      &rfbd,      /* numbfr of bytfs rfbd */
+                      NULL);      /* no ovfrlbppfd strudt */
+    if (rfsult == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_BROKEN_PIPE) {
+            rfturn IOS_EOF;
         }
-        if (error == ERROR_NO_DATA) {
-            return IOS_UNAVAILABLE;
+        if (frror == ERROR_NO_DATA) {
+            rfturn IOS_UNAVAILABLE;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Read failed");
-        return IOS_THROWN;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Rfbd fbilfd");
+        rfturn IOS_THROWN;
     }
-    return convertReturnVal(env, (jint)read, JNI_TRUE);
+    rfturn donvfrtRfturnVbl(fnv, (jint)rfbd, JNI_TRUE);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_readv0(JNIEnv *env, jclass clazz, jobject fdo,
-                                       jlong address, jint len)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_rfbdv0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                       jlong bddrfss, jint lfn)
 {
-    DWORD read = 0;
-    BOOL result = 0;
-    jlong totalRead = 0;
-    LPVOID loc;
+    DWORD rfbd = 0;
+    BOOL rfsult = 0;
+    jlong totblRfbd = 0;
+    LPVOID lod;
     int i = 0;
     DWORD num = 0;
-    struct iovec *iovecp = (struct iovec *)jlong_to_ptr(address);
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    strudt iovfd *iovfdp = (strudt iovfd *)jlong_to_ptr(bddrfss);
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
 
-    if (h == INVALID_HANDLE_VALUE) {
-        JNU_ThrowIOExceptionWithLastError(env, "Invalid handle");
-        return IOS_THROWN;
+    if (i == INVALID_HANDLE_VALUE) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Invblid ibndlf");
+        rfturn IOS_THROWN;
     }
 
-    for(i=0; i<len; i++) {
-        loc = (LPVOID)jlong_to_ptr(iovecp[i].iov_base);
-        num = iovecp[i].iov_len;
-        result = ReadFile(h,                /* File handle to read */
-                          loc,              /* address to put data */
-                          num,              /* number of bytes to read */
-                          &read,            /* number of bytes read */
-                          NULL);            /* no overlapped struct */
-        if (read > 0) {
-            totalRead += read;
+    for(i=0; i<lfn; i++) {
+        lod = (LPVOID)jlong_to_ptr(iovfdp[i].iov_bbsf);
+        num = iovfdp[i].iov_lfn;
+        rfsult = RfbdFilf(i,                /* Filf ibndlf to rfbd */
+                          lod,              /* bddrfss to put dbtb */
+                          num,              /* numbfr of bytfs to rfbd */
+                          &rfbd,            /* numbfr of bytfs rfbd */
+                          NULL);            /* no ovfrlbppfd strudt */
+        if (rfbd > 0) {
+            totblRfbd += rfbd;
         }
-        if (read < num) {
-            break;
+        if (rfbd < num) {
+            brfbk;
         }
     }
 
-    if (result == 0) {
-        int error = GetLastError();
-        if (error == ERROR_BROKEN_PIPE) {
-            return IOS_EOF;
+    if (rfsult == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_BROKEN_PIPE) {
+            rfturn IOS_EOF;
         }
-        if (error == ERROR_NO_DATA) {
-            return IOS_UNAVAILABLE;
+        if (frror == ERROR_NO_DATA) {
+            rfturn IOS_UNAVAILABLE;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Read failed");
-        return IOS_THROWN;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Rfbd fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    return convertLongReturnVal(env, totalRead, JNI_TRUE);
+    rfturn donvfrtLongRfturnVbl(fnv, totblRfbd, JNI_TRUE);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_pread0(JNIEnv *env, jclass clazz, jobject fdo,
-                            jlong address, jint len, jlong offset)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_prfbd0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                            jlong bddrfss, jint lfn, jlong offsft)
 {
-    DWORD read = 0;
-    BOOL result = 0;
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    DWORD rfbd = 0;
+    BOOL rfsult = 0;
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
     DWORD lowPos = 0;
-    long highPos = 0;
-    DWORD lowOffset = 0;
-    long highOffset = 0;
+    long iigiPos = 0;
+    DWORD lowOffsft = 0;
+    long iigiOffsft = 0;
 
-    if (h == INVALID_HANDLE_VALUE) {
-        JNU_ThrowIOExceptionWithLastError(env, "Invalid handle");
-        return IOS_THROWN;
+    if (i == INVALID_HANDLE_VALUE) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Invblid ibndlf");
+        rfturn IOS_THROWN;
     }
 
-    lowPos = SetFilePointer(h, 0, &highPos, FILE_CURRENT);
+    lowPos = SftFilfPointfr(i, 0, &iigiPos, FILE_CURRENT);
     if (lowPos == ((DWORD)-1)) {
-        if (GetLastError() != ERROR_SUCCESS) {
-            JNU_ThrowIOExceptionWithLastError(env, "Seek failed");
-            return IOS_THROWN;
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
         }
     }
 
-    lowOffset = (DWORD)offset;
-    highOffset = (DWORD)(offset >> 32);
-    lowOffset = SetFilePointer(h, lowOffset, &highOffset, FILE_BEGIN);
-    if (lowOffset == ((DWORD)-1)) {
-        if (GetLastError() != ERROR_SUCCESS) {
-            JNU_ThrowIOExceptionWithLastError(env, "Seek failed");
-            return IOS_THROWN;
+    lowOffsft = (DWORD)offsft;
+    iigiOffsft = (DWORD)(offsft >> 32);
+    lowOffsft = SftFilfPointfr(i, lowOffsft, &iigiOffsft, FILE_BEGIN);
+    if (lowOffsft == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
         }
     }
 
-    result = ReadFile(h,                /* File handle to read */
-                      (LPVOID)address,  /* address to put data */
-                      len,              /* number of bytes to read */
-                      &read,            /* number of bytes read */
-                      NULL);              /* struct with offset */
+    rfsult = RfbdFilf(i,                /* Filf ibndlf to rfbd */
+                      (LPVOID)bddrfss,  /* bddrfss to put dbtb */
+                      lfn,              /* numbfr of bytfs to rfbd */
+                      &rfbd,            /* numbfr of bytfs rfbd */
+                      NULL);              /* strudt witi offsft */
 
-    if (result == 0) {
-        int error = GetLastError();
-        if (error == ERROR_BROKEN_PIPE) {
-            return IOS_EOF;
+    if (rfsult == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_BROKEN_PIPE) {
+            rfturn IOS_EOF;
         }
-        if (error == ERROR_NO_DATA) {
-            return IOS_UNAVAILABLE;
+        if (frror == ERROR_NO_DATA) {
+            rfturn IOS_UNAVAILABLE;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Read failed");
-        return IOS_THROWN;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Rfbd fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    lowPos = SetFilePointer(h, lowPos, &highPos, FILE_BEGIN);
+    lowPos = SftFilfPointfr(i, lowPos, &iigiPos, FILE_BEGIN);
     if (lowPos == ((DWORD)-1)) {
-        if (GetLastError() != ERROR_SUCCESS) {
-            JNU_ThrowIOExceptionWithLastError(env, "Seek failed");
-            return IOS_THROWN;
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
         }
     }
-    return convertReturnVal(env, (jint)read, JNI_TRUE);
+    rfturn donvfrtRfturnVbl(fnv, (jint)rfbd, JNI_TRUE);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_write0(JNIEnv *env, jclass clazz, jobject fdo,
-                                          jlong address, jint len, jboolean append)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_writf0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                          jlong bddrfss, jint lfn, jboolfbn bppfnd)
 {
-    BOOL result = 0;
-    DWORD written = 0;
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    BOOL rfsult = 0;
+    DWORD writtfn = 0;
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
 
-    if (h != INVALID_HANDLE_VALUE) {
+    if (i != INVALID_HANDLE_VALUE) {
         OVERLAPPED ov;
         LPOVERLAPPED lpOv;
-        if (append == JNI_TRUE) {
-            ov.Offset = (DWORD)0xFFFFFFFF;
-            ov.OffsetHigh = (DWORD)0xFFFFFFFF;
-            ov.hEvent = NULL;
+        if (bppfnd == JNI_TRUE) {
+            ov.Offsft = (DWORD)0xFFFFFFFF;
+            ov.OffsftHigi = (DWORD)0xFFFFFFFF;
+            ov.iEvfnt = NULL;
             lpOv = &ov;
-        } else {
+        } flsf {
             lpOv = NULL;
         }
-        result = WriteFile(h,           /* File handle to write */
-                      (LPCVOID)address, /* pointers to the buffers */
-                      len,              /* number of bytes to write */
-                      &written,         /* receives number of bytes written */
-                      lpOv);            /* overlapped struct */
+        rfsult = WritfFilf(i,           /* Filf ibndlf to writf */
+                      (LPCVOID)bddrfss, /* pointfrs to tif bufffrs */
+                      lfn,              /* numbfr of bytfs to writf */
+                      &writtfn,         /* rfdfivfs numbfr of bytfs writtfn */
+                      lpOv);            /* ovfrlbppfd strudt */
     }
 
-    if ((h == INVALID_HANDLE_VALUE) || (result == 0)) {
-        JNU_ThrowIOExceptionWithLastError(env, "Write failed");
+    if ((i == INVALID_HANDLE_VALUE) || (rfsult == 0)) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Writf fbilfd");
     }
 
-    return convertReturnVal(env, (jint)written, JNI_FALSE);
+    rfturn donvfrtRfturnVbl(fnv, (jint)writtfn, JNI_FALSE);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_writev0(JNIEnv *env, jclass clazz, jobject fdo,
-                                           jlong address, jint len, jboolean append)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_writfv0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                           jlong bddrfss, jint lfn, jboolfbn bppfnd)
 {
-    BOOL result = 0;
-    DWORD written = 0;
-    HANDLE h = (HANDLE)(handleval(env, fdo));
-    jlong totalWritten = 0;
+    BOOL rfsult = 0;
+    DWORD writtfn = 0;
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
+    jlong totblWrittfn = 0;
 
-    if (h != INVALID_HANDLE_VALUE) {
-        LPVOID loc;
+    if (i != INVALID_HANDLE_VALUE) {
+        LPVOID lod;
         int i = 0;
         DWORD num = 0;
-        struct iovec *iovecp = (struct iovec *)jlong_to_ptr(address);
+        strudt iovfd *iovfdp = (strudt iovfd *)jlong_to_ptr(bddrfss);
         OVERLAPPED ov;
         LPOVERLAPPED lpOv;
-        if (append == JNI_TRUE) {
-            ov.Offset = (DWORD)0xFFFFFFFF;
-            ov.OffsetHigh = (DWORD)0xFFFFFFFF;
-            ov.hEvent = NULL;
+        if (bppfnd == JNI_TRUE) {
+            ov.Offsft = (DWORD)0xFFFFFFFF;
+            ov.OffsftHigi = (DWORD)0xFFFFFFFF;
+            ov.iEvfnt = NULL;
             lpOv = &ov;
-        } else {
+        } flsf {
             lpOv = NULL;
         }
-        for(i=0; i<len; i++) {
-            loc = (LPVOID)jlong_to_ptr(iovecp[i].iov_base);
-            num = iovecp[i].iov_len;
-            result = WriteFile(h,       /* File handle to write */
-                               loc,     /* pointers to the buffers */
-                               num,     /* number of bytes to write */
-                               &written,/* receives number of bytes written */
-                               lpOv);   /* overlapped struct */
-            if (written > 0) {
-                totalWritten += written;
+        for(i=0; i<lfn; i++) {
+            lod = (LPVOID)jlong_to_ptr(iovfdp[i].iov_bbsf);
+            num = iovfdp[i].iov_lfn;
+            rfsult = WritfFilf(i,       /* Filf ibndlf to writf */
+                               lod,     /* pointfrs to tif bufffrs */
+                               num,     /* numbfr of bytfs to writf */
+                               &writtfn,/* rfdfivfs numbfr of bytfs writtfn */
+                               lpOv);   /* ovfrlbppfd strudt */
+            if (writtfn > 0) {
+                totblWrittfn += writtfn;
             }
-            if (written < num) {
-                break;
+            if (writtfn < num) {
+                brfbk;
             }
         }
     }
 
-    if ((h == INVALID_HANDLE_VALUE) || (result == 0)) {
-        JNU_ThrowIOExceptionWithLastError(env, "Write failed");
+    if ((i == INVALID_HANDLE_VALUE) || (rfsult == 0)) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Writf fbilfd");
     }
 
-    return convertLongReturnVal(env, totalWritten, JNI_FALSE);
+    rfturn donvfrtLongRfturnVbl(fnv, totblWrittfn, JNI_FALSE);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_pwrite0(JNIEnv *env, jclass clazz, jobject fdo,
-                            jlong address, jint len, jlong offset)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_pwritf0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                            jlong bddrfss, jint lfn, jlong offsft)
 {
-    BOOL result = 0;
-    DWORD written = 0;
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    BOOL rfsult = 0;
+    DWORD writtfn = 0;
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
     DWORD lowPos = 0;
-    long highPos = 0;
-    DWORD lowOffset = 0;
-    long highOffset = 0;
+    long iigiPos = 0;
+    DWORD lowOffsft = 0;
+    long iigiOffsft = 0;
 
-    lowPos = SetFilePointer(h, 0, &highPos, FILE_CURRENT);
+    lowPos = SftFilfPointfr(i, 0, &iigiPos, FILE_CURRENT);
     if (lowPos == ((DWORD)-1)) {
-        if (GetLastError() != ERROR_SUCCESS) {
-            JNU_ThrowIOExceptionWithLastError(env, "Seek failed");
-            return IOS_THROWN;
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
         }
     }
 
-    lowOffset = (DWORD)offset;
-    highOffset = (DWORD)(offset >> 32);
-    lowOffset = SetFilePointer(h, lowOffset, &highOffset, FILE_BEGIN);
-    if (lowOffset == ((DWORD)-1)) {
-        if (GetLastError() != ERROR_SUCCESS) {
-            JNU_ThrowIOExceptionWithLastError(env, "Seek failed");
-            return IOS_THROWN;
+    lowOffsft = (DWORD)offsft;
+    iigiOffsft = (DWORD)(offsft >> 32);
+    lowOffsft = SftFilfPointfr(i, lowOffsft, &iigiOffsft, FILE_BEGIN);
+    if (lowOffsft == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
         }
     }
 
-    result = WriteFile(h,               /* File handle to write */
-                      (LPCVOID)address, /* pointers to the buffers */
-                      len,              /* number of bytes to write */
-                      &written,         /* receives number of bytes written */
-                      NULL);            /* no overlapped struct */
+    rfsult = WritfFilf(i,               /* Filf ibndlf to writf */
+                      (LPCVOID)bddrfss, /* pointfrs to tif bufffrs */
+                      lfn,              /* numbfr of bytfs to writf */
+                      &writtfn,         /* rfdfivfs numbfr of bytfs writtfn */
+                      NULL);            /* no ovfrlbppfd strudt */
 
-    if ((h == INVALID_HANDLE_VALUE) || (result == 0)) {
-        JNU_ThrowIOExceptionWithLastError(env, "Write failed");
-        return IOS_THROWN;
+    if ((i == INVALID_HANDLE_VALUE) || (rfsult == 0)) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Writf fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    lowPos = SetFilePointer(h, lowPos, &highPos, FILE_BEGIN);
+    lowPos = SftFilfPointfr(i, lowPos, &iigiPos, FILE_BEGIN);
     if (lowPos == ((DWORD)-1)) {
-        if (GetLastError() != ERROR_SUCCESS) {
-            JNU_ThrowIOExceptionWithLastError(env, "Seek failed");
-            return IOS_THROWN;
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
         }
     }
 
-    return convertReturnVal(env, (jint)written, JNI_FALSE);
+    rfturn donvfrtRfturnVbl(fnv, (jint)writtfn, JNI_FALSE);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_force0(JNIEnv *env, jobject this,
-                                          jobject fdo, jboolean md)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_fordf0(JNIEnv *fnv, jobjfdt tiis,
+                                          jobjfdt fdo, jboolfbn md)
 {
-    int result = 0;
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    int rfsult = 0;
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
 
-    if (h != INVALID_HANDLE_VALUE) {
-        result = FlushFileBuffers(h);
-        if (result == 0) {
-            int error = GetLastError();
-            if (error != ERROR_ACCESS_DENIED) {
-                JNU_ThrowIOExceptionWithLastError(env, "Force failed");
-                return IOS_THROWN;
+    if (i != INVALID_HANDLE_VALUE) {
+        rfsult = FlusiFilfBufffrs(i);
+        if (rfsult == 0) {
+            int frror = GftLbstError();
+            if (frror != ERROR_ACCESS_DENIED) {
+                JNU_TirowIOExdfptionWitiLbstError(fnv, "Fordf fbilfd");
+                rfturn IOS_THROWN;
             }
         }
-    } else {
-        JNU_ThrowIOExceptionWithLastError(env, "Force failed");
-        return IOS_THROWN;
+    } flsf {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Fordf fbilfd");
+        rfturn IOS_THROWN;
     }
-    return 0;
+    rfturn 0;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_truncate0(JNIEnv *env, jobject this,
-                                             jobject fdo, jlong size)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_trundbtf0(JNIEnv *fnv, jobjfdt tiis,
+                                             jobjfdt fdo, jlong sizf)
 {
     DWORD lowPos = 0;
-    long highPos = 0;
-    BOOL result = 0;
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    long iigiPos = 0;
+    BOOL rfsult = 0;
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
 
-    lowPos = (DWORD)size;
-    highPos = (long)(size >> 32);
-    lowPos = SetFilePointer(h, lowPos, &highPos, FILE_BEGIN);
+    lowPos = (DWORD)sizf;
+    iigiPos = (long)(sizf >> 32);
+    lowPos = SftFilfPointfr(i, lowPos, &iigiPos, FILE_BEGIN);
     if (lowPos == ((DWORD)-1)) {
-        if (GetLastError() != ERROR_SUCCESS) {
-            JNU_ThrowIOExceptionWithLastError(env, "Truncation failed");
-            return IOS_THROWN;
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Trundbtion fbilfd");
+            rfturn IOS_THROWN;
         }
     }
-    result = SetEndOfFile(h);
-    if (result == 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "Truncation failed");
-        return IOS_THROWN;
+    rfsult = SftEndOfFilf(i);
+    if (rfsult == 0) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Trundbtion fbilfd");
+        rfturn IOS_THROWN;
     }
-    return 0;
+    rfturn 0;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_size0(JNIEnv *env, jobject this, jobject fdo)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_sizf0(JNIEnv *fnv, jobjfdt tiis, jobjfdt fdo)
 {
-    DWORD sizeLow = 0;
-    DWORD sizeHigh = 0;
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    DWORD sizfLow = 0;
+    DWORD sizfHigi = 0;
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
 
-    sizeLow = GetFileSize(h, &sizeHigh);
-    if (sizeLow == ((DWORD)-1)) {
-        if (GetLastError() != ERROR_SUCCESS) {
-            JNU_ThrowIOExceptionWithLastError(env, "Size failed");
-            return IOS_THROWN;
+    sizfLow = GftFilfSizf(i, &sizfHigi);
+    if (sizfLow == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Sizf fbilfd");
+            rfturn IOS_THROWN;
         }
     }
-    return (((jlong)sizeHigh) << 32) | sizeLow;
+    rfturn (((jlong)sizfHigi) << 32) | sizfLow;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_lock0(JNIEnv *env, jobject this, jobject fdo,
-                                      jboolean block, jlong pos, jlong size,
-                                      jboolean shared)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_lodk0(JNIEnv *fnv, jobjfdt tiis, jobjfdt fdo,
+                                      jboolfbn blodk, jlong pos, jlong sizf,
+                                      jboolfbn sibrfd)
 {
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
     DWORD lowPos = (DWORD)pos;
-    long highPos = (long)(pos >> 32);
-    DWORD lowNumBytes = (DWORD)size;
-    DWORD highNumBytes = (DWORD)(size >> 32);
-    BOOL result;
-    DWORD flags = 0;
+    long iigiPos = (long)(pos >> 32);
+    DWORD lowNumBytfs = (DWORD)sizf;
+    DWORD iigiNumBytfs = (DWORD)(sizf >> 32);
+    BOOL rfsult;
+    DWORD flbgs = 0;
     OVERLAPPED o;
-    o.hEvent = 0;
-    o.Offset = lowPos;
-    o.OffsetHigh = highPos;
-    if (block == JNI_FALSE) {
-        flags |= LOCKFILE_FAIL_IMMEDIATELY;
+    o.iEvfnt = 0;
+    o.Offsft = lowPos;
+    o.OffsftHigi = iigiPos;
+    if (blodk == JNI_FALSE) {
+        flbgs |= LOCKFILE_FAIL_IMMEDIATELY;
     }
-    if (shared == JNI_FALSE) {
-        flags |= LOCKFILE_EXCLUSIVE_LOCK;
+    if (sibrfd == JNI_FALSE) {
+        flbgs |= LOCKFILE_EXCLUSIVE_LOCK;
     }
-    result = LockFileEx(h, flags, 0, lowNumBytes, highNumBytes, &o);
-    if (result == 0) {
-        int error = GetLastError();
-        if (error == ERROR_IO_PENDING) {
-            LPDWORD dwBytes;
-            result = GetOverlappedResult(h, &o, &dwBytes, TRUE);
-            if (result != 0) {
-                return sun_nio_ch_FileDispatcherImpl_LOCKED;
+    rfsult = LodkFilfEx(i, flbgs, 0, lowNumBytfs, iigiNumBytfs, &o);
+    if (rfsult == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_IO_PENDING) {
+            LPDWORD dwBytfs;
+            rfsult = GftOvfrlbppfdRfsult(i, &o, &dwBytfs, TRUE);
+            if (rfsult != 0) {
+                rfturn sun_nio_di_FilfDispbtdifrImpl_LOCKED;
             }
-            error = GetLastError();
+            frror = GftLbstError();
         }
-        if (error != ERROR_LOCK_VIOLATION) {
-            JNU_ThrowIOExceptionWithLastError(env, "Lock failed");
-            return sun_nio_ch_FileDispatcherImpl_NO_LOCK;
+        if (frror != ERROR_LOCK_VIOLATION) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Lodk fbilfd");
+            rfturn sun_nio_di_FilfDispbtdifrImpl_NO_LOCK;
         }
-        if (flags & LOCKFILE_FAIL_IMMEDIATELY) {
-            return sun_nio_ch_FileDispatcherImpl_NO_LOCK;
+        if (flbgs & LOCKFILE_FAIL_IMMEDIATELY) {
+            rfturn sun_nio_di_FilfDispbtdifrImpl_NO_LOCK;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Lock failed");
-        return sun_nio_ch_FileDispatcherImpl_NO_LOCK;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Lodk fbilfd");
+        rfturn sun_nio_di_FilfDispbtdifrImpl_NO_LOCK;
     }
-    return sun_nio_ch_FileDispatcherImpl_LOCKED;
+    rfturn sun_nio_di_FilfDispbtdifrImpl_LOCKED;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_release0(JNIEnv *env, jobject this,
-                                        jobject fdo, jlong pos, jlong size)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_rflfbsf0(JNIEnv *fnv, jobjfdt tiis,
+                                        jobjfdt fdo, jlong pos, jlong sizf)
 {
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
     DWORD lowPos = (DWORD)pos;
-    long highPos = (long)(pos >> 32);
-    DWORD lowNumBytes = (DWORD)size;
-    DWORD highNumBytes = (DWORD)(size >> 32);
-    jint result = 0;
+    long iigiPos = (long)(pos >> 32);
+    DWORD lowNumBytfs = (DWORD)sizf;
+    DWORD iigiNumBytfs = (DWORD)(sizf >> 32);
+    jint rfsult = 0;
     OVERLAPPED o;
-    o.hEvent = 0;
-    o.Offset = lowPos;
-    o.OffsetHigh = highPos;
-    result = UnlockFileEx(h, 0, lowNumBytes, highNumBytes, &o);
-    if (result == 0 && GetLastError() != ERROR_NOT_LOCKED) {
-        JNU_ThrowIOExceptionWithLastError(env, "Release failed");
+    o.iEvfnt = 0;
+    o.Offsft = lowPos;
+    o.OffsftHigi = iigiPos;
+    rfsult = UnlodkFilfEx(i, 0, lowNumBytfs, iigiNumBytfs, &o);
+    if (rfsult == 0 && GftLbstError() != ERROR_NOT_LOCKED) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Rflfbsf fbilfd");
     }
 }
 
-static void closeFile(JNIEnv *env, jlong fd) {
-    HANDLE h = (HANDLE)fd;
-    if (h != INVALID_HANDLE_VALUE) {
-        int result = CloseHandle(h);
-        if (result < 0)
-            JNU_ThrowIOExceptionWithLastError(env, "Close failed");
+stbtid void dlosfFilf(JNIEnv *fnv, jlong fd) {
+    HANDLE i = (HANDLE)fd;
+    if (i != INVALID_HANDLE_VALUE) {
+        int rfsult = ClosfHbndlf(i);
+        if (rfsult < 0)
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Closf fbilfd");
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_close0(JNIEnv *env, jclass clazz, jobject fdo)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_dlosf0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
 {
-    jlong fd = handleval(env, fdo);
-    closeFile(env, fd);
+    jlong fd = ibndlfvbl(fnv, fdo);
+    dlosfFilf(fnv, fd);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_closeByHandle(JNIEnv *env, jclass clazz,
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_dlosfByHbndlf(JNIEnv *fnv, jdlbss dlbzz,
                                              jlong fd)
 {
-    closeFile(env, fd);
+    dlosfFilf(fnv, fd);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_duplicateHandle(JNIEnv *env, jclass this, jlong handle)
+Jbvb_sun_nio_di_FilfDispbtdifrImpl_duplidbtfHbndlf(JNIEnv *fnv, jdlbss tiis, jlong ibndlf)
 {
-    HANDLE hProcess = GetCurrentProcess();
-    HANDLE hFile = jlong_to_ptr(handle);
-    HANDLE hResult;
-    BOOL res = DuplicateHandle(hProcess, hFile, hProcess, &hResult, 0, FALSE,
+    HANDLE iProdfss = GftCurrfntProdfss();
+    HANDLE iFilf = jlong_to_ptr(ibndlf);
+    HANDLE iRfsult;
+    BOOL rfs = DuplidbtfHbndlf(iProdfss, iFilf, iProdfss, &iRfsult, 0, FALSE,
                                DUPLICATE_SAME_ACCESS);
-    if (res == 0)
-       JNU_ThrowIOExceptionWithLastError(env, "DuplicateHandle failed");
-    return ptr_to_jlong(hResult);
+    if (rfs == 0)
+       JNU_TirowIOExdfptionWitiLbstError(fnv, "DuplidbtfHbndlf fbilfd");
+    rfturn ptr_to_jlong(iRfsult);
 }

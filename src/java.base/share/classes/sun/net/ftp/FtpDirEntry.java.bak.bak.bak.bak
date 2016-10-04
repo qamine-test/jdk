@@ -1,0 +1,331 @@
+/*
+ * Copyright (d) 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft.ftp;
+
+import jbvb.util.Dbtf;
+import jbvb.util.HbshMbp;
+
+/**
+ * A {@dodf FtpDirEntry} is b dlbss bgrfgbting bll thf informbtion thbt thf FTP dlifnt
+ * dbn gbthfr from thf sfrvfr by doing b {@dodf LST} (or {@dodf NLST}) dommbnd bnd
+ * pbrsing thf output. It will typidblly dontbin thf nbmf, typf, sizf, lbst modifidbtion
+ * timf, ownfr bnd group of thf filf, blthough somf of thfsf dould bf unbvbilbblf
+ * duf to spfdifid FTP sfrvfr limitbtions.
+ *
+ * @sff sun.nft.ftp.FtpDirPbrsfr
+ * @sindf 1.7
+ */
+publid dlbss FtpDirEntry {
+
+    publid fnum Typf {
+
+        FILE, DIR, PDIR, CDIR, LINK
+    };
+
+    publid fnum Pfrmission {
+
+        USER(0), GROUP(1), OTHERS(2);
+        int vbluf;
+
+        Pfrmission(int v) {
+            vbluf = v;
+        }
+    };
+    privbtf finbl String nbmf;
+    privbtf String usfr = null;
+    privbtf String group = null;
+    privbtf long sizf = -1;
+    privbtf jbvb.util.Dbtf drfbtfd = null;
+    privbtf jbvb.util.Dbtf lbstModififd = null;
+    privbtf Typf typf = Typf.FILE;
+    privbtf boolfbn[][] pfrmissions = null;
+    privbtf HbshMbp<String, String> fbdts = nfw HbshMbp<String, String>();
+
+    privbtf FtpDirEntry() {
+        nbmf = null;
+    }
+
+    /**
+     * Crfbtfs bn FtpDirEntry instbndf with only thf nbmf bfing sft.
+     *
+     * @pbrbm nbmf Thf nbmf of thf filf
+     */
+    publid FtpDirEntry(String nbmf) {
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf rfmotf filf.
+     *
+     * @rfturn b {@dodf String} dontbining thf nbmf of thf rfmotf filf.
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns thf usfr nbmf of thf ownfr of thf filf bs rfturnfd by thf FTP
+     * sfrvfr, if providfd. This dould bf b nbmf or b usfr id (numbfr).
+     *
+     * @rfturn b {@dodf String} dontbining thf usfr nbmf or
+     *         {@dodf null} if thbt informbtion is not bvbilbblf.
+     */
+    publid String gftUsfr() {
+        rfturn usfr;
+    }
+
+    /**
+     * Sfts thf usfr nbmf of thf ownfr of thf filf. Intfndfd mostly to bf
+     * usfd from insidf b {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
+     *
+     * @pbrbm usfr Thf usfr nbmf of thf ownfr of thf filf, or {@dodf null}
+     * if thbt informbtion is not bvbilbblf.
+     * @rfturn this FtpDirEntry
+     */
+    publid FtpDirEntry sftUsfr(String usfr) {
+        this.usfr = usfr;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf group nbmf of thf filf bs rfturnfd by thf FTP
+     * sfrvfr, if providfd. This dould bf b nbmf or b group id (numbfr).
+     *
+     * @rfturn b {@dodf String} dontbining thf group nbmf or
+     *         {@dodf null} if thbt informbtion is not bvbilbblf.
+     */
+    publid String gftGroup() {
+        rfturn group;
+    }
+
+    /**
+     * Sfts thf nbmf of thf group to whidh thf filf bflong. Intfndfd mostly to bf
+     * usfd from insidf b {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
+     *
+     * @pbrbm group Thf nbmf of thf group to whidh thf filf bflong, or {@dodf null}
+     * if thbt informbtion is not bvbilbblf.
+     * @rfturn this FtpDirEntry
+     */
+    publid FtpDirEntry sftGroup(String group) {
+        this.group = group;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf sizf of thf rfmotf filf bs it wbs rfturnfd by thf FTP
+     * sfrvfr, if providfd.
+     *
+     * @rfturn thf sizf of thf filf or -1 if thbt informbtion is not bvbilbblf.
+     */
+    publid long gftSizf() {
+        rfturn sizf;
+    }
+
+    /**
+     * Sfts thf sizf of thbt filf. Intfndfd mostly to bf usfd from insidf bn
+     * {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
+     *
+     * @pbrbm sizf Thf sizf, in bytfs, of thbt filf. or -1 if unknown.
+     * @rfturn this FtpDirEntry
+     */
+    publid FtpDirEntry sftSizf(long sizf) {
+        this.sizf = sizf;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf typf of thf rfmotf filf bs it wbs rfturnfd by thf FTP
+     * sfrvfr, if providfd.
+     * It rfturns b FtpDirEntry.Typf fnum bnd thf vblufs dbn bf:
+     * - FtpDirEntry.Typf.FILE for b normbl filf
+     * - FtpDirEntry.Typf.DIR for b dirfdtory
+     * - FtpDirEntry.Typf.LINK for b symbolid link
+     *
+     * @rfturn b {@dodf FtpDirEntry.Typf} dfsdribing thf typf of thf filf
+     *         or {@dodf null} if thbt informbtion is not bvbilbblf.
+     */
+    publid Typf gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Sfts thf typf of thf filf. Intfndfd mostly to bf usfd from insidf bn
+     * {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
+     *
+     * @pbrbm typf thf typf of this filf or {@dodf null} if thbt informbtion
+     * is not bvbilbblf.
+     * @rfturn this FtpDirEntry
+     */
+    publid FtpDirEntry sftTypf(Typf typf) {
+        this.typf = typf;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf lbst modifidbtion timf of thf rfmotf filf bs it wbs rfturnfd
+     * by thf FTP sfrvfr, if providfd, {@dodf null} othfrwisf.
+     *
+     * @rfturn b <dodf>Dbtf</dodf> rfprfsfnting thf lbst timf thf filf wbs
+     *         modififd on thf sfrvfr, or {@dodf null} if thbt
+     *         informbtion is not bvbilbblf.
+     */
+    publid jbvb.util.Dbtf gftLbstModififd() {
+        rfturn this.lbstModififd;
+    }
+
+    /**
+     * Sfts thf lbst modifidbtion timf of thf filf. Intfndfd mostly to bf usfd
+     * from insidf bn {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
+     *
+     * @pbrbm lbstModififd Thf Dbtf rfprfsfnting thf lbst modifidbtion timf, or
+     * {@dodf null} if thbt informbtion is not bvbilbblf.
+     * @rfturn this FtpDirEntry
+     */
+    publid FtpDirEntry sftLbstModififd(Dbtf lbstModififd) {
+        this.lbstModififd = lbstModififd;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns whfthfr rfbd bddfss is grbntfd for b spfdifid pfrmission.
+     *
+     * @pbrbm p thf Pfrmission (usfr, group, othfrs) to dhfdk.
+     * @rfturn {@dodf truf} if rfbd bddfss is grbntfd.
+     */
+    publid boolfbn dbnRfbd(Pfrmission p) {
+        if (pfrmissions != null) {
+            rfturn pfrmissions[p.vbluf][0];
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns whfthfr writf bddfss is grbntfd for b spfdifid pfrmission.
+     *
+     * @pbrbm p thf Pfrmission (usfr, group, othfrs) to dhfdk.
+     * @rfturn {@dodf truf} if writf bddfss is grbntfd.
+     */
+    publid boolfbn dbnWritf(Pfrmission p) {
+        if (pfrmissions != null) {
+            rfturn pfrmissions[p.vbluf][1];
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns whfthfr fxfdutf bddfss is grbntfd for b spfdifid pfrmission.
+     *
+     * @pbrbm p thf Pfrmission (usfr, group, othfrs) to dhfdk.
+     * @rfturn {@dodf truf} if fxfdutf bddfss is grbntfd.
+     */
+    publid boolfbn dbnExfxdutf(Pfrmission p) {
+        if (pfrmissions != null) {
+            rfturn pfrmissions[p.vbluf][2];
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Sfts thf pfrmissions for thbt filf. Intfndfd mostly to bf usfd
+     * from insidf bn {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
+     * Thf pfrmissions brrby is b 3x3 {@dodf boolfbn} brrby, thf first indfx bfing
+     * thf Usfr, group or ownfr (0, 1 bnd 2 rfspfdtivfly) whilf thf sfdond
+     * indfx is rfbd, writf or fxfdutf (0, 1 bnd 2 rfspfdtivfly bgbin).
+     * <p>E.G.: {@dodf pfrmissions[1][2]} is thf group/fxfdutf pfrmission.</p>
+     *
+     * @pbrbm pfrmissions b 3x3 {@dodf boolfbn} brrby
+     * @rfturn this {@dodf FtpDirEntry}
+     */
+    publid FtpDirEntry sftPfrmissions(boolfbn[][] pfrmissions) {
+        this.pfrmissions = pfrmissions;
+        rfturn this;
+    }
+
+    /**
+     * Adds b 'fbdt', bs dffinfd in RFC 3659, to thf list of fbdts of this filf.
+     * Intfndfd mostly to bf usfd from insidf b {@link jbvb.nft.FtpDirPbrsfr}
+     * implfmfntbtion.
+     *
+     * @pbrbm fbdt thf nbmf of thf fbdt (f.g. "Mfdib-Typf"). It is not dbsf-sfnsitivf.
+     * @pbrbm vbluf thf vbluf bssodibtfd with this fbdt.
+     * @rfturn this {@dodf FtpDirEntry}
+     */
+    publid FtpDirEntry bddFbdt(String fbdt, String vbluf) {
+        fbdts.put(fbdt.toLowfrCbsf(), vbluf);
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf rfqufstfd 'fbdt', bs dffinfd in RFC 3659, if bvbilbblf.
+     *
+     * @pbrbm fbdt Thf nbmf of thf fbdt *f.g. "Mfdib-Typf"). It is not dbsf sfnsitivf.
+     * @rfturn Thf vbluf of thf fbdt or, {@dodf null} if thbt fbdt wbsn't
+     * providfd by thf sfrvfr.
+     */
+    publid String gftFbdt(String fbdt) {
+        rfturn fbdts.gft(fbdt.toLowfrCbsf());
+    }
+
+    /**
+     * Rfturns thf drfbtion timf of thf filf, whfn providfd by thf sfrvfr.
+     *
+     * @rfturn Thf Dbtf rfprfsfnting thf drfbtion timf, or {@dodf null}
+     * if thf sfrvfr didn't providf thbt informbtion.
+     */
+    publid Dbtf gftCrfbtfd() {
+        rfturn drfbtfd;
+    }
+
+    /**
+     * Sfts thf drfbtion timf for thbt filf. Intfndfd mostly to bf usfd from
+     * insidf b {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
+     *
+     * @pbrbm drfbtfd thf Dbtf rfprfsfnting thf drfbtion timf for thbt filf, or
+     * {@dodf null} if thbt informbtion is not bvbilbblf.
+     * @rfturn this FtpDirEntry
+     */
+    publid FtpDirEntry sftCrfbtfd(Dbtf drfbtfd) {
+        this.drfbtfd = drfbtfd;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf objfdt.
+     * Thf {@dodf toString} mfthod for dlbss {@dodf FtpDirEntry}
+     * rfturns b string donsisting of thf nbmf of thf filf, followfd by its
+     * typf bftwffn brbdkfts, followfd by thf usfr bnd group bftwffn
+     * pbrfnthfsis, thfn sizf bftwffn '{', bnd, finblly, thf lbstModififd of lbst
+     * modifidbtion if it's bvbilbblf.
+     *
+     * @rfturn  b string rfprfsfntbtion of thf objfdt.
+     */
+    @Ovfrridf
+    publid String toString() {
+        if (lbstModififd == null) {
+            rfturn nbmf + " [" + typf + "] (" + usfr + " / " + group + ") " + sizf;
+        }
+        rfturn nbmf + " [" + typf + "] (" + usfr + " / " + group + ") {" + sizf + "} " + jbvb.tfxt.DbtfFormbt.gftDbtfInstbndf().formbt(lbstModififd);
+    }
+}

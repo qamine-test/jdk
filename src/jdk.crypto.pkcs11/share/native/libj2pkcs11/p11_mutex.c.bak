@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,506 +45,506 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.i"
 
-/* The initArgs that enable the application to do custom mutex-handling */
-#ifndef NO_CALLBACKS
-jobject jInitArgsObject;
-CK_C_INITIALIZE_ARGS_PTR ckpGlobalInitArgs;
-#endif /* NO_CALLBACKS */
+/* Tif initArgs tibt fnbblf tif bpplidbtion to do dustom mutfx-ibndling */
+#ifndff NO_CALLBACKS
+jobjfdt jInitArgsObjfdt;
+CK_C_INITIALIZE_ARGS_PTR dkpGlobblInitArgs;
+#fndif /* NO_CALLBACKS */
 
 /* ************************************************************************** */
-/* Now come the functions for mutex handling and notification callbacks       */
+/* Now domf tif fundtions for mutfx ibndling bnd notifidbtion dbllbbdks       */
 /* ************************************************************************** */
 
 /*
- * converts the InitArgs object to a CK_C_INITIALIZE_ARGS structure and sets the functions
- * that will call the right Java mutex functions
+ * donvfrts tif InitArgs objfdt to b CK_C_INITIALIZE_ARGS strudturf bnd sfts tif fundtions
+ * tibt will dbll tif rigit Jbvb mutfx fundtions
  *
- * @param env - used to call JNI funktions to get the Java classes, objects, methods and fields
- * @param pInitArgs - the InitArgs object with the Java mutex functions to call
- * @return - the pointer to the CK_C_INITIALIZE_ARGS structure with the functions that will call
- *           the corresponding Java functions
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs, objfdts, mftiods bnd fiflds
+ * @pbrbm pInitArgs - tif InitArgs objfdt witi tif Jbvb mutfx fundtions to dbll
+ * @rfturn - tif pointfr to tif CK_C_INITIALIZE_ARGS strudturf witi tif fundtions tibt will dbll
+ *           tif dorrfsponding Jbvb fundtions
  */
-CK_C_INITIALIZE_ARGS_PTR makeCKInitArgsAdapter(JNIEnv *env, jobject jInitArgs)
+CK_C_INITIALIZE_ARGS_PTR mbkfCKInitArgsAdbptfr(JNIEnv *fnv, jobjfdt jInitArgs)
 {
-    CK_C_INITIALIZE_ARGS_PTR ckpInitArgs;
-    jclass jInitArgsClass;
-    jfieldID fieldID;
-    jlong jFlags;
-    jobject jReserved;
-    CK_ULONG ckReservedLength;
-#ifndef NO_CALLBACKS
-    jobject jMutexHandler;
-#endif /* NO_CALLBACKS */
+    CK_C_INITIALIZE_ARGS_PTR dkpInitArgs;
+    jdlbss jInitArgsClbss;
+    jfifldID fifldID;
+    jlong jFlbgs;
+    jobjfdt jRfsfrvfd;
+    CK_ULONG dkRfsfrvfdLfngti;
+#ifndff NO_CALLBACKS
+    jobjfdt jMutfxHbndlfr;
+#fndif /* NO_CALLBACKS */
 
     if(jInitArgs == NULL) {
-        return NULL_PTR;
+        rfturn NULL_PTR;
     }
 
-    /* convert the Java InitArgs object to a pointer to a CK_C_INITIALIZE_ARGS structure */
-    ckpInitArgs = (CK_C_INITIALIZE_ARGS_PTR) malloc(sizeof(CK_C_INITIALIZE_ARGS));
-    if (ckpInitArgs == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL_PTR;
+    /* donvfrt tif Jbvb InitArgs objfdt to b pointfr to b CK_C_INITIALIZE_ARGS strudturf */
+    dkpInitArgs = (CK_C_INITIALIZE_ARGS_PTR) mbllod(sizfof(CK_C_INITIALIZE_ARGS));
+    if (dkpInitArgs == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL_PTR;
     }
 
-    /* Set the mutex functions that will call the Java mutex functions, but
-     * only set it, if the field is not null.
+    /* Sft tif mutfx fundtions tibt will dbll tif Jbvb mutfx fundtions, but
+     * only sft it, if tif fifld is not null.
      */
-    jInitArgsClass = (*env)->FindClass(env, CLASS_C_INITIALIZE_ARGS);
-    if (jInitArgsClass == NULL) {
-        free(ckpInitArgs);
-        return NULL;
+    jInitArgsClbss = (*fnv)->FindClbss(fnv, CLASS_C_INITIALIZE_ARGS);
+    if (jInitArgsClbss == NULL) {
+        frff(dkpInitArgs);
+        rfturn NULL;
     }
 
-#ifdef NO_CALLBACKS
-    ckpInitArgs->CreateMutex = NULL_PTR;
-    ckpInitArgs->DestroyMutex = NULL_PTR;
-    ckpInitArgs->LockMutex = NULL_PTR;
-    ckpInitArgs->UnlockMutex = NULL_PTR;
-#else
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "CreateMutex", "Lsun/security/pkcs11/wrapper/CK_CREATEMUTEX;");
-    if (fieldID == NULL) {
-        free(ckpInitArgs);
-        return NULL;
+#ifdff NO_CALLBACKS
+    dkpInitArgs->CrfbtfMutfx = NULL_PTR;
+    dkpInitArgs->DfstroyMutfx = NULL_PTR;
+    dkpInitArgs->LodkMutfx = NULL_PTR;
+    dkpInitArgs->UnlodkMutfx = NULL_PTR;
+#flsf
+    fifldID = (*fnv)->GftFifldID(fnv, jInitArgsClbss, "CrfbtfMutfx", "Lsun/sfdurity/pkds11/wrbppfr/CK_CREATEMUTEX;");
+    if (fifldID == NULL) {
+        frff(dkpInitArgs);
+        rfturn NULL;
     }
-    jMutexHandler = (*env)->GetObjectField(env, jInitArgs, fieldID);
-    ckpInitArgs->CreateMutex = (jMutexHandler != NULL) ? &callJCreateMutex : NULL_PTR;
+    jMutfxHbndlfr = (*fnv)->GftObjfdtFifld(fnv, jInitArgs, fifldID);
+    dkpInitArgs->CrfbtfMutfx = (jMutfxHbndlfr != NULL) ? &dbllJCrfbtfMutfx : NULL_PTR;
 
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "DestroyMutex", "Lsun/security/pkcs11/wrapper/CK_DESTROYMUTEX;");
-    if (fieldID == NULL) {
-        free(ckpInitArgs);
-        return NULL;
+    fifldID = (*fnv)->GftFifldID(fnv, jInitArgsClbss, "DfstroyMutfx", "Lsun/sfdurity/pkds11/wrbppfr/CK_DESTROYMUTEX;");
+    if (fifldID == NULL) {
+        frff(dkpInitArgs);
+        rfturn NULL;
     }
-    jMutexHandler = (*env)->GetObjectField(env, jInitArgs, fieldID);
-    ckpInitArgs->DestroyMutex = (jMutexHandler != NULL) ? &callJDestroyMutex : NULL_PTR;
+    jMutfxHbndlfr = (*fnv)->GftObjfdtFifld(fnv, jInitArgs, fifldID);
+    dkpInitArgs->DfstroyMutfx = (jMutfxHbndlfr != NULL) ? &dbllJDfstroyMutfx : NULL_PTR;
 
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "LockMutex", "Lsun/security/pkcs11/wrapper/CK_LOCKMUTEX;");
-    if (fieldID == NULL) {
-        free(ckpInitArgs);
-        return NULL;
+    fifldID = (*fnv)->GftFifldID(fnv, jInitArgsClbss, "LodkMutfx", "Lsun/sfdurity/pkds11/wrbppfr/CK_LOCKMUTEX;");
+    if (fifldID == NULL) {
+        frff(dkpInitArgs);
+        rfturn NULL;
     }
-    jMutexHandler = (*env)->GetObjectField(env, jInitArgs, fieldID);
-    ckpInitArgs->LockMutex = (jMutexHandler != NULL) ? &callJLockMutex : NULL_PTR;
+    jMutfxHbndlfr = (*fnv)->GftObjfdtFifld(fnv, jInitArgs, fifldID);
+    dkpInitArgs->LodkMutfx = (jMutfxHbndlfr != NULL) ? &dbllJLodkMutfx : NULL_PTR;
 
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "UnlockMutex", "Lsun/security/pkcs11/wrapper/CK_UNLOCKMUTEX;");
-    if (fieldID == NULL) {
-        free(ckpInitArgs);
-        return NULL;
+    fifldID = (*fnv)->GftFifldID(fnv, jInitArgsClbss, "UnlodkMutfx", "Lsun/sfdurity/pkds11/wrbppfr/CK_UNLOCKMUTEX;");
+    if (fifldID == NULL) {
+        frff(dkpInitArgs);
+        rfturn NULL;
     }
-    jMutexHandler = (*env)->GetObjectField(env, jInitArgs, fieldID);
-    ckpInitArgs->UnlockMutex = (jMutexHandler != NULL) ? &callJUnlockMutex : NULL_PTR;
+    jMutfxHbndlfr = (*fnv)->GftObjfdtFifld(fnv, jInitArgs, fifldID);
+    dkpInitArgs->UnlodkMutfx = (jMutfxHbndlfr != NULL) ? &dbllJUnlodkMutfx : NULL_PTR;
 
-    if ((ckpInitArgs->CreateMutex != NULL_PTR)
-            || (ckpInitArgs->DestroyMutex != NULL_PTR)
-            || (ckpInitArgs->LockMutex != NULL_PTR)
-            || (ckpInitArgs->UnlockMutex != NULL_PTR)) {
-        /* we only need to keep a global copy, if we need callbacks */
-        /* set the global object jInitArgs so that the right Java mutex functions will be called */
-        jInitArgsObject = (*env)->NewGlobalRef(env, jInitArgs);
-        ckpGlobalInitArgs = (CK_C_INITIALIZE_ARGS_PTR) malloc(sizeof(CK_C_INITIALIZE_ARGS));
-        if (ckpGlobalInitArgs == NULL) {
-            free(ckpInitArgs);
-            throwOutOfMemoryError(env, 0);
-            return NULL_PTR;
+    if ((dkpInitArgs->CrfbtfMutfx != NULL_PTR)
+            || (dkpInitArgs->DfstroyMutfx != NULL_PTR)
+            || (dkpInitArgs->LodkMutfx != NULL_PTR)
+            || (dkpInitArgs->UnlodkMutfx != NULL_PTR)) {
+        /* wf only nffd to kffp b globbl dopy, if wf nffd dbllbbdks */
+        /* sft tif globbl objfdt jInitArgs so tibt tif rigit Jbvb mutfx fundtions will bf dbllfd */
+        jInitArgsObjfdt = (*fnv)->NfwGlobblRff(fnv, jInitArgs);
+        dkpGlobblInitArgs = (CK_C_INITIALIZE_ARGS_PTR) mbllod(sizfof(CK_C_INITIALIZE_ARGS));
+        if (dkpGlobblInitArgs == NULL) {
+            frff(dkpInitArgs);
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn NULL_PTR;
         }
 
-        memcpy(ckpGlobalInitArgs, ckpInitArgs, sizeof(CK_C_INITIALIZE_ARGS));
+        mfmdpy(dkpGlobblInitArgs, dkpInitArgs, sizfof(CK_C_INITIALIZE_ARGS));
     }
-#endif /* NO_CALLBACKS */
+#fndif /* NO_CALLBACKS */
 
-    /* convert and set the flags field */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "flags", "J");
-    if (fieldID == NULL) {
-        free(ckpInitArgs);
-        return NULL;
+    /* donvfrt bnd sft tif flbgs fifld */
+    fifldID = (*fnv)->GftFifldID(fnv, jInitArgsClbss, "flbgs", "J");
+    if (fifldID == NULL) {
+        frff(dkpInitArgs);
+        rfturn NULL;
     }
-    jFlags = (*env)->GetLongField(env, jInitArgs, fieldID);
-    ckpInitArgs->flags = jLongToCKULong(jFlags);
+    jFlbgs = (*fnv)->GftLongFifld(fnv, jInitArgs, fifldID);
+    dkpInitArgs->flbgs = jLongToCKULong(jFlbgs);
 
-    /* pReserved should be NULL_PTR in this version */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "pReserved", "Ljava/lang/Object;");
-    if (fieldID == NULL) {
-        free(ckpInitArgs);
-        return NULL;
+    /* pRfsfrvfd siould bf NULL_PTR in tiis vfrsion */
+    fifldID = (*fnv)->GftFifldID(fnv, jInitArgsClbss, "pRfsfrvfd", "Ljbvb/lbng/Objfdt;");
+    if (fifldID == NULL) {
+        frff(dkpInitArgs);
+        rfturn NULL;
     }
-    jReserved = (*env)->GetObjectField(env, jInitArgs, fieldID);
+    jRfsfrvfd = (*fnv)->GftObjfdtFifld(fnv, jInitArgs, fifldID);
 
-    /* we try to convert the reserved parameter also */
-    jObjectToPrimitiveCKObjectPtrPtr(env, jReserved, &(ckpInitArgs->pReserved), &ckReservedLength);
+    /* wf try to donvfrt tif rfsfrvfd pbrbmftfr blso */
+    jObjfdtToPrimitivfCKObjfdtPtrPtr(fnv, jRfsfrvfd, &(dkpInitArgs->pRfsfrvfd), &dkRfsfrvfdLfngti);
 
-    return ckpInitArgs ;
+    rfturn dkpInitArgs ;
 }
 
-#ifndef NO_CALLBACKS
+#ifndff NO_CALLBACKS
 
 /*
- * is the function that gets called by PKCS#11 to create a mutex and calls the Java
- * CreateMutex function
+ * is tif fundtion tibt gfts dbllfd by PKCS#11 to drfbtf b mutfx bnd dblls tif Jbvb
+ * CrfbtfMutfx fundtion
  *
- * @param env - used to call JNI funktions to get the Java classes, objects, methods and fields
- * @param ppMutex - the new created mutex
- * @return - should return CKR_OK if the mutex creation was ok
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs, objfdts, mftiods bnd fiflds
+ * @pbrbm ppMutfx - tif nfw drfbtfd mutfx
+ * @rfturn - siould rfturn CKR_OK if tif mutfx drfbtion wbs ok
  */
-CK_RV callJCreateMutex(CK_VOID_PTR_PTR ppMutex)
+CK_RV dbllJCrfbtfMutfx(CK_VOID_PTR_PTR ppMutfx)
 {
-    extern JavaVM *jvm;
-    JNIEnv *env;
-    jint returnValue;
-    jthrowable pkcs11Exception;
-    jclass pkcs11ExceptionClass;
-    jlong errorCode;
+    fxtfrn JbvbVM *jvm;
+    JNIEnv *fnv;
+    jint rfturnVbluf;
+    jtirowbblf pkds11Exdfption;
+    jdlbss pkds11ExdfptionClbss;
+    jlong frrorCodf;
     CK_RV rv = CKR_OK;
-    int wasAttached = 1;
-    jclass jCreateMutexClass;
-    jclass jInitArgsClass;
-    jmethodID methodID;
-    jfieldID fieldID;
-    jobject jCreateMutex;
-    jobject jMutex;
+    int wbsAttbdifd = 1;
+    jdlbss jCrfbtfMutfxClbss;
+    jdlbss jInitArgsClbss;
+    jmftiodID mftiodID;
+    jfifldID fifldID;
+    jobjfdt jCrfbtfMutfx;
+    jobjfdt jMutfx;
 
 
-    /* Get the currently running Java VM */
-    if (jvm == NULL) { return rv ;} /* there is no VM running */
+    /* Gft tif durrfntly running Jbvb VM */
+    if (jvm == NULL) { rfturn rv ;} /* tifrf is no VM running */
 
-    /* Determine, if current thread is already attached */
-    returnValue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
-    if (returnValue == JNI_EDETACHED) {
-        /* thread detached, so attach it */
-        wasAttached = 0;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else if (returnValue == JNI_EVERSION) {
-        /* this version of JNI is not supported, so just try to attach */
-        /* we assume it was attached to ensure that this thread is not detached
-         * afterwards even though it should not
+    /* Dftfrminf, if durrfnt tirfbd is blrfbdy bttbdifd */
+    rfturnVbluf = (*jvm)->GftEnv(jvm, (void **) &fnv, JNI_VERSION_1_2);
+    if (rfturnVbluf == JNI_EDETACHED) {
+        /* tirfbd dftbdifd, so bttbdi it */
+        wbsAttbdifd = 0;
+        rfturnVbluf = (*jvm)->AttbdiCurrfntTirfbd(jvm, (void **) &fnv, NULL);
+    } flsf if (rfturnVbluf == JNI_EVERSION) {
+        /* tiis vfrsion of JNI is not supportfd, so just try to bttbdi */
+        /* wf bssumf it wbs bttbdifd to fnsurf tibt tiis tirfbd is not dftbdifd
+         * bftfrwbrds fvfn tiougi it siould not
          */
-        wasAttached = 1;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else {
-        /* attached */
-        wasAttached = 1;
+        wbsAttbdifd = 1;
+        rfturnVbluf = (*jvm)->AttbdiCurrfntTirfbd(jvm, (void **) &fnv, NULL);
+    } flsf {
+        /* bttbdifd */
+        wbsAttbdifd = 1;
     }
 
-    jCreateMutexClass = (*env)->FindClass(env, CLASS_CREATEMUTEX);
-    if (jCreateMutexClass == NULL) { return rv; }
-    jInitArgsClass = (*env)->FindClass(env, CLASS_C_INITIALIZE_ARGS);
-    if (jInitArgsClass == NULL) { return rv; }
+    jCrfbtfMutfxClbss = (*fnv)->FindClbss(fnv, CLASS_CREATEMUTEX);
+    if (jCrfbtfMutfxClbss == NULL) { rfturn rv; }
+    jInitArgsClbss = (*fnv)->FindClbss(fnv, CLASS_C_INITIALIZE_ARGS);
+    if (jInitArgsClbss == NULL) { rfturn rv; }
 
-    /* get the CreateMutex object out of the jInitArgs object */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "CreateMutex", "Lsun/security/pkcs11/wrapper/CK_CREATEMUTEX;");
-    if (fieldID == NULL) { return rv; }
-    jCreateMutex = (*env)->GetObjectField(env, jInitArgsObject, fieldID);
-    assert(jCreateMutex != 0);
+    /* gft tif CrfbtfMutfx objfdt out of tif jInitArgs objfdt */
+    fifldID = (*fnv)->GftFifldID(fnv, jInitArgsClbss, "CrfbtfMutfx", "Lsun/sfdurity/pkds11/wrbppfr/CK_CREATEMUTEX;");
+    if (fifldID == NULL) { rfturn rv; }
+    jCrfbtfMutfx = (*fnv)->GftObjfdtFifld(fnv, jInitArgsObjfdt, fifldID);
+    bssfrt(jCrfbtfMutfx != 0);
 
-    /* call the CK_CREATEMUTEX function of the CreateMutex object */
-    /* and get the new Java mutex object */
-    methodID = (*env)->GetMethodID(env, jCreateMutexClass, "CK_CREATEMUTEX", "()Ljava/lang/Object;");
-    if (methodID == NULL) { return rv; }
-    jMutex = (*env)->CallObjectMethod(env, jCreateMutex, methodID);
+    /* dbll tif CK_CREATEMUTEX fundtion of tif CrfbtfMutfx objfdt */
+    /* bnd gft tif nfw Jbvb mutfx objfdt */
+    mftiodID = (*fnv)->GftMftiodID(fnv, jCrfbtfMutfxClbss, "CK_CREATEMUTEX", "()Ljbvb/lbng/Objfdt;");
+    if (mftiodID == NULL) { rfturn rv; }
+    jMutfx = (*fnv)->CbllObjfdtMftiod(fnv, jCrfbtfMutfx, mftiodID);
 
-    /* set a global reference on the Java mutex */
-    jMutex = (*env)->NewGlobalRef(env, jMutex);
-    /* convert the Java mutex to a CK mutex */
-    *ppMutex = jObjectToCKVoidPtr(jMutex);
+    /* sft b globbl rfffrfndf on tif Jbvb mutfx */
+    jMutfx = (*fnv)->NfwGlobblRff(fnv, jMutfx);
+    /* donvfrt tif Jbvb mutfx to b CK mutfx */
+    *ppMutfx = jObjfdtToCKVoidPtr(jMutfx);
 
 
-    /* check, if callback threw an exception */
-    pkcs11Exception = (*env)->ExceptionOccurred(env);
+    /* difdk, if dbllbbdk tirfw bn fxdfption */
+    pkds11Exdfption = (*fnv)->ExdfptionOddurrfd(fnv);
 
-    if (pkcs11Exception != NULL) {
-        /* TBD: clear the pending exception with ExceptionClear? */
-        /* The was an exception thrown, now we get the error-code from it */
-        pkcs11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (pkcs11ExceptionClass == NULL) { return rv; }
-        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClass, "getErrorCode", "()J");
-        if (methodID == NULL) { return rv; }
+    if (pkds11Exdfption != NULL) {
+        /* TBD: dlfbr tif pfnding fxdfption witi ExdfptionClfbr? */
+        /* Tif wbs bn fxdfption tirown, now wf gft tif frror-dodf from it */
+        pkds11ExdfptionClbss = (*fnv)->FindClbss(fnv, CLASS_PKCS11EXCEPTION);
+        if (pkds11ExdfptionClbss == NULL) { rfturn rv; }
+        mftiodID = (*fnv)->GftMftiodID(fnv, pkds11ExdfptionClbss, "gftErrorCodf", "()J");
+        if (mftiodID == NULL) { rfturn rv; }
 
-        errorCode = (*env)->CallLongMethod(env, pkcs11Exception, methodID);
-        rv = jLongToCKULong(errorCode);
+        frrorCodf = (*fnv)->CbllLongMftiod(fnv, pkds11Exdfption, mftiodID);
+        rv = jLongToCKULong(frrorCodf);
     }
 
-    /* if we attached this thread to the VM just for callback, we detach it now */
-    if (wasAttached) {
-        returnValue = (*jvm)->DetachCurrentThread(jvm);
+    /* if wf bttbdifd tiis tirfbd to tif VM just for dbllbbdk, wf dftbdi it now */
+    if (wbsAttbdifd) {
+        rfturnVbluf = (*jvm)->DftbdiCurrfntTirfbd(jvm);
     }
 
-    return rv ;
-}
-
-/*
- * is the function that gets called by PKCS#11 to destroy a mutex and calls the Java
- * DestroyMutex function
- *
- * @param env - used to call JNI funktions to get the Java classes, objects, methods and fields
- * @param pMutex - the mutex to destroy
- * @return - should return CKR_OK if the mutex was destroyed
- */
-CK_RV callJDestroyMutex(CK_VOID_PTR pMutex)
-{
-    extern JavaVM *jvm;
-    JNIEnv *env;
-    jint returnValue;
-    jthrowable pkcs11Exception;
-    jclass pkcs11ExceptionClass;
-    jlong errorCode;
-    CK_RV rv = CKR_OK;
-    int wasAttached = 1;
-    jclass jDestroyMutexClass;
-    jclass jInitArgsClass;
-    jmethodID methodID;
-    jfieldID fieldID;
-    jobject jDestroyMutex;
-    jobject jMutex;
-
-
-    /* Get the currently running Java VM */
-    if (jvm == NULL) { return rv ; } /* there is no VM running */
-
-    /* Determine, if current thread is already attached */
-    returnValue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
-    if (returnValue == JNI_EDETACHED) {
-        /* thread detached, so attach it */
-        wasAttached = 0;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else if (returnValue == JNI_EVERSION) {
-        /* this version of JNI is not supported, so just try to attach */
-        /* we assume it was attached to ensure that this thread is not detached
-         * afterwards even though it should not
-         */
-        wasAttached = 1;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else {
-        /* attached */
-        wasAttached = 1;
-    }
-
-    jDestroyMutexClass = (*env)->FindClass(env, CLASS_DESTROYMUTEX);
-    if (jDestroyMutexClass == NULL) { return rv; }
-    jInitArgsClass = (*env)->FindClass(env, CLASS_C_INITIALIZE_ARGS);
-    if (jInitArgsClass == NULL) { return rv; }
-
-    /* convert the CK mutex to a Java mutex */
-    jMutex = ckVoidPtrToJObject(pMutex);
-
-    /* get the DestroyMutex object out of the jInitArgs object */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "DestroyMutex", "Lsun/security/pkcs11/wrapper/CK_DESTROYMUTEX;");
-    if (fieldID == NULL) { return rv; }
-    jDestroyMutex = (*env)->GetObjectField(env, jInitArgsObject, fieldID);
-    assert(jDestroyMutex != 0);
-
-    /* call the CK_DESTROYMUTEX method of the DestroyMutex object */
-    methodID = (*env)->GetMethodID(env, jDestroyMutexClass, "CK_DESTROYMUTEX", "(Ljava/lang/Object;)V");
-    if (methodID == NULL) { return rv; }
-    (*env)->CallVoidMethod(env, jDestroyMutex, methodID, jMutex);
-
-    /* delete the global reference on the Java mutex */
-    (*env)->DeleteGlobalRef(env, jMutex);
-
-
-    /* check, if callback threw an exception */
-    pkcs11Exception = (*env)->ExceptionOccurred(env);
-
-    if (pkcs11Exception != NULL) {
-        /* TBD: clear the pending exception with ExceptionClear? */
-        /* The was an exception thrown, now we get the error-code from it */
-        pkcs11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (pkcs11ExceptionClass == NULL) { return rv; }
-        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClass, "getErrorCode", "()J");
-        if (methodID == NULL) { return rv; }
-        errorCode = (*env)->CallLongMethod(env, pkcs11Exception, methodID);
-        rv = jLongToCKULong(errorCode);
-    }
-
-    /* if we attached this thread to the VM just for callback, we detach it now */
-    if (wasAttached) {
-        returnValue = (*jvm)->DetachCurrentThread(jvm);
-    }
-
-    return rv ;
+    rfturn rv ;
 }
 
 /*
- * is the function that gets called by PKCS#11 to lock a mutex and calls the Java
- * LockMutex function
+ * is tif fundtion tibt gfts dbllfd by PKCS#11 to dfstroy b mutfx bnd dblls tif Jbvb
+ * DfstroyMutfx fundtion
  *
- * @param env - used to call JNI funktions to get the Java classes, objects, methods and fields
- * @param pMutex - the mutex to lock
- * @return - should return CKR_OK if the mutex was not locked already
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs, objfdts, mftiods bnd fiflds
+ * @pbrbm pMutfx - tif mutfx to dfstroy
+ * @rfturn - siould rfturn CKR_OK if tif mutfx wbs dfstroyfd
  */
-CK_RV callJLockMutex(CK_VOID_PTR pMutex)
+CK_RV dbllJDfstroyMutfx(CK_VOID_PTR pMutfx)
 {
-    extern JavaVM *jvm;
-    JNIEnv *env;
-    jint returnValue;
-    jthrowable pkcs11Exception;
-    jclass pkcs11ExceptionClass;
-    jlong errorCode;
+    fxtfrn JbvbVM *jvm;
+    JNIEnv *fnv;
+    jint rfturnVbluf;
+    jtirowbblf pkds11Exdfption;
+    jdlbss pkds11ExdfptionClbss;
+    jlong frrorCodf;
     CK_RV rv = CKR_OK;
-    int wasAttached = 1;
-    jclass jLockMutexClass;
-    jclass jInitArgsClass;
-    jmethodID methodID;
-    jfieldID fieldID;
-    jobject jLockMutex;
-    jobject jMutex;
+    int wbsAttbdifd = 1;
+    jdlbss jDfstroyMutfxClbss;
+    jdlbss jInitArgsClbss;
+    jmftiodID mftiodID;
+    jfifldID fifldID;
+    jobjfdt jDfstroyMutfx;
+    jobjfdt jMutfx;
 
 
-    /* Get the currently running Java VM */
-    if (jvm == NULL) { return rv ; } /* there is no VM running */
+    /* Gft tif durrfntly running Jbvb VM */
+    if (jvm == NULL) { rfturn rv ; } /* tifrf is no VM running */
 
-    /* Determine, if current thread is already attached */
-    returnValue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
-    if (returnValue == JNI_EDETACHED) {
-        /* thread detached, so attach it */
-        wasAttached = 0;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else if (returnValue == JNI_EVERSION) {
-        /* this version of JNI is not supported, so just try to attach */
-        /* we assume it was attached to ensure that this thread is not detached
-         * afterwards even though it should not
+    /* Dftfrminf, if durrfnt tirfbd is blrfbdy bttbdifd */
+    rfturnVbluf = (*jvm)->GftEnv(jvm, (void **) &fnv, JNI_VERSION_1_2);
+    if (rfturnVbluf == JNI_EDETACHED) {
+        /* tirfbd dftbdifd, so bttbdi it */
+        wbsAttbdifd = 0;
+        rfturnVbluf = (*jvm)->AttbdiCurrfntTirfbd(jvm, (void **) &fnv, NULL);
+    } flsf if (rfturnVbluf == JNI_EVERSION) {
+        /* tiis vfrsion of JNI is not supportfd, so just try to bttbdi */
+        /* wf bssumf it wbs bttbdifd to fnsurf tibt tiis tirfbd is not dftbdifd
+         * bftfrwbrds fvfn tiougi it siould not
          */
-        wasAttached = 1;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else {
-        /* attached */
-        wasAttached = 1;
+        wbsAttbdifd = 1;
+        rfturnVbluf = (*jvm)->AttbdiCurrfntTirfbd(jvm, (void **) &fnv, NULL);
+    } flsf {
+        /* bttbdifd */
+        wbsAttbdifd = 1;
     }
 
-    jLockMutexClass = (*env)->FindClass(env, CLASS_LOCKMUTEX);
-    if (jLockMutexClass == NULL) { return rv; }
-    jInitArgsClass = (*env)->FindClass(env, CLASS_C_INITIALIZE_ARGS);
-    if (jInitArgsClass == NULL) { return rv; }
+    jDfstroyMutfxClbss = (*fnv)->FindClbss(fnv, CLASS_DESTROYMUTEX);
+    if (jDfstroyMutfxClbss == NULL) { rfturn rv; }
+    jInitArgsClbss = (*fnv)->FindClbss(fnv, CLASS_C_INITIALIZE_ARGS);
+    if (jInitArgsClbss == NULL) { rfturn rv; }
 
-    /* convert the CK mutex to a Java mutex */
-    jMutex = ckVoidPtrToJObject(pMutex);
+    /* donvfrt tif CK mutfx to b Jbvb mutfx */
+    jMutfx = dkVoidPtrToJObjfdt(pMutfx);
 
-    /* get the LockMutex object out of the jInitArgs object */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "LockMutex", "Lsun/security/pkcs11/wrapper/CK_LOCKMUTEX;");
-    if (fieldID == NULL) { return rv; }
-    jLockMutex = (*env)->GetObjectField(env, jInitArgsObject, fieldID);
-    assert(jLockMutex != 0);
+    /* gft tif DfstroyMutfx objfdt out of tif jInitArgs objfdt */
+    fifldID = (*fnv)->GftFifldID(fnv, jInitArgsClbss, "DfstroyMutfx", "Lsun/sfdurity/pkds11/wrbppfr/CK_DESTROYMUTEX;");
+    if (fifldID == NULL) { rfturn rv; }
+    jDfstroyMutfx = (*fnv)->GftObjfdtFifld(fnv, jInitArgsObjfdt, fifldID);
+    bssfrt(jDfstroyMutfx != 0);
 
-    /* call the CK_LOCKMUTEX method of the LockMutex object */
-    methodID = (*env)->GetMethodID(env, jLockMutexClass, "CK_LOCKMUTEX", "(Ljava/lang/Object;)V");
-    if (methodID == NULL) { return rv; }
-    (*env)->CallVoidMethod(env, jLockMutex, methodID, jMutex);
+    /* dbll tif CK_DESTROYMUTEX mftiod of tif DfstroyMutfx objfdt */
+    mftiodID = (*fnv)->GftMftiodID(fnv, jDfstroyMutfxClbss, "CK_DESTROYMUTEX", "(Ljbvb/lbng/Objfdt;)V");
+    if (mftiodID == NULL) { rfturn rv; }
+    (*fnv)->CbllVoidMftiod(fnv, jDfstroyMutfx, mftiodID, jMutfx);
 
-    /* check, if callback threw an exception */
-    pkcs11Exception = (*env)->ExceptionOccurred(env);
+    /* dflftf tif globbl rfffrfndf on tif Jbvb mutfx */
+    (*fnv)->DflftfGlobblRff(fnv, jMutfx);
 
-    if (pkcs11Exception != NULL) {
-        /* TBD: clear the pending exception with ExceptionClear? */
-        /* The was an exception thrown, now we get the error-code from it */
-        pkcs11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (pkcs11ExceptionClass == NULL) { return rv; }
-        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClass, "getErrorCode", "()J");
-        if (methodID == NULL) { return rv; }
-        errorCode = (*env)->CallLongMethod(env, pkcs11Exception, methodID);
-        rv = jLongToCKULong(errorCode);
+
+    /* difdk, if dbllbbdk tirfw bn fxdfption */
+    pkds11Exdfption = (*fnv)->ExdfptionOddurrfd(fnv);
+
+    if (pkds11Exdfption != NULL) {
+        /* TBD: dlfbr tif pfnding fxdfption witi ExdfptionClfbr? */
+        /* Tif wbs bn fxdfption tirown, now wf gft tif frror-dodf from it */
+        pkds11ExdfptionClbss = (*fnv)->FindClbss(fnv, CLASS_PKCS11EXCEPTION);
+        if (pkds11ExdfptionClbss == NULL) { rfturn rv; }
+        mftiodID = (*fnv)->GftMftiodID(fnv, pkds11ExdfptionClbss, "gftErrorCodf", "()J");
+        if (mftiodID == NULL) { rfturn rv; }
+        frrorCodf = (*fnv)->CbllLongMftiod(fnv, pkds11Exdfption, mftiodID);
+        rv = jLongToCKULong(frrorCodf);
     }
 
-    /* if we attached this thread to the VM just for callback, we detach it now */
-    if (wasAttached) {
-        returnValue = (*jvm)->DetachCurrentThread(jvm);
+    /* if wf bttbdifd tiis tirfbd to tif VM just for dbllbbdk, wf dftbdi it now */
+    if (wbsAttbdifd) {
+        rfturnVbluf = (*jvm)->DftbdiCurrfntTirfbd(jvm);
     }
 
-    return rv ;
+    rfturn rv ;
 }
 
 /*
- * is the function that gets called by PKCS#11 to unlock a mutex and calls the Java
- * UnlockMutex function
+ * is tif fundtion tibt gfts dbllfd by PKCS#11 to lodk b mutfx bnd dblls tif Jbvb
+ * LodkMutfx fundtion
  *
- * @param env - used to call JNI funktions to get the Java classes, objects, methods and fields
- * @param pMutex - the mutex to unlock
- * @return - should return CKR_OK if the mutex was not unlocked already
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs, objfdts, mftiods bnd fiflds
+ * @pbrbm pMutfx - tif mutfx to lodk
+ * @rfturn - siould rfturn CKR_OK if tif mutfx wbs not lodkfd blrfbdy
  */
-CK_RV callJUnlockMutex(CK_VOID_PTR pMutex)
+CK_RV dbllJLodkMutfx(CK_VOID_PTR pMutfx)
 {
-    extern JavaVM *jvm;
-    JNIEnv *env;
-    jint returnValue;
-    jthrowable pkcs11Exception;
-    jclass pkcs11ExceptionClass;
-    jlong errorCode;
+    fxtfrn JbvbVM *jvm;
+    JNIEnv *fnv;
+    jint rfturnVbluf;
+    jtirowbblf pkds11Exdfption;
+    jdlbss pkds11ExdfptionClbss;
+    jlong frrorCodf;
     CK_RV rv = CKR_OK;
-    int wasAttached = 1;
-    jclass jUnlockMutexClass;
-    jclass jInitArgsClass;
-    jmethodID methodID;
-    jfieldID fieldID;
-    jobject jUnlockMutex;
-    jobject jMutex;
+    int wbsAttbdifd = 1;
+    jdlbss jLodkMutfxClbss;
+    jdlbss jInitArgsClbss;
+    jmftiodID mftiodID;
+    jfifldID fifldID;
+    jobjfdt jLodkMutfx;
+    jobjfdt jMutfx;
 
 
-    /* Get the currently running Java VM */
-    if (jvm == NULL) { return rv ; } /* there is no VM running */
+    /* Gft tif durrfntly running Jbvb VM */
+    if (jvm == NULL) { rfturn rv ; } /* tifrf is no VM running */
 
-    /* Determine, if current thread is already attached */
-    returnValue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
-    if (returnValue == JNI_EDETACHED) {
-        /* thread detached, so attach it */
-        wasAttached = 0;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else if (returnValue == JNI_EVERSION) {
-        /* this version of JNI is not supported, so just try to attach */
-        /* we assume it was attached to ensure that this thread is not detached
-         * afterwards even though it should not
+    /* Dftfrminf, if durrfnt tirfbd is blrfbdy bttbdifd */
+    rfturnVbluf = (*jvm)->GftEnv(jvm, (void **) &fnv, JNI_VERSION_1_2);
+    if (rfturnVbluf == JNI_EDETACHED) {
+        /* tirfbd dftbdifd, so bttbdi it */
+        wbsAttbdifd = 0;
+        rfturnVbluf = (*jvm)->AttbdiCurrfntTirfbd(jvm, (void **) &fnv, NULL);
+    } flsf if (rfturnVbluf == JNI_EVERSION) {
+        /* tiis vfrsion of JNI is not supportfd, so just try to bttbdi */
+        /* wf bssumf it wbs bttbdifd to fnsurf tibt tiis tirfbd is not dftbdifd
+         * bftfrwbrds fvfn tiougi it siould not
          */
-        wasAttached = 1;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else {
-        /* attached */
-        wasAttached = 1;
+        wbsAttbdifd = 1;
+        rfturnVbluf = (*jvm)->AttbdiCurrfntTirfbd(jvm, (void **) &fnv, NULL);
+    } flsf {
+        /* bttbdifd */
+        wbsAttbdifd = 1;
     }
 
-    jUnlockMutexClass = (*env)->FindClass(env, CLASS_UNLOCKMUTEX);
-    if (jUnlockMutexClass == NULL) { return rv; }
-    jInitArgsClass = (*env)->FindClass(env, CLASS_C_INITIALIZE_ARGS);
-    if (jInitArgsClass == NULL) { return rv; }
+    jLodkMutfxClbss = (*fnv)->FindClbss(fnv, CLASS_LOCKMUTEX);
+    if (jLodkMutfxClbss == NULL) { rfturn rv; }
+    jInitArgsClbss = (*fnv)->FindClbss(fnv, CLASS_C_INITIALIZE_ARGS);
+    if (jInitArgsClbss == NULL) { rfturn rv; }
 
-    /* convert the CK-type mutex to a Java mutex */
-    jMutex = ckVoidPtrToJObject(pMutex);
+    /* donvfrt tif CK mutfx to b Jbvb mutfx */
+    jMutfx = dkVoidPtrToJObjfdt(pMutfx);
 
-    /* get the UnlockMutex object out of the jInitArgs object */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "UnlockMutex", "Lsun/security/pkcs11/wrapper/CK_UNLOCKMUTEX;");
-    if (fieldID == NULL) { return rv; }
-    jUnlockMutex = (*env)->GetObjectField(env, jInitArgsObject, fieldID);
-    assert(jUnlockMutex != 0);
+    /* gft tif LodkMutfx objfdt out of tif jInitArgs objfdt */
+    fifldID = (*fnv)->GftFifldID(fnv, jInitArgsClbss, "LodkMutfx", "Lsun/sfdurity/pkds11/wrbppfr/CK_LOCKMUTEX;");
+    if (fifldID == NULL) { rfturn rv; }
+    jLodkMutfx = (*fnv)->GftObjfdtFifld(fnv, jInitArgsObjfdt, fifldID);
+    bssfrt(jLodkMutfx != 0);
 
-    /* call the CK_UNLOCKMUTEX method of the UnLockMutex object */
-    methodID = (*env)->GetMethodID(env, jUnlockMutexClass, "CK_UNLOCKMUTEX", "(Ljava/lang/Object;)V");
-    if (methodID == NULL) { return rv; }
-    (*env)->CallVoidMethod(env, jUnlockMutex, methodID, jMutex);
+    /* dbll tif CK_LOCKMUTEX mftiod of tif LodkMutfx objfdt */
+    mftiodID = (*fnv)->GftMftiodID(fnv, jLodkMutfxClbss, "CK_LOCKMUTEX", "(Ljbvb/lbng/Objfdt;)V");
+    if (mftiodID == NULL) { rfturn rv; }
+    (*fnv)->CbllVoidMftiod(fnv, jLodkMutfx, mftiodID, jMutfx);
 
-    /* check, if callback threw an exception */
-    pkcs11Exception = (*env)->ExceptionOccurred(env);
+    /* difdk, if dbllbbdk tirfw bn fxdfption */
+    pkds11Exdfption = (*fnv)->ExdfptionOddurrfd(fnv);
 
-    if (pkcs11Exception != NULL) {
-        /* TBD: clear the pending exception with ExceptionClear? */
-        /* The was an exception thrown, now we get the error-code from it */
-        pkcs11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (pkcs11ExceptionClass == NULL) { return rv; }
-        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClass, "getErrorCode", "()J");
-        if (methodID == NULL) { return rv; }
-        errorCode = (*env)->CallLongMethod(env, pkcs11Exception, methodID);
-        rv = jLongToCKULong(errorCode);
+    if (pkds11Exdfption != NULL) {
+        /* TBD: dlfbr tif pfnding fxdfption witi ExdfptionClfbr? */
+        /* Tif wbs bn fxdfption tirown, now wf gft tif frror-dodf from it */
+        pkds11ExdfptionClbss = (*fnv)->FindClbss(fnv, CLASS_PKCS11EXCEPTION);
+        if (pkds11ExdfptionClbss == NULL) { rfturn rv; }
+        mftiodID = (*fnv)->GftMftiodID(fnv, pkds11ExdfptionClbss, "gftErrorCodf", "()J");
+        if (mftiodID == NULL) { rfturn rv; }
+        frrorCodf = (*fnv)->CbllLongMftiod(fnv, pkds11Exdfption, mftiodID);
+        rv = jLongToCKULong(frrorCodf);
     }
 
-    /* if we attached this thread to the VM just for callback, we detach it now */
-    if (wasAttached) {
-        returnValue = (*jvm)->DetachCurrentThread(jvm);
+    /* if wf bttbdifd tiis tirfbd to tif VM just for dbllbbdk, wf dftbdi it now */
+    if (wbsAttbdifd) {
+        rfturnVbluf = (*jvm)->DftbdiCurrfntTirfbd(jvm);
     }
 
-    return rv ;
+    rfturn rv ;
 }
 
-#endif /* NO_CALLBACKS */
+/*
+ * is tif fundtion tibt gfts dbllfd by PKCS#11 to unlodk b mutfx bnd dblls tif Jbvb
+ * UnlodkMutfx fundtion
+ *
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs, objfdts, mftiods bnd fiflds
+ * @pbrbm pMutfx - tif mutfx to unlodk
+ * @rfturn - siould rfturn CKR_OK if tif mutfx wbs not unlodkfd blrfbdy
+ */
+CK_RV dbllJUnlodkMutfx(CK_VOID_PTR pMutfx)
+{
+    fxtfrn JbvbVM *jvm;
+    JNIEnv *fnv;
+    jint rfturnVbluf;
+    jtirowbblf pkds11Exdfption;
+    jdlbss pkds11ExdfptionClbss;
+    jlong frrorCodf;
+    CK_RV rv = CKR_OK;
+    int wbsAttbdifd = 1;
+    jdlbss jUnlodkMutfxClbss;
+    jdlbss jInitArgsClbss;
+    jmftiodID mftiodID;
+    jfifldID fifldID;
+    jobjfdt jUnlodkMutfx;
+    jobjfdt jMutfx;
+
+
+    /* Gft tif durrfntly running Jbvb VM */
+    if (jvm == NULL) { rfturn rv ; } /* tifrf is no VM running */
+
+    /* Dftfrminf, if durrfnt tirfbd is blrfbdy bttbdifd */
+    rfturnVbluf = (*jvm)->GftEnv(jvm, (void **) &fnv, JNI_VERSION_1_2);
+    if (rfturnVbluf == JNI_EDETACHED) {
+        /* tirfbd dftbdifd, so bttbdi it */
+        wbsAttbdifd = 0;
+        rfturnVbluf = (*jvm)->AttbdiCurrfntTirfbd(jvm, (void **) &fnv, NULL);
+    } flsf if (rfturnVbluf == JNI_EVERSION) {
+        /* tiis vfrsion of JNI is not supportfd, so just try to bttbdi */
+        /* wf bssumf it wbs bttbdifd to fnsurf tibt tiis tirfbd is not dftbdifd
+         * bftfrwbrds fvfn tiougi it siould not
+         */
+        wbsAttbdifd = 1;
+        rfturnVbluf = (*jvm)->AttbdiCurrfntTirfbd(jvm, (void **) &fnv, NULL);
+    } flsf {
+        /* bttbdifd */
+        wbsAttbdifd = 1;
+    }
+
+    jUnlodkMutfxClbss = (*fnv)->FindClbss(fnv, CLASS_UNLOCKMUTEX);
+    if (jUnlodkMutfxClbss == NULL) { rfturn rv; }
+    jInitArgsClbss = (*fnv)->FindClbss(fnv, CLASS_C_INITIALIZE_ARGS);
+    if (jInitArgsClbss == NULL) { rfturn rv; }
+
+    /* donvfrt tif CK-typf mutfx to b Jbvb mutfx */
+    jMutfx = dkVoidPtrToJObjfdt(pMutfx);
+
+    /* gft tif UnlodkMutfx objfdt out of tif jInitArgs objfdt */
+    fifldID = (*fnv)->GftFifldID(fnv, jInitArgsClbss, "UnlodkMutfx", "Lsun/sfdurity/pkds11/wrbppfr/CK_UNLOCKMUTEX;");
+    if (fifldID == NULL) { rfturn rv; }
+    jUnlodkMutfx = (*fnv)->GftObjfdtFifld(fnv, jInitArgsObjfdt, fifldID);
+    bssfrt(jUnlodkMutfx != 0);
+
+    /* dbll tif CK_UNLOCKMUTEX mftiod of tif UnLodkMutfx objfdt */
+    mftiodID = (*fnv)->GftMftiodID(fnv, jUnlodkMutfxClbss, "CK_UNLOCKMUTEX", "(Ljbvb/lbng/Objfdt;)V");
+    if (mftiodID == NULL) { rfturn rv; }
+    (*fnv)->CbllVoidMftiod(fnv, jUnlodkMutfx, mftiodID, jMutfx);
+
+    /* difdk, if dbllbbdk tirfw bn fxdfption */
+    pkds11Exdfption = (*fnv)->ExdfptionOddurrfd(fnv);
+
+    if (pkds11Exdfption != NULL) {
+        /* TBD: dlfbr tif pfnding fxdfption witi ExdfptionClfbr? */
+        /* Tif wbs bn fxdfption tirown, now wf gft tif frror-dodf from it */
+        pkds11ExdfptionClbss = (*fnv)->FindClbss(fnv, CLASS_PKCS11EXCEPTION);
+        if (pkds11ExdfptionClbss == NULL) { rfturn rv; }
+        mftiodID = (*fnv)->GftMftiodID(fnv, pkds11ExdfptionClbss, "gftErrorCodf", "()J");
+        if (mftiodID == NULL) { rfturn rv; }
+        frrorCodf = (*fnv)->CbllLongMftiod(fnv, pkds11Exdfption, mftiodID);
+        rv = jLongToCKULong(frrorCodf);
+    }
+
+    /* if wf bttbdifd tiis tirfbd to tif VM just for dbllbbdk, wf dftbdi it now */
+    if (wbsAttbdifd) {
+        rfturnVbluf = (*jvm)->DftbdiCurrfntTirfbd(jvm);
+    }
+
+    rfturn rv ;
+}
+
+#fndif /* NO_CALLBACKS */

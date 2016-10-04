@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import javax.swing.MenuElement;
-import javax.swing.MenuSelectionManager;
-import java.util.EventObject;
-import java.awt.event.KeyEvent;
-import java.awt.Component;
+import jbvbx.swing.MfnuElfmfnt;
+import jbvbx.swing.MfnuSflfdtionMbnbgfr;
+import jbvb.util.EvfntObjfdt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.Componfnt;
 
 
 /**
- * MenuKeyEvent is used to notify interested parties that
- * the menu element has received a KeyEvent forwarded to it
- * in a menu tree.
+ * MfnuKfyEvfnt is usfd to notify intfrfstfd pbrtifs tibt
+ * tif mfnu flfmfnt ibs rfdfivfd b KfyEvfnt forwbrdfd to it
+ * in b mfnu trff.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Georges Saab
+ * @butior Gforgfs Sbbb
  */
-@SuppressWarnings("serial")
-public class MenuKeyEvent extends KeyEvent {
-    private MenuElement path[];
-    private MenuSelectionManager manager;
+@SupprfssWbrnings("sfribl")
+publid dlbss MfnuKfyEvfnt fxtfnds KfyEvfnt {
+    privbtf MfnuElfmfnt pbti[];
+    privbtf MfnuSflfdtionMbnbgfr mbnbgfr;
 
     /**
-     * Constructs a MenuKeyEvent object.
+     * Construdts b MfnuKfyEvfnt objfdt.
      *
-     * @param source     the Component that originated the event
-     *                     (typically <code>this</code>)
-     * @param id         an int specifying the type of event, as defined
-     *                     in {@link java.awt.event.KeyEvent}
-     * @param when       a long identifying the time the event occurred
-     * @param modifiers     an int specifying any modifier keys held down,
-     *                      as specified in {@link java.awt.event.InputEvent}
-     * @param keyCode    an int specifying the specific key that was pressed
-     * @param keyChar    a char specifying the key's character value, if any
-     *                   -- null if the key has no character value
-     * @param p          an array of MenuElement objects specifying a path
-     *                     to a menu item affected by the drag
-     * @param m          a MenuSelectionManager object that handles selections
+     * @pbrbm sourdf     tif Componfnt tibt originbtfd tif fvfnt
+     *                     (typidblly <dodf>tiis</dodf>)
+     * @pbrbm id         bn int spfdifying tif typf of fvfnt, bs dffinfd
+     *                     in {@link jbvb.bwt.fvfnt.KfyEvfnt}
+     * @pbrbm wifn       b long idfntifying tif timf tif fvfnt oddurrfd
+     * @pbrbm modififrs     bn int spfdifying bny modififr kfys ifld down,
+     *                      bs spfdififd in {@link jbvb.bwt.fvfnt.InputEvfnt}
+     * @pbrbm kfyCodf    bn int spfdifying tif spfdifid kfy tibt wbs prfssfd
+     * @pbrbm kfyCibr    b dibr spfdifying tif kfy's dibrbdtfr vbluf, if bny
+     *                   -- null if tif kfy ibs no dibrbdtfr vbluf
+     * @pbrbm p          bn brrby of MfnuElfmfnt objfdts spfdifying b pbti
+     *                     to b mfnu itfm bfffdtfd by tif drbg
+     * @pbrbm m          b MfnuSflfdtionMbnbgfr objfdt tibt ibndlfs sflfdtions
      */
-    public MenuKeyEvent(Component source, int id, long when, int modifiers,
-                        int keyCode, char keyChar,
-                        MenuElement p[], MenuSelectionManager m) {
-        super(source, id, when, modifiers, keyCode, keyChar);
-        path = p;
-        manager = m;
+    publid MfnuKfyEvfnt(Componfnt sourdf, int id, long wifn, int modififrs,
+                        int kfyCodf, dibr kfyCibr,
+                        MfnuElfmfnt p[], MfnuSflfdtionMbnbgfr m) {
+        supfr(sourdf, id, wifn, modififrs, kfyCodf, kfyCibr);
+        pbti = p;
+        mbnbgfr = m;
     }
 
     /**
-     * Returns the path to the menu item referenced by this event.
+     * Rfturns tif pbti to tif mfnu itfm rfffrfndfd by tiis fvfnt.
      *
-     * @return an array of MenuElement objects representing the path value
+     * @rfturn bn brrby of MfnuElfmfnt objfdts rfprfsfnting tif pbti vbluf
      */
-    public MenuElement[] getPath() {
-        return path;
+    publid MfnuElfmfnt[] gftPbti() {
+        rfturn pbti;
     }
 
     /**
-     * Returns the current menu selection manager.
+     * Rfturns tif durrfnt mfnu sflfdtion mbnbgfr.
      *
-     * @return a MenuSelectionManager object
+     * @rfturn b MfnuSflfdtionMbnbgfr objfdt
      */
-    public MenuSelectionManager getMenuSelectionManager() {
-        return manager;
+    publid MfnuSflfdtionMbnbgfr gftMfnuSflfdtionMbnbgfr() {
+        rfturn mbnbgfr;
     }
 }

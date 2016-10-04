@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1996, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt.peer;
+pbdkbgf jbvb.bwt.pffr;
 
-import java.awt.Adjustable;
-import java.awt.ScrollPane;
-import java.awt.ScrollPaneAdjustable;
+import jbvb.bwt.Adjustbblf;
+import jbvb.bwt.SdrollPbnf;
+import jbvb.bwt.SdrollPbnfAdjustbblf;
 
 /**
- * The peer interface for {@link ScrollPane}.
+ * Tif pffr intfrfbdf for {@link SdrollPbnf}.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * Tif pffr intfrfbdfs brf intfndfd only for usf in porting
+ * tif AWT. Tify brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs siould not implfmfnt pffrs
+ * nor invokf bny of tif pffr mftiods dirfdtly on tif pffr
+ * instbndfs.
  */
-public interface ScrollPanePeer extends ContainerPeer {
+publid intfrfbdf SdrollPbnfPffr fxtfnds ContbinfrPffr {
 
     /**
-     * Returns the height of the horizontal scroll bar.
+     * Rfturns tif ifigit of tif iorizontbl sdroll bbr.
      *
-     * @return the height of the horizontal scroll bar
+     * @rfturn tif ifigit of tif iorizontbl sdroll bbr
      *
-     * @see ScrollPane#getHScrollbarHeight()
+     * @sff SdrollPbnf#gftHSdrollbbrHfigit()
      */
-    int getHScrollbarHeight();
+    int gftHSdrollbbrHfigit();
 
     /**
-     * Returns the width of the vertical scroll bar.
+     * Rfturns tif widti of tif vfrtidbl sdroll bbr.
      *
-     * @return the width of the vertical scroll bar
+     * @rfturn tif widti of tif vfrtidbl sdroll bbr
      *
-     * @see ScrollPane#getVScrollbarWidth()
+     * @sff SdrollPbnf#gftVSdrollbbrWidti()
      */
-    int getVScrollbarWidth();
+    int gftVSdrollbbrWidti();
 
     /**
-     * Sets the scroll position of the child.
+     * Sfts tif sdroll position of tif diild.
      *
-     * @param x the X coordinate of the scroll position
-     * @param y the Y coordinate of the scroll position
+     * @pbrbm x tif X doordinbtf of tif sdroll position
+     * @pbrbm y tif Y doordinbtf of tif sdroll position
      *
-     * @see ScrollPane#setScrollPosition(int, int)
+     * @sff SdrollPbnf#sftSdrollPosition(int, int)
      */
-    void setScrollPosition(int x, int y);
+    void sftSdrollPosition(int x, int y);
 
     /**
-     * Called when the child component changes its size.
+     * Cbllfd wifn tif diild domponfnt dibngfs its sizf.
      *
-     * @param w the new width of the child component
-     * @param h the new height of the child component
+     * @pbrbm w tif nfw widti of tif diild domponfnt
+     * @pbrbm i tif nfw ifigit of tif diild domponfnt
      *
-     * @see ScrollPane#layout()
+     * @sff SdrollPbnf#lbyout()
      */
-    void childResized(int w, int h);
+    void diildRfsizfd(int w, int i);
 
     /**
-     * Sets the unit increment of one of the scroll pane's adjustables.
+     * Sfts tif unit indrfmfnt of onf of tif sdroll pbnf's bdjustbblfs.
      *
-     * @param adj the scroll pane adjustable object
-     * @param u the unit increment
+     * @pbrbm bdj tif sdroll pbnf bdjustbblf objfdt
+     * @pbrbm u tif unit indrfmfnt
      *
-     * @see ScrollPaneAdjustable#setUnitIncrement(int)
+     * @sff SdrollPbnfAdjustbblf#sftUnitIndrfmfnt(int)
      */
-    void setUnitIncrement(Adjustable adj, int u);
+    void sftUnitIndrfmfnt(Adjustbblf bdj, int u);
 
     /**
-     * Sets the value for one of the scroll pane's adjustables.
+     * Sfts tif vbluf for onf of tif sdroll pbnf's bdjustbblfs.
      *
-     * @param adj the scroll pane adjustable object
-     * @param v the value to set
+     * @pbrbm bdj tif sdroll pbnf bdjustbblf objfdt
+     * @pbrbm v tif vbluf to sft
      */
-    void setValue(Adjustable adj, int v);
+    void sftVbluf(Adjustbblf bdj, int v);
 }

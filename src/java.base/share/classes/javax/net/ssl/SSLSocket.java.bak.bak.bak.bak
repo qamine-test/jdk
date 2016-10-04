@@ -1,0 +1,665 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.*;
+
+/**
+ * This dlbss fxtfnds <dodf>Sodkft</dodf>s bnd providfs sfdurf
+ * sodkft using protodols sudh bs thf "Sfdurf
+ * Sodkfts Lbyfr" (SSL) or IETF "Trbnsport Lbyfr Sfdurity" (TLS) protodols.
+ * <P>
+ * Sudh sodkfts brf normbl strfbm sodkfts, but thfy
+ * bdd b lbyfr of sfdurity protfdtions ovfr thf undfrlying nftwork trbnsport
+ * protodol, sudh bs TCP.  Thosf protfdtions indludf: <UL>
+ *
+ *      <LI> <fm>Intfgrity Protfdtion</fm>.  SSL protfdts bgbinst
+ *      modifidbtion of mfssbgfs by bn bdtivf wirftbppfr.
+ *
+ *      <LI> <fm>Authfntidbtion</fm>.  In most modfs, SSL providfs
+ *      pffr buthfntidbtion.  Sfrvfrs brf usublly buthfntidbtfd,
+ *      bnd dlifnts mby bf buthfntidbtfd bs rfqufstfd by sfrvfrs.
+ *
+ *      <LI> <fm>Confidfntiblity (Privbdy Protfdtion)</fm>.  In most
+ *      modfs, SSL fndrypts dbtb bfing sfnt bftwffn dlifnt bnd sfrvfr.
+ *      This protfdts thf donfidfntiblity of dbtb, so thbt pbssivf
+ *      wirftbppfrs won't sff sfnsitivf dbtb sudh bs finbndibl
+ *      informbtion or pfrsonbl informbtion of mbny kinds.
+ *
+ *      </UL>
+ *
+ * <P>Thfsf kinds of protfdtion brf spfdififd by b "diphfr suitf", whidh
+ * is b dombinbtion of dryptogrbphid blgorithms usfd by b givfn SSL donnfdtion.
+ * During thf nfgotibtion prodfss, thf two fndpoints must bgrff on
+ * b diphfrsuitf thbt is bvbilbblf in both fnvironmfnts.
+ * If thfrf is no sudh suitf in dommon, no SSL donnfdtion dbn
+ * bf fstbblishfd, bnd no dbtb dbn bf fxdhbngfd.
+ *
+ * <P> Thf diphfr suitf usfd is fstbblishfd by b nfgotibtion prodfss
+ * dbllfd "hbndshbking".  Thf gobl of this
+ * prodfss is to drfbtf or rfjoin b "sfssion", whidh mby protfdt mbny
+ * donnfdtions ovfr timf.  Aftfr hbndshbking hbs domplftfd, you dbn bddfss
+ * sfssion bttributfs by using thf <fm>gftSfssion</fm> mfthod.
+ * Thf initibl hbndshbkf on this donnfdtion dbn bf initibtfd in
+ * onf of thrff wbys: <UL>
+ *
+ *      <LI> dblling <dodf>stbrtHbndshbkf</dodf> whidh fxpliditly
+ *              bfgins hbndshbkfs, or
+ *      <LI> bny bttfmpt to rfbd or writf bpplidbtion dbtb on
+ *              this sodkft dbusfs bn implidit hbndshbkf, or
+ *      <LI> b dbll to <dodf>gftSfssion</dodf> trifs to sft up b sfssion
+ *              if thfrf is no durrfntly vblid sfssion, bnd
+ *              bn implidit hbndshbkf is donf.
+ * </UL>
+ *
+ * <P>If hbndshbking fbils for bny rfbson, thf <dodf>SSLSodkft</dodf>
+ * is dlosfd, bnd no furthfr dommunidbtions dbn bf donf.
+ *
+ * <P>Thfrf brf two groups of diphfr suitfs whidh you will nffd to know
+ * bbout whfn mbnbging diphfr suitfs: <UL>
+ *
+ *      <LI> <fm>Supportfd</fm> diphfr suitfs:  bll thf suitfs whidh brf
+ *      supportfd by thf SSL implfmfntbtion.  This list is rfportfd
+ *      using <fm>gftSupportfdCiphfrSuitfs</fm>.
+ *
+ *      <LI> <fm>Enbblfd</fm> diphfr suitfs, whidh mby bf ffwfr
+ *      thbn thf full sft of supportfd suitfs.  This group is
+ *      sft using thf <fm>sftEnbblfdCiphfrSuitfs</fm> mfthod, bnd
+ *      qufrifd using thf <fm>gftEnbblfdCiphfrSuitfs</fm> mfthod.
+ *      Initiblly, b dffbult sft of diphfr suitfs will bf fnbblfd on
+ *      b nfw sodkft thbt rfprfsfnts thf minimum suggfstfd donfigurbtion.
+ *
+ *      </UL>
+ *
+ * <P> Implfmfntbtion dffbults rfquirf thbt only diphfr
+ * suitfs whidh buthfntidbtf sfrvfrs bnd providf donfidfntiblity
+ * bf fnbblfd by dffbult.
+ * Only if both sidfs fxpliditly bgrff to unbuthfntidbtfd bnd/or
+ * non-privbtf (unfndryptfd) dommunidbtions will sudh b diphfrsuitf bf
+ * sflfdtfd.
+ *
+ * <P>Whfn <dodf>SSLSodkft</dodf>s brf first drfbtfd, no hbndshbking
+ * is donf so thbt bpplidbtions mby first sft thfir dommunidbtion
+ * prfffrfndfs:  whbt diphfr suitfs to usf, whfthfr thf sodkft should bf
+ * in dlifnt or sfrvfr modf, ftd.
+ * Howfvfr, sfdurity is blwbys providfd by thf timf thbt bpplidbtion dbtb
+ * is sfnt ovfr thf donnfdtion.
+ *
+ * <P> You mby rfgistfr to rfdfivf fvfnt notifidbtion of hbndshbkf
+ * domplftion.  This involvfs
+ * thf usf of two bdditionbl dlbssfs.  <fm>HbndshbkfComplftfdEvfnt</fm>
+ * objfdts brf pbssfd to <fm>HbndshbkfComplftfdListfnfr</fm> instbndfs,
+ * whidh brf rfgistfrfd by usfrs of this API.
+ *
+ * <dodf>SSLSodkft</dodf>s brf drfbtfd by <dodf>SSLSodkftFbdtory</dodf>s,
+ * or by <dodf>bddfpt</dodf>ing b donnfdtion from b
+ * <dodf>SSLSfrvfrSodkft</dodf>.
+ *
+ * <P>A SSL sodkft must dhoosf to opfrbtf in thf dlifnt or sfrvfr modf.
+ * This will dftfrminf who bfgins thf hbndshbking prodfss, bs wfll
+ * bs whidh mfssbgfs should bf sfnt by fbdh pbrty.  Ebdh
+ * donnfdtion must hbvf onf dlifnt bnd onf sfrvfr, or hbndshbking
+ * will not progrfss propfrly.  Ondf thf initibl hbndshbking hbs stbrtfd, b
+ * sodkft dbn not switdh bftwffn dlifnt bnd sfrvfr modfs, fvfn whfn
+ * pfrforming rfnfgotibtions.
+ *
+ * @sff jbvb.nft.Sodkft
+ * @sff SSLSfrvfrSodkft
+ * @sff SSLSodkftFbdtory
+ *
+ * @sindf 1.4
+ * @buthor Dbvid Brownfll
+ */
+publid bbstrbdt dlbss SSLSodkft fxtfnds Sodkft
+{
+    /**
+     * Usfd only by subdlbssfs.
+     * Construdts bn uninitiblizfd, undonnfdtfd TCP sodkft.
+     */
+    protfdtfd SSLSodkft()
+        { supfr(); }
+
+
+    /**
+     * Usfd only by subdlbssfs.
+     * Construdts b TCP donnfdtion to b nbmfd host bt b spfdififd port.
+     * This bdts bs thf SSL dlifnt.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkConnfdt</dodf>
+     * mfthod is dbllfd with thf host bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm host nbmf of thf host with whidh to donnfdt, or
+     *        <dodf>null</dodf> for thf loopbbdk bddrfss.
+     * @pbrbm port numbfr of thf sfrvfr's port
+     * @throws IOExdfption if bn I/O frror oddurs whfn drfbting thf sodkft
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>dhfdkConnfdt</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @throws UnknownHostExdfption if thf host is not known
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf thf
+     *         spfdififd rbngf of vblid port vblufs, whidh is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    protfdtfd SSLSodkft(String host, int port)
+    throws IOExdfption, UnknownHostExdfption
+        { supfr(host, port); }
+
+
+    /**
+     * Usfd only by subdlbssfs.
+     * Construdts b TCP donnfdtion to b sfrvfr bt b spfdififd bddrfss
+     * bnd port.  This bdts bs thf SSL dlifnt.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkConnfdt</dodf>
+     * mfthod is dbllfd with thf host bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm bddrfss thf sfrvfr's host
+     * @pbrbm port its port
+     * @throws IOExdfption if bn I/O frror oddurs whfn drfbting thf sodkft
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>dhfdkConnfdt</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf thf
+     *         spfdififd rbngf of vblid port vblufs, whidh is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @throws NullPointfrExdfption if <dodf>bddrfss</dodf> is null.
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    protfdtfd SSLSodkft(InftAddrfss bddrfss, int port)
+    throws IOExdfption
+        { supfr(bddrfss, port); }
+
+
+    /**
+     * Usfd only by subdlbssfs.
+     * Construdts bn SSL donnfdtion to b nbmfd host bt b spfdififd port,
+     * binding thf dlifnt sidf of thf donnfdtion b givfn bddrfss bnd port.
+     * This bdts bs thf SSL dlifnt.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkConnfdt</dodf>
+     * mfthod is dbllfd with thf host bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm host nbmf of thf host with whidh to donnfdt, or
+     *        <dodf>null</dodf> for thf loopbbdk bddrfss.
+     * @pbrbm port numbfr of thf sfrvfr's port
+     * @pbrbm dlifntAddrfss thf dlifnt's bddrfss thf sodkft is bound to, or
+     *        <dodf>null</dodf> for thf <dodf>bnyLodbl</dodf> bddrfss.
+     * @pbrbm dlifntPort thf dlifnt's port thf sodkft is bound to, or
+     *        <dodf>zfro</dodf> for b systfm sflfdtfd frff port.
+     * @throws IOExdfption if bn I/O frror oddurs whfn drfbting thf sodkft
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>dhfdkConnfdt</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @throws UnknownHostExdfption if thf host is not known
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr or dlifntPort
+     *         pbrbmftfr is outsidf thf spfdififd rbngf of vblid port vblufs,
+     *         whidh is bftwffn 0 bnd 65535, indlusivf.
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    protfdtfd SSLSodkft(String host, int port,
+        InftAddrfss dlifntAddrfss, int dlifntPort)
+    throws IOExdfption, UnknownHostExdfption
+        { supfr(host, port, dlifntAddrfss, dlifntPort); }
+
+
+    /**
+     * Usfd only by subdlbssfs.
+     * Construdts bn SSL donnfdtion to b sfrvfr bt b spfdififd bddrfss
+     * bnd TCP port, binding thf dlifnt sidf of thf donnfdtion b givfn
+     * bddrfss bnd port.  This bdts bs thf SSL dlifnt.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkConnfdt</dodf>
+     * mfthod is dbllfd with thf host bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm bddrfss thf sfrvfr's host
+     * @pbrbm port its port
+     * @pbrbm dlifntAddrfss thf dlifnt's bddrfss thf sodkft is bound to, or
+     *        <dodf>null</dodf> for thf <dodf>bnyLodbl</dodf> bddrfss.
+     * @pbrbm dlifntPort thf dlifnt's port thf sodkft is bound to, or
+     *        <dodf>zfro</dodf> for b systfm sflfdtfd frff port.
+     * @throws IOExdfption if bn I/O frror oddurs whfn drfbting thf sodkft
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>dhfdkConnfdt</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr or dlifntPort
+     *         pbrbmftfr is outsidf thf spfdififd rbngf of vblid port vblufs,
+     *         whidh is bftwffn 0 bnd 65535, indlusivf.
+     * @throws NullPointfrExdfption if <dodf>bddrfss</dodf> is null.
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    protfdtfd SSLSodkft(InftAddrfss bddrfss, int port,
+        InftAddrfss dlifntAddrfss, int dlifntPort)
+    throws IOExdfption
+        { supfr(bddrfss, port, dlifntAddrfss, dlifntPort); }
+
+
+    /**
+     * Rfturns thf nbmfs of thf diphfr suitfs whidh dould bf fnbblfd for usf
+     * on this donnfdtion.  Normblly, only b subsft of thfsf will bdtublly
+     * bf fnbblfd by dffbult, sindf this list mby indludf diphfr suitfs whidh
+     * do not mfft qublity of sfrvidf rfquirfmfnts for thosf dffbults.  Sudh
+     * diphfr suitfs might bf usfful in spfdiblizfd bpplidbtions.
+     *
+     * @rfturn bn brrby of diphfr suitf nbmfs
+     * @sff #gftEnbblfdCiphfrSuitfs()
+     * @sff #sftEnbblfdCiphfrSuitfs(String [])
+     */
+    publid bbstrbdt String [] gftSupportfdCiphfrSuitfs();
+
+
+    /**
+     * Rfturns thf nbmfs of thf SSL diphfr suitfs whidh brf durrfntly
+     * fnbblfd for usf on this donnfdtion.  Whfn bn SSLSodkft is first
+     * drfbtfd, bll fnbblfd diphfr suitfs support b minimum qublity of
+     * sfrvidf.  Thus, in somf fnvironmfnts this vbluf might bf fmpty.
+     * <P>
+     * Evfn if b suitf hbs bffn fnbblfd, it might nfvfr bf usfd.  (For
+     * fxbmplf, thf pffr dofs not support it, thf rfquisitf dfrtifidbtfs
+     * (bnd privbtf kfys) for thf suitf brf not bvbilbblf, or bn
+     * bnonymous suitf is fnbblfd but buthfntidbtion is rfquirfd.
+     *
+     * @rfturn bn brrby of diphfr suitf nbmfs
+     * @sff #gftSupportfdCiphfrSuitfs()
+     * @sff #sftEnbblfdCiphfrSuitfs(String [])
+     */
+    publid bbstrbdt String [] gftEnbblfdCiphfrSuitfs();
+
+
+    /**
+     * Sfts thf diphfr suitfs fnbblfd for usf on this donnfdtion.
+     * <P>
+     * Ebdh diphfr suitf in thf <dodf>suitfs</dodf> pbrbmftfr must hbvf
+     * bffn listfd by gftSupportfdCiphfrSuitfs(), or thf mfthod will
+     * fbil.  Following b suddfssful dbll to this mfthod, only suitfs
+     * listfd in thf <dodf>suitfs</dodf> pbrbmftfr brf fnbblfd for usf.
+     * <P>
+     * Sff {@link #gftEnbblfdCiphfrSuitfs()} for morf informbtion
+     * on why b spfdifid diphfrsuitf mby nfvfr bf usfd on b donnfdtion.
+     *
+     * @pbrbm suitfs Nbmfs of bll thf diphfr suitfs to fnbblf
+     * @throws IllfgblArgumfntExdfption whfn onf or morf of thf diphfrs
+     *          nbmfd by thf pbrbmftfr is not supportfd, or whfn thf
+     *          pbrbmftfr is null.
+     * @sff #gftSupportfdCiphfrSuitfs()
+     * @sff #gftEnbblfdCiphfrSuitfs()
+     */
+    publid bbstrbdt void sftEnbblfdCiphfrSuitfs(String suitfs []);
+
+
+    /**
+     * Rfturns thf nbmfs of thf protodols whidh dould bf fnbblfd for usf
+     * on bn SSL donnfdtion.
+     *
+     * @rfturn bn brrby of protodols supportfd
+     */
+    publid bbstrbdt String [] gftSupportfdProtodols();
+
+
+    /**
+     * Rfturns thf nbmfs of thf protodol vfrsions whidh brf durrfntly
+     * fnbblfd for usf on this donnfdtion.
+     * @sff #sftEnbblfdProtodols(String [])
+     * @rfturn bn brrby of protodols
+     */
+    publid bbstrbdt String [] gftEnbblfdProtodols();
+
+
+    /**
+     * Sfts thf protodol vfrsions fnbblfd for usf on this donnfdtion.
+     * <P>
+     * Thf protodols must hbvf bffn listfd by
+     * <dodf>gftSupportfdProtodols()</dodf> bs bfing supportfd.
+     * Following b suddfssful dbll to this mfthod, only protodols listfd
+     * in thf <dodf>protodols</dodf> pbrbmftfr brf fnbblfd for usf.
+     *
+     * @pbrbm protodols Nbmfs of bll thf protodols to fnbblf.
+     * @throws IllfgblArgumfntExdfption whfn onf or morf of
+     *            thf protodols nbmfd by thf pbrbmftfr is not supportfd or
+     *            whfn thf protodols pbrbmftfr is null.
+     * @sff #gftEnbblfdProtodols()
+     */
+    publid bbstrbdt void sftEnbblfdProtodols(String protodols[]);
+
+
+    /**
+     * Rfturns thf SSL Sfssion in usf by this donnfdtion.  Thfsf dbn
+     * bf long livfd, bnd frfqufntly dorrfspond to bn fntirf login sfssion
+     * for somf usfr.  Thf sfssion spfdififs b pbrtidulbr diphfr suitf
+     * whidh is bfing bdtivfly usfd by bll donnfdtions in thbt sfssion,
+     * bs wfll bs thf idfntitifs of thf sfssion's dlifnt bnd sfrvfr.
+     * <P>
+     * This mfthod will initibtf thf initibl hbndshbkf if
+     * nfdfssbry bnd thfn blodk until thf hbndshbkf hbs bffn
+     * fstbblishfd.
+     * <P>
+     * If bn frror oddurs during thf initibl hbndshbkf, this mfthod
+     * rfturns bn invblid sfssion objfdt whidh rfports bn invblid
+     * diphfr suitf of "SSL_NULL_WITH_NULL_NULL".
+     *
+     * @rfturn thf <dodf>SSLSfssion</dodf>
+     */
+    publid bbstrbdt SSLSfssion gftSfssion();
+
+
+    /**
+     * Rfturns thf {@dodf SSLSfssion} bfing donstrudtfd during b SSL/TLS
+     * hbndshbkf.
+     * <p>
+     * TLS protodols mby nfgotibtf pbrbmftfrs thbt brf nffdfd whfn using
+     * bn instbndf of this dlbss, but bfforf thf {@dodf SSLSfssion} hbs
+     * bffn domplftfly initiblizfd bnd mbdf bvbilbblf vib {@dodf gftSfssion}.
+     * For fxbmplf, thf list of vblid signbturf blgorithms mby rfstridt
+     * thf typf of dfrtifidbtfs thbt dbn usfd during TrustMbnbgfr
+     * dfdisions, or thf mbximum TLS frbgmfnt pbdkft sizfs dbn bf
+     * rfsizfd to bfttfr support thf nftwork fnvironmfnt.
+     * <p>
+     * This mfthod providfs fbrly bddfss to thf {@dodf SSLSfssion} bfing
+     * donstrudtfd.  Dfpfnding on how fbr thf hbndshbkf hbs progrfssfd,
+     * somf dbtb mby not yft bf bvbilbblf for usf.  For fxbmplf, if b
+     * rfmotf sfrvfr will bf sfnding b Cfrtifidbtf dhbin, but thbt dhbin
+     * hbs yft not bffn prodfssfd, thf {@dodf gftPffrCfrtifidbtfs}
+     * mfthod of {@dodf SSLSfssion} will throw b
+     * SSLPffrUnvfrififdExdfption.  Ondf thbt dhbin hbs bffn prodfssfd,
+     * {@dodf gftPffrCfrtifidbtfs} will rfturn thf propfr vbluf.
+     * <p>
+     * Unlikf {@link #gftSfssion()}, this mfthod dofs not initibtf thf
+     * initibl hbndshbkf bnd dofs not blodk until hbndshbking is
+     * domplftf.
+     *
+     * @sff SSLEnginf
+     * @sff SSLSfssion
+     * @sff ExtfndfdSSLSfssion
+     * @sff X509ExtfndfdKfyMbnbgfr
+     * @sff X509ExtfndfdTrustMbnbgfr
+     *
+     * @rfturn null if this instbndf is not durrfntly hbndshbking, or
+     *         if thf durrfnt hbndshbkf hbs not progrfssfd fbr fnough to
+     *         drfbtf b bbsid SSLSfssion.  Othfrwisf, this mfthod rfturns thf
+     *         {@dodf SSLSfssion} durrfntly bfing nfgotibtfd.
+     * @throws UnsupportfdOpfrbtionExdfption if thf undfrlying providfr
+     *         dofs not implfmfnt thf opfrbtion.
+     *
+     * @sindf 1.7
+     */
+    publid SSLSfssion gftHbndshbkfSfssion() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+
+    /**
+     * Rfgistfrs bn fvfnt listfnfr to rfdfivf notifidbtions thbt bn
+     * SSL hbndshbkf hbs domplftfd on this donnfdtion.
+     *
+     * @pbrbm listfnfr thf HbndShbkf Complftfd fvfnt listfnfr
+     * @sff #stbrtHbndshbkf()
+     * @sff #rfmovfHbndshbkfComplftfdListfnfr(HbndshbkfComplftfdListfnfr)
+     * @throws IllfgblArgumfntExdfption if thf brgumfnt is null.
+     */
+    publid bbstrbdt void bddHbndshbkfComplftfdListfnfr(
+        HbndshbkfComplftfdListfnfr listfnfr);
+
+
+    /**
+     * Rfmovfs b prfviously rfgistfrfd hbndshbkf domplftion listfnfr.
+     *
+     * @pbrbm listfnfr thf HbndShbkf Complftfd fvfnt listfnfr
+     * @throws IllfgblArgumfntExdfption if thf listfnfr is not rfgistfrfd,
+     * or thf brgumfnt is null.
+     * @sff #bddHbndshbkfComplftfdListfnfr(HbndshbkfComplftfdListfnfr)
+     */
+    publid bbstrbdt void rfmovfHbndshbkfComplftfdListfnfr(
+        HbndshbkfComplftfdListfnfr listfnfr);
+
+
+    /**
+     * Stbrts bn SSL hbndshbkf on this donnfdtion.  Common rfbsons indludf
+     * b nffd to usf nfw fndryption kfys, to dhbngf diphfr suitfs, or to
+     * initibtf b nfw sfssion.  To fordf domplftf rfbuthfntidbtion, thf
+     * durrfnt sfssion dould bf invblidbtfd bfforf stbrting this hbndshbkf.
+     *
+     * <P> If dbtb hbs blrfbdy bffn sfnt on thf donnfdtion, it dontinufs
+     * to flow during this hbndshbkf.  Whfn thf hbndshbkf domplftfs, this
+     * will bf signblfd with bn fvfnt.
+     *
+     * This mfthod is syndhronous for thf initibl hbndshbkf on b donnfdtion
+     * bnd rfturns whfn thf nfgotibtfd hbndshbkf is domplftf. Somf
+     * protodols mby not support multiplf hbndshbkfs on bn fxisting sodkft
+     * bnd mby throw bn IOExdfption.
+     *
+     * @throws IOExdfption on b nftwork lfvfl frror
+     * @sff #bddHbndshbkfComplftfdListfnfr(HbndshbkfComplftfdListfnfr)
+     */
+    publid bbstrbdt void stbrtHbndshbkf() throws IOExdfption;
+
+
+    /**
+     * Configurfs thf sodkft to usf dlifnt (or sfrvfr) modf whfn
+     * hbndshbking.
+     * <P>
+     * This mfthod must bf dbllfd bfforf bny hbndshbking oddurs.
+     * Ondf hbndshbking hbs bfgun, thf modf dbn not bf rfsft for thf
+     * liff of this sodkft.
+     * <P>
+     * Sfrvfrs normblly buthfntidbtf thfmsflvfs, bnd dlifnts
+     * brf not rfquirfd to do so.
+     *
+     * @pbrbm modf truf if thf sodkft should stbrt its hbndshbking
+     *          in "dlifnt" modf
+     * @throws IllfgblArgumfntExdfption if b modf dhbngf is bttfmptfd
+     *          bftfr thf initibl hbndshbkf hbs bfgun.
+     * @sff #gftUsfClifntModf()
+     */
+    publid bbstrbdt void sftUsfClifntModf(boolfbn modf);
+
+
+    /**
+     * Rfturns truf if thf sodkft is sft to usf dlifnt modf whfn
+     * hbndshbking.
+     *
+     * @rfturn truf if thf sodkft should do hbndshbking
+     *          in "dlifnt" modf
+     * @sff #sftUsfClifntModf(boolfbn)
+     */
+    publid bbstrbdt boolfbn gftUsfClifntModf();
+
+
+    /**
+     * Configurfs thf sodkft to <i>rfquirf</i> dlifnt buthfntidbtion.  This
+     * option is only usfful for sodkfts in thf sfrvfr modf.
+     * <P>
+     * A sodkft's dlifnt buthfntidbtion sftting is onf of thf following:
+     * <ul>
+     * <li> dlifnt buthfntidbtion rfquirfd
+     * <li> dlifnt buthfntidbtion rfqufstfd
+     * <li> no dlifnt buthfntidbtion dfsirfd
+     * </ul>
+     * <P>
+     * Unlikf {@link #sftWbntClifntAuth(boolfbn)}, if this option is sft bnd
+     * thf dlifnt dhoosfs not to providf buthfntidbtion informbtion
+     * bbout itsflf, <i>thf nfgotibtions will stop bnd thf donnfdtion
+     * will bf droppfd</i>.
+     * <P>
+     * Cblling this mfthod ovfrridfs bny prfvious sftting mbdf by
+     * this mfthod or {@link #sftWbntClifntAuth(boolfbn)}.
+     *
+     * @pbrbm   nffd sft to truf if dlifnt buthfntidbtion is rfquirfd,
+     *          or fblsf if no dlifnt buthfntidbtion is dfsirfd.
+     * @sff #gftNffdClifntAuth()
+     * @sff #sftWbntClifntAuth(boolfbn)
+     * @sff #gftWbntClifntAuth()
+     * @sff #sftUsfClifntModf(boolfbn)
+     */
+    publid bbstrbdt void sftNffdClifntAuth(boolfbn nffd);
+
+
+    /**
+     * Rfturns truf if thf sodkft will <i>rfquirf</i> dlifnt buthfntidbtion.
+     * This option is only usfful to sodkfts in thf sfrvfr modf.
+     *
+     * @rfturn  truf if dlifnt buthfntidbtion is rfquirfd,
+     *          or fblsf if no dlifnt buthfntidbtion is dfsirfd.
+     * @sff #sftNffdClifntAuth(boolfbn)
+     * @sff #sftWbntClifntAuth(boolfbn)
+     * @sff #gftWbntClifntAuth()
+     * @sff #sftUsfClifntModf(boolfbn)
+     */
+    publid bbstrbdt boolfbn gftNffdClifntAuth();
+
+
+    /**
+     * Configurfs thf sodkft to <i>rfqufst</i> dlifnt buthfntidbtion.
+     * This option is only usfful for sodkfts in thf sfrvfr modf.
+     * <P>
+     * A sodkft's dlifnt buthfntidbtion sftting is onf of thf following:
+     * <ul>
+     * <li> dlifnt buthfntidbtion rfquirfd
+     * <li> dlifnt buthfntidbtion rfqufstfd
+     * <li> no dlifnt buthfntidbtion dfsirfd
+     * </ul>
+     * <P>
+     * Unlikf {@link #sftNffdClifntAuth(boolfbn)}, if this option is sft bnd
+     * thf dlifnt dhoosfs not to providf buthfntidbtion informbtion
+     * bbout itsflf, <i>thf nfgotibtions will dontinuf</i>.
+     * <P>
+     * Cblling this mfthod ovfrridfs bny prfvious sftting mbdf by
+     * this mfthod or {@link #sftNffdClifntAuth(boolfbn)}.
+     *
+     * @pbrbm   wbnt sft to truf if dlifnt buthfntidbtion is rfqufstfd,
+     *          or fblsf if no dlifnt buthfntidbtion is dfsirfd.
+     * @sff #gftWbntClifntAuth()
+     * @sff #sftNffdClifntAuth(boolfbn)
+     * @sff #gftNffdClifntAuth()
+     * @sff #sftUsfClifntModf(boolfbn)
+     */
+    publid bbstrbdt void sftWbntClifntAuth(boolfbn wbnt);
+
+
+    /**
+     * Rfturns truf if thf sodkft will <i>rfqufst</i> dlifnt buthfntidbtion.
+     * This option is only usfful for sodkfts in thf sfrvfr modf.
+     *
+     * @rfturn  truf if dlifnt buthfntidbtion is rfqufstfd,
+     *          or fblsf if no dlifnt buthfntidbtion is dfsirfd.
+     * @sff #sftNffdClifntAuth(boolfbn)
+     * @sff #gftNffdClifntAuth()
+     * @sff #sftWbntClifntAuth(boolfbn)
+     * @sff #sftUsfClifntModf(boolfbn)
+     */
+    publid bbstrbdt boolfbn gftWbntClifntAuth();
+
+
+    /**
+     * Controls whfthfr nfw SSL sfssions mby bf fstbblishfd by this sodkft.
+     * If sfssion drfbtions brf not bllowfd, bnd thfrf brf no
+     * fxisting sfssions to rfsumf, thfrf will bf no suddfssful
+     * hbndshbking.
+     *
+     * @pbrbm flbg truf indidbtfs thbt sfssions mby bf drfbtfd; this
+     *          is thf dffbult.  fblsf indidbtfs thbt bn fxisting sfssion
+     *          must bf rfsumfd
+     * @sff #gftEnbblfSfssionCrfbtion()
+     */
+    publid bbstrbdt void sftEnbblfSfssionCrfbtion(boolfbn flbg);
+
+
+    /**
+     * Rfturns truf if nfw SSL sfssions mby bf fstbblishfd by this sodkft.
+     *
+     * @rfturn truf indidbtfs thbt sfssions mby bf drfbtfd; this
+     *          is thf dffbult.  fblsf indidbtfs thbt bn fxisting sfssion
+     *          must bf rfsumfd
+     * @sff #sftEnbblfSfssionCrfbtion(boolfbn)
+     */
+    publid bbstrbdt boolfbn gftEnbblfSfssionCrfbtion();
+
+    /**
+     * Rfturns thf SSLPbrbmftfrs in ffffdt for this SSLSodkft.
+     * Thf diphfrsuitfs bnd protodols of thf rfturnfd SSLPbrbmftfrs
+     * brf blwbys non-null.
+     *
+     * @rfturn thf SSLPbrbmftfrs in ffffdt for this SSLSodkft.
+     * @sindf 1.6
+     */
+    publid SSLPbrbmftfrs gftSSLPbrbmftfrs() {
+        SSLPbrbmftfrs pbrbms = nfw SSLPbrbmftfrs();
+        pbrbms.sftCiphfrSuitfs(gftEnbblfdCiphfrSuitfs());
+        pbrbms.sftProtodols(gftEnbblfdProtodols());
+        if (gftNffdClifntAuth()) {
+            pbrbms.sftNffdClifntAuth(truf);
+        } flsf if (gftWbntClifntAuth()) {
+            pbrbms.sftWbntClifntAuth(truf);
+        }
+        rfturn pbrbms;
+    }
+
+    /**
+     * Applifs SSLPbrbmftfrs to this sodkft.
+     *
+     * <p>This mfbns:
+     * <ul>
+     * <li>If {@dodf pbrbms.gftCiphfrSuitfs()} is non-null,
+     *   {@dodf sftEnbblfdCiphfrSuitfs()} is dbllfd with thbt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftProtodols()} is non-null,
+     *   {@dodf sftEnbblfdProtodols()} is dbllfd with thbt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftNffdClifntAuth()} or
+     *   {@dodf pbrbms.gftWbntClifntAuth()} rfturn {@dodf truf},
+     *   {@dodf sftNffdClifntAuth(truf)} bnd
+     *   {@dodf sftWbntClifntAuth(truf)} brf dbllfd, rfspfdtivfly;
+     *   othfrwisf {@dodf sftWbntClifntAuth(fblsf)} is dbllfd.</li>
+     * <li>If {@dodf pbrbms.gftSfrvfrNbmfs()} is non-null, thf sodkft will
+     *   donfigurf its sfrvfr nbmfs with thbt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftSNIMbtdhfrs()} is non-null, thf sodkft will
+     *   donfigurf its SNI mbtdhfrs with thbt vbluf.</li>
+     * </ul>
+     *
+     * @pbrbm pbrbms thf pbrbmftfrs
+     * @throws IllfgblArgumfntExdfption if thf sftEnbblfdCiphfrSuitfs() or
+     *    thf sftEnbblfdProtodols() dbll fbils
+     * @sindf 1.6
+     */
+    publid void sftSSLPbrbmftfrs(SSLPbrbmftfrs pbrbms) {
+        String[] s;
+        s = pbrbms.gftCiphfrSuitfs();
+        if (s != null) {
+            sftEnbblfdCiphfrSuitfs(s);
+        }
+        s = pbrbms.gftProtodols();
+        if (s != null) {
+            sftEnbblfdProtodols(s);
+        }
+        if (pbrbms.gftNffdClifntAuth()) {
+            sftNffdClifntAuth(truf);
+        } flsf if (pbrbms.gftWbntClifntAuth()) {
+            sftWbntClifntAuth(truf);
+        } flsf {
+            sftWbntClifntAuth(fblsf);
+        }
+    }
+
+}

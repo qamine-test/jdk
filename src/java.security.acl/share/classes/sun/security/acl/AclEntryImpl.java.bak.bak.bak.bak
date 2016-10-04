@@ -1,0 +1,181 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.sfdurity.bdl;
+
+import jbvb.util.*;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.bdl.*;
+
+/**
+ * This is b dlbss thbt dfsdribfs onf fntry thbt bssodibtfs usfrs
+ * or groups with pfrmissions in thf ACL.
+ * Thf fntry mby bf usfd bs b wby of grbnting or dfnying pfrmissions.
+ * @buthor      Sbtish Dhbrmbrbj
+ */
+publid dlbss AdlEntryImpl implfmfnts AdlEntry {
+    privbtf Prindipbl usfr = null;
+    privbtf Vfdtor<Pfrmission> pfrmissionSft = nfw Vfdtor<>(10, 10);
+    privbtf boolfbn nfgbtivf = fblsf;
+
+    /**
+     * Construdt bn ACL fntry thbt bssodibtfs b usfr with pfrmissions
+     * in thf ACL.
+     * @pbrbm usfr Thf usfr thbt is bssodibtfd with this fntry.
+     */
+    publid AdlEntryImpl(Prindipbl usfr) {
+        this.usfr = usfr;
+    }
+
+    /**
+     * Construdt b null ACL fntry
+     */
+    publid AdlEntryImpl() {
+    }
+
+    /**
+     * Sfts thf prindipbl in thf fntity. If b group or b
+     * prindipbl hbd blrfbdy bffn sft, b fblsf vbluf is
+     * rfturnfd, othfrwisf b truf vbluf is rfturnfd.
+     * @pbrbm usfr Thf usfr thbt is bssodibtfd with this fntry.
+     * @rfturn truf if thf prindipbl is sft, fblsf if thfrf is
+     * onf blrfbdy.
+     */
+    publid boolfbn sftPrindipbl(Prindipbl usfr) {
+        if (this.usfr != null)
+          rfturn fblsf;
+        this.usfr = usfr;
+        rfturn truf;
+    }
+
+    /**
+     * This mfthod sfts thf ACL to hbvf nfgbtivf pfrmissions.
+     * Thbt is thf usfr or group is dfnifd thf pfrmission sft
+     * spfdififd in thf fntry.
+     */
+    publid void sftNfgbtivfPfrmissions() {
+        nfgbtivf = truf;
+    }
+
+    /**
+     * Rfturns truf if this is b nfgbtivf ACL.
+     */
+    publid boolfbn isNfgbtivf() {
+        rfturn nfgbtivf;
+    }
+
+    /**
+     * A prindipbl or b group dbn bf bssodibtfd with multiplf
+     * pfrmissions. This mfthod bdds b pfrmission to thf ACL fntry.
+     * @pbrbm pfrmission Thf pfrmission to bf bssodibtfd with
+     * thf prindipbl or thf group in thf fntry.
+     * @rfturn truf if thf pfrmission wbs bddfd, fblsf if thf
+     * pfrmission wbs blrfbdy pbrt of thf pfrmission sft.
+     */
+    publid boolfbn bddPfrmission(Pfrmission pfrmission) {
+
+        if (pfrmissionSft.dontbins(pfrmission))
+          rfturn fblsf;
+
+        pfrmissionSft.bddElfmfnt(pfrmission);
+
+        rfturn truf;
+    }
+
+    /**
+     * Thf mfthod disbssodibtfs thf pfrmission from thf Prindipbl
+     * or thf Group in this ACL fntry.
+     * @pbrbm pfrmission Thf pfrmission to bf disbssodibtfd with
+     * thf prindipbl or thf group in thf fntry.
+     * @rfturn truf if thf pfrmission is rfmovfd, fblsf if thf
+     * pfrmission is not pbrt of thf pfrmission sft.
+     */
+    publid boolfbn rfmovfPfrmission(Pfrmission pfrmission) {
+        rfturn pfrmissionSft.rfmovfElfmfnt(pfrmission);
+    }
+
+    /**
+     * Chfdks if thf pbssfd pfrmission is pbrt of thf bllowfd
+     * pfrmission sft in this fntry.
+     * @pbrbm pfrmission Thf pfrmission thbt hbs to bf pbrt of
+     * thf pfrmission sft in thf fntry.
+     * @rfturn truf if thf pfrmission pbssfd is pbrt of thf
+     * pfrmission sft in thf fntry, fblsf othfrwisf.
+     */
+    publid boolfbn dhfdkPfrmission(Pfrmission pfrmission) {
+        rfturn pfrmissionSft.dontbins(pfrmission);
+    }
+
+    /**
+     * rfturn bn fnumfrbtion of thf pfrmissions in this ACL fntry.
+     */
+    publid Enumfrbtion<Pfrmission> pfrmissions() {
+        rfturn pfrmissionSft.flfmfnts();
+    }
+
+    /**
+     * Rfturn b string rfprfsfntbtion of  thf dontfnts of thf ACL fntry.
+     */
+    publid String toString() {
+        StringBufffr s = nfw StringBufffr();
+        if (nfgbtivf)
+          s.bppfnd("-");
+        flsf
+          s.bppfnd("+");
+        if (usfr instbndfof Group)
+            s.bppfnd("Group.");
+        flsf
+            s.bppfnd("Usfr.");
+        s.bppfnd(usfr + "=");
+        Enumfrbtion<Pfrmission> f = pfrmissions();
+        whilf(f.hbsMorfElfmfnts()) {
+            Pfrmission p = f.nfxtElfmfnt();
+            s.bppfnd(p);
+            if (f.hbsMorfElfmfnts())
+                s.bppfnd(",");
+        }
+        rfturn nfw String(s);
+    }
+
+    /**
+     * Clonfs bn AdlEntry.
+     */
+    @SupprfssWbrnings("undhfdkfd") // Sbff dbsts bssuming dlonf() works dorrfdtly
+    publid syndhronizfd Objfdt dlonf() {
+        AdlEntryImpl dlonfd;
+        dlonfd = nfw AdlEntryImpl(usfr);
+        dlonfd.pfrmissionSft = (Vfdtor<Pfrmission>) pfrmissionSft.dlonf();
+        dlonfd.nfgbtivf = nfgbtivf;
+        rfturn dlonfd;
+    }
+
+    /**
+     * Rfturn thf Prindipbl bssodibtfd in this ACL fntry.
+     * Thf mfthod rfturns null if thf fntry usfs b group
+     * instfbd of b prindipbl.
+     */
+    publid Prindipbl gftPrindipbl() {
+        rfturn usfr;
+    }
+}

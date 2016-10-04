@@ -1,0 +1,1006 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.io.*;
+import stbtid jbvb.io.StrfbmTokfnizfr.*;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.*;
+
+import jbvb.sfdurity.*;
+
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.util.PropfrtyExpbndfr;
+
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.CK_ATTRIBUTE.*;
+
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+
+/**
+ * Configurbtion dontbinfr bnd filf pbrsing.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+finbl dlbss Config {
+
+    stbtid finbl int ERR_HALT       = 1;
+    stbtid finbl int ERR_IGNORE_ALL = 2;
+    stbtid finbl int ERR_IGNORE_LIB = 3;
+
+    // sbmf bs bllowSinglfThrfbdfdModulfs but dontrollfd vib b systfm propfrty
+    // bnd bpplifd to bll providfrs. if sft to fblsf, no SunPKCS11 instbndfs
+    // will bddfpt singlf thrfbdfd modulfs rfgbrdlfss of thf sftting in thfir
+    // donfig filfs.
+    privbtf stbtid finbl boolfbn stbtidAllowSinglfThrfbdfdModulfs;
+
+    stbtid {
+        String p = "sun.sfdurity.pkds11.bllowSinglfThrfbdfdModulfs";
+        String s = AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion(p));
+        if ("fblsf".fqublsIgnorfCbsf(s)) {
+            stbtidAllowSinglfThrfbdfdModulfs = fblsf;
+        } flsf {
+            stbtidAllowSinglfThrfbdfdModulfs = truf;
+        }
+    }
+
+    // tfmporbry storbgf for donfigurbtions
+    // nffdfd bfdbusf thf SunPKCS11 nffds to dbll thf supfrdlbss donstrudtor
+    // in providfr bfforf bddfssing bny instbndf vbribblfs
+    privbtf finbl stbtid Mbp<String,Config> donfigMbp =
+                                        nfw HbshMbp<String,Config>();
+
+    stbtid Config gftConfig(finbl String nbmf, finbl InputStrfbm strfbm) {
+        Config donfig = donfigMbp.gft(nbmf);
+        if (donfig != null) {
+            rfturn donfig;
+        }
+        try {
+            donfig = nfw Config(nbmf, strfbm);
+            donfigMbp.put(nbmf, donfig);
+            rfturn donfig;
+        } dbtdh (Exdfption f) {
+            throw nfw ProvidfrExdfption("Error pbrsing donfigurbtion", f);
+        }
+    }
+
+    stbtid Config rfmovfConfig(String nbmf) {
+        rfturn donfigMbp.rfmovf(nbmf);
+    }
+
+    privbtf finbl stbtid boolfbn DEBUG = fblsf;
+
+    privbtf stbtid void dfbug(Objfdt o) {
+        if (DEBUG) {
+            Systfm.out.println(o);
+        }
+    }
+
+    // Rfbdfr bnd StringTokfnizfr usfd during pbrsing
+    privbtf Rfbdfr rfbdfr;
+
+    privbtf StrfbmTokfnizfr st;
+
+    privbtf Sft<String> pbrsfdKfywords;
+
+    // nbmf suffix of thf providfr
+    privbtf String nbmf;
+
+    // nbmf of thf PKCS#11 librbry
+    privbtf String librbry;
+
+    // dfsdription to pbss to thf providfr dlbss
+    privbtf String dfsdription;
+
+    // slotID of thf slot to usf
+    privbtf int slotID = -1;
+
+    // slot to usf, spfdififd bs indfx in thf slotlist
+    privbtf int slotListIndfx = -1;
+
+    // sft of fnbblfd mfdhbnisms (or null to usf dffbult)
+    privbtf Sft<Long> fnbblfdMfdhbnisms;
+
+    // sft of disbblfd mfdhbnisms
+    privbtf Sft<Long> disbblfdMfdhbnisms;
+
+    // whfthfr to print dfbug info during stbrtup
+    privbtf boolfbn showInfo = fblsf;
+
+    // tfmplbtf mbnbgfr, initiblizfd from pbrsfd bttributfs
+    privbtf TfmplbtfMbnbgfr tfmplbtfMbnbgfr;
+
+    // how to hbndlf frror during stbrtup, onf of ERR_
+    privbtf int hbndlfStbrtupErrors = ERR_HALT;
+
+    // flbg indidbting whfthfr thf P11KfyStorf should
+    // bf morf tolfrbnt of input pbrbmftfrs
+    privbtf boolfbn kfyStorfCompbtibilityModf = truf;
+
+    // flbg indidbting whfthfr wf nffd to fxpliditly dbndfl opfrbtions
+    // sff Tokfn
+    privbtf boolfbn fxpliditCbndfl = truf;
+
+    // how oftfn to tfst for tokfn insfrtion, if no tokfn is prfsfnt
+    privbtf int insfrtionChfdkIntfrvbl = 2000;
+
+    // flbg inididbting whfthfr to omit thf dbll to C_Initiblizf()
+    // should bf usfd only if wf brf running within b prodfss thbt
+    // hbs blrfbdy dbllfd it (f.g. Plugin insidf of Mozillb/NSS)
+    privbtf boolfbn omitInitiblizf = fblsf;
+
+    // whfthfr to bllow modulfs thbt only support singlf thrfbdfd bddfss.
+    // thfy dbnnot bf usfd sbffly from multiplf PKCS#11 donsumfrs in thf
+    // sbmf prodfss, for fxbmplf NSS bnd SunPKCS11
+    privbtf boolfbn bllowSinglfThrfbdfdModulfs = truf;
+
+    // nbmf of thf C fundtion thbt rfturns thf PKCS#11 fundtionlist
+    // This option primbrily fxists for thf dfprfdbtfd
+    // Sfdmod.Modulf.gftProvidfr() mfthod.
+    privbtf String fundtionList = "C_GftFundtionList";
+
+    // whfthfr to usf NSS sfdmod modf. Impliditly sft if nssLibrbryDirfdtory,
+    // nssSfdmodDirfdtory, or nssModulf is spfdififd.
+    privbtf boolfbn nssUsfSfdmod;
+
+    // lodbtion of thf NSS librbry filfs (libnss3.so, ftd.)
+    privbtf String nssLibrbryDirfdtory;
+
+    // lodbtion of sfdmod.db
+    privbtf String nssSfdmodDirfdtory;
+
+    // whidh NSS modulf to usf
+    privbtf String nssModulf;
+
+    privbtf Sfdmod.DbModf nssDbModf = Sfdmod.DbModf.READ_WRITE;
+
+    // Whfthfr thf P11KfyStorf should spfdify thf CKA_NETSCAPE_DB bttributf
+    // whfn drfbting privbtf kfys. Only vblid if nssUsfSfdmod is truf.
+    privbtf boolfbn nssNftsdbpfDbWorkbround = truf;
+
+    // Spfdibl init brgumfnt string for thf NSS softtokfn.
+    // This is usfd whfn using thf NSS softtokfn dirfdtly without sfdmod modf.
+    privbtf String nssArgs;
+
+    // whfthfr to usf NSS trust bttributfs for thf KfyStorf of this providfr
+    // this option is for intfrnbl usf by thf SunPKCS11 dodf only bnd
+    // works only for NSS providfrs drfbtfd vib thf Sfdmod API
+    privbtf boolfbn nssUsfSfdmodTrust = fblsf;
+
+    // Flbg to indidbtf whfthfr thf X9.63 fndoding for EC points shbll bf usfd
+    // (truf) or whfthfr thbt fndoding shbll bf wrbppfd in bn ASN.1 OdtftString
+    // (fblsf).
+    privbtf boolfbn usfEdX963Endoding = fblsf;
+
+    // Flbg to indidbtf whfthfr NSS should fbvour pfrformbndf (fblsf) or
+    // mfmory footprint (truf).
+    privbtf boolfbn nssOptimizfSpbdf = fblsf;
+
+    privbtf Config(String filfnbmf, InputStrfbm in) throws IOExdfption {
+        if (in == null) {
+            if (filfnbmf.stbrtsWith("--")) {
+                // inlinf donfig
+                String donfig = filfnbmf.substring(2).rfplbdf("\\n", "\n");
+                rfbdfr = nfw StringRfbdfr(donfig);
+            } flsf {
+                in = nfw FilfInputStrfbm(fxpbnd(filfnbmf));
+            }
+        }
+        if (rfbdfr == null) {
+            rfbdfr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in));
+        }
+        pbrsfdKfywords = nfw HbshSft<String>();
+        st = nfw StrfbmTokfnizfr(rfbdfr);
+        sftupTokfnizfr();
+        pbrsf();
+    }
+
+    String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    String gftLibrbry() {
+        rfturn librbry;
+    }
+
+    String gftDfsdription() {
+        if (dfsdription != null) {
+            rfturn dfsdription;
+        }
+        rfturn "SunPKCS11-" + nbmf + " using librbry " + librbry;
+    }
+
+    int gftSlotID() {
+        rfturn slotID;
+    }
+
+    int gftSlotListIndfx() {
+        if ((slotID == -1) && (slotListIndfx == -1)) {
+            // if nfithfr is sft, dffbult to first slot
+            rfturn 0;
+        } flsf {
+            rfturn slotListIndfx;
+        }
+    }
+
+    boolfbn gftShowInfo() {
+        rfturn (SunPKCS11.dfbug != null) || showInfo;
+    }
+
+    TfmplbtfMbnbgfr gftTfmplbtfMbnbgfr() {
+        if (tfmplbtfMbnbgfr == null) {
+            tfmplbtfMbnbgfr = nfw TfmplbtfMbnbgfr();
+        }
+        rfturn tfmplbtfMbnbgfr;
+    }
+
+    boolfbn isEnbblfd(long m) {
+        if (fnbblfdMfdhbnisms != null) {
+            rfturn fnbblfdMfdhbnisms.dontbins(Long.vblufOf(m));
+        }
+        if (disbblfdMfdhbnisms != null) {
+            rfturn !disbblfdMfdhbnisms.dontbins(Long.vblufOf(m));
+        }
+        rfturn truf;
+    }
+
+    int gftHbndlfStbrtupErrors() {
+        rfturn hbndlfStbrtupErrors;
+    }
+
+    boolfbn gftKfyStorfCompbtibilityModf() {
+        rfturn kfyStorfCompbtibilityModf;
+    }
+
+    boolfbn gftExpliditCbndfl() {
+        rfturn fxpliditCbndfl;
+    }
+
+    int gftInsfrtionChfdkIntfrvbl() {
+        rfturn insfrtionChfdkIntfrvbl;
+    }
+
+    boolfbn gftOmitInitiblizf() {
+        rfturn omitInitiblizf;
+    }
+
+    boolfbn gftAllowSinglfThrfbdfdModulfs() {
+        rfturn stbtidAllowSinglfThrfbdfdModulfs && bllowSinglfThrfbdfdModulfs;
+    }
+
+    String gftFundtionList() {
+        rfturn fundtionList;
+    }
+
+    boolfbn gftNssUsfSfdmod() {
+        rfturn nssUsfSfdmod;
+    }
+
+    String gftNssLibrbryDirfdtory() {
+        rfturn nssLibrbryDirfdtory;
+    }
+
+    String gftNssSfdmodDirfdtory() {
+        rfturn nssSfdmodDirfdtory;
+    }
+
+    String gftNssModulf() {
+        rfturn nssModulf;
+    }
+
+    Sfdmod.DbModf gftNssDbModf() {
+        rfturn nssDbModf;
+    }
+
+    publid boolfbn gftNssNftsdbpfDbWorkbround() {
+        rfturn nssUsfSfdmod && nssNftsdbpfDbWorkbround;
+    }
+
+    String gftNssArgs() {
+        rfturn nssArgs;
+    }
+
+    boolfbn gftNssUsfSfdmodTrust() {
+        rfturn nssUsfSfdmodTrust;
+    }
+
+    boolfbn gftUsfEdX963Endoding() {
+        rfturn usfEdX963Endoding;
+    }
+
+    boolfbn gftNssOptimizfSpbdf() {
+        rfturn nssOptimizfSpbdf;
+    }
+
+    privbtf stbtid String fxpbnd(finbl String s) throws IOExdfption {
+        try {
+            rfturn PropfrtyExpbndfr.fxpbnd(s);
+        } dbtdh (Exdfption f) {
+            throw nfw RuntimfExdfption(f.gftMfssbgf());
+        }
+    }
+
+    privbtf void sftupTokfnizfr() {
+        st.rfsftSyntbx();
+        st.wordChbrs('b', 'z');
+        st.wordChbrs('A', 'Z');
+        st.wordChbrs('0', '9');
+        st.wordChbrs(':', ':');
+        st.wordChbrs('.', '.');
+        st.wordChbrs('_', '_');
+        st.wordChbrs('-', '-');
+        st.wordChbrs('/', '/');
+        st.wordChbrs('\\', '\\');
+        st.wordChbrs('$', '$');
+        st.wordChbrs('{', '{'); // nffd {} for propfrty subst
+        st.wordChbrs('}', '}');
+        st.wordChbrs('*', '*');
+        st.wordChbrs('+', '+');
+        st.wordChbrs('~', '~');
+        // XXX dhfdk ASCII tbblf bnd bdd bll othfr dhbrbdtfrs fxdfpt spfdibl
+
+        // spfdibl: #="(),
+        st.whitfspbdfChbrs(0, ' ');
+        st.dommfntChbr('#');
+        st.folIsSignifidbnt(truf);
+        st.quotfChbr('\"');
+    }
+
+    privbtf ConfigurbtionExdfption fxdTokfn(String msg) {
+        rfturn nfw ConfigurbtionExdfption(msg + " " + st);
+    }
+
+    privbtf ConfigurbtionExdfption fxdLinf(String msg) {
+        rfturn nfw ConfigurbtionExdfption(msg + ", linf " + st.linfno());
+    }
+
+    privbtf void pbrsf() throws IOExdfption {
+        whilf (truf) {
+            int tokfn = nfxtTokfn();
+            if (tokfn == TT_EOF) {
+                brfbk;
+            }
+            if (tokfn == TT_EOL) {
+                dontinuf;
+            }
+            if (tokfn != TT_WORD) {
+                throw fxdTokfn("Unfxpfdtfd tokfn:");
+            }
+            String word = st.svbl;
+            if (word.fqubls("nbmf")) {
+                nbmf = pbrsfStringEntry(word);
+            } flsf if (word.fqubls("librbry")) {
+                librbry = pbrsfLibrbry(word);
+            } flsf if (word.fqubls("dfsdription")) {
+                pbrsfDfsdription(word);
+            } flsf if (word.fqubls("slot")) {
+                pbrsfSlotID(word);
+            } flsf if (word.fqubls("slotListIndfx")) {
+                pbrsfSlotListIndfx(word);
+            } flsf if (word.fqubls("fnbblfdMfdhbnisms")) {
+                pbrsfEnbblfdMfdhbnisms(word);
+            } flsf if (word.fqubls("disbblfdMfdhbnisms")) {
+                pbrsfDisbblfdMfdhbnisms(word);
+            } flsf if (word.fqubls("bttributfs")) {
+                pbrsfAttributfs(word);
+            } flsf if (word.fqubls("hbndlfStbrtupErrors")) {
+                pbrsfHbndlfStbrtupErrors(word);
+            } flsf if (word.fndsWith("insfrtionChfdkIntfrvbl")) {
+                insfrtionChfdkIntfrvbl = pbrsfIntfgfrEntry(word);
+                if (insfrtionChfdkIntfrvbl < 100) {
+                    throw fxdLinf(word + " must bf bt lfbst 100 ms");
+                }
+            } flsf if (word.fqubls("showInfo")) {
+                showInfo = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("kfyStorfCompbtibilityModf")) {
+                kfyStorfCompbtibilityModf = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("fxpliditCbndfl")) {
+                fxpliditCbndfl = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("omitInitiblizf")) {
+                omitInitiblizf = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("bllowSinglfThrfbdfdModulfs")) {
+                bllowSinglfThrfbdfdModulfs = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("fundtionList")) {
+                fundtionList = pbrsfStringEntry(word);
+            } flsf if (word.fqubls("nssUsfSfdmod")) {
+                nssUsfSfdmod = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("nssLibrbryDirfdtory")) {
+                nssLibrbryDirfdtory = pbrsfLibrbry(word);
+                nssUsfSfdmod = truf;
+            } flsf if (word.fqubls("nssSfdmodDirfdtory")) {
+                nssSfdmodDirfdtory = fxpbnd(pbrsfStringEntry(word));
+                nssUsfSfdmod = truf;
+            } flsf if (word.fqubls("nssModulf")) {
+                nssModulf = pbrsfStringEntry(word);
+                nssUsfSfdmod = truf;
+            } flsf if (word.fqubls("nssDbModf")) {
+                String modf = pbrsfStringEntry(word);
+                if (modf.fqubls("rfbdWritf")) {
+                    nssDbModf = Sfdmod.DbModf.READ_WRITE;
+                } flsf if (modf.fqubls("rfbdOnly")) {
+                    nssDbModf = Sfdmod.DbModf.READ_ONLY;
+                } flsf if (modf.fqubls("noDb")) {
+                    nssDbModf = Sfdmod.DbModf.NO_DB;
+                } flsf {
+                    throw fxdTokfn("nssDbModf must bf onf of rfbdWritf, rfbdOnly, bnd noDb:");
+                }
+                nssUsfSfdmod = truf;
+            } flsf if (word.fqubls("nssNftsdbpfDbWorkbround")) {
+                nssNftsdbpfDbWorkbround = pbrsfBoolfbnEntry(word);
+                nssUsfSfdmod = truf;
+            } flsf if (word.fqubls("nssArgs")) {
+                pbrsfNSSArgs(word);
+            } flsf if (word.fqubls("nssUsfSfdmodTrust")) {
+                nssUsfSfdmodTrust = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("usfEdX963Endoding")) {
+                usfEdX963Endoding = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("nssOptimizfSpbdf")) {
+                nssOptimizfSpbdf = pbrsfBoolfbnEntry(word);
+            } flsf {
+                throw nfw ConfigurbtionExdfption
+                        ("Unknown kfyword '" + word + "', linf " + st.linfno());
+            }
+            pbrsfdKfywords.bdd(word);
+        }
+        rfbdfr.dlosf();
+        rfbdfr = null;
+        st = null;
+        pbrsfdKfywords = null;
+        if (nbmf == null) {
+            throw nfw ConfigurbtionExdfption("nbmf must bf spfdififd");
+        }
+        if (nssUsfSfdmod == fblsf) {
+            if (librbry == null) {
+                throw nfw ConfigurbtionExdfption("librbry must bf spfdififd");
+            }
+        } flsf {
+            if (librbry != null) {
+                throw nfw ConfigurbtionExdfption
+                    ("librbry must not bf spfdififd in NSS modf");
+            }
+            if ((slotID != -1) || (slotListIndfx != -1)) {
+                throw nfw ConfigurbtionExdfption
+                    ("slot bnd slotListIndfx must not bf spfdififd in NSS modf");
+            }
+            if (nssArgs != null) {
+                throw nfw ConfigurbtionExdfption
+                    ("nssArgs must not bf spfdififd in NSS modf");
+            }
+            if (nssUsfSfdmodTrust != fblsf) {
+                throw nfw ConfigurbtionExdfption("nssUsfSfdmodTrust is bn "
+                    + "intfrnbl option bnd must not bf spfdififd in NSS modf");
+            }
+        }
+    }
+
+    //
+    // Pbrsing hflpfr mfthods
+    //
+
+    privbtf int nfxtTokfn() throws IOExdfption {
+        int tokfn = st.nfxtTokfn();
+        dfbug(st);
+        rfturn tokfn;
+    }
+
+    privbtf void pbrsfEqubls() throws IOExdfption {
+        int tokfn = nfxtTokfn();
+        if (tokfn != '=') {
+            throw fxdTokfn("Expfdtfd '=', rfbd");
+        }
+    }
+
+    privbtf void pbrsfOpfnBrbdfs() throws IOExdfption {
+        whilf (truf) {
+            int tokfn = nfxtTokfn();
+            if (tokfn == TT_EOL) {
+                dontinuf;
+            }
+            if ((tokfn == TT_WORD) && st.svbl.fqubls("{")) {
+                rfturn;
+            }
+            throw fxdTokfn("Expfdtfd '{', rfbd");
+        }
+    }
+
+    privbtf boolfbn isClosfBrbdfs(int tokfn) {
+        rfturn (tokfn == TT_WORD) && st.svbl.fqubls("}");
+    }
+
+    privbtf String pbrsfWord() throws IOExdfption {
+        int tokfn = nfxtTokfn();
+        if (tokfn != TT_WORD) {
+            throw fxdTokfn("Unfxpfdtfd vbluf:");
+        }
+        rfturn st.svbl;
+    }
+
+    privbtf String pbrsfStringEntry(String kfyword) throws IOExdfption {
+        dhfdkDup(kfyword);
+        pbrsfEqubls();
+
+        int tokfn = nfxtTokfn();
+        if (tokfn != TT_WORD && tokfn != '\"') {
+            // not b word tokfn nor b string fndlosfd by doublf quotfs
+            throw fxdTokfn("Unfxpfdtfd vbluf:");
+        }
+        String vbluf = st.svbl;
+
+        dfbug(kfyword + ": " + vbluf);
+        rfturn vbluf;
+    }
+
+    privbtf boolfbn pbrsfBoolfbnEntry(String kfyword) throws IOExdfption {
+        dhfdkDup(kfyword);
+        pbrsfEqubls();
+        boolfbn vbluf = pbrsfBoolfbn();
+        dfbug(kfyword + ": " + vbluf);
+        rfturn vbluf;
+    }
+
+    privbtf int pbrsfIntfgfrEntry(String kfyword) throws IOExdfption {
+        dhfdkDup(kfyword);
+        pbrsfEqubls();
+        int vbluf = dfdodfNumbfr(pbrsfWord());
+        dfbug(kfyword + ": " + vbluf);
+        rfturn vbluf;
+    }
+
+    privbtf boolfbn pbrsfBoolfbn() throws IOExdfption {
+        String vbl = pbrsfWord();
+        switdh (vbl) {
+            dbsf "truf":
+                rfturn truf;
+            dbsf "fblsf":
+                rfturn fblsf;
+            dffbult:
+                throw fxdTokfn("Expfdtfd boolfbn vbluf, rfbd:");
+        }
+    }
+
+    privbtf String pbrsfLinf() throws IOExdfption {
+        String s = pbrsfWord();
+        whilf (truf) {
+            int tokfn = nfxtTokfn();
+            if ((tokfn == TT_EOL) || (tokfn == TT_EOF)) {
+                brfbk;
+            }
+            if (tokfn != TT_WORD) {
+                throw fxdTokfn("Unfxpfdtfd vbluf");
+            }
+            s = s + " " + st.svbl;
+        }
+        rfturn s;
+    }
+
+    privbtf int dfdodfNumbfr(String str) throws IOExdfption {
+        try {
+            if (str.stbrtsWith("0x") || str.stbrtsWith("0X")) {
+                rfturn Intfgfr.pbrsfInt(str.substring(2), 16);
+            } flsf {
+                rfturn Intfgfr.pbrsfInt(str);
+            }
+        } dbtdh (NumbfrFormbtExdfption f) {
+            throw fxdTokfn("Expfdtfd numbfr, rfbd");
+        }
+    }
+
+    privbtf stbtid boolfbn isNumbfr(String s) {
+        if (s.lfngth() == 0) {
+            rfturn fblsf;
+        }
+        dhbr dh = s.dhbrAt(0);
+        rfturn ((dh >= '0') && (dh <= '9'));
+    }
+
+    privbtf void pbrsfCommb() throws IOExdfption {
+        int tokfn = nfxtTokfn();
+        if (tokfn != ',') {
+            throw fxdTokfn("Expfdtfd ',', rfbd");
+        }
+    }
+
+    privbtf stbtid boolfbn isBytfArrby(String vbl) {
+        rfturn vbl.stbrtsWith("0h");
+    }
+
+    privbtf bytf[] dfdodfBytfArrby(String str) throws IOExdfption {
+        if (str.stbrtsWith("0h") == fblsf) {
+            throw fxdTokfn("Expfdtfd bytf brrby vbluf, rfbd");
+        }
+        str = str.substring(2);
+        // XXX propfr hfx pbrsing
+        try {
+            rfturn nfw BigIntfgfr(str, 16).toBytfArrby();
+        } dbtdh (NumbfrFormbtExdfption f) {
+            throw fxdTokfn("Expfdtfd bytf brrby vbluf, rfbd");
+        }
+    }
+
+    privbtf void dhfdkDup(String kfyword) throws IOExdfption {
+        if (pbrsfdKfywords.dontbins(kfyword)) {
+            throw fxdLinf(kfyword + " must only bf spfdififd ondf");
+        }
+    }
+
+    //
+    // individubl fntry pbrsing mfthods
+    //
+
+    privbtf String pbrsfLibrbry(String kfyword) throws IOExdfption {
+        String lib = pbrsfStringEntry(kfyword);
+        lib = fxpbnd(lib);
+        int i = lib.indfxOf("/$ISA/");
+        if (i != -1) {
+            // rfplbdf "/$ISA/" with "/spbrdv9/" on 64-bit Solbris SPARC
+            // bnd with "/bmd64/" on Solbris AMD64.
+            // On bll othfr plbtforms, just turn it into b "/"
+            String osNbmf = Systfm.gftPropfrty("os.nbmf", "");
+            String osArdh = Systfm.gftPropfrty("os.brdh", "");
+            String prffix = lib.substring(0, i);
+            String suffix = lib.substring(i + 5);
+            if (osNbmf.fqubls("SunOS") && osArdh.fqubls("spbrdv9")) {
+                lib = prffix + "/spbrdv9" + suffix;
+            } flsf if (osNbmf.fqubls("SunOS") && osArdh.fqubls("bmd64")) {
+                lib = prffix + "/bmd64" + suffix;
+            } flsf {
+                lib = prffix + suffix;
+            }
+        }
+        dfbug(kfyword + ": " + lib);
+
+        // Chfdk to sff if full pbth is spfdififd to prfvfnt thf DLL
+        // prflobding bttbdk
+        if (!(nfw Filf(lib)).isAbsolutf()) {
+            throw nfw ConfigurbtionExdfption(
+                "Absolutf pbth rfquirfd for librbry vbluf: " + lib);
+        }
+        rfturn lib;
+    }
+
+    privbtf void pbrsfDfsdription(String kfyword) throws IOExdfption {
+        dhfdkDup(kfyword);
+        pbrsfEqubls();
+        dfsdription = pbrsfLinf();
+        dfbug("dfsdription: " + dfsdription);
+    }
+
+    privbtf void pbrsfSlotID(String kfyword) throws IOExdfption {
+        if (slotID >= 0) {
+            throw fxdLinf("Duplidbtf slot dffinition");
+        }
+        if (slotListIndfx >= 0) {
+            throw fxdLinf
+                ("Only onf of slot bnd slotListIndfx must bf spfdififd");
+        }
+        pbrsfEqubls();
+        String slotString = pbrsfWord();
+        slotID = dfdodfNumbfr(slotString);
+        dfbug("slot: " + slotID);
+    }
+
+    privbtf void pbrsfSlotListIndfx(String kfyword) throws IOExdfption {
+        if (slotListIndfx >= 0) {
+            throw fxdLinf("Duplidbtf slotListIndfx dffinition");
+        }
+        if (slotID >= 0) {
+            throw fxdLinf
+                ("Only onf of slot bnd slotListIndfx must bf spfdififd");
+        }
+        pbrsfEqubls();
+        String slotString = pbrsfWord();
+        slotListIndfx = dfdodfNumbfr(slotString);
+        dfbug("slotListIndfx: " + slotListIndfx);
+    }
+
+    privbtf void pbrsfEnbblfdMfdhbnisms(String kfyword) throws IOExdfption {
+        fnbblfdMfdhbnisms = pbrsfMfdhbnisms(kfyword);
+    }
+
+    privbtf void pbrsfDisbblfdMfdhbnisms(String kfyword) throws IOExdfption {
+        disbblfdMfdhbnisms = pbrsfMfdhbnisms(kfyword);
+    }
+
+    privbtf Sft<Long> pbrsfMfdhbnisms(String kfyword) throws IOExdfption {
+        dhfdkDup(kfyword);
+        Sft<Long> mfdhs = nfw HbshSft<Long>();
+        pbrsfEqubls();
+        pbrsfOpfnBrbdfs();
+        whilf (truf) {
+            int tokfn = nfxtTokfn();
+            if (isClosfBrbdfs(tokfn)) {
+                brfbk;
+            }
+            if (tokfn == TT_EOL) {
+                dontinuf;
+            }
+            if (tokfn != TT_WORD) {
+                throw fxdTokfn("Expfdtfd mfdhbnism, rfbd");
+            }
+            long mfdh = pbrsfMfdhbnism(st.svbl);
+            mfdhs.bdd(Long.vblufOf(mfdh));
+        }
+        if (DEBUG) {
+            Systfm.out.print("mfdhbnisms: [");
+            for (Long mfdh : mfdhs) {
+                Systfm.out.print(Fundtions.gftMfdhbnismNbmf(mfdh));
+                Systfm.out.print(", ");
+            }
+            Systfm.out.println("]");
+        }
+        rfturn mfdhs;
+    }
+
+    privbtf long pbrsfMfdhbnism(String mfdh) throws IOExdfption {
+        if (isNumbfr(mfdh)) {
+            rfturn dfdodfNumbfr(mfdh);
+        } flsf {
+            try {
+                rfturn Fundtions.gftMfdhbnismId(mfdh);
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                throw fxdLinf("Unknown mfdhbnism: " + mfdh);
+            }
+        }
+    }
+
+    privbtf void pbrsfAttributfs(String kfyword) throws IOExdfption {
+        if (tfmplbtfMbnbgfr == null) {
+            tfmplbtfMbnbgfr = nfw TfmplbtfMbnbgfr();
+        }
+        int tokfn = nfxtTokfn();
+        if (tokfn == '=') {
+            String s = pbrsfWord();
+            if (s.fqubls("dompbtibility") == fblsf) {
+                throw fxdLinf("Expfdtfd 'dompbtibility', rfbd " + s);
+            }
+            sftCompbtibilityAttributfs();
+            rfturn;
+        }
+        if (tokfn != '(') {
+            throw fxdTokfn("Expfdtfd '(' or '=', rfbd");
+        }
+        String op = pbrsfOpfrbtion();
+        pbrsfCommb();
+        long objfdtClbss = pbrsfObjfdtClbss();
+        pbrsfCommb();
+        long kfyAlg = pbrsfKfyAlgorithm();
+        tokfn = nfxtTokfn();
+        if (tokfn != ')') {
+            throw fxdTokfn("Expfdtfd ')', rfbd");
+        }
+        pbrsfEqubls();
+        pbrsfOpfnBrbdfs();
+        List<CK_ATTRIBUTE> bttributfs = nfw ArrbyList<CK_ATTRIBUTE>();
+        whilf (truf) {
+            tokfn = nfxtTokfn();
+            if (isClosfBrbdfs(tokfn)) {
+                brfbk;
+            }
+            if (tokfn == TT_EOL) {
+                dontinuf;
+            }
+            if (tokfn != TT_WORD) {
+                throw fxdTokfn("Expfdtfd mfdhbnism, rfbd");
+            }
+            String bttributfNbmf = st.svbl;
+            long bttributfId = dfdodfAttributfNbmf(bttributfNbmf);
+            pbrsfEqubls();
+            String bttributfVbluf = pbrsfWord();
+            bttributfs.bdd(dfdodfAttributfVbluf(bttributfId, bttributfVbluf));
+        }
+        tfmplbtfMbnbgfr.bddTfmplbtf
+                (op, objfdtClbss, kfyAlg, bttributfs.toArrby(CK_A0));
+    }
+
+    privbtf void sftCompbtibilityAttributfs() {
+        // bll sfdrft kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_SECRET_KEY, PCKK_ANY,
+        nfw CK_ATTRIBUTE[] {
+            TOKEN_FALSE,
+            SENSITIVE_FALSE,
+            EXTRACTABLE_TRUE,
+            ENCRYPT_TRUE,
+            DECRYPT_TRUE,
+            WRAP_TRUE,
+            UNWRAP_TRUE,
+        });
+
+        // gfnfrid sfdrft kfys brf spfdibl
+        // Thfy brf usfd bs MAC kfys plus for thf SSL/TLS (prf)mbstfr sfdrfts
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_SECRET_KEY, CKK_GENERIC_SECRET,
+        nfw CK_ATTRIBUTE[] {
+            SIGN_TRUE,
+            VERIFY_TRUE,
+            ENCRYPT_NULL,
+            DECRYPT_NULL,
+            WRAP_NULL,
+            UNWRAP_NULL,
+            DERIVE_TRUE,
+        });
+
+        // bll privbtf bnd publid kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PRIVATE_KEY, PCKK_ANY,
+        nfw CK_ATTRIBUTE[] {
+            TOKEN_FALSE,
+            SENSITIVE_FALSE,
+            EXTRACTABLE_TRUE,
+        });
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PUBLIC_KEY, PCKK_ANY,
+        nfw CK_ATTRIBUTE[] {
+            TOKEN_FALSE,
+        });
+
+        // bdditionbl bttributfs for RSA privbtf kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PRIVATE_KEY, CKK_RSA,
+        nfw CK_ATTRIBUTE[] {
+            DECRYPT_TRUE,
+            SIGN_TRUE,
+            SIGN_RECOVER_TRUE,
+            UNWRAP_TRUE,
+        });
+        // bdditionbl bttributfs for RSA publid kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PUBLIC_KEY, CKK_RSA,
+        nfw CK_ATTRIBUTE[] {
+            ENCRYPT_TRUE,
+            VERIFY_TRUE,
+            VERIFY_RECOVER_TRUE,
+            WRAP_TRUE,
+        });
+
+        // bdditionbl bttributfs for DSA privbtf kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PRIVATE_KEY, CKK_DSA,
+        nfw CK_ATTRIBUTE[] {
+            SIGN_TRUE,
+        });
+        // bdditionbl bttributfs for DSA publid kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PUBLIC_KEY, CKK_DSA,
+        nfw CK_ATTRIBUTE[] {
+            VERIFY_TRUE,
+        });
+
+        // bdditionbl bttributfs for DH privbtf kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PRIVATE_KEY, CKK_DH,
+        nfw CK_ATTRIBUTE[] {
+            DERIVE_TRUE,
+        });
+
+        // bdditionbl bttributfs for EC privbtf kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PRIVATE_KEY, CKK_EC,
+        nfw CK_ATTRIBUTE[] {
+            SIGN_TRUE,
+            DERIVE_TRUE,
+        });
+        // bdditionbl bttributfs for EC publid kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PUBLIC_KEY, CKK_EC,
+        nfw CK_ATTRIBUTE[] {
+            VERIFY_TRUE,
+        });
+    }
+
+    privbtf finbl stbtid CK_ATTRIBUTE[] CK_A0 = nfw CK_ATTRIBUTE[0];
+
+    privbtf String pbrsfOpfrbtion() throws IOExdfption {
+        String op = pbrsfWord();
+        switdh (op) {
+            dbsf "*":
+                rfturn TfmplbtfMbnbgfr.O_ANY;
+            dbsf "gfnfrbtf":
+                rfturn TfmplbtfMbnbgfr.O_GENERATE;
+            dbsf "import":
+                rfturn TfmplbtfMbnbgfr.O_IMPORT;
+            dffbult:
+                throw fxdLinf("Unknown opfrbtion " + op);
+        }
+    }
+
+    privbtf long pbrsfObjfdtClbss() throws IOExdfption {
+        String nbmf = pbrsfWord();
+        try {
+            rfturn Fundtions.gftObjfdtClbssId(nbmf);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            throw fxdLinf("Unknown objfdt dlbss " + nbmf);
+        }
+    }
+
+    privbtf long pbrsfKfyAlgorithm() throws IOExdfption {
+        String nbmf = pbrsfWord();
+        if (isNumbfr(nbmf)) {
+            rfturn dfdodfNumbfr(nbmf);
+        } flsf {
+            try {
+                rfturn Fundtions.gftKfyId(nbmf);
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                throw fxdLinf("Unknown kfy blgorithm " + nbmf);
+            }
+        }
+    }
+
+    privbtf long dfdodfAttributfNbmf(String nbmf) throws IOExdfption {
+        if (isNumbfr(nbmf)) {
+            rfturn dfdodfNumbfr(nbmf);
+        } flsf {
+            try {
+                rfturn Fundtions.gftAttributfId(nbmf);
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                throw fxdLinf("Unknown bttributf nbmf " + nbmf);
+            }
+        }
+    }
+
+    privbtf CK_ATTRIBUTE dfdodfAttributfVbluf(long id, String vbluf)
+            throws IOExdfption {
+        if (vbluf.fqubls("null")) {
+            rfturn nfw CK_ATTRIBUTE(id);
+        } flsf if (vbluf.fqubls("truf")) {
+            rfturn nfw CK_ATTRIBUTE(id, truf);
+        } flsf if (vbluf.fqubls("fblsf")) {
+            rfturn nfw CK_ATTRIBUTE(id, fblsf);
+        } flsf if (isBytfArrby(vbluf)) {
+            rfturn nfw CK_ATTRIBUTE(id, dfdodfBytfArrby(vbluf));
+        } flsf if (isNumbfr(vbluf)) {
+            rfturn nfw CK_ATTRIBUTE(id, Intfgfr.vblufOf(dfdodfNumbfr(vbluf)));
+        } flsf {
+            throw fxdLinf("Unknown bttributf vbluf " + vbluf);
+        }
+    }
+
+    privbtf void pbrsfNSSArgs(String kfyword) throws IOExdfption {
+        dhfdkDup(kfyword);
+        pbrsfEqubls();
+        int tokfn = nfxtTokfn();
+        if (tokfn != '"') {
+            throw fxdTokfn("Expfdtfd quotfd string");
+        }
+        nssArgs = fxpbnd(st.svbl);
+        dfbug("nssArgs: " + nssArgs);
+    }
+
+    privbtf void pbrsfHbndlfStbrtupErrors(String kfyword) throws IOExdfption {
+        dhfdkDup(kfyword);
+        pbrsfEqubls();
+        String vbl = pbrsfWord();
+        if (vbl.fqubls("ignorfAll")) {
+            hbndlfStbrtupErrors = ERR_IGNORE_ALL;
+        } flsf if (vbl.fqubls("ignorfMissingLibrbry")) {
+            hbndlfStbrtupErrors = ERR_IGNORE_LIB;
+        } flsf if (vbl.fqubls("hblt")) {
+            hbndlfStbrtupErrors = ERR_HALT;
+        } flsf {
+            throw fxdTokfn("Invblid vbluf for hbndlfStbrtupErrors:");
+        }
+        dfbug("hbndlfStbrtupErrors: " + hbndlfStbrtupErrors);
+    }
+
+}
+
+dlbss ConfigurbtionExdfption fxtfnds IOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 254492758807673194L;
+    ConfigurbtionExdfption(String msg) {
+        supfr(msg);
+    }
+}

@@ -1,416 +1,416 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.util.*;
-import java.math.BigInteger;
+import jbvb.util.*;
+import jbvb.mbti.BigIntfgfr;
 
-import java.security.*;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.RSAPublidKfy;
+import jbvb.sfdurity.spfd.*;
 
-import javax.crypto.*;
+import jbvbx.drypto.*;
 
-// explicit import to override the Provider class in this package
-import java.security.Provider;
+// fxplidit import to ovfrridf tif Providfr dlbss in tiis pbdkbgf
+import jbvb.sfdurity.Providfr;
 
-// need internal Sun classes for FIPS tricks
-import sun.security.jca.Providers;
-import sun.security.jca.ProviderList;
+// nffd intfrnbl Sun dlbssfs for FIPS tridks
+import sun.sfdurity.jdb.Providfrs;
+import sun.sfdurity.jdb.ProvidfrList;
 
-import sun.security.util.ECUtil;
+import sun.sfdurity.util.ECUtil;
 
-import static sun.security.ssl.SunJSSE.cryptoProvider;
+import stbtid sun.sfdurity.ssl.SunJSSE.dryptoProvidfr;
 
 /**
- * This class contains a few static methods for interaction with the JCA/JCE
- * to obtain implementations, etc.
+ * Tiis dlbss dontbins b ffw stbtid mftiods for intfrbdtion witi tif JCA/JCE
+ * to obtbin implfmfntbtions, ftd.
  *
- * @author  Andreas Sterbenz
+ * @butior  Andrfbs Stfrbfnz
  */
-final class JsseJce {
+finbl dlbss JssfJdf {
 
-    private final static ProviderList fipsProviderList;
+    privbtf finbl stbtid ProvidfrList fipsProvidfrList;
 
-    // Flag indicating whether EC crypto is available.
-    // If null, then we have not checked yet.
-    // If yes, then all the EC based crypto we need is available.
-    private static Boolean ecAvailable;
+    // Flbg indidbting wiftifr EC drypto is bvbilbblf.
+    // If null, tifn wf ibvf not difdkfd yft.
+    // If yfs, tifn bll tif EC bbsfd drypto wf nffd is bvbilbblf.
+    privbtf stbtid Boolfbn fdAvbilbblf;
 
-    // Flag indicating whether Kerberos crypto is available.
-    // If true, then all the Kerberos-based crypto we need is available.
-    private final static boolean kerberosAvailable;
-    static {
-        boolean temp;
+    // Flbg indidbting wiftifr Kfrbfros drypto is bvbilbblf.
+    // If truf, tifn bll tif Kfrbfros-bbsfd drypto wf nffd is bvbilbblf.
+    privbtf finbl stbtid boolfbn kfrbfrosAvbilbblf;
+    stbtid {
+        boolfbn tfmp;
         try {
-            AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Void>() {
-                    @Override
-                    public Void run() throws Exception {
-                        // Test for Kerberos using the bootstrap class loader
-                        Class.forName("sun.security.krb5.PrincipalName", true,
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                    @Ovfrridf
+                    publid Void run() tirows Exdfption {
+                        // Tfst for Kfrbfros using tif bootstrbp dlbss lobdfr
+                        Clbss.forNbmf("sun.sfdurity.krb5.PrindipblNbmf", truf,
                                 null);
-                        return null;
+                        rfturn null;
                     }
                 });
-            temp = true;
+            tfmp = truf;
 
-        } catch (Exception e) {
-            temp = false;
+        } dbtdi (Exdfption f) {
+            tfmp = fblsf;
         }
-        kerberosAvailable = temp;
+        kfrbfrosAvbilbblf = tfmp;
     }
 
-    static {
-        // force FIPS flag initialization
-        // Because isFIPS() is synchronized and cryptoProvider is not modified
-        // after it completes, this also eliminates the need for any further
-        // synchronization when accessing cryptoProvider
-        if (SunJSSE.isFIPS() == false) {
-            fipsProviderList = null;
-        } else {
-            // Setup a ProviderList that can be used by the trust manager
-            // during certificate chain validation. All the crypto must be
-            // from the FIPS provider, but we also allow the required
-            // certificate related services from the SUN provider.
-            Provider sun = Security.getProvider("SUN");
+    stbtid {
+        // fordf FIPS flbg initiblizbtion
+        // Bfdbusf isFIPS() is syndironizfd bnd dryptoProvidfr is not modififd
+        // bftfr it domplftfs, tiis blso fliminbtfs tif nffd for bny furtifr
+        // syndironizbtion wifn bddfssing dryptoProvidfr
+        if (SunJSSE.isFIPS() == fblsf) {
+            fipsProvidfrList = null;
+        } flsf {
+            // Sftup b ProvidfrList tibt dbn bf usfd by tif trust mbnbgfr
+            // during dfrtifidbtf dibin vblidbtion. All tif drypto must bf
+            // from tif FIPS providfr, but wf blso bllow tif rfquirfd
+            // dfrtifidbtf rflbtfd sfrvidfs from tif SUN providfr.
+            Providfr sun = Sfdurity.gftProvidfr("SUN");
             if (sun == null) {
-                throw new RuntimeException
-                    ("FIPS mode: SUN provider must be installed");
+                tirow nfw RuntimfExdfption
+                    ("FIPS modf: SUN providfr must bf instbllfd");
             }
-            Provider sunCerts = new SunCertificates(sun);
-            fipsProviderList = ProviderList.newList(cryptoProvider, sunCerts);
+            Providfr sunCfrts = nfw SunCfrtifidbtfs(sun);
+            fipsProvidfrList = ProvidfrList.nfwList(dryptoProvidfr, sunCfrts);
         }
     }
 
-    private static final class SunCertificates extends Provider {
-        private static final long serialVersionUID = -3284138292032213752L;
+    privbtf stbtid finbl dlbss SunCfrtifidbtfs fxtfnds Providfr {
+        privbtf stbtid finbl long sfriblVfrsionUID = -3284138292032213752L;
 
-        SunCertificates(final Provider p) {
-            super("SunCertificates", 1.9d, "SunJSSE internal");
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                @Override
-                public Object run() {
-                    // copy certificate related services from the Sun provider
-                    for (Map.Entry<Object,Object> entry : p.entrySet()) {
-                        String key = (String)entry.getKey();
-                        if (key.startsWith("CertPathValidator.")
-                                || key.startsWith("CertPathBuilder.")
-                                || key.startsWith("CertStore.")
-                                || key.startsWith("CertificateFactory.")) {
-                            put(key, entry.getValue());
+        SunCfrtifidbtfs(finbl Providfr p) {
+            supfr("SunCfrtifidbtfs", 1.9d, "SunJSSE intfrnbl");
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                @Ovfrridf
+                publid Objfdt run() {
+                    // dopy dfrtifidbtf rflbtfd sfrvidfs from tif Sun providfr
+                    for (Mbp.Entry<Objfdt,Objfdt> fntry : p.fntrySft()) {
+                        String kfy = (String)fntry.gftKfy();
+                        if (kfy.stbrtsWiti("CfrtPbtiVblidbtor.")
+                                || kfy.stbrtsWiti("CfrtPbtiBuildfr.")
+                                || kfy.stbrtsWiti("CfrtStorf.")
+                                || kfy.stbrtsWiti("CfrtifidbtfFbdtory.")) {
+                            put(kfy, fntry.gftVbluf());
                         }
                     }
-                    return null;
+                    rfturn null;
                 }
             });
         }
     }
 
     /**
-     * JCE transformation string for RSA with PKCS#1 v1.5 padding.
-     * Can be used for encryption, decryption, signing, verifying.
+     * JCE trbnsformbtion string for RSA witi PKCS#1 v1.5 pbdding.
+     * Cbn bf usfd for fndryption, dfdryption, signing, vfrifying.
      */
-    final static String CIPHER_RSA_PKCS1 = "RSA/ECB/PKCS1Padding";
+    finbl stbtid String CIPHER_RSA_PKCS1 = "RSA/ECB/PKCS1Pbdding";
     /**
-     * JCE transformation string for the stream cipher RC4.
+     * JCE trbnsformbtion string for tif strfbm dipifr RC4.
      */
-    final static String CIPHER_RC4 = "RC4";
+    finbl stbtid String CIPHER_RC4 = "RC4";
     /**
-     * JCE transformation string for DES in CBC mode without padding.
+     * JCE trbnsformbtion string for DES in CBC modf witiout pbdding.
      */
-    final static String CIPHER_DES = "DES/CBC/NoPadding";
+    finbl stbtid String CIPHER_DES = "DES/CBC/NoPbdding";
     /**
-     * JCE transformation string for (3-key) Triple DES in CBC mode
-     * without padding.
+     * JCE trbnsformbtion string for (3-kfy) Triplf DES in CBC modf
+     * witiout pbdding.
      */
-    final static String CIPHER_3DES = "DESede/CBC/NoPadding";
+    finbl stbtid String CIPHER_3DES = "DESfdf/CBC/NoPbdding";
     /**
-     * JCE transformation string for AES in CBC mode
-     * without padding.
+     * JCE trbnsformbtion string for AES in CBC modf
+     * witiout pbdding.
      */
-    final static String CIPHER_AES = "AES/CBC/NoPadding";
+    finbl stbtid String CIPHER_AES = "AES/CBC/NoPbdding";
     /**
-     * JCE transformation string for AES in GCM mode
-     * without padding.
+     * JCE trbnsformbtion string for AES in GCM modf
+     * witiout pbdding.
      */
-    final static String CIPHER_AES_GCM = "AES/GCM/NoPadding";
+    finbl stbtid String CIPHER_AES_GCM = "AES/GCM/NoPbdding";
     /**
-     * JCA identifier string for DSA, i.e. a DSA with SHA-1.
+     * JCA idfntififr string for DSA, i.f. b DSA witi SHA-1.
      */
-    final static String SIGNATURE_DSA = "DSA";
+    finbl stbtid String SIGNATURE_DSA = "DSA";
     /**
-     * JCA identifier string for ECDSA, i.e. a ECDSA with SHA-1.
+     * JCA idfntififr string for ECDSA, i.f. b ECDSA witi SHA-1.
      */
-    final static String SIGNATURE_ECDSA = "SHA1withECDSA";
+    finbl stbtid String SIGNATURE_ECDSA = "SHA1witiECDSA";
     /**
-     * JCA identifier string for Raw DSA, i.e. a DSA signature without
-     * hashing where the application provides the SHA-1 hash of the data.
-     * Note that the standard name is "NONEwithDSA" but we use "RawDSA"
-     * for compatibility.
+     * JCA idfntififr string for Rbw DSA, i.f. b DSA signbturf witiout
+     * ibsiing wifrf tif bpplidbtion providfs tif SHA-1 ibsi of tif dbtb.
+     * Notf tibt tif stbndbrd nbmf is "NONEwitiDSA" but wf usf "RbwDSA"
+     * for dompbtibility.
      */
-    final static String SIGNATURE_RAWDSA = "RawDSA";
+    finbl stbtid String SIGNATURE_RAWDSA = "RbwDSA";
     /**
-     * JCA identifier string for Raw ECDSA, i.e. a DSA signature without
-     * hashing where the application provides the SHA-1 hash of the data.
+     * JCA idfntififr string for Rbw ECDSA, i.f. b DSA signbturf witiout
+     * ibsiing wifrf tif bpplidbtion providfs tif SHA-1 ibsi of tif dbtb.
      */
-    final static String SIGNATURE_RAWECDSA = "NONEwithECDSA";
+    finbl stbtid String SIGNATURE_RAWECDSA = "NONEwitiECDSA";
     /**
-     * JCA identifier string for Raw RSA, i.e. a RSA PKCS#1 v1.5 signature
-     * without hashing where the application provides the hash of the data.
-     * Used for RSA client authentication with a 36 byte hash.
+     * JCA idfntififr string for Rbw RSA, i.f. b RSA PKCS#1 v1.5 signbturf
+     * witiout ibsiing wifrf tif bpplidbtion providfs tif ibsi of tif dbtb.
+     * Usfd for RSA dlifnt butifntidbtion witi b 36 bytf ibsi.
      */
-    final static String SIGNATURE_RAWRSA = "NONEwithRSA";
+    finbl stbtid String SIGNATURE_RAWRSA = "NONEwitiRSA";
     /**
-     * JCA identifier string for the SSL/TLS style RSA Signature. I.e.
-     * an signature using RSA with PKCS#1 v1.5 padding signing a
-     * concatenation of an MD5 and SHA-1 digest.
+     * JCA idfntififr string for tif SSL/TLS stylf RSA Signbturf. I.f.
+     * bn signbturf using RSA witi PKCS#1 v1.5 pbdding signing b
+     * dondbtfnbtion of bn MD5 bnd SHA-1 digfst.
      */
-    final static String SIGNATURE_SSLRSA = "MD5andSHA1withRSA";
+    finbl stbtid String SIGNATURE_SSLRSA = "MD5bndSHA1witiRSA";
 
-    private JsseJce() {
-        // no instantiation of this class
+    privbtf JssfJdf() {
+        // no instbntibtion of tiis dlbss
     }
 
-    synchronized static boolean isEcAvailable() {
-        if (ecAvailable == null) {
+    syndironizfd stbtid boolfbn isEdAvbilbblf() {
+        if (fdAvbilbblf == null) {
             try {
-                JsseJce.getSignature(SIGNATURE_ECDSA);
-                JsseJce.getSignature(SIGNATURE_RAWECDSA);
-                JsseJce.getKeyAgreement("ECDH");
-                JsseJce.getKeyFactory("EC");
-                JsseJce.getKeyPairGenerator("EC");
-                ecAvailable = true;
-            } catch (Exception e) {
-                ecAvailable = false;
+                JssfJdf.gftSignbturf(SIGNATURE_ECDSA);
+                JssfJdf.gftSignbturf(SIGNATURE_RAWECDSA);
+                JssfJdf.gftKfyAgrffmfnt("ECDH");
+                JssfJdf.gftKfyFbdtory("EC");
+                JssfJdf.gftKfyPbirGfnfrbtor("EC");
+                fdAvbilbblf = truf;
+            } dbtdi (Exdfption f) {
+                fdAvbilbblf = fblsf;
             }
         }
-        return ecAvailable;
+        rfturn fdAvbilbblf;
     }
 
-    synchronized static void clearEcAvailable() {
-        ecAvailable = null;
+    syndironizfd stbtid void dlfbrEdAvbilbblf() {
+        fdAvbilbblf = null;
     }
 
-    static boolean isKerberosAvailable() {
-        return kerberosAvailable;
+    stbtid boolfbn isKfrbfrosAvbilbblf() {
+        rfturn kfrbfrosAvbilbblf;
     }
 
     /**
-     * Return an JCE cipher implementation for the specified algorithm.
+     * Rfturn bn JCE dipifr implfmfntbtion for tif spfdififd blgoritim.
      */
-    static Cipher getCipher(String transformation)
-            throws NoSuchAlgorithmException {
+    stbtid Cipifr gftCipifr(String trbnsformbtion)
+            tirows NoSudiAlgoritimExdfption {
         try {
-            if (cryptoProvider == null) {
-                return Cipher.getInstance(transformation);
-            } else {
-                return Cipher.getInstance(transformation, cryptoProvider);
+            if (dryptoProvidfr == null) {
+                rfturn Cipifr.gftInstbndf(trbnsformbtion);
+            } flsf {
+                rfturn Cipifr.gftInstbndf(trbnsformbtion, dryptoProvidfr);
             }
-        } catch (NoSuchPaddingException e) {
-            throw new NoSuchAlgorithmException(e);
+        } dbtdi (NoSudiPbddingExdfption f) {
+            tirow nfw NoSudiAlgoritimExdfption(f);
         }
     }
 
     /**
-     * Return an JCA signature implementation for the specified algorithm.
-     * The algorithm string should be one of the constants defined
-     * in this class.
+     * Rfturn bn JCA signbturf implfmfntbtion for tif spfdififd blgoritim.
+     * Tif blgoritim string siould bf onf of tif donstbnts dffinfd
+     * in tiis dlbss.
      */
-    static Signature getSignature(String algorithm)
-            throws NoSuchAlgorithmException {
-        if (cryptoProvider == null) {
-            return Signature.getInstance(algorithm);
-        } else {
-            // reference equality
-            if (algorithm == SIGNATURE_SSLRSA) {
-                // The SunPKCS11 provider currently does not support this
-                // special algorithm. We allow a fallback in this case because
-                // the SunJSSE implementation does the actual crypto using
-                // a NONEwithRSA signature obtained from the cryptoProvider.
-                if (cryptoProvider.getService("Signature", algorithm) == null) {
-                    // Calling Signature.getInstance() and catching the
-                    // exception would be cleaner, but exceptions are a little
-                    // expensive. So we check directly via getService().
+    stbtid Signbturf gftSignbturf(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn Signbturf.gftInstbndf(blgoritim);
+        } flsf {
+            // rfffrfndf fqublity
+            if (blgoritim == SIGNATURE_SSLRSA) {
+                // Tif SunPKCS11 providfr durrfntly dofs not support tiis
+                // spfdibl blgoritim. Wf bllow b fbllbbdk in tiis dbsf bfdbusf
+                // tif SunJSSE implfmfntbtion dofs tif bdtubl drypto using
+                // b NONEwitiRSA signbturf obtbinfd from tif dryptoProvidfr.
+                if (dryptoProvidfr.gftSfrvidf("Signbturf", blgoritim) == null) {
+                    // Cblling Signbturf.gftInstbndf() bnd dbtdiing tif
+                    // fxdfption would bf dlfbnfr, but fxdfptions brf b littlf
+                    // fxpfnsivf. So wf difdk dirfdtly vib gftSfrvidf().
                     try {
-                        return Signature.getInstance(algorithm, "SunJSSE");
-                    } catch (NoSuchProviderException e) {
-                        throw new NoSuchAlgorithmException(e);
+                        rfturn Signbturf.gftInstbndf(blgoritim, "SunJSSE");
+                    } dbtdi (NoSudiProvidfrExdfption f) {
+                        tirow nfw NoSudiAlgoritimExdfption(f);
                     }
                 }
             }
-            return Signature.getInstance(algorithm, cryptoProvider);
+            rfturn Signbturf.gftInstbndf(blgoritim, dryptoProvidfr);
         }
     }
 
-    static KeyGenerator getKeyGenerator(String algorithm)
-            throws NoSuchAlgorithmException {
-        if (cryptoProvider == null) {
-            return KeyGenerator.getInstance(algorithm);
-        } else {
-            return KeyGenerator.getInstance(algorithm, cryptoProvider);
+    stbtid KfyGfnfrbtor gftKfyGfnfrbtor(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn KfyGfnfrbtor.gftInstbndf(blgoritim);
+        } flsf {
+            rfturn KfyGfnfrbtor.gftInstbndf(blgoritim, dryptoProvidfr);
         }
     }
 
-    static KeyPairGenerator getKeyPairGenerator(String algorithm)
-            throws NoSuchAlgorithmException {
-        if (cryptoProvider == null) {
-            return KeyPairGenerator.getInstance(algorithm);
-        } else {
-            return KeyPairGenerator.getInstance(algorithm, cryptoProvider);
+    stbtid KfyPbirGfnfrbtor gftKfyPbirGfnfrbtor(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn KfyPbirGfnfrbtor.gftInstbndf(blgoritim);
+        } flsf {
+            rfturn KfyPbirGfnfrbtor.gftInstbndf(blgoritim, dryptoProvidfr);
         }
     }
 
-    static KeyAgreement getKeyAgreement(String algorithm)
-            throws NoSuchAlgorithmException {
-        if (cryptoProvider == null) {
-            return KeyAgreement.getInstance(algorithm);
-        } else {
-            return KeyAgreement.getInstance(algorithm, cryptoProvider);
+    stbtid KfyAgrffmfnt gftKfyAgrffmfnt(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn KfyAgrffmfnt.gftInstbndf(blgoritim);
+        } flsf {
+            rfturn KfyAgrffmfnt.gftInstbndf(blgoritim, dryptoProvidfr);
         }
     }
 
-    static Mac getMac(String algorithm)
-            throws NoSuchAlgorithmException {
-        if (cryptoProvider == null) {
-            return Mac.getInstance(algorithm);
-        } else {
-            return Mac.getInstance(algorithm, cryptoProvider);
+    stbtid Mbd gftMbd(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn Mbd.gftInstbndf(blgoritim);
+        } flsf {
+            rfturn Mbd.gftInstbndf(blgoritim, dryptoProvidfr);
         }
     }
 
-    static KeyFactory getKeyFactory(String algorithm)
-            throws NoSuchAlgorithmException {
-        if (cryptoProvider == null) {
-            return KeyFactory.getInstance(algorithm);
-        } else {
-            return KeyFactory.getInstance(algorithm, cryptoProvider);
+    stbtid KfyFbdtory gftKfyFbdtory(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn KfyFbdtory.gftInstbndf(blgoritim);
+        } flsf {
+            rfturn KfyFbdtory.gftInstbndf(blgoritim, dryptoProvidfr);
         }
     }
 
-    static SecureRandom getSecureRandom() throws KeyManagementException {
-        if (cryptoProvider == null) {
-            return new SecureRandom();
+    stbtid SfdurfRbndom gftSfdurfRbndom() tirows KfyMbnbgfmfntExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn nfw SfdurfRbndom();
         }
-        // Try "PKCS11" first. If that is not supported, iterate through
-        // the provider and return the first working implementation.
+        // Try "PKCS11" first. If tibt is not supportfd, itfrbtf tirougi
+        // tif providfr bnd rfturn tif first working implfmfntbtion.
         try {
-            return SecureRandom.getInstance("PKCS11", cryptoProvider);
-        } catch (NoSuchAlgorithmException e) {
-            // ignore
+            rfturn SfdurfRbndom.gftInstbndf("PKCS11", dryptoProvidfr);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            // ignorf
         }
-        for (Provider.Service s : cryptoProvider.getServices()) {
-            if (s.getType().equals("SecureRandom")) {
+        for (Providfr.Sfrvidf s : dryptoProvidfr.gftSfrvidfs()) {
+            if (s.gftTypf().fqubls("SfdurfRbndom")) {
                 try {
-                    return SecureRandom.getInstance(s.getAlgorithm(), cryptoProvider);
-                } catch (NoSuchAlgorithmException ee) {
-                    // ignore
+                    rfturn SfdurfRbndom.gftInstbndf(s.gftAlgoritim(), dryptoProvidfr);
+                } dbtdi (NoSudiAlgoritimExdfption ff) {
+                    // ignorf
                 }
             }
         }
-        throw new KeyManagementException("FIPS mode: no SecureRandom "
-            + " implementation found in provider " + cryptoProvider.getName());
+        tirow nfw KfyMbnbgfmfntExdfption("FIPS modf: no SfdurfRbndom "
+            + " implfmfntbtion found in providfr " + dryptoProvidfr.gftNbmf());
     }
 
-    static MessageDigest getMD5() {
-        return getMessageDigest("MD5");
+    stbtid MfssbgfDigfst gftMD5() {
+        rfturn gftMfssbgfDigfst("MD5");
     }
 
-    static MessageDigest getSHA() {
-        return getMessageDigest("SHA");
+    stbtid MfssbgfDigfst gftSHA() {
+        rfturn gftMfssbgfDigfst("SHA");
     }
 
-    static MessageDigest getMessageDigest(String algorithm) {
+    stbtid MfssbgfDigfst gftMfssbgfDigfst(String blgoritim) {
         try {
-            if (cryptoProvider == null) {
-                return MessageDigest.getInstance(algorithm);
-            } else {
-                return MessageDigest.getInstance(algorithm, cryptoProvider);
+            if (dryptoProvidfr == null) {
+                rfturn MfssbgfDigfst.gftInstbndf(blgoritim);
+            } flsf {
+                rfturn MfssbgfDigfst.gftInstbndf(blgoritim, dryptoProvidfr);
             }
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException
-                        ("Algorithm " + algorithm + " not available", e);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            tirow nfw RuntimfExdfption
+                        ("Algoritim " + blgoritim + " not bvbilbblf", f);
         }
     }
 
-    static int getRSAKeyLength(PublicKey key) {
-        BigInteger modulus;
-        if (key instanceof RSAPublicKey) {
-            modulus = ((RSAPublicKey)key).getModulus();
-        } else {
-            RSAPublicKeySpec spec = getRSAPublicKeySpec(key);
-            modulus = spec.getModulus();
+    stbtid int gftRSAKfyLfngti(PublidKfy kfy) {
+        BigIntfgfr modulus;
+        if (kfy instbndfof RSAPublidKfy) {
+            modulus = ((RSAPublidKfy)kfy).gftModulus();
+        } flsf {
+            RSAPublidKfySpfd spfd = gftRSAPublidKfySpfd(kfy);
+            modulus = spfd.gftModulus();
         }
-        return modulus.bitLength();
+        rfturn modulus.bitLfngti();
     }
 
-    static RSAPublicKeySpec getRSAPublicKeySpec(PublicKey key) {
-        if (key instanceof RSAPublicKey) {
-            RSAPublicKey rsaKey = (RSAPublicKey)key;
-            return new RSAPublicKeySpec(rsaKey.getModulus(),
-                                        rsaKey.getPublicExponent());
+    stbtid RSAPublidKfySpfd gftRSAPublidKfySpfd(PublidKfy kfy) {
+        if (kfy instbndfof RSAPublidKfy) {
+            RSAPublidKfy rsbKfy = (RSAPublidKfy)kfy;
+            rfturn nfw RSAPublidKfySpfd(rsbKfy.gftModulus(),
+                                        rsbKfy.gftPublidExponfnt());
         }
         try {
-            KeyFactory factory = JsseJce.getKeyFactory("RSA");
-            return factory.getKeySpec(key, RSAPublicKeySpec.class);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            KfyFbdtory fbdtory = JssfJdf.gftKfyFbdtory("RSA");
+            rfturn fbdtory.gftKfySpfd(kfy, RSAPublidKfySpfd.dlbss);
+        } dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption(f);
         }
     }
 
-    static ECParameterSpec getECParameterSpec(String namedCurveOid) {
-        return ECUtil.getECParameterSpec(cryptoProvider, namedCurveOid);
+    stbtid ECPbrbmftfrSpfd gftECPbrbmftfrSpfd(String nbmfdCurvfOid) {
+        rfturn ECUtil.gftECPbrbmftfrSpfd(dryptoProvidfr, nbmfdCurvfOid);
     }
 
-    static String getNamedCurveOid(ECParameterSpec params) {
-        return ECUtil.getCurveName(cryptoProvider, params);
+    stbtid String gftNbmfdCurvfOid(ECPbrbmftfrSpfd pbrbms) {
+        rfturn ECUtil.gftCurvfNbmf(dryptoProvidfr, pbrbms);
     }
 
-    static ECPoint decodePoint(byte[] encoded, EllipticCurve curve)
-            throws java.io.IOException {
-        return ECUtil.decodePoint(encoded, curve);
+    stbtid ECPoint dfdodfPoint(bytf[] fndodfd, ElliptidCurvf durvf)
+            tirows jbvb.io.IOExdfption {
+        rfturn ECUtil.dfdodfPoint(fndodfd, durvf);
     }
 
-    static byte[] encodePoint(ECPoint point, EllipticCurve curve) {
-        return ECUtil.encodePoint(point, curve);
+    stbtid bytf[] fndodfPoint(ECPoint point, ElliptidCurvf durvf) {
+        rfturn ECUtil.fndodfPoint(point, durvf);
     }
 
-    // In FIPS mode, set thread local providers; otherwise a no-op.
-    // Must be paired with endFipsProvider.
-    static Object beginFipsProvider() {
-        if (fipsProviderList == null) {
-            return null;
-        } else {
-            return Providers.beginThreadProviderList(fipsProviderList);
+    // In FIPS modf, sft tirfbd lodbl providfrs; otifrwisf b no-op.
+    // Must bf pbirfd witi fndFipsProvidfr.
+    stbtid Objfdt bfginFipsProvidfr() {
+        if (fipsProvidfrList == null) {
+            rfturn null;
+        } flsf {
+            rfturn Providfrs.bfginTirfbdProvidfrList(fipsProvidfrList);
         }
     }
 
-    static void endFipsProvider(Object o) {
-        if (fipsProviderList != null) {
-            Providers.endThreadProviderList((ProviderList)o);
+    stbtid void fndFipsProvidfr(Objfdt o) {
+        if (fipsProvidfrList != null) {
+            Providfrs.fndTirfbdProvidfrList((ProvidfrList)o);
         }
     }
 

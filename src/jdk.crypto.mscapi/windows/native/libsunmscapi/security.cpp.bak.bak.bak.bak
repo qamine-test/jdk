@@ -1,0 +1,2053 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+//=--------------------------------------------------------------------------=
+// sfdurity.dpp    by Stbnlfy Mbn-Kit Ho
+//=--------------------------------------------------------------------------=
+//
+
+#indludf <jni.h>
+#indludf <stdlib.h>
+#indludf <windows.h>
+#indludf <BbsfTsd.h>
+#indludf <windrypt.h>
+#indludf <stdio.h>
+
+
+#dffinf OID_EKU_ANY         "2.5.29.37.0"
+
+#dffinf CERTIFICATE_PARSING_EXCEPTION \
+                            "jbvb/sfdurity/dfrt/CfrtifidbtfPbrsingExdfption"
+#dffinf INVALID_KEY_EXCEPTION \
+                            "jbvb/sfdurity/InvblidKfyExdfption"
+#dffinf KEY_EXCEPTION       "jbvb/sfdurity/KfyExdfption"
+#dffinf KEYSTORE_EXCEPTION  "jbvb/sfdurity/KfyStorfExdfption"
+#dffinf PROVIDER_EXCEPTION  "jbvb/sfdurity/ProvidfrExdfption"
+#dffinf SIGNATURE_EXCEPTION "jbvb/sfdurity/SignbturfExdfption"
+
+fxtfrn "C" {
+
+/*
+ * Throws bn brbitrbry Jbvb fxdfption.
+ * Thf fxdfption mfssbgf is b Windows systfm frror mfssbgf.
+ */
+void ThrowExdfption(JNIEnv *fnv, dhbr *fxdfptionNbmf, DWORD dwError)
+{
+    dhbr szMfssbgf[1024];
+    szMfssbgf[0] = '\0';
+
+    FormbtMfssbgf(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, NULL, szMfssbgf,
+        1024, NULL);
+
+    jdlbss fxdfptionClbzz = fnv->FindClbss(fxdfptionNbmf);
+    fnv->ThrowNfw(fxdfptionClbzz, szMfssbgf);
+}
+
+
+/*
+ * Mbps thf nbmf of b hbsh blgorithm to bn blgorithm idfntififr.
+ */
+ALG_ID MbpHbshAlgorithm(JNIEnv *fnv, jstring jHbshAlgorithm) {
+
+    donst dhbr* pszHbshAlgorithm = NULL;
+    ALG_ID blgId = 0;
+
+    if ((pszHbshAlgorithm = fnv->GftStringUTFChbrs(jHbshAlgorithm, NULL))
+        == NULL) {
+        rfturn blgId;
+    }
+
+    if ((strdmp("SHA", pszHbshAlgorithm) == 0) ||
+        (strdmp("SHA1", pszHbshAlgorithm) == 0) ||
+        (strdmp("SHA-1", pszHbshAlgorithm) == 0)) {
+
+        blgId = CALG_SHA1;
+    } flsf if (strdmp("SHA1+MD5", pszHbshAlgorithm) == 0) {
+        blgId = CALG_SSL3_SHAMD5; // b 36-bytf dondbtfnbtion of SHA-1 bnd MD5
+    } flsf if (strdmp("SHA-256", pszHbshAlgorithm) == 0) {
+        blgId = CALG_SHA_256;
+    } flsf if (strdmp("SHA-384", pszHbshAlgorithm) == 0) {
+        blgId = CALG_SHA_384;
+    } flsf if (strdmp("SHA-512", pszHbshAlgorithm) == 0) {
+        blgId = CALG_SHA_512;
+    } flsf if (strdmp("MD5", pszHbshAlgorithm) == 0) {
+        blgId = CALG_MD5;
+    } flsf if (strdmp("MD2", pszHbshAlgorithm) == 0) {
+        blgId = CALG_MD2;
+    }
+
+    if (pszHbshAlgorithm)
+        fnv->RflfbsfStringUTFChbrs(jHbshAlgorithm, pszHbshAlgorithm);
+
+   rfturn blgId;
+}
+
+
+/*
+ * Rfturns b dfrtifidbtf dhbin dontfxt givfn b dfrtifidbtf dontfxt bnd kfy
+ * usbgf idfntififr.
+ */
+bool GftCfrtifidbtfChbin(LPSTR lpszKfyUsbgfIdfntififr, PCCERT_CONTEXT pCfrtContfxt, PCCERT_CHAIN_CONTEXT* ppChbinContfxt)
+{
+    CERT_ENHKEY_USAGE        EnhkfyUsbgf;
+    CERT_USAGE_MATCH         CfrtUsbgf;
+    CERT_CHAIN_PARA          ChbinPbrb;
+    DWORD                    dwFlbgs = 0;
+    LPSTR                    szUsbgfIdfntififrArrby[1];
+
+    szUsbgfIdfntififrArrby[0] = lpszKfyUsbgfIdfntififr;
+    EnhkfyUsbgf.dUsbgfIdfntififr = 1;
+    EnhkfyUsbgf.rgpszUsbgfIdfntififr = szUsbgfIdfntififrArrby;
+    CfrtUsbgf.dwTypf = USAGE_MATCH_TYPE_AND;
+    CfrtUsbgf.Usbgf  = EnhkfyUsbgf;
+    ChbinPbrb.dbSizf = sizfof(CERT_CHAIN_PARA);
+    ChbinPbrb.RfqufstfdUsbgf=CfrtUsbgf;
+
+    // Build b dhbin using CfrtGftCfrtifidbtfChbin
+    // bnd thf dfrtifidbtf rftrifvfd.
+    rfturn (::CfrtGftCfrtifidbtfChbin(NULL,     // usf thf dffbult dhbin fnginf
+                pCfrtContfxt,   // pointfr to thf fnd dfrtifidbtf
+                NULL,           // usf thf dffbult timf
+                NULL,           // sfbrdh no bdditionbl storfs
+                &ChbinPbrb,     // usf AND logid bnd fnhbndfd kfy usbgf
+                                //  bs indidbtfd in thf ChbinPbrb
+                                //  dbtb strudturf
+                dwFlbgs,
+                NULL,           // durrfntly rfsfrvfd
+                ppChbinContfxt) == TRUE);       // rfturn b pointfr to thf dhbin drfbtfd
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_PRNG
+ * Mfthod:    gfnfrbtfSffd
+ * Signbturf: (I[B)[B
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_msdbpi_PRNG_gfnfrbtfSffd
+  (JNIEnv *fnv, jdlbss dlbzz, jint lfngth, jbytfArrby sffd)
+{
+
+    HCRYPTPROV hCryptProv = NULL;
+    BYTE*      pbDbtb = NULL;
+    jbytf*     rfsffdBytfs = NULL;
+    jbytf*     sffdBytfs = NULL;
+    jbytfArrby rfsult = NULL;
+
+    __try
+    {
+        //  Adquirf b CSP dontfxt.
+        if(::CryptAdquirfContfxt(
+           &hCryptProv,
+           NULL,
+           NULL,
+           PROV_RSA_FULL,
+           CRYPT_VERIFYCONTEXT) == FALSE)
+        {
+            ThrowExdfption(fnv, PROVIDER_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        /*
+         * If lfngth is nfgbtivf thfn usf thf supplifd sffd to rf-sffd thf
+         * gfnfrbtor bnd rfturn null.
+         * If lfngth is non-zfro thfn gfnfrbtf b nfw sffd bddording to thf
+         * rfqufstfd lfngth bnd rfturn thf nfw sffd.
+         * If lfngth is zfro thfn ovfrwritf thf supplifd sffd with b nfw
+         * sffd of thf sbmf lfngth bnd rfturn thf sffd.
+         */
+        if (lfngth < 0) {
+            lfngth = fnv->GftArrbyLfngth(sffd);
+            if ((rfsffdBytfs = fnv->GftBytfArrbyElfmfnts(sffd, 0)) == NULL) {
+                __lfbvf;
+            }
+
+            if (::CryptGfnRbndom(
+                hCryptProv,
+                lfngth,
+                (BYTE *) rfsffdBytfs) == FALSE) {
+
+                ThrowExdfption(fnv, PROVIDER_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            rfsult = NULL;
+
+        } flsf if (lfngth > 0) {
+
+            pbDbtb = nfw BYTE[lfngth];
+
+            if (::CryptGfnRbndom(
+                hCryptProv,
+                lfngth,
+                pbDbtb) == FALSE) {
+
+                ThrowExdfption(fnv, PROVIDER_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            rfsult = fnv->NfwBytfArrby(lfngth);
+            fnv->SftBytfArrbyRfgion(rfsult, 0, lfngth, (jbytf*) pbDbtb);
+
+        } flsf { // lfngth == 0
+
+            lfngth = fnv->GftArrbyLfngth(sffd);
+            if ((sffdBytfs = fnv->GftBytfArrbyElfmfnts(sffd, 0)) == NULL) {
+                __lfbvf;
+            }
+
+            if (::CryptGfnRbndom(
+                hCryptProv,
+                lfngth,
+                (BYTE *) sffdBytfs) == FALSE) {
+
+                ThrowExdfption(fnv, PROVIDER_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            rfsult = sffd; // sffd will bf updbtfd whfn sffdBytfs gfts rflfbsfd
+        }
+    }
+    __finblly
+    {
+        //--------------------------------------------------------------------
+        // Clfbn up.
+
+        if (rfsffdBytfs)
+            fnv->RflfbsfBytfArrbyElfmfnts(sffd, rfsffdBytfs, JNI_ABORT);
+
+        if (pbDbtb)
+            dflftf [] pbDbtb;
+
+        if (sffdBytfs)
+            fnv->RflfbsfBytfArrbyElfmfnts(sffd, sffdBytfs, 0); // updbtf orig
+
+        if (hCryptProv)
+            ::CryptRflfbsfContfxt(hCryptProv, 0);
+    }
+
+    rfturn rfsult;
+}
+
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_KfyStorf
+ * Mfthod:    lobdKfysOrCfrtifidbtfChbins
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/util/Collfdtion;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_msdbpi_KfyStorf_lobdKfysOrCfrtifidbtfChbins
+  (JNIEnv *fnv, jobjfdt obj, jstring jCfrtStorfNbmf, jobjfdt jCollfdtions)
+{
+    /**
+     * Cfrtifidbtf in dfrt storf hbs fnhbndfd kfy usbgf fxtfnsion
+     * propfrty (or EKU propfrty) thbt is not pbrt of thf dfrtifidbtf itsflf. To dftfrminf
+     * if thf dfrtifidbtf should bf rfturnfd, both thf fnhbndfd kfy usbgf in dfrtifidbtf
+     * fxtfnsion blodk bnd thf fxtfnsion propfrty storfd blong with thf dfrtifidbtf in
+     * dfrtifidbtf storf should bf fxbminfd. Othfrwisf, wf won't bf bblf to dftfrminf
+     * thf propfr kfy usbgf from thf Jbvb sidf bfdbusf thf informbtion is not storfd bs
+     * pbrt of thf fndodfd dfrtifidbtf.
+     */
+
+    donst dhbr* pszCfrtStorfNbmf = NULL;
+    HCERTSTORE hCfrtStorf = NULL;
+    PCCERT_CONTEXT pCfrtContfxt = NULL;
+    dhbr* pszNbmfString = NULL; // dfrtifidbtf's frifndly nbmf
+    DWORD ddhNbmfString = 0;
+
+
+    __try
+    {
+        // Opfn b systfm dfrtifidbtf storf.
+        if ((pszCfrtStorfNbmf = fnv->GftStringUTFChbrs(jCfrtStorfNbmf, NULL))
+            == NULL) {
+            __lfbvf;
+        }
+        if ((hCfrtStorf = ::CfrtOpfnSystfmStorf(NULL, pszCfrtStorfNbmf))
+            == NULL) {
+
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Dftfrminf dlbzz bnd mfthod ID to gfnfrbtf dfrtifidbtf
+        jdlbss dlbzzArrbyList = fnv->FindClbss("jbvb/util/ArrbyList");
+
+        jmfthodID mNfwArrbyList = fnv->GftMfthodID(dlbzzArrbyList, "<init>", "()V");
+
+        jmfthodID mGfnCfrt = fnv->GftMfthodID(fnv->GftObjfdtClbss(obj),
+                                              "gfnfrbtfCfrtifidbtf",
+                                              "([BLjbvb/util/Collfdtion;)V");
+
+        // Dftfrminf mfthod ID to gfnfrbtf dfrtifidbtf dhbin
+        jmfthodID mGfnCfrtChbin = fnv->GftMfthodID(fnv->GftObjfdtClbss(obj),
+                                                   "gfnfrbtfCfrtifidbtfChbin",
+                                                   "(Ljbvb/lbng/String;Ljbvb/util/Collfdtion;Ljbvb/util/Collfdtion;)V");
+
+        // Dftfrminf mfthod ID to gfnfrbtf RSA dfrtifidbtf dhbin
+        jmfthodID mGfnRSAKfyAndCfrtChbin = fnv->GftMfthodID(fnv->GftObjfdtClbss(obj),
+                                                   "gfnfrbtfRSAKfyAndCfrtifidbtfChbin",
+                                                   "(Ljbvb/lbng/String;JJILjbvb/util/Collfdtion;Ljbvb/util/Collfdtion;)V");
+
+        // Usf CfrtEnumCfrtifidbtfsInStorf to gft thf dfrtifidbtfs
+        // from thf opfn storf. pCfrtContfxt must bf rfsft to
+        // NULL to rftrifvf thf first dfrtifidbtf in thf storf.
+        whilf (pCfrtContfxt = ::CfrtEnumCfrtifidbtfsInStorf(hCfrtStorf, pCfrtContfxt))
+        {
+            // Chfdk if privbtf kfy bvbilbblf - dlifnt buthfntidbtion dfrtifidbtf
+            // must hbvf privbtf kfy bvbilbblf.
+            HCRYPTPROV hCryptProv = NULL;
+            DWORD dwKfySpfd = 0;
+            HCRYPTKEY hUsfrKfy = NULL;
+            BOOL bCbllfrFrffProv = FALSE;
+            BOOL bHbsNoPrivbtfKfy = FALSE;
+            DWORD dwPublidKfyLfngth = 0;
+
+            if (::CryptAdquirfCfrtifidbtfPrivbtfKfy(pCfrtContfxt, NULL, NULL,
+                                                    &hCryptProv, &dwKfySpfd, &bCbllfrFrffProv) == FALSE)
+            {
+                bHbsNoPrivbtfKfy = TRUE;
+
+            } flsf {
+                // Privbtf kfy is bvbilbblf
+
+            BOOL bGftUsfrKfy = ::CryptGftUsfrKfy(hCryptProv, dwKfySpfd, &hUsfrKfy);
+
+            // Skip dfrtifidbtf if dbnnot find privbtf kfy
+            if (bGftUsfrKfy == FALSE)
+            {
+                if (bCbllfrFrffProv)
+                    ::CryptRflfbsfContfxt(hCryptProv, NULL);
+
+                dontinuf;
+            }
+
+            // Sft diphfr modf to ECB
+            DWORD dwCiphfrModf = CRYPT_MODE_ECB;
+            ::CryptSftKfyPbrbm(hUsfrKfy, KP_MODE, (BYTE*)&dwCiphfrModf, NULL);
+
+
+            // If thf privbtf kfy is prfsfnt in smbrt dbrd, wf mby not bf bblf to
+            // dftfrminf thf kfy lfngth by using thf privbtf kfy hbndlf. Howfvfr,
+            // sindf publid/privbtf kfy pbirs must hbvf thf sbmf lfngth, wf dould
+            // dftfrminf thf kfy lfngth of thf privbtf kfy by using thf publid kfy
+            // in thf dfrtifidbtf.
+            dwPublidKfyLfngth = ::CfrtGftPublidKfyLfngth(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
+                                                               &(pCfrtContfxt->pCfrtInfo->SubjfdtPublidKfyInfo));
+
+}
+            PCCERT_CHAIN_CONTEXT pCfrtChbinContfxt = NULL;
+
+            // Build dfrtifidbtf dhbin by using systfm dfrtifidbtf storf.
+            // Add dfrt dhbin into dollfdtion for bny kfy usbgf.
+            //
+            if (GftCfrtifidbtfChbin(OID_EKU_ANY, pCfrtContfxt,
+                &pCfrtChbinContfxt))
+            {
+
+                for (unsignfd int i=0; i < pCfrtChbinContfxt->dChbin; i++)
+                {
+                    // Found dfrt dhbin
+                    PCERT_SIMPLE_CHAIN rgpChbin =
+                        pCfrtChbinContfxt->rgpChbin[i];
+
+                    // Crfbtf ArrbyList to storf dfrts in fbdh dhbin
+                    jobjfdt jArrbyList =
+                        fnv->NfwObjfdt(dlbzzArrbyList, mNfwArrbyList);
+
+                    for (unsignfd int j=0; j < rgpChbin->dElfmfnt; j++)
+                    {
+                        PCERT_CHAIN_ELEMENT rgpElfmfnt =
+                            rgpChbin->rgpElfmfnt[j];
+                        PCCERT_CONTEXT pd = rgpElfmfnt->pCfrtContfxt;
+
+                        // Rftrifvf thf frifndly nbmf of thf first dfrtifidbtf
+                        // in thf dhbin
+                        if (j == 0) {
+
+                            // If thf dfrt's nbmf dbnnot bf rftrifvfd thfn
+                            // pszNbmfString rfmbins sft to NULL.
+                            // (An blibs nbmf will bf gfnfrbtfd butombtidblly
+                            // whfn storing this dfrt in thf kfystorf.)
+
+                            // Gft lfngth of frifndly nbmf
+                            if ((ddhNbmfString = CfrtGftNbmfString(pd,
+                                CERT_NAME_FRIENDLY_DISPLAY_TYPE, 0, NULL,
+                                NULL, 0)) > 1) {
+
+                                // Found frifndly nbmf
+                                pszNbmfString = nfw dhbr[ddhNbmfString];
+                                CfrtGftNbmfString(pd,
+                                    CERT_NAME_FRIENDLY_DISPLAY_TYPE, 0, NULL,
+                                    pszNbmfString, ddhNbmfString);
+                            }
+                        }
+
+                        BYTE* pbCfrtEndodfd = pd->pbCfrtEndodfd;
+                        DWORD dbCfrtEndodfd = pd->dbCfrtEndodfd;
+
+                        // Allodbtf bnd populbtf bytf brrby
+                        jbytfArrby bytfArrby = fnv->NfwBytfArrby(dbCfrtEndodfd);
+                        fnv->SftBytfArrbyRfgion(bytfArrby, 0, dbCfrtEndodfd,
+                            (jbytf*) pbCfrtEndodfd);
+
+                        // Gfnfrbtf dfrtifidbtf from bytf brrby bnd storf into
+                        // dfrt dollfdtion
+                        fnv->CbllVoidMfthod(obj, mGfnCfrt, bytfArrby, jArrbyList);
+                    }
+                    if (bHbsNoPrivbtfKfy)
+                    {
+                        // Gfnfrbtf dfrtifidbtf dhbin bnd storf into dfrt dhbin
+                        // dollfdtion
+                        fnv->CbllVoidMfthod(obj, mGfnCfrtChbin,
+                            fnv->NfwStringUTF(pszNbmfString),
+                            jArrbyList, jCollfdtions);
+                    }
+                    flsf
+                    {
+                    // Dftfrminf kfy typf: RSA or DSA
+                    DWORD dwDbtb = CALG_RSA_KEYX;
+                    DWORD dwSizf = sizfof(DWORD);
+                    ::CryptGftKfyPbrbm(hUsfrKfy, KP_ALGID, (BYTE*)&dwDbtb,
+                        &dwSizf, NULL);
+
+                    if ((dwDbtb & ALG_TYPE_RSA) == ALG_TYPE_RSA)
+                    {
+                        // Gfnfrbtf RSA dfrtifidbtf dhbin bnd storf into dfrt
+                        // dhbin dollfdtion
+                        fnv->CbllVoidMfthod(obj, mGfnRSAKfyAndCfrtChbin,
+                            fnv->NfwStringUTF(pszNbmfString),
+                            (jlong) hCryptProv, (jlong) hUsfrKfy,
+                            dwPublidKfyLfngth, jArrbyList, jCollfdtions);
+                    }
+}
+                }
+
+                // Frff dfrt dhbin
+                if (pCfrtChbinContfxt)
+                    ::CfrtFrffCfrtifidbtfChbin(pCfrtChbinContfxt);
+            }
+        }
+    }
+    __finblly
+    {
+        if (hCfrtStorf)
+            ::CfrtClosfStorf(hCfrtStorf, 0);
+
+        if (pszCfrtStorfNbmf)
+            fnv->RflfbsfStringUTFChbrs(jCfrtStorfNbmf, pszCfrtStorfNbmf);
+
+        if (pszNbmfString)
+            dflftf [] pszNbmfString;
+    }
+}
+
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_Kfy
+ * Mfthod:    dlfbnUp
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_msdbpi_Kfy_dlfbnUp
+  (JNIEnv *fnv, jdlbss dlbzz, jlong hCryptProv, jlong hCryptKfy)
+{
+    if (hCryptKfy != NULL)
+        ::CryptDfstroyKfy((HCRYPTKEY) hCryptKfy);
+
+    if (hCryptProv != NULL)
+        ::CryptRflfbsfContfxt((HCRYPTPROV) hCryptProv, NULL);
+}
+
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSASignbturf
+ * Mfthod:    signHbsh
+ * Signbturf: (Z[BILjbvb/lbng/String;JJ)[B
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_msdbpi_RSASignbturf_signHbsh
+  (JNIEnv *fnv, jdlbss dlbzz, jboolfbn noHbshOID, jbytfArrby jHbsh,
+        jint jHbshSizf, jstring jHbshAlgorithm, jlong hCryptProv,
+        jlong hCryptKfy)
+{
+    HCRYPTHASH hHbsh = NULL;
+    jbytf* pHbshBufffr = NULL;
+    jbytf* pSignfdHbshBufffr = NULL;
+    jbytfArrby jSignfdHbsh = NULL;
+    HCRYPTPROV hCryptProvAlt = NULL;
+
+    __try
+    {
+        // Mbp hbsh blgorithm
+        ALG_ID blgId = MbpHbshAlgorithm(fnv, jHbshAlgorithm);
+
+        // Adquirf b hbsh objfdt hbndlf.
+        if (::CryptCrfbtfHbsh(HCRYPTPROV(hCryptProv), blgId, 0, 0, &hHbsh) == FALSE)
+        {
+            // Fbilovfr to using thf PROV_RSA_AES CSP
+
+            DWORD dbDbtb = 256;
+            BYTE pbDbtb[256];
+            pbDbtb[0] = '\0';
+
+            // Gft nbmf of thf kfy dontbinfr
+            ::CryptGftProvPbrbm((HCRYPTPROV)hCryptProv, PP_CONTAINER,
+                (BYTE *)pbDbtb, &dbDbtb, 0);
+
+            // Adquirf bn bltfrnbtivf CSP hbndlf
+            if (::CryptAdquirfContfxt(&hCryptProvAlt, LPCSTR(pbDbtb), NULL,
+                PROV_RSA_AES, 0) == FALSE)
+            {
+
+                ThrowExdfption(fnv, SIGNATURE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            // Adquirf b hbsh objfdt hbndlf.
+            if (::CryptCrfbtfHbsh(HCRYPTPROV(hCryptProvAlt), blgId, 0, 0,
+                &hHbsh) == FALSE)
+            {
+                ThrowExdfption(fnv, SIGNATURE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+        }
+
+        // Copy hbsh from Jbvb to nbtivf bufffr
+        pHbshBufffr = nfw jbytf[jHbshSizf];
+        fnv->GftBytfArrbyRfgion(jHbsh, 0, jHbshSizf, pHbshBufffr);
+
+        // Sft hbsh vbluf in thf hbsh objfdt
+        if (::CryptSftHbshPbrbm(hHbsh, HP_HASHVAL, (BYTE*)pHbshBufffr, NULL) == FALSE)
+        {
+            ThrowExdfption(fnv, SIGNATURE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Dftfrminf kfy spfd.
+        DWORD dwKfySpfd = AT_SIGNATURE;
+        ALG_ID dwAlgId;
+        DWORD dwAlgIdLfn = sizfof(ALG_ID);
+
+        if (! ::CryptGftKfyPbrbm((HCRYPTKEY) hCryptKfy, KP_ALGID, (BYTE*)&dwAlgId, &dwAlgIdLfn, 0)) {
+            ThrowExdfption(fnv, SIGNATURE_EXCEPTION, GftLbstError());
+            __lfbvf;
+
+        }
+        if (CALG_RSA_KEYX == dwAlgId) {
+            dwKfySpfd = AT_KEYEXCHANGE;
+        }
+
+        // Dftfrminf sizf of bufffr
+        DWORD dwBufLfn = 0;
+        DWORD dwFlbgs = 0;
+
+        if (noHbshOID == JNI_TRUE) {
+            dwFlbgs = CRYPT_NOHASHOID; // omit hbsh OID in NONEwithRSA signbturf
+        }
+
+        if (::CryptSignHbsh(hHbsh, dwKfySpfd, NULL, dwFlbgs, NULL, &dwBufLfn) == FALSE)
+        {
+            ThrowExdfption(fnv, SIGNATURE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        pSignfdHbshBufffr = nfw jbytf[dwBufLfn];
+        if (::CryptSignHbsh(hHbsh, dwKfySpfd, NULL, dwFlbgs, (BYTE*)pSignfdHbshBufffr, &dwBufLfn) == FALSE)
+        {
+            ThrowExdfption(fnv, SIGNATURE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Crfbtf nfw bytf brrby
+        jbytfArrby tfmp = fnv->NfwBytfArrby(dwBufLfn);
+
+        // Copy dbtb from nbtivf bufffr
+        fnv->SftBytfArrbyRfgion(tfmp, 0, dwBufLfn, pSignfdHbshBufffr);
+
+        jSignfdHbsh = tfmp;
+    }
+    __finblly
+    {
+        if (hCryptProvAlt)
+            ::CryptRflfbsfContfxt(hCryptProvAlt, 0);
+
+        if (pSignfdHbshBufffr)
+            dflftf [] pSignfdHbshBufffr;
+
+        if (pHbshBufffr)
+            dflftf [] pHbshBufffr;
+
+        if (hHbsh)
+            ::CryptDfstroyHbsh(hHbsh);
+    }
+
+    rfturn jSignfdHbsh;
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSASignbturf
+ * Mfthod:    vfrifySignfdHbsh
+ * Signbturf: ([BIL/jbvb/lbng/String;[BIJJ)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_sfdurity_msdbpi_RSASignbturf_vfrifySignfdHbsh
+  (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby jHbsh, jint jHbshSizf,
+        jstring jHbshAlgorithm, jbytfArrby jSignfdHbsh, jint jSignfdHbshSizf,
+        jlong hCryptProv, jlong hCryptKfy)
+{
+    HCRYPTHASH hHbsh = NULL;
+    jbytf* pHbshBufffr = NULL;
+    jbytf* pSignfdHbshBufffr = NULL;
+    DWORD dwSignfdHbshBufffrLfn = jSignfdHbshSizf;
+    jboolfbn rfsult = JNI_FALSE;
+    HCRYPTPROV hCryptProvAlt = NULL;
+
+    __try
+    {
+        // Mbp hbsh blgorithm
+        ALG_ID blgId = MbpHbshAlgorithm(fnv, jHbshAlgorithm);
+
+        // Adquirf b hbsh objfdt hbndlf.
+        if (::CryptCrfbtfHbsh(HCRYPTPROV(hCryptProv), blgId, 0, 0, &hHbsh)
+            == FALSE)
+        {
+            // Fbilovfr to using thf PROV_RSA_AES CSP
+
+            DWORD dbDbtb = 256;
+            BYTE pbDbtb[256];
+            pbDbtb[0] = '\0';
+
+            // Gft nbmf of thf kfy dontbinfr
+            ::CryptGftProvPbrbm((HCRYPTPROV)hCryptProv, PP_CONTAINER,
+                (BYTE *)pbDbtb, &dbDbtb, 0);
+
+            // Adquirf bn bltfrnbtivf CSP hbndlf
+            if (::CryptAdquirfContfxt(&hCryptProvAlt, LPCSTR(pbDbtb), NULL,
+                PROV_RSA_AES, 0) == FALSE)
+            {
+
+                ThrowExdfption(fnv, SIGNATURE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            // Adquirf b hbsh objfdt hbndlf.
+            if (::CryptCrfbtfHbsh(HCRYPTPROV(hCryptProvAlt), blgId, 0, 0,
+                &hHbsh) == FALSE)
+            {
+                ThrowExdfption(fnv, SIGNATURE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+        }
+
+        // Copy hbsh bnd signfdHbsh from Jbvb to nbtivf bufffr
+        pHbshBufffr = nfw jbytf[jHbshSizf];
+        fnv->GftBytfArrbyRfgion(jHbsh, 0, jHbshSizf, pHbshBufffr);
+        pSignfdHbshBufffr = nfw jbytf[jSignfdHbshSizf];
+        fnv->GftBytfArrbyRfgion(jSignfdHbsh, 0, jSignfdHbshSizf,
+            pSignfdHbshBufffr);
+
+        // Sft hbsh vbluf in thf hbsh objfdt
+        if (::CryptSftHbshPbrbm(hHbsh, HP_HASHVAL, (BYTE*) pHbshBufffr, NULL)
+            == FALSE)
+        {
+            ThrowExdfption(fnv, SIGNATURE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // For RSA, thf hbsh fndryption blgorithm is normblly thf sbmf bs thf
+        // publid kfy blgorithm, so AT_SIGNATURE is usfd.
+
+        // Vfrify thf signbturf
+        if (::CryptVfrifySignbturfA(hHbsh, (BYTE *) pSignfdHbshBufffr,
+            dwSignfdHbshBufffrLfn, (HCRYPTKEY) hCryptKfy, NULL, 0) == TRUE)
+        {
+            rfsult = JNI_TRUE;
+        }
+    }
+
+    __finblly
+    {
+        if (hCryptProvAlt)
+            ::CryptRflfbsfContfxt(hCryptProvAlt, 0);
+
+        if (pSignfdHbshBufffr)
+            dflftf [] pSignfdHbshBufffr;
+
+        if (pHbshBufffr)
+            dflftf [] pHbshBufffr;
+
+        if (hHbsh)
+            ::CryptDfstroyHbsh(hHbsh);
+    }
+
+    rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSAKfyPbirGfnfrbtor
+ * Mfthod:    gfnfrbtfRSAKfyPbir
+ * Signbturf: (ILjbvb/lbng/String;)Lsun/sfdurity/msdbpi/RSAKfyPbir;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_sfdurity_msdbpi_RSAKfyPbirGfnfrbtor_gfnfrbtfRSAKfyPbir
+  (JNIEnv *fnv, jdlbss dlbzz, jint kfySizf, jstring kfyContbinfrNbmf)
+{
+    HCRYPTPROV hCryptProv = NULL;
+    HCRYPTKEY hKfyPbir;
+    DWORD dwFlbgs = (kfySizf << 16) | CRYPT_EXPORTABLE;
+    jobjfdt kfypbir = NULL;
+    donst dhbr* pszKfyContbinfrNbmf = NULL; // UUID
+
+    __try
+    {
+        if ((pszKfyContbinfrNbmf =
+            fnv->GftStringUTFChbrs(kfyContbinfrNbmf, NULL)) == NULL) {
+            __lfbvf;
+        }
+
+        // Adquirf b CSP dontfxt (drfbtf b nfw kfy dontbinfr).
+        // Prfffr b PROV_RSA_AES CSP, whfn bvbilbblf, duf to its support
+        // for SHA-2-bbsfd signbturfs.
+        if (::CryptAdquirfContfxt(
+            &hCryptProv,
+            pszKfyContbinfrNbmf,
+            NULL,
+            PROV_RSA_AES,
+            CRYPT_NEWKEYSET) == FALSE)
+        {
+            // Fbilovfr to using thf dffbult CSP (PROV_RSA_FULL)
+
+            if (::CryptAdquirfContfxt(
+                &hCryptProv,
+                pszKfyContbinfrNbmf,
+                NULL,
+                PROV_RSA_FULL,
+                CRYPT_NEWKEYSET) == FALSE)
+            {
+                ThrowExdfption(fnv, KEY_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+        }
+
+        // Gfnfrbtf bn RSA kfypbir
+        if(::CryptGfnKfy(
+           hCryptProv,
+           AT_KEYEXCHANGE,
+           dwFlbgs,
+           &hKfyPbir) == FALSE)
+        {
+            ThrowExdfption(fnv, KEY_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Gft thf mfthod ID for thf RSAKfyPbir donstrudtor
+        jdlbss dlbzzRSAKfyPbir =
+            fnv->FindClbss("sun/sfdurity/msdbpi/RSAKfyPbir");
+
+        jmfthodID mNfwRSAKfyPbir =
+            fnv->GftMfthodID(dlbzzRSAKfyPbir, "<init>", "(JJI)V");
+
+        // Crfbtf b nfw RSA kfypbir
+        kfypbir = fnv->NfwObjfdt(dlbzzRSAKfyPbir, mNfwRSAKfyPbir,
+            (jlong) hCryptProv, (jlong) hKfyPbir, kfySizf);
+
+    }
+    __finblly
+    {
+        //--------------------------------------------------------------------
+        // Clfbn up.
+
+        if (pszKfyContbinfrNbmf)
+            fnv->RflfbsfStringUTFChbrs(kfyContbinfrNbmf, pszKfyContbinfrNbmf);
+    }
+
+    rfturn kfypbir;
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_Kfy
+ * Mfthod:    gftContbinfrNbmf
+ * Signbturf: (J)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_sfdurity_msdbpi_Kfy_gftContbinfrNbmf
+  (JNIEnv *fnv, jdlbss jdlbzz, jlong hCryptProv)
+{
+    DWORD dbDbtb = 256;
+    BYTE pbDbtb[256];
+    pbDbtb[0] = '\0';
+
+    ::CryptGftProvPbrbm(
+        (HCRYPTPROV)hCryptProv,
+        PP_CONTAINER,
+        (BYTE *)pbDbtb,
+        &dbDbtb,
+        0);
+
+    rfturn fnv->NfwStringUTF((donst dhbr*)pbDbtb);
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_Kfy
+ * Mfthod:    gftKfyTypf
+ * Signbturf: (J)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_sfdurity_msdbpi_Kfy_gftKfyTypf
+  (JNIEnv *fnv, jdlbss jdlbzz, jlong hCryptKfy)
+{
+    ALG_ID dwAlgId;
+    DWORD dwAlgIdLfn = sizfof(ALG_ID);
+
+    if (::CryptGftKfyPbrbm((HCRYPTKEY) hCryptKfy, KP_ALGID, (BYTE*)&dwAlgId, &dwAlgIdLfn, 0)) {
+
+        if (CALG_RSA_SIGN == dwAlgId) {
+            rfturn fnv->NfwStringUTF("Signbturf");
+
+        } flsf if (CALG_RSA_KEYX == dwAlgId) {
+            rfturn fnv->NfwStringUTF("Exdhbngf");
+
+        } flsf {
+            dhbr bufffr[64];
+            if (sprintf(bufffr, "%lu", dwAlgId)) {
+                rfturn fnv->NfwStringUTF(bufffr);
+            }
+        }
+    }
+
+    rfturn fnv->NfwStringUTF("<Unknown>");
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_KfyStorf
+ * Mfthod:    storfCfrtifidbtf
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;[BIJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_msdbpi_KfyStorf_storfCfrtifidbtf
+  (JNIEnv *fnv, jobjfdt obj, jstring jCfrtStorfNbmf, jstring jCfrtAlibsNbmf,
+        jbytfArrby jCfrtEndoding, jint jCfrtEndodingSizf, jlong hCryptProv,
+        jlong hCryptKfy)
+{
+    donst dhbr* pszCfrtStorfNbmf = NULL;
+    HCERTSTORE hCfrtStorf = NULL;
+    PCCERT_CONTEXT pCfrtContfxt = NULL;
+    PWCHAR pszCfrtAlibsNbmf = NULL;
+    jbytf* pbCfrtEndoding = NULL;
+    donst jdhbr* jCfrtAlibsChbrs = NULL;
+    donst dhbr* pszContbinfrNbmf = NULL;
+    donst dhbr* pszProvidfrNbmf = NULL;
+    WCHAR * pwszContbinfrNbmf = NULL;
+    WCHAR * pwszProvidfrNbmf = NULL;
+
+    __try
+    {
+        // Opfn b systfm dfrtifidbtf storf.
+        if ((pszCfrtStorfNbmf = fnv->GftStringUTFChbrs(jCfrtStorfNbmf, NULL))
+            == NULL) {
+            __lfbvf;
+        }
+        if ((hCfrtStorf = ::CfrtOpfnSystfmStorf(NULL, pszCfrtStorfNbmf)) == NULL) {
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Copy fndoding from Jbvb to nbtivf bufffr
+        pbCfrtEndoding = nfw jbytf[jCfrtEndodingSizf];
+        fnv->GftBytfArrbyRfgion(jCfrtEndoding, 0, jCfrtEndodingSizf, pbCfrtEndoding);
+
+        // Crfbtf b dfrtifidbtf dontfxt from thf fndodfd dfrt
+        if (!(pCfrtContfxt = ::CfrtCrfbtfCfrtifidbtfContfxt(X509_ASN_ENCODING,
+            (BYTE*) pbCfrtEndoding, jCfrtEndodingSizf))) {
+
+            ThrowExdfption(fnv, CERTIFICATE_PARSING_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Sft thf dfrtifidbtf's frifndly nbmf
+        int sizf = fnv->GftStringLfngth(jCfrtAlibsNbmf);
+        pszCfrtAlibsNbmf = nfw WCHAR[sizf + 1];
+
+        jCfrtAlibsChbrs = fnv->GftStringChbrs(jCfrtAlibsNbmf, NULL);
+        mfmdpy(pszCfrtAlibsNbmf, jCfrtAlibsChbrs, sizf * sizfof(WCHAR));
+        pszCfrtAlibsNbmf[sizf] = 0; // bppfnd thf string tfrminbtor
+
+        CRYPT_DATA_BLOB frifndlyNbmf = {
+            sizfof(WCHAR) * (sizf + 1),
+            (BYTE *) pszCfrtAlibsNbmf
+        };
+
+        fnv->RflfbsfStringChbrs(jCfrtAlibsNbmf, jCfrtAlibsChbrs);
+
+        if (! ::CfrtSftCfrtifidbtfContfxtPropfrty(pCfrtContfxt,
+            CERT_FRIENDLY_NAME_PROP_ID, 0, &frifndlyNbmf)) {
+
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Attbdh thf dfrtifidbtf's privbtf kfy (if supplifd)
+        if (hCryptProv != 0 && hCryptKfy != 0) {
+
+            CRYPT_KEY_PROV_INFO kfyProvidfrInfo;
+            DWORD dwDbtbLfn;
+
+            // Gft thf nbmf of thf kfy dontbinfr
+            if (! ::CryptGftProvPbrbm(
+                (HCRYPTPROV) hCryptProv,
+                PP_CONTAINER,
+                NULL,
+                &dwDbtbLfn,
+                0)) {
+
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            pszContbinfrNbmf = nfw dhbr[dwDbtbLfn];
+
+            if (! ::CryptGftProvPbrbm(
+                (HCRYPTPROV) hCryptProv,
+                PP_CONTAINER,
+                (BYTE *) pszContbinfrNbmf,
+                &dwDbtbLfn,
+                0)) {
+
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            // Convfrt to b widf dhbr string
+            pwszContbinfrNbmf = nfw WCHAR[dwDbtbLfn];
+
+            if (mbstowds(pwszContbinfrNbmf, pszContbinfrNbmf, dwDbtbLfn) == 0) {
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            // Sft thf nbmf of thf kfy dontbinfr
+            kfyProvidfrInfo.pwszContbinfrNbmf = pwszContbinfrNbmf;
+
+
+            // Gft thf nbmf of thf providfr
+            if (! ::CryptGftProvPbrbm(
+                (HCRYPTPROV) hCryptProv,
+                PP_NAME,
+                NULL,
+                &dwDbtbLfn,
+                0)) {
+
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            pszProvidfrNbmf = nfw dhbr[dwDbtbLfn];
+
+            if (! ::CryptGftProvPbrbm(
+                (HCRYPTPROV) hCryptProv,
+                PP_NAME,
+                (BYTE *) pszProvidfrNbmf,
+                &dwDbtbLfn,
+                0)) {
+
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            // Convfrt to b widf dhbr string
+            pwszProvidfrNbmf = nfw WCHAR[dwDbtbLfn];
+
+            if (mbstowds(pwszProvidfrNbmf, pszProvidfrNbmf, dwDbtbLfn) == 0) {
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            // Sft thf nbmf of thf providfr
+            kfyProvidfrInfo.pwszProvNbmf = pwszProvidfrNbmf;
+
+            // Gft bnd sft thf typf of thf providfr
+            if (! ::CryptGftProvPbrbm(
+                (HCRYPTPROV) hCryptProv,
+                PP_PROVTYPE,
+                (LPBYTE) &kfyProvidfrInfo.dwProvTypf,
+                &dwDbtbLfn,
+                0)) {
+
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            // Sft no providfr flbgs
+            kfyProvidfrInfo.dwFlbgs = 0;
+
+            // Sft no providfr pbrbmftfrs
+            kfyProvidfrInfo.dProvPbrbm = 0;
+            kfyProvidfrInfo.rgProvPbrbm = NULL;
+
+            // Gft thf kfy's blgorithm ID
+            if (! ::CryptGftKfyPbrbm(
+                (HCRYPTKEY) hCryptKfy,
+                KP_ALGID,
+                (LPBYTE) &kfyProvidfrInfo.dwKfySpfd,
+                &dwDbtbLfn,
+                0)) {
+
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+            // Sft thf kfy spfd (using thf blgorithm ID).
+            switdh (kfyProvidfrInfo.dwKfySpfd) {
+            dbsf CALG_RSA_KEYX:
+            dbsf CALG_DH_SF:
+                kfyProvidfrInfo.dwKfySpfd = AT_KEYEXCHANGE;
+                brfbk;
+
+            dbsf CALG_RSA_SIGN:
+            dbsf CALG_DSS_SIGN:
+                kfyProvidfrInfo.dwKfySpfd = AT_SIGNATURE;
+                brfbk;
+
+            dffbult:
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, NTE_BAD_ALGID);
+                __lfbvf;
+            }
+
+            if (! ::CfrtSftCfrtifidbtfContfxtPropfrty(pCfrtContfxt,
+                CERT_KEY_PROV_INFO_PROP_ID, 0, &kfyProvidfrInfo)) {
+
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+        }
+
+        // Import fndodfd dfrtifidbtf
+        if (!::CfrtAddCfrtifidbtfContfxtToStorf(hCfrtStorf, pCfrtContfxt,
+            CERT_STORE_ADD_REPLACE_EXISTING, NULL))
+        {
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+    }
+    __finblly
+    {
+        //--------------------------------------------------------------------
+        // Clfbn up.
+
+        if (hCfrtStorf)
+            ::CfrtClosfStorf(hCfrtStorf, 0);
+
+        if (pszCfrtStorfNbmf)
+            fnv->RflfbsfStringUTFChbrs(jCfrtStorfNbmf, pszCfrtStorfNbmf);
+
+        if (pbCfrtEndoding)
+            dflftf [] pbCfrtEndoding;
+
+        if (pszCfrtAlibsNbmf)
+            dflftf [] pszCfrtAlibsNbmf;
+
+        if (pszContbinfrNbmf)
+            dflftf [] pszContbinfrNbmf;
+
+        if (pwszContbinfrNbmf)
+            dflftf [] pwszContbinfrNbmf;
+
+        if (pszProvidfrNbmf)
+            dflftf [] pszProvidfrNbmf;
+
+        if (pwszProvidfrNbmf)
+            dflftf [] pwszProvidfrNbmf;
+
+        if (pCfrtContfxt)
+            ::CfrtFrffCfrtifidbtfContfxt(pCfrtContfxt);
+    }
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_KfyStorf
+ * Mfthod:    rfmovfCfrtifidbtf
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;[BI)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_msdbpi_KfyStorf_rfmovfCfrtifidbtf
+  (JNIEnv *fnv, jobjfdt obj, jstring jCfrtStorfNbmf, jstring jCfrtAlibsNbmf,
+  jbytfArrby jCfrtEndoding, jint jCfrtEndodingSizf) {
+
+    donst dhbr* pszCfrtStorfNbmf = NULL;
+    donst dhbr* pszCfrtAlibsNbmf = NULL;
+    HCERTSTORE hCfrtStorf = NULL;
+    PCCERT_CONTEXT pCfrtContfxt = NULL;
+    PCCERT_CONTEXT pTBDCfrtContfxt = NULL;
+    jbytf* pbCfrtEndoding = NULL;
+    DWORD ddhNbmfString = 0;
+    dhbr* pszNbmfString = NULL; // dfrtifidbtf's frifndly nbmf
+    BOOL bDflftfAttfmptfd = FALSE;
+
+    __try
+    {
+        // Opfn b systfm dfrtifidbtf storf.
+        if ((pszCfrtStorfNbmf = fnv->GftStringUTFChbrs(jCfrtStorfNbmf, NULL))
+            == NULL) {
+            __lfbvf;
+        }
+        if ((hCfrtStorf = ::CfrtOpfnSystfmStorf(NULL, pszCfrtStorfNbmf)) == NULL) {
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Copy fndoding from Jbvb to nbtivf bufffr
+        pbCfrtEndoding = nfw jbytf[jCfrtEndodingSizf];
+        fnv->GftBytfArrbyRfgion(jCfrtEndoding, 0, jCfrtEndodingSizf, pbCfrtEndoding);
+
+        // Crfbtf b dfrtifidbtf dontfxt from thf fndodfd dfrt
+        if (!(pCfrtContfxt = ::CfrtCrfbtfCfrtifidbtfContfxt(X509_ASN_ENCODING,
+            (BYTE*) pbCfrtEndoding, jCfrtEndodingSizf))) {
+
+            ThrowExdfption(fnv, CERTIFICATE_PARSING_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Find thf dfrtifidbtf to bf dflftfd
+        if (!(pTBDCfrtContfxt = ::CfrtFindCfrtifidbtfInStorf(hCfrtStorf,
+            X509_ASN_ENCODING, 0, CERT_FIND_EXISTING, pCfrtContfxt, NULL))) {
+
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Chfdk thbt its frifndly nbmf mbtdhfs thf supplifd blibs
+        if ((ddhNbmfString = ::CfrtGftNbmfString(pTBDCfrtContfxt,
+                CERT_NAME_FRIENDLY_DISPLAY_TYPE, 0, NULL, NULL, 0)) > 1) {
+
+            pszNbmfString = nfw dhbr[ddhNbmfString];
+
+            ::CfrtGftNbmfString(pTBDCfrtContfxt,
+                CERT_NAME_FRIENDLY_DISPLAY_TYPE, 0, NULL, pszNbmfString,
+                ddhNbmfString);
+
+            // Compbrf thf dfrtifidbtf's frifndly nbmf with supplifd blibs nbmf
+            if ((pszCfrtAlibsNbmf = fnv->GftStringUTFChbrs(jCfrtAlibsNbmf, NULL))
+                == NULL) {
+                __lfbvf;
+            }
+            if (strdmp(pszCfrtAlibsNbmf, pszNbmfString) == 0) {
+
+                // Only dflftf thf dfrtifidbtf if thf blibs nbmfs mbtdhfs
+                if (! ::CfrtDflftfCfrtifidbtfFromStorf(pTBDCfrtContfxt)) {
+
+                    // pTBDCfrtContfxt is blwbys frffd by thf
+                    //  CfrtDflftfCfrtifidbtfFromStorf mfthod
+                    bDflftfAttfmptfd = TRUE;
+
+                    ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                    __lfbvf;
+                }
+            }
+        }
+
+    }
+    __finblly
+    {
+        //--------------------------------------------------------------------
+        // Clfbn up.
+
+        if (hCfrtStorf)
+            ::CfrtClosfStorf(hCfrtStorf, 0);
+
+        if (pszCfrtStorfNbmf)
+            fnv->RflfbsfStringUTFChbrs(jCfrtStorfNbmf, pszCfrtStorfNbmf);
+
+        if (pszCfrtAlibsNbmf)
+            fnv->RflfbsfStringUTFChbrs(jCfrtAlibsNbmf, pszCfrtAlibsNbmf);
+
+        if (pbCfrtEndoding)
+            dflftf [] pbCfrtEndoding;
+
+        if (pszNbmfString)
+            dflftf [] pszNbmfString;
+
+        if (pCfrtContfxt)
+            ::CfrtFrffCfrtifidbtfContfxt(pCfrtContfxt);
+
+        if (bDflftfAttfmptfd && pTBDCfrtContfxt)
+            ::CfrtFrffCfrtifidbtfContfxt(pTBDCfrtContfxt);
+    }
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_KfyStorf
+ * Mfthod:    dfstroyKfyContbinfr
+ * Signbturf: (Ljbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_msdbpi_KfyStorf_dfstroyKfyContbinfr
+  (JNIEnv *fnv, jdlbss dlbzz, jstring kfyContbinfrNbmf)
+{
+    HCRYPTPROV hCryptProv = NULL;
+    donst dhbr* pszKfyContbinfrNbmf = NULL;
+
+    __try
+    {
+        if ((pszKfyContbinfrNbmf =
+            fnv->GftStringUTFChbrs(kfyContbinfrNbmf, NULL)) == NULL) {
+            __lfbvf;
+        }
+
+        // Dfstroying thf dffbult kfy dontbinfr is not pfrmittfd
+        // (bfdbusf it mby dontbin morf onf kfypbir).
+        if (pszKfyContbinfrNbmf == NULL) {
+
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, NTE_BAD_KEYSET_PARAM);
+            __lfbvf;
+        }
+
+        // Adquirf b CSP dontfxt (to thf kfy dontbinfr).
+        if (::CryptAdquirfContfxt(
+            &hCryptProv,
+            pszKfyContbinfrNbmf,
+            NULL,
+            PROV_RSA_FULL,
+            CRYPT_DELETEKEYSET) == FALSE)
+        {
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+    }
+    __finblly
+    {
+        //--------------------------------------------------------------------
+        // Clfbn up.
+
+        if (pszKfyContbinfrNbmf)
+            fnv->RflfbsfStringUTFChbrs(kfyContbinfrNbmf, pszKfyContbinfrNbmf);
+    }
+}
+
+
+
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSACiphfr
+ * Mfthod:    findCfrtifidbtfUsingAlibs
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_msdbpi_RSACiphfr_findCfrtifidbtfUsingAlibs
+  (JNIEnv *fnv, jobjfdt obj, jstring jCfrtStorfNbmf, jstring jCfrtAlibsNbmf)
+{
+    donst dhbr* pszCfrtStorfNbmf = NULL;
+    donst dhbr* pszCfrtAlibsNbmf = NULL;
+    HCERTSTORE hCfrtStorf = NULL;
+    PCCERT_CONTEXT pCfrtContfxt = NULL;
+    dhbr* pszNbmfString = NULL; // dfrtifidbtf's frifndly nbmf
+    DWORD ddhNbmfString = 0;
+
+    __try
+    {
+        if ((pszCfrtStorfNbmf = fnv->GftStringUTFChbrs(jCfrtStorfNbmf, NULL))
+            == NULL) {
+            __lfbvf;
+        }
+        if ((pszCfrtAlibsNbmf = fnv->GftStringUTFChbrs(jCfrtAlibsNbmf, NULL))
+            == NULL) {
+            __lfbvf;
+        }
+
+        // Opfn b systfm dfrtifidbtf storf.
+        if ((hCfrtStorf = ::CfrtOpfnSystfmStorf(NULL, pszCfrtStorfNbmf)) == NULL) {
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Usf CfrtEnumCfrtifidbtfsInStorf to gft thf dfrtifidbtfs
+        // from thf opfn storf. pCfrtContfxt must bf rfsft to
+        // NULL to rftrifvf thf first dfrtifidbtf in thf storf.
+        whilf (pCfrtContfxt = ::CfrtEnumCfrtifidbtfsInStorf(hCfrtStorf, pCfrtContfxt))
+        {
+            if ((ddhNbmfString = ::CfrtGftNbmfString(pCfrtContfxt,
+                CERT_NAME_FRIENDLY_DISPLAY_TYPE, 0, NULL, NULL, 0)) == 1) {
+
+                dontinuf; // not found
+            }
+
+            pszNbmfString = nfw dhbr[ddhNbmfString];
+
+            if (::CfrtGftNbmfString(pCfrtContfxt,
+                CERT_NAME_FRIENDLY_DISPLAY_TYPE, 0, NULL, pszNbmfString,
+                ddhNbmfString) == 1) {
+
+                dontinuf; // not found
+            }
+
+            // Compbrf thf dfrtifidbtf's frifndly nbmf with supplifd blibs nbmf
+            if (strdmp(pszCfrtAlibsNbmf, pszNbmfString) == 0) {
+                dflftf [] pszNbmfString;
+                brfbk;
+
+            } flsf {
+                dflftf [] pszNbmfString;
+            }
+        }
+    }
+    __finblly
+    {
+        if (hCfrtStorf)
+            ::CfrtClosfStorf(hCfrtStorf, 0);
+
+        if (pszCfrtStorfNbmf)
+            fnv->RflfbsfStringUTFChbrs(jCfrtStorfNbmf, pszCfrtStorfNbmf);
+
+        if (pszCfrtAlibsNbmf)
+            fnv->RflfbsfStringUTFChbrs(jCfrtAlibsNbmf, pszCfrtAlibsNbmf);
+    }
+
+    rfturn (jlong) pCfrtContfxt;
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSACiphfr
+ * Mfthod:    gftKfyFromCfrt
+ * Signbturf: (JZ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_msdbpi_RSACiphfr_gftKfyFromCfrt
+  (JNIEnv *fnv, jobjfdt obj, jlong pCfrtContfxt, jboolfbn usfPrivbtfKfy)
+{
+    HCRYPTPROV hCryptProv = NULL;
+    HCRYPTKEY hKfy = NULL;
+    DWORD dwKfySpfd;
+
+    __try
+    {
+        if (usfPrivbtfKfy == JNI_TRUE) {
+            // Lodbtf thf kfy dontbinfr for thf dfrtifidbtf's privbtf kfy
+            if (!(::CryptAdquirfCfrtifidbtfPrivbtfKfy(
+                (PCCERT_CONTEXT) pCfrtContfxt, 0, NULL, &hCryptProv,
+                &dwKfySpfd, NULL))) {
+
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+            // Gft b hbndlf to thf privbtf kfy
+            if (!(::CryptGftUsfrKfy(hCryptProv, dwKfySpfd, &hKfy))) {
+                ThrowExdfption(fnv, KEY_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+
+        } flsf { // usf publid kfy
+
+            //  Adquirf b CSP dontfxt.
+            if(::CryptAdquirfContfxt(
+               &hCryptProv,
+               "J2SE",
+               NULL,
+               PROV_RSA_FULL,
+               0) == FALSE)
+            {
+                // If CSP dontfxt hbsn't bffn drfbtfd, drfbtf onf.
+                //
+                if (::CryptAdquirfContfxt(
+                    &hCryptProv,
+                    "J2SE",
+                    NULL,
+                    PROV_RSA_FULL,
+                    CRYPT_NEWKEYSET) == FALSE)
+                {
+                    ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                    __lfbvf;
+                }
+            }
+
+            // Import thf dfrtifidbtf's publid kfy into thf kfy dontbinfr
+            if (!(::CryptImportPublidKfyInfo(hCryptProv, X509_ASN_ENCODING,
+                &(((PCCERT_CONTEXT) pCfrtContfxt)->pCfrtInfo->SubjfdtPublidKfyInfo),
+                &hKfy))) {
+
+                ThrowExdfption(fnv, KEY_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+        }
+    }
+    __finblly
+    {
+        //--------------------------------------------------------------------
+        // Clfbn up.
+
+        if (hCryptProv)
+            ::CryptRflfbsfContfxt(hCryptProv, 0);
+    }
+
+    rfturn hKfy;        // TODO - whfn finishfd with this kfy, dbll
+                        //              CryptDfstroyKfy(hKfy)
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_KfyStorf
+ * Mfthod:    gftKfyLfngth
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_sfdurity_msdbpi_KfyStorf_gftKfyLfngth
+  (JNIEnv *fnv, jobjfdt obj, jlong hKfy)
+{
+    DWORD dwDbtbLfn = sizfof(DWORD);
+    BYTE pbDbtb[sizfof(DWORD)];
+    DWORD lfngth = 0;
+
+    __try
+    {
+        // Gft kfy lfngth (in bits)
+        //TODO - mby nffd to usf KP_BLOCKLEN instfbd?
+        if (!(::CryptGftKfyPbrbm((HCRYPTKEY) hKfy, KP_KEYLEN, (BYTE *)pbDbtb, &dwDbtbLfn,
+            0))) {
+
+            ThrowExdfption(fnv, KEY_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+        lfngth = (DWORD) pbDbtb;
+    }
+    __finblly
+    {
+        // no dlfbnup rfquirfd
+    }
+
+    rfturn (jint) lfngth;
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSACiphfr
+ * Mfthod:    fndryptDfdrypt
+ * Signbturf: ([BIJZ)[B
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_msdbpi_RSACiphfr_fndryptDfdrypt
+  (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby jDbtb, jint jDbtbSizf, jlong hKfy,
+   jboolfbn doEndrypt)
+{
+    jbytfArrby rfsult = NULL;
+    jbytf* pDbtb = NULL;
+    DWORD dwDbtbLfn = jDbtbSizf;
+    DWORD dwBufLfn = fnv->GftArrbyLfngth(jDbtb);
+    DWORD i;
+    BYTE tmp;
+
+    __try
+    {
+        // Copy dbtb from Jbvb bufffr to nbtivf bufffr
+        pDbtb = nfw jbytf[dwBufLfn];
+        fnv->GftBytfArrbyRfgion(jDbtb, 0, dwBufLfn, pDbtb);
+
+        if (doEndrypt == JNI_TRUE) {
+            // fndrypt
+            if (! ::CryptEndrypt((HCRYPTKEY) hKfy, 0, TRUE, 0, (BYTE *)pDbtb,
+                &dwDbtbLfn, dwBufLfn)) {
+
+                ThrowExdfption(fnv, KEY_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+            dwBufLfn = dwDbtbLfn;
+
+            // donvfrt from littlf-fndibn
+            for (i = 0; i < dwBufLfn / 2; i++) {
+                tmp = pDbtb[i];
+                pDbtb[i] = pDbtb[dwBufLfn - i -1];
+                pDbtb[dwBufLfn - i - 1] = tmp;
+            }
+        } flsf {
+            // donvfrt to littlf-fndibn
+            for (i = 0; i < dwBufLfn / 2; i++) {
+                tmp = pDbtb[i];
+                pDbtb[i] = pDbtb[dwBufLfn - i -1];
+                pDbtb[dwBufLfn - i - 1] = tmp;
+            }
+
+            // dfdrypt
+            if (! ::CryptDfdrypt((HCRYPTKEY) hKfy, 0, TRUE, 0, (BYTE *)pDbtb,
+                &dwBufLfn)) {
+
+                ThrowExdfption(fnv, KEY_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+        }
+
+        // Crfbtf nfw bytf brrby
+        rfsult = fnv->NfwBytfArrby(dwBufLfn);
+
+        // Copy dbtb from nbtivf bufffr to Jbvb bufffr
+        fnv->SftBytfArrbyRfgion(rfsult, 0, dwBufLfn, (jbytf*) pDbtb);
+    }
+    __finblly
+    {
+        if (pDbtb)
+            dflftf [] pDbtb;
+    }
+
+    rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSAPublidKfy
+ * Mfthod:    gftPublidKfyBlob
+ * Signbturf: (J)[B
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_msdbpi_RSAPublidKfy_gftPublidKfyBlob
+    (JNIEnv *fnv, jdlbss dlbzz, jlong hCryptKfy) {
+
+    jbytfArrby blob = NULL;
+    DWORD dwBlobLfn;
+    BYTE* pbKfyBlob = NULL;
+
+    __try
+    {
+
+        // Dftfrminf thf sizf of thf blob
+        if (! ::CryptExportKfy((HCRYPTKEY) hCryptKfy, 0, PUBLICKEYBLOB, 0, NULL,
+            &dwBlobLfn)) {
+
+            ThrowExdfption(fnv, KEY_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        pbKfyBlob = nfw BYTE[dwBlobLfn];
+
+        // Gfnfrbtf kfy blob
+        if (! ::CryptExportKfy((HCRYPTKEY) hCryptKfy, 0, PUBLICKEYBLOB, 0,
+            pbKfyBlob, &dwBlobLfn)) {
+
+            ThrowExdfption(fnv, KEY_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Crfbtf nfw bytf brrby
+        blob = fnv->NfwBytfArrby(dwBlobLfn);
+
+        // Copy dbtb from nbtivf bufffr to Jbvb bufffr
+        fnv->SftBytfArrbyRfgion(blob, 0, dwBlobLfn, (jbytf*) pbKfyBlob);
+    }
+    __finblly
+    {
+        if (pbKfyBlob)
+            dflftf [] pbKfyBlob;
+    }
+
+    rfturn blob;
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSAPublidKfy
+ * Mfthod:    gftExponfnt
+ * Signbturf: ([B)[B
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_msdbpi_RSAPublidKfy_gftExponfnt
+    (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby jKfyBlob) {
+
+    jbytfArrby fxponfnt = NULL;
+    jbytf*     fxponfntBytfs = NULL;
+    jbytf*     kfyBlob = NULL;
+
+    __try {
+
+        jsizf lfngth = fnv->GftArrbyLfngth(jKfyBlob);
+        if ((kfyBlob = fnv->GftBytfArrbyElfmfnts(jKfyBlob, 0)) == NULL) {
+            __lfbvf;
+        }
+
+        PUBLICKEYSTRUC* pPublidKfyStrud = (PUBLICKEYSTRUC *) kfyBlob;
+
+        // Chfdk BLOB typf
+        if (pPublidKfyStrud->bTypf != PUBLICKEYBLOB) {
+            ThrowExdfption(fnv, KEY_EXCEPTION, NTE_BAD_TYPE);
+            __lfbvf;
+        }
+
+        RSAPUBKEY* pRsbPubKfy =
+            (RSAPUBKEY *) (kfyBlob + sizfof(PUBLICKEYSTRUC));
+        int lfn = sizfof(pRsbPubKfy->pubfxp);
+        fxponfntBytfs = nfw jbytf[lfn];
+
+        // donvfrt from littlf-fndibn whilf dopying from blob
+        for (int i = 0, j = lfn - 1; i < lfn; i++, j--) {
+            fxponfntBytfs[i] = ((BYTE*) &pRsbPubKfy->pubfxp)[j];
+        }
+
+        fxponfnt = fnv->NfwBytfArrby(lfn);
+        fnv->SftBytfArrbyRfgion(fxponfnt, 0, lfn, fxponfntBytfs);
+    }
+    __finblly
+    {
+        if (kfyBlob)
+            fnv->RflfbsfBytfArrbyElfmfnts(jKfyBlob, kfyBlob, JNI_ABORT);
+
+        if (fxponfntBytfs)
+            dflftf [] fxponfntBytfs;
+    }
+
+    rfturn fxponfnt;
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSAPublidKfy
+ * Mfthod:    gftModulus
+ * Signbturf: ([B)[B
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_msdbpi_RSAPublidKfy_gftModulus
+    (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby jKfyBlob) {
+
+    jbytfArrby modulus = NULL;
+    jbytf*     modulusBytfs = NULL;
+    jbytf*     kfyBlob = NULL;
+
+    __try {
+
+        jsizf lfngth = fnv->GftArrbyLfngth(jKfyBlob);
+        if ((kfyBlob = fnv->GftBytfArrbyElfmfnts(jKfyBlob, 0)) == NULL) {
+            __lfbvf;
+        }
+
+        PUBLICKEYSTRUC* pPublidKfyStrud = (PUBLICKEYSTRUC *) kfyBlob;
+
+        // Chfdk BLOB typf
+        if (pPublidKfyStrud->bTypf != PUBLICKEYBLOB) {
+            ThrowExdfption(fnv, KEY_EXCEPTION, NTE_BAD_TYPE);
+            __lfbvf;
+        }
+
+        RSAPUBKEY* pRsbPubKfy =
+            (RSAPUBKEY *) (kfyBlob + sizfof(PUBLICKEYSTRUC));
+        int lfn = pRsbPubKfy->bitlfn / 8;
+
+        modulusBytfs = nfw jbytf[lfn];
+        BYTE * pbModulus =
+            (BYTE *) (kfyBlob + sizfof(PUBLICKEYSTRUC) + sizfof(RSAPUBKEY));
+
+        // donvfrt from littlf-fndibn whilf dopying from blob
+        for (int i = 0, j = lfn - 1; i < lfn; i++, j--) {
+            modulusBytfs[i] = pbModulus[j];
+        }
+
+        modulus = fnv->NfwBytfArrby(lfn);
+        fnv->SftBytfArrbyRfgion(modulus, 0, lfn, modulusBytfs);
+    }
+    __finblly
+    {
+        if (kfyBlob)
+            fnv->RflfbsfBytfArrbyElfmfnts(jKfyBlob, kfyBlob, JNI_ABORT);
+
+        if (modulusBytfs)
+            dflftf [] modulusBytfs;
+    }
+
+    rfturn modulus;
+}
+
+/*
+ * Convfrt bn brrby in big-fndibn bytf ordfr into littlf-fndibn bytf ordfr.
+ */
+int donvfrtToLittlfEndibn(JNIEnv *fnv, jbytfArrby sourdf, jbytf* dfstinbtion,
+    int dfstinbtionLfngth) {
+
+    int dount = 0;
+    int sourdfLfngth = fnv->GftArrbyLfngth(sourdf);
+
+    if (sourdfLfngth < dfstinbtionLfngth) {
+        rfturn -1;
+    }
+
+    jbytf* sourdfBytfs = fnv->GftBytfArrbyElfmfnts(sourdf, 0);
+    if (sourdfBytfs == NULL) {
+        rfturn -1;
+    }
+
+    // Copy bytfs from thf fnd of thf sourdf brrby to thf bfginning of thf
+    // dfstinbtion brrby (until thf dfstinbtion brrby is full).
+    // This fnsurfs thbt thf sign bytf from thf sourdf brrby will bf fxdludfd.
+    for (int i = 0; i < dfstinbtionLfngth; i++) {
+        dfstinbtion[i] = sourdfBytfs[sourdfLfngth - i - 1];
+        dount++;
+    }
+    if (sourdfBytfs)
+        fnv->RflfbsfBytfArrbyElfmfnts(sourdf, sourdfBytfs, JNI_ABORT);
+
+    rfturn dount;
+}
+
+/*
+ * Thf Midrosoft Bbsf Cryptogrbphid Providfr supports publid-kfy BLOBs
+ * thbt hbvf thf following formbt:
+ *
+ *     PUBLICKEYSTRUC publidkfystrud;
+ *     RSAPUBKEY rsbpubkfy;
+ *     BYTE modulus[rsbpubkfy.bitlfn/8];
+ *
+ * bnd privbtf-kfy BLOBs thbt hbvf thf following formbt:
+ *
+ *     PUBLICKEYSTRUC publidkfystrud;
+ *     RSAPUBKEY rsbpubkfy;
+ *     BYTE modulus[rsbpubkfy.bitlfn/8];
+ *     BYTE primf1[rsbpubkfy.bitlfn/16];
+ *     BYTE primf2[rsbpubkfy.bitlfn/16];
+ *     BYTE fxponfnt1[rsbpubkfy.bitlfn/16];
+ *     BYTE fxponfnt2[rsbpubkfy.bitlfn/16];
+ *     BYTE dofffidifnt[rsbpubkfy.bitlfn/16];
+ *     BYTE privbtfExponfnt[rsbpubkfy.bitlfn/8];
+ *
+ * This mfthod gfnfrbtfs sudh BLOBs from thf kfy flfmfnts supplifd.
+ */
+jbytfArrby gfnfrbtfKfyBlob(
+        JNIEnv *fnv,
+        jint jKfyBitLfngth,
+        jbytfArrby jModulus,
+        jbytfArrby jPublidExponfnt,
+        jbytfArrby jPrivbtfExponfnt,
+        jbytfArrby jPrimfP,
+        jbytfArrby jPrimfQ,
+        jbytfArrby jExponfntP,
+        jbytfArrby jExponfntQ,
+        jbytfArrby jCrtCofffidifnt)
+{
+    jsizf jKfyBytfLfngth = jKfyBitLfngth / 8;
+    jsizf jBlobLfngth;
+    BOOL bGfnfrbtfPrivbtfKfyBlob;
+
+    // Dftfrminf whfthfr to gfnfrbtf b publid-kfy or b privbtf-kfy BLOB
+    if (jPrivbtfExponfnt != NULL &&
+        jPrimfP != NULL &&
+        jPrimfQ != NULL &&
+        jExponfntP != NULL &&
+        jExponfntQ != NULL &&
+        jCrtCofffidifnt != NULL) {
+
+        bGfnfrbtfPrivbtfKfyBlob = TRUE;
+        jBlobLfngth = sizfof(BLOBHEADER) +
+                        sizfof(RSAPUBKEY) +
+                        ((jKfyBitLfngth / 8) * 4) +
+                        (jKfyBitLfngth / 16);
+
+    } flsf {
+        bGfnfrbtfPrivbtfKfyBlob = FALSE;
+        jBlobLfngth = sizfof(BLOBHEADER) +
+                        sizfof(RSAPUBKEY) +
+                        (jKfyBitLfngth / 8);
+    }
+
+    jbytf* jBlobBytfs = nfw jbytf[jBlobLfngth];
+    jbytf* jBlobElfmfnt;
+    jbytfArrby jBlob = NULL;
+    jsizf  jElfmfntLfngth;
+
+    __try {
+
+        BLOBHEADER *pBlobHfbdfr = (BLOBHEADER *) jBlobBytfs;
+        if (bGfnfrbtfPrivbtfKfyBlob) {
+            pBlobHfbdfr->bTypf = PRIVATEKEYBLOB;  // 0x07
+        } flsf {
+            pBlobHfbdfr->bTypf = PUBLICKEYBLOB;   // 0x06
+        }
+        pBlobHfbdfr->bVfrsion = CUR_BLOB_VERSION; // 0x02
+        pBlobHfbdfr->rfsfrvfd = 0;                // 0x0000
+        pBlobHfbdfr->biKfyAlg = CALG_RSA_KEYX;    // 0x0000b400
+
+        RSAPUBKEY *pRsbPubKfy =
+            (RSAPUBKEY *) (jBlobBytfs + sizfof(PUBLICKEYSTRUC));
+        if (bGfnfrbtfPrivbtfKfyBlob) {
+            pRsbPubKfy->mbgid = 0x32415352;       // "RSA2"
+        } flsf {
+            pRsbPubKfy->mbgid = 0x31415352;       // "RSA1"
+        }
+        pRsbPubKfy->bitlfn = jKfyBitLfngth;
+        pRsbPubKfy->pubfxp = 0; // init
+
+        // Sbnity dhfdk
+        jsizf jPublidExponfntLfngth = fnv->GftArrbyLfngth(jPublidExponfnt);
+        if (jPublidExponfntLfngth > sizfof(pRsbPubKfy->pubfxp)) {
+            ThrowExdfption(fnv, INVALID_KEY_EXCEPTION, NTE_BAD_TYPE);
+            __lfbvf;
+        }
+        // Thf lfngth brgumfnt must bf thf smbllfr of jPublidExponfntLfngth
+        // bnd sizfof(pRsbPubKfy->pubkfy)
+        if ((jElfmfntLfngth = donvfrtToLittlfEndibn(fnv, jPublidExponfnt,
+            (jbytf *) &(pRsbPubKfy->pubfxp), jPublidExponfntLfngth)) < 0) {
+            __lfbvf;
+        }
+
+        // Modulus n
+        jBlobElfmfnt =
+            (jbytf *) (jBlobBytfs + sizfof(PUBLICKEYSTRUC) + sizfof(RSAPUBKEY));
+        if ((jElfmfntLfngth = donvfrtToLittlfEndibn(fnv, jModulus, jBlobElfmfnt,
+            jKfyBytfLfngth)) < 0) {
+            __lfbvf;
+        }
+
+        if (bGfnfrbtfPrivbtfKfyBlob) {
+            // Primf p
+            jBlobElfmfnt += jElfmfntLfngth;
+            if ((jElfmfntLfngth = donvfrtToLittlfEndibn(fnv, jPrimfP,
+                jBlobElfmfnt, jKfyBytfLfngth / 2)) < 0) {
+                __lfbvf;
+            }
+
+            // Primf q
+            jBlobElfmfnt += jElfmfntLfngth;
+            if ((jElfmfntLfngth = donvfrtToLittlfEndibn(fnv, jPrimfQ,
+                jBlobElfmfnt, jKfyBytfLfngth / 2)) < 0) {
+                __lfbvf;
+            }
+
+            // Primf fxponfnt p
+            jBlobElfmfnt += jElfmfntLfngth;
+            if ((jElfmfntLfngth = donvfrtToLittlfEndibn(fnv, jExponfntP,
+                jBlobElfmfnt, jKfyBytfLfngth / 2)) < 0) {
+                __lfbvf;
+            }
+
+            // Primf fxponfnt q
+            jBlobElfmfnt += jElfmfntLfngth;
+            if ((jElfmfntLfngth = donvfrtToLittlfEndibn(fnv, jExponfntQ,
+                jBlobElfmfnt, jKfyBytfLfngth / 2)) < 0) {
+                __lfbvf;
+            }
+
+            // CRT dofffidifnt
+            jBlobElfmfnt += jElfmfntLfngth;
+            if ((jElfmfntLfngth = donvfrtToLittlfEndibn(fnv, jCrtCofffidifnt,
+                jBlobElfmfnt, jKfyBytfLfngth / 2)) < 0) {
+                __lfbvf;
+            }
+
+            // Privbtf fxponfnt
+            jBlobElfmfnt += jElfmfntLfngth;
+            if ((jElfmfntLfngth = donvfrtToLittlfEndibn(fnv, jPrivbtfExponfnt,
+                jBlobElfmfnt, jKfyBytfLfngth)) < 0) {
+                __lfbvf;
+            }
+        }
+
+        jBlob = fnv->NfwBytfArrby(jBlobLfngth);
+        fnv->SftBytfArrbyRfgion(jBlob, 0, jBlobLfngth, jBlobBytfs);
+
+    }
+    __finblly
+    {
+        if (jBlobBytfs)
+            dflftf [] jBlobBytfs;
+    }
+
+    rfturn jBlob;
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_KfyStorf
+ * Mfthod:    gfnfrbtfPrivbtfKfyBlob
+ * Signbturf: (I[B[B[B[B[B[B[B[B)[B
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_msdbpi_KfyStorf_gfnfrbtfPrivbtfKfyBlob
+    (JNIEnv *fnv, jdlbss dlbzz,
+        jint jKfyBitLfngth,
+        jbytfArrby jModulus,
+        jbytfArrby jPublidExponfnt,
+        jbytfArrby jPrivbtfExponfnt,
+        jbytfArrby jPrimfP,
+        jbytfArrby jPrimfQ,
+        jbytfArrby jExponfntP,
+        jbytfArrby jExponfntQ,
+        jbytfArrby jCrtCofffidifnt)
+{
+    rfturn gfnfrbtfKfyBlob(fnv, jKfyBitLfngth, jModulus, jPublidExponfnt,
+        jPrivbtfExponfnt, jPrimfP, jPrimfQ, jExponfntP, jExponfntQ,
+        jCrtCofffidifnt);
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSASignbturf
+ * Mfthod:    gfnfrbtfPublidKfyBlob
+ * Signbturf: (I[B[B)[B
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_msdbpi_RSASignbturf_gfnfrbtfPublidKfyBlob
+    (JNIEnv *fnv, jdlbss dlbzz,
+        jint jKfyBitLfngth,
+        jbytfArrby jModulus,
+        jbytfArrby jPublidExponfnt)
+{
+    rfturn gfnfrbtfKfyBlob(fnv, jKfyBitLfngth, jModulus, jPublidExponfnt,
+        NULL, NULL, NULL, NULL, NULL, NULL);
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_KfyStorf
+ * Mfthod:    storfPrivbtfKfy
+ * Signbturf: ([BLjbvb/lbng/String;I)Lsun/sfdurity/msdbpi/RSAPrivbtfKfy;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_sfdurity_msdbpi_KfyStorf_storfPrivbtfKfy
+    (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby kfyBlob, jstring kfyContbinfrNbmf,
+     jint kfySizf)
+{
+    HCRYPTPROV hCryptProv = NULL;
+    HCRYPTKEY hKfy = NULL;
+    DWORD dwBlobLfn;
+    BYTE * pbKfyBlob = NULL;
+    donst dhbr* pszKfyContbinfrNbmf = NULL; // UUID
+    jobjfdt privbtfKfy = NULL;
+
+    __try
+    {
+        if ((pszKfyContbinfrNbmf =
+            fnv->GftStringUTFChbrs(kfyContbinfrNbmf, NULL)) == NULL) {
+            __lfbvf;
+        }
+        dwBlobLfn = fnv->GftArrbyLfngth(kfyBlob);
+        if ((pbKfyBlob = (BYTE *) fnv->GftBytfArrbyElfmfnts(kfyBlob, 0))
+            == NULL) {
+            __lfbvf;
+        }
+
+        // Adquirf b CSP dontfxt (drfbtf b nfw kfy dontbinfr).
+        if (::CryptAdquirfContfxt(
+            &hCryptProv,
+            pszKfyContbinfrNbmf,
+            NULL,
+            PROV_RSA_FULL,
+            CRYPT_NEWKEYSET) == FALSE)
+        {
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Import thf privbtf kfy
+        if (::CryptImportKfy(
+            hCryptProv,
+            pbKfyBlob,
+            dwBlobLfn,
+            0,
+            CRYPT_EXPORTABLE,
+            &hKfy) == FALSE)
+        {
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Gft thf mfthod ID for thf RSAPrivbtfKfy donstrudtor
+        jdlbss dlbzzRSAPrivbtfKfy =
+            fnv->FindClbss("sun/sfdurity/msdbpi/RSAPrivbtfKfy");
+
+        jmfthodID mNfwRSAPrivbtfKfy =
+            fnv->GftMfthodID(dlbzzRSAPrivbtfKfy, "<init>", "(JJI)V");
+
+        // Crfbtf b nfw RSA privbtf kfy
+        privbtfKfy = fnv->NfwObjfdt(dlbzzRSAPrivbtfKfy, mNfwRSAPrivbtfKfy,
+            (jlong) hCryptProv, (jlong) hKfy, kfySizf);
+
+    }
+    __finblly
+    {
+        //--------------------------------------------------------------------
+        // Clfbn up.
+
+        if (pszKfyContbinfrNbmf)
+            fnv->RflfbsfStringUTFChbrs(kfyContbinfrNbmf, pszKfyContbinfrNbmf);
+
+        if (pbKfyBlob)
+            fnv->RflfbsfBytfArrbyElfmfnts(kfyBlob, (jbytf *) pbKfyBlob,
+                JNI_ABORT);
+    }
+
+    rfturn privbtfKfy;
+}
+
+/*
+ * Clbss:     sun_sfdurity_msdbpi_RSASignbturf
+ * Mfthod:    importPublidKfy
+ * Signbturf: ([BI)Lsun/sfdurity/msdbpi/RSAPublidKfy;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_sfdurity_msdbpi_RSASignbturf_importPublidKfy
+    (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby kfyBlob, jint kfySizf)
+{
+    HCRYPTPROV hCryptProv = NULL;
+    HCRYPTKEY hKfy = NULL;
+    DWORD dwBlobLfn;
+    BYTE * pbKfyBlob = NULL;
+    jobjfdt publidKfy = NULL;
+
+    __try
+    {
+        dwBlobLfn = fnv->GftArrbyLfngth(kfyBlob);
+        if ((pbKfyBlob = (BYTE *) fnv->GftBytfArrbyElfmfnts(kfyBlob, 0))
+            == NULL) {
+            __lfbvf;
+        }
+
+        // Adquirf b CSP dontfxt (drfbtf b nfw kfy dontbinfr).
+        // Prfffr b PROV_RSA_AES CSP, whfn bvbilbblf, duf to its support
+        // for SHA-2-bbsfd signbturfs.
+        if (::CryptAdquirfContfxt(
+            &hCryptProv,
+            NULL,
+            NULL,
+            PROV_RSA_AES,
+            CRYPT_VERIFYCONTEXT) == FALSE)
+        {
+            // Fbilovfr to using thf dffbult CSP (PROV_RSA_FULL)
+
+            if (::CryptAdquirfContfxt(
+                &hCryptProv,
+                NULL,
+                NULL,
+                PROV_RSA_FULL,
+                CRYPT_VERIFYCONTEXT) == FALSE)
+            {
+                ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+                __lfbvf;
+            }
+        }
+
+        // Import thf publid kfy
+        if (::CryptImportKfy(
+            hCryptProv,
+            pbKfyBlob,
+            dwBlobLfn,
+            0,
+            CRYPT_EXPORTABLE,
+            &hKfy) == FALSE)
+        {
+            ThrowExdfption(fnv, KEYSTORE_EXCEPTION, GftLbstError());
+            __lfbvf;
+        }
+
+        // Gft thf mfthod ID for thf RSAPublidKfy donstrudtor
+        jdlbss dlbzzRSAPublidKfy =
+            fnv->FindClbss("sun/sfdurity/msdbpi/RSAPublidKfy");
+
+        jmfthodID mNfwRSAPublidKfy =
+            fnv->GftMfthodID(dlbzzRSAPublidKfy, "<init>", "(JJI)V");
+
+        // Crfbtf b nfw RSA publid kfy
+        publidKfy = fnv->NfwObjfdt(dlbzzRSAPublidKfy, mNfwRSAPublidKfy,
+            (jlong) hCryptProv, (jlong) hKfy, kfySizf);
+
+    }
+    __finblly
+    {
+        //--------------------------------------------------------------------
+        // Clfbn up.
+
+        if (pbKfyBlob)
+            fnv->RflfbsfBytfArrbyElfmfnts(kfyBlob, (jbytf *) pbKfyBlob,
+                JNI_ABORT);
+    }
+
+    rfturn publidKfy;
+}
+
+} /* fxtfrn "C" */

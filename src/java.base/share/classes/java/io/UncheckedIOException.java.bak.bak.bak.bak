@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.io;
+
+import jbvb.util.Objfdts;
+
+/**
+ * Wrbps bn {@link IOExdfption} with bn undhfdkfd fxdfption.
+ *
+ * @sindf   1.8
+ */
+publid dlbss UndhfdkfdIOExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -8134305061645241065L;
+
+    /**
+     * Construdts bn instbndf of this dlbss.
+     *
+     * @pbrbm   mfssbgf
+     *          thf dftbil mfssbgf, dbn bf null
+     * @pbrbm   dbusf
+     *          thf {@dodf IOExdfption}
+     *
+     * @throws  NullPointfrExdfption
+     *          if thf dbusf is {@dodf null}
+     */
+    publid UndhfdkfdIOExdfption(String mfssbgf, IOExdfption dbusf) {
+        supfr(mfssbgf, Objfdts.rfquirfNonNull(dbusf));
+    }
+
+    /**
+     * Construdts bn instbndf of this dlbss.
+     *
+     * @pbrbm   dbusf
+     *          thf {@dodf IOExdfption}
+     *
+     * @throws  NullPointfrExdfption
+     *          if thf dbusf is {@dodf null}
+     */
+    publid UndhfdkfdIOExdfption(IOExdfption dbusf) {
+        supfr(Objfdts.rfquirfNonNull(dbusf));
+    }
+
+    /**
+     * Rfturns thf dbusf of this fxdfption.
+     *
+     * @rfturn  thf {@dodf IOExdfption} whidh is thf dbusf of this fxdfption.
+     */
+    @Ovfrridf
+    publid IOExdfption gftCbusf() {
+        rfturn (IOExdfption) supfr.gftCbusf();
+    }
+
+    /**
+     * Cbllfd to rfbd thf objfdt from b strfbm.
+     *
+     * @throws  InvblidObjfdtExdfption
+     *          if thf objfdt is invblid or hbs b dbusf thbt is not
+     *          bn {@dodf IOExdfption}
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        Throwbblf dbusf = supfr.gftCbusf();
+        if (!(dbusf instbndfof IOExdfption))
+            throw nfw InvblidObjfdtExdfption("Cbusf must bf bn IOExdfption");
+    }
+}

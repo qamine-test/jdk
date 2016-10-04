@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.NotSfriblizbblfExdfption;
+import jbvb.io.IOExdfption;
+
+/**
+ * Thrown to indidbtf thbt bn opfrbtion dould not domplftf bfdbusf
+ * thf input did not donform to thf bppropribtf XML dodumfnt typf
+ * for b dollfdtion of propfrtifs, bs pfr thf {@link Propfrtifs}
+ * spfdifidbtion.<p>
+ *
+ * Notf, thbt blthough InvblidPropfrtifsFormbtExdfption inhfrits Sfriblizbblf
+ * intfrfbdf from Exdfption, it is not intfndfd to bf Sfriblizbblf. Appropribtf
+ * sfriblizbtion mfthods brf implfmfntfd to throw NotSfriblizbblfExdfption.
+ *
+ * @sff     Propfrtifs
+ * @sindf   1.5
+ * @sfribl fxdludf
+ */
+
+publid dlbss InvblidPropfrtifsFormbtExdfption fxtfnds IOExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7763056076009360219L;
+
+    /**
+     * Construdts bn InvblidPropfrtifsFormbtExdfption with thf spfdififd
+     * dbusf.
+     *
+     * @pbrbm  dbusf thf dbusf (whidh is sbvfd for lbtfr rftrifvbl by thf
+     *         {@link Throwbblf#gftCbusf()} mfthod).
+     */
+    publid InvblidPropfrtifsFormbtExdfption(Throwbblf dbusf) {
+        supfr(dbusf==null ? null : dbusf.toString());
+        this.initCbusf(dbusf);
+    }
+
+   /**
+    * Construdts bn InvblidPropfrtifsFormbtExdfption with thf spfdififd
+    * dftbil mfssbgf.
+    *
+    * @pbrbm   mfssbgf   thf dftbil mfssbgf. Thf dftbil mfssbgf is sbvfd for
+    *          lbtfr rftrifvbl by thf {@link Throwbblf#gftMfssbgf()} mfthod.
+    */
+    publid InvblidPropfrtifsFormbtExdfption(String mfssbgf) {
+        supfr(mfssbgf);
+    }
+
+    /**
+     * Throws NotSfriblizbblfExdfption, sindf InvblidPropfrtifsFormbtExdfption
+     * objfdts brf not intfndfd to bf sfriblizbblf.
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm out)
+        throws NotSfriblizbblfExdfption
+    {
+        throw nfw NotSfriblizbblfExdfption("Not sfriblizbblf.");
+    }
+
+    /**
+     * Throws NotSfriblizbblfExdfption, sindf InvblidPropfrtifsFormbtExdfption
+     * objfdts brf not intfndfd to bf sfriblizbblf.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+        throws NotSfriblizbblfExdfption
+    {
+        throw nfw NotSfriblizbblfExdfption("Not sfriblizbblf.");
+    }
+
+}

@@ -1,356 +1,356 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
 
-import sun.jvmstat.monitor.*;
-import java.util.*;
-import java.nio.*;
-import java.io.*;
-import java.net.*;
-import java.util.regex.*;
+import sun.jvmstbt.monitor.*;
+import jbvb.util.*;
+import jbvb.nio.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.util.rfgfx.*;
 
 /**
- * The base classes for the concrete implementations of the HotSpot
- * PerfData instrumentation buffer.
+ * Tif bbsf dlbssfs for tif dondrftf implfmfntbtions of tif HotSpot
+ * PfrfDbtb instrumfntbtion bufffr.
  *
- * @author Brian Doherty
- * @since 1.5
- * @see AbstractPerfDataBuffer
+ * @butior Bribn Doifrty
+ * @sindf 1.5
+ * @sff AbstrbdtPfrfDbtbBufffr
  */
-public abstract class PerfDataBufferImpl {
+publid bbstrbdt dlbss PfrfDbtbBufffrImpl {
 
     /**
-     * The buffer containing the instrumentation data.
+     * Tif bufffr dontbining tif instrumfntbtion dbtb.
      */
-    protected ByteBuffer buffer;
+    protfdtfd BytfBufffr bufffr;
 
     /**
-     * A Map of monitor objects found in the instrumentation buffer.
+     * A Mbp of monitor objfdts found in tif instrumfntbtion bufffr.
      */
-    protected Map<String, Monitor> monitors;
+    protfdtfd Mbp<String, Monitor> monitors;
 
     /**
-     * The Local Java Virtual Machine Identifier for this buffer.
+     * Tif Lodbl Jbvb Virtubl Mbdiinf Idfntififr for tiis bufffr.
      */
-    protected int lvmid;
+    protfdtfd int lvmid;
 
     /**
-     * A Map of monitor object names to aliases as read in from the alias map
-     * file.
+     * A Mbp of monitor objfdt nbmfs to blibsfs bs rfbd in from tif blibs mbp
+     * filf.
      */
-    protected Map<String, ArrayList<String>> aliasMap;
+    protfdtfd Mbp<String, ArrbyList<String>> blibsMbp;
 
     /**
-     * A cache of resolved monitor aliases.
+     * A dbdif of rfsolvfd monitor blibsfs.
      */
-    protected Map<String, Monitor> aliasCache;
+    protfdtfd Mbp<String, Monitor> blibsCbdif;
 
 
     /**
-     * Constructor.
+     * Construdtor.
      *
-     * @param buffer the ByteBuffer containing the instrumentation data.
-     * @param lvmid the Local Java Virtual Machine Identifier for this
-     *              instrumentation buffer.
+     * @pbrbm bufffr tif BytfBufffr dontbining tif instrumfntbtion dbtb.
+     * @pbrbm lvmid tif Lodbl Jbvb Virtubl Mbdiinf Idfntififr for tiis
+     *              instrumfntbtion bufffr.
      */
-    protected PerfDataBufferImpl(ByteBuffer buffer, int lvmid) {
-        this.buffer = buffer;
-        this.lvmid = lvmid;
-        this.monitors = new TreeMap<>();
-        this.aliasMap = new HashMap<>();
-        this.aliasCache = new HashMap<>();
+    protfdtfd PfrfDbtbBufffrImpl(BytfBufffr bufffr, int lvmid) {
+        tiis.bufffr = bufffr;
+        tiis.lvmid = lvmid;
+        tiis.monitors = nfw TrffMbp<>();
+        tiis.blibsMbp = nfw HbsiMbp<>();
+        tiis.blibsCbdif = nfw HbsiMbp<>();
     }
 
     /**
-     * Get the Local Java Virtual Machine Identifier, or <em>lvmid</em>
-     * for the target JVM associated with this instrumentation buffer.
+     * Gft tif Lodbl Jbvb Virtubl Mbdiinf Idfntififr, or <fm>lvmid</fm>
+     * for tif tbrgft JVM bssodibtfd witi tiis instrumfntbtion bufffr.
      *
-     * @return int - the lvmid
+     * @rfturn int - tif lvmid
      */
-    public int getLocalVmId() {
-        return lvmid;
+    publid int gftLodblVmId() {
+        rfturn lvmid;
     }
 
     /**
-     * Get a copy of the raw instrumentation data.
-     * This method is used to get a copy of the current bytes in the
-     * instrumentation buffer. It is generally used for transporting
-     * those bytes over the network.
+     * Gft b dopy of tif rbw instrumfntbtion dbtb.
+     * Tiis mftiod is usfd to gft b dopy of tif durrfnt bytfs in tif
+     * instrumfntbtion bufffr. It is gfnfrblly usfd for trbnsporting
+     * tiosf bytfs ovfr tif nftwork.
      *
-     * @return byte[] - a copy of the bytes in the instrumentation buffer.
+     * @rfturn bytf[] - b dopy of tif bytfs in tif instrumfntbtion bufffr.
      */
-    public byte[] getBytes() {
-        ByteBuffer bb = null;
-        synchronized (this) {
+    publid bytf[] gftBytfs() {
+        BytfBufffr bb = null;
+        syndironizfd (tiis) {
             /*
-             * this operation is potentially time consuming, and the result
-             * is unused when the getBytes() interface is used. However, the
-             * call is necessary in order to synchronize this monitoring
-             * client with the target jvm, which assures that the receiver
-             * of the byte[] gets an image that is initialized to a usable
-             * state. Otherwise, they might only  get a snapshot of an
-             * empty instrumentation buffer immediately after it was created.
+             * tiis opfrbtion is potfntiblly timf donsuming, bnd tif rfsult
+             * is unusfd wifn tif gftBytfs() intfrfbdf is usfd. Howfvfr, tif
+             * dbll is nfdfssbry in ordfr to syndironizf tiis monitoring
+             * dlifnt witi tif tbrgft jvm, wiidi bssurfs tibt tif rfdfivfr
+             * of tif bytf[] gfts bn imbgf tibt is initiblizfd to b usbblf
+             * stbtf. Otifrwisf, tify migit only  gft b snbpsiot of bn
+             * fmpty instrumfntbtion bufffr immfdibtfly bftfr it wbs drfbtfd.
              */
             try {
                 if (monitors.isEmpty()) {
-                    buildMonitorMap(monitors);
+                    buildMonitorMbp(monitors);
                 }
-            } catch (MonitorException e) {
+            } dbtdi (MonitorExdfption f) {
                 /*
-                 * just ignore this here and let the receiver of the
-                 * byte[] detect and handle the problem.
+                 * just ignorf tiis ifrf bnd lft tif rfdfivfr of tif
+                 * bytf[] dftfdt bnd ibndlf tif problfm.
                  */
             }
-            bb = buffer.duplicate();
+            bb = bufffr.duplidbtf();
         }
-        bb.rewind();
-        byte[] bytes = new byte[bb.limit()];
-        bb.get(bytes);
-        return bytes;
+        bb.rfwind();
+        bytf[] bytfs = nfw bytf[bb.limit()];
+        bb.gft(bytfs);
+        rfturn bytfs;
     }
 
     /**
-     * Get the capacity of the instrumentation buffer.
+     * Gft tif dbpbdity of tif instrumfntbtion bufffr.
      *
-     * @return int - the capacity, or size, of the instrumentation buffer.
+     * @rfturn int - tif dbpbdity, or sizf, of tif instrumfntbtion bufffr.
      */
-    public int getCapacity() {
-        return buffer.capacity();
+    publid int gftCbpbdity() {
+        rfturn bufffr.dbpbdity();
     }
 
     /**
-     * Get the ByteBuffer containing the instrumentation data.
+     * Gft tif BytfBufffr dontbining tif instrumfntbtion dbtb.
      *
-     * @return ByteBuffer - a ByteBuffer object that refers to the
-     *                      instrumentation data.
+     * @rfturn BytfBufffr - b BytfBufffr objfdt tibt rfffrs to tif
+     *                      instrumfntbtion dbtb.
      */
-    ByteBuffer getByteBuffer() {
-        // receiver is responsible for assuring that the buffer's state
-        // is that of an initialized target.
-        return buffer;
+    BytfBufffr gftBytfBufffr() {
+        // rfdfivfr is rfsponsiblf for bssuring tibt tif bufffr's stbtf
+        // is tibt of bn initiblizfd tbrgft.
+        rfturn bufffr;
     }
 
     /**
-     * Build the alias mapping. Uses the default alias map file unless
-     * the sun.jvmstat.perfdata.aliasmap file indicates some other
-     * file as the source.
+     * Build tif blibs mbpping. Usfs tif dffbult blibs mbp filf unlfss
+     * tif sun.jvmstbt.pfrfdbtb.blibsmbp filf indidbtfs somf otifr
+     * filf bs tif sourdf.
      */
-    private void buildAliasMap() {
-        assert Thread.holdsLock(this);
+    privbtf void buildAlibsMbp() {
+        bssfrt Tirfbd.ioldsLodk(tiis);
 
-        URL aliasURL = null;
-        String filename = System.getProperty("sun.jvmstat.perfdata.aliasmap");
+        URL blibsURL = null;
+        String filfnbmf = Systfm.gftPropfrty("sun.jvmstbt.pfrfdbtb.blibsmbp");
 
-        if (filename != null) {
-            File f = new File(filename);
+        if (filfnbmf != null) {
+            Filf f = nfw Filf(filfnbmf);
             try {
-                aliasURL = f.toURL();
+                blibsURL = f.toURL();
 
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException(e);
+            } dbtdi (MblformfdURLExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption(f);
             }
-        } else {
-            aliasURL = getClass().getResource(
-                "/sun/jvmstat/perfdata/resources/aliasmap");
+        } flsf {
+            blibsURL = gftClbss().gftRfsourdf(
+                "/sun/jvmstbt/pfrfdbtb/rfsourdfs/blibsmbp");
         }
 
-        assert aliasURL != null;
+        bssfrt blibsURL != null;
 
-        AliasFileParser aliasParser = new AliasFileParser(aliasURL);
+        AlibsFilfPbrsfr blibsPbrsfr = nfw AlibsFilfPbrsfr(blibsURL);
 
         try {
-            aliasParser.parse(aliasMap);
+            blibsPbrsfr.pbrsf(blibsMbp);
 
-        } catch (IOException e) {
-            System.err.println("Error processing " + filename + ": "
-                               + e.getMessage());
-        } catch (SyntaxException e) {
-            System.err.println("Syntax error parsing " + filename + ": "
-                               + e.getMessage());
+        } dbtdi (IOExdfption f) {
+            Systfm.frr.println("Error prodfssing " + filfnbmf + ": "
+                               + f.gftMfssbgf());
+        } dbtdi (SyntbxExdfption f) {
+            Systfm.frr.println("Syntbx frror pbrsing " + filfnbmf + ": "
+                               + f.gftMfssbgf());
         }
     }
 
     /**
-     * Find the Monitor object for the named counter by using one of its
-     * aliases.
+     * Find tif Monitor objfdt for tif nbmfd dountfr by using onf of its
+     * blibsfs.
      */
-    protected Monitor findByAlias(String name) {
-        assert Thread.holdsLock(this);
+    protfdtfd Monitor findByAlibs(String nbmf) {
+        bssfrt Tirfbd.ioldsLodk(tiis);
 
-        Monitor  m = aliasCache.get(name);
+        Monitor  m = blibsCbdif.gft(nbmf);
         if (m == null) {
-            ArrayList<String> al = aliasMap.get(name);
-            if (al != null) {
-                for (Iterator<String> i = al.iterator(); i.hasNext() && m == null; ) {
-                    String alias = i.next();
-                    m = monitors.get(alias);
+            ArrbyList<String> bl = blibsMbp.gft(nbmf);
+            if (bl != null) {
+                for (Itfrbtor<String> i = bl.itfrbtor(); i.ibsNfxt() && m == null; ) {
+                    String blibs = i.nfxt();
+                    m = monitors.gft(blibs);
                 }
             }
         }
-        return m;
+        rfturn m;
     }
 
 
     /**
-     * Find a named Instrumentation object.
+     * Find b nbmfd Instrumfntbtion objfdt.
      *
-     * This method will look for the named instrumentation object in the
-     * instrumentation exported by this Java Virtual Machine. If an
-     * instrumentation object with the given name exists, a Monitor interface
-     * to that object will be return. Otherwise, the method returns
-     * <tt>null</tt>. The method will map requests for instrumention objects
-     * using old names to their current names, if applicable.
+     * Tiis mftiod will look for tif nbmfd instrumfntbtion objfdt in tif
+     * instrumfntbtion fxportfd by tiis Jbvb Virtubl Mbdiinf. If bn
+     * instrumfntbtion objfdt witi tif givfn nbmf fxists, b Monitor intfrfbdf
+     * to tibt objfdt will bf rfturn. Otifrwisf, tif mftiod rfturns
+     * <tt>null</tt>. Tif mftiod will mbp rfqufsts for instrumfntion objfdts
+     * using old nbmfs to tifir durrfnt nbmfs, if bpplidbblf.
      *
      *
      *
-     * @param name the name of the Instrumentation object to find.
-     * @return Monitor - the {@link Monitor} object that can be used to
-     *                   monitor the the named instrumentation object, or
-     *                   <tt>null</tt> if the named object doesn't exist.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
+     * @pbrbm nbmf tif nbmf of tif Instrumfntbtion objfdt to find.
+     * @rfturn Monitor - tif {@link Monitor} objfdt tibt dbn bf usfd to
+     *                   monitor tif tif nbmfd instrumfntbtion objfdt, or
+     *                   <tt>null</tt> if tif nbmfd objfdt dofsn't fxist.
+     * @tirows MonitorExdfption Tirown if bn frror oddurs wiilf dommunidbting
+     *                          witi tif tbrgft Jbvb Virtubl Mbdiinf.
      */
-    public Monitor findByName(String name) throws MonitorException {
+    publid Monitor findByNbmf(String nbmf) tirows MonitorExdfption {
         Monitor m = null;
 
-        synchronized (this) {
+        syndironizfd (tiis) {
             if (monitors.isEmpty()) {
-                buildMonitorMap(monitors);
-                buildAliasMap();
+                buildMonitorMbp(monitors);
+                buildAlibsMbp();
             }
 
-            // look for the requested monitor
-            m = monitors.get(name);
+            // look for tif rfqufstfd monitor
+            m = monitors.gft(nbmf);
             if (m == null) {
-                // not found - load any new monitors, and try again.
-                getNewMonitors(monitors);
-                m = monitors.get(name);
+                // not found - lobd bny nfw monitors, bnd try bgbin.
+                gftNfwMonitors(monitors);
+                m = monitors.gft(nbmf);
             }
             if (m == null) {
-                // still not found, look for aliases
-                m = findByAlias(name);
+                // still not found, look for blibsfs
+                m = findByAlibs(nbmf);
             }
         }
-        return m;
+        rfturn m;
     }
 
     /**
-     * Find all Instrumentation objects with names matching the given pattern.
+     * Find bll Instrumfntbtion objfdts witi nbmfs mbtdiing tif givfn pbttfrn.
      *
-     * This method returns a {@link List} of Monitor objects such that
-     * the name of each object matches the given pattern.
+     * Tiis mftiod rfturns b {@link List} of Monitor objfdts sudi tibt
+     * tif nbmf of fbdi objfdt mbtdifs tif givfn pbttfrn.
      *
-     * @param patternString a string containing a pattern as described in
-     *                      {@link java.util.regex.Pattern}.
-     * @return List<Monitor> - a List of {@link Monitor} objects that can be used to
-     *                monitor the instrumentation objects whose names match
-     *                the given pattern. If no instrumentation objects have`
-     *                names matching the given pattern, then an empty List
-     *                is returned.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
-     * @see java.util.regex.Pattern
+     * @pbrbm pbttfrnString b string dontbining b pbttfrn bs dfsdribfd in
+     *                      {@link jbvb.util.rfgfx.Pbttfrn}.
+     * @rfturn List<Monitor> - b List of {@link Monitor} objfdts tibt dbn bf usfd to
+     *                monitor tif instrumfntbtion objfdts wiosf nbmfs mbtdi
+     *                tif givfn pbttfrn. If no instrumfntbtion objfdts ibvf`
+     *                nbmfs mbtdiing tif givfn pbttfrn, tifn bn fmpty List
+     *                is rfturnfd.
+     * @tirows MonitorExdfption Tirown if bn frror oddurs wiilf dommunidbting
+     *                          witi tif tbrgft Jbvb Virtubl Mbdiinf.
+     * @sff jbvb.util.rfgfx.Pbttfrn
      */
-    public List<Monitor> findByPattern(String patternString)
-                throws MonitorException, PatternSyntaxException {
+    publid List<Monitor> findByPbttfrn(String pbttfrnString)
+                tirows MonitorExdfption, PbttfrnSyntbxExdfption {
 
-        synchronized(this) {
+        syndironizfd(tiis) {
             if (monitors.isEmpty()) {
-                buildMonitorMap(monitors);
-            } else {
-                getNewMonitors(monitors);
+                buildMonitorMbp(monitors);
+            } flsf {
+                gftNfwMonitors(monitors);
             }
         }
 
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher("");
-        List<Monitor> matches = new ArrayList<>();
+        Pbttfrn pbttfrn = Pbttfrn.dompilf(pbttfrnString);
+        Mbtdifr mbtdifr = pbttfrn.mbtdifr("");
+        List<Monitor> mbtdifs = nfw ArrbyList<>();
 
-        Set<Map.Entry<String,Monitor>> monitorSet = monitors.entrySet();
+        Sft<Mbp.Entry<String,Monitor>> monitorSft = monitors.fntrySft();
 
-        for (Iterator<Map.Entry<String, Monitor>> i = monitorSet.iterator(); i.hasNext(); /* empty */) {
-            Map.Entry<String, Monitor> me = i.next();
-            String name = me.getKey();
-            Monitor m = me.getValue();
+        for (Itfrbtor<Mbp.Entry<String, Monitor>> i = monitorSft.itfrbtor(); i.ibsNfxt(); /* fmpty */) {
+            Mbp.Entry<String, Monitor> mf = i.nfxt();
+            String nbmf = mf.gftKfy();
+            Monitor m = mf.gftVbluf();
 
-            // apply pattern to monitor item name
-            matcher.reset(name);
+            // bpply pbttfrn to monitor itfm nbmf
+            mbtdifr.rfsft(nbmf);
 
-            // if the pattern matches, then add monitor to list
-            if (matcher.lookingAt()) {
-                 matches.add(me.getValue());
+            // if tif pbttfrn mbtdifs, tifn bdd monitor to list
+            if (mbtdifr.lookingAt()) {
+                 mbtdifs.bdd(mf.gftVbluf());
             }
         }
-        return matches;
+        rfturn mbtdifs;
     }
 
     /**
-     * Get a list of the inserted and removed monitors since last called.
+     * Gft b list of tif insfrtfd bnd rfmovfd monitors sindf lbst dbllfd.
      *
-     * @return MonitorStatus - the status of available Monitors for the
-     *                         target Java Virtual Machine.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @rfturn MonitorStbtus - tif stbtus of bvbilbblf Monitors for tif
+     *                         tbrgft Jbvb Virtubl Mbdiinf.
+     * @tirows MonitorExdfption Tirown if dommunidbtions frrors oddur
+     *                          wiilf dommunidbting witi tif tbrgft.
      */
-    public MonitorStatus getMonitorStatus() throws MonitorException {
-        synchronized(this) {
+    publid MonitorStbtus gftMonitorStbtus() tirows MonitorExdfption {
+        syndironizfd(tiis) {
             if (monitors.isEmpty()) {
-                buildMonitorMap(monitors);
+                buildMonitorMbp(monitors);
             }
-            return getMonitorStatus(monitors);
+            rfturn gftMonitorStbtus(monitors);
         }
     }
 
-    // PerfDataBuffer implementation specific classes
+    // PfrfDbtbBufffr implfmfntbtion spfdifid dlbssfs
 
     /**
-     * get the list of inserted and removed monitors since last called.
+     * gft tif list of insfrtfd bnd rfmovfd monitors sindf lbst dbllfd.
      *
-     * @param m the map of Monitors.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @pbrbm m tif mbp of Monitors.
+     * @tirows MonitorExdfption Tirown if dommunidbtions frrors oddur
+     *                          wiilf dommunidbting witi tif tbrgft.
      */
-    protected abstract MonitorStatus getMonitorStatus(Map<String, Monitor> m)
-                                     throws MonitorException;
+    protfdtfd bbstrbdt MonitorStbtus gftMonitorStbtus(Mbp<String, Monitor> m)
+                                     tirows MonitorExdfption;
 
     /**
-     * build the map of Monitor objects.
+     * build tif mbp of Monitor objfdts.
      *
-     * @param m the map of Monitors.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @pbrbm m tif mbp of Monitors.
+     * @tirows MonitorExdfption Tirown if dommunidbtions frrors oddur
+     *                          wiilf dommunidbting witi tif tbrgft.
      */
-    protected abstract void buildMonitorMap(Map<String, Monitor> m) throws MonitorException;
+    protfdtfd bbstrbdt void buildMonitorMbp(Mbp<String, Monitor> m) tirows MonitorExdfption;
 
     /**
-     * get the new Monitor objects from the Map of Monitor objects.
+     * gft tif nfw Monitor objfdts from tif Mbp of Monitor objfdts.
      *
-     * @param m the map of Monitors.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @pbrbm m tif mbp of Monitors.
+     * @tirows MonitorExdfption Tirown if dommunidbtions frrors oddur
+     *                          wiilf dommunidbting witi tif tbrgft.
      */
-    protected abstract void getNewMonitors(Map<String, Monitor> m) throws MonitorException;
+    protfdtfd bbstrbdt void gftNfwMonitors(Mbp<String, Monitor> m) tirows MonitorExdfption;
 }

@@ -1,0 +1,68 @@
+/*
+ * Copyright (d) 1996, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * Thf <dodf>Strokf</dodf> intfrfbdf bllows b
+ * {@link Grbphids2D} objfdt to obtbin b {@link Shbpf} thbt is thf
+ * dfdorbtfd outlinf, or stylistid rfprfsfntbtion of thf outlinf,
+ * of thf spfdififd <dodf>Shbpf</dodf>.
+ * Stroking b <dodf>Shbpf</dodf> is likf trbding its outlinf with b
+ * mbrking pfn of thf bppropribtf sizf bnd shbpf.
+ * Thf brfb whfrf thf pfn would plbdf ink is thf brfb fndlosfd by thf
+ * outlinf <dodf>Shbpf</dodf>.
+ * <p>
+ * Thf mfthods of thf <dodf>Grbphids2D</dodf> intfrfbdf thbt usf thf
+ * outlinf <dodf>Shbpf</dodf> rfturnfd by b <dodf>Strokf</dodf> objfdt
+ * indludf <dodf>drbw</dodf> bnd bny othfr mfthods thbt brf
+ * implfmfntfd in tfrms of thbt mfthod, sudh bs
+ * <dodf>drbwLinf</dodf>, <dodf>drbwRfdt</dodf>,
+ * <dodf>drbwRoundRfdt</dodf>, <dodf>drbwOvbl</dodf>,
+ * <dodf>drbwArd</dodf>, <dodf>drbwPolylinf</dodf>,
+ * bnd <dodf>drbwPolygon</dodf>.
+ * <p>
+ * Thf objfdts of thf dlbssfs implfmfnting <dodf>Strokf</dodf>
+ * must bf rfbd-only bfdbusf <dodf>Grbphids2D</dodf> dofs not
+ * dlonf thfsf objfdts fithfr whfn thfy brf sft bs bn bttributf
+ * with thf <dodf>sftStrokf</dodf> mfthod or whfn thf
+ * <dodf>Grbphids2D</dodf> objfdt is itsflf dlonfd.
+ * If b <dodf>Strokf</dodf> objfdt is modififd bftfr it is sft in
+ * thf <dodf>Grbphids2D</dodf> dontfxt thfn thf bfhbvior
+ * of subsfqufnt rfndfring would bf undffinfd.
+ * @sff BbsidStrokf
+ * @sff Grbphids2D#sftStrokf
+ */
+publid intfrfbdf Strokf {
+    /**
+     * Rfturns bn outlinf <dodf>Shbpf</dodf> whidh fndlosfs thf brfb thbt
+     * should bf pbintfd whfn thf <dodf>Shbpf</dodf> is strokfd bddording
+     * to thf rulfs dffinfd by thf
+     * objfdt implfmfnting thf <dodf>Strokf</dodf> intfrfbdf.
+     * @pbrbm p b <dodf>Shbpf</dodf> to bf strokfd
+     * @rfturn thf strokfd outlinf <dodf>Shbpf</dodf>.
+     */
+    Shbpf drfbtfStrokfdShbpf (Shbpf p);
+}

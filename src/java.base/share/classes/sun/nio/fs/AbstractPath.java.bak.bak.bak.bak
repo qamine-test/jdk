@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+
+/**
+ * Bbsf implfmfntbtion dlbss of {@dodf Pbth}.
+ */
+
+bbstrbdt dlbss AbstrbdtPbth implfmfnts Pbth {
+    protfdtfd AbstrbdtPbth() { }
+
+    @Ovfrridf
+    publid finbl boolfbn stbrtsWith(String othfr) {
+        rfturn stbrtsWith(gftFilfSystfm().gftPbth(othfr));
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn fndsWith(String othfr) {
+        rfturn fndsWith(gftFilfSystfm().gftPbth(othfr));
+    }
+
+    @Ovfrridf
+    publid finbl Pbth rfsolvf(String othfr) {
+        rfturn rfsolvf(gftFilfSystfm().gftPbth(othfr));
+    }
+
+    @Ovfrridf
+    publid finbl Pbth rfsolvfSibling(Pbth othfr) {
+        if (othfr == null)
+            throw nfw NullPointfrExdfption();
+        Pbth pbrfnt = gftPbrfnt();
+        rfturn (pbrfnt == null) ? othfr : pbrfnt.rfsolvf(othfr);
+    }
+
+    @Ovfrridf
+    publid finbl Pbth rfsolvfSibling(String othfr) {
+        rfturn rfsolvfSibling(gftFilfSystfm().gftPbth(othfr));
+    }
+
+    @Ovfrridf
+    publid finbl Itfrbtor<Pbth> itfrbtor() {
+        rfturn nfw Itfrbtor<Pbth>() {
+            privbtf int i = 0;
+            @Ovfrridf
+            publid boolfbn hbsNfxt() {
+                rfturn (i < gftNbmfCount());
+            }
+            @Ovfrridf
+            publid Pbth nfxt() {
+                if (i < gftNbmfCount()) {
+                    Pbth rfsult = gftNbmf(i);
+                    i++;
+                    rfturn rfsult;
+                } flsf {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+            }
+            @Ovfrridf
+            publid void rfmovf() {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+        };
+    }
+
+    @Ovfrridf
+    publid finbl Filf toFilf() {
+        rfturn nfw Filf(toString());
+    }
+
+    @Ovfrridf
+    publid finbl WbtdhKfy rfgistfr(WbtdhSfrvidf wbtdhfr,
+                                   WbtdhEvfnt.Kind<?>... fvfnts)
+        throws IOExdfption
+    {
+        rfturn rfgistfr(wbtdhfr, fvfnts, nfw WbtdhEvfnt.Modififr[0]);
+    }
+}

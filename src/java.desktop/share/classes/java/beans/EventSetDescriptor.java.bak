@@ -1,553 +1,553 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.lang.ref.Reference;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
 
-import com.sun.beans.introspect.EventSetInfo;
+import dom.sun.bfbns.introspfdt.EvfntSftInfo;
 
 /**
- * An EventSetDescriptor describes a group of events that a given Java
- * bean fires.
+ * An EvfntSftDfsdriptor dfsdribfs b group of fvfnts tibt b givfn Jbvb
+ * bfbn firfs.
  * <P>
- * The given group of events are all delivered as method calls on a single
- * event listener interface, and an event listener object can be registered
- * via a call on a registration method supplied by the event source.
+ * Tif givfn group of fvfnts brf bll dflivfrfd bs mftiod dblls on b singlf
+ * fvfnt listfnfr intfrfbdf, bnd bn fvfnt listfnfr objfdt dbn bf rfgistfrfd
+ * vib b dbll on b rfgistrbtion mftiod supplifd by tif fvfnt sourdf.
  *
- * @since 1.1
+ * @sindf 1.1
  */
-public class EventSetDescriptor extends FeatureDescriptor {
+publid dlbss EvfntSftDfsdriptor fxtfnds FfbturfDfsdriptor {
 
-    private MethodDescriptor[] listenerMethodDescriptors;
-    private MethodDescriptor addMethodDescriptor;
-    private MethodDescriptor removeMethodDescriptor;
-    private MethodDescriptor getMethodDescriptor;
+    privbtf MftiodDfsdriptor[] listfnfrMftiodDfsdriptors;
+    privbtf MftiodDfsdriptor bddMftiodDfsdriptor;
+    privbtf MftiodDfsdriptor rfmovfMftiodDfsdriptor;
+    privbtf MftiodDfsdriptor gftMftiodDfsdriptor;
 
-    private Reference<Method[]> listenerMethodsRef;
-    private Reference<? extends Class<?>> listenerTypeRef;
+    privbtf Rfffrfndf<Mftiod[]> listfnfrMftiodsRff;
+    privbtf Rfffrfndf<? fxtfnds Clbss<?>> listfnfrTypfRff;
 
-    private boolean unicast;
-    private boolean inDefaultEventSet = true;
+    privbtf boolfbn unidbst;
+    privbtf boolfbn inDffbultEvfntSft = truf;
 
     /**
-     * Creates an <TT>EventSetDescriptor</TT> assuming that you are
-     * following the most simple standard design pattern where a named
-     * event &quot;fred&quot; is (1) delivered as a call on the single method of
-     * interface FredListener, (2) has a single argument of type FredEvent,
-     * and (3) where the FredListener may be registered with a call on an
-     * addFredListener method of the source component and removed with a
-     * call on a removeFredListener method.
+     * Crfbtfs bn <TT>EvfntSftDfsdriptor</TT> bssuming tibt you brf
+     * following tif most simplf stbndbrd dfsign pbttfrn wifrf b nbmfd
+     * fvfnt &quot;frfd&quot; is (1) dflivfrfd bs b dbll on tif singlf mftiod of
+     * intfrfbdf FrfdListfnfr, (2) ibs b singlf brgumfnt of typf FrfdEvfnt,
+     * bnd (3) wifrf tif FrfdListfnfr mby bf rfgistfrfd witi b dbll on bn
+     * bddFrfdListfnfr mftiod of tif sourdf domponfnt bnd rfmovfd witi b
+     * dbll on b rfmovfFrfdListfnfr mftiod.
      *
-     * @param sourceClass  The class firing the event.
-     * @param eventSetName  The programmatic name of the event.  E.g. &quot;fred&quot;.
-     *          Note that this should normally start with a lower-case character.
-     * @param listenerType  The target interface that events
-     *          will get delivered to.
-     * @param listenerMethodName  The method that will get called when the event gets
-     *          delivered to its target listener interface.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
+     * @pbrbm sourdfClbss  Tif dlbss firing tif fvfnt.
+     * @pbrbm fvfntSftNbmf  Tif progrbmmbtid nbmf of tif fvfnt.  E.g. &quot;frfd&quot;.
+     *          Notf tibt tiis siould normblly stbrt witi b lowfr-dbsf dibrbdtfr.
+     * @pbrbm listfnfrTypf  Tif tbrgft intfrfbdf tibt fvfnts
+     *          will gft dflivfrfd to.
+     * @pbrbm listfnfrMftiodNbmf  Tif mftiod tibt will gft dbllfd wifn tif fvfnt gfts
+     *          dflivfrfd to its tbrgft listfnfr intfrfbdf.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
      */
-    public EventSetDescriptor(Class<?> sourceClass, String eventSetName,
-                Class<?> listenerType, String listenerMethodName)
-                throws IntrospectionException {
-        this(sourceClass, eventSetName, listenerType,
-             new String[] { listenerMethodName },
-             Introspector.ADD_PREFIX + getListenerClassName(listenerType),
-             Introspector.REMOVE_PREFIX + getListenerClassName(listenerType),
-             Introspector.GET_PREFIX + getListenerClassName(listenerType) + "s");
+    publid EvfntSftDfsdriptor(Clbss<?> sourdfClbss, String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf, String listfnfrMftiodNbmf)
+                tirows IntrospfdtionExdfption {
+        tiis(sourdfClbss, fvfntSftNbmf, listfnfrTypf,
+             nfw String[] { listfnfrMftiodNbmf },
+             Introspfdtor.ADD_PREFIX + gftListfnfrClbssNbmf(listfnfrTypf),
+             Introspfdtor.REMOVE_PREFIX + gftListfnfrClbssNbmf(listfnfrTypf),
+             Introspfdtor.GET_PREFIX + gftListfnfrClbssNbmf(listfnfrTypf) + "s");
 
-        String eventName = NameGenerator.capitalize(eventSetName) + "Event";
-        Method[] listenerMethods = getListenerMethods();
-        if (listenerMethods.length > 0) {
-            Class<?>[] args = getParameterTypes(getClass0(), listenerMethods[0]);
-            // Check for EventSet compliance. Special case for vetoableChange. See 4529996
-            if (!"vetoableChange".equals(eventSetName) && !args[0].getName().endsWith(eventName)) {
-                throw new IntrospectionException("Method \"" + listenerMethodName +
-                                                 "\" should have argument \"" +
-                                                 eventName + "\"");
+        String fvfntNbmf = NbmfGfnfrbtor.dbpitblizf(fvfntSftNbmf) + "Evfnt";
+        Mftiod[] listfnfrMftiods = gftListfnfrMftiods();
+        if (listfnfrMftiods.lfngti > 0) {
+            Clbss<?>[] brgs = gftPbrbmftfrTypfs(gftClbss0(), listfnfrMftiods[0]);
+            // Cifdk for EvfntSft domplibndf. Spfdibl dbsf for vftobblfCibngf. Sff 4529996
+            if (!"vftobblfCibngf".fqubls(fvfntSftNbmf) && !brgs[0].gftNbmf().fndsWiti(fvfntNbmf)) {
+                tirow nfw IntrospfdtionExdfption("Mftiod \"" + listfnfrMftiodNbmf +
+                                                 "\" siould ibvf brgumfnt \"" +
+                                                 fvfntNbmf + "\"");
             }
         }
     }
 
-    private static String getListenerClassName(Class<?> cls) {
-        String className = cls.getName();
-        return className.substring(className.lastIndexOf('.') + 1);
+    privbtf stbtid String gftListfnfrClbssNbmf(Clbss<?> dls) {
+        String dlbssNbmf = dls.gftNbmf();
+        rfturn dlbssNbmf.substring(dlbssNbmf.lbstIndfxOf('.') + 1);
     }
 
     /**
-     * Creates an <TT>EventSetDescriptor</TT> from scratch using
-     * string names.
+     * Crfbtfs bn <TT>EvfntSftDfsdriptor</TT> from sdrbtdi using
+     * string nbmfs.
      *
-     * @param sourceClass  The class firing the event.
-     * @param eventSetName The programmatic name of the event set.
-     *          Note that this should normally start with a lower-case character.
-     * @param listenerType  The Class of the target interface that events
-     *          will get delivered to.
-     * @param listenerMethodNames The names of the methods that will get called
-     *          when the event gets delivered to its target listener interface.
-     * @param addListenerMethodName  The name of the method on the event source
-     *          that can be used to register an event listener object.
-     * @param removeListenerMethodName  The name of the method on the event source
-     *          that can be used to de-register an event listener object.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
+     * @pbrbm sourdfClbss  Tif dlbss firing tif fvfnt.
+     * @pbrbm fvfntSftNbmf Tif progrbmmbtid nbmf of tif fvfnt sft.
+     *          Notf tibt tiis siould normblly stbrt witi b lowfr-dbsf dibrbdtfr.
+     * @pbrbm listfnfrTypf  Tif Clbss of tif tbrgft intfrfbdf tibt fvfnts
+     *          will gft dflivfrfd to.
+     * @pbrbm listfnfrMftiodNbmfs Tif nbmfs of tif mftiods tibt will gft dbllfd
+     *          wifn tif fvfnt gfts dflivfrfd to its tbrgft listfnfr intfrfbdf.
+     * @pbrbm bddListfnfrMftiodNbmf  Tif nbmf of tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm rfmovfListfnfrMftiodNbmf  Tif nbmf of tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to df-rfgistfr bn fvfnt listfnfr objfdt.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
      */
-    public EventSetDescriptor(Class<?> sourceClass,
-                String eventSetName,
-                Class<?> listenerType,
-                String listenerMethodNames[],
-                String addListenerMethodName,
-                String removeListenerMethodName)
-                throws IntrospectionException {
-        this(sourceClass, eventSetName, listenerType,
-             listenerMethodNames, addListenerMethodName,
-             removeListenerMethodName, null);
+    publid EvfntSftDfsdriptor(Clbss<?> sourdfClbss,
+                String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf,
+                String listfnfrMftiodNbmfs[],
+                String bddListfnfrMftiodNbmf,
+                String rfmovfListfnfrMftiodNbmf)
+                tirows IntrospfdtionExdfption {
+        tiis(sourdfClbss, fvfntSftNbmf, listfnfrTypf,
+             listfnfrMftiodNbmfs, bddListfnfrMftiodNbmf,
+             rfmovfListfnfrMftiodNbmf, null);
     }
 
     /**
-     * This constructor creates an EventSetDescriptor from scratch using
-     * string names.
+     * Tiis donstrudtor drfbtfs bn EvfntSftDfsdriptor from sdrbtdi using
+     * string nbmfs.
      *
-     * @param sourceClass  The class firing the event.
-     * @param eventSetName The programmatic name of the event set.
-     *          Note that this should normally start with a lower-case character.
-     * @param listenerType  The Class of the target interface that events
-     *          will get delivered to.
-     * @param listenerMethodNames The names of the methods that will get called
-     *          when the event gets delivered to its target listener interface.
-     * @param addListenerMethodName  The name of the method on the event source
-     *          that can be used to register an event listener object.
-     * @param removeListenerMethodName  The name of the method on the event source
-     *          that can be used to de-register an event listener object.
-     * @param getListenerMethodName The method on the event source that
-     *          can be used to access the array of event listener objects.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
-     * @since 1.4
+     * @pbrbm sourdfClbss  Tif dlbss firing tif fvfnt.
+     * @pbrbm fvfntSftNbmf Tif progrbmmbtid nbmf of tif fvfnt sft.
+     *          Notf tibt tiis siould normblly stbrt witi b lowfr-dbsf dibrbdtfr.
+     * @pbrbm listfnfrTypf  Tif Clbss of tif tbrgft intfrfbdf tibt fvfnts
+     *          will gft dflivfrfd to.
+     * @pbrbm listfnfrMftiodNbmfs Tif nbmfs of tif mftiods tibt will gft dbllfd
+     *          wifn tif fvfnt gfts dflivfrfd to its tbrgft listfnfr intfrfbdf.
+     * @pbrbm bddListfnfrMftiodNbmf  Tif nbmf of tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm rfmovfListfnfrMftiodNbmf  Tif nbmf of tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to df-rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm gftListfnfrMftiodNbmf Tif mftiod on tif fvfnt sourdf tibt
+     *          dbn bf usfd to bddfss tif brrby of fvfnt listfnfr objfdts.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     * @sindf 1.4
      */
-    public EventSetDescriptor(Class<?> sourceClass,
-                String eventSetName,
-                Class<?> listenerType,
-                String listenerMethodNames[],
-                String addListenerMethodName,
-                String removeListenerMethodName,
-                String getListenerMethodName)
-                throws IntrospectionException {
-        if (sourceClass == null || eventSetName == null || listenerType == null) {
-            throw new NullPointerException();
+    publid EvfntSftDfsdriptor(Clbss<?> sourdfClbss,
+                String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf,
+                String listfnfrMftiodNbmfs[],
+                String bddListfnfrMftiodNbmf,
+                String rfmovfListfnfrMftiodNbmf,
+                String gftListfnfrMftiodNbmf)
+                tirows IntrospfdtionExdfption {
+        if (sourdfClbss == null || fvfntSftNbmf == null || listfnfrTypf == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        setName(eventSetName);
-        setClass0(sourceClass);
-        setListenerType(listenerType);
+        sftNbmf(fvfntSftNbmf);
+        sftClbss0(sourdfClbss);
+        sftListfnfrTypf(listfnfrTypf);
 
-        Method[] listenerMethods = new Method[listenerMethodNames.length];
-        for (int i = 0; i < listenerMethodNames.length; i++) {
-            // Check for null names
-            if (listenerMethodNames[i] == null) {
-                throw new NullPointerException();
+        Mftiod[] listfnfrMftiods = nfw Mftiod[listfnfrMftiodNbmfs.lfngti];
+        for (int i = 0; i < listfnfrMftiodNbmfs.lfngti; i++) {
+            // Cifdk for null nbmfs
+            if (listfnfrMftiodNbmfs[i] == null) {
+                tirow nfw NullPointfrExdfption();
             }
-            listenerMethods[i] = getMethod(listenerType, listenerMethodNames[i], 1);
+            listfnfrMftiods[i] = gftMftiod(listfnfrTypf, listfnfrMftiodNbmfs[i], 1);
         }
-        setListenerMethods(listenerMethods);
+        sftListfnfrMftiods(listfnfrMftiods);
 
-        setAddListenerMethod(getMethod(sourceClass, addListenerMethodName, 1));
-        setRemoveListenerMethod(getMethod(sourceClass, removeListenerMethodName, 1));
+        sftAddListfnfrMftiod(gftMftiod(sourdfClbss, bddListfnfrMftiodNbmf, 1));
+        sftRfmovfListfnfrMftiod(gftMftiod(sourdfClbss, rfmovfListfnfrMftiodNbmf, 1));
 
-        // Be more forgiving of not finding the getListener method.
-        Method method = Introspector.findMethod(sourceClass, getListenerMethodName, 0);
-        if (method != null) {
-            setGetListenerMethod(method);
+        // Bf morf forgiving of not finding tif gftListfnfr mftiod.
+        Mftiod mftiod = Introspfdtor.findMftiod(sourdfClbss, gftListfnfrMftiodNbmf, 0);
+        if (mftiod != null) {
+            sftGftListfnfrMftiod(mftiod);
         }
     }
 
-    private static Method getMethod(Class<?> cls, String name, int args)
-        throws IntrospectionException {
-        if (name == null) {
-            return null;
+    privbtf stbtid Mftiod gftMftiod(Clbss<?> dls, String nbmf, int brgs)
+        tirows IntrospfdtionExdfption {
+        if (nbmf == null) {
+            rfturn null;
         }
-        Method method = Introspector.findMethod(cls, name, args);
-        if ((method == null) || Modifier.isStatic(method.getModifiers())) {
-            throw new IntrospectionException("Method not found: " + name +
-                                             " on class " + cls.getName());
+        Mftiod mftiod = Introspfdtor.findMftiod(dls, nbmf, brgs);
+        if ((mftiod == null) || Modififr.isStbtid(mftiod.gftModififrs())) {
+            tirow nfw IntrospfdtionExdfption("Mftiod not found: " + nbmf +
+                                             " on dlbss " + dls.gftNbmf());
         }
-        return method;
+        rfturn mftiod;
     }
 
     /**
-     * Creates an <TT>EventSetDescriptor</TT> from scratch using
-     * <TT>java.lang.reflect.Method</TT> and <TT>java.lang.Class</TT> objects.
+     * Crfbtfs bn <TT>EvfntSftDfsdriptor</TT> from sdrbtdi using
+     * <TT>jbvb.lbng.rfflfdt.Mftiod</TT> bnd <TT>jbvb.lbng.Clbss</TT> objfdts.
      *
-     * @param eventSetName The programmatic name of the event set.
-     * @param listenerType The Class for the listener interface.
-     * @param listenerMethods  An array of Method objects describing each
-     *          of the event handling methods in the target listener.
-     * @param addListenerMethod  The method on the event source
-     *          that can be used to register an event listener object.
-     * @param removeListenerMethod  The method on the event source
-     *          that can be used to de-register an event listener object.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
+     * @pbrbm fvfntSftNbmf Tif progrbmmbtid nbmf of tif fvfnt sft.
+     * @pbrbm listfnfrTypf Tif Clbss for tif listfnfr intfrfbdf.
+     * @pbrbm listfnfrMftiods  An brrby of Mftiod objfdts dfsdribing fbdi
+     *          of tif fvfnt ibndling mftiods in tif tbrgft listfnfr.
+     * @pbrbm bddListfnfrMftiod  Tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm rfmovfListfnfrMftiod  Tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to df-rfgistfr bn fvfnt listfnfr objfdt.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
      */
-    public EventSetDescriptor(String eventSetName,
-                Class<?> listenerType,
-                Method listenerMethods[],
-                Method addListenerMethod,
-                Method removeListenerMethod)
-                throws IntrospectionException {
-        this(eventSetName, listenerType, listenerMethods,
-             addListenerMethod, removeListenerMethod, null);
+    publid EvfntSftDfsdriptor(String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf,
+                Mftiod listfnfrMftiods[],
+                Mftiod bddListfnfrMftiod,
+                Mftiod rfmovfListfnfrMftiod)
+                tirows IntrospfdtionExdfption {
+        tiis(fvfntSftNbmf, listfnfrTypf, listfnfrMftiods,
+             bddListfnfrMftiod, rfmovfListfnfrMftiod, null);
     }
 
     /**
-     * This constructor creates an EventSetDescriptor from scratch using
-     * java.lang.reflect.Method and java.lang.Class objects.
+     * Tiis donstrudtor drfbtfs bn EvfntSftDfsdriptor from sdrbtdi using
+     * jbvb.lbng.rfflfdt.Mftiod bnd jbvb.lbng.Clbss objfdts.
      *
-     * @param eventSetName The programmatic name of the event set.
-     * @param listenerType The Class for the listener interface.
-     * @param listenerMethods  An array of Method objects describing each
-     *          of the event handling methods in the target listener.
-     * @param addListenerMethod  The method on the event source
-     *          that can be used to register an event listener object.
-     * @param removeListenerMethod  The method on the event source
-     *          that can be used to de-register an event listener object.
-     * @param getListenerMethod The method on the event source
-     *          that can be used to access the array of event listener objects.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
-     * @since 1.4
+     * @pbrbm fvfntSftNbmf Tif progrbmmbtid nbmf of tif fvfnt sft.
+     * @pbrbm listfnfrTypf Tif Clbss for tif listfnfr intfrfbdf.
+     * @pbrbm listfnfrMftiods  An brrby of Mftiod objfdts dfsdribing fbdi
+     *          of tif fvfnt ibndling mftiods in tif tbrgft listfnfr.
+     * @pbrbm bddListfnfrMftiod  Tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm rfmovfListfnfrMftiod  Tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to df-rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm gftListfnfrMftiod Tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to bddfss tif brrby of fvfnt listfnfr objfdts.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     * @sindf 1.4
      */
-    public EventSetDescriptor(String eventSetName,
-                Class<?> listenerType,
-                Method listenerMethods[],
-                Method addListenerMethod,
-                Method removeListenerMethod,
-                Method getListenerMethod)
-                throws IntrospectionException {
-        setName(eventSetName);
-        setListenerMethods(listenerMethods);
-        setAddListenerMethod(addListenerMethod);
-        setRemoveListenerMethod( removeListenerMethod);
-        setGetListenerMethod(getListenerMethod);
-        setListenerType(listenerType);
+    publid EvfntSftDfsdriptor(String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf,
+                Mftiod listfnfrMftiods[],
+                Mftiod bddListfnfrMftiod,
+                Mftiod rfmovfListfnfrMftiod,
+                Mftiod gftListfnfrMftiod)
+                tirows IntrospfdtionExdfption {
+        sftNbmf(fvfntSftNbmf);
+        sftListfnfrMftiods(listfnfrMftiods);
+        sftAddListfnfrMftiod(bddListfnfrMftiod);
+        sftRfmovfListfnfrMftiod( rfmovfListfnfrMftiod);
+        sftGftListfnfrMftiod(gftListfnfrMftiod);
+        sftListfnfrTypf(listfnfrTypf);
     }
 
-    EventSetDescriptor(String base, EventSetInfo info, Method... methods) {
-        setName(Introspector.decapitalize(base));
-        setListenerMethods(methods);
-        setAddListenerMethod(info.getAddMethod());
-        setRemoveListenerMethod(info.getRemoveMethod());
-        setGetListenerMethod(info.getGetMethod());
-        setListenerType(info.getListenerType());
-        setUnicast(info.isUnicast());
+    EvfntSftDfsdriptor(String bbsf, EvfntSftInfo info, Mftiod... mftiods) {
+        sftNbmf(Introspfdtor.dfdbpitblizf(bbsf));
+        sftListfnfrMftiods(mftiods);
+        sftAddListfnfrMftiod(info.gftAddMftiod());
+        sftRfmovfListfnfrMftiod(info.gftRfmovfMftiod());
+        sftGftListfnfrMftiod(info.gftGftMftiod());
+        sftListfnfrTypf(info.gftListfnfrTypf());
+        sftUnidbst(info.isUnidbst());
     }
 
     /**
-     * Creates an <TT>EventSetDescriptor</TT> from scratch using
-     * <TT>java.lang.reflect.MethodDescriptor</TT> and <TT>java.lang.Class</TT>
-     *  objects.
+     * Crfbtfs bn <TT>EvfntSftDfsdriptor</TT> from sdrbtdi using
+     * <TT>jbvb.lbng.rfflfdt.MftiodDfsdriptor</TT> bnd <TT>jbvb.lbng.Clbss</TT>
+     *  objfdts.
      *
-     * @param eventSetName The programmatic name of the event set.
-     * @param listenerType The Class for the listener interface.
-     * @param listenerMethodDescriptors  An array of MethodDescriptor objects
-     *           describing each of the event handling methods in the
-     *           target listener.
-     * @param addListenerMethod  The method on the event source
-     *          that can be used to register an event listener object.
-     * @param removeListenerMethod  The method on the event source
-     *          that can be used to de-register an event listener object.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
+     * @pbrbm fvfntSftNbmf Tif progrbmmbtid nbmf of tif fvfnt sft.
+     * @pbrbm listfnfrTypf Tif Clbss for tif listfnfr intfrfbdf.
+     * @pbrbm listfnfrMftiodDfsdriptors  An brrby of MftiodDfsdriptor objfdts
+     *           dfsdribing fbdi of tif fvfnt ibndling mftiods in tif
+     *           tbrgft listfnfr.
+     * @pbrbm bddListfnfrMftiod  Tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm rfmovfListfnfrMftiod  Tif mftiod on tif fvfnt sourdf
+     *          tibt dbn bf usfd to df-rfgistfr bn fvfnt listfnfr objfdt.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
      */
-    public EventSetDescriptor(String eventSetName,
-                Class<?> listenerType,
-                MethodDescriptor listenerMethodDescriptors[],
-                Method addListenerMethod,
-                Method removeListenerMethod)
-                throws IntrospectionException {
-        setName(eventSetName);
-        this.listenerMethodDescriptors = (listenerMethodDescriptors != null)
-                ? listenerMethodDescriptors.clone()
+    publid EvfntSftDfsdriptor(String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf,
+                MftiodDfsdriptor listfnfrMftiodDfsdriptors[],
+                Mftiod bddListfnfrMftiod,
+                Mftiod rfmovfListfnfrMftiod)
+                tirows IntrospfdtionExdfption {
+        sftNbmf(fvfntSftNbmf);
+        tiis.listfnfrMftiodDfsdriptors = (listfnfrMftiodDfsdriptors != null)
+                ? listfnfrMftiodDfsdriptors.dlonf()
                 : null;
-        setAddListenerMethod(addListenerMethod);
-        setRemoveListenerMethod(removeListenerMethod);
-        setListenerType(listenerType);
+        sftAddListfnfrMftiod(bddListfnfrMftiod);
+        sftRfmovfListfnfrMftiod(rfmovfListfnfrMftiod);
+        sftListfnfrTypf(listfnfrTypf);
     }
 
     /**
-     * Gets the <TT>Class</TT> object for the target interface.
+     * Gfts tif <TT>Clbss</TT> objfdt for tif tbrgft intfrfbdf.
      *
-     * @return The Class object for the target interface that will
-     * get invoked when the event is fired.
+     * @rfturn Tif Clbss objfdt for tif tbrgft intfrfbdf tibt will
+     * gft invokfd wifn tif fvfnt is firfd.
      */
-    public Class<?> getListenerType() {
-        return (this.listenerTypeRef != null)
-                ? this.listenerTypeRef.get()
+    publid Clbss<?> gftListfnfrTypf() {
+        rfturn (tiis.listfnfrTypfRff != null)
+                ? tiis.listfnfrTypfRff.gft()
                 : null;
     }
 
-    private void setListenerType(Class<?> cls) {
-        this.listenerTypeRef = getWeakReference(cls);
+    privbtf void sftListfnfrTypf(Clbss<?> dls) {
+        tiis.listfnfrTypfRff = gftWfbkRfffrfndf(dls);
     }
 
     /**
-     * Gets the methods of the target listener interface.
+     * Gfts tif mftiods of tif tbrgft listfnfr intfrfbdf.
      *
-     * @return An array of <TT>Method</TT> objects for the target methods
-     * within the target listener interface that will get called when
-     * events are fired.
+     * @rfturn An brrby of <TT>Mftiod</TT> objfdts for tif tbrgft mftiods
+     * witiin tif tbrgft listfnfr intfrfbdf tibt will gft dbllfd wifn
+     * fvfnts brf firfd.
      */
-    public synchronized Method[] getListenerMethods() {
-        Method[] methods = getListenerMethods0();
-        if (methods == null) {
-            if (listenerMethodDescriptors != null) {
-                methods = new Method[listenerMethodDescriptors.length];
-                for (int i = 0; i < methods.length; i++) {
-                    methods[i] = listenerMethodDescriptors[i].getMethod();
+    publid syndironizfd Mftiod[] gftListfnfrMftiods() {
+        Mftiod[] mftiods = gftListfnfrMftiods0();
+        if (mftiods == null) {
+            if (listfnfrMftiodDfsdriptors != null) {
+                mftiods = nfw Mftiod[listfnfrMftiodDfsdriptors.lfngti];
+                for (int i = 0; i < mftiods.lfngti; i++) {
+                    mftiods[i] = listfnfrMftiodDfsdriptors[i].gftMftiod();
                 }
             }
-            setListenerMethods(methods);
+            sftListfnfrMftiods(mftiods);
         }
-        return methods;
+        rfturn mftiods;
     }
 
-    private void setListenerMethods(Method[] methods) {
-        if (methods == null) {
-            return;
+    privbtf void sftListfnfrMftiods(Mftiod[] mftiods) {
+        if (mftiods == null) {
+            rfturn;
         }
-        if (listenerMethodDescriptors == null) {
-            listenerMethodDescriptors = new MethodDescriptor[methods.length];
-            for (int i = 0; i < methods.length; i++) {
-                listenerMethodDescriptors[i] = new MethodDescriptor(methods[i]);
+        if (listfnfrMftiodDfsdriptors == null) {
+            listfnfrMftiodDfsdriptors = nfw MftiodDfsdriptor[mftiods.lfngti];
+            for (int i = 0; i < mftiods.lfngti; i++) {
+                listfnfrMftiodDfsdriptors[i] = nfw MftiodDfsdriptor(mftiods[i]);
             }
         }
-        this.listenerMethodsRef = getSoftReference(methods);
+        tiis.listfnfrMftiodsRff = gftSoftRfffrfndf(mftiods);
     }
 
-    private Method[] getListenerMethods0() {
-        return (this.listenerMethodsRef != null)
-                ? this.listenerMethodsRef.get()
+    privbtf Mftiod[] gftListfnfrMftiods0() {
+        rfturn (tiis.listfnfrMftiodsRff != null)
+                ? tiis.listfnfrMftiodsRff.gft()
                 : null;
     }
 
     /**
-     * Gets the <code>MethodDescriptor</code>s of the target listener interface.
+     * Gfts tif <dodf>MftiodDfsdriptor</dodf>s of tif tbrgft listfnfr intfrfbdf.
      *
-     * @return An array of <code>MethodDescriptor</code> objects for the target methods
-     * within the target listener interface that will get called when
-     * events are fired.
+     * @rfturn An brrby of <dodf>MftiodDfsdriptor</dodf> objfdts for tif tbrgft mftiods
+     * witiin tif tbrgft listfnfr intfrfbdf tibt will gft dbllfd wifn
+     * fvfnts brf firfd.
      */
-    public synchronized MethodDescriptor[] getListenerMethodDescriptors() {
-        return (this.listenerMethodDescriptors != null)
-                ? this.listenerMethodDescriptors.clone()
+    publid syndironizfd MftiodDfsdriptor[] gftListfnfrMftiodDfsdriptors() {
+        rfturn (tiis.listfnfrMftiodDfsdriptors != null)
+                ? tiis.listfnfrMftiodDfsdriptors.dlonf()
                 : null;
     }
 
     /**
-     * Gets the method used to add event listeners.
+     * Gfts tif mftiod usfd to bdd fvfnt listfnfrs.
      *
-     * @return The method used to register a listener at the event source.
+     * @rfturn Tif mftiod usfd to rfgistfr b listfnfr bt tif fvfnt sourdf.
      */
-    public synchronized Method getAddListenerMethod() {
-        return getMethod(this.addMethodDescriptor);
+    publid syndironizfd Mftiod gftAddListfnfrMftiod() {
+        rfturn gftMftiod(tiis.bddMftiodDfsdriptor);
     }
 
-    private synchronized void setAddListenerMethod(Method method) {
-        if (method == null) {
-            return;
+    privbtf syndironizfd void sftAddListfnfrMftiod(Mftiod mftiod) {
+        if (mftiod == null) {
+            rfturn;
         }
-        if (getClass0() == null) {
-            setClass0(method.getDeclaringClass());
+        if (gftClbss0() == null) {
+            sftClbss0(mftiod.gftDfdlbringClbss());
         }
-        addMethodDescriptor = new MethodDescriptor(method);
-        setTransient(method.getAnnotation(Transient.class));
+        bddMftiodDfsdriptor = nfw MftiodDfsdriptor(mftiod);
+        sftTrbnsifnt(mftiod.gftAnnotbtion(Trbnsifnt.dlbss));
     }
 
     /**
-     * Gets the method used to remove event listeners.
+     * Gfts tif mftiod usfd to rfmovf fvfnt listfnfrs.
      *
-     * @return The method used to remove a listener at the event source.
+     * @rfturn Tif mftiod usfd to rfmovf b listfnfr bt tif fvfnt sourdf.
      */
-    public synchronized Method getRemoveListenerMethod() {
-        return getMethod(this.removeMethodDescriptor);
+    publid syndironizfd Mftiod gftRfmovfListfnfrMftiod() {
+        rfturn gftMftiod(tiis.rfmovfMftiodDfsdriptor);
     }
 
-    private synchronized void setRemoveListenerMethod(Method method) {
-        if (method == null) {
-            return;
+    privbtf syndironizfd void sftRfmovfListfnfrMftiod(Mftiod mftiod) {
+        if (mftiod == null) {
+            rfturn;
         }
-        if (getClass0() == null) {
-            setClass0(method.getDeclaringClass());
+        if (gftClbss0() == null) {
+            sftClbss0(mftiod.gftDfdlbringClbss());
         }
-        removeMethodDescriptor = new MethodDescriptor(method);
-        setTransient(method.getAnnotation(Transient.class));
+        rfmovfMftiodDfsdriptor = nfw MftiodDfsdriptor(mftiod);
+        sftTrbnsifnt(mftiod.gftAnnotbtion(Trbnsifnt.dlbss));
     }
 
     /**
-     * Gets the method used to access the registered event listeners.
+     * Gfts tif mftiod usfd to bddfss tif rfgistfrfd fvfnt listfnfrs.
      *
-     * @return The method used to access the array of listeners at the event
-     *         source or null if it doesn't exist.
-     * @since 1.4
+     * @rfturn Tif mftiod usfd to bddfss tif brrby of listfnfrs bt tif fvfnt
+     *         sourdf or null if it dofsn't fxist.
+     * @sindf 1.4
      */
-    public synchronized Method getGetListenerMethod() {
-        return getMethod(this.getMethodDescriptor);
+    publid syndironizfd Mftiod gftGftListfnfrMftiod() {
+        rfturn gftMftiod(tiis.gftMftiodDfsdriptor);
     }
 
-    private synchronized void setGetListenerMethod(Method method) {
-        if (method == null) {
-            return;
+    privbtf syndironizfd void sftGftListfnfrMftiod(Mftiod mftiod) {
+        if (mftiod == null) {
+            rfturn;
         }
-        if (getClass0() == null) {
-            setClass0(method.getDeclaringClass());
+        if (gftClbss0() == null) {
+            sftClbss0(mftiod.gftDfdlbringClbss());
         }
-        getMethodDescriptor = new MethodDescriptor(method);
-        setTransient(method.getAnnotation(Transient.class));
+        gftMftiodDfsdriptor = nfw MftiodDfsdriptor(mftiod);
+        sftTrbnsifnt(mftiod.gftAnnotbtion(Trbnsifnt.dlbss));
     }
 
     /**
-     * Mark an event set as unicast (or not).
+     * Mbrk bn fvfnt sft bs unidbst (or not).
      *
-     * @param unicast  True if the event set is unicast.
+     * @pbrbm unidbst  Truf if tif fvfnt sft is unidbst.
      */
-    public void setUnicast(boolean unicast) {
-        this.unicast = unicast;
+    publid void sftUnidbst(boolfbn unidbst) {
+        tiis.unidbst = unidbst;
     }
 
     /**
-     * Normally event sources are multicast.  However there are some
-     * exceptions that are strictly unicast.
+     * Normblly fvfnt sourdfs brf multidbst.  Howfvfr tifrf brf somf
+     * fxdfptions tibt brf stridtly unidbst.
      *
-     * @return  <TT>true</TT> if the event set is unicast.
-     *          Defaults to <TT>false</TT>.
+     * @rfturn  <TT>truf</TT> if tif fvfnt sft is unidbst.
+     *          Dffbults to <TT>fblsf</TT>.
      */
-    public boolean isUnicast() {
-        return unicast;
+    publid boolfbn isUnidbst() {
+        rfturn unidbst;
     }
 
     /**
-     * Marks an event set as being in the &quot;default&quot; set (or not).
-     * By default this is <TT>true</TT>.
+     * Mbrks bn fvfnt sft bs bfing in tif &quot;dffbult&quot; sft (or not).
+     * By dffbult tiis is <TT>truf</TT>.
      *
-     * @param inDefaultEventSet <code>true</code> if the event set is in
-     *                          the &quot;default&quot; set,
-     *                          <code>false</code> if not
+     * @pbrbm inDffbultEvfntSft <dodf>truf</dodf> if tif fvfnt sft is in
+     *                          tif &quot;dffbult&quot; sft,
+     *                          <dodf>fblsf</dodf> if not
      */
-    public void setInDefaultEventSet(boolean inDefaultEventSet) {
-        this.inDefaultEventSet = inDefaultEventSet;
+    publid void sftInDffbultEvfntSft(boolfbn inDffbultEvfntSft) {
+        tiis.inDffbultEvfntSft = inDffbultEvfntSft;
     }
 
     /**
-     * Reports if an event set is in the &quot;default&quot; set.
+     * Rfports if bn fvfnt sft is in tif &quot;dffbult&quot; sft.
      *
-     * @return  <TT>true</TT> if the event set is in
-     *          the &quot;default&quot; set.  Defaults to <TT>true</TT>.
+     * @rfturn  <TT>truf</TT> if tif fvfnt sft is in
+     *          tif &quot;dffbult&quot; sft.  Dffbults to <TT>truf</TT>.
      */
-    public boolean isInDefaultEventSet() {
-        return inDefaultEventSet;
+    publid boolfbn isInDffbultEvfntSft() {
+        rfturn inDffbultEvfntSft;
     }
 
     /*
-     * Package-private constructor
-     * Merge two event set descriptors.  Where they conflict, give the
-     * second argument (y) priority over the first argument (x).
+     * Pbdkbgf-privbtf donstrudtor
+     * Mfrgf two fvfnt sft dfsdriptors.  Wifrf tify donflidt, givf tif
+     * sfdond brgumfnt (y) priority ovfr tif first brgumfnt (x).
      *
-     * @param x  The first (lower priority) EventSetDescriptor
-     * @param y  The second (higher priority) EventSetDescriptor
+     * @pbrbm x  Tif first (lowfr priority) EvfntSftDfsdriptor
+     * @pbrbm y  Tif sfdond (iigifr priority) EvfntSftDfsdriptor
      */
-    EventSetDescriptor(EventSetDescriptor x, EventSetDescriptor y) {
-        super(x,y);
-        listenerMethodDescriptors = x.listenerMethodDescriptors;
-        if (y.listenerMethodDescriptors != null) {
-            listenerMethodDescriptors = y.listenerMethodDescriptors;
+    EvfntSftDfsdriptor(EvfntSftDfsdriptor x, EvfntSftDfsdriptor y) {
+        supfr(x,y);
+        listfnfrMftiodDfsdriptors = x.listfnfrMftiodDfsdriptors;
+        if (y.listfnfrMftiodDfsdriptors != null) {
+            listfnfrMftiodDfsdriptors = y.listfnfrMftiodDfsdriptors;
         }
 
-        listenerTypeRef = x.listenerTypeRef;
-        if (y.listenerTypeRef != null) {
-            listenerTypeRef = y.listenerTypeRef;
+        listfnfrTypfRff = x.listfnfrTypfRff;
+        if (y.listfnfrTypfRff != null) {
+            listfnfrTypfRff = y.listfnfrTypfRff;
         }
 
-        addMethodDescriptor = x.addMethodDescriptor;
-        if (y.addMethodDescriptor != null) {
-            addMethodDescriptor = y.addMethodDescriptor;
+        bddMftiodDfsdriptor = x.bddMftiodDfsdriptor;
+        if (y.bddMftiodDfsdriptor != null) {
+            bddMftiodDfsdriptor = y.bddMftiodDfsdriptor;
         }
 
-        removeMethodDescriptor = x.removeMethodDescriptor;
-        if (y.removeMethodDescriptor != null) {
-            removeMethodDescriptor = y.removeMethodDescriptor;
+        rfmovfMftiodDfsdriptor = x.rfmovfMftiodDfsdriptor;
+        if (y.rfmovfMftiodDfsdriptor != null) {
+            rfmovfMftiodDfsdriptor = y.rfmovfMftiodDfsdriptor;
         }
 
-        getMethodDescriptor = x.getMethodDescriptor;
-        if (y.getMethodDescriptor != null) {
-            getMethodDescriptor = y.getMethodDescriptor;
+        gftMftiodDfsdriptor = x.gftMftiodDfsdriptor;
+        if (y.gftMftiodDfsdriptor != null) {
+            gftMftiodDfsdriptor = y.gftMftiodDfsdriptor;
         }
 
-        unicast = y.unicast;
-        if (!x.inDefaultEventSet || !y.inDefaultEventSet) {
-            inDefaultEventSet = false;
+        unidbst = y.unidbst;
+        if (!x.inDffbultEvfntSft || !y.inDffbultEvfntSft) {
+            inDffbultEvfntSft = fblsf;
         }
     }
 
     /*
-     * Package-private dup constructor
-     * This must isolate the new object from any changes to the old object.
+     * Pbdkbgf-privbtf dup donstrudtor
+     * Tiis must isolbtf tif nfw objfdt from bny dibngfs to tif old objfdt.
      */
-    EventSetDescriptor(EventSetDescriptor old) {
-        super(old);
-        if (old.listenerMethodDescriptors != null) {
-            int len = old.listenerMethodDescriptors.length;
-            listenerMethodDescriptors = new MethodDescriptor[len];
-            for (int i = 0; i < len; i++) {
-                listenerMethodDescriptors[i] = new MethodDescriptor(
-                                        old.listenerMethodDescriptors[i]);
+    EvfntSftDfsdriptor(EvfntSftDfsdriptor old) {
+        supfr(old);
+        if (old.listfnfrMftiodDfsdriptors != null) {
+            int lfn = old.listfnfrMftiodDfsdriptors.lfngti;
+            listfnfrMftiodDfsdriptors = nfw MftiodDfsdriptor[lfn];
+            for (int i = 0; i < lfn; i++) {
+                listfnfrMftiodDfsdriptors[i] = nfw MftiodDfsdriptor(
+                                        old.listfnfrMftiodDfsdriptors[i]);
             }
         }
-        listenerTypeRef = old.listenerTypeRef;
+        listfnfrTypfRff = old.listfnfrTypfRff;
 
-        addMethodDescriptor = old.addMethodDescriptor;
-        removeMethodDescriptor = old.removeMethodDescriptor;
-        getMethodDescriptor = old.getMethodDescriptor;
+        bddMftiodDfsdriptor = old.bddMftiodDfsdriptor;
+        rfmovfMftiodDfsdriptor = old.rfmovfMftiodDfsdriptor;
+        gftMftiodDfsdriptor = old.gftMftiodDfsdriptor;
 
-        unicast = old.unicast;
-        inDefaultEventSet = old.inDefaultEventSet;
+        unidbst = old.unidbst;
+        inDffbultEvfntSft = old.inDffbultEvfntSft;
     }
 
-    void appendTo(StringBuilder sb) {
-        appendTo(sb, "unicast", this.unicast);
-        appendTo(sb, "inDefaultEventSet", this.inDefaultEventSet);
-        appendTo(sb, "listenerType", this.listenerTypeRef);
-        appendTo(sb, "getListenerMethod", getMethod(this.getMethodDescriptor));
-        appendTo(sb, "addListenerMethod", getMethod(this.addMethodDescriptor));
-        appendTo(sb, "removeListenerMethod", getMethod(this.removeMethodDescriptor));
+    void bppfndTo(StringBuildfr sb) {
+        bppfndTo(sb, "unidbst", tiis.unidbst);
+        bppfndTo(sb, "inDffbultEvfntSft", tiis.inDffbultEvfntSft);
+        bppfndTo(sb, "listfnfrTypf", tiis.listfnfrTypfRff);
+        bppfndTo(sb, "gftListfnfrMftiod", gftMftiod(tiis.gftMftiodDfsdriptor));
+        bppfndTo(sb, "bddListfnfrMftiod", gftMftiod(tiis.bddMftiodDfsdriptor));
+        bppfndTo(sb, "rfmovfListfnfrMftiod", gftMftiod(tiis.rfmovfMftiodDfsdriptor));
     }
 
-    private static Method getMethod(MethodDescriptor descriptor) {
-        return (descriptor != null)
-                ? descriptor.getMethod()
+    privbtf stbtid Mftiod gftMftiod(MftiodDfsdriptor dfsdriptor) {
+        rfturn (dfsdriptor != null)
+                ? dfsdriptor.gftMftiod()
                 : null;
     }
 }

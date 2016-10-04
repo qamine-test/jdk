@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
+
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpPdu;
+/**
+ * Addfss Control Modfl intfrfbdf. Evfry bddfss dontrol modfl must implfmfnt this intfrfbdf in ordfr to bf intfgrbtfd in thf fnginf bbsfd frbmfwork.
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid intfrfbdf SnmpAddfssControlModfl fxtfnds SnmpModfl {
+    /**
+     * Mfthod dbllfd by thf dispbtdhfr in ordfr to dontrol thf bddfss bt bn <CODE>SnmpOid</CODE> Lfvfl. If bddfss is not bllowfd, bn <CODE>SnmpStbtusExdfption</CODE> is thrown.
+     * This mfthod is dbllfd bftfr thf <CODE>dhfdkPduAddfss</CODE> pdu bbsfd mfthod.
+     * @pbrbm vfrsion Thf SNMP protodol vfrsion numbfr.
+     * @pbrbm prindipbl Thf rfqufst prindipbl.
+     * @pbrbm sfdurityLfvfl Thf rfqufst sfdurity lfvfl bs dffinfd in <CODE>SnmpEnginf</CODE>.
+     * @pbrbm pduTypf Thf pdu typf (gft, sft, ...).
+     * @pbrbm sfdurityModfl Thf sfdurity modfl ID.
+     * @pbrbm dontfxtNbmf Thf bddfss dontrol dontfxt nbmf.
+     * @pbrbm oid Thf OID to dhfdk.
+     */
+    publid void dhfdkAddfss(int vfrsion,
+                            String prindipbl,
+                            int sfdurityLfvfl,
+                            int pduTypf,
+                            int sfdurityModfl,
+                            bytf[] dontfxtNbmf,
+                            SnmpOid oid)
+        throws SnmpStbtusExdfption;
+    /**
+     * Mfthod dbllfd by thf dispbtdhfr in ordfr to dontrol thf bddfss bt bn SNMP pdu Lfvfl. If bddfss is not bllowfd, bn <CODE>SnmpStbtusExdfption</CODE> is thrown. In dbsf of fxdfption, thf bddfss dontrol is bbortfd. OIDs brf not dhfdkfd.
+     * This mfthod should bf dbllfd prior to thf <CODE>dhfdkAddfss</CODE> OID bbsfd mfthod.
+     * @pbrbm vfrsion Thf SNMP protodol vfrsion numbfr.
+     * @pbrbm prindipbl Thf rfqufst prindipbl.
+     * @pbrbm sfdurityLfvfl Thf rfqufst sfdurity lfvfl bs dffinfd in <CODE>SnmpEnginf</CODE>.
+     * @pbrbm pduTypf Thf pdu typf (gft, sft, ...).
+     * @pbrbm sfdurityModfl Thf sfdurity modfl ID.
+     * @pbrbm dontfxtNbmf Thf bddfss dontrol dontfxt nbmf.
+     * @pbrbm pdu Thf pdu to dhfdk.
+     */
+    publid void dhfdkPduAddfss(int vfrsion,
+                               String prindipbl,
+                               int sfdurityLfvfl,
+                               int pduTypf,
+                               int sfdurityModfl,
+                               bytf[] dontfxtNbmf,
+                               SnmpPdu pdu)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Enbblf SNMP V1 bnd V2 sft rfqufsts. Bf bwbrf thbt dbn lfbd to b sfdurity holf in b dontfxt of SNMP V3 mbnbgfmfnt. By dffbult SNMP V1 bnd V2 sft rfqufsts brf not buthorizfd.
+     * @rfturn boolfbn Truf thf bdtivbtion sudffdfd.
+     */
+    publid boolfbn fnbblfSnmpV1V2SftRfqufst();
+    /**
+     * Disbblf SNMP V1 bnd V2 sft rfqufsts. By dffbult SNMP V1 bnd V2 sft rfqufsts brf not buthorizfd.
+     * @rfturn boolfbn Truf thf dfbdtivbtion sudffdfd.
+     */
+    publid boolfbn disbblfSnmpV1V2SftRfqufst();
+
+    /**
+     * Thf SNMP V1 bnd V2 sft rfqufsts buthorizbtion stbtus. By dffbult SNMP V1 bnd V2 sft rfqufsts brf not buthorizfd.
+     * @rfturn boolfbn Truf SNMP V1 bnd V2 rfqufsts brf buthorizfd.
+     */
+    publid boolfbn isSnmpV1V2SftRfqufstAuthorizfd();
+}

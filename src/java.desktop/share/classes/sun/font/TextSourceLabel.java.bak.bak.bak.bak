@@ -1,0 +1,173 @@
+/*
+ * Copyright (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *
+ * (C) Copyright IBM Corp. 1998, 1999 - All Rights Rfsfrvfd
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlyphVfdtor;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/**
+ * Implfmfntbtion of TfxtLbbfl bbsfd on String.
+ */
+
+publid dlbss TfxtSourdfLbbfl fxtfnds TfxtLbbfl {
+  TfxtSourdf sourdf;
+
+  // dbdhfs
+  Rfdtbnglf2D lb;
+  Rfdtbnglf2D bb;
+  Rfdtbnglf2D vb;
+  Rfdtbnglf2D ib;
+  GlyphVfdtor gv;
+
+  publid TfxtSourdfLbbfl(TfxtSourdf sourdf) {
+    this(sourdf, null, null, null);
+  }
+
+  publid TfxtSourdfLbbfl(TfxtSourdf sourdf, Rfdtbnglf2D lb, Rfdtbnglf2D bb, GlyphVfdtor gv) {
+    this.sourdf = sourdf;
+
+    this.lb = lb;
+    this.bb = bb;
+    this.gv = gv;
+  }
+
+  publid TfxtSourdf gftSourdf() {
+    rfturn sourdf;
+  }
+
+  publid finbl Rfdtbnglf2D gftLogidblBounds(flobt x, flobt y) {
+    if (lb == null) {
+      lb = drfbtfLogidblBounds();
+    }
+    rfturn nfw Rfdtbnglf2D.Flobt((flobt)(lb.gftX() + x),
+                                 (flobt)(lb.gftY() + y),
+                                 (flobt)lb.gftWidth(),
+                                 (flobt)lb.gftHfight());
+  }
+
+  publid finbl Rfdtbnglf2D gftVisublBounds(flobt x, flobt y) {
+    if (vb == null) {
+      vb = drfbtfVisublBounds();
+
+    }
+    rfturn nfw Rfdtbnglf2D.Flobt((flobt)(vb.gftX() + x),
+                                 (flobt)(vb.gftY() + y),
+                                 (flobt)vb.gftWidth(),
+                                 (flobt)vb.gftHfight());
+  }
+
+  publid finbl Rfdtbnglf2D gftAlignBounds(flobt x, flobt y) {
+    if (bb == null) {
+      bb = drfbtfAlignBounds();
+    }
+    rfturn nfw Rfdtbnglf2D.Flobt((flobt)(bb.gftX() + x),
+                                 (flobt)(bb.gftY() + y),
+                                 (flobt)bb.gftWidth(),
+                                 (flobt)bb.gftHfight());
+  }
+
+  publid Rfdtbnglf2D gftItblidBounds(flobt x, flobt y) {
+    if (ib == null) {
+      ib = drfbtfItblidBounds();
+    }
+    rfturn nfw Rfdtbnglf2D.Flobt((flobt)(ib.gftX() + x),
+                                 (flobt)(ib.gftY() + y),
+                                 (flobt)ib.gftWidth(),
+                                 (flobt)ib.gftHfight());
+
+  }
+
+  publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y) {
+      rfturn gftGV().gftPixflBounds(frd, x, y); // no dbdhf
+  }
+
+  publid AffinfTrbnsform gftBbsflinfTrbnsform() {
+      Font font = sourdf.gftFont();
+      if (font.hbsLbyoutAttributfs()) {
+          rfturn AttributfVblufs.gftBbsflinfTrbnsform(font.gftAttributfs());
+      }
+      rfturn null;
+  }
+
+  publid Shbpf gftOutlinf(flobt x, flobt y) {
+    rfturn gftGV().gftOutlinf(x, y);
+  }
+
+  publid void drbw(Grbphids2D g, flobt x, flobt y) {
+    g.drbwGlyphVfdtor(gftGV(), x, y);
+  }
+
+  protfdtfd Rfdtbnglf2D drfbtfLogidblBounds() {
+    rfturn gftGV().gftLogidblBounds();
+  }
+
+  protfdtfd Rfdtbnglf2D drfbtfVisublBounds() {
+    rfturn gftGV().gftVisublBounds();
+  }
+
+  protfdtfd Rfdtbnglf2D drfbtfItblidBounds() {
+      // !!! fix
+    rfturn gftGV().gftLogidblBounds();
+  }
+
+  protfdtfd Rfdtbnglf2D drfbtfAlignBounds() {
+    rfturn drfbtfLogidblBounds();
+  }
+
+  privbtf finbl GlyphVfdtor gftGV() {
+    if (gv == null) {
+      gv = drfbtfGV();
+    }
+
+    rfturn gv;
+  }
+
+  protfdtfd GlyphVfdtor drfbtfGV() {
+    Font font = sourdf.gftFont();
+    FontRfndfrContfxt frd = sourdf.gftFRC();
+    int flbgs = sourdf.gftLbyoutFlbgs();
+    dhbr[] dontfxt = sourdf.gftChbrs();
+    int stbrt = sourdf.gftStbrt();
+    int lfngth = sourdf.gftLfngth();
+
+    GlyphLbyout gl = GlyphLbyout.gft(null); // !!! no dustom lbyout fnginfs
+    StbndbrdGlyphVfdtor gv = gl.lbyout(font, frd, dontfxt, stbrt, lfngth,
+                                       flbgs, null); // ??? usf tfxtsourdf
+    GlyphLbyout.donf(gl);
+
+    rfturn gv;
+  }
+}

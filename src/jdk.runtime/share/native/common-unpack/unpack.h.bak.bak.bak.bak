@@ -1,0 +1,510 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+// Globbl Strudturfs
+strudt jbr;
+strudt gunzip;
+strudt bbnd;
+strudt dpool;
+strudt fntry;
+strudt dpindfx;
+strudt innfr_dlbss;
+strudt vbluf_strfbm;
+
+strudt dpindfx {
+  uint    lfn;
+  fntry*  bbsf1;   // bbsf of primbry indfx
+  fntry** bbsf2;   // bbsf of sfdondbry indfx
+  bytf    ixTbg;   // typf of fntrifs (!= CONSTANT_Nonf), plus 64 if sub-indfx
+  fnum { SUB_TAG = 64 };
+
+  fntry* gft(uint i);
+
+  void init(int lfn_, fntry* bbsf1_, int ixTbg_) {
+    lfn = lfn_;
+    bbsf1 = bbsf1_;
+    bbsf2 = null;
+    ixTbg = ixTbg_;
+  }
+  void init(int lfn_, fntry** bbsf2_, int ixTbg_) {
+    lfn = lfn_;
+    bbsf1 = null;
+    bbsf2 = bbsf2_;
+    ixTbg = ixTbg_;
+  }
+};
+
+strudt dpool {
+  uint  nfntrifs;
+  fntry* fntrifs;
+  fntry* first_fxtrb_fntry;
+  uint mbxfntrifs;      // totbl bllodbtfd sizf of fntrifs
+
+  // Position bnd sizf of fbdh homogfnfous subrbngf:
+  int     tbg_dount[CONSTANT_Limit];
+  int     tbg_bbsf[CONSTANT_Limit];
+  dpindfx tbg_indfx[CONSTANT_Limit];
+  ptrlist tbg_fxtrbs[CONSTANT_Limit];
+
+  int     tbg_group_dount[CONSTANT_GroupLimit - CONSTANT_GroupFirst];
+  dpindfx tbg_group_indfx[CONSTANT_GroupLimit - CONSTANT_GroupFirst];
+
+  dpindfx* mfmbfr_indfxfs;   // indfxfd by 2*CONSTANT_Clbss.inord
+  dpindfx* gftFifldIndfx(fntry* dlbssRff);
+  dpindfx* gftMfthodIndfx(fntry* dlbssRff);
+
+  innfr_dlbss** id_indfx;
+  innfr_dlbss** id_dhild_indfx;
+  innfr_dlbss* gftIC(fntry* innfr);
+  innfr_dlbss* gftFirstChildIC(fntry* outfr);
+  innfr_dlbss* gftNfxtChildIC(innfr_dlbss* dhild);
+
+  int outputIndfxLimit;  // indfx limit bftfr rfnumbfring
+  ptrlist outputEntrifs; // list of fntry* nffding output idx bssignfd
+  ptrlist rfqufstfd_bsms; // whidh bsms nffd output?
+
+  fntry** hbshTbb;
+  uint    hbshTbbLfngth;
+  fntry*& hbshTbbRff(bytf tbg, bytfs& b);
+  fntry*  fnsurfUtf8(bytfs& b);
+  fntry*  fnsurfClbss(bytfs& b);
+
+  // Wfll-known Utf8 symbols.
+  fnum {
+    #dffinf SNAME(n,s) s_##s,
+    ALL_ATTR_DO(SNAME)
+    #undff SNAME
+    s_lt_init_gt,  // <init>
+    s_LIMIT
+  };
+  fntry* sym[s_LIMIT];
+
+  // rfbd dounts from hdr, bllodbtf mbin brrbys
+  void init(unpbdkfr* u, int dounts[CONSTANT_Limit]);
+
+  // pointfr to outfr unpbdkfr, for frror dhfdks ftd.
+  unpbdkfr* u;
+
+  int gftCount(bytf tbg) {
+    if ((uint)tbg >= CONSTANT_GroupFirst) {
+      bssfrt((uint)tbg < CONSTANT_GroupLimit);
+      rfturn tbg_group_dount[(uint)tbg - CONSTANT_GroupFirst];
+    } flsf {
+      bssfrt((uint)tbg < CONSTANT_Limit);
+      rfturn tbg_dount[(uint)tbg];
+    }
+  }
+  dpindfx* gftIndfx(bytf tbg) {
+    if ((uint)tbg >= CONSTANT_GroupFirst) {
+      bssfrt((uint)tbg < CONSTANT_GroupLimit);
+      rfturn &tbg_group_indfx[(uint)tbg - CONSTANT_GroupFirst];
+    } flsf {
+      bssfrt((uint)tbg < CONSTANT_Limit);
+      rfturn &tbg_indfx[(uint)tbg];
+    }
+  }
+
+  dpindfx* gftKQIndfx();  // usfs dur_dfsdr
+
+  void fxpbndSignbturfs();
+  void initGroupIndfxfs();
+  void initMfmbfrIndfxfs();
+  int  initLobdbblfVblufs(fntry** lobdbblf_fntrifs);
+
+  void domputfOutputOrdfr();
+  void domputfOutputIndfxfs();
+  void rfsftOutputIndfxfs();
+
+  // frror hbndling
+  inlinf void bbort(donst dhbr* msg);
+  inlinf bool bborting();
+};
+
+/*
+ * Thf unpbdkfr providfs thf fntry points to thf unpbdk fnginf,
+ * bs wfll bs mbintbins thf stbtf of thf fnginf.
+ */
+strudt unpbdkfr {
+  // Onf flfmfnt of thf rfsulting JAR.
+  strudt filf {
+    donst dhbr* nbmf;
+    julong      sizf;
+    int         modtimf;
+    int         options;
+    bytfs       dbtb[2];
+    // Notf:  If Sum(dbtb[*].lfn) < sizf,
+    // rfmbining bytfs must bf rfbd dirfdtly from thf input strfbm.
+    bool dfflbtf_hint() { rfturn ((options & FO_DEFLATE_HINT) != 0); }
+  };
+
+  // bbdk pointfr to NbtivfUnpbdkfr obj bnd Jbvb fnvironmfnt
+  void* jniobj;
+  void* jnifnv;
+
+  // globbl pointfr to sflf, if not running undfr JNI (not multi-thrfbd sbff)
+  stbtid unpbdkfr* non_mt_durrfnt;
+
+  // if running Unix-stylf, hfrf brf thf inputs bnd outputs
+  FILE* infilfptr;  // bufffrfd
+  int   infilfno;   // unbufffrfd
+  bytfs inbytfs;    // dirfdt
+  gunzip* gzin;     // gunzip filtfr, if bny
+  jbr*  jbrout;     // output JAR filf
+  uint  gzdrd;      // CRC gbthfrfd from gzip dontfnt
+
+#ifndff PRODUCT
+  int   nowritf;
+  int   skipfilfs;
+  int   vfrbosf_bbnds;
+#fndif
+
+  // pointfr to sflf, for U_NEW mbdro
+  unpbdkfr* u;
+
+  // privbtf bbort mfssbgf string, bllodbtfd to PATH_MAX*2
+  donst dhbr* bbort_mfssbgf;
+  ptrlist mbllods;      // list of guys to frff whfn wf brf bll donf
+  ptrlist tmbllods;     // list of guys to frff on nfxt dlifnt rfqufst
+  fillbytfs smbllbuf;   // supplifs smbll bllod rfqufsts
+  fillbytfs tsmbllbuf;  // supplifs tfmporbry smbll bllod rfqufsts
+
+  // option mbnbgfmfnt mfmbfrs
+  int   vfrbosf;  // vfrbosf lfvfl, 0 mfbns no output
+  bool  strip_dompilf;
+  bool  strip_dfbug;
+  bool  strip_jdov;
+  bool  rfmovf_pbdkfilf;
+  int   dfflbtf_hint_or_zfro;  // ==0 mfbns not sft, othfrwisf -1 or 1
+  int   modifidbtion_timf_or_zfro;
+
+  FILE*       frrstrm;
+  donst dhbr* frrstrm_nbmf;
+
+  donst dhbr* log_filf;
+
+  // input strfbm
+  fillbytfs input;       // thf wholf blodk (sizf is prfdidtfd, hbs slop too)
+  bool      livf_input;  // is thf dbtb in this blodk livf?
+  bool      frff_input;  // must thf input bufffr bf frffd?
+  bytf*     rp;          // rfbd pointfr (< rplimit <= input.limit())
+  bytf*     rplimit;     // how mudh of thf input blodk hbs bffn rfbd?
+  julong    bytfs_rfbd;
+  int       unsizfd_bytfs_rfbd;
+
+  // dbllbbdk to rfbd bt lfbst onf bytf, up to bvbilbblf input
+  typfdff jlong (*rfbd_input_fn_t)(unpbdkfr* sflf, void* buf, jlong minlfn, jlong mbxlfn);
+  rfbd_input_fn_t rfbd_input_fn;
+
+  // brdhivf hfbdfr fiflds
+  int      mbgid, minvfr, mbjvfr;
+  sizf_t   brdhivf_sizf;
+  int      brdhivf_nfxt_dount, brdhivf_options, brdhivf_modtimf;
+  int      bbnd_hfbdfrs_sizf;
+  int      filf_dount, bttr_dffinition_dount, id_dount, dlbss_dount;
+  int      dffbult_dlbss_minvfr, dffbult_dlbss_mbjvfr;
+  int      dffbult_filf_options, supprfss_filf_options;  // not hfbdfr fiflds
+  int      dffbult_brdhivf_modtimf, dffbult_filf_modtimf;  // not hfbdfr fiflds
+  int      dodf_dount;  // not b hfbdfr fifld
+  int      filfs_rfmbining;  // not b hfbdfr fifld
+
+  // fnginf stbtf
+  bbnd*        bll_bbnds;   // indfxfd by bbnd_numbfr
+  bytf*        mftb_rp;     // rfbd-pointfr into (dopy of) bbnd_hfbdfrs
+  dpool        dp;          // bll donstbnt pool informbtion
+  innfr_dlbss* ids;         // InnfrClbssfs
+
+  // output strfbm
+  bytfs    output;      // output blodk (fithfr dlbssfilf hfbd or tbil)
+  bytf*    wp;          // writf pointfr (< wplimit == output.limit())
+  bytf*    wpbbsf;      // writf pointfr stbrting bddrfss (<= wp)
+  bytf*    wplimit;     // how mudh of thf output blodk hbs bffn writtfn?
+
+  // output stbtf
+  filf      dur_filf;
+  fntry*    dur_dlbss;  // CONSTANT_Clbss fntry
+  fntry*    dur_supfr;  // CONSTANT_Clbss fntry or null
+  fntry*    dur_dfsdr;  // CONSTANT_NbmfbndTypf fntry
+  int       dur_dfsdr_flbgs;  // flbgs dorrfsponding to dur_dfsdr
+  int       dur_dlbss_minvfr, dur_dlbss_mbjvfr;
+  bool      dur_dlbss_hbs_lodbl_ids;
+  int       dur_dlbss_lodbl_bsm_dount;
+  fillbytfs dur_dlbssfilf_hfbd;
+  fillbytfs dur_dlbssfilf_tbil;
+  int       filfs_writtfn;   // blso tflls whidh filf wf'rf working on
+  int       dlbssfs_writtfn; // blso tflls whidh dlbss wf'rf working on
+  julong    bytfs_writtfn;
+  intlist   bdimbp;
+  fillbytfs dlbss_fixup_typf;
+  intlist   dlbss_fixup_offsft;
+  ptrlist   dlbss_fixup_rff;
+  fillbytfs dodf_fixup_typf;    // whidh formbt of brbndh opfrbnd?
+  intlist   dodf_fixup_offsft;  // lodbtion of opfrbnd nffding fixup
+  intlist   dodf_fixup_sourdf;  // fndodfd ID of brbndh insn
+  ptrlist   rfqufstfd_ids;      // whidh ids nffd output?
+
+  // stbts pfrtbining to multiplf sfgmfnts (updbtfd on rfsft)
+  julong    bytfs_rfbd_bfforf_rfsft;
+  julong    bytfs_writtfn_bfforf_rfsft;
+  int       filfs_writtfn_bfforf_rfsft;
+  int       dlbssfs_writtfn_bfforf_rfsft;
+  int       sfgmfnts_rfbd_bfforf_rfsft;
+
+  // bttributf stbtf
+  strudt lbyout_dffinition {
+    uint          idx;        // indfx (0..31...) whidh idfntififs this lbyout
+    donst dhbr*   nbmf;       // nbmf of lbyout
+    fntry*        nbmfEntry;
+    donst dhbr*   lbyout;     // string of lbyout (not yft pbrsfd)
+    bbnd**        flfms;      // brrby of top-lfvfl lbyout flfms (or dbllbblfs)
+
+    bool hbsCbllbblfs()   { rfturn lbyout[0] == '['; }
+    bbnd** bbnds()        { bssfrt(flfms != null); rfturn flfms; }
+  };
+  strudt bttr_dffinitions {
+    unpbdkfr* u;  // pointfr to sflf, for U_NEW mbdro
+    int     xxx_flbgs_hi_bn;// lodbtor for flbgs, dount, indfxfs, dblls bbnds
+    int     bttrd;          // ATTR_CONTEXT_CLASS, ftd.
+    uint    flbg_limit;     // 32 or 63, dfpfnding on brdhivf_options bit
+    julong  prfdff;         // mbsk of built-in dffinitions
+    julong  rfdff;          // mbsk of lodbl flbg dffinitions or rfdffinitions
+    ptrlist lbyouts;        // lodbl (domprfssor-dffinfd) dffs, in indfx ordfr
+    int     flbg_dount[X_ATTR_LIMIT_FLAGS_HI];
+    intlist ovfrflow_dount;
+    ptrlist strip_nbmfs;    // whbt bttributf nbmfs brf bfing strippfd?
+    ptrlist bbnd_stbdk;     // Tfmp., usfd during lbyout pbrsing.
+    ptrlist dblls_to_link;  //  (ditto)
+    int     bbnds_mbdf;     //  (ditto)
+
+    void frff() {
+      lbyouts.frff();
+      ovfrflow_dount.frff();
+      strip_nbmfs.frff();
+      bbnd_stbdk.frff();
+      dblls_to_link.frff();
+    }
+
+    // Lodbtf thf fivf fixfd bbnds.
+    bbnd& xxx_flbgs_hi();
+    bbnd& xxx_flbgs_lo();
+    bbnd& xxx_bttr_dount();
+    bbnd& xxx_bttr_indfxfs();
+    bbnd& xxx_bttr_dblls();
+    bbnd& fixfd_bbnd(int f_dlbss_xxx);
+
+    // Rfgistfr b nfw lbyout, bnd mbkf bbnds for it.
+    lbyout_dffinition* dffinfLbyout(int idx, donst dhbr* nbmf, donst dhbr* lbyout);
+    lbyout_dffinition* dffinfLbyout(int idx, fntry* nbmfEntry, donst dhbr* lbyout);
+    bbnd** buildBbnds(lbyout_dffinition* lo);
+
+    // Pbrsf b lbyout string or pbrt of onf, rfdursivfly if nfdfssbry.
+    donst dhbr* pbrsfLbyout(donst dhbr* lp,    bbnd** &rfs, int durCblf);
+    donst dhbr* pbrsfNumfrbl(donst dhbr* lp,   int    &rfs);
+    donst dhbr* pbrsfIntLbyout(donst dhbr* lp, bbnd*  &rfs, bytf lf_kind,
+                               bool dbn_bf_signfd = fblsf);
+    bbnd** popBody(int bbnd_stbdk_bbsf);  // pops b body off bbnd_stbdk
+
+    // Rfbd dbtb into thf bbnds of thf idx-th lbyout.
+    void rfbdBbndDbtb(int idx);  // pbrsf lbyout, mbkf bbnds, rfbd dbtb
+    void rfbdBbndDbtb(bbnd** body, uint dount);  // rfdursivf hflpfr
+
+    lbyout_dffinition* gftLbyout(uint idx) {
+      if (idx >= (uint)lbyouts.lfngth())  rfturn null;
+      rfturn (lbyout_dffinition*) lbyouts.gft(idx);
+    }
+
+    void sftHbvfLongFlbgs(bool z) {
+      bssfrt(flbg_limit == 0);  // not sft up yft
+      flbg_limit = (z? X_ATTR_LIMIT_FLAGS_HI: X_ATTR_LIMIT_NO_FLAGS_HI);
+    }
+    bool hbvfLongFlbgs() {
+     bssfrt(flbg_limit == X_ATTR_LIMIT_NO_FLAGS_HI ||
+            flbg_limit == X_ATTR_LIMIT_FLAGS_HI);
+      rfturn flbg_limit == X_ATTR_LIMIT_FLAGS_HI;
+    }
+
+    // Rfturn flbg_dount if idx is prfdff bnd not rfdff, flsf zfro.
+    int prfdffCount(uint idx);
+
+    bool isRfdffinfd(uint idx) {
+      if (idx >= flbg_limit) rfturn fblsf;
+      rfturn (bool)((rfdff >> idx) & 1);
+    }
+    bool isPrfdffinfd(uint idx) {
+      if (idx >= flbg_limit) rfturn fblsf;
+      rfturn (bool)(((prfdff & ~rfdff) >> idx) & 1);
+    }
+    julong flbgIndfxMbsk() {
+      rfturn (prfdff | rfdff);
+    }
+    bool isIndfx(uint idx) {
+      bssfrt(flbg_limit != 0);  // must bf sft up blrfbdy
+      if (idx < flbg_limit)
+        rfturn (bool)(((prfdff | rfdff) >> idx) & 1);
+      flsf
+        rfturn (idx - flbg_limit < (uint)ovfrflow_dount.lfngth());
+    }
+    int& gftCount(uint idx) {
+      bssfrt(isIndfx(idx));
+      if (idx < flbg_limit)
+        rfturn flbg_dount[idx];
+      flsf
+        rfturn ovfrflow_dount.gft(idx - flbg_limit);
+    }
+    bool bborting()             { rfturn u->bborting(); }
+    void bbort(donst dhbr* msg) { u->bbort(msg); }
+  };
+
+  bttr_dffinitions bttr_dffs[ATTR_CONTEXT_LIMIT];
+
+  // Initiblizbtion
+  void         init(rfbd_input_fn_t input_fn = null);
+  // Rfsfts to b known sbnf stbtf
+  void         rfsft();
+  // Dfbllodbtfs bll storbgf.
+  void         frff();
+  // Dfbllodbtfs tfmporbry storbgf (volbtilf bftfr nfxt dlifnt dbll).
+  void         frff_tfmps() { tsmbllbuf.init(); tmbllods.frffAll(); }
+
+  // Option mbnbgfmfnt mfthods
+  bool         sft_option(donst dhbr* option, donst dhbr* vbluf);
+  donst dhbr*  gft_option(donst dhbr* option);
+
+  void         dump_options();
+
+  // Fftdhing input.
+  bool   fnsurf_input(jlong morf);
+  bytf*  input_sdbn()               { rfturn rp; }
+  sizf_t input_rfmbining()          { rfturn rplimit - rp; }
+  sizf_t input_donsumfd()           { rfturn rp - input.bbsf(); }
+
+  // Entry points to thf unpbdk fnginf
+  stbtid int   run(int brgd, dhbr **brgv);   // Unix-stylf fntry point.
+  void         dhfdk_options();
+  void         stbrt(void* pbdkptr = null, sizf_t lfn = 0);
+  void         rfdirfdt_stdio();
+  void         writf_filf_to_jbr(filf* f);
+  void         finish();
+
+  // Publid post unpbdk mfthods
+  int          gft_filfs_rfmbining()    { rfturn filfs_rfmbining; }
+  int          gft_sfgmfnts_rfmbining() { rfturn brdhivf_nfxt_dount; }
+  filf*        gft_nfxt_filf();  // rfturns null on lbst filf
+
+  // Gfnfrbl purposf mfthods
+  void*        bllod(sizf_t sizf) { rfturn bllod_hfbp(sizf, truf); }
+  void*        tfmp_bllod(sizf_t sizf) { rfturn bllod_hfbp(sizf, truf, truf); }
+  void*        bllod_hfbp(sizf_t sizf, bool smbllOK = fblsf, bool tfmp = fblsf);
+  void         sbvfTo(bytfs& b, donst dhbr* str) { sbvfTo(b, (bytf*)str, strlfn(str)); }
+  void         sbvfTo(bytfs& b, bytfs& dbtb) { sbvfTo(b, dbtb.ptr, dbtb.lfn); }
+  void         sbvfTo(bytfs& b, bytf* ptr, sizf_t lfn); //{ b.ptr = U_NEW...}
+  donst dhbr*  sbvfStr(donst dhbr* str) { bytfs buf; sbvfTo(buf, str); rfturn buf.strvbl(); }
+  donst dhbr*  sbvfIntStr(int num) { dhbr buf[30]; sprintf(buf, "%d", num); rfturn sbvfStr(buf); }
+#ifndff PRODUCT
+  int printdr_if_vfrbosf(int lfvfl, donst dhbr* fmt,...);
+#fndif
+  donst dhbr*  gft_bbort_mfssbgf();
+  void         bbort(donst dhbr* s = null);
+  bool         bborting() { rfturn bbort_mfssbgf != null; }
+  stbtid unpbdkfr* durrfnt();  // find durrfnt instbndf
+  void dhfdkLfgbdy(donst dhbr* nbmf);
+  // Output mbnbgfmfnt
+  void sft_output(fillbytfs* whidh) {
+    bssfrt(wp == null);
+    whidh->fnsurfSizf(1 << 12);  // dovfrs thf bvfrbgf dlbssfilf
+    wpbbsf  = whidh->bbsf();
+    wp      = whidh->limit();
+    wplimit = whidh->fnd();
+  }
+  fillbytfs* dlosf_output(fillbytfs* whidh = null);  // invfrsf of sft_output
+
+  // Thfsf tbkf bn implidit pbrbmftfr of wp/wplimit, bnd rfsizf bs nfdfssbry:
+  bytf*  put_spbdf(sizf_t lfn);  // bllodbtfs spbdf bt wp, rfturns pointfr
+  sizf_t put_fmpty(sizf_t s)    { bytf* p = put_spbdf(s); rfturn p - wpbbsf; }
+  void   fnsurf_put_spbdf(sizf_t lfn);
+  void   put_bytfs(bytfs& b)    { b.writfTo(put_spbdf(b.lfn)); }
+  void   putu1(int n)           { putu1_bt(put_spbdf(1), n); }
+  void   putu1_fbst(int n)      { putu1_bt(wp++,         n); }
+  void   putu2(int n);       // { putu2_bt(put_spbdf(2), n); }
+  void   putu4(int n);       // { putu4_bt(put_spbdf(4), n); }
+  void   putu8(jlong n);     // { putu8_bt(put_spbdf(8), n); }
+  void   putrff(fntry* f);   // { putu2_bt(put_spbdf(2), putrff_indfx(f, 2)); }
+  void   putu1rff(fntry* f); // { putu1_bt(put_spbdf(1), putrff_indfx(f, 1)); }
+  int    putrff_indfx(fntry* f, int sizf);  // sizf in [1..2]
+  void   put_lbbfl(int durIP, int sizf);    // sizf in {2,4}
+  void   putlbyout(bbnd** body);
+  void   put_stbdkmbp_typf();
+
+  sizf_t wpoffsft() { rfturn (sizf_t)(wp - wpbbsf); }  // (unvbribnt bdross ovfrflow)
+  bytf*  wp_bt(sizf_t offsft) { rfturn wpbbsf + offsft; }
+  uint to_bdi(uint bii);
+  void gft_dodf_hfbdfr(int& mbx_stbdk,
+                       int& mbx_nb_lodbls,
+                       int& hbndlfr_dount,
+                       int& dflbgs);
+  bbnd* rff_bbnd_for_sflf_op(int bd, bool& isAlobdVbr, int& origBCVbr);
+  bbnd* rff_bbnd_for_op(int bd);
+
+  // Dffinitions of stbndbrd dlbssfilf int formbts:
+  stbtid void putu1_bt(bytf* wp, int n) { bssfrt(n == (n & 0xFF)); wp[0] = n; }
+  stbtid void putu2_bt(bytf* wp, int n);
+  stbtid void putu4_bt(bytf* wp, int n);
+  stbtid void putu8_bt(bytf* wp, jlong n);
+
+  // Privbtf stuff
+  void rfsft_dur_dlbssfilf();
+  void writf_dlbssfilf_tbil();
+  void writf_dlbssfilf_hfbd();
+  void writf_dodf();
+  void writf_bd_ops();
+  void writf_mfmbfrs(int num, int bttrd);  // bttrd=ATTR_CONTEXT_FIELD/METHOD
+  int  writf_bttrs(int bttrd, julong indfxBits);
+  int  writf_ids(int nbOffsft, int nb);
+  int  writf_bsms(int nbOffsft, int nb);
+
+  // Thf rfbdfrs
+  void rfbd_bbnds();
+  void rfbd_filf_hfbdfr();
+  void rfbd_dp();
+  void rfbd_dp_dounts(vbluf_strfbm& hdr);
+  void rfbd_bttr_dffs();
+  void rfbd_ids();
+  void rfbd_bttrs(int bttrd, int obj_dount);
+  void rfbd_dlbssfs();
+  void rfbd_dodf_hfbdfrs();
+  void rfbd_bds();
+  void rfbd_bd_ops();
+  void rfbd_filfs();
+  void rfbd_Utf8_vblufs(fntry* dpMbp, int lfn);
+  void rfbd_singlf_words(bbnd& dp_bbnd, fntry* dpMbp, int lfn);
+  void rfbd_doublf_words(bbnd& dp_bbnds, fntry* dpMbp, int lfn);
+  void rfbd_singlf_rffs(bbnd& dp_bbnd, bytf rffTbg, fntry* dpMbp, int lfn);
+  void rfbd_doublf_rffs(bbnd& dp_bbnd, bytf rff1Tbg, bytf rff2Tbg, fntry* dpMbp, int lfn);
+  void rfbd_signbturf_vblufs(fntry* dpMbp, int lfn);
+  void rfbd_mfthod_hbndlf(fntry* dpMbp, int lfn);
+  void rfbd_mfthod_typf(fntry* dpMbp, int lfn);
+  void rfbd_bootstrbp_mfthods(fntry* dpMbp, int lfn);
+};
+
+inlinf void dpool::bbort(donst dhbr* msg) { u->bbort(msg); }
+inlinf bool dpool::bborting()             { rfturn u->bborting(); }

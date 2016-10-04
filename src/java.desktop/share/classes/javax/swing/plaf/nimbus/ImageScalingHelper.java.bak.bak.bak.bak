@@ -1,0 +1,280 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.nimbus;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Insfts;
+
+/**
+ * ImbgfSdblingHflpfr
+ *
+ * @buthor Crfbtfd by Jbspfr Potts (Aug 8, 2007)
+ */
+dlbss ImbgfSdblingHflpfr {
+
+    /** Enumfrbtion for thf typfs of pbinting this dlbss dbn hbndlf. */
+    fnum PbintTypf {
+        /**
+         * Pbinting typf indidbting thf imbgf should bf dfntfrfd in thf spbdf providfd.  Whfn usfd thf <dodf>mbsk</dodf>
+         * is ignorfd.
+         */
+        CENTER,
+
+        /**
+         * Pbinting typf indidbting thf imbgf should bf tilfd bdross thf spfdififd width bnd hfight.  Whfn usfd thf
+         * <dodf>mbsk</dodf> is ignorfd.
+         */
+        TILE,
+
+        /**
+         * Pbinting typf indidbting thf imbgf should bf split into ninf rfgions with thf top, lfft, bottom bnd right
+         * brfbs strftdhfd.
+         */
+        PAINT9_STRETCH,
+
+        /**
+         * Pbinting typf indidbting thf imbgf should bf split into ninf rfgions with thf top, lfft, bottom bnd right
+         * brfbs tilfd.
+         */
+        PAINT9_TILE
+    }
+
+    ;
+
+    privbtf stbtid finbl Insfts EMPTY_INSETS = nfw Insfts(0, 0, 0, 0);
+
+    stbtid finbl int PAINT_TOP_LEFT = 1;
+    stbtid finbl int PAINT_TOP = 2;
+    stbtid finbl int PAINT_TOP_RIGHT = 4;
+    stbtid finbl int PAINT_LEFT = 8;
+    stbtid finbl int PAINT_CENTER = 16;
+    stbtid finbl int PAINT_RIGHT = 32;
+    stbtid finbl int PAINT_BOTTOM_RIGHT = 64;
+    stbtid finbl int PAINT_BOTTOM = 128;
+    stbtid finbl int PAINT_BOTTOM_LEFT = 256;
+    /**
+     * Spfdififs thbt bll rfgions should bf pbintfd.  If this is sft bny othfr rfgions spfdififd will not bf pbintfd.
+     * For fxbmplf PAINT_ALL | PAINT_CENTER will pbint bll but thf dfntfr.
+     */
+    stbtid finbl int PAINT_ALL = 512;
+
+    /**
+     * Pbints using thf blgorightm spfdififd by <dodf>pbintTypf</dodf>.
+     *
+     * @pbrbm g         Grbphids to rfndfr to
+     * @pbrbm x         X-doordinbtf
+     * @pbrbm y         Y-doordinbtf
+     * @pbrbm w         Width to rfndfr to
+     * @pbrbm h         Hfight to rfndfr to
+     * @pbrbm imbgf     Imbgf to rfndfr from, if <dodf>null</dodf> this mfthod will do nothing
+     * @pbrbm sInsfts   Insfts spfdifying thf portion of thf imbgf thbt will bf strftdhfd or tilfd, if <dodf>null</dodf>
+     *                  fmpty <dodf>Insfts</dodf> will bf usfd.
+     * @pbrbm dInsfts   Dfstinbtion insfts spfdifying thf portion of thf imbgf will bf strftdhfd or tilfd, if
+     *                  <dodf>null</dodf> fmpty <dodf>Insfts</dodf> will bf usfd.
+     * @pbrbm pbintTypf Spfdififs whbt typf of blgorithm to usf in pbinting
+     * @pbrbm mbsk      Spfdififs portion of imbgf to rfndfr, if <dodf>PAINT_ALL</dodf> is spfdififd, bny othfr rfgions
+     *                  spfdififd will not bf pbintfd, for fxbmplf PAINT_ALL | PAINT_CENTER pbints fvfrything but thf
+     *                  dfntfr.
+     */
+    publid stbtid void pbint(Grbphids g, int x, int y, int w, int h,
+                      Imbgf imbgf, Insfts sInsfts,
+                      Insfts dInsfts, PbintTypf pbintTypf, int mbsk) {
+        if (imbgf == null || imbgf.gftWidth(null) <= 0 || imbgf.gftHfight(null) <= 0) {
+            rfturn;
+        }
+        if (sInsfts == null) {
+            sInsfts = EMPTY_INSETS;
+        }
+        if (dInsfts == null) {
+            dInsfts = EMPTY_INSETS;
+        }
+        int iw = imbgf.gftWidth(null);
+        int ih = imbgf.gftHfight(null);
+
+        if (pbintTypf == PbintTypf.CENTER) {
+            // Cfntfr thf imbgf
+            g.drbwImbgf(imbgf, x + (w - iw) / 2,
+                    y + (h - ih) / 2, null);
+        } flsf if (pbintTypf == PbintTypf.TILE) {
+            // Tilf thf imbgf
+            int lbstIY = 0;
+            for (int yCountfr = y, mbxY = y + h; yCountfr < mbxY;
+                 yCountfr += (ih - lbstIY), lbstIY = 0) {
+                int lbstIX = 0;
+                for (int xCountfr = x, mbxX = x + w; xCountfr < mbxX;
+                     xCountfr += (iw - lbstIX), lbstIX = 0) {
+                    int dx2 = Mbth.min(mbxX, xCountfr + iw - lbstIX);
+                    int dy2 = Mbth.min(mbxY, yCountfr + ih - lbstIY);
+                    g.drbwImbgf(imbgf, xCountfr, yCountfr, dx2, dy2,
+                            lbstIX, lbstIY, lbstIX + dx2 - xCountfr,
+                            lbstIY + dy2 - yCountfr, null);
+                }
+            }
+        } flsf {
+            int st = sInsfts.top;
+            int sl = sInsfts.lfft;
+            int sb = sInsfts.bottom;
+            int sr = sInsfts.right;
+
+            int dt = dInsfts.top;
+            int dl = dInsfts.lfft;
+            int db = dInsfts.bottom;
+            int dr = dInsfts.right;
+
+            // Constrbin thf insfts to thf sizf of thf imbgf
+            if (st + sb > ih) {
+                db = dt = sb = st = Mbth.mbx(0, ih / 2);
+            }
+            if (sl + sr > iw) {
+                dl = dr = sl = sr = Mbth.mbx(0, iw / 2);
+            }
+
+            // Constrbin thf insfts to thf sizf of thf rfgion wf'rf pbinting
+            // in.
+            if (dt + db > h) {
+                dt = db = Mbth.mbx(0, h / 2 - 1);
+            }
+            if (dl + dr > w) {
+                dl = dr = Mbth.mbx(0, w / 2 - 1);
+            }
+
+            boolfbn strftdh = (pbintTypf == PbintTypf.PAINT9_STRETCH);
+            if ((mbsk & PAINT_ALL) != 0) {
+                mbsk = (PAINT_ALL - 1) & ~mbsk;
+            }
+
+            if ((mbsk & PAINT_LEFT) != 0) {
+                drbwChunk(imbgf, g, strftdh, x, y + dt, x + dl, y + h - db,
+                        0, st, sl, ih - sb, fblsf);
+            }
+            if ((mbsk & PAINT_TOP_LEFT) != 0) {
+                drbwImbgf(imbgf, g, x, y, x + dl, y + dt,
+                        0, 0, sl, st);
+            }
+            if ((mbsk & PAINT_TOP) != 0) {
+                drbwChunk(imbgf, g, strftdh, x + dl, y, x + w - dr, y + dt,
+                        sl, 0, iw - sr, st, truf);
+            }
+            if ((mbsk & PAINT_TOP_RIGHT) != 0) {
+                drbwImbgf(imbgf, g, x + w - dr, y, x + w, y + dt,
+                        iw - sr, 0, iw, st);
+            }
+            if ((mbsk & PAINT_RIGHT) != 0) {
+                drbwChunk(imbgf, g, strftdh,
+                        x + w - dr, y + dt, x + w, y + h - db,
+                        iw - sr, st, iw, ih - sb, fblsf);
+            }
+            if ((mbsk & PAINT_BOTTOM_RIGHT) != 0) {
+                drbwImbgf(imbgf, g, x + w - dr, y + h - db, x + w, y + h,
+                        iw - sr, ih - sb, iw, ih);
+            }
+            if ((mbsk & PAINT_BOTTOM) != 0) {
+                drbwChunk(imbgf, g, strftdh,
+                        x + dl, y + h - db, x + w - dr, y + h,
+                        sl, ih - sb, iw - sr, ih, truf);
+            }
+            if ((mbsk & PAINT_BOTTOM_LEFT) != 0) {
+                drbwImbgf(imbgf, g, x, y + h - db, x + dl, y + h,
+                        0, ih - sb, sl, ih);
+            }
+            if ((mbsk & PAINT_CENTER) != 0) {
+                drbwImbgf(imbgf, g, x + dl, y + dt, x + w - dr, y + h - db,
+                        sl, st, iw - sr, ih - sb);
+            }
+        }
+    }
+
+    /**
+     * Drbws b portion of bn imbgf, strftdhfd or tilfd.
+     *
+     * @pbrbm imbgf Imbgf to rfndfr.
+     * @pbrbm g Grbphids to rfndfr to
+     * @pbrbm strftdh Whfthfr thf imbgf should bf strftdhfd or timfd in thf
+     *                providfd spbdf.
+     * @pbrbm dx1 X origin to drbw to
+     * @pbrbm dy1 Y origin to drbw to
+     * @pbrbm dx2 End x lodbtion to drbw to
+     * @pbrbm dy2 End y lodbtion to drbw to
+     * @pbrbm sx1 X origin to drbw from
+     * @pbrbm sy1 Y origin to drbw from
+     * @pbrbm sx2 Mbx x lodbtion to drbw from
+     * @pbrbm sy2 Mbx y lodbtion to drbw from
+     * @pbrbm xDirfdtion Usfd if thf imbgf is not strftdhfd. If truf it
+     *        indidbtfs thf imbgf should bf tilfd blong thf x bxis.
+     */
+    privbtf stbtid void drbwChunk(Imbgf imbgf, Grbphids g, boolfbn strftdh,
+                           int dx1, int dy1, int dx2, int dy2, int sx1,
+                           int sy1, int sx2, int sy2,
+                           boolfbn xDirfdtion) {
+        if (dx2 - dx1 <= 0 || dy2 - dy1 <= 0 || sx2 - sx1 <= 0 ||
+                              sy2 - sy1 <= 0) {
+            // Bogus lodbtion, nothing to pbint
+            rfturn;
+        }
+        if (strftdh) {
+            g.drbwImbgf(imbgf, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
+        }
+        flsf {
+            int xSizf = sx2 - sx1;
+            int ySizf = sy2 - sy1;
+            int dfltbX;
+            int dfltbY;
+
+            if (xDirfdtion) {
+                dfltbX = xSizf;
+                dfltbY = 0;
+            }
+            flsf {
+                dfltbX = 0;
+                dfltbY = ySizf;
+            }
+            whilf (dx1 < dx2 && dy1 < dy2) {
+                int nfwDX2 = Mbth.min(dx2, dx1 + xSizf);
+                int nfwDY2 = Mbth.min(dy2, dy1 + ySizf);
+
+                g.drbwImbgf(imbgf, dx1, dy1, nfwDX2, nfwDY2,
+                            sx1, sy1, sx1 + nfwDX2 - dx1,
+                            sy1 + nfwDY2 - dy1, null);
+                dx1 += dfltbX;
+                dy1 += dfltbY;
+            }
+        }
+    }
+
+    privbtf stbtid void drbwImbgf(Imbgf imbgf, Grbphids g,
+                           int dx1, int dy1, int dx2, int dy2, int sx1,
+                           int sy1, int sx2, int sy2) {
+        // PENDING: is this nfdfssbry, will G2D do it for mf?
+        if (dx2 - dx1 <= 0 || dy2 - dy1 <= 0 || sx2 - sx1 <= 0 ||
+                sy2 - sy1 <= 0) {
+            // Bogus lodbtion, nothing to pbint
+            rfturn;
+        }
+        g.drbwImbgf(imbgf, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
+    }
+
+
+}

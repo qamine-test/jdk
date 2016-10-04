@@ -1,1056 +1,1056 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.datatransfer;
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
 
-import java.awt.Toolkit;
+import jbvb.bwt.Toolkit;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.lang.ref.SoftReference;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.lbng.rff.SoftRfffrfndf;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.IOException;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
 
-import java.net.URL;
-import java.net.MalformedURLException;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.Set;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.LinkfdHbsiSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
 
-import sun.awt.AppContext;
-import sun.awt.datatransfer.DataTransferer;
+import sun.bwt.AppContfxt;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
 
 /**
- * The SystemFlavorMap is a configurable map between "natives" (Strings), which
- * correspond to platform-specific data formats, and "flavors" (DataFlavors),
- * which correspond to platform-independent MIME types. This mapping is used
- * by the data transfer subsystem to transfer data between Java and native
- * applications, and between Java applications in separate VMs.
+ * Tif SystfmFlbvorMbp is b donfigurbblf mbp bftwffn "nbtivfs" (Strings), wiidi
+ * dorrfspond to plbtform-spfdifid dbtb formbts, bnd "flbvors" (DbtbFlbvors),
+ * wiidi dorrfspond to plbtform-indfpfndfnt MIME typfs. Tiis mbpping is usfd
+ * by tif dbtb trbnsffr subsystfm to trbnsffr dbtb bftwffn Jbvb bnd nbtivf
+ * bpplidbtions, bnd bftwffn Jbvb bpplidbtions in sfpbrbtf VMs.
  *
- * @since 1.2
+ * @sindf 1.2
  */
-public final class SystemFlavorMap implements FlavorMap, FlavorTable {
+publid finbl dlbss SystfmFlbvorMbp implfmfnts FlbvorMbp, FlbvorTbblf {
 
     /**
-     * Constant prefix used to tag Java types converted to native platform
-     * type.
+     * Constbnt prffix usfd to tbg Jbvb typfs donvfrtfd to nbtivf plbtform
+     * typf.
      */
-    private static String JavaMIME = "JAVA_DATAFLAVOR:";
+    privbtf stbtid String JbvbMIME = "JAVA_DATAFLAVOR:";
 
-    private static final Object FLAVOR_MAP_KEY = new Object();
-
-    /**
-     * Copied from java.util.Properties.
-     */
-    private static final String keyValueSeparators = "=: \t\r\n\f";
-    private static final String strictKeyValueSeparators = "=:";
-    private static final String whiteSpaceChars = " \t\r\n\f";
+    privbtf stbtid finbl Objfdt FLAVOR_MAP_KEY = nfw Objfdt();
 
     /**
-     * The list of valid, decoded text flavor representation classes, in order
-     * from best to worst.
+     * Copifd from jbvb.util.Propfrtifs.
      */
-    private static final String[] UNICODE_TEXT_CLASSES = {
-        "java.io.Reader", "java.lang.String", "java.nio.CharBuffer", "\"[C\""
+    privbtf stbtid finbl String kfyVblufSfpbrbtors = "=: \t\r\n\f";
+    privbtf stbtid finbl String stridtKfyVblufSfpbrbtors = "=:";
+    privbtf stbtid finbl String wiitfSpbdfCibrs = " \t\r\n\f";
+
+    /**
+     * Tif list of vblid, dfdodfd tfxt flbvor rfprfsfntbtion dlbssfs, in ordfr
+     * from bfst to worst.
+     */
+    privbtf stbtid finbl String[] UNICODE_TEXT_CLASSES = {
+        "jbvb.io.Rfbdfr", "jbvb.lbng.String", "jbvb.nio.CibrBufffr", "\"[C\""
     };
 
     /**
-     * The list of valid, encoded text flavor representation classes, in order
-     * from best to worst.
+     * Tif list of vblid, fndodfd tfxt flbvor rfprfsfntbtion dlbssfs, in ordfr
+     * from bfst to worst.
      */
-    private static final String[] ENCODED_TEXT_CLASSES = {
-        "java.io.InputStream", "java.nio.ByteBuffer", "\"[B\""
+    privbtf stbtid finbl String[] ENCODED_TEXT_CLASSES = {
+        "jbvb.io.InputStrfbm", "jbvb.nio.BytfBufffr", "\"[B\""
     };
 
     /**
-     * A String representing text/plain MIME type.
+     * A String rfprfsfnting tfxt/plbin MIME typf.
      */
-    private static final String TEXT_PLAIN_BASE_TYPE = "text/plain";
+    privbtf stbtid finbl String TEXT_PLAIN_BASE_TYPE = "tfxt/plbin";
 
     /**
-     * A String representing text/html MIME type.
+     * A String rfprfsfnting tfxt/itml MIME typf.
      */
-    private static final String HTML_TEXT_BASE_TYPE = "text/html";
+    privbtf stbtid finbl String HTML_TEXT_BASE_TYPE = "tfxt/itml";
 
     /**
-     * Maps native Strings to Lists of DataFlavors (or base type Strings for
-     * text DataFlavors).
-     * Do not use the field directly, use getNativeToFlavor() instead.
+     * Mbps nbtivf Strings to Lists of DbtbFlbvors (or bbsf typf Strings for
+     * tfxt DbtbFlbvors).
+     * Do not usf tif fifld dirfdtly, usf gftNbtivfToFlbvor() instfbd.
      */
-    private final Map<String, LinkedHashSet<DataFlavor>> nativeToFlavor = new HashMap<>();
+    privbtf finbl Mbp<String, LinkfdHbsiSft<DbtbFlbvor>> nbtivfToFlbvor = nfw HbsiMbp<>();
 
     /**
-     * Accessor to nativeToFlavor map.  Since we use lazy initialization we must
-     * use this accessor instead of direct access to the field which may not be
-     * initialized yet.  This method will initialize the field if needed.
+     * Addfssor to nbtivfToFlbvor mbp.  Sindf wf usf lbzy initiblizbtion wf must
+     * usf tiis bddfssor instfbd of dirfdt bddfss to tif fifld wiidi mby not bf
+     * initiblizfd yft.  Tiis mftiod will initiblizf tif fifld if nffdfd.
      *
-     * @return nativeToFlavor
+     * @rfturn nbtivfToFlbvor
      */
-    private Map<String, LinkedHashSet<DataFlavor>> getNativeToFlavor() {
-        if (!isMapInitialized) {
-            initSystemFlavorMap();
+    privbtf Mbp<String, LinkfdHbsiSft<DbtbFlbvor>> gftNbtivfToFlbvor() {
+        if (!isMbpInitiblizfd) {
+            initSystfmFlbvorMbp();
         }
-        return nativeToFlavor;
+        rfturn nbtivfToFlbvor;
     }
 
     /**
-     * Maps DataFlavors (or base type Strings for text DataFlavors) to Lists of
-     * native Strings.
-     * Do not use the field directly, use getFlavorToNative() instead.
+     * Mbps DbtbFlbvors (or bbsf typf Strings for tfxt DbtbFlbvors) to Lists of
+     * nbtivf Strings.
+     * Do not usf tif fifld dirfdtly, usf gftFlbvorToNbtivf() instfbd.
      */
-    private final Map<DataFlavor, LinkedHashSet<String>> flavorToNative = new HashMap<>();
+    privbtf finbl Mbp<DbtbFlbvor, LinkfdHbsiSft<String>> flbvorToNbtivf = nfw HbsiMbp<>();
 
     /**
-     * Accessor to flavorToNative map.  Since we use lazy initialization we must
-     * use this accessor instead of direct access to the field which may not be
-     * initialized yet.  This method will initialize the field if needed.
+     * Addfssor to flbvorToNbtivf mbp.  Sindf wf usf lbzy initiblizbtion wf must
+     * usf tiis bddfssor instfbd of dirfdt bddfss to tif fifld wiidi mby not bf
+     * initiblizfd yft.  Tiis mftiod will initiblizf tif fifld if nffdfd.
      *
-     * @return flavorToNative
+     * @rfturn flbvorToNbtivf
      */
-    private synchronized Map<DataFlavor, LinkedHashSet<String>> getFlavorToNative() {
-        if (!isMapInitialized) {
-            initSystemFlavorMap();
+    privbtf syndironizfd Mbp<DbtbFlbvor, LinkfdHbsiSft<String>> gftFlbvorToNbtivf() {
+        if (!isMbpInitiblizfd) {
+            initSystfmFlbvorMbp();
         }
-        return flavorToNative;
+        rfturn flbvorToNbtivf;
     }
 
     /**
-     * Maps a text DataFlavor primary mime-type to the native. Used only to store
-     * standard mappings registered in the flavormap.properties
-     * Do not use this field directly, use getTextTypeToNative() instead.
+     * Mbps b tfxt DbtbFlbvor primbry mimf-typf to tif nbtivf. Usfd only to storf
+     * stbndbrd mbppings rfgistfrfd in tif flbvormbp.propfrtifs
+     * Do not usf tiis fifld dirfdtly, usf gftTfxtTypfToNbtivf() instfbd.
      */
-    private Map<String, LinkedHashSet<String>> textTypeToNative = new HashMap<>();
+    privbtf Mbp<String, LinkfdHbsiSft<String>> tfxtTypfToNbtivf = nfw HbsiMbp<>();
 
     /**
-     * Shows if the object has been initialized.
+     * Siows if tif objfdt ibs bffn initiblizfd.
      */
-    private boolean isMapInitialized = false;
+    privbtf boolfbn isMbpInitiblizfd = fblsf;
 
     /**
-     * An accessor to textTypeToNative map.  Since we use lazy initialization we
-     * must use this accessor instead of direct access to the field which may not
-     * be initialized yet. This method will initialize the field if needed.
+     * An bddfssor to tfxtTypfToNbtivf mbp.  Sindf wf usf lbzy initiblizbtion wf
+     * must usf tiis bddfssor instfbd of dirfdt bddfss to tif fifld wiidi mby not
+     * bf initiblizfd yft. Tiis mftiod will initiblizf tif fifld if nffdfd.
      *
-     * @return textTypeToNative
+     * @rfturn tfxtTypfToNbtivf
      */
-    private synchronized Map<String, LinkedHashSet<String>> getTextTypeToNative() {
-        if (!isMapInitialized) {
-            initSystemFlavorMap();
-            // From this point the map should not be modified
-            textTypeToNative = Collections.unmodifiableMap(textTypeToNative);
+    privbtf syndironizfd Mbp<String, LinkfdHbsiSft<String>> gftTfxtTypfToNbtivf() {
+        if (!isMbpInitiblizfd) {
+            initSystfmFlbvorMbp();
+            // From tiis point tif mbp siould not bf modififd
+            tfxtTypfToNbtivf = Collfdtions.unmodifibblfMbp(tfxtTypfToNbtivf);
         }
-        return textTypeToNative;
+        rfturn tfxtTypfToNbtivf;
     }
 
     /**
-     * Caches the result of getNativesForFlavor(). Maps DataFlavors to
-     * SoftReferences which reference LinkedHashSet of String natives.
+     * Cbdifs tif rfsult of gftNbtivfsForFlbvor(). Mbps DbtbFlbvors to
+     * SoftRfffrfndfs wiidi rfffrfndf LinkfdHbsiSft of String nbtivfs.
      */
-    private final SoftCache<DataFlavor, String> nativesForFlavorCache = new SoftCache<>();
+    privbtf finbl SoftCbdif<DbtbFlbvor, String> nbtivfsForFlbvorCbdif = nfw SoftCbdif<>();
 
     /**
-     * Caches the result getFlavorsForNative(). Maps String natives to
-     * SoftReferences which reference LinkedHashSet of DataFlavors.
+     * Cbdifs tif rfsult gftFlbvorsForNbtivf(). Mbps String nbtivfs to
+     * SoftRfffrfndfs wiidi rfffrfndf LinkfdHbsiSft of DbtbFlbvors.
      */
-    private final SoftCache<String, DataFlavor> flavorsForNativeCache = new SoftCache<>();
+    privbtf finbl SoftCbdif<String, DbtbFlbvor> flbvorsForNbtivfCbdif = nfw SoftCbdif<>();
 
     /**
-     * Dynamic mapping generation used for text mappings should not be applied
-     * to the DataFlavors and String natives for which the mappings have been
-     * explicitly specified with setFlavorsForNative() or
-     * setNativesForFlavor(). This keeps all such keys.
+     * Dynbmid mbpping gfnfrbtion usfd for tfxt mbppings siould not bf bpplifd
+     * to tif DbtbFlbvors bnd String nbtivfs for wiidi tif mbppings ibvf bffn
+     * fxpliditly spfdififd witi sftFlbvorsForNbtivf() or
+     * sftNbtivfsForFlbvor(). Tiis kffps bll sudi kfys.
      */
-    private Set<Object> disabledMappingGenerationKeys = new HashSet<>();
+    privbtf Sft<Objfdt> disbblfdMbppingGfnfrbtionKfys = nfw HbsiSft<>();
 
     /**
-     * Returns the default FlavorMap for this thread's ClassLoader.
-     * @return the default FlavorMap for this thread's ClassLoader
+     * Rfturns tif dffbult FlbvorMbp for tiis tirfbd's ClbssLobdfr.
+     * @rfturn tif dffbult FlbvorMbp for tiis tirfbd's ClbssLobdfr
      */
-    public static FlavorMap getDefaultFlavorMap() {
-        AppContext context = AppContext.getAppContext();
-        FlavorMap fm = (FlavorMap) context.get(FLAVOR_MAP_KEY);
+    publid stbtid FlbvorMbp gftDffbultFlbvorMbp() {
+        AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+        FlbvorMbp fm = (FlbvorMbp) dontfxt.gft(FLAVOR_MAP_KEY);
         if (fm == null) {
-            fm = new SystemFlavorMap();
-            context.put(FLAVOR_MAP_KEY, fm);
+            fm = nfw SystfmFlbvorMbp();
+            dontfxt.put(FLAVOR_MAP_KEY, fm);
         }
-        return fm;
+        rfturn fm;
     }
 
-    private SystemFlavorMap() {
+    privbtf SystfmFlbvorMbp() {
     }
 
     /**
-     * Initializes a SystemFlavorMap by reading flavormap.properties
-     * For thread-safety must be called under lock on this.
+     * Initiblizfs b SystfmFlbvorMbp by rfbding flbvormbp.propfrtifs
+     * For tirfbd-sbffty must bf dbllfd undfr lodk on tiis.
      */
-    private void initSystemFlavorMap() {
-        if (isMapInitialized) {
-            return;
+    privbtf void initSystfmFlbvorMbp() {
+        if (isMbpInitiblizfd) {
+            rfturn;
         }
-        isMapInitialized = true;
+        isMbpInitiblizfd = truf;
 
-        InputStream is = SystemFlavorMap.class.getResourceAsStream("/sun/awt/datatransfer/flavormap.properties");
+        InputStrfbm is = SystfmFlbvorMbp.dlbss.gftRfsourdfAsStrfbm("/sun/bwt/dbtbtrbnsffr/flbvormbp.propfrtifs");
         if (is == null) {
-            throw new InternalError("Default flavor mapping not found");
+            tirow nfw IntfrnblError("Dffbult flbvor mbpping not found");
         }
 
-        try (InputStreamReader isr = new InputStreamReader(is);
-             BufferedReader reader = new BufferedReader(isr)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
-                if (line.startsWith("#") || line.isEmpty()) continue;
-                while (line.endsWith("\\")) {
-                    line = line.substring(0, line.length() - 1) + reader.readLine().trim();
+        try (InputStrfbmRfbdfr isr = nfw InputStrfbmRfbdfr(is);
+             BufffrfdRfbdfr rfbdfr = nfw BufffrfdRfbdfr(isr)) {
+            String linf;
+            wiilf ((linf = rfbdfr.rfbdLinf()) != null) {
+                linf = linf.trim();
+                if (linf.stbrtsWiti("#") || linf.isEmpty()) dontinuf;
+                wiilf (linf.fndsWiti("\\")) {
+                    linf = linf.substring(0, linf.lfngti() - 1) + rfbdfr.rfbdLinf().trim();
                 }
-                int delimiterPosition = line.indexOf('=');
-                String key = line.substring(0, delimiterPosition).replace("\\ ", " ");
-                String[] values = line.substring(delimiterPosition + 1, line.length()).split(",");
-                for (String value : values) {
+                int dflimitfrPosition = linf.indfxOf('=');
+                String kfy = linf.substring(0, dflimitfrPosition).rfplbdf("\\ ", " ");
+                String[] vblufs = linf.substring(dflimitfrPosition + 1, linf.lfngti()).split(",");
+                for (String vbluf : vblufs) {
                     try {
-                        MimeType mime = new MimeType(value);
-                        if ("text".equals(mime.getPrimaryType())) {
-                            String charset = mime.getParameter("charset");
-                            if (DataTransferer.doesSubtypeSupportCharset(mime.getSubType(), charset))
+                        MimfTypf mimf = nfw MimfTypf(vbluf);
+                        if ("tfxt".fqubls(mimf.gftPrimbryTypf())) {
+                            String dibrsft = mimf.gftPbrbmftfr("dibrsft");
+                            if (DbtbTrbnsffrfr.dofsSubtypfSupportCibrsft(mimf.gftSubTypf(), dibrsft))
                             {
-                                // We need to store the charset and eoln
-                                // parameters, if any, so that the
-                                // DataTransferer will have this information
-                                // for conversion into the native format.
-                                DataTransferer transferer = DataTransferer.getInstance();
-                                if (transferer != null) {
-                                    transferer.registerTextFlavorProperties(key, charset,
-                                            mime.getParameter("eoln"),
-                                            mime.getParameter("terminators"));
+                                // Wf nffd to storf tif dibrsft bnd foln
+                                // pbrbmftfrs, if bny, so tibt tif
+                                // DbtbTrbnsffrfr will ibvf tiis informbtion
+                                // for donvfrsion into tif nbtivf formbt.
+                                DbtbTrbnsffrfr trbnsffrfr = DbtbTrbnsffrfr.gftInstbndf();
+                                if (trbnsffrfr != null) {
+                                    trbnsffrfr.rfgistfrTfxtFlbvorPropfrtifs(kfy, dibrsft,
+                                            mimf.gftPbrbmftfr("foln"),
+                                            mimf.gftPbrbmftfr("tfrminbtors"));
                                 }
                             }
 
-                            // But don't store any of these parameters in the
-                            // DataFlavor itself for any text natives (even
-                            // non-charset ones). The SystemFlavorMap will
-                            // synthesize the appropriate mappings later.
-                            mime.removeParameter("charset");
-                            mime.removeParameter("class");
-                            mime.removeParameter("eoln");
-                            mime.removeParameter("terminators");
-                            value = mime.toString();
+                            // But don't storf bny of tifsf pbrbmftfrs in tif
+                            // DbtbFlbvor itsflf for bny tfxt nbtivfs (fvfn
+                            // non-dibrsft onfs). Tif SystfmFlbvorMbp will
+                            // syntifsizf tif bppropribtf mbppings lbtfr.
+                            mimf.rfmovfPbrbmftfr("dibrsft");
+                            mimf.rfmovfPbrbmftfr("dlbss");
+                            mimf.rfmovfPbrbmftfr("foln");
+                            mimf.rfmovfPbrbmftfr("tfrminbtors");
+                            vbluf = mimf.toString();
                         }
-                    } catch (MimeTypeParseException e) {
-                        e.printStackTrace();
-                        continue;
+                    } dbtdi (MimfTypfPbrsfExdfption f) {
+                        f.printStbdkTrbdf();
+                        dontinuf;
                     }
 
-                    DataFlavor flavor;
+                    DbtbFlbvor flbvor;
                     try {
-                        flavor = new DataFlavor(value);
-                    } catch (Exception e) {
+                        flbvor = nfw DbtbFlbvor(vbluf);
+                    } dbtdi (Exdfption f) {
                         try {
-                            flavor = new DataFlavor(value, null);
-                        } catch (Exception ee) {
-                            ee.printStackTrace();
-                            continue;
+                            flbvor = nfw DbtbFlbvor(vbluf, null);
+                        } dbtdi (Exdfption ff) {
+                            ff.printStbdkTrbdf();
+                            dontinuf;
                         }
                     }
 
-                    final LinkedHashSet<DataFlavor> dfs = new LinkedHashSet<>();
-                    dfs.add(flavor);
+                    finbl LinkfdHbsiSft<DbtbFlbvor> dfs = nfw LinkfdHbsiSft<>();
+                    dfs.bdd(flbvor);
 
-                    if ("text".equals(flavor.getPrimaryType())) {
-                        dfs.addAll(convertMimeTypeToDataFlavors(value));
-                        store(flavor.mimeType.getBaseType(), key, getTextTypeToNative());
+                    if ("tfxt".fqubls(flbvor.gftPrimbryTypf())) {
+                        dfs.bddAll(donvfrtMimfTypfToDbtbFlbvors(vbluf));
+                        storf(flbvor.mimfTypf.gftBbsfTypf(), kfy, gftTfxtTypfToNbtivf());
                     }
 
-                    for (DataFlavor df : dfs) {
-                        store(df, key, getFlavorToNative());
-                        store(key, df, getNativeToFlavor());
+                    for (DbtbFlbvor df : dfs) {
+                        storf(df, kfy, gftFlbvorToNbtivf());
+                        storf(kfy, df, gftNbtivfToFlbvor());
                     }
                 }
             }
-        } catch (IOException e) {
-            throw new InternalError("Error reading default flavor mapping", e);
+        } dbtdi (IOExdfption f) {
+            tirow nfw IntfrnblError("Error rfbding dffbult flbvor mbpping", f);
         }
     }
 
     /**
-     * Stores the listed object under the specified hash key in map. Unlike a
-     * standard map, the listed object will not replace any object already at
-     * the appropriate Map location, but rather will be appended to a List
-     * stored in that location.
+     * Storfs tif listfd objfdt undfr tif spfdififd ibsi kfy in mbp. Unlikf b
+     * stbndbrd mbp, tif listfd objfdt will not rfplbdf bny objfdt blrfbdy bt
+     * tif bppropribtf Mbp lodbtion, but rbtifr will bf bppfndfd to b List
+     * storfd in tibt lodbtion.
      */
-    private <H, L> void store(H hashed, L listed, Map<H, LinkedHashSet<L>> map) {
-        LinkedHashSet<L> list = map.get(hashed);
+    privbtf <H, L> void storf(H ibsifd, L listfd, Mbp<H, LinkfdHbsiSft<L>> mbp) {
+        LinkfdHbsiSft<L> list = mbp.gft(ibsifd);
         if (list == null) {
-            list = new LinkedHashSet<>(1);
-            map.put(hashed, list);
+            list = nfw LinkfdHbsiSft<>(1);
+            mbp.put(ibsifd, list);
         }
-        if (!list.contains(listed)) {
-            list.add(listed);
+        if (!list.dontbins(listfd)) {
+            list.bdd(listfd);
         }
     }
 
     /**
-     * Semantically equivalent to 'nativeToFlavor.get(nat)'. This method
-     * handles the case where 'nat' is not found in 'nativeToFlavor'. In that
-     * case, a new DataFlavor is synthesized, stored, and returned, if and
-     * only if the specified native is encoded as a Java MIME type.
+     * Sfmbntidblly fquivblfnt to 'nbtivfToFlbvor.gft(nbt)'. Tiis mftiod
+     * ibndlfs tif dbsf wifrf 'nbt' is not found in 'nbtivfToFlbvor'. In tibt
+     * dbsf, b nfw DbtbFlbvor is syntifsizfd, storfd, bnd rfturnfd, if bnd
+     * only if tif spfdififd nbtivf is fndodfd bs b Jbvb MIME typf.
      */
-    private LinkedHashSet<DataFlavor> nativeToFlavorLookup(String nat) {
-        LinkedHashSet<DataFlavor> flavors = getNativeToFlavor().get(nat);
+    privbtf LinkfdHbsiSft<DbtbFlbvor> nbtivfToFlbvorLookup(String nbt) {
+        LinkfdHbsiSft<DbtbFlbvor> flbvors = gftNbtivfToFlbvor().gft(nbt);
 
-        if (nat != null && !disabledMappingGenerationKeys.contains(nat)) {
-            DataTransferer transferer = DataTransferer.getInstance();
-            if (transferer != null) {
-                LinkedHashSet<DataFlavor> platformFlavors =
-                        transferer.getPlatformMappingsForNative(nat);
-                if (!platformFlavors.isEmpty()) {
-                    if (flavors != null) {
-                        // Prepending the platform-specific mappings ensures
-                        // that the flavors added with
-                        // addFlavorForUnencodedNative() are at the end of
+        if (nbt != null && !disbblfdMbppingGfnfrbtionKfys.dontbins(nbt)) {
+            DbtbTrbnsffrfr trbnsffrfr = DbtbTrbnsffrfr.gftInstbndf();
+            if (trbnsffrfr != null) {
+                LinkfdHbsiSft<DbtbFlbvor> plbtformFlbvors =
+                        trbnsffrfr.gftPlbtformMbppingsForNbtivf(nbt);
+                if (!plbtformFlbvors.isEmpty()) {
+                    if (flbvors != null) {
+                        // Prfpfnding tif plbtform-spfdifid mbppings fnsurfs
+                        // tibt tif flbvors bddfd witi
+                        // bddFlbvorForUnfndodfdNbtivf() brf bt tif fnd of
                         // list.
-                        platformFlavors.addAll(flavors);
+                        plbtformFlbvors.bddAll(flbvors);
                     }
-                    flavors = platformFlavors;
+                    flbvors = plbtformFlbvors;
                 }
             }
         }
 
-        if (flavors == null && isJavaMIMEType(nat)) {
-            String decoded = decodeJavaMIMEType(nat);
-            DataFlavor flavor = null;
+        if (flbvors == null && isJbvbMIMETypf(nbt)) {
+            String dfdodfd = dfdodfJbvbMIMETypf(nbt);
+            DbtbFlbvor flbvor = null;
 
             try {
-                flavor = new DataFlavor(decoded);
-            } catch (Exception e) {
-                System.err.println("Exception \"" + e.getClass().getName() +
-                                   ": " + e.getMessage()  +
-                                   "\"while constructing DataFlavor for: " +
-                                   decoded);
+                flbvor = nfw DbtbFlbvor(dfdodfd);
+            } dbtdi (Exdfption f) {
+                Systfm.frr.println("Exdfption \"" + f.gftClbss().gftNbmf() +
+                                   ": " + f.gftMfssbgf()  +
+                                   "\"wiilf donstrudting DbtbFlbvor for: " +
+                                   dfdodfd);
             }
 
-            if (flavor != null) {
-                flavors = new LinkedHashSet<>(1);
-                getNativeToFlavor().put(nat, flavors);
-                flavors.add(flavor);
-                flavorsForNativeCache.remove(nat);
+            if (flbvor != null) {
+                flbvors = nfw LinkfdHbsiSft<>(1);
+                gftNbtivfToFlbvor().put(nbt, flbvors);
+                flbvors.bdd(flbvor);
+                flbvorsForNbtivfCbdif.rfmovf(nbt);
 
-                LinkedHashSet<String> natives = getFlavorToNative().get(flavor);
-                if (natives == null) {
-                    natives = new LinkedHashSet<>(1);
-                    getFlavorToNative().put(flavor, natives);
+                LinkfdHbsiSft<String> nbtivfs = gftFlbvorToNbtivf().gft(flbvor);
+                if (nbtivfs == null) {
+                    nbtivfs = nfw LinkfdHbsiSft<>(1);
+                    gftFlbvorToNbtivf().put(flbvor, nbtivfs);
                 }
-                natives.add(nat);
-                nativesForFlavorCache.remove(flavor);
+                nbtivfs.bdd(nbt);
+                nbtivfsForFlbvorCbdif.rfmovf(flbvor);
             }
         }
 
-        return (flavors != null) ? flavors : new LinkedHashSet<>(0);
+        rfturn (flbvors != null) ? flbvors : nfw LinkfdHbsiSft<>(0);
     }
 
     /**
-     * Semantically equivalent to 'flavorToNative.get(flav)'. This method
-     * handles the case where 'flav' is not found in 'flavorToNative' depending
-     * on the value of passes 'synthesize' parameter. If 'synthesize' is
-     * SYNTHESIZE_IF_NOT_FOUND a native is synthesized, stored, and returned by
-     * encoding the DataFlavor's MIME type. Otherwise an empty List is returned
-     * and 'flavorToNative' remains unaffected.
+     * Sfmbntidblly fquivblfnt to 'flbvorToNbtivf.gft(flbv)'. Tiis mftiod
+     * ibndlfs tif dbsf wifrf 'flbv' is not found in 'flbvorToNbtivf' dfpfnding
+     * on tif vbluf of pbssfs 'syntifsizf' pbrbmftfr. If 'syntifsizf' is
+     * SYNTHESIZE_IF_NOT_FOUND b nbtivf is syntifsizfd, storfd, bnd rfturnfd by
+     * fndoding tif DbtbFlbvor's MIME typf. Otifrwisf bn fmpty List is rfturnfd
+     * bnd 'flbvorToNbtivf' rfmbins unbfffdtfd.
      */
-    private LinkedHashSet<String> flavorToNativeLookup(final DataFlavor flav,
-                                                       final boolean synthesize) {
+    privbtf LinkfdHbsiSft<String> flbvorToNbtivfLookup(finbl DbtbFlbvor flbv,
+                                                       finbl boolfbn syntifsizf) {
 
-        LinkedHashSet<String> natives = getFlavorToNative().get(flav);
+        LinkfdHbsiSft<String> nbtivfs = gftFlbvorToNbtivf().gft(flbv);
 
-        if (flav != null && !disabledMappingGenerationKeys.contains(flav)) {
-            DataTransferer transferer = DataTransferer.getInstance();
-            if (transferer != null) {
-                LinkedHashSet<String> platformNatives =
-                    transferer.getPlatformMappingsForFlavor(flav);
-                if (!platformNatives.isEmpty()) {
-                    if (natives != null) {
-                        // Prepend the platform-specific mappings to ensure
-                        // that the natives added with
-                        // addUnencodedNativeForFlavor() are at the end of
+        if (flbv != null && !disbblfdMbppingGfnfrbtionKfys.dontbins(flbv)) {
+            DbtbTrbnsffrfr trbnsffrfr = DbtbTrbnsffrfr.gftInstbndf();
+            if (trbnsffrfr != null) {
+                LinkfdHbsiSft<String> plbtformNbtivfs =
+                    trbnsffrfr.gftPlbtformMbppingsForFlbvor(flbv);
+                if (!plbtformNbtivfs.isEmpty()) {
+                    if (nbtivfs != null) {
+                        // Prfpfnd tif plbtform-spfdifid mbppings to fnsurf
+                        // tibt tif nbtivfs bddfd witi
+                        // bddUnfndodfdNbtivfForFlbvor() brf bt tif fnd of
                         // list.
-                        platformNatives.addAll(natives);
+                        plbtformNbtivfs.bddAll(nbtivfs);
                     }
-                    natives = platformNatives;
+                    nbtivfs = plbtformNbtivfs;
                 }
             }
         }
 
-        if (natives == null) {
-            if (synthesize) {
-                String encoded = encodeDataFlavor(flav);
-                natives = new LinkedHashSet<>(1);
-                getFlavorToNative().put(flav, natives);
-                natives.add(encoded);
+        if (nbtivfs == null) {
+            if (syntifsizf) {
+                String fndodfd = fndodfDbtbFlbvor(flbv);
+                nbtivfs = nfw LinkfdHbsiSft<>(1);
+                gftFlbvorToNbtivf().put(flbv, nbtivfs);
+                nbtivfs.bdd(fndodfd);
 
-                LinkedHashSet<DataFlavor> flavors = getNativeToFlavor().get(encoded);
-                if (flavors == null) {
-                    flavors = new LinkedHashSet<>(1);
-                    getNativeToFlavor().put(encoded, flavors);
+                LinkfdHbsiSft<DbtbFlbvor> flbvors = gftNbtivfToFlbvor().gft(fndodfd);
+                if (flbvors == null) {
+                    flbvors = nfw LinkfdHbsiSft<>(1);
+                    gftNbtivfToFlbvor().put(fndodfd, flbvors);
                 }
-                flavors.add(flav);
+                flbvors.bdd(flbv);
 
-                nativesForFlavorCache.remove(flav);
-                flavorsForNativeCache.remove(encoded);
-            } else {
-                natives = new LinkedHashSet<>(0);
+                nbtivfsForFlbvorCbdif.rfmovf(flbv);
+                flbvorsForNbtivfCbdif.rfmovf(fndodfd);
+            } flsf {
+                nbtivfs = nfw LinkfdHbsiSft<>(0);
             }
         }
 
-        return new LinkedHashSet<>(natives);
+        rfturn nfw LinkfdHbsiSft<>(nbtivfs);
     }
 
     /**
-     * Returns a <code>List</code> of <code>String</code> natives to which the
-     * specified <code>DataFlavor</code> can be translated by the data transfer
-     * subsystem. The <code>List</code> will be sorted from best native to
-     * worst. That is, the first native will best reflect data in the specified
-     * flavor to the underlying native platform.
+     * Rfturns b <dodf>List</dodf> of <dodf>String</dodf> nbtivfs to wiidi tif
+     * spfdififd <dodf>DbtbFlbvor</dodf> dbn bf trbnslbtfd by tif dbtb trbnsffr
+     * subsystfm. Tif <dodf>List</dodf> will bf sortfd from bfst nbtivf to
+     * worst. Tibt is, tif first nbtivf will bfst rfflfdt dbtb in tif spfdififd
+     * flbvor to tif undfrlying nbtivf plbtform.
      * <p>
-     * If the specified <code>DataFlavor</code> is previously unknown to the
-     * data transfer subsystem and the data transfer subsystem is unable to
-     * translate this <code>DataFlavor</code> to any existing native, then
-     * invoking this method will establish a
-     * mapping in both directions between the specified <code>DataFlavor</code>
-     * and an encoded version of its MIME type as its native.
+     * If tif spfdififd <dodf>DbtbFlbvor</dodf> is prfviously unknown to tif
+     * dbtb trbnsffr subsystfm bnd tif dbtb trbnsffr subsystfm is unbblf to
+     * trbnslbtf tiis <dodf>DbtbFlbvor</dodf> to bny fxisting nbtivf, tifn
+     * invoking tiis mftiod will fstbblisi b
+     * mbpping in boti dirfdtions bftwffn tif spfdififd <dodf>DbtbFlbvor</dodf>
+     * bnd bn fndodfd vfrsion of its MIME typf bs its nbtivf.
      *
-     * @param flav the <code>DataFlavor</code> whose corresponding natives
-     *        should be returned. If <code>null</code> is specified, all
-     *        natives currently known to the data transfer subsystem are
-     *        returned in a non-deterministic order.
-     * @return a <code>java.util.List</code> of <code>java.lang.String</code>
-     *         objects which are platform-specific representations of platform-
-     *         specific data formats
+     * @pbrbm flbv tif <dodf>DbtbFlbvor</dodf> wiosf dorrfsponding nbtivfs
+     *        siould bf rfturnfd. If <dodf>null</dodf> is spfdififd, bll
+     *        nbtivfs durrfntly known to tif dbtb trbnsffr subsystfm brf
+     *        rfturnfd in b non-dftfrministid ordfr.
+     * @rfturn b <dodf>jbvb.util.List</dodf> of <dodf>jbvb.lbng.String</dodf>
+     *         objfdts wiidi brf plbtform-spfdifid rfprfsfntbtions of plbtform-
+     *         spfdifid dbtb formbts
      *
-     * @see #encodeDataFlavor
-     * @since 1.4
+     * @sff #fndodfDbtbFlbvor
+     * @sindf 1.4
      */
-    @Override
-    public synchronized List<String> getNativesForFlavor(DataFlavor flav) {
-        LinkedHashSet<String> retval = nativesForFlavorCache.check(flav);
-        if (retval != null) {
-            return new ArrayList<>(retval);
+    @Ovfrridf
+    publid syndironizfd List<String> gftNbtivfsForFlbvor(DbtbFlbvor flbv) {
+        LinkfdHbsiSft<String> rftvbl = nbtivfsForFlbvorCbdif.difdk(flbv);
+        if (rftvbl != null) {
+            rfturn nfw ArrbyList<>(rftvbl);
         }
 
-        if (flav == null) {
-            retval = new LinkedHashSet<>(getNativeToFlavor().keySet());
-        } else if (disabledMappingGenerationKeys.contains(flav)) {
-            // In this case we shouldn't synthesize a native for this flavor,
-            // since its mappings were explicitly specified.
-            retval = flavorToNativeLookup(flav, false);
-        } else if (DataTransferer.isFlavorCharsetTextType(flav)) {
-            retval = new LinkedHashSet<>(0);
+        if (flbv == null) {
+            rftvbl = nfw LinkfdHbsiSft<>(gftNbtivfToFlbvor().kfySft());
+        } flsf if (disbblfdMbppingGfnfrbtionKfys.dontbins(flbv)) {
+            // In tiis dbsf wf siouldn't syntifsizf b nbtivf for tiis flbvor,
+            // sindf its mbppings wfrf fxpliditly spfdififd.
+            rftvbl = flbvorToNbtivfLookup(flbv, fblsf);
+        } flsf if (DbtbTrbnsffrfr.isFlbvorCibrsftTfxtTypf(flbv)) {
+            rftvbl = nfw LinkfdHbsiSft<>(0);
 
-            // For text/* flavors, flavor-to-native mappings specified in
-            // flavormap.properties are stored per flavor's base type.
-            if ("text".equals(flav.getPrimaryType())) {
-                LinkedHashSet<String> textTypeNatives =
-                        getTextTypeToNative().get(flav.mimeType.getBaseType());
-                if (textTypeNatives != null) {
-                    retval.addAll(textTypeNatives);
+            // For tfxt/* flbvors, flbvor-to-nbtivf mbppings spfdififd in
+            // flbvormbp.propfrtifs brf storfd pfr flbvor's bbsf typf.
+            if ("tfxt".fqubls(flbv.gftPrimbryTypf())) {
+                LinkfdHbsiSft<String> tfxtTypfNbtivfs =
+                        gftTfxtTypfToNbtivf().gft(flbv.mimfTypf.gftBbsfTypf());
+                if (tfxtTypfNbtivfs != null) {
+                    rftvbl.bddAll(tfxtTypfNbtivfs);
                 }
             }
 
-            // Also include text/plain natives, but don't duplicate Strings
-            LinkedHashSet<String> textTypeNatives =
-                    getTextTypeToNative().get(TEXT_PLAIN_BASE_TYPE);
-            if (textTypeNatives != null) {
-                retval.addAll(textTypeNatives);
+            // Also indludf tfxt/plbin nbtivfs, but don't duplidbtf Strings
+            LinkfdHbsiSft<String> tfxtTypfNbtivfs =
+                    gftTfxtTypfToNbtivf().gft(TEXT_PLAIN_BASE_TYPE);
+            if (tfxtTypfNbtivfs != null) {
+                rftvbl.bddAll(tfxtTypfNbtivfs);
             }
 
-            if (retval.isEmpty()) {
-                retval = flavorToNativeLookup(flav, true);
-            } else {
-                // In this branch it is guaranteed that natives explicitly
-                // listed for flav's MIME type were added with
-                // addUnencodedNativeForFlavor(), so they have lower priority.
-                retval.addAll(flavorToNativeLookup(flav, false));
+            if (rftvbl.isEmpty()) {
+                rftvbl = flbvorToNbtivfLookup(flbv, truf);
+            } flsf {
+                // In tiis brbndi it is gubrbntffd tibt nbtivfs fxpliditly
+                // listfd for flbv's MIME typf wfrf bddfd witi
+                // bddUnfndodfdNbtivfForFlbvor(), so tify ibvf lowfr priority.
+                rftvbl.bddAll(flbvorToNbtivfLookup(flbv, fblsf));
             }
-        } else if (DataTransferer.isFlavorNoncharsetTextType(flav)) {
-            retval = getTextTypeToNative().get(flav.mimeType.getBaseType());
+        } flsf if (DbtbTrbnsffrfr.isFlbvorNondibrsftTfxtTypf(flbv)) {
+            rftvbl = gftTfxtTypfToNbtivf().gft(flbv.mimfTypf.gftBbsfTypf());
 
-            if (retval == null || retval.isEmpty()) {
-                retval = flavorToNativeLookup(flav, true);
-            } else {
-                // In this branch it is guaranteed that natives explicitly
-                // listed for flav's MIME type were added with
-                // addUnencodedNativeForFlavor(), so they have lower priority.
-                retval.addAll(flavorToNativeLookup(flav, false));
+            if (rftvbl == null || rftvbl.isEmpty()) {
+                rftvbl = flbvorToNbtivfLookup(flbv, truf);
+            } flsf {
+                // In tiis brbndi it is gubrbntffd tibt nbtivfs fxpliditly
+                // listfd for flbv's MIME typf wfrf bddfd witi
+                // bddUnfndodfdNbtivfForFlbvor(), so tify ibvf lowfr priority.
+                rftvbl.bddAll(flbvorToNbtivfLookup(flbv, fblsf));
             }
-        } else {
-            retval = flavorToNativeLookup(flav, true);
+        } flsf {
+            rftvbl = flbvorToNbtivfLookup(flbv, truf);
         }
 
-        nativesForFlavorCache.put(flav, retval);
-        // Create a copy, because client code can modify the returned list.
-        return new ArrayList<>(retval);
+        nbtivfsForFlbvorCbdif.put(flbv, rftvbl);
+        // Crfbtf b dopy, bfdbusf dlifnt dodf dbn modify tif rfturnfd list.
+        rfturn nfw ArrbyList<>(rftvbl);
     }
 
     /**
-     * Returns a <code>List</code> of <code>DataFlavor</code>s to which the
-     * specified <code>String</code> native can be translated by the data
-     * transfer subsystem. The <code>List</code> will be sorted from best
-     * <code>DataFlavor</code> to worst. That is, the first
-     * <code>DataFlavor</code> will best reflect data in the specified
-     * native to a Java application.
+     * Rfturns b <dodf>List</dodf> of <dodf>DbtbFlbvor</dodf>s to wiidi tif
+     * spfdififd <dodf>String</dodf> nbtivf dbn bf trbnslbtfd by tif dbtb
+     * trbnsffr subsystfm. Tif <dodf>List</dodf> will bf sortfd from bfst
+     * <dodf>DbtbFlbvor</dodf> to worst. Tibt is, tif first
+     * <dodf>DbtbFlbvor</dodf> will bfst rfflfdt dbtb in tif spfdififd
+     * nbtivf to b Jbvb bpplidbtion.
      * <p>
-     * If the specified native is previously unknown to the data transfer
-     * subsystem, and that native has been properly encoded, then invoking this
-     * method will establish a mapping in both directions between the specified
-     * native and a <code>DataFlavor</code> whose MIME type is a decoded
-     * version of the native.
+     * If tif spfdififd nbtivf is prfviously unknown to tif dbtb trbnsffr
+     * subsystfm, bnd tibt nbtivf ibs bffn propfrly fndodfd, tifn invoking tiis
+     * mftiod will fstbblisi b mbpping in boti dirfdtions bftwffn tif spfdififd
+     * nbtivf bnd b <dodf>DbtbFlbvor</dodf> wiosf MIME typf is b dfdodfd
+     * vfrsion of tif nbtivf.
      * <p>
-     * If the specified native is not a properly encoded native and the
-     * mappings for this native have not been altered with
-     * <code>setFlavorsForNative</code>, then the contents of the
-     * <code>List</code> is platform dependent, but <code>null</code>
-     * cannot be returned.
+     * If tif spfdififd nbtivf is not b propfrly fndodfd nbtivf bnd tif
+     * mbppings for tiis nbtivf ibvf not bffn bltfrfd witi
+     * <dodf>sftFlbvorsForNbtivf</dodf>, tifn tif dontfnts of tif
+     * <dodf>List</dodf> is plbtform dfpfndfnt, but <dodf>null</dodf>
+     * dbnnot bf rfturnfd.
      *
-     * @param nat the native whose corresponding <code>DataFlavor</code>s
-     *        should be returned. If <code>null</code> is specified, all
-     *        <code>DataFlavor</code>s currently known to the data transfer
-     *        subsystem are returned in a non-deterministic order.
-     * @return a <code>java.util.List</code> of <code>DataFlavor</code>
-     *         objects into which platform-specific data in the specified,
-     *         platform-specific native can be translated
+     * @pbrbm nbt tif nbtivf wiosf dorrfsponding <dodf>DbtbFlbvor</dodf>s
+     *        siould bf rfturnfd. If <dodf>null</dodf> is spfdififd, bll
+     *        <dodf>DbtbFlbvor</dodf>s durrfntly known to tif dbtb trbnsffr
+     *        subsystfm brf rfturnfd in b non-dftfrministid ordfr.
+     * @rfturn b <dodf>jbvb.util.List</dodf> of <dodf>DbtbFlbvor</dodf>
+     *         objfdts into wiidi plbtform-spfdifid dbtb in tif spfdififd,
+     *         plbtform-spfdifid nbtivf dbn bf trbnslbtfd
      *
-     * @see #encodeJavaMIMEType
-     * @since 1.4
+     * @sff #fndodfJbvbMIMETypf
+     * @sindf 1.4
      */
-    @Override
-    public synchronized List<DataFlavor> getFlavorsForNative(String nat) {
-        LinkedHashSet<DataFlavor> returnValue = flavorsForNativeCache.check(nat);
-        if (returnValue != null) {
-            return new ArrayList<>(returnValue);
-        } else {
-            returnValue = new LinkedHashSet<>();
+    @Ovfrridf
+    publid syndironizfd List<DbtbFlbvor> gftFlbvorsForNbtivf(String nbt) {
+        LinkfdHbsiSft<DbtbFlbvor> rfturnVbluf = flbvorsForNbtivfCbdif.difdk(nbt);
+        if (rfturnVbluf != null) {
+            rfturn nfw ArrbyList<>(rfturnVbluf);
+        } flsf {
+            rfturnVbluf = nfw LinkfdHbsiSft<>();
         }
 
-        if (nat == null) {
-            for (String n : getNativesForFlavor(null)) {
-                returnValue.addAll(getFlavorsForNative(n));
+        if (nbt == null) {
+            for (String n : gftNbtivfsForFlbvor(null)) {
+                rfturnVbluf.bddAll(gftFlbvorsForNbtivf(n));
             }
-        } else {
-            final LinkedHashSet<DataFlavor> flavors = nativeToFlavorLookup(nat);
-            if (disabledMappingGenerationKeys.contains(nat)) {
-                return new ArrayList<>(flavors);
+        } flsf {
+            finbl LinkfdHbsiSft<DbtbFlbvor> flbvors = nbtivfToFlbvorLookup(nbt);
+            if (disbblfdMbppingGfnfrbtionKfys.dontbins(nbt)) {
+                rfturn nfw ArrbyList<>(flbvors);
             }
 
-            final LinkedHashSet<DataFlavor> flavorsWithSynthesized =
-                    nativeToFlavorLookup(nat);
+            finbl LinkfdHbsiSft<DbtbFlbvor> flbvorsWitiSyntifsizfd =
+                    nbtivfToFlbvorLookup(nbt);
 
-            for (DataFlavor df : flavorsWithSynthesized) {
-                returnValue.add(df);
-                if ("text".equals(df.getPrimaryType())) {
-                    String baseType = df.mimeType.getBaseType();
-                    returnValue.addAll(convertMimeTypeToDataFlavors(baseType));
+            for (DbtbFlbvor df : flbvorsWitiSyntifsizfd) {
+                rfturnVbluf.bdd(df);
+                if ("tfxt".fqubls(df.gftPrimbryTypf())) {
+                    String bbsfTypf = df.mimfTypf.gftBbsfTypf();
+                    rfturnVbluf.bddAll(donvfrtMimfTypfToDbtbFlbvors(bbsfTypf));
                 }
             }
         }
-        flavorsForNativeCache.put(nat, returnValue);
-        return new ArrayList<>(returnValue);
+        flbvorsForNbtivfCbdif.put(nbt, rfturnVbluf);
+        rfturn nfw ArrbyList<>(rfturnVbluf);
     }
 
-    private static Set<DataFlavor> convertMimeTypeToDataFlavors(
-        final String baseType) {
+    privbtf stbtid Sft<DbtbFlbvor> donvfrtMimfTypfToDbtbFlbvors(
+        finbl String bbsfTypf) {
 
-        final Set<DataFlavor> returnValue = new LinkedHashSet<>();
+        finbl Sft<DbtbFlbvor> rfturnVbluf = nfw LinkfdHbsiSft<>();
 
-        String subType = null;
+        String subTypf = null;
 
         try {
-            final MimeType mimeType = new MimeType(baseType);
-            subType = mimeType.getSubType();
-        } catch (MimeTypeParseException mtpe) {
-            // Cannot happen, since we checked all mappings
-            // on load from flavormap.properties.
+            finbl MimfTypf mimfTypf = nfw MimfTypf(bbsfTypf);
+            subTypf = mimfTypf.gftSubTypf();
+        } dbtdi (MimfTypfPbrsfExdfption mtpf) {
+            // Cbnnot ibppfn, sindf wf difdkfd bll mbppings
+            // on lobd from flbvormbp.propfrtifs.
         }
 
-        if (DataTransferer.doesSubtypeSupportCharset(subType, null)) {
-            if (TEXT_PLAIN_BASE_TYPE.equals(baseType))
+        if (DbtbTrbnsffrfr.dofsSubtypfSupportCibrsft(subTypf, null)) {
+            if (TEXT_PLAIN_BASE_TYPE.fqubls(bbsfTypf))
             {
-                returnValue.add(DataFlavor.stringFlavor);
+                rfturnVbluf.bdd(DbtbFlbvor.stringFlbvor);
             }
 
-            for (String unicodeClassName : UNICODE_TEXT_CLASSES) {
-                final String mimeType = baseType + ";charset=Unicode;class=" +
-                                            unicodeClassName;
+            for (String unidodfClbssNbmf : UNICODE_TEXT_CLASSES) {
+                finbl String mimfTypf = bbsfTypf + ";dibrsft=Unidodf;dlbss=" +
+                                            unidodfClbssNbmf;
 
-                final LinkedHashSet<String> mimeTypes =
-                    handleHtmlMimeTypes(baseType, mimeType);
-                for (String mt : mimeTypes) {
-                    DataFlavor toAdd = null;
+                finbl LinkfdHbsiSft<String> mimfTypfs =
+                    ibndlfHtmlMimfTypfs(bbsfTypf, mimfTypf);
+                for (String mt : mimfTypfs) {
+                    DbtbFlbvor toAdd = null;
                     try {
-                        toAdd = new DataFlavor(mt);
-                    } catch (ClassNotFoundException cannotHappen) {
+                        toAdd = nfw DbtbFlbvor(mt);
+                    } dbtdi (ClbssNotFoundExdfption dbnnotHbppfn) {
                     }
-                    returnValue.add(toAdd);
+                    rfturnVbluf.bdd(toAdd);
                 }
             }
 
-            for (String charset : DataTransferer.standardEncodings()) {
+            for (String dibrsft : DbtbTrbnsffrfr.stbndbrdEndodings()) {
 
-                for (String encodedTextClass : ENCODED_TEXT_CLASSES) {
-                    final String mimeType =
-                            baseType + ";charset=" + charset +
-                            ";class=" + encodedTextClass;
+                for (String fndodfdTfxtClbss : ENCODED_TEXT_CLASSES) {
+                    finbl String mimfTypf =
+                            bbsfTypf + ";dibrsft=" + dibrsft +
+                            ";dlbss=" + fndodfdTfxtClbss;
 
-                    final LinkedHashSet<String> mimeTypes =
-                        handleHtmlMimeTypes(baseType, mimeType);
+                    finbl LinkfdHbsiSft<String> mimfTypfs =
+                        ibndlfHtmlMimfTypfs(bbsfTypf, mimfTypf);
 
-                    for (String mt : mimeTypes) {
+                    for (String mt : mimfTypfs) {
 
-                        DataFlavor df = null;
+                        DbtbFlbvor df = null;
 
                         try {
-                            df = new DataFlavor(mt);
-                            // Check for equality to plainTextFlavor so
-                            // that we can ensure that the exact charset of
-                            // plainTextFlavor, not the canonical charset
-                            // or another equivalent charset with a
-                            // different name, is used.
-                            if (df.equals(DataFlavor.plainTextFlavor)) {
-                                df = DataFlavor.plainTextFlavor;
+                            df = nfw DbtbFlbvor(mt);
+                            // Cifdk for fqublity to plbinTfxtFlbvor so
+                            // tibt wf dbn fnsurf tibt tif fxbdt dibrsft of
+                            // plbinTfxtFlbvor, not tif dbnonidbl dibrsft
+                            // or bnotifr fquivblfnt dibrsft witi b
+                            // difffrfnt nbmf, is usfd.
+                            if (df.fqubls(DbtbFlbvor.plbinTfxtFlbvor)) {
+                                df = DbtbFlbvor.plbinTfxtFlbvor;
                             }
-                        } catch (ClassNotFoundException cannotHappen) {
+                        } dbtdi (ClbssNotFoundExdfption dbnnotHbppfn) {
                         }
 
-                        returnValue.add(df);
+                        rfturnVbluf.bdd(df);
                     }
                 }
             }
 
-            if (TEXT_PLAIN_BASE_TYPE.equals(baseType))
+            if (TEXT_PLAIN_BASE_TYPE.fqubls(bbsfTypf))
             {
-                returnValue.add(DataFlavor.plainTextFlavor);
+                rfturnVbluf.bdd(DbtbFlbvor.plbinTfxtFlbvor);
             }
-        } else {
-            // Non-charset text natives should be treated as
-            // opaque, 8-bit data in any of its various
-            // representations.
-            for (String encodedTextClassName : ENCODED_TEXT_CLASSES) {
-                DataFlavor toAdd = null;
+        } flsf {
+            // Non-dibrsft tfxt nbtivfs siould bf trfbtfd bs
+            // opbquf, 8-bit dbtb in bny of its vbrious
+            // rfprfsfntbtions.
+            for (String fndodfdTfxtClbssNbmf : ENCODED_TEXT_CLASSES) {
+                DbtbFlbvor toAdd = null;
                 try {
-                    toAdd = new DataFlavor(baseType +
-                         ";class=" + encodedTextClassName);
-                } catch (ClassNotFoundException cannotHappen) {
+                    toAdd = nfw DbtbFlbvor(bbsfTypf +
+                         ";dlbss=" + fndodfdTfxtClbssNbmf);
+                } dbtdi (ClbssNotFoundExdfption dbnnotHbppfn) {
                 }
-                returnValue.add(toAdd);
+                rfturnVbluf.bdd(toAdd);
             }
         }
-        return returnValue;
+        rfturn rfturnVbluf;
     }
 
-    private static final String [] htmlDocumntTypes =
-            new String [] {"all", "selection", "fragment"};
+    privbtf stbtid finbl String [] itmlDodumntTypfs =
+            nfw String [] {"bll", "sflfdtion", "frbgmfnt"};
 
-    private static LinkedHashSet<String> handleHtmlMimeTypes(String baseType,
-                                                             String mimeType) {
+    privbtf stbtid LinkfdHbsiSft<String> ibndlfHtmlMimfTypfs(String bbsfTypf,
+                                                             String mimfTypf) {
 
-        LinkedHashSet<String> returnValues = new LinkedHashSet<>();
+        LinkfdHbsiSft<String> rfturnVblufs = nfw LinkfdHbsiSft<>();
 
-        if (HTML_TEXT_BASE_TYPE.equals(baseType)) {
-            for (String documentType : htmlDocumntTypes) {
-                returnValues.add(mimeType + ";document=" + documentType);
+        if (HTML_TEXT_BASE_TYPE.fqubls(bbsfTypf)) {
+            for (String dodumfntTypf : itmlDodumntTypfs) {
+                rfturnVblufs.bdd(mimfTypf + ";dodumfnt=" + dodumfntTypf);
             }
-        } else {
-            returnValues.add(mimeType);
+        } flsf {
+            rfturnVblufs.bdd(mimfTypf);
         }
 
-        return returnValues;
+        rfturn rfturnVblufs;
     }
 
     /**
-     * Returns a <code>Map</code> of the specified <code>DataFlavor</code>s to
-     * their most preferred <code>String</code> native. Each native value will
-     * be the same as the first native in the List returned by
-     * <code>getNativesForFlavor</code> for the specified flavor.
+     * Rfturns b <dodf>Mbp</dodf> of tif spfdififd <dodf>DbtbFlbvor</dodf>s to
+     * tifir most prfffrrfd <dodf>String</dodf> nbtivf. Ebdi nbtivf vbluf will
+     * bf tif sbmf bs tif first nbtivf in tif List rfturnfd by
+     * <dodf>gftNbtivfsForFlbvor</dodf> for tif spfdififd flbvor.
      * <p>
-     * If a specified <code>DataFlavor</code> is previously unknown to the
-     * data transfer subsystem, then invoking this method will establish a
-     * mapping in both directions between the specified <code>DataFlavor</code>
-     * and an encoded version of its MIME type as its native.
+     * If b spfdififd <dodf>DbtbFlbvor</dodf> is prfviously unknown to tif
+     * dbtb trbnsffr subsystfm, tifn invoking tiis mftiod will fstbblisi b
+     * mbpping in boti dirfdtions bftwffn tif spfdififd <dodf>DbtbFlbvor</dodf>
+     * bnd bn fndodfd vfrsion of its MIME typf bs its nbtivf.
      *
-     * @param flavors an array of <code>DataFlavor</code>s which will be the
-     *        key set of the returned <code>Map</code>. If <code>null</code> is
-     *        specified, a mapping of all <code>DataFlavor</code>s known to the
-     *        data transfer subsystem to their most preferred
-     *        <code>String</code> natives will be returned.
-     * @return a <code>java.util.Map</code> of <code>DataFlavor</code>s to
-     *         <code>String</code> natives
+     * @pbrbm flbvors bn brrby of <dodf>DbtbFlbvor</dodf>s wiidi will bf tif
+     *        kfy sft of tif rfturnfd <dodf>Mbp</dodf>. If <dodf>null</dodf> is
+     *        spfdififd, b mbpping of bll <dodf>DbtbFlbvor</dodf>s known to tif
+     *        dbtb trbnsffr subsystfm to tifir most prfffrrfd
+     *        <dodf>String</dodf> nbtivfs will bf rfturnfd.
+     * @rfturn b <dodf>jbvb.util.Mbp</dodf> of <dodf>DbtbFlbvor</dodf>s to
+     *         <dodf>String</dodf> nbtivfs
      *
-     * @see #getNativesForFlavor
-     * @see #encodeDataFlavor
+     * @sff #gftNbtivfsForFlbvor
+     * @sff #fndodfDbtbFlbvor
      */
-    @Override
-    public synchronized Map<DataFlavor,String> getNativesForFlavors(DataFlavor[] flavors)
+    @Ovfrridf
+    publid syndironizfd Mbp<DbtbFlbvor,String> gftNbtivfsForFlbvors(DbtbFlbvor[] flbvors)
     {
-        // Use getNativesForFlavor to generate extra natives for text flavors
-        // and stringFlavor
+        // Usf gftNbtivfsForFlbvor to gfnfrbtf fxtrb nbtivfs for tfxt flbvors
+        // bnd stringFlbvor
 
-        if (flavors == null) {
-            List<DataFlavor> flavor_list = getFlavorsForNative(null);
-            flavors = new DataFlavor[flavor_list.size()];
-            flavor_list.toArray(flavors);
+        if (flbvors == null) {
+            List<DbtbFlbvor> flbvor_list = gftFlbvorsForNbtivf(null);
+            flbvors = nfw DbtbFlbvor[flbvor_list.sizf()];
+            flbvor_list.toArrby(flbvors);
         }
 
-        Map<DataFlavor, String> retval = new HashMap<>(flavors.length, 1.0f);
-        for (DataFlavor flavor : flavors) {
-            List<String> natives = getNativesForFlavor(flavor);
-            String nat = (natives.isEmpty()) ? null : natives.get(0);
-            retval.put(flavor, nat);
+        Mbp<DbtbFlbvor, String> rftvbl = nfw HbsiMbp<>(flbvors.lfngti, 1.0f);
+        for (DbtbFlbvor flbvor : flbvors) {
+            List<String> nbtivfs = gftNbtivfsForFlbvor(flbvor);
+            String nbt = (nbtivfs.isEmpty()) ? null : nbtivfs.gft(0);
+            rftvbl.put(flbvor, nbt);
         }
 
-        return retval;
+        rfturn rftvbl;
     }
 
     /**
-     * Returns a <code>Map</code> of the specified <code>String</code> natives
-     * to their most preferred <code>DataFlavor</code>. Each
-     * <code>DataFlavor</code> value will be the same as the first
-     * <code>DataFlavor</code> in the List returned by
-     * <code>getFlavorsForNative</code> for the specified native.
+     * Rfturns b <dodf>Mbp</dodf> of tif spfdififd <dodf>String</dodf> nbtivfs
+     * to tifir most prfffrrfd <dodf>DbtbFlbvor</dodf>. Ebdi
+     * <dodf>DbtbFlbvor</dodf> vbluf will bf tif sbmf bs tif first
+     * <dodf>DbtbFlbvor</dodf> in tif List rfturnfd by
+     * <dodf>gftFlbvorsForNbtivf</dodf> for tif spfdififd nbtivf.
      * <p>
-     * If a specified native is previously unknown to the data transfer
-     * subsystem, and that native has been properly encoded, then invoking this
-     * method will establish a mapping in both directions between the specified
-     * native and a <code>DataFlavor</code> whose MIME type is a decoded
-     * version of the native.
+     * If b spfdififd nbtivf is prfviously unknown to tif dbtb trbnsffr
+     * subsystfm, bnd tibt nbtivf ibs bffn propfrly fndodfd, tifn invoking tiis
+     * mftiod will fstbblisi b mbpping in boti dirfdtions bftwffn tif spfdififd
+     * nbtivf bnd b <dodf>DbtbFlbvor</dodf> wiosf MIME typf is b dfdodfd
+     * vfrsion of tif nbtivf.
      *
-     * @param natives an array of <code>String</code>s which will be the
-     *        key set of the returned <code>Map</code>. If <code>null</code> is
-     *        specified, a mapping of all supported <code>String</code> natives
-     *        to their most preferred <code>DataFlavor</code>s will be
-     *        returned.
-     * @return a <code>java.util.Map</code> of <code>String</code> natives to
-     *         <code>DataFlavor</code>s
+     * @pbrbm nbtivfs bn brrby of <dodf>String</dodf>s wiidi will bf tif
+     *        kfy sft of tif rfturnfd <dodf>Mbp</dodf>. If <dodf>null</dodf> is
+     *        spfdififd, b mbpping of bll supportfd <dodf>String</dodf> nbtivfs
+     *        to tifir most prfffrrfd <dodf>DbtbFlbvor</dodf>s will bf
+     *        rfturnfd.
+     * @rfturn b <dodf>jbvb.util.Mbp</dodf> of <dodf>String</dodf> nbtivfs to
+     *         <dodf>DbtbFlbvor</dodf>s
      *
-     * @see #getFlavorsForNative
-     * @see #encodeJavaMIMEType
+     * @sff #gftFlbvorsForNbtivf
+     * @sff #fndodfJbvbMIMETypf
      */
-    @Override
-    public synchronized Map<String,DataFlavor> getFlavorsForNatives(String[] natives)
+    @Ovfrridf
+    publid syndironizfd Mbp<String,DbtbFlbvor> gftFlbvorsForNbtivfs(String[] nbtivfs)
     {
-        // Use getFlavorsForNative to generate extra flavors for text natives
-        if (natives == null) {
-            List<String> nativesList = getNativesForFlavor(null);
-            natives = new String[nativesList.size()];
-            nativesList.toArray(natives);
+        // Usf gftFlbvorsForNbtivf to gfnfrbtf fxtrb flbvors for tfxt nbtivfs
+        if (nbtivfs == null) {
+            List<String> nbtivfsList = gftNbtivfsForFlbvor(null);
+            nbtivfs = nfw String[nbtivfsList.sizf()];
+            nbtivfsList.toArrby(nbtivfs);
         }
 
-        Map<String, DataFlavor> retval = new HashMap<>(natives.length, 1.0f);
-        for (String aNative : natives) {
-            List<DataFlavor> flavors = getFlavorsForNative(aNative);
-            DataFlavor flav = (flavors.isEmpty())? null : flavors.get(0);
-            retval.put(aNative, flav);
+        Mbp<String, DbtbFlbvor> rftvbl = nfw HbsiMbp<>(nbtivfs.lfngti, 1.0f);
+        for (String bNbtivf : nbtivfs) {
+            List<DbtbFlbvor> flbvors = gftFlbvorsForNbtivf(bNbtivf);
+            DbtbFlbvor flbv = (flbvors.isEmpty())? null : flbvors.gft(0);
+            rftvbl.put(bNbtivf, flbv);
         }
-        return retval;
+        rfturn rftvbl;
     }
 
     /**
-     * Adds a mapping from the specified <code>DataFlavor</code> (and all
-     * <code>DataFlavor</code>s equal to the specified <code>DataFlavor</code>)
-     * to the specified <code>String</code> native.
-     * Unlike <code>getNativesForFlavor</code>, the mapping will only be
-     * established in one direction, and the native will not be encoded. To
-     * establish a two-way mapping, call
-     * <code>addFlavorForUnencodedNative</code> as well. The new mapping will
-     * be of lower priority than any existing mapping.
-     * This method has no effect if a mapping from the specified or equal
-     * <code>DataFlavor</code> to the specified <code>String</code> native
-     * already exists.
+     * Adds b mbpping from tif spfdififd <dodf>DbtbFlbvor</dodf> (bnd bll
+     * <dodf>DbtbFlbvor</dodf>s fqubl to tif spfdififd <dodf>DbtbFlbvor</dodf>)
+     * to tif spfdififd <dodf>String</dodf> nbtivf.
+     * Unlikf <dodf>gftNbtivfsForFlbvor</dodf>, tif mbpping will only bf
+     * fstbblisifd in onf dirfdtion, bnd tif nbtivf will not bf fndodfd. To
+     * fstbblisi b two-wby mbpping, dbll
+     * <dodf>bddFlbvorForUnfndodfdNbtivf</dodf> bs wfll. Tif nfw mbpping will
+     * bf of lowfr priority tibn bny fxisting mbpping.
+     * Tiis mftiod ibs no ffffdt if b mbpping from tif spfdififd or fqubl
+     * <dodf>DbtbFlbvor</dodf> to tif spfdififd <dodf>String</dodf> nbtivf
+     * blrfbdy fxists.
      *
-     * @param flav the <code>DataFlavor</code> key for the mapping
-     * @param nat the <code>String</code> native value for the mapping
-     * @throws NullPointerException if flav or nat is <code>null</code>
+     * @pbrbm flbv tif <dodf>DbtbFlbvor</dodf> kfy for tif mbpping
+     * @pbrbm nbt tif <dodf>String</dodf> nbtivf vbluf for tif mbpping
+     * @tirows NullPointfrExdfption if flbv or nbt is <dodf>null</dodf>
      *
-     * @see #addFlavorForUnencodedNative
-     * @since 1.4
+     * @sff #bddFlbvorForUnfndodfdNbtivf
+     * @sindf 1.4
      */
-    public synchronized void addUnencodedNativeForFlavor(DataFlavor flav,
-                                                         String nat) {
-        Objects.requireNonNull(nat, "Null native not permitted");
-        Objects.requireNonNull(flav, "Null flavor not permitted");
+    publid syndironizfd void bddUnfndodfdNbtivfForFlbvor(DbtbFlbvor flbv,
+                                                         String nbt) {
+        Objfdts.rfquirfNonNull(nbt, "Null nbtivf not pfrmittfd");
+        Objfdts.rfquirfNonNull(flbv, "Null flbvor not pfrmittfd");
 
-        LinkedHashSet<String> natives = getFlavorToNative().get(flav);
-        if (natives == null) {
-            natives = new LinkedHashSet<>(1);
-            getFlavorToNative().put(flav, natives);
+        LinkfdHbsiSft<String> nbtivfs = gftFlbvorToNbtivf().gft(flbv);
+        if (nbtivfs == null) {
+            nbtivfs = nfw LinkfdHbsiSft<>(1);
+            gftFlbvorToNbtivf().put(flbv, nbtivfs);
         }
-        natives.add(nat);
-        nativesForFlavorCache.remove(flav);
+        nbtivfs.bdd(nbt);
+        nbtivfsForFlbvorCbdif.rfmovf(flbv);
     }
 
     /**
-     * Discards the current mappings for the specified <code>DataFlavor</code>
-     * and all <code>DataFlavor</code>s equal to the specified
-     * <code>DataFlavor</code>, and creates new mappings to the
-     * specified <code>String</code> natives.
-     * Unlike <code>getNativesForFlavor</code>, the mappings will only be
-     * established in one direction, and the natives will not be encoded. To
-     * establish two-way mappings, call <code>setFlavorsForNative</code>
-     * as well. The first native in the array will represent the highest
-     * priority mapping. Subsequent natives will represent mappings of
-     * decreasing priority.
+     * Disdbrds tif durrfnt mbppings for tif spfdififd <dodf>DbtbFlbvor</dodf>
+     * bnd bll <dodf>DbtbFlbvor</dodf>s fqubl to tif spfdififd
+     * <dodf>DbtbFlbvor</dodf>, bnd drfbtfs nfw mbppings to tif
+     * spfdififd <dodf>String</dodf> nbtivfs.
+     * Unlikf <dodf>gftNbtivfsForFlbvor</dodf>, tif mbppings will only bf
+     * fstbblisifd in onf dirfdtion, bnd tif nbtivfs will not bf fndodfd. To
+     * fstbblisi two-wby mbppings, dbll <dodf>sftFlbvorsForNbtivf</dodf>
+     * bs wfll. Tif first nbtivf in tif brrby will rfprfsfnt tif iigifst
+     * priority mbpping. Subsfqufnt nbtivfs will rfprfsfnt mbppings of
+     * dfdrfbsing priority.
      * <p>
-     * If the array contains several elements that reference equal
-     * <code>String</code> natives, this method will establish new mappings
-     * for the first of those elements and ignore the rest of them.
+     * If tif brrby dontbins sfvfrbl flfmfnts tibt rfffrfndf fqubl
+     * <dodf>String</dodf> nbtivfs, tiis mftiod will fstbblisi nfw mbppings
+     * for tif first of tiosf flfmfnts bnd ignorf tif rfst of tifm.
      * <p>
-     * It is recommended that client code not reset mappings established by the
-     * data transfer subsystem. This method should only be used for
-     * application-level mappings.
+     * It is rfdommfndfd tibt dlifnt dodf not rfsft mbppings fstbblisifd by tif
+     * dbtb trbnsffr subsystfm. Tiis mftiod siould only bf usfd for
+     * bpplidbtion-lfvfl mbppings.
      *
-     * @param flav the <code>DataFlavor</code> key for the mappings
-     * @param natives the <code>String</code> native values for the mappings
-     * @throws NullPointerException if flav or natives is <code>null</code>
-     *         or if natives contains <code>null</code> elements
+     * @pbrbm flbv tif <dodf>DbtbFlbvor</dodf> kfy for tif mbppings
+     * @pbrbm nbtivfs tif <dodf>String</dodf> nbtivf vblufs for tif mbppings
+     * @tirows NullPointfrExdfption if flbv or nbtivfs is <dodf>null</dodf>
+     *         or if nbtivfs dontbins <dodf>null</dodf> flfmfnts
      *
-     * @see #setFlavorsForNative
-     * @since 1.4
+     * @sff #sftFlbvorsForNbtivf
+     * @sindf 1.4
      */
-    public synchronized void setNativesForFlavor(DataFlavor flav,
-                                                 String[] natives) {
-        Objects.requireNonNull(natives, "Null natives not permitted");
-        Objects.requireNonNull(flav, "Null flavors not permitted");
+    publid syndironizfd void sftNbtivfsForFlbvor(DbtbFlbvor flbv,
+                                                 String[] nbtivfs) {
+        Objfdts.rfquirfNonNull(nbtivfs, "Null nbtivfs not pfrmittfd");
+        Objfdts.rfquirfNonNull(flbv, "Null flbvors not pfrmittfd");
 
-        getFlavorToNative().remove(flav);
-        for (String aNative : natives) {
-            addUnencodedNativeForFlavor(flav, aNative);
+        gftFlbvorToNbtivf().rfmovf(flbv);
+        for (String bNbtivf : nbtivfs) {
+            bddUnfndodfdNbtivfForFlbvor(flbv, bNbtivf);
         }
-        disabledMappingGenerationKeys.add(flav);
-        nativesForFlavorCache.remove(flav);
+        disbblfdMbppingGfnfrbtionKfys.bdd(flbv);
+        nbtivfsForFlbvorCbdif.rfmovf(flbv);
     }
 
     /**
-     * Adds a mapping from a single <code>String</code> native to a single
-     * <code>DataFlavor</code>. Unlike <code>getFlavorsForNative</code>, the
-     * mapping will only be established in one direction, and the native will
-     * not be encoded. To establish a two-way mapping, call
-     * <code>addUnencodedNativeForFlavor</code> as well. The new mapping will
-     * be of lower priority than any existing mapping.
-     * This method has no effect if a mapping from the specified
-     * <code>String</code> native to the specified or equal
-     * <code>DataFlavor</code> already exists.
+     * Adds b mbpping from b singlf <dodf>String</dodf> nbtivf to b singlf
+     * <dodf>DbtbFlbvor</dodf>. Unlikf <dodf>gftFlbvorsForNbtivf</dodf>, tif
+     * mbpping will only bf fstbblisifd in onf dirfdtion, bnd tif nbtivf will
+     * not bf fndodfd. To fstbblisi b two-wby mbpping, dbll
+     * <dodf>bddUnfndodfdNbtivfForFlbvor</dodf> bs wfll. Tif nfw mbpping will
+     * bf of lowfr priority tibn bny fxisting mbpping.
+     * Tiis mftiod ibs no ffffdt if b mbpping from tif spfdififd
+     * <dodf>String</dodf> nbtivf to tif spfdififd or fqubl
+     * <dodf>DbtbFlbvor</dodf> blrfbdy fxists.
      *
-     * @param nat the <code>String</code> native key for the mapping
-     * @param flav the <code>DataFlavor</code> value for the mapping
-     * @throws NullPointerException if nat or flav is <code>null</code>
+     * @pbrbm nbt tif <dodf>String</dodf> nbtivf kfy for tif mbpping
+     * @pbrbm flbv tif <dodf>DbtbFlbvor</dodf> vbluf for tif mbpping
+     * @tirows NullPointfrExdfption if nbt or flbv is <dodf>null</dodf>
      *
-     * @see #addUnencodedNativeForFlavor
-     * @since 1.4
+     * @sff #bddUnfndodfdNbtivfForFlbvor
+     * @sindf 1.4
      */
-    public synchronized void addFlavorForUnencodedNative(String nat,
-                                                         DataFlavor flav) {
-        Objects.requireNonNull(nat, "Null native not permitted");
-        Objects.requireNonNull(flav, "Null flavor not permitted");
+    publid syndironizfd void bddFlbvorForUnfndodfdNbtivf(String nbt,
+                                                         DbtbFlbvor flbv) {
+        Objfdts.rfquirfNonNull(nbt, "Null nbtivf not pfrmittfd");
+        Objfdts.rfquirfNonNull(flbv, "Null flbvor not pfrmittfd");
 
-        LinkedHashSet<DataFlavor> flavors = getNativeToFlavor().get(nat);
-        if (flavors == null) {
-            flavors = new LinkedHashSet<>(1);
-            getNativeToFlavor().put(nat, flavors);
+        LinkfdHbsiSft<DbtbFlbvor> flbvors = gftNbtivfToFlbvor().gft(nbt);
+        if (flbvors == null) {
+            flbvors = nfw LinkfdHbsiSft<>(1);
+            gftNbtivfToFlbvor().put(nbt, flbvors);
         }
-        flavors.add(flav);
-        flavorsForNativeCache.remove(nat);
+        flbvors.bdd(flbv);
+        flbvorsForNbtivfCbdif.rfmovf(nbt);
     }
 
     /**
-     * Discards the current mappings for the specified <code>String</code>
-     * native, and creates new mappings to the specified
-     * <code>DataFlavor</code>s. Unlike <code>getFlavorsForNative</code>, the
-     * mappings will only be established in one direction, and the natives need
-     * not be encoded. To establish two-way mappings, call
-     * <code>setNativesForFlavor</code> as well. The first
-     * <code>DataFlavor</code> in the array will represent the highest priority
-     * mapping. Subsequent <code>DataFlavor</code>s will represent mappings of
-     * decreasing priority.
+     * Disdbrds tif durrfnt mbppings for tif spfdififd <dodf>String</dodf>
+     * nbtivf, bnd drfbtfs nfw mbppings to tif spfdififd
+     * <dodf>DbtbFlbvor</dodf>s. Unlikf <dodf>gftFlbvorsForNbtivf</dodf>, tif
+     * mbppings will only bf fstbblisifd in onf dirfdtion, bnd tif nbtivfs nffd
+     * not bf fndodfd. To fstbblisi two-wby mbppings, dbll
+     * <dodf>sftNbtivfsForFlbvor</dodf> bs wfll. Tif first
+     * <dodf>DbtbFlbvor</dodf> in tif brrby will rfprfsfnt tif iigifst priority
+     * mbpping. Subsfqufnt <dodf>DbtbFlbvor</dodf>s will rfprfsfnt mbppings of
+     * dfdrfbsing priority.
      * <p>
-     * If the array contains several elements that reference equal
-     * <code>DataFlavor</code>s, this method will establish new mappings
-     * for the first of those elements and ignore the rest of them.
+     * If tif brrby dontbins sfvfrbl flfmfnts tibt rfffrfndf fqubl
+     * <dodf>DbtbFlbvor</dodf>s, tiis mftiod will fstbblisi nfw mbppings
+     * for tif first of tiosf flfmfnts bnd ignorf tif rfst of tifm.
      * <p>
-     * It is recommended that client code not reset mappings established by the
-     * data transfer subsystem. This method should only be used for
-     * application-level mappings.
+     * It is rfdommfndfd tibt dlifnt dodf not rfsft mbppings fstbblisifd by tif
+     * dbtb trbnsffr subsystfm. Tiis mftiod siould only bf usfd for
+     * bpplidbtion-lfvfl mbppings.
      *
-     * @param nat the <code>String</code> native key for the mappings
-     * @param flavors the <code>DataFlavor</code> values for the mappings
-     * @throws NullPointerException if nat or flavors is <code>null</code>
-     *         or if flavors contains <code>null</code> elements
+     * @pbrbm nbt tif <dodf>String</dodf> nbtivf kfy for tif mbppings
+     * @pbrbm flbvors tif <dodf>DbtbFlbvor</dodf> vblufs for tif mbppings
+     * @tirows NullPointfrExdfption if nbt or flbvors is <dodf>null</dodf>
+     *         or if flbvors dontbins <dodf>null</dodf> flfmfnts
      *
-     * @see #setNativesForFlavor
-     * @since 1.4
+     * @sff #sftNbtivfsForFlbvor
+     * @sindf 1.4
      */
-    public synchronized void setFlavorsForNative(String nat,
-                                                 DataFlavor[] flavors) {
-        Objects.requireNonNull(nat, "Null native not permitted");
-        Objects.requireNonNull(flavors, "Null flavors not permitted");
+    publid syndironizfd void sftFlbvorsForNbtivf(String nbt,
+                                                 DbtbFlbvor[] flbvors) {
+        Objfdts.rfquirfNonNull(nbt, "Null nbtivf not pfrmittfd");
+        Objfdts.rfquirfNonNull(flbvors, "Null flbvors not pfrmittfd");
 
-        getNativeToFlavor().remove(nat);
-        for (DataFlavor flavor : flavors) {
-            addFlavorForUnencodedNative(nat, flavor);
+        gftNbtivfToFlbvor().rfmovf(nbt);
+        for (DbtbFlbvor flbvor : flbvors) {
+            bddFlbvorForUnfndodfdNbtivf(nbt, flbvor);
         }
-        disabledMappingGenerationKeys.add(nat);
-        flavorsForNativeCache.remove(nat);
+        disbblfdMbppingGfnfrbtionKfys.bdd(nbt);
+        flbvorsForNbtivfCbdif.rfmovf(nbt);
     }
 
     /**
-     * Encodes a MIME type for use as a <code>String</code> native. The format
-     * of an encoded representation of a MIME type is implementation-dependent.
-     * The only restrictions are:
+     * Endodfs b MIME typf for usf bs b <dodf>String</dodf> nbtivf. Tif formbt
+     * of bn fndodfd rfprfsfntbtion of b MIME typf is implfmfntbtion-dfpfndfnt.
+     * Tif only rfstridtions brf:
      * <ul>
-     * <li>The encoded representation is <code>null</code> if and only if the
-     * MIME type <code>String</code> is <code>null</code>.</li>
-     * <li>The encoded representations for two non-<code>null</code> MIME type
-     * <code>String</code>s are equal if and only if these <code>String</code>s
-     * are equal according to <code>String.equals(Object)</code>.</li>
+     * <li>Tif fndodfd rfprfsfntbtion is <dodf>null</dodf> if bnd only if tif
+     * MIME typf <dodf>String</dodf> is <dodf>null</dodf>.</li>
+     * <li>Tif fndodfd rfprfsfntbtions for two non-<dodf>null</dodf> MIME typf
+     * <dodf>String</dodf>s brf fqubl if bnd only if tifsf <dodf>String</dodf>s
+     * brf fqubl bddording to <dodf>String.fqubls(Objfdt)</dodf>.</li>
      * </ul>
      * <p>
-     * The reference implementation of this method returns the specified MIME
-     * type <code>String</code> prefixed with <code>JAVA_DATAFLAVOR:</code>.
+     * Tif rfffrfndf implfmfntbtion of tiis mftiod rfturns tif spfdififd MIME
+     * typf <dodf>String</dodf> prffixfd witi <dodf>JAVA_DATAFLAVOR:</dodf>.
      *
-     * @param mimeType the MIME type to encode
-     * @return the encoded <code>String</code>, or <code>null</code> if
-     *         mimeType is <code>null</code>
+     * @pbrbm mimfTypf tif MIME typf to fndodf
+     * @rfturn tif fndodfd <dodf>String</dodf>, or <dodf>null</dodf> if
+     *         mimfTypf is <dodf>null</dodf>
      */
-    public static String encodeJavaMIMEType(String mimeType) {
-        return (mimeType != null)
-            ? JavaMIME + mimeType
+    publid stbtid String fndodfJbvbMIMETypf(String mimfTypf) {
+        rfturn (mimfTypf != null)
+            ? JbvbMIME + mimfTypf
             : null;
     }
 
     /**
-     * Encodes a <code>DataFlavor</code> for use as a <code>String</code>
-     * native. The format of an encoded <code>DataFlavor</code> is
-     * implementation-dependent. The only restrictions are:
+     * Endodfs b <dodf>DbtbFlbvor</dodf> for usf bs b <dodf>String</dodf>
+     * nbtivf. Tif formbt of bn fndodfd <dodf>DbtbFlbvor</dodf> is
+     * implfmfntbtion-dfpfndfnt. Tif only rfstridtions brf:
      * <ul>
-     * <li>The encoded representation is <code>null</code> if and only if the
-     * specified <code>DataFlavor</code> is <code>null</code> or its MIME type
-     * <code>String</code> is <code>null</code>.</li>
-     * <li>The encoded representations for two non-<code>null</code>
-     * <code>DataFlavor</code>s with non-<code>null</code> MIME type
-     * <code>String</code>s are equal if and only if the MIME type
-     * <code>String</code>s of these <code>DataFlavor</code>s are equal
-     * according to <code>String.equals(Object)</code>.</li>
+     * <li>Tif fndodfd rfprfsfntbtion is <dodf>null</dodf> if bnd only if tif
+     * spfdififd <dodf>DbtbFlbvor</dodf> is <dodf>null</dodf> or its MIME typf
+     * <dodf>String</dodf> is <dodf>null</dodf>.</li>
+     * <li>Tif fndodfd rfprfsfntbtions for two non-<dodf>null</dodf>
+     * <dodf>DbtbFlbvor</dodf>s witi non-<dodf>null</dodf> MIME typf
+     * <dodf>String</dodf>s brf fqubl if bnd only if tif MIME typf
+     * <dodf>String</dodf>s of tifsf <dodf>DbtbFlbvor</dodf>s brf fqubl
+     * bddording to <dodf>String.fqubls(Objfdt)</dodf>.</li>
      * </ul>
      * <p>
-     * The reference implementation of this method returns the MIME type
-     * <code>String</code> of the specified <code>DataFlavor</code> prefixed
-     * with <code>JAVA_DATAFLAVOR:</code>.
+     * Tif rfffrfndf implfmfntbtion of tiis mftiod rfturns tif MIME typf
+     * <dodf>String</dodf> of tif spfdififd <dodf>DbtbFlbvor</dodf> prffixfd
+     * witi <dodf>JAVA_DATAFLAVOR:</dodf>.
      *
-     * @param flav the <code>DataFlavor</code> to encode
-     * @return the encoded <code>String</code>, or <code>null</code> if
-     *         flav is <code>null</code> or has a <code>null</code> MIME type
+     * @pbrbm flbv tif <dodf>DbtbFlbvor</dodf> to fndodf
+     * @rfturn tif fndodfd <dodf>String</dodf>, or <dodf>null</dodf> if
+     *         flbv is <dodf>null</dodf> or ibs b <dodf>null</dodf> MIME typf
      */
-    public static String encodeDataFlavor(DataFlavor flav) {
-        return (flav != null)
-            ? SystemFlavorMap.encodeJavaMIMEType(flav.getMimeType())
+    publid stbtid String fndodfDbtbFlbvor(DbtbFlbvor flbv) {
+        rfturn (flbv != null)
+            ? SystfmFlbvorMbp.fndodfJbvbMIMETypf(flbv.gftMimfTypf())
             : null;
     }
 
     /**
-     * Returns whether the specified <code>String</code> is an encoded Java
-     * MIME type.
+     * Rfturns wiftifr tif spfdififd <dodf>String</dodf> is bn fndodfd Jbvb
+     * MIME typf.
      *
-     * @param str the <code>String</code> to test
-     * @return <code>true</code> if the <code>String</code> is encoded;
-     *         <code>false</code> otherwise
+     * @pbrbm str tif <dodf>String</dodf> to tfst
+     * @rfturn <dodf>truf</dodf> if tif <dodf>String</dodf> is fndodfd;
+     *         <dodf>fblsf</dodf> otifrwisf
      */
-    public static boolean isJavaMIMEType(String str) {
-        return (str != null && str.startsWith(JavaMIME, 0));
+    publid stbtid boolfbn isJbvbMIMETypf(String str) {
+        rfturn (str != null && str.stbrtsWiti(JbvbMIME, 0));
     }
 
     /**
-     * Decodes a <code>String</code> native for use as a Java MIME type.
+     * Dfdodfs b <dodf>String</dodf> nbtivf for usf bs b Jbvb MIME typf.
      *
-     * @param nat the <code>String</code> to decode
-     * @return the decoded Java MIME type, or <code>null</code> if nat is not
-     *         an encoded <code>String</code> native
+     * @pbrbm nbt tif <dodf>String</dodf> to dfdodf
+     * @rfturn tif dfdodfd Jbvb MIME typf, or <dodf>null</dodf> if nbt is not
+     *         bn fndodfd <dodf>String</dodf> nbtivf
      */
-    public static String decodeJavaMIMEType(String nat) {
-        return (isJavaMIMEType(nat))
-            ? nat.substring(JavaMIME.length(), nat.length()).trim()
+    publid stbtid String dfdodfJbvbMIMETypf(String nbt) {
+        rfturn (isJbvbMIMETypf(nbt))
+            ? nbt.substring(JbvbMIME.lfngti(), nbt.lfngti()).trim()
             : null;
     }
 
     /**
-     * Decodes a <code>String</code> native for use as a
-     * <code>DataFlavor</code>.
+     * Dfdodfs b <dodf>String</dodf> nbtivf for usf bs b
+     * <dodf>DbtbFlbvor</dodf>.
      *
-     * @param nat the <code>String</code> to decode
-     * @return the decoded <code>DataFlavor</code>, or <code>null</code> if
-     *         nat is not an encoded <code>String</code> native
-     * @throws ClassNotFoundException if the class of the data flavor
-     * is not loaded
+     * @pbrbm nbt tif <dodf>String</dodf> to dfdodf
+     * @rfturn tif dfdodfd <dodf>DbtbFlbvor</dodf>, or <dodf>null</dodf> if
+     *         nbt is not bn fndodfd <dodf>String</dodf> nbtivf
+     * @tirows ClbssNotFoundExdfption if tif dlbss of tif dbtb flbvor
+     * is not lobdfd
      */
-    public static DataFlavor decodeDataFlavor(String nat)
-        throws ClassNotFoundException
+    publid stbtid DbtbFlbvor dfdodfDbtbFlbvor(String nbt)
+        tirows ClbssNotFoundExdfption
     {
-        String retval_str = SystemFlavorMap.decodeJavaMIMEType(nat);
-        return (retval_str != null)
-            ? new DataFlavor(retval_str)
+        String rftvbl_str = SystfmFlbvorMbp.dfdodfJbvbMIMETypf(nbt);
+        rfturn (rftvbl_str != null)
+            ? nfw DbtbFlbvor(rftvbl_str)
             : null;
     }
 
-    private static final class SoftCache<K, V> {
-        Map<K, SoftReference<LinkedHashSet<V>>> cache;
+    privbtf stbtid finbl dlbss SoftCbdif<K, V> {
+        Mbp<K, SoftRfffrfndf<LinkfdHbsiSft<V>>> dbdif;
 
-        public void put(K key, LinkedHashSet<V> value) {
-            if (cache == null) {
-                cache = new HashMap<>(1);
+        publid void put(K kfy, LinkfdHbsiSft<V> vbluf) {
+            if (dbdif == null) {
+                dbdif = nfw HbsiMbp<>(1);
             }
-            cache.put(key, new SoftReference<>(value));
+            dbdif.put(kfy, nfw SoftRfffrfndf<>(vbluf));
         }
 
-        public void remove(K key) {
-            if (cache == null) return;
-            cache.remove(null);
-            cache.remove(key);
+        publid void rfmovf(K kfy) {
+            if (dbdif == null) rfturn;
+            dbdif.rfmovf(null);
+            dbdif.rfmovf(kfy);
         }
 
-        public LinkedHashSet<V> check(K key) {
-            if (cache == null) return null;
-            SoftReference<LinkedHashSet<V>> ref = cache.get(key);
-            if (ref != null) {
-                return ref.get();
+        publid LinkfdHbsiSft<V> difdk(K kfy) {
+            if (dbdif == null) rfturn null;
+            SoftRfffrfndf<LinkfdHbsiSft<V>> rff = dbdif.gft(kfy);
+            if (rff != null) {
+                rfturn rff.gft();
             }
-            return null;
+            rfturn null;
         }
     }
 }

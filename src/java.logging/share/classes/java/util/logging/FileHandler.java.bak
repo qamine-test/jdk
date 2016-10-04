@@ -1,726 +1,726 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.logging;
+pbdkbgf jbvb.util.logging;
 
-import static java.nio.file.StandardOpenOption.APPEND;
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
-import static java.nio.file.StandardOpenOption.WRITE;
+import stbtid jbvb.nio.filf.StbndbrdOpfnOption.APPEND;
+import stbtid jbvb.nio.filf.StbndbrdOpfnOption.CREATE_NEW;
+import stbtid jbvb.nio.filf.StbndbrdOpfnOption.WRITE;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.channels.FileChannel;
-import java.nio.channels.OverlappingFileLockException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashSet;
-import java.util.Set;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.nio.dibnnfls.FilfCibnnfl;
+import jbvb.nio.dibnnfls.OvfrlbppingFilfLodkExdfption;
+import jbvb.nio.filf.FilfAlrfbdyExistsExdfption;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.LinkOption;
+import jbvb.nio.filf.NoSudiFilfExdfption;
+import jbvb.nio.filf.Pbti;
+import jbvb.nio.filf.Pbtis;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbsiSft;
+import jbvb.util.Sft;
 
 /**
- * Simple file logging <tt>Handler</tt>.
+ * Simplf filf logging <tt>Hbndlfr</tt>.
  * <p>
- * The <tt>FileHandler</tt> can either write to a specified file,
- * or it can write to a rotating set of files.
+ * Tif <tt>FilfHbndlfr</tt> dbn fitifr writf to b spfdififd filf,
+ * or it dbn writf to b rotbting sft of filfs.
  * <p>
- * For a rotating set of files, as each file reaches a given size
- * limit, it is closed, rotated out, and a new file opened.
- * Successively older files are named by adding "0", "1", "2",
- * etc. into the base filename.
+ * For b rotbting sft of filfs, bs fbdi filf rfbdifs b givfn sizf
+ * limit, it is dlosfd, rotbtfd out, bnd b nfw filf opfnfd.
+ * Suddfssivfly oldfr filfs brf nbmfd by bdding "0", "1", "2",
+ * ftd. into tif bbsf filfnbmf.
  * <p>
- * By default buffering is enabled in the IO libraries but each log
- * record is flushed out when it is complete.
+ * By dffbult bufffring is fnbblfd in tif IO librbrifs but fbdi log
+ * rfdord is flusifd out wifn it is domplftf.
  * <p>
- * By default the <tt>XMLFormatter</tt> class is used for formatting.
+ * By dffbult tif <tt>XMLFormbttfr</tt> dlbss is usfd for formbtting.
  * <p>
- * <b>Configuration:</b>
- * By default each <tt>FileHandler</tt> is initialized using the following
- * <tt>LogManager</tt> configuration properties where <tt>&lt;handler-name&gt;</tt>
- * refers to the fully-qualified class name of the handler.
- * If properties are not defined
- * (or have invalid values) then the specified default values are used.
+ * <b>Configurbtion:</b>
+ * By dffbult fbdi <tt>FilfHbndlfr</tt> is initiblizfd using tif following
+ * <tt>LogMbnbgfr</tt> donfigurbtion propfrtifs wifrf <tt>&lt;ibndlfr-nbmf&gt;</tt>
+ * rfffrs to tif fully-qublififd dlbss nbmf of tif ibndlfr.
+ * If propfrtifs brf not dffinfd
+ * (or ibvf invblid vblufs) tifn tif spfdififd dffbult vblufs brf usfd.
  * <ul>
- * <li>   &lt;handler-name&gt;.level
- *        specifies the default level for the <tt>Handler</tt>
- *        (defaults to <tt>Level.ALL</tt>). </li>
- * <li>   &lt;handler-name&gt;.filter
- *        specifies the name of a <tt>Filter</tt> class to use
- *        (defaults to no <tt>Filter</tt>). </li>
- * <li>   &lt;handler-name&gt;.formatter
- *        specifies the name of a <tt>Formatter</tt> class to use
- *        (defaults to <tt>java.util.logging.XMLFormatter</tt>) </li>
- * <li>   &lt;handler-name&gt;.encoding
- *        the name of the character set encoding to use (defaults to
- *        the default platform encoding). </li>
- * <li>   &lt;handler-name&gt;.limit
- *        specifies an approximate maximum amount to write (in bytes)
- *        to any one file.  If this is zero, then there is no limit.
- *        (Defaults to no limit). </li>
- * <li>   &lt;handler-name&gt;.count
- *        specifies how many output files to cycle through (defaults to 1). </li>
- * <li>   &lt;handler-name&gt;.pattern
- *        specifies a pattern for generating the output file name.  See
- *        below for details. (Defaults to "%h/java%u.log"). </li>
- * <li>   &lt;handler-name&gt;.append
- *        specifies whether the FileHandler should append onto
- *        any existing files (defaults to false). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.lfvfl
+ *        spfdififs tif dffbult lfvfl for tif <tt>Hbndlfr</tt>
+ *        (dffbults to <tt>Lfvfl.ALL</tt>). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.filtfr
+ *        spfdififs tif nbmf of b <tt>Filtfr</tt> dlbss to usf
+ *        (dffbults to no <tt>Filtfr</tt>). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.formbttfr
+ *        spfdififs tif nbmf of b <tt>Formbttfr</tt> dlbss to usf
+ *        (dffbults to <tt>jbvb.util.logging.XMLFormbttfr</tt>) </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.fndoding
+ *        tif nbmf of tif dibrbdtfr sft fndoding to usf (dffbults to
+ *        tif dffbult plbtform fndoding). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.limit
+ *        spfdififs bn bpproximbtf mbximum bmount to writf (in bytfs)
+ *        to bny onf filf.  If tiis is zfro, tifn tifrf is no limit.
+ *        (Dffbults to no limit). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.dount
+ *        spfdififs iow mbny output filfs to dydlf tirougi (dffbults to 1). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.pbttfrn
+ *        spfdififs b pbttfrn for gfnfrbting tif output filf nbmf.  Sff
+ *        bflow for dftbils. (Dffbults to "%i/jbvb%u.log"). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.bppfnd
+ *        spfdififs wiftifr tif FilfHbndlfr siould bppfnd onto
+ *        bny fxisting filfs (dffbults to fblsf). </li>
  * </ul>
  * <p>
- * For example, the properties for {@code FileHandler} would be:
+ * For fxbmplf, tif propfrtifs for {@dodf FilfHbndlfr} would bf:
  * <ul>
- * <li>   java.util.logging.FileHandler.level=INFO </li>
- * <li>   java.util.logging.FileHandler.formatter=java.util.logging.SimpleFormatter </li>
+ * <li>   jbvb.util.logging.FilfHbndlfr.lfvfl=INFO </li>
+ * <li>   jbvb.util.logging.FilfHbndlfr.formbttfr=jbvb.util.logging.SimplfFormbttfr </li>
  * </ul>
  * <p>
- * For a custom handler, e.g. com.foo.MyHandler, the properties would be:
+ * For b dustom ibndlfr, f.g. dom.foo.MyHbndlfr, tif propfrtifs would bf:
  * <ul>
- * <li>   com.foo.MyHandler.level=INFO </li>
- * <li>   com.foo.MyHandler.formatter=java.util.logging.SimpleFormatter </li>
+ * <li>   dom.foo.MyHbndlfr.lfvfl=INFO </li>
+ * <li>   dom.foo.MyHbndlfr.formbttfr=jbvb.util.logging.SimplfFormbttfr </li>
  * </ul>
  * <p>
- * A pattern consists of a string that includes the following special
- * components that will be replaced at runtime:
+ * A pbttfrn donsists of b string tibt indludfs tif following spfdibl
+ * domponfnts tibt will bf rfplbdfd bt runtimf:
  * <ul>
- * <li>    "/"    the local pathname separator </li>
- * <li>     "%t"   the system temporary directory </li>
- * <li>     "%h"   the value of the "user.home" system property </li>
- * <li>     "%g"   the generation number to distinguish rotated logs </li>
- * <li>     "%u"   a unique number to resolve conflicts </li>
- * <li>     "%%"   translates to a single percent sign "%" </li>
+ * <li>    "/"    tif lodbl pbtinbmf sfpbrbtor </li>
+ * <li>     "%t"   tif systfm tfmporbry dirfdtory </li>
+ * <li>     "%i"   tif vbluf of tif "usfr.iomf" systfm propfrty </li>
+ * <li>     "%g"   tif gfnfrbtion numbfr to distinguisi rotbtfd logs </li>
+ * <li>     "%u"   b uniquf numbfr to rfsolvf donflidts </li>
+ * <li>     "%%"   trbnslbtfs to b singlf pfrdfnt sign "%" </li>
  * </ul>
- * If no "%g" field has been specified and the file count is greater
- * than one, then the generation number will be added to the end of
- * the generated filename, after a dot.
+ * If no "%g" fifld ibs bffn spfdififd bnd tif filf dount is grfbtfr
+ * tibn onf, tifn tif gfnfrbtion numbfr will bf bddfd to tif fnd of
+ * tif gfnfrbtfd filfnbmf, bftfr b dot.
  * <p>
- * Thus for example a pattern of "%t/java%g.log" with a count of 2
- * would typically cause log files to be written on Solaris to
- * /var/tmp/java0.log and /var/tmp/java1.log whereas on Windows 95 they
- * would be typically written to C:\TEMP\java0.log and C:\TEMP\java1.log
+ * Tius for fxbmplf b pbttfrn of "%t/jbvb%g.log" witi b dount of 2
+ * would typidblly dbusf log filfs to bf writtfn on Solbris to
+ * /vbr/tmp/jbvb0.log bnd /vbr/tmp/jbvb1.log wifrfbs on Windows 95 tify
+ * would bf typidblly writtfn to C:\TEMP\jbvb0.log bnd C:\TEMP\jbvb1.log
  * <p>
- * Generation numbers follow the sequence 0, 1, 2, etc.
+ * Gfnfrbtion numbfrs follow tif sfqufndf 0, 1, 2, ftd.
  * <p>
- * Normally the "%u" unique field is set to 0.  However, if the <tt>FileHandler</tt>
- * tries to open the filename and finds the file is currently in use by
- * another process it will increment the unique number field and try
- * again.  This will be repeated until <tt>FileHandler</tt> finds a file name that
- * is  not currently in use. If there is a conflict and no "%u" field has
- * been specified, it will be added at the end of the filename after a dot.
- * (This will be after any automatically added generation number.)
+ * Normblly tif "%u" uniquf fifld is sft to 0.  Howfvfr, if tif <tt>FilfHbndlfr</tt>
+ * trifs to opfn tif filfnbmf bnd finds tif filf is durrfntly in usf by
+ * bnotifr prodfss it will indrfmfnt tif uniquf numbfr fifld bnd try
+ * bgbin.  Tiis will bf rfpfbtfd until <tt>FilfHbndlfr</tt> finds b filf nbmf tibt
+ * is  not durrfntly in usf. If tifrf is b donflidt bnd no "%u" fifld ibs
+ * bffn spfdififd, it will bf bddfd bt tif fnd of tif filfnbmf bftfr b dot.
+ * (Tiis will bf bftfr bny butombtidblly bddfd gfnfrbtion numbfr.)
  * <p>
- * Thus if three processes were all trying to log to fred%u.%g.txt then
- * they  might end up using fred0.0.txt, fred1.0.txt, fred2.0.txt as
- * the first file in their rotating sequences.
+ * Tius if tirff prodfssfs wfrf bll trying to log to frfd%u.%g.txt tifn
+ * tify  migit fnd up using frfd0.0.txt, frfd1.0.txt, frfd2.0.txt bs
+ * tif first filf in tifir rotbting sfqufndfs.
  * <p>
- * Note that the use of unique ids to avoid conflicts is only guaranteed
- * to work reliably when using a local disk file system.
+ * Notf tibt tif usf of uniquf ids to bvoid donflidts is only gubrbntffd
+ * to work rflibbly wifn using b lodbl disk filf systfm.
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public class FileHandler extends StreamHandler {
-    private MeteredStream meter;
-    private boolean append;
-    private int limit;       // zero => no limit.
-    private int count;
-    private String pattern;
-    private String lockFileName;
-    private FileChannel lockFileChannel;
-    private File files[];
-    private static final int MAX_LOCKS = 100;
-    private static final Set<String> locks = new HashSet<>();
+publid dlbss FilfHbndlfr fxtfnds StrfbmHbndlfr {
+    privbtf MftfrfdStrfbm mftfr;
+    privbtf boolfbn bppfnd;
+    privbtf int limit;       // zfro => no limit.
+    privbtf int dount;
+    privbtf String pbttfrn;
+    privbtf String lodkFilfNbmf;
+    privbtf FilfCibnnfl lodkFilfCibnnfl;
+    privbtf Filf filfs[];
+    privbtf stbtid finbl int MAX_LOCKS = 100;
+    privbtf stbtid finbl Sft<String> lodks = nfw HbsiSft<>();
 
     /**
-     * A metered stream is a subclass of OutputStream that
-     * (a) forwards all its output to a target stream
-     * (b) keeps track of how many bytes have been written
+     * A mftfrfd strfbm is b subdlbss of OutputStrfbm tibt
+     * (b) forwbrds bll its output to b tbrgft strfbm
+     * (b) kffps trbdk of iow mbny bytfs ibvf bffn writtfn
      */
-    private class MeteredStream extends OutputStream {
-        final OutputStream out;
-        int written;
+    privbtf dlbss MftfrfdStrfbm fxtfnds OutputStrfbm {
+        finbl OutputStrfbm out;
+        int writtfn;
 
-        MeteredStream(OutputStream out, int written) {
-            this.out = out;
-            this.written = written;
+        MftfrfdStrfbm(OutputStrfbm out, int writtfn) {
+            tiis.out = out;
+            tiis.writtfn = writtfn;
         }
 
-        @Override
-        public void write(int b) throws IOException {
-            out.write(b);
-            written++;
+        @Ovfrridf
+        publid void writf(int b) tirows IOExdfption {
+            out.writf(b);
+            writtfn++;
         }
 
-        @Override
-        public void write(byte buff[]) throws IOException {
-            out.write(buff);
-            written += buff.length;
+        @Ovfrridf
+        publid void writf(bytf buff[]) tirows IOExdfption {
+            out.writf(buff);
+            writtfn += buff.lfngti;
         }
 
-        @Override
-        public void write(byte buff[], int off, int len) throws IOException {
-            out.write(buff,off,len);
-            written += len;
+        @Ovfrridf
+        publid void writf(bytf buff[], int off, int lfn) tirows IOExdfption {
+            out.writf(buff,off,lfn);
+            writtfn += lfn;
         }
 
-        @Override
-        public void flush() throws IOException {
-            out.flush();
+        @Ovfrridf
+        publid void flusi() tirows IOExdfption {
+            out.flusi();
         }
 
-        @Override
-        public void close() throws IOException {
-            out.close();
+        @Ovfrridf
+        publid void dlosf() tirows IOExdfption {
+            out.dlosf();
         }
     }
 
-    private void open(File fname, boolean append) throws IOException {
-        int len = 0;
-        if (append) {
-            len = (int)fname.length();
+    privbtf void opfn(Filf fnbmf, boolfbn bppfnd) tirows IOExdfption {
+        int lfn = 0;
+        if (bppfnd) {
+            lfn = (int)fnbmf.lfngti();
         }
-        FileOutputStream fout = new FileOutputStream(fname.toString(), append);
-        BufferedOutputStream bout = new BufferedOutputStream(fout);
-        meter = new MeteredStream(bout, len);
-        setOutputStream(meter);
+        FilfOutputStrfbm fout = nfw FilfOutputStrfbm(fnbmf.toString(), bppfnd);
+        BufffrfdOutputStrfbm bout = nfw BufffrfdOutputStrfbm(fout);
+        mftfr = nfw MftfrfdStrfbm(bout, lfn);
+        sftOutputStrfbm(mftfr);
     }
 
     /**
-     * Configure a FileHandler from LogManager properties and/or default values
-     * as specified in the class javadoc.
+     * Configurf b FilfHbndlfr from LogMbnbgfr propfrtifs bnd/or dffbult vblufs
+     * bs spfdififd in tif dlbss jbvbdod.
      */
-    private void configure() {
-        LogManager manager = LogManager.getLogManager();
+    privbtf void donfigurf() {
+        LogMbnbgfr mbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
 
-        String cname = getClass().getName();
+        String dnbmf = gftClbss().gftNbmf();
 
-        pattern = manager.getStringProperty(cname + ".pattern", "%h/java%u.log");
-        limit = manager.getIntProperty(cname + ".limit", 0);
+        pbttfrn = mbnbgfr.gftStringPropfrty(dnbmf + ".pbttfrn", "%i/jbvb%u.log");
+        limit = mbnbgfr.gftIntPropfrty(dnbmf + ".limit", 0);
         if (limit < 0) {
             limit = 0;
         }
-        count = manager.getIntProperty(cname + ".count", 1);
-        if (count <= 0) {
-            count = 1;
+        dount = mbnbgfr.gftIntPropfrty(dnbmf + ".dount", 1);
+        if (dount <= 0) {
+            dount = 1;
         }
-        append = manager.getBooleanProperty(cname + ".append", false);
-        setLevel(manager.getLevelProperty(cname + ".level", Level.ALL));
-        setFilter(manager.getFilterProperty(cname + ".filter", null));
-        setFormatter(manager.getFormatterProperty(cname + ".formatter", new XMLFormatter()));
+        bppfnd = mbnbgfr.gftBoolfbnPropfrty(dnbmf + ".bppfnd", fblsf);
+        sftLfvfl(mbnbgfr.gftLfvflPropfrty(dnbmf + ".lfvfl", Lfvfl.ALL));
+        sftFiltfr(mbnbgfr.gftFiltfrPropfrty(dnbmf + ".filtfr", null));
+        sftFormbttfr(mbnbgfr.gftFormbttfrPropfrty(dnbmf + ".formbttfr", nfw XMLFormbttfr()));
         try {
-            setEncoding(manager.getStringProperty(cname +".encoding", null));
-        } catch (Exception ex) {
+            sftEndoding(mbnbgfr.gftStringPropfrty(dnbmf +".fndoding", null));
+        } dbtdi (Exdfption fx) {
             try {
-                setEncoding(null);
-            } catch (Exception ex2) {
-                // doing a setEncoding with null should always work.
-                // assert false;
+                sftEndoding(null);
+            } dbtdi (Exdfption fx2) {
+                // doing b sftEndoding witi null siould blwbys work.
+                // bssfrt fblsf;
             }
         }
     }
 
 
     /**
-     * Construct a default <tt>FileHandler</tt>.  This will be configured
-     * entirely from <tt>LogManager</tt> properties (or their default values).
+     * Construdt b dffbult <tt>FilfHbndlfr</tt>.  Tiis will bf donfigurfd
+     * fntirfly from <tt>LogMbnbgfr</tt> propfrtifs (or tifir dffbult vblufs).
      *
-     * @exception  IOException if there are IO problems opening the files.
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control"))</tt>.
-     * @exception  NullPointerException if pattern property is an empty String.
+     * @fxdfption  IOExdfption if tifrf brf IO problfms opfning tif filfs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol"))</tt>.
+     * @fxdfption  NullPointfrExdfption if pbttfrn propfrty is bn fmpty String.
      */
-    public FileHandler() throws IOException, SecurityException {
-        checkPermission();
-        configure();
-        openFiles();
+    publid FilfHbndlfr() tirows IOExdfption, SfdurityExdfption {
+        difdkPfrmission();
+        donfigurf();
+        opfnFilfs();
     }
 
     /**
-     * Initialize a <tt>FileHandler</tt> to write to the given filename.
+     * Initiblizf b <tt>FilfHbndlfr</tt> to writf to tif givfn filfnbmf.
      * <p>
-     * The <tt>FileHandler</tt> is configured based on <tt>LogManager</tt>
-     * properties (or their default values) except that the given pattern
-     * argument is used as the filename pattern, the file limit is
-     * set to no limit, and the file count is set to one.
+     * Tif <tt>FilfHbndlfr</tt> is donfigurfd bbsfd on <tt>LogMbnbgfr</tt>
+     * propfrtifs (or tifir dffbult vblufs) fxdfpt tibt tif givfn pbttfrn
+     * brgumfnt is usfd bs tif filfnbmf pbttfrn, tif filf limit is
+     * sft to no limit, bnd tif filf dount is sft to onf.
      * <p>
-     * There is no limit on the amount of data that may be written,
-     * so use this with care.
+     * Tifrf is no limit on tif bmount of dbtb tibt mby bf writtfn,
+     * so usf tiis witi dbrf.
      *
-     * @param pattern  the name of the output file
-     * @exception  IOException if there are IO problems opening the files.
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
-     * @exception  IllegalArgumentException if pattern is an empty string
+     * @pbrbm pbttfrn  tif nbmf of tif output filf
+     * @fxdfption  IOExdfption if tifrf brf IO problfms opfning tif filfs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
+     * @fxdfption  IllfgblArgumfntExdfption if pbttfrn is bn fmpty string
      */
-    public FileHandler(String pattern) throws IOException, SecurityException {
-        if (pattern.length() < 1 ) {
-            throw new IllegalArgumentException();
+    publid FilfHbndlfr(String pbttfrn) tirows IOExdfption, SfdurityExdfption {
+        if (pbttfrn.lfngti() < 1 ) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        checkPermission();
-        configure();
-        this.pattern = pattern;
-        this.limit = 0;
-        this.count = 1;
-        openFiles();
+        difdkPfrmission();
+        donfigurf();
+        tiis.pbttfrn = pbttfrn;
+        tiis.limit = 0;
+        tiis.dount = 1;
+        opfnFilfs();
     }
 
     /**
-     * Initialize a <tt>FileHandler</tt> to write to the given filename,
-     * with optional append.
+     * Initiblizf b <tt>FilfHbndlfr</tt> to writf to tif givfn filfnbmf,
+     * witi optionbl bppfnd.
      * <p>
-     * The <tt>FileHandler</tt> is configured based on <tt>LogManager</tt>
-     * properties (or their default values) except that the given pattern
-     * argument is used as the filename pattern, the file limit is
-     * set to no limit, the file count is set to one, and the append
-     * mode is set to the given <tt>append</tt> argument.
+     * Tif <tt>FilfHbndlfr</tt> is donfigurfd bbsfd on <tt>LogMbnbgfr</tt>
+     * propfrtifs (or tifir dffbult vblufs) fxdfpt tibt tif givfn pbttfrn
+     * brgumfnt is usfd bs tif filfnbmf pbttfrn, tif filf limit is
+     * sft to no limit, tif filf dount is sft to onf, bnd tif bppfnd
+     * modf is sft to tif givfn <tt>bppfnd</tt> brgumfnt.
      * <p>
-     * There is no limit on the amount of data that may be written,
-     * so use this with care.
+     * Tifrf is no limit on tif bmount of dbtb tibt mby bf writtfn,
+     * so usf tiis witi dbrf.
      *
-     * @param pattern  the name of the output file
-     * @param append  specifies append mode
-     * @exception  IOException if there are IO problems opening the files.
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
-     * @exception  IllegalArgumentException if pattern is an empty string
+     * @pbrbm pbttfrn  tif nbmf of tif output filf
+     * @pbrbm bppfnd  spfdififs bppfnd modf
+     * @fxdfption  IOExdfption if tifrf brf IO problfms opfning tif filfs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
+     * @fxdfption  IllfgblArgumfntExdfption if pbttfrn is bn fmpty string
      */
-    public FileHandler(String pattern, boolean append) throws IOException,
-            SecurityException {
-        if (pattern.length() < 1 ) {
-            throw new IllegalArgumentException();
+    publid FilfHbndlfr(String pbttfrn, boolfbn bppfnd) tirows IOExdfption,
+            SfdurityExdfption {
+        if (pbttfrn.lfngti() < 1 ) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        checkPermission();
-        configure();
-        this.pattern = pattern;
-        this.limit = 0;
-        this.count = 1;
-        this.append = append;
-        openFiles();
+        difdkPfrmission();
+        donfigurf();
+        tiis.pbttfrn = pbttfrn;
+        tiis.limit = 0;
+        tiis.dount = 1;
+        tiis.bppfnd = bppfnd;
+        opfnFilfs();
     }
 
     /**
-     * Initialize a <tt>FileHandler</tt> to write to a set of files.  When
-     * (approximately) the given limit has been written to one file,
-     * another file will be opened.  The output will cycle through a set
-     * of count files.
+     * Initiblizf b <tt>FilfHbndlfr</tt> to writf to b sft of filfs.  Wifn
+     * (bpproximbtfly) tif givfn limit ibs bffn writtfn to onf filf,
+     * bnotifr filf will bf opfnfd.  Tif output will dydlf tirougi b sft
+     * of dount filfs.
      * <p>
-     * The <tt>FileHandler</tt> is configured based on <tt>LogManager</tt>
-     * properties (or their default values) except that the given pattern
-     * argument is used as the filename pattern, the file limit is
-     * set to the limit argument, and the file count is set to the
-     * given count argument.
+     * Tif <tt>FilfHbndlfr</tt> is donfigurfd bbsfd on <tt>LogMbnbgfr</tt>
+     * propfrtifs (or tifir dffbult vblufs) fxdfpt tibt tif givfn pbttfrn
+     * brgumfnt is usfd bs tif filfnbmf pbttfrn, tif filf limit is
+     * sft to tif limit brgumfnt, bnd tif filf dount is sft to tif
+     * givfn dount brgumfnt.
      * <p>
-     * The count must be at least 1.
+     * Tif dount must bf bt lfbst 1.
      *
-     * @param pattern  the pattern for naming the output file
-     * @param limit  the maximum number of bytes to write to any one file
-     * @param count  the number of files to use
-     * @exception  IOException if there are IO problems opening the files.
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
-     * @exception  IllegalArgumentException if {@code limit < 0}, or {@code count < 1}.
-     * @exception  IllegalArgumentException if pattern is an empty string
+     * @pbrbm pbttfrn  tif pbttfrn for nbming tif output filf
+     * @pbrbm limit  tif mbximum numbfr of bytfs to writf to bny onf filf
+     * @pbrbm dount  tif numbfr of filfs to usf
+     * @fxdfption  IOExdfption if tifrf brf IO problfms opfning tif filfs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
+     * @fxdfption  IllfgblArgumfntExdfption if {@dodf limit < 0}, or {@dodf dount < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption if pbttfrn is bn fmpty string
      */
-    public FileHandler(String pattern, int limit, int count)
-                                        throws IOException, SecurityException {
-        if (limit < 0 || count < 1 || pattern.length() < 1) {
-            throw new IllegalArgumentException();
+    publid FilfHbndlfr(String pbttfrn, int limit, int dount)
+                                        tirows IOExdfption, SfdurityExdfption {
+        if (limit < 0 || dount < 1 || pbttfrn.lfngti() < 1) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        checkPermission();
-        configure();
-        this.pattern = pattern;
-        this.limit = limit;
-        this.count = count;
-        openFiles();
+        difdkPfrmission();
+        donfigurf();
+        tiis.pbttfrn = pbttfrn;
+        tiis.limit = limit;
+        tiis.dount = dount;
+        opfnFilfs();
     }
 
     /**
-     * Initialize a <tt>FileHandler</tt> to write to a set of files
-     * with optional append.  When (approximately) the given limit has
-     * been written to one file, another file will be opened.  The
-     * output will cycle through a set of count files.
+     * Initiblizf b <tt>FilfHbndlfr</tt> to writf to b sft of filfs
+     * witi optionbl bppfnd.  Wifn (bpproximbtfly) tif givfn limit ibs
+     * bffn writtfn to onf filf, bnotifr filf will bf opfnfd.  Tif
+     * output will dydlf tirougi b sft of dount filfs.
      * <p>
-     * The <tt>FileHandler</tt> is configured based on <tt>LogManager</tt>
-     * properties (or their default values) except that the given pattern
-     * argument is used as the filename pattern, the file limit is
-     * set to the limit argument, and the file count is set to the
-     * given count argument, and the append mode is set to the given
-     * <tt>append</tt> argument.
+     * Tif <tt>FilfHbndlfr</tt> is donfigurfd bbsfd on <tt>LogMbnbgfr</tt>
+     * propfrtifs (or tifir dffbult vblufs) fxdfpt tibt tif givfn pbttfrn
+     * brgumfnt is usfd bs tif filfnbmf pbttfrn, tif filf limit is
+     * sft to tif limit brgumfnt, bnd tif filf dount is sft to tif
+     * givfn dount brgumfnt, bnd tif bppfnd modf is sft to tif givfn
+     * <tt>bppfnd</tt> brgumfnt.
      * <p>
-     * The count must be at least 1.
+     * Tif dount must bf bt lfbst 1.
      *
-     * @param pattern  the pattern for naming the output file
-     * @param limit  the maximum number of bytes to write to any one file
-     * @param count  the number of files to use
-     * @param append  specifies append mode
-     * @exception  IOException if there are IO problems opening the files.
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
-     * @exception  IllegalArgumentException if {@code limit < 0}, or {@code count < 1}.
-     * @exception  IllegalArgumentException if pattern is an empty string
+     * @pbrbm pbttfrn  tif pbttfrn for nbming tif output filf
+     * @pbrbm limit  tif mbximum numbfr of bytfs to writf to bny onf filf
+     * @pbrbm dount  tif numbfr of filfs to usf
+     * @pbrbm bppfnd  spfdififs bppfnd modf
+     * @fxdfption  IOExdfption if tifrf brf IO problfms opfning tif filfs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
+     * @fxdfption  IllfgblArgumfntExdfption if {@dodf limit < 0}, or {@dodf dount < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption if pbttfrn is bn fmpty string
      *
      */
-    public FileHandler(String pattern, int limit, int count, boolean append)
-                                        throws IOException, SecurityException {
-        if (limit < 0 || count < 1 || pattern.length() < 1) {
-            throw new IllegalArgumentException();
+    publid FilfHbndlfr(String pbttfrn, int limit, int dount, boolfbn bppfnd)
+                                        tirows IOExdfption, SfdurityExdfption {
+        if (limit < 0 || dount < 1 || pbttfrn.lfngti() < 1) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        checkPermission();
-        configure();
-        this.pattern = pattern;
-        this.limit = limit;
-        this.count = count;
-        this.append = append;
-        openFiles();
+        difdkPfrmission();
+        donfigurf();
+        tiis.pbttfrn = pbttfrn;
+        tiis.limit = limit;
+        tiis.dount = dount;
+        tiis.bppfnd = bppfnd;
+        opfnFilfs();
     }
 
     /**
-     * Open the set of output files, based on the configured
-     * instance variables.
+     * Opfn tif sft of output filfs, bbsfd on tif donfigurfd
+     * instbndf vbribblfs.
      */
-    private void openFiles() throws IOException {
-        LogManager manager = LogManager.getLogManager();
-        manager.checkPermission();
-        if (count < 1) {
-           throw new IllegalArgumentException("file count = " + count);
+    privbtf void opfnFilfs() tirows IOExdfption {
+        LogMbnbgfr mbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
+        mbnbgfr.difdkPfrmission();
+        if (dount < 1) {
+           tirow nfw IllfgblArgumfntExdfption("filf dount = " + dount);
         }
         if (limit < 0) {
             limit = 0;
         }
 
-        // We register our own ErrorManager during initialization
-        // so we can record exceptions.
-        InitializationErrorManager em = new InitializationErrorManager();
-        setErrorManager(em);
+        // Wf rfgistfr our own ErrorMbnbgfr during initiblizbtion
+        // so wf dbn rfdord fxdfptions.
+        InitiblizbtionErrorMbnbgfr fm = nfw InitiblizbtionErrorMbnbgfr();
+        sftErrorMbnbgfr(fm);
 
-        // Create a lock file.  This grants us exclusive access
-        // to our set of output files, as long as we are alive.
-        int unique = -1;
+        // Crfbtf b lodk filf.  Tiis grbnts us fxdlusivf bddfss
+        // to our sft of output filfs, bs long bs wf brf blivf.
+        int uniquf = -1;
         for (;;) {
-            unique++;
-            if (unique > MAX_LOCKS) {
-                throw new IOException("Couldn't get lock for " + pattern);
+            uniquf++;
+            if (uniquf > MAX_LOCKS) {
+                tirow nfw IOExdfption("Couldn't gft lodk for " + pbttfrn);
             }
-            // Generate a lock file name from the "unique" int.
-            lockFileName = generate(pattern, 0, unique).toString() + ".lck";
-            // Now try to lock that filename.
-            // Because some systems (e.g., Solaris) can only do file locks
-            // between processes (and not within a process), we first check
-            // if we ourself already have the file locked.
-            synchronized(locks) {
-                if (locks.contains(lockFileName)) {
-                    // We already own this lock, for a different FileHandler
-                    // object.  Try again.
-                    continue;
+            // Gfnfrbtf b lodk filf nbmf from tif "uniquf" int.
+            lodkFilfNbmf = gfnfrbtf(pbttfrn, 0, uniquf).toString() + ".ldk";
+            // Now try to lodk tibt filfnbmf.
+            // Bfdbusf somf systfms (f.g., Solbris) dbn only do filf lodks
+            // bftwffn prodfssfs (bnd not witiin b prodfss), wf first difdk
+            // if wf oursflf blrfbdy ibvf tif filf lodkfd.
+            syndironizfd(lodks) {
+                if (lodks.dontbins(lodkFilfNbmf)) {
+                    // Wf blrfbdy own tiis lodk, for b difffrfnt FilfHbndlfr
+                    // objfdt.  Try bgbin.
+                    dontinuf;
                 }
 
-                final Path lockFilePath = Paths.get(lockFileName);
-                FileChannel channel = null;
-                int retries = -1;
-                boolean fileCreated = false;
-                while (channel == null && retries++ < 1) {
+                finbl Pbti lodkFilfPbti = Pbtis.gft(lodkFilfNbmf);
+                FilfCibnnfl dibnnfl = null;
+                int rftrifs = -1;
+                boolfbn filfCrfbtfd = fblsf;
+                wiilf (dibnnfl == null && rftrifs++ < 1) {
                     try {
-                        channel = FileChannel.open(lockFilePath,
+                        dibnnfl = FilfCibnnfl.opfn(lodkFilfPbti,
                                 CREATE_NEW, WRITE);
-                        fileCreated = true;
-                    } catch (FileAlreadyExistsException ix) {
-                        // This may be a zombie file left over by a previous
-                        // execution. Reuse it - but only if we can actually
-                        // write to its directory.
-                        // Note that this is a situation that may happen,
-                        // but not too frequently.
-                        if (Files.isRegularFile(lockFilePath, LinkOption.NOFOLLOW_LINKS)
-                            && Files.isWritable(lockFilePath.getParent())) {
+                        filfCrfbtfd = truf;
+                    } dbtdi (FilfAlrfbdyExistsExdfption ix) {
+                        // Tiis mby bf b zombif filf lfft ovfr by b prfvious
+                        // fxfdution. Rfusf it - but only if wf dbn bdtublly
+                        // writf to its dirfdtory.
+                        // Notf tibt tiis is b situbtion tibt mby ibppfn,
+                        // but not too frfqufntly.
+                        if (Filfs.isRfgulbrFilf(lodkFilfPbti, LinkOption.NOFOLLOW_LINKS)
+                            && Filfs.isWritbblf(lodkFilfPbti.gftPbrfnt())) {
                             try {
-                                channel = FileChannel.open(lockFilePath,
+                                dibnnfl = FilfCibnnfl.opfn(lodkFilfPbti,
                                     WRITE, APPEND);
-                            } catch (NoSuchFileException x) {
-                                // Race condition - retry once, and if that
-                                // fails again just try the next name in
-                                // the sequence.
-                                continue;
-                            } catch(IOException x) {
-                                // the file may not be writable for us.
-                                // try the next name in the sequence
-                                break;
+                            } dbtdi (NoSudiFilfExdfption x) {
+                                // Rbdf dondition - rftry ondf, bnd if tibt
+                                // fbils bgbin just try tif nfxt nbmf in
+                                // tif sfqufndf.
+                                dontinuf;
+                            } dbtdi(IOExdfption x) {
+                                // tif filf mby not bf writbblf for us.
+                                // try tif nfxt nbmf in tif sfqufndf
+                                brfbk;
                             }
-                        } else {
-                            // at this point channel should still be null.
-                            // break and try the next name in the sequence.
-                            break;
+                        } flsf {
+                            // bt tiis point dibnnfl siould still bf null.
+                            // brfbk bnd try tif nfxt nbmf in tif sfqufndf.
+                            brfbk;
                         }
                     }
                 }
 
-                if (channel == null) continue; // try the next name;
-                lockFileChannel = channel;
+                if (dibnnfl == null) dontinuf; // try tif nfxt nbmf;
+                lodkFilfCibnnfl = dibnnfl;
 
-                boolean available;
+                boolfbn bvbilbblf;
                 try {
-                    available = lockFileChannel.tryLock() != null;
-                    // We got the lock OK.
-                    // At this point we could call File.deleteOnExit().
-                    // However, this could have undesirable side effects
-                    // as indicated by JDK-4872014. So we will instead
-                    // rely on the fact that close() will remove the lock
-                    // file and that whoever is creating FileHandlers should
-                    // be responsible for closing them.
-                } catch (IOException ix) {
-                    // We got an IOException while trying to get the lock.
-                    // This normally indicates that locking is not supported
-                    // on the target directory.  We have to proceed without
-                    // getting a lock.   Drop through, but only if we did
-                    // create the file...
-                    available = fileCreated;
-                } catch (OverlappingFileLockException x) {
-                    // someone already locked this file in this VM, through
-                    // some other channel - that is - using something else
-                    // than new FileHandler(...);
-                    // continue searching for an available lock.
-                    available = false;
+                    bvbilbblf = lodkFilfCibnnfl.tryLodk() != null;
+                    // Wf got tif lodk OK.
+                    // At tiis point wf dould dbll Filf.dflftfOnExit().
+                    // Howfvfr, tiis dould ibvf undfsirbblf sidf ffffdts
+                    // bs indidbtfd by JDK-4872014. So wf will instfbd
+                    // rfly on tif fbdt tibt dlosf() will rfmovf tif lodk
+                    // filf bnd tibt wiofvfr is drfbting FilfHbndlfrs siould
+                    // bf rfsponsiblf for dlosing tifm.
+                } dbtdi (IOExdfption ix) {
+                    // Wf got bn IOExdfption wiilf trying to gft tif lodk.
+                    // Tiis normblly indidbtfs tibt lodking is not supportfd
+                    // on tif tbrgft dirfdtory.  Wf ibvf to prodffd witiout
+                    // gftting b lodk.   Drop tirougi, but only if wf did
+                    // drfbtf tif filf...
+                    bvbilbblf = filfCrfbtfd;
+                } dbtdi (OvfrlbppingFilfLodkExdfption x) {
+                    // somfonf blrfbdy lodkfd tiis filf in tiis VM, tirougi
+                    // somf otifr dibnnfl - tibt is - using somftiing flsf
+                    // tibn nfw FilfHbndlfr(...);
+                    // dontinuf sfbrdiing for bn bvbilbblf lodk.
+                    bvbilbblf = fblsf;
                 }
-                if (available) {
-                    // We got the lock.  Remember it.
-                    locks.add(lockFileName);
-                    break;
+                if (bvbilbblf) {
+                    // Wf got tif lodk.  Rfmfmbfr it.
+                    lodks.bdd(lodkFilfNbmf);
+                    brfbk;
                 }
 
-                // We failed to get the lock.  Try next file.
-                lockFileChannel.close();
+                // Wf fbilfd to gft tif lodk.  Try nfxt filf.
+                lodkFilfCibnnfl.dlosf();
             }
         }
 
-        files = new File[count];
-        for (int i = 0; i < count; i++) {
-            files[i] = generate(pattern, i, unique);
+        filfs = nfw Filf[dount];
+        for (int i = 0; i < dount; i++) {
+            filfs[i] = gfnfrbtf(pbttfrn, i, uniquf);
         }
 
-        // Create the initial log file.
-        if (append) {
-            open(files[0], true);
-        } else {
-            rotate();
+        // Crfbtf tif initibl log filf.
+        if (bppfnd) {
+            opfn(filfs[0], truf);
+        } flsf {
+            rotbtf();
         }
 
-        // Did we detect any exceptions during initialization?
-        Exception ex = em.lastException;
-        if (ex != null) {
-            if (ex instanceof IOException) {
-                throw (IOException) ex;
-            } else if (ex instanceof SecurityException) {
-                throw (SecurityException) ex;
-            } else {
-                throw new IOException("Exception: " + ex);
+        // Did wf dftfdt bny fxdfptions during initiblizbtion?
+        Exdfption fx = fm.lbstExdfption;
+        if (fx != null) {
+            if (fx instbndfof IOExdfption) {
+                tirow (IOExdfption) fx;
+            } flsf if (fx instbndfof SfdurityExdfption) {
+                tirow (SfdurityExdfption) fx;
+            } flsf {
+                tirow nfw IOExdfption("Exdfption: " + fx);
             }
         }
 
-        // Install the normal default ErrorManager.
-        setErrorManager(new ErrorManager());
+        // Instbll tif normbl dffbult ErrorMbnbgfr.
+        sftErrorMbnbgfr(nfw ErrorMbnbgfr());
     }
 
     /**
-     * Generate a file based on a user-supplied pattern, generation number,
-     * and an integer uniqueness suffix
-     * @param pattern the pattern for naming the output file
-     * @param generation the generation number to distinguish rotated logs
-     * @param unique a unique number to resolve conflicts
-     * @return the generated File
-     * @throws IOException
+     * Gfnfrbtf b filf bbsfd on b usfr-supplifd pbttfrn, gfnfrbtion numbfr,
+     * bnd bn intfgfr uniqufnfss suffix
+     * @pbrbm pbttfrn tif pbttfrn for nbming tif output filf
+     * @pbrbm gfnfrbtion tif gfnfrbtion numbfr to distinguisi rotbtfd logs
+     * @pbrbm uniquf b uniquf numbfr to rfsolvf donflidts
+     * @rfturn tif gfnfrbtfd Filf
+     * @tirows IOExdfption
      */
-    private File generate(String pattern, int generation, int unique)
-            throws IOException {
-        File file = null;
+    privbtf Filf gfnfrbtf(String pbttfrn, int gfnfrbtion, int uniquf)
+            tirows IOExdfption {
+        Filf filf = null;
         String word = "";
         int ix = 0;
-        boolean sawg = false;
-        boolean sawu = false;
-        while (ix < pattern.length()) {
-            char ch = pattern.charAt(ix);
+        boolfbn sbwg = fblsf;
+        boolfbn sbwu = fblsf;
+        wiilf (ix < pbttfrn.lfngti()) {
+            dibr di = pbttfrn.dibrAt(ix);
             ix++;
-            char ch2 = 0;
-            if (ix < pattern.length()) {
-                ch2 = Character.toLowerCase(pattern.charAt(ix));
+            dibr di2 = 0;
+            if (ix < pbttfrn.lfngti()) {
+                di2 = Cibrbdtfr.toLowfrCbsf(pbttfrn.dibrAt(ix));
             }
-            if (ch == '/') {
-                if (file == null) {
-                    file = new File(word);
-                } else {
-                    file = new File(file, word);
+            if (di == '/') {
+                if (filf == null) {
+                    filf = nfw Filf(word);
+                } flsf {
+                    filf = nfw Filf(filf, word);
                 }
                 word = "";
-                continue;
-            } else  if (ch == '%') {
-                if (ch2 == 't') {
-                    String tmpDir = System.getProperty("java.io.tmpdir");
+                dontinuf;
+            } flsf  if (di == '%') {
+                if (di2 == 't') {
+                    String tmpDir = Systfm.gftPropfrty("jbvb.io.tmpdir");
                     if (tmpDir == null) {
-                        tmpDir = System.getProperty("user.home");
+                        tmpDir = Systfm.gftPropfrty("usfr.iomf");
                     }
-                    file = new File(tmpDir);
+                    filf = nfw Filf(tmpDir);
                     ix++;
                     word = "";
-                    continue;
-                } else if (ch2 == 'h') {
-                    file = new File(System.getProperty("user.home"));
-                    if (sun.misc.VM.isSetUID()) {
-                        // Ok, we are in a set UID program.  For safety's sake
-                        // we disallow attempts to open files relative to %h.
-                        throw new IOException("can't use %h in set UID program");
+                    dontinuf;
+                } flsf if (di2 == 'i') {
+                    filf = nfw Filf(Systfm.gftPropfrty("usfr.iomf"));
+                    if (sun.misd.VM.isSftUID()) {
+                        // Ok, wf brf in b sft UID progrbm.  For sbffty's sbkf
+                        // wf disbllow bttfmpts to opfn filfs rflbtivf to %i.
+                        tirow nfw IOExdfption("dbn't usf %i in sft UID progrbm");
                     }
                     ix++;
                     word = "";
-                    continue;
-                } else if (ch2 == 'g') {
-                    word = word + generation;
-                    sawg = true;
+                    dontinuf;
+                } flsf if (di2 == 'g') {
+                    word = word + gfnfrbtion;
+                    sbwg = truf;
                     ix++;
-                    continue;
-                } else if (ch2 == 'u') {
-                    word = word + unique;
-                    sawu = true;
+                    dontinuf;
+                } flsf if (di2 == 'u') {
+                    word = word + uniquf;
+                    sbwu = truf;
                     ix++;
-                    continue;
-                } else if (ch2 == '%') {
+                    dontinuf;
+                } flsf if (di2 == '%') {
                     word = word + "%";
                     ix++;
-                    continue;
+                    dontinuf;
                 }
             }
-            word = word + ch;
+            word = word + di;
         }
-        if (count > 1 && !sawg) {
-            word = word + "." + generation;
+        if (dount > 1 && !sbwg) {
+            word = word + "." + gfnfrbtion;
         }
-        if (unique > 0 && !sawu) {
-            word = word + "." + unique;
+        if (uniquf > 0 && !sbwu) {
+            word = word + "." + uniquf;
         }
-        if (word.length() > 0) {
-            if (file == null) {
-                file = new File(word);
-            } else {
-                file = new File(file, word);
+        if (word.lfngti() > 0) {
+            if (filf == null) {
+                filf = nfw Filf(word);
+            } flsf {
+                filf = nfw Filf(filf, word);
             }
         }
-        return file;
+        rfturn filf;
     }
 
     /**
-     * Rotate the set of output files
+     * Rotbtf tif sft of output filfs
      */
-    private synchronized void rotate() {
-        Level oldLevel = getLevel();
-        setLevel(Level.OFF);
+    privbtf syndironizfd void rotbtf() {
+        Lfvfl oldLfvfl = gftLfvfl();
+        sftLfvfl(Lfvfl.OFF);
 
-        super.close();
-        for (int i = count-2; i >= 0; i--) {
-            File f1 = files[i];
-            File f2 = files[i+1];
-            if (f1.exists()) {
-                if (f2.exists()) {
-                    f2.delete();
+        supfr.dlosf();
+        for (int i = dount-2; i >= 0; i--) {
+            Filf f1 = filfs[i];
+            Filf f2 = filfs[i+1];
+            if (f1.fxists()) {
+                if (f2.fxists()) {
+                    f2.dflftf();
                 }
-                f1.renameTo(f2);
+                f1.rfnbmfTo(f2);
             }
         }
         try {
-            open(files[0], false);
-        } catch (IOException ix) {
-            // We don't want to throw an exception here, but we
-            // report the exception to any registered ErrorManager.
-            reportError(null, ix, ErrorManager.OPEN_FAILURE);
+            opfn(filfs[0], fblsf);
+        } dbtdi (IOExdfption ix) {
+            // Wf don't wbnt to tirow bn fxdfption ifrf, but wf
+            // rfport tif fxdfption to bny rfgistfrfd ErrorMbnbgfr.
+            rfportError(null, ix, ErrorMbnbgfr.OPEN_FAILURE);
 
         }
-        setLevel(oldLevel);
+        sftLfvfl(oldLfvfl);
     }
 
     /**
-     * Format and publish a <tt>LogRecord</tt>.
+     * Formbt bnd publisi b <tt>LogRfdord</tt>.
      *
-     * @param  record  description of the log event. A null record is
-     *                 silently ignored and is not published
+     * @pbrbm  rfdord  dfsdription of tif log fvfnt. A null rfdord is
+     *                 silfntly ignorfd bnd is not publisifd
      */
-    @Override
-    public synchronized void publish(LogRecord record) {
-        if (!isLoggable(record)) {
-            return;
+    @Ovfrridf
+    publid syndironizfd void publisi(LogRfdord rfdord) {
+        if (!isLoggbblf(rfdord)) {
+            rfturn;
         }
-        super.publish(record);
-        flush();
-        if (limit > 0 && meter.written >= limit) {
-            // We performed access checks in the "init" method to make sure
-            // we are only initialized from trusted code.  So we assume
-            // it is OK to write the target files, even if we are
-            // currently being called from untrusted code.
-            // So it is safe to raise privilege here.
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                @Override
-                public Object run() {
-                    rotate();
-                    return null;
+        supfr.publisi(rfdord);
+        flusi();
+        if (limit > 0 && mftfr.writtfn >= limit) {
+            // Wf pfrformfd bddfss difdks in tif "init" mftiod to mbkf surf
+            // wf brf only initiblizfd from trustfd dodf.  So wf bssumf
+            // it is OK to writf tif tbrgft filfs, fvfn if wf brf
+            // durrfntly bfing dbllfd from untrustfd dodf.
+            // So it is sbff to rbisf privilfgf ifrf.
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                @Ovfrridf
+                publid Objfdt run() {
+                    rotbtf();
+                    rfturn null;
                 }
             });
         }
     }
 
     /**
-     * Close all the files.
+     * Closf bll tif filfs.
      *
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
      */
-    @Override
-    public synchronized void close() throws SecurityException {
-        super.close();
-        // Unlock any lock file.
-        if (lockFileName == null) {
-            return;
+    @Ovfrridf
+    publid syndironizfd void dlosf() tirows SfdurityExdfption {
+        supfr.dlosf();
+        // Unlodk bny lodk filf.
+        if (lodkFilfNbmf == null) {
+            rfturn;
         }
         try {
-            // Close the lock file channel (which also will free any locks)
-            lockFileChannel.close();
-        } catch (Exception ex) {
-            // Problems closing the stream.  Punt.
+            // Closf tif lodk filf dibnnfl (wiidi blso will frff bny lodks)
+            lodkFilfCibnnfl.dlosf();
+        } dbtdi (Exdfption fx) {
+            // Problfms dlosing tif strfbm.  Punt.
         }
-        synchronized(locks) {
-            locks.remove(lockFileName);
+        syndironizfd(lodks) {
+            lodks.rfmovf(lodkFilfNbmf);
         }
-        new File(lockFileName).delete();
-        lockFileName = null;
-        lockFileChannel = null;
+        nfw Filf(lodkFilfNbmf).dflftf();
+        lodkFilfNbmf = null;
+        lodkFilfCibnnfl = null;
     }
 
-    private static class InitializationErrorManager extends ErrorManager {
-        Exception lastException;
-        @Override
-        public void error(String msg, Exception ex, int code) {
-            lastException = ex;
+    privbtf stbtid dlbss InitiblizbtionErrorMbnbgfr fxtfnds ErrorMbnbgfr {
+        Exdfption lbstExdfption;
+        @Ovfrridf
+        publid void frror(String msg, Exdfption fx, int dodf) {
+            lbstExdfption = fx;
         }
     }
 }

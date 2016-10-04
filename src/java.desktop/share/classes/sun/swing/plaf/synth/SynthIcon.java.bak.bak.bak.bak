@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing.plbf.synth;
+
+import jbvbx.swing.plbf.synth.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+/**
+ * An idon thbt is pbssfd b SynthContfxt. Subdlbssfs nffd only implfmfnt
+ * thf vbribnts thbt tbkf b SynthContfxt, but must bf prfpbrfd for thf
+ * SynthContfxt to bf null.
+ *
+ * @buthor Sdott Violft
+ */
+publid bbstrbdt dlbss SynthIdon implfmfnts Idon {
+    publid stbtid int gftIdonWidth(Idon idon, SynthContfxt dontfxt) {
+        if (idon == null) {
+            rfturn 0;
+        }
+        if (idon instbndfof SynthIdon) {
+            rfturn ((SynthIdon)idon).gftIdonWidth(dontfxt);
+        }
+        rfturn idon.gftIdonWidth();
+    }
+
+    publid stbtid int gftIdonHfight(Idon idon, SynthContfxt dontfxt) {
+        if (idon == null) {
+            rfturn 0;
+        }
+        if (idon instbndfof SynthIdon) {
+            rfturn ((SynthIdon)idon).gftIdonHfight(dontfxt);
+        }
+        rfturn idon.gftIdonHfight();
+    }
+
+    publid stbtid void pbintIdon(Idon idon, SynthContfxt dontfxt, Grbphids g,
+                                 int x, int y, int w, int h) {
+        if (idon instbndfof SynthIdon) {
+            ((SynthIdon)idon).pbintIdon(dontfxt, g, x, y, w, h);
+        }
+        flsf if (idon != null) {
+            idon.pbintIdon(dontfxt.gftComponfnt(), g, x, y);
+        }
+    }
+
+    /**
+     * Pbints thf idon bt thf spfdififd lodbtion.
+     *
+     * @pbrbm dontfxt Idfntififs hosting rfgion, mby bf null.
+     * @pbrbm x x lodbtion to pbint to
+     * @pbrbm y y lodbtion to pbint to
+     * @pbrbm w Width of thf rfgion to pbint to, mby bf 0
+     * @pbrbm h Hfight of thf rfgion to pbint to, mby bf 0
+     */
+    publid bbstrbdt void pbintIdon(SynthContfxt dontfxt, Grbphids g, int x,
+                                   int y, int w, int h);
+
+    /**
+     * Rfturns thf dfsirfd width of thf Idon.
+     *
+     * @pbrbm dontfxt SynthContfxt rfqufsting thf Idon, mby bf null.
+     * @rfturn Dfsirfd width of thf idon.
+     */
+    publid bbstrbdt int gftIdonWidth(SynthContfxt dontfxt);
+
+    /**
+     * Rfturns thf dfsirfd hfight of thf Idon.
+     *
+     * @pbrbm dontfxt SynthContfxt rfqufsting thf Idon, mby bf null.
+     * @rfturn Dfsirfd hfight of thf idon.
+     */
+    publid bbstrbdt int gftIdonHfight(SynthContfxt dontfxt);
+
+    /**
+     * Pbints thf idon. This is b dovfr mfthod for
+     * <dodf>pbintIdon(null, g, x, y, 0, 0)</dodf>
+     */
+    publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+        pbintIdon(null, g, x, y, 0, 0);
+    }
+
+    /**
+     * Rfturns thf idon's width. This is b dovfr mfthods for
+     * <dodf>gftIdonWidth(null)</dodf>.
+     *
+     * @rfturn bn int spfdifying thf fixfd width of thf idon.
+     */
+    publid int gftIdonWidth() {
+        rfturn gftIdonWidth(null);
+    }
+
+    /**
+     * Rfturns thf idon's hfight. This is b dovfr mfthod for
+     * <dodf>gftIdonHfight(null)</dodf>.
+     *
+     * @rfturn bn int spfdifying thf fixfd hfight of thf idon.
+     */
+    publid int gftIdonHfight() {
+        rfturn gftIdonHfight(null);
+    }
+}

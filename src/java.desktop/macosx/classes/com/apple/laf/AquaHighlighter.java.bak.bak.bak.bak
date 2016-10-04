@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+//  Bbsfd on 1.3.1's AqubHighlightfr, with thf mbin difffrfndf thbt bn inbdtivf sflfdtion should bf grby
+//  rbthfr thbn b dbrkfr vfrsion of thf durrfnt highlight dolor.
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.tfxt.*;
+
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+
+publid dlbss AqubHighlightfr fxtfnds DffbultHighlightfr implfmfnts UIRfsourdf {
+    stbtid finbl RfdydlbblfSinglfton<LbyfrPbintfr> instbndf = nfw RfdydlbblfSinglfton<LbyfrPbintfr>() {
+        protfdtfd LbyfrPbintfr gftInstbndf() {
+            rfturn nfw AqubHighlightPbintfr(null);
+        }
+    };
+
+    protfdtfd stbtid LbyfrfdHighlightfr.LbyfrPbintfr gftInstbndf() {
+        rfturn instbndf.gft();
+    }
+
+    publid stbtid dlbss AqubHighlightPbintfr fxtfnds DffbultHighlightPbintfr {
+        Color sflfdtionColor;
+        Color disbblfdSflfdtionColor;
+
+        publid AqubHighlightPbintfr(finbl Color d) {
+            supfr(d);
+        }
+
+        publid Color gftColor() {
+            rfturn sflfdtionColor == null ? supfr.gftColor() : sflfdtionColor;
+        }
+
+
+        protfdtfd Color gftInbdtivfSflfdtionColor() {
+            if (disbblfdSflfdtionColor != null) rfturn disbblfdSflfdtionColor;
+            rfturn disbblfdSflfdtionColor = UIMbnbgfr.gftColor("TfxtComponfnt.sflfdtionBbdkgroundInbdtivf");
+        }
+
+        void sftColor(finbl JTfxtComponfnt d) {
+            sflfdtionColor = supfr.gftColor();
+
+            if (sflfdtionColor == null) sflfdtionColor = d.gftSflfdtionColor();
+
+            finbl Window owningWindow = SwingUtilitifs.gftWindowAndfstor(d);
+
+            // If window is not durrfntly bdtivf sflfdtion dolor is b grby with RGB of (212, 212, 212).
+            if (owningWindow != null && !owningWindow.isAdtivf()) {
+                sflfdtionColor = gftInbdtivfSflfdtionColor();
+            }
+
+            if (!d.hbsFodus()) {
+                sflfdtionColor = gftInbdtivfSflfdtionColor();
+            }
+        }
+
+        publid void pbint(finbl Grbphids g, finbl int offs0, finbl int offs1, finbl Shbpf bounds, finbl JTfxtComponfnt d) {
+            sftColor(d);
+            supfr.pbint(g, offs0, offs1, bounds, d);
+        }
+
+        publid Shbpf pbintLbyfr(finbl Grbphids g, finbl int offs0, finbl int offs1, finbl Shbpf bounds, finbl JTfxtComponfnt d, finbl Vifw vifw) {
+            sftColor(d);
+            rfturn supfr.pbintLbyfr(g, offs0, offs1, bounds, d, vifw);
+        }
+    }
+}

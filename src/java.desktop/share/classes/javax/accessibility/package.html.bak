@@ -1,266 +1,266 @@
 <HTML>
 <HEAD>
-   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
-   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (WinNT; I) [Netscape]">
+   <META HTTP-EQUIV="Contfnt-Typf" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozillb/4.04 [fn] (WinNT; I) [Nftsdbpf]">
 <!--
-Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 </HEAD>
 <BODY BGCOLOR="#FFFFFF">
-Defines a contract between user-interface components and an assistive technology
-that provides access to those components. If a Java application fully supports
-the Java Accessibility API, then it should be compatible with, and friendly
-toward, assistive technologies such as screen readers, screen magnifiers,
-etc. With a Java application that fully supports the Java Accessibility
-API, no screen reader off screen model would be necessary because the API
-provides all of the information normally contained in an off screen model.
+Dffinfs b dontrbdt bftwffn usfr-intfrfbdf domponfnts bnd bn bssistivf tfdinology
+tibt providfs bddfss to tiosf domponfnts. If b Jbvb bpplidbtion fully supports
+tif Jbvb Addfssibility API, tifn it siould bf dompbtiblf witi, bnd frifndly
+towbrd, bssistivf tfdinologifs sudi bs sdrffn rfbdfrs, sdrffn mbgnififrs,
+ftd. Witi b Jbvb bpplidbtion tibt fully supports tif Jbvb Addfssibility
+API, no sdrffn rfbdfr off sdrffn modfl would bf nfdfssbry bfdbusf tif API
+providfs bll of tif informbtion normblly dontbinfd in bn off sdrffn modfl.
 
-<P>The Java Accessibility API package consists of 8 Java programming language
-interfaces, and 6 Java programming language classes. These are described
-below.
+<P>Tif Jbvb Addfssibility API pbdkbgf donsists of 8 Jbvb progrbmming lbngubgf
+intfrfbdfs, bnd 6 Jbvb progrbmming lbngubgf dlbssfs. Tifsf brf dfsdribfd
+bflow.
 <H3>
-<A NAME="Accessible"></A><A HREF="Accessible.html">Interface Accessible</A></H3>
-<A HREF="Accessible.html">Interface Accessible</A> is the main interface
-of the Java Accessibility API. All components that support the Java Accessibility
-API must implement this interface. It contains a single method, <TT>getAccessibleContext</TT>,
-that returns an instance of the class <A HREF="#AccessibleContext">AccessibleContext</A>.
-Sun thinks that implementing this interface is the absolute minimum requirement
-of every object that is part of the user interface of a Java application,
-if that program is to be compatible with assistive technologies.
+<A NAME="Addfssiblf"></A><A HREF="Addfssiblf.itml">Intfrfbdf Addfssiblf</A></H3>
+<A HREF="Addfssiblf.itml">Intfrfbdf Addfssiblf</A> is tif mbin intfrfbdf
+of tif Jbvb Addfssibility API. All domponfnts tibt support tif Jbvb Addfssibility
+API must implfmfnt tiis intfrfbdf. It dontbins b singlf mftiod, <TT>gftAddfssiblfContfxt</TT>,
+tibt rfturns bn instbndf of tif dlbss <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>.
+Sun tiinks tibt implfmfnting tiis intfrfbdf is tif bbsolutf minimum rfquirfmfnt
+of fvfry objfdt tibt is pbrt of tif usfr intfrfbdf of b Jbvb bpplidbtion,
+if tibt progrbm is to bf dompbtiblf witi bssistivf tfdinologifs.
 <H3>
-<A NAME="AccessibleContext"></A><A HREF="AccessibleContext.html">Class
-AccessibleContext</A></H3>
-<A HREF="AccessibleContext.html">AccessibleContext</A> represents the minimum
-information all accessible objects return and is obtained by calling the
-<TT>getAccessibleContext</TT> method on an object that implements the <A HREF="#Accessible">Accessible</A>
-interface. This information includes the accessible name, description,
-<A HREF="#AccessibleRole">role</A>, and <A HREF="#AccessibleState">state</A>
-of the object, as well as information about the parent and children of
-the object.&nbsp; In addition, JavaBeans <SUP><FONT SIZE=-2>TM</FONT></SUP>
-property change support is also included to allow assisitive technologies
-learn when the values of the accessible properties change. AccessibleContext
-also contains methods for obtaining more specific accessibility information
-about a component. If the component supports it, these methods will return
-an object that implements one or more of the following interfaces:
+<A NAME="AddfssiblfContfxt"></A><A HREF="AddfssiblfContfxt.itml">Clbss
+AddfssiblfContfxt</A></H3>
+<A HREF="AddfssiblfContfxt.itml">AddfssiblfContfxt</A> rfprfsfnts tif minimum
+informbtion bll bddfssiblf objfdts rfturn bnd is obtbinfd by dblling tif
+<TT>gftAddfssiblfContfxt</TT> mftiod on bn objfdt tibt implfmfnts tif <A HREF="#Addfssiblf">Addfssiblf</A>
+intfrfbdf. Tiis informbtion indludfs tif bddfssiblf nbmf, dfsdription,
+<A HREF="#AddfssiblfRolf">rolf</A>, bnd <A HREF="#AddfssiblfStbtf">stbtf</A>
+of tif objfdt, bs wfll bs informbtion bbout tif pbrfnt bnd diildrfn of
+tif objfdt.&nbsp; In bddition, JbvbBfbns <SUP><FONT SIZE=-2>TM</FONT></SUP>
+propfrty dibngf support is blso indludfd to bllow bssisitivf tfdinologifs
+lfbrn wifn tif vblufs of tif bddfssiblf propfrtifs dibngf. AddfssiblfContfxt
+blso dontbins mftiods for obtbining morf spfdifid bddfssibility informbtion
+bbout b domponfnt. If tif domponfnt supports it, tifsf mftiods will rfturn
+bn objfdt tibt implfmfnts onf or morf of tif following intfrfbdfs:
 <UL>
 <LI>
-<B><A HREF="#AccessibleAction">AccessibleAction</A></B> - the object can
-perform one or more actions. This interface provides the standard mechanism
-for an assistive technology to determine what those actions are and tell
-the object to perform those actions. Any object that can be manipulated
-should return an object that implements this interface when the <TT>getAccessibleAction</TT>
-method is called on an AccessibleContext.</LI>
+<B><A HREF="#AddfssiblfAdtion">AddfssiblfAdtion</A></B> - tif objfdt dbn
+pfrform onf or morf bdtions. Tiis intfrfbdf providfs tif stbndbrd mfdibnism
+for bn bssistivf tfdinology to dftfrminf wibt tiosf bdtions brf bnd tfll
+tif objfdt to pfrform tiosf bdtions. Any objfdt tibt dbn bf mbnipulbtfd
+siould rfturn bn objfdt tibt implfmfnts tiis intfrfbdf wifn tif <TT>gftAddfssiblfAdtion</TT>
+mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
 
 <LI>
-<B><A HREF="#AccessibleComponent">AccessibleComponent</A></B> - the object
-has a graphical representation. This interface provides the standard mechanism
-for an assistive technology to determine and set the graphical representation
-of the object. Any object that is rendered on the screen should return
-an object that implements this interface when the <TT>getAccessibleComponent</TT>
-method is called on an AccessibleContext.</LI>
+<B><A HREF="#AddfssiblfComponfnt">AddfssiblfComponfnt</A></B> - tif objfdt
+ibs b grbpiidbl rfprfsfntbtion. Tiis intfrfbdf providfs tif stbndbrd mfdibnism
+for bn bssistivf tfdinology to dftfrminf bnd sft tif grbpiidbl rfprfsfntbtion
+of tif objfdt. Any objfdt tibt is rfndfrfd on tif sdrffn siould rfturn
+bn objfdt tibt implfmfnts tiis intfrfbdf wifn tif <TT>gftAddfssiblfComponfnt</TT>
+mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
 
 <LI>
-<B><A HREF="#AccessibleSelection">AccessibleSelection</A></B> - the object
-allows its children to be selected. This interface provides the standard
-mechanism for an assistive technology to determine the currently selected
-children as well as modify the selection set. Any object that has children
-that can be selected should return an object that implements this interface
-when the <TT>getAccessibleSelection</TT> method is called on an AccessibleContext.</LI>
+<B><A HREF="#AddfssiblfSflfdtion">AddfssiblfSflfdtion</A></B> - tif objfdt
+bllows its diildrfn to bf sflfdtfd. Tiis intfrfbdf providfs tif stbndbrd
+mfdibnism for bn bssistivf tfdinology to dftfrminf tif durrfntly sflfdtfd
+diildrfn bs wfll bs modify tif sflfdtion sft. Any objfdt tibt ibs diildrfn
+tibt dbn bf sflfdtfd siould rfturn bn objfdt tibt implfmfnts tiis intfrfbdf
+wifn tif <TT>gftAddfssiblfSflfdtion</TT> mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
 
 <LI>
-<B><A HREF="#AccessibleText">AccessibleText</A></B> - the object presents
-editable textual information on the display. This interface provides the
-standard mechanism for an assistive technology to access that text via
-its content, attributes, and spatial location. Any object that contains
-editable text should return an object that implements this interface when
-the <TT>getAccessibleText</TT> method is called on an AccessibleContext.</LI>
+<B><A HREF="#AddfssiblfTfxt">AddfssiblfTfxt</A></B> - tif objfdt prfsfnts
+fditbblf tfxtubl informbtion on tif displby. Tiis intfrfbdf providfs tif
+stbndbrd mfdibnism for bn bssistivf tfdinology to bddfss tibt tfxt vib
+its dontfnt, bttributfs, bnd spbtibl lodbtion. Any objfdt tibt dontbins
+fditbblf tfxt siould rfturn bn objfdt tibt implfmfnts tiis intfrfbdf wifn
+tif <TT>gftAddfssiblfTfxt</TT> mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
 
 <LI>
-<B><A HREF="#AccessibleHypertext">AccessibleHypertext</A></B> - the object
-presents hypertext information on the display. This interface provides
-the standard mechanism for an assistive technology to access that hypertext
-via its content, attributes, and spatial location. Any object that contains
-hypertext should return an object that implements this interface when the
-<TT>getAccessibleText</TT> method is called on an AccessibleContext.</LI>
+<B><A HREF="#AddfssiblfHypfrtfxt">AddfssiblfHypfrtfxt</A></B> - tif objfdt
+prfsfnts iypfrtfxt informbtion on tif displby. Tiis intfrfbdf providfs
+tif stbndbrd mfdibnism for bn bssistivf tfdinology to bddfss tibt iypfrtfxt
+vib its dontfnt, bttributfs, bnd spbtibl lodbtion. Any objfdt tibt dontbins
+iypfrtfxt siould rfturn bn objfdt tibt implfmfnts tiis intfrfbdf wifn tif
+<TT>gftAddfssiblfTfxt</TT> mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
 
 <LI>
-<B><A HREF="#AccessibleValue">AccessibleValue</A></B> - the object supports
-a numerical value. This interface provides the standard mechanism for an
-assistive technology to determine and set the current value of the object,
-as well as the minimum and maximum values. Any object that supports a numerical
-value should return an object that implements this interface when the <TT>getAccessibleValue</TT>
-method is called on an AccessibleContext.</LI>
+<B><A HREF="#AddfssiblfVbluf">AddfssiblfVbluf</A></B> - tif objfdt supports
+b numfridbl vbluf. Tiis intfrfbdf providfs tif stbndbrd mfdibnism for bn
+bssistivf tfdinology to dftfrminf bnd sft tif durrfnt vbluf of tif objfdt,
+bs wfll bs tif minimum bnd mbximum vblufs. Any objfdt tibt supports b numfridbl
+vbluf siould rfturn bn objfdt tibt implfmfnts tiis intfrfbdf wifn tif <TT>gftAddfssiblfVbluf</TT>
+mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
 </UL>
 
 <H3>
-<A NAME="AccessibleRole"></A><A HREF="AccessibleRole.html">Class AccessibleRole</A></H3>
-This class encapsulates the Accessible object's role in the user interface
-and is obtained by calling the <TT>getAccessibleRole</TT> method on an
-<A HREF="#AccessibleContext">AccessibleContext</A>. Accessible roles include
-"Check box", "Menu Item", "Panel", etc. These roles are identified by the
-constants in this class such as <TT>AccessibleRole.CHECK_BOX, AccessibleRole.MENU_ITEM,</TT>
-and <TT>AccessibleRole.PANEL</TT>. The constants in this class present
-a strongly typed enumeration of common object roles. A public constructor
-for this class has been purposely omitted and applications should use one
-of the constants from this class. Although this class pre-defines a large
-list of standard roles, it is extensible so additional programmer-defined
-roles can be added in the future without needing to modify the base class.
+<A NAME="AddfssiblfRolf"></A><A HREF="AddfssiblfRolf.itml">Clbss AddfssiblfRolf</A></H3>
+Tiis dlbss fndbpsulbtfs tif Addfssiblf objfdt's rolf in tif usfr intfrfbdf
+bnd is obtbinfd by dblling tif <TT>gftAddfssiblfRolf</TT> mftiod on bn
+<A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. Addfssiblf rolfs indludf
+"Cifdk box", "Mfnu Itfm", "Pbnfl", ftd. Tifsf rolfs brf idfntififd by tif
+donstbnts in tiis dlbss sudi bs <TT>AddfssiblfRolf.CHECK_BOX, AddfssiblfRolf.MENU_ITEM,</TT>
+bnd <TT>AddfssiblfRolf.PANEL</TT>. Tif donstbnts in tiis dlbss prfsfnt
+b strongly typfd fnumfrbtion of dommon objfdt rolfs. A publid donstrudtor
+for tiis dlbss ibs bffn purposfly omittfd bnd bpplidbtions siould usf onf
+of tif donstbnts from tiis dlbss. Altiougi tiis dlbss prf-dffinfs b lbrgf
+list of stbndbrd rolfs, it is fxtfnsiblf so bdditionbl progrbmmfr-dffinfd
+rolfs dbn bf bddfd in tif futurf witiout nffding to modify tif bbsf dlbss.
 
 <H3>
-<A NAME="AccessibleState"></A><A HREF="AccessibleState.html">Class AccessibleState</A></H3>
-This class encapsulates a particular state of the Accessible object. Accessible
-states include things like "Armed", "Busy", "Checked", "Focused", etc.
-These roles are identified by the constants in this class such as <TT>AccessibleState.ARMED,
-AccessibleState.BUSY, AccessibleState.CHECKED,</TT> and <TT>AccessibleState.FOCUSED</TT>.
-The sum of all the states of an Accessible object is called the <A HREF="#AccessibleStateSet">AccessibleStateSet</A>,
-and can be obtained by calling the <TT>getAccessibleStateSet</TT> method
-on an <A HREF="#AccessibleContext">AccessibleContext</A>.
+<A NAME="AddfssiblfStbtf"></A><A HREF="AddfssiblfStbtf.itml">Clbss AddfssiblfStbtf</A></H3>
+Tiis dlbss fndbpsulbtfs b pbrtidulbr stbtf of tif Addfssiblf objfdt. Addfssiblf
+stbtfs indludf tiings likf "Armfd", "Busy", "Cifdkfd", "Fodusfd", ftd.
+Tifsf rolfs brf idfntififd by tif donstbnts in tiis dlbss sudi bs <TT>AddfssiblfStbtf.ARMED,
+AddfssiblfStbtf.BUSY, AddfssiblfStbtf.CHECKED,</TT> bnd <TT>AddfssiblfStbtf.FOCUSED</TT>.
+Tif sum of bll tif stbtfs of bn Addfssiblf objfdt is dbllfd tif <A HREF="#AddfssiblfStbtfSft">AddfssiblfStbtfSft</A>,
+bnd dbn bf obtbinfd by dblling tif <TT>gftAddfssiblfStbtfSft</TT> mftiod
+on bn <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>.
 
-<P>The constants in this class present a strongly typed enumeration of
-common object roles. A public constructor for this class has been purposely
-omitted and applications should use one of the constants from this class.
-Although this class pre-defines a large list of standard roles, it is extensible
-so additional, programmer-defined roles can be added in the future without
-needing to modify the base class.
-
-<H3>
-<A NAME="AccessibleStateSet"></A><A HREF="AccessibleStateSet.html">Class
-AccessibleStateSet</A></H3>
-This class encapsulates a collection of states of the Accessible object
-and is obtained by calling the <TT>getAccessibleStateSet</TT> method on
-an <A HREF="#AccessibleContext">AccessibleContext</A>. Since an object
-might have multiple states (e.g. it might be both "Checked" and "Focused"),
-this class is needed to encapsulate a collection of these states. Methods
-in the class provide for retrieving the individual <A HREF="#AccessibleState">AccessibleStates</A>
-on the state set.
-<H3>
-<A NAME="AccessibleBundle"></A><A HREF="AccessibleBundle.html">Class AccessibleBundle</A></H3>
-This class is used to maintain a strongly typed enumeration. It is the
-super class of both the <A HREF="#AccessibleRole">AccessibleRole</A> and
-<A HREF="#AccessibleState">AccessibleState</A> classes. Programmers normally
-do not interact with this class directly, but will instead use the <A HREF="#AccessibleRole">AccessibleRole</A>
-and <A HREF="#AccessibleState">AccessibleState</A> classes.
+<P>Tif donstbnts in tiis dlbss prfsfnt b strongly typfd fnumfrbtion of
+dommon objfdt rolfs. A publid donstrudtor for tiis dlbss ibs bffn purposfly
+omittfd bnd bpplidbtions siould usf onf of tif donstbnts from tiis dlbss.
+Altiougi tiis dlbss prf-dffinfs b lbrgf list of stbndbrd rolfs, it is fxtfnsiblf
+so bdditionbl, progrbmmfr-dffinfd rolfs dbn bf bddfd in tif futurf witiout
+nffding to modify tif bbsf dlbss.
 
 <H3>
-<A NAME="AccessibleAction"></A><A HREF="AccessibleAction.html">Interface
-AccessibleAction</A></H3>
-The <A HREF="AccessibleAction.html">AccessibleAction</A> interface should
-be supported by any object that can perform one or more actions. This interface
-provides the standard mechanism for an assistive technology to determine
-what those actions are as well as tell the object to perform those actions.
-Any object that can be manipulated should support this interface.
-
-<P>Applications can determine if an object supports the AccessibleAction
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the <TT>getAccessibleAction</TT>
-method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is not null, the object supports this interface.
+<A NAME="AddfssiblfStbtfSft"></A><A HREF="AddfssiblfStbtfSft.itml">Clbss
+AddfssiblfStbtfSft</A></H3>
+Tiis dlbss fndbpsulbtfs b dollfdtion of stbtfs of tif Addfssiblf objfdt
+bnd is obtbinfd by dblling tif <TT>gftAddfssiblfStbtfSft</TT> mftiod on
+bn <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. Sindf bn objfdt
+migit ibvf multiplf stbtfs (f.g. it migit bf boti "Cifdkfd" bnd "Fodusfd"),
+tiis dlbss is nffdfd to fndbpsulbtf b dollfdtion of tifsf stbtfs. Mftiods
+in tif dlbss providf for rftrifving tif individubl <A HREF="#AddfssiblfStbtf">AddfssiblfStbtfs</A>
+on tif stbtf sft.
 <H3>
-<A NAME="AccessibleComponent"></A><A HREF="AccessibleComponent.html">Interface
-AccessibleComponent</A></H3>
-The <A HREF="AccessibleComponent.html">AccessibleComponent</A> interface
-should be supported by any object that is rendered on the screen. This
-interface provides the standard mechanism for an assistive technology to
-determine and set the graphical representation of an object.
+<A NAME="AddfssiblfBundlf"></A><A HREF="AddfssiblfBundlf.itml">Clbss AddfssiblfBundlf</A></H3>
+Tiis dlbss is usfd to mbintbin b strongly typfd fnumfrbtion. It is tif
+supfr dlbss of boti tif <A HREF="#AddfssiblfRolf">AddfssiblfRolf</A> bnd
+<A HREF="#AddfssiblfStbtf">AddfssiblfStbtf</A> dlbssfs. Progrbmmfrs normblly
+do not intfrbdt witi tiis dlbss dirfdtly, but will instfbd usf tif <A HREF="#AddfssiblfRolf">AddfssiblfRolf</A>
+bnd <A HREF="#AddfssiblfStbtf">AddfssiblfStbtf</A> dlbssfs.
 
-<P>Applications can determine if an object supports the AccessibleComponent
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the <TT>getAccessibleComponent</TT>
-method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is not null, the object supports this interface.
 <H3>
-<A NAME="AccessibleSelection"></A><A HREF="AccessibleSelection.html">Interface
-AccessibleSelection</A></H3>
-The <A HREF="AccessibleSelection.html">AccessibleSelection</A> interface
-provides the standard mechanism for an assistive technology to determine
-what the current selected children are, as well as modify the selection
-set. Any object that has children that can be selected should support this
-the AccessibleSelection interface.
+<A NAME="AddfssiblfAdtion"></A><A HREF="AddfssiblfAdtion.itml">Intfrfbdf
+AddfssiblfAdtion</A></H3>
+Tif <A HREF="AddfssiblfAdtion.itml">AddfssiblfAdtion</A> intfrfbdf siould
+bf supportfd by bny objfdt tibt dbn pfrform onf or morf bdtions. Tiis intfrfbdf
+providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology to dftfrminf
+wibt tiosf bdtions brf bs wfll bs tfll tif objfdt to pfrform tiosf bdtions.
+Any objfdt tibt dbn bf mbnipulbtfd siould support tiis intfrfbdf.
 
-<P>Applications can determine if an object supports the AccessibleSelection
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the <TT>getAccessibleSelection</TT>
-method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is not null, the object supports this interface.
+<P>Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfAdtion
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif <TT>gftAddfssiblfAdtion</TT>
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is not null, tif objfdt supports tiis intfrfbdf.
 <H3>
-<A NAME="AccessibleText"></A><A HREF="AccessibleText.html">Interface AccessibleText</A></H3>
-Interface <A HREF="AccessibleText.html">AccessibleText</A> is the contract
-for making rich, editable text Accessible. Not all text displayed on the
-screen is rich and editable (e.g. text contained in buttons, labels, menus,
-etc., which users aren't expected to manipulate). However, objects containing
-editable text must implement interface AccessibleText if they are to interoperate
-with assistive technologies.
+<A NAME="AddfssiblfComponfnt"></A><A HREF="AddfssiblfComponfnt.itml">Intfrfbdf
+AddfssiblfComponfnt</A></H3>
+Tif <A HREF="AddfssiblfComponfnt.itml">AddfssiblfComponfnt</A> intfrfbdf
+siould bf supportfd by bny objfdt tibt is rfndfrfd on tif sdrffn. Tiis
+intfrfbdf providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology to
+dftfrminf bnd sft tif grbpiidbl rfprfsfntbtion of bn objfdt.
 
-<P>This interface provides support for going between pixel coordinates
-and the text at a given pixel coordinate, for retrieving the letter, word,
-and sentence at, before, or after a given position in the text. This interface
-provides support for retrieving the attributes of the character at a given
-position in the text (font, font size, style, etc.), as well as getting
-the selected text (if any), the length of the text, and the location of
-the text caret.
-
-<P>Applications can determine if an object supports the AccessibleText
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the <TT>getAccessibleText</TT>
-method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is not null, the object supports this interface.
-<H3><A NAME="AccessibleHypertext"></A>
-<A HREF="AccessibleHypertext.html">Interface AccessibleHypertext</A></H3>
-The <A HREF="AccessibleHypertext.html">AccessibleHypertext</A> interface
-should be supported by any object that presents hypertext information on
-the display. This interface provides the standard mechanism for an assistive
-technology to access that text via its content, attributes, and spatial
-location. It also provides standard mechanisms for manipulating <A HREF="#AccessibleHyperlink">hyperlinks</A>.
-Applications can determine if an object supports the AccessibleHypertext
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the AccessibleContext.getAccessibleText()
-method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is a class which extends AccessibleHypertext, then that object supports
-AccessibleHypertext.
+<P>Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfComponfnt
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif <TT>gftAddfssiblfComponfnt</TT>
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is not null, tif objfdt supports tiis intfrfbdf.
 <H3>
-<A NAME="AccessibleHyperlink"></A><A HREF="AccessibleHyperlink.html">Interface
-AccessibleHyperlink</A></H3>
-An object that is a hyperlink should support the <A HREF="AccessibleHyperlink.html">AccessibleHyperlink</A>
-interface.&nbsp; An object that implements this interface will be returned
-by calling the getLink method on an <A HREF="#AccessibleHypertext">AccessibleHypertext</A>
-object.
+<A NAME="AddfssiblfSflfdtion"></A><A HREF="AddfssiblfSflfdtion.itml">Intfrfbdf
+AddfssiblfSflfdtion</A></H3>
+Tif <A HREF="AddfssiblfSflfdtion.itml">AddfssiblfSflfdtion</A> intfrfbdf
+providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology to dftfrminf
+wibt tif durrfnt sflfdtfd diildrfn brf, bs wfll bs modify tif sflfdtion
+sft. Any objfdt tibt ibs diildrfn tibt dbn bf sflfdtfd siould support tiis
+tif AddfssiblfSflfdtion intfrfbdf.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfSflfdtion
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif <TT>gftAddfssiblfSflfdtion</TT>
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is not null, tif objfdt supports tiis intfrfbdf.
 <H3>
-<A NAME="AccessibleValue"></A><A HREF="AccessibleValue.html">Interface
-AccessibleValue</A></H3>
-The <A HREF="AccessibleValue.html">AccessibleValue</A> interface should
-be supported by any object that supports a numerical value (e.g., a scroll
-bar). This interface provides the standard mechanism for an assistive technology
-to determine and set the numerical value as well as get the minimum and
-maximum values.
+<A NAME="AddfssiblfTfxt"></A><A HREF="AddfssiblfTfxt.itml">Intfrfbdf AddfssiblfTfxt</A></H3>
+Intfrfbdf <A HREF="AddfssiblfTfxt.itml">AddfssiblfTfxt</A> is tif dontrbdt
+for mbking ridi, fditbblf tfxt Addfssiblf. Not bll tfxt displbyfd on tif
+sdrffn is ridi bnd fditbblf (f.g. tfxt dontbinfd in buttons, lbbfls, mfnus,
+ftd., wiidi usfrs brfn't fxpfdtfd to mbnipulbtf). Howfvfr, objfdts dontbining
+fditbblf tfxt must implfmfnt intfrfbdf AddfssiblfTfxt if tify brf to intfropfrbtf
+witi bssistivf tfdinologifs.
 
-<P>Applications can determine if an object supports the AccessibleValue
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the <TT>getAccessibleValue</TT>
-method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is not null, the object supports this interface.
+<P>Tiis intfrfbdf providfs support for going bftwffn pixfl doordinbtfs
+bnd tif tfxt bt b givfn pixfl doordinbtf, for rftrifving tif lfttfr, word,
+bnd sfntfndf bt, bfforf, or bftfr b givfn position in tif tfxt. Tiis intfrfbdf
+providfs support for rftrifving tif bttributfs of tif dibrbdtfr bt b givfn
+position in tif tfxt (font, font sizf, stylf, ftd.), bs wfll bs gftting
+tif sflfdtfd tfxt (if bny), tif lfngti of tif tfxt, bnd tif lodbtion of
+tif tfxt dbrft.
 
-@since 1.2
+<P>Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfTfxt
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif <TT>gftAddfssiblfTfxt</TT>
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is not null, tif objfdt supports tiis intfrfbdf.
+<H3><A NAME="AddfssiblfHypfrtfxt"></A>
+<A HREF="AddfssiblfHypfrtfxt.itml">Intfrfbdf AddfssiblfHypfrtfxt</A></H3>
+Tif <A HREF="AddfssiblfHypfrtfxt.itml">AddfssiblfHypfrtfxt</A> intfrfbdf
+siould bf supportfd by bny objfdt tibt prfsfnts iypfrtfxt informbtion on
+tif displby. Tiis intfrfbdf providfs tif stbndbrd mfdibnism for bn bssistivf
+tfdinology to bddfss tibt tfxt vib its dontfnt, bttributfs, bnd spbtibl
+lodbtion. It blso providfs stbndbrd mfdibnisms for mbnipulbting <A HREF="#AddfssiblfHypfrlink">iypfrlinks</A>.
+Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfHypfrtfxt
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif AddfssiblfContfxt.gftAddfssiblfTfxt()
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is b dlbss wiidi fxtfnds AddfssiblfHypfrtfxt, tifn tibt objfdt supports
+AddfssiblfHypfrtfxt.
+<H3>
+<A NAME="AddfssiblfHypfrlink"></A><A HREF="AddfssiblfHypfrlink.itml">Intfrfbdf
+AddfssiblfHypfrlink</A></H3>
+An objfdt tibt is b iypfrlink siould support tif <A HREF="AddfssiblfHypfrlink.itml">AddfssiblfHypfrlink</A>
+intfrfbdf.&nbsp; An objfdt tibt implfmfnts tiis intfrfbdf will bf rfturnfd
+by dblling tif gftLink mftiod on bn <A HREF="#AddfssiblfHypfrtfxt">AddfssiblfHypfrtfxt</A>
+objfdt.
+<H3>
+<A NAME="AddfssiblfVbluf"></A><A HREF="AddfssiblfVbluf.itml">Intfrfbdf
+AddfssiblfVbluf</A></H3>
+Tif <A HREF="AddfssiblfVbluf.itml">AddfssiblfVbluf</A> intfrfbdf siould
+bf supportfd by bny objfdt tibt supports b numfridbl vbluf (f.g., b sdroll
+bbr). Tiis intfrfbdf providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology
+to dftfrminf bnd sft tif numfridbl vbluf bs wfll bs gft tif minimum bnd
+mbximum vblufs.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfVbluf
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif <TT>gftAddfssiblfVbluf</TT>
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is not null, tif objfdt supports tiis intfrfbdf.
+
+@sindf 1.2
 </BODY>
 </HTML>
 

@@ -1,0 +1,330 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.mbnbgfmfnt.ThrfbdInfo;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn;
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+// jdmk imports
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpOidTbblf;
+import dom.sun.jmx.snmp.SnmpOidRfdord;
+
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmThrfbdInstbndfEntryMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.JVM_MANAGEMENT_MIBOidTbblf;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+
+/**
+ * Thf dlbss is usfd for implfmfnting thf "JvmThrfbdInstbndfEntry" group.
+ */
+publid dlbss JvmThrfbdInstbndfEntryImpl
+    implfmfnts JvmThrfbdInstbndfEntryMBfbn, Sfriblizbblf {
+
+    stbtid finbl long sfriblVfrsionUID = 910173589985461347L;
+
+    publid finbl stbtid dlbss ThrfbdStbtfMbp {
+        publid finbl stbtid dlbss Bytf0 {
+            publid finbl stbtid bytf inNbtivf     = (bytf)0x80; // bit 1
+            publid finbl stbtid bytf suspfndfd    = (bytf)0x40; // bit 2
+            publid finbl stbtid bytf nfwThrfbd    = (bytf)0x20; // bit 3
+            publid finbl stbtid bytf runnbblf     = (bytf)0x10; // bit 4
+            publid finbl stbtid bytf blodkfd      = (bytf)0x08; // bit 5
+            publid finbl stbtid bytf tfrminbtfd   = (bytf)0x04; // bit 6
+            publid finbl stbtid bytf wbiting      = (bytf)0x02; // bit 7
+            publid finbl stbtid bytf timfdWbiting = (bytf)0x01; // bit 8
+        }
+        publid finbl stbtid dlbss Bytf1 {
+            publid finbl stbtid bytf othfr        = (bytf)0x80; // bit 9
+            publid finbl stbtid bytf rfsfrvfd10   = (bytf)0x40; // bit 10
+            publid finbl stbtid bytf rfsfrvfd11   = (bytf)0x20; // bit 11
+            publid finbl stbtid bytf rfsfrvfd12   = (bytf)0x10; // bit 12
+            publid finbl stbtid bytf rfsfrvfd13   = (bytf)0x08; // bit 13
+            publid finbl stbtid bytf rfsfrvfd14   = (bytf)0x04; // bit 14
+            publid finbl stbtid bytf rfsfrvfd15   = (bytf)0x02; // bit 15
+            publid finbl stbtid bytf rfsfrvfd16   = (bytf)0x01; // bit 16
+        }
+
+        publid finbl stbtid bytf mbsk0 = (bytf)0x3F;
+        publid finbl stbtid bytf mbsk1 = (bytf)0x80;
+
+        privbtf stbtid void sftBit(bytf[] bitmbp, int indfx, bytf stbtf) {
+            bitmbp[indfx] = (bytf) (bitmbp[indfx] | stbtf);
+        }
+        publid stbtid void sftNbtivf(bytf[] bitmbp) {
+            sftBit(bitmbp,0,Bytf0.inNbtivf);
+        }
+        publid stbtid void sftSuspfndfd(bytf[] bitmbp) {
+            sftBit(bitmbp,0,Bytf0.suspfndfd);
+        }
+        publid stbtid void sftStbtf(bytf[] bitmbp, Thrfbd.Stbtf stbtf) {
+            switdh(stbtf) {
+            dbsf BLOCKED:
+                sftBit(bitmbp,0,Bytf0.blodkfd);
+                rfturn;
+            dbsf NEW:
+                sftBit(bitmbp,0,Bytf0.nfwThrfbd);
+                rfturn;
+            dbsf RUNNABLE:
+                sftBit(bitmbp,0,Bytf0.runnbblf);
+                rfturn;
+            dbsf TERMINATED:
+                sftBit(bitmbp,0,Bytf0.tfrminbtfd);
+                rfturn;
+            dbsf TIMED_WAITING:
+                sftBit(bitmbp,0,Bytf0.timfdWbiting);
+                rfturn;
+            dbsf WAITING:
+                sftBit(bitmbp,0,Bytf0.wbiting);
+                rfturn;
+            }
+        }
+
+        publid stbtid void dhfdkOthfr(bytf[] bitmbp) {
+            if (((bitmbp[0]&mbsk0)==(bytf)0x00) &&
+                ((bitmbp[1]&mbsk1)==(bytf)0x00))
+                sftBit(bitmbp,1,Bytf1.othfr);
+        }
+
+        publid stbtid Bytf[] gftStbtf(ThrfbdInfo info) {
+            bytf[] bitmbp = nfw bytf[] {(bytf)0x00, (bytf)0x00};
+            try {
+                finbl Thrfbd.Stbtf stbtf = info.gftThrfbdStbtf();
+                finbl boolfbn inNbtivf  = info.isInNbtivf();
+                finbl boolfbn suspfndfd = info.isSuspfndfd();
+                log.dfbug("gftJvmThrfbdInstStbtf",
+                          "[Stbtf=" + stbtf +
+                          ",isInNbtivf=" + inNbtivf +
+                          ",isSuspfndfd=" + suspfndfd + "]");
+                sftStbtf(bitmbp,stbtf);
+                if (inNbtivf)  sftNbtivf(bitmbp);
+                if (suspfndfd) sftSuspfndfd(bitmbp);
+                dhfdkOthfr(bitmbp);
+            } dbtdh (RuntimfExdfption r) {
+                bitmbp[0]=(bytf)0x00;
+                bitmbp[1]=Bytf1.othfr;
+                log.trbdf("gftJvmThrfbdInstStbtf",
+                          "Unfxpfdtfd fxdfption: " + r);
+                log.dfbug("gftJvmThrfbdInstStbtf",r);
+            }
+            Bytf[] rfsult = {bitmbp[0], bitmbp[1]};
+            rfturn rfsult;
+        }
+    }
+
+    privbtf finbl ThrfbdInfo info;
+    privbtf finbl Bytf[] indfx;
+
+    /**
+     * Construdtor for thf "JvmThrfbdInstbndfEntry" group.
+     */
+    publid JvmThrfbdInstbndfEntryImpl(ThrfbdInfo info,
+                                      Bytf[] indfx) {
+        this.info = info;
+        this.indfx = indfx;
+    }
+
+
+    privbtf stbtid String  jvmThrfbdInstIndfxOid = null;
+    publid stbtid String gftJvmThrfbdInstIndfxOid()
+        throws SnmpStbtusExdfption {
+        if (jvmThrfbdInstIndfxOid == null) {
+            finbl SnmpOidTbblf  tbblf = nfw JVM_MANAGEMENT_MIBOidTbblf();
+            finbl SnmpOidRfdord rfdord =
+                tbblf.rfsolvfVbrNbmf("jvmThrfbdInstIndfx");
+            jvmThrfbdInstIndfxOid = rfdord.gftOid();
+        }
+        rfturn jvmThrfbdInstIndfxOid;
+    }
+
+
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstLodkfdOwnfrId" vbribblf.
+     */
+    publid String gftJvmThrfbdInstLodkOwnfrPtr() throws SnmpStbtusExdfption {
+       long id = info.gftLodkOwnfrId();
+
+       if(id == -1)
+           rfturn nfw String("0.0");
+
+       SnmpOid oid = JvmThrfbdInstbndfTbblfMftbImpl.mbkfOid(id);
+
+       rfturn gftJvmThrfbdInstIndfxOid() + "." + oid.toString();
+    }
+
+    privbtf String vblidDisplbyStringTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidDisplbyStringTC(str);
+    }
+
+    privbtf String vblidJbvbObjfdtNbmfTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjfdtNbmfTC(str);
+    }
+
+    privbtf String vblidPbthElfmfntTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidPbthElfmfntTC(str);
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstLodkNbmf" vbribblf.
+     */
+    publid String gftJvmThrfbdInstLodkNbmf() throws SnmpStbtusExdfption {
+        rfturn vblidJbvbObjfdtNbmfTC(info.gftLodkNbmf());
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstNbmf" vbribblf.
+     */
+    publid String gftJvmThrfbdInstNbmf() throws SnmpStbtusExdfption {
+        rfturn vblidJbvbObjfdtNbmfTC(info.gftThrfbdNbmf());
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstCpuTimfNs" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstCpuTimfNs() throws SnmpStbtusExdfption {
+        long l = 0;
+        finbl ThrfbdMXBfbn tmb = JvmThrfbdingImpl.gftThrfbdMXBfbn();
+
+        try {
+            if (tmb.isThrfbdCpuTimfSupportfd()) {
+                l = tmb.gftThrfbdCpuTimf(info.gftThrfbdId());
+                log.dfbug("gftJvmThrfbdInstCpuTimfNs", "Cpu timf ns : " + l);
+
+                //Cpu timf mfbsurfmfnt is disbblfd or thf id is not vblid.
+                if(l == -1) l = 0;
+            }
+        } dbtdh (UnsbtisfifdLinkError f) {
+            // XXX Rfvisit: dbtdh TO BE EVENTUALLY REMOVED
+            log.dfbug("gftJvmThrfbdInstCpuTimfNs",
+                      "Opfrbtion not supportfd: " + f);
+        }
+        rfturn l;
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstBlodkTimfMs" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstBlodkTimfMs() throws SnmpStbtusExdfption {
+        long l = 0;
+
+        finbl ThrfbdMXBfbn tmb = JvmThrfbdingImpl.gftThrfbdMXBfbn();
+
+        if (tmb.isThrfbdContfntionMonitoringSupportfd()) {
+            l = info.gftBlodkfdTimf();
+
+            //Monitoring is disbblfd
+            if(l == -1) l = 0;
+        }
+        rfturn l;
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstBlodkCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstBlodkCount() throws SnmpStbtusExdfption {
+        rfturn info.gftBlodkfdCount();
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstWbitTimfMs" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstWbitTimfMs() throws SnmpStbtusExdfption {
+        long l = 0;
+
+        finbl ThrfbdMXBfbn tmb = JvmThrfbdingImpl.gftThrfbdMXBfbn();
+
+        if (tmb.isThrfbdContfntionMonitoringSupportfd()) {
+            l = info.gftWbitfdTimf();
+
+            //Monitoring is disbblfd
+            if(l == -1) l = 0;
+        }
+        rfturn l;
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstWbitCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstWbitCount() throws SnmpStbtusExdfption {
+        rfturn info.gftWbitfdCount();
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstStbtf" vbribblf.
+     */
+    publid Bytf[] gftJvmThrfbdInstStbtf()
+        throws SnmpStbtusExdfption {
+        rfturn ThrfbdStbtfMbp.gftStbtf(info);
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstId" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstId() throws SnmpStbtusExdfption {
+        rfturn info.gftThrfbdId();
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstIndfx" vbribblf.
+     */
+    publid Bytf[] gftJvmThrfbdInstIndfx() throws SnmpStbtusExdfption {
+        rfturn indfx;
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstStbdkTrbdf" vbribblf.
+     */
+    privbtf String gftJvmThrfbdInstStbdkTrbdf() throws SnmpStbtusExdfption {
+        StbdkTrbdfElfmfnt[] stbdkTrbdf = info.gftStbdkTrbdf();
+        //Wf bppfnd thf stbdk trbdf in b bufffr
+        // XXX Rfvisit: should dhfdk isDfbugOn()
+        StringBuildfr sb = nfw StringBuildfr();
+        finbl int stbdkSizf = stbdkTrbdf.lfngth;
+        log.dfbug("gftJvmThrfbdInstStbdkTrbdf", "Stbdk sizf : " + stbdkSizf);
+        for(int i = 0; i < stbdkSizf; i++) {
+            log.dfbug("gftJvmThrfbdInstStbdkTrbdf", "Appfnd " +
+                      stbdkTrbdf[i].toString());
+            sb.bppfnd(stbdkTrbdf[i].toString());
+            //Appfnd \n bt thf fnd of fbdh linf fxdfpt thf lbst onf
+            if(i < stbdkSizf)
+                sb.bppfnd("\n");
+        }
+        //Thf stbdk trbdf is trundbtfd if its sizf fxdffds 255.
+        rfturn vblidPbthElfmfntTC(sb.toString());
+    }
+    stbtid finbl MibLoggfr log =
+        nfw MibLoggfr(JvmThrfbdInstbndfEntryImpl.dlbss);
+}

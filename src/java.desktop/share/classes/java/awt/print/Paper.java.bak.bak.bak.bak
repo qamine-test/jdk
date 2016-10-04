@@ -1,0 +1,208 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.print;
+
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/**
+ * Thf <dodf>Pbpfr</dodf> dlbss dfsdribfs thf physidbl dhbrbdtfristids of
+ * b pifdf of pbpfr.
+ * <p>
+ * Whfn drfbting b <dodf>Pbpfr</dodf> objfdt, it is thf bpplidbtion's
+ * rfsponsibility to fnsurf thbt thf pbpfr sizf bnd thf imbgfbblf brfb
+ * brf dompbtiblf.  For fxbmplf, if thf pbpfr sizf is dhbngfd from
+ * 11 x 17 to 8.5 x 11, thf bpplidbtion might nffd to rfdudf thf
+ * imbgfbblf brfb so thbt whbtfvfr is printfd fits on thf pbgf.
+ * @sff #sftSizf(doublf, doublf)
+ * @sff #sftImbgfbblfArfb(doublf, doublf, doublf, doublf)
+ */
+publid dlbss Pbpfr implfmfnts Clonfbblf {
+
+ /* Privbtf Clbss Vbribblfs */
+
+    privbtf stbtid finbl int INCH = 72;
+    privbtf stbtid finbl doublf LETTER_WIDTH = 8.5 * INCH;
+    privbtf stbtid finbl doublf LETTER_HEIGHT = 11 * INCH;
+
+ /* Instbndf Vbribblfs */
+
+    /**
+     * Thf hfight of thf physidbl pbgf in 1/72nds
+     * of bn indh. Thf numbfr is storfd bs b flobting
+     * point vbluf rbthfr thbn bs bn intfgfr
+     * to fbdilitbtf thf donvfrsion from mftrid
+     * units to 1/72nds of bn indh bnd thfn bbdk.
+     * (This mby or mby not bf b good fnough rfbson
+     * for b flobt).
+     */
+    privbtf doublf mHfight;
+
+    /**
+     * Thf width of thf physidbl pbgf in 1/72nds
+     * of bn indh.
+     */
+    privbtf doublf mWidth;
+
+    /**
+     * Thf brfb of thf pbgf on whidh drbwing will
+     * bf visbblf. Thf brfb outsidf of this
+     * rfdtbnglf but on thf Pbgf gfnfrblly
+     * rfflfdts thf printfr's hbrdwbrf mbrgins.
+     * Thf origin of thf physidbl pbgf is
+     * bt (0, 0) with this rfdtbnglf providfd
+     * in thbt doordinbtf systfm.
+     */
+    privbtf Rfdtbnglf2D mImbgfbblfArfb;
+
+ /* Construdtors */
+
+    /**
+     * Crfbtfs b lfttfr sizfd pifdf of pbpfr
+     * with onf indh mbrgins.
+     */
+    publid Pbpfr() {
+        mHfight = LETTER_HEIGHT;
+        mWidth = LETTER_WIDTH;
+        mImbgfbblfArfb = nfw Rfdtbnglf2D.Doublf(INCH, INCH,
+                                                mWidth - 2 * INCH,
+                                                mHfight - 2 * INCH);
+    }
+
+ /* Instbndf Mfthods */
+
+    /**
+     * Crfbtfs b dopy of this <dodf>Pbpfr</dodf> with thf sbmf dontfnts
+     * bs this <dodf>Pbpfr</dodf>.
+     * @rfturn b dopy of this <dodf>Pbpfr</dodf>.
+     */
+    publid Objfdt dlonf() {
+
+        Pbpfr nfwPbpfr;
+
+        try {
+            /* It's okby to dopy thf rfffrfndf to thf imbgfbblf
+             * brfb into thf dlonf sindf wf blwbys rfturn b dopy
+             * of thf imbgfbblf brfb whfn bskfd for it.
+             */
+            nfwPbpfr = (Pbpfr) supfr.dlonf();
+
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            f.printStbdkTrbdf();
+            nfwPbpfr = null;    // should nfvfr hbppfn.
+        }
+
+        rfturn nfwPbpfr;
+    }
+
+    /**
+     * Rfturns thf hfight of thf pbgf in 1/72nds of bn indh.
+     * @rfturn thf hfight of thf pbgf dfsdribfd by this
+     *          <dodf>Pbpfr</dodf>.
+     */
+    publid doublf gftHfight() {
+        rfturn mHfight;
+    }
+
+    /**
+     * Sfts thf width bnd hfight of this <dodf>Pbpfr</dodf>
+     * objfdt, whidh rfprfsfnts thf propfrtifs of thf pbgf onto
+     * whidh printing oddurs.
+     * Thf dimfnsions brf supplifd in 1/72nds of
+     * bn indh.
+     * @pbrbm width thf vbluf to whidh to sft this <dodf>Pbpfr</dodf>
+     * objfdt's width
+     * @pbrbm hfight thf vbluf to whidh to sft this <dodf>Pbpfr</dodf>
+     * objfdt's hfight
+     */
+    publid void sftSizf(doublf width, doublf hfight) {
+        mWidth = width;
+        mHfight = hfight;
+    }
+
+    /**
+     * Rfturns thf width of thf pbgf in 1/72nds
+     * of bn indh.
+     * @rfturn thf width of thf pbgf dfsdribfd by this
+     * <dodf>Pbpfr</dodf>.
+     */
+    publid doublf gftWidth() {
+        rfturn mWidth;
+    }
+
+    /**
+     * Sfts thf imbgfbblf brfb of this <dodf>Pbpfr</dodf>.  Thf
+     * imbgfbblf brfb is thf brfb on thf pbgf in whidh printing
+     * oddurs.
+     * @pbrbm x thf X doordinbtf to whidh to sft thf
+     * uppfr-lfft dornfr of thf imbgfbblf brfb of this <dodf>Pbpfr</dodf>
+     * @pbrbm y thf Y doordinbtf to whidh to sft thf
+     * uppfr-lfft dornfr of thf imbgfbblf brfb of this <dodf>Pbpfr</dodf>
+     * @pbrbm width thf vbluf to whidh to sft thf width of thf
+     * imbgfbblf brfb of this <dodf>Pbpfr</dodf>
+     * @pbrbm hfight thf vbluf to whidh to sft thf hfight of thf
+     * imbgfbblf brfb of this <dodf>Pbpfr</dodf>
+     */
+    publid void sftImbgfbblfArfb(doublf x, doublf y,
+                                 doublf width, doublf hfight) {
+        mImbgfbblfArfb = nfw Rfdtbnglf2D.Doublf(x, y, width,hfight);
+    }
+
+    /**
+     * Rfturns thf x doordinbtf of thf uppfr-lfft dornfr of this
+     * <dodf>Pbpfr</dodf> objfdt's imbgfbblf brfb.
+     * @rfturn thf x doordinbtf of thf imbgfbblf brfb.
+     */
+    publid doublf gftImbgfbblfX() {
+        rfturn mImbgfbblfArfb.gftX();
+    }
+
+    /**
+     * Rfturns thf y doordinbtf of thf uppfr-lfft dornfr of this
+     * <dodf>Pbpfr</dodf> objfdt's imbgfbblf brfb.
+     * @rfturn thf y doordinbtf of thf imbgfbblf brfb.
+     */
+    publid doublf gftImbgfbblfY() {
+        rfturn mImbgfbblfArfb.gftY();
+    }
+
+    /**
+     * Rfturns thf width of this <dodf>Pbpfr</dodf> objfdt's imbgfbblf
+     * brfb.
+     * @rfturn thf width of thf imbgfbblf brfb.
+     */
+    publid doublf gftImbgfbblfWidth() {
+        rfturn mImbgfbblfArfb.gftWidth();
+    }
+
+    /**
+     * Rfturns thf hfight of this <dodf>Pbpfr</dodf> objfdt's imbgfbblf
+     * brfb.
+     * @rfturn thf hfight of thf imbgfbblf brfb.
+     */
+    publid doublf gftImbgfbblfHfight() {
+        rfturn mImbgfbblfArfb.gftHfight();
+    }
+}

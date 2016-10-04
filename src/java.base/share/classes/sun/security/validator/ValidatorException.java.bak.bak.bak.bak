@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.vblidbtor;
+
+import jbvb.sfdurity.dfrt.*;
+
+/**
+ * VblidbtorExdfption thrown by thf Vblidbtor. It hbs optionbl fiflds thbt
+ * bllow bfttfr frror dibgnostids.
+ *
+ * @buthor Andrfbs Stfrbfnz
+ */
+publid dlbss VblidbtorExdfption fxtfnds CfrtifidbtfExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2836879718282292155L;
+
+    publid finbl stbtid Objfdt T_NO_TRUST_ANCHOR =
+        "No trustfd dfrtifidbtf found";
+
+    publid finbl stbtid Objfdt T_EE_EXTENSIONS =
+        "End fntity dfrtifidbtf fxtfnsion dhfdk fbilfd";
+
+    publid finbl stbtid Objfdt T_CA_EXTENSIONS =
+        "CA dfrtifidbtf fxtfnsion dhfdk fbilfd";
+
+    publid finbl stbtid Objfdt T_CERT_EXPIRED =
+        "Cfrtifidbtf fxpirfd";
+
+    publid finbl stbtid Objfdt T_SIGNATURE_ERROR =
+        "Cfrtifidbtf signbturf vblidbtion fbilfd";
+
+    publid finbl stbtid Objfdt T_NAME_CHAINING =
+        "Cfrtifidbtf dhbining frror";
+
+    publid finbl stbtid Objfdt T_ALGORITHM_DISABLED =
+        "Cfrtifidbtf signbturf blgorithm disbblfd";
+
+    publid finbl stbtid Objfdt T_UNTRUSTED_CERT =
+        "Untrustfd dfrtifidbtf";
+
+    privbtf Objfdt typf;
+    privbtf X509Cfrtifidbtf dfrt;
+
+    publid VblidbtorExdfption(String msg) {
+        supfr(msg);
+    }
+
+    publid VblidbtorExdfption(String msg, Throwbblf dbusf) {
+        supfr(msg);
+        initCbusf(dbusf);
+    }
+
+    publid VblidbtorExdfption(Objfdt typf) {
+        this(typf, null);
+    }
+
+    publid VblidbtorExdfption(Objfdt typf, X509Cfrtifidbtf dfrt) {
+        supfr((String)typf);
+        this.typf = typf;
+        this.dfrt = dfrt;
+    }
+
+    publid VblidbtorExdfption(Objfdt typf, X509Cfrtifidbtf dfrt,
+            Throwbblf dbusf) {
+        this(typf, dfrt);
+        initCbusf(dbusf);
+    }
+
+    publid VblidbtorExdfption(String msg, Objfdt typf, X509Cfrtifidbtf dfrt) {
+        supfr(msg);
+        this.typf = typf;
+        this.dfrt = dfrt;
+    }
+
+    publid VblidbtorExdfption(String msg, Objfdt typf, X509Cfrtifidbtf dfrt,
+            Throwbblf dbusf) {
+        this(msg, typf, dfrt);
+        initCbusf(dbusf);
+    }
+
+    /**
+     * Gft thf typf of thf fbilurf (onf of thf T_XXX donstbnts), if
+     * bvbilbblf. This mby bf hflpful whfn dfsigning b usfr intfrfbdf.
+     */
+    publid Objfdt gftErrorTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Gft thf dfrtifidbtf dbusing thf fxdfption, if bvbilbblf.
+     */
+    publid X509Cfrtifidbtf gftErrorCfrtifidbtf() {
+        rfturn dfrt;
+    }
+
+}

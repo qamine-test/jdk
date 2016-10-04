@@ -1,864 +1,864 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
 
 
 
-// java import
+// jbvb import
 //
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.logging.Level;
-import java.util.Vector;
-import java.util.NoSuchElementException;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
+import jbvb.util.NoSudiElfmfntExdfption;
 
 // jmx import
 //
-import javax.management.MBeanServer;
-import javax.management.MBeanRegistration;
-import javax.management.ObjectName;
-import javax.management.NotificationListener;
-import javax.management.NotificationFilter;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.MBeanNotificationInfo;
-import javax.management.AttributeChangeNotification;
-import javax.management.ListenerNotFoundException;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
 
 // JSR 160 import
 //
-// XXX Revisit:
-//   used to import com.sun.jmx.snmp.MBeanServerForwarder
-// Now using JSR 160 instead. => this is an additional
-// dependency to JSR 160.
+// XXX Rfvisit:
+//   usfd to import dom.sun.jmx.snmp.MBfbnSfrvfrForwbrdfr
+// Now using JSR 160 instfbd. => tiis is bn bdditionbl
+// dfpfndfndy to JSR 160.
 //
-import javax.management.remote.MBeanServerForwarder;
+import jbvbx.mbnbgfmfnt.rfmotf.MBfbnSfrvfrForwbrdfr;
 
 /**
- * Defines generic behavior for the server part of a connector or an adaptor.
- * Most connectors or adaptors extend <CODE>CommunicatorServer</CODE>
- * and inherit this behavior. Connectors or adaptors that do not fit into
- * this model do not extend <CODE>CommunicatorServer</CODE>.
+ * Dffinfs gfnfrid bfibvior for tif sfrvfr pbrt of b donnfdtor or bn bdbptor.
+ * Most donnfdtors or bdbptors fxtfnd <CODE>CommunidbtorSfrvfr</CODE>
+ * bnd inifrit tiis bfibvior. Connfdtors or bdbptors tibt do not fit into
+ * tiis modfl do not fxtfnd <CODE>CommunidbtorSfrvfr</CODE>.
  * <p>
- * A <CODE>CommunicatorServer</CODE> is an active object, it listens for
- * client requests  and processes them in its own thread. When necessary, a
- * <CODE>CommunicatorServer</CODE> creates other threads to process multiple
- * requests concurrently.
+ * A <CODE>CommunidbtorSfrvfr</CODE> is bn bdtivf objfdt, it listfns for
+ * dlifnt rfqufsts  bnd prodfssfs tifm in its own tirfbd. Wifn nfdfssbry, b
+ * <CODE>CommunidbtorSfrvfr</CODE> drfbtfs otifr tirfbds to prodfss multiplf
+ * rfqufsts dondurrfntly.
  * <p>
- * A <CODE>CommunicatorServer</CODE> object can be stopped by calling the
- * <CODE>stop</CODE> method. When it is stopped, the
- * <CODE>CommunicatorServer</CODE> no longer listens to client requests and
- * no longer holds any thread or communication resources.
- * It can be started again by calling the <CODE>start</CODE> method.
+ * A <CODE>CommunidbtorSfrvfr</CODE> objfdt dbn bf stoppfd by dblling tif
+ * <CODE>stop</CODE> mftiod. Wifn it is stoppfd, tif
+ * <CODE>CommunidbtorSfrvfr</CODE> no longfr listfns to dlifnt rfqufsts bnd
+ * no longfr iolds bny tirfbd or dommunidbtion rfsourdfs.
+ * It dbn bf stbrtfd bgbin by dblling tif <CODE>stbrt</CODE> mftiod.
  * <p>
- * A <CODE>CommunicatorServer</CODE> has a <CODE>State</CODE> attribute
- * which reflects its  activity.
+ * A <CODE>CommunidbtorSfrvfr</CODE> ibs b <CODE>Stbtf</CODE> bttributf
+ * wiidi rfflfdts its  bdtivity.
  * <p>
  * <TABLE>
- * <TR><TH>CommunicatorServer</TH>      <TH>State</TH></TR>
- * <TR><TD><CODE>stopped</CODE></TD>    <TD><CODE>OFFLINE</CODE></TD></TR>
- * <TR><TD><CODE>starting</CODE></TD>    <TD><CODE>STARTING</CODE></TD></TR>
+ * <TR><TH>CommunidbtorSfrvfr</TH>      <TH>Stbtf</TH></TR>
+ * <TR><TD><CODE>stoppfd</CODE></TD>    <TD><CODE>OFFLINE</CODE></TD></TR>
+ * <TR><TD><CODE>stbrting</CODE></TD>    <TD><CODE>STARTING</CODE></TD></TR>
  * <TR><TD><CODE>running</CODE></TD>     <TD><CODE>ONLINE</CODE></TD></TR>
  * <TR><TD><CODE>stopping</CODE></TD>     <TD><CODE>STOPPING</CODE></TD></TR>
  * </TABLE>
  * <p>
- * The <CODE>STARTING</CODE> state marks the transition
+ * Tif <CODE>STARTING</CODE> stbtf mbrks tif trbnsition
  * from <CODE>OFFLINE</CODE> to <CODE>ONLINE</CODE>.
  * <p>
- * The <CODE>STOPPING</CODE> state marks the transition from
- * <CODE>ONLINE</CODE> to <CODE>OFFLINE</CODE>. This occurs when the
- * <CODE>CommunicatorServer</CODE> is finishing or interrupting active
- * requests.
+ * Tif <CODE>STOPPING</CODE> stbtf mbrks tif trbnsition from
+ * <CODE>ONLINE</CODE> to <CODE>OFFLINE</CODE>. Tiis oddurs wifn tif
+ * <CODE>CommunidbtorSfrvfr</CODE> is finisiing or intfrrupting bdtivf
+ * rfqufsts.
  * <p>
- * When a <CODE>CommunicatorServer</CODE> is unregistered from the MBeanServer,
- * it is stopped automatically.
+ * Wifn b <CODE>CommunidbtorSfrvfr</CODE> is unrfgistfrfd from tif MBfbnSfrvfr,
+ * it is stoppfd butombtidblly.
  * <p>
- * When the value of the <CODE>State</CODE> attribute changes the
- * <CODE>CommunicatorServer</CODE> sends a
- * <tt>{@link javax.management.AttributeChangeNotification}</tt> to the
- * registered listeners, if any.
+ * Wifn tif vbluf of tif <CODE>Stbtf</CODE> bttributf dibngfs tif
+ * <CODE>CommunidbtorSfrvfr</CODE> sfnds b
+ * <tt>{@link jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion}</tt> to tif
+ * rfgistfrfd listfnfrs, if bny.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public abstract class CommunicatorServer
-    implements Runnable, MBeanRegistration, NotificationBroadcaster,
-               CommunicatorServerMBean {
+publid bbstrbdt dlbss CommunidbtorSfrvfr
+    implfmfnts Runnbblf, MBfbnRfgistrbtion, NotifidbtionBrobddbstfr,
+               CommunidbtorSfrvfrMBfbn {
 
     //
-    // States of a CommunicatorServer
-    //
-
-    /**
-     * Represents an <CODE>ONLINE</CODE> state.
-     */
-    public static final int ONLINE = 0 ;
-
-    /**
-     * Represents an <CODE>OFFLINE</CODE> state.
-     */
-    public static final int OFFLINE = 1 ;
-
-    /**
-     * Represents a <CODE>STOPPING</CODE> state.
-     */
-    public static final int STOPPING = 2 ;
-
-    /**
-     * Represents a <CODE>STARTING</CODE> state.
-     */
-    public static final int STARTING = 3 ;
-
-    //
-    // Types of connectors.
+    // Stbtfs of b CommunidbtorSfrvfr
     //
 
     /**
-     * Indicates that it is an RMI connector type.
+     * Rfprfsfnts bn <CODE>ONLINE</CODE> stbtf.
      */
-    //public static final int RMI_TYPE = 1 ;
+    publid stbtid finbl int ONLINE = 0 ;
 
     /**
-     * Indicates that it is an HTTP connector type.
+     * Rfprfsfnts bn <CODE>OFFLINE</CODE> stbtf.
      */
-    //public static final int HTTP_TYPE = 2 ;
+    publid stbtid finbl int OFFLINE = 1 ;
 
     /**
-     * Indicates that it is an HTML connector type.
+     * Rfprfsfnts b <CODE>STOPPING</CODE> stbtf.
      */
-    //public static final int HTML_TYPE = 3 ;
+    publid stbtid finbl int STOPPING = 2 ;
 
     /**
-     * Indicates that it is an SNMP connector type.
+     * Rfprfsfnts b <CODE>STARTING</CODE> stbtf.
      */
-    public static final int SNMP_TYPE = 4 ;
-
-    /**
-     * Indicates that it is an HTTPS connector type.
-     */
-    //public static final int HTTPS_TYPE = 5 ;
+    publid stbtid finbl int STARTING = 3 ;
 
     //
-    // Package variables
+    // Typfs of donnfdtors.
     //
 
     /**
-     * The state of the connector server.
+     * Indidbtfs tibt it is bn RMI donnfdtor typf.
      */
-     transient volatile int state = OFFLINE ;
+    //publid stbtid finbl int RMI_TYPE = 1 ;
 
     /**
-     * The object name of the connector server.
-     * @serial
+     * Indidbtfs tibt it is bn HTTP donnfdtor typf.
      */
-    ObjectName objectName ;
+    //publid stbtid finbl int HTTP_TYPE = 2 ;
 
-    MBeanServer topMBS;
-    MBeanServer bottomMBS;
+    /**
+     * Indidbtfs tibt it is bn HTML donnfdtor typf.
+     */
+    //publid stbtid finbl int HTML_TYPE = 3 ;
+
+    /**
+     * Indidbtfs tibt it is bn SNMP donnfdtor typf.
+     */
+    publid stbtid finbl int SNMP_TYPE = 4 ;
+
+    /**
+     * Indidbtfs tibt it is bn HTTPS donnfdtor typf.
+     */
+    //publid stbtid finbl int HTTPS_TYPE = 5 ;
+
+    //
+    // Pbdkbgf vbribblfs
+    //
+
+    /**
+     * Tif stbtf of tif donnfdtor sfrvfr.
+     */
+     trbnsifnt volbtilf int stbtf = OFFLINE ;
+
+    /**
+     * Tif objfdt nbmf of tif donnfdtor sfrvfr.
+     * @sfribl
+     */
+    ObjfdtNbmf objfdtNbmf ;
+
+    MBfbnSfrvfr topMBS;
+    MBfbnSfrvfr bottomMBS;
 
     /**
      */
-    transient String dbgTag = null ;
+    trbnsifnt String dbgTbg = null ;
 
     /**
-     * The maximum number of clients that the CommunicatorServer can
-     * process concurrently.
-     * @serial
+     * Tif mbximum numbfr of dlifnts tibt tif CommunidbtorSfrvfr dbn
+     * prodfss dondurrfntly.
+     * @sfribl
      */
-    int maxActiveClientCount = 1 ;
+    int mbxAdtivfClifntCount = 1 ;
 
     /**
      */
-    transient int servedClientCount = 0 ;
+    trbnsifnt int sfrvfdClifntCount = 0 ;
 
     /**
-     * The host name used by this CommunicatorServer.
-     * @serial
+     * Tif iost nbmf usfd by tiis CommunidbtorSfrvfr.
+     * @sfribl
      */
-    String host = null ;
+    String iost = null ;
 
     /**
-     * The port number used by this CommunicatorServer.
-     * @serial
+     * Tif port numbfr usfd by tiis CommunidbtorSfrvfr.
+     * @sfribl
      */
     int port = -1 ;
 
 
     //
-    // Private fields
+    // Privbtf fiflds
     //
 
-    /* This object controls access to the "state" and "interrupted" variables.
-       If held at the same time as the lock on "this", the "this" lock must
-       be taken first.  */
-    private transient Object stateLock = new Object();
+    /* Tiis objfdt dontrols bddfss to tif "stbtf" bnd "intfrruptfd" vbribblfs.
+       If ifld bt tif sbmf timf bs tif lodk on "tiis", tif "tiis" lodk must
+       bf tbkfn first.  */
+    privbtf trbnsifnt Objfdt stbtfLodk = nfw Objfdt();
 
-    private transient Vector<ClientHandler>
-            clientHandlerVector = new Vector<>() ;
+    privbtf trbnsifnt Vfdtor<ClifntHbndlfr>
+            dlifntHbndlfrVfdtor = nfw Vfdtor<>() ;
 
-    private transient Thread mainThread = null ;
+    privbtf trbnsifnt Tirfbd mbinTirfbd = null ;
 
-    private volatile boolean stopRequested = false ;
-    private boolean interrupted = false;
-    private transient Exception startException = null;
+    privbtf volbtilf boolfbn stopRfqufstfd = fblsf ;
+    privbtf boolfbn intfrruptfd = fblsf;
+    privbtf trbnsifnt Exdfption stbrtExdfption = null;
 
-    // Notifs count, broadcaster and info
-    private transient long notifCount = 0;
-    private transient NotificationBroadcasterSupport notifBroadcaster =
-        new NotificationBroadcasterSupport();
-    private transient MBeanNotificationInfo[] notifInfos = null;
+    // Notifs dount, brobddbstfr bnd info
+    privbtf trbnsifnt long notifCount = 0;
+    privbtf trbnsifnt NotifidbtionBrobddbstfrSupport notifBrobddbstfr =
+        nfw NotifidbtionBrobddbstfrSupport();
+    privbtf trbnsifnt MBfbnNotifidbtionInfo[] notifInfos = null;
 
 
     /**
-     * Instantiates a <CODE>CommunicatorServer</CODE>.
+     * Instbntibtfs b <CODE>CommunidbtorSfrvfr</CODE>.
      *
-     * @param connectorType Indicates the connector type. Possible values are:
+     * @pbrbm donnfdtorTypf Indidbtfs tif donnfdtor typf. Possiblf vblufs brf:
      * SNMP_TYPE.
      *
-     * @exception <CODE>java.lang.IllegalArgumentException</CODE>
-     *            This connector type is not correct.
+     * @fxdfption <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>
+     *            Tiis donnfdtor typf is not dorrfdt.
      */
-    public CommunicatorServer(int connectorType)
-        throws IllegalArgumentException {
-        switch (connectorType) {
-        case SNMP_TYPE :
-            //No op. int Type deciding debugging removed.
-            break;
-        default:
-            throw new IllegalArgumentException("Invalid connector Type") ;
+    publid CommunidbtorSfrvfr(int donnfdtorTypf)
+        tirows IllfgblArgumfntExdfption {
+        switdi (donnfdtorTypf) {
+        dbsf SNMP_TYPE :
+            //No op. int Typf dfdiding dfbugging rfmovfd.
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid donnfdtor Typf") ;
         }
-        dbgTag = makeDebugTag() ;
+        dbgTbg = mbkfDfbugTbg() ;
     }
 
-    protected Thread createMainThread() {
-        return new Thread (this, makeThreadName());
+    protfdtfd Tirfbd drfbtfMbinTirfbd() {
+        rfturn nfw Tirfbd (tiis, mbkfTirfbdNbmf());
     }
 
     /**
-     * Starts this <CODE>CommunicatorServer</CODE>.
+     * Stbrts tiis <CODE>CommunidbtorSfrvfr</CODE>.
      * <p>
-     * Has no effect if this <CODE>CommunicatorServer</CODE> is
+     * Hbs no ffffdt if tiis <CODE>CommunidbtorSfrvfr</CODE> is
      * <CODE>ONLINE</CODE> or <CODE>STOPPING</CODE>.
-     * @param timeout Time in ms to wait for the connector to start.
-     *        If <code>timeout</code> is positive, wait for at most
-     *        the specified time. An infinite timeout can be specified
-     *        by passing a <code>timeout</code> value equals
-     *        <code>Long.MAX_VALUE</code>. In that case the method
-     *        will wait until the connector starts or fails to start.
-     *        If timeout is negative or zero, returns as soon as possible
-     *        without waiting.
-     * @exception CommunicationException if the connectors fails to start.
-     * @exception InterruptedException if the thread is interrupted or the
-     *            timeout expires.
+     * @pbrbm timfout Timf in ms to wbit for tif donnfdtor to stbrt.
+     *        If <dodf>timfout</dodf> is positivf, wbit for bt most
+     *        tif spfdififd timf. An infinitf timfout dbn bf spfdififd
+     *        by pbssing b <dodf>timfout</dodf> vbluf fqubls
+     *        <dodf>Long.MAX_VALUE</dodf>. In tibt dbsf tif mftiod
+     *        will wbit until tif donnfdtor stbrts or fbils to stbrt.
+     *        If timfout is nfgbtivf or zfro, rfturns bs soon bs possiblf
+     *        witiout wbiting.
+     * @fxdfption CommunidbtionExdfption if tif donnfdtors fbils to stbrt.
+     * @fxdfption IntfrruptfdExdfption if tif tirfbd is intfrruptfd or tif
+     *            timfout fxpirfs.
      */
-    public void start(long timeout)
-        throws CommunicationException, InterruptedException {
-        boolean start;
+    publid void stbrt(long timfout)
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption {
+        boolfbn stbrt;
 
-        synchronized (stateLock) {
-            if (state == STOPPING) {
+        syndironizfd (stbtfLodk) {
+            if (stbtf == STOPPING) {
                 // Fix for bug 4352451:
-                //     "java.net.BindException: Address in use".
-                waitState(OFFLINE, 60000);
+                //     "jbvb.nft.BindExdfption: Addrfss in usf".
+                wbitStbtf(OFFLINE, 60000);
             }
-            start = (state == OFFLINE);
-            if (start) {
-                changeState(STARTING);
-                stopRequested = false;
-                interrupted = false;
-                startException = null;
+            stbrt = (stbtf == OFFLINE);
+            if (stbrt) {
+                dibngfStbtf(STARTING);
+                stopRfqufstfd = fblsf;
+                intfrruptfd = fblsf;
+                stbrtExdfption = null;
             }
         }
 
-        if (!start) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "start","Connector is not OFFLINE");
+        if (!stbrt) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "stbrt","Connfdtor is not OFFLINE");
             }
-            return;
+            rfturn;
         }
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "start","--> Start connector ");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "stbrt","--> Stbrt donnfdtor ");
         }
 
-        mainThread = createMainThread();
+        mbinTirfbd = drfbtfMbinTirfbd();
 
-        mainThread.start() ;
+        mbinTirfbd.stbrt() ;
 
-        if (timeout > 0) waitForStart(timeout);
+        if (timfout > 0) wbitForStbrt(timfout);
     }
 
     /**
-     * Starts this <CODE>CommunicatorServer</CODE>.
+     * Stbrts tiis <CODE>CommunidbtorSfrvfr</CODE>.
      * <p>
-     * Has no effect if this <CODE>CommunicatorServer</CODE> is
+     * Hbs no ffffdt if tiis <CODE>CommunidbtorSfrvfr</CODE> is
      * <CODE>ONLINE</CODE> or <CODE>STOPPING</CODE>.
      */
-    @Override
-    public void start() {
+    @Ovfrridf
+    publid void stbrt() {
         try {
-            start(0);
-        } catch (InterruptedException x) {
-            // cannot happen because of `0'
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "start","interrupted", x);
+            stbrt(0);
+        } dbtdi (IntfrruptfdExdfption x) {
+            // dbnnot ibppfn bfdbusf of `0'
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "stbrt","intfrruptfd", x);
             }
         }
     }
 
     /**
-     * Stops this <CODE>CommunicatorServer</CODE>.
+     * Stops tiis <CODE>CommunidbtorSfrvfr</CODE>.
      * <p>
-     * Has no effect if this <CODE>CommunicatorServer</CODE> is
+     * Hbs no ffffdt if tiis <CODE>CommunidbtorSfrvfr</CODE> is
      * <CODE>OFFLINE</CODE> or  <CODE>STOPPING</CODE>.
      */
-    @Override
-    public void stop() {
-        synchronized (stateLock) {
-            if (state == OFFLINE || state == STOPPING) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                        "stop","Connector is not ONLINE");
+    @Ovfrridf
+    publid void stop() {
+        syndironizfd (stbtfLodk) {
+            if (stbtf == OFFLINE || stbtf == STOPPING) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                        "stop","Connfdtor is not ONLINE");
                 }
-                return;
+                rfturn;
             }
-            changeState(STOPPING);
+            dibngfStbtf(STOPPING);
             //
-            // Stop the connector thread
+            // Stop tif donnfdtor tirfbd
             //
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "stop","Interrupt main thread");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "stop","Intfrrupt mbin tirfbd");
             }
-            stopRequested = true ;
-            if (!interrupted) {
-                interrupted = true;
-                mainThread.interrupt();
+            stopRfqufstfd = truf ;
+            if (!intfrruptfd) {
+                intfrruptfd = truf;
+                mbinTirfbd.intfrrupt();
             }
         }
 
         //
-        // Call terminate on each active client handler
+        // Cbll tfrminbtf on fbdi bdtivf dlifnt ibndlfr
         //
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "stop","terminateAllClient");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "stop","tfrminbtfAllClifnt");
         }
-        terminateAllClient() ;
+        tfrminbtfAllClifnt() ;
 
         // ----------------------
-        // changeState
+        // dibngfStbtf
         // ----------------------
-        synchronized (stateLock) {
-            if (state == STARTING)
-                changeState(OFFLINE);
+        syndironizfd (stbtfLodk) {
+            if (stbtf == STARTING)
+                dibngfStbtf(OFFLINE);
         }
     }
 
     /**
-     * Tests whether the <CODE>CommunicatorServer</CODE> is active.
+     * Tfsts wiftifr tif <CODE>CommunidbtorSfrvfr</CODE> is bdtivf.
      *
-     * @return True if connector is <CODE>ONLINE</CODE>; false otherwise.
+     * @rfturn Truf if donnfdtor is <CODE>ONLINE</CODE>; fblsf otifrwisf.
      */
-    @Override
-    public boolean isActive() {
-        synchronized (stateLock) {
-            return (state == ONLINE);
+    @Ovfrridf
+    publid boolfbn isAdtivf() {
+        syndironizfd (stbtfLodk) {
+            rfturn (stbtf == ONLINE);
         }
     }
 
     /**
-     * <p>Waits until either the State attribute of this MBean equals the
-     * specified <VAR>wantedState</VAR> parameter,
-     * or the specified  <VAR>timeOut</VAR> has elapsed.
-     * The method <CODE>waitState</CODE> returns with a boolean value
-     * indicating whether the specified <VAR>wantedState</VAR> parameter
-     * equals the value of this MBean's State attribute at the time the method
-     * terminates.</p>
+     * <p>Wbits until fitifr tif Stbtf bttributf of tiis MBfbn fqubls tif
+     * spfdififd <VAR>wbntfdStbtf</VAR> pbrbmftfr,
+     * or tif spfdififd  <VAR>timfOut</VAR> ibs flbpsfd.
+     * Tif mftiod <CODE>wbitStbtf</CODE> rfturns witi b boolfbn vbluf
+     * indidbting wiftifr tif spfdififd <VAR>wbntfdStbtf</VAR> pbrbmftfr
+     * fqubls tif vbluf of tiis MBfbn's Stbtf bttributf bt tif timf tif mftiod
+     * tfrminbtfs.</p>
      *
-     * <p>Two special cases for the <VAR>timeOut</VAR> parameter value are:</p>
-     * <UL><LI> if <VAR>timeOut</VAR> is negative then <CODE>waitState</CODE>
-     *     returns immediately (i.e. does not wait at all),</LI>
-     * <LI> if <VAR>timeOut</VAR> equals zero then <CODE>waitState</CODE>
-     *     waits untill the value of this MBean's State attribute
-     *     is the same as the <VAR>wantedState</VAR> parameter (i.e. will wait
-     *     indefinitely if this condition is never met).</LI></UL>
+     * <p>Two spfdibl dbsfs for tif <VAR>timfOut</VAR> pbrbmftfr vbluf brf:</p>
+     * <UL><LI> if <VAR>timfOut</VAR> is nfgbtivf tifn <CODE>wbitStbtf</CODE>
+     *     rfturns immfdibtfly (i.f. dofs not wbit bt bll),</LI>
+     * <LI> if <VAR>timfOut</VAR> fqubls zfro tifn <CODE>wbitStbtf</CODE>
+     *     wbits untill tif vbluf of tiis MBfbn's Stbtf bttributf
+     *     is tif sbmf bs tif <VAR>wbntfdStbtf</VAR> pbrbmftfr (i.f. will wbit
+     *     indffinitfly if tiis dondition is nfvfr mft).</LI></UL>
      *
-     * @param wantedState The value of this MBean's State attribute to wait
-     *        for. <VAR>wantedState</VAR> can be one of:
+     * @pbrbm wbntfdStbtf Tif vbluf of tiis MBfbn's Stbtf bttributf to wbit
+     *        for. <VAR>wbntfdStbtf</VAR> dbn bf onf of:
      * <ul>
-     * <li><CODE>CommunicatorServer.OFFLINE</CODE>,</li>
-     * <li><CODE>CommunicatorServer.ONLINE</CODE>,</li>
-     * <li><CODE>CommunicatorServer.STARTING</CODE>,</li>
-     * <li><CODE>CommunicatorServer.STOPPING</CODE>.</li>
+     * <li><CODE>CommunidbtorSfrvfr.OFFLINE</CODE>,</li>
+     * <li><CODE>CommunidbtorSfrvfr.ONLINE</CODE>,</li>
+     * <li><CODE>CommunidbtorSfrvfr.STARTING</CODE>,</li>
+     * <li><CODE>CommunidbtorSfrvfr.STOPPING</CODE>.</li>
      * </ul>
-     * @param timeOut The maximum time to wait for, in milliseconds,
-     *        if positive.
-     * Infinite time out if 0, or no waiting at all if negative.
+     * @pbrbm timfOut Tif mbximum timf to wbit for, in millisfdonds,
+     *        if positivf.
+     * Infinitf timf out if 0, or no wbiting bt bll if nfgbtivf.
      *
-     * @return true if the value of this MBean's State attribute is the
-     *      same as the <VAR>wantedState</VAR> parameter; false otherwise.
+     * @rfturn truf if tif vbluf of tiis MBfbn's Stbtf bttributf is tif
+     *      sbmf bs tif <VAR>wbntfdStbtf</VAR> pbrbmftfr; fblsf otifrwisf.
      */
-    @Override
-    public boolean waitState(int wantedState, long timeOut) {
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "waitState", wantedState + "(0on,1off,2st) TO=" + timeOut +
-                  " ; current state = " + getStateString());
+    @Ovfrridf
+    publid boolfbn wbitStbtf(int wbntfdStbtf, long timfOut) {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "wbitStbtf", wbntfdStbtf + "(0on,1off,2st) TO=" + timfOut +
+                  " ; durrfnt stbtf = " + gftStbtfString());
         }
 
-        long endTime = 0;
-        if (timeOut > 0)
-            endTime = System.currentTimeMillis() + timeOut;
+        long fndTimf = 0;
+        if (timfOut > 0)
+            fndTimf = Systfm.durrfntTimfMillis() + timfOut;
 
-        synchronized (stateLock) {
-            while (state != wantedState) {
-                if (timeOut < 0) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                            "waitState", "timeOut < 0, return without wait");
+        syndironizfd (stbtfLodk) {
+            wiilf (stbtf != wbntfdStbtf) {
+                if (timfOut < 0) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                            "wbitStbtf", "timfOut < 0, rfturn witiout wbit");
                     }
-                    return false;
-                } else {
+                    rfturn fblsf;
+                } flsf {
                     try {
-                        if (timeOut > 0) {
-                            long toWait = endTime - System.currentTimeMillis();
-                            if (toWait <= 0) {
-                                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                                        "waitState", "timed out");
+                        if (timfOut > 0) {
+                            long toWbit = fndTimf - Systfm.durrfntTimfMillis();
+                            if (toWbit <= 0) {
+                                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                                        "wbitStbtf", "timfd out");
                                 }
-                                return false;
+                                rfturn fblsf;
                             }
-                            stateLock.wait(toWait);
-                        } else {  // timeOut == 0
-                            stateLock.wait();
+                            stbtfLodk.wbit(toWbit);
+                        } flsf {  // timfOut == 0
+                            stbtfLodk.wbit();
                         }
-                    } catch (InterruptedException e) {
-                        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                                "waitState", "wait interrupted");
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                                "wbitStbtf", "wbit intfrruptfd");
                         }
-                        return (state == wantedState);
+                        rfturn (stbtf == wbntfdStbtf);
                     }
                 }
             }
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "waitState","returning in desired state");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "wbitStbtf","rfturning in dfsirfd stbtf");
             }
-            return true;
+            rfturn truf;
         }
     }
 
     /**
-     * <p>Waits until the communicator is started or timeout expires.
+     * <p>Wbits until tif dommunidbtor is stbrtfd or timfout fxpirfs.
      *
-     * @param timeout Time in ms to wait for the connector to start.
-     *        If <code>timeout</code> is positive, wait for at most
-     *        the specified time. An infinite timeout can be specified
-     *        by passing a <code>timeout</code> value equals
-     *        <code>Long.MAX_VALUE</code>. In that case the method
-     *        will wait until the connector starts or fails to start.
-     *        If timeout is negative or zero, returns as soon as possible
-     *        without waiting.
+     * @pbrbm timfout Timf in ms to wbit for tif donnfdtor to stbrt.
+     *        If <dodf>timfout</dodf> is positivf, wbit for bt most
+     *        tif spfdififd timf. An infinitf timfout dbn bf spfdififd
+     *        by pbssing b <dodf>timfout</dodf> vbluf fqubls
+     *        <dodf>Long.MAX_VALUE</dodf>. In tibt dbsf tif mftiod
+     *        will wbit until tif donnfdtor stbrts or fbils to stbrt.
+     *        If timfout is nfgbtivf or zfro, rfturns bs soon bs possiblf
+     *        witiout wbiting.
      *
-     * @exception CommunicationException if the connectors fails to start.
-     * @exception InterruptedException if the thread is interrupted or the
-     *            timeout expires.
+     * @fxdfption CommunidbtionExdfption if tif donnfdtors fbils to stbrt.
+     * @fxdfption IntfrruptfdExdfption if tif tirfbd is intfrruptfd or tif
+     *            timfout fxpirfs.
      *
      */
-    private void waitForStart(long timeout)
-        throws CommunicationException, InterruptedException {
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "waitForStart", "Timeout=" + timeout +
-                 " ; current state = " + getStateString());
+    privbtf void wbitForStbrt(long timfout)
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "wbitForStbrt", "Timfout=" + timfout +
+                 " ; durrfnt stbtf = " + gftStbtfString());
         }
 
-        final long startTime = System.currentTimeMillis();
+        finbl long stbrtTimf = Systfm.durrfntTimfMillis();
 
-        synchronized (stateLock) {
-            while (state == STARTING) {
-                // Time elapsed since startTime...
+        syndironizfd (stbtfLodk) {
+            wiilf (stbtf == STARTING) {
+                // Timf flbpsfd sindf stbrtTimf...
                 //
-                final long elapsed = System.currentTimeMillis() - startTime;
+                finbl long flbpsfd = Systfm.durrfntTimfMillis() - stbrtTimf;
 
-                // wait for timeout - elapsed.
-                // A timeout of Long.MAX_VALUE is equivalent to something
-                // like 292271023 years - which is pretty close to
-                // forever as far as we are concerned ;-)
+                // wbit for timfout - flbpsfd.
+                // A timfout of Long.MAX_VALUE is fquivblfnt to somftiing
+                // likf 292271023 yfbrs - wiidi is prftty dlosf to
+                // forfvfr bs fbr bs wf brf dondfrnfd ;-)
                 //
-                final long remainingTime = timeout-elapsed;
+                finbl long rfmbiningTimf = timfout-flbpsfd;
 
-                // If remainingTime is negative, the timeout has elapsed.
+                // If rfmbiningTimf is nfgbtivf, tif timfout ibs flbpsfd.
                 //
-                if (remainingTime < 0) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                            "waitForStart", "timeout < 0, return without wait");
+                if (rfmbiningTimf < 0) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                            "wbitForStbrt", "timfout < 0, rfturn witiout wbit");
                     }
-                    throw new InterruptedException("Timeout expired");
+                    tirow nfw IntfrruptfdExdfption("Timfout fxpirfd");
                 }
 
-                // We're going to wait until someone notifies on the
-                // the stateLock object, or until the timeout expires,
-                // or until the thread is interrupted.
+                // Wf'rf going to wbit until somfonf notififs on tif
+                // tif stbtfLodk objfdt, or until tif timfout fxpirfs,
+                // or until tif tirfbd is intfrruptfd.
                 //
                 try {
-                    stateLock.wait(remainingTime);
-                } catch (InterruptedException e) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                            "waitForStart", "wait interrupted");
+                    stbtfLodk.wbit(rfmbiningTimf);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                            "wbitForStbrt", "wbit intfrruptfd");
                     }
 
-                    // If we are now ONLINE, then no need to rethrow the
-                    // exception... we're simply going to exit the while
-                    // loop. Otherwise, throw the InterruptedException.
+                    // If wf brf now ONLINE, tifn no nffd to rftirow tif
+                    // fxdfption... wf'rf simply going to fxit tif wiilf
+                    // loop. Otifrwisf, tirow tif IntfrruptfdExdfption.
                     //
-                    if (state != ONLINE) throw e;
+                    if (stbtf != ONLINE) tirow f;
                 }
             }
 
-            // We're no longer in STARTING state
+            // Wf'rf no longfr in STARTING stbtf
             //
-            if (state == ONLINE) {
-                // OK, we're started, everything went fine, just return
+            if (stbtf == ONLINE) {
+                // OK, wf'rf stbrtfd, fvfrytiing wfnt finf, just rfturn
                 //
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                        "waitForStart", "started");
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                        "wbitForStbrt", "stbrtfd");
                 }
-                return;
-            } else if (startException instanceof CommunicationException) {
-                // There was some exception during the starting phase.
-                // Cast and throw...
+                rfturn;
+            } flsf if (stbrtExdfption instbndfof CommunidbtionExdfption) {
+                // Tifrf wbs somf fxdfption during tif stbrting pibsf.
+                // Cbst bnd tirow...
                 //
-                throw (CommunicationException)startException;
-            } else if (startException instanceof InterruptedException) {
-                // There was some exception during the starting phase.
-                // Cast and throw...
+                tirow (CommunidbtionExdfption)stbrtExdfption;
+            } flsf if (stbrtExdfption instbndfof IntfrruptfdExdfption) {
+                // Tifrf wbs somf fxdfption during tif stbrting pibsf.
+                // Cbst bnd tirow...
                 //
-                throw (InterruptedException)startException;
-            } else if (startException != null) {
-                // There was some exception during the starting phase.
-                // Wrap and throw...
+                tirow (IntfrruptfdExdfption)stbrtExdfption;
+            } flsf if (stbrtExdfption != null) {
+                // Tifrf wbs somf fxdfption during tif stbrting pibsf.
+                // Wrbp bnd tirow...
                 //
-                throw new CommunicationException(startException,
-                                                 "Failed to start: "+
-                                                 startException);
-            } else {
-                // We're not ONLINE, and there's no exception...
-                // Something went wrong but we don't know what...
+                tirow nfw CommunidbtionExdfption(stbrtExdfption,
+                                                 "Fbilfd to stbrt: "+
+                                                 stbrtExdfption);
+            } flsf {
+                // Wf'rf not ONLINE, bnd tifrf's no fxdfption...
+                // Somftiing wfnt wrong but wf don't know wibt...
                 //
-                throw new CommunicationException("Failed to start: state is "+
-                                                 getStringForState(state));
+                tirow nfw CommunidbtionExdfption("Fbilfd to stbrt: stbtf is "+
+                                                 gftStringForStbtf(stbtf));
             }
         }
     }
 
     /**
-     * Gets the state of this <CODE>CommunicatorServer</CODE> as an integer.
+     * Gfts tif stbtf of tiis <CODE>CommunidbtorSfrvfr</CODE> bs bn intfgfr.
      *
-     * @return <CODE>ONLINE</CODE>, <CODE>OFFLINE</CODE>,
+     * @rfturn <CODE>ONLINE</CODE>, <CODE>OFFLINE</CODE>,
      *         <CODE>STARTING</CODE> or <CODE>STOPPING</CODE>.
      */
-    @Override
-    public int getState() {
-        synchronized (stateLock) {
-            return state ;
+    @Ovfrridf
+    publid int gftStbtf() {
+        syndironizfd (stbtfLodk) {
+            rfturn stbtf ;
         }
     }
 
     /**
-     * Gets the state of this <CODE>CommunicatorServer</CODE> as a string.
+     * Gfts tif stbtf of tiis <CODE>CommunidbtorSfrvfr</CODE> bs b string.
      *
-     * @return One of the strings "ONLINE", "OFFLINE", "STARTING" or
+     * @rfturn Onf of tif strings "ONLINE", "OFFLINE", "STARTING" or
      *         "STOPPING".
      */
-    @Override
-    public String getStateString() {
-        return getStringForState(state) ;
+    @Ovfrridf
+    publid String gftStbtfString() {
+        rfturn gftStringForStbtf(stbtf) ;
     }
 
     /**
-     * Gets the host name used by this <CODE>CommunicatorServer</CODE>.
+     * Gfts tif iost nbmf usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      *
-     * @return The host name used by this <CODE>CommunicatorServer</CODE>.
+     * @rfturn Tif iost nbmf usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      */
-    @Override
-    public String getHost() {
+    @Ovfrridf
+    publid String gftHost() {
         try {
-            host = InetAddress.getLocalHost().getHostName();
-        } catch (Exception e) {
-            host = "Unknown host";
+            iost = InftAddrfss.gftLodblHost().gftHostNbmf();
+        } dbtdi (Exdfption f) {
+            iost = "Unknown iost";
         }
-        return host ;
+        rfturn iost ;
     }
 
     /**
-     * Gets the port number used by this <CODE>CommunicatorServer</CODE>.
+     * Gfts tif port numbfr usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      *
-     * @return The port number used by this <CODE>CommunicatorServer</CODE>.
+     * @rfturn Tif port numbfr usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      */
-    @Override
-    public int getPort() {
-        synchronized (stateLock) {
-            return port ;
-        }
-    }
-
-    /**
-     * Sets the port number used by this <CODE>CommunicatorServer</CODE>.
-     *
-     * @param port The port number used by this
-     *             <CODE>CommunicatorServer</CODE>.
-     *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was ONLINE or STARTING.
-     */
-    @Override
-    public void setPort(int port) throws java.lang.IllegalStateException {
-        synchronized (stateLock) {
-            if ((state == ONLINE) || (state == STARTING))
-                throw new IllegalStateException("Stop server before " +
-                                                "carrying out this operation");
-            this.port = port;
-            dbgTag = makeDebugTag();
+    @Ovfrridf
+    publid int gftPort() {
+        syndironizfd (stbtfLodk) {
+            rfturn port ;
         }
     }
 
     /**
-     * Gets the protocol being used by this <CODE>CommunicatorServer</CODE>.
-     * @return The protocol as a string.
-     */
-    @Override
-    public abstract String getProtocol();
-
-    /**
-     * Gets the number of clients that have been processed by this
-     * <CODE>CommunicatorServer</CODE>  since its creation.
+     * Sfts tif port numbfr usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      *
-     * @return The number of clients handled by this
-     *         <CODE>CommunicatorServer</CODE>
-     *         since its creation. This counter is not reset by the
-     *         <CODE>stop</CODE> method.
+     * @pbrbm port Tif port numbfr usfd by tiis
+     *             <CODE>CommunidbtorSfrvfr</CODE>.
+     *
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs ONLINE or STARTING.
      */
-    int getServedClientCount() {
-        return servedClientCount ;
+    @Ovfrridf
+    publid void sftPort(int port) tirows jbvb.lbng.IllfgblStbtfExdfption {
+        syndironizfd (stbtfLodk) {
+            if ((stbtf == ONLINE) || (stbtf == STARTING))
+                tirow nfw IllfgblStbtfExdfption("Stop sfrvfr bfforf " +
+                                                "dbrrying out tiis opfrbtion");
+            tiis.port = port;
+            dbgTbg = mbkfDfbugTbg();
+        }
     }
 
     /**
-     * Gets the number of clients currently being processed by this
-     * <CODE>CommunicatorServer</CODE>.
-     *
-     * @return The number of clients currently being processed by this
-     *         <CODE>CommunicatorServer</CODE>.
+     * Gfts tif protodol bfing usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     * @rfturn Tif protodol bs b string.
      */
-    int getActiveClientCount() {
-        int result = clientHandlerVector.size() ;
-        return result ;
+    @Ovfrridf
+    publid bbstrbdt String gftProtodol();
+
+    /**
+     * Gfts tif numbfr of dlifnts tibt ibvf bffn prodfssfd by tiis
+     * <CODE>CommunidbtorSfrvfr</CODE>  sindf its drfbtion.
+     *
+     * @rfturn Tif numbfr of dlifnts ibndlfd by tiis
+     *         <CODE>CommunidbtorSfrvfr</CODE>
+     *         sindf its drfbtion. Tiis dountfr is not rfsft by tif
+     *         <CODE>stop</CODE> mftiod.
+     */
+    int gftSfrvfdClifntCount() {
+        rfturn sfrvfdClifntCount ;
     }
 
     /**
-     * Gets the maximum number of clients that this
-     * <CODE>CommunicatorServer</CODE> can  process concurrently.
+     * Gfts tif numbfr of dlifnts durrfntly bfing prodfssfd by tiis
+     * <CODE>CommunidbtorSfrvfr</CODE>.
      *
-     * @return The maximum number of clients that this
-     *         <CODE>CommunicatorServer</CODE> can
-     *         process concurrently.
+     * @rfturn Tif numbfr of dlifnts durrfntly bfing prodfssfd by tiis
+     *         <CODE>CommunidbtorSfrvfr</CODE>.
      */
-    int getMaxActiveClientCount() {
-        return maxActiveClientCount ;
+    int gftAdtivfClifntCount() {
+        int rfsult = dlifntHbndlfrVfdtor.sizf() ;
+        rfturn rfsult ;
     }
 
     /**
-     * Sets the maximum number of clients this
-     * <CODE>CommunicatorServer</CODE> can process concurrently.
+     * Gfts tif mbximum numbfr of dlifnts tibt tiis
+     * <CODE>CommunidbtorSfrvfr</CODE> dbn  prodfss dondurrfntly.
      *
-     * @param c The number of clients.
-     *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was ONLINE or STARTING.
+     * @rfturn Tif mbximum numbfr of dlifnts tibt tiis
+     *         <CODE>CommunidbtorSfrvfr</CODE> dbn
+     *         prodfss dondurrfntly.
      */
-    void setMaxActiveClientCount(int c)
-        throws java.lang.IllegalStateException {
-        synchronized (stateLock) {
-            if ((state == ONLINE) || (state == STARTING)) {
-                throw new IllegalStateException(
-                          "Stop server before carrying out this operation");
+    int gftMbxAdtivfClifntCount() {
+        rfturn mbxAdtivfClifntCount ;
+    }
+
+    /**
+     * Sfts tif mbximum numbfr of dlifnts tiis
+     * <CODE>CommunidbtorSfrvfr</CODE> dbn prodfss dondurrfntly.
+     *
+     * @pbrbm d Tif numbfr of dlifnts.
+     *
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs ONLINE or STARTING.
+     */
+    void sftMbxAdtivfClifntCount(int d)
+        tirows jbvb.lbng.IllfgblStbtfExdfption {
+        syndironizfd (stbtfLodk) {
+            if ((stbtf == ONLINE) || (stbtf == STARTING)) {
+                tirow nfw IllfgblStbtfExdfption(
+                          "Stop sfrvfr bfforf dbrrying out tiis opfrbtion");
             }
-            maxActiveClientCount = c ;
+            mbxAdtivfClifntCount = d ;
         }
     }
 
     /**
-     * For SNMP Runtime internal use only.
+     * For SNMP Runtimf intfrnbl usf only.
      */
-    void notifyClientHandlerCreated(ClientHandler h) {
-        clientHandlerVector.addElement(h) ;
+    void notifyClifntHbndlfrCrfbtfd(ClifntHbndlfr i) {
+        dlifntHbndlfrVfdtor.bddElfmfnt(i) ;
     }
 
     /**
-     * For SNMP Runtime internal use only.
+     * For SNMP Runtimf intfrnbl usf only.
      */
-    synchronized void notifyClientHandlerDeleted(ClientHandler h) {
-        clientHandlerVector.removeElement(h);
+    syndironizfd void notifyClifntHbndlfrDflftfd(ClifntHbndlfr i) {
+        dlifntHbndlfrVfdtor.rfmovfElfmfnt(i);
         notifyAll();
     }
 
     /**
-     * The number of times the communicator server will attempt
-     * to bind before giving up.
+     * Tif numbfr of timfs tif dommunidbtor sfrvfr will bttfmpt
+     * to bind bfforf giving up.
      **/
-    protected int getBindTries() {
-        return 50;
+    protfdtfd int gftBindTrifs() {
+        rfturn 50;
     }
 
     /**
-     * The delay, in ms, during which the communicator server will sleep before
-     * attempting to bind again.
+     * Tif dflby, in ms, during wiidi tif dommunidbtor sfrvfr will slffp bfforf
+     * bttfmpting to bind bgbin.
      **/
-    protected long getBindSleepTime() {
-        return 100;
+    protfdtfd long gftBindSlffpTimf() {
+        rfturn 100;
     }
 
     /**
-     * For SNMP Runtime internal use only.
+     * For SNMP Runtimf intfrnbl usf only.
      * <p>
-     * The <CODE>run</CODE> method executed by this connector's main thread.
+     * Tif <CODE>run</CODE> mftiod fxfdutfd by tiis donnfdtor's mbin tirfbd.
      */
-    @Override
-    public void run() {
+    @Ovfrridf
+    publid void run() {
 
-        // Fix jaw.00667.B
-        // It seems that the init of "i" and "success"
-        // need to be done outside the "try" clause...
-        // A bug in Java 2 production release ?
+        // Fix jbw.00667.B
+        // It sffms tibt tif init of "i" bnd "suddfss"
+        // nffd to bf donf outsidf tif "try" dlbusf...
+        // A bug in Jbvb 2 produdtion rflfbsf ?
         //
         int i = 0;
-        boolean success = false;
+        boolfbn suddfss = fblsf;
 
         // ----------------------
         // Bind
         // ----------------------
         try {
-            // Fix for bug 4352451: "java.net.BindException: Address in use".
+            // Fix for bug 4352451: "jbvb.nft.BindExdfption: Addrfss in usf".
             //
-            final int  bindRetries = getBindTries();
-            final long sleepTime   = getBindSleepTime();
-            while (i < bindRetries && !success) {
+            finbl int  bindRftrifs = gftBindTrifs();
+            finbl long slffpTimf   = gftBindSlffpTimf();
+            wiilf (i < bindRftrifs && !suddfss) {
                 try {
-                    // Try socket connection.
+                    // Try sodkft donnfdtion.
                     //
                     doBind();
-                    success = true;
-                } catch (CommunicationException ce) {
+                    suddfss = truf;
+                } dbtdi (CommunidbtionExdfption df) {
                     i++;
                     try {
-                        Thread.sleep(sleepTime);
-                    } catch (InterruptedException ie) {
-                        throw ie;
+                        Tirfbd.slffp(slffpTimf);
+                    } dbtdi (IntfrruptfdExdfption if) {
+                        tirow if;
                     }
                 }
             }
-            // Retry last time to get correct exception.
+            // Rftry lbst timf to gft dorrfdt fxdfption.
             //
-            if (!success) {
-                // Try socket connection.
+            if (!suddfss) {
+                // Try sodkft donnfdtion.
                 //
                 doBind();
             }
 
-        } catch(Exception x) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                    "run", "Got unexpected exception", x);
+        } dbtdi(Exdfption x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "run", "Got unfxpfdtfd fxdfption", x);
             }
-            synchronized(stateLock) {
-                startException = x;
-                changeState(OFFLINE);
+            syndironizfd(stbtfLodk) {
+                stbrtExdfption = x;
+                dibngfStbtf(OFFLINE);
             }
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "run","State is OFFLINE");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "run","Stbtf is OFFLINE");
             }
             doError(x);
-            return;
+            rfturn;
         }
 
         try {
             // ----------------------
-            // State change
+            // Stbtf dibngf
             // ----------------------
-            changeState(ONLINE) ;
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "run","State is ONLINE");
+            dibngfStbtf(ONLINE) ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "run","Stbtf is ONLINE");
             }
 
             // ----------------------
-            // Main loop
+            // Mbin loop
             // ----------------------
-            while (!stopRequested) {
-                servedClientCount++;
-                doReceive() ;
-                waitIfTooManyClients() ;
-                doProcess() ;
+            wiilf (!stopRfqufstfd) {
+                sfrvfdClifntCount++;
+                doRfdfivf() ;
+                wbitIfTooMbnyClifnts() ;
+                doProdfss() ;
             }
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "run","Stop has been requested");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "run","Stop ibs bffn rfqufstfd");
             }
 
-        } catch(InterruptedException x) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                    "run","Interrupt caught");
+        } dbtdi(IntfrruptfdExdfption x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "run","Intfrrupt dbugit");
             }
-            changeState(STOPPING);
-        } catch(Exception x) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                    "run","Got unexpected exception", x);
+            dibngfStbtf(STOPPING);
+        } dbtdi(Exdfption x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "run","Got unfxpfdtfd fxdfption", x);
             }
-            changeState(STOPPING);
-        } finally {
-            synchronized (stateLock) {
-                interrupted = true;
-                Thread.interrupted();
+            dibngfStbtf(STOPPING);
+        } finblly {
+            syndironizfd (stbtfLodk) {
+                intfrruptfd = truf;
+                Tirfbd.intfrruptfd();
             }
 
             // ----------------------
@@ -866,18 +866,18 @@ public abstract class CommunicatorServer
             // ----------------------
             try {
                 doUnbind() ;
-                waitClientTermination() ;
-                changeState(OFFLINE);
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                        "run","State is OFFLINE");
+                wbitClifntTfrminbtion() ;
+                dibngfStbtf(OFFLINE);
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                        "run","Stbtf is OFFLINE");
                 }
-            } catch(Exception x) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "run","Got unexpected exception", x);
+            } dbtdi(Exdfption x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "run","Got unfxpfdtfd fxdfption", x);
                 }
-                changeState(OFFLINE);
+                dibngfStbtf(OFFLINE);
             }
 
         }
@@ -885,489 +885,489 @@ public abstract class CommunicatorServer
 
     /**
      */
-    protected abstract void doError(Exception e) throws CommunicationException;
+    protfdtfd bbstrbdt void doError(Exdfption f) tirows CommunidbtionExdfption;
 
     //
-    // To be defined by the subclass.
+    // To bf dffinfd by tif subdlbss.
     //
-    // Each method below is called by run() and must be subclassed.
-    // If the method sends an exception (Communication or Interrupt), this
-    // will end up the run() method and switch the connector offline.
+    // Ebdi mftiod bflow is dbllfd by run() bnd must bf subdlbssfd.
+    // If tif mftiod sfnds bn fxdfption (Communidbtion or Intfrrupt), tiis
+    // will fnd up tif run() mftiod bnd switdi tif donnfdtor offlinf.
     //
-    // If it is a CommunicationException, run() will call
-    //       Debug.printException().
+    // If it is b CommunidbtionExdfption, run() will dbll
+    //       Dfbug.printExdfption().
     //
-    // All these methods should propagate the InterruptedException to inform
-    // run() that the connector must be switch OFFLINE.
+    // All tifsf mftiods siould propbgbtf tif IntfrruptfdExdfption to inform
+    // run() tibt tif donnfdtor must bf switdi OFFLINE.
     //
     //
     //
-    // doBind() should do all what is needed before calling doReceive().
-    // If doBind() throws an exception, doUnbind() is not to be called
-    // and run() ends up.
+    // doBind() siould do bll wibt is nffdfd bfforf dblling doRfdfivf().
+    // If doBind() tirows bn fxdfption, doUnbind() is not to bf dbllfd
+    // bnd run() fnds up.
     //
 
     /**
      */
-    protected abstract void doBind()
-        throws CommunicationException, InterruptedException ;
+    protfdtfd bbstrbdt void doBind()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption ;
 
     /**
-     * <CODE>doReceive()</CODE> should block until a client is available.
-     * If this method throws an exception, <CODE>doProcess()</CODE> is not
-     * called but <CODE>doUnbind()</CODE> is called then <CODE>run()</CODE>
+     * <CODE>doRfdfivf()</CODE> siould blodk until b dlifnt is bvbilbblf.
+     * If tiis mftiod tirows bn fxdfption, <CODE>doProdfss()</CODE> is not
+     * dbllfd but <CODE>doUnbind()</CODE> is dbllfd tifn <CODE>run()</CODE>
      * stops.
      */
-    protected abstract void doReceive()
-        throws CommunicationException, InterruptedException ;
+    protfdtfd bbstrbdt void doRfdfivf()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption ;
 
     /**
-     * <CODE>doProcess()</CODE> is called after <CODE>doReceive()</CODE>:
-     * it should process the requests of the incoming client.
-     * If it throws an exception, <CODE>doUnbind()</CODE> is called and
+     * <CODE>doProdfss()</CODE> is dbllfd bftfr <CODE>doRfdfivf()</CODE>:
+     * it siould prodfss tif rfqufsts of tif indoming dlifnt.
+     * If it tirows bn fxdfption, <CODE>doUnbind()</CODE> is dbllfd bnd
      * <CODE>run()</CODE> stops.
      */
-    protected abstract void doProcess()
-        throws CommunicationException, InterruptedException ;
+    protfdtfd bbstrbdt void doProdfss()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption ;
 
     /**
-     * <CODE>doUnbind()</CODE> is called whenever the connector goes
-     * <CODE>OFFLINE</CODE>, except if <CODE>doBind()</CODE> has thrown an
-     * exception.
+     * <CODE>doUnbind()</CODE> is dbllfd wifnfvfr tif donnfdtor gofs
+     * <CODE>OFFLINE</CODE>, fxdfpt if <CODE>doBind()</CODE> ibs tirown bn
+     * fxdfption.
      */
-    protected abstract void doUnbind()
-        throws CommunicationException, InterruptedException ;
+    protfdtfd bbstrbdt void doUnbind()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption ;
 
     /**
-     * Get the <code>MBeanServer</code> object to which incoming requests are
-     * sent.  This is either the MBean server in which this connector is
-     * registered, or an <code>MBeanServerForwarder</code> leading to that
-     * server.
+     * Gft tif <dodf>MBfbnSfrvfr</dodf> objfdt to wiidi indoming rfqufsts brf
+     * sfnt.  Tiis is fitifr tif MBfbn sfrvfr in wiidi tiis donnfdtor is
+     * rfgistfrfd, or bn <dodf>MBfbnSfrvfrForwbrdfr</dodf> lfbding to tibt
+     * sfrvfr.
      */
-    public synchronized MBeanServer getMBeanServer() {
-        return topMBS;
+    publid syndironizfd MBfbnSfrvfr gftMBfbnSfrvfr() {
+        rfturn topMBS;
     }
 
     /**
-     * Set the <code>MBeanServer</code> object to which incoming
-     * requests are sent.  This must be either the MBean server in
-     * which this connector is registered, or an
-     * <code>MBeanServerForwarder</code> leading to that server.  An
-     * <code>MBeanServerForwarder</code> <code>mbsf</code> leads to an
-     * MBean server <code>mbs</code> if
-     * <code>mbsf.getMBeanServer()</code> is either <code>mbs</code>
-     * or an <code>MBeanServerForwarder</code> leading to
-     * <code>mbs</code>.
+     * Sft tif <dodf>MBfbnSfrvfr</dodf> objfdt to wiidi indoming
+     * rfqufsts brf sfnt.  Tiis must bf fitifr tif MBfbn sfrvfr in
+     * wiidi tiis donnfdtor is rfgistfrfd, or bn
+     * <dodf>MBfbnSfrvfrForwbrdfr</dodf> lfbding to tibt sfrvfr.  An
+     * <dodf>MBfbnSfrvfrForwbrdfr</dodf> <dodf>mbsf</dodf> lfbds to bn
+     * MBfbn sfrvfr <dodf>mbs</dodf> if
+     * <dodf>mbsf.gftMBfbnSfrvfr()</dodf> is fitifr <dodf>mbs</dodf>
+     * or bn <dodf>MBfbnSfrvfrForwbrdfr</dodf> lfbding to
+     * <dodf>mbs</dodf>.
      *
-     * @exception IllegalArgumentException if <code>newMBS</code> is neither
-     * the MBean server in which this connector is registered nor an
-     * <code>MBeanServerForwarder</code> leading to that server.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>nfwMBS</dodf> is nfitifr
+     * tif MBfbn sfrvfr in wiidi tiis donnfdtor is rfgistfrfd nor bn
+     * <dodf>MBfbnSfrvfrForwbrdfr</dodf> lfbding to tibt sfrvfr.
      *
-     * @exception IllegalStateException This method has been invoked
-     * while the communicator was ONLINE or STARTING.
+     * @fxdfption IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs ONLINE or STARTING.
      */
-    public synchronized void setMBeanServer(MBeanServer newMBS)
-            throws IllegalArgumentException, IllegalStateException {
-        synchronized (stateLock) {
-            if (state == ONLINE || state == STARTING)
-                throw new IllegalStateException("Stop server before " +
-                                                "carrying out this operation");
+    publid syndironizfd void sftMBfbnSfrvfr(MBfbnSfrvfr nfwMBS)
+            tirows IllfgblArgumfntExdfption, IllfgblStbtfExdfption {
+        syndironizfd (stbtfLodk) {
+            if (stbtf == ONLINE || stbtf == STARTING)
+                tirow nfw IllfgblStbtfExdfption("Stop sfrvfr bfforf " +
+                                                "dbrrying out tiis opfrbtion");
         }
-        final String error =
-            "MBeanServer argument must be MBean server where this " +
-            "server is registered, or an MBeanServerForwarder " +
-            "leading to that server";
-        Vector<MBeanServer> seenMBS = new Vector<>();
-        for (MBeanServer mbs = newMBS;
+        finbl String frror =
+            "MBfbnSfrvfr brgumfnt must bf MBfbn sfrvfr wifrf tiis " +
+            "sfrvfr is rfgistfrfd, or bn MBfbnSfrvfrForwbrdfr " +
+            "lfbding to tibt sfrvfr";
+        Vfdtor<MBfbnSfrvfr> sffnMBS = nfw Vfdtor<>();
+        for (MBfbnSfrvfr mbs = nfwMBS;
              mbs != bottomMBS;
-             mbs = ((MBeanServerForwarder) mbs).getMBeanServer()) {
-            if (!(mbs instanceof MBeanServerForwarder))
-                throw new IllegalArgumentException(error);
-            if (seenMBS.contains(mbs))
-                throw new IllegalArgumentException("MBeanServerForwarder " +
+             mbs = ((MBfbnSfrvfrForwbrdfr) mbs).gftMBfbnSfrvfr()) {
+            if (!(mbs instbndfof MBfbnSfrvfrForwbrdfr))
+                tirow nfw IllfgblArgumfntExdfption(frror);
+            if (sffnMBS.dontbins(mbs))
+                tirow nfw IllfgblArgumfntExdfption("MBfbnSfrvfrForwbrdfr " +
                                                    "loop");
-            seenMBS.addElement(mbs);
+            sffnMBS.bddElfmfnt(mbs);
         }
-        topMBS = newMBS;
+        topMBS = nfwMBS;
     }
 
     //
-    // To be called by the subclass if needed
+    // To bf dbllfd by tif subdlbss if nffdfd
     //
     /**
-     * For internal use only.
+     * For intfrnbl usf only.
      */
-    ObjectName getObjectName() {
-        return objectName ;
+    ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn objfdtNbmf ;
     }
 
     /**
-     * For internal use only.
+     * For intfrnbl usf only.
      */
-    void changeState(int newState) {
-        int oldState;
-        synchronized (stateLock) {
-            if (state == newState)
-                return;
-            oldState = state;
-            state = newState;
-            stateLock.notifyAll();
+    void dibngfStbtf(int nfwStbtf) {
+        int oldStbtf;
+        syndironizfd (stbtfLodk) {
+            if (stbtf == nfwStbtf)
+                rfturn;
+            oldStbtf = stbtf;
+            stbtf = nfwStbtf;
+            stbtfLodk.notifyAll();
         }
-        sendStateChangeNotification(oldState, newState);
+        sfndStbtfCibngfNotifidbtion(oldStbtf, nfwStbtf);
     }
 
     /**
-     * Returns the string used in debug traces.
+     * Rfturns tif string usfd in dfbug trbdfs.
      */
-    String makeDebugTag() {
-        return "CommunicatorServer["+ getProtocol() + ":" + getPort() + "]" ;
+    String mbkfDfbugTbg() {
+        rfturn "CommunidbtorSfrvfr["+ gftProtodol() + ":" + gftPort() + "]" ;
     }
 
     /**
-     * Returns the string used to name the connector thread.
+     * Rfturns tif string usfd to nbmf tif donnfdtor tirfbd.
      */
-    String makeThreadName() {
-        String result ;
+    String mbkfTirfbdNbmf() {
+        String rfsult ;
 
-        if (objectName == null)
-            result = "CommunicatorServer" ;
-        else
-            result = objectName.toString() ;
+        if (objfdtNbmf == null)
+            rfsult = "CommunidbtorSfrvfr" ;
+        flsf
+            rfsult = objfdtNbmf.toString() ;
 
-        return result ;
+        rfturn rfsult ;
     }
 
     /**
-     * This method blocks if there are too many active clients.
-     * Call to <CODE>wait()</CODE> is terminated when a client handler
-     * thread calls <CODE>notifyClientHandlerDeleted(this)</CODE> ;
+     * Tiis mftiod blodks if tifrf brf too mbny bdtivf dlifnts.
+     * Cbll to <CODE>wbit()</CODE> is tfrminbtfd wifn b dlifnt ibndlfr
+     * tirfbd dblls <CODE>notifyClifntHbndlfrDflftfd(tiis)</CODE> ;
      */
-    private synchronized void waitIfTooManyClients()
-        throws InterruptedException {
-        while (getActiveClientCount() >= maxActiveClientCount) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "waitIfTooManyClients","Waiting for a client to terminate");
+    privbtf syndironizfd void wbitIfTooMbnyClifnts()
+        tirows IntfrruptfdExdfption {
+        wiilf (gftAdtivfClifntCount() >= mbxAdtivfClifntCount) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "wbitIfTooMbnyClifnts","Wbiting for b dlifnt to tfrminbtf");
             }
-            wait();
+            wbit();
         }
     }
 
     /**
-     * This method blocks until there is no more active client.
+     * Tiis mftiod blodks until tifrf is no morf bdtivf dlifnt.
      */
-    private void waitClientTermination() {
-        int s = clientHandlerVector.size() ;
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
+    privbtf void wbitClifntTfrminbtion() {
+        int s = dlifntHbndlfrVfdtor.sizf() ;
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
             if (s >= 1) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "waitClientTermination","waiting for " +
-                      s + " clients to terminate");
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "wbitClifntTfrminbtion","wbiting for " +
+                      s + " dlifnts to tfrminbtf");
             }
         }
 
-        // The ClientHandler will remove themselves from the
-        // clientHandlerVector at the end of their run() method, by
-        // calling notifyClientHandlerDeleted().
-        // Since the clientHandlerVector is modified by the ClientHandler
-        // threads we must avoid using Enumeration or Iterator to loop
-        // over this array. We must also take care of NoSuchElementException
-        // which could be thrown if the last ClientHandler removes itself
-        // between the call to clientHandlerVector.isEmpty() and the call
-        // to clientHandlerVector.firstElement().
-        // What we *MUST NOT DO* is locking the clientHandlerVector, because
-        // this would most probably cause a deadlock.
+        // Tif ClifntHbndlfr will rfmovf tifmsflvfs from tif
+        // dlifntHbndlfrVfdtor bt tif fnd of tifir run() mftiod, by
+        // dblling notifyClifntHbndlfrDflftfd().
+        // Sindf tif dlifntHbndlfrVfdtor is modififd by tif ClifntHbndlfr
+        // tirfbds wf must bvoid using Enumfrbtion or Itfrbtor to loop
+        // ovfr tiis brrby. Wf must blso tbkf dbrf of NoSudiElfmfntExdfption
+        // wiidi dould bf tirown if tif lbst ClifntHbndlfr rfmovfs itsflf
+        // bftwffn tif dbll to dlifntHbndlfrVfdtor.isEmpty() bnd tif dbll
+        // to dlifntHbndlfrVfdtor.firstElfmfnt().
+        // Wibt wf *MUST NOT DO* is lodking tif dlifntHbndlfrVfdtor, bfdbusf
+        // tiis would most probbbly dbusf b dfbdlodk.
         //
-        while (! clientHandlerVector.isEmpty()) {
+        wiilf (! dlifntHbndlfrVfdtor.isEmpty()) {
             try {
-                clientHandlerVector.firstElement().join();
-            } catch (NoSuchElementException x) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                        "waitClientTermination","No elements left",  x);
+                dlifntHbndlfrVfdtor.firstElfmfnt().join();
+            } dbtdi (NoSudiElfmfntExdfption x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                        "wbitClifntTfrminbtion","No flfmfnts lfft",  x);
                 }
             }
         }
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
             if (s >= 1) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "waitClientTermination","Ok, let's go...");
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "wbitClifntTfrminbtion","Ok, lft's go...");
             }
         }
     }
 
     /**
-     * Call <CODE>interrupt()</CODE> on each pending client.
+     * Cbll <CODE>intfrrupt()</CODE> on fbdi pfnding dlifnt.
      */
-    private void terminateAllClient() {
-        final int s = clientHandlerVector.size() ;
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
+    privbtf void tfrminbtfAllClifnt() {
+        finbl int s = dlifntHbndlfrVfdtor.sizf() ;
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
             if (s >= 1) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "terminateAllClient","Interrupting " + s + " clients");
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "tfrminbtfAllClifnt","Intfrrupting " + s + " dlifnts");
             }
         }
 
-        // The ClientHandler will remove themselves from the
-        // clientHandlerVector at the end of their run() method, by
-        // calling notifyClientHandlerDeleted().
-        // Since the clientHandlerVector is modified by the ClientHandler
-        // threads we must avoid using Enumeration or Iterator to loop
-        // over this array.
-        // We cannot use the same logic here than in waitClientTermination()
-        // because there is no guarantee that calling interrupt() on the
-        // ClientHandler will actually terminate the ClientHandler.
-        // Since we do not want to wait for the actual ClientHandler
-        // termination, we cannot simply loop over the array until it is
-        // empty (this might result in calling interrupt() endlessly on
-        // the same client handler. So what we do is simply take a snapshot
-        // copy of the vector and loop over the copy.
-        // What we *MUST NOT DO* is locking the clientHandlerVector, because
-        // this would most probably cause a deadlock.
+        // Tif ClifntHbndlfr will rfmovf tifmsflvfs from tif
+        // dlifntHbndlfrVfdtor bt tif fnd of tifir run() mftiod, by
+        // dblling notifyClifntHbndlfrDflftfd().
+        // Sindf tif dlifntHbndlfrVfdtor is modififd by tif ClifntHbndlfr
+        // tirfbds wf must bvoid using Enumfrbtion or Itfrbtor to loop
+        // ovfr tiis brrby.
+        // Wf dbnnot usf tif sbmf logid ifrf tibn in wbitClifntTfrminbtion()
+        // bfdbusf tifrf is no gubrbntff tibt dblling intfrrupt() on tif
+        // ClifntHbndlfr will bdtublly tfrminbtf tif ClifntHbndlfr.
+        // Sindf wf do not wbnt to wbit for tif bdtubl ClifntHbndlfr
+        // tfrminbtion, wf dbnnot simply loop ovfr tif brrby until it is
+        // fmpty (tiis migit rfsult in dblling intfrrupt() fndlfssly on
+        // tif sbmf dlifnt ibndlfr. So wibt wf do is simply tbkf b snbpsiot
+        // dopy of tif vfdtor bnd loop ovfr tif dopy.
+        // Wibt wf *MUST NOT DO* is lodking tif dlifntHbndlfrVfdtor, bfdbusf
+        // tiis would most probbbly dbusf b dfbdlodk.
         //
-        final  ClientHandler[] handlers =
-                clientHandlerVector.toArray(new ClientHandler[0]);
-         for (ClientHandler h : handlers) {
+        finbl  ClifntHbndlfr[] ibndlfrs =
+                dlifntHbndlfrVfdtor.toArrby(nfw ClifntHbndlfr[0]);
+         for (ClifntHbndlfr i : ibndlfrs) {
              try {
-                 h.interrupt() ;
-             } catch (Exception x) {
-                 if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                     SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                             "terminateAllClient",
-                             "Failed to interrupt pending request. " +
-                             "Ignore the exception.", x);
+                 i.intfrrupt() ;
+             } dbtdi (Exdfption x) {
+                 if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                     SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                             "tfrminbtfAllClifnt",
+                             "Fbilfd to intfrrupt pfnding rfqufst. " +
+                             "Ignorf tif fxdfption.", x);
                  }
             }
         }
     }
 
     /**
-     * Controls the way the CommunicatorServer service is deserialized.
+     * Controls tif wby tif CommunidbtorSfrvfr sfrvidf is dfsfriblizfd.
      */
-    private void readObject(ObjectInputStream stream)
-        throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+        tirows IOExdfption, ClbssNotFoundExdfption {
 
-        // Call the default deserialization of the object.
+        // Cbll tif dffbult dfsfriblizbtion of tif objfdt.
         //
-        stream.defaultReadObject();
+        strfbm.dffbultRfbdObjfdt();
 
-        // Call the specific initialization for the CommunicatorServer service.
-        // This is for transient structures to be initialized to specific
-        // default values.
+        // Cbll tif spfdifid initiblizbtion for tif CommunidbtorSfrvfr sfrvidf.
+        // Tiis is for trbnsifnt strudturfs to bf initiblizfd to spfdifid
+        // dffbult vblufs.
         //
-        stateLock = new Object();
-        state = OFFLINE;
-        stopRequested = false;
-        servedClientCount = 0;
-        clientHandlerVector = new Vector<>();
-        mainThread = null;
+        stbtfLodk = nfw Objfdt();
+        stbtf = OFFLINE;
+        stopRfqufstfd = fblsf;
+        sfrvfdClifntCount = 0;
+        dlifntHbndlfrVfdtor = nfw Vfdtor<>();
+        mbinTirfbd = null;
         notifCount = 0;
         notifInfos = null;
-        notifBroadcaster = new NotificationBroadcasterSupport();
-        dbgTag = makeDebugTag();
+        notifBrobddbstfr = nfw NotifidbtionBrobddbstfrSupport();
+        dbgTbg = mbkfDfbugTbg();
     }
 
 
     //
-    // NotificationBroadcaster
+    // NotifidbtionBrobddbstfr
     //
 
     /**
-     * Adds a listener for the notifications emitted by this
-     * CommunicatorServer.
-     * There is only one type of notifications sent by the CommunicatorServer:
-     * they are <tt>{@link javax.management.AttributeChangeNotification}</tt>,
-     * sent when the <tt>State</tt> attribute of this CommunicatorServer
-     * changes.
+     * Adds b listfnfr for tif notifidbtions fmittfd by tiis
+     * CommunidbtorSfrvfr.
+     * Tifrf is only onf typf of notifidbtions sfnt by tif CommunidbtorSfrvfr:
+     * tify brf <tt>{@link jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion}</tt>,
+     * sfnt wifn tif <tt>Stbtf</tt> bttributf of tiis CommunidbtorSfrvfr
+     * dibngfs.
      *
-     * @param listener The listener object which will handle the emitted
-     *        notifications.
-     * @param filter The filter object. If filter is null, no filtering
-     *        will be performed before handling notifications.
-     * @param handback An object which will be sent back unchanged to the
-     *        listener when a notification is emitted.
+     * @pbrbm listfnfr Tif listfnfr objfdt wiidi will ibndlf tif fmittfd
+     *        notifidbtions.
+     * @pbrbm filtfr Tif filtfr objfdt. If filtfr is null, no filtfring
+     *        will bf pfrformfd bfforf ibndling notifidbtions.
+     * @pbrbm ibndbbdk An objfdt wiidi will bf sfnt bbdk undibngfd to tif
+     *        listfnfr wifn b notifidbtion is fmittfd.
      *
-     * @exception IllegalArgumentException Listener parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption Listfnfr pbrbmftfr is null.
      */
-    @Override
-    public void addNotificationListener(NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-        throws java.lang.IllegalArgumentException {
+    @Ovfrridf
+    publid void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk)
+        tirows jbvb.lbng.IllfgblArgumfntExdfption {
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                "addNotificationListener","Adding listener "+ listener +
-                  " with filter "+ filter + " and handback "+ handback);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                "bddNotifidbtionListfnfr","Adding listfnfr "+ listfnfr +
+                  " witi filtfr "+ filtfr + " bnd ibndbbdk "+ ibndbbdk);
         }
-        notifBroadcaster.addNotificationListener(listener, filter, handback);
+        notifBrobddbstfr.bddNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
     }
 
     /**
-     * Removes the specified listener from this CommunicatorServer.
-     * Note that if the listener has been registered with different
-     * handback objects or notification filters, all entries corresponding
-     * to the listener will be removed.
+     * Rfmovfs tif spfdififd listfnfr from tiis CommunidbtorSfrvfr.
+     * Notf tibt if tif listfnfr ibs bffn rfgistfrfd witi difffrfnt
+     * ibndbbdk objfdts or notifidbtion filtfrs, bll fntrifs dorrfsponding
+     * to tif listfnfr will bf rfmovfd.
      *
-     * @param listener The listener object to be removed.
+     * @pbrbm listfnfr Tif listfnfr objfdt to bf rfmovfd.
      *
-     * @exception ListenerNotFoundException The listener is not registered.
+     * @fxdfption ListfnfrNotFoundExdfption Tif listfnfr is not rfgistfrfd.
      */
-    @Override
-    public void removeNotificationListener(NotificationListener listener)
-        throws ListenerNotFoundException {
+    @Ovfrridf
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        tirows ListfnfrNotFoundExdfption {
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                "removeNotificationListener","Removing listener "+ listener);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                "rfmovfNotifidbtionListfnfr","Rfmoving listfnfr "+ listfnfr);
         }
-        notifBroadcaster.removeNotificationListener(listener);
+        notifBrobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr);
     }
 
     /**
-     * Returns an array of MBeanNotificationInfo objects describing
-     * the notification types sent by this CommunicatorServer.
-     * There is only one type of notifications sent by the CommunicatorServer:
-     * it is <tt>{@link javax.management.AttributeChangeNotification}</tt>,
-     * sent when the <tt>State</tt> attribute of this CommunicatorServer
-     * changes.
+     * Rfturns bn brrby of MBfbnNotifidbtionInfo objfdts dfsdribing
+     * tif notifidbtion typfs sfnt by tiis CommunidbtorSfrvfr.
+     * Tifrf is only onf typf of notifidbtions sfnt by tif CommunidbtorSfrvfr:
+     * it is <tt>{@link jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion}</tt>,
+     * sfnt wifn tif <tt>Stbtf</tt> bttributf of tiis CommunidbtorSfrvfr
+     * dibngfs.
      */
-    @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    @Ovfrridf
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
 
-        // Initialize notifInfos on first call to getNotificationInfo()
+        // Initiblizf notifInfos on first dbll to gftNotifidbtionInfo()
         //
         if (notifInfos == null) {
-            notifInfos = new MBeanNotificationInfo[1];
-            String[] notifTypes = {
-                AttributeChangeNotification.ATTRIBUTE_CHANGE};
-            notifInfos[0] = new MBeanNotificationInfo( notifTypes,
-                     AttributeChangeNotification.class.getName(),
-                     "Sent to notify that the value of the State attribute "+
-                     "of this CommunicatorServer instance has changed.");
+            notifInfos = nfw MBfbnNotifidbtionInfo[1];
+            String[] notifTypfs = {
+                AttributfCibngfNotifidbtion.ATTRIBUTE_CHANGE};
+            notifInfos[0] = nfw MBfbnNotifidbtionInfo( notifTypfs,
+                     AttributfCibngfNotifidbtion.dlbss.gftNbmf(),
+                     "Sfnt to notify tibt tif vbluf of tif Stbtf bttributf "+
+                     "of tiis CommunidbtorSfrvfr instbndf ibs dibngfd.");
         }
 
-        return notifInfos.clone();
+        rfturn notifInfos.dlonf();
     }
 
     /**
      *
      */
-    private void sendStateChangeNotification(int oldState, int newState) {
+    privbtf void sfndStbtfCibngfNotifidbtion(int oldStbtf, int nfwStbtf) {
 
-        String oldStateString = getStringForState(oldState);
-        String newStateString = getStringForState(newState);
-        String message = new StringBuffer().append(dbgTag)
-            .append(" The value of attribute State has changed from ")
-            .append(oldState).append(" (").append(oldStateString)
-            .append(") to ").append(newState).append(" (")
-            .append(newStateString).append(").").toString();
+        String oldStbtfString = gftStringForStbtf(oldStbtf);
+        String nfwStbtfString = gftStringForStbtf(nfwStbtf);
+        String mfssbgf = nfw StringBufffr().bppfnd(dbgTbg)
+            .bppfnd(" Tif vbluf of bttributf Stbtf ibs dibngfd from ")
+            .bppfnd(oldStbtf).bppfnd(" (").bppfnd(oldStbtfString)
+            .bppfnd(") to ").bppfnd(nfwStbtf).bppfnd(" (")
+            .bppfnd(nfwStbtfString).bppfnd(").").toString();
 
         notifCount++;
-        AttributeChangeNotification notif =
-            new AttributeChangeNotification(this,    // source
-                         notifCount,                 // sequence number
-                         System.currentTimeMillis(), // time stamp
-                         message,                    // message
-                         "State",                    // attribute name
-                         "int",                      // attribute type
-                         oldState,                   // old value
-                         newState );                 // new value
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                "sendStateChangeNotification","Sending AttributeChangeNotification #"
-                    + notifCount + " with message: "+ message);
+        AttributfCibngfNotifidbtion notif =
+            nfw AttributfCibngfNotifidbtion(tiis,    // sourdf
+                         notifCount,                 // sfqufndf numbfr
+                         Systfm.durrfntTimfMillis(), // timf stbmp
+                         mfssbgf,                    // mfssbgf
+                         "Stbtf",                    // bttributf nbmf
+                         "int",                      // bttributf typf
+                         oldStbtf,                   // old vbluf
+                         nfwStbtf );                 // nfw vbluf
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                "sfndStbtfCibngfNotifidbtion","Sfnding AttributfCibngfNotifidbtion #"
+                    + notifCount + " witi mfssbgf: "+ mfssbgf);
         }
-        notifBroadcaster.sendNotification(notif);
+        notifBrobddbstfr.sfndNotifidbtion(notif);
     }
 
     /**
      *
      */
-    private static String getStringForState(int s) {
-        switch (s) {
-        case ONLINE:   return "ONLINE";
-        case STARTING: return "STARTING";
-        case OFFLINE:  return "OFFLINE";
-        case STOPPING: return "STOPPING";
-        default:       return "UNDEFINED";
+    privbtf stbtid String gftStringForStbtf(int s) {
+        switdi (s) {
+        dbsf ONLINE:   rfturn "ONLINE";
+        dbsf STARTING: rfturn "STARTING";
+        dbsf OFFLINE:  rfturn "OFFLINE";
+        dbsf STOPPING: rfturn "STOPPING";
+        dffbult:       rfturn "UNDEFINED";
         }
     }
 
 
     //
-    // MBeanRegistration
+    // MBfbnRfgistrbtion
     //
 
     /**
-     * Preregister method of connector.
+     * Prfrfgistfr mftiod of donnfdtor.
      *
-     *@param server The <CODE>MBeanServer</CODE> in which the MBean will
-     *       be registered.
-     *@param name The object name of the MBean.
+     *@pbrbm sfrvfr Tif <CODE>MBfbnSfrvfr</CODE> in wiidi tif MBfbn will
+     *       bf rfgistfrfd.
+     *@pbrbm nbmf Tif objfdt nbmf of tif MBfbn.
      *
-     *@return  The name of the MBean registered.
+     *@rfturn  Tif nbmf of tif MBfbn rfgistfrfd.
      *
-     *@exception java.langException This exception should be caught by
-     *           the <CODE>MBeanServer</CODE> and re-thrown
-     *           as an <CODE>MBeanRegistrationException</CODE>.
+     *@fxdfption jbvb.lbngExdfption Tiis fxdfption siould bf dbugit by
+     *           tif <CODE>MBfbnSfrvfr</CODE> bnd rf-tirown
+     *           bs bn <CODE>MBfbnRfgistrbtionExdfption</CODE>.
      */
-    @Override
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
-            throws java.lang.Exception {
-        objectName = name;
-        synchronized (this) {
+    @Ovfrridf
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+            tirows jbvb.lbng.Exdfption {
+        objfdtNbmf = nbmf;
+        syndironizfd (tiis) {
             if (bottomMBS != null) {
-                throw new IllegalArgumentException("connector already " +
-                                                   "registered in an MBean " +
-                                                   "server");
+                tirow nfw IllfgblArgumfntExdfption("donnfdtor blrfbdy " +
+                                                   "rfgistfrfd in bn MBfbn " +
+                                                   "sfrvfr");
             }
-            topMBS = bottomMBS = server;
+            topMBS = bottomMBS = sfrvfr;
         }
-        dbgTag = makeDebugTag();
-        return name;
+        dbgTbg = mbkfDfbugTbg();
+        rfturn nbmf;
     }
 
     /**
      *
-     *@param registrationDone Indicates whether or not the MBean has been
-     *       successfully registered in the <CODE>MBeanServer</CODE>.
-     *       The value false means that the registration phase has failed.
+     *@pbrbm rfgistrbtionDonf Indidbtfs wiftifr or not tif MBfbn ibs bffn
+     *       suddfssfully rfgistfrfd in tif <CODE>MBfbnSfrvfr</CODE>.
+     *       Tif vbluf fblsf mfbns tibt tif rfgistrbtion pibsf ibs fbilfd.
      */
-    @Override
-    public void postRegister(Boolean registrationDone) {
-        if (!registrationDone.booleanValue()) {
-            synchronized (this) {
+    @Ovfrridf
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        if (!rfgistrbtionDonf.boolfbnVbluf()) {
+            syndironizfd (tiis) {
                 topMBS = bottomMBS = null;
             }
         }
     }
 
     /**
-     * Stop the connector.
+     * Stop tif donnfdtor.
      *
-     * @exception java.langException This exception should be caught by
-     *            the <CODE>MBeanServer</CODE> and re-thrown
-     *            as an <CODE>MBeanRegistrationException</CODE>.
+     * @fxdfption jbvb.lbngExdfption Tiis fxdfption siould bf dbugit by
+     *            tif <CODE>MBfbnSfrvfr</CODE> bnd rf-tirown
+     *            bs bn <CODE>MBfbnRfgistrbtionExdfption</CODE>.
      */
-    @Override
-    public void preDeregister() throws java.lang.Exception {
-        synchronized (this) {
+    @Ovfrridf
+    publid void prfDfrfgistfr() tirows jbvb.lbng.Exdfption {
+        syndironizfd (tiis) {
             topMBS = bottomMBS = null;
         }
-        objectName = null ;
-        final int cstate = getState();
-        if ((cstate == ONLINE) || ( cstate == STARTING)) {
+        objfdtNbmf = null ;
+        finbl int dstbtf = gftStbtf();
+        if ((dstbtf == ONLINE) || ( dstbtf == STARTING)) {
             stop() ;
         }
     }
 
     /**
-     * Do nothing.
+     * Do notiing.
      */
-    @Override
-    public void postDeregister(){
+    @Ovfrridf
+    publid void postDfrfgistfr(){
     }
 
 }

@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <string.h>
+
+#indludf "FilfSystfmSupport_md.h"
+
+/*
+ * Solbris/Linux implfmfntbtion of thf filf systfm support fundtions.
+ */
+
+#dffinf slbsh           '/'
+
+dhbr pbthSfpbrbtor() {
+    rfturn ':';
+}
+
+/* Filfnbmfs brf dbsf sfnstitivf */
+int filfnbmfStrdmp(donst dhbr* s1, donst dhbr* s2) {
+  rfturn strdmp(s1, s2);
+}
+
+dhbr* bbsfPbth(donst dhbr* pbth) {
+    dhbr* lbst = strrdhr(pbth, slbsh);
+    if (lbst == NULL) {
+        rfturn (dhbr*)pbth;
+    } flsf {
+        int lfn = lbst - pbth;
+        dhbr* str = (dhbr*)mbllod(lfn+1);
+        if (lfn > 0) {
+            mfmdpy(str, pbth, lfn);
+        }
+        str[lfn] = '\0';
+        rfturn str;
+    }
+}
+
+int isAbsolutf(donst dhbr* pbth) {
+    rfturn (pbth[0] == slbsh) ? 1 : 0;
+}
+
+/* Portfd from srd/solbris/dlbssfs/jbvb/io/UnixFilfSystfm.jbvb */
+
+/* A normbl Unix pbthnbmf dontbins no duplidbtf slbshfs bnd dofs not fnd
+   with b slbsh.  It mby bf thf fmpty string. */
+
+/* Normblizf thf givfn pbthnbmf, whosf lfngth is lfn, stbrting bt thf givfn
+   offsft; fvfrything bfforf this offsft is blrfbdy normbl. */
+stbtid dhbr* normblizfPbth(donst dhbr* pbthnbmf, int lfn, int off) {
+    dhbr* sb;
+    int sbLfn, i, n;
+    dhbr prfvChbr;
+
+    if (lfn == 0) rfturn (dhbr*)pbthnbmf;
+    n = lfn;
+    whilf ((n > 0) && (pbthnbmf[n - 1] == slbsh)) n--;
+    if (n == 0) rfturn strdup("/");
+
+    sb = (dhbr*)mbllod(strlfn(pbthnbmf)+1);
+    sbLfn = 0;
+
+    if (off > 0) {
+        mfmdpy(sb, pbthnbmf, off);
+        sbLfn = off;
+    }
+
+    prfvChbr = 0;
+    for (i = off; i < n; i++) {
+        dhbr d = pbthnbmf[i];
+        if ((prfvChbr == slbsh) && (d == slbsh)) dontinuf;
+        sb[sbLfn++] = d;
+        prfvChbr = d;
+    }
+    rfturn sb;
+}
+
+/* Chfdk thbt thf givfn pbthnbmf is normbl.  If not, invokf thf rfbl
+   normblizfr on thf pbrt of thf pbthnbmf thbt rfquirfs normblizbtion.
+   This wby wf itfrbtf through thf wholf pbthnbmf string only ondf. */
+dhbr* normblizf(donst dhbr* pbthnbmf) {
+    int i;
+    int n = strlfn(pbthnbmf);
+    dhbr prfvChbr = 0;
+    for (i = 0; i < n; i++) {
+        dhbr d = pbthnbmf[i];
+        if ((prfvChbr == slbsh) && (d == slbsh))
+            rfturn normblizfPbth(pbthnbmf, n, i - 1);
+        prfvChbr = d;
+    }
+    if (prfvChbr == slbsh) rfturn normblizfPbth(pbthnbmf, n, n - 1);
+    rfturn (dhbr*)pbthnbmf;
+}
+
+dhbr* rfsolvf(donst dhbr* pbrfnt, donst dhbr* dhild) {
+    int lfn;
+    dhbr* thfChbrs;
+    int pn = strlfn(pbrfnt);
+    int dn = strlfn(dhild);
+    int dhildStbrt = 0;
+    int pbrfntEnd = pn;
+
+    if (pn > 0 && pbrfnt[pn-1] == slbsh) {
+        pbrfntEnd--;
+    }
+    lfn = pbrfntEnd + dn - dhildStbrt;
+    if (dhild[0] == slbsh) {
+        thfChbrs = (dhbr*)mbllod(lfn+1);
+        if (pbrfntEnd > 0)
+            mfmdpy(thfChbrs, pbrfnt, pbrfntEnd);
+        if (dn > 0)
+            mfmdpy(thfChbrs+pbrfntEnd, dhild, dn);
+        thfChbrs[lfn] = '\0';
+    } flsf {
+        thfChbrs = (dhbr*)mbllod(lfn+2);
+        if (pbrfntEnd > 0)
+            mfmdpy(thfChbrs, pbrfnt, pbrfntEnd);
+        thfChbrs[pbrfntEnd] = slbsh;
+        if (dn > 0)
+            mfmdpy(thfChbrs+pbrfntEnd+1, dhild, dn);
+        thfChbrs[lfn+1] = '\0';
+    }
+    rfturn thfChbrs;
+}
+
+dhbr* fromURIPbth(donst dhbr* pbth) {
+    int lfn = strlfn(pbth);
+    if (lfn > 1 && pbth[lfn-1] == slbsh) {
+        // "/foo/" --> "/foo", but "/" --> "/"
+        dhbr* str = (dhbr*)mbllod(lfn);
+        if (str != NULL) {
+            mfmdpy(str, pbth, lfn-1);
+            str[lfn-1] = '\0';
+        }
+        rfturn str;
+    } flsf {
+        rfturn (dhbr*)pbth;
+    }
+}

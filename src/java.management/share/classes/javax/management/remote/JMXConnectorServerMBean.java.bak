@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.remote;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
 
-import java.io.IOException;
-import java.util.Map;
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
 
 /**
- * <p>MBean interface for connector servers.  A JMX API connector server
- * is attached to an MBean server, and establishes connections to that
- * MBean server for remote clients.</p>
+ * <p>MBfbn intfrfbdf for donnfdtor sfrvfrs.  A JMX API donnfdtor sfrvfr
+ * is bttbdifd to bn MBfbn sfrvfr, bnd fstbblisifs donnfdtions to tibt
+ * MBfbn sfrvfr for rfmotf dlifnts.</p>
  *
- * <p>A newly-created connector server is <em>inactive</em>, and does
- * not yet listen for connections.  Only when its {@link #start start}
- * method has been called does it start listening for connections.</p>
+ * <p>A nfwly-drfbtfd donnfdtor sfrvfr is <fm>inbdtivf</fm>, bnd dofs
+ * not yft listfn for donnfdtions.  Only wifn its {@link #stbrt stbrt}
+ * mftiod ibs bffn dbllfd dofs it stbrt listfning for donnfdtions.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface JMXConnectorServerMBean {
+publid intfrfbdf JMXConnfdtorSfrvfrMBfbn {
     /**
-     * <p>Activates the connector server, that is, starts listening for
-     * client connections.  Calling this method when the connector
-     * server is already active has no effect.  Calling this method
-     * when the connector server has been stopped will generate an
-     * {@link IOException}.</p>
+     * <p>Adtivbtfs tif donnfdtor sfrvfr, tibt is, stbrts listfning for
+     * dlifnt donnfdtions.  Cblling tiis mftiod wifn tif donnfdtor
+     * sfrvfr is blrfbdy bdtivf ibs no ffffdt.  Cblling tiis mftiod
+     * wifn tif donnfdtor sfrvfr ibs bffn stoppfd will gfnfrbtf bn
+     * {@link IOExdfption}.</p>
      *
-     * @exception IOException if it is not possible to start listening
-     * or if the connector server has been stopped.
+     * @fxdfption IOExdfption if it is not possiblf to stbrt listfning
+     * or if tif donnfdtor sfrvfr ibs bffn stoppfd.
      *
-     * @exception IllegalStateException if the connector server has
-     * not been attached to an MBean server.
+     * @fxdfption IllfgblStbtfExdfption if tif donnfdtor sfrvfr ibs
+     * not bffn bttbdifd to bn MBfbn sfrvfr.
      */
-    public void start() throws IOException;
+    publid void stbrt() tirows IOExdfption;
 
     /**
-     * <p>Deactivates the connector server, that is, stops listening for
-     * client connections.  Calling this method will also close all
-     * client connections that were made by this server.  After this
-     * method returns, whether normally or with an exception, the
-     * connector server will not create any new client
-     * connections.</p>
+     * <p>Dfbdtivbtfs tif donnfdtor sfrvfr, tibt is, stops listfning for
+     * dlifnt donnfdtions.  Cblling tiis mftiod will blso dlosf bll
+     * dlifnt donnfdtions tibt wfrf mbdf by tiis sfrvfr.  Aftfr tiis
+     * mftiod rfturns, wiftifr normblly or witi bn fxdfption, tif
+     * donnfdtor sfrvfr will not drfbtf bny nfw dlifnt
+     * donnfdtions.</p>
      *
-     * <p>Once a connector server has been stopped, it cannot be started
-     * again.</p>
+     * <p>Ondf b donnfdtor sfrvfr ibs bffn stoppfd, it dbnnot bf stbrtfd
+     * bgbin.</p>
      *
-     * <p>Calling this method when the connector server has already
-     * been stopped has no effect.  Calling this method when the
-     * connector server has not yet been started will disable the
-     * connector server object permanently.</p>
+     * <p>Cblling tiis mftiod wifn tif donnfdtor sfrvfr ibs blrfbdy
+     * bffn stoppfd ibs no ffffdt.  Cblling tiis mftiod wifn tif
+     * donnfdtor sfrvfr ibs not yft bffn stbrtfd will disbblf tif
+     * donnfdtor sfrvfr objfdt pfrmbnfntly.</p>
      *
-     * <p>If closing a client connection produces an exception, that
-     * exception is not thrown from this method.  A {@link
-     * JMXConnectionNotification} with type {@link
-     * JMXConnectionNotification#FAILED} is emitted from this MBean
-     * with the connection ID of the connection that could not be
-     * closed.</p>
+     * <p>If dlosing b dlifnt donnfdtion produdfs bn fxdfption, tibt
+     * fxdfption is not tirown from tiis mftiod.  A {@link
+     * JMXConnfdtionNotifidbtion} witi typf {@link
+     * JMXConnfdtionNotifidbtion#FAILED} is fmittfd from tiis MBfbn
+     * witi tif donnfdtion ID of tif donnfdtion tibt dould not bf
+     * dlosfd.</p>
      *
-     * <p>Closing a connector server is a potentially slow operation.
-     * For example, if a client machine with an open connection has
-     * crashed, the close operation might have to wait for a network
-     * protocol timeout.  Callers that do not want to block in a close
-     * operation should do it in a separate thread.</p>
+     * <p>Closing b donnfdtor sfrvfr is b potfntiblly slow opfrbtion.
+     * For fxbmplf, if b dlifnt mbdiinf witi bn opfn donnfdtion ibs
+     * drbsifd, tif dlosf opfrbtion migit ibvf to wbit for b nftwork
+     * protodol timfout.  Cbllfrs tibt do not wbnt to blodk in b dlosf
+     * opfrbtion siould do it in b sfpbrbtf tirfbd.</p>
      *
-     * @exception IOException if the server cannot be closed cleanly.
-     * When this exception is thrown, the server has already attempted
-     * to close all client connections.  All client connections are
-     * closed except possibly those that generated exceptions when the
-     * server attempted to close them.
+     * @fxdfption IOExdfption if tif sfrvfr dbnnot bf dlosfd dlfbnly.
+     * Wifn tiis fxdfption is tirown, tif sfrvfr ibs blrfbdy bttfmptfd
+     * to dlosf bll dlifnt donnfdtions.  All dlifnt donnfdtions brf
+     * dlosfd fxdfpt possibly tiosf tibt gfnfrbtfd fxdfptions wifn tif
+     * sfrvfr bttfmptfd to dlosf tifm.
      */
-    public void stop() throws IOException;
+    publid void stop() tirows IOExdfption;
 
     /**
-     * <p>Determines whether the connector server is active.  A connector
-     * server starts being active when its {@link #start start} method
-     * returns successfully and remains active until either its
-     * {@link #stop stop} method is called or the connector server
-     * fails.</p>
+     * <p>Dftfrminfs wiftifr tif donnfdtor sfrvfr is bdtivf.  A donnfdtor
+     * sfrvfr stbrts bfing bdtivf wifn its {@link #stbrt stbrt} mftiod
+     * rfturns suddfssfully bnd rfmbins bdtivf until fitifr its
+     * {@link #stop stop} mftiod is dbllfd or tif donnfdtor sfrvfr
+     * fbils.</p>
      *
-     * @return true if the connector server is active.
+     * @rfturn truf if tif donnfdtor sfrvfr is bdtivf.
      */
-    public boolean isActive();
+    publid boolfbn isAdtivf();
 
     /**
-     * <p>Inserts an object that intercepts requests for the MBean server
-     * that arrive through this connector server.  This object will be
-     * supplied as the <code>MBeanServer</code> for any new connection
-     * created by this connector server.  Existing connections are
-     * unaffected.</p>
+     * <p>Insfrts bn objfdt tibt intfrdfpts rfqufsts for tif MBfbn sfrvfr
+     * tibt brrivf tirougi tiis donnfdtor sfrvfr.  Tiis objfdt will bf
+     * supplifd bs tif <dodf>MBfbnSfrvfr</dodf> for bny nfw donnfdtion
+     * drfbtfd by tiis donnfdtor sfrvfr.  Existing donnfdtions brf
+     * unbfffdtfd.</p>
      *
-     * <p>This method can be called more than once with different
-     * {@link MBeanServerForwarder} objects.  The result is a chain
-     * of forwarders.  The last forwarder added is the first in the chain.
-     * In more detail:</p>
+     * <p>Tiis mftiod dbn bf dbllfd morf tibn ondf witi difffrfnt
+     * {@link MBfbnSfrvfrForwbrdfr} objfdts.  Tif rfsult is b dibin
+     * of forwbrdfrs.  Tif lbst forwbrdfr bddfd is tif first in tif dibin.
+     * In morf dftbil:</p>
      *
      * <ul>
-     * <li><p>If this connector server is already associated with an
-     * <code>MBeanServer</code> object, then that object is given to
-     * {@link MBeanServerForwarder#setMBeanServer
-     * mbsf.setMBeanServer}.  If doing so produces an exception, this
-     * method throws the same exception without any other effect.</p>
+     * <li><p>If tiis donnfdtor sfrvfr is blrfbdy bssodibtfd witi bn
+     * <dodf>MBfbnSfrvfr</dodf> objfdt, tifn tibt objfdt is givfn to
+     * {@link MBfbnSfrvfrForwbrdfr#sftMBfbnSfrvfr
+     * mbsf.sftMBfbnSfrvfr}.  If doing so produdfs bn fxdfption, tiis
+     * mftiod tirows tif sbmf fxdfption witiout bny otifr ffffdt.</p>
      *
-     * <li><p>If this connector is not already associated with an
-     * <code>MBeanServer</code> object, or if the
-     * <code>mbsf.setMBeanServer</code> call just mentioned succeeds,
-     * then <code>mbsf</code> becomes this connector server's
-     * <code>MBeanServer</code>.</p>
+     * <li><p>If tiis donnfdtor is not blrfbdy bssodibtfd witi bn
+     * <dodf>MBfbnSfrvfr</dodf> objfdt, or if tif
+     * <dodf>mbsf.sftMBfbnSfrvfr</dodf> dbll just mfntionfd suddffds,
+     * tifn <dodf>mbsf</dodf> bfdomfs tiis donnfdtor sfrvfr's
+     * <dodf>MBfbnSfrvfr</dodf>.</p>
      * </ul>
      *
-     * @param mbsf the new <code>MBeanServerForwarder</code>.
+     * @pbrbm mbsf tif nfw <dodf>MBfbnSfrvfrForwbrdfr</dodf>.
      *
-     * @exception IllegalArgumentException if the call to {@link
-     * MBeanServerForwarder#setMBeanServer mbsf.setMBeanServer} fails
-     * with <code>IllegalArgumentException</code>.  This includes the
-     * case where <code>mbsf</code> is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif dbll to {@link
+     * MBfbnSfrvfrForwbrdfr#sftMBfbnSfrvfr mbsf.sftMBfbnSfrvfr} fbils
+     * witi <dodf>IllfgblArgumfntExdfption</dodf>.  Tiis indludfs tif
+     * dbsf wifrf <dodf>mbsf</dodf> is null.
      */
-    public void setMBeanServerForwarder(MBeanServerForwarder mbsf);
+    publid void sftMBfbnSfrvfrForwbrdfr(MBfbnSfrvfrForwbrdfr mbsf);
 
     /**
-     * <p>The list of IDs for currently-open connections to this
-     * connector server.</p>
+     * <p>Tif list of IDs for durrfntly-opfn donnfdtions to tiis
+     * donnfdtor sfrvfr.</p>
      *
-     * @return a new string array containing the list of IDs.  If
-     * there are no currently-open connections, this array will be
-     * empty.
+     * @rfturn b nfw string brrby dontbining tif list of IDs.  If
+     * tifrf brf no durrfntly-opfn donnfdtions, tiis brrby will bf
+     * fmpty.
      */
-    public String[] getConnectionIds();
+    publid String[] gftConnfdtionIds();
 
     /**
-     * <p>The address of this connector server.</p>
+     * <p>Tif bddrfss of tiis donnfdtor sfrvfr.</p>
      * <p>
-     * The address returned may not be the exact original {@link JMXServiceURL}
-     * that was supplied when creating the connector server, since the original
-     * address may not always be complete. For example the port number may be
-     * dynamically allocated when starting the connector server. Instead the
-     * address returned is the actual {@link JMXServiceURL} of the
-     * {@link JMXConnectorServer}. This is the address that clients supply
-     * to {@link JMXConnectorFactory#connect(JMXServiceURL)}.
+     * Tif bddrfss rfturnfd mby not bf tif fxbdt originbl {@link JMXSfrvidfURL}
+     * tibt wbs supplifd wifn drfbting tif donnfdtor sfrvfr, sindf tif originbl
+     * bddrfss mby not blwbys bf domplftf. For fxbmplf tif port numbfr mby bf
+     * dynbmidblly bllodbtfd wifn stbrting tif donnfdtor sfrvfr. Instfbd tif
+     * bddrfss rfturnfd is tif bdtubl {@link JMXSfrvidfURL} of tif
+     * {@link JMXConnfdtorSfrvfr}. Tiis is tif bddrfss tibt dlifnts supply
+     * to {@link JMXConnfdtorFbdtory#donnfdt(JMXSfrvidfURL)}.
      * </p>
-     * <p>Note that the address returned may be {@code null} if
-     *    the {@code JMXConnectorServer} is not yet {@link #isActive active}.
+     * <p>Notf tibt tif bddrfss rfturnfd mby bf {@dodf null} if
+     *    tif {@dodf JMXConnfdtorSfrvfr} is not yft {@link #isAdtivf bdtivf}.
      * </p>
      *
-     * @return the address of this connector server, or null if it
-     * does not have one.
+     * @rfturn tif bddrfss of tiis donnfdtor sfrvfr, or null if it
+     * dofs not ibvf onf.
      */
-    public JMXServiceURL getAddress();
+    publid JMXSfrvidfURL gftAddrfss();
 
     /**
-     * <p>The attributes for this connector server.</p>
+     * <p>Tif bttributfs for tiis donnfdtor sfrvfr.</p>
      *
-     * @return a read-only map containing the attributes for this
-     * connector server.  Attributes whose values are not serializable
-     * are omitted from this map.  If there are no serializable
-     * attributes, the returned map is empty.
+     * @rfturn b rfbd-only mbp dontbining tif bttributfs for tiis
+     * donnfdtor sfrvfr.  Attributfs wiosf vblufs brf not sfriblizbblf
+     * brf omittfd from tiis mbp.  If tifrf brf no sfriblizbblf
+     * bttributfs, tif rfturnfd mbp is fmpty.
      */
-    public Map<String,?> getAttributes();
+    publid Mbp<String,?> gftAttributfs();
 
     /**
-     * <p>Returns a client stub for this connector server.  A client
-     * stub is a serializable object whose {@link
-     * JMXConnector#connect(Map) connect} method can be used to make
-     * one new connection to this connector server.</p>
+     * <p>Rfturns b dlifnt stub for tiis donnfdtor sfrvfr.  A dlifnt
+     * stub is b sfriblizbblf objfdt wiosf {@link
+     * JMXConnfdtor#donnfdt(Mbp) donnfdt} mftiod dbn bf usfd to mbkf
+     * onf nfw donnfdtion to tiis donnfdtor sfrvfr.</p>
      *
-     * <p>A given connector need not support the generation of client
-     * stubs.  However, the connectors specified by the JMX Remote API do
-     * (JMXMP Connector and RMI Connector).</p>
+     * <p>A givfn donnfdtor nffd not support tif gfnfrbtion of dlifnt
+     * stubs.  Howfvfr, tif donnfdtors spfdififd by tif JMX Rfmotf API do
+     * (JMXMP Connfdtor bnd RMI Connfdtor).</p>
      *
-     * @param env client connection parameters of the same sort that
-     * can be provided to {@link JMXConnector#connect(Map)
-     * JMXConnector.connect(Map)}.  Can be null, which is equivalent
-     * to an empty map.
+     * @pbrbm fnv dlifnt donnfdtion pbrbmftfrs of tif sbmf sort tibt
+     * dbn bf providfd to {@link JMXConnfdtor#donnfdt(Mbp)
+     * JMXConnfdtor.donnfdt(Mbp)}.  Cbn bf null, wiidi is fquivblfnt
+     * to bn fmpty mbp.
      *
-     * @return a client stub that can be used to make a new connection
-     * to this connector server.
+     * @rfturn b dlifnt stub tibt dbn bf usfd to mbkf b nfw donnfdtion
+     * to tiis donnfdtor sfrvfr.
      *
-     * @exception UnsupportedOperationException if this connector
-     * server does not support the generation of client stubs.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis donnfdtor
+     * sfrvfr dofs not support tif gfnfrbtion of dlifnt stubs.
      *
-     * @exception IllegalStateException if the JMXConnectorServer is
-     * not started (see {@link JMXConnectorServerMBean#isActive()}).
+     * @fxdfption IllfgblStbtfExdfption if tif JMXConnfdtorSfrvfr is
+     * not stbrtfd (sff {@link JMXConnfdtorSfrvfrMBfbn#isAdtivf()}).
      *
-     * @exception IOException if a communications problem means that a
-     * stub cannot be created.
+     * @fxdfption IOExdfption if b dommunidbtions problfm mfbns tibt b
+     * stub dbnnot bf drfbtfd.
      *
      */
-    public JMXConnector toJMXConnector(Map<String,?> env)
-        throws IOException;
+    publid JMXConnfdtor toJMXConnfdtor(Mbp<String,?> fnv)
+        tirows IOExdfption;
 }

@@ -1,0 +1,456 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+#import "jbvb_bwt_gfom_PbthItfrbtor.h"
+#import "sun_bwt_SunHints.h"
+#import "sun_font_CStrikf.h"
+#import "sun_font_CStrikfDisposfr.h"
+#import "CGGlyphImbgfs.h"
+#import "CGGlyphOutlinfs.h"
+#import "AWTStrikf.h"
+#import "CorfTfxtSupport.h"
+//#import "jni_util.h"
+#indludf "fontsdblfrdffs.h"
+
+/* Usf THIS_FILE whfn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
+
+@implfmfntbtion AWTStrikf
+
+stbtid CGAffinfTrbnsform sInvfrsfTX = { 1, 0, 0, -1, 0, 0 };
+
+- (id) initWithFont:(AWTFont *)bwtFont
+                 tx:(CGAffinfTrbnsform)tx
+           invDfvTx:(CGAffinfTrbnsform)invDfvTx
+              stylf:(JRSFontRfndfringStylf)stylf
+            bbStylf:(jint)bbStylf {
+
+    sflf = [supfr init];
+    if (sflf) {
+        fAWTFont = [bwtFont rftbin];
+        fStylf = stylf;
+        fAAStylf = bbStylf;
+
+        fTx = tx; // dompositfd glyph bnd dfvidf trbnsform
+
+        fAltTx = tx;
+        fAltTx.b *= -1;
+        fAltTx.d *= -1;
+
+        invDfvTx.b *= -1;
+        invDfvTx.d *= -1;
+        fFontTx = CGAffinfTrbnsformCondbt(CGAffinfTrbnsformCondbt(tx, invDfvTx), sInvfrsfTX);
+        fDfvTx = CGAffinfTrbnsformInvfrt(invDfvTx);
+
+        // thf "font sizf" is thf squbrf root of thf dftfrminbnt of thf mbtrix
+        fSizf = sqrt(bbs(fFontTx.b * fFontTx.d - fFontTx.b * fFontTx.d));
+    }
+    rfturn sflf;
+}
+
+- (void) dfbllod {
+    [fAWTFont rflfbsf];
+    fAWTFont = nil;
+
+    [supfr dfbllod];
+}
+
++ (AWTStrikf *) bwtStrikfForFont:(AWTFont *)bwtFont
+                              tx:(CGAffinfTrbnsform)tx
+                        invDfvTx:(CGAffinfTrbnsform)invDfvTx
+                           stylf:(JRSFontRfndfringStylf)stylf
+                         bbStylf:(jint)bbStylf {
+
+    rfturn [[[AWTStrikf bllod] initWithFont:bwtFont
+                                         tx:tx invDfvTx:invDfvTx
+                                      stylf:stylf
+                                    bbStylf:bbStylf] butorflfbsf];
+}
+
+@fnd
+
+
+#dffinf AWT_FONT_CLEANUP_SETUP \
+    BOOL _fontThrowJbvbExdfption = NO;
+
+#dffinf AWT_FONT_CLEANUP_CHECK(b)                                       \
+    if ((b) == NULL) {                                                  \
+        _fontThrowJbvbExdfption = YES;                                  \
+        goto dlfbnup;                                                   \
+    }                                                                   \
+    if ((*fnv)->ExdfptionChfdk(fnv) == JNI_TRUE) {                      \
+        goto dlfbnup;                                                   \
+    }
+
+#dffinf AWT_FONT_CLEANUP_FINISH                                         \
+    if (_fontThrowJbvbExdfption == YES) {                               \
+        dhbr s[512];                                                    \
+        sprintf(s, "%s-%s:%d", THIS_FILE, __FUNCTION__, __LINE__);       \
+        [JNFExdfption rbisf:fnv bs:kRuntimfExdfption rfbson:s];         \
+    }
+
+
+/*
+ * Crfbtfs bn bffinf trbnsform from thf dorrfsponding doublfs sfnt
+ * from CStrikf.gftGlyphTx().
+ */
+stbtid inlinf CGAffinfTrbnsform
+GftTxFromDoublfs(JNIEnv *fnv, jdoublfArrby txArrby)
+{
+    if (txArrby == NULL) {
+        rfturn CGAffinfTrbnsformIdfntity;
+    }
+
+    jdoublf *txPtr = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, txArrby, NULL);
+    if (txPtr == NULL) {
+        rfturn CGAffinfTrbnsformIdfntity;
+    }
+
+    CGAffinfTrbnsform tx =
+        CGAffinfTrbnsformMbkf(txPtr[0], txPtr[1], txPtr[2],
+                              txPtr[3], txPtr[4], txPtr[5]);
+    tx = CGAffinfTrbnsformCondbt(sInvfrsfTX, tx);
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, txArrby, txPtr, JNI_ABORT);
+
+    rfturn tx;
+}
+
+/*
+ * Clbss:     sun_font_CStrikf
+ * Mfthod:    gftNbtivfGlyphAdvbndf
+ * Signbturf: (JI)F
+ */
+JNIEXPORT jflobt JNICALL
+Jbvb_sun_font_CStrikf_gftNbtivfGlyphAdvbndf
+    (JNIEnv *fnv, jdlbss dlbzz, jlong bwtStrikfPtr, jint glyphCodf)
+{
+    CGSizf bdvbndf;
+JNF_COCOA_ENTER(fnv);
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
+    AWTFont *bwtFont = bwtStrikf->fAWTFont;
+
+    // nfgbtivf glyph dodfs brf rfblly unidodfs, whidh wfrf plbdfd thfrf by thf mbppfr
+    // to indidbtf wf should usf CorfTfxt to substitutf thf dhbrbdtfr
+    CGGlyph glyph;
+    donst CTFontRff fbllbbdk = CTS_CopyCTFbllbbdkFontAndGlyphForJbvbGlyphCodf(bwtFont, glyphCodf, &glyph);
+    CTFontGftAdvbndfsForGlyphs(fbllbbdk, kCTFontDffbultOrifntbtion, &glyph, &bdvbndf, 1);
+    CFRflfbsf(fbllbbdk);
+    bdvbndf = CGSizfApplyAffinfTrbnsform(bdvbndf, bwtStrikf->fFontTx);
+    if (!JRSFontStylfUsfsFrbdtionblMftrids(bwtStrikf->fStylf)) {
+        bdvbndf.width = round(bdvbndf.width);
+    }
+
+JNF_COCOA_EXIT(fnv);
+    rfturn bdvbndf.width;
+}
+
+/*
+ * Clbss:     sun_font_CStrikf
+ * Mfthod:    gftNbtivfGlyphImbgfBounds
+ * Signbturf: (JJILjbvb/bwt/gfom/Rfdtbnglf2D/Flobt;DD)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_font_CStrikf_gftNbtivfGlyphImbgfBounds
+    (JNIEnv *fnv, jdlbss dlbzz,
+     jlong bwtStrikfPtr, jint glyphCodf,
+     jobjfdt rfsult /*Rfdtbnglf*/, jdoublf x, jdoublf y)
+{
+JNF_COCOA_ENTER(fnv);
+
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
+    AWTFont *bwtFont = bwtStrikf->fAWTFont;
+
+    CGAffinfTrbnsform tx = bwtStrikf->fAltTx;
+    tx.tx += x;
+    tx.ty += y;
+
+    // nfgbtivf glyph dodfs brf rfblly unidodfs, whidh wfrf plbdfd thfrf by thf mbppfr
+    // to indidbtf wf should usf CorfTfxt to substitutf thf dhbrbdtfr
+    CGGlyph glyph;
+    donst CTFontRff fbllbbdk = CTS_CopyCTFbllbbdkFontAndGlyphForJbvbGlyphCodf(bwtFont, glyphCodf, &glyph);
+
+    CGRfdt bbox;
+    JRSFontGftBoundingBoxfsForGlyphsAndStylf(fbllbbdk, &tx, bwtStrikf->fStylf, &glyph, 1, &bbox);
+    CFRflfbsf(fbllbbdk);
+
+    // thf origin of this bounding box is rflbtivf to thf bottom-lfft dornfr bbsflinf
+    CGFlobt dfdfndfr = -bbox.origin.y;
+    bbox.origin.y = -bbox.sizf.hfight + dfdfndfr;
+
+    // Rfdtbnglf2D.Flobt.sftRfdt(flobt x, flobt y, flobt width, flobt hfight);
+    stbtid JNF_CLASS_CACHE(sjd_Rfdtbnglf2D_Flobt, "jbvb/bwt/gfom/Rfdtbnglf2D$Flobt");    // dbdhf dlbss id for Rfdtbnglf
+    stbtid JNF_MEMBER_CACHE(sjr_Rfdtbnglf2DFlobt_sftRfdt, sjd_Rfdtbnglf2D_Flobt, "sftRfdt", "(FFFF)V");
+    JNFCbllVoidMfthod(fnv, rfsult, sjr_Rfdtbnglf2DFlobt_sftRfdt, (jflobt)bbox.origin.x, (jflobt)bbox.origin.y, (jflobt)bbox.sizf.width, (jflobt)bbox.sizf.hfight);
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_font_CStrikf
+ * Mfthod:    gftNbtivfGlyphOutlinf
+ * Signbturf: (JJIDD)Ljbvb/bwt/gfom/GfnfrblPbth;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_font_CStrikf_gftNbtivfGlyphOutlinf
+    (JNIEnv *fnv, jdlbss dlbzz,
+     jlong bwtStrikfPtr, jint glyphCodf, jdoublf xPos, jdoublf yPos)
+{
+    jobjfdt gfnfrblPbth = NULL;
+
+JNF_COCOA_ENTER(fnv);
+
+    AWTPbthRff pbth = NULL;
+    jflobtArrby pointCoords = NULL;
+    jbytfArrby pointTypfs = NULL;
+
+AWT_FONT_CLEANUP_SETUP;
+
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
+    AWTFont *bwtfont = bwtStrikf->fAWTFont;
+
+AWT_FONT_CLEANUP_CHECK(bwtfont);
+
+    // invfrting thf shfbr ordfr bnd sign to dompfnsbtf for thf flippfd doordinbtf systfm
+    CGAffinfTrbnsform tx = bwtStrikf->fTx;
+    tx.tx += xPos;
+    tx.ty += yPos;
+
+    // gft thf right font bnd glyph for this "Jbvb GlyphCodf"
+
+    CGGlyph glyph;
+    donst CTFontRff font = CTS_CopyCTFbllbbdkFontAndGlyphForJbvbGlyphCodf(bwtfont, glyphCodf, &glyph);
+
+    // gft thf bdvbndf of this glyph
+    CGSizf bdvbndf;
+    CTFontGftAdvbndfsForGlyphs(font, kCTFontDffbultOrifntbtion, &glyph, &bdvbndf, 1);
+
+    // Crfbtf AWTPbth
+    pbth = AWTPbthCrfbtf(CGSizfMbkf(xPos, yPos));
+AWT_FONT_CLEANUP_CHECK(pbth);
+
+    // Gft thf pbths
+    tx = bwtStrikf->fTx;
+    tx = CGAffinfTrbnsformCondbt(tx, sInvfrsfTX);
+    AWTGftGlyphOutlinf(&glyph, (NSFont *)font, &bdvbndf, &tx, 0, 1, &pbth);
+    CFRflfbsf(font);
+
+    pointCoords = (*fnv)->NfwFlobtArrby(fnv, pbth->fNumbfrOfDbtbElfmfnts);
+AWT_FONT_CLEANUP_CHECK(pointCoords);
+
+    (*fnv)->SftFlobtArrbyRfgion(fnv, pointCoords, 0, pbth->fNumbfrOfDbtbElfmfnts, (jflobt*)pbth->fSfgmfntDbtb);
+
+    // Copy thf pointTypfs to thf gfnfrbl pbth
+    pointTypfs = (*fnv)->NfwBytfArrby(fnv, pbth->fNumbfrOfSfgmfnts);
+AWT_FONT_CLEANUP_CHECK(pointTypfs);
+
+    (*fnv)->SftBytfArrbyRfgion(fnv, pointTypfs, 0, pbth->fNumbfrOfSfgmfnts, (jbytf*)pbth->fSfgmfntTypf);
+
+    stbtid JNF_CLASS_CACHE(jd_GfnfrblPbth, "jbvb/bwt/gfom/GfnfrblPbth");
+    stbtid JNF_CTOR_CACHE(jd_GfnfrblPbth_dtor, jd_GfnfrblPbth, "(I[BI[FI)V");
+    gfnfrblPbth = JNFNfwObjfdt(fnv, jd_GfnfrblPbth_dtor, jbvb_bwt_gfom_PbthItfrbtor_WIND_NON_ZERO, pointTypfs, pbth->fNumbfrOfSfgmfnts, pointCoords, pbth->fNumbfrOfDbtbElfmfnts); // AWT_THREADING Sbff (known objfdt)
+
+    // Clfbnup
+dlfbnup:
+    if (pbth != NULL) {
+        AWTPbthFrff(pbth);
+        pbth = NULL;
+    }
+
+    if (pointCoords != NULL) {
+        (*fnv)->DflftfLodblRff(fnv, pointCoords);
+        pointCoords = NULL;
+    }
+
+    if (pointTypfs != NULL) {
+        (*fnv)->DflftfLodblRff(fnv, pointTypfs);
+        pointTypfs = NULL;
+    }
+
+    AWT_FONT_CLEANUP_FINISH;
+JNF_COCOA_EXIT(fnv);
+    rfturn gfnfrblPbth;
+}
+
+/*
+ * Clbss:     sun_font_CStrikf
+ * Mfthod:    gftGlyphImbgfPtrsNbtivf
+ * Signbturf: (JJ[J[II)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_font_CStrikf_gftGlyphImbgfPtrsNbtivf
+    (JNIEnv *fnv, jdlbss dlbzz,
+     jlong bwtStrikfPtr, jlongArrby glyphInfoLongArrby,
+     jintArrby glyphCodfs, jint lfn)
+{
+JNF_COCOA_ENTER(fnv);
+
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
+
+    jlong *glyphInfos =
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, glyphInfoLongArrby, NULL);
+    if (glyphInfos != NULL) {
+        jint *rbwGlyphCodfs =
+            (*fnv)->GftPrimitivfArrbyCritidbl(fnv, glyphCodfs, NULL);
+
+        if (rbwGlyphCodfs != NULL) {
+            CGGlyphImbgfs_GftGlyphImbgfPtrs(glyphInfos, bwtStrikf,
+                                            rbwGlyphCodfs, lfn);
+
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, glyphCodfs,
+                                              rbwGlyphCodfs, JNI_ABORT);
+        }
+        // Do not usf JNI_COMMIT, bs thbt will not frff thf bufffr dopy
+        // whfn +ProtfdtJbvbHfbp is on.
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, glyphInfoLongArrby,
+                                              glyphInfos, 0);
+    }
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_font_CStrikf
+ * Mfthod:    drfbtfNbtivfStrikfPtr
+ * Signbturf: (J[D[DII)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_font_CStrikf_drfbtfNbtivfStrikfPtr
+(JNIEnv *fnv, jdlbss dlbzz, jlong nbtivfFontPtr, jdoublfArrby glyphTxArrby, jdoublfArrby invDfvTxArrby, jint bbStylf, jint fmHint)
+{
+    AWTStrikf *bwtStrikf = nil;
+JNF_COCOA_ENTER(fnv);
+
+    AWTFont *bwtFont = (AWTFont *)jlong_to_ptr(nbtivfFontPtr);
+    JRSFontRfndfringStylf stylf = JRSFontGftRfndfringStylfForHints(fmHint, bbStylf);
+
+    CGAffinfTrbnsform glyphTx = GftTxFromDoublfs(fnv, glyphTxArrby);
+    CGAffinfTrbnsform invDfvTx = GftTxFromDoublfs(fnv, invDfvTxArrby);
+
+    bwtStrikf = [AWTStrikf bwtStrikfForFont:bwtFont tx:glyphTx invDfvTx:invDfvTx stylf:stylf bbStylf:bbStylf]; // butorflfbsfd
+
+    if (bwtStrikf)
+    {
+        CFRftbin(bwtStrikf); // GC
+    }
+
+JNF_COCOA_EXIT(fnv);
+    rfturn ptr_to_jlong(bwtStrikf);
+}
+
+/*
+ * Clbss:     sun_font_CStrikf
+ * Mfthod:    disposfNbtivfStrikfPtr
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_font_CStrikf_disposfNbtivfStrikfPtr
+    (JNIEnv *fnv, jdlbss dlbzz, jlong bwtStrikf)
+{
+JNF_COCOA_ENTER(fnv);
+
+    if (bwtStrikf) {
+        CFRflfbsf((AWTStrikf *)jlong_to_ptr(bwtStrikf)); // GC
+    }
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_font_CStrikf
+ * Mfthod:    gftFontMftrids
+ * Signbturf: (J)Lsun/font/StrikfMftrids;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_font_CStrikf_gftFontMftrids
+    (JNIEnv *fnv, jdlbss dlbzz, jlong bwtStrikfPtr)
+{
+    jobjfdt mftrids = NULL;
+
+JNF_COCOA_ENTER(fnv);
+    AWT_FONT_CLEANUP_SETUP;
+
+    AWTFont *bwtfont = ((AWTStrikf *)jlong_to_ptr(bwtStrikfPtr))->fAWTFont;
+    AWT_FONT_CLEANUP_CHECK(bwtfont);
+
+    CGFontRff dgFont = bwtfont->fNbtivfCGFont;
+
+    jflobt by=0.0, dy=0.0, mx=0.0, ly=0.0;
+    int unitsPfrEm = CGFontGftUnitsPfrEm(dgFont);
+    CGFlobt sdblfX = (1.0 / unitsPfrEm);
+    CGFlobt sdblfY = (1.0 / unitsPfrEm);
+
+    // Asdfnt
+    by = -(CGFlobt)CGFontGftAsdfnt(dgFont) * sdblfY;
+
+    // Dfsdfnt
+    dy = -(CGFlobt)CGFontGftDfsdfnt(dgFont) * sdblfY;
+
+    // Lfbding
+    ly = (CGFlobt)CGFontGftLfbding(dgFont) * sdblfY;
+
+    // Mbx Advbndf for Font Dirfdtion (Stridtly horizontbl)
+    mx = [bwtfont->fFont mbximumAdvbndfmfnt].width;
+
+    /*
+     * bsdfnt:   no nffd to sft bsdfntX - it will bf zfro.
+     * dfsdfnt:  no nffd to sft dfsdfntX - it will bf zfro.
+     * bbsflinf: old rflfbsfs "mbdf up" b numbfr bnd blso sffmfd to
+     *           mbkf it up for "X" bnd sft "Y" to 0.
+     * lfbdingX: no nffd to sft lfbdingX - it will bf zfro.
+     * lfbdingY: mbdf-up numbfr, but bfing dompbtiblf with whbt 1.4.x did.
+     * bdvbndf:  no nffd to sft yMbxLinfbrAdvbndfWidth - it will bf zfro.
+     */
+
+    JNF_CLASS_CACHE(sjd_StrikfMftrids, "sun/font/StrikfMftrids");
+    JNF_CTOR_CACHE(strikfMftridsCtr, sjd_StrikfMftrids, "(FFFFFFFFFF)V");
+    mftrids = JNFNfwObjfdt(fnv, strikfMftridsCtr,
+                           0.0, by, 0.0, dy, 1.0,
+                           0.0, 0.0, ly, mx, 0.0);
+
+dlfbnup:
+    AWT_FONT_CLEANUP_FINISH;
+JNF_COCOA_EXIT(fnv);
+
+    rfturn mftrids;
+}
+
+fxtfrn void AddflGlyphCbdhf_RfmovfAllInfos(GlyphInfo* glyph);
+/*
+ * Clbss:     sun_font_CStrikfDisposfr
+ * Mfthod:    rfmovfGlyphInfoFromCbdhf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_font_CStrikfDisposfr_rfmovfGlyphInfoFromCbdhf
+(JNIEnv *fnv, jdlbss dls, jlong glyphInfo)
+{
+    JNF_COCOA_ENTER(fnv);
+
+    AddflGlyphCbdhf_RfmovfAllCfllInfos((GlyphInfo*)jlong_to_ptr(glyphInfo));
+
+    JNF_COCOA_EXIT(fnv);
+}

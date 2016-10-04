@@ -1,341 +1,341 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rowset.internal;
+pbdkbgf dom.sun.rowsft.intfrnbl;
 
-import java.sql.*;
-import java.io.*;
-import java.lang.*;
-import java.util.*;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.lbng.*;
+import jbvb.util.*;
 
 /**
- * A class that keeps track of a row's values. A <code>Row</code> object
- * maintains an array of current column values and an array of original
- * column values, and it provides methods for getting and setting the
- * value of a column.  It also keeps track of which columns have
- * changed and whether the change was a delete, insert, or update.
+ * A dlbss tibt kffps trbdk of b row's vblufs. A <dodf>Row</dodf> objfdt
+ * mbintbins bn brrby of durrfnt dolumn vblufs bnd bn brrby of originbl
+ * dolumn vblufs, bnd it providfs mftiods for gftting bnd sftting tif
+ * vbluf of b dolumn.  It blso kffps trbdk of wiidi dolumns ibvf
+ * dibngfd bnd wiftifr tif dibngf wbs b dflftf, insfrt, or updbtf.
  * <P>
- * Note that column numbers for rowsets start at <code>1</code>,
- * whereas the first element of an array or bitset is <code>0</code>.
- * The argument for the method <code>getColumnUpdated</code> refers to
- * the column number in the rowset (the first column is <code>1</code>);
- * the argument for <code>setColumnUpdated</code> refers to the index
- * into the rowset's internal bitset (the first bit is <code>0</code>).
+ * Notf tibt dolumn numbfrs for rowsfts stbrt bt <dodf>1</dodf>,
+ * wifrfbs tif first flfmfnt of bn brrby or bitsft is <dodf>0</dodf>.
+ * Tif brgumfnt for tif mftiod <dodf>gftColumnUpdbtfd</dodf> rfffrs to
+ * tif dolumn numbfr in tif rowsft (tif first dolumn is <dodf>1</dodf>);
+ * tif brgumfnt for <dodf>sftColumnUpdbtfd</dodf> rfffrs to tif indfx
+ * into tif rowsft's intfrnbl bitsft (tif first bit is <dodf>0</dodf>).
  */
-public class Row extends BaseRow implements Serializable, Cloneable {
+publid dlbss Row fxtfnds BbsfRow implfmfnts Sfriblizbblf, Clonfbblf {
 
-static final long serialVersionUID = 5047859032611314762L;
-
-/**
- * An array containing the current column values for this <code>Row</code>
- * object.
- * @serial
- */
-    private Object[] currentVals;
+stbtid finbl long sfriblVfrsionUID = 5047859032611314762L;
 
 /**
- * A <code>BitSet</code> object containing a flag for each column in
- * this <code>Row</code> object, with each flag indicating whether or
- * not the value in the column has been changed.
- * @serial
+ * An brrby dontbining tif durrfnt dolumn vblufs for tiis <dodf>Row</dodf>
+ * objfdt.
+ * @sfribl
  */
-    private BitSet colsChanged;
+    privbtf Objfdt[] durrfntVbls;
 
 /**
- * A <code>boolean</code> indicating whether or not this <code>Row</code>
- * object has been deleted.  <code>true</code> indicates that it has
- * been deleted; <code>false</code> indicates that it has not.
- * @serial
+ * A <dodf>BitSft</dodf> objfdt dontbining b flbg for fbdi dolumn in
+ * tiis <dodf>Row</dodf> objfdt, witi fbdi flbg indidbting wiftifr or
+ * not tif vbluf in tif dolumn ibs bffn dibngfd.
+ * @sfribl
  */
-    private boolean deleted;
+    privbtf BitSft dolsCibngfd;
 
 /**
- * A <code>boolean</code> indicating whether or not this <code>Row</code>
- * object has been updated.  <code>true</code> indicates that it has
- * been updated; <code>false</code> indicates that it has not.
- * @serial
+ * A <dodf>boolfbn</dodf> indidbting wiftifr or not tiis <dodf>Row</dodf>
+ * objfdt ibs bffn dflftfd.  <dodf>truf</dodf> indidbtfs tibt it ibs
+ * bffn dflftfd; <dodf>fblsf</dodf> indidbtfs tibt it ibs not.
+ * @sfribl
  */
-    private boolean updated;
+    privbtf boolfbn dflftfd;
 
 /**
- * A <code>boolean</code> indicating whether or not this <code>Row</code>
- * object has been inserted.  <code>true</code> indicates that it has
- * been inserted; <code>false</code> indicates that it has not.
- * @serial
+ * A <dodf>boolfbn</dodf> indidbting wiftifr or not tiis <dodf>Row</dodf>
+ * objfdt ibs bffn updbtfd.  <dodf>truf</dodf> indidbtfs tibt it ibs
+ * bffn updbtfd; <dodf>fblsf</dodf> indidbtfs tibt it ibs not.
+ * @sfribl
  */
-    private boolean inserted;
+    privbtf boolfbn updbtfd;
 
 /**
- * The number of columns in this <code>Row</code> object.
- * @serial
+ * A <dodf>boolfbn</dodf> indidbting wiftifr or not tiis <dodf>Row</dodf>
+ * objfdt ibs bffn insfrtfd.  <dodf>truf</dodf> indidbtfs tibt it ibs
+ * bffn insfrtfd; <dodf>fblsf</dodf> indidbtfs tibt it ibs not.
+ * @sfribl
  */
-    private int numCols;
+    privbtf boolfbn insfrtfd;
 
 /**
- * Creates a new <code>Row</code> object with the given number of columns.
- * The newly-created row includes an array of original values,
- * an array for storing its current values, and a <code>BitSet</code>
- * object for keeping track of which column values have been changed.
+ * Tif numbfr of dolumns in tiis <dodf>Row</dodf> objfdt.
+ * @sfribl
  */
-    public Row(int numCols) {
-        origVals = new Object[numCols];
-        currentVals = new Object[numCols];
-        colsChanged = new BitSet(numCols);
-        this.numCols = numCols;
+    privbtf int numCols;
+
+/**
+ * Crfbtfs b nfw <dodf>Row</dodf> objfdt witi tif givfn numbfr of dolumns.
+ * Tif nfwly-drfbtfd row indludfs bn brrby of originbl vblufs,
+ * bn brrby for storing its durrfnt vblufs, bnd b <dodf>BitSft</dodf>
+ * objfdt for kffping trbdk of wiidi dolumn vblufs ibvf bffn dibngfd.
+ */
+    publid Row(int numCols) {
+        origVbls = nfw Objfdt[numCols];
+        durrfntVbls = nfw Objfdt[numCols];
+        dolsCibngfd = nfw BitSft(numCols);
+        tiis.numCols = numCols;
     }
 
 /**
- * Creates a new <code>Row</code> object with the given number of columns
- * and with its array of original values initialized to the given array.
- * The new <code>Row</code> object also has an array for storing its
- * current values and a <code>BitSet</code> object for keeping track
- * of which column values have been changed.
+ * Crfbtfs b nfw <dodf>Row</dodf> objfdt witi tif givfn numbfr of dolumns
+ * bnd witi its brrby of originbl vblufs initiblizfd to tif givfn brrby.
+ * Tif nfw <dodf>Row</dodf> objfdt blso ibs bn brrby for storing its
+ * durrfnt vblufs bnd b <dodf>BitSft</dodf> objfdt for kffping trbdk
+ * of wiidi dolumn vblufs ibvf bffn dibngfd.
  */
-    public Row(int numCols, Object[] vals) {
-        origVals = new Object[numCols];
-        System.arraycopy(vals, 0, origVals, 0, numCols);
-        currentVals = new Object[numCols];
-        colsChanged = new BitSet(numCols);
-        this.numCols = numCols;
+    publid Row(int numCols, Objfdt[] vbls) {
+        origVbls = nfw Objfdt[numCols];
+        Systfm.brrbydopy(vbls, 0, origVbls, 0, numCols);
+        durrfntVbls = nfw Objfdt[numCols];
+        dolsCibngfd = nfw BitSft(numCols);
+        tiis.numCols = numCols;
     }
 
 /**
  *
- * This method is called internally by the <code>CachedRowSet.populate</code>
- * methods.
+ * Tiis mftiod is dbllfd intfrnblly by tif <dodf>CbdifdRowSft.populbtf</dodf>
+ * mftiods.
  *
- * @param idx the number of the column in this <code>Row</code> object
- *            that is to be set; the index of the first column is
- *            <code>1</code>
- * @param val the new value to be set
+ * @pbrbm idx tif numbfr of tif dolumn in tiis <dodf>Row</dodf> objfdt
+ *            tibt is to bf sft; tif indfx of tif first dolumn is
+ *            <dodf>1</dodf>
+ * @pbrbm vbl tif nfw vbluf to bf sft
  */
-    public void initColumnObject(int idx, Object val) {
-        origVals[idx - 1] = val;
+    publid void initColumnObjfdt(int idx, Objfdt vbl) {
+        origVbls[idx - 1] = vbl;
     }
 
 
 /**
  *
- * This method is called internally by the <code>CachedRowSet.updateXXX</code>
- * methods.
+ * Tiis mftiod is dbllfd intfrnblly by tif <dodf>CbdifdRowSft.updbtfXXX</dodf>
+ * mftiods.
  *
- * @param idx the number of the column in this <code>Row</code> object
- *            that is to be set; the index of the first column is
- *            <code>1</code>
- * @param val the new value to be set
+ * @pbrbm idx tif numbfr of tif dolumn in tiis <dodf>Row</dodf> objfdt
+ *            tibt is to bf sft; tif indfx of tif first dolumn is
+ *            <dodf>1</dodf>
+ * @pbrbm vbl tif nfw vbluf to bf sft
  */
-    public void setColumnObject(int idx, Object val) {
-            currentVals[idx - 1] = val;
-            setColUpdated(idx - 1);
+    publid void sftColumnObjfdt(int idx, Objfdt vbl) {
+            durrfntVbls[idx - 1] = vbl;
+            sftColUpdbtfd(idx - 1);
     }
 
 /**
- * Retrieves the column value stored in the designated column of this
- * <code>Row</code> object.
+ * Rftrifvfs tif dolumn vbluf storfd in tif dfsignbtfd dolumn of tiis
+ * <dodf>Row</dodf> objfdt.
  *
- * @param columnIndex the index of the column value to be retrieved;
- *                    the index of the first column is <code>1</code>
- * @return an <code>Object</code> in the Java programming language that
- *         represents the value stored in the designated column
- * @throws SQLException if there is a database access error
+ * @pbrbm dolumnIndfx tif indfx of tif dolumn vbluf to bf rftrifvfd;
+ *                    tif indfx of tif first dolumn is <dodf>1</dodf>
+ * @rfturn bn <dodf>Objfdt</dodf> in tif Jbvb progrbmming lbngubgf tibt
+ *         rfprfsfnts tif vbluf storfd in tif dfsignbtfd dolumn
+ * @tirows SQLExdfption if tifrf is b dbtbbbsf bddfss frror
  */
-    public Object getColumnObject(int columnIndex) throws SQLException {
-        if (getColUpdated(columnIndex - 1)) {
-            return(currentVals[columnIndex - 1]); // maps to array!!
-        } else {
-            return(origVals[columnIndex - 1]); // maps to array!!
+    publid Objfdt gftColumnObjfdt(int dolumnIndfx) tirows SQLExdfption {
+        if (gftColUpdbtfd(dolumnIndfx - 1)) {
+            rfturn(durrfntVbls[dolumnIndfx - 1]); // mbps to brrby!!
+        } flsf {
+            rfturn(origVbls[dolumnIndfx - 1]); // mbps to brrby!!
         }
     }
 
 /**
- * Indicates whether the designated column of this <code>Row</code> object
- * has been changed.
- * @param idx the index into the <code>BitSet</code> object maintained by
- *            this <code>Row</code> object to keep track of which column
- *            values have been modified; the index of the first bit is
- *            <code>0</code>
- * @return <code>true</code> if the designated column value has been changed;
- *         <code>false</code> otherwise
+ * Indidbtfs wiftifr tif dfsignbtfd dolumn of tiis <dodf>Row</dodf> objfdt
+ * ibs bffn dibngfd.
+ * @pbrbm idx tif indfx into tif <dodf>BitSft</dodf> objfdt mbintbinfd by
+ *            tiis <dodf>Row</dodf> objfdt to kffp trbdk of wiidi dolumn
+ *            vblufs ibvf bffn modififd; tif indfx of tif first bit is
+ *            <dodf>0</dodf>
+ * @rfturn <dodf>truf</dodf> if tif dfsignbtfd dolumn vbluf ibs bffn dibngfd;
+ *         <dodf>fblsf</dodf> otifrwisf
  *
  */
-    public boolean getColUpdated(int idx) {
-        return colsChanged.get(idx);
+    publid boolfbn gftColUpdbtfd(int idx) {
+        rfturn dolsCibngfd.gft(idx);
     }
 
 /**
- * Sets this <code>Row</code> object's <code>deleted</code> field
- * to <code>true</code>.
+ * Sfts tiis <dodf>Row</dodf> objfdt's <dodf>dflftfd</dodf> fifld
+ * to <dodf>truf</dodf>.
  *
- * @see #getDeleted
+ * @sff #gftDflftfd
  */
-    public void setDeleted() { // %%% was public
-        deleted = true;
+    publid void sftDflftfd() { // %%% wbs publid
+        dflftfd = truf;
     }
 
 
 /**
- * Retrieves the value of this <code>Row</code> object's <code>deleted</code> field,
- * which will be <code>true</code> if one or more of its columns has been
- * deleted.
- * @return <code>true</code> if a column value has been deleted; <code>false</code>
- *         otherwise
+ * Rftrifvfs tif vbluf of tiis <dodf>Row</dodf> objfdt's <dodf>dflftfd</dodf> fifld,
+ * wiidi will bf <dodf>truf</dodf> if onf or morf of its dolumns ibs bffn
+ * dflftfd.
+ * @rfturn <dodf>truf</dodf> if b dolumn vbluf ibs bffn dflftfd; <dodf>fblsf</dodf>
+ *         otifrwisf
  *
- * @see #setDeleted
+ * @sff #sftDflftfd
  */
-    public boolean getDeleted() {
-        return(deleted);
+    publid boolfbn gftDflftfd() {
+        rfturn(dflftfd);
     }
 
 /**
- * Sets the <code>deleted</code> field for this <code>Row</code> object to
- * <code>false</code>.
+ * Sfts tif <dodf>dflftfd</dodf> fifld for tiis <dodf>Row</dodf> objfdt to
+ * <dodf>fblsf</dodf>.
  */
-    public void clearDeleted() {
-        deleted = false;
+    publid void dlfbrDflftfd() {
+        dflftfd = fblsf;
     }
 
 
 /**
- * Sets the value of this <code>Row</code> object's <code>inserted</code> field
- * to <code>true</code>.
+ * Sfts tif vbluf of tiis <dodf>Row</dodf> objfdt's <dodf>insfrtfd</dodf> fifld
+ * to <dodf>truf</dodf>.
  *
- * @see #getInserted
+ * @sff #gftInsfrtfd
  */
-    public void setInserted() {
-        inserted = true;
+    publid void sftInsfrtfd() {
+        insfrtfd = truf;
     }
 
 
 /**
- * Retrieves the value of this <code>Row</code> object's <code>inserted</code> field,
- * which will be <code>true</code> if this row has been inserted.
- * @return <code>true</code> if this row has been inserted; <code>false</code>
- *         otherwise
+ * Rftrifvfs tif vbluf of tiis <dodf>Row</dodf> objfdt's <dodf>insfrtfd</dodf> fifld,
+ * wiidi will bf <dodf>truf</dodf> if tiis row ibs bffn insfrtfd.
+ * @rfturn <dodf>truf</dodf> if tiis row ibs bffn insfrtfd; <dodf>fblsf</dodf>
+ *         otifrwisf
  *
- * @see #setInserted
+ * @sff #sftInsfrtfd
  */
-    public boolean getInserted() {
-        return(inserted);
+    publid boolfbn gftInsfrtfd() {
+        rfturn(insfrtfd);
     }
 
 
 /**
- * Sets the <code>inserted</code> field for this <code>Row</code> object to
- * <code>false</code>.
+ * Sfts tif <dodf>insfrtfd</dodf> fifld for tiis <dodf>Row</dodf> objfdt to
+ * <dodf>fblsf</dodf>.
  */
-    public void clearInserted() { // %%% was public
-        inserted = false;
+    publid void dlfbrInsfrtfd() { // %%% wbs publid
+        insfrtfd = fblsf;
     }
 
 /**
- * Retrieves the value of this <code>Row</code> object's
- * <code>updated</code> field.
- * @return <code>true</code> if this <code>Row</code> object has been
- *         updated; <code>false</code> if it has not
+ * Rftrifvfs tif vbluf of tiis <dodf>Row</dodf> objfdt's
+ * <dodf>updbtfd</dodf> fifld.
+ * @rfturn <dodf>truf</dodf> if tiis <dodf>Row</dodf> objfdt ibs bffn
+ *         updbtfd; <dodf>fblsf</dodf> if it ibs not
  *
- * @see #setUpdated
+ * @sff #sftUpdbtfd
  */
-    public boolean getUpdated() {
-        return(updated);
+    publid boolfbn gftUpdbtfd() {
+        rfturn(updbtfd);
     }
 
 /**
- * Sets the <code>updated</code> field for this <code>Row</code> object to
- * <code>true</code> if one or more of its column values has been changed.
+ * Sfts tif <dodf>updbtfd</dodf> fifld for tiis <dodf>Row</dodf> objfdt to
+ * <dodf>truf</dodf> if onf or morf of its dolumn vblufs ibs bffn dibngfd.
  *
- * @see #getUpdated
+ * @sff #gftUpdbtfd
  */
-    public void setUpdated() {
-        // only mark something as updated if one or
-        // more of the columns has been changed.
+    publid void sftUpdbtfd() {
+        // only mbrk somftiing bs updbtfd if onf or
+        // morf of tif dolumns ibs bffn dibngfd.
         for (int i = 0; i < numCols; i++) {
-            if (getColUpdated(i) == true) {
-                updated = true;
-                return;
+            if (gftColUpdbtfd(i) == truf) {
+                updbtfd = truf;
+                rfturn;
             }
         }
     }
 
 /**
- * Sets the bit at the given index into this <code>Row</code> object's internal
- * <code>BitSet</code> object, indicating that the corresponding column value
- * (column <code>idx</code> + 1) has been changed.
+ * Sfts tif bit bt tif givfn indfx into tiis <dodf>Row</dodf> objfdt's intfrnbl
+ * <dodf>BitSft</dodf> objfdt, indidbting tibt tif dorrfsponding dolumn vbluf
+ * (dolumn <dodf>idx</dodf> + 1) ibs bffn dibngfd.
  *
- * @param idx the index into the <code>BitSet</code> object maintained by
- *            this <code>Row</code> object; the first bit is at index
- *            <code>0</code>
+ * @pbrbm idx tif indfx into tif <dodf>BitSft</dodf> objfdt mbintbinfd by
+ *            tiis <dodf>Row</dodf> objfdt; tif first bit is bt indfx
+ *            <dodf>0</dodf>
  *
  */
-    private void setColUpdated(int idx) {
-        colsChanged.set(idx);
+    privbtf void sftColUpdbtfd(int idx) {
+        dolsCibngfd.sft(idx);
     }
 
 /**
- * Sets the <code>updated</code> field for this <code>Row</code> object to
- * <code>false</code>, sets all the column values in this <code>Row</code>
- * object's internal array of current values to <code>null</code>, and clears
- * all of the bits in the <code>BitSet</code> object maintained by this
- * <code>Row</code> object.
+ * Sfts tif <dodf>updbtfd</dodf> fifld for tiis <dodf>Row</dodf> objfdt to
+ * <dodf>fblsf</dodf>, sfts bll tif dolumn vblufs in tiis <dodf>Row</dodf>
+ * objfdt's intfrnbl brrby of durrfnt vblufs to <dodf>null</dodf>, bnd dlfbrs
+ * bll of tif bits in tif <dodf>BitSft</dodf> objfdt mbintbinfd by tiis
+ * <dodf>Row</dodf> objfdt.
  */
-    public void clearUpdated() {
-        updated = false;
+    publid void dlfbrUpdbtfd() {
+        updbtfd = fblsf;
         for (int i = 0; i < numCols; i++) {
-            currentVals[i] = null;
-            colsChanged.clear(i);
+            durrfntVbls[i] = null;
+            dolsCibngfd.dlfbr(i);
         }
     }
 
    /**
-    * Sets the column values in this <code>Row</code> object's internal
-    * array of original values with the values in its internal array of
-    * current values, sets all the values in this <code>Row</code>
-    * object's internal array of current values to <code>null</code>,
-    * clears all the bits in this <code>Row</code> object's internal bitset,
-    * and sets its <code>updated</code> field to <code>false</code>.
+    * Sfts tif dolumn vblufs in tiis <dodf>Row</dodf> objfdt's intfrnbl
+    * brrby of originbl vblufs witi tif vblufs in its intfrnbl brrby of
+    * durrfnt vblufs, sfts bll tif vblufs in tiis <dodf>Row</dodf>
+    * objfdt's intfrnbl brrby of durrfnt vblufs to <dodf>null</dodf>,
+    * dlfbrs bll tif bits in tiis <dodf>Row</dodf> objfdt's intfrnbl bitsft,
+    * bnd sfts its <dodf>updbtfd</dodf> fifld to <dodf>fblsf</dodf>.
     * <P>
-    * This method is called internally by the <code>CachedRowSet</code>
-    * method <code>makeRowOriginal</code>.
+    * Tiis mftiod is dbllfd intfrnblly by tif <dodf>CbdifdRowSft</dodf>
+    * mftiod <dodf>mbkfRowOriginbl</dodf>.
     */
-    public void moveCurrentToOrig() {
+    publid void movfCurrfntToOrig() {
         for (int i = 0; i < numCols; i++) {
-            if (getColUpdated(i) == true) {
-                origVals[i] = currentVals[i];
-                currentVals[i] = null;
-                colsChanged.clear(i);
+            if (gftColUpdbtfd(i) == truf) {
+                origVbls[i] = durrfntVbls[i];
+                durrfntVbls[i] = null;
+                dolsCibngfd.dlfbr(i);
             }
         }
-        updated = false;
+        updbtfd = fblsf;
     }
 
    /**
-    * Returns the row on which the cursor is positioned.
+    * Rfturns tif row on wiidi tif dursor is positionfd.
     *
-    * @return the <code>Row</code> object on which the <code>CachedRowSet</code>
-    *           implementation objects's cursor is positioned
+    * @rfturn tif <dodf>Row</dodf> objfdt on wiidi tif <dodf>CbdifdRowSft</dodf>
+    *           implfmfntbtion objfdts's dursor is positionfd
     */
-    public BaseRow getCurrentRow() {
-        return null;
+    publid BbsfRow gftCurrfntRow() {
+        rfturn null;
     }
 }

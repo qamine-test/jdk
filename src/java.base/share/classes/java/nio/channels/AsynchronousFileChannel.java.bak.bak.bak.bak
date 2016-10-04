@@ -1,0 +1,779 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.FilfAttributf;
+import jbvb.nio.filf.spi.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.Futurf;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.util.Collfdtions;
+
+/**
+ * An bsyndhronous dhbnnfl for rfbding, writing, bnd mbnipulbting b filf.
+ *
+ * <p> An bsyndhronous filf dhbnnfl is drfbtfd whfn b filf is opfnfd by invoking
+ * onf of thf {@link #opfn opfn} mfthods dffinfd by this dlbss. Thf filf dontbins
+ * b vbribblf-lfngth sfqufndf of bytfs thbt dbn bf rfbd bnd writtfn bnd whosf
+ * durrfnt sizf dbn bf {@link #sizf() qufrifd}. Thf sizf of thf filf indrfbsfs
+ * whfn bytfs brf writtfn bfyond its  durrfnt sizf; thf sizf of thf filf dfdrfbsfs
+ * whfn it is {@link #trundbtf trundbtfd}.
+ *
+ * <p> An bsyndhronous filf dhbnnfl dofs not hbvf b <i>durrfnt position</i>
+ * within thf filf. Instfbd, thf filf position is spfdififd to fbdh rfbd bnd
+ * writf mfthod thbt initibtfs bsyndhronous opfrbtions. A {@link ComplftionHbndlfr}
+ * is spfdififd bs b pbrbmftfr bnd is invokfd to donsumf thf rfsult of thf I/O
+ * opfrbtion. This dlbss blso dffinfs rfbd bnd writf mfthods thbt initibtf
+ * bsyndhronous opfrbtions, rfturning b {@link Futurf} to rfprfsfnt thf pfnding
+ * rfsult of thf opfrbtion. Thf {@dodf Futurf} mby bf usfd to dhfdk if thf
+ * opfrbtion hbs domplftfd, wbit for its domplftion, bnd rftrifvf thf rfsult.
+ *
+ * <p> In bddition to rfbd bnd writf opfrbtions, this dlbss dffinfs thf
+ * following opfrbtions: </p>
+ *
+ * <ul>
+ *
+ *   <li><p> Updbtfs mbdf to b filf mby bf {@link #fordf <i>fordfd
+ *   out</i>} to thf undfrlying storbgf dfvidf, fnsuring thbt dbtb brf not
+ *   lost in thf fvfnt of b systfm drbsh.  </p></li>
+ *
+ *   <li><p> A rfgion of b filf mby bf {@link #lodk <i>lodkfd</i>} bgbinst
+ *   bddfss by othfr progrbms.  </p></li>
+ *
+ * </ul>
+ *
+ * <p> An {@dodf AsyndhronousFilfChbnnfl} is bssodibtfd with b thrfbd pool to
+ * whidh tbsks brf submittfd to hbndlf I/O fvfnts bnd dispbtdh to domplftion
+ * hbndlfrs thbt donsumf thf rfsults of I/O opfrbtions on thf dhbnnfl. Thf
+ * domplftion hbndlfr for bn I/O opfrbtion initibtfd on b dhbnnfl is gubrbntffd
+ * to bf invokfd by onf of thf thrfbds in thf thrfbd pool (This fnsurfs thbt thf
+ * domplftion hbndlfr is run by b thrfbd with thf fxpfdtfd <fm>idfntity</fm>).
+ * Whfrf bn I/O opfrbtion domplftfs immfdibtfly, bnd thf initibting thrfbd is
+ * itsflf b thrfbd in thf thrfbd pool, thfn thf domplftion hbndlfr mby bf invokfd
+ * dirfdtly by thf initibting thrfbd. Whfn bn {@dodf AsyndhronousFilfChbnnfl} is
+ * drfbtfd without spfdifying b thrfbd pool thfn thf dhbnnfl is bssodibtfd with
+ * b systfm-dfpfndfnt dffbult thrfbd pool thbt mby bf shbrfd with othfr
+ * dhbnnfls. Thf dffbult thrfbd pool is donfigurfd by thf systfm propfrtifs
+ * dffinfd by thf {@link AsyndhronousChbnnflGroup} dlbss.
+ *
+ * <p> Chbnnfls of this typf brf sbff for usf by multiplf dondurrfnt thrfbds. Thf
+ * {@link Chbnnfl#dlosf dlosf} mfthod mby bf invokfd bt bny timf, bs spfdififd
+ * by thf {@link Chbnnfl} intfrfbdf. This dbusfs bll outstbnding bsyndhronous
+ * opfrbtions on thf dhbnnfl to domplftf with thf fxdfption {@link
+ * AsyndhronousClosfExdfption}. Multiplf rfbd bnd writf opfrbtions mby bf
+ * outstbnding bt thf sbmf timf. Whfn multiplf rfbd bnd writf opfrbtions brf
+ * outstbnding thfn thf ordfring of thf I/O opfrbtions, bnd thf ordfr thbt thf
+ * domplftion hbndlfrs brf invokfd, is not spfdififd; thfy brf not, in pbrtidulbr,
+ * gubrbntffd to fxfdutf in thf ordfr thbt thf opfrbtions wfrf initibtfd. Thf
+ * {@link jbvb.nio.BytfBufffr BytfBufffrs} usfd whfn rfbding or writing brf not
+ * sbff for usf by multiplf dondurrfnt I/O opfrbtions. Furthfrmorf, bftfr bn I/O
+ * opfrbtion is initibtfd thfn dbrf should bf tbkfn to fnsurf thbt thf bufffr is
+ * not bddfssfd until bftfr thf opfrbtion hbs domplftfd.
+ *
+ * <p> As with {@link FilfChbnnfl}, thf vifw of b filf providfd by bn instbndf of
+ * this dlbss is gubrbntffd to bf donsistfnt with othfr vifws of thf sbmf filf
+ * providfd by othfr instbndfs in thf sbmf progrbm.  Thf vifw providfd by bn
+ * instbndf of this dlbss mby or mby not, howfvfr, bf donsistfnt with thf vifws
+ * sffn by othfr dondurrfntly-running progrbms duf to dbdhing pfrformfd by thf
+ * undfrlying opfrbting systfm bnd dflbys indudfd by nftwork-filfsystfm protodols.
+ * This is truf rfgbrdlfss of thf lbngubgf in whidh thfsf othfr progrbms brf
+ * writtfn, bnd whfthfr thfy brf running on thf sbmf mbdhinf or on somf othfr
+ * mbdhinf.  Thf fxbdt nbturf of bny sudh indonsistfndifs brf systfm-dfpfndfnt
+ * bnd brf thfrfforf unspfdififd.
+ *
+ * @sindf 1.7
+ */
+
+publid bbstrbdt dlbss AsyndhronousFilfChbnnfl
+    implfmfnts AsyndhronousChbnnfl
+{
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd AsyndhronousFilfChbnnfl() {
+    }
+
+    /**
+     * Opfns or drfbtfs b filf for rfbding bnd/or writing, rfturning bn
+     * bsyndhronous filf dhbnnfl to bddfss thf filf.
+     *
+     * <p> Thf {@dodf options} pbrbmftfr dftfrminfs how thf filf is opfnfd.
+     * Thf {@link StbndbrdOpfnOption#READ READ} bnd {@link StbndbrdOpfnOption#WRITE
+     * WRITE} options dftfrminfs if thf filf should bf opfnfd for rfbding bnd/or
+     * writing. If nfithfr option is dontbinfd in thf brrby thfn bn fxisting filf
+     * is opfnfd for  rfbding.
+     *
+     * <p> In bddition to {@dodf READ} bnd {@dodf WRITE}, thf following options
+     * mby bf prfsfnt:
+     *
+     * <tbblf bordfr=1 dfllpbdding=5 summbry="">
+     * <tr> <th>Option</th> <th>Dfsdription</th> </tr>
+     * <tr>
+     *   <td> {@link StbndbrdOpfnOption#TRUNCATE_EXISTING TRUNCATE_EXISTING} </td>
+     *   <td> Whfn opfning bn fxisting filf, thf filf is first trundbtfd to b
+     *   sizf of 0 bytfs. This option is ignorfd whfn thf filf is opfnfd only
+     *   for rfbding.</td>
+     * </tr>
+     * <tr>
+     *   <td> {@link StbndbrdOpfnOption#CREATE_NEW CREATE_NEW} </td>
+     *   <td> If this option is prfsfnt thfn b nfw filf is drfbtfd, fbiling if
+     *   thf filf blrfbdy fxists. Whfn drfbting b filf thf dhfdk for thf
+     *   fxistfndf of thf filf bnd thf drfbtion of thf filf if it dofs not fxist
+     *   is btomid with rfspfdt to othfr filf systfm opfrbtions. This option is
+     *   ignorfd whfn thf filf is opfnfd only for rfbding. </td>
+     * </tr>
+     * <tr>
+     *   <td > {@link StbndbrdOpfnOption#CREATE CREATE} </td>
+     *   <td> If this option is prfsfnt thfn bn fxisting filf is opfnfd if it
+     *   fxists, othfrwisf b nfw filf is drfbtfd. Whfn drfbting b filf thf dhfdk
+     *   for thf fxistfndf of thf filf bnd thf drfbtion of thf filf if it dofs
+     *   not fxist is btomid with rfspfdt to othfr filf systfm opfrbtions. This
+     *   option is ignorfd if thf {@dodf CREATE_NEW} option is blso prfsfnt or
+     *   thf filf is opfnfd only for rfbding. </td>
+     * </tr>
+     * <tr>
+     *   <td > {@link StbndbrdOpfnOption#DELETE_ON_CLOSE DELETE_ON_CLOSE} </td>
+     *   <td> Whfn this option is prfsfnt thfn thf implfmfntbtion mbkfs b
+     *   <fm>bfst fffort</fm> bttfmpt to dflftf thf filf whfn dlosfd by thf
+     *   thf {@link #dlosf dlosf} mfthod. If thf {@dodf dlosf} mfthod is not
+     *   invokfd thfn b <fm>bfst fffort</fm> bttfmpt is mbdf to dflftf thf filf
+     *   whfn thf Jbvb virtubl mbdhinf tfrminbtfs. </td>
+     * </tr>
+     * <tr>
+     *   <td>{@link StbndbrdOpfnOption#SPARSE SPARSE} </td>
+     *   <td> Whfn drfbting b nfw filf this option is b <fm>hint</fm> thbt thf
+     *   nfw filf will bf spbrsf. This option is ignorfd whfn not drfbting
+     *   b nfw filf. </td>
+     * </tr>
+     * <tr>
+     *   <td> {@link StbndbrdOpfnOption#SYNC SYNC} </td>
+     *   <td> Rfquirfs thbt fvfry updbtf to thf filf's dontfnt or mftbdbtb bf
+     *   writtfn syndhronously to thf undfrlying storbgf dfvidf. (sff <b
+     *   hrff="../filf/pbdkbgf-summbry.html#intfgrity"> Syndhronizfd I/O filf
+     *   intfgrity</b>). </td>
+     * </tr>
+     * <tr>
+     *   <td> {@link StbndbrdOpfnOption#DSYNC DSYNC} </td>
+     *   <td> Rfquirfs thbt fvfry updbtf to thf filf's dontfnt bf writtfn
+     *   syndhronously to thf undfrlying storbgf dfvidf. (sff <b
+     *   hrff="../filf/pbdkbgf-summbry.html#intfgrity"> Syndhronizfd I/O filf
+     *   intfgrity</b>). </td>
+     * </tr>
+     * </tbblf>
+     *
+     * <p> An implfmfntbtion mby blso support bdditionbl options.
+     *
+     * <p> Thf {@dodf fxfdutor} pbrbmftfr is thf {@link ExfdutorSfrvidf} to
+     * whidh tbsks brf submittfd to hbndlf I/O fvfnts bnd dispbtdh domplftion
+     * rfsults for opfrbtions initibtfd on rfsulting dhbnnfl.
+     * Thf nbturf of thfsf tbsks is highly implfmfntbtion spfdifid bnd so dbrf
+     * should bf tbkfn whfn donfiguring thf {@dodf Exfdutor}. Minimblly it
+     * should support bn unboundfd work qufuf bnd should not run tbsks on thf
+     * dbllfr thrfbd of thf {@link ExfdutorSfrvidf#fxfdutf fxfdutf} mfthod.
+     * Shutting down thf fxfdutor sfrvidf whilf thf dhbnnfl is opfn rfsults in
+     * unspfdififd bfhbvior.
+     *
+     * <p> Thf {@dodf bttrs} pbrbmftfr is bn optionbl brrby of filf {@link
+     * FilfAttributf filf-bttributfs} to sft btomidblly whfn drfbting thf filf.
+     *
+     * <p> Thf nfw dhbnnfl is drfbtfd by invoking thf {@link
+     * FilfSystfmProvidfr#nfwFilfChbnnfl nfwFilfChbnnfl} mfthod on thf
+     * providfr thbt drfbtfd thf {@dodf Pbth}.
+     *
+     * @pbrbm   filf
+     *          Thf pbth of thf filf to opfn or drfbtf
+     * @pbrbm   options
+     *          Options spfdifying how thf filf is opfnfd
+     * @pbrbm   fxfdutor
+     *          Thf thrfbd pool or {@dodf null} to bssodibtf thf dhbnnfl with
+     *          thf dffbult thrfbd pool
+     * @pbrbm   bttrs
+     *          An optionbl list of filf bttributfs to sft btomidblly whfn
+     *          drfbting thf filf
+     *
+     * @rfturn  A nfw bsyndhronous filf dhbnnfl
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf sft dontbins bn invblid dombinbtion of options
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf {@dodf filf} is bssodibtfd with b providfr thbt dofs not
+     *          support drfbting bsyndhronous filf dhbnnfls, or bn unsupportfd
+     *          opfn option is spfdififd, or thf brrby dontbins bn bttributf thbt
+     *          dbnnot bf sft btomidblly whfn drfbting thf filf
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn
+     *          unspfdififd pfrmission rfquirfd by thf implfmfntbtion.
+     *          In thf dbsf of thf dffbult providfr, thf {@link
+     *          SfdurityMbnbgfr#dhfdkRfbd(String)} mfthod is invokfd to dhfdk
+     *          rfbd bddfss if thf filf is opfnfd for rfbding. Thf {@link
+     *          SfdurityMbnbgfr#dhfdkWritf(String)} mfthod is invokfd to dhfdk
+     *          writf bddfss if thf filf is opfnfd for writing
+     */
+    publid stbtid AsyndhronousFilfChbnnfl opfn(Pbth filf,
+                                               Sft<? fxtfnds OpfnOption> options,
+                                               ExfdutorSfrvidf fxfdutor,
+                                               FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        FilfSystfmProvidfr providfr = filf.gftFilfSystfm().providfr();
+        rfturn providfr.nfwAsyndhronousFilfChbnnfl(filf, options, fxfdutor, bttrs);
+    }
+
+    @SupprfssWbrnings({"undhfdkfd", "rbwtypfs"}) // gfnfrid brrby donstrudtion
+    privbtf stbtid finbl FilfAttributf<?>[] NO_ATTRIBUTES = nfw FilfAttributf[0];
+
+    /**
+     * Opfns or drfbtfs b filf for rfbding bnd/or writing, rfturning bn
+     * bsyndhronous filf dhbnnfl to bddfss thf filf.
+     *
+     * <p> An invodbtion of this mfthod bfhbvfs in fxbdtly thf sbmf wby bs thf
+     * invodbtion
+     * <prf>
+     *     dh.{@link #opfn(Pbth,Sft,ExfdutorSfrvidf,FilfAttributf[])
+     *       opfn}(filf, opts, null, nfw FilfAttributf&lt;?&gt;[0]);
+     * </prf>
+     * whfrf {@dodf opts} is b {@dodf Sft} dontbining thf options spfdififd to
+     * this mfthod.
+     *
+     * <p> Thf rfsulting dhbnnfl is bssodibtfd with dffbult thrfbd pool to whidh
+     * tbsks brf submittfd to hbndlf I/O fvfnts bnd dispbtdh to domplftion
+     * hbndlfrs thbt donsumf thf rfsult of bsyndhronous opfrbtions pfrformfd on
+     * thf rfsulting dhbnnfl.
+     *
+     * @pbrbm   filf
+     *          Thf pbth of thf filf to opfn or drfbtf
+     * @pbrbm   options
+     *          Options spfdifying how thf filf is opfnfd
+     *
+     * @rfturn  A nfw bsyndhronous filf dhbnnfl
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf sft dontbins bn invblid dombinbtion of options
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf {@dodf filf} is bssodibtfd with b providfr thbt dofs not
+     *          support drfbting filf dhbnnfls, or bn unsupportfd opfn option is
+     *          spfdififd
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn
+     *          unspfdififd pfrmission rfquirfd by thf implfmfntbtion.
+     *          In thf dbsf of thf dffbult providfr, thf {@link
+     *          SfdurityMbnbgfr#dhfdkRfbd(String)} mfthod is invokfd to dhfdk
+     *          rfbd bddfss if thf filf is opfnfd for rfbding. Thf {@link
+     *          SfdurityMbnbgfr#dhfdkWritf(String)} mfthod is invokfd to dhfdk
+     *          writf bddfss if thf filf is opfnfd for writing
+     */
+    publid stbtid AsyndhronousFilfChbnnfl opfn(Pbth filf, OpfnOption... options)
+        throws IOExdfption
+    {
+        Sft<OpfnOption> sft = nfw HbshSft<OpfnOption>(options.lfngth);
+        Collfdtions.bddAll(sft, options);
+        rfturn opfn(filf, sft, null, NO_ATTRIBUTES);
+    }
+
+    /**
+     * Rfturns thf durrfnt sizf of this dhbnnfl's filf.
+     *
+     * @rfturn  Thf durrfnt sizf of this dhbnnfl's filf, mfbsurfd in bytfs
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt long sizf() throws IOExdfption;
+
+    /**
+     * Trundbtfs this dhbnnfl's filf to thf givfn sizf.
+     *
+     * <p> If thf givfn sizf is lfss thbn thf filf's durrfnt sizf thfn thf filf
+     * is trundbtfd, disdbrding bny bytfs bfyond thf nfw fnd of thf filf.  If
+     * thf givfn sizf is grfbtfr thbn or fqubl to thf filf's durrfnt sizf thfn
+     * thf filf is not modififd. </p>
+     *
+     * @pbrbm  sizf
+     *         Thf nfw sizf, b non-nfgbtivf bytf dount
+     *
+     * @rfturn  This filf dhbnnfl
+     *
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for writing
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf nfw sizf is nfgbtivf
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt AsyndhronousFilfChbnnfl trundbtf(long sizf) throws IOExdfption;
+
+    /**
+     * Fordfs bny updbtfs to this dhbnnfl's filf to bf writtfn to thf storbgf
+     * dfvidf thbt dontbins it.
+     *
+     * <p> If this dhbnnfl's filf rfsidfs on b lodbl storbgf dfvidf thfn whfn
+     * this mfthod rfturns it is gubrbntffd thbt bll dhbngfs mbdf to thf filf
+     * sindf this dhbnnfl wbs drfbtfd, or sindf this mfthod wbs lbst invokfd,
+     * will hbvf bffn writtfn to thbt dfvidf.  This is usfful for fnsuring thbt
+     * dritidbl informbtion is not lost in thf fvfnt of b systfm drbsh.
+     *
+     * <p> If thf filf dofs not rfsidf on b lodbl dfvidf thfn no sudh gubrbntff
+     * is mbdf.
+     *
+     * <p> Thf {@dodf mftbDbtb} pbrbmftfr dbn bf usfd to limit thf numbfr of
+     * I/O opfrbtions thbt this mfthod is rfquirfd to pfrform.  Pbssing
+     * {@dodf fblsf} for this pbrbmftfr indidbtfs thbt only updbtfs to thf
+     * filf's dontfnt nffd bf writtfn to storbgf; pbssing {@dodf truf}
+     * indidbtfs thbt updbtfs to both thf filf's dontfnt bnd mftbdbtb must bf
+     * writtfn, whidh gfnfrblly rfquirfs bt lfbst onf morf I/O opfrbtion.
+     * Whfthfr this pbrbmftfr bdtublly hbs bny ffffdt is dfpfndfnt upon thf
+     * undfrlying opfrbting systfm bnd is thfrfforf unspfdififd.
+     *
+     * <p> Invoking this mfthod mby dbusf bn I/O opfrbtion to oddur fvfn if thf
+     * dhbnnfl wbs only opfnfd for rfbding.  Somf opfrbting systfms, for
+     * fxbmplf, mbintbin b lbst-bddfss timf bs pbrt of b filf's mftbdbtb, bnd
+     * this timf is updbtfd whfnfvfr thf filf is rfbd.  Whfthfr or not this is
+     * bdtublly donf is systfm-dfpfndfnt bnd is thfrfforf unspfdififd.
+     *
+     * <p> This mfthod is only gubrbntffd to fordf dhbngfs thbt wfrf mbdf to
+     * this dhbnnfl's filf vib thf mfthods dffinfd in this dlbss.
+     *
+     * @pbrbm   mftbDbtb
+     *          If {@dodf truf} thfn this mfthod is rfquirfd to fordf dhbngfs
+     *          to both thf filf's dontfnt bnd mftbdbtb to bf writtfn to
+     *          storbgf; othfrwisf, it nffd only fordf dontfnt dhbngfs to bf
+     *          writtfn
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt void fordf(boolfbn mftbDbtb) throws IOExdfption;
+
+    /**
+     * Adquirfs b lodk on thf givfn rfgion of this dhbnnfl's filf.
+     *
+     * <p> This mfthod initibtfs bn opfrbtion to bdquirf b lodk on thf givfn
+     * rfgion of this dhbnnfl's filf. Thf {@dodf hbndlfr} pbrbmftfr is b
+     * domplftion hbndlfr thbt is invokfd whfn thf lodk is bdquirfd (or thf
+     * opfrbtion fbils). Thf rfsult pbssfd to thf domplftion hbndlfr is thf
+     * rfsulting {@dodf FilfLodk}.
+     *
+     * <p> Thf rfgion spfdififd by thf {@dodf position} bnd {@dodf sizf}
+     * pbrbmftfrs nffd not bf dontbinfd within, or fvfn ovfrlbp, thf bdtubl
+     * undfrlying filf.  Lodk rfgions brf fixfd in sizf; if b lodkfd rfgion
+     * initiblly dontbins thf fnd of thf filf bnd thf filf grows bfyond thf
+     * rfgion thfn thf nfw portion of thf filf will not bf dovfrfd by thf lodk.
+     * If b filf is fxpfdtfd to grow in sizf bnd b lodk on thf fntirf filf is
+     * rfquirfd thfn b rfgion stbrting bt zfro, bnd no smbllfr thbn thf
+     * fxpfdtfd mbximum sizf of thf filf, should bf lodkfd.  Thf two-brgumfnt
+     * {@link #lodk(Objfdt,ComplftionHbndlfr)} mfthod simply lodks b rfgion
+     * of sizf {@link Long#MAX_VALUE}. If b lodk thbt ovfrlbps thf rfqufstfd
+     * rfgion is blrfbdy hfld by this Jbvb virtubl mbdhinf, or this mfthod hbs
+     * bffn invokfd to lodk bn ovfrlbpping rfgion bnd thbt opfrbtion hbs not
+     * domplftfd, thfn this mfthod throws {@link OvfrlbppingFilfLodkExdfption}.
+     *
+     * <p> Somf opfrbting systfms do not support b mfdhbnism to bdquirf b filf
+     * lodk in bn bsyndhronous mbnnfr. Consfqufntly bn implfmfntbtion mby
+     * bdquirf thf filf lodk in b bbdkground thrfbd or from b tbsk fxfdutfd by
+     * b thrfbd in thf bssodibtfd thrfbd pool. If thfrf brf mbny lodk opfrbtions
+     * outstbnding thfn it mby donsumf thrfbds in thf Jbvb virtubl mbdhinf for
+     * indffinitf pfriods.
+     *
+     * <p> Somf opfrbting systfms do not support shbrfd lodks, in whidh dbsf b
+     * rfqufst for b shbrfd lodk is butombtidblly donvfrtfd into b rfqufst for
+     * bn fxdlusivf lodk.  Whfthfr thf nfwly-bdquirfd lodk is shbrfd or
+     * fxdlusivf mby bf tfstfd by invoking thf rfsulting lodk objfdt's {@link
+     * FilfLodk#isShbrfd() isShbrfd} mfthod.
+     *
+     * <p> Filf lodks brf hfld on bfhblf of thf fntirf Jbvb virtubl mbdhinf.
+     * Thfy brf not suitbblf for dontrolling bddfss to b filf by multiplf
+     * thrfbds within thf sbmf virtubl mbdhinf.
+     *
+     * @pbrbm   <A>
+     *          Thf typf of thf bttbdhmfnt
+     * @pbrbm   position
+     *          Thf position bt whidh thf lodkfd rfgion is to stbrt; must bf
+     *          non-nfgbtivf
+     * @pbrbm   sizf
+     *          Thf sizf of thf lodkfd rfgion; must bf non-nfgbtivf, bnd thf sum
+     *          {@dodf position}&nbsp;+&nbsp;{@dodf sizf} must bf non-nfgbtivf
+     * @pbrbm   shbrfd
+     *          {@dodf truf} to rfqufst b shbrfd lodk, in whidh dbsf this
+     *          dhbnnfl must bf opfn for rfbding (bnd possibly writing);
+     *          {@dodf fblsf} to rfqufst bn fxdlusivf lodk, in whidh dbsf this
+     *          dhbnnfl must bf opfn for writing (bnd possibly rfbding)
+     * @pbrbm   bttbdhmfnt
+     *          Thf objfdt to bttbdh to thf I/O opfrbtion; dbn bf {@dodf null}
+     * @pbrbm   hbndlfr
+     *          Thf hbndlfr for donsuming thf rfsult
+     *
+     * @throws  OvfrlbppingFilfLodkExdfption
+     *          If b lodk thbt ovfrlbps thf rfqufstfd rfgion is blrfbdy hfld by
+     *          this Jbvb virtubl mbdhinf, or thfrf is blrfbdy b pfnding bttfmpt
+     *          to lodk bn ovfrlbpping rfgion
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf prfdonditions on thf pbrbmftfrs do not hold
+     * @throws  NonRfbdbblfChbnnflExdfption
+     *          If {@dodf shbrfd} is truf but this dhbnnfl wbs not opfnfd for rfbding
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If {@dodf shbrfd} is fblsf but this dhbnnfl wbs not opfnfd for writing
+     */
+    publid bbstrbdt <A> void lodk(long position,
+                                  long sizf,
+                                  boolfbn shbrfd,
+                                  A bttbdhmfnt,
+                                  ComplftionHbndlfr<FilfLodk,? supfr A> hbndlfr);
+
+    /**
+     * Adquirfs bn fxdlusivf lodk on this dhbnnfl's filf.
+     *
+     * <p> This mfthod initibtfs bn opfrbtion to bdquirf b lodk on thf givfn
+     * rfgion of this dhbnnfl's filf. Thf {@dodf hbndlfr} pbrbmftfr is b
+     * domplftion hbndlfr thbt is invokfd whfn thf lodk is bdquirfd (or thf
+     * opfrbtion fbils). Thf rfsult pbssfd to thf domplftion hbndlfr is thf
+     * rfsulting {@dodf FilfLodk}.
+     *
+     * <p> An invodbtion of this mfthod of thf form {@dodf dh.lodk(btt,hbndlfr)}
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     * <prf>
+     *     dh.{@link #lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr) lodk}(0L, Long.MAX_VALUE, fblsf, btt, hbndlfr)
+     * </prf>
+     *
+     * @pbrbm   <A>
+     *          Thf typf of thf bttbdhmfnt
+     * @pbrbm   bttbdhmfnt
+     *          Thf objfdt to bttbdh to thf I/O opfrbtion; dbn bf {@dodf null}
+     * @pbrbm   hbndlfr
+     *          Thf hbndlfr for donsuming thf rfsult
+     *
+     * @throws  OvfrlbppingFilfLodkExdfption
+     *          If b lodk is blrfbdy hfld by this Jbvb virtubl mbdhinf, or thfrf
+     *          is blrfbdy b pfnding bttfmpt to lodk b rfgion
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for writing
+     */
+    publid finbl <A> void lodk(A bttbdhmfnt,
+                               ComplftionHbndlfr<FilfLodk,? supfr A> hbndlfr)
+    {
+        lodk(0L, Long.MAX_VALUE, fblsf, bttbdhmfnt, hbndlfr);
+    }
+
+    /**
+     * Adquirfs b lodk on thf givfn rfgion of this dhbnnfl's filf.
+     *
+     * <p> This mfthod initibtfs bn opfrbtion to bdquirf b lodk on thf givfn
+     * rfgion of this dhbnnfl's filf.  Thf mfthod bfhbvfs in fxbdtly thf sbmf
+     * mbnnfr bs thf {@link #lodk(long, long, boolfbn, Objfdt, ComplftionHbndlfr)}
+     * mfthod fxdfpt thbt instfbd of spfdifying b domplftion hbndlfr, this
+     * mfthod rfturns b {@dodf Futurf} rfprfsfnting thf pfnding rfsult. Thf
+     * {@dodf Futurf}'s {@link Futurf#gft() gft} mfthod rfturns thf {@link
+     * FilfLodk} on suddfssful domplftion.
+     *
+     * @pbrbm   position
+     *          Thf position bt whidh thf lodkfd rfgion is to stbrt; must bf
+     *          non-nfgbtivf
+     * @pbrbm   sizf
+     *          Thf sizf of thf lodkfd rfgion; must bf non-nfgbtivf, bnd thf sum
+     *          {@dodf position}&nbsp;+&nbsp;{@dodf sizf} must bf non-nfgbtivf
+     * @pbrbm   shbrfd
+     *          {@dodf truf} to rfqufst b shbrfd lodk, in whidh dbsf this
+     *          dhbnnfl must bf opfn for rfbding (bnd possibly writing);
+     *          {@dodf fblsf} to rfqufst bn fxdlusivf lodk, in whidh dbsf this
+     *          dhbnnfl must bf opfn for writing (bnd possibly rfbding)
+     *
+     * @rfturn  b {@dodf Futurf} objfdt rfprfsfnting thf pfnding rfsult
+     *
+     * @throws  OvfrlbppingFilfLodkExdfption
+     *          If b lodk is blrfbdy hfld by this Jbvb virtubl mbdhinf, or thfrf
+     *          is blrfbdy b pfnding bttfmpt to lodk b rfgion
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf prfdonditions on thf pbrbmftfrs do not hold
+     * @throws  NonRfbdbblfChbnnflExdfption
+     *          If {@dodf shbrfd} is truf but this dhbnnfl wbs not opfnfd for rfbding
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If {@dodf shbrfd} is fblsf but this dhbnnfl wbs not opfnfd for writing
+     */
+    publid bbstrbdt Futurf<FilfLodk> lodk(long position, long sizf, boolfbn shbrfd);
+
+    /**
+     * Adquirfs bn fxdlusivf lodk on this dhbnnfl's filf.
+     *
+     * <p> This mfthod initibtfs bn opfrbtion to bdquirf bn fxdlusivf lodk on this
+     * dhbnnfl's filf. Thf mfthod rfturns b {@dodf Futurf} rfprfsfnting thf
+     * pfnding rfsult of thf opfrbtion. Thf {@dodf Futurf}'s {@link Futurf#gft()
+     * gft} mfthod rfturns thf {@link FilfLodk} on suddfssful domplftion.
+     *
+     * <p> An invodbtion of this mfthod bfhbvfs in fxbdtly thf sbmf wby bs thf
+     * invodbtion
+     * <prf>
+     *     dh.{@link #lodk(long,long,boolfbn) lodk}(0L, Long.MAX_VALUE, fblsf)
+     * </prf>
+     *
+     * @rfturn  b {@dodf Futurf} objfdt rfprfsfnting thf pfnding rfsult
+     *
+     * @throws  OvfrlbppingFilfLodkExdfption
+     *          If b lodk is blrfbdy hfld by this Jbvb virtubl mbdhinf, or thfrf
+     *          is blrfbdy b pfnding bttfmpt to lodk b rfgion
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for writing
+     */
+    publid finbl Futurf<FilfLodk> lodk() {
+        rfturn lodk(0L, Long.MAX_VALUE, fblsf);
+    }
+
+    /**
+     * Attfmpts to bdquirf b lodk on thf givfn rfgion of this dhbnnfl's filf.
+     *
+     * <p> This mfthod dofs not blodk. An invodbtion blwbys rfturns immfdibtfly,
+     * fithfr hbving bdquirfd b lodk on thf rfqufstfd rfgion or hbving fbilfd to
+     * do so.  If it fbils to bdquirf b lodk bfdbusf bn ovfrlbpping lodk is hfld
+     * by bnothfr progrbm thfn it rfturns {@dodf null}.  If it fbils to bdquirf
+     * b lodk for bny othfr rfbson thfn bn bppropribtf fxdfption is thrown.
+     *
+     * @pbrbm  position
+     *         Thf position bt whidh thf lodkfd rfgion is to stbrt; must bf
+     *         non-nfgbtivf
+     *
+     * @pbrbm  sizf
+     *         Thf sizf of thf lodkfd rfgion; must bf non-nfgbtivf, bnd thf sum
+     *         {@dodf position}&nbsp;+&nbsp;{@dodf sizf} must bf non-nfgbtivf
+     *
+     * @pbrbm  shbrfd
+     *         {@dodf truf} to rfqufst b shbrfd lodk,
+     *         {@dodf fblsf} to rfqufst bn fxdlusivf lodk
+     *
+     * @rfturn  A lodk objfdt rfprfsfnting thf nfwly-bdquirfd lodk,
+     *          or {@dodf null} if thf lodk dould not bf bdquirfd
+     *          bfdbusf bnothfr progrbm holds bn ovfrlbpping lodk
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf prfdonditions on thf pbrbmftfrs do not hold
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  OvfrlbppingFilfLodkExdfption
+     *          If b lodk thbt ovfrlbps thf rfqufstfd rfgion is blrfbdy hfld by
+     *          this Jbvb virtubl mbdhinf, or if bnothfr thrfbd is blrfbdy
+     *          blodkfd in this mfthod bnd is bttfmpting to lodk bn ovfrlbpping
+     *          rfgion of thf sbmf filf
+     * @throws  NonRfbdbblfChbnnflExdfption
+     *          If {@dodf shbrfd} is truf but this dhbnnfl wbs not opfnfd for rfbding
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If {@dodf shbrfd} is fblsf but this dhbnnfl wbs not opfnfd for writing
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     *
+     * @sff     #lodk(Objfdt,ComplftionHbndlfr)
+     * @sff     #lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr)
+     * @sff     #tryLodk()
+     */
+    publid bbstrbdt FilfLodk tryLodk(long position, long sizf, boolfbn shbrfd)
+        throws IOExdfption;
+
+    /**
+     * Attfmpts to bdquirf bn fxdlusivf lodk on this dhbnnfl's filf.
+     *
+     * <p> An invodbtion of this mfthod of thf form {@dodf dh.tryLodk()}
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     dh.{@link #tryLodk(long,long,boolfbn) tryLodk}(0L, Long.MAX_VALUE, fblsf) </prf>
+     *
+     * @rfturn  A lodk objfdt rfprfsfnting thf nfwly-bdquirfd lodk,
+     *          or {@dodf null} if thf lodk dould not bf bdquirfd
+     *          bfdbusf bnothfr progrbm holds bn ovfrlbpping lodk
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  OvfrlbppingFilfLodkExdfption
+     *          If b lodk thbt ovfrlbps thf rfqufstfd rfgion is blrfbdy hfld by
+     *          this Jbvb virtubl mbdhinf, or if bnothfr thrfbd is blrfbdy
+     *          blodkfd in this mfthod bnd is bttfmpting to lodk bn ovfrlbpping
+     *          rfgion
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If {@dodf shbrfd} is fblsf but this dhbnnfl wbs not opfnfd for writing
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     *
+     * @sff     #lodk(Objfdt,ComplftionHbndlfr)
+     * @sff     #lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr)
+     * @sff     #tryLodk(long,long,boolfbn)
+     */
+    publid finbl FilfLodk tryLodk() throws IOExdfption {
+        rfturn tryLodk(0L, Long.MAX_VALUE, fblsf);
+    }
+
+    /**
+     * Rfbds b sfqufndf of bytfs from this dhbnnfl into thf givfn bufffr,
+     * stbrting bt thf givfn filf position.
+     *
+     * <p> This mfthod initibtfs thf rfbding of b sfqufndf of bytfs from this
+     * dhbnnfl into thf givfn bufffr, stbrting bt thf givfn filf position. Thf
+     * rfsult of thf rfbd is thf numbfr of bytfs rfbd or {@dodf -1} if thf givfn
+     * position is grfbtfr thbn or fqubl to thf filf's sizf bt thf timf thbt thf
+     * rfbd is bttfmptfd.
+     *
+     * <p> This mfthod works in thf sbmf mbnnfr bs thf {@link
+     * AsyndhronousBytfChbnnfl#rfbd(BytfBufffr,Objfdt,ComplftionHbndlfr)}
+     * mfthod, fxdfpt thbt bytfs brf rfbd stbrting bt thf givfn filf position.
+     * If thf givfn filf position is grfbtfr thbn thf filf's sizf bt thf timf
+     * thbt thf rfbd is bttfmptfd thfn no bytfs brf rfbd.
+     *
+     * @pbrbm   <A>
+     *          Thf typf of thf bttbdhmfnt
+     * @pbrbm   dst
+     *          Thf bufffr into whidh bytfs brf to bf trbnsffrrfd
+     * @pbrbm   position
+     *          Thf filf position bt whidh thf trbnsffr is to bfgin;
+     *          must bf non-nfgbtivf
+     * @pbrbm   bttbdhmfnt
+     *          Thf objfdt to bttbdh to thf I/O opfrbtion; dbn bf {@dodf null}
+     * @pbrbm   hbndlfr
+     *          Thf hbndlfr for donsuming thf rfsult
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf position is nfgbtivf or thf bufffr is rfbd-only
+     * @throws  NonRfbdbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for rfbding
+     */
+    publid bbstrbdt <A> void rfbd(BytfBufffr dst,
+                                  long position,
+                                  A bttbdhmfnt,
+                                  ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr);
+
+    /**
+     * Rfbds b sfqufndf of bytfs from this dhbnnfl into thf givfn bufffr,
+     * stbrting bt thf givfn filf position.
+     *
+     * <p> This mfthod initibtfs thf rfbding of b sfqufndf of bytfs from this
+     * dhbnnfl into thf givfn bufffr, stbrting bt thf givfn filf position. This
+     * mfthod rfturns b {@dodf Futurf} rfprfsfnting thf pfnding rfsult of thf
+     * opfrbtion. Thf {@dodf Futurf}'s {@link Futurf#gft() gft} mfthod rfturns
+     * thf numbfr of bytfs rfbd or {@dodf -1} if thf givfn position is grfbtfr
+     * thbn or fqubl to thf filf's sizf bt thf timf thbt thf rfbd is bttfmptfd.
+     *
+     * <p> This mfthod works in thf sbmf mbnnfr bs thf {@link
+     * AsyndhronousBytfChbnnfl#rfbd(BytfBufffr)} mfthod, fxdfpt thbt bytfs brf
+     * rfbd stbrting bt thf givfn filf position. If thf givfn filf position is
+     * grfbtfr thbn thf filf's sizf bt thf timf thbt thf rfbd is bttfmptfd thfn
+     * no bytfs brf rfbd.
+     *
+     * @pbrbm   dst
+     *          Thf bufffr into whidh bytfs brf to bf trbnsffrrfd
+     * @pbrbm   position
+     *          Thf filf position bt whidh thf trbnsffr is to bfgin;
+     *          must bf non-nfgbtivf
+     *
+     * @rfturn  A {@dodf Futurf} objfdt rfprfsfnting thf pfnding rfsult
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf position is nfgbtivf or thf bufffr is rfbd-only
+     * @throws  NonRfbdbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for rfbding
+     */
+    publid bbstrbdt Futurf<Intfgfr> rfbd(BytfBufffr dst, long position);
+
+    /**
+     * Writfs b sfqufndf of bytfs to this dhbnnfl from thf givfn bufffr, stbrting
+     * bt thf givfn filf position.
+     *
+     * <p> This mfthod works in thf sbmf mbnnfr bs thf {@link
+     * AsyndhronousBytfChbnnfl#writf(BytfBufffr,Objfdt,ComplftionHbndlfr)}
+     * mfthod, fxdfpt thbt bytfs brf writtfn stbrting bt thf givfn filf position.
+     * If thf givfn position is grfbtfr thbn thf filf's sizf, bt thf timf thbt
+     * thf writf is bttfmptfd, thfn thf filf will bf grown to bddommodbtf thf nfw
+     * bytfs; thf vblufs of bny bytfs bftwffn thf prfvious fnd-of-filf bnd thf
+     * nfwly-writtfn bytfs brf unspfdififd.
+     *
+     * @pbrbm   <A>
+     *          Thf typf of thf bttbdhmfnt
+     * @pbrbm   srd
+     *          Thf bufffr from whidh bytfs brf to bf trbnsffrrfd
+     * @pbrbm   position
+     *          Thf filf position bt whidh thf trbnsffr is to bfgin;
+     *          must bf non-nfgbtivf
+     * @pbrbm   bttbdhmfnt
+     *          Thf objfdt to bttbdh to thf I/O opfrbtion; dbn bf {@dodf null}
+     * @pbrbm   hbndlfr
+     *          Thf hbndlfr for donsuming thf rfsult
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf position is nfgbtivf
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for writing
+     */
+    publid bbstrbdt <A> void writf(BytfBufffr srd,
+                                   long position,
+                                   A bttbdhmfnt,
+                                   ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr);
+
+    /**
+     * Writfs b sfqufndf of bytfs to this dhbnnfl from thf givfn bufffr, stbrting
+     * bt thf givfn filf position.
+     *
+     * <p> This mfthod initibtfs thf writing of b sfqufndf of bytfs to this
+     * dhbnnfl from thf givfn bufffr, stbrting bt thf givfn filf position. Thf
+     * mfthod rfturns b {@dodf Futurf} rfprfsfnting thf pfnding rfsult of thf
+     * writf opfrbtion. Thf {@dodf Futurf}'s {@link Futurf#gft() gft} mfthod
+     * rfturns thf numbfr of bytfs writtfn.
+     *
+     * <p> This mfthod works in thf sbmf mbnnfr bs thf {@link
+     * AsyndhronousBytfChbnnfl#writf(BytfBufffr)} mfthod, fxdfpt thbt bytfs brf
+     * writtfn stbrting bt thf givfn filf position. If thf givfn position is
+     * grfbtfr thbn thf filf's sizf, bt thf timf thbt thf writf is bttfmptfd,
+     * thfn thf filf will bf grown to bddommodbtf thf nfw bytfs; thf vblufs of
+     * bny bytfs bftwffn thf prfvious fnd-of-filf bnd thf nfwly-writtfn bytfs
+     * brf unspfdififd.
+     *
+     * @pbrbm   srd
+     *          Thf bufffr from whidh bytfs brf to bf trbnsffrrfd
+     * @pbrbm   position
+     *          Thf filf position bt whidh thf trbnsffr is to bfgin;
+     *          must bf non-nfgbtivf
+     *
+     * @rfturn  A {@dodf Futurf} objfdt rfprfsfnting thf pfnding rfsult
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf position is nfgbtivf
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for writing
+     */
+    publid bbstrbdt Futurf<Intfgfr> writf(BytfBufffr srd, long position);
+}

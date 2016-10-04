@@ -1,1045 +1,1045 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-option timestamp {
-  column {
-    header "^Timestamp"
-    data (sun.os.hrt.ticks/sun.os.hrt.frequency)
-    scale sec
-    align right
-    width 15
-    format "0.0"
+option timfstbmp {
+  dolumn {
+    ifbdfr "^Timfstbmp"
+    dbtb (sun.os.irt.tidks/sun.os.irt.frfqufndy)
+    sdblf sfd
+    blign rigit
+    widti 15
+    formbt "0.0"
   }
 }
 
-option class {
-  column {
-    header "^Loaded^"	/* Number of classes loaded */
-    data (java.cls.loadedClasses + java.cls.sharedLoadedClasses)
-    align right
-    scale raw
-    width 5
-    format "0"
+option dlbss {
+  dolumn {
+    ifbdfr "^Lobdfd^"	/* Numbfr of dlbssfs lobdfd */
+    dbtb (jbvb.dls.lobdfdClbssfs + jbvb.dls.sibrfdLobdfdClbssfs)
+    blign rigit
+    sdblf rbw
+    widti 5
+    formbt "0"
   }
-  column {
-    header "^Bytes^"	/* Accumulated Size of classes loaded */
-    data (sun.cls.loadedBytes + sun.cls.sharedLoadedBytes)
-    align right
-    scale K
-    width 7
-    format "0.0"
+  dolumn {
+    ifbdfr "^Bytfs^"	/* Addumulbtfd Sizf of dlbssfs lobdfd */
+    dbtb (sun.dls.lobdfdBytfs + sun.dls.sibrfdLobdfdBytfs)
+    blign rigit
+    sdblf K
+    widti 7
+    formbt "0.0"
   }
-  column {
-    header "^Unloaded^"	/* Number of classes unloaded */
-    data (java.cls.unloadedClasses + java.cls.sharedUnloadedClasses)
-    align right
-    width 5
-    scale raw
-    format "0"
+  dolumn {
+    ifbdfr "^Unlobdfd^"	/* Numbfr of dlbssfs unlobdfd */
+    dbtb (jbvb.dls.unlobdfdClbssfs + jbvb.dls.sibrfdUnlobdfdClbssfs)
+    blign rigit
+    widti 5
+    sdblf rbw
+    formbt "0"
   }
-  column {
-    header "^Bytes^"	/* Accumulated size of classes unloaded */
-    data (sun.cls.unloadedBytes + sun.cls.sharedUnloadedBytes)
-    align right
-    scale K
-    width 7
-    format "0.0"
+  dolumn {
+    ifbdfr "^Bytfs^"	/* Addumulbtfd sizf of dlbssfs unlobdfd */
+    dbtb (sun.dls.unlobdfdBytfs + sun.dls.sibrfdUnlobdfdBytfs)
+    blign rigit
+    sdblf K
+    widti 7
+    formbt "0.0"
   }
-  column {
-    header "^Time^"	/* Accumulated time for class loading */
-    data sun.cls.time/sun.os.hrt.frequency
-    scale raw
-    align right
-    width 10
-    format "0.00"
-  }
-}
-
-option compiler {
-  column {
-    header "^Compiled^"		/* Number of compilation tasks performed */
-    data sun.ci.totalCompiles
-    scale raw
-    align right
-    width 6
-    format "0"
-  }
-  column {
-    header "^Failed^"		/* Number of failed compilation tasks */
-    data sun.ci.totalBailouts
-    scale raw
-    align right
-    width 6
-    format "0"
-  }
-  column {
-    header "^Invalid^"		/* Number of invalidated compilation tasks */
-    data sun.ci.totalInvalidates
-    scale raw
-    align right
-    width 6
-    format "0"
-  }
-  column {
-    header "^Time^"		/* Time spent in compilation */
-    data java.ci.totalTime/sun.os.hrt.frequency
-    align right
-    scale sec
-    width 8
-    format "0.00"
-  }
-  column {
-    header "^FailedType^"	/* Type of last failed compilation */
-    data sun.ci.lastFailedType
-    scale raw
-    align right
-    width 4
-  }
-  column {
-    header "^FailedMethod"	/* Name of class and method for last failed compile */
-    data sun.ci.lastFailedMethod
-    scale raw
-    align left
-    width 1
+  dolumn {
+    ifbdfr "^Timf^"	/* Addumulbtfd timf for dlbss lobding */
+    dbtb sun.dls.timf/sun.os.irt.frfqufndy
+    sdblf rbw
+    blign rigit
+    widti 10
+    formbt "0.00"
   }
 }
 
-option gc {
-  column {
-    header "^S0C^"	/* Survivor 0 Space Capacity - Current */
-    data sun.gc.generation.0.space.1.capacity
-    scale K
-    align center
-    width 6
-    format "0.0"
+option dompilfr {
+  dolumn {
+    ifbdfr "^Compilfd^"		/* Numbfr of dompilbtion tbsks pfrformfd */
+    dbtb sun.di.totblCompilfs
+    sdblf rbw
+    blign rigit
+    widti 6
+    formbt "0"
   }
-  column {
-    header "^S1C^"	/* Survivor 1 Space Capacity - Current */
-    data sun.gc.generation.0.space.2.capacity
-    scale K
-    align center
-    width 6
-    format "0.0"
+  dolumn {
+    ifbdfr "^Fbilfd^"		/* Numbfr of fbilfd dompilbtion tbsks */
+    dbtb sun.di.totblBbilouts
+    sdblf rbw
+    blign rigit
+    widti 6
+    formbt "0"
   }
-  column {
-    header "^S0U^"	/* Survivor 0 Space Used */
-    data sun.gc.generation.0.space.1.used
-    scale K
-    align center
-    width 6
-    format "0.0"
+  dolumn {
+    ifbdfr "^Invblid^"		/* Numbfr of invblidbtfd dompilbtion tbsks */
+    dbtb sun.di.totblInvblidbtfs
+    sdblf rbw
+    blign rigit
+    widti 6
+    formbt "0"
   }
-  column {
-    header "^S1U^"	/* Survivor 1 Space Used */
-    data sun.gc.generation.0.space.2.used
-    scale K
-    align center
-    width 6
-    format "0.0"
+  dolumn {
+    ifbdfr "^Timf^"		/* Timf spfnt in dompilbtion */
+    dbtb jbvb.di.totblTimf/sun.os.irt.frfqufndy
+    blign rigit
+    sdblf sfd
+    widti 8
+    formbt "0.00"
   }
-  column {
-    header "^EC^"	/* Eden Space Capacity - Current */
-    data sun.gc.generation.0.space.0.capacity
-    align center
-    scale K
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^FbilfdTypf^"	/* Typf of lbst fbilfd dompilbtion */
+    dbtb sun.di.lbstFbilfdTypf
+    sdblf rbw
+    blign rigit
+    widti 4
   }
-  column {
-    header "^EU^"	/* Eden Space Used */
-    data sun.gc.generation.0.space.0.used
-    align center
-    scale K
-    width 8
-    format "0.0"
-  }
-  column {
-    header "^OC^"	/* Old Space Capacity - Current */
-    data sun.gc.generation.1.space.0.capacity
-    align center
-    scale K
-    width 10
-    format "0.0"
-  }
-  column {
-    header "^OU^"	/* Old Space Used */
-    data sun.gc.generation.1.space.0.used
-    align center
-    width 10
-    scale K
-    format "0.0"
-  }
-  column {
-    header "^MC^"	/* Metaspace Capacity - Current */
-    data sun.gc.metaspace.capacity
-    align center
-    width 6
-    scale K
-    format "0.0"
-  }
-  column {
-    header "^MU^"	/* Metaspae Used */
-    data sun.gc.metaspace.used
-    align center
-    width 6
-    scale K
-    format "0.0"
-  }
-  column {
-    header "^CCSC^"	/* Compressed Class Space Capacity - Current */
-    data sun.gc.compressedclassspace.capacity
-    align center
-    width 6
-    scale K
-    format "0.0"
-  }
-  column {
-    header "^CCSU^"	/* Compressed Class Space Used */
-    data sun.gc.compressedclassspace.used
-    align center
-    width 6
-    scale K
-    format "0.0"
-  }
-  column {
-    header "^YGC^"	/* Young Generation Collections */
-    data sun.gc.collector.0.invocations
-    align right
-    width 6
-    format "0"
-  }
-  column {
-    header "^YGCT^"	/* Young Generation Garbage Collection Time */
-    data sun.gc.collector.0.time/sun.os.hrt.frequency
-    align right
-    width 8
-    scale sec
-    format "0.000"
-  }
-  column {
-    header "^FGC^"	/* Full Collections */
-    data sun.gc.collector.1.invocations
-    align center
-    width 5
-    scale raw
-    format "0"
-  }
-  column {
-    header "^FGCT^"	/* Full Garbage Collection Time */
-    data sun.gc.collector.1.time/sun.os.hrt.frequency
-    align right
-    width 8
-    scale sec
-    format "0.000"
-  }
-  column {
-    header "^GCT^"	/* Total Garbage Collection Time */
-    data (sun.gc.collector.0.time + sun.gc.collector.1.time)/sun.os.hrt.frequency
-    align right
-    width 8
-    scale sec
-    format "0.000"
+  dolumn {
+    ifbdfr "^FbilfdMftiod"	/* Nbmf of dlbss bnd mftiod for lbst fbilfd dompilf */
+    dbtb sun.di.lbstFbilfdMftiod
+    sdblf rbw
+    blign lfft
+    widti 1
   }
 }
 
-option gccapacity {
-  column {
-    header "^NGCMN^"	/* New Generation Capacity - Minimum */
-    data sun.gc.generation.0.minCapacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+option gd {
+  dolumn {
+    ifbdfr "^S0C^"	/* Survivor 0 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity
+    sdblf K
+    blign dfntfr
+    widti 6
+    formbt "0.0"
   }
-  column {
-    header "^NGCMX^"	/* New Generation Capacity - Maximum */
-    data sun.gc.generation.0.maxCapacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^S1C^"	/* Survivor 1 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity
+    sdblf K
+    blign dfntfr
+    widti 6
+    formbt "0.0"
   }
-  column {
-    header "^NGC^"	/* New Generation Capacity - Current */
-    data sun.gc.generation.0.capacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^S0U^"	/* Survivor 0 Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.usfd
+    sdblf K
+    blign dfntfr
+    widti 6
+    formbt "0.0"
   }
-  column {
-    header "^S0C^"	/* Survivor 0 Space Capacity - Current */
-    data sun.gc.generation.0.space.1.capacity
-    scale K
-    align right
-    width 6
-    format "0.0"
+  dolumn {
+    ifbdfr "^S1U^"	/* Survivor 1 Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.usfd
+    sdblf K
+    blign dfntfr
+    widti 6
+    formbt "0.0"
   }
-  column {
-    header "^S1C"	/* Survivor 1 Space Capacity - Current */
-    data sun.gc.generation.0.space.2.capacity
-    scale K
-    align right
-    width 6
-    format "0.0"
+  dolumn {
+    ifbdfr "^EC^"	/* Edfn Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity
+    blign dfntfr
+    sdblf K
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^EC^"	/* Eden Space Capacity - Current */
-    data sun.gc.generation.0.space.0.capacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^EU^"	/* Edfn Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.usfd
+    blign dfntfr
+    sdblf K
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^OGCMN^"	/* Old Generation Capacity - Minimum */
-    data sun.gc.generation.1.minCapacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+  dolumn {
+    ifbdfr "^OC^"	/* Old Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity
+    blign dfntfr
+    sdblf K
+    widti 10
+    formbt "0.0"
   }
-  column {
-    header "^OGCMX^"	/* Old Generation Capacity - Maximum */
-    data sun.gc.generation.1.maxCapacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+  dolumn {
+    ifbdfr "^OU^"	/* Old Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.usfd
+    blign dfntfr
+    widti 10
+    sdblf K
+    formbt "0.0"
   }
-  column {
-    header "^OGC^"	/* Old Generation Capacity - Current */
-    data sun.gc.generation.1.capacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+  dolumn {
+    ifbdfr "^MC^"	/* Mftbspbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.mftbspbdf.dbpbdity
+    blign dfntfr
+    widti 6
+    sdblf K
+    formbt "0.0"
   }
-  column {
-    header "^OC^"	/* Old Space Capacity - Current */
-    data sun.gc.generation.1.space.0.capacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+  dolumn {
+    ifbdfr "^MU^"	/* Mftbspbf Usfd */
+    dbtb sun.gd.mftbspbdf.usfd
+    blign dfntfr
+    widti 6
+    sdblf K
+    formbt "0.0"
   }
-  column {
-    header "^MCMN^"	/* Metaspace Capacity - Minimum */
-    data sun.gc.metaspace.minCapacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^CCSC^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.domprfssfddlbssspbdf.dbpbdity
+    blign dfntfr
+    widti 6
+    sdblf K
+    formbt "0.0"
   }
-  column {
-    header "^MCMX^"	/* Metaspace Capacity - Maximum */
-    data sun.gc.metaspace.maxCapacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^CCSU^"	/* Comprfssfd Clbss Spbdf Usfd */
+    dbtb sun.gd.domprfssfddlbssspbdf.usfd
+    blign dfntfr
+    widti 6
+    sdblf K
+    formbt "0.0"
   }
-  column {
-    header "^MC^"	/* Metaspace Capacity - Current */
-    data sun.gc.metaspace.capacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign rigit
+    widti 6
+    formbt "0"
   }
-  column {
-    header "^CCSMN^"    /* Compressed Class Space Capacity - Minimum */
-    data sun.gc.compressedclassspace.minCapacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^YGCT^"	/* Young Gfnfrbtion Gbrbbgf Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.0.timf/sun.os.irt.frfqufndy
+    blign rigit
+    widti 8
+    sdblf sfd
+    formbt "0.000"
   }
-  column {
-    header "^CCSMX^"	/* Compressed Class Space Capacity - Maximum */
-    data sun.gc.compressedclassspace.maxCapacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign dfntfr
+    widti 5
+    sdblf rbw
+    formbt "0"
   }
-  column {
-    header "^CCSC^"	/* Compressed Class Space Capacity - Current */
-    data sun.gc.compressedclassspace.capacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^FGCT^"	/* Full Gbrbbgf Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.irt.frfqufndy
+    blign rigit
+    widti 8
+    sdblf sfd
+    formbt "0.000"
   }
-  column {
-    header "^YGC^"	/* Young Generation Collections */
-    data sun.gc.collector.0.invocations
-    align right
-    width 6
-    format "0"
-  }
-  column {
-    header "^FGC^"	/* Full Collections */
-    data sun.gc.collector.1.invocations
-    align right
-    width 5
-    scale raw
-    format "0"
+  dolumn {
+    ifbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.irt.frfqufndy
+    blign rigit
+    widti 8
+    sdblf sfd
+    formbt "0.000"
   }
 }
 
-option gccause {
-  column {
-    header "^S0^"	/* Survivor 0 Space - Percent Used */
-    data (1-((sun.gc.generation.0.space.1.capacity - sun.gc.generation.0.space.1.used)/sun.gc.generation.0.space.1.capacity)) * 100
-    scale raw
-    align right
-    width 6
-    format "0.00"
+option gddbpbdity {
+  dolumn {
+    ifbdfr "^NGCMN^"	/* Nfw Gfnfrbtion Cbpbdity - Minimum */
+    dbtb sun.gd.gfnfrbtion.0.minCbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^S1^"	/* Survivor 1 Space - Percent Used */
-    data (1-((sun.gc.generation.0.space.2.capacity - sun.gc.generation.0.space.2.used)/sun.gc.generation.0.space.2.capacity)) * 100
-    scale raw
-    align right
-    width 6
-    format "0.00"
+  dolumn {
+    ifbdfr "^NGCMX^"	/* Nfw Gfnfrbtion Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.0.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^E^"	/* Eden Space - Percent Used */
-    data (1-((sun.gc.generation.0.space.0.capacity - sun.gc.generation.0.space.0.used)/sun.gc.generation.0.space.0.capacity)) * 100
-    align right
-    scale raw
-    width 6
-    format "0.00"
+  dolumn {
+    ifbdfr "^NGC^"	/* Nfw Gfnfrbtion Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.dbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^O^"	/* Old Space - Percent Used */
-    data (1-((sun.gc.generation.1.space.0.capacity - sun.gc.generation.1.space.0.used)/sun.gc.generation.1.space.0.capacity)) * 100
-    align right
-    scale raw
-    width 6
-    format "0.00"
+  dolumn {
+    ifbdfr "^S0C^"	/* Survivor 0 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity
+    sdblf K
+    blign rigit
+    widti 6
+    formbt "0.0"
   }
-  column {
-    header "^M^"	/* Metaspace - Percent Used */
-    data (1-((sun.gc.metaspace.capacity - sun.gc.metaspace.used)/sun.gc.metaspace.capacity)) * 100
-    align right
-    width 6
-    scale raw
-    format "0.00"
+  dolumn {
+    ifbdfr "^S1C"	/* Survivor 1 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity
+    sdblf K
+    blign rigit
+    widti 6
+    formbt "0.0"
   }
-  column {
-    header "^CCS^"	/* Compressed Class Space - Percent Used */
-    data (1-((sun.gc.compressedclassspace.capacity - sun.gc.compressedclassspace.used)/sun.gc.compressedclassspace.capacity)) * 100
-    align right
-    width 6
-    scale raw
-    format "0.00"
+  dolumn {
+    ifbdfr "^EC^"	/* Edfn Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^YGC^"	/* Young Generation Collections */
-    data sun.gc.collector.0.invocations
-    align right
-    width 6
-    format "0"
+  dolumn {
+    ifbdfr "^OGCMN^"	/* Old Gfnfrbtion Cbpbdity - Minimum */
+    dbtb sun.gd.gfnfrbtion.1.minCbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
   }
-  column {
-    header "^YGCT^"	/* Young Generation Collection Time */
-    data sun.gc.collector.0.time/sun.os.hrt.frequency
-    align right
-    scale sec
-    width 8
-    format "0.000"
+  dolumn {
+    ifbdfr "^OGCMX^"	/* Old Gfnfrbtion Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.1.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
   }
-  column {
-    header "^FGC^"	/* Full Collections */
-    data sun.gc.collector.1.invocations
-    align right
-    width 5
-    scale raw
-    format "0"
+  dolumn {
+    ifbdfr "^OGC^"	/* Old Gfnfrbtion Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.dbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
   }
-  column {
-    header "^FGCT^"	/* Full Collection Time */
-    data sun.gc.collector.1.time/sun.os.hrt.frequency
-    align right
-    scale sec
-    width 8
-    format "0.000"
+  dolumn {
+    ifbdfr "^OC^"	/* Old Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
   }
-  column {
-    header "^GCT^"	/* Total Garbage Collection Time */
-    data (sun.gc.collector.0.time + sun.gc.collector.1.time)/sun.os.hrt.frequency
-    align right
-    width 8
-    scale sec
-    format "0.000"
+  dolumn {
+    ifbdfr "^MCMN^"	/* Mftbspbdf Cbpbdity - Minimum */
+    dbtb sun.gd.mftbspbdf.minCbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^LGCC"	/* Last GC Cause */
-    data sun.gc.lastCause
-    align left
-    width 20
-    scale raw
+  dolumn {
+    ifbdfr "^MCMX^"	/* Mftbspbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.mftbspbdf.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^GCC"	/* Current GC Cause */
-    data sun.gc.cause
-    align left
-    width 20
-    scale raw
+  dolumn {
+    ifbdfr "^MC^"	/* Mftbspbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.mftbspbdf.dbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-}
-
-option gcnew {
-  column {
-    header "^S0C^"	/* Survivor 0 Space Capacity - Current */
-    data sun.gc.generation.0.space.1.capacity
-    scale K
-    align right
-    width 6
-    format "0.0"
+  dolumn {
+    ifbdfr "^CCSMN^"    /* Comprfssfd Clbss Spbdf Cbpbdity - Minimum */
+    dbtb sun.gd.domprfssfddlbssspbdf.minCbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^S1C^"	/* Survivor 1 Space Capacity - Current */
-    data sun.gc.generation.0.space.2.capacity
-    scale K
-    align right
-    width 6
-    format "0.0"
+  dolumn {
+    ifbdfr "^CCSMX^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.domprfssfddlbssspbdf.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^S0U^"	/* Survivor 0 Space Used */
-    data sun.gc.generation.0.space.1.used
-    scale K
-    align right
-    width 6
-    format "0.0"
+  dolumn {
+    ifbdfr "^CCSC^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.domprfssfddlbssspbdf.dbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^S1U^"	/* Survivor 1 Space Used */
-    data sun.gc.generation.0.space.2.used
-    scale K
-    align right
-    width 6
-    format "0.0"
+  dolumn {
+    ifbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign rigit
+    widti 6
+    formbt "0"
   }
-  column {
-    header "^TT^"	/* Tenuring Threshold */
-    data sun.gc.policy.tenuringThreshold
-    width 2
-    align right
-    format "0"
-  }
-  column {
-    header "^MTT^"	/* Maximum Tenuring Threshold */
-    data sun.gc.policy.maxTenuringThreshold
-    width 2
-    align right
-    format "0"
-  }
-  column {
-    header "^DSS^"	/* Desired Survivor Size */
-    data sun.gc.policy.desiredSurvivorSize
-    scale K
-    width 6
-    align right
-    format "0.0"
-  }
-  column {
-    header "^EC^"	/* Eden Space Capacity - Current */
-    data sun.gc.generation.0.space.0.capacity
-    scale K
-    width 8
-    align right
-    format "0.0"
-  }
-  column {
-    header "^EU^"	/* Eden Space Used */
-    data sun.gc.generation.0.space.0.used
-    scale K
-    width 8
-    align right
-    format "0.0"
-  }
-  column {
-    header "^YGC^"	/* Young Generation Collections */
-    data sun.gc.collector.0.invocations
-    align right
-    width 6
-    format "0"
-  }
-  column {
-    header "^YGCT^"	/* Young Generation Collection Time */
-    data sun.gc.collector.0.time/sun.os.hrt.frequency
-    align right
-    scale sec
-    width 8
-    format "0.000"
+  dolumn {
+    ifbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign rigit
+    widti 5
+    sdblf rbw
+    formbt "0"
   }
 }
 
-option gcnewcapacity {
-  column {
-    header "^NGCMN^"	/* New Generation Capacity - Minimum */
-    data sun.gc.generation.0.minCapacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+option gddbusf {
+  dolumn {
+    ifbdfr "^S0^"	/* Survivor 0 Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.1.usfd)/sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity)) * 100
+    sdblf rbw
+    blign rigit
+    widti 6
+    formbt "0.00"
   }
-  column {
-    header "^NGCMX^"	/* New Generation Capacity - Maximum */
-    data sun.gc.generation.0.maxCapacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+  dolumn {
+    ifbdfr "^S1^"	/* Survivor 1 Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.2.usfd)/sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity)) * 100
+    sdblf rbw
+    blign rigit
+    widti 6
+    formbt "0.00"
   }
-  column {
-    header "^NGC^"	/* New Generation Capacity - Current */
-    data sun.gc.generation.0.capacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+  dolumn {
+    ifbdfr "^E^"	/* Edfn Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.0.usfd)/sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity)) * 100
+    blign rigit
+    sdblf rbw
+    widti 6
+    formbt "0.00"
   }
-  column {
-    header "^S0CMX^"	/* Survivor 0 Space Capacity - Maximum */
-    data sun.gc.generation.0.space.1.maxCapacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^O^"	/* Old Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity - sun.gd.gfnfrbtion.1.spbdf.0.usfd)/sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity)) * 100
+    blign rigit
+    sdblf rbw
+    widti 6
+    formbt "0.00"
   }
-  column {
-    header "^S0C^"	/* Survivor 0 Space Capacity - Current */
-    data sun.gc.generation.0.space.1.capacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^M^"	/* Mftbspbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.mftbspbdf.dbpbdity - sun.gd.mftbspbdf.usfd)/sun.gd.mftbspbdf.dbpbdity)) * 100
+    blign rigit
+    widti 6
+    sdblf rbw
+    formbt "0.00"
   }
-  column {
-    header "^S1CMX^"	/* Survivor 1 Space Capacity - Maximum */
-    data sun.gc.generation.0.space.2.maxCapacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^CCS^"	/* Comprfssfd Clbss Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.domprfssfddlbssspbdf.dbpbdity - sun.gd.domprfssfddlbssspbdf.usfd)/sun.gd.domprfssfddlbssspbdf.dbpbdity)) * 100
+    blign rigit
+    widti 6
+    sdblf rbw
+    formbt "0.00"
   }
-  column {
-    header "^S1C^"	/* Survivor 1 Space Capacity - Current */
-    data sun.gc.generation.0.space.2.capacity
-    scale K
-    align right
-    width 8
-    format "0.0"
+  dolumn {
+    ifbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign rigit
+    widti 6
+    formbt "0"
   }
-  column {
-    header "^ECMX^"	/* Eden Space Capacity - Maximum */
-    data sun.gc.generation.0.space.0.maxCapacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+  dolumn {
+    ifbdfr "^YGCT^"	/* Young Gfnfrbtion Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.0.timf/sun.os.irt.frfqufndy
+    blign rigit
+    sdblf sfd
+    widti 8
+    formbt "0.000"
   }
-  column {
-    header "^EC^"	/* Eden Space Capacity - Current */
-    data sun.gc.generation.0.space.0.capacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+  dolumn {
+    ifbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign rigit
+    widti 5
+    sdblf rbw
+    formbt "0"
   }
-  column {
-    header "^YGC^"	/* Young Generation Collections */
-    data sun.gc.collector.0.invocations
-    align right
-    width 5
-    format "0"
+  dolumn {
+    ifbdfr "^FGCT^"	/* Full Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.irt.frfqufndy
+    blign rigit
+    sdblf sfd
+    widti 8
+    formbt "0.000"
   }
-  column {
-    header "^FGC^"	/* Full Collections */
-    data sun.gc.collector.1.invocations
-    align right
-    width 5
-    scale raw
-    format "0"
+  dolumn {
+    ifbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.irt.frfqufndy
+    blign rigit
+    widti 8
+    sdblf sfd
+    formbt "0.000"
   }
-}
-
-option gcold {
-  column {
-    header "^MC^"	/* Metaspace Capacity - Current */
-    data sun.gc.metaspace.capacity
-    width 8
-    align right
-    scale K
-    format "0.0"
+  dolumn {
+    ifbdfr "^LGCC"	/* Lbst GC Cbusf */
+    dbtb sun.gd.lbstCbusf
+    blign lfft
+    widti 20
+    sdblf rbw
   }
-  column {
-    header "^MU^"	/* Metaspace Space Used */
-    data sun.gc.metaspace.used
-    width 8
-    align right
-    scale K
-    format "0.0"
-  }
-  column {
-    header "^CCSC^"	/* Compressed Class Space Capacity - Current */
-    data sun.gc.compressedclassspace.capacity
-    width 8
-    align right
-    scale K
-    format "0.0"
-  }
-  column {
-    header "^CCSU^"	/* Compressed Class Space Used */
-    data sun.gc.compressedclassspace.used
-    width 8
-    align right
-    scale K
-    format "0.0"
-  }
-  column {
-    header "^OC^"	/* Old Space Capacity - Current */
-    data sun.gc.generation.1.space.0.capacity
-    width 11
-    align right
-    scale K
-    format "0.0"
-  }
-  column {
-    header "^OU^"	/* Old Space Used */
-    data sun.gc.generation.1.space.0.used
-    width 11
-    align right
-    scale K
-    format "0.0"
-  }
-  column {
-    header "^YGC^"	/* Young Generation Collections */
-    data sun.gc.collector.0.invocations
-    align right
-    width 6
-    format "0"
-  }
-  column {
-    header "^FGC^"	/* Full Collections */
-    data sun.gc.collector.1.invocations
-    align right
-    scale raw
-    width 5
-    format "0"
-  }
-  column {
-    header "^FGCT^"	/* Full Collection Time */
-    data sun.gc.collector.1.time/sun.os.hrt.frequency
-    align right
-    scale sec
-    width 8
-    format "0.000"
-  }
-  column {
-    header "^GCT^"	/* Total Garbage Collection Time */
-    data (sun.gc.collector.0.time + sun.gc.collector.1.time)/sun.os.hrt.frequency
-    align right
-    width 8
-    scale sec
-    format "0.000"
+  dolumn {
+    ifbdfr "^GCC"	/* Currfnt GC Cbusf */
+    dbtb sun.gd.dbusf
+    blign lfft
+    widti 20
+    sdblf rbw
   }
 }
 
-option gcoldcapacity {
-  column {
-    header "^OGCMN^"	/* Old Generation Capacity - Minimum */
-    data sun.gc.generation.1.minCapacity
-    scale K
-    align right
-    width 11
-    format "0.0"
+option gdnfw {
+  dolumn {
+    ifbdfr "^S0C^"	/* Survivor 0 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity
+    sdblf K
+    blign rigit
+    widti 6
+    formbt "0.0"
   }
-  column {
-    header "^OGCMX^"	/* Old Generation Capacity - Maximum */
-    data sun.gc.generation.1.maxCapacity
-    scale K
-    align right
-    width 11
-    format "0.0"
+  dolumn {
+    ifbdfr "^S1C^"	/* Survivor 1 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity
+    sdblf K
+    blign rigit
+    widti 6
+    formbt "0.0"
   }
-  column {
-    header "^OGC^"	/* Old Generation Capacity - Current */
-    data sun.gc.generation.1.capacity
-    scale K
-    align right
-    width 11
-    format "0.0"
+  dolumn {
+    ifbdfr "^S0U^"	/* Survivor 0 Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.usfd
+    sdblf K
+    blign rigit
+    widti 6
+    formbt "0.0"
   }
-  column {
-    header "^OC^"	/* Old Space Capacity - Current */
-    data sun.gc.generation.1.space.0.capacity
-    scale K
-    align right
-    width 11
-    format "0.0"
+  dolumn {
+    ifbdfr "^S1U^"	/* Survivor 1 Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.usfd
+    sdblf K
+    blign rigit
+    widti 6
+    formbt "0.0"
   }
-  column {
-    header "^YGC^"	/* Young Generation Collections */
-    data sun.gc.collector.0.invocations
-    align right
-    width 5
-    format "0"
+  dolumn {
+    ifbdfr "^TT^"	/* Tfnuring Tirfsiold */
+    dbtb sun.gd.polidy.tfnuringTirfsiold
+    widti 2
+    blign rigit
+    formbt "0"
   }
-  column {
-    header "^FGC^"	/* Full Collections */
-    data sun.gc.collector.1.invocations
-    align right
-    width 5
-    scale raw
-    format "0"
+  dolumn {
+    ifbdfr "^MTT^"	/* Mbximum Tfnuring Tirfsiold */
+    dbtb sun.gd.polidy.mbxTfnuringTirfsiold
+    widti 2
+    blign rigit
+    formbt "0"
   }
-  column {
-    header "^FGCT^"	/* Full Collection Time */
-    data sun.gc.collector.1.time/sun.os.hrt.frequency
-    align right
-    scale sec
-    width 8
-    format "0.000"
+  dolumn {
+    ifbdfr "^DSS^"	/* Dfsirfd Survivor Sizf */
+    dbtb sun.gd.polidy.dfsirfdSurvivorSizf
+    sdblf K
+    widti 6
+    blign rigit
+    formbt "0.0"
   }
-  column {
-    header "^GCT^"	/* Total Garbage Collection Time */
-    data (sun.gc.collector.0.time + sun.gc.collector.1.time)/sun.os.hrt.frequency
-    align right
-    width 8
-    scale sec
-    format "0.000"
+  dolumn {
+    ifbdfr "^EC^"	/* Edfn Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity
+    sdblf K
+    widti 8
+    blign rigit
+    formbt "0.0"
   }
-}
-
-option gcmetacapacity {
-  column {
-    header "^MCMN^"	/* Metaspace Capacity - Minimum */
-    data sun.gc.metaspace.minCapacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+  dolumn {
+    ifbdfr "^EU^"	/* Edfn Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.usfd
+    sdblf K
+    widti 8
+    blign rigit
+    formbt "0.0"
   }
-  column {
-    header "^MCMX^"	/* Metaspace Capacity - Maximum */
-    data sun.gc.metaspace.maxCapacity
-    scale K
-    align right
-    width 10
-    format "0.0"
+  dolumn {
+    ifbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign rigit
+    widti 6
+    formbt "0"
   }
-  column {
-    header "^MC^"	/* Metaspace Capacity - Current */
-    data sun.gc.metaspace.capacity
-    scale K
-    align right
-    width 10
-    format "0.0"
-  }
-  column {
-    header "^CCSMN^"	/* Compressed Class Space Capacity - Minimum */
-    data sun.gc.compressedclassspace.minCapacity
-    scale K
-    align right
-    width 10
-    format "0.0"
-  }
-  column {
-    header "^CCSMX^"	/* Compressed Class Space Capacity - Maximum */
-    data sun.gc.compressedclassspace.maxCapacity
-    scale K
-    align right
-    width 10
-    format "0.0"
-  }
-  column {
-    header "^CCSC^"	/* Compressed Class Space Capacity - Current */
-    data sun.gc.compressedclassspace.capacity
-    scale K
-    align right
-    width 10
-    format "0.0"
-  }
-  column {
-    header "^YGC^"	/* Young Generation Collections */
-    data sun.gc.collector.0.invocations
-    align right
-    width 5
-    format "0"
-  }
-  column {
-    header "^FGC^"	/* Full Collections */
-    data sun.gc.collector.1.invocations
-    align right
-    width 5
-    scale raw
-    format "0"
-  }
-  column {
-    header "^FGCT^"	/* Full Collection Time */
-    data sun.gc.collector.1.time/sun.os.hrt.frequency
-    align right
-    scale sec
-    width 8
-    format "0.000"
-  }
-  column {
-    header "^GCT^"	/* Total Garbage Collection Time */
-    data (sun.gc.collector.0.time + sun.gc.collector.1.time)/sun.os.hrt.frequency
-    align right
-    width 8
-    scale sec
-    format "0.000"
+  dolumn {
+    ifbdfr "^YGCT^"	/* Young Gfnfrbtion Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.0.timf/sun.os.irt.frfqufndy
+    blign rigit
+    sdblf sfd
+    widti 8
+    formbt "0.000"
   }
 }
 
-option gcutil {
-  column {
-    header "^S0^"	/* Survivor 0 Space - Percent Used */
-    data (1-((sun.gc.generation.0.space.1.capacity - sun.gc.generation.0.space.1.used)/sun.gc.generation.0.space.1.capacity)) * 100
-    scale raw
-    align right
-    width 6
-    format "0.00"
+option gdnfwdbpbdity {
+  dolumn {
+    ifbdfr "^NGCMN^"	/* Nfw Gfnfrbtion Cbpbdity - Minimum */
+    dbtb sun.gd.gfnfrbtion.0.minCbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
   }
-  column {
-    header "^S1^"	/* Survivor 1 Space - Percent Used */
-    data (1-((sun.gc.generation.0.space.2.capacity - sun.gc.generation.0.space.2.used)/sun.gc.generation.0.space.2.capacity)) * 100
-    scale raw
-    align right
-    width 6
-    format "0.00"
+  dolumn {
+    ifbdfr "^NGCMX^"	/* Nfw Gfnfrbtion Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.0.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
   }
-  column {
-    header "^E^"	/* Eden Space - Percent Used */
-    data (1-((sun.gc.generation.0.space.0.capacity - sun.gc.generation.0.space.0.used)/sun.gc.generation.0.space.0.capacity)) * 100
-    align right
-    scale raw
-    width 6
-    format "0.00"
+  dolumn {
+    ifbdfr "^NGC^"	/* Nfw Gfnfrbtion Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.dbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
   }
-  column {
-    header "^O^"	/* Old Space - Percent Used */
-    data (1-((sun.gc.generation.1.space.0.capacity - sun.gc.generation.1.space.0.used)/sun.gc.generation.1.space.0.capacity)) * 100
-    align right
-    scale raw
-    width 6
-    format "0.00"
+  dolumn {
+    ifbdfr "^S0CMX^"	/* Survivor 0 Spbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^M^"	/* Metaspace Space - Percent Used */
-    data (1-((sun.gc.metaspace.capacity - sun.gc.metaspace.used)/sun.gc.metaspace.capacity)) * 100
-    align right
-    width 6
-    scale raw
-    format "0.00"
+  dolumn {
+    ifbdfr "^S0C^"	/* Survivor 0 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^CCS^"	/* Compressed Class Space Space - Percent Used */
-    data (1-((sun.gc.compressedclassspace.capacity - sun.gc.compressedclassspace.used)/sun.gc.compressedclassspace.capacity)) * 100
-    align right
-    width 6
-    scale raw
-    format "0.00"
+  dolumn {
+    ifbdfr "^S1CMX^"	/* Survivor 1 Spbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^YGC^"	/* Young Generation Collections */
-    data sun.gc.collector.0.invocations
-    align right
-    width 6
-    format "0"
+  dolumn {
+    ifbdfr "^S1C^"	/* Survivor 1 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity
+    sdblf K
+    blign rigit
+    widti 8
+    formbt "0.0"
   }
-  column {
-    header "^YGCT^"	/* Young Generation Collection Time */
-    data sun.gc.collector.0.time/sun.os.hrt.frequency
-    align right
-    scale sec
-    width 8
-    format "0.000"
+  dolumn {
+    ifbdfr "^ECMX^"	/* Edfn Spbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
   }
-  column {
-    header "^FGC^"	/* Full Collections */
-    data sun.gc.collector.1.invocations
-    align right
-    width 5
-    scale raw
-    format "0"
+  dolumn {
+    ifbdfr "^EC^"	/* Edfn Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
   }
-  column {
-    header "^FGCT^"	/* Full Collection Time */
-    data sun.gc.collector.1.time/sun.os.hrt.frequency
-    align right
-    scale sec
-    width 8
-    format "0.000"
+  dolumn {
+    ifbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign rigit
+    widti 5
+    formbt "0"
   }
-  column {
-    header "^GCT^"	/* Total Garbage Collection Time */
-    data (sun.gc.collector.0.time + sun.gc.collector.1.time)/sun.os.hrt.frequency
-    align right
-    width 8
-    scale sec
-    format "0.000"
+  dolumn {
+    ifbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign rigit
+    widti 5
+    sdblf rbw
+    formbt "0"
   }
 }
 
-option printcompilation {
-  column {
-    header "^Compiled^"		/* Number of compilation tasks performed */
-    data sun.ci.totalCompiles
-    scale raw
-    align right
-    width 6
-    format "0"
+option gdold {
+  dolumn {
+    ifbdfr "^MC^"	/* Mftbspbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.mftbspbdf.dbpbdity
+    widti 8
+    blign rigit
+    sdblf K
+    formbt "0.0"
   }
-  column {
-    header "^Size^"		/* Code Size in bytes of last compilation */
-    data sun.ci.lastSize
-    scale raw
-    align right
-    width 6
+  dolumn {
+    ifbdfr "^MU^"	/* Mftbspbdf Spbdf Usfd */
+    dbtb sun.gd.mftbspbdf.usfd
+    widti 8
+    blign rigit
+    sdblf K
+    formbt "0.0"
   }
-  column {
-    header "^Type^"		/* Type of last compilation */
-    data sun.ci.lastType
-    scale raw
-    align right
-    width 4
+  dolumn {
+    ifbdfr "^CCSC^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.domprfssfddlbssspbdf.dbpbdity
+    widti 8
+    blign rigit
+    sdblf K
+    formbt "0.0"
   }
-  column {
-    header "^Method"		/* Name of class and method for last compile */
-    data sun.ci.lastMethod
-    scale raw
-    align left
-    width 1
+  dolumn {
+    ifbdfr "^CCSU^"	/* Comprfssfd Clbss Spbdf Usfd */
+    dbtb sun.gd.domprfssfddlbssspbdf.usfd
+    widti 8
+    blign rigit
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^OC^"	/* Old Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity
+    widti 11
+    blign rigit
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^OU^"	/* Old Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.usfd
+    widti 11
+    blign rigit
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign rigit
+    widti 6
+    formbt "0"
+  }
+  dolumn {
+    ifbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign rigit
+    sdblf rbw
+    widti 5
+    formbt "0"
+  }
+  dolumn {
+    ifbdfr "^FGCT^"	/* Full Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.irt.frfqufndy
+    blign rigit
+    sdblf sfd
+    widti 8
+    formbt "0.000"
+  }
+  dolumn {
+    ifbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.irt.frfqufndy
+    blign rigit
+    widti 8
+    sdblf sfd
+    formbt "0.000"
+  }
+}
+
+option gdolddbpbdity {
+  dolumn {
+    ifbdfr "^OGCMN^"	/* Old Gfnfrbtion Cbpbdity - Minimum */
+    dbtb sun.gd.gfnfrbtion.1.minCbpbdity
+    sdblf K
+    blign rigit
+    widti 11
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^OGCMX^"	/* Old Gfnfrbtion Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.1.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 11
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^OGC^"	/* Old Gfnfrbtion Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.dbpbdity
+    sdblf K
+    blign rigit
+    widti 11
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^OC^"	/* Old Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity
+    sdblf K
+    blign rigit
+    widti 11
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign rigit
+    widti 5
+    formbt "0"
+  }
+  dolumn {
+    ifbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign rigit
+    widti 5
+    sdblf rbw
+    formbt "0"
+  }
+  dolumn {
+    ifbdfr "^FGCT^"	/* Full Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.irt.frfqufndy
+    blign rigit
+    sdblf sfd
+    widti 8
+    formbt "0.000"
+  }
+  dolumn {
+    ifbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.irt.frfqufndy
+    blign rigit
+    widti 8
+    sdblf sfd
+    formbt "0.000"
+  }
+}
+
+option gdmftbdbpbdity {
+  dolumn {
+    ifbdfr "^MCMN^"	/* Mftbspbdf Cbpbdity - Minimum */
+    dbtb sun.gd.mftbspbdf.minCbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^MCMX^"	/* Mftbspbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.mftbspbdf.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^MC^"	/* Mftbspbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.mftbspbdf.dbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^CCSMN^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Minimum */
+    dbtb sun.gd.domprfssfddlbssspbdf.minCbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^CCSMX^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.domprfssfddlbssspbdf.mbxCbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^CCSC^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.domprfssfddlbssspbdf.dbpbdity
+    sdblf K
+    blign rigit
+    widti 10
+    formbt "0.0"
+  }
+  dolumn {
+    ifbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign rigit
+    widti 5
+    formbt "0"
+  }
+  dolumn {
+    ifbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign rigit
+    widti 5
+    sdblf rbw
+    formbt "0"
+  }
+  dolumn {
+    ifbdfr "^FGCT^"	/* Full Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.irt.frfqufndy
+    blign rigit
+    sdblf sfd
+    widti 8
+    formbt "0.000"
+  }
+  dolumn {
+    ifbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.irt.frfqufndy
+    blign rigit
+    widti 8
+    sdblf sfd
+    formbt "0.000"
+  }
+}
+
+option gdutil {
+  dolumn {
+    ifbdfr "^S0^"	/* Survivor 0 Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.1.usfd)/sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity)) * 100
+    sdblf rbw
+    blign rigit
+    widti 6
+    formbt "0.00"
+  }
+  dolumn {
+    ifbdfr "^S1^"	/* Survivor 1 Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.2.usfd)/sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity)) * 100
+    sdblf rbw
+    blign rigit
+    widti 6
+    formbt "0.00"
+  }
+  dolumn {
+    ifbdfr "^E^"	/* Edfn Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.0.usfd)/sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity)) * 100
+    blign rigit
+    sdblf rbw
+    widti 6
+    formbt "0.00"
+  }
+  dolumn {
+    ifbdfr "^O^"	/* Old Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity - sun.gd.gfnfrbtion.1.spbdf.0.usfd)/sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity)) * 100
+    blign rigit
+    sdblf rbw
+    widti 6
+    formbt "0.00"
+  }
+  dolumn {
+    ifbdfr "^M^"	/* Mftbspbdf Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.mftbspbdf.dbpbdity - sun.gd.mftbspbdf.usfd)/sun.gd.mftbspbdf.dbpbdity)) * 100
+    blign rigit
+    widti 6
+    sdblf rbw
+    formbt "0.00"
+  }
+  dolumn {
+    ifbdfr "^CCS^"	/* Comprfssfd Clbss Spbdf Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.domprfssfddlbssspbdf.dbpbdity - sun.gd.domprfssfddlbssspbdf.usfd)/sun.gd.domprfssfddlbssspbdf.dbpbdity)) * 100
+    blign rigit
+    widti 6
+    sdblf rbw
+    formbt "0.00"
+  }
+  dolumn {
+    ifbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign rigit
+    widti 6
+    formbt "0"
+  }
+  dolumn {
+    ifbdfr "^YGCT^"	/* Young Gfnfrbtion Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.0.timf/sun.os.irt.frfqufndy
+    blign rigit
+    sdblf sfd
+    widti 8
+    formbt "0.000"
+  }
+  dolumn {
+    ifbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign rigit
+    widti 5
+    sdblf rbw
+    formbt "0"
+  }
+  dolumn {
+    ifbdfr "^FGCT^"	/* Full Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.irt.frfqufndy
+    blign rigit
+    sdblf sfd
+    widti 8
+    formbt "0.000"
+  }
+  dolumn {
+    ifbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.irt.frfqufndy
+    blign rigit
+    widti 8
+    sdblf sfd
+    formbt "0.000"
+  }
+}
+
+option printdompilbtion {
+  dolumn {
+    ifbdfr "^Compilfd^"		/* Numbfr of dompilbtion tbsks pfrformfd */
+    dbtb sun.di.totblCompilfs
+    sdblf rbw
+    blign rigit
+    widti 6
+    formbt "0"
+  }
+  dolumn {
+    ifbdfr "^Sizf^"		/* Codf Sizf in bytfs of lbst dompilbtion */
+    dbtb sun.di.lbstSizf
+    sdblf rbw
+    blign rigit
+    widti 6
+  }
+  dolumn {
+    ifbdfr "^Typf^"		/* Typf of lbst dompilbtion */
+    dbtb sun.di.lbstTypf
+    sdblf rbw
+    blign rigit
+    widti 4
+  }
+  dolumn {
+    ifbdfr "^Mftiod"		/* Nbmf of dlbss bnd mftiod for lbst dompilf */
+    dbtb sun.di.lbstMftiod
+    sdblf rbw
+    blign lfft
+    widti 1
   }
 }

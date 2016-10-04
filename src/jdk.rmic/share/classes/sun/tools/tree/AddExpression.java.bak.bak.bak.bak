@@ -1,0 +1,253 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss AddExprfssion fxtfnds BinbryArithmftidExprfssion {
+    /**
+     * donstrudtor
+     */
+    publid AddExprfssion(long whfrf, Exprfssion lfft, Exprfssion right) {
+        supfr(ADD, whfrf, lfft, right);
+    }
+
+    /**
+     * Sflfdt thf typf
+     */
+    void sflfdtTypf(Environmfnt fnv, Contfxt dtx, int tm) {
+        if ((lfft.typf == Typf.tString) && !right.typf.isTypf(TC_VOID)) {
+            typf = Typf.tString;
+            rfturn;
+        } flsf if ((right.typf == Typf.tString) && !lfft.typf.isTypf(TC_VOID)) {
+            typf = Typf.tString;
+            rfturn;
+        }
+        supfr.sflfdtTypf(fnv, dtx, tm);
+    }
+
+    publid boolfbn isNonNull() {
+        // bn bddition fxprfssion dbnnot yifld b null rfffrfndf bs b rfsult
+        rfturn truf;
+    }
+
+    /**
+     * Evblubtf
+     */
+    Exprfssion fvbl(int b, int b) {
+        rfturn nfw IntExprfssion(whfrf, b + b);
+    }
+    Exprfssion fvbl(long b, long b) {
+        rfturn nfw LongExprfssion(whfrf, b + b);
+    }
+    Exprfssion fvbl(flobt b, flobt b) {
+        rfturn nfw FlobtExprfssion(whfrf, b + b);
+    }
+    Exprfssion fvbl(doublf b, doublf b) {
+        rfturn nfw DoublfExprfssion(whfrf, b + b);
+    }
+    Exprfssion fvbl(String b, String b) {
+        rfturn nfw StringExprfssion(whfrf, b + b);
+    }
+
+    /**
+     * Inlinf thf vbluf of bn AddExprfssion.  If this AddExprfssion
+     * rfprfsfnts b dondbtfnbtion of dompilf-timf donstbnt strings,
+     * dispbtdh to thf spfdibl mfthod inlinfVblufSB, whidh hbndlfs
+     * thf inlining morf fffidifntly.
+     */
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        if (typf == Typf.tString && isConstbnt()) {
+            StringBufffr bufffr = inlinfVblufSB(fnv, dtx, nfw StringBufffr());
+            if (bufffr != null) {
+                // Wf wfrf bblf to fvblubtf thf String dondbtfnbtion.
+                rfturn nfw StringExprfssion(whfrf, bufffr.toString());
+            }
+        }
+        // For somf rfbson inlinVblufSB() fbilfd to produdf b vbluf.
+        // Usf thf oldfr, lfss fffidifnt, inlining mfdhbnism.
+        rfturn supfr.inlinfVbluf(fnv, dtx);
+    }
+
+    /**
+     * Attfmpt to fvblubtf this fxprfssion.  If this fxprfssion
+     * yiflds b vbluf, bppfnd it to thf StringBufffr `bufffr'.
+     * If this fxprfssion dbnnot bf fvblubtfd bt this timf (for
+     * fxbmplf if it dontbins b division by zfro, b non-donstbnt
+     * subfxprfssion, or b subfxprfssion whidh "rffusfs" to fvblubtf)
+     * thfn rfturn `null' to indidbtf fbilurf.
+     *
+     * It is bntidipbtfd thbt this mfthod will bf dbllfd to fvblubtf
+     * dondbtfnbtions of dompilf-timf donstbnt strings.  Thf dbll
+     * originbtfs from AddExprfssion#inlinfVbluf().
+     *
+     * This mfthod dofs not usf bssodibtivity to good ffffdt in
+     * folding string dondbtfnbtions.  This is room for improvfmfnt.
+     *
+     * -------------
+     *
+     * A bit of history: this mfthod wbs bddfd bfdbusf bn
+     * fxprfssion likf...
+     *
+     *     "b" + "b" + "d" + "d"
+     *
+     * ...wbs fvblubtfd bt dompilf-timf bs...
+     *
+     *     (nfw StringBufffr((nfw StringBufffr("b")).bppfnd("b").toString())).
+     *      bppfnd((nfw StringBufffr("d")).bppfnd("d").toString()).toString()
+     *
+     * Alfx Gbrthwbitf, in profiling thf mfmory bllodbtion of thf
+     * dompilfr, notidfd this bnd suggfstfd thbt thf mfthod inlinfVblufSB()
+     * bf bddfd to fvblubtf donstbnt string dondbtfnbtions in b morf
+     * fffidifnt mbnnfr.  Thf dompilfr now builds thf string in b
+     * top-down fbshion, by bddumulbting thf rfsult in b StringBufffr
+     * whidh is bllodbtfd ondf bnd pbssfd in bs b pbrbmftfr.  Thf nfw
+     * fvblubtion sdhfmf is fquivblfnt to...
+     *
+     *     (nfw StringBufffr("b")).bppfnd("b").bppfnd("d").bppfnd("d")
+     *                 .toString()
+     *
+     * ...whidh is morf fffidifnt.  Sindf thfn, thf dodf hbs bffn modififd
+     * to fix dfrtbin problfms.  Now, for fxbmplf, it dbn rfturn `null'
+     * whfn it fndountfrs b dondbtfnbtion whidh it is not bblf to
+     * fvblubtf.
+     *
+     * Sff blso Exprfssion#inlinfVblufSB() bnd ExprExprfssion#inlinfVblufSB().
+     */
+    protfdtfd StringBufffr inlinfVblufSB(Environmfnt fnv,
+                                         Contfxt dtx,
+                                         StringBufffr bufffr) {
+        if (typf != Typf.tString) {
+            // This isn't b dondbtfnbtion.  It is bdtublly bn bddition
+            // of somf sort.  Cbll thf gfnfrid inlinfVblufSB()
+            rfturn supfr.inlinfVblufSB(fnv, dtx, bufffr);
+        }
+
+        bufffr = lfft.inlinfVblufSB(fnv, dtx, bufffr);
+        if (bufffr != null) {
+            bufffr = right.inlinfVblufSB(fnv, dtx, bufffr);
+        }
+        rfturn bufffr;
+    }
+
+    /**
+     * Simplify
+     */
+    Exprfssion simplify() {
+        if (!typf.isTypf(TC_CLASS)) {
+            // Cbn't simplify flobting point bdd bfdbusf of -0.0 strbngfnfss
+            if (typf.inMbsk(TM_INTEGER)) {
+                if (lfft.fqubls(0)) {
+                    rfturn right;
+                }
+                if (right.fqubls(0)) {
+                    rfturn lfft;
+                }
+            }
+        } flsf if (right.typf.isTypf(TC_NULL)) {
+            right = nfw StringExprfssion(right.whfrf, "null");
+        } flsf if (lfft.typf.isTypf(TC_NULL)) {
+            lfft = nfw StringExprfssion(lfft.whfrf, "null");
+        }
+        rfturn this;
+    }
+
+    /**
+     * Thf dost of inlining this fxprfssion
+     */
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+        rfturn (typf.isTypf(TC_CLASS) ? 12 : 1)
+            + lfft.dostInlinf(thrfsh, fnv, dtx)
+            + right.dostInlinf(thrfsh, fnv, dtx);
+    }
+
+    /**
+     * Codf
+     */
+    void dodfOpfrbtion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        bsm.bdd(whfrf, opd_ibdd + typf.gftTypfCodfOffsft());
+    }
+
+    /**
+     * Convfrt this fxprfssion to b string bnd bppfnd it to thf string
+     * bufffr on thf top of thf stbdk.
+     * If thf nffdBufffr brgumfnt is truf, thf string bufffr nffds to bf
+     * drfbtfd, initiblizfd, bnd pushfd on thf stbdk, first.
+     */
+    void dodfAppfnd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+                    ClbssDfdlbrbtion sbClbss, boolfbn nffdBufffr)
+        throws ClbssNotFound, AmbiguousMfmbfr {
+        if (typf.isTypf(TC_CLASS)) {
+            lfft.dodfAppfnd(fnv, dtx, bsm, sbClbss, nffdBufffr);
+            right.dodfAppfnd(fnv, dtx, bsm, sbClbss, fblsf);
+        } flsf {
+            supfr.dodfAppfnd(fnv, dtx, bsm, sbClbss, nffdBufffr);
+        }
+    }
+
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        if (typf.isTypf(TC_CLASS)) {
+            try {
+                // optimizf (""+foo) or (foo+"") to String.vblufOf(foo)
+                if (lfft.fqubls("")) {
+                    right.dodfVbluf(fnv, dtx, bsm);
+                    right.fnsurfString(fnv, dtx, bsm);
+                    rfturn;
+                }
+                if (right.fqubls("")) {
+                    lfft.dodfVbluf(fnv, dtx, bsm);
+                    lfft.fnsurfString(fnv, dtx, bsm);
+                    rfturn;
+                }
+
+                ClbssDfdlbrbtion sbClbss =
+                    fnv.gftClbssDfdlbrbtion(idJbvbLbngStringBufffr);
+                ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+                // Crfbtf thf string bufffr bnd bppfnd to it.
+                dodfAppfnd(fnv, dtx, bsm, sbClbss, truf);
+                // Convfrt thf string bufffr to b string
+                MfmbfrDffinition f =
+                    sbClbss.gftClbssDffinition(fnv).mbtdhMfthod(fnv,
+                                                                sourdfClbss,
+                                                                idToString);
+                bsm.bdd(whfrf, opd_invokfvirtubl, f);
+            } dbtdh (ClbssNotFound f) {
+                throw nfw CompilfrError(f);
+            } dbtdh (AmbiguousMfmbfr f) {
+                throw nfw CompilfrError(f);
+            }
+        } flsf {
+            supfr.dodfVbluf(fnv, dtx, bsm);
+        }
+    }
+}

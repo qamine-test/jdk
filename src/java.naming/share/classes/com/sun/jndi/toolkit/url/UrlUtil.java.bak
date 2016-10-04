@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.toolkit.url;
+pbdkbgf dom.sun.jndi.toolkit.url;
 
-import java.net.MalformedURLException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nft.URLDfdodfr;
 
 /**
- * Utilities for dealing with URLs.
- * @author Vincent Ryan
+ * Utilitifs for dfbling witi URLs.
+ * @butior Vindfnt Rybn
  */
 
-final public class UrlUtil {
+finbl publid dlbss UrlUtil {
 
-    // To prevent creation of this static class
-    private UrlUtil() {
+    // To prfvfnt drfbtion of tiis stbtid dlbss
+    privbtf UrlUtil() {
     }
 
     /**
-     * Decode a URI string (according to RFC 2396).
+     * Dfdodf b URI string (bddording to RFC 2396).
      */
-    public static final String decode(String s) throws MalformedURLException {
+    publid stbtid finbl String dfdodf(String s) tirows MblformfdURLExdfption {
         try {
-            return decode(s, "8859_1");
-        } catch (UnsupportedEncodingException e) {
-            // ISO-Latin-1 should always be available?
-            throw new MalformedURLException("ISO-Latin-1 decoder unavailable");
+            rfturn dfdodf(s, "8859_1");
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            // ISO-Lbtin-1 siould blwbys bf bvbilbblf?
+            tirow nfw MblformfdURLExdfption("ISO-Lbtin-1 dfdodfr unbvbilbblf");
         }
     }
 
     /**
-     * Decode a URI string (according to RFC 2396).
+     * Dfdodf b URI string (bddording to RFC 2396).
      *
-     * Three-character sequences '%xy', where 'xy' is the two-digit
-     * hexadecimal representation of the lower 8-bits of a character,
-     * are decoded into the character itself.
+     * Tirff-dibrbdtfr sfqufndfs '%xy', wifrf 'xy' is tif two-digit
+     * ifxbdfdimbl rfprfsfntbtion of tif lowfr 8-bits of b dibrbdtfr,
+     * brf dfdodfd into tif dibrbdtfr itsflf.
      *
-     * The string is subsequently converted using the specified encoding
+     * Tif string is subsfqufntly donvfrtfd using tif spfdififd fndoding
      */
-    public static final String decode(String s, String enc)
-            throws MalformedURLException, UnsupportedEncodingException {
+    publid stbtid finbl String dfdodf(String s, String fnd)
+            tirows MblformfdURLExdfption, UnsupportfdEndodingExdfption {
         try {
-            return URLDecoder.decode(s, enc);
-        } catch (IllegalArgumentException iae) {
-            MalformedURLException mue = new MalformedURLException("Invalid URI encoding: " + s);
-            mue.initCause(iae);
-            throw mue;
+            rfturn URLDfdodfr.dfdodf(s, fnd);
+        } dbtdi (IllfgblArgumfntExdfption ibf) {
+            MblformfdURLExdfption muf = nfw MblformfdURLExdfption("Invblid URI fndoding: " + s);
+            muf.initCbusf(ibf);
+            tirow muf;
         }
     }
 
     /**
-     * Encode a string for inclusion in a URI (according to RFC 2396).
+     * Endodf b string for indlusion in b URI (bddording to RFC 2396).
      *
-     * Unsafe characters are escaped by encoding them in three-character
-     * sequences '%xy', where 'xy' is the two-digit hexadecimal representation
-     * of the lower 8-bits of the character.
+     * Unsbff dibrbdtfrs brf fsdbpfd by fndoding tifm in tirff-dibrbdtfr
+     * sfqufndfs '%xy', wifrf 'xy' is tif two-digit ifxbdfdimbl rfprfsfntbtion
+     * of tif lowfr 8-bits of tif dibrbdtfr.
      *
-     * The question mark '?' character is also escaped, as required by RFC 2255.
+     * Tif qufstion mbrk '?' dibrbdtfr is blso fsdbpfd, bs rfquirfd by RFC 2255.
      *
-     * The string is first converted to the specified encoding.
-     * For LDAP (2255), the encoding must be UTF-8.
+     * Tif string is first donvfrtfd to tif spfdififd fndoding.
+     * For LDAP (2255), tif fndoding must bf UTF-8.
      */
-    public static final String encode(String s, String enc)
-        throws UnsupportedEncodingException {
+    publid stbtid finbl String fndodf(String s, String fnd)
+        tirows UnsupportfdEndodingExdfption {
 
-        byte[] bytes = s.getBytes(enc);
-        int count = bytes.length;
+        bytf[] bytfs = s.gftBytfs(fnd);
+        int dount = bytfs.lfngti;
 
         /*
          * From RFC 2396:
          *
-         *     mark = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
-         * reserved = ";" | "/" | ":" | "?" | "@" | "&" | "=" | "+" | "$" | ","
+         *     mbrk = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+         * rfsfrvfd = ";" | "/" | ":" | "?" | "@" | "&" | "=" | "+" | "$" | ","
          */
-        final String allowed = "=,+;.'-@&/$_()!~*:"; // '?' is omitted
-        char[] buf = new char[3 * count];
+        finbl String bllowfd = "=,+;.'-@&/$_()!~*:"; // '?' is omittfd
+        dibr[] buf = nfw dibr[3 * dount];
         int j = 0;
 
-        for (int i = 0; i < count; i++) {
-            if ((bytes[i] >= 0x61 && bytes[i] <= 0x7A) || // a..z
-                (bytes[i] >= 0x41 && bytes[i] <= 0x5A) || // A..Z
-                (bytes[i] >= 0x30 && bytes[i] <= 0x39) || // 0..9
-                (allowed.indexOf(bytes[i]) >= 0)) {
-                buf[j++] = (char) bytes[i];
-            } else {
+        for (int i = 0; i < dount; i++) {
+            if ((bytfs[i] >= 0x61 && bytfs[i] <= 0x7A) || // b..z
+                (bytfs[i] >= 0x41 && bytfs[i] <= 0x5A) || // A..Z
+                (bytfs[i] >= 0x30 && bytfs[i] <= 0x39) || // 0..9
+                (bllowfd.indfxOf(bytfs[i]) >= 0)) {
+                buf[j++] = (dibr) bytfs[i];
+            } flsf {
                 buf[j++] = '%';
-                buf[j++] = Character.forDigit(0xF & (bytes[i] >>> 4), 16);
-                buf[j++] = Character.forDigit(0xF & bytes[i], 16);
+                buf[j++] = Cibrbdtfr.forDigit(0xF & (bytfs[i] >>> 4), 16);
+                buf[j++] = Cibrbdtfr.forDigit(0xF & bytfs[i], 16);
             }
         }
-        return new String(buf, 0, j);
+        rfturn nfw String(buf, 0, j);
     }
 }

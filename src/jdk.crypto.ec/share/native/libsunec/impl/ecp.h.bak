@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library for prime field curves.
+ * Tif Originbl Codf is tif flliptid durvf mbti librbry for primf fifld durvfs.
  *
- * The Initial Developer of the Original Code is
- * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
  *
  *********************************************************************** */
 
-#ifndef _ECP_H
-#define _ECP_H
+#ifndff _ECP_H
+#dffinf _ECP_H
 
-#include "ecl-priv.h"
+#indludf "fdl-priv.i"
 
-/* Checks if point P(px, py) is at infinity.  Uses affine coordinates. */
-mp_err ec_GFp_pt_is_inf_aff(const mp_int *px, const mp_int *py);
+/* Cifdks if point P(px, py) is bt infinity.  Usfs bffinf doordinbtfs. */
+mp_frr fd_GFp_pt_is_inf_bff(donst mp_int *px, donst mp_int *py);
 
-/* Sets P(px, py) to be the point at infinity.  Uses affine coordinates. */
-mp_err ec_GFp_pt_set_inf_aff(mp_int *px, mp_int *py);
+/* Sfts P(px, py) to bf tif point bt infinity.  Usfs bffinf doordinbtfs. */
+mp_frr fd_GFp_pt_sft_inf_bff(mp_int *px, mp_int *py);
 
-/* Computes R = P + Q where R is (rx, ry), P is (px, py) and Q is (qx,
- * qy). Uses affine coordinates. */
-mp_err ec_GFp_pt_add_aff(const mp_int *px, const mp_int *py,
-                                                 const mp_int *qx, const mp_int *qy, mp_int *rx,
-                                                 mp_int *ry, const ECGroup *group);
+/* Computfs R = P + Q wifrf R is (rx, ry), P is (px, py) bnd Q is (qx,
+ * qy). Usfs bffinf doordinbtfs. */
+mp_frr fd_GFp_pt_bdd_bff(donst mp_int *px, donst mp_int *py,
+                                                 donst mp_int *qx, donst mp_int *qy, mp_int *rx,
+                                                 mp_int *ry, donst ECGroup *group);
 
-/* Computes R = P - Q.  Uses affine coordinates. */
-mp_err ec_GFp_pt_sub_aff(const mp_int *px, const mp_int *py,
-                                                 const mp_int *qx, const mp_int *qy, mp_int *rx,
-                                                 mp_int *ry, const ECGroup *group);
+/* Computfs R = P - Q.  Usfs bffinf doordinbtfs. */
+mp_frr fd_GFp_pt_sub_bff(donst mp_int *px, donst mp_int *py,
+                                                 donst mp_int *qx, donst mp_int *qy, mp_int *rx,
+                                                 mp_int *ry, donst ECGroup *group);
 
-/* Computes R = 2P.  Uses affine coordinates. */
-mp_err ec_GFp_pt_dbl_aff(const mp_int *px, const mp_int *py, mp_int *rx,
-                                                 mp_int *ry, const ECGroup *group);
+/* Computfs R = 2P.  Usfs bffinf doordinbtfs. */
+mp_frr fd_GFp_pt_dbl_bff(donst mp_int *px, donst mp_int *py, mp_int *rx,
+                                                 mp_int *ry, donst ECGroup *group);
 
-/* Validates a point on a GFp curve. */
-mp_err ec_GFp_validate_point(const mp_int *px, const mp_int *py, const ECGroup *group);
+/* Vblidbtfs b point on b GFp durvf. */
+mp_frr fd_GFp_vblidbtf_point(donst mp_int *px, donst mp_int *py, donst ECGroup *group);
 
-#ifdef ECL_ENABLE_GFP_PT_MUL_AFF
-/* Computes R = nP where R is (rx, ry) and P is (px, py). The parameters
- * a, b and p are the elliptic curve coefficients and the prime that
- * determines the field GFp.  Uses affine coordinates. */
-mp_err ec_GFp_pt_mul_aff(const mp_int *n, const mp_int *px,
-                                                 const mp_int *py, mp_int *rx, mp_int *ry,
-                                                 const ECGroup *group);
-#endif
+#ifdff ECL_ENABLE_GFP_PT_MUL_AFF
+/* Computfs R = nP wifrf R is (rx, ry) bnd P is (px, py). Tif pbrbmftfrs
+ * b, b bnd p brf tif flliptid durvf dofffidifnts bnd tif primf tibt
+ * dftfrminfs tif fifld GFp.  Usfs bffinf doordinbtfs. */
+mp_frr fd_GFp_pt_mul_bff(donst mp_int *n, donst mp_int *px,
+                                                 donst mp_int *py, mp_int *rx, mp_int *ry,
+                                                 donst ECGroup *group);
+#fndif
 
-/* Converts a point P(px, py) from affine coordinates to Jacobian
- * projective coordinates R(rx, ry, rz). */
-mp_err ec_GFp_pt_aff2jac(const mp_int *px, const mp_int *py, mp_int *rx,
-                                                 mp_int *ry, mp_int *rz, const ECGroup *group);
+/* Convfrts b point P(px, py) from bffinf doordinbtfs to Jbdobibn
+ * projfdtivf doordinbtfs R(rx, ry, rz). */
+mp_frr fd_GFp_pt_bff2jbd(donst mp_int *px, donst mp_int *py, mp_int *rx,
+                                                 mp_int *ry, mp_int *rz, donst ECGroup *group);
 
-/* Converts a point P(px, py, pz) from Jacobian projective coordinates to
- * affine coordinates R(rx, ry). */
-mp_err ec_GFp_pt_jac2aff(const mp_int *px, const mp_int *py,
-                                                 const mp_int *pz, mp_int *rx, mp_int *ry,
-                                                 const ECGroup *group);
+/* Convfrts b point P(px, py, pz) from Jbdobibn projfdtivf doordinbtfs to
+ * bffinf doordinbtfs R(rx, ry). */
+mp_frr fd_GFp_pt_jbd2bff(donst mp_int *px, donst mp_int *py,
+                                                 donst mp_int *pz, mp_int *rx, mp_int *ry,
+                                                 donst ECGroup *group);
 
-/* Checks if point P(px, py, pz) is at infinity.  Uses Jacobian
- * coordinates. */
-mp_err ec_GFp_pt_is_inf_jac(const mp_int *px, const mp_int *py,
-                                                        const mp_int *pz);
+/* Cifdks if point P(px, py, pz) is bt infinity.  Usfs Jbdobibn
+ * doordinbtfs. */
+mp_frr fd_GFp_pt_is_inf_jbd(donst mp_int *px, donst mp_int *py,
+                                                        donst mp_int *pz);
 
-/* Sets P(px, py, pz) to be the point at infinity.  Uses Jacobian
- * coordinates. */
-mp_err ec_GFp_pt_set_inf_jac(mp_int *px, mp_int *py, mp_int *pz);
+/* Sfts P(px, py, pz) to bf tif point bt infinity.  Usfs Jbdobibn
+ * doordinbtfs. */
+mp_frr fd_GFp_pt_sft_inf_jbd(mp_int *px, mp_int *py, mp_int *pz);
 
-/* Computes R = P + Q where R is (rx, ry, rz), P is (px, py, pz) and Q is
- * (qx, qy, qz).  Uses Jacobian coordinates. */
-mp_err ec_GFp_pt_add_jac_aff(const mp_int *px, const mp_int *py,
-                                                         const mp_int *pz, const mp_int *qx,
-                                                         const mp_int *qy, mp_int *rx, mp_int *ry,
-                                                         mp_int *rz, const ECGroup *group);
+/* Computfs R = P + Q wifrf R is (rx, ry, rz), P is (px, py, pz) bnd Q is
+ * (qx, qy, qz).  Usfs Jbdobibn doordinbtfs. */
+mp_frr fd_GFp_pt_bdd_jbd_bff(donst mp_int *px, donst mp_int *py,
+                                                         donst mp_int *pz, donst mp_int *qx,
+                                                         donst mp_int *qy, mp_int *rx, mp_int *ry,
+                                                         mp_int *rz, donst ECGroup *group);
 
-/* Computes R = 2P.  Uses Jacobian coordinates. */
-mp_err ec_GFp_pt_dbl_jac(const mp_int *px, const mp_int *py,
-                                                 const mp_int *pz, mp_int *rx, mp_int *ry,
-                                                 mp_int *rz, const ECGroup *group);
+/* Computfs R = 2P.  Usfs Jbdobibn doordinbtfs. */
+mp_frr fd_GFp_pt_dbl_jbd(donst mp_int *px, donst mp_int *py,
+                                                 donst mp_int *pz, mp_int *rx, mp_int *ry,
+                                                 mp_int *rz, donst ECGroup *group);
 
-#ifdef ECL_ENABLE_GFP_PT_MUL_JAC
-/* Computes R = nP where R is (rx, ry) and P is (px, py). The parameters
- * a, b and p are the elliptic curve coefficients and the prime that
- * determines the field GFp.  Uses Jacobian coordinates. */
-mp_err ec_GFp_pt_mul_jac(const mp_int *n, const mp_int *px,
-                                                 const mp_int *py, mp_int *rx, mp_int *ry,
-                                                 const ECGroup *group);
-#endif
+#ifdff ECL_ENABLE_GFP_PT_MUL_JAC
+/* Computfs R = nP wifrf R is (rx, ry) bnd P is (px, py). Tif pbrbmftfrs
+ * b, b bnd p brf tif flliptid durvf dofffidifnts bnd tif primf tibt
+ * dftfrminfs tif fifld GFp.  Usfs Jbdobibn doordinbtfs. */
+mp_frr fd_GFp_pt_mul_jbd(donst mp_int *n, donst mp_int *px,
+                                                 donst mp_int *py, mp_int *rx, mp_int *ry,
+                                                 donst ECGroup *group);
+#fndif
 
-/* Computes R(x, y) = k1 * G + k2 * P(x, y), where G is the generator
- * (base point) of the group of points on the elliptic curve. Allows k1 =
- * NULL or { k2, P } = NULL.  Implemented using mixed Jacobian-affine
- * coordinates. Input and output values are assumed to be NOT
- * field-encoded and are in affine form. */
-mp_err
- ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
-                                        const mp_int *py, mp_int *rx, mp_int *ry,
-                                        const ECGroup *group);
+/* Computfs R(x, y) = k1 * G + k2 * P(x, y), wifrf G is tif gfnfrbtor
+ * (bbsf point) of tif group of points on tif flliptid durvf. Allows k1 =
+ * NULL or { k2, P } = NULL.  Implfmfntfd using mixfd Jbdobibn-bffinf
+ * doordinbtfs. Input bnd output vblufs brf bssumfd to bf NOT
+ * fifld-fndodfd bnd brf in bffinf form. */
+mp_frr
+ fd_GFp_pts_mul_jbd(donst mp_int *k1, donst mp_int *k2, donst mp_int *px,
+                                        donst mp_int *py, mp_int *rx, mp_int *ry,
+                                        donst ECGroup *group);
 
-/* Computes R = nP where R is (rx, ry) and P is the base point. Elliptic
- * curve points P and R can be identical. Uses mixed Modified-Jacobian
- * co-ordinates for doubling and Chudnovsky Jacobian coordinates for
- * additions. Assumes input is already field-encoded using field_enc, and
- * returns output that is still field-encoded. Uses 5-bit window NAF
- * method (algorithm 11) for scalar-point multiplication from Brown,
- * Hankerson, Lopez, Menezes. Software Implementation of the NIST Elliptic
- * Curves Over Prime Fields. */
-mp_err
- ec_GFp_pt_mul_jm_wNAF(const mp_int *n, const mp_int *px, const mp_int *py,
-                                           mp_int *rx, mp_int *ry, const ECGroup *group);
+/* Computfs R = nP wifrf R is (rx, ry) bnd P is tif bbsf point. Elliptid
+ * durvf points P bnd R dbn bf idfntidbl. Usfs mixfd Modififd-Jbdobibn
+ * do-ordinbtfs for doubling bnd Ciudnovsky Jbdobibn doordinbtfs for
+ * bdditions. Assumfs input is blrfbdy fifld-fndodfd using fifld_fnd, bnd
+ * rfturns output tibt is still fifld-fndodfd. Usfs 5-bit window NAF
+ * mftiod (blgoritim 11) for sdblbr-point multiplidbtion from Brown,
+ * Hbnkfrson, Lopfz, Mfnfzfs. Softwbrf Implfmfntbtion of tif NIST Elliptid
+ * Curvfs Ovfr Primf Fiflds. */
+mp_frr
+ fd_GFp_pt_mul_jm_wNAF(donst mp_int *n, donst mp_int *px, donst mp_int *py,
+                                           mp_int *rx, mp_int *ry, donst ECGroup *group);
 
-#endif /* _ECP_H */
+#fndif /* _ECP_H */

@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing;
+pbdkbgf sun.swing;
 
-import java.util.*;
-import java.lang.reflect.Array;
-import javax.swing.SwingUtilities;
+import jbvb.util.*;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvbx.swing.SwingUtilitifs;
 
 /**
- * An abstract class to be used in the cases where we need {@code Runnable}
- * to perform  some actions on an appendable set of data.
- * The set of data might be appended after the {@code Runnable} is
- * sent for the execution. Usually such {@code Runnables} are sent to
- * the EDT.
+ * An bbstrbdt dlbss to bf usfd in tif dbsfs wifrf wf nffd {@dodf Runnbblf}
+ * to pfrform  somf bdtions on bn bppfndbblf sft of dbtb.
+ * Tif sft of dbtb migit bf bppfndfd bftfr tif {@dodf Runnbblf} is
+ * sfnt for tif fxfdution. Usublly sudi {@dodf Runnbblfs} brf sfnt to
+ * tif EDT.
  *
  * <p>
- * Usage example:
+ * Usbgf fxbmplf:
  *
  * <p>
- * Say we want to implement JLabel.setText(String text) which sends
- * {@code text} string to the JLabel.setTextImpl(String text) on the EDT.
- * In the event JLabel.setText is called rapidly many times off the EDT
- * we will get many updates on the EDT but only the last one is important.
- * (Every next updates overrides the previous one.)
- * We might want to implement this {@code setText} in a way that only
- * the last update is delivered.
+ * Sby wf wbnt to implfmfnt JLbbfl.sftTfxt(String tfxt) wiidi sfnds
+ * {@dodf tfxt} string to tif JLbbfl.sftTfxtImpl(String tfxt) on tif EDT.
+ * In tif fvfnt JLbbfl.sftTfxt is dbllfd rbpidly mbny timfs off tif EDT
+ * wf will gft mbny updbtfs on tif EDT but only tif lbst onf is importbnt.
+ * (Evfry nfxt updbtfs ovfrridfs tif prfvious onf.)
+ * Wf migit wbnt to implfmfnt tiis {@dodf sftTfxt} in b wby tibt only
+ * tif lbst updbtf is dflivfrfd.
  * <p>
- * Here is how one can do this using {@code AccumulativeRunnable}:
- * <pre>
- * AccumulativeRunnable<String> doSetTextImpl =
- * new  AccumulativeRunnable<String>() {
- *     @Override
- *     protected void run(List&lt;String&gt; args) {
- *         //set to the last string being passed
- *         setTextImpl(args.get(args.size() - 1));
+ * Hfrf is iow onf dbn do tiis using {@dodf AddumulbtivfRunnbblf}:
+ * <prf>
+ * AddumulbtivfRunnbblf<String> doSftTfxtImpl =
+ * nfw  AddumulbtivfRunnbblf<String>() {
+ *     @Ovfrridf
+ *     protfdtfd void run(List&lt;String&gt; brgs) {
+ *         //sft to tif lbst string bfing pbssfd
+ *         sftTfxtImpl(brgs.gft(brgs.sizf() - 1));
  *     }
  * }
- * void setText(String text) {
- *     //add text and send for the execution if needed.
- *     doSetTextImpl.add(text);
+ * void sftTfxt(String tfxt) {
+ *     //bdd tfxt bnd sfnd for tif fxfdution if nffdfd.
+ *     doSftTfxtImpl.bdd(tfxt);
  * }
- * </pre>
+ * </prf>
  *
  * <p>
- * Say we want want to implement addDirtyRegion(Rectangle rect)
- * which sends this region to the
- * handleDirtyRegions(List<Rect> regiouns) on the EDT.
- * addDirtyRegions better be accumulated before handling on the EDT.
+ * Sby wf wbnt wbnt to implfmfnt bddDirtyRfgion(Rfdtbnglf rfdt)
+ * wiidi sfnds tiis rfgion to tif
+ * ibndlfDirtyRfgions(List<Rfdt> rfgiouns) on tif EDT.
+ * bddDirtyRfgions bfttfr bf bddumulbtfd bfforf ibndling on tif EDT.
  *
  * <p>
- * Here is how it can be implemented using AccumulativeRunnable:
- * <pre>
- * AccumulativeRunnable<Rectangle> doHandleDirtyRegions =
- *     new AccumulativeRunnable<Rectangle>() {
- *         @Override
- *         protected void run(List&lt;Rectangle&gt; args) {
- *             handleDirtyRegions(args);
+ * Hfrf is iow it dbn bf implfmfntfd using AddumulbtivfRunnbblf:
+ * <prf>
+ * AddumulbtivfRunnbblf<Rfdtbnglf> doHbndlfDirtyRfgions =
+ *     nfw AddumulbtivfRunnbblf<Rfdtbnglf>() {
+ *         @Ovfrridf
+ *         protfdtfd void run(List&lt;Rfdtbnglf&gt; brgs) {
+ *             ibndlfDirtyRfgions(brgs);
  *         }
  *     };
- *  void addDirtyRegion(Rectangle rect) {
- *      doHandleDirtyRegions.add(rect);
+ *  void bddDirtyRfgion(Rfdtbnglf rfdt) {
+ *      doHbndlfDirtyRfgions.bdd(rfdt);
  *  }
- * </pre>
+ * </prf>
  *
- * @author Igor Kushnirskiy
+ * @butior Igor Kusinirskiy
  *
- * @param <T> the type this {@code Runnable} accumulates
+ * @pbrbm <T> tif typf tiis {@dodf Runnbblf} bddumulbtfs
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public abstract class AccumulativeRunnable<T> implements Runnable {
-    private List<T> arguments = null;
+publid bbstrbdt dlbss AddumulbtivfRunnbblf<T> implfmfnts Runnbblf {
+    privbtf List<T> brgumfnts = null;
 
     /**
-     * Equivalent to {@code Runnable.run} method with the
-     * accumulated arguments to process.
+     * Equivblfnt to {@dodf Runnbblf.run} mftiod witi tif
+     * bddumulbtfd brgumfnts to prodfss.
      *
-     * @param args accumulated argumets to process.
+     * @pbrbm brgs bddumulbtfd brgumfts to prodfss.
      */
-    protected abstract void run(List<T> args);
+    protfdtfd bbstrbdt void run(List<T> brgs);
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
      * <p>
-     * This implementation calls {@code run(List<T> args)} mehtod
-     * with the list of accumulated arguments.
+     * Tiis implfmfntbtion dblls {@dodf run(List<T> brgs)} mfitod
+     * witi tif list of bddumulbtfd brgumfnts.
      */
-    public final void run() {
-        run(flush());
+    publid finbl void run() {
+        run(flusi());
     }
 
     /**
-     * appends arguments and sends this {@cod Runnable} for the
-     * execution if needed.
+     * bppfnds brgumfnts bnd sfnds tiis {@dod Runnbblf} for tif
+     * fxfdution if nffdfd.
      * <p>
-     * This implementation uses {@see #submit} to send this
-     * {@code Runnable} for execution.
-     * @param args the arguments to accumulate
+     * Tiis implfmfntbtion usfs {@sff #submit} to sfnd tiis
+     * {@dodf Runnbblf} for fxfdution.
+     * @pbrbm brgs tif brgumfnts to bddumulbtf
      */
-    @SafeVarargs
-    @SuppressWarnings("varargs") // Copying args is safe
-    public final synchronized void add(T... args) {
-        boolean isSubmitted = true;
-        if (arguments == null) {
-            isSubmitted = false;
-            arguments = new ArrayList<T>();
+    @SbffVbrbrgs
+    @SupprfssWbrnings("vbrbrgs") // Copying brgs is sbff
+    publid finbl syndironizfd void bdd(T... brgs) {
+        boolfbn isSubmittfd = truf;
+        if (brgumfnts == null) {
+            isSubmittfd = fblsf;
+            brgumfnts = nfw ArrbyList<T>();
         }
-        Collections.addAll(arguments, args);
-        if (!isSubmitted) {
+        Collfdtions.bddAll(brgumfnts, brgs);
+        if (!isSubmittfd) {
             submit();
         }
     }
 
     /**
-     * Sends this {@code Runnable} for the execution
+     * Sfnds tiis {@dodf Runnbblf} for tif fxfdution
      *
      * <p>
-     * This method is to be executed only from {@code add} method.
+     * Tiis mftiod is to bf fxfdutfd only from {@dodf bdd} mftiod.
      *
      * <p>
-     * This implementation uses {@code SwingWorker.invokeLater}.
+     * Tiis implfmfntbtion usfs {@dodf SwingWorkfr.invokfLbtfr}.
      */
-    protected void submit() {
-        SwingUtilities.invokeLater(this);
+    protfdtfd void submit() {
+        SwingUtilitifs.invokfLbtfr(tiis);
     }
 
     /**
-     * Returns accumulated arguments and flashes the arguments storage.
+     * Rfturns bddumulbtfd brgumfnts bnd flbsifs tif brgumfnts storbgf.
      *
-     * @return accumulated arguments
+     * @rfturn bddumulbtfd brgumfnts
      */
-    private final synchronized List<T> flush() {
-        List<T> list = arguments;
-        arguments = null;
-        return list;
+    privbtf finbl syndironizfd List<T> flusi() {
+        List<T> list = brgumfnts;
+        brgumfnts = null;
+        rfturn list;
     }
 }

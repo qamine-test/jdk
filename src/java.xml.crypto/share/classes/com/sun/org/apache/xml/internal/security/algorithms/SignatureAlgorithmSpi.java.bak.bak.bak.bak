@@ -1,0 +1,177 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms;
+
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import org.w3d.dom.Elfmfnt;
+
+publid bbstrbdt dlbss SignbturfAlgorithmSpi {
+
+    /**
+     * Rfturns thf URI rfprfsfntbtion of <dodf>Trbnsformbtion blgorithm</dodf>
+     *
+     * @rfturn thf URI rfprfsfntbtion of <dodf>Trbnsformbtion blgorithm</dodf>
+     */
+    protfdtfd bbstrbdt String fnginfGftURI();
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#gftAlgorithm}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.Signbturf#gftAlgorithm} mfthod
+     */
+    protfdtfd bbstrbdt String fnginfGftJCEAlgorithmString();
+
+    /**
+     * Mfthod fnginfGftJCEProvidfrNbmf
+     *
+     * @rfturn thf JCE ProvidfrNbmf
+     */
+    protfdtfd bbstrbdt String fnginfGftJCEProvidfrNbmf();
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     * @pbrbm input
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf[] input) throws XMLSignbturfExdfption;
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     * @pbrbm input
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf input) throws XMLSignbturfExdfption;
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     * @pbrbm buf
+     * @pbrbm offsft
+     * @pbrbm lfn
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf buf[], int offsft, int lfn)
+        throws XMLSignbturfExdfption;
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     * @pbrbm signingKfy
+     * @throws XMLSignbturfExdfption if this mfthod is dbllfd on b MAC
+     */
+    protfdtfd bbstrbdt void fnginfInitSign(Kfy signingKfy) throws XMLSignbturfExdfption;
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy,
+     * jbvb.sfdurity.SfdurfRbndom)}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     * @pbrbm signingKfy
+     * @pbrbm sfdurfRbndom
+     * @throws XMLSignbturfExdfption if this mfthod is dbllfd on b MAC
+     */
+    protfdtfd bbstrbdt void fnginfInitSign(Kfy signingKfy, SfdurfRbndom sfdurfRbndom)
+        throws XMLSignbturfExdfption;
+
+    /**
+     * Proxy mfthod for {@link jbvbx.drypto.Mbd}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvbx.drypto.Mbd#init(Kfy)} objfdt.
+     *
+     * @pbrbm signingKfy
+     * @pbrbm blgorithmPbrbmftfrSpfd
+     * @throws XMLSignbturfExdfption if this mfthod is dbllfd on b Signbturf
+     */
+    protfdtfd bbstrbdt void fnginfInitSign(
+        Kfy signingKfy, AlgorithmPbrbmftfrSpfd blgorithmPbrbmftfrSpfd
+    ) throws XMLSignbturfExdfption;
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.Signbturf#sign()} mfthod
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd bbstrbdt bytf[] fnginfSign() throws XMLSignbturfExdfption;
+
+    /**
+     * Mfthod fnginfInitVfrify
+     *
+     * @pbrbm vfrifidbtionKfy
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd bbstrbdt void fnginfInitVfrify(Kfy vfrifidbtionKfy) throws XMLSignbturfExdfption;
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     * @pbrbm signbturf
+     * @rfturn truf if thf signbturf is dorrfdt
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd bbstrbdt boolfbn fnginfVfrify(bytf[] signbturf) throws XMLSignbturfExdfption;
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd)}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     * @pbrbm pbrbms
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd bbstrbdt void fnginfSftPbrbmftfr(AlgorithmPbrbmftfrSpfd pbrbms)
+        throws XMLSignbturfExdfption;
+
+
+    /**
+     * Mfthod fnginfGftContfxtFromElfmfnt
+     *
+     * @pbrbm flfmfnt
+     */
+    protfdtfd void fnginfGftContfxtFromElfmfnt(Elfmfnt flfmfnt) {
+    }
+
+    /**
+     * Mfthod fnginfSftHMACOutputLfngth
+     *
+     * @pbrbm HMACOutputLfngth
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd bbstrbdt void fnginfSftHMACOutputLfngth(int HMACOutputLfngth)
+        throws XMLSignbturfExdfption;
+
+    publid void rfsft() {
+    }
+}

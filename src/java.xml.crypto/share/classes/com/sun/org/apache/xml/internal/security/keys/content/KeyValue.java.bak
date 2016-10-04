@@ -1,157 +1,157 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.content;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt;
 
-import java.security.PublicKey;
+import jbvb.sfdurity.PublidKfy;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.content.keyvalues.DSAKeyValue;
-import com.sun.org.apache.xml.internal.security.keys.content.keyvalues.RSAKeyValue;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.kfyvblufs.DSAKfyVbluf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.kfyvblufs.RSAKfyVbluf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * The KeyValue element contains a single public key that may be useful in
- * validating the signature. Structured formats for defining DSA (REQUIRED)
- * and RSA (RECOMMENDED) public keys are defined in Signature Algorithms
- * (section 6.4). The KeyValue element may include externally defined public
- * keys values represented as PCDATA or element types from an external
- * namespace.
+ * Tif KfyVbluf flfmfnt dontbins b singlf publid kfy tibt mby bf usfful in
+ * vblidbting tif signbturf. Strudturfd formbts for dffining DSA (REQUIRED)
+ * bnd RSA (RECOMMENDED) publid kfys brf dffinfd in Signbturf Algoritims
+ * (sfdtion 6.4). Tif KfyVbluf flfmfnt mby indludf fxtfrnblly dffinfd publid
+ * kfys vblufs rfprfsfntfd bs PCDATA or flfmfnt typfs from bn fxtfrnbl
+ * nbmfspbdf.
  *
- * @author $Author: coheigea $
+ * @butior $Autior: doifigfb $
  */
-public class KeyValue extends SignatureElementProxy implements KeyInfoContent {
+publid dlbss KfyVbluf fxtfnds SignbturfElfmfntProxy implfmfnts KfyInfoContfnt {
 
     /**
-     * Constructor KeyValue
+     * Construdtor KfyVbluf
      *
-     * @param doc
-     * @param dsaKeyValue
+     * @pbrbm dod
+     * @pbrbm dsbKfyVbluf
      */
-    public KeyValue(Document doc, DSAKeyValue dsaKeyValue) {
-        super(doc);
+    publid KfyVbluf(Dodumfnt dod, DSAKfyVbluf dsbKfyVbluf) {
+        supfr(dod);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
-        this.constructionElement.appendChild(dsaKeyValue.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
+        tiis.donstrudtionElfmfnt.bppfndCiild(dsbKfyVbluf.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Constructor KeyValue
+     * Construdtor KfyVbluf
      *
-     * @param doc
-     * @param rsaKeyValue
+     * @pbrbm dod
+     * @pbrbm rsbKfyVbluf
      */
-    public KeyValue(Document doc, RSAKeyValue rsaKeyValue) {
-        super(doc);
+    publid KfyVbluf(Dodumfnt dod, RSAKfyVbluf rsbKfyVbluf) {
+        supfr(dod);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
-        this.constructionElement.appendChild(rsaKeyValue.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
+        tiis.donstrudtionElfmfnt.bppfndCiild(rsbKfyVbluf.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Constructor KeyValue
+     * Construdtor KfyVbluf
      *
-     * @param doc
-     * @param unknownKeyValue
+     * @pbrbm dod
+     * @pbrbm unknownKfyVbluf
      */
-    public KeyValue(Document doc, Element unknownKeyValue) {
-        super(doc);
+    publid KfyVbluf(Dodumfnt dod, Elfmfnt unknownKfyVbluf) {
+        supfr(dod);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
-        this.constructionElement.appendChild(unknownKeyValue);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
+        tiis.donstrudtionElfmfnt.bppfndCiild(unknownKfyVbluf);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Constructor KeyValue
+     * Construdtor KfyVbluf
      *
-     * @param doc
-     * @param pk
+     * @pbrbm dod
+     * @pbrbm pk
      */
-    public KeyValue(Document doc, PublicKey pk) {
-        super(doc);
+    publid KfyVbluf(Dodumfnt dod, PublidKfy pk) {
+        supfr(dod);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
 
-        if (pk instanceof java.security.interfaces.DSAPublicKey) {
-            DSAKeyValue dsa = new DSAKeyValue(this.doc, pk);
+        if (pk instbndfof jbvb.sfdurity.intfrfbdfs.DSAPublidKfy) {
+            DSAKfyVbluf dsb = nfw DSAKfyVbluf(tiis.dod, pk);
 
-            this.constructionElement.appendChild(dsa.getElement());
-            XMLUtils.addReturnToElement(this.constructionElement);
-        } else if (pk instanceof java.security.interfaces.RSAPublicKey) {
-            RSAKeyValue rsa = new RSAKeyValue(this.doc, pk);
+            tiis.donstrudtionElfmfnt.bppfndCiild(dsb.gftElfmfnt());
+            XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
+        } flsf if (pk instbndfof jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) {
+            RSAKfyVbluf rsb = nfw RSAKfyVbluf(tiis.dod, pk);
 
-            this.constructionElement.appendChild(rsa.getElement());
-            XMLUtils.addReturnToElement(this.constructionElement);
+            tiis.donstrudtionElfmfnt.bppfndCiild(rsb.gftElfmfnt());
+            XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
         }
     }
 
     /**
-     * Constructor KeyValue
+     * Construdtor KfyVbluf
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public KeyValue(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    publid KfyVbluf(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
     }
 
     /**
-     * Method getPublicKey
+     * Mftiod gftPublidKfy
      *
-     * @return the public key
-     * @throws XMLSecurityException
+     * @rfturn tif publid kfy
+     * @tirows XMLSfdurityExdfption
      */
-    public PublicKey getPublicKey() throws XMLSecurityException {
-        Element rsa =
-            XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_RSAKEYVALUE, 0);
+    publid PublidKfy gftPublidKfy() tirows XMLSfdurityExdfption {
+        Elfmfnt rsb =
+            XMLUtils.sflfdtDsNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_RSAKEYVALUE, 0);
 
-        if (rsa != null) {
-            RSAKeyValue kv = new RSAKeyValue(rsa, this.baseURI);
-            return kv.getPublicKey();
+        if (rsb != null) {
+            RSAKfyVbluf kv = nfw RSAKfyVbluf(rsb, tiis.bbsfURI);
+            rfturn kv.gftPublidKfy();
         }
 
-        Element dsa =
-            XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_DSAKEYVALUE, 0);
+        Elfmfnt dsb =
+            XMLUtils.sflfdtDsNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_DSAKEYVALUE, 0);
 
-        if (dsa != null) {
-            DSAKeyValue kv = new DSAKeyValue(dsa, this.baseURI);
-            return kv.getPublicKey();
+        if (dsb != null) {
+            DSAKfyVbluf kv = nfw DSAKfyVbluf(dsb, tiis.bbsfURI);
+            rfturn kv.gftPublidKfy();
         }
 
-        return null;
+        rfturn null;
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_KEYVALUE;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_KEYVALUE;
     }
 }

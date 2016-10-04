@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.im.spi.InputMfthod;
+import jbvb.bwt.im.spi.InputMfthodDfsdriptor;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.Lodblf;
+import sun.bwt.SunToolkit;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Providfs suffidifnt informbtion bbout bn input mfthod
+ * to fnbblf sflfdtion bnd lobding of thbt input mfthod.
+ * Thf input mfthod itsflf is only lobdfd whfn it is bdtublly usfd.
+ *
+ * @sindf 1.3
+ */
+
+publid bbstrbdt dlbss X11InputMfthodDfsdriptor implfmfnts InputMfthodDfsdriptor {
+
+    privbtf stbtid Lodblf lodblf;
+
+    publid X11InputMfthodDfsdriptor() {
+        lodblf = gftSupportfdLodblf();
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMfthodDfsdriptor#gftAvbilbblfLodblfs
+     */
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        Lodblf[] lodblfs = {lodblf};
+        rfturn lodblfs;
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMfthodDfsdriptor#hbsDynbmidLodblfList
+     */
+    publid boolfbn hbsDynbmidLodblfList() {
+        rfturn fblsf;
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMfthodDfsdriptor#gftInputMfthodDisplbyNbmf
+     */
+    publid syndhronizfd String gftInputMfthodDisplbyNbmf(Lodblf inputLodblf, Lodblf displbyLbngubgf) {
+        // Wf ignorf thf input lodblf.
+        // Whfn displbying for thf dffbult lodblf, rfly on thf lodblizfd AWT propfrtifs;
+        // for bny othfr lodblf, fbll bbdk to English.
+        String nbmf = "Systfm Input Mfthods";
+        if (Lodblf.gftDffbult().fqubls(displbyLbngubgf)) {
+            nbmf = Toolkit.gftPropfrty("AWT.HostInputMfthodDisplbyNbmf", nbmf);
+        }
+        rfturn nbmf;
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMfthodDfsdriptor#gftInputMfthodIdon
+     */
+    publid Imbgf gftInputMfthodIdon(Lodblf inputLodblf) {
+        rfturn null;
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMfthodDfsdriptor#drfbtfInputMfthod
+     */
+    publid bbstrbdt InputMfthod drfbtfInputMfthod() throws Exdfption;
+
+    /**
+     * rfturns supportfd lodblf. Currfntly this mfthod rfturns thf lodblf in whidh
+     * thf VM is stbrtfd sindf Solbris dofsn't providf b wby to dftfrminf thf login lodblf.
+     */
+    stbtid Lodblf gftSupportfdLodblf() {
+        rfturn SunToolkit.gftStbrtupLodblf();
+    }
+}

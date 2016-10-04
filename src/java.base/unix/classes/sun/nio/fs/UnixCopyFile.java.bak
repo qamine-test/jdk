@@ -1,616 +1,616 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import com.sun.nio.file.ExtendedCopyOption;
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import jbvb.util.dondurrfnt.TimfUnit;
+import dom.sun.nio.filf.ExtfndfdCopyOption;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.UnixConstants.*;
+import stbtid sun.nio.fs.UnixNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.UnixConstbnts.*;
 
 
 /**
- * Unix implementation of Path#copyTo and Path#moveTo methods.
+ * Unix implfmfntbtion of Pbti#dopyTo bnd Pbti#movfTo mftiods.
  */
 
-class UnixCopyFile {
-    private UnixCopyFile() {  }
+dlbss UnixCopyFilf {
+    privbtf UnixCopyFilf() {  }
 
-    // The flags that control how a file is copied or moved
-    private static class Flags {
-        boolean replaceExisting;
-        boolean atomicMove;
-        boolean followLinks;
-        boolean interruptible;
+    // Tif flbgs tibt dontrol iow b filf is dopifd or movfd
+    privbtf stbtid dlbss Flbgs {
+        boolfbn rfplbdfExisting;
+        boolfbn btomidMovf;
+        boolfbn followLinks;
+        boolfbn intfrruptiblf;
 
-        // the attributes to copy
-        boolean copyBasicAttributes;
-        boolean copyPosixAttributes;
-        boolean copyNonPosixAttributes;
+        // tif bttributfs to dopy
+        boolfbn dopyBbsidAttributfs;
+        boolfbn dopyPosixAttributfs;
+        boolfbn dopyNonPosixAttributfs;
 
-        // flags that indicate if we should fail if attributes cannot be copied
-        boolean failIfUnableToCopyBasic;
-        boolean failIfUnableToCopyPosix;
-        boolean failIfUnableToCopyNonPosix;
+        // flbgs tibt indidbtf if wf siould fbil if bttributfs dbnnot bf dopifd
+        boolfbn fbilIfUnbblfToCopyBbsid;
+        boolfbn fbilIfUnbblfToCopyPosix;
+        boolfbn fbilIfUnbblfToCopyNonPosix;
 
-        static Flags fromCopyOptions(CopyOption... options) {
-            Flags flags = new Flags();
-            flags.followLinks = true;
+        stbtid Flbgs fromCopyOptions(CopyOption... options) {
+            Flbgs flbgs = nfw Flbgs();
+            flbgs.followLinks = truf;
             for (CopyOption option: options) {
-                if (option == StandardCopyOption.REPLACE_EXISTING) {
-                    flags.replaceExisting = true;
-                    continue;
+                if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                    flbgs.rfplbdfExisting = truf;
+                    dontinuf;
                 }
                 if (option == LinkOption.NOFOLLOW_LINKS) {
-                    flags.followLinks = false;
-                    continue;
+                    flbgs.followLinks = fblsf;
+                    dontinuf;
                 }
-                if (option == StandardCopyOption.COPY_ATTRIBUTES) {
-                    // copy all attributes but only fail if basic attributes
-                    // cannot be copied
-                    flags.copyBasicAttributes = true;
-                    flags.copyPosixAttributes = true;
-                    flags.copyNonPosixAttributes = true;
-                    flags.failIfUnableToCopyBasic = true;
-                    continue;
+                if (option == StbndbrdCopyOption.COPY_ATTRIBUTES) {
+                    // dopy bll bttributfs but only fbil if bbsid bttributfs
+                    // dbnnot bf dopifd
+                    flbgs.dopyBbsidAttributfs = truf;
+                    flbgs.dopyPosixAttributfs = truf;
+                    flbgs.dopyNonPosixAttributfs = truf;
+                    flbgs.fbilIfUnbblfToCopyBbsid = truf;
+                    dontinuf;
                 }
-                if (option == ExtendedCopyOption.INTERRUPTIBLE) {
-                    flags.interruptible = true;
-                    continue;
+                if (option == ExtfndfdCopyOption.INTERRUPTIBLE) {
+                    flbgs.intfrruptiblf = truf;
+                    dontinuf;
                 }
                 if (option == null)
-                    throw new NullPointerException();
-                throw new UnsupportedOperationException("Unsupported copy option");
+                    tirow nfw NullPointfrExdfption();
+                tirow nfw UnsupportfdOpfrbtionExdfption("Unsupportfd dopy option");
             }
-            return flags;
+            rfturn flbgs;
         }
 
-        static Flags fromMoveOptions(CopyOption... options) {
-            Flags flags = new Flags();
+        stbtid Flbgs fromMovfOptions(CopyOption... options) {
+            Flbgs flbgs = nfw Flbgs();
             for (CopyOption option: options) {
-                if (option == StandardCopyOption.ATOMIC_MOVE) {
-                    flags.atomicMove = true;
-                    continue;
+                if (option == StbndbrdCopyOption.ATOMIC_MOVE) {
+                    flbgs.btomidMovf = truf;
+                    dontinuf;
                 }
-                if (option == StandardCopyOption.REPLACE_EXISTING) {
-                    flags.replaceExisting = true;
-                    continue;
+                if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                    flbgs.rfplbdfExisting = truf;
+                    dontinuf;
                 }
                 if (option == LinkOption.NOFOLLOW_LINKS) {
-                    // ignore
-                    continue;
+                    // ignorf
+                    dontinuf;
                 }
                 if (option == null)
-                    throw new NullPointerException();
-                throw new UnsupportedOperationException("Unsupported copy option");
+                    tirow nfw NullPointfrExdfption();
+                tirow nfw UnsupportfdOpfrbtionExdfption("Unsupportfd dopy option");
             }
 
-            // a move requires that all attributes be copied but only fail if
-            // the basic attributes cannot be copied
-            flags.copyBasicAttributes = true;
-            flags.copyPosixAttributes = true;
-            flags.copyNonPosixAttributes = true;
-            flags.failIfUnableToCopyBasic = true;
-            return flags;
+            // b movf rfquirfs tibt bll bttributfs bf dopifd but only fbil if
+            // tif bbsid bttributfs dbnnot bf dopifd
+            flbgs.dopyBbsidAttributfs = truf;
+            flbgs.dopyPosixAttributfs = truf;
+            flbgs.dopyNonPosixAttributfs = truf;
+            flbgs.fbilIfUnbblfToCopyBbsid = truf;
+            rfturn flbgs;
         }
     }
 
-    // copy directory from source to target
-    private static void copyDirectory(UnixPath source,
-                                      UnixFileAttributes attrs,
-                                      UnixPath target,
-                                      Flags flags)
-        throws IOException
+    // dopy dirfdtory from sourdf to tbrgft
+    privbtf stbtid void dopyDirfdtory(UnixPbti sourdf,
+                                      UnixFilfAttributfs bttrs,
+                                      UnixPbti tbrgft,
+                                      Flbgs flbgs)
+        tirows IOExdfption
     {
         try {
-            mkdir(target, attrs.mode());
-        } catch (UnixException x) {
-            x.rethrowAsIOException(target);
+            mkdir(tbrgft, bttrs.modf());
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(tbrgft);
         }
 
-        // no attributes to copy
-        if (!flags.copyBasicAttributes &&
-            !flags.copyPosixAttributes &&
-            !flags.copyNonPosixAttributes) return;
+        // no bttributfs to dopy
+        if (!flbgs.dopyBbsidAttributfs &&
+            !flbgs.dopyPosixAttributfs &&
+            !flbgs.dopyNonPosixAttributfs) rfturn;
 
-        // open target directory if possible (this can fail when copying a
-        // directory for which we don't have read access).
+        // opfn tbrgft dirfdtory if possiblf (tiis dbn fbil wifn dopying b
+        // dirfdtory for wiidi wf don't ibvf rfbd bddfss).
         int dfd = -1;
         try {
-            dfd = open(target, O_RDONLY, 0);
-        } catch (UnixException x) {
-            // access to target directory required to copy named attributes
-            if (flags.copyNonPosixAttributes && flags.failIfUnableToCopyNonPosix) {
-                try { rmdir(target); } catch (UnixException ignore) { }
-                x.rethrowAsIOException(target);
+            dfd = opfn(tbrgft, O_RDONLY, 0);
+        } dbtdi (UnixExdfption x) {
+            // bddfss to tbrgft dirfdtory rfquirfd to dopy nbmfd bttributfs
+            if (flbgs.dopyNonPosixAttributfs && flbgs.fbilIfUnbblfToCopyNonPosix) {
+                try { rmdir(tbrgft); } dbtdi (UnixExdfption ignorf) { }
+                x.rftirowAsIOExdfption(tbrgft);
             }
         }
 
-        boolean done = false;
+        boolfbn donf = fblsf;
         try {
-            // copy owner/group/permissions
-            if (flags.copyPosixAttributes){
+            // dopy ownfr/group/pfrmissions
+            if (flbgs.dopyPosixAttributfs){
                 try {
                     if (dfd >= 0) {
-                        fchown(dfd, attrs.uid(), attrs.gid());
-                        fchmod(dfd, attrs.mode());
-                    } else {
-                        chown(target, attrs.uid(), attrs.gid());
-                        chmod(target, attrs.mode());
+                        fdiown(dfd, bttrs.uid(), bttrs.gid());
+                        fdimod(dfd, bttrs.modf());
+                    } flsf {
+                        diown(tbrgft, bttrs.uid(), bttrs.gid());
+                        dimod(tbrgft, bttrs.modf());
                     }
-                } catch (UnixException x) {
-                    // unable to set owner/group
-                    if (flags.failIfUnableToCopyPosix)
-                        x.rethrowAsIOException(target);
+                } dbtdi (UnixExdfption x) {
+                    // unbblf to sft ownfr/group
+                    if (flbgs.fbilIfUnbblfToCopyPosix)
+                        x.rftirowAsIOExdfption(tbrgft);
                 }
             }
-            // copy other attributes
-            if (flags.copyNonPosixAttributes && (dfd >= 0)) {
+            // dopy otifr bttributfs
+            if (flbgs.dopyNonPosixAttributfs && (dfd >= 0)) {
                 int sfd = -1;
                 try {
-                    sfd = open(source, O_RDONLY, 0);
-                } catch (UnixException x) {
-                    if (flags.failIfUnableToCopyNonPosix)
-                        x.rethrowAsIOException(source);
+                    sfd = opfn(sourdf, O_RDONLY, 0);
+                } dbtdi (UnixExdfption x) {
+                    if (flbgs.fbilIfUnbblfToCopyNonPosix)
+                        x.rftirowAsIOExdfption(sourdf);
                 }
                 if (sfd >= 0) {
-                    source.getFileSystem().copyNonPosixAttributes(sfd, dfd);
-                    close(sfd);
+                    sourdf.gftFilfSystfm().dopyNonPosixAttributfs(sfd, dfd);
+                    dlosf(sfd);
                 }
             }
-            // copy time stamps last
-            if (flags.copyBasicAttributes) {
+            // dopy timf stbmps lbst
+            if (flbgs.dopyBbsidAttributfs) {
                 try {
-                    if (dfd >= 0 && futimesSupported()) {
-                        futimes(dfd,
-                                attrs.lastAccessTime().to(TimeUnit.MICROSECONDS),
-                                attrs.lastModifiedTime().to(TimeUnit.MICROSECONDS));
-                    } else {
-                        utimes(target,
-                               attrs.lastAccessTime().to(TimeUnit.MICROSECONDS),
-                               attrs.lastModifiedTime().to(TimeUnit.MICROSECONDS));
+                    if (dfd >= 0 && futimfsSupportfd()) {
+                        futimfs(dfd,
+                                bttrs.lbstAddfssTimf().to(TimfUnit.MICROSECONDS),
+                                bttrs.lbstModififdTimf().to(TimfUnit.MICROSECONDS));
+                    } flsf {
+                        utimfs(tbrgft,
+                               bttrs.lbstAddfssTimf().to(TimfUnit.MICROSECONDS),
+                               bttrs.lbstModififdTimf().to(TimfUnit.MICROSECONDS));
                     }
-                } catch (UnixException x) {
-                    // unable to set times
-                    if (flags.failIfUnableToCopyBasic)
-                        x.rethrowAsIOException(target);
+                } dbtdi (UnixExdfption x) {
+                    // unbblf to sft timfs
+                    if (flbgs.fbilIfUnbblfToCopyBbsid)
+                        x.rftirowAsIOExdfption(tbrgft);
                 }
             }
-            done = true;
-        } finally {
+            donf = truf;
+        } finblly {
             if (dfd >= 0)
-                close(dfd);
-            if (!done) {
-                // rollback
-                try { rmdir(target); } catch (UnixException ignore) { }
+                dlosf(dfd);
+            if (!donf) {
+                // rollbbdk
+                try { rmdir(tbrgft); } dbtdi (UnixExdfption ignorf) { }
             }
         }
     }
 
-    // copy regular file from source to target
-    private static void copyFile(UnixPath source,
-                                 UnixFileAttributes attrs,
-                                 UnixPath  target,
-                                 Flags flags,
-                                 long addressToPollForCancel)
-        throws IOException
+    // dopy rfgulbr filf from sourdf to tbrgft
+    privbtf stbtid void dopyFilf(UnixPbti sourdf,
+                                 UnixFilfAttributfs bttrs,
+                                 UnixPbti  tbrgft,
+                                 Flbgs flbgs,
+                                 long bddrfssToPollForCbndfl)
+        tirows IOExdfption
     {
         int fi = -1;
         try {
-            fi = open(source, O_RDONLY, 0);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(source);
+            fi = opfn(sourdf, O_RDONLY, 0);
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(sourdf);
         }
 
         try {
-            // open new file
+            // opfn nfw filf
             int fo = -1;
             try {
-                fo = open(target,
+                fo = opfn(tbrgft,
                            (O_WRONLY |
                             O_CREAT |
                             O_EXCL),
-                           attrs.mode());
-            } catch (UnixException x) {
-                x.rethrowAsIOException(target);
+                           bttrs.modf());
+            } dbtdi (UnixExdfption x) {
+                x.rftirowAsIOExdfption(tbrgft);
             }
 
-            // set to true when file and attributes copied
-            boolean complete = false;
+            // sft to truf wifn filf bnd bttributfs dopifd
+            boolfbn domplftf = fblsf;
             try {
-                // transfer bytes to target file
+                // trbnsffr bytfs to tbrgft filf
                 try {
-                    transfer(fo, fi, addressToPollForCancel);
-                } catch (UnixException x) {
-                    x.rethrowAsIOException(source, target);
+                    trbnsffr(fo, fi, bddrfssToPollForCbndfl);
+                } dbtdi (UnixExdfption x) {
+                    x.rftirowAsIOExdfption(sourdf, tbrgft);
                 }
-                // copy owner/permissions
-                if (flags.copyPosixAttributes) {
+                // dopy ownfr/pfrmissions
+                if (flbgs.dopyPosixAttributfs) {
                     try {
-                        fchown(fo, attrs.uid(), attrs.gid());
-                        fchmod(fo, attrs.mode());
-                    } catch (UnixException x) {
-                        if (flags.failIfUnableToCopyPosix)
-                            x.rethrowAsIOException(target);
+                        fdiown(fo, bttrs.uid(), bttrs.gid());
+                        fdimod(fo, bttrs.modf());
+                    } dbtdi (UnixExdfption x) {
+                        if (flbgs.fbilIfUnbblfToCopyPosix)
+                            x.rftirowAsIOExdfption(tbrgft);
                     }
                 }
-                // copy non POSIX attributes (depends on file system)
-                if (flags.copyNonPosixAttributes) {
-                    source.getFileSystem().copyNonPosixAttributes(fi, fo);
+                // dopy non POSIX bttributfs (dfpfnds on filf systfm)
+                if (flbgs.dopyNonPosixAttributfs) {
+                    sourdf.gftFilfSystfm().dopyNonPosixAttributfs(fi, fo);
                 }
-                // copy time attributes
-                if (flags.copyBasicAttributes) {
+                // dopy timf bttributfs
+                if (flbgs.dopyBbsidAttributfs) {
                     try {
-                        if (futimesSupported()) {
-                            futimes(fo,
-                                    attrs.lastAccessTime().to(TimeUnit.MICROSECONDS),
-                                    attrs.lastModifiedTime().to(TimeUnit.MICROSECONDS));
-                        } else {
-                            utimes(target,
-                                   attrs.lastAccessTime().to(TimeUnit.MICROSECONDS),
-                                   attrs.lastModifiedTime().to(TimeUnit.MICROSECONDS));
+                        if (futimfsSupportfd()) {
+                            futimfs(fo,
+                                    bttrs.lbstAddfssTimf().to(TimfUnit.MICROSECONDS),
+                                    bttrs.lbstModififdTimf().to(TimfUnit.MICROSECONDS));
+                        } flsf {
+                            utimfs(tbrgft,
+                                   bttrs.lbstAddfssTimf().to(TimfUnit.MICROSECONDS),
+                                   bttrs.lbstModififdTimf().to(TimfUnit.MICROSECONDS));
                         }
-                    } catch (UnixException x) {
-                        if (flags.failIfUnableToCopyBasic)
-                            x.rethrowAsIOException(target);
+                    } dbtdi (UnixExdfption x) {
+                        if (flbgs.fbilIfUnbblfToCopyBbsid)
+                            x.rftirowAsIOExdfption(tbrgft);
                     }
                 }
-                complete = true;
-            } finally {
-                close(fo);
+                domplftf = truf;
+            } finblly {
+                dlosf(fo);
 
-                // copy of file or attributes failed so rollback
-                if (!complete) {
+                // dopy of filf or bttributfs fbilfd so rollbbdk
+                if (!domplftf) {
                     try {
-                        unlink(target);
-                    } catch (UnixException ignore) { }
+                        unlink(tbrgft);
+                    } dbtdi (UnixExdfption ignorf) { }
                 }
             }
-        } finally {
-            close(fi);
+        } finblly {
+            dlosf(fi);
         }
     }
 
-    // copy symbolic link from source to target
-    private static void copyLink(UnixPath source,
-                                 UnixFileAttributes attrs,
-                                 UnixPath  target,
-                                 Flags flags)
-        throws IOException
+    // dopy symbolid link from sourdf to tbrgft
+    privbtf stbtid void dopyLink(UnixPbti sourdf,
+                                 UnixFilfAttributfs bttrs,
+                                 UnixPbti  tbrgft,
+                                 Flbgs flbgs)
+        tirows IOExdfption
     {
-        byte[] linktarget = null;
+        bytf[] linktbrgft = null;
         try {
-            linktarget = readlink(source);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(source);
+            linktbrgft = rfbdlink(sourdf);
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(sourdf);
         }
         try {
-            symlink(linktarget, target);
+            symlink(linktbrgft, tbrgft);
 
-            if (flags.copyPosixAttributes) {
+            if (flbgs.dopyPosixAttributfs) {
                 try {
-                    lchown(target, attrs.uid(), attrs.gid());
-                } catch (UnixException x) {
-                    // ignore since link attributes not required to be copied
+                    ldiown(tbrgft, bttrs.uid(), bttrs.gid());
+                } dbtdi (UnixExdfption x) {
+                    // ignorf sindf link bttributfs not rfquirfd to bf dopifd
                 }
             }
-        } catch (UnixException x) {
-            x.rethrowAsIOException(target);
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(tbrgft);
         }
     }
 
-    // copy special file from source to target
-    private static void copySpecial(UnixPath source,
-                                    UnixFileAttributes attrs,
-                                    UnixPath  target,
-                                    Flags flags)
-        throws IOException
+    // dopy spfdibl filf from sourdf to tbrgft
+    privbtf stbtid void dopySpfdibl(UnixPbti sourdf,
+                                    UnixFilfAttributfs bttrs,
+                                    UnixPbti  tbrgft,
+                                    Flbgs flbgs)
+        tirows IOExdfption
     {
         try {
-            mknod(target, attrs.mode(), attrs.rdev());
-        } catch (UnixException x) {
-            x.rethrowAsIOException(target);
+            mknod(tbrgft, bttrs.modf(), bttrs.rdfv());
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(tbrgft);
         }
-        boolean done = false;
+        boolfbn donf = fblsf;
         try {
-            if (flags.copyPosixAttributes) {
+            if (flbgs.dopyPosixAttributfs) {
                 try {
-                    chown(target, attrs.uid(), attrs.gid());
-                    chmod(target, attrs.mode());
-                } catch (UnixException x) {
-                    if (flags.failIfUnableToCopyPosix)
-                        x.rethrowAsIOException(target);
+                    diown(tbrgft, bttrs.uid(), bttrs.gid());
+                    dimod(tbrgft, bttrs.modf());
+                } dbtdi (UnixExdfption x) {
+                    if (flbgs.fbilIfUnbblfToCopyPosix)
+                        x.rftirowAsIOExdfption(tbrgft);
                 }
             }
-            if (flags.copyBasicAttributes) {
+            if (flbgs.dopyBbsidAttributfs) {
                 try {
-                    utimes(target,
-                           attrs.lastAccessTime().to(TimeUnit.MICROSECONDS),
-                           attrs.lastModifiedTime().to(TimeUnit.MICROSECONDS));
-                } catch (UnixException x) {
-                    if (flags.failIfUnableToCopyBasic)
-                        x.rethrowAsIOException(target);
+                    utimfs(tbrgft,
+                           bttrs.lbstAddfssTimf().to(TimfUnit.MICROSECONDS),
+                           bttrs.lbstModififdTimf().to(TimfUnit.MICROSECONDS));
+                } dbtdi (UnixExdfption x) {
+                    if (flbgs.fbilIfUnbblfToCopyBbsid)
+                        x.rftirowAsIOExdfption(tbrgft);
                 }
             }
-            done = true;
-        } finally {
-            if (!done) {
-                try { unlink(target); } catch (UnixException ignore) { }
+            donf = truf;
+        } finblly {
+            if (!donf) {
+                try { unlink(tbrgft); } dbtdi (UnixExdfption ignorf) { }
             }
         }
     }
 
-    // move file from source to target
-    static void move(UnixPath source, UnixPath target, CopyOption... options)
-        throws IOException
+    // movf filf from sourdf to tbrgft
+    stbtid void movf(UnixPbti sourdf, UnixPbti tbrgft, CopyOption... options)
+        tirows IOExdfption
     {
-        // permission check
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            source.checkWrite();
-            target.checkWrite();
+            sourdf.difdkWritf();
+            tbrgft.difdkWritf();
         }
 
-        // translate options into flags
-        Flags flags = Flags.fromMoveOptions(options);
+        // trbnslbtf options into flbgs
+        Flbgs flbgs = Flbgs.fromMovfOptions(options);
 
-        // handle atomic rename case
-        if (flags.atomicMove) {
+        // ibndlf btomid rfnbmf dbsf
+        if (flbgs.btomidMovf) {
             try {
-                rename(source, target);
-            } catch (UnixException x) {
-                if (x.errno() == EXDEV) {
-                    throw new AtomicMoveNotSupportedException(
-                        source.getPathForExceptionMessage(),
-                        target.getPathForExceptionMessage(),
-                        x.errorString());
+                rfnbmf(sourdf, tbrgft);
+            } dbtdi (UnixExdfption x) {
+                if (x.frrno() == EXDEV) {
+                    tirow nfw AtomidMovfNotSupportfdExdfption(
+                        sourdf.gftPbtiForExdfptionMfssbgf(),
+                        tbrgft.gftPbtiForExdfptionMfssbgf(),
+                        x.frrorString());
                 }
-                x.rethrowAsIOException(source, target);
+                x.rftirowAsIOExdfption(sourdf, tbrgft);
             }
-            return;
+            rfturn;
         }
 
-        // move using rename or copy+delete
-        UnixFileAttributes sourceAttrs = null;
-        UnixFileAttributes targetAttrs = null;
+        // movf using rfnbmf or dopy+dflftf
+        UnixFilfAttributfs sourdfAttrs = null;
+        UnixFilfAttributfs tbrgftAttrs = null;
 
-        // get attributes of source file (don't follow links)
+        // gft bttributfs of sourdf filf (don't follow links)
         try {
-            sourceAttrs = UnixFileAttributes.get(source, false);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(source);
+            sourdfAttrs = UnixFilfAttributfs.gft(sourdf, fblsf);
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(sourdf);
         }
 
-        // get attributes of target file (don't follow links)
+        // gft bttributfs of tbrgft filf (don't follow links)
         try {
-            targetAttrs = UnixFileAttributes.get(target, false);
-        } catch (UnixException x) {
-            // ignore
+            tbrgftAttrs = UnixFilfAttributfs.gft(tbrgft, fblsf);
+        } dbtdi (UnixExdfption x) {
+            // ignorf
         }
-        boolean targetExists = (targetAttrs != null);
+        boolfbn tbrgftExists = (tbrgftAttrs != null);
 
-        // if the target exists:
-        // 1. check if source and target are the same file
-        // 2. throw exception if REPLACE_EXISTING option is not set
-        // 3. delete target if REPLACE_EXISTING option set
-        if (targetExists) {
-            if (sourceAttrs.isSameFile(targetAttrs))
-                return;  // nothing to do as files are identical
-            if (!flags.replaceExisting) {
-                throw new FileAlreadyExistsException(
-                    target.getPathForExceptionMessage());
+        // if tif tbrgft fxists:
+        // 1. difdk if sourdf bnd tbrgft brf tif sbmf filf
+        // 2. tirow fxdfption if REPLACE_EXISTING option is not sft
+        // 3. dflftf tbrgft if REPLACE_EXISTING option sft
+        if (tbrgftExists) {
+            if (sourdfAttrs.isSbmfFilf(tbrgftAttrs))
+                rfturn;  // notiing to do bs filfs brf idfntidbl
+            if (!flbgs.rfplbdfExisting) {
+                tirow nfw FilfAlrfbdyExistsExdfption(
+                    tbrgft.gftPbtiForExdfptionMfssbgf());
             }
 
-            // attempt to delete target
+            // bttfmpt to dflftf tbrgft
             try {
-                if (targetAttrs.isDirectory()) {
-                    rmdir(target);
-                } else {
-                    unlink(target);
+                if (tbrgftAttrs.isDirfdtory()) {
+                    rmdir(tbrgft);
+                } flsf {
+                    unlink(tbrgft);
                 }
-            } catch (UnixException x) {
-                // target is non-empty directory that can't be replaced.
-                if (targetAttrs.isDirectory() &&
-                   (x.errno() == EEXIST || x.errno() == ENOTEMPTY))
+            } dbtdi (UnixExdfption x) {
+                // tbrgft is non-fmpty dirfdtory tibt dbn't bf rfplbdfd.
+                if (tbrgftAttrs.isDirfdtory() &&
+                   (x.frrno() == EEXIST || x.frrno() == ENOTEMPTY))
                 {
-                    throw new DirectoryNotEmptyException(
-                        target.getPathForExceptionMessage());
+                    tirow nfw DirfdtoryNotEmptyExdfption(
+                        tbrgft.gftPbtiForExdfptionMfssbgf());
                 }
-                x.rethrowAsIOException(target);
+                x.rftirowAsIOExdfption(tbrgft);
             }
         }
 
-        // first try rename
+        // first try rfnbmf
         try {
-            rename(source, target);
-            return;
-        } catch (UnixException x) {
-            if (x.errno() != EXDEV && x.errno() != EISDIR) {
-                x.rethrowAsIOException(source, target);
+            rfnbmf(sourdf, tbrgft);
+            rfturn;
+        } dbtdi (UnixExdfption x) {
+            if (x.frrno() != EXDEV && x.frrno() != EISDIR) {
+                x.rftirowAsIOExdfption(sourdf, tbrgft);
             }
         }
 
-        // copy source to target
-        if (sourceAttrs.isDirectory()) {
-            copyDirectory(source, sourceAttrs, target, flags);
-        } else {
-            if (sourceAttrs.isSymbolicLink()) {
-                copyLink(source, sourceAttrs, target, flags);
-            } else {
-                if (sourceAttrs.isDevice()) {
-                    copySpecial(source, sourceAttrs, target, flags);
-                } else {
-                    copyFile(source, sourceAttrs, target, flags, 0L);
+        // dopy sourdf to tbrgft
+        if (sourdfAttrs.isDirfdtory()) {
+            dopyDirfdtory(sourdf, sourdfAttrs, tbrgft, flbgs);
+        } flsf {
+            if (sourdfAttrs.isSymbolidLink()) {
+                dopyLink(sourdf, sourdfAttrs, tbrgft, flbgs);
+            } flsf {
+                if (sourdfAttrs.isDfvidf()) {
+                    dopySpfdibl(sourdf, sourdfAttrs, tbrgft, flbgs);
+                } flsf {
+                    dopyFilf(sourdf, sourdfAttrs, tbrgft, flbgs, 0L);
                 }
             }
         }
 
-        // delete source
+        // dflftf sourdf
         try {
-            if (sourceAttrs.isDirectory()) {
-                rmdir(source);
-            } else {
-                unlink(source);
+            if (sourdfAttrs.isDirfdtory()) {
+                rmdir(sourdf);
+            } flsf {
+                unlink(sourdf);
             }
-        } catch (UnixException x) {
-            // file was copied but unable to unlink the source file so attempt
-            // to remove the target and throw a reasonable exception
+        } dbtdi (UnixExdfption x) {
+            // filf wbs dopifd but unbblf to unlink tif sourdf filf so bttfmpt
+            // to rfmovf tif tbrgft bnd tirow b rfbsonbblf fxdfption
             try {
-                if (sourceAttrs.isDirectory()) {
-                    rmdir(target);
-                } else {
-                    unlink(target);
+                if (sourdfAttrs.isDirfdtory()) {
+                    rmdir(tbrgft);
+                } flsf {
+                    unlink(tbrgft);
                 }
-            } catch (UnixException ignore) { }
+            } dbtdi (UnixExdfption ignorf) { }
 
-            if (sourceAttrs.isDirectory() &&
-                (x.errno() == EEXIST || x.errno() == ENOTEMPTY))
+            if (sourdfAttrs.isDirfdtory() &&
+                (x.frrno() == EEXIST || x.frrno() == ENOTEMPTY))
             {
-                throw new DirectoryNotEmptyException(
-                    source.getPathForExceptionMessage());
+                tirow nfw DirfdtoryNotEmptyExdfption(
+                    sourdf.gftPbtiForExdfptionMfssbgf());
             }
-            x.rethrowAsIOException(source);
+            x.rftirowAsIOExdfption(sourdf);
         }
     }
 
-    // copy file from source to target
-    static void copy(final UnixPath source,
-                     final UnixPath target,
-                     CopyOption... options) throws IOException
+    // dopy filf from sourdf to tbrgft
+    stbtid void dopy(finbl UnixPbti sourdf,
+                     finbl UnixPbti tbrgft,
+                     CopyOption... options) tirows IOExdfption
     {
-        // permission checks
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdks
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            source.checkRead();
-            target.checkWrite();
+            sourdf.difdkRfbd();
+            tbrgft.difdkWritf();
         }
 
-        // translate options into flags
-        final Flags flags = Flags.fromCopyOptions(options);
+        // trbnslbtf options into flbgs
+        finbl Flbgs flbgs = Flbgs.fromCopyOptions(options);
 
-        UnixFileAttributes sourceAttrs = null;
-        UnixFileAttributes targetAttrs = null;
+        UnixFilfAttributfs sourdfAttrs = null;
+        UnixFilfAttributfs tbrgftAttrs = null;
 
-        // get attributes of source file
+        // gft bttributfs of sourdf filf
         try {
-            sourceAttrs = UnixFileAttributes.get(source, flags.followLinks);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(source);
+            sourdfAttrs = UnixFilfAttributfs.gft(sourdf, flbgs.followLinks);
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(sourdf);
         }
 
-        // if source file is symbolic link then we must check LinkPermission
-        if (sm != null && sourceAttrs.isSymbolicLink()) {
-            sm.checkPermission(new LinkPermission("symbolic"));
+        // if sourdf filf is symbolid link tifn wf must difdk LinkPfrmission
+        if (sm != null && sourdfAttrs.isSymbolidLink()) {
+            sm.difdkPfrmission(nfw LinkPfrmission("symbolid"));
         }
 
-        // get attributes of target file (don't follow links)
+        // gft bttributfs of tbrgft filf (don't follow links)
         try {
-            targetAttrs = UnixFileAttributes.get(target, false);
-        } catch (UnixException x) {
-            // ignore
+            tbrgftAttrs = UnixFilfAttributfs.gft(tbrgft, fblsf);
+        } dbtdi (UnixExdfption x) {
+            // ignorf
         }
-        boolean targetExists = (targetAttrs != null);
+        boolfbn tbrgftExists = (tbrgftAttrs != null);
 
-        // if the target exists:
-        // 1. check if source and target are the same file
-        // 2. throw exception if REPLACE_EXISTING option is not set
-        // 3. try to unlink the target
-        if (targetExists) {
-            if (sourceAttrs.isSameFile(targetAttrs))
-                return;  // nothing to do as files are identical
-            if (!flags.replaceExisting)
-                throw new FileAlreadyExistsException(
-                    target.getPathForExceptionMessage());
+        // if tif tbrgft fxists:
+        // 1. difdk if sourdf bnd tbrgft brf tif sbmf filf
+        // 2. tirow fxdfption if REPLACE_EXISTING option is not sft
+        // 3. try to unlink tif tbrgft
+        if (tbrgftExists) {
+            if (sourdfAttrs.isSbmfFilf(tbrgftAttrs))
+                rfturn;  // notiing to do bs filfs brf idfntidbl
+            if (!flbgs.rfplbdfExisting)
+                tirow nfw FilfAlrfbdyExistsExdfption(
+                    tbrgft.gftPbtiForExdfptionMfssbgf());
             try {
-                if (targetAttrs.isDirectory()) {
-                    rmdir(target);
-                } else {
-                    unlink(target);
+                if (tbrgftAttrs.isDirfdtory()) {
+                    rmdir(tbrgft);
+                } flsf {
+                    unlink(tbrgft);
                 }
-            } catch (UnixException x) {
-                // target is non-empty directory that can't be replaced.
-                if (targetAttrs.isDirectory() &&
-                   (x.errno() == EEXIST || x.errno() == ENOTEMPTY))
+            } dbtdi (UnixExdfption x) {
+                // tbrgft is non-fmpty dirfdtory tibt dbn't bf rfplbdfd.
+                if (tbrgftAttrs.isDirfdtory() &&
+                   (x.frrno() == EEXIST || x.frrno() == ENOTEMPTY))
                 {
-                    throw new DirectoryNotEmptyException(
-                        target.getPathForExceptionMessage());
+                    tirow nfw DirfdtoryNotEmptyExdfption(
+                        tbrgft.gftPbtiForExdfptionMfssbgf());
                 }
-                x.rethrowAsIOException(target);
+                x.rftirowAsIOExdfption(tbrgft);
             }
         }
 
-        // do the copy
-        if (sourceAttrs.isDirectory()) {
-            copyDirectory(source, sourceAttrs, target, flags);
-            return;
+        // do tif dopy
+        if (sourdfAttrs.isDirfdtory()) {
+            dopyDirfdtory(sourdf, sourdfAttrs, tbrgft, flbgs);
+            rfturn;
         }
-        if (sourceAttrs.isSymbolicLink()) {
-            copyLink(source, sourceAttrs, target, flags);
-            return;
+        if (sourdfAttrs.isSymbolidLink()) {
+            dopyLink(sourdf, sourdfAttrs, tbrgft, flbgs);
+            rfturn;
         }
-        if (!flags.interruptible) {
-            // non-interruptible file copy
-            copyFile(source, sourceAttrs, target, flags, 0L);
-            return;
+        if (!flbgs.intfrruptiblf) {
+            // non-intfrruptiblf filf dopy
+            dopyFilf(sourdf, sourdfAttrs, tbrgft, flbgs, 0L);
+            rfturn;
         }
 
-        // interruptible file copy
-        final UnixFileAttributes attrsToCopy = sourceAttrs;
-        Cancellable copyTask = new Cancellable() {
-            @Override public void implRun() throws IOException {
-                copyFile(source, attrsToCopy, target, flags,
-                    addressToPollForCancel());
+        // intfrruptiblf filf dopy
+        finbl UnixFilfAttributfs bttrsToCopy = sourdfAttrs;
+        Cbndfllbblf dopyTbsk = nfw Cbndfllbblf() {
+            @Ovfrridf publid void implRun() tirows IOExdfption {
+                dopyFilf(sourdf, bttrsToCopy, tbrgft, flbgs,
+                    bddrfssToPollForCbndfl());
             }
         };
         try {
-            Cancellable.runInterruptibly(copyTask);
-        } catch (ExecutionException e) {
-            Throwable t = e.getCause();
-            if (t instanceof IOException)
-                throw (IOException)t;
-            throw new IOException(t);
+            Cbndfllbblf.runIntfrruptibly(dopyTbsk);
+        } dbtdi (ExfdutionExdfption f) {
+            Tirowbblf t = f.gftCbusf();
+            if (t instbndfof IOExdfption)
+                tirow (IOExdfption)t;
+            tirow nfw IOExdfption(t);
         }
     }
 
-    // -- native methods --
+    // -- nbtivf mftiods --
 
-    static native void transfer(int dst, int src, long addressToPollForCancel)
-        throws UnixException;
+    stbtid nbtivf void trbnsffr(int dst, int srd, long bddrfssToPollForCbndfl)
+        tirows UnixExdfption;
 
-    static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            @Override
-            public Void run() {
-                System.loadLibrary("nio");
-                return null;
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
             }});
     }
 

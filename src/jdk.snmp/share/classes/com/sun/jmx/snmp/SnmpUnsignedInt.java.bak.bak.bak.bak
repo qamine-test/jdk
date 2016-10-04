@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+/**
+ * Is thf bbsf for bll SNMP syntbxfs bbsfd on unsignfd intfgfrs.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpUnsignfdInt fxtfnds SnmpInt {
+
+    /**
+     * Thf lbrgfst vbluf of thf typf <dodf>unsignfd int</dodf> (2^32 - 1).
+     */
+    publid stbtid finbl long   MAX_VALUE = 0x0ffffffffL;
+
+    // CONSTRUCTORS
+    //-------------
+    /**
+     * Construdts b nfw <CODE>SnmpUnsignfdInt</CODE> from thf spfdififd intfgfr vbluf.
+     * @pbrbm v Thf initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd vbluf is nfgbtivf
+     * or lbrgfr thbn {@link #MAX_VALUE SnmpUnsignfdInt.MAX_VALUE}.
+     */
+    publid SnmpUnsignfdInt(int v) throws IllfgblArgumfntExdfption {
+        supfr(v);
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpUnsignfdInt</CODE> from thf spfdififd <CODE>Intfgfr</CODE> vbluf.
+     * @pbrbm v Thf initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd vbluf is nfgbtivf
+     * or lbrgfr thbn {@link #MAX_VALUE SnmpUnsignfdInt.MAX_VALUE}.
+     */
+    publid SnmpUnsignfdInt(Intfgfr v) throws IllfgblArgumfntExdfption {
+        supfr(v);
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpUnsignfdInt</CODE> from thf spfdififd long vbluf.
+     * @pbrbm v Thf initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd vbluf is nfgbtivf
+     * or lbrgfr thbn {@link #MAX_VALUE SnmpUnsignfdInt.MAX_VALUE}.
+     */
+    publid SnmpUnsignfdInt(long v) throws IllfgblArgumfntExdfption {
+        supfr(v);
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpUnsignfdInt</CODE> from thf spfdififd <CODE>Long</CODE> vbluf.
+     * @pbrbm v Thf initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd vbluf is nfgbtivf
+     * or lbrgfr thbn {@link #MAX_VALUE SnmpUnsignfdInt.MAX_VALUE}.
+     */
+    publid SnmpUnsignfdInt(Long v) throws IllfgblArgumfntExdfption {
+        supfr(v);
+    }
+
+    // PUBLIC METHODS
+    //---------------
+    /**
+     * Rfturns b tfxtubl dfsdription of thf typf objfdt.
+     * @rfturn ASN.1 tfxtubl dfsdription.
+     */
+    publid String gftTypfNbmf() {
+        rfturn nbmf ;
+    }
+
+    /**
+     * This mfthod hbs bffn dffinfd to bllow thf sub-dlbssfs
+     * of SnmpInt to pfrform thfir own dontrol bt intiblizbtion timf.
+     */
+    boolfbn isInitVblufVblid(int v) {
+        if ((v < 0) || (v > SnmpUnsignfdInt.MAX_VALUE)) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * This mfthod hbs bffn dffinfd to bllow thf sub-dlbssfs
+     * of SnmpInt to pfrform thfir own dontrol bt intiblizbtion timf.
+     */
+    boolfbn isInitVblufVblid(long v) {
+        if ((v < 0) || (v > SnmpUnsignfdInt.MAX_VALUE)) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    // VARIABLES
+    //----------
+    /**
+     * Nbmf of thf typf.
+     */
+    finbl stbtid String nbmf = "Unsignfd32" ;
+}

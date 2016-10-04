@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
 
-import javax.sound.midi.Instrument;
-import javax.sound.midi.Patch;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.SoundbankResource;
+import jbvbx.sound.midi.Instrumfnt;
+import jbvbx.sound.midi.Pbtdi;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkRfsourdf;
 
 /**
- * A simple soundbank that contains instruments and soundbankresources.
+ * A simplf soundbbnk tibt dontbins instrumfnts bnd soundbbnkrfsourdfs.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public class SimpleSoundbank implements Soundbank {
+publid dlbss SimplfSoundbbnk implfmfnts Soundbbnk {
 
-    String name = "";
-    String version = "";
-    String vendor = "";
-    String description = "";
-    List<SoundbankResource> resources = new ArrayList<SoundbankResource>();
-    List<Instrument> instruments = new ArrayList<Instrument>();
+    String nbmf = "";
+    String vfrsion = "";
+    String vfndor = "";
+    String dfsdription = "";
+    List<SoundbbnkRfsourdf> rfsourdfs = nfw ArrbyList<SoundbbnkRfsourdf>();
+    List<Instrumfnt> instrumfnts = nfw ArrbyList<Instrumfnt>();
 
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
-    public String getVersion() {
-        return version;
+    publid String gftVfrsion() {
+        rfturn vfrsion;
     }
 
-    public String getVendor() {
-        return vendor;
+    publid String gftVfndor() {
+        rfturn vfndor;
     }
 
-    public String getDescription() {
-        return description;
+    publid String gftDfsdription() {
+        rfturn dfsdription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    publid void sftDfsdription(String dfsdription) {
+        tiis.dfsdription = dfsdription;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    publid void sftNbmf(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
+    publid void sftVfndor(String vfndor) {
+        tiis.vfndor = vfndor;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    publid void sftVfrsion(String vfrsion) {
+        tiis.vfrsion = vfrsion;
     }
 
-    public SoundbankResource[] getResources() {
-        return resources.toArray(new SoundbankResource[resources.size()]);
+    publid SoundbbnkRfsourdf[] gftRfsourdfs() {
+        rfturn rfsourdfs.toArrby(nfw SoundbbnkRfsourdf[rfsourdfs.sizf()]);
     }
 
-    public Instrument[] getInstruments() {
-        Instrument[] inslist_array
-                = instruments.toArray(new Instrument[resources.size()]);
-        Arrays.sort(inslist_array, new ModelInstrumentComparator());
-        return inslist_array;
+    publid Instrumfnt[] gftInstrumfnts() {
+        Instrumfnt[] inslist_brrby
+                = instrumfnts.toArrby(nfw Instrumfnt[rfsourdfs.sizf()]);
+        Arrbys.sort(inslist_brrby, nfw ModflInstrumfntCompbrbtor());
+        rfturn inslist_brrby;
     }
 
-    public Instrument getInstrument(Patch patch) {
-        int program = patch.getProgram();
-        int bank = patch.getBank();
-        boolean percussion = false;
-        if (patch instanceof ModelPatch)
-            percussion = ((ModelPatch)patch).isPercussion();
-        for (Instrument instrument : instruments) {
-            Patch patch2 = instrument.getPatch();
-            int program2 = patch2.getProgram();
-            int bank2 = patch2.getBank();
-            if (program == program2 && bank == bank2) {
-                boolean percussion2 = false;
-                if (patch2 instanceof ModelPatch)
-                    percussion2 = ((ModelPatch)patch2).isPercussion();
-                if (percussion == percussion2)
-                    return instrument;
+    publid Instrumfnt gftInstrumfnt(Pbtdi pbtdi) {
+        int progrbm = pbtdi.gftProgrbm();
+        int bbnk = pbtdi.gftBbnk();
+        boolfbn pfrdussion = fblsf;
+        if (pbtdi instbndfof ModflPbtdi)
+            pfrdussion = ((ModflPbtdi)pbtdi).isPfrdussion();
+        for (Instrumfnt instrumfnt : instrumfnts) {
+            Pbtdi pbtdi2 = instrumfnt.gftPbtdi();
+            int progrbm2 = pbtdi2.gftProgrbm();
+            int bbnk2 = pbtdi2.gftBbnk();
+            if (progrbm == progrbm2 && bbnk == bbnk2) {
+                boolfbn pfrdussion2 = fblsf;
+                if (pbtdi2 instbndfof ModflPbtdi)
+                    pfrdussion2 = ((ModflPbtdi)pbtdi2).isPfrdussion();
+                if (pfrdussion == pfrdussion2)
+                    rfturn instrumfnt;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public void addResource(SoundbankResource resource) {
-        if (resource instanceof Instrument)
-            instruments.add((Instrument) resource);
-        else
-            resources.add(resource);
+    publid void bddRfsourdf(SoundbbnkRfsourdf rfsourdf) {
+        if (rfsourdf instbndfof Instrumfnt)
+            instrumfnts.bdd((Instrumfnt) rfsourdf);
+        flsf
+            rfsourdfs.bdd(rfsourdf);
     }
 
-    public void removeResource(SoundbankResource resource) {
-        if (resource instanceof Instrument)
-            instruments.remove((Instrument) resource);
-        else
-            resources.remove(resource);
+    publid void rfmovfRfsourdf(SoundbbnkRfsourdf rfsourdf) {
+        if (rfsourdf instbndfof Instrumfnt)
+            instrumfnts.rfmovf((Instrumfnt) rfsourdf);
+        flsf
+            rfsourdfs.rfmovf(rfsourdf);
     }
 
-    public void addInstrument(Instrument resource) {
-        instruments.add(resource);
+    publid void bddInstrumfnt(Instrumfnt rfsourdf) {
+        instrumfnts.bdd(rfsourdf);
     }
 
-    public void removeInstrument(Instrument resource) {
-        instruments.remove(resource);
+    publid void rfmovfInstrumfnt(Instrumfnt rfsourdf) {
+        instrumfnts.rfmovf(rfsourdf);
     }
 
-    public void addAllInstruments(Soundbank soundbank) {
-        for (Instrument ins : soundbank.getInstruments())
-            addInstrument(ins);
+    publid void bddAllInstrumfnts(Soundbbnk soundbbnk) {
+        for (Instrumfnt ins : soundbbnk.gftInstrumfnts())
+            bddInstrumfnt(ins);
     }
 
-    public void removeAllInstruments(Soundbank soundbank) {
-        for (Instrument ins : soundbank.getInstruments())
-            removeInstrument(ins);
+    publid void rfmovfAllInstrumfnts(Soundbbnk soundbbnk) {
+        for (Instrumfnt ins : soundbbnk.gftInstrumfnts())
+            rfmovfInstrumfnt(ins);
     }
 }

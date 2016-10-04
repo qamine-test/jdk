@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,606 +30,606 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.border.*;
-import javax.swing.tree.*;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.util.*;
+import jbvbx.swing.UIMbnbgfr.LookAndFfflInfo;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.trff.*;
 
 
 /**
- * A demo for illustrating how to do different things with JTree.
- * The data that this displays is rather boring, that is each node will
- * have 7 children that have random names based on the fonts.  Each node
- * is then drawn with that font and in a different color.
- * While the data isn't interesting the example illustrates a number
- * of things:
+ * A dfmo for illustrbting iow to do difffrfnt tiings witi JTrff.
+ * Tif dbtb tibt tiis displbys is rbtifr boring, tibt is fbdi nodf will
+ * ibvf 7 diildrfn tibt ibvf rbndom nbmfs bbsfd on tif fonts.  Ebdi nodf
+ * is tifn drbwn witi tibt font bnd in b difffrfnt dolor.
+ * Wiilf tif dbtb isn't intfrfsting tif fxbmplf illustrbtfs b numbfr
+ * of tiings:
  *
- * For an example of dynamicaly loading children refer to DynamicTreeNode.
- * For an example of adding/removing/inserting/reloading refer to the inner
- *     classes of this class, AddAction, RemovAction, InsertAction and
- *     ReloadAction.
- * For an example of creating your own cell renderer refer to
- *     SampleTreeCellRenderer.
- * For an example of subclassing JTreeModel for editing refer to
- *     SampleTreeModel.
+ * For bn fxbmplf of dynbmidbly lobding diildrfn rfffr to DynbmidTrffNodf.
+ * For bn fxbmplf of bdding/rfmoving/insfrting/rflobding rfffr to tif innfr
+ *     dlbssfs of tiis dlbss, AddAdtion, RfmovAdtion, InsfrtAdtion bnd
+ *     RflobdAdtion.
+ * For bn fxbmplf of drfbting your own dfll rfndfrfr rfffr to
+ *     SbmplfTrffCfllRfndfrfr.
+ * For bn fxbmplf of subdlbssing JTrffModfl for fditing rfffr to
+ *     SbmplfTrffModfl.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-public final class SampleTree {
+publid finbl dlbss SbmplfTrff {
 
-    /** Window for showing Tree. */
-    protected JFrame frame;
-    /** Tree used for the example. */
-    protected JTree tree;
-    /** Tree model. */
-    protected DefaultTreeModel treeModel;
+    /** Window for siowing Trff. */
+    protfdtfd JFrbmf frbmf;
+    /** Trff usfd for tif fxbmplf. */
+    protfdtfd JTrff trff;
+    /** Trff modfl. */
+    protfdtfd DffbultTrffModfl trffModfl;
 
     /**
-     * Constructs a new instance of SampleTree.
+     * Construdts b nfw instbndf of SbmplfTrff.
      */
-    public SampleTree() {
-        // Trying to set Nimbus look and feel
+    publid SbmplfTrff() {
+        // Trying to sft Nimbus look bnd fffl
         try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            for (LookAndFfflInfo info : UIMbnbgfr.gftInstbllfdLookAndFffls()) {
+                if ("Nimbus".fqubls(info.gftNbmf())) {
+                    UIMbnbgfr.sftLookAndFffl(info.gftClbssNbmf());
+                    brfbk;
                 }
             }
-        } catch (Exception ignored) {
+        } dbtdi (Exdfption ignorfd) {
         }
 
-        JMenuBar menuBar = constructMenuBar();
-        JPanel panel = new JPanel(true);
+        JMfnuBbr mfnuBbr = donstrudtMfnuBbr();
+        JPbnfl pbnfl = nfw JPbnfl(truf);
 
-        frame = new JFrame("SampleTree");
-        frame.getContentPane().add("Center", panel);
-        frame.setJMenuBar(menuBar);
-        frame.setBackground(Color.lightGray);
+        frbmf = nfw JFrbmf("SbmplfTrff");
+        frbmf.gftContfntPbnf().bdd("Cfntfr", pbnfl);
+        frbmf.sftJMfnuBbr(mfnuBbr);
+        frbmf.sftBbdkground(Color.ligitGrby);
 
-        /* Create the JTreeModel. */
-        DefaultMutableTreeNode root = createNewNode("Root");
-        treeModel = new SampleTreeModel(root);
+        /* Crfbtf tif JTrffModfl. */
+        DffbultMutbblfTrffNodf root = drfbtfNfwNodf("Root");
+        trffModfl = nfw SbmplfTrffModfl(root);
 
-        /* Create the tree. */
-        tree = new JTree(treeModel);
+        /* Crfbtf tif trff. */
+        trff = nfw JTrff(trffModfl);
 
-        /* Enable tool tips for the tree, without this tool tips will not
-        be picked up. */
-        ToolTipManager.sharedInstance().registerComponent(tree);
+        /* Enbblf tool tips for tif trff, witiout tiis tool tips will not
+        bf pidkfd up. */
+        ToolTipMbnbgfr.sibrfdInstbndf().rfgistfrComponfnt(trff);
 
-        /* Make the tree use an instance of SampleTreeCellRenderer for
-        drawing. */
-        tree.setCellRenderer(new SampleTreeCellRenderer());
+        /* Mbkf tif trff usf bn instbndf of SbmplfTrffCfllRfndfrfr for
+        drbwing. */
+        trff.sftCfllRfndfrfr(nfw SbmplfTrffCfllRfndfrfr());
 
-        /* Make tree ask for the height of each row. */
-        tree.setRowHeight(-1);
+        /* Mbkf trff bsk for tif ifigit of fbdi row. */
+        trff.sftRowHfigit(-1);
 
-        /* Put the Tree in a scroller. */
-        JScrollPane sp = new JScrollPane();
-        sp.setPreferredSize(new Dimension(300, 300));
-        sp.getViewport().add(tree);
+        /* Put tif Trff in b sdrollfr. */
+        JSdrollPbnf sp = nfw JSdrollPbnf();
+        sp.sftPrfffrrfdSizf(nfw Dimfnsion(300, 300));
+        sp.gftVifwport().bdd(trff);
 
-        /* And show it. */
-        panel.setLayout(new BorderLayout());
-        panel.add("Center", sp);
-        panel.add("South", constructOptionsPanel());
+        /* And siow it. */
+        pbnfl.sftLbyout(nfw BordfrLbyout());
+        pbnfl.bdd("Cfntfr", sp);
+        pbnfl.bdd("Souti", donstrudtOptionsPbnfl());
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        frbmf.sftDffbultClosfOpfrbtion(JFrbmf.EXIT_ON_CLOSE);
+        frbmf.pbdk();
+        frbmf.sftVisiblf(truf);
     }
 
-    /** Constructs a JPanel containing check boxes for the different
-     * options that tree supports. */
-    @SuppressWarnings("serial")
-    private JPanel constructOptionsPanel() {
-        JCheckBox aCheckbox;
-        JPanel retPanel = new JPanel(false);
-        JPanel borderPane = new JPanel(false);
+    /** Construdts b JPbnfl dontbining difdk boxfs for tif difffrfnt
+     * options tibt trff supports. */
+    @SupprfssWbrnings("sfribl")
+    privbtf JPbnfl donstrudtOptionsPbnfl() {
+        JCifdkBox bCifdkbox;
+        JPbnfl rftPbnfl = nfw JPbnfl(fblsf);
+        JPbnfl bordfrPbnf = nfw JPbnfl(fblsf);
 
-        borderPane.setLayout(new BorderLayout());
-        retPanel.setLayout(new FlowLayout());
+        bordfrPbnf.sftLbyout(nfw BordfrLbyout());
+        rftPbnfl.sftLbyout(nfw FlowLbyout());
 
-        aCheckbox = new JCheckBox("show top level handles");
-        aCheckbox.setSelected(tree.getShowsRootHandles());
-        aCheckbox.addChangeListener(new ShowHandlesChangeListener());
-        retPanel.add(aCheckbox);
+        bCifdkbox = nfw JCifdkBox("siow top lfvfl ibndlfs");
+        bCifdkbox.sftSflfdtfd(trff.gftSiowsRootHbndlfs());
+        bCifdkbox.bddCibngfListfnfr(nfw SiowHbndlfsCibngfListfnfr());
+        rftPbnfl.bdd(bCifdkbox);
 
-        aCheckbox = new JCheckBox("show root");
-        aCheckbox.setSelected(tree.isRootVisible());
-        aCheckbox.addChangeListener(new ShowRootChangeListener());
-        retPanel.add(aCheckbox);
+        bCifdkbox = nfw JCifdkBox("siow root");
+        bCifdkbox.sftSflfdtfd(trff.isRootVisiblf());
+        bCifdkbox.bddCibngfListfnfr(nfw SiowRootCibngfListfnfr());
+        rftPbnfl.bdd(bCifdkbox);
 
-        aCheckbox = new JCheckBox("editable");
-        aCheckbox.setSelected(tree.isEditable());
-        aCheckbox.addChangeListener(new TreeEditableChangeListener());
-        aCheckbox.setToolTipText("Triple click to edit");
-        retPanel.add(aCheckbox);
+        bCifdkbox = nfw JCifdkBox("fditbblf");
+        bCifdkbox.sftSflfdtfd(trff.isEditbblf());
+        bCifdkbox.bddCibngfListfnfr(nfw TrffEditbblfCibngfListfnfr());
+        bCifdkbox.sftToolTipTfxt("Triplf dlidk to fdit");
+        rftPbnfl.bdd(bCifdkbox);
 
-        borderPane.add(retPanel, BorderLayout.CENTER);
+        bordfrPbnf.bdd(rftPbnfl, BordfrLbyout.CENTER);
 
-        /* Create a set of radio buttons that dictate what selection should
-        be allowed in the tree. */
-        ButtonGroup group = new ButtonGroup();
-        JPanel buttonPane = new JPanel(false);
-        JRadioButton button;
+        /* Crfbtf b sft of rbdio buttons tibt didtbtf wibt sflfdtion siould
+        bf bllowfd in tif trff. */
+        ButtonGroup group = nfw ButtonGroup();
+        JPbnfl buttonPbnf = nfw JPbnfl(fblsf);
+        JRbdioButton button;
 
-        buttonPane.setLayout(new FlowLayout());
-        buttonPane.setBorder(new TitledBorder("Selection Mode"));
-        button = new JRadioButton("Single");
-        button.addActionListener(new AbstractAction() {
+        buttonPbnf.sftLbyout(nfw FlowLbyout());
+        buttonPbnf.sftBordfr(nfw TitlfdBordfr("Sflfdtion Modf"));
+        button = nfw JRbdioButton("Singlf");
+        button.bddAdtionListfnfr(nfw AbstrbdtAdtion() {
 
-            @Override
-            public boolean isEnabled() {
-                return true;
+            @Ovfrridf
+            publid boolfbn isEnbblfd() {
+                rfturn truf;
             }
 
-            public void actionPerformed(ActionEvent e) {
-                tree.getSelectionModel().setSelectionMode(
-                        TreeSelectionModel.SINGLE_TREE_SELECTION);
-            }
-        });
-        group.add(button);
-        buttonPane.add(button);
-        button = new JRadioButton("Contiguous");
-        button.addActionListener(new AbstractAction() {
-
-            @Override
-            public boolean isEnabled() {
-                return true;
-            }
-
-            public void actionPerformed(ActionEvent e) {
-                tree.getSelectionModel().setSelectionMode(
-                        TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                trff.gftSflfdtionModfl().sftSflfdtionModf(
+                        TrffSflfdtionModfl.SINGLE_TREE_SELECTION);
             }
         });
-        group.add(button);
-        buttonPane.add(button);
-        button = new JRadioButton("Discontiguous");
-        button.addActionListener(new AbstractAction() {
+        group.bdd(button);
+        buttonPbnf.bdd(button);
+        button = nfw JRbdioButton("Contiguous");
+        button.bddAdtionListfnfr(nfw AbstrbdtAdtion() {
 
-            @Override
-            public boolean isEnabled() {
-                return true;
+            @Ovfrridf
+            publid boolfbn isEnbblfd() {
+                rfturn truf;
             }
 
-            public void actionPerformed(ActionEvent e) {
-                tree.getSelectionModel().setSelectionMode(
-                        TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                trff.gftSflfdtionModfl().sftSflfdtionModf(
+                        TrffSflfdtionModfl.CONTIGUOUS_TREE_SELECTION);
             }
         });
-        button.setSelected(true);
-        group.add(button);
-        buttonPane.add(button);
+        group.bdd(button);
+        buttonPbnf.bdd(button);
+        button = nfw JRbdioButton("Disdontiguous");
+        button.bddAdtionListfnfr(nfw AbstrbdtAdtion() {
 
-        borderPane.add(buttonPane, BorderLayout.SOUTH);
+            @Ovfrridf
+            publid boolfbn isEnbblfd() {
+                rfturn truf;
+            }
 
-        // NOTE: This will be enabled in a future release.
-        // Create a label and combobox to determine how many clicks are
-        // needed to expand.
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                trff.gftSflfdtionModfl().sftSflfdtionModf(
+                        TrffSflfdtionModfl.DISCONTIGUOUS_TREE_SELECTION);
+            }
+        });
+        button.sftSflfdtfd(truf);
+        group.bdd(button);
+        buttonPbnf.bdd(button);
+
+        bordfrPbnf.bdd(buttonPbnf, BordfrLbyout.SOUTH);
+
+        // NOTE: Tiis will bf fnbblfd in b futurf rflfbsf.
+        // Crfbtf b lbbfl bnd dombobox to dftfrminf iow mbny dlidks brf
+        // nffdfd to fxpbnd.
 /*
-        JPanel               clickPanel = new JPanel();
-        Object[]             values = { "Never", new Integer(1),
-        new Integer(2), new Integer(3) };
-        final JComboBox      clickCBox = new JComboBox(values);
+        JPbnfl               dlidkPbnfl = nfw JPbnfl();
+        Objfdt[]             vblufs = { "Nfvfr", nfw Intfgfr(1),
+        nfw Intfgfr(2), nfw Intfgfr(3) };
+        finbl JComboBox      dlidkCBox = nfw JComboBox(vblufs);
 
-        clickPanel.setLayout(new FlowLayout());
-        clickPanel.add(new JLabel("Click count to expand:"));
-        clickCBox.setSelectedIndex(2);
-        clickCBox.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent ae) {
-        Object       selItem = clickCBox.getSelectedItem();
+        dlidkPbnfl.sftLbyout(nfw FlowLbyout());
+        dlidkPbnfl.bdd(nfw JLbbfl("Clidk dount to fxpbnd:"));
+        dlidkCBox.sftSflfdtfdIndfx(2);
+        dlidkCBox.bddAdtionListfnfr(nfw AdtionListfnfr() {
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+        Objfdt       sflItfm = dlidkCBox.gftSflfdtfdItfm();
 
-        if(selItem instanceof Integer)
-        tree.setToggleClickCount(((Integer)selItem).intValue());
-        else // Don't toggle
-        tree.setToggleClickCount(0);
+        if(sflItfm instbndfof Intfgfr)
+        trff.sftTogglfClidkCount(((Intfgfr)sflItfm).intVbluf());
+        flsf // Don't togglf
+        trff.sftTogglfClidkCount(0);
         }
         });
-        clickPanel.add(clickCBox);
-        borderPane.add(clickPanel, BorderLayout.NORTH);
+        dlidkPbnfl.bdd(dlidkCBox);
+        bordfrPbnf.bdd(dlidkPbnfl, BordfrLbyout.NORTH);
          */
-        return borderPane;
+        rfturn bordfrPbnf;
     }
 
-    /** Construct a menu. */
-    private JMenuBar constructMenuBar() {
-        JMenu menu;
-        JMenuBar menuBar = new JMenuBar();
-        JMenuItem menuItem;
+    /** Construdt b mfnu. */
+    privbtf JMfnuBbr donstrudtMfnuBbr() {
+        JMfnu mfnu;
+        JMfnuBbr mfnuBbr = nfw JMfnuBbr();
+        JMfnuItfm mfnuItfm;
 
-        /* Good ol exit. */
-        menu = new JMenu("File");
-        menuBar.add(menu);
+        /* Good ol fxit. */
+        mfnu = nfw JMfnu("Filf");
+        mfnuBbr.bdd(mfnu);
 
-        menuItem = menu.add(new JMenuItem("Exit"));
-        menuItem.addActionListener(new ActionListener() {
+        mfnuItfm = mfnu.bdd(nfw JMfnuItfm("Exit"));
+        mfnuItfm.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                Systfm.fxit(0);
             }
         });
 
-        /* Tree related stuff. */
-        menu = new JMenu("Tree");
-        menuBar.add(menu);
+        /* Trff rflbtfd stuff. */
+        mfnu = nfw JMfnu("Trff");
+        mfnuBbr.bdd(mfnu);
 
-        menuItem = menu.add(new JMenuItem("Add"));
-        menuItem.addActionListener(new AddAction());
+        mfnuItfm = mfnu.bdd(nfw JMfnuItfm("Add"));
+        mfnuItfm.bddAdtionListfnfr(nfw AddAdtion());
 
-        menuItem = menu.add(new JMenuItem("Insert"));
-        menuItem.addActionListener(new InsertAction());
+        mfnuItfm = mfnu.bdd(nfw JMfnuItfm("Insfrt"));
+        mfnuItfm.bddAdtionListfnfr(nfw InsfrtAdtion());
 
-        menuItem = menu.add(new JMenuItem("Reload"));
-        menuItem.addActionListener(new ReloadAction());
+        mfnuItfm = mfnu.bdd(nfw JMfnuItfm("Rflobd"));
+        mfnuItfm.bddAdtionListfnfr(nfw RflobdAdtion());
 
-        menuItem = menu.add(new JMenuItem("Remove"));
-        menuItem.addActionListener(new RemoveAction());
+        mfnuItfm = mfnu.bdd(nfw JMfnuItfm("Rfmovf"));
+        mfnuItfm.bddAdtionListfnfr(nfw RfmovfAdtion());
 
-        return menuBar;
+        rfturn mfnuBbr;
     }
 
     /**
-     * Returns the TreeNode instance that is selected in the tree.
-     * If nothing is selected, null is returned.
+     * Rfturns tif TrffNodf instbndf tibt is sflfdtfd in tif trff.
+     * If notiing is sflfdtfd, null is rfturnfd.
      */
-    protected DefaultMutableTreeNode getSelectedNode() {
-        TreePath selPath = tree.getSelectionPath();
+    protfdtfd DffbultMutbblfTrffNodf gftSflfdtfdNodf() {
+        TrffPbti sflPbti = trff.gftSflfdtionPbti();
 
-        if (selPath != null) {
-            return (DefaultMutableTreeNode) selPath.getLastPathComponent();
+        if (sflPbti != null) {
+            rfturn (DffbultMutbblfTrffNodf) sflPbti.gftLbstPbtiComponfnt();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the selected TreePaths in the tree, may return null if
-     * nothing is selected.
+     * Rfturns tif sflfdtfd TrffPbtis in tif trff, mby rfturn null if
+     * notiing is sflfdtfd.
      */
-    protected TreePath[] getSelectedPaths() {
-        return tree.getSelectionPaths();
+    protfdtfd TrffPbti[] gftSflfdtfdPbtis() {
+        rfturn trff.gftSflfdtionPbtis();
     }
 
-    protected DefaultMutableTreeNode createNewNode(String name) {
-        return new DynamicTreeNode(new SampleData(null, Color.black, name));
+    protfdtfd DffbultMutbblfTrffNodf drfbtfNfwNodf(String nbmf) {
+        rfturn nfw DynbmidTrffNodf(nfw SbmplfDbtb(null, Color.blbdk, nbmf));
     }
 
 
     /**
-     * AddAction is used to add a new item after the selected item.
+     * AddAdtion is usfd to bdd b nfw itfm bftfr tif sflfdtfd itfm.
      */
-    class AddAction extends Object implements ActionListener {
+    dlbss AddAdtion fxtfnds Objfdt implfmfnts AdtionListfnfr {
 
-        /** Number of nodes that have been added. */
-        public int addCount;
+        /** Numbfr of nodfs tibt ibvf bffn bddfd. */
+        publid int bddCount;
 
         /**
-         * Messaged when the user clicks on the Add menu item.
-         * Determines the selection from the Tree and adds an item
-         * after that.  If nothing is selected, an item is added to
-         * the root.
+         * Mfssbgfd wifn tif usfr dlidks on tif Add mfnu itfm.
+         * Dftfrminfs tif sflfdtion from tif Trff bnd bdds bn itfm
+         * bftfr tibt.  If notiing is sflfdtfd, bn itfm is bddfd to
+         * tif root.
          */
-        public void actionPerformed(ActionEvent e) {
-            DefaultMutableTreeNode lastItem = getSelectedNode();
-            DefaultMutableTreeNode parent;
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            DffbultMutbblfTrffNodf lbstItfm = gftSflfdtfdNodf();
+            DffbultMutbblfTrffNodf pbrfnt;
 
-            /* Determine where to create the new node. */
-            if (lastItem != null) {
-                parent = (DefaultMutableTreeNode) lastItem.getParent();
-                if (parent == null) {
-                    parent = (DefaultMutableTreeNode) treeModel.getRoot();
-                    lastItem = null;
+            /* Dftfrminf wifrf to drfbtf tif nfw nodf. */
+            if (lbstItfm != null) {
+                pbrfnt = (DffbultMutbblfTrffNodf) lbstItfm.gftPbrfnt();
+                if (pbrfnt == null) {
+                    pbrfnt = (DffbultMutbblfTrffNodf) trffModfl.gftRoot();
+                    lbstItfm = null;
                 }
-            } else {
-                parent = (DefaultMutableTreeNode) treeModel.getRoot();
+            } flsf {
+                pbrfnt = (DffbultMutbblfTrffNodf) trffModfl.gftRoot();
             }
-            if (parent == null) {
-                // new root
-                treeModel.setRoot(createNewNode("Added " + Integer.toString(
-                        addCount++)));
-            } else {
-                int newIndex;
-                if (lastItem == null) {
-                    newIndex = treeModel.getChildCount(parent);
-                } else {
-                    newIndex = parent.getIndex(lastItem) + 1;
+            if (pbrfnt == null) {
+                // nfw root
+                trffModfl.sftRoot(drfbtfNfwNodf("Addfd " + Intfgfr.toString(
+                        bddCount++)));
+            } flsf {
+                int nfwIndfx;
+                if (lbstItfm == null) {
+                    nfwIndfx = trffModfl.gftCiildCount(pbrfnt);
+                } flsf {
+                    nfwIndfx = pbrfnt.gftIndfx(lbstItfm) + 1;
                 }
 
-                /* Let the treemodel know. */
-                treeModel.insertNodeInto(createNewNode("Added " + Integer.
-                        toString(addCount++)),
-                        parent, newIndex);
+                /* Lft tif trffmodfl know. */
+                trffModfl.insfrtNodfInto(drfbtfNfwNodf("Addfd " + Intfgfr.
+                        toString(bddCount++)),
+                        pbrfnt, nfwIndfx);
             }
         }
-    } // End of SampleTree.AddAction
+    } // End of SbmplfTrff.AddAdtion
 
 
     /**
-     * InsertAction is used to insert a new item before the selected item.
+     * InsfrtAdtion is usfd to insfrt b nfw itfm bfforf tif sflfdtfd itfm.
      */
-    class InsertAction extends Object implements ActionListener {
+    dlbss InsfrtAdtion fxtfnds Objfdt implfmfnts AdtionListfnfr {
 
-        /** Number of nodes that have been added. */
-        public int insertCount;
+        /** Numbfr of nodfs tibt ibvf bffn bddfd. */
+        publid int insfrtCount;
 
         /**
-         * Messaged when the user clicks on the Insert menu item.
-         * Determines the selection from the Tree and inserts an item
-         * after that.  If nothing is selected, an item is added to
-         * the root.
+         * Mfssbgfd wifn tif usfr dlidks on tif Insfrt mfnu itfm.
+         * Dftfrminfs tif sflfdtion from tif Trff bnd insfrts bn itfm
+         * bftfr tibt.  If notiing is sflfdtfd, bn itfm is bddfd to
+         * tif root.
          */
-        public void actionPerformed(ActionEvent e) {
-            DefaultMutableTreeNode lastItem = getSelectedNode();
-            DefaultMutableTreeNode parent;
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            DffbultMutbblfTrffNodf lbstItfm = gftSflfdtfdNodf();
+            DffbultMutbblfTrffNodf pbrfnt;
 
-            /* Determine where to create the new node. */
-            if (lastItem != null) {
-                parent = (DefaultMutableTreeNode) lastItem.getParent();
-                if (parent == null) {
-                    parent = (DefaultMutableTreeNode) treeModel.getRoot();
-                    lastItem = null;
+            /* Dftfrminf wifrf to drfbtf tif nfw nodf. */
+            if (lbstItfm != null) {
+                pbrfnt = (DffbultMutbblfTrffNodf) lbstItfm.gftPbrfnt();
+                if (pbrfnt == null) {
+                    pbrfnt = (DffbultMutbblfTrffNodf) trffModfl.gftRoot();
+                    lbstItfm = null;
                 }
-            } else {
-                parent = (DefaultMutableTreeNode) treeModel.getRoot();
+            } flsf {
+                pbrfnt = (DffbultMutbblfTrffNodf) trffModfl.gftRoot();
             }
-            if (parent == null) {
-                // new root
-                treeModel.setRoot(createNewNode("Inserted " + Integer.toString(
-                        insertCount++)));
-            } else {
-                int newIndex;
+            if (pbrfnt == null) {
+                // nfw root
+                trffModfl.sftRoot(drfbtfNfwNodf("Insfrtfd " + Intfgfr.toString(
+                        insfrtCount++)));
+            } flsf {
+                int nfwIndfx;
 
-                if (lastItem == null) {
-                    newIndex = treeModel.getChildCount(parent);
-                } else {
-                    newIndex = parent.getIndex(lastItem);
+                if (lbstItfm == null) {
+                    nfwIndfx = trffModfl.gftCiildCount(pbrfnt);
+                } flsf {
+                    nfwIndfx = pbrfnt.gftIndfx(lbstItfm);
                 }
 
-                /* Let the treemodel know. */
-                treeModel.insertNodeInto(createNewNode("Inserted " + Integer.
-                        toString(insertCount++)),
-                        parent, newIndex);
+                /* Lft tif trffmodfl know. */
+                trffModfl.insfrtNodfInto(drfbtfNfwNodf("Insfrtfd " + Intfgfr.
+                        toString(insfrtCount++)),
+                        pbrfnt, nfwIndfx);
             }
         }
-    } // End of SampleTree.InsertAction
+    } // End of SbmplfTrff.InsfrtAdtion
 
 
     /**
-     * ReloadAction is used to reload from the selected node.  If nothing
-     * is selected, reload is not issued.
+     * RflobdAdtion is usfd to rflobd from tif sflfdtfd nodf.  If notiing
+     * is sflfdtfd, rflobd is not issufd.
      */
-    class ReloadAction extends Object implements ActionListener {
+    dlbss RflobdAdtion fxtfnds Objfdt implfmfnts AdtionListfnfr {
 
         /**
-         * Messaged when the user clicks on the Reload menu item.
-         * Determines the selection from the Tree and asks the treemodel
-         * to reload from that node.
+         * Mfssbgfd wifn tif usfr dlidks on tif Rflobd mfnu itfm.
+         * Dftfrminfs tif sflfdtion from tif Trff bnd bsks tif trffmodfl
+         * to rflobd from tibt nodf.
          */
-        public void actionPerformed(ActionEvent e) {
-            DefaultMutableTreeNode lastItem = getSelectedNode();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            DffbultMutbblfTrffNodf lbstItfm = gftSflfdtfdNodf();
 
-            if (lastItem != null) {
-                treeModel.reload(lastItem);
+            if (lbstItfm != null) {
+                trffModfl.rflobd(lbstItfm);
             }
         }
-    } // End of SampleTree.ReloadAction
+    } // End of SbmplfTrff.RflobdAdtion
 
 
     /**
-     * RemoveAction removes the selected node from the tree.  If
-     * The root or nothing is selected nothing is removed.
+     * RfmovfAdtion rfmovfs tif sflfdtfd nodf from tif trff.  If
+     * Tif root or notiing is sflfdtfd notiing is rfmovfd.
      */
-    class RemoveAction extends Object implements ActionListener {
+    dlbss RfmovfAdtion fxtfnds Objfdt implfmfnts AdtionListfnfr {
 
         /**
-         * Removes the selected item as long as it isn't root.
+         * Rfmovfs tif sflfdtfd itfm bs long bs it isn't root.
          */
-        public void actionPerformed(ActionEvent e) {
-            TreePath[] selected = getSelectedPaths();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            TrffPbti[] sflfdtfd = gftSflfdtfdPbtis();
 
-            if (selected != null && selected.length > 0) {
-                TreePath shallowest;
+            if (sflfdtfd != null && sflfdtfd.lfngti > 0) {
+                TrffPbti sibllowfst;
 
-                // The remove process consists of the following steps:
-                // 1 - find the shallowest selected TreePath, the shallowest
-                //     path is the path with the smallest number of path
-                //     components.
-                // 2 - Find the siblings of this TreePath
-                // 3 - Remove from selected the TreePaths that are descendants
-                //     of the paths that are going to be removed. They will
-                //     be removed as a result of their ancestors being
-                //     removed.
-                // 4 - continue until selected contains only null paths.
-                while ((shallowest = findShallowestPath(selected)) != null) {
-                    removeSiblings(shallowest, selected);
+                // Tif rfmovf prodfss donsists of tif following stfps:
+                // 1 - find tif sibllowfst sflfdtfd TrffPbti, tif sibllowfst
+                //     pbti is tif pbti witi tif smbllfst numbfr of pbti
+                //     domponfnts.
+                // 2 - Find tif siblings of tiis TrffPbti
+                // 3 - Rfmovf from sflfdtfd tif TrffPbtis tibt brf dfsdfndbnts
+                //     of tif pbtis tibt brf going to bf rfmovfd. Tify will
+                //     bf rfmovfd bs b rfsult of tifir bndfstors bfing
+                //     rfmovfd.
+                // 4 - dontinuf until sflfdtfd dontbins only null pbtis.
+                wiilf ((sibllowfst = findSibllowfstPbti(sflfdtfd)) != null) {
+                    rfmovfSiblings(sibllowfst, sflfdtfd);
                 }
             }
         }
 
         /**
-         * Removes the sibling TreePaths of <code>path</code>, that are
-         * located in <code>paths</code>.
+         * Rfmovfs tif sibling TrffPbtis of <dodf>pbti</dodf>, tibt brf
+         * lodbtfd in <dodf>pbtis</dodf>.
          */
-        private void removeSiblings(TreePath path, TreePath[] paths) {
-            // Find the siblings
-            if (path.getPathCount() == 1) {
-                // Special case, set the root to null
-                for (int counter = paths.length - 1; counter >= 0; counter--) {
-                    paths[counter] = null;
+        privbtf void rfmovfSiblings(TrffPbti pbti, TrffPbti[] pbtis) {
+            // Find tif siblings
+            if (pbti.gftPbtiCount() == 1) {
+                // Spfdibl dbsf, sft tif root to null
+                for (int dountfr = pbtis.lfngti - 1; dountfr >= 0; dountfr--) {
+                    pbtis[dountfr] = null;
                 }
-                treeModel.setRoot(null);
-            } else {
-                // Find the siblings of path.
-                TreePath parent = path.getParentPath();
-                MutableTreeNode parentNode = (MutableTreeNode) parent.
-                        getLastPathComponent();
-                ArrayList<TreePath> toRemove = new ArrayList<TreePath>();
+                trffModfl.sftRoot(null);
+            } flsf {
+                // Find tif siblings of pbti.
+                TrffPbti pbrfnt = pbti.gftPbrfntPbti();
+                MutbblfTrffNodf pbrfntNodf = (MutbblfTrffNodf) pbrfnt.
+                        gftLbstPbtiComponfnt();
+                ArrbyList<TrffPbti> toRfmovf = nfw ArrbyList<TrffPbti>();
 
-                // First pass, find paths with a parent TreePath of parent
-                for (int counter = paths.length - 1; counter >= 0; counter--) {
-                    if (paths[counter] != null && paths[counter].getParentPath().
-                            equals(parent)) {
-                        toRemove.add(paths[counter]);
-                        paths[counter] = null;
+                // First pbss, find pbtis witi b pbrfnt TrffPbti of pbrfnt
+                for (int dountfr = pbtis.lfngti - 1; dountfr >= 0; dountfr--) {
+                    if (pbtis[dountfr] != null && pbtis[dountfr].gftPbrfntPbti().
+                            fqubls(pbrfnt)) {
+                        toRfmovf.bdd(pbtis[dountfr]);
+                        pbtis[dountfr] = null;
                     }
                 }
 
-                // Second pass, remove any paths that are descendants of the
-                // paths that are going to be removed. These paths are
-                // implicitly removed as a result of removing the paths in
-                // toRemove
-                int rCount = toRemove.size();
-                for (int counter = paths.length - 1; counter >= 0; counter--) {
-                    if (paths[counter] != null) {
-                        for (int rCounter = rCount - 1; rCounter >= 0;
-                                rCounter--) {
-                            if ((toRemove.get(rCounter)).isDescendant(
-                                    paths[counter])) {
-                                paths[counter] = null;
+                // Sfdond pbss, rfmovf bny pbtis tibt brf dfsdfndbnts of tif
+                // pbtis tibt brf going to bf rfmovfd. Tifsf pbtis brf
+                // impliditly rfmovfd bs b rfsult of rfmoving tif pbtis in
+                // toRfmovf
+                int rCount = toRfmovf.sizf();
+                for (int dountfr = pbtis.lfngti - 1; dountfr >= 0; dountfr--) {
+                    if (pbtis[dountfr] != null) {
+                        for (int rCountfr = rCount - 1; rCountfr >= 0;
+                                rCountfr--) {
+                            if ((toRfmovf.gft(rCountfr)).isDfsdfndbnt(
+                                    pbtis[dountfr])) {
+                                pbtis[dountfr] = null;
                             }
                         }
                     }
                 }
 
-                // Sort the siblings based on position in the model
+                // Sort tif siblings bbsfd on position in tif modfl
                 if (rCount > 1) {
-                    Collections.sort(toRemove, new PositionComparator());
+                    Collfdtions.sort(toRfmovf, nfw PositionCompbrbtor());
                 }
-                int[] indices = new int[rCount];
-                Object[] removedNodes = new Object[rCount];
-                for (int counter = rCount - 1; counter >= 0; counter--) {
-                    removedNodes[counter] = (toRemove.get(counter)).
-                            getLastPathComponent();
-                    indices[counter] = treeModel.getIndexOfChild(parentNode,
-                            removedNodes[counter]);
-                    parentNode.remove(indices[counter]);
+                int[] indidfs = nfw int[rCount];
+                Objfdt[] rfmovfdNodfs = nfw Objfdt[rCount];
+                for (int dountfr = rCount - 1; dountfr >= 0; dountfr--) {
+                    rfmovfdNodfs[dountfr] = (toRfmovf.gft(dountfr)).
+                            gftLbstPbtiComponfnt();
+                    indidfs[dountfr] = trffModfl.gftIndfxOfCiild(pbrfntNodf,
+                            rfmovfdNodfs[dountfr]);
+                    pbrfntNodf.rfmovf(indidfs[dountfr]);
                 }
-                treeModel.nodesWereRemoved(parentNode, indices, removedNodes);
+                trffModfl.nodfsWfrfRfmovfd(pbrfntNodf, indidfs, rfmovfdNodfs);
             }
         }
 
         /**
-         * Returns the TreePath with the smallest path count in
-         * <code>paths</code>. Will return null if there is no non-null
-         * TreePath is <code>paths</code>.
+         * Rfturns tif TrffPbti witi tif smbllfst pbti dount in
+         * <dodf>pbtis</dodf>. Will rfturn null if tifrf is no non-null
+         * TrffPbti is <dodf>pbtis</dodf>.
          */
-        private TreePath findShallowestPath(TreePath[] paths) {
-            int shallowest = -1;
-            TreePath shallowestPath = null;
+        privbtf TrffPbti findSibllowfstPbti(TrffPbti[] pbtis) {
+            int sibllowfst = -1;
+            TrffPbti sibllowfstPbti = null;
 
-            for (int counter = paths.length - 1; counter >= 0; counter--) {
-                if (paths[counter] != null) {
-                    if (shallowest != -1) {
-                        if (paths[counter].getPathCount() < shallowest) {
-                            shallowest = paths[counter].getPathCount();
-                            shallowestPath = paths[counter];
-                            if (shallowest == 1) {
-                                return shallowestPath;
+            for (int dountfr = pbtis.lfngti - 1; dountfr >= 0; dountfr--) {
+                if (pbtis[dountfr] != null) {
+                    if (sibllowfst != -1) {
+                        if (pbtis[dountfr].gftPbtiCount() < sibllowfst) {
+                            sibllowfst = pbtis[dountfr].gftPbtiCount();
+                            sibllowfstPbti = pbtis[dountfr];
+                            if (sibllowfst == 1) {
+                                rfturn sibllowfstPbti;
                             }
                         }
-                    } else {
-                        shallowestPath = paths[counter];
-                        shallowest = paths[counter].getPathCount();
+                    } flsf {
+                        sibllowfstPbti = pbtis[dountfr];
+                        sibllowfst = pbtis[dountfr].gftPbtiCount();
                     }
                 }
             }
-            return shallowestPath;
+            rfturn sibllowfstPbti;
         }
 
 
         /**
-         * An Comparator that bases the return value on the index of the
-         * passed in objects in the TreeModel.
+         * An Compbrbtor tibt bbsfs tif rfturn vbluf on tif indfx of tif
+         * pbssfd in objfdts in tif TrffModfl.
          * <p>
-         * This is actually rather expensive, it would be more efficient
-         * to extract the indices and then do the comparision.
+         * Tiis is bdtublly rbtifr fxpfnsivf, it would bf morf fffidifnt
+         * to fxtrbdt tif indidfs bnd tifn do tif dompbrision.
          */
-        private class PositionComparator implements Comparator<TreePath> {
+        privbtf dlbss PositionCompbrbtor implfmfnts Compbrbtor<TrffPbti> {
 
-            public int compare(TreePath p1, TreePath p2) {
-                int p1Index = treeModel.getIndexOfChild(p1.getParentPath().
-                        getLastPathComponent(), p1.getLastPathComponent());
-                int p2Index = treeModel.getIndexOfChild(p2.getParentPath().
-                        getLastPathComponent(), p2.getLastPathComponent());
-                return p1Index - p2Index;
+            publid int dompbrf(TrffPbti p1, TrffPbti p2) {
+                int p1Indfx = trffModfl.gftIndfxOfCiild(p1.gftPbrfntPbti().
+                        gftLbstPbtiComponfnt(), p1.gftLbstPbtiComponfnt());
+                int p2Indfx = trffModfl.gftIndfxOfCiild(p2.gftPbrfntPbti().
+                        gftLbstPbtiComponfnt(), p2.gftLbstPbtiComponfnt());
+                rfturn p1Indfx - p2Indfx;
             }
         }
-    } // End of SampleTree.RemoveAction
+    } // End of SbmplfTrff.RfmovfAdtion
 
 
     /**
-     * ShowHandlesChangeListener implements the ChangeListener interface
-     * to toggle the state of showing the handles in the tree.
+     * SiowHbndlfsCibngfListfnfr implfmfnts tif CibngfListfnfr intfrfbdf
+     * to togglf tif stbtf of siowing tif ibndlfs in tif trff.
      */
-    class ShowHandlesChangeListener extends Object implements ChangeListener {
+    dlbss SiowHbndlfsCibngfListfnfr fxtfnds Objfdt implfmfnts CibngfListfnfr {
 
-        public void stateChanged(ChangeEvent e) {
-            tree.setShowsRootHandles(((JCheckBox) e.getSource()).isSelected());
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            trff.sftSiowsRootHbndlfs(((JCifdkBox) f.gftSourdf()).isSflfdtfd());
         }
-    } // End of class SampleTree.ShowHandlesChangeListener
+    } // End of dlbss SbmplfTrff.SiowHbndlfsCibngfListfnfr
 
 
     /**
-     * ShowRootChangeListener implements the ChangeListener interface
-     * to toggle the state of showing the root node in the tree.
+     * SiowRootCibngfListfnfr implfmfnts tif CibngfListfnfr intfrfbdf
+     * to togglf tif stbtf of siowing tif root nodf in tif trff.
      */
-    class ShowRootChangeListener extends Object implements ChangeListener {
+    dlbss SiowRootCibngfListfnfr fxtfnds Objfdt implfmfnts CibngfListfnfr {
 
-        public void stateChanged(ChangeEvent e) {
-            tree.setRootVisible(((JCheckBox) e.getSource()).isSelected());
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            trff.sftRootVisiblf(((JCifdkBox) f.gftSourdf()).isSflfdtfd());
         }
-    } // End of class SampleTree.ShowRootChangeListener
+    } // End of dlbss SbmplfTrff.SiowRootCibngfListfnfr
 
 
     /**
-     * TreeEditableChangeListener implements the ChangeListener interface
-     * to toggle between allowing editing and now allowing editing in
-     * the tree.
+     * TrffEditbblfCibngfListfnfr implfmfnts tif CibngfListfnfr intfrfbdf
+     * to togglf bftwffn bllowing fditing bnd now bllowing fditing in
+     * tif trff.
      */
-    class TreeEditableChangeListener extends Object implements ChangeListener {
+    dlbss TrffEditbblfCibngfListfnfr fxtfnds Objfdt implfmfnts CibngfListfnfr {
 
-        public void stateChanged(ChangeEvent e) {
-            tree.setEditable(((JCheckBox) e.getSource()).isSelected());
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            trff.sftEditbblf(((JCifdkBox) f.gftSourdf()).isSflfdtfd());
         }
-    } // End of class SampleTree.TreeEditableChangeListener
+    } // End of dlbss SbmplfTrff.TrffEditbblfCibngfListfnfr
 
-    public static void main(String args[]) {
+    publid stbtid void mbin(String brgs[]) {
         try {
-            SwingUtilities.invokeAndWait(new Runnable() {
+            SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
 
-                @SuppressWarnings(value = "ResultOfObjectAllocationIgnored")
-                public void run() {
-                    new SampleTree();
+                @SupprfssWbrnings(vbluf = "RfsultOfObjfdtAllodbtionIgnorfd")
+                publid void run() {
+                    nfw SbmplfTrff();
                 }
             });
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SampleTree.class.getName()).log(Level.SEVERE, null,
-                    ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(SampleTree.class.getName()).log(Level.SEVERE, null,
-                    ex);
+        } dbtdi (IntfrruptfdExdfption fx) {
+            Loggfr.gftLoggfr(SbmplfTrff.dlbss.gftNbmf()).log(Lfvfl.SEVERE, null,
+                    fx);
+        } dbtdi (InvodbtionTbrgftExdfption fx) {
+            Loggfr.gftLoggfr(SbmplfTrff.dlbss.gftNbmf()).log(Lfvfl.SEVERE, null,
+                    fx);
         }
     }
 }

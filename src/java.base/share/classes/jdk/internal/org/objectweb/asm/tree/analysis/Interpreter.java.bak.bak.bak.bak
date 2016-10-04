@@ -1,0 +1,255 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis;
+
+import jbvb.util.List;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
+
+/**
+ * A sfmbntid bytfdodf intfrprftfr. Morf prfdisfly, this intfrprftfr only
+ * mbnbgfs thf domputbtion of vblufs from othfr vblufs: it dofs not mbnbgf thf
+ * trbnsffr of vblufs to or from thf stbdk, bnd to or from thf lodbl vbribblfs.
+ * This sfpbrbtion bllows b gfnfrid bytfdodf {@link Anblyzfr} to work with
+ * vbrious sfmbntid intfrprftfrs, without nffding to duplidbtf thf dodf to
+ * simulbtf thf trbnsffr of vblufs.
+ *
+ * @pbrbm <V>
+ *            typf of thf Vbluf usfd for thf bnblysis.
+ *
+ * @buthor Erid Brunfton
+ */
+publid bbstrbdt dlbss Intfrprftfr<V fxtfnds Vbluf> {
+
+    protfdtfd finbl int bpi;
+
+    protfdtfd Intfrprftfr(finbl int bpi) {
+        this.bpi = bpi;
+    }
+
+    /**
+     * Crfbtfs b nfw vbluf thbt rfprfsfnts thf givfn typf.
+     *
+     * Cbllfd for mfthod pbrbmftfrs (indluding <dodf>this</dodf>), fxdfption
+     * hbndlfr vbribblf bnd with <dodf>null</dodf> typf for vbribblfs rfsfrvfd
+     * by long bnd doublf typfs.
+     *
+     * @pbrbm typf
+     *            b primitivf or rfffrfndf typf, or <tt>null</tt> to rfprfsfnt
+     *            bn uninitiblizfd vbluf.
+     * @rfturn b vbluf thbt rfprfsfnts thf givfn typf. Thf sizf of thf rfturnfd
+     *         vbluf must bf fqubl to thf sizf of thf givfn typf.
+     */
+    publid bbstrbdt V nfwVbluf(Typf typf);
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion without brgumfnts. This mfthod is
+     * dbllfd for thf following opdodfs:
+     *
+     * ACONST_NULL, ICONST_M1, ICONST_0, ICONST_1, ICONST_2, ICONST_3, ICONST_4,
+     * ICONST_5, LCONST_0, LCONST_1, FCONST_0, FCONST_1, FCONST_2, DCONST_0,
+     * DCONST_1, BIPUSH, SIPUSH, LDC, JSR, GETSTATIC, NEW
+     *
+     * @pbrbm insn
+     *            thf bytfdodf instrudtion to bf intfrprftfd.
+     * @rfturn thf rfsult of thf intfrprftbtion of thf givfn instrudtion.
+     * @throws AnblyzfrExdfption
+     *             if bn frror oddurfd during thf intfrprftbtion.
+     */
+    publid bbstrbdt V nfwOpfrbtion(AbstrbdtInsnNodf insn)
+            throws AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion thbt movfs b vbluf on thf stbdk or to
+     * or from lodbl vbribblfs. This mfthod is dbllfd for thf following opdodfs:
+     *
+     * ILOAD, LLOAD, FLOAD, DLOAD, ALOAD, ISTORE, LSTORE, FSTORE, DSTORE,
+     * ASTORE, DUP, DUP_X1, DUP_X2, DUP2, DUP2_X1, DUP2_X2, SWAP
+     *
+     * @pbrbm insn
+     *            thf bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf
+     *            thf vbluf thbt must bf movfd by thf instrudtion.
+     * @rfturn thf rfsult of thf intfrprftbtion of thf givfn instrudtion. Thf
+     *         rfturnfd vbluf must bf <tt>fqubl</tt> to thf givfn vbluf.
+     * @throws AnblyzfrExdfption
+     *             if bn frror oddurfd during thf intfrprftbtion.
+     */
+    publid bbstrbdt V dopyOpfrbtion(AbstrbdtInsnNodf insn, V vbluf)
+            throws AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion with b singlf brgumfnt. This mfthod is
+     * dbllfd for thf following opdodfs:
+     *
+     * INEG, LNEG, FNEG, DNEG, IINC, I2L, I2F, I2D, L2I, L2F, L2D, F2I, F2L,
+     * F2D, D2I, D2L, D2F, I2B, I2C, I2S, IFEQ, IFNE, IFLT, IFGE, IFGT, IFLE,
+     * TABLESWITCH, LOOKUPSWITCH, IRETURN, LRETURN, FRETURN, DRETURN, ARETURN,
+     * PUTSTATIC, GETFIELD, NEWARRAY, ANEWARRAY, ARRAYLENGTH, ATHROW, CHECKCAST,
+     * INSTANCEOF, MONITORENTER, MONITOREXIT, IFNULL, IFNONNULL
+     *
+     * @pbrbm insn
+     *            thf bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf
+     *            thf brgumfnt of thf instrudtion to bf intfrprftfd.
+     * @rfturn thf rfsult of thf intfrprftbtion of thf givfn instrudtion.
+     * @throws AnblyzfrExdfption
+     *             if bn frror oddurfd during thf intfrprftbtion.
+     */
+    publid bbstrbdt V unbryOpfrbtion(AbstrbdtInsnNodf insn, V vbluf)
+            throws AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion with two brgumfnts. This mfthod is
+     * dbllfd for thf following opdodfs:
+     *
+     * IALOAD, LALOAD, FALOAD, DALOAD, AALOAD, BALOAD, CALOAD, SALOAD, IADD,
+     * LADD, FADD, DADD, ISUB, LSUB, FSUB, DSUB, IMUL, LMUL, FMUL, DMUL, IDIV,
+     * LDIV, FDIV, DDIV, IREM, LREM, FREM, DREM, ISHL, LSHL, ISHR, LSHR, IUSHR,
+     * LUSHR, IAND, LAND, IOR, LOR, IXOR, LXOR, LCMP, FCMPL, FCMPG, DCMPL,
+     * DCMPG, IF_ICMPEQ, IF_ICMPNE, IF_ICMPLT, IF_ICMPGE, IF_ICMPGT, IF_ICMPLE,
+     * IF_ACMPEQ, IF_ACMPNE, PUTFIELD
+     *
+     * @pbrbm insn
+     *            thf bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf1
+     *            thf first brgumfnt of thf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf2
+     *            thf sfdond brgumfnt of thf instrudtion to bf intfrprftfd.
+     * @rfturn thf rfsult of thf intfrprftbtion of thf givfn instrudtion.
+     * @throws AnblyzfrExdfption
+     *             if bn frror oddurfd during thf intfrprftbtion.
+     */
+    publid bbstrbdt V binbryOpfrbtion(AbstrbdtInsnNodf insn, V vbluf1, V vbluf2)
+            throws AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion with thrff brgumfnts. This mfthod is
+     * dbllfd for thf following opdodfs:
+     *
+     * IASTORE, LASTORE, FASTORE, DASTORE, AASTORE, BASTORE, CASTORE, SASTORE
+     *
+     * @pbrbm insn
+     *            thf bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf1
+     *            thf first brgumfnt of thf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf2
+     *            thf sfdond brgumfnt of thf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf3
+     *            thf third brgumfnt of thf instrudtion to bf intfrprftfd.
+     * @rfturn thf rfsult of thf intfrprftbtion of thf givfn instrudtion.
+     * @throws AnblyzfrExdfption
+     *             if bn frror oddurfd during thf intfrprftbtion.
+     */
+    publid bbstrbdt V tfrnbryOpfrbtion(AbstrbdtInsnNodf insn, V vbluf1,
+            V vbluf2, V vbluf3) throws AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion with b vbribblf numbfr of brgumfnts.
+     * This mfthod is dbllfd for thf following opdodfs:
+     *
+     * INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC, INVOKEINTERFACE,
+     * MULTIANEWARRAY bnd INVOKEDYNAMIC
+     *
+     * @pbrbm insn
+     *            thf bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vblufs
+     *            thf brgumfnts of thf instrudtion to bf intfrprftfd.
+     * @rfturn thf rfsult of thf intfrprftbtion of thf givfn instrudtion.
+     * @throws AnblyzfrExdfption
+     *             if bn frror oddurfd during thf intfrprftbtion.
+     */
+    publid bbstrbdt V nbryOpfrbtion(AbstrbdtInsnNodf insn,
+            List<? fxtfnds V> vblufs) throws AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf rfturn instrudtion. This mfthod is dbllfd for thf
+     * following opdodfs:
+     *
+     * IRETURN, LRETURN, FRETURN, DRETURN, ARETURN
+     *
+     * @pbrbm insn
+     *            thf bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf
+     *            thf brgumfnt of thf instrudtion to bf intfrprftfd.
+     * @pbrbm fxpfdtfd
+     *            thf fxpfdtfd rfturn typf of thf bnblyzfd mfthod.
+     * @throws AnblyzfrExdfption
+     *             if bn frror oddurfd during thf intfrprftbtion.
+     */
+    publid bbstrbdt void rfturnOpfrbtion(AbstrbdtInsnNodf insn, V vbluf,
+            V fxpfdtfd) throws AnblyzfrExdfption;
+
+    /**
+     * Mfrgfs two vblufs. Thf mfrgf opfrbtion must rfturn b vbluf thbt
+     * rfprfsfnts both vblufs (for instbndf, if thf two vblufs brf two typfs,
+     * thf mfrgfd vbluf must bf b dommon supfr typf of thf two typfs. If thf two
+     * vblufs brf intfgfr intfrvbls, thf mfrgfd vbluf must bf bn intfrvbl thbt
+     * dontbins thf prfvious onfs. Likfwisf for othfr typfs of vblufs).
+     *
+     * @pbrbm v
+     *            b vbluf.
+     * @pbrbm w
+     *            bnothfr vbluf.
+     * @rfturn thf mfrgfd vbluf. If thf mfrgfd vbluf is fqubl to <tt>v</tt>,
+     *         this mfthod <i>must</i> rfturn <tt>v</tt>.
+     */
+    publid bbstrbdt V mfrgf(V v, V w);
+}

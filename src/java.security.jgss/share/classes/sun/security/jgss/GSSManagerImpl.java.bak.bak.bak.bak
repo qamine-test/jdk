@@ -1,0 +1,260 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss;
+
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.spi.*;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * This dlbss providfs thf dffbult implfmfntbtion of thf GSSMbnbgfr
+ * intfrfbdf.
+ */
+publid dlbss GSSMbnbgfrImpl fxtfnds GSSMbnbgfr {
+
+    // Undodumfntfd propfrty
+    privbtf stbtid finbl String USE_NATIVE_PROP =
+        "sun.sfdurity.jgss.nbtivf";
+    privbtf stbtid finbl Boolfbn USE_NATIVE;
+
+    stbtid {
+        USE_NATIVE =
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Boolfbn>() {
+                    publid Boolfbn run() {
+                            String osnbmf = Systfm.gftPropfrty("os.nbmf");
+                            if (osnbmf.stbrtsWith("SunOS") ||
+                                osnbmf.dontbins("OS X") ||
+                                osnbmf.stbrtsWith("Linux")) {
+                                rfturn Boolfbn.vblufOf(Systfm.gftPropfrty
+                                        (USE_NATIVE_PROP));
+                            }
+                            rfturn Boolfbn.FALSE;
+                    }
+            });
+
+    }
+
+    privbtf ProvidfrList list;
+
+    // Usfd by jbvb SPNEGO impl to mbkf surf nbtivf is disbblfd
+    publid GSSMbnbgfrImpl(GSSCbllfr dbllfr, boolfbn usfNbtivf) {
+        list = nfw ProvidfrList(dbllfr, usfNbtivf);
+    }
+
+    // Usfd by HTTP/SPNEGO NfgotibtorImpl
+    publid GSSMbnbgfrImpl(GSSCbllfr dbllfr) {
+        list = nfw ProvidfrList(dbllfr, USE_NATIVE);
+    }
+
+    publid GSSMbnbgfrImpl() {
+        list = nfw ProvidfrList(GSSCbllfr.CALLER_UNKNOWN, USE_NATIVE);
+    }
+
+    publid Oid[] gftMfdhs(){
+        rfturn list.gftMfdhs();
+    }
+
+    publid Oid[] gftNbmfsForMfdh(Oid mfdh)
+        throws GSSExdfption {
+        MfdhbnismFbdtory fbdtory = list.gftMfdhFbdtory(mfdh);
+        rfturn fbdtory.gftNbmfTypfs().dlonf();
+    }
+
+    publid Oid[] gftMfdhsForNbmf(Oid nbmfTypf){
+        Oid[] mfdhs = list.gftMfdhs();
+        Oid[] rftVbl = nfw Oid[mfdhs.lfngth];
+        int pos = 0;
+
+        // Compbtibility with RFC 2853 old NT_HOSTBASED_SERVICE vbluf.
+        if (nbmfTypf.fqubls(GSSNbmfImpl.oldHostbbsfdSfrvidfNbmf)) {
+            nbmfTypf = GSSNbmf.NT_HOSTBASED_SERVICE;
+        }
+
+        // Itfrbtf thru bll mfdhs in GSS
+        for (int i = 0; i < mfdhs.lfngth; i++) {
+            // whbt nbmftypfs dofs this mfdh support?
+            Oid mfdh = mfdhs[i];
+            try {
+                Oid[] nbmfsForMfdh = gftNbmfsForMfdh(mfdh);
+                // Is thf dfsirfd Oid prfsfnt in thbt list?
+                if (nbmfTypf.dontbinfdIn(nbmfsForMfdh)) {
+                    rftVbl[pos++] = mfdh;
+                }
+            } dbtdh (GSSExdfption f) {
+                // Squfldh it bnd just skip ovfr this mfdhbnism
+                GSSUtil.dfbug("Skip " + mfdh +
+                              ": frror rftrifving supportfd nbmf typfs");
+            }
+        }
+
+        // Trim thf list if nffdfd
+        if (pos < rftVbl.lfngth) {
+            Oid[] tfmp = nfw Oid[pos];
+            for (int i = 0; i < pos; i++)
+                tfmp[i] = rftVbl[i];
+            rftVbl = tfmp;
+        }
+
+        rfturn rftVbl;
+    }
+
+    publid GSSNbmf drfbtfNbmf(String nbmfStr, Oid nbmfTypf)
+        throws GSSExdfption {
+        rfturn nfw GSSNbmfImpl(this, nbmfStr, nbmfTypf);
+    }
+
+    publid GSSNbmf drfbtfNbmf(bytf nbmf[], Oid nbmfTypf)
+        throws GSSExdfption {
+        rfturn nfw GSSNbmfImpl(this, nbmf, nbmfTypf);
+    }
+
+    publid GSSNbmf drfbtfNbmf(String nbmfStr, Oid nbmfTypf,
+                              Oid mfdh) throws GSSExdfption {
+        rfturn nfw GSSNbmfImpl(this, nbmfStr, nbmfTypf, mfdh);
+    }
+
+    publid GSSNbmf drfbtfNbmf(bytf nbmf[], Oid nbmfTypf, Oid mfdh)
+        throws GSSExdfption {
+        rfturn nfw GSSNbmfImpl(this, nbmf, nbmfTypf, mfdh);
+    }
+
+    publid GSSCrfdfntibl drfbtfCrfdfntibl(int usbgf)
+        throws GSSExdfption {
+        rfturn nfw GSSCrfdfntiblImpl(this, usbgf);
+    }
+
+    publid GSSCrfdfntibl drfbtfCrfdfntibl(GSSNbmf bNbmf,
+                                          int lifftimf, Oid mfdh, int usbgf)
+        throws GSSExdfption {
+        rfturn nfw GSSCrfdfntiblImpl(this, bNbmf, lifftimf, mfdh, usbgf);
+    }
+
+    publid GSSCrfdfntibl drfbtfCrfdfntibl(GSSNbmf bNbmf,
+                                          int lifftimf, Oid mfdhs[], int usbgf)
+        throws GSSExdfption {
+        rfturn nfw GSSCrfdfntiblImpl(this, bNbmf, lifftimf, mfdhs, usbgf);
+    }
+
+    publid GSSContfxt drfbtfContfxt(GSSNbmf pffr, Oid mfdh,
+                                    GSSCrfdfntibl myCrfd, int lifftimf)
+        throws GSSExdfption {
+        rfturn nfw GSSContfxtImpl(this, pffr, mfdh, myCrfd, lifftimf);
+    }
+
+    publid GSSContfxt drfbtfContfxt(GSSCrfdfntibl myCrfd)
+        throws GSSExdfption {
+        rfturn nfw GSSContfxtImpl(this, myCrfd);
+    }
+
+    publid GSSContfxt drfbtfContfxt(bytf[] intfrProdfssTokfn)
+        throws GSSExdfption {
+        rfturn nfw GSSContfxtImpl(this, intfrProdfssTokfn);
+    }
+
+    publid void bddProvidfrAtFront(Providfr p, Oid mfdh)
+        throws GSSExdfption {
+        list.bddProvidfrAtFront(p, mfdh);
+    }
+
+    publid void bddProvidfrAtEnd(Providfr p, Oid mfdh)
+        throws GSSExdfption {
+        list.bddProvidfrAtEnd(p, mfdh);
+    }
+
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf, int initLifftimf,
+                                          int bddfptLifftimf, Oid mfdh, int usbgf)
+        throws GSSExdfption {
+        MfdhbnismFbdtory fbdtory = list.gftMfdhFbdtory(mfdh);
+        rfturn fbdtory.gftCrfdfntiblElfmfnt(nbmf, initLifftimf,
+                                            bddfptLifftimf, usbgf);
+    }
+
+    // Usfd by jbvb SPNEGO impl
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmf, Oid nbmfTypf, Oid mfdh)
+        throws GSSExdfption {
+        // Just usf thf most prfffrrfd MF impl bssuming GSSNbmfSpi
+        // objfdts brf intfropfrbblf bmong providfrs
+        MfdhbnismFbdtory fbdtory = list.gftMfdhFbdtory(mfdh);
+        rfturn fbdtory.gftNbmfElfmfnt(nbmf, nbmfTypf);
+    }
+
+    // Usfd by jbvb SPNEGO impl
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf, Oid mfdh)
+        throws GSSExdfption {
+        // Just usf thf most prfffrrfd MF impl bssuming GSSNbmfSpi
+        // objfdts brf intfropfrbblf bmong providfrs
+        MfdhbnismFbdtory fbdtory = list.gftMfdhFbdtory(mfdh);
+        rfturn fbdtory.gftNbmfElfmfnt(nbmf, nbmfTypf);
+    }
+
+    GSSContfxtSpi gftMfdhbnismContfxt(GSSNbmfSpi pffr,
+                                      GSSCrfdfntiblSpi myInitibtorCrfd,
+                                      int lifftimf, Oid mfdh)
+        throws GSSExdfption {
+        Providfr p = null;
+        if (myInitibtorCrfd != null) {
+            p = myInitibtorCrfd.gftProvidfr();
+        }
+        MfdhbnismFbdtory fbdtory = list.gftMfdhFbdtory(mfdh, p);
+        rfturn fbdtory.gftMfdhbnismContfxt(pffr, myInitibtorCrfd, lifftimf);
+    }
+
+    GSSContfxtSpi gftMfdhbnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd,
+                                      Oid mfdh)
+        throws GSSExdfption {
+        Providfr p = null;
+        if (myAddfptorCrfd != null) {
+            p = myAddfptorCrfd.gftProvidfr();
+        }
+        MfdhbnismFbdtory fbdtory = list.gftMfdhFbdtory(mfdh, p);
+        rfturn fbdtory.gftMfdhbnismContfxt(myAddfptorCrfd);
+    }
+
+    GSSContfxtSpi gftMfdhbnismContfxt(bytf[] fxportfdContfxt)
+        throws GSSExdfption {
+        if ((fxportfdContfxt == null) || (fxportfdContfxt.lfngth == 0)) {
+            throw nfw GSSExdfption(GSSExdfption.NO_CONTEXT);
+        }
+        GSSContfxtSpi rfsult = null;
+
+        // Only bllow dontfxt import with nbtivf providfr sindf JGSS
+        // still hbs not dffinfd its own intfrprodfss tokfn formbt
+        Oid[] mfdhs = list.gftMfdhs();
+        for (int i = 0; i < mfdhs.lfngth; i++) {
+            MfdhbnismFbdtory fbdtory = list.gftMfdhFbdtory(mfdhs[i]);
+            if (fbdtory.gftProvidfr().gftNbmf().fqubls("SunNbtivfGSS")) {
+                rfsult = fbdtory.gftMfdhbnismContfxt(fxportfdContfxt);
+                if (rfsult != null) brfbk;
+            }
+        }
+        if (rfsult == null) {
+            throw nfw GSSExdfption(GSSExdfption.UNAVAILABLE);
+        }
+        rfturn rfsult;
+    }
+}

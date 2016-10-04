@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
 
 <!--
- Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
+ Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 
- Redistribution bnd use in source bnd binbry forms, with or without
- modificbtion, bre permitted provided thbt the following conditions
- bre met:
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
 
-   - Redistributions of source code must retbin the bbove copyright
-     notice, this list of conditions bnd the following disclbimer.
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
 
-   - Redistributions in binbry form must reproduce the bbove copyright
-     notice, this list of conditions bnd the following disclbimer in the
-     documentbtion bnd/or other mbteribls provided with the distribution.
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 
-   - Neither the nbme of Orbcle nor the nbmes of its
-     contributors mby be used to endorse or promote products derived
-     from this softwbre without specific prior written permission.
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,68 +31,68 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project nbme="jdk" bbsedir=".">
+<projfdt nbmf="jdk" bbsfdir=".">
 
-    <tbrget nbme="-jdk-preinit">
-        <condition property=".exe" vblue=".exe">
+    <tbrgft nbmf="-jdk-prfinit">
+        <dondition propfrty=".fxf" vbluf=".fxf">
             <os fbmily="windows"/>
-        </condition>
-        <property nbme=".exe" vblue=""/>
-        <property nbme="nbjdk.jbvbc" vblue="${nbjdk.home}/bin/jbvbc${.exe}"/>
-        <property nbme="nbjdk.jbvb" vblue="${nbjdk.home}/bin/jbvb${.exe}"/>
-        <property nbme="nbjdk.jbvbdoc" vblue="${nbjdk.home}/bin/jbvbdoc${.exe}"/>
-        <property nbme="nbjdk.bppletviewer" vblue="${nbjdk.home}/bin/bppletviewer${.exe}"/>
-        <property nbme="nbjdk.bootclbsspbth" vblue="${nbjdk.home}/jre/lib/rt.jbr"/>
-    </tbrget>
+        </dondition>
+        <propfrty nbmf=".fxf" vbluf=""/>
+        <propfrty nbmf="nbjdk.jbvbd" vbluf="${nbjdk.iomf}/bin/jbvbd${.fxf}"/>
+        <propfrty nbmf="nbjdk.jbvb" vbluf="${nbjdk.iomf}/bin/jbvb${.fxf}"/>
+        <propfrty nbmf="nbjdk.jbvbdod" vbluf="${nbjdk.iomf}/bin/jbvbdod${.fxf}"/>
+        <propfrty nbmf="nbjdk.bpplftvifwfr" vbluf="${nbjdk.iomf}/bin/bpplftvifwfr${.fxf}"/>
+        <propfrty nbmf="nbjdk.bootdlbsspbti" vbluf="${nbjdk.iomf}/jrf/lib/rt.jbr"/>
+    </tbrgft>
 
-    <tbrget nbme="-jdk-presetdef-bbsic" depends="-jdk-preinit" unless="nbjdk.presetdef.bbsic.done">
-        <mbcrodef nbme="jbvbc-presetdef">
-            <bttribute nbme="jbvbcvbl"/>
-            <sequentibl>
-                <presetdef nbme="jbvbc">
-                    <jbvbc fork="yes" executbble="@{jbvbcvbl}"/>
-                </presetdef>
-            </sequentibl>
-        </mbcrodef>
-        <jbvbc-presetdef jbvbcvbl="${nbjdk.jbvbc}"/>
-        <mbcrodef nbme="jbvb-presetdef">
-            <bttribute nbme="jbvbvbl"/>
-            <sequentibl>
-                <presetdef nbme="jbvb">
-                    <jbvb fork="yes" jvm="@{jbvbvbl}"/>
-                </presetdef>
-            </sequentibl>
-        </mbcrodef>
-        <jbvb-presetdef jbvbvbl="${nbjdk.jbvb}"/>
-        <mbcrodef nbme="jbvbdoc-presetdef">
-            <bttribute nbme="jbvbdocvbl"/>
-            <sequentibl>
-                <presetdef nbme="jbvbdoc">
-                    <jbvbdoc executbble="@{jbvbdocvbl}"/>
-                </presetdef>
-            </sequentibl>
-        </mbcrodef>
-        <jbvbdoc-presetdef jbvbdocvbl="${nbjdk.jbvbdoc}"/>
-        <property nbme="nbjdk.presetdef.bbsic.done" vblue="true"/>
-    </tbrget>
+    <tbrgft nbmf="-jdk-prfsftdff-bbsid" dfpfnds="-jdk-prfinit" unlfss="nbjdk.prfsftdff.bbsid.donf">
+        <mbdrodff nbmf="jbvbd-prfsftdff">
+            <bttributf nbmf="jbvbdvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="jbvbd">
+                    <jbvbd fork="yfs" fxfdutbblf="@{jbvbdvbl}"/>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <jbvbd-prfsftdff jbvbdvbl="${nbjdk.jbvbd}"/>
+        <mbdrodff nbmf="jbvb-prfsftdff">
+            <bttributf nbmf="jbvbvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="jbvb">
+                    <jbvb fork="yfs" jvm="@{jbvbvbl}"/>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <jbvb-prfsftdff jbvbvbl="${nbjdk.jbvb}"/>
+        <mbdrodff nbmf="jbvbdod-prfsftdff">
+            <bttributf nbmf="jbvbdodvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="jbvbdod">
+                    <jbvbdod fxfdutbblf="@{jbvbdodvbl}"/>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <jbvbdod-prfsftdff jbvbdodvbl="${nbjdk.jbvbdod}"/>
+        <propfrty nbmf="nbjdk.prfsftdff.bbsid.donf" vbluf="truf"/>
+    </tbrgft>
 
-    <tbrget nbme="-jdk-presetdef-nbjpdbstbrt" depends="-jdk-preinit" unless="nbjdk.presetdef.nbjpdbstbrt.done">
-        <mbcrodef nbme="nbjpdbstbrt-presetdef">
-            <bttribute nbme="bootcpvbl"/>
-            <sequentibl>
-                <presetdef nbme="nbjpdbstbrt">
+    <tbrgft nbmf="-jdk-prfsftdff-nbjpdbstbrt" dfpfnds="-jdk-prfinit" unlfss="nbjdk.prfsftdff.nbjpdbstbrt.donf">
+        <mbdrodff nbmf="nbjpdbstbrt-prfsftdff">
+            <bttributf nbmf="bootdpvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="nbjpdbstbrt">
                     <nbjpdbstbrt>
-                        <bootclbsspbth>
-                            <pbth pbth="@{bootcpvbl}"/>
-                        </bootclbsspbth>
+                        <bootdlbsspbti>
+                            <pbti pbti="@{bootdpvbl}"/>
+                        </bootdlbsspbti>
                     </nbjpdbstbrt>
-                </presetdef>
-            </sequentibl>
-        </mbcrodef>
-        <nbjpdbstbrt-presetdef bootcpvbl="${nbjdk.bootclbsspbth}"/>
-        <property nbme="nbjdk.presetdef.nbjpdbstbrt.done" vblue="true"/>
-    </tbrget>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <nbjpdbstbrt-prfsftdff bootdpvbl="${nbjdk.bootdlbsspbti}"/>
+        <propfrty nbmf="nbjdk.prfsftdff.nbjpdbstbrt.donf" vbluf="truf"/>
+    </tbrgft>
 
-    <tbrget nbme="-jdk-init" depends="-jdk-preinit,-jdk-presetdef-bbsic"/>
+    <tbrgft nbmf="-jdk-init" dfpfnds="-jdk-prfinit,-jdk-prfsftdff-bbsid"/>
 
-</project>
+</projfdt>

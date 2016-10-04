@@ -1,0 +1,373 @@
+/*
+ * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.List;
+
+/**
+ * A RolfList rfprfsfnts b list of rolfs (Rolf objfdts). It is usfd bs
+ * pbrbmftfr whfn drfbting b rflbtion, bnd whfn trying to sft sfvfrbl rolfs in
+ * b rflbtion (vib 'sftRolfs()' mfthod). It is rfturnfd bs pbrt of b
+ * RolfRfsult, to providf rolfs suddfssfully rftrifvfd.
+ *
+ * @sindf 1.5
+ */
+/* Wf dbnnot fxtfnd ArrbyList<Rolf> bfdbusf our lfgbdy
+   bdd(Rolf) mfthod would thfn ovfrridf bdd(E) in ArrbyList<E>,
+   bnd our rfturn vbluf is void whfrfbs ArrbyList.bdd(E)'s is boolfbn.
+   Likfwisf for sft(int,Rolf).  Grrr.  Wf dbnnot usf dovbribndf
+   to ovfrridf thf most importbnt mfthods bnd hbvf thfm rfturn
+   Rolf, fithfr, bfdbusf thbt would brfbk subdlbssfs thbt
+   ovfrridf thosf mfthods in turn (using thf originbl rfturn typf
+   of Objfdt).  Finblly, wf dbnnot implfmfnt Itfrbblf<Rolf>
+   so you dould writf
+       for (Rolf r : rolfList)
+   bfdbusf ArrbyList<> implfmfnts Itfrbblf<> bnd thf sbmf dlbss dbnnot
+   implfmfnt two vfrsions of b gfnfrid intfrfbdf.  Instfbd wf providf
+   thf bsList() mfthod so you dbn writf
+       for (Rolf r : rolfList.bsList())
+*/
+publid dlbss RolfList fxtfnds ArrbyList<Objfdt> {
+
+    privbtf trbnsifnt boolfbn typfSbff;
+    privbtf trbnsifnt boolfbn tbintfd;
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 5568344346499649313L;
+
+    //
+    // Construdtors
+    //
+
+    /**
+     * Construdts bn fmpty RolfList.
+     */
+    publid RolfList() {
+        supfr();
+    }
+
+    /**
+     * Construdts bn fmpty RolfList with thf initibl dbpbdity
+     * spfdififd.
+     *
+     * @pbrbm initiblCbpbdity  initibl dbpbdity
+     */
+    publid RolfList(int initiblCbpbdity) {
+        supfr(initiblCbpbdity);
+    }
+
+    /**
+     * Construdts b {@dodf RolfList} dontbining thf flfmfnts of thf
+     * {@dodf List} spfdififd, in thf ordfr in whidh thfy brf rfturnfd by
+     * thf {@dodf List}'s itfrbtor. Thf {@dodf RolfList} instbndf hbs
+     * bn initibl dbpbdity of 110% of thf sizf of thf {@dodf List}
+     * spfdififd.
+     *
+     * @pbrbm list thf {@dodf List} thbt dffinfs thf initibl dontfnts of
+     * thf nfw {@dodf RolfList}.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf {@dodf list} pbrbmftfr
+     * is {@dodf null} or if thf {@dodf list} pbrbmftfr dontbins bny
+     * non-Rolf objfdts.
+     *
+     * @sff ArrbyList#ArrbyList(jbvb.util.Collfdtion)
+     */
+    publid RolfList(List<Rolf> list) throws IllfgblArgumfntExdfption {
+        // Chfdk for null pbrbmftfr
+        //
+        if (list == null)
+            throw nfw IllfgblArgumfntExdfption("Null pbrbmftfr");
+
+        // Chfdk for non-Rolf objfdts
+        //
+        dhfdkTypfSbff(list);
+
+        // Build thf List<Rolf>
+        //
+        supfr.bddAll(list);
+    }
+
+    /**
+     * Rfturn b vifw of this list bs b {@dodf List<Rolf>}.
+     * Chbngfs to thf rfturnfd vbluf brf rfflfdtfd by dhbngfs
+     * to thf originbl {@dodf RolfList} bnd vidf vfrsb.
+     *
+     * @rfturn b {@dodf List<Rolf>} whosf dontfnts
+     * rfflfdt thf dontfnts of this {@dodf RolfList}.
+     *
+     * <p>If this mfthod hbs fvfr bffn dbllfd on b givfn
+     * {@dodf RolfList} instbndf, b subsfqufnt bttfmpt to bdd
+     * bn objfdt to thbt instbndf whidh is not b {@dodf Rolf}
+     * will fbil with bn {@dodf IllfgblArgumfntExdfption}. For dompbtibility
+     * rfbsons, b {@dodf RolfList} on whidh this mfthod hbs nfvfr
+     * bffn dbllfd dofs bllow objfdts othfr thbn {@dodf Rolf}s to
+     * bf bddfd.</p>
+     *
+     * @throws IllfgblArgumfntExdfption if this {@dodf RolfList} dontbins
+     * bn flfmfnt thbt is not b {@dodf Rolf}.
+     *
+     * @sindf 1.6
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid List<Rolf> bsList() {
+        if (!typfSbff) {
+            if (tbintfd)
+                dhfdkTypfSbff(this);
+            typfSbff = truf;
+        }
+        rfturn Util.dbst(this);
+    }
+
+    //
+    // Addfssors
+    //
+
+    /**
+     * Adds thf Rolf spfdififd bs thf lbst flfmfnt of thf list.
+     *
+     * @pbrbm rolf  thf rolf to bf bddfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if thf rolf is null.
+     */
+    publid void bdd(Rolf rolf)
+        throws IllfgblArgumfntExdfption {
+
+        if (rolf == null) {
+            String fxdMsg = "Invblid pbrbmftfr";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+        supfr.bdd(rolf);
+    }
+
+    /**
+     * Insfrts thf rolf spfdififd bs bn flfmfnt bt thf position spfdififd.
+     * Elfmfnts with bn indfx grfbtfr thbn or fqubl to thf durrfnt position brf
+     * shiftfd up.
+     *
+     * @pbrbm indfx  Thf position in thf list whfrf thf nfw Rolf
+     * objfdt is to bf insfrtfd.
+     * @pbrbm rolf  Thf Rolf objfdt to bf insfrtfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if thf rolf is null.
+     * @fxdfption IndfxOutOfBoundsExdfption  if bddfssing with bn indfx
+     * outsidf of thf list.
+     */
+    publid void bdd(int indfx,
+                    Rolf rolf)
+        throws IllfgblArgumfntExdfption,
+               IndfxOutOfBoundsExdfption {
+
+        if (rolf == null) {
+            String fxdMsg = "Invblid pbrbmftfr";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        supfr.bdd(indfx, rolf);
+    }
+
+    /**
+     * Sfts thf flfmfnt bt thf position spfdififd to bf thf rolf
+     * spfdififd.
+     * Thf prfvious flfmfnt bt thbt position is disdbrdfd.
+     *
+     * @pbrbm indfx  Thf position spfdififd.
+     * @pbrbm rolf  Thf vbluf to whidh thf rolf flfmfnt should bf sft.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if thf rolf is null.
+     * @fxdfption IndfxOutOfBoundsExdfption  if bddfssing with bn indfx
+     * outsidf of thf list.
+     */
+     publid void sft(int indfx,
+                     Rolf rolf)
+         throws IllfgblArgumfntExdfption,
+                IndfxOutOfBoundsExdfption {
+
+        if (rolf == null) {
+            // Rfvisit [dfbro] Lodblizf mfssbgf
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        supfr.sft(indfx, rolf);
+     }
+
+    /**
+     * Appfnds bll thf flfmfnts in thf RolfList spfdififd to thf fnd
+     * of thf list, in thf ordfr in whidh thfy brf rfturnfd by thf Itfrbtor of
+     * thf RolfList spfdififd.
+     *
+     * @pbrbm rolfList  Elfmfnts to bf insfrtfd into thf list (dbn bf null)
+     *
+     * @rfturn truf if this list dhbngfd bs b rfsult of thf dbll.
+     *
+     * @fxdfption IndfxOutOfBoundsExdfption  if bddfssing with bn indfx
+     * outsidf of thf list.
+     *
+     * @sff ArrbyList#bddAll(Collfdtion)
+     */
+    publid boolfbn bddAll(RolfList rolfList)
+        throws IndfxOutOfBoundsExdfption {
+
+        if (rolfList == null) {
+            rfturn truf;
+        }
+
+        rfturn (supfr.bddAll(rolfList));
+    }
+
+    /**
+     * Insfrts bll of thf flfmfnts in thf RolfList spfdififd into this
+     * list, stbrting bt thf spfdififd position, in thf ordfr in whidh thfy brf
+     * rfturnfd by thf Itfrbtor of thf RolfList spfdififd.
+     *
+     * @pbrbm indfx  Position bt whidh to insfrt thf first flfmfnt from thf
+     * RolfList spfdififd.
+     * @pbrbm rolfList  Elfmfnts to bf insfrtfd into thf list.
+     *
+     * @rfturn truf if this list dhbngfd bs b rfsult of thf dbll.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if thf rolf is null.
+     * @fxdfption IndfxOutOfBoundsExdfption  if bddfssing with bn indfx
+     * outsidf of thf list.
+     *
+     * @sff ArrbyList#bddAll(int, Collfdtion)
+     */
+    publid boolfbn bddAll(int indfx,
+                          RolfList rolfList)
+        throws IllfgblArgumfntExdfption,
+               IndfxOutOfBoundsExdfption {
+
+        if (rolfList == null) {
+            // Rfvisit [dfbro] Lodblizf mfssbgf
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        rfturn (supfr.bddAll(indfx, rolfList));
+    }
+
+    /*
+     * Ovfrridf bll of thf mfthods from ArrbyList<Objfdt> thbt might bdd
+     * b non-Rolf to thf List, bnd disbllow thbt if bsList hbs fvfr
+     * bffn dbllfd on this instbndf.
+     */
+
+    @Ovfrridf
+    publid boolfbn bdd(Objfdt o) {
+        if (!tbintfd)
+            tbintfd = isTbintfd(o);
+        if (typfSbff)
+            dhfdkTypfSbff(o);
+        rfturn supfr.bdd(o);
+    }
+
+    @Ovfrridf
+    publid void bdd(int indfx, Objfdt flfmfnt) {
+        if (!tbintfd)
+            tbintfd = isTbintfd(flfmfnt);
+        if (typfSbff)
+            dhfdkTypfSbff(flfmfnt);
+        supfr.bdd(indfx, flfmfnt);
+    }
+
+    @Ovfrridf
+    publid boolfbn bddAll(Collfdtion<?> d) {
+        if (!tbintfd)
+            tbintfd = isTbintfd(d);
+        if (typfSbff)
+            dhfdkTypfSbff(d);
+        rfturn supfr.bddAll(d);
+    }
+
+    @Ovfrridf
+    publid boolfbn bddAll(int indfx, Collfdtion<?> d) {
+        if (!tbintfd)
+            tbintfd = isTbintfd(d);
+        if (typfSbff)
+            dhfdkTypfSbff(d);
+        rfturn supfr.bddAll(indfx, d);
+    }
+
+    @Ovfrridf
+    publid Objfdt sft(int indfx, Objfdt flfmfnt) {
+        if (!tbintfd)
+            tbintfd = isTbintfd(flfmfnt);
+        if (typfSbff)
+            dhfdkTypfSbff(flfmfnt);
+        rfturn supfr.sft(indfx, flfmfnt);
+    }
+
+    /**
+     * IllfgblArgumfntExdfption if o is b non-Rolf objfdt.
+     */
+    privbtf stbtid void dhfdkTypfSbff(Objfdt o) {
+        try {
+            o = (Rolf) o;
+        } dbtdh (ClbssCbstExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f);
+        }
+    }
+
+    /**
+     * IllfgblArgumfntExdfption if d dontbins bny non-Rolf objfdts.
+     */
+    privbtf stbtid void dhfdkTypfSbff(Collfdtion<?> d) {
+        try {
+            Rolf r;
+            for (Objfdt o : d)
+                r = (Rolf) o;
+        } dbtdh (ClbssCbstExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f);
+        }
+    }
+
+    /**
+     * Rfturns truf if o is b non-Rolf objfdt.
+     */
+    privbtf stbtid boolfbn isTbintfd(Objfdt o) {
+        try {
+            dhfdkTypfSbff(o);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns truf if d dontbins bny non-Rolf objfdts.
+     */
+    privbtf stbtid boolfbn isTbintfd(Collfdtion<?> d) {
+        try {
+            dhfdkTypfSbff(d);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+}

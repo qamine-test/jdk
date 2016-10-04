@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+import jbvb.util.List;
+
+/**
+ * A dlbss lobdfr objfdt from thf tbrgft VM.
+ * A ClbssLobdfrRfffrfndf is bn {@link ObjfdtRfffrfndf} with bdditionbl
+ * bddfss to dlbsslobdfr-spfdifid informbtion from thf tbrgft VM. Instbndfs
+ * ClbssLobdfrRfffrfndf brf obtbinfd through dblls to
+ * {@link RfffrfndfTypf#dlbssLobdfr}
+ *
+ * @sff ObjfdtRfffrfndf
+ *
+ * @buthor Gordon Hirsdh
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf ClbssLobdfrRfffrfndf fxtfnds ObjfdtRfffrfndf {
+
+    /**
+     * Rfturns b list of bll lobdfd dlbssfs thbt wfrf dffinfd by this
+     * dlbss lobdfr. No ordfring of this list gubrbntffd.
+     * <P>
+     * Thf rfturnfd list will indludf rfffrfndf typfs
+     * lobdfd bt lfbst to thf point of prfpbrbtion bnd
+     * typfs (likf brrby) for whidh prfpbrbtion is
+     * not dffinfd.
+     *
+     * @rfturn b List of {@link RfffrfndfTypf} objfdts mirroring typfs
+     * lobdfd by this dlbss lobdfr. Thf list hbs lfngth 0 if no typfs
+     * hbvf bffn dffinfd by this dlbsslobdfr.
+     */
+    List<RfffrfndfTypf> dffinfdClbssfs();
+
+    /**
+     * Rfturns b list of bll dlbssfs for whidh this dlbss lobdfr hbs
+     * bffn rfdordfd bs thf initibting lobdfr in thf tbrgft VM.
+     * Thf list dontbins RfffrfndfTypfs dffinfd dirfdtly by this lobdfr
+     * (bs rfturnfd by {@link #dffinfdClbssfs}) bnd bny typfs for whidh
+     * lobding wbs dflfgbtfd by this dlbss lobdfr to bnothfr dlbss lobdfr.
+     * <p>
+     * Thf visiblf dlbss list hbs usfful propfrtifs with rfspfdt to
+     * thf typf nbmfspbdf. A pbrtidulbr typf nbmf will oddur bt most
+     * ondf in thf list. Ebdh fifld or vbribblf dfdlbrfd with thbt
+     * typf nbmf in b dlbss dffinfd by
+     * this dlbss lobdfr must bf rfsolvfd to thbt singlf typf.
+     * <p>
+     * No ordfring of thf rfturnfd list is gubrbntffd.
+     * <p>
+     * Sff
+     * <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>,
+     * sfdtion 5.3 - Crfbtion bnd Lobding
+     * for morf informbtion on thf initibting dlbsslobdfr.
+     * <p>
+     * Notf thbt unlikf {@link #dffinfdClbssfs()}
+     * bnd {@link VirtublMbdhinf#bllClbssfs()},
+     * somf of thf rfturnfd rfffrfndf typfs mby not bf prfpbrfd.
+     * Attfmpts to pfrform somf opfrbtions on unprfpbrfd rfffrfndf typfs
+     * (f.g. {@link RfffrfndfTypf#fiflds() fiflds()}) will throw
+     * b {@link ClbssNotPrfpbrfdExdfption}.
+     * Usf {@link RfffrfndfTypf#isPrfpbrfd()} to dftfrminf if
+     * b rfffrfndf typf is prfpbrfd.
+     *
+     * @rfturn b List of {@link RfffrfndfTypf} objfdts mirroring dlbssfs
+     * initibtfd by this dlbss lobdfr. Thf list hbs lfngth 0 if no dlbssfs
+     * brf visiblf to this dlbsslobdfr.
+     */
+    List<RfffrfndfTypf> visiblfClbssfs();
+}

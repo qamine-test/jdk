@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.wrapper;
+pbdkbgf sun.sfdurity.jgss.wrbppfr;
 
-import java.io.UnsupportedEncodingException;
-import java.security.Provider;
-import java.util.Vector;
-import org.ietf.jgss.*;
-import sun.security.jgss.GSSUtil;
-import sun.security.jgss.GSSCaller;
-import sun.security.jgss.GSSExceptionImpl;
-import sun.security.jgss.spi.*;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.util.Vfdtor;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.GSSUtil;
+import sun.sfdurity.jgss.GSSCbllfr;
+import sun.sfdurity.jgss.GSSExdfptionImpl;
+import sun.sfdurity.jgss.spi.*;
 
 /**
- * JGSS plugin for generic mechanisms provided through native GSS framework.
+ * JGSS plugin for gfnfrid mfdibnisms providfd tirougi nbtivf GSS frbmfwork.
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  */
 
-public final class NativeGSSFactory implements MechanismFactory {
+publid finbl dlbss NbtivfGSSFbdtory implfmfnts MfdibnismFbdtory {
 
-    GSSLibStub cStub = null;
-    private final GSSCaller caller;
+    GSSLibStub dStub = null;
+    privbtf finbl GSSCbllfr dbllfr;
 
-    private GSSCredElement getCredFromSubject(GSSNameElement name,
-                                              boolean initiate)
-        throws GSSException {
-        Oid mech = cStub.getMech();
-        Vector<GSSCredElement> creds = GSSUtil.searchSubject
-            (name, mech, initiate, GSSCredElement.class);
+    privbtf GSSCrfdElfmfnt gftCrfdFromSubjfdt(GSSNbmfElfmfnt nbmf,
+                                              boolfbn initibtf)
+        tirows GSSExdfption {
+        Oid mfdi = dStub.gftMfdi();
+        Vfdtor<GSSCrfdElfmfnt> drfds = GSSUtil.sfbrdiSubjfdt
+            (nbmf, mfdi, initibtf, GSSCrfdElfmfnt.dlbss);
 
-        // If Subject is present but no native creds available
-        if (creds != null && creds.isEmpty()) {
-            if (GSSUtil.useSubjectCredsOnly(caller)) {
-                throw new GSSException(GSSException.NO_CRED);
+        // If Subjfdt is prfsfnt but no nbtivf drfds bvbilbblf
+        if (drfds != null && drfds.isEmpty()) {
+            if (GSSUtil.usfSubjfdtCrfdsOnly(dbllfr)) {
+                tirow nfw GSSExdfption(GSSExdfption.NO_CRED);
             }
         }
 
-        GSSCredElement result = ((creds == null || creds.isEmpty()) ?
-                                 null : creds.firstElement());
-        // Force permission check before returning the cred to caller
-        if (result != null) {
-            result.doServicePermCheck();
+        GSSCrfdElfmfnt rfsult = ((drfds == null || drfds.isEmpty()) ?
+                                 null : drfds.firstElfmfnt());
+        // Fordf pfrmission difdk bfforf rfturning tif drfd to dbllfr
+        if (rfsult != null) {
+            rfsult.doSfrvidfPfrmCifdk();
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public NativeGSSFactory(GSSCaller caller) {
-        this.caller = caller;
-        // Have to call setMech(Oid) explicitly before calling other
-        // methods. Otherwise, NPE may be thrown unexpectantly
+    publid NbtivfGSSFbdtory(GSSCbllfr dbllfr) {
+        tiis.dbllfr = dbllfr;
+        // Hbvf to dbll sftMfdi(Oid) fxpliditly bfforf dblling otifr
+        // mftiods. Otifrwisf, NPE mby bf tirown unfxpfdtbntly
     }
 
-    public void setMech(Oid mech) throws GSSException {
-        cStub = GSSLibStub.getInstance(mech);
+    publid void sftMfdi(Oid mfdi) tirows GSSExdfption {
+        dStub = GSSLibStub.gftInstbndf(mfdi);
     }
 
-    public GSSNameSpi getNameElement(String nameStr, Oid nameType)
-        throws GSSException {
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
+        tirows GSSExdfption {
         try {
-            byte[] nameBytes =
-                (nameStr == null ? null : nameStr.getBytes("UTF-8"));
-            return new GSSNameElement(nameBytes, nameType, cStub);
-        } catch (UnsupportedEncodingException uee) {
-            // Shouldn't happen
-            throw new GSSExceptionImpl(GSSException.FAILURE, uee);
+            bytf[] nbmfBytfs =
+                (nbmfStr == null ? null : nbmfStr.gftBytfs("UTF-8"));
+            rfturn nfw GSSNbmfElfmfnt(nbmfBytfs, nbmfTypf, dStub);
+        } dbtdi (UnsupportfdEndodingExdfption uff) {
+            // Siouldn't ibppfn
+            tirow nfw GSSExdfptionImpl(GSSExdfption.FAILURE, uff);
         }
     }
 
-    public GSSNameSpi getNameElement(byte[] name, Oid nameType)
-        throws GSSException {
-        return new GSSNameElement(name, nameType, cStub);
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
+        tirows GSSExdfption {
+        rfturn nfw GSSNbmfElfmfnt(nbmf, nbmfTypf, dStub);
     }
 
-    public GSSCredentialSpi getCredentialElement(GSSNameSpi name,
-                                                 int initLifetime,
-                                                 int acceptLifetime,
-                                                 int usage)
-        throws GSSException {
-        GSSNameElement nname = null;
-        if (name != null && !(name instanceof GSSNameElement)) {
-            nname = (GSSNameElement)
-                getNameElement(name.toString(), name.getStringNameType());
-        } else nname = (GSSNameElement) name;
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
+                                                 int initLifftimf,
+                                                 int bddfptLifftimf,
+                                                 int usbgf)
+        tirows GSSExdfption {
+        GSSNbmfElfmfnt nnbmf = null;
+        if (nbmf != null && !(nbmf instbndfof GSSNbmfElfmfnt)) {
+            nnbmf = (GSSNbmfElfmfnt)
+                gftNbmfElfmfnt(nbmf.toString(), nbmf.gftStringNbmfTypf());
+        } flsf nnbmf = (GSSNbmfElfmfnt) nbmf;
 
-        if (usage == GSSCredential.INITIATE_AND_ACCEPT) {
-            // Force separate acqusition of cred element since
-            // MIT's impl does not correctly report NO_CRED error.
-            usage = GSSCredential.INITIATE_ONLY;
+        if (usbgf == GSSCrfdfntibl.INITIATE_AND_ACCEPT) {
+            // Fordf sfpbrbtf bdqusition of drfd flfmfnt sindf
+            // MIT's impl dofs not dorrfdtly rfport NO_CRED frror.
+            usbgf = GSSCrfdfntibl.INITIATE_ONLY;
         }
 
-        GSSCredElement credElement =
-            getCredFromSubject(nname, (usage == GSSCredential.INITIATE_ONLY));
+        GSSCrfdElfmfnt drfdElfmfnt =
+            gftCrfdFromSubjfdt(nnbmf, (usbgf == GSSCrfdfntibl.INITIATE_ONLY));
 
-        if (credElement == null) {
-            // No cred in the Subject
-            if (usage == GSSCredential.INITIATE_ONLY) {
-                credElement = new GSSCredElement(nname, initLifetime,
-                                                 usage, cStub);
-            } else if (usage == GSSCredential.ACCEPT_ONLY) {
-                if (nname == null) {
-                    nname = GSSNameElement.DEF_ACCEPTOR;
+        if (drfdElfmfnt == null) {
+            // No drfd in tif Subjfdt
+            if (usbgf == GSSCrfdfntibl.INITIATE_ONLY) {
+                drfdElfmfnt = nfw GSSCrfdElfmfnt(nnbmf, initLifftimf,
+                                                 usbgf, dStub);
+            } flsf if (usbgf == GSSCrfdfntibl.ACCEPT_ONLY) {
+                if (nnbmf == null) {
+                    nnbmf = GSSNbmfElfmfnt.DEF_ACCEPTOR;
                 }
-                credElement = new GSSCredElement(nname, acceptLifetime,
-                                                 usage, cStub);
-            } else {
-                throw new GSSException(GSSException.FAILURE, -1,
-                                       "Unknown usage mode requested");
+                drfdElfmfnt = nfw GSSCrfdElfmfnt(nnbmf, bddfptLifftimf,
+                                                 usbgf, dStub);
+            } flsf {
+                tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                       "Unknown usbgf modf rfqufstfd");
             }
         }
-        return credElement;
+        rfturn drfdElfmfnt;
     }
 
-    public GSSContextSpi getMechanismContext(GSSNameSpi peer,
-                                             GSSCredentialSpi myCred,
-                                             int lifetime)
-        throws GSSException {
-        if (peer == null) {
-            throw new GSSException(GSSException.BAD_NAME);
-        } else if (!(peer instanceof GSSNameElement)) {
-            peer = (GSSNameElement)
-                getNameElement(peer.toString(), peer.getStringNameType());
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSNbmfSpi pffr,
+                                             GSSCrfdfntiblSpi myCrfd,
+                                             int lifftimf)
+        tirows GSSExdfption {
+        if (pffr == null) {
+            tirow nfw GSSExdfption(GSSExdfption.BAD_NAME);
+        } flsf if (!(pffr instbndfof GSSNbmfElfmfnt)) {
+            pffr = (GSSNbmfElfmfnt)
+                gftNbmfElfmfnt(pffr.toString(), pffr.gftStringNbmfTypf());
         }
-        if (myCred == null) {
-            myCred = getCredFromSubject(null, true);
-        } else if (!(myCred instanceof GSSCredElement)) {
-            throw new GSSException(GSSException.NO_CRED);
+        if (myCrfd == null) {
+            myCrfd = gftCrfdFromSubjfdt(null, truf);
+        } flsf if (!(myCrfd instbndfof GSSCrfdElfmfnt)) {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CRED);
         }
-        return new NativeGSSContext((GSSNameElement) peer,
-                                     (GSSCredElement) myCred,
-                                     lifetime, cStub);
+        rfturn nfw NbtivfGSSContfxt((GSSNbmfElfmfnt) pffr,
+                                     (GSSCrfdElfmfnt) myCrfd,
+                                     lifftimf, dStub);
     }
 
-    public GSSContextSpi getMechanismContext(GSSCredentialSpi myCred)
-        throws GSSException {
-        if (myCred == null) {
-            myCred = getCredFromSubject(null, false);
-        } else if (!(myCred instanceof GSSCredElement)) {
-            throw new GSSException(GSSException.NO_CRED);
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSCrfdfntiblSpi myCrfd)
+        tirows GSSExdfption {
+        if (myCrfd == null) {
+            myCrfd = gftCrfdFromSubjfdt(null, fblsf);
+        } flsf if (!(myCrfd instbndfof GSSCrfdElfmfnt)) {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CRED);
         }
-        return new NativeGSSContext((GSSCredElement) myCred, cStub);
+        rfturn nfw NbtivfGSSContfxt((GSSCrfdElfmfnt) myCrfd, dStub);
     }
 
-    public GSSContextSpi getMechanismContext(byte[] exportedContext)
-        throws GSSException {
-        return cStub.importContext(exportedContext);
+    publid GSSContfxtSpi gftMfdibnismContfxt(bytf[] fxportfdContfxt)
+        tirows GSSExdfption {
+        rfturn dStub.importContfxt(fxportfdContfxt);
     }
 
-    public final Oid getMechanismOid() {
-        return cStub.getMech();
+    publid finbl Oid gftMfdibnismOid() {
+        rfturn dStub.gftMfdi();
     }
 
-    public Provider getProvider() {
-        return SunNativeProvider.INSTANCE;
+    publid Providfr gftProvidfr() {
+        rfturn SunNbtivfProvidfr.INSTANCE;
     }
 
-    public Oid[] getNameTypes() throws GSSException {
-        return cStub.inquireNamesForMech();
+    publid Oid[] gftNbmfTypfs() tirows GSSExdfption {
+        rfturn dStub.inquirfNbmfsForMfdi();
     }
 }

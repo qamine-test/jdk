@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import sun.awt.FontConfiguration;
-import sun.font.CompositeFontDescriptor;
-import sun.font.SunFontManager;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.util.HbsiMbp;
+import sun.bwt.FontConfigurbtion;
+import sun.font.CompositfFontDfsdriptor;
+import sun.font.SunFontMbnbgfr;
 
-class CFontConfiguration extends FontConfiguration {
+dlbss CFontConfigurbtion fxtfnds FontConfigurbtion {
 
-    private static CompositeFontDescriptor[] emptyDescriptors =
-        new CompositeFontDescriptor[0];
-    private static String[] emptyStrings = new String[0];
+    privbtf stbtid CompositfFontDfsdriptor[] fmptyDfsdriptors =
+        nfw CompositfFontDfsdriptor[0];
+    privbtf stbtid String[] fmptyStrings = nfw String[0];
 
-    public CFontConfiguration(SunFontManager fm) {
-        super(fm);
+    publid CFontConfigurbtion(SunFontMbnbgfr fm) {
+        supfr(fm);
     }
 
-    public CFontConfiguration(SunFontManager fm,
-                              boolean preferLocaleFonts,
-                              boolean preferPropFonts)
+    publid CFontConfigurbtion(SunFontMbnbgfr fm,
+                              boolfbn prfffrLodblfFonts,
+                              boolfbn prfffrPropFonts)
     {
-        super(fm, preferLocaleFonts, preferPropFonts);
+        supfr(fm, prfffrLodblfFonts, prfffrPropFonts);
     }
 
     /*
-     * On Mac OS X we essentially ignore the font.properties file, and do
-     * it all programatically.  The intention is end users will use things
-     * like the Font Book to manage fonts. Plus our fonts automatically do
-     * unicode substitution, so a localized font is not required.
+     * On Mbd OS X wf fssfntiblly ignorf tif font.propfrtifs filf, bnd do
+     * it bll progrbmbtidblly.  Tif intfntion is fnd usfrs will usf tiings
+     * likf tif Font Book to mbnbgf fonts. Plus our fonts butombtidblly do
+     * unidodf substitution, so b lodblizfd font is not rfquirfd.
      *
-     * The following methods therefore act like stubs and return empty values.
+     * Tif following mftiods tifrfforf bdt likf stubs bnd rfturn fmpty vblufs.
      */
 
-    @Override
-    public int getNumberCoreFonts() {
-        return 0;
+    @Ovfrridf
+    publid int gftNumbfrCorfFonts() {
+        rfturn 0;
     }
 
-    @Override
-    public String[] getPlatformFontNames() {
-        return emptyStrings;
+    @Ovfrridf
+    publid String[] gftPlbtformFontNbmfs() {
+        rfturn fmptyStrings;
     }
 
-    @Override
-    public CompositeFontDescriptor[] get2DCompositeFontInfo() {
-        return emptyDescriptors;
+    @Ovfrridf
+    publid CompositfFontDfsdriptor[] gft2DCompositfFontInfo() {
+        rfturn fmptyDfsdriptors;
     }
 
-    @Override
-    protected String mapFileName(String fileName) {
-        return "";
+    @Ovfrridf
+    protfdtfd String mbpFilfNbmf(String filfNbmf) {
+        rfturn "";
     }
 
-    @Override
-    protected Charset getDefaultFontCharset(String fontName) {
-        return Charset.forName("ISO8859_1");
+    @Ovfrridf
+    protfdtfd Cibrsft gftDffbultFontCibrsft(String fontNbmf) {
+        rfturn Cibrsft.forNbmf("ISO8859_1");
     }
 
-    @Override
-    protected String getEncoding(String awtFontName, String charSubsetName) {
-        return "default";
+    @Ovfrridf
+    protfdtfd String gftEndoding(String bwtFontNbmf, String dibrSubsftNbmf) {
+        rfturn "dffbult";
     }
 
-    @Override
-    protected String getFaceNameFromComponentFontName(String compFontName) {
-        return compFontName;
+    @Ovfrridf
+    protfdtfd String gftFbdfNbmfFromComponfntFontNbmf(String dompFontNbmf) {
+        rfturn dompFontNbmf;
     }
 
-    @Override
-    protected String getFileNameFromComponentFontName(String compFontName) {
-        return compFontName;
+    @Ovfrridf
+    protfdtfd String gftFilfNbmfFromComponfntFontNbmf(String dompFontNbmf) {
+        rfturn dompFontNbmf;
     }
 
-    @Override
-    public String getFallbackFamilyName(String fontName,
-                                        String defaultFallback)
+    @Ovfrridf
+    publid String gftFbllbbdkFbmilyNbmf(String fontNbmf,
+                                        String dffbultFbllbbdk)
     {
-        return defaultFallback;
+        rfturn dffbultFbllbbdk;
     }
 
-    @Override
-    protected void initReorderMap() {
-        reorderMap = new HashMap<>();
+    @Ovfrridf
+    protfdtfd void initRfordfrMbp() {
+        rfordfrMbp = nfw HbsiMbp<>();
     }
 }

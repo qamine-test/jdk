@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
-import java.awt.Component;
+import jbvb.bwt.Componfnt;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
 
 /**
- * This abstract subclass of <code>DragGestureRecognizer</code>
- * defines a <code>DragGestureRecognizer</code>
- * for mouse-based gestures.
+ * Tiis bbstrbdt subdlbss of <dodf>DrbgGfsturfRfdognizfr</dodf>
+ * dffinfs b <dodf>DrbgGfsturfRfdognizfr</dodf>
+ * for mousf-bbsfd gfsturfs.
  *
- * Each platform implements its own concrete subclass of this class,
- * available via the Toolkit.createDragGestureRecognizer() method,
- * to encapsulate
- * the recognition of the platform dependent mouse gesture(s) that initiate
- * a Drag and Drop operation.
+ * Ebdi plbtform implfmfnts its own dondrftf subdlbss of tiis dlbss,
+ * bvbilbblf vib tif Toolkit.drfbtfDrbgGfsturfRfdognizfr() mftiod,
+ * to fndbpsulbtf
+ * tif rfdognition of tif plbtform dfpfndfnt mousf gfsturf(s) tibt initibtf
+ * b Drbg bnd Drop opfrbtion.
  * <p>
- * Mouse drag gesture recognizers should honor the
- * drag gesture motion threshold, available through
- * {@link DragSource#getDragThreshold}.
- * A drag gesture should be recognized only when the distance
- * in either the horizontal or vertical direction between
- * the location of the latest mouse dragged event and the
- * location of the corresponding mouse button pressed event
- * is greater than the drag gesture motion threshold.
+ * Mousf drbg gfsturf rfdognizfrs siould ionor tif
+ * drbg gfsturf motion tirfsiold, bvbilbblf tirougi
+ * {@link DrbgSourdf#gftDrbgTirfsiold}.
+ * A drbg gfsturf siould bf rfdognizfd only wifn tif distbndf
+ * in fitifr tif iorizontbl or vfrtidbl dirfdtion bftwffn
+ * tif lodbtion of tif lbtfst mousf drbggfd fvfnt bnd tif
+ * lodbtion of tif dorrfsponding mousf button prfssfd fvfnt
+ * is grfbtfr tibn tif drbg gfsturf motion tirfsiold.
  * <p>
- * Drag gesture recognizers created with
- * {@link DragSource#createDefaultDragGestureRecognizer}
- * follow this convention.
+ * Drbg gfsturf rfdognizfrs drfbtfd witi
+ * {@link DrbgSourdf#drfbtfDffbultDrbgGfsturfRfdognizfr}
+ * follow tiis donvfntion.
  *
- * @author Laurence P. G. Cable
+ * @butior Lburfndf P. G. Cbblf
  *
- * @see java.awt.dnd.DragGestureListener
- * @see java.awt.dnd.DragGestureEvent
- * @see java.awt.dnd.DragSource
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt
+ * @sff jbvb.bwt.dnd.DrbgSourdf
  */
 
-public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer implements MouseListener, MouseMotionListener {
+publid bbstrbdt dlbss MousfDrbgGfsturfRfdognizfr fxtfnds DrbgGfsturfRfdognizfr implfmfnts MousfListfnfr, MousfMotionListfnfr {
 
-    private static final long serialVersionUID = 6220099344182281120L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6220099344182281120L;
 
     /**
-     * Construct a new <code>MouseDragGestureRecognizer</code>
-     * given the <code>DragSource</code> for the
-     * <code>Component</code> c, the <code>Component</code>
-     * to observe, the action(s)
-     * permitted for this drag operation, and
-     * the <code>DragGestureListener</code> to
-     * notify when a drag gesture is detected.
+     * Construdt b nfw <dodf>MousfDrbgGfsturfRfdognizfr</dodf>
+     * givfn tif <dodf>DrbgSourdf</dodf> for tif
+     * <dodf>Componfnt</dodf> d, tif <dodf>Componfnt</dodf>
+     * to obsfrvf, tif bdtion(s)
+     * pfrmittfd for tiis drbg opfrbtion, bnd
+     * tif <dodf>DrbgGfsturfListfnfr</dodf> to
+     * notify wifn b drbg gfsturf is dftfdtfd.
      *
-     * @param ds  The DragSource for the Component c
-     * @param c   The Component to observe
-     * @param act The actions permitted for this Drag
-     * @param dgl The DragGestureListener to notify when a gesture is detected
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm dgl Tif DrbgGfsturfListfnfr to notify wifn b gfsturf is dftfdtfd
      *
      */
 
-    protected MouseDragGestureRecognizer(DragSource ds, Component c, int act, DragGestureListener dgl) {
-        super(ds, c, act, dgl);
+    protfdtfd MousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt, DrbgGfsturfListfnfr dgl) {
+        supfr(ds, d, bdt, dgl);
     }
 
     /**
-     * Construct a new <code>MouseDragGestureRecognizer</code>
-     * given the <code>DragSource</code> for
-     * the <code>Component</code> c,
-     * the <code>Component</code> to observe, and the action(s)
-     * permitted for this drag operation.
+     * Construdt b nfw <dodf>MousfDrbgGfsturfRfdognizfr</dodf>
+     * givfn tif <dodf>DrbgSourdf</dodf> for
+     * tif <dodf>Componfnt</dodf> d,
+     * tif <dodf>Componfnt</dodf> to obsfrvf, bnd tif bdtion(s)
+     * pfrmittfd for tiis drbg opfrbtion.
      *
-     * @param ds  The DragSource for the Component c
-     * @param c   The Component to observe
-     * @param act The actions permitted for this drag
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis drbg
      */
 
-    protected MouseDragGestureRecognizer(DragSource ds, Component c, int act) {
-        this(ds, c, act, null);
+    protfdtfd MousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt) {
+        tiis(ds, d, bdt, null);
     }
 
     /**
-     * Construct a new <code>MouseDragGestureRecognizer</code>
-     * given the <code>DragSource</code> for the
-     * <code>Component</code> c, and the
-     * <code>Component</code> to observe.
+     * Construdt b nfw <dodf>MousfDrbgGfsturfRfdognizfr</dodf>
+     * givfn tif <dodf>DrbgSourdf</dodf> for tif
+     * <dodf>Componfnt</dodf> d, bnd tif
+     * <dodf>Componfnt</dodf> to obsfrvf.
      *
-     * @param ds  The DragSource for the Component c
-     * @param c   The Component to observe
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm d   Tif Componfnt to obsfrvf
      */
 
-    protected MouseDragGestureRecognizer(DragSource ds, Component c) {
-        this(ds, c, DnDConstants.ACTION_NONE);
+    protfdtfd MousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d) {
+        tiis(ds, d, DnDConstbnts.ACTION_NONE);
     }
 
     /**
-     * Construct a new <code>MouseDragGestureRecognizer</code>
-     * given the <code>DragSource</code> for the <code>Component</code>.
+     * Construdt b nfw <dodf>MousfDrbgGfsturfRfdognizfr</dodf>
+     * givfn tif <dodf>DrbgSourdf</dodf> for tif <dodf>Componfnt</dodf>.
      *
-     * @param ds  The DragSource for the Component
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt
      */
 
-    protected MouseDragGestureRecognizer(DragSource ds) {
-        this(ds, null);
+    protfdtfd MousfDrbgGfsturfRfdognizfr(DrbgSourdf ds) {
+        tiis(ds, null);
     }
 
     /**
-     * register this DragGestureRecognizer's Listeners with the Component
+     * rfgistfr tiis DrbgGfsturfRfdognizfr's Listfnfrs witi tif Componfnt
      */
 
-    protected void registerListeners() {
-        component.addMouseListener(this);
-        component.addMouseMotionListener(this);
+    protfdtfd void rfgistfrListfnfrs() {
+        domponfnt.bddMousfListfnfr(tiis);
+        domponfnt.bddMousfMotionListfnfr(tiis);
     }
 
     /**
-     * unregister this DragGestureRecognizer's Listeners with the Component
+     * unrfgistfr tiis DrbgGfsturfRfdognizfr's Listfnfrs witi tif Componfnt
      *
-     * subclasses must override this method
+     * subdlbssfs must ovfrridf tiis mftiod
      */
 
 
-    protected void unregisterListeners() {
-        component.removeMouseListener(this);
-        component.removeMouseMotionListener(this);
+    protfdtfd void unrfgistfrListfnfrs() {
+        domponfnt.rfmovfMousfListfnfr(tiis);
+        domponfnt.rfmovfMousfMotionListfnfr(tiis);
     }
 
     /**
-     * Invoked when the mouse has been clicked on a component.
+     * Invokfd wifn tif mousf ibs bffn dlidkfd on b domponfnt.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm f tif <dodf>MousfEvfnt</dodf>
      */
 
-    public void mouseClicked(MouseEvent e) { }
+    publid void mousfClidkfd(MousfEvfnt f) { }
 
     /**
-     * Invoked when a mouse button has been
-     * pressed on a <code>Component</code>.
+     * Invokfd wifn b mousf button ibs bffn
+     * prfssfd on b <dodf>Componfnt</dodf>.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm f tif <dodf>MousfEvfnt</dodf>
      */
 
-    public void mousePressed(MouseEvent e) { }
+    publid void mousfPrfssfd(MousfEvfnt f) { }
 
     /**
-     * Invoked when a mouse button has been released on a component.
+     * Invokfd wifn b mousf button ibs bffn rflfbsfd on b domponfnt.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm f tif <dodf>MousfEvfnt</dodf>
      */
 
-    public void mouseReleased(MouseEvent e) { }
+    publid void mousfRflfbsfd(MousfEvfnt f) { }
 
     /**
-     * Invoked when the mouse enters a component.
+     * Invokfd wifn tif mousf fntfrs b domponfnt.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm f tif <dodf>MousfEvfnt</dodf>
      */
 
-    public void mouseEntered(MouseEvent e) { }
+    publid void mousfEntfrfd(MousfEvfnt f) { }
 
     /**
-     * Invoked when the mouse exits a component.
+     * Invokfd wifn tif mousf fxits b domponfnt.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm f tif <dodf>MousfEvfnt</dodf>
      */
 
-    public void mouseExited(MouseEvent e) { }
+    publid void mousfExitfd(MousfEvfnt f) { }
 
     /**
-     * Invoked when a mouse button is pressed on a component.
+     * Invokfd wifn b mousf button is prfssfd on b domponfnt.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm f tif <dodf>MousfEvfnt</dodf>
      */
 
-    public void mouseDragged(MouseEvent e) { }
+    publid void mousfDrbggfd(MousfEvfnt f) { }
 
     /**
-     * Invoked when the mouse button has been moved on a component
-     * (with no buttons no down).
+     * Invokfd wifn tif mousf button ibs bffn movfd on b domponfnt
+     * (witi no buttons no down).
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm f tif <dodf>MousfEvfnt</dodf>
      */
 
-    public void mouseMoved(MouseEvent e) { }
+    publid void mousfMovfd(MousfEvfnt f) { }
 }

@@ -1,0 +1,217 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * Cbpbbilitifs bnd propfrtifs of bufffrs.
+ *
+ * @sff jbvb.bwt.imbgf.BufffrStrbtfgy#gftCbpbbilitifs()
+ * @sff GrbphidsConfigurbtion#gftBufffrCbpbbilitifs
+ * @buthor Midhbfl Mbrtbk
+ * @sindf 1.4
+ */
+publid dlbss BufffrCbpbbilitifs implfmfnts Clonfbblf {
+
+    privbtf ImbgfCbpbbilitifs frontCbps;
+    privbtf ImbgfCbpbbilitifs bbdkCbps;
+    privbtf FlipContfnts flipContfnts;
+
+    /**
+     * Crfbtfs b nfw objfdt for spfdifying bufffring dbpbbilitifs
+     * @pbrbm frontCbps thf dbpbbilitifs of thf front bufffr; dbnnot bf
+     * <dodf>null</dodf>
+     * @pbrbm bbdkCbps thf dbpbbilitifs of thf bbdk bnd intfrmfdibtf bufffrs;
+     * dbnnot bf <dodf>null</dodf>
+     * @pbrbm flipContfnts thf dontfnts of thf bbdk bufffr bftfr pbgf-flipping,
+     * <dodf>null</dodf> if pbgf flipping is not usfd (implifs blitting)
+     * @fxdfption IllfgblArgumfntExdfption if frontCbps or bbdkCbps brf
+     * <dodf>null</dodf>
+     */
+    publid BufffrCbpbbilitifs(ImbgfCbpbbilitifs frontCbps,
+        ImbgfCbpbbilitifs bbdkCbps, FlipContfnts flipContfnts) {
+        if (frontCbps == null || bbdkCbps == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Imbgf dbpbbilitifs spfdififd dbnnot bf null");
+        }
+        this.frontCbps = frontCbps;
+        this.bbdkCbps = bbdkCbps;
+        this.flipContfnts = flipContfnts;
+    }
+
+    /**
+     * @rfturn thf imbgf dbpbbilitifs of thf front (displbyfd) bufffr
+     */
+    publid ImbgfCbpbbilitifs gftFrontBufffrCbpbbilitifs() {
+        rfturn frontCbps;
+    }
+
+    /**
+     * @rfturn thf imbgf dbpbbilitifs of bll bbdk bufffrs (intfrmfdibtf bufffrs
+     * brf donsidfrfd bbdk bufffrs)
+     */
+    publid ImbgfCbpbbilitifs gftBbdkBufffrCbpbbilitifs() {
+        rfturn bbdkCbps;
+    }
+
+    /**
+     * @rfturn whfthfr or not thf bufffr strbtfgy usfs pbgf flipping; b sft of
+     * bufffrs thbt usfs pbgf flipping
+     * dbn swbp thf dontfnts intfrnblly bftwffn thf front bufffr bnd onf or
+     * morf bbdk bufffrs by switdhing thf vidfo pointfr (or by dopying mfmory
+     * intfrnblly).  A non-flipping sft of
+     * bufffrs usfs blitting to dopy thf dontfnts from onf bufffr to
+     * bnothfr; whfn this is thf dbsf, <dodf>gftFlipContfnts</dodf> rfturns
+     * <dodf>null</dodf>
+     */
+    publid boolfbn isPbgfFlipping() {
+        rfturn (gftFlipContfnts() != null);
+    }
+
+    /**
+     * @rfturn thf rfsulting dontfnts of thf bbdk bufffr bftfr pbgf-flipping.
+     * This vbluf is <dodf>null</dodf> whfn thf <dodf>isPbgfFlipping</dodf>
+     * rfturns <dodf>fblsf</dodf>, implying blitting.  It dbn bf onf of
+     * <dodf>FlipContfnts.UNDEFINED</dodf>
+     * (thf bssumfd dffbult), <dodf>FlipContfnts.BACKGROUND</dodf>,
+     * <dodf>FlipContfnts.PRIOR</dodf>, or
+     * <dodf>FlipContfnts.COPIED</dodf>.
+     * @sff #isPbgfFlipping
+     * @sff FlipContfnts#UNDEFINED
+     * @sff FlipContfnts#BACKGROUND
+     * @sff FlipContfnts#PRIOR
+     * @sff FlipContfnts#COPIED
+     */
+    publid FlipContfnts gftFlipContfnts() {
+        rfturn flipContfnts;
+    }
+
+    /**
+     * @rfturn whfthfr pbgf flipping is only bvbilbblf in full-sdrffn modf.  If this
+     * is <dodf>truf</dodf>, full-sdrffn fxdlusivf modf is rfquirfd for
+     * pbgf-flipping.
+     * @sff #isPbgfFlipping
+     * @sff GrbphidsDfvidf#sftFullSdrffnWindow
+     */
+    publid boolfbn isFullSdrffnRfquirfd() {
+        rfturn fblsf;
+    }
+
+    /**
+     * @rfturn whfthfr or not
+     * pbgf flipping dbn bf pfrformfd using morf thbn two bufffrs (onf or morf
+     * intfrmfdibtf bufffrs bs wfll bs thf front bnd bbdk bufffr).
+     * @sff #isPbgfFlipping
+     */
+    publid boolfbn isMultiBufffrAvbilbblf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * @rfturn b dopy of this BufffrCbpbbilitifs objfdt.
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // Sindf wf implfmfnt Clonfbblf, this should nfvfr hbppfn
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    // Innfr dlbss FlipContfnts
+    /**
+     * A typf-sbff fnumfrbtion of thf possiblf bbdk bufffr dontfnts bftfr
+     * pbgf-flipping
+     * @sindf 1.4
+     */
+    publid stbtid finbl dlbss FlipContfnts fxtfnds AttributfVbluf {
+
+        privbtf stbtid int I_UNDEFINED = 0;
+        privbtf stbtid int I_BACKGROUND = 1;
+        privbtf stbtid int I_PRIOR = 2;
+        privbtf stbtid int I_COPIED = 3;
+
+        privbtf stbtid finbl String NAMES[] =
+            { "undffinfd", "bbdkground", "prior", "dopifd" };
+
+        /**
+         * Whfn flip dontfnts brf <dodf>UNDEFINED</dodf>, thf
+         * dontfnts of thf bbdk bufffr brf undffinfd bftfr flipping.
+         * @sff #isPbgfFlipping
+         * @sff #gftFlipContfnts
+         * @sff #BACKGROUND
+         * @sff #PRIOR
+         * @sff #COPIED
+         */
+        publid stbtid finbl FlipContfnts UNDEFINED =
+            nfw FlipContfnts(I_UNDEFINED);
+
+        /**
+         * Whfn flip dontfnts brf <dodf>BACKGROUND</dodf>, thf
+         * dontfnts of thf bbdk bufffr brf dlfbrfd with thf bbdkground dolor bftfr
+         * flipping.
+         * @sff #isPbgfFlipping
+         * @sff #gftFlipContfnts
+         * @sff #UNDEFINED
+         * @sff #PRIOR
+         * @sff #COPIED
+         */
+        publid stbtid finbl FlipContfnts BACKGROUND =
+            nfw FlipContfnts(I_BACKGROUND);
+
+        /**
+         * Whfn flip dontfnts brf <dodf>PRIOR</dodf>, thf
+         * dontfnts of thf bbdk bufffr brf thf prior dontfnts of thf front bufffr
+         * (b truf pbgf flip).
+         * @sff #isPbgfFlipping
+         * @sff #gftFlipContfnts
+         * @sff #UNDEFINED
+         * @sff #BACKGROUND
+         * @sff #COPIED
+         */
+        publid stbtid finbl FlipContfnts PRIOR =
+            nfw FlipContfnts(I_PRIOR);
+
+        /**
+         * Whfn flip dontfnts brf <dodf>COPIED</dodf>, thf
+         * dontfnts of thf bbdk bufffr brf dopifd to thf front bufffr whfn
+         * flipping.
+         * @sff #isPbgfFlipping
+         * @sff #gftFlipContfnts
+         * @sff #UNDEFINED
+         * @sff #BACKGROUND
+         * @sff #PRIOR
+         */
+        publid stbtid finbl FlipContfnts COPIED =
+            nfw FlipContfnts(I_COPIED);
+
+        privbtf FlipContfnts(int typf) {
+            supfr(typf, NAMES);
+        }
+
+    } // Innfr dlbss FlipContfnts
+
+}

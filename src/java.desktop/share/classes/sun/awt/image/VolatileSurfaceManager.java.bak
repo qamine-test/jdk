@@ -1,410 +1,410 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.ImageCapabilities;
-import java.awt.image.BufferedImage;
-import java.awt.image.VolatileImage;
-import sun.awt.DisplayChangedListener;
-import sun.awt.image.SunVolatileImage;
-import sun.java2d.SunGraphicsEnvironment;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.CompositeType;
-import static sun.java2d.pipe.hw.AccelSurface.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import sun.bwt.DisplbyCibngfdListfnfr;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.jbvb2d.SunGrbpiidsEnvironmfnt;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.CompositfTypf;
+import stbtid sun.jbvb2d.pipf.iw.AddflSurfbdf.*;
 
 /**
- * This SurfaceManager variant manages an accelerated volatile surface, if it
- * is possible to create that surface.  If there is limited accelerated
- * memory, or if the volatile surface disappears due to an operating system
- * event, the VolatileSurfaceManager will attempt to restore the
- * accelerated surface.  If that fails, a system memory surface will be
- * created in its place.
+ * Tiis SurfbdfMbnbgfr vbribnt mbnbgfs bn bddflfrbtfd volbtilf surfbdf, if it
+ * is possiblf to drfbtf tibt surfbdf.  If tifrf is limitfd bddflfrbtfd
+ * mfmory, or if tif volbtilf surfbdf disbppfbrs duf to bn opfrbting systfm
+ * fvfnt, tif VolbtilfSurfbdfMbnbgfr will bttfmpt to rfstorf tif
+ * bddflfrbtfd surfbdf.  If tibt fbils, b systfm mfmory surfbdf will bf
+ * drfbtfd in its plbdf.
  */
-public abstract class VolatileSurfaceManager
-    extends SurfaceManager
-    implements DisplayChangedListener
+publid bbstrbdt dlbss VolbtilfSurfbdfMbnbgfr
+    fxtfnds SurfbdfMbnbgfr
+    implfmfnts DisplbyCibngfdListfnfr
 {
     /**
-     * A reference to the VolatileImage whose contents are being managed.
+     * A rfffrfndf to tif VolbtilfImbgf wiosf dontfnts brf bfing mbnbgfd.
      */
-    protected SunVolatileImage vImg;
+    protfdtfd SunVolbtilfImbgf vImg;
 
     /**
-     * The accelerated SurfaceData object.
+     * Tif bddflfrbtfd SurfbdfDbtb objfdt.
      */
-    protected SurfaceData sdAccel;
+    protfdtfd SurfbdfDbtb sdAddfl;
 
     /**
-     * The software-based SurfaceData object.  Only create when first asked
-     * to (otherwise it is a waste of memory as it will only be used in
-     * situations of surface loss).
+     * Tif softwbrf-bbsfd SurfbdfDbtb objfdt.  Only drfbtf wifn first bskfd
+     * to (otifrwisf it is b wbstf of mfmory bs it will only bf usfd in
+     * situbtions of surfbdf loss).
      */
-    protected SurfaceData sdBackup;
+    protfdtfd SurfbdfDbtb sdBbdkup;
 
     /**
-     * The current SurfaceData object.
+     * Tif durrfnt SurfbdfDbtb objfdt.
      */
-    protected SurfaceData sdCurrent;
+    protfdtfd SurfbdfDbtb sdCurrfnt;
 
     /**
-     * A record-keeping object.  This keeps track of which SurfaceData was
-     * in use during the last call to validate().  This lets us see whether
-     * the SurfaceData object has changed since then and allows us to return
-     * the correct returnCode to the user in the validate() call.
+     * A rfdord-kffping objfdt.  Tiis kffps trbdk of wiidi SurfbdfDbtb wbs
+     * in usf during tif lbst dbll to vblidbtf().  Tiis lfts us sff wiftifr
+     * tif SurfbdfDbtb objfdt ibs dibngfd sindf tifn bnd bllows us to rfturn
+     * tif dorrfdt rfturnCodf to tif usfr in tif vblidbtf() dbll.
      */
-    protected SurfaceData sdPrevious;
+    protfdtfd SurfbdfDbtb sdPrfvious;
 
     /**
-     * Tracks loss of surface contents; queriable by user to see whether
-     * contents need to be restored.
+     * Trbdks loss of surfbdf dontfnts; qufribblf by usfr to sff wiftifr
+     * dontfnts nffd to bf rfstorfd.
      */
-    protected boolean lostSurface;
+    protfdtfd boolfbn lostSurfbdf;
 
     /**
-     * Context for extra initialization parameters.
+     * Contfxt for fxtrb initiblizbtion pbrbmftfrs.
      */
-    protected Object context;
+    protfdtfd Objfdt dontfxt;
 
-    protected VolatileSurfaceManager(SunVolatileImage vImg, Object context) {
-        this.vImg = vImg;
-        this.context = context;
+    protfdtfd VolbtilfSurfbdfMbnbgfr(SunVolbtilfImbgf vImg, Objfdt dontfxt) {
+        tiis.vImg = vImg;
+        tiis.dontfxt = dontfxt;
 
-        GraphicsEnvironment ge =
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
-        // We could have a HeadlessGE at this point, so double-check before
-        // assuming anything.
-        if (ge instanceof SunGraphicsEnvironment) {
-            ((SunGraphicsEnvironment)ge).addDisplayChangedListener(this);
+        GrbpiidsEnvironmfnt gf =
+            GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        // Wf dould ibvf b HfbdlfssGE bt tiis point, so doublf-difdk bfforf
+        // bssuming bnytiing.
+        if (gf instbndfof SunGrbpiidsEnvironmfnt) {
+            ((SunGrbpiidsEnvironmfnt)gf).bddDisplbyCibngfdListfnfr(tiis);
         }
     }
 
     /**
-     * This init function is separate from the constructor because the
-     * things we are doing here necessitate the object's existence.
-     * Otherwise, we end up calling into a subclass' overridden method
-     * during construction, before that subclass is completely constructed.
+     * Tiis init fundtion is sfpbrbtf from tif donstrudtor bfdbusf tif
+     * tiings wf brf doing ifrf nfdfssitbtf tif objfdt's fxistfndf.
+     * Otifrwisf, wf fnd up dblling into b subdlbss' ovfrriddfn mftiod
+     * during donstrudtion, bfforf tibt subdlbss is domplftfly donstrudtfd.
      */
-    public void initialize() {
-        if (isAccelerationEnabled()) {
-            sdAccel = initAcceleratedSurface();
-            if (sdAccel != null) {
-                sdCurrent = sdAccel;
+    publid void initiblizf() {
+        if (isAddflfrbtionEnbblfd()) {
+            sdAddfl = initAddflfrbtfdSurfbdf();
+            if (sdAddfl != null) {
+                sdCurrfnt = sdAddfl;
             }
         }
-        // only initialize the backup surface for images with unforced
-        // acceleration type
-        if (sdCurrent == null &&
-            vImg.getForcedAccelSurfaceType() == UNDEFINED)
+        // only initiblizf tif bbdkup surfbdf for imbgfs witi unfordfd
+        // bddflfrbtion typf
+        if (sdCurrfnt == null &&
+            vImg.gftFordfdAddflSurfbdfTypf() == UNDEFINED)
         {
-            sdCurrent = getBackupSurface();
+            sdCurrfnt = gftBbdkupSurfbdf();
         }
     }
 
-    public SurfaceData getPrimarySurfaceData() {
-        return sdCurrent;
+    publid SurfbdfDbtb gftPrimbrySurfbdfDbtb() {
+        rfturn sdCurrfnt;
     }
 
     /**
-     * Returns true if acceleration is enabled.  If not, we simply use the
-     * backup SurfaceData object and return quickly from most methods
-     * in this class.
+     * Rfturns truf if bddflfrbtion is fnbblfd.  If not, wf simply usf tif
+     * bbdkup SurfbdfDbtb objfdt bnd rfturn quidkly from most mftiods
+     * in tiis dlbss.
      */
-    protected abstract boolean isAccelerationEnabled();
+    protfdtfd bbstrbdt boolfbn isAddflfrbtionEnbblfd();
 
     /**
-     * Get the image ready for rendering.  This method is called to make
-     * sure that the accelerated SurfaceData exists and is
-     * ready to be used.  Users call this method prior to any set of
-     * rendering to or from the image, to make sure the image is ready
-     * and compatible with the given GraphicsConfiguration.
+     * Gft tif imbgf rfbdy for rfndfring.  Tiis mftiod is dbllfd to mbkf
+     * surf tibt tif bddflfrbtfd SurfbdfDbtb fxists bnd is
+     * rfbdy to bf usfd.  Usfrs dbll tiis mftiod prior to bny sft of
+     * rfndfring to or from tif imbgf, to mbkf surf tif imbgf is rfbdy
+     * bnd dompbtiblf witi tif givfn GrbpiidsConfigurbtion.
      *
-     * The image may not be "ready" if either we had problems creating
-     * it in the first place (e.g., there was no space in vram) or if
-     * the surface became lost (e.g., some other app or the OS caused
-     * vram surfaces to be removed).
+     * Tif imbgf mby not bf "rfbdy" if fitifr wf ibd problfms drfbting
+     * it in tif first plbdf (f.g., tifrf wbs no spbdf in vrbm) or if
+     * tif surfbdf bfdbmf lost (f.g., somf otifr bpp or tif OS dbusfd
+     * vrbm surfbdfs to bf rfmovfd).
      *
-     * Note that we want to return RESTORED in any situation where the
-     * SurfaceData is different than it was last time.  So whether it's
-     * software or hardware, if we have a different SurfaceData object,
-     * then the contents have been altered and we must reflect that
-     * change to the user.
+     * Notf tibt wf wbnt to rfturn RESTORED in bny situbtion wifrf tif
+     * SurfbdfDbtb is difffrfnt tibn it wbs lbst timf.  So wiftifr it's
+     * softwbrf or ibrdwbrf, if wf ibvf b difffrfnt SurfbdfDbtb objfdt,
+     * tifn tif dontfnts ibvf bffn bltfrfd bnd wf must rfflfdt tibt
+     * dibngf to tif usfr.
      */
-    public int validate(GraphicsConfiguration gc) {
-        int returnCode = VolatileImage.IMAGE_OK;
-        boolean lostSurfaceTmp = lostSurface;
-        lostSurface = false;
+    publid int vblidbtf(GrbpiidsConfigurbtion gd) {
+        int rfturnCodf = VolbtilfImbgf.IMAGE_OK;
+        boolfbn lostSurfbdfTmp = lostSurfbdf;
+        lostSurfbdf = fblsf;
 
-        if (isAccelerationEnabled()) {
-            if (!isConfigValid(gc)) {
-                // If we're asked to render to a different device than the
-                // one we were created under, return INCOMPATIBLE error code.
-                // Note that a null gc simply ignores the incompatibility
-                // issue
-                returnCode = VolatileImage.IMAGE_INCOMPATIBLE;
-            } else if (sdAccel == null) {
-                // We either had problems creating the surface or the display
-                // mode changed and we nullified the old one.  Try it again.
-                sdAccel = initAcceleratedSurface();
-                if (sdAccel != null) {
-                    // set the current SurfaceData to accelerated version
-                    sdCurrent = sdAccel;
-                    // we don't need the system memory surface anymore, so
-                    // let's release it now (it can always be restored later)
-                    sdBackup = null;
-                    returnCode = VolatileImage.IMAGE_RESTORED;
-                } else {
-                    sdCurrent = getBackupSurface();
+        if (isAddflfrbtionEnbblfd()) {
+            if (!isConfigVblid(gd)) {
+                // If wf'rf bskfd to rfndfr to b difffrfnt dfvidf tibn tif
+                // onf wf wfrf drfbtfd undfr, rfturn INCOMPATIBLE frror dodf.
+                // Notf tibt b null gd simply ignorfs tif indompbtibility
+                // issuf
+                rfturnCodf = VolbtilfImbgf.IMAGE_INCOMPATIBLE;
+            } flsf if (sdAddfl == null) {
+                // Wf fitifr ibd problfms drfbting tif surfbdf or tif displby
+                // modf dibngfd bnd wf nullififd tif old onf.  Try it bgbin.
+                sdAddfl = initAddflfrbtfdSurfbdf();
+                if (sdAddfl != null) {
+                    // sft tif durrfnt SurfbdfDbtb to bddflfrbtfd vfrsion
+                    sdCurrfnt = sdAddfl;
+                    // wf don't nffd tif systfm mfmory surfbdf bnymorf, so
+                    // lft's rflfbsf it now (it dbn blwbys bf rfstorfd lbtfr)
+                    sdBbdkup = null;
+                    rfturnCodf = VolbtilfImbgf.IMAGE_RESTORED;
+                } flsf {
+                    sdCurrfnt = gftBbdkupSurfbdf();
                 }
-            } else if (sdAccel.isSurfaceLost()) {
+            } flsf if (sdAddfl.isSurfbdfLost()) {
                 try {
-                    restoreAcceleratedSurface();
-                    // set the current SurfaceData to accelerated version
-                    sdCurrent = sdAccel;
-                    // restoration successful: accel surface no longer lost
-                    sdAccel.setSurfaceLost(false);
-                    // we don't need the system memory surface anymore, so
-                    // let's release it now (it can always be restored later)
-                    sdBackup = null;
-                    returnCode = VolatileImage.IMAGE_RESTORED;
-                } catch (sun.java2d.InvalidPipeException e) {
-                    // Set the current SurfaceData to software version so that
-                    // drawing can continue.  Note that we still have
-                    // the lostAccelSurface flag set so that we will continue
-                    // to attempt to restore the accelerated surface.
-                    sdCurrent = getBackupSurface();
+                    rfstorfAddflfrbtfdSurfbdf();
+                    // sft tif durrfnt SurfbdfDbtb to bddflfrbtfd vfrsion
+                    sdCurrfnt = sdAddfl;
+                    // rfstorbtion suddfssful: bddfl surfbdf no longfr lost
+                    sdAddfl.sftSurfbdfLost(fblsf);
+                    // wf don't nffd tif systfm mfmory surfbdf bnymorf, so
+                    // lft's rflfbsf it now (it dbn blwbys bf rfstorfd lbtfr)
+                    sdBbdkup = null;
+                    rfturnCodf = VolbtilfImbgf.IMAGE_RESTORED;
+                } dbtdi (sun.jbvb2d.InvblidPipfExdfption f) {
+                    // Sft tif durrfnt SurfbdfDbtb to softwbrf vfrsion so tibt
+                    // drbwing dbn dontinuf.  Notf tibt wf still ibvf
+                    // tif lostAddflSurfbdf flbg sft so tibt wf will dontinuf
+                    // to bttfmpt to rfstorf tif bddflfrbtfd surfbdf.
+                    sdCurrfnt = gftBbdkupSurfbdf();
                 }
-            } else if (lostSurfaceTmp) {
-                // Something else triggered this loss/restoration.  Could
-                // be a palette change that didn't require a SurfaceData
-                // recreation but merely a re-rendering of the pixels.
-                returnCode = VolatileImage.IMAGE_RESTORED;
+            } flsf if (lostSurfbdfTmp) {
+                // Somftiing flsf triggfrfd tiis loss/rfstorbtion.  Could
+                // bf b pblfttf dibngf tibt didn't rfquirf b SurfbdfDbtb
+                // rfdrfbtion but mfrfly b rf-rfndfring of tif pixfls.
+                rfturnCodf = VolbtilfImbgf.IMAGE_RESTORED;
             }
-        } else if (sdAccel != null) {
-            // if the "acceleration enabled" state changed to disabled,
-            // switch to software surface
-            sdCurrent = getBackupSurface();
-            sdAccel = null;
-            returnCode = VolatileImage.IMAGE_RESTORED;
+        } flsf if (sdAddfl != null) {
+            // if tif "bddflfrbtion fnbblfd" stbtf dibngfd to disbblfd,
+            // switdi to softwbrf surfbdf
+            sdCurrfnt = gftBbdkupSurfbdf();
+            sdAddfl = null;
+            rfturnCodf = VolbtilfImbgf.IMAGE_RESTORED;
         }
 
-        if ((returnCode != VolatileImage.IMAGE_INCOMPATIBLE) &&
-            (sdCurrent != sdPrevious))
+        if ((rfturnCodf != VolbtilfImbgf.IMAGE_INCOMPATIBLE) &&
+            (sdCurrfnt != sdPrfvious))
         {
-            // contents have changed - return RESTORED to user
-            sdPrevious = sdCurrent;
-            returnCode = VolatileImage.IMAGE_RESTORED;
+            // dontfnts ibvf dibngfd - rfturn RESTORED to usfr
+            sdPrfvious = sdCurrfnt;
+            rfturnCodf = VolbtilfImbgf.IMAGE_RESTORED;
         }
 
-        if (returnCode == VolatileImage.IMAGE_RESTORED) {
-            // clear the current surface with the background color,
-            // only if the surface has been restored
-            initContents();
+        if (rfturnCodf == VolbtilfImbgf.IMAGE_RESTORED) {
+            // dlfbr tif durrfnt surfbdf witi tif bbdkground dolor,
+            // only if tif surfbdf ibs bffn rfstorfd
+            initContfnts();
         }
 
-        return returnCode;
+        rfturn rfturnCodf;
     }
 
     /**
-     * Returns true if rendering data was lost since the last validate call.
+     * Rfturns truf if rfndfring dbtb wbs lost sindf tif lbst vblidbtf dbll.
      *
-     * @see java.awt.image.VolatileImage#contentsLost
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#dontfntsLost
      */
-    public boolean contentsLost() {
-        return lostSurface;
+    publid boolfbn dontfntsLost() {
+        rfturn lostSurfbdf;
     }
 
     /**
-     * Creates a new accelerated surface that is compatible with the
-     * current GraphicsConfiguration.  Returns the new accelerated
-     * SurfaceData object, or null if the surface creation was not successful.
+     * Crfbtfs b nfw bddflfrbtfd surfbdf tibt is dompbtiblf witi tif
+     * durrfnt GrbpiidsConfigurbtion.  Rfturns tif nfw bddflfrbtfd
+     * SurfbdfDbtb objfdt, or null if tif surfbdf drfbtion wbs not suddfssful.
      *
-     * Platform-specific subclasses should initialize an accelerated
-     * surface (e.g. a DirectDraw surface on Windows, an OpenGL pbuffer,
-     * or an X11 pixmap).
+     * Plbtform-spfdifid subdlbssfs siould initiblizf bn bddflfrbtfd
+     * surfbdf (f.g. b DirfdtDrbw surfbdf on Windows, bn OpfnGL pbufffr,
+     * or bn X11 pixmbp).
      */
-    protected abstract SurfaceData initAcceleratedSurface();
+    protfdtfd bbstrbdt SurfbdfDbtb initAddflfrbtfdSurfbdf();
 
     /**
-     * Creates a software-based surface (of type BufImgSurfaceData).
-     * The software representation is only created when needed, which
-     * is only during some situation in which the hardware surface
-     * cannot be allocated.  This allows apps to at least run,
-     * albeit more slowly than they would otherwise.
+     * Crfbtfs b softwbrf-bbsfd surfbdf (of typf BufImgSurfbdfDbtb).
+     * Tif softwbrf rfprfsfntbtion is only drfbtfd wifn nffdfd, wiidi
+     * is only during somf situbtion in wiidi tif ibrdwbrf surfbdf
+     * dbnnot bf bllodbtfd.  Tiis bllows bpps to bt lfbst run,
+     * blbfit morf slowly tibn tify would otifrwisf.
      */
-    protected SurfaceData getBackupSurface() {
-        if (sdBackup == null) {
-            BufferedImage bImg = vImg.getBackupImage();
-            // Sabotage the acceleration capabilities of the BufImg surface
-            SunWritableRaster.stealTrackable(bImg
-                                             .getRaster()
-                                             .getDataBuffer()).setUntrackable();
-            sdBackup = BufImgSurfaceData.createData(bImg);
+    protfdtfd SurfbdfDbtb gftBbdkupSurfbdf() {
+        if (sdBbdkup == null) {
+            BufffrfdImbgf bImg = vImg.gftBbdkupImbgf();
+            // Sbbotbgf tif bddflfrbtion dbpbbilitifs of tif BufImg surfbdf
+            SunWritbblfRbstfr.stfblTrbdkbblf(bImg
+                                             .gftRbstfr()
+                                             .gftDbtbBufffr()).sftUntrbdkbblf();
+            sdBbdkup = BufImgSurfbdfDbtb.drfbtfDbtb(bImg);
         }
-        return sdBackup;
+        rfturn sdBbdkup;
     }
 
     /**
-     * Set contents of the current SurfaceData to default state (i.e. clear
-     * the background).
+     * Sft dontfnts of tif durrfnt SurfbdfDbtb to dffbult stbtf (i.f. dlfbr
+     * tif bbdkground).
      */
-    public void initContents() {
-        // images with forced acceleration type may have a null sdCurrent
-        // because we do not create a backup surface for them
-        if (sdCurrent != null) {
-            Graphics g = vImg.createGraphics();
-            g.clearRect(0, 0, vImg.getWidth(), vImg.getHeight());
-            g.dispose();
-        }
-    }
-
-    /**
-     * Called from a SurfaceData object, indicating that our
-     * accelerated surface has been lost and should be restored (perhaps
-     * using a backup system memory surface).  Returns the newly restored
-     * primary SurfaceData object.
-     */
-    public SurfaceData restoreContents() {
-        return getBackupSurface();
-    }
-
-    /**
-     * If the accelerated surface is the current SurfaceData for this manager,
-     * sets the variable lostSurface to true, which indicates that something
-     * happened to the image under management.  This variable is used in the
-     * validate method to tell the caller that the surface contents need to
-     * be restored.
-     */
-    public void acceleratedSurfaceLost() {
-        if (isAccelerationEnabled() && (sdCurrent == sdAccel)) {
-            lostSurface = true;
+    publid void initContfnts() {
+        // imbgfs witi fordfd bddflfrbtion typf mby ibvf b null sdCurrfnt
+        // bfdbusf wf do not drfbtf b bbdkup surfbdf for tifm
+        if (sdCurrfnt != null) {
+            Grbpiids g = vImg.drfbtfGrbpiids();
+            g.dlfbrRfdt(0, 0, vImg.gftWidti(), vImg.gftHfigit());
+            g.disposf();
         }
     }
 
     /**
-     * Restore sdAccel in case it was lost.  Do nothing in this
-     * default case; platform-specific implementations may do more in
-     * this situation as appropriate.
+     * Cbllfd from b SurfbdfDbtb objfdt, indidbting tibt our
+     * bddflfrbtfd surfbdf ibs bffn lost bnd siould bf rfstorfd (pfribps
+     * using b bbdkup systfm mfmory surfbdf).  Rfturns tif nfwly rfstorfd
+     * primbry SurfbdfDbtb objfdt.
      */
-    protected void restoreAcceleratedSurface() {
+    publid SurfbdfDbtb rfstorfContfnts() {
+        rfturn gftBbdkupSurfbdf();
     }
 
     /**
-     * Called from SunGraphicsEnv when there has been a display mode change.
-     * Note that we simply invalidate hardware surfaces here; we do not
-     * attempt to recreate or re-render them.  This is to avoid threading
-     * conflicts with the native toolkit and associated threads.  Instead,
-     * we just nullify the old surface data object and wait for a future
-     * method in the rendering process to recreate the surface.
+     * If tif bddflfrbtfd surfbdf is tif durrfnt SurfbdfDbtb for tiis mbnbgfr,
+     * sfts tif vbribblf lostSurfbdf to truf, wiidi indidbtfs tibt somftiing
+     * ibppfnfd to tif imbgf undfr mbnbgfmfnt.  Tiis vbribblf is usfd in tif
+     * vblidbtf mftiod to tfll tif dbllfr tibt tif surfbdf dontfnts nffd to
+     * bf rfstorfd.
      */
-    public void displayChanged() {
-        if (!isAccelerationEnabled()) {
-            return;
+    publid void bddflfrbtfdSurfbdfLost() {
+        if (isAddflfrbtionEnbblfd() && (sdCurrfnt == sdAddfl)) {
+            lostSurfbdf = truf;
         }
-        lostSurface = true;
-        if (sdAccel != null) {
-            // First, nullify the software surface.  This guards against
-            // using a SurfaceData that was created in a different
-            // display mode.
-            sdBackup = null;
-            // Now, invalidate the old hardware-based SurfaceData
-            // Note that getBackupSurface may set sdAccel to null so we have to invalidate it before
-            SurfaceData oldData = sdAccel;
-            sdAccel = null;
-            oldData.invalidate();
-            sdCurrent = getBackupSurface();
-        }
-        // Update graphicsConfig for the vImg in case it changed due to
-        // this display change event
-        vImg.updateGraphicsConfig();
     }
 
     /**
-     * When device palette changes, need to force a new copy
-     * of the image into our hardware cache to update the
-     * color indices of the pixels (indexed mode only).
+     * Rfstorf sdAddfl in dbsf it wbs lost.  Do notiing in tiis
+     * dffbult dbsf; plbtform-spfdifid implfmfntbtions mby do morf in
+     * tiis situbtion bs bppropribtf.
      */
-    public void paletteChanged() {
-        lostSurface = true;
+    protfdtfd void rfstorfAddflfrbtfdSurfbdf() {
     }
 
     /**
-     * Called by validate() to see whether the GC passed in is ok for
-     * rendering to.  This generic implementation checks to see
-     * whether the GC is either null or is from the same
-     * device as the one that this image was created on.  Platform-
-     * specific implementations may perform other checks as
-     * appropriate.
+     * Cbllfd from SunGrbpiidsEnv wifn tifrf ibs bffn b displby modf dibngf.
+     * Notf tibt wf simply invblidbtf ibrdwbrf surfbdfs ifrf; wf do not
+     * bttfmpt to rfdrfbtf or rf-rfndfr tifm.  Tiis is to bvoid tirfbding
+     * donflidts witi tif nbtivf toolkit bnd bssodibtfd tirfbds.  Instfbd,
+     * wf just nullify tif old surfbdf dbtb objfdt bnd wbit for b futurf
+     * mftiod in tif rfndfring prodfss to rfdrfbtf tif surfbdf.
      */
-    protected boolean isConfigValid(GraphicsConfiguration gc) {
-        return ((gc == null) ||
-                (gc.getDevice() == vImg.getGraphicsConfig().getDevice()));
-    }
-
-    @Override
-    public ImageCapabilities getCapabilities(GraphicsConfiguration gc) {
-        if (isConfigValid(gc)) {
-            return isAccelerationEnabled() ?
-                new AcceleratedImageCapabilities() :
-                new ImageCapabilities(false);
+    publid void displbyCibngfd() {
+        if (!isAddflfrbtionEnbblfd()) {
+            rfturn;
         }
-        return super.getCapabilities(gc);
+        lostSurfbdf = truf;
+        if (sdAddfl != null) {
+            // First, nullify tif softwbrf surfbdf.  Tiis gubrds bgbinst
+            // using b SurfbdfDbtb tibt wbs drfbtfd in b difffrfnt
+            // displby modf.
+            sdBbdkup = null;
+            // Now, invblidbtf tif old ibrdwbrf-bbsfd SurfbdfDbtb
+            // Notf tibt gftBbdkupSurfbdf mby sft sdAddfl to null so wf ibvf to invblidbtf it bfforf
+            SurfbdfDbtb oldDbtb = sdAddfl;
+            sdAddfl = null;
+            oldDbtb.invblidbtf();
+            sdCurrfnt = gftBbdkupSurfbdf();
+        }
+        // Updbtf grbpiidsConfig for tif vImg in dbsf it dibngfd duf to
+        // tiis displby dibngf fvfnt
+        vImg.updbtfGrbpiidsConfig();
     }
 
-    private class AcceleratedImageCapabilities
-        extends ImageCapabilities
+    /**
+     * Wifn dfvidf pblfttf dibngfs, nffd to fordf b nfw dopy
+     * of tif imbgf into our ibrdwbrf dbdif to updbtf tif
+     * dolor indidfs of tif pixfls (indfxfd modf only).
+     */
+    publid void pblfttfCibngfd() {
+        lostSurfbdf = truf;
+    }
+
+    /**
+     * Cbllfd by vblidbtf() to sff wiftifr tif GC pbssfd in is ok for
+     * rfndfring to.  Tiis gfnfrid implfmfntbtion difdks to sff
+     * wiftifr tif GC is fitifr null or is from tif sbmf
+     * dfvidf bs tif onf tibt tiis imbgf wbs drfbtfd on.  Plbtform-
+     * spfdifid implfmfntbtions mby pfrform otifr difdks bs
+     * bppropribtf.
+     */
+    protfdtfd boolfbn isConfigVblid(GrbpiidsConfigurbtion gd) {
+        rfturn ((gd == null) ||
+                (gd.gftDfvidf() == vImg.gftGrbpiidsConfig().gftDfvidf()));
+    }
+
+    @Ovfrridf
+    publid ImbgfCbpbbilitifs gftCbpbbilitifs(GrbpiidsConfigurbtion gd) {
+        if (isConfigVblid(gd)) {
+            rfturn isAddflfrbtionEnbblfd() ?
+                nfw AddflfrbtfdImbgfCbpbbilitifs() :
+                nfw ImbgfCbpbbilitifs(fblsf);
+        }
+        rfturn supfr.gftCbpbbilitifs(gd);
+    }
+
+    privbtf dlbss AddflfrbtfdImbgfCbpbbilitifs
+        fxtfnds ImbgfCbpbbilitifs
     {
-        AcceleratedImageCapabilities() {
-            super(false);
+        AddflfrbtfdImbgfCbpbbilitifs() {
+            supfr(fblsf);
         }
-        @Override
-        public boolean isAccelerated() {
-            return (sdCurrent == sdAccel);
+        @Ovfrridf
+        publid boolfbn isAddflfrbtfd() {
+            rfturn (sdCurrfnt == sdAddfl);
         }
-        @Override
-        public boolean isTrueVolatile() {
-            return isAccelerated();
+        @Ovfrridf
+        publid boolfbn isTrufVolbtilf() {
+            rfturn isAddflfrbtfd();
         }
     }
 
     /**
-     * Releases any associated hardware memory for this image by
-     * calling flush on sdAccel.  This method forces a lostSurface
-     * situation so any future operations on the image will need to
-     * revalidate the image first.
+     * Rflfbsfs bny bssodibtfd ibrdwbrf mfmory for tiis imbgf by
+     * dblling flusi on sdAddfl.  Tiis mftiod fordfs b lostSurfbdf
+     * situbtion so bny futurf opfrbtions on tif imbgf will nffd to
+     * rfvblidbtf tif imbgf first.
      */
-    public void flush() {
-        lostSurface = true;
-        SurfaceData oldSD = sdAccel;
-        sdAccel = null;
+    publid void flusi() {
+        lostSurfbdf = truf;
+        SurfbdfDbtb oldSD = sdAddfl;
+        sdAddfl = null;
         if (oldSD != null) {
-            oldSD.flush();
+            oldSD.flusi();
         }
     }
 }

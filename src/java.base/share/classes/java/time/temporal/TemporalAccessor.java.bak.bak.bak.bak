@@ -1,0 +1,317 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.util.Objfdts;
+
+/**
+ * Frbmfwork-lfvfl intfrfbdf dffining rfbd-only bddfss to b tfmporbl objfdt,
+ * sudh bs b dbtf, timf, offsft or somf dombinbtion of thfsf.
+ * <p>
+ * This is thf bbsf intfrfbdf typf for dbtf, timf bnd offsft objfdts.
+ * It is implfmfntfd by thosf dlbssfs thbt dbn providf informbtion
+ * bs {@linkplbin TfmporblFifld fiflds} or {@linkplbin TfmporblQufry qufrifs}.
+ * <p>
+ * Most dbtf bnd timf informbtion dbn bf rfprfsfntfd bs b numbfr.
+ * Thfsf brf modflfd using {@dodf TfmporblFifld} with thf numbfr hfld using
+ * b {@dodf long} to hbndlf lbrgf vblufs. Yfbr, month bnd dby-of-month brf
+ * simplf fxbmplfs of fiflds, but thfy blso indludf instbnt bnd offsfts.
+ * Sff {@link ChronoFifld} for thf stbndbrd sft of fiflds.
+ * <p>
+ * Two pifdfs of dbtf/timf informbtion dbnnot bf rfprfsfntfd by numbfrs,
+ * thf {@linkplbin jbvb.timf.dhrono.Chronology dhronology} bnd thf
+ * {@linkplbin jbvb.timf.ZonfId timf-zonf}.
+ * Thfsf dbn bf bddfssfd vib {@linkplbin #qufry(TfmporblQufry) qufrifs} using
+ * thf stbtid mfthods dffinfd on {@link TfmporblQufry}.
+ * <p>
+ * A sub-intfrfbdf, {@link Tfmporbl}, fxtfnds this dffinition to onf thbt blso
+ * supports bdjustmfnt bnd mbnipulbtion on morf domplftf tfmporbl objfdts.
+ * <p>
+ * This intfrfbdf is b frbmfwork-lfvfl intfrfbdf thbt should not bf widfly
+ * usfd in bpplidbtion dodf. Instfbd, bpplidbtions should drfbtf bnd pbss
+ * bround instbndfs of dondrftf typfs, sudh bs {@dodf LodblDbtf}.
+ * Thfrf brf mbny rfbsons for this, pbrt of whidh is thbt implfmfntbtions
+ * of this intfrfbdf mby bf in dblfndbr systfms othfr thbn ISO.
+ * Sff {@link jbvb.timf.dhrono.ChronoLodblDbtf} for b fullfr disdussion of thf issufs.
+ *
+ * @implSpfd
+ * This intfrfbdf plbdfs no rfstridtions on thf mutbbility of implfmfntbtions,
+ * howfvfr immutbbility is strongly rfdommfndfd.
+ *
+ * @sindf 1.8
+ */
+publid intfrfbdf TfmporblAddfssor {
+
+    /**
+     * Chfdks if thf spfdififd fifld is supportfd.
+     * <p>
+     * This dhfdks if thf dbtf-timf dbn bf qufrifd for thf spfdififd fifld.
+     * If fblsf, thfn dblling thf {@link #rbngf(TfmporblFifld) rbngf} bnd {@link #gft(TfmporblFifld) gft}
+     * mfthods will throw bn fxdfption.
+     *
+     * @implSpfd
+     * Implfmfntbtions must dhfdk bnd hbndlf bll fiflds dffinfd in {@link ChronoFifld}.
+     * If thf fifld is supportfd, thfn truf must bf rfturnfd, othfrwisf fblsf must bf rfturnfd.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * <p>
+     * Implfmfntbtions must fnsurf thbt no obsfrvbblf stbtf is bltfrfd whfn this
+     * rfbd-only mfthod is invokfd.
+     *
+     * @pbrbm fifld  thf fifld to dhfdk, null rfturns fblsf
+     * @rfturn truf if this dbtf-timf dbn bf qufrifd for thf fifld, fblsf if not
+     */
+    boolfbn isSupportfd(TfmporblFifld fifld);
+
+    /**
+     * Gfts thf rbngf of vblid vblufs for thf spfdififd fifld.
+     * <p>
+     * All fiflds dbn bf fxprfssfd bs b {@dodf long} intfgfr.
+     * This mfthod rfturns bn objfdt thbt dfsdribfs thf vblid rbngf for thbt vbluf.
+     * Thf vbluf of this tfmporbl objfdt is usfd to fnhbndf thf bddurbdy of thf rfturnfd rbngf.
+     * If thf dbtf-timf dbnnot rfturn thf rbngf, bfdbusf thf fifld is unsupportfd or for
+     * somf othfr rfbson, bn fxdfption will bf thrown.
+     * <p>
+     * Notf thbt thf rfsult only dfsdribfs thf minimum bnd mbximum vblid vblufs
+     * bnd it is importbnt not to rfbd too mudh into thfm. For fxbmplf, thfrf
+     * dould bf vblufs within thf rbngf thbt brf invblid for thf fifld.
+     *
+     * @implSpfd
+     * Implfmfntbtions must dhfdk bnd hbndlf bll fiflds dffinfd in {@link ChronoFifld}.
+     * If thf fifld is supportfd, thfn thf rbngf of thf fifld must bf rfturnfd.
+     * If unsupportfd, thfn bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf thrown.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.rbngfRffinfdBy(TfmporblAddfssorl)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * <p>
+     * Implfmfntbtions must fnsurf thbt no obsfrvbblf stbtf is bltfrfd whfn this
+     * rfbd-only mfthod is invokfd.
+     * <p>
+     * Thf dffbult implfmfntbtion must bfhbvf fquivblfnt to this dodf:
+     * <prf>
+     *  if (fifld instbndfof ChronoFifld) {
+     *    if (isSupportfd(fifld)) {
+     *      rfturn fifld.rbngf();
+     *    }
+     *    throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+     *  }
+     *  rfturn fifld.rbngfRffinfdBy(this);
+     * </prf>
+     *
+     * @pbrbm fifld  thf fifld to qufry thf rbngf for, not null
+     * @rfturn thf rbngf of vblid vblufs for thf fifld, not null
+     * @throws DbtfTimfExdfption if thf rbngf for thf fifld dbnnot bf obtbinfd
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd
+     */
+    dffbult VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld instbndfof ChronoFifld) {
+            if (isSupportfd(fifld)) {
+                rfturn fifld.rbngf();
+            }
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+        }
+        Objfdts.rfquirfNonNull(fifld, "fifld");
+        rfturn fifld.rbngfRffinfdBy(this);
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd fifld bs bn {@dodf int}.
+     * <p>
+     * This qufrifs thf dbtf-timf for thf vbluf of thf spfdififd fifld.
+     * Thf rfturnfd vbluf will blwbys bf within thf vblid rbngf of vblufs for thf fifld.
+     * If thf dbtf-timf dbnnot rfturn thf vbluf, bfdbusf thf fifld is unsupportfd or for
+     * somf othfr rfbson, bn fxdfption will bf thrown.
+     *
+     * @implSpfd
+     * Implfmfntbtions must dhfdk bnd hbndlf bll fiflds dffinfd in {@link ChronoFifld}.
+     * If thf fifld is supportfd bnd hbs bn {@dodf int} rbngf, thfn thf vbluf of
+     * thf fifld must bf rfturnfd.
+     * If unsupportfd, thfn bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf thrown.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * <p>
+     * Implfmfntbtions must fnsurf thbt no obsfrvbblf stbtf is bltfrfd whfn this
+     * rfbd-only mfthod is invokfd.
+     * <p>
+     * Thf dffbult implfmfntbtion must bfhbvf fquivblfnt to this dodf:
+     * <prf>
+     *  if (rbngf(fifld).isIntVbluf()) {
+     *    rfturn rbngf(fifld).dhfdkVblidIntVbluf(gftLong(fifld), fifld);
+     *  }
+     *  throw nfw UnsupportfdTfmporblTypfExdfption("Invblid fifld " + fifld + " + for gft() mfthod, usf gftLong() instfbd");
+     * </prf>
+     *
+     * @pbrbm fifld  thf fifld to gft, not null
+     * @rfturn thf vbluf for thf fifld, within thf vblid rbngf of vblufs
+     * @throws DbtfTimfExdfption if b vbluf for thf fifld dbnnot bf obtbinfd or
+     *         thf vbluf is outsidf thf rbngf of vblid vblufs for thf fifld
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd or
+     *         thf rbngf of vblufs fxdffds bn {@dodf int}
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    dffbult int gft(TfmporblFifld fifld) {
+        VblufRbngf rbngf = rbngf(fifld);
+        if (rbngf.isIntVbluf() == fblsf) {
+            throw nfw UnsupportfdTfmporblTypfExdfption("Invblid fifld " + fifld + " for gft() mfthod, usf gftLong() instfbd");
+        }
+        long vbluf = gftLong(fifld);
+        if (rbngf.isVblidVbluf(vbluf) == fblsf) {
+            throw nfw DbtfTimfExdfption("Invblid vbluf for " + fifld + " (vblid vblufs " + rbngf + "): " + vbluf);
+        }
+        rfturn (int) vbluf;
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd fifld bs b {@dodf long}.
+     * <p>
+     * This qufrifs thf dbtf-timf for thf vbluf of thf spfdififd fifld.
+     * Thf rfturnfd vbluf mby bf outsidf thf vblid rbngf of vblufs for thf fifld.
+     * If thf dbtf-timf dbnnot rfturn thf vbluf, bfdbusf thf fifld is unsupportfd or for
+     * somf othfr rfbson, bn fxdfption will bf thrown.
+     *
+     * @implSpfd
+     * Implfmfntbtions must dhfdk bnd hbndlf bll fiflds dffinfd in {@link ChronoFifld}.
+     * If thf fifld is supportfd, thfn thf vbluf of thf fifld must bf rfturnfd.
+     * If unsupportfd, thfn bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf thrown.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * <p>
+     * Implfmfntbtions must fnsurf thbt no obsfrvbblf stbtf is bltfrfd whfn this
+     * rfbd-only mfthod is invokfd.
+     *
+     * @pbrbm fifld  thf fifld to gft, not null
+     * @rfturn thf vbluf for thf fifld
+     * @throws DbtfTimfExdfption if b vbluf for thf fifld dbnnot bf obtbinfd
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    long gftLong(TfmporblFifld fifld);
+
+    /**
+     * Qufrifs this dbtf-timf.
+     * <p>
+     * This qufrifs this dbtf-timf using thf spfdififd qufry strbtfgy objfdt.
+     * <p>
+     * Qufrifs brf b kfy tool for fxtrbdting informbtion from dbtf-timfs.
+     * Thfy fxists to fxtfrnblizf thf prodfss of qufrying, pfrmitting difffrfnt
+     * bpprobdhfs, bs pfr thf strbtfgy dfsign pbttfrn.
+     * Exbmplfs might bf b qufry thbt dhfdks if thf dbtf is thf dby bfforf Ffbrubry 29th
+     * in b lfbp yfbr, or dbldulbtfs thf numbfr of dbys to your nfxt birthdby.
+     * <p>
+     * Thf most dommon qufry implfmfntbtions brf mfthod rfffrfndfs, sudh bs
+     * {@dodf LodblDbtf::from} bnd {@dodf ZonfId::from}.
+     * Additionbl implfmfntbtions brf providfd bs stbtid mfthods on {@link TfmporblQufry}.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion must bfhbvf fquivblfnt to this dodf:
+     * <prf>
+     *  if (qufry == TfmporblQufrifs.zonfId() ||
+     *        qufry == TfmporblQufrifs.dhronology() || qufry == TfmporblQufrifs.prfdision()) {
+     *    rfturn null;
+     *  }
+     *  rfturn qufry.qufryFrom(this);
+     * </prf>
+     * Futurf vfrsions brf pfrmittfd to bdd furthfr qufrifs to thf if stbtfmfnt.
+     * <p>
+     * All dlbssfs implfmfnting this intfrfbdf bnd ovfrriding this mfthod must dbll
+     * {@dodf TfmporblAddfssor.supfr.qufry(qufry)}. JDK dlbssfs mby bvoid dblling
+     * supfr if thfy providf bfhbvior fquivblfnt to thf dffbult bfhbviour, howfvfr
+     * non-JDK dlbssfs mby not utilizf this optimizbtion bnd must dbll {@dodf supfr}.
+     * <p>
+     * If thf implfmfntbtion dbn supply b vbluf for onf of thf qufrifs listfd in thf
+     * if stbtfmfnt of thf dffbult implfmfntbtion, thfn it must do so.
+     * For fxbmplf, bn bpplidbtion-dffinfd {@dodf HourMin} dlbss storing thf hour
+     * bnd minutf must ovfrridf this mfthod bs follows:
+     * <prf>
+     *  if (qufry == TfmporblQufrifs.prfdision()) {
+     *    rfturn MINUTES;
+     *  }
+     *  rfturn TfmporblAddfssor.supfr.qufry(qufry);
+     * </prf>
+     * <p>
+     * Implfmfntbtions must fnsurf thbt no obsfrvbblf stbtf is bltfrfd whfn this
+     * rfbd-only mfthod is invokfd.
+     *
+     * @pbrbm <R> thf typf of thf rfsult
+     * @pbrbm qufry  thf qufry to invokf, not null
+     * @rfturn thf qufry rfsult, null mby bf rfturnfd (dffinfd by thf qufry)
+     * @throws DbtfTimfExdfption if unbblf to qufry
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    dffbult <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.zonfId()
+                || qufry == TfmporblQufrifs.dhronology()
+                || qufry == TfmporblQufrifs.prfdision()) {
+            rfturn null;
+        }
+        rfturn qufry.qufryFrom(this);
+    }
+
+}

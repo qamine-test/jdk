@@ -1,0 +1,253 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.util.HbshMbp;
+import jbvb.util.Lodblf;
+import jbvb.nio.dhbrsft.*;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.BytfBufffr;
+
+dlbss XMbp {
+
+    privbtf stbtid HbshMbp<String, XMbp> xMbppfrs = nfw HbshMbp<>();
+
+    /* ConvfrtfdGlyphs hbs unidodf dodf points bs indfxfs bnd vblufs
+     * brf plbtform-fndodfd multi-bytfs dhbrs pbdkfd into jbvb dhbrs.
+     * Thfsf plbtform-fndodfd dhbrbdtfrs brf fqubtfd to glyph ids, blthough
+     * thbt's not stridtly truf, bs X11 only supports using dhbrs.
+     * Thf bssumption dbrrifd ovfr from thf nbtivf implfmfntbtion thbt
+     * b dhbr is big fnough to hold bn X11 glyph id (if plbtform dhbr).
+     */
+    dhbr[] donvfrtfdGlyphs;
+
+    stbtid syndhronizfd XMbp gftXMbppfr(String fndoding) {
+        XMbp mbppfr = xMbppfrs.gft(fndoding);
+        if (mbppfr == null) {
+            mbppfr = gftXMbppfrIntfrnbl(fndoding);
+            xMbppfrs.put(fndoding, mbppfr);
+        }
+        rfturn mbppfr;
+    }
+
+    stbtid finbl int SINGLE_BYTE = 1;
+    stbtid finbl int DOUBLE_BYTE = 2;
+
+    privbtf stbtid XMbp gftXMbppfrIntfrnbl(String fndoding) {
+
+        String jdlbss = null;
+        int nBytfs = SINGLE_BYTE;
+        int mbxU = 0xffff;
+        int minU = 0;
+        boolfbn bddAsdii = fblsf;
+        boolfbn lowPbrtOnly = fblsf;
+        if (fndoding.fqubls("dingbbts")) {
+            jdlbss = "sun.bwt.motif.X11Dingbbts";
+            minU = 0x2701;
+            mbxU = 0x27bf;
+        } flsf if (fndoding.fqubls("symbol")){
+            jdlbss = "sun.bwt.Symbol";
+            minU = 0x0391;
+            mbxU = 0x22ff;
+        } flsf if (fndoding.fqubls("iso8859-1")) {
+            mbxU = 0xff;
+        } flsf if (fndoding.fqubls("iso8859-2")) {
+            jdlbss = "ISO8859_2";
+        } flsf if (fndoding.fqubls("jisx0208.1983-0")) {
+            jdlbss = "sun.bwt.motif.X11JIS0208";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.fqubls("jisx0201.1976-0")) {
+            jdlbss = "sun.bwt.motif.X11JIS0201";
+            // this is mbpping thf lbtin supplfmfnt rbngf 128->255 whidh
+            // dofsn't fxist in JIS0201. This nffds fxbminbtion.
+            // it wbs blso ovfrwriting b douplf of thf mbppings of
+            // 7E bnd A5 whidh in JIS201 brf difffrfnt dhbrs thbn in
+            // Lbtin 1. I hbvf rfvisfd AddAsdii to not ovfrwritf dhbrs
+            // whidh brf blrfbdy donvfrtfd.
+            bddAsdii = truf;
+            lowPbrtOnly = truf;
+        } flsf if (fndoding.fqubls("jisx0212.1990-0")) {
+            jdlbss = "sun.bwt.motif.X11JIS0212";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.fqubls("iso8859-4")) {
+            jdlbss = "ISO8859_4";
+        } flsf if (fndoding.fqubls("iso8859-5")) {
+            jdlbss = "ISO8859_5";
+        } flsf if (fndoding.fqubls("koi8-r")) {
+            jdlbss = "KOI8_R";
+        } flsf if (fndoding.fqubls("bnsi-1251")) {
+            jdlbss = "windows-1251";
+        } flsf if (fndoding.fqubls("iso8859-6")) {
+            jdlbss = "ISO8859_6";
+        } flsf if (fndoding.fqubls("iso8859-7")) {
+            jdlbss = "ISO8859_7";
+        } flsf if (fndoding.fqubls("iso8859-8")) {
+            jdlbss = "ISO8859_8";
+        } flsf if (fndoding.fqubls("iso8859-9")) {
+            jdlbss = "ISO8859_9";
+        } flsf if (fndoding.fqubls("iso8859-13")) {
+            jdlbss = "ISO8859_13";
+        } flsf if (fndoding.fqubls("iso8859-15")) {
+            jdlbss = "ISO8859_15";
+        } flsf if (fndoding.fqubls("ksd5601.1987-0")) {
+            jdlbss ="sun.bwt.motif.X11KSC5601";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.fqubls( "ksd5601.1992-3")) {
+            jdlbss ="sun.bwt.motif.X11Johbb";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.fqubls( "ksd5601.1987-1")) {
+            jdlbss ="EUC_KR";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.fqubls( "dns11643-1")) {
+            jdlbss = "sun.bwt.motif.X11CNS11643P1";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.fqubls("dns11643-2")) {
+            jdlbss = "sun.bwt.motif.X11CNS11643P2";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.fqubls("dns11643-3")) {
+            jdlbss = "sun.bwt.motif.X11CNS11643P3";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.fqubls("gb2312.1980-0")) {
+            jdlbss = "sun.bwt.motif.X11GB2312";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.indfxOf("big5") >= 0) {
+            jdlbss = "Big5";
+            nBytfs = DOUBLE_BYTE;
+            bddAsdii = truf;
+        } flsf if (fndoding.fqubls("tis620.2533-0")) {
+            jdlbss = "TIS620";
+        } flsf if (fndoding.fqubls("gbk-0")) {
+            jdlbss = "sun.bwt.motif.X11GBK";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.indfxOf("sun.unidodf-0") >= 0) {
+            jdlbss = "sun.bwt.motif.X11SunUnidodf_0";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.indfxOf("gb18030.2000-1") >= 0) {
+            jdlbss = "sun.bwt.motif.X11GB18030_1";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.indfxOf( "gb18030.2000-0") >= 0) {
+            jdlbss = "sun.bwt.motif.X11GB18030_0";
+            nBytfs = DOUBLE_BYTE;
+        } flsf if (fndoding.indfxOf("hksds") >= 0) {
+            jdlbss = "sun.bwt.HKSCS";
+            nBytfs = DOUBLE_BYTE;
+        }
+        rfturn nfw XMbp(jdlbss, minU, mbxU, nBytfs, bddAsdii, lowPbrtOnly);
+    }
+
+    privbtf stbtid finbl dhbr SURR_MIN = '\uD800';
+    privbtf stbtid finbl dhbr SURR_MAX = '\uDFFF';
+
+    privbtf XMbp(String dlbssNbmf, int minU, int mbxU, int nBytfs,
+                 boolfbn bddAsdii, boolfbn lowPbrtOnly) {
+
+        ChbrsftEndodfr fnd = null;
+        if (dlbssNbmf != null) {
+            try {
+                if (dlbssNbmf.stbrtsWith("sun.bwt")) {
+                    fnd = ((Chbrsft)Clbss.forNbmf(dlbssNbmf).nfwInstbndf()).nfwEndodfr();
+                } flsf {
+                    fnd = Chbrsft.forNbmf(dlbssNbmf).nfwEndodfr();
+                }
+            } dbtdh (Exdfption x) {x.printStbdkTrbdf();}
+        }
+        if (fnd == null) {
+            donvfrtfdGlyphs = nfw dhbr[256];
+            for (int i=0; i<256; i++) {
+                donvfrtfdGlyphs[i] = (dhbr)i;
+            }
+            rfturn;
+        } flsf {
+            /* dhbrs is sft to thf unidodf vblufs to donvfrt,
+             * bytfs is whfrf thf X11 dhbrbdtfr dodfs will bf output.
+             * Finblly wf pbdk thf bytf pbirs into dhbrs.
+             */
+            int dount = mbxU - minU + 1;
+            bytf[] bytfs = nfw bytf[dount*nBytfs];
+            dhbr[] dhbrs  = nfw dhbr[dount];
+            for (int i=0; i<dount; i++) {
+                dhbrs[i] = (dhbr)(minU+i);
+            }
+            int stbrtChbrIndfx = 0;
+            /* For multi-bytf fndodings, singlf bytf dhbrs should bf skippfd */
+            if (nBytfs > SINGLE_BYTE && minU < 256) {
+                stbrtChbrIndfx = 256-minU;
+            }
+            bytf[] rbytfs = nfw bytf[nBytfs];
+            try {
+                int dbLfn = 0;
+                int bbLfn = 0;
+                // Sindf wf don't support surrogbtfs in bny X11 fndoding, skip
+                // thf surrogbtf brfb, othfrwisf thf sfqufndf of "Oxdbff0xdd00"
+                // will bddidfntly dbusf thf surrogbtf-bwbrf nio dhbrsft to trfbt
+                // thfm bs b lfgbl pbir bnd thfn undfsirbblly skip 2 "dhbrs"
+                // for onf "unmbppbblf dhbrbdtfr"
+                if (stbrtChbrIndfx < SURR_MIN && stbrtChbrIndfx + dount >SURR_MAX) {
+                    dbLfn = SURR_MIN - stbrtChbrIndfx;
+                    bbLfn = dbLfn * nBytfs;
+                    fnd.onMblformfdInput(CodingErrorAdtion.REPLACE)
+                        .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE)
+                        .rfplbdfWith(rbytfs)
+                        .fndodf(ChbrBufffr.wrbp(dhbrs, stbrtChbrIndfx, dbLfn),
+                                BytfBufffr.wrbp(bytfs, stbrtChbrIndfx * nBytfs, bbLfn),
+                                truf);
+                    stbrtChbrIndfx = SURR_MAX + 1;
+                }
+                dbLfn = dount - stbrtChbrIndfx;
+                bbLfn = dbLfn * nBytfs;
+                fnd.onMblformfdInput(CodingErrorAdtion.REPLACE)
+                    .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE)
+                    .rfplbdfWith(rbytfs)
+                    .fndodf(ChbrBufffr.wrbp(dhbrs, stbrtChbrIndfx, dbLfn),
+                            BytfBufffr.wrbp(bytfs, stbrtChbrIndfx * nBytfs, bbLfn),
+                            truf);
+            } dbtdh (Exdfption f) { f.printStbdkTrbdf();}
+
+            donvfrtfdGlyphs = nfw dhbr[65536];
+            for (int i=0; i<dount; i++) {
+                if (nBytfs == 1) {
+                    donvfrtfdGlyphs[i+minU] = (dhbr)(bytfs[i]&0xff);
+                } flsf {
+                    donvfrtfdGlyphs[i+minU] =
+                        (dhbr)(((bytfs[i*2]&0xff) << 8) + (bytfs[i*2+1]&0xff));
+                }
+            }
+        }
+
+        int mbx = (lowPbrtOnly) ? 128 : 256;
+        if (bddAsdii && donvfrtfdGlyphs.lfngth >= 256) {
+            for (int i=0;i<mbx;i++) {
+                if (donvfrtfdGlyphs[i] == 0) {
+                    donvfrtfdGlyphs[i] = (dhbr)i;
+                }
+            }
+        }
+    }
+}

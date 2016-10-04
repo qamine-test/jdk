@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.net.URL;
+import jbvb.util.HbsiMbp;
+import jbvb.util.ArrbyList;
+import jbvb.nft.URL;
 
-import sun.security.util.Debug;
+import sun.sfdurity.util.Dfbug;
 
 /**
- * This class extends ClassLoader with additional support for defining
- * classes with an associated code source and permissions which are
- * retrieved by the system policy by default.
+ * Tiis dlbss fxtfnds ClbssLobdfr witi bdditionbl support for dffining
+ * dlbssfs witi bn bssodibtfd dodf sourdf bnd pfrmissions wiidi brf
+ * rftrifvfd by tif systfm polidy by dffbult.
  *
- * @author  Li Gong
- * @author  Roland Schemers
+ * @butior  Li Gong
+ * @butior  Rolbnd Sdifmfrs
  */
-public class SecureClassLoader extends ClassLoader {
+publid dlbss SfdurfClbssLobdfr fxtfnds ClbssLobdfr {
     /*
-     * If initialization succeed this is set to true and security checks will
-     * succeed. Otherwise the object is not initialized and the object is
-     * useless.
+     * If initiblizbtion suddffd tiis is sft to truf bnd sfdurity difdks will
+     * suddffd. Otifrwisf tif objfdt is not initiblizfd bnd tif objfdt is
+     * usflfss.
      */
-    private final boolean initialized;
+    privbtf finbl boolfbn initiblizfd;
 
-    // HashMap that maps CodeSource to ProtectionDomain
-    // @GuardedBy("pdcache")
-    private final HashMap<CodeSource, ProtectionDomain> pdcache =
-                        new HashMap<>(11);
+    // HbsiMbp tibt mbps CodfSourdf to ProtfdtionDombin
+    // @GubrdfdBy("pddbdif")
+    privbtf finbl HbsiMbp<CodfSourdf, ProtfdtionDombin> pddbdif =
+                        nfw HbsiMbp<>(11);
 
-    private static final Debug debug = Debug.getInstance("scl");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("sdl");
 
-    static {
-        ClassLoader.registerAsParallelCapable();
+    stbtid {
+        ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf();
     }
 
     /**
-     * Creates a new SecureClassLoader using the specified parent
-     * class loader for delegation.
+     * Crfbtfs b nfw SfdurfClbssLobdfr using tif spfdififd pbrfnt
+     * dlbss lobdfr for dflfgbtion.
      *
-     * <p>If there is a security manager, this method first
-     * calls the security manager's {@code checkCreateClassLoader}
-     * method  to ensure creation of a class loader is allowed.
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first
+     * dblls tif sfdurity mbnbgfr's {@dodf difdkCrfbtfClbssLobdfr}
+     * mftiod  to fnsurf drfbtion of b dlbss lobdfr is bllowfd.
      * <p>
-     * @param parent the parent ClassLoader
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkCreateClassLoader} method doesn't allow
-     *             creation of a class loader.
-     * @see SecurityManager#checkCreateClassLoader
+     * @pbrbm pbrfnt tif pbrfnt ClbssLobdfr
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkCrfbtfClbssLobdfr} mftiod dofsn't bllow
+     *             drfbtion of b dlbss lobdfr.
+     * @sff SfdurityMbnbgfr#difdkCrfbtfClbssLobdfr
      */
-    protected SecureClassLoader(ClassLoader parent) {
-        super(parent);
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkCreateClassLoader();
+    protfdtfd SfdurfClbssLobdfr(ClbssLobdfr pbrfnt) {
+        supfr(pbrfnt);
+        // tiis is to mbkf tif stbdk dfpti donsistfnt witi 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkCrfbtfClbssLobdfr();
         }
-        initialized = true;
+        initiblizfd = truf;
     }
 
     /**
-     * Creates a new SecureClassLoader using the default parent class
-     * loader for delegation.
+     * Crfbtfs b nfw SfdurfClbssLobdfr using tif dffbult pbrfnt dlbss
+     * lobdfr for dflfgbtion.
      *
-     * <p>If there is a security manager, this method first
-     * calls the security manager's {@code checkCreateClassLoader}
-     * method  to ensure creation of a class loader is allowed.
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first
+     * dblls tif sfdurity mbnbgfr's {@dodf difdkCrfbtfClbssLobdfr}
+     * mftiod  to fnsurf drfbtion of b dlbss lobdfr is bllowfd.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkCreateClassLoader} method doesn't allow
-     *             creation of a class loader.
-     * @see SecurityManager#checkCreateClassLoader
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkCrfbtfClbssLobdfr} mftiod dofsn't bllow
+     *             drfbtion of b dlbss lobdfr.
+     * @sff SfdurityMbnbgfr#difdkCrfbtfClbssLobdfr
      */
-    protected SecureClassLoader() {
-        super();
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkCreateClassLoader();
+    protfdtfd SfdurfClbssLobdfr() {
+        supfr();
+        // tiis is to mbkf tif stbdk dfpti donsistfnt witi 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkCrfbtfClbssLobdfr();
         }
-        initialized = true;
+        initiblizfd = truf;
     }
 
     /**
-     * Converts an array of bytes into an instance of class Class,
-     * with an optional CodeSource. Before the
-     * class can be used it must be resolved.
+     * Convfrts bn brrby of bytfs into bn instbndf of dlbss Clbss,
+     * witi bn optionbl CodfSourdf. Bfforf tif
+     * dlbss dbn bf usfd it must bf rfsolvfd.
      * <p>
-     * If a non-null CodeSource is supplied a ProtectionDomain is
-     * constructed and associated with the class being defined.
+     * If b non-null CodfSourdf is supplifd b ProtfdtionDombin is
+     * donstrudtfd bnd bssodibtfd witi tif dlbss bfing dffinfd.
      * <p>
-     * @param      name the expected name of the class, or {@code null}
-     *                  if not known, using '.' and not '/' as the separator
-     *                  and without a trailing ".class" suffix.
-     * @param      b    the bytes that make up the class data. The bytes in
-     *             positions {@code off} through {@code off+len-1}
-     *             should have the format of a valid class file as defined by
-     *             <cite>The Java&trade; Virtual Machine Specification</cite>.
-     * @param      off  the start offset in {@code b} of the class data
-     * @param      len  the length of the class data
-     * @param      cs   the associated CodeSource, or {@code null} if none
-     * @return the {@code Class} object created from the data,
-     *         and optional CodeSource.
-     * @exception  ClassFormatError if the data did not contain a valid class
-     * @exception  IndexOutOfBoundsException if either {@code off} or
-     *             {@code len} is negative, or if
-     *             {@code off+len} is greater than {@code b.length}.
+     * @pbrbm      nbmf tif fxpfdtfd nbmf of tif dlbss, or {@dodf null}
+     *                  if not known, using '.' bnd not '/' bs tif sfpbrbtor
+     *                  bnd witiout b trbiling ".dlbss" suffix.
+     * @pbrbm      b    tif bytfs tibt mbkf up tif dlbss dbtb. Tif bytfs in
+     *             positions {@dodf off} tirougi {@dodf off+lfn-1}
+     *             siould ibvf tif formbt of b vblid dlbss filf bs dffinfd by
+     *             <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
+     * @pbrbm      off  tif stbrt offsft in {@dodf b} of tif dlbss dbtb
+     * @pbrbm      lfn  tif lfngti of tif dlbss dbtb
+     * @pbrbm      ds   tif bssodibtfd CodfSourdf, or {@dodf null} if nonf
+     * @rfturn tif {@dodf Clbss} objfdt drfbtfd from tif dbtb,
+     *         bnd optionbl CodfSourdf.
+     * @fxdfption  ClbssFormbtError if tif dbtb did not dontbin b vblid dlbss
+     * @fxdfption  IndfxOutOfBoundsExdfption if fitifr {@dodf off} or
+     *             {@dodf lfn} is nfgbtivf, or if
+     *             {@dodf off+lfn} is grfbtfr tibn {@dodf b.lfngti}.
      *
-     * @exception  SecurityException if an attempt is made to add this class
-     *             to a package that contains classes that were signed by
-     *             a different set of certificates than this class, or if
-     *             the class name begins with "java.".
+     * @fxdfption  SfdurityExdfption if bn bttfmpt is mbdf to bdd tiis dlbss
+     *             to b pbdkbgf tibt dontbins dlbssfs tibt wfrf signfd by
+     *             b difffrfnt sft of dfrtifidbtfs tibn tiis dlbss, or if
+     *             tif dlbss nbmf bfgins witi "jbvb.".
      */
-    protected final Class<?> defineClass(String name,
-                                         byte[] b, int off, int len,
-                                         CodeSource cs)
+    protfdtfd finbl Clbss<?> dffinfClbss(String nbmf,
+                                         bytf[] b, int off, int lfn,
+                                         CodfSourdf ds)
     {
-        return defineClass(name, b, off, len, getProtectionDomain(cs));
+        rfturn dffinfClbss(nbmf, b, off, lfn, gftProtfdtionDombin(ds));
     }
 
     /**
-     * Converts a {@link java.nio.ByteBuffer ByteBuffer}
-     * into an instance of class {@code Class}, with an optional CodeSource.
-     * Before the class can be used it must be resolved.
+     * Convfrts b {@link jbvb.nio.BytfBufffr BytfBufffr}
+     * into bn instbndf of dlbss {@dodf Clbss}, witi bn optionbl CodfSourdf.
+     * Bfforf tif dlbss dbn bf usfd it must bf rfsolvfd.
      * <p>
-     * If a non-null CodeSource is supplied a ProtectionDomain is
-     * constructed and associated with the class being defined.
+     * If b non-null CodfSourdf is supplifd b ProtfdtionDombin is
+     * donstrudtfd bnd bssodibtfd witi tif dlbss bfing dffinfd.
      * <p>
-     * @param      name the expected name of the class, or {@code null}
-     *                  if not known, using '.' and not '/' as the separator
-     *                  and without a trailing ".class" suffix.
-     * @param      b    the bytes that make up the class data.  The bytes from positions
-     *                  {@code b.position()} through {@code b.position() + b.limit() -1}
-     *                  should have the format of a valid class file as defined by
-     *                  <cite>The Java&trade; Virtual Machine Specification</cite>.
-     * @param      cs   the associated CodeSource, or {@code null} if none
-     * @return the {@code Class} object created from the data,
-     *         and optional CodeSource.
-     * @exception  ClassFormatError if the data did not contain a valid class
-     * @exception  SecurityException if an attempt is made to add this class
-     *             to a package that contains classes that were signed by
-     *             a different set of certificates than this class, or if
-     *             the class name begins with "java.".
+     * @pbrbm      nbmf tif fxpfdtfd nbmf of tif dlbss, or {@dodf null}
+     *                  if not known, using '.' bnd not '/' bs tif sfpbrbtor
+     *                  bnd witiout b trbiling ".dlbss" suffix.
+     * @pbrbm      b    tif bytfs tibt mbkf up tif dlbss dbtb.  Tif bytfs from positions
+     *                  {@dodf b.position()} tirougi {@dodf b.position() + b.limit() -1}
+     *                  siould ibvf tif formbt of b vblid dlbss filf bs dffinfd by
+     *                  <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
+     * @pbrbm      ds   tif bssodibtfd CodfSourdf, or {@dodf null} if nonf
+     * @rfturn tif {@dodf Clbss} objfdt drfbtfd from tif dbtb,
+     *         bnd optionbl CodfSourdf.
+     * @fxdfption  ClbssFormbtError if tif dbtb did not dontbin b vblid dlbss
+     * @fxdfption  SfdurityExdfption if bn bttfmpt is mbdf to bdd tiis dlbss
+     *             to b pbdkbgf tibt dontbins dlbssfs tibt wfrf signfd by
+     *             b difffrfnt sft of dfrtifidbtfs tibn tiis dlbss, or if
+     *             tif dlbss nbmf bfgins witi "jbvb.".
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    protected final Class<?> defineClass(String name, java.nio.ByteBuffer b,
-                                         CodeSource cs)
+    protfdtfd finbl Clbss<?> dffinfClbss(String nbmf, jbvb.nio.BytfBufffr b,
+                                         CodfSourdf ds)
     {
-        return defineClass(name, b, getProtectionDomain(cs));
+        rfturn dffinfClbss(nbmf, b, gftProtfdtionDombin(ds));
     }
 
     /**
-     * Returns the permissions for the given CodeSource object.
+     * Rfturns tif pfrmissions for tif givfn CodfSourdf objfdt.
      * <p>
-     * This method is invoked by the defineClass method which takes
-     * a CodeSource as an argument when it is constructing the
-     * ProtectionDomain for the class being defined.
+     * Tiis mftiod is invokfd by tif dffinfClbss mftiod wiidi tbkfs
+     * b CodfSourdf bs bn brgumfnt wifn it is donstrudting tif
+     * ProtfdtionDombin for tif dlbss bfing dffinfd.
      * <p>
-     * @param codesource the codesource.
+     * @pbrbm dodfsourdf tif dodfsourdf.
      *
-     * @return the permissions granted to the codesource.
+     * @rfturn tif pfrmissions grbntfd to tif dodfsourdf.
      *
      */
-    protected PermissionCollection getPermissions(CodeSource codesource)
+    protfdtfd PfrmissionCollfdtion gftPfrmissions(CodfSourdf dodfsourdf)
     {
-        check();
-        return new Permissions(); // ProtectionDomain defers the binding
+        difdk();
+        rfturn nfw Pfrmissions(); // ProtfdtionDombin dfffrs tif binding
     }
 
     /*
-     * Returned cached ProtectionDomain for the specified CodeSource.
+     * Rfturnfd dbdifd ProtfdtionDombin for tif spfdififd CodfSourdf.
      */
-    private ProtectionDomain getProtectionDomain(CodeSource cs) {
-        if (cs == null)
-            return null;
+    privbtf ProtfdtionDombin gftProtfdtionDombin(CodfSourdf ds) {
+        if (ds == null)
+            rfturn null;
 
-        ProtectionDomain pd = null;
-        synchronized (pdcache) {
-            pd = pdcache.get(cs);
+        ProtfdtionDombin pd = null;
+        syndironizfd (pddbdif) {
+            pd = pddbdif.gft(ds);
             if (pd == null) {
-                PermissionCollection perms = getPermissions(cs);
-                pd = new ProtectionDomain(cs, perms, this, null);
-                pdcache.put(cs, pd);
-                if (debug != null) {
-                    debug.println(" getPermissions "+ pd);
-                    debug.println("");
+                PfrmissionCollfdtion pfrms = gftPfrmissions(ds);
+                pd = nfw ProtfdtionDombin(ds, pfrms, tiis, null);
+                pddbdif.put(ds, pd);
+                if (dfbug != null) {
+                    dfbug.println(" gftPfrmissions "+ pd);
+                    dfbug.println("");
                 }
             }
         }
-        return pd;
+        rfturn pd;
     }
 
     /*
-     * Check to make sure the class loader has been initialized.
+     * Cifdk to mbkf surf tif dlbss lobdfr ibs bffn initiblizfd.
      */
-    private void check() {
-        if (!initialized) {
-            throw new SecurityException("ClassLoader object not initialized");
+    privbtf void difdk() {
+        if (!initiblizfd) {
+            tirow nfw SfdurityExdfption("ClbssLobdfr objfdt not initiblizfd");
         }
     }
 

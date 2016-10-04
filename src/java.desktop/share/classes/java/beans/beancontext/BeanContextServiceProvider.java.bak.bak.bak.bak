@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns.bfbndontfxt;
+
+import jbvb.util.Itfrbtor;
+
+/**
+ * <p>
+ * Onf of thf primbry fundtions of b BfbnContfxt is to bdt b bs rfndfzvous
+ * bftwffn JbvbBfbns, bnd BfbnContfxtSfrvidfProvidfrs.
+ * </p>
+ * <p>
+ * A JbvbBfbn nfstfd within b BfbnContfxt, mby bsk thbt BfbnContfxt to
+ * providf bn instbndf of b "sfrvidf", bbsfd upon b rfffrfndf to b Jbvb
+ * Clbss objfdt thbt rfprfsfnts thbt sfrvidf.
+ * </p>
+ * <p>
+ * If sudh b sfrvidf hbs bffn rfgistfrfd with thf dontfxt, or onf of its
+ * nfsting dontfxt's, in thf dbsf whfrf b dontfxt dflfgbtf to its dontfxt
+ * to sbtisfy b sfrvidf rfqufst, thfn thf BfbnContfxtSfrvidfProvidfr bssodibtfd with
+ * thf sfrvidf is bskfd to providf bn instbndf of thbt sfrvidf.
+ * </p>
+ * <p>
+ * Thf SfrvdifProvidfr mby blwbys rfturn thf sbmf instbndf, or it mby
+ * donstrudt b nfw instbndf for fbdh rfqufst.
+ * </p>
+ */
+
+publid intfrfbdf BfbnContfxtSfrvidfProvidfr {
+
+   /**
+    * Invokfd by <dodf>BfbnContfxtSfrvidfs</dodf>, this mfthod
+    * rfqufsts bn instbndf of b
+    * sfrvidf from this <dodf>BfbnContfxtSfrvidfProvidfr</dodf>.
+    *
+    * @pbrbm bds Thf <dodf>BfbnContfxtSfrvidfs</dodf> bssodibtfd with this
+    * pbrtidulbr rfqufst. This pbrbmftfr fnbblfs thf
+    * <dodf>BfbnContfxtSfrvidfProvidfr</dodf> to distinguish sfrvidf
+    * rfqufsts from multiplf sourdfs.
+    *
+    * @pbrbm rfqufstor          Thf objfdt rfqufsting thf sfrvidf
+    *
+    * @pbrbm sfrvidfClbss       Thf sfrvidf rfqufstfd
+    *
+    * @pbrbm sfrvidfSflfdtor thf sfrvidf dfpfndfnt pbrbmftfr
+    * for b pbrtidulbr sfrvidf, or <dodf>null</dodf> if not bpplidbblf.
+    *
+    * @rfturn b rfffrfndf to thf rfqufstfd sfrvidf
+    */
+    Objfdt gftSfrvidf(BfbnContfxtSfrvidfs bds, Objfdt rfqufstor, Clbss<?> sfrvidfClbss, Objfdt sfrvidfSflfdtor);
+
+    /**
+     * Invokfd by <dodf>BfbnContfxtSfrvidfs</dodf>,
+     * this mfthod rflfbsfs b nfstfd <dodf>BfbnContfxtChild</dodf>'s
+     * (or bny brbitrbry objfdt bssodibtfd with b
+     * <dodf>BfbnContfxtChild</dodf>) rfffrfndf to thf spfdififd sfrvidf.
+     *
+     * @pbrbm bds thf <dodf>BfbnContfxtSfrvidfs</dodf> bssodibtfd with this
+     * pbrtidulbr rflfbsf rfqufst
+     *
+     * @pbrbm rfqufstor thf objfdt rfqufsting thf sfrvidf to bf rflfbsfd
+     *
+     * @pbrbm sfrvidf thf sfrvidf thbt is to bf rflfbsfd
+     */
+    publid void rflfbsfSfrvidf(BfbnContfxtSfrvidfs bds, Objfdt rfqufstor, Objfdt sfrvidf);
+
+    /**
+     * Invokfd by <dodf>BfbnContfxtSfrvidfs</dodf>, this mfthod
+     * gfts thf durrfnt sfrvidf sflfdtors for thf spfdififd sfrvidf.
+     * A sfrvidf sflfdtor is b sfrvidf spfdifid pbrbmftfr,
+     * typidbl fxbmplfs of whidh dould indludf: b
+     * pbrbmftfr to b donstrudtor for thf sfrvidf implfmfntbtion dlbss,
+     * b vbluf for b pbrtidulbr sfrvidf's propfrty, or b kfy into b
+     * mbp of fxisting implfmfntbtions.
+     *
+     * @pbrbm bds           thf <dodf>BfbnContfxtSfrvidfs</dodf> for this rfqufst
+     * @pbrbm sfrvidfClbss  thf spfdififd sfrvidf
+     * @rfturn   thf durrfnt sfrvidf sflfdtors for thf spfdififd sfrvidfClbss
+     */
+    Itfrbtor<?> gftCurrfntSfrvidfSflfdtors(BfbnContfxtSfrvidfs bds, Clbss<?> sfrvidfClbss);
+}

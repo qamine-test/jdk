@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.spi.FileSystemProvider;
-import java.io.IOException;
-import java.util.Map;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.spi.FilfSystfmProvidfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
 
 /**
- * Base implementation class of FileSystemProvider
+ * Bbsf implfmfntbtion dlbss of FilfSystfmProvidfr
  */
 
-abstract class AbstractFileSystemProvider extends FileSystemProvider {
-    protected AbstractFileSystemProvider() { }
+bbstrbdt dlbss AbstrbdtFilfSystfmProvidfr fxtfnds FilfSystfmProvidfr {
+    protfdtfd AbstrbdtFilfSystfmProvidfr() { }
 
     /**
-     * Splits the given attribute name into the name of an attribute view and
-     * the attribute. If the attribute view is not identified then it assumed
-     * to be "basic".
+     * Splits tif givfn bttributf nbmf into tif nbmf of bn bttributf vifw bnd
+     * tif bttributf. If tif bttributf vifw is not idfntififd tifn it bssumfd
+     * to bf "bbsid".
      */
-    private static String[] split(String attribute) {
-        String[] s = new String[2];
-        int pos = attribute.indexOf(':');
+    privbtf stbtid String[] split(String bttributf) {
+        String[] s = nfw String[2];
+        int pos = bttributf.indfxOf(':');
         if (pos == -1) {
-            s[0] = "basic";
-            s[1] = attribute;
-        } else {
-            s[0] = attribute.substring(0, pos++);
-            s[1] = (pos == attribute.length()) ? "" : attribute.substring(pos);
+            s[0] = "bbsid";
+            s[1] = bttributf;
+        } flsf {
+            s[0] = bttributf.substring(0, pos++);
+            s[1] = (pos == bttributf.lfngti()) ? "" : bttributf.substring(pos);
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * Gets a DynamicFileAttributeView by name. Returns {@code null} if the
-     * view is not available.
+     * Gfts b DynbmidFilfAttributfVifw by nbmf. Rfturns {@dodf null} if tif
+     * vifw is not bvbilbblf.
      */
-    abstract DynamicFileAttributeView getFileAttributeView(Path file,
-                                                           String name,
+    bbstrbdt DynbmidFilfAttributfVifw gftFilfAttributfVifw(Pbti filf,
+                                                           String nbmf,
                                                            LinkOption... options);
 
-    @Override
-    public final void setAttribute(Path file,
-                                   String attribute,
-                                   Object value,
+    @Ovfrridf
+    publid finbl void sftAttributf(Pbti filf,
+                                   String bttributf,
+                                   Objfdt vbluf,
                                    LinkOption... options)
-        throws IOException
+        tirows IOExdfption
     {
-        String[] s = split(attribute);
-        if (s[0].length() == 0)
-            throw new IllegalArgumentException(attribute);
-        DynamicFileAttributeView view = getFileAttributeView(file, s[0], options);
-        if (view == null)
-            throw new UnsupportedOperationException("View '" + s[0] + "' not available");
-        view.setAttribute(s[1], value);
+        String[] s = split(bttributf);
+        if (s[0].lfngti() == 0)
+            tirow nfw IllfgblArgumfntExdfption(bttributf);
+        DynbmidFilfAttributfVifw vifw = gftFilfAttributfVifw(filf, s[0], options);
+        if (vifw == null)
+            tirow nfw UnsupportfdOpfrbtionExdfption("Vifw '" + s[0] + "' not bvbilbblf");
+        vifw.sftAttributf(s[1], vbluf);
     }
 
-    @Override
-    public final Map<String,Object> readAttributes(Path file, String attributes, LinkOption... options)
-        throws IOException
+    @Ovfrridf
+    publid finbl Mbp<String,Objfdt> rfbdAttributfs(Pbti filf, String bttributfs, LinkOption... options)
+        tirows IOExdfption
     {
-        String[] s = split(attributes);
-        if (s[0].length() == 0)
-            throw new IllegalArgumentException(attributes);
-        DynamicFileAttributeView view = getFileAttributeView(file, s[0], options);
-        if (view == null)
-            throw new UnsupportedOperationException("View '" + s[0] + "' not available");
-        return view.readAttributes(s[1].split(","));
+        String[] s = split(bttributfs);
+        if (s[0].lfngti() == 0)
+            tirow nfw IllfgblArgumfntExdfption(bttributfs);
+        DynbmidFilfAttributfVifw vifw = gftFilfAttributfVifw(filf, s[0], options);
+        if (vifw == null)
+            tirow nfw UnsupportfdOpfrbtionExdfption("Vifw '" + s[0] + "' not bvbilbblf");
+        rfturn vifw.rfbdAttributfs(s[1].split(","));
     }
 
     /**
-     * Deletes a file. The {@code failIfNotExists} parameters determines if an
-     * {@code IOException} is thrown when the file does not exist.
+     * Dflftfs b filf. Tif {@dodf fbilIfNotExists} pbrbmftfrs dftfrminfs if bn
+     * {@dodf IOExdfption} is tirown wifn tif filf dofs not fxist.
      */
-    abstract boolean implDelete(Path file, boolean failIfNotExists) throws IOException;
+    bbstrbdt boolfbn implDflftf(Pbti filf, boolfbn fbilIfNotExists) tirows IOExdfption;
 
-    @Override
-    public final void delete(Path file) throws IOException {
-        implDelete(file, true);
+    @Ovfrridf
+    publid finbl void dflftf(Pbti filf) tirows IOExdfption {
+        implDflftf(filf, truf);
     }
 
-    @Override
-    public final boolean deleteIfExists(Path file) throws IOException {
-        return implDelete(file, false);
+    @Ovfrridf
+    publid finbl boolfbn dflftfIfExists(Pbti filf) tirows IOExdfption {
+        rfturn implDflftf(filf, fblsf);
     }
 }

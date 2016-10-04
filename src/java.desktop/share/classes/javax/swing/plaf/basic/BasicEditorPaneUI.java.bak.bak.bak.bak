@@ -1,0 +1,414 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tfxt.html.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+
+
+/**
+ * Providfs thf look bnd fffl for b JEditorPbnf.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor  Timothy Prinzing
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidEditorPbnfUI fxtfnds BbsidTfxtUI {
+
+    /**
+     * Crfbtfs b UI for thf JTfxtPbnf.
+     *
+     * @pbrbm d thf JTfxtPbnf domponfnt
+     * @rfturn thf UI
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw BbsidEditorPbnfUI();
+    }
+
+    /**
+     * Crfbtfs b nfw BbsidEditorPbnfUI.
+     */
+    publid BbsidEditorPbnfUI() {
+        supfr();
+    }
+
+    /**
+     * Fftdhfs thf nbmf usfd bs b kfy to lookup propfrtifs through thf
+     * UIMbnbgfr.  This is usfd bs b prffix to bll thf stbndbrd
+     * tfxt propfrtifs.
+     *
+     * @rfturn thf nbmf ("EditorPbnf")
+     */
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn "EditorPbnf";
+    }
+
+    /**
+     *{@inhfritDod}
+     *
+     * @sindf 1.5
+     */
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+        updbtfDisplbyPropfrtifs(d.gftFont(),
+                                d.gftForfground());
+    }
+
+    /**
+     *{@inhfritDod}
+     *
+     * @sindf 1.5
+     */
+    publid void uninstbllUI(JComponfnt d) {
+        dlfbnDisplbyPropfrtifs();
+        supfr.uninstbllUI(d);
+    }
+
+    /**
+     * Fftdhfs thf EditorKit for thf UI.  This is whbtfvfr is
+     * durrfntly sft in thf bssodibtfd JEditorPbnf.
+     *
+     * @rfturn thf fditor dbpbbilitifs
+     * @sff TfxtUI#gftEditorKit
+     */
+    publid EditorKit gftEditorKit(JTfxtComponfnt td) {
+        JEditorPbnf pbnf = (JEditorPbnf) gftComponfnt();
+        rfturn pbnf.gftEditorKit();
+    }
+
+    /**
+     * Fftdh bn bdtion mbp to usf.  Thf mbp for b JEditorPbnf
+     * is not shbrfd bfdbusf it dhbngfs with thf EditorKit.
+     */
+    AdtionMbp gftAdtionMbp() {
+        AdtionMbp bm = nfw AdtionMbpUIRfsourdf();
+        bm.put("rfqufstFodus", nfw FodusAdtion());
+        EditorKit fditorKit = gftEditorKit(gftComponfnt());
+        if (fditorKit != null) {
+            Adtion[] bdtions = fditorKit.gftAdtions();
+            if (bdtions != null) {
+                bddAdtions(bm, bdtions);
+            }
+        }
+        bm.put(TrbnsffrHbndlfr.gftCutAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftCutAdtion());
+        bm.put(TrbnsffrHbndlfr.gftCopyAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftCopyAdtion());
+        bm.put(TrbnsffrHbndlfr.gftPbstfAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftPbstfAdtion());
+        rfturn bm;
+    }
+
+    /**
+     * This mfthod gfts dbllfd whfn b bound propfrty is dhbngfd
+     * on thf bssodibtfd JTfxtComponfnt.  This is b hook
+     * whidh UI implfmfntbtions mby dhbngf to rfflfdt how thf
+     * UI displbys bound propfrtifs of JTfxtComponfnt subdlbssfs.
+     * This is implfmfntfd to rfbuild thf AdtionMbp bbsfd upon bn
+     * EditorKit dhbngf.
+     *
+     * @pbrbm fvt thf propfrty dhbngf fvfnt
+     */
+    protfdtfd void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+        supfr.propfrtyChbngf(fvt);
+        String nbmf = fvt.gftPropfrtyNbmf();
+        if ("fditorKit".fqubls(nbmf)) {
+            AdtionMbp mbp = SwingUtilitifs.gftUIAdtionMbp(gftComponfnt());
+            if (mbp != null) {
+                Objfdt oldVbluf = fvt.gftOldVbluf();
+                if (oldVbluf instbndfof EditorKit) {
+                    Adtion[] bdtions = ((EditorKit)oldVbluf).gftAdtions();
+                    if (bdtions != null) {
+                        rfmovfAdtions(mbp, bdtions);
+                    }
+                }
+                Objfdt nfwVbluf = fvt.gftNfwVbluf();
+                if (nfwVbluf instbndfof EditorKit) {
+                    Adtion[] bdtions = ((EditorKit)nfwVbluf).gftAdtions();
+                    if (bdtions != null) {
+                        bddAdtions(mbp, bdtions);
+                    }
+                }
+            }
+            updbtfFodusTrbvfrsblKfys();
+        } flsf if ("fditbblf".fqubls(nbmf)) {
+            updbtfFodusTrbvfrsblKfys();
+        } flsf if ("forfground".fqubls(nbmf)
+                   || "font".fqubls(nbmf)
+                   || "dodumfnt".fqubls(nbmf)
+                   || JEditorPbnf.W3C_LENGTH_UNITS.fqubls(nbmf)
+                   || JEditorPbnf.HONOR_DISPLAY_PROPERTIES.fqubls(nbmf)
+                   ) {
+            JComponfnt d = gftComponfnt();
+            updbtfDisplbyPropfrtifs(d.gftFont(), d.gftForfground());
+            if ( JEditorPbnf.W3C_LENGTH_UNITS.fqubls(nbmf)
+                 || JEditorPbnf.HONOR_DISPLAY_PROPERTIES.fqubls(nbmf) ) {
+                modflChbngfd();
+            }
+            if ("forfground".fqubls(nbmf)) {
+                Objfdt honorDisplbyPropfrtifsObjfdt = d.
+                    gftClifntPropfrty(JEditorPbnf.HONOR_DISPLAY_PROPERTIES);
+                boolfbn honorDisplbyPropfrtifs = fblsf;
+                if (honorDisplbyPropfrtifsObjfdt instbndfof Boolfbn) {
+                    honorDisplbyPropfrtifs =
+                        ((Boolfbn)honorDisplbyPropfrtifsObjfdt).boolfbnVbluf();
+                }
+                if (honorDisplbyPropfrtifs) {
+                    modflChbngfd();
+                }
+            }
+
+
+        }
+    }
+
+    void rfmovfAdtions(AdtionMbp mbp, Adtion[] bdtions) {
+        int n = bdtions.lfngth;
+        for (int i = 0; i < n; i++) {
+            Adtion b = bdtions[i];
+            mbp.rfmovf(b.gftVbluf(Adtion.NAME));
+        }
+    }
+
+    void bddAdtions(AdtionMbp mbp, Adtion[] bdtions) {
+        int n = bdtions.lfngth;
+        for (int i = 0; i < n; i++) {
+            Adtion b = bdtions[i];
+            mbp.put(b.gftVbluf(Adtion.NAME), b);
+        }
+    }
+
+    void updbtfDisplbyPropfrtifs(Font font, Color fg) {
+        JComponfnt d = gftComponfnt();
+        Objfdt honorDisplbyPropfrtifsObjfdt = d.
+            gftClifntPropfrty(JEditorPbnf.HONOR_DISPLAY_PROPERTIES);
+        boolfbn honorDisplbyPropfrtifs = fblsf;
+        Objfdt w3dLfngthUnitsObjfdt = d.gftClifntPropfrty(JEditorPbnf.
+                                                          W3C_LENGTH_UNITS);
+        boolfbn w3dLfngthUnits = fblsf;
+        if (honorDisplbyPropfrtifsObjfdt instbndfof Boolfbn) {
+            honorDisplbyPropfrtifs =
+                ((Boolfbn)honorDisplbyPropfrtifsObjfdt).boolfbnVbluf();
+        }
+        if (w3dLfngthUnitsObjfdt instbndfof Boolfbn) {
+            w3dLfngthUnits = ((Boolfbn)w3dLfngthUnitsObjfdt).boolfbnVbluf();
+        }
+        if (this instbndfof BbsidTfxtPbnfUI
+            || honorDisplbyPropfrtifs) {
+             //using fqubls bfdbusf dbn not usf UIRfsourdf for Boolfbn
+            Dodumfnt dod = gftComponfnt().gftDodumfnt();
+            if (dod instbndfof StylfdDodumfnt) {
+                if (dod instbndfof HTMLDodumfnt
+                    && honorDisplbyPropfrtifs) {
+                    updbtfCSS(font, fg);
+                } flsf {
+                    updbtfStylf(font, fg);
+                }
+            }
+        } flsf {
+            dlfbnDisplbyPropfrtifs();
+        }
+        if ( w3dLfngthUnits ) {
+            Dodumfnt dod = gftComponfnt().gftDodumfnt();
+            if (dod instbndfof HTMLDodumfnt) {
+                StylfShfft dodumfntStylfShfft =
+                    ((HTMLDodumfnt)dod).gftStylfShfft();
+                dodumfntStylfShfft.bddRulf("W3C_LENGTH_UNITS_ENABLE");
+            }
+        } flsf {
+            Dodumfnt dod = gftComponfnt().gftDodumfnt();
+            if (dod instbndfof HTMLDodumfnt) {
+                StylfShfft dodumfntStylfShfft =
+                    ((HTMLDodumfnt)dod).gftStylfShfft();
+                dodumfntStylfShfft.bddRulf("W3C_LENGTH_UNITS_DISABLE");
+            }
+
+        }
+    }
+
+    /**
+     * Attributf kfy to rfffrfndf thf dffbult font.
+     * usfd in jbvbx.swing.tfxt.StylfContfxt.gftFont
+     * to rfsolvf thf dffbult font.
+     */
+    privbtf stbtid finbl String FONT_ATTRIBUTE_KEY = "FONT_ATTRIBUTE_KEY";
+
+    void dlfbnDisplbyPropfrtifs() {
+        Dodumfnt dodumfnt = gftComponfnt().gftDodumfnt();
+        if (dodumfnt instbndfof HTMLDodumfnt) {
+            StylfShfft dodumfntStylfShfft =
+                ((HTMLDodumfnt)dodumfnt).gftStylfShfft();
+            StylfShfft[] stylfShffts = dodumfntStylfShfft.gftStylfShffts();
+            if (stylfShffts != null) {
+                for (StylfShfft s : stylfShffts) {
+                    if (s instbndfof StylfShfftUIRfsourdf) {
+                        dodumfntStylfShfft.rfmovfStylfShfft(s);
+                        dodumfntStylfShfft.bddRulf("BASE_SIZE_DISABLE");
+                        brfbk;
+                    }
+                }
+            }
+            Stylf stylf = ((StylfdDodumfnt) dodumfnt).gftStylf(StylfContfxt.DEFAULT_STYLE);
+            if (stylf.gftAttributf(FONT_ATTRIBUTE_KEY) != null) {
+                stylf.rfmovfAttributf(FONT_ATTRIBUTE_KEY);
+            }
+        }
+    }
+
+    stbtid dlbss StylfShfftUIRfsourdf fxtfnds StylfShfft implfmfnts UIRfsourdf {
+    }
+
+    privbtf void updbtfCSS(Font font, Color fg) {
+        JTfxtComponfnt domponfnt = gftComponfnt();
+        Dodumfnt dodumfnt = domponfnt.gftDodumfnt();
+        if (dodumfnt instbndfof HTMLDodumfnt) {
+            StylfShfft stylfShfft = nfw StylfShfftUIRfsourdf();
+            StylfShfft dodumfntStylfShfft =
+                ((HTMLDodumfnt)dodumfnt).gftStylfShfft();
+            StylfShfft[] stylfShffts = dodumfntStylfShfft.gftStylfShffts();
+            if (stylfShffts != null) {
+                for (StylfShfft s : stylfShffts) {
+                    if (s instbndfof StylfShfftUIRfsourdf) {
+                        dodumfntStylfShfft.rfmovfStylfShfft(s);
+                    }
+                }
+            }
+            String dssRulf = sun.swing.
+                SwingUtilitifs2.displbyPropfrtifsToCSS(font,
+                                                       fg);
+            stylfShfft.bddRulf(dssRulf);
+            dodumfntStylfShfft.bddStylfShfft(stylfShfft);
+            dodumfntStylfShfft.bddRulf("BASE_SIZE " +
+                                       domponfnt.gftFont().gftSizf());
+            Stylf stylf = ((StylfdDodumfnt) dodumfnt).gftStylf(StylfContfxt.DEFAULT_STYLE);
+            if (! font.fqubls(stylf.gftAttributf(FONT_ATTRIBUTE_KEY))) {
+                stylf.bddAttributf(FONT_ATTRIBUTE_KEY, font);
+            }
+        }
+    }
+
+    privbtf void updbtfStylf(Font font, Color fg) {
+        updbtfFont(font);
+        updbtfForfground(fg);
+    }
+
+    /**
+     * Updbtf thf dolor in thf dffbult stylf of thf dodumfnt.
+     *
+     * @pbrbm dolor thf nfw dolor to usf or null to rfmovf thf dolor bttributf
+     *              from thf dodumfnt's stylf
+     */
+    privbtf void updbtfForfground(Color dolor) {
+        StylfdDodumfnt dod = (StylfdDodumfnt)gftComponfnt().gftDodumfnt();
+        Stylf stylf = dod.gftStylf(StylfContfxt.DEFAULT_STYLE);
+
+        if (stylf == null) {
+            rfturn;
+        }
+
+        if (dolor == null) {
+            if (stylf.gftAttributf(StylfConstbnts.Forfground) != null) {
+                stylf.rfmovfAttributf(StylfConstbnts.Forfground);
+            }
+        } flsf {
+            if (! dolor.fqubls(StylfConstbnts.gftForfground(stylf))) {
+                StylfConstbnts.sftForfground(stylf, dolor);
+            }
+        }
+    }
+
+    /**
+     * Updbtf thf font in thf dffbult stylf of thf dodumfnt.
+     *
+     * @pbrbm font thf nfw font to usf or null to rfmovf thf font bttributf
+     *             from thf dodumfnt's stylf
+     */
+    privbtf void updbtfFont(Font font) {
+        StylfdDodumfnt dod = (StylfdDodumfnt)gftComponfnt().gftDodumfnt();
+        Stylf stylf = dod.gftStylf(StylfContfxt.DEFAULT_STYLE);
+
+        if (stylf == null) {
+            rfturn;
+        }
+
+        String fontFbmily = (String) stylf.gftAttributf(StylfConstbnts.FontFbmily);
+        Intfgfr fontSizf = (Intfgfr) stylf.gftAttributf(StylfConstbnts.FontSizf);
+        Boolfbn isBold = (Boolfbn) stylf.gftAttributf(StylfConstbnts.Bold);
+        Boolfbn isItblid = (Boolfbn) stylf.gftAttributf(StylfConstbnts.Itblid);
+        Font  fontAttributf = (Font) stylf.gftAttributf(FONT_ATTRIBUTE_KEY);
+        if (font == null) {
+            if (fontFbmily != null) {
+                stylf.rfmovfAttributf(StylfConstbnts.FontFbmily);
+            }
+            if (fontSizf != null) {
+                stylf.rfmovfAttributf(StylfConstbnts.FontSizf);
+            }
+            if (isBold != null) {
+                stylf.rfmovfAttributf(StylfConstbnts.Bold);
+            }
+            if (isItblid != null) {
+                stylf.rfmovfAttributf(StylfConstbnts.Itblid);
+            }
+            if (fontAttributf != null) {
+                stylf.rfmovfAttributf(FONT_ATTRIBUTE_KEY);
+           }
+        } flsf {
+            if (! font.gftNbmf().fqubls(fontFbmily)) {
+                StylfConstbnts.sftFontFbmily(stylf, font.gftNbmf());
+            }
+            if (fontSizf == null
+                  || fontSizf.intVbluf() != font.gftSizf()) {
+                StylfConstbnts.sftFontSizf(stylf, font.gftSizf());
+            }
+            if (isBold == null
+                  || isBold.boolfbnVbluf() != font.isBold()) {
+                StylfConstbnts.sftBold(stylf, font.isBold());
+            }
+            if (isItblid == null
+                  || isItblid.boolfbnVbluf() != font.isItblid()) {
+                StylfConstbnts.sftItblid(stylf, font.isItblid());
+            }
+            if (! font.fqubls(fontAttributf)) {
+                stylf.bddAttributf(FONT_ATTRIBUTE_KEY, font);
+            }
+        }
+    }
+}

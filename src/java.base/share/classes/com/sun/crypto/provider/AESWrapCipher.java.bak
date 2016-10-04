@@ -1,511 +1,511 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.util.Arrays;
-import java.security.*;
-import java.security.spec.*;
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvb.util.Arrbys;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
 
 /**
- * This class implements the AES KeyWrap algorithm as defined
- * in <a href=http://www.w3.org/TR/xmlenc-core/#sec-Alg-SymmetricKeyWrap>
- * "XML Encryption Syntax and Processing" section 5.6.3 "AES Key Wrap".
- * Note: only <code>ECB</code> mode and <code>NoPadding</code> padding
- * can be used for this algorithm.
+ * Tiis dlbss implfmfnts tif AES KfyWrbp blgoritim bs dffinfd
+ * in <b irff=ittp://www.w3.org/TR/xmlfnd-dorf/#sfd-Alg-SymmftridKfyWrbp>
+ * "XML Endryption Syntbx bnd Prodfssing" sfdtion 5.6.3 "AES Kfy Wrbp".
+ * Notf: only <dodf>ECB</dodf> modf bnd <dodf>NoPbdding</dodf> pbdding
+ * dbn bf usfd for tiis blgoritim.
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
  *
- * @see AESCipher
+ * @sff AESCipifr
  */
-abstract class AESWrapCipher extends CipherSpi {
-    public static final class General extends AESWrapCipher {
-        public General() {
-            super(-1);
+bbstrbdt dlbss AESWrbpCipifr fxtfnds CipifrSpi {
+    publid stbtid finbl dlbss Gfnfrbl fxtfnds AESWrbpCipifr {
+        publid Gfnfrbl() {
+            supfr(-1);
         }
     }
-    public static final class AES128 extends AESWrapCipher {
-        public AES128() {
-            super(16);
+    publid stbtid finbl dlbss AES128 fxtfnds AESWrbpCipifr {
+        publid AES128() {
+            supfr(16);
         }
     }
-    public static final class AES192 extends AESWrapCipher {
-        public AES192() {
-            super(24);
+    publid stbtid finbl dlbss AES192 fxtfnds AESWrbpCipifr {
+        publid AES192() {
+            supfr(24);
         }
     }
-    public static final class AES256 extends AESWrapCipher {
-        public AES256() {
-            super(32);
+    publid stbtid finbl dlbss AES256 fxtfnds AESWrbpCipifr {
+        publid AES256() {
+            supfr(32);
         }
     }
-    private static final byte[] IV = {
-        (byte) 0xA6, (byte) 0xA6, (byte) 0xA6, (byte) 0xA6,
-        (byte) 0xA6, (byte) 0xA6, (byte) 0xA6, (byte) 0xA6
+    privbtf stbtid finbl bytf[] IV = {
+        (bytf) 0xA6, (bytf) 0xA6, (bytf) 0xA6, (bytf) 0xA6,
+        (bytf) 0xA6, (bytf) 0xA6, (bytf) 0xA6, (bytf) 0xA6
     };
 
-    private static final int blksize = AESConstants.AES_BLOCK_SIZE;
+    privbtf stbtid finbl int blksizf = AESConstbnts.AES_BLOCK_SIZE;
 
     /*
-     * internal cipher object which does the real work.
+     * intfrnbl dipifr objfdt wiidi dofs tif rfbl work.
      */
-    private AESCrypt cipher;
+    privbtf AESCrypt dipifr;
 
     /*
-     * are we encrypting or decrypting?
+     * brf wf fndrypting or dfdrypting?
      */
-    private boolean decrypting = false;
+    privbtf boolfbn dfdrypting = fblsf;
 
     /*
-     * needed to support AES oids which associates a fixed key size
-     * to the cipher object.
+     * nffdfd to support AES oids wiidi bssodibtfs b fixfd kfy sizf
+     * to tif dipifr objfdt.
      */
-    private final int fixedKeySize; // in bytes, -1 if no restriction
+    privbtf finbl int fixfdKfySizf; // in bytfs, -1 if no rfstridtion
 
     /**
-     * Creates an instance of AES KeyWrap cipher with default
-     * mode, i.e. "ECB" and padding scheme, i.e. "NoPadding".
+     * Crfbtfs bn instbndf of AES KfyWrbp dipifr witi dffbult
+     * modf, i.f. "ECB" bnd pbdding sdifmf, i.f. "NoPbdding".
      */
-    public AESWrapCipher(int keySize) {
-        cipher = new AESCrypt();
-        fixedKeySize = keySize;
+    publid AESWrbpCipifr(int kfySizf) {
+        dipifr = nfw AESCrypt();
+        fixfdKfySizf = kfySizf;
 
     }
 
     /**
-     * Sets the mode of this cipher. Only "ECB" mode is accepted for this
-     * cipher.
+     * Sfts tif modf of tiis dipifr. Only "ECB" modf is bddfptfd for tiis
+     * dipifr.
      *
-     * @param mode the cipher mode
+     * @pbrbm modf tif dipifr modf
      *
-     * @exception NoSuchAlgorithmException if the requested cipher mode
+     * @fxdfption NoSudiAlgoritimExdfption if tif rfqufstfd dipifr modf
      * is not "ECB".
      */
-    protected void engineSetMode(String mode)
-        throws NoSuchAlgorithmException {
-        if (!mode.equalsIgnoreCase("ECB")) {
-            throw new NoSuchAlgorithmException(mode + " cannot be used");
+    protfdtfd void fnginfSftModf(String modf)
+        tirows NoSudiAlgoritimExdfption {
+        if (!modf.fqublsIgnorfCbsf("ECB")) {
+            tirow nfw NoSudiAlgoritimExdfption(modf + " dbnnot bf usfd");
         }
     }
 
     /**
-     * Sets the padding mechanism of this cipher. Only "NoPadding" schmem
-     * is accepted for this cipher.
+     * Sfts tif pbdding mfdibnism of tiis dipifr. Only "NoPbdding" sdimfm
+     * is bddfptfd for tiis dipifr.
      *
-     * @param padding the padding mechanism
+     * @pbrbm pbdding tif pbdding mfdibnism
      *
-     * @exception NoSuchPaddingException if the requested padding mechanism
-     * is not "NoPadding".
+     * @fxdfption NoSudiPbddingExdfption if tif rfqufstfd pbdding mfdibnism
+     * is not "NoPbdding".
      */
-    protected void engineSetPadding(String padding)
-        throws NoSuchPaddingException {
-        if (!padding.equalsIgnoreCase("NoPadding")) {
-            throw new NoSuchPaddingException(padding + " cannot be used");
+    protfdtfd void fnginfSftPbdding(String pbdding)
+        tirows NoSudiPbddingExdfption {
+        if (!pbdding.fqublsIgnorfCbsf("NoPbdding")) {
+            tirow nfw NoSudiPbddingExdfption(pbdding + " dbnnot bf usfd");
         }
     }
 
     /**
-     * Returns the block size (in bytes). i.e. 16 bytes.
+     * Rfturns tif blodk sizf (in bytfs). i.f. 16 bytfs.
      *
-     * @return the block size (in bytes), i.e. 16 bytes.
+     * @rfturn tif blodk sizf (in bytfs), i.f. 16 bytfs.
      */
-    protected int engineGetBlockSize() {
-        return blksize;
+    protfdtfd int fnginfGftBlodkSizf() {
+        rfturn blksizf;
     }
 
     /**
-     * Returns the length in bytes that an output buffer would need to be
-     * given the input length <code>inputLen</code> (in bytes).
+     * Rfturns tif lfngti in bytfs tibt bn output bufffr would nffd to bf
+     * givfn tif input lfngti <dodf>inputLfn</dodf> (in bytfs).
      *
-     * <p>The actual output length of the next <code>update</code> or
-     * <code>doFinal</code> call may be smaller than the length returned
-     * by this method.
+     * <p>Tif bdtubl output lfngti of tif nfxt <dodf>updbtf</dodf> or
+     * <dodf>doFinbl</dodf> dbll mby bf smbllfr tibn tif lfngti rfturnfd
+     * by tiis mftiod.
      *
-     * @param inputLen the input length (in bytes)
+     * @pbrbm inputLfn tif input lfngti (in bytfs)
      *
-     * @return the required output buffer size (in bytes)
+     * @rfturn tif rfquirfd output bufffr sizf (in bytfs)
      */
-    protected int engineGetOutputSize(int inputLen) {
-        // can only return an upper-limit if not initialized yet.
-        int result = 0;
-        if (decrypting) {
-            result = inputLen - 8;
-        } else {
-            result = inputLen + 8;
+    protfdtfd int fnginfGftOutputSizf(int inputLfn) {
+        // dbn only rfturn bn uppfr-limit if not initiblizfd yft.
+        int rfsult = 0;
+        if (dfdrypting) {
+            rfsult = inputLfn - 8;
+        } flsf {
+            rfsult = inputLfn + 8;
         }
-        return (result < 0? 0:result);
+        rfturn (rfsult < 0? 0:rfsult);
     }
 
     /**
-     * Returns the initialization vector (IV) which is null for this cipher.
+     * Rfturns tif initiblizbtion vfdtor (IV) wiidi is null for tiis dipifr.
      *
-     * @return null for this cipher.
+     * @rfturn null for tiis dipifr.
      */
-    protected byte[] engineGetIV() {
-        return null;
+    protfdtfd bytf[] fnginfGftIV() {
+        rfturn null;
     }
 
     /**
-     * Initializes this cipher with a key and a source of randomness.
+     * Initiblizfs tiis dipifr witi b kfy bnd b sourdf of rbndomnfss.
      *
-     * <p>The cipher only supports the following two operation modes:<b>
-     * Cipher.WRAP_MODE, and <b>
-     * Cipher.UNWRAP_MODE.
-     * <p>For modes other than the above two, UnsupportedOperationException
-     * will be thrown.
+     * <p>Tif dipifr only supports tif following two opfrbtion modfs:<b>
+     * Cipifr.WRAP_MODE, bnd <b>
+     * Cipifr.UNWRAP_MODE.
+     * <p>For modfs otifr tibn tif bbovf two, UnsupportfdOpfrbtionExdfption
+     * will bf tirown.
      *
-     * @param opmode the operation mode of this cipher. Only
-     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>) are accepted.
-     * @param key the secret key.
-     * @param random the source of randomness.
+     * @pbrbm opmodf tif opfrbtion modf of tiis dipifr. Only
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>) brf bddfptfd.
+     * @pbrbm kfy tif sfdrft kfy.
+     * @pbrbm rbndom tif sourdf of rbndomnfss.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis dipifr.
      */
-    protected void engineInit(int opmode, Key key, SecureRandom random)
-        throws InvalidKeyException {
-        if (opmode == Cipher.WRAP_MODE) {
-            decrypting = false;
-        } else if (opmode == Cipher.UNWRAP_MODE) {
-            decrypting = true;
-        } else {
-            throw new UnsupportedOperationException("This cipher can " +
-                "only be used for key wrapping and unwrapping");
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption {
+        if (opmodf == Cipifr.WRAP_MODE) {
+            dfdrypting = fblsf;
+        } flsf if (opmodf == Cipifr.UNWRAP_MODE) {
+            dfdrypting = truf;
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiis dipifr dbn " +
+                "only bf usfd for kfy wrbpping bnd unwrbpping");
         }
-        AESCipher.checkKeySize(key, fixedKeySize);
-        cipher.init(decrypting, key.getAlgorithm(), key.getEncoded());
+        AESCipifr.difdkKfySizf(kfy, fixfdKfySizf);
+        dipifr.init(dfdrypting, kfy.gftAlgoritim(), kfy.gftEndodfd());
     }
 
     /**
-     * Initializes this cipher with a key, a set of algorithm parameters,
-     * and a source of randomness.
+     * Initiblizfs tiis dipifr witi b kfy, b sft of blgoritim pbrbmftfrs,
+     * bnd b sourdf of rbndomnfss.
      *
-     * <p>The cipher only supports the following two operation modes:<b>
-     * Cipher.WRAP_MODE, and <b>
-     * Cipher.UNWRAP_MODE.
-     * <p>For modes other than the above two, UnsupportedOperationException
-     * will be thrown.
+     * <p>Tif dipifr only supports tif following two opfrbtion modfs:<b>
+     * Cipifr.WRAP_MODE, bnd <b>
+     * Cipifr.UNWRAP_MODE.
+     * <p>For modfs otifr tibn tif bbovf two, UnsupportfdOpfrbtionExdfption
+     * will bf tirown.
      *
-     * @param opmode the operation mode of this cipher. Only
-     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>) are accepted.
-     * @param key the secret key.
-     * @param params the algorithm parameters; must be null for this cipher.
-     * @param random the source of randomness.
+     * @pbrbm opmodf tif opfrbtion modf of tiis dipifr. Only
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>) brf bddfptfd.
+     * @pbrbm kfy tif sfdrft kfy.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs; must bf null for tiis dipifr.
+     * @pbrbm rbndom tif sourdf of rbndomnfss.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters is not null.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis dipifr
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * pbrbmftfrs is not null.
      */
-    protected void engineInit(int opmode, Key key,
-                              AlgorithmParameterSpec params,
-                              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException("This cipher " +
-                "does not accept any parameters");
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                              AlgoritimPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        if (pbrbms != null) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("Tiis dipifr " +
+                "dofs not bddfpt bny pbrbmftfrs");
         }
-        engineInit(opmode, key, random);
+        fnginfInit(opmodf, kfy, rbndom);
     }
 
     /**
-     * Initializes this cipher with a key, a set of algorithm parameters,
-     * and a source of randomness.
+     * Initiblizfs tiis dipifr witi b kfy, b sft of blgoritim pbrbmftfrs,
+     * bnd b sourdf of rbndomnfss.
      *
-     * <p>The cipher only supports the following two operation modes:<b>
-     * Cipher.WRAP_MODE, and <b>
-     * Cipher.UNWRAP_MODE.
-     * <p>For modes other than the above two, UnsupportedOperationException
-     * will be thrown.
+     * <p>Tif dipifr only supports tif following two opfrbtion modfs:<b>
+     * Cipifr.WRAP_MODE, bnd <b>
+     * Cipifr.UNWRAP_MODE.
+     * <p>For modfs otifr tibn tif bbovf two, UnsupportfdOpfrbtionExdfption
+     * will bf tirown.
      *
-     * @param opmode the operation mode of this cipher. Only
-     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>) are accepted.
-     * @param key the secret key.
-     * @param params the algorithm parameters; must be null for this cipher.
-     * @param random the source of randomness.
+     * @pbrbm opmodf tif opfrbtion modf of tiis dipifr. Only
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>) brf bddfptfd.
+     * @pbrbm kfy tif sfdrft kfy.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs; must bf null for tiis dipifr.
+     * @pbrbm rbndom tif sourdf of rbndomnfss.
      *
-     * @exception InvalidKeyException if the given key is inappropriate.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters is not null.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * pbrbmftfrs is not null.
      */
-    protected void engineInit(int opmode, Key key,
-                              AlgorithmParameters params,
-                              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException("This cipher " +
-                "does not accept any parameters");
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                              AlgoritimPbrbmftfrs pbrbms,
+                              SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        if (pbrbms != null) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("Tiis dipifr " +
+                "dofs not bddfpt bny pbrbmftfrs");
         }
-        engineInit(opmode, key, random);
+        fnginfInit(opmodf, kfy, rbndom);
     }
 
     /**
-     * This operation is not supported by this cipher.
-     * Since it's impossible to initialize this cipher given the
-     * current Cipher.engineInit(...) implementation,
-     * IllegalStateException will always be thrown upon invocation.
+     * Tiis opfrbtion is not supportfd by tiis dipifr.
+     * Sindf it's impossiblf to initiblizf tiis dipifr givfn tif
+     * durrfnt Cipifr.fnginfInit(...) implfmfntbtion,
+     * IllfgblStbtfExdfption will blwbys bf tirown upon invodbtion.
      *
-     * @param in the input buffer.
-     * @param inOffset the offset in <code>in</code> where the input
-     * starts.
-     * @param inLen the input length.
+     * @pbrbm in tif input bufffr.
+     * @pbrbm inOffsft tif offsft in <dodf>in</dodf> wifrf tif input
+     * stbrts.
+     * @pbrbm inLfn tif input lfngti.
      *
-     * @return n/a.
+     * @rfturn n/b.
      *
-     * @exception IllegalStateException upon invocation of this method.
+     * @fxdfption IllfgblStbtfExdfption upon invodbtion of tiis mftiod.
      */
-    protected byte[] engineUpdate(byte[] in, int inOffset, int inLen) {
-        throw new IllegalStateException("Cipher has not been initialized");
+    protfdtfd bytf[] fnginfUpdbtf(bytf[] in, int inOffsft, int inLfn) {
+        tirow nfw IllfgblStbtfExdfption("Cipifr ibs not bffn initiblizfd");
     }
 
     /**
-     * This operation is not supported by this cipher.
-     * Since it's impossible to initialize this cipher given the
-     * current Cipher.engineInit(...) implementation,
-     * IllegalStateException will always be thrown upon invocation.
+     * Tiis opfrbtion is not supportfd by tiis dipifr.
+     * Sindf it's impossiblf to initiblizf tiis dipifr givfn tif
+     * durrfnt Cipifr.fnginfInit(...) implfmfntbtion,
+     * IllfgblStbtfExdfption will blwbys bf tirown upon invodbtion.
      *
-     * @param in the input buffer.
-     * @param inOffset the offset in <code>in</code> where the input
-     * starts.
-     * @param inLen the input length.
-     * @param out the buffer for the result.
-     * @param outOffset the offset in <code>out</code> where the result
-     * is stored.
+     * @pbrbm in tif input bufffr.
+     * @pbrbm inOffsft tif offsft in <dodf>in</dodf> wifrf tif input
+     * stbrts.
+     * @pbrbm inLfn tif input lfngti.
+     * @pbrbm out tif bufffr for tif rfsult.
+     * @pbrbm outOffsft tif offsft in <dodf>out</dodf> wifrf tif rfsult
+     * is storfd.
      *
-     * @return n/a.
+     * @rfturn n/b.
      *
-     * @exception IllegalStateException upon invocation of this method.
+     * @fxdfption IllfgblStbtfExdfption upon invodbtion of tiis mftiod.
      */
-    protected int engineUpdate(byte[] in, int inOffset, int inLen,
-                               byte[] out, int outOffset)
-        throws ShortBufferException {
-        throw new IllegalStateException("Cipher has not been initialized");
+    protfdtfd int fnginfUpdbtf(bytf[] in, int inOffsft, int inLfn,
+                               bytf[] out, int outOffsft)
+        tirows SiortBufffrExdfption {
+        tirow nfw IllfgblStbtfExdfption("Cipifr ibs not bffn initiblizfd");
     }
 
     /**
-     * This operation is not supported by this cipher.
-     * Since it's impossible to initialize this cipher given the
-     * current Cipher.engineInit(...) implementation,
-     * IllegalStateException will always be thrown upon invocation.
+     * Tiis opfrbtion is not supportfd by tiis dipifr.
+     * Sindf it's impossiblf to initiblizf tiis dipifr givfn tif
+     * durrfnt Cipifr.fnginfInit(...) implfmfntbtion,
+     * IllfgblStbtfExdfption will blwbys bf tirown upon invodbtion.
      *
-     * @param in the input buffer
-     * @param inOffset the offset in <code>in</code> where the input
-     * starts
-     * @param inLen the input length.
+     * @pbrbm in tif input bufffr
+     * @pbrbm inOffsft tif offsft in <dodf>in</dodf> wifrf tif input
+     * stbrts
+     * @pbrbm inLfn tif input lfngti.
      *
-     * @return n/a.
+     * @rfturn n/b.
      *
-     * @exception IllegalStateException upon invocation of this method.
+     * @fxdfption IllfgblStbtfExdfption upon invodbtion of tiis mftiod.
      */
-    protected byte[] engineDoFinal(byte[] input, int inputOffset,
-                                   int inputLen)
-        throws IllegalBlockSizeException, BadPaddingException {
-        throw new IllegalStateException("Cipher has not been initialized");
+    protfdtfd bytf[] fnginfDoFinbl(bytf[] input, int inputOffsft,
+                                   int inputLfn)
+        tirows IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+        tirow nfw IllfgblStbtfExdfption("Cipifr ibs not bffn initiblizfd");
     }
 
     /**
-     * This operation is not supported by this cipher.
-     * Since it's impossible to initialize this cipher given the
-     * current Cipher.engineInit(...) implementation,
-     * IllegalStateException will always be thrown upon invocation.
+     * Tiis opfrbtion is not supportfd by tiis dipifr.
+     * Sindf it's impossiblf to initiblizf tiis dipifr givfn tif
+     * durrfnt Cipifr.fnginfInit(...) implfmfntbtion,
+     * IllfgblStbtfExdfption will blwbys bf tirown upon invodbtion.
      *
-     * @param in the input buffer.
-     * @param inOffset the offset in <code>in</code> where the input
-     * starts.
-     * @param inLen the input length.
-     * @param out the buffer for the result.
-     * @param outOffset the ofset in <code>out</code> where the result
-     * is stored.
+     * @pbrbm in tif input bufffr.
+     * @pbrbm inOffsft tif offsft in <dodf>in</dodf> wifrf tif input
+     * stbrts.
+     * @pbrbm inLfn tif input lfngti.
+     * @pbrbm out tif bufffr for tif rfsult.
+     * @pbrbm outOffsft tif ofsft in <dodf>out</dodf> wifrf tif rfsult
+     * is storfd.
      *
-     * @return n/a.
+     * @rfturn n/b.
      *
-     * @exception IllegalStateException upon invocation of this method.
+     * @fxdfption IllfgblStbtfExdfption upon invodbtion of tiis mftiod.
      */
-    protected int engineDoFinal(byte[] in, int inOffset, int inLen,
-                                byte[] out, int outOffset)
-        throws IllegalBlockSizeException, ShortBufferException,
-               BadPaddingException {
-        throw new IllegalStateException("Cipher has not been initialized");
+    protfdtfd int fnginfDoFinbl(bytf[] in, int inOffsft, int inLfn,
+                                bytf[] out, int outOffsft)
+        tirows IllfgblBlodkSizfExdfption, SiortBufffrExdfption,
+               BbdPbddingExdfption {
+        tirow nfw IllfgblStbtfExdfption("Cipifr ibs not bffn initiblizfd");
     }
 
     /**
-     * Returns the parameters used with this cipher which is always null
-     * for this cipher.
+     * Rfturns tif pbrbmftfrs usfd witi tiis dipifr wiidi is blwbys null
+     * for tiis dipifr.
      *
-     * @return null since this cipher does not use any parameters.
+     * @rfturn null sindf tiis dipifr dofs not usf bny pbrbmftfrs.
      */
-    protected AlgorithmParameters engineGetParameters() {
-        return null;
+    protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+        rfturn null;
     }
 
     /**
-     * Returns the key size of the given key object in number of bits.
+     * Rfturns tif kfy sizf of tif givfn kfy objfdt in numbfr of bits.
      *
-     * @param key the key object.
+     * @pbrbm kfy tif kfy objfdt.
      *
-     * @return the "effective" key size of the given key object.
+     * @rfturn tif "ffffdtivf" kfy sizf of tif givfn kfy objfdt.
      *
-     * @exception InvalidKeyException if <code>key</code> is invalid.
+     * @fxdfption InvblidKfyExdfption if <dodf>kfy</dodf> is invblid.
      */
-    protected int engineGetKeySize(Key key) throws InvalidKeyException {
-        byte[] encoded = key.getEncoded();
-        if (!AESCrypt.isKeySizeValid(encoded.length)) {
-            throw new InvalidKeyException("Invalid key length: " +
-                                          encoded.length + " bytes");
+    protfdtfd int fnginfGftKfySizf(Kfy kfy) tirows InvblidKfyExdfption {
+        bytf[] fndodfd = kfy.gftEndodfd();
+        if (!AESCrypt.isKfySizfVblid(fndodfd.lfngti)) {
+            tirow nfw InvblidKfyExdfption("Invblid kfy lfngti: " +
+                                          fndodfd.lfngti + " bytfs");
         }
-        return encoded.length * 8;
+        rfturn fndodfd.lfngti * 8;
     }
 
     /**
-     * Wrap a key.
+     * Wrbp b kfy.
      *
-     * @param key the key to be wrapped.
+     * @pbrbm kfy tif kfy to bf wrbppfd.
      *
-     * @return the wrapped key.
+     * @rfturn tif wrbppfd kfy.
      *
-     * @exception IllegalBlockSizeException if this cipher is a block
-     * cipher, no padding has been requested, and the length of the
-     * encoding of the key to be wrapped is not a
-     * multiple of the block size.
+     * @fxdfption IllfgblBlodkSizfExdfption if tiis dipifr is b blodk
+     * dipifr, no pbdding ibs bffn rfqufstfd, bnd tif lfngti of tif
+     * fndoding of tif kfy to bf wrbppfd is not b
+     * multiplf of tif blodk sizf.
      *
-     * @exception InvalidKeyException if it is impossible or unsafe to
-     * wrap the key with this cipher (e.g., a hardware protected key is
-     * being passed to a software only cipher).
+     * @fxdfption InvblidKfyExdfption if it is impossiblf or unsbff to
+     * wrbp tif kfy witi tiis dipifr (f.g., b ibrdwbrf protfdtfd kfy is
+     * bfing pbssfd to b softwbrf only dipifr).
      */
-    protected byte[] engineWrap(Key key)
-        throws IllegalBlockSizeException, InvalidKeyException {
-        byte[] keyVal = key.getEncoded();
-        if ((keyVal == null) || (keyVal.length == 0)) {
-            throw new InvalidKeyException("Cannot get an encoding of " +
-                                          "the key to be wrapped");
+    protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+        tirows IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+        bytf[] kfyVbl = kfy.gftEndodfd();
+        if ((kfyVbl == null) || (kfyVbl.lfngti == 0)) {
+            tirow nfw InvblidKfyExdfption("Cbnnot gft bn fndoding of " +
+                                          "tif kfy to bf wrbppfd");
         }
-        byte[] out = new byte[keyVal.length + 8];
+        bytf[] out = nfw bytf[kfyVbl.lfngti + 8];
 
-        if (keyVal.length == 8) {
-            System.arraycopy(IV, 0, out, 0, IV.length);
-            System.arraycopy(keyVal, 0, out, IV.length, 8);
-            cipher.encryptBlock(out, 0, out, 0);
-        } else {
-            if (keyVal.length % 8 != 0) {
-                throw new IllegalBlockSizeException("length of the " +
-                    "to be wrapped key should be multiples of 8 bytes");
+        if (kfyVbl.lfngti == 8) {
+            Systfm.brrbydopy(IV, 0, out, 0, IV.lfngti);
+            Systfm.brrbydopy(kfyVbl, 0, out, IV.lfngti, 8);
+            dipifr.fndryptBlodk(out, 0, out, 0);
+        } flsf {
+            if (kfyVbl.lfngti % 8 != 0) {
+                tirow nfw IllfgblBlodkSizfExdfption("lfngti of tif " +
+                    "to bf wrbppfd kfy siould bf multiplfs of 8 bytfs");
             }
-            System.arraycopy(IV, 0, out, 0, IV.length);
-            System.arraycopy(keyVal, 0, out, IV.length, keyVal.length);
-            int N = keyVal.length/8;
-            byte[] buffer = new byte[blksize];
+            Systfm.brrbydopy(IV, 0, out, 0, IV.lfngti);
+            Systfm.brrbydopy(kfyVbl, 0, out, IV.lfngti, kfyVbl.lfngti);
+            int N = kfyVbl.lfngti/8;
+            bytf[] bufffr = nfw bytf[blksizf];
             for (int j = 0; j < 6; j++) {
                 for (int i = 1; i <= N; i++) {
                     int T = i + j*N;
-                    System.arraycopy(out, 0, buffer, 0, IV.length);
-                    System.arraycopy(out, i*8, buffer, IV.length, 8);
-                    cipher.encryptBlock(buffer, 0, buffer, 0);
+                    Systfm.brrbydopy(out, 0, bufffr, 0, IV.lfngti);
+                    Systfm.brrbydopy(out, i*8, bufffr, IV.lfngti, 8);
+                    dipifr.fndryptBlodk(bufffr, 0, bufffr, 0);
                     for (int k = 1; T != 0; k++) {
-                        byte v = (byte) T;
-                        buffer[IV.length - k] ^= v;
+                        bytf v = (bytf) T;
+                        bufffr[IV.lfngti - k] ^= v;
                         T >>>= 8;
                     }
-                    System.arraycopy(buffer, 0, out, 0, IV.length);
-                    System.arraycopy(buffer, 8, out, 8*i, 8);
+                    Systfm.brrbydopy(bufffr, 0, out, 0, IV.lfngti);
+                    Systfm.brrbydopy(bufffr, 8, out, 8*i, 8);
                 }
             }
         }
-        return out;
+        rfturn out;
     }
 
     /**
-     * Unwrap a previously wrapped key.
+     * Unwrbp b prfviously wrbppfd kfy.
      *
-     * @param wrappedKey the key to be unwrapped.
+     * @pbrbm wrbppfdKfy tif kfy to bf unwrbppfd.
      *
-     * @param wrappedKeyAlgorithm the algorithm the wrapped key is for.
+     * @pbrbm wrbppfdKfyAlgoritim tif blgoritim tif wrbppfd kfy is for.
      *
-     * @param wrappedKeyType the type of the wrapped key.
-     * This is one of <code>Cipher.SECRET_KEY</code>,
-     * <code>Cipher.PRIVATE_KEY</code>, or <code>Cipher.PUBLIC_KEY</code>.
+     * @pbrbm wrbppfdKfyTypf tif typf of tif wrbppfd kfy.
+     * Tiis is onf of <dodf>Cipifr.SECRET_KEY</dodf>,
+     * <dodf>Cipifr.PRIVATE_KEY</dodf>, or <dodf>Cipifr.PUBLIC_KEY</dodf>.
      *
-     * @return the unwrapped key.
+     * @rfturn tif unwrbppfd kfy.
      *
-     * @exception NoSuchAlgorithmException if no installed providers
-     * can create keys of type <code>wrappedKeyType</code> for the
-     * <code>wrappedKeyAlgorithm</code>.
+     * @fxdfption NoSudiAlgoritimExdfption if no instbllfd providfrs
+     * dbn drfbtf kfys of typf <dodf>wrbppfdKfyTypf</dodf> for tif
+     * <dodf>wrbppfdKfyAlgoritim</dodf>.
      *
-     * @exception InvalidKeyException if <code>wrappedKey</code> does not
-     * represent a wrapped key of type <code>wrappedKeyType</code> for
-     * the <code>wrappedKeyAlgorithm</code>.
+     * @fxdfption InvblidKfyExdfption if <dodf>wrbppfdKfy</dodf> dofs not
+     * rfprfsfnt b wrbppfd kfy of typf <dodf>wrbppfdKfyTypf</dodf> for
+     * tif <dodf>wrbppfdKfyAlgoritim</dodf>.
      */
-    protected Key engineUnwrap(byte[] wrappedKey,
-                               String wrappedKeyAlgorithm,
-                               int wrappedKeyType)
-        throws InvalidKeyException, NoSuchAlgorithmException {
-        int wrappedKeyLen = wrappedKey.length;
-        // ensure the wrappedKey length is multiples of 8 bytes and non-zero
-        if (wrappedKeyLen == 0) {
-            throw new InvalidKeyException("The wrapped key is empty");
+    protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy,
+                               String wrbppfdKfyAlgoritim,
+                               int wrbppfdKfyTypf)
+        tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption {
+        int wrbppfdKfyLfn = wrbppfdKfy.lfngti;
+        // fnsurf tif wrbppfdKfy lfngti is multiplfs of 8 bytfs bnd non-zfro
+        if (wrbppfdKfyLfn == 0) {
+            tirow nfw InvblidKfyExdfption("Tif wrbppfd kfy is fmpty");
         }
-        if (wrappedKeyLen % 8 != 0) {
-            throw new InvalidKeyException
-                ("The wrapped key has invalid key length");
+        if (wrbppfdKfyLfn % 8 != 0) {
+            tirow nfw InvblidKfyExdfption
+                ("Tif wrbppfd kfy ibs invblid kfy lfngti");
         }
-        byte[] out = new byte[wrappedKeyLen - 8];
-        byte[] buffer = new byte[blksize];
-        if (wrappedKeyLen == 16) {
-            cipher.decryptBlock(wrappedKey, 0, buffer, 0);
-            for (int i = 0; i < IV.length; i++) {
-                if (IV[i] != buffer[i]) {
-                    throw new InvalidKeyException("Integrity check failed");
+        bytf[] out = nfw bytf[wrbppfdKfyLfn - 8];
+        bytf[] bufffr = nfw bytf[blksizf];
+        if (wrbppfdKfyLfn == 16) {
+            dipifr.dfdryptBlodk(wrbppfdKfy, 0, bufffr, 0);
+            for (int i = 0; i < IV.lfngti; i++) {
+                if (IV[i] != bufffr[i]) {
+                    tirow nfw InvblidKfyExdfption("Intfgrity difdk fbilfd");
                 }
             }
-            System.arraycopy(buffer, IV.length, out, 0, out.length);
-        } else {
-            System.arraycopy(wrappedKey, 0, buffer, 0, IV.length);
-            System.arraycopy(wrappedKey, IV.length, out, 0, out.length);
-            int N = out.length/8;
+            Systfm.brrbydopy(bufffr, IV.lfngti, out, 0, out.lfngti);
+        } flsf {
+            Systfm.brrbydopy(wrbppfdKfy, 0, bufffr, 0, IV.lfngti);
+            Systfm.brrbydopy(wrbppfdKfy, IV.lfngti, out, 0, out.lfngti);
+            int N = out.lfngti/8;
             for (int j = 5; j >= 0; j--) {
                 for (int i = N; i > 0; i--) {
                     int T = i + j*N;
-                    System.arraycopy(out, 8*(i-1), buffer, IV.length, 8);
+                    Systfm.brrbydopy(out, 8*(i-1), bufffr, IV.lfngti, 8);
                     for (int k = 1; T != 0; k++) {
-                        byte v = (byte) T;
-                        buffer[IV.length - k] ^= v;
+                        bytf v = (bytf) T;
+                        bufffr[IV.lfngti - k] ^= v;
                         T >>>= 8;
                     }
-                    cipher.decryptBlock(buffer, 0, buffer, 0);
-                    System.arraycopy(buffer, IV.length, out, 8*(i-1), 8);
+                    dipifr.dfdryptBlodk(bufffr, 0, bufffr, 0);
+                    Systfm.brrbydopy(bufffr, IV.lfngti, out, 8*(i-1), 8);
                 }
             }
-            for (int i = 0; i < IV.length; i++) {
-                if (IV[i] != buffer[i]) {
-                    throw new InvalidKeyException("Integrity check failed");
+            for (int i = 0; i < IV.lfngti; i++) {
+                if (IV[i] != bufffr[i]) {
+                    tirow nfw InvblidKfyExdfption("Intfgrity difdk fbilfd");
                 }
             }
         }
-        return ConstructKeys.constructKey(out, wrappedKeyAlgorithm,
-                                          wrappedKeyType);
+        rfturn ConstrudtKfys.donstrudtKfy(out, wrbppfdKfyAlgoritim,
+                                          wrbppfdKfyTypf);
     }
 }

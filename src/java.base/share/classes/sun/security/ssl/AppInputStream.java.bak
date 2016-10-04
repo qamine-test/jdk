@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * InputStream for application data as returned by SSLSocket.getInputStream().
- * It uses an InputRecord as internal buffer that is refilled on demand
- * whenever it runs out of data.
+ * InputStrfbm for bpplidbtion dbtb bs rfturnfd by SSLSodkft.gftInputStrfbm().
+ * It usfs bn InputRfdord bs intfrnbl bufffr tibt is rffillfd on dfmbnd
+ * wifnfvfr it runs out of dbtb.
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-class AppInputStream extends InputStream {
+dlbss AppInputStrfbm fxtfnds InputStrfbm {
 
-    // static dummy array we use to implement skip()
-    private final static byte[] SKIP_ARRAY = new byte[1024];
+    // stbtid dummy brrby wf usf to implfmfnt skip()
+    privbtf finbl stbtid bytf[] SKIP_ARRAY = nfw bytf[1024];
 
-    private SSLSocketImpl c;
-    InputRecord r;
+    privbtf SSLSodkftImpl d;
+    InputRfdord r;
 
-    // One element array used to implement the single byte read() method
-    private final byte[] oneByte = new byte[1];
+    // Onf flfmfnt brrby usfd to implfmfnt tif singlf bytf rfbd() mftiod
+    privbtf finbl bytf[] onfBytf = nfw bytf[1];
 
-    AppInputStream(SSLSocketImpl conn) {
-        r = new InputRecord();
-        c = conn;
+    AppInputStrfbm(SSLSodkftImpl donn) {
+        r = nfw InputRfdord();
+        d = donn;
     }
 
     /**
-     * Return the minimum number of bytes that can be read without blocking.
-     * Currently not synchronized.
+     * Rfturn tif minimum numbfr of bytfs tibt dbn bf rfbd witiout blodking.
+     * Currfntly not syndironizfd.
      */
-    @Override
-    public int available() throws IOException {
-        if (c.checkEOF() || (r.isAppDataValid() == false)) {
-            return 0;
+    @Ovfrridf
+    publid int bvbilbblf() tirows IOExdfption {
+        if (d.difdkEOF() || (r.isAppDbtbVblid() == fblsf)) {
+            rfturn 0;
         }
-        return r.available();
+        rfturn r.bvbilbblf();
     }
 
     /**
-     * Read a single byte, returning -1 on non-fault EOF status.
+     * Rfbd b singlf bytf, rfturning -1 on non-fbult EOF stbtus.
      */
-    @Override
-    public synchronized int read() throws IOException {
-        int n = read(oneByte, 0, 1);
+    @Ovfrridf
+    publid syndironizfd int rfbd() tirows IOExdfption {
+        int n = rfbd(onfBytf, 0, 1);
         if (n <= 0) { // EOF
-            return -1;
+            rfturn -1;
         }
-        return oneByte[0] & 0xff;
+        rfturn onfBytf[0] & 0xff;
     }
 
     /**
-     * Read up to "len" bytes into this buffer, starting at "off".
-     * If the layer above needs more data, it asks for more, so we
-     * are responsible only for blocking to fill at most one buffer,
-     * and returning "-1" on non-fault EOF status.
+     * Rfbd up to "lfn" bytfs into tiis bufffr, stbrting bt "off".
+     * If tif lbyfr bbovf nffds morf dbtb, it bsks for morf, so wf
+     * brf rfsponsiblf only for blodking to fill bt most onf bufffr,
+     * bnd rfturning "-1" on non-fbult EOF stbtus.
      */
-    @Override
-    public synchronized int read(byte b[], int off, int len)
-            throws IOException {
+    @Ovfrridf
+    publid syndironizfd int rfbd(bytf b[], int off, int lfn)
+            tirows IOExdfption {
         if (b == null) {
-            throw new NullPointerException();
-        } else if (off < 0 || len < 0 || len > b.length - off) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return 0;
+            tirow nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngti - off) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn 0;
         }
 
-        if (c.checkEOF()) {
-            return -1;
+        if (d.difdkEOF()) {
+            rfturn -1;
         }
         try {
             /*
-             * Read data if needed ... notice that the connection guarantees
-             * that handshake, alert, and change cipher spec data streams are
-             * handled as they arrive, so we never see them here.
+             * Rfbd dbtb if nffdfd ... notidf tibt tif donnfdtion gubrbntffs
+             * tibt ibndsibkf, blfrt, bnd dibngf dipifr spfd dbtb strfbms brf
+             * ibndlfd bs tify brrivf, so wf nfvfr sff tifm ifrf.
              */
-            while (r.available() == 0) {
-                c.readDataRecord(r);
-                if (c.checkEOF()) {
-                    return -1;
+            wiilf (r.bvbilbblf() == 0) {
+                d.rfbdDbtbRfdord(r);
+                if (d.difdkEOF()) {
+                    rfturn -1;
                 }
             }
 
-            int howmany = Math.min(len, r.available());
-            howmany = r.read(b, off, howmany);
-            return howmany;
-        } catch (Exception e) {
-            // shutdown and rethrow (wrapped) exception as appropriate
-            c.handleException(e);
-            // dummy for compiler
-            return -1;
+            int iowmbny = Mbti.min(lfn, r.bvbilbblf());
+            iowmbny = r.rfbd(b, off, iowmbny);
+            rfturn iowmbny;
+        } dbtdi (Exdfption f) {
+            // siutdown bnd rftirow (wrbppfd) fxdfption bs bppropribtf
+            d.ibndlfExdfption(f);
+            // dummy for dompilfr
+            rfturn -1;
         }
     }
 
 
     /**
-     * Skip n bytes. This implementation is somewhat less efficient
-     * than possible, but not badly so (redundant copy). We reuse
-     * the read() code to keep things simpler. Note that SKIP_ARRAY
-     * is static and may garbled by concurrent use, but we are not interested
-     * in the data anyway.
+     * Skip n bytfs. Tiis implfmfntbtion is somfwibt lfss fffidifnt
+     * tibn possiblf, but not bbdly so (rfdundbnt dopy). Wf rfusf
+     * tif rfbd() dodf to kffp tiings simplfr. Notf tibt SKIP_ARRAY
+     * is stbtid bnd mby gbrblfd by dondurrfnt usf, but wf brf not intfrfstfd
+     * in tif dbtb bnywby.
      */
-    @Override
-    public synchronized long skip(long n) throws IOException {
-        long skipped = 0;
-        while (n > 0) {
-            int len = (int)Math.min(n, SKIP_ARRAY.length);
-            int r = read(SKIP_ARRAY, 0, len);
+    @Ovfrridf
+    publid syndironizfd long skip(long n) tirows IOExdfption {
+        long skippfd = 0;
+        wiilf (n > 0) {
+            int lfn = (int)Mbti.min(n, SKIP_ARRAY.lfngti);
+            int r = rfbd(SKIP_ARRAY, 0, lfn);
             if (r <= 0) {
-                break;
+                brfbk;
             }
             n -= r;
-            skipped += r;
+            skippfd += r;
         }
-        return skipped;
+        rfturn skippfd;
     }
 
     /*
-     * Socket close is already synchronized, no need to block here.
+     * Sodkft dlosf is blrfbdy syndironizfd, no nffd to blodk ifrf.
      */
-    @Override
-    public void close() throws IOException {
-        c.close();
+    @Ovfrridf
+    publid void dlosf() tirows IOExdfption {
+        d.dlosf();
     }
 
-    // inherit default mark/reset behavior (throw Exceptions) from InputStream
+    // inifrit dffbult mbrk/rfsft bfibvior (tirow Exdfptions) from InputStrfbm
 
 }

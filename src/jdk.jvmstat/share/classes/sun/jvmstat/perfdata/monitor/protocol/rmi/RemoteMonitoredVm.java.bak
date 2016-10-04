@@ -1,299 +1,299 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.rmi;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.rmi;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import sun.jvmstat.monitor.remote.*;
-import sun.jvmstat.perfdata.monitor.*;
-import java.lang.reflect.*;
-import java.util.*;
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.rmi.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+import sun.jvmstbt.monitor.rfmotf.*;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.rmi.*;
 
 /**
- * Concrete implementation of the AbstractMonitoredVm class for the
- * <em>rmi:</em> protocol for the HotSpot PerfData monitoring implementation.
+ * Condrftf implfmfntbtion of tif AbstrbdtMonitorfdVm dlbss for tif
+ * <fm>rmi:</fm> protodol for tif HotSpot PfrfDbtb monitoring implfmfntbtion.
  * <p>
- * This class provides the ability to acquire to the instrumentation buffer
- * of a live, remote target Java Virtual Machine through an RMI server.
+ * Tiis dlbss providfs tif bbility to bdquirf to tif instrumfntbtion bufffr
+ * of b livf, rfmotf tbrgft Jbvb Virtubl Mbdiinf tirougi bn RMI sfrvfr.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class RemoteMonitoredVm extends AbstractMonitoredVm {
+publid dlbss RfmotfMonitorfdVm fxtfnds AbstrbdtMonitorfdVm {
 
-    private ArrayList<VmListener> listeners;
-    private NotifierTask notifierTask;
-    private SamplerTask samplerTask;
-    private Timer timer;
+    privbtf ArrbyList<VmListfnfr> listfnfrs;
+    privbtf NotififrTbsk notififrTbsk;
+    privbtf SbmplfrTbsk sbmplfrTbsk;
+    privbtf Timfr timfr;
 
-    private RemoteVm rvm;
-    private ByteBuffer updateBuffer;
+    privbtf RfmotfVm rvm;
+    privbtf BytfBufffr updbtfBufffr;
 
     /**
-     * Create a RemoteMonitoredVm instance.
+     * Crfbtf b RfmotfMonitorfdVm instbndf.
      *
-     * @param rvm the proxy to the remote MonitoredVm instance.
-     * @param vmid the vm identifier specifying the remot target JVM
-     * @param timer the timer used to run polling tasks
-     * @param interval the sampling interval
+     * @pbrbm rvm tif proxy to tif rfmotf MonitorfdVm instbndf.
+     * @pbrbm vmid tif vm idfntififr spfdifying tif rfmot tbrgft JVM
+     * @pbrbm timfr tif timfr usfd to run polling tbsks
+     * @pbrbm intfrvbl tif sbmpling intfrvbl
      */
-    public RemoteMonitoredVm(RemoteVm rvm, VmIdentifier vmid,
-                             Timer timer, int interval)
-           throws MonitorException {
-        super(vmid, interval);
-        this.rvm = rvm;
-        pdb = new PerfDataBuffer(rvm, vmid.getLocalVmId());
-        this.listeners = new ArrayList<VmListener>();
-        this.timer = timer;
+    publid RfmotfMonitorfdVm(RfmotfVm rvm, VmIdfntififr vmid,
+                             Timfr timfr, int intfrvbl)
+           tirows MonitorExdfption {
+        supfr(vmid, intfrvbl);
+        tiis.rvm = rvm;
+        pdb = nfw PfrfDbtbBufffr(rvm, vmid.gftLodblVmId());
+        tiis.listfnfrs = nfw ArrbyList<VmListfnfr>();
+        tiis.timfr = timfr;
     }
 
     /**
-     * Method to attach to the remote MonitoredVm.
+     * Mftiod to bttbdi to tif rfmotf MonitorfdVm.
      */
-    public void attach() throws MonitorException {
-        updateBuffer = pdb.getByteBuffer().duplicate();
+    publid void bttbdi() tirows MonitorExdfption {
+        updbtfBufffr = pdb.gftBytfBufffr().duplidbtf();
 
-        // if continuous sampling is requested, register with the sampler thread
-        if (interval > 0) {
-            samplerTask = new SamplerTask();
-            timer.schedule(samplerTask, 0, interval);
+        // if dontinuous sbmpling is rfqufstfd, rfgistfr witi tif sbmplfr tirfbd
+        if (intfrvbl > 0) {
+            sbmplfrTbsk = nfw SbmplfrTbsk();
+            timfr.sdifdulf(sbmplfrTbsk, 0, intfrvbl);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void detach() {
+    publid void dftbdi() {
         try {
-            if (interval > 0) {
-                if (samplerTask != null) {
-                    samplerTask.cancel();
-                    samplerTask = null;
+            if (intfrvbl > 0) {
+                if (sbmplfrTbsk != null) {
+                    sbmplfrTbsk.dbndfl();
+                    sbmplfrTbsk = null;
                 }
-                if (notifierTask != null) {
-                    notifierTask.cancel();
-                    notifierTask = null;
+                if (notififrTbsk != null) {
+                    notififrTbsk.dbndfl();
+                    notififrTbsk = null;
                 }
-                sample();
+                sbmplf();
             }
-        } catch (RemoteException e) {
-            // XXX: - use logging api? throw an exception instead?
-            System.err.println("Could not read data for remote JVM " + vmid);
-            e.printStackTrace();
+        } dbtdi (RfmotfExdfption f) {
+            // XXX: - usf logging bpi? tirow bn fxdfption instfbd?
+            Systfm.frr.println("Could not rfbd dbtb for rfmotf JVM " + vmid);
+            f.printStbdkTrbdf();
 
-        } finally {
-            super.detach();
+        } finblly {
+            supfr.dftbdi();
         }
     }
 
     /**
-     * Get a copy of the remote instrumentation buffer.
+     * Gft b dopy of tif rfmotf instrumfntbtion bufffr.
      *<p>
-     * The data in the remote instrumentation buffer is copied into
-     * a local byte buffer.
+     * Tif dbtb in tif rfmotf instrumfntbtion bufffr is dopifd into
+     * b lodbl bytf bufffr.
      *
-     * @throws RemoteException Thrown on any communications errors with
-     *                         the remote system.
+     * @tirows RfmotfExdfption Tirown on bny dommunidbtions frrors witi
+     *                         tif rfmotf systfm.
      */
-    public void sample() throws RemoteException {
-        assert updateBuffer != null;
-        ((PerfDataBuffer)pdb).sample(updateBuffer);
+    publid void sbmplf() tirows RfmotfExdfption {
+        bssfrt updbtfBufffr != null;
+        ((PfrfDbtbBufffr)pdb).sbmplf(updbtfBufffr);
     }
 
     /**
-     * Get the proxy to the remote MonitoredVm.
+     * Gft tif proxy to tif rfmotf MonitorfdVm.
      *
-     * @return RemoteVm - the proxy to the remote MonitoredVm.
+     * @rfturn RfmotfVm - tif proxy to tif rfmotf MonitorfdVm.
      */
-    public RemoteVm getRemoteVm() {
-        return rvm;
+    publid RfmotfVm gftRfmotfVm() {
+        rfturn rvm;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void addVmListener(VmListener l) {
-        synchronized(listeners) {
-            listeners.add(l);
-            if (notifierTask == null) {
-                notifierTask = new NotifierTask();
-                timer.schedule(notifierTask, 0, interval);
+    publid void bddVmListfnfr(VmListfnfr l) {
+        syndironizfd(listfnfrs) {
+            listfnfrs.bdd(l);
+            if (notififrTbsk == null) {
+                notififrTbsk = nfw NotififrTbsk();
+                timfr.sdifdulf(notififrTbsk, 0, intfrvbl);
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void removeVmListener(VmListener l) {
-        synchronized(listeners) {
-            listeners.remove(l);
-            if (listeners.isEmpty() && (notifierTask != null)) {
-                notifierTask.cancel();
-                notifierTask = null;
+    publid void rfmovfVmListfnfr(VmListfnfr l) {
+        syndironizfd(listfnfrs) {
+            listfnfrs.rfmovf(l);
+            if (listfnfrs.isEmpty() && (notififrTbsk != null)) {
+                notififrTbsk.dbndfl();
+                notififrTbsk = null;
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setInterval(int newInterval) {
-        synchronized(listeners) {
-            if (newInterval == interval) {
-                return;
+    publid void sftIntfrvbl(int nfwIntfrvbl) {
+        syndironizfd(listfnfrs) {
+            if (nfwIntfrvbl == intfrvbl) {
+                rfturn;
             }
 
-            int oldInterval = interval;
-            super.setInterval(newInterval);
+            int oldIntfrvbl = intfrvbl;
+            supfr.sftIntfrvbl(nfwIntfrvbl);
 
-            if (samplerTask != null) {
-                samplerTask.cancel();
-                SamplerTask oldSamplerTask = samplerTask;
-                samplerTask = new SamplerTask();
-                CountedTimerTaskUtils.reschedule(timer, oldSamplerTask,
-                                                 samplerTask, oldInterval,
-                                                 newInterval);
+            if (sbmplfrTbsk != null) {
+                sbmplfrTbsk.dbndfl();
+                SbmplfrTbsk oldSbmplfrTbsk = sbmplfrTbsk;
+                sbmplfrTbsk = nfw SbmplfrTbsk();
+                CountfdTimfrTbskUtils.rfsdifdulf(timfr, oldSbmplfrTbsk,
+                                                 sbmplfrTbsk, oldIntfrvbl,
+                                                 nfwIntfrvbl);
             }
-            if (notifierTask != null) {
-                notifierTask.cancel();
-                NotifierTask oldNotifierTask = notifierTask;
-                notifierTask = new NotifierTask();
-                CountedTimerTaskUtils.reschedule(timer, oldNotifierTask,
-                                                 notifierTask, oldInterval,
-                                                 newInterval);
+            if (notififrTbsk != null) {
+                notififrTbsk.dbndfl();
+                NotififrTbsk oldNotififrTbsk = notififrTbsk;
+                notififrTbsk = nfw NotififrTbsk();
+                CountfdTimfrTbskUtils.rfsdifdulf(timfr, oldNotififrTbsk,
+                                                 notififrTbsk, oldIntfrvbl,
+                                                 nfwIntfrvbl);
             }
         }
     }
 
     /**
-     * Fire MonitoredVmStructureChanged events.
+     * Firf MonitorfdVmStrudturfCibngfd fvfnts.
      *
-     * @param inserted List of Monitor objects inserted.
-     * @param removed List of Monitor objects removed.
+     * @pbrbm insfrtfd List of Monitor objfdts insfrtfd.
+     * @pbrbm rfmovfd List of Monitor objfdts rfmovfd.
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    void fireMonitorStatusChangedEvents(List<Monitor> inserted, List<Monitor> removed) {
-        ArrayList<VmListener> registered = null;
-        MonitorStatusChangeEvent ev = null;
+    @SupprfssWbrnings("undifdkfd") // Cbst of rfsult of dlonf
+    void firfMonitorStbtusCibngfdEvfnts(List<Monitor> insfrtfd, List<Monitor> rfmovfd) {
+        ArrbyList<VmListfnfr> rfgistfrfd = null;
+        MonitorStbtusCibngfEvfnt fv = null;
 
-        synchronized(listeners) {
-            registered = (ArrayList)listeners.clone();
+        syndironizfd(listfnfrs) {
+            rfgistfrfd = (ArrbyList)listfnfrs.dlonf();
         }
 
-        for (Iterator<VmListener> i = registered.iterator(); i.hasNext(); /* empty */) {
-            VmListener l = i.next();
-            if (ev == null) {
-                ev = new MonitorStatusChangeEvent(this, inserted, removed);
+        for (Itfrbtor<VmListfnfr> i = rfgistfrfd.itfrbtor(); i.ibsNfxt(); /* fmpty */) {
+            VmListfnfr l = i.nfxt();
+            if (fv == null) {
+                fv = nfw MonitorStbtusCibngfEvfnt(tiis, insfrtfd, rfmovfd);
             }
-            l.monitorStatusChanged(ev);
+            l.monitorStbtusCibngfd(fv);
         }
     }
 
     /**
-     * Fire MonitoredVmStructureChanged events.
+     * Firf MonitorfdVmStrudturfCibngfd fvfnts.
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    void fireMonitorsUpdatedEvents() {
-        ArrayList<VmListener> registered = null;
-        VmEvent ev = null;
+    @SupprfssWbrnings("undifdkfd") // Cbst of rfsult of dlonf
+    void firfMonitorsUpdbtfdEvfnts() {
+        ArrbyList<VmListfnfr> rfgistfrfd = null;
+        VmEvfnt fv = null;
 
-        synchronized(listeners) {
-            registered = (ArrayList)listeners.clone();
+        syndironizfd(listfnfrs) {
+            rfgistfrfd = (ArrbyList)listfnfrs.dlonf();
         }
 
-        for (Iterator<VmListener> i = registered.iterator(); i.hasNext(); /* empty */) {
-            VmListener l = i.next();
-            if (ev == null) {
-                ev = new VmEvent(this);
+        for (Itfrbtor<VmListfnfr> i = rfgistfrfd.itfrbtor(); i.ibsNfxt(); /* fmpty */) {
+            VmListfnfr l = i.nfxt();
+            if (fv == null) {
+                fv = nfw VmEvfnt(tiis);
             }
-            l.monitorsUpdated(ev);
+            l.monitorsUpdbtfd(fv);
         }
     }
 
     /*
-     * Timer Tasks. There are two separate timer tasks here. The SamplerTask
-     * is active whenever we are attached to the remote JVM with a periodic
-     * sampling interval > 0. The NotifierTask is only active if a VmListener
-     * has registered with this RemoteMonitoredVm instance. Also, in the future
-     * we may want to run these tasks at different intervals. Currently,
-     * they run at the same interval and some significant work may
-     * need to be done to complete the separation of these two intervals.
+     * Timfr Tbsks. Tifrf brf two sfpbrbtf timfr tbsks ifrf. Tif SbmplfrTbsk
+     * is bdtivf wifnfvfr wf brf bttbdifd to tif rfmotf JVM witi b pfriodid
+     * sbmpling intfrvbl > 0. Tif NotififrTbsk is only bdtivf if b VmListfnfr
+     * ibs rfgistfrfd witi tiis RfmotfMonitorfdVm instbndf. Also, in tif futurf
+     * wf mby wbnt to run tifsf tbsks bt difffrfnt intfrvbls. Currfntly,
+     * tify run bt tif sbmf intfrvbl bnd somf signifidbnt work mby
+     * nffd to bf donf to domplftf tif sfpbrbtion of tifsf two intfrvbls.
      */
 
     /**
-     * Class to periodically check the state of the defined monitors
-     * for the remote MonitoredVm instance and to notify listeners of
-     * any detected changes.
+     * Clbss to pfriodidblly difdk tif stbtf of tif dffinfd monitors
+     * for tif rfmotf MonitorfdVm instbndf bnd to notify listfnfrs of
+     * bny dftfdtfd dibngfs.
      */
-    private class NotifierTask extends CountedTimerTask {
-        public void run() {
-            super.run();
+    privbtf dlbss NotififrTbsk fxtfnds CountfdTimfrTbsk {
+        publid void run() {
+            supfr.run();
             try {
-                MonitorStatus status = getMonitorStatus();
+                MonitorStbtus stbtus = gftMonitorStbtus();
 
-                List<Monitor> inserted = status.getInserted();
-                List<Monitor> removed = status.getRemoved();
+                List<Monitor> insfrtfd = stbtus.gftInsfrtfd();
+                List<Monitor> rfmovfd = stbtus.gftRfmovfd();
 
-                if (!inserted.isEmpty() || !removed.isEmpty()) {
-                    fireMonitorStatusChangedEvents(inserted, removed);
+                if (!insfrtfd.isEmpty() || !rfmovfd.isEmpty()) {
+                    firfMonitorStbtusCibngfdEvfnts(insfrtfd, rfmovfd);
                 }
-            } catch (MonitorException e) {
-                // XXX: use logging api? fire disconnect events? mark errored?
-                // fireDisconnectedEvents();
-                System.err.println("Exception updating monitors for "
-                                   + getVmIdentifier());
-                e.printStackTrace();
-                // XXX: should we cancle the notifierTask here?
-                // this.cancel();
+            } dbtdi (MonitorExdfption f) {
+                // XXX: usf logging bpi? firf disdonnfdt fvfnts? mbrk frrorfd?
+                // firfDisdonnfdtfdEvfnts();
+                Systfm.frr.println("Exdfption updbting monitors for "
+                                   + gftVmIdfntififr());
+                f.printStbdkTrbdf();
+                // XXX: siould wf dbndlf tif notififrTbsk ifrf?
+                // tiis.dbndfl();
             }
         }
     }
 
     /**
-     * Class to periodically sample the remote instrumentation byte buffer
-     * and refresh the local copy. Registered listeners are notified of
-     * the completion of a sampling event.
+     * Clbss to pfriodidblly sbmplf tif rfmotf instrumfntbtion bytf bufffr
+     * bnd rffrfsi tif lodbl dopy. Rfgistfrfd listfnfrs brf notififd of
+     * tif domplftion of b sbmpling fvfnt.
      */
-    private class SamplerTask extends CountedTimerTask {
-        public void run() {
-            super.run();
+    privbtf dlbss SbmplfrTbsk fxtfnds CountfdTimfrTbsk {
+        publid void run() {
+            supfr.run();
             try {
-                sample();
-                fireMonitorsUpdatedEvents();
+                sbmplf();
+                firfMonitorsUpdbtfdEvfnts();
 
-            } catch (RemoteException e) {
-                // XXX: use logging api, mark vm as errored.
-                System.err.println("Exception taking sample for "
-                                   + getVmIdentifier());
-                e.printStackTrace();
-                this.cancel();
+            } dbtdi (RfmotfExdfption f) {
+                // XXX: usf logging bpi, mbrk vm bs frrorfd.
+                Systfm.frr.println("Exdfption tbking sbmplf for "
+                                   + gftVmIdfntififr());
+                f.printStbdkTrbdf();
+                tiis.dbndfl();
             }
         }
     }

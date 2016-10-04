@@ -1,0 +1,307 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfnbmfFiltfr;
+
+/**
+ * Clbss to providf trbnslbtions from thf lodbl Vm Idfntififr
+ * nbmf spbdf into thf filf systfm nbmf spbdf bnd vidf-vfrsb.
+ * <p>
+ * Providfs b fbdtory for drfbting b Filf objfdt to thf bbdking
+ * storf filf for instrumfntbtion shbrfd mfmory rfgion for b JVM
+ * idfntififd by its Lodbl Jbvb Virtubl Mbdhinf Idfntififr, or
+ * <fm>lvmid</fm>.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ * @sff jbvb.io.Filf
+ */
+publid dlbss PfrfDbtbFilf {
+    privbtf PfrfDbtbFilf() { };
+
+    /**
+     * Thf nbmf of thf of thf systfm dfpfndfnt tfmporbry dirfdtory
+     */
+    publid stbtid finbl String tmpDirNbmf;
+
+    /**
+     * Thf filf nbmf prffix for PfrfDbtb shbrfd mfmory filfs.
+     * <p>
+     * This prffix must bf kfpt in synd with thf prffix usfd by thf JVM.
+     */
+    publid stbtid finbl String dirNbmfPrffix = "hspfrfdbtb_";
+
+    /**
+     * Thf dirfdtory nbmf pbttfrn for thf usfr dirfdtorifs.
+     */
+    publid stbtid finbl String usfrDirNbmfPbttfrn = "hspfrfdbtb_\\S*";
+
+    /**
+     * Thf filf nbmf pbttfrn for PfrfDbtb shbrfd mfmory filfs.
+     * <p>
+     * This pbttfrn must bf kfpt in syndh with thf filf nbmf pbttfrn
+     * usfd by thf 1.4.2 bnd lbtfr HotSpot JVM.
+     */
+    publid stbtid finbl String filfNbmfPbttfrn = "^[0-9]+$";
+
+    /**
+     * Thf filf nbmf pbttfrn for 1.4.1 PfrfDbtb shbrfd mfmory filfs.
+     * <p>
+     * This pbttfrn must bf kfpt in syndh with thf filf nbmf pbttfrn
+     * usfd by thf 1.4.1 HotSpot JVM.
+     */
+    publid stbtid finbl String tmpFilfNbmfPbttfrn =
+            "^hspfrfdbtb_[0-9]+(_[1-2]+)?$";
+
+
+    /**
+     * Gft b Filf objfdt for thf instrumfntbtion bbdking storf filf
+     * for thf JVM idfntififd by thf givfn lodbl Vm Idfntififr.
+     * <p>
+     * This mfthod looks for thf most up to dbtf bbdking storf filf for
+     * thf givfn <tt>lvmid</tt>. It will sfbrdh bll thf usfr spfdifid
+     * dirfdtorifs in thf tfmporbry dirfdtory for thf host opfrbting
+     * systfm, whidh mby bf influfndfd by plbtform spfdifid fnvironmfnt
+     * vbribblfs.
+     *
+     * @pbrbm lvmid  thf lodbl Jbvb Virtubl Mbdhinf Idfntififr for thf tbrgft
+     * @rfturn Filf - b Filf objfdt to thf bbdking storf filf for thf nbmfd
+     *                shbrfd mfmory rfgion of thf tbrgft JVM.
+     * @sff jbvb.io.Filf
+     * @sff #gftTfmpDirfdtory()
+     */
+    publid stbtid Filf gftFilf(int lvmid) {
+        if (lvmid == 0) {
+            /*
+             * lvmid == 0 is usfd to indidbtf thf durrfnt Jbvb Virtubl Mbdhinf.
+             * If thf SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdhinf
+             * idfntififr, thfn b filfnbmf dould bf donstrudtfd with thbt
+             * idfntififr. In bbsfndf of sudh bn bpi, rfturn null.
+             */
+            rfturn null;
+        }
+
+        /*
+         * itfrbtf ovfr bll filfs in bll dirfdtorifs in tmpDirNbmf thbt
+         * mbtdh thf filf nbmf pbttfrns.
+         */
+        Filf tmpDir = nfw Filf(tmpDirNbmf);
+        String[] filfs = tmpDir.list(nfw FilfnbmfFiltfr() {
+            publid boolfbn bddfpt(Filf dir, String nbmf) {
+                if (!nbmf.stbrtsWith(dirNbmfPrffix)) {
+                    rfturn fblsf;
+                }
+                Filf dbndidbtf = nfw Filf(dir, nbmf);
+                rfturn ((dbndidbtf.isDirfdtory() || dbndidbtf.isFilf())
+                        && dbndidbtf.dbnRfbd());
+            }
+        });
+
+        long nfwfstTimf = 0;
+        Filf nfwfst = null;
+
+        for (int i = 0; i < filfs.lfngth; i++) {
+            Filf f = nfw Filf(tmpDirNbmf + filfs[i]);
+            Filf dbndidbtf = null;
+
+            if (f.fxists() && f.isDirfdtory()) {
+                /*
+                 * found b dirfdtory mbtdhing thf nbmf pbttfrns. This
+                 * is b 1.4.2 hspfrfdbtb_<usfr> dirfdtory. Chfdk for
+                 * filf nbmfd <lvmid> in thbt dirfdtory
+                 */
+                String nbmf = Intfgfr.toString(lvmid);
+                dbndidbtf = nfw Filf(f.gftNbmf(), nbmf);
+
+            } flsf if (f.fxists() && f.isFilf()) {
+                /*
+                 * found b filf mbtdhing thf nbmf pbttfrns. This
+                 * is b 1.4.1 hspfrfdbtb_<lvmid> filf.
+                 */
+                dbndidbtf = f;
+
+            } flsf {
+                // unfxpfdtfd - lft donditionbl bflow filtfr this onf out
+                dbndidbtf = f;
+            }
+
+            if (dbndidbtf.fxists() && dbndidbtf.isFilf()
+                    && dbndidbtf.dbnRfbd()) {
+                long modTimf = dbndidbtf.lbstModififd();
+                if (modTimf >= nfwfstTimf) {
+                    nfwfstTimf = modTimf;
+                    nfwfst = dbndidbtf;
+                }
+            }
+        }
+        rfturn nfwfst;
+    }
+
+    /**
+     * Rfturn thf Filf objfdt for thf bbdking storf filf for thf spfdififd Jbvb
+     * Virtubl Mbdhinf.
+     * <p>
+     * This mfthod looks for thf most up to dbtf bbdking storf filf for
+     * thf JVM idfntififd by thf givfn usfr nbmf bnd lvmid. Thf dirfdtory
+     * sfbrdhfd is thf tfmporbry dirfdtory for thf host opfrbting systfm,
+     * whidh mby bf influfndfd by fnvironmfnt vbribblfs.
+     *
+     * @pbrbm usfr   thf usfr nbmf
+     * @pbrbm lvmid  thf lodbl Jbvb Virtubl Mbdhinf Idfntififr for thf tbrgft
+     * @rfturn Filf - b Filf objfdt to thf bbdking storf filf for thf nbmfd
+     *                shbrfd mfmory rfgion of thf tbrgft JVM.
+     * @sff jbvb.io.Filf
+     * @sff #gftTfmpDirfdtory()
+     */
+    publid stbtid Filf gftFilf(String usfr, int lvmid) {
+        if (lvmid == 0) {
+            /*
+             * lvmid == 0 is usfd to indidbtf thf durrfnt Jbvb Virtubl Mbdhinf.
+             * If thf SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdhinf
+             * idfntififr, thfn b filfnbmf dould bf donstrudtfd with thbt
+             * idfntififr. In bbsfndf of sudh bn bpi, rfturn null.
+             */
+            rfturn null;
+        }
+
+        // first try for 1.4.2 bnd lbtfr JVMs
+        String bbsfnbmf = gftTfmpDirfdtory(usfr) + Intfgfr.toString(lvmid);
+        Filf f = nfw Filf(bbsfnbmf);
+
+        if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+            rfturn f;
+        }
+
+        // No hit on 1.4.2 JVMs, try 1.4.1 filfs
+        long nfwfstTimf = 0;
+        Filf nfwfst = null;
+        for (int i = 0; i < 2; i++) {
+            if (i == 0) {
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid);
+            } flsf {
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid)
+                           + Intfgfr.toString(i);
+            }
+
+            f = nfw Filf(bbsfnbmf);
+
+            if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+                long modTimf = f.lbstModififd();
+                if (modTimf >= nfwfstTimf) {
+                    nfwfstTimf = modTimf;
+                    nfwfst = f;
+                }
+            }
+        }
+        rfturn nfwfst;
+    }
+
+    /**
+     * Mfthod to fxtrbdt b lodbl Jbvb Virtubl Mbdhinf Idfntififr from thf
+     * filf nbmf of thf givfn Filf objfdt.
+     *
+     * @pbrbm filf A Filf objfdt rfprfsfnting thf nbmf of b
+     *             shbrfd mfmory rfgion for b tbrgft JVM
+     * @rfturn int - thf lodbl Jbvb Virtubl Mbdhinf Idfntififr for thf tbrgft
+     *               bssodibtfd with thf filf
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption Thrown if thf filf nbmf
+     *               dofs not donform to thf fxpfdtfd pbttfrn
+     */
+    publid stbtid int gftLodblVmId(Filf filf) {
+        try {
+            // try 1.4.2 bnd lbtfr formbt first
+            rfturn Intfgfr.pbrsfInt(filf.gftNbmf());
+        } dbtdh (NumbfrFormbtExdfption f) { }
+
+        // now try thf 1.4.1 formbt
+        String nbmf = filf.gftNbmf();
+        if (nbmf.stbrtsWith(dirNbmfPrffix)) {
+            int first = nbmf.indfxOf('_');
+            int lbst = nbmf.lbstIndfxOf('_');
+            try {
+                if (first == lbst) {
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1));
+                } flsf {
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1, lbst));
+                }
+            } dbtdh (NumbfrFormbtExdfption f) { }
+        }
+        throw nfw IllfgblArgumfntExdfption("filf nbmf dofs not mbtdh pbttfrn");
+    }
+
+    /**
+     * Rfturn thf nbmf of thf tfmporbry dirfdtory bfing sfbrdhfd for
+     * HotSpot PfrfDbtb bbdking storf filfs.
+     * <p>
+     * This mfthod gfnfrblly rfturns thf vbluf of thf jbvb.io.tmpdir
+     * propfrty. Howfvfr, on somf plbtforms it mby rfturn b difffrfnt
+     * dirfdtory, bs thf JVM implfmfntbtion mby storf thf PfrfDbtb bbdking
+     * storf filfs in b difffrfnt dirfdtory for pfrformbndf rfbsons.
+     *
+     * @rfturn String - thf nbmf of thf tfmporbry dirfdtory.
+     */
+    publid stbtid String gftTfmpDirfdtory() {
+        rfturn tmpDirNbmf;
+    }
+
+    /**
+     * Rfturn thf nbmf of thf tfmporbry dirfdtory to bf sfbrdhfd
+     * for HotSpot PfrfDbtb bbdking storf filfs for b givfn usfr.
+     * <p>
+     * This mfthod gfnfrblly rfturns thf nbmf of b subdirfdtory of
+     * thf dirfdtory indidbtfd in thf jbvb.io.tmpdir propfrty. Howfvfr,
+     * on somf plbtforms it mby rfturn b difffrfnt dirfdtory, bs thf
+     * JVM implfmfntbtion mby storf thf PfrfDbtb bbdking storf filfs
+     * in b difffrfnt dirfdtory for pfrformbndf rfbsons.
+     *
+     * @rfturn String - thf nbmf of thf tfmporbry dirfdtory.
+     */
+    publid stbtid String gftTfmpDirfdtory(String usfr) {
+        rfturn tmpDirNbmf + dirNbmfPrffix + usfr + Filf.sfpbrbtor;
+    }
+
+    stbtid {
+        /*
+         * For this to work, thf tbrgft VM bnd this dodf nffd to usf
+         * thf sbmf dirfdtory. Instfbd of gufssing whidh dirfdtory thf
+         * VM is using, wf will bsk.
+         */
+        String tmpdir = sun.misd.VMSupport.gftVMTfmporbryDirfdtory();
+
+        /*
+         * Assurf thbt thf string rfturnfd hbs b trbiling Filf.sfpbrbtor
+         * dhbrbdtfr. This dhfdk wbs bddfd bfdbusf thf Linux implfmfntbtion
+         * dhbngfd sudh thbt thf jbvb.io.tmpdir string no longfr tfrminbtfs
+         * with b Filf.sfpbrbtor dhbrbdtfr.
+         */
+        if (tmpdir.lbstIndfxOf(Filf.sfpbrbtor) != (tmpdir.lfngth()-1)) {
+            tmpdir = tmpdir + Filf.sfpbrbtor;
+        }
+        tmpDirNbmf = tmpdir;
+    }
+}

@@ -1,380 +1,380 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="fr"/>
-		<territory type="CA"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ps" alt="variant" draft="contributed">ps</language>
-		</languages>
-		<scripts>
-			<script type="Arab" alt="variant" draft="contributed">Perso-arabe</script>
-		</scripts>
-		<keys>
-			<key type="numbers" draft="contributed">Chiffres</key>
-		</keys>
-		<types>
-			<type type="arab" key="numbers" draft="contributed">Chiffres indo-arabes</type>
-			<type type="arabext" key="numbers" draft="contributed">Chiffres indo-arabes étendus</type>
-			<type type="armn" key="numbers" draft="contributed">Chiffres arméniens</type>
-			<type type="armnlow" key="numbers" draft="contributed">Chiffres minuscules arméniens</type>
-			<type type="beng" key="numbers" draft="contributed">Chiffres bengali</type>
-			<type type="deva" key="numbers" draft="contributed">Chiffres devanagari</type>
-			<type type="dictionary" key="collation" draft="contributed">Ordre de tri du dictionnaire</type>
-			<type type="ducet" key="collation" draft="contributed">Ordre de tri Unicode par défaut</type>
-			<type type="ethi" key="numbers" draft="contributed">Chiffre éthiopiens</type>
-			<type type="ethiopic-amete-alem" key="calendar" draft="contributed">Calendrier éthiopien de l'An de grâce</type>
-			<type type="fullwide" key="numbers" draft="contributed">Chiffre pleine largeur</type>
-			<type type="geor" key="numbers" draft="contributed">Chiffres géorgiens</type>
-			<type type="grek" key="numbers" draft="contributed">Chiffres grecs</type>
-			<type type="greklow" key="numbers" draft="contributed">Chiffres minuscules grecs</type>
-			<type type="gujr" key="numbers" draft="contributed">Chiffres gujarati</type>
-			<type type="guru" key="numbers" draft="contributed">Chiffres gurmukhī</type>
-			<type type="hanidec" key="numbers" draft="contributed">Chiffres numériques chinois</type>
-			<type type="hans" key="numbers" draft="contributed">Chiffres chinois simplifiés</type>
-			<type type="hansfin" key="numbers" draft="contributed">Chiffres monétaires chinois simplifiés</type>
-			<type type="hant" key="numbers" draft="contributed">Chiffres chinois traditionnels</type>
-			<type type="hebr" key="numbers" draft="contributed">Chiffre hébreux</type>
-			<type type="jpanfin" key="numbers" draft="contributed">Chiffres monétaires japonais</type>
-			<type type="khmr" key="numbers" draft="contributed">Chiffres khmer</type>
-			<type type="knda" key="numbers" draft="contributed">Chiffres canara</type>
-			<type type="laoo" key="numbers" draft="contributed">Chiffres laotiens</type>
-			<type type="latn" key="numbers" draft="contributed">Chiffres occidentaux</type>
-			<type type="mlym" key="numbers" draft="contributed">Chiffres malayâlam</type>
-			<type type="mong" key="numbers" draft="contributed">Chiffres mongols</type>
-			<type type="mymr" key="numbers" draft="contributed">Chiffres birmans</type>
-			<type type="orya" key="numbers" draft="contributed">Chiffres oriya</type>
-			<type type="persian" key="calendar" draft="contributed">Calendrier perse</type>
-			<type type="reformed" key="collation" draft="contributed">Ordre de tri réformé</type>
-			<type type="roman" key="numbers" draft="contributed">Chiffres romains</type>
-			<type type="romanlow" key="numbers" draft="contributed">Chiffres minuscules romains</type>
-			<type type="search" key="collation" draft="contributed">Recherche générale</type>
-			<type type="taml" key="numbers" draft="contributed">Chiffres tamoul</type>
-			<type type="telu" key="numbers" draft="contributed">Chiffres telugu</type>
-			<type type="thai" key="numbers" draft="contributed">Chiffres thaïlandais</type>
-			<type type="tibt" key="numbers" draft="contributed">Chiffres tibétains</type>
-			<type type="unihan" key="collation" draft="contributed">Ordre de tri radical et trait</type>
-		</types>
-		<transformNames>
-			<transformName type="Numeric" draft="contributed">Chiffres</transformName>
-			<transformName type="x-Fullwidth" draft="contributed">Pleine largeur</transformName>
-			<transformName type="x-Halfwidth" draft="contributed">Demie largeur</transformName>
-			<transformName type="x-Publishing" draft="contributed">Édition</transformName>
-		</transformNames>
-		<measurementSystemNames>
-			<measurementSystemName type="UK" draft="contributed">R-U</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<characters>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="fr"/>
+		<tfrritory typf="CA"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">ps</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb" blt="vbribnt" drbft="dontributfd">Pfrso-brbbf</sdript>
+		</sdripts>
+		<kfys>
+			<kfy typf="numbfrs" drbft="dontributfd">Ciiffrfs</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">Ciiffrfs indo-brbbfs</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">Ciiffrfs indo-brbbfs étfndus</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">Ciiffrfs brménifns</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">Ciiffrfs minusdulfs brménifns</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">Ciiffrfs bfngbli</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">Ciiffrfs dfvbnbgbri</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">Ordrf df tri du didtionnbirf</typf>
+			<typf typf="dudft" kfy="dollbtion" drbft="dontributfd">Ordrf df tri Unidodf pbr défbut</typf>
+			<typf typf="ftii" kfy="numbfrs" drbft="dontributfd">Ciiffrf étiiopifns</typf>
+			<typf typf="ftiiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">Cblfndrifr étiiopifn df l'An df grâdf</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">Ciiffrf plfinf lbrgfur</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">Ciiffrfs géorgifns</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">Ciiffrfs grfds</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">Ciiffrfs minusdulfs grfds</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">Ciiffrfs gujbrbti</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">Ciiffrfs gurmukiī</typf>
+			<typf typf="ibnidfd" kfy="numbfrs" drbft="dontributfd">Ciiffrfs numériqufs diinois</typf>
+			<typf typf="ibns" kfy="numbfrs" drbft="dontributfd">Ciiffrfs diinois simplifiés</typf>
+			<typf typf="ibnsfin" kfy="numbfrs" drbft="dontributfd">Ciiffrfs monétbirfs diinois simplifiés</typf>
+			<typf typf="ibnt" kfy="numbfrs" drbft="dontributfd">Ciiffrfs diinois trbditionnfls</typf>
+			<typf typf="ifbr" kfy="numbfrs" drbft="dontributfd">Ciiffrf iébrfux</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">Ciiffrfs monétbirfs jbponbis</typf>
+			<typf typf="kimr" kfy="numbfrs" drbft="dontributfd">Ciiffrfs kimfr</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">Ciiffrfs dbnbrb</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">Ciiffrfs lbotifns</typf>
+			<typf typf="lbtn" kfy="numbfrs" drbft="dontributfd">Ciiffrfs oddidfntbux</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">Ciiffrfs mblbyâlbm</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">Ciiffrfs mongols</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">Ciiffrfs birmbns</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">Ciiffrfs oriyb</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">Cblfndrifr pfrsf</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">Ordrf df tri réformé</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">Ciiffrfs rombins</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">Ciiffrfs minusdulfs rombins</typf>
+			<typf typf="sfbrdi" kfy="dollbtion" drbft="dontributfd">Rfdifrdif générblf</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">Ciiffrfs tbmoul</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">Ciiffrfs tflugu</typf>
+			<typf typf="tibi" kfy="numbfrs" drbft="dontributfd">Ciiffrfs tibïlbndbis</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">Ciiffrfs tibétbins</typf>
+			<typf typf="uniibn" kfy="dollbtion" drbft="dontributfd">Ordrf df tri rbdidbl ft trbit</typf>
+		</typfs>
+		<trbnsformNbmfs>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Ciiffrfs</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Fullwidti" drbft="dontributfd">Plfinf lbrgfur</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Hblfwidti" drbft="dontributfd">Dfmif lbrgfur</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Publisiing" drbft="dontributfd">Édition</trbnsformNbmf>
+		</trbnsformNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="UK" drbft="dontributfd">R-U</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
 		<stopwords>
-			<stopwordList type="collation" draft="provisional">le la les</stopwordList>
+			<stopwordList typf="dollbtion" drbft="provisionbl">lf lb lfs</stopwordList>
 		</stopwords>
-	</characters>
-    <delimiters>
-        <quotationStart>«</quotationStart>
-        <quotationEnd>»</quotationEnd>
-        <alternateQuotationStart>‹</alternateQuotationStart>
-        <alternateQuotationEnd>›</alternateQuotationEnd>
-    </delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<dateFormats>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>yyyy-MM-dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>yy-MM-dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH 'h' mm 'min' ss 's' zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md">M-d</dateFormatItem>
-						<dateFormatItem id="MEd">E M-d</dateFormatItem>
-						<dateFormatItem id="MMd">MM-d</dateFormatItem>
-						<dateFormatItem id="MMdd">MM-dd</dateFormatItem>
-						<dateFormatItem id="yM">yyyy-MM</dateFormatItem>
-						<dateFormatItem id="yMd">yyyy-MM-dd</dateFormatItem>
-						<dateFormatItem id="yMEd">E yyyy-MM-dd</dateFormatItem>
-						<dateFormatItem id="yyMM">yy-MM</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d">d–d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="h">h–h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="H">
-							<greatestDifference id="H">HH–HH</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
-							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hm">
-							<greatestDifference id="H">HH:mm–HH:mm</greatestDifference>
-							<greatestDifference id="m">HH:mm–HH:mm</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
-							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hmv">
-							<greatestDifference id="H">HH:mm–HH:mm v</greatestDifference>
-							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="h">h–h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hv">
-							<greatestDifference id="H">HH–HH v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d">MM-dd – MM-dd</greatestDifference>
-							<greatestDifference id="M">MM-dd – MM-dd</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">E MM-dd – E MM-dd</greatestDifference>
-							<greatestDifference id="M">E MM-dd – E MM-dd</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y">y–y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M">yy-MM – yy-MM</greatestDifference>
-							<greatestDifference id="y">yy-MM – yy-MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">yy-MM-dd – yy-MM-dd</greatestDifference>
-							<greatestDifference id="M">yy-MM-dd – yy-MM-dd</greatestDifference>
-							<greatestDifference id="y">yy-MM-dd – yy-MM-dd</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">'du' E yy-MM-dd 'au' E yy-MM-dd</greatestDifference>
-							<greatestDifference id="M">'du' E yy-MM-dd 'au' E yy-MM-dd</greatestDifference>
-							<greatestDifference id="y">'du' E yy-MM-dd 'au' E yy-MM-dd</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="y">'de' MMM y 'à' MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="M">'du' d MMM 'au' d MMM y</greatestDifference>
-							<greatestDifference id="y">'du' d MMM y 'au' d MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">'du' E d 'au' E d MMM y</greatestDifference>
-							<greatestDifference id="M">'du' E d MMM 'au' E d MMM y</greatestDifference>
-							<greatestDifference id="y">'du' E d MMM y 'au' E d MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MMMM – MMMM y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="year">
-						<relative type="-1" draft="contributed">L'année dernière</relative>
-						<relative type="0" draft="contributed">Cette année</relative>
-						<relative type="1" draft="contributed">L'année prochaine</relative>
-					</field>
-					<field type="month">
-						<relative type="-1" draft="contributed">Le mois dernier</relative>
-						<relative type="0" draft="contributed">Ce mois-ci</relative>
-						<relative type="1" draft="contributed">Le mois prochain</relative>
-					</field>
-					<field type="week">
-						<relative type="-1" draft="contributed">La semaine dernière</relative>
-						<relative type="0" draft="contributed">Cette semaine</relative>
-						<relative type="1" draft="contributed">La semaine prochaine</relative>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<regionFormat draft="contributed">Heure de {0}</regionFormat>
-			<fallbackRegionFormat draft="contributed">Heure de {1} ({0})</fallbackRegionFormat>
-			<zone type="Asia/Dhaka">
-				<exemplarCity draft="contributed">Dacca</exemplarCity>
-			</zone>
-			<zone type="Indian/Cocos">
-				<exemplarCity draft="contributed">Îles Cocos</exemplarCity>
-			</zone>
-			<zone type="Indian/Christmas">
-				<exemplarCity draft="contributed">Île Christmas</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Faeroe">
-				<exemplarCity draft="contributed">Îles Féroé</exemplarCity>
-			</zone>
-			<zone type="America/Godthab">
-				<exemplarCity draft="contributed">Nuuk</exemplarCity>
-			</zone>
-			<zone type="Indian/Chagos">
-				<exemplarCity draft="contributed">Archipel des Chagos</exemplarCity>
-			</zone>
-			<zone type="Asia/Baghdad">
-				<exemplarCity draft="contributed">Baghdad</exemplarCity>
-			</zone>
-			<zone type="Indian/Comoro">
-				<exemplarCity draft="contributed">Union des Comores</exemplarCity>
-			</zone>
-			<zone type="America/St_Kitts">
-				<exemplarCity draft="contributed">Saint-Christophe-et-Niévès</exemplarCity>
-			</zone>
-			<zone type="America/Cayman">
-				<exemplarCity draft="contributed">Îles Caïmans</exemplarCity>
-			</zone>
-			<zone type="Pacific/Norfolk">
-				<exemplarCity draft="contributed">Île Norfolk</exemplarCity>
-			</zone>
-			<zone type="Pacific/Pitcairn">
-				<exemplarCity draft="contributed">Île Pitcairn</exemplarCity>
-			</zone>
-			<zone type="Indian/Kerguelen">
-				<exemplarCity draft="contributed">Îles Kerguelen</exemplarCity>
-			</zone>
-			<zone type="Europe/Vatican">
-				<exemplarCity draft="contributed">Vatican</exemplarCity>
-			</zone>
-			<zone type="America/St_Thomas">
-				<exemplarCity draft="contributed">Saint Thomas</exemplarCity>
-			</zone>
-			<zone type="Pacific/Wallis">
-				<exemplarCity draft="contributed">Uvéa</exemplarCity>
-			</zone>
-			<metazone type="America_Central">
-				<short>
-					<generic>HC</generic>
-					<standard>HNC</standard>
-					<daylight>HAC</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Eastern">
-				<short>
-					<generic>HE</generic>
-					<standard>HNE</standard>
-					<daylight>HAE</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Mountain">
-				<short>
-					<generic>HR</generic>
-					<standard>HNR</standard>
-					<daylight>HAR</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Pacific">
-				<short>
-					<generic>HP</generic>
-					<standard>HNP</standard>
-					<daylight>HAP</daylight>
-				</short>
-			</metazone>
-			<metazone type="Newfoundland">
-				<short>
-					<generic>HT</generic>
-					<standard>HNT</standard>
-					<daylight>HAT</daylight>
-				</short>
-			</metazone>
-		</timeZoneNames>
-	</dates>
-	<numbers>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength type="short">
-				<decimalFormat>
-					<pattern type="1000000000" draft="contributed">0.0B</pattern>
-					<pattern type="10000000000" draft="contributed">00B</pattern>
-					<pattern type="100000000000" draft="contributed">000B</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00 ¤;(#,##0.00 ¤)</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="CAD">
+	</dibrbdtfrs>
+    <dflimitfrs>
+        <quotbtionStbrt>«</quotbtionStbrt>
+        <quotbtionEnd>»</quotbtionEnd>
+        <bltfrnbtfQuotbtionStbrt>‹</bltfrnbtfQuotbtionStbrt>
+        <bltfrnbtfQuotbtionEnd>›</bltfrnbtfQuotbtionEnd>
+    </dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>yyyy-MM-dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>yy-MM-dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>HH 'i' mm 'min' ss 's' zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md">M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMd">MM-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd">MM-dd</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">yyyy-MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">yyyy-MM-dd</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E yyyy-MM-dd</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMM">yy-MM</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d">d–d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="i">i–i b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="H">HH–HH</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="im">
+							<grfbtfstDifffrfndf id="i">i:mm–i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">i:mm–i:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="H">HH:mm–HH:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">HH:mm–HH:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="imv">
+							<grfbtfstDifffrfndf id="i">i:mm–i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">i:mm–i:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="H">HH:mm–HH:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">HH:mm–HH:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="iv">
+							<grfbtfstDifffrfndf id="i">i–i b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="H">HH–HH v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">MM-dd – MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">MM-dd – MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E MM-dd – E MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E MM-dd – E MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y">y–y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">yy-MM – yy-MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">yy-MM – yy-MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">yy-MM-dd – yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">yy-MM-dd – yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">yy-MM-dd – yy-MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">'du' E yy-MM-dd 'bu' E yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">'du' E yy-MM-dd 'bu' E yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">'du' E yy-MM-dd 'bu' E yy-MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="y">'df' MMM y 'à' MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="M">'du' d MMM 'bu' d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">'du' d MMM y 'bu' d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">'du' E d 'bu' E d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">'du' E d MMM 'bu' E d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">'du' E d MMM y 'bu' E d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">MMMM – MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="yfbr">
+						<rflbtivf typf="-1" drbft="dontributfd">L'bnnéf dfrnièrf</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Cfttf bnnéf</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">L'bnnéf prodibinf</rflbtivf>
+					</fifld>
+					<fifld typf="monti">
+						<rflbtivf typf="-1" drbft="dontributfd">Lf mois dfrnifr</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Cf mois-di</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Lf mois prodibin</rflbtivf>
+					</fifld>
+					<fifld typf="wffk">
+						<rflbtivf typf="-1" drbft="dontributfd">Lb sfmbinf dfrnièrf</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Cfttf sfmbinf</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Lb sfmbinf prodibinf</rflbtivf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<rfgionFormbt drbft="dontributfd">Hfurf df {0}</rfgionFormbt>
+			<fbllbbdkRfgionFormbt drbft="dontributfd">Hfurf df {1} ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Asib/Dibkb">
+				<fxfmplbrCity drbft="dontributfd">Dbddb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Codos">
+				<fxfmplbrCity drbft="dontributfd">Îlfs Codos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Ciristmbs">
+				<fxfmplbrCity drbft="dontributfd">Îlf Ciristmbs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Fbfrof">
+				<fxfmplbrCity drbft="dontributfd">Îlfs Féroé</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Godtibb">
+				<fxfmplbrCity drbft="dontributfd">Nuuk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Cibgos">
+				<fxfmplbrCity drbft="dontributfd">Ardiipfl dfs Cibgos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbgidbd">
+				<fxfmplbrCity drbft="dontributfd">Bbgidbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Comoro">
+				<fxfmplbrCity drbft="dontributfd">Union dfs Comorfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Kitts">
+				<fxfmplbrCity drbft="dontributfd">Sbint-Ciristopif-ft-Niévès</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbymbn">
+				<fxfmplbrCity drbft="dontributfd">Îlfs Cbïmbns</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Norfolk">
+				<fxfmplbrCity drbft="dontributfd">Îlf Norfolk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pitdbirn">
+				<fxfmplbrCity drbft="dontributfd">Îlf Pitdbirn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Kfrguflfn">
+				<fxfmplbrCity drbft="dontributfd">Îlfs Kfrguflfn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbtidbn">
+				<fxfmplbrCity drbft="dontributfd">Vbtidbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Tiombs">
+				<fxfmplbrCity drbft="dontributfd">Sbint Tiombs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbllis">
+				<fxfmplbrCity drbft="dontributfd">Uvéb</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<siort>
+					<gfnfrid>HC</gfnfrid>
+					<stbndbrd>HNC</stbndbrd>
+					<dbyligit>HAC</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<siort>
+					<gfnfrid>HE</gfnfrid>
+					<stbndbrd>HNE</stbndbrd>
+					<dbyligit>HAE</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<siort>
+					<gfnfrid>HR</gfnfrid>
+					<stbndbrd>HNR</stbndbrd>
+					<dbyligit>HAR</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<siort>
+					<gfnfrid>HP</gfnfrid>
+					<stbndbrd>HNP</stbndbrd>
+					<dbyligit>HAP</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Nfwfoundlbnd">
+				<siort>
+					<gfnfrid>HT</gfnfrid>
+					<stbndbrd>HNT</stbndbrd>
+					<dbyligit>HAT</dbyligit>
+				</siort>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti typf="siort">
+				<dfdimblFormbt>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0B</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00B</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000B</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤;(#,##0.00 ¤)</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="CAD">
 				<symbol>$</symbol>
-			</currency>
-		</currencies>
-	</numbers>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<units>
-		<unit type="day-future">
-			<unitPattern count="one" draft="contributed">Dans {0} jour</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} jours</unitPattern>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} jour</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Dbns {0} jours</unitPbttfrn>
 		</unit>
-		<unit type="day-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} jour</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} jours</unitPattern>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} jour</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Il y b {0} jours</unitPbttfrn>
 		</unit>
-		<unit type="hour-future">
-			<unitPattern count="one" draft="contributed">Dans {0} heure</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} heures</unitPattern>
+		<unit typf="iour-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} ifurf</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Dbns {0} ifurfs</unitPbttfrn>
 		</unit>
-		<unit type="hour-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} heure</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} heures</unitPattern>
+		<unit typf="iour-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} ifurf</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Il y b {0} ifurfs</unitPbttfrn>
 		</unit>
-		<unit type="minute-future">
-			<unitPattern count="one" draft="contributed">Dans {0} minute</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} minutes</unitPattern>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} minutf</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Dbns {0} minutfs</unitPbttfrn>
 		</unit>
-		<unit type="minute-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} minute</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} minutes</unitPattern>
+		<unit typf="minutf-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} minutf</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Il y b {0} minutfs</unitPbttfrn>
 		</unit>
-		<unit type="month-future">
-			<unitPattern count="one" draft="contributed">Dans {0} mois</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} mois</unitPattern>
+		<unit typf="monti-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} mois</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Dbns {0} mois</unitPbttfrn>
 		</unit>
-		<unit type="month-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} mois</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} mois</unitPattern>
+		<unit typf="monti-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} mois</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Il y b {0} mois</unitPbttfrn>
 		</unit>
-		<unit type="second-future">
-			<unitPattern count="0" draft="contributed">Dans 0 seconde</unitPattern>
-			<unitPattern count="1" draft="contributed">Dans 1 seconde</unitPattern>
-			<unitPattern count="one" draft="contributed">Dans {0} seconde</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} secondes</unitPattern>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">Dbns 0 sfdondf</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Dbns 1 sfdondf</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} sfdondf</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Dbns {0} sfdondfs</unitPbttfrn>
 		</unit>
-		<unit type="second-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} seconde</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} secondes</unitPattern>
+		<unit typf="sfdond-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} sfdondf</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Il y b {0} sfdondfs</unitPbttfrn>
 		</unit>
-		<unit type="week-future">
-			<unitPattern count="one" draft="contributed">Dans {0} semaine</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} semaines</unitPattern>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} sfmbinf</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Dbns {0} sfmbinfs</unitPbttfrn>
 		</unit>
-		<unit type="week-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} semaine</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} semaines</unitPattern>
+		<unit typf="wffk-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} sfmbinf</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Il y b {0} sfmbinfs</unitPbttfrn>
 		</unit>
-		<unit type="year-future">
-			<unitPattern count="one" draft="contributed">Dans {0} an</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} ans</unitPattern>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} bn</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Dbns {0} bns</unitPbttfrn>
 		</unit>
-		<unit type="year-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} an</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} ans</unitPattern>
+		<unit typf="yfbr-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} bn</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">Il y b {0} bns</unitPbttfrn>
 		</unit>
 	</units>
 </ldml>

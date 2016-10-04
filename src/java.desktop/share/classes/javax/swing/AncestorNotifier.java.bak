@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
-import javax.swing.event.*;
-import java.awt.event.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.fvfnt.*;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Window;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Window;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 
 /**
- * @author Dave Moore
+ * @butior Dbvf Moorf
  */
 
-@SuppressWarnings("serial")
-class AncestorNotifier implements ComponentListener, PropertyChangeListener, Serializable
+@SupprfssWbrnings("sfribl")
+dlbss AndfstorNotififr implfmfnts ComponfntListfnfr, PropfrtyCibngfListfnfr, Sfriblizbblf
 {
-    transient Component firstInvisibleAncestor;
-    EventListenerList listenerList = new EventListenerList();
-    JComponent root;
+    trbnsifnt Componfnt firstInvisiblfAndfstor;
+    EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+    JComponfnt root;
 
-    AncestorNotifier(JComponent root) {
-        this.root = root;
-        addListeners(root, true);
+    AndfstorNotififr(JComponfnt root) {
+        tiis.root = root;
+        bddListfnfrs(root, truf);
     }
 
-    void addAncestorListener(AncestorListener l) {
-        listenerList.add(AncestorListener.class, l);
+    void bddAndfstorListfnfr(AndfstorListfnfr l) {
+        listfnfrList.bdd(AndfstorListfnfr.dlbss, l);
     }
 
-    void removeAncestorListener(AncestorListener l) {
-        listenerList.remove(AncestorListener.class, l);
+    void rfmovfAndfstorListfnfr(AndfstorListfnfr l) {
+        listfnfrList.rfmovf(AndfstorListfnfr.dlbss, l);
     }
 
-    AncestorListener[] getAncestorListeners() {
-        return listenerList.getListeners(AncestorListener.class);
+    AndfstorListfnfr[] gftAndfstorListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(AndfstorListfnfr.dlbss);
     }
 
     /**
-     * Notify all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
-     * @see EventListenerList
+     * Notify bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
+     * @sff EvfntListfnfrList
      */
-    protected void fireAncestorAdded(JComponent source, int id, Container ancestor, Container ancestorParent) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==AncestorListener.class) {
-                // Lazily create the event:
-                AncestorEvent ancestorEvent =
-                    new AncestorEvent(source, id, ancestor, ancestorParent);
-                ((AncestorListener)listeners[i+1]).ancestorAdded(ancestorEvent);
+    protfdtfd void firfAndfstorAddfd(JComponfnt sourdf, int id, Contbinfr bndfstor, Contbinfr bndfstorPbrfnt) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==AndfstorListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                AndfstorEvfnt bndfstorEvfnt =
+                    nfw AndfstorEvfnt(sourdf, id, bndfstor, bndfstorPbrfnt);
+                ((AndfstorListfnfr)listfnfrs[i+1]).bndfstorAddfd(bndfstorEvfnt);
             }
         }
     }
 
     /**
-     * Notify all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
-     * @see EventListenerList
+     * Notify bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
+     * @sff EvfntListfnfrList
      */
-    protected void fireAncestorRemoved(JComponent source, int id, Container ancestor, Container ancestorParent) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==AncestorListener.class) {
-                // Lazily create the event:
-                AncestorEvent ancestorEvent =
-                    new AncestorEvent(source, id, ancestor, ancestorParent);
-                ((AncestorListener)listeners[i+1]).ancestorRemoved(ancestorEvent);
+    protfdtfd void firfAndfstorRfmovfd(JComponfnt sourdf, int id, Contbinfr bndfstor, Contbinfr bndfstorPbrfnt) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==AndfstorListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                AndfstorEvfnt bndfstorEvfnt =
+                    nfw AndfstorEvfnt(sourdf, id, bndfstor, bndfstorPbrfnt);
+                ((AndfstorListfnfr)listfnfrs[i+1]).bndfstorRfmovfd(bndfstorEvfnt);
             }
         }
     }
     /**
-     * Notify all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
-     * @see EventListenerList
+     * Notify bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
+     * @sff EvfntListfnfrList
      */
-    protected void fireAncestorMoved(JComponent source, int id, Container ancestor, Container ancestorParent) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==AncestorListener.class) {
-                // Lazily create the event:
-                AncestorEvent ancestorEvent =
-                    new AncestorEvent(source, id, ancestor, ancestorParent);
-                ((AncestorListener)listeners[i+1]).ancestorMoved(ancestorEvent);
+    protfdtfd void firfAndfstorMovfd(JComponfnt sourdf, int id, Contbinfr bndfstor, Contbinfr bndfstorPbrfnt) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==AndfstorListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                AndfstorEvfnt bndfstorEvfnt =
+                    nfw AndfstorEvfnt(sourdf, id, bndfstor, bndfstorPbrfnt);
+                ((AndfstorListfnfr)listfnfrs[i+1]).bndfstorMovfd(bndfstorEvfnt);
             }
         }
     }
 
-    void removeAllListeners() {
-        removeListeners(root);
+    void rfmovfAllListfnfrs() {
+        rfmovfListfnfrs(root);
     }
 
-    void addListeners(Component ancestor, boolean addToFirst) {
-        Component a;
+    void bddListfnfrs(Componfnt bndfstor, boolfbn bddToFirst) {
+        Componfnt b;
 
-        firstInvisibleAncestor = null;
-        for (a = ancestor;
-             firstInvisibleAncestor == null;
-             a = a.getParent()) {
-            if (addToFirst || a != ancestor) {
-                a.addComponentListener(this);
+        firstInvisiblfAndfstor = null;
+        for (b = bndfstor;
+             firstInvisiblfAndfstor == null;
+             b = b.gftPbrfnt()) {
+            if (bddToFirst || b != bndfstor) {
+                b.bddComponfntListfnfr(tiis);
 
-                if (a instanceof JComponent) {
-                    JComponent jAncestor = (JComponent)a;
+                if (b instbndfof JComponfnt) {
+                    JComponfnt jAndfstor = (JComponfnt)b;
 
-                    jAncestor.addPropertyChangeListener(this);
+                    jAndfstor.bddPropfrtyCibngfListfnfr(tiis);
                 }
             }
-            if (!a.isVisible() || a.getParent() == null || a instanceof Window) {
-                firstInvisibleAncestor = a;
+            if (!b.isVisiblf() || b.gftPbrfnt() == null || b instbndfof Window) {
+                firstInvisiblfAndfstor = b;
             }
         }
-        if (firstInvisibleAncestor instanceof Window &&
-            firstInvisibleAncestor.isVisible()) {
-            firstInvisibleAncestor = null;
-        }
-    }
-
-    void removeListeners(Component ancestor) {
-        Component a;
-        for (a = ancestor; a != null; a = a.getParent()) {
-            a.removeComponentListener(this);
-            if (a instanceof JComponent) {
-                JComponent jAncestor = (JComponent)a;
-                jAncestor.removePropertyChangeListener(this);
-            }
-            if (a == firstInvisibleAncestor || a instanceof Window) {
-                break;
-            }
+        if (firstInvisiblfAndfstor instbndfof Window &&
+            firstInvisiblfAndfstor.isVisiblf()) {
+            firstInvisiblfAndfstor = null;
         }
     }
 
-    public void componentResized(ComponentEvent e) {}
-
-    public void componentMoved(ComponentEvent e) {
-        Component source = e.getComponent();
-
-        fireAncestorMoved(root, AncestorEvent.ANCESTOR_MOVED,
-                          (Container)source, source.getParent());
-    }
-
-    public void componentShown(ComponentEvent e) {
-        Component ancestor = e.getComponent();
-
-        if (ancestor == firstInvisibleAncestor) {
-            addListeners(ancestor, false);
-            if (firstInvisibleAncestor == null) {
-                fireAncestorAdded(root, AncestorEvent.ANCESTOR_ADDED,
-                                  (Container)ancestor, ancestor.getParent());
+    void rfmovfListfnfrs(Componfnt bndfstor) {
+        Componfnt b;
+        for (b = bndfstor; b != null; b = b.gftPbrfnt()) {
+            b.rfmovfComponfntListfnfr(tiis);
+            if (b instbndfof JComponfnt) {
+                JComponfnt jAndfstor = (JComponfnt)b;
+                jAndfstor.rfmovfPropfrtyCibngfListfnfr(tiis);
+            }
+            if (b == firstInvisiblfAndfstor || b instbndfof Window) {
+                brfbk;
             }
         }
     }
 
-    public void componentHidden(ComponentEvent e) {
-        Component ancestor = e.getComponent();
-        boolean needsNotify = firstInvisibleAncestor == null;
+    publid void domponfntRfsizfd(ComponfntEvfnt f) {}
 
-        if ( !(ancestor instanceof Window) ) {
-            removeListeners(ancestor.getParent());
-        }
-        firstInvisibleAncestor = ancestor;
-        if (needsNotify) {
-            fireAncestorRemoved(root, AncestorEvent.ANCESTOR_REMOVED,
-                                (Container)ancestor, ancestor.getParent());
+    publid void domponfntMovfd(ComponfntEvfnt f) {
+        Componfnt sourdf = f.gftComponfnt();
+
+        firfAndfstorMovfd(root, AndfstorEvfnt.ANCESTOR_MOVED,
+                          (Contbinfr)sourdf, sourdf.gftPbrfnt());
+    }
+
+    publid void domponfntSiown(ComponfntEvfnt f) {
+        Componfnt bndfstor = f.gftComponfnt();
+
+        if (bndfstor == firstInvisiblfAndfstor) {
+            bddListfnfrs(bndfstor, fblsf);
+            if (firstInvisiblfAndfstor == null) {
+                firfAndfstorAddfd(root, AndfstorEvfnt.ANCESTOR_ADDED,
+                                  (Contbinfr)bndfstor, bndfstor.gftPbrfnt());
+            }
         }
     }
 
-    public void propertyChange(PropertyChangeEvent evt) {
-        String s = evt.getPropertyName();
+    publid void domponfntHiddfn(ComponfntEvfnt f) {
+        Componfnt bndfstor = f.gftComponfnt();
+        boolfbn nffdsNotify = firstInvisiblfAndfstor == null;
 
-        if (s!=null && (s.equals("parent") || s.equals("ancestor"))) {
-            JComponent component = (JComponent)evt.getSource();
+        if ( !(bndfstor instbndfof Window) ) {
+            rfmovfListfnfrs(bndfstor.gftPbrfnt());
+        }
+        firstInvisiblfAndfstor = bndfstor;
+        if (nffdsNotify) {
+            firfAndfstorRfmovfd(root, AndfstorEvfnt.ANCESTOR_REMOVED,
+                                (Contbinfr)bndfstor, bndfstor.gftPbrfnt());
+        }
+    }
 
-            if (evt.getNewValue() != null) {
-                if (component == firstInvisibleAncestor) {
-                    addListeners(component, false);
-                    if (firstInvisibleAncestor == null) {
-                        fireAncestorAdded(root, AncestorEvent.ANCESTOR_ADDED,
-                                          component, component.getParent());
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        String s = fvt.gftPropfrtyNbmf();
+
+        if (s!=null && (s.fqubls("pbrfnt") || s.fqubls("bndfstor"))) {
+            JComponfnt domponfnt = (JComponfnt)fvt.gftSourdf();
+
+            if (fvt.gftNfwVbluf() != null) {
+                if (domponfnt == firstInvisiblfAndfstor) {
+                    bddListfnfrs(domponfnt, fblsf);
+                    if (firstInvisiblfAndfstor == null) {
+                        firfAndfstorAddfd(root, AndfstorEvfnt.ANCESTOR_ADDED,
+                                          domponfnt, domponfnt.gftPbrfnt());
                     }
                 }
-            } else {
-                boolean needsNotify = firstInvisibleAncestor == null;
-                Container oldParent = (Container)evt.getOldValue();
+            } flsf {
+                boolfbn nffdsNotify = firstInvisiblfAndfstor == null;
+                Contbinfr oldPbrfnt = (Contbinfr)fvt.gftOldVbluf();
 
-                removeListeners(oldParent);
-                firstInvisibleAncestor = component;
-                if (needsNotify) {
-                    fireAncestorRemoved(root, AncestorEvent.ANCESTOR_REMOVED,
-                                        component, oldParent);
+                rfmovfListfnfrs(oldPbrfnt);
+                firstInvisiblfAndfstor = domponfnt;
+                if (nffdsNotify) {
+                    firfAndfstorRfmovfd(root, AndfstorEvfnt.ANCESTOR_REMOVED,
+                                        domponfnt, oldPbrfnt);
                 }
             }
         }

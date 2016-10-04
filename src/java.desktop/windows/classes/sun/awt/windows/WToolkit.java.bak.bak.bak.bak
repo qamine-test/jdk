@@ -1,0 +1,1154 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.im.InputMfthodHighlight;
+import jbvb.bwt.im.spi.InputMfthodDfsdriptor;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.dbtbtrbnsffr.Clipbobrd;
+import jbvb.bwt.TrbyIdon;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.bwt.AppContfxt;
+import sun.bwt.AWTAutoShutdown;
+import sun.bwt.AWTPfrmissions;
+import sun.bwt.AppContfxt;
+import sun.bwt.LightwfightFrbmf;
+import sun.bwt.SunToolkit;
+import sun.bwt.util.ThrfbdGroupUtils;
+import sun.bwt.Win32GrbphidsDfvidf;
+import sun.bwt.Win32GrbphidsEnvironmfnt;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import sun.jbvb2d.d3d.D3DRfndfrQufuf;
+import sun.jbvb2d.opfngl.OGLRfndfrQufuf;
+
+import sun.print.PrintJob2D;
+
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+import jbvb.bwt.dnd.DrbgGfsturfEvfnt;
+import jbvb.bwt.dnd.DrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
+import jbvb.bwt.dnd.pffr.DrbgSourdfContfxtPffr;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+
+import sun.font.FontMbnbgfr;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.font.SunFontMbnbgfr;
+import sun.misd.PfrformbndfLoggfr;
+import sun.util.logging.PlbtformLoggfr;
+
+publid finbl dlbss WToolkit fxtfnds SunToolkit implfmfnts Runnbblf {
+
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.windows.WToolkit");
+
+    // Dfsktop propfrty whidh spfdififs whfthfr XP visubl stylfs brf in ffffdt
+    publid stbtid finbl String XPSTYLE_THEME_ACTIVE = "win.xpstylf.thfmfAdtivf";
+
+    stbtid GrbphidsConfigurbtion donfig;
+
+    // Systfm dlipbobrd.
+    WClipbobrd dlipbobrd;
+
+    // dbdhf of font pffrs
+    privbtf Hbshtbblf<String,FontPffr> dbdhfFontPffr;
+
+    // Windows propfrtifs
+    privbtf WDfsktopPropfrtifs  wprops;
+
+    // Dynbmid Lbyout Rfsizf dlifnt dodf sftting
+    protfdtfd boolfbn dynbmidLbyoutSftting = fblsf;
+
+    //Is it bllowfd to gfnfrbtf fvfnts bssignfd to fxtrb mousf buttons.
+    //Sft to truf by dffbult.
+    privbtf stbtid boolfbn brfExtrbMousfButtonsEnbblfd = truf;
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+    privbtf stbtid boolfbn lobdfd = fblsf;
+    publid stbtid void lobdLibrbrifs() {
+        if (!lobdfd) {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    @Ovfrridf
+                    publid Void run() {
+                        Systfm.lobdLibrbry("bwt");
+                        rfturn null;
+                    }
+                });
+            lobdfd = truf;
+        }
+    }
+
+    privbtf stbtid nbtivf String gftWindowsVfrsion();
+
+    stbtid {
+        lobdLibrbrifs();
+        initIDs();
+
+        // Print out whidh vfrsion of Windows is running
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Win vfrsion: " + gftWindowsVfrsion());
+        }
+
+        AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion <Void> ()
+        {
+            @Ovfrridf
+            publid Void run() {
+                String browsfrProp = Systfm.gftPropfrty("browsfr");
+                if (browsfrProp != null && browsfrProp.fqubls("sun.plugin")) {
+                    disbblfCustomPblfttf();
+                }
+                rfturn null;
+            }
+        });
+    }
+
+    privbtf stbtid nbtivf void disbblfCustomPblfttf();
+
+    /*
+     * Rfsft thf stbtid GrbphidsConfigurbtion to thf dffbult.  Cbllfd on
+     * stbrtup bnd whfn displby sfttings hbvf dhbngfd.
+     */
+    publid stbtid void rfsftGC() {
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            donfig = null;
+        } flsf {
+          donfig = (GrbphidsEnvironmfnt
+                  .gftLodblGrbphidsEnvironmfnt()
+          .gftDffbultSdrffnDfvidf()
+          .gftDffbultConfigurbtion());
+        }
+    }
+
+    /*
+     * NOTE: Thf following fmbfddfd*() mfthods brf non-publid API intfndfd
+     * for intfrnbl usf only.  Thf mfthods brf unsupportfd bnd dould go
+     * bwby in futurf rflfbsfs.
+     *
+     * Nfw hook fundtions for using thf AWT bs bn fmbfddfd sfrvidf. Thfsf
+     * fundtions rfplbdf thf globbl C fundtion AwtInit() whidh wbs prfviously
+     * fxportfd by bwt.dll.
+     *
+     * Whfn usfd bs bn fmbfddfd sfrvidf, thf AWT dofs NOT hbvf its own
+     * mfssbgf pump. It instfbd rflifs on thf pbrfnt bpplidbtion to providf
+     * this fundtionblity. fmbfddfdInit() bssumfs thbt thf thrfbd on whidh it
+     * is dbllfd is thf mfssbgf pumping thrfbd. Violbting this bssumption
+     * will lfbd to undffinfd bfhbvior.
+     *
+     * fmbfddfdInit must bf dbllfd bfforf thf WToolkit() donstrudtor.
+     * fmbfddfdDisposf should bf dbllfd bfforf thf bpplidbton tfrminbtfs thf
+     * Jbvb VM. It is durrfntly unsbff to rfinitiblizf thf toolkit bgbin
+     * bftfr it hbs bffn disposfd. Instfbd, bwt.dll must bf rflobdfd bnd thf
+     * dlbss lobdfr whidh lobdfd WToolkit must bf finblizfd bfforf it is
+     * sbff to rfusf AWT. Dynbmid rfusbbility mby bf bddfd to thf toolkit in
+     * thf futurf.
+     */
+
+    /**
+     * Initiblizfs thf Toolkit for usf in bn fmbfddfd fnvironmfnt.
+     *
+     * @rfturn truf if thf thf initiblizbtion suddffdfd; fblsf if it fbilfd.
+     *         Thf fundtion will fbil if thf Toolkit wbs blrfbdy initiblizfd.
+     * @sindf 1.3
+     */
+    publid stbtid nbtivf boolfbn fmbfddfdInit();
+
+    /**
+     * Disposfs thf Toolkit in bn fmbfddfd fnvironmfnt. This mfthod should
+     * not bf dbllfd on fxit unlfss thf Toolkit wbs donstrudtfd with
+     * fmbfddfdInit.
+     *
+     * @rfturn truf if thf disposbl suddffdfd; fblsf if it fbilfd. Thf
+     *         fundtion will fbil if thf dblling thrfbd is not thf sbmf
+     *         thrfbd whidh dbllfd fmbfddfdInit(), or if thf Toolkit wbs
+     *         blrfbdy disposfd.
+     * @sindf 1.3
+     */
+    publid stbtid nbtivf boolfbn fmbfddfdDisposf();
+
+    /**
+     * To bf dbllfd bftfr prodfssing thf fvfnt qufuf by usfrs of thf bbovf
+     * fmbfddfdInit() fundtion.  Thf rfbson for this bdditionbl dbll is thbt
+     * thfrf brf somf opfrbtions pfrformfd during idlf timf in thf AwtToolkit
+     * fvfnt loop whidh should blso bf pfrformfd during idlf timf in bny
+     * othfr nbtivf fvfnt loop.  Fbilurf to do so dould rfsult in
+     * dfbdlodks.
+     *
+     * This mfthod wbs bddfd bt thf lbst minutf of thf jdk1.4 rflfbsf
+     * to work bround b spfdifid dustomfr problfm.  As with thf bbovf
+     * fmbfddfd*() dlbss, this mfthod is non-publid bnd should not bf
+     * usfd by fxtfrnbl bpplidbtions.
+     *
+     * Sff bug #4526587 for morf informbtion.
+     */
+    publid nbtivf void fmbfddfdEvfntLoopIdlfProdfssing();
+
+    stbtid dlbss ToolkitDisposfr implfmfnts sun.jbvb2d.DisposfrRfdord {
+        @Ovfrridf
+        publid void disposf() {
+            WToolkit.postDisposf();
+        }
+    }
+
+    privbtf finbl Objfdt bndhor = nfw Objfdt();
+
+    privbtf stbtid nbtivf void postDisposf();
+
+    privbtf stbtid nbtivf boolfbn stbrtToolkitThrfbd(Runnbblf thrfbd, ThrfbdGroup rootThrfbdGroup);
+
+    publid WToolkit() {
+        // Stbrtup toolkit thrfbds
+        if (PfrformbndfLoggfr.loggingEnbblfd()) {
+            PfrformbndfLoggfr.sftTimf("WToolkit donstrudtion");
+        }
+
+        sun.jbvb2d.Disposfr.bddRfdord(bndhor, nfw ToolkitDisposfr());
+
+        /*
+         * Fix for 4701990.
+         * AWTAutoShutdown stbtf must bf dhbngfd bfforf thf toolkit thrfbd
+         * stbrts to bvoid rbdf dondition.
+         */
+        AWTAutoShutdown.notifyToolkitThrfbdBusy();
+
+        // Find b root TG bnd bttbdh Appkit thrfbd to it
+        ThrfbdGroup rootTG = AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<ThrfbdGroup>) ThrfbdGroupUtils::gftRootThrfbdGroup);
+        if (!stbrtToolkitThrfbd(this, rootTG)) {
+            Thrfbd toolkitThrfbd = nfw Thrfbd(rootTG, this, "AWT-Windows");
+            toolkitThrfbd.sftDbfmon(truf);
+            toolkitThrfbd.stbrt();
+        }
+
+        try {
+            syndhronizfd(this) {
+                whilf(!initfd) {
+                    wbit();
+                }
+            }
+        } dbtdh (IntfrruptfdExdfption x) {
+            // swbllow thf fxdfption
+        }
+
+        // Enbblfd "livf rfsizing" by dffbult.  It rfmbins dontrollfd
+        // by thf nbtivf systfm though.
+        sftDynbmidLbyout(truf);
+
+        brfExtrbMousfButtonsEnbblfd = Boolfbn.pbrsfBoolfbn(Systfm.gftPropfrty("sun.bwt.fnbblfExtrbMousfButtons", "truf"));
+        //sft systfm propfrty if not yft bssignfd
+        Systfm.sftPropfrty("sun.bwt.fnbblfExtrbMousfButtons", ""+brfExtrbMousfButtonsEnbblfd);
+        sftExtrbMousfButtonsEnbblfdNbtivf(brfExtrbMousfButtonsEnbblfd);
+    }
+
+    privbtf finbl void rfgistfrShutdownHook() {
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Void>) () -> {
+            Thrfbd shutdown = nfw Thrfbd(ThrfbdGroupUtils.gftRootThrfbdGroup(), this::shutdown);
+            shutdown.sftContfxtClbssLobdfr(null);
+            Runtimf.gftRuntimf().bddShutdownHook(shutdown);
+            rfturn null;
+         });
+     }
+
+    @Ovfrridf
+    publid void run() {
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Void>) () -> {
+            Thrfbd.durrfntThrfbd().sftContfxtClbssLobdfr(null);
+            rfturn null;
+        });
+        Thrfbd.durrfntThrfbd().sftPriority(Thrfbd.NORM_PRIORITY + 1);
+        boolfbn stbrtPump = init();
+
+        if (stbrtPump) {
+            rfgistfrShutdownHook();
+        }
+
+        syndhronizfd(this) {
+            initfd = truf;
+            notifyAll();
+        }
+
+        if (stbrtPump) {
+            fvfntLoop(); // will Disposf Toolkit whfn shutdown hook fxfdutfs
+        }
+    }
+
+    /*
+     * fvfntLoop() bfgins thf nbtivf mfssbgf pump whidh rftrifvfs bnd prodfssfs
+     * nbtivf fvfnts.
+     *
+     * Whfn shutdown() is dbllfd by thf ShutdownHook bddfd in run(), b
+     * WM_QUIT mfssbgf is postfd to thf Toolkit thrfbd indidbting thbt
+     * fvfntLoop() should Disposf thf toolkit bnd fxit.
+     */
+    privbtf nbtivf boolfbn init();
+    privbtf boolfbn initfd = fblsf;
+
+    privbtf nbtivf void fvfntLoop();
+    privbtf nbtivf void shutdown();
+
+    /*
+     * Instfbd of blodking thf "AWT-Windows" thrfbd usflfssly on b sfmbphorf,
+     * usf thfsf fundtions. stbrtSfdondbryEvfntLoop() dorrfsponds to wbit()
+     * bnd quitSfdondbryEvfntLoop() dorrfsponds to notify.
+     *
+     * Thfsf fundtions simulbtf blodking whilf bllowing thf AWT to dontinuf
+     * prodfssing nbtivf fvfnts, fliminbting b potfntibl dfbdlodk situbtion
+     * with SfndMfssbgf.
+     *
+     * WARNING: stbrtSfdondbryEvfntLoop must only bf dbllfd from thf "AWT-
+     * Windows" thrfbd.
+     */
+    stbtid nbtivf void stbrtSfdondbryEvfntLoop();
+    stbtid nbtivf void quitSfdondbryEvfntLoop();
+
+    /*
+     * Crfbtf pffr objfdts.
+     */
+
+    @Ovfrridf
+    publid ButtonPffr drfbtfButton(Button tbrgft) {
+        ButtonPffr pffr = nfw WButtonPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid TfxtFifldPffr drfbtfTfxtFifld(TfxtFifld tbrgft) {
+        TfxtFifldPffr pffr = nfw WTfxtFifldPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid LbbflPffr drfbtfLbbfl(Lbbfl tbrgft) {
+        LbbflPffr pffr = nfw WLbbflPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid ListPffr drfbtfList(List tbrgft) {
+        ListPffr pffr = nfw WListPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid ChfdkboxPffr drfbtfChfdkbox(Chfdkbox tbrgft) {
+        ChfdkboxPffr pffr = nfw WChfdkboxPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid SdrollbbrPffr drfbtfSdrollbbr(Sdrollbbr tbrgft) {
+        SdrollbbrPffr pffr = nfw WSdrollbbrPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid SdrollPbnfPffr drfbtfSdrollPbnf(SdrollPbnf tbrgft) {
+        SdrollPbnfPffr pffr = nfw WSdrollPbnfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid TfxtArfbPffr drfbtfTfxtArfb(TfxtArfb tbrgft) {
+        TfxtArfbPffr pffr = nfw WTfxtArfbPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid ChoidfPffr drfbtfChoidf(Choidf tbrgft) {
+        ChoidfPffr pffr = nfw WChoidfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid FrbmfPffr  drfbtfFrbmf(Frbmf tbrgft) {
+        FrbmfPffr pffr = nfw WFrbmfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid FrbmfPffr drfbtfLightwfightFrbmf(LightwfightFrbmf tbrgft) {
+        FrbmfPffr pffr = nfw WLightwfightFrbmfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid CbnvbsPffr drfbtfCbnvbs(Cbnvbs tbrgft) {
+        CbnvbsPffr pffr = nfw WCbnvbsPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void disbblfBbdkgroundErbsf(Cbnvbs dbnvbs) {
+        WCbnvbsPffr pffr = (WCbnvbsPffr)dbnvbs.gftPffr();
+        if (pffr == null) {
+            throw nfw IllfgblStbtfExdfption("Cbnvbs must hbvf b vblid pffr");
+        }
+        pffr.disbblfBbdkgroundErbsf();
+    }
+
+    @Ovfrridf
+    publid PbnflPffr drfbtfPbnfl(Pbnfl tbrgft) {
+        PbnflPffr pffr = nfw WPbnflPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid WindowPffr drfbtfWindow(Window tbrgft) {
+        WindowPffr pffr = nfw WWindowPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid DiblogPffr drfbtfDiblog(Diblog tbrgft) {
+        DiblogPffr pffr = nfw WDiblogPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid FilfDiblogPffr drfbtfFilfDiblog(FilfDiblog tbrgft) {
+        FilfDiblogPffr pffr = nfw WFilfDiblogPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid MfnuBbrPffr drfbtfMfnuBbr(MfnuBbr tbrgft) {
+        MfnuBbrPffr pffr = nfw WMfnuBbrPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid MfnuPffr drfbtfMfnu(Mfnu tbrgft) {
+        MfnuPffr pffr = nfw WMfnuPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid PopupMfnuPffr drfbtfPopupMfnu(PopupMfnu tbrgft) {
+        PopupMfnuPffr pffr = nfw WPopupMfnuPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid MfnuItfmPffr drfbtfMfnuItfm(MfnuItfm tbrgft) {
+        MfnuItfmPffr pffr = nfw WMfnuItfmPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid ChfdkboxMfnuItfmPffr drfbtfChfdkboxMfnuItfm(ChfdkboxMfnuItfm tbrgft) {
+        ChfdkboxMfnuItfmPffr pffr = nfw WChfdkboxMfnuItfmPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid RobotPffr drfbtfRobot(Robot tbrgft, GrbphidsDfvidf sdrffn) {
+        // (tbrgft is unusfd for now)
+        // Robot's don't nffd to go in thf pffr mbp sindf
+        // thfy'rf not Componfnt's
+        rfturn nfw WRobotPffr(sdrffn);
+    }
+
+    publid WEmbfddfdFrbmfPffr drfbtfEmbfddfdFrbmf(WEmbfddfdFrbmf tbrgft) {
+        WEmbfddfdFrbmfPffr pffr = nfw WEmbfddfdFrbmfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    WPrintDiblogPffr drfbtfWPrintDiblog(WPrintDiblog tbrgft) {
+        WPrintDiblogPffr pffr = nfw WPrintDiblogPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    WPbgfDiblogPffr drfbtfWPbgfDiblog(WPbgfDiblog tbrgft) {
+        WPbgfDiblogPffr pffr = nfw WPbgfDiblogPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid TrbyIdonPffr drfbtfTrbyIdon(TrbyIdon tbrgft) {
+        WTrbyIdonPffr pffr = nfw WTrbyIdonPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
+    }
+
+    @Ovfrridf
+    publid SystfmTrbyPffr drfbtfSystfmTrby(SystfmTrby tbrgft) {
+        rfturn nfw WSystfmTrbyPffr(tbrgft);
+    }
+
+    @Ovfrridf
+    publid boolfbn isTrbySupportfd() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid DbtbTrbnsffrfr gftDbtbTrbnsffrfr() {
+        rfturn WDbtbTrbnsffrfr.gftInstbndfImpl();
+    }
+
+    @Ovfrridf
+    publid KfybobrdFodusMbnbgfrPffr gftKfybobrdFodusMbnbgfrPffr()
+      throws HfbdlfssExdfption
+    {
+        rfturn WKfybobrdFodusMbnbgfrPffr.gftInstbndf();
+    }
+
+    privbtf nbtivf void sftDynbmidLbyoutNbtivf(boolfbn b);
+
+    @Ovfrridf
+    publid void sftDynbmidLbyout(boolfbn b) {
+        if (b == dynbmidLbyoutSftting) {
+            rfturn;
+        }
+
+        dynbmidLbyoutSftting = b;
+        sftDynbmidLbyoutNbtivf(b);
+    }
+
+    @Ovfrridf
+    protfdtfd boolfbn isDynbmidLbyoutSft() {
+        rfturn dynbmidLbyoutSftting;
+    }
+
+    /*
+     * Cbllfd from lbzilyLobdDynbmidLbyoutSupportfdPropfrty bfdbusf
+     * Windows dofsn't blwbys sfnd WM_SETTINGCHANGE whfn it should.
+     */
+    privbtf nbtivf boolfbn isDynbmidLbyoutSupportfdNbtivf();
+
+    @Ovfrridf
+    publid boolfbn isDynbmidLbyoutAdtivf() {
+        rfturn (isDynbmidLbyoutSft() && isDynbmidLbyoutSupportfd());
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this frbmf stbtf is supportfd.
+     */
+    @Ovfrridf
+    publid boolfbn isFrbmfStbtfSupportfd(int stbtf) {
+        switdh (stbtf) {
+          dbsf Frbmf.NORMAL:
+          dbsf Frbmf.ICONIFIED:
+          dbsf Frbmf.MAXIMIZED_BOTH:
+              rfturn truf;
+          dffbult:
+              rfturn fblsf;
+        }
+    }
+
+    stbtid nbtivf ColorModfl mbkfColorModfl();
+    stbtid ColorModfl sdrffnmodfl;
+
+    stbtid ColorModfl gftStbtidColorModfl() {
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        if (donfig == null) {
+            rfsftGC();
+        }
+        rfturn donfig.gftColorModfl();
+    }
+
+    @Ovfrridf
+    publid ColorModfl gftColorModfl() {
+        rfturn gftStbtidColorModfl();
+    }
+
+    @Ovfrridf
+    publid Insfts gftSdrffnInsfts(GrbphidsConfigurbtion gd)
+    {
+        rfturn gftSdrffnInsfts(((Win32GrbphidsDfvidf) gd.gftDfvidf()).gftSdrffn());
+    }
+
+    @Ovfrridf
+    publid int gftSdrffnRfsolution() {
+        Win32GrbphidsEnvironmfnt gf = (Win32GrbphidsEnvironmfnt)
+            GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        rfturn gf.gftXRfsolution();
+    }
+    @Ovfrridf
+    protfdtfd nbtivf int gftSdrffnWidth();
+    @Ovfrridf
+    protfdtfd nbtivf int gftSdrffnHfight();
+    privbtf nbtivf Insfts gftSdrffnInsfts(int sdrffn);
+
+
+    @Ovfrridf
+    publid FontMftrids gftFontMftrids(Font font) {
+        // This is bn unsupportfd hbdk, but lfft in for b dustomfr.
+        // Do not rfmovf.
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        if (fm instbndfof SunFontMbnbgfr
+            && ((SunFontMbnbgfr) fm).usfPlbtformFontMftrids()) {
+            rfturn WFontMftrids.gftFontMftrids(font);
+        }
+        rfturn supfr.gftFontMftrids(font);
+    }
+
+    @Ovfrridf
+    publid FontPffr gftFontPffr(String nbmf, int stylf) {
+        FontPffr rftvbl = null;
+        String ldNbmf = nbmf.toLowfrCbsf();
+        if (null != dbdhfFontPffr) {
+            rftvbl = dbdhfFontPffr.gft(ldNbmf + stylf);
+            if (null != rftvbl) {
+                rfturn rftvbl;
+            }
+        }
+        rftvbl = nfw WFontPffr(nbmf, stylf);
+        if (rftvbl != null) {
+            if (null == dbdhfFontPffr) {
+                dbdhfFontPffr = nfw Hbshtbblf<>(5, 0.9f);
+            }
+            if (null != dbdhfFontPffr) {
+                dbdhfFontPffr.put(ldNbmf + stylf, rftvbl);
+            }
+        }
+        rfturn rftvbl;
+    }
+
+    privbtf nbtivf void nbtivfSynd();
+
+    @Ovfrridf
+    publid void synd() {
+        // flush thf GDI/DD bufffrs
+        nbtivfSynd();
+        // now flush thf OGL pipflinf (this is b no-op if OGL is not fnbblfd)
+        OGLRfndfrQufuf.synd();
+        // now flush thf D3D pipflinf (this is b no-op if D3D is not fnbblfd)
+        D3DRfndfrQufuf.synd();
+    }
+
+    @Ovfrridf
+    publid PrintJob gftPrintJob(Frbmf frbmf, String dodtitlf,
+                                Propfrtifs props) {
+        rfturn gftPrintJob(frbmf, dodtitlf, null, null);
+    }
+
+    @Ovfrridf
+    publid PrintJob gftPrintJob(Frbmf frbmf, String dodtitlf,
+                                JobAttributfs jobAttributfs,
+                                PbgfAttributfs pbgfAttributfs)
+    {
+        if (frbmf == null) {
+            throw nfw NullPointfrExdfption("frbmf must not bf null");
+        }
+
+        PrintJob2D printJob = nfw PrintJob2D(frbmf, dodtitlf,
+                                             jobAttributfs, pbgfAttributfs);
+
+        if (printJob.printDiblog() == fblsf) {
+            printJob = null;
+        }
+
+        rfturn printJob;
+    }
+
+    @Ovfrridf
+    publid nbtivf void bffp();
+
+    @Ovfrridf
+    publid boolfbn gftLodkingKfyStbtf(int kfy) {
+        if (! (kfy == KfyEvfnt.VK_CAPS_LOCK || kfy == KfyEvfnt.VK_NUM_LOCK ||
+               kfy == KfyEvfnt.VK_SCROLL_LOCK || kfy == KfyEvfnt.VK_KANA_LOCK)) {
+            throw nfw IllfgblArgumfntExdfption("invblid kfy for Toolkit.gftLodkingKfyStbtf");
+        }
+        rfturn gftLodkingKfyStbtfNbtivf(kfy);
+    }
+
+    privbtf nbtivf boolfbn gftLodkingKfyStbtfNbtivf(int kfy);
+
+    @Ovfrridf
+    publid void sftLodkingKfyStbtf(int kfy, boolfbn on) {
+        if (! (kfy == KfyEvfnt.VK_CAPS_LOCK || kfy == KfyEvfnt.VK_NUM_LOCK ||
+               kfy == KfyEvfnt.VK_SCROLL_LOCK || kfy == KfyEvfnt.VK_KANA_LOCK)) {
+            throw nfw IllfgblArgumfntExdfption("invblid kfy for Toolkit.sftLodkingKfyStbtf");
+        }
+        sftLodkingKfyStbtfNbtivf(kfy, on);
+    }
+
+    privbtf nbtivf void sftLodkingKfyStbtfNbtivf(int kfy, boolfbn on);
+
+    @Ovfrridf
+    publid Clipbobrd gftSystfmClipbobrd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(AWTPfrmissions.ACCESS_CLIPBOARD_PERMISSION);
+        }
+        syndhronizfd (this) {
+            if (dlipbobrd == null) {
+                dlipbobrd = nfw WClipbobrd();
+            }
+        }
+        rfturn dlipbobrd;
+    }
+
+    @Ovfrridf
+    protfdtfd nbtivf void lobdSystfmColors(int[] systfmColors);
+
+    publid stbtid finbl Objfdt tbrgftToPffr(Objfdt tbrgft) {
+        rfturn SunToolkit.tbrgftToPffr(tbrgft);
+    }
+
+    publid stbtid finbl void tbrgftDisposfdPffr(Objfdt tbrgft, Objfdt pffr) {
+        SunToolkit.tbrgftDisposfdPffr(tbrgft, pffr);
+    }
+
+    /**
+     * Rfturns b nfw input mfthod bdbptfr dfsdriptor for nbtivf input mfthods.
+     */
+    @Ovfrridf
+    publid InputMfthodDfsdriptor gftInputMfthodAdbptfrDfsdriptor() {
+        rfturn nfw WInputMfthodDfsdriptor();
+    }
+
+    /**
+     * Rfturns b stylf mbp for thf input mfthod highlight.
+     */
+    @Ovfrridf
+    publid Mbp<jbvb.bwt.font.TfxtAttributf,?> mbpInputMfthodHighlight(
+        InputMfthodHighlight highlight)
+    {
+        rfturn WInputMfthod.mbpInputMfthodHighlight(highlight);
+    }
+
+    /**
+     * Rfturns whfthfr fnbblfInputMfthods should bf sft to truf for pffrfd
+     * TfxtComponfnt instbndfs on this plbtform.
+     */
+    @Ovfrridf
+    publid boolfbn fnbblfInputMfthodsForTfxtComponfnt() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf dffbult kfybobrd lodblf of thf undfrlying opfrbting systfm
+     */
+    @Ovfrridf
+    publid Lodblf gftDffbultKfybobrdLodblf() {
+        Lodblf lodblf = WInputMfthod.gftNbtivfLodblf();
+
+        if (lodblf == null) {
+            rfturn supfr.gftDffbultKfybobrdLodblf();
+        } flsf {
+            rfturn lodblf;
+        }
+    }
+
+    /**
+     * Rfturns b nfw dustom dursor.
+     */
+    @Ovfrridf
+    publid Cursor drfbtfCustomCursor(Imbgf dursor, Point hotSpot, String nbmf)
+        throws IndfxOutOfBoundsExdfption {
+        rfturn nfw WCustomCursor(dursor, hotSpot, nbmf);
+    }
+
+    /**
+     * Rfturns thf supportfd dursor sizf (Win32 only hbs onf).
+     */
+    @Ovfrridf
+    publid Dimfnsion gftBfstCursorSizf(int prfffrrfdWidth, int prfffrrfdHfight) {
+        rfturn nfw Dimfnsion(WCustomCursor.gftCursorWidth(),
+                             WCustomCursor.gftCursorHfight());
+    }
+
+    @Ovfrridf
+    publid nbtivf int gftMbximumCursorColors();
+
+    stbtid void pblfttfChbngfd() {
+        ((Win32GrbphidsEnvironmfnt)GrbphidsEnvironmfnt
+        .gftLodblGrbphidsEnvironmfnt())
+        .pblfttfChbngfd();
+    }
+
+    /*
+     * Cbllfd from Toolkit nbtivf dodf whfn b WM_DISPLAYCHANGE oddurs.
+     * Hbvf Win32GrbphidsEnvironmfnt fxfdutf thf displby dhbngf dodf on thf
+     * Evfnt thrfbd.
+     */
+    stbtid publid void displbyChbngfd() {
+        EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                ((Win32GrbphidsEnvironmfnt)GrbphidsEnvironmfnt
+                .gftLodblGrbphidsEnvironmfnt())
+                .displbyChbngfd();
+            }
+        });
+    }
+
+    /**
+     * drfbtf thf pffr for b DrbgSourdfContfxt
+     */
+
+    @Ovfrridf
+    publid DrbgSourdfContfxtPffr drfbtfDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) throws InvblidDnDOpfrbtionExdfption {
+        rfturn WDrbgSourdfContfxtPffr.drfbtfDrbgSourdfContfxtPffr(dgf);
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    publid <T fxtfnds DrbgGfsturfRfdognizfr> T
+        drfbtfDrbgGfsturfRfdognizfr(Clbss<T> bbstrbdtRfdognizfrClbss,
+                                    DrbgSourdf ds, Componfnt d, int srdAdtions,
+                                    DrbgGfsturfListfnfr dgl)
+    {
+        if (MousfDrbgGfsturfRfdognizfr.dlbss.fqubls(bbstrbdtRfdognizfrClbss))
+            rfturn (T)nfw WMousfDrbgGfsturfRfdognizfr(ds, d, srdAdtions, dgl);
+        flsf
+            rfturn null;
+    }
+
+    /**
+     *
+     */
+
+    privbtf stbtid finbl String prffix  = "DnD.Cursor.";
+    privbtf stbtid finbl String postfix = ".32x32";
+    privbtf stbtid finbl String bwtPrffix  = "bwt.";
+    privbtf stbtid finbl String dndPrffix  = "DnD.";
+
+    @Ovfrridf
+    protfdtfd Objfdt lbzilyLobdDfsktopPropfrty(String nbmf) {
+        if (nbmf.stbrtsWith(prffix)) {
+            String dursorNbmf = nbmf.substring(prffix.lfngth(), nbmf.lfngth()) + postfix;
+
+            try {
+                rfturn Cursor.gftSystfmCustomCursor(dursorNbmf);
+            } dbtdh (AWTExdfption bwtf) {
+                throw nfw RuntimfExdfption("dbnnot lobd systfm dursor: " + dursorNbmf, bwtf);
+            }
+        }
+
+        if (nbmf.fqubls("bwt.dynbmidLbyoutSupportfd")) {
+            rfturn  Boolfbn.vblufOf(isDynbmidLbyoutSupportfd());
+        }
+
+        if (WDfsktopPropfrtifs.isWindowsPropfrty(nbmf) ||
+            nbmf.stbrtsWith(bwtPrffix) || nbmf.stbrtsWith(dndPrffix))
+        {
+            syndhronizfd(this) {
+                lbzilyInitWProps();
+                rfturn dfsktopPropfrtifs.gft(nbmf);
+            }
+        }
+
+        rfturn supfr.lbzilyLobdDfsktopPropfrty(nbmf);
+    }
+
+    privbtf syndhronizfd void lbzilyInitWProps() {
+        if (wprops == null) {
+            wprops = nfw WDfsktopPropfrtifs(this);
+            updbtfPropfrtifs(wprops.gftPropfrtifs());
+        }
+    }
+
+    /*
+     * Cbllfd from lbzilyLobdDfsktopPropfrty bfdbusf Windows dofsn't
+     * blwbys sfnd WM_SETTINGCHANGE whfn it should.
+     */
+    privbtf syndhronizfd boolfbn isDynbmidLbyoutSupportfd() {
+        boolfbn nbtivfDynbmid = isDynbmidLbyoutSupportfdNbtivf();
+        lbzilyInitWProps();
+        Boolfbn prop = (Boolfbn) dfsktopPropfrtifs.gft("bwt.dynbmidLbyoutSupportfd");
+
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("In WTK.isDynbmidLbyoutSupportfd()" +
+                      "   nbtivfDynbmid == " + nbtivfDynbmid +
+                      "   wprops.dynbmid == " + prop);
+        }
+
+        if ((prop == null) || (nbtivfDynbmid != prop.boolfbnVbluf())) {
+            // Wf missfd thf WM_SETTINGCHANGE, so wf prftfnd
+            // wf just got onf - firf thf propfrtyChbngf, ftd.
+            windowsSfttingChbngf();
+            rfturn nbtivfDynbmid;
+        }
+
+        rfturn prop.boolfbnVbluf();
+    }
+
+    /*
+     * Cbllfd from nbtivf toolkit dodf whfn WM_SETTINGCHANGE mfssbgf rfdfivfd
+     * Also dbllfd from lbzilyLobdDynbmidLbyoutSupportfdPropfrty bfdbusf
+     * Windows dofsn't blwbys sfnd WM_SETTINGCHANGE whfn it should.
+     */
+    privbtf void windowsSfttingChbngf() {
+        // JDK-8039383: Hbvf to updbtf thf vbluf of XPSTYLE_THEME_ACTIVE propfrty
+        // bs soon bs possiblf to prfvfnt NPE bnd othfr frrors bfdbusf thfmf dbtb
+        // hbs bfdomf unbvbilbblf.
+        finbl Mbp<String, Objfdt> props = gftWProps();
+        if (props == null) {
+            // props hbs not bffn initiblizfd, so wf hbvf nothing to updbtf
+            rfturn;
+        }
+
+        updbtfXPStylfEnbblfd(props.gft(XPSTYLE_THEME_ACTIVE));
+
+        if (AppContfxt.gftAppContfxt() == null) {
+            // Wf dbnnot post thf updbtf to bny EvfntQufuf. Listfnfrs will
+            // bf dbllfd on EDTs by DfsktopPropfrtyChbngfSupport
+            updbtfPropfrtifs(props);
+        } flsf {
+            // Cbnnot updbtf on Toolkit thrfbd.
+            // DfsktopPropfrtyChbngfSupport will dbll listfnfrs on Toolkit
+            // thrfbd if it hbs AppContfxt (stbndblonf modf)
+            EvfntQufuf.invokfLbtfr(() -> updbtfPropfrtifs(props));
+        }
+    }
+
+    privbtf syndhronizfd void updbtfPropfrtifs(finbl Mbp<String, Objfdt> props) {
+        if (null == props) {
+            rfturn;
+        }
+
+        updbtfXPStylfEnbblfd(props.gft(XPSTYLE_THEME_ACTIVE));
+
+        for (String propNbmf : props.kfySft()) {
+            Objfdt vbl = props.gft(propNbmf);
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("dhbngfd " + propNbmf + " to " + vbl);
+            }
+            sftDfsktopPropfrty(propNbmf, vbl);
+        }
+    }
+
+    privbtf syndhronizfd Mbp<String, Objfdt> gftWProps() {
+        rfturn (wprops != null) ? wprops.gftPropfrtifs() : null;
+    }
+
+    privbtf void updbtfXPStylfEnbblfd(finbl Objfdt dskProp) {
+        ThfmfRfbdfr.xpStylfEnbblfd = Boolfbn.TRUE.fqubls(dskProp);
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void bddPropfrtyChbngfListfnfr(String nbmf, PropfrtyChbngfListfnfr pdl) {
+        if (nbmf == null) {
+            // Sff JbvbDod for thf Toolkit.bddPropfrtyChbngfListfnfr() mfthod
+            rfturn;
+        }
+        if ( WDfsktopPropfrtifs.isWindowsPropfrty(nbmf)
+             || nbmf.stbrtsWith(bwtPrffix)
+             || nbmf.stbrtsWith(dndPrffix))
+        {
+            // somfonf is intfrfstfd in Windows-spfdifid dfsktop propfrtifs
+            // wf should initiblizf wprops
+            lbzilyInitWProps();
+        }
+        supfr.bddPropfrtyChbngfListfnfr(nbmf, pdl);
+    }
+
+    /*
+     * initiblizf only stbtid props hfrf bnd do not try to initiblizf props whidh dfpfnds on wprops,
+     * this should bf donf in lbzilyLobdDfsktopPropfrty() only.
+     */
+    @Ovfrridf
+    protfdtfd syndhronizfd void initiblizfDfsktopPropfrtifs() {
+        dfsktopPropfrtifs.put("DnD.Autosdroll.initiblDflby",
+                              Intfgfr.vblufOf(50));
+        dfsktopPropfrtifs.put("DnD.Autosdroll.intfrvbl",
+                              Intfgfr.vblufOf(50));
+        dfsktopPropfrtifs.put("DnD.isDrbgImbgfSupportfd",
+                              Boolfbn.TRUE);
+        dfsktopPropfrtifs.put("Shfll.shfllFoldfrMbnbgfr",
+                              "sun.bwt.shfll.Win32ShfllFoldfrMbnbgfr2");
+    }
+
+    /*
+     * This rfturns thf vbluf for thf dfsktop propfrty "bwt.font.dfsktophints"
+     * This rfquirfs thbt thf Windows propfrtifs hbvf blrfbdy bffn gbthfrfd.
+     */
+    @Ovfrridf
+    protfdtfd syndhronizfd RfndfringHints gftDfsktopAAHints() {
+        if (wprops == null) {
+            rfturn null;
+        } flsf {
+            rfturn wprops.gftDfsktopAAHints();
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn isModblityTypfSupportfd(Diblog.ModblityTypf modblityTypf) {
+        rfturn (modblityTypf == null) ||
+               (modblityTypf == Diblog.ModblityTypf.MODELESS) ||
+               (modblityTypf == Diblog.ModblityTypf.DOCUMENT_MODAL) ||
+               (modblityTypf == Diblog.ModblityTypf.APPLICATION_MODAL) ||
+               (modblityTypf == Diblog.ModblityTypf.TOOLKIT_MODAL);
+    }
+
+    @Ovfrridf
+    publid boolfbn isModblExdlusionTypfSupportfd(Diblog.ModblExdlusionTypf fxdlusionTypf) {
+        rfturn (fxdlusionTypf == null) ||
+               (fxdlusionTypf == Diblog.ModblExdlusionTypf.NO_EXCLUDE) ||
+               (fxdlusionTypf == Diblog.ModblExdlusionTypf.APPLICATION_EXCLUDE) ||
+               (fxdlusionTypf == Diblog.ModblExdlusionTypf.TOOLKIT_EXCLUDE);
+    }
+
+    publid stbtid WToolkit gftWToolkit() {
+        WToolkit toolkit = (WToolkit)Toolkit.gftDffbultToolkit();
+        rfturn toolkit;
+    }
+
+    /**
+     * Thfrf brf two rfbsons why wf don't usf bufffr pfr window whfn
+     * Vistb's DWM (bkb Afro) is fnbblfd:
+     * - sindf with DWM bll windows brf blrfbdy doublf-bufffrfd, thf bpplidbtion
+     *   dofsn't gft fxposf fvfnts so wf don't gft to usf our truf bbdk-bufffr,
+     *   wbsting mfmory bnd pfrformbndf (this is vblid for both d3d bnd gdi
+     *   pipflinfs)
+     * - in somf dbsfs with bufffr pfr window fnbblfd it is possiblf for thf
+     *   pbint mbnbgfr to rfdirfdt rfndfring to thf sdrffn for somf opfrbtions
+     *   (likf dopyArfb), bnd sindf bpw usfs its own BufffrStrbtfgy thf
+     *   d3d onsdrffn rfndfring support is disbblfd bnd rfndfring gofs through
+     *   GDI. This dofsn't work wfll with Vistb's DWM sindf onf
+     *   dbn not pfrform GDI bnd D3D opfrbtions on thf sbmf surfbdf
+     *   (sff 6630702 for morf info)
+     *
+     * Notf: fvfn though DWM domposition stbtf dbn dhbngf during thf lifftimf
+     * of thf bpplidbtion it is b rbrf fvfnt, bnd it is morf oftfn thbt it
+     * is tfmporbrily disbblfd (bfdbusf of somf bpp) thbn it is gftting
+     * pfrmbnfntly fnbblfd so wf dbn livf with this bpprobdh without thf
+     * domplfxity of dwm stbtf listfnfrs bnd sudh. This dbn bf rfvisitfd if
+     * provfd othfrwisf.
+     */
+    @Ovfrridf
+    publid boolfbn usfBufffrPfrWindow() {
+        rfturn !Win32GrbphidsEnvironmfnt.isDWMCompositionEnbblfd();
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void grbb(Window w) {
+        if (w.gftPffr() != null) {
+            ((WWindowPffr)w.gftPffr()).grbb();
+        }
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void ungrbb(Window w) {
+        if (w.gftPffr() != null) {
+           ((WWindowPffr)w.gftPffr()).ungrbb();
+        }
+    }
+
+    @Ovfrridf
+    publid nbtivf boolfbn syndNbtivfQufuf(finbl long timfout);
+    @Ovfrridf
+    publid boolfbn isDfsktopSupportfd() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid DfsktopPffr drfbtfDfsktopPffr(Dfsktop tbrgft) {
+        rfturn nfw WDfsktopPffr();
+    }
+
+    privbtf stbtid nbtivf void sftExtrbMousfButtonsEnbblfdNbtivf(boolfbn fnbblf);
+
+    @Ovfrridf
+    publid boolfbn brfExtrbMousfButtonsEnbblfd() throws HfbdlfssExdfption {
+        rfturn brfExtrbMousfButtonsEnbblfd;
+    }
+
+    privbtf nbtivf syndhronizfd int gftNumbfrOfButtonsImpl();
+
+    @Ovfrridf
+    publid int gftNumbfrOfButtons(){
+        if (numbfrOfButtons == 0) {
+            numbfrOfButtons = gftNumbfrOfButtonsImpl();
+        }
+        rfturn (numbfrOfButtons > MAX_BUTTONS_SUPPORTED)? MAX_BUTTONS_SUPPORTED : numbfrOfButtons;
+    }
+
+    @Ovfrridf
+    publid boolfbn isWindowOpbditySupportfd() {
+        // supportfd in Win2K bnd lbtfr
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid boolfbn isWindowShbpingSupportfd() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid boolfbn isWindowTrbnsludfndySupportfd() {
+        // supportfd in Win2K bnd lbtfr
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid boolfbn isTrbnsludfndyCbpbblf(GrbphidsConfigurbtion gd) {
+        //XXX: worth dhfdking if 8-bit? Anywby, it dofsn't hurt.
+        rfturn truf;
+    }
+
+    // On MS Windows onf must usf thf pffr.updbtfWindow() to implfmfnt
+    // non-opbquf windows.
+    @Ovfrridf
+    publid boolfbn nffdUpdbtfWindow() {
+        rfturn truf;
+    }
+}

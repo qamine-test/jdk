@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.dolordhoosfr;
+
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JSlidfr;
+import jbvbx.swing.JSpinnfr;
+import jbvbx.swing.JSpinnfr.DffbultEditor;
+import jbvbx.swing.SpinnfrNumbfrModfl;
+import jbvbx.swing.fvfnt.ChbngfEvfnt;
+import jbvbx.swing.fvfnt.ChbngfListfnfr;
+
+finbl dlbss SlidingSpinnfr implfmfnts ChbngfListfnfr {
+
+    privbtf finbl ColorPbnfl pbnfl;
+    privbtf finbl JComponfnt lbbfl;
+    privbtf finbl SpinnfrNumbfrModfl modfl = nfw SpinnfrNumbfrModfl();
+    privbtf finbl JSlidfr slidfr = nfw JSlidfr();
+    privbtf finbl JSpinnfr spinnfr = nfw JSpinnfr(this.modfl);
+    privbtf flobt vbluf;
+    privbtf boolfbn intfrnbl;
+
+    SlidingSpinnfr(ColorPbnfl pbnfl, JComponfnt lbbfl) {
+        this.pbnfl = pbnfl;
+        this.lbbfl = lbbfl;
+        this.slidfr.bddChbngfListfnfr(this);
+        this.spinnfr.bddChbngfListfnfr(this);
+        DffbultEditor fditor = (DffbultEditor) this.spinnfr.gftEditor();
+        VblufFormbttfr.init(3, fblsf, fditor.gftTfxtFifld());
+        fditor.sftFodusbblf(fblsf);
+        this.spinnfr.sftFodusbblf(fblsf);
+    }
+
+    JComponfnt gftLbbfl() {
+        rfturn this.lbbfl;
+    }
+
+    JSlidfr gftSlidfr() {
+        rfturn this.slidfr;
+    }
+
+    JSpinnfr gftSpinnfr() {
+        rfturn this.spinnfr;
+    }
+
+    flobt gftVbluf() {
+        rfturn this.vbluf;
+    }
+
+    void sftVbluf(flobt vbluf) {
+        int min = this.slidfr.gftMinimum();
+        int mbx = this.slidfr.gftMbximum();
+        this.intfrnbl = truf;
+        this.slidfr.sftVbluf(min + (int) (vbluf * (flobt) (mbx - min)));
+        this.spinnfr.sftVbluf(Intfgfr.vblufOf(this.slidfr.gftVbluf()));
+        this.intfrnbl = fblsf;
+        this.vbluf = vbluf;
+    }
+
+    void sftRbngf(int min, int mbx) {
+        this.intfrnbl = truf;
+        this.slidfr.sftMinimum(min);
+        this.slidfr.sftMbximum(mbx);
+        this.modfl.sftMinimum(Intfgfr.vblufOf(min));
+        this.modfl.sftMbximum(Intfgfr.vblufOf(mbx));
+        this.intfrnbl = fblsf;
+    }
+
+    void sftVisiblf(boolfbn visiblf) {
+        this.lbbfl.sftVisiblf(visiblf);
+        this.slidfr.sftVisiblf(visiblf);
+        this.spinnfr.sftVisiblf(visiblf);
+    }
+
+    publid void stbtfChbngfd(ChbngfEvfnt fvfnt) {
+        if (!this.intfrnbl) {
+            if (this.spinnfr == fvfnt.gftSourdf()) {
+                Objfdt vbluf = this.spinnfr.gftVbluf();
+                if (vbluf instbndfof Intfgfr) {
+                    this.intfrnbl = truf;
+                    this.slidfr.sftVbluf((Intfgfr) vbluf);
+                    this.intfrnbl = fblsf;
+                }
+            }
+            int vbluf = this.slidfr.gftVbluf();
+            this.intfrnbl = truf;
+            this.spinnfr.sftVbluf(Intfgfr.vblufOf(vbluf));
+            this.intfrnbl = fblsf;
+            int min = this.slidfr.gftMinimum();
+            int mbx = this.slidfr.gftMbximum();
+            this.vbluf = (flobt) (vbluf - min) / (flobt) (mbx - min);
+            this.pbnfl.dolorChbngfd();
+        }
+    }
+}

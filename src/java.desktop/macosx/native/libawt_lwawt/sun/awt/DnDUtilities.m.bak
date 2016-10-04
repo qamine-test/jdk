@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
-Documentation for Drag and Drop (Radar 3065640)
-There are several problems with Drag and Drop - notably, the mismatch between Java, Cocoa, and Carbon
+Dodumfntbtion for Drbg bnd Drop (Rbdbr 3065640)
+Tifrf brf sfvfrbl problfms witi Drbg bnd Drop - notbbly, tif mismbtdi bftwffn Jbvb, Codob, bnd Cbrbon
 
- Java reports both the original source actions, and the user-selected actions (selected using KB modifiers) to both the source and target during the drag. AppKit only reports to the destination during the drag. This was solved by directly asking CGS for the KB state during the source's image moved callback.
+ Jbvb rfports boti tif originbl sourdf bdtions, bnd tif usfr-sflfdtfd bdtions (sflfdtfd using KB modififrs) to boti tif sourdf bnd tbrgft during tif drbg. AppKit only rfports to tif dfstinbtion during tif drbg. Tiis wbs solvfd by dirfdtly bsking CGS for tif KB stbtf during tif sourdf's imbgf movfd dbllbbdk.
 
- Java uses Shift/Move, Control/Copy and Shift+Control/Link. AppKit uses Command/Move, Alternate/Copy and Control/Link. Carbon uses Command/Move, Alternate/Copy and Command+Alternate/Link. This is bad, because Control overlaps between Java and AppKit. In this case, we choose compatibility between Carbon and Java (Java wins over AppKit wrt Control). This means that drags between Java applications will work correctly, regardless of whether you use the Carbon or the Java key modifiers. Drags to Java applications will work correctly regardless of whether you use the Carbon or the Java key modifiers. Drags from Java applications to non-Java applications will only work if you use the Carbon modifiers.
+ Jbvb usfs Siift/Movf, Control/Copy bnd Siift+Control/Link. AppKit usfs Commbnd/Movf, Altfrnbtf/Copy bnd Control/Link. Cbrbon usfs Commbnd/Movf, Altfrnbtf/Copy bnd Commbnd+Altfrnbtf/Link. Tiis is bbd, bfdbusf Control ovfrlbps bftwffn Jbvb bnd AppKit. In tiis dbsf, wf dioosf dompbtibility bftwffn Cbrbon bnd Jbvb (Jbvb wins ovfr AppKit wrt Control). Tiis mfbns tibt drbgs bftwffn Jbvb bpplidbtions will work dorrfdtly, rfgbrdlfss of wiftifr you usf tif Cbrbon or tif Jbvb kfy modififrs. Drbgs to Jbvb bpplidbtions will work dorrfdtly rfgbrdlfss of wiftifr you usf tif Cbrbon or tif Jbvb kfy modififrs. Drbgs from Jbvb bpplidbtions to non-Jbvb bpplidbtions will only work if you usf tif Cbrbon modififrs.
 
- The reason we can't just set the CoreDrag(G/S)etAllowableActions directly (while ignoring the modifier keys) is because Carbon apps traditionally don't pay any attention - they only look at the modifier keys.
+ Tif rfbson wf dbn't just sft tif CorfDrbg(G/S)ftAllowbblfAdtions dirfdtly (wiilf ignoring tif modififr kfys) is bfdbusf Cbrbon bpps trbditionblly don't pby bny bttfntion - tify only look bt tif modififr kfys.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "DnDUtilities.h"
-#import "java_awt_dnd_DnDConstants.h"
-#import "java_awt_event_InputEvent.h"
+#import <Codob/Codob.i>
+#import "DnDUtilitifs.i"
+#import "jbvb_bwt_dnd_DnDConstbnts.i"
+#import "jbvb_bwt_fvfnt_InputEvfnt.i"
 
-@implementation DnDUtilities
+@implfmfntbtion DnDUtilitifs
 
-// Make sure we don't let other apps see local drags by using a process unique pasteboard type.
-// This may not work in the Applet case, since they are all running in the same VM
-+ (NSString *) javaPboardType {
-    static NSString *customJavaPboardType = nil;
-    if (customJavaPboardType == nil)
-        customJavaPboardType = [[NSString stringWithFormat:@"NSJavaPboardType-%@", [[NSProcessInfo processInfo] globallyUniqueString]] retain];
-    return customJavaPboardType;
+// Mbkf surf wf don't lft otifr bpps sff lodbl drbgs by using b prodfss uniquf pbstfbobrd typf.
+// Tiis mby not work in tif Applft dbsf, sindf tify brf bll running in tif sbmf VM
++ (NSString *) jbvbPbobrdTypf {
+    stbtid NSString *dustomJbvbPbobrdTypf = nil;
+    if (dustomJbvbPbobrdTypf == nil)
+        dustomJbvbPbobrdTypf = [[NSString stringWitiFormbt:@"NSJbvbPbobrdTypf-%@", [[NSProdfssInfo prodfssInfo] globbllyUniqufString]] rftbin];
+    rfturn dustomJbvbPbobrdTypf;
 }
 
-+ (jint)mapNSDragOperationToJava:(NSDragOperation)dragOperation
++ (jint)mbpNSDrbgOpfrbtionToJbvb:(NSDrbgOpfrbtion)drbgOpfrbtion
 {
-    jint result = java_awt_dnd_DnDConstants_ACTION_NONE;
+    jint rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
 
-    if ((dragOperation & NSDragOperationCopy) != 0)                    // 1
-        result = ((dragOperation & NSDragOperationMove) == 0) ? java_awt_dnd_DnDConstants_ACTION_COPY : java_awt_dnd_DnDConstants_ACTION_COPY_OR_MOVE;
+    if ((drbgOpfrbtion & NSDrbgOpfrbtionCopy) != 0)                    // 1
+        rfsult = ((drbgOpfrbtion & NSDrbgOpfrbtionMovf) == 0) ? jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY : jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY_OR_MOVE;
 
-    else if ((dragOperation & NSDragOperationMove) != 0)            // 16
-        result = java_awt_dnd_DnDConstants_ACTION_MOVE;
+    flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionMovf) != 0)            // 16
+        rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
 
-    else if ((dragOperation & NSDragOperationLink) != 0)            // 2
-        result = java_awt_dnd_DnDConstants_ACTION_LINK;
+    flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionLink) != 0)            // 2
+        rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK;
 
-    else if ((dragOperation & NSDragOperationGeneric) != 0)            // 4
-        result = java_awt_dnd_DnDConstants_ACTION_MOVE;
+    flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionGfnfrid) != 0)            // 4
+        rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
 
-    // Pre-empted by the above cases:
-    //else if (dragOperation == NSDragOperationEvery)                    // UINT_MAX
-    //    result = java_awt_dnd_DnDConstants_ACTION_COPY_OR_MOVE;
+    // Prf-fmptfd by tif bbovf dbsfs:
+    //flsf if (drbgOpfrbtion == NSDrbgOpfrbtionEvfry)                    // UINT_MAX
+    //    rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY_OR_MOVE;
 
-    // To be rejected:
-    //else if ((dragOperation & NSDragOperationPrivate) != 0)        // 8
-    //else if ((dragOperation & NSDragOperationAll_Obsolete) != 0)    // 15
-    //else if ((dragOperation & NSDragOperationDelete) != 0)        // 32
+    // To bf rfjfdtfd:
+    //flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionPrivbtf) != 0)        // 8
+    //flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionAll_Obsolftf) != 0)    // 15
+    //flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionDflftf) != 0)        // 32
 
-    return result;
+    rfturn rfsult;
 }
 
-+ (jint)mapNSDragOperationMaskToJava:(NSDragOperation)dragOperation
++ (jint)mbpNSDrbgOpfrbtionMbskToJbvb:(NSDrbgOpfrbtion)drbgOpfrbtion
 {
-    jint result = java_awt_dnd_DnDConstants_ACTION_NONE;
+    jint rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
 
-    if (dragOperation & NSDragOperationMove)
-        result |= java_awt_dnd_DnDConstants_ACTION_MOVE;
+    if (drbgOpfrbtion & NSDrbgOpfrbtionMovf)
+        rfsult |= jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
 
-    if (dragOperation & NSDragOperationCopy)
-        result |= java_awt_dnd_DnDConstants_ACTION_COPY;
+    if (drbgOpfrbtion & NSDrbgOpfrbtionCopy)
+        rfsult |= jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY;
 
-    if (dragOperation & NSDragOperationLink)
-        result |= java_awt_dnd_DnDConstants_ACTION_LINK;
+    if (drbgOpfrbtion & NSDrbgOpfrbtionLink)
+        rfsult |= jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK;
 
-    // Only look at Generic if none of the other options are specified
-    if ( (dragOperation & NSDragOperationGeneric) && !(dragOperation & (NSDragOperationMove|NSDragOperationCopy|NSDragOperationLink)) )
-        result |= java_awt_dnd_DnDConstants_ACTION_MOVE;
+    // Only look bt Gfnfrid if nonf of tif otifr options brf spfdififd
+    if ( (drbgOpfrbtion & NSDrbgOpfrbtionGfnfrid) && !(drbgOpfrbtion & (NSDrbgOpfrbtionMovf|NSDrbgOpfrbtionCopy|NSDrbgOpfrbtionLink)) )
+        rfsult |= jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
 
-    return result;
+    rfturn rfsult;
 }
 
-+ (jint)narrowJavaDropActions:(jint)actions
++ (jint)nbrrowJbvbDropAdtions:(jint)bdtions
 {
     if (YES) {
-        // Order is defined in the java.awt.dnd.DropTargetDropEvent JavaDoc
-        if (actions & java_awt_dnd_DnDConstants_ACTION_MOVE) {
-            return java_awt_dnd_DnDConstants_ACTION_MOVE;
+        // Ordfr is dffinfd in tif jbvb.bwt.dnd.DropTbrgftDropEvfnt JbvbDod
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
         }
-        if (actions & java_awt_dnd_DnDConstants_ACTION_COPY) {
-            return java_awt_dnd_DnDConstants_ACTION_COPY;
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY;
         }
-        if (actions & java_awt_dnd_DnDConstants_ACTION_LINK) {
-            return java_awt_dnd_DnDConstants_ACTION_LINK;
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK;
         }
-    } else {
-        // Order is what is most intuitive on Mac OS X
-        if (actions & java_awt_dnd_DnDConstants_ACTION_COPY) {
-            return java_awt_dnd_DnDConstants_ACTION_COPY;
+    } flsf {
+        // Ordfr is wibt is most intuitivf on Mbd OS X
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY;
         }
-        if (actions & java_awt_dnd_DnDConstants_ACTION_LINK) {
-            return java_awt_dnd_DnDConstants_ACTION_LINK;
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK;
         }
-        if (actions & java_awt_dnd_DnDConstants_ACTION_MOVE) {
-            return java_awt_dnd_DnDConstants_ACTION_MOVE;
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
         }
     }
 
-    return java_awt_dnd_DnDConstants_ACTION_NONE;
+    rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
 }
 
-+ (NSDragOperation)mapJavaDragOperationToNS:(jint)dragOperation
++ (NSDrbgOpfrbtion)mbpJbvbDrbgOpfrbtionToNS:(jint)drbgOpfrbtion
 {
-    NSDragOperation result = NSDragOperationNone;
+    NSDrbgOpfrbtion rfsult = NSDrbgOpfrbtionNonf;
 
-    switch (dragOperation) {
-        case java_awt_dnd_DnDConstants_ACTION_NONE:            // 0
-            result = NSDragOperationNone;
-            break;
-        case java_awt_dnd_DnDConstants_ACTION_COPY:            // 1
-            result = NSDragOperationCopy;
-            break;
-        case java_awt_dnd_DnDConstants_ACTION_MOVE:            // 2
-            result = NSDragOperationMove;
-            break;
-        case java_awt_dnd_DnDConstants_ACTION_COPY_OR_MOVE:    // 3
-            result = NSDragOperationCopy | NSDragOperationMove;
-            break;
-        case java_awt_dnd_DnDConstants_ACTION_LINK:            // 1073741824L
-            result = NSDragOperationLink;
-            break;
-        case (java_awt_dnd_DnDConstants_ACTION_COPY_OR_MOVE | java_awt_dnd_DnDConstants_ACTION_LINK):
-            result = NSDragOperationCopy | NSDragOperationMove | NSDragOperationLink;
-            break;
+    switdi (drbgOpfrbtion) {
+        dbsf jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE:            // 0
+            rfsult = NSDrbgOpfrbtionNonf;
+            brfbk;
+        dbsf jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY:            // 1
+            rfsult = NSDrbgOpfrbtionCopy;
+            brfbk;
+        dbsf jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE:            // 2
+            rfsult = NSDrbgOpfrbtionMovf;
+            brfbk;
+        dbsf jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY_OR_MOVE:    // 3
+            rfsult = NSDrbgOpfrbtionCopy | NSDrbgOpfrbtionMovf;
+            brfbk;
+        dbsf jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK:            // 1073741824L
+            rfsult = NSDrbgOpfrbtionLink;
+            brfbk;
+        dbsf (jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY_OR_MOVE | jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK):
+            rfsult = NSDrbgOpfrbtionCopy | NSDrbgOpfrbtionMovf | NSDrbgOpfrbtionLink;
+            brfbk;
     }
 
-        if (result != NSDragOperationNone) {
-            result |= NSDragOperationGeneric;
+        if (rfsult != NSDrbgOpfrbtionNonf) {
+            rfsult |= NSDrbgOpfrbtionGfnfrid;
         }
 
-    return result;
+    rfturn rfsult;
 }
 
-// Mouse and key modifiers mapping:
-+ (NSUInteger)mapJavaExtModifiersToNSMouseDownButtons:(jint)modifiers
+// Mousf bnd kfy modififrs mbpping:
++ (NSUIntfgfr)mbpJbvbExtModififrsToNSMousfDownButtons:(jint)modififrs
 {
-    NSUInteger result = NSLeftMouseDown;
+    NSUIntfgfr rfsult = NSLfftMousfDown;
 
-    if ((modifiers & java_awt_event_InputEvent_BUTTON1_DOWN_MASK) != 0)
-        result = NSLeftMouseDown;
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK) != 0)
+        rfsult = NSLfftMousfDown;
 
-    if ((modifiers & java_awt_event_InputEvent_BUTTON2_DOWN_MASK) != 0)
-        result = NSOtherMouseDown;
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK) != 0)
+        rfsult = NSOtifrMousfDown;
 
-    if ((modifiers & java_awt_event_InputEvent_BUTTON3_DOWN_MASK) != 0)
-        result = NSRightMouseDown;
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK) != 0)
+        rfsult = NSRigitMousfDown;
 
-    return result;
+    rfturn rfsult;
 }
 
-+ (NSUInteger)mapJavaExtModifiersToNSMouseUpButtons:(jint)modifiers
++ (NSUIntfgfr)mbpJbvbExtModififrsToNSMousfUpButtons:(jint)modififrs
 {
-    NSUInteger result = NSLeftMouseUp;
+    NSUIntfgfr rfsult = NSLfftMousfUp;
 
-    if ((modifiers & java_awt_event_InputEvent_BUTTON1_DOWN_MASK) != 0)
-        result = NSLeftMouseUp;
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK) != 0)
+        rfsult = NSLfftMousfUp;
 
-    if ((modifiers & java_awt_event_InputEvent_BUTTON2_DOWN_MASK) != 0)
-        result = NSOtherMouseUp;
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK) != 0)
+        rfsult = NSOtifrMousfUp;
 
-    if ((modifiers & java_awt_event_InputEvent_BUTTON3_DOWN_MASK) != 0)
-        result = NSRightMouseUp;
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK) != 0)
+        rfsult = NSRigitMousfUp;
 
-    return result;
+    rfturn rfsult;
 }
 
 
-// Specialized key modifiers mappings (for DragSource.operationChanged)
+// Spfdiblizfd kfy modififrs mbppings (for DrbgSourdf.opfrbtionCibngfd)
 
-// Returns just the key modifiers from a java modifier flag
-+ (jint)extractJavaExtKeyModifiersFromJavaExtModifiers:(jint)modifiers
+// Rfturns just tif kfy modififrs from b jbvb modififr flbg
++ (jint)fxtrbdtJbvbExtKfyModififrsFromJbvbExtModififrs:(jint)modififrs
 {
-    // Build the mask
-    static jint mask = java_awt_event_InputEvent_SHIFT_DOWN_MASK | java_awt_event_InputEvent_CTRL_DOWN_MASK | java_awt_event_InputEvent_META_DOWN_MASK | java_awt_event_InputEvent_ALT_DOWN_MASK;
-    //static int mask = java_awt_event_InputEvent_SHIFT_DOWN_MASK | java_awt_event_InputEvent_CTRL_DOWN_MASK;
+    // Build tif mbsk
+    stbtid jint mbsk = jbvb_bwt_fvfnt_InputEvfnt_SHIFT_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_CTRL_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_META_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_ALT_DOWN_MASK;
+    //stbtid int mbsk = jbvb_bwt_fvfnt_InputEvfnt_SHIFT_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_CTRL_DOWN_MASK;
 
-    // Get results
-    jint result = modifiers & mask;
+    // Gft rfsults
+    jint rfsult = modififrs & mbsk;
 
-    // Java appears to have 2 ALT buttons - combine them.
-    if (modifiers & java_awt_event_InputEvent_ALT_GRAPH_DOWN_MASK)
-        result |= java_awt_event_InputEvent_ALT_DOWN_MASK;
+    // Jbvb bppfbrs to ibvf 2 ALT buttons - dombinf tifm.
+    if (modififrs & jbvb_bwt_fvfnt_InputEvfnt_ALT_GRAPH_DOWN_MASK)
+        rfsult |= jbvb_bwt_fvfnt_InputEvfnt_ALT_DOWN_MASK;
 
-    return result;
+    rfturn rfsult;
 }
 
-// Returns just the mouse modifiers from a java modifier flag
-+ (jint)extractJavaExtMouseModifiersFromJavaExtModifiers:(jint)modifiers
+// Rfturns just tif mousf modififrs from b jbvb modififr flbg
++ (jint)fxtrbdtJbvbExtMousfModififrsFromJbvbExtModififrs:(jint)modififrs
 {
-    // Build the mask
-    static jint mask = java_awt_event_InputEvent_BUTTON1_DOWN_MASK | java_awt_event_InputEvent_BUTTON2_DOWN_MASK | java_awt_event_InputEvent_BUTTON3_DOWN_MASK;
+    // Build tif mbsk
+    stbtid jint mbsk = jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK;
 
-    // Get results
-    return modifiers & mask;
+    // Gft rfsults
+    rfturn modififrs & mbsk;
 }
 
-+ (NSDragOperation) nsDragOperationForModifiers:(NSUInteger)modifiers {
++ (NSDrbgOpfrbtion) nsDrbgOpfrbtionForModififrs:(NSUIntfgfr)modififrs {
 
-    // Java first
-    if ( (modifiers & NSShiftKeyMask) && (modifiers & NSControlKeyMask) ) {
-        return NSDragOperationLink;
+    // Jbvb first
+    if ( (modififrs & NSSiiftKfyMbsk) && (modififrs & NSControlKfyMbsk) ) {
+        rfturn NSDrbgOpfrbtionLink;
     }
-    if (modifiers & NSShiftKeyMask) {
-        return NSDragOperationMove;
+    if (modififrs & NSSiiftKfyMbsk) {
+        rfturn NSDrbgOpfrbtionMovf;
     }
-    if (modifiers & NSControlKeyMask) {
-        return NSDragOperationCopy;
-    }
-
-    // Then native
-    if ( (modifiers & NSCommandKeyMask) && (modifiers & NSAlternateKeyMask) ) {
-        return NSDragOperationLink;
-    }
-    if (modifiers & NSCommandKeyMask) {
-        return NSDragOperationMove;
-    }
-    if (modifiers & NSAlternateKeyMask) {
-        return NSDragOperationCopy;
+    if (modififrs & NSControlKfyMbsk) {
+        rfturn NSDrbgOpfrbtionCopy;
     }
 
-    // Otherwise, we allow anything
-    return NSDragOperationEvery;
+    // Tifn nbtivf
+    if ( (modififrs & NSCommbndKfyMbsk) && (modififrs & NSAltfrnbtfKfyMbsk) ) {
+        rfturn NSDrbgOpfrbtionLink;
+    }
+    if (modififrs & NSCommbndKfyMbsk) {
+        rfturn NSDrbgOpfrbtionMovf;
+    }
+    if (modififrs & NSAltfrnbtfKfyMbsk) {
+        rfturn NSDrbgOpfrbtionCopy;
+    }
+
+    // Otifrwisf, wf bllow bnytiing
+    rfturn NSDrbgOpfrbtionEvfry;
 }
 
-+ (jint) javaKeyModifiersForNSDragOperation:(NSDragOperation)dragOperation {
-    if (dragOperation & NSDragOperationMove)
-        return java_awt_event_InputEvent_SHIFT_DOWN_MASK;
++ (jint) jbvbKfyModififrsForNSDrbgOpfrbtion:(NSDrbgOpfrbtion)drbgOpfrbtion {
+    if (drbgOpfrbtion & NSDrbgOpfrbtionMovf)
+        rfturn jbvb_bwt_fvfnt_InputEvfnt_SHIFT_DOWN_MASK;
 
-    if (dragOperation & NSDragOperationCopy)
-        return java_awt_event_InputEvent_CTRL_DOWN_MASK;
+    if (drbgOpfrbtion & NSDrbgOpfrbtionCopy)
+        rfturn jbvb_bwt_fvfnt_InputEvfnt_CTRL_DOWN_MASK;
 
-    if (dragOperation & NSDragOperationLink) {
-        return java_awt_event_InputEvent_SHIFT_DOWN_MASK | java_awt_event_InputEvent_CTRL_DOWN_MASK;
+    if (drbgOpfrbtion & NSDrbgOpfrbtionLink) {
+        rfturn jbvb_bwt_fvfnt_InputEvfnt_SHIFT_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_CTRL_DOWN_MASK;
     }
-    return 0;
+    rfturn 0;
 }
 
-@end
+@fnd

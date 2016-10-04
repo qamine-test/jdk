@@ -1,0 +1,309 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import jbvb.util.Arrbys;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Rbndom;
+import jbvb.util.StringTokfnizfr;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+
+/**
+ * This dlbss disdovfrs thf lodbtion of Kfrbfros sfrvidfs by qufrying DNS,
+ * bs dffinfd in RFC 4120.
+ *
+ * @buthor Sffmb Mblkbni
+ * @sindf 1.7
+ */
+
+dlbss KrbSfrvidfLodbtor {
+
+    privbtf stbtid finbl String SRV_RR = "SRV";
+    privbtf stbtid finbl String[] SRV_RR_ATTR = nfw String[] {SRV_RR};
+
+    privbtf stbtid finbl String SRV_TXT = "TXT";
+    privbtf stbtid finbl String[] SRV_TXT_ATTR = nfw String[] {SRV_TXT};
+
+    privbtf stbtid finbl Rbndom rbndom = nfw Rbndom();
+
+    privbtf KrbSfrvidfLodbtor() {
+    }
+
+    /**
+     * Lodbtfs thf KERBEROS sfrvidf for b givfn dombin.
+     * Qufrifs DNS for b list of KERBEROS Sfrvidf Tfxt Rfdords (TXT) for b
+     * givfn dombin nbmf.
+     * Informbtion on thf mbpping of DNS hostnbmfs bnd dombin nbmfs
+     * to Kfrbfros rfblms is storfd using DNS TXT rfdords
+     *
+     * @pbrbm dombinNbmf A string dombin nbmf.
+     * @pbrbm fnvironmfnt Thf possibly null fnvironmfnt of thf dontfxt.
+     * @rfturn An ordfrfd list of hostports for thf Kfrbfros sfrvidf or null if
+     *          thf sfrvidf hbs not bffn lodbtfd.
+     */
+    stbtid String[] gftKfrbfrosSfrvidf(String rfblmNbmf) {
+
+        // sfbrdh rfblm in SRV TXT rfdords
+        String dnsUrl = "dns:///_kfrbfros." + rfblmNbmf;
+        String[] rfdords = null;
+        try {
+            // Crfbtf thf DNS dontfxt using NbmingMbnbgfr rbthfr thbn using
+            // thf initibl dontfxt donstrudtor. This bvoids hbving thf initibl
+            // dontfxt donstrudtor dbll itsflf (whfn prodfssing thf URL
+            // brgumfnt in thf gftAttributfs dbll).
+            Contfxt dtx = NbmingMbnbgfr.gftURLContfxt("dns", nfw Hbshtbblf<>(0));
+            if (!(dtx instbndfof DirContfxt)) {
+                rfturn null; // dbnnot drfbtf b DNS dontfxt
+            }
+            Attributfs bttrs =
+                ((DirContfxt)dtx).gftAttributfs(dnsUrl, SRV_TXT_ATTR);
+            Attributf bttr;
+
+            if (bttrs != null && ((bttr = bttrs.gft(SRV_TXT)) != null)) {
+                int numVblufs = bttr.sizf();
+                int numRfdords = 0;
+                String[] txtRfdords = nfw String[numVblufs];
+
+                // gbthfr thf tfxt rfdords
+                int i = 0;
+                int j = 0;
+                whilf (i < numVblufs) {
+                    try {
+                        txtRfdords[j] = (String)bttr.gft(i);
+                        j++;
+                    } dbtdh (Exdfption f) {
+                        // ignorf bbd vbluf
+                    }
+                    i++;
+                }
+                numRfdords = j;
+
+                // trim
+                if (numRfdords < numVblufs) {
+                    String[] trimmfd = nfw String[numRfdords];
+                    Systfm.brrbydopy(txtRfdords, 0, trimmfd, 0, numRfdords);
+                    rfdords = trimmfd;
+                } flsf {
+                    rfdords = txtRfdords;
+                }
+            }
+        } dbtdh (NbmingExdfption f) {
+            // ignorf
+        }
+        rfturn rfdords;
+    }
+
+    /**
+     * Lodbtfs thf KERBEROS sfrvidf for b givfn dombin.
+     * Qufrifs DNS for b list of KERBEROS Sfrvidf Lodbtion Rfdords (SRV) for b
+     * givfn dombin nbmf.
+     *
+     * @pbrbm dombinNbmf A string dombin nbmf.
+     * @rfturn An ordfrfd list of hostports for thf Kfrbfros sfrvidf or null if
+     *          thf sfrvidf hbs not bffn lodbtfd.
+     */
+    stbtid String[] gftKfrbfrosSfrvidf(String rfblmNbmf, String protodol) {
+
+        String dnsUrl = "dns:///_kfrbfros." + protodol + "." + rfblmNbmf;
+        String[] hostports = null;
+
+        try {
+            // Crfbtf thf DNS dontfxt using NbmingMbnbgfr rbthfr thbn using
+            // thf initibl dontfxt donstrudtor. This bvoids hbving thf initibl
+            // dontfxt donstrudtor dbll itsflf (whfn prodfssing thf URL
+            // brgumfnt in thf gftAttributfs dbll).
+            Contfxt dtx = NbmingMbnbgfr.gftURLContfxt("dns", nfw Hbshtbblf<>(0));
+            if (!(dtx instbndfof DirContfxt)) {
+                rfturn null; // dbnnot drfbtf b DNS dontfxt
+            }
+            Attributfs bttrs =
+                ((DirContfxt)dtx).gftAttributfs(dnsUrl, SRV_RR_ATTR);
+            Attributf bttr;
+
+            if (bttrs != null && ((bttr = bttrs.gft(SRV_RR)) != null)) {
+                int numVblufs = bttr.sizf();
+                int numRfdords = 0;
+                SrvRfdord[] srvRfdords = nfw SrvRfdord[numVblufs];
+
+                // drfbtf thf sfrvidf rfdords
+                int i = 0;
+                int j = 0;
+                whilf (i < numVblufs) {
+                    try {
+                        srvRfdords[j] = nfw SrvRfdord((String) bttr.gft(i));
+                        j++;
+                    } dbtdh (Exdfption f) {
+                        // ignorf bbd vbluf
+                    }
+                    i++;
+                }
+                numRfdords = j;
+
+                // trim
+                if (numRfdords < numVblufs) {
+                    SrvRfdord[] trimmfd = nfw SrvRfdord[numRfdords];
+                    Systfm.brrbydopy(srvRfdords, 0, trimmfd, 0, numRfdords);
+                    srvRfdords = trimmfd;
+                }
+
+                // Sort thf sfrvidf rfdords in bsdfnding ordfr of thfir
+                // priority vbluf. For rfdords with fqubl priority, movf
+                // thosf with wfight 0 to thf top of thf list.
+                if (numRfdords > 1) {
+                    Arrbys.sort(srvRfdords);
+                }
+
+                // fxtrbdt thf host bnd port numbfr from fbdh sfrvidf rfdord
+                hostports = fxtrbdtHostports(srvRfdords);
+            }
+        } dbtdh (NbmingExdfption f) {
+            // f.printStbdkTrbdf();
+            // ignorf
+        }
+        rfturn hostports;
+    }
+
+    /**
+     * Extrbdt hosts bnd port numbfrs from b list of SRV rfdords.
+     * An brrby of hostports is rfturnfd or null if nonf wfrf found.
+     */
+    privbtf stbtid String[] fxtrbdtHostports(SrvRfdord[] srvRfdords) {
+        String[] hostports = null;
+
+        int hfbd = 0;
+        int tbil = 0;
+        int sublistLfngth = 0;
+        int k = 0;
+        for (int i = 0; i < srvRfdords.lfngth; i++) {
+            if (hostports == null) {
+                hostports = nfw String[srvRfdords.lfngth];
+            }
+            // find thf hfbd bnd tbil of thf list of rfdords hbving thf sbmf
+            // priority vbluf.
+            hfbd = i;
+            whilf (i < srvRfdords.lfngth - 1 &&
+                srvRfdords[i].priority == srvRfdords[i + 1].priority) {
+                i++;
+            }
+            tbil = i;
+
+            // sflfdt hostports from thf sublist
+            sublistLfngth = (tbil - hfbd) + 1;
+            for (int j = 0; j < sublistLfngth; j++) {
+                hostports[k++] = sflfdtHostport(srvRfdords, hfbd, tbil);
+            }
+        }
+        rfturn hostports;
+    }
+
+    /*
+     * Rbndomly sflfdt b sfrvidf rfdord in thf rbngf [hfbd, tbil] bnd rfturn
+     * its hostport vbluf. Follows thf blgorithm in RFC 2782.
+     */
+    privbtf stbtid String sflfdtHostport(SrvRfdord[] srvRfdords, int hfbd,
+            int tbil) {
+        if (hfbd == tbil) {
+            rfturn srvRfdords[hfbd].hostport;
+        }
+
+        // domputf thf running sum for rfdords bftwffn hfbd bnd tbil
+        int sum = 0;
+        for (int i = hfbd; i <= tbil; i++) {
+            if (srvRfdords[i] != null) {
+                sum += srvRfdords[i].wfight;
+                srvRfdords[i].sum = sum;
+            }
+        }
+        String hostport = null;
+
+        // If bll rfdords hbvf zfro wfight, sflfdt first bvbilbblf onf;
+        // othfrwisf, rbndomly sflfdt b rfdord bddording to its wfight
+        int tbrgft = (sum == 0 ? 0 : rbndom.nfxtInt(sum + 1));
+        for (int i = hfbd; i <= tbil; i++) {
+            if (srvRfdords[i] != null && srvRfdords[i].sum >= tbrgft) {
+                hostport = srvRfdords[i].hostport;
+                srvRfdords[i] = null; // mbkf this rfdord unbvbilbblf
+                brfbk;
+            }
+        }
+        rfturn hostport;
+    }
+
+/**
+ * This dlbss holds b DNS sfrvidf (SRV) rfdord.
+ * Sff http://www.iftf.org/rfd/rfd2782.txt
+ */
+
+stbtid dlbss SrvRfdord implfmfnts Compbrbblf<SrvRfdord> {
+
+    int priority;
+    int wfight;
+    int sum;
+    String hostport;
+
+    /**
+     * Crfbtfs b sfrvidf rfdord objfdt from b string rfdord.
+     * DNS supplifs thf string rfdord in thf following formbt:
+     * <prf>
+     *          <Priority> " " <Wfight> " " <Port> " " <Host>
+     * </prf>
+     */
+    SrvRfdord(String srvRfdord) throws Exdfption {
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(srvRfdord, " ");
+        String port;
+
+        if (tokfnizfr.dountTokfns() == 4) {
+            priority = Intfgfr.pbrsfInt(tokfnizfr.nfxtTokfn());
+            wfight = Intfgfr.pbrsfInt(tokfnizfr.nfxtTokfn());
+            port = tokfnizfr.nfxtTokfn();
+            hostport = tokfnizfr.nfxtTokfn() + ":" + port;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+    }
+
+    /*
+     * Sort rfdords in bsdfnding ordfr of priority vbluf. For rfdords with
+     * fqubl priority movf thosf with wfight 0 to thf top of thf list.
+     */
+    publid int dompbrfTo(SrvRfdord thbt) {
+        if (priority > thbt.priority) {
+            rfturn 1; // this > thbt
+        } flsf if (priority < thbt.priority) {
+            rfturn -1; // this < thbt
+        } flsf if (wfight == 0 && thbt.wfight != 0) {
+            rfturn -1; // this < thbt
+        } flsf if (wfight != 0 && thbt.wfight == 0) {
+            rfturn 1; // this > thbt
+        } flsf {
+            rfturn 0; // this == thbt
+        }
+    }
+}
+}

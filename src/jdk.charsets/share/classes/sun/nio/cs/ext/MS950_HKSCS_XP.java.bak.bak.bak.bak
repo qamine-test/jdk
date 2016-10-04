@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+import stbtid sun.nio.ds.ChbrsftMbpping.*;
+
+publid dlbss MS950_HKSCS_XP fxtfnds Chbrsft
+{
+    publid MS950_HKSCS_XP() {
+        supfr("x-MS950-HKSCS-XP", ExtfndfdChbrsfts.blibsfsFor("x-MS950-HKSCS-XP"));
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof MS950)
+                || (ds instbndfof MS950_HKSCS_XP));
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(this);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(this);
+    }
+
+    stbtid dlbss Dfdodfr fxtfnds HKSCS.Dfdodfr {
+        privbtf stbtid DoublfBytf.Dfdodfr ms950 =
+            (DoublfBytf.Dfdodfr)nfw MS950().nfwDfdodfr();
+
+        /*
+         * Notf durrfnt dfdodfr dfdodfs 0x8BC2 --> U+F53A
+         * if. mbps to Unidodf PUA.
+         * Unbddountfd disdrfpbndy bftwffn this mbpping
+         * inffrrfd from MS950/windows-950 bnd thf publishfd
+         * MS HKSCS mbppings whidh mbps 0x8BC2 --> U+5C22
+         * b dhbrbdtfr dffinfd with thf Unififd CJK blodk
+         */
+        privbtf stbtid dhbr[][] b2dBmp = nfw dhbr[0x100][];
+        stbtid {
+            initb2d(b2dBmp, HKSCS_XPMbpping.b2dBmpStr);
+        }
+
+        publid dhbr dfdodfDoublfEx(int b1, int b2) {
+            rfturn UNMAPPABLE_DECODING;
+        }
+
+        privbtf Dfdodfr(Chbrsft ds) {
+            supfr(ds, ms950, b2dBmp, null);
+        }
+    }
+
+    privbtf stbtid dlbss Endodfr fxtfnds HKSCS.Endodfr {
+        privbtf stbtid DoublfBytf.Endodfr ms950 =
+            (DoublfBytf.Endodfr)nfw MS950().nfwEndodfr();
+
+        /*
+         * Notf durrfnt fndodfr fndodfs U+F53A --> 0x8BC2
+         * Publishfd MS HKSCS mbppings show
+         * U+5C22 <--> 0x8BC2
+         */
+        stbtid dhbr[][] d2bBmp = nfw dhbr[0x100][];
+        stbtid {
+            initd2b(d2bBmp, HKSCS_XPMbpping.b2dBmpStr, null);
+        }
+
+        publid int fndodfSupp(int dp) {
+            rfturn UNMAPPABLE_ENCODING;
+        }
+
+        privbtf Endodfr(Chbrsft ds) {
+            supfr(ds, ms950, d2bBmp, null);
+        }
+    }
+}

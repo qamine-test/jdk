@@ -1,557 +1,557 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.channels.SeekableByteChannel;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.io.IOException;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.dibnnfls.SffkbblfBytfCibnnfl;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.io.IOExdfption;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.UnixConstants.*;
+import stbtid sun.nio.fs.UnixNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.UnixConstbnts.*;
 
 /**
- * Unix implementation of SecureDirectoryStream.
+ * Unix implfmfntbtion of SfdurfDirfdtoryStrfbm.
  */
 
-class UnixSecureDirectoryStream
-    implements SecureDirectoryStream<Path>
+dlbss UnixSfdurfDirfdtoryStrfbm
+    implfmfnts SfdurfDirfdtoryStrfbm<Pbti>
 {
-    private final UnixDirectoryStream ds;
-    private final int dfd;
+    privbtf finbl UnixDirfdtoryStrfbm ds;
+    privbtf finbl int dfd;
 
-    UnixSecureDirectoryStream(UnixPath dir,
+    UnixSfdurfDirfdtoryStrfbm(UnixPbti dir,
                               long dp,
                               int dfd,
-                              DirectoryStream.Filter<? super Path> filter)
+                              DirfdtoryStrfbm.Filtfr<? supfr Pbti> filtfr)
     {
-        this.ds = new UnixDirectoryStream(dir, dp, filter);
-        this.dfd = dfd;
+        tiis.ds = nfw UnixDirfdtoryStrfbm(dir, dp, filtfr);
+        tiis.dfd = dfd;
     }
 
-    @Override
-    public void close()
-        throws IOException
+    @Ovfrridf
+    publid void dlosf()
+        tirows IOExdfption
     {
-        ds.writeLock().lock();
+        ds.writfLodk().lodk();
         try {
-            if (ds.closeImpl()) {
-                UnixNativeDispatcher.close(dfd);
+            if (ds.dlosfImpl()) {
+                UnixNbtivfDispbtdifr.dlosf(dfd);
             }
-        } finally {
-            ds.writeLock().unlock();
+        } finblly {
+            ds.writfLodk().unlodk();
         }
     }
 
-    @Override
-    public Iterator<Path> iterator() {
-        return ds.iterator(this);
+    @Ovfrridf
+    publid Itfrbtor<Pbti> itfrbtor() {
+        rfturn ds.itfrbtor(tiis);
     }
 
-    private UnixPath getName(Path obj) {
+    privbtf UnixPbti gftNbmf(Pbti obj) {
         if (obj == null)
-            throw new NullPointerException();
-        if (!(obj instanceof UnixPath))
-            throw new ProviderMismatchException();
-        return (UnixPath)obj;
+            tirow nfw NullPointfrExdfption();
+        if (!(obj instbndfof UnixPbti))
+            tirow nfw ProvidfrMismbtdiExdfption();
+        rfturn (UnixPbti)obj;
     }
 
     /**
-     * Opens sub-directory in this directory
+     * Opfns sub-dirfdtory in tiis dirfdtory
      */
-    @Override
-    public SecureDirectoryStream<Path> newDirectoryStream(Path obj,
+    @Ovfrridf
+    publid SfdurfDirfdtoryStrfbm<Pbti> nfwDirfdtoryStrfbm(Pbti obj,
                                                           LinkOption... options)
-        throws IOException
+        tirows IOExdfption
     {
-        UnixPath file = getName(obj);
-        UnixPath child = ds.directory().resolve(file);
-        boolean followLinks = Util.followLinks(options);
+        UnixPbti filf = gftNbmf(obj);
+        UnixPbti diild = ds.dirfdtory().rfsolvf(filf);
+        boolfbn followLinks = Util.followLinks(options);
 
-        // permission check using name resolved against original path of directory
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk using nbmf rfsolvfd bgbinst originbl pbti of dirfdtory
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            child.checkRead();
+            diild.difdkRfbd();
         }
 
-        ds.readLock().lock();
+        ds.rfbdLodk().lodk();
         try {
-            if (!ds.isOpen())
-                throw new ClosedDirectoryStreamException();
+            if (!ds.isOpfn())
+                tirow nfw ClosfdDirfdtoryStrfbmExdfption();
 
-            // open directory and create new secure directory stream
-            int newdfd1 = -1;
-            int newdfd2 = -1;
+            // opfn dirfdtory bnd drfbtf nfw sfdurf dirfdtory strfbm
+            int nfwdfd1 = -1;
+            int nfwdfd2 = -1;
             long ptr = 0L;
             try {
-                int flags = O_RDONLY;
+                int flbgs = O_RDONLY;
                 if (!followLinks)
-                    flags |= O_NOFOLLOW;
-                newdfd1 = openat(dfd, file.asByteArray(), flags , 0);
-                newdfd2 = dup(newdfd1);
-                ptr = fdopendir(newdfd1);
-            } catch (UnixException x) {
-                if (newdfd1 != -1)
-                    UnixNativeDispatcher.close(newdfd1);
-                if (newdfd2 != -1)
-                    UnixNativeDispatcher.close(newdfd2);
-                if (x.errno() == UnixConstants.ENOTDIR)
-                    throw new NotDirectoryException(file.toString());
-                x.rethrowAsIOException(file);
+                    flbgs |= O_NOFOLLOW;
+                nfwdfd1 = opfnbt(dfd, filf.bsBytfArrby(), flbgs , 0);
+                nfwdfd2 = dup(nfwdfd1);
+                ptr = fdopfndir(nfwdfd1);
+            } dbtdi (UnixExdfption x) {
+                if (nfwdfd1 != -1)
+                    UnixNbtivfDispbtdifr.dlosf(nfwdfd1);
+                if (nfwdfd2 != -1)
+                    UnixNbtivfDispbtdifr.dlosf(nfwdfd2);
+                if (x.frrno() == UnixConstbnts.ENOTDIR)
+                    tirow nfw NotDirfdtoryExdfption(filf.toString());
+                x.rftirowAsIOExdfption(filf);
             }
-            return new UnixSecureDirectoryStream(child, ptr, newdfd2, null);
-        } finally {
-            ds.readLock().unlock();
+            rfturn nfw UnixSfdurfDirfdtoryStrfbm(diild, ptr, nfwdfd2, null);
+        } finblly {
+            ds.rfbdLodk().unlodk();
         }
     }
 
     /**
-     * Opens file in this directory
+     * Opfns filf in tiis dirfdtory
      */
-    @Override
-    public SeekableByteChannel newByteChannel(Path obj,
-                                              Set<? extends OpenOption> options,
-                                              FileAttribute<?>... attrs)
-        throws IOException
+    @Ovfrridf
+    publid SffkbblfBytfCibnnfl nfwBytfCibnnfl(Pbti obj,
+                                              Sft<? fxtfnds OpfnOption> options,
+                                              FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        UnixPath file = getName(obj);
+        UnixPbti filf = gftNbmf(obj);
 
-        int mode = UnixFileModeAttribute
-            .toUnixMode(UnixFileModeAttribute.ALL_READWRITE, attrs);
+        int modf = UnixFilfModfAttributf
+            .toUnixModf(UnixFilfModfAttributf.ALL_READWRITE, bttrs);
 
-        // path for permission check
-        String pathToCheck = ds.directory().resolve(file).getPathForPermissionCheck();
+        // pbti for pfrmission difdk
+        String pbtiToCifdk = ds.dirfdtory().rfsolvf(filf).gftPbtiForPfrmissionCifdk();
 
-        ds.readLock().lock();
+        ds.rfbdLodk().lodk();
         try {
-            if (!ds.isOpen())
-                throw new ClosedDirectoryStreamException();
+            if (!ds.isOpfn())
+                tirow nfw ClosfdDirfdtoryStrfbmExdfption();
             try {
-                return UnixChannelFactory.newFileChannel(dfd, file, pathToCheck, options, mode);
-            } catch (UnixException x) {
-                x.rethrowAsIOException(file);
-                return null; // keep compiler happy
+                rfturn UnixCibnnflFbdtory.nfwFilfCibnnfl(dfd, filf, pbtiToCifdk, options, modf);
+            } dbtdi (UnixExdfption x) {
+                x.rftirowAsIOExdfption(filf);
+                rfturn null; // kffp dompilfr ibppy
             }
-        } finally {
-            ds.readLock().unlock();
+        } finblly {
+            ds.rfbdLodk().unlodk();
         }
     }
 
     /**
-     * Deletes file/directory in this directory. Works in a race-free manner
-     * when invoked with flags.
+     * Dflftfs filf/dirfdtory in tiis dirfdtory. Works in b rbdf-frff mbnnfr
+     * wifn invokfd witi flbgs.
      */
-    private void implDelete(Path obj, boolean haveFlags, int flags)
-        throws IOException
+    privbtf void implDflftf(Pbti obj, boolfbn ibvfFlbgs, int flbgs)
+        tirows IOExdfption
     {
-        UnixPath file = getName(obj);
+        UnixPbti filf = gftNbmf(obj);
 
-        // permission check using name resolved against original path of directory
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk using nbmf rfsolvfd bgbinst originbl pbti of dirfdtory
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            ds.directory().resolve(file).checkDelete();
+            ds.dirfdtory().rfsolvf(filf).difdkDflftf();
         }
 
-        ds.readLock().lock();
+        ds.rfbdLodk().lodk();
         try {
-            if (!ds.isOpen())
-                throw new ClosedDirectoryStreamException();
+            if (!ds.isOpfn())
+                tirow nfw ClosfdDirfdtoryStrfbmExdfption();
 
-            if (!haveFlags) {
-                // need file attribute to know if file is directory. This creates
-                // a race in that the file may be replaced by a directory or a
-                // directory replaced by a file between the time we query the
-                // file type and unlink it.
-                UnixFileAttributes attrs = null;
+            if (!ibvfFlbgs) {
+                // nffd filf bttributf to know if filf is dirfdtory. Tiis drfbtfs
+                // b rbdf in tibt tif filf mby bf rfplbdfd by b dirfdtory or b
+                // dirfdtory rfplbdfd by b filf bftwffn tif timf wf qufry tif
+                // filf typf bnd unlink it.
+                UnixFilfAttributfs bttrs = null;
                 try {
-                    attrs = UnixFileAttributes.get(dfd, file, false);
-                } catch (UnixException x) {
-                    x.rethrowAsIOException(file);
+                    bttrs = UnixFilfAttributfs.gft(dfd, filf, fblsf);
+                } dbtdi (UnixExdfption x) {
+                    x.rftirowAsIOExdfption(filf);
                 }
-                flags = (attrs.isDirectory()) ? AT_REMOVEDIR : 0;
+                flbgs = (bttrs.isDirfdtory()) ? AT_REMOVEDIR : 0;
             }
 
             try {
-                unlinkat(dfd, file.asByteArray(), flags);
-            } catch (UnixException x) {
-                if ((flags & AT_REMOVEDIR) != 0) {
-                    if (x.errno() == EEXIST || x.errno() == ENOTEMPTY) {
-                        throw new DirectoryNotEmptyException(null);
+                unlinkbt(dfd, filf.bsBytfArrby(), flbgs);
+            } dbtdi (UnixExdfption x) {
+                if ((flbgs & AT_REMOVEDIR) != 0) {
+                    if (x.frrno() == EEXIST || x.frrno() == ENOTEMPTY) {
+                        tirow nfw DirfdtoryNotEmptyExdfption(null);
                     }
                 }
-                x.rethrowAsIOException(file);
+                x.rftirowAsIOExdfption(filf);
             }
-        } finally {
-            ds.readLock().unlock();
+        } finblly {
+            ds.rfbdLodk().unlodk();
         }
     }
 
-    @Override
-    public void deleteFile(Path file) throws IOException {
-        implDelete(file, true, 0);
+    @Ovfrridf
+    publid void dflftfFilf(Pbti filf) tirows IOExdfption {
+        implDflftf(filf, truf, 0);
     }
 
-    @Override
-    public void deleteDirectory(Path dir) throws IOException {
-        implDelete(dir, true, AT_REMOVEDIR);
+    @Ovfrridf
+    publid void dflftfDirfdtory(Pbti dir) tirows IOExdfption {
+        implDflftf(dir, truf, AT_REMOVEDIR);
     }
 
     /**
-     * Rename/move file in this directory to another (open) directory
+     * Rfnbmf/movf filf in tiis dirfdtory to bnotifr (opfn) dirfdtory
      */
-    @Override
-    public void move(Path fromObj, SecureDirectoryStream<Path> dir, Path toObj)
-        throws IOException
+    @Ovfrridf
+    publid void movf(Pbti fromObj, SfdurfDirfdtoryStrfbm<Pbti> dir, Pbti toObj)
+        tirows IOExdfption
     {
-        UnixPath from = getName(fromObj);
-        UnixPath to = getName(toObj);
+        UnixPbti from = gftNbmf(fromObj);
+        UnixPbti to = gftNbmf(toObj);
         if (dir == null)
-            throw new NullPointerException();
-        if (!(dir instanceof UnixSecureDirectoryStream))
-            throw new ProviderMismatchException();
-        UnixSecureDirectoryStream that = (UnixSecureDirectoryStream)dir;
+            tirow nfw NullPointfrExdfption();
+        if (!(dir instbndfof UnixSfdurfDirfdtoryStrfbm))
+            tirow nfw ProvidfrMismbtdiExdfption();
+        UnixSfdurfDirfdtoryStrfbm tibt = (UnixSfdurfDirfdtoryStrfbm)dir;
 
-        // permission check
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            this.ds.directory().resolve(from).checkWrite();
-            that.ds.directory().resolve(to).checkWrite();
+            tiis.ds.dirfdtory().rfsolvf(from).difdkWritf();
+            tibt.ds.dirfdtory().rfsolvf(to).difdkWritf();
         }
 
-        // lock ordering doesn't matter
-        this.ds.readLock().lock();
+        // lodk ordfring dofsn't mbttfr
+        tiis.ds.rfbdLodk().lodk();
         try {
-            that.ds.readLock().lock();
+            tibt.ds.rfbdLodk().lodk();
             try {
-                if (!this.ds.isOpen() || !that.ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                if (!tiis.ds.isOpfn() || !tibt.ds.isOpfn())
+                    tirow nfw ClosfdDirfdtoryStrfbmExdfption();
                 try {
-                    renameat(this.dfd, from.asByteArray(), that.dfd, to.asByteArray());
-                } catch (UnixException x) {
-                    if (x.errno() == EXDEV) {
-                        throw new AtomicMoveNotSupportedException(
-                            from.toString(), to.toString(), x.errorString());
+                    rfnbmfbt(tiis.dfd, from.bsBytfArrby(), tibt.dfd, to.bsBytfArrby());
+                } dbtdi (UnixExdfption x) {
+                    if (x.frrno() == EXDEV) {
+                        tirow nfw AtomidMovfNotSupportfdExdfption(
+                            from.toString(), to.toString(), x.frrorString());
                     }
-                    x.rethrowAsIOException(from, to);
+                    x.rftirowAsIOExdfption(from, to);
                 }
-            } finally {
-                that.ds.readLock().unlock();
+            } finblly {
+                tibt.ds.rfbdLodk().unlodk();
             }
-        } finally {
-            this.ds.readLock().unlock();
+        } finblly {
+            tiis.ds.rfbdLodk().unlodk();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private <V extends FileAttributeView> V getFileAttributeViewImpl(UnixPath file,
-                                                                     Class<V> type,
-                                                                     boolean followLinks)
+    @SupprfssWbrnings("undifdkfd")
+    privbtf <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifwImpl(UnixPbti filf,
+                                                                     Clbss<V> typf,
+                                                                     boolfbn followLinks)
     {
-        if (type == null)
-            throw new NullPointerException();
-        Class<?> c = type;
-        if (c == BasicFileAttributeView.class) {
-            return (V) new BasicFileAttributeViewImpl(file, followLinks);
+        if (typf == null)
+            tirow nfw NullPointfrExdfption();
+        Clbss<?> d = typf;
+        if (d == BbsidFilfAttributfVifw.dlbss) {
+            rfturn (V) nfw BbsidFilfAttributfVifwImpl(filf, followLinks);
         }
-        if (c == PosixFileAttributeView.class || c == FileOwnerAttributeView.class) {
-            return (V) new PosixFileAttributeViewImpl(file, followLinks);
+        if (d == PosixFilfAttributfVifw.dlbss || d == FilfOwnfrAttributfVifw.dlbss) {
+            rfturn (V) nfw PosixFilfAttributfVifwImpl(filf, followLinks);
         }
-        // TBD - should also support AclFileAttributeView
-        return (V) null;
+        // TBD - siould blso support AdlFilfAttributfVifw
+        rfturn (V) null;
     }
 
     /**
-     * Returns file attribute view bound to this directory
+     * Rfturns filf bttributf vifw bound to tiis dirfdtory
      */
-    @Override
-    public <V extends FileAttributeView> V getFileAttributeView(Class<V> type) {
-        return getFileAttributeViewImpl(null, type, false);
+    @Ovfrridf
+    publid <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Clbss<V> typf) {
+        rfturn gftFilfAttributfVifwImpl(null, typf, fblsf);
     }
 
     /**
-     * Returns file attribute view bound to dfd/filename.
+     * Rfturns filf bttributf vifw bound to dfd/filfnbmf.
      */
-    @Override
-    public <V extends FileAttributeView> V getFileAttributeView(Path obj,
-                                                                Class<V> type,
+    @Ovfrridf
+    publid <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Pbti obj,
+                                                                Clbss<V> typf,
                                                                 LinkOption... options)
     {
-        UnixPath file = getName(obj);
-        boolean followLinks = Util.followLinks(options);
-        return getFileAttributeViewImpl(file, type, followLinks);
+        UnixPbti filf = gftNbmf(obj);
+        boolfbn followLinks = Util.followLinks(options);
+        rfturn gftFilfAttributfVifwImpl(filf, typf, followLinks);
     }
 
     /**
-     * A BasicFileAttributeView implementation that using a dfd/name pair.
+     * A BbsidFilfAttributfVifw implfmfntbtion tibt using b dfd/nbmf pbir.
      */
-    private class BasicFileAttributeViewImpl
-        implements BasicFileAttributeView
+    privbtf dlbss BbsidFilfAttributfVifwImpl
+        implfmfnts BbsidFilfAttributfVifw
     {
-        final UnixPath file;
-        final boolean followLinks;
+        finbl UnixPbti filf;
+        finbl boolfbn followLinks;
 
-        BasicFileAttributeViewImpl(UnixPath file, boolean followLinks)
+        BbsidFilfAttributfVifwImpl(UnixPbti filf, boolfbn followLinks)
         {
-            this.file = file;
-            this.followLinks = followLinks;
+            tiis.filf = filf;
+            tiis.followLinks = followLinks;
         }
 
-        int open() throws IOException {
-            int oflags = O_RDONLY;
+        int opfn() tirows IOExdfption {
+            int oflbgs = O_RDONLY;
             if (!followLinks)
-                oflags |= O_NOFOLLOW;
+                oflbgs |= O_NOFOLLOW;
             try {
-                return openat(dfd, file.asByteArray(), oflags, 0);
-            } catch (UnixException x) {
-                x.rethrowAsIOException(file);
-                return -1; // keep compiler happy
+                rfturn opfnbt(dfd, filf.bsBytfArrby(), oflbgs, 0);
+            } dbtdi (UnixExdfption x) {
+                x.rftirowAsIOExdfption(filf);
+                rfturn -1; // kffp dompilfr ibppy
             }
         }
 
-        private void checkWriteAccess() {
-            SecurityManager sm = System.getSecurityManager();
+        privbtf void difdkWritfAddfss() {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                if (file == null) {
-                    ds.directory().checkWrite();
-                } else {
-                    ds.directory().resolve(file).checkWrite();
+                if (filf == null) {
+                    ds.dirfdtory().difdkWritf();
+                } flsf {
+                    ds.dirfdtory().rfsolvf(filf).difdkWritf();
                 }
             }
         }
 
-        @Override
-        public String name() {
-            return "basic";
+        @Ovfrridf
+        publid String nbmf() {
+            rfturn "bbsid";
         }
 
-        @Override
-        public BasicFileAttributes readAttributes() throws IOException {
-            ds.readLock().lock();
+        @Ovfrridf
+        publid BbsidFilfAttributfs rfbdAttributfs() tirows IOExdfption {
+            ds.rfbdLodk().lodk();
             try {
-                if (!ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                if (!ds.isOpfn())
+                    tirow nfw ClosfdDirfdtoryStrfbmExdfption();
 
-                SecurityManager sm = System.getSecurityManager();
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                 if (sm != null) {
-                    if (file == null) {
-                        ds.directory().checkRead();
-                    } else {
-                        ds.directory().resolve(file).checkRead();
+                    if (filf == null) {
+                        ds.dirfdtory().difdkRfbd();
+                    } flsf {
+                        ds.dirfdtory().rfsolvf(filf).difdkRfbd();
                     }
                 }
                 try {
-                     UnixFileAttributes attrs = (file == null) ?
-                         UnixFileAttributes.get(dfd) :
-                         UnixFileAttributes.get(dfd, file, followLinks);
+                     UnixFilfAttributfs bttrs = (filf == null) ?
+                         UnixFilfAttributfs.gft(dfd) :
+                         UnixFilfAttributfs.gft(dfd, filf, followLinks);
 
-                     // SECURITY: must return as BasicFileAttribute
-                     return attrs.asBasicFileAttributes();
-                } catch (UnixException x) {
-                    x.rethrowAsIOException(file);
-                    return null;    // keep compiler happy
+                     // SECURITY: must rfturn bs BbsidFilfAttributf
+                     rfturn bttrs.bsBbsidFilfAttributfs();
+                } dbtdi (UnixExdfption x) {
+                    x.rftirowAsIOExdfption(filf);
+                    rfturn null;    // kffp dompilfr ibppy
                 }
-            } finally {
-                ds.readLock().unlock();
+            } finblly {
+                ds.rfbdLodk().unlodk();
             }
         }
 
-        @Override
-        public void setTimes(FileTime lastModifiedTime,
-                             FileTime lastAccessTime,
-                             FileTime createTime) // ignore
-            throws IOException
+        @Ovfrridf
+        publid void sftTimfs(FilfTimf lbstModififdTimf,
+                             FilfTimf lbstAddfssTimf,
+                             FilfTimf drfbtfTimf) // ignorf
+            tirows IOExdfption
         {
-            checkWriteAccess();
+            difdkWritfAddfss();
 
-            ds.readLock().lock();
+            ds.rfbdLodk().lodk();
             try {
-                if (!ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                if (!ds.isOpfn())
+                    tirow nfw ClosfdDirfdtoryStrfbmExdfption();
 
-                int fd = (file == null) ? dfd : open();
+                int fd = (filf == null) ? dfd : opfn();
                 try {
-                    // if not changing both attributes then need existing attributes
-                    if (lastModifiedTime == null || lastAccessTime == null) {
+                    // if not dibnging boti bttributfs tifn nffd fxisting bttributfs
+                    if (lbstModififdTimf == null || lbstAddfssTimf == null) {
                         try {
-                            UnixFileAttributes attrs = UnixFileAttributes.get(fd);
-                            if (lastModifiedTime == null)
-                                lastModifiedTime = attrs.lastModifiedTime();
-                            if (lastAccessTime == null)
-                                lastAccessTime = attrs.lastAccessTime();
-                        } catch (UnixException x) {
-                            x.rethrowAsIOException(file);
+                            UnixFilfAttributfs bttrs = UnixFilfAttributfs.gft(fd);
+                            if (lbstModififdTimf == null)
+                                lbstModififdTimf = bttrs.lbstModififdTimf();
+                            if (lbstAddfssTimf == null)
+                                lbstAddfssTimf = bttrs.lbstAddfssTimf();
+                        } dbtdi (UnixExdfption x) {
+                            x.rftirowAsIOExdfption(filf);
                         }
                     }
-                    // update times
+                    // updbtf timfs
                     try {
-                        futimes(fd,
-                                lastAccessTime.to(TimeUnit.MICROSECONDS),
-                                lastModifiedTime.to(TimeUnit.MICROSECONDS));
-                    } catch (UnixException x) {
-                        x.rethrowAsIOException(file);
+                        futimfs(fd,
+                                lbstAddfssTimf.to(TimfUnit.MICROSECONDS),
+                                lbstModififdTimf.to(TimfUnit.MICROSECONDS));
+                    } dbtdi (UnixExdfption x) {
+                        x.rftirowAsIOExdfption(filf);
                     }
-                } finally {
-                    if (file != null)
-                        UnixNativeDispatcher.close(fd);
+                } finblly {
+                    if (filf != null)
+                        UnixNbtivfDispbtdifr.dlosf(fd);
                 }
-            } finally {
-                ds.readLock().unlock();
+            } finblly {
+                ds.rfbdLodk().unlodk();
             }
         }
     }
 
     /**
-     * A PosixFileAttributeView implementation that using a dfd/name pair.
+     * A PosixFilfAttributfVifw implfmfntbtion tibt using b dfd/nbmf pbir.
      */
-    private class PosixFileAttributeViewImpl
-        extends BasicFileAttributeViewImpl implements PosixFileAttributeView
+    privbtf dlbss PosixFilfAttributfVifwImpl
+        fxtfnds BbsidFilfAttributfVifwImpl implfmfnts PosixFilfAttributfVifw
     {
-        PosixFileAttributeViewImpl(UnixPath file, boolean followLinks) {
-            super(file, followLinks);
+        PosixFilfAttributfVifwImpl(UnixPbti filf, boolfbn followLinks) {
+            supfr(filf, followLinks);
         }
 
-        private void checkWriteAndUserAccess() {
-            SecurityManager sm = System.getSecurityManager();
+        privbtf void difdkWritfAndUsfrAddfss() {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                super.checkWriteAccess();
-                sm.checkPermission(new RuntimePermission("accessUserInformation"));
+                supfr.difdkWritfAddfss();
+                sm.difdkPfrmission(nfw RuntimfPfrmission("bddfssUsfrInformbtion"));
             }
         }
 
-        @Override
-        public String name() {
-            return "posix";
+        @Ovfrridf
+        publid String nbmf() {
+            rfturn "posix";
         }
 
-        @Override
-        public PosixFileAttributes readAttributes() throws IOException {
-            SecurityManager sm = System.getSecurityManager();
+        @Ovfrridf
+        publid PosixFilfAttributfs rfbdAttributfs() tirows IOExdfption {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                if (file == null)
-                    ds.directory().checkRead();
-                else
-                    ds.directory().resolve(file).checkRead();
-                sm.checkPermission(new RuntimePermission("accessUserInformation"));
+                if (filf == null)
+                    ds.dirfdtory().difdkRfbd();
+                flsf
+                    ds.dirfdtory().rfsolvf(filf).difdkRfbd();
+                sm.difdkPfrmission(nfw RuntimfPfrmission("bddfssUsfrInformbtion"));
             }
 
-            ds.readLock().lock();
+            ds.rfbdLodk().lodk();
             try {
-                if (!ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                if (!ds.isOpfn())
+                    tirow nfw ClosfdDirfdtoryStrfbmExdfption();
 
                 try {
-                     UnixFileAttributes attrs = (file == null) ?
-                         UnixFileAttributes.get(dfd) :
-                         UnixFileAttributes.get(dfd, file, followLinks);
-                     return attrs;
-                } catch (UnixException x) {
-                    x.rethrowAsIOException(file);
-                    return null;    // keep compiler happy
+                     UnixFilfAttributfs bttrs = (filf == null) ?
+                         UnixFilfAttributfs.gft(dfd) :
+                         UnixFilfAttributfs.gft(dfd, filf, followLinks);
+                     rfturn bttrs;
+                } dbtdi (UnixExdfption x) {
+                    x.rftirowAsIOExdfption(filf);
+                    rfturn null;    // kffp dompilfr ibppy
                 }
-            } finally {
-                ds.readLock().unlock();
+            } finblly {
+                ds.rfbdLodk().unlodk();
             }
         }
 
-        @Override
-        public void setPermissions(Set<PosixFilePermission> perms)
-            throws IOException
+        @Ovfrridf
+        publid void sftPfrmissions(Sft<PosixFilfPfrmission> pfrms)
+            tirows IOExdfption
         {
-            // permission check
-            checkWriteAndUserAccess();
+            // pfrmission difdk
+            difdkWritfAndUsfrAddfss();
 
-            ds.readLock().lock();
+            ds.rfbdLodk().lodk();
             try {
-                if (!ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                if (!ds.isOpfn())
+                    tirow nfw ClosfdDirfdtoryStrfbmExdfption();
 
-                int fd = (file == null) ? dfd : open();
+                int fd = (filf == null) ? dfd : opfn();
                 try {
-                    fchmod(fd, UnixFileModeAttribute.toUnixMode(perms));
-                } catch (UnixException x) {
-                    x.rethrowAsIOException(file);
-                } finally {
-                    if (file != null && fd >= 0)
-                        UnixNativeDispatcher.close(fd);
+                    fdimod(fd, UnixFilfModfAttributf.toUnixModf(pfrms));
+                } dbtdi (UnixExdfption x) {
+                    x.rftirowAsIOExdfption(filf);
+                } finblly {
+                    if (filf != null && fd >= 0)
+                        UnixNbtivfDispbtdifr.dlosf(fd);
                 }
-            } finally {
-                ds.readLock().unlock();
+            } finblly {
+                ds.rfbdLodk().unlodk();
             }
         }
 
-        private void setOwners(int uid, int gid) throws IOException {
-            // permission check
-            checkWriteAndUserAccess();
+        privbtf void sftOwnfrs(int uid, int gid) tirows IOExdfption {
+            // pfrmission difdk
+            difdkWritfAndUsfrAddfss();
 
-            ds.readLock().lock();
+            ds.rfbdLodk().lodk();
             try {
-                if (!ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                if (!ds.isOpfn())
+                    tirow nfw ClosfdDirfdtoryStrfbmExdfption();
 
-                int fd = (file == null) ? dfd : open();
+                int fd = (filf == null) ? dfd : opfn();
                 try {
-                    fchown(fd, uid, gid);
-                } catch (UnixException x) {
-                    x.rethrowAsIOException(file);
-                } finally {
-                    if (file != null && fd >= 0)
-                        UnixNativeDispatcher.close(fd);
+                    fdiown(fd, uid, gid);
+                } dbtdi (UnixExdfption x) {
+                    x.rftirowAsIOExdfption(filf);
+                } finblly {
+                    if (filf != null && fd >= 0)
+                        UnixNbtivfDispbtdifr.dlosf(fd);
                 }
-            } finally {
-                ds.readLock().unlock();
+            } finblly {
+                ds.rfbdLodk().unlodk();
             }
         }
 
-        @Override
-        public UserPrincipal getOwner() throws IOException {
-            return readAttributes().owner();
+        @Ovfrridf
+        publid UsfrPrindipbl gftOwnfr() tirows IOExdfption {
+            rfturn rfbdAttributfs().ownfr();
         }
 
-        @Override
-        public void setOwner(UserPrincipal owner)
-            throws IOException
+        @Ovfrridf
+        publid void sftOwnfr(UsfrPrindipbl ownfr)
+            tirows IOExdfption
         {
-            if (!(owner instanceof UnixUserPrincipals.User))
-                throw new ProviderMismatchException();
-            if (owner instanceof UnixUserPrincipals.Group)
-                throw new IOException("'owner' parameter can't be a group");
-            int uid = ((UnixUserPrincipals.User)owner).uid();
-            setOwners(uid, -1);
+            if (!(ownfr instbndfof UnixUsfrPrindipbls.Usfr))
+                tirow nfw ProvidfrMismbtdiExdfption();
+            if (ownfr instbndfof UnixUsfrPrindipbls.Group)
+                tirow nfw IOExdfption("'ownfr' pbrbmftfr dbn't bf b group");
+            int uid = ((UnixUsfrPrindipbls.Usfr)ownfr).uid();
+            sftOwnfrs(uid, -1);
         }
 
-        @Override
-        public void setGroup(GroupPrincipal group)
-            throws IOException
+        @Ovfrridf
+        publid void sftGroup(GroupPrindipbl group)
+            tirows IOExdfption
         {
-            if (!(group instanceof UnixUserPrincipals.Group))
-                throw new ProviderMismatchException();
-            int gid = ((UnixUserPrincipals.Group)group).gid();
-            setOwners(-1, gid);
+            if (!(group instbndfof UnixUsfrPrindipbls.Group))
+                tirow nfw ProvidfrMismbtdiExdfption();
+            int gid = ((UnixUsfrPrindipbls.Group)group).gid();
+            sftOwnfrs(-1, gid);
         }
     }
 }

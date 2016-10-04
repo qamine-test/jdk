@@ -1,312 +1,312 @@
 '\" t
-.\"  Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Basic Tools
-.\"     Title: javac.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbvbd.1
 .\"
 .if n .pl 99999
-.TH javac 1 "21 November 2013" "JDK 8" "Basic Tools"
+.TH jbvbd 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-javac \- Reads Java class and interface definitions and compiles them into bytecode and class files\&.
+jbvbd \- Rfbds Jbvb dlbss bnd intfrfbdf dffinitions bnd dompilfs tifm into bytfdodf bnd dlbss filfs\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjavac\fR [ \fIoptions\fR ] [ \fIsourcefiles\fR ] [ \fIclasses\fR] [ \fI@argfiles\fR ]
+\fBjbvbd\fR [ \fIoptions\fR ] [ \fIsourdffilfs\fR ] [ \fIdlbssfs\fR] [ \fI@brgfilfs\fR ]
 .fi     
 .sp     
-Arguments can be in any order:
+Argumfnts dbn bf in bny ordfr:
 .TP     
 \fIoptions\fR
-Command-line options\&. See Options\&.
+Commbnd-linf options\&. Sff Options\&.
 .TP     
-\fIsourcefiles\fR
-One or more source files to be compiled (such as \f3MyClass\&.java\fR)\&.
+\fIsourdffilfs\fR
+Onf or morf sourdf filfs to bf dompilfd (sudi bs \f3MyClbss\&.jbvb\fR)\&.
 .TP     
-\fIclasses\fR
-One or more classes to be processed for annotations (such as \f3MyPackage\&.MyClass\fR)\&.
+\fIdlbssfs\fR
+Onf or morf dlbssfs to bf prodfssfd for bnnotbtions (sudi bs \f3MyPbdkbgf\&.MyClbss\fR)\&.
 .TP     
-\fI@argfiles\fR
-One or more files that list options and source files\&. The \f3-J\fR options are not allowed in these files\&. See Command-Line Argument Files\&.
+\fI@brgfilfs\fR
+Onf or morf filfs tibt list options bnd sourdf filfs\&. Tif \f3-J\fR options brf not bllowfd in tifsf filfs\&. Sff Commbnd-Linf Argumfnt Filfs\&.
 .SH DESCRIPTION    
-The \f3javac\fR command reads class and interface definitions, written in the Java programming language, and compiles them into bytecode class files\&. The \f3javac\fR command can also process annotations in Java source files and classes\&.
+Tif \f3jbvbd\fR dommbnd rfbds dlbss bnd intfrfbdf dffinitions, writtfn in tif Jbvb progrbmming lbngubgf, bnd dompilfs tifm into bytfdodf dlbss filfs\&. Tif \f3jbvbd\fR dommbnd dbn blso prodfss bnnotbtions in Jbvb sourdf filfs bnd dlbssfs\&.
 .PP
-There are two ways to pass source code file names to \f3javac\fR\&.
+Tifrf brf two wbys to pbss sourdf dodf filf nbmfs to \f3jbvbd\fR\&.
 .TP 0.2i    
 \(bu
-For a small number of source files, list the file names on the command line\&.
+For b smbll numbfr of sourdf filfs, list tif filf nbmfs on tif dommbnd linf\&.
 .TP 0.2i    
 \(bu
-For a large number of source files, list the file names in a file that is separated by blanks or line breaks\&. Use the list file name preceded by an at sign (@) with the \f3javac\fR command\&.
+For b lbrgf numbfr of sourdf filfs, list tif filf nbmfs in b filf tibt is sfpbrbtfd by blbnks or linf brfbks\&. Usf tif list filf nbmf prfdfdfd by bn bt sign (@) witi tif \f3jbvbd\fR dommbnd\&.
 .PP
-Source code file names must have \&.java suffixes, class file names must have \&.class suffixes, and both source and class files must have root names that identify the class\&. For example, a class called \f3MyClass\fR would be written in a source file called \f3MyClass\&.java\fR and compiled into a bytecode class file called \f3MyClass\&.class\fR\&.
+Sourdf dodf filf nbmfs must ibvf \&.jbvb suffixfs, dlbss filf nbmfs must ibvf \&.dlbss suffixfs, bnd boti sourdf bnd dlbss filfs must ibvf root nbmfs tibt idfntify tif dlbss\&. For fxbmplf, b dlbss dbllfd \f3MyClbss\fR would bf writtfn in b sourdf filf dbllfd \f3MyClbss\&.jbvb\fR bnd dompilfd into b bytfdodf dlbss filf dbllfd \f3MyClbss\&.dlbss\fR\&.
 .PP
-Inner class definitions produce additional class files\&. These class files have names that combine the inner and outer class names, such as \f3MyClass$MyInnerClass\&.class\fR\&.
+Innfr dlbss dffinitions produdf bdditionbl dlbss filfs\&. Tifsf dlbss filfs ibvf nbmfs tibt dombinf tif innfr bnd outfr dlbss nbmfs, sudi bs \f3MyClbss$MyInnfrClbss\&.dlbss\fR\&.
 .PP
-Arrange source files in a directory tree that reflects their package tree\&. For example, if all of your source files are in \f3/workspace\fR, then put the source code for \f3com\&.mysoft\&.mypack\&.MyClass\fR in \f3/workspace/com/mysoft/mypack/MyClass\&.java\fR\&.
+Arrbngf sourdf filfs in b dirfdtory trff tibt rfflfdts tifir pbdkbgf trff\&. For fxbmplf, if bll of your sourdf filfs brf in \f3/workspbdf\fR, tifn put tif sourdf dodf for \f3dom\&.mysoft\&.mypbdk\&.MyClbss\fR in \f3/workspbdf/dom/mysoft/mypbdk/MyClbss\&.jbvb\fR\&.
 .PP
-By default, the compiler puts each class file in the same directory as its source file\&. You can specify a separate destination directory with the \f3-d\fR option\&.
+By dffbult, tif dompilfr puts fbdi dlbss filf in tif sbmf dirfdtory bs its sourdf filf\&. You dbn spfdify b sfpbrbtf dfstinbtion dirfdtory witi tif \f3-d\fR option\&.
 .SH OPTIONS    
-The compiler has a set of standard options that are supported on the current development environment\&. An additional set of nonstandard options are specific to the current virtual machine and compiler implementations and are subject to change in the future\&. Nonstandard options begin with the \f3-X\fR option\&.
+Tif dompilfr ibs b sft of stbndbrd options tibt brf supportfd on tif durrfnt dfvflopmfnt fnvironmfnt\&. An bdditionbl sft of nonstbndbrd options brf spfdifid to tif durrfnt virtubl mbdiinf bnd dompilfr implfmfntbtions bnd brf subjfdt to dibngf in tif futurf\&. Nonstbndbrd options bfgin witi tif \f3-X\fR option\&.
 .TP 0.2i    
 \(bu
-See also Cross-Compilation Options
+Sff blso Cross-Compilbtion Options
 .TP 0.2i    
 \(bu
-See also Nonstandard Options
+Sff blso Nonstbndbrd Options
 .SS STANDARD\ OPTIONS    
 .TP
--A\fIkey\fR[\fI=value\fR]
+-A\fIkfy\fR[\fI=vbluf\fR]
 .br
-Specifies options to pass to annotation processors\&. These options are not interpreted by \f3javac\fR directly, but are made available for use by individual processors\&. The \f3key\fR value should be one or more identifiers separated by a dot (\&.)\&.
+Spfdififs options to pbss to bnnotbtion prodfssors\&. Tifsf options brf not intfrprftfd by \f3jbvbd\fR dirfdtly, but brf mbdf bvbilbblf for usf by individubl prodfssors\&. Tif \f3kfy\fR vbluf siould bf onf or morf idfntififrs sfpbrbtfd by b dot (\&.)\&.
 .TP
--cp \fIpath\fR or -classpath \fIpath\fR
+-dp \fIpbti\fR or -dlbsspbti \fIpbti\fR
 .br
-Specifies where to find user class files, and (optionally) annotation processors and source files\&. This class path overrides the user class path in the \f3CLASSPATH\fR environment variable\&. If neither \f3CLASSPATH\fR, \f3-cp\fR nor \f3-classpath\fR is specified, then the user \fIclass path\fR is the current directory\&. See Setting the Class Path\&.
+Spfdififs wifrf to find usfr dlbss filfs, bnd (optionblly) bnnotbtion prodfssors bnd sourdf filfs\&. Tiis dlbss pbti ovfrridfs tif usfr dlbss pbti in tif \f3CLASSPATH\fR fnvironmfnt vbribblf\&. If nfitifr \f3CLASSPATH\fR, \f3-dp\fR nor \f3-dlbsspbti\fR is spfdififd, tifn tif usfr \fIdlbss pbti\fR is tif durrfnt dirfdtory\&. Sff Sftting tif Clbss Pbti\&.
 
-If the \f3-sourcepath\fR option is not specified, then the user class path is also searched for source files\&.
+If tif \f3-sourdfpbti\fR option is not spfdififd, tifn tif usfr dlbss pbti is blso sfbrdifd for sourdf filfs\&.
 
-If the \f3-processorpath\fR option is not specified, then the class path is also searched for annotation processors\&.
+If tif \f3-prodfssorpbti\fR option is not spfdififd, tifn tif dlbss pbti is blso sfbrdifd for bnnotbtion prodfssors\&.
 .TP
--Djava\&.ext\&.dirs=\fIdirectories\fR
+-Djbvb\&.fxt\&.dirs=\fIdirfdtorifs\fR
 .br
-Overrides the location of installed extensions\&.
+Ovfrridfs tif lodbtion of instbllfd fxtfnsions\&.
 .TP
--Djava\&.endorsed\&.dirs=\fIdirectories\fR
+-Djbvb\&.fndorsfd\&.dirs=\fIdirfdtorifs\fR
 .br
-Overrides the location of the endorsed standards path\&.
+Ovfrridfs tif lodbtion of tif fndorsfd stbndbrds pbti\&.
 .TP
--d \fIdirectory\fR
+-d \fIdirfdtory\fR
 .br
-Sets the destination directory for class files\&. The directory must already exist because \f3javac\fR does not create it\&. If a class is part of a package, then \f3javac\fR puts the class file in a subdirectory that reflects the package name and creates directories as needed\&.
+Sfts tif dfstinbtion dirfdtory for dlbss filfs\&. Tif dirfdtory must blrfbdy fxist bfdbusf \f3jbvbd\fR dofs not drfbtf it\&. If b dlbss is pbrt of b pbdkbgf, tifn \f3jbvbd\fR puts tif dlbss filf in b subdirfdtory tibt rfflfdts tif pbdkbgf nbmf bnd drfbtfs dirfdtorifs bs nffdfd\&.
 
-If you specify \f3-d\fR\f3/home/myclasses\fR and the class is called \f3com\&.mypackage\&.MyClass\fR, then the class file is \f3/home/myclasses/com/mypackage/MyClass\&.class\fR\&.
+If you spfdify \f3-d\fR\f3/iomf/mydlbssfs\fR bnd tif dlbss is dbllfd \f3dom\&.mypbdkbgf\&.MyClbss\fR, tifn tif dlbss filf is \f3/iomf/mydlbssfs/dom/mypbdkbgf/MyClbss\&.dlbss\fR\&.
 
-If the \fI-d\fR option is not specified, then \f3javac\fR puts each class file in the same directory as the source file from which it was generated\&.
+If tif \fI-d\fR option is not spfdififd, tifn \f3jbvbd\fR puts fbdi dlbss filf in tif sbmf dirfdtory bs tif sourdf filf from wiidi it wbs gfnfrbtfd\&.
 
-\fINote:\fR The directory specified by the \fI-d\fR option is not automatically added to your user class path\&.
+\fINotf:\fR Tif dirfdtory spfdififd by tif \fI-d\fR option is not butombtidblly bddfd to your usfr dlbss pbti\&.
 .TP
--deprecation
+-dfprfdbtion
 .br
-Shows a description of each use or override of a deprecated member or class\&. Without the \f3-deprecation\fR option, \f3javac\fR shows a summary of the source files that use or override deprecated members or classes\&. The \f3-deprecation\fR option is shorthand for \f3-Xlint:deprecation\fR\&.
+Siows b dfsdription of fbdi usf or ovfrridf of b dfprfdbtfd mfmbfr or dlbss\&. Witiout tif \f3-dfprfdbtion\fR option, \f3jbvbd\fR siows b summbry of tif sourdf filfs tibt usf or ovfrridf dfprfdbtfd mfmbfrs or dlbssfs\&. Tif \f3-dfprfdbtion\fR option is siortibnd for \f3-Xlint:dfprfdbtion\fR\&.
 .TP
--encoding \fIencoding\fR
+-fndoding \fIfndoding\fR
 .br
-Sets the source file encoding name, such as EUC-JP and UTF-8\&. If the \f3-encoding\fR option is not specified, then the platform default converter is used\&.
+Sfts tif sourdf filf fndoding nbmf, sudi bs EUC-JP bnd UTF-8\&. If tif \f3-fndoding\fR option is not spfdififd, tifn tif plbtform dffbult donvfrtfr is usfd\&.
 .TP
--endorseddirs \fIdirectories\fR
+-fndorsfddirs \fIdirfdtorifs\fR
 .br
-Overrides the location of the endorsed standards path\&.
+Ovfrridfs tif lodbtion of tif fndorsfd stbndbrds pbti\&.
 .TP
--extdirs \fIdirectories\fR
+-fxtdirs \fIdirfdtorifs\fR
 .br
-Overrides the location of the \f3ext\fR directory\&. The directories variable is a colon-separated list of directories\&. Each JAR file in the specified directories is searched for class files\&. All JAR files found become part of the class path\&.
+Ovfrridfs tif lodbtion of tif \f3fxt\fR dirfdtory\&. Tif dirfdtorifs vbribblf is b dolon-sfpbrbtfd list of dirfdtorifs\&. Ebdi JAR filf in tif spfdififd dirfdtorifs is sfbrdifd for dlbss filfs\&. All JAR filfs found bfdomf pbrt of tif dlbss pbti\&.
 
-If you are cross-compiling (compiling classes against bootstrap and extension classes of a different Java platform implementation), then this option specifies the directories that contain the extension classes\&. See Cross-Compilation Options for more information\&.
+If you brf dross-dompiling (dompiling dlbssfs bgbinst bootstrbp bnd fxtfnsion dlbssfs of b difffrfnt Jbvb plbtform implfmfntbtion), tifn tiis option spfdififs tif dirfdtorifs tibt dontbin tif fxtfnsion dlbssfs\&. Sff Cross-Compilbtion Options for morf informbtion\&.
 .TP
 -g
 .br
-Generates all debugging information, including local variables\&. By default, only line number and source file information is generated\&.
+Gfnfrbtfs bll dfbugging informbtion, indluding lodbl vbribblfs\&. By dffbult, only linf numbfr bnd sourdf filf informbtion is gfnfrbtfd\&.
 .TP
--g:none
+-g:nonf
 .br
-Does not generate any debugging information\&.
+Dofs not gfnfrbtf bny dfbugging informbtion\&.
 .TP
--g:[\fIkeyword list\fR]
+-g:[\fIkfyword list\fR]
 .br
-Generates only some kinds of debugging information, specified by a comma separated list of keywords\&. Valid keywords are:
+Gfnfrbtfs only somf kinds of dfbugging informbtion, spfdififd by b dommb sfpbrbtfd list of kfywords\&. Vblid kfywords brf:
 .RS     
 .TP     
-source
-Source file debugging information\&.
+sourdf
+Sourdf filf dfbugging informbtion\&.
 .TP     
-lines
-Line number debugging information\&.
+linfs
+Linf numbfr dfbugging informbtion\&.
 .TP     
-vars
-Local variable debugging information\&.
+vbrs
+Lodbl vbribblf dfbugging informbtion\&.
 .RE     
 
 .TP
--help
+-iflp
 .br
-Prints a synopsis of standard options\&.
+Prints b synopsis of stbndbrd options\&.
 .TP
--implicit:[\fIclass, none\fR]
+-implidit:[\fIdlbss, nonf\fR]
 .br
-Controls the generation of class files for implicitly loaded source files\&. To automatically generate class files, use \f3-implicit:class\fR\&. To suppress class file generation, use \f3-implicit:none\fR\&. If this option is not specified, then the default is to automatically generate class files\&. In this case, the compiler issues a warning if any such class files are generated when also doing annotation processing\&. The warning is not issued when the \f3-implicit\fR option is set explicitly\&. See Searching for Types\&.
+Controls tif gfnfrbtion of dlbss filfs for impliditly lobdfd sourdf filfs\&. To butombtidblly gfnfrbtf dlbss filfs, usf \f3-implidit:dlbss\fR\&. To supprfss dlbss filf gfnfrbtion, usf \f3-implidit:nonf\fR\&. If tiis option is not spfdififd, tifn tif dffbult is to butombtidblly gfnfrbtf dlbss filfs\&. In tiis dbsf, tif dompilfr issufs b wbrning if bny sudi dlbss filfs brf gfnfrbtfd wifn blso doing bnnotbtion prodfssing\&. Tif wbrning is not issufd wifn tif \f3-implidit\fR option is sft fxpliditly\&. Sff Sfbrdiing for Typfs\&.
 .TP
 -J\fIoption\fR
 .br
-Passes \f3option\fR to the Java Virtual Machine (JVM), where option is one of the options described on the reference page for the Java launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf (JVM), wifrf option is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
 
-\fINote:\fR The \fICLASSPATH\fR, \f3-classpath\fR, \f3-bootclasspath\fR, and \f3-extdirs\fR options do not specify the classes used to run \f3javac\fR\&. Trying to customize the compiler implementation with these options and variables is risky and often does not accomplish what you want\&. If you must customize the complier implementation, then use the \f3-J\fR option to pass options through to the underlying \f3\fRJava launcher\&.
+\fINotf:\fR Tif \fICLASSPATH\fR, \f3-dlbsspbti\fR, \f3-bootdlbsspbti\fR, bnd \f3-fxtdirs\fR options do not spfdify tif dlbssfs usfd to run \f3jbvbd\fR\&. Trying to dustomizf tif dompilfr implfmfntbtion witi tifsf options bnd vbribblfs is risky bnd oftfn dofs not bddomplisi wibt you wbnt\&. If you must dustomizf tif domplifr implfmfntbtion, tifn usf tif \f3-J\fR option to pbss options tirougi to tif undfrlying \f3\fRJbvb lbundifr\&.
 .TP
--nowarn
+-nowbrn
 .br
-Disables warning messages\&. This option operates the same as the \f3-Xlint:none\fR option\&.
+Disbblfs wbrning mfssbgfs\&. Tiis option opfrbtfs tif sbmf bs tif \f3-Xlint:nonf\fR option\&.
 .TP
--parameters
+-pbrbmftfrs
 .br
-Stores formal parameter names of constructors and methods in the generated class file so that the method \f3java\&.lang\&.reflect\&.Executable\&.getParameters\fR from the Reflection API can retrieve them\&.
+Storfs formbl pbrbmftfr nbmfs of donstrudtors bnd mftiods in tif gfnfrbtfd dlbss filf so tibt tif mftiod \f3jbvb\&.lbng\&.rfflfdt\&.Exfdutbblf\&.gftPbrbmftfrs\fR from tif Rfflfdtion API dbn rftrifvf tifm\&.
 .TP
--proc: [\fInone\fR, \fIonly\fR]
+-prod: [\fInonf\fR, \fIonly\fR]
 .br
-Controls whether annotation processing and compilation are done\&. \f3-proc:none\fR means that compilation takes place without annotation processing\&. \f3-proc:only\fR means that only annotation processing is done, without any subsequent compilation\&.
+Controls wiftifr bnnotbtion prodfssing bnd dompilbtion brf donf\&. \f3-prod:nonf\fR mfbns tibt dompilbtion tbkfs plbdf witiout bnnotbtion prodfssing\&. \f3-prod:only\fR mfbns tibt only bnnotbtion prodfssing is donf, witiout bny subsfqufnt dompilbtion\&.
 .TP
--processor \fIclass1\fR [,\fIclass2\fR,\fIclass3\fR\&.\&.\&.]
+-prodfssor \fIdlbss1\fR [,\fIdlbss2\fR,\fIdlbss3\fR\&.\&.\&.]
 .br
-Names of the annotation processors to run\&. This bypasses the default discovery process\&.
+Nbmfs of tif bnnotbtion prodfssors to run\&. Tiis bypbssfs tif dffbult disdovfry prodfss\&.
 .TP
--processorpath \fIpath\fR
+-prodfssorpbti \fIpbti\fR
 .br
-Specifies where to find annotation processors\&. If this option is not used, then the class path is searched for processors\&.
+Spfdififs wifrf to find bnnotbtion prodfssors\&. If tiis option is not usfd, tifn tif dlbss pbti is sfbrdifd for prodfssors\&.
 .TP
 -s \fIdir\fR
 .br
-Specifies the directory where to place the generated source files\&. The directory must already exist because \f3javac\fR does not create it\&. If a class is part of a package, then the compiler puts the source file in a subdirectory that reflects the package name and creates directories as needed\&.
+Spfdififs tif dirfdtory wifrf to plbdf tif gfnfrbtfd sourdf filfs\&. Tif dirfdtory must blrfbdy fxist bfdbusf \f3jbvbd\fR dofs not drfbtf it\&. If b dlbss is pbrt of b pbdkbgf, tifn tif dompilfr puts tif sourdf filf in b subdirfdtory tibt rfflfdts tif pbdkbgf nbmf bnd drfbtfs dirfdtorifs bs nffdfd\&.
 
-If you specify \f3-s /home/mysrc\fR and the class is called \f3com\&.mypackage\&.MyClass\fR, then the source file is put in \f3/home/mysrc/com/mypackage/MyClass\&.java\fR\&.
+If you spfdify \f3-s /iomf/mysrd\fR bnd tif dlbss is dbllfd \f3dom\&.mypbdkbgf\&.MyClbss\fR, tifn tif sourdf filf is put in \f3/iomf/mysrd/dom/mypbdkbgf/MyClbss\&.jbvb\fR\&.
 .TP
--source \fIrelease\fR
+-sourdf \fIrflfbsf\fR
 .br
-Specifies the version of source code accepted\&. The following values for \f3release\fR are allowed:
+Spfdififs tif vfrsion of sourdf dodf bddfptfd\&. Tif following vblufs for \f3rflfbsf\fR brf bllowfd:
 .RS     
 .TP     
 1\&.3
-The compiler does not support assertions, generics, or other language features introduced after Java SE 1\&.3\&.
+Tif dompilfr dofs not support bssfrtions, gfnfrids, or otifr lbngubgf ffbturfs introdudfd bftfr Jbvb SE 1\&.3\&.
 .TP     
 1\&.4
-The compiler accepts code containing assertions, which were introduced in Java SE 1\&.4\&.
+Tif dompilfr bddfpts dodf dontbining bssfrtions, wiidi wfrf introdudfd in Jbvb SE 1\&.4\&.
 .TP     
 1\&.5
-The compiler accepts code containing generics and other language features introduced in Java SE 5\&.
+Tif dompilfr bddfpts dodf dontbining gfnfrids bnd otifr lbngubgf ffbturfs introdudfd in Jbvb SE 5\&.
 .TP     
 5
 Synonym for 1\&.5\&.
 .TP     
 1\&.6
-No language changes were introduced in Java SE 6\&. However, encoding errors in source files are now reported as errors instead of warnings as in earlier releases of Java Platform, Standard Edition\&.
+No lbngubgf dibngfs wfrf introdudfd in Jbvb SE 6\&. Howfvfr, fndoding frrors in sourdf filfs brf now rfportfd bs frrors instfbd of wbrnings bs in fbrlifr rflfbsfs of Jbvb Plbtform, Stbndbrd Edition\&.
 .TP     
 6
 Synonym for 1\&.6\&.
 .TP     
 1\&.7
-This is the default value\&. The compiler accepts code with features introduced in Java SE 7\&.
+Tiis is tif dffbult vbluf\&. Tif dompilfr bddfpts dodf witi ffbturfs introdudfd in Jbvb SE 7\&.
 .TP     
 7
 Synonym for 1\&.7\&.
 .RE     
 
 .TP
--sourcepath \fIsourcepath\fR
+-sourdfpbti \fIsourdfpbti\fR
 .br
-Specifies the source code path to search for class or interface definitions\&. As with the user class path, source path entries are separated by colons (:) on Oracle Solaris and semicolons on Windows and can be directories, JAR archives, or ZIP archives\&. If packages are used, then the local path name within the directory or archive must reflect the package name\&.
+Spfdififs tif sourdf dodf pbti to sfbrdi for dlbss or intfrfbdf dffinitions\&. As witi tif usfr dlbss pbti, sourdf pbti fntrifs brf sfpbrbtfd by dolons (:) on Orbdlf Solbris bnd sfmidolons on Windows bnd dbn bf dirfdtorifs, JAR brdiivfs, or ZIP brdiivfs\&. If pbdkbgfs brf usfd, tifn tif lodbl pbti nbmf witiin tif dirfdtory or brdiivf must rfflfdt tif pbdkbgf nbmf\&.
 
-\fINote:\fR Classes found through the class path might be recompiled when their source files are also found\&. See Searching for Types\&.
+\fINotf:\fR Clbssfs found tirougi tif dlbss pbti migit bf rfdompilfd wifn tifir sourdf filfs brf blso found\&. Sff Sfbrdiing for Typfs\&.
 .TP
--verbose
+-vfrbosf
 .br
-Uses verbose output, which includes information about each class loaded and each source file compiled\&.
+Usfs vfrbosf output, wiidi indludfs informbtion bbout fbdi dlbss lobdfd bnd fbdi sourdf filf dompilfd\&.
 .TP
--version
+-vfrsion
 .br
-Prints release information\&.
+Prints rflfbsf informbtion\&.
 .TP
--werror
+-wfrror
 .br
-Terminates compilation when warnings occur\&.
+Tfrminbtfs dompilbtion wifn wbrnings oddur\&.
 .TP
 -X
 .br
-Displays information about nonstandard options and exits\&.
+Displbys informbtion bbout nonstbndbrd options bnd fxits\&.
 .SS CROSS-COMPILATION\ OPTIONS    
-By default, classes are compiled against the bootstrap and extension classes of the platform that \f3javac\fR shipped with\&. But \f3javac\fR also supports cross-compiling, where classes are compiled against a bootstrap and extension classes of a different Java platform implementation\&. It is important to use the \f3-bootclasspath\fR and \f3-extdirs\fR options when cross-compiling\&.
+By dffbult, dlbssfs brf dompilfd bgbinst tif bootstrbp bnd fxtfnsion dlbssfs of tif plbtform tibt \f3jbvbd\fR siippfd witi\&. But \f3jbvbd\fR blso supports dross-dompiling, wifrf dlbssfs brf dompilfd bgbinst b bootstrbp bnd fxtfnsion dlbssfs of b difffrfnt Jbvb plbtform implfmfntbtion\&. It is importbnt to usf tif \f3-bootdlbsspbti\fR bnd \f3-fxtdirs\fR options wifn dross-dompiling\&.
 .TP
--target \fIversion\fR
+-tbrgft \fIvfrsion\fR
 .br
-Generates class files that target a specified release of the virtual machine\&. Class files will run on the specified target and on later releases, but not on earlier releases of the JVM\&. Valid targets are 1\&.1, 1\&.2, 1\&.3, 1\&.4, 1\&.5 (also 5), 1\&.6 (also 6), and 1\&.7 (also 7)\&.
+Gfnfrbtfs dlbss filfs tibt tbrgft b spfdififd rflfbsf of tif virtubl mbdiinf\&. Clbss filfs will run on tif spfdififd tbrgft bnd on lbtfr rflfbsfs, but not on fbrlifr rflfbsfs of tif JVM\&. Vblid tbrgfts brf 1\&.1, 1\&.2, 1\&.3, 1\&.4, 1\&.5 (blso 5), 1\&.6 (blso 6), bnd 1\&.7 (blso 7)\&.
 
-The default for the \f3-target\fR option depends on the value of the \f3-source\fR option:
+Tif dffbult for tif \f3-tbrgft\fR option dfpfnds on tif vbluf of tif \f3-sourdf\fR option:
 .RS     
 .TP 0.2i    
 \(bu
-If the \f3-source\fR option is not specified, then the value of the \f3-target\fR option is 1\&.7
+If tif \f3-sourdf\fR option is not spfdififd, tifn tif vbluf of tif \f3-tbrgft\fR option is 1\&.7
 .TP 0.2i    
 \(bu
-If the \f3-source\fR option is 1\&.2, then the value of the \f3-target\fR option is 1\&.4
+If tif \f3-sourdf\fR option is 1\&.2, tifn tif vbluf of tif \f3-tbrgft\fR option is 1\&.4
 .TP 0.2i    
 \(bu
-If the \f3-source\fR option is 1\&.3, then the value of the \f3-target\fR option is 1\&.4
+If tif \f3-sourdf\fR option is 1\&.3, tifn tif vbluf of tif \f3-tbrgft\fR option is 1\&.4
 .TP 0.2i    
 \(bu
-If the \f3-source\fR option is 1\&.5, then the value of the \f3-target\fR option is 1\&.7
+If tif \f3-sourdf\fR option is 1\&.5, tifn tif vbluf of tif \f3-tbrgft\fR option is 1\&.7
 .TP 0.2i    
 \(bu
-If the \f3-source\fR option is 1\&.6, then the value of the \f3-target\fR is option 1\&.7
+If tif \f3-sourdf\fR option is 1\&.6, tifn tif vbluf of tif \f3-tbrgft\fR is option 1\&.7
 .TP 0.2i    
 \(bu
-For all other values of the \f3-source\fR option, the value of the \f3-target\fR option is the value of the \f3-source\fR option\&.
+For bll otifr vblufs of tif \f3-sourdf\fR option, tif vbluf of tif \f3-tbrgft\fR option is tif vbluf of tif \f3-sourdf\fR option\&.
 .RE     
 
 .TP
--bootclasspath \fIbootclasspath\fR
+-bootdlbsspbti \fIbootdlbsspbti\fR
 .br
-Cross-compiles against the specified set of boot classes\&. As with the user class path, boot class path entries are separated by colons (:) and can be directories, JAR archives, or ZIP archives\&.
+Cross-dompilfs bgbinst tif spfdififd sft of boot dlbssfs\&. As witi tif usfr dlbss pbti, boot dlbss pbti fntrifs brf sfpbrbtfd by dolons (:) bnd dbn bf dirfdtorifs, JAR brdiivfs, or ZIP brdiivfs\&.
 .SS COMPACT\ PROFILE\ OPTION    
-Beginning with JDK 8, the \f3javac\fR compiler supports compact profiles\&. With compact profiles, applications that do not require the entire Java platform can be deployed and run with a smaller footprint\&. The compact profiles feature could be used to shorten the download time for applications from app stores\&. This feature makes for more compact deployment of Java applications that bundle the JRE\&. This feature is also useful in small devices\&.
+Bfginning witi JDK 8, tif \f3jbvbd\fR dompilfr supports dompbdt profilfs\&. Witi dompbdt profilfs, bpplidbtions tibt do not rfquirf tif fntirf Jbvb plbtform dbn bf dfployfd bnd run witi b smbllfr footprint\&. Tif dompbdt profilfs ffbturf dould bf usfd to siortfn tif downlobd timf for bpplidbtions from bpp storfs\&. Tiis ffbturf mbkfs for morf dompbdt dfploymfnt of Jbvb bpplidbtions tibt bundlf tif JRE\&. Tiis ffbturf is blso usfful in smbll dfvidfs\&.
 .PP
-The supported profile values are \f3compact1\fR, \f3compact2\fR, and \f3compact3\fR\&. These are additive layers\&. Each higher-numbered compact profile contains all of the APIs in profiles with smaller number names\&.
+Tif supportfd profilf vblufs brf \f3dompbdt1\fR, \f3dompbdt2\fR, bnd \f3dompbdt3\fR\&. Tifsf brf bdditivf lbyfrs\&. Ebdi iigifr-numbfrfd dompbdt profilf dontbins bll of tif APIs in profilfs witi smbllfr numbfr nbmfs\&.
 .TP
--profile
+-profilf
 .br
-When using compact profiles, this option specifies the profile name when compiling\&. For example:
+Wifn using dompbdt profilfs, tiis option spfdififs tif profilf nbmf wifn dompiling\&. For fxbmplf:
 .sp     
 .nf     
-\f3javac \-profile compact1 Hello\&.java\fP
+\f3jbvbd \-profilf dompbdt1 Hfllo\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
@@ -314,19 +314,19 @@ When using compact profiles, this option specifies the profile name when compili
 .sp     
 
 
-javac does not compile source code that uses any Java SE APIs that is not in the specified profile\&. Here is an example of the error message that results from attempting to compile such source code:
+jbvbd dofs not dompilf sourdf dodf tibt usfs bny Jbvb SE APIs tibt is not in tif spfdififd profilf\&. Hfrf is bn fxbmplf of tif frror mfssbgf tibt rfsults from bttfmpting to dompilf sudi sourdf dodf:
 .sp     
 .nf     
-\f3cd jdk1\&.8\&.0/bin\fP
+\f3dd jdk1\&.8\&.0/bin\fP
 .fi     
 .nf     
-\f3\&./javac \-profile compact1 Paint\&.java\fP
+\f3\&./jbvbd \-profilf dompbdt1 Pbint\&.jbvb\fP
 .fi     
 .nf     
-\f3Paint\&.java:5: error: Applet is not available in profile \&'compact1\&'\fP
+\f3Pbint\&.jbvb:5: frror: Applft is not bvbilbblf in profilf \&'dompbdt1\&'\fP
 .fi     
 .nf     
-\f3import java\&.applet\&.Applet;\fP
+\f3import jbvb\&.bpplft\&.Applft;\fP
 .fi     
 .nf     
 \f3\fP
@@ -334,31 +334,31 @@ javac does not compile source code that uses any Java SE APIs that is not in the
 .sp     
 
 
-In this example, you can correct the error by modifying the source to not use the \f3Applet\fR class\&. You could also correct the error by compiling without the -profile option\&. Then the compilation would be run against the full set of Java SE APIs\&. (None of the compact profiles include the \f3Applet\fR class\&.)
+In tiis fxbmplf, you dbn dorrfdt tif frror by modifying tif sourdf to not usf tif \f3Applft\fR dlbss\&. You dould blso dorrfdt tif frror by dompiling witiout tif -profilf option\&. Tifn tif dompilbtion would bf run bgbinst tif full sft of Jbvb SE APIs\&. (Nonf of tif dompbdt profilfs indludf tif \f3Applft\fR dlbss\&.)
 
-An alternative way to compile with compact profiles is to use the \f3-bootclasspath\fR option to specify a path to an \f3rt\&.jar\fR file that specifies a profile\&'s image\&. Using the \f3-profile\fR option instead does not require a profile image to be present on the system at compile time\&. This is useful when cross-compiling\&.
+An bltfrnbtivf wby to dompilf witi dompbdt profilfs is to usf tif \f3-bootdlbsspbti\fR option to spfdify b pbti to bn \f3rt\&.jbr\fR filf tibt spfdififs b profilf\&'s imbgf\&. Using tif \f3-profilf\fR option instfbd dofs not rfquirf b profilf imbgf to bf prfsfnt on tif systfm bt dompilf timf\&. Tiis is usfful wifn dross-dompiling\&.
 .SS NONSTANDARD\ OPTIONS    
 .TP
--Xbootclasspath/p:\fIpath\fR
+-Xbootdlbsspbti/p:\fIpbti\fR
 .br
-Adds a suffix to the bootstrap class path\&.
+Adds b suffix to tif bootstrbp dlbss pbti\&.
 .TP
--Xbootclasspath/a:\fIpath\fR
+-Xbootdlbsspbti/b:\fIpbti\fR
 .br
-Adds a prefix to the bootstrap class path\&.
+Adds b prffix to tif bootstrbp dlbss pbti\&.
 .TP
--Xbootclasspath/:\fIpath\fR
+-Xbootdlbsspbti/:\fIpbti\fR
 .br
-Overrides the location of the bootstrap class files\&.
+Ovfrridfs tif lodbtion of tif bootstrbp dlbss filfs\&.
 .TP
--Xdoclint:[-]\fIgroup\fR [\fI/access\fR]
+-Xdodlint:[-]\fIgroup\fR [\fI/bddfss\fR]
 .br
-Enables or disables specific groups of checks, where \fIgroup\fR is one of the following values: \f3accessibility\fR, \f3syntax\fR, \f3reference\fR, \f3html\fR or \f3missing\fR\&. For more information about these groups of checks see the \f3-Xdoclint\fR option of the \f3javadoc\fR command\&. The \f3-Xdoclint\fR option is disabled by default in the \f3javac\fR command\&.
+Enbblfs or disbblfs spfdifid groups of difdks, wifrf \fIgroup\fR is onf of tif following vblufs: \f3bddfssibility\fR, \f3syntbx\fR, \f3rfffrfndf\fR, \f3itml\fR or \f3missing\fR\&. For morf informbtion bbout tifsf groups of difdks sff tif \f3-Xdodlint\fR option of tif \f3jbvbdod\fR dommbnd\&. Tif \f3-Xdodlint\fR option is disbblfd by dffbult in tif \f3jbvbd\fR dommbnd\&.
 
-The variable \fIaccess\fR specifies the minimum visibility level of classes and members that the \f3-Xdoclint\fR option checks\&. It can have one of the following values (in order of most to least visible) : \f3public\fR, \f3protected\fR, \f3package\fR and \f3private\fR\&. For example, the following option checks classes and members (with all groups of checks) that have the access level protected and higher (which includes protected, package and public):
+Tif vbribblf \fIbddfss\fR spfdififs tif minimum visibility lfvfl of dlbssfs bnd mfmbfrs tibt tif \f3-Xdodlint\fR option difdks\&. It dbn ibvf onf of tif following vblufs (in ordfr of most to lfbst visiblf) : \f3publid\fR, \f3protfdtfd\fR, \f3pbdkbgf\fR bnd \f3privbtf\fR\&. For fxbmplf, tif following option difdks dlbssfs bnd mfmbfrs (witi bll groups of difdks) tibt ibvf tif bddfss lfvfl protfdtfd bnd iigifr (wiidi indludfs protfdtfd, pbdkbgf bnd publid):
 .sp     
 .nf     
-\f3\-Xdoclint:all/protected\fP
+\f3\-Xdodlint:bll/protfdtfd\fP
 .fi     
 .nf     
 \f3\fP
@@ -366,10 +366,10 @@ The variable \fIaccess\fR specifies the minimum visibility level of classes and 
 .sp     
 
 
-The following option enables all groups of checks for all access levels, except it will not check for HTML errors for classes and members that have access level package and higher (which includes package and public):
+Tif following option fnbblfs bll groups of difdks for bll bddfss lfvfls, fxdfpt it will not difdk for HTML frrors for dlbssfs bnd mfmbfrs tibt ibvf bddfss lfvfl pbdkbgf bnd iigifr (wiidi indludfs pbdkbgf bnd publid):
 .sp     
 .nf     
-\f3\-Xdoclint:all,\-html/package\fP
+\f3\-Xdodlint:bll,\-itml/pbdkbgf\fP
 .fi     
 .nf     
 \f3\fP
@@ -377,87 +377,87 @@ The following option enables all groups of checks for all access levels, except 
 .sp     
 
 .TP
--Xdoclint:none
+-Xdodlint:nonf
 .br
-Disables all groups of checks\&.
+Disbblfs bll groups of difdks\&.
 .TP
--Xdoclint:all[\fI/access\fR]
+-Xdodlint:bll[\fI/bddfss\fR]
 .br
-Enables all groups of checks\&.
+Enbblfs bll groups of difdks\&.
 .TP
 -Xlint
 .br
-\fI\fREnables all recommended warnings\&. In this release, enabling all available warnings is recommended\&.
+\fI\fREnbblfs bll rfdommfndfd wbrnings\&. In tiis rflfbsf, fnbbling bll bvbilbblf wbrnings is rfdommfndfd\&.
 .TP
--Xlint:all
+-Xlint:bll
 .br
-\fI\fREnables all recommended warnings\&. In this release, enabling all available warnings is recommended\&.
+\fI\fREnbblfs bll rfdommfndfd wbrnings\&. In tiis rflfbsf, fnbbling bll bvbilbblf wbrnings is rfdommfndfd\&.
 .TP
--Xlint:none
+-Xlint:nonf
 .br
-Disables all warnings\&.
+Disbblfs bll wbrnings\&.
 .TP
--Xlint:\fIname\fR
+-Xlint:\fInbmf\fR
 .br
-Disables warning name\&. See Enable or Disable Warnings with the -Xlint Option for a list of warnings you can disable with this option\&.
+Disbblfs wbrning nbmf\&. Sff Enbblf or Disbblf Wbrnings witi tif -Xlint Option for b list of wbrnings you dbn disbblf witi tiis option\&.
 .TP
--Xlint:\fI-name\fR
+-Xlint:\fI-nbmf\fR
 .br
-Disables warning name\&. See Enable or Disable Warnings with the -Xlint Option with the \f3-Xlint\fR option to get a list of warnings that you can disable with this option\&.
+Disbblfs wbrning nbmf\&. Sff Enbblf or Disbblf Wbrnings witi tif -Xlint Option witi tif \f3-Xlint\fR option to gft b list of wbrnings tibt you dbn disbblf witi tiis option\&.
 .TP
--Xmaxerrs \fInumber\fR
+-Xmbxfrrs \fInumbfr\fR
 .br
-Sets the maximum number of errors to print\&.
+Sfts tif mbximum numbfr of frrors to print\&.
 .TP
--Xmaxwarns \fInumber\fR
+-Xmbxwbrns \fInumbfr\fR
 .br
-Sets the maximum number of warnings to print\&.
+Sfts tif mbximum numbfr of wbrnings to print\&.
 .TP
--Xstdout \fIfilename\fR
+-Xstdout \fIfilfnbmf\fR
 .br
-Sends compiler messages to the named file\&. By default, compiler messages go to \f3System\&.err\fR\&.
+Sfnds dompilfr mfssbgfs to tif nbmfd filf\&. By dffbult, dompilfr mfssbgfs go to \f3Systfm\&.frr\fR\&.
 .TP
--Xprefer:[\fInewer,source\fR]
+-Xprfffr:[\fInfwfr,sourdf\fR]
 .br
-Specifies which file to read when both a source file and class file are found for a type\&. (See Searching for Types)\&. If the \f3-Xprefer:newer\fR option is used, then it reads the newer of the source or class file for a type (default)\&. If the \f3-Xprefer:source\fR option is used, then it reads the source file\&. Use -\f3Xprefer:source\fR when you want to be sure that any annotation processors can access annotations declared with a retention policy of \f3SOURCE\fR\&.
+Spfdififs wiidi filf to rfbd wifn boti b sourdf filf bnd dlbss filf brf found for b typf\&. (Sff Sfbrdiing for Typfs)\&. If tif \f3-Xprfffr:nfwfr\fR option is usfd, tifn it rfbds tif nfwfr of tif sourdf or dlbss filf for b typf (dffbult)\&. If tif \f3-Xprfffr:sourdf\fR option is usfd, tifn it rfbds tif sourdf filf\&. Usf -\f3Xprfffr:sourdf\fR wifn you wbnt to bf surf tibt bny bnnotbtion prodfssors dbn bddfss bnnotbtions dfdlbrfd witi b rftfntion polidy of \f3SOURCE\fR\&.
 .TP
--Xpkginfo:[\fIalways\fR,\fIlegacy\fR,\fInonempty\fR]
+-Xpkginfo:[\fIblwbys\fR,\fIlfgbdy\fR,\fInonfmpty\fR]
 .br
-Control whether javac generates \f3package-info\&.class\fR files from package-info\&.java files\&. Possible mode arguments for this option include the following\&.
+Control wiftifr jbvbd gfnfrbtfs \f3pbdkbgf-info\&.dlbss\fR filfs from pbdkbgf-info\&.jbvb filfs\&. Possiblf modf brgumfnts for tiis option indludf tif following\&.
 .RS     
 .TP     
-always
-Always generate a \f3package-info\&.class\fR file for every \f3package-info\&.java\fR file\&. This option may be useful if you use a build system such as Ant, which checks that each \f3\&.java\fR file has a corresponding \f3\&.class\fR file\&.
+blwbys
+Alwbys gfnfrbtf b \f3pbdkbgf-info\&.dlbss\fR filf for fvfry \f3pbdkbgf-info\&.jbvb\fR filf\&. Tiis option mby bf usfful if you usf b build systfm sudi bs Ant, wiidi difdks tibt fbdi \f3\&.jbvb\fR filf ibs b dorrfsponding \f3\&.dlbss\fR filf\&.
 .TP     
-legacy
-Generate a \f3package-info\&.class\fR file only if package-info\&.java contains annotations\&. Don\&'t generate a \f3package-info\&.class\fR file if package-info\&.java only contains comments\&.
+lfgbdy
+Gfnfrbtf b \f3pbdkbgf-info\&.dlbss\fR filf only if pbdkbgf-info\&.jbvb dontbins bnnotbtions\&. Don\&'t gfnfrbtf b \f3pbdkbgf-info\&.dlbss\fR filf if pbdkbgf-info\&.jbvb only dontbins dommfnts\&.
 
-\fINote:\fR A \f3package-info\&.class\fR file might be generated but be empty if all the annotations in the package-info\&.java file have \f3RetentionPolicy\&.SOURCE\fR\&.
+\fINotf:\fR A \f3pbdkbgf-info\&.dlbss\fR filf migit bf gfnfrbtfd but bf fmpty if bll tif bnnotbtions in tif pbdkbgf-info\&.jbvb filf ibvf \f3RftfntionPolidy\&.SOURCE\fR\&.
 .TP     
-nonempty
-Generate a \f3package-info\&.class\fR file only if package-info\&.java contains annotations with \f3RetentionPolicy\&.CLASS\fR or \f3RetentionPolicy\&.RUNTIME\fR\&.
+nonfmpty
+Gfnfrbtf b \f3pbdkbgf-info\&.dlbss\fR filf only if pbdkbgf-info\&.jbvb dontbins bnnotbtions witi \f3RftfntionPolidy\&.CLASS\fR or \f3RftfntionPolidy\&.RUNTIME\fR\&.
 .RE     
 
 .TP
 -Xprint
 .br
-Prints a textual representation of specified types for debugging purposes\&. Perform neither annotation processing nor compilation\&. The format of the output could change\&.
+Prints b tfxtubl rfprfsfntbtion of spfdififd typfs for dfbugging purposfs\&. Pfrform nfitifr bnnotbtion prodfssing nor dompilbtion\&. Tif formbt of tif output dould dibngf\&.
 .TP
--XprintProcessorInfo
+-XprintProdfssorInfo
 .br
-Prints information about which annotations a processor is asked to process\&.
+Prints informbtion bbout wiidi bnnotbtions b prodfssor is bskfd to prodfss\&.
 .TP
 -XprintRounds
 .br
-Prints information about initial and subsequent annotation processing rounds\&.
+Prints informbtion bbout initibl bnd subsfqufnt bnnotbtion prodfssing rounds\&.
 .SH ENABLE\ OR\ DISABLE\ WARNINGS\ WITH\ THE\ -XLINT\ OPTION    
-Enable warning \fIname\fR with the \f3-Xlint:name\fR option, where \f3name\fR is one of the following warning names\&. Note that you can disable a warning with the \f3-Xlint:-name:\fR option\&.
+Enbblf wbrning \fInbmf\fR witi tif \f3-Xlint:nbmf\fR option, wifrf \f3nbmf\fR is onf of tif following wbrning nbmfs\&. Notf tibt you dbn disbblf b wbrning witi tif \f3-Xlint:-nbmf:\fR option\&.
 .TP     
-cast
-Warns about unnecessary and redundant casts, for example:
+dbst
+Wbrns bbout unnfdfssbry bnd rfdundbnt dbsts, for fxbmplf:
 .sp     
 .nf     
-\f3String s = (String) "Hello!"\fP
+\f3String s = (String) "Hfllo!"\fP
 .fi     
 .nf     
 \f3\fP
@@ -465,17 +465,17 @@ Warns about unnecessary and redundant casts, for example:
 .sp     
 
 .TP     
-classfile
-Warns about issues related to class file contents\&.
+dlbssfilf
+Wbrns bbout issufs rflbtfd to dlbss filf dontfnts\&.
 .TP     
-deprecation
-Warns about the use of deprecated items, for example:
+dfprfdbtion
+Wbrns bbout tif usf of dfprfdbtfd itfms, for fxbmplf:
 .sp     
 .nf     
-\f3java\&.util\&.Date myDate = new java\&.util\&.Date();\fP
+\f3jbvb\&.util\&.Dbtf myDbtf = nfw jbvb\&.util\&.Dbtf();\fP
 .fi     
 .nf     
-\f3int currentDay = myDate\&.getDay();\fP
+\f3int durrfntDby = myDbtf\&.gftDby();\fP
 .fi     
 .nf     
 \f3\fP
@@ -483,37 +483,25 @@ Warns about the use of deprecated items, for example:
 .sp     
 
 
-The method \f3java\&.util\&.Date\&.getDay\fR has been deprecated since JDK 1\&.1
+Tif mftiod \f3jbvb\&.util\&.Dbtf\&.gftDby\fR ibs bffn dfprfdbtfd sindf JDK 1\&.1
 .TP     
-dep-ann
-Warns about items that are documented with an \f3@deprecated\fR Javadoc comment, but do not have a \f3@Deprecated\fR annotation, for example:
+dfp-bnn
+Wbrns bbout itfms tibt brf dodumfntfd witi bn \f3@dfprfdbtfd\fR Jbvbdod dommfnt, but do not ibvf b \f3@Dfprfdbtfd\fR bnnotbtion, for fxbmplf:
 .sp     
 .nf     
 \f3/**\fP
 .fi     
 .nf     
-\f3  * @deprecated As of Java SE 7, replaced by {@link #newMethod()}\fP
+\f3  * @dfprfdbtfd As of Jbvb SE 7, rfplbdfd by {@link #nfwMftiod()}\fP
 .fi     
 .nf     
 \f3  */\fP
 .fi     
 .nf     
-\f3public static void deprecatedMethood() { }\fP
+\f3publid stbtid void dfprfdbtfdMftiood() { }\fP
 .fi     
 .nf     
-\f3public static void newMethod() { }\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.sp     
-
-.TP     
-divzero
-Warns about division by the constant integer 0, for example:
-.sp     
-.nf     
-\f3int divideByZero = 42 / 0;\fP
+\f3publid stbtid void nfwMftiod() { }\fP
 .fi     
 .nf     
 \f3\fP
@@ -521,17 +509,29 @@ Warns about division by the constant integer 0, for example:
 .sp     
 
 .TP     
-empty
-Warns about empty statements after \f3if\fRstatements, for example:
+divzfro
+Wbrns bbout division by tif donstbnt intfgfr 0, for fxbmplf:
 .sp     
 .nf     
-\f3class E {\fP
+\f3int dividfByZfro = 42 / 0;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP     
+fmpty
+Wbrns bbout fmpty stbtfmfnts bftfr \f3if\fRstbtfmfnts, for fxbmplf:
+.sp     
+.nf     
+\f3dlbss E {\fP
 .fi     
 .nf     
 \f3    void m() {\fP
 .fi     
 .nf     
-\f3         if (true) ;\fP
+\f3         if (truf) ;\fP
 .fi     
 .nf     
 \f3    }\fP
@@ -545,26 +545,26 @@ Warns about empty statements after \f3if\fRstatements, for example:
 .sp     
 
 .TP     
-fallthrough
-Checks the switch blocks for fall-through cases and provides a warning message for any that are found\&. Fall-through cases are cases in a switch block, other than the last case in the block, whose code does not include a break statement, allowing code execution to fall through from that case to the next case\&. For example, the code following the case 1 label in this switch block does not end with a break statement:
+fblltirougi
+Cifdks tif switdi blodks for fbll-tirougi dbsfs bnd providfs b wbrning mfssbgf for bny tibt brf found\&. Fbll-tirougi dbsfs brf dbsfs in b switdi blodk, otifr tibn tif lbst dbsf in tif blodk, wiosf dodf dofs not indludf b brfbk stbtfmfnt, bllowing dodf fxfdution to fbll tirougi from tibt dbsf to tif nfxt dbsf\&. For fxbmplf, tif dodf following tif dbsf 1 lbbfl in tiis switdi blodk dofs not fnd witi b brfbk stbtfmfnt:
 .sp     
 .nf     
-\f3switch (x) {\fP
+\f3switdi (x) {\fP
 .fi     
 .nf     
-\f3case 1:\fP
+\f3dbsf 1:\fP
 .fi     
 .nf     
-\f3  System\&.out\&.println("1");\fP
+\f3  Systfm\&.out\&.println("1");\fP
 .fi     
 .nf     
-\f3  // No break statement here\&.\fP
+\f3  // No brfbk stbtfmfnt ifrf\&.\fP
 .fi     
 .nf     
-\f3case 2:\fP
+\f3dbsf 2:\fP
 .fi     
 .nf     
-\f3  System\&.out\&.println("2");\fP
+\f3  Systfm\&.out\&.println("2");\fP
 .fi     
 .nf     
 \f3}\fP
@@ -575,34 +575,34 @@ Checks the switch blocks for fall-through cases and provides a warning message f
 .sp     
 
 
-If the \f3-Xlint:fallthrough\fR option was used when compiling this code, then the compiler emits a warning about possible fall-through into case, with the line number of the case in question\&.
+If tif \f3-Xlint:fblltirougi\fR option wbs usfd wifn dompiling tiis dodf, tifn tif dompilfr fmits b wbrning bbout possiblf fbll-tirougi into dbsf, witi tif linf numbfr of tif dbsf in qufstion\&.
 .TP     
-finally
-Warns about \f3finally\fR clauses that cannot complete normally, for example:
+finblly
+Wbrns bbout \f3finblly\fR dlbusfs tibt dbnnot domplftf normblly, for fxbmplf:
 .sp     
 .nf     
-\f3public static int m() {\fP
+\f3publid stbtid int m() {\fP
 .fi     
 .nf     
 \f3  try {\fP
 .fi     
 .nf     
-\f3     throw new NullPointerException();\fP
+\f3     tirow nfw NullPointfrExdfption();\fP
 .fi     
 .nf     
-\f3  }  catch (NullPointerException(); {\fP
+\f3  }  dbtdi (NullPointfrExdfption(); {\fP
 .fi     
 .nf     
-\f3     System\&.err\&.println("Caught NullPointerException\&.");\fP
+\f3     Systfm\&.frr\&.println("Cbugit NullPointfrExdfption\&.");\fP
 .fi     
 .nf     
-\f3     return 1;\fP
+\f3     rfturn 1;\fP
 .fi     
 .nf     
-\f3   } finally {\fP
+\f3   } finblly {\fP
 .fi     
 .nf     
-\f3     return 0;\fP
+\f3     rfturn 0;\fP
 .fi     
 .nf     
 \f3   }\fP
@@ -616,19 +616,19 @@ Warns about \f3finally\fR clauses that cannot complete normally, for example:
 .sp     
 
 
-The compiler generates a warning for the \f3finally\fR block in this example\&. When the \f3int\fR method is called, it returns a value of 0\&. A \f3finally\fR block executes when the \f3try\fR block exits\&. In this example, when control is transferred to the \f3catch\fR block, the \f3int\fR method exits\&. However, the \f3finally\fR block must execute, so it is executed, even though control was transferred outside the method\&.
+Tif dompilfr gfnfrbtfs b wbrning for tif \f3finblly\fR blodk in tiis fxbmplf\&. Wifn tif \f3int\fR mftiod is dbllfd, it rfturns b vbluf of 0\&. A \f3finblly\fR blodk fxfdutfs wifn tif \f3try\fR blodk fxits\&. In tiis fxbmplf, wifn dontrol is trbnsffrrfd to tif \f3dbtdi\fR blodk, tif \f3int\fR mftiod fxits\&. Howfvfr, tif \f3finblly\fR blodk must fxfdutf, so it is fxfdutfd, fvfn tiougi dontrol wbs trbnsffrrfd outsidf tif mftiod\&.
 .TP     
 options
-Warns about issues that related to the use of command-line options\&. See Cross-Compilation Options\&.
+Wbrns bbout issufs tibt rflbtfd to tif usf of dommbnd-linf options\&. Sff Cross-Compilbtion Options\&.
 .TP     
-overrides
-Warns about issues regarding method overrides\&. For example, consider the following two classes:
+ovfrridfs
+Wbrns bbout issufs rfgbrding mftiod ovfrridfs\&. For fxbmplf, donsidfr tif following two dlbssfs:
 .sp     
 .nf     
-\f3public class ClassWithVarargsMethod {\fP
+\f3publid dlbss ClbssWitiVbrbrgsMftiod {\fP
 .fi     
 .nf     
-\f3  void varargsMethod(String\&.\&.\&. s) { }\fP
+\f3  void vbrbrgsMftiod(String\&.\&.\&. s) { }\fP
 .fi     
 .nf     
 \f3}\fP
@@ -637,13 +637,13 @@ Warns about issues regarding method overrides\&. For example, consider the follo
 \f3\fP
 .fi     
 .nf     
-\f3public class ClassWithOverridingMethod extends ClassWithVarargsMethod {\fP
+\f3publid dlbss ClbssWitiOvfrridingMftiod fxtfnds ClbssWitiVbrbrgsMftiod {\fP
 .fi     
 .nf     
-\f3   @Override\fP
+\f3   @Ovfrridf\fP
 .fi     
 .nf     
-\f3   void varargsMethod(String[] s) { }\fP
+\f3   void vbrbrgsMftiod(String[] s) { }\fP
 .fi     
 .nf     
 \f3}\fP
@@ -654,16 +654,16 @@ Warns about issues regarding method overrides\&. For example, consider the follo
 .sp     
 
 
-The compiler generates a warning similar to the following:\&.
+Tif dompilfr gfnfrbtfs b wbrning similbr to tif following:\&.
 .sp     
 .nf     
-\f3warning: [override] varargsMethod(String[]) in ClassWithOverridingMethod \fP
+\f3wbrning: [ovfrridf] vbrbrgsMftiod(String[]) in ClbssWitiOvfrridingMftiod \fP
 .fi     
 .nf     
-\f3overrides varargsMethod(String\&.\&.\&.) in ClassWithVarargsMethod; overriding\fP
+\f3ovfrridfs vbrbrgsMftiod(String\&.\&.\&.) in ClbssWitiVbrbrgsMftiod; ovfrriding\fP
 .fi     
 .nf     
-\f3method is missing \&'\&.\&.\&.\&'\fP
+\f3mftiod is missing \&'\&.\&.\&.\&'\fP
 .fi     
 .nf     
 \f3\fP
@@ -671,13 +671,13 @@ The compiler generates a warning similar to the following:\&.
 .sp     
 
 
-When the compiler encounters a \f3varargs\fR method, it translates the \f3varargs\fR formal parameter into an array\&. In the method \f3ClassWithVarargsMethod\&.varargsMethod\fR, the compiler translates the \f3varargs\fR formal parameter \f3String\&.\&.\&. s\fR to the formal parameter \f3String[] s\fR, an array, which matches the formal parameter of the method \f3ClassWithOverridingMethod\&.varargsMethod\fR\&. Consequently, this example compiles\&.
+Wifn tif dompilfr fndountfrs b \f3vbrbrgs\fR mftiod, it trbnslbtfs tif \f3vbrbrgs\fR formbl pbrbmftfr into bn brrby\&. In tif mftiod \f3ClbssWitiVbrbrgsMftiod\&.vbrbrgsMftiod\fR, tif dompilfr trbnslbtfs tif \f3vbrbrgs\fR formbl pbrbmftfr \f3String\&.\&.\&. s\fR to tif formbl pbrbmftfr \f3String[] s\fR, bn brrby, wiidi mbtdifs tif formbl pbrbmftfr of tif mftiod \f3ClbssWitiOvfrridingMftiod\&.vbrbrgsMftiod\fR\&. Consfqufntly, tiis fxbmplf dompilfs\&.
 .TP     
-path
-Warns about invalid path elements and nonexistent path directories on the command line (with regard to the class path, the source path, and other paths)\&. Such warnings cannot be suppressed with the \f3@SuppressWarnings\fR annotation, for example:
+pbti
+Wbrns bbout invblid pbti flfmfnts bnd nonfxistfnt pbti dirfdtorifs on tif dommbnd linf (witi rfgbrd to tif dlbss pbti, tif sourdf pbti, bnd otifr pbtis)\&. Sudi wbrnings dbnnot bf supprfssfd witi tif \f3@SupprfssWbrnings\fR bnnotbtion, for fxbmplf:
 .sp     
 .nf     
-\f3javac \-Xlint:path \-classpath /nonexistentpath Example\&.java\fP
+\f3jbvbd \-Xlint:pbti \-dlbsspbti /nonfxistfntpbti Exbmplf\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
@@ -685,37 +685,37 @@ Warns about invalid path elements and nonexistent path directories on the comman
 .sp     
 
 .TP     
-processing
-Warn about issues regarding annotation processing\&. The compiler generates this warning when you have a class that has an annotation, and you use an annotation processor that cannot handle that type of exception\&. For example, the following is a simple annotation processor:
+prodfssing
+Wbrn bbout issufs rfgbrding bnnotbtion prodfssing\&. Tif dompilfr gfnfrbtfs tiis wbrning wifn you ibvf b dlbss tibt ibs bn bnnotbtion, bnd you usf bn bnnotbtion prodfssor tibt dbnnot ibndlf tibt typf of fxdfption\&. For fxbmplf, tif following is b simplf bnnotbtion prodfssor:
 
-\fISource file AnnocProc\&.java\fR:
+\fISourdf filf AnnodProd\&.jbvb\fR:
 .sp     
 .nf     
-\f3import java\&.util\&.*;\fP
+\f3import jbvb\&.util\&.*;\fP
 .fi     
 .nf     
-\f3import javax\&.annotation\&.processing\&.*;\fP
+\f3import jbvbx\&.bnnotbtion\&.prodfssing\&.*;\fP
 .fi     
 .nf     
-\f3import javax\&.lang\&.model\&.*;\fP
+\f3import jbvbx\&.lbng\&.modfl\&.*;\fP
 .fi     
 .nf     
-\f3import\&.javaz\&.lang\&.model\&.element\&.*;\fP
+\f3import\&.jbvbz\&.lbng\&.modfl\&.flfmfnt\&.*;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3@SupportedAnnotationTypes("NotAnno")\fP
+\f3@SupportfdAnnotbtionTypfs("NotAnno")\fP
 .fi     
 .nf     
-\f3public class AnnoProc extends AbstractProcessor {\fP
+\f3publid dlbss AnnoProd fxtfnds AbstrbdtProdfssor {\fP
 .fi     
 .nf     
-\f3  public boolean process(Set<? extends TypeElement> elems, RoundEnvironment renv){\fP
+\f3  publid boolfbn prodfss(Sft<? fxtfnds TypfElfmfnt> flfms, RoundEnvironmfnt rfnv){\fP
 .fi     
 .nf     
-\f3     return true;\fP
+\f3     rfturn truf;\fP
 .fi     
 .nf     
 \f3  }\fP
@@ -724,10 +724,10 @@ Warn about issues regarding annotation processing\&. The compiler generates this
 \f3\fP
 .fi     
 .nf     
-\f3  public SourceVersion getSupportedSourceVersion() {\fP
+\f3  publid SourdfVfrsion gftSupportfdSourdfVfrsion() {\fP
 .fi     
 .nf     
-\f3     return SourceVersion\&.latest();\fP
+\f3     rfturn SourdfVfrsion\&.lbtfst();\fP
 .fi     
 .nf     
 \f3   }\fP
@@ -741,10 +741,10 @@ Warn about issues regarding annotation processing\&. The compiler generates this
 .sp     
 
 
-\fISource file AnnosWithoutProcessors\&.java\fR:
+\fISourdf filf AnnosWitioutProdfssors\&.jbvb\fR:
 .sp     
 .nf     
-\f3@interface Anno { }\fP
+\f3@intfrfbdf Anno { }\fP
 .fi     
 .nf     
 \f3\fP
@@ -753,7 +753,7 @@ Warn about issues regarding annotation processing\&. The compiler generates this
 \f3@Anno\fP
 .fi     
 .nf     
-\f3class AnnosWithoutProcessors { }\fP
+\f3dlbss AnnosWitioutProdfssors { }\fP
 .fi     
 .nf     
 \f3\fP
@@ -761,13 +761,13 @@ Warn about issues regarding annotation processing\&. The compiler generates this
 .sp     
 
 
-The following commands compile the annotation processor \f3AnnoProc\fR, then run this annotation processor against the source file \f3AnnosWithoutProcessors\&.java\fR:
+Tif following dommbnds dompilf tif bnnotbtion prodfssor \f3AnnoProd\fR, tifn run tiis bnnotbtion prodfssor bgbinst tif sourdf filf \f3AnnosWitioutProdfssors\&.jbvb\fR:
 .sp     
 .nf     
-\f3javac AnnoProc\&.java\fP
+\f3jbvbd AnnoProd\&.jbvb\fP
 .fi     
 .nf     
-\f3javac \-cp \&. \-Xlint:processing \-processor AnnoProc \-proc:only AnnosWithoutProcessors\&.java\fP
+\f3jbvbd \-dp \&. \-Xlint:prodfssing \-prodfssor AnnoProd \-prod:only AnnosWitioutProdfssors\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
@@ -775,10 +775,10 @@ The following commands compile the annotation processor \f3AnnoProc\fR, then run
 .sp     
 
 
-When the compiler runs the annotation processor against the source file \f3AnnosWithoutProcessors\&.java\fR, it generates the following warning:
+Wifn tif dompilfr runs tif bnnotbtion prodfssor bgbinst tif sourdf filf \f3AnnosWitioutProdfssors\&.jbvb\fR, it gfnfrbtfs tif following wbrning:
 .sp     
 .nf     
-\f3warning: [processing] No processor claimed any of these annotations: Anno\fP
+\f3wbrning: [prodfssing] No prodfssor dlbimfd bny of tifsf bnnotbtions: Anno\fP
 .fi     
 .nf     
 \f3\fP
@@ -786,13 +786,13 @@ When the compiler runs the annotation processor against the source file \f3Annos
 .sp     
 
 
-To resolve this issue, you can rename the annotation defined and used in the class \f3AnnosWithoutProcessors\fR from \f3Anno\fR to \f3NotAnno\fR\&.
+To rfsolvf tiis issuf, you dbn rfnbmf tif bnnotbtion dffinfd bnd usfd in tif dlbss \f3AnnosWitioutProdfssors\fR from \f3Anno\fR to \f3NotAnno\fR\&.
 .TP     
-rawtypes
-Warns about unchecked operations on raw types\&. The following statement generates a \f3rawtypes\fR warning:
+rbwtypfs
+Wbrns bbout undifdkfd opfrbtions on rbw typfs\&. Tif following stbtfmfnt gfnfrbtfs b \f3rbwtypfs\fR wbrning:
 .sp     
 .nf     
-\f3void countElements(List l) { \&.\&.\&. }\fP
+\f3void dountElfmfnts(List l) { \&.\&.\&. }\fP
 .fi     
 .nf     
 \f3\fP
@@ -800,10 +800,10 @@ Warns about unchecked operations on raw types\&. The following statement generat
 .sp     
 
 
-The following example does not generate a \f3rawtypes\fR warning
+Tif following fxbmplf dofs not gfnfrbtf b \f3rbwtypfs\fR wbrning
 .sp     
 .nf     
-\f3void countElements(List<?> l) { \&.\&.\&. }\fP
+\f3void dountElfmfnts(List<?> l) { \&.\&.\&. }\fP
 .fi     
 .nf     
 \f3\fP
@@ -811,28 +811,28 @@ The following example does not generate a \f3rawtypes\fR warning
 .sp     
 
 
-\f3List\fR is a raw type\&. However, \f3List<?>\fR is an unbounded wildcard parameterized type\&. Because \f3List\fR is a parameterized interface, always specify its type argument\&. In this example, the \f3List\fR formal argument is specified with an unbounded wildcard (\f3?\fR) as its formal type parameter, which means that the \f3countElements\fR method can accept any instantiation of the \f3List\fR interface\&.
+\f3List\fR is b rbw typf\&. Howfvfr, \f3List<?>\fR is bn unboundfd wilddbrd pbrbmftfrizfd typf\&. Bfdbusf \f3List\fR is b pbrbmftfrizfd intfrfbdf, blwbys spfdify its typf brgumfnt\&. In tiis fxbmplf, tif \f3List\fR formbl brgumfnt is spfdififd witi bn unboundfd wilddbrd (\f3?\fR) bs its formbl typf pbrbmftfr, wiidi mfbns tibt tif \f3dountElfmfnts\fR mftiod dbn bddfpt bny instbntibtion of tif \f3List\fR intfrfbdf\&.
 .TP     
-Serial
-Warns about missing \f3serialVersionUID\fR definitions on serializable classes, for example:
+Sfribl
+Wbrns bbout missing \f3sfriblVfrsionUID\fR dffinitions on sfriblizbblf dlbssfs, for fxbmplf:
 .sp     
 .nf     
-\f3public class PersistentTime implements Serializable\fP
+\f3publid dlbss PfrsistfntTimf implfmfnts Sfriblizbblf\fP
 .fi     
 .nf     
 \f3{\fP
 .fi     
 .nf     
-\f3  private Date time;\fP
+\f3  privbtf Dbtf timf;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3   public PersistentTime() {\fP
+\f3   publid PfrsistfntTimf() {\fP
 .fi     
 .nf     
-\f3     time = Calendar\&.getInstance()\&.getTime();\fP
+\f3     timf = Cblfndbr\&.gftInstbndf()\&.gftTimf();\fP
 .fi     
 .nf     
 \f3   }\fP
@@ -841,10 +841,10 @@ Warns about missing \f3serialVersionUID\fR definitions on serializable classes, 
 \f3\fP
 .fi     
 .nf     
-\f3   public Date getTime() {\fP
+\f3   publid Dbtf gftTimf() {\fP
 .fi     
 .nf     
-\f3     return time;\fP
+\f3     rfturn timf;\fP
 .fi     
 .nf     
 \f3   }\fP
@@ -858,13 +858,13 @@ Warns about missing \f3serialVersionUID\fR definitions on serializable classes, 
 .sp     
 
 
-The compiler generates the following warning:
+Tif dompilfr gfnfrbtfs tif following wbrning:
 .sp     
 .nf     
-\f3warning: [serial] serializable class PersistentTime has no definition of\fP
+\f3wbrning: [sfribl] sfriblizbblf dlbss PfrsistfntTimf ibs no dffinition of\fP
 .fi     
 .nf     
-\f3serialVersionUID\fP
+\f3sfriblVfrsionUID\fP
 .fi     
 .nf     
 \f3\fP
@@ -872,19 +872,19 @@ The compiler generates the following warning:
 .sp     
 
 
-If a serializable class does not explicitly declare a field named \f3serialVersionUID\fR, then the serialization runtime environment calculates a default \f3serialVersionUID\fR value for that class based on various aspects of the class, as described in the Java Object Serialization Specification\&. However, it is strongly recommended that all serializable classes explicitly declare \f3serialVersionUID\fR values because the default process of computing \f3serialVersionUID\fR vales is highly sensitive to class details that can vary depending on compiler implementations, and as a result, might cause an unexpected \f3InvalidClassExceptions\fR during deserialization\&. To guarantee a consistent \f3serialVersionUID\fR value across different Java compiler implementations, a serializable class must declare an explicit \f3serialVersionUID\fR value\&.
+If b sfriblizbblf dlbss dofs not fxpliditly dfdlbrf b fifld nbmfd \f3sfriblVfrsionUID\fR, tifn tif sfriblizbtion runtimf fnvironmfnt dbldulbtfs b dffbult \f3sfriblVfrsionUID\fR vbluf for tibt dlbss bbsfd on vbrious bspfdts of tif dlbss, bs dfsdribfd in tif Jbvb Objfdt Sfriblizbtion Spfdifidbtion\&. Howfvfr, it is strongly rfdommfndfd tibt bll sfriblizbblf dlbssfs fxpliditly dfdlbrf \f3sfriblVfrsionUID\fR vblufs bfdbusf tif dffbult prodfss of domputing \f3sfriblVfrsionUID\fR vblfs is iigily sfnsitivf to dlbss dftbils tibt dbn vbry dfpfnding on dompilfr implfmfntbtions, bnd bs b rfsult, migit dbusf bn unfxpfdtfd \f3InvblidClbssExdfptions\fR during dfsfriblizbtion\&. To gubrbntff b donsistfnt \f3sfriblVfrsionUID\fR vbluf bdross difffrfnt Jbvb dompilfr implfmfntbtions, b sfriblizbblf dlbss must dfdlbrf bn fxplidit \f3sfriblVfrsionUID\fR vbluf\&.
 .TP     
-static
-Warns about issues relating to the use of statics, for example:
+stbtid
+Wbrns bbout issufs rflbting to tif usf of stbtids, for fxbmplf:
 .sp     
 .nf     
-\f3class XLintStatic {\fP
+\f3dlbss XLintStbtid {\fP
 .fi     
 .nf     
-\f3    static void m1() { }\fP
+\f3    stbtid void m1() { }\fP
 .fi     
 .nf     
-\f3    void m2() { this\&.m1(); }\fP
+\f3    void m2() { tiis\&.m1(); }\fP
 .fi     
 .nf     
 \f3}\fP
@@ -895,13 +895,13 @@ Warns about issues relating to the use of statics, for example:
 .sp     
 
 
-The compiler generates the following warning:
+Tif dompilfr gfnfrbtfs tif following wbrning:
 .sp     
 .nf     
-\f3warning: [static] static method should be qualified by type name, \fP
+\f3wbrning: [stbtid] stbtid mftiod siould bf qublififd by typf nbmf, \fP
 .fi     
 .nf     
-\f3XLintStatic, instead of by an expression\fP
+\f3XLintStbtid, instfbd of by bn fxprfssion\fP
 .fi     
 .nf     
 \f3\fP
@@ -909,10 +909,10 @@ The compiler generates the following warning:
 .sp     
 
 
-To resolve this issue, you can call the \f3static\fR method \f3m1\fR as follows:
+To rfsolvf tiis issuf, you dbn dbll tif \f3stbtid\fR mftiod \f3m1\fR bs follows:
 .sp     
 .nf     
-\f3XLintStatic\&.m1();\fP
+\f3XLintStbtid\&.m1();\fP
 .fi     
 .nf     
 \f3\fP
@@ -920,13 +920,13 @@ To resolve this issue, you can call the \f3static\fR method \f3m1\fR as follows:
 .sp     
 
 
-Alternately, you can remove the \f3static\fR keyword from the declaration of the method \f3m1\fR\&.
+Altfrnbtfly, you dbn rfmovf tif \f3stbtid\fR kfyword from tif dfdlbrbtion of tif mftiod \f3m1\fR\&.
 .TP     
 try
-Warns about issues relating to use of \f3try\fR blocks, including try-with-resources statements\&. For example, a warning is generated for the following statement because the resource \f3ac\fR declared in the \f3try\fR block is not used:
+Wbrns bbout issufs rflbting to usf of \f3try\fR blodks, indluding try-witi-rfsourdfs stbtfmfnts\&. For fxbmplf, b wbrning is gfnfrbtfd for tif following stbtfmfnt bfdbusf tif rfsourdf \f3bd\fR dfdlbrfd in tif \f3try\fR blodk is not usfd:
 .sp     
 .nf     
-\f3try ( AutoCloseable ac = getResource() ) {    // do nothing}\fP
+\f3try ( AutoClosfbblf bd = gftRfsourdf() ) {    // do notiing}\fP
 .fi     
 .nf     
 \f3\fP
@@ -934,14 +934,14 @@ Warns about issues relating to use of \f3try\fR blocks, including try-with-resou
 .sp     
 
 .TP     
-unchecked
-Gives more detail for unchecked conversion warnings that are mandated by the Java Language Specification, for example:
+undifdkfd
+Givfs morf dftbil for undifdkfd donvfrsion wbrnings tibt brf mbndbtfd by tif Jbvb Lbngubgf Spfdifidbtion, for fxbmplf:
 .sp     
 .nf     
-\f3List l = new ArrayList<Number>();\fP
+\f3List l = nfw ArrbyList<Numbfr>();\fP
 .fi     
 .nf     
-\f3List<String> ls = l;       // unchecked warning\fP
+\f3List<String> ls = l;       // undifdkfd wbrning\fP
 .fi     
 .nf     
 \f3\fP
@@ -949,26 +949,26 @@ Gives more detail for unchecked conversion warnings that are mandated by the Jav
 .sp     
 
 
-During type erasure, the types \f3ArrayList<Number>\fR and \f3List<String>\fR become \f3ArrayList\fR and \f3List\fR, respectively\&.
+During typf frbsurf, tif typfs \f3ArrbyList<Numbfr>\fR bnd \f3List<String>\fR bfdomf \f3ArrbyList\fR bnd \f3List\fR, rfspfdtivfly\&.
 
-The \f3ls\fR command has the parameterized type \f3List<String>\fR\&. When the \f3List\fR referenced by \f3l\fR is assigned to \f3ls\fR, the compiler generates an unchecked warning\&. At compile time, the compiler and JVM cannot determine whether \f3l\fR refers to a \f3List<String>\fR type\&. In this case, \f3l\fR does not refer to a \f3List<String>\fR type\&. As a result, heap pollution occurs\&.
+Tif \f3ls\fR dommbnd ibs tif pbrbmftfrizfd typf \f3List<String>\fR\&. Wifn tif \f3List\fR rfffrfndfd by \f3l\fR is bssignfd to \f3ls\fR, tif dompilfr gfnfrbtfs bn undifdkfd wbrning\&. At dompilf timf, tif dompilfr bnd JVM dbnnot dftfrminf wiftifr \f3l\fR rfffrs to b \f3List<String>\fR typf\&. In tiis dbsf, \f3l\fR dofs not rfffr to b \f3List<String>\fR typf\&. As b rfsult, ifbp pollution oddurs\&.
 
-A heap pollution situation occurs when the \f3List\fR object \f3l\fR, whose static type is \f3List<Number>\fR, is assigned to another \f3List\fR object, \f3ls\fR, that has a different static type, \f3List<String>\fR\&. However, the compiler still allows this assignment\&. It must allow this assignment to preserve backward compatibility with releases of Java SE that do not support generics\&. Because of type erasure, \f3List<Number>\fR and \f3List<String>\fR both become \f3List\fR\&. Consequently, the compiler allows the assignment of the object \f3l\fR\f3,\fR which has a raw type of \f3List\fR, to the object \f3ls\fR\&.
+A ifbp pollution situbtion oddurs wifn tif \f3List\fR objfdt \f3l\fR, wiosf stbtid typf is \f3List<Numbfr>\fR, is bssignfd to bnotifr \f3List\fR objfdt, \f3ls\fR, tibt ibs b difffrfnt stbtid typf, \f3List<String>\fR\&. Howfvfr, tif dompilfr still bllows tiis bssignmfnt\&. It must bllow tiis bssignmfnt to prfsfrvf bbdkwbrd dompbtibility witi rflfbsfs of Jbvb SE tibt do not support gfnfrids\&. Bfdbusf of typf frbsurf, \f3List<Numbfr>\fR bnd \f3List<String>\fR boti bfdomf \f3List\fR\&. Consfqufntly, tif dompilfr bllows tif bssignmfnt of tif objfdt \f3l\fR\f3,\fR wiidi ibs b rbw typf of \f3List\fR, to tif objfdt \f3ls\fR\&.
 .TP     
-varargs
-Warns about unsafe usages of variable arguments (\f3varargs\fR) methods, in particular, those that contain non-reifiable arguments, for example:
+vbrbrgs
+Wbrns bbout unsbff usbgfs of vbribblf brgumfnts (\f3vbrbrgs\fR) mftiods, in pbrtidulbr, tiosf tibt dontbin non-rfifibblf brgumfnts, for fxbmplf:
 .sp     
 .nf     
-\f3public class ArrayBuilder {\fP
+\f3publid dlbss ArrbyBuildfr {\fP
 .fi     
 .nf     
-\f3  public static <T> void addToList (List<T> listArg, T\&.\&.\&. elements) {\fP
+\f3  publid stbtid <T> void bddToList (List<T> listArg, T\&.\&.\&. flfmfnts) {\fP
 .fi     
 .nf     
-\f3    for (T x : elements) {\fP
+\f3    for (T x : flfmfnts) {\fP
 .fi     
 .nf     
-\f3      listArg\&.add(x);\fP
+\f3      listArg\&.bdd(x);\fP
 .fi     
 .nf     
 \f3    }\fP
@@ -985,12 +985,12 @@ Warns about unsafe usages of variable arguments (\f3varargs\fR) methods, in part
 .sp     
 
 
-\fINote:\fR A non-reifiable type is a type whose type information is not fully available at runtime\&.
+\fINotf:\fR A non-rfifibblf typf is b typf wiosf typf informbtion is not fully bvbilbblf bt runtimf\&.
 
-The compiler generates the following warning for the definition of the method \f3ArrayBuilder\&.addToList\fR
+Tif dompilfr gfnfrbtfs tif following wbrning for tif dffinition of tif mftiod \f3ArrbyBuildfr\&.bddToList\fR
 .sp     
 .nf     
-\f3warning: [varargs] Possible heap pollution from parameterized vararg type T\fP
+\f3wbrning: [vbrbrgs] Possiblf ifbp pollution from pbrbmftfrizfd vbrbrg typf T\fP
 .fi     
 .nf     
 \f3\fP
@@ -998,177 +998,177 @@ The compiler generates the following warning for the definition of the method \f
 .sp     
 
 
-When the compiler encounters a varargs method, it translates the \f3varargs\fR formal parameter into an array\&. However, the Java programming language does not permit the creation of arrays of parameterized types\&. In the method \f3ArrayBuilder\&.addToList\fR, the compiler translates the \f3varargs\fR formal parameter \f3T\&.\&.\&.\fR elements to the formal parameter \f3T[]\fR elements, an array\&. However, because of type erasure, the compiler converts the \f3varargs\fR formal parameter to \f3Object[]\fR elements\&. Consequently, there is a possibility of heap pollution\&.
+Wifn tif dompilfr fndountfrs b vbrbrgs mftiod, it trbnslbtfs tif \f3vbrbrgs\fR formbl pbrbmftfr into bn brrby\&. Howfvfr, tif Jbvb progrbmming lbngubgf dofs not pfrmit tif drfbtion of brrbys of pbrbmftfrizfd typfs\&. In tif mftiod \f3ArrbyBuildfr\&.bddToList\fR, tif dompilfr trbnslbtfs tif \f3vbrbrgs\fR formbl pbrbmftfr \f3T\&.\&.\&.\fR flfmfnts to tif formbl pbrbmftfr \f3T[]\fR flfmfnts, bn brrby\&. Howfvfr, bfdbusf of typf frbsurf, tif dompilfr donvfrts tif \f3vbrbrgs\fR formbl pbrbmftfr to \f3Objfdt[]\fR flfmfnts\&. Consfqufntly, tifrf is b possibility of ifbp pollution\&.
 .SH COMMAND-LINE\ ARGUMENT\ FILES    
-To shorten or simplify the \f3javac\fR command, you can specify one or more files that contain arguments to the \f3javac\fR command (except \f3-J\fR options)\&. This enables you to create \f3javac\fR commands of any length on any operating system\&.
+To siortfn or simplify tif \f3jbvbd\fR dommbnd, you dbn spfdify onf or morf filfs tibt dontbin brgumfnts to tif \f3jbvbd\fR dommbnd (fxdfpt \f3-J\fR options)\&. Tiis fnbblfs you to drfbtf \f3jbvbd\fR dommbnds of bny lfngti on bny opfrbting systfm\&.
 .PP
-An argument file can include \f3javac\fR options and source file names in any combination\&. The arguments within a file can be separated by spaces or new line characters\&. If a file name contains embedded spaces, then put the whole file name in double quotation marks\&.
+An brgumfnt filf dbn indludf \f3jbvbd\fR options bnd sourdf filf nbmfs in bny dombinbtion\&. Tif brgumfnts witiin b filf dbn bf sfpbrbtfd by spbdfs or nfw linf dibrbdtfrs\&. If b filf nbmf dontbins fmbfddfd spbdfs, tifn put tif wiolf filf nbmf in doublf quotbtion mbrks\&.
 .PP
-File Names within an argument file are relative to the current directory, not the location of the argument file\&. Wild cards (*) are not allowed in these lists (such as for specifying \f3*\&.java\fR)\&. Use of the at sign (@) to recursively interpret files is not supported\&. The \f3-J\fR options are not supported because they are passed to the launcher, which does not support argument files\&.
+Filf Nbmfs witiin bn brgumfnt filf brf rflbtivf to tif durrfnt dirfdtory, not tif lodbtion of tif brgumfnt filf\&. Wild dbrds (*) brf not bllowfd in tifsf lists (sudi bs for spfdifying \f3*\&.jbvb\fR)\&. Usf of tif bt sign (@) to rfdursivfly intfrprft filfs is not supportfd\&. Tif \f3-J\fR options brf not supportfd bfdbusf tify brf pbssfd to tif lbundifr, wiidi dofs not support brgumfnt filfs\&.
 .PP
-When executing the \f3javac\fR command, pass in the path and name of each argument file with the at sign (@) leading character\&. When the \f3javac\fR command encounters an argument beginning with the at sign (@), it expands the contents of that file into the argument list\&.
+Wifn fxfduting tif \f3jbvbd\fR dommbnd, pbss in tif pbti bnd nbmf of fbdi brgumfnt filf witi tif bt sign (@) lfbding dibrbdtfr\&. Wifn tif \f3jbvbd\fR dommbnd fndountfrs bn brgumfnt bfginning witi tif bt sign (@), it fxpbnds tif dontfnts of tibt filf into tif brgumfnt list\&.
 .PP
-\f3Example 1 Single Argument File\fR
+\f3Exbmplf 1 Singlf Argumfnt Filf\fR
 .PP
-You could use a single argument file named \f3argfile\fR to hold all \f3javac\fR arguments:
+You dould usf b singlf brgumfnt filf nbmfd \f3brgfilf\fR to iold bll \f3jbvbd\fR brgumfnts:
 .sp     
 .nf     
-\f3javac @argfile\fP
+\f3jbvbd @brgfilf\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This argument file could contain the contents of both files shown in Example 2
+Tiis brgumfnt filf dould dontbin tif dontfnts of boti filfs siown in Exbmplf 2
 .PP
-\f3Example 2 Two Argument Files\fR
+\f3Exbmplf 2 Two Argumfnt Filfs\fR
 .PP
-You can create two argument files: one for the \f3javac\fR options and the other for the source file names\&. Note that the following lists have no line-continuation characters\&.
+You dbn drfbtf two brgumfnt filfs: onf for tif \f3jbvbd\fR options bnd tif otifr for tif sourdf filf nbmfs\&. Notf tibt tif following lists ibvf no linf-dontinubtion dibrbdtfrs\&.
 .PP
-Create a file named options that contains the following:
+Crfbtf b filf nbmfd options tibt dontbins tif following:
 .sp     
 .nf     
-\f3\-d classes\fP
+\f3\-d dlbssfs\fP
 .fi     
 .nf     
 \f3\-g\fP
 .fi     
 .nf     
-\f3\-sourcepath /java/pubs/ws/1\&.3/src/share/classes\fP
+\f3\-sourdfpbti /jbvb/pubs/ws/1\&.3/srd/sibrf/dlbssfs\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Create a file named classes that contains the following:
+Crfbtf b filf nbmfd dlbssfs tibt dontbins tif following:
 .sp     
 .nf     
-\f3MyClass1\&.java\fP
+\f3MyClbss1\&.jbvb\fP
 .fi     
 .nf     
-\f3MyClass2\&.java\fP
+\f3MyClbss2\&.jbvb\fP
 .fi     
 .nf     
-\f3MyClass3\&.java\fP
+\f3MyClbss3\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Then, run the \f3javac\fR command as follows:
+Tifn, run tif \f3jbvbd\fR dommbnd bs follows:
 .sp     
 .nf     
-\f3javac @options @classes\fP
+\f3jbvbd @options @dlbssfs\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-\f3Example 3 Argument Files with Paths\fR
+\f3Exbmplf 3 Argumfnt Filfs witi Pbtis\fR
 .PP
-The argument files can have paths, but any file names inside the files are relative to the current working directory (not \f3path1\fR or \f3path2\fR):
+Tif brgumfnt filfs dbn ibvf pbtis, but bny filf nbmfs insidf tif filfs brf rflbtivf to tif durrfnt working dirfdtory (not \f3pbti1\fR or \f3pbti2\fR):
 .sp     
 .nf     
-\f3javac @path1/options @path2/classes\fP
+\f3jbvbd @pbti1/options @pbti2/dlbssfs\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SH ANNOTATION\ PROCESSING    
-The \f3javac\fR command provides direct support for annotation processing, superseding the need for the separate annotation processing command, \f3apt\fR\&.
+Tif \f3jbvbd\fR dommbnd providfs dirfdt support for bnnotbtion prodfssing, supfrsfding tif nffd for tif sfpbrbtf bnnotbtion prodfssing dommbnd, \f3bpt\fR\&.
 .PP
-The API for annotation processors is defined in the \f3javax\&.annotation\&.processing\fR and j\f3avax\&.lang\&.model\fR packages and subpackages\&.
+Tif API for bnnotbtion prodfssors is dffinfd in tif \f3jbvbx\&.bnnotbtion\&.prodfssing\fR bnd j\f3bvbx\&.lbng\&.modfl\fR pbdkbgfs bnd subpbdkbgfs\&.
 .SS HOW\ ANNOTATION\ PROCESSING\ WORKS    
-Unless annotation processing is disabled with the \f3-proc:none\fR option, the compiler searches for any annotation processors that are available\&. The search path can be specified with the \f3-processorpath\fR option\&. If no path is specified, then the user class path is used\&. Processors are located by means of service provider-configuration files named \f3META-INF/services/javax\&.annotation\&.processing\fR\&.Processor on the search path\&. Such files should contain the names of any annotation processors to be used, listed one per line\&. Alternatively, processors can be specified explicitly, using the \f3-processor\fR option\&.
+Unlfss bnnotbtion prodfssing is disbblfd witi tif \f3-prod:nonf\fR option, tif dompilfr sfbrdifs for bny bnnotbtion prodfssors tibt brf bvbilbblf\&. Tif sfbrdi pbti dbn bf spfdififd witi tif \f3-prodfssorpbti\fR option\&. If no pbti is spfdififd, tifn tif usfr dlbss pbti is usfd\&. Prodfssors brf lodbtfd by mfbns of sfrvidf providfr-donfigurbtion filfs nbmfd \f3META-INF/sfrvidfs/jbvbx\&.bnnotbtion\&.prodfssing\fR\&.Prodfssor on tif sfbrdi pbti\&. Sudi filfs siould dontbin tif nbmfs of bny bnnotbtion prodfssors to bf usfd, listfd onf pfr linf\&. Altfrnbtivfly, prodfssors dbn bf spfdififd fxpliditly, using tif \f3-prodfssor\fR option\&.
 .PP
-After scanning the source files and classes on the command line to determine what annotations are present, the compiler queries the processors to determine what annotations they process\&. When a match is found, the processor is called\&. A processor can claim the annotations it processes, in which case no further attempt is made to find any processors for those annotations\&. After all of the annotations are claimed, the compiler does not search for additional processors\&.
+Aftfr sdbnning tif sourdf filfs bnd dlbssfs on tif dommbnd linf to dftfrminf wibt bnnotbtions brf prfsfnt, tif dompilfr qufrifs tif prodfssors to dftfrminf wibt bnnotbtions tify prodfss\&. Wifn b mbtdi is found, tif prodfssor is dbllfd\&. A prodfssor dbn dlbim tif bnnotbtions it prodfssfs, in wiidi dbsf no furtifr bttfmpt is mbdf to find bny prodfssors for tiosf bnnotbtions\&. Aftfr bll of tif bnnotbtions brf dlbimfd, tif dompilfr dofs not sfbrdi for bdditionbl prodfssors\&.
 .PP
-If any processors generate new source files, then another round of annotation processing occurs: Any newly generated source files are scanned, and the annotations processed as before\&. Any processors called on previous rounds are also called on all subsequent rounds\&. This continues until no new source files are generated\&.
+If bny prodfssors gfnfrbtf nfw sourdf filfs, tifn bnotifr round of bnnotbtion prodfssing oddurs: Any nfwly gfnfrbtfd sourdf filfs brf sdbnnfd, bnd tif bnnotbtions prodfssfd bs bfforf\&. Any prodfssors dbllfd on prfvious rounds brf blso dbllfd on bll subsfqufnt rounds\&. Tiis dontinufs until no nfw sourdf filfs brf gfnfrbtfd\&.
 .PP
-After a round occurs where no new source files are generated, the annotation processors are called one last time, to give them a chance to complete any remaining work\&. Finally, unless the \f3-proc:only\fR option is used, the compiler compiles the original and all generated source files\&.
+Aftfr b round oddurs wifrf no nfw sourdf filfs brf gfnfrbtfd, tif bnnotbtion prodfssors brf dbllfd onf lbst timf, to givf tifm b dibndf to domplftf bny rfmbining work\&. Finblly, unlfss tif \f3-prod:only\fR option is usfd, tif dompilfr dompilfs tif originbl bnd bll gfnfrbtfd sourdf filfs\&.
 .SS IMPLICITLY\ LOADED\ SOURCE\ FILES    
-To compile a set of source files, the compiler might need to implicitly load additional source files\&. See Searching for Types\&. Such files are currently not subject to annotation processing\&. By default, the compiler gives a warning when annotation processing occurred and any implicitly loaded source files are compiled\&. The \f3-implicit\fR option provides a way to suppress the warning\&.
+To dompilf b sft of sourdf filfs, tif dompilfr migit nffd to impliditly lobd bdditionbl sourdf filfs\&. Sff Sfbrdiing for Typfs\&. Sudi filfs brf durrfntly not subjfdt to bnnotbtion prodfssing\&. By dffbult, tif dompilfr givfs b wbrning wifn bnnotbtion prodfssing oddurrfd bnd bny impliditly lobdfd sourdf filfs brf dompilfd\&. Tif \f3-implidit\fR option providfs b wby to supprfss tif wbrning\&.
 .SH SEARCHING\ FOR\ TYPES    
-To compile a source file, the compiler often needs information about a type, but the type definition is not in the source files specified on the command line\&. The compiler needs type information for every class or interface used, extended, or implemented in the source file\&. This includes classes and interfaces not explicitly mentioned in the source file, but that provide information through inheritance\&.
+To dompilf b sourdf filf, tif dompilfr oftfn nffds informbtion bbout b typf, but tif typf dffinition is not in tif sourdf filfs spfdififd on tif dommbnd linf\&. Tif dompilfr nffds typf informbtion for fvfry dlbss or intfrfbdf usfd, fxtfndfd, or implfmfntfd in tif sourdf filf\&. Tiis indludfs dlbssfs bnd intfrfbdfs not fxpliditly mfntionfd in tif sourdf filf, but tibt providf informbtion tirougi inifritbndf\&.
 .PP
-For example, when you create a subclass \f3java\&.applet\&.Applet\fR, you are also using the ancestor classes of \f3Applet\fR: \f3java\&.awt\&.Panel\fR, \f3java\&.awt\&.Container\fR, \f3java\&.awt\&.Component\fR, and \f3java\&.lang\&.Object\fR\&.
+For fxbmplf, wifn you drfbtf b subdlbss \f3jbvb\&.bpplft\&.Applft\fR, you brf blso using tif bndfstor dlbssfs of \f3Applft\fR: \f3jbvb\&.bwt\&.Pbnfl\fR, \f3jbvb\&.bwt\&.Contbinfr\fR, \f3jbvb\&.bwt\&.Componfnt\fR, bnd \f3jbvb\&.lbng\&.Objfdt\fR\&.
 .PP
-When the compiler needs type information, it searches for a source file or class file that defines the type\&. The compiler searches for class files first in the bootstrap and extension classes, then in the user class path (which by default is the current directory)\&. The user class path is defined by setting the \f3CLASSPATH\fR environment variable or by using the \f3-classpath\fR option\&.
+Wifn tif dompilfr nffds typf informbtion, it sfbrdifs for b sourdf filf or dlbss filf tibt dffinfs tif typf\&. Tif dompilfr sfbrdifs for dlbss filfs first in tif bootstrbp bnd fxtfnsion dlbssfs, tifn in tif usfr dlbss pbti (wiidi by dffbult is tif durrfnt dirfdtory)\&. Tif usfr dlbss pbti is dffinfd by sftting tif \f3CLASSPATH\fR fnvironmfnt vbribblf or by using tif \f3-dlbsspbti\fR option\&.
 .PP
-If you set the \f3-sourcepath\fR option, then the compiler searches the indicated path for source files\&. Otherwise, the compiler searches the user class path for both class files and source files\&.
+If you sft tif \f3-sourdfpbti\fR option, tifn tif dompilfr sfbrdifs tif indidbtfd pbti for sourdf filfs\&. Otifrwisf, tif dompilfr sfbrdifs tif usfr dlbss pbti for boti dlbss filfs bnd sourdf filfs\&.
 .PP
-You can specify different bootstrap or extension classes with the \f3-bootclasspath\fR and the \f3-extdirs\fR options\&. See Cross-Compilation Options\&.
+You dbn spfdify difffrfnt bootstrbp or fxtfnsion dlbssfs witi tif \f3-bootdlbsspbti\fR bnd tif \f3-fxtdirs\fR options\&. Sff Cross-Compilbtion Options\&.
 .PP
-A successful type search may produce a class file, a source file, or both\&. If both are found, then you can use the \f3-Xprefer\fR option to instruct the compiler which to use\&. If \f3newer\fR is specified, then the compiler uses the newer of the two files\&. If \f3source\fR is specified, the compiler uses the source file\&. The default is \f3newer\fR\&.
+A suddfssful typf sfbrdi mby produdf b dlbss filf, b sourdf filf, or boti\&. If boti brf found, tifn you dbn usf tif \f3-Xprfffr\fR option to instrudt tif dompilfr wiidi to usf\&. If \f3nfwfr\fR is spfdififd, tifn tif dompilfr usfs tif nfwfr of tif two filfs\&. If \f3sourdf\fR is spfdififd, tif dompilfr usfs tif sourdf filf\&. Tif dffbult is \f3nfwfr\fR\&.
 .PP
-If a type search finds a source file for a required type, either by itself, or as a result of the setting for the \f3-Xprefer\fR option, then the compiler reads the source file to get the information it needs\&. By default the compiler also compiles the source file\&. You can use the \f3-implicit\fR option to specify the behavior\&. If \f3none\fR is specified, then no class files are generated for the source file\&. If \f3class\fR is specified, then class files are generated for the source file\&.
+If b typf sfbrdi finds b sourdf filf for b rfquirfd typf, fitifr by itsflf, or bs b rfsult of tif sftting for tif \f3-Xprfffr\fR option, tifn tif dompilfr rfbds tif sourdf filf to gft tif informbtion it nffds\&. By dffbult tif dompilfr blso dompilfs tif sourdf filf\&. You dbn usf tif \f3-implidit\fR option to spfdify tif bfibvior\&. If \f3nonf\fR is spfdififd, tifn no dlbss filfs brf gfnfrbtfd for tif sourdf filf\&. If \f3dlbss\fR is spfdififd, tifn dlbss filfs brf gfnfrbtfd for tif sourdf filf\&.
 .PP
-The compiler might not discover the need for some type information until after annotation processing completes\&. When the type information is found in a source file and no \f3-implicit\fR option is specified, the compiler gives a warning that the file is being compiled without being subject to annotation processing\&. To disable the warning, either specify the file on the command line (so that it will be subject to annotation processing) or use the \f3-implicit\fR option to specify whether or not class files should be generated for such source files\&.
+Tif dompilfr migit not disdovfr tif nffd for somf typf informbtion until bftfr bnnotbtion prodfssing domplftfs\&. Wifn tif typf informbtion is found in b sourdf filf bnd no \f3-implidit\fR option is spfdififd, tif dompilfr givfs b wbrning tibt tif filf is bfing dompilfd witiout bfing subjfdt to bnnotbtion prodfssing\&. To disbblf tif wbrning, fitifr spfdify tif filf on tif dommbnd linf (so tibt it will bf subjfdt to bnnotbtion prodfssing) or usf tif \f3-implidit\fR option to spfdify wiftifr or not dlbss filfs siould bf gfnfrbtfd for sudi sourdf filfs\&.
 .SH PROGRAMMATIC\ INTERFACE    
-The \f3javac\fR command supports the new Java Compiler API defined by the classes and interfaces in the \f3javax\&.tools\fR package\&.
+Tif \f3jbvbd\fR dommbnd supports tif nfw Jbvb Compilfr API dffinfd by tif dlbssfs bnd intfrfbdfs in tif \f3jbvbx\&.tools\fR pbdkbgf\&.
 .SS EXAMPLE    
-To compile as though providing command-line arguments, use the following syntax:
+To dompilf bs tiougi providing dommbnd-linf brgumfnts, usf tif following syntbx:
 .sp     
 .nf     
-\f3JavaCompiler javac = ToolProvider\&.getSystemJavaCompiler();\fP
+\f3JbvbCompilfr jbvbd = ToolProvidfr\&.gftSystfmJbvbCompilfr();\fP
 .fi     
 .nf     
-\f3JavaCompiler javac = ToolProvider\&.getSystemJavaCompiler();\fP
+\f3JbvbCompilfr jbvbd = ToolProvidfr\&.gftSystfmJbvbCompilfr();\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The example writes diagnostics to the standard output stream and returns the exit code that \f3javac\fR would give when called from the command line\&.
+Tif fxbmplf writfs dibgnostids to tif stbndbrd output strfbm bnd rfturns tif fxit dodf tibt \f3jbvbd\fR would givf wifn dbllfd from tif dommbnd linf\&.
 .PP
-You can use other methods in the \f3javax\&.tools\&.JavaCompiler\fR interface to handle diagnostics, control where files are read from and written to, and more\&.
+You dbn usf otifr mftiods in tif \f3jbvbx\&.tools\&.JbvbCompilfr\fR intfrfbdf to ibndlf dibgnostids, dontrol wifrf filfs brf rfbd from bnd writtfn to, bnd morf\&.
 .SS OLD\ INTERFACE    
-\fINote:\fR This API is retained for backward compatibility only\&. All new code should use the newer Java Compiler API\&.
+\fINotf:\fR Tiis API is rftbinfd for bbdkwbrd dompbtibility only\&. All nfw dodf siould usf tif nfwfr Jbvb Compilfr API\&.
 .PP
-The \f3com\&.sun\&.tools\&.javac\&.Main\fR class provides two static methods to call the compiler from a program:
+Tif \f3dom\&.sun\&.tools\&.jbvbd\&.Mbin\fR dlbss providfs two stbtid mftiods to dbll tif dompilfr from b progrbm:
 .sp     
 .nf     
-\f3public static int compile(String[] args);\fP
+\f3publid stbtid int dompilf(String[] brgs);\fP
 .fi     
 .nf     
-\f3public static int compile(String[] args, PrintWriter out);\fP
+\f3publid stbtid int dompilf(String[] brgs, PrintWritfr out);\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The \f3args\fR parameter represents any of the command-line arguments that would typically be passed to the compiler\&.
+Tif \f3brgs\fR pbrbmftfr rfprfsfnts bny of tif dommbnd-linf brgumfnts tibt would typidblly bf pbssfd to tif dompilfr\&.
 .PP
-The \f3out\fR parameter indicates where the compiler diagnostic output is directed\&.
+Tif \f3out\fR pbrbmftfr indidbtfs wifrf tif dompilfr dibgnostid output is dirfdtfd\&.
 .PP
-The \f3return\fR value is equivalent to the \f3exit\fR value from \f3javac\fR\&.
+Tif \f3rfturn\fR vbluf is fquivblfnt to tif \f3fxit\fR vbluf from \f3jbvbd\fR\&.
 .PP
-\fINote:\fR All other classes and methods found in a package with names that start with \f3com\&.sun\&.tools\&.javac\fR (subpackages of \f3com\&.sun\&.tools\&.javac\fR) are strictly internal and subject to change at any time\&.
+\fINotf:\fR All otifr dlbssfs bnd mftiods found in b pbdkbgf witi nbmfs tibt stbrt witi \f3dom\&.sun\&.tools\&.jbvbd\fR (subpbdkbgfs of \f3dom\&.sun\&.tools\&.jbvbd\fR) brf stridtly intfrnbl bnd subjfdt to dibngf bt bny timf\&.
 .SH EXAMPLES    
-\f3Example 1 Compile a Simple Program\fR
+\f3Exbmplf 1 Compilf b Simplf Progrbm\fR
 .PP
-This example shows how to compile the \f3Hello\&.java\fR source file in the greetings directory\&. The class defined in \f3Hello\&.java\fR is called \f3greetings\&.Hello\fR\&. The greetings directory is the package directory both for the source file and the class file and is underneath the current directory\&. This makes it possible to use the default user class path\&. It also makes it unnecessary to specify a separate destination directory with the \f3-d\fR option\&.
+Tiis fxbmplf siows iow to dompilf tif \f3Hfllo\&.jbvb\fR sourdf filf in tif grfftings dirfdtory\&. Tif dlbss dffinfd in \f3Hfllo\&.jbvb\fR is dbllfd \f3grfftings\&.Hfllo\fR\&. Tif grfftings dirfdtory is tif pbdkbgf dirfdtory boti for tif sourdf filf bnd tif dlbss filf bnd is undfrnfbti tif durrfnt dirfdtory\&. Tiis mbkfs it possiblf to usf tif dffbult usfr dlbss pbti\&. It blso mbkfs it unnfdfssbry to spfdify b sfpbrbtf dfstinbtion dirfdtory witi tif \f3-d\fR option\&.
 .PP
-The source code in \f3Hello\&.java\fR:
+Tif sourdf dodf in \f3Hfllo\&.jbvb\fR:
 .sp     
 .nf     
-\f3package greetings;\fP
+\f3pbdkbgf grfftings;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3public class Hello {\fP
+\f3publid dlbss Hfllo {\fP
 .fi     
 .nf     
-\f3    public static void main(String[] args) {\fP
+\f3    publid stbtid void mbin(String[] brgs) {\fP
 .fi     
 .nf     
-\f3        for (int i=0; i < args\&.length; i++) {\fP
+\f3        for (int i=0; i < brgs\&.lfngti; i++) {\fP
 .fi     
 .nf     
-\f3            System\&.out\&.println("Hello " + args[i]);\fP
+\f3            Systfm\&.out\&.println("Hfllo " + brgs[i]);\fP
 .fi     
 .nf     
 \f3        }\fP
@@ -1183,178 +1183,178 @@ The source code in \f3Hello\&.java\fR:
 \f3\fP
 .fi     
 .sp     
-Compile greetings\&.Hello:
+Compilf grfftings\&.Hfllo:
 .sp     
 .nf     
-\f3javac greetings/Hello\&.java\fP
+\f3jbvbd grfftings/Hfllo\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Run \f3greetings\&.Hello\fR:
+Run \f3grfftings\&.Hfllo\fR:
 .sp     
 .nf     
-\f3java greetings\&.Hello World Universe Everyone\fP
+\f3jbvb grfftings\&.Hfllo World Univfrsf Evfryonf\fP
 .fi     
 .nf     
-\f3Hello World\fP
+\f3Hfllo World\fP
 .fi     
 .nf     
-\f3Hello Universe\fP
+\f3Hfllo Univfrsf\fP
 .fi     
 .nf     
-\f3Hello Everyone\fP
+\f3Hfllo Evfryonf\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-\f3Example 2 Compile Multiple Source Files\fR
+\f3Exbmplf 2 Compilf Multiplf Sourdf Filfs\fR
 .PP
-This example compiles the \f3Aloha\&.java\fR, \f3GutenTag\&.java\fR, \f3Hello\&.java\fR, and \f3Hi\&.java\fR source files in the \f3greetings\fR package\&.
+Tiis fxbmplf dompilfs tif \f3Aloib\&.jbvb\fR, \f3GutfnTbg\&.jbvb\fR, \f3Hfllo\&.jbvb\fR, bnd \f3Hi\&.jbvb\fR sourdf filfs in tif \f3grfftings\fR pbdkbgf\&.
 .sp     
 .nf     
-\f3% javac greetings/*\&.java\fP
+\f3% jbvbd grfftings/*\&.jbvb\fP
 .fi     
 .nf     
-\f3% ls greetings\fP
+\f3% ls grfftings\fP
 .fi     
 .nf     
-\f3Aloha\&.class         GutenTag\&.class      Hello\&.class         Hi\&.class\fP
+\f3Aloib\&.dlbss         GutfnTbg\&.dlbss      Hfllo\&.dlbss         Hi\&.dlbss\fP
 .fi     
 .nf     
-\f3Aloha\&.java          GutenTag\&.java       Hello\&.java          Hi\&.java\fP
+\f3Aloib\&.jbvb          GutfnTbg\&.jbvb       Hfllo\&.jbvb          Hi\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-\f3Example 3 Specify a User Class Path\fR
+\f3Exbmplf 3 Spfdify b Usfr Clbss Pbti\fR
 .PP
-After changing one of the source files in the previous example, recompile it:
+Aftfr dibnging onf of tif sourdf filfs in tif prfvious fxbmplf, rfdompilf it:
 .sp     
 .nf     
 \f3pwd\fP
 .fi     
 .nf     
-\f3/examples\fP
+\f3/fxbmplfs\fP
 .fi     
 .nf     
-\f3javac greetings/Hi\&.java\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.sp     
-Because \f3greetings\&.Hi\fR refers to other classes in the \f3greetings\fR package, the compiler needs to find these other classes\&. The previous example works because the default user class path is the directory that contains the package directory\&. If you want to recompile this file without concern for which directory you are in, then add the examples directory to the user class path by setting \f3CLASSPATH\fR\&. This example uses the \f3-classpath\fR option\&.
-.sp     
-.nf     
-\f3javac \-classpath /examples /examples/greetings/Hi\&.java\fP
+\f3jbvbd grfftings/Hi\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-If you change \f3greetings\&.Hi\fR to use a banner utility, then that utility also needs to be accessible through the user class path\&.
+Bfdbusf \f3grfftings\&.Hi\fR rfffrs to otifr dlbssfs in tif \f3grfftings\fR pbdkbgf, tif dompilfr nffds to find tifsf otifr dlbssfs\&. Tif prfvious fxbmplf works bfdbusf tif dffbult usfr dlbss pbti is tif dirfdtory tibt dontbins tif pbdkbgf dirfdtory\&. If you wbnt to rfdompilf tiis filf witiout dondfrn for wiidi dirfdtory you brf in, tifn bdd tif fxbmplfs dirfdtory to tif usfr dlbss pbti by sftting \f3CLASSPATH\fR\&. Tiis fxbmplf usfs tif \f3-dlbsspbti\fR option\&.
 .sp     
 .nf     
-\f3javac \-classpath /examples:/lib/Banners\&.jar \e\fP
-.fi     
-.nf     
-\f3            /examples/greetings/Hi\&.java\fP
+\f3jbvbd \-dlbsspbti /fxbmplfs /fxbmplfs/grfftings/Hi\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-To execute a class in the \f3greetings\fR package, the program needs access to the \f3greetings\fR package, and to the classes that the \f3greetings\fR classes use\&.
+If you dibngf \f3grfftings\&.Hi\fR to usf b bbnnfr utility, tifn tibt utility blso nffds to bf bddfssiblf tirougi tif usfr dlbss pbti\&.
 .sp     
 .nf     
-\f3java \-classpath /examples:/lib/Banners\&.jar greetings\&.Hi\fP
+\f3jbvbd \-dlbsspbti /fxbmplfs:/lib/Bbnnfrs\&.jbr \f\fP
+.fi     
+.nf     
+\f3            /fxbmplfs/grfftings/Hi\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-\f3Example 4 Separate Source Files and Class Files\fR
+To fxfdutf b dlbss in tif \f3grfftings\fR pbdkbgf, tif progrbm nffds bddfss to tif \f3grfftings\fR pbdkbgf, bnd to tif dlbssfs tibt tif \f3grfftings\fR dlbssfs usf\&.
+.sp     
+.nf     
+\f3jbvb \-dlbsspbti /fxbmplfs:/lib/Bbnnfrs\&.jbr grfftings\&.Hi\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\f3Exbmplf 4 Sfpbrbtf Sourdf Filfs bnd Clbss Filfs\fR
 .PP
-The following example uses \f3javac\fR to compile code that runs on JVM 1\&.6\&.
+Tif following fxbmplf usfs \f3jbvbd\fR to dompilf dodf tibt runs on JVM 1\&.6\&.
 .sp     
 .nf     
-\f3javac \-source 1\&.6 \-target 1\&.6 \-bootclasspath jdk1\&.6\&.0/lib/rt\&.jar \e \fP
+\f3jbvbd \-sourdf 1\&.6 \-tbrgft 1\&.6 \-bootdlbsspbti jdk1\&.6\&.0/lib/rt\&.jbr \f \fP
 .fi     
 .nf     
-\f3\-extdirs "" OldCode\&.java\fP
+\f3\-fxtdirs "" OldCodf\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The \f3-source 1\&.6\fR option specifies that release 1\&.6 (or 6) of the Java programming language be used to compile \f3OldCode\&.java\fR\&. The option \f3-target 1\&.6\fR option ensures that the generated class files are compatible with JVM 1\&.6\&. Note that in most cases, the value of the \f3-target\fR option is the value of the \f3-source\fR option; in this example, you can omit the \f3-target\fR option\&.
+Tif \f3-sourdf 1\&.6\fR option spfdififs tibt rflfbsf 1\&.6 (or 6) of tif Jbvb progrbmming lbngubgf bf usfd to dompilf \f3OldCodf\&.jbvb\fR\&. Tif option \f3-tbrgft 1\&.6\fR option fnsurfs tibt tif gfnfrbtfd dlbss filfs brf dompbtiblf witi JVM 1\&.6\&. Notf tibt in most dbsfs, tif vbluf of tif \f3-tbrgft\fR option is tif vbluf of tif \f3-sourdf\fR option; in tiis fxbmplf, you dbn omit tif \f3-tbrgft\fR option\&.
 .PP
-You must specify the \f3-bootclasspath\fR option to specify the correct version of the bootstrap classes (the \f3rt\&.jar\fR library)\&. If not, then the compiler generates a warning:
+You must spfdify tif \f3-bootdlbsspbti\fR option to spfdify tif dorrfdt vfrsion of tif bootstrbp dlbssfs (tif \f3rt\&.jbr\fR librbry)\&. If not, tifn tif dompilfr gfnfrbtfs b wbrning:
 .sp     
 .nf     
-\f3javac \-source 1\&.6 OldCode\&.java\fP
+\f3jbvbd \-sourdf 1\&.6 OldCodf\&.jbvb\fP
 .fi     
 .nf     
-\f3warning: [options] bootstrap class path not set in conjunction with \fP
+\f3wbrning: [options] bootstrbp dlbss pbti not sft in donjundtion witi \fP
 .fi     
 .nf     
-\f3\-source 1\&.6\fP
+\f3\-sourdf 1\&.6\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-If you do not specify the correct version of bootstrap classes, then the compiler uses the old language rules (in this example, it uses version 1\&.6 of the Java programming language) combined with the new bootstrap classes, which can result in class files that do not work on the older platform (in this case, Java SE 6) because reference to nonexistent methods can get included\&.
+If you do not spfdify tif dorrfdt vfrsion of bootstrbp dlbssfs, tifn tif dompilfr usfs tif old lbngubgf rulfs (in tiis fxbmplf, it usfs vfrsion 1\&.6 of tif Jbvb progrbmming lbngubgf) dombinfd witi tif nfw bootstrbp dlbssfs, wiidi dbn rfsult in dlbss filfs tibt do not work on tif oldfr plbtform (in tiis dbsf, Jbvb SE 6) bfdbusf rfffrfndf to nonfxistfnt mftiods dbn gft indludfd\&.
 .PP
-\f3Example 5 Cross Compile\fR
+\f3Exbmplf 5 Cross Compilf\fR
 .PP
-This example uses \f3javac\fR to compile code that runs on JVM 1\&.6\&.
+Tiis fxbmplf usfs \f3jbvbd\fR to dompilf dodf tibt runs on JVM 1\&.6\&.
 .sp     
 .nf     
-\f3javac \-source 1\&.6 \-target 1\&.6 \-bootclasspath jdk1\&.6\&.0/lib/rt\&.jar \e\fP
+\f3jbvbd \-sourdf 1\&.6 \-tbrgft 1\&.6 \-bootdlbsspbti jdk1\&.6\&.0/lib/rt\&.jbr \f\fP
 .fi     
 .nf     
-\f3            \-extdirs "" OldCode\&.java\fP
+\f3            \-fxtdirs "" OldCodf\&.jbvb\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The\f3-source 1\&.6\fR option specifies that release 1\&.6 (or 6) of the Java programming language to be used to compile OldCode\&.java\&. The \f3-target 1\&.6\fR option ensures that the generated class files are compatible with JVM 1\&.6\&. In most cases, the value of the \f3-target\fR is the value of \f3-source\fR\&. In this example, the \f3-target\fR option is omitted\&.
+Tif\f3-sourdf 1\&.6\fR option spfdififs tibt rflfbsf 1\&.6 (or 6) of tif Jbvb progrbmming lbngubgf to bf usfd to dompilf OldCodf\&.jbvb\&. Tif \f3-tbrgft 1\&.6\fR option fnsurfs tibt tif gfnfrbtfd dlbss filfs brf dompbtiblf witi JVM 1\&.6\&. In most dbsfs, tif vbluf of tif \f3-tbrgft\fR is tif vbluf of \f3-sourdf\fR\&. In tiis fxbmplf, tif \f3-tbrgft\fR option is omittfd\&.
 .PP
-You must specify the \f3-bootclasspath\fR option to specify the correct version of the bootstrap classes (the \f3rt\&.jar\fR library)\&. If not, then the compiler generates a warning:
+You must spfdify tif \f3-bootdlbsspbti\fR option to spfdify tif dorrfdt vfrsion of tif bootstrbp dlbssfs (tif \f3rt\&.jbr\fR librbry)\&. If not, tifn tif dompilfr gfnfrbtfs b wbrning:
 .sp     
 .nf     
-\f3javac \-source 1\&.6 OldCode\&.java\fP
+\f3jbvbd \-sourdf 1\&.6 OldCodf\&.jbvb\fP
 .fi     
 .nf     
-\f3warning: [options] bootstrap class path not set in conjunction with \-source 1\&.6\fP
+\f3wbrning: [options] bootstrbp dlbss pbti not sft in donjundtion witi \-sourdf 1\&.6\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-If you do not specify the correct version of bootstrap classes, then the compiler uses the old language rules combined with the new bootstrap classes\&. This combination can result in class files that do not work on the older platform (in this case, Java SE 6) because reference to nonexistent methods can get included\&. In this example, the compiler uses release 1\&.6 of the Java programming language\&.
+If you do not spfdify tif dorrfdt vfrsion of bootstrbp dlbssfs, tifn tif dompilfr usfs tif old lbngubgf rulfs dombinfd witi tif nfw bootstrbp dlbssfs\&. Tiis dombinbtion dbn rfsult in dlbss filfs tibt do not work on tif oldfr plbtform (in tiis dbsf, Jbvb SE 6) bfdbusf rfffrfndf to nonfxistfnt mftiods dbn gft indludfd\&. In tiis fxbmplf, tif dompilfr usfs rflfbsf 1\&.6 of tif Jbvb progrbmming lbngubgf\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-java(1)
+jbvb(1)
 .TP 0.2i    
 \(bu
 jdb(1)
 .TP 0.2i    
 \(bu
-javah(1)
+jbvbi(1)
 .TP 0.2i    
 \(bu
-javadoc(1)
+jbvbdod(1)
 .TP 0.2i    
 \(bu
-jar(1)
+jbr(1)
 .TP 0.2i    
 \(bu
 jdb(1)

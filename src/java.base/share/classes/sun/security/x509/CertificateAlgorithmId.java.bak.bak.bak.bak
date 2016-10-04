@@ -1,0 +1,170 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf AlgorithmId for thf Cfrtifidbtf.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss CfrtifidbtfAlgorithmId implfmfnts CfrtAttrSft<String> {
+    privbtf AlgorithmId blgId;
+
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT = "x509.info.blgorithmID";
+    /**
+     * Sub bttributfs nbmf for this CfrtAttrSft.
+     */
+    publid stbtid finbl String NAME = "blgorithmID";
+
+    /**
+     * Idfntififr to bf usfd with gft, sft, bnd dflftf mfthods. Whfn
+     * using this idfntififr thf bssodibtfd objfdt bfing pbssfd in or
+     * rfturnfd is bn instbndf of AlgorithmId.
+     * @sff sun.sfdurity.x509.AlgorithmId
+     */
+    publid stbtid finbl String ALGORITHM = "blgorithm";
+
+    /**
+     * Dffbult donstrudtor for thf dfrtifidbtf bttributf.
+     *
+     * @pbrbm blgId thf Algorithm idfntififr
+     */
+    publid CfrtifidbtfAlgorithmId(AlgorithmId blgId) {
+        this.blgId = blgId;
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DER strfbm.
+     *
+     * @pbrbm in thf DfrInputStrfbm to rfbd thf sfribl numbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfAlgorithmId(DfrInputStrfbm in) throws IOExdfption {
+        DfrVbluf vbl = in.gftDfrVbluf();
+        blgId = AlgorithmId.pbrsf(vbl);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd strfbm.
+     *
+     * @pbrbm in thf InputStrfbm to rfbd thf sfribl numbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfAlgorithmId(InputStrfbm in) throws IOExdfption {
+        DfrVbluf vbl = nfw DfrVbluf(in);
+        blgId = AlgorithmId.pbrsf(vbl);
+    }
+
+    /**
+     * Rfturn thf blgorithm idfntififr bs usfr rfbdbblf string.
+     */
+    publid String toString() {
+        if (blgId == null) rfturn "";
+        rfturn (blgId.toString() +
+                ", OID = " + (blgId.gftOID()).toString() + "\n");
+    }
+
+    /**
+     * Endodf thf blgorithm idfntififr in DER form to thf strfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to mbrshbl thf dontfnts to.
+     * @fxdfption IOExdfption on frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        blgId.fndodf(tmp);
+
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (!(obj instbndfof AlgorithmId)) {
+            throw nfw IOExdfption("Attributf must bf of typf AlgorithmId.");
+        }
+        if (nbmf.fqublsIgnorfCbsf(ALGORITHM)) {
+            blgId = (AlgorithmId)obj;
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                              "CfrtAttrSft:CfrtifidbtfAlgorithmId.");
+        }
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid AlgorithmId gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(ALGORITHM)) {
+            rfturn (blgId);
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                               "CfrtAttrSft:CfrtifidbtfAlgorithmId.");
+        }
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(ALGORITHM)) {
+            blgId = null;
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                               "CfrtAttrSft:CfrtifidbtfAlgorithmId.");
+        }
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(ALGORITHM);
+        rfturn (flfmfnts.flfmfnts());
+    }
+
+   /**
+    * Rfturn thf nbmf of this bttributf.
+    */
+   publid String gftNbmf() {
+      rfturn (NAME);
+   }
+}

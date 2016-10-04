@@ -1,0 +1,217 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Contbinfr;
+import jbvbx.swing.plbf.ComponfntUI;
+import sun.bwt.AppContfxt;
+
+/**
+ * <dodf>LbyoutStylf</dodf> providfs informbtion bbout how to position
+ * domponfnts.  This dlbss is primbrily usfful for visubl tools bnd
+ * lbyout mbnbgfrs.  Most dfvflopfrs will not nffd to usf this dlbss.
+ * <p>
+ * You typidblly don't sft or drfbtf b
+ * <dodf>LbyoutStylf</dodf>.  Instfbd usf thf stbtid mfthod
+ * <dodf>gftInstbndf</dodf> to obtbin thf durrfnt instbndf.
+ *
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss LbyoutStylf {
+    /**
+     * Sfts thf shbrfd instbndf of <dodf>LbyoutStylf</dodf>.  Spfdifying
+     * <dodf>null</dodf> rfsults in using thf <dodf>LbyoutStylf</dodf> from
+     * thf durrfnt <dodf>LookAndFffl</dodf>.
+     *
+     * @pbrbm stylf thf <dodf>LbyoutStylf</dodf>, or <dodf>null</dodf>
+     * @sff #gftInstbndf
+     */
+    publid stbtid void sftInstbndf(LbyoutStylf stylf) {
+        syndhronizfd(LbyoutStylf.dlbss) {
+            if (stylf == null) {
+                AppContfxt.gftAppContfxt().rfmovf(LbyoutStylf.dlbss);
+            }
+            flsf {
+                AppContfxt.gftAppContfxt().put(LbyoutStylf.dlbss, stylf);
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf shbrfd instbndf of <dodf>LbyoutStylf</dodf>.  If bn instbndf
+     * hbs not bffn spfdififd in <dodf>sftInstbndf</dodf>, this will rfturn
+     * thf <dodf>LbyoutStylf</dodf> from thf durrfnt <dodf>LookAndFffl</dodf>.
+     *
+     * @sff LookAndFffl#gftLbyoutStylf
+     * @rfturn thf shbrfd instbndf of <dodf>LbyoutStylf</dodf>
+     */
+    publid stbtid LbyoutStylf gftInstbndf() {
+        LbyoutStylf stylf;
+        syndhronizfd(LbyoutStylf.dlbss) {
+            stylf = (LbyoutStylf)AppContfxt.gftAppContfxt().
+                    gft(LbyoutStylf.dlbss);
+        }
+        if (stylf == null) {
+            rfturn UIMbnbgfr.gftLookAndFffl().gftLbyoutStylf();
+        }
+        rfturn stylf;
+    }
+
+
+    /**
+     * <dodf>ComponfntPlbdfmfnt</dodf> is bn fnumfrbtion of thf
+     * possiblf wbys two domponfnts dbn bf plbdfd rflbtivf to fbdh
+     * othfr.  <dodf>ComponfntPlbdfmfnt</dodf> is usfd by thf
+     * <dodf>LbyoutStylf</dodf> mfthod <dodf>gftPrfffrrfdGbp</dodf>.  Rfffr to
+     * <dodf>LbyoutStylf</dodf> for morf informbtion.
+     *
+     * @sff LbyoutStylf#gftPrfffrrfdGbp(JComponfnt,JComponfnt,
+     *      ComponfntPlbdfmfnt,int,Contbinfr)
+     * @sindf 1.6
+     */
+    publid fnum ComponfntPlbdfmfnt {
+        /**
+         * Enumfrbtion vbluf indidbting thf two domponfnts brf
+         * visublly rflbtfd bnd will bf plbdfd in thf sbmf pbrfnt.
+         * For fxbmplf, b <dodf>JLbbfl</dodf> providing b lbbfl for b
+         * <dodf>JTfxtFifld</dodf> is typidblly visublly bssodibtfd
+         * with thf <dodf>JTfxtFifld</dodf>; thf donstbnt <dodf>RELATED</dodf>
+         * is usfd for this.
+         */
+        RELATED,
+
+        /**
+         * Enumfrbtion vbluf indidbting thf two domponfnts brf
+         * visublly unrflbtfd bnd will bf plbdfd in thf sbmf pbrfnt.
+         * For fxbmplf, groupings of domponfnts brf usublly visublly
+         * sfpbrbtfd; thf donstbnt <dodf>UNRELATED</dodf> is usfd for this.
+         */
+        UNRELATED,
+
+        /**
+         * Enumfrbtion vbluf indidbting thf distbndf to indfnt b domponfnt
+         * is bfing rfqufstfd.  For fxbmplf, oftfn timfs thf dhildrfn of
+         * b lbbfl will bf horizontblly indfntfd from thf lbbfl.  To dftfrminf
+         * thf prfffrrfd distbndf for sudh b gbp usf thf
+         * <dodf>INDENT</dodf> typf.
+         * <p>
+         * This vbluf is typidblly only usfful with b dirfdtion of
+         * <dodf>EAST</dodf> or <dodf>WEST</dodf>.
+         */
+        INDENT;
+    }
+
+
+    /**
+     * Crfbtfs b nfw <dodf>LbyoutStylf</dodf>.  You gfnfrblly don't
+     * drfbtf b <dodf>LbyoutStylf</dodf>.  Instfbd usf thf mfthod
+     * <dodf>gftInstbndf</dodf> to obtbin thf durrfnt
+     * <dodf>LbyoutStylf</dodf>.
+     */
+    publid LbyoutStylf() {
+    }
+
+    /**
+     * Rfturns thf bmount of spbdf to usf bftwffn two domponfnts.
+     * Thf rfturn vbluf indidbtfs thf distbndf to plbdf
+     * <dodf>domponfnt2</dodf> rflbtivf to <dodf>domponfnt1</dodf>.
+     * For fxbmplf, thf following rfturns thf bmount of spbdf to plbdf
+     * bftwffn <dodf>domponfnt2</dodf> bnd <dodf>domponfnt1</dodf>
+     * whfn <dodf>domponfnt2</dodf> is plbdfd vfrtidblly bbovf
+     * <dodf>domponfnt1</dodf>:
+     * <prf>
+     *   int gbp = gftPrfffrrfdGbp(domponfnt1, domponfnt2,
+     *                             ComponfntPlbdfmfnt.RELATED,
+     *                             SwingConstbnts.NORTH, pbrfnt);
+     * </prf>
+     * Thf <dodf>typf</dodf> pbrbmftfr indidbtfs thf rflbtion bftwffn
+     * thf two domponfnts.  If thf two domponfnts will bf dontbinfd in
+     * thf sbmf pbrfnt bnd brf showing similbr logidblly rflbtfd
+     * itfms, usf <dodf>RELATED</dodf>.  If thf two domponfnts will bf
+     * dontbinfd in thf sbmf pbrfnt but show logidblly unrflbtfd itfms
+     * usf <dodf>UNRELATED</dodf>.  Somf look bnd fffls mby not
+     * distinguish bftwffn thf <dodf>RELATED</dodf> bnd
+     * <dodf>UNRELATED</dodf> typfs.
+     * <p>
+     * Thf rfturn vbluf is not intfndfd to tbkf into bddount thf
+     * durrfnt sizf bnd position of <dodf>domponfnt2</dodf> or
+     * <dodf>domponfnt1</dodf>.  Thf rfturn vbluf mby tbkf into
+     * donsidfrbtion vbrious propfrtifs of thf domponfnts.  For
+     * fxbmplf, thf spbdf mby vbry bbsfd on font sizf, or thf prfffrrfd
+     * sizf of thf domponfnt.
+     *
+     * @pbrbm domponfnt1 thf <dodf>JComponfnt</dodf>
+     *               <dodf>domponfnt2</dodf> is bfing plbdfd rflbtivf to
+     * @pbrbm domponfnt2 thf <dodf>JComponfnt</dodf> bfing plbdfd
+     * @pbrbm position thf position <dodf>domponfnt2</dodf> is bfing plbdfd
+     *        rflbtivf to <dodf>domponfnt1</dodf>; onf of
+     *        <dodf>SwingConstbnts.NORTH</dodf>,
+     *        <dodf>SwingConstbnts.SOUTH</dodf>,
+     *        <dodf>SwingConstbnts.EAST</dodf> or
+     *        <dodf>SwingConstbnts.WEST</dodf>
+     * @pbrbm typf how thf two domponfnts brf bfing plbdfd
+     * @pbrbm pbrfnt thf pbrfnt of <dodf>domponfnt2</dodf>; this mby difffr
+     *        from thf bdtubl pbrfnt bnd it mby bf <dodf>null</dodf>
+     * @rfturn thf bmount of spbdf to plbdf bftwffn thf two domponfnts
+     * @throws NullPointfrExdfption if <dodf>domponfnt1</dodf>,
+     *         <dodf>domponfnt2</dodf> or <dodf>typf</dodf> is
+     *         <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>position</dodf> is not
+     *         onf of <dodf>SwingConstbnts.NORTH</dodf>,
+     *         <dodf>SwingConstbnts.SOUTH</dodf>,
+     *         <dodf>SwingConstbnts.EAST</dodf> or
+     *         <dodf>SwingConstbnts.WEST</dodf>
+     * @sff LookAndFffl#gftLbyoutStylf
+     * @sindf 1.6
+     */
+    publid bbstrbdt int gftPrfffrrfdGbp(JComponfnt domponfnt1,
+                                        JComponfnt domponfnt2,
+                                        ComponfntPlbdfmfnt typf, int position,
+                                        Contbinfr pbrfnt);
+
+    /**
+     * Rfturns thf bmount of spbdf to plbdf bftwffn thf domponfnt bnd spfdififd
+     * fdgf of its pbrfnt.
+     *
+     * @pbrbm domponfnt thf <dodf>JComponfnt</dodf> bfing positionfd
+     * @pbrbm position thf position <dodf>domponfnt</dodf> is bfing plbdfd
+     *        rflbtivf to its pbrfnt; onf of
+     *        <dodf>SwingConstbnts.NORTH</dodf>,
+     *        <dodf>SwingConstbnts.SOUTH</dodf>,
+     *        <dodf>SwingConstbnts.EAST</dodf> or
+     *        <dodf>SwingConstbnts.WEST</dodf>
+     * @pbrbm pbrfnt thf pbrfnt of <dodf>domponfnt</dodf>; this mby difffr
+     *        from thf bdtubl pbrfnt bnd mby bf <dodf>null</dodf>
+     * @rfturn thf bmount of spbdf to plbdf bftwffn thf domponfnt bnd spfdififd
+     *         fdgf
+     * @throws IllfgblArgumfntExdfption if <dodf>position</dodf> is not
+     *         onf of <dodf>SwingConstbnts.NORTH</dodf>,
+     *         <dodf>SwingConstbnts.SOUTH</dodf>,
+     *         <dodf>SwingConstbnts.EAST</dodf> or
+     *         <dodf>SwingConstbnts.WEST</dodf>
+     */
+    publid bbstrbdt int gftContbinfrGbp(JComponfnt domponfnt, int position,
+                                        Contbinfr pbrfnt);
+}

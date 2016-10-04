@@ -1,0 +1,216 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf org.iftf.jgss;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+
+/**
+ * This dlbss rfprfsfnts Univfrsbl Objfdt Idfntififrs (Oids) bnd thfir
+ * bssodibtfd opfrbtions.<p>
+ *
+ * Oids brf hifrbrdhidblly globblly-intfrprftbblf idfntififrs usfd
+ * within thf GSS-API frbmfwork to idfntify mfdhbnisms bnd nbmf formbts.<p>
+ *
+ * Thf strudturf bnd fndoding of Oids is dffinfd in ISOIEC-8824 bnd
+ * ISOIEC-8825.  For fxbmplf thf Oid rfprfsfntbtion of Kfrbfros V5
+ * mfdhbnism is "1.2.840.113554.1.2.2"<p>
+ *
+ * Thf GSSNbmf nbmf dlbss dontbins publid stbtid Oid objfdts
+ * rfprfsfnting thf stbndbrd nbmf typfs dffinfd in GSS-API.
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @sindf 1.4
+ */
+publid dlbss Oid {
+
+    privbtf ObjfdtIdfntififr oid;
+    privbtf bytf[] dfrEndoding;
+
+    /**
+     * Construdts bn Oid objfdt from b string rfprfsfntbtion of its
+     * intfgfr domponfnts.
+     *
+     * @pbrbm strOid thf dot sfpbrbtfd string rfprfsfntbtion of thf oid.
+     * For instbndf, "1.2.840.113554.1.2.2".
+     * @fxdfption GSSExdfption mby bf thrown whfn thf string is indorrfdtly
+     *     formbttfd
+     */
+    publid Oid(String strOid) throws GSSExdfption {
+
+        try {
+            oid = nfw ObjfdtIdfntififr(strOid);
+            dfrEndoding = null;
+        } dbtdh (Exdfption f) {
+            throw nfw GSSExdfption(GSSExdfption.FAILURE,
+                          "Impropfrly formbttfd Objfdt Idfntififr String - "
+                          + strOid);
+        }
+    }
+
+    /**
+     * Crfbtfs bn Oid objfdt from its ASN.1 DER fndoding.  This rfffrs to
+     * thf full fndoding indluding tbg bnd lfngth.  Thf strudturf bnd
+     * fndoding of Oids is dffinfd in ISOIEC-8824 bnd ISOIEC-8825.  This
+     * mfthod is idfntidbl in fundtionblity to its bytf brrby dountfrpbrt.
+     *
+     * @pbrbm dfrOid strfbm dontbining thf DER fndodfd oid
+     * @fxdfption GSSExdfption mby bf thrown whfn thf DER fndoding dofs not
+     *  follow thf prfsdribfd formbt.
+     */
+    publid Oid(InputStrfbm dfrOid) throws GSSExdfption {
+        try {
+            DfrVbluf dfrVbl = nfw DfrVbluf(dfrOid);
+            dfrEndoding = dfrVbl.toBytfArrby();
+            oid = dfrVbl.gftOID();
+        } dbtdh (IOExdfption f) {
+            throw nfw GSSExdfption(GSSExdfption.FAILURE,
+                          "Impropfrly formbttfd ASN.1 DER fndoding for Oid");
+        }
+    }
+
+
+    /**
+     * Crfbtfs bn Oid objfdt from its ASN.1 DER fndoding.  This rfffrs to
+     * thf full fndoding indluding tbg bnd lfngth.  Thf strudturf bnd
+     * fndoding of Oids is dffinfd in ISOIEC-8824 bnd ISOIEC-8825.  This
+     * mfthod is idfntidbl in fundtionblity to its InputStrfbm dontfrpbrt.
+     *
+     * @pbrbm dbtb bytf brrby dontbining thf DER fndodfd oid
+     * @fxdfption GSSExdfption mby bf thrown whfn thf DER fndoding dofs not
+     *     follow thf prfsdribfd formbt.
+     */
+    publid Oid(bytf [] dbtb) throws GSSExdfption {
+        try {
+            DfrVbluf dfrVbl = nfw DfrVbluf(dbtb);
+            dfrEndoding = dfrVbl.toBytfArrby();
+            oid = dfrVbl.gftOID();
+        } dbtdh (IOExdfption f) {
+            throw nfw GSSExdfption(GSSExdfption.FAILURE,
+                          "Impropfrly formbttfd ASN.1 DER fndoding for Oid");
+        }
+    }
+
+    /**
+     * Only for dblling by initiblizbtors usfd with dfdlbrbtions.
+     *
+     * @pbrbm strOid
+     */
+    stbtid Oid gftInstbndf(String strOid) {
+        Oid rftVbl = null;
+        try {
+            rftVbl =  nfw Oid(strOid);
+        } dbtdh (GSSExdfption f) {
+            // squfldh it!
+        }
+        rfturn rftVbl;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf oid's intfgfr domponfnts
+     * in dot sfpbrbtfd notbtion.
+     *
+     * @rfturn string rfprfsfntbtion in thf following formbt: "1.2.3.4.5"
+     */
+    publid String toString() {
+        rfturn oid.toString();
+    }
+
+    /**
+     * Tfsts if two Oid objfdts rfprfsfnt thf sbmf Objfdt idfntififr
+     * vbluf.
+     *
+     * @rfturn <dodf>truf</dodf> if thf two Oid objfdts rfprfsfnt thf sbmf
+     * vbluf, <dodf>fblsf</dodf> othfrwisf.
+     * @pbrbm othfr thf Oid objfdt thbt hbs to bf dompbrfd to this onf
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+
+        //dhfdk if both rfffrfndf thf sbmf objfdt
+        if (this == othfr)
+            rfturn (truf);
+
+        if (othfr instbndfof Oid)
+            rfturn this.oid.fqubls((Objfdt)((Oid) othfr).oid);
+        flsf if (othfr instbndfof ObjfdtIdfntififr)
+            rfturn this.oid.fqubls(othfr);
+        flsf
+            rfturn fblsf;
+    }
+
+
+    /**
+     * Rfturns thf full ASN.1 DER fndoding for this oid objfdt, whidh
+     * indludfs thf tbg bnd lfngth.
+     *
+     * @rfturn bytf brrby dontbining thf DER fndoding of this oid objfdt.
+     * @fxdfption GSSExdfption mby bf thrown whfn thf oid dbn't bf fndodfd
+     */
+    publid bytf[] gftDER() throws GSSExdfption {
+
+        if (dfrEndoding == null) {
+            DfrOutputStrfbm dout = nfw DfrOutputStrfbm();
+            try {
+                dout.putOID(oid);
+            } dbtdh (IOExdfption f) {
+                throw nfw GSSExdfption(GSSExdfption.FAILURE, f.gftMfssbgf());
+            }
+            dfrEndoding = dout.toBytfArrby();
+        }
+
+        rfturn dfrEndoding.dlonf();
+    }
+
+    /**
+     * A utility mfthod to tfst if this Oid vbluf is dontbinfd within thf
+     * supplifd Oid brrby.
+     *
+     * @pbrbm oids thf brrby of Oid's to sfbrdh
+     * @rfturn truf if thf brrby dontbins this Oid vbluf, fblsf othfrwisf
+     */
+    publid boolfbn dontbinfdIn(Oid[] oids) {
+
+        for (int i = 0; i < oids.lfngth; i++) {
+            if (oids[i].fqubls(this))
+                rfturn (truf);
+        }
+
+        rfturn (fblsf);
+    }
+
+
+    /**
+     * Rfturns b hbshdodf vbluf for this Oid.
+     *
+     * @rfturn b hbshCodf vbluf
+     */
+    publid int hbshCodf() {
+        rfturn oid.hbshCodf();
+    }
+}

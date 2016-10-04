@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
 
-import java.util.ArrayList;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.ArrbyList;
+import sun.util.logging.PlbtformLoggfr;
 
-import sun.awt.dnd.SunDragSourceContextPeer;
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
 
 /**
- * EventDispatchThread is a package-private AWT class which takes
- * events off the EventQueue and dispatches them to the appropriate
- * AWT components.
+ * EvfntDispbtdiTirfbd is b pbdkbgf-privbtf AWT dlbss wiidi tbkfs
+ * fvfnts off tif EvfntQufuf bnd dispbtdifs tifm to tif bppropribtf
+ * AWT domponfnts.
  *
- * The Thread starts a "permanent" event pump with a call to
- * pumpEvents(Conditional) in its run() method. Event handlers can choose to
- * block this event pump at any time, but should start a new pump (<b>not</b>
- * a new EventDispatchThread) by again calling pumpEvents(Conditional). This
- * secondary event pump will exit automatically as soon as the Condtional
- * evaluate()s to false and an additional Event is pumped and dispatched.
+ * Tif Tirfbd stbrts b "pfrmbnfnt" fvfnt pump witi b dbll to
+ * pumpEvfnts(Conditionbl) in its run() mftiod. Evfnt ibndlfrs dbn dioosf to
+ * blodk tiis fvfnt pump bt bny timf, but siould stbrt b nfw pump (<b>not</b>
+ * b nfw EvfntDispbtdiTirfbd) by bgbin dblling pumpEvfnts(Conditionbl). Tiis
+ * sfdondbry fvfnt pump will fxit butombtidblly bs soon bs tif Condtionbl
+ * fvblubtf()s to fblsf bnd bn bdditionbl Evfnt is pumpfd bnd dispbtdifd.
  *
- * @author Tom Ball
- * @author Amy Fowler
- * @author Fred Ecks
- * @author David Mendenhall
+ * @butior Tom Bbll
+ * @butior Amy Fowlfr
+ * @butior Frfd Edks
+ * @butior Dbvid Mfndfnibll
  *
- * @since 1.1
+ * @sindf 1.1
  */
-class EventDispatchThread extends Thread {
+dlbss EvfntDispbtdiTirfbd fxtfnds Tirfbd {
 
-    private static final PlatformLogger eventLog = PlatformLogger.getLogger("java.awt.event.EventDispatchThread");
+    privbtf stbtid finbl PlbtformLoggfr fvfntLog = PlbtformLoggfr.gftLoggfr("jbvb.bwt.fvfnt.EvfntDispbtdiTirfbd");
 
-    private EventQueue theQueue;
-    private volatile boolean doDispatch = true;
+    privbtf EvfntQufuf tifQufuf;
+    privbtf volbtilf boolfbn doDispbtdi = truf;
 
-    private static final int ANY_EVENT = -1;
+    privbtf stbtid finbl int ANY_EVENT = -1;
 
-    private ArrayList<EventFilter> eventFilters = new ArrayList<EventFilter>();
+    privbtf ArrbyList<EvfntFiltfr> fvfntFiltfrs = nfw ArrbyList<EvfntFiltfr>();
 
-    EventDispatchThread(ThreadGroup group, String name, EventQueue queue) {
-        super(group, name);
-        setEventQueue(queue);
+    EvfntDispbtdiTirfbd(TirfbdGroup group, String nbmf, EvfntQufuf qufuf) {
+        supfr(group, nbmf);
+        sftEvfntQufuf(qufuf);
     }
 
     /*
-     * Must be called on EDT only, that's why no synchronization
+     * Must bf dbllfd on EDT only, tibt's wiy no syndironizbtion
      */
-    public void stopDispatching() {
-        doDispatch = false;
+    publid void stopDispbtdiing() {
+        doDispbtdi = fblsf;
     }
 
-    public void run() {
+    publid void run() {
         try {
-            pumpEvents(new Conditional() {
-                public boolean evaluate() {
-                    return true;
+            pumpEvfnts(nfw Conditionbl() {
+                publid boolfbn fvblubtf() {
+                    rfturn truf;
                 }
             });
-        } finally {
-            getEventQueue().detachDispatchThread(this);
+        } finblly {
+            gftEvfntQufuf().dftbdiDispbtdiTirfbd(tiis);
         }
     }
 
-    void pumpEvents(Conditional cond) {
-        pumpEvents(ANY_EVENT, cond);
+    void pumpEvfnts(Conditionbl dond) {
+        pumpEvfnts(ANY_EVENT, dond);
     }
 
-    void pumpEventsForHierarchy(Conditional cond, Component modalComponent) {
-        pumpEventsForHierarchy(ANY_EVENT, cond, modalComponent);
+    void pumpEvfntsForHifrbrdiy(Conditionbl dond, Componfnt modblComponfnt) {
+        pumpEvfntsForHifrbrdiy(ANY_EVENT, dond, modblComponfnt);
     }
 
-    void pumpEvents(int id, Conditional cond) {
-        pumpEventsForHierarchy(id, cond, null);
+    void pumpEvfnts(int id, Conditionbl dond) {
+        pumpEvfntsForHifrbrdiy(id, dond, null);
     }
 
-    void pumpEventsForHierarchy(int id, Conditional cond, Component modalComponent) {
-        pumpEventsForFilter(id, cond, new HierarchyEventFilter(modalComponent));
+    void pumpEvfntsForHifrbrdiy(int id, Conditionbl dond, Componfnt modblComponfnt) {
+        pumpEvfntsForFiltfr(id, dond, nfw HifrbrdiyEvfntFiltfr(modblComponfnt));
     }
 
-    void pumpEventsForFilter(Conditional cond, EventFilter filter) {
-        pumpEventsForFilter(ANY_EVENT, cond, filter);
+    void pumpEvfntsForFiltfr(Conditionbl dond, EvfntFiltfr filtfr) {
+        pumpEvfntsForFiltfr(ANY_EVENT, dond, filtfr);
     }
 
-    void pumpEventsForFilter(int id, Conditional cond, EventFilter filter) {
-        addEventFilter(filter);
-        doDispatch = true;
-        while (doDispatch && !isInterrupted() && cond.evaluate()) {
-            pumpOneEventForFilters(id);
+    void pumpEvfntsForFiltfr(int id, Conditionbl dond, EvfntFiltfr filtfr) {
+        bddEvfntFiltfr(filtfr);
+        doDispbtdi = truf;
+        wiilf (doDispbtdi && !isIntfrruptfd() && dond.fvblubtf()) {
+            pumpOnfEvfntForFiltfrs(id);
         }
-        removeEventFilter(filter);
+        rfmovfEvfntFiltfr(filtfr);
     }
 
-    void addEventFilter(EventFilter filter) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINEST)) {
-            eventLog.finest("adding the event filter: " + filter);
+    void bddEvfntFiltfr(EvfntFiltfr filtfr) {
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            fvfntLog.finfst("bdding tif fvfnt filtfr: " + filtfr);
         }
-        synchronized (eventFilters) {
-            if (!eventFilters.contains(filter)) {
-                if (filter instanceof ModalEventFilter) {
-                    ModalEventFilter newFilter = (ModalEventFilter)filter;
+        syndironizfd (fvfntFiltfrs) {
+            if (!fvfntFiltfrs.dontbins(filtfr)) {
+                if (filtfr instbndfof ModblEvfntFiltfr) {
+                    ModblEvfntFiltfr nfwFiltfr = (ModblEvfntFiltfr)filtfr;
                     int k = 0;
-                    for (k = 0; k < eventFilters.size(); k++) {
-                        EventFilter f = eventFilters.get(k);
-                        if (f instanceof ModalEventFilter) {
-                            ModalEventFilter cf = (ModalEventFilter)f;
-                            if (cf.compareTo(newFilter) > 0) {
-                                break;
+                    for (k = 0; k < fvfntFiltfrs.sizf(); k++) {
+                        EvfntFiltfr f = fvfntFiltfrs.gft(k);
+                        if (f instbndfof ModblEvfntFiltfr) {
+                            ModblEvfntFiltfr df = (ModblEvfntFiltfr)f;
+                            if (df.dompbrfTo(nfwFiltfr) > 0) {
+                                brfbk;
                             }
                         }
                     }
-                    eventFilters.add(k, filter);
-                } else {
-                    eventFilters.add(filter);
+                    fvfntFiltfrs.bdd(k, filtfr);
+                } flsf {
+                    fvfntFiltfrs.bdd(filtfr);
                 }
             }
         }
     }
 
-    void removeEventFilter(EventFilter filter) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINEST)) {
-            eventLog.finest("removing the event filter: " + filter);
+    void rfmovfEvfntFiltfr(EvfntFiltfr filtfr) {
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            fvfntLog.finfst("rfmoving tif fvfnt filtfr: " + filtfr);
         }
-        synchronized (eventFilters) {
-            eventFilters.remove(filter);
+        syndironizfd (fvfntFiltfrs) {
+            fvfntFiltfrs.rfmovf(filtfr);
         }
     }
 
-    void pumpOneEventForFilters(int id) {
-        AWTEvent event = null;
-        boolean eventOK = false;
+    void pumpOnfEvfntForFiltfrs(int id) {
+        AWTEvfnt fvfnt = null;
+        boolfbn fvfntOK = fblsf;
         try {
-            EventQueue eq = null;
+            EvfntQufuf fq = null;
             do {
-                // EventQueue may change during the dispatching
-                eq = getEventQueue();
+                // EvfntQufuf mby dibngf during tif dispbtdiing
+                fq = gftEvfntQufuf();
 
-                event = (id == ANY_EVENT) ? eq.getNextEvent() : eq.getNextEvent(id);
+                fvfnt = (id == ANY_EVENT) ? fq.gftNfxtEvfnt() : fq.gftNfxtEvfnt(id);
 
-                eventOK = true;
-                synchronized (eventFilters) {
-                    for (int i = eventFilters.size() - 1; i >= 0; i--) {
-                        EventFilter f = eventFilters.get(i);
-                        EventFilter.FilterAction accept = f.acceptEvent(event);
-                        if (accept == EventFilter.FilterAction.REJECT) {
-                            eventOK = false;
-                            break;
-                        } else if (accept == EventFilter.FilterAction.ACCEPT_IMMEDIATELY) {
-                            break;
+                fvfntOK = truf;
+                syndironizfd (fvfntFiltfrs) {
+                    for (int i = fvfntFiltfrs.sizf() - 1; i >= 0; i--) {
+                        EvfntFiltfr f = fvfntFiltfrs.gft(i);
+                        EvfntFiltfr.FiltfrAdtion bddfpt = f.bddfptEvfnt(fvfnt);
+                        if (bddfpt == EvfntFiltfr.FiltfrAdtion.REJECT) {
+                            fvfntOK = fblsf;
+                            brfbk;
+                        } flsf if (bddfpt == EvfntFiltfr.FiltfrAdtion.ACCEPT_IMMEDIATELY) {
+                            brfbk;
                         }
                     }
                 }
-                eventOK = eventOK && SunDragSourceContextPeer.checkEvent(event);
-                if (!eventOK) {
-                    event.consume();
+                fvfntOK = fvfntOK && SunDrbgSourdfContfxtPffr.difdkEvfnt(fvfnt);
+                if (!fvfntOK) {
+                    fvfnt.donsumf();
                 }
             }
-            while (eventOK == false);
+            wiilf (fvfntOK == fblsf);
 
-            if (eventLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                eventLog.finest("Dispatching: " + event);
+            if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                fvfntLog.finfst("Dispbtdiing: " + fvfnt);
             }
 
-            eq.dispatchEvent(event);
+            fq.dispbtdiEvfnt(fvfnt);
         }
-        catch (ThreadDeath death) {
-            doDispatch = false;
-            throw death;
+        dbtdi (TirfbdDfbti dfbti) {
+            doDispbtdi = fblsf;
+            tirow dfbti;
         }
-        catch (InterruptedException interruptedException) {
-            doDispatch = false; // AppContext.dispose() interrupts all
-                                // Threads in the AppContext
+        dbtdi (IntfrruptfdExdfption intfrruptfdExdfption) {
+            doDispbtdi = fblsf; // AppContfxt.disposf() intfrrupts bll
+                                // Tirfbds in tif AppContfxt
         }
-        catch (Throwable e) {
-            processException(e);
+        dbtdi (Tirowbblf f) {
+            prodfssExdfption(f);
         }
     }
 
-    private void processException(Throwable e) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            eventLog.fine("Processing exception: " + e);
+    privbtf void prodfssExdfption(Tirowbblf f) {
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf("Prodfssing fxdfption: " + f);
         }
-        getUncaughtExceptionHandler().uncaughtException(this, e);
+        gftUndbugitExdfptionHbndlfr().undbugitExdfption(tiis, f);
     }
 
-    public synchronized EventQueue getEventQueue() {
-        return theQueue;
+    publid syndironizfd EvfntQufuf gftEvfntQufuf() {
+        rfturn tifQufuf;
     }
-    public synchronized void setEventQueue(EventQueue eq) {
-        theQueue = eq;
+    publid syndironizfd void sftEvfntQufuf(EvfntQufuf fq) {
+        tifQufuf = fq;
     }
 
-    private static class HierarchyEventFilter implements EventFilter {
-        private Component modalComponent;
-        public HierarchyEventFilter(Component modalComponent) {
-            this.modalComponent = modalComponent;
+    privbtf stbtid dlbss HifrbrdiyEvfntFiltfr implfmfnts EvfntFiltfr {
+        privbtf Componfnt modblComponfnt;
+        publid HifrbrdiyEvfntFiltfr(Componfnt modblComponfnt) {
+            tiis.modblComponfnt = modblComponfnt;
         }
-        public FilterAction acceptEvent(AWTEvent event) {
-            if (modalComponent != null) {
-                int eventID = event.getID();
-                boolean mouseEvent = (eventID >= MouseEvent.MOUSE_FIRST) &&
-                                     (eventID <= MouseEvent.MOUSE_LAST);
-                boolean actionEvent = (eventID >= ActionEvent.ACTION_FIRST) &&
-                                      (eventID <= ActionEvent.ACTION_LAST);
-                boolean windowClosingEvent = (eventID == WindowEvent.WINDOW_CLOSING);
+        publid FiltfrAdtion bddfptEvfnt(AWTEvfnt fvfnt) {
+            if (modblComponfnt != null) {
+                int fvfntID = fvfnt.gftID();
+                boolfbn mousfEvfnt = (fvfntID >= MousfEvfnt.MOUSE_FIRST) &&
+                                     (fvfntID <= MousfEvfnt.MOUSE_LAST);
+                boolfbn bdtionEvfnt = (fvfntID >= AdtionEvfnt.ACTION_FIRST) &&
+                                      (fvfntID <= AdtionEvfnt.ACTION_LAST);
+                boolfbn windowClosingEvfnt = (fvfntID == WindowEvfnt.WINDOW_CLOSING);
                 /*
-                 * filter out MouseEvent and ActionEvent that's outside
-                 * the modalComponent hierarchy.
-                 * KeyEvent is handled by using enqueueKeyEvent
-                 * in Dialog.show
+                 * filtfr out MousfEvfnt bnd AdtionEvfnt tibt's outsidf
+                 * tif modblComponfnt iifrbrdiy.
+                 * KfyEvfnt is ibndlfd by using fnqufufKfyEvfnt
+                 * in Diblog.siow
                  */
-                if (Component.isInstanceOf(modalComponent, "javax.swing.JInternalFrame")) {
+                if (Componfnt.isInstbndfOf(modblComponfnt, "jbvbx.swing.JIntfrnblFrbmf")) {
                     /*
-                     * Modal internal frames are handled separately. If event is
-                     * for some component from another heavyweight than modalComp,
-                     * it is accepted. If heavyweight is the same - we still accept
-                     * event and perform further filtering in LightweightDispatcher
+                     * Modbl intfrnbl frbmfs brf ibndlfd sfpbrbtfly. If fvfnt is
+                     * for somf domponfnt from bnotifr ifbvywfigit tibn modblComp,
+                     * it is bddfptfd. If ifbvywfigit is tif sbmf - wf still bddfpt
+                     * fvfnt bnd pfrform furtifr filtfring in LigitwfigitDispbtdifr
                      */
-                    return windowClosingEvent ? FilterAction.REJECT : FilterAction.ACCEPT;
+                    rfturn windowClosingEvfnt ? FiltfrAdtion.REJECT : FiltfrAdtion.ACCEPT;
                 }
-                if (mouseEvent || actionEvent || windowClosingEvent) {
-                    Object o = event.getSource();
-                    if (o instanceof sun.awt.ModalExclude) {
-                        // Exclude this object from modality and
-                        // continue to pump it's events.
-                        return FilterAction.ACCEPT;
-                    } else if (o instanceof Component) {
-                        Component c = (Component) o;
-                        // 5.0u3 modal exclusion
-                        boolean modalExcluded = false;
-                        if (modalComponent instanceof Container) {
-                            while (c != modalComponent && c != null) {
-                                if ((c instanceof Window) &&
-                                    (sun.awt.SunToolkit.isModalExcluded((Window)c))) {
-                                    // Exclude this window and all its children from
-                                    //  modality and continue to pump it's events.
-                                    modalExcluded = true;
-                                    break;
+                if (mousfEvfnt || bdtionEvfnt || windowClosingEvfnt) {
+                    Objfdt o = fvfnt.gftSourdf();
+                    if (o instbndfof sun.bwt.ModblExdludf) {
+                        // Exdludf tiis objfdt from modblity bnd
+                        // dontinuf to pump it's fvfnts.
+                        rfturn FiltfrAdtion.ACCEPT;
+                    } flsf if (o instbndfof Componfnt) {
+                        Componfnt d = (Componfnt) o;
+                        // 5.0u3 modbl fxdlusion
+                        boolfbn modblExdludfd = fblsf;
+                        if (modblComponfnt instbndfof Contbinfr) {
+                            wiilf (d != modblComponfnt && d != null) {
+                                if ((d instbndfof Window) &&
+                                    (sun.bwt.SunToolkit.isModblExdludfd((Window)d))) {
+                                    // Exdludf tiis window bnd bll its diildrfn from
+                                    //  modblity bnd dontinuf to pump it's fvfnts.
+                                    modblExdludfd = truf;
+                                    brfbk;
                                 }
-                                c = c.getParent();
+                                d = d.gftPbrfnt();
                             }
                         }
-                        if (!modalExcluded && (c != modalComponent)) {
-                            return FilterAction.REJECT;
+                        if (!modblExdludfd && (d != modblComponfnt)) {
+                            rfturn FiltfrAdtion.REJECT;
                         }
                     }
                 }
             }
-            return FilterAction.ACCEPT;
+            rfturn FiltfrAdtion.ACCEPT;
         }
     }
 }

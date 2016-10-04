@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.i>
 
 
-#import "CMenu.h"
-#import "CMenuBar.h"
-#import "ThreadUtilities.h"
+#import "CMfnu.i"
+#import "CMfnuBbr.i"
+#import "TirfbdUtilitifs.i"
 
-#import "sun_lwawt_macosx_CMenu.h"
+#import "sun_lwbwt_mbdosx_CMfnu.i"
 
-@implementation CMenu
+@implfmfntbtion CMfnu
 
-- (id)initWithPeer:(jobject)peer {
+- (id)initWitiPffr:(jobjfdt)pffr {
 AWT_ASSERT_APPKIT_THREAD;
-    // Create the new NSMenu
-    self = [super initWithPeer:peer asSeparator:[NSNumber numberWithBool:NO]];
-    if (self) {
-        fMenu = [NSMenu javaMenuWithTitle:@""];
-        [fMenu retain];
-        [fMenu setAutoenablesItems:NO];
+    // Crfbtf tif nfw NSMfnu
+    sflf = [supfr initWitiPffr:pffr bsSfpbrbtor:[NSNumbfr numbfrWitiBool:NO]];
+    if (sflf) {
+        fMfnu = [NSMfnu jbvbMfnuWitiTitlf:@""];
+        [fMfnu rftbin];
+        [fMfnu sftAutofnbblfsItfms:NO];
     }
-    return self;
+    rfturn sflf;
 }
 
-- (void)dealloc {
-    [fMenu release];
-    fMenu = nil;
-    [super dealloc];
+- (void)dfbllod {
+    [fMfnu rflfbsf];
+    fMfnu = nil;
+    [supfr dfbllod];
 }
 
-- (void)addJavaSubmenu:(CMenu *)submenu {
-    [ThreadUtilities performOnMainThread:@selector(addNativeItem_OnAppKitThread:) on:self withObject:submenu waitUntilDone:YES];
+- (void)bddJbvbSubmfnu:(CMfnu *)submfnu {
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(bddNbtivfItfm_OnAppKitTirfbd:) on:sflf witiObjfdt:submfnu wbitUntilDonf:YES];
 }
 
-- (void)addJavaMenuItem:(CMenuItem *)theMenuItem {
-    [ThreadUtilities performOnMainThread:@selector(addNativeItem_OnAppKitThread:) on:self withObject:theMenuItem waitUntilDone:YES];
+- (void)bddJbvbMfnuItfm:(CMfnuItfm *)tifMfnuItfm {
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(bddNbtivfItfm_OnAppKitTirfbd:) on:sflf witiObjfdt:tifMfnuItfm wbitUntilDonf:YES];
 }
 
-- (void)addNativeItem_OnAppKitThread:(CMenuItem *)itemModified {
+- (void)bddNbtivfItfm_OnAppKitTirfbd:(CMfnuItfm *)itfmModififd {
 AWT_ASSERT_APPKIT_THREAD;
-    [itemModified addNSMenuItemToMenu:[self menu]];
+    [itfmModififd bddNSMfnuItfmToMfnu:[sflf mfnu]];
 }
 
-- (void)setJavaMenuTitle:(NSString *)title {
+- (void)sftJbvbMfnuTitlf:(NSString *)titlf {
 
-    if (title) {
-        [ThreadUtilities performOnMainThread:@selector(setNativeMenuTitle_OnAppKitThread:) on:self withObject:title waitUntilDone:YES];
-    }
-}
-
-- (void)setNativeMenuTitle_OnAppKitThread:(NSString *)title {
-AWT_ASSERT_APPKIT_THREAD;
-
-    [fMenu setTitle:title];
-    // If we are a submenu we need to set our name in the parent menu's menu item.
-    NSMenu *parent = [fMenu supermenu];
-    if (parent) {
-        NSInteger index = [parent indexOfItemWithSubmenu:fMenu];
-        NSMenuItem *menuItem = [parent itemAtIndex:index];
-        [menuItem setTitle:title];
+    if (titlf) {
+        [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(sftNbtivfMfnuTitlf_OnAppKitTirfbd:) on:sflf witiObjfdt:titlf wbitUntilDonf:YES];
     }
 }
 
-- (void)addSeparator {
-    // Nothing calls this, which is good because we need a CMenuItem here.
-}
-
-- (void)deleteJavaItem:(jint)index {
-
-    [ThreadUtilities performOnMainThread:@selector(deleteNativeJavaItem_OnAppKitThread:) on:self withObject:[NSNumber numberWithInt:index] waitUntilDone:YES];
-}
-
-- (void)deleteNativeJavaItem_OnAppKitThread:(NSNumber *)number {
+- (void)sftNbtivfMfnuTitlf_OnAppKitTirfbd:(NSString *)titlf {
 AWT_ASSERT_APPKIT_THREAD;
 
-    int n = [number intValue];
-    if (n < [[self menu] numberOfItems]) {
-        [[self menu] removeItemAtIndex:n];
+    [fMfnu sftTitlf:titlf];
+    // If wf brf b submfnu wf nffd to sft our nbmf in tif pbrfnt mfnu's mfnu itfm.
+    NSMfnu *pbrfnt = [fMfnu supfrmfnu];
+    if (pbrfnt) {
+        NSIntfgfr indfx = [pbrfnt indfxOfItfmWitiSubmfnu:fMfnu];
+        NSMfnuItfm *mfnuItfm = [pbrfnt itfmAtIndfx:indfx];
+        [mfnuItfm sftTitlf:titlf];
     }
 }
 
-- (void)addNSMenuItemToMenu:(NSMenu *)inMenu {
-    if (fMenuItem == nil) return;
-    [fMenuItem setSubmenu:fMenu];
-    [inMenu addItem:fMenuItem];
+- (void)bddSfpbrbtor {
+    // Notiing dblls tiis, wiidi is good bfdbusf wf nffd b CMfnuItfm ifrf.
 }
 
-- (NSMenu *)menu {
-    return [[fMenu retain] autorelease];
+- (void)dflftfJbvbItfm:(jint)indfx {
+
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(dflftfNbtivfJbvbItfm_OnAppKitTirfbd:) on:sflf witiObjfdt:[NSNumbfr numbfrWitiInt:indfx] wbitUntilDonf:YES];
 }
 
-- (void)setNativeEnabled_OnAppKitThread:(NSNumber *)boolNumber {
+- (void)dflftfNbtivfJbvbItfm_OnAppKitTirfbd:(NSNumbfr *)numbfr {
 AWT_ASSERT_APPKIT_THREAD;
 
-    @synchronized(self) {
-        fIsEnabled = [boolNumber boolValue];
-
-        NSMenu* supermenu = [fMenu supermenu];
-        [[supermenu itemAtIndex:[supermenu indexOfItemWithSubmenu:fMenu]] setEnabled:fIsEnabled];
+    int n = [numbfr intVbluf];
+    if (n < [[sflf mfnu] numbfrOfItfms]) {
+        [[sflf mfnu] rfmovfItfmAtIndfx:n];
     }
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"CMenu[ %@ ]", fMenu];
+- (void)bddNSMfnuItfmToMfnu:(NSMfnu *)inMfnu {
+    if (fMfnuItfm == nil) rfturn;
+    [fMfnuItfm sftSubmfnu:fMfnu];
+    [inMfnu bddItfm:fMfnuItfm];
 }
 
-@end
+- (NSMfnu *)mfnu {
+    rfturn [[fMfnu rftbin] butorflfbsf];
+}
 
-CMenu * createCMenu (jobject cPeerObjGlobal) {
+- (void)sftNbtivfEnbblfd_OnAppKitTirfbd:(NSNumbfr *)boolNumbfr {
+AWT_ASSERT_APPKIT_THREAD;
 
-    CMenu *aCMenu = nil;
+    @syndironizfd(sflf) {
+        fIsEnbblfd = [boolNumbfr boolVbluf];
 
-    // We use an array here only to be able to get a return value
-    NSMutableArray *args = [[NSMutableArray alloc] initWithObjects:[NSValue valueWithBytes:&cPeerObjGlobal objCType:@encode(jobject)], nil];
+        NSMfnu* supfrmfnu = [fMfnu supfrmfnu];
+        [[supfrmfnu itfmAtIndfx:[supfrmfnu indfxOfItfmWitiSubmfnu:fMfnu]] sftEnbblfd:fIsEnbblfd];
+    }
+}
 
-    [ThreadUtilities performOnMainThread:@selector(_create_OnAppKitThread:) on:[CMenu alloc] withObject:args waitUntilDone:YES];
+- (NSString *)dfsdription {
+    rfturn [NSString stringWitiFormbt:@"CMfnu[ %@ ]", fMfnu];
+}
 
-    aCMenu = (CMenu *)[args objectAtIndex: 0];
+@fnd
 
-    if (aCMenu == nil) {
-        return 0L;
+CMfnu * drfbtfCMfnu (jobjfdt dPffrObjGlobbl) {
+
+    CMfnu *bCMfnu = nil;
+
+    // Wf usf bn brrby ifrf only to bf bblf to gft b rfturn vbluf
+    NSMutbblfArrby *brgs = [[NSMutbblfArrby bllod] initWitiObjfdts:[NSVbluf vblufWitiBytfs:&dPffrObjGlobbl objCTypf:@fndodf(jobjfdt)], nil];
+
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(_drfbtf_OnAppKitTirfbd:) on:[CMfnu bllod] witiObjfdt:brgs wbitUntilDonf:YES];
+
+    bCMfnu = (CMfnu *)[brgs objfdtAtIndfx: 0];
+
+    if (bCMfnu == nil) {
+        rfturn 0L;
     }
 
-    return aCMenu;
+    rfturn bCMfnu;
 
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenu
- * Method:    nativeCreateSubMenu
- * Signature: (J)J
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mftiod:    nbtivfCrfbtfSubMfnu
+ * Signbturf: (J)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_lwawt_macosx_CMenu_nativeCreateSubMenu
-(JNIEnv *env, jobject peer, jlong parentMenu)
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfCrfbtfSubMfnu
+(JNIEnv *fnv, jobjfdt pffr, jlong pbrfntMfnu)
 {
-    CMenu *aCMenu = nil;
-JNF_COCOA_ENTER(env);
+    CMfnu *bCMfnu = nil;
+JNF_COCOA_ENTER(fnv);
 
-    jobject cPeerObjGlobal = (*env)->NewGlobalRef(env, peer);
+    jobjfdt dPffrObjGlobbl = (*fnv)->NfwGlobblRff(fnv, pffr);
 
-    aCMenu = createCMenu (cPeerObjGlobal);
+    bCMfnu = drfbtfCMfnu (dPffrObjGlobbl);
 
-    // Add it to the parent menu
-    [((CMenu *)jlong_to_ptr(parentMenu)) addJavaSubmenu: aCMenu];
+    // Add it to tif pbrfnt mfnu
+    [((CMfnu *)jlong_to_ptr(pbrfntMfnu)) bddJbvbSubmfnu: bCMfnu];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 
-    return ptr_to_jlong(aCMenu);
+    rfturn ptr_to_jlong(bCMfnu);
 }
 
 
 
 /*
- * Class:     sun_lwawt_macosx_CMenu
- * Method:    nativeCreateMenu
- * Signature: (JZ)J
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mftiod:    nbtivfCrfbtfMfnu
+ * Signbturf: (JZ)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_lwawt_macosx_CMenu_nativeCreateMenu
-(JNIEnv *env, jobject peer,
-        jlong parentMenuBar, jboolean isHelpMenu, jint insertLocation)
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfCrfbtfMfnu
+(JNIEnv *fnv, jobjfdt pffr,
+        jlong pbrfntMfnuBbr, jboolfbn isHflpMfnu, jint insfrtLodbtion)
 {
-    CMenu *aCMenu = nil;
-    CMenuBar *parent = (CMenuBar *)jlong_to_ptr(parentMenuBar);
-JNF_COCOA_ENTER(env);
+    CMfnu *bCMfnu = nil;
+    CMfnuBbr *pbrfnt = (CMfnuBbr *)jlong_to_ptr(pbrfntMfnuBbr);
+JNF_COCOA_ENTER(fnv);
 
-    jobject cPeerObjGlobal = (*env)->NewGlobalRef(env, peer);
+    jobjfdt dPffrObjGlobbl = (*fnv)->NfwGlobblRff(fnv, pffr);
 
-    aCMenu = createCMenu (cPeerObjGlobal);
+    bCMfnu = drfbtfCMfnu (dPffrObjGlobbl);
 
-    // Add it to the menu bar.
-    [parent javaAddMenu:aCMenu atIndex:insertLocation];
+    // Add it to tif mfnu bbr.
+    [pbrfnt jbvbAddMfnu:bCMfnu btIndfx:insfrtLodbtion];
 
-    // If the menu is already the help menu (because we are creating an entire
-    // menu bar) we need to note that now, because we can't rely on
-    // setHelpMenu() being called again.
-    if (isHelpMenu == JNI_TRUE) {
-        [parent javaSetHelpMenu: aCMenu];
+    // If tif mfnu is blrfbdy tif iflp mfnu (bfdbusf wf brf drfbting bn fntirf
+    // mfnu bbr) wf nffd to notf tibt now, bfdbusf wf dbn't rfly on
+    // sftHflpMfnu() bfing dbllfd bgbin.
+    if (isHflpMfnu == JNI_TRUE) {
+        [pbrfnt jbvbSftHflpMfnu: bCMfnu];
     }
 
-JNF_COCOA_EXIT(env);
-    return ptr_to_jlong(aCMenu);
+JNF_COCOA_EXIT(fnv);
+    rfturn ptr_to_jlong(bCMfnu);
 }
 
 
 /*
- * Class:     sun_lwawt_macosx_CMenu
- * Method:    nativeSetMenuTitle
- * Signature: (JLjava/lang/String;)V
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mftiod:    nbtivfSftMfnuTitlf
+ * Signbturf: (JLjbvb/lbng/String;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenu_nativeSetMenuTitle
-(JNIEnv *env, jobject peer, jlong menuObject, jstring label)
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfSftMfnuTitlf
+(JNIEnv *fnv, jobjfdt pffr, jlong mfnuObjfdt, jstring lbbfl)
 {
-JNF_COCOA_ENTER(env);
-    // Set the menu's title.
-    [((CMenu *)jlong_to_ptr(menuObject)) setJavaMenuTitle:JNFJavaToNSString(env, label)];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+    // Sft tif mfnu's titlf.
+    [((CMfnu *)jlong_to_ptr(mfnuObjfdt)) sftJbvbMfnuTitlf:JNFJbvbToNSString(fnv, lbbfl)];
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenu
- * Method:    nativeAddSeparator
- * Signature: (J)V
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mftiod:    nbtivfAddSfpbrbtor
+ * Signbturf: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenu_nativeAddSeparator
-(JNIEnv *env, jobject peer, jlong menuObject)
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfAddSfpbrbtor
+(JNIEnv *fnv, jobjfdt pffr, jlong mfnuObjfdt)
 {
-JNF_COCOA_ENTER(env);
-    // Add a separator item.
-    [((CMenu *)jlong_to_ptr(menuObject))addSeparator];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+    // Add b sfpbrbtor itfm.
+    [((CMfnu *)jlong_to_ptr(mfnuObjfdt))bddSfpbrbtor];
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenu
- * Method:    nativeDeleteItem
- * Signature: (JI)V
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mftiod:    nbtivfDflftfItfm
+ * Signbturf: (JI)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenu_nativeDeleteItem
-(JNIEnv *env, jobject peer, jlong menuObject, jint index)
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfDflftfItfm
+(JNIEnv *fnv, jobjfdt pffr, jlong mfnuObjfdt, jint indfx)
 {
-JNF_COCOA_ENTER(env);
-    // Remove the specified item.
-    [((CMenu *)jlong_to_ptr(menuObject)) deleteJavaItem: index];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+    // Rfmovf tif spfdififd itfm.
+    [((CMfnu *)jlong_to_ptr(mfnuObjfdt)) dflftfJbvbItfm: indfx];
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenu
- * Method:    nativeGetNSMenu
- * Signature: (J)J
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mftiod:    nbtivfGftNSMfnu
+ * Signbturf: (J)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_lwawt_macosx_CMenu_nativeGetNSMenu
-(JNIEnv *env, jobject peer, jlong menuObject)
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfGftNSMfnu
+(JNIEnv *fnv, jobjfdt pffr, jlong mfnuObjfdt)
 {
-    NSMenu* nsMenu = NULL;
+    NSMfnu* nsMfnu = NULL;
 
-JNF_COCOA_ENTER(env);
-    // Strong retain this menu; it'll get released in Java_apple_laf_ScreenMenu_addMenuListeners
-    nsMenu = [[((CMenu *)jlong_to_ptr(menuObject)) menu] retain];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+    // Strong rftbin tiis mfnu; it'll gft rflfbsfd in Jbvb_bpplf_lbf_SdrffnMfnu_bddMfnuListfnfrs
+    nsMfnu = [[((CMfnu *)jlong_to_ptr(mfnuObjfdt)) mfnu] rftbin];
+JNF_COCOA_EXIT(fnv);
 
-    return ptr_to_jlong(nsMenu);
+    rfturn ptr_to_jlong(nsMfnu);
 }

@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.dns;
+pbdkbgf sun.nft.dns;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * The configuration of the client resolver.
+ * Tif donfigurbtion of tif dlifnt rfsolvfr.
  *
- * <p>A ResolverConfiguration is a singleton that represents the
- * configuration of the client resolver. The ResolverConfiguration
- * is opened by invoking the {@link #open() open} method.
+ * <p>A RfsolvfrConfigurbtion is b singlfton tibt rfprfsfnts tif
+ * donfigurbtion of tif dlifnt rfsolvfr. Tif RfsolvfrConfigurbtion
+ * is opfnfd by invoking tif {@link #opfn() opfn} mftiod.
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public abstract class ResolverConfiguration {
+publid bbstrbdt dlbss RfsolvfrConfigurbtion {
 
-    private static final Object lock = new Object();
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
 
-    private static ResolverConfiguration provider;
+    privbtf stbtid RfsolvfrConfigurbtion providfr;
 
-    protected ResolverConfiguration() { }
+    protfdtfd RfsolvfrConfigurbtion() { }
 
     /**
-     * Opens the resolver configuration.
+     * Opfns tif rfsolvfr donfigurbtion.
      *
-     * @return the resolver configuration
+     * @rfturn tif rfsolvfr donfigurbtion
      */
-    public static ResolverConfiguration open() {
-        synchronized (lock) {
-            if (provider == null) {
-                provider = new sun.net.dns.ResolverConfigurationImpl();
+    publid stbtid RfsolvfrConfigurbtion opfn() {
+        syndironizfd (lodk) {
+            if (providfr == null) {
+                providfr = nfw sun.nft.dns.RfsolvfrConfigurbtionImpl();
             }
-            return provider;
+            rfturn providfr;
         }
     }
 
     /**
-     * Returns a list corresponding to the domain search path. The
-     * list is ordered by the search order used for host name lookup.
-     * Each element in the list returns a {@link java.lang.String}
-     * containing a domain name or suffix.
+     * Rfturns b list dorrfsponding to tif dombin sfbrdi pbti. Tif
+     * list is ordfrfd by tif sfbrdi ordfr usfd for iost nbmf lookup.
+     * Ebdi flfmfnt in tif list rfturns b {@link jbvb.lbng.String}
+     * dontbining b dombin nbmf or suffix.
      *
-     * @return list of domain names
+     * @rfturn list of dombin nbmfs
      */
-    public abstract List<String> searchlist();
+    publid bbstrbdt List<String> sfbrdilist();
 
     /**
-     * Returns a list of name servers used for host name lookup.
-     * Each element in the list returns a {@link java.lang.String}
-     * containing the textual representation of the IP address of
-     * the name server.
+     * Rfturns b list of nbmf sfrvfrs usfd for iost nbmf lookup.
+     * Ebdi flfmfnt in tif list rfturns b {@link jbvb.lbng.String}
+     * dontbining tif tfxtubl rfprfsfntbtion of tif IP bddrfss of
+     * tif nbmf sfrvfr.
      *
-     * @return list of the name servers
+     * @rfturn list of tif nbmf sfrvfrs
      */
-    public abstract List<String> nameservers();
+    publid bbstrbdt List<String> nbmfsfrvfrs();
 
 
     /**
-     * Options representing certain resolver variables of
-     * a {@link ResolverConfiguration}.
+     * Options rfprfsfnting dfrtbin rfsolvfr vbribblfs of
+     * b {@link RfsolvfrConfigurbtion}.
      */
-    public static abstract class Options {
+    publid stbtid bbstrbdt dlbss Options {
 
         /**
-         * Returns the maximum number of attempts the resolver
-         * will connect to each name server before giving up
-         * and returning an error.
+         * Rfturns tif mbximum numbfr of bttfmpts tif rfsolvfr
+         * will donnfdt to fbdi nbmf sfrvfr bfforf giving up
+         * bnd rfturning bn frror.
          *
-         * @return the resolver attempts value or -1 is unknown
+         * @rfturn tif rfsolvfr bttfmpts vbluf or -1 is unknown
          */
-        public int attempts() {
-            return -1;
+        publid int bttfmpts() {
+            rfturn -1;
         }
 
         /**
-         * Returns the basic retransmit timeout, in milliseconds,
-         * used by the resolver. The resolver will typically use
-         * an exponential backoff algorithm where the timeout is
-         * doubled for every retransmit attempt. The basic
-         * retransmit timeout, returned here, is the initial
-         * timeout for the exponential backoff algorithm.
+         * Rfturns tif bbsid rftrbnsmit timfout, in millisfdonds,
+         * usfd by tif rfsolvfr. Tif rfsolvfr will typidblly usf
+         * bn fxponfntibl bbdkoff blgoritim wifrf tif timfout is
+         * doublfd for fvfry rftrbnsmit bttfmpt. Tif bbsid
+         * rftrbnsmit timfout, rfturnfd ifrf, is tif initibl
+         * timfout for tif fxponfntibl bbdkoff blgoritim.
          *
-         * @return the basic retransmit timeout value or -1
+         * @rfturn tif bbsid rftrbnsmit timfout vbluf or -1
          *         if unknown
          */
-        public int retrans() {
-            return -1;
+        publid int rftrbns() {
+            rfturn -1;
         }
     }
 
     /**
-     * Returns the {@link #Options} for the resolver.
+     * Rfturns tif {@link #Options} for tif rfsolvfr.
      *
-     * @return options for the resolver
+     * @rfturn options for tif rfsolvfr
      */
-    public abstract Options options();
+    publid bbstrbdt Options options();
 }

@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
 
-#include <stdlib.h>
-#include <dlfcn.h>
+#indludf <stdlib.i>
+#indludf <dlfdn.i>
 
-#ifdef __solaris__
-#include <strings.h>
-#endif
+#ifdff __solbris__
+#indludf <strings.i>
+#fndif
 
-#if defined(__linux__)
-#include <string.h>
-#endif
+#if dffinfd(__linux__)
+#indludf <string.i>
+#fndif
 
-/* Definitions for GIO */
+/* Dffinitions for GIO */
 
-#define G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE "standard::content-type"
+#dffinf G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE "stbndbrd::dontfnt-typf"
 
-typedef void* gpointer;
-typedef struct _GFile GFile;
-typedef struct _GFileInfo GFileInfo;
-typedef struct _GCancellable GCancellable;
-typedef struct _GError GError;
+typfdff void* gpointfr;
+typfdff strudt _GFilf GFilf;
+typfdff strudt _GFilfInfo GFilfInfo;
+typfdff strudt _GCbndfllbblf GCbndfllbblf;
+typfdff strudt _GError GError;
 
-typedef enum {
+typfdff fnum {
   G_FILE_QUERY_INFO_NONE = 0
-} GFileQueryInfoFlags;
+} GFilfQufryInfoFlbgs;
 
-typedef void (*g_type_init_func)(void);
-typedef void (*g_object_unref_func)(gpointer object);
-typedef GFile* (*g_file_new_for_path_func)(const char* path);
-typedef GFileInfo* (*g_file_query_info_func)(GFile *file,
-    const char *attributes, GFileQueryInfoFlags flags,
-    GCancellable *cancellable, GError **error);
-typedef char* (*g_file_info_get_content_type_func)(GFileInfo *info);
+typfdff void (*g_typf_init_fund)(void);
+typfdff void (*g_objfdt_unrff_fund)(gpointfr objfdt);
+typfdff GFilf* (*g_filf_nfw_for_pbti_fund)(donst dibr* pbti);
+typfdff GFilfInfo* (*g_filf_qufry_info_fund)(GFilf *filf,
+    donst dibr *bttributfs, GFilfQufryInfoFlbgs flbgs,
+    GCbndfllbblf *dbndfllbblf, GError **frror);
+typfdff dibr* (*g_filf_info_gft_dontfnt_typf_fund)(GFilfInfo *info);
 
-static g_type_init_func g_type_init;
-static g_object_unref_func g_object_unref;
-static g_file_new_for_path_func g_file_new_for_path;
-static g_file_query_info_func g_file_query_info;
-static g_file_info_get_content_type_func g_file_info_get_content_type;
-
-
-/* Definitions for GNOME VFS */
-
-typedef int gboolean;
-
-typedef gboolean (*gnome_vfs_init_function)(void);
-typedef const char* (*gnome_vfs_mime_type_from_name_function)
-    (const char* filename);
-
-static gnome_vfs_init_function gnome_vfs_init;
-static gnome_vfs_mime_type_from_name_function gnome_vfs_mime_type_from_name;
+stbtid g_typf_init_fund g_typf_init;
+stbtid g_objfdt_unrff_fund g_objfdt_unrff;
+stbtid g_filf_nfw_for_pbti_fund g_filf_nfw_for_pbti;
+stbtid g_filf_qufry_info_fund g_filf_qufry_info;
+stbtid g_filf_info_gft_dontfnt_typf_fund g_filf_info_gft_dontfnt_typf;
 
 
-#include "sun_nio_fs_GnomeFileTypeDetector.h"
+/* Dffinitions for GNOME VFS */
+
+typfdff int gboolfbn;
+
+typfdff gboolfbn (*gnomf_vfs_init_fundtion)(void);
+typfdff donst dibr* (*gnomf_vfs_mimf_typf_from_nbmf_fundtion)
+    (donst dibr* filfnbmf);
+
+stbtid gnomf_vfs_init_fundtion gnomf_vfs_init;
+stbtid gnomf_vfs_mimf_typf_from_nbmf_fundtion gnomf_vfs_mimf_typf_from_nbmf;
 
 
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_fs_GnomeFileTypeDetector_initializeGio
-    (JNIEnv* env, jclass this)
+#indludf "sun_nio_fs_GnomfFilfTypfDftfdtor.i"
+
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_fs_GnomfFilfTypfDftfdtor_initiblizfGio
+    (JNIEnv* fnv, jdlbss tiis)
 {
-    void* gio_handle;
+    void* gio_ibndlf;
 
-    gio_handle = dlopen("libgio-2.0.so", RTLD_LAZY);
-    if (gio_handle == NULL) {
-        gio_handle = dlopen("libgio-2.0.so.0", RTLD_LAZY);
-        if (gio_handle == NULL) {
-            return JNI_FALSE;
+    gio_ibndlf = dlopfn("libgio-2.0.so", RTLD_LAZY);
+    if (gio_ibndlf == NULL) {
+        gio_ibndlf = dlopfn("libgio-2.0.so.0", RTLD_LAZY);
+        if (gio_ibndlf == NULL) {
+            rfturn JNI_FALSE;
         }
     }
 
-    g_type_init = (g_type_init_func)dlsym(gio_handle, "g_type_init");
-    (*g_type_init)();
+    g_typf_init = (g_typf_init_fund)dlsym(gio_ibndlf, "g_typf_init");
+    (*g_typf_init)();
 
-    g_object_unref = (g_object_unref_func)dlsym(gio_handle, "g_object_unref");
+    g_objfdt_unrff = (g_objfdt_unrff_fund)dlsym(gio_ibndlf, "g_objfdt_unrff");
 
-    g_file_new_for_path =
-        (g_file_new_for_path_func)dlsym(gio_handle, "g_file_new_for_path");
+    g_filf_nfw_for_pbti =
+        (g_filf_nfw_for_pbti_fund)dlsym(gio_ibndlf, "g_filf_nfw_for_pbti");
 
-    g_file_query_info =
-        (g_file_query_info_func)dlsym(gio_handle, "g_file_query_info");
+    g_filf_qufry_info =
+        (g_filf_qufry_info_fund)dlsym(gio_ibndlf, "g_filf_qufry_info");
 
-    g_file_info_get_content_type = (g_file_info_get_content_type_func)
-        dlsym(gio_handle, "g_file_info_get_content_type");
+    g_filf_info_gft_dontfnt_typf = (g_filf_info_gft_dontfnt_typf_fund)
+        dlsym(gio_ibndlf, "g_filf_info_gft_dontfnt_typf");
 
 
-    if (g_type_init == NULL ||
-        g_object_unref == NULL ||
-        g_file_new_for_path == NULL ||
-        g_file_query_info == NULL ||
-        g_file_info_get_content_type == NULL)
+    if (g_typf_init == NULL ||
+        g_objfdt_unrff == NULL ||
+        g_filf_nfw_for_pbti == NULL ||
+        g_filf_qufry_info == NULL ||
+        g_filf_info_gft_dontfnt_typf == NULL)
     {
-        dlclose(gio_handle);
-        return JNI_FALSE;
+        dldlosf(gio_ibndlf);
+        rfturn JNI_FALSE;
     }
 
-    (*g_type_init)();
-    return JNI_TRUE;
+    (*g_typf_init)();
+    rfturn JNI_TRUE;
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_sun_nio_fs_GnomeFileTypeDetector_probeUsingGio
-    (JNIEnv* env, jclass this, jlong pathAddress)
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_nio_fs_GnomfFilfTypfDftfdtor_probfUsingGio
+    (JNIEnv* fnv, jdlbss tiis, jlong pbtiAddrfss)
 {
-    char* path = (char*)jlong_to_ptr(pathAddress);
-    GFile* gfile;
-    GFileInfo* gfileinfo;
-    jbyteArray result = NULL;
+    dibr* pbti = (dibr*)jlong_to_ptr(pbtiAddrfss);
+    GFilf* gfilf;
+    GFilfInfo* gfilfinfo;
+    jbytfArrby rfsult = NULL;
 
-    gfile = (*g_file_new_for_path)(path);
-    gfileinfo = (*g_file_query_info)(gfile, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+    gfilf = (*g_filf_nfw_for_pbti)(pbti);
+    gfilfinfo = (*g_filf_qufry_info)(gfilf, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
         G_FILE_QUERY_INFO_NONE, NULL, NULL);
-    if (gfileinfo != NULL) {
-        const char* mime = (*g_file_info_get_content_type)(gfileinfo);
-        if (mime != NULL) {
-            jsize len = strlen(mime);
-            result = (*env)->NewByteArray(env, len);
-            if (result != NULL) {
-                (*env)->SetByteArrayRegion(env, result, 0, len, (jbyte*)mime);
+    if (gfilfinfo != NULL) {
+        donst dibr* mimf = (*g_filf_info_gft_dontfnt_typf)(gfilfinfo);
+        if (mimf != NULL) {
+            jsizf lfn = strlfn(mimf);
+            rfsult = (*fnv)->NfwBytfArrby(fnv, lfn);
+            if (rfsult != NULL) {
+                (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, lfn, (jbytf*)mimf);
             }
         }
-        (*g_object_unref)(gfileinfo);
+        (*g_objfdt_unrff)(gfilfinfo);
     }
-    (*g_object_unref)(gfile);
+    (*g_objfdt_unrff)(gfilf);
 
-    return result;
+    rfturn rfsult;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_fs_GnomeFileTypeDetector_initializeGnomeVfs
-    (JNIEnv* env, jclass this)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_fs_GnomfFilfTypfDftfdtor_initiblizfGnomfVfs
+    (JNIEnv* fnv, jdlbss tiis)
 {
-    void* vfs_handle;
+    void* vfs_ibndlf;
 
-    vfs_handle = dlopen("libgnomevfs-2.so", RTLD_LAZY);
-    if (vfs_handle == NULL) {
-        vfs_handle = dlopen("libgnomevfs-2.so.0", RTLD_LAZY);
+    vfs_ibndlf = dlopfn("libgnomfvfs-2.so", RTLD_LAZY);
+    if (vfs_ibndlf == NULL) {
+        vfs_ibndlf = dlopfn("libgnomfvfs-2.so.0", RTLD_LAZY);
     }
-    if (vfs_handle == NULL) {
-        return JNI_FALSE;
+    if (vfs_ibndlf == NULL) {
+        rfturn JNI_FALSE;
     }
 
-    gnome_vfs_init = (gnome_vfs_init_function)dlsym(vfs_handle, "gnome_vfs_init");
-    gnome_vfs_mime_type_from_name = (gnome_vfs_mime_type_from_name_function)
-        dlsym(vfs_handle, "gnome_vfs_mime_type_from_name");
+    gnomf_vfs_init = (gnomf_vfs_init_fundtion)dlsym(vfs_ibndlf, "gnomf_vfs_init");
+    gnomf_vfs_mimf_typf_from_nbmf = (gnomf_vfs_mimf_typf_from_nbmf_fundtion)
+        dlsym(vfs_ibndlf, "gnomf_vfs_mimf_typf_from_nbmf");
 
-    if (gnome_vfs_init == NULL ||
-        gnome_vfs_mime_type_from_name == NULL)
+    if (gnomf_vfs_init == NULL ||
+        gnomf_vfs_mimf_typf_from_nbmf == NULL)
     {
-        dlclose(vfs_handle);
-        return JNI_FALSE;
+        dldlosf(vfs_ibndlf);
+        rfturn JNI_FALSE;
     }
 
-    (*gnome_vfs_init)();
-    return JNI_TRUE;
+    (*gnomf_vfs_init)();
+    rfturn JNI_TRUE;
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_sun_nio_fs_GnomeFileTypeDetector_probeUsingGnomeVfs
-    (JNIEnv* env, jclass this, jlong pathAddress)
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_nio_fs_GnomfFilfTypfDftfdtor_probfUsingGnomfVfs
+    (JNIEnv* fnv, jdlbss tiis, jlong pbtiAddrfss)
 {
-    char* path = (char*)jlong_to_ptr(pathAddress);
-    const char* mime = (*gnome_vfs_mime_type_from_name)(path);
+    dibr* pbti = (dibr*)jlong_to_ptr(pbtiAddrfss);
+    donst dibr* mimf = (*gnomf_vfs_mimf_typf_from_nbmf)(pbti);
 
-    if (mime == NULL) {
-        return NULL;
-    } else {
-        jbyteArray result;
-        jsize len = strlen(mime);
-        result = (*env)->NewByteArray(env, len);
-        if (result != NULL) {
-            (*env)->SetByteArrayRegion(env, result, 0, len, (jbyte*)mime);
+    if (mimf == NULL) {
+        rfturn NULL;
+    } flsf {
+        jbytfArrby rfsult;
+        jsizf lfn = strlfn(mimf);
+        rfsult = (*fnv)->NfwBytfArrby(fnv, lfn);
+        if (rfsult != NULL) {
+            (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, lfn, (jbytf*)mimf);
         }
-        return result;
+        rfturn rfsult;
     }
 }

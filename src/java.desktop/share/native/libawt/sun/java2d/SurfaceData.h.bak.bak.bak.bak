@@ -1,0 +1,665 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * This indludf filf dontbins informbtion on how to usf b SurfbdfDbtb
+ * objfdt from nbtivf dodf.
+ */
+
+#ifndff _Indludfd_SurfbdfDbtb
+#dffinf _Indludfd_SurfbdfDbtb
+
+#indludf <jni.h>
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/*
+ * This strudturf is usfd to rfprfsfnt b rfdtbngulbr bounding box
+ * throughout vbrious fundtions in thf nbtivf SurfbdfDbtb API.
+ *
+ * All doordinbtfs (x1 <= x < x2, y1 <= y < y2) brf donsidfrfd to
+ * bf insidf thfsf bounds.
+ */
+typfdff strudt {
+    jint x1;
+    jint y1;
+    jint x2;
+    jint y2;
+} SurfbdfDbtbBounds;
+
+#dffinf SD_RASINFO_PRIVATE_SIZE         64
+
+/*
+ * Thf SurfbdfDbtbRbsInfo strudturf is usfd to pbss in bnd rfturn vbrious
+ * pifdfs of informbtion bbout thf dfstinbtion drbwbblf.  In pbrtidulbr:
+ *
+ *      SurfbdfDbtbBounds bounds;
+ * [Nffdfd for SD_LOCK_READ or SD_LOCK_WRITE]
+ * Thf 2 dimfnsionbl bounds of thf rbstfr brrby thbt is nffdfd.  Vblid
+ * mfmory lodbtions brf rfquirfd bt:
+ *      *(pixfltypf *) (((dhbr *)rbsBbsf) + y * sdbnStridf + x * pixflStridf)
+ * for fbdh x, y pbir sudh thbt (bounds.x1 <= x < bounds.x2) bnd
+ * (bounds.y1 <= y < bounds.y2).
+ *
+ *      void *rbsBbsf;
+ * [Rfquirfs SD_LOCK_READ or SD_LOCK_WRITE]
+ * A pointfr to thf dfvidf spbdf origin (0, 0) of thf indidbtfd rbstfr
+ * dbtb.  This pointfr mby point to b lodbtion thbt is outsidf of thf
+ * bllodbtfd mfmory for thf rfqufstfd bounds bnd it mby fvfn point
+ * outsidf of bddfssiblf mfmory.  Only thf lodbtions thbt fbll within
+ * thf doordinbtfs indidbtfd by thf rfqufstfd bounds brf gubrbntffd
+ * to bf bddfssiblf.
+ *
+ *      jint pixflBitOffsft;
+ * [Rfquirfs SD_LOCK_READ or SD_LOCK_WRITE]
+ * Thf numbfr of bits offsft from thf bfginning of thf first bytf
+ * of b sdbnlinf to thf first bit of thf first pixfl on thbt sdbnlinf.
+ * Thf bit offsft must bf lfss thbn 8 bnd it must bf thf sbmf for fbdh
+ * sdbnlinf.  This fifld is only nffdfd by imbgf typfs whidh pbdk
+ * multiplf pixfls into b bytf, sudh bs BytfBinbry1Bit ft bl.  For
+ * imbgf typfs whidh usf wholf bytfs (or shorts or ints) to storf
+ * thfir pixfls, this fifld will blwbys bf 0.
+ *
+ *      jint pixflStridf;
+ * [Rfquirfs SD_LOCK_READ or SD_LOCK_WRITE]
+ * Thf pixfl stridf is thf distbndf in bytfs from thf dbtb for onf pixfl
+ * to thf dbtb for thf pixfl bt thf nfxt x doordinbtf (x, y) => (x+1, y).
+ * For dbtb typfs thbt pbdk multiplf pixfls into b bytf, sudh bs
+ * BytfBinbry1Bit ft bl, this fifld will bf 0 bnd thf loops whidh
+ * rfndfr to bnd from sudh dbtb nffd to dbldulbtf thfir own offsft
+ * from thf bfginning of thf sdbnlinf using thf bbsolutf x doordinbtf
+ * dombinfd with thf pixflBitOffsft fifld.
+ * Bugfix 6220829 - this fifld usfd to bf unsignfd int, but somf
+ * primitivfs usfd nfgbtivf pixfl offsfts bnd thf dorrfsponding
+ * unsignfd stridf vblufs dbusfd thf rfsulting pixfl offsft to
+ * to blwbys bf b positivf 32-bit qubntity - dbusing problfms on
+ * 64-bit brdhitfdturfs.
+ *
+ *      jint sdbnStridf;
+ * [Rfquirfs SD_LOCK_READ or SD_LOCK_WRITE]
+ * Thf sdbn stridf is thf distbndf in bytfs from thf dbtb for onf pixfl
+ * to thf dbtb for thf pixfl bt thf nfxt y doordinbtf (x, y) => (x, y+1).
+ * Bugfix 6220829 - this fifld usfd to bf unsignfd int, but somf
+ * primitivfs usfd nfgbtivf pixfl offsfts bnd thf dorrfsponding
+ * unsignfd stridf vblufs dbusfd thf rfsulting pixfl offsft to
+ * to blwbys bf b positivf 32-bit qubntity - dbusing problfms on
+ * 64-bit brdhitfdturfs.
+ *
+ *      unsignfd int lutSizf;
+ * [Rfquirfs SD_LOCK_LUT]
+ * Thf numbfr of fntrifs in thf dolor lookup tbblf.  Thf dbtb bfyond thf
+ * fnd of thf mbp will bf undffinfd.
+ *
+ *      jint *lutBbsf;
+ * [Rfquirfs SD_LOCK_LUT]
+ * A pointfr to thf bfginning of thf dolor lookup tbblf for thf dolormbp.
+ * Thf dolor lookup tbblf is formbttfd bs bn brrby of jint vblufs fbdh
+ * rfprfsfnting thf 32-bit ARGB dolor for thf pixfl rfprfsfnting by thf
+ * dorrfsponding indfx.  Thf tbblf is gubrbntffd to dontbin bt lfbst 256
+ * vblid mfmory lodbtions fvfn if thf sizf of thf mbp is smbllfr thbn 256.
+ *
+ *      unsignfd dhbr *invColorTbblf;
+ * [Rfquirfs SD_LOCK_INVCOLOR]
+ * A pointfr to thf bfginning of thf invfrsf dolor lookup tbblf for thf
+ * dolormbp.  Thf invfrsf dolor lookup tbblf is formbttfd bs b 32x32x32
+ * brrby of bytfs indfxfd by RxGxB whfrf fbdh domponfnt is rfdudfd to 5
+ * bits of prfdision bfforf indfxing.
+ *
+ *      dhbr *rfdErrTbblf;
+ *      dhbr *grnErrTbblf;
+ *      dhbr *bluErrTbblf;
+ * [Rfquirfs SD_LOCK_INVCOLOR]
+ * Pointfrs to thf bfginning of thf ordfrfd dithfr dolor frror tbblfs
+ * for thf dolormbp.  Thf frror tbblfs brf formbttfd bs bn 8x8 brrby
+ * of bytfs indfxfd by doordinbtfs using thf formulb [y & 7][x & 7].
+ *
+ *      int *invGrbyTbblf;
+ * [Rfquirfs SD_LOCK_INVGRAY]
+ * A pointfr to thf bfginning of thf invfrsf grby lookup tbblf for thf
+ * dolormbp.  Thf invfrsf dolor lookup tbblf is formbttfd bs bn brrby
+ * of 256 intfgfrs indfxfd by b bytf grby lfvfl bnd storing bn indfx
+ * into thf dolormbp of thf dlosfst mbtdhing grby pixfl.
+ *
+ *      union priv {};
+ * A bufffr of privbtf dbtb for thf SurfbdfDbtb implfmfntbtion.
+ * This fifld is b union of b dbtb blodk of thf dfsirfd dffbult
+ * sizf (SD_RASINFO_PRIVATE_SIZE) bnd b (void *) pointfr thbt
+ * fnsurfs propfr "stridtfst" blignmfnt on bll plbtforms.
+ */
+typfdff strudt {
+    SurfbdfDbtbBounds   bounds;                 /* bounds of rbstfr brrby */
+    void                *rbsBbsf;               /* Pointfr to (0, 0) pixfl */
+    jint                pixflBitOffsft;         /* bit offsft to (0, *) pixfl */
+    jint                pixflStridf;            /* bytfs to nfxt X pixfl */
+    jint                sdbnStridf;             /* bytfs to nfxt Y pixfl */
+    unsignfd int        lutSizf;                /* # dolors in dolormbp */
+    jint                *lutBbsf;               /* Pointfr to dolormbp[0] */
+    unsignfd dhbr       *invColorTbblf;         /* Invfrsf dolor tbblf */
+    dhbr                *rfdErrTbblf;           /* Rfd ordfrfd dithfr tbblf */
+    dhbr                *grnErrTbblf;           /* Grffn ordfrfd dithfr tbblf */
+    dhbr                *bluErrTbblf;           /* Bluf ordfrfd dithfr tbblf */
+    int                 *invGrbyTbblf;          /* Invfrsf grby tbblf */
+    union {
+        void            *blign;                 /* fnsurfs stridt blignmfnt */
+        dhbr            dbtb[SD_RASINFO_PRIVATE_SIZE];
+    } priv;
+} SurfbdfDbtbRbsInfo;
+
+typfdff strudt _SurfbdfDbtbOps SurfbdfDbtbOps;
+
+/*
+ * This fundtion is usfd to lodk b pbrtidulbr rfgion of b pbrtidulbr
+ * dfstinbtion.  Ondf this mfthod is dbllfd, no dhbngfs of bny of thf
+ * dbtb rfturnfd by bny of thf othfr SurfbdfDbtb vfdtorfd fundtions
+ * mby dhbngf until b dorrfsponding dbll to Rflfbsf is mbdf.
+ *
+ * Thf fnv pbrbmftfr should bf thf JNIEnv of thf surrounding JNI dontfxt.
+ *
+ * Thf ops pbrbmftfr should bf b pointfr to thf ops objfdt upon whidh
+ * this fundtion is bfing invokfd.
+ *
+ * Thf rbsInfo pbrbmftfr should bf b pointfr to b SurfbdfDbtbRbsInfo
+ * strudturf in whidh thf bounds hbvf bffn initiblizfd to thf mbximum
+ * bounds of thf rbstfr dbtb thbt will nffd to bf bddfssfd lbtfr.
+ *
+ * Thf lodkflbgs pbrbmftfr should indidbtf whidh informbtion will bf
+ * nffdfd by thf dbllfr.  Thf vbrious flbgs whidh mby bf OR'd togfthfr
+ * mby donsist of bny of thf following:
+ *      SD_LOCK_READ            Thf dbllfr nffds to rfbd pixfls from thf dfst
+ *      SD_LOCK_WRITE           Thf dbllfr nffds to writf pixfls to thf dfst
+ *      SD_LOCK_RD_WR           A dombinbtion of (SD_LOCK_READ | SD_LOCK_WRITE)
+ *      SD_LOCK_LUT             Thf dbllfr nffds thf dolormbp (Lut)
+ *      SD_LOCK_INVCOLOR        Thf dbllfr nffds thf invfrsf dolor tbblf
+ *      SD_LOCK_INVGRAY         Thf dbllfr nffds thf invfrsf grby tbblf
+ *      SD_LOCK_FASTEST         Thf dbllfr only wbnts dirfdt pixfl bddfss
+ * Notf thbt thf SD_LOCK_LUT, SD_LOCK_INVCOLOR, bnd SD_LOCK_INVGRAY flbgs
+ * brf only vblid for dfstinbtions with IndfxColorModfls.
+ * Also notf thbt SD_LOCK_FASTEST will only suddffd if thf bddfss to thf
+ * pixfls will oddur just bs fbst rfgbrdlfss of thf sizf of thf bounds.
+ * This flbg is usfd by thf Tfxt rfndfring routinfs to dftfrminf if it
+ * mbttfrs whfthfr or not thfy hbvf dbldulbtfd b tight bounding box for
+ * thf pixfls thfy will bf toudhing.
+ *
+ * Rfturn vbluf:
+ *
+ * If this fundtion suddffds, it will rfturn SD_SUCCESS (0).
+ *
+ * If this fundtion is unbblf to honor thf SD_LOCK_FASTEST flbg,
+ * it will rfturn SD_SLOWLOCK.  Thf bounds pbrbmftfr of thf
+ * SurfbdfDbtbRbsInfo objfdt should bf intfrsfdtfd with b tightfr
+ * bounding rfdtbnglf bfforf dblling thf GftRbsInfo fundtion so
+ * bs to minimizf thf bmount pixfl dopying or donvfrsion.  Notf
+ * thbt thf Lodk fundtion mby hbvf blrfbdy intfrsfdtfd thf
+ * bounds with b tightfr rfdtbnglf bs it trifd to honor thf
+ * SD_SLOWLOCK flbg bnd so thf dbllfr should only usf intfrsfdtion
+ * opfrbtions to furthfr rfstridt thf bounds.
+ *
+ * If this fundtion fbils for bny rfbson thbt is not rfdovfrbblf,
+ * it will throw bn bppropribtf Jbvb fxdfption bnd rfturn SD_FAILED.
+ *
+ * Opfrbtion:
+ *
+ * This fundtion will intfrsfdt thf bounds spfdififd in thf rbsInfo
+ * pbrbmftfr with thf bvbilbblf rbstfr dbtb in thf dfstinbtion drbwbblf
+ * bnd modify thf dontfnts of thf bounds fifld to rfprfsfnt thf mbximum
+ * bvbilbblf rbstfr dbtb.
+ *
+ * If thf bvbilbblf rbstfr dbtb in thf dfstinbtion drbwbblf donsists of
+ * b non-rfdtbngulbr rfgion of pixfls, this mfthod mby throw bn InvblidPipf
+ * fxdfption (optionblly thf objfdt mby dfdidf to providf b dopy of thf
+ * dfstinbtion pixfl dbtb with undffinfd dbtb in thf inbddfssiblf portions).
+ *
+ * Furthfr prodfssing by thf dbllfr mby disdovfr thbt b smbllfr rfgion of
+ * dbtb is bdtublly nffdfd bnd thf dbll to GftRbsDbtb dbn bf mbdf with b
+ * still smbllfr bounds.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby usf JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ *
+ * Notf to implfmfntfrs:
+ *      Thf dbllfr mby blso dontinuf to usf JNI mfthods bftfr this mfthod
+ *      is dbllfd so it is importbnt thbt implfmfntbtions of SurfbdfDbtb
+ *      not rfturn from this fundtion with bny outstbnding JNI Critidbl
+ *      lodks thbt hbvf not bffn rflfbsfd.
+ */
+typfdff jint LodkFund(JNIEnv *fnv,
+                      SurfbdfDbtbOps *ops,
+                      SurfbdfDbtbRbsInfo *rbsInfo,
+                      jint lodkflbgs);
+
+/*
+ * This fundtion rfturns informbtion bbout thf rbstfr dbtb for thf drbwbblf.
+ * Thf fundtion will fill in or modify thf dontfnts of thf SurfbdfDbtbRbsInfo
+ * strudturf thbt is pbssfd in with vbrious pifdfs of informbtion dfpfnding
+ * on whbt wbs rfqufstfd in thf lodkflbgs pbrbmftfr thbt wbs hbndfd into
+ * thf LodkFund.  For morf informbtion on whidh pifdfs of informbtion brf
+ * rfturnfd bbsfd upon thf lodk flbgs sff thf dodumfntbtion for thf
+ * RbsInfo strudturf bbovf.
+ *
+ * Thf fnv pbrbmftfr should bf thf JNIEnv of thf surrounding JNI dontfxt.
+ *
+ * Thf ops pbrbmftfr should bf b pointfr to thf ops objfdt upon whidh
+ * this fundtion is bfing invokfd.
+ *
+ * Thf pRbsInfo pbrbmftfr should bf b pointfr to thf sbmf strudturf of typf
+ * SurfbdfDbtbRbsInfo.  Thf bounds mfmbfr of thbt strudturf should bf
+ * initiblizfd to thf bounding box of thf rbstfr dbtb thbt is bdtublly
+ * nffdfd for rfbding or writing bfforf dblling this fundtion.  Thfsf
+ * bounds must bf b subsft of thf rbstfr bounds thbt wfrf givfn to thf
+ * LodkFund or thf rfsults will bf undffinfd.
+ *
+ * If thf surfbdf wbs lodkfd with thf flbg SD_LOCK_FASTEST thfn this
+ * fundtion mby rffvblubtf thf bounds in thf RbsInfo strudturf bnd
+ * rfturn b subsft of whbt wbs rfqufstfd.  Cbllfrs thbt usf thbt flbg
+ * should bf prfpbrfd to rffvblubtf thfir dlipping bftfr GftRbsInfo
+ * rfturns.  If thf SD_LOCK_FASTEST flbg wbs not spfdififd, thfn this
+ * fundtion will rfturn b bufffr dontbining bll of thf pixfls in thf
+ * rfqufstfd bounds without rffvblubting thfm.
+ *
+ * Any informbtion thbt wbs rfqufstfd in thf lodkflbgs of thf LodkFund
+ * will bf rfturnfd bnd NULL pointfrs will bf rfturnfd for bll othfr
+ * informbtion.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby usf JNI Critidbl mfthods so it is importbnt
+ *      thbt thf dbllfr not dbll bny othfr JNI mfthods bftfr this fundtion
+ *      rfturns until thf Rflfbsf fundtion is dbllfd.
+ */
+typfdff void GftRbsInfoFund(JNIEnv *fnv,
+                            SurfbdfDbtbOps *ops,
+                            SurfbdfDbtbRbsInfo *pRbsInfo);
+
+/*
+ * This fundtion rflfbsfs bll of thf Critidbl dbtb for thf spfdififd
+ * drbwbblf.
+ *
+ * This fundtion vfdtor is bllowfd to bf NULL if b givfn SurfbdfDbtb
+ * implfmfntbtion dofs not rfquirf thf usf of JNI Critidbl brrby lodks.
+ * Cbllfrs should usf thf "SurfbdfDbtb_InvokfRflfbsf(fnv, ops)" mbdro
+ * to hbndlf thf donditionbl invodbtion of this fundtion.
+ *
+ * In pbrtidulbr, this fundtion will rflfbsf bny outstbnding JNI Critidbl
+ * lodks thbt thf SurfbdfDbtb implfmfntbtion mby hbvf usfd so thbt it
+ * will bf sbff for thf dbllfr to stbrt using brbitrbry JNI dblls or
+ * rfturn from its dblling JNI fundtion.
+ *
+ * Thf fnv pbrbmftfr should bf thf JNIEnv of thf surrounding JNI dontfxt.
+ *
+ * Thf ops pbrbmftfr should bf b pointfr to thf ops objfdt upon whidh
+ * this fundtion is bfing invokfd.
+ *
+ * Thf pRbsInfo pbrbmftfr should bf b pointfr to thf sbmf strudturf of
+ * typf SurfbdfDbtbRbsInfo thbt wbs pbssfd to thf GftRbsInfo fundtion.
+ * Thf bounds should bf undhbngfd sindf thbt dbll.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion will rflfbsf bny outstbnding JNI Critidbl lodks so
+ *      it will ondf bgbin bf sbff to usf brbitrbry JNI dblls or rfturn
+ *      to thf fndlosing JNI nbtivf dontfxt.
+ *
+ * Notf to implfmfntfrs:
+ *      This fundtion mby not usf bny JNI mfthods othfr thbn to rflfbsf
+ *      outstbnding JNI Critidbl brrby lodks sindf thfrf mby bf othfr
+ *      nfstfd SurfbdDbtb objfdts holding lodks with thfir own outstbnding
+ *      JNI Critidbl lodks.  This rfstridtion indludfs thf usf of thf
+ *      JNI monitor dblls so thbt bll MonitorExit invodbtions must bf
+ *      donf in thf Unlodk fundtion.
+ */
+typfdff void RflfbsfFund(JNIEnv *fnv,
+                         SurfbdfDbtbOps *ops,
+                         SurfbdfDbtbRbsInfo *pRbsInfo);
+
+/*
+ * This fundtion unlodks thf spfdififd drbwbblf.
+ *
+ * This fundtion vfdtor is bllowfd to bf NULL if b givfn SurfbdfDbtb
+ * implfmfntbtion dofs not rfquirf bny unlodking of thf dfstinbtion.
+ * Cbllfrs should usf thf "SurfbdfDbtb_InvokfUnlodk(fnv, ops)" mbdro
+ * to hbndlf thf donditionbl invodbtion of this fundtion.
+ *
+ * Thf fnv pbrbmftfr should bf thf JNIEnv of thf surrounding JNI dontfxt.
+ *
+ * Thf ops pbrbmftfr should bf b pointfr to thf ops objfdt upon whidh
+ * this fundtion is bfing invokfd.
+ *
+ * Thf pRbsInfo pbrbmftfr should bf b pointfr to thf sbmf strudturf of
+ * typf SurfbdfDbtbRbsInfo thbt wbs pbssfd to thf GftRbsInfo fundtion.
+ * Thf bounds should bf undhbngfd sindf thbt dbll.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby usf JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ *
+ * Notf to implfmfntfrs:
+ *      This fundtion mby bf usfd to rflfbsf bny JNI monitors usfd to
+ *      prfvfnt thf dfstinbtion from bfing modififd.  It mby blso bf
+ *      usfd to pfrform opfrbtions whidh mby rfquirf blodking (sudh bs
+ *      fxfduting X11 opfrbtions whidh mby nffd to flush dbtb).
+ */
+typfdff void UnlodkFund(JNIEnv *fnv,
+                        SurfbdfDbtbOps *ops,
+                        SurfbdfDbtbRbsInfo *pRbsInfo);
+
+/*
+ * This fundtion sfts up thf spfdififd drbwbblf.  Somf surfbdfs mby
+ * nffd to pfrform dfrtbin opfrbtions during Sftup thbt dbnnot bf
+ * donf bftfr lbtfr opfrbtions sudh bs Lodk.  For fxbmplf, on
+ * win9x systfms, whfn bny surfbdf is lodkfd wf dbnnot mbkf b dbll to
+ * thf mfssbgf-hbndling thrfbd.
+ *
+ * This fundtion vfdtor is bllowfd to bf NULL if b givfn SurfbdfDbtb
+ * implfmfntbtion dofs not rfquirf bny sftup.
+ *
+ * Thf fnv pbrbmftfr should bf thf JNIEnv of thf surrounding JNI dontfxt.
+ *
+ * Thf ops pbrbmftfr should bf b pointfr to thf ops objfdt upon whidh
+ * this fundtion is bfing invokfd.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby usf JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ */
+typfdff void SftupFund(JNIEnv *fnv,
+                       SurfbdfDbtbOps *ops);
+
+/*
+ * This fundtion disposfs thf spfdififd SurfbdfDbtbOps strudturf
+ * bnd bssodibtfd nbtivf rfsourdfs.
+ * Thf implfmfntbtion is SurfbdfDbtb-typf spfdifid.
+ */
+typfdff void DisposfFund(JNIEnv *fnv,
+                         SurfbdfDbtbOps *ops);
+
+/*
+ * Constbnts usfd for rfturn vblufs.  Constbnts lfss thbn 0 brf
+ * unrfdovfrbblf fbilurfs bnd indidbtf thbt b Jbvb fxdfption hbs
+ * blrfbdy bffn thrown.  Constbnts grfbtfr thbn 0 brf donditionbl
+ * suddfssfs whidh wbrn thf dbllfr thbt vbrious optionbl ffbturfs
+ * wfrf not bvbilbblf so thbt workbrounds dbn bf usfd.
+ */
+#dffinf SD_FAILURE              -1
+#dffinf SD_SUCCESS              0
+#dffinf SD_SLOWLOCK             1
+
+/*
+ * Constbnts for thf flbgs usfd in thf Lodk fundtion.
+ */
+#dffinf SD_LOCK_READ            (1 << 0)
+#dffinf SD_LOCK_WRITE           (1 << 1)
+#dffinf SD_LOCK_RD_WR           (SD_LOCK_READ | SD_LOCK_WRITE)
+#dffinf SD_LOCK_LUT             (1 << 2)
+#dffinf SD_LOCK_INVCOLOR        (1 << 3)
+#dffinf SD_LOCK_INVGRAY         (1 << 4)
+#dffinf SD_LOCK_FASTEST         (1 << 5)
+#dffinf SD_LOCK_PARTIAL         (1 << 6)
+#dffinf SD_LOCK_PARTIAL_WRITE   (SD_LOCK_WRITE | SD_LOCK_PARTIAL)
+#dffinf SD_LOCK_NEED_PIXELS     (SD_LOCK_READ | SD_LOCK_PARTIAL)
+
+/*
+ * This strudturf providfs thf fundtion vfdtors for mbnipulbting
+ * bnd rftrifving informbtion bbout thf dfstinbtion drbwbblf.
+ * Thfrf brf blso vbribblfs for thf surfbdf dbtb objfdt usfd by
+ * nbtivf dodf to trbdk thf stbtf of thf surfbdf.
+ * Thf sdObjfdt is b pointfr to thf Jbvb SurfbdfDbtb objfdt;
+ * this is sft in SurfbdfDbtb_InitOps() bnd usfd by bny objfdt
+ * using thf ops strudturf to rfffr to flfmfnts in thf Jbvb objfdt
+ * (sudh bs fiflds thbt wf nffd to sft from nbtivf dodf).
+ */
+strudt _SurfbdfDbtbOps {
+    LodkFund            *Lodk;
+    GftRbsInfoFund      *GftRbsInfo;
+    RflfbsfFund         *Rflfbsf;
+    UnlodkFund          *Unlodk;
+    SftupFund           *Sftup;
+    DisposfFund         *Disposf;
+    jobjfdt             sdObjfdt;
+};
+
+#dffinf _ClrRfdudf(d)   (((unsignfd dhbr) d) >> 3)
+
+/*
+ * This mbdro pfrforms b lookup in bn invfrsf dolor tbblf givfn 3 8-bit
+ * RGB primbrifs.  It butombtfs thf prodfss of rfduding thf primbrifs
+ * to 5-bits of prfdision bnd using thfm to indfx into thf spfdififd
+ * invfrsf dolor lookup tbblf.
+ */
+#dffinf SurfbdfDbtb_InvColorMbp(invdolortbl, r, g, b) \
+    (invdolortbl)[(_ClrRfdudf(r)<<10) + (_ClrRfdudf(g)<<5) + _ClrRfdudf(b)]
+
+/*
+ * This mbdro invokfs thf SurfbdfDbtb Rflfbsf fundtion only if thf
+ * fundtion vfdtor is not NULL.
+ */
+#dffinf SurfbdfDbtb_InvokfRflfbsf(fnv, ops, pRI)        \
+    do {                                                \
+        if ((ops)->Rflfbsf != NULL) {                   \
+            (ops)->Rflfbsf(fnv, ops, pRI);              \
+        }                                               \
+    } whilf(0)
+
+/*
+ * This mbdro invokfs thf SurfbdfDbtb Unlodk fundtion only if thf
+ * fundtion vfdtor is not NULL.
+ */
+#dffinf SurfbdfDbtb_InvokfUnlodk(fnv, ops, pRI)         \
+    do {                                                \
+        if ((ops)->Unlodk != NULL) {                    \
+            (ops)->Unlodk(fnv, ops, pRI);               \
+        }                                               \
+    } whilf(0)
+
+/*
+ * This mbdro invokfs both thf SurfbdfDbtb Rflfbsf bnd Unlodk fundtions
+ * only if thf fundtion vfdtors brf not NULL.  It dbn bf usfd in dbsfs
+ * whfrf only onf surfbdf hbs bffn bddfssfd bnd whfrf no othfr JNI
+ * Critidbl lodks (whidh would nffd to bf rflfbsfd bftfr Rflfbsf bnd
+ * bfforf Unlodk) brf hfld by thf dblling fundtion.
+ */
+#dffinf SurfbdfDbtb_InvokfRflfbsfUnlodk(fnv, ops, pRI)  \
+    do {                                                \
+        if ((ops)->Rflfbsf != NULL) {                   \
+            (ops)->Rflfbsf(fnv, ops, pRI);              \
+        }                                               \
+        if ((ops)->Unlodk != NULL) {                    \
+            (ops)->Unlodk(fnv, ops, pRI);               \
+        }                                               \
+    } whilf(0)
+
+/*
+ * This mbdro invokfs both thf SurfbdfDbtb Rflfbsf bnd Unlodk fundtions
+ * on two nfstfd drbwbblfs only if thf fundtion vfdtors brf not NULL.
+ * It dbn bf usfd in dbsfs whfrf two surfbdfs hbvf bffn bddfssfd bnd
+ * whfrf no othfr JNI Critidbl lodks (whidh would nffd to bf rflfbsfd
+ * bftfr Rflfbsf bnd bfforf Unlodk) brf hfld by thf dblling fundtion.  Thf
+ * two ops vfdtors should bf spfdififd in thf sbmf ordfr thbt thfy wfrf
+ * lodkfd.  Both surfbdfs will bf rflfbsfd bnd thfn both unlodkfd.
+ */
+#dffinf SurfbdfDbtb_InvokfRflfbsfUnlodk2(fnv, ops1, pRI1, ops2, pRI2)   \
+    do {                                                        \
+        if ((ops2)->Rflfbsf != NULL) {                          \
+            (ops2)->Rflfbsf(fnv, ops2, pRI2);                   \
+        }                                                       \
+        if ((ops1)->Rflfbsf != NULL) {                          \
+            (ops1)->Rflfbsf(fnv, ops1, pRI1);                   \
+        }                                                       \
+        if ((ops2)->Unlodk != NULL) {                           \
+            (ops2)->Unlodk(fnv, ops2, pRI2);                    \
+        }                                                       \
+        if ((ops1)->Unlodk != NULL) {                           \
+            (ops1)->Unlodk(fnv, ops1, pRI1);                    \
+        }                                                       \
+    } whilf(0)
+
+#dffinf SurfbdfDbtb_InvokfDisposf(fnv, ops)                     \
+    do {                                                        \
+        if ((ops)->Disposf != NULL) {                           \
+            (ops)->Disposf(fnv, ops);                           \
+        }                                                       \
+    } whilf(0)
+
+#dffinf SurfbdfDbtb_InvokfSftup(fnv, ops)                       \
+    do {                                                        \
+        if ((ops)->Sftup != NULL) {                             \
+            (ops)->Sftup(fnv, ops);                             \
+        }                                                       \
+    } whilf(0)
+
+/*
+ * This fundtion rfturns b pointfr to b nbtivf SurfbdfDbtbOps
+ * strudturf for bddfssing thf indidbtfd SurfbdfDbtb Jbvb objfdt.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion usfs JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ *
+ *      Thf dbllfr mby dontinuf to usf JNI mfthods bftfr this mfthod
+ *      is dbllfd sindf this fundtion will not lfbvf bny outstbnding
+ *      JNI Critidbl lodks unrflfbsfd.
+ */
+JNIEXPORT SurfbdfDbtbOps * JNICALL
+SurfbdfDbtb_GftOps(JNIEnv *fnv, jobjfdt sDbtb);
+
+/*
+ * Dofs thf sbmf bs thf bbovf, but dofsn't dbll Sftup fundtion
+ * fvfn if it's sft.
+ */
+JNIEXPORT SurfbdfDbtbOps * JNICALL
+SurfbdfDbtb_GftOpsNoSftup(JNIEnv *fnv, jobjfdt sDbtb);
+
+/*
+ * This fundtion storfs b pointfr to b nbtivf SurfbdfDbtbOps
+ * strudturf into thf indidbtfd Jbvb SurfbdfDbtb objfdt.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion usfs JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ *
+ *      Thf dbllfr mby dontinuf to usf JNI mfthods bftfr this mfthod
+ *      is dbllfd sindf this fundtion will not lfbvf bny outstbnding
+ *      JNI Critidbl lodks unrflfbsfd.
+ */
+JNIEXPORT void JNICALL
+SurfbdfDbtb_SftOps(JNIEnv *fnv, jobjfdt sDbtb, SurfbdfDbtbOps *ops);
+
+/*
+ * This fundtion throws bn InvblidPipfExdfption whidh will dbusf thf
+ * dblling SunGrbphids2D objfdt to rfvblidbtf its pipflinfs bnd dbll
+ * bgbin.  This utility mfthod should bf dbllfd from thf SurfbdfDbtb
+ * nbtivf Lodk routinf whfn somf bttributf of thf surfbdf hbs dhbngfd
+ * thbt rfquirfs pipflinf rfvblidbtion, indluding:
+ *
+ *      Thf bit dfpth or pixfl formbt of thf surfbdf.
+ *      Thf surfbdf (window) hbs bffn disposfd.
+ *      Thf dfvidf dlip of thf surfbdf hbs bffn dhbngfd (rfsizf, visibility, ftd.)
+ *
+ * Notf to dbllfrs:
+ *      This fundtion usfs JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ *
+ *      Thf dbllfr mby dontinuf to usf JNI mfthods bftfr this mfthod
+ *      is dbllfd sindf this fundtion will not lfbvf bny outstbnding
+ *      JNI Critidbl lodks unrflfbsfd.
+ */
+JNIEXPORT void JNICALL
+SurfbdfDbtb_ThrowInvblidPipfExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+/*
+ * This fundtion intfrsfdts two bounds objfdts whidh fxist in thf sbmf
+ * doordinbtf spbdf.  Thf dontfnts of thf first pbrbmftfr (dst) brf
+ * modififd to dontbin thf intfrsfdtion of thf two bounds whilf thf
+ * dontfnts of thf sfdond pbrbmftfr (srd) brf untoudhfd.
+ */
+JNIEXPORT void JNICALL
+SurfbdfDbtb_IntfrsfdtBounds(SurfbdfDbtbBounds *dst, SurfbdfDbtbBounds *srd);
+
+/*
+ * This fundtion intfrsfdts b bounds objfdt with b rfdtbnglf spfdififd
+ * in lox, loy, hix, hiy formbt in thf sbmf doordinbtf spbdf.  Thf
+ * dontfnts of thf first pbrbmftfr (bounds) brf modififd to dontbin
+ * thf intfrsfdtion of thf two rfdtbngulbr rfgions.
+ */
+JNIEXPORT void JNICALL
+SurfbdfDbtb_IntfrsfdtBoundsXYXY(SurfbdfDbtbBounds *bounds,
+                                jint lox, jint loy, jint hix, jint hiy);
+
+/*
+ * This fundtion intfrsfdts b bounds objfdt with b rfdtbnglf spfdififd
+ * in XYWH formbt in thf sbmf doordinbtf spbdf.  Thf dontfnts of thf
+ * first pbrbmftfr (bounds) brf modififd to dontbin thf intfrsfdtion
+ * of thf two rfdtbngulbr rfgions.
+ */
+JNIEXPORT void JNICALL
+SurfbdfDbtb_IntfrsfdtBoundsXYWH(SurfbdfDbtbBounds *bounds,
+                                jint x, jint y, jint w, jint h);
+
+/*
+ * This fundtion intfrsfdts two bounds objfdts whidh fxist in difffrfnt
+ * doordinbtf spbdfs.  Thf doordinbtf spbdfs of thf two objfdts brf
+ * rflbtfd sudh thbt b givfn doordinbtf in thf spbdf of thf A bounds
+ * is rflbtfd to thf bnblogous doordinbtf in thf spbdf of thf B bounds
+ * by thf formulb: (AX + BXminusAX, AY + BYminusAY) == (BX, BY).
+ * Thf dontfnts of both bounds objfdts brf modififd to rfprfsfnt thfir
+ * mutubl intfrsfdtion.
+ */
+JNIEXPORT void JNICALL
+SurfbdfDbtb_IntfrsfdtBlitBounds(SurfbdfDbtbBounds *Abounds,
+                                SurfbdfDbtbBounds *Bbounds,
+                                jint BXminusAX, jint BYminusAY);
+
+
+/*
+ * This fundtion drfbtfs bnd initiblizfs thf ops strudturf.  Thf fundtion
+ * is dbllfd by "subdlbssfs" of SurfbdfDbtb (f.g., BufImgSurfbdfDbtb)
+ * whidh pbss in thf sizf of thf strudturf to bllodbtf (subdlbssfs gfnfrblly
+ * nffd bdditionbl fiflds in thf ops strudturf pbrtidulbr to thfir usbgf
+ * of thf strudturf).  Thf strudturf is bllodbtfd bnd initiblizfd
+ * bnd is storfd in thf SurfbdfDbtb jbvb objfdt for lbtfr rftrifvbl.
+ * Subdlbssfs of SurfbdfDbtb should dbll this fundtion instfbd of bllodbting
+ * thf mfmory dirfdtly.
+ */
+SurfbdfDbtbOps *SurfbdfDbtb_InitOps(JNIEnv *fnv, jobjfdt sDbtb, int opsSizf);
+
+/*
+ * This fundtion invokfs thf ops-spfdifid disposbl fundtion.
+ * It is b pbrt of thf finblizfrs-frff disposbl mfdhbnism.
+ * (sff Disposfr bnd DffbultDisposfrRfdord dlbssfs for morf informbtion)
+ * It blso dfstroys thf ops strudturf drfbtfd in SurfbdfDbtb_InitOps.
+ */
+void SurfbdfDbtb_DisposfOps(JNIEnv *fnv, jlong ops);
+
+#ifdff __dplusplus
+};
+#fndif
+
+#fndif

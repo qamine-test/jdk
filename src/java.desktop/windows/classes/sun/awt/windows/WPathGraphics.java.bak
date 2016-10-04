@@ -1,1670 +1,1670 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.Transparency;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Strokf;
+import jbvb.bwt.Trbnspbrfndy;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlypiVfdtor;
+import jbvb.bwt.font.TfxtLbyout;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Linf2D;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.IndexColorModel;
-import java.awt.image.WritableRaster;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.SampleModel;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.ComponfntSbmplfModfl;
+import jbvb.bwt.imbgf.MultiPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.SbmplfModfl;
 
-import sun.awt.image.ByteComponentRaster;
-import sun.awt.image.BytePackedRaster;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
+import sun.bwt.imbgf.BytfComponfntRbstfr;
+import sun.bwt.imbgf.BytfPbdkfdRbstfr;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrJob;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
-import sun.font.CharToGlyphMapper;
-import sun.font.CompositeFont;
+import sun.font.CibrToGlypiMbppfr;
+import sun.font.CompositfFont;
 import sun.font.Font2D;
-import sun.font.FontUtilities;
-import sun.font.PhysicalFont;
-import sun.font.TrueTypeFont;
+import sun.font.FontUtilitifs;
+import sun.font.PiysidblFont;
+import sun.font.TrufTypfFont;
 
-import sun.print.PathGraphics;
-import sun.print.ProxyGraphics2D;
+import sun.print.PbtiGrbpiids;
+import sun.print.ProxyGrbpiids2D;
 
-final class WPathGraphics extends PathGraphics {
+finbl dlbss WPbtiGrbpiids fxtfnds PbtiGrbpiids {
 
     /**
-     * For a drawing application the initial user space
-     * resolution is 72dpi.
+     * For b drbwing bpplidbtion tif initibl usfr spbdf
+     * rfsolution is 72dpi.
      */
-    private static final int DEFAULT_USER_RES = 72;
+    privbtf stbtid finbl int DEFAULT_USER_RES = 72;
 
-    private static final float MIN_DEVICE_LINEWIDTH = 1.2f;
-    private static final float MAX_THINLINE_INCHES = 0.014f;
+    privbtf stbtid finbl flobt MIN_DEVICE_LINEWIDTH = 1.2f;
+    privbtf stbtid finbl flobt MAX_THINLINE_INCHES = 0.014f;
 
-    /* Note that preferGDITextLayout implies useGDITextLayout.
-     * "prefer" is used to override cases where would otherwise
-     * choose not to use it. Note that non-layout factors may
-     * still mean that GDI cannot be used.
+    /* Notf tibt prfffrGDITfxtLbyout implifs usfGDITfxtLbyout.
+     * "prfffr" is usfd to ovfrridf dbsfs wifrf would otifrwisf
+     * dioosf not to usf it. Notf tibt non-lbyout fbdtors mby
+     * still mfbn tibt GDI dbnnot bf usfd.
      */
-    private static boolean useGDITextLayout = true;
-    private static boolean preferGDITextLayout = false;
-    static {
-        String textLayoutStr =
-            java.security.AccessController.doPrivileged(
-                   new sun.security.action.GetPropertyAction(
-                         "sun.java2d.print.enableGDITextLayout"));
+    privbtf stbtid boolfbn usfGDITfxtLbyout = truf;
+    privbtf stbtid boolfbn prfffrGDITfxtLbyout = fblsf;
+    stbtid {
+        String tfxtLbyoutStr =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                   nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                         "sun.jbvb2d.print.fnbblfGDITfxtLbyout"));
 
-        if (textLayoutStr != null) {
-            useGDITextLayout = Boolean.getBoolean(textLayoutStr);
-            if (!useGDITextLayout) {
-                if (textLayoutStr.equalsIgnoreCase("prefer")) {
-                    useGDITextLayout = true;
-                    preferGDITextLayout = true;
+        if (tfxtLbyoutStr != null) {
+            usfGDITfxtLbyout = Boolfbn.gftBoolfbn(tfxtLbyoutStr);
+            if (!usfGDITfxtLbyout) {
+                if (tfxtLbyoutStr.fqublsIgnorfCbsf("prfffr")) {
+                    usfGDITfxtLbyout = truf;
+                    prfffrGDITfxtLbyout = truf;
                 }
             }
         }
     }
 
-    WPathGraphics(Graphics2D graphics, PrinterJob printerJob,
-                  Printable painter, PageFormat pageFormat, int pageIndex,
-                  boolean canRedraw) {
-        super(graphics, printerJob, painter, pageFormat, pageIndex, canRedraw);
+    WPbtiGrbpiids(Grbpiids2D grbpiids, PrintfrJob printfrJob,
+                  Printbblf pbintfr, PbgfFormbt pbgfFormbt, int pbgfIndfx,
+                  boolfbn dbnRfdrbw) {
+        supfr(grbpiids, printfrJob, pbintfr, pbgfFormbt, pbgfIndfx, dbnRfdrbw);
     }
 
     /**
-     * Creates a new <code>Graphics</code> object that is
-     * a copy of this <code>Graphics</code> object.
-     * @return     a new graphics context that is a copy of
-     *                       this graphics context.
-     * @since      1.0
+     * Crfbtfs b nfw <dodf>Grbpiids</dodf> objfdt tibt is
+     * b dopy of tiis <dodf>Grbpiids</dodf> objfdt.
+     * @rfturn     b nfw grbpiids dontfxt tibt is b dopy of
+     *                       tiis grbpiids dontfxt.
+     * @sindf      1.0
      */
-    @Override
-    public Graphics create() {
+    @Ovfrridf
+    publid Grbpiids drfbtf() {
 
-        return new WPathGraphics((Graphics2D) getDelegate().create(),
-                                 getPrinterJob(),
-                                 getPrintable(),
-                                 getPageFormat(),
-                                 getPageIndex(),
-                                 canDoRedraws());
+        rfturn nfw WPbtiGrbpiids((Grbpiids2D) gftDflfgbtf().drfbtf(),
+                                 gftPrintfrJob(),
+                                 gftPrintbblf(),
+                                 gftPbgfFormbt(),
+                                 gftPbgfIndfx(),
+                                 dbnDoRfdrbws());
     }
 
     /**
-     * Strokes the outline of a Shape using the settings of the current
-     * graphics state.  The rendering attributes applied include the
-     * clip, transform, paint or color, composite and stroke attributes.
-     * @param s The shape to be drawn.
-     * @see #setStroke
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
-     * @see #clip
-     * @see #setClip
-     * @see #setComposite
+     * Strokfs tif outlinf of b Sibpf using tif sfttings of tif durrfnt
+     * grbpiids stbtf.  Tif rfndfring bttributfs bpplifd indludf tif
+     * dlip, trbnsform, pbint or dolor, dompositf bnd strokf bttributfs.
+     * @pbrbm s Tif sibpf to bf drbwn.
+     * @sff #sftStrokf
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbpiids#sftColor
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #dlip
+     * @sff #sftClip
+     * @sff #sftCompositf
      */
-    @Override
-    public void draw(Shape s) {
+    @Ovfrridf
+    publid void drbw(Sibpf s) {
 
-        Stroke stroke = getStroke();
+        Strokf strokf = gftStrokf();
 
-        /* If the line being drawn is thinner than can be
-         * rendered, then change the line width, stroke
-         * the shape, and then set the line width back.
-         * We can only do this for BasicStroke's.
+        /* If tif linf bfing drbwn is tiinnfr tibn dbn bf
+         * rfndfrfd, tifn dibngf tif linf widti, strokf
+         * tif sibpf, bnd tifn sft tif linf widti bbdk.
+         * Wf dbn only do tiis for BbsidStrokf's.
          */
-        if (stroke instanceof BasicStroke) {
-            BasicStroke lineStroke;
-            BasicStroke minLineStroke = null;
-            float deviceLineWidth;
-            float lineWidth;
-            AffineTransform deviceTransform;
-            Point2D.Float penSize;
+        if (strokf instbndfof BbsidStrokf) {
+            BbsidStrokf linfStrokf;
+            BbsidStrokf minLinfStrokf = null;
+            flobt dfvidfLinfWidti;
+            flobt linfWidti;
+            AffinfTrbnsform dfvidfTrbnsform;
+            Point2D.Flobt pfnSizf;
 
-            /* Get the requested line width in user space.
+            /* Gft tif rfqufstfd linf widti in usfr spbdf.
              */
-            lineStroke = (BasicStroke) stroke;
-            lineWidth = lineStroke.getLineWidth();
-            penSize = new Point2D.Float(lineWidth, lineWidth);
+            linfStrokf = (BbsidStrokf) strokf;
+            linfWidti = linfStrokf.gftLinfWidti();
+            pfnSizf = nfw Point2D.Flobt(linfWidti, linfWidti);
 
-            /* Compute the line width in device coordinates.
-             * Work on a point in case there is asymetric scaling
-             * between user and device space.
-             * Take the absolute value in case there is negative
-             * scaling in effect.
+            /* Computf tif linf widti in dfvidf doordinbtfs.
+             * Work on b point in dbsf tifrf is bsymftrid sdbling
+             * bftwffn usfr bnd dfvidf spbdf.
+             * Tbkf tif bbsolutf vbluf in dbsf tifrf is nfgbtivf
+             * sdbling in ffffdt.
              */
-            deviceTransform = getTransform();
-            deviceTransform.deltaTransform(penSize, penSize);
-            deviceLineWidth = Math.min(Math.abs(penSize.x),
-                                       Math.abs(penSize.y));
+            dfvidfTrbnsform = gftTrbnsform();
+            dfvidfTrbnsform.dfltbTrbnsform(pfnSizf, pfnSizf);
+            dfvidfLinfWidti = Mbti.min(Mbti.bbs(pfnSizf.x),
+                                       Mbti.bbs(pfnSizf.y));
 
-            /* If the requested line is too thin then map our
-             * minimum line width back to user space and set
-             * a new BasicStroke.
+            /* If tif rfqufstfd linf is too tiin tifn mbp our
+             * minimum linf widti bbdk to usfr spbdf bnd sft
+             * b nfw BbsidStrokf.
              */
-            if (deviceLineWidth < MIN_DEVICE_LINEWIDTH) {
+            if (dfvidfLinfWidti < MIN_DEVICE_LINEWIDTH) {
 
-                Point2D.Float minPenSize = new Point2D.Float(
+                Point2D.Flobt minPfnSizf = nfw Point2D.Flobt(
                                                 MIN_DEVICE_LINEWIDTH,
                                                 MIN_DEVICE_LINEWIDTH);
 
                 try {
-                    AffineTransform inverse;
-                    float minLineWidth;
+                    AffinfTrbnsform invfrsf;
+                    flobt minLinfWidti;
 
-                    /* Convert the minimum line width from device
-                     * space to user space.
+                    /* Convfrt tif minimum linf widti from dfvidf
+                     * spbdf to usfr spbdf.
                      */
-                    inverse = deviceTransform.createInverse();
-                    inverse.deltaTransform(minPenSize, minPenSize);
+                    invfrsf = dfvidfTrbnsform.drfbtfInvfrsf();
+                    invfrsf.dfltbTrbnsform(minPfnSizf, minPfnSizf);
 
-                    minLineWidth = Math.max(Math.abs(minPenSize.x),
-                                            Math.abs(minPenSize.y));
+                    minLinfWidti = Mbti.mbx(Mbti.bbs(minPfnSizf.x),
+                                            Mbti.bbs(minPfnSizf.y));
 
-                    /* Use all of the parameters from the current
-                     * stroke but change the line width to our
-                     * calculated minimum.
+                    /* Usf bll of tif pbrbmftfrs from tif durrfnt
+                     * strokf but dibngf tif linf widti to our
+                     * dbldulbtfd minimum.
                      */
-                    minLineStroke = new BasicStroke(minLineWidth,
-                                                    lineStroke.getEndCap(),
-                                                    lineStroke.getLineJoin(),
-                                                    lineStroke.getMiterLimit(),
-                                                    lineStroke.getDashArray(),
-                                                    lineStroke.getDashPhase());
-                    setStroke(minLineStroke);
+                    minLinfStrokf = nfw BbsidStrokf(minLinfWidti,
+                                                    linfStrokf.gftEndCbp(),
+                                                    linfStrokf.gftLinfJoin(),
+                                                    linfStrokf.gftMitfrLimit(),
+                                                    linfStrokf.gftDbsiArrby(),
+                                                    linfStrokf.gftDbsiPibsf());
+                    sftStrokf(minLinfStrokf);
 
-                } catch (NoninvertibleTransformException e) {
-                    /* If we can't invert the matrix there is something
-                     * very wrong so don't worry about the minor matter
-                     * of a minimum line width.
+                } dbtdi (NoninvfrtiblfTrbnsformExdfption f) {
+                    /* If wf dbn't invfrt tif mbtrix tifrf is somftiing
+                     * vfry wrong so don't worry bbout tif minor mbttfr
+                     * of b minimum linf widti.
                      */
                 }
             }
 
-            super.draw(s);
+            supfr.drbw(s);
 
-            /* If we changed the stroke, put back the old
-             * stroke in order to maintain a minimum line
-             * width.
+            /* If wf dibngfd tif strokf, put bbdk tif old
+             * strokf in ordfr to mbintbin b minimum linf
+             * widti.
              */
-            if (minLineStroke != null) {
-                setStroke(lineStroke);
+            if (minLinfStrokf != null) {
+                sftStrokf(linfStrokf);
             }
 
-        /* The stroke in effect was not a BasicStroke so we
-         * will not try to enforce a minimum line width.
+        /* Tif strokf in ffffdt wbs not b BbsidStrokf so wf
+         * will not try to fnfordf b minimum linf widti.
          */
-        } else {
-            super.draw(s);
+        } flsf {
+            supfr.drbw(s);
         }
     }
 
     /**
-     * Draws the text given by the specified string, using this
-     * graphics context's current font and color. The baseline of the
-     * first character is at position (<i>x</i>,&nbsp;<i>y</i>) in this
-     * graphics context's coordinate system.
-     * @param       str      the string to be drawn.
-     * @param       x        the <i>x</i> coordinate.
-     * @param       y        the <i>y</i> coordinate.
-     * @see         java.awt.Graphics#drawBytes
-     * @see         java.awt.Graphics#drawChars
-     * @since       1.0
+     * Drbws tif tfxt givfn by tif spfdififd string, using tiis
+     * grbpiids dontfxt's durrfnt font bnd dolor. Tif bbsflinf of tif
+     * first dibrbdtfr is bt position (<i>x</i>,&nbsp;<i>y</i>) in tiis
+     * grbpiids dontfxt's doordinbtf systfm.
+     * @pbrbm       str      tif string to bf drbwn.
+     * @pbrbm       x        tif <i>x</i> doordinbtf.
+     * @pbrbm       y        tif <i>y</i> doordinbtf.
+     * @sff         jbvb.bwt.Grbpiids#drbwBytfs
+     * @sff         jbvb.bwt.Grbpiids#drbwCibrs
+     * @sindf       1.0
      */
-    @Override
-    public void drawString(String str, int x, int y) {
-        drawString(str, (float) x, (float) y);
+    @Ovfrridf
+    publid void drbwString(String str, int x, int y) {
+        drbwString(str, (flobt) x, (flobt) y);
     }
 
-    @Override
-     public void drawString(String str, float x, float y) {
-         drawString(str, x, y, getFont(), getFontRenderContext(), 0f);
+    @Ovfrridf
+     publid void drbwString(String str, flobt x, flobt y) {
+         drbwString(str, x, y, gftFont(), gftFontRfndfrContfxt(), 0f);
      }
 
-    /* A return value of 0 would mean font not available to GDI, or the
-     * it can't be used for this string.
-     * A return of 1 means it is suitable, including for composites.
-     * We check that the transform in effect is doable with GDI, and that
-     * this is a composite font AWT can handle, or a physical font GDI
-     * can handle directly. Its possible that some strings may ultimately
-     * fail the more stringent tests in drawString but this is rare and
-     * also that method will always succeed, as if the font isn't available
-     * it will use outlines via a superclass call. Also it is only called for
-     * the default render context (as canDrawStringToWidth() will return
-     * false. That is why it ignores the frc and width arguments.
+    /* A rfturn vbluf of 0 would mfbn font not bvbilbblf to GDI, or tif
+     * it dbn't bf usfd for tiis string.
+     * A rfturn of 1 mfbns it is suitbblf, indluding for dompositfs.
+     * Wf difdk tibt tif trbnsform in ffffdt is dobblf witi GDI, bnd tibt
+     * tiis is b dompositf font AWT dbn ibndlf, or b piysidbl font GDI
+     * dbn ibndlf dirfdtly. Its possiblf tibt somf strings mby ultimbtfly
+     * fbil tif morf stringfnt tfsts in drbwString but tiis is rbrf bnd
+     * blso tibt mftiod will blwbys suddffd, bs if tif font isn't bvbilbblf
+     * it will usf outlinfs vib b supfrdlbss dbll. Also it is only dbllfd for
+     * tif dffbult rfndfr dontfxt (bs dbnDrbwStringToWidti() will rfturn
+     * fblsf. Tibt is wiy it ignorfs tif frd bnd widti brgumfnts.
      */
-    @Override
-    protected int platformFontCount(Font font, String str) {
+    @Ovfrridf
+    protfdtfd int plbtformFontCount(Font font, String str) {
 
-        AffineTransform deviceTransform = getTransform();
-        AffineTransform fontTransform = new AffineTransform(deviceTransform);
-        fontTransform.concatenate(getFont().getTransform());
-        int transformType = fontTransform.getType();
+        AffinfTrbnsform dfvidfTrbnsform = gftTrbnsform();
+        AffinfTrbnsform fontTrbnsform = nfw AffinfTrbnsform(dfvidfTrbnsform);
+        fontTrbnsform.dondbtfnbtf(gftFont().gftTrbnsform());
+        int trbnsformTypf = fontTrbnsform.gftTypf();
 
-        /* Test if GDI can handle the transform */
-        boolean directToGDI = ((transformType !=
-                               AffineTransform.TYPE_GENERAL_TRANSFORM)
-                               && ((transformType & AffineTransform.TYPE_FLIP)
+        /* Tfst if GDI dbn ibndlf tif trbnsform */
+        boolfbn dirfdtToGDI = ((trbnsformTypf !=
+                               AffinfTrbnsform.TYPE_GENERAL_TRANSFORM)
+                               && ((trbnsformTypf & AffinfTrbnsform.TYPE_FLIP)
                                    == 0));
 
-        if (!directToGDI) {
-            return 0;
+        if (!dirfdtToGDI) {
+            rfturn 0;
         }
 
-        /* Since all windows fonts are available, and the JRE fonts
-         * are also registered. Only the Font.createFont() case is presently
-         * unknown to GDI. Those can be registered too, although that
-         * code does not exist yet, it can be added too, so we should not
-         * fail that case. Just do a quick check whether its a TrueTypeFont
-         * - ie not a Type1 font etc, and let drawString() resolve the rest.
+        /* Sindf bll windows fonts brf bvbilbblf, bnd tif JRE fonts
+         * brf blso rfgistfrfd. Only tif Font.drfbtfFont() dbsf is prfsfntly
+         * unknown to GDI. Tiosf dbn bf rfgistfrfd too, bltiougi tibt
+         * dodf dofs not fxist yft, it dbn bf bddfd too, so wf siould not
+         * fbil tibt dbsf. Just do b quidk difdk wiftifr its b TrufTypfFont
+         * - if not b Typf1 font ftd, bnd lft drbwString() rfsolvf tif rfst.
          */
-        Font2D font2D = FontUtilities.getFont2D(font);
-        if (font2D instanceof CompositeFont ||
-            font2D instanceof TrueTypeFont) {
-            return 1;
-        } else {
-            return 0;
+        Font2D font2D = FontUtilitifs.gftFont2D(font);
+        if (font2D instbndfof CompositfFont ||
+            font2D instbndfof TrufTypfFont) {
+            rfturn 1;
+        } flsf {
+            rfturn 0;
         }
     }
 
-    private static boolean isXP() {
-        String osVersion = System.getProperty("os.version");
-        if (osVersion != null) {
-            Float version = Float.valueOf(osVersion);
-            return (version.floatValue() >= 5.1f);
-        } else {
-            return false;
+    privbtf stbtid boolfbn isXP() {
+        String osVfrsion = Systfm.gftPropfrty("os.vfrsion");
+        if (osVfrsion != null) {
+            Flobt vfrsion = Flobt.vblufOf(osVfrsion);
+            rfturn (vfrsion.flobtVbluf() >= 5.1f);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    /* In case GDI doesn't handle shaping or BIDI consistently with
-     * 2D's TextLayout, we can detect these cases and redelegate up to
-     * be drawn via TextLayout, which in is rendered as runs of
-     * GlyphVectors, to which we can assign positions for each glyph.
+    /* In dbsf GDI dofsn't ibndlf sibping or BIDI donsistfntly witi
+     * 2D's TfxtLbyout, wf dbn dftfdt tifsf dbsfs bnd rfdflfgbtf up to
+     * bf drbwn vib TfxtLbyout, wiidi in is rfndfrfd bs runs of
+     * GlypiVfdtors, to wiidi wf dbn bssign positions for fbdi glypi.
      */
-    private boolean strNeedsTextLayout(String str, Font font) {
-        char[] chars = str.toCharArray();
-        boolean isComplex = FontUtilities.isComplexText(chars, 0, chars.length);
-        if (!isComplex) {
-            return false;
-        } else if (!useGDITextLayout) {
-            return true;
-        } else {
-            if (preferGDITextLayout ||
-                (isXP() && FontUtilities.textLayoutIsCompatible(font))) {
-                return false;
-            } else {
-                return true;
+    privbtf boolfbn strNffdsTfxtLbyout(String str, Font font) {
+        dibr[] dibrs = str.toCibrArrby();
+        boolfbn isComplfx = FontUtilitifs.isComplfxTfxt(dibrs, 0, dibrs.lfngti);
+        if (!isComplfx) {
+            rfturn fblsf;
+        } flsf if (!usfGDITfxtLbyout) {
+            rfturn truf;
+        } flsf {
+            if (prfffrGDITfxtLbyout ||
+                (isXP() && FontUtilitifs.tfxtLbyoutIsCompbtiblf(font))) {
+                rfturn fblsf;
+            } flsf {
+                rfturn truf;
             }
         }
     }
 
-    private int getAngle(Point2D.Double pt) {
-        /* Get the rotation in 1/10'ths degree (as needed by Windows)
-         * so that GDI can draw the text rotated.
-         * This calculation is only valid for a uniform scale, no shearing.
+    privbtf int gftAnglf(Point2D.Doublf pt) {
+        /* Gft tif rotbtion in 1/10'tis dfgrff (bs nffdfd by Windows)
+         * so tibt GDI dbn drbw tif tfxt rotbtfd.
+         * Tiis dbldulbtion is only vblid for b uniform sdblf, no sifbring.
          */
-        double angle = Math.toDegrees(Math.atan2(pt.y, pt.x));
-        if (angle < 0.0) {
-            angle+= 360.0;
+        doublf bnglf = Mbti.toDfgrffs(Mbti.btbn2(pt.y, pt.x));
+        if (bnglf < 0.0) {
+            bnglf+= 360.0;
         }
-        /* Windows specifies the rotation anti-clockwise from the x-axis
-         * of the device, 2D specifies +ve rotation towards the y-axis
-         * Since the 2D y-axis runs from top-to-bottom, windows angle of
-         * rotation here is opposite than 2D's, so the rotation needed
-         * needs to be recalculated in the opposite direction.
+        /* Windows spfdififs tif rotbtion bnti-dlodkwisf from tif x-bxis
+         * of tif dfvidf, 2D spfdififs +vf rotbtion towbrds tif y-bxis
+         * Sindf tif 2D y-bxis runs from top-to-bottom, windows bnglf of
+         * rotbtion ifrf is oppositf tibn 2D's, so tif rotbtion nffdfd
+         * nffds to bf rfdbldulbtfd in tif oppositf dirfdtion.
          */
-        if (angle != 0.0) {
-            angle = 360.0 - angle;
+        if (bnglf != 0.0) {
+            bnglf = 360.0 - bnglf;
         }
-        return (int)Math.round(angle * 10.0);
+        rfturn (int)Mbti.round(bnglf * 10.0);
     }
 
-    private float getAwScale(double scaleFactorX, double scaleFactorY) {
+    privbtf flobt gftAwSdblf(doublf sdblfFbdtorX, doublf sdblfFbdtorY) {
 
-        float awScale = (float)(scaleFactorX/scaleFactorY);
-        /* don't let rounding errors be interpreted as non-uniform scale */
-        if (awScale > 0.999f && awScale < 1.001f) {
-            awScale = 1.0f;
+        flobt bwSdblf = (flobt)(sdblfFbdtorX/sdblfFbdtorY);
+        /* don't lft rounding frrors bf intfrprftfd bs non-uniform sdblf */
+        if (bwSdblf > 0.999f && bwSdblf < 1.001f) {
+            bwSdblf = 1.0f;
         }
-        return awScale;
+        rfturn bwSdblf;
     }
 
     /**
-     * Renders the text specified by the specified <code>String</code>,
-     * using the current <code>Font</code> and <code>Paint</code> attributes
-     * in the <code>Graphics2D</code> context.
-     * The baseline of the first character is at position
-     * (<i>x</i>,&nbsp;<i>y</i>) in the User Space.
-     * The rendering attributes applied include the <code>Clip</code>,
-     * <code>Transform</code>, <code>Paint</code>, <code>Font</code> and
-     * <code>Composite</code> attributes. For characters in script systems
-     * such as Hebrew and Arabic, the glyphs can be rendered from right to
-     * left, in which case the coordinate supplied is the location of the
-     * leftmost character on the baseline.
-     * @param s the <code>String</code> to be rendered
-     * @param x,&nbsp;y the coordinates where the <code>String</code>
-     * should be rendered
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see java.awt.Graphics#setFont
-     * @see #setTransform
-     * @see #setComposite
-     * @see #setClip
+     * Rfndfrs tif tfxt spfdififd by tif spfdififd <dodf>String</dodf>,
+     * using tif durrfnt <dodf>Font</dodf> bnd <dodf>Pbint</dodf> bttributfs
+     * in tif <dodf>Grbpiids2D</dodf> dontfxt.
+     * Tif bbsflinf of tif first dibrbdtfr is bt position
+     * (<i>x</i>,&nbsp;<i>y</i>) in tif Usfr Spbdf.
+     * Tif rfndfring bttributfs bpplifd indludf tif <dodf>Clip</dodf>,
+     * <dodf>Trbnsform</dodf>, <dodf>Pbint</dodf>, <dodf>Font</dodf> bnd
+     * <dodf>Compositf</dodf> bttributfs. For dibrbdtfrs in sdript systfms
+     * sudi bs Hfbrfw bnd Arbbid, tif glypis dbn bf rfndfrfd from rigit to
+     * lfft, in wiidi dbsf tif doordinbtf supplifd is tif lodbtion of tif
+     * lfftmost dibrbdtfr on tif bbsflinf.
+     * @pbrbm s tif <dodf>String</dodf> to bf rfndfrfd
+     * @pbrbm x,&nbsp;y tif doordinbtfs wifrf tif <dodf>String</dodf>
+     * siould bf rfndfrfd
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbpiids#sftColor
+     * @sff jbvb.bwt.Grbpiids#sftFont
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #sftClip
      */
-    @Override
-    public void drawString(String str, float x, float y,
-                           Font font, FontRenderContext frc, float targetW) {
-        if (str.length() == 0) {
-            return;
+    @Ovfrridf
+    publid void drbwString(String str, flobt x, flobt y,
+                           Font font, FontRfndfrContfxt frd, flobt tbrgftW) {
+        if (str.lfngti() == 0) {
+            rfturn;
         }
 
-        if (WPrinterJob.shapeTextProp) {
-            super.drawString(str, x, y, font, frc, targetW);
-            return;
+        if (WPrintfrJob.sibpfTfxtProp) {
+            supfr.drbwString(str, x, y, font, frd, tbrgftW);
+            rfturn;
         }
 
-        /* If the Font has layout attributes we need to delegate to TextLayout.
-         * TextLayout renders text as GlyphVectors. We try to print those
-         * using printer fonts - ie using Postscript text operators so
-         * we may be reinvoked. In that case the "!printingGlyphVector" test
-         * prevents us recursing and instead sends us into the body of the
-         * method where we can safely ignore layout attributes as those
-         * are already handled by TextLayout.
-         * Similarly if layout is needed based on the text, then we
-         * delegate to TextLayout if possible, or failing that we delegate
-         * upwards to filled shapes.
+        /* If tif Font ibs lbyout bttributfs wf nffd to dflfgbtf to TfxtLbyout.
+         * TfxtLbyout rfndfrs tfxt bs GlypiVfdtors. Wf try to print tiosf
+         * using printfr fonts - if using Postsdript tfxt opfrbtors so
+         * wf mby bf rfinvokfd. In tibt dbsf tif "!printingGlypiVfdtor" tfst
+         * prfvfnts us rfdursing bnd instfbd sfnds us into tif body of tif
+         * mftiod wifrf wf dbn sbffly ignorf lbyout bttributfs bs tiosf
+         * brf blrfbdy ibndlfd by TfxtLbyout.
+         * Similbrly if lbyout is nffdfd bbsfd on tif tfxt, tifn wf
+         * dflfgbtf to TfxtLbyout if possiblf, or fbiling tibt wf dflfgbtf
+         * upwbrds to fillfd sibpfs.
          */
-        boolean layoutNeeded = strNeedsTextLayout(str, font);
-        if ((font.hasLayoutAttributes() || layoutNeeded)
-            && !printingGlyphVector) {
-            TextLayout layout = new TextLayout(str, font, frc);
-            layout.draw(this, x, y);
-            return;
-        } else if (layoutNeeded) {
-            super.drawString(str, x, y, font, frc, targetW);
-            return;
+        boolfbn lbyoutNffdfd = strNffdsTfxtLbyout(str, font);
+        if ((font.ibsLbyoutAttributfs() || lbyoutNffdfd)
+            && !printingGlypiVfdtor) {
+            TfxtLbyout lbyout = nfw TfxtLbyout(str, font, frd);
+            lbyout.drbw(tiis, x, y);
+            rfturn;
+        } flsf if (lbyoutNffdfd) {
+            supfr.drbwString(str, x, y, font, frd, tbrgftW);
+            rfturn;
         }
 
-        AffineTransform deviceTransform = getTransform();
-        AffineTransform fontTransform = new AffineTransform(deviceTransform);
-        fontTransform.concatenate(font.getTransform());
-        int transformType = fontTransform.getType();
+        AffinfTrbnsform dfvidfTrbnsform = gftTrbnsform();
+        AffinfTrbnsform fontTrbnsform = nfw AffinfTrbnsform(dfvidfTrbnsform);
+        fontTrbnsform.dondbtfnbtf(font.gftTrbnsform());
+        int trbnsformTypf = fontTrbnsform.gftTypf();
 
-        /* Use GDI for the text if the graphics transform is something
-         * for which we can obtain a suitable GDI font.
-         * A flip or shearing transform on the graphics or a transform
-         * on the font force us to decompose the text into a shape.
+        /* Usf GDI for tif tfxt if tif grbpiids trbnsform is somftiing
+         * for wiidi wf dbn obtbin b suitbblf GDI font.
+         * A flip or sifbring trbnsform on tif grbpiids or b trbnsform
+         * on tif font fordf us to dfdomposf tif tfxt into b sibpf.
          */
-        boolean directToGDI = ((transformType !=
-                               AffineTransform.TYPE_GENERAL_TRANSFORM)
-                               && ((transformType & AffineTransform.TYPE_FLIP)
+        boolfbn dirfdtToGDI = ((trbnsformTypf !=
+                               AffinfTrbnsform.TYPE_GENERAL_TRANSFORM)
+                               && ((trbnsformTypf & AffinfTrbnsform.TYPE_FLIP)
                                    == 0));
 
-        WPrinterJob wPrinterJob = (WPrinterJob) getPrinterJob();
+        WPrintfrJob wPrintfrJob = (WPrintfrJob) gftPrintfrJob();
         try {
-            wPrinterJob.setTextColor((Color)getPaint());
-        } catch (ClassCastException e) { // peek should detect such paints.
-            directToGDI = false;
+            wPrintfrJob.sftTfxtColor((Color)gftPbint());
+        } dbtdi (ClbssCbstExdfption f) { // pffk siould dftfdt sudi pbints.
+            dirfdtToGDI = fblsf;
         }
 
-        if (!directToGDI) {
-            super.drawString(str, x, y, font, frc, targetW);
-            return;
+        if (!dirfdtToGDI) {
+            supfr.drbwString(str, x, y, font, frd, tbrgftW);
+            rfturn;
         }
 
-        /* Now we have checked everything is OK to go through GDI as text
-         * with the exception of testing GDI can find and use the font. That
-         * is handled in the textOut() call.
+        /* Now wf ibvf difdkfd fvfrytiing is OK to go tirougi GDI bs tfxt
+         * witi tif fxdfption of tfsting GDI dbn find bnd usf tif font. Tibt
+         * is ibndlfd in tif tfxtOut() dbll.
          */
 
-        /* Compute the starting position of the string in
-         * device space.
+        /* Computf tif stbrting position of tif string in
+         * dfvidf spbdf.
          */
-        Point2D.Float userpos = new Point2D.Float(x, y);
-        Point2D.Float devpos = new Point2D.Float();
+        Point2D.Flobt usfrpos = nfw Point2D.Flobt(x, y);
+        Point2D.Flobt dfvpos = nfw Point2D.Flobt();
 
-        /* Already have the translate from the deviceTransform,
-         * but the font may have a translation component too.
+        /* Alrfbdy ibvf tif trbnslbtf from tif dfvidfTrbnsform,
+         * but tif font mby ibvf b trbnslbtion domponfnt too.
          */
-        if (font.isTransformed()) {
-            AffineTransform fontTx = font.getTransform();
-            float translateX = (float)(fontTx.getTranslateX());
-            float translateY = (float)(fontTx.getTranslateY());
-            if (Math.abs(translateX) < 0.00001) translateX = 0f;
-            if (Math.abs(translateY) < 0.00001) translateY = 0f;
-            userpos.x += translateX; userpos.y += translateY;
+        if (font.isTrbnsformfd()) {
+            AffinfTrbnsform fontTx = font.gftTrbnsform();
+            flobt trbnslbtfX = (flobt)(fontTx.gftTrbnslbtfX());
+            flobt trbnslbtfY = (flobt)(fontTx.gftTrbnslbtfY());
+            if (Mbti.bbs(trbnslbtfX) < 0.00001) trbnslbtfX = 0f;
+            if (Mbti.bbs(trbnslbtfY) < 0.00001) trbnslbtfY = 0f;
+            usfrpos.x += trbnslbtfX; usfrpos.y += trbnslbtfY;
         }
-        deviceTransform.transform(userpos, devpos);
+        dfvidfTrbnsform.trbnsform(usfrpos, dfvpos);
 
-        if (getClip() != null) {
-            deviceClip(getClip().getPathIterator(deviceTransform));
+        if (gftClip() != null) {
+            dfvidfClip(gftClip().gftPbtiItfrbtor(dfvidfTrbnsform));
         }
 
-        /* Get the font size in device coordinates.
-         * The size needed is the font height scaled to device space.
-         * Although we have already tested that there is no shear,
-         * there may be a non-uniform scale, so the width of the font
-         * does not scale equally with the height. That is handled
-         * by specifying an 'average width' scale to GDI.
+        /* Gft tif font sizf in dfvidf doordinbtfs.
+         * Tif sizf nffdfd is tif font ifigit sdblfd to dfvidf spbdf.
+         * Altiougi wf ibvf blrfbdy tfstfd tibt tifrf is no sifbr,
+         * tifrf mby bf b non-uniform sdblf, so tif widti of tif font
+         * dofs not sdblf fqublly witi tif ifigit. Tibt is ibndlfd
+         * by spfdifying bn 'bvfrbgf widti' sdblf to GDI.
          */
-        float fontSize = font.getSize2D();
+        flobt fontSizf = font.gftSizf2D();
 
-        Point2D.Double pty = new Point2D.Double(0.0, 1.0);
-        fontTransform.deltaTransform(pty, pty);
-        double scaleFactorY = Math.sqrt(pty.x*pty.x+pty.y*pty.y);
-        float scaledFontSizeY = (float)(fontSize * scaleFactorY);
+        Point2D.Doublf pty = nfw Point2D.Doublf(0.0, 1.0);
+        fontTrbnsform.dfltbTrbnsform(pty, pty);
+        doublf sdblfFbdtorY = Mbti.sqrt(pty.x*pty.x+pty.y*pty.y);
+        flobt sdblfdFontSizfY = (flobt)(fontSizf * sdblfFbdtorY);
 
-        Point2D.Double ptx = new Point2D.Double(1.0, 0.0);
-        fontTransform.deltaTransform(ptx, ptx);
-        double scaleFactorX = Math.sqrt(ptx.x*ptx.x+ptx.y*ptx.y);
-        float scaledFontSizeX = (float)(fontSize * scaleFactorX);
+        Point2D.Doublf ptx = nfw Point2D.Doublf(1.0, 0.0);
+        fontTrbnsform.dfltbTrbnsform(ptx, ptx);
+        doublf sdblfFbdtorX = Mbti.sqrt(ptx.x*ptx.x+ptx.y*ptx.y);
+        flobt sdblfdFontSizfX = (flobt)(fontSizf * sdblfFbdtorX);
 
-        float awScale = getAwScale(scaleFactorX, scaleFactorY);
-        int iangle = getAngle(ptx);
+        flobt bwSdblf = gftAwSdblf(sdblfFbdtorX, sdblfFbdtorY);
+        int ibnglf = gftAnglf(ptx);
 
-        Font2D font2D = FontUtilities.getFont2D(font);
-        if (font2D instanceof TrueTypeFont) {
-            textOut(str, font, (TrueTypeFont)font2D, frc,
-                    scaledFontSizeY, iangle, awScale,
-                    deviceTransform, scaleFactorX,
-                    x, y, devpos.x, devpos.y, targetW);
-        } else if (font2D instanceof CompositeFont) {
-            /* Composite fonts are made up of multiple fonts and each
-             * substring that uses a particular component font needs to
-             * be separately sent to GDI.
-             * This works for standard composite fonts, alternate ones,
-             * Fonts that are a physical font backed by a standard composite,
-             * and with fallback fonts.
+        Font2D font2D = FontUtilitifs.gftFont2D(font);
+        if (font2D instbndfof TrufTypfFont) {
+            tfxtOut(str, font, (TrufTypfFont)font2D, frd,
+                    sdblfdFontSizfY, ibnglf, bwSdblf,
+                    dfvidfTrbnsform, sdblfFbdtorX,
+                    x, y, dfvpos.x, dfvpos.y, tbrgftW);
+        } flsf if (font2D instbndfof CompositfFont) {
+            /* Compositf fonts brf mbdf up of multiplf fonts bnd fbdi
+             * substring tibt usfs b pbrtidulbr domponfnt font nffds to
+             * bf sfpbrbtfly sfnt to GDI.
+             * Tiis works for stbndbrd dompositf fonts, bltfrnbtf onfs,
+             * Fonts tibt brf b piysidbl font bbdkfd by b stbndbrd dompositf,
+             * bnd witi fbllbbdk fonts.
              */
-            CompositeFont compFont = (CompositeFont)font2D;
-            float userx = x, usery = y;
-            float devx = devpos.x, devy = devpos.y;
-            char[] chars = str.toCharArray();
-            int len = chars.length;
-            int[] glyphs = new int[len];
-            compFont.getMapper().charsToGlyphs(len, chars, glyphs);
+            CompositfFont dompFont = (CompositfFont)font2D;
+            flobt usfrx = x, usfry = y;
+            flobt dfvx = dfvpos.x, dfvy = dfvpos.y;
+            dibr[] dibrs = str.toCibrArrby();
+            int lfn = dibrs.lfngti;
+            int[] glypis = nfw int[lfn];
+            dompFont.gftMbppfr().dibrsToGlypis(lfn, dibrs, glypis);
 
-            int startChar = 0, endChar = 0, slot = 0;
-            while (endChar < len) {
+            int stbrtCibr = 0, fndCibr = 0, slot = 0;
+            wiilf (fndCibr < lfn) {
 
-                startChar = endChar;
-                slot = glyphs[startChar] >>> 24;
+                stbrtCibr = fndCibr;
+                slot = glypis[stbrtCibr] >>> 24;
 
-                while (endChar < len && ((glyphs[endChar] >>> 24) == slot)) {
-                    endChar++;
+                wiilf (fndCibr < lfn && ((glypis[fndCibr] >>> 24) == slot)) {
+                    fndCibr++;
                 }
-                String substr = new String(chars, startChar,endChar-startChar);
-                PhysicalFont slotFont = compFont.getSlotFont(slot);
-                textOut(substr, font, slotFont, frc,
-                        scaledFontSizeY, iangle, awScale,
-                        deviceTransform, scaleFactorX,
-                        userx, usery, devx, devy, 0f);
-                Rectangle2D bds = font.getStringBounds(substr, frc);
-                float xAdvance = (float)bds.getWidth();
-                userx += xAdvance;
-                userpos.x += xAdvance;
-                deviceTransform.transform(userpos, devpos);
-                devx = devpos.x;
-                devy = devpos.y;
+                String substr = nfw String(dibrs, stbrtCibr,fndCibr-stbrtCibr);
+                PiysidblFont slotFont = dompFont.gftSlotFont(slot);
+                tfxtOut(substr, font, slotFont, frd,
+                        sdblfdFontSizfY, ibnglf, bwSdblf,
+                        dfvidfTrbnsform, sdblfFbdtorX,
+                        usfrx, usfry, dfvx, dfvy, 0f);
+                Rfdtbnglf2D bds = font.gftStringBounds(substr, frd);
+                flobt xAdvbndf = (flobt)bds.gftWidti();
+                usfrx += xAdvbndf;
+                usfrpos.x += xAdvbndf;
+                dfvidfTrbnsform.trbnsform(usfrpos, dfvpos);
+                dfvx = dfvpos.x;
+                dfvy = dfvpos.y;
             }
-        } else {
-            super.drawString(str, x, y, font, frc, targetW);
+        } flsf {
+            supfr.drbwString(str, x, y, font, frd, tbrgftW);
         }
     }
 
-    /** return true if the Graphics instance can directly print
-     * this glyphvector
+    /** rfturn truf if tif Grbpiids instbndf dbn dirfdtly print
+     * tiis glypivfdtor
      */
-    @Override
-    protected boolean printGlyphVector(GlyphVector gv, float x, float y) {
-        /* We don't want to try to handle per-glyph transforms. GDI can't
-         * handle per-glyph rotations, etc. There's no way to express it
-         * in a single call, so just bail for this uncommon case.
+    @Ovfrridf
+    protfdtfd boolfbn printGlypiVfdtor(GlypiVfdtor gv, flobt x, flobt y) {
+        /* Wf don't wbnt to try to ibndlf pfr-glypi trbnsforms. GDI dbn't
+         * ibndlf pfr-glypi rotbtions, ftd. Tifrf's no wby to fxprfss it
+         * in b singlf dbll, so just bbil for tiis undommon dbsf.
          */
-        if ((gv.getLayoutFlags() & GlyphVector.FLAG_HAS_TRANSFORMS) != 0) {
-            return false;
+        if ((gv.gftLbyoutFlbgs() & GlypiVfdtor.FLAG_HAS_TRANSFORMS) != 0) {
+            rfturn fblsf;
         }
 
-        if (gv.getNumGlyphs() == 0) {
-            return true; // nothing to do.
+        if (gv.gftNumGlypis() == 0) {
+            rfturn truf; // notiing to do.
         }
 
-        AffineTransform deviceTransform = getTransform();
-        AffineTransform fontTransform = new AffineTransform(deviceTransform);
-        Font font = gv.getFont();
-        fontTransform.concatenate(font.getTransform());
-        int transformType = fontTransform.getType();
+        AffinfTrbnsform dfvidfTrbnsform = gftTrbnsform();
+        AffinfTrbnsform fontTrbnsform = nfw AffinfTrbnsform(dfvidfTrbnsform);
+        Font font = gv.gftFont();
+        fontTrbnsform.dondbtfnbtf(font.gftTrbnsform());
+        int trbnsformTypf = fontTrbnsform.gftTypf();
 
-        /* Use GDI for the text if the graphics transform is something
-         * for which we can obtain a suitable GDI font.
-         * A flip or shearing transform on the graphics or a transform
-         * on the font force us to decompose the text into a shape.
+        /* Usf GDI for tif tfxt if tif grbpiids trbnsform is somftiing
+         * for wiidi wf dbn obtbin b suitbblf GDI font.
+         * A flip or sifbring trbnsform on tif grbpiids or b trbnsform
+         * on tif font fordf us to dfdomposf tif tfxt into b sibpf.
          */
-        boolean directToGDI =
-            ((transformType != AffineTransform.TYPE_GENERAL_TRANSFORM) &&
-             ((transformType & AffineTransform.TYPE_FLIP) == 0));
+        boolfbn dirfdtToGDI =
+            ((trbnsformTypf != AffinfTrbnsform.TYPE_GENERAL_TRANSFORM) &&
+             ((trbnsformTypf & AffinfTrbnsform.TYPE_FLIP) == 0));
 
-        WPrinterJob wPrinterJob = (WPrinterJob) getPrinterJob();
+        WPrintfrJob wPrintfrJob = (WPrintfrJob) gftPrintfrJob();
         try {
-            wPrinterJob.setTextColor((Color)getPaint());
-        } catch (ClassCastException e) { // peek should detect such paints.
-            directToGDI = false;
+            wPrintfrJob.sftTfxtColor((Color)gftPbint());
+        } dbtdi (ClbssCbstExdfption f) { // pffk siould dftfdt sudi pbints.
+            dirfdtToGDI = fblsf;
         }
 
-        if (WPrinterJob.shapeTextProp || !directToGDI) {
-            return false;
+        if (WPrintfrJob.sibpfTfxtProp || !dirfdtToGDI) {
+            rfturn fblsf;
         }
-        /* Compute the starting position of the string in
-         * device space.
+        /* Computf tif stbrting position of tif string in
+         * dfvidf spbdf.
          */
-        Point2D.Float userpos = new Point2D.Float(x, y);
-        /* Add the position of the first glyph - its not always 0,0 */
-        Point2D g0pos = gv.getGlyphPosition(0);
-        userpos.x += (float)g0pos.getX();
-        userpos.y += (float)g0pos.getY();
-        Point2D.Float devpos = new Point2D.Float();
+        Point2D.Flobt usfrpos = nfw Point2D.Flobt(x, y);
+        /* Add tif position of tif first glypi - its not blwbys 0,0 */
+        Point2D g0pos = gv.gftGlypiPosition(0);
+        usfrpos.x += (flobt)g0pos.gftX();
+        usfrpos.y += (flobt)g0pos.gftY();
+        Point2D.Flobt dfvpos = nfw Point2D.Flobt();
 
-        /* Already have the translate from the deviceTransform,
-         * but the font may have a translation component too.
+        /* Alrfbdy ibvf tif trbnslbtf from tif dfvidfTrbnsform,
+         * but tif font mby ibvf b trbnslbtion domponfnt too.
          */
-        if (font.isTransformed()) {
-            AffineTransform fontTx = font.getTransform();
-            float translateX = (float)(fontTx.getTranslateX());
-            float translateY = (float)(fontTx.getTranslateY());
-            if (Math.abs(translateX) < 0.00001) translateX = 0f;
-            if (Math.abs(translateY) < 0.00001) translateY = 0f;
-            userpos.x += translateX; userpos.y += translateY;
+        if (font.isTrbnsformfd()) {
+            AffinfTrbnsform fontTx = font.gftTrbnsform();
+            flobt trbnslbtfX = (flobt)(fontTx.gftTrbnslbtfX());
+            flobt trbnslbtfY = (flobt)(fontTx.gftTrbnslbtfY());
+            if (Mbti.bbs(trbnslbtfX) < 0.00001) trbnslbtfX = 0f;
+            if (Mbti.bbs(trbnslbtfY) < 0.00001) trbnslbtfY = 0f;
+            usfrpos.x += trbnslbtfX; usfrpos.y += trbnslbtfY;
         }
-        deviceTransform.transform(userpos, devpos);
+        dfvidfTrbnsform.trbnsform(usfrpos, dfvpos);
 
-        if (getClip() != null) {
-            deviceClip(getClip().getPathIterator(deviceTransform));
+        if (gftClip() != null) {
+            dfvidfClip(gftClip().gftPbtiItfrbtor(dfvidfTrbnsform));
         }
 
-        /* Get the font size in device coordinates.
-         * The size needed is the font height scaled to device space.
-         * Although we have already tested that there is no shear,
-         * there may be a non-uniform scale, so the width of the font
-         * does not scale equally with the height. That is handled
-         * by specifying an 'average width' scale to GDI.
+        /* Gft tif font sizf in dfvidf doordinbtfs.
+         * Tif sizf nffdfd is tif font ifigit sdblfd to dfvidf spbdf.
+         * Altiougi wf ibvf blrfbdy tfstfd tibt tifrf is no sifbr,
+         * tifrf mby bf b non-uniform sdblf, so tif widti of tif font
+         * dofs not sdblf fqublly witi tif ifigit. Tibt is ibndlfd
+         * by spfdifying bn 'bvfrbgf widti' sdblf to GDI.
          */
-        float fontSize = font.getSize2D();
+        flobt fontSizf = font.gftSizf2D();
 
-        Point2D.Double pty = new Point2D.Double(0.0, 1.0);
-        fontTransform.deltaTransform(pty, pty);
-        double scaleFactorY = Math.sqrt(pty.x*pty.x+pty.y*pty.y);
-        float scaledFontSizeY = (float)(fontSize * scaleFactorY);
+        Point2D.Doublf pty = nfw Point2D.Doublf(0.0, 1.0);
+        fontTrbnsform.dfltbTrbnsform(pty, pty);
+        doublf sdblfFbdtorY = Mbti.sqrt(pty.x*pty.x+pty.y*pty.y);
+        flobt sdblfdFontSizfY = (flobt)(fontSizf * sdblfFbdtorY);
 
-        Point2D.Double pt = new Point2D.Double(1.0, 0.0);
-        fontTransform.deltaTransform(pt, pt);
-        double scaleFactorX = Math.sqrt(pt.x*pt.x+pt.y*pt.y);
-        float scaledFontSizeX = (float)(fontSize * scaleFactorX);
+        Point2D.Doublf pt = nfw Point2D.Doublf(1.0, 0.0);
+        fontTrbnsform.dfltbTrbnsform(pt, pt);
+        doublf sdblfFbdtorX = Mbti.sqrt(pt.x*pt.x+pt.y*pt.y);
+        flobt sdblfdFontSizfX = (flobt)(fontSizf * sdblfFbdtorX);
 
-        float awScale = getAwScale(scaleFactorX, scaleFactorY);
-        int iangle = getAngle(pt);
+        flobt bwSdblf = gftAwSdblf(sdblfFbdtorX, sdblfFbdtorY);
+        int ibnglf = gftAnglf(pt);
 
-        int numGlyphs = gv.getNumGlyphs();
-        int[] glyphCodes = gv.getGlyphCodes(0, numGlyphs, null);
-        float[] glyphPos = gv.getGlyphPositions(0, numGlyphs, null);
+        int numGlypis = gv.gftNumGlypis();
+        int[] glypiCodfs = gv.gftGlypiCodfs(0, numGlypis, null);
+        flobt[] glypiPos = gv.gftGlypiPositions(0, numGlypis, null);
 
-        /* layout replaces glyphs which have been combined away
-         * with 0xfffe or 0xffff. These are supposed to be invisible
-         * and we need to handle this here as GDI will interpret it
-         * as a missing glyph. We'll do it here by compacting the
-         * glyph codes array, but we have to do it in conjunction with
-         * compacting the positions/advances arrays too AND updating
-         * the number of glyphs ..
-         * Note that since the slot number for composites is in the
-         * significant byte we need to mask out that for comparison of
-         * the invisible glyph.
+        /* lbyout rfplbdfs glypis wiidi ibvf bffn dombinfd bwby
+         * witi 0xffff or 0xffff. Tifsf brf supposfd to bf invisiblf
+         * bnd wf nffd to ibndlf tiis ifrf bs GDI will intfrprft it
+         * bs b missing glypi. Wf'll do it ifrf by dompbdting tif
+         * glypi dodfs brrby, but wf ibvf to do it in donjundtion witi
+         * dompbdting tif positions/bdvbndfs brrbys too AND updbting
+         * tif numbfr of glypis ..
+         * Notf tibt sindf tif slot numbfr for dompositfs is in tif
+         * signifidbnt bytf wf nffd to mbsk out tibt for dompbrison of
+         * tif invisiblf glypi.
          */
-        int invisibleGlyphCnt = 0;
-        for (int gc=0; gc<numGlyphs; gc++) {
-            if ((glyphCodes[gc] & 0xffff) >=
-                CharToGlyphMapper.INVISIBLE_GLYPHS) {
-                invisibleGlyphCnt++;
+        int invisiblfGlypiCnt = 0;
+        for (int gd=0; gd<numGlypis; gd++) {
+            if ((glypiCodfs[gd] & 0xffff) >=
+                CibrToGlypiMbppfr.INVISIBLE_GLYPHS) {
+                invisiblfGlypiCnt++;
             }
         }
-        if (invisibleGlyphCnt > 0) {
-            int visibleGlyphCnt = numGlyphs - invisibleGlyphCnt;
-            int[] visibleGlyphCodes = new int[visibleGlyphCnt];
-            float[] visiblePositions = new float[visibleGlyphCnt*2];
-            int index = 0;
-            for (int i=0; i<numGlyphs; i++) {
-                if ((glyphCodes[i] & 0xffff)
-                    < CharToGlyphMapper.INVISIBLE_GLYPHS) {
-                    visibleGlyphCodes[index] = glyphCodes[i];
-                    visiblePositions[index*2]   = glyphPos[i*2];
-                    visiblePositions[index*2+1] = glyphPos[i*2+1];
-                    index++;
+        if (invisiblfGlypiCnt > 0) {
+            int visiblfGlypiCnt = numGlypis - invisiblfGlypiCnt;
+            int[] visiblfGlypiCodfs = nfw int[visiblfGlypiCnt];
+            flobt[] visiblfPositions = nfw flobt[visiblfGlypiCnt*2];
+            int indfx = 0;
+            for (int i=0; i<numGlypis; i++) {
+                if ((glypiCodfs[i] & 0xffff)
+                    < CibrToGlypiMbppfr.INVISIBLE_GLYPHS) {
+                    visiblfGlypiCodfs[indfx] = glypiCodfs[i];
+                    visiblfPositions[indfx*2]   = glypiPos[i*2];
+                    visiblfPositions[indfx*2+1] = glypiPos[i*2+1];
+                    indfx++;
                 }
             }
-            numGlyphs = visibleGlyphCnt;
-            glyphCodes = visibleGlyphCodes;
-            glyphPos = visiblePositions;
+            numGlypis = visiblfGlypiCnt;
+            glypiCodfs = visiblfGlypiCodfs;
+            glypiPos = visiblfPositions;
         }
 
-        /* To get GDI to rotate glyphs we need to specify the angle
-         * of rotation to GDI when creating the HFONT. This implicitly
-         * also rotates the baseline, and this adjusts the X & Y advances
-         * of the glyphs accordingly.
-         * When we specify the advances, they are in device space, so
-         * we don't want any further interpretation applied by GDI, but
-         * since as noted the advances are interpreted in the HFONT's
-         * coordinate space, our advances would be rotated again.
-         * We don't have any way to tell GDI to rotate only the glyphs and
-         * not the advances, so we need to account for this in the advances
-         * we supply, by supplying unrotated advances.
-         * Note that "iangle" is in the opposite direction to 2D's normal
-         * direction of rotation, so this rotation inverts the
-         * rotation element of the deviceTransform.
+        /* To gft GDI to rotbtf glypis wf nffd to spfdify tif bnglf
+         * of rotbtion to GDI wifn drfbting tif HFONT. Tiis impliditly
+         * blso rotbtfs tif bbsflinf, bnd tiis bdjusts tif X & Y bdvbndfs
+         * of tif glypis bddordingly.
+         * Wifn wf spfdify tif bdvbndfs, tify brf in dfvidf spbdf, so
+         * wf don't wbnt bny furtifr intfrprftbtion bpplifd by GDI, but
+         * sindf bs notfd tif bdvbndfs brf intfrprftfd in tif HFONT's
+         * doordinbtf spbdf, our bdvbndfs would bf rotbtfd bgbin.
+         * Wf don't ibvf bny wby to tfll GDI to rotbtf only tif glypis bnd
+         * not tif bdvbndfs, so wf nffd to bddount for tiis in tif bdvbndfs
+         * wf supply, by supplying unrotbtfd bdvbndfs.
+         * Notf tibt "ibnglf" is in tif oppositf dirfdtion to 2D's normbl
+         * dirfdtion of rotbtion, so tiis rotbtion invfrts tif
+         * rotbtion flfmfnt of tif dfvidfTrbnsform.
          */
-        AffineTransform advanceTransform =
-            new AffineTransform(deviceTransform);
-        advanceTransform.rotate(iangle*Math.PI/1800.0);
-        float[] glyphAdvPos = new float[glyphPos.length];
+        AffinfTrbnsform bdvbndfTrbnsform =
+            nfw AffinfTrbnsform(dfvidfTrbnsform);
+        bdvbndfTrbnsform.rotbtf(ibnglf*Mbti.PI/1800.0);
+        flobt[] glypiAdvPos = nfw flobt[glypiPos.lfngti];
 
-        advanceTransform.transform(glyphPos, 0,         //source
-                                   glyphAdvPos, 0,      //destination
-                                   glyphPos.length/2);  //num points
+        bdvbndfTrbnsform.trbnsform(glypiPos, 0,         //sourdf
+                                   glypiAdvPos, 0,      //dfstinbtion
+                                   glypiPos.lfngti/2);  //num points
 
-        Font2D font2D = FontUtilities.getFont2D(font);
-        if (font2D instanceof TrueTypeFont) {
-            String family = font2D.getFamilyName(null);
-            int style = font.getStyle() | font2D.getStyle();
-            if (!wPrinterJob.setFont(family, scaledFontSizeY, style,
-                                     iangle, awScale)) {
-                return false;
+        Font2D font2D = FontUtilitifs.gftFont2D(font);
+        if (font2D instbndfof TrufTypfFont) {
+            String fbmily = font2D.gftFbmilyNbmf(null);
+            int stylf = font.gftStylf() | font2D.gftStylf();
+            if (!wPrintfrJob.sftFont(fbmily, sdblfdFontSizfY, stylf,
+                                     ibnglf, bwSdblf)) {
+                rfturn fblsf;
             }
-            wPrinterJob.glyphsOut(glyphCodes, devpos.x, devpos.y, glyphAdvPos);
+            wPrintfrJob.glypisOut(glypiCodfs, dfvpos.x, dfvpos.y, glypiAdvPos);
 
-        } else if (font2D instanceof CompositeFont) {
-            /* Composite fonts are made up of multiple fonts and each
-             * substring that uses a particular component font needs to
-             * be separately sent to GDI.
-             * This works for standard composite fonts, alternate ones,
-             * Fonts that are a physical font backed by a standard composite,
-             * and with fallback fonts.
+        } flsf if (font2D instbndfof CompositfFont) {
+            /* Compositf fonts brf mbdf up of multiplf fonts bnd fbdi
+             * substring tibt usfs b pbrtidulbr domponfnt font nffds to
+             * bf sfpbrbtfly sfnt to GDI.
+             * Tiis works for stbndbrd dompositf fonts, bltfrnbtf onfs,
+             * Fonts tibt brf b piysidbl font bbdkfd by b stbndbrd dompositf,
+             * bnd witi fbllbbdk fonts.
              */
-            CompositeFont compFont = (CompositeFont)font2D;
-            float userx = x, usery = y;
-            float devx = devpos.x, devy = devpos.y;
+            CompositfFont dompFont = (CompositfFont)font2D;
+            flobt usfrx = x, usfry = y;
+            flobt dfvx = dfvpos.x, dfvy = dfvpos.y;
 
-            int start = 0, end = 0, slot = 0;
-            while (end < numGlyphs) {
+            int stbrt = 0, fnd = 0, slot = 0;
+            wiilf (fnd < numGlypis) {
 
-                start = end;
-                slot = glyphCodes[start] >>> 24;
+                stbrt = fnd;
+                slot = glypiCodfs[stbrt] >>> 24;
 
-                while (end < numGlyphs && ((glyphCodes[end] >>> 24) == slot)) {
-                    end++;
+                wiilf (fnd < numGlypis && ((glypiCodfs[fnd] >>> 24) == slot)) {
+                    fnd++;
                 }
-                /* If we can't get the font, bail to outlines.
-                 * But we should always be able to get all fonts for
-                 * Composites, so this is unlikely, so any overstriking
-                 * if only one slot is unavailable is not worth worrying
-                 * about.
+                /* If wf dbn't gft tif font, bbil to outlinfs.
+                 * But wf siould blwbys bf bblf to gft bll fonts for
+                 * Compositfs, so tiis is unlikfly, so bny ovfrstriking
+                 * if only onf slot is unbvbilbblf is not worti worrying
+                 * bbout.
                  */
-                PhysicalFont slotFont = compFont.getSlotFont(slot);
-                if (!(slotFont instanceof TrueTypeFont)) {
-                    return false;
+                PiysidblFont slotFont = dompFont.gftSlotFont(slot);
+                if (!(slotFont instbndfof TrufTypfFont)) {
+                    rfturn fblsf;
                 }
-                String family = slotFont.getFamilyName(null);
-                int style = font.getStyle() | slotFont.getStyle();
-                if (!wPrinterJob.setFont(family, scaledFontSizeY, style,
-                                         iangle, awScale)) {
-                    return false;
+                String fbmily = slotFont.gftFbmilyNbmf(null);
+                int stylf = font.gftStylf() | slotFont.gftStylf();
+                if (!wPrintfrJob.sftFont(fbmily, sdblfdFontSizfY, stylf,
+                                         ibnglf, bwSdblf)) {
+                    rfturn fblsf;
                 }
 
-                int[] glyphs = Arrays.copyOfRange(glyphCodes, start, end);
-                float[] posns = Arrays.copyOfRange(glyphAdvPos,
-                                                   start*2, end*2);
-                if (start != 0) {
-                    Point2D.Float p =
-                        new Point2D.Float(x+glyphPos[start*2],
-                                          y+glyphPos[start*2+1]);
-                    deviceTransform.transform(p, p);
-                    devx = p.x;
-                    devy = p.y;
+                int[] glypis = Arrbys.dopyOfRbngf(glypiCodfs, stbrt, fnd);
+                flobt[] posns = Arrbys.dopyOfRbngf(glypiAdvPos,
+                                                   stbrt*2, fnd*2);
+                if (stbrt != 0) {
+                    Point2D.Flobt p =
+                        nfw Point2D.Flobt(x+glypiPos[stbrt*2],
+                                          y+glypiPos[stbrt*2+1]);
+                    dfvidfTrbnsform.trbnsform(p, p);
+                    dfvx = p.x;
+                    dfvy = p.y;
                 }
-                wPrinterJob.glyphsOut(glyphs, devx, devy, posns);
+                wPrintfrJob.glypisOut(glypis, dfvx, dfvy, posns);
             }
-        } else {
-            return false;
+        } flsf {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    private void textOut(String str,
-                          Font font, PhysicalFont font2D,
-                          FontRenderContext frc,
-                          float deviceSize, int rotation, float awScale,
-                          AffineTransform deviceTransform,
-                          double scaleFactorX,
-                          float userx, float usery,
-                          float devx, float devy, float targetW) {
+    privbtf void tfxtOut(String str,
+                          Font font, PiysidblFont font2D,
+                          FontRfndfrContfxt frd,
+                          flobt dfvidfSizf, int rotbtion, flobt bwSdblf,
+                          AffinfTrbnsform dfvidfTrbnsform,
+                          doublf sdblfFbdtorX,
+                          flobt usfrx, flobt usfry,
+                          flobt dfvx, flobt dfvy, flobt tbrgftW) {
 
-         String family = font2D.getFamilyName(null);
-         int style = font.getStyle() | font2D.getStyle();
-         WPrinterJob wPrinterJob = (WPrinterJob)getPrinterJob();
-         boolean setFont = wPrinterJob.setFont(family, deviceSize, style,
-                                               rotation, awScale);
-         if (!setFont) {
-             super.drawString(str, userx, usery, font, frc, targetW);
-             return;
+         String fbmily = font2D.gftFbmilyNbmf(null);
+         int stylf = font.gftStylf() | font2D.gftStylf();
+         WPrintfrJob wPrintfrJob = (WPrintfrJob)gftPrintfrJob();
+         boolfbn sftFont = wPrintfrJob.sftFont(fbmily, dfvidfSizf, stylf,
+                                               rotbtion, bwSdblf);
+         if (!sftFont) {
+             supfr.drbwString(str, usfrx, usfry, font, frd, tbrgftW);
+             rfturn;
          }
 
-         float[] glyphPos = null;
-         if (!okGDIMetrics(str, font, frc, scaleFactorX)) {
-             /* If there is a 1:1 char->glyph mapping then char positions
-              * are the same as glyph positions and we can tell GDI
-              * where to place the glyphs.
-              * On drawing we remove control chars so these need to be
-              * removed now so the string and positions are the same length.
-              * For other cases we need to pass glyph codes to GDI.
+         flobt[] glypiPos = null;
+         if (!okGDIMftrids(str, font, frd, sdblfFbdtorX)) {
+             /* If tifrf is b 1:1 dibr->glypi mbpping tifn dibr positions
+              * brf tif sbmf bs glypi positions bnd wf dbn tfll GDI
+              * wifrf to plbdf tif glypis.
+              * On drbwing wf rfmovf dontrol dibrs so tifsf nffd to bf
+              * rfmovfd now so tif string bnd positions brf tif sbmf lfngti.
+              * For otifr dbsfs wf nffd to pbss glypi dodfs to GDI.
               */
-             str = wPrinterJob.removeControlChars(str);
-             char[] chars = str.toCharArray();
-             int len = chars.length;
-             GlyphVector gv = null;
-             if (!FontUtilities.isComplexText(chars, 0, len)) {
-                 gv = font.createGlyphVector(frc, str);
+             str = wPrintfrJob.rfmovfControlCibrs(str);
+             dibr[] dibrs = str.toCibrArrby();
+             int lfn = dibrs.lfngti;
+             GlypiVfdtor gv = null;
+             if (!FontUtilitifs.isComplfxTfxt(dibrs, 0, lfn)) {
+                 gv = font.drfbtfGlypiVfdtor(frd, str);
              }
              if (gv == null) {
-                 super.drawString(str, userx, usery, font, frc, targetW);
-                 return;
+                 supfr.drbwString(str, usfrx, usfry, font, frd, tbrgftW);
+                 rfturn;
              }
-             glyphPos = gv.getGlyphPositions(0, len, null);
-             Point2D gvAdvPt = gv.getGlyphPosition(gv.getNumGlyphs());
+             glypiPos = gv.gftGlypiPositions(0, lfn, null);
+             Point2D gvAdvPt = gv.gftGlypiPosition(gv.gftNumGlypis());
 
-             /* GDI advances must not include device space rotation.
-              * See earlier comment in printGlyphVector() for details.
+             /* GDI bdvbndfs must not indludf dfvidf spbdf rotbtion.
+              * Sff fbrlifr dommfnt in printGlypiVfdtor() for dftbils.
               */
-             AffineTransform advanceTransform =
-               new AffineTransform(deviceTransform);
-             advanceTransform.rotate(rotation*Math.PI/1800.0);
-             float[] glyphAdvPos = new float[glyphPos.length];
+             AffinfTrbnsform bdvbndfTrbnsform =
+               nfw AffinfTrbnsform(dfvidfTrbnsform);
+             bdvbndfTrbnsform.rotbtf(rotbtion*Mbti.PI/1800.0);
+             flobt[] glypiAdvPos = nfw flobt[glypiPos.lfngti];
 
-             advanceTransform.transform(glyphPos, 0,         //source
-                                        glyphAdvPos, 0,      //destination
-                                        glyphPos.length/2);  //num points
-             glyphPos = glyphAdvPos;
+             bdvbndfTrbnsform.trbnsform(glypiPos, 0,         //sourdf
+                                        glypiAdvPos, 0,      //dfstinbtion
+                                        glypiPos.lfngti/2);  //num points
+             glypiPos = glypiAdvPos;
          }
-         wPrinterJob.textOut(str, devx, devy, glyphPos);
+         wPrintfrJob.tfxtOut(str, dfvx, dfvy, glypiPos);
      }
 
-     /* If 2D and GDI agree on the advance of the string we do not
-      * need to explicitly assign glyph positions.
-      * If we are to use the GDI advance, require it to agree with
-      * JDK to a precision of <= 0.2% - ie 1 pixel in 500
-      * discrepancy after rounding the 2D advance to the
-      * nearest pixel and is greater than one pixel in total.
-      * ie strings < 500 pixels in length will be OK so long
-      * as they differ by only 1 pixel even though that is > 0.02%
-      * The bounds from 2D are in user space so need to
-      * be scaled to device space for comparison with GDI.
-      * scaleX is the scale from user space to device space needed for this.
+     /* If 2D bnd GDI bgrff on tif bdvbndf of tif string wf do not
+      * nffd to fxpliditly bssign glypi positions.
+      * If wf brf to usf tif GDI bdvbndf, rfquirf it to bgrff witi
+      * JDK to b prfdision of <= 0.2% - if 1 pixfl in 500
+      * disdrfpbndy bftfr rounding tif 2D bdvbndf to tif
+      * nfbrfst pixfl bnd is grfbtfr tibn onf pixfl in totbl.
+      * if strings < 500 pixfls in lfngti will bf OK so long
+      * bs tify difffr by only 1 pixfl fvfn tiougi tibt is > 0.02%
+      * Tif bounds from 2D brf in usfr spbdf so nffd to
+      * bf sdblfd to dfvidf spbdf for dompbrison witi GDI.
+      * sdblfX is tif sdblf from usfr spbdf to dfvidf spbdf nffdfd for tiis.
       */
-     private boolean okGDIMetrics(String str, Font font,
-                                  FontRenderContext frc, double scaleX) {
+     privbtf boolfbn okGDIMftrids(String str, Font font,
+                                  FontRfndfrContfxt frd, doublf sdblfX) {
 
-         Rectangle2D bds = font.getStringBounds(str, frc);
-         double jdkAdvance = bds.getWidth();
-         jdkAdvance = Math.round(jdkAdvance*scaleX);
-         int gdiAdvance = ((WPrinterJob)getPrinterJob()).getGDIAdvance(str);
-         if (jdkAdvance > 0 && gdiAdvance > 0) {
-             double diff = Math.abs(gdiAdvance-jdkAdvance);
-             double ratio = gdiAdvance/jdkAdvance;
-             if (ratio < 1) {
-                 ratio = 1/ratio;
+         Rfdtbnglf2D bds = font.gftStringBounds(str, frd);
+         doublf jdkAdvbndf = bds.gftWidti();
+         jdkAdvbndf = Mbti.round(jdkAdvbndf*sdblfX);
+         int gdiAdvbndf = ((WPrintfrJob)gftPrintfrJob()).gftGDIAdvbndf(str);
+         if (jdkAdvbndf > 0 && gdiAdvbndf > 0) {
+             doublf diff = Mbti.bbs(gdiAdvbndf-jdkAdvbndf);
+             doublf rbtio = gdiAdvbndf/jdkAdvbndf;
+             if (rbtio < 1) {
+                 rbtio = 1/rbtio;
              }
-             return diff <= 1 || ratio < 1.002;
+             rfturn diff <= 1 || rbtio < 1.002;
          }
-         return true;
+         rfturn truf;
      }
 
     /**
-     * The various <code>drawImage()</code> methods for
-     * <code>WPathGraphics</code> are all decomposed
-     * into an invocation of <code>drawImageToPlatform</code>.
-     * The portion of the passed in image defined by
-     * <code>srcX, srcY, srcWidth, and srcHeight</code>
-     * is transformed by the supplied AffineTransform and
-     * drawn using GDI to the printer context.
+     * Tif vbrious <dodf>drbwImbgf()</dodf> mftiods for
+     * <dodf>WPbtiGrbpiids</dodf> brf bll dfdomposfd
+     * into bn invodbtion of <dodf>drbwImbgfToPlbtform</dodf>.
+     * Tif portion of tif pbssfd in imbgf dffinfd by
+     * <dodf>srdX, srdY, srdWidti, bnd srdHfigit</dodf>
+     * is trbnsformfd by tif supplifd AffinfTrbnsform bnd
+     * drbwn using GDI to tif printfr dontfxt.
      *
-     * @param   img     The image to be drawn.
-     * @param   xform   Used to transform the image before drawing.
-     *                  This can be null.
-     * @param   bgcolor This color is drawn where the image has transparent
-     *                  pixels. If this parameter is null then the
-     *                  pixels already in the destination should show
-     *                  through.
-     * @param   srcX    With srcY this defines the upper-left corner
-     *                  of the portion of the image to be drawn.
+     * @pbrbm   img     Tif imbgf to bf drbwn.
+     * @pbrbm   xform   Usfd to trbnsform tif imbgf bfforf drbwing.
+     *                  Tiis dbn bf null.
+     * @pbrbm   bgdolor Tiis dolor is drbwn wifrf tif imbgf ibs trbnspbrfnt
+     *                  pixfls. If tiis pbrbmftfr is null tifn tif
+     *                  pixfls blrfbdy in tif dfstinbtion siould siow
+     *                  tirougi.
+     * @pbrbm   srdX    Witi srdY tiis dffinfs tif uppfr-lfft dornfr
+     *                  of tif portion of tif imbgf to bf drbwn.
      *
-     * @param   srcY    With srcX this defines the upper-left corner
-     *                  of the portion of the image to be drawn.
-     * @param   srcWidth    The width of the portion of the image to
-     *                      be drawn.
-     * @param   srcHeight   The height of the portion of the image to
-     *                      be drawn.
-     * @param   handlingTransparency if being recursively called to
-     *                    print opaque region of transparent image
+     * @pbrbm   srdY    Witi srdX tiis dffinfs tif uppfr-lfft dornfr
+     *                  of tif portion of tif imbgf to bf drbwn.
+     * @pbrbm   srdWidti    Tif widti of tif portion of tif imbgf to
+     *                      bf drbwn.
+     * @pbrbm   srdHfigit   Tif ifigit of tif portion of tif imbgf to
+     *                      bf drbwn.
+     * @pbrbm   ibndlingTrbnspbrfndy if bfing rfdursivfly dbllfd to
+     *                    print opbquf rfgion of trbnspbrfnt imbgf
      */
-    @Override
-    protected boolean drawImageToPlatform(Image image, AffineTransform xform,
-                                          Color bgcolor,
-                                          int srcX, int srcY,
-                                          int srcWidth, int srcHeight,
-                                          boolean handlingTransparency) {
+    @Ovfrridf
+    protfdtfd boolfbn drbwImbgfToPlbtform(Imbgf imbgf, AffinfTrbnsform xform,
+                                          Color bgdolor,
+                                          int srdX, int srdY,
+                                          int srdWidti, int srdHfigit,
+                                          boolfbn ibndlingTrbnspbrfndy) {
 
-        BufferedImage img = getBufferedImage(image);
+        BufffrfdImbgf img = gftBufffrfdImbgf(imbgf);
         if (img == null) {
-            return true;
+            rfturn truf;
         }
 
-        WPrinterJob wPrinterJob = (WPrinterJob) getPrinterJob();
+        WPrintfrJob wPrintfrJob = (WPrintfrJob) gftPrintfrJob();
 
-        /* The full transform to be applied to the image is the
-         * caller's transform concatenated on to the transform
-         * from user space to device space. If the caller didn't
-         * supply a transform then we just act as if they passed
-         * in the identify transform.
+        /* Tif full trbnsform to bf bpplifd to tif imbgf is tif
+         * dbllfr's trbnsform dondbtfnbtfd on to tif trbnsform
+         * from usfr spbdf to dfvidf spbdf. If tif dbllfr didn't
+         * supply b trbnsform tifn wf just bdt bs if tify pbssfd
+         * in tif idfntify trbnsform.
          */
-        AffineTransform fullTransform = getTransform();
+        AffinfTrbnsform fullTrbnsform = gftTrbnsform();
         if (xform == null) {
-            xform = new AffineTransform();
+            xform = nfw AffinfTrbnsform();
         }
-        fullTransform.concatenate(xform);
+        fullTrbnsform.dondbtfnbtf(xform);
 
-        /* Split the full transform into a pair of
-         * transforms. The first transform holds effects
-         * that GDI (under Win95) can not perform such
-         * as rotation and shearing. The second transform
-         * is setup to hold only the scaling effects.
-         * These transforms are created such that a point,
-         * p, in user space, when transformed by 'fullTransform'
-         * lands in the same place as when it is transformed
-         * by 'rotTransform' and then 'scaleTransform'.
+        /* Split tif full trbnsform into b pbir of
+         * trbnsforms. Tif first trbnsform iolds ffffdts
+         * tibt GDI (undfr Win95) dbn not pfrform sudi
+         * bs rotbtion bnd sifbring. Tif sfdond trbnsform
+         * is sftup to iold only tif sdbling ffffdts.
+         * Tifsf trbnsforms brf drfbtfd sudi tibt b point,
+         * p, in usfr spbdf, wifn trbnsformfd by 'fullTrbnsform'
+         * lbnds in tif sbmf plbdf bs wifn it is trbnsformfd
+         * by 'rotTrbnsform' bnd tifn 'sdblfTrbnsform'.
          *
-         * The entire image transformation is not in Java in order
-         * to minimize the amount of memory needed in the VM. By
-         * dividing the transform in two, we rotate and shear
-         * the source image in its own space and only go to
-         * the, usually, larger, device space when we ask
-         * GDI to perform the final scaling.
-         * Clamp this to the device scale for better quality printing.
+         * Tif fntirf imbgf trbnsformbtion is not in Jbvb in ordfr
+         * to minimizf tif bmount of mfmory nffdfd in tif VM. By
+         * dividing tif trbnsform in two, wf rotbtf bnd sifbr
+         * tif sourdf imbgf in its own spbdf bnd only go to
+         * tif, usublly, lbrgfr, dfvidf spbdf wifn wf bsk
+         * GDI to pfrform tif finbl sdbling.
+         * Clbmp tiis to tif dfvidf sdblf for bfttfr qublity printing.
          */
-        double[] fullMatrix = new double[6];
-        fullTransform.getMatrix(fullMatrix);
+        doublf[] fullMbtrix = nfw doublf[6];
+        fullTrbnsform.gftMbtrix(fullMbtrix);
 
-        /* Calculate the amount of scaling in the x
-         * and y directions. This scaling is computed by
-         * transforming a unit vector along each axis
-         * and computing the resulting magnitude.
-         * The computed values 'scaleX' and 'scaleY'
-         * represent the amount of scaling GDI will be asked
-         * to perform.
+        /* Cbldulbtf tif bmount of sdbling in tif x
+         * bnd y dirfdtions. Tiis sdbling is domputfd by
+         * trbnsforming b unit vfdtor blong fbdi bxis
+         * bnd domputing tif rfsulting mbgnitudf.
+         * Tif domputfd vblufs 'sdblfX' bnd 'sdblfY'
+         * rfprfsfnt tif bmount of sdbling GDI will bf bskfd
+         * to pfrform.
          */
-        Point2D.Float unitVectorX = new Point2D.Float(1, 0);
-        Point2D.Float unitVectorY = new Point2D.Float(0, 1);
-        fullTransform.deltaTransform(unitVectorX, unitVectorX);
-        fullTransform.deltaTransform(unitVectorY, unitVectorY);
+        Point2D.Flobt unitVfdtorX = nfw Point2D.Flobt(1, 0);
+        Point2D.Flobt unitVfdtorY = nfw Point2D.Flobt(0, 1);
+        fullTrbnsform.dfltbTrbnsform(unitVfdtorX, unitVfdtorX);
+        fullTrbnsform.dfltbTrbnsform(unitVfdtorY, unitVfdtorY);
 
-        Point2D.Float origin = new Point2D.Float(0, 0);
-        double scaleX = unitVectorX.distance(origin);
-        double scaleY = unitVectorY.distance(origin);
+        Point2D.Flobt origin = nfw Point2D.Flobt(0, 0);
+        doublf sdblfX = unitVfdtorX.distbndf(origin);
+        doublf sdblfY = unitVfdtorY.distbndf(origin);
 
-        double devResX = wPrinterJob.getXRes();
-        double devResY = wPrinterJob.getYRes();
-        double devScaleX = devResX / DEFAULT_USER_RES;
-        double devScaleY = devResY / DEFAULT_USER_RES;
+        doublf dfvRfsX = wPrintfrJob.gftXRfs();
+        doublf dfvRfsY = wPrintfrJob.gftYRfs();
+        doublf dfvSdblfX = dfvRfsX / DEFAULT_USER_RES;
+        doublf dfvSdblfY = dfvRfsY / DEFAULT_USER_RES;
 
-        /* check if rotated or sheared */
-        int transformType = fullTransform.getType();
-        boolean clampScale = ((transformType &
-                               (AffineTransform.TYPE_GENERAL_ROTATION |
-                                AffineTransform.TYPE_GENERAL_TRANSFORM)) != 0);
-        if (clampScale) {
-            if (scaleX > devScaleX) scaleX = devScaleX;
-            if (scaleY > devScaleY) scaleY = devScaleY;
+        /* difdk if rotbtfd or sifbrfd */
+        int trbnsformTypf = fullTrbnsform.gftTypf();
+        boolfbn dlbmpSdblf = ((trbnsformTypf &
+                               (AffinfTrbnsform.TYPE_GENERAL_ROTATION |
+                                AffinfTrbnsform.TYPE_GENERAL_TRANSFORM)) != 0);
+        if (dlbmpSdblf) {
+            if (sdblfX > dfvSdblfX) sdblfX = dfvSdblfX;
+            if (sdblfY > dfvSdblfY) sdblfY = dfvSdblfY;
         }
 
-        /* We do not need to draw anything if either scaling
-         * factor is zero.
+        /* Wf do not nffd to drbw bnytiing if fitifr sdbling
+         * fbdtor is zfro.
          */
-        if (scaleX != 0 && scaleY != 0) {
+        if (sdblfX != 0 && sdblfY != 0) {
 
-            /* Here's the transformation we will do with Java2D,
+            /* Hfrf's tif trbnsformbtion wf will do witi Jbvb2D,
             */
-            AffineTransform rotTransform = new AffineTransform(
-                                        fullMatrix[0] / scaleX,  //m00
-                                        fullMatrix[1] / scaleY,  //m10
-                                        fullMatrix[2] / scaleX,  //m01
-                                        fullMatrix[3] / scaleY,  //m11
-                                        fullMatrix[4] / scaleX,  //m02
-                                        fullMatrix[5] / scaleY); //m12
+            AffinfTrbnsform rotTrbnsform = nfw AffinfTrbnsform(
+                                        fullMbtrix[0] / sdblfX,  //m00
+                                        fullMbtrix[1] / sdblfY,  //m10
+                                        fullMbtrix[2] / sdblfX,  //m01
+                                        fullMbtrix[3] / sdblfY,  //m11
+                                        fullMbtrix[4] / sdblfX,  //m02
+                                        fullMbtrix[5] / sdblfY); //m12
 
-            /* The scale transform is not used directly: we instead
-             * directly multiply by scaleX and scaleY.
+            /* Tif sdblf trbnsform is not usfd dirfdtly: wf instfbd
+             * dirfdtly multiply by sdblfX bnd sdblfY.
              *
-             * Conceptually here is what the scaleTransform is:
+             * Condfptublly ifrf is wibt tif sdblfTrbnsform is:
              *
-             * AffineTransform scaleTransform = new AffineTransform(
-             *                      scaleX,                     //m00
+             * AffinfTrbnsform sdblfTrbnsform = nfw AffinfTrbnsform(
+             *                      sdblfX,                     //m00
              *                      0,                          //m10
              *                      0,                          //m01
-             *                      scaleY,                     //m11
+             *                      sdblfY,                     //m11
              *                      0,                          //m02
              *                      0);                         //m12
              */
 
-            /* Convert the image source's rectangle into the rotated
-             * and sheared space. Once there, we calculate a rectangle
-             * that encloses the resulting shape. It is this rectangle
-             * which defines the size of the BufferedImage we need to
-             * create to hold the transformed image.
+            /* Convfrt tif imbgf sourdf's rfdtbnglf into tif rotbtfd
+             * bnd sifbrfd spbdf. Ondf tifrf, wf dbldulbtf b rfdtbnglf
+             * tibt fndlosfs tif rfsulting sibpf. It is tiis rfdtbnglf
+             * wiidi dffinfs tif sizf of tif BufffrfdImbgf wf nffd to
+             * drfbtf to iold tif trbnsformfd imbgf.
              */
-            Rectangle2D.Float srcRect = new Rectangle2D.Float(srcX, srcY,
-                                                              srcWidth,
-                                                              srcHeight);
+            Rfdtbnglf2D.Flobt srdRfdt = nfw Rfdtbnglf2D.Flobt(srdX, srdY,
+                                                              srdWidti,
+                                                              srdHfigit);
 
-            Shape rotShape = rotTransform.createTransformedShape(srcRect);
-            Rectangle2D rotBounds = rotShape.getBounds2D();
+            Sibpf rotSibpf = rotTrbnsform.drfbtfTrbnsformfdSibpf(srdRfdt);
+            Rfdtbnglf2D rotBounds = rotSibpf.gftBounds2D();
 
-            /* add a fudge factor as some fp precision problems have
-             * been observed which caused pixels to be rounded down and
-             * out of the image.
+            /* bdd b fudgf fbdtor bs somf fp prfdision problfms ibvf
+             * bffn obsfrvfd wiidi dbusfd pixfls to bf roundfd down bnd
+             * out of tif imbgf.
              */
-            rotBounds.setRect(rotBounds.getX(), rotBounds.getY(),
-                              rotBounds.getWidth()+0.001,
-                              rotBounds.getHeight()+0.001);
+            rotBounds.sftRfdt(rotBounds.gftX(), rotBounds.gftY(),
+                              rotBounds.gftWidti()+0.001,
+                              rotBounds.gftHfigit()+0.001);
 
-            int boundsWidth = (int) rotBounds.getWidth();
-            int boundsHeight = (int) rotBounds.getHeight();
+            int boundsWidti = (int) rotBounds.gftWidti();
+            int boundsHfigit = (int) rotBounds.gftHfigit();
 
-            if (boundsWidth > 0 && boundsHeight > 0) {
+            if (boundsWidti > 0 && boundsHfigit > 0) {
 
-                /* If the image has transparent or semi-transparent
-                 * pixels then we'll have the application re-render
-                 * the portion of the page covered by the image.
-                 * The BufferedImage will be at the image's resolution
-                 * to avoid wasting memory. By re-rendering this portion
-                 * of a page all compositing is done by Java2D into
-                 * the BufferedImage and then that image is copied to
+                /* If tif imbgf ibs trbnspbrfnt or sfmi-trbnspbrfnt
+                 * pixfls tifn wf'll ibvf tif bpplidbtion rf-rfndfr
+                 * tif portion of tif pbgf dovfrfd by tif imbgf.
+                 * Tif BufffrfdImbgf will bf bt tif imbgf's rfsolution
+                 * to bvoid wbsting mfmory. By rf-rfndfring tiis portion
+                 * of b pbgf bll dompositing is donf by Jbvb2D into
+                 * tif BufffrfdImbgf bnd tifn tibt imbgf is dopifd to
                  * GDI.
-                 * However several special cases can be handled otherwise:
-                 * - bitmask transparency with a solid background colour
-                 * - images which have transparency color models but no
-                 * transparent pixels
-                 * - images with bitmask transparency and an IndexColorModel
-                 * (the common transparent GIF case) can be handled by
-                 * rendering just the opaque pixels.
+                 * Howfvfr sfvfrbl spfdibl dbsfs dbn bf ibndlfd otifrwisf:
+                 * - bitmbsk trbnspbrfndy witi b solid bbdkground dolour
+                 * - imbgfs wiidi ibvf trbnspbrfndy dolor modfls but no
+                 * trbnspbrfnt pixfls
+                 * - imbgfs witi bitmbsk trbnspbrfndy bnd bn IndfxColorModfl
+                 * (tif dommon trbnspbrfnt GIF dbsf) dbn bf ibndlfd by
+                 * rfndfring just tif opbquf pixfls.
                  */
-                boolean drawOpaque = true;
-                if (!handlingTransparency && hasTransparentPixels(img)) {
-                    drawOpaque = false;
-                    if (isBitmaskTransparency(img)) {
-                        if (bgcolor == null) {
-                            if (drawBitmaskImage(img, xform, bgcolor,
-                                                 srcX, srcY,
-                                                 srcWidth, srcHeight)) {
-                                // image drawn, just return.
-                                return true;
+                boolfbn drbwOpbquf = truf;
+                if (!ibndlingTrbnspbrfndy && ibsTrbnspbrfntPixfls(img)) {
+                    drbwOpbquf = fblsf;
+                    if (isBitmbskTrbnspbrfndy(img)) {
+                        if (bgdolor == null) {
+                            if (drbwBitmbskImbgf(img, xform, bgdolor,
+                                                 srdX, srdY,
+                                                 srdWidti, srdHfigit)) {
+                                // imbgf drbwn, just rfturn.
+                                rfturn truf;
                             }
-                        } else if (bgcolor.getTransparency()
-                                   == Transparency.OPAQUE) {
-                            drawOpaque = true;
+                        } flsf if (bgdolor.gftTrbnspbrfndy()
+                                   == Trbnspbrfndy.OPAQUE) {
+                            drbwOpbquf = truf;
                         }
                     }
-                    if (!canDoRedraws()) {
-                        drawOpaque = true;
+                    if (!dbnDoRfdrbws()) {
+                        drbwOpbquf = truf;
                     }
-                } else {
-                    // if there's no transparent pixels there's no need
-                    // for a background colour. This can avoid edge artifacts
-                    // in rotation cases.
-                    bgcolor = null;
+                } flsf {
+                    // if tifrf's no trbnspbrfnt pixfls tifrf's no nffd
+                    // for b bbdkground dolour. Tiis dbn bvoid fdgf brtifbdts
+                    // in rotbtion dbsfs.
+                    bgdolor = null;
                 }
-                // if src region extends beyond the image, the "opaque" path
-                // may blit b/g colour (including white) where it shoudn't.
-                if ((srcX+srcWidth > img.getWidth(null) ||
-                     srcY+srcHeight > img.getHeight(null))
-                    && canDoRedraws()) {
-                    drawOpaque = false;
+                // if srd rfgion fxtfnds bfyond tif imbgf, tif "opbquf" pbti
+                // mby blit b/g dolour (indluding wiitf) wifrf it sioudn't.
+                if ((srdX+srdWidti > img.gftWidti(null) ||
+                     srdY+srdHfigit > img.gftHfigit(null))
+                    && dbnDoRfdrbws()) {
+                    drbwOpbquf = fblsf;
                 }
-                if (drawOpaque == false) {
+                if (drbwOpbquf == fblsf) {
 
-                    fullTransform.getMatrix(fullMatrix);
-                    AffineTransform tx =
-                        new AffineTransform(
-                                            fullMatrix[0] / devScaleX,  //m00
-                                            fullMatrix[1] / devScaleY,  //m10
-                                            fullMatrix[2] / devScaleX,  //m01
-                                            fullMatrix[3] / devScaleY,  //m11
-                                            fullMatrix[4] / devScaleX,  //m02
-                                            fullMatrix[5] / devScaleY); //m12
+                    fullTrbnsform.gftMbtrix(fullMbtrix);
+                    AffinfTrbnsform tx =
+                        nfw AffinfTrbnsform(
+                                            fullMbtrix[0] / dfvSdblfX,  //m00
+                                            fullMbtrix[1] / dfvSdblfY,  //m10
+                                            fullMbtrix[2] / dfvSdblfX,  //m01
+                                            fullMbtrix[3] / dfvSdblfY,  //m11
+                                            fullMbtrix[4] / dfvSdblfX,  //m02
+                                            fullMbtrix[5] / dfvSdblfY); //m12
 
-                    Rectangle2D.Float rect =
-                        new Rectangle2D.Float(srcX, srcY, srcWidth, srcHeight);
+                    Rfdtbnglf2D.Flobt rfdt =
+                        nfw Rfdtbnglf2D.Flobt(srdX, srdY, srdWidti, srdHfigit);
 
-                    Shape shape = fullTransform.createTransformedShape(rect);
-                    // Region isn't user space because its potentially
-                    // been rotated for landscape.
-                    Rectangle2D region = shape.getBounds2D();
+                    Sibpf sibpf = fullTrbnsform.drfbtfTrbnsformfdSibpf(rfdt);
+                    // Rfgion isn't usfr spbdf bfdbusf its potfntiblly
+                    // bffn rotbtfd for lbndsdbpf.
+                    Rfdtbnglf2D rfgion = sibpf.gftBounds2D();
 
-                    region.setRect(region.getX(), region.getY(),
-                                   region.getWidth()+0.001,
-                                   region.getHeight()+0.001);
+                    rfgion.sftRfdt(rfgion.gftX(), rfgion.gftY(),
+                                   rfgion.gftWidti()+0.001,
+                                   rfgion.gftHfigit()+0.001);
 
-                    // Try to limit the amount of memory used to 8Mb, so
-                    // if at device resolution this exceeds a certain
-                    // image size then scale down the region to fit in
-                    // that memory, but never to less than 72 dpi.
+                    // Try to limit tif bmount of mfmory usfd to 8Mb, so
+                    // if bt dfvidf rfsolution tiis fxdffds b dfrtbin
+                    // imbgf sizf tifn sdblf down tif rfgion to fit in
+                    // tibt mfmory, but nfvfr to lfss tibn 72 dpi.
 
-                    int w = (int)region.getWidth();
-                    int h = (int)region.getHeight();
-                    int nbytes = w * h * 3;
-                    int maxBytes = 8 * 1024 * 1024;
-                    double origDpi = (devResX < devResY) ? devResX : devResY;
+                    int w = (int)rfgion.gftWidti();
+                    int i = (int)rfgion.gftHfigit();
+                    int nbytfs = w * i * 3;
+                    int mbxBytfs = 8 * 1024 * 1024;
+                    doublf origDpi = (dfvRfsX < dfvRfsY) ? dfvRfsX : dfvRfsY;
                     int dpi = (int)origDpi;
-                    double scaleFactor = 1;
+                    doublf sdblfFbdtor = 1;
 
-                    double maxSFX = w/(double)boundsWidth;
-                    double maxSFY = h/(double)boundsHeight;
-                    double maxSF = (maxSFX > maxSFY) ? maxSFY : maxSFX;
-                    int minDpi = (int)(dpi/maxSF);
+                    doublf mbxSFX = w/(doublf)boundsWidti;
+                    doublf mbxSFY = i/(doublf)boundsHfigit;
+                    doublf mbxSF = (mbxSFX > mbxSFY) ? mbxSFY : mbxSFX;
+                    int minDpi = (int)(dpi/mbxSF);
                     if (minDpi < DEFAULT_USER_RES) minDpi = DEFAULT_USER_RES;
 
-                    while (nbytes > maxBytes && dpi > minDpi) {
-                        scaleFactor *= 2;
+                    wiilf (nbytfs > mbxBytfs && dpi > minDpi) {
+                        sdblfFbdtor *= 2;
                         dpi /= 2;
-                        nbytes /= 4;
+                        nbytfs /= 4;
                     }
                     if (dpi < minDpi) {
-                        scaleFactor = (origDpi / minDpi);
+                        sdblfFbdtor = (origDpi / minDpi);
                     }
 
-                    region.setRect(region.getX()/scaleFactor,
-                                   region.getY()/scaleFactor,
-                                   region.getWidth()/scaleFactor,
-                                   region.getHeight()/scaleFactor);
+                    rfgion.sftRfdt(rfgion.gftX()/sdblfFbdtor,
+                                   rfgion.gftY()/sdblfFbdtor,
+                                   rfgion.gftWidti()/sdblfFbdtor,
+                                   rfgion.gftHfigit()/sdblfFbdtor);
 
                     /*
-                     * We need to have the clip as part of the saved state,
-                     * either directly, or all the components that are
-                     * needed to reconstitute it (image source area,
-                     * image transform and current graphics transform).
-                     * The clip is described in user space, so we need to
-                     * save the current graphics transform anyway so just
-                     * save these two.
+                     * Wf nffd to ibvf tif dlip bs pbrt of tif sbvfd stbtf,
+                     * fitifr dirfdtly, or bll tif domponfnts tibt brf
+                     * nffdfd to rfdonstitutf it (imbgf sourdf brfb,
+                     * imbgf trbnsform bnd durrfnt grbpiids trbnsform).
+                     * Tif dlip is dfsdribfd in usfr spbdf, so wf nffd to
+                     * sbvf tif durrfnt grbpiids trbnsform bnywby so just
+                     * sbvf tifsf two.
                      */
-                    wPrinterJob.saveState(getTransform(), getClip(),
-                                          region, scaleFactor, scaleFactor);
-                    return true;
-                /* The image can be rendered directly by GDI so we
-                 * copy it into a BufferedImage (this takes care of
-                 * ColorSpace and BufferedImageOp issues) and then
-                 * send that to GDI.
+                    wPrintfrJob.sbvfStbtf(gftTrbnsform(), gftClip(),
+                                          rfgion, sdblfFbdtor, sdblfFbdtor);
+                    rfturn truf;
+                /* Tif imbgf dbn bf rfndfrfd dirfdtly by GDI so wf
+                 * dopy it into b BufffrfdImbgf (tiis tbkfs dbrf of
+                 * ColorSpbdf bnd BufffrfdImbgfOp issufs) bnd tifn
+                 * sfnd tibt to GDI.
                  */
-                } else {
-                    /* Create a buffered image big enough to hold the portion
-                     * of the source image being printed.
-                     * The image format will be 3BYTE_BGR for most cases
-                     * except where we can represent the image as a 1, 4 or 8
-                     * bits-per-pixel DIB.
+                } flsf {
+                    /* Crfbtf b bufffrfd imbgf big fnougi to iold tif portion
+                     * of tif sourdf imbgf bfing printfd.
+                     * Tif imbgf formbt will bf 3BYTE_BGR for most dbsfs
+                     * fxdfpt wifrf wf dbn rfprfsfnt tif imbgf bs b 1, 4 or 8
+                     * bits-pfr-pixfl DIB.
                      */
-                    int dibType = BufferedImage.TYPE_3BYTE_BGR;
-                    IndexColorModel icm = null;
+                    int dibTypf = BufffrfdImbgf.TYPE_3BYTE_BGR;
+                    IndfxColorModfl idm = null;
 
-                    ColorModel cm = img.getColorModel();
-                    int imgType = img.getType();
-                    if (cm instanceof IndexColorModel &&
-                        cm.getPixelSize() <= 8 &&
-                        (imgType == BufferedImage.TYPE_BYTE_BINARY ||
-                         imgType == BufferedImage.TYPE_BYTE_INDEXED)) {
-                        icm = (IndexColorModel)cm;
-                        dibType = imgType;
-                        /* BYTE_BINARY may be 2 bpp which DIB can't handle.
-                         * Convert this to 4bpp.
+                    ColorModfl dm = img.gftColorModfl();
+                    int imgTypf = img.gftTypf();
+                    if (dm instbndfof IndfxColorModfl &&
+                        dm.gftPixflSizf() <= 8 &&
+                        (imgTypf == BufffrfdImbgf.TYPE_BYTE_BINARY ||
+                         imgTypf == BufffrfdImbgf.TYPE_BYTE_INDEXED)) {
+                        idm = (IndfxColorModfl)dm;
+                        dibTypf = imgTypf;
+                        /* BYTE_BINARY mby bf 2 bpp wiidi DIB dbn't ibndlf.
+                         * Convfrt tiis to 4bpp.
                          */
-                        if (imgType == BufferedImage.TYPE_BYTE_BINARY &&
-                            cm.getPixelSize() == 2) {
+                        if (imgTypf == BufffrfdImbgf.TYPE_BYTE_BINARY &&
+                            dm.gftPixflSizf() == 2) {
 
-                            int[] rgbs = new int[16];
-                            icm.getRGBs(rgbs);
-                            boolean transparent =
-                                icm.getTransparency() != Transparency.OPAQUE;
-                            int transpixel = icm.getTransparentPixel();
+                            int[] rgbs = nfw int[16];
+                            idm.gftRGBs(rgbs);
+                            boolfbn trbnspbrfnt =
+                                idm.gftTrbnspbrfndy() != Trbnspbrfndy.OPAQUE;
+                            int trbnspixfl = idm.gftTrbnspbrfntPixfl();
 
-                            icm = new IndexColorModel(4, 16,
+                            idm = nfw IndfxColorModfl(4, 16,
                                                       rgbs, 0,
-                                                      transparent, transpixel,
-                                                      DataBuffer.TYPE_BYTE);
+                                                      trbnspbrfnt, trbnspixfl,
+                                                      DbtbBufffr.TYPE_BYTE);
                         }
                     }
 
-                    int iw = (int)rotBounds.getWidth();
-                    int ih = (int)rotBounds.getHeight();
-                    BufferedImage deepImage = null;
-                    /* If there is no special transform needed (this is a
-                     * simple BLIT) and dibType == img.getType() and we
-                     * didn't create a new IndexColorModel AND the whole of
-                     * the source image is being drawn (GDI can't handle a
-                     * portion of the original source image) then we
-                     * don't need to create this intermediate image - GDI
-                     * can access the data from the original image.
-                     * Since a subimage can be created by calling
-                     * BufferedImage.getSubImage() that condition needs to
-                     * be accounted for too. This implies inspecting the
-                     * data buffer. In the end too many cases are not able
-                     * to take advantage of this option until we can teach
-                     * the native code to properly navigate the data buffer.
-                     * There was a concern that since in native code since we
-                     * need to DWORD align and flip to a bottom up DIB that
-                     * the "original" image may get perturbed by this.
-                     * But in fact we always malloc new memory for the aligned
-                     * copy so this isn't a problem.
-                     * This points out that we allocate two temporaries copies
-                     * of the image : one in Java and one in native. If
-                     * we can be smarter about not allocating this one when
-                     * not needed, that would seem like a good thing to do,
-                     * even if in many cases the ColorModels don't match and
-                     * its needed.
-                     * Until all of this is resolved newImage is always true.
+                    int iw = (int)rotBounds.gftWidti();
+                    int ii = (int)rotBounds.gftHfigit();
+                    BufffrfdImbgf dffpImbgf = null;
+                    /* If tifrf is no spfdibl trbnsform nffdfd (tiis is b
+                     * simplf BLIT) bnd dibTypf == img.gftTypf() bnd wf
+                     * didn't drfbtf b nfw IndfxColorModfl AND tif wiolf of
+                     * tif sourdf imbgf is bfing drbwn (GDI dbn't ibndlf b
+                     * portion of tif originbl sourdf imbgf) tifn wf
+                     * don't nffd to drfbtf tiis intfrmfdibtf imbgf - GDI
+                     * dbn bddfss tif dbtb from tif originbl imbgf.
+                     * Sindf b subimbgf dbn bf drfbtfd by dblling
+                     * BufffrfdImbgf.gftSubImbgf() tibt dondition nffds to
+                     * bf bddountfd for too. Tiis implifs inspfdting tif
+                     * dbtb bufffr. In tif fnd too mbny dbsfs brf not bblf
+                     * to tbkf bdvbntbgf of tiis option until wf dbn tfbdi
+                     * tif nbtivf dodf to propfrly nbvigbtf tif dbtb bufffr.
+                     * Tifrf wbs b dondfrn tibt sindf in nbtivf dodf sindf wf
+                     * nffd to DWORD blign bnd flip to b bottom up DIB tibt
+                     * tif "originbl" imbgf mby gft pfrturbfd by tiis.
+                     * But in fbdt wf blwbys mbllod nfw mfmory for tif blignfd
+                     * dopy so tiis isn't b problfm.
+                     * Tiis points out tibt wf bllodbtf two tfmporbrifs dopifs
+                     * of tif imbgf : onf in Jbvb bnd onf in nbtivf. If
+                     * wf dbn bf smbrtfr bbout not bllodbting tiis onf wifn
+                     * not nffdfd, tibt would sffm likf b good tiing to do,
+                     * fvfn if in mbny dbsfs tif ColorModfls don't mbtdi bnd
+                     * its nffdfd.
+                     * Until bll of tiis is rfsolvfd nfwImbgf is blwbys truf.
                      */
-                    boolean newImage = true;
-                    if (newImage) {
-                        if (icm == null) {
-                            deepImage = new BufferedImage(iw, ih, dibType);
-                        } else {
-                            deepImage = new BufferedImage(iw, ih, dibType,icm);
+                    boolfbn nfwImbgf = truf;
+                    if (nfwImbgf) {
+                        if (idm == null) {
+                            dffpImbgf = nfw BufffrfdImbgf(iw, ii, dibTypf);
+                        } flsf {
+                            dffpImbgf = nfw BufffrfdImbgf(iw, ii, dibTypf,idm);
                         }
 
-                        /* Setup a Graphics2D on to the BufferedImage so that
-                         * the source image when copied, lands within the
-                         * image buffer.
+                        /* Sftup b Grbpiids2D on to tif BufffrfdImbgf so tibt
+                         * tif sourdf imbgf wifn dopifd, lbnds witiin tif
+                         * imbgf bufffr.
                          */
-                        Graphics2D imageGraphics = deepImage.createGraphics();
-                        imageGraphics.clipRect(0, 0,
-                                               deepImage.getWidth(),
-                                               deepImage.getHeight());
+                        Grbpiids2D imbgfGrbpiids = dffpImbgf.drfbtfGrbpiids();
+                        imbgfGrbpiids.dlipRfdt(0, 0,
+                                               dffpImbgf.gftWidti(),
+                                               dffpImbgf.gftHfigit());
 
-                        imageGraphics.translate(-rotBounds.getX(),
-                                                -rotBounds.getY());
-                        imageGraphics.transform(rotTransform);
+                        imbgfGrbpiids.trbnslbtf(-rotBounds.gftX(),
+                                                -rotBounds.gftY());
+                        imbgfGrbpiids.trbnsform(rotTrbnsform);
 
-                        /* Fill the BufferedImage either with the caller
-                         * supplied color, 'bgColor' or, if null, with white.
+                        /* Fill tif BufffrfdImbgf fitifr witi tif dbllfr
+                         * supplifd dolor, 'bgColor' or, if null, witi wiitf.
                          */
-                        if (bgcolor == null) {
-                            bgcolor = Color.white;
+                        if (bgdolor == null) {
+                            bgdolor = Color.wiitf;
                         }
 
-                        imageGraphics.drawImage(img,
-                                                srcX, srcY,
-                                                srcX + srcWidth,
-                                                srcY + srcHeight,
-                                                srcX, srcY,
-                                                srcX + srcWidth,
-                                                srcY + srcHeight,
-                                                bgcolor, null);
-                        imageGraphics.dispose();
-                    } else {
-                        deepImage = img;
+                        imbgfGrbpiids.drbwImbgf(img,
+                                                srdX, srdY,
+                                                srdX + srdWidti,
+                                                srdY + srdHfigit,
+                                                srdX, srdY,
+                                                srdX + srdWidti,
+                                                srdY + srdHfigit,
+                                                bgdolor, null);
+                        imbgfGrbpiids.disposf();
+                    } flsf {
+                        dffpImbgf = img;
                     }
 
-                    /* Scale the bounding rectangle by the scale transform.
-                     * Because the scaling transform has only x and y
-                     * scaling components it is equivalent to multiply
-                     * the x components of the bounding rectangle by
-                     * the x scaling factor and to multiply the y components
-                     * by the y scaling factor.
+                    /* Sdblf tif bounding rfdtbnglf by tif sdblf trbnsform.
+                     * Bfdbusf tif sdbling trbnsform ibs only x bnd y
+                     * sdbling domponfnts it is fquivblfnt to multiply
+                     * tif x domponfnts of tif bounding rfdtbnglf by
+                     * tif x sdbling fbdtor bnd to multiply tif y domponfnts
+                     * by tif y sdbling fbdtor.
                      */
-                    Rectangle2D.Float scaledBounds
-                            = new Rectangle2D.Float(
-                                    (float) (rotBounds.getX() * scaleX),
-                                    (float) (rotBounds.getY() * scaleY),
-                                    (float) (rotBounds.getWidth() * scaleX),
-                                    (float) (rotBounds.getHeight() * scaleY));
+                    Rfdtbnglf2D.Flobt sdblfdBounds
+                            = nfw Rfdtbnglf2D.Flobt(
+                                    (flobt) (rotBounds.gftX() * sdblfX),
+                                    (flobt) (rotBounds.gftY() * sdblfY),
+                                    (flobt) (rotBounds.gftWidti() * sdblfX),
+                                    (flobt) (rotBounds.gftHfigit() * sdblfY));
 
-                    /* Pull the raster data from the buffered image
-                     * and pass it along to GDI.
+                    /* Pull tif rbstfr dbtb from tif bufffrfd imbgf
+                     * bnd pbss it blong to GDI.
                      */
-                    WritableRaster raster = deepImage.getRaster();
-                    byte[] data;
-                    if (raster instanceof ByteComponentRaster) {
-                        data = ((ByteComponentRaster)raster).getDataStorage();
-                    } else if (raster instanceof BytePackedRaster) {
-                        data = ((BytePackedRaster)raster).getDataStorage();
-                    } else {
-                        return false;
+                    WritbblfRbstfr rbstfr = dffpImbgf.gftRbstfr();
+                    bytf[] dbtb;
+                    if (rbstfr instbndfof BytfComponfntRbstfr) {
+                        dbtb = ((BytfComponfntRbstfr)rbstfr).gftDbtbStorbgf();
+                    } flsf if (rbstfr instbndfof BytfPbdkfdRbstfr) {
+                        dbtb = ((BytfPbdkfdRbstfr)rbstfr).gftDbtbStorbgf();
+                    } flsf {
+                        rfturn fblsf;
                     }
 
-                    int bitsPerPixel = 24;
-                    SampleModel sm = deepImage.getSampleModel();
-                    if (sm instanceof ComponentSampleModel) {
-                        ComponentSampleModel csm = (ComponentSampleModel)sm;
-                        bitsPerPixel = csm.getPixelStride() * 8;
-                    } else if (sm instanceof MultiPixelPackedSampleModel) {
-                        MultiPixelPackedSampleModel mppsm =
-                            (MultiPixelPackedSampleModel)sm;
-                        bitsPerPixel = mppsm.getPixelBitStride();
-                    } else {
-                        if (icm != null) {
-                            int diw = deepImage.getWidth();
-                            int dih = deepImage.getHeight();
-                            if (diw > 0 && dih > 0) {
-                                bitsPerPixel = data.length*8/diw/dih;
+                    int bitsPfrPixfl = 24;
+                    SbmplfModfl sm = dffpImbgf.gftSbmplfModfl();
+                    if (sm instbndfof ComponfntSbmplfModfl) {
+                        ComponfntSbmplfModfl dsm = (ComponfntSbmplfModfl)sm;
+                        bitsPfrPixfl = dsm.gftPixflStridf() * 8;
+                    } flsf if (sm instbndfof MultiPixflPbdkfdSbmplfModfl) {
+                        MultiPixflPbdkfdSbmplfModfl mppsm =
+                            (MultiPixflPbdkfdSbmplfModfl)sm;
+                        bitsPfrPixfl = mppsm.gftPixflBitStridf();
+                    } flsf {
+                        if (idm != null) {
+                            int diw = dffpImbgf.gftWidti();
+                            int dii = dffpImbgf.gftHfigit();
+                            if (diw > 0 && dii > 0) {
+                                bitsPfrPixfl = dbtb.lfngti*8/diw/dii;
                             }
                         }
                     }
 
-                    /* Because the caller's image has been rotated
-                     * and sheared into our BufferedImage and because
-                     * we will be handing that BufferedImage directly to
-                     * GDI, we need to set an additional clip. This clip
-                     * makes sure that only parts of the BufferedImage
-                     * that are also part of the caller's image are drawn.
+                    /* Bfdbusf tif dbllfr's imbgf ibs bffn rotbtfd
+                     * bnd sifbrfd into our BufffrfdImbgf bnd bfdbusf
+                     * wf will bf ibnding tibt BufffrfdImbgf dirfdtly to
+                     * GDI, wf nffd to sft bn bdditionbl dlip. Tiis dlip
+                     * mbkfs surf tibt only pbrts of tif BufffrfdImbgf
+                     * tibt brf blso pbrt of tif dbllfr's imbgf brf drbwn.
                      */
-                    Shape holdClip = getClip();
-                    clip(xform.createTransformedShape(srcRect));
-                    deviceClip(getClip().getPathIterator(getTransform()));
+                    Sibpf ioldClip = gftClip();
+                    dlip(xform.drfbtfTrbnsformfdSibpf(srdRfdt));
+                    dfvidfClip(gftClip().gftPbtiItfrbtor(gftTrbnsform()));
 
-                    wPrinterJob.drawDIBImage
-                        (data, scaledBounds.x, scaledBounds.y,
-                         (float)Math.rint(scaledBounds.width+0.5),
-                         (float)Math.rint(scaledBounds.height+0.5),
+                    wPrintfrJob.drbwDIBImbgf
+                        (dbtb, sdblfdBounds.x, sdblfdBounds.y,
+                         (flobt)Mbti.rint(sdblfdBounds.widti+0.5),
+                         (flobt)Mbti.rint(sdblfdBounds.ifigit+0.5),
                          0f, 0f,
-                         deepImage.getWidth(), deepImage.getHeight(),
-                         bitsPerPixel, icm);
+                         dffpImbgf.gftWidti(), dffpImbgf.gftHfigit(),
+                         bitsPfrPixfl, idm);
 
-                    setClip(holdClip);
+                    sftClip(ioldClip);
                 }
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Have the printing application redraw everything that falls
-     * within the page bounds defined by <code>region</code>.
+     * Hbvf tif printing bpplidbtion rfdrbw fvfrytiing tibt fblls
+     * witiin tif pbgf bounds dffinfd by <dodf>rfgion</dodf>.
      */
-    @Override
-    public void redrawRegion(Rectangle2D region, double scaleX, double scaleY,
-                             Shape savedClip, AffineTransform savedTransform)
-            throws PrinterException {
+    @Ovfrridf
+    publid void rfdrbwRfgion(Rfdtbnglf2D rfgion, doublf sdblfX, doublf sdblfY,
+                             Sibpf sbvfdClip, AffinfTrbnsform sbvfdTrbnsform)
+            tirows PrintfrExdfption {
 
-        WPrinterJob wPrinterJob = (WPrinterJob)getPrinterJob();
-        Printable painter = getPrintable();
-        PageFormat pageFormat = getPageFormat();
-        int pageIndex = getPageIndex();
+        WPrintfrJob wPrintfrJob = (WPrintfrJob)gftPrintfrJob();
+        Printbblf pbintfr = gftPrintbblf();
+        PbgfFormbt pbgfFormbt = gftPbgfFormbt();
+        int pbgfIndfx = gftPbgfIndfx();
 
-        /* Create a buffered image big enough to hold the portion
-         * of the source image being printed.
+        /* Crfbtf b bufffrfd imbgf big fnougi to iold tif portion
+         * of tif sourdf imbgf bfing printfd.
          */
-        BufferedImage deepImage = new BufferedImage(
-                                        (int) region.getWidth(),
-                                        (int) region.getHeight(),
-                                        BufferedImage.TYPE_3BYTE_BGR);
+        BufffrfdImbgf dffpImbgf = nfw BufffrfdImbgf(
+                                        (int) rfgion.gftWidti(),
+                                        (int) rfgion.gftHfigit(),
+                                        BufffrfdImbgf.TYPE_3BYTE_BGR);
 
-        /* Get a graphics for the application to render into.
-         * We initialize the buffer to white in order to
-         * match the paper and then we shift the BufferedImage
-         * so that it covers the area on the page where the
-         * caller's Image will be drawn.
+        /* Gft b grbpiids for tif bpplidbtion to rfndfr into.
+         * Wf initiblizf tif bufffr to wiitf in ordfr to
+         * mbtdi tif pbpfr bnd tifn wf siift tif BufffrfdImbgf
+         * so tibt it dovfrs tif brfb on tif pbgf wifrf tif
+         * dbllfr's Imbgf will bf drbwn.
          */
-        Graphics2D g = deepImage.createGraphics();
-        ProxyGraphics2D proxy = new ProxyGraphics2D(g, wPrinterJob);
-        proxy.setColor(Color.white);
-        proxy.fillRect(0, 0, deepImage.getWidth(), deepImage.getHeight());
-        proxy.clipRect(0, 0, deepImage.getWidth(), deepImage.getHeight());
+        Grbpiids2D g = dffpImbgf.drfbtfGrbpiids();
+        ProxyGrbpiids2D proxy = nfw ProxyGrbpiids2D(g, wPrintfrJob);
+        proxy.sftColor(Color.wiitf);
+        proxy.fillRfdt(0, 0, dffpImbgf.gftWidti(), dffpImbgf.gftHfigit());
+        proxy.dlipRfdt(0, 0, dffpImbgf.gftWidti(), dffpImbgf.gftHfigit());
 
-        proxy.translate(-region.getX(), -region.getY());
+        proxy.trbnslbtf(-rfgion.gftX(), -rfgion.gftY());
 
-        /* Calculate the resolution of the source image.
+        /* Cbldulbtf tif rfsolution of tif sourdf imbgf.
          */
-        float sourceResX = (float)(wPrinterJob.getXRes() / scaleX);
-        float sourceResY = (float)(wPrinterJob.getYRes() / scaleY);
+        flobt sourdfRfsX = (flobt)(wPrintfrJob.gftXRfs() / sdblfX);
+        flobt sourdfRfsY = (flobt)(wPrintfrJob.gftYRfs() / sdblfY);
 
-        /* The application expects to see user space at 72 dpi.
-         * so change user space from image source resolution to
+        /* Tif bpplidbtion fxpfdts to sff usfr spbdf bt 72 dpi.
+         * so dibngf usfr spbdf from imbgf sourdf rfsolution to
          *  72 dpi.
          */
-        proxy.scale(sourceResX / DEFAULT_USER_RES,
-                    sourceResY / DEFAULT_USER_RES);
+        proxy.sdblf(sourdfRfsX / DEFAULT_USER_RES,
+                    sourdfRfsY / DEFAULT_USER_RES);
 
-        proxy.translate(
-            -wPrinterJob.getPhysicalPrintableX(pageFormat.getPaper())
-               / wPrinterJob.getXRes() * DEFAULT_USER_RES,
-            -wPrinterJob.getPhysicalPrintableY(pageFormat.getPaper())
-               / wPrinterJob.getYRes() * DEFAULT_USER_RES);
-        /* NB User space now has to be at 72 dpi for this calc to be correct */
-        proxy.transform(new AffineTransform(getPageFormat().getMatrix()));
-        proxy.setPaint(Color.black);
+        proxy.trbnslbtf(
+            -wPrintfrJob.gftPiysidblPrintbblfX(pbgfFormbt.gftPbpfr())
+               / wPrintfrJob.gftXRfs() * DEFAULT_USER_RES,
+            -wPrintfrJob.gftPiysidblPrintbblfY(pbgfFormbt.gftPbpfr())
+               / wPrintfrJob.gftYRfs() * DEFAULT_USER_RES);
+        /* NB Usfr spbdf now ibs to bf bt 72 dpi for tiis dbld to bf dorrfdt */
+        proxy.trbnsform(nfw AffinfTrbnsform(gftPbgfFormbt().gftMbtrix()));
+        proxy.sftPbint(Color.blbdk);
 
-        painter.print(proxy, pageFormat, pageIndex);
+        pbintfr.print(proxy, pbgfFormbt, pbgfIndfx);
 
-        g.dispose();
+        g.disposf();
 
-        /* We need to set the device clip using saved information.
-         * savedClip intersects the user clip with a clip that restricts
-         * the GDI rendered area of our BufferedImage to that which
-         * may correspond to a rotate or shear.
-         * The saved device transform is needed as the current transform
-         * is not likely to be the same.
+        /* Wf nffd to sft tif dfvidf dlip using sbvfd informbtion.
+         * sbvfdClip intfrsfdts tif usfr dlip witi b dlip tibt rfstridts
+         * tif GDI rfndfrfd brfb of our BufffrfdImbgf to tibt wiidi
+         * mby dorrfspond to b rotbtf or sifbr.
+         * Tif sbvfd dfvidf trbnsform is nffdfd bs tif durrfnt trbnsform
+         * is not likfly to bf tif sbmf.
          */
-        deviceClip(savedClip.getPathIterator(savedTransform));
+        dfvidfClip(sbvfdClip.gftPbtiItfrbtor(sbvfdTrbnsform));
 
-        /* Scale the bounding rectangle by the scale transform.
-         * Because the scaling transform has only x and y
-         * scaling components it is equivalent to multiplying
-         * the x components of the bounding rectangle by
-         * the x scaling factor and to multiplying the y components
-         * by the y scaling factor.
+        /* Sdblf tif bounding rfdtbnglf by tif sdblf trbnsform.
+         * Bfdbusf tif sdbling trbnsform ibs only x bnd y
+         * sdbling domponfnts it is fquivblfnt to multiplying
+         * tif x domponfnts of tif bounding rfdtbnglf by
+         * tif x sdbling fbdtor bnd to multiplying tif y domponfnts
+         * by tif y sdbling fbdtor.
          */
-        Rectangle2D.Float scaledBounds
-                = new Rectangle2D.Float(
-                        (float) (region.getX() * scaleX),
-                        (float) (region.getY() * scaleY),
-                        (float) (region.getWidth() * scaleX),
-                        (float) (region.getHeight() * scaleY));
+        Rfdtbnglf2D.Flobt sdblfdBounds
+                = nfw Rfdtbnglf2D.Flobt(
+                        (flobt) (rfgion.gftX() * sdblfX),
+                        (flobt) (rfgion.gftY() * sdblfY),
+                        (flobt) (rfgion.gftWidti() * sdblfX),
+                        (flobt) (rfgion.gftHfigit() * sdblfY));
 
-        /* Pull the raster data from the buffered image
-         * and pass it along to GDI.
+        /* Pull tif rbstfr dbtb from tif bufffrfd imbgf
+         * bnd pbss it blong to GDI.
          */
-       ByteComponentRaster tile
-                = (ByteComponentRaster)deepImage.getRaster();
+       BytfComponfntRbstfr tilf
+                = (BytfComponfntRbstfr)dffpImbgf.gftRbstfr();
 
-        wPrinterJob.drawImage3ByteBGR(tile.getDataStorage(),
-                    scaledBounds.x, scaledBounds.y,
-                    scaledBounds.width,
-                    scaledBounds.height,
+        wPrintfrJob.drbwImbgf3BytfBGR(tilf.gftDbtbStorbgf(),
+                    sdblfdBounds.x, sdblfdBounds.y,
+                    sdblfdBounds.widti,
+                    sdblfdBounds.ifigit,
                     0f, 0f,
-                    deepImage.getWidth(), deepImage.getHeight());
+                    dffpImbgf.gftWidti(), dffpImbgf.gftHfigit());
 
     }
 
     /*
-     * Fill the path defined by <code>pathIter</code>
-     * with the specified color.
-     * The path is provided in device coordinates.
+     * Fill tif pbti dffinfd by <dodf>pbtiItfr</dodf>
+     * witi tif spfdififd dolor.
+     * Tif pbti is providfd in dfvidf doordinbtfs.
      */
-    @Override
-    protected void deviceFill(PathIterator pathIter, Color color) {
+    @Ovfrridf
+    protfdtfd void dfvidfFill(PbtiItfrbtor pbtiItfr, Color dolor) {
 
-        WPrinterJob wPrinterJob = (WPrinterJob) getPrinterJob();
+        WPrintfrJob wPrintfrJob = (WPrintfrJob) gftPrintfrJob();
 
-        convertToWPath(pathIter);
-        wPrinterJob.selectSolidBrush(color);
-        wPrinterJob.fillPath();
+        donvfrtToWPbti(pbtiItfr);
+        wPrintfrJob.sflfdtSolidBrusi(dolor);
+        wPrintfrJob.fillPbti();
     }
 
     /*
-     * Set the printer device's clip to be the
-     * path defined by <code>pathIter</code>
-     * The path is provided in device coordinates.
+     * Sft tif printfr dfvidf's dlip to bf tif
+     * pbti dffinfd by <dodf>pbtiItfr</dodf>
+     * Tif pbti is providfd in dfvidf doordinbtfs.
      */
-    @Override
-    protected void deviceClip(PathIterator pathIter) {
+    @Ovfrridf
+    protfdtfd void dfvidfClip(PbtiItfrbtor pbtiItfr) {
 
-        WPrinterJob wPrinterJob = (WPrinterJob) getPrinterJob();
+        WPrintfrJob wPrintfrJob = (WPrintfrJob) gftPrintfrJob();
 
-        convertToWPath(pathIter);
-        wPrinterJob.selectClipPath();
+        donvfrtToWPbti(pbtiItfr);
+        wPrintfrJob.sflfdtClipPbti();
     }
 
     /**
-     * Draw the bounding rectangle using transformed coordinates.
+     * Drbw tif bounding rfdtbnglf using trbnsformfd doordinbtfs.
      */
-     @Override
-     protected void deviceFrameRect(int x, int y, int width, int height,
-                                     Color color) {
+     @Ovfrridf
+     protfdtfd void dfvidfFrbmfRfdt(int x, int y, int widti, int ifigit,
+                                     Color dolor) {
 
-        AffineTransform deviceTransform = getTransform();
+        AffinfTrbnsform dfvidfTrbnsform = gftTrbnsform();
 
-        /* check if rotated or sheared */
-        int transformType = deviceTransform.getType();
-        boolean usePath = ((transformType &
-                           (AffineTransform.TYPE_GENERAL_ROTATION |
-                            AffineTransform.TYPE_GENERAL_TRANSFORM)) != 0);
+        /* difdk if rotbtfd or sifbrfd */
+        int trbnsformTypf = dfvidfTrbnsform.gftTypf();
+        boolfbn usfPbti = ((trbnsformTypf &
+                           (AffinfTrbnsform.TYPE_GENERAL_ROTATION |
+                            AffinfTrbnsform.TYPE_GENERAL_TRANSFORM)) != 0);
 
-        if (usePath) {
-            draw(new Rectangle2D.Float(x, y, width, height));
-            return;
+        if (usfPbti) {
+            drbw(nfw Rfdtbnglf2D.Flobt(x, y, widti, ifigit));
+            rfturn;
         }
 
-        Stroke stroke = getStroke();
+        Strokf strokf = gftStrokf();
 
-        if (stroke instanceof BasicStroke) {
-            BasicStroke lineStroke = (BasicStroke) stroke;
+        if (strokf instbndfof BbsidStrokf) {
+            BbsidStrokf linfStrokf = (BbsidStrokf) strokf;
 
-            int endCap = lineStroke.getEndCap();
-            int lineJoin = lineStroke.getLineJoin();
+            int fndCbp = linfStrokf.gftEndCbp();
+            int linfJoin = linfStrokf.gftLinfJoin();
 
 
-            /* check for default style and try to optimize it by
-             * calling the frameRect native function instead of using paths.
+            /* difdk for dffbult stylf bnd try to optimizf it by
+             * dblling tif frbmfRfdt nbtivf fundtion instfbd of using pbtis.
              */
-            if ((endCap == BasicStroke.CAP_SQUARE) &&
-                (lineJoin == BasicStroke.JOIN_MITER) &&
-                (lineStroke.getMiterLimit() ==10.0f)) {
+            if ((fndCbp == BbsidStrokf.CAP_SQUARE) &&
+                (linfJoin == BbsidStrokf.JOIN_MITER) &&
+                (linfStrokf.gftMitfrLimit() ==10.0f)) {
 
-                float lineWidth = lineStroke.getLineWidth();
-                Point2D.Float penSize = new Point2D.Float(lineWidth,
-                                                          lineWidth);
+                flobt linfWidti = linfStrokf.gftLinfWidti();
+                Point2D.Flobt pfnSizf = nfw Point2D.Flobt(linfWidti,
+                                                          linfWidti);
 
-                deviceTransform.deltaTransform(penSize, penSize);
-                float deviceLineWidth = Math.min(Math.abs(penSize.x),
-                                                 Math.abs(penSize.y));
+                dfvidfTrbnsform.dfltbTrbnsform(pfnSizf, pfnSizf);
+                flobt dfvidfLinfWidti = Mbti.min(Mbti.bbs(pfnSizf.x),
+                                                 Mbti.bbs(pfnSizf.y));
 
-                /* transform upper left coordinate */
-                Point2D.Float ul_pos = new Point2D.Float(x, y);
-                deviceTransform.transform(ul_pos, ul_pos);
+                /* trbnsform uppfr lfft doordinbtf */
+                Point2D.Flobt ul_pos = nfw Point2D.Flobt(x, y);
+                dfvidfTrbnsform.trbnsform(ul_pos, ul_pos);
 
-                /* transform lower right coordinate */
-                Point2D.Float lr_pos = new Point2D.Float(x + width,
-                                                         y + height);
-                deviceTransform.transform(lr_pos, lr_pos);
+                /* trbnsform lowfr rigit doordinbtf */
+                Point2D.Flobt lr_pos = nfw Point2D.Flobt(x + widti,
+                                                         y + ifigit);
+                dfvidfTrbnsform.trbnsform(lr_pos, lr_pos);
 
-                float w = (float) (lr_pos.getX() - ul_pos.getX());
-                float h = (float)(lr_pos.getY() - ul_pos.getY());
+                flobt w = (flobt) (lr_pos.gftX() - ul_pos.gftX());
+                flobt i = (flobt)(lr_pos.gftY() - ul_pos.gftY());
 
-                WPrinterJob wPrinterJob = (WPrinterJob) getPrinterJob();
+                WPrintfrJob wPrintfrJob = (WPrintfrJob) gftPrintfrJob();
 
-                /* use selectStylePen, if supported */
-                if (wPrinterJob.selectStylePen(endCap, lineJoin,
-                                           deviceLineWidth, color) == true)  {
-                    wPrinterJob.frameRect((float)ul_pos.getX(),
-                                          (float)ul_pos.getY(), w, h);
+                /* usf sflfdtStylfPfn, if supportfd */
+                if (wPrintfrJob.sflfdtStylfPfn(fndCbp, linfJoin,
+                                           dfvidfLinfWidti, dolor) == truf)  {
+                    wPrintfrJob.frbmfRfdt((flobt)ul_pos.gftX(),
+                                          (flobt)ul_pos.gftY(), w, i);
                 }
-                /* not supported, must be a Win 9x */
-                else {
+                /* not supportfd, must bf b Win 9x */
+                flsf {
 
-                    double lowerRes = Math.min(wPrinterJob.getXRes(),
-                                               wPrinterJob.getYRes());
+                    doublf lowfrRfs = Mbti.min(wPrintfrJob.gftXRfs(),
+                                               wPrintfrJob.gftYRfs());
 
-                    if ((deviceLineWidth/lowerRes) < MAX_THINLINE_INCHES) {
-                        /* use the default pen styles for thin pens. */
-                        wPrinterJob.selectPen(deviceLineWidth, color);
-                        wPrinterJob.frameRect((float)ul_pos.getX(),
-                                              (float)ul_pos.getY(), w, h);
+                    if ((dfvidfLinfWidti/lowfrRfs) < MAX_THINLINE_INCHES) {
+                        /* usf tif dffbult pfn stylfs for tiin pfns. */
+                        wPrintfrJob.sflfdtPfn(dfvidfLinfWidti, dolor);
+                        wPrintfrJob.frbmfRfdt((flobt)ul_pos.gftX(),
+                                              (flobt)ul_pos.gftY(), w, i);
                     }
-                    else {
-                        draw(new Rectangle2D.Float(x, y, width, height));
+                    flsf {
+                        drbw(nfw Rfdtbnglf2D.Flobt(x, y, widti, ifigit));
                     }
                 }
             }
-            else {
-                draw(new Rectangle2D.Float(x, y, width, height));
+            flsf {
+                drbw(nfw Rfdtbnglf2D.Flobt(x, y, widti, ifigit));
             }
         }
      }
 
 
      /*
-      * Fill the rectangle with specified color and using Windows'
-      * GDI fillRect function.
-      * Boundaries are determined by the given coordinates.
+      * Fill tif rfdtbnglf witi spfdififd dolor bnd using Windows'
+      * GDI fillRfdt fundtion.
+      * Boundbrifs brf dftfrminfd by tif givfn doordinbtfs.
       */
-    @Override
-    protected void deviceFillRect(int x, int y, int width, int height,
-                                  Color color) {
+    @Ovfrridf
+    protfdtfd void dfvidfFillRfdt(int x, int y, int widti, int ifigit,
+                                  Color dolor) {
         /*
-         * Transform to device coordinates
+         * Trbnsform to dfvidf doordinbtfs
          */
-        AffineTransform deviceTransform = getTransform();
+        AffinfTrbnsform dfvidfTrbnsform = gftTrbnsform();
 
-        /* check if rotated or sheared */
-        int transformType = deviceTransform.getType();
-        boolean usePath =  ((transformType &
-                               (AffineTransform.TYPE_GENERAL_ROTATION |
-                                AffineTransform.TYPE_GENERAL_TRANSFORM)) != 0);
-        if (usePath) {
-            fill(new Rectangle2D.Float(x, y, width, height));
-            return;
+        /* difdk if rotbtfd or sifbrfd */
+        int trbnsformTypf = dfvidfTrbnsform.gftTypf();
+        boolfbn usfPbti =  ((trbnsformTypf &
+                               (AffinfTrbnsform.TYPE_GENERAL_ROTATION |
+                                AffinfTrbnsform.TYPE_GENERAL_TRANSFORM)) != 0);
+        if (usfPbti) {
+            fill(nfw Rfdtbnglf2D.Flobt(x, y, widti, ifigit));
+            rfturn;
         }
 
-        Point2D.Float tlc_pos = new Point2D.Float(x, y);
-        deviceTransform.transform(tlc_pos, tlc_pos);
+        Point2D.Flobt tld_pos = nfw Point2D.Flobt(x, y);
+        dfvidfTrbnsform.trbnsform(tld_pos, tld_pos);
 
-        Point2D.Float brc_pos = new Point2D.Float(x+width, y+height);
-        deviceTransform.transform(brc_pos, brc_pos);
+        Point2D.Flobt brd_pos = nfw Point2D.Flobt(x+widti, y+ifigit);
+        dfvidfTrbnsform.trbnsform(brd_pos, brd_pos);
 
-        float deviceWidth = (float) (brc_pos.getX() - tlc_pos.getX());
-        float deviceHeight = (float)(brc_pos.getY() - tlc_pos.getY());
+        flobt dfvidfWidti = (flobt) (brd_pos.gftX() - tld_pos.gftX());
+        flobt dfvidfHfigit = (flobt)(brd_pos.gftY() - tld_pos.gftY());
 
-        WPrinterJob wPrinterJob = (WPrinterJob) getPrinterJob();
-        wPrinterJob.fillRect((float)tlc_pos.getX(), (float)tlc_pos.getY(),
-                             deviceWidth, deviceHeight, color);
+        WPrintfrJob wPrintfrJob = (WPrintfrJob) gftPrintfrJob();
+        wPrintfrJob.fillRfdt((flobt)tld_pos.gftX(), (flobt)tld_pos.gftY(),
+                             dfvidfWidti, dfvidfHfigit, dolor);
     }
 
 
     /**
-     * Draw a line using a pen created using the specified color
-     * and current stroke properties.
+     * Drbw b linf using b pfn drfbtfd using tif spfdififd dolor
+     * bnd durrfnt strokf propfrtifs.
      */
-    @Override
-    protected void deviceDrawLine(int xBegin, int yBegin, int xEnd, int yEnd,
-                                  Color color) {
-        Stroke stroke = getStroke();
+    @Ovfrridf
+    protfdtfd void dfvidfDrbwLinf(int xBfgin, int yBfgin, int xEnd, int yEnd,
+                                  Color dolor) {
+        Strokf strokf = gftStrokf();
 
-        if (stroke instanceof BasicStroke) {
-            BasicStroke lineStroke = (BasicStroke) stroke;
+        if (strokf instbndfof BbsidStrokf) {
+            BbsidStrokf linfStrokf = (BbsidStrokf) strokf;
 
-            if (lineStroke.getDashArray() != null) {
-                draw(new Line2D.Float(xBegin, yBegin, xEnd, yEnd));
-                return;
+            if (linfStrokf.gftDbsiArrby() != null) {
+                drbw(nfw Linf2D.Flobt(xBfgin, yBfgin, xEnd, yEnd));
+                rfturn;
             }
 
-            float lineWidth = lineStroke.getLineWidth();
-            Point2D.Float penSize = new Point2D.Float(lineWidth, lineWidth);
+            flobt linfWidti = linfStrokf.gftLinfWidti();
+            Point2D.Flobt pfnSizf = nfw Point2D.Flobt(linfWidti, linfWidti);
 
-            AffineTransform deviceTransform = getTransform();
-            deviceTransform.deltaTransform(penSize, penSize);
+            AffinfTrbnsform dfvidfTrbnsform = gftTrbnsform();
+            dfvidfTrbnsform.dfltbTrbnsform(pfnSizf, pfnSizf);
 
-            float deviceLineWidth = Math.min(Math.abs(penSize.x),
-                                             Math.abs(penSize.y));
+            flobt dfvidfLinfWidti = Mbti.min(Mbti.bbs(pfnSizf.x),
+                                             Mbti.bbs(pfnSizf.y));
 
-            Point2D.Float begin_pos = new Point2D.Float(xBegin, yBegin);
-            deviceTransform.transform(begin_pos, begin_pos);
+            Point2D.Flobt bfgin_pos = nfw Point2D.Flobt(xBfgin, yBfgin);
+            dfvidfTrbnsform.trbnsform(bfgin_pos, bfgin_pos);
 
-            Point2D.Float end_pos = new Point2D.Float(xEnd, yEnd);
-            deviceTransform.transform(end_pos, end_pos);
+            Point2D.Flobt fnd_pos = nfw Point2D.Flobt(xEnd, yEnd);
+            dfvidfTrbnsform.trbnsform(fnd_pos, fnd_pos);
 
-            int endCap = lineStroke.getEndCap();
-            int lineJoin = lineStroke.getLineJoin();
+            int fndCbp = linfStrokf.gftEndCbp();
+            int linfJoin = linfStrokf.gftLinfJoin();
 
-            /* check if it's a one-pixel line */
-            if ((end_pos.getX() == begin_pos.getX())
-                && (end_pos.getY() == begin_pos.getY())) {
+            /* difdk if it's b onf-pixfl linf */
+            if ((fnd_pos.gftX() == bfgin_pos.gftX())
+                && (fnd_pos.gftY() == bfgin_pos.gftY())) {
 
-                /* endCap other than Round will not print!
-                 * due to Windows GDI limitation, force it to CAP_ROUND
+                /* fndCbp otifr tibn Round will not print!
+                 * duf to Windows GDI limitbtion, fordf it to CAP_ROUND
                  */
-                endCap = BasicStroke.CAP_ROUND;
+                fndCbp = BbsidStrokf.CAP_ROUND;
             }
 
 
-            WPrinterJob wPrinterJob = (WPrinterJob) getPrinterJob();
+            WPrintfrJob wPrintfrJob = (WPrintfrJob) gftPrintfrJob();
 
-            /* call native function that creates pen with style */
-            if (wPrinterJob.selectStylePen(endCap, lineJoin,
-                                           deviceLineWidth, color)) {
-                wPrinterJob.moveTo((float)begin_pos.getX(),
-                                   (float)begin_pos.getY());
-                wPrinterJob.lineTo((float)end_pos.getX(),
-                                   (float)end_pos.getY());
+            /* dbll nbtivf fundtion tibt drfbtfs pfn witi stylf */
+            if (wPrintfrJob.sflfdtStylfPfn(fndCbp, linfJoin,
+                                           dfvidfLinfWidti, dolor)) {
+                wPrintfrJob.movfTo((flobt)bfgin_pos.gftX(),
+                                   (flobt)bfgin_pos.gftY());
+                wPrintfrJob.linfTo((flobt)fnd_pos.gftX(),
+                                   (flobt)fnd_pos.gftY());
             }
-            /* selectStylePen is not supported, must be Win 9X */
-            else {
+            /* sflfdtStylfPfn is not supportfd, must bf Win 9X */
+            flsf {
 
-                /* let's see if we can use a a default pen
-                 *  if it's round end (Windows' default style)
-                 *  or it's vertical/horizontal
-                 *  or stroke is too thin.
+                /* lft's sff if wf dbn usf b b dffbult pfn
+                 *  if it's round fnd (Windows' dffbult stylf)
+                 *  or it's vfrtidbl/iorizontbl
+                 *  or strokf is too tiin.
                  */
-                double lowerRes = Math.min(wPrinterJob.getXRes(),
-                                           wPrinterJob.getYRes());
+                doublf lowfrRfs = Mbti.min(wPrintfrJob.gftXRfs(),
+                                           wPrintfrJob.gftYRfs());
 
-                if ((endCap == BasicStroke.CAP_ROUND) ||
-                 (((xBegin == xEnd) || (yBegin == yEnd)) &&
-                 (deviceLineWidth/lowerRes < MAX_THINLINE_INCHES))) {
+                if ((fndCbp == BbsidStrokf.CAP_ROUND) ||
+                 (((xBfgin == xEnd) || (yBfgin == yEnd)) &&
+                 (dfvidfLinfWidti/lowfrRfs < MAX_THINLINE_INCHES))) {
 
-                    wPrinterJob.selectPen(deviceLineWidth, color);
-                    wPrinterJob.moveTo((float)begin_pos.getX(),
-                                       (float)begin_pos.getY());
-                    wPrinterJob.lineTo((float)end_pos.getX(),
-                                       (float)end_pos.getY());
+                    wPrintfrJob.sflfdtPfn(dfvidfLinfWidti, dolor);
+                    wPrintfrJob.movfTo((flobt)bfgin_pos.gftX(),
+                                       (flobt)bfgin_pos.gftY());
+                    wPrintfrJob.linfTo((flobt)fnd_pos.gftX(),
+                                       (flobt)fnd_pos.gftY());
                 }
-                else {
-                    draw(new Line2D.Float(xBegin, yBegin, xEnd, yEnd));
+                flsf {
+                    drbw(nfw Linf2D.Flobt(xBfgin, yBfgin, xEnd, yEnd));
                 }
             }
         }
@@ -1672,72 +1672,72 @@ final class WPathGraphics extends PathGraphics {
 
 
     /**
-     * Given a Java2D <code>PathIterator</code> instance,
-     * this method translates that into a Window's path
-     * in the printer device context.
+     * Givfn b Jbvb2D <dodf>PbtiItfrbtor</dodf> instbndf,
+     * tiis mftiod trbnslbtfs tibt into b Window's pbti
+     * in tif printfr dfvidf dontfxt.
      */
-    private void convertToWPath(PathIterator pathIter) {
+    privbtf void donvfrtToWPbti(PbtiItfrbtor pbtiItfr) {
 
-        float[] segment = new float[6];
-        int segmentType;
+        flobt[] sfgmfnt = nfw flobt[6];
+        int sfgmfntTypf;
 
-        WPrinterJob wPrinterJob = (WPrinterJob) getPrinterJob();
+        WPrintfrJob wPrintfrJob = (WPrintfrJob) gftPrintfrJob();
 
-        /* Map the PathIterator's fill rule into the Window's
-         * polygon fill rule.
+        /* Mbp tif PbtiItfrbtor's fill rulf into tif Window's
+         * polygon fill rulf.
          */
-        int polyFillRule;
-        if (pathIter.getWindingRule() == PathIterator.WIND_EVEN_ODD) {
-            polyFillRule = WPrinterJob.POLYFILL_ALTERNATE;
-        } else {
-            polyFillRule = WPrinterJob.POLYFILL_WINDING;
+        int polyFillRulf;
+        if (pbtiItfr.gftWindingRulf() == PbtiItfrbtor.WIND_EVEN_ODD) {
+            polyFillRulf = WPrintfrJob.POLYFILL_ALTERNATE;
+        } flsf {
+            polyFillRulf = WPrintfrJob.POLYFILL_WINDING;
         }
-        wPrinterJob.setPolyFillMode(polyFillRule);
+        wPrintfrJob.sftPolyFillModf(polyFillRulf);
 
-        wPrinterJob.beginPath();
+        wPrintfrJob.bfginPbti();
 
-        while (pathIter.isDone() == false) {
-            segmentType = pathIter.currentSegment(segment);
+        wiilf (pbtiItfr.isDonf() == fblsf) {
+            sfgmfntTypf = pbtiItfr.durrfntSfgmfnt(sfgmfnt);
 
-            switch (segmentType) {
-             case PathIterator.SEG_MOVETO:
-                wPrinterJob.moveTo(segment[0], segment[1]);
-                break;
+            switdi (sfgmfntTypf) {
+             dbsf PbtiItfrbtor.SEG_MOVETO:
+                wPrintfrJob.movfTo(sfgmfnt[0], sfgmfnt[1]);
+                brfbk;
 
-             case PathIterator.SEG_LINETO:
-                wPrinterJob.lineTo(segment[0], segment[1]);
-                break;
+             dbsf PbtiItfrbtor.SEG_LINETO:
+                wPrintfrJob.linfTo(sfgmfnt[0], sfgmfnt[1]);
+                brfbk;
 
-            /* Convert the quad path to a bezier.
+            /* Convfrt tif qubd pbti to b bfzifr.
              */
-             case PathIterator.SEG_QUADTO:
-                int lastX = wPrinterJob.getPenX();
-                int lastY = wPrinterJob.getPenY();
-                float c1x = lastX + (segment[0] - lastX) * 2 / 3;
-                float c1y = lastY + (segment[1] - lastY) * 2 / 3;
-                float c2x = segment[2] - (segment[2] - segment[0]) * 2/ 3;
-                float c2y = segment[3] - (segment[3] - segment[1]) * 2/ 3;
-                wPrinterJob.polyBezierTo(c1x, c1y,
-                                         c2x, c2y,
-                                         segment[2], segment[3]);
-                break;
+             dbsf PbtiItfrbtor.SEG_QUADTO:
+                int lbstX = wPrintfrJob.gftPfnX();
+                int lbstY = wPrintfrJob.gftPfnY();
+                flobt d1x = lbstX + (sfgmfnt[0] - lbstX) * 2 / 3;
+                flobt d1y = lbstY + (sfgmfnt[1] - lbstY) * 2 / 3;
+                flobt d2x = sfgmfnt[2] - (sfgmfnt[2] - sfgmfnt[0]) * 2/ 3;
+                flobt d2y = sfgmfnt[3] - (sfgmfnt[3] - sfgmfnt[1]) * 2/ 3;
+                wPrintfrJob.polyBfzifrTo(d1x, d1y,
+                                         d2x, d2y,
+                                         sfgmfnt[2], sfgmfnt[3]);
+                brfbk;
 
-             case PathIterator.SEG_CUBICTO:
-                wPrinterJob.polyBezierTo(segment[0], segment[1],
-                                         segment[2], segment[3],
-                                         segment[4], segment[5]);
-                break;
+             dbsf PbtiItfrbtor.SEG_CUBICTO:
+                wPrintfrJob.polyBfzifrTo(sfgmfnt[0], sfgmfnt[1],
+                                         sfgmfnt[2], sfgmfnt[3],
+                                         sfgmfnt[4], sfgmfnt[5]);
+                brfbk;
 
-             case PathIterator.SEG_CLOSE:
-                wPrinterJob.closeFigure();
-                break;
+             dbsf PbtiItfrbtor.SEG_CLOSE:
+                wPrintfrJob.dlosfFigurf();
+                brfbk;
             }
 
 
-            pathIter.next();
+            pbtiItfr.nfxt();
         }
 
-        wPrinterJob.endPath();
+        wPrintfrJob.fndPbti();
 
     }
 

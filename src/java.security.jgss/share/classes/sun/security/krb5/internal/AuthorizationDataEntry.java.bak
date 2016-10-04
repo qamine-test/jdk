@@ -1,124 +1,124 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.util.*;
-import java.io.IOException;
-import sun.security.krb5.Asn1Exception;
-import sun.security.krb5.internal.ccache.CCacheOutputStream;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.krb5.intfrnbl.ddbdif.CCbdifOutputStrfbm;
 
-public class AuthorizationDataEntry implements Cloneable {
+publid dlbss AutiorizbtionDbtbEntry implfmfnts Clonfbblf {
 
-    public int adType;
-    public byte[] adData;
+    publid int bdTypf;
+    publid bytf[] bdDbtb;
 
-    private AuthorizationDataEntry() {
+    privbtf AutiorizbtionDbtbEntry() {
     }
 
-    public AuthorizationDataEntry(
-            int new_adType,
-            byte[] new_adData) {
-        adType = new_adType;
-        adData = new_adData;
+    publid AutiorizbtionDbtbEntry(
+            int nfw_bdTypf,
+            bytf[] nfw_bdDbtb) {
+        bdTypf = nfw_bdTypf;
+        bdDbtb = nfw_bdDbtb;
     }
 
-    public Object clone() {
-        AuthorizationDataEntry new_authorizationDataEntry =
-                new AuthorizationDataEntry();
-        new_authorizationDataEntry.adType = adType;
-        if (adData != null) {
-            new_authorizationDataEntry.adData = new byte[adData.length];
-            System.arraycopy(adData, 0,
-                    new_authorizationDataEntry.adData, 0, adData.length);
+    publid Objfdt dlonf() {
+        AutiorizbtionDbtbEntry nfw_butiorizbtionDbtbEntry =
+                nfw AutiorizbtionDbtbEntry();
+        nfw_butiorizbtionDbtbEntry.bdTypf = bdTypf;
+        if (bdDbtb != null) {
+            nfw_butiorizbtionDbtbEntry.bdDbtb = nfw bytf[bdDbtb.lfngti];
+            Systfm.brrbydopy(bdDbtb, 0,
+                    nfw_butiorizbtionDbtbEntry.bdDbtb, 0, bdDbtb.lfngti);
         }
-        return new_authorizationDataEntry;
+        rfturn nfw_butiorizbtionDbtbEntry;
     }
 
     /**
-     * Constructs an instance of AuthorizationDataEntry.
-     * @param encoding a single DER-encoded value.
+     * Construdts bn instbndf of AutiorizbtionDbtbEntry.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
      */
-    public AuthorizationDataEntry(DerValue encoding) throws Asn1Exception, IOException {
-        DerValue der;
-        if (encoding.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+    publid AutiorizbtionDbtbEntry(DfrVbluf fndoding) tirows Asn1Exdfption, IOExdfption {
+        DfrVbluf dfr;
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte) 0x1F) == (byte) 0x00) {
-            adType = der.getData().getBigInteger().intValue();
-        } else {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf) 0x1F) == (bytf) 0x00) {
+            bdTypf = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
+        } flsf {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte) 0x1F) == (byte) 0x01) {
-            adData = der.getData().getOctetString();
-        } else {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf) 0x1F) == (bytf) 0x01) {
+            bdDbtb = dfr.gftDbtb().gftOdtftString();
+        } flsf {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        if (encoding.getData().available() > 0) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        if (fndoding.gftDbtb().bvbilbblf() > 0) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
     }
 
     /**
-     * Encodes an AuthorizationDataEntry object.
-     * @return byte array of encoded AuthorizationDataEntry object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Endodfs bn AutiorizbtionDbtbEntry objfdt.
+     * @rfturn bytf brrby of fndodfd AutiorizbtionDbtbEntry objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(adType);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x00), temp);
-        temp = new DerOutputStream();
-        temp.putOctetString(adData);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x01), temp);
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(bdTypf);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x00), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putOdtftString(bdDbtb);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x01), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
     }
 
     /**
-     * Writes the entry's data fields in FCC format to an output stream.
+     * Writfs tif fntry's dbtb fiflds in FCC formbt to bn output strfbm.
      *
-     * @param cos a <code>CCacheOutputStream</code>.
-     * @exception IOException if an I/O exception occurs.
+     * @pbrbm dos b <dodf>CCbdifOutputStrfbm</dodf>.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs.
      */
-    public void writeEntry(CCacheOutputStream cos) throws IOException {
-        cos.write16(adType);
-        cos.write32(adData.length);
-        cos.write(adData, 0, adData.length);
+    publid void writfEntry(CCbdifOutputStrfbm dos) tirows IOExdfption {
+        dos.writf16(bdTypf);
+        dos.writf32(bdDbtb.lfngti);
+        dos.writf(bdDbtb, 0, bdDbtb.lfngti);
     }
 
-    public String toString() {
-        return ("adType=" + adType + " adData.length=" + adData.length);
+    publid String toString() {
+        rfturn ("bdTypf=" + bdTypf + " bdDbtb.lfngti=" + bdDbtb.lfngti);
     }
 }

@@ -1,0 +1,480 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * This dlbss providfs b skflftbl implfmfntbtion of thf <tt>Collfdtion</tt>
+ * intfrfbdf, to minimizf thf fffort rfquirfd to implfmfnt this intfrfbdf. <p>
+ *
+ * To implfmfnt bn unmodifibblf dollfdtion, thf progrbmmfr nffds only to
+ * fxtfnd this dlbss bnd providf implfmfntbtions for thf <tt>itfrbtor</tt> bnd
+ * <tt>sizf</tt> mfthods.  (Thf itfrbtor rfturnfd by thf <tt>itfrbtor</tt>
+ * mfthod must implfmfnt <tt>hbsNfxt</tt> bnd <tt>nfxt</tt>.)<p>
+ *
+ * To implfmfnt b modifibblf dollfdtion, thf progrbmmfr must bdditionblly
+ * ovfrridf this dlbss's <tt>bdd</tt> mfthod (whidh othfrwisf throws bn
+ * <tt>UnsupportfdOpfrbtionExdfption</tt>), bnd thf itfrbtor rfturnfd by thf
+ * <tt>itfrbtor</tt> mfthod must bdditionblly implfmfnt its <tt>rfmovf</tt>
+ * mfthod.<p>
+ *
+ * Thf progrbmmfr should gfnfrblly providf b void (no brgumfnt) bnd
+ * <tt>Collfdtion</tt> donstrudtor, bs pfr thf rfdommfndbtion in thf
+ * <tt>Collfdtion</tt> intfrfbdf spfdifidbtion.<p>
+ *
+ * Thf dodumfntbtion for fbdh non-bbstrbdt mfthod in this dlbss dfsdribfs its
+ * implfmfntbtion in dftbil.  Ebdh of thfsf mfthods mby bf ovfrriddfn if
+ * thf dollfdtion bfing implfmfntfd bdmits b morf fffidifnt implfmfntbtion.<p>
+ *
+ * This dlbss is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @buthor  Josh Blodh
+ * @buthor  Nfbl Gbftfr
+ * @sff Collfdtion
+ * @sindf 1.2
+ */
+
+publid bbstrbdt dlbss AbstrbdtCollfdtion<E> implfmfnts Collfdtion<E> {
+    /**
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    protfdtfd AbstrbdtCollfdtion() {
+    }
+
+    // Qufry Opfrbtions
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts dontbinfd in this dollfdtion.
+     *
+     * @rfturn bn itfrbtor ovfr thf flfmfnts dontbinfd in this dollfdtion
+     */
+    publid bbstrbdt Itfrbtor<E> itfrbtor();
+
+    publid bbstrbdt int sizf();
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion rfturns <tt>sizf() == 0</tt>.
+     */
+    publid boolfbn isEmpty() {
+        rfturn sizf() == 0;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion itfrbtfs ovfr thf flfmfnts in thf dollfdtion,
+     * dhfdking fbdh flfmfnt in turn for fqublity with thf spfdififd flfmfnt.
+     *
+     * @throws ClbssCbstExdfption   {@inhfritDod}
+     * @throws NullPointfrExdfption {@inhfritDod}
+     */
+    publid boolfbn dontbins(Objfdt o) {
+        Itfrbtor<E> it = itfrbtor();
+        if (o==null) {
+            whilf (it.hbsNfxt())
+                if (it.nfxt()==null)
+                    rfturn truf;
+        } flsf {
+            whilf (it.hbsNfxt())
+                if (o.fqubls(it.nfxt()))
+                    rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion rfturns bn brrby dontbining bll thf flfmfnts
+     * rfturnfd by this dollfdtion's itfrbtor, in thf sbmf ordfr, storfd in
+     * donsfdutivf flfmfnts of thf brrby, stbrting with indfx {@dodf 0}.
+     * Thf lfngth of thf rfturnfd brrby is fqubl to thf numbfr of flfmfnts
+     * rfturnfd by thf itfrbtor, fvfn if thf sizf of this dollfdtion dhbngfs
+     * during itfrbtion, bs might hbppfn if thf dollfdtion pfrmits
+     * dondurrfnt modifidbtion during itfrbtion.  Thf {@dodf sizf} mfthod is
+     * dbllfd only bs bn optimizbtion hint; thf dorrfdt rfsult is rfturnfd
+     * fvfn if thf itfrbtor rfturns b difffrfnt numbfr of flfmfnts.
+     *
+     * <p>This mfthod is fquivblfnt to:
+     *
+     *  <prf> {@dodf
+     * List<E> list = nfw ArrbyList<E>(sizf());
+     * for (E f : this)
+     *     list.bdd(f);
+     * rfturn list.toArrby();
+     * }</prf>
+     */
+    publid Objfdt[] toArrby() {
+        // Estimbtf sizf of brrby; bf prfpbrfd to sff morf or ffwfr flfmfnts
+        Objfdt[] r = nfw Objfdt[sizf()];
+        Itfrbtor<E> it = itfrbtor();
+        for (int i = 0; i < r.lfngth; i++) {
+            if (! it.hbsNfxt()) // ffwfr flfmfnts thbn fxpfdtfd
+                rfturn Arrbys.dopyOf(r, i);
+            r[i] = it.nfxt();
+        }
+        rfturn it.hbsNfxt() ? finishToArrby(r, it) : r;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion rfturns bn brrby dontbining bll thf flfmfnts
+     * rfturnfd by this dollfdtion's itfrbtor in thf sbmf ordfr, storfd in
+     * donsfdutivf flfmfnts of thf brrby, stbrting with indfx {@dodf 0}.
+     * If thf numbfr of flfmfnts rfturnfd by thf itfrbtor is too lbrgf to
+     * fit into thf spfdififd brrby, thfn thf flfmfnts brf rfturnfd in b
+     * nfwly bllodbtfd brrby with lfngth fqubl to thf numbfr of flfmfnts
+     * rfturnfd by thf itfrbtor, fvfn if thf sizf of this dollfdtion
+     * dhbngfs during itfrbtion, bs might hbppfn if thf dollfdtion pfrmits
+     * dondurrfnt modifidbtion during itfrbtion.  Thf {@dodf sizf} mfthod is
+     * dbllfd only bs bn optimizbtion hint; thf dorrfdt rfsult is rfturnfd
+     * fvfn if thf itfrbtor rfturns b difffrfnt numbfr of flfmfnts.
+     *
+     * <p>This mfthod is fquivblfnt to:
+     *
+     *  <prf> {@dodf
+     * List<E> list = nfw ArrbyList<E>(sizf());
+     * for (E f : this)
+     *     list.bdd(f);
+     * rfturn list.toArrby(b);
+     * }</prf>
+     *
+     * @throws ArrbyStorfExdfption  {@inhfritDod}
+     * @throws NullPointfrExdfption {@inhfritDod}
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid <T> T[] toArrby(T[] b) {
+        // Estimbtf sizf of brrby; bf prfpbrfd to sff morf or ffwfr flfmfnts
+        int sizf = sizf();
+        T[] r = b.lfngth >= sizf ? b :
+                  (T[])jbvb.lbng.rfflfdt.Arrby
+                  .nfwInstbndf(b.gftClbss().gftComponfntTypf(), sizf);
+        Itfrbtor<E> it = itfrbtor();
+
+        for (int i = 0; i < r.lfngth; i++) {
+            if (! it.hbsNfxt()) { // ffwfr flfmfnts thbn fxpfdtfd
+                if (b == r) {
+                    r[i] = null; // null-tfrminbtf
+                } flsf if (b.lfngth < i) {
+                    rfturn Arrbys.dopyOf(r, i);
+                } flsf {
+                    Systfm.brrbydopy(r, 0, b, 0, i);
+                    if (b.lfngth > i) {
+                        b[i] = null;
+                    }
+                }
+                rfturn b;
+            }
+            r[i] = (T)it.nfxt();
+        }
+        // morf flfmfnts thbn fxpfdtfd
+        rfturn it.hbsNfxt() ? finishToArrby(r, it) : r;
+    }
+
+    /**
+     * Thf mbximum sizf of brrby to bllodbtf.
+     * Somf VMs rfsfrvf somf hfbdfr words in bn brrby.
+     * Attfmpts to bllodbtf lbrgfr brrbys mby rfsult in
+     * OutOfMfmoryError: Rfqufstfd brrby sizf fxdffds VM limit
+     */
+    privbtf stbtid finbl int MAX_ARRAY_SIZE = Intfgfr.MAX_VALUE - 8;
+
+    /**
+     * Rfbllodbtfs thf brrby bfing usfd within toArrby whfn thf itfrbtor
+     * rfturnfd morf flfmfnts thbn fxpfdtfd, bnd finishfs filling it from
+     * thf itfrbtor.
+     *
+     * @pbrbm r thf brrby, rfplftf with prfviously storfd flfmfnts
+     * @pbrbm it thf in-progrfss itfrbtor ovfr this dollfdtion
+     * @rfturn brrby dontbining thf flfmfnts in thf givfn brrby, plus bny
+     *         furthfr flfmfnts rfturnfd by thf itfrbtor, trimmfd to sizf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid <T> T[] finishToArrby(T[] r, Itfrbtor<?> it) {
+        int i = r.lfngth;
+        whilf (it.hbsNfxt()) {
+            int dbp = r.lfngth;
+            if (i == dbp) {
+                int nfwCbp = dbp + (dbp >> 1) + 1;
+                // ovfrflow-donsdious dodf
+                if (nfwCbp - MAX_ARRAY_SIZE > 0)
+                    nfwCbp = hugfCbpbdity(dbp + 1);
+                r = Arrbys.dopyOf(r, nfwCbp);
+            }
+            r[i++] = (T)it.nfxt();
+        }
+        // trim if ovfrbllodbtfd
+        rfturn (i == r.lfngth) ? r : Arrbys.dopyOf(r, i);
+    }
+
+    privbtf stbtid int hugfCbpbdity(int minCbpbdity) {
+        if (minCbpbdity < 0) // ovfrflow
+            throw nfw OutOfMfmoryError
+                ("Rfquirfd brrby sizf too lbrgf");
+        rfturn (minCbpbdity > MAX_ARRAY_SIZE) ?
+            Intfgfr.MAX_VALUE :
+            MAX_ARRAY_SIZE;
+    }
+
+    // Modifidbtion Opfrbtions
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion blwbys throws bn
+     * <tt>UnsupportfdOpfrbtionExdfption</tt>.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption      {@inhfritDod}
+     * @throws IllfgblStbtfExdfption         {@inhfritDod}
+     */
+    publid boolfbn bdd(E f) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion itfrbtfs ovfr thf dollfdtion looking for thf
+     * spfdififd flfmfnt.  If it finds thf flfmfnt, it rfmovfs thf flfmfnt
+     * from thf dollfdtion using thf itfrbtor's rfmovf mfthod.
+     *
+     * <p>Notf thbt this implfmfntbtion throws bn
+     * <tt>UnsupportfdOpfrbtionExdfption</tt> if thf itfrbtor rfturnfd by this
+     * dollfdtion's itfrbtor mfthod dofs not implfmfnt thf <tt>rfmovf</tt>
+     * mfthod bnd this dollfdtion dontbins thf spfdififd objfdt.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     */
+    publid boolfbn rfmovf(Objfdt o) {
+        Itfrbtor<E> it = itfrbtor();
+        if (o==null) {
+            whilf (it.hbsNfxt()) {
+                if (it.nfxt()==null) {
+                    it.rfmovf();
+                    rfturn truf;
+                }
+            }
+        } flsf {
+            whilf (it.hbsNfxt()) {
+                if (o.fqubls(it.nfxt())) {
+                    it.rfmovf();
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+
+    // Bulk Opfrbtions
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion itfrbtfs ovfr thf spfdififd dollfdtion,
+     * dhfdking fbdh flfmfnt rfturnfd by thf itfrbtor in turn to sff
+     * if it's dontbinfd in this dollfdtion.  If bll flfmfnts brf so
+     * dontbinfd <tt>truf</tt> is rfturnfd, othfrwisf <tt>fblsf</tt>.
+     *
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     * @sff #dontbins(Objfdt)
+     */
+    publid boolfbn dontbinsAll(Collfdtion<?> d) {
+        for (Objfdt f : d)
+            if (!dontbins(f))
+                rfturn fblsf;
+        rfturn truf;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion itfrbtfs ovfr thf spfdififd dollfdtion, bnd bdds
+     * fbdh objfdt rfturnfd by thf itfrbtor to this dollfdtion, in turn.
+     *
+     * <p>Notf thbt this implfmfntbtion will throw bn
+     * <tt>UnsupportfdOpfrbtionExdfption</tt> unlfss <tt>bdd</tt> is
+     * ovfrriddfn (bssuming thf spfdififd dollfdtion is non-fmpty).
+     *
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption      {@inhfritDod}
+     * @throws IllfgblStbtfExdfption         {@inhfritDod}
+     *
+     * @sff #bdd(Objfdt)
+     */
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        boolfbn modififd = fblsf;
+        for (E f : d)
+            if (bdd(f))
+                modififd = truf;
+        rfturn modififd;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion itfrbtfs ovfr this dollfdtion, dhfdking fbdh
+     * flfmfnt rfturnfd by thf itfrbtor in turn to sff if it's dontbinfd
+     * in thf spfdififd dollfdtion.  If it's so dontbinfd, it's rfmovfd from
+     * this dollfdtion with thf itfrbtor's <tt>rfmovf</tt> mfthod.
+     *
+     * <p>Notf thbt this implfmfntbtion will throw bn
+     * <tt>UnsupportfdOpfrbtionExdfption</tt> if thf itfrbtor rfturnfd by thf
+     * <tt>itfrbtor</tt> mfthod dofs not implfmfnt thf <tt>rfmovf</tt> mfthod
+     * bnd this dollfdtion dontbins onf or morf flfmfnts in dommon with thf
+     * spfdififd dollfdtion.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     *
+     * @sff #rfmovf(Objfdt)
+     * @sff #dontbins(Objfdt)
+     */
+    publid boolfbn rfmovfAll(Collfdtion<?> d) {
+        Objfdts.rfquirfNonNull(d);
+        boolfbn modififd = fblsf;
+        Itfrbtor<?> it = itfrbtor();
+        whilf (it.hbsNfxt()) {
+            if (d.dontbins(it.nfxt())) {
+                it.rfmovf();
+                modififd = truf;
+            }
+        }
+        rfturn modififd;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion itfrbtfs ovfr this dollfdtion, dhfdking fbdh
+     * flfmfnt rfturnfd by thf itfrbtor in turn to sff if it's dontbinfd
+     * in thf spfdififd dollfdtion.  If it's not so dontbinfd, it's rfmovfd
+     * from this dollfdtion with thf itfrbtor's <tt>rfmovf</tt> mfthod.
+     *
+     * <p>Notf thbt this implfmfntbtion will throw bn
+     * <tt>UnsupportfdOpfrbtionExdfption</tt> if thf itfrbtor rfturnfd by thf
+     * <tt>itfrbtor</tt> mfthod dofs not implfmfnt thf <tt>rfmovf</tt> mfthod
+     * bnd this dollfdtion dontbins onf or morf flfmfnts not prfsfnt in thf
+     * spfdififd dollfdtion.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     *
+     * @sff #rfmovf(Objfdt)
+     * @sff #dontbins(Objfdt)
+     */
+    publid boolfbn rftbinAll(Collfdtion<?> d) {
+        Objfdts.rfquirfNonNull(d);
+        boolfbn modififd = fblsf;
+        Itfrbtor<E> it = itfrbtor();
+        whilf (it.hbsNfxt()) {
+            if (!d.dontbins(it.nfxt())) {
+                it.rfmovf();
+                modififd = truf;
+            }
+        }
+        rfturn modififd;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion itfrbtfs ovfr this dollfdtion, rfmoving fbdh
+     * flfmfnt using thf <tt>Itfrbtor.rfmovf</tt> opfrbtion.  Most
+     * implfmfntbtions will probbbly dhoosf to ovfrridf this mfthod for
+     * fffidifndy.
+     *
+     * <p>Notf thbt this implfmfntbtion will throw bn
+     * <tt>UnsupportfdOpfrbtionExdfption</tt> if thf itfrbtor rfturnfd by this
+     * dollfdtion's <tt>itfrbtor</tt> mfthod dofs not implfmfnt thf
+     * <tt>rfmovf</tt> mfthod bnd this dollfdtion is non-fmpty.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     */
+    publid void dlfbr() {
+        Itfrbtor<E> it = itfrbtor();
+        whilf (it.hbsNfxt()) {
+            it.nfxt();
+            it.rfmovf();
+        }
+    }
+
+
+    //  String donvfrsion
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this dollfdtion.  Thf string
+     * rfprfsfntbtion donsists of b list of thf dollfdtion's flfmfnts in thf
+     * ordfr thfy brf rfturnfd by its itfrbtor, fndlosfd in squbrf brbdkfts
+     * (<tt>"[]"</tt>).  Adjbdfnt flfmfnts brf sfpbrbtfd by thf dhbrbdtfrs
+     * <tt>", "</tt> (dommb bnd spbdf).  Elfmfnts brf donvfrtfd to strings bs
+     * by {@link String#vblufOf(Objfdt)}.
+     *
+     * @rfturn b string rfprfsfntbtion of this dollfdtion
+     */
+    publid String toString() {
+        Itfrbtor<E> it = itfrbtor();
+        if (! it.hbsNfxt())
+            rfturn "[]";
+
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd('[');
+        for (;;) {
+            E f = it.nfxt();
+            sb.bppfnd(f == this ? "(this Collfdtion)" : f);
+            if (! it.hbsNfxt())
+                rfturn sb.bppfnd(']').toString();
+            sb.bppfnd(',').bppfnd(' ');
+        }
+    }
+
+}

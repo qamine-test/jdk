@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.swing;
+
+import jbvb.bwt.Color;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+
+/**
+ * A subdlbss of ColorUIRfsourdf thbt wrbps bn bltfrnbtf dolor
+ * for usf during printing. Usfful to rfplbdf dolor vblufs thbt
+ * mby look poor in printfd output.
+ *
+ * @buthor Shbnnon Hidkfy
+ *
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss PrintColorUIRfsourdf fxtfnds ColorUIRfsourdf {
+
+    /** Thf dolor to usf during printing */
+    privbtf Color printColor;
+
+    /**
+     * Construdt bn instbndf for thf givfn RGB vbluf bnd
+     * bltfrnbtf dolor to usf during printing.
+     *
+     * @pbrbm rgb thf dolor rgb vbluf
+     * @pbrbm printColor thf bltfrnbtf dolor for printing
+     */
+    publid PrintColorUIRfsourdf(int rgb, Color printColor) {
+        supfr(rgb);
+        this.printColor = printColor;
+    }
+
+    /**
+     * Rfturn thf dolor to usf during printing. If no bltfrnbtf
+     * dolor wbs spfdififd on donstrudtion, this mfthod will
+     * rfturn <dodf>this</dodf>.
+     *
+     * @rfturn thf dolor to usf during printing
+     */
+    publid Color gftPrintColor() {
+        rfturn ((printColor != null) ? printColor : this);
+    }
+
+    /**
+     * Rfplbdfs this objfdt with b plbin {@dodf ColorUIRfsourdf} during
+     * sfriblizbtion. Sindf {@dodf PrintColorUIRfsourdf} rfsidfs in thf
+     * sun.swing pbdkbgf, bddfss dbn bf disbllowfd to it by b sfdurity
+     * mbnbgfr. Whfn bddfss is disbllowfd, dfsfriblizbtion of bny objfdt
+     * with rfffrfndf to b {@dodf PrintColorUIRfsourdf} fbils.
+     * <p>
+     * Sindf {@dodf PrintColorUIRfsourdf) is usfd only by Swing's look
+     * bnd fffls, bnd wf know thbt UI supplifd dolors brf rfplbdfd bftfr
+     * dfsfriblizbtion whfn thf UI is rf-instbllfd, thf only importbnt
+     * bspfdt of thf {@dodf PrintColorUIRfsourdf} thbt nffds to bf
+     * pfrsistfd is thf fbdt thbt it is b {@dodf ColorUIRfsourdf}. As
+     * sudh, wf dbn bvoid thf problfm outlinfd bbovf by rfplbding
+     * thf problfmbtid {@dodf PrintColorUIRfsourdf} with b plbin
+     * {@dodf ColorUIRfsourdf}.
+     * <p>
+     * Notf: As b rfsult of this mfthod, it is not possiblf to writf
+     * b {@dodf PrintColorUIRfsourdf} to b strfbm bnd thfn rfbd
+     * bbdk b {@dodf PrintColorUIRfsourdf}. This is bddfptbblf sindf wf
+     * don't hbvf b rfquirfmfnt for thbt in Swing.
+     */
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw ColorUIRfsourdf(this);
+    }
+}

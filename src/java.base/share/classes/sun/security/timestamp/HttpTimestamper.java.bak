@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.timestamp;
+pbdkbgf sun.sfdurity.timfstbmp;
 
-import java.io.BufferedInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.util.*;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URL;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.util.*;
 
-import sun.misc.IOUtils;
-import sun.security.util.Debug;
+import sun.misd.IOUtils;
+import sun.sfdurity.util.Dfbug;
 
 /**
- * A timestamper that communicates with a Timestamping Authority (TSA)
- * over HTTP.
- * It supports the Time-Stamp Protocol defined in:
- * <a href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</a>.
+ * A timfstbmpfr tibt dommunidbtfs witi b Timfstbmping Autiority (TSA)
+ * ovfr HTTP.
+ * It supports tif Timf-Stbmp Protodol dffinfd in:
+ * <b irff="ittp://www.iftf.org/rfd/rfd3161.txt">RFC 3161</b>.
  *
- * @since 1.5
- * @author Vincent Ryan
+ * @sindf 1.5
+ * @butior Vindfnt Rybn
  */
 
-public class HttpTimestamper implements Timestamper {
+publid dlbss HttpTimfstbmpfr implfmfnts Timfstbmpfr {
 
-    private static final int CONNECT_TIMEOUT = 15000; // 15 seconds
+    privbtf stbtid finbl int CONNECT_TIMEOUT = 15000; // 15 sfdonds
 
-    // The MIME type for a timestamp query
-    private static final String TS_QUERY_MIME_TYPE =
-        "application/timestamp-query";
+    // Tif MIME typf for b timfstbmp qufry
+    privbtf stbtid finbl String TS_QUERY_MIME_TYPE =
+        "bpplidbtion/timfstbmp-qufry";
 
-    // The MIME type for a timestamp reply
-    private static final String TS_REPLY_MIME_TYPE =
-        "application/timestamp-reply";
+    // Tif MIME typf for b timfstbmp rfply
+    privbtf stbtid finbl String TS_REPLY_MIME_TYPE =
+        "bpplidbtion/timfstbmp-rfply";
 
-    private static final Debug debug = Debug.getInstance("ts");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ts");
 
     /*
-     * HTTP URI identifying the location of the TSA
+     * HTTP URI idfntifying tif lodbtion of tif TSA
      */
-    private URI tsaURI = null;
+    privbtf URI tsbURI = null;
 
     /**
-     * Creates a timestamper that connects to the specified TSA.
+     * Crfbtfs b timfstbmpfr tibt donnfdts to tif spfdififd TSA.
      *
-     * @param tsa The location of the TSA. It must be an HTTP or HTTPS URI.
-     * @throws IllegalArgumentException if tsaURI is not an HTTP or HTTPS URI
+     * @pbrbm tsb Tif lodbtion of tif TSA. It must bf bn HTTP or HTTPS URI.
+     * @tirows IllfgblArgumfntExdfption if tsbURI is not bn HTTP or HTTPS URI
      */
-    public HttpTimestamper(URI tsaURI) {
-        if (!tsaURI.getScheme().equalsIgnoreCase("http") &&
-                !tsaURI.getScheme().equalsIgnoreCase("https")) {
-            throw new IllegalArgumentException(
-                    "TSA must be an HTTP or HTTPS URI");
+    publid HttpTimfstbmpfr(URI tsbURI) {
+        if (!tsbURI.gftSdifmf().fqublsIgnorfCbsf("ittp") &&
+                !tsbURI.gftSdifmf().fqublsIgnorfCbsf("ittps")) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "TSA must bf bn HTTP or HTTPS URI");
         }
-        this.tsaURI = tsaURI;
+        tiis.tsbURI = tsbURI;
     }
 
     /**
-     * Connects to the TSA and requests a timestamp.
+     * Connfdts to tif TSA bnd rfqufsts b timfstbmp.
      *
-     * @param tsQuery The timestamp query.
-     * @return The result of the timestamp query.
-     * @throws IOException The exception is thrown if a problem occurs while
-     *         communicating with the TSA.
+     * @pbrbm tsQufry Tif timfstbmp qufry.
+     * @rfturn Tif rfsult of tif timfstbmp qufry.
+     * @tirows IOExdfption Tif fxdfption is tirown if b problfm oddurs wiilf
+     *         dommunidbting witi tif TSA.
      */
-    public TSResponse generateTimestamp(TSRequest tsQuery) throws IOException {
+    publid TSRfsponsf gfnfrbtfTimfstbmp(TSRfqufst tsQufry) tirows IOExdfption {
 
-        HttpURLConnection connection =
-            (HttpURLConnection) tsaURI.toURL().openConnection();
-        connection.setDoOutput(true);
-        connection.setUseCaches(false); // ignore cache
-        connection.setRequestProperty("Content-Type", TS_QUERY_MIME_TYPE);
-        connection.setRequestMethod("POST");
-        // Avoids the "hang" when a proxy is required but none has been set.
-        connection.setConnectTimeout(CONNECT_TIMEOUT);
+        HttpURLConnfdtion donnfdtion =
+            (HttpURLConnfdtion) tsbURI.toURL().opfnConnfdtion();
+        donnfdtion.sftDoOutput(truf);
+        donnfdtion.sftUsfCbdifs(fblsf); // ignorf dbdif
+        donnfdtion.sftRfqufstPropfrty("Contfnt-Typf", TS_QUERY_MIME_TYPE);
+        donnfdtion.sftRfqufstMftiod("POST");
+        // Avoids tif "ibng" wifn b proxy is rfquirfd but nonf ibs bffn sft.
+        donnfdtion.sftConnfdtTimfout(CONNECT_TIMEOUT);
 
-        if (debug != null) {
-            Set<Map.Entry<String, List<String>>> headers =
-                connection.getRequestProperties().entrySet();
-            debug.println(connection.getRequestMethod() + " " + tsaURI +
+        if (dfbug != null) {
+            Sft<Mbp.Entry<String, List<String>>> ifbdfrs =
+                donnfdtion.gftRfqufstPropfrtifs().fntrySft();
+            dfbug.println(donnfdtion.gftRfqufstMftiod() + " " + tsbURI +
                 " HTTP/1.1");
-            for (Map.Entry<String, List<String>> e : headers) {
-                debug.println("  " + e);
+            for (Mbp.Entry<String, List<String>> f : ifbdfrs) {
+                dfbug.println("  " + f);
             }
-            debug.println();
+            dfbug.println();
         }
-        connection.connect(); // No HTTP authentication is performed
+        donnfdtion.donnfdt(); // No HTTP butifntidbtion is pfrformfd
 
-        // Send the request
-        DataOutputStream output = null;
+        // Sfnd tif rfqufst
+        DbtbOutputStrfbm output = null;
         try {
-            output = new DataOutputStream(connection.getOutputStream());
-            byte[] request = tsQuery.encode();
-            output.write(request, 0, request.length);
-            output.flush();
-            if (debug != null) {
-                debug.println("sent timestamp query (length=" +
-                        request.length + ")");
+            output = nfw DbtbOutputStrfbm(donnfdtion.gftOutputStrfbm());
+            bytf[] rfqufst = tsQufry.fndodf();
+            output.writf(rfqufst, 0, rfqufst.lfngti);
+            output.flusi();
+            if (dfbug != null) {
+                dfbug.println("sfnt timfstbmp qufry (lfngti=" +
+                        rfqufst.lfngti + ")");
             }
-        } finally {
+        } finblly {
             if (output != null) {
-                output.close();
+                output.dlosf();
             }
         }
 
-        // Receive the reply
-        BufferedInputStream input = null;
-        byte[] replyBuffer = null;
+        // Rfdfivf tif rfply
+        BufffrfdInputStrfbm input = null;
+        bytf[] rfplyBufffr = null;
         try {
-            input = new BufferedInputStream(connection.getInputStream());
-            if (debug != null) {
-                String header = connection.getHeaderField(0);
-                debug.println(header);
+            input = nfw BufffrfdInputStrfbm(donnfdtion.gftInputStrfbm());
+            if (dfbug != null) {
+                String ifbdfr = donnfdtion.gftHfbdfrFifld(0);
+                dfbug.println(ifbdfr);
                 int i = 1;
-                while ((header = connection.getHeaderField(i)) != null) {
-                    String key = connection.getHeaderFieldKey(i);
-                    debug.println("  " + ((key==null) ? "" : key + ": ") +
-                        header);
+                wiilf ((ifbdfr = donnfdtion.gftHfbdfrFifld(i)) != null) {
+                    String kfy = donnfdtion.gftHfbdfrFifldKfy(i);
+                    dfbug.println("  " + ((kfy==null) ? "" : kfy + ": ") +
+                        ifbdfr);
                     i++;
                 }
-                debug.println();
+                dfbug.println();
             }
-            verifyMimeType(connection.getContentType());
+            vfrifyMimfTypf(donnfdtion.gftContfntTypf());
 
-            int contentLength = connection.getContentLength();
-            replyBuffer = IOUtils.readFully(input, contentLength, false);
+            int dontfntLfngti = donnfdtion.gftContfntLfngti();
+            rfplyBufffr = IOUtils.rfbdFully(input, dontfntLfngti, fblsf);
 
-            if (debug != null) {
-                debug.println("received timestamp response (length=" +
-                        replyBuffer.length + ")");
+            if (dfbug != null) {
+                dfbug.println("rfdfivfd timfstbmp rfsponsf (lfngti=" +
+                        rfplyBufffr.lfngti + ")");
             }
-        } finally {
+        } finblly {
             if (input != null) {
-                input.close();
+                input.dlosf();
             }
         }
-        return new TSResponse(replyBuffer);
+        rfturn nfw TSRfsponsf(rfplyBufffr);
     }
 
     /*
-     * Checks that the MIME content type is a timestamp reply.
+     * Cifdks tibt tif MIME dontfnt typf is b timfstbmp rfply.
      *
-     * @param contentType The MIME content type to be checked.
-     * @throws IOException The exception is thrown if a mismatch occurs.
+     * @pbrbm dontfntTypf Tif MIME dontfnt typf to bf difdkfd.
+     * @tirows IOExdfption Tif fxdfption is tirown if b mismbtdi oddurs.
      */
-    private static void verifyMimeType(String contentType) throws IOException {
-        if (! TS_REPLY_MIME_TYPE.equalsIgnoreCase(contentType)) {
-            throw new IOException("MIME Content-Type is not " +
+    privbtf stbtid void vfrifyMimfTypf(String dontfntTypf) tirows IOExdfption {
+        if (! TS_REPLY_MIME_TYPE.fqublsIgnorfCbsf(dontfntTypf)) {
+            tirow nfw IOExdfption("MIME Contfnt-Typf is not " +
                 TS_REPLY_MIME_TYPE);
         }
     }

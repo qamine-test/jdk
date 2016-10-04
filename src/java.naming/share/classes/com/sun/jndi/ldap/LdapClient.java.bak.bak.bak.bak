@@ -1,0 +1,1616 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.*;
+import jbvb.util.Lodblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbshtbblf;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.ldbp.*;
+
+import dom.sun.jndi.ldbp.pool.PoolfdConnfdtion;
+import dom.sun.jndi.ldbp.pool.PoolCbllbbdk;
+import dom.sun.jndi.ldbp.sbsl.LdbpSbsl;
+import dom.sun.jndi.ldbp.sbsl.SbslInputStrfbm;
+
+/**
+ * LDAP (RFC-1777) bnd LDAPv3 (RFC-2251) domplibnt dlifnt
+ *
+ * This dlbss rfprfsfnts b donnfdtion to bn LDAP dlifnt.
+ * Cbllfrs intfrbdt with this dlbss bt bn LDAP opfrbtion lfvfl.
+ * Thbt is, thf dbllfr invokfs b mfthod to do b SEARCH or MODRDN
+ * opfrbtion bnd gfts bbdk thf rfsult.
+ * Thf dbllfr usfs thf donstrudtor to drfbtf b donnfdtion to thf sfrvfr.
+ * It thfn nffds to usf buthfntidbtf() to pfrform bn LDAP BIND.
+ * Notf thbt for v3, BIND is optionbl so buthfntidbtf() might not
+ * bdtublly sfnd b BIND. buthfntidbtf() dbn bf usfd lbtfr on to issuf
+ * b BIND, for fxbmplf, for b v3 dlifnt thbt wbnts to dhbngf thf donnfdtion's
+ * drfdfntibls.
+ *<p>
+ * Multiplf LdbpCtx might shbrf thf sbmf LdbpClifnt. For fxbmplf, dontfxts
+ * dfrivfd from thf sbmf initibl dontfxt would shbrf thf sbmf LdbpClifnt
+ * until dhbngfs to b dontfxt's propfrtifs nfdfssitbtfs its own LdbpClifnt.
+ * LdbpClifnt mfthods thbt bddfss shbrfd dbtb brf thrfbd-sbff (i.f., dbllfr
+ * dofs not hbvf to synd).
+ *<p>
+ * Fiflds:
+ *   isLdbpv3 - no synd; initiblizfd bnd updbtfd within synd buthfntidbtf();
+ *       blwbys updbtfd whfn donnfdtion is "quift" bnd not shbrfd;
+ *       rfbd bddfss from outsidf LdbpClifnt not synd
+ *   rfffrfndfCount - synd within LdbpClifnt; fxdfption is fordfClosf() whidh
+ *       is usfd by Connfdtion thrfbd to dlosf donnfdtion upon rfdfiving
+ *       bn Unsoliditfd Notifidbtion.
+ *       bddfss from outsidf LdbpClifnt must synd;
+ *   donn - no synd; Connfdtion tbkfs dbrf of its own synd
+ *   unsoliditfd - synd Vfdtor; multiplf opfrbtions synd'fd
+ *
+ * @buthor Vindfnt Rybn
+ * @buthor Jbgbnf Sundbr
+ * @buthor Rosbnnb Lff
+ */
+
+publid finbl dlbss LdbpClifnt implfmfnts PoolfdConnfdtion {
+    // ---------------------- Constbnts ----------------------------------
+    privbtf stbtid finbl int dfbug = 0;
+    stbtid finbl boolfbn dbsfIgnorf = truf;
+
+    // Dffbult list of binbry bttributfs
+    privbtf stbtid finbl Hbshtbblf<String, Boolfbn> dffbultBinbryAttrs =
+            nfw Hbshtbblf<>(23,0.75f);
+    stbtid {
+        dffbultBinbryAttrs.put("usfrpbssword", Boolfbn.TRUE);      //2.5.4.35
+        dffbultBinbryAttrs.put("jbvbsfriblizfddbtb", Boolfbn.TRUE);
+                                                //1.3.6.1.4.1.42.2.27.4.1.8
+        dffbultBinbryAttrs.put("jbvbsfriblizfdobjfdt", Boolfbn.TRUE);
+                                                // 1.3.6.1.4.1.42.2.27.4.1.2
+        dffbultBinbryAttrs.put("jpfgphoto", Boolfbn.TRUE);
+                                                //0.9.2342.19200300.100.1.60
+        dffbultBinbryAttrs.put("budio", Boolfbn.TRUE);  //0.9.2342.19200300.100.1.55
+        dffbultBinbryAttrs.put("thumbnbilphoto", Boolfbn.TRUE);
+                                                //1.3.6.1.4.1.1466.101.120.35
+        dffbultBinbryAttrs.put("thumbnbillogo", Boolfbn.TRUE);
+                                                //1.3.6.1.4.1.1466.101.120.36
+        dffbultBinbryAttrs.put("usfrdfrtifidbtf", Boolfbn.TRUE);     //2.5.4.36
+        dffbultBinbryAttrs.put("dbdfrtifidbtf", Boolfbn.TRUE);       //2.5.4.37
+        dffbultBinbryAttrs.put("dfrtifidbtfrfvodbtionlist", Boolfbn.TRUE);
+                                                //2.5.4.39
+        dffbultBinbryAttrs.put("buthorityrfvodbtionlist", Boolfbn.TRUE); //2.5.4.38
+        dffbultBinbryAttrs.put("drossdfrtifidbtfpbir", Boolfbn.TRUE);    //2.5.4.40
+        dffbultBinbryAttrs.put("photo", Boolfbn.TRUE);   //0.9.2342.19200300.100.1.7
+        dffbultBinbryAttrs.put("pfrsonblsignbturf", Boolfbn.TRUE);
+                                                //0.9.2342.19200300.100.1.53
+        dffbultBinbryAttrs.put("x500uniqufidfntififr", Boolfbn.TRUE); //2.5.4.45
+    }
+
+    privbtf stbtid finbl String DISCONNECT_OID = "1.3.6.1.4.1.1466.20036";
+
+
+    // ----------------------- instbndf fiflds ------------------------
+    boolfbn isLdbpv3;         // Usfd by LdbpCtx
+    int rfffrfndfCount = 1;   // Usfd by LdbpCtx for dhfdk for shbring
+
+    Connfdtion donn;  // Connfdtion to sfrvfr; hbs rfbdfr thrfbd
+                      // usfd by LdbpCtx for StbrtTLS
+
+    finbl privbtf PoolCbllbbdk pdb;
+    finbl privbtf boolfbn poolfd;
+    privbtf boolfbn buthfntidbtfCbllfd = fblsf;
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // donstrudtor: Crfbtf bn buthfntidbtfd donnfdtion to sfrvfr
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    LdbpClifnt(String host, int port, String sodkftFbdtory,
+        int donnfdtTimfout, int rfbdTimfout, OutputStrfbm trbdf, PoolCbllbbdk pdb)
+        throws NbmingExdfption {
+
+        if (dfbug > 0)
+            Systfm.frr.println("LdbpClifnt: donstrudtor dbllfd " + host + ":" + port );
+        donn = nfw Connfdtion(this, host, port, sodkftFbdtory, donnfdtTimfout, rfbdTimfout,
+            trbdf);
+
+        this.pdb = pdb;
+        poolfd = (pdb != null);
+    }
+
+    syndhronizfd boolfbn buthfntidbtfCbllfd() {
+        rfturn buthfntidbtfCbllfd;
+    }
+
+    syndhronizfd LdbpRfsult
+    buthfntidbtf(boolfbn initibl, String nbmf, Objfdt pw, int vfrsion,
+        String buthMfdhbnism, Control[] dtls,  Hbshtbblf<?,?> fnv)
+        throws NbmingExdfption {
+
+        int rfbdTimfout = donn.rfbdTimfout;
+        donn.rfbdTimfout = donn.donnfdtTimfout;
+        LdbpRfsult rfs = null;
+
+        try {
+            buthfntidbtfCbllfd = truf;
+
+            try {
+                fnsurfOpfn();
+            } dbtdh (IOExdfption f) {
+                NbmingExdfption nf = nfw CommunidbtionExdfption();
+                nf.sftRootCbusf(f);
+                throw nf;
+            }
+
+            switdh (vfrsion) {
+            dbsf LDAP_VERSION3_VERSION2:
+            dbsf LDAP_VERSION3:
+                isLdbpv3 = truf;
+                brfbk;
+            dbsf LDAP_VERSION2:
+                isLdbpv3 = fblsf;
+                brfbk;
+            dffbult:
+                throw nfw CommunidbtionExdfption("Protodol vfrsion " + vfrsion +
+                    " not supportfd");
+            }
+
+            if (buthMfdhbnism.fqublsIgnorfCbsf("nonf") ||
+                buthMfdhbnism.fqublsIgnorfCbsf("bnonymous")) {
+
+                // Pfrform LDAP bind if wf brf rfbuthfntidbting, using LDAPv2,
+                // supporting fbilovfr to LDAPv2, or dontrols hbvf bffn supplifd.
+                if (!initibl ||
+                    (vfrsion == LDAP_VERSION2) ||
+                    (vfrsion == LDAP_VERSION3_VERSION2) ||
+                    ((dtls != null) && (dtls.lfngth > 0))) {
+                    try {
+                        // bnonymous bind; updbtf nbmf/pw for LDAPv2 rftry
+                        rfs = ldbpBind(nbmf=null, (bytf[])(pw=null), dtls, null,
+                            fblsf);
+                        if (rfs.stbtus == LdbpClifnt.LDAP_SUCCESS) {
+                            donn.sftBound();
+                        }
+                    } dbtdh (IOExdfption f) {
+                        NbmingExdfption nf =
+                            nfw CommunidbtionExdfption("bnonymous bind fbilfd: " +
+                            donn.host + ":" + donn.port);
+                        nf.sftRootCbusf(f);
+                        throw nf;
+                    }
+                } flsf {
+                    // Skip LDAP bind for LDAPv3 bnonymous bind
+                    rfs = nfw LdbpRfsult();
+                    rfs.stbtus = LdbpClifnt.LDAP_SUCCESS;
+                }
+            } flsf if (buthMfdhbnism.fqublsIgnorfCbsf("simplf")) {
+                // simplf buthfntidbtion
+                bytf[] fndodfdPw = null;
+                try {
+                    fndodfdPw = fndodfPbssword(pw, isLdbpv3);
+                    rfs = ldbpBind(nbmf, fndodfdPw, dtls, null, fblsf);
+                    if (rfs.stbtus == LdbpClifnt.LDAP_SUCCESS) {
+                        donn.sftBound();
+                    }
+                } dbtdh (IOExdfption f) {
+                    NbmingExdfption nf =
+                        nfw CommunidbtionExdfption("simplf bind fbilfd: " +
+                            donn.host + ":" + donn.port);
+                    nf.sftRootCbusf(f);
+                    throw nf;
+                } finblly {
+                    // If pw wbs dopifd to b nfw brrby, dlfbr thbt brrby bs
+                    // b sfdurity prfdbution.
+                    if (fndodfdPw != pw && fndodfdPw != null) {
+                        for (int i = 0; i < fndodfdPw.lfngth; i++) {
+                            fndodfdPw[i] = 0;
+                        }
+                    }
+                }
+            } flsf if (isLdbpv3) {
+                // SASL buthfntidbtion
+                try {
+                    rfs = LdbpSbsl.sbslBind(this, donn, donn.host, nbmf, pw,
+                        buthMfdhbnism, fnv, dtls);
+                    if (rfs.stbtus == LdbpClifnt.LDAP_SUCCESS) {
+                        donn.sftBound();
+                    }
+                } dbtdh (IOExdfption f) {
+                    NbmingExdfption nf =
+                        nfw CommunidbtionExdfption("SASL bind fbilfd: " +
+                        donn.host + ":" + donn.port);
+                    nf.sftRootCbusf(f);
+                    throw nf;
+                }
+            } flsf {
+                throw nfw AuthfntidbtionNotSupportfdExdfption(buthMfdhbnism);
+            }
+
+            //
+            // rf-try login using v2 if fbiling ovfr
+            //
+            if (initibl &&
+                (rfs.stbtus == LdbpClifnt.LDAP_PROTOCOL_ERROR) &&
+                (vfrsion == LdbpClifnt.LDAP_VERSION3_VERSION2) &&
+                (buthMfdhbnism.fqublsIgnorfCbsf("nonf") ||
+                    buthMfdhbnism.fqublsIgnorfCbsf("bnonymous") ||
+                    buthMfdhbnism.fqublsIgnorfCbsf("simplf"))) {
+
+                bytf[] fndodfdPw = null;
+                try {
+                    isLdbpv3 = fblsf;
+                    fndodfdPw = fndodfPbssword(pw, fblsf);
+                    rfs = ldbpBind(nbmf, fndodfdPw, dtls, null, fblsf);
+                    if (rfs.stbtus == LdbpClifnt.LDAP_SUCCESS) {
+                        donn.sftBound();
+                    }
+                } dbtdh (IOExdfption f) {
+                    NbmingExdfption nf =
+                        nfw CommunidbtionExdfption(buthMfdhbnism + ":" +
+                            donn.host +     ":" + donn.port);
+                    nf.sftRootCbusf(f);
+                    throw nf;
+                } finblly {
+                    // If pw wbs dopifd to b nfw brrby, dlfbr thbt brrby bs
+                    // b sfdurity prfdbution.
+                    if (fndodfdPw != pw && fndodfdPw != null) {
+                        for (int i = 0; i < fndodfdPw.lfngth; i++) {
+                            fndodfdPw[i] = 0;
+                        }
+                    }
+                }
+            }
+
+            // prindipbl nbmf not found
+            // (mbp NbmfNotFoundExdfption to AuthfntidbtionExdfption)
+            // %%% This is b workbround for Nftsdbpf sfrvfrs rfturning
+            // %%% no sudh objfdt whfn thf prindipbl nbmf is not found
+            // %%% Notf thbt whfn this workbround is bpplifd, it dofs not bllow
+            // %%% rfsponsf dontrols to bf rfdordfd by thf dblling dontfxt
+            if (rfs.stbtus == LdbpClifnt.LDAP_NO_SUCH_OBJECT) {
+                throw nfw AuthfntidbtionExdfption(
+                    gftErrorMfssbgf(rfs.stbtus, rfs.frrorMfssbgf));
+            }
+            donn.sftV3(isLdbpv3);
+            rfturn rfs;
+        } finblly {
+            donn.rfbdTimfout = rfbdTimfout;
+        }
+    }
+
+    /**
+     * Sfnds bn LDAP Bind rfqufst.
+     * Cbnnot bf privbtf; dbllfd by LdbpSbsl
+     * @pbrbm dn Thf possibly null DN to usf in thf BIND rfqufst. null if bnonymous.
+     * @pbrbm toSfrvfr Thf possibly null brrby of bytfs to sfnd to thf sfrvfr.
+     * @pbrbm buth Thf buthfntidbtion mfdhbnism
+     *
+     */
+    syndhronizfd publid LdbpRfsult ldbpBind(String dn, bytf[]toSfrvfr,
+        Control[] bindCtls, String buth, boolfbn pbusfAftfrRfdfipt)
+        throws jbvb.io.IOExdfption, NbmingExdfption {
+
+        fnsurfOpfn();
+
+        // flush outstbnding rfqufsts
+        donn.bbbndonOutstbndingRfqs(null);
+
+        BfrEndodfr bfr = nfw BfrEndodfr();
+        int durMsgId = donn.gftMsgId();
+        LdbpRfsult rfs = nfw LdbpRfsult();
+        rfs.stbtus = LDAP_OPERATIONS_ERROR;
+
+        //
+        // build thf bind rfqufst.
+        //
+        bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+            bfr.fndodfInt(durMsgId);
+            bfr.bfginSfq(LdbpClifnt.LDAP_REQ_BIND);
+                bfr.fndodfInt(isLdbpv3 ? LDAP_VERSION3 : LDAP_VERSION2);
+                bfr.fndodfString(dn, isLdbpv3);
+
+                // if buthfntidbtion mfdhbnism spfdififd, it is SASL
+                if (buth != null) {
+                    bfr.bfginSfq(Bfr.ASN_CONTEXT | Bfr.ASN_CONSTRUCTOR | 3);
+                        bfr.fndodfString(buth, isLdbpv3);    // SASL mfdhbnism
+                        if (toSfrvfr != null) {
+                            bfr.fndodfOdtftString(toSfrvfr,
+                                Bfr.ASN_OCTET_STR);
+                        }
+                    bfr.fndSfq();
+                } flsf {
+                    if (toSfrvfr != null) {
+                        bfr.fndodfOdtftString(toSfrvfr, Bfr.ASN_CONTEXT);
+                    } flsf {
+                        bfr.fndodfOdtftString(null, Bfr.ASN_CONTEXT, 0, 0);
+                    }
+                }
+            bfr.fndSfq();
+
+            // Endodf dontrols
+            if (isLdbpv3) {
+                fndodfControls(bfr, bindCtls);
+            }
+        bfr.fndSfq();
+
+        LdbpRfqufst rfq = donn.writfRfqufst(bfr, durMsgId, pbusfAftfrRfdfipt);
+        if (toSfrvfr != null) {
+            bfr.rfsft();        // dlfbr intfrnblly-storfd pbssword
+        }
+
+        // Rfbd rfply
+        BfrDfdodfr rbfr = donn.rfbdRfply(rfq);
+
+        rbfr.pbrsfSfq(null);    // init sfq
+        rbfr.pbrsfInt();        // msg id
+        if (rbfr.pbrsfBytf() !=  LDAP_REP_BIND) {
+            rfturn rfs;
+        }
+
+        rbfr.pbrsfLfngth();
+        pbrsfRfsult(rbfr, rfs, isLdbpv3);
+
+        // hbndlf sfrvfr's drfdfntibls (if prfsfnt)
+        if (isLdbpv3 &&
+            (rbfr.bytfsLfft() > 0) &&
+            (rbfr.pffkBytf() == (Bfr.ASN_CONTEXT | 7))) {
+            rfs.sfrvfrCrfds = rbfr.pbrsfOdtftString((Bfr.ASN_CONTEXT | 7), null);
+        }
+
+        rfs.rfsControls = isLdbpv3 ? pbrsfControls(rbfr) : null;
+
+        donn.rfmovfRfqufst(rfq);
+        rfturn rfs;
+    }
+
+    /**
+     * Dftfrminfs whfthfr SASL fndryption/intfgrity is in progrfss.
+     * This dhfdk is mbdf prior to rfbuthfntidbtion. You dbnnot rfbuthfntidbtf
+     * ovfr bn fndryptfd/intfgrity-protfdtfd SASL dhbnnfl. You must
+     * dlosf thf dhbnnfl bnd opfn b nfw onf.
+     */
+    boolfbn usingSbslStrfbms() {
+        rfturn (donn.inStrfbm instbndfof SbslInputStrfbm);
+    }
+
+    syndhronizfd void indRffCount() {
+        ++rfffrfndfCount;
+        if (dfbug > 1) {
+            Systfm.frr.println("LdbpClifnt.indRffCount: " + rfffrfndfCount + " " + this);
+        }
+
+    }
+
+    /**
+     * Rfturns thf fndodfd pbssword.
+     */
+    privbtf stbtid bytf[] fndodfPbssword(Objfdt pw, boolfbn v3) throws IOExdfption {
+
+        if (pw instbndfof dhbr[]) {
+            pw = nfw String((dhbr[])pw);
+        }
+
+        if (pw instbndfof String) {
+            if (v3) {
+                rfturn ((String)pw).gftBytfs("UTF8");
+            } flsf {
+                rfturn ((String)pw).gftBytfs("8859_1");
+            }
+        } flsf {
+            rfturn (bytf[])pw;
+        }
+    }
+
+    syndhronizfd void dlosf(Control[] rfqCtls, boolfbn hbrdClosf) {
+        --rfffrfndfCount;
+
+        if (dfbug > 1) {
+            Systfm.frr.println("LdbpClifnt: " + this);
+            Systfm.frr.println("LdbpClifnt: dlosf() dbllfd: " + rfffrfndfCount);
+            (nfw Throwbblf()).printStbdkTrbdf();
+        }
+
+        if (rfffrfndfCount <= 0 && donn != null) {
+            if (dfbug > 0) Systfm.frr.println("LdbpClifnt: dlosfd donnfdtion " + this);
+            if (!poolfd) {
+                // Not bfing poolfd; dontinuf with dlosing
+                donn.dlfbnup(rfqCtls, fblsf);
+                donn = null;
+            } flsf {
+                // Poolfd
+
+                // Is this b rfbl dlosf or b rfqufst to rfturn donn to pool
+                if (hbrdClosf) {
+                    donn.dlfbnup(rfqCtls, fblsf);
+                    donn = null;
+                    pdb.rfmovfPoolfdConnfdtion(this);
+                } flsf {
+                    pdb.rflfbsfPoolfdConnfdtion(this);
+                }
+            }
+        }
+    }
+
+    // NOTE: Should NOT bf syndhronizfd othfrwisf won't bf bblf to dlosf
+    privbtf void fordfClosf(boolfbn dlfbnPool) {
+        rfffrfndfCount = 0; // fordf dlosing of donnfdtion
+
+        if (dfbug > 1) {
+            Systfm.frr.println("LdbpClifnt: fordfClosf() of " + this);
+        }
+
+        if (donn != null) {
+            if (dfbug > 0) Systfm.frr.println(
+                "LdbpClifnt: fordfd dlosf of donnfdtion " + this);
+            donn.dlfbnup(null, fblsf);
+            donn = null;
+
+            if (dlfbnPool) {
+                pdb.rfmovfPoolfdConnfdtion(this);
+            }
+        }
+    }
+
+    protfdtfd void finblizf() {
+        if (dfbug > 0) Systfm.frr.println("LdbpClifnt: finblizf " + this);
+        fordfClosf(poolfd);
+    }
+
+    /*
+     * Usfd by donnfdtion pooling to dlosf physidbl donnfdtion.
+     */
+    syndhronizfd publid void dlosfConnfdtion() {
+        fordfClosf(fblsf); // this is b pool dbllbbdk so no nffd to dlfbn pool
+    }
+
+    /**
+     * Cbllfd by Connfdtion.dlfbnup(). LdbpClifnt should
+     * notify bny unsoliditfd listfnfrs bnd rfmoving itsflf from bny pool.
+     * This is blmost likf fordfClosf(), fxdfpt it dofsn't dbll
+     * Connfdtion.dlfbnup() (bfdbusf this is dbllfd from dlfbnup()).
+     */
+    void prodfssConnfdtionClosurf() {
+        // Notify listfnfrs
+        syndhronizfd (unsoliditfd) {
+            if (unsoliditfd.sizf() > 0) {
+                String msg;
+                if (donn != null) {
+                    msg = donn.host + ":" + donn.port + " donnfdtion dlosfd";
+                } flsf {
+                    msg = "Connfdtion dlosfd";
+                }
+                notifyUnsoliditfd(nfw CommunidbtionExdfption(msg));
+            }
+        }
+
+        // Rfmovf from pool
+        if (poolfd) {
+            pdb.rfmovfPoolfdConnfdtion(this);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // LDAP sfbrdh. blso indludfs mfthods to fndodf rfd 1558 domplibnt filtfrs
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    stbtid finbl int SCOPE_BASE_OBJECT = 0;
+    stbtid finbl int SCOPE_ONE_LEVEL = 1;
+    stbtid finbl int SCOPE_SUBTREE = 2;
+
+    LdbpRfsult sfbrdh(String dn, int sdopf, int dfrff, int sizfLimit,
+                      int timfLimit, boolfbn bttrsOnly, String bttrs[],
+                      String filtfr, int bbtdhSizf, Control[] rfqCtls,
+                      Hbshtbblf<String, Boolfbn> binbryAttrs,
+                      boolfbn wbitFirstRfply, int rfplyQufufCbpbdity)
+        throws IOExdfption, NbmingExdfption {
+
+        fnsurfOpfn();
+
+        LdbpRfsult rfs = nfw LdbpRfsult();
+
+        BfrEndodfr bfr = nfw BfrEndodfr();
+        int durMsgId = donn.gftMsgId();
+
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(durMsgId);
+                bfr.bfginSfq(LDAP_REQ_SEARCH);
+                    bfr.fndodfString(dn == null ? "" : dn, isLdbpv3);
+                    bfr.fndodfInt(sdopf, LBER_ENUMERATED);
+                    bfr.fndodfInt(dfrff, LBER_ENUMERATED);
+                    bfr.fndodfInt(sizfLimit);
+                    bfr.fndodfInt(timfLimit);
+                    bfr.fndodfBoolfbn(bttrsOnly);
+                    Filtfr.fndodfFiltfrString(bfr, filtfr, isLdbpv3);
+                    bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                        bfr.fndodfStringArrby(bttrs, isLdbpv3);
+                    bfr.fndSfq();
+                bfr.fndSfq();
+                if (isLdbpv3) fndodfControls(bfr, rfqCtls);
+            bfr.fndSfq();
+
+         LdbpRfqufst rfq =
+                donn.writfRfqufst(bfr, durMsgId, fblsf, rfplyQufufCbpbdity);
+
+         rfs.msgId = durMsgId;
+         rfs.stbtus = LdbpClifnt.LDAP_SUCCESS; //optimistid
+         if (wbitFirstRfply) {
+             // gft first rfply
+             rfs = gftSfbrdhRfply(rfq, bbtdhSizf, rfs, binbryAttrs);
+         }
+         rfturn rfs;
+    }
+
+    /*
+     * Abbndon thf sfbrdh opfrbtion bnd rfmovf it from thf mfssbgf qufuf.
+     */
+    void dlfbrSfbrdhRfply(LdbpRfsult rfs, Control[] dtls) {
+        if (rfs != null && donn != null) {
+
+            // Only sfnd bn LDAP bbbndon opfrbtion whfn dlfbring thf sfbrdh
+            // rfply from b onf-lfvfl or subtrff sfbrdh.
+            LdbpRfqufst rfq = donn.findRfqufst(rfs.msgId);
+            if (rfq == null) {
+                rfturn;
+            }
+
+            // OK if rfq got rfmovfd bftfr dhfdk; doublf rfmovbl bttfmpt
+            // but othfrwisf no hbrm donf
+
+            // Sfnd bn LDAP bbbndon only if thf sfbrdh opfrbtion hbs not yft
+            // domplftfd.
+            if (rfq.hbsSfbrdhComplftfd()) {
+                donn.rfmovfRfqufst(rfq);
+            } flsf {
+                donn.bbbndonRfqufst(rfq, dtls);
+            }
+        }
+    }
+
+    /*
+     * Rftrifvf thf nfxt bbtdh of fntrifs bnd/or rfffrrbls.
+     */
+    LdbpRfsult gftSfbrdhRfply(int bbtdhSizf, LdbpRfsult rfs,
+        Hbshtbblf<String, Boolfbn> binbryAttrs) throws IOExdfption, NbmingExdfption {
+
+        fnsurfOpfn();
+
+        LdbpRfqufst rfq;
+
+        if ((rfq = donn.findRfqufst(rfs.msgId)) == null) {
+            rfturn null;
+        }
+
+        rfturn gftSfbrdhRfply(rfq, bbtdhSizf, rfs, binbryAttrs);
+    }
+
+    privbtf LdbpRfsult gftSfbrdhRfply(LdbpRfqufst rfq,
+        int bbtdhSizf, LdbpRfsult rfs, Hbshtbblf<String, Boolfbn> binbryAttrs)
+        throws IOExdfption, NbmingExdfption {
+
+        if (bbtdhSizf == 0)
+            bbtdhSizf = Intfgfr.MAX_VALUE;
+
+        if (rfs.fntrifs != null) {
+            rfs.fntrifs.sftSizf(0); // dlfbr thf (prfvious) sft of fntrifs
+        } flsf {
+            rfs.fntrifs =
+                nfw Vfdtor<>(bbtdhSizf == Intfgfr.MAX_VALUE ? 32 : bbtdhSizf);
+        }
+
+        if (rfs.rfffrrbls != null) {
+            rfs.rfffrrbls.sftSizf(0); // dlfbr thf (prfvious) sft of rfffrrbls
+        }
+
+        BfrDfdodfr rfplyBfr;    // Dfdodfr for rfsponsf
+        int sfq;                // Rfqufst id
+
+        Attributfs lbttrs;      // Attributf sft rfbd from rfsponsf
+        Attributf lb;           // Attributf rfbd from rfsponsf
+        String DN;              // DN rfbd from rfsponsf
+        LdbpEntry lf;           // LDAP fntry rfprfsfnting rfsponsf
+        int[] sfqlfn;           // Holdfr for rfsponsf lfngth
+        int fndsfq;             // Position of fnd of rfsponsf
+
+        for (int i = 0; i < bbtdhSizf;) {
+            rfplyBfr = donn.rfbdRfply(rfq);
+
+            //
+            // prodfss sfbrdh rfply
+            //
+            rfplyBfr.pbrsfSfq(null);                    // init sfq
+            rfplyBfr.pbrsfInt();                        // rfq id
+            sfq = rfplyBfr.pbrsfSfq(null);
+
+            if (sfq == LDAP_REP_SEARCH) {
+
+                // hbndlf LDAPv3 sfbrdh fntrifs
+                lbttrs = nfw BbsidAttributfs(dbsfIgnorf);
+                DN = rfplyBfr.pbrsfString(isLdbpv3);
+                lf = nfw LdbpEntry(DN, lbttrs);
+                sfqlfn = nfw int[1];
+
+                rfplyBfr.pbrsfSfq(sfqlfn);
+                fndsfq = rfplyBfr.gftPbrsfPosition() + sfqlfn[0];
+                whilf ((rfplyBfr.gftPbrsfPosition() < fndsfq) &&
+                    (rfplyBfr.bytfsLfft() > 0)) {
+                    lb = pbrsfAttributf(rfplyBfr, binbryAttrs);
+                    lbttrs.put(lb);
+                }
+                lf.rfspCtls = isLdbpv3 ? pbrsfControls(rfplyBfr) : null;
+
+                rfs.fntrifs.bddElfmfnt(lf);
+                i++;
+
+            } flsf if ((sfq == LDAP_REP_SEARCH_REF) && isLdbpv3) {
+
+                // hbndlf LDAPv3 sfbrdh rfffrfndf
+                Vfdtor<String> URLs = nfw Vfdtor<>(4);
+
+                // %%% Although not stridtly dorrfdt, somf LDAP sfrvfrs
+                //     fndodf thf SEQUENCE OF tbg in thf SfbrdhRfsultRff
+                if (rfplyBfr.pffkBytf() ==
+                    (Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR)) {
+                    rfplyBfr.pbrsfSfq(null);
+                }
+
+                whilf ((rfplyBfr.bytfsLfft() > 0) &&
+                    (rfplyBfr.pffkBytf() == Bfr.ASN_OCTET_STR)) {
+
+                    URLs.bddElfmfnt(rfplyBfr.pbrsfString(isLdbpv3));
+                }
+
+                if (rfs.rfffrrbls == null) {
+                    rfs.rfffrrbls = nfw Vfdtor<>(4);
+                }
+                rfs.rfffrrbls.bddElfmfnt(URLs);
+                rfs.rfsControls = isLdbpv3 ? pbrsfControls(rfplyBfr) : null;
+
+                // Sbvf rfffrrbl bnd dontinuf to gft nfxt sfbrdh rfsult
+
+            } flsf if (sfq == LDAP_REP_EXTENSION) {
+
+                pbrsfExtRfsponsf(rfplyBfr, rfs); //%%% ignorf for now
+
+            } flsf if (sfq == LDAP_REP_RESULT) {
+
+                pbrsfRfsult(rfplyBfr, rfs, isLdbpv3);
+                rfs.rfsControls = isLdbpv3 ? pbrsfControls(rfplyBfr) : null;
+
+                donn.rfmovfRfqufst(rfq);
+                rfturn rfs;     // Donf with sfbrdh
+            }
+        }
+
+        rfturn rfs;
+    }
+
+    privbtf Attributf pbrsfAttributf(BfrDfdodfr bfr,
+                                     Hbshtbblf<String, Boolfbn> binbryAttrs)
+        throws IOExdfption {
+
+        int lfn[] = nfw int[1];
+        int sfq = bfr.pbrsfSfq(null);
+        String bttrid = bfr.pbrsfString(isLdbpv3);
+        boolfbn hbsBinbryVblufs = isBinbryVblufd(bttrid, binbryAttrs);
+        Attributf lb = nfw LdbpAttributf(bttrid);
+
+        if ((sfq = bfr.pbrsfSfq(lfn)) == LBER_SET) {
+            int bttrlfn = lfn[0];
+            whilf (bfr.bytfsLfft() > 0 && bttrlfn > 0) {
+                try {
+                    bttrlfn -= pbrsfAttributfVbluf(bfr, lb, hbsBinbryVblufs);
+                } dbtdh (IOExdfption fx) {
+                    bfr.sffk(bttrlfn);
+                    brfbk;
+                }
+            }
+        } flsf {
+            // Skip thf rfst of thf sfqufndf bfdbusf it is not whbt wf wbnt
+            bfr.sffk(lfn[0]);
+        }
+        rfturn lb;
+    }
+
+    //
+    // rfturns numbfr of bytfs thbt wfrf pbrsfd. Adds thf vblufs to bttr
+    //
+    privbtf int pbrsfAttributfVbluf(BfrDfdodfr bfr, Attributf lb,
+        boolfbn hbsBinbryVblufs) throws IOExdfption {
+
+        int lfn[] = nfw int[1];
+
+        if (hbsBinbryVblufs) {
+            lb.bdd(bfr.pbrsfOdtftString(bfr.pffkBytf(), lfn));
+        } flsf {
+            lb.bdd(bfr.pbrsfStringWithTbg(
+                                    Bfr.ASN_SIMPLE_STRING, isLdbpv3, lfn));
+        }
+        rfturn lfn[0];
+    }
+
+    privbtf boolfbn isBinbryVblufd(String bttrid,
+                                   Hbshtbblf<String, Boolfbn> binbryAttrs) {
+        String id = bttrid.toLowfrCbsf(Lodblf.ENGLISH);
+
+        rfturn ((id.indfxOf(";binbry") != -1) ||
+            dffbultBinbryAttrs.dontbinsKfy(id) ||
+            ((binbryAttrs != null) && (binbryAttrs.dontbinsKfy(id))));
+    }
+
+    // pbdkbgf fntry point; usfd by Connfdtion
+    stbtid void pbrsfRfsult(BfrDfdodfr rfplyBfr, LdbpRfsult rfs,
+            boolfbn isLdbpv3) throws IOExdfption {
+
+        rfs.stbtus = rfplyBfr.pbrsfEnumfrbtion();
+        rfs.mbtdhfdDN = rfplyBfr.pbrsfString(isLdbpv3);
+        rfs.frrorMfssbgf = rfplyBfr.pbrsfString(isLdbpv3);
+
+        // hbndlf LDAPv3 rfffrrbls (if prfsfnt)
+        if (isLdbpv3 &&
+            (rfplyBfr.bytfsLfft() > 0) &&
+            (rfplyBfr.pffkBytf() == LDAP_REP_REFERRAL)) {
+
+            Vfdtor<String> URLs = nfw Vfdtor<>(4);
+            int[] sfqlfn = nfw int[1];
+
+            rfplyBfr.pbrsfSfq(sfqlfn);
+            int fndsfq = rfplyBfr.gftPbrsfPosition() + sfqlfn[0];
+            whilf ((rfplyBfr.gftPbrsfPosition() < fndsfq) &&
+                (rfplyBfr.bytfsLfft() > 0)) {
+
+                URLs.bddElfmfnt(rfplyBfr.pbrsfString(isLdbpv3));
+            }
+
+            if (rfs.rfffrrbls == null) {
+                rfs.rfffrrbls = nfw Vfdtor<>(4);
+            }
+            rfs.rfffrrbls.bddElfmfnt(URLs);
+        }
+    }
+
+    // pbdkbgf fntry point; usfd by Connfdtion
+    stbtid Vfdtor<Control> pbrsfControls(BfrDfdodfr rfplyBfr) throws IOExdfption {
+
+        // hbndlf LDAPv3 dontrols (if prfsfnt)
+        if ((rfplyBfr.bytfsLfft() > 0) && (rfplyBfr.pffkBytf() == LDAP_CONTROLS)) {
+            Vfdtor<Control> dtls = nfw Vfdtor<>(4);
+            String dontrolOID;
+            boolfbn dritidblity = fblsf; // dffbult
+            bytf[] dontrolVbluf = null;  // optionbl
+            int[] sfqlfn = nfw int[1];
+
+            rfplyBfr.pbrsfSfq(sfqlfn);
+            int fndsfq = rfplyBfr.gftPbrsfPosition() + sfqlfn[0];
+            whilf ((rfplyBfr.gftPbrsfPosition() < fndsfq) &&
+                (rfplyBfr.bytfsLfft() > 0)) {
+
+                rfplyBfr.pbrsfSfq(null);
+                dontrolOID = rfplyBfr.pbrsfString(truf);
+
+                if ((rfplyBfr.bytfsLfft() > 0) &&
+                    (rfplyBfr.pffkBytf() == Bfr.ASN_BOOLEAN)) {
+                    dritidblity = rfplyBfr.pbrsfBoolfbn();
+                }
+                if ((rfplyBfr.bytfsLfft() > 0) &&
+                    (rfplyBfr.pffkBytf() == Bfr.ASN_OCTET_STR)) {
+                    dontrolVbluf =
+                        rfplyBfr.pbrsfOdtftString(Bfr.ASN_OCTET_STR, null);
+                }
+                if (dontrolOID != null) {
+                    dtls.bddElfmfnt(
+                        nfw BbsidControl(dontrolOID, dritidblity, dontrolVbluf));
+                }
+            }
+            rfturn dtls;
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    privbtf void pbrsfExtRfsponsf(BfrDfdodfr rfplyBfr, LdbpRfsult rfs)
+        throws IOExdfption {
+
+        pbrsfRfsult(rfplyBfr, rfs, isLdbpv3);
+
+        if ((rfplyBfr.bytfsLfft() > 0) &&
+            (rfplyBfr.pffkBytf() == LDAP_REP_EXT_OID)) {
+            rfs.fxtfnsionId =
+                rfplyBfr.pbrsfStringWithTbg(LDAP_REP_EXT_OID, isLdbpv3, null);
+        }
+        if ((rfplyBfr.bytfsLfft() > 0) &&
+            (rfplyBfr.pffkBytf() == LDAP_REP_EXT_VAL)) {
+            rfs.fxtfnsionVbluf =
+                rfplyBfr.pbrsfOdtftString(LDAP_REP_EXT_VAL, null);
+        }
+
+        rfs.rfsControls = pbrsfControls(rfplyBfr);
+    }
+
+    //
+    // Endodf LDAPv3 dontrols
+    //
+    stbtid void fndodfControls(BfrEndodfr bfr, Control[] rfqCtls)
+        throws IOExdfption {
+
+        if ((rfqCtls == null) || (rfqCtls.lfngth == 0)) {
+            rfturn;
+        }
+
+        bytf[] dontrolVbl;
+
+        bfr.bfginSfq(LdbpClifnt.LDAP_CONTROLS);
+
+            for (int i = 0; i < rfqCtls.lfngth; i++) {
+                bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                    bfr.fndodfString(rfqCtls[i].gftID(), truf); // dontrol OID
+                    if (rfqCtls[i].isCritidbl()) {
+                        bfr.fndodfBoolfbn(truf); // dritidbl dontrol
+                    }
+                    if ((dontrolVbl = rfqCtls[i].gftEndodfdVbluf()) != null) {
+                        bfr.fndodfOdtftString(dontrolVbl, Bfr.ASN_OCTET_STR);
+                    }
+                bfr.fndSfq();
+            }
+        bfr.fndSfq();
+    }
+
+    /**
+     * Rfbds thf nfxt rfply dorrfsponding to msgId, outstbnding on rfqufstBfr.
+     * Prodfssfs thf rfsult bnd bny dontrols.
+     */
+    privbtf LdbpRfsult prodfssRfply(LdbpRfqufst rfq,
+        LdbpRfsult rfs, int rfsponsfTypf) throws IOExdfption, NbmingExdfption {
+
+        BfrDfdodfr rbfr = donn.rfbdRfply(rfq);
+
+        rbfr.pbrsfSfq(null);    // init sfq
+        rbfr.pbrsfInt();        // msg id
+        if (rbfr.pbrsfBytf() !=  rfsponsfTypf) {
+            rfturn rfs;
+        }
+
+        rbfr.pbrsfLfngth();
+        pbrsfRfsult(rbfr, rfs, isLdbpv3);
+        rfs.rfsControls = isLdbpv3 ? pbrsfControls(rbfr) : null;
+
+        donn.rfmovfRfqufst(rfq);
+
+        rfturn rfs;     // Donf with opfrbtion
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // LDAP modify:
+    //  Modify thf DN dn with thf opfrbtions on bttributfs bttrs.
+    //  if, opfrbtions[0] is thf opfrbtion to bf pfrformfd on
+    //  bttrs[0];
+    //          dn - DN to modify
+    //          opfrbtions - bdd, dflftf or rfplbdf
+    //          bttrs - brrby of Attributf
+    //          rfqCtls - brrby of rfqufst dontrols
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    stbtid finbl int ADD = 0;
+    stbtid finbl int DELETE = 1;
+    stbtid finbl int REPLACE = 2;
+
+    LdbpRfsult modify(String dn, int opfrbtions[], Attributf bttrs[],
+                      Control[] rfqCtls)
+        throws IOExdfption, NbmingExdfption {
+
+        fnsurfOpfn();
+
+        LdbpRfsult rfs = nfw LdbpRfsult();
+        rfs.stbtus = LDAP_OPERATIONS_ERROR;
+
+        if (dn == null || opfrbtions.lfngth != bttrs.lfngth)
+            rfturn rfs;
+
+        BfrEndodfr bfr = nfw BfrEndodfr();
+        int durMsgId = donn.gftMsgId();
+
+        bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+            bfr.fndodfInt(durMsgId);
+            bfr.bfginSfq(LDAP_REQ_MODIFY);
+                bfr.fndodfString(dn, isLdbpv3);
+                bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                    for (int i = 0; i < opfrbtions.lfngth; i++) {
+                        bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                            bfr.fndodfInt(opfrbtions[i], LBER_ENUMERATED);
+
+                            // zfro vblufs is not pfrmittfd for thf bdd op.
+                            if ((opfrbtions[i] == ADD) && hbsNoVbluf(bttrs[i])) {
+                                throw nfw InvblidAttributfVblufExdfption(
+                                    "'" + bttrs[i].gftID() + "' hbs no vblufs.");
+                            } flsf {
+                                fndodfAttributf(bfr, bttrs[i]);
+                            }
+                        bfr.fndSfq();
+                    }
+                bfr.fndSfq();
+            bfr.fndSfq();
+            if (isLdbpv3) fndodfControls(bfr, rfqCtls);
+        bfr.fndSfq();
+
+        LdbpRfqufst rfq = donn.writfRfqufst(bfr, durMsgId);
+
+        rfturn prodfssRfply(rfq, rfs, LDAP_REP_MODIFY);
+    }
+
+    privbtf void fndodfAttributf(BfrEndodfr bfr, Attributf bttr)
+        throws IOExdfption, NbmingExdfption {
+
+        bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+            bfr.fndodfString(bttr.gftID(), isLdbpv3);
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR | 1);
+                NbmingEnumfrbtion<?> fnum_ = bttr.gftAll();
+                Objfdt vbl;
+                whilf (fnum_.hbsMorf()) {
+                    vbl = fnum_.nfxt();
+                    if (vbl instbndfof String) {
+                        bfr.fndodfString((String)vbl, isLdbpv3);
+                    } flsf if (vbl instbndfof bytf[]) {
+                        bfr.fndodfOdtftString((bytf[])vbl, Bfr.ASN_OCTET_STR);
+                    } flsf if (vbl == null) {
+                        // no bttributf vbluf
+                    } flsf {
+                        throw nfw InvblidAttributfVblufExdfption(
+                            "Mblformfd '" + bttr.gftID() + "' bttributf vbluf");
+                    }
+                }
+            bfr.fndSfq();
+        bfr.fndSfq();
+    }
+
+    privbtf stbtid boolfbn hbsNoVbluf(Attributf bttr) throws NbmingExdfption {
+        rfturn bttr.sizf() == 0 || (bttr.sizf() == 1 && bttr.gft() == null);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // LDAP bdd
+    //          Adds fntry to thf Dirfdtory
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    LdbpRfsult bdd(LdbpEntry fntry, Control[] rfqCtls)
+        throws IOExdfption, NbmingExdfption {
+
+        fnsurfOpfn();
+
+        LdbpRfsult rfs = nfw LdbpRfsult();
+        rfs.stbtus = LDAP_OPERATIONS_ERROR;
+
+        if (fntry == null || fntry.DN == null)
+            rfturn rfs;
+
+        BfrEndodfr bfr = nfw BfrEndodfr();
+        int durMsgId = donn.gftMsgId();
+        Attributf bttr;
+
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(durMsgId);
+                bfr.bfginSfq(LDAP_REQ_ADD);
+                    bfr.fndodfString(fntry.DN, isLdbpv3);
+                    bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                        NbmingEnumfrbtion<? fxtfnds Attributf> fnum_ =
+                                fntry.bttributfs.gftAll();
+                        whilf (fnum_.hbsMorf()) {
+                            bttr = fnum_.nfxt();
+
+                            // zfro vblufs is not pfrmittfd
+                            if (hbsNoVbluf(bttr)) {
+                                throw nfw InvblidAttributfVblufExdfption(
+                                    "'" + bttr.gftID() + "' hbs no vblufs.");
+                            } flsf {
+                                fndodfAttributf(bfr, bttr);
+                            }
+                        }
+                    bfr.fndSfq();
+                bfr.fndSfq();
+                if (isLdbpv3) fndodfControls(bfr, rfqCtls);
+            bfr.fndSfq();
+
+        LdbpRfqufst rfq = donn.writfRfqufst(bfr, durMsgId);
+        rfturn prodfssRfply(rfq, rfs, LDAP_REP_ADD);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // LDAP dflftf
+    //          dflftfs fntry from thf Dirfdtory
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    LdbpRfsult dflftf(String DN, Control[] rfqCtls)
+        throws IOExdfption, NbmingExdfption {
+
+        fnsurfOpfn();
+
+        LdbpRfsult rfs = nfw LdbpRfsult();
+        rfs.stbtus = LDAP_OPERATIONS_ERROR;
+
+        if (DN == null)
+            rfturn rfs;
+
+        BfrEndodfr bfr = nfw BfrEndodfr();
+        int durMsgId = donn.gftMsgId();
+
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(durMsgId);
+                bfr.fndodfString(DN, LDAP_REQ_DELETE, isLdbpv3);
+                if (isLdbpv3) fndodfControls(bfr, rfqCtls);
+            bfr.fndSfq();
+
+        LdbpRfqufst rfq = donn.writfRfqufst(bfr, durMsgId);
+
+        rfturn prodfssRfply(rfq, rfs, LDAP_REP_DELETE);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // LDAP modrdn
+    //  Chbngfs thf lbst flfmfnt of DN to nfwrdn
+    //          dn - DN to dhbngf
+    //          nfwrdn - nfw RDN to rfnbmf to
+    //          dflftfoldrdn - boolfbn whfthfr to dflftf old bttrs or not
+    //          nfwSupfrior - nfw plbdf to put thf fntry in thf trff
+    //                        (ignorfd if sfrvfr is LDAPv2)
+    //          rfqCtls - brrby of rfqufst dontrols
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    LdbpRfsult moddn(String DN, String nfwrdn, boolfbn dflftfOldRdn,
+                     String nfwSupfrior, Control[] rfqCtls)
+        throws IOExdfption, NbmingExdfption {
+
+        fnsurfOpfn();
+
+        boolfbn dhbngfSupfrior = (nfwSupfrior != null &&
+                                  nfwSupfrior.lfngth() > 0);
+
+        LdbpRfsult rfs = nfw LdbpRfsult();
+        rfs.stbtus = LDAP_OPERATIONS_ERROR;
+
+        if (DN == null || nfwrdn == null)
+            rfturn rfs;
+
+        BfrEndodfr bfr = nfw BfrEndodfr();
+        int durMsgId = donn.gftMsgId();
+
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(durMsgId);
+                bfr.bfginSfq(LDAP_REQ_MODRDN);
+                    bfr.fndodfString(DN, isLdbpv3);
+                    bfr.fndodfString(nfwrdn, isLdbpv3);
+                    bfr.fndodfBoolfbn(dflftfOldRdn);
+                    if(isLdbpv3 && dhbngfSupfrior) {
+                        //Systfm.frr.println("dhbngin supfrior");
+                        bfr.fndodfString(nfwSupfrior, LDAP_SUPERIOR_DN, isLdbpv3);
+                    }
+                bfr.fndSfq();
+                if (isLdbpv3) fndodfControls(bfr, rfqCtls);
+            bfr.fndSfq();
+
+
+        LdbpRfqufst rfq = donn.writfRfqufst(bfr, durMsgId);
+
+        rfturn prodfssRfply(rfq, rfs, LDAP_REP_MODRDN);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // LDAP dompbrf
+    //  Compbrf bttributf->vbluf pbirs in dn
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    LdbpRfsult dompbrf(String DN, String typf, String vbluf, Control[] rfqCtls)
+        throws IOExdfption, NbmingExdfption {
+
+        fnsurfOpfn();
+
+        LdbpRfsult rfs = nfw LdbpRfsult();
+        rfs.stbtus = LDAP_OPERATIONS_ERROR;
+
+        if (DN == null || typf == null || vbluf == null)
+            rfturn rfs;
+
+        BfrEndodfr bfr = nfw BfrEndodfr();
+        int durMsgId = donn.gftMsgId();
+
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(durMsgId);
+                bfr.bfginSfq(LDAP_REQ_COMPARE);
+                    bfr.fndodfString(DN, isLdbpv3);
+                    bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                        bfr.fndodfString(typf, isLdbpv3);
+
+                        // rfplbdf bny fsdbpfd dhbrbdtfrs in thf vbluf
+                        bytf[] vbl = isLdbpv3 ?
+                            vbluf.gftBytfs("UTF8") : vbluf.gftBytfs("8859_1");
+                        bfr.fndodfOdtftString(
+                            Filtfr.unfsdbpfFiltfrVbluf(vbl, 0, vbl.lfngth),
+                            Bfr.ASN_OCTET_STR);
+
+                    bfr.fndSfq();
+                bfr.fndSfq();
+                if (isLdbpv3) fndodfControls(bfr, rfqCtls);
+            bfr.fndSfq();
+
+        LdbpRfqufst rfq = donn.writfRfqufst(bfr, durMsgId);
+
+        rfturn prodfssRfply(rfq, rfs, LDAP_REP_COMPARE);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // LDAP fxtfndfd opfrbtion
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    LdbpRfsult fxtfndfdOp(String id, bytf[] rfqufst, Control[] rfqCtls,
+        boolfbn pbusfAftfrRfdfipt) throws IOExdfption, NbmingExdfption {
+
+        fnsurfOpfn();
+
+        LdbpRfsult rfs = nfw LdbpRfsult();
+        rfs.stbtus = LDAP_OPERATIONS_ERROR;
+
+        if (id == null)
+            rfturn rfs;
+
+        BfrEndodfr bfr = nfw BfrEndodfr();
+        int durMsgId = donn.gftMsgId();
+
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(durMsgId);
+                bfr.bfginSfq(LDAP_REQ_EXTENSION);
+                    bfr.fndodfString(id,
+                        Bfr.ASN_CONTEXT | 0, isLdbpv3);//[0]
+                    if (rfqufst != null) {
+                        bfr.fndodfOdtftString(rfqufst,
+                            Bfr.ASN_CONTEXT | 1);//[1]
+                    }
+                bfr.fndSfq();
+                fndodfControls(bfr, rfqCtls); // blwbys v3
+            bfr.fndSfq();
+
+        LdbpRfqufst rfq = donn.writfRfqufst(bfr, durMsgId, pbusfAftfrRfdfipt);
+
+        BfrDfdodfr rbfr = donn.rfbdRfply(rfq);
+
+        rbfr.pbrsfSfq(null);    // init sfq
+        rbfr.pbrsfInt();        // msg id
+        if (rbfr.pbrsfBytf() !=  LDAP_REP_EXTENSION) {
+            rfturn rfs;
+        }
+
+        rbfr.pbrsfLfngth();
+        pbrsfExtRfsponsf(rbfr, rfs);
+        donn.rfmovfRfqufst(rfq);
+
+        rfturn rfs;     // Donf with opfrbtion
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // Somf BER dffinitions donvfnifnt for LDAP
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    stbtid finbl int LDAP_VERSION3_VERSION2 = 32;
+    stbtid finbl int LDAP_VERSION2 = 0x02;
+    stbtid finbl int LDAP_VERSION3 = 0x03;              // LDAPv3
+    stbtid finbl int LDAP_VERSION = LDAP_VERSION3;
+
+    stbtid finbl int LDAP_REF_FOLLOW = 0x01;            // follow rfffrrbls
+    stbtid finbl int LDAP_REF_THROW = 0x02;             // throw rfffrrbl fx.
+    stbtid finbl int LDAP_REF_IGNORE = 0x03;            // ignorf rfffrrbls
+
+    stbtid finbl String LDAP_URL = "ldbp://";           // LDAPv3
+    stbtid finbl String LDAPS_URL = "ldbps://";         // LDAPv3
+
+    stbtid finbl int LBER_BOOLEAN = 0x01;
+    stbtid finbl int LBER_INTEGER = 0x02;
+    stbtid finbl int LBER_BITSTRING = 0x03;
+    stbtid finbl int LBER_OCTETSTRING = 0x04;
+    stbtid finbl int LBER_NULL = 0x05;
+    stbtid finbl int LBER_ENUMERATED = 0x0b;
+    stbtid finbl int LBER_SEQUENCE = 0x30;
+    stbtid finbl int LBER_SET = 0x31;
+
+    stbtid finbl int LDAP_SUPERIOR_DN = 0x80;
+
+    stbtid finbl int LDAP_REQ_BIND = 0x60;      // bpp + donstrudtfd
+    stbtid finbl int LDAP_REQ_UNBIND = 0x42;    // bpp + primitivf
+    stbtid finbl int LDAP_REQ_SEARCH = 0x63;    // bpp + donstrudtfd
+    stbtid finbl int LDAP_REQ_MODIFY = 0x66;    // bpp + donstrudtfd
+    stbtid finbl int LDAP_REQ_ADD = 0x68;       // bpp + donstrudtfd
+    stbtid finbl int LDAP_REQ_DELETE = 0x4b;    // bpp + primitivf
+    stbtid finbl int LDAP_REQ_MODRDN = 0x6d;    // bpp + donstrudtfd
+    stbtid finbl int LDAP_REQ_COMPARE = 0x6f;   // bpp + donstrudtfd
+    stbtid finbl int LDAP_REQ_ABANDON = 0x50;   // bpp + primitivf
+    stbtid finbl int LDAP_REQ_EXTENSION = 0x77; // bpp + donstrudtfd    (LDAPv3)
+
+    stbtid finbl int LDAP_REP_BIND = 0x61;      // bpp + donstrudtfd | 1
+    stbtid finbl int LDAP_REP_SEARCH = 0x64;    // bpp + donstrudtfd | 4
+    stbtid finbl int LDAP_REP_SEARCH_REF = 0x73;// bpp + donstrudtfd    (LDAPv3)
+    stbtid finbl int LDAP_REP_RESULT = 0x65;    // bpp + donstrudtfd | 5
+    stbtid finbl int LDAP_REP_MODIFY = 0x67;    // bpp + donstrudtfd | 7
+    stbtid finbl int LDAP_REP_ADD = 0x69;       // bpp + donstrudtfd | 9
+    stbtid finbl int LDAP_REP_DELETE = 0x6b;    // bpp + primitivf | b
+    stbtid finbl int LDAP_REP_MODRDN = 0x6d;    // bpp + primitivf | d
+    stbtid finbl int LDAP_REP_COMPARE = 0x6f;   // bpp + primitivf | f
+    stbtid finbl int LDAP_REP_EXTENSION = 0x78; // bpp + donstrudtfd    (LDAPv3)
+
+    stbtid finbl int LDAP_REP_REFERRAL = 0xb3;  // dtx + donstrudtfd    (LDAPv3)
+    stbtid finbl int LDAP_REP_EXT_OID = 0x8b;   // dtx + primitivf      (LDAPv3)
+    stbtid finbl int LDAP_REP_EXT_VAL = 0x8b;   // dtx + primitivf      (LDAPv3)
+
+    // LDAPv3 Controls
+
+    stbtid finbl int LDAP_CONTROLS = 0xb0;      // dtx + donstrudtfd    (LDAPv3)
+    stbtid finbl String LDAP_CONTROL_MANAGE_DSA_IT = "2.16.840.1.113730.3.4.2";
+    stbtid finbl String LDAP_CONTROL_PREFERRED_LANG = "1.3.6.1.4.1.1466.20035";
+    stbtid finbl String LDAP_CONTROL_PAGED_RESULTS = "1.2.840.113556.1.4.319";
+    stbtid finbl String LDAP_CONTROL_SERVER_SORT_REQ = "1.2.840.113556.1.4.473";
+    stbtid finbl String LDAP_CONTROL_SERVER_SORT_RES = "1.2.840.113556.1.4.474";
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // rfturn dodfs
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    stbtid finbl int LDAP_SUCCESS = 0;
+    stbtid finbl int LDAP_OPERATIONS_ERROR = 1;
+    stbtid finbl int LDAP_PROTOCOL_ERROR = 2;
+    stbtid finbl int LDAP_TIME_LIMIT_EXCEEDED = 3;
+    stbtid finbl int LDAP_SIZE_LIMIT_EXCEEDED = 4;
+    stbtid finbl int LDAP_COMPARE_FALSE = 5;
+    stbtid finbl int LDAP_COMPARE_TRUE = 6;
+    stbtid finbl int LDAP_AUTH_METHOD_NOT_SUPPORTED = 7;
+    stbtid finbl int LDAP_STRONG_AUTH_REQUIRED = 8;
+    stbtid finbl int LDAP_PARTIAL_RESULTS = 9;                  // Slbpd
+    stbtid finbl int LDAP_REFERRAL = 10;                        // LDAPv3
+    stbtid finbl int LDAP_ADMIN_LIMIT_EXCEEDED = 11;            // LDAPv3
+    stbtid finbl int LDAP_UNAVAILABLE_CRITICAL_EXTENSION = 12;  // LDAPv3
+    stbtid finbl int LDAP_CONFIDENTIALITY_REQUIRED = 13;        // LDAPv3
+    stbtid finbl int LDAP_SASL_BIND_IN_PROGRESS = 14;           // LDAPv3
+    stbtid finbl int LDAP_NO_SUCH_ATTRIBUTE = 16;
+    stbtid finbl int LDAP_UNDEFINED_ATTRIBUTE_TYPE = 17;
+    stbtid finbl int LDAP_INAPPROPRIATE_MATCHING = 18;
+    stbtid finbl int LDAP_CONSTRAINT_VIOLATION = 19;
+    stbtid finbl int LDAP_ATTRIBUTE_OR_VALUE_EXISTS = 20;
+    stbtid finbl int LDAP_INVALID_ATTRIBUTE_SYNTAX = 21;
+    stbtid finbl int LDAP_NO_SUCH_OBJECT = 32;
+    stbtid finbl int LDAP_ALIAS_PROBLEM = 33;
+    stbtid finbl int LDAP_INVALID_DN_SYNTAX = 34;
+    stbtid finbl int LDAP_IS_LEAF = 35;
+    stbtid finbl int LDAP_ALIAS_DEREFERENCING_PROBLEM = 36;
+    stbtid finbl int LDAP_INAPPROPRIATE_AUTHENTICATION = 48;
+    stbtid finbl int LDAP_INVALID_CREDENTIALS = 49;
+    stbtid finbl int LDAP_INSUFFICIENT_ACCESS_RIGHTS = 50;
+    stbtid finbl int LDAP_BUSY = 51;
+    stbtid finbl int LDAP_UNAVAILABLE = 52;
+    stbtid finbl int LDAP_UNWILLING_TO_PERFORM = 53;
+    stbtid finbl int LDAP_LOOP_DETECT = 54;
+    stbtid finbl int LDAP_NAMING_VIOLATION = 64;
+    stbtid finbl int LDAP_OBJECT_CLASS_VIOLATION = 65;
+    stbtid finbl int LDAP_NOT_ALLOWED_ON_NON_LEAF = 66;
+    stbtid finbl int LDAP_NOT_ALLOWED_ON_RDN = 67;
+    stbtid finbl int LDAP_ENTRY_ALREADY_EXISTS = 68;
+    stbtid finbl int LDAP_OBJECT_CLASS_MODS_PROHIBITED = 69;
+    stbtid finbl int LDAP_AFFECTS_MULTIPLE_DSAS = 71;           // LDAPv3
+    stbtid finbl int LDAP_OTHER = 80;
+
+    stbtid finbl String[] ldbp_frror_mfssbgf = {
+        "Suddfss",                                      // 0
+        "Opfrbtions Error",                             // 1
+        "Protodol Error",                               // 2
+        "Timflimit Exdffdfd",                           // 3
+        "Sizflimit Exdffdfd",                           // 4
+        "Compbrf Fblsf",                                // 5
+        "Compbrf Truf",                                 // 6
+        "Authfntidbtion Mfthod Not Supportfd",          // 7
+        "Strong Authfntidbtion Rfquirfd",               // 8
+        null,
+        "Rfffrrbl",                                     // 10
+        "Administrbtivf Limit Exdffdfd",                // 11
+        "Unbvbilbblf Critidbl Extfnsion",               // 12
+        "Confidfntiblity Rfquirfd",                     // 13
+        "SASL Bind In Progrfss",                        // 14
+        null,
+        "No Sudh Attributf",                            // 16
+        "Undffinfd Attributf Typf",                     // 17
+        "Inbppropribtf Mbtdhing",                       // 18
+        "Constrbint Violbtion",                         // 19
+        "Attributf Or Vbluf Exists",                    // 20
+        "Invblid Attributf Syntbx",                     // 21
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        "No Sudh Objfdt",                               // 32
+        "Alibs Problfm",                                // 33
+        "Invblid DN Syntbx",                            // 34
+        null,
+        "Alibs Dfrfffrfnding Problfm",                  // 36
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        "Inbppropribtf Authfntidbtion",                 // 48
+        "Invblid Crfdfntibls",                          // 49
+        "Insuffidifnt Addfss Rights",                   // 50
+        "Busy",                                         // 51
+        "Unbvbilbblf",                                  // 52
+        "Unwilling To Pfrform",                         // 53
+        "Loop Dftfdt",                                  // 54
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        "Nbming Violbtion",                             // 64
+        "Objfdt Clbss Violbtion",                       // 65
+        "Not Allowfd On Non-lfbf",                      // 66
+        "Not Allowfd On RDN",                           // 67
+        "Entry Alrfbdy Exists",                         // 68
+        "Objfdt Clbss Modifidbtions Prohibitfd",        // 69
+        null,
+        "Afffdts Multiplf DSAs",                        // 71
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        "Othfr",                                        // 80
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+    };
+
+
+    /*
+     * Gfnfrbtf bn frror mfssbgf from thf LDAP frror dodf bnd frror dibgnostid.
+     * Thf mfssbgf formbt is:
+     *
+     *     "[LDAP: frror dodf <frrorCodf> - <frrorMfssbgf>]"
+     *
+     * whfrf <frrorCodf> is b numfrid frror dodf
+     * bnd <frrorMfssbgf> is b tfxtubl dfsdription of thf frror (if bvbilbblf)
+     *
+     */
+    stbtid String gftErrorMfssbgf(int frrorCodf, String frrorMfssbgf) {
+
+        String mfssbgf = "[LDAP: frror dodf " + frrorCodf;
+
+        if ((frrorMfssbgf != null) && (frrorMfssbgf.lfngth() != 0)) {
+
+            // bppfnd frror mfssbgf from thf sfrvfr
+            mfssbgf = mfssbgf + " - " + frrorMfssbgf + "]";
+
+        } flsf {
+
+            // bppfnd built-in frror mfssbgf
+            try {
+                if (ldbp_frror_mfssbgf[frrorCodf] != null) {
+                    mfssbgf = mfssbgf + " - " + ldbp_frror_mfssbgf[frrorCodf] +
+                                "]";
+                }
+            } dbtdh (ArrbyIndfxOutOfBoundsExdfption fx) {
+                mfssbgf = mfssbgf + "]";
+            }
+        }
+        rfturn mfssbgf;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // Unsoliditfd notifidbtion support.
+    //
+    // An LdbpClifnt mbintbins b list of LdbpCtx thbt hbvf rfgistfrfd
+    // for UnsoliditfdNotifidbtions. This is b list bfdbusf b singlf
+    // LdbpClifnt might bf shbrfd bmong multiplf dontfxts.
+    //
+    // Whfn bddUnsoliditfd() is invokfd, thf LdbpCtx is bddfd to thf list.
+    //
+    // Whfn Connfdtion rfdfivfs bn unsoliditfd notifidbtion (msgid == 0),
+    // it invokfs LdbpClifnt.prodfssUnsoliditfd(). prodfssUnsoliditfd()
+    // pbrsfs thf Extfndfd Rfsponsf. If thfrf brf rfgistfrfd listfnfrs,
+    // LdbpClifnt drfbtfs bn UnsoliditfdNotifidbtion from thf rfsponsf
+    // bnd informs fbdh LdbpCtx to firf bn fvfnt for thf notifidbtion.
+    // If it is b DISCONNECT notifidbtion, thf donnfdtion is dlosfd bnd b
+    // NbmingExdfptionEvfnt is firfd to thf listfnfrs.
+    //
+    // Whfn thf donnfdtion is dlosfd out-of-bbnd likf this, thf nfxt
+    // timf b mfthod is invokfd on LdbpClifnt, bn IOExdfption is thrown.
+    //
+    // rfmovfUnsoliditfd() is invokfd to rfmovf bn LdbpCtx from this dlifnt.
+    //
+    ////////////////////////////////////////////////////////////////////////////
+    privbtf Vfdtor<LdbpCtx> unsoliditfd = nfw Vfdtor<>(3);
+    void bddUnsoliditfd(LdbpCtx dtx) {
+        if (dfbug > 0) {
+            Systfm.frr.println("LdbpClifnt.bddUnsoliditfd" + dtx);
+        }
+        unsoliditfd.bddElfmfnt(dtx);
+    }
+
+    void rfmovfUnsoliditfd(LdbpCtx dtx) {
+        if (dfbug > 0) {
+            Systfm.frr.println("LdbpClifnt.rfmovfUnsoliditfd" + dtx);
+        }
+        syndhronizfd (unsoliditfd) {
+            if (unsoliditfd.sizf() == 0) {
+                rfturn;
+            }
+            unsoliditfd.rfmovfElfmfnt(dtx);
+        }
+    }
+
+    // NOTE: Cbnnot bf syndhronizfd bfdbusf this is dbllfd bsyndhronously
+    // by thf rfbdfr thrfbd in Connfdtion. Instfbd, synd on 'unsoliditfd' Vfdtor.
+    void prodfssUnsoliditfd(BfrDfdodfr bfr) {
+        if (dfbug > 0) {
+            Systfm.frr.println("LdbpClifnt.prodfssUnsoliditfd");
+        }
+        syndhronizfd (unsoliditfd) {
+            try {
+                // Pbrsf thf rfsponsf
+                LdbpRfsult rfs = nfw LdbpRfsult();
+
+                bfr.pbrsfSfq(null); // init sfq
+                bfr.pbrsfInt();             // msg id; should bf 0; ignorfd
+                if (bfr.pbrsfBytf() != LDAP_REP_EXTENSION) {
+                    throw nfw IOExdfption(
+                        "Unsoliditfd Notifidbtion must bf bn Extfndfd Rfsponsf");
+                }
+                bfr.pbrsfLfngth();
+                pbrsfExtRfsponsf(bfr, rfs);
+
+                if (DISCONNECT_OID.fqubls(rfs.fxtfnsionId)) {
+                    // fordf dlosing of donnfdtion
+                    fordfClosf(poolfd);
+                }
+
+                if (unsoliditfd.sizf() > 0) {
+                    // Crfbtf bn UnsoliditfdNotifidbtion using thf pbrsfd dbtb
+                    // Nffd b 'dtx' objfdt bfdbusf wf wbnt to usf thf dontfxt's
+                    // list of providfr dontrol fbdtorifs.
+                    UnsoliditfdNotifidbtion notidf = nfw UnsoliditfdRfsponsfImpl(
+                        rfs.fxtfnsionId,
+                        rfs.fxtfnsionVbluf,
+                        rfs.rfffrrbls,
+                        rfs.stbtus,
+                        rfs.frrorMfssbgf,
+                        rfs.mbtdhfdDN,
+                        (rfs.rfsControls != null) ?
+                        unsoliditfd.flfmfntAt(0).donvfrtControls(rfs.rfsControls) :
+                        null);
+
+                    // Firf UnsoliditfdNotifidbtion fvfnts to listfnfrs
+                    notifyUnsoliditfd(notidf);
+
+                    // If "disdonnfdt" notifidbtion,
+                    // notify unsoliditfd listfnfrs vib NbmingExdfption
+                    if (DISCONNECT_OID.fqubls(rfs.fxtfnsionId)) {
+                        notifyUnsoliditfd(
+                            nfw CommunidbtionExdfption("Connfdtion dlosfd"));
+                    }
+                }
+            } dbtdh (IOExdfption f) {
+                if (unsoliditfd.sizf() == 0)
+                    rfturn;  // no onf rfgistfrfd; ignorf
+
+                NbmingExdfption nf = nfw CommunidbtionExdfption(
+                    "Problfm pbrsing unsoliditfd notifidbtion");
+                nf.sftRootCbusf(f);
+
+                notifyUnsoliditfd(nf);
+
+            } dbtdh (NbmingExdfption f) {
+                notifyUnsoliditfd(f);
+            }
+        }
+    }
+
+
+    privbtf void notifyUnsoliditfd(Objfdt f) {
+        for (int i = 0; i < unsoliditfd.sizf(); i++) {
+            unsoliditfd.flfmfntAt(i).firfUnsoliditfd(f);
+        }
+        if (f instbndfof NbmingExdfption) {
+            unsoliditfd.sftSizf(0);  // no morf listfnfrs bftfr fxdfption
+        }
+    }
+
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (donn == null || !donn.usfbblf) {
+            if (donn != null && donn.dlosurfRfbson != null) {
+                throw donn.dlosurfRfbson;
+            } flsf {
+                throw nfw IOExdfption("donnfdtion dlosfd");
+            }
+        }
+    }
+
+    // pbdkbgf privbtf (usfd by LdbpCtx)
+    stbtid LdbpClifnt gftInstbndf(boolfbn usfPool, String hostnbmf, int port,
+        String fbdtory, int donnfdtTimfout, int rfbdTimfout, OutputStrfbm trbdf,
+        int vfrsion, String buthMfdhbnism, Control[] dtls, String protodol,
+        String usfr, Objfdt pbsswd, Hbshtbblf<?,?> fnv) throws NbmingExdfption {
+
+        if (usfPool) {
+            if (LdbpPoolMbnbgfr.isPoolingAllowfd(fbdtory, trbdf,
+                    buthMfdhbnism, protodol, fnv)) {
+                LdbpClifnt bnswfr = LdbpPoolMbnbgfr.gftLdbpClifnt(
+                        hostnbmf, port, fbdtory, donnfdtTimfout, rfbdTimfout,
+                        trbdf, vfrsion, buthMfdhbnism, dtls, protodol, usfr,
+                        pbsswd, fnv);
+                bnswfr.rfffrfndfCount = 1;   // blwbys onf whfn stbrting out
+                rfturn bnswfr;
+            }
+        }
+        rfturn nfw LdbpClifnt(hostnbmf, port, fbdtory, donnfdtTimfout,
+                                        rfbdTimfout, trbdf, null);
+    }
+}

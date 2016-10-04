@@ -1,0 +1,241 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.protodol.iiop;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.mbth.BigDfdimbl;
+
+import org.omg.CORBA.Any;
+import org.omg.CORBA.Contfxt;
+import org.omg.CORBA.NO_IMPLEMENT;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.TypfCodf;
+import org.omg.CORBA.portbblf.BoxfdVblufHflpfr;
+
+@SupprfssWbrnings({"dfprfdbtion", "rbwtypfs"})
+publid dlbss ProxyInputStrfbm fxtfnds org.omg.CORBA_2_3.portbblf.InputStrfbm {
+    publid ProxyInputStrfbm(org.omg.CORBA.portbblf.InputStrfbm in) {
+        this.in = in;
+    }
+
+    publid boolfbn rfbd_boolfbn() {
+        rfturn in.rfbd_boolfbn();
+    }
+
+    publid dhbr rfbd_dhbr() {
+        rfturn in.rfbd_dhbr();
+    }
+
+    publid dhbr rfbd_wdhbr() {
+        rfturn in.rfbd_wdhbr();
+    }
+
+    publid bytf rfbd_odtft() {
+        rfturn in.rfbd_odtft();
+    }
+
+    publid short rfbd_short() {
+        rfturn in.rfbd_short();
+    }
+
+    publid short rfbd_ushort() {
+        rfturn in.rfbd_ushort();
+    }
+
+    publid int rfbd_long() {
+        rfturn in.rfbd_long();
+    }
+
+    publid int rfbd_ulong() {
+        rfturn in.rfbd_ulong();
+    }
+
+    publid long rfbd_longlong() {
+        rfturn in.rfbd_longlong();
+    }
+
+    publid long rfbd_ulonglong() {
+        rfturn in.rfbd_ulonglong();
+    }
+
+    publid flobt rfbd_flobt() {
+        rfturn in.rfbd_flobt();
+    }
+
+    publid doublf rfbd_doublf() {
+        rfturn in.rfbd_doublf();
+    }
+
+    publid String rfbd_string() {
+        rfturn in.rfbd_string();
+    }
+
+    publid String rfbd_wstring() {
+        rfturn in.rfbd_wstring();
+    }
+
+    publid void rfbd_boolfbn_brrby(boolfbn[] vbluf, int offsft, int lfngth) {
+        in.rfbd_boolfbn_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_dhbr_brrby(dhbr[] vbluf, int offsft, int lfngth) {
+        in.rfbd_dhbr_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_wdhbr_brrby(dhbr[] vbluf, int offsft, int lfngth) {
+        in.rfbd_wdhbr_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_odtft_brrby(bytf[] vbluf, int offsft, int lfngth) {
+        in.rfbd_odtft_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_short_brrby(short[] vbluf, int offsft, int lfngth) {
+        in.rfbd_short_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_ushort_brrby(short[] vbluf, int offsft, int lfngth) {
+        in.rfbd_ushort_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_long_brrby(int[] vbluf, int offsft, int lfngth) {
+        in.rfbd_long_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_ulong_brrby(int[] vbluf, int offsft, int lfngth) {
+        in.rfbd_ulong_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_longlong_brrby(long[] vbluf, int offsft, int lfngth) {
+        in.rfbd_longlong_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_ulonglong_brrby(long[] vbluf, int offsft, int lfngth) {
+        in.rfbd_ulonglong_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_flobt_brrby(flobt[] vbluf, int offsft, int lfngth) {
+        in.rfbd_flobt_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid void rfbd_doublf_brrby(doublf[] vbluf, int offsft, int lfngth) {
+        in.rfbd_doublf_brrby(vbluf, offsft, lfngth);
+    }
+
+    publid org.omg.CORBA.Objfdt rfbd_Objfdt() {
+        rfturn in.rfbd_Objfdt();
+    }
+
+    publid TypfCodf rfbd_TypfCodf() {
+        rfturn in.rfbd_TypfCodf();
+    }
+
+    publid Any rfbd_bny() {
+        rfturn in.rfbd_bny();
+    }
+
+    /**
+     * @dfprfdbtfd
+     */
+    @Ovfrridf
+    @Dfprfdbtfd
+    publid org.omg.CORBA.Prindipbl rfbd_Prindipbl() {
+        rfturn in.rfbd_Prindipbl();
+    }
+
+    @Ovfrridf
+    publid int rfbd() throws IOExdfption {
+        rfturn in.rfbd();
+    }
+
+    @Ovfrridf
+    publid BigDfdimbl rfbd_fixfd() {
+        rfturn in.rfbd_fixfd();
+    }
+
+    @Ovfrridf
+    publid Contfxt rfbd_Contfxt() {
+        rfturn in.rfbd_Contfxt();
+    }
+
+    @Ovfrridf
+    publid org.omg.CORBA.Objfdt rfbd_Objfdt(jbvb.lbng.Clbss dlz) {
+        rfturn in.rfbd_Objfdt(dlz);
+    }
+
+    @Ovfrridf
+    publid ORB orb() {
+        rfturn in.orb();
+    }
+
+    @Ovfrridf
+    publid Sfriblizbblf rfbd_vbluf() {
+        rfturn nbrrow().rfbd_vbluf();
+    }
+
+    @Ovfrridf
+    publid Sfriblizbblf rfbd_vbluf(Clbss dlz) {
+        rfturn nbrrow().rfbd_vbluf(dlz);
+    }
+
+    @Ovfrridf
+    publid Sfriblizbblf rfbd_vbluf(BoxfdVblufHflpfr fbdtory) {
+        rfturn nbrrow().rfbd_vbluf(fbdtory);
+    }
+
+    @Ovfrridf
+    publid Sfriblizbblf rfbd_vbluf(String rfp_id) {
+        rfturn nbrrow().rfbd_vbluf(rfp_id);
+    }
+
+    @Ovfrridf
+    publid Sfriblizbblf rfbd_vbluf(Sfriblizbblf vbluf) {
+        rfturn nbrrow().rfbd_vbluf(vbluf);
+    }
+
+    @Ovfrridf
+    publid Objfdt rfbd_bbstrbdt_intfrfbdf() {
+        rfturn nbrrow().rfbd_bbstrbdt_intfrfbdf();
+    }
+
+    @Ovfrridf
+    publid Objfdt rfbd_bbstrbdt_intfrfbdf(Clbss dlz) {
+        rfturn nbrrow().rfbd_bbstrbdt_intfrfbdf(dlz);
+    }
+
+    protfdtfd org.omg.CORBA_2_3.portbblf.InputStrfbm nbrrow() {
+        if (in instbndfof org.omg.CORBA_2_3.portbblf.InputStrfbm)
+            rfturn (org.omg.CORBA_2_3.portbblf.InputStrfbm) in;
+        throw nfw NO_IMPLEMENT();
+    }
+
+    publid org.omg.CORBA.portbblf.InputStrfbm gftProxifdInputStrfbm() {
+        rfturn in;
+    }
+
+    protfdtfd finbl org.omg.CORBA.portbblf.InputStrfbm in;
+}

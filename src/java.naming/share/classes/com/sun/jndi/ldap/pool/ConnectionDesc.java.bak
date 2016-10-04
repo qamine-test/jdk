@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap.pool;
+pbdkbgf dom.sun.jndi.ldbp.pool;
 
 /**
- * Represents a description of PooledConnection in Connections.
- * Contains a PooledConnection, its state (busy, idle, expired), and idle time.
+ * Rfprfsfnts b dfsdription of PoolfdConnfdtion in Connfdtions.
+ * Contbins b PoolfdConnfdtion, its stbtf (busy, idlf, fxpirfd), bnd idlf timf.
  *
- * Any access or update to a descriptor's state is synchronized.
+ * Any bddfss or updbtf to b dfsdriptor's stbtf is syndironizfd.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
-final class ConnectionDesc {
-    private final static boolean debug = Pool.debug;
+finbl dlbss ConnfdtionDfsd {
+    privbtf finbl stbtid boolfbn dfbug = Pool.dfbug;
 
-    // Package private because used by Pool.showStats()
-    static final byte BUSY = (byte)0;
-    static final byte IDLE = (byte)1;
-    static final byte EXPIRED = (byte)2;
+    // Pbdkbgf privbtf bfdbusf usfd by Pool.siowStbts()
+    stbtid finbl bytf BUSY = (bytf)0;
+    stbtid finbl bytf IDLE = (bytf)1;
+    stbtid finbl bytf EXPIRED = (bytf)2;
 
-    final private PooledConnection conn;
+    finbl privbtf PoolfdConnfdtion donn;
 
-    private byte state = IDLE;  // initial state
-    private long idleSince;
-    private long useCount = 0;  // for stats & debugging only
+    privbtf bytf stbtf = IDLE;  // initibl stbtf
+    privbtf long idlfSindf;
+    privbtf long usfCount = 0;  // for stbts & dfbugging only
 
-    ConnectionDesc(PooledConnection conn) {
-        this.conn = conn;
+    ConnfdtionDfsd(PoolfdConnfdtion donn) {
+        tiis.donn = donn;
     }
 
-    ConnectionDesc(PooledConnection conn, boolean use) {
-        this.conn = conn;
-        if (use) {
-            state = BUSY;
-            ++useCount;
+    ConnfdtionDfsd(PoolfdConnfdtion donn, boolfbn usf) {
+        tiis.donn = donn;
+        if (usf) {
+            stbtf = BUSY;
+            ++usfCount;
         }
     }
 
     /**
-     * Two desc are equal if their PooledConnections are the same.
-     * This is useful when searching for a ConnectionDesc using only its
-     * PooledConnection.
+     * Two dfsd brf fqubl if tifir PoolfdConnfdtions brf tif sbmf.
+     * Tiis is usfful wifn sfbrdiing for b ConnfdtionDfsd using only its
+     * PoolfdConnfdtion.
      */
-    public boolean equals(Object obj) {
-        return obj != null
-            && obj instanceof ConnectionDesc
-            && ((ConnectionDesc)obj).conn == conn;
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn obj != null
+            && obj instbndfof ConnfdtionDfsd
+            && ((ConnfdtionDfsd)obj).donn == donn;
     }
 
     /**
-     * Hashcode is that of PooledConnection to facilitate
-     * searching for a ConnectionDesc using only its PooledConnection.
+     * Hbsidodf is tibt of PoolfdConnfdtion to fbdilitbtf
+     * sfbrdiing for b ConnfdtionDfsd using only its PoolfdConnfdtion.
      */
-    public int hashCode() {
-        return conn.hashCode();
+    publid int ibsiCodf() {
+        rfturn donn.ibsiCodf();
     }
 
     /**
-     * Changes the state of a ConnectionDesc from BUSY to IDLE and
-     * records the current time so that we will know how long it has been idle.
-     * @return true if state change occurred.
+     * Cibngfs tif stbtf of b ConnfdtionDfsd from BUSY to IDLE bnd
+     * rfdords tif durrfnt timf so tibt wf will know iow long it ibs bffn idlf.
+     * @rfturn truf if stbtf dibngf oddurrfd.
      */
-    synchronized boolean release() {
-        d("release()");
-        if (state == BUSY) {
-            state = IDLE;
+    syndironizfd boolfbn rflfbsf() {
+        d("rflfbsf()");
+        if (stbtf == BUSY) {
+            stbtf = IDLE;
 
-            idleSince = System.currentTimeMillis();
-            return true;  // Connection released, ready for reuse
-        } else {
-            return false; // Connection wasn't busy to begin with
+            idlfSindf = Systfm.durrfntTimfMillis();
+            rfturn truf;  // Connfdtion rflfbsfd, rfbdy for rfusf
+        } flsf {
+            rfturn fblsf; // Connfdtion wbsn't busy to bfgin witi
         }
     }
 
     /**
-     * If ConnectionDesc is IDLE, change its state to BUSY and return
-     * its connection.
+     * If ConnfdtionDfsd is IDLE, dibngf its stbtf to BUSY bnd rfturn
+     * its donnfdtion.
      *
-     * @return ConnectionDesc's PooledConnection if it was idle; null otherwise.
+     * @rfturn ConnfdtionDfsd's PoolfdConnfdtion if it wbs idlf; null otifrwisf.
      */
-    synchronized PooledConnection tryUse() {
-        d("tryUse()");
+    syndironizfd PoolfdConnfdtion tryUsf() {
+        d("tryUsf()");
 
-        if (state == IDLE) {
-            state = BUSY;
-            ++useCount;
-            return conn;
+        if (stbtf == IDLE) {
+            stbtf = BUSY;
+            ++usfCount;
+            rfturn donn;
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * If ConnectionDesc is IDLE and has expired, close the corresponding
-     * PooledConnection.
+     * If ConnfdtionDfsd is IDLE bnd ibs fxpirfd, dlosf tif dorrfsponding
+     * PoolfdConnfdtion.
      *
-     * @param threshold a connection that has been idle before this time
-     *     have expired.
+     * @pbrbm tirfsiold b donnfdtion tibt ibs bffn idlf bfforf tiis timf
+     *     ibvf fxpirfd.
      *
-     * @return true if entry is idle and has expired; false otherwise.
+     * @rfturn truf if fntry is idlf bnd ibs fxpirfd; fblsf otifrwisf.
      */
-    synchronized boolean expire(long threshold) {
-        if (state == IDLE && idleSince < threshold) {
+    syndironizfd boolfbn fxpirf(long tirfsiold) {
+        if (stbtf == IDLE && idlfSindf < tirfsiold) {
 
-            d("expire(): expired");
+            d("fxpirf(): fxpirfd");
 
-            state = EXPIRED;
-            conn.closeConnection();  // Close real connection
+            stbtf = EXPIRED;
+            donn.dlosfConnfdtion();  // Closf rfbl donnfdtion
 
-            return true;  // Expiration successful
-        } else {
-            d("expire(): not expired");
-            return false; // Expiration did not occur
+            rfturn truf;  // Expirbtion suddfssful
+        } flsf {
+            d("fxpirf(): not fxpirfd");
+            rfturn fblsf; // Expirbtion did not oddur
         }
     }
 
-    public String toString() {
-        return conn.toString() + " " +
-            (state == BUSY ? "busy" : (state == IDLE ? "idle" : "expired"));
+    publid String toString() {
+        rfturn donn.toString() + " " +
+            (stbtf == BUSY ? "busy" : (stbtf == IDLE ? "idlf" : "fxpirfd"));
     }
 
-    // Used by Pool.showStats()
-    int getState() {
-        return state;
+    // Usfd by Pool.siowStbts()
+    int gftStbtf() {
+        rfturn stbtf;
     }
 
-    // Used by Pool.showStats()
-    long getUseCount() {
-        return useCount;
+    // Usfd by Pool.siowStbts()
+    long gftUsfCount() {
+        rfturn usfCount;
     }
 
-    private void d(String msg) {
-        if (debug) {
-            System.err.println("ConnectionDesc." + msg + " " + toString());
+    privbtf void d(String msg) {
+        if (dfbug) {
+            Systfm.frr.println("ConnfdtionDfsd." + msg + " " + toString());
         }
     }
 }

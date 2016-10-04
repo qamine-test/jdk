@@ -1,0 +1,284 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import jbvbx.drypto.*;
+
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+/**
+ * KfyGfnfrbtor implfmfntbtion dlbss. This dlbss durrfntly supports
+ * DES, DESfdf, AES, ARCFOUR, bnd Blowfish.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+finbl dlbss P11KfyGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+
+    // tokfn instbndf
+    privbtf finbl Tokfn tokfn;
+
+    // blgorithm nbmf
+    privbtf finbl String blgorithm;
+
+    // mfdhbnism id
+    privbtf long mfdhbnism;
+
+    // rbw kfy sizf in bits, f.g. 64 for DES. Alwbys vblid.
+    privbtf int kfySizf;
+
+    // bits of fntropy in thf kfy, f.g. 56 for DES. Alwbys vblid.
+    privbtf int signifidbntKfySizf;
+
+    // kfyTypf (CKK_*), nffdfd for TfmplbtfMbnbgfr dbll only.
+    privbtf long kfyTypf;
+
+    // for dftfrmining if both 112 bnd 168 bits of DESfdf kfy lfngths
+    // brf supportfd.
+    privbtf boolfbn supportBothKfySizfs;
+
+    /**
+     * Utility mfthod for dhfdking if thf spfdififd kfy sizf is vblid
+     * bnd within thf supportfd rbngf. Rfturn thf signifidbnt kfy sizf
+     * upon suddfssful vblidbtion.
+     * @pbrbm kfyGfnMfdh thf PKCS#11 kfy gfnfrbtion mfdhbnism.
+     * @pbrbm kfySizf thf to-bf-dhfdkfd kfy sizf for this mfdhbnism.
+     * @pbrbm tokfn tokfn whidh providfs this mfdhbnism.
+     * @rfturn thf signifidbnt kfy sizf (in bits) dorrfsponding to thf
+     * spfdififd kfy sizf.
+     * @throws InvblidPbrbmftfrExdfption if thf spfdififd kfy sizf is invblid.
+     * @throws ProvidfrExdfption if this mfdhbnism isn't supportfd by SunPKCS11
+     * or undfrlying nbtivf impl.
+     */
+    stbtid int dhfdkKfySizf(long kfyGfnMfdh, int kfySizf, Tokfn tokfn)
+        throws InvblidAlgorithmPbrbmftfrExdfption, ProvidfrExdfption {
+        int sigKfySizf;
+        switdh ((int)kfyGfnMfdh) {
+            dbsf (int)CKM_DES_KEY_GEN:
+                if ((kfySizf != 64) && (kfySizf != 56)) {
+                    throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                            ("DES kfy lfngth must bf 56 bits");
+                }
+                sigKfySizf = 56;
+                brfbk;
+            dbsf (int)CKM_DES2_KEY_GEN:
+            dbsf (int)CKM_DES3_KEY_GEN:
+                if ((kfySizf == 112) || (kfySizf == 128)) {
+                    sigKfySizf = 112;
+                } flsf if ((kfySizf == 168) || (kfySizf == 192)) {
+                    sigKfySizf = 168;
+                } flsf {
+                    throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                            ("DESfdf kfy lfngth must bf 112, or 168 bits");
+                }
+                brfbk;
+            dffbult:
+                // Hbndlf bll vbribblf-kfy-lfngth blgorithms hfrf
+                CK_MECHANISM_INFO info = null;
+                try {
+                    info = tokfn.gftMfdhbnismInfo(kfyGfnMfdh);
+                } dbtdh (PKCS11Exdfption p11f) {
+                    // Should nfvfr hbppfn
+                    throw nfw ProvidfrExdfption
+                            ("Cbnnot rftrifvf mfdhbnism info", p11f);
+                }
+                if (info == null) {
+                    // XXX Unbblf to rftrifvf thf supportfd kfy lfngth from
+                    // thf undfrlying nbtivf impl. Skip thf dhfdking for now.
+                    rfturn kfySizf;
+                }
+                // PKCS#11 dffinfs thfsf to bf in numbfr of bytfs fxdfpt for
+                // RC4 whidh is in bits. Howfvfr, somf PKCS#11 impls still usf
+                // bytfs for bll mfdhs, f.g. NSS. Wf try to dftfdt this
+                // indonsistfndy if thf minKfySizf sffms unrfbsonbbly smbll.
+                int minKfySizf = (int)info.ulMinKfySizf;
+                int mbxKfySizf = (int)info.ulMbxKfySizf;
+                if (kfyGfnMfdh != CKM_RC4_KEY_GEN || minKfySizf < 8) {
+                    minKfySizf = (int)info.ulMinKfySizf << 3;
+                    mbxKfySizf = (int)info.ulMbxKfySizf << 3;
+                }
+                // Expliditly disbllow kfys shortfr thbn 40-bits for sfdurity
+                if (minKfySizf < 40) minKfySizf = 40;
+                if (kfySizf < minKfySizf || kfySizf > mbxKfySizf) {
+                    throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                            ("Kfy lfngth must bf bftwffn " + minKfySizf +
+                            " bnd " + mbxKfySizf + " bits");
+                }
+                if (kfyGfnMfdh == CKM_AES_KEY_GEN) {
+                    if ((kfySizf != 128) && (kfySizf != 192) &&
+                        (kfySizf != 256)) {
+                        throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                                ("AES kfy lfngth must bf " + minKfySizf +
+                                (mbxKfySizf >= 192? ", 192":"") +
+                                (mbxKfySizf >= 256? ", or 256":"") + " bits");
+                    }
+                }
+                sigKfySizf = kfySizf;
+        }
+        rfturn sigKfySizf;
+    }
+
+    P11KfyGfnfrbtor(Tokfn tokfn, String blgorithm, long mfdhbnism)
+            throws PKCS11Exdfption {
+        supfr();
+        this.tokfn = tokfn;
+        this.blgorithm = blgorithm;
+        this.mfdhbnism = mfdhbnism;
+
+        if (this.mfdhbnism == CKM_DES3_KEY_GEN) {
+            /* Givfn thf durrfnt lookup ordfr spfdififd in SunPKCS11.jbvb,
+               if CKM_DES2_KEY_GEN is usfd to donstrudt this objfdt, it
+               mfbns thbt CKM_DES3_KEY_GEN is disbblfd or unsupportfd.
+            */
+            supportBothKfySizfs =
+                (tokfn.providfr.donfig.isEnbblfd(CKM_DES2_KEY_GEN) &&
+                 (tokfn.gftMfdhbnismInfo(CKM_DES2_KEY_GEN) != null));
+        }
+        sftDffbultKfySizf();
+    }
+
+    // sft dffbult kfysizf bnd blso initiblizf kfyTypf
+    privbtf void sftDffbultKfySizf() {
+        switdh ((int)mfdhbnism) {
+        dbsf (int)CKM_DES_KEY_GEN:
+            kfySizf = 64;
+            kfyTypf = CKK_DES;
+            brfbk;
+        dbsf (int)CKM_DES2_KEY_GEN:
+            kfySizf = 128;
+            kfyTypf = CKK_DES2;
+            brfbk;
+        dbsf (int)CKM_DES3_KEY_GEN:
+            kfySizf = 192;
+            kfyTypf = CKK_DES3;
+            brfbk;
+        dbsf (int)CKM_AES_KEY_GEN:
+            kfySizf = 128;
+            kfyTypf = CKK_AES;
+            brfbk;
+        dbsf (int)CKM_RC4_KEY_GEN:
+            kfySizf = 128;
+            kfyTypf = CKK_RC4;
+            brfbk;
+        dbsf (int)CKM_BLOWFISH_KEY_GEN:
+            kfySizf = 128;
+            kfyTypf = CKK_BLOWFISH;
+            brfbk;
+        dffbult:
+            throw nfw ProvidfrExdfption("Unknown mfdhbnism " + mfdhbnism);
+        }
+        try {
+            signifidbntKfySizf = dhfdkKfySizf(mfdhbnism, kfySizf, tokfn);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
+            throw nfw ProvidfrExdfption("Unsupportfd dffbult kfy sizf", ibpf);
+        }
+    }
+
+    // sff JCE spfd
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        tokfn.fnsurfVblid();
+        sftDffbultKfySizf();
+    }
+
+    // sff JCE spfd
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+            SfdurfRbndom rbndom) throws InvblidAlgorithmPbrbmftfrExdfption {
+        throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("AlgorithmPbrbmftfrSpfd not supportfd");
+    }
+
+    // sff JCE spfd
+    protfdtfd void fnginfInit(int kfySizf, SfdurfRbndom rbndom) {
+        tokfn.fnsurfVblid();
+        int nfwSignifidbntKfySizf;
+        try {
+            nfwSignifidbntKfySizf = dhfdkKfySizf(mfdhbnism, kfySizf, tokfn);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
+            throw (InvblidPbrbmftfrExdfption)
+                    (nfw InvblidPbrbmftfrExdfption().initCbusf(ibpf));
+        }
+        if ((mfdhbnism == CKM_DES2_KEY_GEN) ||
+            (mfdhbnism == CKM_DES3_KEY_GEN))  {
+            long nfwMfdhbnism = (nfwSignifidbntKfySizf == 112 ?
+                CKM_DES2_KEY_GEN : CKM_DES3_KEY_GEN);
+            if (mfdhbnism != nfwMfdhbnism) {
+                if (supportBothKfySizfs) {
+                    mfdhbnism = nfwMfdhbnism;
+                    // Adjust kfyTypf to rfflfdt thf mfdhbnism dhbngf
+                    kfyTypf = (mfdhbnism == CKM_DES2_KEY_GEN ?
+                        CKK_DES2 : CKK_DES3);
+                } flsf {
+                    throw nfw InvblidPbrbmftfrExdfption
+                            ("Only " + signifidbntKfySizf +
+                             "-bit DESfdf is supportfd");
+                }
+            }
+        }
+        this.kfySizf = kfySizf;
+        this.signifidbntKfySizf = nfwSignifidbntKfySizf;
+    }
+
+    // sff JCE spfd
+    protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs;
+            switdh ((int)kfyTypf) {
+            dbsf (int)CKK_DES:
+            dbsf (int)CKK_DES2:
+            dbsf (int)CKK_DES3:
+                // fixfd lfngth, do not spfdify CKA_VALUE_LEN
+                bttributfs = nfw CK_ATTRIBUTE[] {
+                    nfw CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
+                };
+                brfbk;
+            dffbult:
+                bttributfs = nfw CK_ATTRIBUTE[] {
+                    nfw CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
+                    nfw CK_ATTRIBUTE(CKA_VALUE_LEN, kfySizf >> 3),
+                };
+                brfbk;
+            }
+            bttributfs = tokfn.gftAttributfs
+                (O_GENERATE, CKO_SECRET_KEY, kfyTypf, bttributfs);
+            long kfyID = tokfn.p11.C_GfnfrbtfKfy
+                (sfssion.id(), nfw CK_MECHANISM(mfdhbnism), bttributfs);
+            rfturn P11Kfy.sfdrftKfy
+                (sfssion, kfyID, blgorithm, signifidbntKfySizf, bttributfs);
+        } dbtdh (PKCS11Exdfption f) {
+            throw nfw ProvidfrExdfption("Could not gfnfrbtf kfy", f);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+
+}

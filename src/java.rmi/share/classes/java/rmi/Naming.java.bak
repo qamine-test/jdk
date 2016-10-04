@@ -1,356 +1,356 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.rmi;
+pbdkbgf jbvb.rmi;
 
-import java.rmi.registry.*;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import jbvb.rmi.rfgistry.*;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
 
 /**
- * The <code>Naming</code> class provides methods for storing and obtaining
- * references to remote objects in a remote object registry.  Each method of
- * the <code>Naming</code> class takes as one of its arguments a name that
- * is a <code>java.lang.String</code> in URL format (without the
- * scheme component) of the form:
+ * Tif <dodf>Nbming</dodf> dlbss providfs mftiods for storing bnd obtbining
+ * rfffrfndfs to rfmotf objfdts in b rfmotf objfdt rfgistry.  Ebdi mftiod of
+ * tif <dodf>Nbming</dodf> dlbss tbkfs bs onf of its brgumfnts b nbmf tibt
+ * is b <dodf>jbvb.lbng.String</dodf> in URL formbt (witiout tif
+ * sdifmf domponfnt) of tif form:
  *
  * <PRE>
- *    //host:port/name
+ *    //iost:port/nbmf
  * </PRE>
  *
- * <P>where <code>host</code> is the host (remote or local) where the registry
- * is located, <code>port</code> is the port number on which the registry
- * accepts calls, and where <code>name</code> is a simple string uninterpreted
- * by the registry. Both <code>host</code> and <code>port</code> are optional.
- * If <code>host</code> is omitted, the host defaults to the local host. If
- * <code>port</code> is omitted, then the port defaults to 1099, the
- * "well-known" port that RMI's registry, <code>rmiregistry</code>, uses.
+ * <P>wifrf <dodf>iost</dodf> is tif iost (rfmotf or lodbl) wifrf tif rfgistry
+ * is lodbtfd, <dodf>port</dodf> is tif port numbfr on wiidi tif rfgistry
+ * bddfpts dblls, bnd wifrf <dodf>nbmf</dodf> is b simplf string unintfrprftfd
+ * by tif rfgistry. Boti <dodf>iost</dodf> bnd <dodf>port</dodf> brf optionbl.
+ * If <dodf>iost</dodf> is omittfd, tif iost dffbults to tif lodbl iost. If
+ * <dodf>port</dodf> is omittfd, tifn tif port dffbults to 1099, tif
+ * "wfll-known" port tibt RMI's rfgistry, <dodf>rmirfgistry</dodf>, usfs.
  *
- * <P><em>Binding</em> a name for a remote object is associating or
- * registering a name for a remote object that can be used at a later time to
- * look up that remote object.  A remote object can be associated with a name
- * using the <code>Naming</code> class's <code>bind</code> or
- * <code>rebind</code> methods.
+ * <P><fm>Binding</fm> b nbmf for b rfmotf objfdt is bssodibting or
+ * rfgistfring b nbmf for b rfmotf objfdt tibt dbn bf usfd bt b lbtfr timf to
+ * look up tibt rfmotf objfdt.  A rfmotf objfdt dbn bf bssodibtfd witi b nbmf
+ * using tif <dodf>Nbming</dodf> dlbss's <dodf>bind</dodf> or
+ * <dodf>rfbind</dodf> mftiods.
  *
- * <P>Once a remote object is registered (bound) with the RMI registry on the
- * local host, callers on a remote (or local) host can lookup the remote
- * object by name, obtain its reference, and then invoke remote methods on the
- * object.  A registry may be shared by all servers running on a host or an
- * individual server process may create and use its own registry if desired
- * (see <code>java.rmi.registry.LocateRegistry.createRegistry</code> method
- * for details).
+ * <P>Ondf b rfmotf objfdt is rfgistfrfd (bound) witi tif RMI rfgistry on tif
+ * lodbl iost, dbllfrs on b rfmotf (or lodbl) iost dbn lookup tif rfmotf
+ * objfdt by nbmf, obtbin its rfffrfndf, bnd tifn invokf rfmotf mftiods on tif
+ * objfdt.  A rfgistry mby bf sibrfd by bll sfrvfrs running on b iost or bn
+ * individubl sfrvfr prodfss mby drfbtf bnd usf its own rfgistry if dfsirfd
+ * (sff <dodf>jbvb.rmi.rfgistry.LodbtfRfgistry.drfbtfRfgistry</dodf> mftiod
+ * for dftbils).
  *
- * @author  Ann Wollrath
- * @author  Roger Riggs
- * @since   1.1
- * @see     java.rmi.registry.Registry
- * @see     java.rmi.registry.LocateRegistry
- * @see     java.rmi.registry.LocateRegistry#createRegistry(int)
+ * @butior  Ann Wollrbti
+ * @butior  Rogfr Riggs
+ * @sindf   1.1
+ * @sff     jbvb.rmi.rfgistry.Rfgistry
+ * @sff     jbvb.rmi.rfgistry.LodbtfRfgistry
+ * @sff     jbvb.rmi.rfgistry.LodbtfRfgistry#drfbtfRfgistry(int)
  */
-public final class Naming {
+publid finbl dlbss Nbming {
     /**
-     * Disallow anyone from creating one of these
+     * Disbllow bnyonf from drfbting onf of tifsf
      */
-    private Naming() {}
+    privbtf Nbming() {}
 
     /**
-     * Returns a reference, a stub, for the remote object associated
-     * with the specified <code>name</code>.
+     * Rfturns b rfffrfndf, b stub, for tif rfmotf objfdt bssodibtfd
+     * witi tif spfdififd <dodf>nbmf</dodf>.
      *
-     * @param name a name in URL format (without the scheme component)
-     * @return a reference for a remote object
-     * @exception NotBoundException if name is not currently bound
-     * @exception RemoteException if registry could not be contacted
-     * @exception AccessException if this operation is not permitted
-     * @exception MalformedURLException if the name is not an appropriately
-     *  formatted URL
-     * @since 1.1
+     * @pbrbm nbmf b nbmf in URL formbt (witiout tif sdifmf domponfnt)
+     * @rfturn b rfffrfndf for b rfmotf objfdt
+     * @fxdfption NotBoundExdfption if nbmf is not durrfntly bound
+     * @fxdfption RfmotfExdfption if rfgistry dould not bf dontbdtfd
+     * @fxdfption AddfssExdfption if tiis opfrbtion is not pfrmittfd
+     * @fxdfption MblformfdURLExdfption if tif nbmf is not bn bppropribtfly
+     *  formbttfd URL
+     * @sindf 1.1
      */
-    public static Remote lookup(String name)
-        throws NotBoundException,
-            java.net.MalformedURLException,
-            RemoteException
+    publid stbtid Rfmotf lookup(String nbmf)
+        tirows NotBoundExdfption,
+            jbvb.nft.MblformfdURLExdfption,
+            RfmotfExdfption
     {
-        ParsedNamingURL parsed = parseURL(name);
-        Registry registry = getRegistry(parsed);
+        PbrsfdNbmingURL pbrsfd = pbrsfURL(nbmf);
+        Rfgistry rfgistry = gftRfgistry(pbrsfd);
 
-        if (parsed.name == null)
-            return registry;
-        return registry.lookup(parsed.name);
+        if (pbrsfd.nbmf == null)
+            rfturn rfgistry;
+        rfturn rfgistry.lookup(pbrsfd.nbmf);
     }
 
     /**
-     * Binds the specified <code>name</code> to a remote object.
+     * Binds tif spfdififd <dodf>nbmf</dodf> to b rfmotf objfdt.
      *
-     * @param name a name in URL format (without the scheme component)
-     * @param obj a reference for the remote object (usually a stub)
-     * @exception AlreadyBoundException if name is already bound
-     * @exception MalformedURLException if the name is not an appropriately
-     *  formatted URL
-     * @exception RemoteException if registry could not be contacted
-     * @exception AccessException if this operation is not permitted (if
-     * originating from a non-local host, for example)
-     * @since 1.1
+     * @pbrbm nbmf b nbmf in URL formbt (witiout tif sdifmf domponfnt)
+     * @pbrbm obj b rfffrfndf for tif rfmotf objfdt (usublly b stub)
+     * @fxdfption AlrfbdyBoundExdfption if nbmf is blrfbdy bound
+     * @fxdfption MblformfdURLExdfption if tif nbmf is not bn bppropribtfly
+     *  formbttfd URL
+     * @fxdfption RfmotfExdfption if rfgistry dould not bf dontbdtfd
+     * @fxdfption AddfssExdfption if tiis opfrbtion is not pfrmittfd (if
+     * originbting from b non-lodbl iost, for fxbmplf)
+     * @sindf 1.1
      */
-    public static void bind(String name, Remote obj)
-        throws AlreadyBoundException,
-            java.net.MalformedURLException,
-            RemoteException
+    publid stbtid void bind(String nbmf, Rfmotf obj)
+        tirows AlrfbdyBoundExdfption,
+            jbvb.nft.MblformfdURLExdfption,
+            RfmotfExdfption
     {
-        ParsedNamingURL parsed = parseURL(name);
-        Registry registry = getRegistry(parsed);
+        PbrsfdNbmingURL pbrsfd = pbrsfURL(nbmf);
+        Rfgistry rfgistry = gftRfgistry(pbrsfd);
 
         if (obj == null)
-            throw new NullPointerException("cannot bind to null");
+            tirow nfw NullPointfrExdfption("dbnnot bind to null");
 
-        registry.bind(parsed.name, obj);
+        rfgistry.bind(pbrsfd.nbmf, obj);
     }
 
     /**
-     * Destroys the binding for the specified name that is associated
-     * with a remote object.
+     * Dfstroys tif binding for tif spfdififd nbmf tibt is bssodibtfd
+     * witi b rfmotf objfdt.
      *
-     * @param name a name in URL format (without the scheme component)
-     * @exception NotBoundException if name is not currently bound
-     * @exception MalformedURLException if the name is not an appropriately
-     *  formatted URL
-     * @exception RemoteException if registry could not be contacted
-     * @exception AccessException if this operation is not permitted (if
-     * originating from a non-local host, for example)
-     * @since 1.1
+     * @pbrbm nbmf b nbmf in URL formbt (witiout tif sdifmf domponfnt)
+     * @fxdfption NotBoundExdfption if nbmf is not durrfntly bound
+     * @fxdfption MblformfdURLExdfption if tif nbmf is not bn bppropribtfly
+     *  formbttfd URL
+     * @fxdfption RfmotfExdfption if rfgistry dould not bf dontbdtfd
+     * @fxdfption AddfssExdfption if tiis opfrbtion is not pfrmittfd (if
+     * originbting from b non-lodbl iost, for fxbmplf)
+     * @sindf 1.1
      */
-    public static void unbind(String name)
-        throws RemoteException,
-            NotBoundException,
-            java.net.MalformedURLException
+    publid stbtid void unbind(String nbmf)
+        tirows RfmotfExdfption,
+            NotBoundExdfption,
+            jbvb.nft.MblformfdURLExdfption
     {
-        ParsedNamingURL parsed = parseURL(name);
-        Registry registry = getRegistry(parsed);
+        PbrsfdNbmingURL pbrsfd = pbrsfURL(nbmf);
+        Rfgistry rfgistry = gftRfgistry(pbrsfd);
 
-        registry.unbind(parsed.name);
+        rfgistry.unbind(pbrsfd.nbmf);
     }
 
     /**
-     * Rebinds the specified name to a new remote object. Any existing
-     * binding for the name is replaced.
+     * Rfbinds tif spfdififd nbmf to b nfw rfmotf objfdt. Any fxisting
+     * binding for tif nbmf is rfplbdfd.
      *
-     * @param name a name in URL format (without the scheme component)
-     * @param obj new remote object to associate with the name
-     * @exception MalformedURLException if the name is not an appropriately
-     *  formatted URL
-     * @exception RemoteException if registry could not be contacted
-     * @exception AccessException if this operation is not permitted (if
-     * originating from a non-local host, for example)
-     * @since 1.1
+     * @pbrbm nbmf b nbmf in URL formbt (witiout tif sdifmf domponfnt)
+     * @pbrbm obj nfw rfmotf objfdt to bssodibtf witi tif nbmf
+     * @fxdfption MblformfdURLExdfption if tif nbmf is not bn bppropribtfly
+     *  formbttfd URL
+     * @fxdfption RfmotfExdfption if rfgistry dould not bf dontbdtfd
+     * @fxdfption AddfssExdfption if tiis opfrbtion is not pfrmittfd (if
+     * originbting from b non-lodbl iost, for fxbmplf)
+     * @sindf 1.1
      */
-    public static void rebind(String name, Remote obj)
-        throws RemoteException, java.net.MalformedURLException
+    publid stbtid void rfbind(String nbmf, Rfmotf obj)
+        tirows RfmotfExdfption, jbvb.nft.MblformfdURLExdfption
     {
-        ParsedNamingURL parsed = parseURL(name);
-        Registry registry = getRegistry(parsed);
+        PbrsfdNbmingURL pbrsfd = pbrsfURL(nbmf);
+        Rfgistry rfgistry = gftRfgistry(pbrsfd);
 
         if (obj == null)
-            throw new NullPointerException("cannot bind to null");
+            tirow nfw NullPointfrExdfption("dbnnot bind to null");
 
-        registry.rebind(parsed.name, obj);
+        rfgistry.rfbind(pbrsfd.nbmf, obj);
     }
 
     /**
-     * Returns an array of the names bound in the registry.  The names are
-     * URL-formatted (without the scheme component) strings. The array contains
-     * a snapshot of the names present in the registry at the time of the
-     * call.
+     * Rfturns bn brrby of tif nbmfs bound in tif rfgistry.  Tif nbmfs brf
+     * URL-formbttfd (witiout tif sdifmf domponfnt) strings. Tif brrby dontbins
+     * b snbpsiot of tif nbmfs prfsfnt in tif rfgistry bt tif timf of tif
+     * dbll.
      *
-     * @param   name a registry name in URL format (without the scheme
-     *          component)
-     * @return  an array of names (in the appropriate format) bound
-     *          in the registry
-     * @exception MalformedURLException if the name is not an appropriately
-     *  formatted URL
-     * @exception RemoteException if registry could not be contacted.
-     * @since 1.1
+     * @pbrbm   nbmf b rfgistry nbmf in URL formbt (witiout tif sdifmf
+     *          domponfnt)
+     * @rfturn  bn brrby of nbmfs (in tif bppropribtf formbt) bound
+     *          in tif rfgistry
+     * @fxdfption MblformfdURLExdfption if tif nbmf is not bn bppropribtfly
+     *  formbttfd URL
+     * @fxdfption RfmotfExdfption if rfgistry dould not bf dontbdtfd.
+     * @sindf 1.1
      */
-    public static String[] list(String name)
-        throws RemoteException, java.net.MalformedURLException
+    publid stbtid String[] list(String nbmf)
+        tirows RfmotfExdfption, jbvb.nft.MblformfdURLExdfption
     {
-        ParsedNamingURL parsed = parseURL(name);
-        Registry registry = getRegistry(parsed);
+        PbrsfdNbmingURL pbrsfd = pbrsfURL(nbmf);
+        Rfgistry rfgistry = gftRfgistry(pbrsfd);
 
-        String prefix = "";
-        if (parsed.port > 0 || !parsed.host.equals(""))
-            prefix += "//" + parsed.host;
-        if (parsed.port > 0)
-            prefix += ":" + parsed.port;
-        prefix += "/";
+        String prffix = "";
+        if (pbrsfd.port > 0 || !pbrsfd.iost.fqubls(""))
+            prffix += "//" + pbrsfd.iost;
+        if (pbrsfd.port > 0)
+            prffix += ":" + pbrsfd.port;
+        prffix += "/";
 
-        String[] names = registry.list();
-        for (int i = 0; i < names.length; i++) {
-            names[i] = prefix + names[i];
+        String[] nbmfs = rfgistry.list();
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            nbmfs[i] = prffix + nbmfs[i];
         }
-        return names;
+        rfturn nbmfs;
     }
 
     /**
-     * Returns a registry reference obtained from information in the URL.
+     * Rfturns b rfgistry rfffrfndf obtbinfd from informbtion in tif URL.
      */
-    private static Registry getRegistry(ParsedNamingURL parsed)
-        throws RemoteException
+    privbtf stbtid Rfgistry gftRfgistry(PbrsfdNbmingURL pbrsfd)
+        tirows RfmotfExdfption
     {
-        return LocateRegistry.getRegistry(parsed.host, parsed.port);
+        rfturn LodbtfRfgistry.gftRfgistry(pbrsfd.iost, pbrsfd.port);
     }
 
     /**
-     * Dissect Naming URL strings to obtain referenced host, port and
-     * object name.
+     * Dissfdt Nbming URL strings to obtbin rfffrfndfd iost, port bnd
+     * objfdt nbmf.
      *
-     * @return an object which contains each of the above
-     * components.
+     * @rfturn bn objfdt wiidi dontbins fbdi of tif bbovf
+     * domponfnts.
      *
-     * @exception MalformedURLException if given url string is malformed
+     * @fxdfption MblformfdURLExdfption if givfn url string is mblformfd
      */
-    private static ParsedNamingURL parseURL(String str)
-        throws MalformedURLException
+    privbtf stbtid PbrsfdNbmingURL pbrsfURL(String str)
+        tirows MblformfdURLExdfption
     {
         try {
-            return intParseURL(str);
-        } catch (URISyntaxException ex) {
-            /* With RFC 3986 URI handling, 'rmi://:<port>' and
-             * '//:<port>' forms will result in a URI syntax exception
-             * Convert the authority to a localhost:<port> form
+            rfturn intPbrsfURL(str);
+        } dbtdi (URISyntbxExdfption fx) {
+            /* Witi RFC 3986 URI ibndling, 'rmi://:<port>' bnd
+             * '//:<port>' forms will rfsult in b URI syntbx fxdfption
+             * Convfrt tif butiority to b lodbliost:<port> form
              */
-            MalformedURLException mue = new MalformedURLException(
-                "invalid URL String: " + str);
-            mue.initCause(ex);
-            int indexSchemeEnd = str.indexOf(':');
-            int indexAuthorityBegin = str.indexOf("//:");
-            if (indexAuthorityBegin < 0) {
-                throw mue;
+            MblformfdURLExdfption muf = nfw MblformfdURLExdfption(
+                "invblid URL String: " + str);
+            muf.initCbusf(fx);
+            int indfxSdifmfEnd = str.indfxOf(':');
+            int indfxAutiorityBfgin = str.indfxOf("//:");
+            if (indfxAutiorityBfgin < 0) {
+                tirow muf;
             }
-            if ((indexAuthorityBegin == 0) ||
-                    ((indexSchemeEnd > 0) &&
-                    (indexAuthorityBegin == indexSchemeEnd + 1))) {
-                int indexHostBegin = indexAuthorityBegin + 2;
-                String newStr = str.substring(0, indexHostBegin) +
-                                "localhost" +
-                                str.substring(indexHostBegin);
+            if ((indfxAutiorityBfgin == 0) ||
+                    ((indfxSdifmfEnd > 0) &&
+                    (indfxAutiorityBfgin == indfxSdifmfEnd + 1))) {
+                int indfxHostBfgin = indfxAutiorityBfgin + 2;
+                String nfwStr = str.substring(0, indfxHostBfgin) +
+                                "lodbliost" +
+                                str.substring(indfxHostBfgin);
                 try {
-                    return intParseURL(newStr);
-                } catch (URISyntaxException inte) {
-                    throw mue;
-                } catch (MalformedURLException inte) {
-                    throw inte;
+                    rfturn intPbrsfURL(nfwStr);
+                } dbtdi (URISyntbxExdfption intf) {
+                    tirow muf;
+                } dbtdi (MblformfdURLExdfption intf) {
+                    tirow intf;
                 }
             }
-            throw mue;
+            tirow muf;
         }
     }
 
-    private static ParsedNamingURL intParseURL(String str)
-        throws MalformedURLException, URISyntaxException
+    privbtf stbtid PbrsfdNbmingURL intPbrsfURL(String str)
+        tirows MblformfdURLExdfption, URISyntbxExdfption
     {
-        URI uri = new URI(str);
-        if (uri.isOpaque()) {
-            throw new MalformedURLException(
-                "not a hierarchical URL: " + str);
+        URI uri = nfw URI(str);
+        if (uri.isOpbquf()) {
+            tirow nfw MblformfdURLExdfption(
+                "not b iifrbrdiidbl URL: " + str);
         }
-        if (uri.getFragment() != null) {
-            throw new MalformedURLException(
-                "invalid character, '#', in URL name: " + str);
-        } else if (uri.getQuery() != null) {
-            throw new MalformedURLException(
-                "invalid character, '?', in URL name: " + str);
-        } else if (uri.getUserInfo() != null) {
-            throw new MalformedURLException(
-                "invalid character, '@', in URL host: " + str);
+        if (uri.gftFrbgmfnt() != null) {
+            tirow nfw MblformfdURLExdfption(
+                "invblid dibrbdtfr, '#', in URL nbmf: " + str);
+        } flsf if (uri.gftQufry() != null) {
+            tirow nfw MblformfdURLExdfption(
+                "invblid dibrbdtfr, '?', in URL nbmf: " + str);
+        } flsf if (uri.gftUsfrInfo() != null) {
+            tirow nfw MblformfdURLExdfption(
+                "invblid dibrbdtfr, '@', in URL iost: " + str);
         }
-        String scheme = uri.getScheme();
-        if (scheme != null && !scheme.equals("rmi")) {
-            throw new MalformedURLException("invalid URL scheme: " + str);
-        }
-
-        String name = uri.getPath();
-        if (name != null) {
-            if (name.startsWith("/")) {
-                name = name.substring(1);
-            }
-            if (name.length() == 0) {
-                name = null;
-            }
+        String sdifmf = uri.gftSdifmf();
+        if (sdifmf != null && !sdifmf.fqubls("rmi")) {
+            tirow nfw MblformfdURLExdfption("invblid URL sdifmf: " + str);
         }
 
-        String host = uri.getHost();
-        if (host == null) {
-            host = "";
+        String nbmf = uri.gftPbti();
+        if (nbmf != null) {
+            if (nbmf.stbrtsWiti("/")) {
+                nbmf = nbmf.substring(1);
+            }
+            if (nbmf.lfngti() == 0) {
+                nbmf = null;
+            }
+        }
+
+        String iost = uri.gftHost();
+        if (iost == null) {
+            iost = "";
             try {
                 /*
-                 * With 2396 URI handling, forms such as 'rmi://host:bar'
-                 * or 'rmi://:<port>' are parsed into a registry based
-                 * authority. We only want to allow server based naming
-                 * authorities.
+                 * Witi 2396 URI ibndling, forms sudi bs 'rmi://iost:bbr'
+                 * or 'rmi://:<port>' brf pbrsfd into b rfgistry bbsfd
+                 * butiority. Wf only wbnt to bllow sfrvfr bbsfd nbming
+                 * butioritifs.
                  */
-                uri.parseServerAuthority();
-            } catch (URISyntaxException use) {
-                // Check if the authority is of form ':<port>'
-                String authority = uri.getAuthority();
-                if (authority != null && authority.startsWith(":")) {
-                    // Convert the authority to 'localhost:<port>' form
-                    authority = "localhost" + authority;
+                uri.pbrsfSfrvfrAutiority();
+            } dbtdi (URISyntbxExdfption usf) {
+                // Cifdk if tif butiority is of form ':<port>'
+                String butiority = uri.gftAutiority();
+                if (butiority != null && butiority.stbrtsWiti(":")) {
+                    // Convfrt tif butiority to 'lodbliost:<port>' form
+                    butiority = "lodbliost" + butiority;
                     try {
-                        uri = new URI(null, authority, null, null, null);
-                        // Make sure it now parses to a valid server based
-                        // naming authority
-                        uri.parseServerAuthority();
-                    } catch (URISyntaxException use2) {
-                        throw new
-                            MalformedURLException("invalid authority: " + str);
+                        uri = nfw URI(null, butiority, null, null, null);
+                        // Mbkf surf it now pbrsfs to b vblid sfrvfr bbsfd
+                        // nbming butiority
+                        uri.pbrsfSfrvfrAutiority();
+                    } dbtdi (URISyntbxExdfption usf2) {
+                        tirow nfw
+                            MblformfdURLExdfption("invblid butiority: " + str);
                     }
-                } else {
-                    throw new
-                        MalformedURLException("invalid authority: " + str);
+                } flsf {
+                    tirow nfw
+                        MblformfdURLExdfption("invblid butiority: " + str);
                 }
             }
         }
-        int port = uri.getPort();
+        int port = uri.gftPort();
         if (port == -1) {
-            port = Registry.REGISTRY_PORT;
+            port = Rfgistry.REGISTRY_PORT;
         }
-        return new ParsedNamingURL(host, port, name);
+        rfturn nfw PbrsfdNbmingURL(iost, port, nbmf);
     }
 
     /**
-     * Simple class to enable multiple URL return values.
+     * Simplf dlbss to fnbblf multiplf URL rfturn vblufs.
      */
-    private static class ParsedNamingURL {
-        String host;
+    privbtf stbtid dlbss PbrsfdNbmingURL {
+        String iost;
         int port;
-        String name;
+        String nbmf;
 
-        ParsedNamingURL(String host, int port, String name) {
-            this.host = host;
-            this.port = port;
-            this.name = name;
+        PbrsfdNbmingURL(String iost, int port, String nbmf) {
+            tiis.iost = iost;
+            tiis.port = port;
+            tiis.nbmf = nbmf;
         }
     }
 }

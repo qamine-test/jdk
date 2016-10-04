@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.lang.ref.*;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.lbng.rff.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
 
-import java.security.*;
+import jbvb.sfdurity.*;
 
-import sun.security.pkcs11.wrapper.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
 
 /**
- * A session object. Sessions are obtained via the SessionManager,
- * see there for details. Most code will only ever need one method in
- * this class, the id() method to obtain the session id.
+ * A sfssion objfdt. Sfssions brf obtbinfd vib tif SfssionMbnbgfr,
+ * sff tifrf for dftbils. Most dodf will only fvfr nffd onf mftiod in
+ * tiis dlbss, tif id() mftiod to obtbin tif sfssion id.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-final class Session implements Comparable<Session> {
+finbl dlbss Sfssion implfmfnts Compbrbblf<Sfssion> {
 
-    // time after which to close idle sessions, in milliseconds (3 minutes)
-    private final static long MAX_IDLE_TIME = 3 * 60 * 1000;
+    // timf bftfr wiidi to dlosf idlf sfssions, in millisfdonds (3 minutfs)
+    privbtf finbl stbtid long MAX_IDLE_TIME = 3 * 60 * 1000;
 
-    // token instance
-    final Token token;
+    // tokfn instbndf
+    finbl Tokfn tokfn;
 
-    // session id
-    private final long id;
+    // sfssion id
+    privbtf finbl long id;
 
-    // number of objects created within this session
-    private final AtomicInteger createdObjects;
+    // numbfr of objfdts drfbtfd witiin tiis sfssion
+    privbtf finbl AtomidIntfgfr drfbtfdObjfdts;
 
-    // time this session was last used
-    // not synchronized/volatile for performance, so may be unreliable
-    // this could lead to idle sessions being closed early, but that is harmless
-    private long lastAccess;
+    // timf tiis sfssion wbs lbst usfd
+    // not syndironizfd/volbtilf for pfrformbndf, so mby bf unrflibblf
+    // tiis dould lfbd to idlf sfssions bfing dlosfd fbrly, but tibt is ibrmlfss
+    privbtf long lbstAddfss;
 
-    private final SessionRef sessionRef;
+    privbtf finbl SfssionRff sfssionRff;
 
-    Session(Token token, long id) {
-        this.token = token;
-        this.id = id;
-        createdObjects = new AtomicInteger();
+    Sfssion(Tokfn tokfn, long id) {
+        tiis.tokfn = tokfn;
+        tiis.id = id;
+        drfbtfdObjfdts = nfw AtomidIntfgfr();
         id();
-        sessionRef = new SessionRef(this, id, token);
+        sfssionRff = nfw SfssionRff(tiis, id, tokfn);
     }
 
-    public int compareTo(Session other) {
-        if (this.lastAccess == other.lastAccess) {
-            return 0;
-        } else {
-            return (this.lastAccess < other.lastAccess) ? -1 : 1;
+    publid int dompbrfTo(Sfssion otifr) {
+        if (tiis.lbstAddfss == otifr.lbstAddfss) {
+            rfturn 0;
+        } flsf {
+            rfturn (tiis.lbstAddfss < otifr.lbstAddfss) ? -1 : 1;
         }
     }
 
-    boolean isLive(long currentTime) {
-        return currentTime - lastAccess < MAX_IDLE_TIME;
+    boolfbn isLivf(long durrfntTimf) {
+        rfturn durrfntTimf - lbstAddfss < MAX_IDLE_TIME;
     }
 
-    long idInternal() {
-        return id;
+    long idIntfrnbl() {
+        rfturn id;
     }
 
     long id() {
-        if (token.isPresent(this.id) == false) {
-            throw new ProviderException("Token has been removed");
+        if (tokfn.isPrfsfnt(tiis.id) == fblsf) {
+            tirow nfw ProvidfrExdfption("Tokfn ibs bffn rfmovfd");
         }
-        lastAccess = System.currentTimeMillis();
-        return id;
+        lbstAddfss = Systfm.durrfntTimfMillis();
+        rfturn id;
     }
 
-    void addObject() {
-        int n = createdObjects.incrementAndGet();
-        // XXX update statistics in session manager if n == 1
+    void bddObjfdt() {
+        int n = drfbtfdObjfdts.indrfmfntAndGft();
+        // XXX updbtf stbtistids in sfssion mbnbgfr if n == 1
     }
 
-    void removeObject() {
-        int n = createdObjects.decrementAndGet();
+    void rfmovfObjfdt() {
+        int n = drfbtfdObjfdts.dfdrfmfntAndGft();
         if (n == 0) {
-            token.sessionManager.demoteObjSession(this);
-        } else if (n < 0) {
-            throw new ProviderException("Internal error: objects created " + n);
+            tokfn.sfssionMbnbgfr.dfmotfObjSfssion(tiis);
+        } flsf if (n < 0) {
+            tirow nfw ProvidfrExdfption("Intfrnbl frror: objfdts drfbtfd " + n);
         }
     }
 
-    boolean hasObjects() {
-        return createdObjects.get() != 0;
+    boolfbn ibsObjfdts() {
+        rfturn drfbtfdObjfdts.gft() != 0;
     }
 
-    void close() {
-        if (hasObjects()) {
-            throw new ProviderException(
-                "Internal error: close session with active objects");
+    void dlosf() {
+        if (ibsObjfdts()) {
+            tirow nfw ProvidfrExdfption(
+                "Intfrnbl frror: dlosf sfssion witi bdtivf objfdts");
         }
-        sessionRef.dispose();
+        sfssionRff.disposf();
     }
 }
 
 /*
- * NOTE: Use PhantomReference here and not WeakReference
- * otherwise the sessions maybe closed before other objects
- * which are still being finalized.
+ * NOTE: Usf PibntomRfffrfndf ifrf bnd not WfbkRfffrfndf
+ * otifrwisf tif sfssions mbybf dlosfd bfforf otifr objfdts
+ * wiidi brf still bfing finblizfd.
  */
-final class SessionRef extends PhantomReference<Session>
-        implements Comparable<SessionRef> {
+finbl dlbss SfssionRff fxtfnds PibntomRfffrfndf<Sfssion>
+        implfmfnts Compbrbblf<SfssionRff> {
 
-    private static ReferenceQueue<Session> refQueue =
-        new ReferenceQueue<Session>();
+    privbtf stbtid RfffrfndfQufuf<Sfssion> rffQufuf =
+        nfw RfffrfndfQufuf<Sfssion>();
 
-    private static Set<SessionRef> refList =
-        Collections.synchronizedSortedSet(new TreeSet<SessionRef>());
+    privbtf stbtid Sft<SfssionRff> rffList =
+        Collfdtions.syndironizfdSortfdSft(nfw TrffSft<SfssionRff>());
 
-    static ReferenceQueue<Session> referenceQueue() {
-        return refQueue;
+    stbtid RfffrfndfQufuf<Sfssion> rfffrfndfQufuf() {
+        rfturn rffQufuf;
     }
 
-    static int totalCount() {
-        return refList.size();
+    stbtid int totblCount() {
+        rfturn rffList.sizf();
     }
 
-    private static void drainRefQueueBounded() {
-        while (true) {
-            SessionRef next = (SessionRef) refQueue.poll();
-            if (next == null) break;
-            next.dispose();
+    privbtf stbtid void drbinRffQufufBoundfd() {
+        wiilf (truf) {
+            SfssionRff nfxt = (SfssionRff) rffQufuf.poll();
+            if (nfxt == null) brfbk;
+            nfxt.disposf();
         }
     }
 
-    // handle to the native session
-    private long id;
-    private Token token;
+    // ibndlf to tif nbtivf sfssion
+    privbtf long id;
+    privbtf Tokfn tokfn;
 
-    SessionRef(Session session, long id, Token token) {
-        super(session, refQueue);
-        this.id = id;
-        this.token = token;
-        refList.add(this);
-        // TBD: run at some interval and not every time?
-        drainRefQueueBounded();
+    SfssionRff(Sfssion sfssion, long id, Tokfn tokfn) {
+        supfr(sfssion, rffQufuf);
+        tiis.id = id;
+        tiis.tokfn = tokfn;
+        rffList.bdd(tiis);
+        // TBD: run bt somf intfrvbl bnd not fvfry timf?
+        drbinRffQufufBoundfd();
     }
 
-    void dispose() {
-        refList.remove(this);
+    void disposf() {
+        rffList.rfmovf(tiis);
         try {
-            if (token.isPresent(id)) {
-                token.p11.C_CloseSession(id);
+            if (tokfn.isPrfsfnt(id)) {
+                tokfn.p11.C_ClosfSfssion(id);
             }
-        } catch (PKCS11Exception e1) {
-            // ignore
-        } catch (ProviderException e2) {
-            // ignore
-        } finally {
-            this.clear();
+        } dbtdi (PKCS11Exdfption f1) {
+            // ignorf
+        } dbtdi (ProvidfrExdfption f2) {
+            // ignorf
+        } finblly {
+            tiis.dlfbr();
         }
     }
 
-    public int compareTo(SessionRef other) {
-        if (this.id == other.id) {
-            return 0;
-        } else {
-            return (this.id < other.id) ? -1 : 1;
+    publid int dompbrfTo(SfssionRff otifr) {
+        if (tiis.id == otifr.id) {
+            rfturn 0;
+        } flsf {
+            rfturn (tiis.id < otifr.id) ? -1 : 1;
         }
     }
 }

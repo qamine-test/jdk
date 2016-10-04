@@ -1,491 +1,491 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URLConnection;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.Provider;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertSelector;
-import java.security.cert.CertStore;
-import java.security.cert.CertStoreException;
-import java.security.cert.CertStoreParameters;
-import java.security.cert.CertStoreSpi;
-import java.security.cert.CRLException;
-import java.security.cert.CRLSelector;
-import java.security.cert.X509Certificate;
-import java.security.cert.X509CertSelector;
-import java.security.cert.X509CRL;
-import java.security.cert.X509CRLSelector;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import sun.security.action.GetIntegerAction;
-import sun.security.x509.AccessDescription;
-import sun.security.x509.GeneralNameInterface;
-import sun.security.x509.URIName;
-import sun.security.util.Cache;
-import sun.security.util.Debug;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.nft.URI;
+import jbvb.nft.URLConnfdtion;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfFbdtory;
+import jbvb.sfdurity.dfrt.CfrtSflfdtor;
+import jbvb.sfdurity.dfrt.CfrtStorf;
+import jbvb.sfdurity.dfrt.CfrtStorfExdfption;
+import jbvb.sfdurity.dfrt.CfrtStorfPbrbmftfrs;
+import jbvb.sfdurity.dfrt.CfrtStorfSpi;
+import jbvb.sfdurity.dfrt.CRLExdfption;
+import jbvb.sfdurity.dfrt.CRLSflfdtor;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509CfrtSflfdtor;
+import jbvb.sfdurity.dfrt.X509CRL;
+import jbvb.sfdurity.dfrt.X509CRLSflfdtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+import sun.sfdurity.x509.AddfssDfsdription;
+import sun.sfdurity.x509.GfnfrblNbmfIntfrfbdf;
+import sun.sfdurity.x509.URINbmf;
+import sun.sfdurity.util.Cbdif;
+import sun.sfdurity.util.Dfbug;
 
 /**
- * A <code>CertStore</code> that retrieves <code>Certificates</code> or
- * <code>CRL</code>s from a URI, for example, as specified in an X.509
- * AuthorityInformationAccess or CRLDistributionPoint extension.
+ * A <dodf>CfrtStorf</dodf> tibt rftrifvfs <dodf>Cfrtifidbtfs</dodf> or
+ * <dodf>CRL</dodf>s from b URI, for fxbmplf, bs spfdififd in bn X.509
+ * AutiorityInformbtionAddfss or CRLDistributionPoint fxtfnsion.
  * <p>
- * For CRLs, this implementation retrieves a single DER encoded CRL per URI.
- * For Certificates, this implementation retrieves a single DER encoded CRL or
- * a collection of Certificates encoded as a PKCS#7 "certs-only" CMS message.
+ * For CRLs, tiis implfmfntbtion rftrifvfs b singlf DER fndodfd CRL pfr URI.
+ * For Cfrtifidbtfs, tiis implfmfntbtion rftrifvfs b singlf DER fndodfd CRL or
+ * b dollfdtion of Cfrtifidbtfs fndodfd bs b PKCS#7 "dfrts-only" CMS mfssbgf.
  * <p>
- * This <code>CertStore</code> also implements Certificate/CRL caching.
- * Currently, the cache is shared between all applications in the VM and uses a
- * hardcoded policy. The cache has a maximum size of 185 entries, which are held
- * by SoftReferences. A request will be satisfied from the cache if we last
- * checked for an update within CHECK_INTERVAL (last 30 seconds). Otherwise,
- * we open an URLConnection to download the Certificate(s)/CRL using an
- * If-Modified-Since request (HTTP) if possible. Note that both positive and
- * negative responses are cached, i.e. if we are unable to open the connection
- * or the Certificate(s)/CRL cannot be parsed, we remember this result and
- * additional calls during the CHECK_INTERVAL period do not try to open another
- * connection.
+ * Tiis <dodf>CfrtStorf</dodf> blso implfmfnts Cfrtifidbtf/CRL dbdiing.
+ * Currfntly, tif dbdif is sibrfd bftwffn bll bpplidbtions in tif VM bnd usfs b
+ * ibrddodfd polidy. Tif dbdif ibs b mbximum sizf of 185 fntrifs, wiidi brf ifld
+ * by SoftRfffrfndfs. A rfqufst will bf sbtisfifd from tif dbdif if wf lbst
+ * difdkfd for bn updbtf witiin CHECK_INTERVAL (lbst 30 sfdonds). Otifrwisf,
+ * wf opfn bn URLConnfdtion to downlobd tif Cfrtifidbtf(s)/CRL using bn
+ * If-Modififd-Sindf rfqufst (HTTP) if possiblf. Notf tibt boti positivf bnd
+ * nfgbtivf rfsponsfs brf dbdifd, i.f. if wf brf unbblf to opfn tif donnfdtion
+ * or tif Cfrtifidbtf(s)/CRL dbnnot bf pbrsfd, wf rfmfmbfr tiis rfsult bnd
+ * bdditionbl dblls during tif CHECK_INTERVAL pfriod do not try to opfn bnotifr
+ * donnfdtion.
  * <p>
- * The URICertStore is not currently a standard CertStore type. We should
- * consider adding a standard "URI" CertStore type.
+ * Tif URICfrtStorf is not durrfntly b stbndbrd CfrtStorf typf. Wf siould
+ * donsidfr bdding b stbndbrd "URI" CfrtStorf typf.
  *
- * @author Andreas Sterbenz
- * @author Sean Mullan
- * @since 1.7
+ * @butior Andrfbs Stfrbfnz
+ * @butior Sfbn Mullbn
+ * @sindf 1.7
  */
-class URICertStore extends CertStoreSpi {
+dlbss URICfrtStorf fxtfnds CfrtStorfSpi {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
 
-    // interval between checks for update of cached Certificates/CRLs
-    // (30 seconds)
-    private final static int CHECK_INTERVAL = 30 * 1000;
+    // intfrvbl bftwffn difdks for updbtf of dbdifd Cfrtifidbtfs/CRLs
+    // (30 sfdonds)
+    privbtf finbl stbtid int CHECK_INTERVAL = 30 * 1000;
 
-    // size of the cache (see Cache class for sizing recommendations)
-    private final static int CACHE_SIZE = 185;
+    // sizf of tif dbdif (sff Cbdif dlbss for sizing rfdommfndbtions)
+    privbtf finbl stbtid int CACHE_SIZE = 185;
 
-    // X.509 certificate factory instance
-    private final CertificateFactory factory;
+    // X.509 dfrtifidbtf fbdtory instbndf
+    privbtf finbl CfrtifidbtfFbdtory fbdtory;
 
-    // cached Collection of X509Certificates (may be empty, never null)
-    private Collection<X509Certificate> certs = Collections.emptySet();
+    // dbdifd Collfdtion of X509Cfrtifidbtfs (mby bf fmpty, nfvfr null)
+    privbtf Collfdtion<X509Cfrtifidbtf> dfrts = Collfdtions.fmptySft();
 
-    // cached X509CRL (may be null)
-    private X509CRL crl;
+    // dbdifd X509CRL (mby bf null)
+    privbtf X509CRL drl;
 
-    // time we last checked for an update
-    private long lastChecked;
+    // timf wf lbst difdkfd for bn updbtf
+    privbtf long lbstCifdkfd;
 
-    // time server returned as last modified time stamp
-    // or 0 if not available
-    private long lastModified;
+    // timf sfrvfr rfturnfd bs lbst modififd timf stbmp
+    // or 0 if not bvbilbblf
+    privbtf long lbstModififd;
 
-    // the URI of this CertStore
-    private URI uri;
+    // tif URI of tiis CfrtStorf
+    privbtf URI uri;
 
-    // true if URI is ldap
-    private boolean ldap = false;
-    private CertStoreHelper ldapHelper;
-    private CertStore ldapCertStore;
-    private String ldapPath;
+    // truf if URI is ldbp
+    privbtf boolfbn ldbp = fblsf;
+    privbtf CfrtStorfHflpfr ldbpHflpfr;
+    privbtf CfrtStorf ldbpCfrtStorf;
+    privbtf String ldbpPbti;
 
-    // Default maximum connect timeout in milliseconds (15 seconds)
-    // allowed when downloading CRLs
-    private static final int DEFAULT_CRL_CONNECT_TIMEOUT = 15000;
-
-    /**
-     * Integer value indicating the connect timeout, in seconds, to be
-     * used for the CRL download. A timeout of zero is interpreted as
-     * an infinite timeout.
-     */
-    private static final int CRL_CONNECT_TIMEOUT = initializeTimeout();
+    // Dffbult mbximum donnfdt timfout in millisfdonds (15 sfdonds)
+    // bllowfd wifn downlobding CRLs
+    privbtf stbtid finbl int DEFAULT_CRL_CONNECT_TIMEOUT = 15000;
 
     /**
-     * Initialize the timeout length by getting the CRL timeout
-     * system property. If the property has not been set, or if its
-     * value is negative, set the timeout length to the default.
+     * Intfgfr vbluf indidbting tif donnfdt timfout, in sfdonds, to bf
+     * usfd for tif CRL downlobd. A timfout of zfro is intfrprftfd bs
+     * bn infinitf timfout.
      */
-    private static int initializeTimeout() {
-        Integer tmp = java.security.AccessController.doPrivileged(
-                new GetIntegerAction("com.sun.security.crl.timeout"));
+    privbtf stbtid finbl int CRL_CONNECT_TIMEOUT = initiblizfTimfout();
+
+    /**
+     * Initiblizf tif timfout lfngti by gftting tif CRL timfout
+     * systfm propfrty. If tif propfrty ibs not bffn sft, or if its
+     * vbluf is nfgbtivf, sft tif timfout lfngti to tif dffbult.
+     */
+    privbtf stbtid int initiblizfTimfout() {
+        Intfgfr tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw GftIntfgfrAdtion("dom.sun.sfdurity.drl.timfout"));
         if (tmp == null || tmp < 0) {
-            return DEFAULT_CRL_CONNECT_TIMEOUT;
+            rfturn DEFAULT_CRL_CONNECT_TIMEOUT;
         }
-        // Convert to milliseconds, as the system property will be
-        // specified in seconds
-        return tmp * 1000;
+        // Convfrt to millisfdonds, bs tif systfm propfrty will bf
+        // spfdififd in sfdonds
+        rfturn tmp * 1000;
     }
 
     /**
-     * Creates a URICertStore.
+     * Crfbtfs b URICfrtStorf.
      *
-     * @param parameters specifying the URI
+     * @pbrbm pbrbmftfrs spfdifying tif URI
      */
-    URICertStore(CertStoreParameters params)
-        throws InvalidAlgorithmParameterException, NoSuchAlgorithmException {
-        super(params);
-        if (!(params instanceof URICertStoreParameters)) {
-            throw new InvalidAlgorithmParameterException
-                ("params must be instanceof URICertStoreParameters");
+    URICfrtStorf(CfrtStorfPbrbmftfrs pbrbms)
+        tirows InvblidAlgoritimPbrbmftfrExdfption, NoSudiAlgoritimExdfption {
+        supfr(pbrbms);
+        if (!(pbrbms instbndfof URICfrtStorfPbrbmftfrs)) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("pbrbms must bf instbndfof URICfrtStorfPbrbmftfrs");
         }
-        this.uri = ((URICertStoreParameters) params).uri;
-        // if ldap URI, use an LDAPCertStore to fetch certs and CRLs
-        if (uri.getScheme().toLowerCase(Locale.ENGLISH).equals("ldap")) {
-            ldap = true;
-            ldapHelper = CertStoreHelper.getInstance("LDAP");
-            ldapCertStore = ldapHelper.getCertStore(uri);
-            ldapPath = uri.getPath();
-            // strip off leading '/'
-            if (ldapPath.charAt(0) == '/') {
-                ldapPath = ldapPath.substring(1);
+        tiis.uri = ((URICfrtStorfPbrbmftfrs) pbrbms).uri;
+        // if ldbp URI, usf bn LDAPCfrtStorf to fftdi dfrts bnd CRLs
+        if (uri.gftSdifmf().toLowfrCbsf(Lodblf.ENGLISH).fqubls("ldbp")) {
+            ldbp = truf;
+            ldbpHflpfr = CfrtStorfHflpfr.gftInstbndf("LDAP");
+            ldbpCfrtStorf = ldbpHflpfr.gftCfrtStorf(uri);
+            ldbpPbti = uri.gftPbti();
+            // strip off lfbding '/'
+            if (ldbpPbti.dibrAt(0) == '/') {
+                ldbpPbti = ldbpPbti.substring(1);
             }
         }
         try {
-            factory = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException e) {
-            throw new RuntimeException();
+            fbdtory = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+        } dbtdi (CfrtifidbtfExdfption f) {
+            tirow nfw RuntimfExdfption();
         }
     }
 
     /**
-     * Returns a URI CertStore. This method consults a cache of
-     * CertStores (shared per JVM) using the URI as a key.
+     * Rfturns b URI CfrtStorf. Tiis mftiod donsults b dbdif of
+     * CfrtStorfs (sibrfd pfr JVM) using tif URI bs b kfy.
      */
-    private static final Cache<URICertStoreParameters, CertStore>
-        certStoreCache = Cache.newSoftMemoryCache(CACHE_SIZE);
-    static synchronized CertStore getInstance(URICertStoreParameters params)
-        throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        if (debug != null) {
-            debug.println("CertStore URI:" + params.uri);
+    privbtf stbtid finbl Cbdif<URICfrtStorfPbrbmftfrs, CfrtStorf>
+        dfrtStorfCbdif = Cbdif.nfwSoftMfmoryCbdif(CACHE_SIZE);
+    stbtid syndironizfd CfrtStorf gftInstbndf(URICfrtStorfPbrbmftfrs pbrbms)
+        tirows NoSudiAlgoritimExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        if (dfbug != null) {
+            dfbug.println("CfrtStorf URI:" + pbrbms.uri);
         }
-        CertStore ucs = certStoreCache.get(params);
-        if (ucs == null) {
-            ucs = new UCS(new URICertStore(params), null, "URI", params);
-            certStoreCache.put(params, ucs);
-        } else {
-            if (debug != null) {
-                debug.println("URICertStore.getInstance: cache hit");
+        CfrtStorf uds = dfrtStorfCbdif.gft(pbrbms);
+        if (uds == null) {
+            uds = nfw UCS(nfw URICfrtStorf(pbrbms), null, "URI", pbrbms);
+            dfrtStorfCbdif.put(pbrbms, uds);
+        } flsf {
+            if (dfbug != null) {
+                dfbug.println("URICfrtStorf.gftInstbndf: dbdif iit");
             }
         }
-        return ucs;
+        rfturn uds;
     }
 
     /**
-     * Creates a CertStore from information included in the AccessDescription
-     * object of a certificate's Authority Information Access Extension.
+     * Crfbtfs b CfrtStorf from informbtion indludfd in tif AddfssDfsdription
+     * objfdt of b dfrtifidbtf's Autiority Informbtion Addfss Extfnsion.
      */
-    static CertStore getInstance(AccessDescription ad) {
-        if (!ad.getAccessMethod().equals((Object)
-                AccessDescription.Ad_CAISSUERS_Id)) {
-            return null;
+    stbtid CfrtStorf gftInstbndf(AddfssDfsdription bd) {
+        if (!bd.gftAddfssMftiod().fqubls((Objfdt)
+                AddfssDfsdription.Ad_CAISSUERS_Id)) {
+            rfturn null;
         }
-        GeneralNameInterface gn = ad.getAccessLocation().getName();
-        if (!(gn instanceof URIName)) {
-            return null;
+        GfnfrblNbmfIntfrfbdf gn = bd.gftAddfssLodbtion().gftNbmf();
+        if (!(gn instbndfof URINbmf)) {
+            rfturn null;
         }
-        URI uri = ((URIName) gn).getURI();
+        URI uri = ((URINbmf) gn).gftURI();
         try {
-            return URICertStore.getInstance
-                (new URICertStore.URICertStoreParameters(uri));
-        } catch (Exception ex) {
-            if (debug != null) {
-                debug.println("exception creating CertStore: " + ex);
-                ex.printStackTrace();
+            rfturn URICfrtStorf.gftInstbndf
+                (nfw URICfrtStorf.URICfrtStorfPbrbmftfrs(uri));
+        } dbtdi (Exdfption fx) {
+            if (dfbug != null) {
+                dfbug.println("fxdfption drfbting CfrtStorf: " + fx);
+                fx.printStbdkTrbdf();
             }
-            return null;
+            rfturn null;
         }
     }
 
     /**
-     * Returns a <code>Collection</code> of <code>X509Certificate</code>s that
-     * match the specified selector. If no <code>X509Certificate</code>s
-     * match the selector, an empty <code>Collection</code> will be returned.
+     * Rfturns b <dodf>Collfdtion</dodf> of <dodf>X509Cfrtifidbtf</dodf>s tibt
+     * mbtdi tif spfdififd sflfdtor. If no <dodf>X509Cfrtifidbtf</dodf>s
+     * mbtdi tif sflfdtor, bn fmpty <dodf>Collfdtion</dodf> will bf rfturnfd.
      *
-     * @param selector a <code>CertSelector</code> used to select which
-     *  <code>X509Certificate</code>s should be returned. Specify
-     *  <code>null</code> to return all <code>X509Certificate</code>s.
-     * @return a <code>Collection</code> of <code>X509Certificate</code>s that
-     *         match the specified selector
-     * @throws CertStoreException if an exception occurs
+     * @pbrbm sflfdtor b <dodf>CfrtSflfdtor</dodf> usfd to sflfdt wiidi
+     *  <dodf>X509Cfrtifidbtf</dodf>s siould bf rfturnfd. Spfdify
+     *  <dodf>null</dodf> to rfturn bll <dodf>X509Cfrtifidbtf</dodf>s.
+     * @rfturn b <dodf>Collfdtion</dodf> of <dodf>X509Cfrtifidbtf</dodf>s tibt
+     *         mbtdi tif spfdififd sflfdtor
+     * @tirows CfrtStorfExdfption if bn fxdfption oddurs
      */
-    @Override
-    @SuppressWarnings("unchecked")
-    public synchronized Collection<X509Certificate> engineGetCertificates
-        (CertSelector selector) throws CertStoreException {
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid syndironizfd Collfdtion<X509Cfrtifidbtf> fnginfGftCfrtifidbtfs
+        (CfrtSflfdtor sflfdtor) tirows CfrtStorfExdfption {
 
-        // if ldap URI we wrap the CertSelector in an LDAPCertSelector to
-        // avoid LDAP DN matching issues (see LDAPCertSelector for more info)
-        if (ldap) {
-            X509CertSelector xsel = (X509CertSelector) selector;
+        // if ldbp URI wf wrbp tif CfrtSflfdtor in bn LDAPCfrtSflfdtor to
+        // bvoid LDAP DN mbtdiing issufs (sff LDAPCfrtSflfdtor for morf info)
+        if (ldbp) {
+            X509CfrtSflfdtor xsfl = (X509CfrtSflfdtor) sflfdtor;
             try {
-                xsel = ldapHelper.wrap(xsel, xsel.getSubject(), ldapPath);
-            } catch (IOException ioe) {
-                throw new CertStoreException(ioe);
+                xsfl = ldbpHflpfr.wrbp(xsfl, xsfl.gftSubjfdt(), ldbpPbti);
+            } dbtdi (IOExdfption iof) {
+                tirow nfw CfrtStorfExdfption(iof);
             }
-            // Fetch the certificates via LDAP. LDAPCertStore has its own
-            // caching mechanism, see the class description for more info.
-            // Safe cast since xsel is an X509 certificate selector.
-            return (Collection<X509Certificate>)
-                ldapCertStore.getCertificates(xsel);
+            // Fftdi tif dfrtifidbtfs vib LDAP. LDAPCfrtStorf ibs its own
+            // dbdiing mfdibnism, sff tif dlbss dfsdription for morf info.
+            // Sbff dbst sindf xsfl is bn X509 dfrtifidbtf sflfdtor.
+            rfturn (Collfdtion<X509Cfrtifidbtf>)
+                ldbpCfrtStorf.gftCfrtifidbtfs(xsfl);
         }
 
-        // Return the Certificates for this entry. It returns the cached value
-        // if it is still current and fetches the Certificates otherwise.
-        // For the caching details, see the top of this class.
-        long time = System.currentTimeMillis();
-        if (time - lastChecked < CHECK_INTERVAL) {
-            if (debug != null) {
-                debug.println("Returning certificates from cache");
+        // Rfturn tif Cfrtifidbtfs for tiis fntry. It rfturns tif dbdifd vbluf
+        // if it is still durrfnt bnd fftdifs tif Cfrtifidbtfs otifrwisf.
+        // For tif dbdiing dftbils, sff tif top of tiis dlbss.
+        long timf = Systfm.durrfntTimfMillis();
+        if (timf - lbstCifdkfd < CHECK_INTERVAL) {
+            if (dfbug != null) {
+                dfbug.println("Rfturning dfrtifidbtfs from dbdif");
             }
-            return getMatchingCerts(certs, selector);
+            rfturn gftMbtdiingCfrts(dfrts, sflfdtor);
         }
-        lastChecked = time;
+        lbstCifdkfd = timf;
         try {
-            URLConnection connection = uri.toURL().openConnection();
-            if (lastModified != 0) {
-                connection.setIfModifiedSince(lastModified);
+            URLConnfdtion donnfdtion = uri.toURL().opfnConnfdtion();
+            if (lbstModififd != 0) {
+                donnfdtion.sftIfModififdSindf(lbstModififd);
             }
-            long oldLastModified = lastModified;
-            try (InputStream in = connection.getInputStream()) {
-                lastModified = connection.getLastModified();
-                if (oldLastModified != 0) {
-                    if (oldLastModified == lastModified) {
-                        if (debug != null) {
-                            debug.println("Not modified, using cached copy");
+            long oldLbstModififd = lbstModififd;
+            try (InputStrfbm in = donnfdtion.gftInputStrfbm()) {
+                lbstModififd = donnfdtion.gftLbstModififd();
+                if (oldLbstModififd != 0) {
+                    if (oldLbstModififd == lbstModififd) {
+                        if (dfbug != null) {
+                            dfbug.println("Not modififd, using dbdifd dopy");
                         }
-                        return getMatchingCerts(certs, selector);
-                    } else if (connection instanceof HttpURLConnection) {
-                        // some proxy servers omit last modified
-                        HttpURLConnection hconn = (HttpURLConnection)connection;
-                        if (hconn.getResponseCode()
-                                    == HttpURLConnection.HTTP_NOT_MODIFIED) {
-                            if (debug != null) {
-                                debug.println("Not modified, using cached copy");
+                        rfturn gftMbtdiingCfrts(dfrts, sflfdtor);
+                    } flsf if (donnfdtion instbndfof HttpURLConnfdtion) {
+                        // somf proxy sfrvfrs omit lbst modififd
+                        HttpURLConnfdtion idonn = (HttpURLConnfdtion)donnfdtion;
+                        if (idonn.gftRfsponsfCodf()
+                                    == HttpURLConnfdtion.HTTP_NOT_MODIFIED) {
+                            if (dfbug != null) {
+                                dfbug.println("Not modififd, using dbdifd dopy");
                             }
-                            return getMatchingCerts(certs, selector);
+                            rfturn gftMbtdiingCfrts(dfrts, sflfdtor);
                         }
                     }
                 }
-                if (debug != null) {
-                    debug.println("Downloading new certificates...");
+                if (dfbug != null) {
+                    dfbug.println("Downlobding nfw dfrtifidbtfs...");
                 }
-                // Safe cast since factory is an X.509 certificate factory
-                certs = (Collection<X509Certificate>)
-                    factory.generateCertificates(in);
+                // Sbff dbst sindf fbdtory is bn X.509 dfrtifidbtf fbdtory
+                dfrts = (Collfdtion<X509Cfrtifidbtf>)
+                    fbdtory.gfnfrbtfCfrtifidbtfs(in);
             }
-            return getMatchingCerts(certs, selector);
-        } catch (IOException | CertificateException e) {
-            if (debug != null) {
-                debug.println("Exception fetching certificates:");
-                e.printStackTrace();
+            rfturn gftMbtdiingCfrts(dfrts, sflfdtor);
+        } dbtdi (IOExdfption | CfrtifidbtfExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("Exdfption fftdiing dfrtifidbtfs:");
+                f.printStbdkTrbdf();
             }
         }
-        // exception, forget previous values
-        lastModified = 0;
-        certs = Collections.emptySet();
-        return certs;
+        // fxdfption, forgft prfvious vblufs
+        lbstModififd = 0;
+        dfrts = Collfdtions.fmptySft();
+        rfturn dfrts;
     }
 
     /**
-     * Iterates over the specified Collection of X509Certificates and
-     * returns only those that match the criteria specified in the
-     * CertSelector.
+     * Itfrbtfs ovfr tif spfdififd Collfdtion of X509Cfrtifidbtfs bnd
+     * rfturns only tiosf tibt mbtdi tif dritfrib spfdififd in tif
+     * CfrtSflfdtor.
      */
-    private static Collection<X509Certificate> getMatchingCerts
-        (Collection<X509Certificate> certs, CertSelector selector) {
-        // if selector not specified, all certs match
-        if (selector == null) {
-            return certs;
+    privbtf stbtid Collfdtion<X509Cfrtifidbtf> gftMbtdiingCfrts
+        (Collfdtion<X509Cfrtifidbtf> dfrts, CfrtSflfdtor sflfdtor) {
+        // if sflfdtor not spfdififd, bll dfrts mbtdi
+        if (sflfdtor == null) {
+            rfturn dfrts;
         }
-        List<X509Certificate> matchedCerts = new ArrayList<>(certs.size());
-        for (X509Certificate cert : certs) {
-            if (selector.match(cert)) {
-                matchedCerts.add(cert);
+        List<X509Cfrtifidbtf> mbtdifdCfrts = nfw ArrbyList<>(dfrts.sizf());
+        for (X509Cfrtifidbtf dfrt : dfrts) {
+            if (sflfdtor.mbtdi(dfrt)) {
+                mbtdifdCfrts.bdd(dfrt);
             }
         }
-        return matchedCerts;
+        rfturn mbtdifdCfrts;
     }
 
     /**
-     * Returns a <code>Collection</code> of <code>X509CRL</code>s that
-     * match the specified selector. If no <code>X509CRL</code>s
-     * match the selector, an empty <code>Collection</code> will be returned.
+     * Rfturns b <dodf>Collfdtion</dodf> of <dodf>X509CRL</dodf>s tibt
+     * mbtdi tif spfdififd sflfdtor. If no <dodf>X509CRL</dodf>s
+     * mbtdi tif sflfdtor, bn fmpty <dodf>Collfdtion</dodf> will bf rfturnfd.
      *
-     * @param selector A <code>CRLSelector</code> used to select which
-     *  <code>X509CRL</code>s should be returned. Specify <code>null</code>
-     *  to return all <code>X509CRL</code>s.
-     * @return A <code>Collection</code> of <code>X509CRL</code>s that
-     *         match the specified selector
-     * @throws CertStoreException if an exception occurs
+     * @pbrbm sflfdtor A <dodf>CRLSflfdtor</dodf> usfd to sflfdt wiidi
+     *  <dodf>X509CRL</dodf>s siould bf rfturnfd. Spfdify <dodf>null</dodf>
+     *  to rfturn bll <dodf>X509CRL</dodf>s.
+     * @rfturn A <dodf>Collfdtion</dodf> of <dodf>X509CRL</dodf>s tibt
+     *         mbtdi tif spfdififd sflfdtor
+     * @tirows CfrtStorfExdfption if bn fxdfption oddurs
      */
-    @Override
-    @SuppressWarnings("unchecked")
-    public synchronized Collection<X509CRL> engineGetCRLs(CRLSelector selector)
-        throws CertStoreException {
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid syndironizfd Collfdtion<X509CRL> fnginfGftCRLs(CRLSflfdtor sflfdtor)
+        tirows CfrtStorfExdfption {
 
-        // if ldap URI we wrap the CRLSelector in an LDAPCRLSelector to
-        // avoid LDAP DN matching issues (see LDAPCRLSelector for more info)
-        if (ldap) {
-            X509CRLSelector xsel = (X509CRLSelector) selector;
+        // if ldbp URI wf wrbp tif CRLSflfdtor in bn LDAPCRLSflfdtor to
+        // bvoid LDAP DN mbtdiing issufs (sff LDAPCRLSflfdtor for morf info)
+        if (ldbp) {
+            X509CRLSflfdtor xsfl = (X509CRLSflfdtor) sflfdtor;
             try {
-                xsel = ldapHelper.wrap(xsel, null, ldapPath);
-            } catch (IOException ioe) {
-                throw new CertStoreException(ioe);
+                xsfl = ldbpHflpfr.wrbp(xsfl, null, ldbpPbti);
+            } dbtdi (IOExdfption iof) {
+                tirow nfw CfrtStorfExdfption(iof);
             }
-            // Fetch the CRLs via LDAP. LDAPCertStore has its own
-            // caching mechanism, see the class description for more info.
-            // Safe cast since xsel is an X509 certificate selector.
+            // Fftdi tif CRLs vib LDAP. LDAPCfrtStorf ibs its own
+            // dbdiing mfdibnism, sff tif dlbss dfsdription for morf info.
+            // Sbff dbst sindf xsfl is bn X509 dfrtifidbtf sflfdtor.
             try {
-                return (Collection<X509CRL>) ldapCertStore.getCRLs(xsel);
-            } catch (CertStoreException cse) {
-                throw new PKIX.CertStoreTypeException("LDAP", cse);
+                rfturn (Collfdtion<X509CRL>) ldbpCfrtStorf.gftCRLs(xsfl);
+            } dbtdi (CfrtStorfExdfption dsf) {
+                tirow nfw PKIX.CfrtStorfTypfExdfption("LDAP", dsf);
             }
         }
 
-        // Return the CRLs for this entry. It returns the cached value
-        // if it is still current and fetches the CRLs otherwise.
-        // For the caching details, see the top of this class.
-        long time = System.currentTimeMillis();
-        if (time - lastChecked < CHECK_INTERVAL) {
-            if (debug != null) {
-                debug.println("Returning CRL from cache");
+        // Rfturn tif CRLs for tiis fntry. It rfturns tif dbdifd vbluf
+        // if it is still durrfnt bnd fftdifs tif CRLs otifrwisf.
+        // For tif dbdiing dftbils, sff tif top of tiis dlbss.
+        long timf = Systfm.durrfntTimfMillis();
+        if (timf - lbstCifdkfd < CHECK_INTERVAL) {
+            if (dfbug != null) {
+                dfbug.println("Rfturning CRL from dbdif");
             }
-            return getMatchingCRLs(crl, selector);
+            rfturn gftMbtdiingCRLs(drl, sflfdtor);
         }
-        lastChecked = time;
+        lbstCifdkfd = timf;
         try {
-            URLConnection connection = uri.toURL().openConnection();
-            if (lastModified != 0) {
-                connection.setIfModifiedSince(lastModified);
+            URLConnfdtion donnfdtion = uri.toURL().opfnConnfdtion();
+            if (lbstModififd != 0) {
+                donnfdtion.sftIfModififdSindf(lbstModififd);
             }
-            long oldLastModified = lastModified;
-            connection.setConnectTimeout(CRL_CONNECT_TIMEOUT);
-            try (InputStream in = connection.getInputStream()) {
-                lastModified = connection.getLastModified();
-                if (oldLastModified != 0) {
-                    if (oldLastModified == lastModified) {
-                        if (debug != null) {
-                            debug.println("Not modified, using cached copy");
+            long oldLbstModififd = lbstModififd;
+            donnfdtion.sftConnfdtTimfout(CRL_CONNECT_TIMEOUT);
+            try (InputStrfbm in = donnfdtion.gftInputStrfbm()) {
+                lbstModififd = donnfdtion.gftLbstModififd();
+                if (oldLbstModififd != 0) {
+                    if (oldLbstModififd == lbstModififd) {
+                        if (dfbug != null) {
+                            dfbug.println("Not modififd, using dbdifd dopy");
                         }
-                        return getMatchingCRLs(crl, selector);
-                    } else if (connection instanceof HttpURLConnection) {
-                        // some proxy servers omit last modified
-                        HttpURLConnection hconn = (HttpURLConnection)connection;
-                        if (hconn.getResponseCode()
-                                    == HttpURLConnection.HTTP_NOT_MODIFIED) {
-                            if (debug != null) {
-                                debug.println("Not modified, using cached copy");
+                        rfturn gftMbtdiingCRLs(drl, sflfdtor);
+                    } flsf if (donnfdtion instbndfof HttpURLConnfdtion) {
+                        // somf proxy sfrvfrs omit lbst modififd
+                        HttpURLConnfdtion idonn = (HttpURLConnfdtion)donnfdtion;
+                        if (idonn.gftRfsponsfCodf()
+                                    == HttpURLConnfdtion.HTTP_NOT_MODIFIED) {
+                            if (dfbug != null) {
+                                dfbug.println("Not modififd, using dbdifd dopy");
                             }
-                            return getMatchingCRLs(crl, selector);
+                            rfturn gftMbtdiingCRLs(drl, sflfdtor);
                         }
                     }
                 }
-                if (debug != null) {
-                    debug.println("Downloading new CRL...");
+                if (dfbug != null) {
+                    dfbug.println("Downlobding nfw CRL...");
                 }
-                crl = (X509CRL) factory.generateCRL(in);
+                drl = (X509CRL) fbdtory.gfnfrbtfCRL(in);
             }
-            return getMatchingCRLs(crl, selector);
-        } catch (IOException | CRLException e) {
-            if (debug != null) {
-                debug.println("Exception fetching CRL:");
-                e.printStackTrace();
+            rfturn gftMbtdiingCRLs(drl, sflfdtor);
+        } dbtdi (IOExdfption | CRLExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("Exdfption fftdiing CRL:");
+                f.printStbdkTrbdf();
             }
-            // exception, forget previous values
-            lastModified = 0;
-            crl = null;
-            throw new PKIX.CertStoreTypeException("URI",
-                                                  new CertStoreException(e));
+            // fxdfption, forgft prfvious vblufs
+            lbstModififd = 0;
+            drl = null;
+            tirow nfw PKIX.CfrtStorfTypfExdfption("URI",
+                                                  nfw CfrtStorfExdfption(f));
         }
     }
 
     /**
-     * Checks if the specified X509CRL matches the criteria specified in the
-     * CRLSelector.
+     * Cifdks if tif spfdififd X509CRL mbtdifs tif dritfrib spfdififd in tif
+     * CRLSflfdtor.
      */
-    private static Collection<X509CRL> getMatchingCRLs
-        (X509CRL crl, CRLSelector selector) {
-        if (selector == null || (crl != null && selector.match(crl))) {
-            return Collections.singletonList(crl);
-        } else {
-            return Collections.emptyList();
+    privbtf stbtid Collfdtion<X509CRL> gftMbtdiingCRLs
+        (X509CRL drl, CRLSflfdtor sflfdtor) {
+        if (sflfdtor == null || (drl != null && sflfdtor.mbtdi(drl))) {
+            rfturn Collfdtions.singlftonList(drl);
+        } flsf {
+            rfturn Collfdtions.fmptyList();
         }
     }
 
     /**
-     * CertStoreParameters for the URICertStore.
+     * CfrtStorfPbrbmftfrs for tif URICfrtStorf.
      */
-    static class URICertStoreParameters implements CertStoreParameters {
-        private final URI uri;
-        private volatile int hashCode = 0;
-        URICertStoreParameters(URI uri) {
-            this.uri = uri;
+    stbtid dlbss URICfrtStorfPbrbmftfrs implfmfnts CfrtStorfPbrbmftfrs {
+        privbtf finbl URI uri;
+        privbtf volbtilf int ibsiCodf = 0;
+        URICfrtStorfPbrbmftfrs(URI uri) {
+            tiis.uri = uri;
         }
-        @Override public boolean equals(Object obj) {
-            if (!(obj instanceof URICertStoreParameters)) {
-                return false;
+        @Ovfrridf publid boolfbn fqubls(Objfdt obj) {
+            if (!(obj instbndfof URICfrtStorfPbrbmftfrs)) {
+                rfturn fblsf;
             }
-            URICertStoreParameters params = (URICertStoreParameters) obj;
-            return uri.equals(params.uri);
+            URICfrtStorfPbrbmftfrs pbrbms = (URICfrtStorfPbrbmftfrs) obj;
+            rfturn uri.fqubls(pbrbms.uri);
         }
-        @Override public int hashCode() {
-            if (hashCode == 0) {
-                int result = 17;
-                result = 37*result + uri.hashCode();
-                hashCode = result;
+        @Ovfrridf publid int ibsiCodf() {
+            if (ibsiCodf == 0) {
+                int rfsult = 17;
+                rfsult = 37*rfsult + uri.ibsiCodf();
+                ibsiCodf = rfsult;
             }
-            return hashCode;
+            rfturn ibsiCodf;
         }
-        @Override public Object clone() {
+        @Ovfrridf publid Objfdt dlonf() {
             try {
-                return super.clone();
-            } catch (CloneNotSupportedException e) {
-                /* Cannot happen */
-                throw new InternalError(e.toString(), e);
+                rfturn supfr.dlonf();
+            } dbtdi (ClonfNotSupportfdExdfption f) {
+                /* Cbnnot ibppfn */
+                tirow nfw IntfrnblError(f.toString(), f);
             }
         }
     }
 
     /**
-     * This class allows the URICertStore to be accessed as a CertStore.
+     * Tiis dlbss bllows tif URICfrtStorf to bf bddfssfd bs b CfrtStorf.
      */
-    private static class UCS extends CertStore {
-        protected UCS(CertStoreSpi spi, Provider p, String type,
-            CertStoreParameters params) {
-            super(spi, p, type, params);
+    privbtf stbtid dlbss UCS fxtfnds CfrtStorf {
+        protfdtfd UCS(CfrtStorfSpi spi, Providfr p, String typf,
+            CfrtStorfPbrbmftfrs pbrbms) {
+            supfr(spi, p, typf, pbrbms);
         }
     }
 }

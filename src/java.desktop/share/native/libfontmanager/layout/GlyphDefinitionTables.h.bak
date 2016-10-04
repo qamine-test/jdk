@@ -1,133 +1,133 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __GLYPHDEFINITIONTABLES_H
-#define __GLYPHDEFINITIONTABLES_H
+#ifndff __GLYPHDEFINITIONTABLES_H
+#dffinf __GLYPHDEFINITIONTABLES_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "ClassDefinitionTables.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "ClbssDffinitionTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-typedef ClassDefinitionTable GlyphClassDefinitionTable;
+typfdff ClbssDffinitionTbblf GlypiClbssDffinitionTbblf;
 
-enum GlyphClassDefinitions
+fnum GlypiClbssDffinitions
 {
-    gcdNoGlyphClass     = 0,
-    gcdSimpleGlyph      = 1,
-    gcdLigatureGlyph    = 2,
-    gcdMarkGlyph        = 3,
-    gcdComponentGlyph   = 4
+    gddNoGlypiClbss     = 0,
+    gddSimplfGlypi      = 1,
+    gddLigbturfGlypi    = 2,
+    gddMbrkGlypi        = 3,
+    gddComponfntGlypi   = 4
 };
 
-struct AttachmentListTable
+strudt AttbdimfntListTbblf
 {
-    Offset  coverageTableOffset;
-    le_uint16  glyphCount;
-    Offset  attachPointTableOffsetArray[ANY_NUMBER];
+    Offsft  dovfrbgfTbblfOffsft;
+    lf_uint16  glypiCount;
+    Offsft  bttbdiPointTbblfOffsftArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(AttachmentListTable, attachPointTableOffsetArray)
+LE_VAR_ARRAY(AttbdimfntListTbblf, bttbdiPointTbblfOffsftArrby)
 
-struct AttachPointTable
+strudt AttbdiPointTbblf
 {
-    le_uint16  pointCount;
-    le_uint16  pointIndexArray[ANY_NUMBER];
+    lf_uint16  pointCount;
+    lf_uint16  pointIndfxArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(AttachPointTable, pointIndexArray)
+LE_VAR_ARRAY(AttbdiPointTbblf, pointIndfxArrby)
 
-struct LigatureCaretListTable
+strudt LigbturfCbrftListTbblf
 {
-    Offset  coverageTableOffset;
-    le_uint16  ligGlyphCount;
-    Offset  ligGlyphTableOffsetArray[ANY_NUMBER];
+    Offsft  dovfrbgfTbblfOffsft;
+    lf_uint16  ligGlypiCount;
+    Offsft  ligGlypiTbblfOffsftArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(LigatureCaretListTable, ligGlyphTableOffsetArray)
+LE_VAR_ARRAY(LigbturfCbrftListTbblf, ligGlypiTbblfOffsftArrby)
 
-struct LigatureGlyphTable
+strudt LigbturfGlypiTbblf
 {
-    le_uint16  caretCount;
-    Offset  caretValueTableOffsetArray[ANY_NUMBER];
+    lf_uint16  dbrftCount;
+    Offsft  dbrftVblufTbblfOffsftArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(LigatureGlyphTable, caretValueTableOffsetArray)
+LE_VAR_ARRAY(LigbturfGlypiTbblf, dbrftVblufTbblfOffsftArrby)
 
-struct CaretValueTable
+strudt CbrftVblufTbblf
 {
-    le_uint16  caretValueFormat;
-};
-
-struct CaretValueFormat1Table : CaretValueTable
-{
-    le_int16   coordinate;
+    lf_uint16  dbrftVblufFormbt;
 };
 
-struct CaretValueFormat2Table : CaretValueTable
+strudt CbrftVblufFormbt1Tbblf : CbrftVblufTbblf
 {
-    le_uint16  caretValuePoint;
+    lf_int16   doordinbtf;
 };
 
-struct CaretValueFormat3Table : CaretValueTable
+strudt CbrftVblufFormbt2Tbblf : CbrftVblufTbblf
 {
-    le_int16   coordinate;
-    Offset  deviceTableOffset;
+    lf_uint16  dbrftVblufPoint;
 };
 
-typedef ClassDefinitionTable MarkAttachClassDefinitionTable;
-
-struct GlyphDefinitionTableHeader
+strudt CbrftVblufFormbt3Tbblf : CbrftVblufTbblf
 {
-    fixed32 version;
-    Offset  glyphClassDefOffset;
-    Offset  attachListOffset;
-    Offset  ligCaretListOffset;
-    Offset  MarkAttachClassDefOffset;
+    lf_int16   doordinbtf;
+    Offsft  dfvidfTbblfOffsft;
+};
 
-    const LEReferenceTo<GlyphClassDefinitionTable>
-    getGlyphClassDefinitionTable(const LEReferenceTo<GlyphDefinitionTableHeader>& base,
-                                 LEErrorCode &success) const;
-    const LEReferenceTo<AttachmentListTable>
-    getAttachmentListTable(const LEReferenceTo<GlyphDefinitionTableHeader>& base,
-                           LEErrorCode &success)const ;
-    const LEReferenceTo<LigatureCaretListTable>
-    getLigatureCaretListTable(const LEReferenceTo<GlyphDefinitionTableHeader>& base,
-                              LEErrorCode &success) const;
-    const LEReferenceTo<MarkAttachClassDefinitionTable>
-    getMarkAttachClassDefinitionTable(const LEReferenceTo<GlyphDefinitionTableHeader>& base,
-                                      LEErrorCode &success) const;
+typfdff ClbssDffinitionTbblf MbrkAttbdiClbssDffinitionTbblf;
+
+strudt GlypiDffinitionTbblfHfbdfr
+{
+    fixfd32 vfrsion;
+    Offsft  glypiClbssDffOffsft;
+    Offsft  bttbdiListOffsft;
+    Offsft  ligCbrftListOffsft;
+    Offsft  MbrkAttbdiClbssDffOffsft;
+
+    donst LERfffrfndfTo<GlypiClbssDffinitionTbblf>
+    gftGlypiClbssDffinitionTbblf(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr>& bbsf,
+                                 LEErrorCodf &suddfss) donst;
+    donst LERfffrfndfTo<AttbdimfntListTbblf>
+    gftAttbdimfntListTbblf(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr>& bbsf,
+                           LEErrorCodf &suddfss)donst ;
+    donst LERfffrfndfTo<LigbturfCbrftListTbblf>
+    gftLigbturfCbrftListTbblf(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr>& bbsf,
+                              LEErrorCodf &suddfss) donst;
+    donst LERfffrfndfTo<MbrkAttbdiClbssDffinitionTbblf>
+    gftMbrkAttbdiClbssDffinitionTbblf(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr>& bbsf,
+                                      LEErrorCodf &suddfss) donst;
 };
 
 U_NAMESPACE_END
-#endif
+#fndif

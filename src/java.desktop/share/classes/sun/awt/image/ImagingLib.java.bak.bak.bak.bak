@@ -1,0 +1,278 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.AffinfTrbnsformOp;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.BytfLookupTbblf;
+import jbvb.bwt.imbgf.ConvolvfOp;
+import jbvb.bwt.imbgf.Kfrnfl;
+import jbvb.bwt.imbgf.LookupOp;
+import jbvb.bwt.imbgf.LookupTbblf;
+import jbvb.bwt.imbgf.RbstfrOp;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * This dlbss providfs b hook to bddfss plbtform-spfdifid
+ * imbging dodf.
+ *
+ * If thf implfmfnting dlbss dbnnot hbndlf thf op, tilf formbt or
+ * imbgf formbt, thf mfthod will rfturn null;
+ * If thfrf is bn frror whfn prodfssing thf
+ * dbtb, thf implfmfnting dlbss mby fithfr rfturn null
+ * (in whidh dbsf our jbvb dodf will bf fxfdutfd) or mby throw
+ * bn fxdfption.
+ */
+publid dlbss ImbgingLib {
+
+    stbtid boolfbn usfLib = truf;
+    stbtid boolfbn vfrbosf = fblsf;
+
+    privbtf stbtid finbl int NUM_NATIVE_OPS = 3;
+    privbtf stbtid finbl int LOOKUP_OP   = 0;
+    privbtf stbtid finbl int AFFINE_OP   = 1;
+    privbtf stbtid finbl int CONVOLVE_OP = 2;
+
+    privbtf stbtid Clbss<?>[] nbtivfOpClbss = nfw Clbss<?>[NUM_NATIVE_OPS];
+
+    /**
+     * Rfturnfd vbluf indidbtfs whfthfr thf librbry initbilizbtion wbs
+     * suddfdfd.
+     *
+     * Thfrf dould bf numbfr of rfbsons to fbilurf:
+     * - fbilfd to lobd librbry.
+     * - fbilfd to gft bll rfquirfd fntry points.
+     */
+    privbtf stbtid nbtivf boolfbn init();
+
+    stbtid publid nbtivf int trbnsformBI(BufffrfdImbgf srd, BufffrfdImbgf dst,
+                                         doublf[] mbtrix, int intfrpTypf);
+    stbtid publid nbtivf int trbnsformRbstfr(Rbstfr srd, Rbstfr dst,
+                                             doublf[] mbtrix,
+                                             int intfrpTypf);
+    stbtid publid nbtivf int donvolvfBI(BufffrfdImbgf srd, BufffrfdImbgf dst,
+                                        Kfrnfl kfrnfl, int fdgfHint);
+    stbtid publid nbtivf int donvolvfRbstfr(Rbstfr srd, Rbstfr dst,
+                                            Kfrnfl kfrnfl, int fdgfHint);
+    stbtid publid nbtivf int lookupBytfBI(BufffrfdImbgf srd, BufffrfdImbgf dst,
+                                        bytf[][] tbblf);
+    stbtid publid nbtivf int lookupBytfRbstfr(Rbstfr srd, Rbstfr dst,
+                                              bytf[][] tbblf);
+
+    stbtid {
+
+        PrivilfgfdAdtion<Boolfbn> doMlibInitiblizbtion =
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    String brdh = Systfm.gftPropfrty("os.brdh");
+
+                    if (brdh == null || !brdh.stbrtsWith("spbrd")) {
+                        try {
+                            Systfm.lobdLibrbry("mlib_imbgf");
+                        } dbtdh (UnsbtisfifdLinkError f) {
+                            rfturn Boolfbn.FALSE;
+                        }
+
+                    }
+                    boolfbn suddfss =  init();
+                    rfturn Boolfbn.vblufOf(suddfss);
+                }
+            };
+
+        usfLib = AddfssControllfr.doPrivilfgfd(doMlibInitiblizbtion);
+
+        //
+        // Cbdhf thf dlbss rfffrfndfs of thf opfrbtions wf know bbout
+        // bt thf timf this dlbss is initiblly lobdfd.
+        //
+        try {
+            nbtivfOpClbss[LOOKUP_OP] =
+                Clbss.forNbmf("jbvb.bwt.imbgf.LookupOp");
+        } dbtdh (ClbssNotFoundExdfption f) {
+            Systfm.frr.println("Could not find dlbss: "+f);
+        }
+        try {
+            nbtivfOpClbss[AFFINE_OP] =
+                Clbss.forNbmf("jbvb.bwt.imbgf.AffinfTrbnsformOp");
+        } dbtdh (ClbssNotFoundExdfption f) {
+            Systfm.frr.println("Could not find dlbss: "+f);
+        }
+        try {
+            nbtivfOpClbss[CONVOLVE_OP] =
+                Clbss.forNbmf("jbvb.bwt.imbgf.ConvolvfOp");
+        } dbtdh (ClbssNotFoundExdfption f) {
+            Systfm.frr.println("Could not find dlbss: "+f);
+        }
+
+    }
+
+    privbtf stbtid int gftNbtivfOpIndfx(Clbss<?> opClbss) {
+        //
+        // Sfbrdh for this dlbss in dbdhfd list of
+        // dlbssfs supplying nbtivf bddflfrbtion
+        //
+        int opIndfx = -1;
+        for (int i=0; i<NUM_NATIVE_OPS; i++) {
+            if (opClbss == nbtivfOpClbss[i]) {
+                opIndfx = i;
+                brfbk;
+            }
+        }
+        rfturn opIndfx;
+    }
+
+
+    publid stbtid WritbblfRbstfr filtfr(RbstfrOp op, Rbstfr srd,
+                                        WritbblfRbstfr dst) {
+        if (usfLib == fblsf) {
+            rfturn null;
+        }
+
+        // Crfbtf thf dfstinbtion tilf
+        if (dst == null) {
+            dst = op.drfbtfCompbtiblfDfstRbstfr(srd);
+        }
+
+
+        WritbblfRbstfr rftRbstfr = null;
+        switdh (gftNbtivfOpIndfx(op.gftClbss())) {
+
+          dbsf LOOKUP_OP:
+            // REMIND: Fix this!
+            LookupTbblf tbblf = ((LookupOp)op).gftTbblf();
+            if (tbblf.gftOffsft() != 0) {
+                // Right now thf nbtivf dodf dofsn't support offsfts
+                rfturn null;
+            }
+            if (tbblf instbndfof BytfLookupTbblf) {
+                BytfLookupTbblf bt = (BytfLookupTbblf) tbblf;
+                if (lookupBytfRbstfr(srd, dst, bt.gftTbblf()) > 0) {
+                    rftRbstfr = dst;
+                }
+            }
+            brfbk;
+
+          dbsf AFFINE_OP:
+            AffinfTrbnsformOp bOp = (AffinfTrbnsformOp) op;
+            doublf[] mbtrix = nfw doublf[6];
+            bOp.gftTrbnsform().gftMbtrix(mbtrix);
+            if (trbnsformRbstfr(srd, dst, mbtrix,
+                                bOp.gftIntfrpolbtionTypf()) > 0) {
+                rftRbstfr =  dst;
+            }
+            brfbk;
+
+          dbsf CONVOLVE_OP:
+            ConvolvfOp dOp = (ConvolvfOp) op;
+            if (donvolvfRbstfr(srd, dst,
+                               dOp.gftKfrnfl(), dOp.gftEdgfCondition()) > 0) {
+                rftRbstfr = dst;
+            }
+            brfbk;
+
+          dffbult:
+            brfbk;
+        }
+
+        if (rftRbstfr != null) {
+            SunWritbblfRbstfr.mbrkDirty(rftRbstfr);
+        }
+
+        rfturn rftRbstfr;
+    }
+
+
+    publid stbtid BufffrfdImbgf filtfr(BufffrfdImbgfOp op, BufffrfdImbgf srd,
+                                       BufffrfdImbgf dst)
+    {
+        if (vfrbosf) {
+            Systfm.out.println("in filtfr bnd op is "+op
+                               + "bufimbgf is "+srd+" bnd "+dst);
+        }
+
+        if (usfLib == fblsf) {
+            rfturn null;
+        }
+
+        // Crfbtf thf dfstinbtion imbgf
+        if (dst == null) {
+            dst = op.drfbtfCompbtiblfDfstImbgf(srd, null);
+        }
+
+        BufffrfdImbgf rftBI = null;
+        switdh (gftNbtivfOpIndfx(op.gftClbss())) {
+
+          dbsf LOOKUP_OP:
+            // REMIND: Fix this!
+            LookupTbblf tbblf = ((LookupOp)op).gftTbblf();
+            if (tbblf.gftOffsft() != 0) {
+                // Right now thf nbtivf dodf dofsn't support offsfts
+                rfturn null;
+            }
+            if (tbblf instbndfof BytfLookupTbblf) {
+                BytfLookupTbblf bt = (BytfLookupTbblf) tbblf;
+                if (lookupBytfBI(srd, dst, bt.gftTbblf()) > 0) {
+                    rftBI = dst;
+                }
+            }
+            brfbk;
+
+          dbsf AFFINE_OP:
+            AffinfTrbnsformOp bOp = (AffinfTrbnsformOp) op;
+            doublf[] mbtrix = nfw doublf[6];
+            AffinfTrbnsform xform = bOp.gftTrbnsform();
+            bOp.gftTrbnsform().gftMbtrix(mbtrix);
+
+            if (trbnsformBI(srd, dst, mbtrix,
+                            bOp.gftIntfrpolbtionTypf())>0) {
+                rftBI = dst;
+            }
+            brfbk;
+
+          dbsf CONVOLVE_OP:
+            ConvolvfOp dOp = (ConvolvfOp) op;
+            if (donvolvfBI(srd, dst, dOp.gftKfrnfl(),
+                           dOp.gftEdgfCondition()) > 0) {
+                rftBI = dst;
+            }
+            brfbk;
+
+          dffbult:
+            brfbk;
+        }
+
+        if (rftBI != null) {
+            SunWritbblfRbstfr.mbrkDirty(rftBI);
+        }
+
+        rfturn rftBI;
+    }
+}

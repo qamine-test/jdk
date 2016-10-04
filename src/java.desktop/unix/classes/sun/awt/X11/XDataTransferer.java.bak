@@ -1,437 +1,437 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.Image;
+import jbvb.bwt.Imbgf;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdHbsiSft;
+import jbvb.util.List;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriter;
-import javax.imageio.spi.ImageWriterSpi;
+import jbvbx.imbgfio.ImbgfIO;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
 
-import sun.awt.datatransfer.DataTransferer;
-import sun.awt.datatransfer.ToolkitThreadBlockedHandler;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import sun.bwt.dbtbtrbnsffr.ToolkitTirfbdBlodkfdHbndlfr;
 
-import java.io.ByteArrayOutputStream;
-import java.util.stream.Stream;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.util.strfbm.Strfbm;
 
 /**
- * Platform-specific support for the data transfer subsystem.
+ * Plbtform-spfdifid support for tif dbtb trbnsffr subsystfm.
  */
-public class XDataTransferer extends DataTransferer {
-    static final XAtom FILE_NAME_ATOM = XAtom.get("FILE_NAME");
-    static final XAtom DT_NET_FILE_ATOM = XAtom.get("_DT_NETFILE");
-    static final XAtom PNG_ATOM = XAtom.get("PNG");
-    static final XAtom JFIF_ATOM = XAtom.get("JFIF");
-    static final XAtom TARGETS_ATOM = XAtom.get("TARGETS");
-    static final XAtom INCR_ATOM = XAtom.get("INCR");
-    static final XAtom MULTIPLE_ATOM = XAtom.get("MULTIPLE");
+publid dlbss XDbtbTrbnsffrfr fxtfnds DbtbTrbnsffrfr {
+    stbtid finbl XAtom FILE_NAME_ATOM = XAtom.gft("FILE_NAME");
+    stbtid finbl XAtom DT_NET_FILE_ATOM = XAtom.gft("_DT_NETFILE");
+    stbtid finbl XAtom PNG_ATOM = XAtom.gft("PNG");
+    stbtid finbl XAtom JFIF_ATOM = XAtom.gft("JFIF");
+    stbtid finbl XAtom TARGETS_ATOM = XAtom.gft("TARGETS");
+    stbtid finbl XAtom INCR_ATOM = XAtom.gft("INCR");
+    stbtid finbl XAtom MULTIPLE_ATOM = XAtom.gft("MULTIPLE");
 
     /**
-     * Singleton constructor
+     * Singlfton donstrudtor
      */
-    private XDataTransferer() {
+    privbtf XDbtbTrbnsffrfr() {
     }
 
-    private static XDataTransferer transferer;
+    privbtf stbtid XDbtbTrbnsffrfr trbnsffrfr;
 
-    static synchronized XDataTransferer getInstanceImpl() {
-        if (transferer == null) {
-            transferer = new XDataTransferer();
+    stbtid syndironizfd XDbtbTrbnsffrfr gftInstbndfImpl() {
+        if (trbnsffrfr == null) {
+            trbnsffrfr = nfw XDbtbTrbnsffrfr();
         }
-        return transferer;
+        rfturn trbnsffrfr;
     }
 
-    public String getDefaultUnicodeEncoding() {
-        return "iso-10646-ucs-2";
+    publid String gftDffbultUnidodfEndoding() {
+        rfturn "iso-10646-uds-2";
     }
 
-    public boolean isLocaleDependentTextFormat(long format) {
-        return false;
+    publid boolfbn isLodblfDfpfndfntTfxtFormbt(long formbt) {
+        rfturn fblsf;
     }
 
-    public boolean isTextFormat(long format) {
-        return super.isTextFormat(format)
-            || isMimeFormat(format, "text");
+    publid boolfbn isTfxtFormbt(long formbt) {
+        rfturn supfr.isTfxtFormbt(formbt)
+            || isMimfFormbt(formbt, "tfxt");
     }
 
-    protected String getCharsetForTextFormat(Long lFormat) {
-        long format = lFormat.longValue();
-        if (isMimeFormat(format, "text")) {
-            String nat = getNativeForFormat(format);
-            DataFlavor df = new DataFlavor(nat, null);
-            // Ignore the charset parameter of the MIME type if the subtype
-            // doesn't support charset.
-            if (!DataTransferer.doesSubtypeSupportCharset(df)) {
-                return null;
+    protfdtfd String gftCibrsftForTfxtFormbt(Long lFormbt) {
+        long formbt = lFormbt.longVbluf();
+        if (isMimfFormbt(formbt, "tfxt")) {
+            String nbt = gftNbtivfForFormbt(formbt);
+            DbtbFlbvor df = nfw DbtbFlbvor(nbt, null);
+            // Ignorf tif dibrsft pbrbmftfr of tif MIME typf if tif subtypf
+            // dofsn't support dibrsft.
+            if (!DbtbTrbnsffrfr.dofsSubtypfSupportCibrsft(df)) {
+                rfturn null;
             }
-            String charset = df.getParameter("charset");
-            if (charset != null) {
-                return charset;
+            String dibrsft = df.gftPbrbmftfr("dibrsft");
+            if (dibrsft != null) {
+                rfturn dibrsft;
             }
         }
-        return super.getCharsetForTextFormat(lFormat);
+        rfturn supfr.gftCibrsftForTfxtFormbt(lFormbt);
     }
 
-    protected boolean isURIListFormat(long format) {
-        String nat = getNativeForFormat(format);
-        if (nat == null) {
-            return false;
+    protfdtfd boolfbn isURIListFormbt(long formbt) {
+        String nbt = gftNbtivfForFormbt(formbt);
+        if (nbt == null) {
+            rfturn fblsf;
         }
         try {
-            DataFlavor df = new DataFlavor(nat);
-            if (df.getPrimaryType().equals("text") && df.getSubType().equals("uri-list")) {
-                return true;
+            DbtbFlbvor df = nfw DbtbFlbvor(nbt);
+            if (df.gftPrimbryTypf().fqubls("tfxt") && df.gftSubTypf().fqubls("uri-list")) {
+                rfturn truf;
             }
-        } catch (Exception e) {
-            // Not a MIME format.
+        } dbtdi (Exdfption f) {
+            // Not b MIME formbt.
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public boolean isFileFormat(long format) {
-        return format == FILE_NAME_ATOM.getAtom() ||
-            format == DT_NET_FILE_ATOM.getAtom();
+    publid boolfbn isFilfFormbt(long formbt) {
+        rfturn formbt == FILE_NAME_ATOM.gftAtom() ||
+            formbt == DT_NET_FILE_ATOM.gftAtom();
     }
 
-    public boolean isImageFormat(long format) {
-        return format == PNG_ATOM.getAtom() ||
-            format == JFIF_ATOM.getAtom() ||
-            isMimeFormat(format, "image");
+    publid boolfbn isImbgfFormbt(long formbt) {
+        rfturn formbt == PNG_ATOM.gftAtom() ||
+            formbt == JFIF_ATOM.gftAtom() ||
+            isMimfFormbt(formbt, "imbgf");
     }
 
-    protected Long getFormatForNativeAsLong(String str) {
-        // Just get the atom. If it has already been retrived
-        // once, we'll get a copy so this should be very fast.
-        long atom = XAtom.get(str).getAtom();
-        return Long.valueOf(atom);
+    protfdtfd Long gftFormbtForNbtivfAsLong(String str) {
+        // Just gft tif btom. If it ibs blrfbdy bffn rftrivfd
+        // ondf, wf'll gft b dopy so tiis siould bf vfry fbst.
+        long btom = XAtom.gft(str).gftAtom();
+        rfturn Long.vblufOf(btom);
     }
 
-    protected String getNativeForFormat(long format) {
-        return getTargetNameForAtom(format);
+    protfdtfd String gftNbtivfForFormbt(long formbt) {
+        rfturn gftTbrgftNbmfForAtom(formbt);
     }
 
-    public ToolkitThreadBlockedHandler getToolkitThreadBlockedHandler() {
-        return XToolkitThreadBlockedHandler.getToolkitThreadBlockedHandler();
+    publid ToolkitTirfbdBlodkfdHbndlfr gftToolkitTirfbdBlodkfdHbndlfr() {
+        rfturn XToolkitTirfbdBlodkfdHbndlfr.gftToolkitTirfbdBlodkfdHbndlfr();
     }
 
     /**
-     * Gets an format name for a given format (atom)
+     * Gfts bn formbt nbmf for b givfn formbt (btom)
      */
-    private String getTargetNameForAtom(long atom) {
-        return XAtom.get(atom).getName();
+    privbtf String gftTbrgftNbmfForAtom(long btom) {
+        rfturn XAtom.gft(btom).gftNbmf();
     }
 
-    protected byte[] imageToPlatformBytes(Image image, long format)
-      throws IOException {
-        String mimeType = null;
-        if (format == PNG_ATOM.getAtom()) {
-            mimeType = "image/png";
-        } else if (format == JFIF_ATOM.getAtom()) {
-            mimeType = "image/jpeg";
-        } else {
-            // Check if an image MIME format.
+    protfdtfd bytf[] imbgfToPlbtformBytfs(Imbgf imbgf, long formbt)
+      tirows IOExdfption {
+        String mimfTypf = null;
+        if (formbt == PNG_ATOM.gftAtom()) {
+            mimfTypf = "imbgf/png";
+        } flsf if (formbt == JFIF_ATOM.gftAtom()) {
+            mimfTypf = "imbgf/jpfg";
+        } flsf {
+            // Cifdk if bn imbgf MIME formbt.
             try {
-                String nat = getNativeForFormat(format);
-                DataFlavor df = new DataFlavor(nat);
-                String primaryType = df.getPrimaryType();
-                if ("image".equals(primaryType)) {
-                    mimeType = df.getPrimaryType() + "/" + df.getSubType();
+                String nbt = gftNbtivfForFormbt(formbt);
+                DbtbFlbvor df = nfw DbtbFlbvor(nbt);
+                String primbryTypf = df.gftPrimbryTypf();
+                if ("imbgf".fqubls(primbryTypf)) {
+                    mimfTypf = df.gftPrimbryTypf() + "/" + df.gftSubTypf();
                 }
-            } catch (Exception e) {
-                // Not an image MIME format.
+            } dbtdi (Exdfption f) {
+                // Not bn imbgf MIME formbt.
             }
         }
-        if (mimeType != null) {
-            return imageToStandardBytes(image, mimeType);
-        } else {
-            String nativeFormat = getNativeForFormat(format);
-            throw new IOException("Translation to " + nativeFormat +
-                                  " is not supported.");
+        if (mimfTypf != null) {
+            rfturn imbgfToStbndbrdBytfs(imbgf, mimfTypf);
+        } flsf {
+            String nbtivfFormbt = gftNbtivfForFormbt(formbt);
+            tirow nfw IOExdfption("Trbnslbtion to " + nbtivfFormbt +
+                                  " is not supportfd.");
         }
     }
 
-    protected ByteArrayOutputStream convertFileListToBytes(ArrayList<String> fileList)
-        throws IOException
+    protfdtfd BytfArrbyOutputStrfbm donvfrtFilfListToBytfs(ArrbyList<String> filfList)
+        tirows IOExdfption
     {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        for (int i = 0; i < fileList.size(); i++)
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm();
+        for (int i = 0; i < filfList.sizf(); i++)
         {
-               byte[] bytes = fileList.get(i).getBytes();
-               if (i != 0) bos.write(0);
-               bos.write(bytes, 0, bytes.length);
+               bytf[] bytfs = filfList.gft(i).gftBytfs();
+               if (i != 0) bos.writf(0);
+               bos.writf(bytfs, 0, bytfs.lfngti);
         }
-        return bos;
+        rfturn bos;
     }
 
     /**
-     * Translates either a byte array or an input stream which contain
-     * platform-specific image data in the given format into an Image.
+     * Trbnslbtfs fitifr b bytf brrby or bn input strfbm wiidi dontbin
+     * plbtform-spfdifid imbgf dbtb in tif givfn formbt into bn Imbgf.
      */
-    protected Image platformImageBytesToImage(
-        byte[] bytes, long format) throws IOException
+    protfdtfd Imbgf plbtformImbgfBytfsToImbgf(
+        bytf[] bytfs, long formbt) tirows IOExdfption
     {
-        String mimeType = null;
-        if (format == PNG_ATOM.getAtom()) {
-            mimeType = "image/png";
-        } else if (format == JFIF_ATOM.getAtom()) {
-            mimeType = "image/jpeg";
-        } else {
-            // Check if an image MIME format.
+        String mimfTypf = null;
+        if (formbt == PNG_ATOM.gftAtom()) {
+            mimfTypf = "imbgf/png";
+        } flsf if (formbt == JFIF_ATOM.gftAtom()) {
+            mimfTypf = "imbgf/jpfg";
+        } flsf {
+            // Cifdk if bn imbgf MIME formbt.
             try {
-                String nat = getNativeForFormat(format);
-                DataFlavor df = new DataFlavor(nat);
-                String primaryType = df.getPrimaryType();
-                if ("image".equals(primaryType)) {
-                    mimeType = df.getPrimaryType() + "/" + df.getSubType();
+                String nbt = gftNbtivfForFormbt(formbt);
+                DbtbFlbvor df = nfw DbtbFlbvor(nbt);
+                String primbryTypf = df.gftPrimbryTypf();
+                if ("imbgf".fqubls(primbryTypf)) {
+                    mimfTypf = df.gftPrimbryTypf() + "/" + df.gftSubTypf();
                 }
-            } catch (Exception e) {
-                // Not an image MIME format.
+            } dbtdi (Exdfption f) {
+                // Not bn imbgf MIME formbt.
             }
         }
-        if (mimeType != null) {
-            return standardImageBytesToImage(bytes, mimeType);
-        } else {
-            String nativeFormat = getNativeForFormat(format);
-            throw new IOException("Translation from " + nativeFormat +
-                                  " is not supported.");
+        if (mimfTypf != null) {
+            rfturn stbndbrdImbgfBytfsToImbgf(bytfs, mimfTypf);
+        } flsf {
+            String nbtivfFormbt = gftNbtivfForFormbt(formbt);
+            tirow nfw IOExdfption("Trbnslbtion from " + nbtivfFormbt +
+                                  " is not supportfd.");
         }
     }
 
-    @Override
-    protected String[] dragQueryFile(byte[] bytes) {
-        XToolkit.awtLock();
+    @Ovfrridf
+    protfdtfd String[] drbgQufryFilf(bytf[] bytfs) {
+        XToolkit.bwtLodk();
         try {
-            return XlibWrapper.XTextPropertyToStringList(bytes,
-                                                         XAtom.get("STRING").getAtom());
-        } finally {
-            XToolkit.awtUnlock();
+            rfturn XlibWrbppfr.XTfxtPropfrtyToStringList(bytfs,
+                                                         XAtom.gft("STRING").gftAtom());
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    @Override
-    protected URI[] dragQueryURIs(InputStream stream,
-                                  long format,
-                                  Transferable localeTransferable)
-      throws IOException {
+    @Ovfrridf
+    protfdtfd URI[] drbgQufryURIs(InputStrfbm strfbm,
+                                  long formbt,
+                                  Trbnsffrbblf lodblfTrbnsffrbblf)
+      tirows IOExdfption {
 
-        String charset = getBestCharsetForTextFormat(format, localeTransferable);
-        try (InputStreamReader isr = new InputStreamReader(stream, charset);
-             BufferedReader reader = new BufferedReader(isr)) {
-            String line;
-            ArrayList<URI> uriList = new ArrayList<>();
+        String dibrsft = gftBfstCibrsftForTfxtFormbt(formbt, lodblfTrbnsffrbblf);
+        try (InputStrfbmRfbdfr isr = nfw InputStrfbmRfbdfr(strfbm, dibrsft);
+             BufffrfdRfbdfr rfbdfr = nfw BufffrfdRfbdfr(isr)) {
+            String linf;
+            ArrbyList<URI> uriList = nfw ArrbyList<>();
             URI uri;
-            while ((line = reader.readLine()) != null) {
+            wiilf ((linf = rfbdfr.rfbdLinf()) != null) {
                 try {
-                    uri = new URI(line);
-                } catch (URISyntaxException uriSyntaxException) {
-                    throw new IOException(uriSyntaxException);
+                    uri = nfw URI(linf);
+                } dbtdi (URISyntbxExdfption uriSyntbxExdfption) {
+                    tirow nfw IOExdfption(uriSyntbxExdfption);
                 }
-                uriList.add(uri);
+                uriList.bdd(uri);
             }
-            return uriList.toArray(new URI[uriList.size()]);
+            rfturn uriList.toArrby(nfw URI[uriList.sizf()]);
         }
     }
 
     /**
-     * Returns true if and only if the name of the specified format Atom
-     * constitutes a valid MIME type with the specified primary type.
+     * Rfturns truf if bnd only if tif nbmf of tif spfdififd formbt Atom
+     * donstitutfs b vblid MIME typf witi tif spfdififd primbry typf.
      */
-    private boolean isMimeFormat(long format, String primaryType) {
-        String nat = getNativeForFormat(format);
+    privbtf boolfbn isMimfFormbt(long formbt, String primbryTypf) {
+        String nbt = gftNbtivfForFormbt(formbt);
 
-        if (nat == null) {
-            return false;
+        if (nbt == null) {
+            rfturn fblsf;
         }
 
         try {
-            DataFlavor df = new DataFlavor(nat);
-            if (primaryType.equals(df.getPrimaryType())) {
-                return true;
+            DbtbFlbvor df = nfw DbtbFlbvor(nbt);
+            if (primbryTypf.fqubls(df.gftPrimbryTypf())) {
+                rfturn truf;
             }
-        } catch (Exception e) {
-            // Not a MIME format.
+        } dbtdi (Exdfption f) {
+            // Not b MIME formbt.
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * The XDnD protocol prescribes that the Atoms used as targets for data
-     * transfer should have string names that represent the corresponding MIME
-     * types.
-     * To meet this requirement we check if the passed native format constitutes
-     * a valid MIME and return a list of flavors to which the data in this MIME
-     * type can be translated by the Data Transfer subsystem.
+     * Tif XDnD protodol prfsdribfs tibt tif Atoms usfd bs tbrgfts for dbtb
+     * trbnsffr siould ibvf string nbmfs tibt rfprfsfnt tif dorrfsponding MIME
+     * typfs.
+     * To mfft tiis rfquirfmfnt wf difdk if tif pbssfd nbtivf formbt donstitutfs
+     * b vblid MIME bnd rfturn b list of flbvors to wiidi tif dbtb in tiis MIME
+     * typf dbn bf trbnslbtfd by tif Dbtb Trbnsffr subsystfm.
      */
-    @Override
-    public LinkedHashSet<DataFlavor> getPlatformMappingsForNative(String nat) {
-        LinkedHashSet<DataFlavor> flavors = new LinkedHashSet<>();
+    @Ovfrridf
+    publid LinkfdHbsiSft<DbtbFlbvor> gftPlbtformMbppingsForNbtivf(String nbt) {
+        LinkfdHbsiSft<DbtbFlbvor> flbvors = nfw LinkfdHbsiSft<>();
 
-        if (nat == null) {
-            return flavors;
+        if (nbt == null) {
+            rfturn flbvors;
         }
 
-        DataFlavor df = null;
+        DbtbFlbvor df = null;
 
         try {
-            df = new DataFlavor(nat);
-        } catch (Exception e) {
-            // The string doesn't constitute a valid MIME type.
-            return flavors;
+            df = nfw DbtbFlbvor(nbt);
+        } dbtdi (Exdfption f) {
+            // Tif string dofsn't donstitutf b vblid MIME typf.
+            rfturn flbvors;
         }
 
-        DataFlavor value = df;
-        final String primaryType = df.getPrimaryType();
-        final String baseType = primaryType + "/" + df.getSubType();
+        DbtbFlbvor vbluf = df;
+        finbl String primbryTypf = df.gftPrimbryTypf();
+        finbl String bbsfTypf = primbryTypf + "/" + df.gftSubTypf();
 
-        // For text formats we map natives to MIME strings instead of data
-        // flavors to enable dynamic text native-to-flavor mapping generation.
-        // See SystemFlavorMap.getFlavorsForNative() for details.
-        if ("image".equals(primaryType)) {
-            Iterator<ImageReader> readers = ImageIO.getImageReadersByMIMEType(baseType);
-            if (readers.hasNext()) {
-                flavors.add(DataFlavor.imageFlavor);
+        // For tfxt formbts wf mbp nbtivfs to MIME strings instfbd of dbtb
+        // flbvors to fnbblf dynbmid tfxt nbtivf-to-flbvor mbpping gfnfrbtion.
+        // Sff SystfmFlbvorMbp.gftFlbvorsForNbtivf() for dftbils.
+        if ("imbgf".fqubls(primbryTypf)) {
+            Itfrbtor<ImbgfRfbdfr> rfbdfrs = ImbgfIO.gftImbgfRfbdfrsByMIMETypf(bbsfTypf);
+            if (rfbdfrs.ibsNfxt()) {
+                flbvors.bdd(DbtbFlbvor.imbgfFlbvor);
             }
         }
 
-        flavors.add(value);
+        flbvors.bdd(vbluf);
 
-        return flavors;
+        rfturn flbvors;
     }
 
-    private static ImageTypeSpecifier defaultSpecifier = null;
+    privbtf stbtid ImbgfTypfSpfdififr dffbultSpfdififr = null;
 
-    private ImageTypeSpecifier getDefaultImageTypeSpecifier() {
-        if (defaultSpecifier == null) {
-            ColorModel model = ColorModel.getRGBdefault();
-            WritableRaster raster =
-                model.createCompatibleWritableRaster(10, 10);
+    privbtf ImbgfTypfSpfdififr gftDffbultImbgfTypfSpfdififr() {
+        if (dffbultSpfdififr == null) {
+            ColorModfl modfl = ColorModfl.gftRGBdffbult();
+            WritbblfRbstfr rbstfr =
+                modfl.drfbtfCompbtiblfWritbblfRbstfr(10, 10);
 
-            BufferedImage bufferedImage =
-                new BufferedImage(model, raster, model.isAlphaPremultiplied(),
+            BufffrfdImbgf bufffrfdImbgf =
+                nfw BufffrfdImbgf(modfl, rbstfr, modfl.isAlpibPrfmultiplifd(),
                                   null);
 
-            defaultSpecifier = new ImageTypeSpecifier(bufferedImage);
+            dffbultSpfdififr = nfw ImbgfTypfSpfdififr(bufffrfdImbgf);
         }
 
-        return defaultSpecifier;
+        rfturn dffbultSpfdififr;
     }
 
     /*
-     * The XDnD protocol prescribes that the Atoms used as targets for data
-     * transfer should have string names that represent the corresponding MIME
-     * types.
-     * To meet this requirement we return a list of formats that represent
-     * MIME types to which the data in this flavor can be translated by the Data
-     * Transfer subsystem.
+     * Tif XDnD protodol prfsdribfs tibt tif Atoms usfd bs tbrgfts for dbtb
+     * trbnsffr siould ibvf string nbmfs tibt rfprfsfnt tif dorrfsponding MIME
+     * typfs.
+     * To mfft tiis rfquirfmfnt wf rfturn b list of formbts tibt rfprfsfnt
+     * MIME typfs to wiidi tif dbtb in tiis flbvor dbn bf trbnslbtfd by tif Dbtb
+     * Trbnsffr subsystfm.
      */
-    @Override
-    public LinkedHashSet<String> getPlatformMappingsForFlavor(DataFlavor df) {
-        LinkedHashSet<String> natives = new LinkedHashSet<>(1);
+    @Ovfrridf
+    publid LinkfdHbsiSft<String> gftPlbtformMbppingsForFlbvor(DbtbFlbvor df) {
+        LinkfdHbsiSft<String> nbtivfs = nfw LinkfdHbsiSft<>(1);
 
         if (df == null) {
-            return natives;
+            rfturn nbtivfs;
         }
 
-        String charset = df.getParameter("charset");
-        String baseType = df.getPrimaryType() + "/" + df.getSubType();
-        String mimeType = baseType;
+        String dibrsft = df.gftPbrbmftfr("dibrsft");
+        String bbsfTypf = df.gftPrimbryTypf() + "/" + df.gftSubTypf();
+        String mimfTypf = bbsfTypf;
 
-        if (charset != null && DataTransferer.isFlavorCharsetTextType(df)) {
-            mimeType += ";charset=" + charset;
+        if (dibrsft != null && DbtbTrbnsffrfr.isFlbvorCibrsftTfxtTypf(df)) {
+            mimfTypf += ";dibrsft=" + dibrsft;
         }
 
-        // Add a mapping to the MIME native whenever the representation class
-        // doesn't require translation.
-        if (df.getRepresentationClass() != null &&
-            (df.isRepresentationClassInputStream() ||
-             df.isRepresentationClassByteBuffer() ||
-             byte[].class.equals(df.getRepresentationClass()))) {
-            natives.add(mimeType);
+        // Add b mbpping to tif MIME nbtivf wifnfvfr tif rfprfsfntbtion dlbss
+        // dofsn't rfquirf trbnslbtion.
+        if (df.gftRfprfsfntbtionClbss() != null &&
+            (df.isRfprfsfntbtionClbssInputStrfbm() ||
+             df.isRfprfsfntbtionClbssBytfBufffr() ||
+             bytf[].dlbss.fqubls(df.gftRfprfsfntbtionClbss()))) {
+            nbtivfs.bdd(mimfTypf);
         }
 
-        if (DataFlavor.imageFlavor.equals(df)) {
-            String[] mimeTypes = ImageIO.getWriterMIMETypes();
-            if (mimeTypes != null) {
-                for (String mime : mimeTypes) {
-                    Iterator<ImageWriter> writers = ImageIO.getImageWritersByMIMEType(mime);
-                    while (writers.hasNext()) {
-                        ImageWriter imageWriter = writers.next();
-                        ImageWriterSpi writerSpi = imageWriter.getOriginatingProvider();
+        if (DbtbFlbvor.imbgfFlbvor.fqubls(df)) {
+            String[] mimfTypfs = ImbgfIO.gftWritfrMIMETypfs();
+            if (mimfTypfs != null) {
+                for (String mimf : mimfTypfs) {
+                    Itfrbtor<ImbgfWritfr> writfrs = ImbgfIO.gftImbgfWritfrsByMIMETypf(mimf);
+                    wiilf (writfrs.ibsNfxt()) {
+                        ImbgfWritfr imbgfWritfr = writfrs.nfxt();
+                        ImbgfWritfrSpi writfrSpi = imbgfWritfr.gftOriginbtingProvidfr();
 
-                        if (writerSpi != null &&
-                                writerSpi.canEncodeImage(getDefaultImageTypeSpecifier())) {
-                            natives.add(mime);
-                            break;
+                        if (writfrSpi != null &&
+                                writfrSpi.dbnEndodfImbgf(gftDffbultImbgfTypfSpfdififr())) {
+                            nbtivfs.bdd(mimf);
+                            brfbk;
                         }
                     }
                 }
             }
-        } else if (DataTransferer.isFlavorCharsetTextType(df)) {
-            // stringFlavor is semantically equivalent to the standard
-            // "text/plain" MIME type.
-            if (DataFlavor.stringFlavor.equals(df)) {
-                baseType = "text/plain";
+        } flsf if (DbtbTrbnsffrfr.isFlbvorCibrsftTfxtTypf(df)) {
+            // stringFlbvor is sfmbntidblly fquivblfnt to tif stbndbrd
+            // "tfxt/plbin" MIME typf.
+            if (DbtbFlbvor.stringFlbvor.fqubls(df)) {
+                bbsfTypf = "tfxt/plbin";
             }
 
-            for (String encoding : DataTransferer.standardEncodings()) {
-                if (!encoding.equals(charset)) {
-                    natives.add(baseType + ";charset=" + encoding);
+            for (String fndoding : DbtbTrbnsffrfr.stbndbrdEndodings()) {
+                if (!fndoding.fqubls(dibrsft)) {
+                    nbtivfs.bdd(bbsfTypf + ";dibrsft=" + fndoding);
                 }
             }
 
-            // Add a MIME format without specified charset.
-            if (!natives.contains(baseType)) {
-                natives.add(baseType);
+            // Add b MIME formbt witiout spfdififd dibrsft.
+            if (!nbtivfs.dontbins(bbsfTypf)) {
+                nbtivfs.bdd(bbsfTypf);
             }
         }
 
-        return natives;
+        rfturn nbtivfs;
     }
 }

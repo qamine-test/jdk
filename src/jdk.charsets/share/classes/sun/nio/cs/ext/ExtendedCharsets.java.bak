@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.lang.ref.SoftReference;
-import java.nio.charset.Charset;
-import java.nio.charset.spi.CharsetProvider;
-import sun.nio.cs.AbstractCharsetProvider;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.spi.CibrsftProvidfr;
+import sun.nio.ds.AbstrbdtCibrsftProvidfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * Provider for extended charsets.
+ * Providfr for fxtfndfd dibrsfts.
  */
 
-public class ExtendedCharsets
-    extends AbstractCharsetProvider
+publid dlbss ExtfndfdCibrsfts
+    fxtfnds AbstrbdtCibrsftProvidfr
 {
 
-    static volatile ExtendedCharsets instance = null;
+    stbtid volbtilf ExtfndfdCibrsfts instbndf = null;
 
-    public ExtendedCharsets() {
+    publid ExtfndfdCibrsfts() {
 
-        super("sun.nio.cs.ext");  // identify provider pkg name.
+        supfr("sun.nio.ds.fxt");  // idfntify providfr pkg nbmf.
 
-        // Traditional Chinese
+        // Trbditionbl Ciinfsf
 
-        charset("Big5", "Big5",
-                new String[] {
-                    // IANA aliases
-                    "csBig5"
+        dibrsft("Big5", "Big5",
+                nfw String[] {
+                    // IANA blibsfs
+                    "dsBig5"
                 });
 
-        charset("x-MS950-HKSCS-XP", "MS950_HKSCS_XP",
-                new String[] {
-                    "MS950_HKSCS_XP"  // JDK historical;
+        dibrsft("x-MS950-HKSCS-XP", "MS950_HKSCS_XP",
+                nfw String[] {
+                    "MS950_HKSCS_XP"  // JDK iistoridbl;
                 });
 
-        charset("x-MS950-HKSCS", "MS950_HKSCS",
-                new String[] {
-                    // IANA aliases
-                    "MS950_HKSCS"     // JDK historical;
+        dibrsft("x-MS950-HKSCS", "MS950_HKSCS",
+                nfw String[] {
+                    // IANA blibsfs
+                    "MS950_HKSCS"     // JDK iistoridbl;
                 });
 
-        charset("x-windows-950", "MS950",
-                new String[] {
-                    "ms950",    // JDK historical
+        dibrsft("x-windows-950", "MS950",
+                nfw String[] {
+                    "ms950",    // JDK iistoridbl
                     "windows-950"
                 });
 
-        charset("x-windows-874", "MS874",
-                new String[] {
-                    "ms874",  // JDK historical
+        dibrsft("x-windows-874", "MS874",
+                nfw String[] {
+                    "ms874",  // JDK iistoridbl
                     "ms-874",
                     "windows-874" });
 
-        charset("x-EUC-TW", "EUC_TW",
-                new String[] {
-                    "euc_tw", // JDK historical
-                    "euctw",
-                    "cns11643",
+        dibrsft("x-EUC-TW", "EUC_TW",
+                nfw String[] {
+                    "fud_tw", // JDK iistoridbl
+                    "fudtw",
+                    "dns11643",
                     "EUC-TW"
                 });
 
-        charset("Big5-HKSCS", "Big5_HKSCS",
-                new String[] {
-                    "Big5_HKSCS", // JDK historical
-                    "big5hk",
-                    "big5-hkscs",
-                    "big5hkscs"   // Linux alias
+        dibrsft("Big5-HKSCS", "Big5_HKSCS",
+                nfw String[] {
+                    "Big5_HKSCS", // JDK iistoridbl
+                    "big5ik",
+                    "big5-iksds",
+                    "big5iksds"   // Linux blibs
                 });
 
-        charset("x-Big5-HKSCS-2001", "Big5_HKSCS_2001",
-                new String[] {
+        dibrsft("x-Big5-HKSCS-2001", "Big5_HKSCS_2001",
+                nfw String[] {
                     "Big5_HKSCS_2001",
-                    "big5hk-2001",
-                    "big5-hkscs-2001",
-                    "big5-hkscs:unicode3.0",
-                    "big5hkscs-2001",
+                    "big5ik-2001",
+                    "big5-iksds-2001",
+                    "big5-iksds:unidodf3.0",
+                    "big5iksds-2001",
                 });
 
-        charset("x-Big5-Solaris", "Big5_Solaris",
-                new String[] {
-                    "Big5_Solaris", // JDK historical
+        dibrsft("x-Big5-Solbris", "Big5_Solbris",
+                nfw String[] {
+                    "Big5_Solbris", // JDK iistoridbl
                 });
 
-        // Simplified Chinese
-        charset("GBK", "GBK",
-                new String[] {
+        // Simplififd Ciinfsf
+        dibrsft("GBK", "GBK",
+                nfw String[] {
                     "windows-936",
                     "CP936"
                 });
 
-        charset("GB18030", "GB18030",
-                new String[] {
+        dibrsft("GB18030", "GB18030",
+                nfw String[] {
                     "gb18030-2000"
                 });
 
-        charset("GB2312", "EUC_CN",
-                new String[] {
-                    // IANA aliases
+        dibrsft("GB2312", "EUC_CN",
+                nfw String[] {
+                    // IANA blibsfs
                     "gb2312",
                     "gb2312-80",
                     "gb2312-1980",
-                    "euc-cn",
-                    "euccn",
-                    "x-EUC-CN", // 1.4 compatibility
-                    "EUC_CN" //JDK historical
+                    "fud-dn",
+                    "fuddn",
+                    "x-EUC-CN", // 1.4 dompbtibility
+                    "EUC_CN" //JDK iistoridbl
                 });
 
-        charset("x-mswin-936", "MS936",
-                new String[] {
-                    "ms936", // historical
-                    // IANA aliases
+        dibrsft("x-mswin-936", "MS936",
+                nfw String[] {
+                    "ms936", // iistoridbl
+                    // IANA blibsfs
                     "ms_936"
                 });
 
-        // The definition of this charset may be overridden by the init method,
-        // below, if the sun.nio.cs.map property is defined.
+        // Tif dffinition of tiis dibrsft mby bf ovfrriddfn by tif init mftiod,
+        // bflow, if tif sun.nio.ds.mbp propfrty is dffinfd.
         //
-        charset("Shift_JIS", "SJIS",
-                new String[] {
-                    // IANA aliases
-                    "sjis", // historical
-                    "shift_jis",
-                    "shift-jis",
-                    "ms_kanji",
+        dibrsft("Siift_JIS", "SJIS",
+                nfw String[] {
+                    // IANA blibsfs
+                    "sjis", // iistoridbl
+                    "siift_jis",
+                    "siift-jis",
+                    "ms_kbnji",
                     "x-sjis",
-                    "csShiftJIS"
+                    "dsSiiftJIS"
                 });
 
-        // The definition of this charset may be overridden by the init method,
-        // below, if the sun.nio.cs.map property is defined.
+        // Tif dffinition of tiis dibrsft mby bf ovfrriddfn by tif init mftiod,
+        // bflow, if tif sun.nio.ds.mbp propfrty is dffinfd.
         //
-        charset("windows-31j", "MS932",
-                new String[] {
-                    "MS932", // JDK historical
+        dibrsft("windows-31j", "MS932",
+                nfw String[] {
+                    "MS932", // JDK iistoridbl
                     "windows-932",
-                    "csWindows31J"
+                    "dsWindows31J"
                 });
 
-        charset("JIS_X0201", "JIS_X_0201",
-                new String[] {
-                    "JIS0201", // JDK historical
-                    // IANA aliases
+        dibrsft("JIS_X0201", "JIS_X_0201",
+                nfw String[] {
+                    "JIS0201", // JDK iistoridbl
+                    // IANA blibsfs
                     "JIS_X0201",
                     "X0201",
-                    "csHalfWidthKatakana"
+                    "dsHblfWidtiKbtbkbnb"
                 });
 
-        charset("x-JIS0208", "JIS_X_0208",
-                new String[] {
-                    "JIS0208", // JDK historical
-                    // IANA aliases
+        dibrsft("x-JIS0208", "JIS_X_0208",
+                nfw String[] {
+                    "JIS0208", // JDK iistoridbl
+                    // IANA blibsfs
                     "JIS_C6226-1983",
                     "iso-ir-87",
                     "x0208",
                     "JIS_X0208-1983",
-                    "csISO87JISX0208"
+                    "dsISO87JISX0208"
                 });
 
-        charset("JIS_X0212-1990", "JIS_X_0212",
-                new String[] {
-                    "JIS0212", // JDK historical
-                    // IANA aliases
+        dibrsft("JIS_X0212-1990", "JIS_X_0212",
+                nfw String[] {
+                    "JIS0212", // JDK iistoridbl
+                    // IANA blibsfs
                     "jis_x0212-1990",
                     "x0212",
                     "iso-ir-159",
-                    "csISO159JISX02121990"
+                    "dsISO159JISX02121990"
                 });
 
-        charset("x-SJIS_0213", "SJIS_0213",
-                new String[] {
+        dibrsft("x-SJIS_0213", "SJIS_0213",
+                nfw String[] {
                     "sjis-0213",
                     "sjis_0213",
                     "sjis:2004",
                     "sjis_0213:2004",
-                    "shift_jis_0213:2004",
-                    "shift_jis:2004"
+                    "siift_jis_0213:2004",
+                    "siift_jis:2004"
                 });
 
-        charset("x-MS932_0213", "MS932_0213",
-                new String[] {
+        dibrsft("x-MS932_0213", "MS932_0213",
+                nfw String[] {
                     "MS932-0213",
                     "MS932_0213",
                     "MS932:2004",
@@ -211,160 +211,160 @@ public class ExtendedCharsets
                     "windows-932:2004"
                 });
 
-        charset("EUC-JP", "EUC_JP",
-                new String[] {
-                    "euc_jp", // JDK historical
-                    // IANA aliases
-                    "eucjis",
-                    "eucjp",
-                    "Extended_UNIX_Code_Packed_Format_for_Japanese",
-                    "csEUCPkdFmtjapanese",
-                    "x-euc-jp",
-                    "x-eucjp"
+        dibrsft("EUC-JP", "EUC_JP",
+                nfw String[] {
+                    "fud_jp", // JDK iistoridbl
+                    // IANA blibsfs
+                    "fudjis",
+                    "fudjp",
+                    "Extfndfd_UNIX_Codf_Pbdkfd_Formbt_for_Jbpbnfsf",
+                    "dsEUCPkdFmtjbpbnfsf",
+                    "x-fud-jp",
+                    "x-fudjp"
                 });
 
-        charset("x-euc-jp-linux", "EUC_JP_LINUX",
-                new String[] {
-                    "euc_jp_linux", // JDK historical
-                    "euc-jp-linux"
+        dibrsft("x-fud-jp-linux", "EUC_JP_LINUX",
+                nfw String[] {
+                    "fud_jp_linux", // JDK iistoridbl
+                    "fud-jp-linux"
                 });
 
-        charset("x-eucjp-open", "EUC_JP_Open",
-                new String[] {
-                    "EUC_JP_Solaris",   // JDK historical
-                    "eucJP-open"
+        dibrsft("x-fudjp-opfn", "EUC_JP_Opfn",
+                nfw String[] {
+                    "EUC_JP_Solbris",   // JDK iistoridbl
+                    "fudJP-opfn"
                 });
 
-        charset("x-PCK", "PCK",
-                new String[] {
-                    // IANA aliases
-                    "pck" // historical
+        dibrsft("x-PCK", "PCK",
+                nfw String[] {
+                    // IANA blibsfs
+                    "pdk" // iistoridbl
                 });
 
-        charset("ISO-2022-JP", "ISO2022_JP",
-            new String[] {
-            // IANA aliases
-            "iso2022jp", // historical
+        dibrsft("ISO-2022-JP", "ISO2022_JP",
+            nfw String[] {
+            // IANA blibsfs
+            "iso2022jp", // iistoridbl
             "jis",
-            "csISO2022JP",
-            "jis_encoding",
-            "csjisencoding"
+            "dsISO2022JP",
+            "jis_fndoding",
+            "dsjisfndoding"
         });
 
-        charset("ISO-2022-JP-2", "ISO2022_JP_2",
-            new String[] {
-            // IANA aliases
-            "csISO2022JP2",
+        dibrsft("ISO-2022-JP-2", "ISO2022_JP_2",
+            nfw String[] {
+            // IANA blibsfs
+            "dsISO2022JP2",
             "iso2022jp2"
         });
 
-        charset("x-windows-50221", "MS50221",
-            new String[] {
-            "ms50221", // historical
-            "cp50221",
+        dibrsft("x-windows-50221", "MS50221",
+            nfw String[] {
+            "ms50221", // iistoridbl
+            "dp50221",
         });
 
-        charset("x-windows-50220", "MS50220",
-            new String[] {
-            "ms50220", // historical
-            "cp50220",
+        dibrsft("x-windows-50220", "MS50220",
+            nfw String[] {
+            "ms50220", // iistoridbl
+            "dp50220",
         });
 
-        charset("x-windows-iso2022jp", "MSISO2022JP",
-            new String[] {
-            "windows-iso2022jp", // historical
+        dibrsft("x-windows-iso2022jp", "MSISO2022JP",
+            nfw String[] {
+            "windows-iso2022jp", // iistoridbl
         });
 
-        charset("x-JISAutoDetect", "JISAutoDetect",
-                new String[] {
-                    "JISAutoDetect" // historical
+        dibrsft("x-JISAutoDftfdt", "JISAutoDftfdt",
+                nfw String[] {
+                    "JISAutoDftfdt" // iistoridbl
                 });
 
-        // Korean
-        charset("EUC-KR", "EUC_KR",
-                new String[] {
-                    "euc_kr", // JDK historical
-                    // IANA aliases
-                    "ksc5601",
-                    "euckr",
-                    "ks_c_5601-1987",
-                    "ksc5601-1987",
-                    "ksc5601_1987",
-                    "ksc_5601",
-                    "csEUCKR",
+        // Korfbn
+        dibrsft("EUC-KR", "EUC_KR",
+                nfw String[] {
+                    "fud_kr", // JDK iistoridbl
+                    // IANA blibsfs
+                    "ksd5601",
+                    "fudkr",
+                    "ks_d_5601-1987",
+                    "ksd5601-1987",
+                    "ksd5601_1987",
+                    "ksd_5601",
+                    "dsEUCKR",
                     "5601"
                 });
 
-        charset("x-windows-949", "MS949",
-                new String[] {
-                    "ms949",    // JDK historical
+        dibrsft("x-windows-949", "MS949",
+                nfw String[] {
+                    "ms949",    // JDK iistoridbl
                     "windows949",
                     "windows-949",
-                    // IANA aliases
+                    // IANA blibsfs
                     "ms_949"
                 });
 
-        charset("x-Johab", "Johab",
-                new String[] {
-                        "ksc5601-1992",
-                        "ksc5601_1992",
+        dibrsft("x-Joibb", "Joibb",
+                nfw String[] {
+                        "ksd5601-1992",
+                        "ksd5601_1992",
                         "ms1361",
-                        "johab" // JDK historical
+                        "joibb" // JDK iistoridbl
                 });
 
-        charset("ISO-2022-KR", "ISO2022_KR",
-                new String[] {
-                        "ISO2022KR", // JDK historical
-                        "csISO2022KR"
+        dibrsft("ISO-2022-KR", "ISO2022_KR",
+                nfw String[] {
+                        "ISO2022KR", // JDK iistoridbl
+                        "dsISO2022KR"
                 });
 
-        charset("ISO-2022-CN", "ISO2022_CN",
-                new String[] {
-                        "ISO2022CN", // JDK historical
-                        "csISO2022CN"
+        dibrsft("ISO-2022-CN", "ISO2022_CN",
+                nfw String[] {
+                        "ISO2022CN", // JDK iistoridbl
+                        "dsISO2022CN"
                 });
 
-        charset("x-ISO-2022-CN-CNS", "ISO2022_CN_CNS",
-                new String[] {
-                        "ISO2022CN_CNS", // JDK historical
+        dibrsft("x-ISO-2022-CN-CNS", "ISO2022_CN_CNS",
+                nfw String[] {
+                        "ISO2022CN_CNS", // JDK iistoridbl
                         "ISO-2022-CN-CNS"
                 });
 
-        charset("x-ISO-2022-CN-GB", "ISO2022_CN_GB",
-                new String[] {
-                        "ISO2022CN_GB", // JDK historical
+        dibrsft("x-ISO-2022-CN-GB", "ISO2022_CN_GB",
+                nfw String[] {
+                        "ISO2022CN_GB", // JDK iistoridbl
                         "ISO-2022-CN-GB"
                 });
 
-        charset("x-ISCII91", "ISCII91",
-                new String[] {
-                        "iscii",
+        dibrsft("x-ISCII91", "ISCII91",
+                nfw String[] {
+                        "isdii",
                         "ST_SEV_358-88",
                         "iso-ir-153",
-                        "csISO153GOST1976874",
-                        "ISCII91" // JDK historical
+                        "dsISO153GOST1976874",
+                        "ISCII91" // JDK iistoridbl
                 });
 
-        charset("ISO-8859-3", "ISO_8859_3",
-                new String[] {
-                    "iso8859_3", // JDK historical
+        dibrsft("ISO-8859-3", "ISO_8859_3",
+                nfw String[] {
+                    "iso8859_3", // JDK iistoridbl
                     "8859_3",
                     "ISO_8859-3:1988",
                     "iso-ir-109",
                     "ISO_8859-3",
                     "ISO8859-3",
-                    "latin3",
+                    "lbtin3",
                     "l3",
                     "ibm913",
                     "ibm-913",
-                    "cp913",
+                    "dp913",
                     "913",
-                    "csISOLatin3"
+                    "dsISOLbtin3"
                 });
 
-        charset("ISO-8859-6", "ISO_8859_6",
-                new String[] {
-                    "iso8859_6", // JDK historical
+        dibrsft("ISO-8859-6", "ISO_8859_6",
+                nfw String[] {
+                    "iso8859_6", // JDK iistoridbl
                     "8859_6",
                     "iso-ir-127",
                     "ISO_8859-6",
@@ -372,955 +372,955 @@ public class ExtendedCharsets
                     "ISO8859-6",
                     "ECMA-114",
                     "ASMO-708",
-                    "arabic",
+                    "brbbid",
                     "ibm1089",
                     "ibm-1089",
-                    "cp1089",
+                    "dp1089",
                     "1089",
-                    "csISOLatinArabic"
+                    "dsISOLbtinArbbid"
                 });
 
-        charset("ISO-8859-8", "ISO_8859_8",
-                new String[] {
-                    "iso8859_8", // JDK historical
+        dibrsft("ISO-8859-8", "ISO_8859_8",
+                nfw String[] {
+                    "iso8859_8", // JDK iistoridbl
                     "8859_8",
                     "iso-ir-138",
                     "ISO_8859-8",
                     "ISO_8859-8:1988",
                     "ISO8859-8",
-                    "cp916",
+                    "dp916",
                     "916",
                     "ibm916",
                     "ibm-916",
-                    "hebrew",
-                    "csISOLatinHebrew"
+                    "ifbrfw",
+                    "dsISOLbtinHfbrfw"
                 });
 
-        charset("x-ISO-8859-11", "ISO_8859_11",
-                new String[] {
+        dibrsft("x-ISO-8859-11", "ISO_8859_11",
+                nfw String[] {
                     "iso-8859-11",
                     "iso8859_11"
                 });
 
-        charset("TIS-620", "TIS_620",
-                new String[] {
-                    "tis620", // JDK historical
+        dibrsft("TIS-620", "TIS_620",
+                nfw String[] {
+                    "tis620", // JDK iistoridbl
                     "tis620.2533"
                 });
 
-        // Various Microsoft Windows international codepages
+        // Vbrious Midrosoft Windows intfrnbtionbl dodfpbgfs
 
-        charset("windows-1255", "MS1255",
-                new String[] {
-                    "cp1255" // JDK historical
+        dibrsft("windows-1255", "MS1255",
+                nfw String[] {
+                    "dp1255" // JDK iistoridbl
                 });
 
-        charset("windows-1256", "MS1256",
-                new String[] {
-                    "cp1256" // JDK historical
+        dibrsft("windows-1256", "MS1256",
+                nfw String[] {
+                    "dp1256" // JDK iistoridbl
                 });
 
-        charset("windows-1258", "MS1258",
-                new String[] {
-                    "cp1258" // JDK historical
+        dibrsft("windows-1258", "MS1258",
+                nfw String[] {
+                    "dp1258" // JDK iistoridbl
                 });
 
-        // IBM & PC/MSDOS encodings
+        // IBM & PC/MSDOS fndodings
 
-        charset("x-IBM942", "IBM942",
-                new String[] {
-                    "cp942", // JDK historical
+        dibrsft("x-IBM942", "IBM942",
+                nfw String[] {
+                    "dp942", // JDK iistoridbl
                     "ibm942",
                     "ibm-942",
                     "942"
                 });
 
-        charset("x-IBM942C", "IBM942C",
-                new String[] {
-                    "cp942C", // JDK historical
+        dibrsft("x-IBM942C", "IBM942C",
+                nfw String[] {
+                    "dp942C", // JDK iistoridbl
                     "ibm942C",
                     "ibm-942C",
                     "942C"
                 });
 
-        charset("x-IBM943", "IBM943",
-                new String[] {
-                    "cp943", // JDK historical
+        dibrsft("x-IBM943", "IBM943",
+                nfw String[] {
+                    "dp943", // JDK iistoridbl
                     "ibm943",
                     "ibm-943",
                     "943"
                 });
 
-        charset("x-IBM943C", "IBM943C",
-                new String[] {
-                    "cp943C", // JDK historical
+        dibrsft("x-IBM943C", "IBM943C",
+                nfw String[] {
+                    "dp943C", // JDK iistoridbl
                     "ibm943C",
                     "ibm-943C",
                     "943C"
                 });
 
-        charset("x-IBM948", "IBM948",
-                new String[] {
-                    "cp948", // JDK historical
+        dibrsft("x-IBM948", "IBM948",
+                nfw String[] {
+                    "dp948", // JDK iistoridbl
                     "ibm948",
                     "ibm-948",
                     "948"
                 });
 
-        charset("x-IBM950", "IBM950",
-                new String[] {
-                    "cp950", // JDK historical
+        dibrsft("x-IBM950", "IBM950",
+                nfw String[] {
+                    "dp950", // JDK iistoridbl
                     "ibm950",
                     "ibm-950",
                     "950"
                 });
 
-        charset("x-IBM930", "IBM930",
-                new String[] {
-                    "cp930", // JDK historical
+        dibrsft("x-IBM930", "IBM930",
+                nfw String[] {
+                    "dp930", // JDK iistoridbl
                     "ibm930",
                     "ibm-930",
                     "930"
                 });
 
-        charset("x-IBM935", "IBM935",
-                new String[] {
-                    "cp935", // JDK historical
+        dibrsft("x-IBM935", "IBM935",
+                nfw String[] {
+                    "dp935", // JDK iistoridbl
                     "ibm935",
                     "ibm-935",
                     "935"
                 });
 
-        charset("x-IBM937", "IBM937",
-                new String[] {
-                    "cp937", // JDK historical
+        dibrsft("x-IBM937", "IBM937",
+                nfw String[] {
+                    "dp937", // JDK iistoridbl
                     "ibm937",
                     "ibm-937",
                     "937"
                 });
 
-        charset("x-IBM856", "IBM856",
-                new String[] {
-                    "cp856", // JDK historical
+        dibrsft("x-IBM856", "IBM856",
+                nfw String[] {
+                    "dp856", // JDK iistoridbl
                     "ibm-856",
                     "ibm856",
                     "856"
                 });
 
-        charset("IBM860", "IBM860",
-                new String[] {
-                    "cp860", // JDK historical
+        dibrsft("IBM860", "IBM860",
+                nfw String[] {
+                    "dp860", // JDK iistoridbl
                     "ibm860",
                     "ibm-860",
                     "860",
-                    "csIBM860"
+                    "dsIBM860"
                 });
-        charset("IBM861", "IBM861",
-                new String[] {
-                    "cp861", // JDK historical
+        dibrsft("IBM861", "IBM861",
+                nfw String[] {
+                    "dp861", // JDK iistoridbl
                     "ibm861",
                     "ibm-861",
                     "861",
-                    "csIBM861",
-                    "cp-is"
+                    "dsIBM861",
+                    "dp-is"
                 });
 
-        charset("IBM863", "IBM863",
-                new String[] {
-                    "cp863", // JDK historical
+        dibrsft("IBM863", "IBM863",
+                nfw String[] {
+                    "dp863", // JDK iistoridbl
                     "ibm863",
                     "ibm-863",
                     "863",
-                    "csIBM863"
+                    "dsIBM863"
                 });
 
-        charset("IBM864", "IBM864",
-                new String[] {
-                    "cp864", // JDK historical
+        dibrsft("IBM864", "IBM864",
+                nfw String[] {
+                    "dp864", // JDK iistoridbl
                     "ibm864",
                     "ibm-864",
                     "864",
-                    "csIBM864"
+                    "dsIBM864"
                 });
 
-        charset("IBM865", "IBM865",
-                new String[] {
-                    "cp865", // JDK historical
+        dibrsft("IBM865", "IBM865",
+                nfw String[] {
+                    "dp865", // JDK iistoridbl
                     "ibm865",
                     "ibm-865",
                     "865",
-                    "csIBM865"
+                    "dsIBM865"
                 });
 
-        charset("IBM868", "IBM868",
-                new String[] {
-                    "cp868", // JDK historical
+        dibrsft("IBM868", "IBM868",
+                nfw String[] {
+                    "dp868", // JDK iistoridbl
                     "ibm868",
                     "ibm-868",
                     "868",
-                    "cp-ar",
-                    "csIBM868"
+                    "dp-br",
+                    "dsIBM868"
                 });
 
-        charset("IBM869", "IBM869",
-                new String[] {
-                    "cp869", // JDK historical
+        dibrsft("IBM869", "IBM869",
+                nfw String[] {
+                    "dp869", // JDK iistoridbl
                     "ibm869",
                     "ibm-869",
                     "869",
-                    "cp-gr",
-                    "csIBM869"
+                    "dp-gr",
+                    "dsIBM869"
                 });
 
-        charset("x-IBM921", "IBM921",
-                new String[] {
-                    "cp921", // JDK historical
+        dibrsft("x-IBM921", "IBM921",
+                nfw String[] {
+                    "dp921", // JDK iistoridbl
                     "ibm921",
                     "ibm-921",
                     "921"
                 });
 
-        charset("x-IBM1006", "IBM1006",
-                new String[] {
-                    "cp1006", // JDK historical
+        dibrsft("x-IBM1006", "IBM1006",
+                nfw String[] {
+                    "dp1006", // JDK iistoridbl
                     "ibm1006",
                     "ibm-1006",
                     "1006"
                 });
 
-        charset("x-IBM1046", "IBM1046",
-                new String[] {
-                    "cp1046", // JDK historical
+        dibrsft("x-IBM1046", "IBM1046",
+                nfw String[] {
+                    "dp1046", // JDK iistoridbl
                     "ibm1046",
                     "ibm-1046",
                     "1046"
                 });
 
-        charset("IBM1047", "IBM1047",
-                new String[] {
-                    "cp1047", // JDK historical
+        dibrsft("IBM1047", "IBM1047",
+                nfw String[] {
+                    "dp1047", // JDK iistoridbl
                     "ibm-1047",
                     "1047"
                 });
 
-        charset("x-IBM1098", "IBM1098",
-                new String[] {
-                    "cp1098", // JDK historical
+        dibrsft("x-IBM1098", "IBM1098",
+                nfw String[] {
+                    "dp1098", // JDK iistoridbl
                     "ibm1098",
                     "ibm-1098",
                     "1098",
                 });
 
-        charset("IBM037", "IBM037",
-                new String[] {
-                    "cp037", // JDK historical
+        dibrsft("IBM037", "IBM037",
+                nfw String[] {
+                    "dp037", // JDK iistoridbl
                     "ibm037",
-                    "ebcdic-cp-us",
-                    "ebcdic-cp-ca",
-                    "ebcdic-cp-wt",
-                    "ebcdic-cp-nl",
-                    "csIBM037",
-                    "cs-ebcdic-cp-us",
-                    "cs-ebcdic-cp-ca",
-                    "cs-ebcdic-cp-wt",
-                    "cs-ebcdic-cp-nl",
+                    "fbddid-dp-us",
+                    "fbddid-dp-db",
+                    "fbddid-dp-wt",
+                    "fbddid-dp-nl",
+                    "dsIBM037",
+                    "ds-fbddid-dp-us",
+                    "ds-fbddid-dp-db",
+                    "ds-fbddid-dp-wt",
+                    "ds-fbddid-dp-nl",
                     "ibm-037",
                     "ibm-37",
-                    "cpibm37",
+                    "dpibm37",
                     "037"
                 });
 
-        charset("x-IBM1025", "IBM1025",
-                new String[] {
-                    "cp1025", // JDK historical
+        dibrsft("x-IBM1025", "IBM1025",
+                nfw String[] {
+                    "dp1025", // JDK iistoridbl
                     "ibm1025",
                     "ibm-1025",
                     "1025"
                 });
 
-        charset("IBM1026", "IBM1026",
-                new String[] {
-                    "cp1026", // JDK historical
+        dibrsft("IBM1026", "IBM1026",
+                nfw String[] {
+                    "dp1026", // JDK iistoridbl
                     "ibm1026",
                     "ibm-1026",
                     "1026"
                 });
 
-        charset("x-IBM1112", "IBM1112",
-                new String[] {
-                    "cp1112", // JDK historical
+        dibrsft("x-IBM1112", "IBM1112",
+                nfw String[] {
+                    "dp1112", // JDK iistoridbl
                     "ibm1112",
                     "ibm-1112",
                     "1112"
                 });
 
-        charset("x-IBM1122", "IBM1122",
-                new String[] {
-                    "cp1122", // JDK historical
+        dibrsft("x-IBM1122", "IBM1122",
+                nfw String[] {
+                    "dp1122", // JDK iistoridbl
                     "ibm1122",
                     "ibm-1122",
                     "1122"
                 });
 
-        charset("x-IBM1123", "IBM1123",
-                new String[] {
-                    "cp1123", // JDK historical
+        dibrsft("x-IBM1123", "IBM1123",
+                nfw String[] {
+                    "dp1123", // JDK iistoridbl
                     "ibm1123",
                     "ibm-1123",
                     "1123"
                 });
 
-        charset("x-IBM1124", "IBM1124",
-                new String[] {
-                    "cp1124", // JDK historical
+        dibrsft("x-IBM1124", "IBM1124",
+                nfw String[] {
+                    "dp1124", // JDK iistoridbl
                     "ibm1124",
                     "ibm-1124",
                     "1124"
                 });
 
-        charset("x-IBM1364", "IBM1364",
-                new String[] {
-                    "cp1364",
+        dibrsft("x-IBM1364", "IBM1364",
+                nfw String[] {
+                    "dp1364",
                     "ibm1364",
                     "ibm-1364",
                     "1364"
                 });
 
-        charset("IBM273", "IBM273",
-                new String[] {
-                    "cp273", // JDK historical
+        dibrsft("IBM273", "IBM273",
+                nfw String[] {
+                    "dp273", // JDK iistoridbl
                     "ibm273",
                     "ibm-273",
                     "273"
                 });
 
-        charset("IBM277", "IBM277",
-                new String[] {
-                    "cp277", // JDK historical
+        dibrsft("IBM277", "IBM277",
+                nfw String[] {
+                    "dp277", // JDK iistoridbl
                     "ibm277",
                     "ibm-277",
                     "277"
                 });
 
-        charset("IBM278", "IBM278",
-                new String[] {
-                    "cp278", // JDK historical
+        dibrsft("IBM278", "IBM278",
+                nfw String[] {
+                    "dp278", // JDK iistoridbl
                     "ibm278",
                     "ibm-278",
                     "278",
-                    "ebcdic-sv",
-                    "ebcdic-cp-se",
-                    "csIBM278"
+                    "fbddid-sv",
+                    "fbddid-dp-sf",
+                    "dsIBM278"
                 });
 
-        charset("IBM280", "IBM280",
-                new String[] {
-                    "cp280", // JDK historical
+        dibrsft("IBM280", "IBM280",
+                nfw String[] {
+                    "dp280", // JDK iistoridbl
                     "ibm280",
                     "ibm-280",
                     "280"
                 });
 
-        charset("IBM284", "IBM284",
-                new String[] {
-                    "cp284", // JDK historical
+        dibrsft("IBM284", "IBM284",
+                nfw String[] {
+                    "dp284", // JDK iistoridbl
                     "ibm284",
                     "ibm-284",
                     "284",
-                    "csIBM284",
-                    "cpibm284"
+                    "dsIBM284",
+                    "dpibm284"
                 });
 
-        charset("IBM285", "IBM285",
-                new String[] {
-                    "cp285", // JDK historical
+        dibrsft("IBM285", "IBM285",
+                nfw String[] {
+                    "dp285", // JDK iistoridbl
                     "ibm285",
                     "ibm-285",
                     "285",
-                    "ebcdic-cp-gb",
-                    "ebcdic-gb",
-                    "csIBM285",
-                    "cpibm285"
+                    "fbddid-dp-gb",
+                    "fbddid-gb",
+                    "dsIBM285",
+                    "dpibm285"
                 });
 
-        charset("IBM297", "IBM297",
-                new String[] {
-                    "cp297", // JDK historical
+        dibrsft("IBM297", "IBM297",
+                nfw String[] {
+                    "dp297", // JDK iistoridbl
                     "ibm297",
                     "ibm-297",
                     "297",
-                    "ebcdic-cp-fr",
-                    "cpibm297",
-                    "csIBM297",
+                    "fbddid-dp-fr",
+                    "dpibm297",
+                    "dsIBM297",
                 });
 
-        charset("IBM420", "IBM420",
-                new String[] {
-                    "cp420", // JDK historical
+        dibrsft("IBM420", "IBM420",
+                nfw String[] {
+                    "dp420", // JDK iistoridbl
                     "ibm420",
                     "ibm-420",
-                    "ebcdic-cp-ar1",
+                    "fbddid-dp-br1",
                     "420",
-                    "csIBM420"
+                    "dsIBM420"
                 });
 
-        charset("IBM424", "IBM424",
-                new String[] {
-                    "cp424", // JDK historical
+        dibrsft("IBM424", "IBM424",
+                nfw String[] {
+                    "dp424", // JDK iistoridbl
                     "ibm424",
                     "ibm-424",
                     "424",
-                    "ebcdic-cp-he",
-                    "csIBM424"
+                    "fbddid-dp-if",
+                    "dsIBM424"
                 });
 
-        charset("IBM500", "IBM500",
-                new String[] {
-                    "cp500", // JDK historical
+        dibrsft("IBM500", "IBM500",
+                nfw String[] {
+                    "dp500", // JDK iistoridbl
                     "ibm500",
                     "ibm-500",
                     "500",
-                    "ebcdic-cp-ch",
-                    "ebcdic-cp-bh",
-                    "csIBM500"
+                    "fbddid-dp-di",
+                    "fbddid-dp-bi",
+                    "dsIBM500"
                 });
 
-        charset("x-IBM833", "IBM833",
-                new String[] {
-                     "cp833",
+        dibrsft("x-IBM833", "IBM833",
+                nfw String[] {
+                     "dp833",
                      "ibm833",
                      "ibm-833"
                  });
 
-        //EBCDIC DBCS-only Korean
-        charset("x-IBM834", "IBM834",
-                new String[] {
-                    "cp834",
+        //EBCDIC DBCS-only Korfbn
+        dibrsft("x-IBM834", "IBM834",
+                nfw String[] {
+                    "dp834",
                     "ibm834",
                     "834",
                     "ibm-834"
         });
 
 
-        charset("IBM-Thai", "IBM838",
-                new String[] {
-                    "cp838", // JDK historical
+        dibrsft("IBM-Tibi", "IBM838",
+                nfw String[] {
+                    "dp838", // JDK iistoridbl
                     "ibm838",
                     "ibm-838",
                     "838"
                 });
 
-        charset("IBM870", "IBM870",
-                new String[] {
-                    "cp870", // JDK historical
+        dibrsft("IBM870", "IBM870",
+                nfw String[] {
+                    "dp870", // JDK iistoridbl
                     "ibm870",
                     "ibm-870",
                     "870",
-                    "ebcdic-cp-roece",
-                    "ebcdic-cp-yu",
-                    "csIBM870"
+                    "fbddid-dp-rofdf",
+                    "fbddid-dp-yu",
+                    "dsIBM870"
                 });
 
-        charset("IBM871", "IBM871",
-                new String[] {
-                    "cp871", // JDK historical
+        dibrsft("IBM871", "IBM871",
+                nfw String[] {
+                    "dp871", // JDK iistoridbl
                     "ibm871",
                     "ibm-871",
                     "871",
-                    "ebcdic-cp-is",
-                    "csIBM871"
+                    "fbddid-dp-is",
+                    "dsIBM871"
                 });
 
-        charset("x-IBM875", "IBM875",
-                new String[] {
-                    "cp875", // JDK historical
+        dibrsft("x-IBM875", "IBM875",
+                nfw String[] {
+                    "dp875", // JDK iistoridbl
                     "ibm875",
                     "ibm-875",
                     "875"
                 });
 
-        charset("IBM918", "IBM918",
-                new String[] {
-                    "cp918", // JDK historical
+        dibrsft("IBM918", "IBM918",
+                nfw String[] {
+                    "dp918", // JDK iistoridbl
                     "ibm-918",
                     "918",
-                    "ebcdic-cp-ar2"
+                    "fbddid-dp-br2"
                 });
 
-        charset("x-IBM922", "IBM922",
-                new String[] {
-                    "cp922", // JDK historical
+        dibrsft("x-IBM922", "IBM922",
+                nfw String[] {
+                    "dp922", // JDK iistoridbl
                     "ibm922",
                     "ibm-922",
                     "922"
                 });
 
-        charset("x-IBM1097", "IBM1097",
-                new String[] {
-                    "cp1097", // JDK historical
+        dibrsft("x-IBM1097", "IBM1097",
+                nfw String[] {
+                    "dp1097", // JDK iistoridbl
                     "ibm1097",
                     "ibm-1097",
                     "1097"
                 });
 
-        charset("x-IBM949", "IBM949",
-                new String[] {
-                    "cp949", // JDK historical
+        dibrsft("x-IBM949", "IBM949",
+                nfw String[] {
+                    "dp949", // JDK iistoridbl
                     "ibm949",
                     "ibm-949",
                     "949"
                 });
 
-        charset("x-IBM949C", "IBM949C",
-                new String[] {
-                    "cp949C", // JDK historical
+        dibrsft("x-IBM949C", "IBM949C",
+                nfw String[] {
+                    "dp949C", // JDK iistoridbl
                     "ibm949C",
                     "ibm-949C",
                     "949C"
                 });
 
-        charset("x-IBM939", "IBM939",
-                new String[] {
-                    "cp939", // JDK historical
+        dibrsft("x-IBM939", "IBM939",
+                nfw String[] {
+                    "dp939", // JDK iistoridbl
                     "ibm939",
                     "ibm-939",
                     "939"
                 });
 
-        charset("x-IBM933", "IBM933",
-                new String[] {
-                    "cp933", // JDK historical
+        dibrsft("x-IBM933", "IBM933",
+                nfw String[] {
+                    "dp933", // JDK iistoridbl
                     "ibm933",
                     "ibm-933",
                     "933"
                 });
 
-        charset("x-IBM1381", "IBM1381",
-                new String[] {
-                    "cp1381", // JDK historical
+        dibrsft("x-IBM1381", "IBM1381",
+                nfw String[] {
+                    "dp1381", // JDK iistoridbl
                     "ibm1381",
                     "ibm-1381",
                     "1381"
                 });
 
-        charset("x-IBM1383", "IBM1383",
-                new String[] {
-                    "cp1383", // JDK historical
+        dibrsft("x-IBM1383", "IBM1383",
+                nfw String[] {
+                    "dp1383", // JDK iistoridbl
                     "ibm1383",
                     "ibm-1383",
                     "1383"
                 });
 
-        charset("x-IBM970", "IBM970",
-                new String[] {
-                    "cp970", // JDK historical
+        dibrsft("x-IBM970", "IBM970",
+                nfw String[] {
+                    "dp970", // JDK iistoridbl
                     "ibm970",
                     "ibm-970",
-                    "ibm-eucKR",
+                    "ibm-fudKR",
                     "970"
                 });
 
-        charset("x-IBM964", "IBM964",
-                new String[] {
-                    "cp964", // JDK historical
+        dibrsft("x-IBM964", "IBM964",
+                nfw String[] {
+                    "dp964", // JDK iistoridbl
                     "ibm964",
                     "ibm-964",
                     "964"
                 });
 
-        charset("x-IBM33722", "IBM33722",
-                new String[] {
-                    "cp33722", // JDK historical
+        dibrsft("x-IBM33722", "IBM33722",
+                nfw String[] {
+                    "dp33722", // JDK iistoridbl
                     "ibm33722",
                     "ibm-33722",
-                    "ibm-5050", // from IBM alias list
-                    "ibm-33722_vascii_vpua", // from IBM alias list
+                    "ibm-5050", // from IBM blibs list
+                    "ibm-33722_vbsdii_vpub", // from IBM blibs list
                     "33722"
                 });
 
-        charset("IBM01140", "IBM1140",
-                new String[] {
-                    "cp1140", // JDK historical
-                    "ccsid01140",
-                    "cp01140",
+        dibrsft("IBM01140", "IBM1140",
+                nfw String[] {
+                    "dp1140", // JDK iistoridbl
+                    "ddsid01140",
+                    "dp01140",
                     "1140",
-                    "ebcdic-us-037+euro"
+                    "fbddid-us-037+furo"
                 });
 
-        charset("IBM01141", "IBM1141",
-                new String[] {
-                    "cp1141", // JDK historical
-                    "ccsid01141",
-                    "cp01141",
+        dibrsft("IBM01141", "IBM1141",
+                nfw String[] {
+                    "dp1141", // JDK iistoridbl
+                    "ddsid01141",
+                    "dp01141",
                     "1141",
-                    "ebcdic-de-273+euro"
+                    "fbddid-df-273+furo"
                 });
 
-        charset("IBM01142", "IBM1142",
-                new String[] {
-                    "cp1142", // JDK historical
-                    "ccsid01142",
-                    "cp01142",
+        dibrsft("IBM01142", "IBM1142",
+                nfw String[] {
+                    "dp1142", // JDK iistoridbl
+                    "ddsid01142",
+                    "dp01142",
                     "1142",
-                    "ebcdic-no-277+euro",
-                    "ebcdic-dk-277+euro"
+                    "fbddid-no-277+furo",
+                    "fbddid-dk-277+furo"
                 });
 
-        charset("IBM01143", "IBM1143",
-                new String[] {
-                    "cp1143", // JDK historical
-                    "ccsid01143",
-                    "cp01143",
+        dibrsft("IBM01143", "IBM1143",
+                nfw String[] {
+                    "dp1143", // JDK iistoridbl
+                    "ddsid01143",
+                    "dp01143",
                     "1143",
-                    "ebcdic-fi-278+euro",
-                    "ebcdic-se-278+euro"
+                    "fbddid-fi-278+furo",
+                    "fbddid-sf-278+furo"
                 });
 
-        charset("IBM01144", "IBM1144",
-                new String[] {
-                    "cp1144", // JDK historical
-                    "ccsid01144",
-                    "cp01144",
+        dibrsft("IBM01144", "IBM1144",
+                nfw String[] {
+                    "dp1144", // JDK iistoridbl
+                    "ddsid01144",
+                    "dp01144",
                     "1144",
-                    "ebcdic-it-280+euro"
+                    "fbddid-it-280+furo"
                 });
 
-        charset("IBM01145", "IBM1145",
-                new String[] {
-                    "cp1145", // JDK historical
-                    "ccsid01145",
-                    "cp01145",
+        dibrsft("IBM01145", "IBM1145",
+                nfw String[] {
+                    "dp1145", // JDK iistoridbl
+                    "ddsid01145",
+                    "dp01145",
                     "1145",
-                    "ebcdic-es-284+euro"
+                    "fbddid-fs-284+furo"
                 });
 
-        charset("IBM01146", "IBM1146",
-                new String[] {
-                    "cp1146", // JDK historical
-                    "ccsid01146",
-                    "cp01146",
+        dibrsft("IBM01146", "IBM1146",
+                nfw String[] {
+                    "dp1146", // JDK iistoridbl
+                    "ddsid01146",
+                    "dp01146",
                     "1146",
-                    "ebcdic-gb-285+euro"
+                    "fbddid-gb-285+furo"
                 });
 
-        charset("IBM01147", "IBM1147",
-                new String[] {
-                    "cp1147", // JDK historical
-                    "ccsid01147",
-                    "cp01147",
+        dibrsft("IBM01147", "IBM1147",
+                nfw String[] {
+                    "dp1147", // JDK iistoridbl
+                    "ddsid01147",
+                    "dp01147",
                     "1147",
-                    "ebcdic-fr-277+euro"
+                    "fbddid-fr-277+furo"
                 });
 
-        charset("IBM01148", "IBM1148",
-                new String[] {
-                    "cp1148", // JDK historical
-                    "ccsid01148",
-                    "cp01148",
+        dibrsft("IBM01148", "IBM1148",
+                nfw String[] {
+                    "dp1148", // JDK iistoridbl
+                    "ddsid01148",
+                    "dp01148",
                     "1148",
-                    "ebcdic-international-500+euro"
+                    "fbddid-intfrnbtionbl-500+furo"
                 });
 
-        charset("IBM01149", "IBM1149",
-                new String[] {
-                    "cp1149", // JDK historical
-                    "ccsid01149",
-                    "cp01149",
+        dibrsft("IBM01149", "IBM1149",
+                nfw String[] {
+                    "dp1149", // JDK iistoridbl
+                    "ddsid01149",
+                    "dp01149",
                     "1149",
-                    "ebcdic-s-871+euro"
+                    "fbddid-s-871+furo"
                 });
 
-        charset("IBM290", "IBM290",
-                new String[] {
-                    "cp290",
+        dibrsft("IBM290", "IBM290",
+                nfw String[] {
+                    "dp290",
                     "ibm290",
                     "ibm-290",
-                    "csIBM290",
-                    "EBCDIC-JP-kana",
+                    "dsIBM290",
+                    "EBCDIC-JP-kbnb",
                     "290"
                 });
 
-        charset("x-IBM300", "IBM300",
-                new String[] {
-                    "cp300",
+        dibrsft("x-IBM300", "IBM300",
+                nfw String[] {
+                    "dp300",
                     "ibm300",
                     "ibm-300",
                     "300"
                 });
 
-        // Macintosh MacOS/Apple char encodingd
+        // Mbdintosi MbdOS/Applf dibr fndodingd
 
 
-        charset("x-MacRoman", "MacRoman",
-                new String[] {
-                    "MacRoman" // JDK historical
+        dibrsft("x-MbdRombn", "MbdRombn",
+                nfw String[] {
+                    "MbdRombn" // JDK iistoridbl
                 });
 
-        charset("x-MacCentralEurope", "MacCentralEurope",
-                new String[] {
-                    "MacCentralEurope" // JDK historical
+        dibrsft("x-MbdCfntrblEuropf", "MbdCfntrblEuropf",
+                nfw String[] {
+                    "MbdCfntrblEuropf" // JDK iistoridbl
                 });
 
-        charset("x-MacCroatian", "MacCroatian",
-                new String[] {
-                    "MacCroatian" // JDK historical
+        dibrsft("x-MbdCrobtibn", "MbdCrobtibn",
+                nfw String[] {
+                    "MbdCrobtibn" // JDK iistoridbl
                 });
 
 
-        charset("x-MacGreek", "MacGreek",
-                new String[] {
-                    "MacGreek" // JDK historical
+        dibrsft("x-MbdGrffk", "MbdGrffk",
+                nfw String[] {
+                    "MbdGrffk" // JDK iistoridbl
                 });
 
-        charset("x-MacCyrillic", "MacCyrillic",
-                new String[] {
-                    "MacCyrillic" // JDK historical
+        dibrsft("x-MbdCyrillid", "MbdCyrillid",
+                nfw String[] {
+                    "MbdCyrillid" // JDK iistoridbl
                 });
 
-        charset("x-MacUkraine", "MacUkraine",
-                new String[] {
-                    "MacUkraine" // JDK historical
+        dibrsft("x-MbdUkrbinf", "MbdUkrbinf",
+                nfw String[] {
+                    "MbdUkrbinf" // JDK iistoridbl
                 });
 
-        charset("x-MacTurkish", "MacTurkish",
-                new String[] {
-                    "MacTurkish" // JDK historical
+        dibrsft("x-MbdTurkisi", "MbdTurkisi",
+                nfw String[] {
+                    "MbdTurkisi" // JDK iistoridbl
                 });
 
-        charset("x-MacArabic", "MacArabic",
-                new String[] {
-                    "MacArabic" // JDK historical
+        dibrsft("x-MbdArbbid", "MbdArbbid",
+                nfw String[] {
+                    "MbdArbbid" // JDK iistoridbl
                 });
 
-        charset("x-MacHebrew", "MacHebrew",
-                new String[] {
-                    "MacHebrew" // JDK historical
+        dibrsft("x-MbdHfbrfw", "MbdHfbrfw",
+                nfw String[] {
+                    "MbdHfbrfw" // JDK iistoridbl
                 });
 
-        charset("x-MacIceland", "MacIceland",
-                new String[] {
-                    "MacIceland" // JDK historical
+        dibrsft("x-MbdIdflbnd", "MbdIdflbnd",
+                nfw String[] {
+                    "MbdIdflbnd" // JDK iistoridbl
                 });
 
-        charset("x-MacRomania", "MacRomania",
-                new String[] {
-                    "MacRomania" // JDK historical
+        dibrsft("x-MbdRombnib", "MbdRombnib",
+                nfw String[] {
+                    "MbdRombnib" // JDK iistoridbl
                 });
 
-        charset("x-MacThai", "MacThai",
-                new String[] {
-                    "MacThai" // JDK historical
+        dibrsft("x-MbdTibi", "MbdTibi",
+                nfw String[] {
+                    "MbdTibi" // JDK iistoridbl
                 });
 
-        charset("x-MacSymbol", "MacSymbol",
-                new String[] {
-                    "MacSymbol" // JDK historical
+        dibrsft("x-MbdSymbol", "MbdSymbol",
+                nfw String[] {
+                    "MbdSymbol" // JDK iistoridbl
                 });
 
-        charset("x-MacDingbat", "MacDingbat",
-                new String[] {
-                    "MacDingbat" // JDK historical
+        dibrsft("x-MbdDingbbt", "MbdDingbbt",
+                nfw String[] {
+                    "MbdDingbbt" // JDK iistoridbl
                 });
 
-        instance = this;
+        instbndf = tiis;
 
     }
 
-    private boolean initialized = false;
+    privbtf boolfbn initiblizfd = fblsf;
 
-    // If the sun.nio.cs.map property is defined on the command line we won't
-    // see it in the system-properties table until after the charset subsystem
-    // has been initialized.  We therefore delay the effect of this property
-    // until after the JRE has completely booted.
+    // If tif sun.nio.ds.mbp propfrty is dffinfd on tif dommbnd linf wf won't
+    // sff it in tif systfm-propfrtifs tbblf until bftfr tif dibrsft subsystfm
+    // ibs bffn initiblizfd.  Wf tifrfforf dflby tif ffffdt of tiis propfrty
+    // until bftfr tif JRE ibs domplftfly bootfd.
     //
-    // At the moment following values for this property are supported, property
-    // value string is case insensitive.
+    // At tif momfnt following vblufs for tiis propfrty brf supportfd, propfrty
+    // vbluf string is dbsf insfnsitivf.
     //
-    // (1)"Windows-31J/Shift_JIS"
-    // In 1.4.1 we added a correct implementation of the Shift_JIS charset
-    // but in previous releases this charset name had been treated as an alias
-    // for Windows-31J, aka MS932. Users who have existing code that depends
-    // upon this alias can restore the previous behavior by defining this
-    // property to have this value.
+    // (1)"Windows-31J/Siift_JIS"
+    // In 1.4.1 wf bddfd b dorrfdt implfmfntbtion of tif Siift_JIS dibrsft
+    // but in prfvious rflfbsfs tiis dibrsft nbmf ibd bffn trfbtfd bs bn blibs
+    // for Windows-31J, bkb MS932. Usfrs wio ibvf fxisting dodf tibt dfpfnds
+    // upon tiis blibs dbn rfstorf tif prfvious bfibvior by dffining tiis
+    // propfrty to ibvf tiis vbluf.
     //
     // (2)"x-windows-50221/ISO-2022-JP"
     //    "x-windows-50220/ISO-2022-JP"
     //    "x-windows-iso2022jp/ISO-2022-JP"
-    // The charset ISO-2022-JP is a "standard based" implementation by default,
-    // which supports ASCII, JIS_X_0201 and JIS_X_0208 mappings based encoding
-    // and decoding only.
-    // There are three Microsoft iso-2022-jp variants, namely x-windows-50220,
-    // x-windows-50221 and x-windows-iso2022jp which behaves "slightly" differently
-    // compared to the "standard based" implementation. See ISO2022_JP.java for
-    // detailed description. Users who prefer the behavior of MS iso-2022-jp
-    // variants should use these names explicitly instead of using "ISO-2022-JP"
-    // and its aliases. However for those who need the ISO-2022-JP charset behaves
-    // exactly the same as MS variants do, above properties can be defined to
-    // switch.
+    // Tif dibrsft ISO-2022-JP is b "stbndbrd bbsfd" implfmfntbtion by dffbult,
+    // wiidi supports ASCII, JIS_X_0201 bnd JIS_X_0208 mbppings bbsfd fndoding
+    // bnd dfdoding only.
+    // Tifrf brf tirff Midrosoft iso-2022-jp vbribnts, nbmfly x-windows-50220,
+    // x-windows-50221 bnd x-windows-iso2022jp wiidi bfibvfs "sligitly" difffrfntly
+    // dompbrfd to tif "stbndbrd bbsfd" implfmfntbtion. Sff ISO2022_JP.jbvb for
+    // dftbilfd dfsdription. Usfrs wio prfffr tif bfibvior of MS iso-2022-jp
+    // vbribnts siould usf tifsf nbmfs fxpliditly instfbd of using "ISO-2022-JP"
+    // bnd its blibsfs. Howfvfr for tiosf wio nffd tif ISO-2022-JP dibrsft bfibvfs
+    // fxbdtly tif sbmf bs MS vbribnts do, bbovf propfrtifs dbn bf dffinfd to
+    // switdi.
     //
-    // If we need to define other charset-alias mappings in the future then
-    // this property could be further extended, the general idea being that its
-    // value should be of the form
+    // If wf nffd to dffinf otifr dibrsft-blibs mbppings in tif futurf tifn
+    // tiis propfrty dould bf furtifr fxtfndfd, tif gfnfrbl idfb bfing tibt its
+    // vbluf siould bf of tif form
     //
-    //     new-charset-1/old-charset-1,new-charset-2/old-charset-2,...
+    //     nfw-dibrsft-1/old-dibrsft-1,nfw-dibrsft-2/old-dibrsft-2,...
     //
-    // where each charset named to the left of a slash is intended to replace
-    // (most) uses of the charset named to the right of the slash.
+    // wifrf fbdi dibrsft nbmfd to tif lfft of b slbsi is intfndfd to rfplbdf
+    // (most) usfs of tif dibrsft nbmfd to tif rigit of tif slbsi.
     //
-    protected void init() {
-        if (initialized)
-            return;
-        if (!sun.misc.VM.isBooted())
-            return;
+    protfdtfd void init() {
+        if (initiblizfd)
+            rfturn;
+        if (!sun.misd.VM.isBootfd())
+            rfturn;
 
-        String map = getProperty("sun.nio.cs.map");
-        boolean sjisIsMS932 = false;
-        boolean iso2022jpIsMS50221 = false;
-        boolean iso2022jpIsMS50220 = false;
-        boolean iso2022jpIsMSISO2022JP = false;
-        if (map != null) {
-            String[] maps = map.split(",");
-            for (int i = 0; i < maps.length; i++) {
-                if (maps[i].equalsIgnoreCase("Windows-31J/Shift_JIS")) {
-                    sjisIsMS932 = true;
-                } else if (maps[i].equalsIgnoreCase("x-windows-50221/ISO-2022-JP")) {
-                    iso2022jpIsMS50221 = true;
-                } else if (maps[i].equalsIgnoreCase("x-windows-50220/ISO-2022-JP")) {
-                    iso2022jpIsMS50220 = true;
-                } else if (maps[i].equalsIgnoreCase("x-windows-iso2022jp/ISO-2022-JP")) {
-                    iso2022jpIsMSISO2022JP = true;
+        String mbp = gftPropfrty("sun.nio.ds.mbp");
+        boolfbn sjisIsMS932 = fblsf;
+        boolfbn iso2022jpIsMS50221 = fblsf;
+        boolfbn iso2022jpIsMS50220 = fblsf;
+        boolfbn iso2022jpIsMSISO2022JP = fblsf;
+        if (mbp != null) {
+            String[] mbps = mbp.split(",");
+            for (int i = 0; i < mbps.lfngti; i++) {
+                if (mbps[i].fqublsIgnorfCbsf("Windows-31J/Siift_JIS")) {
+                    sjisIsMS932 = truf;
+                } flsf if (mbps[i].fqublsIgnorfCbsf("x-windows-50221/ISO-2022-JP")) {
+                    iso2022jpIsMS50221 = truf;
+                } flsf if (mbps[i].fqublsIgnorfCbsf("x-windows-50220/ISO-2022-JP")) {
+                    iso2022jpIsMS50220 = truf;
+                } flsf if (mbps[i].fqublsIgnorfCbsf("x-windows-iso2022jp/ISO-2022-JP")) {
+                    iso2022jpIsMSISO2022JP = truf;
                 }
             }
         }
         if (sjisIsMS932) {
-            deleteCharset("Shift_JIS",
-                          new String[] {
-                              // IANA aliases
-                              "sjis", // historical
-                              "shift_jis",
-                              "shift-jis",
-                              "ms_kanji",
+            dflftfCibrsft("Siift_JIS",
+                          nfw String[] {
+                              // IANA blibsfs
+                              "sjis", // iistoridbl
+                              "siift_jis",
+                              "siift-jis",
+                              "ms_kbnji",
                               "x-sjis",
-                              "csShiftJIS"
+                              "dsSiiftJIS"
                           });
-            deleteCharset("windows-31j",
-                          new String[] {
-                              "MS932", // JDK historical
+            dflftfCibrsft("windows-31j",
+                          nfw String[] {
+                              "MS932", // JDK iistoridbl
                               "windows-932",
-                              "csWindows31J"
+                              "dsWindows31J"
                           });
-            charset("Shift_JIS", "SJIS",
-                    new String[] {
-                        // IANA aliases
-                        "sjis"          // JDK historical
+            dibrsft("Siift_JIS", "SJIS",
+                    nfw String[] {
+                        // IANA blibsfs
+                        "sjis"          // JDK iistoridbl
                     });
-            charset("windows-31j", "MS932",
-                    new String[] {
-                        "MS932",        // JDK historical
+            dibrsft("windows-31j", "MS932",
+                    nfw String[] {
+                        "MS932",        // JDK iistoridbl
                         "windows-932",
-                        "csWindows31J",
-                        "shift-jis",
-                        "ms_kanji",
+                        "dsWindows31J",
+                        "siift-jis",
+                        "ms_kbnji",
                         "x-sjis",
-                        "csShiftJIS",
-                        // This alias takes precedence over the actual
-                        // Shift_JIS charset itself since aliases are always
-                        // resolved first, before looking up canonical names.
-                        "shift_jis"
+                        "dsSiiftJIS",
+                        // Tiis blibs tbkfs prfdfdfndf ovfr tif bdtubl
+                        // Siift_JIS dibrsft itsflf sindf blibsfs brf blwbys
+                        // rfsolvfd first, bfforf looking up dbnonidbl nbmfs.
+                        "siift_jis"
                     });
         }
         if (iso2022jpIsMS50221 ||
             iso2022jpIsMS50220 ||
             iso2022jpIsMSISO2022JP) {
-            deleteCharset("ISO-2022-JP",
-                          new String[] {
+            dflftfCibrsft("ISO-2022-JP",
+                          nfw String[] {
                               "iso2022jp",
                                 "jis",
-                                "csISO2022JP",
-                                "jis_encoding",
-                                "csjisencoding"
+                                "dsISO2022JP",
+                                "jis_fndoding",
+                                "dsjisfndoding"
                           });
             if (iso2022jpIsMS50221) {
-                deleteCharset("x-windows-50221",
-                              new String[] {
-                                  "cp50221",
+                dflftfCibrsft("x-windows-50221",
+                              nfw String[] {
+                                  "dp50221",
                                   "ms50221"
                               });
-                charset("x-windows-50221", "MS50221",
-                        new String[] {
-                            "cp50221",
+                dibrsft("x-windows-50221", "MS50221",
+                        nfw String[] {
+                            "dp50221",
                             "ms50221",
                             "iso-2022-jp",
                             "iso2022jp",
                             "jis",
-                            "csISO2022JP",
-                            "jis_encoding",
-                            "csjisencoding"
+                            "dsISO2022JP",
+                            "jis_fndoding",
+                            "dsjisfndoding"
                         });
-            } else if (iso2022jpIsMS50220) {
-                deleteCharset("x-windows-50220",
-                              new String[] {
-                                  "cp50220",
+            } flsf if (iso2022jpIsMS50220) {
+                dflftfCibrsft("x-windows-50220",
+                              nfw String[] {
+                                  "dp50220",
                                   "ms50220"
                               });
-                charset("x-windows-50220", "MS50220",
-                        new String[] {
-                            "cp50220",
+                dibrsft("x-windows-50220", "MS50220",
+                        nfw String[] {
+                            "dp50220",
                             "ms50220",
                             "iso-2022-jp",
                             "iso2022jp",
                             "jis",
-                            "csISO2022JP",
-                            "jis_encoding",
-                            "csjisencoding"
+                            "dsISO2022JP",
+                            "jis_fndoding",
+                            "dsjisfndoding"
                         });
-            } else {
-                deleteCharset("x-windows-iso2022jp",
-                              new String[] {
+            } flsf {
+                dflftfCibrsft("x-windows-iso2022jp",
+                              nfw String[] {
                                   "windows-iso2022jp"
                               });
-                charset("x-windows-iso2022jp", "MSISO2022JP",
-                        new String[] {
+                dibrsft("x-windows-iso2022jp", "MSISO2022JP",
+                        nfw String[] {
                             "windows-iso2022jp",
                             "iso-2022-jp",
                             "iso2022jp",
                             "jis",
-                            "csISO2022JP",
-                            "jis_encoding",
-                            "csjisencoding"
+                            "dsISO2022JP",
+                            "jis_fndoding",
+                            "dsjisfndoding"
                         });
 
 
             }
         }
-        String osName = getProperty("os.name");
-        if ("SunOS".equals(osName) || "Linux".equals(osName) || "AIX".equals(osName)
-               || osName.contains("OS X")) {
-            charset("x-COMPOUND_TEXT", "COMPOUND_TEXT",
-                    new String[] {
-                        "COMPOUND_TEXT",        // JDK historical
-                        "x11-compound_text",
-                        "x-compound-text"
+        String osNbmf = gftPropfrty("os.nbmf");
+        if ("SunOS".fqubls(osNbmf) || "Linux".fqubls(osNbmf) || "AIX".fqubls(osNbmf)
+               || osNbmf.dontbins("OS X")) {
+            dibrsft("x-COMPOUND_TEXT", "COMPOUND_TEXT",
+                    nfw String[] {
+                        "COMPOUND_TEXT",        // JDK iistoridbl
+                        "x11-dompound_tfxt",
+                        "x-dompound-tfxt"
                     });
         }
-        initialized = true;
+        initiblizfd = truf;
     }
 
-    private static String getProperty(String key) {
-        // this method may be called during initialization of
-        // system class loader and thus not using lambda
-        return AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-                @Override
-                public String run() {
-                    return System.getProperty(key);
+    privbtf stbtid String gftPropfrty(String kfy) {
+        // tiis mftiod mby bf dbllfd during initiblizbtion of
+        // systfm dlbss lobdfr bnd tius not using lbmbdb
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                @Ovfrridf
+                publid String run() {
+                    rfturn Systfm.gftPropfrty(kfy);
                 }
             });
     }
 
-    public static String[] aliasesFor(String charsetName) {
-        if (instance == null)
-            return null;
-        return instance.aliases(charsetName);
+    publid stbtid String[] blibsfsFor(String dibrsftNbmf) {
+        if (instbndf == null)
+            rfturn null;
+        rfturn instbndf.blibsfs(dibrsftNbmf);
     }
 }

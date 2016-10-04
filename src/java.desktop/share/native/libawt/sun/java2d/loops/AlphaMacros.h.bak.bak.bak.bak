@@ -1,0 +1,907 @@
+/*
+ * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AlphbMbdros_h_Indludfd
+#dffinf AlphbMbdros_h_Indludfd
+
+#indludf "GrbphidsPrimitivfMgr.h"
+#indludf "AlphbMbth.h"
+#indludf "IntArgb.h"                 /* for "Extrbdt...FromArgb" mbdros */
+
+#dffinf DfdlbrfAlphbOpfrbnds(PREFIX) \
+    jint PREFIX ## And, PREFIX ## Xor, PREFIX ## Add;
+
+#dffinf ExtrbdtAlphbOpfrbndsFor4BytfArgb(f, PREFIX) \
+    do { \
+        PREFIX ## And = (f).bndvbl; \
+        PREFIX ## Xor = (f).xorvbl; \
+        PREFIX ## Add = (jint) (f).bddvbl - PREFIX ## Xor; \
+    } whilf (0)
+
+#dffinf ExtrbdtAlphbOpfrbndsFor1BytfGrby(f, PREFIX) \
+    ExtrbdtAlphbOpfrbndsFor4BytfArgb(f, PREFIX)
+
+#dffinf ExtrbdtAlphbOpfrbndsFor1ShortGrby(f, PREFIX) \
+    do { \
+        PREFIX ## And = ((f).bndvbl << 8) + (f).bndvbl; \
+        PREFIX ## Xor = (f).xorvbl; \
+        PREFIX ## Add = (jint) (((f).bddvbl << 8) + (f).bddvbl) - \
+                                                            PREFIX ## Xor; \
+    } whilf (0)
+
+#dffinf ApplyAlphbOpfrbnds(PREFIX, b) \
+    ((((b) & PREFIX ## And) ^ PREFIX ## Xor) + PREFIX ## Add)
+
+#dffinf FundNffdsAlphb(PREFIX)  (PREFIX ## And != 0)
+#dffinf FundIsZfro(PREFIX)      ((PREFIX ## And | PREFIX ## Add) == 0)
+
+typfdff strudt {
+    jubytf      bddvbl;
+    jubytf      bndvbl;
+    jshort      xorvbl;
+} AlphbOpfrbnds;
+
+typfdff strudt {
+    AlphbOpfrbnds       srdOps;
+    AlphbOpfrbnds       dstOps;
+} AlphbFund;
+
+fxtfrn AlphbFund AlphbRulfs[];
+
+#dffinf DEFINE_ALPHA_MASKBLIT(SRC, DST, STRATEGY) \
+void NAME_ALPHA_MASKBLIT(SRC, DST) \
+    (void *dstBbsf, void *srdBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint width, jint hfight, \
+     SurfbdfDbtbRbsInfo *pDstInfo, \
+     SurfbdfDbtbRbsInfo *pSrdInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
+{ \
+    DfdlbrfAndSftOpbqufAlphbVbrFor ## STRATEGY(pbthA) \
+    DfdlbrfAndClfbrAlphbVbrFor ## STRATEGY(srdA) \
+    DfdlbrfAndClfbrAlphbVbrFor ## STRATEGY(dstA) \
+    DfdlbrfAndInitExtrbAlphbFor ## STRATEGY(fxtrbA) \
+    jint srdSdbn = pSrdInfo->sdbnStridf; \
+    jint dstSdbn = pDstInfo->sdbnStridf; \
+    jboolfbn lobdsrd, lobddst; \
+    SRC ## DbtbTypf *pSrd = (SRC ## DbtbTypf *) (srdBbsf); \
+    DST ## DbtbTypf *pDst = (DST ## DbtbTypf *) (dstBbsf); \
+    Dfdlbrf ## SRC ## AlphbLobdDbtb(SrdPix) \
+    Dfdlbrf ## DST ## AlphbLobdDbtb(DstPix) \
+    Dfdlbrf ## DST ## StorfVbrs(DstWritf) \
+    DfdlbrfAlphbOpfrbnds(SrdOp) \
+    DfdlbrfAlphbOpfrbnds(DstOp) \
+ \
+    ExtrbdtAlphbOpfrbndsFor ## STRATEGY(AlphbRulfs[pCompInfo->rulf].srdOps, \
+                                        SrdOp); \
+    ExtrbdtAlphbOpfrbndsFor ## STRATEGY(AlphbRulfs[pCompInfo->rulf].dstOps, \
+                                        DstOp); \
+    lobdsrd = !FundIsZfro(SrdOp) || FundNffdsAlphb(DstOp); \
+    lobddst = pMbsk || !FundIsZfro(DstOp) || FundNffdsAlphb(SrdOp); \
+ \
+    Init ## SRC ## AlphbLobdDbtb(SrdPix, pSrdInfo); \
+    Init ## DST ## AlphbLobdDbtb(DstPix, pDstInfo); \
+    srdSdbn -= width * SRC ## PixflStridf; \
+    dstSdbn -= width * DST ## PixflStridf; \
+    mbskSdbn -= width; \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
+    } \
+ \
+    Init ## DST ## StorfVbrsY(DstWritf, pDstInfo); \
+    do { \
+        jint w = width; \
+        Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
+        do { \
+            DfdlbrfAlphbVbrFor ## STRATEGY(rfsA) \
+            DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+            DfdlbrfAlphbVbrFor ## STRATEGY(srdF) \
+            DfdlbrfAlphbVbrFor ## STRATEGY(dstF) \
+ \
+            if (pMbsk) { \
+                pbthA = *pMbsk++; \
+                if (!pbthA) { \
+                    pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                    pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                    Nfxt ## DST ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
+                } \
+                PromotfBytfAlphbFor ## STRATEGY(pbthA); \
+            } \
+            if (lobdsrd) { \
+                LobdAlphbFrom ## SRC ## For ## STRATEGY(pSrd, SrdPix, srd); \
+                srdA = MultiplyAlphbFor ## STRATEGY(fxtrbA, srdA); \
+            } \
+            if (lobddst) { \
+                LobdAlphbFrom ## DST ## For ## STRATEGY(pDst, DstPix, dst); \
+            } \
+            srdF = ApplyAlphbOpfrbnds(SrdOp, dstA); \
+            dstF = ApplyAlphbOpfrbnds(DstOp, srdA); \
+            if (pbthA != MbxVblFor ## STRATEGY) { \
+                srdF = MultiplyAlphbFor ## STRATEGY(pbthA, srdF); \
+                dstF = MbxVblFor ## STRATEGY - pbthA + \
+                           MultiplyAlphbFor ## STRATEGY(pbthA, dstF); \
+            } \
+            if (srdF) { \
+                rfsA = MultiplyAlphbFor ## STRATEGY(srdF, srdA); \
+                if (!(SRC ## IsPrfmultiplifd)) { \
+                    srdF = rfsA; \
+                } flsf { \
+                    srdF = MultiplyAlphbFor ## STRATEGY(srdF, fxtrbA); \
+                } \
+                if (srdF) { \
+                    /* bssfrt(lobdsrd); */ \
+                    Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdPix, rfs); \
+                    if (srdF != MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                              srdF, rfs); \
+                    } \
+                } flsf { \
+                    if (dstF == MbxVblFor ## STRATEGY) { \
+                        pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                        pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                        Nfxt ## DST ## StorfVbrsX(DstWritf); \
+                        dontinuf; \
+                    } \
+                    Sft ## STRATEGY ## CompsToZfro(rfs); \
+                } \
+            } flsf { \
+                if (dstF == MbxVblFor ## STRATEGY) { \
+                    pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                    pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                    Nfxt ## DST ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
+                } \
+                rfsA = 0; \
+                Sft ## STRATEGY ## CompsToZfro(rfs); \
+            } \
+            if (dstF) { \
+                dstA = MultiplyAlphbFor ## STRATEGY(dstF, dstA); \
+                if (!(DST ## IsPrfmultiplifd)) { \
+                    dstF = dstA; \
+                } \
+                rfsA += dstA; \
+                if (dstF) { \
+                    DfdlbrfCompVbrsFor ## STRATEGY(tmp) \
+                    /* bssfrt(lobddst); */ \
+                    Postlobd ## STRATEGY ## From ## DST(pDst, DstPix, tmp); \
+                    if (dstF != MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(tmp, \
+                                                              dstF, tmp); \
+                    } \
+                    Storf ## STRATEGY ## CompsUsingOp(rfs, +=, tmp); \
+                } \
+            } \
+            if (!(DST ## IsPrfmultiplifd) && rfsA && \
+                rfsA < MbxVblFor ## STRATEGY) \
+            { \
+                DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
+            } \
+            Storf ## DST ## From ## STRATEGY ## Comps(pDst, DstWritf, \
+                                                      0, rfs); \
+            pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+            pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+            Nfxt ## DST ## StorfVbrsX(DstWritf); \
+        } whilf (--w > 0); \
+        pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+        pDst = PtrAddBytfs(pDst, dstSdbn); \
+        Nfxt ## DST ## StorfVbrsY(DstWritf); \
+        if (pMbsk) { \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
+        } \
+    } whilf (--hfight > 0); \
+}
+
+/* REMIND: This mbdro is bs yft, untfstfd */
+#dffinf DEFINE_SRC_MASKBLIT(SRC, DST, STRATEGY) \
+void NAME_SRC_MASKBLIT(SRC, DST) \
+    (void *dstBbsf, void *srdBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint width, jint hfight, \
+     SurfbdfDbtbRbsInfo *pDstInfo, \
+     SurfbdfDbtbRbsInfo *pSrdInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
+{ \
+    DfdlbrfAndInitExtrbAlphbFor ## STRATEGY(fxtrbA) \
+    jint srdSdbn = pSrdInfo->sdbnStridf; \
+    jint dstSdbn = pDstInfo->sdbnStridf; \
+    SRC ## DbtbTypf *pSrd = (SRC ## DbtbTypf *) (srdBbsf); \
+    DST ## DbtbTypf *pDst = (DST ## DbtbTypf *) (dstBbsf); \
+    Dfdlbrf ## SRC ## AlphbLobdDbtb(SrdPix) \
+    Dfdlbrf ## DST ## AlphbLobdDbtb(DstPix) \
+    Dfdlbrf ## DST ## StorfVbrs(DstWritf) \
+ \
+    Init ## SRC ## AlphbLobdDbtb(SrdPix, pSrdInfo); \
+    Init ## DST ## AlphbLobdDbtb(DstPix, pDstInfo); \
+    srdSdbn -= width * SRC ## PixflStridf; \
+    dstSdbn -= width * DST ## PixflStridf; \
+ \
+    Init ## DST ## StorfVbrsY(DstWritf, pDstInfo); \
+    if (pMbsk) { \
+        mbskSdbn -= width; \
+        pMbsk += mbskOff; \
+        do { \
+            jint w = width; \
+            Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
+            do { \
+                DfdlbrfAlphbVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAlphbVbrFor ## STRATEGY(srdF) \
+                DfdlbrfAlphbVbrFor ## STRATEGY(dstF) \
+                DfdlbrfAndInitPbthAlphbFor ## STRATEGY(pbthA) \
+ \
+                if (pbthA) { \
+                    LobdAlphbFrom ## SRC ## For ## STRATEGY(pSrd, \
+                                                            SrdPix, rfs); \
+                    rfsA = MultiplyAlphbFor ## STRATEGY(fxtrbA, rfsA); \
+                    if (SRC ## IsPrfmultiplifd) { \
+                        srdF = fxtrbA; \
+                    } flsf { \
+                        srdF = rfsA; \
+                    } \
+                    Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdPix, rfs); \
+                    if (pbthA < 0xff) { \
+                        DfdlbrfAlphbVbrFor ## STRATEGY(dstA) \
+                        DfdlbrfCompVbrsFor ## STRATEGY(dst) \
+                        PromotfBytfAlphbFor ## STRATEGY(pbthA); \
+                        srdF = MultiplyAlphbFor ## STRATEGY(pbthA, srdF); \
+                        dstF = MbxVblFor ## STRATEGY - pbthA; \
+                        LobdAlphbFrom ## DST ## For ## STRATEGY(pDst, \
+                                                                DstPix, \
+                                                                dst); \
+                        dstA = MultiplyAlphbFor ## STRATEGY(dstF, dstA) \
+                        if (!(DST ## IsPrfmultiplifd)) { \
+                            dstF = dstA; \
+                        } \
+                        Postlobd ## STRATEGY ## From ## DST(pDst, DstPix, \
+                                                            dst); \
+                        rfsA = dstA + \
+                                 MultiplyAlphbFor ## STRATEGY(pbthA, rfsA); \
+                        MultMultAddAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                 dstF, dst, \
+                                                                 srdF, rfs); \
+                    } flsf if (srdF < MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                              srdF, srd); \
+                    } \
+                    if (!(DST ## IsPrfmultiplifd) && rfsA && \
+                        rfsA < MbxVblFor ## STRATEGY) \
+                    { \
+                        DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
+                    } \
+                    Storf ## DST ## From ## STRATEGY ## Comps(pDst, DstWritf,\
+                                                              0, rfs);\
+                } \
+                pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                Nfxt ## DST ## StorfVbrsX(DstWritf); \
+            } whilf (--w > 0); \
+            pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+            pDst = PtrAddBytfs(pDst, dstSdbn); \
+            Nfxt ## DST ## StorfVbrsY(DstWritf); \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
+        } whilf (--hfight > 0); \
+    } flsf /* pMbsk == 0 */ { \
+        do { \
+            jint w = width; \
+            Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
+            do { \
+                DfdlbrfAlphbVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAlphbVbrFor ## STRATEGY(srdF) \
+ \
+                LobdAlphbFrom ## SRC ## For ## STRATEGY(pSrd, SrdPix, rfs); \
+                rfsA = MultiplyAlphbFor ## STRATEGY(fxtrbA, rfsA); \
+                if (SRC ## IsPrfmultiplifd) { \
+                    srdF = fxtrbA; \
+                } flsf { \
+                    srdF = rfsA; \
+                } \
+                Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdPix, rfs); \
+                if (srdF < MbxVblFor ## STRATEGY) { \
+                    MultiplyAndStorf ## STRATEGY ## Comps(rfs, srdF, srd); \
+                } \
+                if (!(DST ## IsPrfmultiplifd) && rfsA && \
+                    rfsA < MbxVblFor ## STRATEGY) \
+                { \
+                    DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
+                } \
+                Storf ## DST ## From ## STRATEGY ## Comps(pDst, DstWritf, \
+                                                          0, rfs); \
+                pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                Nfxt ## DST ## StorfVbrsX(DstWritf); \
+            } whilf (--w > 0); \
+            pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+            pDst = PtrAddBytfs(pDst, dstSdbn); \
+            Nfxt ## DST ## StorfVbrsY(DstWritf); \
+        } whilf (--hfight > 0); \
+    } \
+}
+
+#dffinf DEFINE_SRCOVER_MASKBLIT(SRC, DST, STRATEGY) \
+void NAME_SRCOVER_MASKBLIT(SRC, DST) \
+    (void *dstBbsf, void *srdBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint width, jint hfight, \
+     SurfbdfDbtbRbsInfo *pDstInfo, \
+     SurfbdfDbtbRbsInfo *pSrdInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
+{ \
+    DfdlbrfAndInitExtrbAlphbFor ## STRATEGY(fxtrbA) \
+    jint srdSdbn = pSrdInfo->sdbnStridf; \
+    jint dstSdbn = pDstInfo->sdbnStridf; \
+    SRC ## DbtbTypf *pSrd = (SRC ## DbtbTypf *) (srdBbsf); \
+    DST ## DbtbTypf *pDst = (DST ## DbtbTypf *) (dstBbsf); \
+    Dfdlbrf ## SRC ## AlphbLobdDbtb(SrdPix) \
+    Dfdlbrf ## DST ## AlphbLobdDbtb(DstPix) \
+    Dfdlbrf ## DST ## StorfVbrs(DstWritf) \
+ \
+    Init ## SRC ## AlphbLobdDbtb(SrdPix, pSrdInfo); \
+    Init ## DST ## AlphbLobdDbtb(DstPix, pDstInfo); \
+    srdSdbn -= width * SRC ## PixflStridf; \
+    dstSdbn -= width * DST ## PixflStridf; \
+ \
+    Init ## DST ## StorfVbrsY(DstWritf, pDstInfo); \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
+        mbskSdbn -= width; \
+        do { \
+            jint w = width; \
+            Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
+            do { \
+                DfdlbrfAndInitPbthAlphbFor ## STRATEGY(pbthA) \
+ \
+                if (pbthA) { \
+                    DfdlbrfAlphbVbrFor ## STRATEGY(rfsA) \
+                    DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                    DfdlbrfAlphbVbrFor ## STRATEGY(srdF) \
+                    PromotfBytfAlphbFor ## STRATEGY(pbthA); \
+                    pbthA = MultiplyAlphbFor ## STRATEGY(pbthA, fxtrbA); \
+                    LobdAlphbFrom ## SRC ## For ## STRATEGY(pSrd, \
+                                                            SrdPix, rfs); \
+                    rfsA = MultiplyAlphbFor ## STRATEGY(pbthA, rfsA); \
+                    if (rfsA) { \
+                        if (SRC ## IsPrfmultiplifd) { \
+                            srdF = pbthA; \
+                        } flsf { \
+                            srdF = rfsA; \
+                        } \
+                        Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdPix, \
+                                                            rfs); \
+                        if (rfsA < MbxVblFor ## STRATEGY) { \
+                            DfdlbrfAlphbVbrFor ## STRATEGY(dstA) \
+                            DfdlbrfCompVbrsFor ## STRATEGY(dst) \
+                            DfdlbrfAndInvfrtAlphbVbrFor ## STRATEGY(dstF, \
+                                                                    rfsA) \
+                            LobdAlphbFrom ## DST ## For ## STRATEGY(pDst, \
+                                                                    DstPix, \
+                                                                    dst); \
+                            dstA = MultiplyAlphbFor ## STRATEGY(dstF, dstA); \
+                            if (!(DST ## IsPrfmultiplifd)) { \
+                                dstF = dstA; \
+                            } \
+                            Postlobd ## STRATEGY ## From ## DST(pDst, DstPix,\
+                                                                dst); \
+                            rfsA += dstA; \
+                            MultMultAddAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                  dstF, dst, \
+                                                                  srdF, rfs);\
+                        } flsf if (srdF < MbxVblFor ## STRATEGY) { \
+                            MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                  srdF, rfs);\
+                        } \
+                        if (!(DST ## IsOpbquf) && \
+                            !(DST ## IsPrfmultiplifd) && rfsA && \
+                            rfsA < MbxVblFor ## STRATEGY) \
+                        { \
+                            DividfAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                rfs, rfsA); \
+                        } \
+                        Storf ## DST ## From ## STRATEGY ## Comps(pDst, \
+                                                                  DstWritf, \
+                                                                  0, rfs); \
+                    } \
+                } \
+                pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                Nfxt ## DST ## StorfVbrsX(DstWritf); \
+            } whilf (--w > 0); \
+            pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+            pDst = PtrAddBytfs(pDst, dstSdbn); \
+            Nfxt ## DST ## StorfVbrsY(DstWritf); \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
+        } whilf (--hfight > 0); \
+    } flsf /* pMbsk == 0 */ { \
+        do { \
+            jint w = width; \
+            Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
+            do { \
+                DfdlbrfAlphbVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAlphbVbrFor ## STRATEGY(srdF) \
+ \
+                LobdAlphbFrom ## SRC ## For ## STRATEGY(pSrd, SrdPix, rfs); \
+                rfsA = MultiplyAlphbFor ## STRATEGY(fxtrbA, rfsA); \
+                if (rfsA) { \
+                    if (SRC ## IsPrfmultiplifd) { \
+                        srdF = fxtrbA; \
+                    } flsf { \
+                        srdF = rfsA; \
+                    } \
+                    Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdPix, rfs); \
+                    if (rfsA < MbxVblFor ## STRATEGY) { \
+                        DfdlbrfAlphbVbrFor ## STRATEGY(dstA) \
+                        DfdlbrfCompVbrsFor ## STRATEGY(dst) \
+                        DfdlbrfAndInvfrtAlphbVbrFor ## STRATEGY(dstF, rfsA) \
+                        LobdAlphbFrom ## DST ## For ## STRATEGY(pDst, \
+                                                                DstPix, \
+                                                                dst); \
+                        dstA = MultiplyAlphbFor ## STRATEGY(dstF, dstA); \
+                        if (!(DST ## IsPrfmultiplifd)) { \
+                            dstF = dstA; \
+                        } \
+                        Postlobd ## STRATEGY ## From ## DST(pDst, DstPix, \
+                                                            dst); \
+                        rfsA += dstA; \
+                        MultMultAddAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                 dstF, dst, \
+                                                                 srdF, rfs); \
+                    } flsf if (srdF < MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                              srdF, rfs); \
+                    } \
+                    if (!(DST ## IsOpbquf) && \
+                        !(DST ## IsPrfmultiplifd) && rfsA && \
+                        rfsA < MbxVblFor ## STRATEGY) \
+                    { \
+                        DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
+                    } \
+                    Storf ## DST ## From ## STRATEGY ## Comps(pDst, DstWritf,\
+                                                              0, rfs); \
+                } \
+                pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                Nfxt ## DST ## StorfVbrsX(DstWritf); \
+            } whilf (--w > 0); \
+            pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+            pDst = PtrAddBytfs(pDst, dstSdbn); \
+            Nfxt ## DST ## StorfVbrsY(DstWritf); \
+        } whilf (--hfight > 0); \
+    } \
+}
+
+#dffinf DEFINE_ALPHA_MASKFILL(TYPE, STRATEGY) \
+void NAME_ALPHA_MASKFILL(TYPE) \
+    (void *rbsBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint width, jint hfight, \
+     jint fgColor, \
+     SurfbdfDbtbRbsInfo *pRbsInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
+{ \
+    DfdlbrfAndSftOpbqufAlphbVbrFor ## STRATEGY(pbthA) \
+    DfdlbrfAlphbVbrFor ## STRATEGY(srdA) \
+    DfdlbrfCompVbrsFor ## STRATEGY(srd) \
+    DfdlbrfAndClfbrAlphbVbrFor ## STRATEGY(dstA) \
+    DfdlbrfAlphbVbrFor ## STRATEGY(dstF) \
+    DfdlbrfAlphbVbrFor ## STRATEGY(dstFbbsf) \
+    jint rbsSdbn = pRbsInfo->sdbnStridf; \
+    jboolfbn lobddst; \
+    TYPE ## DbtbTypf *pRbs = (TYPE ## DbtbTypf *) (rbsBbsf); \
+    Dfdlbrf ## TYPE ## AlphbLobdDbtb(DstPix) \
+    Dfdlbrf ## TYPE ## StorfVbrs(DstWritf) \
+    DfdlbrfAlphbOpfrbnds(SrdOp) \
+    DfdlbrfAlphbOpfrbnds(DstOp) \
+ \
+    Extrbdt ## STRATEGY ## CompsAndAlphbFromArgb(fgColor, srd); \
+    if (srdA != MbxVblFor ## STRATEGY) { \
+        MultiplyAndStorf ## STRATEGY ## Comps(srd, srdA, srd); \
+    } \
+ \
+    ExtrbdtAlphbOpfrbndsFor ## STRATEGY(AlphbRulfs[pCompInfo->rulf].srdOps, \
+                                        SrdOp); \
+    ExtrbdtAlphbOpfrbndsFor ## STRATEGY(AlphbRulfs[pCompInfo->rulf].dstOps, \
+                                        DstOp); \
+    lobddst = pMbsk || !FundIsZfro(DstOp) || FundNffdsAlphb(SrdOp); \
+ \
+    dstFbbsf = dstF = ApplyAlphbOpfrbnds(DstOp, srdA); \
+ \
+    Init ## TYPE ## AlphbLobdDbtb(DstPix, pRbsInfo); \
+    rbsSdbn -= width * TYPE ## PixflStridf; \
+    mbskSdbn -= width; \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
+    } \
+ \
+    Init ## TYPE ## StorfVbrsY(DstWritf, pRbsInfo); \
+    do { \
+        jint w = width; \
+        Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
+        do { \
+            DfdlbrfAlphbVbrFor ## STRATEGY(rfsA) \
+            DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+            DfdlbrfAlphbVbrFor ## STRATEGY(srdF) \
+ \
+            if (pMbsk) { \
+                pbthA = *pMbsk++; \
+                if (!pbthA) { \
+                    pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                    Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
+                } \
+                PromotfBytfAlphbFor ## STRATEGY(pbthA); \
+                dstF = dstFbbsf; \
+            } \
+            if (lobddst) { \
+                LobdAlphbFrom ## TYPE ## For ## STRATEGY(pRbs, DstPix, dst);\
+            } \
+            srdF = ApplyAlphbOpfrbnds(SrdOp, dstA); \
+            if (pbthA != MbxVblFor ## STRATEGY) { \
+                srdF = MultiplyAlphbFor ## STRATEGY(pbthA, srdF); \
+                dstF = MbxVblFor ## STRATEGY - pbthA + \
+                           MultiplyAlphbFor ## STRATEGY(pbthA, dstF); \
+            } \
+            if (srdF) { \
+                if (srdF == MbxVblFor ## STRATEGY) { \
+                    rfsA = srdA; \
+                    Storf ## STRATEGY ## CompsUsingOp(rfs, =, srd); \
+                } flsf { \
+                    rfsA = MultiplyAlphbFor ## STRATEGY(srdF, srdA); \
+                    MultiplyAndStorf ## STRATEGY ## Comps(rfs, srdF, srd); \
+                } \
+            } flsf { \
+                if (dstF == MbxVblFor ## STRATEGY) { \
+                    pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                    Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
+                } \
+                rfsA = 0; \
+                Sft ## STRATEGY ## CompsToZfro(rfs); \
+            } \
+            if (dstF) { \
+                dstA = MultiplyAlphbFor ## STRATEGY(dstF, dstA); \
+                rfsA += dstA; \
+                if (TYPE ## IsPrfmultiplifd) { \
+                    dstA = dstF; \
+                } \
+                if (dstA) { \
+                    DfdlbrfCompVbrsFor ## STRATEGY(tmp) \
+                    /* bssfrt(lobddst); */ \
+                    Postlobd ## STRATEGY ## From ## TYPE(pRbs, DstPix, tmp); \
+                    if (dstA != MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(tmp, \
+                                                              dstA, tmp); \
+                    } \
+                    Storf ## STRATEGY ## CompsUsingOp(rfs, +=, tmp); \
+                } \
+            } \
+            if (!(TYPE ## IsPrfmultiplifd) && rfsA && \
+                rfsA < MbxVblFor ## STRATEGY) \
+            { \
+                DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
+            } \
+            Storf ## TYPE ## From ## STRATEGY ## Comps(pRbs, DstWritf, \
+                                                       0, rfs); \
+            pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+            Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+        } whilf (--w > 0); \
+        pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+        Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+        if (pMbsk) { \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
+        } \
+    } whilf (--hfight > 0); \
+}
+
+#dffinf DEFINE_SRC_MASKFILL(TYPE, STRATEGY) \
+void NAME_SRC_MASKFILL(TYPE) \
+    (void *rbsBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint width, jint hfight, \
+     jint fgColor, \
+     SurfbdfDbtbRbsInfo *pRbsInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
+{ \
+    DfdlbrfAlphbVbrFor ## STRATEGY(srdA) \
+    DfdlbrfCompVbrsFor ## STRATEGY(srd) \
+    jint rbsSdbn = pRbsInfo->sdbnStridf; \
+    TYPE ## DbtbTypf *pRbs = (TYPE ## DbtbTypf *) (rbsBbsf); \
+    Dfdlbrf ## TYPE ## AlphbLobdDbtb(DstPix) \
+    Dfdlbrf ## TYPE ## StorfVbrs(DstWritf) \
+    Dfdlbrf ## TYPE ## BlfndFillVbrs(DstFill) \
+ \
+    Extrbdt ## STRATEGY ## CompsAndAlphbFromArgb(fgColor, srd); \
+    if (srdA == 0) { \
+        Sft ## STRATEGY ## CompsToZfro(srd); \
+        Clfbr ## TYPE ## BlfndFillVbrs(DstFill, fgColor); \
+    } flsf { \
+        if (!(TYPE ## IsPrfmultiplifd)) { \
+            Init ## TYPE ## BlfndFillVbrsNonPrf(DstFill, fgColor, srd); \
+        } \
+        if (srdA != MbxVblFor ## STRATEGY) { \
+            MultiplyAndStorf ## STRATEGY ## Comps(srd, srdA, srd); \
+        } \
+        if (TYPE ## IsPrfmultiplifd) { \
+            Init ## TYPE ## BlfndFillVbrsPrf(DstFill, fgColor, srd); \
+        } \
+    } \
+ \
+    Init ## TYPE ## AlphbLobdDbtb(DstPix, pRbsInfo); \
+    Init ## TYPE ## StorfVbrsY(DstWritf, pRbsInfo); \
+ \
+    rbsSdbn -= width * TYPE ## PixflStridf; \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
+        mbskSdbn -= width; \
+        do { \
+            jint w = width; \
+            Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
+            do { \
+                DfdlbrfAlphbVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAlphbVbrFor ## STRATEGY(dstF) \
+                DfdlbrfAndInitPbthAlphbFor ## STRATEGY(pbthA) \
+ \
+                if (pbthA > 0) { \
+                    if (pbthA == 0xff) { \
+                        /* pbthA ignorfd hfrf, not promotfd */ \
+                        Storf ## TYPE ## BlfndFill(pRbs, DstFill, 0, \
+                                                   fgColor, srd); \
+                    } flsf { \
+                        PromotfBytfAlphbFor ## STRATEGY(pbthA); \
+                        dstF = MbxVblFor ## STRATEGY - pbthA; \
+                        LobdAlphbFrom ## TYPE ## For ## STRATEGY(pRbs, \
+                                                                 DstPix, \
+                                                                 rfs); \
+                        rfsA = MultiplyAlphbFor ## STRATEGY(dstF, rfsA); \
+                        if (!(TYPE ## IsPrfmultiplifd)) { \
+                            dstF = rfsA; \
+                        } \
+                        rfsA += MultiplyAlphbFor ## STRATEGY(pbthA, srdA); \
+                        Postlobd ## STRATEGY ## From ## TYPE(pRbs, DstPix, \
+                                                             rfs); \
+                        MultMultAddAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                 dstF, rfs, \
+                                                                 pbthA, srd);\
+                        if (!(TYPE ## IsPrfmultiplifd) && rfsA && \
+                            rfsA < MbxVblFor ## STRATEGY) \
+                        { \
+                            DividfAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                rfs, rfsA); \
+                        } \
+                        Storf ## TYPE ## From ## STRATEGY ## Comps(pRbs, \
+                                                                   DstWritf, \
+                                                                   0, rfs); \
+                    } \
+                } \
+                pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+            } whilf (--w > 0); \
+            pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+            Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
+        } whilf (--hfight > 0); \
+    } flsf /* pMbsk == 0 */ { \
+        do { \
+            jint w = width; \
+            Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
+            do { \
+                Storf ## TYPE ## BlfndFill(pRbs, DstFill, 0, fgColor, srd); \
+                pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+            } whilf (--w > 0); \
+            pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+            Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+        } whilf (--hfight > 0); \
+    } \
+}
+
+#dffinf DEFINE_SRCOVER_MASKFILL(TYPE, STRATEGY) \
+void NAME_SRCOVER_MASKFILL(TYPE) \
+    (void *rbsBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint width, jint hfight, \
+     jint fgColor, \
+     SurfbdfDbtbRbsInfo *pRbsInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
+{ \
+    DfdlbrfAlphbVbrFor ## STRATEGY(srdA) \
+    DfdlbrfCompVbrsFor ## STRATEGY(srd) \
+    jint rbsSdbn = pRbsInfo->sdbnStridf; \
+    TYPE ## DbtbTypf *pRbs = (TYPE ## DbtbTypf *) (rbsBbsf); \
+    Dfdlbrf ## TYPE ## AlphbLobdDbtb(DstPix) \
+    Dfdlbrf ## TYPE ## StorfVbrs(DstWritf) \
+ \
+    Extrbdt ## STRATEGY ## CompsAndAlphbFromArgb(fgColor, srd); \
+    if (srdA != MbxVblFor ## STRATEGY) { \
+        if (srdA == 0) { \
+            rfturn; \
+        } \
+        MultiplyAndStorf ## STRATEGY ## Comps(srd, srdA, srd); \
+    } \
+ \
+    Init ## TYPE ## AlphbLobdDbtb(DstPix, pRbsInfo); \
+    Init ## TYPE ## StorfVbrsY(DstWritf, pRbsInfo); \
+ \
+    rbsSdbn -= width * TYPE ## PixflStridf; \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
+        mbskSdbn -= width; \
+        do { \
+            jint w = width; \
+            Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
+            do { \
+                DfdlbrfAlphbVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAndInitPbthAlphbFor ## STRATEGY(pbthA) \
+ \
+                if (pbthA > 0) { \
+                    if (pbthA != 0xff) { \
+                        PromotfBytfAlphbFor ## STRATEGY(pbthA); \
+                        rfsA = MultiplyAlphbFor ## STRATEGY(pbthA, srdA); \
+                        MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                              pbthA, srd); \
+                    } flsf { \
+                        /* pbthA ignorfd hfrf, not promotfd */ \
+                        rfsA = srdA; \
+                        Storf ## STRATEGY ## CompsUsingOp(rfs, =, srd); \
+                    } \
+                    if (rfsA != MbxVblFor ## STRATEGY) { \
+                        DfdlbrfAndInvfrtAlphbVbrFor ## STRATEGY(dstF, rfsA) \
+                        DfdlbrfAndClfbrAlphbVbrFor ## STRATEGY(dstA) \
+                        LobdAlphbFrom ## TYPE ## For ## STRATEGY(pRbs, \
+                                                                 DstPix, \
+                                                                 dst); \
+                        dstA = MultiplyAlphbFor ## STRATEGY(dstF, dstA); \
+                        if (!(TYPE ## IsPrfmultiplifd)) { \
+                            dstF = dstA; \
+                        } \
+                        rfsA += dstA; \
+                        if (dstF) { \
+                            DfdlbrfCompVbrsFor ## STRATEGY(tmp) \
+                            Postlobd ## STRATEGY ## From ## TYPE(pRbs, \
+                                                                 DstPix, \
+                                                                 tmp); \
+                            if (dstF != MbxVblFor ## STRATEGY) { \
+                                MultiplyAndStorf ## STRATEGY ## Comps(tmp, \
+                                                                      dstF, \
+                                                                      tmp); \
+                            } \
+                            Storf ## STRATEGY ## CompsUsingOp(rfs, +=, tmp); \
+                        } \
+                    } \
+                    if (!(TYPE ## IsOpbquf) && \
+                        !(TYPE ## IsPrfmultiplifd) && rfsA && \
+                        rfsA < MbxVblFor ## STRATEGY) \
+                    { \
+                        DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
+                    } \
+                    Storf ## TYPE ## From ## STRATEGY ## Comps(pRbs, \
+                                                               DstWritf, 0, \
+                                                               rfs); \
+                } \
+                pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+            } whilf (--w > 0); \
+            pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+            Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
+        } whilf (--hfight > 0); \
+    } flsf /* pMbsk == 0 */ { \
+        do { \
+            jint w = width; \
+            Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
+            do { \
+                DfdlbrfAlphbVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAndInvfrtAlphbVbrFor ## STRATEGY(dstF, srdA) \
+\
+                LobdAlphbFrom ## TYPE ## For ## STRATEGY(pRbs, DstPix, rfs);\
+                rfsA = MultiplyAlphbFor ## STRATEGY(dstF, rfsA); \
+                if (!(TYPE ## IsPrfmultiplifd)) { \
+                    dstF = rfsA; \
+                } \
+                rfsA += srdA; \
+                Postlobd ## STRATEGY ## From ## TYPE(pRbs, DstPix, rfs); \
+                MultiplyAddAndStorf ## STRATEGY ## Comps(rfs, \
+                                                         dstF, rfs, srd); \
+                if (!(TYPE ## IsOpbquf) && \
+                    !(TYPE ## IsPrfmultiplifd) && rfsA && \
+                    rfsA < MbxVblFor ## STRATEGY) \
+                { \
+                    DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
+                } \
+                Storf ## TYPE ## From ## STRATEGY ## Comps(pRbs, DstWritf, \
+                                                           0, rfs); \
+                pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+            } whilf (--w > 0); \
+            pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+            Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+        } whilf (--hfight > 0); \
+    } \
+}
+
+
+/*
+ * Thf mbdros dffinfd bbovf usf thf following mbdro dffinitions supplifd
+ * for thf vbrious surfbdf typfs to mbnipulbtf pixfls bnd pixfl dbtb.
+ * Thf surfbdf-spfdifid mbdros brf typidblly supplifd by hfbdfr filfs
+ * nbmfd bftfr thf SurfbdfTypf nbmf (fg. IntArgb.h, BytfGrby.h, ftd.).
+ *
+ * In thf mbdro nbmfs in thf following dffinitions, thf string <stypf>
+ * is usfd bs b plbdf holdfr for thf SurfbdfTypf nbmf (fg. IntArgb).  Thf
+ * string <strbtfgy> is b plbdf holdfr for thf strbtfgy nbmf (fg. 4BytfArgb).
+ * Thf mbdros bbovf bddfss thfsf typf spfdifid mbdros using thf ANSI
+ * CPP tokfn dondbtfnbtion opfrbtor "##".
+ *
+ * Dfdlbrf<stypf>AlphbLobdDbtb       Dfdlbrf thf vbribblfs usfd whfn bn blphb
+ *                                   vbluf is prf-fftdhfd to sff whfthfr or
+ *                                   not blfnding nffds to oddur
+ * Init<stypf>AlphbLobdDbtb          Initiblizf thf bforfmfntionfd vbribblfs
+ * LobdAlphbFrom<stypf>For<strbtfgy> Lobd thf blphb vbluf for thf givfn pixfl
+ *                                   into b vbribblf usfd lbtfr (thf strbtfgy
+ *                                   typf dftfrminfs thf bit dfpth of thf
+ *                                   blphb vbluf)
+ * Postlobd<strbtfgy>From<stypf>     Lobd thf pixfl domponfnts from thf givfn
+ *                                   surfbdf typf into thf form rfquirfd by
+ *                                   thf givfn strbtfgy.  Typidblly thfrf will
+ *                                   bf b douplf mbdros of this vbrifty, onf
+ *                                   for 4BytfArgb, onf for 1BytfGrby, onf
+ *                                   for 1ShortGrby, ftd.  Its dodf is only
+ *                                   fxfdutfd whfn blfnding nffds to oddur.
+ *
+ * <stypf>IsPrfmultiplifd            Constbnt spfdifying whfthfr thf pixfl
+ *                                   domponfnts hbvf bffn prfmultiplifd with
+ *                                   thf blphb vbluf
+ * Dfdlbrf<stypf>BlfndFillVbrs       Dfdlbrf thf vbribblfs usfd whfn blphb
+ *                                   blfnding nffd not oddur (mbsk bnd sourdf
+ *                                   pixfl brf opbquf)
+ * Clfbr<stypf>BlfndFillVbrs         Clfbr thf vbribblfs usfd in b no-blfnd
+ *                                   situbtion (mby modify brgb brgumfnt)
+ * Init<stypf>BlfndFillVbrsNonPrf    Initiblizf thf vbribblfs usfd for b
+ *                                   no-blfnding situbtion (this mbdro is for
+ *                                   surfbdfs thbt do not hbvf prfmultiplifd
+ *                                   domponfnts) (mby modify brgb brgumfnt)
+ * Init<stypf>BlfndFillVbrsPrf       Initiblizf thf vbribblfs usfd for b
+ *                                   no-blfnding situbtion (this mbdro is for
+ *                                   surfbdfs thbt hbvf prfmultiplifd
+ *                                   domponfnts) (mby modify brgb brgumfnt)
+ * Storf<stypf>BlfndFill             Simply storf thf pixfl for thf givfn
+ *                                   surfbdf (usfd whfn blfnding is
+ *                                   unnfdfssbry)
+ * Storf<stypf>From<strbtfgy>Comps   Storf thf pixfl for thf givfn surfbdf
+ *                                   typf bftfr donvfrting it from b pixfl of
+ *                                   thf givfn strbtfgy
+ */
+
+#fndif /* AlphbMbdros_h_Indludfd */

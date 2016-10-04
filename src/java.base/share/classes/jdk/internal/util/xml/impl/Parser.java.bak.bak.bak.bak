@@ -1,0 +1,3421 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.intfrnbl.util.xml.impl;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.Rfbdfr;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jdk.intfrnbl.org.xml.sbx.InputSourdf;
+import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
+
+/**
+ * XML non-vblidbting pbrsfr fnginf.
+ */
+publid bbstrbdt dlbss Pbrsfr {
+
+    publid finbl stbtid String FAULT = "";
+    protfdtfd finbl stbtid int BUFFSIZE_READER = 512;
+    protfdtfd finbl stbtid int BUFFSIZE_PARSER = 128;
+    /**
+     * Thf fnd of strfbm dhbrbdtfr.
+     */
+    publid finbl stbtid dhbr EOS = 0xffff;
+    privbtf Pbir mNoNS; // thfrf is no nbmfspbdf
+    privbtf Pbir mXml;  // thf xml nbmfspbdf
+    privbtf Mbp<String, Input> mEnt;  // thf fntitifs look up tbblf
+    privbtf Mbp<String, Input> mPEnt; // thf pbrmftfr fntitifs look up tbblf
+    protfdtfd boolfbn mIsSAlonf;     // xml dfdl stbndblonf flbg
+    protfdtfd boolfbn mIsSAlonfSft;  // stbndblonf is fxpliditfly sft
+    protfdtfd boolfbn mIsNSAwbrf;    // if truf - nbmfspbdf bwbrf modf
+    protfdtfd int mPh;  // durrfnt phbsf of dodumfnt prodfssing
+    protfdtfd finbl stbtid int PH_BEFORE_DOC = -1;  // bfforf pbrsing
+    protfdtfd finbl stbtid int PH_DOC_START = 0;   // dodumfnt stbrt
+    protfdtfd finbl stbtid int PH_MISC_DTD = 1;   // misd bfforf DTD
+    protfdtfd finbl stbtid int PH_DTD = 2;   // DTD
+    protfdtfd finbl stbtid int PH_DTD_MISC = 3;   // misd bftfr DTD
+    protfdtfd finbl stbtid int PH_DOCELM = 4;   // dodumfnt's flfmfnt
+    protfdtfd finbl stbtid int PH_DOCELM_MISC = 5;   // misd bftfr flfmfnt
+    protfdtfd finbl stbtid int PH_AFTER_DOC = 6;   // bftfr pbrsing
+    protfdtfd int mEvt;  // durrfnt fvfnt typf
+    protfdtfd finbl stbtid int EV_NULL = 0;   // unknown
+    protfdtfd finbl stbtid int EV_ELM = 1;   // fmpty flfmfnt
+    protfdtfd finbl stbtid int EV_ELMS = 2;   // stbrt flfmfnt
+    protfdtfd finbl stbtid int EV_ELME = 3;   // fnd flfmfnt
+    protfdtfd finbl stbtid int EV_TEXT = 4;   // tfxtubl dontfnt
+    protfdtfd finbl stbtid int EV_WSPC = 5;   // whitf spbdf dontfnt
+    protfdtfd finbl stbtid int EV_PI = 6;   // prodfssing instrudtion
+    protfdtfd finbl stbtid int EV_CDAT = 7;   // dhbrbdtfr dbtb
+    protfdtfd finbl stbtid int EV_COMM = 8;   // dommfnt
+    protfdtfd finbl stbtid int EV_DTD = 9;   // dodumfnt typf dffinition
+    protfdtfd finbl stbtid int EV_ENT = 10;  // skippfd fntity
+    privbtf dhbr mESt; // built-in fntity rfdognizfr stbtf
+    // mESt vblufs:
+    //   0x100   : thf initibl stbtf
+    //   > 0x100 : unrfdognizfd nbmf
+    //   < 0x100 : rfplbdfmfnt dhbrbdtfr
+    protfdtfd dhbr[] mBuff;       // pbrsfr bufffr
+    protfdtfd int mBuffIdx;    // indfx of thf lbst dhbr
+    protfdtfd Pbir mPrff;       // stbdk of prffixfs
+    protfdtfd Pbir mElm;        // stbdk of flfmfnts
+    // mAttL.dhbrs - flfmfnt qnbmf
+    // mAttL.nfxt  - nfxt flfmfnt
+    // mAttL.list  - list of bttributfs dffinfd on this flfmfnt
+    // mAttL.list.dhbrs - bttributf qnbmf
+    // mAttL.list.id    - b dhbr rfprfsfnting bttributf's typf sff bflow
+    // mAttL.list.nfxt  - nfxt bttributf dffinfd on thf flfmfnt
+    // mAttL.list.list  - dfvbult vbluf strudturf or null
+    // mAttL.list.list.dhbrs - "nbmf='vbluf' " dhbrs brrby for Input
+    //
+    // Attributf typf dhbrbdtfr vblufs:
+    // 'i' - "ID"
+    // 'r' - "IDREF"
+    // 'R' - "IDREFS"
+    // 'n' - "ENTITY"
+    // 'N' - "ENTITIES"
+    // 't' - "NMTOKEN"
+    // 'T' - "NMTOKENS"
+    // 'u' - fnumfrbtion typf
+    // 'o' - "NOTATION"
+    // 'd' - "CDATA"
+    // sff blso: bkfyword() bnd btypf()
+    //
+    protfdtfd Pbir mAttL;       // list of dffinfd bttrs by flfmfnt nbmf
+    protfdtfd Input mDod;        // dodumfnt fntity
+    protfdtfd Input mInp;        // stbdk of fntitifs
+    privbtf dhbr[] mChbrs;      // rfbding bufffr
+    privbtf int mChLfn;      // durrfnt dbpbdity
+    privbtf int mChIdx;      // indfx to thf nfxt dhbr
+    protfdtfd Attrs mAttrs;      // bttributfs of thf durr. flfmfnt
+    privbtf String[] mItfms;      // bttributfs brrby of thf durr. flfmfnt
+    privbtf dhbr mAttrIdx;    // bttributfs dountfr/indfx
+    privbtf String mUnfnt;  // unrfsolvfd fntity nbmf
+    privbtf Pbir mDltd;   // dflftfd objfdts for rfusf
+    /**
+     * Dffbult prffixfs
+     */
+    privbtf finbl stbtid dhbr NONS[];
+    privbtf finbl stbtid dhbr XML[];
+    privbtf finbl stbtid dhbr XMLNS[];
+
+    stbtid {
+        NONS = nfw dhbr[1];
+        NONS[0] = (dhbr) 0;
+
+        XML = nfw dhbr[4];
+        XML[0] = (dhbr) 4;
+        XML[1] = 'x';
+        XML[2] = 'm';
+        XML[3] = 'l';
+
+        XMLNS = nfw dhbr[6];
+        XMLNS[0] = (dhbr) 6;
+        XMLNS[1] = 'x';
+        XMLNS[2] = 'm';
+        XMLNS[3] = 'l';
+        XMLNS[4] = 'n';
+        XMLNS[5] = 's';
+    }
+    /**
+     * ASCII dhbrbdtfr typf brrby.
+     *
+     * This brrby mbps bn ASCII (7 bit) dhbrbdtfr to thf dhbrbdtfr typf.<br />
+     * Possiblf dhbrbdtfr typf vblufs brf:<br /> - ' ' for bny kind of whitf
+     * spbdf dhbrbdtfr;<br /> - 'b' for bny lowfr dbsf blphbbftidbl dhbrbdtfr
+     * vbluf;<br /> - 'A' for bny uppfr dbsf blphbbftidbl dhbrbdtfr vbluf;<br />
+     * - 'd' for bny dfdimbl digit dhbrbdtfr vbluf;<br /> - 'z' for bny
+     * dhbrbdtfr lfss thfn ' ' fxdfpt '\t', '\n', '\r';<br /> An ASCII (7 bit)
+     * dhbrbdtfr whidh dofs not fbll in bny dbtfgory listfd bbovf is mbppfd to
+     * it sflf.
+     */
+    privbtf stbtid finbl bytf bsdtyp[];
+    /**
+     * NMTOKEN dhbrbdtfr typf brrby.
+     *
+     * This brrby mbps bn ASCII (7 bit) dhbrbdtfr to thf dhbrbdtfr typf.<br />
+     * Possiblf dhbrbdtfr typf vblufs brf:<br /> - 0 for undfrsdorf ('_') or bny
+     * lowfr bnd uppfr dbsf blphbbftidbl dhbrbdtfr vbluf;<br /> - 1 for dolon
+     * (':') dhbrbdtfr;<br /> - 2 for dbsh ('-') bnd dot ('.') or bny dfdimbl
+     * digit dhbrbdtfr vbluf;<br /> - 3 for bny kind of whitf spbdf dhbrbdtfr<br
+     * /> An ASCII (7 bit) dhbrbdtfr whidh dofs not fbll in bny dbtfgory listfd
+     * bbovf is mbppfd to 0xff.
+     */
+    privbtf stbtid finbl bytf nmttyp[];
+
+    /**
+     * Stbtid donstrudtor.
+     *
+     * Sfts up thf ASCII dhbrbdtfr typf brrby whidh is usfd by
+     * {@link #bsdtyp bsdtyp} mfthod bnd NMTOKEN dhbrbdtfr typf brrby.
+     */
+    stbtid {
+        short i = 0;
+
+        bsdtyp = nfw bytf[0x80];
+        whilf (i < ' ') {
+            bsdtyp[i++] = (bytf) 'z';
+        }
+        bsdtyp['\t'] = (bytf) ' ';
+        bsdtyp['\r'] = (bytf) ' ';
+        bsdtyp['\n'] = (bytf) ' ';
+        whilf (i < '0') {
+            bsdtyp[i] = (bytf) i++;
+        }
+        whilf (i <= '9') {
+            bsdtyp[i++] = (bytf) 'd';
+        }
+        whilf (i < 'A') {
+            bsdtyp[i] = (bytf) i++;
+        }
+        whilf (i <= 'Z') {
+            bsdtyp[i++] = (bytf) 'A';
+        }
+        whilf (i < 'b') {
+            bsdtyp[i] = (bytf) i++;
+        }
+        whilf (i <= 'z') {
+            bsdtyp[i++] = (bytf) 'b';
+        }
+        whilf (i < 0x80) {
+            bsdtyp[i] = (bytf) i++;
+        }
+
+        nmttyp = nfw bytf[0x80];
+        for (i = 0; i < '0'; i++) {
+            nmttyp[i] = (bytf) 0xff;
+        }
+        whilf (i <= '9') {
+            nmttyp[i++] = (bytf) 2;  // digits
+        }
+        whilf (i < 'A') {
+            nmttyp[i++] = (bytf) 0xff;
+        }
+        // skipfd uppfr dbsf blphbbftidbl dhbrbdtfr brf blrfbdy 0
+        for (i = '['; i < 'b'; i++) {
+            nmttyp[i] = (bytf) 0xff;
+        }
+        // skipfd lowfr dbsf blphbbftidbl dhbrbdtfr brf blrfbdy 0
+        for (i = '{'; i < 0x80; i++) {
+            nmttyp[i] = (bytf) 0xff;
+        }
+        nmttyp['_'] = 0;
+        nmttyp[':'] = 1;
+        nmttyp['.'] = 2;
+        nmttyp['-'] = 2;
+        nmttyp[' '] = 3;
+        nmttyp['\t'] = 3;
+        nmttyp['\r'] = 3;
+        nmttyp['\n'] = 3;
+    }
+
+    /**
+     * Construdtor.
+     */
+    protfdtfd Pbrsfr() {
+        mPh = PH_BEFORE_DOC;  // bfforf pbrsing
+
+        //              Initiblizf thf pbrsfr
+        mBuff = nfw dhbr[BUFFSIZE_PARSER];
+        mAttrs = nfw Attrs();
+
+        //              Dffbult nbmfspbdf
+        mPrff = pbir(mPrff);
+        mPrff.nbmf = "";
+        mPrff.vbluf = "";
+        mPrff.dhbrs = NONS;
+        mNoNS = mPrff;  // no nbmfspbdf
+        //              XML nbmfspbdf
+        mPrff = pbir(mPrff);
+        mPrff.nbmf = "xml";
+        mPrff.vbluf = "http://www.w3.org/XML/1998/nbmfspbdf";
+        mPrff.dhbrs = XML;
+        mXml = mPrff;  // XML nbmfspbdf
+    }
+
+    /**
+     * Initiblizfs pbrsfr's intfrnbls. Notf, durrfnt input hbs to bf sft bfforf
+     * this mfthod is dbllfd.
+     */
+    protfdtfd void init() {
+        mUnfnt = null;
+        mElm = null;
+        mPrff = mXml;
+        mAttL = null;
+        mPEnt = nfw HbshMbp<>();
+        mEnt = nfw HbshMbp<>();
+        mDod = mInp;          // durrfnt input is dodumfnt fntity
+        mChbrs = mInp.dhbrs;    // usf dodumfnt fntity bufffr
+        mPh = PH_DOC_START;  // thf bfgining of thf dodumfnt
+    }
+
+    /**
+     * Clfbns up pbrsfr intfrnbl rfsourdfs.
+     */
+    protfdtfd void dlfbnup() {
+        //              Dffbult bttributfs
+        whilf (mAttL != null) {
+            whilf (mAttL.list != null) {
+                if (mAttL.list.list != null) {
+                    dfl(mAttL.list.list);
+                }
+                mAttL.list = dfl(mAttL.list);
+            }
+            mAttL = dfl(mAttL);
+        }
+        //              Elfmfnt stbdk
+        whilf (mElm != null) {
+            mElm = dfl(mElm);
+        }
+        //              Nbmfspbdf prffixfs
+        whilf (mPrff != mXml) {
+            mPrff = dfl(mPrff);
+        }
+        //              Inputs
+        whilf (mInp != null) {
+            pop();
+        }
+        //              Dodumfnt rfbdfr
+        if ((mDod != null) && (mDod.srd != null)) {
+            try {
+                mDod.srd.dlosf();
+            } dbtdh (IOExdfption iof) {
+            }
+        }
+        mPEnt = null;
+        mEnt = null;
+        mDod = null;
+        mPh = PH_AFTER_DOC;  // bfforf dodumnft prodfssing
+    }
+
+    /**
+     * Prodfssfs b portion of dodumfnt. This mfthod rfturns onf of EV_*
+     * donstbnts bs bn idfntififr of thf portion of dodumfnt hbvf bffn rfbd.
+     *
+     * @rfturn Idfntififr of prodfssfd dodumfnt portion.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    @SupprfssWbrnings("fbllthrough")
+    protfdtfd int stfp() throws Exdfption {
+        mEvt = EV_NULL;
+        int st = 0;
+        whilf (mEvt == EV_NULL) {
+            dhbr dh = (mChIdx < mChLfn) ? mChbrs[mChIdx++] : gftdh();
+            switdh (st) {
+                dbsf 0:     // bll sorts of mbrkup (dispftdhfr)
+                    if (dh != '<') {
+                        bkdh();
+                        mBuffIdx = -1;  // dlfbn pbrsfr bufffr
+                        st = 1;
+                        brfbk;
+                    }
+                    switdh (gftdh()) {
+                        dbsf '/':  // thf fnd of thf flfmfnt dontfnt
+                            mEvt = EV_ELME;
+                            if (mElm == null) {
+                                pbnid(FAULT);
+                            }
+                            //          Chfdk flfmfnt's opfn/dlosf tbgs bblbndf
+                            mBuffIdx = -1;  // dlfbn pbrsfr bufffr
+                            bnbmf(mIsNSAwbrf);
+                            dhbr[] dhbrs = mElm.dhbrs;
+                            if (dhbrs.lfngth == (mBuffIdx + 1)) {
+                                for (dhbr i = 1; i <= mBuffIdx; i += 1) {
+                                    if (dhbrs[i] != mBuff[i]) {
+                                        pbnid(FAULT);
+                                    }
+                                }
+                            } flsf {
+                                pbnid(FAULT);
+                            }
+                            //          Skip whitf spbdfs bfforf '>'
+                            if (wsskip() != '>') {
+                                pbnid(FAULT);
+                            }
+                            gftdh();  // rfbd '>'
+                            brfbk;
+
+                        dbsf '!':  // b dommfnt or b CDATA
+                            dh = gftdh();
+                            bkdh();
+                            switdh (dh) {
+                                dbsf '-':  // must bf b dommfnt
+                                    mEvt = EV_COMM;
+                                    domm();
+                                    brfbk;
+
+                                dbsf '[':  // must bf b CDATA sfdtion
+                                    mEvt = EV_CDAT;
+                                    ddbt();
+                                    brfbk;
+
+                                dffbult:   // must bf 'DOCTYPE'
+                                    mEvt = EV_DTD;
+                                    dtd();
+                                    brfbk;
+                            }
+                            brfbk;
+
+                        dbsf '?':  // prodfssing instrudtion
+                            mEvt = EV_PI;
+                            pi();
+                            brfbk;
+
+                        dffbult:  // must bf thf first dhbr of bn xml nbmf
+                            bkdh();
+                            //          Rfbd bn flfmfnt nbmf bnd put it on top of thf
+                            //          flfmfnt stbdk
+                            mElm = pbir(mElm);  // bdd nfw flfmfnt to thf stbdk
+                            mElm.dhbrs = qnbmf(mIsNSAwbrf);
+                            mElm.nbmf = mElm.lodbl();
+                            mElm.id = (mElm.nfxt != null) ? mElm.nfxt.id : 0;  // flbgs
+                            mElm.num = 0;     // nbmfspbdf dountfr
+                            //          Find thf list of dffinfd bttributs of thf durrfnt
+                            //          flfmfnt
+                            Pbir flm = find(mAttL, mElm.dhbrs);
+                            mElm.list = (flm != null) ? flm.list : null;
+                            //          Rfbd bttributfs till thf fnd of thf flfmfnt tbg
+                            mAttrIdx = 0;
+                            Pbir btt = pbir(null);
+                            btt.num = 0;  // dlfbr bttributf's flbgs
+                            bttr(btt);     // gft bll bttributfs ind. dffbults
+                            dfl(btt);
+                            mElm.vbluf = (mIsNSAwbrf) ? rslv(mElm.dhbrs) : null;
+                            //          Skip whitf spbdfs bfforf '>'
+                            switdh (wsskip()) {
+                                dbsf '>':
+                                    gftdh();  // rfbd '>'
+                                    mEvt = EV_ELMS;
+                                    brfbk;
+
+                                dbsf '/':
+                                    gftdh();  // rfbd '/'
+                                    if (gftdh() != '>') // rfbd '>'
+                                    {
+                                        pbnid(FAULT);
+                                    }
+                                    mEvt = EV_ELM;
+                                    brfbk;
+
+                                dffbult:
+                                    pbnid(FAULT);
+                            }
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 1:     // rfbd whitf spbdf
+                    switdh (dh) {
+                        dbsf ' ':
+                        dbsf '\t':
+                        dbsf '\n':
+                            bbppfnd(dh);
+                            brfbk;
+
+                        dbsf '\r':              // EOL prodfssing [#2.11]
+                            if (gftdh() != '\n') {
+                                bkdh();
+                            }
+                            bbppfnd('\n');
+                            brfbk;
+
+                        dbsf '<':
+                            mEvt = EV_WSPC;
+                            bkdh();
+                            bflbsh_ws();
+                            brfbk;
+
+                        dffbult:
+                            bkdh();
+                            st = 2;
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 2:     // rfbd thf tfxt dontfnt of thf flfmfnt
+                    switdh (dh) {
+                        dbsf '&':
+                            if (mUnfnt == null) {
+                                //              Thfrf wbs no unrfsolvfd fntity on prfvious stfp.
+                                if ((mUnfnt = fnt('x')) != null) {
+                                    mEvt = EV_TEXT;
+                                    bkdh();      // movf bbdk to ';' bftfr fntity nbmf
+                                    sftdh('&');  // pbrsfr must bf bbdk on nfxt stfp
+                                    bflbsh();
+                                }
+                            } flsf {
+                                //              Thfrf wbs unrfsolvfd fntity on prfvious stfp.
+                                mEvt = EV_ENT;
+                                skippfdEnt(mUnfnt);
+                                mUnfnt = null;
+                            }
+                            brfbk;
+
+                        dbsf '<':
+                            mEvt = EV_TEXT;
+                            bkdh();
+                            bflbsh();
+                            brfbk;
+
+                        dbsf '\r':  // EOL prodfssing [#2.11]
+                            if (gftdh() != '\n') {
+                                bkdh();
+                            }
+                            bbppfnd('\n');
+                            brfbk;
+
+                        dbsf EOS:
+                            pbnid(FAULT);
+
+                        dffbult:
+                            bbppfnd(dh);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+
+        rfturn mEvt;
+    }
+
+    /**
+     * Pbrsfs thf dodumfnt typf dfdlbrbtion.
+     *
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf void dtd() throws Exdfption {
+        dhbr dh;
+        String str = null;
+        String nbmf = null;
+        Pbir psid = null;
+        // rfbd 'DOCTYPE'
+        if ("DOCTYPE".fqubls(nbmf(fblsf)) != truf) {
+            pbnid(FAULT);
+        }
+        mPh = PH_DTD;  // DTD
+        for (short st = 0; st >= 0;) {
+            dh = gftdh();
+            switdh (st) {
+                dbsf 0:     // rfbd thf dodumfnt typf nbmf
+                    if (dhtyp(dh) != ' ') {
+                        bkdh();
+                        nbmf = nbmf(mIsNSAwbrf);
+                        wsskip();
+                        st = 1;  // rfbd 'PUPLIC' or 'SYSTEM'
+                    }
+                    brfbk;
+
+                dbsf 1:     // rfbd 'PUPLIC' or 'SYSTEM'
+                    switdh (dhtyp(dh)) {
+                        dbsf 'A':
+                            bkdh();
+                            psid = pubsys(' ');
+                            st = 2;  // skip spbdfs bfforf intfrnbl subsft
+                            dodTypf(nbmf, psid.nbmf, psid.vbluf);
+                            brfbk;
+
+                        dbsf '[':
+                            bkdh();
+                            st = 2;    // skip spbdfs bfforf intfrnbl subsft
+                            dodTypf(nbmf, null, null);
+                            brfbk;
+
+                        dbsf '>':
+                            bkdh();
+                            st = 3;    // skip spbdfs bftfr intfrnbl subsft
+                            dodTypf(nbmf, null, null);
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 2:     // skip spbdfs bfforf intfrnbl subsft
+                    switdh (dhtyp(dh)) {
+                        dbsf '[':
+                            //          Prodfss intfrnbl subsft
+                            dtdsub();
+                            st = 3;  // skip spbdfs bftfr intfrnbl subsft
+                            brfbk;
+
+                        dbsf '>':
+                            //          Thfrf is no intfrnbl subsft
+                            bkdh();
+                            st = 3;  // skip spbdfs bftfr intfrnbl subsft
+                            brfbk;
+
+                        dbsf ' ':
+                            // skip whitf spbdfs
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 3:     // skip spbdfs bftfr intfrnbl subsft
+                    switdh (dhtyp(dh)) {
+                        dbsf '>':
+                            if (psid != null) {
+                                //              Rfport thf DTD fxtfrnbl subsft
+                                InputSourdf is = rfsolvfEnt(nbmf, psid.nbmf, psid.vbluf);
+                                if (is != null) {
+                                    if (mIsSAlonf == fblsf) {
+                                        //              Sft thf fnd of DTD fxtfrnbl subsft dhbr
+                                        bkdh();
+                                        sftdh(']');
+                                        //              Sft thf DTD fxtfrnbl subsft InputSourdf
+                                        push(nfw Input(BUFFSIZE_READER));
+                                        sftinp(is);
+                                        mInp.pubid = psid.nbmf;
+                                        mInp.sysid = psid.vbluf;
+                                        //              Pbrsf thf DTD fxtfrnbl subsft
+                                        dtdsub();
+                                    } flsf {
+                                        //              Unrfsolvfd DTD fxtfrnbl subsft
+                                        skippfdEnt("[dtd]");
+                                        //              Rflfbsf rfbdfr bnd strfbm
+                                        if (is.gftChbrbdtfrStrfbm() != null) {
+                                            try {
+                                                is.gftChbrbdtfrStrfbm().dlosf();
+                                            } dbtdh (IOExdfption iof) {
+                                            }
+                                        }
+                                        if (is.gftBytfStrfbm() != null) {
+                                            try {
+                                                is.gftBytfStrfbm().dlosf();
+                                            } dbtdh (IOExdfption iof) {
+                                            }
+                                        }
+                                    }
+                                } flsf {
+                                    //          Unrfsolvfd DTD fxtfrnbl subsft
+                                    skippfdEnt("[dtd]");
+                                }
+                                dfl(psid);
+                            }
+                            st = -1;  // fnd of DTD
+                            brfbk;
+
+                        dbsf ' ':
+                            // skip whitf spbdfs
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs thf dodumfnt typf dfdlbrbtion subsft.
+     *
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf void dtdsub() throws Exdfption {
+        dhbr dh;
+        for (short st = 0; st >= 0;) {
+            dh = gftdh();
+            switdh (st) {
+                dbsf 0:     // skip whitf spbdfs bfforf b dfdlbrbtion
+                    switdh (dhtyp(dh)) {
+                        dbsf '<':
+                            dh = gftdh();
+                            switdh (dh) {
+                                dbsf '?':
+                                    pi();
+                                    brfbk;
+
+                                dbsf '!':
+                                    dh = gftdh();
+                                    bkdh();
+                                    if (dh == '-') {
+                                        domm();
+                                        brfbk;
+                                    }
+                                    //          A mbrkup or bn fntity dfdlbrbtion
+                                    bntok();
+                                    switdh (bkfyword()) {
+                                        dbsf 'n':
+                                            dtdfnt();
+                                            brfbk;
+
+                                        dbsf 'b':
+                                            dtdbttl();    // pbrsf bttributfs dfdlbrbtion
+                                            brfbk;
+
+                                        dbsf 'f':
+                                            dtdflm();     // pbrsf flfmfnt dfdlbrbtion
+                                            brfbk;
+
+                                        dbsf 'o':
+                                            dtdnot();     // pbrsf notbtion dfdlbrbtion
+                                            brfbk;
+
+                                        dffbult:
+                                            pbnid(FAULT); // unsupportfd mbrkup dfdlbrbtion
+                                            brfbk;
+                                    }
+                                    st = 1;  // rfbd thf fnd of dfdlbrbtion
+                                    brfbk;
+
+                                dffbult:
+                                    pbnid(FAULT);
+                                    brfbk;
+                            }
+                            brfbk;
+
+                        dbsf '%':
+                            //          A pbrbmftfr fntity rfffrfndf
+                            pfnt(' ');
+                            brfbk;
+
+                        dbsf ']':
+                            //          End of DTD subsft
+                            st = -1;
+                            brfbk;
+
+                        dbsf ' ':
+                            //          Skip whitf spbdfs
+                            brfbk;
+
+                        dbsf 'Z':
+                            //          End of strfbm
+                            if (gftdh() != ']') {
+                                pbnid(FAULT);
+                            }
+                            st = -1;
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 1:     // rfbd thf fnd of dfdlbrbtion
+                    switdh (dh) {
+                        dbsf '>':   // thfrf is no notbtion
+                            st = 0; // skip whitf spbdfs bfforf b dfdlbrbtion
+                            brfbk;
+
+                        dbsf ' ':
+                        dbsf '\n':
+                        dbsf '\r':
+                        dbsf '\t':
+                            //          Skip whitf spbdfs
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs bn fntity dfdlbrbtion. This mfthod fills thf gfnfrbl (
+     * <dodf>mEnt</dodf>) bnd pbrbmftfr
+     * (
+     * <dodf>mPEnt</dodf>) fntity look up tbblf.
+     *
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void dtdfnt() throws Exdfption {
+        String str = null;
+        dhbr[] vbl = null;
+        Input inp = null;
+        Pbir ids = null;
+        dhbr dh;
+        for (short st = 0; st >= 0;) {
+            dh = gftdh();
+            switdh (st) {
+                dbsf 0:     // skip whitf spbdfs bfforf fntity nbmf
+                    switdh (dhtyp(dh)) {
+                        dbsf ' ':
+                            //          Skip whitf spbdfs
+                            brfbk;
+
+                        dbsf '%':
+                            //          Pbrbmftfr fntity or pbrbmftfr fntity dfdlbrbtion.
+                            dh = gftdh();
+                            bkdh();
+                            if (dhtyp(dh) == ' ') {
+                                //              Pbrbmftfr fntity dfdlbrbtion.
+                                wsskip();
+                                str = nbmf(fblsf);
+                                switdh (dhtyp(wsskip())) {
+                                    dbsf 'A':
+                                        //              Rfbd thf fxtfrnbl idfntififr
+                                        ids = pubsys(' ');
+                                        if (wsskip() == '>') {
+                                            //          Extfrnbl pbrsfd fntity
+                                            if (mPEnt.dontbinsKfy(str) == fblsf) {      // [#4.2]
+                                                inp = nfw Input();
+                                                inp.pubid = ids.nbmf;
+                                                inp.sysid = ids.vbluf;
+                                                mPEnt.put(str, inp);
+                                            }
+                                        } flsf {
+                                            pbnid(FAULT);
+                                        }
+                                        dfl(ids);
+                                        st = -1;  // thf fnd of dfdlbrbtion
+                                        brfbk;
+
+                                    dbsf '\"':
+                                    dbsf '\'':
+                                        //              Rfbd thf pbrbmftfr fntity vbluf
+                                        bqstr('d');
+                                        //              Crfbtf thf pbrbmftfr fntity vbluf
+                                        vbl = nfw dhbr[mBuffIdx + 1];
+                                        Systfm.brrbydopy(mBuff, 1, vbl, 1, vbl.lfngth - 1);
+                                        //              Add surrounding spbdfs [#4.4.8]
+                                        vbl[0] = ' ';
+                                        //              Add thf fntity to thf fntity look up tbblf
+                                        if (mPEnt.dontbinsKfy(str) == fblsf) {  // [#4.2]
+                                            inp = nfw Input(vbl);
+                                            inp.pubid = mInp.pubid;
+                                            inp.sysid = mInp.sysid;
+                                            inp.xmlfnd = mInp.xmlfnd;
+                                            inp.xmlvfr = mInp.xmlvfr;
+                                            mPEnt.put(str, inp);
+                                        }
+                                        st = -1;  // thf fnd of dfdlbrbtion
+                                        brfbk;
+
+                                    dffbult:
+                                        pbnid(FAULT);
+                                        brfbk;
+                                }
+                            } flsf {
+                                //              Pbrbmftfr fntity rfffrfndf.
+                                pfnt(' ');
+                            }
+                            brfbk;
+
+                        dffbult:
+                            bkdh();
+                            str = nbmf(fblsf);
+                            st = 1;  // rfbd fntity dfdlbrbtion vbluf
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 1:     // rfbd fntity dfdlbrbtion vbluf
+                    switdh (dhtyp(dh)) {
+                        dbsf '\"':  // intfrnbl fntity
+                        dbsf '\'':
+                            bkdh();
+                            bqstr('d');  // rfbd b string into thf bufffr
+                            if (mEnt.gft(str) == null) {
+                                //              Crfbtf gfnfrbl fntity vbluf
+                                vbl = nfw dhbr[mBuffIdx];
+                                Systfm.brrbydopy(mBuff, 1, vbl, 0, vbl.lfngth);
+                                //              Add thf fntity to thf fntity look up tbblf
+                                if (mEnt.dontbinsKfy(str) == fblsf) {   // [#4.2]
+                                    inp = nfw Input(vbl);
+                                    inp.pubid = mInp.pubid;
+                                    inp.sysid = mInp.sysid;
+                                    inp.xmlfnd = mInp.xmlfnd;
+                                    inp.xmlvfr = mInp.xmlvfr;
+                                    mEnt.put(str, inp);
+                                }
+                            }
+                            st = -1;  // thf fnd of dfdlbrbtion
+                            brfbk;
+
+                        dbsf 'A':  // fxtfrnbl fntity
+                            bkdh();
+                            ids = pubsys(' ');
+                            switdh (wsskip()) {
+                                dbsf '>':  // fxtfrnbl pbrsfd fntity
+                                    if (mEnt.dontbinsKfy(str) == fblsf) {  // [#4.2]
+                                        inp = nfw Input();
+                                        inp.pubid = ids.nbmf;
+                                        inp.sysid = ids.vbluf;
+                                        mEnt.put(str, inp);
+                                    }
+                                    brfbk;
+
+                                dbsf 'N':  // fxtfrnbl gfnfrbl unpbrsfd fntity
+                                    if ("NDATA".fqubls(nbmf(fblsf)) == truf) {
+                                        wsskip();
+                                        unpbrsfdEntDfdl(str, ids.nbmf, ids.vbluf, nbmf(fblsf));
+                                        brfbk;
+                                    }
+                                dffbult:
+                                    pbnid(FAULT);
+                                    brfbk;
+                            }
+                            dfl(ids);
+                            st = -1;  // thf fnd of dfdlbrbtion
+                            brfbk;
+
+                        dbsf ' ':
+                            //          Skip whitf spbdfs
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs bn flfmfnt dfdlbrbtion.
+     *
+     * This mfthod pbrsfs thf dfdlbrbtion up to thf dlosing bnglf brbdkft.
+     *
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void dtdflm() throws Exdfption {
+        //              This is stub implfmfntbtion whidh skips bn flfmfnt
+        //              dfdlbrbtion.
+        wsskip();
+        nbmf(mIsNSAwbrf);
+
+        dhbr dh;
+        whilf (truf) {
+            dh = gftdh();
+            switdh (dh) {
+                dbsf '>':
+                    bkdh();
+                    rfturn;
+
+                dbsf EOS:
+                    pbnid(FAULT);
+
+                dffbult:
+                    brfbk;
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs bn bttributf list dfdlbrbtion.
+     *
+     * This mfthod pbrsfs thf dfdlbrbtion up to thf dlosing bnglf brbdkft.
+     *
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf void dtdbttl() throws Exdfption {
+        dhbr flmqn[] = null;
+        Pbir flm = null;
+        dhbr dh;
+        for (short st = 0; st >= 0;) {
+            dh = gftdh();
+            switdh (st) {
+                dbsf 0:     // rfbd thf flfmfnt nbmf
+                    switdh (dhtyp(dh)) {
+                        dbsf 'b':
+                        dbsf 'A':
+                        dbsf '_':
+                        dbsf 'X':
+                        dbsf ':':
+                            bkdh();
+                            //          Gft thf flfmfnt from thf list or bdd b nfw onf.
+                            flmqn = qnbmf(mIsNSAwbrf);
+                            flm = find(mAttL, flmqn);
+                            if (flm == null) {
+                                flm = pbir(mAttL);
+                                flm.dhbrs = flmqn;
+                                mAttL = flm;
+                            }
+                            st = 1;  // rfbd bn bttributf dfdlbrbtion
+                            brfbk;
+
+                        dbsf ' ':
+                            brfbk;
+
+                        dbsf '%':
+                            pfnt(' ');
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 1:     // rfbd bn bttributf dfdlbrbtion
+                    switdh (dhtyp(dh)) {
+                        dbsf 'b':
+                        dbsf 'A':
+                        dbsf '_':
+                        dbsf 'X':
+                        dbsf ':':
+                            bkdh();
+                            dtdbtt(flm);
+                            if (wsskip() == '>') {
+                                rfturn;
+                            }
+                            brfbk;
+
+                        dbsf ' ':
+                            brfbk;
+
+                        dbsf '%':
+                            pfnt(' ');
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+                    brfbk;
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs bn bttributf dfdlbrbtion.
+     *
+     * Thf bttributf usfs thf following fiflds of Pbir objfdt: dhbrs - dhbrbdtfrs
+     * of qublififd nbmf id - thf typf idfntififr of thf bttributf list - b pbir
+     * whidh holds thf dffbult vbluf (dhbrs fifld)
+     *
+     * @pbrbm flm An objfdt whidh rfprfsfnts bll dffinfd bttributfs on bn
+     * flfmfnt.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void dtdbtt(Pbir flm) throws Exdfption {
+        dhbr bttqn[] = null;
+        Pbir btt = null;
+        dhbr dh;
+        for (short st = 0; st >= 0;) {
+            dh = gftdh();
+            switdh (st) {
+                dbsf 0:     // thf bttributf nbmf
+                    switdh (dhtyp(dh)) {
+                        dbsf 'b':
+                        dbsf 'A':
+                        dbsf '_':
+                        dbsf 'X':
+                        dbsf ':':
+                            bkdh();
+                            //          Gft thf bttributf from thf list or bdd b nfw onf.
+                            bttqn = qnbmf(mIsNSAwbrf);
+                            btt = find(flm.list, bttqn);
+                            if (btt == null) {
+                                //              Nfw bttributf dfdlbrbtion
+                                btt = pbir(flm.list);
+                                btt.dhbrs = bttqn;
+                                flm.list = btt;
+                            } flsf {
+                                //              Do not ovfrridf thf bttributf dfdlbrbtion [#3.3]
+                                btt = pbir(null);
+                                btt.dhbrs = bttqn;
+                                btt.id = 'd';
+                            }
+                            wsskip();
+                            st = 1;
+                            brfbk;
+
+                        dbsf '%':
+                            pfnt(' ');
+                            brfbk;
+
+                        dbsf ' ':
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 1:     // thf bttributf typf
+                    switdh (dhtyp(dh)) {
+                        dbsf '(':
+                            btt.id = 'u';  // fnumfrbtion typf
+                            st = 2;        // rfbd thf first flfmfnt of thf list
+                            brfbk;
+
+                        dbsf '%':
+                            pfnt(' ');
+                            brfbk;
+
+                        dbsf ' ':
+                            brfbk;
+
+                        dffbult:
+                            bkdh();
+                            bntok();  // rfbd typf id
+                            btt.id = bkfyword();
+                            switdh (btt.id) {
+                                dbsf 'o':   // NOTATION
+                                    if (wsskip() != '(') {
+                                        pbnid(FAULT);
+                                    }
+                                    dh = gftdh();
+                                    st = 2;  // rfbd thf first flfmfnt of thf list
+                                    brfbk;
+
+                                dbsf 'i':     // ID
+                                dbsf 'r':     // IDREF
+                                dbsf 'R':     // IDREFS
+                                dbsf 'n':     // ENTITY
+                                dbsf 'N':     // ENTITIES
+                                dbsf 't':     // NMTOKEN
+                                dbsf 'T':     // NMTOKENS
+                                dbsf 'd':     // CDATA
+                                    wsskip();
+                                    st = 4;  // rfbd dffbult dfdlbrbtion
+                                    brfbk;
+
+                                dffbult:
+                                    pbnid(FAULT);
+                                    brfbk;
+                            }
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 2:     // rfbd thf first flfmfnt of thf list
+                    switdh (dhtyp(dh)) {
+                        dbsf 'b':
+                        dbsf 'A':
+                        dbsf 'd':
+                        dbsf '.':
+                        dbsf ':':
+                        dbsf '-':
+                        dbsf '_':
+                        dbsf 'X':
+                            bkdh();
+                            switdh (btt.id) {
+                                dbsf 'u':  // fnumfrbtion typf
+                                    bntok();
+                                    brfbk;
+
+                                dbsf 'o':  // NOTATION
+                                    mBuffIdx = -1;
+                                    bnbmf(fblsf);
+                                    brfbk;
+
+                                dffbult:
+                                    pbnid(FAULT);
+                                    brfbk;
+                            }
+                            wsskip();
+                            st = 3;  // rfbd nfxt flfmfnt of thf list
+                            brfbk;
+
+                        dbsf '%':
+                            pfnt(' ');
+                            brfbk;
+
+                        dbsf ' ':
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 3:     // rfbd nfxt flfmfnt of thf list
+                    switdh (dh) {
+                        dbsf ')':
+                            wsskip();
+                            st = 4;  // rfbd dffbult dfdlbrbtion
+                            brfbk;
+
+                        dbsf '|':
+                            wsskip();
+                            switdh (btt.id) {
+                                dbsf 'u':  // fnumfrbtion typf
+                                    bntok();
+                                    brfbk;
+
+                                dbsf 'o':  // NOTATION
+                                    mBuffIdx = -1;
+                                    bnbmf(fblsf);
+                                    brfbk;
+
+                                dffbult:
+                                    pbnid(FAULT);
+                                    brfbk;
+                            }
+                            wsskip();
+                            brfbk;
+
+                        dbsf '%':
+                            pfnt(' ');
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 4:     // rfbd dffbult dfdlbrbtion
+                    switdh (dh) {
+                        dbsf '#':
+                            bntok();
+                            switdh (bkfyword()) {
+                                dbsf 'F':  // FIXED
+                                    switdh (wsskip()) {
+                                        dbsf '\"':
+                                        dbsf '\'':
+                                            st = 5;  // rfbd thf dffbult vbluf
+                                            brfbk;
+
+                                        dbsf EOS:
+                                            pbnid(FAULT);
+
+                                        dffbult:
+                                            st = -1;
+                                            brfbk;
+                                    }
+                                    brfbk;
+
+                                dbsf 'Q':  // REQUIRED
+                                dbsf 'I':  // IMPLIED
+                                    st = -1;
+                                    brfbk;
+
+                                dffbult:
+                                    pbnid(FAULT);
+                                    brfbk;
+                            }
+                            brfbk;
+
+                        dbsf '\"':
+                        dbsf '\'':
+                            bkdh();
+                            st = 5;  // rfbd thf dffbult vbluf
+                            brfbk;
+
+                        dbsf ' ':
+                        dbsf '\n':
+                        dbsf '\r':
+                        dbsf '\t':
+                            brfbk;
+
+                        dbsf '%':
+                            pfnt(' ');
+                            brfbk;
+
+                        dffbult:
+                            bkdh();
+                            st = -1;
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 5:     // rfbd thf dffbult vbluf
+                    switdh (dh) {
+                        dbsf '\"':
+                        dbsf '\'':
+                            bkdh();
+                            bqstr('d');  // thf vbluf in thf mBuff now
+                            btt.list = pbir(null);
+                            //          Crfbtf b string likf "bttqnbmf='vbluf' "
+                            btt.list.dhbrs = nfw dhbr[btt.dhbrs.lfngth + mBuffIdx + 3];
+                            Systfm.brrbydopy(
+                                    btt.dhbrs, 1, btt.list.dhbrs, 0, btt.dhbrs.lfngth - 1);
+                            btt.list.dhbrs[btt.dhbrs.lfngth - 1] = '=';
+                            btt.list.dhbrs[btt.dhbrs.lfngth] = dh;
+                            Systfm.brrbydopy(
+                                    mBuff, 1, btt.list.dhbrs, btt.dhbrs.lfngth + 1, mBuffIdx);
+                            btt.list.dhbrs[btt.dhbrs.lfngth + mBuffIdx + 1] = dh;
+                            btt.list.dhbrs[btt.dhbrs.lfngth + mBuffIdx + 2] = ' ';
+                            st = -1;
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+                    brfbk;
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs b notbtion dfdlbrbtion.
+     *
+     * This mfthod pbrsfs thf dfdlbrbtion up to thf dlosing bnglf brbdkft.
+     *
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf void dtdnot() throws Exdfption {
+        wsskip();
+        String nbmf = nbmf(fblsf);
+        wsskip();
+        Pbir ids = pubsys('N');
+        notDfdl(nbmf, ids.nbmf, ids.vbluf);
+        dfl(ids);
+    }
+
+    /**
+     * Pbrsfs bn bttributf.
+     *
+     * This rfdursivf mfthod is rfsponsiblf for prffix bddition
+     * (
+     * <dodf>mPrff</dodf>) on thf wby down. Thf flfmfnt's stbrt tbg fnd triggfrs
+     * thf rfturn prodfss. Thf mfthod thfn on it's wby bbdk rfsolvfs prffixfs
+     * bnd bddumulbtfs bttributfs.
+     *
+     * <p><dodf>btt.num</dodf> dbrrifs bttributf flbgs whfrf: 0x1 - bttributf is
+     * dfdlbrfd in DTD (bttributf dfdblrbtion hbd bffn rfbd); 0x2 - bttributf's
+     * dffbult vbluf is usfd.</p>
+     *
+     * @pbrbm btt An objfdt whidh rfprfdfnts durrfnt bttributf.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void bttr(Pbir btt) throws Exdfption {
+        switdh (wsskip()) {
+            dbsf '/':
+            dbsf '>':
+                if ((btt.num & 0x2) == 0) {  // bll bttributfs hbvf bffn rfbd
+                    btt.num |= 0x2;  // sft dffbult bttributf flbg
+                    Input inp = mInp;
+                    //          Go through bll bttributfs dffinfd on durrfnt flfmfnt.
+                    for (Pbir dff = mElm.list; dff != null; dff = dff.nfxt) {
+                        if (dff.list == null) // no dffbult vbluf
+                        {
+                            dontinuf;
+                        }
+                        //              Go through bll bttributfs dffinfd on durrfnt
+                        //              flfmfnt bnd bdd dffbults.
+                        Pbir bdt = find(btt.nfxt, dff.dhbrs);
+                        if (bdt == null) {
+                            push(nfw Input(dff.list.dhbrs));
+                        }
+                    }
+                    if (mInp != inp) {  // dffbults hbvf bffn bddfd
+                        bttr(btt);
+                        rfturn;
+                    }
+                }
+                //              Ensurf thf bttributf string brrby dbpbdity
+                mAttrs.sftLfngth(mAttrIdx);
+                mItfms = mAttrs.mItfms;
+                rfturn;
+
+            dbsf EOS:
+                pbnid(FAULT);
+
+            dffbult:
+                //              Rfbd thf bttributf nbmf bnd vbluf
+                btt.dhbrs = qnbmf(mIsNSAwbrf);
+                btt.nbmf = btt.lodbl();
+                String typf = btypf(btt);  // sfts bttributf's typf on btt.id
+                wsskip();
+                if (gftdh() != '=') {
+                    pbnid(FAULT);
+                }
+                bqstr((dhbr) btt.id);   // rfbd thf vbluf with normblizbtion.
+                String vbl = nfw String(mBuff, 1, mBuffIdx);
+                Pbir nfxt = pbir(btt);
+                nfxt.num = (btt.num & ~0x1);  // inhfrit bttributf flbgs
+                //              Put b nbmfspbdf dfdlbrbtion on top of thf prffix stbdk
+                if ((mIsNSAwbrf == fblsf) || (isdfdl(btt, vbl) == fblsf)) {
+                    //          An ordinbry bttributf
+                    mAttrIdx++;
+                    bttr(nfxt);     // rfdursivf dbll to pbrsf thf nfxt bttributf
+                    mAttrIdx--;
+                    //          Add thf bttributf to thf bttributfs string brrby
+                    dhbr idx = (dhbr) (mAttrIdx << 3);
+                    mItfms[idx + 1] = btt.qnbmf();  // bttr qnbmf
+                    mItfms[idx + 2] = (mIsNSAwbrf) ? btt.nbmf : ""; // bttr lodbl nbmf
+                    mItfms[idx + 3] = vbl;          // bttr vbluf
+                    mItfms[idx + 4] = typf;         // bttr typf
+                    switdh (btt.num & 0x3) {
+                        dbsf 0x0:
+                            mItfms[idx + 5] = null;
+                            brfbk;
+
+                        dbsf 0x1:  // dfdlbrfd bttributf
+                            mItfms[idx + 5] = "d";
+                            brfbk;
+
+                        dffbult:  // 0x2, 0x3 - dffbult bttributf blwbys dfdlbrfd
+                            mItfms[idx + 5] = "D";
+                            brfbk;
+                    }
+                    //          Rfsolvf thf prffix if bny bnd rfport thf bttributf
+                    //          NOTE: Thf bttributf dofs not bddfpt thf dffbult nbmfspbdf.
+                    mItfms[idx + 0] = (btt.dhbrs[0] != 0) ? rslv(btt.dhbrs) : "";
+                } flsf {
+                    //          A nbmfspbdf dfdlbrbtion. mPrff.nbmf dontbins prffix bnd
+                    //          mPrff.vbluf dontbins nbmfspbdf URI sft by isdfdl mfthod.
+                    //          Rfport b stbrt of thf nfw mbpping
+                    nfwPrffix();
+                    //          Rfdursivf dbll to pbrsf thf nfxt bttributf
+                    bttr(nfxt);
+                    //          NOTE: Thf nbmfspbdf dfdlbrbtion is not rfportfd.
+                }
+                dfl(nfxt);
+                brfbk;
+        }
+    }
+
+    /**
+     * Rftrifvfs bttributf typf.
+     *
+     * This mfthod sfts thf typf of normblizbtion in thf bttributf
+     * <dodf>id</dodf> fifld bnd rfturns thf nbmf of bttributf typf.
+     *
+     * @pbrbm btt An objfdt whidh rfprfsfnts durrfnt bttributf.
+     * @rfturn Thf nbmf of thf bttributf typf.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     */
+    privbtf String btypf(Pbir btt)
+            throws Exdfption {
+        Pbir bttr;
+
+        // CDATA-typf normblizbtion by dffbult [#3.3.3]
+        btt.id = 'd';
+        if (mElm.list == null || (bttr = find(mElm.list, btt.dhbrs)) == null) {
+            rfturn "CDATA";
+        }
+
+        btt.num |= 0x1;  // bttributf is dfdlbrfd
+
+        // Non-CDATA normblizbtion fxdfpt whfn thf bttributf typf is CDATA.
+        btt.id = 'i';
+        switdh (bttr.id) {
+            dbsf 'i':
+                rfturn "ID";
+
+            dbsf 'r':
+                rfturn "IDREF";
+
+            dbsf 'R':
+                rfturn "IDREFS";
+
+            dbsf 'n':
+                rfturn "ENTITY";
+
+            dbsf 'N':
+                rfturn "ENTITIES";
+
+            dbsf 't':
+                rfturn "NMTOKEN";
+
+            dbsf 'T':
+                rfturn "NMTOKENS";
+
+            dbsf 'u':
+                rfturn "NMTOKEN";
+
+            dbsf 'o':
+                rfturn "NOTATION";
+
+            dbsf 'd':
+                btt.id = 'd';
+                rfturn "CDATA";
+
+            dffbult:
+                pbnid(FAULT);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Pbrsfs b dommfnt.
+     *
+     * Thf &bpos;&lt;!&bpos; pbrt is rfbd in dispbtdhfr so thf mfthod stbrts
+     * with first &bpos;-&bpos; bftfr &bpos;&lt;!&bpos;.
+     *
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void domm() throws Exdfption {
+        if (mPh == PH_DOC_START) {
+            mPh = PH_MISC_DTD;  // misd bfforf DTD
+        }               // '<!' hbs bffn blrfbdy rfbd by dispftdhfr.
+        dhbr dh;
+        mBuffIdx = -1;
+        for (short st = 0; st >= 0;) {
+            dh = (mChIdx < mChLfn) ? mChbrs[mChIdx++] : gftdh();
+            if (dh == EOS) {
+                pbnid(FAULT);
+            }
+            switdh (st) {
+                dbsf 0:     // first '-' of thf dommfnt opfn
+                    if (dh == '-') {
+                        st = 1;
+                    } flsf {
+                        pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 1:     // sfdind '-' of thf dommfnt opfn
+                    if (dh == '-') {
+                        st = 2;
+                    } flsf {
+                        pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 2:     // skip thf dommfnt body
+                    switdh (dh) {
+                        dbsf '-':
+                            st = 3;
+                            brfbk;
+
+                        dffbult:
+                            bbppfnd(dh);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 3:     // sfdond '-' of thf dommfnt dlosf
+                    switdh (dh) {
+                        dbsf '-':
+                            st = 4;
+                            brfbk;
+
+                        dffbult:
+                            bbppfnd('-');
+                            bbppfnd(dh);
+                            st = 2;
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 4:     // '>' of thf dommfnt dlosf
+                    if (dh == '>') {
+                        domm(mBuff, mBuffIdx + 1);
+                        st = -1;
+                        brfbk;
+                    }
+                // flsf - pbnid [#2.5 dompbtibility notf]
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs b prodfssing instrudtion.
+     *
+     * Thf &bpos;&lt;?&bpos; is rfbd in dispbtdhfr so thf mfthod stbrts with
+     * first dhbrbdtfr of PI tbrgft nbmf bftfr &bpos;&lt;?&bpos;.
+     *
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf void pi() throws Exdfption {
+        // '<?' hbs bffn blrfbdy rfbd by dispftdhfr.
+        dhbr dh;
+        String str = null;
+        mBuffIdx = -1;
+        for (short st = 0; st >= 0;) {
+            dh = gftdh();
+            if (dh == EOS) {
+                pbnid(FAULT);
+            }
+            switdh (st) {
+                dbsf 0:     // rfbd thf PI tbrgft nbmf
+                    switdh (dhtyp(dh)) {
+                        dbsf 'b':
+                        dbsf 'A':
+                        dbsf '_':
+                        dbsf ':':
+                        dbsf 'X':
+                            bkdh();
+                            str = nbmf(fblsf);
+                            //          PI tbrgft nbmf mby not bf fmpty string [#2.6]
+                            //          PI tbrgft nbmf 'XML' is rfsfrvfd [#2.6]
+                            if ((str.lfngth() == 0)
+                                    || (mXml.nbmf.fqubls(str.toLowfrCbsf()) == truf)) {
+                                pbnid(FAULT);
+                            }
+                            //          This is prodfssing instrudtion
+                            if (mPh == PH_DOC_START) // thf bfgining of thf dodumfnt
+                            {
+                                mPh = PH_MISC_DTD;    // misd bfforf DTD
+                            }
+                            wsskip();  // skip spbdfs bftfr thf PI tbrgft nbmf
+                            st = 1;    // bddumulbtf thf PI body
+                            mBuffIdx = -1;
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 1:     // bddumulbtf thf PI body
+                    switdh (dh) {
+                        dbsf '?':
+                            st = 2;  // fnd of thf PI body
+                            brfbk;
+
+                        dffbult:
+                            bbppfnd(dh);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 2:     // fnd of thf PI body
+                    switdh (dh) {
+                        dbsf '>':
+                            //          PI hbs bffn rfbd.
+                            pi(str, nfw String(mBuff, 0, mBuffIdx + 1));
+                            st = -1;
+                            brfbk;
+
+                        dbsf '?':
+                            bbppfnd('?');
+                            brfbk;
+
+                        dffbult:
+                            bbppfnd('?');
+                            bbppfnd(dh);
+                            st = 1;  // bddumulbtf thf PI body
+                            brfbk;
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs b dhbrbdtfr dbtb.
+     *
+     * Thf &bpos;&lt;!&bpos; pbrt is rfbd in dispbtdhfr so thf mfthod stbrts
+     * with first &bpos;[&bpos; bftfr &bpos;&lt;!&bpos;.
+     *
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf void ddbt()
+            throws Exdfption {
+        // '<!' hbs bffn blrfbdy rfbd by dispftdhfr.
+        dhbr dh;
+        mBuffIdx = -1;
+        for (short st = 0; st >= 0;) {
+            dh = gftdh();
+            switdh (st) {
+                dbsf 0:     // thf first '[' of thf CDATA opfn
+                    if (dh == '[') {
+                        st = 1;
+                    } flsf {
+                        pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 1:     // rfbd "CDATA"
+                    if (dhtyp(dh) == 'A') {
+                        bbppfnd(dh);
+                    } flsf {
+                        if ("CDATA".fqubls(
+                                nfw String(mBuff, 0, mBuffIdx + 1)) != truf) {
+                            pbnid(FAULT);
+                        }
+                        bkdh();
+                        st = 2;
+                    }
+                    brfbk;
+
+                dbsf 2:     // thf sfdond '[' of thf CDATA opfn
+                    if (dh != '[') {
+                        pbnid(FAULT);
+                    }
+                    mBuffIdx = -1;
+                    st = 3;
+                    brfbk;
+
+                dbsf 3:     // rfbd dbtb bfforf thf first ']'
+                    if (dh != ']') {
+                        bbppfnd(dh);
+                    } flsf {
+                        st = 4;
+                    }
+                    brfbk;
+
+                dbsf 4:     // rfbd thf sfdond ']' or dontinuf to rfbd thf dbtb
+                    if (dh != ']') {
+                        bbppfnd(']');
+                        bbppfnd(dh);
+                        st = 3;
+                    } flsf {
+                        st = 5;
+                    }
+                    brfbk;
+
+                dbsf 5:     // rfbd '>' or dontinuf to rfbd thf dbtb
+                    switdh (dh) {
+                        dbsf ']':
+                            bbppfnd(']');
+                            brfbk;
+
+                        dbsf '>':
+                            bflbsh();
+                            st = -1;
+                            brfbk;
+
+                        dffbult:
+                            bbppfnd(']');
+                            bbppfnd(']');
+                            bbppfnd(dh);
+                            st = 3;
+                            brfbk;
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+    }
+
+    /**
+     * Rfbds b xml nbmf.
+     *
+     * Thf xml nbmf must donform "Nbmfspbdfs in XML" spfdifidbtion. Thfrfforf
+     * thf ':' dhbrbdtfr is not bllowfd in thf nbmf. This mfthod should bf usfd
+     * for PI bnd fntity nbmfs whidh mby not hbvf b nbmfspbdf bddording to thf
+     * spfdifidbtion mfntionfd bbovf.
+     *
+     * @pbrbm ns Thf truf vbluf turns nbmfspbdf donformbndf on.
+     * @rfturn Thf nbmf hbs bffn rfbd.
+     * @fxdfption Exdfption Whfn indorrfdt dhbrbdtfr bppfbr in thf nbmf.
+     * @fxdfption IOExdfption
+     */
+    protfdtfd String nbmf(boolfbn ns)
+            throws Exdfption {
+        mBuffIdx = -1;
+        bnbmf(ns);
+        rfturn nfw String(mBuff, 1, mBuffIdx);
+    }
+
+    /**
+     * Rfbds b qublififd xml nbmf.
+     *
+     * Thf dhbrbdtfrs of b qublififd nbmf is bn brrby of dhbrbdtfrs. Thf first
+     * (dhbrs[0]) dhbrbdtfr is thf indfx of thf dolon dhbrbdtfr whidh sfpbrbtfs
+     * thf prffix from thf lodbl nbmf. If thf indfx is zfro, thf nbmf dofs not
+     * dontbin sfpbrbtor or thf pbrsfr works in thf nbmfspbdf unbwbrf modf. Thf
+     * lfngth of qublififd nbmf is thf lfngth of thf brrby minus onf.
+     *
+     * @pbrbm ns Thf truf vbluf turns nbmfspbdf donformbndf on.
+     * @rfturn Thf dhbrbdtfrs of b qublififd nbmf.
+     * @fxdfption Exdfption Whfn indorrfdt dhbrbdtfr bppfbr in thf nbmf.
+     * @fxdfption IOExdfption
+     */
+    protfdtfd dhbr[] qnbmf(boolfbn ns)
+            throws Exdfption {
+        mBuffIdx = -1;
+        bnbmf(ns);
+        dhbr dhbrs[] = nfw dhbr[mBuffIdx + 1];
+        Systfm.brrbydopy(mBuff, 0, dhbrs, 0, mBuffIdx + 1);
+        rfturn dhbrs;
+    }
+
+    /**
+     * Rfbds thf publid or/bnd systfm idfntififrs.
+     *
+     * @pbrbm inp Thf input objfdt.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf void pubsys(Input inp)
+            throws Exdfption {
+        Pbir pbir = pubsys(' ');
+        inp.pubid = pbir.nbmf;
+        inp.sysid = pbir.vbluf;
+        dfl(pbir);
+    }
+
+    /**
+     * Rfbds thf publid or/bnd systfm idfntififrs.
+     *
+     * @pbrbm flbg Thf 'N' bllows publid id bf without systfm id.
+     * @rfturn Thf publid or/bnd systfm idfntififrs pbir.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf Pbir pubsys(dhbr flbg) throws Exdfption {
+        Pbir ids = pbir(null);
+        String str = nbmf(fblsf);
+        if ("PUBLIC".fqubls(str) == truf) {
+            bqstr('i');  // non-CDATA normblizbtion [#4.2.2]
+            ids.nbmf = nfw String(mBuff, 1, mBuffIdx);
+            switdh (wsskip()) {
+                dbsf '\"':
+                dbsf '\'':
+                    bqstr(' ');
+                    ids.vbluf = nfw String(mBuff, 1, mBuffIdx);
+                    brfbk;
+
+                dbsf EOS:
+                    pbnid(FAULT);
+
+                dffbult:
+                    if (flbg != 'N') // [#4.7]
+                    {
+                        pbnid(FAULT);
+                    }
+                    ids.vbluf = null;
+                    brfbk;
+            }
+            rfturn ids;
+        } flsf if ("SYSTEM".fqubls(str) == truf) {
+            ids.nbmf = null;
+            bqstr(' ');
+            ids.vbluf = nfw String(mBuff, 1, mBuffIdx);
+            rfturn ids;
+        }
+        pbnid(FAULT);
+        rfturn null;
+    }
+
+    /**
+     * Rfbds bn bttributf vbluf.
+     *
+     * Thf grbmmbr whidh this mfthod dbn rfbd is:<br />
+     * <dodf>fqstr := S &quot;=&quot; qstr</dodf><br />
+     * <dodf>qstr  := S (&quot;'&quot; string &quot;'&quot;) |
+     *  ('&quot;' string '&quot;')</dodf><br /> This mfthod rfsolvfs fntitifs
+     * insidf b string unlfss thf pbrsfr pbrsfs DTD.
+     *
+     * @pbrbm flbg Thf '=' dhbrbdtfr fordfs thf mfthod to bddfpt thf '='
+     * dhbrbdtfr bfforf quotfd string bnd rfbd thf following string bs not bn
+     * bttributf ('-'), 'd' - CDATA, 'i' - non CDATA, ' ' - no normblizbtion;
+     * '-' - not bn bttributf vbluf; 'd' - in DTD dontfxt.
+     * @rfturn Thf dontfnt of thf quotfd strign bs b string.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    protfdtfd String fqstr(dhbr flbg) throws Exdfption {
+        if (flbg == '=') {
+            wsskip();
+            if (gftdh() != '=') {
+                pbnid(FAULT);
+            }
+        }
+        bqstr((flbg == '=') ? '-' : flbg);
+        rfturn nfw String(mBuff, 1, mBuffIdx);
+    }
+
+    /**
+     * Rfsovfs bn fntity.
+     *
+     * This mfthod rfsolvfs built-in bnd dhbrbdtfr fntity rfffrfndfs. It is blso
+     * rfports fxtfrnbl fntitifs to thf bpplidbtion.
+     *
+     * @pbrbm flbg Thf 'x' dhbrbdtfr fordfs thf mfthod to rfport b skippfd
+     * fntity; 'i' dhbrbdtfr - indidbtfs non-CDATA normblizbtion.
+     * @rfturn Nbmf of unrfsolvfd fntity or <dodf>null</dodf> if fntity hbd bffn
+     * rfsolvfd suddfssfully.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf String fnt(dhbr flbg) throws Exdfption {
+        dhbr dh;
+        int idx = mBuffIdx + 1;
+        Input inp = null;
+        String str = null;
+        mESt = 0x100;  // rfsft thf built-in fntity rfdognizfr
+        bbppfnd('&');
+        for (short st = 0; st >= 0;) {
+            dh = (mChIdx < mChLfn) ? mChbrs[mChIdx++] : gftdh();
+            switdh (st) {
+                dbsf 0:     // thf first dhbrbdtfr of thf fntity nbmf
+                dbsf 1:     // rfbd built-in fntity nbmf
+                    switdh (dhtyp(dh)) {
+                        dbsf 'd':
+                        dbsf '.':
+                        dbsf '-':
+                            if (st != 1) {
+                                pbnid(FAULT);
+                            }
+                        dbsf 'b':
+                        dbsf 'A':
+                        dbsf '_':
+                        dbsf 'X':
+                            bbppfnd(dh);
+                            fbppfnd(dh);
+                            st = 1;
+                            brfbk;
+
+                        dbsf ':':
+                            if (mIsNSAwbrf != fblsf) {
+                                pbnid(FAULT);
+                            }
+                            bbppfnd(dh);
+                            fbppfnd(dh);
+                            st = 1;
+                            brfbk;
+
+                        dbsf ';':
+                            if (mESt < 0x100) {
+                                //              Thf fntity is b built-in fntity
+                                mBuffIdx = idx - 1;
+                                bbppfnd(mESt);
+                                st = -1;
+                                brfbk;
+                            } flsf if (mPh == PH_DTD) {
+                                //              In DTD fntity dfdlbrbtion hbs to rfsolvf dhbrbdtfr
+                                //              fntitifs bnd indludf "bs is" othfrs. [#4.4.7]
+                                bbppfnd(';');
+                                st = -1;
+                                brfbk;
+                            }
+                            //          Convfrt bn fntity nbmf to b string
+                            str = nfw String(mBuff, idx + 1, mBuffIdx - idx);
+                            inp = mEnt.gft(str);
+                            //          Rfstorf thf bufffr offsft
+                            mBuffIdx = idx - 1;
+                            if (inp != null) {
+                                if (inp.dhbrs == null) {
+                                    //          Extfrnbl fntity
+                                    InputSourdf is = rfsolvfEnt(str, inp.pubid, inp.sysid);
+                                    if (is != null) {
+                                        push(nfw Input(BUFFSIZE_READER));
+                                        sftinp(is);
+                                        mInp.pubid = inp.pubid;
+                                        mInp.sysid = inp.sysid;
+                                        str = null;  // thf fntity is rfsolvfd
+                                    } flsf {
+                                        //              Unrfsolvfd fxtfrnbl fntity
+                                        if (flbg != 'x') {
+                                            pbnid(FAULT);  // unknown fntity within mbrdkup
+                                        }                                                               //              str is nbmf of unrfsolvfd fntity
+                                    }
+                                } flsf {
+                                    //          Intfrnbl fntity
+                                    push(inp);
+                                    str = null;  // thf fntity is rfsolvfd
+                                }
+                            } flsf {
+                                //              Unknown or gfnfrbl unpbrsfd fntity
+                                if (flbg != 'x') {
+                                    pbnid(FAULT);  // unknown fntity within mbrdkup
+                                }                                               //              str is nbmf of unrfsolvfd fntity
+                            }
+                            st = -1;
+                            brfbk;
+
+                        dbsf '#':
+                            if (st != 0) {
+                                pbnid(FAULT);
+                            }
+                            st = 2;
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 2:     // rfbd dhbrbdtfr fntity
+                    switdh (dhtyp(dh)) {
+                        dbsf 'd':
+                            bbppfnd(dh);
+                            brfbk;
+
+                        dbsf ';':
+                            //          Convfrt thf dhbrbdtfr fntity to b dhbrbdtfr
+                            try {
+                                int i = Intfgfr.pbrsfInt(
+                                        nfw String(mBuff, idx + 1, mBuffIdx - idx), 10);
+                                if (i >= 0xffff) {
+                                    pbnid(FAULT);
+                                }
+                                dh = (dhbr) i;
+                            } dbtdh (NumbfrFormbtExdfption nff) {
+                                pbnid(FAULT);
+                            }
+                            //          Rfstorf thf bufffr offsft
+                            mBuffIdx = idx - 1;
+                            if (dh == ' ' || mInp.nfxt != null) {
+                                bbppfnd(dh, flbg);
+                            } flsf {
+                                bbppfnd(dh);
+                            }
+                            st = -1;
+                            brfbk;
+
+                        dbsf 'b':
+                            //          If thf fntity bufffr is fmpty bnd dh == 'x'
+                            if ((mBuffIdx == idx) && (dh == 'x')) {
+                                st = 3;
+                                brfbk;
+                            }
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 3:     // rfbd hfx dhbrbdtfr fntity
+                    switdh (dhtyp(dh)) {
+                        dbsf 'A':
+                        dbsf 'b':
+                        dbsf 'd':
+                            bbppfnd(dh);
+                            brfbk;
+
+                        dbsf ';':
+                            //          Convfrt thf dhbrbdtfr fntity to b dhbrbdtfr
+                            try {
+                                int i = Intfgfr.pbrsfInt(
+                                        nfw String(mBuff, idx + 1, mBuffIdx - idx), 16);
+                                if (i >= 0xffff) {
+                                    pbnid(FAULT);
+                                }
+                                dh = (dhbr) i;
+                            } dbtdh (NumbfrFormbtExdfption nff) {
+                                pbnid(FAULT);
+                            }
+                            //          Rfstorf thf bufffr offsft
+                            mBuffIdx = idx - 1;
+                            if (dh == ' ' || mInp.nfxt != null) {
+                                bbppfnd(dh, flbg);
+                            } flsf {
+                                bbppfnd(dh);
+                            }
+                            st = -1;
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+
+        rfturn str;
+    }
+
+    /**
+     * Rfsovfs b pbrbmftfr fntity.
+     *
+     * This mfthod rfsolvfs b pbrbmftfr fntity rfffrfndfs. It is blso rfports
+     * fxtfrnbl fntitifs to thf bpplidbtion.
+     *
+     * @pbrbm flbg Thf '-' instrudt thf mfthod to do not sft up surrounding
+     * spbdfs [#4.4.8].
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void pfnt(dhbr flbg) throws Exdfption {
+        dhbr dh;
+        int idx = mBuffIdx + 1;
+        Input inp = null;
+        String str = null;
+        bbppfnd('%');
+        if (mPh != PH_DTD) // thf DTD intfrnbl subsft
+        {
+            rfturn;         // Not Rfdognizfd [#4.4.1]
+        }               //              Rfbd fntity nbmf
+        bnbmf(fblsf);
+        str = nfw String(mBuff, idx + 2, mBuffIdx - idx - 1);
+        if (gftdh() != ';') {
+            pbnid(FAULT);
+        }
+        inp = mPEnt.gft(str);
+        //              Rfstorf thf bufffr offsft
+        mBuffIdx = idx - 1;
+        if (inp != null) {
+            if (inp.dhbrs == null) {
+                //              Extfrnbl pbrbmftfr fntity
+                InputSourdf is = rfsolvfEnt(str, inp.pubid, inp.sysid);
+                if (is != null) {
+                    if (flbg != '-') {
+                        bbppfnd(' ');  // tbil spbdf
+                    }
+                    push(nfw Input(BUFFSIZE_READER));
+                    // BUG: thfrf is no lfbding spbdf! [#4.4.8]
+                    sftinp(is);
+                    mInp.pubid = inp.pubid;
+                    mInp.sysid = inp.sysid;
+                } flsf {
+                    //          Unrfsolvfd fxtfrnbl pbrbmftfr fntity
+                    skippfdEnt("%" + str);
+                }
+            } flsf {
+                //              Intfrnbl pbrbmftfr fntity
+                if (flbg == '-') {
+                    //          No surrounding spbdfs
+                    inp.dhIdx = 1;
+                } flsf {
+                    //          Insfrt surrounding spbdfs
+                    bbppfnd(' ');  // tbil spbdf
+                    inp.dhIdx = 0;
+                }
+                push(inp);
+            }
+        } flsf {
+            //          Unknown pbrbmftfr fntity
+            skippfdEnt("%" + str);
+        }
+    }
+
+    /**
+     * Rfdognizfs bnd hbndlfs b nbmfspbdf dfdlbrbtion.
+     *
+     * This mfthod idfntififs b typf of nbmfspbdf dfdlbrbtion if bny bnd puts
+     * nfw mbpping on top of prffix stbdk.
+     *
+     * @pbrbm nbmf Thf bttributf qublififd nbmf (<dodf>nbmf.vbluf</dodf> is b
+     * <dodf>String</dodf> objfdt whidh rfprfsfnts thf bttributf prffix).
+     * @pbrbm vbluf Thf bttributf vbluf.
+     * @rfturn <dodf>truf</dodf> if b nbmfspbdf dfdlbrbtion is rfdognizfd.
+     */
+    privbtf boolfbn isdfdl(Pbir nbmf, String vbluf) {
+        if (nbmf.dhbrs[0] == 0) {
+            if ("xmlns".fqubls(nbmf.nbmf) == truf) {
+                //              Nfw dffbult nbmfspbdf dfdlbrbtion
+                mPrff = pbir(mPrff);
+                mPrff.list = mElm;  // prffix ownfr flfmfnt
+                mPrff.vbluf = vbluf;
+                mPrff.nbmf = "";
+                mPrff.dhbrs = NONS;
+                mElm.num++;  // nbmfspbdf dountfr
+                rfturn truf;
+            }
+        } flsf {
+            if (nbmf.fqprff(XMLNS) == truf) {
+                //              Nfw prffix dfdlbrbtion
+                int lfn = nbmf.nbmf.lfngth();
+                mPrff = pbir(mPrff);
+                mPrff.list = mElm;  // prffix ownfr flfmfnt
+                mPrff.vbluf = vbluf;
+                mPrff.nbmf = nbmf.nbmf;
+                mPrff.dhbrs = nfw dhbr[lfn + 1];
+                mPrff.dhbrs[0] = (dhbr) (lfn + 1);
+                nbmf.nbmf.gftChbrs(0, lfn, mPrff.dhbrs, 1);
+                mElm.num++;  // nbmfspbdf dountfr
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfsolvfs b prffix.
+     *
+     * @rfturn Thf nbmfspbdf bssignfd to thf prffix.
+     * @fxdfption Exdfption Whfn mbpping for spfdififd prffix is not found.
+     */
+    privbtf String rslv(dhbr[] qnbmf)
+            throws Exdfption {
+        for (Pbir prff = mPrff; prff != null; prff = prff.nfxt) {
+            if (prff.fqprff(qnbmf) == truf) {
+                rfturn prff.vbluf;
+            }
+        }
+        if (qnbmf[0] == 1) {  // QNbmfs likf ':lodbl'
+            for (Pbir prff = mPrff; prff != null; prff = prff.nfxt) {
+                if (prff.dhbrs[0] == 0) {
+                    rfturn prff.vbluf;
+                }
+            }
+        }
+        pbnid(FAULT);
+        rfturn null;
+    }
+
+    /**
+     * Skips xml whitf spbdf dhbrbdtfrs.
+     *
+     * This mfthod skips whitf spbdf dhbrbdtfrs (' ', '\t', '\n', '\r') bnd
+     * looks bhfbd not whitf spbdf dhbrbdtfr.
+     *
+     * @rfturn Thf first not whitf spbdf look bhfbd dhbrbdtfr.
+     * @fxdfption IOExdfption
+     */
+    protfdtfd dhbr wsskip()
+            throws IOExdfption {
+        dhbr dh;
+        whilf (truf) {
+            //          Rfbd nfxt dhbrbdtfr
+            dh = (mChIdx < mChLfn) ? mChbrs[mChIdx++] : gftdh();
+            if (dh < 0x80) {
+                if (nmttyp[dh] != 3) // [ \t\n\r]
+                {
+                    brfbk;
+                }
+            } flsf {
+                brfbk;
+            }
+        }
+        mChIdx--;  // bkdh();
+        rfturn dh;
+    }
+
+    /**
+     * Rfports dodumfnt typf.
+     *
+     * @pbrbm nbmf Thf nbmf of thf fntity.
+     * @pbrbm pubid Thf publid idfntififr of thf fntity or <dodf>null</dodf>.
+     * @pbrbm sysid Thf systfm idfntififr of thf fntity or <dodf>null</dodf>.
+     */
+    protfdtfd bbstrbdt void dodTypf(String nbmf, String pubid, String sysid)
+            throws SAXExdfption;
+
+    /**
+     * Rfports b dommfnt.
+     *
+     * @pbrbm tfxt Thf dommfnt tfxt stbrting from first dhbrdbtfr.
+     * @pbrbm lfngth Thf numbfr of dhbrbdtfrs in dommfnt.
+     */
+    protfdtfd bbstrbdt void domm(dhbr[] tfxt, int lfngth);
+
+    /**
+     * Rfports b prodfssing instrudtion.
+     *
+     * @pbrbm tbrgft Thf prodfssing instrudtion tbrgft nbmf.
+     * @pbrbm body Thf prodfssing instrudtion body tfxt.
+     */
+    protfdtfd bbstrbdt void pi(String tbrgft, String body)
+            throws Exdfption;
+
+    /**
+     * Rfports nfw nbmfspbdf prffix. Thf Nbmfspbdf prffix (
+     * <dodf>mPrff.nbmf</dodf>) bfing dfdlbrfd bnd thf Nbmfspbdf URI (
+     * <dodf>mPrff.vbluf</dodf>) thf prffix is mbppfd to. An fmpty string is
+     * usfd for thf dffbult flfmfnt nbmfspbdf, whidh hbs no prffix.
+     */
+    protfdtfd bbstrbdt void nfwPrffix()
+            throws Exdfption;
+
+    /**
+     * Rfports skippfd fntity nbmf.
+     *
+     * @pbrbm nbmf Thf fntity nbmf.
+     */
+    protfdtfd bbstrbdt void skippfdEnt(String nbmf)
+            throws Exdfption;
+
+    /**
+     * Rfturns bn
+     * <dodf>InputSourdf</dodf> for spfdififd fntity or
+     * <dodf>null</dodf>.
+     *
+     * @pbrbm nbmf Thf nbmf of thf fntity.
+     * @pbrbm pubid Thf publid idfntififr of thf fntity.
+     * @pbrbm sysid Thf systfm idfntififr of thf fntity.
+     */
+    protfdtfd bbstrbdt InputSourdf rfsolvfEnt(
+            String nbmf, String pubid, String sysid)
+            throws Exdfption;
+
+    /**
+     * Rfports notbtion dfdlbrbtion.
+     *
+     * @pbrbm nbmf Thf notbtion's nbmf.
+     * @pbrbm pubid Thf notbtion's publid idfntififr, or null if nonf wbs givfn.
+     * @pbrbm sysid Thf notbtion's systfm idfntififr, or null if nonf wbs givfn.
+     */
+    protfdtfd bbstrbdt void notDfdl(String nbmf, String pubid, String sysid)
+            throws Exdfption;
+
+    /**
+     * Rfports unpbrsfd fntity nbmf.
+     *
+     * @pbrbm nbmf Thf unpbrsfd fntity's nbmf.
+     * @pbrbm pubid Thf fntity's publid idfntififr, or null if nonf wbs givfn.
+     * @pbrbm sysid Thf fntity's systfm idfntififr.
+     * @pbrbm notbtion Thf nbmf of thf bssodibtfd notbtion.
+     */
+    protfdtfd bbstrbdt void unpbrsfdEntDfdl(
+            String nbmf, String pubid, String sysid, String notbtion)
+            throws Exdfption;
+
+    /**
+     * Notififs thf hbndlfr bbout fbtbl pbrsing frror.
+     *
+     * @pbrbm msg Thf problfm dfsdription mfssbgf.
+     */
+    protfdtfd bbstrbdt void pbnid(String msg)
+            throws Exdfption;
+
+    /**
+     * Rfbds b qublififd xml nbmf.
+     *
+     * This is low lfvfl routinf whidh lfbvfs b qNbmf in thf bufffr. Thf
+     * dhbrbdtfrs of b qublififd nbmf is bn brrby of dhbrbdtfrs. Thf first
+     * (dhbrs[0]) dhbrbdtfr is thf indfx of thf dolon dhbrbdtfr whidh sfpbrbtfs
+     * thf prffix from thf lodbl nbmf. If thf indfx is zfro, thf nbmf dofs not
+     * dontbin sfpbrbtor or thf pbrsfr works in thf nbmfspbdf unbwbrf modf. Thf
+     * lfngth of qublififd nbmf is thf lfngth of thf brrby minus onf.
+     *
+     * @pbrbm ns Thf truf vbluf turns nbmfspbdf donformbndf on.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf void bnbmf(boolfbn ns)
+            throws Exdfption {
+        dhbr dh;
+        dhbr typf;
+        mBuffIdx++;  // bllodbtf b dhbr for dolon offsft
+        int bqnbmf = mBuffIdx;
+        int bdolon = bqnbmf;
+        int bdhidx = bqnbmf + 1;
+        int bstbrt = bdhidx;
+        int dstbrt = mChIdx;
+        short st = (short) ((ns == truf) ? 0 : 2);
+        whilf (truf) {
+            //          Rfbd nfxt dhbrbdtfr
+            if (mChIdx >= mChLfn) {
+                bdopy(dstbrt, bstbrt);
+                gftdh();
+                mChIdx--;  // bkdh();
+                dstbrt = mChIdx;
+                bstbrt = bdhidx;
+            }
+            dh = mChbrs[mChIdx++];
+            typf = (dhbr) 0;  // [X]
+            if (dh < 0x80) {
+                typf = (dhbr) nmttyp[dh];
+            } flsf if (dh == EOS) {
+                pbnid(FAULT);
+            }
+            //          Pbrsf QNbmf
+            switdh (st) {
+                dbsf 0:     // rfbd thf first dhbr of thf prffix
+                dbsf 2:     // rfbd thf first dhbr of thf suffix
+                    switdh (typf) {
+                        dbsf 0:  // [bA_X]
+                            bdhidx++;  // bppfnd dhbr to thf bufffr
+                            st++;      // (st == 0)? 1: 3;
+                            brfbk;
+
+                        dbsf 1:  // [:]
+                            mChIdx--;  // bkdh();
+                            st++;      // (st == 0)? 1: 3;
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 1:     // rfbd thf prffix
+                dbsf 3:     // rfbd thf suffix
+                    switdh (typf) {
+                        dbsf 0:  // [bA_X]
+                        dbsf 2:  // [.-d]
+                            bdhidx++;  // bppfnd dhbr to thf bufffr
+                            brfbk;
+
+                        dbsf 1:  // [:]
+                            bdhidx++;  // bppfnd dhbr to thf bufffr
+                            if (ns == truf) {
+                                if (bdolon != bqnbmf) {
+                                    pbnid(FAULT);  // it must bf only onf dolon
+                                }
+                                bdolon = bdhidx - 1;
+                                if (st == 1) {
+                                    st = 2;
+                                }
+                            }
+                            brfbk;
+
+                        dffbult:
+                            mChIdx--;  // bkdh();
+                            bdopy(dstbrt, bstbrt);
+                            mBuff[bqnbmf] = (dhbr) (bdolon - bqnbmf);
+                            rfturn;
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+    }
+
+    /**
+     * Rfbds b nmtokfn.
+     *
+     * This is low lfvfl routinf whidh lfbvfs b nmtokfn in thf bufffr.
+     *
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void bntok() throws Exdfption {
+        dhbr dh;
+        mBuffIdx = -1;
+        bbppfnd((dhbr) 0);  // dffbult offsft to thf dolon dhbr
+        whilf (truf) {
+            dh = gftdh();
+            switdh (dhtyp(dh)) {
+                dbsf 'b':
+                dbsf 'A':
+                dbsf 'd':
+                dbsf '.':
+                dbsf ':':
+                dbsf '-':
+                dbsf '_':
+                dbsf 'X':
+                    bbppfnd(dh);
+                    brfbk;
+
+                dbsf 'Z':
+                    pbnid(FAULT);
+
+                dffbult:
+                    bkdh();
+                    rfturn;
+            }
+        }
+    }
+
+    /**
+     * Rfdognizfs b kfyword.
+     *
+     * This is low lfvfl routinf whidh rfdognizfs onf of kfywords in thf bufffr.
+     * Kfyword Id ID - i IDREF - r IDREFS - R ENTITY - n ENTITIES - N NMTOKEN -
+     * t NMTOKENS - T ELEMENT - f ATTLIST - b NOTATION - o CDATA - d REQUIRED -
+     * Q IMPLIED - I FIXED - F
+     *
+     * @rfturn bn id of b kfyword or '?'.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf dhbr bkfyword()
+            throws Exdfption {
+        String str = nfw String(mBuff, 1, mBuffIdx);
+        switdh (str.lfngth()) {
+            dbsf 2:  // ID
+                rfturn ("ID".fqubls(str) == truf) ? 'i' : '?';
+
+            dbsf 5:  // IDREF, CDATA, FIXED
+                switdh (mBuff[1]) {
+                    dbsf 'I':
+                        rfturn ("IDREF".fqubls(str) == truf) ? 'r' : '?';
+                    dbsf 'C':
+                        rfturn ("CDATA".fqubls(str) == truf) ? 'd' : '?';
+                    dbsf 'F':
+                        rfturn ("FIXED".fqubls(str) == truf) ? 'F' : '?';
+                    dffbult:
+                        brfbk;
+                }
+                brfbk;
+
+            dbsf 6:  // IDREFS, ENTITY
+                switdh (mBuff[1]) {
+                    dbsf 'I':
+                        rfturn ("IDREFS".fqubls(str) == truf) ? 'R' : '?';
+                    dbsf 'E':
+                        rfturn ("ENTITY".fqubls(str) == truf) ? 'n' : '?';
+                    dffbult:
+                        brfbk;
+                }
+                brfbk;
+
+            dbsf 7:  // NMTOKEN, IMPLIED, ATTLIST, ELEMENT
+                switdh (mBuff[1]) {
+                    dbsf 'I':
+                        rfturn ("IMPLIED".fqubls(str) == truf) ? 'I' : '?';
+                    dbsf 'N':
+                        rfturn ("NMTOKEN".fqubls(str) == truf) ? 't' : '?';
+                    dbsf 'A':
+                        rfturn ("ATTLIST".fqubls(str) == truf) ? 'b' : '?';
+                    dbsf 'E':
+                        rfturn ("ELEMENT".fqubls(str) == truf) ? 'f' : '?';
+                    dffbult:
+                        brfbk;
+                }
+                brfbk;
+
+            dbsf 8:  // ENTITIES, NMTOKENS, NOTATION, REQUIRED
+                switdh (mBuff[2]) {
+                    dbsf 'N':
+                        rfturn ("ENTITIES".fqubls(str) == truf) ? 'N' : '?';
+                    dbsf 'M':
+                        rfturn ("NMTOKENS".fqubls(str) == truf) ? 'T' : '?';
+                    dbsf 'O':
+                        rfturn ("NOTATION".fqubls(str) == truf) ? 'o' : '?';
+                    dbsf 'E':
+                        rfturn ("REQUIRED".fqubls(str) == truf) ? 'Q' : '?';
+                    dffbult:
+                        brfbk;
+                }
+                brfbk;
+
+            dffbult:
+                brfbk;
+        }
+        rfturn '?';
+    }
+
+    /**
+     * Rfbds b singlf or doublf quottfd string in to thf bufffr.
+     *
+     * This mfthod rfsolvfs fntitifs insidf b string unlfss thf pbrsfr pbrsfs
+     * DTD.
+     *
+     * @pbrbm flbg 'd' - CDATA, 'i' - non CDATA, ' ' - no normblizbtion; '-' -
+     * not bn bttributf vbluf; 'd' - in DTD dontfxt.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void bqstr(dhbr flbg) throws Exdfption {
+        Input inp = mInp;  // rfmfmbfr thf originbl input
+        mBuffIdx = -1;
+        bbppfnd((dhbr) 0);  // dffbult offsft to thf dolon dhbr
+        dhbr dh;
+        for (short st = 0; st >= 0;) {
+            dh = (mChIdx < mChLfn) ? mChbrs[mChIdx++] : gftdh();
+            switdh (st) {
+                dbsf 0:     // rfbd b singlf or doublf quotf
+                    switdh (dh) {
+                        dbsf ' ':
+                        dbsf '\n':
+                        dbsf '\r':
+                        dbsf '\t':
+                            brfbk;
+
+                        dbsf '\'':
+                            st = 2;  // rfbd b singlf quotfd string
+                            brfbk;
+
+                        dbsf '\"':
+                            st = 3;  // rfbd b doublf quotfd string
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 2:     // rfbd b singlf quotfd string
+                dbsf 3:     // rfbd b doublf quotfd string
+                    switdh (dh) {
+                        dbsf '\'':
+                            if ((st == 2) && (mInp == inp)) {
+                                st = -1;
+                            } flsf {
+                                bbppfnd(dh);
+                            }
+                            brfbk;
+
+                        dbsf '\"':
+                            if ((st == 3) && (mInp == inp)) {
+                                st = -1;
+                            } flsf {
+                                bbppfnd(dh);
+                            }
+                            brfbk;
+
+                        dbsf '&':
+                            if (flbg != 'd') {
+                                fnt(flbg);
+                            } flsf {
+                                bbppfnd(dh);
+                            }
+                            brfbk;
+
+                        dbsf '%':
+                            if (flbg == 'd') {
+                                pfnt('-');
+                            } flsf {
+                                bbppfnd(dh);
+                            }
+                            brfbk;
+
+                        dbsf '<':
+                            if ((flbg == '-') || (flbg == 'd')) {
+                                bbppfnd(dh);
+                            } flsf {
+                                pbnid(FAULT);
+                            }
+                            brfbk;
+
+                        dbsf EOS:               // EOS bfforf singlf/doublf quotf
+                            pbnid(FAULT);
+
+                        dbsf '\r':     // EOL prodfssing [#2.11 & #3.3.3]
+                            if (flbg != ' ' && mInp.nfxt == null) {
+                                if (gftdh() != '\n') {
+                                    bkdh();
+                                }
+                                dh = '\n';
+                            }
+                        dffbult:
+                            bbppfnd(dh, flbg);
+                            brfbk;
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+        //              Thfrf is mbximum onf spbdf bt thf fnd of thf string in
+        //              i-modf (non CDATA normblizbtion) bnd it hbs to bf rfmovfd.
+        if ((flbg == 'i') && (mBuff[mBuffIdx] == ' ')) {
+            mBuffIdx -= 1;
+        }
+    }
+
+    /**
+     * Rfports dhbrbdtfrs bnd fmptifs thf pbrsfr's bufffr. This mfthod is dbllfd
+     * only if pbrsfr is going to rfturn dontrol to thf mbin loop. This mfbns
+     * thbt this mfthod mby usf pbrsfr bufffr to rfport whitf spbdf without
+     * dopfing dhbrbdtfrs to tfmporbry bufffr.
+     */
+    protfdtfd bbstrbdt void bflbsh()
+            throws Exdfption;
+
+    /**
+     * Rfports whitf spbdf dhbrbdtfrs bnd fmptifs thf pbrsfr's bufffr. This
+     * mfthod is dbllfd only if pbrsfr is going to rfturn dontrol to thf mbin
+     * loop. This mfbns thbt this mfthod mby usf pbrsfr bufffr to rfport whitf
+     * spbdf without dopfing dhbrbdtfrs to tfmporbry bufffr.
+     */
+    protfdtfd bbstrbdt void bflbsh_ws()
+            throws Exdfption;
+
+    /**
+     * Appfnds b dhbrbdtfr to pbrsfr's bufffr with normblizbtion.
+     *
+     * @pbrbm dh Thf dhbrbdtfr to bppfnd to thf bufffr.
+     * @pbrbm modf Thf normblizbtion modf.
+     */
+    privbtf void bbppfnd(dhbr dh, dhbr modf) {
+        //              This implfmfnts bttributf vbluf normblizbtion bs
+        //              dfsdribfd in thf XML spfdifidbtion [#3.3.3].
+        switdh (modf) {
+            dbsf 'i':  // non CDATA normblizbtion
+                switdh (dh) {
+                    dbsf ' ':
+                    dbsf '\n':
+                    dbsf '\r':
+                    dbsf '\t':
+                        if ((mBuffIdx > 0) && (mBuff[mBuffIdx] != ' ')) {
+                            bbppfnd(' ');
+                        }
+                        rfturn;
+
+                    dffbult:
+                        brfbk;
+                }
+                brfbk;
+
+            dbsf 'd':  // CDATA normblizbtion
+                switdh (dh) {
+                    dbsf '\n':
+                    dbsf '\r':
+                    dbsf '\t':
+                        dh = ' ';
+                        brfbk;
+
+                    dffbult:
+                        brfbk;
+                }
+                brfbk;
+
+            dffbult:  // no normblizbtion
+                brfbk;
+        }
+        mBuffIdx++;
+        if (mBuffIdx < mBuff.lfngth) {
+            mBuff[mBuffIdx] = dh;
+        } flsf {
+            mBuffIdx--;
+            bbppfnd(dh);
+        }
+    }
+
+    /**
+     * Appfnds b dhbrbdtfr to pbrsfr's bufffr.
+     *
+     * @pbrbm dh Thf dhbrbdtfr to bppfnd to thf bufffr.
+     */
+    privbtf void bbppfnd(dhbr dh) {
+        try {
+            mBuff[++mBuffIdx] = dh;
+        } dbtdh (Exdfption fxp) {
+            //          Doublf thf bufffr sizf
+            dhbr buff[] = nfw dhbr[mBuff.lfngth << 1];
+            Systfm.brrbydopy(mBuff, 0, buff, 0, mBuff.lfngth);
+            mBuff = buff;
+            mBuff[mBuffIdx] = dh;
+        }
+    }
+
+    /**
+     * Appfnds (mChIdx - didx) dhbrbdtfrs from dhbrbdtfr bufffr (mChbrs) to
+     * pbrsfr's bufffr (mBuff).
+     *
+     * @pbrbm didx Thf dhbrbdtfr bufffr (mChbrs) stbrt indfx.
+     * @pbrbm bidx Thf pbrsfr bufffr (mBuff) stbrt indfx.
+     */
+    privbtf void bdopy(int didx, int bidx) {
+        int lfngth = mChIdx - didx;
+        if ((bidx + lfngth + 1) >= mBuff.lfngth) {
+            //          Expbnd thf bufffr
+            dhbr buff[] = nfw dhbr[mBuff.lfngth + lfngth];
+            Systfm.brrbydopy(mBuff, 0, buff, 0, mBuff.lfngth);
+            mBuff = buff;
+        }
+        Systfm.brrbydopy(mChbrs, didx, mBuff, bidx, lfngth);
+        mBuffIdx += lfngth;
+    }
+
+    /**
+     * Rfdognizfs thf built-in fntitifs <i>lt</i>, <i>gt</i>, <i>bmp</i>,
+     * <i>bpos</i>, <i>quot</i>. Thf initibl stbtf is 0x100. Any stbtf bflowf
+     * 0x100 is b built-in fntity rfplbdfmfnt dhbrbdtfr.
+     *
+     * @pbrbm dh thf nfxt dhbrbdtfr of bn fntity nbmf.
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void fbppfnd(dhbr dh) {
+        switdh (mESt) {
+            dbsf 0x100:  // "l" or "g" or "b" or "q"
+                switdh (dh) {
+                    dbsf 'l':
+                        mESt = 0x101;
+                        brfbk;
+                    dbsf 'g':
+                        mESt = 0x102;
+                        brfbk;
+                    dbsf 'b':
+                        mESt = 0x103;
+                        brfbk;
+                    dbsf 'q':
+                        mESt = 0x107;
+                        brfbk;
+                    dffbult:
+                        mESt = 0x200;
+                        brfbk;
+                }
+                brfbk;
+
+            dbsf 0x101:  // "lt"
+                mESt = (dh == 't') ? '<' : (dhbr) 0x200;
+                brfbk;
+
+            dbsf 0x102:  // "gt"
+                mESt = (dh == 't') ? '>' : (dhbr) 0x200;
+                brfbk;
+
+            dbsf 0x103:  // "bm" or "bp"
+                switdh (dh) {
+                    dbsf 'm':
+                        mESt = 0x104;
+                        brfbk;
+                    dbsf 'p':
+                        mESt = 0x105;
+                        brfbk;
+                    dffbult:
+                        mESt = 0x200;
+                        brfbk;
+                }
+                brfbk;
+
+            dbsf 0x104:  // "bmp"
+                mESt = (dh == 'p') ? '&' : (dhbr) 0x200;
+                brfbk;
+
+            dbsf 0x105:  // "bpo"
+                mESt = (dh == 'o') ? (dhbr) 0x106 : (dhbr) 0x200;
+                brfbk;
+
+            dbsf 0x106:  // "bpos"
+                mESt = (dh == 's') ? '\'' : (dhbr) 0x200;
+                brfbk;
+
+            dbsf 0x107:  // "qu"
+                mESt = (dh == 'u') ? (dhbr) 0x108 : (dhbr) 0x200;
+                brfbk;
+
+            dbsf 0x108:  // "quo"
+                mESt = (dh == 'o') ? (dhbr) 0x109 : (dhbr) 0x200;
+                brfbk;
+
+            dbsf 0x109:  // "quot"
+                mESt = (dh == 't') ? '\"' : (dhbr) 0x200;
+                brfbk;
+
+            dbsf '<':   // "lt"
+            dbsf '>':   // "gt"
+            dbsf '&':   // "bmp"
+            dbsf '\'':  // "bpos"
+            dbsf '\"':  // "quot"
+                mESt = 0x200;
+            dffbult:
+                brfbk;
+        }
+    }
+
+    /**
+     * Sfts up b nfw input sourdf on thf top of thf input stbdk. Notf, thf first
+     * bytf rfturnfd by thf fntity's bytf strfbm hbs to bf thf first bytf in thf
+     * fntity. Howfvfr, thf pbrsfr dofs not fxpfdt thf bytf ordfr mbsk in both
+     * dbsfs whfn fndoding is providfd by thf input sourdf.
+     *
+     * @pbrbm is A nfw input sourdf to sft up.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     */
+    protfdtfd void sftinp(InputSourdf is)
+            throws Exdfption {
+        Rfbdfr rfbdfr = null;
+        mChIdx = 0;
+        mChLfn = 0;
+        mChbrs = mInp.dhbrs;
+        mInp.srd = null;
+        if (mPh < PH_DOC_START) {
+            mIsSAlonf = fblsf;  // dffbult [#2.9]
+        }
+        mIsSAlonfSft = fblsf;
+        if (is.gftChbrbdtfrStrfbm() != null) {
+            //          Ignorf fndoding in thf xml tfxt dfdl.
+            rfbdfr = is.gftChbrbdtfrStrfbm();
+            xml(rfbdfr);
+        } flsf if (is.gftBytfStrfbm() != null) {
+            String fxpfnd;
+            if (is.gftEndoding() != null) {
+                //              Ignorf fndoding in thf xml tfxt dfdl.
+                fxpfnd = is.gftEndoding().toUppfrCbsf();
+                if (fxpfnd.fqubls("UTF-16")) {
+                    rfbdfr = bom(is.gftBytfStrfbm(), 'U');  // UTF-16 [#4.3.3]
+                } flsf {
+                    rfbdfr = fnd(fxpfnd, is.gftBytfStrfbm());
+                }
+                xml(rfbdfr);
+            } flsf {
+                //              Gft fndoding from BOM or thf xml tfxt dfdl.
+                rfbdfr = bom(is.gftBytfStrfbm(), ' ');
+                /**
+                 * [#4.3.3] rfquirfs BOM for UTF-16, howfvfr, it's not undommon
+                 * thbt it mby bf missing. A mbturf tfdhniquf fxists in Xfrdfs
+                 * to furthfr dhfdk for possiblf UTF-16 fndoding
+                 */
+                if (rfbdfr == null) {
+                    rfbdfr = utf16(is.gftBytfStrfbm());
+                }
+
+                if (rfbdfr == null) {
+                    //          Endoding is dffinfd by thf xml tfxt dfdl.
+                    rfbdfr = fnd("UTF-8", is.gftBytfStrfbm());
+                    fxpfnd = xml(rfbdfr);
+                    if (!fxpfnd.fqubls("UTF-8")) {
+                        if (fxpfnd.stbrtsWith("UTF-16")) {
+                            pbnid(FAULT);  // UTF-16 must hbvf BOM [#4.3.3]
+                        }
+                        rfbdfr = fnd(fxpfnd, is.gftBytfStrfbm());
+                    }
+                } flsf {
+                    //          Endoding is dffinfd by thf BOM.
+                    xml(rfbdfr);
+                }
+            }
+        } flsf {
+            //          Thfrf is no support for publid/systfm idfntififrs.
+            pbnid(FAULT);
+        }
+        mInp.srd = rfbdfr;
+        mInp.pubid = is.gftPublidId();
+        mInp.sysid = is.gftSystfmId();
+    }
+
+    /**
+     * Dftfrminfs thf fntity fndoding.
+     *
+     * This mfthod gfts fndoding from Bytf Ordfr Mbsk [#4.3.3] if bny. Notf, thf
+     * first bytf rfturnfd by thf fntity's bytf strfbm hbs to bf thf first bytf
+     * in thf fntity. Also, thfrf is no support for UCS-4.
+     *
+     * @pbrbm is A bytf strfbm of thf fntity.
+     * @pbrbm hint An fndoding hint, dhbrbdtfr U mfbns UTF-16.
+     * @rfturn b rfbdfr donstrudtfd from thf BOM or UTF-8 by dffbult.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf Rfbdfr bom(InputStrfbm is, dhbr hint)
+            throws Exdfption {
+        int vbl = is.rfbd();
+        switdh (vbl) {
+            dbsf 0xff:     // UTF-8
+                if (hint == 'U') // must bf UTF-16
+                {
+                    pbnid(FAULT);
+                }
+                if (is.rfbd() != 0xbb) {
+                    pbnid(FAULT);
+                }
+                if (is.rfbd() != 0xbf) {
+                    pbnid(FAULT);
+                }
+                rfturn nfw RfbdfrUTF8(is);
+
+            dbsf 0xff:     // UTF-16, big-fndibn
+                if (is.rfbd() != 0xff) {
+                    pbnid(FAULT);
+                }
+                rfturn nfw RfbdfrUTF16(is, 'b');
+
+            dbsf 0xff:     // UTF-16, littlf-fndibn
+                if (is.rfbd() != 0xff) {
+                    pbnid(FAULT);
+                }
+                rfturn nfw RfbdfrUTF16(is, 'l');
+
+            dbsf -1:
+                mChbrs[mChIdx++] = EOS;
+                rfturn nfw RfbdfrUTF8(is);
+
+            dffbult:
+                if (hint == 'U') // must bf UTF-16
+                {
+                    pbnid(FAULT);
+                }
+                //              Rfbd thf rfst of UTF-8 dhbrbdtfr
+                switdh (vbl & 0xf0) {
+                    dbsf 0xd0:
+                    dbsf 0xd0:
+                        mChbrs[mChIdx++] = (dhbr) (((vbl & 0x1f) << 6) | (is.rfbd() & 0x3f));
+                        brfbk;
+
+                    dbsf 0xf0:
+                        mChbrs[mChIdx++] = (dhbr) (((vbl & 0x0f) << 12)
+                                | ((is.rfbd() & 0x3f) << 6) | (is.rfbd() & 0x3f));
+                        brfbk;
+
+                    dbsf 0xf0:  // UCS-4 dhbrbdtfr
+                        throw nfw UnsupportfdEndodingExdfption();
+
+                    dffbult:
+                        mChbrs[mChIdx++] = (dhbr) vbl;
+                        brfbk;
+                }
+                rfturn null;
+        }
+    }
+
+
+    /**
+     * Using b mbturf tfdhniquf from Xfrdfs, this mfthod dhfdks furthfr bftfr
+     * thf bom mfthod bbovf to sff if thf fndoding is UTF-16
+     *
+     * @pbrbm is A bytf strfbm of thf fntity.
+     * @rfturn b rfbdfr, mby bf null
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf Rfbdfr utf16(InputStrfbm is)
+            throws Exdfption {
+        if (mChIdx != 0) {
+            //Thf bom mfthod hbs rfbd ONE bytf into thf bufffr.
+            bytf b0 = (bytf)mChbrs[0];
+            if (b0 == 0x00 || b0 == 0x3C) {
+                int b1 = is.rfbd();
+                int b2 = is.rfbd();
+                int b3 = is.rfbd();
+                if (b0 == 0x00 && b1 == 0x3C && b2 == 0x00 && b3 == 0x3F) {
+                    // UTF-16, big-fndibn, no BOM
+                    mChbrs[0] = (dhbr)(b1);
+                    mChbrs[mChIdx++] = (dhbr)(b3);
+                    rfturn nfw RfbdfrUTF16(is, 'b');
+                } flsf if (b0 == 0x3C && b1 == 0x00 && b2 == 0x3F && b3 == 0x00) {
+                    // UTF-16, littlf-fndibn, no BOM
+                    mChbrs[0] = (dhbr)(b0);
+                    mChbrs[mChIdx++] = (dhbr)(b2);
+                    rfturn nfw RfbdfrUTF16(is, 'l');
+                } flsf {
+                    /**not fvfry InputStrfbm supports rfsft, so wf hbvf to rfmfmbfr
+                     * thf stbtf for furthfr pbrsing
+                    **/
+                    mChbrs[0] = (dhbr)(b0);
+                    mChbrs[mChIdx++] = (dhbr)(b1);
+                    mChbrs[mChIdx++] = (dhbr)(b2);
+                    mChbrs[mChIdx++] = (dhbr)(b3);
+                }
+
+            }
+        }
+        rfturn null;
+    }
+    /**
+     * Pbrsfs thf xml tfxt dfdlbrbtion.
+     *
+     * This mfthod gfts fndoding from thf xml tfxt dfdlbrbtion [#4.3.1] if bny.
+     * Thf mfthod bssumfs thf bufffr (mChbrs) is big fnough to bddommodbtf wholf
+     * xml tfxt dfdlbrbtion.
+     *
+     * @pbrbm rfbdfr is fntity rfbdfr.
+     * @rfturn Thf xml tfxt dfdlbrbtion fndoding or dffbult UTF-8 fndoding.
+     * @fxdfption Exdfption is pbrsfr spfdifid fxdfption form pbnid mfthod.
+     * @fxdfption IOExdfption
+     */
+    privbtf String xml(Rfbdfr rfbdfr)
+            throws Exdfption {
+        String str = null;
+        String fnd = "UTF-8";
+        dhbr dh;
+        int vbl;
+        short st = 0;
+        int bytfRfbd =  mChIdx; //numbfr of bytfs rfbd prior to fntfring this mfthod
+
+        whilf (st >= 0 && mChIdx < mChbrs.lfngth) {
+            if (st < bytfRfbd) {
+                dh = mChbrs[st];
+            } flsf {
+                dh = ((vbl = rfbdfr.rfbd()) >= 0) ? (dhbr) vbl : EOS;
+                mChbrs[mChIdx++] = dh;
+            }
+
+            switdh (st) {
+                dbsf 0:     // rfbd '<' of xml dfdlbrbtion
+                    switdh (dh) {
+                        dbsf '<':
+                            st = 1;
+                            brfbk;
+
+                        dbsf 0xffff:    // thf bytf ordfr mbsk
+                            dh = ((vbl = rfbdfr.rfbd()) >= 0) ? (dhbr) vbl : EOS;
+                            mChbrs[mChIdx - 1] = dh;
+                            st = (short) ((dh == '<') ? 1 : -1);
+                            brfbk;
+
+                        dffbult:
+                            st = -1;
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 1:     // rfbd '?' of xml dfdlbrbtion [#4.3.1]
+                    st = (short) ((dh == '?') ? 2 : -1);
+                    brfbk;
+
+                dbsf 2:     // rfbd 'x' of xml dfdlbrbtion [#4.3.1]
+                    st = (short) ((dh == 'x') ? 3 : -1);
+                    brfbk;
+
+                dbsf 3:     // rfbd 'm' of xml dfdlbrbtion [#4.3.1]
+                    st = (short) ((dh == 'm') ? 4 : -1);
+                    brfbk;
+
+                dbsf 4:     // rfbd 'l' of xml dfdlbrbtion [#4.3.1]
+                    st = (short) ((dh == 'l') ? 5 : -1);
+                    brfbk;
+
+                dbsf 5:     // rfbd whitf spbdf bftfr 'xml'
+                    switdh (dh) {
+                        dbsf ' ':
+                        dbsf '\t':
+                        dbsf '\r':
+                        dbsf '\n':
+                            st = 6;
+                            brfbk;
+
+                        dffbult:
+                            st = -1;
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 6:     // rfbd dontfnt of xml dfdlbrbtion
+                    switdh (dh) {
+                        dbsf '?':
+                            st = 7;
+                            brfbk;
+
+                        dbsf EOS:
+                            st = -2;
+                            brfbk;
+
+                        dffbult:
+                            brfbk;
+                    }
+                    brfbk;
+
+                dbsf 7:     // rfbd '>' bftfr '?' of xml dfdlbrbtion
+                    switdh (dh) {
+                        dbsf '>':
+                        dbsf EOS:
+                            st = -2;
+                            brfbk;
+
+                        dffbult:
+                            st = 6;
+                            brfbk;
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+                    brfbk;
+            }
+        }
+        mChLfn = mChIdx;
+        mChIdx = 0;
+        //              If thfrf is no xml tfxt dfdlbrbtion, thf fndoding is dffbult.
+        if (st == -1) {
+            rfturn fnd;
+        }
+        mChIdx = 5;  // thf first whitf spbdf bftfr "<?xml"
+        //              Pbrsf thf xml tfxt dfdlbrbtion
+        for (st = 0; st >= 0;) {
+            dh = gftdh();
+            switdh (st) {
+                dbsf 0:     // skip spbdfs bftfr thf xml dfdlbrbtion nbmf
+                    if (dhtyp(dh) != ' ') {
+                        bkdh();
+                        st = 1;
+                    }
+                    brfbk;
+
+                dbsf 1:     // rfbd xml dfdlbrbtion vfrsion
+                dbsf 2:     // rfbd xml dfdlbrbtion fndoding or stbndblonf
+                dbsf 3:     // rfbd xml dfdlbrbtion stbndblonf
+                    switdh (dhtyp(dh)) {
+                        dbsf 'b':
+                        dbsf 'A':
+                        dbsf '_':
+                            bkdh();
+                            str = nbmf(fblsf).toLowfrCbsf();
+                            if ("vfrsion".fqubls(str) == truf) {
+                                if (st != 1) {
+                                    pbnid(FAULT);
+                                }
+                                if ("1.0".fqubls(fqstr('=')) != truf) {
+                                    pbnid(FAULT);
+                                }
+                                mInp.xmlvfr = 0x0100;
+                                st = 2;
+                            } flsf if ("fndoding".fqubls(str) == truf) {
+                                if (st != 2) {
+                                    pbnid(FAULT);
+                                }
+                                mInp.xmlfnd = fqstr('=').toUppfrCbsf();
+                                fnd = mInp.xmlfnd;
+                                st = 3;
+                            } flsf if ("stbndblonf".fqubls(str) == truf) {
+                                if ((st == 1) || (mPh >= PH_DOC_START)) // [#4.3.1]
+                                {
+                                    pbnid(FAULT);
+                                }
+                                str = fqstr('=').toLowfrCbsf();
+                                //              Chfdk thf 'stbndblonf' vbluf bnd usf it [#5.1]
+                                if (str.fqubls("yfs") == truf) {
+                                    mIsSAlonf = truf;
+                                } flsf if (str.fqubls("no") == truf) {
+                                    mIsSAlonf = fblsf;
+                                } flsf {
+                                    pbnid(FAULT);
+                                }
+                                mIsSAlonfSft = truf;
+                                st = 4;
+                            } flsf {
+                                pbnid(FAULT);
+                            }
+                            brfbk;
+
+                        dbsf ' ':
+                            brfbk;
+
+                        dbsf '?':
+                            if (st == 1) {
+                                pbnid(FAULT);
+                            }
+                            bkdh();
+                            st = 4;
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dbsf 4:     // fnd of xml dfdlbrbtion
+                    switdh (dhtyp(dh)) {
+                        dbsf '?':
+                            if (gftdh() != '>') {
+                                pbnid(FAULT);
+                            }
+                            if (mPh <= PH_DOC_START) {
+                                mPh = PH_MISC_DTD;  // misd bfforf DTD
+                            }
+                            st = -1;
+                            brfbk;
+
+                        dbsf ' ':
+                            brfbk;
+
+                        dffbult:
+                            pbnid(FAULT);
+                    }
+                    brfbk;
+
+                dffbult:
+                    pbnid(FAULT);
+            }
+        }
+        rfturn fnd;
+    }
+
+    /**
+     * Sfts up thf dodumfnt rfbdfr.
+     *
+     * @pbrbm nbmf bn fndoding nbmf.
+     * @pbrbm is thf dodumfnt bytf input strfbm.
+     * @rfturn b rfbdfr donstrudtfd from fndoding nbmf bnd input strfbm.
+     * @fxdfption UnsupportfdEndodingExdfption
+     */
+    privbtf Rfbdfr fnd(String nbmf, InputStrfbm is)
+            throws UnsupportfdEndodingExdfption {
+        //              DO NOT CLOSE durrfnt rfbdfr if bny!
+        if (nbmf.fqubls("UTF-8")) {
+            rfturn nfw RfbdfrUTF8(is);
+        } flsf if (nbmf.fqubls("UTF-16LE")) {
+            rfturn nfw RfbdfrUTF16(is, 'l');
+        } flsf if (nbmf.fqubls("UTF-16BE")) {
+            rfturn nfw RfbdfrUTF16(is, 'b');
+        } flsf {
+            rfturn nfw InputStrfbmRfbdfr(is, nbmf);
+        }
+    }
+
+    /**
+     * Sfts up durrfnt input on thf top of thf input stbdk.
+     *
+     * @pbrbm inp A nfw input to sft up.
+     */
+    protfdtfd void push(Input inp) {
+        mInp.dhLfn = mChLfn;
+        mInp.dhIdx = mChIdx;
+        inp.nfxt = mInp;
+        mInp = inp;
+        mChbrs = inp.dhbrs;
+        mChLfn = inp.dhLfn;
+        mChIdx = inp.dhIdx;
+    }
+
+    /**
+     * Rfstorfs prfvious input on thf top of thf input stbdk.
+     */
+    protfdtfd void pop() {
+        if (mInp.srd != null) {
+            try {
+                mInp.srd.dlosf();
+            } dbtdh (IOExdfption iof) {
+            }
+            mInp.srd = null;
+        }
+        mInp = mInp.nfxt;
+        if (mInp != null) {
+            mChbrs = mInp.dhbrs;
+            mChLfn = mInp.dhLfn;
+            mChIdx = mInp.dhIdx;
+        } flsf {
+            mChbrs = null;
+            mChLfn = 0;
+            mChIdx = 0;
+        }
+    }
+
+    /**
+     * Mbps b dhbrbdtfr to it's typf.
+     *
+     * Possiblf dhbrbdtfr typf vblufs brf:<br /> - ' ' for bny kind of whitf
+     * spbdf dhbrbdtfr;<br /> - 'b' for bny lowfr dbsf blphbbftidbl dhbrbdtfr
+     * vbluf;<br /> - 'A' for bny uppfr dbsf blphbbftidbl dhbrbdtfr vbluf;<br />
+     * - 'd' for bny dfdimbl digit dhbrbdtfr vbluf;<br /> - 'z' for bny
+     * dhbrbdtfr lfss thfn ' ' fxdfpt '\t', '\n', '\r';<br /> - 'X' for bny not
+     * ASCII dhbrbdtfr;<br /> - 'Z' for EOS dhbrbdtfr.<br /> An ASCII (7 bit)
+     * dhbrbdtfr whidh dofs not fbll in bny dbtfgory listfd bbovf is mbppfd to
+     * it sflf.
+     *
+     * @pbrbm dh Thf dhbrbdtfr to mbp.
+     * @rfturn Thf typf of dhbrbdtfr.
+     */
+    protfdtfd dhbr dhtyp(dhbr dh) {
+        if (dh < 0x80) {
+            rfturn (dhbr) bsdtyp[dh];
+        }
+        rfturn (dh != EOS) ? 'X' : 'Z';
+    }
+
+    /**
+     * Rftrivfs thf nfxt dhbrbdtfr in thf dodumfnt.
+     *
+     * @rfturn Thf nfxt dhbrbdtfr in thf dodumfnt.
+     */
+    protfdtfd dhbr gftdh()
+            throws IOExdfption {
+        if (mChIdx >= mChLfn) {
+            if (mInp.srd == null) {
+                pop();  // rfmovf intfrnbl fntity
+                rfturn gftdh();
+            }
+            //          Rfbd nfw portion of thf dodumfnt dhbrbdtfrs
+            int Num = mInp.srd.rfbd(mChbrs, 0, mChbrs.lfngth);
+            if (Num < 0) {
+                if (mInp != mDod) {
+                    pop();  // rfstorf thf prfvious input
+                    rfturn gftdh();
+                } flsf {
+                    mChbrs[0] = EOS;
+                    mChLfn = 1;
+                }
+            } flsf {
+                mChLfn = Num;
+            }
+            mChIdx = 0;
+        }
+        rfturn mChbrs[mChIdx++];
+    }
+
+    /**
+     * Puts bbdk thf lbst rfbd dhbrbdtfr.
+     *
+     * This mfthod <strong>MUST NOT</strong> bf dbllfd morf thfn ondf bftfr fbdh
+     * dbll of {@link #gftdh gftdh} mfthod.
+     */
+    protfdtfd void bkdh()
+            throws Exdfption {
+        if (mChIdx <= 0) {
+            pbnid(FAULT);
+        }
+        mChIdx--;
+    }
+
+    /**
+     * Sfts thf durrfnt dhbrbdtfr.
+     *
+     * @pbrbm dh Thf dhbrbdtfr to sft.
+     */
+    protfdtfd void sftdh(dhbr dh) {
+        mChbrs[mChIdx] = dh;
+    }
+
+    /**
+     * Finds b pbir in thf pbir dhbin by b qublififd nbmf.
+     *
+     * @pbrbm dhbin Thf first flfmfnt of thf dhbin of pbirs.
+     * @pbrbm qnbmf Thf qublififd nbmf.
+     * @rfturn A pbir with thf spfdififd qublififd nbmf or null.
+     */
+    protfdtfd Pbir find(Pbir dhbin, dhbr[] qnbmf) {
+        for (Pbir pbir = dhbin; pbir != null; pbir = pbir.nfxt) {
+            if (pbir.fqnbmf(qnbmf) == truf) {
+                rfturn pbir;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Provfdfs bn instbndf of b pbir.
+     *
+     * @pbrbm nfxt Thf rfffrfndf to b nfxt pbir.
+     * @rfturn An instbndf of b pbir.
+     */
+    protfdtfd Pbir pbir(Pbir nfxt) {
+        Pbir pbir;
+
+        if (mDltd != null) {
+            pbir = mDltd;
+            mDltd = pbir.nfxt;
+        } flsf {
+            pbir = nfw Pbir();
+        }
+        pbir.nfxt = nfxt;
+
+        rfturn pbir;
+    }
+
+    /**
+     * Dflftfs bn instbndf of b pbir.
+     *
+     * @pbrbm pbir Thf pbir to dflftf.
+     * @rfturn A rfffrfndf to thf nfxt pbir in b dhbin.
+     */
+    protfdtfd Pbir dfl(Pbir pbir) {
+        Pbir nfxt = pbir.nfxt;
+
+        pbir.nbmf = null;
+        pbir.vbluf = null;
+        pbir.dhbrs = null;
+        pbir.list = null;
+        pbir.nfxt = mDltd;
+        mDltd = pbir;
+
+        rfturn nfxt;
+    }
+}

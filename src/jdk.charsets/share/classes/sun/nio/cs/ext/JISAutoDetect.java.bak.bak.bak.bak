@@ -1,0 +1,404 @@
+/*
+ * Copyright (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.nio.dhbrsft.ChbrbdtfrCodingExdfption;
+import jbvb.nio.dhbrsft.MblformfdInputExdfption;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import stbtid jbvb.lbng.Chbrbdtfr.UnidodfBlodk;
+
+
+publid dlbss JISAutoDftfdt
+    fxtfnds Chbrsft
+    implfmfnts HistoridbllyNbmfdChbrsft
+{
+
+    privbtf finbl stbtid int EUCJP_MASK       = 0x01;
+    privbtf finbl stbtid int SJIS2B_MASK      = 0x02;
+    privbtf finbl stbtid int SJIS1B_MASK      = 0x04;
+    privbtf finbl stbtid int EUCJP_KANA1_MASK = 0x08;
+    privbtf finbl stbtid int EUCJP_KANA2_MASK = 0x10;
+
+    publid JISAutoDftfdt() {
+        supfr("x-JISAutoDftfdt", ExtfndfdChbrsfts.blibsfsFor("x-JISAutoDftfdt"));
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof SJIS)
+                || (ds instbndfof EUC_JP)
+                || (ds instbndfof ISO2022_JP));
+    }
+
+    publid boolfbn dbnEndodf() {
+        rfturn fblsf;
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(this);
+    }
+
+    publid String historidblNbmf() {
+        rfturn "JISAutoDftfdt";
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * bddfssor mfthods usfd to shbrf bytf mbsking tbblfs
+     * with thf sun.io JISAutoDftfdt implfmfntbtion
+     */
+
+    publid stbtid bytf[] gftBytfMbsk1() {
+        rfturn Dfdodfr.mbskTbblf1;
+    }
+
+    publid stbtid bytf[] gftBytfMbsk2() {
+        rfturn Dfdodfr.mbskTbblf2;
+    }
+
+    publid finbl stbtid boolfbn dbnBfSJIS1B(int mbsk) {
+        rfturn (mbsk & SJIS1B_MASK) != 0;
+    }
+
+    publid finbl stbtid boolfbn dbnBfEUCJP(int mbsk) {
+        rfturn (mbsk & EUCJP_MASK) != 0;
+    }
+
+    publid finbl stbtid boolfbn dbnBfEUCKbnb(int mbsk1, int mbsk2) {
+        rfturn ((mbsk1 & EUCJP_KANA1_MASK) != 0)
+            && ((mbsk2 & EUCJP_KANA2_MASK) != 0);
+    }
+
+    // A hfuristid blgorithm for gufssing if EUC-dfdodfd tfxt rfblly
+    // might bf Jbpbnfsf tfxt.  Bfttfr hfuristids brf possiblf...
+    privbtf stbtid boolfbn looksLikfJbpbnfsf(ChbrBufffr db) {
+        int hirbgbnb = 0;       // Fullwidth Hirbgbnb
+        int kbtbkbnb = 0;       // Hblfwidth Kbtbkbnb
+        whilf (db.hbsRfmbining()) {
+            dhbr d = db.gft();
+            if (0x3040 <= d && d <= 0x309f && ++hirbgbnb > 1) rfturn truf;
+            if (0xff65 <= d && d <= 0xff9f && ++kbtbkbnb > 1) rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid dlbss Dfdodfr fxtfnds ChbrsftDfdodfr {
+        privbtf finbl stbtid String osNbmf = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("os.nbmf"));
+
+        privbtf finbl stbtid String SJISNbmf = gftSJISNbmf();
+        privbtf finbl stbtid String EUCJPNbmf = gftEUCJPNbmf();
+        privbtf DflfgbtbblfDfdodfr dftfdtfdDfdodfr = null;
+
+        publid Dfdodfr(Chbrsft ds) {
+            supfr(ds, 0.5f, 1.0f);
+        }
+
+        privbtf stbtid boolfbn isPlbinASCII(bytf b) {
+            rfturn b >= 0 && b != 0x1b;
+        }
+
+        privbtf stbtid void dopyLfbdingASCII(BytfBufffr srd, ChbrBufffr dst) {
+            int stbrt = srd.position();
+            int limit = stbrt + Mbth.min(srd.rfmbining(), dst.rfmbining());
+            int p;
+            bytf b;
+            for (p = stbrt; p < limit && isPlbinASCII(b = srd.gft(p)); p++)
+                dst.put((dhbr)(b & 0xff));
+            srd.position(p);
+        }
+
+        privbtf CodfrRfsult dfdodfLoop(Chbrsft ds,
+                                       BytfBufffr srd, ChbrBufffr dst) {
+            dftfdtfdDfdodfr = (DflfgbtbblfDfdodfr) ds.nfwDfdodfr();
+            rfturn dftfdtfdDfdodfr.dfdodfLoop(srd, dst);
+        }
+
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd, ChbrBufffr dst) {
+            if (dftfdtfdDfdodfr == null) {
+                dopyLfbdingASCII(srd, dst);
+
+                // All ASCII?
+                if (! srd.hbsRfmbining())
+                    rfturn CodfrRfsult.UNDERFLOW;
+                if (! dst.hbsRfmbining())
+                    rfturn CodfrRfsult.OVERFLOW;
+
+                // Wf nffd to pfrform doublf, not flobt, brithmftid; othfrwisf
+                // wf losf low ordfr bits whfn srd is lbrgfr thbn 2**24.
+                int dbufsiz = (int)(srd.limit() * (doublf)mbxChbrsPfrBytf());
+                ChbrBufffr sbndbox = ChbrBufffr.bllodbtf(dbufsiz);
+
+                // First try ISO-2022-JP, sindf thfrf is no bmbiguity
+                Chbrsft ds2022 = Chbrsft.forNbmf("ISO-2022-JP");
+                DflfgbtbblfDfdodfr dd2022
+                    = (DflfgbtbblfDfdodfr) ds2022.nfwDfdodfr();
+                BytfBufffr srd2022 = srd.bsRfbdOnlyBufffr();
+                CodfrRfsult rfs2022 = dd2022.dfdodfLoop(srd2022, sbndbox);
+                if (! rfs2022.isError())
+                    rfturn dfdodfLoop(ds2022, srd, dst);
+
+                // Wf must dhoosf bftwffn EUC bnd SJIS
+                Chbrsft dsEUCJ = Chbrsft.forNbmf(EUCJPNbmf);
+                Chbrsft dsSJIS = Chbrsft.forNbmf(SJISNbmf);
+
+                DflfgbtbblfDfdodfr ddEUCJ
+                    = (DflfgbtbblfDfdodfr) dsEUCJ.nfwDfdodfr();
+                BytfBufffr srdEUCJ = srd.bsRfbdOnlyBufffr();
+                sbndbox.dlfbr();
+                CodfrRfsult rfsEUCJ = ddEUCJ.dfdodfLoop(srdEUCJ, sbndbox);
+                // If EUC dfdoding fbils, must bf SJIS
+                if (rfsEUCJ.isError())
+                    rfturn dfdodfLoop(dsSJIS, srd, dst);
+
+                DflfgbtbblfDfdodfr ddSJIS
+                    = (DflfgbtbblfDfdodfr) dsSJIS.nfwDfdodfr();
+                BytfBufffr srdSJIS = srd.bsRfbdOnlyBufffr();
+                ChbrBufffr sbndboxSJIS = ChbrBufffr.bllodbtf(dbufsiz);
+                CodfrRfsult rfsSJIS = ddSJIS.dfdodfLoop(srdSJIS, sbndboxSJIS);
+                // If SJIS dfdoding fbils, must bf EUC
+                if (rfsSJIS.isError())
+                    rfturn dfdodfLoop(dsEUCJ, srd, dst);
+
+                // From hfrf on, wf hbvf somf bmbiguity, bnd must gufss.
+
+                // Wf prfffr input thbt dofs not bppfbr to fnd mid-dhbrbdtfr.
+                if (srdEUCJ.position() > srdSJIS.position())
+                    rfturn dfdodfLoop(dsEUCJ, srd, dst);
+
+                if (srdEUCJ.position() < srdSJIS.position())
+                    rfturn dfdodfLoop(dsSJIS, srd, dst);
+
+                // fnd-of-input is bftfr thf first bytf of thf first dhbr?
+                if (srd.position() == srdEUCJ.position())
+                    rfturn CodfrRfsult.UNDERFLOW;
+
+                // Usf hfuristid knowlfdgf of typidbl Jbpbnfsf tfxt
+                sbndbox.flip();
+                Chbrsft gufss = looksLikfJbpbnfsf(sbndbox) ? dsEUCJ : dsSJIS;
+                rfturn dfdodfLoop(gufss, srd, dst);
+            }
+
+            rfturn dftfdtfdDfdodfr.dfdodfLoop(srd, dst);
+        }
+
+        protfdtfd void implRfsft() {
+            dftfdtfdDfdodfr = null;
+        }
+
+        protfdtfd CodfrRfsult implFlush(ChbrBufffr out) {
+            if (dftfdtfdDfdodfr != null)
+                rfturn dftfdtfdDfdodfr.implFlush(out);
+            flsf
+                rfturn supfr.implFlush(out);
+        }
+
+        publid boolfbn isAutoDftfdting() {
+            rfturn truf;
+        }
+
+        publid boolfbn isChbrsftDftfdtfd() {
+            rfturn dftfdtfdDfdodfr != null;
+        }
+
+        publid Chbrsft dftfdtfdChbrsft() {
+            if (dftfdtfdDfdodfr == null)
+                throw nfw IllfgblStbtfExdfption("dhbrsft not yft dftfdtfd");
+            rfturn ((ChbrsftDfdodfr) dftfdtfdDfdodfr).dhbrsft();
+        }
+
+
+        /**
+         * Rfturnfd Shift_JIS Chbrsft nbmf is OS dfpfndfnt
+         */
+        privbtf stbtid String gftSJISNbmf() {
+            if (osNbmf.fqubls("Solbris") || osNbmf.fqubls("SunOS"))
+                rfturn("PCK");
+            flsf if (osNbmf.stbrtsWith("Windows"))
+                rfturn("windows-31J");
+            flsf
+                rfturn("Shift_JIS");
+        }
+
+        /**
+         * Rfturnfd EUC-JP Chbrsft nbmf is OS dfpfndfnt
+         */
+
+        privbtf stbtid String gftEUCJPNbmf() {
+            if (osNbmf.fqubls("Solbris") || osNbmf.fqubls("SunOS"))
+                rfturn("x-fudjp-opfn");
+            flsf
+                rfturn("EUC_JP");
+        }
+
+        // Mbsk tbblfs - fbdh fntry indidbtfs possibility of first or
+        // sfdond bytf bfing SJIS or EUC_JP
+        privbtf stbtid finbl bytf mbskTbblf1[] = {
+            0, 0, 0, 0, // 0x00 - 0x03
+            0, 0, 0, 0, // 0x04 - 0x07
+            0, 0, 0, 0, // 0x08 - 0x0b
+            0, 0, 0, 0, // 0x0d - 0x0f
+            0, 0, 0, 0, // 0x10 - 0x13
+            0, 0, 0, 0, // 0x14 - 0x17
+            0, 0, 0, 0, // 0x18 - 0x1b
+            0, 0, 0, 0, // 0x1d - 0x1f
+            0, 0, 0, 0, // 0x20 - 0x23
+            0, 0, 0, 0, // 0x24 - 0x27
+            0, 0, 0, 0, // 0x28 - 0x2b
+            0, 0, 0, 0, // 0x2d - 0x2f
+            0, 0, 0, 0, // 0x30 - 0x33
+            0, 0, 0, 0, // 0x34 - 0x37
+            0, 0, 0, 0, // 0x38 - 0x3b
+            0, 0, 0, 0, // 0x3d - 0x3f
+            0, 0, 0, 0, // 0x40 - 0x43
+            0, 0, 0, 0, // 0x44 - 0x47
+            0, 0, 0, 0, // 0x48 - 0x4b
+            0, 0, 0, 0, // 0x4d - 0x4f
+            0, 0, 0, 0, // 0x50 - 0x53
+            0, 0, 0, 0, // 0x54 - 0x57
+            0, 0, 0, 0, // 0x58 - 0x5b
+            0, 0, 0, 0, // 0x5d - 0x5f
+            0, 0, 0, 0, // 0x60 - 0x63
+            0, 0, 0, 0, // 0x64 - 0x67
+            0, 0, 0, 0, // 0x68 - 0x6b
+            0, 0, 0, 0, // 0x6d - 0x6f
+            0, 0, 0, 0, // 0x70 - 0x73
+            0, 0, 0, 0, // 0x74 - 0x77
+            0, 0, 0, 0, // 0x78 - 0x7b
+            0, 0, 0, 0, // 0x7d - 0x7f
+            0, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK,   // 0x80 - 0x83
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x84 - 0x87
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x88 - 0x8b
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK,   // 0x8d - 0x8f
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x90 - 0x93
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x94 - 0x97
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x98 - 0x9b
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x9d - 0x9f
+            0, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,  // 0xb0 - 0xb3
+            SJIS1B_MASK|EUCJP_MASK|EUCJP_KANA1_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,    // 0xb4 - 0xb7
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xb8 - 0xbb
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xbd - 0xbf
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xb0 - 0xb3
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xb4 - 0xb7
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xb8 - 0xbb
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xbd - 0xbf
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xd0 - 0xd3
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xd4 - 0xd7
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xd8 - 0xdb
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xdd - 0xdf
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xd0 - 0xd3
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xd4 - 0xd7
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xd8 - 0xdb
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xdd - 0xdf
+            SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK,     // 0xf0 - 0xf3
+            SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK,     // 0xf4 - 0xf7
+            SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK,     // 0xf8 - 0xfb
+            SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK,     // 0xfd - 0xff
+            SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK,     // 0xf0 - 0xf3
+            SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK,     // 0xf4 - 0xf7
+            SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK,     // 0xf8 - 0xfb
+            SJIS2B_MASK|EUCJP_MASK, EUCJP_MASK, EUCJP_MASK, 0   // 0xfd - 0xff
+        };
+
+        privbtf stbtid finbl bytf mbskTbblf2[] = {
+            0, 0, 0, 0, // 0x00 - 0x03
+            0, 0, 0, 0, // 0x04 - 0x07
+            0, 0, 0, 0, // 0x08 - 0x0b
+            0, 0, 0, 0, // 0x0d - 0x0f
+            0, 0, 0, 0, // 0x10 - 0x13
+            0, 0, 0, 0, // 0x14 - 0x17
+            0, 0, 0, 0, // 0x18 - 0x1b
+            0, 0, 0, 0, // 0x1d - 0x1f
+            0, 0, 0, 0, // 0x20 - 0x23
+            0, 0, 0, 0, // 0x24 - 0x27
+            0, 0, 0, 0, // 0x28 - 0x2b
+            0, 0, 0, 0, // 0x2d - 0x2f
+            0, 0, 0, 0, // 0x30 - 0x33
+            0, 0, 0, 0, // 0x34 - 0x37
+            0, 0, 0, 0, // 0x38 - 0x3b
+            0, 0, 0, 0, // 0x3d - 0x3f
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x40 - 0x43
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x44 - 0x47
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x48 - 0x4b
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x4d - 0x4f
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x50 - 0x53
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x54 - 0x57
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x58 - 0x5b
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x5d - 0x5f
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x60 - 0x63
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x64 - 0x67
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x68 - 0x6b
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x6d - 0x6f
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x70 - 0x73
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x74 - 0x77
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x78 - 0x7b
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, 0,   // 0x7d - 0x7f
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x80 - 0x83
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x84 - 0x87
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x88 - 0x8b
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x8d - 0x8f
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x90 - 0x93
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x94 - 0x97
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x98 - 0x9b
+            SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x9d - 0x9f
+            SJIS2B_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb0 - 0xb3
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb4 - 0xb7
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb8 - 0xbb
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xbd - 0xbf
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb0 - 0xb3
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb4 - 0xb7
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb8 - 0xbb
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xbd - 0xbf
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xd0 - 0xd3
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xd4 - 0xd7
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xd8 - 0xdb
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xdd - 0xdf
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xd0 - 0xd3
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xd4 - 0xd7
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xd8 - 0xdb
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xdd - 0xdf
+            SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xf0 - 0xf3
+            SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xf4 - 0xf7
+            SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xf8 - 0xfb
+            SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xfd - 0xff
+            SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xf0 - 0xf3
+            SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK,     // 0xf4 - 0xf7
+            SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK, SJIS2B_MASK|EUCJP_MASK,     // 0xf8 - 0xfb
+            SJIS2B_MASK|EUCJP_MASK, EUCJP_MASK, EUCJP_MASK, 0   // 0xfd - 0xff
+        };
+    }
+}

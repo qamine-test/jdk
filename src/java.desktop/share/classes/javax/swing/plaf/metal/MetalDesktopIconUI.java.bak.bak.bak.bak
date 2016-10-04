@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bfbns.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.plbf.bbsid.BbsidDfsktopIdonUI;
+
+/**
+ * Mftbl dfsktop idon.
+ *
+ * @buthor Stfvf Wilson
+ */
+publid dlbss MftblDfsktopIdonUI fxtfnds BbsidDfsktopIdonUI
+{
+
+    JButton button;
+    JLbbfl lbbfl;
+    TitlfListfnfr titlfListfnfr;
+    privbtf int width;
+
+    /**
+     * Construdts b nfw instbndf of {@dodf MftblDfsktopIdonUI}.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf MftblDfsktopIdonUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+        rfturn nfw MftblDfsktopIdonUI();
+    }
+
+    /**
+     * Construdts b nfw instbndf of {@dodf MftblDfsktopIdonUI}.
+     */
+    publid MftblDfsktopIdonUI() {
+    }
+
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+        LookAndFffl.instbllColorsAndFont(dfsktopIdon, "DfsktopIdon.bbdkground", "DfsktopIdon.forfground", "DfsktopIdon.font");
+        width = UIMbnbgfr.gftInt("DfsktopIdon.width");
+    }
+
+    protfdtfd void instbllComponfnts() {
+        frbmf = dfsktopIdon.gftIntfrnblFrbmf();
+        Idon idon = frbmf.gftFrbmfIdon();
+        String titlf = frbmf.gftTitlf();
+
+        button = nfw JButton (titlf, idon);
+        button.bddAdtionListfnfr( nfw AdtionListfnfr() {
+                                  publid void bdtionPfrformfd(AdtionEvfnt f) {
+             dfidonizf(); }} );
+        button.sftFont(dfsktopIdon.gftFont());
+        button.sftBbdkground(dfsktopIdon.gftBbdkground());
+        button.sftForfground(dfsktopIdon.gftForfground());
+
+        int buttonH = button.gftPrfffrrfdSizf().hfight;
+
+        Idon drbg = nfw MftblBumps((buttonH/3), buttonH,
+                                   MftblLookAndFffl.gftControlHighlight(),
+                                   MftblLookAndFffl.gftControlDbrkShbdow(),
+                                   MftblLookAndFffl.gftControl());
+        lbbfl = nfw JLbbfl(drbg);
+
+        lbbfl.sftBordfr( nfw MbttfBordfr( 0, 2, 0, 1, dfsktopIdon.gftBbdkground()) );
+        dfsktopIdon.sftLbyout(nfw BordfrLbyout(2, 0));
+        dfsktopIdon.bdd(button, BordfrLbyout.CENTER);
+        dfsktopIdon.bdd(lbbfl, BordfrLbyout.WEST);
+    }
+
+    protfdtfd void uninstbllComponfnts() {
+        dfsktopIdon.sftLbyout(null);
+        dfsktopIdon.rfmovf(lbbfl);
+        dfsktopIdon.rfmovf(button);
+        button = null;
+        frbmf = null;
+    }
+
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        dfsktopIdon.gftIntfrnblFrbmf().bddPropfrtyChbngfListfnfr(
+                titlfListfnfr = nfw TitlfListfnfr());
+    }
+
+    protfdtfd void uninstbllListfnfrs() {
+        dfsktopIdon.gftIntfrnblFrbmf().rfmovfPropfrtyChbngfListfnfr(
+                titlfListfnfr);
+        titlfListfnfr = null;
+        supfr.uninstbllListfnfrs();
+    }
+
+
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        // Mftbl dfsktop idons dbn not bf rfsizfd.  Thfir dimfnsions should
+        // blwbys bf thf minimum sizf.  Sff gftMinimumSizf(JComponfnt d).
+        rfturn gftMinimumSizf(d);
+    }
+
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        // For thf mftbl dfsktop idon wf will usf thf lbyout mbbngfr to
+        // dftfrminf thf dorrfdt hfight of thf domponfnt, but wf wbnt to kffp
+        // thf width donsistfnt bddording to thf jlf spfd.
+        rfturn nfw Dimfnsion(width,
+                dfsktopIdon.gftLbyout().minimumLbyoutSizf(dfsktopIdon).hfight);
+    }
+
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        // Mftbl dfsktop idons dbn not bf rfsizfd.  Thfir dimfnsions should
+        // blwbys bf thf minimum sizf.  Sff gftMinimumSizf(JComponfnt d).
+        rfturn gftMinimumSizf(d);
+    }
+
+    dlbss TitlfListfnfr implfmfnts PropfrtyChbngfListfnfr {
+        publid void propfrtyChbngf (PropfrtyChbngfEvfnt f) {
+          if (f.gftPropfrtyNbmf().fqubls("titlf")) {
+            button.sftTfxt((String)f.gftNfwVbluf());
+          }
+
+          if (f.gftPropfrtyNbmf().fqubls("frbmfIdon")) {
+            button.sftIdon((Idon)f.gftNfwVbluf());
+          }
+        }
+    }
+}

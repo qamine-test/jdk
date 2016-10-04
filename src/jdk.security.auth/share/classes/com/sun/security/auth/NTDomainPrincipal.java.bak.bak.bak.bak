@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.buth;
+
+import jbvb.sfdurity.Prindipbl;
+
+/**
+ * <p> This dlbss implfmfnts thf <dodf>Prindipbl</dodf> intfrfbdf
+ * bnd rfprfsfnts thf nbmf of thf Windows NT dombin into whidh thf
+ * usfr buthfntidbtfd.  This will bf b dombin nbmf if thf usfr loggfd
+ * into b Windows NT dombin, b workgroup nbmf if thf usfr loggfd into
+ * b workgroup, or b mbdhinf nbmf if thf usfr loggfd into b stbndblonf
+ * donfigurbtion.
+ *
+ * <p> Prindipbls sudh bs this <dodf>NTDombinPrindipbl</dodf>
+ * mby bf bssodibtfd with b pbrtidulbr <dodf>Subjfdt</dodf>
+ * to bugmfnt thbt <dodf>Subjfdt</dodf> with bn bdditionbl
+ * idfntity.  Rfffr to thf <dodf>Subjfdt</dodf> dlbss for morf informbtion
+ * on how to bdhifvf this.  Authorizbtion dfdisions dbn thfn bf bbsfd upon
+ * thf Prindipbls bssodibtfd with b <dodf>Subjfdt</dodf>.
+ *
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvbx.sfdurity.buth.Subjfdt
+ */
+@jdk.Exportfd
+publid dlbss NTDombinPrindipbl implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4408637351440771220L;
+
+    /**
+     * @sfribl
+     */
+    privbtf String nbmf;
+
+    /**
+     * Crfbtf bn <dodf>NTDombinPrindipbl</dodf> with b Windows NT dombin nbmf.
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf Windows NT dombin nbmf for this usfr. <p>
+     *
+     * @fxdfption NullPointfrExdfption if thf <dodf>nbmf</dodf>
+     *                  is <dodf>null</dodf>.
+     */
+    publid NTDombinPrindipbl(String nbmf) {
+        if (nbmf == null) {
+            jbvb.tfxt.MfssbgfFormbt form = nfw jbvb.tfxt.MfssbgfFormbt
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("invblid.null.input.vbluf",
+                        "sun.sfdurity.util.AuthRfsourdfs"));
+            Objfdt[] sourdf = {"nbmf"};
+            throw nfw NullPointfrExdfption(form.formbt(sourdf));
+        }
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Rfturn thf Windows NT dombin nbmf for this
+     * <dodf>NTDombinPrindipbl</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn thf Windows NT dombin nbmf for this
+     *                  <dodf>NTDombinPrindipbl</dodf>
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturn b string rfprfsfntbtion of this <dodf>NTDombinPrindipbl</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn b string rfprfsfntbtion of this <dodf>NTDombinPrindipbl</dodf>.
+     */
+    publid String toString() {
+        jbvb.tfxt.MfssbgfFormbt form = nfw jbvb.tfxt.MfssbgfFormbt
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("NTDombinPrindipbl.nbmf",
+                        "sun.sfdurity.util.AuthRfsourdfs"));
+        Objfdt[] sourdf = {nbmf};
+        rfturn form.formbt(sourdf);
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this <dodf>NTDombinPrindipbl</dodf>
+     * for fqublity.  Rfturns truf if thf givfn objfdt is blso b
+     * <dodf>NTDombinPrindipbl</dodf> bnd thf two NTDombinPrindipbls
+     * hbvf thf sbmf nbmf.
+     *
+     * <p>
+     *
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity with this
+     *          <dodf>NTDombinPrindipbl</dodf>.
+     *
+     * @rfturn truf if thf spfdififd Objfdt is fqubl fqubl to this
+     *          <dodf>NTDombinPrindipbl</dodf>.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == null)
+                rfturn fblsf;
+
+        if (this == o)
+            rfturn truf;
+
+        if (!(o instbndfof NTDombinPrindipbl))
+            rfturn fblsf;
+        NTDombinPrindipbl thbt = (NTDombinPrindipbl)o;
+
+            if (nbmf.fqubls(thbt.gftNbmf()))
+                rfturn truf;
+            rfturn fblsf;
+    }
+
+    /**
+     * Rfturn b hbsh dodf for this <dodf>NTDombinPrindipbl</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn b hbsh dodf for this <dodf>NTDombinPrindipbl</dodf>.
+     */
+    publid int hbshCodf() {
+        rfturn this.gftNbmf().hbshCodf();
+    }
+}

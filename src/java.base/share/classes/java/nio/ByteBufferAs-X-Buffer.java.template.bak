@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
 
-package java.nio;
+pbdkbgf jbvb.nio;
 
 
-class ByteBufferAs$Type$Buffer$RW$$BO$                  // package-private
-    extends {#if[ro]?ByteBufferAs}$Type$Buffer{#if[ro]?$BO$}
+dlbss BytfBufffrAs$Typf$Bufffr$RW$$BO$                  // pbdkbgf-privbtf
+    fxtfnds {#if[ro]?BytfBufffrAs}$Typf$Bufffr{#if[ro]?$BO$}
 {
 
 #if[rw]
 
-    protected final ByteBuffer bb;
-    protected final int offset;
+    protfdtfd finbl BytfBufffr bb;
+    protfdtfd finbl int offsft;
 
-#end[rw]
+#fnd[rw]
 
-    ByteBufferAs$Type$Buffer$RW$$BO$(ByteBuffer bb) {   // package-private
+    BytfBufffrAs$Typf$Bufffr$RW$$BO$(BytfBufffr bb) {   // pbdkbgf-privbtf
 #if[rw]
-        super(-1, 0,
-              bb.remaining() >> $LG_BYTES_PER_VALUE$,
-              bb.remaining() >> $LG_BYTES_PER_VALUE$);
-        this.bb = bb;
-        // enforce limit == capacity
-        int cap = this.capacity();
-        this.limit(cap);
-        int pos = this.position();
-        assert (pos <= cap);
-        offset = pos;
-#else[rw]
-        super(bb);
-#end[rw]
+        supfr(-1, 0,
+              bb.rfmbining() >> $LG_BYTES_PER_VALUE$,
+              bb.rfmbining() >> $LG_BYTES_PER_VALUE$);
+        tiis.bb = bb;
+        // fnfordf limit == dbpbdity
+        int dbp = tiis.dbpbdity();
+        tiis.limit(dbp);
+        int pos = tiis.position();
+        bssfrt (pos <= dbp);
+        offsft = pos;
+#flsf[rw]
+        supfr(bb);
+#fnd[rw]
     }
 
-    ByteBufferAs$Type$Buffer$RW$$BO$(ByteBuffer bb,
-                                     int mark, int pos, int lim, int cap,
+    BytfBufffrAs$Typf$Bufffr$RW$$BO$(BytfBufffr bb,
+                                     int mbrk, int pos, int lim, int dbp,
                                      int off)
     {
 #if[rw]
-        super(mark, pos, lim, cap);
-        this.bb = bb;
-        offset = off;
-#else[rw]
-        super(bb, mark, pos, lim, cap, off);
-#end[rw]
+        supfr(mbrk, pos, lim, dbp);
+        tiis.bb = bb;
+        offsft = off;
+#flsf[rw]
+        supfr(bb, mbrk, pos, lim, dbp, off);
+#fnd[rw]
     }
 
-    public $Type$Buffer slice() {
-        int pos = this.position();
-        int lim = this.limit();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
-        int off = (pos << $LG_BYTES_PER_VALUE$) + offset;
-        assert (off >= 0);
-        return new ByteBufferAs$Type$Buffer$RW$$BO$(bb, -1, 0, rem, rem, off);
+    publid $Typf$Bufffr slidf() {
+        int pos = tiis.position();
+        int lim = tiis.limit();
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
+        int off = (pos << $LG_BYTES_PER_VALUE$) + offsft;
+        bssfrt (off >= 0);
+        rfturn nfw BytfBufffrAs$Typf$Bufffr$RW$$BO$(bb, -1, 0, rfm, rfm, off);
     }
 
-    public $Type$Buffer duplicate() {
-        return new ByteBufferAs$Type$Buffer$RW$$BO$(bb,
-                                                    this.markValue(),
-                                                    this.position(),
-                                                    this.limit(),
-                                                    this.capacity(),
-                                                    offset);
+    publid $Typf$Bufffr duplidbtf() {
+        rfturn nfw BytfBufffrAs$Typf$Bufffr$RW$$BO$(bb,
+                                                    tiis.mbrkVbluf(),
+                                                    tiis.position(),
+                                                    tiis.limit(),
+                                                    tiis.dbpbdity(),
+                                                    offsft);
     }
 
-    public $Type$Buffer asReadOnlyBuffer() {
+    publid $Typf$Bufffr bsRfbdOnlyBufffr() {
 #if[rw]
-        return new ByteBufferAs$Type$BufferR$BO$(bb,
-                                                 this.markValue(),
-                                                 this.position(),
-                                                 this.limit(),
-                                                 this.capacity(),
-                                                 offset);
-#else[rw]
-        return duplicate();
-#end[rw]
+        rfturn nfw BytfBufffrAs$Typf$BufffrR$BO$(bb,
+                                                 tiis.mbrkVbluf(),
+                                                 tiis.position(),
+                                                 tiis.limit(),
+                                                 tiis.dbpbdity(),
+                                                 offsft);
+#flsf[rw]
+        rfturn duplidbtf();
+#fnd[rw]
     }
 
 #if[rw]
 
-    protected int ix(int i) {
-        return (i << $LG_BYTES_PER_VALUE$) + offset;
+    protfdtfd int ix(int i) {
+        rfturn (i << $LG_BYTES_PER_VALUE$) + offsft;
     }
 
-    public $type$ get() {
-        return Bits.get$Type$$BO$(bb, ix(nextGetIndex()));
+    publid $typf$ gft() {
+        rfturn Bits.gft$Typf$$BO$(bb, ix(nfxtGftIndfx()));
     }
 
-    public $type$ get(int i) {
-        return Bits.get$Type$$BO$(bb, ix(checkIndex(i)));
+    publid $typf$ gft(int i) {
+        rfturn Bits.gft$Typf$$BO$(bb, ix(difdkIndfx(i)));
     }
 
-#if[streamableType]
-   $type$ getUnchecked(int i) {
-        return Bits.get$Type$$BO$(bb, ix(i));
+#if[strfbmbblfTypf]
+   $typf$ gftUndifdkfd(int i) {
+        rfturn Bits.gft$Typf$$BO$(bb, ix(i));
     }
-#end[streamableType]
+#fnd[strfbmbblfTypf]
 
-#end[rw]
+#fnd[rw]
 
-    public $Type$Buffer put($type$ x) {
+    publid $Typf$Bufffr put($typf$ x) {
 #if[rw]
-        Bits.put$Type$$BO$(bb, ix(nextPutIndex()), x);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.put$Typf$$BO$(bb, ix(nfxtPutIndfx()), x);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer put(int i, $type$ x) {
+    publid $Typf$Bufffr put(int i, $typf$ x) {
 #if[rw]
-        Bits.put$Type$$BO$(bb, ix(checkIndex(i)), x);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.put$Typf$$BO$(bb, ix(difdkIndfx(i)), x);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer compact() {
+    publid $Typf$Bufffr dompbdt() {
 #if[rw]
         int pos = position();
         int lim = limit();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
 
-        ByteBuffer db = bb.duplicate();
+        BytfBufffr db = bb.duplidbtf();
         db.limit(ix(lim));
         db.position(ix(0));
-        ByteBuffer sb = db.slice();
+        BytfBufffr sb = db.slidf();
         sb.position(pos << $LG_BYTES_PER_VALUE$);
-        sb.compact();
-        position(rem);
-        limit(capacity());
-        discardMark();
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        sb.dompbdt();
+        position(rfm);
+        limit(dbpbdity());
+        disdbrdMbrk();
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public boolean isDirect() {
-        return bb.isDirect();
+    publid boolfbn isDirfdt() {
+        rfturn bb.isDirfdt();
     }
 
-    public boolean isReadOnly() {
-        return {#if[rw]?false:true};
+    publid boolfbn isRfbdOnly() {
+        rfturn {#if[rw]?fblsf:truf};
     }
 
-#if[char]
+#if[dibr]
 
-    public String toString(int start, int end) {
-        if ((end > limit()) || (start > end))
-            throw new IndexOutOfBoundsException();
+    publid String toString(int stbrt, int fnd) {
+        if ((fnd > limit()) || (stbrt > fnd))
+            tirow nfw IndfxOutOfBoundsExdfption();
         try {
-            int len = end - start;
-            char[] ca = new char[len];
-            CharBuffer cb = CharBuffer.wrap(ca);
-            CharBuffer db = this.duplicate();
-            db.position(start);
-            db.limit(end);
-            cb.put(db);
-            return new String(ca);
-        } catch (StringIndexOutOfBoundsException x) {
-            throw new IndexOutOfBoundsException();
+            int lfn = fnd - stbrt;
+            dibr[] db = nfw dibr[lfn];
+            CibrBufffr db = CibrBufffr.wrbp(db);
+            CibrBufffr db = tiis.duplidbtf();
+            db.position(stbrt);
+            db.limit(fnd);
+            db.put(db);
+            rfturn nfw String(db);
+        } dbtdi (StringIndfxOutOfBoundsExdfption x) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
     }
 
 
-    // --- Methods to support CharSequence ---
+    // --- Mftiods to support CibrSfqufndf ---
 
-    public CharBuffer subSequence(int start, int end) {
+    publid CibrBufffr subSfqufndf(int stbrt, int fnd) {
         int pos = position();
         int lim = limit();
-        assert (pos <= lim);
+        bssfrt (pos <= lim);
         pos = (pos <= lim ? pos : lim);
-        int len = lim - pos;
+        int lfn = lim - pos;
 
-        if ((start < 0) || (end > len) || (start > end))
-            throw new IndexOutOfBoundsException();
-        return new ByteBufferAsCharBuffer$RW$$BO$(bb,
+        if ((stbrt < 0) || (fnd > lfn) || (stbrt > fnd))
+            tirow nfw IndfxOutOfBoundsExdfption();
+        rfturn nfw BytfBufffrAsCibrBufffr$RW$$BO$(bb,
                                                   -1,
-                                                  pos + start,
-                                                  pos + end,
-                                                  capacity(),
-                                                  offset);
+                                                  pos + stbrt,
+                                                  pos + fnd,
+                                                  dbpbdity(),
+                                                  offsft);
     }
 
-#end[char]
+#fnd[dibr]
 
 
-    public ByteOrder order() {
+    publid BytfOrdfr ordfr() {
 #if[boB]
-        return ByteOrder.BIG_ENDIAN;
-#end[boB]
+        rfturn BytfOrdfr.BIG_ENDIAN;
+#fnd[boB]
 #if[boL]
-        return ByteOrder.LITTLE_ENDIAN;
-#end[boL]
+        rfturn BytfOrdfr.LITTLE_ENDIAN;
+#fnd[boL]
     }
 
 }

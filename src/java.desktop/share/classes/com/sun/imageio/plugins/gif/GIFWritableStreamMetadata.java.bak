@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbdkbgf dom.sun.imbgfio.plugins.gif;
 
 /*
- * The source for this class was copied verbatim from the source for
- * package com.sun.imageio.plugins.gif.GIFImageMetadata and then modified
- * to make the class read-write capable.
+ * Tif sourdf for tiis dlbss wbs dopifd vfrbbtim from tif sourdf for
+ * pbdkbgf dom.sun.imbgfio.plugins.gif.GIFImbgfMftbdbtb bnd tifn modififd
+ * to mbkf tif dlbss rfbd-writf dbpbblf.
  */
 
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import org.w3c.dom.Node;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import org.w3d.dom.Nodf;
 
-class GIFWritableStreamMetadata extends GIFStreamMetadata {
+dlbss GIFWritbblfStrfbmMftbdbtb fxtfnds GIFStrfbmMftbdbtb {
 
-    // package scope
-    static final String
-    NATIVE_FORMAT_NAME = "javax_imageio_gif_stream_1.0";
+    // pbdkbgf sdopf
+    stbtid finbl String
+    NATIVE_FORMAT_NAME = "jbvbx_imbgfio_gif_strfbm_1.0";
 
-    public GIFWritableStreamMetadata() {
-        super(true,
+    publid GIFWritbblfStrfbmMftbdbtb() {
+        supfr(truf,
               NATIVE_FORMAT_NAME,
-              "com.sun.imageio.plugins.gif.GIFStreamMetadataFormat", // XXX J2SE
+              "dom.sun.imbgfio.plugins.gif.GIFStrfbmMftbdbtbFormbt", // XXX J2SE
               null, null);
 
-        // initialize metadata fields by default values
-        reset();
+        // initiblizf mftbdbtb fiflds by dffbult vblufs
+        rfsft();
     }
 
-    public boolean isReadOnly() {
-        return false;
+    publid boolfbn isRfbdOnly() {
+        rfturn fblsf;
     }
 
-    public void mergeTree(String formatName, Node root)
-      throws IIOInvalidTreeException {
-        if (formatName.equals(nativeMetadataFormatName)) {
+    publid void mfrgfTrff(String formbtNbmf, Nodf root)
+      tirows IIOInvblidTrffExdfption {
+        if (formbtNbmf.fqubls(nbtivfMftbdbtbFormbtNbmf)) {
             if (root == null) {
-                throw new IllegalArgumentException("root == null!");
+                tirow nfw IllfgblArgumfntExdfption("root == null!");
             }
-            mergeNativeTree(root);
-        } else if (formatName.equals
-                   (IIOMetadataFormatImpl.standardMetadataFormatName)) {
+            mfrgfNbtivfTrff(root);
+        } flsf if (formbtNbmf.fqubls
+                   (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
             if (root == null) {
-                throw new IllegalArgumentException("root == null!");
+                tirow nfw IllfgblArgumfntExdfption("root == null!");
             }
-            mergeStandardTree(root);
-        } else {
-            throw new IllegalArgumentException("Not a recognized format!");
+            mfrgfStbndbrdTrff(root);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Not b rfdognizfd formbt!");
         }
     }
 
-    public void reset() {
-        version = null;
+    publid void rfsft() {
+        vfrsion = null;
 
-        logicalScreenWidth = UNDEFINED_INTEGER_VALUE;
-        logicalScreenHeight = UNDEFINED_INTEGER_VALUE;
-        colorResolution = UNDEFINED_INTEGER_VALUE;
-        pixelAspectRatio = 0;
+        logidblSdrffnWidti = UNDEFINED_INTEGER_VALUE;
+        logidblSdrffnHfigit = UNDEFINED_INTEGER_VALUE;
+        dolorRfsolution = UNDEFINED_INTEGER_VALUE;
+        pixflAspfdtRbtio = 0;
 
-        backgroundColorIndex = 0;
-        sortFlag = false;
-        globalColorTable = null;
+        bbdkgroundColorIndfx = 0;
+        sortFlbg = fblsf;
+        globblColorTbblf = null;
     }
 
-    protected void mergeNativeTree(Node root) throws IIOInvalidTreeException {
-        Node node = root;
-        if (!node.getNodeName().equals(nativeMetadataFormatName)) {
-            fatal(node, "Root must be " + nativeMetadataFormatName);
+    protfdtfd void mfrgfNbtivfTrff(Nodf root) tirows IIOInvblidTrffExdfption {
+        Nodf nodf = root;
+        if (!nodf.gftNodfNbmf().fqubls(nbtivfMftbdbtbFormbtNbmf)) {
+            fbtbl(nodf, "Root must bf " + nbtivfMftbdbtbFormbtNbmf);
         }
 
-        node = node.getFirstChild();
-        while (node != null) {
-            String name = node.getNodeName();
+        nodf = nodf.gftFirstCiild();
+        wiilf (nodf != null) {
+            String nbmf = nodf.gftNodfNbmf();
 
-            if (name.equals("Version")) {
-                version = getStringAttribute(node, "value", null,
-                                             true, versionStrings);
-            } else if (name.equals("LogicalScreenDescriptor")) {
-                /* NB: At the moment we use empty strings to support undefined
-                 * integer values in tree representation.
-                 * We need to add better support for undefined/default values
-                 * later.
+            if (nbmf.fqubls("Vfrsion")) {
+                vfrsion = gftStringAttributf(nodf, "vbluf", null,
+                                             truf, vfrsionStrings);
+            } flsf if (nbmf.fqubls("LogidblSdrffnDfsdriptor")) {
+                /* NB: At tif momfnt wf usf fmpty strings to support undffinfd
+                 * intfgfr vblufs in trff rfprfsfntbtion.
+                 * Wf nffd to bdd bfttfr support for undffinfd/dffbult vblufs
+                 * lbtfr.
                  */
-                logicalScreenWidth = getIntAttribute(node,
-                                                     "logicalScreenWidth",
+                logidblSdrffnWidti = gftIntAttributf(nodf,
+                                                     "logidblSdrffnWidti",
                                                      UNDEFINED_INTEGER_VALUE,
-                                                     true,
-                                                     true, 1, 65535);
+                                                     truf,
+                                                     truf, 1, 65535);
 
-                logicalScreenHeight = getIntAttribute(node,
-                                                      "logicalScreenHeight",
+                logidblSdrffnHfigit = gftIntAttributf(nodf,
+                                                      "logidblSdrffnHfigit",
                                                       UNDEFINED_INTEGER_VALUE,
-                                                      true,
-                                                      true, 1, 65535);
+                                                      truf,
+                                                      truf, 1, 65535);
 
-                colorResolution = getIntAttribute(node,
-                                                  "colorResolution",
+                dolorRfsolution = gftIntAttributf(nodf,
+                                                  "dolorRfsolution",
                                                   UNDEFINED_INTEGER_VALUE,
-                                                  true,
-                                                  true, 1, 8);
+                                                  truf,
+                                                  truf, 1, 8);
 
-                pixelAspectRatio = getIntAttribute(node,
-                                                   "pixelAspectRatio",
-                                                   0, true,
-                                                   true, 0, 255);
-            } else if (name.equals("GlobalColorTable")) {
-                int sizeOfGlobalColorTable =
-                    getIntAttribute(node, "sizeOfGlobalColorTable",
-                                    true, 2, 256);
-                if (sizeOfGlobalColorTable != 2 &&
-                   sizeOfGlobalColorTable != 4 &&
-                   sizeOfGlobalColorTable != 8 &&
-                   sizeOfGlobalColorTable != 16 &&
-                   sizeOfGlobalColorTable != 32 &&
-                   sizeOfGlobalColorTable != 64 &&
-                   sizeOfGlobalColorTable != 128 &&
-                   sizeOfGlobalColorTable != 256) {
-                    fatal(node,
-                          "Bad value for GlobalColorTable attribute sizeOfGlobalColorTable!");
+                pixflAspfdtRbtio = gftIntAttributf(nodf,
+                                                   "pixflAspfdtRbtio",
+                                                   0, truf,
+                                                   truf, 0, 255);
+            } flsf if (nbmf.fqubls("GlobblColorTbblf")) {
+                int sizfOfGlobblColorTbblf =
+                    gftIntAttributf(nodf, "sizfOfGlobblColorTbblf",
+                                    truf, 2, 256);
+                if (sizfOfGlobblColorTbblf != 2 &&
+                   sizfOfGlobblColorTbblf != 4 &&
+                   sizfOfGlobblColorTbblf != 8 &&
+                   sizfOfGlobblColorTbblf != 16 &&
+                   sizfOfGlobblColorTbblf != 32 &&
+                   sizfOfGlobblColorTbblf != 64 &&
+                   sizfOfGlobblColorTbblf != 128 &&
+                   sizfOfGlobblColorTbblf != 256) {
+                    fbtbl(nodf,
+                          "Bbd vbluf for GlobblColorTbblf bttributf sizfOfGlobblColorTbblf!");
                 }
 
-                backgroundColorIndex = getIntAttribute(node,
-                                                       "backgroundColorIndex",
-                                                       0, true,
-                                                       true, 0, 255);
+                bbdkgroundColorIndfx = gftIntAttributf(nodf,
+                                                       "bbdkgroundColorIndfx",
+                                                       0, truf,
+                                                       truf, 0, 255);
 
-                sortFlag = getBooleanAttribute(node, "sortFlag", false, true);
+                sortFlbg = gftBoolfbnAttributf(nodf, "sortFlbg", fblsf, truf);
 
-                globalColorTable = getColorTable(node, "ColorTableEntry",
-                                                 true, sizeOfGlobalColorTable);
-            } else {
-                fatal(node, "Unknown child of root node!");
+                globblColorTbblf = gftColorTbblf(nodf, "ColorTbblfEntry",
+                                                 truf, sizfOfGlobblColorTbblf);
+            } flsf {
+                fbtbl(nodf, "Unknown diild of root nodf!");
             }
 
-            node = node.getNextSibling();
+            nodf = nodf.gftNfxtSibling();
         }
     }
 
-    protected void mergeStandardTree(Node root)
-      throws IIOInvalidTreeException {
-        Node node = root;
-        if (!node.getNodeName()
-            .equals(IIOMetadataFormatImpl.standardMetadataFormatName)) {
-            fatal(node, "Root must be " +
-                  IIOMetadataFormatImpl.standardMetadataFormatName);
+    protfdtfd void mfrgfStbndbrdTrff(Nodf root)
+      tirows IIOInvblidTrffExdfption {
+        Nodf nodf = root;
+        if (!nodf.gftNodfNbmf()
+            .fqubls(IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
+            fbtbl(nodf, "Root must bf " +
+                  IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf);
         }
 
-        node = node.getFirstChild();
-        while (node != null) {
-            String name = node.getNodeName();
+        nodf = nodf.gftFirstCiild();
+        wiilf (nodf != null) {
+            String nbmf = nodf.gftNodfNbmf();
 
-            if (name.equals("Chroma")) {
-                Node childNode = node.getFirstChild();
-                while(childNode != null) {
-                    String childName = childNode.getNodeName();
-                    if (childName.equals("Palette")) {
-                        globalColorTable = getColorTable(childNode,
-                                                         "PaletteEntry",
-                                                         false, -1);
+            if (nbmf.fqubls("Ciromb")) {
+                Nodf diildNodf = nodf.gftFirstCiild();
+                wiilf(diildNodf != null) {
+                    String diildNbmf = diildNodf.gftNodfNbmf();
+                    if (diildNbmf.fqubls("Pblfttf")) {
+                        globblColorTbblf = gftColorTbblf(diildNodf,
+                                                         "PblfttfEntry",
+                                                         fblsf, -1);
 
-                    } else if (childName.equals("BackgroundIndex")) {
-                        backgroundColorIndex = getIntAttribute(childNode,
-                                                               "value",
-                                                               -1, true,
-                                                               true, 0, 255);
+                    } flsf if (diildNbmf.fqubls("BbdkgroundIndfx")) {
+                        bbdkgroundColorIndfx = gftIntAttributf(diildNodf,
+                                                               "vbluf",
+                                                               -1, truf,
+                                                               truf, 0, 255);
                     }
-                    childNode = childNode.getNextSibling();
+                    diildNodf = diildNodf.gftNfxtSibling();
                 }
-            } else if (name.equals("Data")) {
-                Node childNode = node.getFirstChild();
-                while(childNode != null) {
-                    String childName = childNode.getNodeName();
-                    if (childName.equals("BitsPerSample")) {
-                        colorResolution = getIntAttribute(childNode,
-                                                          "value",
-                                                          -1, true,
-                                                          true, 1, 8);
-                        break;
+            } flsf if (nbmf.fqubls("Dbtb")) {
+                Nodf diildNodf = nodf.gftFirstCiild();
+                wiilf(diildNodf != null) {
+                    String diildNbmf = diildNodf.gftNodfNbmf();
+                    if (diildNbmf.fqubls("BitsPfrSbmplf")) {
+                        dolorRfsolution = gftIntAttributf(diildNodf,
+                                                          "vbluf",
+                                                          -1, truf,
+                                                          truf, 1, 8);
+                        brfbk;
                     }
-                    childNode = childNode.getNextSibling();
+                    diildNodf = diildNodf.gftNfxtSibling();
                 }
-            } else if (name.equals("Dimension")) {
-                Node childNode = node.getFirstChild();
-                while(childNode != null) {
-                    String childName = childNode.getNodeName();
-                    if (childName.equals("PixelAspectRatio")) {
-                        float aspectRatio = getFloatAttribute(childNode,
-                                                              "value");
-                        if (aspectRatio == 1.0F) {
-                            pixelAspectRatio = 0;
-                        } else {
-                            int ratio = (int)(aspectRatio*64.0F - 15.0F);
-                            pixelAspectRatio =
-                                Math.max(Math.min(ratio, 255), 0);
+            } flsf if (nbmf.fqubls("Dimfnsion")) {
+                Nodf diildNodf = nodf.gftFirstCiild();
+                wiilf(diildNodf != null) {
+                    String diildNbmf = diildNodf.gftNodfNbmf();
+                    if (diildNbmf.fqubls("PixflAspfdtRbtio")) {
+                        flobt bspfdtRbtio = gftFlobtAttributf(diildNodf,
+                                                              "vbluf");
+                        if (bspfdtRbtio == 1.0F) {
+                            pixflAspfdtRbtio = 0;
+                        } flsf {
+                            int rbtio = (int)(bspfdtRbtio*64.0F - 15.0F);
+                            pixflAspfdtRbtio =
+                                Mbti.mbx(Mbti.min(rbtio, 255), 0);
                         }
-                    } else if (childName.equals("HorizontalScreenSize")) {
-                        logicalScreenWidth = getIntAttribute(childNode,
-                                                             "value",
-                                                             -1, true,
-                                                             true, 1, 65535);
-                    } else if (childName.equals("VerticalScreenSize")) {
-                        logicalScreenHeight = getIntAttribute(childNode,
-                                                              "value",
-                                                              -1, true,
-                                                              true, 1, 65535);
+                    } flsf if (diildNbmf.fqubls("HorizontblSdrffnSizf")) {
+                        logidblSdrffnWidti = gftIntAttributf(diildNodf,
+                                                             "vbluf",
+                                                             -1, truf,
+                                                             truf, 1, 65535);
+                    } flsf if (diildNbmf.fqubls("VfrtidblSdrffnSizf")) {
+                        logidblSdrffnHfigit = gftIntAttributf(diildNodf,
+                                                              "vbluf",
+                                                              -1, truf,
+                                                              truf, 1, 65535);
                     }
-                    childNode = childNode.getNextSibling();
+                    diildNodf = diildNodf.gftNfxtSibling();
                 }
-            } else if (name.equals("Document")) {
-                Node childNode = node.getFirstChild();
-                while(childNode != null) {
-                    String childName = childNode.getNodeName();
-                    if (childName.equals("FormatVersion")) {
-                        String formatVersion =
-                            getStringAttribute(childNode, "value", null,
-                                               true, null);
-                        for (int i = 0; i < versionStrings.length; i++) {
-                            if (formatVersion.equals(versionStrings[i])) {
-                                version = formatVersion;
-                                break;
+            } flsf if (nbmf.fqubls("Dodumfnt")) {
+                Nodf diildNodf = nodf.gftFirstCiild();
+                wiilf(diildNodf != null) {
+                    String diildNbmf = diildNodf.gftNodfNbmf();
+                    if (diildNbmf.fqubls("FormbtVfrsion")) {
+                        String formbtVfrsion =
+                            gftStringAttributf(diildNodf, "vbluf", null,
+                                               truf, null);
+                        for (int i = 0; i < vfrsionStrings.lfngti; i++) {
+                            if (formbtVfrsion.fqubls(vfrsionStrings[i])) {
+                                vfrsion = formbtVfrsion;
+                                brfbk;
                             }
                         }
-                        break;
+                        brfbk;
                     }
-                    childNode = childNode.getNextSibling();
+                    diildNodf = diildNodf.gftNfxtSibling();
                 }
             }
 
-            node = node.getNextSibling();
+            nodf = nodf.gftNfxtSibling();
         }
     }
 
-    public void setFromTree(String formatName, Node root)
-        throws IIOInvalidTreeException
+    publid void sftFromTrff(String formbtNbmf, Nodf root)
+        tirows IIOInvblidTrffExdfption
     {
-        reset();
-        mergeTree(formatName, root);
+        rfsft();
+        mfrgfTrff(formbtNbmf, root);
     }
 }

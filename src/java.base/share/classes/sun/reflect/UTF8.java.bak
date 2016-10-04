@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect;
+pbdkbgf sun.rfflfdt;
 
-/** It is necessary to use a "bootstrap" UTF-8 encoder for encoding
-    constant pool entries because the character set converters rely on
-    Class.newInstance(). */
+/** It is nfdfssbry to usf b "bootstrbp" UTF-8 fndodfr for fndoding
+    donstbnt pool fntrifs bfdbusf tif dibrbdtfr sft donvfrtfrs rfly on
+    Clbss.nfwInstbndf(). */
 
-class UTF8 {
-    // This encoder is not quite correct.  It does not handle surrogate pairs.
-    static byte[] encode(String str) {
-        int len = str.length();
-        byte[] res = new byte[utf8Length(str)];
+dlbss UTF8 {
+    // Tiis fndodfr is not quitf dorrfdt.  It dofs not ibndlf surrogbtf pbirs.
+    stbtid bytf[] fndodf(String str) {
+        int lfn = str.lfngti();
+        bytf[] rfs = nfw bytf[utf8Lfngti(str)];
         int utf8Idx = 0;
         try {
-            for (int i = 0; i < len; i++) {
-                int c = str.charAt(i) & 0xFFFF;
-                if (c >= 0x0001 && c <= 0x007F) {
-                    res[utf8Idx++] = (byte) c;
-                } else if (c == 0x0000 ||
-                           (c >= 0x0080 && c <= 0x07FF)) {
-                    res[utf8Idx++] = (byte) (0xC0 + (c >> 6));
-                    res[utf8Idx++] = (byte) (0x80 + (c & 0x3F));
-                } else {
-                    res[utf8Idx++] = (byte) (0xE0 + (c >> 12));
-                    res[utf8Idx++] = (byte) (0x80 + ((c >> 6) & 0x3F));
-                    res[utf8Idx++] = (byte) (0x80 + (c & 0x3F));
+            for (int i = 0; i < lfn; i++) {
+                int d = str.dibrAt(i) & 0xFFFF;
+                if (d >= 0x0001 && d <= 0x007F) {
+                    rfs[utf8Idx++] = (bytf) d;
+                } flsf if (d == 0x0000 ||
+                           (d >= 0x0080 && d <= 0x07FF)) {
+                    rfs[utf8Idx++] = (bytf) (0xC0 + (d >> 6));
+                    rfs[utf8Idx++] = (bytf) (0x80 + (d & 0x3F));
+                } flsf {
+                    rfs[utf8Idx++] = (bytf) (0xE0 + (d >> 12));
+                    rfs[utf8Idx++] = (bytf) (0x80 + ((d >> 6) & 0x3F));
+                    rfs[utf8Idx++] = (bytf) (0x80 + (d & 0x3F));
                 }
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new InternalError
-                ("Bug in sun.reflect bootstrap UTF-8 encoder", e);
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) {
+            tirow nfw IntfrnblError
+                ("Bug in sun.rfflfdt bootstrbp UTF-8 fndodfr", f);
         }
-        return res;
+        rfturn rfs;
     }
 
-    private static int utf8Length(String str) {
-        int len = str.length();
-        int utf8Len = 0;
-        for (int i = 0; i < len; i++) {
-            int c = str.charAt(i) & 0xFFFF;
-            if (c >= 0x0001 && c <= 0x007F) {
-                utf8Len += 1;
-            } else if (c == 0x0000 ||
-                       (c >= 0x0080 && c <= 0x07FF)) {
-                utf8Len += 2;
-            } else {
-                utf8Len += 3;
+    privbtf stbtid int utf8Lfngti(String str) {
+        int lfn = str.lfngti();
+        int utf8Lfn = 0;
+        for (int i = 0; i < lfn; i++) {
+            int d = str.dibrAt(i) & 0xFFFF;
+            if (d >= 0x0001 && d <= 0x007F) {
+                utf8Lfn += 1;
+            } flsf if (d == 0x0000 ||
+                       (d >= 0x0080 && d <= 0x07FF)) {
+                utf8Lfn += 2;
+            } flsf {
+                utf8Lfn += 3;
             }
         }
-        return utf8Len;
+        rfturn utf8Lfn;
     }
 }

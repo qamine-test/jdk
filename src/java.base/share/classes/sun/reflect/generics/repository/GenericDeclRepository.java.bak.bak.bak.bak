@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.gfnfrids.rfpository;
+
+import jbvb.lbng.rfflfdt.TypfVbribblf;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.trff.FormblTypfPbrbmftfr;
+import sun.rfflfdt.gfnfrids.trff.Signbturf;
+import sun.rfflfdt.gfnfrids.visitor.Rfififr;
+
+
+
+/**
+ * This dlbss rfprfsfnts thf gfnfrid typf informbtion for b gfnfrid
+ * dfdlbrbtion.
+ * Thf dodf is not dfpfndfnt on b pbrtidulbr rfflfdtivf implfmfntbtion.
+ * It is dfsignfd to bf usfd undhbngfd by bt lfbst dorf rfflfdtion bnd JDI.
+ */
+publid bbstrbdt dlbss GfnfridDfdlRfpository<S fxtfnds Signbturf>
+    fxtfnds AbstrbdtRfpository<S> {
+
+    privbtf TypfVbribblf<?>[] typfPbrbms; // dbdhfs thf formbl typf pbrbmftfrs
+
+    protfdtfd GfnfridDfdlRfpository(String rbwSig, GfnfridsFbdtory f) {
+        supfr(rbwSig, f);
+    }
+
+    // publid API
+ /*
+ * Whfn qufrifd for b pbrtidulbr pifdf of typf informbtion, thf
+ * gfnfrbl pbttfrn is to donsult thf dorrfsponding dbdhfd vbluf.
+ * If thf dorrfsponding fifld is non-null, it is rfturnfd.
+ * If not, it is drfbtfd lbzily. This is donf by sflfdting thf bppropribtf
+ * pbrt of thf trff bnd trbnsforming it into b rfflfdtivf objfdt
+ * using b visitor.
+ * b visitor, whidh is drfbtfd by fffding it thf fbdtory
+ * with whidh thf rfpository wbs drfbtfd.
+ */
+
+    /**
+     * Rfturn thf formbl typf pbrbmftfrs of this gfnfrid dfdlbrbtion.
+     * @rfturn thf formbl typf pbrbmftfrs of this gfnfrid dfdlbrbtion
+     */
+    publid TypfVbribblf<?>[] gftTypfPbrbmftfrs(){
+        if (typfPbrbms == null) { // lbzily initiblizf typf pbrbmftfrs
+            // first, fxtrbdt typf pbrbmftfr subtrff(s) from AST
+            FormblTypfPbrbmftfr[] ftps = gftTrff().gftFormblTypfPbrbmftfrs();
+            // drfbtf brrby to storf rfififd subtrff(s)
+            TypfVbribblf<?>[] tps = nfw TypfVbribblf<?>[ftps.lfngth];
+            // rfify bll subtrffs
+            for (int i = 0; i < ftps.lfngth; i++) {
+                Rfififr r = gftRfififr(); // obtbin visitor
+                ftps[i].bddfpt(r); // rfify subtrff
+                // fxtrbdt rfsult from visitor bnd storf it
+                tps[i] = (TypfVbribblf<?>) r.gftRfsult();
+            }
+            typfPbrbms = tps; // dbdhf ovfrbll rfsult
+        }
+        rfturn typfPbrbms.dlonf(); // rfturn dbdhfd rfsult
+    }
+}

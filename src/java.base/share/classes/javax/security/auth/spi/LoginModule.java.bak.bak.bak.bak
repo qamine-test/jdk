@@ -1,0 +1,240 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.spi;
+
+import jbvbx.sfdurity.buth.Subjfdt;
+import jbvbx.sfdurity.buth.AuthPfrmission;
+import jbvbx.sfdurity.buth.dbllbbdk.*;
+import jbvbx.sfdurity.buth.login.*;
+import jbvb.util.Mbp;
+
+/**
+ * <p> {@dodf LoginModulf} dfsdribfs thf intfrfbdf
+ * implfmfntfd by buthfntidbtion tfdhnology providfrs.  LoginModulfs
+ * brf pluggfd in undfr bpplidbtions to providf b pbrtidulbr typf of
+ * buthfntidbtion.
+ *
+ * <p> Whilf bpplidbtions writf to thf {@dodf LoginContfxt} API,
+ * buthfntidbtion tfdhnology providfrs implfmfnt thf
+ * {@dodf LoginModulf} intfrfbdf.
+ * A {@dodf Configurbtion} spfdififs thf LoginModulf(s)
+ * to bf usfd with b pbrtidulbr login bpplidbtion.  Thfrfforf difffrfnt
+ * LoginModulfs dbn bf pluggfd in undfr thf bpplidbtion without
+ * rfquiring bny modifidbtions to thf bpplidbtion itsflf.
+ *
+ * <p> Thf {@dodf LoginContfxt} is rfsponsiblf for rfbding thf
+ * {@dodf Configurbtion} bnd instbntibting thf bppropribtf
+ * LoginModulfs.  Ebdh {@dodf LoginModulf} is initiblizfd with
+ * b {@dodf Subjfdt}, b {@dodf CbllbbdkHbndlfr}, shbrfd
+ * {@dodf LoginModulf} stbtf, bnd LoginModulf-spfdifid options.
+ *
+ * Thf {@dodf Subjfdt} rfprfsfnts thf
+ * {@dodf Subjfdt} durrfntly bfing buthfntidbtfd bnd is updbtfd
+ * with rflfvbnt Crfdfntibls if buthfntidbtion suddffds.
+ * LoginModulfs usf thf {@dodf CbllbbdkHbndlfr} to
+ * dommunidbtf with usfrs.  Thf {@dodf CbllbbdkHbndlfr} mby bf
+ * usfd to prompt for usfrnbmfs bnd pbsswords, for fxbmplf.
+ * Notf thbt thf {@dodf CbllbbdkHbndlfr} mby bf null.  LoginModulfs
+ * whidh bbsolutfly rfquirf b {@dodf CbllbbdkHbndlfr} to buthfntidbtf
+ * thf {@dodf Subjfdt} mby throw b {@dodf LoginExdfption}.
+ * LoginModulfs optionblly usf thf shbrfd stbtf to shbrf informbtion
+ * or dbtb bmong thfmsflvfs.
+ *
+ * <p> Thf LoginModulf-spfdifid options rfprfsfnt thf options
+ * donfigurfd for this {@dodf LoginModulf} by bn bdministrbtor or usfr
+ * in thf login {@dodf Configurbtion}.
+ * Thf options brf dffinfd by thf {@dodf LoginModulf} itsflf
+ * bnd dontrol thf bfhbvior within it.  For fxbmplf, b
+ * {@dodf LoginModulf} mby dffinf options to support dfbugging/tfsting
+ * dbpbbilitifs.  Options brf dffinfd using b kfy-vbluf syntbx,
+ * sudh bs <i>dfbug=truf</i>.  Thf {@dodf LoginModulf}
+ * storfs thf options bs b {@dodf Mbp} so thbt thf vblufs mby
+ * bf rftrifvfd using thf kfy.  Notf thbt thfrf is no limit to thf numbfr
+ * of options b {@dodf LoginModulf} dhoosfs to dffinf.
+ *
+ * <p> Thf dblling bpplidbtion sffs thf buthfntidbtion prodfss bs b singlf
+ * opfrbtion.  Howfvfr, thf buthfntidbtion prodfss within thf
+ * {@dodf LoginModulf} prodffds in two distindt phbsfs.
+ * In thf first phbsf, thf LoginModulf's
+ * {@dodf login} mfthod gfts invokfd by thf LoginContfxt's
+ * {@dodf login} mfthod.  Thf {@dodf login}
+ * mfthod for thf {@dodf LoginModulf} thfn pfrforms
+ * thf bdtubl buthfntidbtion (prompt for bnd vfrify b pbssword for fxbmplf)
+ * bnd sbvfs its buthfntidbtion stbtus bs privbtf stbtf
+ * informbtion.  Ondf finishfd, thf LoginModulf's {@dodf login}
+ * mfthod fithfr rfturns {@dodf truf} (if it suddffdfd) or
+ * {@dodf fblsf} (if it should bf ignorfd), or throws b
+ * {@dodf LoginExdfption} to spfdify b fbilurf.
+ * In thf fbilurf dbsf, thf {@dodf LoginModulf} must not rftry thf
+ * buthfntidbtion or introdudf dflbys.  Thf rfsponsibility of sudh tbsks
+ * bflongs to thf bpplidbtion.  If thf bpplidbtion bttfmpts to rftry
+ * thf buthfntidbtion, thf LoginModulf's {@dodf login} mfthod will bf
+ * dbllfd bgbin.
+ *
+ * <p> In thf sfdond phbsf, if thf LoginContfxt's ovfrbll buthfntidbtion
+ * suddffdfd (thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+ * LoginModulfs suddffdfd), thfn thf {@dodf dommit}
+ * mfthod for thf {@dodf LoginModulf} gfts invokfd.
+ * Thf {@dodf dommit} mfthod for b {@dodf LoginModulf} dhfdks its
+ * privbtfly sbvfd stbtf to sff if its own buthfntidbtion suddffdfd.
+ * If thf ovfrbll {@dodf LoginContfxt} buthfntidbtion suddffdfd
+ * bnd thf LoginModulf's own buthfntidbtion suddffdfd, thfn thf
+ * {@dodf dommit} mfthod bssodibtfs thf rflfvbnt
+ * Prindipbls (buthfntidbtfd idfntitifs) bnd Crfdfntibls (buthfntidbtion dbtb
+ * sudh bs dryptogrbphid kfys) with thf {@dodf Subjfdt}
+ * lodbtfd within thf {@dodf LoginModulf}.
+ *
+ * <p> If thf LoginContfxt's ovfrbll buthfntidbtion fbilfd (thf rflfvbnt
+ * REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs did not suddffd),
+ * thfn thf {@dodf bbort} mfthod for fbdh {@dodf LoginModulf}
+ * gfts invokfd.  In this dbsf, thf {@dodf LoginModulf} rfmovfs/dfstroys
+ * bny buthfntidbtion stbtf originblly sbvfd.
+ *
+ * <p> Logging out b {@dodf Subjfdt} involvfs only onf phbsf.
+ * Thf {@dodf LoginContfxt} invokfs thf LoginModulf's {@dodf logout}
+ * mfthod.  Thf {@dodf logout} mfthod for thf {@dodf LoginModulf}
+ * thfn pfrforms thf logout prodfdurfs, sudh bs rfmoving Prindipbls or
+ * Crfdfntibls from thf {@dodf Subjfdt} or logging sfssion informbtion.
+ *
+ * <p> A {@dodf LoginModulf} implfmfntbtion must hbvf b donstrudtor with
+ * no brgumfnts.  This bllows dlbssfs whidh lobd thf {@dodf LoginModulf}
+ * to instbntibtf it.
+ *
+ * @sff jbvbx.sfdurity.buth.login.LoginContfxt
+ * @sff jbvbx.sfdurity.buth.login.Configurbtion
+ */
+publid intfrfbdf LoginModulf {
+
+    /**
+     * Initiblizf this LoginModulf.
+     *
+     * <p> This mfthod is dbllfd by thf {@dodf LoginContfxt}
+     * bftfr this {@dodf LoginModulf} hbs bffn instbntibtfd.
+     * Thf purposf of this mfthod is to initiblizf this
+     * {@dodf LoginModulf} with thf rflfvbnt informbtion.
+     * If this {@dodf LoginModulf} dofs not undfrstbnd
+     * bny of thf dbtb storfd in {@dodf shbrfdStbtf} or
+     * {@dodf options} pbrbmftfrs, thfy dbn bf ignorfd.
+     *
+     * <p>
+     *
+     * @pbrbm subjfdt thf {@dodf Subjfdt} to bf buthfntidbtfd. <p>
+     *
+     * @pbrbm dbllbbdkHbndlfr b {@dodf CbllbbdkHbndlfr} for dommunidbting
+     *                  with thf fnd usfr (prompting for usfrnbmfs bnd
+     *                  pbsswords, for fxbmplf). <p>
+     *
+     * @pbrbm shbrfdStbtf stbtf shbrfd with othfr donfigurfd LoginModulfs. <p>
+     *
+     * @pbrbm options options spfdififd in thf login
+     *                  {@dodf Configurbtion} for this pbrtidulbr
+     *                  {@dodf LoginModulf}.
+     */
+    void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
+                    Mbp<String,?> shbrfdStbtf,
+                    Mbp<String,?> options);
+
+    /**
+     * Mfthod to buthfntidbtf b {@dodf Subjfdt} (phbsf 1).
+     *
+     * <p> Thf implfmfntbtion of this mfthod buthfntidbtfs
+     * b {@dodf Subjfdt}.  For fxbmplf, it mby prompt for
+     * {@dodf Subjfdt} informbtion sudh
+     * bs b usfrnbmf bnd pbssword bnd thfn bttfmpt to vfrify thf pbssword.
+     * This mfthod sbvfs thf rfsult of thf buthfntidbtion bttfmpt
+     * bs privbtf stbtf within thf LoginModulf.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf buthfntidbtion fbils
+     *
+     * @rfturn truf if thf buthfntidbtion suddffdfd, or fblsf if this
+     *                  {@dodf LoginModulf} should bf ignorfd.
+     */
+    boolfbn login() throws LoginExdfption;
+
+    /**
+     * Mfthod to dommit thf buthfntidbtion prodfss (phbsf 2).
+     *
+     * <p> This mfthod is dbllfd if thf LoginContfxt's
+     * ovfrbll buthfntidbtion suddffdfd
+     * (thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * suddffdfd).
+     *
+     * <p> If this LoginModulf's own buthfntidbtion bttfmpt
+     * suddffdfd (dhfdkfd by rftrifving thf privbtf stbtf sbvfd by thf
+     * {@dodf login} mfthod), thfn this mfthod bssodibtfs rflfvbnt
+     * Prindipbls bnd Crfdfntibls with thf {@dodf Subjfdt} lodbtfd in thf
+     * {@dodf LoginModulf}.  If this LoginModulf's own
+     * buthfntidbtion bttfmptfd fbilfd, thfn this mfthod rfmovfs/dfstroys
+     * bny stbtf thbt wbs originblly sbvfd.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf dommit fbils
+     *
+     * @rfturn truf if this mfthod suddffdfd, or fblsf if this
+     *                  {@dodf LoginModulf} should bf ignorfd.
+     */
+    boolfbn dommit() throws LoginExdfption;
+
+    /**
+     * Mfthod to bbort thf buthfntidbtion prodfss (phbsf 2).
+     *
+     * <p> This mfthod is dbllfd if thf LoginContfxt's
+     * ovfrbll buthfntidbtion fbilfd.
+     * (thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * did not suddffd).
+     *
+     * <p> If this LoginModulf's own buthfntidbtion bttfmpt
+     * suddffdfd (dhfdkfd by rftrifving thf privbtf stbtf sbvfd by thf
+     * {@dodf login} mfthod), thfn this mfthod dlfbns up bny stbtf
+     * thbt wbs originblly sbvfd.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf bbort fbils
+     *
+     * @rfturn truf if this mfthod suddffdfd, or fblsf if this
+     *                  {@dodf LoginModulf} should bf ignorfd.
+     */
+    boolfbn bbort() throws LoginExdfption;
+
+    /**
+     * Mfthod whidh logs out b {@dodf Subjfdt}.
+     *
+     * <p>An implfmfntbtion of this mfthod might rfmovf/dfstroy b Subjfdt's
+     * Prindipbls bnd Crfdfntibls.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf logout fbils
+     *
+     * @rfturn truf if this mfthod suddffdfd, or fblsf if this
+     *                  {@dodf LoginModulf} should bf ignorfd.
+     */
+    boolfbn logout() throws LoginExdfption;
+}

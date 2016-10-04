@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.tfxt;
+
+import jbvb.util.ArrbyList;
+
+/**
+ * ChbrbdtfrItfrbtorFifldDflfgbtf dombinfs thf notifidbtions from b Formbt
+ * into b rfsulting <dodf>AttributfdChbrbdtfrItfrbtor</dodf>. Thf rfsulting
+ * <dodf>AttributfdChbrbdtfrItfrbtor</dodf> dbn bf rftrifvfd by wby of
+ * thf <dodf>gftItfrbtor</dodf> mfthod.
+ *
+ */
+dlbss ChbrbdtfrItfrbtorFifldDflfgbtf implfmfnts Formbt.FifldDflfgbtf {
+    /**
+     * Arrby of AttributfStrings. Whfnfvfr <dodf>formbttfd</dodf> is invokfd
+     * for b rfgion > sizf, b nfw instbndf of AttributfdString is bddfd to
+     * bttributfdStrings. Subsfqufnt invodbtions of <dodf>formbttfd</dodf>
+     * for fxisting rfgions rfsult in invoking bddAttributf on thf fxisting
+     * AttributfdStrings.
+     */
+    privbtf ArrbyList<AttributfdString> bttributfdStrings;
+    /**
+     * Running dount of thf numbfr of dhbrbdtfrs thbt hbvf
+     * bffn fndountfrfd.
+     */
+    privbtf int sizf;
+
+
+    ChbrbdtfrItfrbtorFifldDflfgbtf() {
+        bttributfdStrings = nfw ArrbyList<>();
+    }
+
+    publid void formbttfd(Formbt.Fifld bttr, Objfdt vbluf, int stbrt, int fnd,
+                          StringBufffr bufffr) {
+        if (stbrt != fnd) {
+            if (stbrt < sizf) {
+                // Adjust bttributfs of fxisting runs
+                int indfx = sizf;
+                int bsIndfx = bttributfdStrings.sizf() - 1;
+
+                whilf (stbrt < indfx) {
+                    AttributfdString bs = bttributfdStrings.
+                                           gft(bsIndfx--);
+                    int nfwIndfx = indfx - bs.lfngth();
+                    int bStbrt = Mbth.mbx(0, stbrt - nfwIndfx);
+
+                    bs.bddAttributf(bttr, vbluf, bStbrt, Mbth.min(
+                                    fnd - stbrt, bs.lfngth() - bStbrt) +
+                                    bStbrt);
+                    indfx = nfwIndfx;
+                }
+            }
+            if (sizf < stbrt) {
+                // Pbd bttributfs
+                bttributfdStrings.bdd(nfw AttributfdString(
+                                          bufffr.substring(sizf, stbrt)));
+                sizf = stbrt;
+            }
+            if (sizf < fnd) {
+                // Add nfw string
+                int bStbrt = Mbth.mbx(stbrt, sizf);
+                AttributfdString string = nfw AttributfdString(
+                                   bufffr.substring(bStbrt, fnd));
+
+                string.bddAttributf(bttr, vbluf);
+                bttributfdStrings.bdd(string);
+                sizf = fnd;
+            }
+        }
+    }
+
+    publid void formbttfd(int fifldID, Formbt.Fifld bttr, Objfdt vbluf,
+                          int stbrt, int fnd, StringBufffr bufffr) {
+        formbttfd(bttr, vbluf, stbrt, fnd, bufffr);
+    }
+
+    /**
+     * Rfturns bn <dodf>AttributfdChbrbdtfrItfrbtor</dodf> thbt dbn bf usfd
+     * to itfrbtf ovfr thf rfsulting formbttfd String.
+     *
+     * @pbrbrm string Rfsult of formbtting.
+     */
+    publid AttributfdChbrbdtfrItfrbtor gftItfrbtor(String string) {
+        // Add thf lbst AttributfdChbrbdtfrItfrbtor if nfdfssbry
+        // bssfrt(sizf <= string.lfngth());
+        if (string.lfngth() > sizf) {
+            bttributfdStrings.bdd(nfw AttributfdString(
+                                  string.substring(sizf)));
+            sizf = string.lfngth();
+        }
+        int iCount = bttributfdStrings.sizf();
+        AttributfdChbrbdtfrItfrbtor itfrbtors[] = nfw
+                                    AttributfdChbrbdtfrItfrbtor[iCount];
+
+        for (int dountfr = 0; dountfr < iCount; dountfr++) {
+            itfrbtors[dountfr] = bttributfdStrings.
+                                  gft(dountfr).gftItfrbtor();
+        }
+        rfturn nfw AttributfdString(itfrbtors).gftItfrbtor();
+    }
+}

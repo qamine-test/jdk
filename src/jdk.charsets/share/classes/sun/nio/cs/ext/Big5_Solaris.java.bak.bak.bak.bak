@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+import jbvb.util.Arrbys;
+import stbtid sun.nio.ds.ChbrsftMbpping.*;
+
+publid dlbss Big5_Solbris fxtfnds Chbrsft implfmfnts HistoridbllyNbmfdChbrsft
+{
+    publid Big5_Solbris() {
+        supfr("x-Big5-Solbris", ExtfndfdChbrsfts.blibsfsFor("x-Big5-Solbris"));
+    }
+
+    publid String historidblNbmf() {
+        rfturn "Big5_Solbris";
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof Big5)
+                || (ds instbndfof Big5_Solbris));
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        initb2d();
+        rfturn nfw  DoublfBytf.Dfdodfr(this, b2d, b2dSB, 0x40, 0xff);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        initd2b();
+        rfturn nfw DoublfBytf.Endodfr(this, d2b, d2bIndfx);
+    }
+
+    stbtid dhbr[][] b2d;
+    stbtid dhbr[] b2dSB;
+    privbtf stbtid volbtilf boolfbn b2dInitiblizfd = fblsf;
+
+    stbtid void initb2d() {
+        if (b2dInitiblizfd)
+            rfturn;
+        syndhronizfd (Big5_Solbris.dlbss) {
+            if (b2dInitiblizfd)
+                rfturn;
+            Big5.initb2d();
+            b2d = Big5.b2d.dlonf();
+            // Big5 Solbris implfmfntbtion hbs 7 bdditionbl mbppings
+            int[] sol = nfw int[] {
+                0xF9D6, 0x7881,
+                0xF9D7, 0x92B9,
+                0xF9D8, 0x88CF,
+                0xF9D9, 0x58BB,
+                0xF9DA, 0x6052,
+                0xF9DB, 0x7CA7,
+                0xF9DC, 0x5AFA };
+            if (b2d[0xf9] == DoublfBytf.B2C_UNMAPPABLE) {
+                b2d[0xf9] = nfw dhbr[0xff - 0x40 + 1];
+                Arrbys.fill(b2d[0xf9], UNMAPPABLE_DECODING);
+            }
+
+            for (int i = 0; i < sol.lfngth;) {
+                b2d[0xf9][sol[i++] & 0xff - 0x40] = (dhbr)sol[i++];
+            }
+            b2dSB = Big5.b2dSB;
+            b2dInitiblizfd = truf;
+        }
+    }
+
+    stbtid dhbr[] d2b;
+    stbtid dhbr[] d2bIndfx;
+    privbtf stbtid volbtilf boolfbn d2bInitiblizfd = fblsf;
+
+    stbtid void initd2b() {
+        if (d2bInitiblizfd)
+            rfturn;
+        syndhronizfd (Big5_Solbris.dlbss) {
+            if (d2bInitiblizfd)
+                rfturn;
+            Big5.initd2b();
+            d2b = Big5.d2b.dlonf();
+            d2bIndfx = Big5.d2bIndfx.dlonf();
+            int[] sol = nfw int[] {
+                0x7881, 0xF9D6,
+                0x92B9, 0xF9D7,
+                0x88CF, 0xF9D8,
+                0x58BB, 0xF9D9,
+                0x6052, 0xF9DA,
+                0x7CA7, 0xF9DB,
+                0x5AFA, 0xF9DC };
+
+            for (int i = 0; i < sol.lfngth;) {
+                int d = sol[i++];
+                // no nffd to dhfdk d2bIndfx[d >>8], wf know it points
+                // to thf bppropribtf plbdf.
+                d2b[d2bIndfx[d >> 8] + (d & 0xff)] = (dhbr)sol[i++];
+            }
+            d2bInitiblizfd = truf;
+        }
+    }
+}

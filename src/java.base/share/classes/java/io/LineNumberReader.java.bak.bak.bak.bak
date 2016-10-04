@@ -1,0 +1,283 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+
+/**
+ * A bufffrfd dhbrbdtfr-input strfbm thbt kffps trbdk of linf numbfrs.  This
+ * dlbss dffinfs mfthods {@link #sftLinfNumbfr(int)} bnd {@link
+ * #gftLinfNumbfr()} for sftting bnd gftting thf durrfnt linf numbfr
+ * rfspfdtivfly.
+ *
+ * <p> By dffbult, linf numbfring bfgins bt 0. This numbfr indrfmfnts bt fvfry
+ * <b hrff="#lt">linf tfrminbtor</b> bs thf dbtb is rfbd, bnd dbn bf dhbngfd
+ * with b dbll to <tt>sftLinfNumbfr(int)</tt>.  Notf howfvfr, thbt
+ * <tt>sftLinfNumbfr(int)</tt> dofs not bdtublly dhbngf thf durrfnt position in
+ * thf strfbm; it only dhbngfs thf vbluf thbt will bf rfturnfd by
+ * <tt>gftLinfNumbfr()</tt>.
+ *
+ * <p> A linf is donsidfrfd to bf <b nbmf="lt">tfrminbtfd</b> by bny onf of b
+ * linf fffd ('\n'), b dbrribgf rfturn ('\r'), or b dbrribgf rfturn followfd
+ * immfdibtfly by b linffffd.
+ *
+ * @buthor      Mbrk Rfinhold
+ * @sindf       1.1
+ */
+
+publid dlbss LinfNumbfrRfbdfr fxtfnds BufffrfdRfbdfr {
+
+    /** Thf durrfnt linf numbfr */
+    privbtf int linfNumbfr = 0;
+
+    /** Thf linf numbfr of thf mbrk, if bny */
+    privbtf int mbrkfdLinfNumbfr; // Dffbults to 0
+
+    /** If thf nfxt dhbrbdtfr is b linf fffd, skip it */
+    privbtf boolfbn skipLF;
+
+    /** Thf skipLF flbg whfn thf mbrk wbs sft */
+    privbtf boolfbn mbrkfdSkipLF;
+
+    /**
+     * Crfbtf b nfw linf-numbfring rfbdfr, using thf dffbult input-bufffr
+     * sizf.
+     *
+     * @pbrbm  in
+     *         A Rfbdfr objfdt to providf thf undfrlying strfbm
+     */
+    publid LinfNumbfrRfbdfr(Rfbdfr in) {
+        supfr(in);
+    }
+
+    /**
+     * Crfbtf b nfw linf-numbfring rfbdfr, rfbding dhbrbdtfrs into b bufffr of
+     * thf givfn sizf.
+     *
+     * @pbrbm  in
+     *         A Rfbdfr objfdt to providf thf undfrlying strfbm
+     *
+     * @pbrbm  sz
+     *         An int spfdifying thf sizf of thf bufffr
+     */
+    publid LinfNumbfrRfbdfr(Rfbdfr in, int sz) {
+        supfr(in, sz);
+    }
+
+    /**
+     * Sft thf durrfnt linf numbfr.
+     *
+     * @pbrbm  linfNumbfr
+     *         An int spfdifying thf linf numbfr
+     *
+     * @sff #gftLinfNumbfr
+     */
+    publid void sftLinfNumbfr(int linfNumbfr) {
+        this.linfNumbfr = linfNumbfr;
+    }
+
+    /**
+     * Gft thf durrfnt linf numbfr.
+     *
+     * @rfturn  Thf durrfnt linf numbfr
+     *
+     * @sff #sftLinfNumbfr
+     */
+    publid int gftLinfNumbfr() {
+        rfturn linfNumbfr;
+    }
+
+    /**
+     * Rfbd b singlf dhbrbdtfr.  <b hrff="#lt">Linf tfrminbtors</b> brf
+     * domprfssfd into singlf nfwlinf ('\n') dhbrbdtfrs.  Whfnfvfr b linf
+     * tfrminbtor is rfbd thf durrfnt linf numbfr is indrfmfntfd.
+     *
+     * @rfturn  Thf dhbrbdtfr rfbd, or -1 if thf fnd of thf strfbm hbs bffn
+     *          rfbdhfd
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid int rfbd() throws IOExdfption {
+        syndhronizfd (lodk) {
+            int d = supfr.rfbd();
+            if (skipLF) {
+                if (d == '\n')
+                    d = supfr.rfbd();
+                skipLF = fblsf;
+            }
+            switdh (d) {
+            dbsf '\r':
+                skipLF = truf;
+            dbsf '\n':          /* Fbll through */
+                linfNumbfr++;
+                rfturn '\n';
+            }
+            rfturn d;
+        }
+    }
+
+    /**
+     * Rfbd dhbrbdtfrs into b portion of bn brrby.  Whfnfvfr b <b
+     * hrff="#lt">linf tfrminbtor</b> is rfbd thf durrfnt linf numbfr is
+     * indrfmfntfd.
+     *
+     * @pbrbm  dbuf
+     *         Dfstinbtion bufffr
+     *
+     * @pbrbm  off
+     *         Offsft bt whidh to stbrt storing dhbrbdtfrs
+     *
+     * @pbrbm  lfn
+     *         Mbximum numbfr of dhbrbdtfrs to rfbd
+     *
+     * @rfturn  Thf numbfr of bytfs rfbd, or -1 if thf fnd of thf strfbm hbs
+     *          blrfbdy bffn rfbdhfd
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid int rfbd(dhbr dbuf[], int off, int lfn) throws IOExdfption {
+        syndhronizfd (lodk) {
+            int n = supfr.rfbd(dbuf, off, lfn);
+
+            for (int i = off; i < off + n; i++) {
+                int d = dbuf[i];
+                if (skipLF) {
+                    skipLF = fblsf;
+                    if (d == '\n')
+                        dontinuf;
+                }
+                switdh (d) {
+                dbsf '\r':
+                    skipLF = truf;
+                dbsf '\n':      /* Fbll through */
+                    linfNumbfr++;
+                    brfbk;
+                }
+            }
+
+            rfturn n;
+        }
+    }
+
+    /**
+     * Rfbd b linf of tfxt.  Whfnfvfr b <b hrff="#lt">linf tfrminbtor</b> is
+     * rfbd thf durrfnt linf numbfr is indrfmfntfd.
+     *
+     * @rfturn  A String dontbining thf dontfnts of thf linf, not indluding
+     *          bny <b hrff="#lt">linf tfrminbtion dhbrbdtfrs</b>, or
+     *          <tt>null</tt> if thf fnd of thf strfbm hbs bffn rfbdhfd
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid String rfbdLinf() throws IOExdfption {
+        syndhronizfd (lodk) {
+            String l = supfr.rfbdLinf(skipLF);
+            skipLF = fblsf;
+            if (l != null)
+                linfNumbfr++;
+            rfturn l;
+        }
+    }
+
+    /** Mbximum skip-bufffr sizf */
+    privbtf stbtid finbl int mbxSkipBufffrSizf = 8192;
+
+    /** Skip bufffr, null until bllodbtfd */
+    privbtf dhbr skipBufffr[] = null;
+
+    /**
+     * Skip dhbrbdtfrs.
+     *
+     * @pbrbm  n
+     *         Thf numbfr of dhbrbdtfrs to skip
+     *
+     * @rfturn  Thf numbfr of dhbrbdtfrs bdtublly skippfd
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If <tt>n</tt> is nfgbtivf
+     */
+    publid long skip(long n) throws IOExdfption {
+        if (n < 0)
+            throw nfw IllfgblArgumfntExdfption("skip() vbluf is nfgbtivf");
+        int nn = (int) Mbth.min(n, mbxSkipBufffrSizf);
+        syndhronizfd (lodk) {
+            if ((skipBufffr == null) || (skipBufffr.lfngth < nn))
+                skipBufffr = nfw dhbr[nn];
+            long r = n;
+            whilf (r > 0) {
+                int nd = rfbd(skipBufffr, 0, (int) Mbth.min(r, nn));
+                if (nd == -1)
+                    brfbk;
+                r -= nd;
+            }
+            rfturn n - r;
+        }
+    }
+
+    /**
+     * Mbrk thf prfsfnt position in thf strfbm.  Subsfqufnt dblls to rfsft()
+     * will bttfmpt to rfposition thf strfbm to this point, bnd will blso rfsft
+     * thf linf numbfr bppropribtfly.
+     *
+     * @pbrbm  rfbdAhfbdLimit
+     *         Limit on thf numbfr of dhbrbdtfrs thbt mby bf rfbd whilf still
+     *         prfsfrving thf mbrk.  Aftfr rfbding this mbny dhbrbdtfrs,
+     *         bttfmpting to rfsft thf strfbm mby fbil.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid void mbrk(int rfbdAhfbdLimit) throws IOExdfption {
+        syndhronizfd (lodk) {
+            supfr.mbrk(rfbdAhfbdLimit);
+            mbrkfdLinfNumbfr = linfNumbfr;
+            mbrkfdSkipLF     = skipLF;
+        }
+    }
+
+    /**
+     * Rfsft thf strfbm to thf most rfdfnt mbrk.
+     *
+     * @throws  IOExdfption
+     *          If thf strfbm hbs not bffn mbrkfd, or if thf mbrk hbs bffn
+     *          invblidbtfd
+     */
+    publid void rfsft() throws IOExdfption {
+        syndhronizfd (lodk) {
+            supfr.rfsft();
+            linfNumbfr = mbrkfdLinfNumbfr;
+            skipLF     = mbrkfdSkipLF;
+        }
+    }
+
+}

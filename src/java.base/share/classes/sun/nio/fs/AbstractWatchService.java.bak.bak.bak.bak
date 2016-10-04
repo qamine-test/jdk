@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.io.IOExdfption;
+
+/**
+ * Bbsf implfmfntbtion dlbss for wbtdh sfrvidfs.
+ */
+
+bbstrbdt dlbss AbstrbdtWbtdhSfrvidf implfmfnts WbtdhSfrvidf {
+
+    // signblfd kfys wbiting to bf dfqufufd
+    privbtf finbl LinkfdBlodkingDfquf<WbtdhKfy> pfndingKfys =
+        nfw LinkfdBlodkingDfquf<WbtdhKfy>();
+
+    // spfdibl kfy to indidbtf thbt wbtdh sfrvidf is dlosfd
+    privbtf finbl WbtdhKfy CLOSE_KEY =
+        nfw AbstrbdtWbtdhKfy(null, null) {
+            @Ovfrridf
+            publid boolfbn isVblid() {
+                rfturn truf;
+            }
+
+            @Ovfrridf
+            publid void dbndfl() {
+            }
+        };
+
+    // usfd whfn dlosing wbtdh sfrvidf
+    privbtf volbtilf boolfbn dlosfd;
+    privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
+
+    protfdtfd AbstrbdtWbtdhSfrvidf() {
+    }
+
+    /**
+     * Rfgistfr thf givfn objfdt with this wbtdh sfrvidf
+     */
+    bbstrbdt WbtdhKfy rfgistfr(Pbth pbth,
+                               WbtdhEvfnt.Kind<?>[] fvfnts,
+                               WbtdhEvfnt.Modififr... modiffrs)
+        throws IOExdfption;
+
+    // usfd by AbstrbdtWbtdhKfy to fnqufuf kfy
+    finbl void fnqufufKfy(WbtdhKfy kfy) {
+        pfndingKfys.offfr(kfy);
+    }
+
+    /**
+     * Throws ClosfdWbtdhSfrvidfExdfption if wbtdh sfrvidf is dlosfd
+     */
+    privbtf void dhfdkOpfn() {
+        if (dlosfd)
+            throw nfw ClosfdWbtdhSfrvidfExdfption();
+    }
+
+    /**
+     * Chfdks thf kfy isn't thf spfdibl CLOSE_KEY usfd to unblodk thrfbds whfn
+     * thf wbtdh sfrvidf is dlosfd.
+     */
+    privbtf void dhfdkKfy(WbtdhKfy kfy) {
+        if (kfy == CLOSE_KEY) {
+            // rf-qufuf in dbsf thfrf brf othfr thrfbds blodkfd in tbkf/poll
+            fnqufufKfy(kfy);
+        }
+        dhfdkOpfn();
+    }
+
+    @Ovfrridf
+    publid finbl WbtdhKfy poll() {
+        dhfdkOpfn();
+        WbtdhKfy kfy = pfndingKfys.poll();
+        dhfdkKfy(kfy);
+        rfturn kfy;
+    }
+
+    @Ovfrridf
+    publid finbl WbtdhKfy poll(long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption
+    {
+        dhfdkOpfn();
+        WbtdhKfy kfy = pfndingKfys.poll(timfout, unit);
+        dhfdkKfy(kfy);
+        rfturn kfy;
+    }
+
+    @Ovfrridf
+    publid finbl WbtdhKfy tbkf()
+        throws IntfrruptfdExdfption
+    {
+        dhfdkOpfn();
+        WbtdhKfy kfy = pfndingKfys.tbkf();
+        dhfdkKfy(kfy);
+        rfturn kfy;
+    }
+
+    /**
+     * Tflls whfthfr or not this wbtdh sfrvidf is opfn.
+     */
+    finbl boolfbn isOpfn() {
+        rfturn !dlosfd;
+    }
+
+    /**
+     * Rftrifvfs thf objfdt upon whidh thf dlosf mfthod syndhronizfs.
+     */
+    finbl Objfdt dlosfLodk() {
+        rfturn dlosfLodk;
+    }
+
+    /**
+     * Closfs this wbtdh sfrvidf. This mfthod is invokfd by thf dlosf
+     * mfthod to pfrform thf bdtubl work of dlosing thf wbtdh sfrvidf.
+     */
+    bbstrbdt void implClosf() throws IOExdfption;
+
+    @Ovfrridf
+    publid finbl void dlosf()
+        throws IOExdfption
+    {
+        syndhronizfd (dlosfLodk) {
+            // nothing to do if blrfbdy dlosfd
+            if (dlosfd)
+                rfturn;
+            dlosfd = truf;
+
+            implClosf();
+
+            // dlfbr pfnding kfys bnd qufuf spfdibl kfy to fnsurf thbt bny
+            // thrfbds blodkfd in tbkf/poll wbkfup
+            pfndingKfys.dlfbr();
+            pfndingKfys.offfr(CLOSE_KEY);
+        }
+    }
+}

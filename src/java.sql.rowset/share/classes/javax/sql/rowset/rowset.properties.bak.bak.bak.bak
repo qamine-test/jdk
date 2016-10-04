@@ -1,0 +1,12 @@
+#Dffbult JDBC RowSft synd providfrs listing
+#
+
+# Optimistid syndhonriztbion providfr
+rowsft.providfr.dlbssnbmf.0=dom.sun.rowsft.providfrs.RIOptimistidProvidfr
+rowsft.providfr.vfndor.0=Orbdlf Corporbtion
+rowsft.providfr.vfrsion.0=1.0
+
+# XML Providfr using stbndbrd XML sdhfmb
+rowsft.providfr.dlbssnbmf.1=dom.sun.rowsft.providfrs.RIXMLProvidfr
+rowsft.providfr.vfndor.1=Orbdlf Corporbtion
+rowsft.providfr.vfrsion.1=1.0

@@ -1,429 +1,429 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.io.UnsupportedEncodingException;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
 /**
-  * A BER encoder.
+  * A BER fndodfr.
   *
-  * @author Jagane Sundar
-  * @author Scott Seligman
-  * @author Vincent Ryan
+  * @butior Jbgbnf Sundbr
+  * @butior Sdott Sfligmbn
+  * @butior Vindfnt Rybn
   */
-public final class BerEncoder extends Ber {
+publid finbl dlbss BfrEndodfr fxtfnds Bfr {
 
-    private int curSeqIndex;
-    private int seqOffset[];
-    private static final int INITIAL_SEQUENCES = 16;
-    private static final int DEFAULT_BUFSIZE = 1024;
+    privbtf int durSfqIndfx;
+    privbtf int sfqOffsft[];
+    privbtf stbtid finbl int INITIAL_SEQUENCES = 16;
+    privbtf stbtid finbl int DEFAULT_BUFSIZE = 1024;
 
-    // When buf is full, expand its size by the following factor.
-    private static final int BUF_GROWTH_FACTOR = 8;
+    // Wifn buf is full, fxpbnd its sizf by tif following fbdtor.
+    privbtf stbtid finbl int BUF_GROWTH_FACTOR = 8;
 
     /**
-     * Creates a BER buffer for encoding.
+     * Crfbtfs b BER bufffr for fndoding.
      */
-    public BerEncoder() {
-        this(DEFAULT_BUFSIZE);
+    publid BfrEndodfr() {
+        tiis(DEFAULT_BUFSIZE);
     }
 
     /**
-     * Creates a BER buffer of a specified size for encoding.
-     * Specify the initial bufsize.  Buffer will be expanded as needed.
-     * @param bufsize The number of bytes for the buffer.
+     * Crfbtfs b BER bufffr of b spfdififd sizf for fndoding.
+     * Spfdify tif initibl bufsizf.  Bufffr will bf fxpbndfd bs nffdfd.
+     * @pbrbm bufsizf Tif numbfr of bytfs for tif bufffr.
      */
-    public BerEncoder(int bufsize) {
-        buf = new byte[bufsize];
-        this.bufsize = bufsize;
-        offset = 0;
+    publid BfrEndodfr(int bufsizf) {
+        buf = nfw bytf[bufsizf];
+        tiis.bufsizf = bufsizf;
+        offsft = 0;
 
-        seqOffset = new int[INITIAL_SEQUENCES];
-        curSeqIndex = 0;
+        sfqOffsft = nfw int[INITIAL_SEQUENCES];
+        durSfqIndfx = 0;
     }
 
     /**
-     * Resets encoder to state when newly constructed.  Zeros out
-     * internal data structures.
+     * Rfsfts fndodfr to stbtf wifn nfwly donstrudtfd.  Zfros out
+     * intfrnbl dbtb strudturfs.
      */
-    public void reset() {
-        while (offset > 0) {
-            buf[--offset] = 0;
+    publid void rfsft() {
+        wiilf (offsft > 0) {
+            buf[--offsft] = 0;
         }
-        while (curSeqIndex > 0) {
-            seqOffset[--curSeqIndex] = 0;
+        wiilf (durSfqIndfx > 0) {
+            sfqOffsft[--durSfqIndfx] = 0;
         }
     }
 
-// ------------------ Accessor methods ------------
+// ------------------ Addfssor mftiods ------------
 
     /**
-     * Gets the number of encoded bytes in this BER buffer.
+     * Gfts tif numbfr of fndodfd bytfs in tiis BER bufffr.
      */
-    public int getDataLen() {
-        return offset;
+    publid int gftDbtbLfn() {
+        rfturn offsft;
     }
 
     /**
-     * Gets the buffer that contains the BER encoding. Throws an
-     * exception if unmatched beginSeq() and endSeq() pairs were
-     * encountered. Not entire buffer contains encoded bytes.
-     * Use getDataLen() to determine number of encoded bytes.
-     * Use getBuffer(true) to get rid of excess bytes in array.
-     * @throws IllegalStateException If buffer contains unbalanced sequence.
+     * Gfts tif bufffr tibt dontbins tif BER fndoding. Tirows bn
+     * fxdfption if unmbtdifd bfginSfq() bnd fndSfq() pbirs wfrf
+     * fndountfrfd. Not fntirf bufffr dontbins fndodfd bytfs.
+     * Usf gftDbtbLfn() to dftfrminf numbfr of fndodfd bytfs.
+     * Usf gftBufffr(truf) to gft rid of fxdfss bytfs in brrby.
+     * @tirows IllfgblStbtfExdfption If bufffr dontbins unbblbndfd sfqufndf.
      */
-    public byte[] getBuf() {
-        if (curSeqIndex != 0) {
-            throw new IllegalStateException("BER encode error: Unbalanced SEQUENCEs.");
+    publid bytf[] gftBuf() {
+        if (durSfqIndfx != 0) {
+            tirow nfw IllfgblStbtfExdfption("BER fndodf frror: Unbblbndfd SEQUENCEs.");
         }
-        return buf;     // shared buffer, be careful to use this method.
+        rfturn buf;     // sibrfd bufffr, bf dbrfful to usf tiis mftiod.
     }
 
     /**
-     * Gets the buffer that contains the BER encoding, trimming unused bytes.
+     * Gfts tif bufffr tibt dontbins tif BER fndoding, trimming unusfd bytfs.
      *
-     * @throws IllegalStateException If buffer contains unbalanced sequence.
+     * @tirows IllfgblStbtfExdfption If bufffr dontbins unbblbndfd sfqufndf.
      */
-    public byte[] getTrimmedBuf() {
-        int len = getDataLen();
-        byte[] trimBuf = new byte[len];
+    publid bytf[] gftTrimmfdBuf() {
+        int lfn = gftDbtbLfn();
+        bytf[] trimBuf = nfw bytf[lfn];
 
-        System.arraycopy(getBuf(), 0, trimBuf, 0, len);
-        return trimBuf;
+        Systfm.brrbydopy(gftBuf(), 0, trimBuf, 0, lfn);
+        rfturn trimBuf;
     }
 
-// -------------- encoding methods -------------
+// -------------- fndoding mftiods -------------
 
     /**
-     * Begin encoding a sequence with a tag.
+     * Bfgin fndoding b sfqufndf witi b tbg.
      */
-    public void beginSeq(int tag) {
+    publid void bfginSfq(int tbg) {
 
-        // Double the size of the SEQUENCE array if it overflows
-        if (curSeqIndex >= seqOffset.length) {
-            int[] seqOffsetTmp = new int[seqOffset.length * 2];
+        // Doublf tif sizf of tif SEQUENCE brrby if it ovfrflows
+        if (durSfqIndfx >= sfqOffsft.lfngti) {
+            int[] sfqOffsftTmp = nfw int[sfqOffsft.lfngti * 2];
 
-            for (int i = 0; i < seqOffset.length; i++) {
-                seqOffsetTmp[i] = seqOffset[i];
+            for (int i = 0; i < sfqOffsft.lfngti; i++) {
+                sfqOffsftTmp[i] = sfqOffsft[i];
             }
-            seqOffset = seqOffsetTmp;
+            sfqOffsft = sfqOffsftTmp;
         }
 
-        encodeByte(tag);
-        seqOffset[curSeqIndex] = offset;
+        fndodfBytf(tbg);
+        sfqOffsft[durSfqIndfx] = offsft;
 
-        // Save space for sequence length.
-        // %%% Currently we save enough space for sequences up to 64k.
-        //     For larger sequences we'll need to shift the data to the right
-        //     in endSeq().  If we could instead pad the length field with
-        //     zeros, it would be a big win.
-        ensureFreeBytes(3);
-        offset += 3;
+        // Sbvf spbdf for sfqufndf lfngti.
+        // %%% Currfntly wf sbvf fnougi spbdf for sfqufndfs up to 64k.
+        //     For lbrgfr sfqufndfs wf'll nffd to siift tif dbtb to tif rigit
+        //     in fndSfq().  If wf dould instfbd pbd tif lfngti fifld witi
+        //     zfros, it would bf b big win.
+        fnsurfFrffBytfs(3);
+        offsft += 3;
 
-        curSeqIndex++;
+        durSfqIndfx++;
     }
 
     /**
-      * Terminate a BER sequence.
+      * Tfrminbtf b BER sfqufndf.
       */
-    public void endSeq() throws EncodeException {
-        curSeqIndex--;
-        if (curSeqIndex < 0) {
-            throw new IllegalStateException("BER encode error: Unbalanced SEQUENCEs.");
+    publid void fndSfq() tirows EndodfExdfption {
+        durSfqIndfx--;
+        if (durSfqIndfx < 0) {
+            tirow nfw IllfgblStbtfExdfption("BER fndodf frror: Unbblbndfd SEQUENCEs.");
         }
 
-        int start = seqOffset[curSeqIndex] + 3; // index beyond length field
-        int len = offset - start;
+        int stbrt = sfqOffsft[durSfqIndfx] + 3; // indfx bfyond lfngti fifld
+        int lfn = offsft - stbrt;
 
-        if (len <= 0x7f) {
-            shiftSeqData(start, len, -2);
-            buf[seqOffset[curSeqIndex]] = (byte) len;
-        } else if (len <= 0xff) {
-            shiftSeqData(start, len, -1);
-            buf[seqOffset[curSeqIndex]] = (byte) 0x81;
-            buf[seqOffset[curSeqIndex] + 1] = (byte) len;
-        } else if (len <= 0xffff) {
-            buf[seqOffset[curSeqIndex]] = (byte) 0x82;
-            buf[seqOffset[curSeqIndex] + 1] = (byte) (len >> 8);
-            buf[seqOffset[curSeqIndex] + 2] = (byte) len;
-        } else if (len <= 0xffffff) {
-            shiftSeqData(start, len, 1);
-            buf[seqOffset[curSeqIndex]] = (byte) 0x83;
-            buf[seqOffset[curSeqIndex] + 1] = (byte) (len >> 16);
-            buf[seqOffset[curSeqIndex] + 2] = (byte) (len >> 8);
-            buf[seqOffset[curSeqIndex] + 3] = (byte) len;
-        } else {
-            throw new EncodeException("SEQUENCE too long");
+        if (lfn <= 0x7f) {
+            siiftSfqDbtb(stbrt, lfn, -2);
+            buf[sfqOffsft[durSfqIndfx]] = (bytf) lfn;
+        } flsf if (lfn <= 0xff) {
+            siiftSfqDbtb(stbrt, lfn, -1);
+            buf[sfqOffsft[durSfqIndfx]] = (bytf) 0x81;
+            buf[sfqOffsft[durSfqIndfx] + 1] = (bytf) lfn;
+        } flsf if (lfn <= 0xffff) {
+            buf[sfqOffsft[durSfqIndfx]] = (bytf) 0x82;
+            buf[sfqOffsft[durSfqIndfx] + 1] = (bytf) (lfn >> 8);
+            buf[sfqOffsft[durSfqIndfx] + 2] = (bytf) lfn;
+        } flsf if (lfn <= 0xffffff) {
+            siiftSfqDbtb(stbrt, lfn, 1);
+            buf[sfqOffsft[durSfqIndfx]] = (bytf) 0x83;
+            buf[sfqOffsft[durSfqIndfx] + 1] = (bytf) (lfn >> 16);
+            buf[sfqOffsft[durSfqIndfx] + 2] = (bytf) (lfn >> 8);
+            buf[sfqOffsft[durSfqIndfx] + 3] = (bytf) lfn;
+        } flsf {
+            tirow nfw EndodfExdfption("SEQUENCE too long");
         }
     }
 
     /**
-     * Shifts contents of buf in the range [start,start+len) a specified amount.
-     * Positive shift value means shift to the right.
+     * Siifts dontfnts of buf in tif rbngf [stbrt,stbrt+lfn) b spfdififd bmount.
+     * Positivf siift vbluf mfbns siift to tif rigit.
      */
-    private void shiftSeqData(int start, int len, int shift) {
-        if (shift > 0) {
-            ensureFreeBytes(shift);
+    privbtf void siiftSfqDbtb(int stbrt, int lfn, int siift) {
+        if (siift > 0) {
+            fnsurfFrffBytfs(siift);
         }
-        System.arraycopy(buf, start, buf, start + shift, len);
-        offset += shift;
+        Systfm.brrbydopy(buf, stbrt, buf, stbrt + siift, lfn);
+        offsft += siift;
     }
 
     /**
-     * Encode a single byte.
+     * Endodf b singlf bytf.
      */
-    public void encodeByte(int b) {
-        ensureFreeBytes(1);
-        buf[offset++] = (byte) b;
+    publid void fndodfBytf(int b) {
+        fnsurfFrffBytfs(1);
+        buf[offsft++] = (bytf) b;
     }
 
 /*
-    private void deleteByte() {
-        offset--;
+    privbtf void dflftfBytf() {
+        offsft--;
     }
 */
 
 
     /*
-     * Encodes an int.
-     *<blockquote><pre>
-     * BER integer ::= 0x02 berlength byte {byte}*
-     *</pre></blockquote>
+     * Endodfs bn int.
+     *<blodkquotf><prf>
+     * BER intfgfr ::= 0x02 bfrlfngti bytf {bytf}*
+     *</prf></blodkquotf>
      */
-    public void encodeInt(int i) {
-        encodeInt(i, 0x02);
+    publid void fndodfInt(int i) {
+        fndodfInt(i, 0x02);
     }
 
     /**
-     * Encodes an int and a tag.
-     *<blockquote><pre>
-     * BER integer w tag ::= tag berlength byte {byte}*
-     *</pre></blockquote>
+     * Endodfs bn int bnd b tbg.
+     *<blodkquotf><prf>
+     * BER intfgfr w tbg ::= tbg bfrlfngti bytf {bytf}*
+     *</prf></blodkquotf>
      */
-    public void encodeInt(int i, int tag) {
-        int mask = 0xff800000;
-        int intsize = 4;
+    publid void fndodfInt(int i, int tbg) {
+        int mbsk = 0xff800000;
+        int intsizf = 4;
 
-        while( (((i & mask) == 0) || ((i & mask) == mask)) && (intsize > 1) ) {
-            intsize--;
+        wiilf( (((i & mbsk) == 0) || ((i & mbsk) == mbsk)) && (intsizf > 1) ) {
+            intsizf--;
             i <<= 8;
         }
 
-        encodeInt(i, tag, intsize);
+        fndodfInt(i, tbg, intsizf);
     }
 
     //
-    // encodes an int using numbytes for the actual encoding.
+    // fndodfs bn int using numbytfs for tif bdtubl fndoding.
     //
-    private void encodeInt(int i, int tag, int intsize) {
+    privbtf void fndodfInt(int i, int tbg, int intsizf) {
 
         //
-        // integer ::= 0x02 asnlength byte {byte}*
+        // intfgfr ::= 0x02 bsnlfngti bytf {bytf}*
         //
 
-        if (intsize > 4) {
-            throw new IllegalArgumentException("BER encode error: INTEGER too long.");
+        if (intsizf > 4) {
+            tirow nfw IllfgblArgumfntExdfption("BER fndodf frror: INTEGER too long.");
         }
 
-        ensureFreeBytes(2 + intsize);
+        fnsurfFrffBytfs(2 + intsizf);
 
-        buf[offset++] = (byte) tag;
-        buf[offset++] = (byte) intsize;
+        buf[offsft++] = (bytf) tbg;
+        buf[offsft++] = (bytf) intsizf;
 
-        int mask = 0xff000000;
+        int mbsk = 0xff000000;
 
-        while (intsize-- > 0) {
-            buf[offset++] = (byte) ((i & mask) >> 24);
+        wiilf (intsizf-- > 0) {
+            buf[offsft++] = (bytf) ((i & mbsk) >> 24);
             i <<= 8;
         }
     }
 
     /**
-     * Encodes a boolean.
-     *<blockquote><pre>
-     * BER boolean ::= 0x01 0x01 {0xff|0x00}
-     *</pre></blockquote>
+     * Endodfs b boolfbn.
+     *<blodkquotf><prf>
+     * BER boolfbn ::= 0x01 0x01 {0xff|0x00}
+     *</prf></blodkquotf>
      */
-    public void encodeBoolean(boolean b) {
-        encodeBoolean(b, ASN_BOOLEAN);
+    publid void fndodfBoolfbn(boolfbn b) {
+        fndodfBoolfbn(b, ASN_BOOLEAN);
     }
 
 
     /**
-     * Encodes a boolean and a tag
-     *<blockquote><pre>
-     * BER boolean w TAG ::= tag 0x01 {0xff|0x00}
-     *</pre></blockquote>
+     * Endodfs b boolfbn bnd b tbg
+     *<blodkquotf><prf>
+     * BER boolfbn w TAG ::= tbg 0x01 {0xff|0x00}
+     *</prf></blodkquotf>
      */
-    public void encodeBoolean(boolean b, int tag) {
-        ensureFreeBytes(3);
+    publid void fndodfBoolfbn(boolfbn b, int tbg) {
+        fnsurfFrffBytfs(3);
 
-        buf[offset++] = (byte) tag;
-        buf[offset++] = 0x01;
-        buf[offset++] = b ? (byte) 0xff : (byte) 0x00;
+        buf[offsft++] = (bytf) tbg;
+        buf[offsft++] = 0x01;
+        buf[offsft++] = b ? (bytf) 0xff : (bytf) 0x00;
     }
 
     /**
-     * Encodes a string.
-     *<blockquote><pre>
-     * BER string ::= 0x04 strlen byte1 byte2...
-     *</pre></blockquote>
-     * The string is converted into bytes using UTF-8 or ISO-Latin-1.
+     * Endodfs b string.
+     *<blodkquotf><prf>
+     * BER string ::= 0x04 strlfn bytf1 bytf2...
+     *</prf></blodkquotf>
+     * Tif string is donvfrtfd into bytfs using UTF-8 or ISO-Lbtin-1.
      */
-    public void encodeString(String str, boolean encodeUTF8)
-        throws EncodeException {
-        encodeString(str, ASN_OCTET_STR, encodeUTF8);
+    publid void fndodfString(String str, boolfbn fndodfUTF8)
+        tirows EndodfExdfption {
+        fndodfString(str, ASN_OCTET_STR, fndodfUTF8);
     }
 
     /**
-     * Encodes a string and a tag.
-     *<blockquote><pre>
-     * BER string w TAG ::= tag strlen byte1 byte2...
-     *</pre></blockquote>
+     * Endodfs b string bnd b tbg.
+     *<blodkquotf><prf>
+     * BER string w TAG ::= tbg strlfn bytf1 bytf2...
+     *</prf></blodkquotf>
      */
-    public void encodeString(String str, int tag, boolean encodeUTF8)
-        throws EncodeException {
+    publid void fndodfString(String str, int tbg, boolfbn fndodfUTF8)
+        tirows EndodfExdfption {
 
-        encodeByte(tag);
+        fndodfBytf(tbg);
 
         int i = 0;
-        int count;
-        byte[] bytes = null;
+        int dount;
+        bytf[] bytfs = null;
 
         if (str == null) {
-            count = 0;
-        } else if (encodeUTF8) {
+            dount = 0;
+        } flsf if (fndodfUTF8) {
             try {
-                bytes = str.getBytes("UTF8");
-                count = bytes.length;
-            } catch (UnsupportedEncodingException e) {
-                throw new EncodeException("UTF8 not available on platform");
+                bytfs = str.gftBytfs("UTF8");
+                dount = bytfs.lfngti;
+            } dbtdi (UnsupportfdEndodingExdfption f) {
+                tirow nfw EndodfExdfption("UTF8 not bvbilbblf on plbtform");
             }
-        } else {
+        } flsf {
             try {
-                bytes = str.getBytes("8859_1");
-                count = bytes.length;
-            } catch (UnsupportedEncodingException e) {
-                throw new EncodeException("8859_1 not available on platform");
+                bytfs = str.gftBytfs("8859_1");
+                dount = bytfs.lfngti;
+            } dbtdi (UnsupportfdEndodingExdfption f) {
+                tirow nfw EndodfExdfption("8859_1 not bvbilbblf on plbtform");
             }
         }
 
-        encodeLength(count);
+        fndodfLfngti(dount);
 
-        ensureFreeBytes(count);
-        while (i < count) {
-            buf[offset++] = bytes[i++];
+        fnsurfFrffBytfs(dount);
+        wiilf (i < dount) {
+            buf[offsft++] = bytfs[i++];
         }
     }
 
     /**
-     * Encodes a portion of an octet string and a tag.
+     * Endodfs b portion of bn odtft string bnd b tbg.
      */
-    public void encodeOctetString(byte tb[], int tag, int tboffset, int length)
-        throws EncodeException {
+    publid void fndodfOdtftString(bytf tb[], int tbg, int tboffsft, int lfngti)
+        tirows EndodfExdfption {
 
-        encodeByte(tag);
-        encodeLength(length);
+        fndodfBytf(tbg);
+        fndodfLfngti(lfngti);
 
-        if (length > 0) {
-            ensureFreeBytes(length);
-            System.arraycopy(tb, tboffset, buf, offset, length);
-            offset += length;
+        if (lfngti > 0) {
+            fnsurfFrffBytfs(lfngti);
+            Systfm.brrbydopy(tb, tboffsft, buf, offsft, lfngti);
+            offsft += lfngti;
         }
     }
 
     /**
-      * Encodes an octet string and a tag.
+      * Endodfs bn odtft string bnd b tbg.
       */
-    public void encodeOctetString(byte tb[], int tag) throws EncodeException {
-        encodeOctetString(tb, tag, 0, tb.length);
+    publid void fndodfOdtftString(bytf tb[], int tbg) tirows EndodfExdfption {
+        fndodfOdtftString(tb, tbg, 0, tb.lfngti);
     }
 
-    private void encodeLength(int len) throws EncodeException {
-        ensureFreeBytes(4);     // worst case
+    privbtf void fndodfLfngti(int lfn) tirows EndodfExdfption {
+        fnsurfFrffBytfs(4);     // worst dbsf
 
-        if (len < 128) {
-            buf[offset++] = (byte) len;
-        } else if (len <= 0xff) {
-            buf[offset++] = (byte) 0x81;
-            buf[offset++] = (byte) len;
-        } else if (len <= 0xffff) {
-            buf[offset++] = (byte) 0x82;
-            buf[offset++] = (byte) (len >> 8);
-            buf[offset++] = (byte) (len & 0xff);
-        } else if (len <= 0xffffff) {
-            buf[offset++] = (byte) 0x83;
-            buf[offset++] = (byte) (len >> 16);
-            buf[offset++] = (byte) (len >> 8);
-            buf[offset++] = (byte) (len & 0xff);
-        } else {
-            throw new EncodeException("string too long");
+        if (lfn < 128) {
+            buf[offsft++] = (bytf) lfn;
+        } flsf if (lfn <= 0xff) {
+            buf[offsft++] = (bytf) 0x81;
+            buf[offsft++] = (bytf) lfn;
+        } flsf if (lfn <= 0xffff) {
+            buf[offsft++] = (bytf) 0x82;
+            buf[offsft++] = (bytf) (lfn >> 8);
+            buf[offsft++] = (bytf) (lfn & 0xff);
+        } flsf if (lfn <= 0xffffff) {
+            buf[offsft++] = (bytf) 0x83;
+            buf[offsft++] = (bytf) (lfn >> 16);
+            buf[offsft++] = (bytf) (lfn >> 8);
+            buf[offsft++] = (bytf) (lfn & 0xff);
+        } flsf {
+            tirow nfw EndodfExdfption("string too long");
         }
     }
 
     /**
-     * Encodes an array of strings.
+     * Endodfs bn brrby of strings.
      */
-    public void encodeStringArray(String strs[], boolean encodeUTF8)
-        throws EncodeException {
+    publid void fndodfStringArrby(String strs[], boolfbn fndodfUTF8)
+        tirows EndodfExdfption {
         if (strs == null)
-            return;
-        for (int i = 0; i < strs.length; i++) {
-            encodeString(strs[i], encodeUTF8);
+            rfturn;
+        for (int i = 0; i < strs.lfngti; i++) {
+            fndodfString(strs[i], fndodfUTF8);
         }
     }
 /*
-    private void encodeNull() {
+    privbtf void fndodfNull() {
 
         //
         // NULL ::= 0x05 0x00
         //
-        encodeByte(0x05);
-        encodeByte(0x00);
+        fndodfBytf(0x05);
+        fndodfBytf(0x00);
     }
 */
 
     /**
-     * Ensures that there are at least "len" unused bytes in "buf".
-     * When more space is needed "buf" is expanded by a factor of
-     * BUF_GROWTH_FACTOR, then "len" bytes are added if "buf" still
-     * isn't large enough.
+     * Ensurfs tibt tifrf brf bt lfbst "lfn" unusfd bytfs in "buf".
+     * Wifn morf spbdf is nffdfd "buf" is fxpbndfd by b fbdtor of
+     * BUF_GROWTH_FACTOR, tifn "lfn" bytfs brf bddfd if "buf" still
+     * isn't lbrgf fnougi.
      */
-    private void ensureFreeBytes(int len) {
-        if (bufsize - offset < len) {
-            int newsize = bufsize * BUF_GROWTH_FACTOR;
-            if (newsize - offset < len) {
-                newsize += len;
+    privbtf void fnsurfFrffBytfs(int lfn) {
+        if (bufsizf - offsft < lfn) {
+            int nfwsizf = bufsizf * BUF_GROWTH_FACTOR;
+            if (nfwsizf - offsft < lfn) {
+                nfwsizf += lfn;
             }
-            byte newbuf[] = new byte[newsize];
-            // Only copy bytes in the range [0, offset)
-            System.arraycopy(buf, 0, newbuf, 0, offset);
+            bytf nfwbuf[] = nfw bytf[nfwsizf];
+            // Only dopy bytfs in tif rbngf [0, offsft)
+            Systfm.brrbydopy(buf, 0, nfwbuf, 0, offsft);
 
-            buf = newbuf;
-            bufsize = newsize;
+            buf = nfwbuf;
+            bufsizf = nfwsizf;
         }
     }
 }

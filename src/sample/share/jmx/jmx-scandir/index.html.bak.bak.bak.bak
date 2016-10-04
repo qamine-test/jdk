@@ -1,0 +1,2217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+
+<html>
+  <hfbd>
+<!--
+ Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+
+ Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ brf mft:
+
+   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+     notidf, this list of donditions bnd thf following disdlbimfr.
+
+   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+     notidf, this list of donditions bnd thf following disdlbimfr in thf
+     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+
+   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from this softwbrf without spfdifid prior writtfn pfrmission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+    <titlf>JMX(TM) "sdbndir" Exbmplf</titlf>
+  </hfbd>
+  <body>
+  
+  <h1><dfntfr>Jbvb<font sizf="-1"><sup>TM</sup></font> Mbnbgfmfnt Extfnsions (JMX<font sizf="-1"><sup>TM</sup></font>) <i>sdbndir</i> Exbmplf</dfntfr></h1>
+  
+  <h2><b nbmf="h2-Introdudtion">Introdudtion</b></h2>
+  <ul>
+  <p>Thf JMX <i>sdbndir</i> fxbmplf is bn bpplidbtion thbt
+     sdbns pbrts of b filfsystfm - f.g. b sft of dirfdtorifs
+     usfd by b numbfr of lbb mbdhinfs whfn running tfsts - in
+     ordfr to dlfbn up bnd optimizf disk spbdf by rfmoving
+     obsolftf filfs - f.g. filfs thbt brf lfbkfd by thf tfst
+     suitfs running on thosf mbdhinfs, likf dorfdump filfs, or
+     tfmporbry filfs thbt might rfmbin bftfr b tfst drbsh.
+     It dould blso sfrvf bs b bbsis for bn bpplidbtion thbt
+     would monitor disk usbgf bnd suggfst rfmovbl of old big
+     long-unbddfssfd filfs.
+  </p>
+  <p>Thf JMX <i>sdbndir</i> fxbmplf dofs not howfvfr implfmfnt
+     thf full flfdgfd logid thbt sudh bn bpplidbtion might
+     hbvf. It implfmfnts b subsft of this logid whidh is
+     suffidifnt to dfmonstrbtf dommon pbttfrns bnd
+     solutions usfd whfn implfmfnting b monitoring bnd
+     mbnbgfmfnt intfrfbdf for bn bpplidbtion with JMX
+     Tfdhnology.</p>
+  <p>This fxbmplf is bn bdvbndfd JMX fxbmplf, whidh prfsfnts 
+     bdvbndfd JMX dondfpts. It is bssumfd thbt thf rfbdfr is blrfbdy
+     fbmilibr with thf JMX API. Nfwdomfrs to JMX Tfdhnology brf
+     invitfd to hbvf b look bt thf <b
+     hrff="http://jbvb.sun.dom/jbvbsf/6/dods/tfdhnotfs/guidfs/jmx/"
+     >JMX API Ovfrvifw, Tutoribl bnd Exbmplfs</b> bfforf going bny furthfr.
+  </p>
+  <p></p>
+      <hr>
+  <blodkquotf>
+    <u>Notf:</u> This fxbmplf wbs dfvflopfd using <b 
+     hrff="http://www.nftbfbns.org">NftBfbns 5.0 IDE</b>. Thf instrudtions
+     givfn in this dodumfnt to build, run, bnd tfst thf fxbmplf bssumf thbt
+     you hbvf bt your disposbl:
+     <ul><li>fithfr <b hrff="http://www.nftbfbns.org">NftBfbns 5.0 IDE</b>,</li>
+         <li>or <b hrff="http://bnt.bpbdhf.org/">Apbdhf Ant 1.6.5</b> bnd 
+             <b hrff="http://sourdfforgf.nft/projfdts/junit/">JUnit 3.8.1 or
+             3.8.2</b><br>
+             (JUnit is only nffdfd to run thf fxbmplf's unit tfsts).
+         </li>
+     </ul>
+     <p><b nbmf="sftup">In ordfr to build thf fxbmplf</b>, 
+     <u>you mby nffd to dopy thf jmx-sdbndir</u>
+     dirfdtory to somfwhfrf whfrf you hbvf writf pfrmissions. 
+     <br>In thbt dbsf, you will nffd to updbtf thf <i>nbjdk.homf</i> vbribblf
+     in thf dopifd <i><b hrff="build.propfrtifs">build.propfrtifs</b></i> 
+     filf lodbtfd bt thf root of thf dopifd projfdt dirfdtory. 
+     Plfbsf mbkf surf thbt this vbribblf points to thf JDK 6 homf dirfdtory.
+     </p>
+     <p>If you wish to run thf tfstsuitf from within thf <b 
+     hrff="http://www.nftbfbns.org">NftBfbns IDE</b> you will blso hbvf
+     to sft thf <i>libs.junit.dlbsspbth</i> vbribblf in 
+     <b hrff="build.propfrtifs">build.propfrtifs</b>. 
+     Thf <i>libs.junit.dlbsspbth</i>  vbribblf should point to your
+     <b hrff="http://sourdfforgf.nft/projfdts/junit/">junit.jbr</b>, 
+     vfrsion 3.8.1 or 3.8.2.
+     </p>
+  </blodkquotf>
+     <hr>
+     <p></p>
+     <p><u>Tbblf Of Contfnts:</u></p>
+  <p><dfntfr>[<b hrff="#h2-Gfnfrbting">Gfnfrbting&nbsp;thf&nbsp;Jbvb&nbsp;Dodumfntbtion</b>]
+  [<b hrff="#h2-Ovfrvifw">Ovfrvifw&nbsp;of&nbsp;thf&nbsp;<i>sdbndir</i>&nbsp;Exbmplf</b>]
+  [<b hrff="#h2-API-Dod">API&nbsp;Dodumfntbtion&nbsp;bnd&nbsp;Sourdfs</b>]
+  [<b hrff="#h2-Pbttfrns">Pbttfrns,&nbsp;Bfst&nbsp;Prbdtidfs,&nbsp;bnd&nbsp;Common&nbsp;Pitfblls</b>]
+  [<b hrff="#h2-Tfsting">Tfsting&nbsp;thf&nbsp;<i>sdbndir</i>&nbsp;Exbmplf</b>]
+  [<b hrff="#h2-Running">Running&nbsp;thf&nbsp;<i>sdbndir</i>&nbsp;Exbmplf</b>]
+  [<b hrff="#h2-Plbying">Plbying&nbsp;with&nbsp;JConsolf</b>]
+  [<b hrff="#h2-Turning">Turning&nbsp;thf&nbsp;fxbmplf&nbsp;into&nbsp;b&nbsp;Sfdurf&nbsp;JMX&nbsp;Applidbtion</b>]
+  [<b hrff="#h2-Connfdting">Connfdting&nbsp;to&nbsp;thf&nbsp;Sfdurf&nbsp;JMX&nbsp;Applidbtion</b>]
+  [<b hrff="#h2-Condlusion">Condlusion</b>]
+  [<b hrff="#h2-Rfffrfndfs">Rfffrfndfs</b>]</dfntfr></p>
+
+  </ul>
+  <h2><b nbmf="h2-Gfnfrbting">Gfnfrbting thf Jbvb Dodumfntbtion</b></h2>
+
+    <ul>
+        <p>Bfforf rfbding furthfr, you will nffd to gfnfrbtf thf 
+        Jbvb Dodumfntbtion for thf fxbmplf's sourdfs.</p>
+        <p>In thf fxbmplf root dirfdtory (whfrf thf <dodf>build.xml</dodf> 
+           filf is lodbtfd) run thf following dommbnd:
+           <prf>bnt jbvbdod</prf>
+        </p>
+        <p>Altfrnbtivfly you dbn opfn thf jmx-sdbndir projfdt with thf 
+           NftBfbns IDE bnd gfnfrbtf thf Jbvbdod from its <dodf>Build</dodf>
+           mfnu.
+        </p>
+        <p>If building thf dodumfntbtion fbils, plfbsf mbkf surf to rfbd thf 
+           <b hrff="#sftup">notf</b> bt thf bfginning of this dodumfnt.</p> 
+    </ul>
+  
+  <h2><b nbmf="h2-Ovfrvifw">Ovfrvifw of thf <i>sdbndir</i> Exbmplf</b></h2>
+  
+  <ul>
+    <p>Thf JMX <i>sdbndir</i> fxbmplf is built bround thf
+    following MBfbns:</p>
+    <ul>
+        <li>Thf first MBfbn wf will prfsfnt hfrf is thf
+        <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+        >DirfdtorySdbnnfrMXBfbn</b>. <br>A
+        <dodf>DirfdtorySdbnnfrMXBfbn</dodf> is bn MBfbn thbt sdbns b
+        filf systfm stbrting bt b givfn root dirfdtory, bnd thfn looks
+        for filfs thbt mbtdh thf givfn dritfrib.  Whfn sudh b filf is
+        found, thf <dodf>DirfdtorySdbnnfrMXBfbn</dodf> tbkfs thf
+        bdtion for whidh it wbs donfigurfd: fmit b notifidbtion,
+        <i>bnd/or</i> log b <dodf>rfdord</dodf> for this filf,
+        <i>bnd/or</i> dflftf thbt filf. Thf dodf thbt would bdtublly
+        dflftf thf filf is dommfntfd out - so thbt nothing vblubblf is
+        lost if thf fxbmplf is run by mistbkf on thf wrong sft of
+        dirfdtorifs.<br> <dodf>DirfdtorySdbnnfrMXBfbns</dodf> brf
+        drfbtfd by thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html"
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+        >SdbnMbnbgfrMXBfbn</b> - sff nfxt itfm on thf list, from its
+        donfigurbtion.
+        </li>
+        <li>
+            Thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html"
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+            >SdbnMbnbgfrMXBfbn</b> is thf bdtubl fntry point of thf
+            bpplidbtion. It rfbds thf bpplidbtion's
+            donfigurbtion, bnd from thbt donfigurbtion,
+            will drfbtf b <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfr.html"
+titlf="Thf RfsultLogMbnbgfr is in dhbrgf of mbnbging rfsult logs"
+        >RfsultLogMbnbgfr</b> bnd somf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+        >DirfdtorySdbnnfrMXBfbns</b>.
+            <br>Thf <dodf>SdbnMbnbgfrMXBfbn</dodf> lfts you stbrt, stop, bnd
+            sdhfdulf dirfdtory sdbns. Thf
+            <dodf>SdbnMbnbgfrMXBfbn</dodf> is b singlfton
+            MBfbn: thfrf dbn bf bt most onf instbndf of sudh
+            bn MBfbn rfgistfrfd in b givfn MBfbnSfrvfr.
+        </li>
+        <li>Thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbn</b> is bn MBfbn whidh is bblf to
+           lobd/sbvf thf donfigurbtion to/from bn XML filf. It
+           will blso lft you modify thbt donfigurbtion - by f.g.
+           drfbting nfw dirfdtory sdbnnfrs in thfrf.
+           Thf dorrfsponding MBfbns will bf drfbtfd lbtfr, only 
+           whfn you lbtfr
+           bsk thf <dodf><b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html"
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b> </dodf> to bpply thf
+           donfigurbtion bgbin.<br>
+           Thf <dodf>SdbnDirConfigMXBfbn</dodf> is drfbtfd by thf
+           <dodf>SdbnMbnbgfrMXBfbn</dodf>, whfn thf
+           <dodf>SdbnMbnbgfrMXBfbn</dodf> is rfgistfrfd.
+           It is blso possiblf to drfbtf bn bltfrnbtf
+           <dodf>SdbnDirConfigMXBfbn</dodf>, bnd to switdh thf
+           <dodf>SdbnDirConfigMXBfbn</dodf> to usf onf or thf othfr
+           donfigurbtion.
+           <br>An fxbmplf of XML donfigurbtion filf is givfn
+           <b hrff="srd/ftd/tfstdonfig.xml"
+           titlf="An Exbmplf Of Configurbtion"
+           >hfrf</b>. Although you dould fdit sudh b filf by
+           hbnd, it is fbsifr to do it progrbmmbtidblly (or
+           with <b hrff="#JConsolf">JConsolf</b>) through
+           thf <dodf>SdbnDirConfigMXBfbn</dodf> intfrfbdf.
+        </li>
+        <li>Thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html"
+titlf="Thf RfsultLogMbnbgfrMXBfbn is in dhbrgf of mbnbging rfsult logs"
+        >RfsultLogMbnbgfrMXBfbn</b> is in dhbrgf of mbnbging rfsult logs.
+        <br>Dirfdtory Sdbnnfrs dbn bf donfigurfd to log b
+        <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/donfig/RfsultRfdord.html"
+titlf="A RfsultRfdord dontbins informbtion bbout b filf mbtdhing thf dritfrib of b Dirfdtory Sdbnnfr"
+        >RfsultRfdord</b> whfnfvfr thfy tbkf bdtion upon b filf thbt
+        mbtdhfs thfir dritfrib. Thf <dodf>RfsultLogMbnbgfrMXBfbn</dodf> is
+        rfsponsiblf for logging thfsf rfsult rfdords.
+        Thf <dodf>RfsultLogMbnbgfrMXBfbn</dodf> dbn bf donfigurfd to log
+        sudh rfdords to b flbt filf, or into b log hfld in mfmory, or
+        both. Both logs (filf bnd mfmory) dbn bf donfigurfd with b
+        mbximum dbpbdity. 
+        <br>Whfn thf mbximum dbpbdity of thf mfmory
+        log is rfbdhfd, its first fntry (i.f. its oldfst fntry) is
+        rfmovfd to mbkf plbdf for thf lbtfst onf.
+        <br>Whfn thf mbximum
+        dbpbdity of thf filf log is rfbdhfd, thf filf is
+        rfnbmfd by bppfnding b tildf '~' to its nbmf bnd b
+        nfw rfsult log is drfbtfd. 
+        <br>Thf <dodf>RfsultLogMbnbgfrMXBfbn</dodf>
+        will lft you intfrbdtivfly dlfbr thfsf rfsult logs, dhbngf thfir
+        dbpbdity, bnd dfdidf whfrf (mfmory or filf) to log.
+        Thf mfmory log is usfful in thbt its dontfnt dbn bf intfrbdtivfly
+        rfturnfd by thf <dodf>RfsultLogMbnbgfrMXBfbn</dodf>, whilf
+        thf filf log dofsn't hbvf this fbdility.<br>
+        Thf rfsult logs brf intfndfd to bf usfd by f.g. bn offlinf
+        progrbm thbt would tbkf somf bdtions on thf filfs thbt
+        mbtdhfd thf sdbn dritfrib:
+        <br>Thf <i>sdbndir</i> bpplidbtion
+        dould bf donfigurfd to only produdf logs (i.f. tbkfs no
+        bdtion but logging thf mbtdhing filfs), bnd thf rfbl
+        bdtion dould bf pfrformfd by bnothfr progrbm or modulf (f.g. mbil thf rfsult log to thf fnginffr who
+        mbintbins thf lbb, or pbrsf thbt log bnd dflftf bll thf
+        filfs listfd thfrf, or pbrsf thf log bnd prfpbrf bnd sfnd
+        b singlf mbil to fbdh ownfr of mbtdhing filfs, dontbining
+        thf list of filfs thfy should donsidfr dflfting).<br>
+        Thf <dodf>RfsultLogMbnbgfrMXBfbn</dodf> is b singlfton
+        MBfbn drfbtfd by thf <dodf><b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html"
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b> </dodf>
+        whidh rfbds bnd writfs its donfigurbtion from thf
+        <dodf><b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbn</b></dodf>.
+        </li>
+    </ul>
+    <p>An bpplidbtion <dodf>mbin()</dodf> mfthod is
+       providfd in thf <b 
+       hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirAgfnt.html"
+       >SdbnDirAgfnt</b> dlbss. Thf <dodf>mbin()</dodf> simply rfgistfrs 
+       b <dodf><b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html"
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b> </dodf> in thf plbtform MBfbnSfrvfr, bnd
+       thfn wbits for somfonf to dbll <dodf>dlosf()</dodf> on thf
+       <dodf>SdbnMbnbgfrMXBfbn</dodf>.
+    </p>
+     <p>Whfn thf <dodf>SdbnMbnbgfrMXBfbn</dodf> is rfgistfrfd, it
+        will drfbtf b dffbult <dodf><b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbn</b></dodf> bound
+        to b dffbult XML donfig filf.
+     </p>
+     <p>Thf bpplidbtion's dffbult XML donfig filf is dftfrminfd bs
+        follows:
+        <ol>
+            <li>If thf propfrty <dodf>sdbndir.donfig.filf</dodf> is
+                dffinfd, thf dffbult bpplidbtion filf will bf thf
+                filf pointfd to by this propfrty. If thbt filf
+                dofsn't fxist, it will bf drfbtfd whfn 
+                <dodf>SdbnDirConfigMXBfbn.sbvf()</dodf> is
+                invokfd.
+            </li>
+            <li>Othfrwisf thf bpplidbtion donfig filf is
+                bssumfd to bf b filf dbllfd <dodf>jmx-sdbndir.xml</dodf>,
+                lodbtfd in thf usfr's dirfdtory (bs dffinfd by
+                thf Systfm propfrty <dodf>usfr.homf</dodf>). 
+                If thbt filf dofsn't fxists, it will bf drfbtfd whfn 
+                <dodf>SdbnDirConfigMXBfbn.sbvf()</dodf> is
+                invokfd.
+            </li>
+        </ol>
+        <p>It is worth noting thbt this projfdt is dffinfd to
+           run with thf following propfrtifs:
+           <prf>-Djbvb.util.logging.donfig.filf=logging.propfrtifs</prf>
+           <prf>-Dsdbndir.donfig.filf=srd/ftd/tfstdonfig.xml</prf>
+           With <dodf>SdbnDirAgfnt</dodf> dffinfd bs thf projfdt's
+           mbin dlbss. Hfndf whfn you invokf from thf NftBfbns IDE 
+           <i>Run Projfdt</i> on thf <i>jmx-sdbndir</i> projfdt, 
+           or <i>Run filf</i> on thf <dodf>SdbnDirAgfnt</dodf>, thf
+           bpplidbtion stbrts with thf tfst donfigurbtion providfd in
+           <b hrff="srd/ftd/tfstdonfig.xml"
+           titlf="An Exbmplf Of Configurbtion"
+           >srd/ftd/tfstdonfig.xml</b>
+        </p>
+  </ul>
+  <h2><b nbmf="h2-API-Dod">API Dodumfntbtion bnd Sourdfs</b></h2>
+  <ul>
+      <p>Ondf gfnfrbtfd, thf Jbvbdod of fxbmplf dlbssfs dbn
+      bf found stbrting from <b hrff="dist/jbvbdod/indfx.html"
+      titlf="Thf API Dodumfntbtion"
+      ><dodf>dist/jbvbdod/indfx.html</dodf></b>.</p>
+      <p>You dbn vifw thf sourdfs in thf <b
+      hrff="srd"
+      titlf="Thf Exbmplf Sourdf Trff"
+      ><dodf>srd</dodf></b> subdirfdtory.</p>
+  </ul>
+  <h2><b nbmf="h2-Pbttfrns">Pbttfrns, Bfst Prbdtidfs, bnd Common Pitfblls</b></h2>
+  <ul>  
+  <p>This sfdtion disdussfs somf dommon pbttfrns bnd
+     dfsign dhoidfs thbt this fxbmplf dfmonstrbtfs, bnd somf pitfblls thbt
+     it bvoids.
+  </ul>
+  <h3>MBfbns or MXBfbns?</h3>
+  <ul>
+  <p>Whbt is bn MXBfbn? MXBfbns mbdf thfir bppfbrbndf in
+     J2SE 5.0 (Tigfr), with thf Mbnbgfmfnt bnd Monitoring
+     API of thf JVM. Howfvfr, Jbvb SE 6 is thf first
+     Jbvb SE rflfbsf thbt dontbins b stbndbrd frbmfwork whidh
+     mbkfs it possiblf to drfbtf bnd rfgistfr your own MXBfbns.
+  </p>
+  <p>MXBfbns brf b spfdibl kind of MBfbn, whidh ondf rfgistfrfd
+     in thf MBfbnSfrvfr, gft butombtidblly trbnsformfd into
+     OpfnMBfbns. From b dfvflopfr point of vifw, nothing dhbngfs:
+     A Wombbt MBfbn dbn bfdomf bn MXBfbn simply by rfnbming
+     its <dodf>WombbtMBfbn</dodf> intfrfbdf into <dodf>WombbtMXBfbn</dodf>.</p>
+  <p>Using MXBfbns rbthfr thbn plbin Stbndbrd MBfbn brings its
+     own bdvbntbgfs:</p>
+     <ul>
+         <li>
+             Gfnfrid tools, likf JConsolf, will bf bblf to
+             displby bnd intfrbdt with your MXBfbns nidfly, fvfn
+             if your MXBfbn intfrfbdfs rfffrfndf dustom typfs
+             - f.g. dustom Jbvb fnums. This is bfdbusf bll thf typfs
+             fxposfd by your MXBfbns brf donvfrtfd to Opfn Typfs.
+             Just look bt thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+             >SdbnDirConfigMXBfbn</b> with JConsolf bnd you will
+             undfrstbnd thf bfnffits.
+         </li>
+         <li>
+             Whfn writing b progrbmmbtid dlifnt, you dbn obtbin
+             b proxy thbt implfmfnts thf originbl MXBfbn intfrfbdf,
+             bnd forgft bbout thf Opfn Typf donvfrsion.
+             Thf JUnit unit tfsts thbt domf with this fxbmplf
+             usf this ffbturf vfry widfly. Hbvf b look bt thfm.
+         </li>
+         <li>
+            Thf MXBfbn frbmfwork blso lfts you nidfly nbvigbtf
+            from onf MXBfbn to bnothfr: your MXBfbns dbn
+            hbvf bttributfs bnd pbrbmftfrs whidh brf proxifs
+            to othfr MXBfbns! Wf dfmonstrbtf this in thf
+            <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html"
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+            >SdbnMbnbgfrMXBfbn</b> whidh fxposfs b list
+            of <dodf><b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+        >DirfdtorySdbnnfrMXBfbn</b></dodf> bnd points
+            towbrds b <dodf><b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbn</b></dodf>.
+         </li>
+     </ul>
+     <p>In short, MXBfbns brf so mudh fbsifr to usf thbt
+        this fxbmplf dofsn't fvfn hbvf b singlf rfgulbr
+        Stbndbrd MBfbn.
+     </p>
+     <p>Sff blso <b
+hrff="http://wfblogs.jbvb.nft/blog/fmdmbnus/brdhivf/2006/02/whbt_is_bn_mxbf.html"
+titlf="Whbt is bn MXBfbn?"
+     >Whbt is bn MXBfbn?</b>
+     bnd <b
+hrff="http://wfblogs.jbvb.nft/blog/fmdmbnus/brdhivf/2006/06/intfrmxbfbn_rff.html"
+titlf="Intfr-MXBfbn rfffrfndfs"
+     >Intfr-MXBfbn Rfffrfndfs</b>.
+     </p>
+     <blodkquotf><u>Hint:</u> In ordfr to simplify thf tbsk of doding b 
+        JMX progrbmmbtid dlifnt, wf rfdommfnd thbt gfttfrs, sfttfrs, bnd
+        opfrbtions dffinfd in MBfbn bnd MXBfbn intfrfbdfs throw 
+        <dodf>IOExdfption</dodf>. Proxy objfdts will thfn bf bblf
+        to rfthrow dirfdtly bny <dodf>IOExdfption</dodf> rfdfivfd from
+        thfir undfrlying MBfbn Sfrvfr donnfdtion, without wrbpping
+        thfm into <dodf>UndfdlbrfdThrowbblfExdfptions</dodf>.<br>
+        Sindf thf liff dydlf of thf proxy objfdt is not dirfdtly tifd to 
+        thf liff dydlf of thf MBfbn it proxifs, you mby blso wbnt to
+        hbvf bll mfthods in thf MBfbn or MXBfbn intfrfbdf throw
+        <dodf>InstbndfNotFoundExdfption</dodf> or morf gfnfrblly
+        <dodf>JMExdfption</dodf>.
+    </blodkquotf>
+  </ul>
+  <h3>MBfbn Nbmfs - bkb ObjfdtNbmfs</h3>
+  <ul>
+  <p>As you must know if you'vf bffn studying JMX, MBfbns brf
+     nbmfd objfdts. Thf nbmfs of MBfbns brf rfprfsfntfd by
+     instbndfs of <dodf>ObjfdtNbmf</dodf>. An ObjfdtNbmf is
+     domposfd of b <i>dombin</i>, followfd by b dolon ':',
+     followfd by b dommb-sfpbrbtfd list of <i>kfy=vbluf</i>
+     pbirs.<br>
+     Thf ordfring of thf <i>kfy=vbluf</i> pbirs is not
+     importbnt, but <dodf>ObjfdtNbmfs</dodf> brf dbsf sfnsitivf
+     (both kfys bnd vblufs brf dbsf sfnsitivf) bnd <b>whitf spbdf
+     is not ignorfd</b>.<br>
+     A dommon pitfbll for JMX bfginnfrs is to inbdvfrtfntly
+     insfrt whitf spbdf bftfr dommbs into bn ObjfdtNbmf,
+     bnd fxpfdt thbt two ObjfdtNbmfs whidh difffr only by sudh whitf
+     spbdf will bf donsidfrfd idfntidbl. This is not thf
+     dbsf.<br>
+     As bn fxbmplf, thf ObjfdtNbmf '<b><dodf>D:k1=v1, k2=v2, k3=v3</dodf></b>' hbs
+     thrff kfys, whidh brf '<b><dodf>k1</dodf></b>', '<b><dodf> k2</dodf></b>',
+     bnd '<b><dodf> k3</dodf></b>': bfwbrf
+     of thf spbdf in thf nbmf of thf sfdond bnd third
+     kfys!<br>
+     It is thfrfforf b difffrfnt ObjfdtNbmf from
+     '<b><dodf>D:k1=v1,k2=v2,k3=v3</dodf></b>' (thf kfys brf now
+     '<b><dodf>k1</dodf></b>', '<b><dodf>k2</dodf></b>', bnd
+     '<b><dodf>k3</dodf></b>'), but thf sbmf ObjfdtNbmf bs
+     '<b><dodf>D: k2=v2, k3=v3,k1=v1</dodf></b>', bnd yft difffrfnt
+     from '<b><dodf>D:k2=v2, k3=v3, k1=v1</dodf></b>'!
+     <p>In this fxbmplf, wf brf following thf rulfs
+        for ObjfdtNbmf suggfstfd in thf <b
+hrff="http://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/bfst-prbdtidfs.html"
+        >JMX Bfst Prbdtidfs</b>:</p>
+     <ul>
+         <li>ObjfdtNbmfs should bf <b
+         hrff="http://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/bfst-prbdtidfs.html#mozTodId654884"
+         >prfdidtbblf</b>
+         </li>
+        <li>Thf dombin pbrt of our ObjfdtNbmfs stbrts with b Jbvb
+            pbdkbgf nbmf
+        </li>
+        <li>Our ObjfdtNbmfs dontbin b <dodf>typf=</dodf>
+            kfy propfrty. This propfrty is difffrfnt for fvfry
+            objfdt typf in our dombin.
+        </li>
+        <li>For fvfry ObjfdtNbmf with b givfn typf, wf hbvf thf sbmf sft of kfy
+            propfrtifs with thf sbmf syntbx bnd sfmbntids for thfir vblufs - in
+            fbdt wf only usf bn bdditionbl <dodf>nbmf=</dodf> kfy.
+        </li>
+        <li>Whfn thfrf dbn only bf onf instbndf of b givfn typf
+            thfrf brfn't bny othfr kfy propfrtifs thbn <dodf>typf=</dodf>.
+            Thf ObjfdtNbmfs of thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html"
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+            >SdbnMbnbgfrMXBfbn</b> bnd <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html"
+titlf="Thf RfsultLogMbnbgfrMXBfbn is in dhbrgf of mbnbging rfsult logs"
+        >RfsultLogMbnbgfrMXBfbn</b>, whidh brf both singlfton MBfbns, brf
+        domposfd in this wby.
+        </li>
+        <li>Whfn thfrf dbn bf sfvfrbl instbndfs of b givfn typf,
+            wf difffrfntibtf thfm by furthfr kfy propfrtifs.
+            To bdhifvf this, wf brf using thf most usubl kfy propfrty
+            in bddition to <dodf>typf=</dodf>: thf <dodf>nbmf=</dodf> kfy.
+            In this fxbmplf, b kfy propfrty list of thf form
+            <dodf>typf=X,nbmf=Y</dodf> is blwbys fnough to uniqufly nbmf
+            bn MBfbn. Tools likf jdonsolf brf usublly bwbrf
+            of thf sfmbntids of thf <dodf>typf=</dodf> kfy bnd
+            <dodf>nbmf=</dodf> kfy, bnd brf thfrfforf bblf to
+            displby this form of nbmf in b wby thbt
+            is fbsifr to rfbd thbn othfr nbmf forms.
+        </li>
+     </ul>
+     <p>Thf rulfs listfd bbovf brf implfmfntfd by b douplf
+        of stbtid hflpfr fundtions in thf <b
+hrff="srd/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfr.jbvb"
+titlf="SdbnMbnbgfr.jbvb"
+      >SdbnMbnbgfr</b> dlbss. Sff thf dodf of thf
+      <b><dodf>mbkfSinglftonNbmf</dodf></b> bnd
+      <b><dodf>mbkfMBfbnNbmf</dodf></b> mfthods.
+     </p>
+  </ul>
+  <h3>Intfr MBfbn Nbvigbtion</h3>
+  <ul>
+  <p>Onf of thf most dommon problfms thbt nffds to bf solvfd
+     whfn dfsigning b mbnbgfmfnt intfrfbdf with JMX is to
+     dhoosf b rfprfsfntbtion for intfr-MBfbn rflbtionships.<br>
+     Prior to Jbvb 6, thfrf wfrf bbsidblly thrff possiblf
+     dhoidfs:</p>
+     <ul>
+         <li><b>Mbkf thf rflbtion bppfbr in thf ObjfdtNbmf</b>.
+             For instbndf, if MBfbn B wbs dontbinfd in
+             MBfbn A, you dould dhoosf to nbmf MBfbn B so
+             thbt its pbrfnt rflbtionship with MBfbn A
+             bppfbrfd in its nbmf. <br>
+             Thf obvious limitbtion of this solution is thbt
+             it only bllows to modfl onf sudh rflbtion (bn
+             MBfbn hbs only onf nbmf) bnd thf rflbtion must
+             bf fixfd - it dbnnot dhbngf during thf liff of
+             thf MBfbn sindf thf nbmf of bn MBfbn dbnnot
+             dhbngf.<br>
+             This sdhfmf is thfrfforf mostly usfd whfn
+             thf bpplidbtion MBfbns brf modfling objfdts
+             whidh brf dondfptublly dontbinfd within
+             fbdh othfr in b trff-likf strudturf.
+             <br>For instbndf, most MBfbn nbmfs dffinfd by 
+             <b hrff="http://jdp.org/fn/jsr/dftbil?id=77"
+              >J2EE Mbnbgfmfnt (JSR 77)</b> follow
+              this sdhfmf.
+         </li>
+         <li><b>Dfsign gfttfrs bnd sfttfrs (or opfrbtions) whidh
+             rfturn <dodf>ObjfdtNbmf</dodf> or
+             <dodf>ObjfdtNbmf[]</dodf> vblufs</b>. Thf ObjfdtNbmfs
+             point to thf MBfbns whidh brf rflbtfd to thbt
+             objfdt. For instbndf , <b 
+             hrff="http://glbssfish.dfv.jbvb.nft/"
+             titlf="Opfn Sourdf Jbvb EE 5 Applidbtion Sfrvfr"
+             >GlbssFish</b>
+             dffinfs MBfbns whidh blso usf this pbttfrn.
+         </li>
+         <li><b>Usf thf JMX RflbtionSfrvidf</b>. Thf JMX RflbtionSfrvidf
+             is quitf powfrful, but simplf rflbtionships oftfn
+             do not justify thbt ovfrhfbd.
+         </li>
+     </ul>
+     <p>In Jbvb 6, thfsf thrff possibilitifs still rfmbin, but
+        thf nfw MXBfbn frbmfwork brings up bn intfrfsting
+        bltfrnbtivf. Instfbd of rfturning bn ObjfdtNbmf or
+        bn ObjfdtNbmf brrby, <b>bn MXBfbn dbn rfturn b proxy</b>
+        to its rflbtfd MXBfbns. This is how wf hbvf dhosfn to
+        implfmfnt our intfr MBfbn rflbtionships in this
+        fxbmplf:
+        <br>For instbndf thf
+        <dodf>SdbnMbnbgfrMXBfbn</dodf>/<dodf>DirfdtorySdbnnfrMXBfbn</dodf>
+        rflbtionship bnd thf
+        <dodf>SdbnMbnbgfrMXBfbn</dodf>/<dodf>SdbnDirConfigMXBfbn</dodf>
+        rflbtionships brf implfmfntfd in this wby.
+        <p>
+        Thf bdditionbl bfnffit, bs dompbrfd to rfturning ObjfdtNbmfs or
+        using thf RflbtionSfrvidf is thbt intfrfbdf typf of thf MBfbns
+        whidh brf pointfd to by thf rflbtionship bfdomfs dirfdtly
+        bppbrfnt. Thf mfthod:
+        <prf>
+            publid Mbp&lt;String,DirfdtorySdbnnfrMXBfbn&gt; gftDirfdtorySdbnnfrs();
+        </prf>
+        mbkfs it immfdibtfly obvious thbt thf MBfbns to whidh wf point brf
+        <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+        >DirfdtorySdbnnfrMXBfbns</b>. It would hbvf bffn mudh lfss obvious in prior
+        vfrsions of Jbvb SE, wfrf thf rfturnfd typf would hbvf hbd to bf
+        <dodf>Mbp&lt;String,ObjfdtNbmf&gt;</dodf>, or
+        fvfn worsf just <dodf>Mbp</dodf>.
+     </p>
+     <p>Howfvfr, it must bf dlfbr thbt thf bfhbviour will bf
+        quitf difffrfnt whfn bn MXBfbn is rfturnfd bs dompbrfd
+        to whfn b simplf bfbn is rfturnfd.
+     </p>
+     <p>Whfn bn MXBfbn is rfturnfd, thf rfmotf dlifnt sffs fithfr
+        bn ObjfdtNbmf, if it is b gfnfrid dlifnt likf jdonsolf, or
+        b proxy to b rfmotf MXBfbn, if thf dlifnt is working with thf
+        MXBfbn intfrfbdf. Invoking bn opfrbtion on onf of thf
+        proxy rfturnfd by b mfthod sudh bs
+        <dodf>gftDirfdtorySdbnnfrs</dodf> will dbusf thf
+        MBfbn to bf invokfd on thf rfmotf sfrvfr sidf.
+     </p>
+     <p>If <dodf>gftDirfdtorySdbnnfrs</dodf> wfrf
+        dffinfd bs:
+        <prf>
+            publid Mbp&lt;String,DirfdtorySdbnnfrConfig&gt; gftDirfdtorySdbnnfrs();
+        </prf>
+        thfn invoking b mfthod on onf of thf rfturnfd objfdts
+        would hbvf bbsolutfly no ffffdt on thf rfmotf
+        sfrvfr sidf - bfdbusf thf rfturnfd objfdts in this
+        dbsf would simply bf b bundh of sfriblizfd dbtb objfdts.
+     </p>
+     <p>It is worth noting thbt blthough bn MXBfbn intfrfbdf
+        dbn hbvf gfttfrs bnd opfrbtions whidh rfturn bn MXBfbn
+        intfrfbdf, b rfgulbr stbndbrd MBfbn shouldn't hbvf
+        bny gfttfrs or mfthods whidh rfturn MBfbn intfrfbdfs or
+        MXBfbn intfrfbdfs.
+     </p>
+     <p>For morf informbtion sff blso <b
+hrff="http://wfblogs.jbvb.nft/blog/fmdmbnus/brdhivf/2006/06/intfrmxbfbn_rff.html"
+titlf="Intfr-MXBfbn rfffrfndfs"
+     >Intfr-MXBfbn Rfffrfndfs</b>.
+     </p>
+  </ul>
+  <h3>Thf MBfbnRfgistrbtion intfrfbdf, or how bn MBfbn dbn
+      know or providf its own nbmf</h3>
+  <ul>
+      <p>
+        Somftimfs, bn MBfbn nffds to hbvf b rfffrfndf to thf
+        MBfbnSfrvfr in whidh it is rfgistfrfd, or nffds to know
+        with whidh ObjfdtNbmf it hbs bffn rfgistfrfd.
+      </p>
+      <p>
+         Somftimfs blso, bn MBfbn mby nffd to pfrform somf
+         dhfdks bfforf bfing rfgistfrfd, or will nffd
+         to dbrry out somf bdtions right bftfr it hbs bffn 
+         suddfssfully rfgistfrfd in thf MBfbnSfrvfr.
+      </p>
+      <p>
+        Somftimfs bgbin, bn MBfbn mby nffd to pfrform somf
+        dhfdks, or somf dlfbning bdtions, just bfforf, or
+        just bftfr, it is unrfgistfrfd.
+      </p>
+      <p>
+      Whfn bn MBfbn hbs sudh nffds, thf fbsifst solution
+      for it is to implfmfnt thf <dodf>MBfbnRfgistrbtion</dodf>
+      intfrfbdf.
+      </p>
+      <p>Thf <dodf>MBfbnRfgistrbtion</dodf> intfrfbdf is b dbllbbdk 
+      intfrfbdf whidh dffinfs prf bnd post rfgistrbtion bnd 
+      unrfgistrbtion dbllbbdks.
+      </p>
+      <p>
+       Whfn bn MBfbn implfmfnting this intfrfbdf is drfbtfd
+      (with <dodf>drfbtfMBfbn</dodf>) or rfgistfrfd 
+      (with <dodf>rfgistfrMBfbn</dodf>) in bn MBfbnSfrvfr,
+      thf MBfbnSfrvfr will dbll thf <dodf>prfRfgistfr</dodf>
+      bnd <dodf>postRfgistfr</dodf> mfthod implfmfntfd by
+      thf MBfbn. Thf <dodf>prfRfgistfr</dodf> mfthod
+      hbs bn <dodf>MBfbnSfrvfr</dodf> bnd <dodf>ObjfdtNbmf</dodf>
+      pbrbmftfr, whidh brf pbssfd by thf MBfbnSfrvfr to thf
+      MBfbn. Thf MBfbn dbn storf thf rfffrfndf it is bfing pbssfd
+      in b privbtf instbndf vbribblf for lbtfr usf. 
+      </p>
+      <p>
+      Most of thf MXBfbns wf hbvf dffinfd in this fxbmplf
+      implfmfnt thf <dodf>MBfbnRfgistrbtion</dodf> intfrfbdf. Thf tbblf
+      bflow show how our MBfbns usf this intfrfbdf to dontrol
+      thfir own nbmfs, mbkf sbnity dhfdks, pfrform 
+      initiblizbtion stfps or dlfbnup bdtions.
+      </p>
+      <p><br><dfntfr>
+      <tbblf bordfr="1" dfllpbdding="4" dfllspbding="2" 
+             bgdolor="#ffffff" width="95%">
+          <thfbd>
+              <tr bgdolor="#dfdfdf">
+                  <th width="20%">MBfbn Rfquirfmfnt</th>
+                  <th>dbllbbdk</th>
+                  <th>usf dbsf fxbmplf</th>
+              </tr>
+          </thfbd>
+          <tbody>
+              <tr>
+                  <td bgdolor="#dfdfdf">gft b rfffrfndf to thf MBfbnSfrvfr</td>
+                  <td><dodf>prfRfgistfr</dodf></td>
+                  <td bgdolor="#fbfbfb">Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b>  nffds b rfffrfndf
+                  to thf MBfbnSfrvfr in ordfr to drfbtf bnd
+                  rfgistfr othfr MBfbns, sudh bs thf 
+                  <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html"
+titlf="Thf RfsultLogMbnbgfrMXBfbn is in dhbrgf of mbnbging rfsult logs"
+        >RfsultLogMbnbgfrMXBfbn</b>, bnd thf 
+                  <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+        >DirfdtorySdbnnfrMXBfbns</b>.
+                  </td>
+              </tr>
+              <tr>
+                  <td bgdolor="#dfdfdf">rfjfdt rfgistrbtion if donditions brf
+                      not mft.
+                  </td>
+                  <td><dodf>prfRfgistfr</dodf></td>
+                  <td bgdolor="#fbfbfb">Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html"
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b>  will throw
+                  bn IllfgblArgumfntExdfption in <dodf>prfRfgistfr</dodf>
+                  if thf ObjfdtNbmf it is bfing pbssfd is
+                  illfgbl. Throwing bn fxdfption in 
+                  <dodf>prfRfgistfr</dodf> mbkfs thf rfgistrbtion fbil.
+                  </td>
+              </tr>
+              <tr>
+                  <td bgdolor="#dfdfdf">gft my dlifnt-bssignfd MBfbn nbmf</td>
+                  <td><dodf>prfRfgistfr</dodf></td>
+                  <td bgdolor="#fbfbfb">Thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbn</b> propbgbtfs thf
+                  vbluf of thf <dodf>nbmf=</dodf> propfrty of 
+                  thf ObjfdtNbmf it is givfn into its
+                  SdbnMbnbgfrConfig bfbn.  
+                  </td>
+              </tr>
+              <tr>
+                  <td bgdolor="#dfdfdf">providf my own dffbult ObjfdtNbmf if nonf
+                      wbs givfn to thf MBfbnSfrvfr
+                  </td>
+                  <td><dodf>prfRfgistfr</dodf></td>
+                  <td bgdolor="#fbfbfb">Thf nbmf thbt is rfturnfd by <dodf>prfRfgistfr</dodf>
+                  is thf ObjfdtNbmf with whidh thf MBfbn will bf
+                  fvfntublly rfgistfrfd. 
+                  Thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbn</b> is bblf to suggfst
+                  b vbluf for its own ObjfdtNbmf if nonf wbs
+                  providfd. Similbrly, thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b> 
+                  blwbys rfturns its singlfton ObjfdtNbmf
+                  dffinfd by <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html#SCAN_MANAGER_NAME" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn.SCAN_MANAGER_NAME</b>.
+                  </td>
+              </tr>
+              <tr>
+                  <td bgdolor="#dfdfdf">pfrform initiblizbtion stfps</td>
+                  <td><dodf>prfRfgistfr</dodf></td>
+                  <td bgdolor="#fbfbfb">Thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbn</b> usfs <dodf>prfRfgistfr</dodf>
+                  to initiblizf its intfrnbl SdbnMbnbgfrConfig bfbn.
+                  </td>
+              </tr>
+              <tr>
+                  <td bgdolor="#dfdfdf">pfrform initiblizbtion stfps, ondf it is
+                  known thbt thf rfgistrbtion wbs suddfssful.
+                  </td>
+                  <td><dodf>postRfgistfr</dodf></td>
+                  <td bgdolor="#fbfbfb">Thf <dodf>postRfgistfr</dodf> mfthod 
+                  dbn bf usfd to implfmfnt
+                  initiblizbtion stfps thbt nffd to bf donf ondf it
+                  is known thbt thf rfgistrbtion wbs suddfssful, or to
+                  undo bny bdtion pfrformfd by <dodf>prfRfgistfr</dodf> ondf it
+                  is known thbt rfgistrbtion wbs not suddfssful.
+                  Thf <dodf>postRfgistfr</dodf> mfthod hbs b Boolfbn pbrbmftfr
+                  whidh tflls thf MBfbn whfthfr it wbs or wbsn't
+                  suddfssfully rfgistfrfd in thf MBfbnSfrvfr.
+                  Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b>  usfs <dodf>postRfgistfr</dodf> to drfbtf
+                  bnd rfgistfr othfr MBfbns, sudh bs thf 
+                  <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html"
+titlf="Thf RfsultLogMbnbgfrMXBfbn is in dhbrgf of mbnbging rfsult logs"
+        >RfsultLogMbnbgfrMXBfbn</b> bnd thf dffbult
+                  <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbn</b>.
+                  Notf thbt <dodf>postRfgistfr</dodf> is not fxpfdtfd to throw bny
+                  fxdfption. If bn fxdfption nffds to bf thrown, it should
+                  bf thrown in <dodf>prfRfgistfr</dodf>.
+                  </td>
+              </tr>
+              <tr>
+                  <td bgdolor="#dfdfdf">dhfdk whfthfr thf MBfbn dbn bf dfrfgistfrfd</td>
+                  <td><dodf>prfDfrfgistfr</dodf></td>
+                  <td bgdolor="#fbfbfb">Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b>  usfs this mfthod to vfrify
+                   thbt its stbtf bllows it to bf dfrfgistfrfd. 
+                   In pbrtidulbr, it will rffusf to bf dfrfgistfrfd
+                   if it is in thf RUNNING or SCHEDULED stbtf.
+                   If <dodf>prfDfrfgistfr</dodf> throws bn fxdfption, thf unrfgistfrMBfbn
+                   dbll will fbil bnd thf MBfbn will rfmbin rfgistfrfd in
+                   thf MBfbnSfrvfr. 
+                   Tbkf pbrtidulbr dbrf whfn implfmfnting businfss logid
+                   in this mfthod: if thf logid you implfmfnt hbs bn 
+                   unfortunbtf bug whidh mbkfs it blwbys throw bn 
+                   fxdfption, you will nfvfr bf bblf to unrfgistfr
+                   thbt MBfbn.
+                  </td>
+              </tr>
+              <tr>
+                  <td bgdolor="#dfdfdf">dlfbn up rfsourdfs, rffusing to bf dfrfgistfrfd if
+                      it fbils
+                  </td>
+                  <td><dodf>prfDfrfgistfr</dodf></td>
+                  <td bgdolor="#fbfbfb">Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b>  usfs this mfthod to unrfgistfr
+                  bll thf othfr MBfbns it hbs drfbtfd bnd rfgistfrfd in thf
+                  MBfbnSfrvfr. This indludfs thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html"
+titlf="Thf RfsultLogMbnbgfrMXBfbn is in dhbrgf of mbnbging rfsult logs"
+        >RfsultLogMbnbgfrMXBfbn</b>, thf 
+                  <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbns</b> it hbs drfbtfd, bnd thf 
+                  <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+        >DirfdtorySdbnnfrMXBfbns</b> it hbs drfbtfd whfn
+                  bpplying its donfigurbtion.
+                  </td>
+              </tr>
+              <tr>
+                  <td bgdolor="#dfdfdf">dlfbn up rfsourdfs whidh nffd to bf rflfbsfd in
+                  b bfst-fffort wby, whfn it is known thbt thf MBfbn is no
+                  longfr rfgistfrfd.
+                  </td>
+                  <td><dodf>postDfrfgistfr</dodf></td>
+                  <td bgdolor="#fbfbfb"><dodf>postDfrfgistfr</dodf> is only dbllfd if thf MBfbn wbs suddfsfully
+                  unrfgistfrfd.
+                  Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b>  usfs this mfthod to dbndfl
+                  its intfrnbl jbvb.util.Timfr.
+                  </td>
+              </tr>
+          </tbody>
+      </tbblf>
+      </dfntfr><br></p>
+  </ul>
+  <h3>Thf Singlfton MBfbn Pbttfrn</h3>
+  <ul>
+      <p>
+        A singlfton MBfbn is bn MBfbn whidh dbn only hbvf onf
+        instbndf rfgistfrfd in b givfn MBfbnSfrvfr. <br>
+        A singlfton MBfbn usublly hbs b wfll-known nbmf,
+        whidh dbn bf dffinfd bs b donstbnt. In thbt dbsf,
+        dlifnts no longfr nffd to dbll <dodf>nfw ObjfdtNbmf(...)</dodf> 
+        bnd dbtdh thf dfdlbrfd <dodf>MblformfdObjfdtNbmfExdfption</dodf>.
+      </p>
+      <p>Thfrf brf blrfbdy quitf b ffw fxbmplfs of singlfton
+         MBfbns in thf jbvb.lbng.mbnbgfmfnt API. Thf 
+         ThrfbdingMXBfbn, ClbssLobdingMXBfbn, RuntimfMXBfbn, ftd.
+         brf bll singlfton MBfbns.
+      </p>
+      <p>In this fxbmplf, wf hbvf two singlfton MBfbns:
+         Thf <dodf><b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b></dodf> bnd thf 
+         <dodf><b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html"
+titlf="Thf RfsultLogMbnbgfrMXBfbn is in dhbrgf of mbnbging rfsult logs"
+        >RfsultLogMbnbgfrMXBfbn</b></dodf>. But in fbdt,
+         thf only rfbl singlfton MBfbn is thf 
+        <dodf>SdbnMbnbgfrMXBfbn</dodf>. Thf 
+        <dodf>RfsultLogMbnbgfrMXBfbn</dodf> just hbppfns to
+        bf b singlfton MBfbn bfdbusf it hbs b 1-1 rflbtionship
+        with thf <dodf>SdbnMbnbgfrMXBfbn</dodf>.
+      </p>
+      <p>Thf <dodf>SdbnMbnbgfrMXBfbn</dodf> implfmfnts thf
+         singlfton MBfbn pbttfrn in this wby:
+      </p>
+      <ul>
+          <li>Thf <dodf>SdbnMbnbgfrMXBfbn</dodf> nbmf hbs b singlf 
+              kfy propfrty: <dodf>typf=SdbnMbnbgfrMXBfbn</dodf>.</li>
+          <li>Its nbmf is dffinfd by bn ObjfdtNbmf donstbnt dbllfd
+              <dodf>SCAN_MANAGER_NAME</dodf> in thf <dodf>SdbnMbnbgfr</dodf> dlbss</li>
+          <li>Thf <dodf>SdbnMbnbgfrMXBfbn</dodf> fnfordfs its stbtus of 
+              singlfton MBfbn. It will rffusf to bf rfgistfrfd
+              with b nbmf othfr thbn
+              thf <dodf>SCAN_MANAGER_NAME</dodf>. You dbn thfrfforf dfpfnd on
+              thf fbdt thbt thf <dodf>SdbnMbnbgfrMXBfbn</dodf> will blwbys 
+              bf rfgistfrfd with its singlfton <dodf>SCAN_MANAGER_NAME</dodf>
+              (sff <dodf>prfRfgistfr</dodf>)
+          </li>
+          <li>You brf not obligfd to providf b nbmf whfn you
+              rfgistfr thf <dodf>SdbnMbnbgfrMXBfbn</dodf>: if you pbss null,
+              thfn thf <dodf>SdbnMbnbgfr</dodf> will bf rfgistfrfd with
+              its singlfton <dodf>SCAN_MANAGER_NAME</dodf>
+              (sff <dodf>prfRfgistfr</dodf>).
+          </li>
+          <li>Thf <dodf>SdbnMbnbgfr</dodf> dlbss hbs b no-brg stbtid 
+              <dodf>rfgistfr</dodf> mfthod thbt will rfgistfr
+              thf singlfton instbndf in thf Plbtform MBfbnSfrvfr.
+              This stbtid <dodf>rfgistfr</dodf> mfthod rfturns
+              b proxy to thf rfgistfrfd singlfton.
+          </li>
+          <li>Thf <dodf>SdbnMbnbgfr</dodf> dlbss hbs blso b stbtid 
+              <dodf>rfgistfr</dodf> mfthod thbt will drfbtf
+              b singlfton instbndf in b (possibly rfmotf)
+              MBfbnSfrvfrConnfdtion - using 
+              <dodf>drfbtfMBfbn</dodf>.
+              This stbtid <dodf>rfgistfr</dodf> mfthod 
+              blso rfturns b proxy to thf rfgistfrfd singlfton.
+          </li>
+          <li>Only thf MBfbnSfrvfr hbs b rfffrfndf to thf
+              singlfton instbndf. Thf singlfton instbndf is
+              not rfturnfd to thf dbllfr, bnd not kfpt
+              in bny othfr stbtid dbtb strudturf.
+          </li>
+      </ul>
+      <p>
+      On thf othfr hbnd, thf <dodf><b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html"
+titlf="Thf RfsultLogMbnbgfrMXBfbn is in dhbrgf of mbnbging rfsult logs"
+        >RfsultLogMbnbgfrMXBfbn</b></dodf>
+      hbs b mudh morf rflbxfd implfmfntbtion of thf pbttfrn:
+      <br>It simply providfs its own singlfton nbmf if it is
+      rfgistfrfd with b null ObjfdtNbmf, but will not fnfordf 
+      thf usf of thbt nbmf.
+      </p>
+      <p>Notf thbt bll singlfton MBfbn nbmfs in this fxbmplf
+      brf drfbtfd using thf <dodf>SdbnMbnbgfr.mbkfSinglftonNbmf</dodf>
+      mfthod, whidh implfmfnts thf pbttfrn for ObjfdtNbmfs suggfstfd
+      in thf JMX Bfst Prbdtidfs.
+      </p>
+  </ul>
+  <h3>Mbnbging thf Liff Cydlf of dfpfndfnt MBfbns</h3>
+  <ul>
+      <p>A dommon tbsk thbt mbny JMX bpplidbtions hbvf
+        is to mbnbgf thf liff dydlf of MBfbns rfgistfrfd
+        in thf MBfbnSfrvfr.</p>
+      <p>In this fxbmplf, wf hbvf dfdidfd to follow b simplf
+      pbttfrn:</p>
+      <ul>
+          <li>Thf bpplidbtion is initiblizfd simply 
+              by rfgistfring thf singlfton 
+              <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b> in 
+              thf MBfbnSfrvfr.
+          </li>
+          <li>Thf <dodf>SdbnMbnbgfrMXBfbn</dodf> will thfn
+              in turn rfgistfr bny othfr MBfbn thbt thf 
+              bpplidbtion might nffd:
+              <ul>
+                  <li>It drfbtfs bnd rfgistfrs thf singlfton
+                      <dodf><b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html"
+titlf="Thf RfsultLogMbnbgfrMXBfbn is in dhbrgf of mbnbging rfsult logs"
+        >RfsultLogMbnbgfrMXBfbn</b></dodf>
+                  </li>
+                  <li>It drfbtfs bnd rfgistfrs thf dffbult
+                      <dodf><b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbn</b></dodf>
+                      whidh lobds thf initibl donfigurbtion
+                  </li>
+                  <li>It drfbtfs bs mbny 
+                     <dodf><b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+        >DirfdtorySdbnnfrMXBfbns</b></dodf> bs
+                     nffdfd whfn thf donfigurbtion is bpplifd
+                  </li>
+                  <li>It lfts you drfbtf bltfrnbtf 
+                      <dodf>SdbnDirConfigMXBfbn</dodf>, to
+                      whidh you dbn lbtfr switdh in ordfr
+                      to bpply b nfw bltfrnbtf donfigurbtion.
+                  </li>
+              </ul>
+          </li>
+          <li>Whfn b nfw donfigurbtion is bpplifd (or if thf
+              durrfnt donfigurbtion is rfbpplifd), thf 
+              <dodf>SdbnMbnbgfrMXBfbn</dodf> will unrfgistfr
+              bny <dodf>DirfdtorySdbnnfrMXBfbns</dodf> it hbs
+              prfviously rfgistfrfd, bnd will rf-drfbtf
+              brbnd nfw <dodf>DirfdtorySdbnnfrMXBfbns</dodf>
+              from thf bpplifd donfigurbtion.
+          </li>
+          <li>Whfn you unrfgistfr thf <dodf>SdbnMbnbgfrMXBfbn</dodf>,
+              it dofs bll thf dlfbnup for you, by unrfgistfring
+              bll thf MBfbns thbt it hbs drfbtfd during thf
+              doursf of thf bpplidbtion.
+          </li>
+      </ul>
+      <p>Thf <dodf>SdbnMbnbgfrMXBfbn</dodf> mbkfs usf of its
+         <dodf>MBfbnRfgistrbtion</dodf> intfrfbdf in ordfr
+         to rfgistfr thf othfr MBfbns it nffds (sff thf
+         <dodf>SdbnMbnbgfr.postRfgistfr</dodf> mfthod) bnd to unrfgistfr
+         fvfry MBfbn it hbs drfbtfd (sff thf <dodf>SdbnMbnbgfr.prfDfrfgistfr</dodf>
+         mfthod).
+      </p>
+      <p>You will notf thbt thf <dodf>SdbnMbnbgfrMXBfbn</dodf>
+         will only bllow itsflf to bf dfrfgistfrfd if it dbn bf 
+         dlosfd - thbt is if thfrf's no othfr bdtion in
+         progrfss. 
+         This is to mbkf surf thbt thf dfrfgistrbtion of
+         dfpfndfnt MBfbns will work smoothly. 
+         <br>
+         Thf dfrfgistrbtion of rflbtfd MBfbns will hbppfn
+         in thf <dodf>SdbnMbnbgfr.prfDfrfgistfr</dodf>
+         mfthod.
+         <br>
+         If onf of thfsf MBfbns dould not bf dfrfgistfrfd,
+         thfn thf <dodf>SdbnMbnbgfrMXBfbn</dodf> will throw
+         bn fxdfption, rffusing to bf dfrfgistfrfd.
+         <br>This lfbvfs you b dhbndf to try to dfrfgistfr it
+         bgbin lbtfr. Sindf thf <dodf>SdbnMbnbgfrMXBfbn</dodf>
+         hbs switdhfd its stbtf to CLOSED bfforf stbrting
+         to unrfgistfr its dfpfndfnt MBfbns, it will rffusf
+         bny furthfr bdtions, fnsuring thbt f.g. nobody
+         dbn try to stbrt it or sdhfdulf it whilf it
+         is in thbt pbrtiblly-dfrfgistfrfd stbtf.
+      </p>
+      <p>Hbndling thf LiffCydlf of bll thf bpplidbtion's
+         MBfbns in b singlf MBfbn is usublly b good dfsign
+         pbttfrn, fspfdiblly if thf bpplidbtion is b 
+         modulf whidh is intfndfd to shbrf b JVM - or
+         bn MBfbnSfrvfr - with othfr modulfs.
+      </p>
+      <p>This is spfdiblly usfful if thf bpplidbtion nffds to
+         bf lobdfd bnd unlobdfd on dfmbnd: in thbt 
+         dbsf, simply rfgistfring or unrfgistfring thf top lfvfl 
+         MBfbn (in our fxbmplf thf <dodf>SdbnMbnbgfrMXBfbn</dodf>) dofs
+         thf tridk.
+      </p>
+  </ul>
+  <h3>Emitting Notifidbtions</h3>
+  <ul>
+       <p>In ordfr to fmit notifidbtions, bn MBfbn must bf
+       bn instbndf of <dodf>NotifidbtionEmittfr</dodf>. 
+       Thf <dodf>NotifidbtionEmittfr</dodf> intfrfbdf dffinfs mfthods 
+       thbt thf MBfbnSfrvfr will dbll on thf MBfbn in ordfr
+       to rfgistfr <dodf>NotifidbtionListfnfrs</dodf> with thf MBfbn.
+       </p>
+       <p>It is worth noting thbt thf MBfbn mby not bf
+          invokfd fbdh timf b JMX dlifnt wbnts to rfgistfr
+          b listfnfr. For instbndf, thf RMIConnfdtorSfrvfr
+          rfgistfrs <i>only ondf</i> b singlf listfnfr with fbdh MBfbn 
+          whidh is b <dodf>NotifidbtionEmittfr</dodf>.
+          In thbt spfdifid dbsf, thf listfnfr mby fvfn bf rfgistfrfd
+          with thf MBfbn bfforf bny dlifnt hbs bdtublly subsdribfd
+          for notifidbtions from thbt pbrtidulbr MBfbn.
+       </p>
+       <p>An MBfbn dbn thfrfforf mbkf no bssumption bbout 
+          whidh dlifnt or how mbny dlifnts hbvf rfgistfrfd for
+          notifidbtions.
+       </p>
+       <p>It is blso worth noting thbt thf logid of thf
+       mfthods dffinfd in <dodf>NotifidbtionEmittfr</dodf> would not
+       bf trivibl to implfmfnt from sdrbtdh. Fortunbtfly
+       thf JMX API dffinfs b hflpfr dlbss, dbllfd 
+       <dodf>NotifidbtionBrobddbstfrSupport</dodf>, whidh 
+       providfs bn implfmfntbtion for thfsf mfthods.
+       </p>
+       <p>Thfrf brf bdtublly thrff wbys for bn MBfbn to
+       implfmfnt <dodf>NotifidbtionEmittfr</dodf>, of whidh only two
+       brf rfdommfndfd.
+       </p>
+  </ul>
+
+  <h4>Extfnding NotifidbtionBrobddbstfrSupport</h4>
+  <ul>
+    <p>This is thf simplfst wby of doding bn MBfbn whidh
+       is b <dodf>NotifidbtionEmittfr</dodf>:
+    </p>
+    <p>Simply fxtfnd <dodf>NotifidbtionBrobddbstfrSupport</dodf>,
+    thfn ovfrridf its <dodf>gftNotifidbtionInfo</dodf> mfthod
+    whidh rfturns thf <dodf>MBfbnNotifidbtionInfo[]</dodf> brrby
+    thbt should bf indludfd in your MBfbn's <dodf>MBfbnInfo</dodf>
+    bnd thbt's it. 
+    <br>You just nffd to dbll thf <dodf>sfndNotifidbtion</dodf> mfthod
+    inhfritfd from <dodf>NotifidbtionBrobddbstfrSupport</dodf> whfnfvfr
+    your MBfbn nffds to sfnd b notifidbtion.
+    </p>
+    <p>In our fxbmplf, both thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+           >SdbnDirConfigMXBfbn</b> bnd <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html"
+titlf="Thf RfsultLogMbnbgfrMXBfbn is in dhbrgf of mbnbging rfsult logs"
+        >RfsultLogMbnbgfrMXBfbn</b> fxtfnd 
+      <dodf>NotifidbtionBrobddbstfrSupport</dodf> in ordfr
+      to sfnd notifidbtions.
+    </p>
+  </ul>
+  <h4>Thf Dflfgbtion Pbttfrn: dflfgbting to b 
+      NotifidbtionBrobddbstfrSupport dflfgbtf</h4>
+  <ul>
+      <p>Thfrf mby bf dbsfs howfvfr whfrf dflfgbting to b
+      wrbppfd <dodf>NotifidbtionBrobddbstfrSupport</dodf> 
+      objfdt mby bf prfffrrfd to fxtfnding 
+      <dodf>NotifidbtionBrobddbstfrSupport</dodf>.
+      </p>
+      <p>For instbndf, if your MBfbns blrfbdy dfrivf from
+      somf bbsf dlbss, fxtfnding <dodf>NotifidbtionBrobddbstfrSupport</dodf>
+      might not bf bn option.
+      </p>
+      <p>Similbrly, if you do not wbnt to hbvf thf inhfritfd 
+      <dodf>publid void sfndNotifidbtion(Notifidbtion notifidbtion)</dodf>
+      mfthod bppfbr in thf Jbvbdod of thf dondrftf dlbss of your
+      MBfbn, you mby wbnt to donsidfr using thf dflfgbtion
+      pbttfrn instfbd of fxtfnding 
+      <dodf>NotifidbtionBrobddbstfrSupport</dodf>
+      </p>
+      <p>In our fxbmplf both thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b> bnd thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+        >DirfdtorySdbnnfrMXBfbn</b> usf thf dflfgbtion 
+       pbttfrn rbthfr thbn fxtfnding 
+       <dodf>NotifidbtionBrobddbstfrSupport</dodf>.
+       In thf fnd, dhoosing bftwffn onf or thf othfr mfthod
+       is morf b qufstion of tbstf, blthough thf dflfgbtion 
+       pbttfrn dould bf donsidfrfd morf flfxiblf sindf it
+       dofsn't rfquirf fxtfnding bny givfn supfrdlbss.
+      </p>
+      <p>It mby bf blso worth noting thbt somf tools likf
+      thf JMX Modulf of <b 
+hrff="http://www.nftbfbns.org"
+      >NftBfbns IDE</b>, will bf bblf to 
+      gfnfrbtf for you bll thf dodf thbt dflfgbtfs to b
+      wrbppfd <dodf>NotifidbtionBrobddbstfrSupport</dodf>.
+      </p>
+  </ul>
+      
+  <h4>Implfmfnting NotifidbtionEmittfr from sdrbtdh</h4>
+  <ul>
+    <p>This is thf lbst possibility for bn MBfbn thbt
+    nffds to sfnd notifidbtions: simply implfmfnt 
+    <dodf>NotifidbtionEmittfr</dodf> from sdrbtdh. This is highly
+    disdourbgfd sindf thbt logid is not trivibl, bnd 
+    blrfbdy providfd by 
+    <dodf>NotifidbtionBrobddbstfrSupport</dodf> bnywby.
+    </p>
+  </ul>
+    
+  <h4>Bfwbrf of Syndhronizbtion Lodks</h4>
+  <ul>
+       
+       <p>Onf thing you must kffp in mind whfn sfnding
+       notifidbtions is not to sfnd thfm from within
+       b syndhronizfd blodk, or whilf holding b lodk on
+       somf rfsourdf.</p>
+       <p>Indffd, whbt hbppfns whfn you sfnd b notifidbtion
+          mby vbry grfbtly dfpfnding on whfthfr thf dlifnt
+          whidh hbs rfgistfrfd for notifidbtions hbs donf
+          so through b <dodf>JMXConnfdtor</dodf> (likf thf 
+          <dodf>JMXRMIConnfdtor</dodf>)
+          or through b dirfdt rfffrfndf to thf MBfbnSfrvfr
+          (by dblling 
+          <dodf>MBfbnSfrvfr.bddNotifidbtionListfnfr</dodf>).
+       </p>
+       <p>In this lbttfr dbsf, thf listfnfr will bf invokfd
+       syndhronously in thf sbmf thrfbd thbt your MBfbn is
+       using to sfnd its notifidbtion. If by misfortunf, thf
+       dodf of thbt listfnfr now rf-fntfrs your MBfbn through b
+       dbll thbt flows through b JMXConnfdtor, b dfbdlodk
+       dould oddur. It is thfrfforf vfry importbnt to rflfbsf
+       bny lodk you mby hbvf bfforf dblling 
+       <dodf>sfndNotifidbtion</dodf>.</p>
+       <p>An fbsy wby to do thbt is dfmonstrbtfd in thf
+          <dodf>SdbnMbnbgfr</dodf> dlbss. Thf SdbnMbnbgfr
+          hbs bn intfrnbl privbtf qufuf of pfnding notifidbtions.
+          Whfn b notifidbtion nffds to bf sfnt (f.g. bfdbusf thf
+          SdbnMbnbgfr stbtf is bfing switdhfd), thf notifidbtion
+          is simply prfpbrfd bnd put into thf pfnding notifidbtion
+          qufuf. 
+          Thf notifidbtion qufuf is thfn prodfssfd lbtfr on, 
+          bt thf fnd of thf mfthod, whfn thf prodfssing is finblly
+          domplftfd bnd bll thf lodks hbvf bffn rflfbsfd.
+          <br>At this point thf notifidbtion qufuf might blrfbdy
+          hbvf bffn fmptifd by bnothfr thrfbd - in whidh dbsf
+          thf pfnding notifidbtions will hbvf blrfbdy bffn
+          rfmovfd from thf qufuf. Whidh thrfbd bdtublly gfts 
+          to sfnd thf notifidbtions is of no importbndf. Thf 
+          importbnt point is thbt bll thf lodks dftbinfd by
+          your MBfbn dodf in thbt thrfbd wfrf rflfbsfd bfforf
+          thf notifidbtion wbs sfnt.
+       </p>
+       <p>In our fxbmplf thf <dodf>SdbnMbnbgfr</dodf> dlbss 
+          fnsurfs this by:
+          <ul>
+              <li>Only dblling <dodf>sfndNotifidbtion</dodf>
+                  in its privbtf <dodf>sfndQufufdNotifidbtions</dodf>
+                  mfthod.
+              </li>
+              <li>Only dblling <dodf>sfndQufufdNotifidbtions</dodf>
+                  whfn bll lodks hbvf bffn rflfbsfd.
+              </li>
+              <li>Nfvfr dblling b mfthod thbt dblls 
+                  <dodf>sfndQufufdNotifidbtions</dodf> from within
+                  b syndhronizfd blodk.</li>
+          </ul>
+       </p>
+  </ul>
+       
+       
+
+  <h4>Don't subdlbss Notifidbtion</h4>
+  <ul>
+       <p>Anothfr dommon bfst prbdtidf whfn you wbnt
+          to improvf intfropfrbbility is to usf dirfdtly
+          thf Notifidbtion bbsf dlbssfs providfd in thf
+          JMX<sup>TM</sup> API. Do not drfbtf your own
+          subdlbssfs of thfsf stbndbrd dlbssfs.
+       </p>
+       <p>Indffd, if you dodf your own subdlbss, b gfnfrid
+       dlifnt, likf jdonsolf, will not bf bblf to rfdfivf
+       thbt notifidbtion unlfss it hbs thbt dustom 
+       subdlbss in its dlbsspbth.
+       </p>
+       <p>
+       If you wbnt your bpplidbtion to bf intfropfrbblf, it is
+       thfrfforf prfffrbblf not to subdlbss bny of thf stbndbrd
+       Notifidbtion dlbssfs. You dbn dffinf your own 
+       Notifidbtion typf string, bnd if you nffd to sfnd
+       bdditionbl dbtb, you dbn put b CompositfDbtb, or b 
+       HbshMbp of sfriblizbblf stbndbrd typfs in thf 
+       Notifidbtion's usfr dbtb fiflds.
+       </p>
+       <p>In this fxbmplf, wf brf using dirfdtly thf 
+       stbndbrd notifidbtion dlbssfs:
+       <ul>
+           <li>Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b> bnd thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+             >DirfdtorySdbnnfrMXBfbn</b> both usf dirfdtly
+             <dodf>AttributfChbngfNotifidbtion</dodf> to notify
+             dhbngfs in thfir <dodf>Stbtf</dodf> bttributf.
+           </li>
+           <li>Thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+             >DirfdtorySdbnnfrMXBfbn</b>
+             blso usfs thf bbsf <dodf>Notifidbtion</dodf>
+             dlbss dirfdtly in ordfr to notify whfnfvfr
+             it finds b mbtdhing filf.
+             <br>In thbt dbsf, wf simply usf thf bbsf
+             <dodf>Notifidbtion</dodf>
+             dlbss with b nfw 
+             <b><dodf>dom.sun.jmx.fxbmplfs.sdbndir.filfmbtdh</dodf></b>
+             typf.
+           </li>
+           <li>Thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+             >SdbnDirConfigMXBfbn</b> bnd <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html"
+titlf="Thf RfsultLogMbnbgfrMXBfbn is in dhbrgf of mbnbging rfsult logs"
+             >RfsultLogMbnbgfrMXBfbn</b> blso both usf thf bbsf 
+             <dodf>Notifidbtion</dodf> dlbss.
+           </li>
+       </ul>
+       <p>Cbrfful rfbdfrs will hbvf notfd thbt thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+             >SdbnMbnbgfrMXBfbn</b> bnd thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html"
+titlf="A DirfdtorySdbnnfrMXBfbn looks for filf mbtdhing b givfn sft of dritfrib, stbrting bt b givfn root."
+             >DirfdtorySdbnnfrMXBfbn</b> both usf thf 
+             <dodf>AttributfChbngfNotifidbtion</dodf> dlbss
+             to notify bbout thfir stbtf dhbngf, whfrfbs thf
+             <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+             >SdbnDirConfigMXBfbn</b> usfs thf bbsf
+             <dodf>Notifidbtion</dodf> dlbss.
+       </p>
+       <p>In fbdt, this is bfdbusf thf sfmbntids of thfsf
+          notifidbtions is not fxbdtly thf sbmf - blthough
+          both dfnotf b stbtf dhbngf:
+          <ul>
+              <p>In thf dbsf of <dodf>SdbnMbnbgfrMXBfbn</dodf>
+              bnd <dodf>DirfdtorySdbnnfrMXBfbn</dodf>, thf 
+              notifidbtion whidh is fmittfd is morf bbout b
+              stbtf trbnsition, from onf stbtf to bnothfr.
+              For instbndf, going from <dodf>RUNNING</dodf>
+              to <dodf>STOPPED</dodf>, or from 
+              <dodf>SCHEDULED</dodf> to <dodf>STOPPED</dodf>.
+              <br>In thbt dbsf, thf 
+              <dodf>AttributfChbngfNotifidbtion</dodf> wbs
+              morf bppropribtf bfdbusf it mbdf it possiblf
+              to sfnd thf prfvious bnd thf nfw vbluf of thf 
+              stbtf bttributf, thus rfflfdting thf wholf
+              stbtf trbnsition.
+              </p>
+              <p>In thf dbsf of thf <dodf>SdbnDirConfigMXBfbn</dodf>
+              howfvfr, whbt is of intfrfst is thf stbtf in
+              whidh thf MBfbn hbs brrivfd. Using thf bbsf
+              <dodf>Notifidbtion</dodf> dlbss with thrff difffrfnt 
+              notifidbtion typf strings -  
+              <b><dodf>dom.sun.jmx.fxbmplfs.sdbndir.donfig.lobdfd</dodf></b>,
+              <b><dodf>dom.sun.jmx.fxbmplfs.sdbndir.donfig.modififd</dodf></b>,
+              bnd
+              <b><dodf>dom.sun.jmx.fxbmplfs.sdbndir.donfig.sbvfd</dodf></b> - 
+              wbs thfrfforf dlosfr to whbt wf wbntfd to modfl.
+              </p>
+          </ul>
+       </p>
+  </ul>
+       
+  <h3>Configurbtion MBfbns</h3>
+    <ul>
+    <p>A dommon prbdtidf whfn dfsigning b mbnbgfmfnt bpplidbtion is
+    to hbvf bn MBfbn, or b sft of MBfbns, dfdidbtfd to donfigurbtion. 
+    Sfpbrbting donfigurbtion from dontrol bnd monitoring bllows
+    morf bppropribtf logid, bnd oftfn simplififs thf dfsign bnd 
+    implfmfntbtion of thf mbnbgfmfnt intfrfbdf.
+    </p>
+    <p>
+    In our fxbmplf, thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+     >SdbnDirConfigMXBfbn</b> is dfdidbtfd to thf bpplidbtion donfigurbtion.
+    </p>
+    <p>Thf <dodf>SdbnDirConfigMXBfbn</dodf> will lft you intfrbdtivfly 
+        modify, sbvf, or lobd thf bpplidbtion donfigurbtion. Thf modifidbtions
+        will not bf tbkfn into bddount until it is bpplifd, by invoking
+        <dodf>bpplyConfigurbtion</dodf> on thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+        >SdbnMbnbgfrMXBfbn</b>. 
+    It is blso possiblf to drfbtf mbny donfigurbtions, by drfbting bs
+    mbny <dodf>SdbnDirConfigMXBfbn</dodf>s, bnd thfn to dhoosf bnd bpply
+    onf of thfsf donfigurbtions by dblling 
+    <dodf>SdbnMbnbgfrMXBfbn.sftConfigurbtionMBfbn</dodf> bnd thfn
+    <dodf>SdbnMbnbgfrMXBfbn.bpplyConfigurbtion</dodf>.
+    </p>
+    <p>In this wby, bll donfigurbtions bspfdts brf gbthfrfd bnd dondfntrbtfd
+    insidf thf <dodf>SdbnDirConfigMXBfbn</dodf> instfbd of bfing sdbttfrfd
+    throughout bll thf MBfbns thbt domposf thf bpplidbtion.
+    </p>
+    <p>In ordfr to sbvf bnd storf thf bpplidbtion donfigurbtion dbtb, thf
+    <dodf>SdbnDirConfigMXBfbn</dodf> usfs b sft of XML sfriblizbblf Jbvb bfbns
+    dffinfd in thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/donfig/pbdkbgf-summbry.html" 
+titlf="Thf dom.sun.jmx.fxbmplfs.sdbndir.donfig pbdkbgf dffinfs XML sfriblizbblf bfbns"
+        >dom.sun.jmx.fxbmplfs.sdbndir.donfig</b> pbdkbgf. Thfsf bfbns brf vfry
+   simplf Jbvb bfbns whidh hbvf bffn lightly bnnotbtfd for XML binding.
+    </p>
+    <p>It is worth noting thbt thfsf sbmf bfbns dbn blso bf hbndlfd by thf
+    MXBfbn frbmfwork (our bfbns don't dontbin rfdursivf dbtb strudturfs) bnd dbn 
+    thfrfforf bf usfd dirfdtly bs bttributfs bnd pbrbmftfrs of MXBfbns, without
+    nffding to bf Jbvb-sfriblizbblf (thf MXBfbn frbmfwork trbnsform thfm in
+    CompositfDbtb objfdts - whidh <b>brf</b> sfriblizbblf).
+    </p>
+    <p>Thf sbmf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/donfig/SdbnMbnbgfrConfig.html" 
+titlf="Thf dom.sun.jmx.fxbmplfs.sdbndir.donfig pbdkbgf dffinfs XML sfriblizbblf bfbns"
+        >SdbnMbnbgfrConfig</b> bfbn thbt wf usf to rfbd from bnd writf to thf
+        XML donfigurbtion filf is thus blso usfd bs bttributf of thf <b
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html"
+titlf="Thf SdbnDirConfigMXBfbn is in dhbrgf of thf donfigurbtion"
+     >SdbnDirConfigMXBfbn</b>. It is trbnsformfd into b <dodf>CompositfDbtb</dodf> 
+       by thf MXBfbn frbmfwork, bnd dbn bf fbsily introspfdtfd with
+       <b hrff="#JConsolf">jdonsolf</b>.
+    </p>
+    </ul>
+  <h3>MBfbns Must Bf Thrfbd-Sbff</h3>
+    <ul>
+    <p>A qufstion oftfn bskfd by nfwdomfrs to JMX tfdhnology
+    is whfthfr thf MBfbnSfrvfr is thrfbd-sbff. Wfll, thf MBfbnSfrvfr <b>is</b> 
+    thrfbd sbff, but it dofsn't put bny lodks on thf MBfbns it dontbins. Thf
+    MBfbns dbn bf dondurrfntly bddfssfd by multiplf thrfbds, bnd must thfrfforf
+    tbkf dbrf of thfir own thrfbd sbffty.
+    </p>
+    <p>In this fxbmplf, wf hbvf bffn using two mfthods to fnsurf thrfbd
+    sbffty for our MBfbns: syndhronizfd blodks, bnd sfmbphorfs.
+    </p>
+    <p>Using syndhronizfd blodks is probbbly thf most dommon bnd fbsifst wby
+    to implfmfnt thrfbd sbffty in Jbvb. Whfn dfbling with MBfbns though, hfrf
+    brf b douplf of rulfs to kffp in mind:
+    <ul>
+        <li>Don't sfnd notifidbtions from within b syndhronizfd blodk: thfrf's
+        no wby to tfll whfthfr thf listfnfr's dodf will bf fxfdutfd in thf
+        sbmf thrfbd or b difffrfnt thrfbd, bnd holding b lodk in thfsf
+        donditions is thfrfforf dbngfrous, bs it dould lfbd to dfbdlodks.</li>
+        <li>Also bvoid invoking bnothfr MBfbn from b syndhronizfd blodk
+        unlfss you brf domplftfly in dontrol of both MBfbns, bnd you dbn
+        bsdfrtbin thbt it won't lfbd to bny dfbdlodk. Indffd, if you invokf bn
+        MBfbn fxposfd by bnothfr bpplidbtion, it dbn bf somftimf hbrd to
+        know with dfrtbinty whfthfr holding b lodk whilf invoking thbt
+        MBfbn will hbvf bny sidf ffffdt. Mbybf thbt MBfbn will mbkf
+        furthfr dblls to othfr MBfbns whidh will in turn try to dbll
+        your MBfbn, or mbybf it will fmit b
+        notifidbtion, bnd wf'll bf bbdk to thf donsidfrbtions just 
+        bbovf.</li>
+    </ul>
+    </p>
+    <p>Anothfr mfbns of implfmfnting thrfbd-sbff dodf is to usf sfmbphorfs.
+    Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+        >SdbnMbnbgfrMXBfbn</b> usfs b sfmbphorf dbllfd
+        <dodf>sfqufndfr</dodf> to fnsurf
+    thbt dritidbl dodf sfdtions brf not fxfdutfd dondurrfntly. In this
+    MBfbn, wf usf <dodf>Sfmbphorf.tryAdquirf</dodf> to lodk thf sfqufndfr
+    sfmbphorf bfforf fntfring thf dritidbl sfdtion. If thf 
+    <dodf>Sfmbphorf.tryAdquirf</dodf> rfturns truf thfn wf fntfr thf dritidbl
+    sfdtion. If it rfturns fblsf, wf throw bn IllfgblStbtfExdfption, stbting
+    thbt wf douldn't bdquirf thf lodk. Thf dodf looks likf this:
+    <prf>
+        if (!sfqufndfr.tryAdquirf())
+            throw nfw IllfgblStbtfExdfption("rfsourdf lodkfd");
+        try {
+            // dritidbl dodf hfrf ...
+        } finblly {
+            // Alwbys usf try/finblly to fnsurf thbt thf sfmbphorf
+            // will bf rflfbsfd, fvfn if fxdfptions or frrors brf rbisfd!
+            sfqufndfr.rflfbsf();
+        }
+    </prf>
+    </p>
+    <p>Using <dodf>Sfmbphorf.tryAdquirf</dodf> bnd throwing bn fxdfption if
+        thf sfmbphorf is blrfbdy lodkfd mbkfs it sbffr to dbll othfr MBfbns
+        from within thf dritidbl sfdtion: in potfntibl dfbdlodk situbtions
+        thf dblling dodf will gft thf <dodf>IllfgblStbtfExdfption</dodf>
+        instfbd of bfing blodkfd on thf dfbdlodkfd lodk.
+    </p>
+    <p>It is worth noting thbt fbdh of thfsf tfdhniqufs hbs its own 
+    bdvbntbgfs bnd disbdvbntbgfs - whidh dbn mbkf onf of thfm morf or lfss
+    bppropribtf dfpfnding on thf innfr logid of thf MBfbn you'rf implfmfnting.
+    </p>
+    <p>Cbrfful rfbdfrs will blso hbvf notfd thbt wf usfd 
+       <dodf>IllfgblStbtfExdfption</dodf> dirfdtly, instfbd of dffining 
+       our own subdlbss of RuntimfExdfption, whidh dould hbvf hbd b morf
+       prfdisf sfmbntids. If you dffinf b nfw fxdfption for your JMX bpplidbtion,
+       you must kffp in mind thbt your dlifnt will nffd to hbvf thf dlbss
+       of your fxdfption in its dlbsspbth to gft thbt fxdfption. 
+       Othfrwisf your dlifnt will gft b domplftfly difffrfnt fxdfption, indidbting b
+       dfsfriblizbtion issuf.
+    </p>
+    </ul>
+    
+  <h3>Wbiting for Notifidbtions</h3>
+    <ul>
+    <p>Implfmfnting dodf thbt nffds to wbit for notifidbtions is somftimfs
+       diffidult. Bfdbusf notifidbtions brf bsyndhronous, doing somfthing
+       likf:
+        <prf>
+          // rfgistfr b notifidbtion listfnfr
+          ...
+          // stbrt b mbnbgfmfnt bdtion
+          ...
+          // wbit for b notifidbtion
+          ...
+          // do somfthing bbsfd on whfthfr thf fxpfdtfd notifidbtion
+          // is rfdfivfd
+          ...
+        </prf>
+       is not blwbys trivibl. Howfvfr, thfrf's b vfry fbsy wby to do thbt: usf
+       b blodking qufuf of notifidbtions.
+       <prf>
+       finbl BlodkingQufuf&lt;Notifidbtion&gt; notifQufuf = 
+                nfw LinkfdBlodkingQufuf&lt;Notifidbtion&gt;();
+                
+       finbl NotifidbtionListfnfr listfnfr = nfw NotifidbtionListfnfr() {
+            publid void hbndlfNotifidbtion(Notifidbtion notifidbtion,
+                                           Objfdt hbndbbdk) {
+                try {
+                    // Just put thf rfdfivfd notifidbtion in thf qufuf.
+                    // It will bf donsumfd lbtfr on.
+                    //
+                    notifQufuf.put(notifidbtion);
+                } dbtdh (IntfrruptfdExdfption fx) {
+                    // OK
+                }
+            }
+          };
+
+       // rfgistfr thf listfnfr - possibly blso bs b JMXConnfdtionNotifidbtion
+       // listfnfr to gft Notifidbtion Lost notifidbtion
+       ...
+       // stbrt mbnbgfmfnt bdtion
+       ...
+       // wbit for notifidbtion
+       whilf (fxpfdtfd notif not rfdfivfd bnd dflby not fxpirfd) {
+            Notifidbtion n = notifQufuf.poll(3,TimfUnit.SECONDS);
+            // if fxpfdtfd notif, do somfthing
+            ...
+       }
+       // if fxpfdtfd notifidbtion not rfdfivfd do somfthing flsf.
+       ....
+       </prf>
+    </p>
+    <p>You will notf thbt this is b tfdhniquf wf'vf bffn using in thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirAgfnt.html" 
+titlf="Thf SdbnDirAgfnt dlbss dffinfs b mbin mfthod for thf sdbndir bpplidbtion"
+        >SdbnDirAgfnt</b> dlbss bnd in thf fxbmplf unit tfsts.
+    </p>
+    </ul>
+    
+  <h3>Holding hbrd rfffrfndfs to othfr MBfbns: proxy or dirfdt rfffrfndf?</h3>
+  <ul>
+    <p>Wf hbvf sffn thbt MXBfbns will lft you rfturn proxy rfffrfndfs to othfr
+    MXBfbns. But should thbt MXBfbn hold b dirfdt rfffrfndf to thf MXBfbns it
+    rflbtfs to, or would it bf bfttfr for it to hold only b proxy?
+    </p>
+    <p>
+    As b gfnfrbl rulf it is bfttfr whfn bn MBfbn rfffrfndf is
+    only hfld by thf MBfbnSfrvfr. It is b bfttfr dfsign
+    to hold b rfffrfndf to b proxy, rbthfr thbn to hold
+    b hbrd rfffrfndf to bn MBfbn. Howfvfr thfrf brf two dbsfs
+    whfn holding b hbrd rfffrfndf might bf prfffrrfd: 
+     <ol>
+        <li>Whfn MBfbn A nffds to dbll b mfthod of mfthod B whidh
+           is not pbrt of its MBfbn intfrfbdf</li>
+        <li>Whfn thf ovfrhfbd of going through thf MBfbnSfrvfr
+           plus thf MXBfbn frbmfwork is too grfbt (frfqufntly-dbllfd
+           mfthod, with drfbtion of OpfnTypf)</li>
+     </ol>
+    Howfvfr - holding b hbrd rfffrfndf is only bdvisbblf
+    whfn both MBfbns brf drfbtfd by thf sbmf pifdf of dodf,
+    bnd thf bpplidbtion dbn fnsurf thbt thf liff dydlf
+    of fbdh MBfbn is donsistfnt with rfgbrd to thf othfr.
+    </p>
+    <p>In our fxbmplf, thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+        >SdbnMbnbgfrMXBfbn</b> holds only proxy rfffrfndfs to thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirConfigMXBfbn.html" 
+        >SdbnDirConfigMXBfbn</b> bnd thf  <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/DirfdtorySdbnnfrMXBfbn.html" 
+        >DirfdtorySdbnnfrMXBfbns</b>. <br>
+    Howfvfr it holds b dirfdt rfffrfndf to thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfr.html" 
+        >RfsultLogMbnbgfr</b>. This mbkfs it possiblf to pbss b dirfdt 
+        rfffrfndf to thf <dodf>DirfdtorySdbnnfrMXBfbns</dodf>, 
+        whidh dbn thfn log thfir rfsults
+        morf fffidifntly, bnd would blso mbkf it possiblf to rfmovf
+        thf <dodf>log</dodf> mfthod from thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/RfsultLogMbnbgfrMXBfbn.html" 
+        >RfsultLogMbnbgfrMXBfbn</b> intfrfbdf - lfbving it in thf 
+        <dodf>RfsultLogMbnbgfr</dodf> dlbss (possibly bs b pbdkbgf mfthod)
+        should wf wish to do so.
+    </p>
+    
+    </ul>
+
+  <h3>Agfnt Clbss</h3>
+    <ul>
+   <p>Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirAgfnt.html" 
+titlf="Thf SdbnDirAgfnt dlbss dffinfs b mbin mfthod for thf sdbndir bpplidbtion"
+     >SdbnDirAgfnt</b> is thf Agfnt dlbss for thf <i>sdbndir</i> bpplidbtion.
+    This dlbss dontbins thf <dodf>mbin</dodf> mfthod to stbrt b stbndblonf  
+    <i>sdbndir</i> bpplidbtion.
+    </p>
+    <p>Thf <dodf>mbin</dodf> mfthod simply rfgistfrs b <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+       >SdbnMbnbgfrMXBfbn</b> in thf plbtform MBfbnSfrvfr, bnd thfn wbits
+    for somfonf to dbll <dodf>SdbnMbnbgfrMXBfbn.dlosf</dodf>.
+    </p>
+    <p>
+    Whfn thf <dodf>SdbnMbnbgfrMXBfbn</dodf> stbtf is switdhfd to 
+    <dodf>SdbnMbnbgfrMXBfbn.SdbnStbtf.CLOSED</dodf>, thf 
+    <dodf>SdbnMbnbgfrMXBfbn</dodf> is unrfgistfrfd, bnd thf bpplidbtion
+    tfrminbtfs (i.f. thf mbin thrfbd domplftfs).
+    </p>
+    <p>Stbndblonf JMX bpplidbtions usublly hbvf bn Agfnt dlbss thbt dontbin 
+       thfir <dodf>mbin</dodf> mfthod, whidh pfrforms bll thf MBfbn
+       rfgistrbtion stfps.
+       Howfvfr, it is usublly not b bbd idfb if thbt dlbss dbn
+       bf fbsily turnfd into bn MBfbn. Indffd, this will mbkf your
+       bpplidbtion fbsifr to intfgrbtf in bn fnvironmfnt whfrf it would
+       no longfr bf stbndblonf bnd would no longfr dontrol thf implfmfntbtion
+       of <dodf>mbin</dodf>. In our fxbmplf thf Agfnt
+       dlbss dould bf fbsily turnfd into bn MBfbn, fxposing its thrff
+    <dodf>init</dodf>, <dodf>wbitForClosf</dodf> bnd <dodf>dlfbnup</dodf> 
+    mfthod. Howfvfr wf didn't go bs fbr bs turning it into bn MBfbn sindf 
+    thf bpplidbtion dbn bf blrfbdy fbsily stbrtfd by rfgistfring bn instbndf
+    of <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnMbnbgfrMXBfbn.html" 
+titlf="Thf SdbnMbnbgfrMXBfbn is thf mbin MBfbn of thf sdbndir bpplidbtion"
+       >SdbnMbnbgfrMXBfbn</b>.
+    </p>
+    </ul>
+  <h3>Sfdurf Clifnt Clbss</h3>
+    <ul>
+   <p>Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirClifnt.html" 
+titlf="Thf SdbnDirClifnt dlbss is b vfry short fxbmplf of sfdurf progrbmmbtid dlifnt"
+     >SdbnDirClifnt</b> is bn fxbmplf dlbss thbt shows how b
+    progrbmmbtid dlifnt dbn donnfdt to b sfdurfd <i>sdbndir</i> bpplidbtion.
+    This dlbss dontbins b <dodf>mbin</dodf> mfthod whidh drfbtfs bnd
+    donfigurfs b <dodf>JMXConnfdtor</dodf> dlifnt to donnfdt with
+    b sfdurfd <i>sdbndir</i> dbfmon. This dlbss will not work with
+    thf dffbult unsfdurfd bgfnt sindf it rfquirfs mutubl buthfntidbtion.
+    </p>
+    <p>How to sfdurf b JMX <i>sdbndir</i> bpplidbtion bnd run
+    thf sfdurf <dodf>SdbnDirClifnt</dodf> is disdussfd <b hrff="#sfdurf"
+    >lbtfr</b> in this dodumfnt.
+    </p>
+    <p>Thf <dodf>SdbnDirClifnt</dodf> is not rfblly pbrt of thf
+       bpplidbtion - bnd is givfn hfrf only for thf sbkf of
+       thf fxbmplf.
+    </p>
+    </ul>
+    
+  <h2><b nbmf="h2-Tfsting">Tfsting thf <i>sdbndir</i> Exbmplf</b></h2>
+    <ul>
+        <p>Mbkf surf thbt you hbvf bddfss to junit.jbr (fithfr 3.8.1 or 3.8.2).
+           Mbkf surf blso thbt you hbvf junit.jbr in your 
+           <dodf>CLASSPATH</dodf>.<br>
+           Thfn in thf fxbmplf root dirfdtory (whfrf thf <dodf>build.xml</dodf> 
+           filf is lodbtfd) run thf following dommbnd:
+           <prf>bnt tfst -Dlibs.junit.dlbsspbth=<i><u>pbth to junit jbr (fithfr 3.8.1 or 3.8.2)</u></i></prf>
+        </p>
+        <p>Altfrnbtivfly you dbn opfn thf jmx-sdbndir projfdt with thf 
+           NftBfbns IDE bnd tfst thf jmx-sdbndir projfdt from thf 
+           <dodf>Run</dodf> mfnu.
+        </p>
+
+    </ul>
+
+  <h2><b nbmf="h2-Running">Running thf <i>sdbndir</i> Exbmplf</b></h2>
+    <ul>
+        <p>In thf fxbmplf root dirfdtory (whfrf thf <dodf>build.xml</dodf> 
+           filf is lodbtfd) run thf following dommbnds:
+        <prf>bnt jbr
+bnt run-singlf -Drun.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirAgfnt -Djbvbd.indludfs=srd</prf>
+           or simply <prf>bnt run</prf>
+        </p>
+        
+        <p>This will run thf fxbmplf using thf donfigurbtion
+           filf providfd in thf srd/ftd dirfdtory.
+        </p>
+        <p>Altfrnbtivfly you dbn opfn thf jmx-sdbndir projfdt with thf 
+           NftBfbns IDE. You dbn run thf fxbmplf by 
+           sflfdting thf <dodf>SdbnDirAgfnt</dodf> filf
+           bnd run it with <dodf>Run Filf</dodf> in thf
+           <dodf>Run</dodf> mfnu or simply
+           sft thf <i>jmx-sdbndir</i> projfdt bs mbin projfdt bnd
+           sflfdt <dodf>Run Mbin Projfdt</dodf> from thf
+           mbin mfnu. Both tbrgfts will usf thf donfigurbtion
+           filf providfd in thf srd/ftd dirfdtory.
+        </p>
+        <p>Whfn thf bpplidbtion is stbrtfd, you dbn donnfdt to
+           it with <b hrff="#JConsolf">jdonsolf</b>.
+        </p>
+        <blodkquotf>
+            <u>Notf:</u> You dbn blso run thf <i>sdbndir</i> 
+            bpplidbtion dirfdtly from thf <dodf>jbvb</dodf> 
+            dommbnd linf. Mbkf surf to build thf projfdt jbr
+            first. 
+            <br>On Unix systfms:
+            <prf>bnt jbr
+jbvb -Djbvb.util.logging.donfig.filf=logging.propfrtifs \
+     -Dsdbndir.donfig.filf=srd/ftd/tfstdonfig.xml \
+     -jbr dist/jmx-sdbndir.jbr</prf>
+            <br>On Windows systfms:
+            <p><dodf>bnt jbr<br>
+jbvb &nbsp;-Djbvb.util.logging.donfig.filf=logging.propfrtifs
+     &nbsp;-Dsdbndir.donfig.filf=srd\ftd\tfstdonfig.xml
+     &nbsp;-jbr&nbsp;dist\jmx-sdbndir.jbr</dodf></p>
+        </blodkquotf>
+    </ul>
+    
+    <h2><b nbmf="h2-Plbying">Plbying with JConsolf</b></h2>
+    <ul>
+    <p>Run thf fxbmplf bs fxplbinfd in thf prfvious sfdtion, so
+    thbt it usfs thf providfd <dodf>srd/ftd/tfstdonfig.xml</dodf> 
+    donfigurbtion filf. Thfn stbrt
+    jdonsolf. In thf donnfdtion window dhoosf thf prodfss thbt runs
+    <dodf>dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirAgfnt</dodf> or
+    <dodf>jmx-sdbndir.jbr</dodf>.
+    </p>
+    <p><dfntfr>
+        <tbblf bordfr="0" dfllpbdding="2" dfllspbding="2">
+        <tr><td>
+    <b hrff="dodfilfs/donnfdt-lodbl-bnt-run.jpg"
+    titlf="jdonsolf donnfdtion window - donnfdt to lodbl prodfss"
+    ><img hfight="440"
+    srd="dodfilfs/donnfdt-lodbl-bnt-run.jpg"
+    blt="jdonsolf donnfdtion window - donnfdt to lodbl prodfss"
+    /></b>
+    </td>
+    <td>
+    <b hrff="dodfilfs/donnfdt-lodbl-jbvb-jbr.jpg"
+    titlf="jdonsolf donnfdtion window - donnfdt to lodbl prodfss"
+    ><img hfight="440"
+    srd="dodfilfs/donnfdt-lodbl-jbvb-jbr.jpg"
+    blt="jdonsolf donnfdtion window - donnfdt to lodbl prodfss"
+    /></b>
+    </td></tr></tbblf>
+    </dfntfr>
+    </p>
+    <p>Opfn thf MBfbns tbb, bnd look for thf 
+       <dodf>SdbnDirConfigMXBfbn</dodf>.
+       Clidk on its <dodf>Attributfs</dodf> nodf bnd doublf dlidk on its
+       <dodf>Configurbtion</dodf> bttributf, to look bt
+       thf lobdfd donfigurbtion - vblufs in bold dbn
+       bf fxpbndfd by b doublf-dlidk.
+    </p>
+    <p><dfntfr><b hrff="dodfilfs/sdbndir-donfig.jpg"
+    titlf="jdonsolf MBfbn tbb: SdbnDirConfigMXBfbn"
+    ><img 
+    srd="dodfilfs/sdbndir-donfig.jpg"
+    blt="jdonsolf MBfbn tbb: SdbnDirConfigMXBfbn"
+    /></b></dfntfr>
+    </p>
+    <p>Now go to thf <dodf>SdbnMbnbgfrMXBfbn</dodf>, dlidk on
+       its <dodf>Notifidbtions</dodf> nodf, bnd subsdribf
+       for notifidbtions. Thfn dlidk on thf 
+       <dodf>Opfrbtions</dodf> nodf bnd invokf thf
+       <dodf>stbrt()</dodf> opfrbtion:
+    </p>
+    <p><dfntfr><b hrff="dodfilfs/sdbndir-stbrt.jpg"
+    titlf="jdonsolf MBfbn tbb: SdbnDirConfigMXBfbn"
+    ><img 
+    srd="dodfilfs/sdbndir-stbrt.jpg"
+    blt="jdonsolf MBfbn tbb: SdbnDirConfigMXBfbn"
+    /></b></dfntfr>
+    </p>
+    <p>You dbn sff thbt thf notifidbtions dountfr wbs 
+       indrfmfntfd by thrff: you hbvf just sdhfdulfd, 
+       run, bnd domplftfd b bbtdh of dirfdtory sdbns.
+    </p>
+    <p>Now go to thf <dodf>RfsultLogMbnbgfrMXBfbn</dodf>,
+       dlidk on its <dodf>Attributfs</dodf> nodf, bnd 
+       fxpbnd its <dodf>MfmoryLog</dodf> bttributf:
+    </p>
+    <p><dfntfr><b hrff="dodfilfs/sdbndir-rfsult.jpg"
+    titlf="jdonsolf MBfbn tbb: SdbnDirConfigMXBfbn"
+    ><img 
+    srd="dodfilfs/sdbndir-rfsult.jpg"
+    blt="jdonsolf MBfbn tbb: SdbnDirConfigMXBfbn"
+    /></b></dfntfr>
+    </p>
+    <p>You dbn sff thbt thf dirfdtory sdbn rfsults hbvf
+       bffn loggfd.</p>
+    <p>To mbkf thf bpplidbtion tfrminbtf go bbdk to thf 
+       <dodf>SdbnMbnbgfrMXBfbn</dodf> bnd invokf
+       <dodf>dlosf()</dodf>. Thf <dodf>SdbnDirAgfnt</dodf>
+       will rfdfivf thf notifidbtion, stfp out of 
+       thf bpplidbtion mbin thrfbd, bnd thf bpplidbtion
+       will tfrminbtf.
+    </p>
+    <p>This is of doursf b vfry limitfd sdfnbrio. Fffl frff
+    to improvisf with bll thf ffbturfs of thf fxbmplf, drfbting
+    b nfw donfigurbtion - 
+    <dodf>SdbnMbnbgfrMXBfbn.drfbtfOthfrConfigurbtionMBfbn</dodf> -
+    bdding multiplf dirfdtory sdbnnfrs to thbt donfigurbtion -
+    <dodf>SdbnDirConfigMXBfbn.bddDirfdtorySdbnnfr</dodf> -
+    thfn switdhing thf <dodf>SdbnMbnbgfrMXBfbn</dodf> durrfnt
+    donfigurbtion by dhbnging thf vbluf of thf <i>ConfigurbtionMBfbn</i>
+    bttributf - <dodf>SdbnMbnbgfrMXBfbn.sftConfigurbtionMBfbn</dodf>
+    - thfn bpplying thf nfw donfigurbtion - 
+    <dodf>SdbnMbnbgfrMXBfbn.bpplyConfigurbtion(truf)</dodf> - 
+    thfn sdhfduling rfpfbtfd dirfdtory sdbns fvfry 10 sfdonds - 
+    <dodf>SdbnMbnbgfrMXBfbn.sdhfdulf(0,10000)</dodf> - 
+    subsdribing for notifidbtions, ftd...
+    </p>
+    </ul>
+    
+  <b nbmf="sfdurf"></b>
+  <h2><b nbmf="h2-Turning">Turning thf fxbmplf into b Sfdurf JMX Applidbtion</b></h2>
+    <ul>
+    <p>In this sfdtion, wf will sff how to donfigurf bnd
+    stbrt thf <i>sdbndir</i> fxbmplf so thbt thf JVM bgfnt
+    is bootstrbppfd with b sfdurf JMXConnfdtorSfrvfr. Indffd, until 
+    now wf hbvf only usfd thf insfdurf lodbl donnfdtion, 
+    whidh dbn only bf usfd bs long bs both thf dlifnt bnd
+    thf sfrvfr run on thf sbmf mbdhinf. This sfdtion will
+    fxplbin how to stbrt thf <dodf>SdbnDirAgfnt</dodf> so 
+    thbt b rfbl sfdurf RMIConnfdtorSfrvfr is stbrtfd bt bootstrbp.
+    </p>
+    <p>To bdhifvf this wf will: <b hrff="#mbnbgfmfnt.propfrtifs"
+        >providf our own mbnbgfmfnt.propfrtifs</b>, <b 
+        hrff="#pbssword-bddfss">drfbtf our own pbssword bnd bddfss filfs</b>,
+        <b hrff="#kfystorf-truststorf">providf b kfystorf bnd truststorf</b>,
+        <b hrff="#stbrt-sfdurf-bgfnt">stbrt thf SdbnDirAgfnt with thf
+        bppropribtf systfm propfrtifs</b>.
+    </ul>
+    <h3>Configuring thf JVM Agfnt for Sfdurf Rfmotf Connfdtion</h3>
+    <ul>
+        <p>Thf fbsifst wby to <b nbmf="mbnbgfmfnt.propfrtifs">donfigurf thf 
+            JVM Agfnt</b> for Sfdurf Rfmotf 
+           Connfdtion is to usf your own <b
+           hrff="http://jbvb.sun.dom/jbvbsf/6/dods/tfdhnotfs/guidfs/mbnbgfmfnt/bgfnt.html#propfrtifs"
+           titlf="This pbgf dfsdribfs thf propfrtifs you dbn put in your mbnbgfmfnt.propfrtifs filf"
+           >mbnbgfmfnt.propfrtifs</b> filf.
+           In this fxbmplf, wf hbvf dopifd thf dffbult 
+           <dodf>$JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs</dodf>
+           filf to thf fxbmplf's <dodf>srd/ftd</dodf> dirfdtory bnd
+           modififd it in <b hrff="srd/ftd/mbnbgfmfnt.propfrtifs"
+           titlf="our modififd mbnbgfmfnt.propfrtifs"
+           >this wby</b>:
+           <ul>
+               <li>Wf hbvf sft thf RMI port to <u>4545</u> - this is just b 
+                   rbndom port numbfr wf hbvf pidkfd up. Fffl frff to usf your 
+                   own vbluf suitfd to your fnvironmfnt.
+               <prf># For sftting thf JMX RMI bgfnt port usf thf following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.port=<b>4545</b></prf>
+               </li>
+               <li>Wf hbvf <u>switdhfd on</u> SSL <u>mutubl buthfntidbtion</u>
+               <prf># For RMI monitoring with SSL dlifnt buthfntidbtion usf thf following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.<b>nffd.dlifnt.buth</b>=<b>truf</b></prf>
+               </li>
+               <li>Wf hbvf blso <u>sfdurfd thf RMI Rfgistry</u> with SSL
+               <prf># For using bn SSL/TLS <b>protfdtfd</b> RMI Rfgistry usf thf following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.<b>rfgistry.ssl</b>=<b>truf</b></prf>
+               </li>
+               <li>Wf hbvf providfd <b 
+                hrff="srd/ftd/pbssword.propfrtifs">our own pbssword filf</b>
+               <prf># For b non-dffbult pbssword filf lodbtion usf thf following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=<i>srd/ftd/pbssword.propfrtifs</i></prf>
+               </li>
+               <li>Wf hbvf providfd <b 
+                hrff="srd/ftd/bddfss.propfrtifs">our own bddfss filf</b>
+               <prf># For b non-dffbult pbssword filf lodbtion usf thf following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=<i>srd/ftd/bddfss.propfrtifs</i></prf>
+               </li>
+           </ul>
+           <p>You will notf thbt wf hbvfn't providfd bny vbluf
+              for thf othfr sfdurity propfrtifs, likf 
+              <dodf>dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf=truf</dodf>,
+              bfdbusf thfsf propfrtifs blrfbdy dffbult to b vbluf
+              whidh fnbblfs sfdurity by dffbult. 
+              Notf howfvfr thbt protfdting thf RMI Rfgistry with SSL
+              improvfs thf bpplidbtion sfdurity, but only bs long bs
+              mutubl buthfntidbtion is blso switdhfd on. Othfrwisf, just
+              bnybody would bf bblf to donnfdt to thf rfgistry bnd 
+              gft thf RMISfrvfr stub.
+           </p>
+           <p>Wf do rfdommfnd thbt you <u>usf thf most sfdurf donfigurbtion
+              whfn you dfploy b JMX bgfnt</u> - whidh mfbns <u>switdhing on
+              SSL protfdtion for thf RMI rfgistry</u> <b>bnd</b> <u>rfquiring
+              mutubl buthfntidbtion</u>, bs wf show in this fxbmplf.
+           </p>
+           <p>Wf will usf thf <dodf>dom.sun.mbnbgfmfnt.donfig.filf</dodf>
+           systfm propfrty to pbss our <b 
+           hrff="srd/ftd/mbnbgfmfnt.propfrtifs">mbnbgfmfnt.propfrtifs</b>
+           filf to thf <dodf>SdbnDirAgfnt</dodf>.
+           </p>
+    </ul>
+    
+    <h3>Crfbting b pbssword bnd bddfss filf</h3>
+    <ul>
+        <p>As fxplbinfd bbovf, wf hbvf drfbtfd our own
+        <b hrff="srd/ftd/pbssword.propfrtifs">pbssword filf</b> 
+        bnd <b hrff="srd/ftd/bddfss.propfrtifs">bddfss filf</b> 
+        for <b nbmf="pbssword-bddfss">bddfss dontrol bnd buthorizbtion</b>.
+        </p>
+        <p>In thf pbssword filf, wf hbvf dffinfd two logins: 
+           <i>gufst</i> bnd <i>bdmin</i>. Thf pbssword for 
+           <i>gufst</i> is <i>gufstpbsswd</i> bnd thf pbssword
+           for <i>bdmin</i> is <i>bdminpbsswd</i>.
+        </p>
+        <p>In thf bddfss filf, wf hbvf mbppfd thfsf two logins
+        to bddfss rights: thf <i>bdmin</i> login hbs <i>rfbd-writf</i>
+        bddfss, whilf thf <i>gufst</i> login only hbs <i>rfbd-only</i>.
+        </p>
+        <p>Bfforf stbrting thf <dodf>SdbnDirAgfnt</dodf>, you will
+           nffd to rfstridt bddfss pfrmission to thf pbssword filf, 
+           in sudh b wby thbt nobody but you dbn rfbd it. Othfrwisf, thf
+           JVM Agfnt will rffusf to stbrt thf JMXConnfdtorSfrvfr, bs it will
+           ffbr thbt sfdurity dbn bf dompromisfd if othfr pbrtifs dbn
+           hbvf rfbd bddfss to thf pbssword filf. How to rfstridt
+           rfbd bddfss to thf pbssword filf is fxplbinfd in dftbil
+           <b hrff="http://jbvb.sun.dom/jbvbsf/6/dods/tfdhnotfs/guidfs/mbnbgfmfnt/bgfnt.html#PbsswordAddfssFilfs"
+           titlf="Using Pbssword bnd Addfss Filfs"
+           >hfrf</b>.
+        </p>
+        <p>As wf hbvf sffn bbovf, thf lodbtion
+           of our bddfss bnd pbssword filfs is donfigurfd in our own <b 
+           hrff="srd/ftd/mbnbgfmfnt.propfrtifs">mbnbgfmfnt.propfrtifs</b>
+           filf.
+        </p>
+    </ul>
+    <h3>Kfystorf bnd Truststorf</h3>
+    <ul>
+        <p>Using SSL with mutubl buthfntidbtion mfbns thbt both
+           dlifnt bnd sfrvfr will nffd b <b nbmf="kfystorf-truststorf"
+           >kfystorf bnd b truststorf</b>
+           to storf thfir own dfrtifidbtfs, bnd thf dfrtifidbtfs of
+           thf pbrtifs thfy trust. Usublly, dlifnt bnd sfrvfr will 
+           hbvf thfir own kfystorf bnd truststorf. 
+        </p>
+        <p>For thf sbkf of simplidity - bnd to gft you stbrtfd
+        without thf tfdious nfdfssity of drfbting your own kfystorf
+        bnd truststorf, wf brf providing b dummy kfystorf bnd 
+        truststorf, dontbining b dfrtifidbtf sflf-signfd by dukf.
+        Thf pbssword for our kfystorf is <i>pbssword</i>, bnd thf
+        pbssword for our truststorf is <i>trustword</i>.
+        Wf suggfst thbt you first gft thf fxbmplf running with thf
+        kfystorf bnd truststorf wf brf providing bfforf bttfmpting 
+        to usf your own kfystorf bnd truststorf.
+        </p>
+        <p>A sfdurf bpplidbtion will obviously nffd to usf its own
+        kfystorf bnd truststorf, <b><u>bnd should not rfly on thf kfystorf
+        bnd truststorf wf brf providing hfrf!</u></b>
+        </p>
+        <p>How to drfbtf your own kfystorf bnd truststorf, is fxplbinfd
+        in <b
+hrff="http://jbvb.sun.dom/jbvbsf/6/dods/tfdhnotfs/guidfs/mbnbgfmfnt/bgfnt.html#SSL_fnbblfd"
+titlf="Monitoring bnd Mbnbgfmfnt Using JMX"
+        >hfrf</b>.          
+        As shown <b hrff="#stbrt-sfdurf-bgfnt">lbtfr</b>, 
+        wf will nffd to usf <b 
+        hrff="http://jbvb.sun.dom/jbvbsf/6/dods/tfdhnotfs/guidfs/mbnbgfmfnt/bgfnt.html#SSL_fnbblfd"
+        >systfm propfrtifs</b> to pbss our truststorf
+        bnd kfystorf to thf <dodf>SdbnDirAgfnt</dodf>.
+        </p>
+    </ul>
+    <h3>Stbrting b Sfdurf <i>sdbndir</i> bgfnt</h3>
+    <ul>
+        <p>To stbrt b <b nbmf="stbrt-sfdurf-bgfnt"
+        >sfdurf <i>sdbndir</i> bgfnt</b>, go to thf
+        <i>sdbndir</i> fxbmplf root dirfdtory bnd typf thf
+        following dommbnd:</p>
+        <p>On Unix Systfms:
+<prf>bnt jbr
+jbvb \
+    -Djbvb.util.logging.donfig.filf=logging.propfrtifs \
+    -Djbvbx.nft.ssl.kfyStorf=kfystorf \
+    -Djbvbx.nft.ssl.kfyStorfPbssword=pbssword \
+    -Djbvbx.nft.ssl.trustStorf=truststorf \
+    -Djbvbx.nft.ssl.trustStorfPbssword=trustword \
+    -Ddom.sun.mbnbgfmfnt.donfig.filf=srd/ftd/mbnbgfmfnt.propfrtifs \
+    -Dsdbndir.donfig.filf=srd/ftd/tfstdonfig.xml \
+    -jbr dist/jmx-sdbndir.jbr</prf>
+        </p>
+         <p>On Windows Systfms:
+<p><dodf>bnt jbr<br>
+jbvb 
+    &nbsp;-Djbvb.util.logging.donfig.filf=logging.propfrtifs
+    &nbsp;-Djbvbx.nft.ssl.kfyStorf=kfystorf
+    &nbsp;-Djbvbx.nft.ssl.kfyStorfPbssword=pbssword
+    &nbsp;-Djbvbx.nft.ssl.trustStorf=truststorf
+    &nbsp;-Djbvbx.nft.ssl.trustStorfPbssword=trustword
+    &nbsp;-Ddom.sun.mbnbgfmfnt.donfig.filf=srd\ftd\mbnbgfmfnt.propfrtifs
+    &nbsp;-Dsdbndir.donfig.filf=srd\ftd\tfstdonfig.xml
+    &nbsp;-jbr&nbsp;dist\jmx-sdbndir.jbr</dodf></p>
+         </p>
+    <p>If you stbrt jdonsolf now, you will sff thbt you
+       brf still bblf to donnfdt to thf bgfnt using thf 
+       lodbl donnfdtion. Howfvfr, if you try to donnfdt
+       through thf rfmotf donnfdtor, using 
+       <b hrff="dodfilfs/rfmotf-donnfdtion.jpg">lodblhost:4545</b>, 
+       thf donnfdtion will <b hrff="dodfilfs/rfmotf-donnfdtion-fbilfd.jpg"
+       >fbil</b>, fvfn if you providf b dorrfdt login/pbssword
+       pbir. Indffd, sindf thf JMXConnfdtorSfrvfr is now protfdtfd with SSL,
+       jdonsolf must blso bf donfigurfd with thf bppropribtf SSL pbrbmftfrs
+       so thbt it dbn buthfntidbtf thf sfrvfr bnd gft buthfntidbtfd by thf
+       sfrvfr too bs thf SSL donfigurbtion of thf sfrvfr rfquirfs mutubl
+       buthfntidbtion.
+    </p>
+    <p>Thf nfxt sfdtion will disduss how to donnfdt to thf 
+    sfdurf bgfnt.
+    </p>
+   </ul>
+   
+  <h2><b nbmf="h2-Connfdting">Connfdting to thf Sfdurf JMX Applidbtion</b></h2>
+    <ul>
+    <p>Wf will now sff how to donnfdt to thf sfdurf bgfnt,
+       using jdonsolf, bnd using b progrbmmbtid dlifnt.
+    </p>
+    </ul>
+    
+    <h3>Using jdonsolf to donnfdt to thf sfdurf bgfnt</h3>
+    <ul>
+    <p>Thf only spfdibl thing you nffd to do in ordfr to
+        bf bblf to donnfdt to your sfdurf bgfnt with
+        jdonsolf, is to givf it b kfystorf (dontbining
+        its dlifnt dfrtifidbtf) bnd b truststorf (dontbining
+        thf dfrtifidbtfs of thf sfrvfrs it dbn trust).
+        In our fxbmplf, wf usf thf sbmf kfystorf/truststorf
+        pbir on thf dlifnt bnd sfrvfr sidf - but this is
+        not whbt b rfbl bpplidbtion would do.
+        Indffd b rfbl bpplidbtion would hbvf difffrfnt 
+        dfrtifidbtfs for thf dlifnt bnd thf sfrvfr, bnd 
+        thus usf difffrfnt kfystorfs (bnd probbbly truststorfs).
+        Morf informbtion on SSL buthfntidbtion dbn bf obtbinfd from thf <b
+        hrff="http://jbvb.sun.dom/jbvbsf/6/dods/tfdhnotfs/guidfs/sfdurity/jssf/JSSERffGuidf.html#HowSSLWorks"
+        titlf="How SSL Works"
+        >Jbvb<sup>TM</sup> Sfdurf Sodkft Extfnsion (JSSE) Rfffrfndf Guidf</b>.
+    </p>
+    <p>To stbrt jdonsolf with our providfd kfystorf bnd
+    truststorf, go to thf sdbndir fxbmplf root dirfdtory bnd 
+    typf in thf following dommbnd:
+    <p><dodf>jdonsolf 
+    &nbsp;-J-Djbvb.util.logging.donfig.filf=logging.propfrtifs 
+    &nbsp;-J-Djbvbx.nft.ssl.kfyStorf=kfystorf 
+    &nbsp;-J-Djbvbx.nft.ssl.kfyStorfPbssword=pbssword 
+    &nbsp;-J-Djbvbx.nft.ssl.trustStorf=truststorf 
+    &nbsp;-J-Djbvbx.nft.ssl.trustStorfPbssword=trustword</dodf></p>
+    </p>
+    <p>Thf <dodf>-J-Djbvb.util.logging.donfig.filf=logging.propfrtifs</dodf>
+       flbg is not mbndbtory, but pbssing b <dodf>logging.propfrtifs</dodf>
+       mby hflp you dfbug donnfdtion problfms if bnything gofs wrong.
+    </p>
+    <p>In jdonsolf donnfdtion window, dhoosf to donnfdt to b 
+       rfmotf prodfss, using thf bddrfss <i>lodblhost:4545</i>
+       bnd thf gufst login:
+    </p>
+    <p><dfntfr><b hrff="dodfilfs/rfmotf-donnfdtion.jpg"
+       ><img srd="dodfilfs/rfmotf-donnfdtion.jpg"
+        blt="jdonsolf donnfdtion window"/></b></dfntfr>
+    </p>
+    <p>You will sff thbt thf bgfnt will lft vifw bll thf
+       MBfbns bnd thfir bttributfs, but will rfjfdt bny
+       bttributf modifidbtion or rfmotf mfthod invodbtion.
+    </p>
+    <hr>
+    <p><u>Notf:</u> if jdonsolf fbils to donnfdt bnd show
+    you <b hrff="dodfilfs/rfmotf-donnfdtion-fbilfd.jpg">this sdrffn</b>
+    you hbvf probbbly misspfllfd somf of thf propfrtifs on jdonsolf
+    dommbnd linf, or you didn't stbrt jdonsolf from thf 
+    sdbndir fxbmplf root dirfdtory whfrf our <dodf>truststorf</dodf>
+    bnd <dodf>kfystorf</dodf> filfs brf lodbtfd. This brtidlf - <b 
+    hrff="http://blogs.sun.dom/rollfr/pbgf/jmxftd?fntry=troublfshooting_donnfdtion_problfms_in_jdonsolf"
+    titlf="Troublfshooting donnfdtion problfms in JConsolf"
+    >Troublfshooting donnfdtion problfms in JConsolf</b> - mby hflp
+    you figurf out whbt is going wrong.
+    </p>
+    <hr>
+    </ul>
+    
+    <h3>Writing b progrbmmbtid dlifnt to donnfdt to thf sfdurf bgfnt</h3>
+    <ul>
+        <p>
+        In this sfdtion wf will show thf stfps involvfd in writing 
+        b progrbmmbtid dlifnt thbt will donnfdt to our sfdurf bgfnt.
+        </p>
+   <p>Thf <b 
+hrff="dist/jbvbdod/dom/sun/jmx/fxbmplfs/sdbndir/SdbnDirClifnt.html" 
+titlf="Thf SdbnDirClifnt dlbss is b vfry short fxbmplf of sfdurf progrbmmbtid dlifnt"
+     >SdbnDirClifnt</b> is bn fxbmplf dlbss thbt shows how b
+    progrbmmbtid dlifnt dbn donnfdt to b sfdurfd <i>sdbndir</i> bpplidbtion.
+    This dlbss dontbins b <dodf>mbin</dodf> mfthod whidh drfbtfs bnd
+    donfigurfs b <dodf>JMXConnfdtor</dodf> dlifnt to donnfdt with
+    thf sfdurfd <i>sdbndir</i> bgfnt. 
+    </p>
+    <p>Thf sfdurf dlifnt difffrs only from b non sfdurf dlifnt in
+    so fbr bs it nffds to usf SSL RMI Fbdtorifs bnd drfdfntibls to
+    donnfdt to thf sfdurf bgfnt. Thf stfps rfquirfd mbinly involvf:
+       <ul>
+           <li>Crfbting bn fmpty fnvironmfnt mbp:
+           <prf>            
+            // Crfbtf bn fnvironmfnt mbp to hold donnfdtion propfrtifs
+            // likf drfdfntibls ftd... Wf will lbtfr pbss this mbp
+            // to thf JMX Connfdtor.
+            //
+            Systfm.out.println("\nInitiblizf thf fnvironmfnt mbp");
+            finbl Mbp&lt;String,Objfdt> fnv = nfw HbshMbp&lt;String,Objfdt>();
+           </prf>
+           </li>
+           <li>Putting thf dlifnt's drfdfntibls in thbt mbp:
+           <i>(hfrf thf dlifnt will log in bs <b>gufst</b>)</i>
+           <prf>            
+            // Providf thf drfdfntibls rfquirfd by thf sfrvfr
+            // to suddfssfully pfrform usfr buthfntidbtion
+            //
+            finbl String[] drfdfntibls = nfw String[] { "gufst" , "gufstpbsswd" };
+            fnv.put("jmx.rfmotf.drfdfntibls", drfdfntibls);
+           </prf>
+           </li>
+           <li>Providing bn <dodf>SslRMIClifntSodkftFbdtory</dodf> to intfrbdt
+           with thf sfdurf RMI Rfgistry:
+           <prf>            
+            // Providf thf SSL/TLS-bbsfd RMI Clifnt Sodkft Fbdtory rfquirfd
+            // by thf JNDI/RMI Rfgistry Sfrvidf Providfr to dommunidbtf with
+            // thf SSL/TLS-protfdtfd RMI Rfgistry
+            //
+            fnv.put("dom.sun.jndi.rmi.fbdtory.sodkft",
+                    nfw SslRMIClifntSodkftFbdtory());
+           </prf>
+           </li>
+           <li>Crfbting b JMXConnfdtor bnd donnfdting with thf
+               sfdurf sfrvfr:
+           <prf>
+            // Crfbtf thf RMI donnfdtor dlifnt bnd
+            // donnfdt it to thf sfdurf RMI donnfdtor sfrvfr.
+            // brgs[0] is thf sfrvfr's host - lodblhost
+            // brgs[1] is thf sfdurf sfrvfr port - 4545
+            //
+            Systfm.out.println("\nCrfbtf thf RMI donnfdtor dlifnt bnd " +
+                    "donnfdt it to thf RMI donnfdtor sfrvfr");
+            finbl JMXSfrvidfURL url = nfw JMXSfrvidfURL(
+                    "sfrvidf:jmx:rmi:///jndi/rmi://"+brgs[0]+":"+brgs[1]+ 
+                    "/jmxrmi");
+            finbl JMXConnfdtor jmxd = JMXConnfdtorFbdtory.donnfdt(url, fnv);
+           </prf>
+           </li>
+       </ul>
+       <p>For this to work, wf blso nffd to stbrt thf <dodf>SdbnDirClifnt</dodf>
+       with thf bppropribtf systfm propfrtifs thbt will point to our 
+       <dodf>kfystorf</dodf> bnd <dodf>truststorf</dodf>. To stbrt thf sfdurf 
+       dlifnt, go to thf <i>sdbndir</i> fxbmplf root dirfdtory bnd typf
+       thf following dommbnd:
+       <p><dodf>bnt jbr<br>
+jbvb 
+    &nbsp;-Djbvb.util.logging.donfig.filf=logging.propfrtifs 
+    &nbsp;-Djbvbx.nft.ssl.kfyStorf=kfystorf
+    &nbsp;-Djbvbx.nft.ssl.kfyStorfPbssword=pbssword
+    &nbsp;-Djbvbx.nft.ssl.trustStorf=truststorf
+    &nbsp;-Djbvbx.nft.ssl.trustStorfPbssword=trustword
+    &nbsp;-dlbsspbth&nbsp;dist/jmx-sdbndir.jbr
+     &nbsp;dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirClifnt&nbsp;lodblhost&nbsp;4545
+       </dodf></p>
+       </p>
+       <p>You should bf sffing this trbdf:
+<dfntfr><tbblf width="90%" bordfr="0" bgdolor="#ffffff">
+<tr><td>
+<prf>
+Initiblizf thf fnvironmfnt mbp
+
+Crfbtf thf RMI donnfdtor dlifnt bnd donnfdt it to thf RMI donnfdtor sfrvfr
+Connfdting to: sfrvidf:jmx:rmi:///jndi/rmi://lodblhost:4545/jmxrmi
+
+Gft thf MBfbnSfrvfrConnfdtion
+
+Gft SdbnDirConfigMXBfbn from SdbnMbnbgfrMXBfbn
+
+Gft 'Configurbtion' bttributf on SdbnDirConfigMXBfbn
+
+Configurbtion:
+
+&lt;SdbnMbnbgfr xmlns="jmx:dom.sun.jmx.fxbmplfs.sdbndir.donfig" nbmf="tfstdonfig">
+    &lt;InitiblRfsultLogConfig>
+        &lt;LogFilfMbxRfdords>2048&lt;/LogFilfMbxRfdords>
+        &lt;LogFilfNbmf>build/sdbndir.log&lt;/LogFilfNbmf>
+        &lt;MfmoryMbxRfdords>128&lt;/MfmoryMbxRfdords>
+    &lt;/InitiblRfsultLogConfig>
+    &lt;DirfdtorySdbnnfrList>
+        &lt;DirfdtorySdbnnfr nbmf="sdbn-build">
+            &lt;Adtions>NOTIFY LOGRESULT&lt;/Adtions>
+            &lt;ExdludfFilfs/>
+            &lt;IndludfFilfs>
+                &lt;FilfFiltfr>
+                    &lt;FilfPbttfrn>.*\.dlbss&lt;/FilfPbttfrn>
+                    &lt;SizfExdffdsMbxBytfs>4096&lt;/SizfExdffdsMbxBytfs>
+                &lt;/FilfFiltfr>
+            &lt;/IndludfFilfs>
+            &lt;RootDirfdtory>build&lt;/RootDirfdtory>
+        &lt;/DirfdtorySdbnnfr>
+    &lt;/DirfdtorySdbnnfrList>
+&lt;/SdbnMbnbgfr>
+
+Invokf 'dlosf' on SdbnMbnbgfrMXBfbn
+
+Got fxpfdtfd sfdurity fxdfption: jbvb.lbng.SfdurityExdfption: Addfss dfnifd! 
+Invblid bddfss lfvfl for rfqufstfd MBfbnSfrvfr opfrbtion.
+
+Closf thf donnfdtion to thf sfrvfr
+
+Byf! Byf!
+</prf>
+</td></tr></tbblf></dfntfr>
+    <p>If thf <dodf>SdbnDirClifnt</dodf> fbils to donnfdt with 
+       thf sfdurf bgfnt, thfn this brtidlf - <b 
+    hrff="http://blogs.sun.dom/rollfr/pbgf/jmxftd?fntry=troublfshooting_donnfdtion_problfms_in_jdonsolf"
+    titlf="Troublfshooting donnfdtion problfms in JConsolf"
+    >Troublfshooting donnfdtion problfms in JConsolf</b> - mby hflp
+    you figurf out whbt is going wrong. Indffd thf donnfdtion stfps
+    pfrformfd by thf <dodf>SdbnDirClifnt</dodf> brf vfry similbr to
+    thosf pfrformfd by <dodf>jdonsolf</dodf>, bnd thf problfms you
+    dould fndountfr brf idfntidbl. Just rfmfmbfr thbt 
+   <dodf>jdonsolf</dodf> nffds thf fxtrb <dodf>-J</dodf> flbg to pbss
+   systfm propfrtifs to thf VM, whidh is not nffdfd with rfgulbr
+   <dodf>jbvb</dodf> lbundhfr invodbtions.
+    </p>
+    </ul>
+    
+    <h2><b nbmf="h2-Condlusion">Condlusion</b></h2>
+    <ul>
+    <p>
+        In this dodumfnt, wf hbvf prfsfntfd bn bdvbndfd 
+        JMX fxbmplf, bnd shown how to run b sfdurf 
+        JMX bgfnt in b produdtion fnvironmfnt. 
+        Wf hbvf blso shown how to donnfdt to sudh b 
+        sfdurf bgfnt with both jdonsolf bnd b progrbmmbtid 
+        dlifnt. Wf hbvf blso disduss vbrious JMX 
+        dfsign-pbttfrns bnd bfst prbdtidfs. 
+        Rfbdfrs who would wish to lfbrn morf bbout JMX, bnd
+        Monitoring bnd Mbnbgfmfnt of thf JVM, brf invitfd
+        to follow thf links givfn in rfffrfndf bflow.
+    </p>
+    </ul>
+  <h2><b nbmf="h2-Rfffrfndfs">Rfffrfndfs</b></h2>
+  <ol>
+     <li><b hrff="http://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/bfst-prbdtidfs.html"
+        >JMX Bfst Prbdtidfs</b>: This dodumfnt dfsdribfs bfst prbdtidfs thbt
+      hbvf bffn idfntififd for modfling using thf JMX API. </li>
+     <li><b hrff="http://jbvb.sun.dom/jbvbsf/6/dods/tfdhnotfs/guidfs/mbnbgfmfnt/bgfnt.html"
+      >Monitoring bnd Mbnbgfmfnt Using JMX</b>: How to fnbblf, donfigurf, bnd 
+      donnfdt to thf JVM JMX bgfnt.</li> 
+     <li><b nbmf="JConsolf"><b 
+hrff="http://jbvb.sun.dom/jbvbsf/6/dods/tfdhnotfs/guidfs/mbnbgfmfnt/jdonsolf.html"
+>Using JConsolf</b>: JConsolf is b JMX-Complibnt monitoring tool whidh bllows
+     you to intfrbdt grbphidblly with your own MBfbns.
+     </li>
+     <li><b hrff="http://jbvb.sun.dom/jbvbsf/6/dods/tfdhnotfs/guidfs/mbnbgfmfnt/"
+     >Monitoring bnd Mbnbgfmfnt for thf Jbvb Plbtform</b>: Thf Jbvb Plbtform 
+      Stbndbrd Edition (Jbvb SE) 6 providfs domprfhfnsivf monitoring bnd 
+      mbnbgfmfnt support for thf Jbvb plbtform. </li>
+     <li><b hrff="http://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/dommunity/jmx_blogs.html"
+         >List of JMX-rflbtfd Blogs</b>: This pbgf providfs links to thf 
+          difffrfnt wfb logs writtfn by mfmbfrs of thf Sun tfbm working on thf 
+          JMX API.</li>
+     <li><b
+        hrff="http://jbvb.sun.dom/jbvbsf/6/dods/tfdhnotfs/guidfs/sfdurity/jssf/JSSERffGuidf.html#HowSSLWorks"
+        titlf="Thf JSSE Rfffrfndf Guidf"
+        >Jbvb<sup>TM</sup> Sfdurf Sodkft Extfnsion (JSSE) Rfffrfndf Guidf</b>:
+        domprfhfnsivf dodumfntbtion bbout thf Jbvb<sup>TM</sup> Sfdurf Sodkft 
+        Extfnsion (JSSE)
+     </li>
+     <li><b hrff="http://jbvb.sun.dom/jbvbsf/6/dods/"
+         >Jbvb SE 6 Dodumfntbtion Indfx</b>: This dodumfnt dovfrs thf
+          Jbvb<sup>TM</sup> Plbtform, Stbndbrd Edition 6 JDK.</li>
+  </ol>
+  <p>
+  <hr>
+  <p>
+  </body>
+</html>

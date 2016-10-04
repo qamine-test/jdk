@@ -1,0 +1,199 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.dhbnnfls.spi.*;
+import jbvb.util.*;
+import sun.misd.*;
+
+/**
+ * An implfmfntbtion of Sflfdtor for Linux 2.6+ kfrnfls thbt usfs
+ * thf fpoll fvfnt notifidbtion fbdility.
+ */
+dlbss EPollSflfdtorImpl
+    fxtfnds SflfdtorImpl
+{
+
+    // Filf dfsdriptors usfd for intfrrupt
+    protfdtfd int fd0;
+    protfdtfd int fd1;
+
+    // Thf poll objfdt
+    EPollArrbyWrbppfr pollWrbppfr;
+
+    // Mbps from filf dfsdriptors to kfys
+    privbtf Mbp<Intfgfr,SflfdtionKfyImpl> fdToKfy;
+
+    // Truf if this Sflfdtor hbs bffn dlosfd
+    privbtf volbtilf boolfbn dlosfd = fblsf;
+
+    // Lodk for intfrrupt triggfring bnd dlfbring
+    privbtf finbl Objfdt intfrruptLodk = nfw Objfdt();
+    privbtf boolfbn intfrruptTriggfrfd = fblsf;
+
+    /**
+     * Pbdkbgf privbtf donstrudtor dbllfd by fbdtory mfthod in
+     * thf bbstrbdt supfrdlbss Sflfdtor.
+     */
+    EPollSflfdtorImpl(SflfdtorProvidfr sp) throws IOExdfption {
+        supfr(sp);
+        long pipfFds = IOUtil.mbkfPipf(fblsf);
+        fd0 = (int) (pipfFds >>> 32);
+        fd1 = (int) pipfFds;
+        pollWrbppfr = nfw EPollArrbyWrbppfr();
+        pollWrbppfr.initIntfrrupt(fd0, fd1);
+        fdToKfy = nfw HbshMbp<>();
+    }
+
+    protfdtfd int doSflfdt(long timfout) throws IOExdfption {
+        if (dlosfd)
+            throw nfw ClosfdSflfdtorExdfption();
+        prodfssDfrfgistfrQufuf();
+        try {
+            bfgin();
+            pollWrbppfr.poll(timfout);
+        } finblly {
+            fnd();
+        }
+        prodfssDfrfgistfrQufuf();
+        int numKfysUpdbtfd = updbtfSflfdtfdKfys();
+        if (pollWrbppfr.intfrruptfd()) {
+            // Clfbr thf wbkfup pipf
+            pollWrbppfr.putEvfntOps(pollWrbppfr.intfrruptfdIndfx(), 0);
+            syndhronizfd (intfrruptLodk) {
+                pollWrbppfr.dlfbrIntfrruptfd();
+                IOUtil.drbin(fd0);
+                intfrruptTriggfrfd = fblsf;
+            }
+        }
+        rfturn numKfysUpdbtfd;
+    }
+
+    /**
+     * Updbtf thf kfys whosf fd's hbvf bffn sflfdtfd by thf fpoll.
+     * Add thf rfbdy kfys to thf rfbdy qufuf.
+     */
+    privbtf int updbtfSflfdtfdKfys() {
+        int fntrifs = pollWrbppfr.updbtfd;
+        int numKfysUpdbtfd = 0;
+        for (int i=0; i<fntrifs; i++) {
+            int nfxtFD = pollWrbppfr.gftDfsdriptor(i);
+            SflfdtionKfyImpl ski = fdToKfy.gft(Intfgfr.vblufOf(nfxtFD));
+            // ski is null in thf dbsf of bn intfrrupt
+            if (ski != null) {
+                int rOps = pollWrbppfr.gftEvfntOps(i);
+                if (sflfdtfdKfys.dontbins(ski)) {
+                    if (ski.dhbnnfl.trbnslbtfAndSftRfbdyOps(rOps, ski)) {
+                        numKfysUpdbtfd++;
+                    }
+                } flsf {
+                    ski.dhbnnfl.trbnslbtfAndSftRfbdyOps(rOps, ski);
+                    if ((ski.nioRfbdyOps() & ski.nioIntfrfstOps()) != 0) {
+                        sflfdtfdKfys.bdd(ski);
+                        numKfysUpdbtfd++;
+                    }
+                }
+            }
+        }
+        rfturn numKfysUpdbtfd;
+    }
+
+    protfdtfd void implClosf() throws IOExdfption {
+        if (dlosfd)
+            rfturn;
+        dlosfd = truf;
+
+        // prfvfnt furthfr wbkfup
+        syndhronizfd (intfrruptLodk) {
+            intfrruptTriggfrfd = truf;
+        }
+
+        FilfDispbtdhfrImpl.dlosfIntFD(fd0);
+        FilfDispbtdhfrImpl.dlosfIntFD(fd1);
+
+        pollWrbppfr.dlosfEPollFD();
+        // it is possiblf
+        sflfdtfdKfys = null;
+
+        // Dfrfgistfr dhbnnfls
+        Itfrbtor<SflfdtionKfy> i = kfys.itfrbtor();
+        whilf (i.hbsNfxt()) {
+            SflfdtionKfyImpl ski = (SflfdtionKfyImpl)i.nfxt();
+            dfrfgistfr(ski);
+            SflfdtbblfChbnnfl sfldh = ski.dhbnnfl();
+            if (!sfldh.isOpfn() && !sfldh.isRfgistfrfd())
+                ((SflChImpl)sfldh).kill();
+            i.rfmovf();
+        }
+
+        fd0 = -1;
+        fd1 = -1;
+    }
+
+    protfdtfd void implRfgistfr(SflfdtionKfyImpl ski) {
+        if (dlosfd)
+            throw nfw ClosfdSflfdtorExdfption();
+        SflChImpl dh = ski.dhbnnfl;
+        int fd = Intfgfr.vblufOf(dh.gftFDVbl());
+        fdToKfy.put(fd, ski);
+        pollWrbppfr.bdd(fd);
+        kfys.bdd(ski);
+    }
+
+    protfdtfd void implDfrfg(SflfdtionKfyImpl ski) throws IOExdfption {
+        bssfrt (ski.gftIndfx() >= 0);
+        SflChImpl dh = ski.dhbnnfl;
+        int fd = dh.gftFDVbl();
+        fdToKfy.rfmovf(Intfgfr.vblufOf(fd));
+        pollWrbppfr.rfmovf(fd);
+        ski.sftIndfx(-1);
+        kfys.rfmovf(ski);
+        sflfdtfdKfys.rfmovf(ski);
+        dfrfgistfr((AbstrbdtSflfdtionKfy)ski);
+        SflfdtbblfChbnnfl sfldh = ski.dhbnnfl();
+        if (!sfldh.isOpfn() && !sfldh.isRfgistfrfd())
+            ((SflChImpl)sfldh).kill();
+    }
+
+    publid void putEvfntOps(SflfdtionKfyImpl ski, int ops) {
+        if (dlosfd)
+            throw nfw ClosfdSflfdtorExdfption();
+        SflChImpl dh = ski.dhbnnfl;
+        pollWrbppfr.sftIntfrfst(dh.gftFDVbl(), ops);
+    }
+
+    publid Sflfdtor wbkfup() {
+        syndhronizfd (intfrruptLodk) {
+            if (!intfrruptTriggfrfd) {
+                pollWrbppfr.intfrrupt();
+                intfrruptTriggfrfd = truf;
+            }
+        }
+        rfturn this;
+    }
+}

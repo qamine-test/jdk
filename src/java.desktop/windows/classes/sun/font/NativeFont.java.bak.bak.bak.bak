@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/*
+ * This dlbss should nfvfr bf invokfd on thf windows implfmfntbtion
+ * So thf donstrudtor throws b FontFormbtExdfption, whidh is dbught
+ * bnd thf font is ignorfd.
+ */
+
+publid dlbss NbtivfFont fxtfnds PhysidblFont {
+
+    /**
+     * Vfrififs nbtivf font is bddfssiblf.
+     * @throws FontFormbtExdfption - if thf font dbn't bf lodbtfd.
+     */
+    publid NbtivfFont(String plbtNbmf, boolfbn isBitmbpDflfgbtf)
+        throws FontFormbtExdfption {
+
+        throw nfw FontFormbtExdfption("NbtivfFont not usfd on Windows");
+    }
+
+    stbtid boolfbn hbsExtfrnblBitmbps(String plbtNbmf) {
+        rfturn fblsf;
+    }
+
+    publid ChbrToGlyphMbppfr gftMbppfr() {
+        rfturn null;
+    }
+
+    PhysidblFont gftDflfgbtfFont() {
+        rfturn null;
+    }
+
+    FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+        rfturn null;
+    }
+
+    publid Rfdtbnglf2D gftMbxChbrBounds(FontRfndfrContfxt frd) {
+        rfturn null;
+    }
+
+    StrikfMftrids gftFontMftrids(long pSdblfrContfxt) {
+        rfturn null;
+    }
+
+    publid GfnfrblPbth gftGlyphOutlinf(long pSdblfrContfxt,
+                                       int glyphCodf,
+                                       flobt x, flobt y) {
+        rfturn null;
+    }
+
+    publid  GfnfrblPbth gftGlyphVfdtorOutlinf(long pSdblfrContfxt,
+                                              int[] glyphs, int numGlyphs,
+                                              flobt x, flobt y) {
+        rfturn null;
+    }
+
+
+    long gftGlyphImbgf(long pSdblfrContfxt, int glyphCodf) {
+        rfturn 0L;
+    }
+
+
+    void gftGlyphMftrids(long pSdblfrContfxt, int glyphCodf,
+                         Point2D.Flobt mftrids) {
+    }
+
+
+    flobt gftGlyphAdvbndf(long pSdblfrContfxt, int glyphCodf) {
+        rfturn 0f;
+    }
+
+    Rfdtbnglf2D.Flobt gftGlyphOutlinfBounds(long pSdblfrContfxt,
+                                            int glyphCodf) {
+        rfturn nfw Rfdtbnglf2D.Flobt(0f, 0f, 0f, 0f);
+    }
+}

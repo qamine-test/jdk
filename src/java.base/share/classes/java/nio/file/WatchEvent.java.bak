@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
 /**
- * An event or a repeated event for an object that is registered with a {@link
- * WatchService}.
+ * An fvfnt or b rfpfbtfd fvfnt for bn objfdt tibt is rfgistfrfd witi b {@link
+ * WbtdiSfrvidf}.
  *
- * <p> An event is classified by its {@link #kind() kind} and has a {@link
- * #count() count} to indicate the number of times that the event has been
- * observed. This allows for efficient representation of repeated events. The
- * {@link #context() context} method returns any context associated with
- * the event. In the case of a repeated event then the context is the same for
- * all events.
+ * <p> An fvfnt is dlbssififd by its {@link #kind() kind} bnd ibs b {@link
+ * #dount() dount} to indidbtf tif numbfr of timfs tibt tif fvfnt ibs bffn
+ * obsfrvfd. Tiis bllows for fffidifnt rfprfsfntbtion of rfpfbtfd fvfnts. Tif
+ * {@link #dontfxt() dontfxt} mftiod rfturns bny dontfxt bssodibtfd witi
+ * tif fvfnt. In tif dbsf of b rfpfbtfd fvfnt tifn tif dontfxt is tif sbmf for
+ * bll fvfnts.
  *
- * <p> Watch events are immutable and safe for use by multiple concurrent
- * threads.
+ * <p> Wbtdi fvfnts brf immutbblf bnd sbff for usf by multiplf dondurrfnt
+ * tirfbds.
  *
- * @param   <T>     The type of the context object associated with the event
+ * @pbrbm   <T>     Tif typf of tif dontfxt objfdt bssodibtfd witi tif fvfnt
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public interface WatchEvent<T> {
+publid intfrfbdf WbtdiEvfnt<T> {
 
     /**
-     * An event kind, for the purposes of identification.
+     * An fvfnt kind, for tif purposfs of idfntifidbtion.
      *
-     * @since 1.7
-     * @see StandardWatchEventKinds
+     * @sindf 1.7
+     * @sff StbndbrdWbtdiEvfntKinds
      */
-    public static interface Kind<T> {
+    publid stbtid intfrfbdf Kind<T> {
         /**
-         * Returns the name of the event kind.
+         * Rfturns tif nbmf of tif fvfnt kind.
          *
-         * @return the name of the event kind
+         * @rfturn tif nbmf of tif fvfnt kind
          */
-        String name();
+        String nbmf();
 
         /**
-         * Returns the type of the {@link WatchEvent#context context} value.
+         * Rfturns tif typf of tif {@link WbtdiEvfnt#dontfxt dontfxt} vbluf.
          *
          *
-         * @return the type of the context value
+         * @rfturn tif typf of tif dontfxt vbluf
          */
-        Class<T> type();
+        Clbss<T> typf();
     }
 
     /**
-     * An event modifier that qualifies how a {@link Watchable} is registered
-     * with a {@link WatchService}.
+     * An fvfnt modififr tibt qublififs iow b {@link Wbtdibblf} is rfgistfrfd
+     * witi b {@link WbtdiSfrvidf}.
      *
-     * <p> This release does not define any <em>standard</em> modifiers.
+     * <p> Tiis rflfbsf dofs not dffinf bny <fm>stbndbrd</fm> modififrs.
      *
-     * @since 1.7
-     * @see Watchable#register
+     * @sindf 1.7
+     * @sff Wbtdibblf#rfgistfr
      */
-    public static interface Modifier {
+    publid stbtid intfrfbdf Modififr {
         /**
-         * Returns the name of the modifier.
+         * Rfturns tif nbmf of tif modififr.
          *
-         * @return the name of the modifier
+         * @rfturn tif nbmf of tif modififr
          */
-        String name();
+        String nbmf();
     }
 
     /**
-     * Returns the event kind.
+     * Rfturns tif fvfnt kind.
      *
-     * @return  the event kind
+     * @rfturn  tif fvfnt kind
      */
     Kind<T> kind();
 
     /**
-     * Returns the event count. If the event count is greater than {@code 1}
-     * then this is a repeated event.
+     * Rfturns tif fvfnt dount. If tif fvfnt dount is grfbtfr tibn {@dodf 1}
+     * tifn tiis is b rfpfbtfd fvfnt.
      *
-     * @return  the event count
+     * @rfturn  tif fvfnt dount
      */
-    int count();
+    int dount();
 
     /**
-     * Returns the context for the event.
+     * Rfturns tif dontfxt for tif fvfnt.
      *
-     * <p> In the case of {@link StandardWatchEventKinds#ENTRY_CREATE ENTRY_CREATE},
-     * {@link StandardWatchEventKinds#ENTRY_DELETE ENTRY_DELETE}, and {@link
-     * StandardWatchEventKinds#ENTRY_MODIFY ENTRY_MODIFY} events the context is
-     * a {@code Path} that is the {@link Path#relativize relative} path between
-     * the directory registered with the watch service, and the entry that is
-     * created, deleted, or modified.
+     * <p> In tif dbsf of {@link StbndbrdWbtdiEvfntKinds#ENTRY_CREATE ENTRY_CREATE},
+     * {@link StbndbrdWbtdiEvfntKinds#ENTRY_DELETE ENTRY_DELETE}, bnd {@link
+     * StbndbrdWbtdiEvfntKinds#ENTRY_MODIFY ENTRY_MODIFY} fvfnts tif dontfxt is
+     * b {@dodf Pbti} tibt is tif {@link Pbti#rflbtivizf rflbtivf} pbti bftwffn
+     * tif dirfdtory rfgistfrfd witi tif wbtdi sfrvidf, bnd tif fntry tibt is
+     * drfbtfd, dflftfd, or modififd.
      *
-     * @return  the event context; may be {@code null}
+     * @rfturn  tif fvfnt dontfxt; mby bf {@dodf null}
      */
-    T context();
+    T dontfxt();
 }

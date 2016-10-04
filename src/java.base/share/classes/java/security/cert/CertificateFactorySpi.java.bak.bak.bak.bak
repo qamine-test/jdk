@@ -1,0 +1,315 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.io.InputStrfbm;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf {@dodf CfrtifidbtfFbdtory} dlbss.
+ * All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * dryptogrbphid sfrvidf providfr who wishfs to supply thf implfmfntbtion
+ * of b dfrtifidbtf fbdtory for b pbrtidulbr dfrtifidbtf typf, f.g., X.509.
+ *
+ * <p>Cfrtifidbtf fbdtorifs brf usfd to gfnfrbtf dfrtifidbtf, dfrtifidbtion pbth
+ * ({@dodf CfrtPbth}) bnd dfrtifidbtf rfvodbtion list (CRL) objfdts from
+ * thfir fndodings.
+ *
+ * <p>A dfrtifidbtf fbdtory for X.509 must rfturn dfrtifidbtfs thbt brf bn
+ * instbndf of {@dodf jbvb.sfdurity.dfrt.X509Cfrtifidbtf}, bnd CRLs
+ * thbt brf bn instbndf of {@dodf jbvb.sfdurity.dfrt.X509CRL}.
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @buthor Jbn Lufhf
+ * @buthor Sfbn Mullbn
+ *
+ *
+ * @sff CfrtifidbtfFbdtory
+ * @sff Cfrtifidbtf
+ * @sff X509Cfrtifidbtf
+ * @sff CfrtPbth
+ * @sff CRL
+ * @sff X509CRL
+ *
+ * @sindf 1.2
+ */
+
+publid bbstrbdt dlbss CfrtifidbtfFbdtorySpi {
+
+    /**
+     * Gfnfrbtfs b dfrtifidbtf objfdt bnd initiblizfs it with
+     * thf dbtb rfbd from thf input strfbm {@dodf inStrfbm}.
+     *
+     * <p>In ordfr to tbkf bdvbntbgf of thf spfdiblizfd dfrtifidbtf formbt
+     * supportfd by this dfrtifidbtf fbdtory,
+     * thf rfturnfd dfrtifidbtf objfdt dbn bf typfdbst to thf dorrfsponding
+     * dfrtifidbtf dlbss. For fxbmplf, if this dfrtifidbtf
+     * fbdtory implfmfnts X.509 dfrtifidbtfs, thf rfturnfd dfrtifidbtf objfdt
+     * dbn bf typfdbst to thf {@dodf X509Cfrtifidbtf} dlbss.
+     *
+     * <p>In thf dbsf of b dfrtifidbtf fbdtory for X.509 dfrtifidbtfs, thf
+     * dfrtifidbtf providfd in {@dodf inStrfbm} must bf DER-fndodfd bnd
+     * mby bf supplifd in binbry or printbblf (Bbsf64) fndoding. If thf
+     * dfrtifidbtf is providfd in Bbsf64 fndoding, it must bf boundfd bt
+     * thf bfginning by -----BEGIN CERTIFICATE-----, bnd must bf boundfd bt
+     * thf fnd by -----END CERTIFICATE-----.
+     *
+     * <p>Notf thbt if thf givfn input strfbm dofs not support
+     * {@link jbvb.io.InputStrfbm#mbrk(int) mbrk} bnd
+     * {@link jbvb.io.InputStrfbm#rfsft() rfsft}, this mfthod will
+     * donsumf thf fntirf input strfbm. Othfrwisf, fbdh dbll to this
+     * mfthod donsumfs onf dfrtifidbtf bnd thf rfbd position of thf input strfbm
+     * is positionfd to thf nfxt bvbilbblf bytf bftfr thf inhfrfnt
+     * fnd-of-dfrtifidbtf mbrkfr. If thf dbtb in thf
+     * input strfbm dofs not dontbin bn inhfrfnt fnd-of-dfrtifidbtf mbrkfr (othfr
+     * thbn EOF) bnd thfrf is trbiling dbtb bftfr thf dfrtifidbtf is pbrsfd, b
+     * {@dodf CfrtifidbtfExdfption} is thrown.
+     *
+     * @pbrbm inStrfbm bn input strfbm with thf dfrtifidbtf dbtb.
+     *
+     * @rfturn b dfrtifidbtf objfdt initiblizfd with thf dbtb
+     * from thf input strfbm.
+     *
+     * @fxdfption CfrtifidbtfExdfption on pbrsing frrors.
+     */
+    publid bbstrbdt Cfrtifidbtf fnginfGfnfrbtfCfrtifidbtf(InputStrfbm inStrfbm)
+        throws CfrtifidbtfExdfption;
+
+    /**
+     * Gfnfrbtfs b {@dodf CfrtPbth} objfdt bnd initiblizfs it with
+     * thf dbtb rfbd from thf {@dodf InputStrfbm} inStrfbm. Thf dbtb
+     * is bssumfd to bf in thf dffbult fndoding.
+     *
+     * <p> This mfthod wbs bddfd to vfrsion 1.4 of thf Jbvb 2 Plbtform
+     * Stbndbrd Edition. In ordfr to mbintbin bbdkwbrds dompbtibility with
+     * fxisting sfrvidf providfrs, this mfthod dbnnot bf {@dodf bbstrbdt}
+     * bnd by dffbult throws bn {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm inStrfbm bn {@dodf InputStrfbm} dontbining thf dbtb
+     * @rfturn b {@dodf CfrtPbth} initiblizfd with thf dbtb from thf
+     *   {@dodf InputStrfbm}
+     * @fxdfption CfrtifidbtfExdfption if bn fxdfption oddurs whilf dfdoding
+     * @fxdfption UnsupportfdOpfrbtionExdfption if thf mfthod is not supportfd
+     * @sindf 1.4
+     */
+    publid CfrtPbth fnginfGfnfrbtfCfrtPbth(InputStrfbm inStrfbm)
+        throws CfrtifidbtfExdfption
+    {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Gfnfrbtfs b {@dodf CfrtPbth} objfdt bnd initiblizfs it with
+     * thf dbtb rfbd from thf {@dodf InputStrfbm} inStrfbm. Thf dbtb
+     * is bssumfd to bf in thf spfdififd fndoding.
+     *
+     * <p> This mfthod wbs bddfd to vfrsion 1.4 of thf Jbvb 2 Plbtform
+     * Stbndbrd Edition. In ordfr to mbintbin bbdkwbrds dompbtibility with
+     * fxisting sfrvidf providfrs, this mfthod dbnnot bf {@dodf bbstrbdt}
+     * bnd by dffbult throws bn {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm inStrfbm bn {@dodf InputStrfbm} dontbining thf dbtb
+     * @pbrbm fndoding thf fndoding usfd for thf dbtb
+     * @rfturn b {@dodf CfrtPbth} initiblizfd with thf dbtb from thf
+     *   {@dodf InputStrfbm}
+     * @fxdfption CfrtifidbtfExdfption if bn fxdfption oddurs whilf dfdoding or
+     *   thf fndoding rfqufstfd is not supportfd
+     * @fxdfption UnsupportfdOpfrbtionExdfption if thf mfthod is not supportfd
+     * @sindf 1.4
+     */
+    publid CfrtPbth fnginfGfnfrbtfCfrtPbth(InputStrfbm inStrfbm,
+        String fndoding) throws CfrtifidbtfExdfption
+    {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Gfnfrbtfs b {@dodf CfrtPbth} objfdt bnd initiblizfs it with
+     * b {@dodf List} of {@dodf Cfrtifidbtf}s.
+     * <p>
+     * Thf dfrtifidbtfs supplifd must bf of b typf supportfd by thf
+     * {@dodf CfrtifidbtfFbdtory}. Thfy will bf dopifd out of thf supplifd
+     * {@dodf List} objfdt.
+     *
+     * <p> This mfthod wbs bddfd to vfrsion 1.4 of thf Jbvb 2 Plbtform
+     * Stbndbrd Edition. In ordfr to mbintbin bbdkwbrds dompbtibility with
+     * fxisting sfrvidf providfrs, this mfthod dbnnot bf {@dodf bbstrbdt}
+     * bnd by dffbult throws bn {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm dfrtifidbtfs b {@dodf List} of {@dodf Cfrtifidbtf}s
+     * @rfturn b {@dodf CfrtPbth} initiblizfd with thf supplifd list of
+     *   dfrtifidbtfs
+     * @fxdfption CfrtifidbtfExdfption if bn fxdfption oddurs
+     * @fxdfption UnsupportfdOpfrbtionExdfption if thf mfthod is not supportfd
+     * @sindf 1.4
+     */
+    publid CfrtPbth
+        fnginfGfnfrbtfCfrtPbth(List<? fxtfnds Cfrtifidbtf> dfrtifidbtfs)
+        throws CfrtifidbtfExdfption
+    {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Rfturns bn itfrbtion of thf {@dodf CfrtPbth} fndodings supportfd
+     * by this dfrtifidbtf fbdtory, with thf dffbult fndoding first. Sff
+     * thf CfrtPbth Endodings sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#CfrtPbthEndodings">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd fndoding nbmfs.
+     * <p>
+     * Attfmpts to modify thf rfturnfd {@dodf Itfrbtor} vib its
+     * {@dodf rfmovf} mfthod rfsult in bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * <p> This mfthod wbs bddfd to vfrsion 1.4 of thf Jbvb 2 Plbtform
+     * Stbndbrd Edition. In ordfr to mbintbin bbdkwbrds dompbtibility with
+     * fxisting sfrvidf providfrs, this mfthod dbnnot bf {@dodf bbstrbdt}
+     * bnd by dffbult throws bn {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @rfturn bn {@dodf Itfrbtor} ovfr thf nbmfs of thf supportfd
+     *         {@dodf CfrtPbth} fndodings (bs {@dodf String}s)
+     * @fxdfption UnsupportfdOpfrbtionExdfption if thf mfthod is not supportfd
+     * @sindf 1.4
+     */
+    publid Itfrbtor<String> fnginfGftCfrtPbthEndodings() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Rfturns b (possibly fmpty) dollfdtion vifw of thf dfrtifidbtfs rfbd
+     * from thf givfn input strfbm {@dodf inStrfbm}.
+     *
+     * <p>In ordfr to tbkf bdvbntbgf of thf spfdiblizfd dfrtifidbtf formbt
+     * supportfd by this dfrtifidbtf fbdtory, fbdh flfmfnt in
+     * thf rfturnfd dollfdtion vifw dbn bf typfdbst to thf dorrfsponding
+     * dfrtifidbtf dlbss. For fxbmplf, if this dfrtifidbtf
+     * fbdtory implfmfnts X.509 dfrtifidbtfs, thf flfmfnts in thf rfturnfd
+     * dollfdtion dbn bf typfdbst to thf {@dodf X509Cfrtifidbtf} dlbss.
+     *
+     * <p>In thf dbsf of b dfrtifidbtf fbdtory for X.509 dfrtifidbtfs,
+     * {@dodf inStrfbm} mby dontbin b singlf DER-fndodfd dfrtifidbtf
+     * in thf formbts dfsdribfd for
+     * {@link CfrtifidbtfFbdtory#gfnfrbtfCfrtifidbtf(jbvb.io.InputStrfbm)
+     * gfnfrbtfCfrtifidbtf}.
+     * In bddition, {@dodf inStrfbm} mby dontbin b PKCS#7 dfrtifidbtf
+     * dhbin. This is b PKCS#7 <i>SignfdDbtb</i> objfdt, with thf only
+     * signifidbnt fifld bfing <i>dfrtifidbtfs</i>. In pbrtidulbr, thf
+     * signbturf bnd thf dontfnts brf ignorfd. This formbt bllows multiplf
+     * dfrtifidbtfs to bf downlobdfd bt ondf. If no dfrtifidbtfs brf prfsfnt,
+     * bn fmpty dollfdtion is rfturnfd.
+     *
+     * <p>Notf thbt if thf givfn input strfbm dofs not support
+     * {@link jbvb.io.InputStrfbm#mbrk(int) mbrk} bnd
+     * {@link jbvb.io.InputStrfbm#rfsft() rfsft}, this mfthod will
+     * donsumf thf fntirf input strfbm.
+     *
+     * @pbrbm inStrfbm thf input strfbm with thf dfrtifidbtfs.
+     *
+     * @rfturn b (possibly fmpty) dollfdtion vifw of
+     * jbvb.sfdurity.dfrt.Cfrtifidbtf objfdts
+     * initiblizfd with thf dbtb from thf input strfbm.
+     *
+     * @fxdfption CfrtifidbtfExdfption on pbrsing frrors.
+     */
+    publid bbstrbdt Collfdtion<? fxtfnds Cfrtifidbtf>
+            fnginfGfnfrbtfCfrtifidbtfs(InputStrfbm inStrfbm)
+            throws CfrtifidbtfExdfption;
+
+    /**
+     * Gfnfrbtfs b dfrtifidbtf rfvodbtion list (CRL) objfdt bnd initiblizfs it
+     * with thf dbtb rfbd from thf input strfbm {@dodf inStrfbm}.
+     *
+     * <p>In ordfr to tbkf bdvbntbgf of thf spfdiblizfd CRL formbt
+     * supportfd by this dfrtifidbtf fbdtory,
+     * thf rfturnfd CRL objfdt dbn bf typfdbst to thf dorrfsponding
+     * CRL dlbss. For fxbmplf, if this dfrtifidbtf
+     * fbdtory implfmfnts X.509 CRLs, thf rfturnfd CRL objfdt
+     * dbn bf typfdbst to thf {@dodf X509CRL} dlbss.
+     *
+     * <p>Notf thbt if thf givfn input strfbm dofs not support
+     * {@link jbvb.io.InputStrfbm#mbrk(int) mbrk} bnd
+     * {@link jbvb.io.InputStrfbm#rfsft() rfsft}, this mfthod will
+     * donsumf thf fntirf input strfbm. Othfrwisf, fbdh dbll to this
+     * mfthod donsumfs onf CRL bnd thf rfbd position of thf input strfbm
+     * is positionfd to thf nfxt bvbilbblf bytf bftfr thf inhfrfnt
+     * fnd-of-CRL mbrkfr. If thf dbtb in thf
+     * input strfbm dofs not dontbin bn inhfrfnt fnd-of-CRL mbrkfr (othfr
+     * thbn EOF) bnd thfrf is trbiling dbtb bftfr thf CRL is pbrsfd, b
+     * {@dodf CRLExdfption} is thrown.
+     *
+     * @pbrbm inStrfbm bn input strfbm with thf CRL dbtb.
+     *
+     * @rfturn b CRL objfdt initiblizfd with thf dbtb
+     * from thf input strfbm.
+     *
+     * @fxdfption CRLExdfption on pbrsing frrors.
+     */
+    publid bbstrbdt CRL fnginfGfnfrbtfCRL(InputStrfbm inStrfbm)
+        throws CRLExdfption;
+
+    /**
+     * Rfturns b (possibly fmpty) dollfdtion vifw of thf CRLs rfbd
+     * from thf givfn input strfbm {@dodf inStrfbm}.
+     *
+     * <p>In ordfr to tbkf bdvbntbgf of thf spfdiblizfd CRL formbt
+     * supportfd by this dfrtifidbtf fbdtory, fbdh flfmfnt in
+     * thf rfturnfd dollfdtion vifw dbn bf typfdbst to thf dorrfsponding
+     * CRL dlbss. For fxbmplf, if this dfrtifidbtf
+     * fbdtory implfmfnts X.509 CRLs, thf flfmfnts in thf rfturnfd
+     * dollfdtion dbn bf typfdbst to thf {@dodf X509CRL} dlbss.
+     *
+     * <p>In thf dbsf of b dfrtifidbtf fbdtory for X.509 CRLs,
+     * {@dodf inStrfbm} mby dontbin b singlf DER-fndodfd CRL.
+     * In bddition, {@dodf inStrfbm} mby dontbin b PKCS#7 CRL
+     * sft. This is b PKCS#7 <i>SignfdDbtb</i> objfdt, with thf only
+     * signifidbnt fifld bfing <i>drls</i>. In pbrtidulbr, thf
+     * signbturf bnd thf dontfnts brf ignorfd. This formbt bllows multiplf
+     * CRLs to bf downlobdfd bt ondf. If no CRLs brf prfsfnt,
+     * bn fmpty dollfdtion is rfturnfd.
+     *
+     * <p>Notf thbt if thf givfn input strfbm dofs not support
+     * {@link jbvb.io.InputStrfbm#mbrk(int) mbrk} bnd
+     * {@link jbvb.io.InputStrfbm#rfsft() rfsft}, this mfthod will
+     * donsumf thf fntirf input strfbm.
+     *
+     * @pbrbm inStrfbm thf input strfbm with thf CRLs.
+     *
+     * @rfturn b (possibly fmpty) dollfdtion vifw of
+     * jbvb.sfdurity.dfrt.CRL objfdts initiblizfd with thf dbtb from thf input
+     * strfbm.
+     *
+     * @fxdfption CRLExdfption on pbrsing frrors.
+     */
+    publid bbstrbdt Collfdtion<? fxtfnds CRL> fnginfGfnfrbtfCRLs
+            (InputStrfbm inStrfbm) throws CRLExdfption;
+}

@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "PrinterView.h"
+#import "PrintfrVifw.i"
 
-#import "java_awt_print_Pageable.h"
-#import "java_awt_print_PageFormat.h"
+#import "jbvb_bwt_print_Pbgfbblf.i"
+#import "jbvb_bwt_print_PbgfFormbt.i"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
 
-#import "ThreadUtilities.h"
-#import "GeomUtilities.h"
+#import "TirfbdUtilitifs.i"
+#import "GfomUtilitifs.i"
 
 
-static JNF_CLASS_CACHE(sjc_CPrinterJob, "sun/lwawt/macosx/CPrinterJob");
-static JNF_CLASS_CACHE(sjc_PageFormat, "java/awt/print/PageFormat");
+stbtid JNF_CLASS_CACHE(sjd_CPrintfrJob, "sun/lwbwt/mbdosx/CPrintfrJob");
+stbtid JNF_CLASS_CACHE(sjd_PbgfFormbt, "jbvb/bwt/print/PbgfFormbt");
 
-@implementation PrinterView
+@implfmfntbtion PrintfrVifw
 
-- (id)initWithFrame:(NSRect)aRect withEnv:(JNIEnv*)env withPrinterJob:(jobject)printerJob
+- (id)initWitiFrbmf:(NSRfdt)bRfdt witiEnv:(JNIEnv*)fnv witiPrintfrJob:(jobjfdt)printfrJob
 {
-    self = [super initWithFrame:aRect];
-    if (self)
+    sflf = [supfr initWitiFrbmf:bRfdt];
+    if (sflf)
     {
-        fPrinterJob = JNFNewGlobalRef(env, printerJob);
-        fCurPageFormat = NULL;
-        fCurPainter = NULL;
-        fCurPeekGraphics = NULL;
+        fPrintfrJob = JNFNfwGlobblRff(fnv, printfrJob);
+        fCurPbgfFormbt = NULL;
+        fCurPbintfr = NULL;
+        fCurPffkGrbpiids = NULL;
     }
-    return self;
+    rfturn sflf;
 }
 
-- (void)releaseReferences:(JNIEnv*)env
+- (void)rflfbsfRfffrfndfs:(JNIEnv*)fnv
 {
-    if (fCurPageFormat != NULL)
+    if (fCurPbgfFormbt != NULL)
     {
-        JNFDeleteGlobalRef(env, fCurPageFormat);
-        fCurPageFormat = NULL;
+        JNFDflftfGlobblRff(fnv, fCurPbgfFormbt);
+        fCurPbgfFormbt = NULL;
     }
-    if (fCurPainter != NULL)
+    if (fCurPbintfr != NULL)
     {
-        JNFDeleteGlobalRef(env, fCurPainter);
-        fCurPainter = NULL;
+        JNFDflftfGlobblRff(fnv, fCurPbintfr);
+        fCurPbintfr = NULL;
     }
-    if (fCurPeekGraphics != NULL)
+    if (fCurPffkGrbpiids != NULL)
     {
-        JNFDeleteGlobalRef(env, fCurPeekGraphics);
-        fCurPeekGraphics = NULL;
+        JNFDflftfGlobblRff(fnv, fCurPffkGrbpiids);
+        fCurPffkGrbpiids = NULL;
     }
 }
 
-- (void)setFirstPage:(jint)firstPage lastPage:(jint)lastPage {
-    fFirstPage = firstPage;
-    fLastPage = lastPage;
+- (void)sftFirstPbgf:(jint)firstPbgf lbstPbgf:(jint)lbstPbgf {
+    fFirstPbgf = firstPbgf;
+    fLbstPbgf = lbstPbgf;
 }
 
-- (void)drawRect:(NSRect)aRect
-{
-    AWT_ASSERT_NOT_APPKIT_THREAD;
-
-    static JNF_MEMBER_CACHE(jm_printToPathGraphics, sjc_CPrinterJob, "printToPathGraphics", "(Lsun/print/PeekGraphics;Ljava/awt/print/PrinterJob;Ljava/awt/print/Printable;Ljava/awt/print/PageFormat;IJ)V");
-
-    // Create and draw into a new CPrinterGraphics with the current Context.
-    assert(fCurPageFormat != NULL);
-    assert(fCurPainter != NULL);
-    assert(fCurPeekGraphics != NULL);
-
-    JNIEnv* env = [ThreadUtilities getJNIEnvUncached];
-
-    if ([self cancelCheck:env])
-    {
-        [self releaseReferences:env];
-        return;
-    }
-
-    NSPrintOperation* printLoop = [NSPrintOperation currentOperation];
-    jint jPageIndex = [printLoop currentPage] - 1;
-
-    jlong context = ptr_to_jlong([printLoop context]);
-    CGContextRef cgRef = (CGContextRef)[[printLoop context] graphicsPort];
-    CGContextSaveGState(cgRef); //04/28/2004: state needs to be saved here due to addition of lazy state management
-
-    JNFCallVoidMethod(env, fPrinterJob, jm_printToPathGraphics, fCurPeekGraphics, fPrinterJob, fCurPainter, fCurPageFormat, jPageIndex, context); // AWT_THREADING Safe (AWTRunLoop)
-
-    CGContextRestoreGState(cgRef);
-
-    [self releaseReferences:env];
-}
-
-- (NSString*)printJobTitle
+- (void)drbwRfdt:(NSRfdt)bRfdt
 {
     AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    static JNF_MEMBER_CACHE(jm_getJobName, sjc_CPrinterJob, "getJobName", "()Ljava/lang/String;");
+    stbtid JNF_MEMBER_CACHE(jm_printToPbtiGrbpiids, sjd_CPrintfrJob, "printToPbtiGrbpiids", "(Lsun/print/PffkGrbpiids;Ljbvb/bwt/print/PrintfrJob;Ljbvb/bwt/print/Printbblf;Ljbvb/bwt/print/PbgfFormbt;IJ)V");
 
-    JNIEnv* env = [ThreadUtilities getJNIEnvUncached];
+    // Crfbtf bnd drbw into b nfw CPrintfrGrbpiids witi tif durrfnt Contfxt.
+    bssfrt(fCurPbgfFormbt != NULL);
+    bssfrt(fCurPbintfr != NULL);
+    bssfrt(fCurPffkGrbpiids != NULL);
 
-    jobject o = JNFCallObjectMethod(env, fPrinterJob, jm_getJobName); // AWT_THREADING Safe (known object)
-    id result = JNFJavaToNSString(env, o);
-    (*env)->DeleteLocalRef(env, o);
-    return result;
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
+
+    if ([sflf dbndflCifdk:fnv])
+    {
+        [sflf rflfbsfRfffrfndfs:fnv];
+        rfturn;
+    }
+
+    NSPrintOpfrbtion* printLoop = [NSPrintOpfrbtion durrfntOpfrbtion];
+    jint jPbgfIndfx = [printLoop durrfntPbgf] - 1;
+
+    jlong dontfxt = ptr_to_jlong([printLoop dontfxt]);
+    CGContfxtRff dgRff = (CGContfxtRff)[[printLoop dontfxt] grbpiidsPort];
+    CGContfxtSbvfGStbtf(dgRff); //04/28/2004: stbtf nffds to bf sbvfd ifrf duf to bddition of lbzy stbtf mbnbgfmfnt
+
+    JNFCbllVoidMftiod(fnv, fPrintfrJob, jm_printToPbtiGrbpiids, fCurPffkGrbpiids, fPrintfrJob, fCurPbintfr, fCurPbgfFormbt, jPbgfIndfx, dontfxt); // AWT_THREADING Sbff (AWTRunLoop)
+
+    CGContfxtRfstorfGStbtf(dgRff);
+
+    [sflf rflfbsfRfffrfndfs:fnv];
 }
 
-- (BOOL)knowsPageRange:(NSRangePointer)aRange
+- (NSString*)printJobTitlf
 {
     AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    JNIEnv* env = [ThreadUtilities getJNIEnvUncached];
-    if ([self cancelCheck:env])
-    {
-        return NO;
-    }
+    stbtid JNF_MEMBER_CACHE(jm_gftJobNbmf, sjd_CPrintfrJob, "gftJobNbmf", "()Ljbvb/lbng/String;");
 
-    aRange->location = fFirstPage + 1;
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
 
-    if (fLastPage == java_awt_print_Pageable_UNKNOWN_NUMBER_OF_PAGES)
-    {
-        aRange->length = NSIntegerMax;
-    }
-    else
-    {
-        aRange->length = (fLastPage + 1) - fFirstPage;
-    }
-
-    return YES;
+    jobjfdt o = JNFCbllObjfdtMftiod(fnv, fPrintfrJob, jm_gftJobNbmf); // AWT_THREADING Sbff (known objfdt)
+    id rfsult = JNFJbvbToNSString(fnv, o);
+    (*fnv)->DflftfLodblRff(fnv, o);
+    rfturn rfsult;
 }
 
-- (NSRect)rectForPage:(NSInteger)pageNumber
+- (BOOL)knowsPbgfRbngf:(NSRbngfPointfr)bRbngf
 {
     AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    static JNF_MEMBER_CACHE(jm_getPageformatPrintablePeekgraphics, sjc_CPrinterJob, "getPageformatPrintablePeekgraphics", "(I)[Ljava/lang/Object;");
-    static JNF_MEMBER_CACHE(jm_printAndGetPageFormatArea, sjc_CPrinterJob, "printAndGetPageFormatArea", "(Ljava/awt/print/Printable;Ljava/awt/Graphics;Ljava/awt/print/PageFormat;I)Ljava/awt/geom/Rectangle2D;");
-    static JNF_MEMBER_CACHE(jm_getOrientation, sjc_PageFormat, "getOrientation", "()I");
-
-    // Assertions removed, and corresponding JNFDeleteGlobalRefs added, for radr://3962543
-    // Actual fix that will keep these assertions from being true is radr://3205462 ,
-    // which will hopefully be fixed by the blocking AppKit bug radr://3056694
-    //assert(fCurPageFormat == NULL);
-    //assert(fCurPainter == NULL);
-    //assert(fCurPeekGraphics == NULL);
-
-    JNIEnv* env = [ThreadUtilities getJNIEnvUncached];
-    if(fCurPageFormat != NULL) {
-        JNFDeleteGlobalRef(env, fCurPageFormat);
-    }
-    if(fCurPainter != NULL) {
-        JNFDeleteGlobalRef(env, fCurPainter);
-    }
-    if(fCurPeekGraphics != NULL) {
-        JNFDeleteGlobalRef(env, fCurPeekGraphics);
-    }
-
-    //+++gdb Check the pageNumber for validity (PageAttrs)
-
-    jint jPageNumber = pageNumber - 1;
-
-    NSRect result;
-
-    if ([self cancelCheck:env])
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
+    if ([sflf dbndflCifdk:fnv])
     {
-        return NSZeroRect;
+        rfturn NO;
     }
 
-    jobjectArray objectArray = JNFCallObjectMethod(env, fPrinterJob, jm_getPageformatPrintablePeekgraphics, jPageNumber); // AWT_THREADING Safe (AWTRunLoopMode)
-    if (objectArray != NULL) {
-        // Get references to the return objects -> PageFormat, Printable, PeekGraphics
-        // Cheat - we know we either got NULL or a 3 element array
-        jobject pageFormat = (*env)->GetObjectArrayElement(env, objectArray, 0);
-        fCurPageFormat = JNFNewGlobalRef(env, pageFormat);
-        (*env)->DeleteLocalRef(env, pageFormat);
+    bRbngf->lodbtion = fFirstPbgf + 1;
 
-        jobject painter = (*env)->GetObjectArrayElement(env, objectArray, 1);
-        fCurPainter = JNFNewGlobalRef(env, painter);
-        (*env)->DeleteLocalRef(env, painter);
+    if (fLbstPbgf == jbvb_bwt_print_Pbgfbblf_UNKNOWN_NUMBER_OF_PAGES)
+    {
+        bRbngf->lfngti = NSIntfgfrMbx;
+    }
+    flsf
+    {
+        bRbngf->lfngti = (fLbstPbgf + 1) - fFirstPbgf;
+    }
 
-        jobject peekGraphics = (*env)->GetObjectArrayElement(env, objectArray, 2);
-        fCurPeekGraphics = JNFNewGlobalRef(env, peekGraphics);
-        (*env)->DeleteLocalRef(env, peekGraphics);
+    rfturn YES;
+}
 
-        // Actually print and get the PageFormatArea
-        jobject pageFormatArea = JNFCallObjectMethod(env, fPrinterJob, jm_printAndGetPageFormatArea, fCurPainter, fCurPeekGraphics, fCurPageFormat, jPageNumber); // AWT_THREADING Safe (AWTRunLoopMode)
-        if (pageFormatArea != NULL) {
-            NSPrintingOrientation currentOrientation = 
-                    [[[NSPrintOperation currentOperation] printInfo] orientation];
-            // set page orientation
-            switch (JNFCallIntMethod(env, fCurPageFormat, jm_getOrientation)) { 
-                case java_awt_print_PageFormat_PORTRAIT:
-                default:
-                    if (currentOrientation != NSPortraitOrientation) {
-                        [[[NSPrintOperation currentOperation] printInfo] 
-                                            setOrientation:NSPortraitOrientation];
+- (NSRfdt)rfdtForPbgf:(NSIntfgfr)pbgfNumbfr
+{
+    AWT_ASSERT_NOT_APPKIT_THREAD;
+
+    stbtid JNF_MEMBER_CACHE(jm_gftPbgfformbtPrintbblfPffkgrbpiids, sjd_CPrintfrJob, "gftPbgfformbtPrintbblfPffkgrbpiids", "(I)[Ljbvb/lbng/Objfdt;");
+    stbtid JNF_MEMBER_CACHE(jm_printAndGftPbgfFormbtArfb, sjd_CPrintfrJob, "printAndGftPbgfFormbtArfb", "(Ljbvb/bwt/print/Printbblf;Ljbvb/bwt/Grbpiids;Ljbvb/bwt/print/PbgfFormbt;I)Ljbvb/bwt/gfom/Rfdtbnglf2D;");
+    stbtid JNF_MEMBER_CACHE(jm_gftOrifntbtion, sjd_PbgfFormbt, "gftOrifntbtion", "()I");
+
+    // Assfrtions rfmovfd, bnd dorrfsponding JNFDflftfGlobblRffs bddfd, for rbdr://3962543
+    // Adtubl fix tibt will kffp tifsf bssfrtions from bfing truf is rbdr://3205462 ,
+    // wiidi will iopffully bf fixfd by tif blodking AppKit bug rbdr://3056694
+    //bssfrt(fCurPbgfFormbt == NULL);
+    //bssfrt(fCurPbintfr == NULL);
+    //bssfrt(fCurPffkGrbpiids == NULL);
+
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
+    if(fCurPbgfFormbt != NULL) {
+        JNFDflftfGlobblRff(fnv, fCurPbgfFormbt);
+    }
+    if(fCurPbintfr != NULL) {
+        JNFDflftfGlobblRff(fnv, fCurPbintfr);
+    }
+    if(fCurPffkGrbpiids != NULL) {
+        JNFDflftfGlobblRff(fnv, fCurPffkGrbpiids);
+    }
+
+    //+++gdb Cifdk tif pbgfNumbfr for vblidity (PbgfAttrs)
+
+    jint jPbgfNumbfr = pbgfNumbfr - 1;
+
+    NSRfdt rfsult;
+
+    if ([sflf dbndflCifdk:fnv])
+    {
+        rfturn NSZfroRfdt;
+    }
+
+    jobjfdtArrby objfdtArrby = JNFCbllObjfdtMftiod(fnv, fPrintfrJob, jm_gftPbgfformbtPrintbblfPffkgrbpiids, jPbgfNumbfr); // AWT_THREADING Sbff (AWTRunLoopModf)
+    if (objfdtArrby != NULL) {
+        // Gft rfffrfndfs to tif rfturn objfdts -> PbgfFormbt, Printbblf, PffkGrbpiids
+        // Cifbt - wf know wf fitifr got NULL or b 3 flfmfnt brrby
+        jobjfdt pbgfFormbt = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, objfdtArrby, 0);
+        fCurPbgfFormbt = JNFNfwGlobblRff(fnv, pbgfFormbt);
+        (*fnv)->DflftfLodblRff(fnv, pbgfFormbt);
+
+        jobjfdt pbintfr = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, objfdtArrby, 1);
+        fCurPbintfr = JNFNfwGlobblRff(fnv, pbintfr);
+        (*fnv)->DflftfLodblRff(fnv, pbintfr);
+
+        jobjfdt pffkGrbpiids = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, objfdtArrby, 2);
+        fCurPffkGrbpiids = JNFNfwGlobblRff(fnv, pffkGrbpiids);
+        (*fnv)->DflftfLodblRff(fnv, pffkGrbpiids);
+
+        // Adtublly print bnd gft tif PbgfFormbtArfb
+        jobjfdt pbgfFormbtArfb = JNFCbllObjfdtMftiod(fnv, fPrintfrJob, jm_printAndGftPbgfFormbtArfb, fCurPbintfr, fCurPffkGrbpiids, fCurPbgfFormbt, jPbgfNumbfr); // AWT_THREADING Sbff (AWTRunLoopModf)
+        if (pbgfFormbtArfb != NULL) {
+            NSPrintingOrifntbtion durrfntOrifntbtion = 
+                    [[[NSPrintOpfrbtion durrfntOpfrbtion] printInfo] orifntbtion];
+            // sft pbgf orifntbtion
+            switdi (JNFCbllIntMftiod(fnv, fCurPbgfFormbt, jm_gftOrifntbtion)) { 
+                dbsf jbvb_bwt_print_PbgfFormbt_PORTRAIT:
+                dffbult:
+                    if (durrfntOrifntbtion != NSPortrbitOrifntbtion) {
+                        [[[NSPrintOpfrbtion durrfntOpfrbtion] printInfo] 
+                                            sftOrifntbtion:NSPortrbitOrifntbtion];
                     }
-                    break;
+                    brfbk;
 
-                case java_awt_print_PageFormat_LANDSCAPE:
-                case java_awt_print_PageFormat_REVERSE_LANDSCAPE:
-                    if (currentOrientation != NSLandscapeOrientation) {
-                        [[[NSPrintOperation currentOperation] printInfo] 
-                                            setOrientation:NSLandscapeOrientation];
+                dbsf jbvb_bwt_print_PbgfFormbt_LANDSCAPE:
+                dbsf jbvb_bwt_print_PbgfFormbt_REVERSE_LANDSCAPE:
+                    if (durrfntOrifntbtion != NSLbndsdbpfOrifntbtion) {
+                        [[[NSPrintOpfrbtion durrfntOpfrbtion] printInfo] 
+                                            sftOrifntbtion:NSLbndsdbpfOrifntbtion];
                     }
-                    break;
+                    brfbk;
                 }
-            result = JavaToNSRect(env, pageFormatArea);
-            (*env)->DeleteLocalRef(env, pageFormatArea);
-        } else {
-            [self releaseReferences:env];
-            result = NSZeroRect;
+            rfsult = JbvbToNSRfdt(fnv, pbgfFormbtArfb);
+            (*fnv)->DflftfLodblRff(fnv, pbgfFormbtArfb);
+        } flsf {
+            [sflf rflfbsfRfffrfndfs:fnv];
+            rfsult = NSZfroRfdt;
         }
 
-        (*env)->DeleteLocalRef(env, objectArray);
-    } else {
-        [self releaseReferences:env];
-        result = NSZeroRect;
+        (*fnv)->DflftfLodblRff(fnv, objfdtArrby);
+    } flsf {
+        [sflf rflfbsfRfffrfndfs:fnv];
+        rfsult = NSZfroRfdt;
     }
 
-    return result;
+    rfturn rfsult;
 }
 
-- (BOOL)cancelCheck:(JNIEnv*)env
+- (BOOL)dbndflCifdk:(JNIEnv*)fnv
 {
     AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    static JNF_MEMBER_CACHE(jm_cancelCheck, sjc_CPrinterJob, "cancelCheck", "()Z");
+    stbtid JNF_MEMBER_CACHE(jm_dbndflCifdk, sjd_CPrintfrJob, "dbndflCifdk", "()Z");
 
-    return JNFCallBooleanMethod(env, fPrinterJob, jm_cancelCheck); // AWT_THREADING Safe (known object)
+    rfturn JNFCbllBoolfbnMftiod(fnv, fPrintfrJob, jm_dbndflCifdk); // AWT_THREADING Sbff (known objfdt)
 }
 
-// This is called by -[PrintModel safePrintLoop]
-- (void)complete:(JNIEnv*)env
+// Tiis is dbllfd by -[PrintModfl sbffPrintLoop]
+- (void)domplftf:(JNIEnv*)fnv
 {
     AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    static JNF_MEMBER_CACHE(jf_completePrintLoop, sjc_CPrinterJob, "completePrintLoop", "()V");
-    JNFCallVoidMethod(env, fPrinterJob, jf_completePrintLoop);
+    stbtid JNF_MEMBER_CACHE(jf_domplftfPrintLoop, sjd_CPrintfrJob, "domplftfPrintLoop", "()V");
+    JNFCbllVoidMftiod(fnv, fPrintfrJob, jf_domplftfPrintLoop);
 
-    // Clean up after ourselves
-    // Can't put these into -dealloc since that happens (potentially) after the JNIEnv is stale
-    [self releaseReferences:env];
-    if (fPrinterJob != NULL)
+    // Clfbn up bftfr oursflvfs
+    // Cbn't put tifsf into -dfbllod sindf tibt ibppfns (potfntiblly) bftfr tif JNIEnv is stblf
+    [sflf rflfbsfRfffrfndfs:fnv];
+    if (fPrintfrJob != NULL)
     {
-        JNFDeleteGlobalRef(env, fPrinterJob);
-        fPrinterJob = NULL;
+        JNFDflftfGlobblRff(fnv, fPrintfrJob);
+        fPrintfrJob = NULL;
     }
 }
 
-- (BOOL)isFlipped
+- (BOOL)isFlippfd
 {
-    return TRUE;
+    rfturn TRUE;
 }
 
-@end
+@fnd

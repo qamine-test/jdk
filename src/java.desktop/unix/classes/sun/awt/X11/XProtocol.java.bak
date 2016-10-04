@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-import java.util.*;
+import jbvb.util.*;
 
-class XProtocol {
-    private final static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XProtocol");
+dlbss XProtodol {
+    privbtf finbl stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XProtodol");
 
-    private Map<XAtom, XAtomList> atomToList = new HashMap<XAtom, XAtomList>();
-    private Map<XAtom, Long> atomToAnchor = new HashMap<XAtom, Long>();
+    privbtf Mbp<XAtom, XAtomList> btomToList = nfw HbsiMbp<XAtom, XAtomList>();
+    privbtf Mbp<XAtom, Long> btomToAndior = nfw HbsiMbp<XAtom, Long>();
 
-    volatile boolean firstCheck = true;
+    volbtilf boolfbn firstCifdk = truf;
     /*
-     * Check that that the list of protocols specified by WM in property
-     * named LIST_NAME on the root window contains protocol PROTO.
+     * Cifdk tibt tibt tif list of protodols spfdififd by WM in propfrty
+     * nbmfd LIST_NAME on tif root window dontbins protodol PROTO.
      */
-    boolean checkProtocol(XAtom listName, XAtom protocol) {
-        XAtomList protocols = atomToList.get(listName);
+    boolfbn difdkProtodol(XAtom listNbmf, XAtom protodol) {
+        XAtomList protodols = btomToList.gft(listNbmf);
 
-        if (protocols != null) {
-            return protocols.contains(protocol);
+        if (protodols != null) {
+            rfturn protodols.dontbins(protodol);
         }
 
-        protocols = listName.getAtomListPropertyList(XToolkit.getDefaultRootWindow());
-        atomToList.put(listName, protocols);
+        protodols = listNbmf.gftAtomListPropfrtyList(XToolkit.gftDffbultRootWindow());
+        btomToList.put(listNbmf, protodols);
         try {
-            return protocols.contains(protocol);
-        } finally {
-            if (firstCheck) {
-                firstCheck = false;
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("{0}:{1} supports {2}", this, listName, protocols);
+            rfturn protodols.dontbins(protodol);
+        } finblly {
+            if (firstCifdk) {
+                firstCifdk = fblsf;
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("{0}:{1} supports {2}", tiis, listNbmf, protodols);
                 }
             }
         }
     }
 
     /*
-     * Check for anchor_prop(anchor_type) on root, take the value as the
-     * window id and check if that window exists and has anchor_prop(anchor_type)
-     * with the same value (i.e. pointing back to self).
+     * Cifdk for bndior_prop(bndior_typf) on root, tbkf tif vbluf bs tif
+     * window id bnd difdk if tibt window fxists bnd ibs bndior_prop(bndior_typf)
+     * witi tif sbmf vbluf (i.f. pointing bbdk to sflf).
      *
-     * Returns the anchor window, as some WM may put interesting stuff in
-     * its properties (e.g. sawfish).
+     * Rfturns tif bndior window, bs somf WM mby put intfrfsting stuff in
+     * its propfrtifs (f.g. sbwfisi).
      */
-    long checkAnchorImpl(XAtom anchorProp, long anchorType) {
-        long root_xref, self_xref;
+    long difdkAndiorImpl(XAtom bndiorProp, long bndiorTypf) {
+        long root_xrff, sflf_xrff;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            root_xref = anchorProp.get32Property(XToolkit.getDefaultRootWindow(),
-                                                 anchorType);
-        } finally {
-            XToolkit.awtUnlock();
+            root_xrff = bndiorProp.gft32Propfrty(XToolkit.gftDffbultRootWindow(),
+                                                 bndiorTypf);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
-        if (root_xref == 0) {
-            return 0;
+        if (root_xrff == 0) {
+            rfturn 0;
         }
-        self_xref = anchorProp.get32Property(root_xref, anchorType);
-        if (self_xref != root_xref) {
-            return 0;
+        sflf_xrff = bndiorProp.gft32Propfrty(root_xrff, bndiorTypf);
+        if (sflf_xrff != root_xrff) {
+            rfturn 0;
         }
-        return self_xref;
+        rfturn sflf_xrff;
     }
-    public long checkAnchor(XAtom anchorProp, long anchorType) {
-        Long val = atomToAnchor.get(anchorProp);
-        if (val != null) {
-            return val.longValue();
+    publid long difdkAndior(XAtom bndiorProp, long bndiorTypf) {
+        Long vbl = btomToAndior.gft(bndiorProp);
+        if (vbl != null) {
+            rfturn vbl.longVbluf();
         }
-        long res = checkAnchorImpl(anchorProp, anchorType);
-        atomToAnchor.put(anchorProp, res);
-        return res;
+        long rfs = difdkAndiorImpl(bndiorProp, bndiorTypf);
+        btomToAndior.put(bndiorProp, rfs);
+        rfturn rfs;
     }
-    public long checkAnchor(XAtom anchorProp, XAtom anchorType) {
-        return checkAnchor(anchorProp, anchorType.getAtom());
+    publid long difdkAndior(XAtom bndiorProp, XAtom bndiorTypf) {
+        rfturn difdkAndior(bndiorProp, bndiorTypf.gftAtom());
     }
 
 }

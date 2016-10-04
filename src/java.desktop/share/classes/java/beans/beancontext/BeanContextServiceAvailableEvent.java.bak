@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans.beancontext;
+pbdkbgf jbvb.bfbns.bfbndontfxt;
 
-import java.beans.beancontext.BeanContextChild;
-import java.beans.beancontext.BeanContextEvent;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxtCiild;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxtEvfnt;
 
-import java.beans.beancontext.BeanContextServices;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxtSfrvidfs;
 
-import java.util.Iterator;
+import jbvb.util.Itfrbtor;
 
 /**
  * <p>
- * This event type is used by the BeanContextServicesListener in order to
- * identify the service being registered.
+ * Tiis fvfnt typf is usfd by tif BfbnContfxtSfrvidfsListfnfr in ordfr to
+ * idfntify tif sfrvidf bfing rfgistfrfd.
  * </p>
  */
 
-public class BeanContextServiceAvailableEvent extends BeanContextEvent {
-    private static final long serialVersionUID = -5333985775656400778L;
+publid dlbss BfbnContfxtSfrvidfAvbilbblfEvfnt fxtfnds BfbnContfxtEvfnt {
+    privbtf stbtid finbl long sfriblVfrsionUID = -5333985775656400778L;
 
     /**
-     * Construct a <code>BeanContextAvailableServiceEvent</code>.
-     * @param bcs The context in which the service has become available
-     * @param sc A <code>Class</code> reference to the newly available service
+     * Construdt b <dodf>BfbnContfxtAvbilbblfSfrvidfEvfnt</dodf>.
+     * @pbrbm bds Tif dontfxt in wiidi tif sfrvidf ibs bfdomf bvbilbblf
+     * @pbrbm sd A <dodf>Clbss</dodf> rfffrfndf to tif nfwly bvbilbblf sfrvidf
      */
-    public BeanContextServiceAvailableEvent(BeanContextServices bcs, Class<?> sc) {
-        super((BeanContext)bcs);
+    publid BfbnContfxtSfrvidfAvbilbblfEvfnt(BfbnContfxtSfrvidfs bds, Clbss<?> sd) {
+        supfr((BfbnContfxt)bds);
 
-        serviceClass = sc;
+        sfrvidfClbss = sd;
     }
 
     /**
-     * Gets the source as a reference of type <code>BeanContextServices</code>.
-     * @return The context in which the service has become available
+     * Gfts tif sourdf bs b rfffrfndf of typf <dodf>BfbnContfxtSfrvidfs</dodf>.
+     * @rfturn Tif dontfxt in wiidi tif sfrvidf ibs bfdomf bvbilbblf
      */
-    public BeanContextServices getSourceAsBeanContextServices() {
-        return (BeanContextServices)getBeanContext();
+    publid BfbnContfxtSfrvidfs gftSourdfAsBfbnContfxtSfrvidfs() {
+        rfturn (BfbnContfxtSfrvidfs)gftBfbnContfxt();
     }
 
     /**
-     * Gets the service class that is the subject of this notification.
-     * @return A <code>Class</code> reference to the newly available service
+     * Gfts tif sfrvidf dlbss tibt is tif subjfdt of tiis notifidbtion.
+     * @rfturn A <dodf>Clbss</dodf> rfffrfndf to tif nfwly bvbilbblf sfrvidf
      */
-    public Class<?> getServiceClass() { return serviceClass; }
+    publid Clbss<?> gftSfrvidfClbss() { rfturn sfrvidfClbss; }
 
     /**
-     * Gets the list of service dependent selectors.
-     * @return the current selectors available from the service
+     * Gfts tif list of sfrvidf dfpfndfnt sflfdtors.
+     * @rfturn tif durrfnt sflfdtors bvbilbblf from tif sfrvidf
      */
-    public Iterator<?> getCurrentServiceSelectors() {
-        return ((BeanContextServices)getSource()).getCurrentServiceSelectors(serviceClass);
+    publid Itfrbtor<?> gftCurrfntSfrvidfSflfdtors() {
+        rfturn ((BfbnContfxtSfrvidfs)gftSourdf()).gftCurrfntSfrvidfSflfdtors(sfrvidfClbss);
     }
 
     /*
-     * fields
+     * fiflds
      */
 
     /**
-     * A <code>Class</code> reference to the newly available service
+     * A <dodf>Clbss</dodf> rfffrfndf to tif nfwly bvbilbblf sfrvidf
      */
-    protected Class<?>                   serviceClass;
+    protfdtfd Clbss<?>                   sfrvidfClbss;
 }

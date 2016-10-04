@@ -1,0 +1,187 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.AdtionMbpUIRfsourdf;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.HifrbrdhyEvfnt;
+import jbvb.bwt.fvfnt.HifrbrdhyListfnfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowListfnfr;
+import jbvb.bwt.fvfnt.WindowStbtfListfnfr;
+
+import jbvb.bwt.*;
+
+import dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+import dom.sun.jbvb.swing.plbf.windows.XPStylf.*;
+
+/**
+ * Windows rfndition of thf domponfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ */
+publid dlbss WindowsMfnuBbrUI fxtfnds BbsidMfnuBbrUI
+{
+    /* to bf bddfssfd on thf EDT only */
+    privbtf WindowListfnfr windowListfnfr = null;
+    privbtf HifrbrdhyListfnfr hifrbrdhyListfnfr = null;
+    privbtf Window window = null;
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw WindowsMfnuBbrUI();
+    }
+
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        uninstbllWindowListfnfr();
+        if (hifrbrdhyListfnfr != null) {
+            mfnuBbr.rfmovfHifrbrdhyListfnfr(hifrbrdhyListfnfr);
+            hifrbrdhyListfnfr = null;
+        }
+        supfr.uninstbllListfnfrs();
+    }
+    privbtf void instbllWindowListfnfr() {
+        if (windowListfnfr == null) {
+            Componfnt domponfnt = mfnuBbr.gftTopLfvflAndfstor();
+            if (domponfnt instbndfof Window) {
+                window = (Window) domponfnt;
+                windowListfnfr = nfw WindowAdbptfr() {
+                    @Ovfrridf
+                    publid void windowAdtivbtfd(WindowEvfnt f) {
+                        mfnuBbr.rfpbint();
+                    }
+                    @Ovfrridf
+                    publid void windowDfbdtivbtfd(WindowEvfnt f) {
+                        mfnuBbr.rfpbint();
+                    }
+                };
+                ((Window) domponfnt).bddWindowListfnfr(windowListfnfr);
+            }
+        }
+    }
+    privbtf void uninstbllWindowListfnfr() {
+        if (windowListfnfr != null && window != null) {
+            window.rfmovfWindowListfnfr(windowListfnfr);
+        }
+        window = null;
+        windowListfnfr = null;
+    }
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        if (WindowsLookAndFffl.isOnVistb()) {
+            instbllWindowListfnfr();
+            hifrbrdhyListfnfr =
+                nfw HifrbrdhyListfnfr() {
+                    publid void hifrbrdhyChbngfd(HifrbrdhyEvfnt f) {
+                        if ((f.gftChbngfFlbgs()
+                                & HifrbrdhyEvfnt.DISPLAYABILITY_CHANGED) != 0) {
+                            if (mfnuBbr.isDisplbybblf()) {
+                                instbllWindowListfnfr();
+                            } flsf {
+                                uninstbllWindowListfnfr();
+                            }
+                        }
+                    }
+            };
+            mfnuBbr.bddHifrbrdhyListfnfr(hifrbrdhyListfnfr);
+        }
+        supfr.instbllListfnfrs();
+    }
+
+    protfdtfd void instbllKfybobrdAdtions() {
+        supfr.instbllKfybobrdAdtions();
+        AdtionMbp mbp = SwingUtilitifs.gftUIAdtionMbp(mfnuBbr);
+        if (mbp == null) {
+            mbp = nfw AdtionMbpUIRfsourdf();
+            SwingUtilitifs.rfplbdfUIAdtionMbp(mfnuBbr, mbp);
+        }
+        mbp.put("tbkfFodus", nfw TbkfFodus());
+    }
+
+    /**
+     * Adtion thbt bdtivbtfs thf mfnu (f.g. whfn F10 is prfssfd).
+     * Unlikf BbsidMfnuBbrUI.TbkfFodus, this Adtion will not show mfnu popup.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss TbkfFodus fxtfnds AbstrbdtAdtion {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JMfnuBbr mfnuBbr = (JMfnuBbr)f.gftSourdf();
+            JMfnu mfnu = mfnuBbr.gftMfnu(0);
+            if (mfnu != null) {
+                MfnuSflfdtionMbnbgfr msm =
+                    MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+                MfnuElfmfnt pbth[] = nfw MfnuElfmfnt[2];
+                pbth[0] = (MfnuElfmfnt)mfnuBbr;
+                pbth[1] = (MfnuElfmfnt)mfnu;
+                msm.sftSflfdtfdPbth(pbth);
+
+                // show mnfmonids
+                WindowsLookAndFffl.sftMnfmonidHiddfn(fblsf);
+                WindowsLookAndFffl.rfpbintRootPbnf(mfnuBbr);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid void pbint(Grbphids g, JComponfnt d) {
+        XPStylf xp = XPStylf.gftXP();
+        if (WindowsMfnuItfmUI.isVistbPbinting(xp)) {
+            Skin skin;
+            skin = xp.gftSkin(d, Pbrt.MP_BARBACKGROUND);
+            int width = d.gftWidth();
+            int hfight = d.gftHfight();
+            Stbtf stbtf =  isAdtivf(d) ? Stbtf.ACTIVE : Stbtf.INACTIVE;
+            skin.pbintSkin(g, 0, 0, width, hfight, stbtf);
+        } flsf {
+            supfr.pbint(g, d);
+        }
+    }
+
+    /**
+     * Chfdks if domponfnt bflongs to bn bdtivf window.
+     * @pbrbm d domponfnt to dhfdk
+     * @rfturn truf if domponfnt bflongs to bn bdtivf window
+     */
+    stbtid boolfbn isAdtivf(JComponfnt d) {
+        JRootPbnf rootPbnf = d.gftRootPbnf();
+        if (rootPbnf != null) {
+            Componfnt domponfnt = rootPbnf.gftPbrfnt();
+            if (domponfnt instbndfof Window) {
+                rfturn ((Window) domponfnt).isAdtivf();
+            }
+        }
+        rfturn truf;
+    }
+}

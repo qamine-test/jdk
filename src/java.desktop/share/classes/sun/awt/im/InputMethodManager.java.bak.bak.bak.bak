@@ -1,0 +1,231 @@
+/*
+ * Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.im;
+
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.ChfdkboxMfnuItfm;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.PopupMfnu;
+import jbvb.bwt.Mfnu;
+import jbvb.bwt.MfnuItfm;
+import jbvb.bwt.Toolkit;
+import sun.bwt.AppContfxt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.InvodbtionEvfnt;
+import jbvb.bwt.im.spi.InputMfthodDfsdriptor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.Vfdtor;
+import jbvb.util.Sft;
+import jbvb.util.prffs.BbdkingStorfExdfption;
+import jbvb.util.prffs.Prfffrfndfs;
+import sun.bwt.InputMfthodSupport;
+import sun.bwt.SunToolkit;
+
+/**
+ * <dodf>InputMfthodMbnbgfr</dodf> is bn bbstrbdt dlbss thbt mbnbgfs thf input
+ * mfthod fnvironmfnt of JVM. Thfrf is only onf <dodf>InputMfthodMbnbgfr</dodf>
+ * instbndf in JVM thbt is fxfdutfd undfr b sfpbrbtf dbfmon thrfbd.
+ * <dodf>InputMfthodMbnbgfr</dodf> pfrforms thf following:
+ * <UL>
+ * <LI>
+ * Kffps trbdk of thf durrfnt input dontfxt.</LI>
+ *
+ * <LI>
+ * Providfs b usfr intfrfbdf to switdh input mfthods bnd notififs thf durrfnt
+ * input dontfxt bbout dhbngfs mbdf from thf usfr intfrfbdf.</LI>
+ * </UL>
+ *
+ * Thf mfdhbnism for supporting input mfthod switdh is bs follows. (Notf thbt
+ * this mby dhbngf in futurf rflfbsfs.)
+ *
+ * <UL>
+ * <LI>
+ * Onf wby is to usf plbtform-dfpfndfnt window mbnbgfr's mfnu (known bs thf <I>Window
+ * mfnu </I>in Motif bnd thf <I>Systfm mfnu</I> or <I>Control mfnu</I> in
+ * Win32) on fbdh window whidh is poppfd up by dlidking thf lfft top box of
+ * b window (known bs <I>Window mfnu button</I> in Motif bnd <I>Systfm mfnu
+ * button</I> in Win32). This hbppfns to bf dommon in both Motif bnd Win32.</LI>
+ *
+ * <LI>
+ * Whfn morf thbn onf input mfthod dfsdriptor dbn bf found or thf only input
+ * mfthod dfsdriptor found supports multiplf lodblfs, b mfnu itfm
+ * is bddfd to thf window (mbnbgfr) mfnu. This itfm lbbfl is obtbinfd invoking
+ * <dodf>gftTriggfrMfnuString()</dodf>. If null is rfturnfd by this mfthod, it
+ * mfbns thbt thfrf is only input mfthod or nonf in thf fnvironmfnt. Frbmf bnd Diblog
+ * invokf this mfthod.</LI>
+ *
+ * <LI>
+ * This mfnu itfm mfbns b triggfr switdh to thf usfr to pop up b sflfdtion
+ * mfnu.</LI>
+ *
+ * <LI>
+ * Whfn thf mfnu itfm of thf window (mbnbgfr) mfnu hbs bffn sflfdtfd by thf
+ * usfr, Frbmf/Diblog invokfs <dodf>notifyChbngfRfqufst()</dodf> to notify
+ * <dodf>InputMfthodMbnbgfr</dodf> thbt thf usfr wbnts to switdh input mfthods.</LI>
+ *
+ * <LI>
+ * <dodf>InputMfthodMbnbgfr</dodf> displbys b pop-up mfnu to dhoosf bn input mfthod.</LI>
+ *
+ * <LI>
+ * <dodf>InputMfthodMbnbgfr</dodf> notififs thf durrfnt <dodf>InputContfxt</dodf> of
+ * thf sflfdtfd <dodf>InputMfthod</dodf>.</LI>
+ * </UL>
+ *
+ * <UL>
+ * <LI>
+ * Thf othfr wby is to usf usfr-dffinfd hot kfy dombinbtion to show thf pop-up mfnu to
+ * dhoosf bn input mfthod.  This is usfful for thf plbtforms whidh do not providf b
+ * wby to bdd b mfnu itfm in thf window (mbnbgfr) mfnu.</LI>
+ *
+ * <LI>
+ * Whfn thf hot kfy dombinbtion is typfd by thf usfr, thf domponfnt whidh hbs thf input
+ * fodus invokfs <dodf>notifyChbngfRfqufstByHotKfy()</dodf> to notify
+ * <dodf>InputMfthodMbnbgfr</dodf> thbt thf usfr wbnts to switdh input mfthods.</LI>
+ *
+ * <LI>
+ * This rfsults in b popup mfnu bnd notifidbtion to thf durrfnt input dontfxt,
+ * bs bbovf.</LI>
+ * </UL>
+ *
+ * @sff jbvb.bwt.im.spi.InputMfthod
+ * @sff sun.bwt.im.InputContfxt
+ * @sff sun.bwt.im.InputMfthodAdbptfr
+ * @buthor JbvbSoft Intfrnbtionbl
+ */
+
+publid bbstrbdt dlbss InputMfthodMbnbgfr {
+
+    /**
+     * InputMfthodMbnbgfr thrfbd nbmf
+     */
+    privbtf stbtid finbl String thrfbdNbmf = "AWT-InputMfthodMbnbgfr";
+
+    /**
+     * Objfdt for globbl lodking
+     */
+    privbtf stbtid finbl Objfdt LOCK = nfw Objfdt();
+
+    /**
+     * Thf InputMfthodMbnbgfr instbndf
+     */
+    privbtf stbtid InputMfthodMbnbgfr inputMfthodMbnbgfr;
+
+    /**
+     * Rfturns thf instbndf of InputMfthodMbnbgfr. This mfthod drfbtfs
+     * thf instbndf thbt is uniquf in thf Jbvb VM if it hbs not bffn
+     * drfbtfd yft.
+     *
+     * @rfturn thf InputMfthodMbnbgfr instbndf
+     */
+    publid stbtid finbl InputMfthodMbnbgfr gftInstbndf() {
+        if (inputMfthodMbnbgfr != null) {
+            rfturn inputMfthodMbnbgfr;
+        }
+        syndhronizfd(LOCK) {
+            if (inputMfthodMbnbgfr == null) {
+                ExfdutbblfInputMfthodMbnbgfr imm = nfw ExfdutbblfInputMfthodMbnbgfr();
+
+                // Initiblizf thf input mfthod mbnbgfr bnd stbrt b
+                // dbfmon thrfbd if thf usfr hbs multiplf input mfthods
+                // to dhoosf from. Othfrwisf, just kffp thf instbndf.
+                if (imm.hbsMultiplfInputMfthods()) {
+                    imm.initiblizf();
+                    Thrfbd immThrfbd = nfw Thrfbd(imm, thrfbdNbmf);
+                    immThrfbd.sftDbfmon(truf);
+                    immThrfbd.sftPriority(Thrfbd.NORM_PRIORITY + 1);
+                    immThrfbd.stbrt();
+                }
+                inputMfthodMbnbgfr = imm;
+            }
+        }
+        rfturn inputMfthodMbnbgfr;
+    }
+
+    /**
+     * Gfts b string for thf triggfr mfnu itfm thbt should bf bddfd to
+     * thf window mbnbgfr mfnu. If no nffd to displby thf triggfr mfnu
+     * itfm, null is rfturnfd.
+     */
+    publid bbstrbdt String gftTriggfrMfnuString();
+
+    /**
+     * Notififs InputMfthodMbnbgfr thbt input mfthod dhbngf hbs bffn
+     * rfqufstfd by thf usfr. This notifidbtion triggfrs b popup mfnu
+     * for usfr sflfdtion.
+     *
+     * @pbrbm domp Componfnt thbt hbs bddfptfd thf dhbngf
+     * rfqufst. This domponfnt hbs to bf b Frbmf or Diblog.
+     */
+    publid bbstrbdt void notifyChbngfRfqufst(Componfnt domp);
+
+    /**
+     * Notififs InputMfthodMbnbgfr thbt input mfthod dhbngf hbs bffn
+     * rfqufstfd by thf usfr using thf hot kfy dombinbtion. This
+     * notifidbtion triggfrs b popup mfnu for usfr sflfdtion.
+     *
+     * @pbrbm domp Componfnt thbt hbs bddfptfd thf dhbngf
+     * rfqufst. This domponfnt hbs thf input fodus.
+     */
+    publid bbstrbdt void notifyChbngfRfqufstByHotKfy(Componfnt domp);
+
+    /**
+     * Sfts thf durrfnt input dontfxt so thbt it will bf notififd
+     * of input mfthod dhbngfs initibtfd from thf usfr intfrfbdf.
+     * Sft to rfbl input dontfxt whfn bdtivbting; to null whfn
+     * dfbdtivbting.
+     */
+    bbstrbdt void sftInputContfxt(InputContfxt inputContfxt);
+
+    /**
+     * Trifs to find bn input mfthod lodbtor for thf givfn lodblf.
+     * Rfturns null if no bvbilbblf input mfthod lodbtor supports
+     * thf lodblf.
+     */
+    bbstrbdt InputMfthodLodbtor findInputMfthod(Lodblf forLodblf);
+
+    /**
+     * Gfts thf dffbult kfybobrd lodblf of thf undfrlying opfrbting systfm.
+     */
+    bbstrbdt Lodblf gftDffbultKfybobrdLodblf();
+
+    /**
+     * Rfturns whfthfr multiplf input mfthods brf bvbilbblf or not
+     */
+    bbstrbdt boolfbn hbsMultiplfInputMfthods();
+
+}

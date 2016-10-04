@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import com.sun.jdi.*;
-import com.sun.jdi.request.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * Represents and manages one source file.
- * Caches source lines.  Holds other source file info.
+ * Rfprfsfnts bnd mbnbgfs onf sourdf filf.
+ * Cbdifs sourdf linfs.  Holds otifr sourdf filf info.
  */
-public class SourceModel extends AbstractListModel {
+publid dlbss SourdfModfl fxtfnds AbstrbdtListModfl {
 
-    private File path;
+    privbtf Filf pbti;
 
-    boolean isActuallySource = true;
+    boolfbn isAdtubllySourdf = truf;
 
-    private List<ReferenceType> classes = new ArrayList<ReferenceType>();
+    privbtf List<RfffrfndfTypf> dlbssfs = nfw ArrbyList<RfffrfndfTypf>();
 
-    private Environment env;
+    privbtf Environmfnt fnv;
 
-    // Cached line-by-line access.
+    // Cbdifd linf-by-linf bddfss.
 
-    //### Unify this with source model used in source view?
-    //### What is our cache-management policy for these?
-    //### Even with weak refs, we won't discard any part of the
-    //### source if the SourceModel object is reachable.
+    //### Unify tiis witi sourdf modfl usfd in sourdf vifw?
+    //### Wibt is our dbdif-mbnbgfmfnt polidy for tifsf?
+    //### Evfn witi wfbk rffs, wf won't disdbrd bny pbrt of tif
+    //### sourdf if tif SourdfModfl objfdt is rfbdibblf.
     /**
-     * List of Line.
+     * List of Linf.
      */
-    private List<Line> sourceLines = null;
+    privbtf List<Linf> sourdfLinfs = null;
 
-    public static class Line {
-        public String text;
-        public boolean hasBreakpoint = false;
-        public ReferenceType refType = null;
-        Line(String text) {
-            this.text = text;
+    publid stbtid dlbss Linf {
+        publid String tfxt;
+        publid boolfbn ibsBrfbkpoint = fblsf;
+        publid RfffrfndfTypf rffTypf = null;
+        Linf(String tfxt) {
+            tiis.tfxt = tfxt;
         }
-        public boolean isExecutable() {
-            return refType != null;
+        publid boolfbn isExfdutbblf() {
+            rfturn rffTypf != null;
         }
-        public boolean hasBreakpoint() {
-            return hasBreakpoint;
+        publid boolfbn ibsBrfbkpoint() {
+            rfturn ibsBrfbkpoint;
         }
     };
 
-    // 132 characters long, all printable characters.
-    public static final Line prototypeCellValue = new Line(
-                                        "abcdefghijklmnopqrstuvwxyz" +
+    // 132 dibrbdtfrs long, bll printbblf dibrbdtfrs.
+    publid stbtid finbl Linf prototypfCfllVbluf = nfw Linf(
+                                        "bbddffgiijklmnopqrstuvwxyz" +
                                         "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                                         "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                                         "1234567890~!@#$%^&*()_+{}|" +
                                         ":<>?`-=[];',.XXXXXXXXXXXX/\\\"");
 
-    SourceModel(Environment env, File path) {
-        this.env = env;
-        this.path = path;
+    SourdfModfl(Environmfnt fnv, Filf pbti) {
+        tiis.fnv = fnv;
+        tiis.pbti = pbti;
     }
 
-    public SourceModel(String message) {
-        this.path = null;
-        setMessage(message);
+    publid SourdfModfl(String mfssbgf) {
+        tiis.pbti = null;
+        sftMfssbgf(mfssbgf);
     }
 
-    private void setMessage(String message) {
-        isActuallySource = false;
-        sourceLines = new ArrayList<Line>();
-        sourceLines.add(new Line(message));
+    privbtf void sftMfssbgf(String mfssbgf) {
+        isAdtubllySourdf = fblsf;
+        sourdfLinfs = nfw ArrbyList<Linf>();
+        sourdfLinfs.bdd(nfw Linf(mfssbgf));
     }
 
-    // **** Implement ListModel  *****
+    // **** Implfmfnt ListModfl  *****
 
-    @Override
-    public Object getElementAt(int index) {
-        if (sourceLines == null) {
-            initialize();
+    @Ovfrridf
+    publid Objfdt gftElfmfntAt(int indfx) {
+        if (sourdfLinfs == null) {
+            initiblizf();
         }
-        return sourceLines.get(index);
+        rfturn sourdfLinfs.gft(indfx);
     }
 
-    @Override
-    public int getSize() {
-        if (sourceLines == null) {
-            initialize();
+    @Ovfrridf
+    publid int gftSizf() {
+        if (sourdfLinfs == null) {
+            initiblizf();
         }
-        return sourceLines.size();
+        rfturn sourdfLinfs.sizf();
     }
 
-    // ***** Other functionality *****
+    // ***** Otifr fundtionblity *****
 
-    public File fileName() {
-        return path;
+    publid Filf filfNbmf() {
+        rfturn pbti;
     }
 
-    public BufferedReader sourceReader() throws IOException {
-        return new BufferedReader(new FileReader(path));
+    publid BufffrfdRfbdfr sourdfRfbdfr() tirows IOExdfption {
+        rfturn nfw BufffrfdRfbdfr(nfw FilfRfbdfr(pbti));
     }
 
-    public Line line(int lineNo) {
-        if (sourceLines == null) {
-            initialize();
+    publid Linf linf(int linfNo) {
+        if (sourdfLinfs == null) {
+            initiblizf();
         }
-        int index = lineNo - 1; // list is 0-indexed
-        if (index >= sourceLines.size() || index < 0) {
-            return null;
-        } else {
-            return sourceLines.get(index);
-        }
-    }
-
-    public String sourceLine(int lineNo) {
-        Line line = line(lineNo);
-        if (line == null) {
-            return null;
-        } else {
-            return line.text;
+        int indfx = linfNo - 1; // list is 0-indfxfd
+        if (indfx >= sourdfLinfs.sizf() || indfx < 0) {
+            rfturn null;
+        } flsf {
+            rfturn sourdfLinfs.gft(indfx);
         }
     }
 
-    void addClass(ReferenceType refType) {
-        // Logically is Set
-        if (classes.indexOf(refType) == -1) {
-            classes.add(refType);
-            if (sourceLines != null) {
-                markClassLines(refType);
+    publid String sourdfLinf(int linfNo) {
+        Linf linf = linf(linfNo);
+        if (linf == null) {
+            rfturn null;
+        } flsf {
+            rfturn linf.tfxt;
+        }
+    }
+
+    void bddClbss(RfffrfndfTypf rffTypf) {
+        // Logidblly is Sft
+        if (dlbssfs.indfxOf(rffTypf) == -1) {
+            dlbssfs.bdd(rffTypf);
+            if (sourdfLinfs != null) {
+                mbrkClbssLinfs(rffTypf);
             }
         }
     }
 
     /**
-     * @return List of currently known {@link com.sun.jdi.ReferenceType}
-     * in this source file.
+     * @rfturn List of durrfntly known {@link dom.sun.jdi.RfffrfndfTypf}
+     * in tiis sourdf filf.
      */
-    public List<ReferenceType> referenceTypes() {
-        return Collections.unmodifiableList(classes);
+    publid List<RfffrfndfTypf> rfffrfndfTypfs() {
+        rfturn Collfdtions.unmodifibblfList(dlbssfs);
     }
 
-    private void initialize() {
+    privbtf void initiblizf() {
         try {
-            rawInit();
-        } catch (IOException exc) {
-            setMessage("[Error reading source code]");
+            rbwInit();
+        } dbtdi (IOExdfption fxd) {
+            sftMfssbgf("[Error rfbding sourdf dodf]");
         }
     }
 
-    public void showBreakpoint(int ln, boolean hasBreakpoint) {
-        line(ln).hasBreakpoint = hasBreakpoint;
-        fireContentsChanged(this, ln, ln);
+    publid void siowBrfbkpoint(int ln, boolfbn ibsBrfbkpoint) {
+        linf(ln).ibsBrfbkpoint = ibsBrfbkpoint;
+        firfContfntsCibngfd(tiis, ln, ln);
     }
 
-    public void showExecutable(int ln, ReferenceType refType) {
-        line(ln).refType = refType;
-        fireContentsChanged(this, ln, ln);
+    publid void siowExfdutbblf(int ln, RfffrfndfTypf rffTypf) {
+        linf(ln).rffTypf = rffTypf;
+        firfContfntsCibngfd(tiis, ln, ln);
     }
 
     /**
-     * Mark executable lines and breakpoints, but only
-     * when sourceLines is set.
+     * Mbrk fxfdutbblf linfs bnd brfbkpoints, but only
+     * wifn sourdfLinfs is sft.
      */
-    private void markClassLines(ReferenceType refType) {
-        for (Method meth : refType.methods()) {
+    privbtf void mbrkClbssLinfs(RfffrfndfTypf rffTypf) {
+        for (Mftiod mfti : rffTypf.mftiods()) {
             try {
-                for (Location loc : meth.allLineLocations()) {
-                    showExecutable(loc.lineNumber(), refType);
+                for (Lodbtion lod : mfti.bllLinfLodbtions()) {
+                    siowExfdutbblf(lod.linfNumbfr(), rffTypf);
                 }
-            } catch (AbsentInformationException exc) {
-                // do nothing
+            } dbtdi (AbsfntInformbtionExdfption fxd) {
+                // do notiing
             }
         }
-        for (BreakpointRequest bp :
-                 env.getExecutionManager().eventRequestManager().breakpointRequests()) {
-            if (bp.location() != null) {
-                Location loc = bp.location();
-                if (loc.declaringType().equals(refType)) {
-                    showBreakpoint(loc.lineNumber(),true);
+        for (BrfbkpointRfqufst bp :
+                 fnv.gftExfdutionMbnbgfr().fvfntRfqufstMbnbgfr().brfbkpointRfqufsts()) {
+            if (bp.lodbtion() != null) {
+                Lodbtion lod = bp.lodbtion();
+                if (lod.dfdlbringTypf().fqubls(rffTypf)) {
+                    siowBrfbkpoint(lod.linfNumbfr(),truf);
                 }
             }
         }
     }
 
-    private void rawInit() throws IOException {
-        sourceLines = new ArrayList<Line>();
-        BufferedReader reader = sourceReader();
+    privbtf void rbwInit() tirows IOExdfption {
+        sourdfLinfs = nfw ArrbyList<Linf>();
+        BufffrfdRfbdfr rfbdfr = sourdfRfbdfr();
         try {
-            String line = reader.readLine();
-            while (line != null) {
-                sourceLines.add(new Line(expandTabs(line)));
-                line = reader.readLine();
+            String linf = rfbdfr.rfbdLinf();
+            wiilf (linf != null) {
+                sourdfLinfs.bdd(nfw Linf(fxpbndTbbs(linf)));
+                linf = rfbdfr.rfbdLinf();
             }
-        } finally {
-            reader.close();
+        } finblly {
+            rfbdfr.dlosf();
         }
-        for (ReferenceType refType : classes) {
-            markClassLines(refType);
+        for (RfffrfndfTypf rffTypf : dlbssfs) {
+            mbrkClbssLinfs(rffTypf);
         }
     }
 
-    private String expandTabs(String s) {
-        int col = 0;
-        int len = s.length();
-        StringBuilder sb = new StringBuilder(132);
-        for (int i = 0; i < len; i++) {
-            char c = s.charAt(i);
-            sb.append(c);
-            if (c == '\t') {
-                int pad = (8 - (col % 8));
-                for (int j = 0; j < pad; j++) {
-                    sb.append(' ');
+    privbtf String fxpbndTbbs(String s) {
+        int dol = 0;
+        int lfn = s.lfngti();
+        StringBuildfr sb = nfw StringBuildfr(132);
+        for (int i = 0; i < lfn; i++) {
+            dibr d = s.dibrAt(i);
+            sb.bppfnd(d);
+            if (d == '\t') {
+                int pbd = (8 - (dol % 8));
+                for (int j = 0; j < pbd; j++) {
+                    sb.bppfnd(' ');
                 }
-                col += pad;
-            } else {
-                col++;
+                dol += pbd;
+            } flsf {
+                dol++;
             }
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 }

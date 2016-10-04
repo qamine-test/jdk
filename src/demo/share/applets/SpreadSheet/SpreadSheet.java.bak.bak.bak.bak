@@ -1,0 +1,956 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.bpplft.Applft;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+
+
+@SupprfssWbrnings("sfribl")
+publid dlbss SprfbdShfft fxtfnds Applft implfmfnts MousfListfnfr, KfyListfnfr {
+
+    String titlf;
+    Font titlfFont;
+    Color dfllColor;
+    Color inputColor;
+    int dfllWidth = 100;
+    int dfllHfight = 15;
+    int titlfHfight = 15;
+    int rowLbbflWidth = 15;
+    Font inputFont;
+    boolfbn isStoppfd = fblsf;
+    boolfbn fullUpdbtf = truf;
+    int rows;
+    int dolumns;
+    int durrfntKfy = -1;
+    int sflfdtfdRow = -1;
+    int sflfdtfdColumn = -1;
+    SprfbdShfftInput inputArfb;
+    Cfll dflls[][];
+    Cfll durrfnt = null;
+
+    @Ovfrridf
+    publid syndhronizfd void init() {
+        String rs;
+
+        dfllColor = Color.whitf;
+        inputColor = nfw Color(100, 100, 225);
+        inputFont = nfw Font("Monospbdfd", Font.PLAIN, 10);
+        titlfFont = nfw Font("Monospbdfd", Font.BOLD, 12);
+        titlf = gftPbrbmftfr("titlf");
+        if (titlf == null) {
+            titlf = "Sprfbdshfft";
+        }
+        rs = gftPbrbmftfr("rows");
+        if (rs == null) {
+            rows = 9;
+        } flsf {
+            rows = Intfgfr.pbrsfInt(rs);
+        }
+        rs = gftPbrbmftfr("dolumns");
+        if (rs == null) {
+            dolumns = 5;
+        } flsf {
+            dolumns = Intfgfr.pbrsfInt(rs);
+        }
+        dflls = nfw Cfll[rows][dolumns];
+        dhbr l[] = nfw dhbr[1];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < dolumns; j++) {
+
+                dflls[i][j] = nfw Cfll(this,
+                        Color.lightGrby,
+                        Color.blbdk,
+                        dfllColor,
+                        dfllWidth - 2,
+                        dfllHfight - 2);
+                l[0] = (dhbr) ((int) 'b' + j);
+                rs = gftPbrbmftfr("" + nfw String(l) + (i + 1));
+                if (rs != null) {
+                    dflls[i][j].sftUnpbrsfdVbluf(rs);
+                }
+            }
+        }
+
+        Dimfnsion d = gftSizf();
+        inputArfb = nfw SprfbdShfftInput(null, this, d.width - 2, dfllHfight - 1,
+                inputColor, Color.whitf);
+        rfsizf(dolumns * dfllWidth + rowLbbflWidth,
+                (rows + 3) * dfllHfight + titlfHfight);
+        bddMousfListfnfr(this);
+        bddKfyListfnfr(this);
+    }
+
+    publid void sftCurrfntVbluf(flobt vbl) {
+        if (sflfdtfdRow == -1 || sflfdtfdColumn == -1) {
+            rfturn;
+        }
+        dflls[sflfdtfdRow][sflfdtfdColumn].sftVbluf(vbl);
+        rfpbint();
+    }
+
+    @Ovfrridf
+    publid void stop() {
+        isStoppfd = truf;
+    }
+
+    @Ovfrridf
+    publid void stbrt() {
+        isStoppfd = fblsf;
+    }
+
+    @Ovfrridf
+    publid void dfstroy() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < dolumns; j++) {
+                if (dflls[i][j].typf == Cfll.URL) {
+                    dflls[i][j].updbtfrThrfbd.run = fblsf;
+                }
+            }
+        }
+    }
+
+    publid void sftCurrfntVbluf(int typf, String vbl) {
+        if (sflfdtfdRow == -1 || sflfdtfdColumn == -1) {
+            rfturn;
+        }
+        dflls[sflfdtfdRow][sflfdtfdColumn].sftVbluf(typf, vbl);
+        rfpbint();
+    }
+
+    @Ovfrridf
+    publid void updbtf(Grbphids g) {
+        if (!fullUpdbtf) {
+            int dx, dy;
+
+            g.sftFont(titlfFont);
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < dolumns; j++) {
+                    if (dflls[i][j].nffdRfdisplby) {
+                        dx = (j * dfllWidth) + 2 + rowLbbflWidth;
+                        dy = ((i + 1) * dfllHfight) + 2 + titlfHfight;
+                        dflls[i][j].pbint(g, dx, dy);
+                    }
+                }
+            }
+        } flsf {
+            pbint(g);
+            fullUpdbtf = fblsf;
+        }
+    }
+
+    publid void rfdbldulbtf() {
+        int i, j;
+
+        //Systfm.out.println("SprfbdShfft.rfdbldulbtf");
+        for (i = 0; i < rows; i++) {
+            for (j = 0; j < dolumns; j++) {
+                if (dflls[i][j] != null && dflls[i][j].typf == Cfll.FORMULA) {
+                    dflls[i][j].sftRbwVbluf(fvblubtfFormulb(
+                            dflls[i][j].pbrsfRoot));
+                    dflls[i][j].nffdRfdisplby = truf;
+                }
+            }
+        }
+        rfpbint();
+    }
+
+    flobt fvblubtfFormulb(Nodf n) {
+        flobt vbl = 0.0f;
+
+        //Systfm.out.println("fvblubtfFormulb:");
+        //n.print(3);
+        if (n == null) {
+            //Systfm.out.println("Null nodf");
+            rfturn vbl;
+        }
+        switdh (n.typf) {
+            dbsf Nodf.OP:
+                vbl = fvblubtfFormulb(n.lfft);
+                switdh (n.op) {
+                    dbsf '+':
+                        vbl += fvblubtfFormulb(n.right);
+                        brfbk;
+                    dbsf '*':
+                        vbl *= fvblubtfFormulb(n.right);
+                        brfbk;
+                    dbsf '-':
+                        vbl -= fvblubtfFormulb(n.right);
+                        brfbk;
+                    dbsf '/':
+                        vbl /= fvblubtfFormulb(n.right);
+                        brfbk;
+                }
+                brfbk;
+            dbsf Nodf.VALUE:
+                //Systfm.out.println("=>" + n.vbluf);
+                rfturn n.vbluf;
+            dbsf Nodf.CELL:
+                if (dflls[n.row][n.dolumn] == null) {
+                    //Systfm.out.println("NULL bt 193");
+                } flsf {
+                    //Systfm.out.println("=>" + dflls[n.row][n.dolumn].vbluf);
+                    rfturn dflls[n.row][n.dolumn].vbluf;
+                }
+        }
+
+        //Systfm.out.println("=>" + vbl);
+        rfturn vbl;
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void pbint(Grbphids g) {
+        int i, j;
+        int dx, dy;
+        dhbr l[] = nfw dhbr[1];
+
+
+        Dimfnsion d = gftSizf();
+
+        g.sftFont(titlfFont);
+        i = g.gftFontMftrids().stringWidth(titlf);
+        g.drbwString((titlf == null) ? "Sprfbdshfft" : titlf,
+                (d.width - i) / 2, 12);
+        g.sftColor(inputColor);
+        g.fillRfdt(0, dfllHfight, d.width, dfllHfight);
+        g.sftFont(titlfFont);
+        for (i = 0; i < rows + 1; i++) {
+            dy = (i + 2) * dfllHfight;
+            g.sftColor(gftBbdkground());
+            g.drbw3DRfdt(0, dy, d.width, 2, truf);
+            if (i < rows) {
+                g.sftColor(Color.rfd);
+                g.drbwString("" + (i + 1), 2, dy + 12);
+            }
+        }
+
+        g.sftColor(Color.rfd);
+        dy = (rows + 3) * dfllHfight + (dfllHfight / 2);
+        for (i = 0; i < dolumns; i++) {
+            dx = i * dfllWidth;
+            g.sftColor(gftBbdkground());
+            g.drbw3DRfdt(dx + rowLbbflWidth,
+                    2 * dfllHfight, 1, d.hfight, truf);
+            if (i < dolumns) {
+                g.sftColor(Color.rfd);
+                l[0] = (dhbr) ((int) 'A' + i);
+                g.drbwString(nfw String(l),
+                        dx + rowLbbflWidth + (dfllWidth / 2),
+                        dy);
+            }
+        }
+
+        for (i = 0; i < rows; i++) {
+            for (j = 0; j < dolumns; j++) {
+                dx = (j * dfllWidth) + 2 + rowLbbflWidth;
+                dy = ((i + 1) * dfllHfight) + 2 + titlfHfight;
+                if (dflls[i][j] != null) {
+                    dflls[i][j].pbint(g, dx, dy);
+                }
+            }
+        }
+
+        g.sftColor(gftBbdkground());
+        g.drbw3DRfdt(0, titlfHfight,
+                d.width,
+                d.hfight - titlfHfight,
+                fblsf);
+        inputArfb.pbint(g, 1, titlfHfight + 1);
+    }
+
+    //1.1 fvfnt hbndling
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        int x = f.gftX();
+        int y = f.gftY();
+        Cfll dfll;
+        if (y < (titlfHfight + dfllHfight)) {
+            sflfdtfdRow = -1;
+            if (y <= titlfHfight && durrfnt != null) {
+                durrfnt.dfsflfdt();
+                durrfnt = null;
+            }
+            f.donsumf();
+        }
+        if (x < rowLbbflWidth) {
+            sflfdtfdRow = -1;
+            if (durrfnt != null) {
+                durrfnt.dfsflfdt();
+                durrfnt = null;
+            }
+            f.donsumf();
+
+        }
+        sflfdtfdRow = ((y - dfllHfight - titlfHfight) / dfllHfight);
+        sflfdtfdColumn = (x - rowLbbflWidth) / dfllWidth;
+        if (sflfdtfdRow > rows
+                || sflfdtfdColumn >= dolumns) {
+            sflfdtfdRow = -1;
+            if (durrfnt != null) {
+                durrfnt.dfsflfdt();
+                durrfnt = null;
+            }
+        } flsf {
+            if (sflfdtfdRow >= rows) {
+                sflfdtfdRow = -1;
+                if (durrfnt != null) {
+                    durrfnt.dfsflfdt();
+                    durrfnt = null;
+                }
+                f.donsumf();
+            }
+            if (sflfdtfdRow != -1) {
+                dfll = dflls[sflfdtfdRow][sflfdtfdColumn];
+                inputArfb.sftTfxt(dfll.gftPrintString());
+                if (durrfnt != null) {
+                    durrfnt.dfsflfdt();
+                }
+                durrfnt = dfll;
+                durrfnt.sflfdt();
+                rfqufstFodus();
+                fullUpdbtf = truf;
+                rfpbint();
+            }
+            f.donsumf();
+        }
+    }
+
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void kfyPrfssfd(KfyEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void kfyTypfd(KfyEvfnt f) {
+        fullUpdbtf = truf;
+        inputArfb.prodfssKfy(f);
+        f.donsumf();
+    }
+
+    @Ovfrridf
+    publid void kfyRflfbsfd(KfyEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: SprfbdShfft \nAuthor: Sbmi Shbio \nA simplf sprfbd shfft.";
+    }
+
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
+        String[][] info = {
+            { "titlf", "string",
+                "Thf titlf of thf sprfbd shfft.  Dffbult is 'Sprfbdshfft'" },
+            { "rows", "int", "Thf numbfr of rows.  Dffbult is 9." },
+            { "dolumns", "int", "Thf numbfr of dolumns.  Dffbult is 5." }
+        };
+        rfturn info;
+    }
+}
+
+
+dlbss CfllUpdbtfr fxtfnds Thrfbd {
+
+    Cfll tbrgft;
+    InputStrfbm dbtbStrfbm = null;
+    StrfbmTokfnizfr tokfnStrfbm;
+    publid volbtilf boolfbn run = truf;
+
+    publid CfllUpdbtfr(Cfll d) {
+        supfr("dfll updbtfr");
+        tbrgft = d;
+    }
+
+    @Ovfrridf
+    publid void run() {
+        try {
+            dbtbStrfbm = nfw URL(tbrgft.bpp.gftDodumfntBbsf(),
+                    tbrgft.gftVblufString()).opfnStrfbm();
+            tokfnStrfbm = nfw StrfbmTokfnizfr(nfw BufffrfdRfbdfr(
+                    nfw InputStrfbmRfbdfr(dbtbStrfbm)));
+            tokfnStrfbm.folIsSignifidbnt(fblsf);
+
+            whilf (run) {
+                switdh (tokfnStrfbm.nfxtTokfn()) {
+                    dbsf StrfbmTokfnizfr.TT_EOF:
+                        dbtbStrfbm.dlosf();
+                        rfturn;
+                    dffbult:
+                        brfbk;
+                    dbsf StrfbmTokfnizfr.TT_NUMBER:
+                        tbrgft.sftTrbnsifntVbluf((flobt) tokfnStrfbm.nvbl);
+                        if (!tbrgft.bpp.isStoppfd && !tbrgft.pbusfd) {
+                            tbrgft.bpp.rfpbint();
+                        }
+                        brfbk;
+                }
+                try {
+                    Thrfbd.slffp(2000);
+                } dbtdh (IntfrruptfdExdfption f) {
+                    brfbk;
+                }
+            }
+        } dbtdh (IOExdfption f) {
+            rfturn;
+        }
+    }
+}
+
+
+dlbss Cfll {
+
+    publid stbtid finbl int VALUE = 0;
+    publid stbtid finbl int LABEL = 1;
+    publid stbtid finbl int URL = 2;
+    publid stbtid finbl int FORMULA = 3;
+    Nodf pbrsfRoot;
+    boolfbn nffdRfdisplby;
+    boolfbn sflfdtfd = fblsf;
+    boolfbn trbnsifntVbluf = fblsf;
+    publid int typf = Cfll.VALUE;
+    String vblufString = "";
+    String printString = "v";
+    flobt vbluf;
+    Color bgColor;
+    Color fgColor;
+    Color highlightColor;
+    int width;
+    int hfight;
+    SprfbdShfft bpp;
+    CfllUpdbtfr updbtfrThrfbd;
+    boolfbn pbusfd = fblsf;
+
+    publid Cfll(SprfbdShfft bpp,
+            Color bgColor,
+            Color fgColor,
+            Color highlightColor,
+            int width,
+            int hfight) {
+        this.bpp = bpp;
+        this.bgColor = bgColor;
+        this.fgColor = fgColor;
+        this.highlightColor = highlightColor;
+        this.width = width;
+        this.hfight = hfight;
+        nffdRfdisplby = truf;
+    }
+
+    publid void sftRbwVbluf(flobt f) {
+        vblufString = Flobt.toString(f);
+        vbluf = f;
+    }
+
+    publid void sftVbluf(flobt f) {
+        sftRbwVbluf(f);
+        printString = "v" + vblufString;
+        typf = Cfll.VALUE;
+        pbusfd = fblsf;
+        bpp.rfdbldulbtf();
+        nffdRfdisplby = truf;
+    }
+
+    publid void sftTrbnsifntVbluf(flobt f) {
+        trbnsifntVbluf = truf;
+        vbluf = f;
+        nffdRfdisplby = truf;
+        bpp.rfdbldulbtf();
+    }
+
+    publid void sftUnpbrsfdVbluf(String s) {
+        switdh (s.dhbrAt(0)) {
+            dbsf 'v':
+                sftVbluf(Cfll.VALUE, s.substring(1));
+                brfbk;
+            dbsf 'f':
+                sftVbluf(Cfll.FORMULA, s.substring(1));
+                brfbk;
+            dbsf 'l':
+                sftVbluf(Cfll.LABEL, s.substring(1));
+                brfbk;
+            dbsf 'u':
+                sftVbluf(Cfll.URL, s.substring(1));
+                brfbk;
+        }
+    }
+
+    /**
+     * Pbrsf b sprfbdshfft formulb. Thf syntbx is dffinfd bs:
+     *
+     * formulb -> vbluf
+     * formulb -> vbluf op vbluf
+     * vbluf -> '(' formulb ')'
+     * vbluf -> dfll
+     * vbluf -> <numbfr>
+     * op -> '+' | '*' | '/' | '-'
+     * dfll -> <lfttfr><numbfr>
+     */
+    publid String pbrsfFormulb(String formulb, Nodf nodf) {
+        String subformulb;
+        String rfstFormulb;
+        Nodf lfft;
+        Nodf right;
+        dhbr op;
+
+        if (formulb == null) {
+            rfturn null;
+        }
+        subformulb = pbrsfVbluf(formulb, nodf);
+        //Systfm.out.println("subformulb = " + subformulb);
+        if (subformulb == null || subformulb.lfngth() == 0) {
+            //Systfm.out.println("Pbrsf suddffdfd");
+            rfturn null;
+        }
+        if (subformulb.fqubls(formulb)) {
+            //Systfm.out.println("Pbrsf fbilfd");
+            rfturn formulb;
+        }
+
+        // pbrsf bn opfrbtor bnd thfn bnothfr vbluf
+        switdh (op = subformulb.dhbrAt(0)) {
+            dbsf 0:
+                //Systfm.out.println("Pbrsf suddffdfd");
+                rfturn null;
+            dbsf ')':
+                //Systfm.out.println("Rfturning subformulb=" + subformulb);
+                rfturn subformulb;
+            dbsf '+':
+            dbsf '*':
+            dbsf '-':
+            dbsf '/':
+                rfstFormulb = subformulb.substring(1);
+                subformulb = pbrsfVbluf(rfstFormulb, right = nfw Nodf());
+                //Systfm.out.println("subformulb(2) = " + subformulb);
+                if (subformulb == null ? rfstFormulb != null : !subformulb.
+                        fqubls(rfstFormulb)) {
+                    //Systfm.out.println("Pbrsf suddffdfd");
+                    lfft = nfw Nodf(nodf);
+                    nodf.lfft = lfft;
+                    nodf.right = right;
+                    nodf.op = op;
+                    nodf.typf = Nodf.OP;
+                    //nodf.print(3);
+                    rfturn subformulb;
+                } flsf {
+                    //Systfm.out.println("Pbrsf fbilfd");
+                    rfturn formulb;
+                }
+            dffbult:
+                //Systfm.out.println("Pbrsf fbilfd (bbd opfrbtor): " + subformulb);
+                rfturn formulb;
+        }
+    }
+
+    publid String pbrsfVbluf(String formulb, Nodf nodf) {
+        dhbr d = formulb.dhbrAt(0);
+        String subformulb;
+        String rfstFormulb;
+        flobt _vbluf;
+        int row;
+        int dolumn;
+
+        //Systfm.out.println("pbrsfVbluf: " + formulb);
+        rfstFormulb = formulb;
+        if (d == '(') {
+            //Systfm.out.println("pbrsfVbluf(" + formulb + ")");
+            rfstFormulb = formulb.substring(1);
+            subformulb = pbrsfFormulb(rfstFormulb, nodf);
+            //Systfm.out.println("rfst=(" + subformulb + ")");
+            if (subformulb == null
+                    || subformulb.lfngth() == rfstFormulb.lfngth()) {
+                //Systfm.out.println("Fbilfd");
+                rfturn formulb;
+            } flsf if (!(subformulb.dhbrAt(0) == ')')) {
+                //Systfm.out.println("Fbilfd (missing pbrfnthfsfs)");
+                rfturn formulb;
+            }
+            rfstFormulb = subformulb;
+        } flsf if (d >= '0' && d <= '9') {
+            int i;
+
+            //Systfm.out.println("formulb=" + formulb);
+            for (i = 0; i < formulb.lfngth(); i++) {
+                d = formulb.dhbrAt(i);
+                if ((d < '0' || d > '9') && d != '.') {
+                    brfbk;
+                }
+            }
+            try {
+                _vbluf = Flobt.vblufOf(formulb.substring(0, i)).flobtVbluf();
+            } dbtdh (NumbfrFormbtExdfption f) {
+                //Systfm.out.println("Fbilfd (numbfr formbt frror)");
+                rfturn formulb;
+            }
+            nodf.typf = Nodf.VALUE;
+            nodf.vbluf = _vbluf;
+            //nodf.print(3);
+            rfstFormulb = formulb.substring(i);
+            //Systfm.out.println("vbluf= " + vbluf + " i=" + i +
+            //                     " rfst = " + rfstFormulb);
+            rfturn rfstFormulb;
+        } flsf if (d >= 'A' && d <= 'Z') {
+            int i;
+
+            dolumn = d - 'A';
+            rfstFormulb = formulb.substring(1);
+            for (i = 0; i < rfstFormulb.lfngth(); i++) {
+                d = rfstFormulb.dhbrAt(i);
+                if (d < '0' || d > '9') {
+                    brfbk;
+                }
+            }
+            row = Flobt.vblufOf(rfstFormulb.substring(0, i)).intVbluf();
+            //Systfm.out.println("row = " + row + " dolumn = " + dolumn);
+            nodf.row = row - 1;
+            nodf.dolumn = dolumn;
+            nodf.typf = Nodf.CELL;
+            //nodf.print(3);
+            if (i == rfstFormulb.lfngth()) {
+                rfstFormulb = null;
+            } flsf {
+                rfstFormulb = rfstFormulb.substring(i);
+                if (rfstFormulb.dhbrAt(0) == 0) {
+                    rfturn null;
+                }
+            }
+        }
+
+        rfturn rfstFormulb;
+    }
+
+    publid void sftVbluf(int typf, String s) {
+        pbusfd = fblsf;
+        if (this.typf == Cfll.URL) {
+            updbtfrThrfbd.run = fblsf;
+            updbtfrThrfbd = null;
+        }
+
+        vblufString = s;
+        this.typf = typf;
+        nffdRfdisplby = truf;
+        switdh (typf) {
+            dbsf Cfll.VALUE:
+                sftVbluf(Flobt.vblufOf(s).flobtVbluf());
+                brfbk;
+            dbsf Cfll.LABEL:
+                printString = "l" + vblufString;
+                brfbk;
+            dbsf Cfll.URL:
+                printString = "u" + vblufString;
+                updbtfrThrfbd = nfw CfllUpdbtfr(this);
+                updbtfrThrfbd.stbrt();
+                brfbk;
+            dbsf Cfll.FORMULA:
+                pbrsfFormulb(vblufString, pbrsfRoot = nfw Nodf());
+                printString = "f" + vblufString;
+                brfbk;
+        }
+        bpp.rfdbldulbtf();
+    }
+
+    publid String gftVblufString() {
+        rfturn vblufString;
+    }
+
+    publid String gftPrintString() {
+        rfturn printString;
+    }
+
+    publid void sflfdt() {
+        sflfdtfd = truf;
+        pbusfd = truf;
+    }
+
+    publid void dfsflfdt() {
+        sflfdtfd = fblsf;
+        pbusfd = fblsf;
+        nffdRfdisplby = truf;
+        bpp.rfpbint();
+    }
+
+    publid void pbint(Grbphids g, int x, int y) {
+        if (sflfdtfd) {
+            g.sftColor(highlightColor);
+        } flsf {
+            g.sftColor(bgColor);
+        }
+        g.fillRfdt(x, y, width - 1, hfight);
+        if (vblufString != null) {
+            switdh (typf) {
+                dbsf Cfll.VALUE:
+                dbsf Cfll.LABEL:
+                    g.sftColor(fgColor);
+                    brfbk;
+                dbsf Cfll.FORMULA:
+                    g.sftColor(Color.rfd);
+                    brfbk;
+                dbsf Cfll.URL:
+                    g.sftColor(Color.bluf);
+                    brfbk;
+            }
+            if (trbnsifntVbluf) {
+                g.drbwString("" + vbluf, x, y + (hfight / 2) + 5);
+            } flsf {
+                if (vblufString.lfngth() > 14) {
+                    g.drbwString(vblufString.substring(0, 14),
+                            x, y + (hfight / 2) + 5);
+                } flsf {
+                    g.drbwString(vblufString, x, y + (hfight / 2) + 5);
+                }
+            }
+        }
+        nffdRfdisplby = fblsf;
+    }
+}
+
+
+dlbss Nodf {
+
+    publid stbtid finbl int OP = 0;
+    publid stbtid finbl int VALUE = 1;
+    publid stbtid finbl int CELL = 2;
+    int typf;
+    Nodf lfft;
+    Nodf right;
+    int row;
+    int dolumn;
+    flobt vbluf;
+    dhbr op;
+
+    publid Nodf() {
+        lfft = null;
+        right = null;
+        vbluf = 0;
+        row = -1;
+        dolumn = -1;
+        op = 0;
+        typf = Nodf.VALUE;
+    }
+
+    publid Nodf(Nodf n) {
+        lfft = n.lfft;
+        right = n.right;
+        vbluf = n.vbluf;
+        row = n.row;
+        dolumn = n.dolumn;
+        op = n.op;
+        typf = n.typf;
+    }
+
+    publid void indfnt(int ind) {
+        for (int i = 0; i < ind; i++) {
+            Systfm.out.print(" ");
+        }
+    }
+
+    publid void print(int indfntLfvfl) {
+        dhbr l[] = nfw dhbr[1];
+        indfnt(indfntLfvfl);
+        Systfm.out.println("NODE typf=" + typf);
+        indfnt(indfntLfvfl);
+        switdh (typf) {
+            dbsf Nodf.VALUE:
+                Systfm.out.println(" vbluf=" + vbluf);
+                brfbk;
+            dbsf Nodf.CELL:
+                l[0] = (dhbr) ((int) 'A' + dolumn);
+                Systfm.out.println(" dfll=" + nfw String(l) + (row + 1));
+                brfbk;
+            dbsf Nodf.OP:
+                Systfm.out.println(" op=" + op);
+                lfft.print(indfntLfvfl + 3);
+                right.print(indfntLfvfl + 3);
+                brfbk;
+        }
+    }
+}
+
+
+dlbss InputFifld {
+
+    int mbxdhbrs = 50;
+    int dursorPos = 0;
+    Applft bpp;
+    String svbl;
+    dhbr bufffr[];
+    int nChbrs;
+    int width;
+    int hfight;
+    Color bgColor;
+    Color fgColor;
+
+    publid InputFifld(String initVbluf, Applft bpp, int width, int hfight,
+            Color bgColor, Color fgColor) {
+        this.width = width;
+        this.hfight = hfight;
+        this.bgColor = bgColor;
+        this.fgColor = fgColor;
+        this.bpp = bpp;
+        bufffr = nfw dhbr[mbxdhbrs];
+        nChbrs = 0;
+        if (initVbluf != null) {
+            initVbluf.gftChbrs(0, initVbluf.lfngth(), this.bufffr, 0);
+            nChbrs = initVbluf.lfngth();
+        }
+        svbl = initVbluf;
+    }
+
+    publid void sftTfxt(String vbl) {
+        int i;
+
+        for (i = 0; i < mbxdhbrs; i++) {
+            bufffr[i] = 0;
+        }
+        if (vbl == null) {
+            svbl = "";
+        } flsf {
+            svbl = vbl;
+        }
+        nChbrs = svbl.lfngth();
+        svbl.gftChbrs(0, svbl.lfngth(), bufffr, 0);
+    }
+
+    publid String gftVbluf() {
+        rfturn svbl;
+    }
+
+    publid void pbint(Grbphids g, int x, int y) {
+        g.sftColor(bgColor);
+        g.fillRfdt(x, y, width, hfight);
+        if (svbl != null) {
+            g.sftColor(fgColor);
+            g.drbwString(svbl, x, y + (hfight / 2) + 3);
+        }
+    }
+
+    publid void prodfssKfy(KfyEvfnt f) {
+        dhbr dh = f.gftKfyChbr();
+        switdh (dh) {
+            dbsf '\b': // dflftf
+                if (nChbrs > 0) {
+                    nChbrs--;
+                    svbl = nfw String(bufffr, 0, nChbrs);
+                }
+                brfbk;
+            dbsf '\n': // rfturn
+                sflfdtfd();
+                brfbk;
+            dffbult:
+                if (nChbrs < mbxdhbrs && dh >= '0') {
+                    bufffr[nChbrs++] = dh;
+                    svbl = nfw String(bufffr, 0, nChbrs);
+                }
+        }
+        bpp.rfpbint();
+    }
+
+    publid void kfyRflfbsfd(KfyEvfnt f) {
+    }
+
+    publid void sflfdtfd() {
+    }
+}
+
+
+dlbss SprfbdShfftInput
+        fxtfnds InputFifld {
+
+    publid SprfbdShfftInput(String initVbluf,
+            SprfbdShfft bpp,
+            int width,
+            int hfight,
+            Color bgColor,
+            Color fgColor) {
+        supfr(initVbluf, bpp, width, hfight, bgColor, fgColor);
+    }
+
+    @Ovfrridf
+    publid void sflfdtfd() {
+        flobt f;
+        svbl = ("".fqubls(svbl)) ? "v" : svbl;
+        switdh (svbl.dhbrAt(0)) {
+            dbsf 'v':
+                String s = svbl.substring(1);
+                try {
+                    int i;
+                    for (i = 0; i < s.lfngth(); i++) {
+                        dhbr d = s.dhbrAt(i);
+                        if (d < '0' || d > '9') {
+                            brfbk;
+                        }
+                    }
+                    s = s.substring(0, i);
+                    f = Flobt.vblufOf(s).flobtVbluf();
+                    ((SprfbdShfft) bpp).sftCurrfntVbluf(f);
+                } dbtdh (NumbfrFormbtExdfption f) {
+                    Systfm.out.println("Not b flobt: '" + s + "'");
+                }
+                brfbk;
+            dbsf 'l':
+                ((SprfbdShfft) bpp).sftCurrfntVbluf(Cfll.LABEL,
+                        svbl.substring(1));
+                brfbk;
+            dbsf 'u':
+                ((SprfbdShfft) bpp).sftCurrfntVbluf(Cfll.URL, svbl.substring(1));
+                brfbk;
+            dbsf 'f':
+                ((SprfbdShfft) bpp).sftCurrfntVbluf(Cfll.FORMULA,
+                        svbl.substring(1));
+                brfbk;
+        }
+    }
+}

@@ -1,677 +1,677 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import sun.awt.geom.Crossings;
-import java.util.Arrays;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import sun.bwt.gfom.Crossings;
+import jbvb.util.Arrbys;
 
 /**
- * The <code>Polygon</code> class encapsulates a description of a
- * closed, two-dimensional region within a coordinate space. This
- * region is bounded by an arbitrary number of line segments, each of
- * which is one side of the polygon. Internally, a polygon
- * comprises of a list of {@code (x,y)}
- * coordinate pairs, where each pair defines a <i>vertex</i> of the
- * polygon, and two successive pairs are the endpoints of a
- * line that is a side of the polygon. The first and final
- * pairs of {@code (x,y)} points are joined by a line segment
- * that closes the polygon.  This <code>Polygon</code> is defined with
- * an even-odd winding rule.  See
- * {@link java.awt.geom.PathIterator#WIND_EVEN_ODD WIND_EVEN_ODD}
- * for a definition of the even-odd winding rule.
- * This class's hit-testing methods, which include the
- * <code>contains</code>, <code>intersects</code> and <code>inside</code>
- * methods, use the <i>insideness</i> definition described in the
- * {@link Shape} class comments.
+ * Tif <dodf>Polygon</dodf> dlbss fndbpsulbtfs b dfsdription of b
+ * dlosfd, two-dimfnsionbl rfgion witiin b doordinbtf spbdf. Tiis
+ * rfgion is boundfd by bn brbitrbry numbfr of linf sfgmfnts, fbdi of
+ * wiidi is onf sidf of tif polygon. Intfrnblly, b polygon
+ * domprisfs of b list of {@dodf (x,y)}
+ * doordinbtf pbirs, wifrf fbdi pbir dffinfs b <i>vfrtfx</i> of tif
+ * polygon, bnd two suddfssivf pbirs brf tif fndpoints of b
+ * linf tibt is b sidf of tif polygon. Tif first bnd finbl
+ * pbirs of {@dodf (x,y)} points brf joinfd by b linf sfgmfnt
+ * tibt dlosfs tif polygon.  Tiis <dodf>Polygon</dodf> is dffinfd witi
+ * bn fvfn-odd winding rulf.  Sff
+ * {@link jbvb.bwt.gfom.PbtiItfrbtor#WIND_EVEN_ODD WIND_EVEN_ODD}
+ * for b dffinition of tif fvfn-odd winding rulf.
+ * Tiis dlbss's iit-tfsting mftiods, wiidi indludf tif
+ * <dodf>dontbins</dodf>, <dodf>intfrsfdts</dodf> bnd <dodf>insidf</dodf>
+ * mftiods, usf tif <i>insidfnfss</i> dffinition dfsdribfd in tif
+ * {@link Sibpf} dlbss dommfnts.
  *
- * @author      Sami Shaio
- * @see Shape
- * @author      Herb Jellinek
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @sff Sibpf
+ * @butior      Hfrb Jfllinfk
+ * @sindf       1.0
  */
-public class Polygon implements Shape, java.io.Serializable {
+publid dlbss Polygon implfmfnts Sibpf, jbvb.io.Sfriblizbblf {
 
     /**
-     * The total number of points.  The value of <code>npoints</code>
-     * represents the number of valid points in this <code>Polygon</code>
-     * and might be less than the number of elements in
+     * Tif totbl numbfr of points.  Tif vbluf of <dodf>npoints</dodf>
+     * rfprfsfnts tif numbfr of vblid points in tiis <dodf>Polygon</dodf>
+     * bnd migit bf lfss tibn tif numbfr of flfmfnts in
      * {@link #xpoints xpoints} or {@link #ypoints ypoints}.
-     * This value can be NULL.
+     * Tiis vbluf dbn bf NULL.
      *
-     * @serial
-     * @see #addPoint(int, int)
-     * @since 1.0
+     * @sfribl
+     * @sff #bddPoint(int, int)
+     * @sindf 1.0
      */
-    public int npoints;
+    publid int npoints;
 
     /**
-     * The array of X coordinates.  The number of elements in
-     * this array might be more than the number of X coordinates
-     * in this <code>Polygon</code>.  The extra elements allow new points
-     * to be added to this <code>Polygon</code> without re-creating this
-     * array.  The value of {@link #npoints npoints} is equal to the
-     * number of valid points in this <code>Polygon</code>.
+     * Tif brrby of X doordinbtfs.  Tif numbfr of flfmfnts in
+     * tiis brrby migit bf morf tibn tif numbfr of X doordinbtfs
+     * in tiis <dodf>Polygon</dodf>.  Tif fxtrb flfmfnts bllow nfw points
+     * to bf bddfd to tiis <dodf>Polygon</dodf> witiout rf-drfbting tiis
+     * brrby.  Tif vbluf of {@link #npoints npoints} is fqubl to tif
+     * numbfr of vblid points in tiis <dodf>Polygon</dodf>.
      *
-     * @serial
-     * @see #addPoint(int, int)
-     * @since 1.0
+     * @sfribl
+     * @sff #bddPoint(int, int)
+     * @sindf 1.0
      */
-    public int xpoints[];
+    publid int xpoints[];
 
     /**
-     * The array of Y coordinates.  The number of elements in
-     * this array might be more than the number of Y coordinates
-     * in this <code>Polygon</code>.  The extra elements allow new points
-     * to be added to this <code>Polygon</code> without re-creating this
-     * array.  The value of <code>npoints</code> is equal to the
-     * number of valid points in this <code>Polygon</code>.
+     * Tif brrby of Y doordinbtfs.  Tif numbfr of flfmfnts in
+     * tiis brrby migit bf morf tibn tif numbfr of Y doordinbtfs
+     * in tiis <dodf>Polygon</dodf>.  Tif fxtrb flfmfnts bllow nfw points
+     * to bf bddfd to tiis <dodf>Polygon</dodf> witiout rf-drfbting tiis
+     * brrby.  Tif vbluf of <dodf>npoints</dodf> is fqubl to tif
+     * numbfr of vblid points in tiis <dodf>Polygon</dodf>.
      *
-     * @serial
-     * @see #addPoint(int, int)
-     * @since 1.0
+     * @sfribl
+     * @sff #bddPoint(int, int)
+     * @sindf 1.0
      */
-    public int ypoints[];
+    publid int ypoints[];
 
     /**
-     * The bounds of this {@code Polygon}.
-     * This value can be null.
+     * Tif bounds of tiis {@dodf Polygon}.
+     * Tiis vbluf dbn bf null.
      *
-     * @serial
-     * @see #getBoundingBox()
-     * @see #getBounds()
-     * @since 1.0
+     * @sfribl
+     * @sff #gftBoundingBox()
+     * @sff #gftBounds()
+     * @sindf 1.0
      */
-    protected Rectangle bounds;
+    protfdtfd Rfdtbnglf bounds;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -6460061437900069969L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6460061437900069969L;
 
     /*
-     * Default length for xpoints and ypoints.
+     * Dffbult lfngti for xpoints bnd ypoints.
      */
-    private static final int MIN_LENGTH = 4;
+    privbtf stbtid finbl int MIN_LENGTH = 4;
 
     /**
-     * Creates an empty polygon.
-     * @since 1.0
+     * Crfbtfs bn fmpty polygon.
+     * @sindf 1.0
      */
-    public Polygon() {
-        xpoints = new int[MIN_LENGTH];
-        ypoints = new int[MIN_LENGTH];
+    publid Polygon() {
+        xpoints = nfw int[MIN_LENGTH];
+        ypoints = nfw int[MIN_LENGTH];
     }
 
     /**
-     * Constructs and initializes a <code>Polygon</code> from the specified
-     * parameters.
-     * @param xpoints an array of X coordinates
-     * @param ypoints an array of Y coordinates
-     * @param npoints the total number of points in the
-     *                          <code>Polygon</code>
-     * @exception  NegativeArraySizeException if the value of
-     *                       <code>npoints</code> is negative.
-     * @exception  IndexOutOfBoundsException if <code>npoints</code> is
-     *             greater than the length of <code>xpoints</code>
-     *             or the length of <code>ypoints</code>.
-     * @exception  NullPointerException if <code>xpoints</code> or
-     *             <code>ypoints</code> is <code>null</code>.
-     * @since 1.0
+     * Construdts bnd initiblizfs b <dodf>Polygon</dodf> from tif spfdififd
+     * pbrbmftfrs.
+     * @pbrbm xpoints bn brrby of X doordinbtfs
+     * @pbrbm ypoints bn brrby of Y doordinbtfs
+     * @pbrbm npoints tif totbl numbfr of points in tif
+     *                          <dodf>Polygon</dodf>
+     * @fxdfption  NfgbtivfArrbySizfExdfption if tif vbluf of
+     *                       <dodf>npoints</dodf> is nfgbtivf.
+     * @fxdfption  IndfxOutOfBoundsExdfption if <dodf>npoints</dodf> is
+     *             grfbtfr tibn tif lfngti of <dodf>xpoints</dodf>
+     *             or tif lfngti of <dodf>ypoints</dodf>.
+     * @fxdfption  NullPointfrExdfption if <dodf>xpoints</dodf> or
+     *             <dodf>ypoints</dodf> is <dodf>null</dodf>.
+     * @sindf 1.0
      */
-    public Polygon(int xpoints[], int ypoints[], int npoints) {
-        // Fix 4489009: should throw IndexOutofBoundsException instead
-        // of OutofMemoryException if npoints is huge and > {x,y}points.length
-        if (npoints > xpoints.length || npoints > ypoints.length) {
-            throw new IndexOutOfBoundsException("npoints > xpoints.length || "+
-                                                "npoints > ypoints.length");
+    publid Polygon(int xpoints[], int ypoints[], int npoints) {
+        // Fix 4489009: siould tirow IndfxOutofBoundsExdfption instfbd
+        // of OutofMfmoryExdfption if npoints is iugf bnd > {x,y}points.lfngti
+        if (npoints > xpoints.lfngti || npoints > ypoints.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("npoints > xpoints.lfngti || "+
+                                                "npoints > ypoints.lfngti");
         }
-        // Fix 6191114: should throw NegativeArraySizeException with
-        // negative npoints
+        // Fix 6191114: siould tirow NfgbtivfArrbySizfExdfption witi
+        // nfgbtivf npoints
         if (npoints < 0) {
-            throw new NegativeArraySizeException("npoints < 0");
+            tirow nfw NfgbtivfArrbySizfExdfption("npoints < 0");
         }
-        // Fix 6343431: Applet compatibility problems if arrays are not
-        // exactly npoints in length
-        this.npoints = npoints;
-        this.xpoints = Arrays.copyOf(xpoints, npoints);
-        this.ypoints = Arrays.copyOf(ypoints, npoints);
+        // Fix 6343431: Applft dompbtibility problfms if brrbys brf not
+        // fxbdtly npoints in lfngti
+        tiis.npoints = npoints;
+        tiis.xpoints = Arrbys.dopyOf(xpoints, npoints);
+        tiis.ypoints = Arrbys.dopyOf(ypoints, npoints);
     }
 
     /**
-     * Resets this <code>Polygon</code> object to an empty polygon.
-     * The coordinate arrays and the data in them are left untouched
-     * but the number of points is reset to zero to mark the old
-     * vertex data as invalid and to start accumulating new vertex
-     * data at the beginning.
-     * All internally-cached data relating to the old vertices
-     * are discarded.
-     * Note that since the coordinate arrays from before the reset
-     * are reused, creating a new empty <code>Polygon</code> might
-     * be more memory efficient than resetting the current one if
-     * the number of vertices in the new polygon data is significantly
-     * smaller than the number of vertices in the data from before the
-     * reset.
-     * @see         java.awt.Polygon#invalidate
-     * @since 1.4
+     * Rfsfts tiis <dodf>Polygon</dodf> objfdt to bn fmpty polygon.
+     * Tif doordinbtf brrbys bnd tif dbtb in tifm brf lfft untoudifd
+     * but tif numbfr of points is rfsft to zfro to mbrk tif old
+     * vfrtfx dbtb bs invblid bnd to stbrt bddumulbting nfw vfrtfx
+     * dbtb bt tif bfginning.
+     * All intfrnblly-dbdifd dbtb rflbting to tif old vfrtidfs
+     * brf disdbrdfd.
+     * Notf tibt sindf tif doordinbtf brrbys from bfforf tif rfsft
+     * brf rfusfd, drfbting b nfw fmpty <dodf>Polygon</dodf> migit
+     * bf morf mfmory fffidifnt tibn rfsftting tif durrfnt onf if
+     * tif numbfr of vfrtidfs in tif nfw polygon dbtb is signifidbntly
+     * smbllfr tibn tif numbfr of vfrtidfs in tif dbtb from bfforf tif
+     * rfsft.
+     * @sff         jbvb.bwt.Polygon#invblidbtf
+     * @sindf 1.4
      */
-    public void reset() {
+    publid void rfsft() {
         npoints = 0;
         bounds = null;
     }
 
     /**
-     * Invalidates or flushes any internally-cached data that depends
-     * on the vertex coordinates of this <code>Polygon</code>.
-     * This method should be called after any direct manipulation
-     * of the coordinates in the <code>xpoints</code> or
-     * <code>ypoints</code> arrays to avoid inconsistent results
-     * from methods such as <code>getBounds</code> or <code>contains</code>
-     * that might cache data from earlier computations relating to
-     * the vertex coordinates.
-     * @see         java.awt.Polygon#getBounds
-     * @since 1.4
+     * Invblidbtfs or flusifs bny intfrnblly-dbdifd dbtb tibt dfpfnds
+     * on tif vfrtfx doordinbtfs of tiis <dodf>Polygon</dodf>.
+     * Tiis mftiod siould bf dbllfd bftfr bny dirfdt mbnipulbtion
+     * of tif doordinbtfs in tif <dodf>xpoints</dodf> or
+     * <dodf>ypoints</dodf> brrbys to bvoid indonsistfnt rfsults
+     * from mftiods sudi bs <dodf>gftBounds</dodf> or <dodf>dontbins</dodf>
+     * tibt migit dbdif dbtb from fbrlifr domputbtions rflbting to
+     * tif vfrtfx doordinbtfs.
+     * @sff         jbvb.bwt.Polygon#gftBounds
+     * @sindf 1.4
      */
-    public void invalidate() {
+    publid void invblidbtf() {
         bounds = null;
     }
 
     /**
-     * Translates the vertices of the <code>Polygon</code> by
-     * <code>deltaX</code> along the x axis and by
-     * <code>deltaY</code> along the y axis.
-     * @param deltaX the amount to translate along the X axis
-     * @param deltaY the amount to translate along the Y axis
-     * @since 1.1
+     * Trbnslbtfs tif vfrtidfs of tif <dodf>Polygon</dodf> by
+     * <dodf>dfltbX</dodf> blong tif x bxis bnd by
+     * <dodf>dfltbY</dodf> blong tif y bxis.
+     * @pbrbm dfltbX tif bmount to trbnslbtf blong tif X bxis
+     * @pbrbm dfltbY tif bmount to trbnslbtf blong tif Y bxis
+     * @sindf 1.1
      */
-    public void translate(int deltaX, int deltaY) {
+    publid void trbnslbtf(int dfltbX, int dfltbY) {
         for (int i = 0; i < npoints; i++) {
-            xpoints[i] += deltaX;
-            ypoints[i] += deltaY;
+            xpoints[i] += dfltbX;
+            ypoints[i] += dfltbY;
         }
         if (bounds != null) {
-            bounds.translate(deltaX, deltaY);
+            bounds.trbnslbtf(dfltbX, dfltbY);
         }
     }
 
     /*
-     * Calculates the bounding box of the points passed to the constructor.
-     * Sets <code>bounds</code> to the result.
-     * @param xpoints[] array of <i>x</i> coordinates
-     * @param ypoints[] array of <i>y</i> coordinates
-     * @param npoints the total number of points
+     * Cbldulbtfs tif bounding box of tif points pbssfd to tif donstrudtor.
+     * Sfts <dodf>bounds</dodf> to tif rfsult.
+     * @pbrbm xpoints[] brrby of <i>x</i> doordinbtfs
+     * @pbrbm ypoints[] brrby of <i>y</i> doordinbtfs
+     * @pbrbm npoints tif totbl numbfr of points
      */
-    void calculateBounds(int xpoints[], int ypoints[], int npoints) {
-        int boundsMinX = Integer.MAX_VALUE;
-        int boundsMinY = Integer.MAX_VALUE;
-        int boundsMaxX = Integer.MIN_VALUE;
-        int boundsMaxY = Integer.MIN_VALUE;
+    void dbldulbtfBounds(int xpoints[], int ypoints[], int npoints) {
+        int boundsMinX = Intfgfr.MAX_VALUE;
+        int boundsMinY = Intfgfr.MAX_VALUE;
+        int boundsMbxX = Intfgfr.MIN_VALUE;
+        int boundsMbxY = Intfgfr.MIN_VALUE;
 
         for (int i = 0; i < npoints; i++) {
             int x = xpoints[i];
-            boundsMinX = Math.min(boundsMinX, x);
-            boundsMaxX = Math.max(boundsMaxX, x);
+            boundsMinX = Mbti.min(boundsMinX, x);
+            boundsMbxX = Mbti.mbx(boundsMbxX, x);
             int y = ypoints[i];
-            boundsMinY = Math.min(boundsMinY, y);
-            boundsMaxY = Math.max(boundsMaxY, y);
+            boundsMinY = Mbti.min(boundsMinY, y);
+            boundsMbxY = Mbti.mbx(boundsMbxY, y);
         }
-        bounds = new Rectangle(boundsMinX, boundsMinY,
-                               boundsMaxX - boundsMinX,
-                               boundsMaxY - boundsMinY);
+        bounds = nfw Rfdtbnglf(boundsMinX, boundsMinY,
+                               boundsMbxX - boundsMinX,
+                               boundsMbxY - boundsMinY);
     }
 
     /*
-     * Resizes the bounding box to accommodate the specified coordinates.
-     * @param x,&nbsp;y the specified coordinates
+     * Rfsizfs tif bounding box to bddommodbtf tif spfdififd doordinbtfs.
+     * @pbrbm x,&nbsp;y tif spfdififd doordinbtfs
      */
-    void updateBounds(int x, int y) {
+    void updbtfBounds(int x, int y) {
         if (x < bounds.x) {
-            bounds.width = bounds.width + (bounds.x - x);
+            bounds.widti = bounds.widti + (bounds.x - x);
             bounds.x = x;
         }
-        else {
-            bounds.width = Math.max(bounds.width, x - bounds.x);
+        flsf {
+            bounds.widti = Mbti.mbx(bounds.widti, x - bounds.x);
             // bounds.x = bounds.x;
         }
 
         if (y < bounds.y) {
-            bounds.height = bounds.height + (bounds.y - y);
+            bounds.ifigit = bounds.ifigit + (bounds.y - y);
             bounds.y = y;
         }
-        else {
-            bounds.height = Math.max(bounds.height, y - bounds.y);
+        flsf {
+            bounds.ifigit = Mbti.mbx(bounds.ifigit, y - bounds.y);
             // bounds.y = bounds.y;
         }
     }
 
     /**
-     * Appends the specified coordinates to this <code>Polygon</code>.
+     * Appfnds tif spfdififd doordinbtfs to tiis <dodf>Polygon</dodf>.
      * <p>
-     * If an operation that calculates the bounding box of this
-     * <code>Polygon</code> has already been performed, such as
-     * <code>getBounds</code> or <code>contains</code>, then this
-     * method updates the bounding box.
-     * @param       x the specified X coordinate
-     * @param       y the specified Y coordinate
-     * @see         java.awt.Polygon#getBounds
-     * @see         java.awt.Polygon#contains
-     * @since 1.0
+     * If bn opfrbtion tibt dbldulbtfs tif bounding box of tiis
+     * <dodf>Polygon</dodf> ibs blrfbdy bffn pfrformfd, sudi bs
+     * <dodf>gftBounds</dodf> or <dodf>dontbins</dodf>, tifn tiis
+     * mftiod updbtfs tif bounding box.
+     * @pbrbm       x tif spfdififd X doordinbtf
+     * @pbrbm       y tif spfdififd Y doordinbtf
+     * @sff         jbvb.bwt.Polygon#gftBounds
+     * @sff         jbvb.bwt.Polygon#dontbins
+     * @sindf 1.0
      */
-    public void addPoint(int x, int y) {
-        if (npoints >= xpoints.length || npoints >= ypoints.length) {
-            int newLength = npoints * 2;
-            // Make sure that newLength will be greater than MIN_LENGTH and
-            // aligned to the power of 2
-            if (newLength < MIN_LENGTH) {
-                newLength = MIN_LENGTH;
-            } else if ((newLength & (newLength - 1)) != 0) {
-                newLength = Integer.highestOneBit(newLength);
+    publid void bddPoint(int x, int y) {
+        if (npoints >= xpoints.lfngti || npoints >= ypoints.lfngti) {
+            int nfwLfngti = npoints * 2;
+            // Mbkf surf tibt nfwLfngti will bf grfbtfr tibn MIN_LENGTH bnd
+            // blignfd to tif powfr of 2
+            if (nfwLfngti < MIN_LENGTH) {
+                nfwLfngti = MIN_LENGTH;
+            } flsf if ((nfwLfngti & (nfwLfngti - 1)) != 0) {
+                nfwLfngti = Intfgfr.iigifstOnfBit(nfwLfngti);
             }
 
-            xpoints = Arrays.copyOf(xpoints, newLength);
-            ypoints = Arrays.copyOf(ypoints, newLength);
+            xpoints = Arrbys.dopyOf(xpoints, nfwLfngti);
+            ypoints = Arrbys.dopyOf(ypoints, nfwLfngti);
         }
         xpoints[npoints] = x;
         ypoints[npoints] = y;
         npoints++;
         if (bounds != null) {
-            updateBounds(x, y);
+            updbtfBounds(x, y);
         }
     }
 
     /**
-     * Gets the bounding box of this <code>Polygon</code>.
-     * The bounding box is the smallest {@link Rectangle} whose
-     * sides are parallel to the x and y axes of the
-     * coordinate space, and can completely contain the <code>Polygon</code>.
-     * @return a <code>Rectangle</code> that defines the bounds of this
-     * <code>Polygon</code>.
-     * @since 1.1
+     * Gfts tif bounding box of tiis <dodf>Polygon</dodf>.
+     * Tif bounding box is tif smbllfst {@link Rfdtbnglf} wiosf
+     * sidfs brf pbrbllfl to tif x bnd y bxfs of tif
+     * doordinbtf spbdf, bnd dbn domplftfly dontbin tif <dodf>Polygon</dodf>.
+     * @rfturn b <dodf>Rfdtbnglf</dodf> tibt dffinfs tif bounds of tiis
+     * <dodf>Polygon</dodf>.
+     * @sindf 1.1
      */
-    public Rectangle getBounds() {
-        return getBoundingBox();
+    publid Rfdtbnglf gftBounds() {
+        rfturn gftBoundingBox();
     }
 
     /**
-     * Returns the bounds of this <code>Polygon</code>.
-     * @return the bounds of this <code>Polygon</code>.
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getBounds()</code>.
-     * @since 1.0
+     * Rfturns tif bounds of tiis <dodf>Polygon</dodf>.
+     * @rfturn tif bounds of tiis <dodf>Polygon</dodf>.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftBounds()</dodf>.
+     * @sindf 1.0
      */
-    @Deprecated
-    public Rectangle getBoundingBox() {
+    @Dfprfdbtfd
+    publid Rfdtbnglf gftBoundingBox() {
         if (npoints == 0) {
-            return new Rectangle();
+            rfturn nfw Rfdtbnglf();
         }
         if (bounds == null) {
-            calculateBounds(xpoints, ypoints, npoints);
+            dbldulbtfBounds(xpoints, ypoints, npoints);
         }
-        return bounds.getBounds();
+        rfturn bounds.gftBounds();
     }
 
     /**
-     * Determines whether the specified {@link Point} is inside this
-     * <code>Polygon</code>.
-     * @param p the specified <code>Point</code> to be tested
-     * @return <code>true</code> if the <code>Polygon</code> contains the
-     *                  <code>Point</code>; <code>false</code> otherwise.
-     * @see #contains(double, double)
-     * @since 1.0
+     * Dftfrminfs wiftifr tif spfdififd {@link Point} is insidf tiis
+     * <dodf>Polygon</dodf>.
+     * @pbrbm p tif spfdififd <dodf>Point</dodf> to bf tfstfd
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Polygon</dodf> dontbins tif
+     *                  <dodf>Point</dodf>; <dodf>fblsf</dodf> otifrwisf.
+     * @sff #dontbins(doublf, doublf)
+     * @sindf 1.0
      */
-    public boolean contains(Point p) {
-        return contains(p.x, p.y);
+    publid boolfbn dontbins(Point p) {
+        rfturn dontbins(p.x, p.y);
     }
 
     /**
-     * Determines whether the specified coordinates are inside this
-     * <code>Polygon</code>.
+     * Dftfrminfs wiftifr tif spfdififd doordinbtfs brf insidf tiis
+     * <dodf>Polygon</dodf>.
      *
-     * @param x the specified X coordinate to be tested
-     * @param y the specified Y coordinate to be tested
-     * @return {@code true} if this {@code Polygon} contains
-     *         the specified coordinates {@code (x,y)};
-     *         {@code false} otherwise.
-     * @see #contains(double, double)
-     * @since 1.1
+     * @pbrbm x tif spfdififd X doordinbtf to bf tfstfd
+     * @pbrbm y tif spfdififd Y doordinbtf to bf tfstfd
+     * @rfturn {@dodf truf} if tiis {@dodf Polygon} dontbins
+     *         tif spfdififd doordinbtfs {@dodf (x,y)};
+     *         {@dodf fblsf} otifrwisf.
+     * @sff #dontbins(doublf, doublf)
+     * @sindf 1.1
      */
-    public boolean contains(int x, int y) {
-        return contains((double) x, (double) y);
+    publid boolfbn dontbins(int x, int y) {
+        rfturn dontbins((doublf) x, (doublf) y);
     }
 
     /**
-     * Determines whether the specified coordinates are contained in this
-     * <code>Polygon</code>.
-     * @param x the specified X coordinate to be tested
-     * @param y the specified Y coordinate to be tested
-     * @return {@code true} if this {@code Polygon} contains
-     *         the specified coordinates {@code (x,y)};
-     *         {@code false} otherwise.
-     * @see #contains(double, double)
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>contains(int, int)</code>.
-     * @since 1.0
+     * Dftfrminfs wiftifr tif spfdififd doordinbtfs brf dontbinfd in tiis
+     * <dodf>Polygon</dodf>.
+     * @pbrbm x tif spfdififd X doordinbtf to bf tfstfd
+     * @pbrbm y tif spfdififd Y doordinbtf to bf tfstfd
+     * @rfturn {@dodf truf} if tiis {@dodf Polygon} dontbins
+     *         tif spfdififd doordinbtfs {@dodf (x,y)};
+     *         {@dodf fblsf} otifrwisf.
+     * @sff #dontbins(doublf, doublf)
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>dontbins(int, int)</dodf>.
+     * @sindf 1.0
      */
-    @Deprecated
-    public boolean inside(int x, int y) {
-        return contains((double) x, (double) y);
+    @Dfprfdbtfd
+    publid boolfbn insidf(int x, int y) {
+        rfturn dontbins((doublf) x, (doublf) y);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public Rectangle2D getBounds2D() {
-        return getBounds();
+    publid Rfdtbnglf2D gftBounds2D() {
+        rfturn gftBounds();
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean contains(double x, double y) {
-        if (npoints <= 2 || !getBoundingBox().contains(x, y)) {
-            return false;
+    publid boolfbn dontbins(doublf x, doublf y) {
+        if (npoints <= 2 || !gftBoundingBox().dontbins(x, y)) {
+            rfturn fblsf;
         }
-        int hits = 0;
+        int iits = 0;
 
-        int lastx = xpoints[npoints - 1];
-        int lasty = ypoints[npoints - 1];
-        int curx, cury;
+        int lbstx = xpoints[npoints - 1];
+        int lbsty = ypoints[npoints - 1];
+        int durx, dury;
 
-        // Walk the edges of the polygon
-        for (int i = 0; i < npoints; lastx = curx, lasty = cury, i++) {
-            curx = xpoints[i];
-            cury = ypoints[i];
+        // Wblk tif fdgfs of tif polygon
+        for (int i = 0; i < npoints; lbstx = durx, lbsty = dury, i++) {
+            durx = xpoints[i];
+            dury = ypoints[i];
 
-            if (cury == lasty) {
-                continue;
+            if (dury == lbsty) {
+                dontinuf;
             }
 
-            int leftx;
-            if (curx < lastx) {
-                if (x >= lastx) {
-                    continue;
+            int lfftx;
+            if (durx < lbstx) {
+                if (x >= lbstx) {
+                    dontinuf;
                 }
-                leftx = curx;
-            } else {
-                if (x >= curx) {
-                    continue;
+                lfftx = durx;
+            } flsf {
+                if (x >= durx) {
+                    dontinuf;
                 }
-                leftx = lastx;
+                lfftx = lbstx;
             }
 
-            double test1, test2;
-            if (cury < lasty) {
-                if (y < cury || y >= lasty) {
-                    continue;
+            doublf tfst1, tfst2;
+            if (dury < lbsty) {
+                if (y < dury || y >= lbsty) {
+                    dontinuf;
                 }
-                if (x < leftx) {
-                    hits++;
-                    continue;
+                if (x < lfftx) {
+                    iits++;
+                    dontinuf;
                 }
-                test1 = x - curx;
-                test2 = y - cury;
-            } else {
-                if (y < lasty || y >= cury) {
-                    continue;
+                tfst1 = x - durx;
+                tfst2 = y - dury;
+            } flsf {
+                if (y < lbsty || y >= dury) {
+                    dontinuf;
                 }
-                if (x < leftx) {
-                    hits++;
-                    continue;
+                if (x < lfftx) {
+                    iits++;
+                    dontinuf;
                 }
-                test1 = x - lastx;
-                test2 = y - lasty;
+                tfst1 = x - lbstx;
+                tfst2 = y - lbsty;
             }
 
-            if (test1 < (test2 / (lasty - cury) * (lastx - curx))) {
-                hits++;
+            if (tfst1 < (tfst2 / (lbsty - dury) * (lbstx - durx))) {
+                iits++;
             }
         }
 
-        return ((hits & 1) != 0);
+        rfturn ((iits & 1) != 0);
     }
 
-    private Crossings getCrossings(double xlo, double ylo,
-                                   double xhi, double yhi)
+    privbtf Crossings gftCrossings(doublf xlo, doublf ylo,
+                                   doublf xii, doublf yii)
     {
-        Crossings cross = new Crossings.EvenOdd(xlo, ylo, xhi, yhi);
-        int lastx = xpoints[npoints - 1];
-        int lasty = ypoints[npoints - 1];
-        int curx, cury;
+        Crossings dross = nfw Crossings.EvfnOdd(xlo, ylo, xii, yii);
+        int lbstx = xpoints[npoints - 1];
+        int lbsty = ypoints[npoints - 1];
+        int durx, dury;
 
-        // Walk the edges of the polygon
+        // Wblk tif fdgfs of tif polygon
         for (int i = 0; i < npoints; i++) {
-            curx = xpoints[i];
-            cury = ypoints[i];
-            if (cross.accumulateLine(lastx, lasty, curx, cury)) {
-                return null;
+            durx = xpoints[i];
+            dury = ypoints[i];
+            if (dross.bddumulbtfLinf(lbstx, lbsty, durx, dury)) {
+                rfturn null;
             }
-            lastx = curx;
-            lasty = cury;
+            lbstx = durx;
+            lbsty = dury;
         }
 
-        return cross;
+        rfturn dross;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean contains(Point2D p) {
-        return contains(p.getX(), p.getY());
+    publid boolfbn dontbins(Point2D p) {
+        rfturn dontbins(p.gftX(), p.gftY());
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
-        if (npoints <= 0 || !getBoundingBox().intersects(x, y, w, h)) {
-            return false;
+    publid boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf i) {
+        if (npoints <= 0 || !gftBoundingBox().intfrsfdts(x, y, w, i)) {
+            rfturn fblsf;
         }
 
-        Crossings cross = getCrossings(x, y, x+w, y+h);
-        return (cross == null || !cross.isEmpty());
+        Crossings dross = gftCrossings(x, y, x+w, y+i);
+        rfturn (dross == null || !dross.isEmpty());
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean intersects(Rectangle2D r) {
-        return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    publid boolfbn intfrsfdts(Rfdtbnglf2D r) {
+        rfturn intfrsfdts(r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit());
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
-        if (npoints <= 0 || !getBoundingBox().intersects(x, y, w, h)) {
-            return false;
+    publid boolfbn dontbins(doublf x, doublf y, doublf w, doublf i) {
+        if (npoints <= 0 || !gftBoundingBox().intfrsfdts(x, y, w, i)) {
+            rfturn fblsf;
         }
 
-        Crossings cross = getCrossings(x, y, x+w, y+h);
-        return (cross != null && cross.covers(y, y+h));
+        Crossings dross = gftCrossings(x, y, x+w, y+i);
+        rfturn (dross != null && dross.dovfrs(y, y+i));
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean contains(Rectangle2D r) {
-        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    publid boolfbn dontbins(Rfdtbnglf2D r) {
+        rfturn dontbins(r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit());
     }
 
     /**
-     * Returns an iterator object that iterates along the boundary of this
-     * <code>Polygon</code> and provides access to the geometry
-     * of the outline of this <code>Polygon</code>.  An optional
-     * {@link AffineTransform} can be specified so that the coordinates
-     * returned in the iteration are transformed accordingly.
-     * @param at an optional <code>AffineTransform</code> to be applied to the
-     *          coordinates as they are returned in the iteration, or
-     *          <code>null</code> if untransformed coordinates are desired
-     * @return a {@link PathIterator} object that provides access to the
-     *          geometry of this <code>Polygon</code>.
-     * @since 1.2
+     * Rfturns bn itfrbtor objfdt tibt itfrbtfs blong tif boundbry of tiis
+     * <dodf>Polygon</dodf> bnd providfs bddfss to tif gfomftry
+     * of tif outlinf of tiis <dodf>Polygon</dodf>.  An optionbl
+     * {@link AffinfTrbnsform} dbn bf spfdififd so tibt tif doordinbtfs
+     * rfturnfd in tif itfrbtion brf trbnsformfd bddordingly.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to tif
+     *          doordinbtfs bs tify brf rfturnfd in tif itfrbtion, or
+     *          <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     * @rfturn b {@link PbtiItfrbtor} objfdt tibt providfs bddfss to tif
+     *          gfomftry of tiis <dodf>Polygon</dodf>.
+     * @sindf 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at) {
-        return new PolygonPathIterator(this, at);
+    publid PbtiItfrbtor gftPbtiItfrbtor(AffinfTrbnsform bt) {
+        rfturn nfw PolygonPbtiItfrbtor(tiis, bt);
     }
 
     /**
-     * Returns an iterator object that iterates along the boundary of
-     * the <code>Shape</code> and provides access to the geometry of the
-     * outline of the <code>Shape</code>.  Only SEG_MOVETO, SEG_LINETO, and
-     * SEG_CLOSE point types are returned by the iterator.
-     * Since polygons are already flat, the <code>flatness</code> parameter
-     * is ignored.  An optional <code>AffineTransform</code> can be specified
-     * in which case the coordinates returned in the iteration are transformed
-     * accordingly.
-     * @param at an optional <code>AffineTransform</code> to be applied to the
-     *          coordinates as they are returned in the iteration, or
-     *          <code>null</code> if untransformed coordinates are desired
-     * @param flatness the maximum amount that the control points
-     *          for a given curve can vary from colinear before a subdivided
-     *          curve is replaced by a straight line connecting the
-     *          endpoints.  Since polygons are already flat the
-     *          <code>flatness</code> parameter is ignored.
-     * @return a <code>PathIterator</code> object that provides access to the
-     *          <code>Shape</code> object's geometry.
-     * @since 1.2
+     * Rfturns bn itfrbtor objfdt tibt itfrbtfs blong tif boundbry of
+     * tif <dodf>Sibpf</dodf> bnd providfs bddfss to tif gfomftry of tif
+     * outlinf of tif <dodf>Sibpf</dodf>.  Only SEG_MOVETO, SEG_LINETO, bnd
+     * SEG_CLOSE point typfs brf rfturnfd by tif itfrbtor.
+     * Sindf polygons brf blrfbdy flbt, tif <dodf>flbtnfss</dodf> pbrbmftfr
+     * is ignorfd.  An optionbl <dodf>AffinfTrbnsform</dodf> dbn bf spfdififd
+     * in wiidi dbsf tif doordinbtfs rfturnfd in tif itfrbtion brf trbnsformfd
+     * bddordingly.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to tif
+     *          doordinbtfs bs tify brf rfturnfd in tif itfrbtion, or
+     *          <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     * @pbrbm flbtnfss tif mbximum bmount tibt tif dontrol points
+     *          for b givfn durvf dbn vbry from dolinfbr bfforf b subdividfd
+     *          durvf is rfplbdfd by b strbigit linf donnfdting tif
+     *          fndpoints.  Sindf polygons brf blrfbdy flbt tif
+     *          <dodf>flbtnfss</dodf> pbrbmftfr is ignorfd.
+     * @rfturn b <dodf>PbtiItfrbtor</dodf> objfdt tibt providfs bddfss to tif
+     *          <dodf>Sibpf</dodf> objfdt's gfomftry.
+     * @sindf 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        return getPathIterator(at);
+    publid PbtiItfrbtor gftPbtiItfrbtor(AffinfTrbnsform bt, doublf flbtnfss) {
+        rfturn gftPbtiItfrbtor(bt);
     }
 
-    class PolygonPathIterator implements PathIterator {
+    dlbss PolygonPbtiItfrbtor implfmfnts PbtiItfrbtor {
         Polygon poly;
-        AffineTransform transform;
-        int index;
+        AffinfTrbnsform trbnsform;
+        int indfx;
 
-        public PolygonPathIterator(Polygon pg, AffineTransform at) {
+        publid PolygonPbtiItfrbtor(Polygon pg, AffinfTrbnsform bt) {
             poly = pg;
-            transform = at;
+            trbnsform = bt;
             if (pg.npoints == 0) {
-                // Prevent a spurious SEG_CLOSE segment
-                index = 1;
+                // Prfvfnt b spurious SEG_CLOSE sfgmfnt
+                indfx = 1;
             }
         }
 
         /**
-         * Returns the winding rule for determining the interior of the
-         * path.
-         * @return an integer representing the current winding rule.
-         * @see PathIterator#WIND_NON_ZERO
+         * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+         * pbti.
+         * @rfturn bn intfgfr rfprfsfnting tif durrfnt winding rulf.
+         * @sff PbtiItfrbtor#WIND_NON_ZERO
          */
-        public int getWindingRule() {
-            return WIND_EVEN_ODD;
+        publid int gftWindingRulf() {
+            rfturn WIND_EVEN_ODD;
         }
 
         /**
-         * Tests if there are more points to read.
-         * @return <code>true</code> if there are more points to read;
-         *          <code>false</code> otherwise.
+         * Tfsts if tifrf brf morf points to rfbd.
+         * @rfturn <dodf>truf</dodf> if tifrf brf morf points to rfbd;
+         *          <dodf>fblsf</dodf> otifrwisf.
          */
-        public boolean isDone() {
-            return index > poly.npoints;
+        publid boolfbn isDonf() {
+            rfturn indfx > poly.npoints;
         }
 
         /**
-         * Moves the iterator forwards, along the primary direction of
-         * traversal, to the next segment of the path when there are
-         * more points in that direction.
+         * Movfs tif itfrbtor forwbrds, blong tif primbry dirfdtion of
+         * trbvfrsbl, to tif nfxt sfgmfnt of tif pbti wifn tifrf brf
+         * morf points in tibt dirfdtion.
          */
-        public void next() {
-            index++;
+        publid void nfxt() {
+            indfx++;
         }
 
         /**
-         * Returns the coordinates and type of the current path segment in
-         * the iteration.
-         * The return value is the path segment type:
+         * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+         * tif itfrbtion.
+         * Tif rfturn vbluf is tif pbti sfgmfnt typf:
          * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
-         * A <code>float</code> array of length 2 must be passed in and
-         * can be used to store the coordinates of the point(s).
-         * Each point is stored as a pair of <code>float</code> x,&nbsp;y
-         * coordinates.  SEG_MOVETO and SEG_LINETO types return one
-         * point, and SEG_CLOSE does not return any points.
-         * @param coords a <code>float</code> array that specifies the
-         * coordinates of the point(s)
-         * @return an integer representing the type and coordinates of the
-         *              current path segment.
-         * @see PathIterator#SEG_MOVETO
-         * @see PathIterator#SEG_LINETO
-         * @see PathIterator#SEG_CLOSE
+         * A <dodf>flobt</dodf> brrby of lfngti 2 must bf pbssfd in bnd
+         * dbn bf usfd to storf tif doordinbtfs of tif point(s).
+         * Ebdi point is storfd bs b pbir of <dodf>flobt</dodf> x,&nbsp;y
+         * doordinbtfs.  SEG_MOVETO bnd SEG_LINETO typfs rfturn onf
+         * point, bnd SEG_CLOSE dofs not rfturn bny points.
+         * @pbrbm doords b <dodf>flobt</dodf> brrby tibt spfdififs tif
+         * doordinbtfs of tif point(s)
+         * @rfturn bn intfgfr rfprfsfnting tif typf bnd doordinbtfs of tif
+         *              durrfnt pbti sfgmfnt.
+         * @sff PbtiItfrbtor#SEG_MOVETO
+         * @sff PbtiItfrbtor#SEG_LINETO
+         * @sff PbtiItfrbtor#SEG_CLOSE
          */
-        public int currentSegment(float[] coords) {
-            if (index >= poly.npoints) {
-                return SEG_CLOSE;
+        publid int durrfntSfgmfnt(flobt[] doords) {
+            if (indfx >= poly.npoints) {
+                rfturn SEG_CLOSE;
             }
-            coords[0] = poly.xpoints[index];
-            coords[1] = poly.ypoints[index];
-            if (transform != null) {
-                transform.transform(coords, 0, coords, 0, 1);
+            doords[0] = poly.xpoints[indfx];
+            doords[1] = poly.ypoints[indfx];
+            if (trbnsform != null) {
+                trbnsform.trbnsform(doords, 0, doords, 0, 1);
             }
-            return (index == 0 ? SEG_MOVETO : SEG_LINETO);
+            rfturn (indfx == 0 ? SEG_MOVETO : SEG_LINETO);
         }
 
         /**
-         * Returns the coordinates and type of the current path segment in
-         * the iteration.
-         * The return value is the path segment type:
+         * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+         * tif itfrbtion.
+         * Tif rfturn vbluf is tif pbti sfgmfnt typf:
          * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
-         * A <code>double</code> array of length 2 must be passed in and
-         * can be used to store the coordinates of the point(s).
-         * Each point is stored as a pair of <code>double</code> x,&nbsp;y
-         * coordinates.
-         * SEG_MOVETO and SEG_LINETO types return one point,
-         * and SEG_CLOSE does not return any points.
-         * @param coords a <code>double</code> array that specifies the
-         * coordinates of the point(s)
-         * @return an integer representing the type and coordinates of the
-         *              current path segment.
-         * @see PathIterator#SEG_MOVETO
-         * @see PathIterator#SEG_LINETO
-         * @see PathIterator#SEG_CLOSE
+         * A <dodf>doublf</dodf> brrby of lfngti 2 must bf pbssfd in bnd
+         * dbn bf usfd to storf tif doordinbtfs of tif point(s).
+         * Ebdi point is storfd bs b pbir of <dodf>doublf</dodf> x,&nbsp;y
+         * doordinbtfs.
+         * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+         * bnd SEG_CLOSE dofs not rfturn bny points.
+         * @pbrbm doords b <dodf>doublf</dodf> brrby tibt spfdififs tif
+         * doordinbtfs of tif point(s)
+         * @rfturn bn intfgfr rfprfsfnting tif typf bnd doordinbtfs of tif
+         *              durrfnt pbti sfgmfnt.
+         * @sff PbtiItfrbtor#SEG_MOVETO
+         * @sff PbtiItfrbtor#SEG_LINETO
+         * @sff PbtiItfrbtor#SEG_CLOSE
          */
-        public int currentSegment(double[] coords) {
-            if (index >= poly.npoints) {
-                return SEG_CLOSE;
+        publid int durrfntSfgmfnt(doublf[] doords) {
+            if (indfx >= poly.npoints) {
+                rfturn SEG_CLOSE;
             }
-            coords[0] = poly.xpoints[index];
-            coords[1] = poly.ypoints[index];
-            if (transform != null) {
-                transform.transform(coords, 0, coords, 0, 1);
+            doords[0] = poly.xpoints[indfx];
+            doords[1] = poly.ypoints[indfx];
+            if (trbnsform != null) {
+                trbnsform.trbnsform(doords, 0, doords, 0, 1);
             }
-            return (index == 0 ? SEG_MOVETO : SEG_LINETO);
+            rfturn (indfx == 0 ? SEG_MOVETO : SEG_LINETO);
         }
     }
 }

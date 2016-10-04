@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2013 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2013 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,166 +57,166 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
 
 /**
- * The path to a type argument, wildcard bound, array element type, or static
- * inner type within an enclosing type.
+ * Tif pbti to b typf brgumfnt, wilddbrd bound, brrby flfmfnt typf, or stbtid
+ * innfr typf witiin bn fndlosing typf.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class TypePath {
+publid dlbss TypfPbti {
 
     /**
-     * A type path step that steps into the element type of an array type. See
-     * {@link #getStep getStep}.
+     * A typf pbti stfp tibt stfps into tif flfmfnt typf of bn brrby typf. Sff
+     * {@link #gftStfp gftStfp}.
      */
-    public final static int ARRAY_ELEMENT = 0;
+    publid finbl stbtid int ARRAY_ELEMENT = 0;
 
     /**
-     * A type path step that steps into the nested type of a class type. See
-     * {@link #getStep getStep}.
+     * A typf pbti stfp tibt stfps into tif nfstfd typf of b dlbss typf. Sff
+     * {@link #gftStfp gftStfp}.
      */
-    public final static int INNER_TYPE = 1;
+    publid finbl stbtid int INNER_TYPE = 1;
 
     /**
-     * A type path step that steps into the bound of a wildcard type. See
-     * {@link #getStep getStep}.
+     * A typf pbti stfp tibt stfps into tif bound of b wilddbrd typf. Sff
+     * {@link #gftStfp gftStfp}.
      */
-    public final static int WILDCARD_BOUND = 2;
+    publid finbl stbtid int WILDCARD_BOUND = 2;
 
     /**
-     * A type path step that steps into a type argument of a generic type. See
-     * {@link #getStep getStep}.
+     * A typf pbti stfp tibt stfps into b typf brgumfnt of b gfnfrid typf. Sff
+     * {@link #gftStfp gftStfp}.
      */
-    public final static int TYPE_ARGUMENT = 3;
+    publid finbl stbtid int TYPE_ARGUMENT = 3;
 
     /**
-     * The byte array where the path is stored, in Java class file format.
+     * Tif bytf brrby wifrf tif pbti is storfd, in Jbvb dlbss filf formbt.
      */
-    byte[] b;
+    bytf[] b;
 
     /**
-     * The offset of the first byte of the type path in 'b'.
+     * Tif offsft of tif first bytf of tif typf pbti in 'b'.
      */
-    int offset;
+    int offsft;
 
     /**
-     * Creates a new type path.
+     * Crfbtfs b nfw typf pbti.
      *
-     * @param b
-     *            the byte array containing the type path in Java class file
-     *            format.
-     * @param offset
-     *            the offset of the first byte of the type path in 'b'.
+     * @pbrbm b
+     *            tif bytf brrby dontbining tif typf pbti in Jbvb dlbss filf
+     *            formbt.
+     * @pbrbm offsft
+     *            tif offsft of tif first bytf of tif typf pbti in 'b'.
      */
-    TypePath(byte[] b, int offset) {
-        this.b = b;
-        this.offset = offset;
+    TypfPbti(bytf[] b, int offsft) {
+        tiis.b = b;
+        tiis.offsft = offsft;
     }
 
     /**
-     * Returns the length of this path.
+     * Rfturns tif lfngti of tiis pbti.
      *
-     * @return the length of this path.
+     * @rfturn tif lfngti of tiis pbti.
      */
-    public int getLength() {
-        return b[offset];
+    publid int gftLfngti() {
+        rfturn b[offsft];
     }
 
     /**
-     * Returns the value of the given step of this path.
+     * Rfturns tif vbluf of tif givfn stfp of tiis pbti.
      *
-     * @param index
-     *            an index between 0 and {@link #getLength()}, exclusive.
-     * @return {@link #ARRAY_ELEMENT ARRAY_ELEMENT}, {@link #INNER_TYPE
+     * @pbrbm indfx
+     *            bn indfx bftwffn 0 bnd {@link #gftLfngti()}, fxdlusivf.
+     * @rfturn {@link #ARRAY_ELEMENT ARRAY_ELEMENT}, {@link #INNER_TYPE
      *         INNER_TYPE}, {@link #WILDCARD_BOUND WILDCARD_BOUND}, or
      *         {@link #TYPE_ARGUMENT TYPE_ARGUMENT}.
      */
-    public int getStep(int index) {
-        return b[offset + 2 * index + 1];
+    publid int gftStfp(int indfx) {
+        rfturn b[offsft + 2 * indfx + 1];
     }
 
     /**
-     * Returns the index of the type argument that the given step is stepping
-     * into. This method should only be used for steps whose value is
+     * Rfturns tif indfx of tif typf brgumfnt tibt tif givfn stfp is stfpping
+     * into. Tiis mftiod siould only bf usfd for stfps wiosf vbluf is
      * {@link #TYPE_ARGUMENT TYPE_ARGUMENT}.
      *
-     * @param index
-     *            an index between 0 and {@link #getLength()}, exclusive.
-     * @return the index of the type argument that the given step is stepping
+     * @pbrbm indfx
+     *            bn indfx bftwffn 0 bnd {@link #gftLfngti()}, fxdlusivf.
+     * @rfturn tif indfx of tif typf brgumfnt tibt tif givfn stfp is stfpping
      *         into.
      */
-    public int getStepArgument(int index) {
-        return b[offset + 2 * index + 2];
+    publid int gftStfpArgumfnt(int indfx) {
+        rfturn b[offsft + 2 * indfx + 2];
     }
 
     /**
-     * Converts a type path in string form, in the format used by
-     * {@link #toString()}, into a TypePath object.
+     * Convfrts b typf pbti in string form, in tif formbt usfd by
+     * {@link #toString()}, into b TypfPbti objfdt.
      *
-     * @param typePath
-     *            a type path in string form, in the format used by
-     *            {@link #toString()}. May be null or empty.
-     * @return the corresponding TypePath object, or null if the path is empty.
+     * @pbrbm typfPbti
+     *            b typf pbti in string form, in tif formbt usfd by
+     *            {@link #toString()}. Mby bf null or fmpty.
+     * @rfturn tif dorrfsponding TypfPbti objfdt, or null if tif pbti is fmpty.
      */
-    public static TypePath fromString(final String typePath) {
-        if (typePath == null || typePath.length() == 0) {
-            return null;
+    publid stbtid TypfPbti fromString(finbl String typfPbti) {
+        if (typfPbti == null || typfPbti.lfngti() == 0) {
+            rfturn null;
         }
-        int n = typePath.length();
-        ByteVector out = new ByteVector(n);
-        out.putByte(0);
+        int n = typfPbti.lfngti();
+        BytfVfdtor out = nfw BytfVfdtor(n);
+        out.putBytf(0);
         for (int i = 0; i < n;) {
-            char c = typePath.charAt(i++);
-            if (c == '[') {
+            dibr d = typfPbti.dibrAt(i++);
+            if (d == '[') {
                 out.put11(ARRAY_ELEMENT, 0);
-            } else if (c == '.') {
+            } flsf if (d == '.') {
                 out.put11(INNER_TYPE, 0);
-            } else if (c == '*') {
+            } flsf if (d == '*') {
                 out.put11(WILDCARD_BOUND, 0);
-            } else if (c >= '0' && c <= '9') {
-                int typeArg = c - '0';
-                while (i < n && (c = typePath.charAt(i)) >= '0' && c <= '9') {
-                    typeArg = typeArg * 10 + c - '0';
+            } flsf if (d >= '0' && d <= '9') {
+                int typfArg = d - '0';
+                wiilf (i < n && (d = typfPbti.dibrAt(i)) >= '0' && d <= '9') {
+                    typfArg = typfArg * 10 + d - '0';
                     i += 1;
                 }
-                out.put11(TYPE_ARGUMENT, typeArg);
+                out.put11(TYPE_ARGUMENT, typfArg);
             }
         }
-        out.data[0] = (byte) (out.length / 2);
-        return new TypePath(out.data, 0);
+        out.dbtb[0] = (bytf) (out.lfngti / 2);
+        rfturn nfw TypfPbti(out.dbtb, 0);
     }
 
     /**
-     * Returns a string representation of this type path. {@link #ARRAY_ELEMENT
-     * ARRAY_ELEMENT} steps are represented with '[', {@link #INNER_TYPE
-     * INNER_TYPE} steps with '.', {@link #WILDCARD_BOUND WILDCARD_BOUND} steps
-     * with '*' and {@link #TYPE_ARGUMENT TYPE_ARGUMENT} steps with their type
-     * argument index in decimal form.
+     * Rfturns b string rfprfsfntbtion of tiis typf pbti. {@link #ARRAY_ELEMENT
+     * ARRAY_ELEMENT} stfps brf rfprfsfntfd witi '[', {@link #INNER_TYPE
+     * INNER_TYPE} stfps witi '.', {@link #WILDCARD_BOUND WILDCARD_BOUND} stfps
+     * witi '*' bnd {@link #TYPE_ARGUMENT TYPE_ARGUMENT} stfps witi tifir typf
+     * brgumfnt indfx in dfdimbl form.
      */
-    @Override
-    public String toString() {
-        int length = getLength();
-        StringBuilder result = new StringBuilder(length * 2);
-        for (int i = 0; i < length; ++i) {
-            switch (getStep(i)) {
-            case ARRAY_ELEMENT:
-                result.append('[');
-                break;
-            case INNER_TYPE:
-                result.append('.');
-                break;
-            case WILDCARD_BOUND:
-                result.append('*');
-                break;
-            case TYPE_ARGUMENT:
-                result.append(getStepArgument(i));
-                break;
-            default:
-                result.append('_');
+    @Ovfrridf
+    publid String toString() {
+        int lfngti = gftLfngti();
+        StringBuildfr rfsult = nfw StringBuildfr(lfngti * 2);
+        for (int i = 0; i < lfngti; ++i) {
+            switdi (gftStfp(i)) {
+            dbsf ARRAY_ELEMENT:
+                rfsult.bppfnd('[');
+                brfbk;
+            dbsf INNER_TYPE:
+                rfsult.bppfnd('.');
+                brfbk;
+            dbsf WILDCARD_BOUND:
+                rfsult.bppfnd('*');
+                brfbk;
+            dbsf TYPE_ARGUMENT:
+                rfsult.bppfnd(gftStfpArgumfnt(i));
+                brfbk;
+            dffbult:
+                rfsult.bppfnd('_');
             }
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 }

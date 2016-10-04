@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
 /**
-* An Annotation object is used as a wrapper for a text attribute value if
-* the attribute has annotation characteristics. These characteristics are:
+* An Annotbtion objfdt is usfd bs b wrbppfr for b tfxt bttributf vbluf if
+* tif bttributf ibs bnnotbtion dibrbdtfristids. Tifsf dibrbdtfristids brf:
 * <ul>
-* <li>The text range that the attribute is applied to is critical to the
-* semantics of the range. That means, the attribute cannot be applied to subranges
-* of the text range that it applies to, and, if two adjacent text ranges have
-* the same value for this attribute, the attribute still cannot be applied to
-* the combined range as a whole with this value.
-* <li>The attribute or its value usually do no longer apply if the underlying text is
-* changed.
+* <li>Tif tfxt rbngf tibt tif bttributf is bpplifd to is dritidbl to tif
+* sfmbntids of tif rbngf. Tibt mfbns, tif bttributf dbnnot bf bpplifd to subrbngfs
+* of tif tfxt rbngf tibt it bpplifs to, bnd, if two bdjbdfnt tfxt rbngfs ibvf
+* tif sbmf vbluf for tiis bttributf, tif bttributf still dbnnot bf bpplifd to
+* tif dombinfd rbngf bs b wiolf witi tiis vbluf.
+* <li>Tif bttributf or its vbluf usublly do no longfr bpply if tif undfrlying tfxt is
+* dibngfd.
 * </ul>
 *
-* An example is grammatical information attached to a sentence:
-* For the previous sentence, you can say that "an example"
-* is the subject, but you cannot say the same about "an", "example", or "exam".
-* When the text is changed, the grammatical information typically becomes invalid.
-* Another example is Japanese reading information (yomi).
+* An fxbmplf is grbmmbtidbl informbtion bttbdifd to b sfntfndf:
+* For tif prfvious sfntfndf, you dbn sby tibt "bn fxbmplf"
+* is tif subjfdt, but you dbnnot sby tif sbmf bbout "bn", "fxbmplf", or "fxbm".
+* Wifn tif tfxt is dibngfd, tif grbmmbtidbl informbtion typidblly bfdomfs invblid.
+* Anotifr fxbmplf is Jbpbnfsf rfbding informbtion (yomi).
 *
 * <p>
-* Wrapping the attribute value into an Annotation object guarantees that
-* adjacent text runs don't get merged even if the attribute values are equal,
-* and indicates to text containers that the attribute should be discarded if
-* the underlying text is modified.
+* Wrbpping tif bttributf vbluf into bn Annotbtion objfdt gubrbntffs tibt
+* bdjbdfnt tfxt runs don't gft mfrgfd fvfn if tif bttributf vblufs brf fqubl,
+* bnd indidbtfs to tfxt dontbinfrs tibt tif bttributf siould bf disdbrdfd if
+* tif undfrlying tfxt is modififd.
 *
-* @see AttributedCharacterIterator
-* @since 1.2
+* @sff AttributfdCibrbdtfrItfrbtor
+* @sindf 1.2
 */
 
-public class Annotation {
+publid dlbss Annotbtion {
 
     /**
-     * Constructs an annotation record with the given value, which
-     * may be null.
+     * Construdts bn bnnotbtion rfdord witi tif givfn vbluf, wiidi
+     * mby bf null.
      *
-     * @param value the value of the attribute
+     * @pbrbm vbluf tif vbluf of tif bttributf
      */
-    public Annotation(Object value) {
-        this.value = value;
+    publid Annotbtion(Objfdt vbluf) {
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Returns the value of the attribute, which may be null.
+     * Rfturns tif vbluf of tif bttributf, wiidi mby bf null.
      *
-     * @return the value of the attribute
+     * @rfturn tif vbluf of tif bttributf
      */
-    public Object getValue() {
-        return value;
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Returns the String representation of this Annotation.
+     * Rfturns tif String rfprfsfntbtion of tiis Annotbtion.
      *
-     * @return the {@code String} representation of this {@code Annotation}
+     * @rfturn tif {@dodf String} rfprfsfntbtion of tiis {@dodf Annotbtion}
      */
-    public String toString() {
-        return getClass().getName() + "[value=" + value + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[vbluf=" + vbluf + "]";
     }
 
-    private Object value;
+    privbtf Objfdt vbluf;
 
 };

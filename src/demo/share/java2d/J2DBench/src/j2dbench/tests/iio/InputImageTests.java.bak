@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,495 +30,495 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.tests.iio;
+pbdkbgf j2dbfndi.tfsts.iio;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.event.IIOReadProgressListener;
-import javax.imageio.spi.IIORegistry;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.MfdibTrbdkfr;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.nft.URL;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.imbgfio.ImbgfIO;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.fvfnt.IIORfbdProgrfssListfnfr;
+import jbvbx.imbgfio.spi.IIORfgistry;
+import jbvbx.imbgfio.spi.ImbgfRfbdfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
 
-import j2dbench.Group;
-import j2dbench.Modifier;
-import j2dbench.Option;
-import j2dbench.Result;
-import j2dbench.Test;
-import j2dbench.TestEnvironment;
+import j2dbfndi.Group;
+import j2dbfndi.Modififr;
+import j2dbfndi.Option;
+import j2dbfndi.Rfsult;
+import j2dbfndi.Tfst;
+import j2dbfndi.TfstEnvironmfnt;
 
-abstract class InputImageTests extends InputTests {
+bbstrbdt dlbss InputImbgfTfsts fxtfnds InputTfsts {
 
-    private static final int TEST_TOOLKIT     = 1;
-    private static final int TEST_IMAGEIO     = 2;
-    private static final int TEST_IMAGEREADER = 3;
+    privbtf stbtid finbl int TEST_TOOLKIT     = 1;
+    privbtf stbtid finbl int TEST_IMAGEIO     = 2;
+    privbtf stbtid finbl int TEST_IMAGEREADER = 3;
 
-    private static Group imageRoot;
+    privbtf stbtid Group imbgfRoot;
 
-    private static Group toolkitRoot;
-    private static Group toolkitOptRoot;
-    private static Option toolkitReadFormatList;
-    private static Group toolkitTestRoot;
+    privbtf stbtid Group toolkitRoot;
+    privbtf stbtid Group toolkitOptRoot;
+    privbtf stbtid Option toolkitRfbdFormbtList;
+    privbtf stbtid Group toolkitTfstRoot;
 
-    private static Group imageioRoot;
-    private static Group imageioOptRoot;
-    private static ImageReaderSpi[] imageioReaderSpis;
-    private static String[] imageioReadFormatShortNames;
-    private static Option imageioReadFormatList;
-    private static Group imageioTestRoot;
+    privbtf stbtid Group imbgfioRoot;
+    privbtf stbtid Group imbgfioOptRoot;
+    privbtf stbtid ImbgfRfbdfrSpi[] imbgfioRfbdfrSpis;
+    privbtf stbtid String[] imbgfioRfbdFormbtSiortNbmfs;
+    privbtf stbtid Option imbgfioRfbdFormbtList;
+    privbtf stbtid Group imbgfioTfstRoot;
 
-    private static Group imageReaderRoot;
-    private static Group imageReaderOptRoot;
-    private static Option seekForwardOnlyTog;
-    private static Option ignoreMetadataTog;
-    private static Option installListenerTog;
-    private static Group imageReaderTestRoot;
+    privbtf stbtid Group imbgfRfbdfrRoot;
+    privbtf stbtid Group imbgfRfbdfrOptRoot;
+    privbtf stbtid Option sffkForwbrdOnlyTog;
+    privbtf stbtid Option ignorfMftbdbtbTog;
+    privbtf stbtid Option instbllListfnfrTog;
+    privbtf stbtid Group imbgfRfbdfrTfstRoot;
 
-    public static void init() {
-        imageRoot = new Group(inputRoot, "image", "Image Reading Benchmarks");
-        imageRoot.setTabbed();
+    publid stbtid void init() {
+        imbgfRoot = nfw Group(inputRoot, "imbgf", "Imbgf Rfbding Bfndimbrks");
+        imbgfRoot.sftTbbbfd();
 
-        // Toolkit Benchmarks
-        toolkitRoot = new Group(imageRoot, "toolkit", "Toolkit");
+        // Toolkit Bfndimbrks
+        toolkitRoot = nfw Group(imbgfRoot, "toolkit", "Toolkit");
 
-        toolkitOptRoot = new Group(toolkitRoot, "opts", "Toolkit Options");
-        String[] tkFormats = new String[] {"gif", "jpg", "png"};
-        toolkitReadFormatList =
-            new Option.ObjectList(toolkitOptRoot,
-                                  "format", "Image Format",
-                                  tkFormats, tkFormats,
-                                  tkFormats, tkFormats,
+        toolkitOptRoot = nfw Group(toolkitRoot, "opts", "Toolkit Options");
+        String[] tkFormbts = nfw String[] {"gif", "jpg", "png"};
+        toolkitRfbdFormbtList =
+            nfw Option.ObjfdtList(toolkitOptRoot,
+                                  "formbt", "Imbgf Formbt",
+                                  tkFormbts, tkFormbts,
+                                  tkFormbts, tkFormbts,
                                   0x0);
 
-        toolkitTestRoot = new Group(toolkitRoot, "tests", "Toolkit Tests");
-        new ToolkitCreateImage();
+        toolkitTfstRoot = nfw Group(toolkitRoot, "tfsts", "Toolkit Tfsts");
+        nfw ToolkitCrfbtfImbgf();
 
-        // Image I/O Benchmarks
-        if (hasImageIO) {
-            imageioRoot = new Group(imageRoot, "imageio", "Image I/O");
+        // Imbgf I/O Bfndimbrks
+        if (ibsImbgfIO) {
+            imbgfioRoot = nfw Group(imbgfRoot, "imbgfio", "Imbgf I/O");
 
-            // Image I/O Options
-            imageioOptRoot = new Group(imageioRoot, "opts",
-                                       "Image I/O Options");
-            initIIOReadFormats();
-            imageioReadFormatList =
-                new Option.ObjectList(imageioOptRoot,
-                                      "format", "Image Format",
-                                      imageioReadFormatShortNames,
-                                      imageioReaderSpis,
-                                      imageioReadFormatShortNames,
-                                      imageioReadFormatShortNames,
+            // Imbgf I/O Options
+            imbgfioOptRoot = nfw Group(imbgfioRoot, "opts",
+                                       "Imbgf I/O Options");
+            initIIORfbdFormbts();
+            imbgfioRfbdFormbtList =
+                nfw Option.ObjfdtList(imbgfioOptRoot,
+                                      "formbt", "Imbgf Formbt",
+                                      imbgfioRfbdFormbtSiortNbmfs,
+                                      imbgfioRfbdfrSpis,
+                                      imbgfioRfbdFormbtSiortNbmfs,
+                                      imbgfioRfbdFormbtSiortNbmfs,
                                       0x0);
 
-            // Image I/O Tests
-            imageioTestRoot = new Group(imageioRoot, "tests",
-                                        "Image I/O Tests");
-            new ImageIORead();
+            // Imbgf I/O Tfsts
+            imbgfioTfstRoot = nfw Group(imbgfioRoot, "tfsts",
+                                        "Imbgf I/O Tfsts");
+            nfw ImbgfIORfbd();
 
-            // ImageReader Options
-            imageReaderRoot = new Group(imageioRoot, "reader",
-                                        "ImageReader Benchmarks");
-            imageReaderOptRoot = new Group(imageReaderRoot, "opts",
-                                           "ImageReader Options");
-            seekForwardOnlyTog =
-                new Option.Toggle(imageReaderOptRoot,
-                                  "seekForwardOnly",
-                                  "Seek Forward Only",
-                                  Option.Toggle.On);
-            ignoreMetadataTog =
-                new Option.Toggle(imageReaderOptRoot,
-                                  "ignoreMetadata",
-                                  "Ignore Metadata",
-                                  Option.Toggle.On);
-            installListenerTog =
-                new Option.Toggle(imageReaderOptRoot,
-                                  "installListener",
-                                  "Install Progress Listener",
-                                  Option.Toggle.Off);
+            // ImbgfRfbdfr Options
+            imbgfRfbdfrRoot = nfw Group(imbgfioRoot, "rfbdfr",
+                                        "ImbgfRfbdfr Bfndimbrks");
+            imbgfRfbdfrOptRoot = nfw Group(imbgfRfbdfrRoot, "opts",
+                                           "ImbgfRfbdfr Options");
+            sffkForwbrdOnlyTog =
+                nfw Option.Togglf(imbgfRfbdfrOptRoot,
+                                  "sffkForwbrdOnly",
+                                  "Sffk Forwbrd Only",
+                                  Option.Togglf.On);
+            ignorfMftbdbtbTog =
+                nfw Option.Togglf(imbgfRfbdfrOptRoot,
+                                  "ignorfMftbdbtb",
+                                  "Ignorf Mftbdbtb",
+                                  Option.Togglf.On);
+            instbllListfnfrTog =
+                nfw Option.Togglf(imbgfRfbdfrOptRoot,
+                                  "instbllListfnfr",
+                                  "Instbll Progrfss Listfnfr",
+                                  Option.Togglf.Off);
 
-            // ImageReader Tests
-            imageReaderTestRoot = new Group(imageReaderRoot, "tests",
-                                            "ImageReader Tests");
-            new ImageReaderRead();
-            new ImageReaderGetImageMetadata();
+            // ImbgfRfbdfr Tfsts
+            imbgfRfbdfrTfstRoot = nfw Group(imbgfRfbdfrRoot, "tfsts",
+                                            "ImbgfRfbdfr Tfsts");
+            nfw ImbgfRfbdfrRfbd();
+            nfw ImbgfRfbdfrGftImbgfMftbdbtb();
         }
     }
 
-    private static void initIIOReadFormats() {
-        List spis = new ArrayList();
-        List shortNames = new ArrayList();
+    privbtf stbtid void initIIORfbdFormbts() {
+        List spis = nfw ArrbyList();
+        List siortNbmfs = nfw ArrbyList();
 
-        ImageIO.scanForPlugins();
-        IIORegistry registry = IIORegistry.getDefaultInstance();
-        java.util.Iterator readerspis =
-            registry.getServiceProviders(ImageReaderSpi.class, false);
-        while (readerspis.hasNext()) {
-            // REMIND: there could be more than one non-core plugin for
-            // a particular format, as is the case for JPEG2000 in the JAI
-            // IIO Tools package, so we should support that somehow
-            ImageReaderSpi spi = (ImageReaderSpi)readerspis.next();
-            String klass = spi.getClass().getName();
-            String format = spi.getFormatNames()[0].toLowerCase();
-            String suffix = spi.getFileSuffixes()[0].toLowerCase();
-            if (suffix == null || suffix.equals("")) {
-                suffix = format;
+        ImbgfIO.sdbnForPlugins();
+        IIORfgistry rfgistry = IIORfgistry.gftDffbultInstbndf();
+        jbvb.util.Itfrbtor rfbdfrspis =
+            rfgistry.gftSfrvidfProvidfrs(ImbgfRfbdfrSpi.dlbss, fblsf);
+        wiilf (rfbdfrspis.ibsNfxt()) {
+            // REMIND: tifrf dould bf morf tibn onf non-dorf plugin for
+            // b pbrtidulbr formbt, bs is tif dbsf for JPEG2000 in tif JAI
+            // IIO Tools pbdkbgf, so wf siould support tibt somfiow
+            ImbgfRfbdfrSpi spi = (ImbgfRfbdfrSpi)rfbdfrspis.nfxt();
+            String klbss = spi.gftClbss().gftNbmf();
+            String formbt = spi.gftFormbtNbmfs()[0].toLowfrCbsf();
+            String suffix = spi.gftFilfSuffixfs()[0].toLowfrCbsf();
+            if (suffix == null || suffix.fqubls("")) {
+                suffix = formbt;
             }
-            String shortName;
-            if (klass.startsWith("com.sun.imageio.plugins")) {
-                shortName = "core-" + suffix;
-            } else {
-                shortName = "ext-" + suffix;
+            String siortNbmf;
+            if (klbss.stbrtsWiti("dom.sun.imbgfio.plugins")) {
+                siortNbmf = "dorf-" + suffix;
+            } flsf {
+                siortNbmf = "fxt-" + suffix;
             }
-            spis.add(spi);
-            shortNames.add(shortName);
+            spis.bdd(spi);
+            siortNbmfs.bdd(siortNbmf);
         }
 
-        imageioReaderSpis = new ImageReaderSpi[spis.size()];
-        imageioReaderSpis = (ImageReaderSpi[])spis.toArray(imageioReaderSpis);
-        imageioReadFormatShortNames = new String[shortNames.size()];
-        imageioReadFormatShortNames =
-            (String[])shortNames.toArray(imageioReadFormatShortNames);
+        imbgfioRfbdfrSpis = nfw ImbgfRfbdfrSpi[spis.sizf()];
+        imbgfioRfbdfrSpis = (ImbgfRfbdfrSpi[])spis.toArrby(imbgfioRfbdfrSpis);
+        imbgfioRfbdFormbtSiortNbmfs = nfw String[siortNbmfs.sizf()];
+        imbgfioRfbdFormbtSiortNbmfs =
+            (String[])siortNbmfs.toArrby(imbgfioRfbdFormbtSiortNbmfs);
     }
 
-    protected InputImageTests(Group parent,
-                              String nodeName, String description)
+    protfdtfd InputImbgfTfsts(Group pbrfnt,
+                              String nodfNbmf, String dfsdription)
     {
-        super(parent, nodeName, description);
+        supfr(pbrfnt, nodfNbmf, dfsdription);
     }
 
-    public void cleanupTest(TestEnvironment env, Object ctx) {
-        Context iioctx = (Context)ctx;
-        iioctx.cleanup(env);
+    publid void dlfbnupTfst(TfstEnvironmfnt fnv, Objfdt dtx) {
+        Contfxt iiodtx = (Contfxt)dtx;
+        iiodtx.dlfbnup(fnv);
     }
 
-    private static class Context extends InputTests.Context {
-        String format;
-        BufferedImage image;
-        ImageReader reader;
-        boolean seekForwardOnly;
-        boolean ignoreMetadata;
+    privbtf stbtid dlbss Contfxt fxtfnds InputTfsts.Contfxt {
+        String formbt;
+        BufffrfdImbgf imbgf;
+        ImbgfRfbdfr rfbdfr;
+        boolfbn sffkForwbrdOnly;
+        boolfbn ignorfMftbdbtb;
 
-        Context(TestEnvironment env, Result result, int testType) {
-            super(env, result);
+        Contfxt(TfstEnvironmfnt fnv, Rfsult rfsult, int tfstTypf) {
+            supfr(fnv, rfsult);
 
-            String content = (String)env.getModifier(contentList);
-            if (content == null) {
-                content = CONTENT_BLANK;
+            String dontfnt = (String)fnv.gftModififr(dontfntList);
+            if (dontfnt == null) {
+                dontfnt = CONTENT_BLANK;
             }
-            // REMIND: add option for non-opaque images
-            image = createBufferedImage(size, size, content, false);
+            // REMIND: bdd option for non-opbquf imbgfs
+            imbgf = drfbtfBufffrfdImbgf(sizf, sizf, dontfnt, fblsf);
 
-            result.setUnits(size*size);
-            result.setUnitName("pixel");
+            rfsult.sftUnits(sizf*sizf);
+            rfsult.sftUnitNbmf("pixfl");
 
-            if (testType == TEST_IMAGEIO || testType == TEST_IMAGEREADER) {
-                ImageReaderSpi readerspi =
-                    (ImageReaderSpi)env.getModifier(imageioReadFormatList);
-                format = readerspi.getFileSuffixes()[0].toLowerCase();
-                if (testType == TEST_IMAGEREADER) {
-                    seekForwardOnly = env.isEnabled(seekForwardOnlyTog);
-                    ignoreMetadata = env.isEnabled(ignoreMetadataTog);
+            if (tfstTypf == TEST_IMAGEIO || tfstTypf == TEST_IMAGEREADER) {
+                ImbgfRfbdfrSpi rfbdfrspi =
+                    (ImbgfRfbdfrSpi)fnv.gftModififr(imbgfioRfbdFormbtList);
+                formbt = rfbdfrspi.gftFilfSuffixfs()[0].toLowfrCbsf();
+                if (tfstTypf == TEST_IMAGEREADER) {
+                    sffkForwbrdOnly = fnv.isEnbblfd(sffkForwbrdOnlyTog);
+                    ignorfMftbdbtb = fnv.isEnbblfd(ignorfMftbdbtbTog);
                     try {
-                        reader = readerspi.createReaderInstance();
-                    } catch (IOException e) {
-                        System.err.println("error creating reader");
-                        e.printStackTrace();
+                        rfbdfr = rfbdfrspi.drfbtfRfbdfrInstbndf();
+                    } dbtdi (IOExdfption f) {
+                        Systfm.frr.println("frror drfbting rfbdfr");
+                        f.printStbdkTrbdf();
                     }
-                    if (env.isEnabled(installListenerTog)) {
-                        reader.addIIOReadProgressListener(
-                            new ReadProgressListener());
+                    if (fnv.isEnbblfd(instbllListfnfrTog)) {
+                        rfbdfr.bddIIORfbdProgrfssListfnfr(
+                            nfw RfbdProgrfssListfnfr());
                     }
                 }
-                if (format.equals("wbmp")) {
-                    // REMIND: this is a hack to create an image that the
-                    //         WBMPImageWriter can handle (a better approach
-                    //         would involve checking the ImageTypeSpecifier
-                    //         of the writer's default image param)
-                    BufferedImage newimg =
-                        new BufferedImage(size, size,
-                                          BufferedImage.TYPE_BYTE_BINARY);
-                    Graphics g = newimg.createGraphics();
-                    g.drawImage(image, 0, 0, null);
-                    g.dispose();
-                    image = newimg;
+                if (formbt.fqubls("wbmp")) {
+                    // REMIND: tiis is b ibdk to drfbtf bn imbgf tibt tif
+                    //         WBMPImbgfWritfr dbn ibndlf (b bfttfr bpprobdi
+                    //         would involvf difdking tif ImbgfTypfSpfdififr
+                    //         of tif writfr's dffbult imbgf pbrbm)
+                    BufffrfdImbgf nfwimg =
+                        nfw BufffrfdImbgf(sizf, sizf,
+                                          BufffrfdImbgf.TYPE_BYTE_BINARY);
+                    Grbpiids g = nfwimg.drfbtfGrbpiids();
+                    g.drbwImbgf(imbgf, 0, 0, null);
+                    g.disposf();
+                    imbgf = nfwimg;
                 }
-            } else if (testType == TEST_TOOLKIT) {
-                format = (String)env.getModifier(toolkitReadFormatList);
-            } else { // testType == TEST_JPEGCODEC
-                format = "jpeg";
+            } flsf if (tfstTypf == TEST_TOOLKIT) {
+                formbt = (String)fnv.gftModififr(toolkitRfbdFormbtList);
+            } flsf { // tfstTypf == TEST_JPEGCODEC
+                formbt = "jpfg";
             }
 
             initInput();
         }
 
-        void initContents(File f) throws IOException {
-            ImageIO.write(image, format, f);
+        void initContfnts(Filf f) tirows IOExdfption {
+            ImbgfIO.writf(imbgf, formbt, f);
         }
 
-        void initContents(OutputStream out) throws IOException {
-            ImageIO.write(image, format, out);
+        void initContfnts(OutputStrfbm out) tirows IOExdfption {
+            ImbgfIO.writf(imbgf, formbt, out);
         }
 
-        void cleanup(TestEnvironment env) {
-            super.cleanup(env);
-            if (reader != null) {
-                reader.dispose();
-                reader = null;
+        void dlfbnup(TfstEnvironmfnt fnv) {
+            supfr.dlfbnup(fnv);
+            if (rfbdfr != null) {
+                rfbdfr.disposf();
+                rfbdfr = null;
             }
         }
     }
 
-    private static class ToolkitCreateImage extends InputImageTests {
-        private static final Component canvas = new Component() {};
+    privbtf stbtid dlbss ToolkitCrfbtfImbgf fxtfnds InputImbgfTfsts {
+        privbtf stbtid finbl Componfnt dbnvbs = nfw Componfnt() {};
 
-        public ToolkitCreateImage() {
-            super(toolkitTestRoot,
-                  "createImage",
-                  "Toolkit.createImage()");
-            addDependency(generalSourceRoot,
-                new Modifier.Filter() {
-                    public boolean isCompatible(Object val) {
-                        // Toolkit handles FILE, URL, and ARRAY, but
+        publid ToolkitCrfbtfImbgf() {
+            supfr(toolkitTfstRoot,
+                  "drfbtfImbgf",
+                  "Toolkit.drfbtfImbgf()");
+            bddDfpfndfndy(gfnfrblSourdfRoot,
+                nfw Modififr.Filtfr() {
+                    publid boolfbn isCompbtiblf(Objfdt vbl) {
+                        // Toolkit ibndlfs FILE, URL, bnd ARRAY, but
                         // not FILECHANNEL
-                        InputType t = (InputType)val;
-                        return (t.getType() != INPUT_FILECHANNEL);
+                        InputTypf t = (InputTypf)vbl;
+                        rfturn (t.gftTypf() != INPUT_FILECHANNEL);
                     }
                 });
-            addDependencies(toolkitOptRoot, true);
+            bddDfpfndfndifs(toolkitOptRoot, truf);
         }
 
-        public Object initTest(TestEnvironment env, Result result) {
-            return new Context(env, result, TEST_TOOLKIT);
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            rfturn nfw Contfxt(fnv, rfsult, TEST_TOOLKIT);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final Object input = ictx.input;
-            final int inputType = ictx.inputType;
-            final Toolkit tk = Toolkit.getDefaultToolkit();
-            final MediaTracker mt = new MediaTracker(canvas);
-            switch (inputType) {
-            case INPUT_FILE:
-                String filename = ((File)input).getAbsolutePath();
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl Objfdt input = idtx.input;
+            finbl int inputTypf = idtx.inputTypf;
+            finbl Toolkit tk = Toolkit.gftDffbultToolkit();
+            finbl MfdibTrbdkfr mt = nfw MfdibTrbdkfr(dbnvbs);
+            switdi (inputTypf) {
+            dbsf INPUT_FILE:
+                String filfnbmf = ((Filf)input).gftAbsolutfPbti();
                 do {
                     try {
-                        Image img = tk.createImage(filename);
-                        mt.addImage(img, 0);
-                        mt.waitForID(0, 0);
-                        mt.removeImage(img, 0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        Imbgf img = tk.drfbtfImbgf(filfnbmf);
+                        mt.bddImbgf(img, 0);
+                        mt.wbitForID(0, 0);
+                        mt.rfmovfImbgf(img, 0);
+                    } dbtdi (Exdfption f) {
+                        f.printStbdkTrbdf();
                     }
-                } while (--numReps >= 0);
-                break;
-            case INPUT_URL:
+                } wiilf (--numRfps >= 0);
+                brfbk;
+            dbsf INPUT_URL:
                 do {
                     try {
-                        Image img = tk.createImage((URL)input);
-                        mt.addImage(img, 0);
-                        mt.waitForID(0, 0);
-                        mt.removeImage(img, 0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        Imbgf img = tk.drfbtfImbgf((URL)input);
+                        mt.bddImbgf(img, 0);
+                        mt.wbitForID(0, 0);
+                        mt.rfmovfImbgf(img, 0);
+                    } dbtdi (Exdfption f) {
+                        f.printStbdkTrbdf();
                     }
-                } while (--numReps >= 0);
-                break;
-            case INPUT_ARRAY:
+                } wiilf (--numRfps >= 0);
+                brfbk;
+            dbsf INPUT_ARRAY:
                 do {
                     try {
-                        Image img = tk.createImage((byte[])input);
-                        mt.addImage(img, 0);
-                        mt.waitForID(0, 0);
-                        mt.removeImage(img, 0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        Imbgf img = tk.drfbtfImbgf((bytf[])input);
+                        mt.bddImbgf(img, 0);
+                        mt.wbitForID(0, 0);
+                        mt.rfmovfImbgf(img, 0);
+                    } dbtdi (Exdfption f) {
+                        f.printStbdkTrbdf();
                     }
-                } while (--numReps >= 0);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid input type");
+                } wiilf (--numRfps >= 0);
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Invblid input typf");
             }
         }
     }
 
-    private static class ImageIORead extends InputImageTests {
-        public ImageIORead() {
-            super(imageioTestRoot,
-                  "imageioRead",
-                  "ImageIO.read()");
-            addDependency(generalSourceRoot,
-                new Modifier.Filter() {
-                    public boolean isCompatible(Object val) {
-                        // ImageIO.read() handles FILE, URL, and ARRAY, but
-                        // not FILECHANNEL (well, I suppose we could create
-                        // an ImageInputStream from a FileChannel source,
-                        // but that's not a common use case; FileChannel is
-                        // better handled by the ImageReader tests below)
-                        InputType t = (InputType)val;
-                        return (t.getType() != INPUT_FILECHANNEL);
+    privbtf stbtid dlbss ImbgfIORfbd fxtfnds InputImbgfTfsts {
+        publid ImbgfIORfbd() {
+            supfr(imbgfioTfstRoot,
+                  "imbgfioRfbd",
+                  "ImbgfIO.rfbd()");
+            bddDfpfndfndy(gfnfrblSourdfRoot,
+                nfw Modififr.Filtfr() {
+                    publid boolfbn isCompbtiblf(Objfdt vbl) {
+                        // ImbgfIO.rfbd() ibndlfs FILE, URL, bnd ARRAY, but
+                        // not FILECHANNEL (wfll, I supposf wf dould drfbtf
+                        // bn ImbgfInputStrfbm from b FilfCibnnfl sourdf,
+                        // but tibt's not b dommon usf dbsf; FilfCibnnfl is
+                        // bfttfr ibndlfd by tif ImbgfRfbdfr tfsts bflow)
+                        InputTypf t = (InputTypf)vbl;
+                        rfturn (t.gftTypf() != INPUT_FILECHANNEL);
                     }
                 });
-            addDependencies(imageioOptRoot, true);
+            bddDfpfndfndifs(imbgfioOptRoot, truf);
         }
 
-        public Object initTest(TestEnvironment env, Result result) {
-            return new Context(env, result, TEST_IMAGEIO);
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            rfturn nfw Contfxt(fnv, rfsult, TEST_IMAGEIO);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final Object input = ictx.input;
-            final int inputType = ictx.inputType;
-            switch (inputType) {
-            case INPUT_FILE:
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl Objfdt input = idtx.input;
+            finbl int inputTypf = idtx.inputTypf;
+            switdi (inputTypf) {
+            dbsf INPUT_FILE:
                 do {
                     try {
-                        ImageIO.read((File)input);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        ImbgfIO.rfbd((Filf)input);
+                    } dbtdi (Exdfption f) {
+                        f.printStbdkTrbdf();
                     }
-                } while (--numReps >= 0);
-                break;
-            case INPUT_URL:
+                } wiilf (--numRfps >= 0);
+                brfbk;
+            dbsf INPUT_URL:
                 do {
                     try {
-                        ImageIO.read((URL)input);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        ImbgfIO.rfbd((URL)input);
+                    } dbtdi (Exdfption f) {
+                        f.printStbdkTrbdf();
                     }
-                } while (--numReps >= 0);
-                break;
-            case INPUT_ARRAY:
+                } wiilf (--numRfps >= 0);
+                brfbk;
+            dbsf INPUT_ARRAY:
                 do {
                     try {
-                        ByteArrayInputStream bais =
-                            new ByteArrayInputStream((byte[])input);
-                        BufferedInputStream bis =
-                            new BufferedInputStream(bais);
-                        ImageIO.read(bis);
-                        bais.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        BytfArrbyInputStrfbm bbis =
+                            nfw BytfArrbyInputStrfbm((bytf[])input);
+                        BufffrfdInputStrfbm bis =
+                            nfw BufffrfdInputStrfbm(bbis);
+                        ImbgfIO.rfbd(bis);
+                        bbis.dlosf();
+                    } dbtdi (Exdfption f) {
+                        f.printStbdkTrbdf();
                     }
-                } while (--numReps >= 0);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid input type");
+                } wiilf (--numRfps >= 0);
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Invblid input typf");
             }
         }
     }
 
-    private static class ImageReaderRead extends InputImageTests {
-        public ImageReaderRead() {
-            super(imageReaderTestRoot,
-                  "read",
-                  "ImageReader.read()");
-            addDependency(generalSourceRoot);
-            addDependencies(imageioGeneralOptRoot, true);
-            addDependencies(imageioOptRoot, true);
-            addDependencies(imageReaderOptRoot, true);
+    privbtf stbtid dlbss ImbgfRfbdfrRfbd fxtfnds InputImbgfTfsts {
+        publid ImbgfRfbdfrRfbd() {
+            supfr(imbgfRfbdfrTfstRoot,
+                  "rfbd",
+                  "ImbgfRfbdfr.rfbd()");
+            bddDfpfndfndy(gfnfrblSourdfRoot);
+            bddDfpfndfndifs(imbgfioGfnfrblOptRoot, truf);
+            bddDfpfndfndifs(imbgfioOptRoot, truf);
+            bddDfpfndfndifs(imbgfRfbdfrOptRoot, truf);
         }
 
-        public Object initTest(TestEnvironment env, Result result) {
-            return new Context(env, result, TEST_IMAGEREADER);
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            rfturn nfw Contfxt(fnv, rfsult, TEST_IMAGEREADER);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageReader reader = ictx.reader;
-            final boolean seekForwardOnly = ictx.seekForwardOnly;
-            final boolean ignoreMetadata = ictx.ignoreMetadata;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfRfbdfr rfbdfr = idtx.rfbdfr;
+            finbl boolfbn sffkForwbrdOnly = idtx.sffkForwbrdOnly;
+            finbl boolfbn ignorfMftbdbtb = idtx.ignorfMftbdbtb;
             do {
                 try {
-                    ImageInputStream iis = ictx.createImageInputStream();
-                    reader.setInput(iis, seekForwardOnly, ignoreMetadata);
-                    reader.read(0);
-                    reader.reset();
-                    iis.close();
-                    ictx.closeOriginalStream();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    ImbgfInputStrfbm iis = idtx.drfbtfImbgfInputStrfbm();
+                    rfbdfr.sftInput(iis, sffkForwbrdOnly, ignorfMftbdbtb);
+                    rfbdfr.rfbd(0);
+                    rfbdfr.rfsft();
+                    iis.dlosf();
+                    idtx.dlosfOriginblStrfbm();
+                } dbtdi (IOExdfption f) {
+                    f.printStbdkTrbdf();
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    private static class ImageReaderGetImageMetadata extends InputImageTests {
-        public ImageReaderGetImageMetadata() {
-            super(imageReaderTestRoot,
-                  "getImageMetadata",
-                  "ImageReader.getImageMetadata()");
-            addDependency(generalSourceRoot);
-            addDependencies(imageioGeneralOptRoot, true);
-            addDependencies(imageioOptRoot, true);
-            addDependencies(imageReaderOptRoot, true);
+    privbtf stbtid dlbss ImbgfRfbdfrGftImbgfMftbdbtb fxtfnds InputImbgfTfsts {
+        publid ImbgfRfbdfrGftImbgfMftbdbtb() {
+            supfr(imbgfRfbdfrTfstRoot,
+                  "gftImbgfMftbdbtb",
+                  "ImbgfRfbdfr.gftImbgfMftbdbtb()");
+            bddDfpfndfndy(gfnfrblSourdfRoot);
+            bddDfpfndfndifs(imbgfioGfnfrblOptRoot, truf);
+            bddDfpfndfndifs(imbgfioOptRoot, truf);
+            bddDfpfndfndifs(imbgfRfbdfrOptRoot, truf);
         }
 
-        public Object initTest(TestEnvironment env, Result result) {
-            Context ctx = new Context(env, result, TEST_IMAGEREADER);
-            // override units since this test doesn't read "pixels"
-            result.setUnits(1);
-            result.setUnitName("image");
-            return ctx;
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult, TEST_IMAGEREADER);
+            // ovfrridf units sindf tiis tfst dofsn't rfbd "pixfls"
+            rfsult.sftUnits(1);
+            rfsult.sftUnitNbmf("imbgf");
+            rfturn dtx;
         }
 
-        public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageReader reader = ictx.reader;
-            final boolean seekForwardOnly = ictx.seekForwardOnly;
-            final boolean ignoreMetadata = ictx.ignoreMetadata;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfRfbdfr rfbdfr = idtx.rfbdfr;
+            finbl boolfbn sffkForwbrdOnly = idtx.sffkForwbrdOnly;
+            finbl boolfbn ignorfMftbdbtb = idtx.ignorfMftbdbtb;
             do {
                 try {
-                    ImageInputStream iis = ictx.createImageInputStream();
-                    reader.setInput(iis, seekForwardOnly, ignoreMetadata);
-                    reader.getImageMetadata(0);
-                    reader.reset();
-                    iis.close();
-                    ictx.closeOriginalStream();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    ImbgfInputStrfbm iis = idtx.drfbtfImbgfInputStrfbm();
+                    rfbdfr.sftInput(iis, sffkForwbrdOnly, ignorfMftbdbtb);
+                    rfbdfr.gftImbgfMftbdbtb(0);
+                    rfbdfr.rfsft();
+                    iis.dlosf();
+                    idtx.dlosfOriginblStrfbm();
+                } dbtdi (IOExdfption f) {
+                    f.printStbdkTrbdf();
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    private static class ReadProgressListener
-        implements IIOReadProgressListener
+    privbtf stbtid dlbss RfbdProgrfssListfnfr
+        implfmfnts IIORfbdProgrfssListfnfr
     {
-        public void sequenceStarted(ImageReader source, int minIndex) {}
-        public void sequenceComplete(ImageReader source) {}
-        public void imageStarted(ImageReader source, int imageIndex) {}
-        public void imageProgress(ImageReader source, float percentageDone) {}
-        public void imageComplete(ImageReader source) {}
-        public void thumbnailStarted(ImageReader source,
-                                     int imageIndex, int thumbnailIndex) {}
-        public void thumbnailProgress(ImageReader source,
-                                      float percentageDone) {}
-        public void thumbnailComplete(ImageReader source) {}
-        public void readAborted(ImageReader source) {}
+        publid void sfqufndfStbrtfd(ImbgfRfbdfr sourdf, int minIndfx) {}
+        publid void sfqufndfComplftf(ImbgfRfbdfr sourdf) {}
+        publid void imbgfStbrtfd(ImbgfRfbdfr sourdf, int imbgfIndfx) {}
+        publid void imbgfProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf) {}
+        publid void imbgfComplftf(ImbgfRfbdfr sourdf) {}
+        publid void tiumbnbilStbrtfd(ImbgfRfbdfr sourdf,
+                                     int imbgfIndfx, int tiumbnbilIndfx) {}
+        publid void tiumbnbilProgrfss(ImbgfRfbdfr sourdf,
+                                      flobt pfrdfntbgfDonf) {}
+        publid void tiumbnbilComplftf(ImbgfRfbdfr sourdf) {}
+        publid void rfbdAbortfd(ImbgfRfbdfr sourdf) {}
     }
 }

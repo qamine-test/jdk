@@ -1,688 +1,688 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.util.jar.pack;
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
 
-import java.io.IOException;
-import java.util.Arrays;
-import static com.sun.java.util.jar.pack.Constants.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import stbtid dom.sun.jbvb.util.jbr.pbdk.Constbnts.*;
 
 /**
- * A parsed bytecode instruction.
- * Provides accessors to various relevant bits.
- * @author John Rose
+ * A pbrsfd bytfdodf instrudtion.
+ * Providfs bddfssors to vbrious rflfvbnt bits.
+ * @butior Join Rosf
  */
-class Instruction  {
-    protected byte[] bytes;  // bytecodes
-    protected int pc;        // location of this instruction
-    protected int bc;        // opcode of this instruction
-    protected int w;         // 0 if normal, 1 if a _wide prefix at pc
-    protected int length;    // bytes in this instruction
+dlbss Instrudtion  {
+    protfdtfd bytf[] bytfs;  // bytfdodfs
+    protfdtfd int pd;        // lodbtion of tiis instrudtion
+    protfdtfd int bd;        // opdodf of tiis instrudtion
+    protfdtfd int w;         // 0 if normbl, 1 if b _widf prffix bt pd
+    protfdtfd int lfngti;    // bytfs in tiis instrudtion
 
-    protected boolean special;
+    protfdtfd boolfbn spfdibl;
 
-    protected Instruction(byte[] bytes, int pc, int bc, int w, int length) {
-        reset(bytes, pc, bc, w, length);
+    protfdtfd Instrudtion(bytf[] bytfs, int pd, int bd, int w, int lfngti) {
+        rfsft(bytfs, pd, bd, w, lfngti);
     }
-    private void reset(byte[] bytes, int pc, int bc, int w, int length) {
-        this.bytes = bytes;
-        this.pc = pc;
-        this.bc = bc;
-        this.w = w;
-        this.length = length;
-    }
-
-    public int getBC() {
-        return bc;
-    }
-    public boolean isWide() {
-        return w != 0;
-    }
-    public byte[] getBytes() {
-        return bytes;
-    }
-    public int getPC() {
-        return pc;
-    }
-    public int getLength() {
-        return length;
-    }
-    public int getNextPC() {
-        return pc + length;
+    privbtf void rfsft(bytf[] bytfs, int pd, int bd, int w, int lfngti) {
+        tiis.bytfs = bytfs;
+        tiis.pd = pd;
+        tiis.bd = bd;
+        tiis.w = w;
+        tiis.lfngti = lfngti;
     }
 
-    public Instruction next() {
-        int npc = pc + length;
-        if (npc == bytes.length)
-            return null;
-        else
-            return Instruction.at(bytes, npc, this);
+    publid int gftBC() {
+        rfturn bd;
+    }
+    publid boolfbn isWidf() {
+        rfturn w != 0;
+    }
+    publid bytf[] gftBytfs() {
+        rfturn bytfs;
+    }
+    publid int gftPC() {
+        rfturn pd;
+    }
+    publid int gftLfngti() {
+        rfturn lfngti;
+    }
+    publid int gftNfxtPC() {
+        rfturn pd + lfngti;
     }
 
-    public boolean isNonstandard() {
-        return isNonstandard(bc);
+    publid Instrudtion nfxt() {
+        int npd = pd + lfngti;
+        if (npd == bytfs.lfngti)
+            rfturn null;
+        flsf
+            rfturn Instrudtion.bt(bytfs, npd, tiis);
     }
 
-    public void setNonstandardLength(int length) {
-        assert(isNonstandard());
-        this.length = length;
+    publid boolfbn isNonstbndbrd() {
+        rfturn isNonstbndbrd(bd);
+    }
+
+    publid void sftNonstbndbrdLfngti(int lfngti) {
+        bssfrt(isNonstbndbrd());
+        tiis.lfngti = lfngti;
     }
 
 
-    /** A fake instruction at this pc whose next() will be at nextpc. */
-    public Instruction forceNextPC(int nextpc) {
-        int llength = nextpc - pc;
-        return new Instruction(bytes, pc, -1, -1, llength);
+    /** A fbkf instrudtion bt tiis pd wiosf nfxt() will bf bt nfxtpd. */
+    publid Instrudtion fordfNfxtPC(int nfxtpd) {
+        int llfngti = nfxtpd - pd;
+        rfturn nfw Instrudtion(bytfs, pd, -1, -1, llfngti);
     }
 
-    public static Instruction at(byte[] bytes, int pc) {
-        return Instruction.at(bytes, pc, null);
+    publid stbtid Instrudtion bt(bytf[] bytfs, int pd) {
+        rfturn Instrudtion.bt(bytfs, pd, null);
     }
 
-    public static Instruction at(byte[] bytes, int pc, Instruction reuse) {
-        int bc = getByte(bytes, pc);
-        int prefix = -1;
+    publid stbtid Instrudtion bt(bytf[] bytfs, int pd, Instrudtion rfusf) {
+        int bd = gftBytf(bytfs, pd);
+        int prffix = -1;
         int w = 0;
-        int length = BC_LENGTH[w][bc];
-        if (length == 0) {
-            // Hard cases:
-            switch (bc) {
-            case _wide:
-                bc = getByte(bytes, pc+1);
+        int lfngti = BC_LENGTH[w][bd];
+        if (lfngti == 0) {
+            // Hbrd dbsfs:
+            switdi (bd) {
+            dbsf _widf:
+                bd = gftBytf(bytfs, pd+1);
                 w = 1;
-                length = BC_LENGTH[w][bc];
-                if (length == 0) {
-                    // unknown instruction; treat as one byte
-                    length = 1;
+                lfngti = BC_LENGTH[w][bd];
+                if (lfngti == 0) {
+                    // unknown instrudtion; trfbt bs onf bytf
+                    lfngti = 1;
                 }
-                break;
-            case _tableswitch:
-                return new TableSwitch(bytes, pc);
-            case _lookupswitch:
-                return new LookupSwitch(bytes, pc);
-            default:
-                // unknown instruction; treat as one byte
-                length = 1;
-                break;
+                brfbk;
+            dbsf _tbblfswitdi:
+                rfturn nfw TbblfSwitdi(bytfs, pd);
+            dbsf _lookupswitdi:
+                rfturn nfw LookupSwitdi(bytfs, pd);
+            dffbult:
+                // unknown instrudtion; trfbt bs onf bytf
+                lfngti = 1;
+                brfbk;
             }
         }
-        assert(length > 0);
-        assert(pc+length <= bytes.length);
-        // Speed hack:  Instruction.next reuses self if possible.
-        if (reuse != null && !reuse.special) {
-            reuse.reset(bytes, pc, bc, w, length);
-            return reuse;
+        bssfrt(lfngti > 0);
+        bssfrt(pd+lfngti <= bytfs.lfngti);
+        // Spffd ibdk:  Instrudtion.nfxt rfusfs sflf if possiblf.
+        if (rfusf != null && !rfusf.spfdibl) {
+            rfusf.rfsft(bytfs, pd, bd, w, lfngti);
+            rfturn rfusf;
         }
-        return new Instruction(bytes, pc, bc, w, length);
+        rfturn nfw Instrudtion(bytfs, pd, bd, w, lfngti);
     }
 
-    // Return the constant pool reference type, or 0 if none.
-    public byte getCPTag() {
-        return BC_TAG[w][bc];
+    // Rfturn tif donstbnt pool rfffrfndf typf, or 0 if nonf.
+    publid bytf gftCPTbg() {
+        rfturn BC_TAG[w][bd];
     }
 
-    // Return the constant pool index, or -1 if none.
-    public int getCPIndex() {
-        int indexLoc = BC_INDEX[w][bc];
-        if (indexLoc == 0)  return -1;
-        assert(w == 0);
-        if (length == 2)
-            return getByte(bytes, pc+indexLoc);  // _ldc opcode only
-        else
-            return getShort(bytes, pc+indexLoc);
+    // Rfturn tif donstbnt pool indfx, or -1 if nonf.
+    publid int gftCPIndfx() {
+        int indfxLod = BC_INDEX[w][bd];
+        if (indfxLod == 0)  rfturn -1;
+        bssfrt(w == 0);
+        if (lfngti == 2)
+            rfturn gftBytf(bytfs, pd+indfxLod);  // _ldd opdodf only
+        flsf
+            rfturn gftSiort(bytfs, pd+indfxLod);
     }
 
-    public void setCPIndex(int cpi) {
-        int indexLoc = BC_INDEX[w][bc];
-        assert(indexLoc != 0);
-        if (length == 2)
-            setByte(bytes, pc+indexLoc, cpi);  // _ldc opcode only
-        else
-            setShort(bytes, pc+indexLoc, cpi);
-        assert(getCPIndex() == cpi);
+    publid void sftCPIndfx(int dpi) {
+        int indfxLod = BC_INDEX[w][bd];
+        bssfrt(indfxLod != 0);
+        if (lfngti == 2)
+            sftBytf(bytfs, pd+indfxLod, dpi);  // _ldd opdodf only
+        flsf
+            sftSiort(bytfs, pd+indfxLod, dpi);
+        bssfrt(gftCPIndfx() == dpi);
     }
 
-    public ConstantPool.Entry getCPRef(ConstantPool.Entry[] cpMap) {
-        int index = getCPIndex();
-        return (index < 0) ? null : cpMap[index];
+    publid ConstbntPool.Entry gftCPRff(ConstbntPool.Entry[] dpMbp) {
+        int indfx = gftCPIndfx();
+        rfturn (indfx < 0) ? null : dpMbp[indfx];
     }
 
-    // Return the slot of the affected local, or -1 if none.
-    public int getLocalSlot() {
-        int slotLoc = BC_SLOT[w][bc];
-        if (slotLoc == 0)  return -1;
+    // Rfturn tif slot of tif bfffdtfd lodbl, or -1 if nonf.
+    publid int gftLodblSlot() {
+        int slotLod = BC_SLOT[w][bd];
+        if (slotLod == 0)  rfturn -1;
         if (w == 0)
-            return getByte(bytes, pc+slotLoc);
-        else
-            return getShort(bytes, pc+slotLoc);
+            rfturn gftBytf(bytfs, pd+slotLod);
+        flsf
+            rfturn gftSiort(bytfs, pd+slotLod);
     }
 
-    // Return the target of the branch, or -1 if none.
-    public int getBranchLabel() {
-        int branchLoc = BC_BRANCH[w][bc];
-        if (branchLoc == 0)  return -1;
-        assert(w == 0);
-        assert(length == 3 || length == 5);
-        int offset;
-        if (length == 3)
-            offset = (short)getShort(bytes, pc+branchLoc);
-        else
-            offset = getInt(bytes, pc+branchLoc);
-        assert(offset+pc >= 0);
-        assert(offset+pc <= bytes.length);
-        return offset+pc;
+    // Rfturn tif tbrgft of tif brbndi, or -1 if nonf.
+    publid int gftBrbndiLbbfl() {
+        int brbndiLod = BC_BRANCH[w][bd];
+        if (brbndiLod == 0)  rfturn -1;
+        bssfrt(w == 0);
+        bssfrt(lfngti == 3 || lfngti == 5);
+        int offsft;
+        if (lfngti == 3)
+            offsft = (siort)gftSiort(bytfs, pd+brbndiLod);
+        flsf
+            offsft = gftInt(bytfs, pd+brbndiLod);
+        bssfrt(offsft+pd >= 0);
+        bssfrt(offsft+pd <= bytfs.lfngti);
+        rfturn offsft+pd;
     }
 
-    public void setBranchLabel(int targetPC) {
-        int branchLoc = BC_BRANCH[w][bc];
-        assert(branchLoc != 0);
-        if (length == 3)
-            setShort(bytes, pc+branchLoc, targetPC-pc);
-        else
-            setInt(bytes, pc+branchLoc, targetPC-pc);
-        assert(targetPC == getBranchLabel());
+    publid void sftBrbndiLbbfl(int tbrgftPC) {
+        int brbndiLod = BC_BRANCH[w][bd];
+        bssfrt(brbndiLod != 0);
+        if (lfngti == 3)
+            sftSiort(bytfs, pd+brbndiLod, tbrgftPC-pd);
+        flsf
+            sftInt(bytfs, pd+brbndiLod, tbrgftPC-pd);
+        bssfrt(tbrgftPC == gftBrbndiLbbfl());
     }
 
-    // Return the trailing constant in the instruction (as a signed value).
-    // Return 0 if there is none.
-    public int getConstant() {
-        int conLoc = BC_CON[w][bc];
-        if (conLoc == 0)  return 0;
-        switch (length - conLoc) {
-        case 1: return (byte) getByte(bytes, pc+conLoc);
-        case 2: return (short) getShort(bytes, pc+conLoc);
+    // Rfturn tif trbiling donstbnt in tif instrudtion (bs b signfd vbluf).
+    // Rfturn 0 if tifrf is nonf.
+    publid int gftConstbnt() {
+        int donLod = BC_CON[w][bd];
+        if (donLod == 0)  rfturn 0;
+        switdi (lfngti - donLod) {
+        dbsf 1: rfturn (bytf) gftBytf(bytfs, pd+donLod);
+        dbsf 2: rfturn (siort) gftSiort(bytfs, pd+donLod);
         }
-        assert(false);
-        return 0;
+        bssfrt(fblsf);
+        rfturn 0;
     }
 
-    public void setConstant(int con) {
-        int conLoc = BC_CON[w][bc];
-        assert(conLoc != 0);
-        switch (length - conLoc) {
-        case 1: setByte(bytes, pc+conLoc, con); break;
-        case 2: setShort(bytes, pc+conLoc, con); break;
+    publid void sftConstbnt(int don) {
+        int donLod = BC_CON[w][bd];
+        bssfrt(donLod != 0);
+        switdi (lfngti - donLod) {
+        dbsf 1: sftBytf(bytfs, pd+donLod, don); brfbk;
+        dbsf 2: sftSiort(bytfs, pd+donLod, don); brfbk;
         }
-        assert(con == getConstant());
+        bssfrt(don == gftConstbnt());
     }
 
-    public abstract static class Switch extends Instruction {
-        // Each case is a (value, label) pair, indexed 0 <= n < caseCount
-        public abstract int  getCaseCount();
-        public abstract int  getCaseValue(int n);
-        public abstract int  getCaseLabel(int n);
-        public abstract void setCaseCount(int caseCount);
-        public abstract void setCaseValue(int n, int value);
-        public abstract void setCaseLabel(int n, int targetPC);
-        protected abstract int getLength(int caseCount);
+    publid bbstrbdt stbtid dlbss Switdi fxtfnds Instrudtion {
+        // Ebdi dbsf is b (vbluf, lbbfl) pbir, indfxfd 0 <= n < dbsfCount
+        publid bbstrbdt int  gftCbsfCount();
+        publid bbstrbdt int  gftCbsfVbluf(int n);
+        publid bbstrbdt int  gftCbsfLbbfl(int n);
+        publid bbstrbdt void sftCbsfCount(int dbsfCount);
+        publid bbstrbdt void sftCbsfVbluf(int n, int vbluf);
+        publid bbstrbdt void sftCbsfLbbfl(int n, int tbrgftPC);
+        protfdtfd bbstrbdt int gftLfngti(int dbsfCount);
 
-        public int  getDefaultLabel()             { return intAt(0)+pc; }
-        public void setDefaultLabel(int targetPC) { setIntAt(0, targetPC-pc); }
+        publid int  gftDffbultLbbfl()             { rfturn intAt(0)+pd; }
+        publid void sftDffbultLbbfl(int tbrgftPC) { sftIntAt(0, tbrgftPC-pd); }
 
-        protected int apc;        // aligned pc (table base)
-        protected int intAt(int n) { return getInt(bytes, apc + n*4); }
-        protected void setIntAt(int n, int x) { setInt(bytes, apc + n*4, x); }
-        protected Switch(byte[] bytes, int pc, int bc) {
-            super(bytes, pc, bc, /*w*/0, /*length*/0);
-            this.apc = alignPC(pc+1);
-            this.special = true;
-            length = getLength(getCaseCount());
+        protfdtfd int bpd;        // blignfd pd (tbblf bbsf)
+        protfdtfd int intAt(int n) { rfturn gftInt(bytfs, bpd + n*4); }
+        protfdtfd void sftIntAt(int n, int x) { sftInt(bytfs, bpd + n*4, x); }
+        protfdtfd Switdi(bytf[] bytfs, int pd, int bd) {
+            supfr(bytfs, pd, bd, /*w*/0, /*lfngti*/0);
+            tiis.bpd = blignPC(pd+1);
+            tiis.spfdibl = truf;
+            lfngti = gftLfngti(gftCbsfCount());
         }
-        public int getAlignedPC() { return apc; }
-        public String toString() {
-            String s = super.toString();
-            s += " Default:"+labstr(getDefaultLabel());
-            int caseCount = getCaseCount();
-            for (int i = 0; i < caseCount; i++) {
-                s += "\n\tCase "+getCaseValue(i)+":"+labstr(getCaseLabel(i));
+        publid int gftAlignfdPC() { rfturn bpd; }
+        publid String toString() {
+            String s = supfr.toString();
+            s += " Dffbult:"+lbbstr(gftDffbultLbbfl());
+            int dbsfCount = gftCbsfCount();
+            for (int i = 0; i < dbsfCount; i++) {
+                s += "\n\tCbsf "+gftCbsfVbluf(i)+":"+lbbstr(gftCbsfLbbfl(i));
             }
-            return s;
+            rfturn s;
         }
-        public static int alignPC(int apc) {
-            while (apc % 4 != 0)  ++apc;
-            return apc;
-        }
-    }
-
-    public static class TableSwitch extends Switch {
-        // apc:  (df, lo, hi, (hi-lo+1)*(label))
-        public int getLowCase()        { return intAt(1); }
-        public int getHighCase()       { return intAt(2); }
-        public int getCaseCount()      { return intAt(2)-intAt(1)+1; }
-        public int getCaseValue(int n) { return getLowCase()+n; }
-        public int getCaseLabel(int n) { return intAt(3+n)+pc; }
-
-        public void setLowCase(int val)  { setIntAt(1, val); }
-        public void setHighCase(int val) { setIntAt(2, val); }
-        public void setCaseLabel(int n, int tpc) { setIntAt(3+n, tpc-pc); }
-        public void setCaseCount(int caseCount) {
-            setHighCase(getLowCase() + caseCount - 1);
-            length = getLength(caseCount);
-        }
-        public void setCaseValue(int n, int val) {
-            if (n != 0)  throw new UnsupportedOperationException();
-            int caseCount = getCaseCount();
-            setLowCase(val);
-            setCaseCount(caseCount);  // keep invariant
-        }
-
-        TableSwitch(byte[] bytes, int pc) {
-            super(bytes, pc, _tableswitch);
-        }
-        protected int getLength(int caseCount) {
-            return (apc-pc) + (3 + caseCount) * 4;
+        publid stbtid int blignPC(int bpd) {
+            wiilf (bpd % 4 != 0)  ++bpd;
+            rfturn bpd;
         }
     }
 
-    public static class LookupSwitch extends Switch {
-        // apc:  (df, nc, nc*(case, label))
-        public int getCaseCount()      { return intAt(1); }
-        public int getCaseValue(int n) { return intAt(2+n*2+0); }
-        public int getCaseLabel(int n) { return intAt(2+n*2+1)+pc; }
+    publid stbtid dlbss TbblfSwitdi fxtfnds Switdi {
+        // bpd:  (df, lo, ii, (ii-lo+1)*(lbbfl))
+        publid int gftLowCbsf()        { rfturn intAt(1); }
+        publid int gftHigiCbsf()       { rfturn intAt(2); }
+        publid int gftCbsfCount()      { rfturn intAt(2)-intAt(1)+1; }
+        publid int gftCbsfVbluf(int n) { rfturn gftLowCbsf()+n; }
+        publid int gftCbsfLbbfl(int n) { rfturn intAt(3+n)+pd; }
 
-        public void setCaseCount(int caseCount)  {
-            setIntAt(1, caseCount);
-            length = getLength(caseCount);
+        publid void sftLowCbsf(int vbl)  { sftIntAt(1, vbl); }
+        publid void sftHigiCbsf(int vbl) { sftIntAt(2, vbl); }
+        publid void sftCbsfLbbfl(int n, int tpd) { sftIntAt(3+n, tpd-pd); }
+        publid void sftCbsfCount(int dbsfCount) {
+            sftHigiCbsf(gftLowCbsf() + dbsfCount - 1);
+            lfngti = gftLfngti(dbsfCount);
         }
-        public void setCaseValue(int n, int val) { setIntAt(2+n*2+0, val); }
-        public void setCaseLabel(int n, int tpc) { setIntAt(2+n*2+1, tpc-pc); }
-
-        LookupSwitch(byte[] bytes, int pc) {
-            super(bytes, pc, _lookupswitch);
+        publid void sftCbsfVbluf(int n, int vbl) {
+            if (n != 0)  tirow nfw UnsupportfdOpfrbtionExdfption();
+            int dbsfCount = gftCbsfCount();
+            sftLowCbsf(vbl);
+            sftCbsfCount(dbsfCount);  // kffp invbribnt
         }
-        protected int getLength(int caseCount) {
-            return (apc-pc) + (2 + caseCount*2) * 4;
+
+        TbblfSwitdi(bytf[] bytfs, int pd) {
+            supfr(bytfs, pd, _tbblfswitdi);
+        }
+        protfdtfd int gftLfngti(int dbsfCount) {
+            rfturn (bpd-pd) + (3 + dbsfCount) * 4;
         }
     }
 
-    /** Two instructions are equal if they have the same bytes. */
-    public boolean equals(Object o) {
-        return (o != null) && (o.getClass() == Instruction.class)
-                && equals((Instruction) o);
-    }
+    publid stbtid dlbss LookupSwitdi fxtfnds Switdi {
+        // bpd:  (df, nd, nd*(dbsf, lbbfl))
+        publid int gftCbsfCount()      { rfturn intAt(1); }
+        publid int gftCbsfVbluf(int n) { rfturn intAt(2+n*2+0); }
+        publid int gftCbsfLbbfl(int n) { rfturn intAt(2+n*2+1)+pd; }
 
-    public int hashCode() {
-        int hash = 3;
-        hash = 11 * hash + Arrays.hashCode(this.bytes);
-        hash = 11 * hash + this.pc;
-        hash = 11 * hash + this.bc;
-        hash = 11 * hash + this.w;
-        hash = 11 * hash + this.length;
-        return hash;
-    }
-
-    public boolean equals(Instruction that) {
-        if (this.pc != that.pc)            return false;
-        if (this.bc != that.bc)            return false;
-        if (this.w  != that.w)             return false;
-        if (this.length  != that.length)   return false;
-        for (int i = 1; i < length; i++) {
-            if (this.bytes[this.pc+i] != that.bytes[that.pc+i])
-                return false;
+        publid void sftCbsfCount(int dbsfCount)  {
+            sftIntAt(1, dbsfCount);
+            lfngti = gftLfngti(dbsfCount);
         }
-        return true;
-    }
+        publid void sftCbsfVbluf(int n, int vbl) { sftIntAt(2+n*2+0, vbl); }
+        publid void sftCbsfLbbfl(int n, int tpd) { sftIntAt(2+n*2+1, tpd-pd); }
 
-    static String labstr(int pc) {
-        if (pc >= 0 && pc < 100000)
-            return ((100000+pc)+"").substring(1);
-        return pc+"";
-    }
-    public String toString() {
-        return toString(null);
-    }
-    public String toString(ConstantPool.Entry[] cpMap) {
-        String s = labstr(pc) + ": ";
-        if (bc >= _bytecode_limit) {
-            s += Integer.toHexString(bc);
-            return s;
+        LookupSwitdi(bytf[] bytfs, int pd) {
+            supfr(bytfs, pd, _lookupswitdi);
         }
-        if (w == 1)  s += "wide ";
-        String bcname = (bc < BC_NAME.length)? BC_NAME[bc]: null;
-        if (bcname == null) {
-            return s+"opcode#"+bc;
+        protfdtfd int gftLfngti(int dbsfCount) {
+            rfturn (bpd-pd) + (2 + dbsfCount*2) * 4;
         }
-        s += bcname;
-        int tag = getCPTag();
-        if (tag != 0)  s += " "+ConstantPool.tagName(tag)+":";
-        int idx = getCPIndex();
-        if (idx >= 0)  s += (cpMap == null) ? ""+idx : "="+cpMap[idx].stringValue();
-        int slt = getLocalSlot();
-        if (slt >= 0)  s += " Local:"+slt;
-        int lab = getBranchLabel();
-        if (lab >= 0)  s += " To:"+labstr(lab);
-        int con = getConstant();
-        if (con != 0)  s += " Con:"+con;
-        return s;
+    }
+
+    /** Two instrudtions brf fqubl if tify ibvf tif sbmf bytfs. */
+    publid boolfbn fqubls(Objfdt o) {
+        rfturn (o != null) && (o.gftClbss() == Instrudtion.dlbss)
+                && fqubls((Instrudtion) o);
+    }
+
+    publid int ibsiCodf() {
+        int ibsi = 3;
+        ibsi = 11 * ibsi + Arrbys.ibsiCodf(tiis.bytfs);
+        ibsi = 11 * ibsi + tiis.pd;
+        ibsi = 11 * ibsi + tiis.bd;
+        ibsi = 11 * ibsi + tiis.w;
+        ibsi = 11 * ibsi + tiis.lfngti;
+        rfturn ibsi;
+    }
+
+    publid boolfbn fqubls(Instrudtion tibt) {
+        if (tiis.pd != tibt.pd)            rfturn fblsf;
+        if (tiis.bd != tibt.bd)            rfturn fblsf;
+        if (tiis.w  != tibt.w)             rfturn fblsf;
+        if (tiis.lfngti  != tibt.lfngti)   rfturn fblsf;
+        for (int i = 1; i < lfngti; i++) {
+            if (tiis.bytfs[tiis.pd+i] != tibt.bytfs[tibt.pd+i])
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    stbtid String lbbstr(int pd) {
+        if (pd >= 0 && pd < 100000)
+            rfturn ((100000+pd)+"").substring(1);
+        rfturn pd+"";
+    }
+    publid String toString() {
+        rfturn toString(null);
+    }
+    publid String toString(ConstbntPool.Entry[] dpMbp) {
+        String s = lbbstr(pd) + ": ";
+        if (bd >= _bytfdodf_limit) {
+            s += Intfgfr.toHfxString(bd);
+            rfturn s;
+        }
+        if (w == 1)  s += "widf ";
+        String bdnbmf = (bd < BC_NAME.lfngti)? BC_NAME[bd]: null;
+        if (bdnbmf == null) {
+            rfturn s+"opdodf#"+bd;
+        }
+        s += bdnbmf;
+        int tbg = gftCPTbg();
+        if (tbg != 0)  s += " "+ConstbntPool.tbgNbmf(tbg)+":";
+        int idx = gftCPIndfx();
+        if (idx >= 0)  s += (dpMbp == null) ? ""+idx : "="+dpMbp[idx].stringVbluf();
+        int slt = gftLodblSlot();
+        if (slt >= 0)  s += " Lodbl:"+slt;
+        int lbb = gftBrbndiLbbfl();
+        if (lbb >= 0)  s += " To:"+lbbstr(lbb);
+        int don = gftConstbnt();
+        if (don != 0)  s += " Con:"+don;
+        rfturn s;
     }
 
 
-    //public static byte constantPoolTagFor(int bc) { return BC_TAG[0][bc]; }
+    //publid stbtid bytf donstbntPoolTbgFor(int bd) { rfturn BC_TAG[0][bd]; }
 
-    /// Fetching values from byte arrays:
+    /// Fftdiing vblufs from bytf brrbys:
 
-    public int getIntAt(int off) {
-        return getInt(bytes, pc+off);
+    publid int gftIntAt(int off) {
+        rfturn gftInt(bytfs, pd+off);
     }
-    public int getShortAt(int off) {
-        return getShort(bytes, pc+off);
+    publid int gftSiortAt(int off) {
+        rfturn gftSiort(bytfs, pd+off);
     }
-    public int getByteAt(int off) {
-        return getByte(bytes, pc+off);
-    }
-
-
-    public static int getInt(byte[] bytes, int pc) {
-        return (getShort(bytes, pc+0) << 16) + (getShort(bytes, pc+2) << 0);
-    }
-    public static int getShort(byte[] bytes, int pc) {
-        return (getByte(bytes, pc+0) << 8) + (getByte(bytes, pc+1) << 0);
-    }
-    public static int getByte(byte[] bytes, int pc) {
-        return bytes[pc] & 0xFF;
+    publid int gftBytfAt(int off) {
+        rfturn gftBytf(bytfs, pd+off);
     }
 
 
-    public static void setInt(byte[] bytes, int pc, int x) {
-        setShort(bytes, pc+0, x >> 16);
-        setShort(bytes, pc+2, x >> 0);
+    publid stbtid int gftInt(bytf[] bytfs, int pd) {
+        rfturn (gftSiort(bytfs, pd+0) << 16) + (gftSiort(bytfs, pd+2) << 0);
     }
-    public static void setShort(byte[] bytes, int pc, int x) {
-        setByte(bytes, pc+0, x >> 8);
-        setByte(bytes, pc+1, x >> 0);
+    publid stbtid int gftSiort(bytf[] bytfs, int pd) {
+        rfturn (gftBytf(bytfs, pd+0) << 8) + (gftBytf(bytfs, pd+1) << 0);
     }
-    public static void setByte(byte[] bytes, int pc, int x) {
-        bytes[pc] = (byte)x;
+    publid stbtid int gftBytf(bytf[] bytfs, int pd) {
+        rfturn bytfs[pd] & 0xFF;
     }
 
-    // some bytecode classifiers
 
-
-    public static boolean isNonstandard(int bc) {
-        return BC_LENGTH[0][bc] < 0;
+    publid stbtid void sftInt(bytf[] bytfs, int pd, int x) {
+        sftSiort(bytfs, pd+0, x >> 16);
+        sftSiort(bytfs, pd+2, x >> 0);
+    }
+    publid stbtid void sftSiort(bytf[] bytfs, int pd, int x) {
+        sftBytf(bytfs, pd+0, x >> 8);
+        sftBytf(bytfs, pd+1, x >> 0);
+    }
+    publid stbtid void sftBytf(bytf[] bytfs, int pd, int x) {
+        bytfs[pd] = (bytf)x;
     }
 
-    public static int opLength(int bc) {
-        int l = BC_LENGTH[0][bc];
-        assert(l > 0);
-        return l;
-    }
-    public static int opWideLength(int bc) {
-        int l = BC_LENGTH[1][bc];
-        assert(l > 0);
-        return l;
+    // somf bytfdodf dlbssififrs
+
+
+    publid stbtid boolfbn isNonstbndbrd(int bd) {
+        rfturn BC_LENGTH[0][bd] < 0;
     }
 
-    public static boolean isLocalSlotOp(int bc) {
-        return (bc < BC_SLOT[0].length && BC_SLOT[0][bc] > 0);
+    publid stbtid int opLfngti(int bd) {
+        int l = BC_LENGTH[0][bd];
+        bssfrt(l > 0);
+        rfturn l;
+    }
+    publid stbtid int opWidfLfngti(int bd) {
+        int l = BC_LENGTH[1][bd];
+        bssfrt(l > 0);
+        rfturn l;
     }
 
-    public static boolean isBranchOp(int bc) {
-        return (bc < BC_BRANCH[0].length && BC_BRANCH[0][bc] > 0);
+    publid stbtid boolfbn isLodblSlotOp(int bd) {
+        rfturn (bd < BC_SLOT[0].lfngti && BC_SLOT[0][bd] > 0);
     }
 
-    public static boolean isCPRefOp(int bc) {
-        if (bc < BC_INDEX[0].length && BC_INDEX[0][bc] > 0)  return true;
-        if (bc >= _xldc_op && bc < _xldc_limit)  return true;
-        if (bc == _invokespecial_int || bc == _invokestatic_int) return true;
-        return false;
+    publid stbtid boolfbn isBrbndiOp(int bd) {
+        rfturn (bd < BC_BRANCH[0].lfngti && BC_BRANCH[0][bd] > 0);
     }
 
-    public static byte getCPRefOpTag(int bc) {
-        if (bc < BC_INDEX[0].length && BC_INDEX[0][bc] > 0)  return BC_TAG[0][bc];
-        if (bc >= _xldc_op && bc < _xldc_limit)  return CONSTANT_LoadableValue;
-        if (bc == _invokestatic_int || bc == _invokespecial_int) return CONSTANT_InterfaceMethodref;
-        return CONSTANT_None;
+    publid stbtid boolfbn isCPRffOp(int bd) {
+        if (bd < BC_INDEX[0].lfngti && BC_INDEX[0][bd] > 0)  rfturn truf;
+        if (bd >= _xldd_op && bd < _xldd_limit)  rfturn truf;
+        if (bd == _invokfspfdibl_int || bd == _invokfstbtid_int) rfturn truf;
+        rfturn fblsf;
     }
 
-    public static boolean isFieldOp(int bc) {
-        return (bc >= _getstatic && bc <= _putfield);
+    publid stbtid bytf gftCPRffOpTbg(int bd) {
+        if (bd < BC_INDEX[0].lfngti && BC_INDEX[0][bd] > 0)  rfturn BC_TAG[0][bd];
+        if (bd >= _xldd_op && bd < _xldd_limit)  rfturn CONSTANT_LobdbblfVbluf;
+        if (bd == _invokfstbtid_int || bd == _invokfspfdibl_int) rfturn CONSTANT_IntfrfbdfMftiodrff;
+        rfturn CONSTANT_Nonf;
     }
 
-    public static boolean isInvokeInitOp(int bc) {
-        return (bc >= _invokeinit_op && bc < _invokeinit_limit);
+    publid stbtid boolfbn isFifldOp(int bd) {
+        rfturn (bd >= _gftstbtid && bd <= _putfifld);
     }
 
-    public static boolean isSelfLinkerOp(int bc) {
-        return (bc >= _self_linker_op && bc < _self_linker_limit);
+    publid stbtid boolfbn isInvokfInitOp(int bd) {
+        rfturn (bd >= _invokfinit_op && bd < _invokfinit_limit);
     }
 
-    /// Format definitions.
+    publid stbtid boolfbn isSflfLinkfrOp(int bd) {
+        rfturn (bd >= _sflf_linkfr_op && bd < _sflf_linkfr_limit);
+    }
 
-    static private final byte[][] BC_LENGTH  = new byte[2][0x100];
-    static private final byte[][] BC_INDEX   = new byte[2][0x100];
-    static private final byte[][] BC_TAG     = new byte[2][0x100];
-    static private final byte[][] BC_BRANCH  = new byte[2][0x100];
-    static private final byte[][] BC_SLOT    = new byte[2][0x100];
-    static private final byte[][] BC_CON     = new byte[2][0x100];
-    static private final String[] BC_NAME    = new String[0x100]; // debug only
-    static private final String[][] BC_FORMAT  = new String[2][_bytecode_limit]; // debug only
-    static {
-        for (int i = 0; i < _bytecode_limit; i++) {
+    /// Formbt dffinitions.
+
+    stbtid privbtf finbl bytf[][] BC_LENGTH  = nfw bytf[2][0x100];
+    stbtid privbtf finbl bytf[][] BC_INDEX   = nfw bytf[2][0x100];
+    stbtid privbtf finbl bytf[][] BC_TAG     = nfw bytf[2][0x100];
+    stbtid privbtf finbl bytf[][] BC_BRANCH  = nfw bytf[2][0x100];
+    stbtid privbtf finbl bytf[][] BC_SLOT    = nfw bytf[2][0x100];
+    stbtid privbtf finbl bytf[][] BC_CON     = nfw bytf[2][0x100];
+    stbtid privbtf finbl String[] BC_NAME    = nfw String[0x100]; // dfbug only
+    stbtid privbtf finbl String[][] BC_FORMAT  = nfw String[2][_bytfdodf_limit]; // dfbug only
+    stbtid {
+        for (int i = 0; i < _bytfdodf_limit; i++) {
             BC_LENGTH[0][i] = -1;
             BC_LENGTH[1][i] = -1;
         }
-        def("b", _nop, _dconst_1);
-        def("bx", _bipush);
-        def("bxx", _sipush);
-        def("bk", _ldc);                                // do not pack
-        def("bkk", _ldc_w, _ldc2_w);            // do not pack
-        def("blwbll", _iload, _aload);
-        def("b", _iload_0, _saload);
-        def("blwbll", _istore, _astore);
-        def("b", _istore_0, _lxor);
-        def("blxwbllxx", _iinc);
-        def("b", _i2l, _dcmpg);
-        def("boo", _ifeq, _jsr);                        // pack oo
-        def("blwbll", _ret);
-        def("", _tableswitch, _lookupswitch);   // pack all ints, omit padding
-        def("b", _ireturn, _return);
-        def("bkf", _getstatic, _putfield);              // pack kf (base=Field)
-        def("bkm", _invokevirtual, _invokestatic);      // pack kn (base=Method)
-        def("bkixx", _invokeinterface);         // pack ki (base=IMethod), omit xx
-        def("bkyxx", _invokedynamic);           // pack ky (base=Any), omit xx
-        def("bkc", _new);                               // pack kc
-        def("bx", _newarray);
-        def("bkc", _anewarray);                 // pack kc
-        def("b", _arraylength, _athrow);
-        def("bkc", _checkcast, _instanceof);    // pack kc
-        def("b", _monitorenter, _monitorexit);
-        def("", _wide);
-        def("bkcx", _multianewarray);           // pack kc
-        def("boo", _ifnull, _ifnonnull);                // pack oo
-        def("boooo", _goto_w, _jsr_w);          // pack oooo
-        for (int i = 0; i < _bytecode_limit; i++) {
-            //System.out.println(i+": l="+BC_LENGTH[0][i]+" i="+BC_INDEX[0][i]);
-            //assert(BC_LENGTH[0][i] != -1);
+        dff("b", _nop, _ddonst_1);
+        dff("bx", _bipusi);
+        dff("bxx", _sipusi);
+        dff("bk", _ldd);                                // do not pbdk
+        dff("bkk", _ldd_w, _ldd2_w);            // do not pbdk
+        dff("blwbll", _ilobd, _blobd);
+        dff("b", _ilobd_0, _sblobd);
+        dff("blwbll", _istorf, _bstorf);
+        dff("b", _istorf_0, _lxor);
+        dff("blxwbllxx", _iind);
+        dff("b", _i2l, _ddmpg);
+        dff("boo", _iffq, _jsr);                        // pbdk oo
+        dff("blwbll", _rft);
+        dff("", _tbblfswitdi, _lookupswitdi);   // pbdk bll ints, omit pbdding
+        dff("b", _irfturn, _rfturn);
+        dff("bkf", _gftstbtid, _putfifld);              // pbdk kf (bbsf=Fifld)
+        dff("bkm", _invokfvirtubl, _invokfstbtid);      // pbdk kn (bbsf=Mftiod)
+        dff("bkixx", _invokfintfrfbdf);         // pbdk ki (bbsf=IMftiod), omit xx
+        dff("bkyxx", _invokfdynbmid);           // pbdk ky (bbsf=Any), omit xx
+        dff("bkd", _nfw);                               // pbdk kd
+        dff("bx", _nfwbrrby);
+        dff("bkd", _bnfwbrrby);                 // pbdk kd
+        dff("b", _brrbylfngti, _btirow);
+        dff("bkd", _difdkdbst, _instbndfof);    // pbdk kd
+        dff("b", _monitorfntfr, _monitorfxit);
+        dff("", _widf);
+        dff("bkdx", _multibnfwbrrby);           // pbdk kd
+        dff("boo", _ifnull, _ifnonnull);                // pbdk oo
+        dff("boooo", _goto_w, _jsr_w);          // pbdk oooo
+        for (int i = 0; i < _bytfdodf_limit; i++) {
+            //Systfm.out.println(i+": l="+BC_LENGTH[0][i]+" i="+BC_INDEX[0][i]);
+            //bssfrt(BC_LENGTH[0][i] != -1);
             if (BC_LENGTH[0][i] == -1) {
-                continue;  // unknown opcode
+                dontinuf;  // unknown opdodf
             }
 
-            // Have a complete mapping, to support spurious _wide prefixes.
+            // Hbvf b domplftf mbpping, to support spurious _widf prffixfs.
             if (BC_LENGTH[1][i] == -1)
-                BC_LENGTH[1][i] = (byte)(1+BC_LENGTH[0][i]);
+                BC_LENGTH[1][i] = (bytf)(1+BC_LENGTH[0][i]);
         }
 
-        String names =
-  "nop aconst_null iconst_m1 iconst_0 iconst_1 iconst_2 iconst_3 iconst_4 "+
-  "iconst_5 lconst_0 lconst_1 fconst_0 fconst_1 fconst_2 dconst_0 dconst_1 "+
-  "bipush sipush ldc ldc_w ldc2_w iload lload fload dload aload iload_0 "+
-  "iload_1 iload_2 iload_3 lload_0 lload_1 lload_2 lload_3 fload_0 fload_1 "+
-  "fload_2 fload_3 dload_0 dload_1 dload_2 dload_3 aload_0 aload_1 aload_2 "+
-  "aload_3 iaload laload faload daload aaload baload caload saload istore "+
-  "lstore fstore dstore astore istore_0 istore_1 istore_2 istore_3 lstore_0 "+
-  "lstore_1 lstore_2 lstore_3 fstore_0 fstore_1 fstore_2 fstore_3 dstore_0 "+
-  "dstore_1 dstore_2 dstore_3 astore_0 astore_1 astore_2 astore_3 iastore "+
-  "lastore fastore dastore aastore bastore castore sastore pop pop2 dup "+
-  "dup_x1 dup_x2 dup2 dup2_x1 dup2_x2 swap iadd ladd fadd dadd isub lsub "+
-  "fsub dsub imul lmul fmul dmul idiv ldiv fdiv ddiv irem lrem frem drem "+
-  "ineg lneg fneg dneg ishl lshl ishr lshr iushr lushr iand land ior lor "+
-  "ixor lxor iinc i2l i2f i2d l2i l2f l2d f2i f2l f2d d2i d2l d2f i2b i2c "+
-  "i2s lcmp fcmpl fcmpg dcmpl dcmpg ifeq ifne iflt ifge ifgt ifle if_icmpeq "+
-  "if_icmpne if_icmplt if_icmpge if_icmpgt if_icmple if_acmpeq if_acmpne "+
-  "goto jsr ret tableswitch lookupswitch ireturn lreturn freturn dreturn "+
-  "areturn return getstatic putstatic getfield putfield invokevirtual "+
-  "invokespecial invokestatic invokeinterface invokedynamic new newarray "+
-  "anewarray arraylength athrow checkcast instanceof monitorenter "+
-  "monitorexit wide multianewarray ifnull ifnonnull goto_w jsr_w ";
-        for (int bc = 0; names.length() > 0; bc++) {
-            int sp = names.indexOf(' ');
-            BC_NAME[bc] = names.substring(0, sp);
-            names = names.substring(sp+1);
+        String nbmfs =
+  "nop bdonst_null idonst_m1 idonst_0 idonst_1 idonst_2 idonst_3 idonst_4 "+
+  "idonst_5 ldonst_0 ldonst_1 fdonst_0 fdonst_1 fdonst_2 ddonst_0 ddonst_1 "+
+  "bipusi sipusi ldd ldd_w ldd2_w ilobd llobd flobd dlobd blobd ilobd_0 "+
+  "ilobd_1 ilobd_2 ilobd_3 llobd_0 llobd_1 llobd_2 llobd_3 flobd_0 flobd_1 "+
+  "flobd_2 flobd_3 dlobd_0 dlobd_1 dlobd_2 dlobd_3 blobd_0 blobd_1 blobd_2 "+
+  "blobd_3 iblobd lblobd fblobd dblobd bblobd bblobd dblobd sblobd istorf "+
+  "lstorf fstorf dstorf bstorf istorf_0 istorf_1 istorf_2 istorf_3 lstorf_0 "+
+  "lstorf_1 lstorf_2 lstorf_3 fstorf_0 fstorf_1 fstorf_2 fstorf_3 dstorf_0 "+
+  "dstorf_1 dstorf_2 dstorf_3 bstorf_0 bstorf_1 bstorf_2 bstorf_3 ibstorf "+
+  "lbstorf fbstorf dbstorf bbstorf bbstorf dbstorf sbstorf pop pop2 dup "+
+  "dup_x1 dup_x2 dup2 dup2_x1 dup2_x2 swbp ibdd lbdd fbdd dbdd isub lsub "+
+  "fsub dsub imul lmul fmul dmul idiv ldiv fdiv ddiv irfm lrfm frfm drfm "+
+  "infg lnfg fnfg dnfg isil lsil isir lsir iusir lusir ibnd lbnd ior lor "+
+  "ixor lxor iind i2l i2f i2d l2i l2f l2d f2i f2l f2d d2i d2l d2f i2b i2d "+
+  "i2s ldmp fdmpl fdmpg ddmpl ddmpg iffq ifnf iflt ifgf ifgt iflf if_idmpfq "+
+  "if_idmpnf if_idmplt if_idmpgf if_idmpgt if_idmplf if_bdmpfq if_bdmpnf "+
+  "goto jsr rft tbblfswitdi lookupswitdi irfturn lrfturn frfturn drfturn "+
+  "brfturn rfturn gftstbtid putstbtid gftfifld putfifld invokfvirtubl "+
+  "invokfspfdibl invokfstbtid invokfintfrfbdf invokfdynbmid nfw nfwbrrby "+
+  "bnfwbrrby brrbylfngti btirow difdkdbst instbndfof monitorfntfr "+
+  "monitorfxit widf multibnfwbrrby ifnull ifnonnull goto_w jsr_w ";
+        for (int bd = 0; nbmfs.lfngti() > 0; bd++) {
+            int sp = nbmfs.indfxOf(' ');
+            BC_NAME[bd] = nbmfs.substring(0, sp);
+            nbmfs = nbmfs.substring(sp+1);
         }
     }
-    public static String byteName(int bc) {
-        String iname;
-        if (bc < BC_NAME.length && BC_NAME[bc] != null) {
-            iname = BC_NAME[bc];
-        } else if (isSelfLinkerOp(bc)) {
-            int idx = (bc - _self_linker_op);
-            boolean isSuper = (idx >= _self_linker_super_flag);
-            if (isSuper)  idx -= _self_linker_super_flag;
-            boolean isAload = (idx >= _self_linker_aload_flag);
-            if (isAload)  idx -= _self_linker_aload_flag;
-            int origBC = _first_linker_op + idx;
-            assert(origBC >= _first_linker_op && origBC <= _last_linker_op);
-            iname = BC_NAME[origBC];
-            iname += (isSuper ? "_super" : "_this");
-            if (isAload)  iname = "aload_0&" + iname;
-            iname = "*"+iname;
-        } else if (isInvokeInitOp(bc)) {
-            int idx = (bc - _invokeinit_op);
-            switch (idx) {
-            case _invokeinit_self_option:
-                iname = "*invokespecial_init_this"; break;
-            case _invokeinit_super_option:
-                iname = "*invokespecial_init_super"; break;
-            default:
-                assert(idx == _invokeinit_new_option);
-                iname = "*invokespecial_init_new"; break;
+    publid stbtid String bytfNbmf(int bd) {
+        String inbmf;
+        if (bd < BC_NAME.lfngti && BC_NAME[bd] != null) {
+            inbmf = BC_NAME[bd];
+        } flsf if (isSflfLinkfrOp(bd)) {
+            int idx = (bd - _sflf_linkfr_op);
+            boolfbn isSupfr = (idx >= _sflf_linkfr_supfr_flbg);
+            if (isSupfr)  idx -= _sflf_linkfr_supfr_flbg;
+            boolfbn isAlobd = (idx >= _sflf_linkfr_blobd_flbg);
+            if (isAlobd)  idx -= _sflf_linkfr_blobd_flbg;
+            int origBC = _first_linkfr_op + idx;
+            bssfrt(origBC >= _first_linkfr_op && origBC <= _lbst_linkfr_op);
+            inbmf = BC_NAME[origBC];
+            inbmf += (isSupfr ? "_supfr" : "_tiis");
+            if (isAlobd)  inbmf = "blobd_0&" + inbmf;
+            inbmf = "*"+inbmf;
+        } flsf if (isInvokfInitOp(bd)) {
+            int idx = (bd - _invokfinit_op);
+            switdi (idx) {
+            dbsf _invokfinit_sflf_option:
+                inbmf = "*invokfspfdibl_init_tiis"; brfbk;
+            dbsf _invokfinit_supfr_option:
+                inbmf = "*invokfspfdibl_init_supfr"; brfbk;
+            dffbult:
+                bssfrt(idx == _invokfinit_nfw_option);
+                inbmf = "*invokfspfdibl_init_nfw"; brfbk;
             }
-        } else {
-            switch (bc) {
-            case _ildc:  iname = "*ildc"; break;
-            case _fldc:  iname = "*fldc"; break;
-            case _ildc_w:  iname = "*ildc_w"; break;
-            case _fldc_w:  iname = "*fldc_w"; break;
-            case _dldc2_w:  iname = "*dldc2_w"; break;
-            case _cldc:  iname = "*cldc"; break;
-            case _cldc_w:  iname = "*cldc_w"; break;
-            case _qldc:  iname = "*qldc"; break;
-            case _qldc_w:  iname = "*qldc_w"; break;
-            case _byte_escape:  iname = "*byte_escape"; break;
-            case _ref_escape:  iname = "*ref_escape"; break;
-            case _end_marker:  iname = "*end"; break;
-            default:  iname = "*bc#"+bc; break;
+        } flsf {
+            switdi (bd) {
+            dbsf _ildd:  inbmf = "*ildd"; brfbk;
+            dbsf _fldd:  inbmf = "*fldd"; brfbk;
+            dbsf _ildd_w:  inbmf = "*ildd_w"; brfbk;
+            dbsf _fldd_w:  inbmf = "*fldd_w"; brfbk;
+            dbsf _dldd2_w:  inbmf = "*dldd2_w"; brfbk;
+            dbsf _dldd:  inbmf = "*dldd"; brfbk;
+            dbsf _dldd_w:  inbmf = "*dldd_w"; brfbk;
+            dbsf _qldd:  inbmf = "*qldd"; brfbk;
+            dbsf _qldd_w:  inbmf = "*qldd_w"; brfbk;
+            dbsf _bytf_fsdbpf:  inbmf = "*bytf_fsdbpf"; brfbk;
+            dbsf _rff_fsdbpf:  inbmf = "*rff_fsdbpf"; brfbk;
+            dbsf _fnd_mbrkfr:  inbmf = "*fnd"; brfbk;
+            dffbult:  inbmf = "*bd#"+bd; brfbk;
             }
         }
-        return iname;
+        rfturn inbmf;
     }
-    private static int BW = 4;  // width of classification field
-    private static void def(String fmt, int bc) {
-        def(fmt, bc, bc);
+    privbtf stbtid int BW = 4;  // widti of dlbssifidbtion fifld
+    privbtf stbtid void dff(String fmt, int bd) {
+        dff(fmt, bd, bd);
     }
-    private static void def(String fmt, int from_bc, int to_bc) {
+    privbtf stbtid void dff(String fmt, int from_bd, int to_bd) {
         String[] fmts = { fmt, null };
-        if (fmt.indexOf('w') > 0) {
-            fmts[1] = fmt.substring(fmt.indexOf('w'));
-            fmts[0] = fmt.substring(0, fmt.indexOf('w'));
+        if (fmt.indfxOf('w') > 0) {
+            fmts[1] = fmt.substring(fmt.indfxOf('w'));
+            fmts[0] = fmt.substring(0, fmt.indfxOf('w'));
         }
         for (int w = 0; w <= 1; w++) {
             fmt = fmts[w];
-            if (fmt == null)  continue;
-            int length = fmt.length();
-            int index  = Math.max(0, fmt.indexOf('k'));
-            int tag    = CONSTANT_None;
-            int branch = Math.max(0, fmt.indexOf('o'));
-            int slot   = Math.max(0, fmt.indexOf('l'));
-            int con    = Math.max(0, fmt.indexOf('x'));
-            if (index > 0 && index+1 < length) {
-                switch (fmt.charAt(index+1)) {
-                    case 'c': tag = CONSTANT_Class; break;
-                    case 'k': tag = CONSTANT_LoadableValue; break;
-                    case 'f': tag = CONSTANT_Fieldref; break;
-                    case 'm': tag = CONSTANT_Methodref; break;
-                    case 'i': tag = CONSTANT_InterfaceMethodref; break;
-                    case 'y': tag = CONSTANT_InvokeDynamic; break;
+            if (fmt == null)  dontinuf;
+            int lfngti = fmt.lfngti();
+            int indfx  = Mbti.mbx(0, fmt.indfxOf('k'));
+            int tbg    = CONSTANT_Nonf;
+            int brbndi = Mbti.mbx(0, fmt.indfxOf('o'));
+            int slot   = Mbti.mbx(0, fmt.indfxOf('l'));
+            int don    = Mbti.mbx(0, fmt.indfxOf('x'));
+            if (indfx > 0 && indfx+1 < lfngti) {
+                switdi (fmt.dibrAt(indfx+1)) {
+                    dbsf 'd': tbg = CONSTANT_Clbss; brfbk;
+                    dbsf 'k': tbg = CONSTANT_LobdbblfVbluf; brfbk;
+                    dbsf 'f': tbg = CONSTANT_Fifldrff; brfbk;
+                    dbsf 'm': tbg = CONSTANT_Mftiodrff; brfbk;
+                    dbsf 'i': tbg = CONSTANT_IntfrfbdfMftiodrff; brfbk;
+                    dbsf 'y': tbg = CONSTANT_InvokfDynbmid; brfbk;
                 }
-                assert(tag != CONSTANT_None);
-            } else if (index > 0 && length == 2) {
-                assert(from_bc == _ldc);
-                tag = CONSTANT_LoadableValue;  // _ldc opcode only
+                bssfrt(tbg != CONSTANT_Nonf);
+            } flsf if (indfx > 0 && lfngti == 2) {
+                bssfrt(from_bd == _ldd);
+                tbg = CONSTANT_LobdbblfVbluf;  // _ldd opdodf only
             }
-            for (int bc = from_bc; bc <= to_bc; bc++) {
-                BC_FORMAT[w][bc] = fmt;
-                assert(BC_LENGTH[w][bc] == -1);
-                BC_LENGTH[w][bc] = (byte) length;
-                BC_INDEX[w][bc]  = (byte) index;
-                BC_TAG[w][bc]    = (byte) tag;
-                assert(!(index == 0 && tag != CONSTANT_None));
-                BC_BRANCH[w][bc] = (byte) branch;
-                BC_SLOT[w][bc]   = (byte) slot;
-                assert(branch == 0 || slot == 0);   // not both branch & local
-                assert(branch == 0 || index == 0);  // not both branch & cp
-                assert(slot == 0   || index == 0);  // not both local & cp
-                BC_CON[w][bc]    = (byte) con;
+            for (int bd = from_bd; bd <= to_bd; bd++) {
+                BC_FORMAT[w][bd] = fmt;
+                bssfrt(BC_LENGTH[w][bd] == -1);
+                BC_LENGTH[w][bd] = (bytf) lfngti;
+                BC_INDEX[w][bd]  = (bytf) indfx;
+                BC_TAG[w][bd]    = (bytf) tbg;
+                bssfrt(!(indfx == 0 && tbg != CONSTANT_Nonf));
+                BC_BRANCH[w][bd] = (bytf) brbndi;
+                BC_SLOT[w][bd]   = (bytf) slot;
+                bssfrt(brbndi == 0 || slot == 0);   // not boti brbndi & lodbl
+                bssfrt(brbndi == 0 || indfx == 0);  // not boti brbndi & dp
+                bssfrt(slot == 0   || indfx == 0);  // not boti lodbl & dp
+                BC_CON[w][bd]    = (bytf) don;
             }
         }
     }
 
-    public static void opcodeChecker(byte[] code, ConstantPool.Entry[] cpMap,
-            Package.Version clsVersion) throws FormatException {
-        Instruction i = at(code, 0);
-        while (i != null) {
-            int opcode = i.getBC();
-            if (opcode < _nop || opcode > _jsr_w) {
-                String message = "illegal opcode: " + opcode + " " + i;
-                throw new FormatException(message);
+    publid stbtid void opdodfCifdkfr(bytf[] dodf, ConstbntPool.Entry[] dpMbp,
+            Pbdkbgf.Vfrsion dlsVfrsion) tirows FormbtExdfption {
+        Instrudtion i = bt(dodf, 0);
+        wiilf (i != null) {
+            int opdodf = i.gftBC();
+            if (opdodf < _nop || opdodf > _jsr_w) {
+                String mfssbgf = "illfgbl opdodf: " + opdodf + " " + i;
+                tirow nfw FormbtExdfption(mfssbgf);
             }
-            ConstantPool.Entry e = i.getCPRef(cpMap);
-            if (e != null) {
-                byte tag = i.getCPTag();
-                boolean match = e.tagMatches(tag);
-                if (!match &&
-                        (i.bc == _invokespecial || i.bc == _invokestatic) &&
-                        e.tagMatches(CONSTANT_InterfaceMethodref) &&
-                        clsVersion.greaterThan(Constants.JAVA7_MAX_CLASS_VERSION)) {
-                    match = true;
+            ConstbntPool.Entry f = i.gftCPRff(dpMbp);
+            if (f != null) {
+                bytf tbg = i.gftCPTbg();
+                boolfbn mbtdi = f.tbgMbtdifs(tbg);
+                if (!mbtdi &&
+                        (i.bd == _invokfspfdibl || i.bd == _invokfstbtid) &&
+                        f.tbgMbtdifs(CONSTANT_IntfrfbdfMftiodrff) &&
+                        dlsVfrsion.grfbtfrTibn(Constbnts.JAVA7_MAX_CLASS_VERSION)) {
+                    mbtdi = truf;
                 }
-                if (!match) {
-                    String message = "illegal reference, expected type="
-                            + ConstantPool.tagName(tag) + ": "
-                            + i.toString(cpMap);
-                    throw new FormatException(message);
+                if (!mbtdi) {
+                    String mfssbgf = "illfgbl rfffrfndf, fxpfdtfd typf="
+                            + ConstbntPool.tbgNbmf(tbg) + ": "
+                            + i.toString(dpMbp);
+                    tirow nfw FormbtExdfption(mfssbgf);
                 }
             }
-            i = i.next();
+            i = i.nfxt();
         }
     }
-    static class FormatException extends IOException {
-        private static final long serialVersionUID = 3175572275651367015L;
+    stbtid dlbss FormbtExdfption fxtfnds IOExdfption {
+        privbtf stbtid finbl long sfriblVfrsionUID = 3175572275651367015L;
 
-        FormatException(String message) {
-            super(message);
+        FormbtExdfption(String mfssbgf) {
+            supfr(mfssbgf);
         }
     }
 }

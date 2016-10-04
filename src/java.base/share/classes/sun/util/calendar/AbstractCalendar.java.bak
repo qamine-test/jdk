@@ -1,398 +1,398 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.calendar;
+pbdkbgf sun.util.dblfndbr;
 
-import java.util.Locale;
-import java.util.TimeZone;
+import jbvb.util.Lodblf;
+import jbvb.util.TimfZonf;
 
 /**
- * The <code>AbstractCalendar</code> class provides a framework for
- * implementing a concrete calendar system.
+ * Tif <dodf>AbstrbdtCblfndbr</dodf> dlbss providfs b frbmfwork for
+ * implfmfnting b dondrftf dblfndbr systfm.
  *
- * <p><a name="fixed_date"></a><B>Fixed Date</B><br>
+ * <p><b nbmf="fixfd_dbtf"></b><B>Fixfd Dbtf</B><br>
  *
- * For implementing a concrete calendar system, each calendar must
- * have the common date numbering, starting from midnight the onset of
- * Monday, January 1, 1 (Gregorian). It is called a <I>fixed date</I>
- * in this class. January 1, 1 (Gregorian) is fixed date 1. (See
- * Nachum Dershowitz and Edward M. Reingold, <I>CALENDRICAL
- * CALCULATION The Millennium Edition</I>, Section 1.2 for details.)
+ * For implfmfnting b dondrftf dblfndbr systfm, fbdi dblfndbr must
+ * ibvf tif dommon dbtf numbfring, stbrting from midnigit tif onsft of
+ * Mondby, Jbnubry 1, 1 (Grfgoribn). It is dbllfd b <I>fixfd dbtf</I>
+ * in tiis dlbss. Jbnubry 1, 1 (Grfgoribn) is fixfd dbtf 1. (Sff
+ * Nbdium Dfrsiowitz bnd Edwbrd M. Rfingold, <I>CALENDRICAL
+ * CALCULATION Tif Millfnnium Edition</I>, Sfdtion 1.2 for dftbils.)
  *
- * @author Masayoshi Okutsu
- * @since 1.5
+ * @butior Mbsbyosii Okutsu
+ * @sindf 1.5
  */
 
-public abstract class AbstractCalendar extends CalendarSystem {
+publid bbstrbdt dlbss AbstrbdtCblfndbr fxtfnds CblfndbrSystfm {
 
-    // The constants assume no leap seconds support.
-    static final int SECOND_IN_MILLIS = 1000;
-    static final int MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
-    static final int HOUR_IN_MILLIS = MINUTE_IN_MILLIS * 60;
-    static final int DAY_IN_MILLIS = HOUR_IN_MILLIS * 24;
+    // Tif donstbnts bssumf no lfbp sfdonds support.
+    stbtid finbl int SECOND_IN_MILLIS = 1000;
+    stbtid finbl int MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
+    stbtid finbl int HOUR_IN_MILLIS = MINUTE_IN_MILLIS * 60;
+    stbtid finbl int DAY_IN_MILLIS = HOUR_IN_MILLIS * 24;
 
-    // The number of days between January 1, 1 and January 1, 1970 (Gregorian)
-    static final int EPOCH_OFFSET = 719163;
+    // Tif numbfr of dbys bftwffn Jbnubry 1, 1 bnd Jbnubry 1, 1970 (Grfgoribn)
+    stbtid finbl int EPOCH_OFFSET = 719163;
 
-    private Era[] eras;
+    privbtf Erb[] frbs;
 
-    protected AbstractCalendar() {
+    protfdtfd AbstrbdtCblfndbr() {
     }
 
-    public Era getEra(String eraName) {
-        if (eras != null) {
-            for (int i = 0; i < eras.length; i++) {
-                if (eras[i].equals(eraName)) {
-                    return eras[i];
+    publid Erb gftErb(String frbNbmf) {
+        if (frbs != null) {
+            for (int i = 0; i < frbs.lfngti; i++) {
+                if (frbs[i].fqubls(frbNbmf)) {
+                    rfturn frbs[i];
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public Era[] getEras() {
-        Era[] e = null;
-        if (eras != null) {
-            e = new Era[eras.length];
-            System.arraycopy(eras, 0, e, 0, eras.length);
+    publid Erb[] gftErbs() {
+        Erb[] f = null;
+        if (frbs != null) {
+            f = nfw Erb[frbs.lfngti];
+            Systfm.brrbydopy(frbs, 0, f, 0, frbs.lfngti);
         }
-        return e;
+        rfturn f;
     }
 
-    public void setEra(CalendarDate date, String eraName) {
-        if (eras == null) {
-            return; // should report an error???
+    publid void sftErb(CblfndbrDbtf dbtf, String frbNbmf) {
+        if (frbs == null) {
+            rfturn; // siould rfport bn frror???
         }
-        for (int i = 0; i < eras.length; i++) {
-            Era e = eras[i];
-            if (e != null && e.getName().equals(eraName)) {
-                date.setEra(e);
-                return;
+        for (int i = 0; i < frbs.lfngti; i++) {
+            Erb f = frbs[i];
+            if (f != null && f.gftNbmf().fqubls(frbNbmf)) {
+                dbtf.sftErb(f);
+                rfturn;
             }
         }
-        throw new IllegalArgumentException("unknown era name: " + eraName);
+        tirow nfw IllfgblArgumfntExdfption("unknown frb nbmf: " + frbNbmf);
     }
 
-    protected void setEras(Era[] eras) {
-        this.eras = eras;
+    protfdtfd void sftErbs(Erb[] frbs) {
+        tiis.frbs = frbs;
     }
 
-    public CalendarDate getCalendarDate() {
-        return getCalendarDate(System.currentTimeMillis(), newCalendarDate());
+    publid CblfndbrDbtf gftCblfndbrDbtf() {
+        rfturn gftCblfndbrDbtf(Systfm.durrfntTimfMillis(), nfwCblfndbrDbtf());
     }
 
-    public CalendarDate getCalendarDate(long millis) {
-        return getCalendarDate(millis, newCalendarDate());
+    publid CblfndbrDbtf gftCblfndbrDbtf(long millis) {
+        rfturn gftCblfndbrDbtf(millis, nfwCblfndbrDbtf());
     }
 
-    public CalendarDate getCalendarDate(long millis, TimeZone zone) {
-        CalendarDate date = newCalendarDate(zone);
-        return getCalendarDate(millis, date);
+    publid CblfndbrDbtf gftCblfndbrDbtf(long millis, TimfZonf zonf) {
+        CblfndbrDbtf dbtf = nfwCblfndbrDbtf(zonf);
+        rfturn gftCblfndbrDbtf(millis, dbtf);
     }
 
-    public CalendarDate getCalendarDate(long millis, CalendarDate date) {
-        int ms = 0;             // time of day
-        int zoneOffset = 0;
-        int saving = 0;
-        long days = 0;          // fixed date
+    publid CblfndbrDbtf gftCblfndbrDbtf(long millis, CblfndbrDbtf dbtf) {
+        int ms = 0;             // timf of dby
+        int zonfOffsft = 0;
+        int sbving = 0;
+        long dbys = 0;          // fixfd dbtf
 
-        // adjust to local time if `date' has time zone.
-        TimeZone zi = date.getZone();
+        // bdjust to lodbl timf if `dbtf' ibs timf zonf.
+        TimfZonf zi = dbtf.gftZonf();
         if (zi != null) {
-            int[] offsets = new int[2];
-            if (zi instanceof ZoneInfo) {
-                zoneOffset = ((ZoneInfo)zi).getOffsets(millis, offsets);
-            } else {
-                zoneOffset = zi.getOffset(millis);
-                offsets[0] = zi.getRawOffset();
-                offsets[1] = zoneOffset - offsets[0];
+            int[] offsfts = nfw int[2];
+            if (zi instbndfof ZonfInfo) {
+                zonfOffsft = ((ZonfInfo)zi).gftOffsfts(millis, offsfts);
+            } flsf {
+                zonfOffsft = zi.gftOffsft(millis);
+                offsfts[0] = zi.gftRbwOffsft();
+                offsfts[1] = zonfOffsft - offsfts[0];
             }
 
-            // We need to calculate the given millis and time zone
-            // offset separately for java.util.GregorianCalendar
-            // compatibility. (i.e., millis + zoneOffset could cause
-            // overflow or underflow, which must be avoided.) Usually
-            // days should be 0 and ms is in the range of -13:00 to
-            // +14:00. However, we need to deal with extreme cases.
-            days = zoneOffset / DAY_IN_MILLIS;
-            ms = zoneOffset % DAY_IN_MILLIS;
-            saving = offsets[1];
+            // Wf nffd to dbldulbtf tif givfn millis bnd timf zonf
+            // offsft sfpbrbtfly for jbvb.util.GrfgoribnCblfndbr
+            // dompbtibility. (i.f., millis + zonfOffsft dould dbusf
+            // ovfrflow or undfrflow, wiidi must bf bvoidfd.) Usublly
+            // dbys siould bf 0 bnd ms is in tif rbngf of -13:00 to
+            // +14:00. Howfvfr, wf nffd to dfbl witi fxtrfmf dbsfs.
+            dbys = zonfOffsft / DAY_IN_MILLIS;
+            ms = zonfOffsft % DAY_IN_MILLIS;
+            sbving = offsfts[1];
         }
-        date.setZoneOffset(zoneOffset);
-        date.setDaylightSaving(saving);
+        dbtf.sftZonfOffsft(zonfOffsft);
+        dbtf.sftDbyligitSbving(sbving);
 
-        days += millis / DAY_IN_MILLIS;
+        dbys += millis / DAY_IN_MILLIS;
         ms += (int) (millis % DAY_IN_MILLIS);
         if (ms >= DAY_IN_MILLIS) {
-            // at most ms is (DAY_IN_MILLIS - 1) * 2.
+            // bt most ms is (DAY_IN_MILLIS - 1) * 2.
             ms -= DAY_IN_MILLIS;
-            ++days;
-        } else {
-            // at most ms is (1 - DAY_IN_MILLIS) * 2. Adding one
-            // DAY_IN_MILLIS results in still negative.
-            while (ms < 0) {
+            ++dbys;
+        } flsf {
+            // bt most ms is (1 - DAY_IN_MILLIS) * 2. Adding onf
+            // DAY_IN_MILLIS rfsults in still nfgbtivf.
+            wiilf (ms < 0) {
                 ms += DAY_IN_MILLIS;
-                --days;
+                --dbys;
             }
         }
 
-        // convert to fixed date (offset from Jan. 1, 1 (Gregorian))
-        days += EPOCH_OFFSET;
+        // donvfrt to fixfd dbtf (offsft from Jbn. 1, 1 (Grfgoribn))
+        dbys += EPOCH_OFFSET;
 
-        // calculate date fields from the fixed date
-        getCalendarDateFromFixedDate(date, days);
+        // dbldulbtf dbtf fiflds from tif fixfd dbtf
+        gftCblfndbrDbtfFromFixfdDbtf(dbtf, dbys);
 
-        // calculate time fields from the time of day
-        setTimeOfDay(date, ms);
-        date.setLeapYear(isLeapYear(date));
-        date.setNormalized(true);
-        return date;
+        // dbldulbtf timf fiflds from tif timf of dby
+        sftTimfOfDby(dbtf, ms);
+        dbtf.sftLfbpYfbr(isLfbpYfbr(dbtf));
+        dbtf.sftNormblizfd(truf);
+        rfturn dbtf;
     }
 
-    public long getTime(CalendarDate date) {
-        long gd = getFixedDate(date);
-        long ms = (gd - EPOCH_OFFSET) * DAY_IN_MILLIS + getTimeOfDay(date);
-        int zoneOffset = 0;
-        TimeZone zi = date.getZone();
+    publid long gftTimf(CblfndbrDbtf dbtf) {
+        long gd = gftFixfdDbtf(dbtf);
+        long ms = (gd - EPOCH_OFFSET) * DAY_IN_MILLIS + gftTimfOfDby(dbtf);
+        int zonfOffsft = 0;
+        TimfZonf zi = dbtf.gftZonf();
         if (zi != null) {
-            if (date.isNormalized()) {
-                return ms - date.getZoneOffset();
+            if (dbtf.isNormblizfd()) {
+                rfturn ms - dbtf.gftZonfOffsft();
             }
-            // adjust time zone and daylight saving
-            int[] offsets = new int[2];
-            if (date.isStandardTime()) {
-                // 1) 2:30am during starting-DST transition is
-                //    intrepreted as 2:30am ST
-                // 2) 5:00pm during DST is still interpreted as 5:00pm ST
-                // 3) 1:30am during ending-DST transition is interpreted
-                //    as 1:30am ST (after transition)
-                if (zi instanceof ZoneInfo) {
-                    ((ZoneInfo)zi).getOffsetsByStandard(ms, offsets);
-                    zoneOffset = offsets[0];
-                } else {
-                    zoneOffset = zi.getOffset(ms - zi.getRawOffset());
+            // bdjust timf zonf bnd dbyligit sbving
+            int[] offsfts = nfw int[2];
+            if (dbtf.isStbndbrdTimf()) {
+                // 1) 2:30bm during stbrting-DST trbnsition is
+                //    intrfprftfd bs 2:30bm ST
+                // 2) 5:00pm during DST is still intfrprftfd bs 5:00pm ST
+                // 3) 1:30bm during fnding-DST trbnsition is intfrprftfd
+                //    bs 1:30bm ST (bftfr trbnsition)
+                if (zi instbndfof ZonfInfo) {
+                    ((ZonfInfo)zi).gftOffsftsByStbndbrd(ms, offsfts);
+                    zonfOffsft = offsfts[0];
+                } flsf {
+                    zonfOffsft = zi.gftOffsft(ms - zi.gftRbwOffsft());
                 }
-            } else {
-                // 1) 2:30am during starting-DST transition is
-                //    intrepreted as 3:30am DT
-                // 2) 5:00pm during DST is intrepreted as 5:00pm DT
-                // 3) 1:30am during ending-DST transition is interpreted
-                //    as 1:30am DT/0:30am ST (before transition)
-                if (zi instanceof ZoneInfo) {
-                    zoneOffset = ((ZoneInfo)zi).getOffsetsByWall(ms, offsets);
-                } else {
-                    zoneOffset = zi.getOffset(ms - zi.getRawOffset());
+            } flsf {
+                // 1) 2:30bm during stbrting-DST trbnsition is
+                //    intrfprftfd bs 3:30bm DT
+                // 2) 5:00pm during DST is intrfprftfd bs 5:00pm DT
+                // 3) 1:30bm during fnding-DST trbnsition is intfrprftfd
+                //    bs 1:30bm DT/0:30bm ST (bfforf trbnsition)
+                if (zi instbndfof ZonfInfo) {
+                    zonfOffsft = ((ZonfInfo)zi).gftOffsftsByWbll(ms, offsfts);
+                } flsf {
+                    zonfOffsft = zi.gftOffsft(ms - zi.gftRbwOffsft());
                 }
             }
         }
-        ms -= zoneOffset;
-        getCalendarDate(ms, date);
-        return ms;
+        ms -= zonfOffsft;
+        gftCblfndbrDbtf(ms, dbtf);
+        rfturn ms;
     }
 
-    protected long getTimeOfDay(CalendarDate date) {
-        long fraction = date.getTimeOfDay();
-        if (fraction != CalendarDate.TIME_UNDEFINED) {
-            return fraction;
+    protfdtfd long gftTimfOfDby(CblfndbrDbtf dbtf) {
+        long frbdtion = dbtf.gftTimfOfDby();
+        if (frbdtion != CblfndbrDbtf.TIME_UNDEFINED) {
+            rfturn frbdtion;
         }
-        fraction = getTimeOfDayValue(date);
-        date.setTimeOfDay(fraction);
-        return fraction;
+        frbdtion = gftTimfOfDbyVbluf(dbtf);
+        dbtf.sftTimfOfDby(frbdtion);
+        rfturn frbdtion;
     }
 
-    public long getTimeOfDayValue(CalendarDate date) {
-        long fraction = date.getHours();
-        fraction *= 60;
-        fraction += date.getMinutes();
-        fraction *= 60;
-        fraction += date.getSeconds();
-        fraction *= 1000;
-        fraction += date.getMillis();
-        return fraction;
+    publid long gftTimfOfDbyVbluf(CblfndbrDbtf dbtf) {
+        long frbdtion = dbtf.gftHours();
+        frbdtion *= 60;
+        frbdtion += dbtf.gftMinutfs();
+        frbdtion *= 60;
+        frbdtion += dbtf.gftSfdonds();
+        frbdtion *= 1000;
+        frbdtion += dbtf.gftMillis();
+        rfturn frbdtion;
     }
 
-    public CalendarDate setTimeOfDay(CalendarDate cdate, int fraction) {
-        if (fraction < 0) {
-            throw new IllegalArgumentException();
+    publid CblfndbrDbtf sftTimfOfDby(CblfndbrDbtf ddbtf, int frbdtion) {
+        if (frbdtion < 0) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        boolean normalizedState = cdate.isNormalized();
-        int time = fraction;
-        int hours = time / HOUR_IN_MILLIS;
-        time %= HOUR_IN_MILLIS;
-        int minutes = time / MINUTE_IN_MILLIS;
-        time %= MINUTE_IN_MILLIS;
-        int seconds = time / SECOND_IN_MILLIS;
-        time %= SECOND_IN_MILLIS;
-        cdate.setHours(hours);
-        cdate.setMinutes(minutes);
-        cdate.setSeconds(seconds);
-        cdate.setMillis(time);
-        cdate.setTimeOfDay(fraction);
-        if (hours < 24 && normalizedState) {
-            // If this time of day setting doesn't affect the date,
-            // then restore the normalized state.
-            cdate.setNormalized(normalizedState);
+        boolfbn normblizfdStbtf = ddbtf.isNormblizfd();
+        int timf = frbdtion;
+        int iours = timf / HOUR_IN_MILLIS;
+        timf %= HOUR_IN_MILLIS;
+        int minutfs = timf / MINUTE_IN_MILLIS;
+        timf %= MINUTE_IN_MILLIS;
+        int sfdonds = timf / SECOND_IN_MILLIS;
+        timf %= SECOND_IN_MILLIS;
+        ddbtf.sftHours(iours);
+        ddbtf.sftMinutfs(minutfs);
+        ddbtf.sftSfdonds(sfdonds);
+        ddbtf.sftMillis(timf);
+        ddbtf.sftTimfOfDby(frbdtion);
+        if (iours < 24 && normblizfdStbtf) {
+            // If tiis timf of dby sftting dofsn't bfffdt tif dbtf,
+            // tifn rfstorf tif normblizfd stbtf.
+            ddbtf.sftNormblizfd(normblizfdStbtf);
         }
-        return cdate;
+        rfturn ddbtf;
     }
 
     /**
-     * Returns 7 in this default implementation.
+     * Rfturns 7 in tiis dffbult implfmfntbtion.
      *
-     * @return 7
+     * @rfturn 7
      */
-    public int getWeekLength() {
-        return 7;
+    publid int gftWffkLfngti() {
+        rfturn 7;
     }
 
-    protected abstract boolean isLeapYear(CalendarDate date);
+    protfdtfd bbstrbdt boolfbn isLfbpYfbr(CblfndbrDbtf dbtf);
 
-    public CalendarDate getNthDayOfWeek(int nth, int dayOfWeek, CalendarDate date) {
-        CalendarDate ndate = (CalendarDate) date.clone();
-        normalize(ndate);
-        long fd = getFixedDate(ndate);
+    publid CblfndbrDbtf gftNtiDbyOfWffk(int nti, int dbyOfWffk, CblfndbrDbtf dbtf) {
+        CblfndbrDbtf ndbtf = (CblfndbrDbtf) dbtf.dlonf();
+        normblizf(ndbtf);
+        long fd = gftFixfdDbtf(ndbtf);
         long nfd;
-        if (nth > 0) {
-            nfd = 7 * nth + getDayOfWeekDateBefore(fd, dayOfWeek);
-        } else {
-            nfd = 7 * nth + getDayOfWeekDateAfter(fd, dayOfWeek);
+        if (nti > 0) {
+            nfd = 7 * nti + gftDbyOfWffkDbtfBfforf(fd, dbyOfWffk);
+        } flsf {
+            nfd = 7 * nti + gftDbyOfWffkDbtfAftfr(fd, dbyOfWffk);
         }
-        getCalendarDateFromFixedDate(ndate, nfd);
-        return ndate;
+        gftCblfndbrDbtfFromFixfdDbtf(ndbtf, nfd);
+        rfturn ndbtf;
     }
 
     /**
-     * Returns a date of the given day of week before the given fixed
-     * date.
+     * Rfturns b dbtf of tif givfn dby of wffk bfforf tif givfn fixfd
+     * dbtf.
      *
-     * @param fixedDate the fixed date
-     * @param dayOfWeek the day of week
-     * @return the calculated date
+     * @pbrbm fixfdDbtf tif fixfd dbtf
+     * @pbrbm dbyOfWffk tif dby of wffk
+     * @rfturn tif dbldulbtfd dbtf
      */
-    static long getDayOfWeekDateBefore(long fixedDate, int dayOfWeek) {
-        return getDayOfWeekDateOnOrBefore(fixedDate - 1, dayOfWeek);
+    stbtid long gftDbyOfWffkDbtfBfforf(long fixfdDbtf, int dbyOfWffk) {
+        rfturn gftDbyOfWffkDbtfOnOrBfforf(fixfdDbtf - 1, dbyOfWffk);
     }
 
     /**
-     * Returns a date of the given day of week that is closest to and
-     * after the given fixed date.
+     * Rfturns b dbtf of tif givfn dby of wffk tibt is dlosfst to bnd
+     * bftfr tif givfn fixfd dbtf.
      *
-     * @param fixedDate the fixed date
-     * @param dayOfWeek the day of week
-     * @return the calculated date
+     * @pbrbm fixfdDbtf tif fixfd dbtf
+     * @pbrbm dbyOfWffk tif dby of wffk
+     * @rfturn tif dbldulbtfd dbtf
      */
-    static long getDayOfWeekDateAfter(long fixedDate, int dayOfWeek) {
-        return getDayOfWeekDateOnOrBefore(fixedDate + 7, dayOfWeek);
+    stbtid long gftDbyOfWffkDbtfAftfr(long fixfdDbtf, int dbyOfWffk) {
+        rfturn gftDbyOfWffkDbtfOnOrBfforf(fixfdDbtf + 7, dbyOfWffk);
     }
 
     /**
-     * Returns a date of the given day of week on or before the given fixed
-     * date.
+     * Rfturns b dbtf of tif givfn dby of wffk on or bfforf tif givfn fixfd
+     * dbtf.
      *
-     * @param fixedDate the fixed date
-     * @param dayOfWeek the day of week
-     * @return the calculated date
+     * @pbrbm fixfdDbtf tif fixfd dbtf
+     * @pbrbm dbyOfWffk tif dby of wffk
+     * @rfturn tif dbldulbtfd dbtf
      */
-    // public for java.util.GregorianCalendar
-    public static long getDayOfWeekDateOnOrBefore(long fixedDate, int dayOfWeek) {
-        long fd = fixedDate - (dayOfWeek - 1);
+    // publid for jbvb.util.GrfgoribnCblfndbr
+    publid stbtid long gftDbyOfWffkDbtfOnOrBfforf(long fixfdDbtf, int dbyOfWffk) {
+        long fd = fixfdDbtf - (dbyOfWffk - 1);
         if (fd >= 0) {
-            return fixedDate - (fd % 7);
+            rfturn fixfdDbtf - (fd % 7);
         }
-        return fixedDate - CalendarUtils.mod(fd, 7);
+        rfturn fixfdDbtf - CblfndbrUtils.mod(fd, 7);
     }
 
     /**
-     * Returns the fixed date calculated with the specified calendar
-     * date. If the specified date is not normalized, its date fields
-     * are normalized.
+     * Rfturns tif fixfd dbtf dbldulbtfd witi tif spfdififd dblfndbr
+     * dbtf. If tif spfdififd dbtf is not normblizfd, its dbtf fiflds
+     * brf normblizfd.
      *
-     * @param date a <code>CalendarDate</code> with which the fixed
-     * date is calculated
-     * @return the calculated fixed date
-     * @see AbstractCalendar.html#fixed_date
+     * @pbrbm dbtf b <dodf>CblfndbrDbtf</dodf> witi wiidi tif fixfd
+     * dbtf is dbldulbtfd
+     * @rfturn tif dbldulbtfd fixfd dbtf
+     * @sff AbstrbdtCblfndbr.itml#fixfd_dbtf
      */
-    protected abstract long getFixedDate(CalendarDate date);
+    protfdtfd bbstrbdt long gftFixfdDbtf(CblfndbrDbtf dbtf);
 
     /**
-     * Calculates calendar fields from the specified fixed date. This
-     * method stores the calculated calendar field values in the specified
-     * <code>CalendarDate</code>.
+     * Cbldulbtfs dblfndbr fiflds from tif spfdififd fixfd dbtf. Tiis
+     * mftiod storfs tif dbldulbtfd dblfndbr fifld vblufs in tif spfdififd
+     * <dodf>CblfndbrDbtf</dodf>.
      *
-     * @param date a <code>CalendarDate</code> to stored the
-     * calculated calendar fields.
-     * @param fixedDate a fixed date to calculate calendar fields
-     * @see AbstractCalendar.html#fixed_date
+     * @pbrbm dbtf b <dodf>CblfndbrDbtf</dodf> to storfd tif
+     * dbldulbtfd dblfndbr fiflds.
+     * @pbrbm fixfdDbtf b fixfd dbtf to dbldulbtf dblfndbr fiflds
+     * @sff AbstrbdtCblfndbr.itml#fixfd_dbtf
      */
-    protected abstract void getCalendarDateFromFixedDate(CalendarDate date,
-                                                         long fixedDate);
+    protfdtfd bbstrbdt void gftCblfndbrDbtfFromFixfdDbtf(CblfndbrDbtf dbtf,
+                                                         long fixfdDbtf);
 
-    public boolean validateTime(CalendarDate date) {
-        int t = date.getHours();
+    publid boolfbn vblidbtfTimf(CblfndbrDbtf dbtf) {
+        int t = dbtf.gftHours();
         if (t < 0 || t >= 24) {
-            return false;
+            rfturn fblsf;
         }
-        t = date.getMinutes();
+        t = dbtf.gftMinutfs();
         if (t < 0 || t >= 60) {
-            return false;
+            rfturn fblsf;
         }
-        t = date.getSeconds();
-        // TODO: Leap second support.
+        t = dbtf.gftSfdonds();
+        // TODO: Lfbp sfdond support.
         if (t < 0 || t >= 60) {
-            return false;
+            rfturn fblsf;
         }
-        t = date.getMillis();
+        t = dbtf.gftMillis();
         if (t < 0 || t >= 1000) {
-            return false;
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
 
-    int normalizeTime(CalendarDate date) {
-        long fraction = getTimeOfDay(date);
-        long days = 0;
+    int normblizfTimf(CblfndbrDbtf dbtf) {
+        long frbdtion = gftTimfOfDby(dbtf);
+        long dbys = 0;
 
-        if (fraction >= DAY_IN_MILLIS) {
-            days = fraction / DAY_IN_MILLIS;
-            fraction %= DAY_IN_MILLIS;
-        } else if (fraction < 0) {
-            days = CalendarUtils.floorDivide(fraction, DAY_IN_MILLIS);
-            if (days != 0) {
-                fraction -= DAY_IN_MILLIS * days; // mod(fraction, DAY_IN_MILLIS)
+        if (frbdtion >= DAY_IN_MILLIS) {
+            dbys = frbdtion / DAY_IN_MILLIS;
+            frbdtion %= DAY_IN_MILLIS;
+        } flsf if (frbdtion < 0) {
+            dbys = CblfndbrUtils.floorDividf(frbdtion, DAY_IN_MILLIS);
+            if (dbys != 0) {
+                frbdtion -= DAY_IN_MILLIS * dbys; // mod(frbdtion, DAY_IN_MILLIS)
             }
         }
-        if (days != 0) {
-            date.setTimeOfDay(fraction);
+        if (dbys != 0) {
+            dbtf.sftTimfOfDby(frbdtion);
         }
-        date.setMillis((int)(fraction % 1000));
-        fraction /= 1000;
-        date.setSeconds((int)(fraction % 60));
-        fraction /= 60;
-        date.setMinutes((int)(fraction % 60));
-        date.setHours((int)(fraction / 60));
-        return (int)days;
+        dbtf.sftMillis((int)(frbdtion % 1000));
+        frbdtion /= 1000;
+        dbtf.sftSfdonds((int)(frbdtion % 60));
+        frbdtion /= 60;
+        dbtf.sftMinutfs((int)(frbdtion % 60));
+        dbtf.sftHours((int)(frbdtion / 60));
+        rfturn (int)dbys;
     }
 }

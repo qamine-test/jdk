@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.loading;
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
 
-import java.net.URL;
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Set;
-import java.util.Enumeration;
+import jbvb.nft.URL;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.util.Enumfrbtion;
 
-import javax.management.*;
+import jbvbx.mbnbgfmfnt.*;
 
 
 
 /**
- * Exposes the remote management interface of the MLet
- * MBean.
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif MLft
+ * MBfbn.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface MLetMBean   {
+publid intfrfbdf MLftMBfbn   {
 
 
     /**
-     * Loads a text file containing MLET tags that define the MBeans
-     * to be added to the MBean server. The location of the text file is
-     * specified by a URL. The text file is read using the UTF-8
-     * encoding. The MBeans specified in the MLET file will be
-     * instantiated and registered in the MBean server.
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
      *
-     * @param url The URL of the text file to be loaded as String object.
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs String objfdt.
      *
-     * @return A set containing one entry per MLET tag in the m-let
-     * text file loaded.  Each entry specifies either the
-     * ObjectInstance for the created MBean, or a throwable object
-     * (that is, an error or an exception) if the MBean could not be
-     * created.
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * drfbtfd.
      *
-     * @exception ServiceNotFoundException One of the following errors
-     * has occurred: The m-let text file does not contain an MLET tag,
-     * the m-let text file is not found, a mandatory attribute of the
-     * MLET tag is not specified, the value of url is malformed.
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * MLET tbg is not spfdififd, tif vbluf of url is mblformfd.
      */
-    public Set<Object> getMBeansFromURL(String url)
-            throws ServiceNotFoundException;
+    publid Sft<Objfdt> gftMBfbnsFromURL(String url)
+            tirows SfrvidfNotFoundExdfption;
 
     /**
-     * Loads a text file containing MLET tags that define the MBeans
-     * to be added to the MBean server. The location of the text file is
-     * specified by a URL. The text file is read using the UTF-8
-     * encoding. The MBeans specified in the MLET file will be
-     * instantiated and registered in the MBean server.
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
      *
-     * @param url The URL of the text file to be loaded as URL object.
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs URL objfdt.
      *
-     * @return A set containing one entry per MLET tag in the m-let
-     * text file loaded.  Each entry specifies either the
-     * ObjectInstance for the created MBean, or a throwable object
-     * (that is, an error or an exception) if the MBean could not be
-     * created.
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * drfbtfd.
      *
-     * @exception ServiceNotFoundException One of the following errors
-     * has occurred: The m-let text file does not contain an MLET tag,
-     * the m-let text file is not found, a mandatory attribute of the
-     * MLET tag is not specified, the value of url is null.
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * MLET tbg is not spfdififd, tif vbluf of url is null.
      */
-    public Set<Object> getMBeansFromURL(URL url)
-            throws ServiceNotFoundException;
+    publid Sft<Objfdt> gftMBfbnsFromURL(URL url)
+            tirows SfrvidfNotFoundExdfption;
 
     /**
-     * Appends the specified URL to the list of URLs to search for classes and
-     * resources.
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * rfsourdfs.
      *
-     * @param url the URL to add.
+     * @pbrbm url tif URL to bdd.
      */
-    public void addURL(URL url) ;
+    publid void bddURL(URL url) ;
 
     /**
-     * Appends the specified URL to the list of URLs to search for classes and
-     * resources.
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * rfsourdfs.
      *
-     * @param url the URL to add.
+     * @pbrbm url tif URL to bdd.
      *
-     * @exception ServiceNotFoundException The specified URL is malformed.
+     * @fxdfption SfrvidfNotFoundExdfption Tif spfdififd URL is mblformfd.
      */
-    public void addURL(String url) throws ServiceNotFoundException;
+    publid void bddURL(String url) tirows SfrvidfNotFoundExdfption;
 
     /**
-     * Returns the search path of URLs for loading classes and resources.
-     * This includes the original list of URLs specified to the constructor,
-     * along with any URLs subsequently appended by the addURL() method.
+     * Rfturns tif sfbrdi pbti of URLs for lobding dlbssfs bnd rfsourdfs.
+     * Tiis indludfs tif originbl list of URLs spfdififd to tif donstrudtor,
+     * blong witi bny URLs subsfqufntly bppfndfd by tif bddURL() mftiod.
      *
-     * @return the list of URLs.
+     * @rfturn tif list of URLs.
      */
-    public URL[] getURLs();
+    publid URL[] gftURLs();
 
-    /** Finds the resource with the given name.
-     * A resource is some data (images, audio, text, etc) that can be accessed by class code in a way that is
-     *   independent of the location of the code.
-     *   The name of a resource is a "/"-separated path name that identifies the resource.
+    /** Finds tif rfsourdf witi tif givfn nbmf.
+     * A rfsourdf is somf dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss dodf in b wby tibt is
+     *   indfpfndfnt of tif lodbtion of tif dodf.
+     *   Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt idfntififs tif rfsourdf.
      *
-     * @param name The resource name
+     * @pbrbm nbmf Tif rfsourdf nbmf
      *
-     * @return  An URL for reading the resource, or null if the resource could not be found or the caller doesn't have adequate privileges to get the
-     * resource.
+     * @rfturn  An URL for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found or tif dbllfr dofsn't ibvf bdfqubtf privilfgfs to gft tif
+     * rfsourdf.
      */
-    public URL getResource(String name);
+    publid URL gftRfsourdf(String nbmf);
 
-    /** Returns an input stream for reading the specified resource. The search order is described in the documentation for
-     *  getResource(String).
+    /** Rfturns bn input strfbm for rfbding tif spfdififd rfsourdf. Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for
+     *  gftRfsourdf(String).
      *
-     * @param name  The resource name
+     * @pbrbm nbmf  Tif rfsourdf nbmf
      *
-     * @return An input stream for reading the resource, or null if the resource could not be found
+     * @rfturn An input strfbm for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found
      *
      */
-    public InputStream getResourceAsStream(String name);
-
-    /**
-     * Finds all the resources with the given name. A resource is some
-     * data (images, audio, text, etc) that can be accessed by class
-     * code in a way that is independent of the location of the code.
-     * The name of a resource is a "/"-separated path name that
-     * identifies the resource.
-     *
-     * @param name The  resource name.
-     *
-     * @return An enumeration of URL to the resource. If no resources
-     * could be found, the enumeration will be empty. Resources that
-     * cannot be accessed will not be in the enumeration.
-     *
-     * @exception IOException if an I/O exception occurs when
-     * searching for resources.
-     */
-    public Enumeration<URL> getResources(String name) throws IOException;
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf);
 
     /**
-     * Gets the current directory used by the library loader for
-     * storing native libraries before they are loaded into memory.
+     * Finds bll tif rfsourdfs witi tif givfn nbmf. A rfsourdf is somf
+     * dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss
+     * dodf in b wby tibt is indfpfndfnt of tif lodbtion of tif dodf.
+     * Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt
+     * idfntififs tif rfsourdf.
      *
-     * @return The current directory used by the library loader.
+     * @pbrbm nbmf Tif  rfsourdf nbmf.
      *
-     * @see #setLibraryDirectory
+     * @rfturn An fnumfrbtion of URL to tif rfsourdf. If no rfsourdfs
+     * dould bf found, tif fnumfrbtion will bf fmpty. Rfsourdfs tibt
+     * dbnnot bf bddfssfd will not bf in tif fnumfrbtion.
      *
-     * @throws UnsupportedOperationException if this implementation
-     * does not support storing native libraries in this way.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs wifn
+     * sfbrdiing for rfsourdfs.
      */
-    public String getLibraryDirectory();
+    publid Enumfrbtion<URL> gftRfsourdfs(String nbmf) tirows IOExdfption;
 
     /**
-     * Sets the directory used by the library loader for storing
-     * native libraries before they are loaded into memory.
+     * Gfts tif durrfnt dirfdtory usfd by tif librbry lobdfr for
+     * storing nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
      *
-     * @param libdir The directory used by the library loader.
+     * @rfturn Tif durrfnt dirfdtory usfd by tif librbry lobdfr.
      *
-     * @see #getLibraryDirectory
+     * @sff #sftLibrbryDirfdtory
      *
-     * @throws UnsupportedOperationException if this implementation
-     * does not support storing native libraries in this way.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * dofs not support storing nbtivf librbrifs in tiis wby.
      */
-    public void setLibraryDirectory(String libdir);
+    publid String gftLibrbryDirfdtory();
+
+    /**
+     * Sfts tif dirfdtory usfd by tif librbry lobdfr for storing
+     * nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
+     *
+     * @pbrbm libdir Tif dirfdtory usfd by tif librbry lobdfr.
+     *
+     * @sff #gftLibrbryDirfdtory
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     */
+    publid void sftLibrbryDirfdtory(String libdir);
 
  }

@@ -1,0 +1,1072 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.*;
+import dom.sun.jdi.rfqufst.*;
+import dom.sun.jdi.donnfdt.*;
+
+import jbvb.util.*;
+import jbvb.io.*;
+
+publid dlbss TTY implfmfnts EvfntNotififr {
+    EvfntHbndlfr hbndlfr = null;
+
+    /**
+     * List of Strings to fxfdutf bt fbdh stop.
+     */
+    privbtf List<String> monitorCommbnds = nfw ArrbyList<String>();
+    privbtf int monitorCount = 0;
+
+    /**
+     * Thf nbmf of this tool.
+     */
+    privbtf stbtid finbl String prognbmf = "jdb";
+
+    @Ovfrridf
+    publid void vmStbrtEvfnt(VMStbrtEvfnt sf)  {
+        Thrfbd.yifld();  // fftdh output
+        MfssbgfOutput.lnprint("VM Stbrtfd:");
+    }
+
+    @Ovfrridf
+    publid void vmDfbthEvfnt(VMDfbthEvfnt f)  {
+    }
+
+    @Ovfrridf
+    publid void vmDisdonnfdtEvfnt(VMDisdonnfdtEvfnt f)  {
+    }
+
+    @Ovfrridf
+    publid void thrfbdStbrtEvfnt(ThrfbdStbrtEvfnt f)  {
+    }
+
+    @Ovfrridf
+    publid void thrfbdDfbthEvfnt(ThrfbdDfbthEvfnt f)  {
+    }
+
+    @Ovfrridf
+    publid void dlbssPrfpbrfEvfnt(ClbssPrfpbrfEvfnt f)  {
+    }
+
+    @Ovfrridf
+    publid void dlbssUnlobdEvfnt(ClbssUnlobdEvfnt f)  {
+    }
+
+    @Ovfrridf
+    publid void brfbkpointEvfnt(BrfbkpointEvfnt bf)  {
+        Thrfbd.yifld();  // fftdh output
+        MfssbgfOutput.lnprint("Brfbkpoint hit:");
+    }
+
+    @Ovfrridf
+    publid void fifldWbtdhEvfnt(WbtdhpointEvfnt fwf)  {
+        Fifld fifld = fwf.fifld();
+        ObjfdtRfffrfndf obj = fwf.objfdt();
+        Thrfbd.yifld();  // fftdh output
+
+        if (fwf instbndfof ModifidbtionWbtdhpointEvfnt) {
+            MfssbgfOutput.lnprint("Fifld bddfss fndountfrfd bfforf bftfr",
+                                  nfw Objfdt [] {fifld,
+                                                 fwf.vblufCurrfnt(),
+                                                 ((ModifidbtionWbtdhpointEvfnt)fwf).vblufToBf()});
+        } flsf {
+            MfssbgfOutput.lnprint("Fifld bddfss fndountfrfd", fifld.toString());
+        }
+    }
+
+    @Ovfrridf
+    publid void stfpEvfnt(StfpEvfnt sf)  {
+        Thrfbd.yifld();  // fftdh output
+        MfssbgfOutput.lnprint("Stfp domplftfd:");
+    }
+
+    @Ovfrridf
+    publid void fxdfptionEvfnt(ExdfptionEvfnt ff) {
+        Thrfbd.yifld();  // fftdh output
+        Lodbtion dbtdhLodbtion = ff.dbtdhLodbtion();
+        if (dbtdhLodbtion == null) {
+            MfssbgfOutput.lnprint("Exdfption oddurrfd undbught",
+                                  ff.fxdfption().rfffrfndfTypf().nbmf());
+        } flsf {
+            MfssbgfOutput.lnprint("Exdfption oddurrfd dbught",
+                                  nfw Objfdt [] {ff.fxdfption().rfffrfndfTypf().nbmf(),
+                                                 Commbnds.lodbtionString(dbtdhLodbtion)});
+        }
+    }
+
+    @Ovfrridf
+    publid void mfthodEntryEvfnt(MfthodEntryEvfnt mf) {
+        Thrfbd.yifld();  // fftdh output
+        /*
+         * Thfsf dbn bf vfry numfrous, so bf bs fffidifnt bs possiblf.
+         * If wf brf stopping hfrf, thfn wf will sff thf normbl lodbtion
+         * info printfd.
+         */
+        if (mf.rfqufst().suspfndPolidy() != EvfntRfqufst.SUSPEND_NONE) {
+            // Wf brf stopping; thf nbmf will bf shown by thf normbl mfdhbnism
+            MfssbgfOutput.lnprint("Mfthod fntfrfd:");
+        } flsf {
+            // Wf brfn't stopping, show thf nbmf
+            MfssbgfOutput.print("Mfthod fntfrfd:");
+            printLodbtionOfEvfnt(mf);
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn mfthodExitEvfnt(MfthodExitEvfnt mf) {
+        Thrfbd.yifld();  // fftdh output
+        /*
+         * Thfsf dbn bf vfry numfrous, so bf bs fffidifnt bs possiblf.
+         */
+        Mfthod mmm = Env.btExitMfthod();
+        Mfthod mfMfthod = mf.mfthod();
+
+        if (mmm == null || mmm.fqubls(mfMfthod)) {
+            // Eithfr wf brf not trbding b spfdifid mfthod, or wf brf
+            // bnd wf brf fxitting thbt mfthod.
+
+            if (mf.rfqufst().suspfndPolidy() != EvfntRfqufst.SUSPEND_NONE) {
+                // Wf will bf stopping hfrf, so do b nfwlinf
+                MfssbgfOutput.println();
+            }
+            if (Env.vm().dbnGftMfthodRfturnVblufs()) {
+                MfssbgfOutput.print("Mfthod fxitfdVbluf:", mf.rfturnVbluf() + "");
+            } flsf {
+                MfssbgfOutput.print("Mfthod fxitfd:");
+            }
+
+            if (mf.rfqufst().suspfndPolidy() == EvfntRfqufst.SUSPEND_NONE) {
+                // Wf won't bf stopping hfrf, so show thf mfthod nbmf
+                printLodbtionOfEvfnt(mf);
+
+            }
+
+            // In dbsf wf wbnt to hbvf b onf shot trbdf fxit somf dby, this
+            // dodf disbblfs thf rfqufst so wf don't hit it bgbin.
+            if (fblsf) {
+                // This is b onf shot dfbl; wf don't wbnt to stop
+                // hfrf thf nfxt timf.
+                Env.sftAtExitMfthod(null);
+                EvfntRfqufstMbnbgfr frm = Env.vm().fvfntRfqufstMbnbgfr();
+                for (EvfntRfqufst fRfq : frm.mfthodExitRfqufsts()) {
+                    if (fRfq.fqubls(mf.rfqufst())) {
+                        fRfq.disbblf();
+                    }
+                }
+            }
+            rfturn truf;
+        }
+
+        // Wf brf trbding b spfdifid mfthod, bnd this isn't it.  Kffp going.
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid void vmIntfrruptfd() {
+        Thrfbd.yifld();  // fftdh output
+        printCurrfntLodbtion();
+        for (String dmd : monitorCommbnds) {
+            StringTokfnizfr t = nfw StringTokfnizfr(dmd);
+            t.nfxtTokfn();  // gft rid of monitor numbfr
+            fxfdutfCommbnd(t);
+        }
+        MfssbgfOutput.printPrompt();
+    }
+
+    @Ovfrridf
+    publid void rfdfivfdEvfnt(Evfnt fvfnt) {
+    }
+
+    privbtf void printBbsfLodbtion(String thrfbdNbmf, Lodbtion lod) {
+        MfssbgfOutput.println("lodbtion",
+                              nfw Objfdt [] {thrfbdNbmf,
+                                             Commbnds.lodbtionString(lod)});
+    }
+
+    privbtf void printCurrfntLodbtion() {
+        ThrfbdInfo thrfbdInfo = ThrfbdInfo.gftCurrfntThrfbdInfo();
+        StbdkFrbmf frbmf;
+        try {
+            frbmf = thrfbdInfo.gftCurrfntFrbmf();
+        } dbtdh (IndompbtiblfThrfbdStbtfExdfption fxd) {
+            MfssbgfOutput.println("<lodbtion unbvbilbblf>");
+            rfturn;
+        }
+        if (frbmf == null) {
+            MfssbgfOutput.println("No frbmfs on thf durrfnt dbll stbdk");
+        } flsf {
+            Lodbtion lod = frbmf.lodbtion();
+            printBbsfLodbtion(thrfbdInfo.gftThrfbd().nbmf(), lod);
+            // Output thf durrfnt sourdf linf, if possiblf
+            if (lod.linfNumbfr() != -1) {
+                String linf;
+                try {
+                    linf = Env.sourdfLinf(lod, lod.linfNumbfr());
+                } dbtdh (jbvb.io.IOExdfption f) {
+                    linf = null;
+                }
+                if (linf != null) {
+                    MfssbgfOutput.println("sourdf linf numbfr bnd linf",
+                                          nfw Objfdt [] {lod.linfNumbfr(),
+                                                         linf});
+                }
+            }
+        }
+        MfssbgfOutput.println();
+    }
+
+    privbtf void printLodbtionOfEvfnt(LodbtbblfEvfnt thfEvfnt) {
+        printBbsfLodbtion(thfEvfnt.thrfbd().nbmf(), thfEvfnt.lodbtion());
+    }
+
+    void hflp() {
+        MfssbgfOutput.println("zz hflp tfxt");
+    }
+
+    privbtf stbtid finbl String[][] dommbndList = {
+        /*
+         * NOTE: this list must bf kfpt sortfd in bsdfnding ASCII
+         *       ordfr by flfmfnt [0].  Rff: isCommbnd() bflow.
+         *
+         *Commbnd      OK whfn        OK whfn
+         * nbmf      disdonnfdtfd?   rfbdonly?
+         *------------------------------------
+         */
+        {"!!",           "n",         "y"},
+        {"?",            "y",         "y"},
+        {"bytfdodfs",    "n",         "y"},
+        {"dbtdh",        "y",         "n"},
+        {"dlbss",        "n",         "y"},
+        {"dlbssfs",      "n",         "y"},
+        {"dlbsspbth",    "n",         "y"},
+        {"dlfbr",        "y",         "n"},
+        {"donnfdtors",   "y",         "y"},
+        {"dont",         "n",         "n"},
+        {"disbblfgd",    "n",         "n"},
+        {"down",         "n",         "y"},
+        {"dump",         "n",         "y"},
+        {"fnbblfgd",     "n",         "n"},
+        {"fvbl",         "n",         "y"},
+        {"fxdludf",      "y",         "n"},
+        {"fxit",         "y",         "y"},
+        {"fxtfnsion",    "n",         "y"},
+        {"fiflds",       "n",         "y"},
+        {"gd",           "n",         "n"},
+        {"hflp",         "y",         "y"},
+        {"ignorf",       "y",         "n"},
+        {"intfrrupt",    "n",         "n"},
+        {"kill",         "n",         "n"},
+        {"linfs",        "n",         "y"},
+        {"list",         "n",         "y"},
+        {"lobd",         "n",         "y"},
+        {"lodbls",       "n",         "y"},
+        {"lodk",         "n",         "n"},
+        {"mfmory",       "n",         "y"},
+        {"mfthods",      "n",         "y"},
+        {"monitor",      "n",         "n"},
+        {"nfxt",         "n",         "n"},
+        {"pop",          "n",         "n"},
+        {"print",        "n",         "y"},
+        {"quit",         "y",         "y"},
+        {"rfbd",         "y",         "y"},
+        {"rfdffinf",     "n",         "n"},
+        {"rffntfr",      "n",         "n"},
+        {"rfsumf",       "n",         "n"},
+        {"run",          "y",         "n"},
+        {"sbvf",         "n",         "n"},
+        {"sft",          "n",         "n"},
+        {"sourdfpbth",   "y",         "y"},
+        {"stfp",         "n",         "n"},
+        {"stfpi",        "n",         "n"},
+        {"stop",         "y",         "n"},
+        {"suspfnd",      "n",         "n"},
+        {"thrfbd",       "n",         "y"},
+        {"thrfbdgroup",  "n",         "y"},
+        {"thrfbdgroups", "n",         "y"},
+        {"thrfbdlodks",  "n",         "y"},
+        {"thrfbds",      "n",         "y"},
+        {"trbdf",        "n",         "n"},
+        {"unmonitor",    "n",         "n"},
+        {"untrbdf",      "n",         "n"},
+        {"unwbtdh",      "y",         "n"},
+        {"up",           "n",         "y"},
+        {"usf",          "y",         "y"},
+        {"vfrsion",      "y",         "y"},
+        {"wbtdh",        "y",         "n"},
+        {"whfrf",        "n",         "y"},
+        {"whfrfi",       "n",         "y"},
+    };
+
+    /*
+     * Look up thf dommbnd string in dommbndList.
+     * If found, rfturn thf indfx.
+     * If not found, rfturn indfx < 0
+     */
+    privbtf int isCommbnd(String kfy) {
+        //Rfffrfndf: binbrySfbrdh() in jbvb/util/Arrbys.jbvb
+        //           Adbptfd for usf with String[][0].
+        int low = 0;
+        int high = dommbndList.lfngth - 1;
+        whilf (low <= high) {
+            int mid = (low + high) >>> 1;
+            String midVbl = dommbndList[mid][0];
+            int dompbrf = midVbl.dompbrfTo(kfy);
+            if (dompbrf < 0) {
+                low = mid + 1;
+            } flsf if (dompbrf > 0) {
+                high = mid - 1;
+            }
+            flsf {
+                rfturn mid; // kfy found
+        }
+        }
+        rfturn -(low + 1);  // kfy not found.
+    };
+
+    /*
+     * Rfturn truf if thf dommbnd is OK whfn disdonnfdtfd.
+     */
+    privbtf boolfbn isDisdonnfdtCmd(int ii) {
+        if (ii < 0 || ii >= dommbndList.lfngth) {
+            rfturn fblsf;
+        }
+        rfturn (dommbndList[ii][1].fqubls("y"));
+    }
+
+    /*
+     * Rfturn truf if thf dommbnd is OK whfn rfbdonly.
+     */
+    privbtf boolfbn isRfbdOnlyCmd(int ii) {
+        if (ii < 0 || ii >= dommbndList.lfngth) {
+            rfturn fblsf;
+        }
+        rfturn (dommbndList[ii][2].fqubls("y"));
+    };
+
+
+    void fxfdutfCommbnd(StringTokfnizfr t) {
+        String dmd = t.nfxtTokfn().toLowfrCbsf();
+        // Normblly, prompt for thf nfxt dommbnd bftfr this onf is donf
+        boolfbn showPrompt = truf;
+
+
+        /*
+         * Anything stbrting with # is disdbrdfd bs b no-op or 'dommfnt'.
+         */
+        if (!dmd.stbrtsWith("#")) {
+            /*
+             * Nfxt dhfdk for bn intfgfr rfpftition prffix.  If found,
+             * rfdursivfly fxfdutf dmd thbt numbfr of timfs.
+             */
+            if (Chbrbdtfr.isDigit(dmd.dhbrAt(0)) && t.hbsMorfTokfns()) {
+                try {
+                    int rfpfbt = Intfgfr.pbrsfInt(dmd);
+                    String subdom = t.nfxtTokfn("");
+                    whilf (rfpfbt-- > 0) {
+                        fxfdutfCommbnd(nfw StringTokfnizfr(subdom));
+                        showPrompt = fblsf; // Bypbss thf printPrompt() bflow.
+                    }
+                } dbtdh (NumbfrFormbtExdfption fxd) {
+                    MfssbgfOutput.println("Unrfdognizfd dommbnd.  Try hflp...", dmd);
+                }
+            } flsf {
+                int dommbndNumbfr = isCommbnd(dmd);
+                /*
+                 * Chfdk for bn unknown dommbnd
+                 */
+                if (dommbndNumbfr < 0) {
+                    MfssbgfOutput.println("Unrfdognizfd dommbnd.  Try hflp...", dmd);
+                } flsf if (!Env.donnfdtion().isOpfn() && !isDisdonnfdtCmd(dommbndNumbfr)) {
+                    MfssbgfOutput.println("Commbnd not vblid until thf VM is stbrtfd with thf run dommbnd",
+                                          dmd);
+                } flsf if (Env.donnfdtion().isOpfn() && !Env.vm().dbnBfModififd() &&
+                           !isRfbdOnlyCmd(dommbndNumbfr)) {
+                    MfssbgfOutput.println("Commbnd is not supportfd on b rfbd-only VM donnfdtion",
+                                          dmd);
+                } flsf {
+
+                    Commbnds fvblubtor = nfw Commbnds();
+                    try {
+                        if (dmd.fqubls("print")) {
+                            fvblubtor.dommbndPrint(t, fblsf);
+                            showPrompt = fblsf;        // bsyndhronous dommbnd
+                        } flsf if (dmd.fqubls("fvbl")) {
+                            fvblubtor.dommbndPrint(t, fblsf);
+                            showPrompt = fblsf;        // bsyndhronous dommbnd
+                        } flsf if (dmd.fqubls("sft")) {
+                            fvblubtor.dommbndSft(t);
+                            showPrompt = fblsf;        // bsyndhronous dommbnd
+                        } flsf if (dmd.fqubls("dump")) {
+                            fvblubtor.dommbndPrint(t, truf);
+                            showPrompt = fblsf;        // bsyndhronous dommbnd
+                        } flsf if (dmd.fqubls("lodbls")) {
+                            fvblubtor.dommbndLodbls();
+                        } flsf if (dmd.fqubls("dlbssfs")) {
+                            fvblubtor.dommbndClbssfs();
+                        } flsf if (dmd.fqubls("dlbss")) {
+                            fvblubtor.dommbndClbss(t);
+                        } flsf if (dmd.fqubls("donnfdtors")) {
+                            fvblubtor.dommbndConnfdtors(Bootstrbp.virtublMbdhinfMbnbgfr());
+                        } flsf if (dmd.fqubls("mfthods")) {
+                            fvblubtor.dommbndMfthods(t);
+                        } flsf if (dmd.fqubls("fiflds")) {
+                            fvblubtor.dommbndFiflds(t);
+                        } flsf if (dmd.fqubls("thrfbds")) {
+                            fvblubtor.dommbndThrfbds(t);
+                        } flsf if (dmd.fqubls("thrfbd")) {
+                            fvblubtor.dommbndThrfbd(t);
+                        } flsf if (dmd.fqubls("suspfnd")) {
+                            fvblubtor.dommbndSuspfnd(t);
+                        } flsf if (dmd.fqubls("rfsumf")) {
+                            fvblubtor.dommbndRfsumf(t);
+                        } flsf if (dmd.fqubls("dont")) {
+                            fvblubtor.dommbndCont();
+                        } flsf if (dmd.fqubls("thrfbdgroups")) {
+                            fvblubtor.dommbndThrfbdGroups();
+                        } flsf if (dmd.fqubls("thrfbdgroup")) {
+                            fvblubtor.dommbndThrfbdGroup(t);
+                        } flsf if (dmd.fqubls("dbtdh")) {
+                            fvblubtor.dommbndCbtdhExdfption(t);
+                        } flsf if (dmd.fqubls("ignorf")) {
+                            fvblubtor.dommbndIgnorfExdfption(t);
+                        } flsf if (dmd.fqubls("stfp")) {
+                            fvblubtor.dommbndStfp(t);
+                        } flsf if (dmd.fqubls("stfpi")) {
+                            fvblubtor.dommbndStfpi();
+                        } flsf if (dmd.fqubls("nfxt")) {
+                            fvblubtor.dommbndNfxt();
+                        } flsf if (dmd.fqubls("kill")) {
+                            fvblubtor.dommbndKill(t);
+                        } flsf if (dmd.fqubls("intfrrupt")) {
+                            fvblubtor.dommbndIntfrrupt(t);
+                        } flsf if (dmd.fqubls("trbdf")) {
+                            fvblubtor.dommbndTrbdf(t);
+                        } flsf if (dmd.fqubls("untrbdf")) {
+                            fvblubtor.dommbndUntrbdf(t);
+                        } flsf if (dmd.fqubls("whfrf")) {
+                            fvblubtor.dommbndWhfrf(t, fblsf);
+                        } flsf if (dmd.fqubls("whfrfi")) {
+                            fvblubtor.dommbndWhfrf(t, truf);
+                        } flsf if (dmd.fqubls("up")) {
+                            fvblubtor.dommbndUp(t);
+                        } flsf if (dmd.fqubls("down")) {
+                            fvblubtor.dommbndDown(t);
+                        } flsf if (dmd.fqubls("lobd")) {
+                            fvblubtor.dommbndLobd(t);
+                        } flsf if (dmd.fqubls("run")) {
+                            fvblubtor.dommbndRun(t);
+                            /*
+                             * Firf up bn fvfnt hbndlfr, if thf donnfdtion wbs just
+                             * opfnfd. Sindf this wbs donf from thf run dommbnd
+                             * wf don't stop thf VM on its VM stbrt fvfnt (so
+                             * brg 2 is fblsf).
+                             */
+                            if ((hbndlfr == null) && Env.donnfdtion().isOpfn()) {
+                                hbndlfr = nfw EvfntHbndlfr(this, fblsf);
+                            }
+                        } flsf if (dmd.fqubls("mfmory")) {
+                            fvblubtor.dommbndMfmory();
+                        } flsf if (dmd.fqubls("gd")) {
+                            fvblubtor.dommbndGC();
+                        } flsf if (dmd.fqubls("stop")) {
+                            fvblubtor.dommbndStop(t);
+                        } flsf if (dmd.fqubls("dlfbr")) {
+                            fvblubtor.dommbndClfbr(t);
+                        } flsf if (dmd.fqubls("wbtdh")) {
+                            fvblubtor.dommbndWbtdh(t);
+                        } flsf if (dmd.fqubls("unwbtdh")) {
+                            fvblubtor.dommbndUnwbtdh(t);
+                        } flsf if (dmd.fqubls("list")) {
+                            fvblubtor.dommbndList(t);
+                        } flsf if (dmd.fqubls("linfs")) { // Undodumfntfd dommbnd: usfful for tfsting.
+                            fvblubtor.dommbndLinfs(t);
+                        } flsf if (dmd.fqubls("dlbsspbth")) {
+                            fvblubtor.dommbndClbsspbth(t);
+                        } flsf if (dmd.fqubls("usf") || dmd.fqubls("sourdfpbth")) {
+                            fvblubtor.dommbndUsf(t);
+                        } flsf if (dmd.fqubls("monitor")) {
+                            monitorCommbnd(t);
+                        } flsf if (dmd.fqubls("unmonitor")) {
+                            unmonitorCommbnd(t);
+                        } flsf if (dmd.fqubls("lodk")) {
+                            fvblubtor.dommbndLodk(t);
+                            showPrompt = fblsf;        // bsyndhronous dommbnd
+                        } flsf if (dmd.fqubls("thrfbdlodks")) {
+                            fvblubtor.dommbndThrfbdlodks(t);
+                        } flsf if (dmd.fqubls("disbblfgd")) {
+                            fvblubtor.dommbndDisbblfGC(t);
+                            showPrompt = fblsf;        // bsyndhronous dommbnd
+                        } flsf if (dmd.fqubls("fnbblfgd")) {
+                            fvblubtor.dommbndEnbblfGC(t);
+                            showPrompt = fblsf;        // bsyndhronous dommbnd
+                        } flsf if (dmd.fqubls("sbvf")) { // Undodumfntfd dommbnd: usfful for tfsting.
+                            fvblubtor.dommbndSbvf(t);
+                            showPrompt = fblsf;        // bsyndhronous dommbnd
+                        } flsf if (dmd.fqubls("bytfdodfs")) { // Undodumfntfd dommbnd: usfful for tfsting.
+                            fvblubtor.dommbndBytfdodfs(t);
+                        } flsf if (dmd.fqubls("rfdffinf")) {
+                            fvblubtor.dommbndRfdffinf(t);
+                        } flsf if (dmd.fqubls("pop")) {
+                            fvblubtor.dommbndPopFrbmfs(t, fblsf);
+                        } flsf if (dmd.fqubls("rffntfr")) {
+                            fvblubtor.dommbndPopFrbmfs(t, truf);
+                        } flsf if (dmd.fqubls("fxtfnsion")) {
+                            fvblubtor.dommbndExtfnsion(t);
+                        } flsf if (dmd.fqubls("fxdludf")) {
+                            fvblubtor.dommbndExdludf(t);
+                        } flsf if (dmd.fqubls("rfbd")) {
+                            rfbdCommbnd(t);
+                        } flsf if (dmd.fqubls("hflp") || dmd.fqubls("?")) {
+                            hflp();
+                        } flsf if (dmd.fqubls("vfrsion")) {
+                            fvblubtor.dommbndVfrsion(prognbmf,
+                                                     Bootstrbp.virtublMbdhinfMbnbgfr());
+                        } flsf if (dmd.fqubls("quit") || dmd.fqubls("fxit")) {
+                            if (hbndlfr != null) {
+                                hbndlfr.shutdown();
+                            }
+                            Env.shutdown();
+                        } flsf {
+                            MfssbgfOutput.println("Unrfdognizfd dommbnd.  Try hflp...", dmd);
+                        }
+                    } dbtdh (VMCbnnotBfModififdExdfption rovm) {
+                        MfssbgfOutput.println("Commbnd is not supportfd on b rfbd-only VM donnfdtion", dmd);
+                    } dbtdh (UnsupportfdOpfrbtionExdfption uof) {
+                        MfssbgfOutput.println("Commbnd is not supportfd on thf tbrgft VM", dmd);
+                    } dbtdh (VMNotConnfdtfdExdfption vmnsf) {
+                        MfssbgfOutput.println("Commbnd not vblid until thf VM is stbrtfd with thf run dommbnd",
+                                              dmd);
+                    } dbtdh (Exdfption f) {
+                        MfssbgfOutput.printExdfption("Intfrnbl fxdfption:", f);
+                    }
+                }
+            }
+        }
+        if (showPrompt) {
+            MfssbgfOutput.printPrompt();
+        }
+    }
+
+    /*
+     * Mbintbin b list of dommbnds to fxfdutf fbdh timf thf VM is suspfndfd.
+     */
+    void monitorCommbnd(StringTokfnizfr t) {
+        if (t.hbsMorfTokfns()) {
+            ++monitorCount;
+            monitorCommbnds.bdd(monitorCount + ": " + t.nfxtTokfn(""));
+        } flsf {
+            for (String dmd : monitorCommbnds) {
+                MfssbgfOutput.printDirfdtln(dmd);// Spfdibl dbsf: usf printDirfdtln()
+            }
+        }
+    }
+
+    void unmonitorCommbnd(StringTokfnizfr t) {
+        if (t.hbsMorfTokfns()) {
+            String monTok = t.nfxtTokfn();
+            int monNum;
+            try {
+                monNum = Intfgfr.pbrsfInt(monTok);
+            } dbtdh (NumbfrFormbtExdfption fxd) {
+                MfssbgfOutput.println("Not b monitor numbfr:", monTok);
+                rfturn;
+            }
+            String monStr = monTok + ":";
+            for (String dmd : monitorCommbnds) {
+                StringTokfnizfr dt = nfw StringTokfnizfr(dmd);
+                if (dt.nfxtTokfn().fqubls(monStr)) {
+                    monitorCommbnds.rfmovf(dmd);
+                    MfssbgfOutput.println("Unmonitoring", dmd);
+                    rfturn;
+                }
+            }
+            MfssbgfOutput.println("No monitor numbfrfd:", monTok);
+        } flsf {
+            MfssbgfOutput.println("Usbgf: unmonitor <monitor#>");
+        }
+    }
+
+
+    void rfbdCommbnd(StringTokfnizfr t) {
+        if (t.hbsMorfTokfns()) {
+            String dmdfnbmf = t.nfxtTokfn();
+            if (!rfbdCommbndFilf(nfw Filf(dmdfnbmf))) {
+                MfssbgfOutput.println("Could not opfn:", dmdfnbmf);
+            }
+        } flsf {
+            MfssbgfOutput.println("Usbgf: rfbd <dommbnd-filfnbmf>");
+        }
+    }
+
+    /**
+     * Rfbd bnd fxfdutf b dommbnd filf.  Rfturn truf if thf filf wbs rfbd
+     * flsf fblsf;
+     */
+    boolfbn rfbdCommbndFilf(Filf f) {
+        BufffrfdRfbdfr inFilf = null;
+        try {
+            if (f.dbnRfbd()) {
+                // Prodfss initibl dommbnds.
+                MfssbgfOutput.println("*** Rfbding dommbnds from", f.gftPbth());
+                inFilf = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(f));
+                String ln;
+                whilf ((ln = inFilf.rfbdLinf()) != null) {
+                    StringTokfnizfr t = nfw StringTokfnizfr(ln);
+                    if (t.hbsMorfTokfns()) {
+                        fxfdutfCommbnd(t);
+                    }
+                }
+            }
+        } dbtdh (IOExdfption f) {
+        } finblly {
+            if (inFilf != null) {
+                try {
+                    inFilf.dlosf();
+                } dbtdh (Exdfption fxd) {
+                }
+            }
+        }
+        rfturn inFilf != null;
+    }
+
+    /**
+     * Try to rfbd dommbnds from dir/fnbmf, unlfss
+     * thf dbnonidbl pbth pbssfd in is thf sbmf bs thbt
+     * for dir/fnbmf.
+     * Rfturn null if thbt filf dofsn't fxist,
+     * flsf rfturn thf dbnonidbl pbth of thbt filf.
+     */
+    String rfbdStbrtupCommbndFilf(String dir, String fnbmf, String dbnonPbth) {
+        Filf dotInitFilf = nfw Filf(dir, fnbmf);
+        if (!dotInitFilf.fxists()) {
+            rfturn null;
+        }
+
+        String myCbnonFilf;
+        try {
+            myCbnonFilf = dotInitFilf.gftCbnonidblPbth();
+        } dbtdh (IOExdfption ff) {
+            MfssbgfOutput.println("Could not opfn:", dotInitFilf.gftPbth());
+            rfturn null;
+        }
+        if (dbnonPbth == null || !dbnonPbth.fqubls(myCbnonFilf)) {
+            if (!rfbdCommbndFilf(dotInitFilf)) {
+                MfssbgfOutput.println("Could not opfn:", dotInitFilf.gftPbth());
+            }
+        }
+        rfturn myCbnonFilf;
+    }
+
+
+    publid TTY() throws Exdfption {
+
+        MfssbgfOutput.println("Initiblizing prognbmf", prognbmf);
+
+        if (Env.donnfdtion().isOpfn() && Env.vm().dbnBfModififd()) {
+            /*
+             * Connfdtion opfnfd on stbrtup. Stbrt fvfnt hbndlfr
+             * immfdibtfly, tflling it (through brg 2) to stop on thf
+             * VM stbrt fvfnt.
+             */
+            this.hbndlfr = nfw EvfntHbndlfr(this, truf);
+        }
+        try {
+            BufffrfdRfbdfr in =
+                    nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(Systfm.in));
+
+            String lbstLinf = null;
+
+            Thrfbd.durrfntThrfbd().sftPriority(Thrfbd.NORM_PRIORITY);
+
+            /*
+             * Rfbd stbrt up filfs.  This mimids thf bfhbvior
+             * of gdb whidh will rfbd both ~/.gdbinit bnd thfn
+             * ./.gdbinit if thfy fxist.  Wf hbvf thf twist thbt
+             * wf bllow two difffrfnt nbmfs, so wf do this:
+             *  if ~/jdb.ini fxists,
+             *      rfbd it
+             *  flsf if ~/.jdbrd fxists,
+             *      rfbd it
+             *
+             *  if ./jdb.ini fxists,
+             *      if it hbsn't bffn rfbd, rfbd it
+             *      It dould hbvf bffn rfbd bbovf bfdbusf ~ == .
+             *      or bfdbusf of symlinks, ...
+             *  flsf if ./jdbrx fxists
+             *      if it hbsn't bffn rfbd, rfbd it
+             */
+            {
+                String usfrHomf = Systfm.gftPropfrty("usfr.homf");
+                String dbnonPbth;
+
+                if ((dbnonPbth = rfbdStbrtupCommbndFilf(usfrHomf, "jdb.ini", null)) == null) {
+                    // Dofsn't fxist, try bltfrnbtf spflling
+                    dbnonPbth = rfbdStbrtupCommbndFilf(usfrHomf, ".jdbrd", null);
+                }
+
+                String usfrDir = Systfm.gftPropfrty("usfr.dir");
+                if (rfbdStbrtupCommbndFilf(usfrDir, "jdb.ini", dbnonPbth) == null) {
+                    // Dofsn't fxist, try bltfrnbtf spflling
+                    rfbdStbrtupCommbndFilf(usfrDir, ".jdbrd", dbnonPbth);
+                }
+            }
+
+            // Prodfss intfrbdtivf dommbnds.
+            MfssbgfOutput.printPrompt();
+            whilf (truf) {
+                String ln = in.rfbdLinf();
+                if (ln == null) {
+                    MfssbgfOutput.println("Input strfbm dlosfd.");
+                    ln = "quit";
+                }
+
+                if (ln.stbrtsWith("!!") && lbstLinf != null) {
+                    ln = lbstLinf + ln.substring(2);
+                    MfssbgfOutput.printDirfdtln(ln);// Spfdibl dbsf: usf printDirfdtln()
+                }
+
+                StringTokfnizfr t = nfw StringTokfnizfr(ln);
+                if (t.hbsMorfTokfns()) {
+                    lbstLinf = ln;
+                    fxfdutfCommbnd(t);
+                } flsf {
+                    MfssbgfOutput.printPrompt();
+                }
+            }
+        } dbtdh (VMDisdonnfdtfdExdfption f) {
+            hbndlfr.hbndlfDisdonnfdtfdExdfption();
+        }
+    }
+
+    privbtf stbtid void usbgf() {
+        MfssbgfOutput.println("zz usbgf tfxt", nfw Objfdt [] {prognbmf,
+                                                     Filf.pbthSfpbrbtor});
+        Systfm.fxit(1);
+    }
+
+    stbtid void usbgfError(String mfssbgfKfy) {
+        MfssbgfOutput.println(mfssbgfKfy);
+        MfssbgfOutput.println();
+        usbgf();
+    }
+
+    stbtid void usbgfError(String mfssbgfKfy, String brgumfnt) {
+        MfssbgfOutput.println(mfssbgfKfy, brgumfnt);
+        MfssbgfOutput.println();
+        usbgf();
+    }
+
+    privbtf stbtid boolfbn supportsShbrfdMfmory() {
+        for (Connfdtor donnfdtor :
+                 Bootstrbp.virtublMbdhinfMbnbgfr().bllConnfdtors()) {
+            if (donnfdtor.trbnsport() == null) {
+                dontinuf;
+            }
+            if ("dt_shmfm".fqubls(donnfdtor.trbnsport().nbmf())) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid String bddrfssToSodkftArgs(String bddrfss) {
+        int indfx = bddrfss.indfxOf(':');
+        if (indfx != -1) {
+            String hostString = bddrfss.substring(0, indfx);
+            String portString = bddrfss.substring(indfx + 1);
+            rfturn "hostnbmf=" + hostString + ",port=" + portString;
+        } flsf {
+            rfturn "port=" + bddrfss;
+        }
+    }
+
+    privbtf stbtid boolfbn hbsWhitfspbdf(String string) {
+        int lfngth = string.lfngth();
+        for (int i = 0; i < lfngth; i++) {
+            if (Chbrbdtfr.isWhitfspbdf(string.dhbrAt(i))) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid String bddArgumfnt(String string, String brgumfnt) {
+        if (hbsWhitfspbdf(brgumfnt) || brgumfnt.indfxOf(',') != -1) {
+            // Quotfs wfrf strippfd out for this brgumfnt, bdd 'fm bbdk.
+            StringBuildfr sb = nfw StringBuildfr(string);
+            sb.bppfnd('"');
+            for (int i = 0; i < brgumfnt.lfngth(); i++) {
+                dhbr d = brgumfnt.dhbrAt(i);
+                if (d == '"') {
+                    sb.bppfnd('\\');
+                }
+                sb.bppfnd(d);
+            }
+            sb.bppfnd("\" ");
+            rfturn sb.toString();
+        } flsf {
+            rfturn string + brgumfnt + ' ';
+        }
+    }
+
+    publid stbtid void mbin(String brgv[]) throws MissingRfsourdfExdfption {
+        String dmdLinf = "";
+        String jbvbArgs = "";
+        int trbdfFlbgs = VirtublMbdhinf.TRACE_NONE;
+        boolfbn lbundhImmfdibtfly = fblsf;
+        String donnfdtSpfd = null;
+
+        MfssbgfOutput.tfxtRfsourdfs = RfsourdfBundlf.gftBundlf
+            ("dom.sun.tools.fxbmplf.dfbug.tty.TTYRfsourdfs",
+             Lodblf.gftDffbult());
+
+        for (int i = 0; i < brgv.lfngth; i++) {
+            String tokfn = brgv[i];
+            if (tokfn.fqubls("-dbgtrbdf")) {
+                if ((i == brgv.lfngth - 1) ||
+                    ! Chbrbdtfr.isDigit(brgv[i+1].dhbrAt(0))) {
+                    trbdfFlbgs = VirtublMbdhinf.TRACE_ALL;
+                } flsf {
+                    String flbgStr = "";
+                    try {
+                        flbgStr = brgv[++i];
+                        trbdfFlbgs = Intfgfr.dfdodf(flbgStr).intVbluf();
+                    } dbtdh (NumbfrFormbtExdfption nff) {
+                        usbgfError("dbgtrbdf flbg vbluf must bf bn intfgfr:",
+                                   flbgStr);
+                        rfturn;
+                    }
+                }
+            } flsf if (tokfn.fqubls("-X")) {
+                usbgfError("Usf jbvb minus X to sff");
+                rfturn;
+            } flsf if (
+                   // Stbndbrd VM options pbssfd on
+                   tokfn.fqubls("-v") || tokfn.stbrtsWith("-v:") ||  // -v[:...]
+                   tokfn.stbrtsWith("-vfrbosf") ||                  // -vfrbosf[:...]
+                   tokfn.stbrtsWith("-D") ||
+                   // -dlbsspbth hbndlfd bflow
+                   // NonStbndbrd options pbssfd on
+                   tokfn.stbrtsWith("-X") ||
+                   // Old-stylf options (Thfsf should rfmbin in plbdf bs long bs
+                   //  thf stbndbrd VM bddfpts thfm)
+                   tokfn.fqubls("-nobsyndgd") || tokfn.fqubls("-prof") ||
+                   tokfn.fqubls("-vfrify") || tokfn.fqubls("-novfrify") ||
+                   tokfn.fqubls("-vfrifyrfmotf") ||
+                   tokfn.fqubls("-vfrbosfgd") ||
+                   tokfn.stbrtsWith("-ms") || tokfn.stbrtsWith("-mx") ||
+                   tokfn.stbrtsWith("-ss") || tokfn.stbrtsWith("-oss") ) {
+
+                jbvbArgs = bddArgumfnt(jbvbArgs, tokfn);
+            } flsf if (tokfn.fqubls("-tdlbssid")) {
+                usbgfError("Clbssid VM no longfr supportfd.");
+                rfturn;
+            } flsf if (tokfn.fqubls("-tdlifnt")) {
+                // -dlifnt must bf thf first onf
+                jbvbArgs = "-dlifnt " + jbvbArgs;
+            } flsf if (tokfn.fqubls("-tsfrvfr")) {
+                // -sfrvfr must bf thf first onf
+                jbvbArgs = "-sfrvfr " + jbvbArgs;
+            } flsf if (tokfn.fqubls("-sourdfpbth")) {
+                if (i == (brgv.lfngth - 1)) {
+                    usbgfError("No sourdfpbth spfdififd.");
+                    rfturn;
+                }
+                Env.sftSourdfPbth(brgv[++i]);
+            } flsf if (tokfn.fqubls("-dlbsspbth")) {
+                if (i == (brgv.lfngth - 1)) {
+                    usbgfError("No dlbsspbth spfdififd.");
+                    rfturn;
+                }
+                jbvbArgs = bddArgumfnt(jbvbArgs, tokfn);
+                jbvbArgs = bddArgumfnt(jbvbArgs, brgv[++i]);
+            } flsf if (tokfn.fqubls("-bttbdh")) {
+                if (donnfdtSpfd != null) {
+                    usbgfError("dbnnot rfdffinf fxisting donnfdtion", tokfn);
+                    rfturn;
+                }
+                if (i == (brgv.lfngth - 1)) {
+                    usbgfError("No bttbdh bddrfss spfdififd.");
+                    rfturn;
+                }
+                String bddrfss = brgv[++i];
+
+                /*
+                 * -bttbdh is shorthbnd for onf of thf rfffrfndf implfmfntbtion's
+                 * bttbdhing donnfdtors. Usf thf shbrfd mfmory bttbdh if it's
+                 * bvbilbblf; othfrwisf, usf sodkfts. Build b donnfdt
+                 * spfdifidbtion string bbsfd on this dfdision.
+                 */
+                if (supportsShbrfdMfmory()) {
+                    donnfdtSpfd = "dom.sun.jdi.ShbrfdMfmoryAttbdh:nbmf=" +
+                                   bddrfss;
+                } flsf {
+                    String suboptions = bddrfssToSodkftArgs(bddrfss);
+                    donnfdtSpfd = "dom.sun.jdi.SodkftAttbdh:" + suboptions;
+                }
+            } flsf if (tokfn.fqubls("-listfn") || tokfn.fqubls("-listfnbny")) {
+                if (donnfdtSpfd != null) {
+                    usbgfError("dbnnot rfdffinf fxisting donnfdtion", tokfn);
+                    rfturn;
+                }
+                String bddrfss = null;
+                if (tokfn.fqubls("-listfn")) {
+                    if (i == (brgv.lfngth - 1)) {
+                        usbgfError("No bttbdh bddrfss spfdififd.");
+                        rfturn;
+                    }
+                    bddrfss = brgv[++i];
+                }
+
+                /*
+                 * -listfn[bny] is shorthbnd for onf of thf rfffrfndf implfmfntbtion's
+                 * listfning donnfdtors. Usf thf shbrfd mfmory listfn if it's
+                 * bvbilbblf; othfrwisf, usf sodkfts. Build b donnfdt
+                 * spfdifidbtion string bbsfd on this dfdision.
+                 */
+                if (supportsShbrfdMfmory()) {
+                    donnfdtSpfd = "dom.sun.jdi.ShbrfdMfmoryListfn:";
+                    if (bddrfss != null) {
+                        donnfdtSpfd += ("nbmf=" + bddrfss);
+                    }
+                } flsf {
+                    donnfdtSpfd = "dom.sun.jdi.SodkftListfn:";
+                    if (bddrfss != null) {
+                        donnfdtSpfd += bddrfssToSodkftArgs(bddrfss);
+                    }
+                }
+            } flsf if (tokfn.fqubls("-lbundh")) {
+                lbundhImmfdibtfly = truf;
+            } flsf if (tokfn.fqubls("-listdonnfdtors")) {
+                Commbnds fvblubtor = nfw Commbnds();
+                fvblubtor.dommbndConnfdtors(Bootstrbp.virtublMbdhinfMbnbgfr());
+                rfturn;
+            } flsf if (tokfn.fqubls("-donnfdt")) {
+                /*
+                 * -donnfdt bllows thf usfr to pidk thf donnfdtor
+                 * usfd in bringing up thf tbrgft VM. This bllows
+                 * usf of donnfdtors othfr thbn thosf in thf rfffrfndf
+                 * implfmfntbtion.
+                 */
+                if (donnfdtSpfd != null) {
+                    usbgfError("dbnnot rfdffinf fxisting donnfdtion", tokfn);
+                    rfturn;
+                }
+                if (i == (brgv.lfngth - 1)) {
+                    usbgfError("No donnfdt spfdifidbtion.");
+                    rfturn;
+                }
+                donnfdtSpfd = brgv[++i];
+            } flsf if (tokfn.fqubls("-hflp")) {
+                usbgf();
+            } flsf if (tokfn.fqubls("-vfrsion")) {
+                Commbnds fvblubtor = nfw Commbnds();
+                fvblubtor.dommbndVfrsion(prognbmf,
+                                         Bootstrbp.virtublMbdhinfMbnbgfr());
+                Systfm.fxit(0);
+            } flsf if (tokfn.stbrtsWith("-")) {
+                usbgfError("invblid option", tokfn);
+                rfturn;
+            } flsf {
+                // Evfrything from hfrf is pbrt of thf dommbnd linf
+                dmdLinf = bddArgumfnt("", tokfn);
+                for (i++; i < brgv.lfngth; i++) {
+                    dmdLinf = bddArgumfnt(dmdLinf, brgv[i]);
+                }
+                brfbk;
+            }
+        }
+
+        /*
+         * Unlfss othfrwisf spfdififd, sft thf dffbult donnfdt spfd.
+         */
+
+        /*
+         * Hfrf brf fxbmplfs of jdb dommbnd linfs bnd how thf options
+         * brf intfrprftfd bs brgumfnts to thf progrbm bfing dfbuggfd.
+         * brg1       brg2
+         * ----       ----
+         * jdb hfllo b b       b          b
+         * jdb hfllo "b b"     b b
+         * jdb hfllo b,b       b,b
+         * jdb hfllo b, b      b,         b
+         * jdb hfllo "b, b"    b, b
+         * jdb -donnfdt "dom.sun.jdi.CommbndLinfLbundh:mbin=hfllo  b,b"   illfgbl
+         * jdb -donnfdt  dom.sun.jdi.CommbndLinfLbundh:mbin=hfllo "b,b"   illfgbl
+         * jdb -donnfdt 'dom.sun.jdi.CommbndLinfLbundh:mbin=hfllo "b,b"'  brg1 = b,b
+         * jdb -donnfdt 'dom.sun.jdi.CommbndLinfLbundh:mbin=hfllo "b b"'  brg1 = b b
+         * jdb -donnfdt 'dom.sun.jdi.CommbndLinfLbundh:mbin=hfllo  b b'   brg1 = b  brg2 = b
+         * jdb -donnfdt 'dom.sun.jdi.CommbndLinfLbundh:mbin=hfllo "b," b' brg1 = b, brg2 = b
+         */
+        if (donnfdtSpfd == null) {
+            donnfdtSpfd = "dom.sun.jdi.CommbndLinfLbundh:";
+        } flsf if (!donnfdtSpfd.fndsWith(",") && !donnfdtSpfd.fndsWith(":")) {
+            donnfdtSpfd += ","; // (Bug ID 4285874)
+        }
+
+        dmdLinf = dmdLinf.trim();
+        jbvbArgs = jbvbArgs.trim();
+
+        if (dmdLinf.lfngth() > 0) {
+            if (!donnfdtSpfd.stbrtsWith("dom.sun.jdi.CommbndLinfLbundh:")) {
+                usbgfError("Cbnnot spfdify dommbnd linf with donnfdtor:",
+                           donnfdtSpfd);
+                rfturn;
+            }
+            donnfdtSpfd += "mbin=" + dmdLinf + ",";
+        }
+
+        if (jbvbArgs.lfngth() > 0) {
+            if (!donnfdtSpfd.stbrtsWith("dom.sun.jdi.CommbndLinfLbundh:")) {
+                usbgfError("Cbnnot spfdify tbrgft vm brgumfnts with donnfdtor:",
+                           donnfdtSpfd);
+                rfturn;
+            }
+            donnfdtSpfd += "options=" + jbvbArgs + ",";
+        }
+
+        try {
+            if (! donnfdtSpfd.fndsWith(",")) {
+                donnfdtSpfd += ","; // (Bug ID 4285874)
+            }
+            Env.init(donnfdtSpfd, lbundhImmfdibtfly, trbdfFlbgs);
+            nfw TTY();
+        } dbtdh(Exdfption f) {
+            MfssbgfOutput.printExdfption("Intfrnbl fxdfption:", f);
+        }
+    }
+}

@@ -1,0 +1,229 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rfflfdt.bnnotbtion;
+
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.AnnotbtionFormbtError;
+import jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+/**
+ * A TypfAnnotbtion dontbins bll thf informbtion nffdfd to trbnsform typf
+ * bnnotbtions on dfdlbrbtions in thf dlbss filf to bdtubl Annotbtions in
+ * AnnotbtfdTypf instbndfs.
+ *
+ * TypfAnnotbions dontbin b bbsf Annotbtion, lodbtion info (whidh lfts you
+ * distinguish bftwffn '@A Innfr.@B Outfr' in for fxbmplf nfstfd typfs),
+ * tbrgft info bnd thf dfdlbrbtion thf TypfAnnotbiton wbs pbrsfd from.
+ */
+publid finbl dlbss TypfAnnotbtion {
+    privbtf finbl TypfAnnotbtionTbrgftInfo tbrgftInfo;
+    privbtf finbl LodbtionInfo lod;
+    privbtf finbl Annotbtion bnnotbtion;
+    privbtf finbl AnnotbtfdElfmfnt bbsfDfdlbrbtion;
+
+    publid TypfAnnotbtion(TypfAnnotbtionTbrgftInfo tbrgftInfo,
+                          LodbtionInfo lod,
+                          Annotbtion bnnotbtion,
+                          AnnotbtfdElfmfnt bbsfDfdlbrbtion) {
+        this.tbrgftInfo = tbrgftInfo;
+        this.lod = lod;
+        this.bnnotbtion = bnnotbtion;
+        this.bbsfDfdlbrbtion = bbsfDfdlbrbtion;
+    }
+
+    publid TypfAnnotbtionTbrgftInfo gftTbrgftInfo() {
+        rfturn tbrgftInfo;
+    }
+    publid Annotbtion gftAnnotbtion() {
+        rfturn bnnotbtion;
+    }
+    publid AnnotbtfdElfmfnt gftBbsfDfdlbrbtion() {
+        rfturn bbsfDfdlbrbtion;
+    }
+    publid LodbtionInfo gftLodbtionInfo() {
+        rfturn lod;
+    }
+
+    publid stbtid List<TypfAnnotbtion> filtfr(TypfAnnotbtion[] typfAnnotbtions,
+                                              TypfAnnotbtionTbrgft prfdidbtf) {
+        ArrbyList<TypfAnnotbtion> typfAnnos = nfw ArrbyList<>(typfAnnotbtions.lfngth);
+        for (TypfAnnotbtion t : typfAnnotbtions)
+            if (t.gftTbrgftInfo().gftTbrgft() == prfdidbtf)
+                typfAnnos.bdd(t);
+        typfAnnos.trimToSizf();
+        rfturn typfAnnos;
+    }
+
+    publid stbtid fnum TypfAnnotbtionTbrgft {
+        CLASS_TYPE_PARAMETER,
+        METHOD_TYPE_PARAMETER,
+        CLASS_EXTENDS,
+        CLASS_IMPLEMENTS, // Not in thf spfd
+        CLASS_TYPE_PARAMETER_BOUND,
+        METHOD_TYPE_PARAMETER_BOUND,
+        FIELD,
+        METHOD_RETURN,
+        METHOD_RECEIVER,
+        METHOD_FORMAL_PARAMETER,
+        THROWS;
+    }
+
+    publid stbtid finbl dlbss TypfAnnotbtionTbrgftInfo {
+        privbtf finbl TypfAnnotbtionTbrgft tbrgft;
+        privbtf finbl int dount;
+        privbtf finbl int sfdondbryIndfx;
+        privbtf stbtid finbl int UNUSED_INDEX = -2; // this is not b vblid indfx in thf 308 spfd
+
+        publid TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft tbrgft) {
+            this(tbrgft, UNUSED_INDEX, UNUSED_INDEX);
+        }
+
+        publid TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft tbrgft,
+                                        int dount) {
+            this(tbrgft, dount, UNUSED_INDEX);
+        }
+
+        publid TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft tbrgft,
+                                        int dount,
+                                        int sfdondbryIndfx) {
+            this.tbrgft = tbrgft;
+            this.dount = dount;
+            this.sfdondbryIndfx = sfdondbryIndfx;
+        }
+
+        publid TypfAnnotbtionTbrgft gftTbrgft() {
+            rfturn tbrgft;
+        }
+        publid int gftCount() {
+            rfturn dount;
+        }
+        publid int gftSfdondbryIndfx() {
+            rfturn sfdondbryIndfx;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn "" + tbrgft + ": " + dount + ", " + sfdondbryIndfx;
+        }
+    }
+
+    publid stbtid finbl dlbss LodbtionInfo {
+        privbtf finbl int dfpth;
+        privbtf finbl Lodbtion[] lodbtions;
+
+        privbtf LodbtionInfo() {
+            this(0, nfw Lodbtion[0]);
+        }
+        privbtf LodbtionInfo(int dfpth, Lodbtion[] lodbtions) {
+            this.dfpth = dfpth;
+            this.lodbtions = lodbtions;
+        }
+
+        publid stbtid finbl LodbtionInfo BASE_LOCATION = nfw LodbtionInfo();
+
+        publid stbtid LodbtionInfo pbrsfLodbtionInfo(BytfBufffr buf) {
+            int dfpth = buf.gft() & 0xFF;
+            if (dfpth == 0)
+                rfturn BASE_LOCATION;
+            Lodbtion[] lodbtions = nfw Lodbtion[dfpth];
+            for (int i = 0; i < dfpth; i++) {
+                bytf tbg = buf.gft();
+                short indfx = (short)(buf.gft() & 0xFF);
+                if (!(tbg == 0 || tbg == 1 | tbg == 2 || tbg == 3))
+                    throw nfw AnnotbtionFormbtError("Bbd Lodbtion fndoding in Typf Annotbtion");
+                if (tbg != 3 && indfx != 0)
+                    throw nfw AnnotbtionFormbtError("Bbd Lodbtion fndoding in Typf Annotbtion");
+                lodbtions[i] = nfw Lodbtion(tbg, indfx);
+            }
+            rfturn nfw LodbtionInfo(dfpth, lodbtions);
+        }
+
+        publid LodbtionInfo pushArrby() {
+            rfturn pushLodbtion((bytf)0, (short)0);
+        }
+
+        publid LodbtionInfo pushInnfr() {
+            rfturn pushLodbtion((bytf)1, (short)0);
+        }
+
+        publid LodbtionInfo pushWilddbrd() {
+            rfturn pushLodbtion((bytf) 2, (short) 0);
+        }
+
+        publid LodbtionInfo pushTypfArg(short indfx) {
+            rfturn pushLodbtion((bytf) 3, indfx);
+        }
+
+        publid LodbtionInfo pushLodbtion(bytf tbg, short indfx) {
+            int nfwDfpth = this.dfpth + 1;
+            Lodbtion[] rfs = nfw Lodbtion[nfwDfpth];
+            Systfm.brrbydopy(this.lodbtions, 0, rfs, 0, dfpth);
+            rfs[nfwDfpth - 1] = nfw Lodbtion(tbg, (short)(indfx & 0xFF));
+            rfturn nfw LodbtionInfo(nfwDfpth, rfs);
+        }
+
+        publid TypfAnnotbtion[] filtfr(TypfAnnotbtion[] tb) {
+            ArrbyList<TypfAnnotbtion> l = nfw ArrbyList<>(tb.lfngth);
+            for (TypfAnnotbtion t : tb) {
+                if (isSbmfLodbtionInfo(t.gftLodbtionInfo()))
+                    l.bdd(t);
+            }
+            rfturn l.toArrby(nfw TypfAnnotbtion[0]);
+        }
+
+        boolfbn isSbmfLodbtionInfo(LodbtionInfo othfr) {
+            if (dfpth != othfr.dfpth)
+                rfturn fblsf;
+            for (int i = 0; i < dfpth; i++)
+                if (!lodbtions[i].isSbmfLodbtion(othfr.lodbtions[i]))
+                    rfturn fblsf;
+            rfturn truf;
+        }
+
+        publid stbtid finbl dlbss Lodbtion {
+            publid finbl bytf tbg;
+            publid finbl short indfx;
+
+            boolfbn isSbmfLodbtion(Lodbtion othfr) {
+                rfturn tbg == othfr.tbg && indfx == othfr.indfx;
+            }
+
+            publid Lodbtion(bytf tbg, short indfx) {
+                this.tbg = tbg;
+                this.indfx = indfx;
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn bnnotbtion.toString() + " with Tbrgftnfo: " +
+            tbrgftInfo.toString() + " on bbsf dfdlbrbtion: " +
+            bbsfDfdlbrbtion.toString();
+    }
+}

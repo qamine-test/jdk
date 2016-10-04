@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <string.h>
+#indludf <string.i>
 
-#include "java_net_Inet6Address.h"
-#include "net_util.h"
+#indludf "jbvb_nft_Inft6Addrfss.i"
+#indludf "nft_util.i"
 
 /************************************************************************
- * Inet6Address
+ * Inft6Addrfss
  */
 
-jclass ia6_class;
-jfieldID ia6_holder6ID;
+jdlbss ib6_dlbss;
+jfifldID ib6_ioldfr6ID;
 
-jfieldID ia6_ipaddressID;
-jfieldID ia6_scopeidID;
-jfieldID ia6_cachedscopeidID;
-jfieldID ia6_scopeidsetID;
-jfieldID ia6_scopeifnameID;
-jmethodID ia6_ctrID;
+jfifldID ib6_ipbddrfssID;
+jfifldID ib6_sdopfidID;
+jfifldID ib6_dbdifdsdopfidID;
+jfifldID ib6_sdopfidsftID;
+jfifldID ib6_sdopfifnbmfID;
+jmftiodID ib6_dtrID;
 
-static int ia6_initialized = 0;
+stbtid int ib6_initiblizfd = 0;
 
 /*
- * Class:     java_net_Inet6Address
- * Method:    init
- * Signature: ()V
+ * Clbss:     jbvb_nft_Inft6Addrfss
+ * Mftiod:    init
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_net_Inet6Address_init(JNIEnv *env, jclass cls) {
-    if (!ia6_initialized) {
-        jclass ia6h_class;
-        jclass c = (*env)->FindClass(env, "java/net/Inet6Address");
-        CHECK_NULL(c);
-        ia6_class = (*env)->NewGlobalRef(env, c);
-        CHECK_NULL(ia6_class);
-        ia6h_class = (*env)->FindClass(env, "java/net/Inet6Address$Inet6AddressHolder");
-        CHECK_NULL(ia6h_class);
-        ia6_holder6ID = (*env)->GetFieldID(env, ia6_class, "holder6", "Ljava/net/Inet6Address$Inet6AddressHolder;");
-        CHECK_NULL(ia6_holder6ID);
-        ia6_ipaddressID = (*env)->GetFieldID(env, ia6h_class, "ipaddress", "[B");
-        CHECK_NULL(ia6_ipaddressID);
-        ia6_scopeidID = (*env)->GetFieldID(env, ia6h_class, "scope_id", "I");
-        CHECK_NULL(ia6_scopeidID);
-        ia6_cachedscopeidID = (*env)->GetFieldID(env, ia6_class, "cached_scope_id", "I");
-        CHECK_NULL(ia6_cachedscopeidID);
-        ia6_scopeidsetID = (*env)->GetFieldID(env, ia6h_class, "scope_id_set", "Z");
-        CHECK_NULL(ia6_scopeidsetID);
-        ia6_scopeifnameID = (*env)->GetFieldID(env, ia6h_class, "scope_ifname", "Ljava/net/NetworkInterface;");
-        CHECK_NULL(ia6_scopeifnameID);
-        ia6_ctrID = (*env)->GetMethodID(env, ia6_class, "<init>", "()V");
-        CHECK_NULL(ia6_ctrID);
-        ia6_initialized = 1;
+Jbvb_jbvb_nft_Inft6Addrfss_init(JNIEnv *fnv, jdlbss dls) {
+    if (!ib6_initiblizfd) {
+        jdlbss ib6i_dlbss;
+        jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/Inft6Addrfss");
+        CHECK_NULL(d);
+        ib6_dlbss = (*fnv)->NfwGlobblRff(fnv, d);
+        CHECK_NULL(ib6_dlbss);
+        ib6i_dlbss = (*fnv)->FindClbss(fnv, "jbvb/nft/Inft6Addrfss$Inft6AddrfssHoldfr");
+        CHECK_NULL(ib6i_dlbss);
+        ib6_ioldfr6ID = (*fnv)->GftFifldID(fnv, ib6_dlbss, "ioldfr6", "Ljbvb/nft/Inft6Addrfss$Inft6AddrfssHoldfr;");
+        CHECK_NULL(ib6_ioldfr6ID);
+        ib6_ipbddrfssID = (*fnv)->GftFifldID(fnv, ib6i_dlbss, "ipbddrfss", "[B");
+        CHECK_NULL(ib6_ipbddrfssID);
+        ib6_sdopfidID = (*fnv)->GftFifldID(fnv, ib6i_dlbss, "sdopf_id", "I");
+        CHECK_NULL(ib6_sdopfidID);
+        ib6_dbdifdsdopfidID = (*fnv)->GftFifldID(fnv, ib6_dlbss, "dbdifd_sdopf_id", "I");
+        CHECK_NULL(ib6_dbdifdsdopfidID);
+        ib6_sdopfidsftID = (*fnv)->GftFifldID(fnv, ib6i_dlbss, "sdopf_id_sft", "Z");
+        CHECK_NULL(ib6_sdopfidsftID);
+        ib6_sdopfifnbmfID = (*fnv)->GftFifldID(fnv, ib6i_dlbss, "sdopf_ifnbmf", "Ljbvb/nft/NftworkIntfrfbdf;");
+        CHECK_NULL(ib6_sdopfifnbmfID);
+        ib6_dtrID = (*fnv)->GftMftiodID(fnv, ib6_dlbss, "<init>", "()V");
+        CHECK_NULL(ib6_dtrID);
+        ib6_initiblizfd = 1;
     }
 }

@@ -1,358 +1,358 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.krb5.internal.rcache;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.rdbdif;
 
-import java.io.*;
-import java.nio.BufferUnderflowException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.channels.SeekableByteChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
-import java.nio.file.attribute.PosixFilePermission;
-import java.security.AccessController;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.nio.BufffrUndfrflowExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.dibnnfls.SffkbblfBytfCibnnfl;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.nio.filf.StbndbrdCopyOption;
+import jbvb.nio.filf.StbndbrdOpfnOption;
+import jbvb.nio.filf.bttributf.PosixFilfPfrmission;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.*;
 
-import sun.security.action.GetPropertyAction;
-import sun.security.krb5.internal.KerberosTime;
-import sun.security.krb5.internal.Krb5;
-import sun.security.krb5.internal.KrbApErrException;
-import sun.security.krb5.internal.ReplayCache;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.krb5.intfrnbl.KfrbfrosTimf;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
+import sun.sfdurity.krb5.intfrnbl.KrbApErrExdfption;
+import sun.sfdurity.krb5.intfrnbl.RfplbyCbdif;
 
 
 /**
- * A dfl file is used to sustores AuthTime entries when the system property
- * sun.security.krb5.rcache is set to
+ * A dfl filf is usfd to sustorfs AutiTimf fntrifs wifn tif systfm propfrty
+ * sun.sfdurity.krb5.rdbdif is sft to
  *
- *    dfl(|:path/|:path/name|:name)
+ *    dfl(|:pbti/|:pbti/nbmf|:nbmf)
  *
- * The file will be path/name. If path is not given, it will be
+ * Tif filf will bf pbti/nbmf. If pbti is not givfn, it will bf
  *
- *    System.getProperty("java.io.tmpdir")
+ *    Systfm.gftPropfrty("jbvb.io.tmpdir")
  *
- * If name is not given, it will be
+ * If nbmf is not givfn, it will bf
  *
- *    service_euid
+ *    sfrvidf_fuid
  *
- * in which euid is available as sun.misc.VM.geteuid().
+ * in wiidi fuid is bvbilbblf bs sun.misd.VM.gftfuid().
  *
- * The file has a header:
+ * Tif filf ibs b ifbdfr:
  *
- *    i16 0x0501 (KRB5_RC_VNO) in network order
- *    i32 number of seconds for lifespan (in native order, same below)
+ *    i16 0x0501 (KRB5_RC_VNO) in nftwork ordfr
+ *    i32 numbfr of sfdonds for liffspbn (in nbtivf ordfr, sbmf bflow)
  *
- * followed by cache entries concatenated, which can be encoded in
- * 2 styles:
+ * followfd by dbdif fntrifs dondbtfnbtfd, wiidi dbn bf fndodfd in
+ * 2 stylfs:
  *
- * The traditional style is:
+ * Tif trbditionbl stylf is:
  *
- *    LC of client principal
- *    LC of server principal
- *    i32 cusec of Authenticator
- *    i32 ctime of Authenticator
+ *    LC of dlifnt prindipbl
+ *    LC of sfrvfr prindipbl
+ *    i32 dusfd of Autifntidbtor
+ *    i32 dtimf of Autifntidbtor
  *
- * The new style has a hash:
+ * Tif nfw stylf ibs b ibsi:
  *
  *    LC of ""
- *    LC of "HASH:%s %lu:%s %lu:%s" of (hash, clientlen, client, serverlen,
- *          server) where msghash is 32 char (lower case) text mode md5sum
- *          of the ciphertext of authenticator.
- *    i32 cusec of Authenticator
- *    i32 ctime of Authenticator
+ *    LC of "HASH:%s %lu:%s %lu:%s" of (ibsi, dlifntlfn, dlifnt, sfrvfrlfn,
+ *          sfrvfr) wifrf msgibsi is 32 dibr (lowfr dbsf) tfxt modf md5sum
+ *          of tif dipifrtfxt of butifntidbtor.
+ *    i32 dusfd of Autifntidbtor
+ *    i32 dtimf of Autifntidbtor
  *
- * where LC of a string means
+ * wifrf LC of b string mfbns
  *
- *    i32 strlen(string) + 1
- *    octets of string, with the \0x00 ending
+ *    i32 strlfn(string) + 1
+ *    odtfts of string, witi tif \0x00 fnding
  *
- * The old style block is always created by MIT krb5 used even if a new style
- * is available, which means there can be 2 entries for a single Authenticator.
- * Java also does this way.
+ * Tif old stylf blodk is blwbys drfbtfd by MIT krb5 usfd fvfn if b nfw stylf
+ * is bvbilbblf, wiidi mfbns tifrf dbn bf 2 fntrifs for b singlf Autifntidbtor.
+ * Jbvb blso dofs tiis wby.
  *
- * See src/lib/krb5/rcache/rc_io.c and src/lib/krb5/rcache/rc_dfl.c.
+ * Sff srd/lib/krb5/rdbdif/rd_io.d bnd srd/lib/krb5/rdbdif/rd_dfl.d.
  */
-public class DflCache extends ReplayCache {
+publid dlbss DflCbdif fxtfnds RfplbyCbdif {
 
-    private static final int KRB5_RV_VNO = 0x501;
-    private static final int EXCESSREPS = 30;   // if missed-hit>this, recreate
+    privbtf stbtid finbl int KRB5_RV_VNO = 0x501;
+    privbtf stbtid finbl int EXCESSREPS = 30;   // if missfd-iit>tiis, rfdrfbtf
 
-    private final String source;
+    privbtf finbl String sourdf;
 
-    private static long uid;
-    static {
-        // Available on Solaris, Linux and Mac. Otherwise, -1 and no _euid suffix
-        uid = sun.misc.VM.geteuid();
+    privbtf stbtid long uid;
+    stbtid {
+        // Avbilbblf on Solbris, Linux bnd Mbd. Otifrwisf, -1 bnd no _fuid suffix
+        uid = sun.misd.VM.gftfuid();
     }
 
-    public DflCache (String source) {
-        this.source = source;
+    publid DflCbdif (String sourdf) {
+        tiis.sourdf = sourdf;
     }
 
-    private static String defaultPath() {
-        return AccessController.doPrivileged(
-                new GetPropertyAction("java.io.tmpdir"));
+    privbtf stbtid String dffbultPbti() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("jbvb.io.tmpdir"));
     }
 
-    private static String defaultFile(String server) {
-        // service/host@REALM -> service
-        int slash = server.indexOf('/');
-        if (slash == -1) {
-            // A normal principal? say, dummy@REALM
-            slash = server.indexOf('@');
+    privbtf stbtid String dffbultFilf(String sfrvfr) {
+        // sfrvidf/iost@REALM -> sfrvidf
+        int slbsi = sfrvfr.indfxOf('/');
+        if (slbsi == -1) {
+            // A normbl prindipbl? sby, dummy@REALM
+            slbsi = sfrvfr.indfxOf('@');
         }
-        if (slash != -1) {
-            // Should not happen, but be careful
-            server= server.substring(0, slash);
+        if (slbsi != -1) {
+            // Siould not ibppfn, but bf dbrfful
+            sfrvfr= sfrvfr.substring(0, slbsi);
         }
         if (uid != -1) {
-            server += "_" + uid;
+            sfrvfr += "_" + uid;
         }
-        return server;
+        rfturn sfrvfr;
     }
 
-    private static Path getFileName(String source, String server) {
-        String path, file;
-        if (source.equals("dfl")) {
-            path = defaultPath();
-            file = defaultFile(server);
-        } else if (source.startsWith("dfl:")) {
-            source = source.substring(4);
-            int pos = source.lastIndexOf('/');
-            int pos1 = source.lastIndexOf('\\');
+    privbtf stbtid Pbti gftFilfNbmf(String sourdf, String sfrvfr) {
+        String pbti, filf;
+        if (sourdf.fqubls("dfl")) {
+            pbti = dffbultPbti();
+            filf = dffbultFilf(sfrvfr);
+        } flsf if (sourdf.stbrtsWiti("dfl:")) {
+            sourdf = sourdf.substring(4);
+            int pos = sourdf.lbstIndfxOf('/');
+            int pos1 = sourdf.lbstIndfxOf('\\');
             if (pos1 > pos) pos = pos1;
             if (pos == -1) {
-                // Only file name
-                path = defaultPath();
-                file = source;
-            } else if (new File(source).isDirectory()) {
-                // Only path
-                path = source;
-                file = defaultFile(server);
-            } else {
-                // Full pathname
-                path = null;
-                file = source;
+                // Only filf nbmf
+                pbti = dffbultPbti();
+                filf = sourdf;
+            } flsf if (nfw Filf(sourdf).isDirfdtory()) {
+                // Only pbti
+                pbti = sourdf;
+                filf = dffbultFilf(sfrvfr);
+            } flsf {
+                // Full pbtinbmf
+                pbti = null;
+                filf = sourdf;
             }
-        } else {
-            throw new IllegalArgumentException();
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        return new File(path, file).toPath();
+        rfturn nfw Filf(pbti, filf).toPbti();
     }
 
-    @Override
-    public void checkAndStore(KerberosTime currTime, AuthTimeWithHash time)
-            throws KrbApErrException {
+    @Ovfrridf
+    publid void difdkAndStorf(KfrbfrosTimf durrTimf, AutiTimfWitiHbsi timf)
+            tirows KrbApErrExdfption {
         try {
-            checkAndStore0(currTime, time);
-        } catch (IOException ioe) {
-            KrbApErrException ke = new KrbApErrException(Krb5.KRB_ERR_GENERIC);
-            ke.initCause(ioe);
-            throw ke;
+            difdkAndStorf0(durrTimf, timf);
+        } dbtdi (IOExdfption iof) {
+            KrbApErrExdfption kf = nfw KrbApErrExdfption(Krb5.KRB_ERR_GENERIC);
+            kf.initCbusf(iof);
+            tirow kf;
         }
     }
 
-    private synchronized void checkAndStore0(KerberosTime currTime, AuthTimeWithHash time)
-            throws IOException, KrbApErrException {
-        Path p = getFileName(source, time.server);
-        int missed = 0;
-        try (Storage s = new Storage()) {
+    privbtf syndironizfd void difdkAndStorf0(KfrbfrosTimf durrTimf, AutiTimfWitiHbsi timf)
+            tirows IOExdfption, KrbApErrExdfption {
+        Pbti p = gftFilfNbmf(sourdf, timf.sfrvfr);
+        int missfd = 0;
+        try (Storbgf s = nfw Storbgf()) {
             try {
-                missed = s.loadAndCheck(p, time, currTime);
-            } catch (IOException ioe) {
-                // Non-existing or invalid file
-                Storage.create(p);
-                missed = s.loadAndCheck(p, time, currTime);
+                missfd = s.lobdAndCifdk(p, timf, durrTimf);
+            } dbtdi (IOExdfption iof) {
+                // Non-fxisting or invblid filf
+                Storbgf.drfbtf(p);
+                missfd = s.lobdAndCifdk(p, timf, durrTimf);
             }
-            s.append(time);
+            s.bppfnd(timf);
         }
-        if (missed > EXCESSREPS) {
-            Storage.expunge(p, currTime);
+        if (missfd > EXCESSREPS) {
+            Storbgf.fxpungf(p, durrTimf);
         }
     }
 
 
-    private static class Storage implements Closeable {
-        // Static methods
-        @SuppressWarnings("try")
-        private static void create(Path p) throws IOException {
-            try (SeekableByteChannel newChan = createNoClose(p)) {
-                // Do nothing, wait for close
+    privbtf stbtid dlbss Storbgf implfmfnts Closfbblf {
+        // Stbtid mftiods
+        @SupprfssWbrnings("try")
+        privbtf stbtid void drfbtf(Pbti p) tirows IOExdfption {
+            try (SffkbblfBytfCibnnfl nfwCibn = drfbtfNoClosf(p)) {
+                // Do notiing, wbit for dlosf
             }
-            makeMine(p);
+            mbkfMinf(p);
         }
 
-        private static void makeMine(Path p) throws IOException {
-            // chmod to owner-rw only, otherwise MIT krb5 rejects
+        privbtf stbtid void mbkfMinf(Pbti p) tirows IOExdfption {
+            // dimod to ownfr-rw only, otifrwisf MIT krb5 rfjfdts
             try {
-                Set<PosixFilePermission> attrs = new HashSet<>();
-                attrs.add(PosixFilePermission.OWNER_READ);
-                attrs.add(PosixFilePermission.OWNER_WRITE);
-                Files.setPosixFilePermissions(p, attrs);
-            } catch (UnsupportedOperationException uoe) {
-                // No POSIX permission. That's OK.
+                Sft<PosixFilfPfrmission> bttrs = nfw HbsiSft<>();
+                bttrs.bdd(PosixFilfPfrmission.OWNER_READ);
+                bttrs.bdd(PosixFilfPfrmission.OWNER_WRITE);
+                Filfs.sftPosixFilfPfrmissions(p, bttrs);
+            } dbtdi (UnsupportfdOpfrbtionExdfption uof) {
+                // No POSIX pfrmission. Tibt's OK.
             }
         }
 
-        private static SeekableByteChannel createNoClose(Path p)
-                throws IOException {
-            SeekableByteChannel newChan = Files.newByteChannel(
-                    p, StandardOpenOption.CREATE,
-                        StandardOpenOption.TRUNCATE_EXISTING,
-                        StandardOpenOption.WRITE);
-            ByteBuffer buffer = ByteBuffer.allocate(6);
-            buffer.putShort((short)KRB5_RV_VNO);
-            buffer.order(ByteOrder.nativeOrder());
-            buffer.putInt(KerberosTime.getDefaultSkew());
-            buffer.flip();
-            newChan.write(buffer);
-            return newChan;
+        privbtf stbtid SffkbblfBytfCibnnfl drfbtfNoClosf(Pbti p)
+                tirows IOExdfption {
+            SffkbblfBytfCibnnfl nfwCibn = Filfs.nfwBytfCibnnfl(
+                    p, StbndbrdOpfnOption.CREATE,
+                        StbndbrdOpfnOption.TRUNCATE_EXISTING,
+                        StbndbrdOpfnOption.WRITE);
+            BytfBufffr bufffr = BytfBufffr.bllodbtf(6);
+            bufffr.putSiort((siort)KRB5_RV_VNO);
+            bufffr.ordfr(BytfOrdfr.nbtivfOrdfr());
+            bufffr.putInt(KfrbfrosTimf.gftDffbultSkfw());
+            bufffr.flip();
+            nfwCibn.writf(bufffr);
+            rfturn nfwCibn;
         }
 
-        private static void expunge(Path p, KerberosTime currTime)
-                throws IOException {
-            Path p2 = Files.createTempFile(p.getParent(), "rcache", null);
-            try (SeekableByteChannel oldChan = Files.newByteChannel(p);
-                    SeekableByteChannel newChan = createNoClose(p2)) {
-                long timeLimit = currTime.getSeconds() - readHeader(oldChan);
-                while (true) {
+        privbtf stbtid void fxpungf(Pbti p, KfrbfrosTimf durrTimf)
+                tirows IOExdfption {
+            Pbti p2 = Filfs.drfbtfTfmpFilf(p.gftPbrfnt(), "rdbdif", null);
+            try (SffkbblfBytfCibnnfl oldCibn = Filfs.nfwBytfCibnnfl(p);
+                    SffkbblfBytfCibnnfl nfwCibn = drfbtfNoClosf(p2)) {
+                long timfLimit = durrTimf.gftSfdonds() - rfbdHfbdfr(oldCibn);
+                wiilf (truf) {
                     try {
-                        AuthTime at = AuthTime.readFrom(oldChan);
-                        if (at.ctime > timeLimit) {
-                            ByteBuffer bb = ByteBuffer.wrap(at.encode(true));
-                            newChan.write(bb);
+                        AutiTimf bt = AutiTimf.rfbdFrom(oldCibn);
+                        if (bt.dtimf > timfLimit) {
+                            BytfBufffr bb = BytfBufffr.wrbp(bt.fndodf(truf));
+                            nfwCibn.writf(bb);
                         }
-                    } catch (BufferUnderflowException e) {
-                        break;
+                    } dbtdi (BufffrUndfrflowExdfption f) {
+                        brfbk;
                     }
                 }
             }
-            makeMine(p2);
-            Files.move(p2, p,
-                    StandardCopyOption.REPLACE_EXISTING,
-                    StandardCopyOption.ATOMIC_MOVE);
+            mbkfMinf(p2);
+            Filfs.movf(p2, p,
+                    StbndbrdCopyOption.REPLACE_EXISTING,
+                    StbndbrdCopyOption.ATOMIC_MOVE);
         }
 
-        // Instance methods
-        SeekableByteChannel chan;
-        private int loadAndCheck(Path p, AuthTimeWithHash time,
-                KerberosTime currTime)
-                throws IOException, KrbApErrException {
-            int missed = 0;
-            if (Files.isSymbolicLink(p)) {
-                throw new IOException("Symlink not accepted");
+        // Instbndf mftiods
+        SffkbblfBytfCibnnfl dibn;
+        privbtf int lobdAndCifdk(Pbti p, AutiTimfWitiHbsi timf,
+                KfrbfrosTimf durrTimf)
+                tirows IOExdfption, KrbApErrExdfption {
+            int missfd = 0;
+            if (Filfs.isSymbolidLink(p)) {
+                tirow nfw IOExdfption("Symlink not bddfptfd");
             }
             try {
-                Set<PosixFilePermission> perms =
-                        Files.getPosixFilePermissions(p);
+                Sft<PosixFilfPfrmission> pfrms =
+                        Filfs.gftPosixFilfPfrmissions(p);
                 if (uid != -1 &&
-                        (Integer)Files.getAttribute(p, "unix:uid") != uid) {
-                    throw new IOException("Not mine");
+                        (Intfgfr)Filfs.gftAttributf(p, "unix:uid") != uid) {
+                    tirow nfw IOExdfption("Not minf");
                 }
-                if (perms.contains(PosixFilePermission.GROUP_READ) ||
-                        perms.contains(PosixFilePermission.GROUP_WRITE) ||
-                        perms.contains(PosixFilePermission.GROUP_EXECUTE) ||
-                        perms.contains(PosixFilePermission.OTHERS_READ) ||
-                        perms.contains(PosixFilePermission.OTHERS_WRITE) ||
-                        perms.contains(PosixFilePermission.OTHERS_EXECUTE)) {
-                    throw new IOException("Accessible by someone else");
+                if (pfrms.dontbins(PosixFilfPfrmission.GROUP_READ) ||
+                        pfrms.dontbins(PosixFilfPfrmission.GROUP_WRITE) ||
+                        pfrms.dontbins(PosixFilfPfrmission.GROUP_EXECUTE) ||
+                        pfrms.dontbins(PosixFilfPfrmission.OTHERS_READ) ||
+                        pfrms.dontbins(PosixFilfPfrmission.OTHERS_WRITE) ||
+                        pfrms.dontbins(PosixFilfPfrmission.OTHERS_EXECUTE)) {
+                    tirow nfw IOExdfption("Addfssiblf by somfonf flsf");
                 }
-            } catch (UnsupportedOperationException uoe) {
-                // No POSIX permissions? Ignore it.
+            } dbtdi (UnsupportfdOpfrbtionExdfption uof) {
+                // No POSIX pfrmissions? Ignorf it.
             }
-            chan = Files.newByteChannel(p, StandardOpenOption.WRITE,
-                    StandardOpenOption.READ);
+            dibn = Filfs.nfwBytfCibnnfl(p, StbndbrdOpfnOption.WRITE,
+                    StbndbrdOpfnOption.READ);
 
-            long timeLimit = currTime.getSeconds() - readHeader(chan);
+            long timfLimit = durrTimf.gftSfdonds() - rfbdHfbdfr(dibn);
 
             long pos = 0;
-            boolean seeNewButNotSame = false;
-            while (true) {
+            boolfbn sffNfwButNotSbmf = fblsf;
+            wiilf (truf) {
                 try {
-                    pos = chan.position();
-                    AuthTime a = AuthTime.readFrom(chan);
-                    if (a instanceof AuthTimeWithHash) {
-                        if (time.equals(a)) {
-                            // Exact match, must be a replay
-                            throw new KrbApErrException(Krb5.KRB_AP_ERR_REPEAT);
-                        } else if (time.isSameIgnoresHash(a)) {
-                            // Two different authenticators in the same second.
-                            // Remember it
-                            seeNewButNotSame = true;
+                    pos = dibn.position();
+                    AutiTimf b = AutiTimf.rfbdFrom(dibn);
+                    if (b instbndfof AutiTimfWitiHbsi) {
+                        if (timf.fqubls(b)) {
+                            // Exbdt mbtdi, must bf b rfplby
+                            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_REPEAT);
+                        } flsf if (timf.isSbmfIgnorfsHbsi(b)) {
+                            // Two difffrfnt butifntidbtors in tif sbmf sfdond.
+                            // Rfmfmbfr it
+                            sffNfwButNotSbmf = truf;
                         }
-                    } else {
-                        if (time.isSameIgnoresHash(a)) {
-                            // Two authenticators in the same second. Considered
-                            // same if we haven't seen a new style version of it
-                            if (!seeNewButNotSame) {
-                                throw new KrbApErrException(Krb5.KRB_AP_ERR_REPEAT);
+                    } flsf {
+                        if (timf.isSbmfIgnorfsHbsi(b)) {
+                            // Two butifntidbtors in tif sbmf sfdond. Considfrfd
+                            // sbmf if wf ibvfn't sffn b nfw stylf vfrsion of it
+                            if (!sffNfwButNotSbmf) {
+                                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_REPEAT);
                             }
                         }
                     }
-                    if (a.ctime < timeLimit) {
-                        missed++;
-                    } else {
-                        missed--;
+                    if (b.dtimf < timfLimit) {
+                        missfd++;
+                    } flsf {
+                        missfd--;
                     }
-                } catch (BufferUnderflowException e) {
-                    // Half-written file?
-                    chan.position(pos);
-                    break;
+                } dbtdi (BufffrUndfrflowExdfption f) {
+                    // Hblf-writtfn filf?
+                    dibn.position(pos);
+                    brfbk;
                 }
             }
-            return missed;
+            rfturn missfd;
         }
 
-        private static int readHeader(SeekableByteChannel chan)
-                throws IOException {
-            ByteBuffer bb = ByteBuffer.allocate(6);
-            chan.read(bb);
-            if (bb.getShort(0) != KRB5_RV_VNO) {
-                throw new IOException("Not correct rcache version");
+        privbtf stbtid int rfbdHfbdfr(SffkbblfBytfCibnnfl dibn)
+                tirows IOExdfption {
+            BytfBufffr bb = BytfBufffr.bllodbtf(6);
+            dibn.rfbd(bb);
+            if (bb.gftSiort(0) != KRB5_RV_VNO) {
+                tirow nfw IOExdfption("Not dorrfdt rdbdif vfrsion");
             }
-            bb.order(ByteOrder.nativeOrder());
-            return bb.getInt(2);
+            bb.ordfr(BytfOrdfr.nbtivfOrdfr());
+            rfturn bb.gftInt(2);
         }
 
-        private void append(AuthTimeWithHash at) throws IOException {
-            // Write an entry with hash, to be followed by one without it,
-            // for the benefit of old implementations.
-            ByteBuffer bb;
-            bb = ByteBuffer.wrap(at.encode(true));
-            chan.write(bb);
-            bb = ByteBuffer.wrap(at.encode(false));
-            chan.write(bb);
+        privbtf void bppfnd(AutiTimfWitiHbsi bt) tirows IOExdfption {
+            // Writf bn fntry witi ibsi, to bf followfd by onf witiout it,
+            // for tif bfnffit of old implfmfntbtions.
+            BytfBufffr bb;
+            bb = BytfBufffr.wrbp(bt.fndodf(truf));
+            dibn.writf(bb);
+            bb = BytfBufffr.wrbp(bt.fndodf(fblsf));
+            dibn.writf(bb);
         }
 
-        @Override
-        public void close() throws IOException {
-            if (chan != null) chan.close();
-            chan = null;
+        @Ovfrridf
+        publid void dlosf() tirows IOExdfption {
+            if (dibn != null) dibn.dlosf();
+            dibn = null;
         }
     }
 }

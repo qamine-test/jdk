@@ -1,1455 +1,1455 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.interfaces.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
 
-import javax.crypto.interfaces.*;
+import jbvbx.drypto.intfrfbdfs.*;
 
-import javax.security.auth.Subject;
-import javax.security.auth.login.LoginException;
-import javax.security.auth.login.FailedLoginException;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.ConfirmationCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.TextOutputCallback;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.login.LoginExdfption;
+import jbvbx.sfdurity.buti.login.FbilfdLoginExdfption;
+import jbvbx.sfdurity.buti.dbllbbdk.Cbllbbdk;
+import jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.buti.dbllbbdk.ConfirmbtionCbllbbdk;
+import jbvbx.sfdurity.buti.dbllbbdk.PbsswordCbllbbdk;
+import jbvbx.sfdurity.buti.dbllbbdk.TfxtOutputCbllbbdk;
 
-import sun.security.util.Debug;
-import sun.security.util.ResourcesMgr;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.RfsourdfsMgr;
 
-import sun.security.pkcs11.Secmod.*;
+import sun.sfdurity.pkds11.Sfdmod.*;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
 /**
- * PKCS#11 provider main class.
+ * PKCS#11 providfr mbin dlbss.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-public final class SunPKCS11 extends AuthProvider {
+publid finbl dlbss SunPKCS11 fxtfnds AutiProvidfr {
 
-    private static final long serialVersionUID = -1354835039035306505L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1354835039035306505L;
 
-    static final Debug debug = Debug.getInstance("sunpkcs11");
+    stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("sunpkds11");
 
-    private static int dummyConfigId;
+    privbtf stbtid int dummyConfigId;
 
-    // the PKCS11 object through which we make the native calls
-    final PKCS11 p11;
+    // tif PKCS11 objfdt tirougi wiidi wf mbkf tif nbtivf dblls
+    finbl PKCS11 p11;
 
-    // name of the configuration file
-    private final String configName;
+    // nbmf of tif donfigurbtion filf
+    privbtf finbl String donfigNbmf;
 
-    // configuration information
-    final Config config;
+    // donfigurbtion informbtion
+    finbl Config donfig;
 
-    // id of the PKCS#11 slot we are using
-    final long slotID;
+    // id of tif PKCS#11 slot wf brf using
+    finbl long slotID;
 
-    private CallbackHandler pHandler;
-    private final Object LOCK_HANDLER = new Object();
+    privbtf CbllbbdkHbndlfr pHbndlfr;
+    privbtf finbl Objfdt LOCK_HANDLER = nfw Objfdt();
 
-    final boolean removable;
+    finbl boolfbn rfmovbblf;
 
-    final Module nssModule;
+    finbl Modulf nssModulf;
 
-    final boolean nssUseSecmodTrust;
+    finbl boolfbn nssUsfSfdmodTrust;
 
-    private volatile Token token;
+    privbtf volbtilf Tokfn tokfn;
 
-    private TokenPoller poller;
+    privbtf TokfnPollfr pollfr;
 
-    Token getToken() {
-        return token;
+    Tokfn gftTokfn() {
+        rfturn tokfn;
     }
 
-    public SunPKCS11() {
-        super("SunPKCS11-Dummy", 1.9d, "SunPKCS11-Dummy");
-        throw new ProviderException
-            ("SunPKCS11 requires configuration file argument");
+    publid SunPKCS11() {
+        supfr("SunPKCS11-Dummy", 1.9d, "SunPKCS11-Dummy");
+        tirow nfw ProvidfrExdfption
+            ("SunPKCS11 rfquirfs donfigurbtion filf brgumfnt");
     }
 
-    public SunPKCS11(String configName) {
-        this(checkNull(configName), null);
+    publid SunPKCS11(String donfigNbmf) {
+        tiis(difdkNull(donfigNbmf), null);
     }
 
-    public SunPKCS11(InputStream configStream) {
-        this(getDummyConfigName(), checkNull(configStream));
+    publid SunPKCS11(InputStrfbm donfigStrfbm) {
+        tiis(gftDummyConfigNbmf(), difdkNull(donfigStrfbm));
     }
 
-    private static <T> T checkNull(T obj) {
+    privbtf stbtid <T> T difdkNull(T obj) {
         if (obj == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        return obj;
+        rfturn obj;
     }
 
-    private static synchronized String getDummyConfigName() {
+    privbtf stbtid syndironizfd String gftDummyConfigNbmf() {
         int id = ++dummyConfigId;
-        return "---DummyConfig-" + id + "---";
+        rfturn "---DummyConfig-" + id + "---";
     }
 
     /**
-     * @deprecated use new SunPKCS11(String) or new SunPKCS11(InputStream)
-     *         instead
+     * @dfprfdbtfd usf nfw SunPKCS11(String) or nfw SunPKCS11(InputStrfbm)
+     *         instfbd
      */
-    @Deprecated
-    public SunPKCS11(String configName, InputStream configStream) {
-        super("SunPKCS11-" +
-            Config.getConfig(configName, configStream).getName(),
-            1.9d, Config.getConfig(configName, configStream).getDescription());
-        this.configName = configName;
-        this.config = Config.removeConfig(configName);
+    @Dfprfdbtfd
+    publid SunPKCS11(String donfigNbmf, InputStrfbm donfigStrfbm) {
+        supfr("SunPKCS11-" +
+            Config.gftConfig(donfigNbmf, donfigStrfbm).gftNbmf(),
+            1.9d, Config.gftConfig(donfigNbmf, donfigStrfbm).gftDfsdription());
+        tiis.donfigNbmf = donfigNbmf;
+        tiis.donfig = Config.rfmovfConfig(donfigNbmf);
 
-        if (debug != null) {
-            System.out.println("SunPKCS11 loading " + configName);
+        if (dfbug != null) {
+            Systfm.out.println("SunPKCS11 lobding " + donfigNbmf);
         }
 
-        String library = config.getLibrary();
-        String functionList = config.getFunctionList();
-        long slotID = config.getSlotID();
-        int slotListIndex = config.getSlotListIndex();
+        String librbry = donfig.gftLibrbry();
+        String fundtionList = donfig.gftFundtionList();
+        long slotID = donfig.gftSlotID();
+        int slotListIndfx = donfig.gftSlotListIndfx();
 
-        boolean useSecmod = config.getNssUseSecmod();
-        boolean nssUseSecmodTrust = config.getNssUseSecmodTrust();
-        Module nssModule = null;
+        boolfbn usfSfdmod = donfig.gftNssUsfSfdmod();
+        boolfbn nssUsfSfdmodTrust = donfig.gftNssUsfSfdmodTrust();
+        Modulf nssModulf = null;
 
         //
-        // Initialization via Secmod. The way this works is as follows:
-        // SunPKCS11 is either in normal mode or in NSS Secmod mode.
-        // Secmod is activated by specifying one or more of the following
-        // options in the config file:
-        // nssUseSecmod, nssSecmodDirectory, nssLibrary, nssModule
+        // Initiblizbtion vib Sfdmod. Tif wby tiis works is bs follows:
+        // SunPKCS11 is fitifr in normbl modf or in NSS Sfdmod modf.
+        // Sfdmod is bdtivbtfd by spfdifying onf or morf of tif following
+        // options in tif donfig filf:
+        // nssUsfSfdmod, nssSfdmodDirfdtory, nssLibrbry, nssModulf
         //
-        // XXX add more explanation here
+        // XXX bdd morf fxplbnbtion ifrf
         //
-        // If we are in Secmod mode and configured to use either the
-        // nssKeyStore or the nssTrustAnchors module, we automatically
-        // switch to using the NSS trust attributes for trusted certs
-        // (KeyStore).
+        // If wf brf in Sfdmod modf bnd donfigurfd to usf fitifr tif
+        // nssKfyStorf or tif nssTrustAndiors modulf, wf butombtidblly
+        // switdi to using tif NSS trust bttributfs for trustfd dfrts
+        // (KfyStorf).
         //
 
-        if (useSecmod) {
-            // note: Config ensures library/slot/slotListIndex not specified
-            // in secmod mode.
-            Secmod secmod = Secmod.getInstance();
-            DbMode nssDbMode = config.getNssDbMode();
+        if (usfSfdmod) {
+            // notf: Config fnsurfs librbry/slot/slotListIndfx not spfdififd
+            // in sfdmod modf.
+            Sfdmod sfdmod = Sfdmod.gftInstbndf();
+            DbModf nssDbModf = donfig.gftNssDbModf();
             try {
-                String nssLibraryDirectory = config.getNssLibraryDirectory();
-                String nssSecmodDirectory = config.getNssSecmodDirectory();
-                boolean nssOptimizeSpace = config.getNssOptimizeSpace();
+                String nssLibrbryDirfdtory = donfig.gftNssLibrbryDirfdtory();
+                String nssSfdmodDirfdtory = donfig.gftNssSfdmodDirfdtory();
+                boolfbn nssOptimizfSpbdf = donfig.gftNssOptimizfSpbdf();
 
-                if (secmod.isInitialized()) {
-                    if (nssSecmodDirectory != null) {
-                        String s = secmod.getConfigDir();
+                if (sfdmod.isInitiblizfd()) {
+                    if (nssSfdmodDirfdtory != null) {
+                        String s = sfdmod.gftConfigDir();
                         if ((s != null) &&
-                                (s.equals(nssSecmodDirectory) == false)) {
-                            throw new ProviderException("Secmod directory "
-                                + nssSecmodDirectory
-                                + " invalid, NSS already initialized with "
+                                (s.fqubls(nssSfdmodDirfdtory) == fblsf)) {
+                            tirow nfw ProvidfrExdfption("Sfdmod dirfdtory "
+                                + nssSfdmodDirfdtory
+                                + " invblid, NSS blrfbdy initiblizfd witi "
                                 + s);
                         }
                     }
-                    if (nssLibraryDirectory != null) {
-                        String s = secmod.getLibDir();
+                    if (nssLibrbryDirfdtory != null) {
+                        String s = sfdmod.gftLibDir();
                         if ((s != null) &&
-                                (s.equals(nssLibraryDirectory) == false)) {
-                            throw new ProviderException("NSS library directory "
-                                + nssLibraryDirectory
-                                + " invalid, NSS already initialized with "
+                                (s.fqubls(nssLibrbryDirfdtory) == fblsf)) {
+                            tirow nfw ProvidfrExdfption("NSS librbry dirfdtory "
+                                + nssLibrbryDirfdtory
+                                + " invblid, NSS blrfbdy initiblizfd witi "
                                 + s);
                         }
                     }
-                } else {
-                    if (nssDbMode != DbMode.NO_DB) {
-                        if (nssSecmodDirectory == null) {
-                            throw new ProviderException(
-                                "Secmod not initialized and "
-                                 + "nssSecmodDirectory not specified");
+                } flsf {
+                    if (nssDbModf != DbModf.NO_DB) {
+                        if (nssSfdmodDirfdtory == null) {
+                            tirow nfw ProvidfrExdfption(
+                                "Sfdmod not initiblizfd bnd "
+                                 + "nssSfdmodDirfdtory not spfdififd");
                         }
-                    } else {
-                        if (nssSecmodDirectory != null) {
-                            throw new ProviderException(
-                                "nssSecmodDirectory must not be "
-                                + "specified in noDb mode");
+                    } flsf {
+                        if (nssSfdmodDirfdtory != null) {
+                            tirow nfw ProvidfrExdfption(
+                                "nssSfdmodDirfdtory must not bf "
+                                + "spfdififd in noDb modf");
                         }
                     }
-                    secmod.initialize(nssDbMode, nssSecmodDirectory,
-                        nssLibraryDirectory, nssOptimizeSpace);
+                    sfdmod.initiblizf(nssDbModf, nssSfdmodDirfdtory,
+                        nssLibrbryDirfdtory, nssOptimizfSpbdf);
                 }
-            } catch (IOException e) {
-                // XXX which exception to throw
-                throw new ProviderException("Could not initialize NSS", e);
+            } dbtdi (IOExdfption f) {
+                // XXX wiidi fxdfption to tirow
+                tirow nfw ProvidfrExdfption("Could not initiblizf NSS", f);
             }
-            List<Module> modules = secmod.getModules();
-            if (config.getShowInfo()) {
-                System.out.println("NSS modules: " + modules);
+            List<Modulf> modulfs = sfdmod.gftModulfs();
+            if (donfig.gftSiowInfo()) {
+                Systfm.out.println("NSS modulfs: " + modulfs);
             }
 
-            String moduleName = config.getNssModule();
-            if (moduleName == null) {
-                nssModule = secmod.getModule(ModuleType.FIPS);
-                if (nssModule != null) {
-                    moduleName = "fips";
-                } else {
-                    moduleName = (nssDbMode == DbMode.NO_DB) ?
-                        "crypto" : "keystore";
+            String modulfNbmf = donfig.gftNssModulf();
+            if (modulfNbmf == null) {
+                nssModulf = sfdmod.gftModulf(ModulfTypf.FIPS);
+                if (nssModulf != null) {
+                    modulfNbmf = "fips";
+                } flsf {
+                    modulfNbmf = (nssDbModf == DbModf.NO_DB) ?
+                        "drypto" : "kfystorf";
                 }
             }
-            if (moduleName.equals("fips")) {
-                nssModule = secmod.getModule(ModuleType.FIPS);
-                nssUseSecmodTrust = true;
-                functionList = "FC_GetFunctionList";
-            } else if (moduleName.equals("keystore")) {
-                nssModule = secmod.getModule(ModuleType.KEYSTORE);
-                nssUseSecmodTrust = true;
-            } else if (moduleName.equals("crypto")) {
-                nssModule = secmod.getModule(ModuleType.CRYPTO);
-            } else if (moduleName.equals("trustanchors")) {
-                // XXX should the option be called trustanchor or trustanchors??
-                nssModule = secmod.getModule(ModuleType.TRUSTANCHOR);
-                nssUseSecmodTrust = true;
-            } else if (moduleName.startsWith("external-")) {
-                int moduleIndex;
+            if (modulfNbmf.fqubls("fips")) {
+                nssModulf = sfdmod.gftModulf(ModulfTypf.FIPS);
+                nssUsfSfdmodTrust = truf;
+                fundtionList = "FC_GftFundtionList";
+            } flsf if (modulfNbmf.fqubls("kfystorf")) {
+                nssModulf = sfdmod.gftModulf(ModulfTypf.KEYSTORE);
+                nssUsfSfdmodTrust = truf;
+            } flsf if (modulfNbmf.fqubls("drypto")) {
+                nssModulf = sfdmod.gftModulf(ModulfTypf.CRYPTO);
+            } flsf if (modulfNbmf.fqubls("trustbndiors")) {
+                // XXX siould tif option bf dbllfd trustbndior or trustbndiors??
+                nssModulf = sfdmod.gftModulf(ModulfTypf.TRUSTANCHOR);
+                nssUsfSfdmodTrust = truf;
+            } flsf if (modulfNbmf.stbrtsWiti("fxtfrnbl-")) {
+                int modulfIndfx;
                 try {
-                    moduleIndex = Integer.parseInt
-                            (moduleName.substring("external-".length()));
-                } catch (NumberFormatException e) {
-                    moduleIndex = -1;
+                    modulfIndfx = Intfgfr.pbrsfInt
+                            (modulfNbmf.substring("fxtfrnbl-".lfngti()));
+                } dbtdi (NumbfrFormbtExdfption f) {
+                    modulfIndfx = -1;
                 }
-                if (moduleIndex < 1) {
-                    throw new ProviderException
-                            ("Invalid external module: " + moduleName);
+                if (modulfIndfx < 1) {
+                    tirow nfw ProvidfrExdfption
+                            ("Invblid fxtfrnbl modulf: " + modulfNbmf);
                 }
                 int k = 0;
-                for (Module module : modules) {
-                    if (module.getType() == ModuleType.EXTERNAL) {
-                        if (++k == moduleIndex) {
-                            nssModule = module;
-                            break;
+                for (Modulf modulf : modulfs) {
+                    if (modulf.gftTypf() == ModulfTypf.EXTERNAL) {
+                        if (++k == modulfIndfx) {
+                            nssModulf = modulf;
+                            brfbk;
                         }
                     }
                 }
-                if (nssModule == null) {
-                    throw new ProviderException("Invalid module " + moduleName
-                        + ": only " + k + " external NSS modules available");
+                if (nssModulf == null) {
+                    tirow nfw ProvidfrExdfption("Invblid modulf " + modulfNbmf
+                        + ": only " + k + " fxtfrnbl NSS modulfs bvbilbblf");
                 }
-            } else {
-                throw new ProviderException(
-                    "Unknown NSS module: " + moduleName);
+            } flsf {
+                tirow nfw ProvidfrExdfption(
+                    "Unknown NSS modulf: " + modulfNbmf);
             }
-            if (nssModule == null) {
-                throw new ProviderException(
-                    "NSS module not available: " + moduleName);
+            if (nssModulf == null) {
+                tirow nfw ProvidfrExdfption(
+                    "NSS modulf not bvbilbblf: " + modulfNbmf);
             }
-            if (nssModule.hasInitializedProvider()) {
-                throw new ProviderException("Secmod module already configured");
+            if (nssModulf.ibsInitiblizfdProvidfr()) {
+                tirow nfw ProvidfrExdfption("Sfdmod modulf blrfbdy donfigurfd");
             }
-            library = nssModule.libraryName;
-            slotListIndex = nssModule.slot;
+            librbry = nssModulf.librbryNbmf;
+            slotListIndfx = nssModulf.slot;
         }
-        this.nssUseSecmodTrust = nssUseSecmodTrust;
-        this.nssModule = nssModule;
+        tiis.nssUsfSfdmodTrust = nssUsfSfdmodTrust;
+        tiis.nssModulf = nssModulf;
 
-        File libraryFile = new File(library);
-        // if the filename is a simple filename without path
-        // (e.g. "libpkcs11.so"), it may refer to a library somewhere on the
-        // OS library search path. Omit the test for file existance as that
-        // only looks in the current directory.
-        if (libraryFile.getName().equals(library) == false) {
-            if (new File(library).isFile() == false) {
-                String msg = "Library " + library + " does not exist";
-                if (config.getHandleStartupErrors() == Config.ERR_HALT) {
-                    throw new ProviderException(msg);
-                } else {
-                    throw new UnsupportedOperationException(msg);
+        Filf librbryFilf = nfw Filf(librbry);
+        // if tif filfnbmf is b simplf filfnbmf witiout pbti
+        // (f.g. "libpkds11.so"), it mby rfffr to b librbry somfwifrf on tif
+        // OS librbry sfbrdi pbti. Omit tif tfst for filf fxistbndf bs tibt
+        // only looks in tif durrfnt dirfdtory.
+        if (librbryFilf.gftNbmf().fqubls(librbry) == fblsf) {
+            if (nfw Filf(librbry).isFilf() == fblsf) {
+                String msg = "Librbry " + librbry + " dofs not fxist";
+                if (donfig.gftHbndlfStbrtupErrors() == Config.ERR_HALT) {
+                    tirow nfw ProvidfrExdfption(msg);
+                } flsf {
+                    tirow nfw UnsupportfdOpfrbtionExdfption(msg);
                 }
             }
         }
 
         try {
-            if (debug != null) {
-                debug.println("Initializing PKCS#11 library " + library);
+            if (dfbug != null) {
+                dfbug.println("Initiblizing PKCS#11 librbry " + librbry);
             }
-            CK_C_INITIALIZE_ARGS initArgs = new CK_C_INITIALIZE_ARGS();
-            String nssArgs = config.getNssArgs();
+            CK_C_INITIALIZE_ARGS initArgs = nfw CK_C_INITIALIZE_ARGS();
+            String nssArgs = donfig.gftNssArgs();
             if (nssArgs != null) {
-                initArgs.pReserved = nssArgs;
+                initArgs.pRfsfrvfd = nssArgs;
             }
-            // request multithreaded access first
-            initArgs.flags = CKF_OS_LOCKING_OK;
+            // rfqufst multitirfbdfd bddfss first
+            initArgs.flbgs = CKF_OS_LOCKING_OK;
             PKCS11 tmpPKCS11;
             try {
-                tmpPKCS11 = PKCS11.getInstance(
-                    library, functionList, initArgs,
-                    config.getOmitInitialize());
-            } catch (PKCS11Exception e) {
-                if (debug != null) {
-                    debug.println("Multi-threaded initialization failed: " + e);
+                tmpPKCS11 = PKCS11.gftInstbndf(
+                    librbry, fundtionList, initArgs,
+                    donfig.gftOmitInitiblizf());
+            } dbtdi (PKCS11Exdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("Multi-tirfbdfd initiblizbtion fbilfd: " + f);
                 }
-                if (config.getAllowSingleThreadedModules() == false) {
-                    throw e;
+                if (donfig.gftAllowSinglfTirfbdfdModulfs() == fblsf) {
+                    tirow f;
                 }
-                // fall back to single threaded access
+                // fbll bbdk to singlf tirfbdfd bddfss
                 if (nssArgs == null) {
-                    // if possible, use null initArgs for better compatibility
+                    // if possiblf, usf null initArgs for bfttfr dompbtibility
                     initArgs = null;
-                } else {
-                    initArgs.flags = 0;
+                } flsf {
+                    initArgs.flbgs = 0;
                 }
-                tmpPKCS11 = PKCS11.getInstance(library,
-                    functionList, initArgs, config.getOmitInitialize());
+                tmpPKCS11 = PKCS11.gftInstbndf(librbry,
+                    fundtionList, initArgs, donfig.gftOmitInitiblizf());
             }
             p11 = tmpPKCS11;
 
-            CK_INFO p11Info = p11.C_GetInfo();
-            if (p11Info.cryptokiVersion.major < 2) {
-                throw new ProviderException("Only PKCS#11 v2.0 and later "
-                + "supported, library version is v" + p11Info.cryptokiVersion);
+            CK_INFO p11Info = p11.C_GftInfo();
+            if (p11Info.dryptokiVfrsion.mbjor < 2) {
+                tirow nfw ProvidfrExdfption("Only PKCS#11 v2.0 bnd lbtfr "
+                + "supportfd, librbry vfrsion is v" + p11Info.dryptokiVfrsion);
             }
-            boolean showInfo = config.getShowInfo();
-            if (showInfo) {
-                System.out.println("Information for provider " + getName());
-                System.out.println("Library info:");
-                System.out.println(p11Info);
+            boolfbn siowInfo = donfig.gftSiowInfo();
+            if (siowInfo) {
+                Systfm.out.println("Informbtion for providfr " + gftNbmf());
+                Systfm.out.println("Librbry info:");
+                Systfm.out.println(p11Info);
             }
 
-            if ((slotID < 0) || showInfo) {
-                long[] slots = p11.C_GetSlotList(false);
-                if (showInfo) {
-                    System.out.println("All slots: " + toString(slots));
-                    slots = p11.C_GetSlotList(true);
-                    System.out.println("Slots with tokens: " + toString(slots));
+            if ((slotID < 0) || siowInfo) {
+                long[] slots = p11.C_GftSlotList(fblsf);
+                if (siowInfo) {
+                    Systfm.out.println("All slots: " + toString(slots));
+                    slots = p11.C_GftSlotList(truf);
+                    Systfm.out.println("Slots witi tokfns: " + toString(slots));
                 }
                 if (slotID < 0) {
-                    if ((slotListIndex < 0)
-                            || (slotListIndex >= slots.length)) {
-                        throw new ProviderException("slotListIndex is "
-                            + slotListIndex
-                            + " but token only has " + slots.length + " slots");
+                    if ((slotListIndfx < 0)
+                            || (slotListIndfx >= slots.lfngti)) {
+                        tirow nfw ProvidfrExdfption("slotListIndfx is "
+                            + slotListIndfx
+                            + " but tokfn only ibs " + slots.lfngti + " slots");
                     }
-                    slotID = slots[slotListIndex];
+                    slotID = slots[slotListIndfx];
                 }
             }
-            this.slotID = slotID;
-            CK_SLOT_INFO slotInfo = p11.C_GetSlotInfo(slotID);
-            removable = (slotInfo.flags & CKF_REMOVABLE_DEVICE) != 0;
-            initToken(slotInfo);
-            if (nssModule != null) {
-                nssModule.setProvider(this);
+            tiis.slotID = slotID;
+            CK_SLOT_INFO slotInfo = p11.C_GftSlotInfo(slotID);
+            rfmovbblf = (slotInfo.flbgs & CKF_REMOVABLE_DEVICE) != 0;
+            initTokfn(slotInfo);
+            if (nssModulf != null) {
+                nssModulf.sftProvidfr(tiis);
             }
-        } catch (Exception e) {
-            if (config.getHandleStartupErrors() == Config.ERR_IGNORE_ALL) {
-                throw new UnsupportedOperationException
-                        ("Initialization failed", e);
-            } else {
-                throw new ProviderException
-                        ("Initialization failed", e);
+        } dbtdi (Exdfption f) {
+            if (donfig.gftHbndlfStbrtupErrors() == Config.ERR_IGNORE_ALL) {
+                tirow nfw UnsupportfdOpfrbtionExdfption
+                        ("Initiblizbtion fbilfd", f);
+            } flsf {
+                tirow nfw ProvidfrExdfption
+                        ("Initiblizbtion fbilfd", f);
             }
         }
     }
 
-    private static String toString(long[] longs) {
-        if (longs.length == 0) {
-            return "(none)";
+    privbtf stbtid String toString(long[] longs) {
+        if (longs.lfngti == 0) {
+            rfturn "(nonf)";
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append(longs[0]);
-        for (int i = 1; i < longs.length; i++) {
-            sb.append(", ");
-            sb.append(longs[i]);
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(longs[0]);
+        for (int i = 1; i < longs.lfngti; i++) {
+            sb.bppfnd(", ");
+            sb.bppfnd(longs[i]);
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    public boolean equals(Object obj) {
-        return this == obj;
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn tiis == obj;
     }
 
-    public int hashCode() {
-        return System.identityHashCode(this);
+    publid int ibsiCodf() {
+        rfturn Systfm.idfntityHbsiCodf(tiis);
     }
 
-    private static String[] s(String ...aliases) {
-        return aliases;
+    privbtf stbtid String[] s(String ...blibsfs) {
+        rfturn blibsfs;
     }
 
-    private static final class Descriptor {
-        final String type;
-        final String algorithm;
-        final String className;
-        final String[] aliases;
-        final int[] mechanisms;
+    privbtf stbtid finbl dlbss Dfsdriptor {
+        finbl String typf;
+        finbl String blgoritim;
+        finbl String dlbssNbmf;
+        finbl String[] blibsfs;
+        finbl int[] mfdibnisms;
 
-        private Descriptor(String type, String algorithm, String className,
-                String[] aliases, int[] mechanisms) {
-            this.type = type;
-            this.algorithm = algorithm;
-            this.className = className;
-            this.aliases = aliases;
-            this.mechanisms = mechanisms;
+        privbtf Dfsdriptor(String typf, String blgoritim, String dlbssNbmf,
+                String[] blibsfs, int[] mfdibnisms) {
+            tiis.typf = typf;
+            tiis.blgoritim = blgoritim;
+            tiis.dlbssNbmf = dlbssNbmf;
+            tiis.blibsfs = blibsfs;
+            tiis.mfdibnisms = mfdibnisms;
         }
-        private P11Service service(Token token, int mechanism) {
-            return new P11Service
-                (token, type, algorithm, className, aliases, mechanism);
+        privbtf P11Sfrvidf sfrvidf(Tokfn tokfn, int mfdibnism) {
+            rfturn nfw P11Sfrvidf
+                (tokfn, typf, blgoritim, dlbssNbmf, blibsfs, mfdibnism);
         }
-        public String toString() {
-            return type + "." + algorithm;
+        publid String toString() {
+            rfturn typf + "." + blgoritim;
         }
     }
 
-    // Map from mechanism to List of Descriptors that should be
-    // registered if the mechanism is supported
-    private final static Map<Integer,List<Descriptor>> descriptors =
-        new HashMap<Integer,List<Descriptor>>();
+    // Mbp from mfdibnism to List of Dfsdriptors tibt siould bf
+    // rfgistfrfd if tif mfdibnism is supportfd
+    privbtf finbl stbtid Mbp<Intfgfr,List<Dfsdriptor>> dfsdriptors =
+        nfw HbsiMbp<Intfgfr,List<Dfsdriptor>>();
 
-    private static int[] m(long m1) {
-        return new int[] {(int)m1};
+    privbtf stbtid int[] m(long m1) {
+        rfturn nfw int[] {(int)m1};
     }
 
-    private static int[] m(long m1, long m2) {
-        return new int[] {(int)m1, (int)m2};
+    privbtf stbtid int[] m(long m1, long m2) {
+        rfturn nfw int[] {(int)m1, (int)m2};
     }
 
-    private static int[] m(long m1, long m2, long m3) {
-        return new int[] {(int)m1, (int)m2, (int)m3};
+    privbtf stbtid int[] m(long m1, long m2, long m3) {
+        rfturn nfw int[] {(int)m1, (int)m2, (int)m3};
     }
 
-    private static int[] m(long m1, long m2, long m3, long m4) {
-        return new int[] {(int)m1, (int)m2, (int)m3, (int)m4};
+    privbtf stbtid int[] m(long m1, long m2, long m3, long m4) {
+        rfturn nfw int[] {(int)m1, (int)m2, (int)m3, (int)m4};
     }
 
-    private static void d(String type, String algorithm, String className,
+    privbtf stbtid void d(String typf, String blgoritim, String dlbssNbmf,
             int[] m) {
-        register(new Descriptor(type, algorithm, className, null, m));
+        rfgistfr(nfw Dfsdriptor(typf, blgoritim, dlbssNbmf, null, m));
     }
 
-    private static void d(String type, String algorithm, String className,
-            String[] aliases, int[] m) {
-        register(new Descriptor(type, algorithm, className, aliases, m));
+    privbtf stbtid void d(String typf, String blgoritim, String dlbssNbmf,
+            String[] blibsfs, int[] m) {
+        rfgistfr(nfw Dfsdriptor(typf, blgoritim, dlbssNbmf, blibsfs, m));
     }
 
-    private static void register(Descriptor d) {
-        for (int i = 0; i < d.mechanisms.length; i++) {
-            int m = d.mechanisms[i];
-            Integer key = Integer.valueOf(m);
-            List<Descriptor> list = descriptors.get(key);
+    privbtf stbtid void rfgistfr(Dfsdriptor d) {
+        for (int i = 0; i < d.mfdibnisms.lfngti; i++) {
+            int m = d.mfdibnisms[i];
+            Intfgfr kfy = Intfgfr.vblufOf(m);
+            List<Dfsdriptor> list = dfsdriptors.gft(kfy);
             if (list == null) {
-                list = new ArrayList<Descriptor>();
-                descriptors.put(key, list);
+                list = nfw ArrbyList<Dfsdriptor>();
+                dfsdriptors.put(kfy, list);
             }
-            list.add(d);
+            list.bdd(d);
         }
     }
 
-    private final static String MD  = "MessageDigest";
+    privbtf finbl stbtid String MD  = "MfssbgfDigfst";
 
-    private final static String SIG = "Signature";
+    privbtf finbl stbtid String SIG = "Signbturf";
 
-    private final static String KPG = "KeyPairGenerator";
+    privbtf finbl stbtid String KPG = "KfyPbirGfnfrbtor";
 
-    private final static String KG  = "KeyGenerator";
+    privbtf finbl stbtid String KG  = "KfyGfnfrbtor";
 
-    private final static String AGP = "AlgorithmParameters";
+    privbtf finbl stbtid String AGP = "AlgoritimPbrbmftfrs";
 
-    private final static String KF  = "KeyFactory";
+    privbtf finbl stbtid String KF  = "KfyFbdtory";
 
-    private final static String SKF = "SecretKeyFactory";
+    privbtf finbl stbtid String SKF = "SfdrftKfyFbdtory";
 
-    private final static String CIP = "Cipher";
+    privbtf finbl stbtid String CIP = "Cipifr";
 
-    private final static String MAC = "Mac";
+    privbtf finbl stbtid String MAC = "Mbd";
 
-    private final static String KA  = "KeyAgreement";
+    privbtf finbl stbtid String KA  = "KfyAgrffmfnt";
 
-    private final static String KS  = "KeyStore";
+    privbtf finbl stbtid String KS  = "KfyStorf";
 
-    private final static String SR  = "SecureRandom";
+    privbtf finbl stbtid String SR  = "SfdurfRbndom";
 
-    static {
-        // names of all the implementation classes
-        // use local variables, only used here
-        String P11Digest           = "sun.security.pkcs11.P11Digest";
-        String P11MAC              = "sun.security.pkcs11.P11MAC";
-        String P11KeyPairGenerator = "sun.security.pkcs11.P11KeyPairGenerator";
-        String P11KeyGenerator     = "sun.security.pkcs11.P11KeyGenerator";
-        String P11RSAKeyFactory    = "sun.security.pkcs11.P11RSAKeyFactory";
-        String P11DSAKeyFactory    = "sun.security.pkcs11.P11DSAKeyFactory";
-        String P11DHKeyFactory     = "sun.security.pkcs11.P11DHKeyFactory";
-        String P11KeyAgreement     = "sun.security.pkcs11.P11KeyAgreement";
-        String P11SecretKeyFactory = "sun.security.pkcs11.P11SecretKeyFactory";
-        String P11Cipher           = "sun.security.pkcs11.P11Cipher";
-        String P11RSACipher        = "sun.security.pkcs11.P11RSACipher";
-        String P11Signature        = "sun.security.pkcs11.P11Signature";
+    stbtid {
+        // nbmfs of bll tif implfmfntbtion dlbssfs
+        // usf lodbl vbribblfs, only usfd ifrf
+        String P11Digfst           = "sun.sfdurity.pkds11.P11Digfst";
+        String P11MAC              = "sun.sfdurity.pkds11.P11MAC";
+        String P11KfyPbirGfnfrbtor = "sun.sfdurity.pkds11.P11KfyPbirGfnfrbtor";
+        String P11KfyGfnfrbtor     = "sun.sfdurity.pkds11.P11KfyGfnfrbtor";
+        String P11RSAKfyFbdtory    = "sun.sfdurity.pkds11.P11RSAKfyFbdtory";
+        String P11DSAKfyFbdtory    = "sun.sfdurity.pkds11.P11DSAKfyFbdtory";
+        String P11DHKfyFbdtory     = "sun.sfdurity.pkds11.P11DHKfyFbdtory";
+        String P11KfyAgrffmfnt     = "sun.sfdurity.pkds11.P11KfyAgrffmfnt";
+        String P11SfdrftKfyFbdtory = "sun.sfdurity.pkds11.P11SfdrftKfyFbdtory";
+        String P11Cipifr           = "sun.sfdurity.pkds11.P11Cipifr";
+        String P11RSACipifr        = "sun.sfdurity.pkds11.P11RSACipifr";
+        String P11Signbturf        = "sun.sfdurity.pkds11.P11Signbturf";
 
-        // XXX register all aliases
+        // XXX rfgistfr bll blibsfs
 
-        d(MD, "MD2",            P11Digest,
+        d(MD, "MD2",            P11Digfst,
                 m(CKM_MD2));
-        d(MD, "MD5",            P11Digest,
+        d(MD, "MD5",            P11Digfst,
                 m(CKM_MD5));
-        d(MD, "SHA1",           P11Digest,
+        d(MD, "SHA1",           P11Digfst,
                 s("SHA", "SHA-1", "1.3.14.3.2.26", "OID.1.3.14.3.2.26"),
                 m(CKM_SHA_1));
 
-        d(MD, "SHA-224",        P11Digest,
+        d(MD, "SHA-224",        P11Digfst,
                 s("2.16.840.1.101.3.4.2.4", "OID.2.16.840.1.101.3.4.2.4"),
                 m(CKM_SHA224));
-        d(MD, "SHA-256",        P11Digest,
+        d(MD, "SHA-256",        P11Digfst,
                 s("2.16.840.1.101.3.4.2.1", "OID.2.16.840.1.101.3.4.2.1"),
                 m(CKM_SHA256));
-        d(MD, "SHA-384",        P11Digest,
+        d(MD, "SHA-384",        P11Digfst,
                 s("2.16.840.1.101.3.4.2.2", "OID.2.16.840.1.101.3.4.2.2"),
                 m(CKM_SHA384));
-        d(MD, "SHA-512",        P11Digest,
+        d(MD, "SHA-512",        P11Digfst,
                 s("2.16.840.1.101.3.4.2.3", "OID.2.16.840.1.101.3.4.2.3"),
                 m(CKM_SHA512));
 
-        d(MAC, "HmacMD5",       P11MAC,
+        d(MAC, "HmbdMD5",       P11MAC,
                 m(CKM_MD5_HMAC));
-        d(MAC, "HmacSHA1",      P11MAC,
+        d(MAC, "HmbdSHA1",      P11MAC,
                 s("1.2.840.113549.2.7", "OID.1.2.840.113549.2.7"),
                 m(CKM_SHA_1_HMAC));
-        d(MAC, "HmacSHA224",    P11MAC,
+        d(MAC, "HmbdSHA224",    P11MAC,
                 s("1.2.840.113549.2.8", "OID.1.2.840.113549.2.8"),
                 m(CKM_SHA224_HMAC));
-        d(MAC, "HmacSHA256",    P11MAC,
+        d(MAC, "HmbdSHA256",    P11MAC,
                 s("1.2.840.113549.2.9", "OID.1.2.840.113549.2.9"),
                 m(CKM_SHA256_HMAC));
-        d(MAC, "HmacSHA384",    P11MAC,
+        d(MAC, "HmbdSHA384",    P11MAC,
                 s("1.2.840.113549.2.10", "OID.1.2.840.113549.2.10"),
                 m(CKM_SHA384_HMAC));
-        d(MAC, "HmacSHA512",    P11MAC,
+        d(MAC, "HmbdSHA512",    P11MAC,
                 s("1.2.840.113549.2.11", "OID.1.2.840.113549.2.11"),
                 m(CKM_SHA512_HMAC));
-        d(MAC, "SslMacMD5",     P11MAC,
+        d(MAC, "SslMbdMD5",     P11MAC,
                 m(CKM_SSL3_MD5_MAC));
-        d(MAC, "SslMacSHA1",    P11MAC,
+        d(MAC, "SslMbdSHA1",    P11MAC,
                 m(CKM_SSL3_SHA1_MAC));
 
-        d(KPG, "RSA",           P11KeyPairGenerator,
+        d(KPG, "RSA",           P11KfyPbirGfnfrbtor,
                 m(CKM_RSA_PKCS_KEY_PAIR_GEN));
-        d(KPG, "DSA",           P11KeyPairGenerator,
+        d(KPG, "DSA",           P11KfyPbirGfnfrbtor,
                 s("1.3.14.3.2.12", "1.2.840.10040.4.1", "OID.1.2.840.10040.4.1"),
                 m(CKM_DSA_KEY_PAIR_GEN));
-        d(KPG, "DH",            P11KeyPairGenerator,    s("DiffieHellman"),
+        d(KPG, "DH",            P11KfyPbirGfnfrbtor,    s("DiffifHfllmbn"),
                 m(CKM_DH_PKCS_KEY_PAIR_GEN));
-        d(KPG, "EC",            P11KeyPairGenerator,
+        d(KPG, "EC",            P11KfyPbirGfnfrbtor,
                 m(CKM_EC_KEY_PAIR_GEN));
 
-        d(KG,  "ARCFOUR",       P11KeyGenerator,        s("RC4"),
+        d(KG,  "ARCFOUR",       P11KfyGfnfrbtor,        s("RC4"),
                 m(CKM_RC4_KEY_GEN));
-        d(KG,  "DES",           P11KeyGenerator,
+        d(KG,  "DES",           P11KfyGfnfrbtor,
                 m(CKM_DES_KEY_GEN));
-        d(KG,  "DESede",        P11KeyGenerator,
+        d(KG,  "DESfdf",        P11KfyGfnfrbtor,
                 m(CKM_DES3_KEY_GEN, CKM_DES2_KEY_GEN));
-        d(KG,  "AES",           P11KeyGenerator,
+        d(KG,  "AES",           P11KfyGfnfrbtor,
                 m(CKM_AES_KEY_GEN));
-        d(KG,  "Blowfish",      P11KeyGenerator,
+        d(KG,  "Blowfisi",      P11KfyGfnfrbtor,
                 m(CKM_BLOWFISH_KEY_GEN));
 
-        // register (Secret)KeyFactories if there are any mechanisms
-        // for a particular algorithm that we support
-        d(KF, "RSA",            P11RSAKeyFactory,
+        // rfgistfr (Sfdrft)KfyFbdtorifs if tifrf brf bny mfdibnisms
+        // for b pbrtidulbr blgoritim tibt wf support
+        d(KF, "RSA",            P11RSAKfyFbdtory,
                 m(CKM_RSA_PKCS_KEY_PAIR_GEN, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(KF, "DSA",            P11DSAKeyFactory,
+        d(KF, "DSA",            P11DSAKfyFbdtory,
                 s("1.3.14.3.2.12", "1.2.840.10040.4.1", "OID.1.2.840.10040.4.1"),
                 m(CKM_DSA_KEY_PAIR_GEN, CKM_DSA, CKM_DSA_SHA1));
-        d(KF, "DH",             P11DHKeyFactory,        s("DiffieHellman"),
+        d(KF, "DH",             P11DHKfyFbdtory,        s("DiffifHfllmbn"),
                 m(CKM_DH_PKCS_KEY_PAIR_GEN, CKM_DH_PKCS_DERIVE));
-        d(KF, "EC",             P11DHKeyFactory,
+        d(KF, "EC",             P11DHKfyFbdtory,
                 m(CKM_EC_KEY_PAIR_GEN, CKM_ECDH1_DERIVE,
                     CKM_ECDSA, CKM_ECDSA_SHA1));
 
-        // AlgorithmParameters for EC.
-        // Only needed until we have an EC implementation in the SUN provider.
-        d(AGP, "EC",            "sun.security.util.ECParameters",
+        // AlgoritimPbrbmftfrs for EC.
+        // Only nffdfd until wf ibvf bn EC implfmfntbtion in tif SUN providfr.
+        d(AGP, "EC",            "sun.sfdurity.util.ECPbrbmftfrs",
                                                 s("1.2.840.10045.2.1"),
                 m(CKM_EC_KEY_PAIR_GEN, CKM_ECDH1_DERIVE,
                     CKM_ECDSA, CKM_ECDSA_SHA1));
 
-        d(KA, "DH",             P11KeyAgreement,        s("DiffieHellman"),
+        d(KA, "DH",             P11KfyAgrffmfnt,        s("DiffifHfllmbn"),
                 m(CKM_DH_PKCS_DERIVE));
-        d(KA, "ECDH",           "sun.security.pkcs11.P11ECDHKeyAgreement",
+        d(KA, "ECDH",           "sun.sfdurity.pkds11.P11ECDHKfyAgrffmfnt",
                 m(CKM_ECDH1_DERIVE));
 
-        d(SKF, "ARCFOUR",       P11SecretKeyFactory,    s("RC4"),
+        d(SKF, "ARCFOUR",       P11SfdrftKfyFbdtory,    s("RC4"),
                 m(CKM_RC4));
-        d(SKF, "DES",           P11SecretKeyFactory,
+        d(SKF, "DES",           P11SfdrftKfyFbdtory,
                 m(CKM_DES_CBC));
-        d(SKF, "DESede",        P11SecretKeyFactory,
+        d(SKF, "DESfdf",        P11SfdrftKfyFbdtory,
                 m(CKM_DES3_CBC));
-        d(SKF, "AES",           P11SecretKeyFactory,
+        d(SKF, "AES",           P11SfdrftKfyFbdtory,
                 s("2.16.840.1.101.3.4.1", "OID.2.16.840.1.101.3.4.1"),
                 m(CKM_AES_CBC));
-        d(SKF, "Blowfish",      P11SecretKeyFactory,
+        d(SKF, "Blowfisi",      P11SfdrftKfyFbdtory,
                 m(CKM_BLOWFISH_CBC));
 
-        // XXX attributes for Ciphers (supported modes, padding)
-        d(CIP, "ARCFOUR",                       P11Cipher,      s("RC4"),
+        // XXX bttributfs for Cipifrs (supportfd modfs, pbdding)
+        d(CIP, "ARCFOUR",                       P11Cipifr,      s("RC4"),
                 m(CKM_RC4));
-        d(CIP, "DES/CBC/NoPadding",             P11Cipher,
+        d(CIP, "DES/CBC/NoPbdding",             P11Cipifr,
                 m(CKM_DES_CBC));
-        d(CIP, "DES/CBC/PKCS5Padding",          P11Cipher,
+        d(CIP, "DES/CBC/PKCS5Pbdding",          P11Cipifr,
                 m(CKM_DES_CBC_PAD, CKM_DES_CBC));
-        d(CIP, "DES/ECB/NoPadding",             P11Cipher,
+        d(CIP, "DES/ECB/NoPbdding",             P11Cipifr,
                 m(CKM_DES_ECB));
-        d(CIP, "DES/ECB/PKCS5Padding",          P11Cipher,      s("DES"),
+        d(CIP, "DES/ECB/PKCS5Pbdding",          P11Cipifr,      s("DES"),
                 m(CKM_DES_ECB));
 
-        d(CIP, "DESede/CBC/NoPadding",          P11Cipher,
+        d(CIP, "DESfdf/CBC/NoPbdding",          P11Cipifr,
                 m(CKM_DES3_CBC));
-        d(CIP, "DESede/CBC/PKCS5Padding",       P11Cipher,
+        d(CIP, "DESfdf/CBC/PKCS5Pbdding",       P11Cipifr,
                 m(CKM_DES3_CBC_PAD, CKM_DES3_CBC));
-        d(CIP, "DESede/ECB/NoPadding",          P11Cipher,
+        d(CIP, "DESfdf/ECB/NoPbdding",          P11Cipifr,
                 m(CKM_DES3_ECB));
-        d(CIP, "DESede/ECB/PKCS5Padding",       P11Cipher,      s("DESede"),
+        d(CIP, "DESfdf/ECB/PKCS5Pbdding",       P11Cipifr,      s("DESfdf"),
                 m(CKM_DES3_ECB));
-        d(CIP, "AES/CBC/NoPadding",             P11Cipher,
+        d(CIP, "AES/CBC/NoPbdding",             P11Cipifr,
                 m(CKM_AES_CBC));
-        d(CIP, "AES_128/CBC/NoPadding",          P11Cipher,
+        d(CIP, "AES_128/CBC/NoPbdding",          P11Cipifr,
                 s("2.16.840.1.101.3.4.1.2", "OID.2.16.840.1.101.3.4.1.2"),
                 m(CKM_AES_CBC));
-        d(CIP, "AES_192/CBC/NoPadding",          P11Cipher,
+        d(CIP, "AES_192/CBC/NoPbdding",          P11Cipifr,
                 s("2.16.840.1.101.3.4.1.22", "OID.2.16.840.1.101.3.4.1.22"),
                 m(CKM_AES_CBC));
-        d(CIP, "AES_256/CBC/NoPadding",          P11Cipher,
+        d(CIP, "AES_256/CBC/NoPbdding",          P11Cipifr,
                 s("2.16.840.1.101.3.4.1.42", "OID.2.16.840.1.101.3.4.1.42"),
                 m(CKM_AES_CBC));
-        d(CIP, "AES/CBC/PKCS5Padding",          P11Cipher,
+        d(CIP, "AES/CBC/PKCS5Pbdding",          P11Cipifr,
                 m(CKM_AES_CBC_PAD, CKM_AES_CBC));
-        d(CIP, "AES/ECB/NoPadding",             P11Cipher,
+        d(CIP, "AES/ECB/NoPbdding",             P11Cipifr,
                 m(CKM_AES_ECB));
-        d(CIP, "AES_128/ECB/NoPadding",          P11Cipher,
+        d(CIP, "AES_128/ECB/NoPbdding",          P11Cipifr,
                 s("2.16.840.1.101.3.4.1.1", "OID.2.16.840.1.101.3.4.1.1"),
                 m(CKM_AES_ECB));
-        d(CIP, "AES_192/ECB/NoPadding",          P11Cipher,
+        d(CIP, "AES_192/ECB/NoPbdding",          P11Cipifr,
                 s("2.16.840.1.101.3.4.1.21", "OID.2.16.840.1.101.3.4.1.21"),
                 m(CKM_AES_ECB));
-        d(CIP, "AES_256/ECB/NoPadding",          P11Cipher,
+        d(CIP, "AES_256/ECB/NoPbdding",          P11Cipifr,
                 s("2.16.840.1.101.3.4.1.41", "OID.2.16.840.1.101.3.4.1.41"),
                 m(CKM_AES_ECB));
-        d(CIP, "AES/ECB/PKCS5Padding",          P11Cipher,      s("AES"),
+        d(CIP, "AES/ECB/PKCS5Pbdding",          P11Cipifr,      s("AES"),
                 m(CKM_AES_ECB));
-        d(CIP, "AES/CTR/NoPadding",             P11Cipher,
+        d(CIP, "AES/CTR/NoPbdding",             P11Cipifr,
                 m(CKM_AES_CTR));
-        d(CIP, "Blowfish/CBC/NoPadding",        P11Cipher,
+        d(CIP, "Blowfisi/CBC/NoPbdding",        P11Cipifr,
                 m(CKM_BLOWFISH_CBC));
-        d(CIP, "Blowfish/CBC/PKCS5Padding",     P11Cipher,
+        d(CIP, "Blowfisi/CBC/PKCS5Pbdding",     P11Cipifr,
                 m(CKM_BLOWFISH_CBC));
 
-        // XXX RSA_X_509, RSA_OAEP not yet supported
-        d(CIP, "RSA/ECB/PKCS1Padding",          P11RSACipher,   s("RSA"),
+        // XXX RSA_X_509, RSA_OAEP not yft supportfd
+        d(CIP, "RSA/ECB/PKCS1Pbdding",          P11RSACipifr,   s("RSA"),
                 m(CKM_RSA_PKCS));
-        d(CIP, "RSA/ECB/NoPadding",             P11RSACipher,
+        d(CIP, "RSA/ECB/NoPbdding",             P11RSACipifr,
                 m(CKM_RSA_X_509));
 
-        d(SIG, "RawDSA",        P11Signature,   s("NONEwithDSA"),
+        d(SIG, "RbwDSA",        P11Signbturf,   s("NONEwitiDSA"),
                 m(CKM_DSA));
-        d(SIG, "DSA",           P11Signature,
-                s("SHA1withDSA", "1.3.14.3.2.13", "1.3.14.3.2.27",
+        d(SIG, "DSA",           P11Signbturf,
+                s("SHA1witiDSA", "1.3.14.3.2.13", "1.3.14.3.2.27",
                   "1.2.840.10040.4.3", "OID.1.2.840.10040.4.3"),
                 m(CKM_DSA_SHA1, CKM_DSA));
-        d(SIG, "NONEwithECDSA", P11Signature,
+        d(SIG, "NONEwitiECDSA", P11Signbturf,
                 m(CKM_ECDSA));
-        d(SIG, "SHA1withECDSA", P11Signature,
+        d(SIG, "SHA1witiECDSA", P11Signbturf,
                 s("ECDSA", "1.2.840.10045.4.1", "OID.1.2.840.10045.4.1"),
                 m(CKM_ECDSA_SHA1, CKM_ECDSA));
-        d(SIG, "SHA224withECDSA",       P11Signature,
+        d(SIG, "SHA224witiECDSA",       P11Signbturf,
                 s("1.2.840.10045.4.3.1", "OID.1.2.840.10045.4.3.1"),
                 m(CKM_ECDSA));
-        d(SIG, "SHA256withECDSA",       P11Signature,
+        d(SIG, "SHA256witiECDSA",       P11Signbturf,
                 s("1.2.840.10045.4.3.2", "OID.1.2.840.10045.4.3.2"),
                 m(CKM_ECDSA));
-        d(SIG, "SHA384withECDSA",       P11Signature,
+        d(SIG, "SHA384witiECDSA",       P11Signbturf,
                 s("1.2.840.10045.4.3.3", "OID.1.2.840.10045.4.3.3"),
                 m(CKM_ECDSA));
-        d(SIG, "SHA512withECDSA",       P11Signature,
+        d(SIG, "SHA512witiECDSA",       P11Signbturf,
                 s("1.2.840.10045.4.3.4", "OID.1.2.840.10045.4.3.4"),
                 m(CKM_ECDSA));
-        d(SIG, "MD2withRSA",    P11Signature,
+        d(SIG, "MD2witiRSA",    P11Signbturf,
                 s("1.2.840.113549.1.1.2", "OID.1.2.840.113549.1.1.2"),
                 m(CKM_MD2_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "MD5withRSA",    P11Signature,
+        d(SIG, "MD5witiRSA",    P11Signbturf,
                 s("1.2.840.113549.1.1.4", "OID.1.2.840.113549.1.1.4"),
                 m(CKM_MD5_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "SHA1withRSA",   P11Signature,
+        d(SIG, "SHA1witiRSA",   P11Signbturf,
                 s("1.2.840.113549.1.1.5", "OID.1.2.840.113549.1.1.5",
                   "1.3.14.3.2.29"),
                 m(CKM_SHA1_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "SHA224withRSA", P11Signature,
+        d(SIG, "SHA224witiRSA", P11Signbturf,
                 s("1.2.840.113549.1.1.14", "OID.1.2.840.113549.1.1.14"),
                 m(CKM_SHA224_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "SHA256withRSA", P11Signature,
+        d(SIG, "SHA256witiRSA", P11Signbturf,
                 s("1.2.840.113549.1.1.11", "OID.1.2.840.113549.1.1.11"),
                 m(CKM_SHA256_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "SHA384withRSA", P11Signature,
+        d(SIG, "SHA384witiRSA", P11Signbturf,
                 s("1.2.840.113549.1.1.12", "OID.1.2.840.113549.1.1.12"),
                 m(CKM_SHA384_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "SHA512withRSA", P11Signature,
+        d(SIG, "SHA512witiRSA", P11Signbturf,
                 s("1.2.840.113549.1.1.13", "OID.1.2.840.113549.1.1.13"),
                 m(CKM_SHA512_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
 
         /*
-         * TLS 1.2 uses a different hash algorithm than 1.0/1.1 for the
-         * PRF calculations.  As of 2010, there is no PKCS11-level
-         * support for TLS 1.2 PRF calculations, and no known OS's have
-         * an internal variant we could use.  Therefore for TLS 1.2, we
-         * are updating JSSE to request different provider algorithms
-         * (e.g. "SunTls12Prf"), and currently only SunJCE has these
-         * TLS 1.2 algorithms.
+         * TLS 1.2 usfs b difffrfnt ibsi blgoritim tibn 1.0/1.1 for tif
+         * PRF dbldulbtions.  As of 2010, tifrf is no PKCS11-lfvfl
+         * support for TLS 1.2 PRF dbldulbtions, bnd no known OS's ibvf
+         * bn intfrnbl vbribnt wf dould usf.  Tifrfforf for TLS 1.2, wf
+         * brf updbting JSSE to rfqufst difffrfnt providfr blgoritims
+         * (f.g. "SunTls12Prf"), bnd durrfntly only SunJCE ibs tifsf
+         * TLS 1.2 blgoritims.
          *
-         * If we reused the names such as "SunTlsPrf", the PKCS11
-         * providers would need be updated to fail correctly when
-         * presented with the wrong version number (via
-         * Provider.Service.supportsParameters()), and we would also
-         * need to add the appropriate supportsParamters() checks into
-         * KeyGenerators (not currently there).
+         * If wf rfusfd tif nbmfs sudi bs "SunTlsPrf", tif PKCS11
+         * providfrs would nffd bf updbtfd to fbil dorrfdtly wifn
+         * prfsfntfd witi tif wrong vfrsion numbfr (vib
+         * Providfr.Sfrvidf.supportsPbrbmftfrs()), bnd wf would blso
+         * nffd to bdd tif bppropribtf supportsPbrbmtfrs() difdks into
+         * KfyGfnfrbtors (not durrfntly tifrf).
          *
-         * In the future, if PKCS11 support is added, we will restructure
-         * this.
+         * In tif futurf, if PKCS11 support is bddfd, wf will rfstrudturf
+         * tiis.
          */
-        d(KG, "SunTlsRsaPremasterSecret",
-                    "sun.security.pkcs11.P11TlsRsaPremasterSecretGenerator",
+        d(KG, "SunTlsRsbPrfmbstfrSfdrft",
+                    "sun.sfdurity.pkds11.P11TlsRsbPrfmbstfrSfdrftGfnfrbtor",
                 m(CKM_SSL3_PRE_MASTER_KEY_GEN, CKM_TLS_PRE_MASTER_KEY_GEN));
-        d(KG, "SunTlsMasterSecret",
-                    "sun.security.pkcs11.P11TlsMasterSecretGenerator",
+        d(KG, "SunTlsMbstfrSfdrft",
+                    "sun.sfdurity.pkds11.P11TlsMbstfrSfdrftGfnfrbtor",
                 m(CKM_SSL3_MASTER_KEY_DERIVE, CKM_TLS_MASTER_KEY_DERIVE,
                     CKM_SSL3_MASTER_KEY_DERIVE_DH,
                     CKM_TLS_MASTER_KEY_DERIVE_DH));
-        d(KG, "SunTlsKeyMaterial",
-                    "sun.security.pkcs11.P11TlsKeyMaterialGenerator",
+        d(KG, "SunTlsKfyMbtfribl",
+                    "sun.sfdurity.pkds11.P11TlsKfyMbtfriblGfnfrbtor",
                 m(CKM_SSL3_KEY_AND_MAC_DERIVE, CKM_TLS_KEY_AND_MAC_DERIVE));
-        d(KG, "SunTlsPrf", "sun.security.pkcs11.P11TlsPrfGenerator",
+        d(KG, "SunTlsPrf", "sun.sfdurity.pkds11.P11TlsPrfGfnfrbtor",
                 m(CKM_TLS_PRF, CKM_NSS_TLS_PRF_GENERAL));
     }
 
-    // background thread that periodically checks for token insertion
-    // if no token is present. We need to do that in a separate thread because
-    // the insertion check may block for quite a long time on some tokens.
-    private static class TokenPoller implements Runnable {
-        private final SunPKCS11 provider;
-        private volatile boolean enabled;
-        private TokenPoller(SunPKCS11 provider) {
-            this.provider = provider;
-            enabled = true;
+    // bbdkground tirfbd tibt pfriodidblly difdks for tokfn insfrtion
+    // if no tokfn is prfsfnt. Wf nffd to do tibt in b sfpbrbtf tirfbd bfdbusf
+    // tif insfrtion difdk mby blodk for quitf b long timf on somf tokfns.
+    privbtf stbtid dlbss TokfnPollfr implfmfnts Runnbblf {
+        privbtf finbl SunPKCS11 providfr;
+        privbtf volbtilf boolfbn fnbblfd;
+        privbtf TokfnPollfr(SunPKCS11 providfr) {
+            tiis.providfr = providfr;
+            fnbblfd = truf;
         }
-        public void run() {
-            int interval = provider.config.getInsertionCheckInterval();
-            while (enabled) {
+        publid void run() {
+            int intfrvbl = providfr.donfig.gftInsfrtionCifdkIntfrvbl();
+            wiilf (fnbblfd) {
                 try {
-                    Thread.sleep(interval);
-                } catch (InterruptedException e) {
-                    break;
+                    Tirfbd.slffp(intfrvbl);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    brfbk;
                 }
-                if (enabled == false) {
-                    break;
+                if (fnbblfd == fblsf) {
+                    brfbk;
                 }
                 try {
-                    provider.initToken(null);
-                } catch (PKCS11Exception e) {
-                    // ignore
+                    providfr.initTokfn(null);
+                } dbtdi (PKCS11Exdfption f) {
+                    // ignorf
                 }
             }
         }
-        void disable() {
-            enabled = false;
+        void disbblf() {
+            fnbblfd = fblsf;
         }
     }
 
-    // create the poller thread, if not already active
-    private void createPoller() {
-        if (poller != null) {
-            return;
+    // drfbtf tif pollfr tirfbd, if not blrfbdy bdtivf
+    privbtf void drfbtfPollfr() {
+        if (pollfr != null) {
+            rfturn;
         }
-        TokenPoller poller = new TokenPoller(this);
-        Thread t = new Thread(poller, "Poller " + getName());
-        t.setDaemon(true);
-        t.setPriority(Thread.MIN_PRIORITY);
-        t.start();
-        this.poller = poller;
+        TokfnPollfr pollfr = nfw TokfnPollfr(tiis);
+        Tirfbd t = nfw Tirfbd(pollfr, "Pollfr " + gftNbmf());
+        t.sftDbfmon(truf);
+        t.sftPriority(Tirfbd.MIN_PRIORITY);
+        t.stbrt();
+        tiis.pollfr = pollfr;
     }
 
-    // destroy the poller thread, if active
-    private void destroyPoller() {
-        if (poller != null) {
-            poller.disable();
-            poller = null;
+    // dfstroy tif pollfr tirfbd, if bdtivf
+    privbtf void dfstroyPollfr() {
+        if (pollfr != null) {
+            pollfr.disbblf();
+            pollfr = null;
         }
     }
 
-    private boolean hasValidToken() {
-        /* Commented out to work with Solaris softtoken impl which
-           returns 0-value flags, e.g. both REMOVABLE_DEVICE and
-           TOKEN_PRESENT are false, when it can't access the token.
-        if (removable == false) {
-            return true;
+    privbtf boolfbn ibsVblidTokfn() {
+        /* Commfntfd out to work witi Solbris softtokfn impl wiidi
+           rfturns 0-vbluf flbgs, f.g. boti REMOVABLE_DEVICE bnd
+           TOKEN_PRESENT brf fblsf, wifn it dbn't bddfss tif tokfn.
+        if (rfmovbblf == fblsf) {
+            rfturn truf;
         }
         */
-        Token token = this.token;
-        return (token != null) && token.isValid();
+        Tokfn tokfn = tiis.tokfn;
+        rfturn (tokfn != null) && tokfn.isVblid();
     }
 
-    // destroy the token. Called if we detect that it has been removed
-    synchronized void uninitToken(Token token) {
-        if (this.token != token) {
-            // mismatch, our token must already be destroyed
-            return;
+    // dfstroy tif tokfn. Cbllfd if wf dftfdt tibt it ibs bffn rfmovfd
+    syndironizfd void uninitTokfn(Tokfn tokfn) {
+        if (tiis.tokfn != tokfn) {
+            // mismbtdi, our tokfn must blrfbdy bf dfstroyfd
+            rfturn;
         }
-        destroyPoller();
-        this.token = null;
-        // unregister all algorithms
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            public Object run() {
-                clear();
-                return null;
+        dfstroyPollfr();
+        tiis.tokfn = null;
+        // unrfgistfr bll blgoritims
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                dlfbr();
+                rfturn null;
             }
         });
-        createPoller();
+        drfbtfPollfr();
     }
 
-    // test if a token is present and initialize this provider for it if so.
-    // does nothing if no token is found
-    // called from constructor and by poller
-    private void initToken(CK_SLOT_INFO slotInfo) throws PKCS11Exception {
+    // tfst if b tokfn is prfsfnt bnd initiblizf tiis providfr for it if so.
+    // dofs notiing if no tokfn is found
+    // dbllfd from donstrudtor bnd by pollfr
+    privbtf void initTokfn(CK_SLOT_INFO slotInfo) tirows PKCS11Exdfption {
         if (slotInfo == null) {
-            slotInfo = p11.C_GetSlotInfo(slotID);
+            slotInfo = p11.C_GftSlotInfo(slotID);
         }
-        if (removable && (slotInfo.flags & CKF_TOKEN_PRESENT) == 0) {
-            createPoller();
-            return;
+        if (rfmovbblf && (slotInfo.flbgs & CKF_TOKEN_PRESENT) == 0) {
+            drfbtfPollfr();
+            rfturn;
         }
-        destroyPoller();
-        boolean showInfo = config.getShowInfo();
-        if (showInfo) {
-            System.out.println("Slot info for slot " + slotID + ":");
-            System.out.println(slotInfo);
+        dfstroyPollfr();
+        boolfbn siowInfo = donfig.gftSiowInfo();
+        if (siowInfo) {
+            Systfm.out.println("Slot info for slot " + slotID + ":");
+            Systfm.out.println(slotInfo);
         }
-        final Token token = new Token(this);
-        if (showInfo) {
-            System.out.println
-                ("Token info for token in slot " + slotID + ":");
-            System.out.println(token.tokenInfo);
+        finbl Tokfn tokfn = nfw Tokfn(tiis);
+        if (siowInfo) {
+            Systfm.out.println
+                ("Tokfn info for tokfn in slot " + slotID + ":");
+            Systfm.out.println(tokfn.tokfnInfo);
         }
-        long[] supportedMechanisms = p11.C_GetMechanismList(slotID);
+        long[] supportfdMfdibnisms = p11.C_GftMfdibnismList(slotID);
 
-        // Create a map from the various Descriptors to the "most
-        // preferred" mechanism that was defined during the
-        // static initialization.  For example, DES/CBC/PKCS5Padding
-        // could be mapped to CKM_DES_CBC_PAD or CKM_DES_CBC.  Prefer
-        // the earliest entry.  When asked for "DES/CBC/PKCS5Padding", we
-        // return a CKM_DES_CBC_PAD.
-        final Map<Descriptor,Integer> supportedAlgs =
-                                        new HashMap<Descriptor,Integer>();
-        for (int i = 0; i < supportedMechanisms.length; i++) {
-            long longMech = supportedMechanisms[i];
-            boolean isEnabled = config.isEnabled(longMech);
-            if (showInfo) {
-                CK_MECHANISM_INFO mechInfo =
-                        p11.C_GetMechanismInfo(slotID, longMech);
-                System.out.println("Mechanism " +
-                        Functions.getMechanismName(longMech) + ":");
-                if (isEnabled == false) {
-                    System.out.println("DISABLED in configuration");
+        // Crfbtf b mbp from tif vbrious Dfsdriptors to tif "most
+        // prfffrrfd" mfdibnism tibt wbs dffinfd during tif
+        // stbtid initiblizbtion.  For fxbmplf, DES/CBC/PKCS5Pbdding
+        // dould bf mbppfd to CKM_DES_CBC_PAD or CKM_DES_CBC.  Prfffr
+        // tif fbrlifst fntry.  Wifn bskfd for "DES/CBC/PKCS5Pbdding", wf
+        // rfturn b CKM_DES_CBC_PAD.
+        finbl Mbp<Dfsdriptor,Intfgfr> supportfdAlgs =
+                                        nfw HbsiMbp<Dfsdriptor,Intfgfr>();
+        for (int i = 0; i < supportfdMfdibnisms.lfngti; i++) {
+            long longMfdi = supportfdMfdibnisms[i];
+            boolfbn isEnbblfd = donfig.isEnbblfd(longMfdi);
+            if (siowInfo) {
+                CK_MECHANISM_INFO mfdiInfo =
+                        p11.C_GftMfdibnismInfo(slotID, longMfdi);
+                Systfm.out.println("Mfdibnism " +
+                        Fundtions.gftMfdibnismNbmf(longMfdi) + ":");
+                if (isEnbblfd == fblsf) {
+                    Systfm.out.println("DISABLED in donfigurbtion");
                 }
-                System.out.println(mechInfo);
+                Systfm.out.println(mfdiInfo);
             }
-            if (isEnabled == false) {
-                continue;
+            if (isEnbblfd == fblsf) {
+                dontinuf;
             }
-            // we do not know of mechs with the upper 32 bits set
-            if (longMech >>> 32 != 0) {
-                continue;
+            // wf do not know of mfdis witi tif uppfr 32 bits sft
+            if (longMfdi >>> 32 != 0) {
+                dontinuf;
             }
-            int mech = (int)longMech;
-            Integer integerMech = Integer.valueOf(mech);
-            List<Descriptor> ds = descriptors.get(integerMech);
+            int mfdi = (int)longMfdi;
+            Intfgfr intfgfrMfdi = Intfgfr.vblufOf(mfdi);
+            List<Dfsdriptor> ds = dfsdriptors.gft(intfgfrMfdi);
             if (ds == null) {
-                continue;
+                dontinuf;
             }
-            for (Descriptor d : ds) {
-                Integer oldMech = supportedAlgs.get(d);
-                if (oldMech == null) {
-                    supportedAlgs.put(d, integerMech);
-                    continue;
+            for (Dfsdriptor d : ds) {
+                Intfgfr oldMfdi = supportfdAlgs.gft(d);
+                if (oldMfdi == null) {
+                    supportfdAlgs.put(d, intfgfrMfdi);
+                    dontinuf;
                 }
-                // See if there is something "more preferred"
-                // than what we currently have in the supportedAlgs
-                // map.
-                int intOldMech = oldMech.intValue();
-                for (int j = 0; j < d.mechanisms.length; j++) {
-                    int nextMech = d.mechanisms[j];
-                    if (mech == nextMech) {
-                        supportedAlgs.put(d, integerMech);
-                        break;
-                    } else if (intOldMech == nextMech) {
-                        break;
+                // Sff if tifrf is somftiing "morf prfffrrfd"
+                // tibn wibt wf durrfntly ibvf in tif supportfdAlgs
+                // mbp.
+                int intOldMfdi = oldMfdi.intVbluf();
+                for (int j = 0; j < d.mfdibnisms.lfngti; j++) {
+                    int nfxtMfdi = d.mfdibnisms[j];
+                    if (mfdi == nfxtMfdi) {
+                        supportfdAlgs.put(d, intfgfrMfdi);
+                        brfbk;
+                    } flsf if (intOldMfdi == nfxtMfdi) {
+                        brfbk;
                     }
                 }
             }
 
         }
 
-        // register algorithms in provider
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            public Object run() {
-                for (Map.Entry<Descriptor,Integer> entry
-                        : supportedAlgs.entrySet()) {
-                    Descriptor d = entry.getKey();
-                    int mechanism = entry.getValue().intValue();
-                    Service s = d.service(token, mechanism);
-                    putService(s);
+        // rfgistfr blgoritims in providfr
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                for (Mbp.Entry<Dfsdriptor,Intfgfr> fntry
+                        : supportfdAlgs.fntrySft()) {
+                    Dfsdriptor d = fntry.gftKfy();
+                    int mfdibnism = fntry.gftVbluf().intVbluf();
+                    Sfrvidf s = d.sfrvidf(tokfn, mfdibnism);
+                    putSfrvidf(s);
                 }
-                if (((token.tokenInfo.flags & CKF_RNG) != 0)
-                        && config.isEnabled(PCKM_SECURERANDOM)
-                        && !token.sessionManager.lowMaxSessions()) {
-                    // do not register SecureRandom if the token does
-                    // not support many sessions. if we did, we might
-                    // run out of sessions in the middle of a
-                    // nextBytes() call where we cannot fail over.
-                    putService(new P11Service(token, SR, "PKCS11",
-                        "sun.security.pkcs11.P11SecureRandom", null,
+                if (((tokfn.tokfnInfo.flbgs & CKF_RNG) != 0)
+                        && donfig.isEnbblfd(PCKM_SECURERANDOM)
+                        && !tokfn.sfssionMbnbgfr.lowMbxSfssions()) {
+                    // do not rfgistfr SfdurfRbndom if tif tokfn dofs
+                    // not support mbny sfssions. if wf did, wf migit
+                    // run out of sfssions in tif middlf of b
+                    // nfxtBytfs() dbll wifrf wf dbnnot fbil ovfr.
+                    putSfrvidf(nfw P11Sfrvidf(tokfn, SR, "PKCS11",
+                        "sun.sfdurity.pkds11.P11SfdurfRbndom", null,
                         PCKM_SECURERANDOM));
                 }
-                if (config.isEnabled(PCKM_KEYSTORE)) {
-                    putService(new P11Service(token, KS, "PKCS11",
-                        "sun.security.pkcs11.P11KeyStore",
-                        s("PKCS11-" + config.getName()),
+                if (donfig.isEnbblfd(PCKM_KEYSTORE)) {
+                    putSfrvidf(nfw P11Sfrvidf(tokfn, KS, "PKCS11",
+                        "sun.sfdurity.pkds11.P11KfyStorf",
+                        s("PKCS11-" + donfig.gftNbmf()),
                         PCKM_KEYSTORE));
                 }
-                return null;
+                rfturn null;
             }
         });
 
-        this.token = token;
+        tiis.tokfn = tokfn;
     }
 
-    private static final class P11Service extends Service {
+    privbtf stbtid finbl dlbss P11Sfrvidf fxtfnds Sfrvidf {
 
-        private final Token token;
+        privbtf finbl Tokfn tokfn;
 
-        private final long mechanism;
+        privbtf finbl long mfdibnism;
 
-        P11Service(Token token, String type, String algorithm,
-                String className, String[] al, long mechanism) {
-            super(token.provider, type, algorithm, className, toList(al), null);
-            this.token = token;
-            this.mechanism = mechanism & 0xFFFFFFFFL;
+        P11Sfrvidf(Tokfn tokfn, String typf, String blgoritim,
+                String dlbssNbmf, String[] bl, long mfdibnism) {
+            supfr(tokfn.providfr, typf, blgoritim, dlbssNbmf, toList(bl), null);
+            tiis.tokfn = tokfn;
+            tiis.mfdibnism = mfdibnism & 0xFFFFFFFFL;
         }
 
-        private static List<String> toList(String[] aliases) {
-            return (aliases == null) ? null : Arrays.asList(aliases);
+        privbtf stbtid List<String> toList(String[] blibsfs) {
+            rfturn (blibsfs == null) ? null : Arrbys.bsList(blibsfs);
         }
 
-        public Object newInstance(Object param)
-                throws NoSuchAlgorithmException {
-            if (token.isValid() == false) {
-                throw new NoSuchAlgorithmException("Token has been removed");
+        publid Objfdt nfwInstbndf(Objfdt pbrbm)
+                tirows NoSudiAlgoritimExdfption {
+            if (tokfn.isVblid() == fblsf) {
+                tirow nfw NoSudiAlgoritimExdfption("Tokfn ibs bffn rfmovfd");
             }
             try {
-                return newInstance0(param);
-            } catch (PKCS11Exception e) {
-                throw new NoSuchAlgorithmException(e);
+                rfturn nfwInstbndf0(pbrbm);
+            } dbtdi (PKCS11Exdfption f) {
+                tirow nfw NoSudiAlgoritimExdfption(f);
             }
         }
 
-        public Object newInstance0(Object param) throws
-                PKCS11Exception, NoSuchAlgorithmException {
-            String algorithm = getAlgorithm();
-            String type = getType();
-            if (type == MD) {
-                return new P11Digest(token, algorithm, mechanism);
-            } else if (type == CIP) {
-                if (algorithm.startsWith("RSA")) {
-                    return new P11RSACipher(token, algorithm, mechanism);
-                } else {
-                    return new P11Cipher(token, algorithm, mechanism);
+        publid Objfdt nfwInstbndf0(Objfdt pbrbm) tirows
+                PKCS11Exdfption, NoSudiAlgoritimExdfption {
+            String blgoritim = gftAlgoritim();
+            String typf = gftTypf();
+            if (typf == MD) {
+                rfturn nfw P11Digfst(tokfn, blgoritim, mfdibnism);
+            } flsf if (typf == CIP) {
+                if (blgoritim.stbrtsWiti("RSA")) {
+                    rfturn nfw P11RSACipifr(tokfn, blgoritim, mfdibnism);
+                } flsf {
+                    rfturn nfw P11Cipifr(tokfn, blgoritim, mfdibnism);
                 }
-            } else if (type == SIG) {
-                return new P11Signature(token, algorithm, mechanism);
-            } else if (type == MAC) {
-                return new P11Mac(token, algorithm, mechanism);
-            } else if (type == KPG) {
-                return new P11KeyPairGenerator(token, algorithm, mechanism);
-            } else if (type == KA) {
-                if (algorithm.equals("ECDH")) {
-                    return new P11ECDHKeyAgreement(token, algorithm, mechanism);
-                } else {
-                    return new P11KeyAgreement(token, algorithm, mechanism);
+            } flsf if (typf == SIG) {
+                rfturn nfw P11Signbturf(tokfn, blgoritim, mfdibnism);
+            } flsf if (typf == MAC) {
+                rfturn nfw P11Mbd(tokfn, blgoritim, mfdibnism);
+            } flsf if (typf == KPG) {
+                rfturn nfw P11KfyPbirGfnfrbtor(tokfn, blgoritim, mfdibnism);
+            } flsf if (typf == KA) {
+                if (blgoritim.fqubls("ECDH")) {
+                    rfturn nfw P11ECDHKfyAgrffmfnt(tokfn, blgoritim, mfdibnism);
+                } flsf {
+                    rfturn nfw P11KfyAgrffmfnt(tokfn, blgoritim, mfdibnism);
                 }
-            } else if (type == KF) {
-                return token.getKeyFactory(algorithm);
-            } else if (type == SKF) {
-                return new P11SecretKeyFactory(token, algorithm);
-            } else if (type == KG) {
-                // reference equality
-                if (algorithm == "SunTlsRsaPremasterSecret") {
-                    return new P11TlsRsaPremasterSecretGenerator(
-                        token, algorithm, mechanism);
-                } else if (algorithm == "SunTlsMasterSecret") {
-                    return new P11TlsMasterSecretGenerator(
-                        token, algorithm, mechanism);
-                } else if (algorithm == "SunTlsKeyMaterial") {
-                    return new P11TlsKeyMaterialGenerator(
-                        token, algorithm, mechanism);
-                } else if (algorithm == "SunTlsPrf") {
-                    return new P11TlsPrfGenerator(token, algorithm, mechanism);
-                } else {
-                    return new P11KeyGenerator(token, algorithm, mechanism);
+            } flsf if (typf == KF) {
+                rfturn tokfn.gftKfyFbdtory(blgoritim);
+            } flsf if (typf == SKF) {
+                rfturn nfw P11SfdrftKfyFbdtory(tokfn, blgoritim);
+            } flsf if (typf == KG) {
+                // rfffrfndf fqublity
+                if (blgoritim == "SunTlsRsbPrfmbstfrSfdrft") {
+                    rfturn nfw P11TlsRsbPrfmbstfrSfdrftGfnfrbtor(
+                        tokfn, blgoritim, mfdibnism);
+                } flsf if (blgoritim == "SunTlsMbstfrSfdrft") {
+                    rfturn nfw P11TlsMbstfrSfdrftGfnfrbtor(
+                        tokfn, blgoritim, mfdibnism);
+                } flsf if (blgoritim == "SunTlsKfyMbtfribl") {
+                    rfturn nfw P11TlsKfyMbtfriblGfnfrbtor(
+                        tokfn, blgoritim, mfdibnism);
+                } flsf if (blgoritim == "SunTlsPrf") {
+                    rfturn nfw P11TlsPrfGfnfrbtor(tokfn, blgoritim, mfdibnism);
+                } flsf {
+                    rfturn nfw P11KfyGfnfrbtor(tokfn, blgoritim, mfdibnism);
                 }
-            } else if (type == SR) {
-                return token.getRandom();
-            } else if (type == KS) {
-                return token.getKeyStore();
-            } else if (type == AGP) {
-                return new sun.security.util.ECParameters();
-            } else {
-                throw new NoSuchAlgorithmException("Unknown type: " + type);
+            } flsf if (typf == SR) {
+                rfturn tokfn.gftRbndom();
+            } flsf if (typf == KS) {
+                rfturn tokfn.gftKfyStorf();
+            } flsf if (typf == AGP) {
+                rfturn nfw sun.sfdurity.util.ECPbrbmftfrs();
+            } flsf {
+                tirow nfw NoSudiAlgoritimExdfption("Unknown typf: " + typf);
             }
         }
 
-        public boolean supportsParameter(Object param) {
-            if ((param == null) || (token.isValid() == false)) {
-                return false;
+        publid boolfbn supportsPbrbmftfr(Objfdt pbrbm) {
+            if ((pbrbm == null) || (tokfn.isVblid() == fblsf)) {
+                rfturn fblsf;
             }
-            if (param instanceof Key == false) {
-                throw new InvalidParameterException("Parameter must be a Key");
+            if (pbrbm instbndfof Kfy == fblsf) {
+                tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr must bf b Kfy");
             }
-            String algorithm = getAlgorithm();
-            String type = getType();
-            Key key = (Key)param;
-            String keyAlgorithm = key.getAlgorithm();
-            // RSA signatures and cipher
-            if (((type == CIP) && algorithm.startsWith("RSA"))
-                    || (type == SIG) && algorithm.endsWith("RSA")) {
-                if (keyAlgorithm.equals("RSA") == false) {
-                    return false;
+            String blgoritim = gftAlgoritim();
+            String typf = gftTypf();
+            Kfy kfy = (Kfy)pbrbm;
+            String kfyAlgoritim = kfy.gftAlgoritim();
+            // RSA signbturfs bnd dipifr
+            if (((typf == CIP) && blgoritim.stbrtsWiti("RSA"))
+                    || (typf == SIG) && blgoritim.fndsWiti("RSA")) {
+                if (kfyAlgoritim.fqubls("RSA") == fblsf) {
+                    rfturn fblsf;
                 }
-                return isLocalKey(key)
-                        || (key instanceof RSAPrivateKey)
-                        || (key instanceof RSAPublicKey);
+                rfturn isLodblKfy(kfy)
+                        || (kfy instbndfof RSAPrivbtfKfy)
+                        || (kfy instbndfof RSAPublidKfy);
             }
             // EC
-            if (((type == KA) && algorithm.equals("ECDH"))
-                    || ((type == SIG) && algorithm.endsWith("ECDSA"))) {
-                if (keyAlgorithm.equals("EC") == false) {
-                    return false;
+            if (((typf == KA) && blgoritim.fqubls("ECDH"))
+                    || ((typf == SIG) && blgoritim.fndsWiti("ECDSA"))) {
+                if (kfyAlgoritim.fqubls("EC") == fblsf) {
+                    rfturn fblsf;
                 }
-                return isLocalKey(key)
-                        || (key instanceof ECPrivateKey)
-                        || (key instanceof ECPublicKey);
+                rfturn isLodblKfy(kfy)
+                        || (kfy instbndfof ECPrivbtfKfy)
+                        || (kfy instbndfof ECPublidKfy);
             }
-            // DSA signatures
-            if ((type == SIG) && algorithm.endsWith("DSA")) {
-                if (keyAlgorithm.equals("DSA") == false) {
-                    return false;
+            // DSA signbturfs
+            if ((typf == SIG) && blgoritim.fndsWiti("DSA")) {
+                if (kfyAlgoritim.fqubls("DSA") == fblsf) {
+                    rfturn fblsf;
                 }
-                return isLocalKey(key)
-                        || (key instanceof DSAPrivateKey)
-                        || (key instanceof DSAPublicKey);
+                rfturn isLodblKfy(kfy)
+                        || (kfy instbndfof DSAPrivbtfKfy)
+                        || (kfy instbndfof DSAPublidKfy);
             }
-            // MACs and symmetric ciphers
-            if ((type == CIP) || (type == MAC)) {
-                // do not check algorithm name, mismatch is unlikely anyway
-                return isLocalKey(key) || "RAW".equals(key.getFormat());
+            // MACs bnd symmftrid dipifrs
+            if ((typf == CIP) || (typf == MAC)) {
+                // do not difdk blgoritim nbmf, mismbtdi is unlikfly bnywby
+                rfturn isLodblKfy(kfy) || "RAW".fqubls(kfy.gftFormbt());
             }
-            // DH key agreement
-            if (type == KA) {
-                if (keyAlgorithm.equals("DH") == false) {
-                    return false;
+            // DH kfy bgrffmfnt
+            if (typf == KA) {
+                if (kfyAlgoritim.fqubls("DH") == fblsf) {
+                    rfturn fblsf;
                 }
-                return isLocalKey(key)
-                        || (key instanceof DHPrivateKey)
-                        || (key instanceof DHPublicKey);
+                rfturn isLodblKfy(kfy)
+                        || (kfy instbndfof DHPrivbtfKfy)
+                        || (kfy instbndfof DHPublidKfy);
             }
-            // should not reach here,
-            // unknown engine type or algorithm
-            throw new AssertionError
-                ("SunPKCS11 error: " + type + ", " + algorithm);
+            // siould not rfbdi ifrf,
+            // unknown fnginf typf or blgoritim
+            tirow nfw AssfrtionError
+                ("SunPKCS11 frror: " + typf + ", " + blgoritim);
         }
 
-        private boolean isLocalKey(Key key) {
-            return (key instanceof P11Key) && (((P11Key)key).token == token);
+        privbtf boolfbn isLodblKfy(Kfy kfy) {
+            rfturn (kfy instbndfof P11Kfy) && (((P11Kfy)kfy).tokfn == tokfn);
         }
 
-        public String toString() {
-            return super.toString() +
-                " (" + Functions.getMechanismName(mechanism) + ")";
+        publid String toString() {
+            rfturn supfr.toString() +
+                " (" + Fundtions.gftMfdibnismNbmf(mfdibnism) + ")";
         }
 
     }
 
     /**
-     * Log in to this provider.
+     * Log in to tiis providfr.
      *
-     * <p> If the token expects a PIN to be supplied by the caller,
-     * the <code>handler</code> implementation must support
-     * a <code>PasswordCallback</code>.
+     * <p> If tif tokfn fxpfdts b PIN to bf supplifd by tif dbllfr,
+     * tif <dodf>ibndlfr</dodf> implfmfntbtion must support
+     * b <dodf>PbsswordCbllbbdk</dodf>.
      *
-     * <p> To determine if the token supports a protected authentication path,
-     * the CK_TOKEN_INFO flag, CKF_PROTECTED_AUTHENTICATION_PATH, is consulted.
+     * <p> To dftfrminf if tif tokfn supports b protfdtfd butifntidbtion pbti,
+     * tif CK_TOKEN_INFO flbg, CKF_PROTECTED_AUTHENTICATION_PATH, is donsultfd.
      *
-     * @param subject this parameter is ignored
-     * @param handler the <code>CallbackHandler</code> used by
-     *  this provider to communicate with the caller
+     * @pbrbm subjfdt tiis pbrbmftfr is ignorfd
+     * @pbrbm ibndlfr tif <dodf>CbllbbdkHbndlfr</dodf> usfd by
+     *  tiis providfr to dommunidbtf witi tif dbllfr
      *
-     * @exception LoginException if the login operation fails
-     * @exception SecurityException if the does not pass a security check for
-     *  <code>SecurityPermission("authProvider.<i>name</i>")</code>,
-     *  where <i>name</i> is the value returned by
-     *  this provider's <code>getName</code> method
+     * @fxdfption LoginExdfption if tif login opfrbtion fbils
+     * @fxdfption SfdurityExdfption if tif dofs not pbss b sfdurity difdk for
+     *  <dodf>SfdurityPfrmission("butiProvidfr.<i>nbmf</i>")</dodf>,
+     *  wifrf <i>nbmf</i> is tif vbluf rfturnfd by
+     *  tiis providfr's <dodf>gftNbmf</dodf> mftiod
      */
-    public void login(Subject subject, CallbackHandler handler)
-        throws LoginException {
+    publid void login(Subjfdt subjfdt, CbllbbdkHbndlfr ibndlfr)
+        tirows LoginExdfption {
 
-        // security check
+        // sfdurity difdk
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            if (debug != null) {
-                debug.println("checking login permission");
+            if (dfbug != null) {
+                dfbug.println("difdking login pfrmission");
             }
-            sm.checkPermission(new SecurityPermission
-                        ("authProvider." + this.getName()));
+            sm.difdkPfrmission(nfw SfdurityPfrmission
+                        ("butiProvidfr." + tiis.gftNbmf()));
         }
 
-        if (hasValidToken() == false) {
-            throw new LoginException("No token present");
+        if (ibsVblidTokfn() == fblsf) {
+            tirow nfw LoginExdfption("No tokfn prfsfnt");
         }
 
-        // see if a login is required
+        // sff if b login is rfquirfd
 
-        if ((token.tokenInfo.flags & CKF_LOGIN_REQUIRED) == 0) {
-            if (debug != null) {
-                debug.println("login operation not required for token - " +
-                                "ignoring login request");
+        if ((tokfn.tokfnInfo.flbgs & CKF_LOGIN_REQUIRED) == 0) {
+            if (dfbug != null) {
+                dfbug.println("login opfrbtion not rfquirfd for tokfn - " +
+                                "ignoring login rfqufst");
             }
-            return;
+            rfturn;
         }
 
-        // see if user already logged in
+        // sff if usfr blrfbdy loggfd in
 
         try {
-            if (token.isLoggedInNow(null)) {
-                // user already logged in
-                if (debug != null) {
-                    debug.println("user already logged in");
+            if (tokfn.isLoggfdInNow(null)) {
+                // usfr blrfbdy loggfd in
+                if (dfbug != null) {
+                    dfbug.println("usfr blrfbdy loggfd in");
                 }
-                return;
+                rfturn;
             }
-        } catch (PKCS11Exception e) {
-            // ignore - fall thru and attempt login
+        } dbtdi (PKCS11Exdfption f) {
+            // ignorf - fbll tiru bnd bttfmpt login
         }
 
-        // get the pin if necessary
+        // gft tif pin if nfdfssbry
 
-        char[] pin = null;
-        if ((token.tokenInfo.flags & CKF_PROTECTED_AUTHENTICATION_PATH) == 0) {
+        dibr[] pin = null;
+        if ((tokfn.tokfnInfo.flbgs & CKF_PROTECTED_AUTHENTICATION_PATH) == 0) {
 
-            // get password
+            // gft pbssword
 
-            CallbackHandler myHandler = getCallbackHandler(handler);
-            if (myHandler == null) {
-                // XXX PolicyTool is dependent on this message text
-                throw new LoginException
-                        ("no password provided, and no callback handler " +
-                        "available for retrieving password");
+            CbllbbdkHbndlfr myHbndlfr = gftCbllbbdkHbndlfr(ibndlfr);
+            if (myHbndlfr == null) {
+                // XXX PolidyTool is dfpfndfnt on tiis mfssbgf tfxt
+                tirow nfw LoginExdfption
+                        ("no pbssword providfd, bnd no dbllbbdk ibndlfr " +
+                        "bvbilbblf for rftrifving pbssword");
             }
 
-            java.text.MessageFormat form = new java.text.MessageFormat
-                        (ResourcesMgr.getString
-                        ("PKCS11.Token.providerName.Password."));
-            Object[] source = { getName() };
+            jbvb.tfxt.MfssbgfFormbt form = nfw jbvb.tfxt.MfssbgfFormbt
+                        (RfsourdfsMgr.gftString
+                        ("PKCS11.Tokfn.providfrNbmf.Pbssword."));
+            Objfdt[] sourdf = { gftNbmf() };
 
-            PasswordCallback pcall = new PasswordCallback(form.format(source),
-                                                        false);
-            Callback[] callbacks = { pcall };
+            PbsswordCbllbbdk pdbll = nfw PbsswordCbllbbdk(form.formbt(sourdf),
+                                                        fblsf);
+            Cbllbbdk[] dbllbbdks = { pdbll };
             try {
-                myHandler.handle(callbacks);
-            } catch (Exception e) {
-                LoginException le = new LoginException
-                        ("Unable to perform password callback");
-                le.initCause(e);
-                throw le;
+                myHbndlfr.ibndlf(dbllbbdks);
+            } dbtdi (Exdfption f) {
+                LoginExdfption lf = nfw LoginExdfption
+                        ("Unbblf to pfrform pbssword dbllbbdk");
+                lf.initCbusf(f);
+                tirow lf;
             }
 
-            pin = pcall.getPassword();
-            pcall.clearPassword();
+            pin = pdbll.gftPbssword();
+            pdbll.dlfbrPbssword();
             if (pin == null) {
-                if (debug != null) {
-                    debug.println("caller passed NULL pin");
+                if (dfbug != null) {
+                    dfbug.println("dbllfr pbssfd NULL pin");
                 }
             }
         }
 
-        // perform token login
+        // pfrform tokfn login
 
-        Session session = null;
+        Sfssion sfssion = null;
         try {
-            session = token.getOpSession();
+            sfssion = tokfn.gftOpSfssion();
 
             // pin is NULL if using CKF_PROTECTED_AUTHENTICATION_PATH
-            p11.C_Login(session.id(), CKU_USER, pin);
-            if (debug != null) {
-                debug.println("login succeeded");
+            p11.C_Login(sfssion.id(), CKU_USER, pin);
+            if (dfbug != null) {
+                dfbug.println("login suddffdfd");
             }
-        } catch (PKCS11Exception pe) {
-            if (pe.getErrorCode() == CKR_USER_ALREADY_LOGGED_IN) {
-                // let this one go
-                if (debug != null) {
-                    debug.println("user already logged in");
+        } dbtdi (PKCS11Exdfption pf) {
+            if (pf.gftErrorCodf() == CKR_USER_ALREADY_LOGGED_IN) {
+                // lft tiis onf go
+                if (dfbug != null) {
+                    dfbug.println("usfr blrfbdy loggfd in");
                 }
-                return;
-            } else if (pe.getErrorCode() == CKR_PIN_INCORRECT) {
-                FailedLoginException fle = new FailedLoginException();
-                fle.initCause(pe);
-                throw fle;
-            } else {
-                LoginException le = new LoginException();
-                le.initCause(pe);
-                throw le;
+                rfturn;
+            } flsf if (pf.gftErrorCodf() == CKR_PIN_INCORRECT) {
+                FbilfdLoginExdfption flf = nfw FbilfdLoginExdfption();
+                flf.initCbusf(pf);
+                tirow flf;
+            } flsf {
+                LoginExdfption lf = nfw LoginExdfption();
+                lf.initCbusf(pf);
+                tirow lf;
             }
-        } finally {
-            token.releaseSession(session);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
             if (pin != null) {
-                Arrays.fill(pin, ' ');
+                Arrbys.fill(pin, ' ');
             }
         }
 
-        // we do not store the PIN in the subject for now
+        // wf do not storf tif PIN in tif subjfdt for now
     }
 
     /**
-     * Log out from this provider
+     * Log out from tiis providfr
      *
-     * @exception LoginException if the logout operation fails
-     * @exception SecurityException if the does not pass a security check for
-     *  <code>SecurityPermission("authProvider.<i>name</i>")</code>,
-     *  where <i>name</i> is the value returned by
-     *  this provider's <code>getName</code> method
+     * @fxdfption LoginExdfption if tif logout opfrbtion fbils
+     * @fxdfption SfdurityExdfption if tif dofs not pbss b sfdurity difdk for
+     *  <dodf>SfdurityPfrmission("butiProvidfr.<i>nbmf</i>")</dodf>,
+     *  wifrf <i>nbmf</i> is tif vbluf rfturnfd by
+     *  tiis providfr's <dodf>gftNbmf</dodf> mftiod
      */
-    public void logout() throws LoginException {
+    publid void logout() tirows LoginExdfption {
 
-        // security check
+        // sfdurity difdk
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission
-                (new SecurityPermission("authProvider." + this.getName()));
+            sm.difdkPfrmission
+                (nfw SfdurityPfrmission("butiProvidfr." + tiis.gftNbmf()));
         }
 
-        if (hasValidToken() == false) {
-            // app may call logout for cleanup, allow
-            return;
+        if (ibsVblidTokfn() == fblsf) {
+            // bpp mby dbll logout for dlfbnup, bllow
+            rfturn;
         }
 
-        if ((token.tokenInfo.flags & CKF_LOGIN_REQUIRED) == 0) {
-            if (debug != null) {
-                debug.println("logout operation not required for token - " +
-                                "ignoring logout request");
+        if ((tokfn.tokfnInfo.flbgs & CKF_LOGIN_REQUIRED) == 0) {
+            if (dfbug != null) {
+                dfbug.println("logout opfrbtion not rfquirfd for tokfn - " +
+                                "ignoring logout rfqufst");
             }
-            return;
+            rfturn;
         }
 
         try {
-            if (token.isLoggedInNow(null) == false) {
-                if (debug != null) {
-                    debug.println("user not logged in");
+            if (tokfn.isLoggfdInNow(null) == fblsf) {
+                if (dfbug != null) {
+                    dfbug.println("usfr not loggfd in");
                 }
-                return;
+                rfturn;
             }
-        } catch (PKCS11Exception e) {
-            // ignore
+        } dbtdi (PKCS11Exdfption f) {
+            // ignorf
         }
 
-        // perform token logout
+        // pfrform tokfn logout
 
-        Session session = null;
+        Sfssion sfssion = null;
         try {
-            session = token.getOpSession();
-            p11.C_Logout(session.id());
-            if (debug != null) {
-                debug.println("logout succeeded");
+            sfssion = tokfn.gftOpSfssion();
+            p11.C_Logout(sfssion.id());
+            if (dfbug != null) {
+                dfbug.println("logout suddffdfd");
             }
-        } catch (PKCS11Exception pe) {
-            if (pe.getErrorCode() == CKR_USER_NOT_LOGGED_IN) {
-                // let this one go
-                if (debug != null) {
-                    debug.println("user not logged in");
+        } dbtdi (PKCS11Exdfption pf) {
+            if (pf.gftErrorCodf() == CKR_USER_NOT_LOGGED_IN) {
+                // lft tiis onf go
+                if (dfbug != null) {
+                    dfbug.println("usfr not loggfd in");
                 }
-                return;
+                rfturn;
             }
-            LoginException le = new LoginException();
-            le.initCause(pe);
-            throw le;
-        } finally {
-            token.releaseSession(session);
+            LoginExdfption lf = nfw LoginExdfption();
+            lf.initCbusf(pf);
+            tirow lf;
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
         }
     }
 
     /**
-     * Set a <code>CallbackHandler</code>
+     * Sft b <dodf>CbllbbdkHbndlfr</dodf>
      *
-     * <p> The provider uses this handler if one is not passed to the
-     * <code>login</code> method.  The provider also uses this handler
-     * if it invokes <code>login</code> on behalf of callers.
-     * In either case if a handler is not set via this method,
-     * the provider queries the
-     * <i>auth.login.defaultCallbackHandler</i> security property
-     * for the fully qualified class name of a default handler implementation.
-     * If the security property is not set,
-     * the provider is assumed to have alternative means
-     * for obtaining authentication information.
+     * <p> Tif providfr usfs tiis ibndlfr if onf is not pbssfd to tif
+     * <dodf>login</dodf> mftiod.  Tif providfr blso usfs tiis ibndlfr
+     * if it invokfs <dodf>login</dodf> on bfiblf of dbllfrs.
+     * In fitifr dbsf if b ibndlfr is not sft vib tiis mftiod,
+     * tif providfr qufrifs tif
+     * <i>buti.login.dffbultCbllbbdkHbndlfr</i> sfdurity propfrty
+     * for tif fully qublififd dlbss nbmf of b dffbult ibndlfr implfmfntbtion.
+     * If tif sfdurity propfrty is not sft,
+     * tif providfr is bssumfd to ibvf bltfrnbtivf mfbns
+     * for obtbining butifntidbtion informbtion.
      *
-     * @param handler a <code>CallbackHandler</code> for obtaining
-     *          authentication information, which may be <code>null</code>
+     * @pbrbm ibndlfr b <dodf>CbllbbdkHbndlfr</dodf> for obtbining
+     *          butifntidbtion informbtion, wiidi mby bf <dodf>null</dodf>
      *
-     * @exception SecurityException if the caller does not pass a
-     *  security check for
-     *  <code>SecurityPermission("authProvider.<i>name</i>")</code>,
-     *  where <i>name</i> is the value returned by
-     *  this provider's <code>getName</code> method
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not pbss b
+     *  sfdurity difdk for
+     *  <dodf>SfdurityPfrmission("butiProvidfr.<i>nbmf</i>")</dodf>,
+     *  wifrf <i>nbmf</i> is tif vbluf rfturnfd by
+     *  tiis providfr's <dodf>gftNbmf</dodf> mftiod
      */
-    public void setCallbackHandler(CallbackHandler handler) {
+    publid void sftCbllbbdkHbndlfr(CbllbbdkHbndlfr ibndlfr) {
 
-        // security check
+        // sfdurity difdk
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission
-                (new SecurityPermission("authProvider." + this.getName()));
+            sm.difdkPfrmission
+                (nfw SfdurityPfrmission("butiProvidfr." + tiis.gftNbmf()));
         }
 
-        synchronized (LOCK_HANDLER) {
-            pHandler = handler;
+        syndironizfd (LOCK_HANDLER) {
+            pHbndlfr = ibndlfr;
         }
     }
 
-    private CallbackHandler getCallbackHandler(CallbackHandler handler) {
+    privbtf CbllbbdkHbndlfr gftCbllbbdkHbndlfr(CbllbbdkHbndlfr ibndlfr) {
 
-        // get default handler if necessary
+        // gft dffbult ibndlfr if nfdfssbry
 
-        if (handler != null) {
-            return handler;
+        if (ibndlfr != null) {
+            rfturn ibndlfr;
         }
 
-        if (debug != null) {
-            debug.println("getting provider callback handler");
+        if (dfbug != null) {
+            dfbug.println("gftting providfr dbllbbdk ibndlfr");
         }
 
-        synchronized (LOCK_HANDLER) {
-            // see if handler was set via setCallbackHandler
-            if (pHandler != null) {
-                return pHandler;
+        syndironizfd (LOCK_HANDLER) {
+            // sff if ibndlfr wbs sft vib sftCbllbbdkHbndlfr
+            if (pHbndlfr != null) {
+                rfturn pHbndlfr;
             }
 
             try {
-                if (debug != null) {
-                    debug.println("getting default callback handler");
+                if (dfbug != null) {
+                    dfbug.println("gftting dffbult dbllbbdk ibndlfr");
                 }
 
-                CallbackHandler myHandler = AccessController.doPrivileged
-                    (new PrivilegedExceptionAction<CallbackHandler>() {
-                    public CallbackHandler run() throws Exception {
+                CbllbbdkHbndlfr myHbndlfr = AddfssControllfr.doPrivilfgfd
+                    (nfw PrivilfgfdExdfptionAdtion<CbllbbdkHbndlfr>() {
+                    publid CbllbbdkHbndlfr run() tirows Exdfption {
 
-                        String defaultHandler =
-                                java.security.Security.getProperty
-                                ("auth.login.defaultCallbackHandler");
+                        String dffbultHbndlfr =
+                                jbvb.sfdurity.Sfdurity.gftPropfrty
+                                ("buti.login.dffbultCbllbbdkHbndlfr");
 
-                        if (defaultHandler == null ||
-                            defaultHandler.length() == 0) {
+                        if (dffbultHbndlfr == null ||
+                            dffbultHbndlfr.lfngti() == 0) {
 
                             // ok
-                            if (debug != null) {
-                                debug.println("no default handler set");
+                            if (dfbug != null) {
+                                dfbug.println("no dffbult ibndlfr sft");
                             }
-                            return null;
+                            rfturn null;
                         }
 
-                        Class<?> c = Class.forName
-                                   (defaultHandler,
-                                   true,
-                                   Thread.currentThread().getContextClassLoader());
-                        return (CallbackHandler)c.newInstance();
+                        Clbss<?> d = Clbss.forNbmf
+                                   (dffbultHbndlfr,
+                                   truf,
+                                   Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr());
+                        rfturn (CbllbbdkHbndlfr)d.nfwInstbndf();
                     }
                 });
 
-                // save it
-                pHandler = myHandler;
-                return myHandler;
+                // sbvf it
+                pHbndlfr = myHbndlfr;
+                rfturn myHbndlfr;
 
-            } catch (PrivilegedActionException pae) {
+            } dbtdi (PrivilfgfdAdtionExdfption pbf) {
                 // ok
-                if (debug != null) {
-                    debug.println("Unable to load default callback handler");
-                    pae.printStackTrace();
+                if (dfbug != null) {
+                    dfbug.println("Unbblf to lobd dffbult dbllbbdk ibndlfr");
+                    pbf.printStbdkTrbdf();
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
-    private Object writeReplace() throws ObjectStreamException {
-        return new SunPKCS11Rep(this);
+    privbtf Objfdt writfRfplbdf() tirows ObjfdtStrfbmExdfption {
+        rfturn nfw SunPKCS11Rfp(tiis);
     }
 
     /**
-     * Serialized representation of the SunPKCS11 provider.
+     * Sfriblizfd rfprfsfntbtion of tif SunPKCS11 providfr.
      */
-    private static class SunPKCS11Rep implements Serializable {
+    privbtf stbtid dlbss SunPKCS11Rfp implfmfnts Sfriblizbblf {
 
-        static final long serialVersionUID = -2896606995897745419L;
+        stbtid finbl long sfriblVfrsionUID = -2896606995897745419L;
 
-        private final String providerName;
+        privbtf finbl String providfrNbmf;
 
-        private final String configName;
+        privbtf finbl String donfigNbmf;
 
-        SunPKCS11Rep(SunPKCS11 provider) throws NotSerializableException {
-            providerName = provider.getName();
-            configName = provider.configName;
-            if (Security.getProvider(providerName) != provider) {
-                throw new NotSerializableException("Only SunPKCS11 providers "
-                    + "installed in java.security.Security can be serialized");
+        SunPKCS11Rfp(SunPKCS11 providfr) tirows NotSfriblizbblfExdfption {
+            providfrNbmf = providfr.gftNbmf();
+            donfigNbmf = providfr.donfigNbmf;
+            if (Sfdurity.gftProvidfr(providfrNbmf) != providfr) {
+                tirow nfw NotSfriblizbblfExdfption("Only SunPKCS11 providfrs "
+                    + "instbllfd in jbvb.sfdurity.Sfdurity dbn bf sfriblizfd");
             }
         }
 
-        private Object readResolve() throws ObjectStreamException {
-            SunPKCS11 p = (SunPKCS11)Security.getProvider(providerName);
-            if ((p == null) || (p.configName.equals(configName) == false)) {
-                throw new NotSerializableException("Could not find "
-                        + providerName + " in installed providers");
+        privbtf Objfdt rfbdRfsolvf() tirows ObjfdtStrfbmExdfption {
+            SunPKCS11 p = (SunPKCS11)Sfdurity.gftProvidfr(providfrNbmf);
+            if ((p == null) || (p.donfigNbmf.fqubls(donfigNbmf) == fblsf)) {
+                tirow nfw NotSfriblizbblfExdfption("Could not find "
+                        + providfrNbmf + " in instbllfd providfrs");
             }
-            return p;
+            rfturn p;
         }
     }
 }

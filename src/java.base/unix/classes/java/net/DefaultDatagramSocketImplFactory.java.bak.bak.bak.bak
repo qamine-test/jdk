@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 2007,2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.nft;
+
+import jbvb.sfdurity.AddfssControllfr;
+
+/**
+ * This dlbss dffinfs b fbdtory for drfbting DbtbgrbmSodkftImpls. It dffbults
+ * to drfbting plbin DbtbgrbmSodkftImpls, but mby drfbtf othfr DbtbgrbmSodkftImpls
+ * by sftting thf impl.prffix systfm propfrty.
+ *
+ * @buthor Chris Hfgbrty
+ */
+
+dlbss DffbultDbtbgrbmSodkftImplFbdtory {
+    stbtid Clbss<?> prffixImplClbss = null;
+
+    stbtid {
+        String prffix = null;
+        try {
+            prffix = AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("impl.prffix", null));
+            if (prffix != null)
+                prffixImplClbss = Clbss.forNbmf("jbvb.nft."+prffix+"DbtbgrbmSodkftImpl");
+        } dbtdh (Exdfption f) {
+            Systfm.frr.println("Cbn't find dlbss: jbvb.nft." +
+                                prffix +
+                                "DbtbgrbmSodkftImpl: dhfdk impl.prffix propfrty");
+            //prffixImplClbss = null;
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>DbtbgrbmSodkftImpl</dodf> instbndf.
+     *
+     * @pbrbm   isMultidbst     truf if this impl if for b MutlidbstSodkft
+     * @rfturn  b nfw instbndf of b <dodf>DbtbgrbmSodkftImpl</dodf>.
+     */
+    stbtid DbtbgrbmSodkftImpl drfbtfDbtbgrbmSodkftImpl(boolfbn isMultidbst /*unusfd on unix*/)
+        throws SodkftExdfption {
+        if (prffixImplClbss != null) {
+            try {
+                rfturn (DbtbgrbmSodkftImpl)prffixImplClbss.nfwInstbndf();
+            } dbtdh (Exdfption f) {
+                throw nfw SodkftExdfption("dbn't instbntibtf DbtbgrbmSodkftImpl");
+            }
+        } flsf {
+            rfturn nfw jbvb.nft.PlbinDbtbgrbmSodkftImpl();
+        }
+    }
+}

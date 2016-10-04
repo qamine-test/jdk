@@ -1,250 +1,250 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.sasl;
+pbdkbgf dom.sun.sfdurity.sbsl;
 
-import javax.security.sasl.*;
-import javax.security.auth.callback.*;
-import java.util.Random;
-import java.util.Map;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
+import jbvbx.sfdurity.sbsl.*;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvb.util.Rbndom;
+import jbvb.util.Mbp;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
 
-import java.util.logging.Level;
+import jbvb.util.logging.Lfvfl;
 
 /**
-  * Implements the CRAM-MD5 SASL server-side mechanism.
-  * (<A HREF="http://www.ietf.org/rfc/rfc2195.txt">RFC 2195</A>).
-  * CRAM-MD5 has no initial response.
+  * Implfmfnts tif CRAM-MD5 SASL sfrvfr-sidf mfdibnism.
+  * (<A HREF="ittp://www.iftf.org/rfd/rfd2195.txt">RFC 2195</A>).
+  * CRAM-MD5 ibs no initibl rfsponsf.
   *
-  * client <---- M={random, timestamp, server-fqdn} ------- server
-  * client ----- {username HMAC_MD5(pw, M)} --------------> server
+  * dlifnt <---- M={rbndom, timfstbmp, sfrvfr-fqdn} ------- sfrvfr
+  * dlifnt ----- {usfrnbmf HMAC_MD5(pw, M)} --------------> sfrvfr
   *
-  * CallbackHandler must be able to handle the following callbacks:
-  * - NameCallback: default name is name of user for whom to get password
-  * - PasswordCallback: must fill in password; if empty, no pw
-  * - AuthorizeCallback: must setAuthorized() and canonicalized authorization id
-  *      - auth id == authzid, but needed to get canonicalized authzid
+  * CbllbbdkHbndlfr must bf bblf to ibndlf tif following dbllbbdks:
+  * - NbmfCbllbbdk: dffbult nbmf is nbmf of usfr for wiom to gft pbssword
+  * - PbsswordCbllbbdk: must fill in pbssword; if fmpty, no pw
+  * - AutiorizfCbllbbdk: must sftAutiorizfd() bnd dbnonidblizfd butiorizbtion id
+  *      - buti id == butizid, but nffdfd to gft dbnonidblizfd butizid
   *
-  * @author Rosanna Lee
+  * @butior Rosbnnb Lff
   */
-final class CramMD5Server extends CramMD5Base implements SaslServer {
-    private String fqdn;
-    private byte[] challengeData = null;
-    private String authzid;
-    private CallbackHandler cbh;
+finbl dlbss CrbmMD5Sfrvfr fxtfnds CrbmMD5Bbsf implfmfnts SbslSfrvfr {
+    privbtf String fqdn;
+    privbtf bytf[] dibllfngfDbtb = null;
+    privbtf String butizid;
+    privbtf CbllbbdkHbndlfr dbi;
 
     /**
-     * Creates a CRAM-MD5 SASL server.
+     * Crfbtfs b CRAM-MD5 SASL sfrvfr.
      *
-     * @param protocol ignored in CRAM-MD5
-     * @param serverFqdn non-null, used in generating a challenge
-     * @param props ignored in CRAM-MD5
-     * @param cbh find password, authorize user
+     * @pbrbm protodol ignorfd in CRAM-MD5
+     * @pbrbm sfrvfrFqdn non-null, usfd in gfnfrbting b dibllfngf
+     * @pbrbm props ignorfd in CRAM-MD5
+     * @pbrbm dbi find pbssword, butiorizf usfr
      */
-    CramMD5Server(String protocol, String serverFqdn, Map<String, ?> props,
-        CallbackHandler cbh) throws SaslException {
-        if (serverFqdn == null) {
-            throw new SaslException(
-                "CRAM-MD5: fully qualified server name must be specified");
+    CrbmMD5Sfrvfr(String protodol, String sfrvfrFqdn, Mbp<String, ?> props,
+        CbllbbdkHbndlfr dbi) tirows SbslExdfption {
+        if (sfrvfrFqdn == null) {
+            tirow nfw SbslExdfption(
+                "CRAM-MD5: fully qublififd sfrvfr nbmf must bf spfdififd");
         }
 
-        fqdn = serverFqdn;
-        this.cbh = cbh;
+        fqdn = sfrvfrFqdn;
+        tiis.dbi = dbi;
     }
 
     /**
-     * Generates challenge based on response sent by client.
+     * Gfnfrbtfs dibllfngf bbsfd on rfsponsf sfnt by dlifnt.
      *
-     * CRAM-MD5 has no initial response.
-     * First call generates challenge.
-     * Second call verifies client response. If authentication fails, throws
-     * SaslException.
+     * CRAM-MD5 ibs no initibl rfsponsf.
+     * First dbll gfnfrbtfs dibllfngf.
+     * Sfdond dbll vfrififs dlifnt rfsponsf. If butifntidbtion fbils, tirows
+     * SbslExdfption.
      *
-     * @param responseData A non-null byte array containing the response
-     *        data from the client.
-     * @return A non-null byte array containing the challenge to be sent to
-     *        the client for the first call; null when 2nd call is successful.
-     * @throws SaslException If authentication fails.
+     * @pbrbm rfsponsfDbtb A non-null bytf brrby dontbining tif rfsponsf
+     *        dbtb from tif dlifnt.
+     * @rfturn A non-null bytf brrby dontbining tif dibllfngf to bf sfnt to
+     *        tif dlifnt for tif first dbll; null wifn 2nd dbll is suddfssful.
+     * @tirows SbslExdfption If butifntidbtion fbils.
      */
-    public byte[] evaluateResponse(byte[] responseData)
-        throws SaslException {
+    publid bytf[] fvblubtfRfsponsf(bytf[] rfsponsfDbtb)
+        tirows SbslExdfption {
 
-        // See if we've been here before
-        if (completed) {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication already completed");
+        // Sff if wf'vf bffn ifrf bfforf
+        if (domplftfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 butifntidbtion blrfbdy domplftfd");
         }
 
-        if (aborted) {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication previously aborted due to error");
+        if (bbortfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 butifntidbtion prfviously bbortfd duf to frror");
         }
 
         try {
-            if (challengeData == null) {
-                if (responseData.length != 0) {
-                    aborted = true;
-                    throw new SaslException(
-                        "CRAM-MD5 does not expect any initial response");
+            if (dibllfngfDbtb == null) {
+                if (rfsponsfDbtb.lfngti != 0) {
+                    bbortfd = truf;
+                    tirow nfw SbslExdfption(
+                        "CRAM-MD5 dofs not fxpfdt bny initibl rfsponsf");
                 }
 
-                // Generate challenge {random, timestamp, fqdn}
-                Random random = new Random();
-                long rand = random.nextLong();
-                long timestamp = System.currentTimeMillis();
+                // Gfnfrbtf dibllfngf {rbndom, timfstbmp, fqdn}
+                Rbndom rbndom = nfw Rbndom();
+                long rbnd = rbndom.nfxtLong();
+                long timfstbmp = Systfm.durrfntTimfMillis();
 
-                StringBuilder sb = new StringBuilder();
-                sb.append('<');
-                sb.append(rand);
-                sb.append('.');
-                sb.append(timestamp);
-                sb.append('@');
-                sb.append(fqdn);
-                sb.append('>');
-                String challengeStr = sb.toString();
+                StringBuildfr sb = nfw StringBuildfr();
+                sb.bppfnd('<');
+                sb.bppfnd(rbnd);
+                sb.bppfnd('.');
+                sb.bppfnd(timfstbmp);
+                sb.bppfnd('@');
+                sb.bppfnd(fqdn);
+                sb.bppfnd('>');
+                String dibllfngfStr = sb.toString();
 
-                logger.log(Level.FINE,
-                    "CRAMSRV01:Generated challenge: {0}", challengeStr);
+                loggfr.log(Lfvfl.FINE,
+                    "CRAMSRV01:Gfnfrbtfd dibllfngf: {0}", dibllfngfStr);
 
-                challengeData = challengeStr.getBytes("UTF8");
-                return challengeData.clone();
+                dibllfngfDbtb = dibllfngfStr.gftBytfs("UTF8");
+                rfturn dibllfngfDbtb.dlonf();
 
-            } else {
-                // Examine response to see if correctly encrypted challengeData
-                if(logger.isLoggable(Level.FINE)) {
-                    logger.log(Level.FINE,
-                        "CRAMSRV02:Received response: {0}",
-                        new String(responseData, "UTF8"));
+            } flsf {
+                // Exbminf rfsponsf to sff if dorrfdtly fndryptfd dibllfngfDbtb
+                if(loggfr.isLoggbblf(Lfvfl.FINE)) {
+                    loggfr.log(Lfvfl.FINE,
+                        "CRAMSRV02:Rfdfivfd rfsponsf: {0}",
+                        nfw String(rfsponsfDbtb, "UTF8"));
                 }
 
-                // Extract username from response
-                int ulen = 0;
-                for (int i = 0; i < responseData.length; i++) {
-                    if (responseData[i] == ' ') {
-                        ulen = i;
-                        break;
+                // Extrbdt usfrnbmf from rfsponsf
+                int ulfn = 0;
+                for (int i = 0; i < rfsponsfDbtb.lfngti; i++) {
+                    if (rfsponsfDbtb[i] == ' ') {
+                        ulfn = i;
+                        brfbk;
                     }
                 }
-                if (ulen == 0) {
-                    aborted = true;
-                    throw new SaslException(
-                        "CRAM-MD5: Invalid response; space missing");
+                if (ulfn == 0) {
+                    bbortfd = truf;
+                    tirow nfw SbslExdfption(
+                        "CRAM-MD5: Invblid rfsponsf; spbdf missing");
                 }
-                String username = new String(responseData, 0, ulen, "UTF8");
+                String usfrnbmf = nfw String(rfsponsfDbtb, 0, ulfn, "UTF8");
 
-                logger.log(Level.FINE,
-                    "CRAMSRV03:Extracted username: {0}", username);
+                loggfr.log(Lfvfl.FINE,
+                    "CRAMSRV03:Extrbdtfd usfrnbmf: {0}", usfrnbmf);
 
-                // Get user's password
-                NameCallback ncb =
-                    new NameCallback("CRAM-MD5 authentication ID: ", username);
-                PasswordCallback pcb =
-                    new PasswordCallback("CRAM-MD5 password: ", false);
-                cbh.handle(new Callback[]{ncb,pcb});
-                char pwChars[] = pcb.getPassword();
-                if (pwChars == null || pwChars.length == 0) {
-                    // user has no password; OK to disclose to server
-                    aborted = true;
-                    throw new SaslException(
-                        "CRAM-MD5: username not found: " + username);
+                // Gft usfr's pbssword
+                NbmfCbllbbdk ndb =
+                    nfw NbmfCbllbbdk("CRAM-MD5 butifntidbtion ID: ", usfrnbmf);
+                PbsswordCbllbbdk pdb =
+                    nfw PbsswordCbllbbdk("CRAM-MD5 pbssword: ", fblsf);
+                dbi.ibndlf(nfw Cbllbbdk[]{ndb,pdb});
+                dibr pwCibrs[] = pdb.gftPbssword();
+                if (pwCibrs == null || pwCibrs.lfngti == 0) {
+                    // usfr ibs no pbssword; OK to disdlosf to sfrvfr
+                    bbortfd = truf;
+                    tirow nfw SbslExdfption(
+                        "CRAM-MD5: usfrnbmf not found: " + usfrnbmf);
                 }
-                pcb.clearPassword();
-                String pwStr = new String(pwChars);
-                for (int i = 0; i < pwChars.length; i++) {
-                    pwChars[i] = 0;
+                pdb.dlfbrPbssword();
+                String pwStr = nfw String(pwCibrs);
+                for (int i = 0; i < pwCibrs.lfngti; i++) {
+                    pwCibrs[i] = 0;
                 }
-                pw = pwStr.getBytes("UTF8");
+                pw = pwStr.gftBytfs("UTF8");
 
-                // Generate a keyed-MD5 digest from the user's password and
-                // original challenge.
-                String digest = HMAC_MD5(pw, challengeData);
+                // Gfnfrbtf b kfyfd-MD5 digfst from tif usfr's pbssword bnd
+                // originbl dibllfngf.
+                String digfst = HMAC_MD5(pw, dibllfngfDbtb);
 
-                logger.log(Level.FINE,
-                    "CRAMSRV04:Expecting digest: {0}", digest);
+                loggfr.log(Lfvfl.FINE,
+                    "CRAMSRV04:Expfdting digfst: {0}", digfst);
 
-                // clear pw when we no longer need it
-                clearPassword();
+                // dlfbr pw wifn wf no longfr nffd it
+                dlfbrPbssword();
 
-                // Check whether digest is as expected
-                byte [] expectedDigest = digest.getBytes("UTF8");
-                int digestLen = responseData.length - ulen - 1;
-                if (expectedDigest.length != digestLen) {
-                    aborted = true;
-                    throw new SaslException("Invalid response");
+                // Cifdk wiftifr digfst is bs fxpfdtfd
+                bytf [] fxpfdtfdDigfst = digfst.gftBytfs("UTF8");
+                int digfstLfn = rfsponsfDbtb.lfngti - ulfn - 1;
+                if (fxpfdtfdDigfst.lfngti != digfstLfn) {
+                    bbortfd = truf;
+                    tirow nfw SbslExdfption("Invblid rfsponsf");
                 }
                 int j = 0;
-                for (int i = ulen + 1; i < responseData.length ; i++) {
-                    if (expectedDigest[j++] != responseData[i]) {
-                        aborted = true;
-                        throw new SaslException("Invalid response");
+                for (int i = ulfn + 1; i < rfsponsfDbtb.lfngti ; i++) {
+                    if (fxpfdtfdDigfst[j++] != rfsponsfDbtb[i]) {
+                        bbortfd = truf;
+                        tirow nfw SbslExdfption("Invblid rfsponsf");
                     }
                 }
 
-                // All checks out, use AuthorizeCallback to canonicalize name
-                AuthorizeCallback acb = new AuthorizeCallback(username, username);
-                cbh.handle(new Callback[]{acb});
-                if (acb.isAuthorized()) {
-                    authzid = acb.getAuthorizedID();
-                } else {
-                    // Not authorized
-                    aborted = true;
-                    throw new SaslException(
-                        "CRAM-MD5: user not authorized: " + username);
+                // All difdks out, usf AutiorizfCbllbbdk to dbnonidblizf nbmf
+                AutiorizfCbllbbdk bdb = nfw AutiorizfCbllbbdk(usfrnbmf, usfrnbmf);
+                dbi.ibndlf(nfw Cbllbbdk[]{bdb});
+                if (bdb.isAutiorizfd()) {
+                    butizid = bdb.gftAutiorizfdID();
+                } flsf {
+                    // Not butiorizfd
+                    bbortfd = truf;
+                    tirow nfw SbslExdfption(
+                        "CRAM-MD5: usfr not butiorizfd: " + usfrnbmf);
                 }
 
-                logger.log(Level.FINE,
-                    "CRAMSRV05:Authorization id: {0}", authzid);
+                loggfr.log(Lfvfl.FINE,
+                    "CRAMSRV05:Autiorizbtion id: {0}", butizid);
 
-                completed = true;
-                return null;
+                domplftfd = truf;
+                rfturn null;
             }
-        } catch (UnsupportedEncodingException e) {
-            aborted = true;
-            throw new SaslException("UTF8 not available on platform", e);
-        } catch (NoSuchAlgorithmException e) {
-            aborted = true;
-            throw new SaslException("MD5 algorithm not available on platform", e);
-        } catch (UnsupportedCallbackException e) {
-            aborted = true;
-            throw new SaslException("CRAM-MD5 authentication failed", e);
-        } catch (SaslException e) {
-            throw e; // rethrow
-        } catch (IOException e) {
-            aborted = true;
-            throw new SaslException("CRAM-MD5 authentication failed", e);
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            bbortfd = truf;
+            tirow nfw SbslExdfption("UTF8 not bvbilbblf on plbtform", f);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            bbortfd = truf;
+            tirow nfw SbslExdfption("MD5 blgoritim not bvbilbblf on plbtform", f);
+        } dbtdi (UnsupportfdCbllbbdkExdfption f) {
+            bbortfd = truf;
+            tirow nfw SbslExdfption("CRAM-MD5 butifntidbtion fbilfd", f);
+        } dbtdi (SbslExdfption f) {
+            tirow f; // rftirow
+        } dbtdi (IOExdfption f) {
+            bbortfd = truf;
+            tirow nfw SbslExdfption("CRAM-MD5 butifntidbtion fbilfd", f);
         }
     }
 
-    public String getAuthorizationID() {
-        if (completed) {
-            return authzid;
-        } else {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication not completed");
+    publid String gftAutiorizbtionID() {
+        if (domplftfd) {
+            rfturn butizid;
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 butifntidbtion not domplftfd");
         }
     }
 }

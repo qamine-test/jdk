@@ -1,466 +1,466 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.plbf.UIRfsourdf;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Polygon;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Polygon;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * Icon factory for the CDE/Motif Look and Feel
+ * Idon fbdtory for tif CDE/Motif Look bnd Fffl
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
  * 1.20 04/27/99
- * @author Georges Saab
+ * @butior Gforgfs Sbbb
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MotifIconFactory implements Serializable
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MotifIdonFbdtory implfmfnts Sfriblizbblf
 {
-    private static Icon checkBoxIcon;
-    private static Icon radioButtonIcon;
-    private static Icon menuItemCheckIcon;
-    private static Icon menuItemArrowIcon;
-    private static Icon menuArrowIcon;
+    privbtf stbtid Idon difdkBoxIdon;
+    privbtf stbtid Idon rbdioButtonIdon;
+    privbtf stbtid Idon mfnuItfmCifdkIdon;
+    privbtf stbtid Idon mfnuItfmArrowIdon;
+    privbtf stbtid Idon mfnuArrowIdon;
 
-    public static Icon getMenuItemCheckIcon() {
-        return null;
+    publid stbtid Idon gftMfnuItfmCifdkIdon() {
+        rfturn null;
     }
 
-    public static Icon getMenuItemArrowIcon() {
-        if (menuItemArrowIcon == null) {
-            menuItemArrowIcon = new MenuItemArrowIcon();
+    publid stbtid Idon gftMfnuItfmArrowIdon() {
+        if (mfnuItfmArrowIdon == null) {
+            mfnuItfmArrowIdon = nfw MfnuItfmArrowIdon();
         }
-        return menuItemArrowIcon;
+        rfturn mfnuItfmArrowIdon;
     }
 
-    public static Icon getMenuArrowIcon() {
-        if (menuArrowIcon == null) {
-            menuArrowIcon = new MenuArrowIcon();
+    publid stbtid Idon gftMfnuArrowIdon() {
+        if (mfnuArrowIdon == null) {
+            mfnuArrowIdon = nfw MfnuArrowIdon();
         }
-        return menuArrowIcon;
+        rfturn mfnuArrowIdon;
     }
 
-    public static Icon getCheckBoxIcon() {
-        if (checkBoxIcon == null) {
-            checkBoxIcon = new CheckBoxIcon();
+    publid stbtid Idon gftCifdkBoxIdon() {
+        if (difdkBoxIdon == null) {
+            difdkBoxIdon = nfw CifdkBoxIdon();
         }
-        return checkBoxIcon;
+        rfturn difdkBoxIdon;
     }
 
-    public static Icon getRadioButtonIcon() {
-        if (radioButtonIcon == null) {
-            radioButtonIcon = new RadioButtonIcon();
+    publid stbtid Idon gftRbdioButtonIdon() {
+        if (rbdioButtonIdon == null) {
+            rbdioButtonIdon = nfw RbdioButtonIdon();
         }
-        return radioButtonIcon;
+        rfturn rbdioButtonIdon;
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class CheckBoxIcon implements Icon, UIResource, Serializable  {
-        final static int csize = 13;
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss CifdkBoxIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf  {
+        finbl stbtid int dsizf = 13;
 
-        private Color control = UIManager.getColor("control");
-        private Color foreground = UIManager.getColor("CheckBox.foreground");
-        private Color shadow = UIManager.getColor("controlShadow");
-        private Color highlight = UIManager.getColor("controlHighlight");
-        private Color lightShadow = UIManager.getColor("controlLightShadow");
+        privbtf Color dontrol = UIMbnbgfr.gftColor("dontrol");
+        privbtf Color forfground = UIMbnbgfr.gftColor("CifdkBox.forfground");
+        privbtf Color sibdow = UIMbnbgfr.gftColor("dontrolSibdow");
+        privbtf Color iigiligit = UIMbnbgfr.gftColor("dontrolHigiligit");
+        privbtf Color ligitSibdow = UIMbnbgfr.gftColor("dontrolLigitSibdow");
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
-            ButtonModel model = b.getModel();
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
 
-            boolean flat = false;
+            boolfbn flbt = fblsf;
 
-            if(b instanceof JCheckBox) {
-                flat = ((JCheckBox)b).isBorderPaintedFlat();
+            if(b instbndfof JCifdkBox) {
+                flbt = ((JCifdkBox)b).isBordfrPbintfdFlbt();
             }
 
-            boolean isPressed = model.isPressed();
-            boolean isArmed = model.isArmed();
-            boolean isEnabled = model.isEnabled();
-            boolean isSelected = model.isSelected();
+            boolfbn isPrfssfd = modfl.isPrfssfd();
+            boolfbn isArmfd = modfl.isArmfd();
+            boolfbn isEnbblfd = modfl.isEnbblfd();
+            boolfbn isSflfdtfd = modfl.isSflfdtfd();
 
-            // There are 4 "looks" to the Motif CheckBox:
-            //  drawCheckBezelOut  -  default unchecked state
-            //  drawBezel          -  when we uncheck in toggled state
-            //  drawCheckBezel     -  when we check in toggle state
-            //  drawCheckBezelIn   -  selected, mouseReleased
-            boolean checkToggleIn = ((isPressed &&
-                                      !isArmed   &&
-                                      isSelected) ||
-                                     (isPressed &&
-                                      isArmed   &&
-                                      !isSelected));
-            boolean uncheckToggleOut = ((isPressed &&
-                                         !isArmed &&
-                                         !isSelected) ||
-                                        (isPressed &&
-                                         isArmed &&
-                                         isSelected));
+            // Tifrf brf 4 "looks" to tif Motif CifdkBox:
+            //  drbwCifdkBfzflOut  -  dffbult undifdkfd stbtf
+            //  drbwBfzfl          -  wifn wf undifdk in togglfd stbtf
+            //  drbwCifdkBfzfl     -  wifn wf difdk in togglf stbtf
+            //  drbwCifdkBfzflIn   -  sflfdtfd, mousfRflfbsfd
+            boolfbn difdkTogglfIn = ((isPrfssfd &&
+                                      !isArmfd   &&
+                                      isSflfdtfd) ||
+                                     (isPrfssfd &&
+                                      isArmfd   &&
+                                      !isSflfdtfd));
+            boolfbn undifdkTogglfOut = ((isPrfssfd &&
+                                         !isArmfd &&
+                                         !isSflfdtfd) ||
+                                        (isPrfssfd &&
+                                         isArmfd &&
+                                         isSflfdtfd));
 
-            boolean checkIn = (!isPressed  &&
-                               isArmed    &&
-                               isSelected  ||
-                               (!isPressed &&
-                                !isArmed  &&
-                                isSelected));
+            boolfbn difdkIn = (!isPrfssfd  &&
+                               isArmfd    &&
+                               isSflfdtfd  ||
+                               (!isPrfssfd &&
+                                !isArmfd  &&
+                                isSflfdtfd));
 
 
-            if(flat) {
-                g.setColor(shadow);
-                g.drawRect(x+2,y,csize-1,csize-1);
-                if(uncheckToggleOut || checkToggleIn) {
-                    g.setColor(control);
-                    g.fillRect(x+3,y+1,csize-2,csize-2);
+            if(flbt) {
+                g.sftColor(sibdow);
+                g.drbwRfdt(x+2,y,dsizf-1,dsizf-1);
+                if(undifdkTogglfOut || difdkTogglfIn) {
+                    g.sftColor(dontrol);
+                    g.fillRfdt(x+3,y+1,dsizf-2,dsizf-2);
                 }
             }
 
-            if (checkToggleIn) {
-                // toggled from unchecked to checked
-                drawCheckBezel(g,x,y,csize,true,false,false,flat);
-            } else if (uncheckToggleOut) {
-                // MotifBorderFactory.drawBezel(g,x,y,csize,csize,false,false);
-                drawCheckBezel(g,x,y,csize,true,true,false,flat);
-            } else if (checkIn) {
-                // show checked, unpressed state
-                drawCheckBezel(g,x,y,csize,false,false,true,flat);
-            } else if(!flat) {
-                //  show unchecked state
-                drawCheckBezelOut(g,x,y,csize);
+            if (difdkTogglfIn) {
+                // togglfd from undifdkfd to difdkfd
+                drbwCifdkBfzfl(g,x,y,dsizf,truf,fblsf,fblsf,flbt);
+            } flsf if (undifdkTogglfOut) {
+                // MotifBordfrFbdtory.drbwBfzfl(g,x,y,dsizf,dsizf,fblsf,fblsf);
+                drbwCifdkBfzfl(g,x,y,dsizf,truf,truf,fblsf,flbt);
+            } flsf if (difdkIn) {
+                // siow difdkfd, unprfssfd stbtf
+                drbwCifdkBfzfl(g,x,y,dsizf,fblsf,fblsf,truf,flbt);
+            } flsf if(!flbt) {
+                //  siow undifdkfd stbtf
+                drbwCifdkBfzflOut(g,x,y,dsizf);
             }
         }
 
-        public int getIconWidth() {
-            return csize;
+        publid int gftIdonWidti() {
+            rfturn dsizf;
         }
 
-        public int getIconHeight() {
-            return csize;
+        publid int gftIdonHfigit() {
+            rfturn dsizf;
         }
 
-        public void drawCheckBezelOut(Graphics g, int x, int y, int csize){
-            Color controlShadow = UIManager.getColor("controlShadow");
+        publid void drbwCifdkBfzflOut(Grbpiids g, int x, int y, int dsizf){
+            Color dontrolSibdow = UIMbnbgfr.gftColor("dontrolSibdow");
 
-            int w = csize;
-            int h = csize;
-            Color oldColor = g.getColor();
+            int w = dsizf;
+            int i = dsizf;
+            Color oldColor = g.gftColor();
 
-            g.translate(x,y);
-            g.setColor(highlight);    // inner 3D border
-            g.drawLine(0, 0, 0, h-1);
-            g.drawLine(1, 0, w-1, 0);
+            g.trbnslbtf(x,y);
+            g.sftColor(iigiligit);    // innfr 3D bordfr
+            g.drbwLinf(0, 0, 0, i-1);
+            g.drbwLinf(1, 0, w-1, 0);
 
-            g.setColor(shadow);         // black drop shadow  __|
-            g.drawLine(1, h-1, w-1, h-1);
-            g.drawLine(w-1, h-1, w-1, 1);
-            g.translate(-x,-y);
-            g.setColor(oldColor);
+            g.sftColor(sibdow);         // blbdk drop sibdow  __|
+            g.drbwLinf(1, i-1, w-1, i-1);
+            g.drbwLinf(w-1, i-1, w-1, 1);
+            g.trbnslbtf(-x,-y);
+            g.sftColor(oldColor);
         }
 
-        public void drawCheckBezel(Graphics g, int x, int y, int csize,
-                                   boolean shade, boolean out, boolean check, boolean flat)
+        publid void drbwCifdkBfzfl(Grbpiids g, int x, int y, int dsizf,
+                                   boolfbn sibdf, boolfbn out, boolfbn difdk, boolfbn flbt)
             {
 
 
-                Color oldColor = g.getColor();
-                g.translate(x, y);
+                Color oldColor = g.gftColor();
+                g.trbnslbtf(x, y);
 
 
                 //bottom
-                if(!flat) {
+                if(!flbt) {
                     if (out) {
-                        g.setColor(control);
-                        g.fillRect(1,1,csize-2,csize-2);
-                        g.setColor(shadow);
-                    } else {
-                        g.setColor(lightShadow);
-                        g.fillRect(0,0,csize,csize);
-                        g.setColor(highlight);
+                        g.sftColor(dontrol);
+                        g.fillRfdt(1,1,dsizf-2,dsizf-2);
+                        g.sftColor(sibdow);
+                    } flsf {
+                        g.sftColor(ligitSibdow);
+                        g.fillRfdt(0,0,dsizf,dsizf);
+                        g.sftColor(iigiligit);
                     }
 
-                    g.drawLine(1,csize-1,csize-2,csize-1);
-                    if (shade) {
-                        g.drawLine(2,csize-2,csize-3,csize-2);
-                        g.drawLine(csize-2,2,csize-2 ,csize-1);
+                    g.drbwLinf(1,dsizf-1,dsizf-2,dsizf-1);
+                    if (sibdf) {
+                        g.drbwLinf(2,dsizf-2,dsizf-3,dsizf-2);
+                        g.drbwLinf(dsizf-2,2,dsizf-2 ,dsizf-1);
                         if (out) {
-                            g.setColor(highlight);
-                        } else {
-                            g.setColor(shadow);
+                            g.sftColor(iigiligit);
+                        } flsf {
+                            g.sftColor(sibdow);
                         }
-                        g.drawLine(1,2,1,csize-2);
-                        g.drawLine(1,1,csize-3,1);
+                        g.drbwLinf(1,2,1,dsizf-2);
+                        g.drbwLinf(1,1,dsizf-3,1);
                         if (out) {
-                            g.setColor(shadow);
-                        } else {
-                            g.setColor(highlight);
+                            g.sftColor(sibdow);
+                        } flsf {
+                            g.sftColor(iigiligit);
                         }
                     }
-                    //right
-                    g.drawLine(csize-1,1,csize-1,csize-1);
+                    //rigit
+                    g.drbwLinf(dsizf-1,1,dsizf-1,dsizf-1);
 
-                    //left
+                    //lfft
                     if (out) {
-                        g.setColor(highlight);
-                    } else {
-                        g.setColor(shadow);
+                        g.sftColor(iigiligit);
+                    } flsf {
+                        g.sftColor(sibdow);
                     }
-                    g.drawLine(0,1,0,csize-1);
+                    g.drbwLinf(0,1,0,dsizf-1);
 
                     //top
-                    g.drawLine(0,0,csize-1,0);
+                    g.drbwLinf(0,0,dsizf-1,0);
                 }
 
-                if (check) {
-                    // draw check
-                    g.setColor(foreground);
-                    g.drawLine(csize-2,1,csize-2,2);
-                    g.drawLine(csize-3,2,csize-3,3);
-                    g.drawLine(csize-4,3,csize-4,4);
-                    g.drawLine(csize-5,4,csize-5,6);
-                    g.drawLine(csize-6,5,csize-6,8);
-                    g.drawLine(csize-7,6,csize-7,10);
-                    g.drawLine(csize-8,7,csize-8,10);
-                    g.drawLine(csize-9,6,csize-9,9);
-                    g.drawLine(csize-10,5,csize-10,8);
-                    g.drawLine(csize-11,5,csize-11,7);
-                    g.drawLine(csize-12,6,csize-12,6);
+                if (difdk) {
+                    // drbw difdk
+                    g.sftColor(forfground);
+                    g.drbwLinf(dsizf-2,1,dsizf-2,2);
+                    g.drbwLinf(dsizf-3,2,dsizf-3,3);
+                    g.drbwLinf(dsizf-4,3,dsizf-4,4);
+                    g.drbwLinf(dsizf-5,4,dsizf-5,6);
+                    g.drbwLinf(dsizf-6,5,dsizf-6,8);
+                    g.drbwLinf(dsizf-7,6,dsizf-7,10);
+                    g.drbwLinf(dsizf-8,7,dsizf-8,10);
+                    g.drbwLinf(dsizf-9,6,dsizf-9,9);
+                    g.drbwLinf(dsizf-10,5,dsizf-10,8);
+                    g.drbwLinf(dsizf-11,5,dsizf-11,7);
+                    g.drbwLinf(dsizf-12,6,dsizf-12,6);
                 }
-                g.translate(-x, -y);
-                g.setColor(oldColor);
+                g.trbnslbtf(-x, -y);
+                g.sftColor(oldColor);
             }
-    } // end class CheckBoxIcon
+    } // fnd dlbss CifdkBoxIdon
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class RadioButtonIcon implements Icon, UIResource, Serializable {
-        private Color dot = UIManager.getColor("activeCaptionBorder");
-        private Color highlight = UIManager.getColor("controlHighlight");
-        private Color shadow = UIManager.getColor("controlShadow");
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss RbdioButtonIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
+        privbtf Color dot = UIMbnbgfr.gftColor("bdtivfCbptionBordfr");
+        privbtf Color iigiligit = UIMbnbgfr.gftColor("dontrolHigiligit");
+        privbtf Color sibdow = UIMbnbgfr.gftColor("dontrolSibdow");
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            // fill interior
-            AbstractButton b = (AbstractButton) c;
-            ButtonModel model = b.getModel();
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            // fill intfrior
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
 
-            int w = getIconWidth();
-            int h = getIconHeight();
+            int w = gftIdonWidti();
+            int i = gftIdonHfigit();
 
-            boolean isPressed = model.isPressed();
-            boolean isArmed = model.isArmed();
-            boolean isEnabled = model.isEnabled();
-            boolean isSelected = model.isSelected();
+            boolfbn isPrfssfd = modfl.isPrfssfd();
+            boolfbn isArmfd = modfl.isArmfd();
+            boolfbn isEnbblfd = modfl.isEnbblfd();
+            boolfbn isSflfdtfd = modfl.isSflfdtfd();
 
-            boolean checkIn = ((isPressed &&
-                                !isArmed   &&
-                                isSelected) ||
-                               (isPressed &&
-                                isArmed   &&
-                                !isSelected)
+            boolfbn difdkIn = ((isPrfssfd &&
+                                !isArmfd   &&
+                                isSflfdtfd) ||
+                               (isPrfssfd &&
+                                isArmfd   &&
+                                !isSflfdtfd)
                                ||
-                               (!isPressed  &&
-                                isArmed    &&
-                                isSelected  ||
-                                (!isPressed &&
-                                 !isArmed  &&
-                                 isSelected)));
+                               (!isPrfssfd  &&
+                                isArmfd    &&
+                                isSflfdtfd  ||
+                                (!isPrfssfd &&
+                                 !isArmfd  &&
+                                 isSflfdtfd)));
 
-            if (checkIn){
-                g.setColor(shadow);
-                g.drawLine(x+5,y+0,x+8,y+0);
-                g.drawLine(x+3,y+1,x+4,y+1);
-                g.drawLine(x+9,y+1,x+9,y+1);
-                g.drawLine(x+2,y+2,x+2,y+2);
-                g.drawLine(x+1,y+3,x+1,y+3);
-                g.drawLine(x,y+4,x,y+9);
-                g.drawLine(x+1,y+10,x+1,y+10);
-                g.drawLine(x+2,y+11,x+2,y+11);
-                g.setColor(highlight);
-                g.drawLine(x+3,y+12,x+4,y+12);
-                g.drawLine(x+5,y+13,x+8,y+13);
-                g.drawLine(x+9,y+12,x+10,y+12);
-                g.drawLine(x+11,y+11,x+11,y+11);
-                g.drawLine(x+12,y+10,x+12,y+10);
-                g.drawLine(x+13,y+9,x+13,y+4);
-                g.drawLine(x+12,y+3,x+12,y+3);
-                g.drawLine(x+11,y+2,x+11,y+2);
-                g.drawLine(x+10,y+1,x+10,y+1);
-                g.setColor(dot);
-                g.fillRect(x+4,y+5,6,4);
-                g.drawLine(x+5,y+4,x+8,y+4);
-                g.drawLine(x+5,y+9,x+8,y+9);
+            if (difdkIn){
+                g.sftColor(sibdow);
+                g.drbwLinf(x+5,y+0,x+8,y+0);
+                g.drbwLinf(x+3,y+1,x+4,y+1);
+                g.drbwLinf(x+9,y+1,x+9,y+1);
+                g.drbwLinf(x+2,y+2,x+2,y+2);
+                g.drbwLinf(x+1,y+3,x+1,y+3);
+                g.drbwLinf(x,y+4,x,y+9);
+                g.drbwLinf(x+1,y+10,x+1,y+10);
+                g.drbwLinf(x+2,y+11,x+2,y+11);
+                g.sftColor(iigiligit);
+                g.drbwLinf(x+3,y+12,x+4,y+12);
+                g.drbwLinf(x+5,y+13,x+8,y+13);
+                g.drbwLinf(x+9,y+12,x+10,y+12);
+                g.drbwLinf(x+11,y+11,x+11,y+11);
+                g.drbwLinf(x+12,y+10,x+12,y+10);
+                g.drbwLinf(x+13,y+9,x+13,y+4);
+                g.drbwLinf(x+12,y+3,x+12,y+3);
+                g.drbwLinf(x+11,y+2,x+11,y+2);
+                g.drbwLinf(x+10,y+1,x+10,y+1);
+                g.sftColor(dot);
+                g.fillRfdt(x+4,y+5,6,4);
+                g.drbwLinf(x+5,y+4,x+8,y+4);
+                g.drbwLinf(x+5,y+9,x+8,y+9);
             }
-            else {
-                g.setColor(highlight);
-                g.drawLine(x+5,y+0,x+8,y+0);
-                g.drawLine(x+3,y+1,x+4,y+1);
-                g.drawLine(x+9,y+1,x+9,y+1);
-                g.drawLine(x+2,y+2,x+2,y+2);
-                g.drawLine(x+1,y+3,x+1,y+3);
-                g.drawLine(x,y+4,x,y+9);
-                g.drawLine(x+1,y+10,x+1,y+10);
-                g.drawLine(x+2,y+11,x+2,y+11);
+            flsf {
+                g.sftColor(iigiligit);
+                g.drbwLinf(x+5,y+0,x+8,y+0);
+                g.drbwLinf(x+3,y+1,x+4,y+1);
+                g.drbwLinf(x+9,y+1,x+9,y+1);
+                g.drbwLinf(x+2,y+2,x+2,y+2);
+                g.drbwLinf(x+1,y+3,x+1,y+3);
+                g.drbwLinf(x,y+4,x,y+9);
+                g.drbwLinf(x+1,y+10,x+1,y+10);
+                g.drbwLinf(x+2,y+11,x+2,y+11);
 
-                g.setColor(shadow);
-                g.drawLine(x+3,y+12,x+4,y+12);
-                g.drawLine(x+5,y+13,x+8,y+13);
-                g.drawLine(x+9,y+12,x+10,y+12);
-                g.drawLine(x+11,y+11,x+11,y+11);
-                g.drawLine(x+12,y+10,x+12,y+10);
-                g.drawLine(x+13,y+9,x+13,y+4);
-                g.drawLine(x+12,y+3,x+12,y+3);
-                g.drawLine(x+11,y+2,x+11,y+2);
-                g.drawLine(x+10,y+1,x+10,y+1);
+                g.sftColor(sibdow);
+                g.drbwLinf(x+3,y+12,x+4,y+12);
+                g.drbwLinf(x+5,y+13,x+8,y+13);
+                g.drbwLinf(x+9,y+12,x+10,y+12);
+                g.drbwLinf(x+11,y+11,x+11,y+11);
+                g.drbwLinf(x+12,y+10,x+12,y+10);
+                g.drbwLinf(x+13,y+9,x+13,y+4);
+                g.drbwLinf(x+12,y+3,x+12,y+3);
+                g.drbwLinf(x+11,y+2,x+11,y+2);
+                g.drbwLinf(x+10,y+1,x+10,y+1);
 
             }
         }
 
-        public int getIconWidth() {
-            return 14;
+        publid int gftIdonWidti() {
+            rfturn 14;
         }
 
-        public int getIconHeight() {
-            return 14;
+        publid int gftIdonHfigit() {
+            rfturn 14;
         }
-    } // end class RadioButtonIcon
+    } // fnd dlbss RbdioButtonIdon
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class MenuItemCheckIcon implements Icon, UIResource, Serializable
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss MfnuItfmCifdkIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
     {
-        public void paintIcon(Component c,Graphics g, int x, int y)
+        publid void pbintIdon(Componfnt d,Grbpiids g, int x, int y)
             {
             }
-        public int getIconWidth() { return 0; }
-        public int getIconHeight() { return 0; }
-    }  // end class MenuItemCheckIcon
+        publid int gftIdonWidti() { rfturn 0; }
+        publid int gftIdonHfigit() { rfturn 0; }
+    }  // fnd dlbss MfnuItfmCifdkIdon
 
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class MenuItemArrowIcon implements Icon, UIResource, Serializable
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss MfnuItfmArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
     {
-        public void paintIcon(Component c,Graphics g, int x, int y)
+        publid void pbintIdon(Componfnt d,Grbpiids g, int x, int y)
             {
             }
-        public int getIconWidth() { return 0; }
-        public int getIconHeight() { return 0; }
-    }  // end class MenuItemArrowIcon
+        publid int gftIdonWidti() { rfturn 0; }
+        publid int gftIdonHfigit() { rfturn 0; }
+    }  // fnd dlbss MfnuItfmArrowIdon
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class MenuArrowIcon implements Icon, UIResource, Serializable
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss MfnuArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
     {
-        private Color focus = UIManager.getColor("windowBorder");
-        private Color shadow = UIManager.getColor("controlShadow");
-        private Color highlight = UIManager.getColor("controlHighlight");
+        privbtf Color fodus = UIMbnbgfr.gftColor("windowBordfr");
+        privbtf Color sibdow = UIMbnbgfr.gftColor("dontrolSibdow");
+        privbtf Color iigiligit = UIMbnbgfr.gftColor("dontrolHigiligit");
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
-            ButtonModel model = b.getModel();
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
 
-            // These variables are kind of pointless as the following code
-            // assumes the icon will be 10 x 10 regardless of their value.
-            int w = getIconWidth();
-            int h = getIconHeight();
+            // Tifsf vbribblfs brf kind of pointlfss bs tif following dodf
+            // bssumfs tif idon will bf 10 x 10 rfgbrdlfss of tifir vbluf.
+            int w = gftIdonWidti();
+            int i = gftIdonHfigit();
 
-            Color oldColor = g.getColor();
+            Color oldColor = g.gftColor();
 
-            if (model.isSelected()){
-                if( MotifGraphicsUtils.isLeftToRight(c) ){
-                    g.setColor(shadow);
-                    g.fillRect(x+1,y+1,2,h);
-                    g.drawLine(x+4,y+2,x+4,y+2);
-                    g.drawLine(x+6,y+3,x+6,y+3);
-                    g.drawLine(x+8,y+4,x+8,y+5);
-                    g.setColor(focus);
-                    g.fillRect(x+2,y+2,2,h-2);
-                    g.fillRect(x+4,y+3,2,h-4);
-                    g.fillRect(x+6,y+4,2,h-6);
-                    g.setColor(highlight);
-                    g.drawLine(x+2,y+h,x+2,y+h);
-                    g.drawLine(x+4,y+h-1,x+4,y+h-1);
-                    g.drawLine(x+6,y+h-2,x+6,y+h-2);
-                    g.drawLine(x+8,y+h-4,x+8,y+h-3);
-                } else {
-                    g.setColor(highlight);
-                    g.fillRect(x+7,y+1,2,10);
-                    g.drawLine(x+5,y+9,x+5,y+9);
-                    g.drawLine(x+3,y+8,x+3,y+8);
-                    g.drawLine(x+1,y+6,x+1,y+7);
-                    g.setColor(focus);
-                    g.fillRect(x+6,y+2,2,8);
-                    g.fillRect(x+4,y+3,2,6);
-                    g.fillRect(x+2,y+4,2,4);
-                    g.setColor(shadow);
-                    g.drawLine(x+1,y+4,x+1,y+5);
-                    g.drawLine(x+3,y+3,x+3,y+3);
-                    g.drawLine(x+5,y+2,x+5,y+2);
-                    g.drawLine(x+7,y+1,x+7,y+1);
+            if (modfl.isSflfdtfd()){
+                if( MotifGrbpiidsUtils.isLfftToRigit(d) ){
+                    g.sftColor(sibdow);
+                    g.fillRfdt(x+1,y+1,2,i);
+                    g.drbwLinf(x+4,y+2,x+4,y+2);
+                    g.drbwLinf(x+6,y+3,x+6,y+3);
+                    g.drbwLinf(x+8,y+4,x+8,y+5);
+                    g.sftColor(fodus);
+                    g.fillRfdt(x+2,y+2,2,i-2);
+                    g.fillRfdt(x+4,y+3,2,i-4);
+                    g.fillRfdt(x+6,y+4,2,i-6);
+                    g.sftColor(iigiligit);
+                    g.drbwLinf(x+2,y+i,x+2,y+i);
+                    g.drbwLinf(x+4,y+i-1,x+4,y+i-1);
+                    g.drbwLinf(x+6,y+i-2,x+6,y+i-2);
+                    g.drbwLinf(x+8,y+i-4,x+8,y+i-3);
+                } flsf {
+                    g.sftColor(iigiligit);
+                    g.fillRfdt(x+7,y+1,2,10);
+                    g.drbwLinf(x+5,y+9,x+5,y+9);
+                    g.drbwLinf(x+3,y+8,x+3,y+8);
+                    g.drbwLinf(x+1,y+6,x+1,y+7);
+                    g.sftColor(fodus);
+                    g.fillRfdt(x+6,y+2,2,8);
+                    g.fillRfdt(x+4,y+3,2,6);
+                    g.fillRfdt(x+2,y+4,2,4);
+                    g.sftColor(sibdow);
+                    g.drbwLinf(x+1,y+4,x+1,y+5);
+                    g.drbwLinf(x+3,y+3,x+3,y+3);
+                    g.drbwLinf(x+5,y+2,x+5,y+2);
+                    g.drbwLinf(x+7,y+1,x+7,y+1);
                 }
-            } else {
-                if( MotifGraphicsUtils.isLeftToRight(c) ){
-                    g.setColor(highlight);
-                    g.drawLine(x+1,y+1,x+1,y+h);
-                    g.drawLine(x+2,y+1,x+2,y+h-2);
-                    g.fillRect(x+3,y+2,2,2);
-                    g.fillRect(x+5,y+3,2,2);
-                    g.fillRect(x+7,y+4,2,2);
-                    g.setColor(shadow);
-                    g.drawLine(x+2,y+h-1,x+2,y+h);
-                    g.fillRect(x+3,y+h-2,2,2);
-                    g.fillRect(x+5,y+h-3,2,2);
-                    g.fillRect(x+7,y+h-4,2,2);
-                    g.setColor(oldColor);
-                } else {
-                    g.setColor(highlight);
-                    g.fillRect(x+1,y+4,2,2);
-                    g.fillRect(x+3,y+3,2,2);
-                    g.fillRect(x+5,y+2,2,2);
-                    g.drawLine(x+7,y+1,x+7,y+2);
-                    g.setColor(shadow);
-                    g.fillRect(x+1,y+h-4,2,2);
-                    g.fillRect(x+3,y+h-3,2,2);
-                    g.fillRect(x+5,y+h-2,2,2);
-                    g.drawLine(x+7,y+3,x+7,y+h);
-                    g.drawLine(x+8,y+1,x+8,y+h);
-                    g.setColor(oldColor);
+            } flsf {
+                if( MotifGrbpiidsUtils.isLfftToRigit(d) ){
+                    g.sftColor(iigiligit);
+                    g.drbwLinf(x+1,y+1,x+1,y+i);
+                    g.drbwLinf(x+2,y+1,x+2,y+i-2);
+                    g.fillRfdt(x+3,y+2,2,2);
+                    g.fillRfdt(x+5,y+3,2,2);
+                    g.fillRfdt(x+7,y+4,2,2);
+                    g.sftColor(sibdow);
+                    g.drbwLinf(x+2,y+i-1,x+2,y+i);
+                    g.fillRfdt(x+3,y+i-2,2,2);
+                    g.fillRfdt(x+5,y+i-3,2,2);
+                    g.fillRfdt(x+7,y+i-4,2,2);
+                    g.sftColor(oldColor);
+                } flsf {
+                    g.sftColor(iigiligit);
+                    g.fillRfdt(x+1,y+4,2,2);
+                    g.fillRfdt(x+3,y+3,2,2);
+                    g.fillRfdt(x+5,y+2,2,2);
+                    g.drbwLinf(x+7,y+1,x+7,y+2);
+                    g.sftColor(sibdow);
+                    g.fillRfdt(x+1,y+i-4,2,2);
+                    g.fillRfdt(x+3,y+i-3,2,2);
+                    g.fillRfdt(x+5,y+i-2,2,2);
+                    g.drbwLinf(x+7,y+3,x+7,y+i);
+                    g.drbwLinf(x+8,y+1,x+8,y+i);
+                    g.sftColor(oldColor);
                 }
             }
 
         }
-        public int getIconWidth() { return 10; }
-        public int getIconHeight() { return 10; }
-    } // End class MenuArrowIcon
+        publid int gftIdonWidti() { rfturn 10; }
+        publid int gftIdonHfigit() { rfturn 10; }
+    } // End dlbss MfnuArrowIdon
 }

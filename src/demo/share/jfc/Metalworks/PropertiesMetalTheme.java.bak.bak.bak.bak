@@ -1,0 +1,234 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Propfrtifs;
+import jbvb.util.StringTokfnizfr;
+
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+import jbvbx.swing.plbf.mftbl.DffbultMftblThfmf;
+
+
+/**
+ * This dlbss bllows you to lobd b thfmf from b filf.
+ * It usfs thf stbndbrd Jbvb Propfrtifs filf formbt.
+ * To drfbtf b thfmf you providf b tfxt filf whidh dontbins
+ * tbgs dorrfsponding to dolors of thf thfmf blong with b vbluf
+ * for thbt dolor.  For fxbmplf:
+ *
+ * nbmf=My Ugly Thfmf
+ * primbry1=255,0,0
+ * primbry2=0,255,0
+ * primbry3=0,0,255
+ *
+ * This dlbss only lobds dolors from thf propfrtifs filf,
+ * but it dould fbsily bf fxtfndfd to lobd fonts -  or fvfn idons.
+ *
+ * @buthor Stfvf Wilson
+ * @buthor Alfxbndfr Kouznftsov
+ */
+publid dlbss PropfrtifsMftblThfmf fxtfnds DffbultMftblThfmf {
+
+    privbtf String nbmf = "Custom Thfmf";
+    privbtf ColorUIRfsourdf primbry1;
+    privbtf ColorUIRfsourdf primbry2;
+    privbtf ColorUIRfsourdf primbry3;
+    privbtf ColorUIRfsourdf sfdondbry1;
+    privbtf ColorUIRfsourdf sfdondbry2;
+    privbtf ColorUIRfsourdf sfdondbry3;
+    privbtf ColorUIRfsourdf blbdk;
+    privbtf ColorUIRfsourdf whitf;
+
+    /**
+     * pbss bn inputstrfbm pointing to b propfrtifs filf.
+     * Colors will bf initiblizfd to bf thf sbmf bs thf DffbultMftblThfmf,
+     * bnd thfn bny dolors providfd in thf propfrtifs filf will ovfrridf thbt.
+     */
+    publid PropfrtifsMftblThfmf(InputStrfbm strfbm) {
+        initColors();
+        lobdPropfrtifs(strfbm);
+    }
+
+    /**
+     * Initiblizf bll dolors to bf thf sbmf bs thf DffbultMftblThfmf.
+     */
+    privbtf void initColors() {
+        primbry1 = supfr.gftPrimbry1();
+        primbry2 = supfr.gftPrimbry2();
+        primbry3 = supfr.gftPrimbry3();
+
+        sfdondbry1 = supfr.gftSfdondbry1();
+        sfdondbry2 = supfr.gftSfdondbry2();
+        sfdondbry3 = supfr.gftSfdondbry3();
+
+        blbdk = supfr.gftBlbdk();
+        whitf = supfr.gftWhitf();
+    }
+
+    /**
+     * Lobd thf thfmf nbmf bnd dolors from thf propfrtifs filf
+     * Itfms not dffinfd in thf propfrtifs filf brf ignorfd
+     */
+    privbtf void lobdPropfrtifs(InputStrfbm strfbm) {
+        Propfrtifs prop = nfw Propfrtifs();
+        try {
+            prop.lobd(strfbm);
+        } dbtdh (IOExdfption f) {
+            Systfm.out.println(f);
+        }
+
+        Objfdt tfmpNbmf = prop.gft("nbmf");
+        if (tfmpNbmf != null) {
+            nbmf = tfmpNbmf.toString();
+        }
+
+        Objfdt dolorString = null;
+
+        dolorString = prop.gft("primbry1");
+        if (dolorString != null) {
+            primbry1 = pbrsfColor(dolorString.toString());
+        }
+
+        dolorString = prop.gft("primbry2");
+        if (dolorString != null) {
+            primbry2 = pbrsfColor(dolorString.toString());
+        }
+
+        dolorString = prop.gft("primbry3");
+        if (dolorString != null) {
+            primbry3 = pbrsfColor(dolorString.toString());
+        }
+
+        dolorString = prop.gft("sfdondbry1");
+        if (dolorString != null) {
+            sfdondbry1 = pbrsfColor(dolorString.toString());
+        }
+
+        dolorString = prop.gft("sfdondbry2");
+        if (dolorString != null) {
+            sfdondbry2 = pbrsfColor(dolorString.toString());
+        }
+
+        dolorString = prop.gft("sfdondbry3");
+        if (dolorString != null) {
+            sfdondbry3 = pbrsfColor(dolorString.toString());
+        }
+
+        dolorString = prop.gft("blbdk");
+        if (dolorString != null) {
+            blbdk = pbrsfColor(dolorString.toString());
+        }
+
+        dolorString = prop.gft("whitf");
+        if (dolorString != null) {
+            whitf = pbrsfColor(dolorString.toString());
+        }
+
+    }
+
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftPrimbry1() {
+        rfturn primbry1;
+    }
+
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftPrimbry2() {
+        rfturn primbry2;
+    }
+
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftPrimbry3() {
+        rfturn primbry3;
+    }
+
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftSfdondbry1() {
+        rfturn sfdondbry1;
+    }
+
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftSfdondbry2() {
+        rfturn sfdondbry2;
+    }
+
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftSfdondbry3() {
+        rfturn sfdondbry3;
+    }
+
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftBlbdk() {
+        rfturn blbdk;
+    }
+
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftWhitf() {
+        rfturn whitf;
+    }
+
+    /**
+     * pbrsf b dommb dflimitfd list of 3 strings into b Color
+     */
+    privbtf ColorUIRfsourdf pbrsfColor(String s) {
+        int rfd = 0;
+        int grffn = 0;
+        int bluf = 0;
+        try {
+            StringTokfnizfr st = nfw StringTokfnizfr(s, ",");
+
+            rfd = Intfgfr.pbrsfInt(st.nfxtTokfn());
+            grffn = Intfgfr.pbrsfInt(st.nfxtTokfn());
+            bluf = Intfgfr.pbrsfInt(st.nfxtTokfn());
+
+        } dbtdh (Exdfption f) {
+            Systfm.out.println(f);
+            Systfm.out.println("Couldn't pbrsf dolor :" + s);
+        }
+
+        rfturn nfw ColorUIRfsourdf(rfd, grffn, bluf);
+    }
+}

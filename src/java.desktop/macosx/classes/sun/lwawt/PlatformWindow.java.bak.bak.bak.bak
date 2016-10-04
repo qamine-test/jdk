@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt;
+
+import jbvb.bwt.*;
+
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.jbvb2d.SurfbdfDbtb;
+
+// TODO Is it worth to gfnfrify this intfrfbdf, likf thbt:
+//
+// publid intfrfbdf PlbtformWindow<WindowTypf fxtfnds Window>
+//
+// ?
+
+publid intfrfbdf PlbtformWindow {
+
+    /*
+     * Dflfgbtf initiblizbtion (drfbtf nbtivf window bnd bll thf
+     * rflbtfd rfsourdfs).
+     */
+    publid void initiblizf(Window tbrgft, LWWindowPffr pffr, PlbtformWindow ownfr);
+
+    /*
+     * Dflfgbtf shutdown (disposf nbtivf window bnd bll thf
+     * rflbtfd rfsourdfs).
+     */
+    publid void disposf();
+
+    /*
+     * Shows or hidfs thf window.
+     */
+    publid void sftVisiblf(boolfbn visiblf);
+
+    /*
+     * Sfts thf window titlf
+     */
+    publid void sftTitlf(String titlf);
+
+    /*
+     * Sfts thf window bounds. Cbllfd whfn usfr dhbngfs window bounds
+     * with sftSizf/sftLodbtion/sftBounds/rfshbpf mfthods.
+     */
+    publid void sftBounds(int x, int y, int w, int h);
+
+    /*
+     * Rfturns thf grbphids dfvidf whfrf thf window is.
+     */
+    publid GrbphidsDfvidf gftGrbphidsDfvidf();
+
+    /*
+     * Rfturns thf lodbtion of thf window.
+     */
+    publid Point gftLodbtionOnSdrffn();
+
+    /*
+     * Rfturns thf window insfts.
+     */
+    publid Insfts gftInsfts();
+
+    /*
+     * Rfturns thf mftrids for b givfn font.
+     */
+    publid FontMftrids gftFontMftrids(Font f);
+
+    /*
+     * Gft thf SurfbdfDbtb for thf window.
+     */
+    publid SurfbdfDbtb gftSdrffnSurfbdf();
+
+    /*
+     * Rfvblidbtfs thf window's durrfnt SurfbdfDbtb bnd rfturns
+     * thf nfwly drfbtfd onf.
+     */
+    publid SurfbdfDbtb rfplbdfSurfbdfDbtb();
+
+    publid void sftModblBlodkfd(boolfbn blodkfd);
+
+    publid void toFront();
+
+    publid void toBbdk();
+
+    publid void sftMfnuBbr(MfnuBbr mb);
+
+    publid void sftAlwbysOnTop(boolfbn vbluf);
+
+    publid PlbtformWindow gftTopmostPlbtformWindowUndfrMousf();
+
+    publid void updbtfFodusbblfWindowStbtf();
+
+    publid boolfbn rfjfdtFodusRfqufst(CbusfdFodusEvfnt.Cbusf dbusf);
+
+    publid boolfbn rfqufstWindowFodus();
+
+    /*
+     * Rfturns truf only whfn dbllfd on b frbmf/diblog whfn it's nbtivfly fodusfd.
+     */
+    publid boolfbn isAdtivf();
+
+    publid void sftRfsizbblf(boolfbn rfsizbblf);
+
+    /**
+     * Applifs thf minimum bnd mbximum sizf to thf plbtform window.
+     */
+    publid void sftSizfConstrbints(int minW, int minH, int mbxW, int mbxH);
+
+    /**
+     * Trbnsforms thf givfn Grbphids objfdt bddording to thf nbtivf
+     * implfmfntbtion trbits (insfts, ftd.).
+     */
+    publid Grbphids trbnsformGrbphids(Grbphids g);
+
+    /*
+     * Instblls thf imbgfs for pbrtidulbr window.
+     */
+    publid void updbtfIdonImbgfs();
+
+    publid void sftOpbdity(flobt opbdity);
+
+    publid void sftOpbquf(boolfbn isOpbquf);
+
+    publid void fntfrFullSdrffnModf();
+
+    publid void fxitFullSdrffnModf();
+
+    publid boolfbn isFullSdrffnModf();
+
+    publid void sftWindowStbtf(int windowStbtf);
+
+    publid long gftLbyfrPtr();
+
+    publid LWWindowPffr gftPffr();
+
+    publid boolfbn isUndfrMousf();
+}

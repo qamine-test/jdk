@@ -1,0 +1,589 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Hbshtbblf;
+import sun.nft.util.IPAddrfssUtil;
+import sun.nft.www.PbrsfUtil;
+
+/**
+ * Thf bbstrbdt dlbss {@dodf URLStrfbmHbndlfr} is thf dommon
+ * supfrdlbss for bll strfbm protodol hbndlfrs. A strfbm protodol
+ * hbndlfr knows how to mbkf b donnfdtion for b pbrtidulbr protodol
+ * typf, sudh bs {@dodf http} or {@dodf https}.
+ * <p>
+ * In most dbsfs, bn instbndf of b {@dodf URLStrfbmHbndlfr}
+ * subdlbss is not drfbtfd dirfdtly by bn bpplidbtion. Rbthfr, thf
+ * first timf b protodol nbmf is fndountfrfd whfn donstrudting b
+ * {@dodf URL}, thf bppropribtf strfbm protodol hbndlfr is
+ * butombtidblly lobdfd.
+ *
+ * @buthor  Jbmfs Gosling
+ * @sff     jbvb.nft.URL#URL(jbvb.lbng.String, jbvb.lbng.String, int, jbvb.lbng.String)
+ * @sindf   1.0
+ */
+publid bbstrbdt dlbss URLStrfbmHbndlfr {
+    /**
+     * Opfns b donnfdtion to thf objfdt rfffrfndfd by thf
+     * {@dodf URL} brgumfnt.
+     * This mfthod should bf ovfrriddfn by b subdlbss.
+     *
+     * <p>If for thf hbndlfr's protodol (sudh bs HTTP or JAR), thfrf
+     * fxists b publid, spfdiblizfd URLConnfdtion subdlbss bflonging
+     * to onf of thf following pbdkbgfs or onf of thfir subpbdkbgfs:
+     * jbvb.lbng, jbvb.io, jbvb.util, jbvb.nft, thf donnfdtion
+     * rfturnfd will bf of thbt subdlbss. For fxbmplf, for HTTP bn
+     * HttpURLConnfdtion will bf rfturnfd, bnd for JAR b
+     * JbrURLConnfdtion will bf rfturnfd.
+     *
+     * @pbrbm      u   thf URL thbt this donnfdts to.
+     * @rfturn     b {@dodf URLConnfdtion} objfdt for thf {@dodf URL}.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whilf opfning thf
+     *               donnfdtion.
+     */
+    bbstrbdt protfdtfd URLConnfdtion opfnConnfdtion(URL u) throws IOExdfption;
+
+    /**
+     * Sbmf bs opfnConnfdtion(URL), fxdfpt thbt thf donnfdtion will bf
+     * mbdf through thf spfdififd proxy; Protodol hbndlfrs thbt do not
+     * support proxying will ignorf thf proxy pbrbmftfr bnd mbkf b
+     * normbl donnfdtion.
+     *
+     * Cblling this mfthod prffmpts thf systfm's dffbult
+     * {@link jbvb.nft.ProxySflfdtor ProxySflfdtor} sfttings.
+     *
+     * @pbrbm      u   thf URL thbt this donnfdts to.
+     * @pbrbm      p   thf proxy through whidh thf donnfdtion will bf mbdf.
+     *                 If dirfdt donnfdtion is dfsirfd, Proxy.NO_PROXY
+     *                 should bf spfdififd.
+     * @rfturn     b {@dodf URLConnfdtion} objfdt for thf {@dodf URL}.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whilf opfning thf
+     *               donnfdtion.
+     * @fxdfption  IllfgblArgumfntExdfption if fithfr u or p is null,
+     *               or p hbs thf wrong typf.
+     * @fxdfption  UnsupportfdOpfrbtionExdfption if thf subdlbss thbt
+     *               implfmfnts thf protodol dofsn't support this mfthod.
+     * @sindf      1.5
+     */
+    protfdtfd URLConnfdtion opfnConnfdtion(URL u, Proxy p) throws IOExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("Mfthod not implfmfntfd.");
+    }
+
+    /**
+     * Pbrsfs thf string rfprfsfntbtion of b {@dodf URL} into b
+     * {@dodf URL} objfdt.
+     * <p>
+     * If thfrf is bny inhfritfd dontfxt, thfn it hbs blrfbdy bffn
+     * dopifd into thf {@dodf URL} brgumfnt.
+     * <p>
+     * Thf {@dodf pbrsfURL} mfthod of {@dodf URLStrfbmHbndlfr}
+     * pbrsfs thf string rfprfsfntbtion bs if it wfrf bn
+     * {@dodf http} spfdifidbtion. Most URL protodol fbmilifs hbvf b
+     * similbr pbrsing. A strfbm protodol hbndlfr for b protodol thbt hbs
+     * b difffrfnt syntbx must ovfrridf this routinf.
+     *
+     * @pbrbm   u       thf {@dodf URL} to rfdfivf thf rfsult of pbrsing
+     *                  thf spfd.
+     * @pbrbm   spfd    thf {@dodf String} rfprfsfnting thf URL thbt
+     *                  must bf pbrsfd.
+     * @pbrbm   stbrt   thf dhbrbdtfr indfx bt whidh to bfgin pbrsing. This is
+     *                  just pbst thf '{@dodf :}' (if thfrf is onf) thbt
+     *                  spfdififs thf dftfrminbtion of thf protodol nbmf.
+     * @pbrbm   limit   thf dhbrbdtfr position to stop pbrsing bt. This is thf
+     *                  fnd of thf string or thf position of thf
+     *                  "{@dodf #}" dhbrbdtfr, if prfsfnt. All informbtion
+     *                  bftfr thf shbrp sign indidbtfs bn bndhor.
+     */
+    protfdtfd void pbrsfURL(URL u, String spfd, int stbrt, int limit) {
+        // Thfsf fiflds mby rfdfivf dontfxt dontfnt if this wbs rflbtivf URL
+        String protodol = u.gftProtodol();
+        String buthority = u.gftAuthority();
+        String usfrInfo = u.gftUsfrInfo();
+        String host = u.gftHost();
+        int port = u.gftPort();
+        String pbth = u.gftPbth();
+        String qufry = u.gftQufry();
+
+        // This fifld hbs blrfbdy bffn pbrsfd
+        String rff = u.gftRff();
+
+        boolfbn isRflPbth = fblsf;
+        boolfbn qufryOnly = fblsf;
+
+// FIX: should not bssumf qufry if opbquf
+        // Strip off thf qufry pbrt
+        if (stbrt < limit) {
+            int qufryStbrt = spfd.indfxOf('?');
+            qufryOnly = qufryStbrt == stbrt;
+            if ((qufryStbrt != -1) && (qufryStbrt < limit)) {
+                qufry = spfd.substring(qufryStbrt+1, limit);
+                if (limit > qufryStbrt)
+                    limit = qufryStbrt;
+                spfd = spfd.substring(0, qufryStbrt);
+            }
+        }
+
+        int i = 0;
+        // Pbrsf thf buthority pbrt if bny
+        boolfbn isUNCNbmf = (stbrt <= limit - 4) &&
+                        (spfd.dhbrAt(stbrt) == '/') &&
+                        (spfd.dhbrAt(stbrt + 1) == '/') &&
+                        (spfd.dhbrAt(stbrt + 2) == '/') &&
+                        (spfd.dhbrAt(stbrt + 3) == '/');
+        if (!isUNCNbmf && (stbrt <= limit - 2) && (spfd.dhbrAt(stbrt) == '/') &&
+            (spfd.dhbrAt(stbrt + 1) == '/')) {
+            stbrt += 2;
+            i = spfd.indfxOf('/', stbrt);
+            if (i < 0) {
+                i = spfd.indfxOf('?', stbrt);
+                if (i < 0)
+                    i = limit;
+            }
+
+            host = buthority = spfd.substring(stbrt, i);
+
+            int ind = buthority.indfxOf('@');
+            if (ind != -1) {
+                usfrInfo = buthority.substring(0, ind);
+                host = buthority.substring(ind+1);
+            } flsf {
+                usfrInfo = null;
+            }
+            if (host != null) {
+                // If thf host is surroundfd by [ bnd ] thfn its bn IPv6
+                // litfrbl bddrfss bs spfdififd in RFC2732
+                if (host.lfngth()>0 && (host.dhbrAt(0) == '[')) {
+                    if ((ind = host.indfxOf(']')) > 2) {
+
+                        String nhost = host ;
+                        host = nhost.substring(0,ind+1);
+                        if (!IPAddrfssUtil.
+                            isIPv6LitfrblAddrfss(host.substring(1, ind))) {
+                            throw nfw IllfgblArgumfntExdfption(
+                                "Invblid host: "+ host);
+                        }
+
+                        port = -1 ;
+                        if (nhost.lfngth() > ind+1) {
+                            if (nhost.dhbrAt(ind+1) == ':') {
+                                ++ind ;
+                                // port dbn bf null bddording to RFC2396
+                                if (nhost.lfngth() > (ind + 1)) {
+                                    port = Intfgfr.pbrsfInt(nhost.substring(ind+1));
+                                }
+                            } flsf {
+                                throw nfw IllfgblArgumfntExdfption(
+                                    "Invblid buthority fifld: " + buthority);
+                            }
+                        }
+                    } flsf {
+                        throw nfw IllfgblArgumfntExdfption(
+                            "Invblid buthority fifld: " + buthority);
+                    }
+                } flsf {
+                    ind = host.indfxOf(':');
+                    port = -1;
+                    if (ind >= 0) {
+                        // port dbn bf null bddording to RFC2396
+                        if (host.lfngth() > (ind + 1)) {
+                            port = Intfgfr.pbrsfInt(host.substring(ind + 1));
+                        }
+                        host = host.substring(0, ind);
+                    }
+                }
+            } flsf {
+                host = "";
+            }
+            if (port < -1)
+                throw nfw IllfgblArgumfntExdfption("Invblid port numbfr :" +
+                                                   port);
+            stbrt = i;
+            // If thf buthority is dffinfd thfn thf pbth is dffinfd by thf
+            // spfd only; Sff RFC 2396 Sfdtion 5.2.4.
+            if (buthority != null && buthority.lfngth() > 0)
+                pbth = "";
+        }
+
+        if (host == null) {
+            host = "";
+        }
+
+        // Pbrsf thf filf pbth if bny
+        if (stbrt < limit) {
+            if (spfd.dhbrAt(stbrt) == '/') {
+                pbth = spfd.substring(stbrt, limit);
+            } flsf if (pbth != null && pbth.lfngth() > 0) {
+                isRflPbth = truf;
+                int ind = pbth.lbstIndfxOf('/');
+                String sfpfrbtor = "";
+                if (ind == -1 && buthority != null)
+                    sfpfrbtor = "/";
+                pbth = pbth.substring(0, ind + 1) + sfpfrbtor +
+                         spfd.substring(stbrt, limit);
+
+            } flsf {
+                String sfpfrbtor = (buthority != null) ? "/" : "";
+                pbth = sfpfrbtor + spfd.substring(stbrt, limit);
+            }
+        } flsf if (qufryOnly && pbth != null) {
+            int ind = pbth.lbstIndfxOf('/');
+            if (ind < 0)
+                ind = 0;
+            pbth = pbth.substring(0, ind) + "/";
+        }
+        if (pbth == null)
+            pbth = "";
+
+        if (isRflPbth) {
+            // Rfmovf fmbfddfd /./
+            whilf ((i = pbth.indfxOf("/./")) >= 0) {
+                pbth = pbth.substring(0, i) + pbth.substring(i + 2);
+            }
+            // Rfmovf fmbfddfd /../ if possiblf
+            i = 0;
+            whilf ((i = pbth.indfxOf("/../", i)) >= 0) {
+                /*
+                 * A "/../" will dbndfl thf prfvious sfgmfnt bnd itsflf,
+                 * unlfss thbt sfgmfnt is b "/../" itsflf
+                 * i.f. "/b/b/../d" bfdomfs "/b/d"
+                 * but "/../../b" should stby undhbngfd
+                 */
+                if (i > 0 && (limit = pbth.lbstIndfxOf('/', i - 1)) >= 0 &&
+                    (pbth.indfxOf("/../", limit) != 0)) {
+                    pbth = pbth.substring(0, limit) + pbth.substring(i + 3);
+                    i = 0;
+                } flsf {
+                    i = i + 3;
+                }
+            }
+            // Rfmovf trbiling .. if possiblf
+            whilf (pbth.fndsWith("/..")) {
+                i = pbth.indfxOf("/..");
+                if ((limit = pbth.lbstIndfxOf('/', i - 1)) >= 0) {
+                    pbth = pbth.substring(0, limit+1);
+                } flsf {
+                    brfbk;
+                }
+            }
+            // Rfmovf stbrting .
+            if (pbth.stbrtsWith("./") && pbth.lfngth() > 2)
+                pbth = pbth.substring(2);
+
+            // Rfmovf trbiling .
+            if (pbth.fndsWith("/."))
+                pbth = pbth.substring(0, pbth.lfngth() -1);
+        }
+
+        sftURL(u, protodol, host, port, buthority, usfrInfo, pbth, qufry, rff);
+    }
+
+    /**
+     * Rfturns thf dffbult port for b URL pbrsfd by this hbndlfr. This mfthod
+     * is mfbnt to bf ovfriddfn by hbndlfrs with dffbult port numbfrs.
+     * @rfturn thf dffbult port for b {@dodf URL} pbrsfd by this hbndlfr.
+     * @sindf 1.3
+     */
+    protfdtfd int gftDffbultPort() {
+        rfturn -1;
+    }
+
+    /**
+     * Providfs thf dffbult fqubls dbldulbtion. Mby bf ovfriddfn by hbndlfrs
+     * for othfr protodols thbt hbvf difffrfnt rfquirfmfnts for fqubls().
+     * This mfthod rfquirfs thbt nonf of its brgumfnts is null. This is
+     * gubrbntffd by thf fbdt thbt it is only dbllfd by jbvb.nft.URL dlbss.
+     * @pbrbm u1 b URL objfdt
+     * @pbrbm u2 b URL objfdt
+     * @rfturn {@dodf truf} if thf two urls brf
+     * donsidfrfd fqubl, if. thfy rfffr to thf sbmf
+     * frbgmfnt in thf sbmf filf.
+     * @sindf 1.3
+     */
+    protfdtfd boolfbn fqubls(URL u1, URL u2) {
+        String rff1 = u1.gftRff();
+        String rff2 = u2.gftRff();
+        rfturn (rff1 == rff2 || (rff1 != null && rff1.fqubls(rff2))) &&
+               sbmfFilf(u1, u2);
+    }
+
+    /**
+     * Providfs thf dffbult hbsh dbldulbtion. Mby bf ovfriddfn by hbndlfrs for
+     * othfr protodols thbt hbvf difffrfnt rfquirfmfnts for hbshCodf
+     * dbldulbtion.
+     * @pbrbm u b URL objfdt
+     * @rfturn bn {@dodf int} suitbblf for hbsh tbblf indfxing
+     * @sindf 1.3
+     */
+    protfdtfd int hbshCodf(URL u) {
+        int h = 0;
+
+        // Gfnfrbtf thf protodol pbrt.
+        String protodol = u.gftProtodol();
+        if (protodol != null)
+            h += protodol.hbshCodf();
+
+        // Gfnfrbtf thf host pbrt.
+        InftAddrfss bddr = gftHostAddrfss(u);
+        if (bddr != null) {
+            h += bddr.hbshCodf();
+        } flsf {
+            String host = u.gftHost();
+            if (host != null)
+                h += host.toLowfrCbsf().hbshCodf();
+        }
+
+        // Gfnfrbtf thf filf pbrt.
+        String filf = u.gftFilf();
+        if (filf != null)
+            h += filf.hbshCodf();
+
+        // Gfnfrbtf thf port pbrt.
+        if (u.gftPort() == -1)
+            h += gftDffbultPort();
+        flsf
+            h += u.gftPort();
+
+        // Gfnfrbtf thf rff pbrt.
+        String rff = u.gftRff();
+        if (rff != null)
+            h += rff.hbshCodf();
+
+        rfturn h;
+    }
+
+    /**
+     * Compbrf two urls to sff whfthfr thfy rfffr to thf sbmf filf,
+     * i.f., hbving thf sbmf protodol, host, port, bnd pbth.
+     * This mfthod rfquirfs thbt nonf of its brgumfnts is null. This is
+     * gubrbntffd by thf fbdt thbt it is only dbllfd indirfdtly
+     * by jbvb.nft.URL dlbss.
+     * @pbrbm u1 b URL objfdt
+     * @pbrbm u2 b URL objfdt
+     * @rfturn truf if u1 bnd u2 rfffr to thf sbmf filf
+     * @sindf 1.3
+     */
+    protfdtfd boolfbn sbmfFilf(URL u1, URL u2) {
+        // Compbrf thf protodols.
+        if (!((u1.gftProtodol() == u2.gftProtodol()) ||
+              (u1.gftProtodol() != null &&
+               u1.gftProtodol().fqublsIgnorfCbsf(u2.gftProtodol()))))
+            rfturn fblsf;
+
+        // Compbrf thf filfs.
+        if (!(u1.gftFilf() == u2.gftFilf() ||
+              (u1.gftFilf() != null && u1.gftFilf().fqubls(u2.gftFilf()))))
+            rfturn fblsf;
+
+        // Compbrf thf ports.
+        int port1, port2;
+        port1 = (u1.gftPort() != -1) ? u1.gftPort() : u1.hbndlfr.gftDffbultPort();
+        port2 = (u2.gftPort() != -1) ? u2.gftPort() : u2.hbndlfr.gftDffbultPort();
+        if (port1 != port2)
+            rfturn fblsf;
+
+        // Compbrf thf hosts.
+        if (!hostsEqubl(u1, u2))
+            rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    /**
+     * Gft thf IP bddrfss of our host. An fmpty host fifld or b DNS fbilurf
+     * will rfsult in b null rfturn.
+     *
+     * @pbrbm u b URL objfdt
+     * @rfturn bn {@dodf InftAddrfss} rfprfsfnting thf host
+     * IP bddrfss.
+     * @sindf 1.3
+     */
+    protfdtfd syndhronizfd InftAddrfss gftHostAddrfss(URL u) {
+        if (u.hostAddrfss != null)
+            rfturn u.hostAddrfss;
+
+        String host = u.gftHost();
+        if (host == null || host.fqubls("")) {
+            rfturn null;
+        } flsf {
+            try {
+                u.hostAddrfss = InftAddrfss.gftByNbmf(host);
+            } dbtdh (UnknownHostExdfption fx) {
+                rfturn null;
+            } dbtdh (SfdurityExdfption sf) {
+                rfturn null;
+            }
+        }
+        rfturn u.hostAddrfss;
+    }
+
+    /**
+     * Compbrfs thf host domponfnts of two URLs.
+     * @pbrbm u1 thf URL of thf first host to dompbrf
+     * @pbrbm u2 thf URL of thf sfdond host to dompbrf
+     * @rfturn  {@dodf truf} if bnd only if thfy
+     * brf fqubl, {@dodf fblsf} othfrwisf.
+     * @sindf 1.3
+     */
+    protfdtfd boolfbn hostsEqubl(URL u1, URL u2) {
+        InftAddrfss b1 = gftHostAddrfss(u1);
+        InftAddrfss b2 = gftHostAddrfss(u2);
+        // if wf hbvf intfrnft bddrfss for both, dompbrf thfm
+        if (b1 != null && b2 != null) {
+            rfturn b1.fqubls(b2);
+        // flsf, if both hbvf host nbmfs, dompbrf thfm
+        } flsf if (u1.gftHost() != null && u2.gftHost() != null)
+            rfturn u1.gftHost().fqublsIgnorfCbsf(u2.gftHost());
+         flsf
+            rfturn u1.gftHost() == null && u2.gftHost() == null;
+    }
+
+    /**
+     * Convfrts b {@dodf URL} of b spfdifid protodol to b
+     * {@dodf String}.
+     *
+     * @pbrbm   u   thf URL.
+     * @rfturn  b string rfprfsfntbtion of thf {@dodf URL} brgumfnt.
+     */
+    protfdtfd String toExtfrnblForm(URL u) {
+
+        // prf-domputf lfngth of StringBufffr
+        int lfn = u.gftProtodol().lfngth() + 1;
+        if (u.gftAuthority() != null && u.gftAuthority().lfngth() > 0)
+            lfn += 2 + u.gftAuthority().lfngth();
+        if (u.gftPbth() != null) {
+            lfn += u.gftPbth().lfngth();
+        }
+        if (u.gftQufry() != null) {
+            lfn += 1 + u.gftQufry().lfngth();
+        }
+        if (u.gftRff() != null)
+            lfn += 1 + u.gftRff().lfngth();
+
+        StringBuildfr rfsult = nfw StringBuildfr(lfn);
+        rfsult.bppfnd(u.gftProtodol());
+        rfsult.bppfnd(":");
+        if (u.gftAuthority() != null && u.gftAuthority().lfngth() > 0) {
+            rfsult.bppfnd("//");
+            rfsult.bppfnd(u.gftAuthority());
+        }
+        if (u.gftPbth() != null) {
+            rfsult.bppfnd(u.gftPbth());
+        }
+        if (u.gftQufry() != null) {
+            rfsult.bppfnd('?');
+            rfsult.bppfnd(u.gftQufry());
+        }
+        if (u.gftRff() != null) {
+            rfsult.bppfnd("#");
+            rfsult.bppfnd(u.gftRff());
+        }
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Sfts thf fiflds of thf {@dodf URL} brgumfnt to thf indidbtfd vblufs.
+     * Only dlbssfs dfrivfd from URLStrfbmHbndlfr brf bblf
+     * to usf this mfthod to sft thf vblufs of thf URL fiflds.
+     *
+     * @pbrbm   u         thf URL to modify.
+     * @pbrbm   protodol  thf protodol nbmf.
+     * @pbrbm   host      thf rfmotf host vbluf for thf URL.
+     * @pbrbm   port      thf port on thf rfmotf mbdhinf.
+     * @pbrbm   buthority thf buthority pbrt for thf URL.
+     * @pbrbm   usfrInfo thf usfrInfo pbrt of thf URL.
+     * @pbrbm   pbth      thf pbth domponfnt of thf URL.
+     * @pbrbm   qufry     thf qufry pbrt for thf URL.
+     * @pbrbm   rff       thf rfffrfndf.
+     * @fxdfption       SfdurityExdfption       if thf protodol hbndlfr of thf URL is
+     *                                  difffrfnt from this onf
+     * @sff     jbvb.nft.URL#sft(jbvb.lbng.String, jbvb.lbng.String, int, jbvb.lbng.String, jbvb.lbng.String)
+     * @sindf 1.3
+     */
+       protfdtfd void sftURL(URL u, String protodol, String host, int port,
+                             String buthority, String usfrInfo, String pbth,
+                             String qufry, String rff) {
+        if (this != u.hbndlfr) {
+            throw nfw SfdurityExdfption("hbndlfr for url difffrfnt from " +
+                                        "this hbndlfr");
+        }
+        // fnsurf thbt no onf dbn rfsft thf protodol on b givfn URL.
+        u.sft(u.gftProtodol(), host, port, buthority, usfrInfo, pbth, qufry, rff);
+    }
+
+    /**
+     * Sfts thf fiflds of thf {@dodf URL} brgumfnt to thf indidbtfd vblufs.
+     * Only dlbssfs dfrivfd from URLStrfbmHbndlfr brf bblf
+     * to usf this mfthod to sft thf vblufs of thf URL fiflds.
+     *
+     * @pbrbm   u         thf URL to modify.
+     * @pbrbm   protodol  thf protodol nbmf. This vbluf is ignorfd sindf 1.2.
+     * @pbrbm   host      thf rfmotf host vbluf for thf URL.
+     * @pbrbm   port      thf port on thf rfmotf mbdhinf.
+     * @pbrbm   filf      thf filf.
+     * @pbrbm   rff       thf rfffrfndf.
+     * @fxdfption       SfdurityExdfption       if thf protodol hbndlfr of thf URL is
+     *                                  difffrfnt from this onf
+     * @dfprfdbtfd Usf sftURL(URL, String, String, int, String, String, String,
+     *             String);
+     */
+    @Dfprfdbtfd
+    protfdtfd void sftURL(URL u, String protodol, String host, int port,
+                          String filf, String rff) {
+        /*
+         * Only old URL hbndlfrs dbll this, so bssumf thbt thf host
+         * fifld might dontbin "usfr:pbsswd@host". Fix bs nfdfssbry.
+         */
+        String buthority = null;
+        String usfrInfo = null;
+        if (host != null && host.lfngth() != 0) {
+            buthority = (port == -1) ? host : host + ":" + port;
+            int bt = host.lbstIndfxOf('@');
+            if (bt != -1) {
+                usfrInfo = host.substring(0, bt);
+                host = host.substring(bt+1);
+            }
+        }
+
+        /*
+         * Assumf filf might dontbin qufry pbrt. Fix bs nfdfssbry.
+         */
+        String pbth = null;
+        String qufry = null;
+        if (filf != null) {
+            int q = filf.lbstIndfxOf('?');
+            if (q != -1) {
+                qufry = filf.substring(q+1);
+                pbth = filf.substring(0, q);
+            } flsf
+                pbth = filf;
+        }
+        sftURL(u, protodol, host, port, buthority, usfrInfo, pbth, qufry, rff);
+    }
+}

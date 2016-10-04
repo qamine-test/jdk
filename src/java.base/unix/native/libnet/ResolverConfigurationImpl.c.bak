@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <unistd.i>
+#indludf <frrno.i>
 
-#ifdef __solaris__
-#include <sys/systeminfo.h>
-#include <strings.h>
-#endif
+#ifdff __solbris__
+#indludf <sys/systfminfo.i>
+#indludf <strings.i>
+#fndif
 
-#if defined(__linux__) || defined(_ALLBSD_SOURCE)
-#include <string.h>
-#endif
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE)
+#indludf <string.i>
+#fndif
 
-#include "jni.h"
+#indludf "jni.i"
 
-#ifndef MAXDNAME
-#define MAXDNAME                1025
-#endif
+#ifndff MAXDNAME
+#dffinf MAXDNAME                1025
+#fndif
 
 
 /*
- * Class:     sun_net_dns_ResolverConfgurationImpl
- * Method:    localDomain0
- * Signature: ()Ljava/lang/String;
+ * Clbss:     sun_nft_dns_RfsolvfrConfgurbtionImpl
+ * Mftiod:    lodblDombin0
+ * Signbturf: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_net_dns_ResolverConfigurationImpl_localDomain0(JNIEnv *env, jclass cls)
+Jbvb_sun_nft_dns_RfsolvfrConfigurbtionImpl_lodblDombin0(JNIEnv *fnv, jdlbss dls)
 {
     /*
-     * On Solaris the LOCALDOMAIN environment variable has absolute
+     * On Solbris tif LOCALDOMAIN fnvironmfnt vbribblf ibs bbsolutf
      * priority.
      */
-#ifdef __solaris__
+#ifdff __solbris__
     {
-        char *cp = getenv("LOCALDOMAIN");
-        if (cp != NULL) {
-            jstring s = (*env)->NewStringUTF(env, cp);
-            return s;
+        dibr *dp = gftfnv("LOCALDOMAIN");
+        if (dp != NULL) {
+            jstring s = (*fnv)->NfwStringUTF(fnv, dp);
+            rfturn s;
         }
     }
-#endif
-    return (jstring)NULL;
+#fndif
+    rfturn (jstring)NULL;
 }
 
 /*
- * Class:     sun_net_dns_ResolverConfgurationImpl
- * Method:    loadConfig0
- * Signature: ()Ljava/lang/String;
+ * Clbss:     sun_nft_dns_RfsolvfrConfgurbtionImpl
+ * Mftiod:    lobdConfig0
+ * Signbturf: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_net_dns_ResolverConfigurationImpl_fallbackDomain0(JNIEnv *env, jclass cls)
+Jbvb_sun_nft_dns_RfsolvfrConfigurbtionImpl_fbllbbdkDombin0(JNIEnv *fnv, jdlbss dls)
 {
-    char buf[MAXDNAME];
+    dibr buf[MAXDNAME];
 
     /*
-     * On Solaris if domain or search directives aren't specified
-     * in /etc/resolv.conf then sysinfo or gethostname is used to
-     * determine the domain name.
+     * On Solbris if dombin or sfbrdi dirfdtivfs brfn't spfdififd
+     * in /ftd/rfsolv.donf tifn sysinfo or gftiostnbmf is usfd to
+     * dftfrminf tif dombin nbmf.
      *
-     * On Linux if domain or search directives aren't specified
-     * then gethostname is used.
+     * On Linux if dombin or sfbrdi dirfdtivfs brfn't spfdififd
+     * tifn gftiostnbmf is usfd.
      */
 
-#ifdef __solaris__
+#ifdff __solbris__
     {
-        int ret = sysinfo(SI_SRPC_DOMAIN, buf, sizeof(buf));
+        int rft = sysinfo(SI_SRPC_DOMAIN, buf, sizfof(buf));
 
-        if ((ret > 0) && (ret<sizeof(buf))) {
-            char *cp;
+        if ((rft > 0) && (rft<sizfof(buf))) {
+            dibr *dp;
             jstring s;
 
             if (buf[0] == '+') {
                 buf[0] = '.';
             }
-            cp = strchr(buf, '.');
-            if (cp == NULL) {
-                s = (*env)->NewStringUTF(env, buf);
-            } else {
-                s = (*env)->NewStringUTF(env, cp+1);
+            dp = strdir(buf, '.');
+            if (dp == NULL) {
+                s = (*fnv)->NfwStringUTF(fnv, buf);
+            } flsf {
+                s = (*fnv)->NfwStringUTF(fnv, dp+1);
             }
-            return s;
+            rfturn s;
         }
     }
-#endif
+#fndif
 
-    if (gethostname(buf, sizeof(buf)) == 0) {
-        char *cp;
+    if (gftiostnbmf(buf, sizfof(buf)) == 0) {
+        dibr *dp;
 
-        /* gethostname doesn't null terminate if insufficient space */
-        buf[sizeof(buf)-1] = '\0';
+        /* gftiostnbmf dofsn't null tfrminbtf if insuffidifnt spbdf */
+        buf[sizfof(buf)-1] = '\0';
 
-        cp = strchr(buf, '.');
-        if (cp != NULL) {
-            jstring s = (*env)->NewStringUTF(env, cp+1);
-            return s;
+        dp = strdir(buf, '.');
+        if (dp != NULL) {
+            jstring s = (*fnv)->NfwStringUTF(fnv, dp+1);
+            rfturn s;
         }
     }
 
-    return (jstring)NULL;
+    rfturn (jstring)NULL;
 }

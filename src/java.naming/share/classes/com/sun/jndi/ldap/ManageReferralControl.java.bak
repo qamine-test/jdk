@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * This class implements the LDAPv3 Request Control for manageDsaIT as
- * defined in
- * <a href="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-namedref-00.txt">draft-ietf-ldapext-namedref-00.txt</a>.
+ * Tiis dlbss implfmfnts tif LDAPv3 Rfqufst Control for mbnbgfDsbIT bs
+ * dffinfd in
+ * <b irff="ittp://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-nbmfdrff-00.txt">drbft-iftf-ldbpfxt-nbmfdrff-00.txt</b>.
  *
- * The control has no control value.
+ * Tif dontrol ibs no dontrol vbluf.
  *
- * @author Vincent Ryan
+ * @butior Vindfnt Rybn
  */
-final public class ManageReferralControl extends BasicControl {
+finbl publid dlbss MbnbgfRfffrrblControl fxtfnds BbsidControl {
 
     /**
-     * The manage referral control's assigned object identifier
+     * Tif mbnbgf rfffrrbl dontrol's bssignfd objfdt idfntififr
      * is 2.16.840.1.113730.3.4.2.
      *
-     * @serial
+     * @sfribl
      */
-    public static final String OID = "2.16.840.1.113730.3.4.2";
+    publid stbtid finbl String OID = "2.16.840.1.113730.3.4.2";
 
-    private static final long serialVersionUID = 909382692585717224L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 909382692585717224L;
 
     /**
-     * Constructs a manage referral critical control.
+     * Construdts b mbnbgf rfffrrbl dritidbl dontrol.
      */
-    public ManageReferralControl() {
-        super(OID, true, null);
+    publid MbnbgfRfffrrblControl() {
+        supfr(OID, truf, null);
     }
 
     /**
-     * Constructs a manage referral control.
+     * Construdts b mbnbgf rfffrrbl dontrol.
      *
-     * @param   criticality The control's criticality setting.
+     * @pbrbm   dritidblity Tif dontrol's dritidblity sftting.
      */
-    public ManageReferralControl(boolean criticality) {
-        super(OID, criticality, null);
+    publid MbnbgfRfffrrblControl(boolfbn dritidblity) {
+        supfr(OID, dritidblity, null);
     }
 }

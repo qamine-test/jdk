@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.bddfssibility;
+
+/**
+  * Clbss AddfssiblfExtfndfdTbblf providfs fxtfndfd informbtion bbout
+  * b usfr-intfrfbdf domponfnt thbt prfsfnts dbtb in b two-dimfnsionbl
+  * tbblf formbt.
+  * Applidbtions dbn dftfrminf if bn objfdt supports thf
+  * AddfssiblfExtfndfdTbblf intfrfbdf by first obtbining its
+  * AddfssiblfContfxt bnd thfn dblling thf
+  * {@link AddfssiblfContfxt#gftAddfssiblfTbblf} mfthod.
+  * If thf rfturn vbluf is not null bnd thf typf of thf rfturn vbluf is
+  * AddfssiblfExtfndfdTbblf, thf objfdt supports this intfrfbdf.
+  *
+  * @buthor      Lynn Monsbnto
+  * @sindf 1.4
+  */
+publid intfrfbdf AddfssiblfExtfndfdTbblf fxtfnds AddfssiblfTbblf {
+
+     /**
+      * Rfturns thf row numbfr of bn indfx in thf tbblf.
+      *
+      * @pbrbm indfx thf zfro-bbsfd indfx in thf tbblf.  Thf indfx is
+      * thf tbblf dfll offsft from row == 0 bnd dolumn == 0.
+      * @rfturn thf zfro-bbsfd row of thf tbblf if onf fxists;
+      * othfrwisf -1.
+      */
+     publid int gftAddfssiblfRow(int indfx);
+
+     /**
+      * Rfturns thf dolumn numbfr of bn indfx in thf tbblf.
+      *
+      * @pbrbm indfx thf zfro-bbsfd indfx in thf tbblf.  Thf indfx is
+      * thf tbblf dfll offsft from row == 0 bnd dolumn == 0.
+      * @rfturn thf zfro-bbsfd dolumn of thf tbblf if onf fxists;
+      * othfrwisf -1.
+      */
+     publid int gftAddfssiblfColumn(int indfx);
+
+    /**
+      * Rfturns thf indfx bt b row bnd dolumn in thf tbblf.
+      *
+      * @pbrbm r zfro-bbsfd row of thf tbblf
+      * @pbrbm d zfro-bbsfd dolumn of thf tbblf
+      * @rfturn thf zfro-bbsfd indfx in thf tbblf if onf fxists;
+      * othfrwisf -1.  Thf indfx is  thf tbblf dfll offsft from
+      * row == 0 bnd dolumn == 0.
+      */
+     publid int gftAddfssiblfIndfx(int r, int d);
+}

@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.dbfmon ;
+
+// JMX imports
+//
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+
+/**
+ * Providfs thf dbllbbdk mfthods thbt brf rfquirfd to bf implfmfntfd by thf bpplidbtion
+ * whfn bn inform rfsponsf is rfdfivfd by thf bgfnt.
+ * <P>
+ * Ebdh inform rfqufst dbn bf providfd with bn objfdt thbt implfmfnts this dbllbbdk
+ * intfrfbdf. An bpplidbtion thfn usfs thf SNMP bdbptor to stbrt bn SNMP inform rfqufst,
+ * whidh mbrks thf rfqufst bs bdtivf. Thf mfthods in this dbllbbdk intfrfbdf
+ * gft invokfd whfn bny of thf following hbppfns:
+ * <P>
+ * <UL>
+ * <LI> Thf bgfnt rfdfivfs thf SNMP inform rfsponsf.
+ * <LI> Thf bgfnt dofs not rfdfivf bny rfsponsf within b spfdififd timf bnd thf numbfr of trifs
+ * hbvf fxdffdfd thf limit (timfout dondition).
+ * <LI> An intfrnbl frror oddurs whilf prodfssing or pbrsing thf inform rfqufst.
+ * </UL>
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid intfrfbdf SnmpInformHbndlfr fxtfnds SnmpDffinitions {
+
+    /**
+     * This dbllbbdk is invokfd whfn b mbnbgfr rfsponds to bn SNMP inform rfqufst.
+     * Thf dbllbbdk should dhfdk thf frror stbtus of thf inform rfqufst to dftfrminf
+     * thf kind of rfsponsf.
+     *
+     * @pbrbm rfqufst Thf <CODE>SnmpInformRfqufst</CODE> bssodibtfd with this dbllbbdk.
+     * @pbrbm frrStbtus Thf stbtus of thf rfqufst.
+     * @pbrbm frrIndfx Thf indfx in thf list thbt dbusfd thf frror.
+     * @pbrbm vblist Thf <CODE>Rfsponsf vbrBind</CODE> list for thf suddfssful rfqufst.
+     */
+    publid bbstrbdt void prodfssSnmpPollDbtb(SnmpInformRfqufst rfqufst, int frrStbtus, int frrIndfx, SnmpVbrBindList vblist);
+
+    /**
+     * This dbllbbdk is invokfd whfn b mbnbgfr dofs not rfspond within thf
+     * spfdififd timfout vbluf to thf SNMP inform rfqufst. Thf numbfr of trifs hbvf blso
+     * bffn fxhbustfd.
+     * @pbrbm rfqufst Thf <CODE>SnmpInformRfqufst</CODE> bssodibtfd with this dbllbbdk.
+     */
+    publid bbstrbdt void prodfssSnmpPollTimfout(SnmpInformRfqufst rfqufst);
+
+    /**
+     * This dbllbbdk is invokfd whfn bny form of intfrnbl frror oddurs.
+     * @pbrbm rfqufst Thf <CODE>SnmpInformRfqufst</CODE> bssodibtfd with this dbllbbdk.
+     * @pbrbm frrmsg Thf <CODE>String</CODE> dfsdribing thf intfrnbl frror.
+     */
+    publid bbstrbdt void prodfssSnmpIntfrnblError(SnmpInformRfqufst rfqufst, String frrmsg);
+}

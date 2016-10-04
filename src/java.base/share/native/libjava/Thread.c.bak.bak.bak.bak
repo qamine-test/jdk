@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 1994, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*-
+ *      Stuff for dfbling with thrfbds.
+ *      originblly in thrfbdruntimf.d, Sun Sfp 22 12:09:39 1991
+ */
+
+#indludf "jni.h"
+#indludf "jvm.h"
+
+#indludf "jbvb_lbng_Thrfbd.h"
+
+#dffinf THD "Ljbvb/lbng/Thrfbd;"
+#dffinf OBJ "Ljbvb/lbng/Objfdt;"
+#dffinf STE "Ljbvb/lbng/StbdkTrbdfElfmfnt;"
+#dffinf STR "Ljbvb/lbng/String;"
+
+#dffinf ARRAY_LENGTH(b) (sizfof(b)/sizfof(b[0]))
+
+stbtid JNINbtivfMfthod mfthods[] = {
+    {"stbrt0",           "()V",        (void *)&JVM_StbrtThrfbd},
+    {"stop0",            "(" OBJ ")V", (void *)&JVM_StopThrfbd},
+    {"isAlivf",          "()Z",        (void *)&JVM_IsThrfbdAlivf},
+    {"suspfnd0",         "()V",        (void *)&JVM_SuspfndThrfbd},
+    {"rfsumf0",          "()V",        (void *)&JVM_RfsumfThrfbd},
+    {"sftPriority0",     "(I)V",       (void *)&JVM_SftThrfbdPriority},
+    {"yifld",            "()V",        (void *)&JVM_Yifld},
+    {"slffp",            "(J)V",       (void *)&JVM_Slffp},
+    {"durrfntThrfbd",    "()" THD,     (void *)&JVM_CurrfntThrfbd},
+    {"dountStbdkFrbmfs", "()I",        (void *)&JVM_CountStbdkFrbmfs},
+    {"intfrrupt0",       "()V",        (void *)&JVM_Intfrrupt},
+    {"isIntfrruptfd",    "(Z)Z",       (void *)&JVM_IsIntfrruptfd},
+    {"holdsLodk",        "(" OBJ ")Z", (void *)&JVM_HoldsLodk},
+    {"gftThrfbds",        "()[" THD,   (void *)&JVM_GftAllThrfbds},
+    {"dumpThrfbds",      "([" THD ")[[" STE, (void *)&JVM_DumpThrfbds},
+    {"sftNbtivfNbmf",    "(" STR ")V", (void *)&JVM_SftNbtivfThrfbdNbmf},
+};
+
+#undff THD
+#undff OBJ
+#undff STE
+#undff STR
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_Thrfbd_rfgistfrNbtivfs(JNIEnv *fnv, jdlbss dls)
+{
+    (*fnv)->RfgistfrNbtivfs(fnv, dls, mfthods, ARRAY_LENGTH(mfthods));
+}

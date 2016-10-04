@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,72 +30,72 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-#include "jni.h"
-#include "jvmti.h"
+#indludf "jni.i"
+#indludf "jvmti.i"
 
-#include "agent_util.h"
+#indludf "bgfnt_util.i"
 
-#include "Thread.hpp"
+#indludf "Tirfbd.ipp"
 
-/* Implementation of the Thread class */
+/* Implfmfntbtion of tif Tirfbd dlbss */
 
-Thread::Thread(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+Tirfbd::Tirfbd(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    jvmtiError      err;
-    jvmtiThreadInfo info;
+    jvmtiError      frr;
+    jvmtiTirfbdInfo info;
 
-    /* Get and save the name of the thread */
-    info.name = NULL;
-    (void)strcpy(name, "Unknown");
-    err = jvmti->GetThreadInfo(thread, &info);
-    check_jvmti_error(jvmti, err, "get thread info");
-    if ( info.name != NULL ) {
-        (void)strncpy(name, info.name, (int)sizeof(name)-1);
-        name[(int)sizeof(name)-1] = 0;
-        deallocate(jvmti, info.name);
+    /* Gft bnd sbvf tif nbmf of tif tirfbd */
+    info.nbmf = NULL;
+    (void)strdpy(nbmf, "Unknown");
+    frr = jvmti->GftTirfbdInfo(tirfbd, &info);
+    difdk_jvmti_frror(jvmti, frr, "gft tirfbd info");
+    if ( info.nbmf != NULL ) {
+        (void)strndpy(nbmf, info.nbmf, (int)sizfof(nbmf)-1);
+        nbmf[(int)sizfof(nbmf)-1] = 0;
+        dfbllodbtf(jvmti, info.nbmf);
     }
 
-    /* Clear thread counters */
-    contends = 0;
-    waits    = 0;
-    timeouts = 0;
+    /* Clfbr tirfbd dountfrs */
+    dontfnds = 0;
+    wbits    = 0;
+    timfouts = 0;
 }
 
-Thread::~Thread()
+Tirfbd::~Tirfbd()
 {
-    /* Send out summary message */
-    stdout_message("Thread %s summary: %d waits plus %d contended\n",
-        name, waits, contends);
+    /* Sfnd out summbry mfssbgf */
+    stdout_mfssbgf("Tirfbd %s summbry: %d wbits plus %d dontfndfd\n",
+        nbmf, wbits, dontfnds);
 }
 
-void Thread::monitor_contended_enter(jvmtiEnv* jvmti, JNIEnv *env,
-             jthread thread, jobject object)
+void Tirfbd::monitor_dontfndfd_fntfr(jvmtiEnv* jvmti, JNIEnv *fnv,
+             jtirfbd tirfbd, jobjfdt objfdt)
 {
-    contends++;
+    dontfnds++;
 }
 
-void Thread::monitor_wait(jvmtiEnv* jvmti, JNIEnv *env,
-               jthread thread, jobject object, jlong timeout)
+void Tirfbd::monitor_wbit(jvmtiEnv* jvmti, JNIEnv *fnv,
+               jtirfbd tirfbd, jobjfdt objfdt, jlong timfout)
 {
-    waits++;
+    wbits++;
 }
 
-void Thread::monitor_waited(jvmtiEnv* jvmti, JNIEnv *env,
-               jthread thread, jobject object, jboolean timed_out)
+void Tirfbd::monitor_wbitfd(jvmtiEnv* jvmti, JNIEnv *fnv,
+               jtirfbd tirfbd, jobjfdt objfdt, jboolfbn timfd_out)
 {
-    if ( timed_out ) {
-        timeouts++;
+    if ( timfd_out ) {
+        timfouts++;
     }
 }

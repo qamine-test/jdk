@@ -1,299 +1,299 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _JAVASOFT_JAWT_H_
-#define _JAVASOFT_JAWT_H_
+#ifndff _JAVASOFT_JAWT_H_
+#dffinf _JAVASOFT_JAWT_H_
 
-#include "jni.h"
+#indludf "jni.i"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
 /*
- * AWT native interface (new in JDK 1.3)
+ * AWT nbtivf intfrfbdf (nfw in JDK 1.3)
  *
- * The AWT native interface allows a native C or C++ application a means
- * by which to access native structures in AWT.  This is to facilitate moving
- * legacy C and C++ applications to Java and to target the needs of the
- * community who, at present, wish to do their own native rendering to canvases
- * for performance reasons.  Standard extensions such as Java3D also require a
- * means to access the underlying native data structures of AWT.
+ * Tif AWT nbtivf intfrfbdf bllows b nbtivf C or C++ bpplidbtion b mfbns
+ * by wiidi to bddfss nbtivf strudturfs in AWT.  Tiis is to fbdilitbtf moving
+ * lfgbdy C bnd C++ bpplidbtions to Jbvb bnd to tbrgft tif nffds of tif
+ * dommunity wio, bt prfsfnt, wisi to do tifir own nbtivf rfndfring to dbnvbsfs
+ * for pfrformbndf rfbsons.  Stbndbrd fxtfnsions sudi bs Jbvb3D blso rfquirf b
+ * mfbns to bddfss tif undfrlying nbtivf dbtb strudturfs of AWT.
  *
- * There may be future extensions to this API depending on demand.
+ * Tifrf mby bf futurf fxtfnsions to tiis API dfpfnding on dfmbnd.
  *
- * A VM does not have to implement this API in order to pass the JCK.
- * It is recommended, however, that this API is implemented on VMs that support
- * standard extensions, such as Java3D.
+ * A VM dofs not ibvf to implfmfnt tiis API in ordfr to pbss tif JCK.
+ * It is rfdommfndfd, iowfvfr, tibt tiis API is implfmfntfd on VMs tibt support
+ * stbndbrd fxtfnsions, sudi bs Jbvb3D.
  *
- * Since this is a native API, any program which uses it cannot be considered
- * 100% pure java.
+ * Sindf tiis is b nbtivf API, bny progrbm wiidi usfs it dbnnot bf donsidfrfd
+ * 100% purf jbvb.
  */
 
 /*
- * AWT Native Drawing Surface (JAWT_DrawingSurface).
+ * AWT Nbtivf Drbwing Surfbdf (JAWT_DrbwingSurfbdf).
  *
- * For each platform, there is a native drawing surface structure.  This
- * platform-specific structure can be found in jawt_md.h.  It is recommended
- * that additional platforms follow the same model.  It is also recommended
- * that VMs on Win32 and Solaris support the existing structures in jawt_md.h.
+ * For fbdi plbtform, tifrf is b nbtivf drbwing surfbdf strudturf.  Tiis
+ * plbtform-spfdifid strudturf dbn bf found in jbwt_md.i.  It is rfdommfndfd
+ * tibt bdditionbl plbtforms follow tif sbmf modfl.  It is blso rfdommfndfd
+ * tibt VMs on Win32 bnd Solbris support tif fxisting strudturfs in jbwt_md.i.
  *
  *******************
  * EXAMPLE OF USAGE:
  *******************
  *
- * In Win32, a programmer wishes to access the HWND of a canvas to perform
- * native rendering into it.  The programmer has declared the paint() method
- * for their canvas subclass to be native:
+ * In Win32, b progrbmmfr wisifs to bddfss tif HWND of b dbnvbs to pfrform
+ * nbtivf rfndfring into it.  Tif progrbmmfr ibs dfdlbrfd tif pbint() mftiod
+ * for tifir dbnvbs subdlbss to bf nbtivf:
  *
  *
- * MyCanvas.java:
+ * MyCbnvbs.jbvb:
  *
- * import java.awt.*;
+ * import jbvb.bwt.*;
  *
- * public class MyCanvas extends Canvas {
+ * publid dlbss MyCbnvbs fxtfnds Cbnvbs {
  *
- *     static {
- *         System.loadLibrary("mylib");
+ *     stbtid {
+ *         Systfm.lobdLibrbry("mylib");
  *     }
  *
- *     public native void paint(Graphics g);
+ *     publid nbtivf void pbint(Grbpiids g);
  * }
  *
  *
- * myfile.c:
+ * myfilf.d:
  *
- * #include "jawt_md.h"
- * #include <assert.h>
+ * #indludf "jbwt_md.i"
+ * #indludf <bssfrt.i>
  *
  * JNIEXPORT void JNICALL
- * Java_MyCanvas_paint(JNIEnv* env, jobject canvas, jobject graphics)
+ * Jbvb_MyCbnvbs_pbint(JNIEnv* fnv, jobjfdt dbnvbs, jobjfdt grbpiids)
  * {
- *     JAWT awt;
- *     JAWT_DrawingSurface* ds;
- *     JAWT_DrawingSurfaceInfo* dsi;
- *     JAWT_Win32DrawingSurfaceInfo* dsi_win;
- *     jboolean result;
- *     jint lock;
+ *     JAWT bwt;
+ *     JAWT_DrbwingSurfbdf* ds;
+ *     JAWT_DrbwingSurfbdfInfo* dsi;
+ *     JAWT_Win32DrbwingSurfbdfInfo* dsi_win;
+ *     jboolfbn rfsult;
+ *     jint lodk;
  *
- *     // Get the AWT
- *     awt.version = JAWT_VERSION_1_3;
- *     result = JAWT_GetAWT(env, &awt);
- *     assert(result != JNI_FALSE);
+ *     // Gft tif AWT
+ *     bwt.vfrsion = JAWT_VERSION_1_3;
+ *     rfsult = JAWT_GftAWT(fnv, &bwt);
+ *     bssfrt(rfsult != JNI_FALSE);
  *
- *     // Get the drawing surface
- *     ds = awt.GetDrawingSurface(env, canvas);
- *     assert(ds != NULL);
+ *     // Gft tif drbwing surfbdf
+ *     ds = bwt.GftDrbwingSurfbdf(fnv, dbnvbs);
+ *     bssfrt(ds != NULL);
  *
- *     // Lock the drawing surface
- *     lock = ds->Lock(ds);
- *     assert((lock & JAWT_LOCK_ERROR) == 0);
+ *     // Lodk tif drbwing surfbdf
+ *     lodk = ds->Lodk(ds);
+ *     bssfrt((lodk & JAWT_LOCK_ERROR) == 0);
  *
- *     // Get the drawing surface info
- *     dsi = ds->GetDrawingSurfaceInfo(ds);
+ *     // Gft tif drbwing surfbdf info
+ *     dsi = ds->GftDrbwingSurfbdfInfo(ds);
  *
- *     // Get the platform-specific drawing info
- *     dsi_win = (JAWT_Win32DrawingSurfaceInfo*)dsi->platformInfo;
+ *     // Gft tif plbtform-spfdifid drbwing info
+ *     dsi_win = (JAWT_Win32DrbwingSurfbdfInfo*)dsi->plbtformInfo;
  *
  *     //////////////////////////////
  *     // !!! DO PAINTING HERE !!! //
  *     //////////////////////////////
  *
- *     // Free the drawing surface info
- *     ds->FreeDrawingSurfaceInfo(dsi);
+ *     // Frff tif drbwing surfbdf info
+ *     ds->FrffDrbwingSurfbdfInfo(dsi);
  *
- *     // Unlock the drawing surface
- *     ds->Unlock(ds);
+ *     // Unlodk tif drbwing surfbdf
+ *     ds->Unlodk(ds);
  *
- *     // Free the drawing surface
- *     awt.FreeDrawingSurface(ds);
+ *     // Frff tif drbwing surfbdf
+ *     bwt.FrffDrbwingSurfbdf(ds);
  * }
  *
  */
 
 /*
- * JAWT_Rectangle
- * Structure for a native rectangle.
+ * JAWT_Rfdtbnglf
+ * Strudturf for b nbtivf rfdtbnglf.
  */
-typedef struct jawt_Rectangle {
+typfdff strudt jbwt_Rfdtbnglf {
     jint x;
     jint y;
-    jint width;
-    jint height;
-} JAWT_Rectangle;
+    jint widti;
+    jint ifigit;
+} JAWT_Rfdtbnglf;
 
-struct jawt_DrawingSurface;
-
-/*
- * JAWT_DrawingSurfaceInfo
- * Structure for containing the underlying drawing information of a component.
- */
-typedef struct jawt_DrawingSurfaceInfo {
-    /*
-     * Pointer to the platform-specific information.  This can be safely
-     * cast to a JAWT_Win32DrawingSurfaceInfo on Windows or a
-     * JAWT_X11DrawingSurfaceInfo on Solaris. On Mac OS X this is a
-     * pointer to a NSObject that conforms to the JAWT_SurfaceLayers
-     * protocol. See jawt_md.h for details.
-     */
-    void* platformInfo;
-    /* Cached pointer to the underlying drawing surface */
-    struct jawt_DrawingSurface* ds;
-    /* Bounding rectangle of the drawing surface */
-    JAWT_Rectangle bounds;
-    /* Number of rectangles in the clip */
-    jint clipSize;
-    /* Clip rectangle array */
-    JAWT_Rectangle* clip;
-} JAWT_DrawingSurfaceInfo;
-
-#define JAWT_LOCK_ERROR                 0x00000001
-#define JAWT_LOCK_CLIP_CHANGED          0x00000002
-#define JAWT_LOCK_BOUNDS_CHANGED        0x00000004
-#define JAWT_LOCK_SURFACE_CHANGED       0x00000008
+strudt jbwt_DrbwingSurfbdf;
 
 /*
- * JAWT_DrawingSurface
- * Structure for containing the underlying drawing information of a component.
- * All operations on a JAWT_DrawingSurface MUST be performed from the same
- * thread as the call to GetDrawingSurface.
+ * JAWT_DrbwingSurfbdfInfo
+ * Strudturf for dontbining tif undfrlying drbwing informbtion of b domponfnt.
  */
-typedef struct jawt_DrawingSurface {
+typfdff strudt jbwt_DrbwingSurfbdfInfo {
     /*
-     * Cached reference to the Java environment of the calling thread.
-     * If Lock(), Unlock(), GetDrawingSurfaceInfo() or
-     * FreeDrawingSurfaceInfo() are called from a different thread,
-     * this data member should be set before calling those functions.
+     * Pointfr to tif plbtform-spfdifid informbtion.  Tiis dbn bf sbffly
+     * dbst to b JAWT_Win32DrbwingSurfbdfInfo on Windows or b
+     * JAWT_X11DrbwingSurfbdfInfo on Solbris. On Mbd OS X tiis is b
+     * pointfr to b NSObjfdt tibt donforms to tif JAWT_SurfbdfLbyfrs
+     * protodol. Sff jbwt_md.i for dftbils.
      */
-    JNIEnv* env;
-    /* Cached reference to the target object */
-    jobject target;
+    void* plbtformInfo;
+    /* Cbdifd pointfr to tif undfrlying drbwing surfbdf */
+    strudt jbwt_DrbwingSurfbdf* ds;
+    /* Bounding rfdtbnglf of tif drbwing surfbdf */
+    JAWT_Rfdtbnglf bounds;
+    /* Numbfr of rfdtbnglfs in tif dlip */
+    jint dlipSizf;
+    /* Clip rfdtbnglf brrby */
+    JAWT_Rfdtbnglf* dlip;
+} JAWT_DrbwingSurfbdfInfo;
+
+#dffinf JAWT_LOCK_ERROR                 0x00000001
+#dffinf JAWT_LOCK_CLIP_CHANGED          0x00000002
+#dffinf JAWT_LOCK_BOUNDS_CHANGED        0x00000004
+#dffinf JAWT_LOCK_SURFACE_CHANGED       0x00000008
+
+/*
+ * JAWT_DrbwingSurfbdf
+ * Strudturf for dontbining tif undfrlying drbwing informbtion of b domponfnt.
+ * All opfrbtions on b JAWT_DrbwingSurfbdf MUST bf pfrformfd from tif sbmf
+ * tirfbd bs tif dbll to GftDrbwingSurfbdf.
+ */
+typfdff strudt jbwt_DrbwingSurfbdf {
     /*
-     * Lock the surface of the target component for native rendering.
-     * When finished drawing, the surface must be unlocked with
-     * Unlock().  This function returns a bitmask with one or more of the
-     * following values:
+     * Cbdifd rfffrfndf to tif Jbvb fnvironmfnt of tif dblling tirfbd.
+     * If Lodk(), Unlodk(), GftDrbwingSurfbdfInfo() or
+     * FrffDrbwingSurfbdfInfo() brf dbllfd from b difffrfnt tirfbd,
+     * tiis dbtb mfmbfr siould bf sft bfforf dblling tiosf fundtions.
+     */
+    JNIEnv* fnv;
+    /* Cbdifd rfffrfndf to tif tbrgft objfdt */
+    jobjfdt tbrgft;
+    /*
+     * Lodk tif surfbdf of tif tbrgft domponfnt for nbtivf rfndfring.
+     * Wifn finisifd drbwing, tif surfbdf must bf unlodkfd witi
+     * Unlodk().  Tiis fundtion rfturns b bitmbsk witi onf or morf of tif
+     * following vblufs:
      *
-     * JAWT_LOCK_ERROR - When an error has occurred and the surface could not
-     * be locked.
+     * JAWT_LOCK_ERROR - Wifn bn frror ibs oddurrfd bnd tif surfbdf dould not
+     * bf lodkfd.
      *
-     * JAWT_LOCK_CLIP_CHANGED - When the clip region has changed.
+     * JAWT_LOCK_CLIP_CHANGED - Wifn tif dlip rfgion ibs dibngfd.
      *
-     * JAWT_LOCK_BOUNDS_CHANGED - When the bounds of the surface have changed.
+     * JAWT_LOCK_BOUNDS_CHANGED - Wifn tif bounds of tif surfbdf ibvf dibngfd.
      *
-     * JAWT_LOCK_SURFACE_CHANGED - When the surface itself has changed
+     * JAWT_LOCK_SURFACE_CHANGED - Wifn tif surfbdf itsflf ibs dibngfd
      */
-    jint (JNICALL *Lock)
-        (struct jawt_DrawingSurface* ds);
+    jint (JNICALL *Lodk)
+        (strudt jbwt_DrbwingSurfbdf* ds);
     /*
-     * Get the drawing surface info.
-     * The value returned may be cached, but the values may change if
-     * additional calls to Lock() or Unlock() are made.
-     * Lock() must be called before this can return a valid value.
-     * Returns NULL if an error has occurred.
-     * When finished with the returned value, FreeDrawingSurfaceInfo must be
-     * called.
+     * Gft tif drbwing surfbdf info.
+     * Tif vbluf rfturnfd mby bf dbdifd, but tif vblufs mby dibngf if
+     * bdditionbl dblls to Lodk() or Unlodk() brf mbdf.
+     * Lodk() must bf dbllfd bfforf tiis dbn rfturn b vblid vbluf.
+     * Rfturns NULL if bn frror ibs oddurrfd.
+     * Wifn finisifd witi tif rfturnfd vbluf, FrffDrbwingSurfbdfInfo must bf
+     * dbllfd.
      */
-    JAWT_DrawingSurfaceInfo* (JNICALL *GetDrawingSurfaceInfo)
-        (struct jawt_DrawingSurface* ds);
+    JAWT_DrbwingSurfbdfInfo* (JNICALL *GftDrbwingSurfbdfInfo)
+        (strudt jbwt_DrbwingSurfbdf* ds);
     /*
-     * Free the drawing surface info.
+     * Frff tif drbwing surfbdf info.
      */
-    void (JNICALL *FreeDrawingSurfaceInfo)
-        (JAWT_DrawingSurfaceInfo* dsi);
+    void (JNICALL *FrffDrbwingSurfbdfInfo)
+        (JAWT_DrbwingSurfbdfInfo* dsi);
     /*
-     * Unlock the drawing surface of the target component for native rendering.
+     * Unlodk tif drbwing surfbdf of tif tbrgft domponfnt for nbtivf rfndfring.
      */
-    void (JNICALL *Unlock)
-        (struct jawt_DrawingSurface* ds);
-} JAWT_DrawingSurface;
+    void (JNICALL *Unlodk)
+        (strudt jbwt_DrbwingSurfbdf* ds);
+} JAWT_DrbwingSurfbdf;
 
 /*
  * JAWT
- * Structure for containing native AWT functions.
+ * Strudturf for dontbining nbtivf AWT fundtions.
  */
-typedef struct jawt {
+typfdff strudt jbwt {
     /*
-     * Version of this structure.  This must always be set before
-     * calling JAWT_GetAWT()
+     * Vfrsion of tiis strudturf.  Tiis must blwbys bf sft bfforf
+     * dblling JAWT_GftAWT()
      */
-    jint version;
+    jint vfrsion;
     /*
-     * Return a drawing surface from a target jobject.  This value
-     * may be cached.
-     * Returns NULL if an error has occurred.
-     * Target must be a java.awt.Component (should be a Canvas
-     * or Window for native rendering).
-     * FreeDrawingSurface() must be called when finished with the
-     * returned JAWT_DrawingSurface.
+     * Rfturn b drbwing surfbdf from b tbrgft jobjfdt.  Tiis vbluf
+     * mby bf dbdifd.
+     * Rfturns NULL if bn frror ibs oddurrfd.
+     * Tbrgft must bf b jbvb.bwt.Componfnt (siould bf b Cbnvbs
+     * or Window for nbtivf rfndfring).
+     * FrffDrbwingSurfbdf() must bf dbllfd wifn finisifd witi tif
+     * rfturnfd JAWT_DrbwingSurfbdf.
      */
-    JAWT_DrawingSurface* (JNICALL *GetDrawingSurface)
-        (JNIEnv* env, jobject target);
+    JAWT_DrbwingSurfbdf* (JNICALL *GftDrbwingSurfbdf)
+        (JNIEnv* fnv, jobjfdt tbrgft);
     /*
-     * Free the drawing surface allocated in GetDrawingSurface.
+     * Frff tif drbwing surfbdf bllodbtfd in GftDrbwingSurfbdf.
      */
-    void (JNICALL *FreeDrawingSurface)
-        (JAWT_DrawingSurface* ds);
+    void (JNICALL *FrffDrbwingSurfbdf)
+        (JAWT_DrbwingSurfbdf* ds);
     /*
-     * Since 1.4
-     * Locks the entire AWT for synchronization purposes
+     * Sindf 1.4
+     * Lodks tif fntirf AWT for syndironizbtion purposfs
      */
-    void (JNICALL *Lock)(JNIEnv* env);
+    void (JNICALL *Lodk)(JNIEnv* fnv);
     /*
-     * Since 1.4
-     * Unlocks the entire AWT for synchronization purposes
+     * Sindf 1.4
+     * Unlodks tif fntirf AWT for syndironizbtion purposfs
      */
-    void (JNICALL *Unlock)(JNIEnv* env);
+    void (JNICALL *Unlodk)(JNIEnv* fnv);
     /*
-     * Since 1.4
-     * Returns a reference to a java.awt.Component from a native
-     * platform handle.  On Windows, this corresponds to an HWND;
-     * on Solaris and Linux, this is a Drawable.  For other platforms,
-     * see the appropriate machine-dependent header file for a description.
-     * The reference returned by this function is a local
-     * reference that is only valid in this environment.
-     * This function returns a NULL reference if no component could be
-     * found with matching platform information.
+     * Sindf 1.4
+     * Rfturns b rfffrfndf to b jbvb.bwt.Componfnt from b nbtivf
+     * plbtform ibndlf.  On Windows, tiis dorrfsponds to bn HWND;
+     * on Solbris bnd Linux, tiis is b Drbwbblf.  For otifr plbtforms,
+     * sff tif bppropribtf mbdiinf-dfpfndfnt ifbdfr filf for b dfsdription.
+     * Tif rfffrfndf rfturnfd by tiis fundtion is b lodbl
+     * rfffrfndf tibt is only vblid in tiis fnvironmfnt.
+     * Tiis fundtion rfturns b NULL rfffrfndf if no domponfnt dould bf
+     * found witi mbtdiing plbtform informbtion.
      */
-    jobject (JNICALL *GetComponent)(JNIEnv* env, void* platformInfo);
+    jobjfdt (JNICALL *GftComponfnt)(JNIEnv* fnv, void* plbtformInfo);
 
 } JAWT;
 
 /*
- * Get the AWT native structure.  This function returns JNI_FALSE if
- * an error occurs.
+ * Gft tif AWT nbtivf strudturf.  Tiis fundtion rfturns JNI_FALSE if
+ * bn frror oddurs.
  */
 _JNI_IMPORT_OR_EXPORT_
-jboolean JNICALL JAWT_GetAWT(JNIEnv* env, JAWT* awt);
+jboolfbn JNICALL JAWT_GftAWT(JNIEnv* fnv, JAWT* bwt);
 
-#define JAWT_VERSION_1_3 0x00010003
-#define JAWT_VERSION_1_4 0x00010004
-#define JAWT_VERSION_1_7 0x00010007
+#dffinf JAWT_VERSION_1_3 0x00010003
+#dffinf JAWT_VERSION_1_4 0x00010004
+#dffinf JAWT_VERSION_1_7 0x00010007
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif
 
-#endif /* !_JAVASOFT_JAWT_H_ */
+#fndif /* !_JAVASOFT_JAWT_H_ */

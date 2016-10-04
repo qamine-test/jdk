@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.util.concurrent.*;
-import java.io.IOException;
+import jbvb.nio.filf.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.io.IOExdfption;
 
 /**
- * Base implementation class for watch services.
+ * Bbsf implfmfntbtion dlbss for wbtdi sfrvidfs.
  */
 
-abstract class AbstractWatchService implements WatchService {
+bbstrbdt dlbss AbstrbdtWbtdiSfrvidf implfmfnts WbtdiSfrvidf {
 
-    // signaled keys waiting to be dequeued
-    private final LinkedBlockingDeque<WatchKey> pendingKeys =
-        new LinkedBlockingDeque<WatchKey>();
+    // signblfd kfys wbiting to bf dfqufufd
+    privbtf finbl LinkfdBlodkingDfquf<WbtdiKfy> pfndingKfys =
+        nfw LinkfdBlodkingDfquf<WbtdiKfy>();
 
-    // special key to indicate that watch service is closed
-    private final WatchKey CLOSE_KEY =
-        new AbstractWatchKey(null, null) {
-            @Override
-            public boolean isValid() {
-                return true;
+    // spfdibl kfy to indidbtf tibt wbtdi sfrvidf is dlosfd
+    privbtf finbl WbtdiKfy CLOSE_KEY =
+        nfw AbstrbdtWbtdiKfy(null, null) {
+            @Ovfrridf
+            publid boolfbn isVblid() {
+                rfturn truf;
             }
 
-            @Override
-            public void cancel() {
+            @Ovfrridf
+            publid void dbndfl() {
             }
         };
 
-    // used when closing watch service
-    private volatile boolean closed;
-    private final Object closeLock = new Object();
+    // usfd wifn dlosing wbtdi sfrvidf
+    privbtf volbtilf boolfbn dlosfd;
+    privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
 
-    protected AbstractWatchService() {
+    protfdtfd AbstrbdtWbtdiSfrvidf() {
     }
 
     /**
-     * Register the given object with this watch service
+     * Rfgistfr tif givfn objfdt witi tiis wbtdi sfrvidf
      */
-    abstract WatchKey register(Path path,
-                               WatchEvent.Kind<?>[] events,
-                               WatchEvent.Modifier... modifers)
-        throws IOException;
+    bbstrbdt WbtdiKfy rfgistfr(Pbti pbti,
+                               WbtdiEvfnt.Kind<?>[] fvfnts,
+                               WbtdiEvfnt.Modififr... modiffrs)
+        tirows IOExdfption;
 
-    // used by AbstractWatchKey to enqueue key
-    final void enqueueKey(WatchKey key) {
-        pendingKeys.offer(key);
+    // usfd by AbstrbdtWbtdiKfy to fnqufuf kfy
+    finbl void fnqufufKfy(WbtdiKfy kfy) {
+        pfndingKfys.offfr(kfy);
     }
 
     /**
-     * Throws ClosedWatchServiceException if watch service is closed
+     * Tirows ClosfdWbtdiSfrvidfExdfption if wbtdi sfrvidf is dlosfd
      */
-    private void checkOpen() {
-        if (closed)
-            throw new ClosedWatchServiceException();
+    privbtf void difdkOpfn() {
+        if (dlosfd)
+            tirow nfw ClosfdWbtdiSfrvidfExdfption();
     }
 
     /**
-     * Checks the key isn't the special CLOSE_KEY used to unblock threads when
-     * the watch service is closed.
+     * Cifdks tif kfy isn't tif spfdibl CLOSE_KEY usfd to unblodk tirfbds wifn
+     * tif wbtdi sfrvidf is dlosfd.
      */
-    private void checkKey(WatchKey key) {
-        if (key == CLOSE_KEY) {
-            // re-queue in case there are other threads blocked in take/poll
-            enqueueKey(key);
+    privbtf void difdkKfy(WbtdiKfy kfy) {
+        if (kfy == CLOSE_KEY) {
+            // rf-qufuf in dbsf tifrf brf otifr tirfbds blodkfd in tbkf/poll
+            fnqufufKfy(kfy);
         }
-        checkOpen();
+        difdkOpfn();
     }
 
-    @Override
-    public final WatchKey poll() {
-        checkOpen();
-        WatchKey key = pendingKeys.poll();
-        checkKey(key);
-        return key;
+    @Ovfrridf
+    publid finbl WbtdiKfy poll() {
+        difdkOpfn();
+        WbtdiKfy kfy = pfndingKfys.poll();
+        difdkKfy(kfy);
+        rfturn kfy;
     }
 
-    @Override
-    public final WatchKey poll(long timeout, TimeUnit unit)
-        throws InterruptedException
+    @Ovfrridf
+    publid finbl WbtdiKfy poll(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption
     {
-        checkOpen();
-        WatchKey key = pendingKeys.poll(timeout, unit);
-        checkKey(key);
-        return key;
+        difdkOpfn();
+        WbtdiKfy kfy = pfndingKfys.poll(timfout, unit);
+        difdkKfy(kfy);
+        rfturn kfy;
     }
 
-    @Override
-    public final WatchKey take()
-        throws InterruptedException
+    @Ovfrridf
+    publid finbl WbtdiKfy tbkf()
+        tirows IntfrruptfdExdfption
     {
-        checkOpen();
-        WatchKey key = pendingKeys.take();
-        checkKey(key);
-        return key;
+        difdkOpfn();
+        WbtdiKfy kfy = pfndingKfys.tbkf();
+        difdkKfy(kfy);
+        rfturn kfy;
     }
 
     /**
-     * Tells whether or not this watch service is open.
+     * Tflls wiftifr or not tiis wbtdi sfrvidf is opfn.
      */
-    final boolean isOpen() {
-        return !closed;
+    finbl boolfbn isOpfn() {
+        rfturn !dlosfd;
     }
 
     /**
-     * Retrieves the object upon which the close method synchronizes.
+     * Rftrifvfs tif objfdt upon wiidi tif dlosf mftiod syndironizfs.
      */
-    final Object closeLock() {
-        return closeLock;
+    finbl Objfdt dlosfLodk() {
+        rfturn dlosfLodk;
     }
 
     /**
-     * Closes this watch service. This method is invoked by the close
-     * method to perform the actual work of closing the watch service.
+     * Closfs tiis wbtdi sfrvidf. Tiis mftiod is invokfd by tif dlosf
+     * mftiod to pfrform tif bdtubl work of dlosing tif wbtdi sfrvidf.
      */
-    abstract void implClose() throws IOException;
+    bbstrbdt void implClosf() tirows IOExdfption;
 
-    @Override
-    public final void close()
-        throws IOException
+    @Ovfrridf
+    publid finbl void dlosf()
+        tirows IOExdfption
     {
-        synchronized (closeLock) {
-            // nothing to do if already closed
-            if (closed)
-                return;
-            closed = true;
+        syndironizfd (dlosfLodk) {
+            // notiing to do if blrfbdy dlosfd
+            if (dlosfd)
+                rfturn;
+            dlosfd = truf;
 
-            implClose();
+            implClosf();
 
-            // clear pending keys and queue special key to ensure that any
-            // threads blocked in take/poll wakeup
-            pendingKeys.clear();
-            pendingKeys.offer(CLOSE_KEY);
+            // dlfbr pfnding kfys bnd qufuf spfdibl kfy to fnsurf tibt bny
+            // tirfbds blodkfd in tbkf/poll wbkfup
+            pfndingKfys.dlfbr();
+            pfndingKfys.offfr(CLOSE_KEY);
         }
     }
 }

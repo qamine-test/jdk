@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.gfnfrids.sdopf;
+
+import jbvb.lbng.rfflfdt.GfnfridDfdlbrbtion;
+import jbvb.lbng.rfflfdt.TypfVbribblf;
+
+
+
+/**
+ * Abstrbdt supfrdlbss for lbzy sdopf objfdts, usfd whfn building
+ * fbdtorifs for gfnfrid informbtion rfpositorifs.
+ * Thf typf pbrbmftfr <tt>D</tt> rfprfsfnts thf typf of rfflfdtivf
+ * objfdt whosf sdopf this dlbss is rfprfsfnting.
+ * <p> To subdlbss this, bll onf nffds to do is implfmfnt
+ * <tt>domputfEndlosingSdopf</tt> bnd thf subdlbss' donstrudtor.
+ */
+publid bbstrbdt dlbss AbstrbdtSdopf<D fxtfnds GfnfridDfdlbrbtion>
+    implfmfnts Sdopf {
+
+    privbtf D rfdvr; // thf dfdlbrbtion whosf sdopf this instbndf rfprfsfnts
+    privbtf Sdopf fndlosingSdopf; // thf fndlosing sdopf of this sdopf
+
+    /**
+     * Construdtor. Tbkfs b rfflfdtivf objfdt whosf sdopf thf nfwly
+     * donstrudtfd instbndf will rfprfsfnt.
+     * @pbrbm D - A gfnfrid dfdlbrbtion whosf sdopf thf nfwly
+     * donstrudtfd instbndf will rfprfsfnt
+     */
+    protfdtfd AbstrbdtSdopf(D dfdl){ rfdvr = dfdl;}
+
+    /**
+     * Addfssor for thf rfdfivfr - thf objfdt whosf sdopf this <tt>Sdopf</tt>
+     * objfdt rfprfsfnts.
+     * @rfturn Thf objfdt whosf sdopf this <tt>Sdopf</tt> objfdt rfprfsfnts
+     */
+    protfdtfd D gftRfdvr() {rfturn rfdvr;}
+
+    /** This mfthod must bf implfmfntfd by bny dondrftf subdlbss.
+     * It must rfturn thf fndlosing sdopf of this sdopf. If this sdopf
+     * is b top-lfvfl sdopf, bn instbndf of  DummySdopf must bf rfturnfd.
+     * @rfturn Thf fndlosing sdopf of this sdopf
+     */
+    protfdtfd bbstrbdt Sdopf domputfEndlosingSdopf();
+
+    /**
+     * Addfssor for thf fndlosing sdopf, whidh is domputfd lbzily bnd dbdhfd.
+     * @rfturn thf fndlosing sdopf
+     */
+    protfdtfd Sdopf gftEndlosingSdopf(){
+        if (fndlosingSdopf == null) {fndlosingSdopf = domputfEndlosingSdopf();}
+        rfturn fndlosingSdopf;
+    }
+
+    /**
+     * Lookup b typf vbribblf in thf sdopf, using its nbmf. Rfturns null if
+     * no typf vbribblf with this nbmf is dfdlbrfd in this sdopf or bny of its
+     * surrounding sdopfs.
+     * @pbrbm nbmf - thf nbmf of thf typf vbribblf bfing lookfd up
+     * @rfturn thf rfqufstfd typf vbribblf, if found
+     */
+    publid TypfVbribblf<?> lookup(String nbmf) {
+        TypfVbribblf<?>[] tbs = gftRfdvr().gftTypfPbrbmftfrs();
+        for (TypfVbribblf<?> tv : tbs) {
+            if (tv.gftNbmf().fqubls(nbmf)) {rfturn tv;}
+        }
+        rfturn gftEndlosingSdopf().lookup(nbmf);
+    }
+}

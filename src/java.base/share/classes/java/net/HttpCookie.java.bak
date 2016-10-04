@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.util.List;
-import java.util.StringTokenizer;
-import java.util.NoSuchElementException;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
+import jbvb.util.List;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.tfxt.SimplfDbtfFormbt;
+import jbvb.util.TimfZonf;
+import jbvb.util.Cblfndbr;
+import jbvb.util.GrfgoribnCblfndbr;
+import jbvb.util.Dbtf;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
 
 /**
- * An HttpCookie object represents an HTTP cookie, which carries state
- * information between server and user agent. Cookie is widely adopted
- * to create stateful sessions.
+ * An HttpCookif objfdt rfprfsfnts bn HTTP dookif, wiidi dbrrifs stbtf
+ * informbtion bftwffn sfrvfr bnd usfr bgfnt. Cookif is widfly bdoptfd
+ * to drfbtf stbtfful sfssions.
  *
- * <p> There are 3 HTTP cookie specifications:
- * <blockquote>
- *   Netscape draft<br>
- *   RFC 2109 - <a href="http://www.ietf.org/rfc/rfc2109.txt">
- * <i>http://www.ietf.org/rfc/rfc2109.txt</i></a><br>
- *   RFC 2965 - <a href="http://www.ietf.org/rfc/rfc2965.txt">
- * <i>http://www.ietf.org/rfc/rfc2965.txt</i></a>
- * </blockquote>
+ * <p> Tifrf brf 3 HTTP dookif spfdifidbtions:
+ * <blodkquotf>
+ *   Nftsdbpf drbft<br>
+ *   RFC 2109 - <b irff="ittp://www.iftf.org/rfd/rfd2109.txt">
+ * <i>ittp://www.iftf.org/rfd/rfd2109.txt</i></b><br>
+ *   RFC 2965 - <b irff="ittp://www.iftf.org/rfd/rfd2965.txt">
+ * <i>ittp://www.iftf.org/rfd/rfd2965.txt</i></b>
+ * </blodkquotf>
  *
- * <p> HttpCookie class can accept all these 3 forms of syntax.
+ * <p> HttpCookif dlbss dbn bddfpt bll tifsf 3 forms of syntbx.
  *
- * @author Edward Wang
- * @since 1.6
+ * @butior Edwbrd Wbng
+ * @sindf 1.6
  */
-public final class HttpCookie implements Cloneable {
-    // ---------------- Fields --------------
+publid finbl dlbss HttpCookif implfmfnts Clonfbblf {
+    // ---------------- Fiflds --------------
 
-    // The value of the cookie itself.
-    private final String name;  // NAME= ... "$Name" style is reserved
-    private String value;       // value of NAME
+    // Tif vbluf of tif dookif itsflf.
+    privbtf finbl String nbmf;  // NAME= ... "$Nbmf" stylf is rfsfrvfd
+    privbtf String vbluf;       // vbluf of NAME
 
-    // Attributes encoded in the header's cookie fields.
-    private String comment;     // Comment=VALUE ... describes cookie's use
-    private String commentURL;  // CommentURL="http URL" ... describes cookie's use
-    private boolean toDiscard;  // Discard ... discard cookie unconditionally
-    private String domain;      // Domain=VALUE ... domain that sees cookie
-    private long maxAge = MAX_AGE_UNSPECIFIED;  // Max-Age=VALUE ... cookies auto-expire
-    private String path;        // Path=VALUE ... URLs that see the cookie
-    private String portlist;    // Port[="portlist"] ... the port cookie may be returned to
-    private boolean secure;     // Secure ... e.g. use SSL
-    private boolean httpOnly;   // HttpOnly ... i.e. not accessible to scripts
-    private int version = 1;    // Version=1 ... RFC 2965 style
+    // Attributfs fndodfd in tif ifbdfr's dookif fiflds.
+    privbtf String dommfnt;     // Commfnt=VALUE ... dfsdribfs dookif's usf
+    privbtf String dommfntURL;  // CommfntURL="ittp URL" ... dfsdribfs dookif's usf
+    privbtf boolfbn toDisdbrd;  // Disdbrd ... disdbrd dookif undonditionblly
+    privbtf String dombin;      // Dombin=VALUE ... dombin tibt sffs dookif
+    privbtf long mbxAgf = MAX_AGE_UNSPECIFIED;  // Mbx-Agf=VALUE ... dookifs buto-fxpirf
+    privbtf String pbti;        // Pbti=VALUE ... URLs tibt sff tif dookif
+    privbtf String portlist;    // Port[="portlist"] ... tif port dookif mby bf rfturnfd to
+    privbtf boolfbn sfdurf;     // Sfdurf ... f.g. usf SSL
+    privbtf boolfbn ittpOnly;   // HttpOnly ... i.f. not bddfssiblf to sdripts
+    privbtf int vfrsion = 1;    // Vfrsion=1 ... RFC 2965 stylf
 
-    // The original header this cookie was constructed from, if it was
-    // constructed by parsing a header, otherwise null.
-    private final String header;
+    // Tif originbl ifbdfr tiis dookif wbs donstrudtfd from, if it wbs
+    // donstrudtfd by pbrsing b ifbdfr, otifrwisf null.
+    privbtf finbl String ifbdfr;
 
-    // Hold the creation time (in seconds) of the http cookie for later
-    // expiration calculation
-    private final long whenCreated;
+    // Hold tif drfbtion timf (in sfdonds) of tif ittp dookif for lbtfr
+    // fxpirbtion dbldulbtion
+    privbtf finbl long wifnCrfbtfd;
 
-    // Since the positive and zero max-age have their meanings,
-    // this value serves as a hint as 'not specify max-age'
-    private final static long MAX_AGE_UNSPECIFIED = -1;
+    // Sindf tif positivf bnd zfro mbx-bgf ibvf tifir mfbnings,
+    // tiis vbluf sfrvfs bs b iint bs 'not spfdify mbx-bgf'
+    privbtf finbl stbtid long MAX_AGE_UNSPECIFIED = -1;
 
-    // date formats used by Netscape's cookie draft
-    // as well as formats seen on various sites
-    private final static String[] COOKIE_DATE_FORMATS = {
+    // dbtf formbts usfd by Nftsdbpf's dookif drbft
+    // bs wfll bs formbts sffn on vbrious sitfs
+    privbtf finbl stbtid String[] COOKIE_DATE_FORMATS = {
         "EEE',' dd-MMM-yyyy HH:mm:ss 'GMT'",
         "EEE',' dd MMM yyyy HH:mm:ss 'GMT'",
         "EEE MMM dd yyyy HH:mm:ss 'GMT'Z",
@@ -97,1050 +97,1050 @@ public final class HttpCookie implements Cloneable {
         "EEE MMM dd yy HH:mm:ss 'GMT'Z"
     };
 
-    // constant strings represent set-cookie header token
-    private final static String SET_COOKIE = "set-cookie:";
-    private final static String SET_COOKIE2 = "set-cookie2:";
+    // donstbnt strings rfprfsfnt sft-dookif ifbdfr tokfn
+    privbtf finbl stbtid String SET_COOKIE = "sft-dookif:";
+    privbtf finbl stbtid String SET_COOKIE2 = "sft-dookif2:";
 
     // ---------------- Ctors --------------
 
     /**
-     * Constructs a cookie with a specified name and value.
+     * Construdts b dookif witi b spfdififd nbmf bnd vbluf.
      *
-     * <p> The name must conform to RFC 2965. That means it can contain
-     * only ASCII alphanumeric characters and cannot contain commas,
-     * semicolons, or white space or begin with a $ character. The cookie's
-     * name cannot be changed after creation.
+     * <p> Tif nbmf must donform to RFC 2965. Tibt mfbns it dbn dontbin
+     * only ASCII blpibnumfrid dibrbdtfrs bnd dbnnot dontbin dommbs,
+     * sfmidolons, or wiitf spbdf or bfgin witi b $ dibrbdtfr. Tif dookif's
+     * nbmf dbnnot bf dibngfd bftfr drfbtion.
      *
-     * <p> The value can be anything the server chooses to send. Its
-     * value is probably of interest only to the server. The cookie's
-     * value can be changed after creation with the
-     * {@code setValue} method.
+     * <p> Tif vbluf dbn bf bnytiing tif sfrvfr dioosfs to sfnd. Its
+     * vbluf is probbbly of intfrfst only to tif sfrvfr. Tif dookif's
+     * vbluf dbn bf dibngfd bftfr drfbtion witi tif
+     * {@dodf sftVbluf} mftiod.
      *
-     * <p> By default, cookies are created according to the RFC 2965
-     * cookie specification. The version can be changed with the
-     * {@code setVersion} method.
+     * <p> By dffbult, dookifs brf drfbtfd bddording to tif RFC 2965
+     * dookif spfdifidbtion. Tif vfrsion dbn bf dibngfd witi tif
+     * {@dodf sftVfrsion} mftiod.
      *
      *
-     * @param  name
-     *         a {@code String} specifying the name of the cookie
+     * @pbrbm  nbmf
+     *         b {@dodf String} spfdifying tif nbmf of tif dookif
      *
-     * @param  value
-     *         a {@code String} specifying the value of the cookie
+     * @pbrbm  vbluf
+     *         b {@dodf String} spfdifying tif vbluf of tif dookif
      *
-     * @throws  IllegalArgumentException
-     *          if the cookie name contains illegal characters
-     * @throws  NullPointerException
-     *          if {@code name} is {@code null}
+     * @tirows  IllfgblArgumfntExdfption
+     *          if tif dookif nbmf dontbins illfgbl dibrbdtfrs
+     * @tirows  NullPointfrExdfption
+     *          if {@dodf nbmf} is {@dodf null}
      *
-     * @see #setValue
-     * @see #setVersion
+     * @sff #sftVbluf
+     * @sff #sftVfrsion
      */
-    public HttpCookie(String name, String value) {
-        this(name, value, null /*header*/);
+    publid HttpCookif(String nbmf, String vbluf) {
+        tiis(nbmf, vbluf, null /*ifbdfr*/);
     }
 
-    private HttpCookie(String name, String value, String header) {
-        name = name.trim();
-        if (name.length() == 0 || !isToken(name) || name.charAt(0) == '$') {
-            throw new IllegalArgumentException("Illegal cookie name");
+    privbtf HttpCookif(String nbmf, String vbluf, String ifbdfr) {
+        nbmf = nbmf.trim();
+        if (nbmf.lfngti() == 0 || !isTokfn(nbmf) || nbmf.dibrAt(0) == '$') {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl dookif nbmf");
         }
 
-        this.name = name;
-        this.value = value;
-        toDiscard = false;
-        secure = false;
+        tiis.nbmf = nbmf;
+        tiis.vbluf = vbluf;
+        toDisdbrd = fblsf;
+        sfdurf = fblsf;
 
-        whenCreated = System.currentTimeMillis();
+        wifnCrfbtfd = Systfm.durrfntTimfMillis();
         portlist = null;
-        this.header = header;
+        tiis.ifbdfr = ifbdfr;
     }
 
     /**
-     * Constructs cookies from set-cookie or set-cookie2 header string.
-     * RFC 2965 section 3.2.2 set-cookie2 syntax indicates that one header line
-     * may contain more than one cookie definitions, so this is a static
-     * utility method instead of another constructor.
+     * Construdts dookifs from sft-dookif or sft-dookif2 ifbdfr string.
+     * RFC 2965 sfdtion 3.2.2 sft-dookif2 syntbx indidbtfs tibt onf ifbdfr linf
+     * mby dontbin morf tibn onf dookif dffinitions, so tiis is b stbtid
+     * utility mftiod instfbd of bnotifr donstrudtor.
      *
-     * @param  header
-     *         a {@code String} specifying the set-cookie header. The header
-     *         should start with "set-cookie", or "set-cookie2" token; or it
-     *         should have no leading token at all.
+     * @pbrbm  ifbdfr
+     *         b {@dodf String} spfdifying tif sft-dookif ifbdfr. Tif ifbdfr
+     *         siould stbrt witi "sft-dookif", or "sft-dookif2" tokfn; or it
+     *         siould ibvf no lfbding tokfn bt bll.
      *
-     * @return  a List of cookie parsed from header line string
+     * @rfturn  b List of dookif pbrsfd from ifbdfr linf string
      *
-     * @throws  IllegalArgumentException
-     *          if header string violates the cookie specification's syntax or
-     *          the cookie name contains illegal characters.
-     * @throws  NullPointerException
-     *          if the header string is {@code null}
+     * @tirows  IllfgblArgumfntExdfption
+     *          if ifbdfr string violbtfs tif dookif spfdifidbtion's syntbx or
+     *          tif dookif nbmf dontbins illfgbl dibrbdtfrs.
+     * @tirows  NullPointfrExdfption
+     *          if tif ifbdfr string is {@dodf null}
      */
-    public static List<HttpCookie> parse(String header) {
-        return parse(header, false);
+    publid stbtid List<HttpCookif> pbrsf(String ifbdfr) {
+        rfturn pbrsf(ifbdfr, fblsf);
     }
 
-    // Private version of parse() that will store the original header used to
-    // create the cookie, in the cookie itself. This can be useful for filtering
-    // Set-Cookie[2] headers, using the internal parsing logic defined in this
-    // class.
-    private static List<HttpCookie> parse(String header, boolean retainHeader) {
+    // Privbtf vfrsion of pbrsf() tibt will storf tif originbl ifbdfr usfd to
+    // drfbtf tif dookif, in tif dookif itsflf. Tiis dbn bf usfful for filtfring
+    // Sft-Cookif[2] ifbdfrs, using tif intfrnbl pbrsing logid dffinfd in tiis
+    // dlbss.
+    privbtf stbtid List<HttpCookif> pbrsf(String ifbdfr, boolfbn rftbinHfbdfr) {
 
-        int version = guessCookieVersion(header);
+        int vfrsion = gufssCookifVfrsion(ifbdfr);
 
-        // if header start with set-cookie or set-cookie2, strip it off
-        if (startsWithIgnoreCase(header, SET_COOKIE2)) {
-            header = header.substring(SET_COOKIE2.length());
-        } else if (startsWithIgnoreCase(header, SET_COOKIE)) {
-            header = header.substring(SET_COOKIE.length());
+        // if ifbdfr stbrt witi sft-dookif or sft-dookif2, strip it off
+        if (stbrtsWitiIgnorfCbsf(ifbdfr, SET_COOKIE2)) {
+            ifbdfr = ifbdfr.substring(SET_COOKIE2.lfngti());
+        } flsf if (stbrtsWitiIgnorfCbsf(ifbdfr, SET_COOKIE)) {
+            ifbdfr = ifbdfr.substring(SET_COOKIE.lfngti());
         }
 
-        List<HttpCookie> cookies = new java.util.ArrayList<>();
-        // The Netscape cookie may have a comma in its expires attribute, while
-        // the comma is the delimiter in rfc 2965/2109 cookie header string.
-        // so the parse logic is slightly different
-        if (version == 0) {
-            // Netscape draft cookie
-            HttpCookie cookie = parseInternal(header, retainHeader);
-            cookie.setVersion(0);
-            cookies.add(cookie);
-        } else {
-            // rfc2965/2109 cookie
-            // if header string contains more than one cookie,
-            // it'll separate them with comma
-            List<String> cookieStrings = splitMultiCookies(header);
-            for (String cookieStr : cookieStrings) {
-                HttpCookie cookie = parseInternal(cookieStr, retainHeader);
-                cookie.setVersion(1);
-                cookies.add(cookie);
+        List<HttpCookif> dookifs = nfw jbvb.util.ArrbyList<>();
+        // Tif Nftsdbpf dookif mby ibvf b dommb in its fxpirfs bttributf, wiilf
+        // tif dommb is tif dflimitfr in rfd 2965/2109 dookif ifbdfr string.
+        // so tif pbrsf logid is sligitly difffrfnt
+        if (vfrsion == 0) {
+            // Nftsdbpf drbft dookif
+            HttpCookif dookif = pbrsfIntfrnbl(ifbdfr, rftbinHfbdfr);
+            dookif.sftVfrsion(0);
+            dookifs.bdd(dookif);
+        } flsf {
+            // rfd2965/2109 dookif
+            // if ifbdfr string dontbins morf tibn onf dookif,
+            // it'll sfpbrbtf tifm witi dommb
+            List<String> dookifStrings = splitMultiCookifs(ifbdfr);
+            for (String dookifStr : dookifStrings) {
+                HttpCookif dookif = pbrsfIntfrnbl(dookifStr, rftbinHfbdfr);
+                dookif.sftVfrsion(1);
+                dookifs.bdd(dookif);
             }
         }
 
-        return cookies;
+        rfturn dookifs;
     }
 
-    // ---------------- Public operations --------------
+    // ---------------- Publid opfrbtions --------------
 
     /**
-     * Reports whether this HTTP cookie has expired or not.
+     * Rfports wiftifr tiis HTTP dookif ibs fxpirfd or not.
      *
-     * @return  {@code true} to indicate this HTTP cookie has expired;
-     *          otherwise, {@code false}
+     * @rfturn  {@dodf truf} to indidbtf tiis HTTP dookif ibs fxpirfd;
+     *          otifrwisf, {@dodf fblsf}
      */
-    public boolean hasExpired() {
-        if (maxAge == 0) return true;
+    publid boolfbn ibsExpirfd() {
+        if (mbxAgf == 0) rfturn truf;
 
-        // if not specify max-age, this cookie should be
-        // discarded when user agent is to be closed, but
-        // it is not expired.
-        if (maxAge == MAX_AGE_UNSPECIFIED) return false;
+        // if not spfdify mbx-bgf, tiis dookif siould bf
+        // disdbrdfd wifn usfr bgfnt is to bf dlosfd, but
+        // it is not fxpirfd.
+        if (mbxAgf == MAX_AGE_UNSPECIFIED) rfturn fblsf;
 
-        long deltaSecond = (System.currentTimeMillis() - whenCreated) / 1000;
-        if (deltaSecond > maxAge)
-            return true;
-        else
-            return false;
-    }
-
-    /**
-     * Specifies a comment that describes a cookie's purpose.
-     * The comment is useful if the browser presents the cookie
-     * to the user. Comments are not supported by Netscape Version 0 cookies.
-     *
-     * @param  purpose
-     *         a {@code String} specifying the comment to display to the user
-     *
-     * @see  #getComment
-     */
-    public void setComment(String purpose) {
-        comment = purpose;
+        long dfltbSfdond = (Systfm.durrfntTimfMillis() - wifnCrfbtfd) / 1000;
+        if (dfltbSfdond > mbxAgf)
+            rfturn truf;
+        flsf
+            rfturn fblsf;
     }
 
     /**
-     * Returns the comment describing the purpose of this cookie, or
-     * {@code null} if the cookie has no comment.
+     * Spfdififs b dommfnt tibt dfsdribfs b dookif's purposf.
+     * Tif dommfnt is usfful if tif browsfr prfsfnts tif dookif
+     * to tif usfr. Commfnts brf not supportfd by Nftsdbpf Vfrsion 0 dookifs.
      *
-     * @return  a {@code String} containing the comment, or {@code null} if none
+     * @pbrbm  purposf
+     *         b {@dodf String} spfdifying tif dommfnt to displby to tif usfr
      *
-     * @see  #setComment
+     * @sff  #gftCommfnt
      */
-    public String getComment() {
-        return comment;
+    publid void sftCommfnt(String purposf) {
+        dommfnt = purposf;
     }
 
     /**
-     * Specifies a comment URL that describes a cookie's purpose.
-     * The comment URL is useful if the browser presents the cookie
-     * to the user. Comment URL is RFC 2965 only.
+     * Rfturns tif dommfnt dfsdribing tif purposf of tiis dookif, or
+     * {@dodf null} if tif dookif ibs no dommfnt.
      *
-     * @param  purpose
-     *         a {@code String} specifying the comment URL to display to the user
+     * @rfturn  b {@dodf String} dontbining tif dommfnt, or {@dodf null} if nonf
      *
-     * @see  #getCommentURL
+     * @sff  #sftCommfnt
      */
-    public void setCommentURL(String purpose) {
-        commentURL = purpose;
+    publid String gftCommfnt() {
+        rfturn dommfnt;
     }
 
     /**
-     * Returns the comment URL describing the purpose of this cookie, or
-     * {@code null} if the cookie has no comment URL.
+     * Spfdififs b dommfnt URL tibt dfsdribfs b dookif's purposf.
+     * Tif dommfnt URL is usfful if tif browsfr prfsfnts tif dookif
+     * to tif usfr. Commfnt URL is RFC 2965 only.
      *
-     * @return  a {@code String} containing the comment URL, or {@code null}
-     *          if none
+     * @pbrbm  purposf
+     *         b {@dodf String} spfdifying tif dommfnt URL to displby to tif usfr
      *
-     * @see  #setCommentURL
+     * @sff  #gftCommfntURL
      */
-    public String getCommentURL() {
-        return commentURL;
+    publid void sftCommfntURL(String purposf) {
+        dommfntURL = purposf;
     }
 
     /**
-     * Specify whether user agent should discard the cookie unconditionally.
-     * This is RFC 2965 only attribute.
+     * Rfturns tif dommfnt URL dfsdribing tif purposf of tiis dookif, or
+     * {@dodf null} if tif dookif ibs no dommfnt URL.
      *
-     * @param  discard
-     *         {@code true} indicates to discard cookie unconditionally
+     * @rfturn  b {@dodf String} dontbining tif dommfnt URL, or {@dodf null}
+     *          if nonf
      *
-     * @see  #getDiscard
+     * @sff  #sftCommfntURL
      */
-    public void setDiscard(boolean discard) {
-        toDiscard = discard;
+    publid String gftCommfntURL() {
+        rfturn dommfntURL;
     }
 
     /**
-     * Returns the discard attribute of the cookie
+     * Spfdify wiftifr usfr bgfnt siould disdbrd tif dookif undonditionblly.
+     * Tiis is RFC 2965 only bttributf.
      *
-     * @return  a {@code boolean} to represent this cookie's discard attribute
+     * @pbrbm  disdbrd
+     *         {@dodf truf} indidbtfs to disdbrd dookif undonditionblly
      *
-     * @see  #setDiscard
+     * @sff  #gftDisdbrd
      */
-    public boolean getDiscard() {
-        return toDiscard;
+    publid void sftDisdbrd(boolfbn disdbrd) {
+        toDisdbrd = disdbrd;
     }
 
     /**
-     * Specify the portlist of the cookie, which restricts the port(s)
-     * to which a cookie may be sent back in a Cookie header.
+     * Rfturns tif disdbrd bttributf of tif dookif
      *
-     * @param  ports
-     *         a {@code String} specify the port list, which is comma separated
-     *         series of digits
+     * @rfturn  b {@dodf boolfbn} to rfprfsfnt tiis dookif's disdbrd bttributf
      *
-     * @see  #getPortlist
+     * @sff  #sftDisdbrd
      */
-    public void setPortlist(String ports) {
+    publid boolfbn gftDisdbrd() {
+        rfturn toDisdbrd;
+    }
+
+    /**
+     * Spfdify tif portlist of tif dookif, wiidi rfstridts tif port(s)
+     * to wiidi b dookif mby bf sfnt bbdk in b Cookif ifbdfr.
+     *
+     * @pbrbm  ports
+     *         b {@dodf String} spfdify tif port list, wiidi is dommb sfpbrbtfd
+     *         sfrifs of digits
+     *
+     * @sff  #gftPortlist
+     */
+    publid void sftPortlist(String ports) {
         portlist = ports;
     }
 
     /**
-     * Returns the port list attribute of the cookie
+     * Rfturns tif port list bttributf of tif dookif
      *
-     * @return  a {@code String} contains the port list or {@code null} if none
+     * @rfturn  b {@dodf String} dontbins tif port list or {@dodf null} if nonf
      *
-     * @see  #setPortlist
+     * @sff  #sftPortlist
      */
-    public String getPortlist() {
-        return portlist;
+    publid String gftPortlist() {
+        rfturn portlist;
     }
 
     /**
-     * Specifies the domain within which this cookie should be presented.
+     * Spfdififs tif dombin witiin wiidi tiis dookif siould bf prfsfntfd.
      *
-     * <p> The form of the domain name is specified by RFC 2965. A domain
-     * name begins with a dot ({@code .foo.com}) and means that
-     * the cookie is visible to servers in a specified Domain Name System
-     * (DNS) zone (for example, {@code www.foo.com}, but not
-     * {@code a.b.foo.com}). By default, cookies are only returned
-     * to the server that sent them.
+     * <p> Tif form of tif dombin nbmf is spfdififd by RFC 2965. A dombin
+     * nbmf bfgins witi b dot ({@dodf .foo.dom}) bnd mfbns tibt
+     * tif dookif is visiblf to sfrvfrs in b spfdififd Dombin Nbmf Systfm
+     * (DNS) zonf (for fxbmplf, {@dodf www.foo.dom}, but not
+     * {@dodf b.b.foo.dom}). By dffbult, dookifs brf only rfturnfd
+     * to tif sfrvfr tibt sfnt tifm.
      *
-     * @param  pattern
-     *         a {@code String} containing the domain name within which this
-     *         cookie is visible; form is according to RFC 2965
+     * @pbrbm  pbttfrn
+     *         b {@dodf String} dontbining tif dombin nbmf witiin wiidi tiis
+     *         dookif is visiblf; form is bddording to RFC 2965
      *
-     * @see  #getDomain
+     * @sff  #gftDombin
      */
-    public void setDomain(String pattern) {
-        if (pattern != null)
-            domain = pattern.toLowerCase();
-        else
-            domain = pattern;
+    publid void sftDombin(String pbttfrn) {
+        if (pbttfrn != null)
+            dombin = pbttfrn.toLowfrCbsf();
+        flsf
+            dombin = pbttfrn;
     }
 
     /**
-     * Returns the domain name set for this cookie. The form of the domain name
-     * is set by RFC 2965.
+     * Rfturns tif dombin nbmf sft for tiis dookif. Tif form of tif dombin nbmf
+     * is sft by RFC 2965.
      *
-     * @return  a {@code String} containing the domain name
+     * @rfturn  b {@dodf String} dontbining tif dombin nbmf
      *
-     * @see  #setDomain
+     * @sff  #sftDombin
      */
-    public String getDomain() {
-        return domain;
+    publid String gftDombin() {
+        rfturn dombin;
     }
 
     /**
-     * Sets the maximum age of the cookie in seconds.
+     * Sfts tif mbximum bgf of tif dookif in sfdonds.
      *
-     * <p> A positive value indicates that the cookie will expire
-     * after that many seconds have passed. Note that the value is
-     * the <i>maximum</i> age when the cookie will expire, not the cookie's
-     * current age.
+     * <p> A positivf vbluf indidbtfs tibt tif dookif will fxpirf
+     * bftfr tibt mbny sfdonds ibvf pbssfd. Notf tibt tif vbluf is
+     * tif <i>mbximum</i> bgf wifn tif dookif will fxpirf, not tif dookif's
+     * durrfnt bgf.
      *
-     * <p> A negative value means that the cookie is not stored persistently
-     * and will be deleted when the Web browser exits. A zero value causes the
-     * cookie to be deleted.
+     * <p> A nfgbtivf vbluf mfbns tibt tif dookif is not storfd pfrsistfntly
+     * bnd will bf dflftfd wifn tif Wfb browsfr fxits. A zfro vbluf dbusfs tif
+     * dookif to bf dflftfd.
      *
-     * @param  expiry
-     *         an integer specifying the maximum age of the cookie in seconds;
-     *         if zero, the cookie should be discarded immediately; otherwise,
-     *         the cookie's max age is unspecified.
+     * @pbrbm  fxpiry
+     *         bn intfgfr spfdifying tif mbximum bgf of tif dookif in sfdonds;
+     *         if zfro, tif dookif siould bf disdbrdfd immfdibtfly; otifrwisf,
+     *         tif dookif's mbx bgf is unspfdififd.
      *
-     * @see  #getMaxAge
+     * @sff  #gftMbxAgf
      */
-    public void setMaxAge(long expiry) {
-        maxAge = expiry;
+    publid void sftMbxAgf(long fxpiry) {
+        mbxAgf = fxpiry;
     }
 
     /**
-     * Returns the maximum age of the cookie, specified in seconds. By default,
-     * {@code -1} indicating the cookie will persist until browser shutdown.
+     * Rfturns tif mbximum bgf of tif dookif, spfdififd in sfdonds. By dffbult,
+     * {@dodf -1} indidbting tif dookif will pfrsist until browsfr siutdown.
      *
-     * @return  an integer specifying the maximum age of the cookie in seconds
+     * @rfturn  bn intfgfr spfdifying tif mbximum bgf of tif dookif in sfdonds
      *
-     * @see  #setMaxAge
+     * @sff  #sftMbxAgf
      */
-    public long getMaxAge() {
-        return maxAge;
+    publid long gftMbxAgf() {
+        rfturn mbxAgf;
     }
 
     /**
-     * Specifies a path for the cookie to which the client should return
-     * the cookie.
+     * Spfdififs b pbti for tif dookif to wiidi tif dlifnt siould rfturn
+     * tif dookif.
      *
-     * <p> The cookie is visible to all the pages in the directory
-     * you specify, and all the pages in that directory's subdirectories.
-     * A cookie's path must include the servlet that set the cookie,
-     * for example, <i>/catalog</i>, which makes the cookie
-     * visible to all directories on the server under <i>/catalog</i>.
+     * <p> Tif dookif is visiblf to bll tif pbgfs in tif dirfdtory
+     * you spfdify, bnd bll tif pbgfs in tibt dirfdtory's subdirfdtorifs.
+     * A dookif's pbti must indludf tif sfrvlft tibt sft tif dookif,
+     * for fxbmplf, <i>/dbtblog</i>, wiidi mbkfs tif dookif
+     * visiblf to bll dirfdtorifs on tif sfrvfr undfr <i>/dbtblog</i>.
      *
-     * <p> Consult RFC 2965 (available on the Internet) for more
-     * information on setting path names for cookies.
+     * <p> Consult RFC 2965 (bvbilbblf on tif Intfrnft) for morf
+     * informbtion on sftting pbti nbmfs for dookifs.
      *
-     * @param  uri
-     *         a {@code String} specifying a path
+     * @pbrbm  uri
+     *         b {@dodf String} spfdifying b pbti
      *
-     * @see  #getPath
+     * @sff  #gftPbti
      */
-    public void setPath(String uri) {
-        path = uri;
+    publid void sftPbti(String uri) {
+        pbti = uri;
     }
 
     /**
-     * Returns the path on the server to which the browser returns this cookie.
-     * The cookie is visible to all subpaths on the server.
+     * Rfturns tif pbti on tif sfrvfr to wiidi tif browsfr rfturns tiis dookif.
+     * Tif dookif is visiblf to bll subpbtis on tif sfrvfr.
      *
-     * @return  a {@code String} specifying a path that contains a servlet name,
-     *          for example, <i>/catalog</i>
+     * @rfturn  b {@dodf String} spfdifying b pbti tibt dontbins b sfrvlft nbmf,
+     *          for fxbmplf, <i>/dbtblog</i>
      *
-     * @see  #setPath
+     * @sff  #sftPbti
      */
-    public String getPath() {
-        return path;
+    publid String gftPbti() {
+        rfturn pbti;
     }
 
     /**
-     * Indicates whether the cookie should only be sent using a secure protocol,
-     * such as HTTPS or SSL.
+     * Indidbtfs wiftifr tif dookif siould only bf sfnt using b sfdurf protodol,
+     * sudi bs HTTPS or SSL.
      *
-     * <p> The default value is {@code false}.
+     * <p> Tif dffbult vbluf is {@dodf fblsf}.
      *
-     * @param  flag
-     *         If {@code true}, the cookie can only be sent over a secure
-     *         protocol like HTTPS. If {@code false}, it can be sent over
-     *         any protocol.
+     * @pbrbm  flbg
+     *         If {@dodf truf}, tif dookif dbn only bf sfnt ovfr b sfdurf
+     *         protodol likf HTTPS. If {@dodf fblsf}, it dbn bf sfnt ovfr
+     *         bny protodol.
      *
-     * @see  #getSecure
+     * @sff  #gftSfdurf
      */
-    public void setSecure(boolean flag) {
-        secure = flag;
+    publid void sftSfdurf(boolfbn flbg) {
+        sfdurf = flbg;
     }
 
     /**
-     * Returns {@code true} if sending this cookie should be restricted to a
-     * secure protocol, or {@code false} if the it can be sent using any
-     * protocol.
+     * Rfturns {@dodf truf} if sfnding tiis dookif siould bf rfstridtfd to b
+     * sfdurf protodol, or {@dodf fblsf} if tif it dbn bf sfnt using bny
+     * protodol.
      *
-     * @return  {@code false} if the cookie can be sent over any standard
-     *          protocol; otherwise, {@code true}
+     * @rfturn  {@dodf fblsf} if tif dookif dbn bf sfnt ovfr bny stbndbrd
+     *          protodol; otifrwisf, {@dodf truf}
      *
-     * @see  #setSecure
+     * @sff  #sftSfdurf
      */
-    public boolean getSecure() {
-        return secure;
+    publid boolfbn gftSfdurf() {
+        rfturn sfdurf;
     }
 
     /**
-     * Returns the name of the cookie. The name cannot be changed after
-     * creation.
+     * Rfturns tif nbmf of tif dookif. Tif nbmf dbnnot bf dibngfd bftfr
+     * drfbtion.
      *
-     * @return  a {@code String} specifying the cookie's name
+     * @rfturn  b {@dodf String} spfdifying tif dookif's nbmf
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Assigns a new value to a cookie after the cookie is created.
-     * If you use a binary value, you may want to use BASE64 encoding.
+     * Assigns b nfw vbluf to b dookif bftfr tif dookif is drfbtfd.
+     * If you usf b binbry vbluf, you mby wbnt to usf BASE64 fndoding.
      *
-     * <p> With Version 0 cookies, values should not contain white space,
-     * brackets, parentheses, equals signs, commas, double quotes, slashes,
-     * question marks, at signs, colons, and semicolons. Empty values may not
-     * behave the same way on all browsers.
+     * <p> Witi Vfrsion 0 dookifs, vblufs siould not dontbin wiitf spbdf,
+     * brbdkfts, pbrfntifsfs, fqubls signs, dommbs, doublf quotfs, slbsifs,
+     * qufstion mbrks, bt signs, dolons, bnd sfmidolons. Empty vblufs mby not
+     * bfibvf tif sbmf wby on bll browsfrs.
      *
-     * @param  newValue
-     *         a {@code String} specifying the new value
+     * @pbrbm  nfwVbluf
+     *         b {@dodf String} spfdifying tif nfw vbluf
      *
-     * @see  #getValue
+     * @sff  #gftVbluf
      */
-    public void setValue(String newValue) {
-        value = newValue;
+    publid void sftVbluf(String nfwVbluf) {
+        vbluf = nfwVbluf;
     }
 
     /**
-     * Returns the value of the cookie.
+     * Rfturns tif vbluf of tif dookif.
      *
-     * @return  a {@code String} containing the cookie's present value
+     * @rfturn  b {@dodf String} dontbining tif dookif's prfsfnt vbluf
      *
-     * @see  #setValue
+     * @sff  #sftVbluf
      */
-    public String getValue() {
-        return value;
+    publid String gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Returns the version of the protocol this cookie complies with. Version 1
-     * complies with RFC 2965/2109, and version 0 complies with the original
-     * cookie specification drafted by Netscape. Cookies provided by a browser
-     * use and identify the browser's cookie version.
+     * Rfturns tif vfrsion of tif protodol tiis dookif domplifs witi. Vfrsion 1
+     * domplifs witi RFC 2965/2109, bnd vfrsion 0 domplifs witi tif originbl
+     * dookif spfdifidbtion drbftfd by Nftsdbpf. Cookifs providfd by b browsfr
+     * usf bnd idfntify tif browsfr's dookif vfrsion.
      *
-     * @return  0 if the cookie complies with the original Netscape
-     *          specification; 1 if the cookie complies with RFC 2965/2109
+     * @rfturn  0 if tif dookif domplifs witi tif originbl Nftsdbpf
+     *          spfdifidbtion; 1 if tif dookif domplifs witi RFC 2965/2109
      *
-     * @see  #setVersion
+     * @sff  #sftVfrsion
      */
-    public int getVersion() {
-        return version;
+    publid int gftVfrsion() {
+        rfturn vfrsion;
     }
 
     /**
-     * Sets the version of the cookie protocol this cookie complies
-     * with. Version 0 complies with the original Netscape cookie
-     * specification. Version 1 complies with RFC 2965/2109.
+     * Sfts tif vfrsion of tif dookif protodol tiis dookif domplifs
+     * witi. Vfrsion 0 domplifs witi tif originbl Nftsdbpf dookif
+     * spfdifidbtion. Vfrsion 1 domplifs witi RFC 2965/2109.
      *
-     * @param  v
-     *         0 if the cookie should comply with the original Netscape
-     *         specification; 1 if the cookie should comply with RFC 2965/2109
+     * @pbrbm  v
+     *         0 if tif dookif siould domply witi tif originbl Nftsdbpf
+     *         spfdifidbtion; 1 if tif dookif siould domply witi RFC 2965/2109
      *
-     * @throws  IllegalArgumentException
-     *          if {@code v} is neither 0 nor 1
+     * @tirows  IllfgblArgumfntExdfption
+     *          if {@dodf v} is nfitifr 0 nor 1
      *
-     * @see  #getVersion
+     * @sff  #gftVfrsion
      */
-    public void setVersion(int v) {
+    publid void sftVfrsion(int v) {
         if (v != 0 && v != 1) {
-            throw new IllegalArgumentException("cookie version should be 0 or 1");
+            tirow nfw IllfgblArgumfntExdfption("dookif vfrsion siould bf 0 or 1");
         }
 
-        version = v;
+        vfrsion = v;
     }
 
     /**
-     * Returns {@code true} if this cookie contains the <i>HttpOnly</i>
-     * attribute. This means that the cookie should not be accessible to
-     * scripting engines, like javascript.
+     * Rfturns {@dodf truf} if tiis dookif dontbins tif <i>HttpOnly</i>
+     * bttributf. Tiis mfbns tibt tif dookif siould not bf bddfssiblf to
+     * sdripting fnginfs, likf jbvbsdript.
      *
-     * @return  {@code true} if this cookie should be considered HTTPOnly
+     * @rfturn  {@dodf truf} if tiis dookif siould bf donsidfrfd HTTPOnly
      *
-     * @see  #setHttpOnly(boolean)
+     * @sff  #sftHttpOnly(boolfbn)
      */
-    public boolean isHttpOnly() {
-        return httpOnly;
+    publid boolfbn isHttpOnly() {
+        rfturn ittpOnly;
     }
 
     /**
-     * Indicates whether the cookie should be considered HTTP Only. If set to
-     * {@code true} it means the cookie should not be accessible to scripting
-     * engines like javascript.
+     * Indidbtfs wiftifr tif dookif siould bf donsidfrfd HTTP Only. If sft to
+     * {@dodf truf} it mfbns tif dookif siould not bf bddfssiblf to sdripting
+     * fnginfs likf jbvbsdript.
      *
-     * @param  httpOnly
-     *         if {@code true} make the cookie HTTP only, i.e. only visible as
-     *         part of an HTTP request.
+     * @pbrbm  ittpOnly
+     *         if {@dodf truf} mbkf tif dookif HTTP only, i.f. only visiblf bs
+     *         pbrt of bn HTTP rfqufst.
      *
-     * @see  #isHttpOnly()
+     * @sff  #isHttpOnly()
      */
-    public void setHttpOnly(boolean httpOnly) {
-        this.httpOnly = httpOnly;
+    publid void sftHttpOnly(boolfbn ittpOnly) {
+        tiis.ittpOnly = ittpOnly;
     }
 
     /**
-     * The utility method to check whether a host name is in a domain or not.
+     * Tif utility mftiod to difdk wiftifr b iost nbmf is in b dombin or not.
      *
-     * <p> This concept is described in the cookie specification.
-     * To understand the concept, some terminologies need to be defined first:
-     * <blockquote>
-     * effective host name = hostname if host name contains dot<br>
+     * <p> Tiis dondfpt is dfsdribfd in tif dookif spfdifidbtion.
+     * To undfrstbnd tif dondfpt, somf tfrminologifs nffd to bf dffinfd first:
+     * <blodkquotf>
+     * ffffdtivf iost nbmf = iostnbmf if iost nbmf dontbins dot<br>
      * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or = hostname.local if not
-     * </blockquote>
-     * <p>Host A's name domain-matches host B's if:
-     * <blockquote><ul>
-     *   <li>their host name strings string-compare equal; or</li>
-     *   <li>A is a HDN string and has the form NB, where N is a non-empty
-     *   name string, B has the form .B', and B' is a HDN string.  (So,
-     *   x.y.com domain-matches .Y.com but not Y.com.)</li>
-     * </ul></blockquote>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or = iostnbmf.lodbl if not
+     * </blodkquotf>
+     * <p>Host A's nbmf dombin-mbtdifs iost B's if:
+     * <blodkquotf><ul>
+     *   <li>tifir iost nbmf strings string-dompbrf fqubl; or</li>
+     *   <li>A is b HDN string bnd ibs tif form NB, wifrf N is b non-fmpty
+     *   nbmf string, B ibs tif form .B', bnd B' is b HDN string.  (So,
+     *   x.y.dom dombin-mbtdifs .Y.dom but not Y.dom.)</li>
+     * </ul></blodkquotf>
      *
-     * <p>A host isn't in a domain (RFC 2965 sec. 3.3.2) if:
-     * <blockquote><ul>
-     *   <li>The value for the Domain attribute contains no embedded dots,
-     *   and the value is not .local.</li>
-     *   <li>The effective host name that derives from the request-host does
-     *   not domain-match the Domain attribute.</li>
-     *   <li>The request-host is a HDN (not IP address) and has the form HD,
-     *   where D is the value of the Domain attribute, and H is a string
-     *   that contains one or more dots.</li>
-     * </ul></blockquote>
+     * <p>A iost isn't in b dombin (RFC 2965 sfd. 3.3.2) if:
+     * <blodkquotf><ul>
+     *   <li>Tif vbluf for tif Dombin bttributf dontbins no fmbfddfd dots,
+     *   bnd tif vbluf is not .lodbl.</li>
+     *   <li>Tif ffffdtivf iost nbmf tibt dfrivfs from tif rfqufst-iost dofs
+     *   not dombin-mbtdi tif Dombin bttributf.</li>
+     *   <li>Tif rfqufst-iost is b HDN (not IP bddrfss) bnd ibs tif form HD,
+     *   wifrf D is tif vbluf of tif Dombin bttributf, bnd H is b string
+     *   tibt dontbins onf or morf dots.</li>
+     * </ul></blodkquotf>
      *
-     * <p>Examples:
-     * <blockquote><ul>
-     *   <li>A Set-Cookie2 from request-host y.x.foo.com for Domain=.foo.com
-     *   would be rejected, because H is y.x and contains a dot.</li>
-     *   <li>A Set-Cookie2 from request-host x.foo.com for Domain=.foo.com
-     *   would be accepted.</li>
-     *   <li>A Set-Cookie2 with Domain=.com or Domain=.com., will always be
-     *   rejected, because there is no embedded dot.</li>
-     *   <li>A Set-Cookie2 from request-host example for Domain=.local will
-     *   be accepted, because the effective host name for the request-
-     *   host is example.local, and example.local domain-matches .local.</li>
-     * </ul></blockquote>
+     * <p>Exbmplfs:
+     * <blodkquotf><ul>
+     *   <li>A Sft-Cookif2 from rfqufst-iost y.x.foo.dom for Dombin=.foo.dom
+     *   would bf rfjfdtfd, bfdbusf H is y.x bnd dontbins b dot.</li>
+     *   <li>A Sft-Cookif2 from rfqufst-iost x.foo.dom for Dombin=.foo.dom
+     *   would bf bddfptfd.</li>
+     *   <li>A Sft-Cookif2 witi Dombin=.dom or Dombin=.dom., will blwbys bf
+     *   rfjfdtfd, bfdbusf tifrf is no fmbfddfd dot.</li>
+     *   <li>A Sft-Cookif2 from rfqufst-iost fxbmplf for Dombin=.lodbl will
+     *   bf bddfptfd, bfdbusf tif ffffdtivf iost nbmf for tif rfqufst-
+     *   iost is fxbmplf.lodbl, bnd fxbmplf.lodbl dombin-mbtdifs .lodbl.</li>
+     * </ul></blodkquotf>
      *
-     * @param  domain
-     *         the domain name to check host name with
+     * @pbrbm  dombin
+     *         tif dombin nbmf to difdk iost nbmf witi
      *
-     * @param  host
-     *         the host name in question
+     * @pbrbm  iost
+     *         tif iost nbmf in qufstion
      *
-     * @return  {@code true} if they domain-matches; {@code false} if not
+     * @rfturn  {@dodf truf} if tify dombin-mbtdifs; {@dodf fblsf} if not
      */
-    public static boolean domainMatches(String domain, String host) {
-        if (domain == null || host == null)
-            return false;
+    publid stbtid boolfbn dombinMbtdifs(String dombin, String iost) {
+        if (dombin == null || iost == null)
+            rfturn fblsf;
 
-        // if there's no embedded dot in domain and domain is not .local
-        boolean isLocalDomain = ".local".equalsIgnoreCase(domain);
-        int embeddedDotInDomain = domain.indexOf('.');
-        if (embeddedDotInDomain == 0)
-            embeddedDotInDomain = domain.indexOf('.', 1);
-        if (!isLocalDomain
-            && (embeddedDotInDomain == -1 ||
-                embeddedDotInDomain == domain.length() - 1))
-            return false;
+        // if tifrf's no fmbfddfd dot in dombin bnd dombin is not .lodbl
+        boolfbn isLodblDombin = ".lodbl".fqublsIgnorfCbsf(dombin);
+        int fmbfddfdDotInDombin = dombin.indfxOf('.');
+        if (fmbfddfdDotInDombin == 0)
+            fmbfddfdDotInDombin = dombin.indfxOf('.', 1);
+        if (!isLodblDombin
+            && (fmbfddfdDotInDombin == -1 ||
+                fmbfddfdDotInDombin == dombin.lfngti() - 1))
+            rfturn fblsf;
 
-        // if the host name contains no dot and the domain name
-        // is .local or host.local
-        int firstDotInHost = host.indexOf('.');
+        // if tif iost nbmf dontbins no dot bnd tif dombin nbmf
+        // is .lodbl or iost.lodbl
+        int firstDotInHost = iost.indfxOf('.');
         if (firstDotInHost == -1 &&
-            (isLocalDomain ||
-             domain.equalsIgnoreCase(host + ".local"))) {
-            return true;
+            (isLodblDombin ||
+             dombin.fqublsIgnorfCbsf(iost + ".lodbl"))) {
+            rfturn truf;
         }
 
-        int domainLength = domain.length();
-        int lengthDiff = host.length() - domainLength;
-        if (lengthDiff == 0) {
-            // if the host name and the domain name are just string-compare euqal
-            return host.equalsIgnoreCase(domain);
+        int dombinLfngti = dombin.lfngti();
+        int lfngtiDiff = iost.lfngti() - dombinLfngti;
+        if (lfngtiDiff == 0) {
+            // if tif iost nbmf bnd tif dombin nbmf brf just string-dompbrf fuqbl
+            rfturn iost.fqublsIgnorfCbsf(dombin);
         }
-        else if (lengthDiff > 0) {
-            // need to check H & D component
-            String H = host.substring(0, lengthDiff);
-            String D = host.substring(lengthDiff);
+        flsf if (lfngtiDiff > 0) {
+            // nffd to difdk H & D domponfnt
+            String H = iost.substring(0, lfngtiDiff);
+            String D = iost.substring(lfngtiDiff);
 
-            return (H.indexOf('.') == -1 && D.equalsIgnoreCase(domain));
+            rfturn (H.indfxOf('.') == -1 && D.fqublsIgnorfCbsf(dombin));
         }
-        else if (lengthDiff == -1) {
-            // if domain is actually .host
-            return (domain.charAt(0) == '.' &&
-                        host.equalsIgnoreCase(domain.substring(1)));
+        flsf if (lfngtiDiff == -1) {
+            // if dombin is bdtublly .iost
+            rfturn (dombin.dibrAt(0) == '.' &&
+                        iost.fqublsIgnorfCbsf(dombin.substring(1)));
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Constructs a cookie header string representation of this cookie,
-     * which is in the format defined by corresponding cookie specification,
-     * but without the leading "Cookie:" token.
+     * Construdts b dookif ifbdfr string rfprfsfntbtion of tiis dookif,
+     * wiidi is in tif formbt dffinfd by dorrfsponding dookif spfdifidbtion,
+     * but witiout tif lfbding "Cookif:" tokfn.
      *
-     * @return  a string form of the cookie. The string has the defined format
+     * @rfturn  b string form of tif dookif. Tif string ibs tif dffinfd formbt
      */
-    @Override
-    public String toString() {
-        if (getVersion() > 0) {
-            return toRFC2965HeaderString();
-        } else {
-            return toNetscapeHeaderString();
+    @Ovfrridf
+    publid String toString() {
+        if (gftVfrsion() > 0) {
+            rfturn toRFC2965HfbdfrString();
+        } flsf {
+            rfturn toNftsdbpfHfbdfrString();
         }
     }
 
     /**
-     * Test the equality of two HTTP cookies.
+     * Tfst tif fqublity of two HTTP dookifs.
      *
-     * <p> The result is {@code true} only if two cookies come from same domain
-     * (case-insensitive), have same name (case-insensitive), and have same path
-     * (case-sensitive).
+     * <p> Tif rfsult is {@dodf truf} only if two dookifs domf from sbmf dombin
+     * (dbsf-insfnsitivf), ibvf sbmf nbmf (dbsf-insfnsitivf), bnd ibvf sbmf pbti
+     * (dbsf-sfnsitivf).
      *
-     * @return  {@code true} if two HTTP cookies equal to each other;
-     *          otherwise, {@code false}
+     * @rfturn  {@dodf truf} if two HTTP dookifs fqubl to fbdi otifr;
+     *          otifrwisf, {@dodf fblsf}
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
-        if (!(obj instanceof HttpCookie))
-            return false;
-        HttpCookie other = (HttpCookie)obj;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
+        if (!(obj instbndfof HttpCookif))
+            rfturn fblsf;
+        HttpCookif otifr = (HttpCookif)obj;
 
-        // One http cookie equals to another cookie (RFC 2965 sec. 3.3.3) if:
-        //   1. they come from same domain (case-insensitive),
-        //   2. have same name (case-insensitive),
-        //   3. and have same path (case-sensitive).
-        return equalsIgnoreCase(getName(), other.getName()) &&
-               equalsIgnoreCase(getDomain(), other.getDomain()) &&
-               Objects.equals(getPath(), other.getPath());
+        // Onf ittp dookif fqubls to bnotifr dookif (RFC 2965 sfd. 3.3.3) if:
+        //   1. tify domf from sbmf dombin (dbsf-insfnsitivf),
+        //   2. ibvf sbmf nbmf (dbsf-insfnsitivf),
+        //   3. bnd ibvf sbmf pbti (dbsf-sfnsitivf).
+        rfturn fqublsIgnorfCbsf(gftNbmf(), otifr.gftNbmf()) &&
+               fqublsIgnorfCbsf(gftDombin(), otifr.gftDombin()) &&
+               Objfdts.fqubls(gftPbti(), otifr.gftPbti());
     }
 
     /**
-     * Returns the hash code of this HTTP cookie. The result is the sum of
-     * hash code value of three significant components of this cookie: name,
-     * domain, and path. That is, the hash code is the value of the expression:
-     * <blockquote>
-     * getName().toLowerCase().hashCode()<br>
-     * + getDomain().toLowerCase().hashCode()<br>
-     * + getPath().hashCode()
-     * </blockquote>
+     * Rfturns tif ibsi dodf of tiis HTTP dookif. Tif rfsult is tif sum of
+     * ibsi dodf vbluf of tirff signifidbnt domponfnts of tiis dookif: nbmf,
+     * dombin, bnd pbti. Tibt is, tif ibsi dodf is tif vbluf of tif fxprfssion:
+     * <blodkquotf>
+     * gftNbmf().toLowfrCbsf().ibsiCodf()<br>
+     * + gftDombin().toLowfrCbsf().ibsiCodf()<br>
+     * + gftPbti().ibsiCodf()
+     * </blodkquotf>
      *
-     * @return  this HTTP cookie's hash code
+     * @rfturn  tiis HTTP dookif's ibsi dodf
      */
-    @Override
-    public int hashCode() {
-        int h1 = name.toLowerCase().hashCode();
-        int h2 = (domain!=null) ? domain.toLowerCase().hashCode() : 0;
-        int h3 = (path!=null) ? path.hashCode() : 0;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int i1 = nbmf.toLowfrCbsf().ibsiCodf();
+        int i2 = (dombin!=null) ? dombin.toLowfrCbsf().ibsiCodf() : 0;
+        int i3 = (pbti!=null) ? pbti.ibsiCodf() : 0;
 
-        return h1 + h2 + h3;
+        rfturn i1 + i2 + i3;
     }
 
     /**
-     * Create and return a copy of this object.
+     * Crfbtf bnd rfturn b dopy of tiis objfdt.
      *
-     * @return  a clone of this HTTP cookie
+     * @rfturn  b dlonf of tiis HTTP dookif
      */
-    @Override
-    public Object clone() {
+    @Ovfrridf
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.getMessage());
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
         }
     }
 
-    // ---------------- Private operations --------------
+    // ---------------- Privbtf opfrbtions --------------
 
-    // Note -- disabled for now to allow full Netscape compatibility
-    // from RFC 2068, token special case characters
+    // Notf -- disbblfd for now to bllow full Nftsdbpf dompbtibility
+    // from RFC 2068, tokfn spfdibl dbsf dibrbdtfrs
     //
-    // private static final String tspecials = "()<>@,;:\\\"/[]?={} \t";
-    private static final String tspecials = ",; ";  // deliberately includes space
+    // privbtf stbtid finbl String tspfdibls = "()<>@,;:\\\"/[]?={} \t";
+    privbtf stbtid finbl String tspfdibls = ",; ";  // dflibfrbtfly indludfs spbdf
 
     /*
-     * Tests a string and returns true if the string counts as a token.
+     * Tfsts b string bnd rfturns truf if tif string dounts bs b tokfn.
      *
-     * @param  value
-     *         the {@code String} to be tested
+     * @pbrbm  vbluf
+     *         tif {@dodf String} to bf tfstfd
      *
-     * @return  {@code true} if the {@code String} is a token;
-     *          {@code false} if it is not
+     * @rfturn  {@dodf truf} if tif {@dodf String} is b tokfn;
+     *          {@dodf fblsf} if it is not
      */
-    private static boolean isToken(String value) {
-        int len = value.length();
+    privbtf stbtid boolfbn isTokfn(String vbluf) {
+        int lfn = vbluf.lfngti();
 
-        for (int i = 0; i < len; i++) {
-            char c = value.charAt(i);
+        for (int i = 0; i < lfn; i++) {
+            dibr d = vbluf.dibrAt(i);
 
-            if (c < 0x20 || c >= 0x7f || tspecials.indexOf(c) != -1)
-                return false;
+            if (d < 0x20 || d >= 0x7f || tspfdibls.indfxOf(d) != -1)
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /*
-     * Parse header string to cookie object.
+     * Pbrsf ifbdfr string to dookif objfdt.
      *
-     * @param  header
-     *         header string; should contain only one NAME=VALUE pair
+     * @pbrbm  ifbdfr
+     *         ifbdfr string; siould dontbin only onf NAME=VALUE pbir
      *
-     * @return  an HttpCookie being extracted
+     * @rfturn  bn HttpCookif bfing fxtrbdtfd
      *
-     * @throws  IllegalArgumentException
-     *          if header string violates the cookie specification
+     * @tirows  IllfgblArgumfntExdfption
+     *          if ifbdfr string violbtfs tif dookif spfdifidbtion
      */
-    private static HttpCookie parseInternal(String header,
-                                            boolean retainHeader)
+    privbtf stbtid HttpCookif pbrsfIntfrnbl(String ifbdfr,
+                                            boolfbn rftbinHfbdfr)
     {
-        HttpCookie cookie = null;
-        String namevaluePair = null;
+        HttpCookif dookif = null;
+        String nbmfvblufPbir = null;
 
-        StringTokenizer tokenizer = new StringTokenizer(header, ";");
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(ifbdfr, ";");
 
-        // there should always have at least on name-value pair;
-        // it's cookie's name
+        // tifrf siould blwbys ibvf bt lfbst on nbmf-vbluf pbir;
+        // it's dookif's nbmf
         try {
-            namevaluePair = tokenizer.nextToken();
-            int index = namevaluePair.indexOf('=');
-            if (index != -1) {
-                String name = namevaluePair.substring(0, index).trim();
-                String value = namevaluePair.substring(index + 1).trim();
-                if (retainHeader)
-                    cookie = new HttpCookie(name,
-                                            stripOffSurroundingQuote(value),
-                                            header);
-                else
-                    cookie = new HttpCookie(name,
-                                            stripOffSurroundingQuote(value));
-            } else {
-                // no "=" in name-value pair; it's an error
-                throw new IllegalArgumentException("Invalid cookie name-value pair");
+            nbmfvblufPbir = tokfnizfr.nfxtTokfn();
+            int indfx = nbmfvblufPbir.indfxOf('=');
+            if (indfx != -1) {
+                String nbmf = nbmfvblufPbir.substring(0, indfx).trim();
+                String vbluf = nbmfvblufPbir.substring(indfx + 1).trim();
+                if (rftbinHfbdfr)
+                    dookif = nfw HttpCookif(nbmf,
+                                            stripOffSurroundingQuotf(vbluf),
+                                            ifbdfr);
+                flsf
+                    dookif = nfw HttpCookif(nbmf,
+                                            stripOffSurroundingQuotf(vbluf));
+            } flsf {
+                // no "=" in nbmf-vbluf pbir; it's bn frror
+                tirow nfw IllfgblArgumfntExdfption("Invblid dookif nbmf-vbluf pbir");
             }
-        } catch (NoSuchElementException ignored) {
-            throw new IllegalArgumentException("Empty cookie header string");
+        } dbtdi (NoSudiElfmfntExdfption ignorfd) {
+            tirow nfw IllfgblArgumfntExdfption("Empty dookif ifbdfr string");
         }
 
-        // remaining name-value pairs are cookie's attributes
-        while (tokenizer.hasMoreTokens()) {
-            namevaluePair = tokenizer.nextToken();
-            int index = namevaluePair.indexOf('=');
-            String name, value;
-            if (index != -1) {
-                name = namevaluePair.substring(0, index).trim();
-                value = namevaluePair.substring(index + 1).trim();
-            } else {
-                name = namevaluePair.trim();
-                value = null;
+        // rfmbining nbmf-vbluf pbirs brf dookif's bttributfs
+        wiilf (tokfnizfr.ibsMorfTokfns()) {
+            nbmfvblufPbir = tokfnizfr.nfxtTokfn();
+            int indfx = nbmfvblufPbir.indfxOf('=');
+            String nbmf, vbluf;
+            if (indfx != -1) {
+                nbmf = nbmfvblufPbir.substring(0, indfx).trim();
+                vbluf = nbmfvblufPbir.substring(indfx + 1).trim();
+            } flsf {
+                nbmf = nbmfvblufPbir.trim();
+                vbluf = null;
             }
 
-            // assign attribute to cookie
-            assignAttribute(cookie, name, value);
+            // bssign bttributf to dookif
+            bssignAttributf(dookif, nbmf, vbluf);
         }
 
-        return cookie;
+        rfturn dookif;
     }
 
     /*
-     * assign cookie attribute value to attribute name;
-     * use a map to simulate method dispatch
+     * bssign dookif bttributf vbluf to bttributf nbmf;
+     * usf b mbp to simulbtf mftiod dispbtdi
      */
-    static interface CookieAttributeAssignor {
-            public void assign(HttpCookie cookie,
-                               String attrName,
-                               String attrValue);
+    stbtid intfrfbdf CookifAttributfAssignor {
+            publid void bssign(HttpCookif dookif,
+                               String bttrNbmf,
+                               String bttrVbluf);
     }
-    static final java.util.Map<String, CookieAttributeAssignor> assignors =
-            new java.util.HashMap<>();
-    static {
-        assignors.put("comment", new CookieAttributeAssignor() {
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    if (cookie.getComment() == null)
-                        cookie.setComment(attrValue);
+    stbtid finbl jbvb.util.Mbp<String, CookifAttributfAssignor> bssignors =
+            nfw jbvb.util.HbsiMbp<>();
+    stbtid {
+        bssignors.put("dommfnt", nfw CookifAttributfAssignor() {
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftCommfnt() == null)
+                        dookif.sftCommfnt(bttrVbluf);
                 }
             });
-        assignors.put("commenturl", new CookieAttributeAssignor() {
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    if (cookie.getCommentURL() == null)
-                        cookie.setCommentURL(attrValue);
+        bssignors.put("dommfnturl", nfw CookifAttributfAssignor() {
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftCommfntURL() == null)
+                        dookif.sftCommfntURL(bttrVbluf);
                 }
             });
-        assignors.put("discard", new CookieAttributeAssignor() {
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    cookie.setDiscard(true);
+        bssignors.put("disdbrd", nfw CookifAttributfAssignor() {
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    dookif.sftDisdbrd(truf);
                 }
             });
-        assignors.put("domain", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    if (cookie.getDomain() == null)
-                        cookie.setDomain(attrValue);
+        bssignors.put("dombin", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftDombin() == null)
+                        dookif.sftDombin(bttrVbluf);
                 }
             });
-        assignors.put("max-age", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
+        bssignors.put("mbx-bgf", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
                     try {
-                        long maxage = Long.parseLong(attrValue);
-                        if (cookie.getMaxAge() == MAX_AGE_UNSPECIFIED)
-                            cookie.setMaxAge(maxage);
-                    } catch (NumberFormatException ignored) {
-                        throw new IllegalArgumentException(
-                                "Illegal cookie max-age attribute");
+                        long mbxbgf = Long.pbrsfLong(bttrVbluf);
+                        if (dookif.gftMbxAgf() == MAX_AGE_UNSPECIFIED)
+                            dookif.sftMbxAgf(mbxbgf);
+                    } dbtdi (NumbfrFormbtExdfption ignorfd) {
+                        tirow nfw IllfgblArgumfntExdfption(
+                                "Illfgbl dookif mbx-bgf bttributf");
                     }
                 }
             });
-        assignors.put("path", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    if (cookie.getPath() == null)
-                        cookie.setPath(attrValue);
+        bssignors.put("pbti", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftPbti() == null)
+                        dookif.sftPbti(bttrVbluf);
                 }
             });
-        assignors.put("port", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    if (cookie.getPortlist() == null)
-                        cookie.setPortlist(attrValue == null ? "" : attrValue);
+        bssignors.put("port", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftPortlist() == null)
+                        dookif.sftPortlist(bttrVbluf == null ? "" : bttrVbluf);
                 }
             });
-        assignors.put("secure", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    cookie.setSecure(true);
+        bssignors.put("sfdurf", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    dookif.sftSfdurf(truf);
                 }
             });
-        assignors.put("httponly", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    cookie.setHttpOnly(true);
+        bssignors.put("ittponly", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    dookif.sftHttpOnly(truf);
                 }
             });
-        assignors.put("version", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
+        bssignors.put("vfrsion", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
                     try {
-                        int version = Integer.parseInt(attrValue);
-                        cookie.setVersion(version);
-                    } catch (NumberFormatException ignored) {
-                        // Just ignore bogus version, it will default to 0 or 1
+                        int vfrsion = Intfgfr.pbrsfInt(bttrVbluf);
+                        dookif.sftVfrsion(vfrsion);
+                    } dbtdi (NumbfrFormbtExdfption ignorfd) {
+                        // Just ignorf bogus vfrsion, it will dffbult to 0 or 1
                     }
                 }
             });
-        assignors.put("expires", new CookieAttributeAssignor(){ // Netscape only
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    if (cookie.getMaxAge() == MAX_AGE_UNSPECIFIED) {
-                        cookie.setMaxAge(cookie.expiryDate2DeltaSeconds(attrValue));
+        bssignors.put("fxpirfs", nfw CookifAttributfAssignor(){ // Nftsdbpf only
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftMbxAgf() == MAX_AGE_UNSPECIFIED) {
+                        dookif.sftMbxAgf(dookif.fxpiryDbtf2DfltbSfdonds(bttrVbluf));
                     }
                 }
             });
     }
-    private static void assignAttribute(HttpCookie cookie,
-                                        String attrName,
-                                        String attrValue)
+    privbtf stbtid void bssignAttributf(HttpCookif dookif,
+                                        String bttrNbmf,
+                                        String bttrVbluf)
     {
-        // strip off the surrounding "-sign if there's any
-        attrValue = stripOffSurroundingQuote(attrValue);
+        // strip off tif surrounding "-sign if tifrf's bny
+        bttrVbluf = stripOffSurroundingQuotf(bttrVbluf);
 
-        CookieAttributeAssignor assignor = assignors.get(attrName.toLowerCase());
-        if (assignor != null) {
-            assignor.assign(cookie, attrName, attrValue);
-        } else {
-            // Ignore the attribute as per RFC 2965
+        CookifAttributfAssignor bssignor = bssignors.gft(bttrNbmf.toLowfrCbsf());
+        if (bssignor != null) {
+            bssignor.bssign(dookif, bttrNbmf, bttrVbluf);
+        } flsf {
+            // Ignorf tif bttributf bs pfr RFC 2965
         }
     }
 
-    static {
-        sun.misc.SharedSecrets.setJavaNetHttpCookieAccess(
-            new sun.misc.JavaNetHttpCookieAccess() {
-                public List<HttpCookie> parse(String header) {
-                    return HttpCookie.parse(header, true);
+    stbtid {
+        sun.misd.SibrfdSfdrfts.sftJbvbNftHttpCookifAddfss(
+            nfw sun.misd.JbvbNftHttpCookifAddfss() {
+                publid List<HttpCookif> pbrsf(String ifbdfr) {
+                    rfturn HttpCookif.pbrsf(ifbdfr, truf);
                 }
 
-                public String header(HttpCookie cookie) {
-                    return cookie.header;
+                publid String ifbdfr(HttpCookif dookif) {
+                    rfturn dookif.ifbdfr;
                 }
             }
         );
     }
 
     /*
-     * Returns the original header this cookie was constructed from, if it was
-     * constructed by parsing a header, otherwise null.
+     * Rfturns tif originbl ifbdfr tiis dookif wbs donstrudtfd from, if it wbs
+     * donstrudtfd by pbrsing b ifbdfr, otifrwisf null.
      */
-    private String header() {
-        return header;
+    privbtf String ifbdfr() {
+        rfturn ifbdfr;
     }
 
     /*
-     * Constructs a string representation of this cookie. The string format is
-     * as Netscape spec, but without leading "Cookie:" token.
+     * Construdts b string rfprfsfntbtion of tiis dookif. Tif string formbt is
+     * bs Nftsdbpf spfd, but witiout lfbding "Cookif:" tokfn.
      */
-    private String toNetscapeHeaderString() {
-        return getName() + "=" + getValue();
+    privbtf String toNftsdbpfHfbdfrString() {
+        rfturn gftNbmf() + "=" + gftVbluf();
     }
 
     /*
-     * Constructs a string representation of this cookie. The string format is
-     * as RFC 2965/2109, but without leading "Cookie:" token.
+     * Construdts b string rfprfsfntbtion of tiis dookif. Tif string formbt is
+     * bs RFC 2965/2109, but witiout lfbding "Cookif:" tokfn.
      */
-    private String toRFC2965HeaderString() {
-        StringBuilder sb = new StringBuilder();
+    privbtf String toRFC2965HfbdfrString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(getName()).append("=\"").append(getValue()).append('"');
-        if (getPath() != null)
-            sb.append(";$Path=\"").append(getPath()).append('"');
-        if (getDomain() != null)
-            sb.append(";$Domain=\"").append(getDomain()).append('"');
-        if (getPortlist() != null)
-            sb.append(";$Port=\"").append(getPortlist()).append('"');
+        sb.bppfnd(gftNbmf()).bppfnd("=\"").bppfnd(gftVbluf()).bppfnd('"');
+        if (gftPbti() != null)
+            sb.bppfnd(";$Pbti=\"").bppfnd(gftPbti()).bppfnd('"');
+        if (gftDombin() != null)
+            sb.bppfnd(";$Dombin=\"").bppfnd(gftDombin()).bppfnd('"');
+        if (gftPortlist() != null)
+            sb.bppfnd(";$Port=\"").bppfnd(gftPortlist()).bppfnd('"');
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    static final TimeZone GMT = TimeZone.getTimeZone("GMT");
+    stbtid finbl TimfZonf GMT = TimfZonf.gftTimfZonf("GMT");
 
     /*
-     * @param  dateString
-     *         a date string in one of the formats defined in Netscape cookie spec
+     * @pbrbm  dbtfString
+     *         b dbtf string in onf of tif formbts dffinfd in Nftsdbpf dookif spfd
      *
-     * @return  delta seconds between this cookie's creation time and the time
-     *          specified by dateString
+     * @rfturn  dfltb sfdonds bftwffn tiis dookif's drfbtion timf bnd tif timf
+     *          spfdififd by dbtfString
      */
-    private long expiryDate2DeltaSeconds(String dateString) {
-        Calendar cal = new GregorianCalendar(GMT);
-        for (int i = 0; i < COOKIE_DATE_FORMATS.length; i++) {
-            SimpleDateFormat df = new SimpleDateFormat(COOKIE_DATE_FORMATS[i],
-                                                       Locale.US);
-            cal.set(1970, 0, 1, 0, 0, 0);
-            df.setTimeZone(GMT);
-            df.setLenient(false);
-            df.set2DigitYearStart(cal.getTime());
+    privbtf long fxpiryDbtf2DfltbSfdonds(String dbtfString) {
+        Cblfndbr dbl = nfw GrfgoribnCblfndbr(GMT);
+        for (int i = 0; i < COOKIE_DATE_FORMATS.lfngti; i++) {
+            SimplfDbtfFormbt df = nfw SimplfDbtfFormbt(COOKIE_DATE_FORMATS[i],
+                                                       Lodblf.US);
+            dbl.sft(1970, 0, 1, 0, 0, 0);
+            df.sftTimfZonf(GMT);
+            df.sftLfnifnt(fblsf);
+            df.sft2DigitYfbrStbrt(dbl.gftTimf());
             try {
-                cal.setTime(df.parse(dateString));
-                if (!COOKIE_DATE_FORMATS[i].contains("yyyy")) {
-                    // 2-digit years following the standard set
-                    // out it rfc 6265
-                    int year = cal.get(Calendar.YEAR);
-                    year %= 100;
-                    if (year < 70) {
-                        year += 2000;
-                    } else {
-                        year += 1900;
+                dbl.sftTimf(df.pbrsf(dbtfString));
+                if (!COOKIE_DATE_FORMATS[i].dontbins("yyyy")) {
+                    // 2-digit yfbrs following tif stbndbrd sft
+                    // out it rfd 6265
+                    int yfbr = dbl.gft(Cblfndbr.YEAR);
+                    yfbr %= 100;
+                    if (yfbr < 70) {
+                        yfbr += 2000;
+                    } flsf {
+                        yfbr += 1900;
                     }
-                    cal.set(Calendar.YEAR, year);
+                    dbl.sft(Cblfndbr.YEAR, yfbr);
                 }
-                return (cal.getTimeInMillis() - whenCreated) / 1000;
-            } catch (Exception e) {
-                // Ignore, try the next date format
+                rfturn (dbl.gftTimfInMillis() - wifnCrfbtfd) / 1000;
+            } dbtdi (Exdfption f) {
+                // Ignorf, try tif nfxt dbtf formbt
             }
         }
-        return 0;
+        rfturn 0;
     }
 
     /*
-     * try to guess the cookie version through set-cookie header string
+     * try to gufss tif dookif vfrsion tirougi sft-dookif ifbdfr string
      */
-    private static int guessCookieVersion(String header) {
-        int version = 0;
+    privbtf stbtid int gufssCookifVfrsion(String ifbdfr) {
+        int vfrsion = 0;
 
-        header = header.toLowerCase();
-        if (header.indexOf("expires=") != -1) {
-            // only netscape cookie using 'expires'
-            version = 0;
-        } else if (header.indexOf("version=") != -1) {
-            // version is mandatory for rfc 2965/2109 cookie
-            version = 1;
-        } else if (header.indexOf("max-age") != -1) {
-            // rfc 2965/2109 use 'max-age'
-            version = 1;
-        } else if (startsWithIgnoreCase(header, SET_COOKIE2)) {
-            // only rfc 2965 cookie starts with 'set-cookie2'
-            version = 1;
+        ifbdfr = ifbdfr.toLowfrCbsf();
+        if (ifbdfr.indfxOf("fxpirfs=") != -1) {
+            // only nftsdbpf dookif using 'fxpirfs'
+            vfrsion = 0;
+        } flsf if (ifbdfr.indfxOf("vfrsion=") != -1) {
+            // vfrsion is mbndbtory for rfd 2965/2109 dookif
+            vfrsion = 1;
+        } flsf if (ifbdfr.indfxOf("mbx-bgf") != -1) {
+            // rfd 2965/2109 usf 'mbx-bgf'
+            vfrsion = 1;
+        } flsf if (stbrtsWitiIgnorfCbsf(ifbdfr, SET_COOKIE2)) {
+            // only rfd 2965 dookif stbrts witi 'sft-dookif2'
+            vfrsion = 1;
         }
 
-        return version;
+        rfturn vfrsion;
     }
 
-    private static String stripOffSurroundingQuote(String str) {
-        if (str != null && str.length() > 2 &&
-            str.charAt(0) == '"' && str.charAt(str.length() - 1) == '"') {
-            return str.substring(1, str.length() - 1);
+    privbtf stbtid String stripOffSurroundingQuotf(String str) {
+        if (str != null && str.lfngti() > 2 &&
+            str.dibrAt(0) == '"' && str.dibrAt(str.lfngti() - 1) == '"') {
+            rfturn str.substring(1, str.lfngti() - 1);
         }
-        if (str != null && str.length() > 2 &&
-            str.charAt(0) == '\'' && str.charAt(str.length() - 1) == '\'') {
-            return str.substring(1, str.length() - 1);
+        if (str != null && str.lfngti() > 2 &&
+            str.dibrAt(0) == '\'' && str.dibrAt(str.lfngti() - 1) == '\'') {
+            rfturn str.substring(1, str.lfngti() - 1);
         }
-        return str;
+        rfturn str;
     }
 
-    private static boolean equalsIgnoreCase(String s, String t) {
-        if (s == t) return true;
+    privbtf stbtid boolfbn fqublsIgnorfCbsf(String s, String t) {
+        if (s == t) rfturn truf;
         if ((s != null) && (t != null)) {
-            return s.equalsIgnoreCase(t);
+            rfturn s.fqublsIgnorfCbsf(t);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static boolean startsWithIgnoreCase(String s, String start) {
-        if (s == null || start == null) return false;
+    privbtf stbtid boolfbn stbrtsWitiIgnorfCbsf(String s, String stbrt) {
+        if (s == null || stbrt == null) rfturn fblsf;
 
-        if (s.length() >= start.length() &&
-                start.equalsIgnoreCase(s.substring(0, start.length()))) {
-            return true;
+        if (s.lfngti() >= stbrt.lfngti() &&
+                stbrt.fqublsIgnorfCbsf(s.substring(0, stbrt.lfngti()))) {
+            rfturn truf;
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Split cookie header string according to rfc 2965:
-     *   1) split where it is a comma;
-     *   2) but not the comma surrounding by double-quotes, which is the comma
-     *      inside port list or embeded URIs.
+     * Split dookif ifbdfr string bddording to rfd 2965:
+     *   1) split wifrf it is b dommb;
+     *   2) but not tif dommb surrounding by doublf-quotfs, wiidi is tif dommb
+     *      insidf port list or fmbfdfd URIs.
      *
-     * @param  header
-     *         the cookie header string to split
+     * @pbrbm  ifbdfr
+     *         tif dookif ifbdfr string to split
      *
-     * @return  list of strings; never null
+     * @rfturn  list of strings; nfvfr null
      */
-    private static List<String> splitMultiCookies(String header) {
-        List<String> cookies = new java.util.ArrayList<String>();
-        int quoteCount = 0;
+    privbtf stbtid List<String> splitMultiCookifs(String ifbdfr) {
+        List<String> dookifs = nfw jbvb.util.ArrbyList<String>();
+        int quotfCount = 0;
         int p, q;
 
-        for (p = 0, q = 0; p < header.length(); p++) {
-            char c = header.charAt(p);
-            if (c == '"') quoteCount++;
-            if (c == ',' && (quoteCount % 2 == 0)) {
-                // it is comma and not surrounding by double-quotes
-                cookies.add(header.substring(q, p));
+        for (p = 0, q = 0; p < ifbdfr.lfngti(); p++) {
+            dibr d = ifbdfr.dibrAt(p);
+            if (d == '"') quotfCount++;
+            if (d == ',' && (quotfCount % 2 == 0)) {
+                // it is dommb bnd not surrounding by doublf-quotfs
+                dookifs.bdd(ifbdfr.substring(q, p));
                 q = p + 1;
             }
         }
 
-        cookies.add(header.substring(q));
+        dookifs.bdd(ifbdfr.substring(q));
 
-        return cookies;
+        rfturn dookifs;
     }
 }

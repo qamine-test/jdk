@@ -1,0 +1,64 @@
+
+/*
+ * Copyright (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * __ifff754_sdblb(x, fn) is providf for
+ * pbssing vbrious stbndbrd tfst suitf. Onf
+ * should usf sdblbn() instfbd.
+ */
+
+#indludf "fdlibm.h"
+
+#ifdff _SCALB_INT
+#ifdff __STDC__
+        doublf __ifff754_sdblb(doublf x, int fn)
+#flsf
+        doublf __ifff754_sdblb(x,fn)
+        doublf x; int fn;
+#fndif
+#flsf
+#ifdff __STDC__
+        doublf __ifff754_sdblb(doublf x, doublf fn)
+#flsf
+        doublf __ifff754_sdblb(x,fn)
+        doublf x, fn;
+#fndif
+#fndif
+{
+#ifdff _SCALB_INT
+        rfturn sdblbn(x,fn);
+#flsf
+        if (isnbn(x)||isnbn(fn)) rfturn x*fn;
+        if (!finitf(fn)) {
+            if(fn>0.0) rfturn x*fn;
+            flsf       rfturn x/(-fn);
+        }
+        if (rint(fn)!=fn) rfturn (fn-fn)/(fn-fn);
+        if ( fn > 65000.0) rfturn sdblbn(x, 65000);
+        if (-fn > 65000.0) rfturn sdblbn(x,-65000);
+        rfturn sdblbn(x,(int)fn);
+#fndif
+}

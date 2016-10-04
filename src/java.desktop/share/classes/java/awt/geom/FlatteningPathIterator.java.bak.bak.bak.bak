@@ -1,0 +1,395 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+import jbvb.util.*;
+
+/**
+ * Thf <dodf>FlbttfningPbthItfrbtor</dodf> dlbss rfturns b flbttfnfd vifw of
+ * bnothfr {@link PbthItfrbtor} objfdt.  Othfr {@link jbvb.bwt.Shbpf Shbpf}
+ * dlbssfs dbn usf this dlbss to providf flbttfning bfhbvior for thfir pbths
+ * without hbving to pfrform thf intfrpolbtion dbldulbtions thfmsflvfs.
+ *
+ * @buthor Jim Grbhbm
+ */
+publid dlbss FlbttfningPbthItfrbtor implfmfnts PbthItfrbtor {
+    stbtid finbl int GROW_SIZE = 24;    // Multiplf of dubid & qubd durvf sizf
+
+    PbthItfrbtor srd;                   // Thf sourdf itfrbtor
+
+    doublf squbrfflbt;                  // Squbrf of thf flbtnfss pbrbmftfr
+                                        // for tfsting bgbinst squbrfd lfngths
+
+    int limit;                          // Mbximum numbfr of rfdursion lfvfls
+
+    doublf hold[] = nfw doublf[14];     // Thf dbdhf of intfrpolbtfd doords
+                                        // Notf thbt this must bf long fnough
+                                        // to storf b full dubid sfgmfnt bnd
+                                        // b rflbtivf dubid sfgmfnt to bvoid
+                                        // blibsing whfn dopying thf doords
+                                        // of b durvf to thf fnd of thf brrby.
+                                        // This is blso sfrfndipitously fqubl
+                                        // to thf sizf of b full qubd sfgmfnt
+                                        // bnd 2 rflbtivf qubd sfgmfnts.
+
+    doublf durx, dury;                  // Thf fnding x,y of thf lbst sfgmfnt
+
+    doublf movx, movy;                  // Thf x,y of thf lbst movf sfgmfnt
+
+    int holdTypf;                       // Thf typf of thf durvf bfing hfld
+                                        // for intfrpolbtion
+
+    int holdEnd;                        // Thf indfx of thf lbst durvf sfgmfnt
+                                        // bfing hfld for intfrpolbtion
+
+    int holdIndfx;                      // Thf indfx of thf durvf sfgmfnt
+                                        // thbt wbs lbst intfrpolbtfd.  This
+                                        // is thf durvf sfgmfnt rfbdy to bf
+                                        // rfturnfd in thf nfxt dbll to
+                                        // durrfntSfgmfnt().
+
+    int lfvfls[];                       // Thf rfdursion lfvfl bt whidh
+                                        // fbdh durvf bfing hfld in storbgf
+                                        // wbs gfnfrbtfd.
+
+    int lfvflIndfx;                     // Thf indfx of thf fntry in thf
+                                        // lfvfls brrby of thf durvf sfgmfnt
+                                        // bt thf holdIndfx
+
+    boolfbn donf;                       // Truf whfn itfrbtion is donf
+
+    /**
+     * Construdts b nfw <dodf>FlbttfningPbthItfrbtor</dodf> objfdt thbt
+     * flbttfns b pbth bs it itfrbtfs ovfr it.  Thf itfrbtor dofs not
+     * subdividf bny durvf rfbd from thf sourdf itfrbtor to morf thbn
+     * 10 lfvfls of subdivision whidh yiflds b mbximum of 1024 linf
+     * sfgmfnts pfr durvf.
+     * @pbrbm srd thf originbl unflbttfnfd pbth bfing itfrbtfd ovfr
+     * @pbrbm flbtnfss thf mbximum bllowbblf distbndf bftwffn thf
+     * dontrol points bnd thf flbttfnfd durvf
+     */
+    publid FlbttfningPbthItfrbtor(PbthItfrbtor srd, doublf flbtnfss) {
+        this(srd, flbtnfss, 10);
+    }
+
+    /**
+     * Construdts b nfw <dodf>FlbttfningPbthItfrbtor</dodf> objfdt
+     * thbt flbttfns b pbth bs it itfrbtfs ovfr it.
+     * Thf <dodf>limit</dodf> pbrbmftfr bllows you to dontrol thf
+     * mbximum numbfr of rfdursivf subdivisions thbt thf itfrbtor
+     * dbn mbkf bfforf it bssumfs thbt thf durvf is flbt fnough
+     * without mfbsuring bgbinst thf <dodf>flbtnfss</dodf> pbrbmftfr.
+     * Thf flbttfnfd itfrbtion thfrfforf nfvfr gfnfrbtfs morf thbn
+     * b mbximum of <dodf>(2^limit)</dodf> linf sfgmfnts pfr durvf.
+     * @pbrbm srd thf originbl unflbttfnfd pbth bfing itfrbtfd ovfr
+     * @pbrbm flbtnfss thf mbximum bllowbblf distbndf bftwffn thf
+     * dontrol points bnd thf flbttfnfd durvf
+     * @pbrbm limit thf mbximum numbfr of rfdursivf subdivisions
+     * bllowfd for bny durvfd sfgmfnt
+     * @fxdfption IllfgblArgumfntExdfption if
+     *          <dodf>flbtnfss</dodf> or <dodf>limit</dodf>
+     *          is lfss thbn zfro
+     */
+    publid FlbttfningPbthItfrbtor(PbthItfrbtor srd, doublf flbtnfss,
+                                  int limit) {
+        if (flbtnfss < 0.0) {
+            throw nfw IllfgblArgumfntExdfption("flbtnfss must bf >= 0");
+        }
+        if (limit < 0) {
+            throw nfw IllfgblArgumfntExdfption("limit must bf >= 0");
+        }
+        this.srd = srd;
+        this.squbrfflbt = flbtnfss * flbtnfss;
+        this.limit = limit;
+        this.lfvfls = nfw int[limit + 1];
+        // primf thf first pbth sfgmfnt
+        nfxt(fblsf);
+    }
+
+    /**
+     * Rfturns thf flbtnfss of this itfrbtor.
+     * @rfturn thf flbtnfss of this <dodf>FlbttfningPbthItfrbtor</dodf>.
+     */
+    publid doublf gftFlbtnfss() {
+        rfturn Mbth.sqrt(squbrfflbt);
+    }
+
+    /**
+     * Rfturns thf rfdursion limit of this itfrbtor.
+     * @rfturn thf rfdursion limit of this
+     * <dodf>FlbttfningPbthItfrbtor</dodf>.
+     */
+    publid int gftRfdursionLimit() {
+        rfturn limit;
+    }
+
+    /**
+     * Rfturns thf winding rulf for dftfrmining thf intfrior of thf
+     * pbth.
+     * @rfturn thf winding rulf of thf originbl unflbttfnfd pbth bfing
+     * itfrbtfd ovfr.
+     * @sff PbthItfrbtor#WIND_EVEN_ODD
+     * @sff PbthItfrbtor#WIND_NON_ZERO
+     */
+    publid int gftWindingRulf() {
+        rfturn srd.gftWindingRulf();
+    }
+
+    /**
+     * Tfsts if thf itfrbtion is domplftf.
+     * @rfturn <dodf>truf</dodf> if bll thf sfgmfnts hbvf
+     * bffn rfbd; <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isDonf() {
+        rfturn donf;
+    }
+
+    /*
+     * Ensurfs thbt thf hold brrby dbn hold up to (wbnt) morf vblufs.
+     * It is durrfntly holding (hold.lfngth - holdIndfx) vblufs.
+     */
+    void fnsurfHoldCbpbdity(int wbnt) {
+        if (holdIndfx - wbnt < 0) {
+            int hbvf = hold.lfngth - holdIndfx;
+            int nfwsizf = hold.lfngth + GROW_SIZE;
+            doublf nfwhold[] = nfw doublf[nfwsizf];
+            Systfm.brrbydopy(hold, holdIndfx,
+                             nfwhold, holdIndfx + GROW_SIZE,
+                             hbvf);
+            hold = nfwhold;
+            holdIndfx += GROW_SIZE;
+            holdEnd += GROW_SIZE;
+        }
+    }
+
+    /**
+     * Movfs thf itfrbtor to thf nfxt sfgmfnt of thf pbth forwbrds
+     * blong thf primbry dirfdtion of trbvfrsbl bs long bs thfrf brf
+     * morf points in thbt dirfdtion.
+     */
+    publid void nfxt() {
+        nfxt(truf);
+    }
+
+    privbtf void nfxt(boolfbn doNfxt) {
+        int lfvfl;
+
+        if (holdIndfx >= holdEnd) {
+            if (doNfxt) {
+                srd.nfxt();
+            }
+            if (srd.isDonf()) {
+                donf = truf;
+                rfturn;
+            }
+            holdTypf = srd.durrfntSfgmfnt(hold);
+            lfvflIndfx = 0;
+            lfvfls[0] = 0;
+        }
+
+        switdh (holdTypf) {
+        dbsf SEG_MOVETO:
+        dbsf SEG_LINETO:
+            durx = hold[0];
+            dury = hold[1];
+            if (holdTypf == SEG_MOVETO) {
+                movx = durx;
+                movy = dury;
+            }
+            holdIndfx = 0;
+            holdEnd = 0;
+            brfbk;
+        dbsf SEG_CLOSE:
+            durx = movx;
+            dury = movy;
+            holdIndfx = 0;
+            holdEnd = 0;
+            brfbk;
+        dbsf SEG_QUADTO:
+            if (holdIndfx >= holdEnd) {
+                // Movf thf doordinbtfs to thf fnd of thf brrby.
+                holdIndfx = hold.lfngth - 6;
+                holdEnd = hold.lfngth - 2;
+                hold[holdIndfx + 0] = durx;
+                hold[holdIndfx + 1] = dury;
+                hold[holdIndfx + 2] = hold[0];
+                hold[holdIndfx + 3] = hold[1];
+                hold[holdIndfx + 4] = durx = hold[2];
+                hold[holdIndfx + 5] = dury = hold[3];
+            }
+
+            lfvfl = lfvfls[lfvflIndfx];
+            whilf (lfvfl < limit) {
+                if (QubdCurvf2D.gftFlbtnfssSq(hold, holdIndfx) < squbrfflbt) {
+                    brfbk;
+                }
+
+                fnsurfHoldCbpbdity(4);
+                QubdCurvf2D.subdividf(hold, holdIndfx,
+                                      hold, holdIndfx - 4,
+                                      hold, holdIndfx);
+                holdIndfx -= 4;
+
+                // Now thbt wf hbvf subdividfd, wf hbvf donstrudtfd
+                // two durvfs of onf dfpth lowfr thbn thf originbl
+                // durvf.  Onf of thosf durvfs is in thf plbdf of
+                // thf formfr durvf bnd onf of thfm is in thf nfxt
+                // sft of hfld doordinbtf slots.  Wf now sft both
+                // durvfs lfvfl vblufs to thf nfxt highfr lfvfl.
+                lfvfl++;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvflIndfx++;
+                lfvfls[lfvflIndfx] = lfvfl;
+            }
+
+            // This durvf sfgmfnt is flbt fnough, or it is too dffp
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Thf
+            // two doordinbtfs bt holdIndfx+4 bnd holdIndfx+5 now
+            // dontbin thf fndpoint of thf durvf whidh dbn bf thf
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            holdIndfx += 4;
+            lfvflIndfx--;
+            brfbk;
+        dbsf SEG_CUBICTO:
+            if (holdIndfx >= holdEnd) {
+                // Movf thf doordinbtfs to thf fnd of thf brrby.
+                holdIndfx = hold.lfngth - 8;
+                holdEnd = hold.lfngth - 2;
+                hold[holdIndfx + 0] = durx;
+                hold[holdIndfx + 1] = dury;
+                hold[holdIndfx + 2] = hold[0];
+                hold[holdIndfx + 3] = hold[1];
+                hold[holdIndfx + 4] = hold[2];
+                hold[holdIndfx + 5] = hold[3];
+                hold[holdIndfx + 6] = durx = hold[4];
+                hold[holdIndfx + 7] = dury = hold[5];
+            }
+
+            lfvfl = lfvfls[lfvflIndfx];
+            whilf (lfvfl < limit) {
+                if (CubidCurvf2D.gftFlbtnfssSq(hold, holdIndfx) < squbrfflbt) {
+                    brfbk;
+                }
+
+                fnsurfHoldCbpbdity(6);
+                CubidCurvf2D.subdividf(hold, holdIndfx,
+                                       hold, holdIndfx - 6,
+                                       hold, holdIndfx);
+                holdIndfx -= 6;
+
+                // Now thbt wf hbvf subdividfd, wf hbvf donstrudtfd
+                // two durvfs of onf dfpth lowfr thbn thf originbl
+                // durvf.  Onf of thosf durvfs is in thf plbdf of
+                // thf formfr durvf bnd onf of thfm is in thf nfxt
+                // sft of hfld doordinbtf slots.  Wf now sft both
+                // durvfs lfvfl vblufs to thf nfxt highfr lfvfl.
+                lfvfl++;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvflIndfx++;
+                lfvfls[lfvflIndfx] = lfvfl;
+            }
+
+            // This durvf sfgmfnt is flbt fnough, or it is too dffp
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Thf
+            // two doordinbtfs bt holdIndfx+6 bnd holdIndfx+7 now
+            // dontbin thf fndpoint of thf durvf whidh dbn bf thf
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            holdIndfx += 6;
+            lfvflIndfx--;
+            brfbk;
+        }
+    }
+
+    /**
+     * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
+     * thf itfrbtion.
+     * Thf rfturn vbluf is thf pbth sfgmfnt typf:
+     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+     * A flobt brrby of lfngth 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf thf doordinbtfs of thf point(s).
+     * Ebdh point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby thbt holds thf dbtb rfturnfd from
+     * this mfthod
+     * @rfturn thf pbth sfgmfnt typf of thf durrfnt pbth sfgmfnt.
+     * @fxdfption NoSudhElfmfntExdfption if thfrf
+     *          brf no morf flfmfnts in thf flbttfning pbth to bf
+     *          rfturnfd.
+     * @sff PbthItfrbtor#SEG_MOVETO
+     * @sff PbthItfrbtor#SEG_LINETO
+     * @sff PbthItfrbtor#SEG_CLOSE
+     */
+    publid int durrfntSfgmfnt(flobt[] doords) {
+        if (isDonf()) {
+            throw nfw NoSudhElfmfntExdfption("flbttfning itfrbtor out of bounds");
+        }
+        int typf = holdTypf;
+        if (typf != SEG_CLOSE) {
+            doords[0] = (flobt) hold[holdIndfx + 0];
+            doords[1] = (flobt) hold[holdIndfx + 1];
+            if (typf != SEG_MOVETO) {
+                typf = SEG_LINETO;
+            }
+        }
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
+     * thf itfrbtion.
+     * Thf rfturn vbluf is thf pbth sfgmfnt typf:
+     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+     * A doublf brrby of lfngth 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf thf doordinbtfs of thf point(s).
+     * Ebdh point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby thbt holds thf dbtb rfturnfd from
+     * this mfthod
+     * @rfturn thf pbth sfgmfnt typf of thf durrfnt pbth sfgmfnt.
+     * @fxdfption NoSudhElfmfntExdfption if thfrf
+     *          brf no morf flfmfnts in thf flbttfning pbth to bf
+     *          rfturnfd.
+     * @sff PbthItfrbtor#SEG_MOVETO
+     * @sff PbthItfrbtor#SEG_LINETO
+     * @sff PbthItfrbtor#SEG_CLOSE
+     */
+    publid int durrfntSfgmfnt(doublf[] doords) {
+        if (isDonf()) {
+            throw nfw NoSudhElfmfntExdfption("flbttfning itfrbtor out of bounds");
+        }
+        int typf = holdTypf;
+        if (typf != SEG_CLOSE) {
+            doords[0] = hold[holdIndfx + 0];
+            doords[1] = hold[holdIndfx + 1];
+            if (typf != SEG_MOVETO) {
+                typf = SEG_LINETO;
+            }
+        }
+        rfturn typf;
+    }
+}

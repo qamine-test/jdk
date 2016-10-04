@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.util.List;
+import jbvb.util.List;
 
-abstract public class TypeComponentImpl extends MirrorImpl
-    implements TypeComponent
+bbstrbdt publid dlbss TypfComponfntImpl fxtfnds MirrorImpl
+    implfmfnts TypfComponfnt
 {
-    protected final long ref;
-    protected final String name;
-    protected final String signature;
-    protected final String genericSignature;
-    protected final ReferenceTypeImpl declaringType;
-    private final int modifiers;
+    protfdtfd finbl long rff;
+    protfdtfd finbl String nbmf;
+    protfdtfd finbl String signbturf;
+    protfdtfd finbl String gfnfridSignbturf;
+    protfdtfd finbl RfffrfndfTypfImpl dfdlbringTypf;
+    privbtf finbl int modififrs;
 
-    TypeComponentImpl(VirtualMachine vm, ReferenceTypeImpl declaringType,
-                      long ref,
-                      String name, String signature,
-                      String genericSignature, int modifiers) {
-        // The generic signature is set when this is created.
-        super(vm);
-        this.declaringType = declaringType;
-        this.ref = ref;
-        this.name = name;
-        this.signature = signature;
-        if (genericSignature != null && genericSignature.length() != 0) {
-            this.genericSignature = genericSignature;
-        } else {
-            this.genericSignature = null;
+    TypfComponfntImpl(VirtublMbdiinf vm, RfffrfndfTypfImpl dfdlbringTypf,
+                      long rff,
+                      String nbmf, String signbturf,
+                      String gfnfridSignbturf, int modififrs) {
+        // Tif gfnfrid signbturf is sft wifn tiis is drfbtfd.
+        supfr(vm);
+        tiis.dfdlbringTypf = dfdlbringTypf;
+        tiis.rff = rff;
+        tiis.nbmf = nbmf;
+        tiis.signbturf = signbturf;
+        if (gfnfridSignbturf != null && gfnfridSignbturf.lfngti() != 0) {
+            tiis.gfnfridSignbturf = gfnfridSignbturf;
+        } flsf {
+            tiis.gfnfridSignbturf = null;
         }
-        this.modifiers = modifiers;
+        tiis.modififrs = modififrs;
     }
 
-    public String name() {
-        return name;
+    publid String nbmf() {
+        rfturn nbmf;
     }
 
-    public String signature() {
-        return signature;
+    publid String signbturf() {
+        rfturn signbturf;
     }
-    public String genericSignature() {
-        return genericSignature;
-    }
-
-    public int modifiers() {
-        return modifiers;
+    publid String gfnfridSignbturf() {
+        rfturn gfnfridSignbturf;
     }
 
-    public ReferenceType declaringType() {
-        return declaringType;
+    publid int modififrs() {
+        rfturn modififrs;
     }
 
-    public boolean isStatic() {
-        return isModifierSet(VMModifiers.STATIC);
+    publid RfffrfndfTypf dfdlbringTypf() {
+        rfturn dfdlbringTypf;
     }
 
-    public boolean isFinal() {
-        return isModifierSet(VMModifiers.FINAL);
+    publid boolfbn isStbtid() {
+        rfturn isModififrSft(VMModififrs.STATIC);
     }
 
-    public boolean isPrivate() {
-        return isModifierSet(VMModifiers.PRIVATE);
+    publid boolfbn isFinbl() {
+        rfturn isModififrSft(VMModififrs.FINAL);
     }
 
-    public boolean isPackagePrivate() {
-        return !isModifierSet(VMModifiers.PRIVATE
-                              | VMModifiers.PROTECTED
-                              | VMModifiers.PUBLIC);
+    publid boolfbn isPrivbtf() {
+        rfturn isModififrSft(VMModififrs.PRIVATE);
     }
 
-    public boolean isProtected() {
-        return isModifierSet(VMModifiers.PROTECTED);
+    publid boolfbn isPbdkbgfPrivbtf() {
+        rfturn !isModififrSft(VMModififrs.PRIVATE
+                              | VMModififrs.PROTECTED
+                              | VMModififrs.PUBLIC);
     }
 
-    public boolean isPublic() {
-        return isModifierSet(VMModifiers.PUBLIC);
+    publid boolfbn isProtfdtfd() {
+        rfturn isModififrSft(VMModififrs.PROTECTED);
     }
 
-    public boolean isSynthetic() {
-        return isModifierSet(VMModifiers.SYNTHETIC);
+    publid boolfbn isPublid() {
+        rfturn isModififrSft(VMModififrs.PUBLIC);
     }
 
-    long ref() {
-        return ref;
+    publid boolfbn isSyntiftid() {
+        rfturn isModififrSft(VMModififrs.SYNTHETIC);
     }
 
-    boolean isModifierSet(int compareBits) {
-        return (modifiers & compareBits) != 0;
+    long rff() {
+        rfturn rff;
+    }
+
+    boolfbn isModififrSft(int dompbrfBits) {
+        rfturn (modififrs & dompbrfBits) != 0;
     }
 }

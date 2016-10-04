@@ -1,2366 +1,2366 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.dnd.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.File;
-import java.net.URI;
-import java.text.DateFormat;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.dbtbtrbnsffr.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.io.Filf;
+import jbvb.nft.URI;
+import jbvb.tfxt.DbtfFormbt;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.*;
-import javax.swing.filechooser.*;
-import javax.swing.plaf.*;
-import javax.swing.table.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tbblf.*;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
-public class AquaFileChooserUI extends FileChooserUI {
-    /* FileView icons */
-    protected Icon directoryIcon = null;
-    protected Icon fileIcon = null;
-    protected Icon computerIcon = null;
-    protected Icon hardDriveIcon = null;
-    protected Icon floppyDriveIcon = null;
+publid dlbss AqubFilfCioosfrUI fxtfnds FilfCioosfrUI {
+    /* FilfVifw idons */
+    protfdtfd Idon dirfdtoryIdon = null;
+    protfdtfd Idon filfIdon = null;
+    protfdtfd Idon domputfrIdon = null;
+    protfdtfd Idon ibrdDrivfIdon = null;
+    protfdtfd Idon floppyDrivfIdon = null;
 
-    protected Icon upFolderIcon = null;
-    protected Icon homeFolderIcon = null;
-    protected Icon listViewIcon = null;
-    protected Icon detailsViewIcon = null;
+    protfdtfd Idon upFoldfrIdon = null;
+    protfdtfd Idon iomfFoldfrIdon = null;
+    protfdtfd Idon listVifwIdon = null;
+    protfdtfd Idon dftbilsVifwIdon = null;
 
-    protected int saveButtonMnemonic = 0;
-    protected int openButtonMnemonic = 0;
-    protected int cancelButtonMnemonic = 0;
-    protected int updateButtonMnemonic = 0;
-    protected int helpButtonMnemonic = 0;
-    protected int chooseButtonMnemonic = 0;
+    protfdtfd int sbvfButtonMnfmonid = 0;
+    protfdtfd int opfnButtonMnfmonid = 0;
+    protfdtfd int dbndflButtonMnfmonid = 0;
+    protfdtfd int updbtfButtonMnfmonid = 0;
+    protfdtfd int iflpButtonMnfmonid = 0;
+    protfdtfd int dioosfButtonMnfmonid = 0;
 
-    private String saveTitleText = null;
-    private String openTitleText = null;
-    String newFolderTitleText = null;
+    privbtf String sbvfTitlfTfxt = null;
+    privbtf String opfnTitlfTfxt = null;
+    String nfwFoldfrTitlfTfxt = null;
 
-    protected String saveButtonText = null;
-    protected String openButtonText = null;
-    protected String cancelButtonText = null;
-    protected String updateButtonText = null;
-    protected String helpButtonText = null;
-    protected String newFolderButtonText = null;
-    protected String chooseButtonText = null;
+    protfdtfd String sbvfButtonTfxt = null;
+    protfdtfd String opfnButtonTfxt = null;
+    protfdtfd String dbndflButtonTfxt = null;
+    protfdtfd String updbtfButtonTfxt = null;
+    protfdtfd String iflpButtonTfxt = null;
+    protfdtfd String nfwFoldfrButtonTfxt = null;
+    protfdtfd String dioosfButtonTfxt = null;
 
-    //private String newFolderErrorSeparator = null;
-    String newFolderErrorText = null;
-    String newFolderExistsErrorText = null;
-    protected String fileDescriptionText = null;
-    protected String directoryDescriptionText = null;
+    //privbtf String nfwFoldfrErrorSfpbrbtor = null;
+    String nfwFoldfrErrorTfxt = null;
+    String nfwFoldfrExistsErrorTfxt = null;
+    protfdtfd String filfDfsdriptionTfxt = null;
+    protfdtfd String dirfdtoryDfsdriptionTfxt = null;
 
-    protected String saveButtonToolTipText = null;
-    protected String openButtonToolTipText = null;
-    protected String cancelButtonToolTipText = null;
-    protected String updateButtonToolTipText = null;
-    protected String helpButtonToolTipText = null;
-    protected String chooseItemButtonToolTipText = null; // Choose anything
-    protected String chooseFolderButtonToolTipText = null; // Choose folder
-    protected String directoryComboBoxToolTipText = null;
-    protected String filenameTextFieldToolTipText = null;
-    protected String filterComboBoxToolTipText = null;
-    protected String openDirectoryButtonToolTipText = null;
+    protfdtfd String sbvfButtonToolTipTfxt = null;
+    protfdtfd String opfnButtonToolTipTfxt = null;
+    protfdtfd String dbndflButtonToolTipTfxt = null;
+    protfdtfd String updbtfButtonToolTipTfxt = null;
+    protfdtfd String iflpButtonToolTipTfxt = null;
+    protfdtfd String dioosfItfmButtonToolTipTfxt = null; // Cioosf bnytiing
+    protfdtfd String dioosfFoldfrButtonToolTipTfxt = null; // Cioosf foldfr
+    protfdtfd String dirfdtoryComboBoxToolTipTfxt = null;
+    protfdtfd String filfnbmfTfxtFifldToolTipTfxt = null;
+    protfdtfd String filtfrComboBoxToolTipTfxt = null;
+    protfdtfd String opfnDirfdtoryButtonToolTipTfxt = null;
 
-    protected String cancelOpenButtonToolTipText = null;
-    protected String cancelSaveButtonToolTipText = null;
-    protected String cancelChooseButtonToolTipText = null;
-    protected String cancelNewFolderButtonToolTipText = null;
+    protfdtfd String dbndflOpfnButtonToolTipTfxt = null;
+    protfdtfd String dbndflSbvfButtonToolTipTfxt = null;
+    protfdtfd String dbndflCioosfButtonToolTipTfxt = null;
+    protfdtfd String dbndflNfwFoldfrButtonToolTipTfxt = null;
 
-    protected String desktopName = null;
-    String newFolderDialogPrompt = null;
-    String newFolderDefaultName = null;
-    private String newFileDefaultName = null;
-    String createButtonText = null;
+    protfdtfd String dfsktopNbmf = null;
+    String nfwFoldfrDiblogPrompt = null;
+    String nfwFoldfrDffbultNbmf = null;
+    privbtf String nfwFilfDffbultNbmf = null;
+    String drfbtfButtonTfxt = null;
 
-    JFileChooser filechooser = null;
+    JFilfCioosfr filfdioosfr = null;
 
-    private MouseListener doubleClickListener = null;
-    private PropertyChangeListener propertyChangeListener = null;
-    private AncestorListener ancestorListener = null;
-    private DropTarget dragAndDropTarget = null;
+    privbtf MousfListfnfr doublfClidkListfnfr = null;
+    privbtf PropfrtyCibngfListfnfr propfrtyCibngfListfnfr = null;
+    privbtf AndfstorListfnfr bndfstorListfnfr = null;
+    privbtf DropTbrgft drbgAndDropTbrgft = null;
 
-    private final AcceptAllFileFilter acceptAllFileFilter = new AcceptAllFileFilter();
+    privbtf finbl AddfptAllFilfFiltfr bddfptAllFilfFiltfr = nfw AddfptAllFilfFiltfr();
 
-    private AquaFileSystemModel model;
+    privbtf AqubFilfSystfmModfl modfl;
 
-    final AquaFileView fileView = new AquaFileView(this);
+    finbl AqubFilfVifw filfVifw = nfw AqubFilfVifw(tiis);
 
-    boolean selectionInProgress = false;
+    boolfbn sflfdtionInProgrfss = fblsf;
 
-    // The accessoryPanel is a container to place the JFileChooser accessory component
-    private JPanel accessoryPanel = null;
+    // Tif bddfssoryPbnfl is b dontbinfr to plbdf tif JFilfCioosfr bddfssory domponfnt
+    privbtf JPbnfl bddfssoryPbnfl = null;
 
     //
-    // ComponentUI Interface Implementation methods
+    // ComponfntUI Intfrfbdf Implfmfntbtion mftiods
     //
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaFileChooserUI((JFileChooser)c);
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubFilfCioosfrUI((JFilfCioosfr)d);
     }
 
-    public AquaFileChooserUI(final JFileChooser filechooser) {
-        super();
+    publid AqubFilfCioosfrUI(finbl JFilfCioosfr filfdioosfr) {
+        supfr();
     }
 
-    public void installUI(final JComponent c) {
-        accessoryPanel = new JPanel(new BorderLayout());
-        filechooser = (JFileChooser)c;
+    publid void instbllUI(finbl JComponfnt d) {
+        bddfssoryPbnfl = nfw JPbnfl(nfw BordfrLbyout());
+        filfdioosfr = (JFilfCioosfr)d;
 
-        createModel();
+        drfbtfModfl();
 
-        installDefaults(filechooser);
-        installComponents(filechooser);
-        installListeners(filechooser);
+        instbllDffbults(filfdioosfr);
+        instbllComponfnts(filfdioosfr);
+        instbllListfnfrs(filfdioosfr);
 
-        AquaUtils.enforceComponentOrientation(filechooser, ComponentOrientation.getOrientation(Locale.getDefault()));
+        AqubUtils.fnfordfComponfntOrifntbtion(filfdioosfr, ComponfntOrifntbtion.gftOrifntbtion(Lodblf.gftDffbult()));
     }
 
-    public void uninstallUI(final JComponent c) {
-        uninstallListeners(filechooser);
-        uninstallComponents(filechooser);
-        uninstallDefaults(filechooser);
+    publid void uninstbllUI(finbl JComponfnt d) {
+        uninstbllListfnfrs(filfdioosfr);
+        uninstbllComponfnts(filfdioosfr);
+        uninstbllDffbults(filfdioosfr);
 
-        if (accessoryPanel != null) {
-            accessoryPanel.removeAll();
+        if (bddfssoryPbnfl != null) {
+            bddfssoryPbnfl.rfmovfAll();
         }
 
-        accessoryPanel = null;
-        getFileChooser().removeAll();
+        bddfssoryPbnfl = null;
+        gftFilfCioosfr().rfmovfAll();
     }
 
-    protected void installListeners(final JFileChooser fc) {
-        doubleClickListener = createDoubleClickListener(fc, fFileList);
-        fFileList.addMouseListener(doubleClickListener);
+    protfdtfd void instbllListfnfrs(finbl JFilfCioosfr fd) {
+        doublfClidkListfnfr = drfbtfDoublfClidkListfnfr(fd, fFilfList);
+        fFilfList.bddMousfListfnfr(doublfClidkListfnfr);
 
-        propertyChangeListener = createPropertyChangeListener(fc);
-        if (propertyChangeListener != null) {
-            fc.addPropertyChangeListener(propertyChangeListener);
+        propfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr(fd);
+        if (propfrtyCibngfListfnfr != null) {
+            fd.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
         }
-        if (model != null) fc.addPropertyChangeListener(model);
+        if (modfl != null) fd.bddPropfrtyCibngfListfnfr(modfl);
 
-        ancestorListener = new AncestorListener(){
-            public void ancestorAdded(final AncestorEvent e) {
-                // Request defaultness for the appropriate button based on mode
-                setFocusForMode(getFileChooser());
-                // Request defaultness for the appropriate button based on mode
-                setDefaultButtonForMode(getFileChooser());
+        bndfstorListfnfr = nfw AndfstorListfnfr(){
+            publid void bndfstorAddfd(finbl AndfstorEvfnt f) {
+                // Rfqufst dffbultnfss for tif bppropribtf button bbsfd on modf
+                sftFodusForModf(gftFilfCioosfr());
+                // Rfqufst dffbultnfss for tif bppropribtf button bbsfd on modf
+                sftDffbultButtonForModf(gftFilfCioosfr());
             }
 
-            public void ancestorRemoved(final AncestorEvent e) {
+            publid void bndfstorRfmovfd(finbl AndfstorEvfnt f) {
             }
 
-            public void ancestorMoved(final AncestorEvent e) {
+            publid void bndfstorMovfd(finbl AndfstorEvfnt f) {
             }
         };
-        fc.addAncestorListener(ancestorListener);
+        fd.bddAndfstorListfnfr(bndfstorListfnfr);
 
-        fc.registerKeyboardAction(new CancelSelectionAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        dragAndDropTarget = new DropTarget(fc, DnDConstants.ACTION_COPY, new DnDHandler(), true);
-        fc.setDropTarget(dragAndDropTarget);
+        fd.rfgistfrKfybobrdAdtion(nfw CbndflSflfdtionAdtion(), KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0), JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        drbgAndDropTbrgft = nfw DropTbrgft(fd, DnDConstbnts.ACTION_COPY, nfw DnDHbndlfr(), truf);
+        fd.sftDropTbrgft(drbgAndDropTbrgft);
     }
 
-    protected void uninstallListeners(final JFileChooser fc) {
-        if (propertyChangeListener != null) {
-            fc.removePropertyChangeListener(propertyChangeListener);
+    protfdtfd void uninstbllListfnfrs(finbl JFilfCioosfr fd) {
+        if (propfrtyCibngfListfnfr != null) {
+            fd.rfmovfPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
         }
-        fFileList.removeMouseListener(doubleClickListener);
-        fc.removePropertyChangeListener(model);
-        fc.unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
-        fc.removeAncestorListener(ancestorListener);
-        fc.setDropTarget(null);
-        ancestorListener = null;
+        fFilfList.rfmovfMousfListfnfr(doublfClidkListfnfr);
+        fd.rfmovfPropfrtyCibngfListfnfr(modfl);
+        fd.unrfgistfrKfybobrdAdtion(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0));
+        fd.rfmovfAndfstorListfnfr(bndfstorListfnfr);
+        fd.sftDropTbrgft(null);
+        bndfstorListfnfr = null;
     }
 
-    protected void installDefaults(final JFileChooser fc) {
-        installIcons(fc);
-        installStrings(fc);
-        setPackageIsTraversable(fc.getClientProperty(PACKAGE_TRAVERSABLE_PROPERTY));
-        setApplicationIsTraversable(fc.getClientProperty(APPLICATION_TRAVERSABLE_PROPERTY));
+    protfdtfd void instbllDffbults(finbl JFilfCioosfr fd) {
+        instbllIdons(fd);
+        instbllStrings(fd);
+        sftPbdkbgfIsTrbvfrsbblf(fd.gftClifntPropfrty(PACKAGE_TRAVERSABLE_PROPERTY));
+        sftApplidbtionIsTrbvfrsbblf(fd.gftClifntPropfrty(APPLICATION_TRAVERSABLE_PROPERTY));
     }
 
-    protected void installIcons(final JFileChooser fc) {
-        directoryIcon = UIManager.getIcon("FileView.directoryIcon");
-        fileIcon = UIManager.getIcon("FileView.fileIcon");
-        computerIcon = UIManager.getIcon("FileView.computerIcon");
-        hardDriveIcon = UIManager.getIcon("FileView.hardDriveIcon");
+    protfdtfd void instbllIdons(finbl JFilfCioosfr fd) {
+        dirfdtoryIdon = UIMbnbgfr.gftIdon("FilfVifw.dirfdtoryIdon");
+        filfIdon = UIMbnbgfr.gftIdon("FilfVifw.filfIdon");
+        domputfrIdon = UIMbnbgfr.gftIdon("FilfVifw.domputfrIdon");
+        ibrdDrivfIdon = UIMbnbgfr.gftIdon("FilfVifw.ibrdDrivfIdon");
     }
 
-    String getString(final String uiKey, final String fallback) {
-        final String result = UIManager.getString(uiKey);
-        return (result == null ? fallback : result);
+    String gftString(finbl String uiKfy, finbl String fbllbbdk) {
+        finbl String rfsult = UIMbnbgfr.gftString(uiKfy);
+        rfturn (rfsult == null ? fbllbbdk : rfsult);
     }
 
-    protected void installStrings(final JFileChooser fc) {
-        // Exist in basic.properties (though we might want to override)
-        fileDescriptionText = UIManager.getString("FileChooser.fileDescriptionText");
-        directoryDescriptionText = UIManager.getString("FileChooser.directoryDescriptionText");
-        newFolderErrorText = getString("FileChooser.newFolderErrorText", "Error occurred during folder creation");
+    protfdtfd void instbllStrings(finbl JFilfCioosfr fd) {
+        // Exist in bbsid.propfrtifs (tiougi wf migit wbnt to ovfrridf)
+        filfDfsdriptionTfxt = UIMbnbgfr.gftString("FilfCioosfr.filfDfsdriptionTfxt");
+        dirfdtoryDfsdriptionTfxt = UIMbnbgfr.gftString("FilfCioosfr.dirfdtoryDfsdriptionTfxt");
+        nfwFoldfrErrorTfxt = gftString("FilfCioosfr.nfwFoldfrErrorTfxt", "Error oddurrfd during foldfr drfbtion");
 
-        saveButtonText = UIManager.getString("FileChooser.saveButtonText");
-        openButtonText = UIManager.getString("FileChooser.openButtonText");
-        cancelButtonText = UIManager.getString("FileChooser.cancelButtonText");
-        updateButtonText = UIManager.getString("FileChooser.updateButtonText");
-        helpButtonText = UIManager.getString("FileChooser.helpButtonText");
+        sbvfButtonTfxt = UIMbnbgfr.gftString("FilfCioosfr.sbvfButtonTfxt");
+        opfnButtonTfxt = UIMbnbgfr.gftString("FilfCioosfr.opfnButtonTfxt");
+        dbndflButtonTfxt = UIMbnbgfr.gftString("FilfCioosfr.dbndflButtonTfxt");
+        updbtfButtonTfxt = UIMbnbgfr.gftString("FilfCioosfr.updbtfButtonTfxt");
+        iflpButtonTfxt = UIMbnbgfr.gftString("FilfCioosfr.iflpButtonTfxt");
 
-        saveButtonMnemonic = UIManager.getInt("FileChooser.saveButtonMnemonic");
-        openButtonMnemonic = UIManager.getInt("FileChooser.openButtonMnemonic");
-        cancelButtonMnemonic = UIManager.getInt("FileChooser.cancelButtonMnemonic");
-        updateButtonMnemonic = UIManager.getInt("FileChooser.updateButtonMnemonic");
-        helpButtonMnemonic = UIManager.getInt("FileChooser.helpButtonMnemonic");
-        chooseButtonMnemonic = UIManager.getInt("FileChooser.chooseButtonMnemonic");
+        sbvfButtonMnfmonid = UIMbnbgfr.gftInt("FilfCioosfr.sbvfButtonMnfmonid");
+        opfnButtonMnfmonid = UIMbnbgfr.gftInt("FilfCioosfr.opfnButtonMnfmonid");
+        dbndflButtonMnfmonid = UIMbnbgfr.gftInt("FilfCioosfr.dbndflButtonMnfmonid");
+        updbtfButtonMnfmonid = UIMbnbgfr.gftInt("FilfCioosfr.updbtfButtonMnfmonid");
+        iflpButtonMnfmonid = UIMbnbgfr.gftInt("FilfCioosfr.iflpButtonMnfmonid");
+        dioosfButtonMnfmonid = UIMbnbgfr.gftInt("FilfCioosfr.dioosfButtonMnfmonid");
 
-        saveButtonToolTipText = UIManager.getString("FileChooser.saveButtonToolTipText");
-        openButtonToolTipText = UIManager.getString("FileChooser.openButtonToolTipText");
-        cancelButtonToolTipText = UIManager.getString("FileChooser.cancelButtonToolTipText");
-        updateButtonToolTipText = UIManager.getString("FileChooser.updateButtonToolTipText");
-        helpButtonToolTipText = UIManager.getString("FileChooser.helpButtonToolTipText");
+        sbvfButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.sbvfButtonToolTipTfxt");
+        opfnButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.opfnButtonToolTipTfxt");
+        dbndflButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.dbndflButtonToolTipTfxt");
+        updbtfButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.updbtfButtonToolTipTfxt");
+        iflpButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.iflpButtonToolTipTfxt");
 
-        // Mac-specific, but fallback to basic if it's missing
-        saveTitleText = getString("FileChooser.saveTitleText", saveButtonText);
-        openTitleText = getString("FileChooser.openTitleText", openButtonText);
+        // Mbd-spfdifid, but fbllbbdk to bbsid if it's missing
+        sbvfTitlfTfxt = gftString("FilfCioosfr.sbvfTitlfTfxt", sbvfButtonTfxt);
+        opfnTitlfTfxt = gftString("FilfCioosfr.opfnTitlfTfxt", opfnButtonTfxt);
 
-        // Mac-specific, required
-        newFolderExistsErrorText = getString("FileChooser.newFolderExistsErrorText", "That name is already taken");
-        chooseButtonText = getString("FileChooser.chooseButtonText", "Choose");
-        newFolderButtonText = getString("FileChooser.newFolderButtonText", "New");
-        newFolderTitleText = getString("FileChooser.newFolderTitleText", "New Folder");
+        // Mbd-spfdifid, rfquirfd
+        nfwFoldfrExistsErrorTfxt = gftString("FilfCioosfr.nfwFoldfrExistsErrorTfxt", "Tibt nbmf is blrfbdy tbkfn");
+        dioosfButtonTfxt = gftString("FilfCioosfr.dioosfButtonTfxt", "Cioosf");
+        nfwFoldfrButtonTfxt = gftString("FilfCioosfr.nfwFoldfrButtonTfxt", "Nfw");
+        nfwFoldfrTitlfTfxt = gftString("FilfCioosfr.nfwFoldfrTitlfTfxt", "Nfw Foldfr");
 
-        if (fc.getDialogType() == JFileChooser.SAVE_DIALOG) {
-            fileNameLabelText = getString("FileChooser.saveDialogFileNameLabelText", "Save As:");
-        } else {
-            fileNameLabelText = getString("FileChooser.fileNameLabelText", "Name:");
+        if (fd.gftDiblogTypf() == JFilfCioosfr.SAVE_DIALOG) {
+            filfNbmfLbbflTfxt = gftString("FilfCioosfr.sbvfDiblogFilfNbmfLbbflTfxt", "Sbvf As:");
+        } flsf {
+            filfNbmfLbbflTfxt = gftString("FilfCioosfr.filfNbmfLbbflTfxt", "Nbmf:");
         }
 
-        filesOfTypeLabelText = getString("FileChooser.filesOfTypeLabelText", "Format:");
+        filfsOfTypfLbbflTfxt = gftString("FilfCioosfr.filfsOfTypfLbbflTfxt", "Formbt:");
 
-        desktopName = getString("FileChooser.desktopName", "Desktop");
-        newFolderDialogPrompt = getString("FileChooser.newFolderPromptText", "Name of new folder:");
-        newFolderDefaultName = getString("FileChooser.untitledFolderName", "untitled folder");
-        newFileDefaultName = getString("FileChooser.untitledFileName", "untitled");
-        createButtonText = getString("FileChooser.createButtonText", "Create");
+        dfsktopNbmf = gftString("FilfCioosfr.dfsktopNbmf", "Dfsktop");
+        nfwFoldfrDiblogPrompt = gftString("FilfCioosfr.nfwFoldfrPromptTfxt", "Nbmf of nfw foldfr:");
+        nfwFoldfrDffbultNbmf = gftString("FilfCioosfr.untitlfdFoldfrNbmf", "untitlfd foldfr");
+        nfwFilfDffbultNbmf = gftString("FilfCioosfr.untitlfdFilfNbmf", "untitlfd");
+        drfbtfButtonTfxt = gftString("FilfCioosfr.drfbtfButtonTfxt", "Crfbtf");
 
-        fColumnNames[1] = getString("FileChooser.byDateText", "Date Modified");
-        fColumnNames[0] = getString("FileChooser.byNameText", "Name");
+        fColumnNbmfs[1] = gftString("FilfCioosfr.byDbtfTfxt", "Dbtf Modififd");
+        fColumnNbmfs[0] = gftString("FilfCioosfr.byNbmfTfxt", "Nbmf");
 
-        // Mac-specific, optional
-        chooseItemButtonToolTipText = UIManager.getString("FileChooser.chooseItemButtonToolTipText");
-        chooseFolderButtonToolTipText = UIManager.getString("FileChooser.chooseFolderButtonToolTipText");
-        openDirectoryButtonToolTipText = UIManager.getString("FileChooser.openDirectoryButtonToolTipText");
+        // Mbd-spfdifid, optionbl
+        dioosfItfmButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.dioosfItfmButtonToolTipTfxt");
+        dioosfFoldfrButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.dioosfFoldfrButtonToolTipTfxt");
+        opfnDirfdtoryButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.opfnDirfdtoryButtonToolTipTfxt");
 
-        directoryComboBoxToolTipText = UIManager.getString("FileChooser.directoryComboBoxToolTipText");
-        filenameTextFieldToolTipText = UIManager.getString("FileChooser.filenameTextFieldToolTipText");
-        filterComboBoxToolTipText = UIManager.getString("FileChooser.filterComboBoxToolTipText");
+        dirfdtoryComboBoxToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.dirfdtoryComboBoxToolTipTfxt");
+        filfnbmfTfxtFifldToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.filfnbmfTfxtFifldToolTipTfxt");
+        filtfrComboBoxToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.filtfrComboBoxToolTipTfxt");
 
-        cancelOpenButtonToolTipText = UIManager.getString("FileChooser.cancelOpenButtonToolTipText");
-        cancelSaveButtonToolTipText = UIManager.getString("FileChooser.cancelSaveButtonToolTipText");
-        cancelChooseButtonToolTipText = UIManager.getString("FileChooser.cancelChooseButtonToolTipText");
-        cancelNewFolderButtonToolTipText = UIManager.getString("FileChooser.cancelNewFolderButtonToolTipText");
+        dbndflOpfnButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.dbndflOpfnButtonToolTipTfxt");
+        dbndflSbvfButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.dbndflSbvfButtonToolTipTfxt");
+        dbndflCioosfButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.dbndflCioosfButtonToolTipTfxt");
+        dbndflNfwFoldfrButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.dbndflNfwFoldfrButtonToolTipTfxt");
 
-        newFolderTitleText = UIManager.getString("FileChooser.newFolderTitleText");
-        newFolderToolTipText = UIManager.getString("FileChooser.newFolderToolTipText");
-        newFolderAccessibleName = getString("FileChooser.newFolderAccessibleName", newFolderTitleText);
+        nfwFoldfrTitlfTfxt = UIMbnbgfr.gftString("FilfCioosfr.nfwFoldfrTitlfTfxt");
+        nfwFoldfrToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.nfwFoldfrToolTipTfxt");
+        nfwFoldfrAddfssiblfNbmf = gftString("FilfCioosfr.nfwFoldfrAddfssiblfNbmf", nfwFoldfrTitlfTfxt);
     }
 
-    protected void uninstallDefaults(final JFileChooser fc) {
-        uninstallIcons(fc);
-        uninstallStrings(fc);
+    protfdtfd void uninstbllDffbults(finbl JFilfCioosfr fd) {
+        uninstbllIdons(fd);
+        uninstbllStrings(fd);
     }
 
-    protected void uninstallIcons(final JFileChooser fc) {
-        directoryIcon = null;
-        fileIcon = null;
-        computerIcon = null;
-        hardDriveIcon = null;
-        floppyDriveIcon = null;
+    protfdtfd void uninstbllIdons(finbl JFilfCioosfr fd) {
+        dirfdtoryIdon = null;
+        filfIdon = null;
+        domputfrIdon = null;
+        ibrdDrivfIdon = null;
+        floppyDrivfIdon = null;
 
-        upFolderIcon = null;
-        homeFolderIcon = null;
-        detailsViewIcon = null;
-        listViewIcon = null;
+        upFoldfrIdon = null;
+        iomfFoldfrIdon = null;
+        dftbilsVifwIdon = null;
+        listVifwIdon = null;
     }
 
-    protected void uninstallStrings(final JFileChooser fc) {
-        saveTitleText = null;
-        openTitleText = null;
-        newFolderTitleText = null;
+    protfdtfd void uninstbllStrings(finbl JFilfCioosfr fd) {
+        sbvfTitlfTfxt = null;
+        opfnTitlfTfxt = null;
+        nfwFoldfrTitlfTfxt = null;
 
-        saveButtonText = null;
-        openButtonText = null;
-        cancelButtonText = null;
-        updateButtonText = null;
-        helpButtonText = null;
-        newFolderButtonText = null;
-        chooseButtonText = null;
+        sbvfButtonTfxt = null;
+        opfnButtonTfxt = null;
+        dbndflButtonTfxt = null;
+        updbtfButtonTfxt = null;
+        iflpButtonTfxt = null;
+        nfwFoldfrButtonTfxt = null;
+        dioosfButtonTfxt = null;
 
-        cancelOpenButtonToolTipText = null;
-        cancelSaveButtonToolTipText = null;
-        cancelChooseButtonToolTipText = null;
-        cancelNewFolderButtonToolTipText = null;
+        dbndflOpfnButtonToolTipTfxt = null;
+        dbndflSbvfButtonToolTipTfxt = null;
+        dbndflCioosfButtonToolTipTfxt = null;
+        dbndflNfwFoldfrButtonToolTipTfxt = null;
 
-        saveButtonToolTipText = null;
-        openButtonToolTipText = null;
-        cancelButtonToolTipText = null;
-        updateButtonToolTipText = null;
-        helpButtonToolTipText = null;
-        chooseItemButtonToolTipText = null;
-        chooseFolderButtonToolTipText = null;
-        openDirectoryButtonToolTipText = null;
-        directoryComboBoxToolTipText = null;
-        filenameTextFieldToolTipText = null;
-        filterComboBoxToolTipText = null;
+        sbvfButtonToolTipTfxt = null;
+        opfnButtonToolTipTfxt = null;
+        dbndflButtonToolTipTfxt = null;
+        updbtfButtonToolTipTfxt = null;
+        iflpButtonToolTipTfxt = null;
+        dioosfItfmButtonToolTipTfxt = null;
+        dioosfFoldfrButtonToolTipTfxt = null;
+        opfnDirfdtoryButtonToolTipTfxt = null;
+        dirfdtoryComboBoxToolTipTfxt = null;
+        filfnbmfTfxtFifldToolTipTfxt = null;
+        filtfrComboBoxToolTipTfxt = null;
 
-        newFolderDefaultName = null;
-        newFileDefaultName = null;
+        nfwFoldfrDffbultNbmf = null;
+        nfwFilfDffbultNbmf = null;
 
-        desktopName = null;
+        dfsktopNbmf = null;
     }
 
-    protected void createModel() {
+    protfdtfd void drfbtfModfl() {
     }
 
-    AquaFileSystemModel getModel() {
-        return model;
+    AqubFilfSystfmModfl gftModfl() {
+        rfturn modfl;
     }
 
     /*
-     * Listen for filechooser property changes, such as
-     * the selected file changing, or the type of the dialog changing.
+     * Listfn for filfdioosfr propfrty dibngfs, sudi bs
+     * tif sflfdtfd filf dibnging, or tif typf of tif diblog dibnging.
      */
-    // Taken almost verbatim from Metal
-    protected PropertyChangeListener createPropertyChangeListener(final JFileChooser fc) {
-        return new PropertyChangeListener(){
-            public void propertyChange(final PropertyChangeEvent e) {
-                final String prop = e.getPropertyName();
-                if (prop.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
-                    final File f = (File)e.getNewValue();
+    // Tbkfn blmost vfrbbtim from Mftbl
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr(finbl JFilfCioosfr fd) {
+        rfturn nfw PropfrtyCibngfListfnfr(){
+            publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt f) {
+                finbl String prop = f.gftPropfrtyNbmf();
+                if (prop.fqubls(JFilfCioosfr.SELECTED_FILE_CHANGED_PROPERTY)) {
+                    finbl Filf f = (Filf)f.gftNfwVbluf();
                     if (f != null) {
-                        // Select the file in the list if the selected file didn't change as
-                        // a result of a list click.
-                        if (!selectionInProgress && getModel().contains(f)) {
-                            fFileList.setSelectedIndex(getModel().indexOf(f));
+                        // Sflfdt tif filf in tif list if tif sflfdtfd filf didn't dibngf bs
+                        // b rfsult of b list dlidk.
+                        if (!sflfdtionInProgrfss && gftModfl().dontbins(f)) {
+                            fFilfList.sftSflfdtfdIndfx(gftModfl().indfxOf(f));
                         }
 
-                        // [3643835] Need to populate the text field here.  No-op on Open dialogs
-                        // Note that this was removed for 3514735, but should not have been.
-                        if (!f.isDirectory()) {
-                            setFileName(getFileChooser().getName(f));
+                        // [3643835] Nffd to populbtf tif tfxt fifld ifrf.  No-op on Opfn diblogs
+                        // Notf tibt tiis wbs rfmovfd for 3514735, but siould not ibvf bffn.
+                        if (!f.isDirfdtory()) {
+                            sftFilfNbmf(gftFilfCioosfr().gftNbmf(f));
                         }
                     }
-                    updateButtonState(getFileChooser());
-                } else if (prop.equals(JFileChooser.SELECTED_FILES_CHANGED_PROPERTY)) {
-                    JFileChooser fileChooser = getFileChooser();
-                    if (!fileChooser.isDirectorySelectionEnabled()) {
-                        final File[] files = (File[]) e.getNewValue();
-                        if (files != null) {
-                            for (int selectedRow : fFileList.getSelectedRows()) {
-                                File file = (File) fFileList.getValueAt(selectedRow, 0);
-                                if (fileChooser.isTraversable(file)) {
-                                    fFileList.removeSelectedIndex(selectedRow);
+                    updbtfButtonStbtf(gftFilfCioosfr());
+                } flsf if (prop.fqubls(JFilfCioosfr.SELECTED_FILES_CHANGED_PROPERTY)) {
+                    JFilfCioosfr filfCioosfr = gftFilfCioosfr();
+                    if (!filfCioosfr.isDirfdtorySflfdtionEnbblfd()) {
+                        finbl Filf[] filfs = (Filf[]) f.gftNfwVbluf();
+                        if (filfs != null) {
+                            for (int sflfdtfdRow : fFilfList.gftSflfdtfdRows()) {
+                                Filf filf = (Filf) fFilfList.gftVblufAt(sflfdtfdRow, 0);
+                                if (filfCioosfr.isTrbvfrsbblf(filf)) {
+                                    fFilfList.rfmovfSflfdtfdIndfx(sflfdtfdRow);
                                 }
                             }
                         }
                     }
-                } else if (prop.equals(JFileChooser.DIRECTORY_CHANGED_PROPERTY)) {
-                    fFileList.clearSelection();
-                    final File currentDirectory = getFileChooser().getCurrentDirectory();
-                    if (currentDirectory != null) {
-                        fDirectoryComboBoxModel.addItem(currentDirectory);
-                        // Enable the newFolder action if the current directory
-                        // is writable.
-                        // PENDING(jeff) - broken - fix
-                        getAction(kNewFolder).setEnabled(currentDirectory.canWrite());
+                } flsf if (prop.fqubls(JFilfCioosfr.DIRECTORY_CHANGED_PROPERTY)) {
+                    fFilfList.dlfbrSflfdtion();
+                    finbl Filf durrfntDirfdtory = gftFilfCioosfr().gftCurrfntDirfdtory();
+                    if (durrfntDirfdtory != null) {
+                        fDirfdtoryComboBoxModfl.bddItfm(durrfntDirfdtory);
+                        // Enbblf tif nfwFoldfr bdtion if tif durrfnt dirfdtory
+                        // is writbblf.
+                        // PENDING(jfff) - brokfn - fix
+                        gftAdtion(kNfwFoldfr).sftEnbblfd(durrfntDirfdtory.dbnWritf());
                     }
-                    updateButtonState(getFileChooser());
-                } else if (prop.equals(JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY)) {
-                    fFileList.clearSelection();
-                    setBottomPanelForMode(getFileChooser()); // Also updates approve button
-                } else if (prop == JFileChooser.ACCESSORY_CHANGED_PROPERTY) {
-                    if (getAccessoryPanel() != null) {
-                        if (e.getOldValue() != null) {
-                            getAccessoryPanel().remove((JComponent)e.getOldValue());
+                    updbtfButtonStbtf(gftFilfCioosfr());
+                } flsf if (prop.fqubls(JFilfCioosfr.FILE_SELECTION_MODE_CHANGED_PROPERTY)) {
+                    fFilfList.dlfbrSflfdtion();
+                    sftBottomPbnflForModf(gftFilfCioosfr()); // Also updbtfs bpprovf button
+                } flsf if (prop == JFilfCioosfr.ACCESSORY_CHANGED_PROPERTY) {
+                    if (gftAddfssoryPbnfl() != null) {
+                        if (f.gftOldVbluf() != null) {
+                            gftAddfssoryPbnfl().rfmovf((JComponfnt)f.gftOldVbluf());
                         }
-                        final JComponent accessory = (JComponent)e.getNewValue();
-                        if (accessory != null) {
-                            getAccessoryPanel().add(accessory, BorderLayout.CENTER);
+                        finbl JComponfnt bddfssory = (JComponfnt)f.gftNfwVbluf();
+                        if (bddfssory != null) {
+                            gftAddfssoryPbnfl().bdd(bddfssory, BordfrLbyout.CENTER);
                         }
                     }
-                } else if (prop == JFileChooser.APPROVE_BUTTON_TEXT_CHANGED_PROPERTY) {
-                    updateApproveButton(getFileChooser());
-                    getFileChooser().invalidate();
-                } else if (prop == JFileChooser.DIALOG_TYPE_CHANGED_PROPERTY) {
-                    if (getFileChooser().getDialogType() == JFileChooser.SAVE_DIALOG) {
-                        fileNameLabelText = getString("FileChooser.saveDialogFileNameLabelText", "Save As:");
-                    } else {
-                        fileNameLabelText = getString("FileChooser.fileNameLabelText", "Name:");
+                } flsf if (prop == JFilfCioosfr.APPROVE_BUTTON_TEXT_CHANGED_PROPERTY) {
+                    updbtfApprovfButton(gftFilfCioosfr());
+                    gftFilfCioosfr().invblidbtf();
+                } flsf if (prop == JFilfCioosfr.DIALOG_TYPE_CHANGED_PROPERTY) {
+                    if (gftFilfCioosfr().gftDiblogTypf() == JFilfCioosfr.SAVE_DIALOG) {
+                        filfNbmfLbbflTfxt = gftString("FilfCioosfr.sbvfDiblogFilfNbmfLbbflTfxt", "Sbvf As:");
+                    } flsf {
+                        filfNbmfLbbflTfxt = gftString("FilfCioosfr.filfNbmfLbbflTfxt", "Nbmf:");
                     }
-                    fTextFieldLabel.setText(fileNameLabelText);
+                    fTfxtFifldLbbfl.sftTfxt(filfNbmfLbbflTfxt);
 
-                    // Mac doesn't show the text field or "new folder" button in 'Open' dialogs
-                    setBottomPanelForMode(getFileChooser()); // Also updates approve button
-                } else if (prop.equals(JFileChooser.APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY)) {
-                    getApproveButton(getFileChooser()).setMnemonic(getApproveButtonMnemonic(getFileChooser()));
-                } else if (prop.equals(PACKAGE_TRAVERSABLE_PROPERTY)) {
-                    setPackageIsTraversable(e.getNewValue());
-                } else if (prop.equals(APPLICATION_TRAVERSABLE_PROPERTY)) {
-                    setApplicationIsTraversable(e.getNewValue());
-                } else if (prop.equals(JFileChooser.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
-                    if (getFileChooser().isMultiSelectionEnabled()) {
-                        fFileList.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-                    } else {
-                        fFileList.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    // Mbd dofsn't siow tif tfxt fifld or "nfw foldfr" button in 'Opfn' diblogs
+                    sftBottomPbnflForModf(gftFilfCioosfr()); // Also updbtfs bpprovf button
+                } flsf if (prop.fqubls(JFilfCioosfr.APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY)) {
+                    gftApprovfButton(gftFilfCioosfr()).sftMnfmonid(gftApprovfButtonMnfmonid(gftFilfCioosfr()));
+                } flsf if (prop.fqubls(PACKAGE_TRAVERSABLE_PROPERTY)) {
+                    sftPbdkbgfIsTrbvfrsbblf(f.gftNfwVbluf());
+                } flsf if (prop.fqubls(APPLICATION_TRAVERSABLE_PROPERTY)) {
+                    sftApplidbtionIsTrbvfrsbblf(f.gftNfwVbluf());
+                } flsf if (prop.fqubls(JFilfCioosfr.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
+                    if (gftFilfCioosfr().isMultiSflfdtionEnbblfd()) {
+                        fFilfList.gftSflfdtionModfl().sftSflfdtionModf(ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION);
+                    } flsf {
+                        fFilfList.gftSflfdtionModfl().sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
                     }
-                } else if (prop.equals(JFileChooser.CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY)) {
-                    doControlButtonsChanged(e);
+                } flsf if (prop.fqubls(JFilfCioosfr.CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY)) {
+                    doControlButtonsCibngfd(f);
                 }
             }
         };
     }
 
-    void setPackageIsTraversable(final Object o) {
-        int newProp = -1;
-        if (o != null && o instanceof String) newProp = parseTraversableProperty((String)o);
-        if (newProp != -1) fPackageIsTraversable = newProp;
-        else fPackageIsTraversable = sGlobalPackageIsTraversable;
+    void sftPbdkbgfIsTrbvfrsbblf(finbl Objfdt o) {
+        int nfwProp = -1;
+        if (o != null && o instbndfof String) nfwProp = pbrsfTrbvfrsbblfPropfrty((String)o);
+        if (nfwProp != -1) fPbdkbgfIsTrbvfrsbblf = nfwProp;
+        flsf fPbdkbgfIsTrbvfrsbblf = sGlobblPbdkbgfIsTrbvfrsbblf;
     }
 
-    void setApplicationIsTraversable(final Object o) {
-        int newProp = -1;
-        if (o != null && o instanceof String) newProp = parseTraversableProperty((String)o);
-        if (newProp != -1) fApplicationIsTraversable = newProp;
-        else fApplicationIsTraversable = sGlobalApplicationIsTraversable;
+    void sftApplidbtionIsTrbvfrsbblf(finbl Objfdt o) {
+        int nfwProp = -1;
+        if (o != null && o instbndfof String) nfwProp = pbrsfTrbvfrsbblfPropfrty((String)o);
+        if (nfwProp != -1) fApplidbtionIsTrbvfrsbblf = nfwProp;
+        flsf fApplidbtionIsTrbvfrsbblf = sGlobblApplidbtionIsTrbvfrsbblf;
     }
 
-    void doControlButtonsChanged(final PropertyChangeEvent e) {
-        if (getFileChooser().getControlButtonsAreShown()) {
-            fBottomPanel.add(fDirectoryPanelSpacer);
-            fBottomPanel.add(fDirectoryPanel);
-        } else {
-            fBottomPanel.remove(fDirectoryPanelSpacer);
-            fBottomPanel.remove(fDirectoryPanel);
+    void doControlButtonsCibngfd(finbl PropfrtyCibngfEvfnt f) {
+        if (gftFilfCioosfr().gftControlButtonsArfSiown()) {
+            fBottomPbnfl.bdd(fDirfdtoryPbnflSpbdfr);
+            fBottomPbnfl.bdd(fDirfdtoryPbnfl);
+        } flsf {
+            fBottomPbnfl.rfmovf(fDirfdtoryPbnflSpbdfr);
+            fBottomPbnfl.rfmovf(fDirfdtoryPbnfl);
         }
     }
 
-    public String getFileName() {
-        if (filenameTextField != null) { return filenameTextField.getText(); }
-        return null;
+    publid String gftFilfNbmf() {
+        if (filfnbmfTfxtFifld != null) { rfturn filfnbmfTfxtFifld.gftTfxt(); }
+        rfturn null;
     }
 
-    public String getDirectoryName() {
-        // PENDING(jeff) - get the name from the directory combobox
-        return null;
+    publid String gftDirfdtoryNbmf() {
+        // PENDING(jfff) - gft tif nbmf from tif dirfdtory dombobox
+        rfturn null;
     }
 
-    public void setFileName(final String filename) {
-        if (filenameTextField != null) {
-            filenameTextField.setText(filename);
+    publid void sftFilfNbmf(finbl String filfnbmf) {
+        if (filfnbmfTfxtFifld != null) {
+            filfnbmfTfxtFifld.sftTfxt(filfnbmf);
         }
     }
 
-    public void setDirectoryName(final String dirname) {
-        // PENDING(jeff) - set the name in the directory combobox
+    publid void sftDirfdtoryNbmf(finbl String dirnbmf) {
+        // PENDING(jfff) - sft tif nbmf in tif dirfdtory dombobox
     }
 
-    public void rescanCurrentDirectory(final JFileChooser fc) {
-        getModel().invalidateFileCache();
-        getModel().validateFileCache();
+    publid void rfsdbnCurrfntDirfdtory(finbl JFilfCioosfr fd) {
+        gftModfl().invblidbtfFilfCbdif();
+        gftModfl().vblidbtfFilfCbdif();
     }
 
-    public void ensureFileIsVisible(final JFileChooser fc, final File f) {
+    publid void fnsurfFilfIsVisiblf(finbl JFilfCioosfr fd, finbl Filf f) {
         if (f == null) {
-            fFileList.requestFocusInWindow();
-            fFileList.ensureIndexIsVisible(-1);
-            return;
+            fFilfList.rfqufstFodusInWindow();
+            fFilfList.fnsurfIndfxIsVisiblf(-1);
+            rfturn;
         }
 
-        getModel().runWhenDone(new Runnable() {
-            public void run() {
-                fFileList.requestFocusInWindow();
-                fFileList.ensureIndexIsVisible(getModel().indexOf(f));
+        gftModfl().runWifnDonf(nfw Runnbblf() {
+            publid void run() {
+                fFilfList.rfqufstFodusInWindow();
+                fFilfList.fnsurfIndfxIsVisiblf(gftModfl().indfxOf(f));
             }
         });
     }
 
-    public JFileChooser getFileChooser() {
-        return filechooser;
+    publid JFilfCioosfr gftFilfCioosfr() {
+        rfturn filfdioosfr;
     }
 
-    public JPanel getAccessoryPanel() {
-        return accessoryPanel;
+    publid JPbnfl gftAddfssoryPbnfl() {
+        rfturn bddfssoryPbnfl;
     }
 
-    protected JButton getApproveButton(final JFileChooser fc) {
-        return fApproveButton;
+    protfdtfd JButton gftApprovfButton(finbl JFilfCioosfr fd) {
+        rfturn fApprovfButton;
     }
 
-    public int getApproveButtonMnemonic(final JFileChooser fc) {
-        return fSubPanel.getApproveButtonMnemonic(fc);
+    publid int gftApprovfButtonMnfmonid(finbl JFilfCioosfr fd) {
+        rfturn fSubPbnfl.gftApprovfButtonMnfmonid(fd);
     }
 
-    public String getApproveButtonToolTipText(final JFileChooser fc) {
-        return fSubPanel.getApproveButtonToolTipText(fc);
+    publid String gftApprovfButtonToolTipTfxt(finbl JFilfCioosfr fd) {
+        rfturn fSubPbnfl.gftApprovfButtonToolTipTfxt(fd);
     }
 
-    public String getApproveButtonText(final JFileChooser fc) {
-        return fSubPanel.getApproveButtonText(fc);
+    publid String gftApprovfButtonTfxt(finbl JFilfCioosfr fd) {
+        rfturn fSubPbnfl.gftApprovfButtonTfxt(fd);
     }
 
-    protected String getCancelButtonToolTipText(final JFileChooser fc) {
-        return fSubPanel.getCancelButtonToolTipText(fc);
+    protfdtfd String gftCbndflButtonToolTipTfxt(finbl JFilfCioosfr fd) {
+        rfturn fSubPbnfl.gftCbndflButtonToolTipTfxt(fd);
     }
 
-    // If the item's not selectable, it'll be visible but disabled in the list
-    boolean isSelectableInList(final File f) {
-        return fSubPanel.isSelectableInList(getFileChooser(), f);
+    // If tif itfm's not sflfdtbblf, it'll bf visiblf but disbblfd in tif list
+    boolfbn isSflfdtbblfInList(finbl Filf f) {
+        rfturn fSubPbnfl.isSflfdtbblfInList(gftFilfCioosfr(), f);
     }
 
-    // Is this a file that the JFileChooser wants?
-    // Directories can be selected in the list regardless of mode
-    boolean isSelectableForMode(final JFileChooser fc, final File f) {
-        if (f == null) return false;
-        final int mode = fc.getFileSelectionMode();
-        if (mode == JFileChooser.FILES_AND_DIRECTORIES) return true;
-        boolean traversable = fc.isTraversable(f);
-        if (mode == JFileChooser.DIRECTORIES_ONLY) return traversable;
-        return !traversable;
+    // Is tiis b filf tibt tif JFilfCioosfr wbnts?
+    // Dirfdtorifs dbn bf sflfdtfd in tif list rfgbrdlfss of modf
+    boolfbn isSflfdtbblfForModf(finbl JFilfCioosfr fd, finbl Filf f) {
+        if (f == null) rfturn fblsf;
+        finbl int modf = fd.gftFilfSflfdtionModf();
+        if (modf == JFilfCioosfr.FILES_AND_DIRECTORIES) rfturn truf;
+        boolfbn trbvfrsbblf = fd.isTrbvfrsbblf(f);
+        if (modf == JFilfCioosfr.DIRECTORIES_ONLY) rfturn trbvfrsbblf;
+        rfturn !trbvfrsbblf;
     }
 
     // ********************************************
-    // ************ Create Listeners **************
+    // ************ Crfbtf Listfnfrs **************
     // ********************************************
 
-    // From Basic
-    public ListSelectionListener createListSelectionListener(final JFileChooser fc) {
-        return new SelectionListener();
+    // From Bbsid
+    publid ListSflfdtionListfnfr drfbtfListSflfdtionListfnfr(finbl JFilfCioosfr fd) {
+        rfturn nfw SflfdtionListfnfr();
     }
 
-    protected class SelectionListener implements ListSelectionListener {
-        public void valueChanged(final ListSelectionEvent e) {
-            if (e.getValueIsAdjusting()) return;
+    protfdtfd dlbss SflfdtionListfnfr implfmfnts ListSflfdtionListfnfr {
+        publid void vblufCibngfd(finbl ListSflfdtionEvfnt f) {
+            if (f.gftVblufIsAdjusting()) rfturn;
 
-            File f = null;
-            final int selectedRow = fFileList.getSelectedRow();
-            final JFileChooser chooser = getFileChooser();
-            boolean isSave = (chooser.getDialogType() == JFileChooser.SAVE_DIALOG);
-            if (selectedRow >= 0) {
-                f = (File)fFileList.getValueAt(selectedRow, 0);
+            Filf f = null;
+            finbl int sflfdtfdRow = fFilfList.gftSflfdtfdRow();
+            finbl JFilfCioosfr dioosfr = gftFilfCioosfr();
+            boolfbn isSbvf = (dioosfr.gftDiblogTypf() == JFilfCioosfr.SAVE_DIALOG);
+            if (sflfdtfdRow >= 0) {
+                f = (Filf)fFilfList.gftVblufAt(sflfdtfdRow, 0);
             }
 
-            // Save dialog lists can't be multi select, because all we're selecting is the next folder to open
-            selectionInProgress = true;
-            if (!isSave && chooser.isMultiSelectionEnabled()) {
-                final int[] rows = fFileList.getSelectedRows();
-                int selectableCount = 0;
-                // Double-check that all the list selections are valid for this mode
-                // Directories can be selected in the list regardless of mode
-                if (rows.length > 0) {
-                    for (final int element : rows) {
-                        if (isSelectableForMode(chooser, (File)fFileList.getValueAt(element, 0))) selectableCount++;
+            // Sbvf diblog lists dbn't bf multi sflfdt, bfdbusf bll wf'rf sflfdting is tif nfxt foldfr to opfn
+            sflfdtionInProgrfss = truf;
+            if (!isSbvf && dioosfr.isMultiSflfdtionEnbblfd()) {
+                finbl int[] rows = fFilfList.gftSflfdtfdRows();
+                int sflfdtbblfCount = 0;
+                // Doublf-difdk tibt bll tif list sflfdtions brf vblid for tiis modf
+                // Dirfdtorifs dbn bf sflfdtfd in tif list rfgbrdlfss of modf
+                if (rows.lfngti > 0) {
+                    for (finbl int flfmfnt : rows) {
+                        if (isSflfdtbblfForModf(dioosfr, (Filf)fFilfList.gftVblufAt(flfmfnt, 0))) sflfdtbblfCount++;
                     }
                 }
-                if (selectableCount > 0) {
-                    final File[] files = new File[selectableCount];
-                    for (int i = 0, si = 0; i < rows.length; i++) {
-                        f = (File)fFileList.getValueAt(rows[i], 0);
-                        if (isSelectableForMode(chooser, f)) {
-                            if (fileView.isAlias(f)) {
-                                f = fileView.resolveAlias(f);
+                if (sflfdtbblfCount > 0) {
+                    finbl Filf[] filfs = nfw Filf[sflfdtbblfCount];
+                    for (int i = 0, si = 0; i < rows.lfngti; i++) {
+                        f = (Filf)fFilfList.gftVblufAt(rows[i], 0);
+                        if (isSflfdtbblfForModf(dioosfr, f)) {
+                            if (filfVifw.isAlibs(f)) {
+                                f = filfVifw.rfsolvfAlibs(f);
                             }
-                            files[si++] = f;
+                            filfs[si++] = f;
                         }
                     }
-                    chooser.setSelectedFiles(files);
-                } else {
-                    chooser.setSelectedFiles(null);
+                    dioosfr.sftSflfdtfdFilfs(filfs);
+                } flsf {
+                    dioosfr.sftSflfdtfdFilfs(null);
                 }
-            } else {
-                chooser.setSelectedFiles(null);
-                chooser.setSelectedFile(f);
+            } flsf {
+                dioosfr.sftSflfdtfdFilfs(null);
+                dioosfr.sftSflfdtfdFilf(f);
             }
-            selectionInProgress = false;
+            sflfdtionInProgrfss = fblsf;
         }
     }
 
-    // When the Save textfield has the focus, the button should say "Save"
-    // Otherwise, it depends on the list selection
-    protected class SaveTextFocusListener implements FocusListener {
-        public void focusGained(final FocusEvent e) {
-            updateButtonState(getFileChooser());
+    // Wifn tif Sbvf tfxtfifld ibs tif fodus, tif button siould sby "Sbvf"
+    // Otifrwisf, it dfpfnds on tif list sflfdtion
+    protfdtfd dlbss SbvfTfxtFodusListfnfr implfmfnts FodusListfnfr {
+        publid void fodusGbinfd(finbl FodusEvfnt f) {
+            updbtfButtonStbtf(gftFilfCioosfr());
         }
 
-        // Do nothing, we might be losing focus due to window deactivation
-        public void focusLost(final FocusEvent e) {
+        // Do notiing, wf migit bf losing fodus duf to window dfbdtivbtion
+        publid void fodusLost(finbl FodusEvfnt f) {
 
-        }
-    }
-
-    // When the Save textfield is empty and the button says "Save", it should be disabled
-    // Otherwise, it depends on the list selection
-    protected class SaveTextDocumentListener implements DocumentListener {
-        public void insertUpdate(final DocumentEvent e) {
-            textChanged();
-        }
-
-        public void removeUpdate(final DocumentEvent e) {
-            textChanged();
-        }
-
-        public void changedUpdate(final DocumentEvent e) {
-
-        }
-
-        void textChanged() {
-            updateButtonState(getFileChooser());
         }
     }
 
-    // Opens the File object if it's a traversable directory
-    protected boolean openDirectory(final File f) {
-        if (getFileChooser().isTraversable(f)) {
-            fFileList.clearSelection();
-            // Resolve any aliases
-            final File original = fileView.resolveAlias(f);
-            getFileChooser().setCurrentDirectory(original);
-            updateButtonState(getFileChooser());
-            return true;
-        }
-        return false;
-    }
-
-    // From Basic
-    protected class DoubleClickListener extends MouseAdapter {
-        JTableExtension list;
-
-        public DoubleClickListener(final JTableExtension list) {
-            this.list = list;
+    // Wifn tif Sbvf tfxtfifld is fmpty bnd tif button sbys "Sbvf", it siould bf disbblfd
+    // Otifrwisf, it dfpfnds on tif list sflfdtion
+    protfdtfd dlbss SbvfTfxtDodumfntListfnfr implfmfnts DodumfntListfnfr {
+        publid void insfrtUpdbtf(finbl DodumfntEvfnt f) {
+            tfxtCibngfd();
         }
 
-        public void mouseClicked(final MouseEvent e) {
-            if (e.getClickCount() != 2) return;
+        publid void rfmovfUpdbtf(finbl DodumfntEvfnt f) {
+            tfxtCibngfd();
+        }
 
-            final int index = list.locationToIndex(e.getPoint());
-            if (index < 0) return;
+        publid void dibngfdUpdbtf(finbl DodumfntEvfnt f) {
 
-            final File f = (File)((AquaFileSystemModel)list.getModel()).getElementAt(index);
-            if (openDirectory(f)) return;
+        }
 
-            if (!isSelectableInList(f)) return;
-            getFileChooser().approveSelection();
+        void tfxtCibngfd() {
+            updbtfButtonStbtf(gftFilfCioosfr());
         }
     }
 
-    protected MouseListener createDoubleClickListener(final JFileChooser fc, final JTableExtension list) {
-        return new DoubleClickListener(list);
+    // Opfns tif Filf objfdt if it's b trbvfrsbblf dirfdtory
+    protfdtfd boolfbn opfnDirfdtory(finbl Filf f) {
+        if (gftFilfCioosfr().isTrbvfrsbblf(f)) {
+            fFilfList.dlfbrSflfdtion();
+            // Rfsolvf bny blibsfs
+            finbl Filf originbl = filfVifw.rfsolvfAlibs(f);
+            gftFilfCioosfr().sftCurrfntDirfdtory(originbl);
+            updbtfButtonStbtf(gftFilfCioosfr());
+            rfturn truf;
+        }
+        rfturn fblsf;
     }
 
-    // listens for drag events onto the JFileChooser and sets the selected file or directory
-    class DnDHandler extends DropTargetAdapter {
-        public void dragEnter(final DropTargetDragEvent dtde) {
-            tryToAcceptDrag(dtde);
+    // From Bbsid
+    protfdtfd dlbss DoublfClidkListfnfr fxtfnds MousfAdbptfr {
+        JTbblfExtfnsion list;
+
+        publid DoublfClidkListfnfr(finbl JTbblfExtfnsion list) {
+            tiis.list = list;
         }
 
-        public void dragOver(final DropTargetDragEvent dtde) {
-            tryToAcceptDrag(dtde);
+        publid void mousfClidkfd(finbl MousfEvfnt f) {
+            if (f.gftClidkCount() != 2) rfturn;
+
+            finbl int indfx = list.lodbtionToIndfx(f.gftPoint());
+            if (indfx < 0) rfturn;
+
+            finbl Filf f = (Filf)((AqubFilfSystfmModfl)list.gftModfl()).gftElfmfntAt(indfx);
+            if (opfnDirfdtory(f)) rfturn;
+
+            if (!isSflfdtbblfInList(f)) rfturn;
+            gftFilfCioosfr().bpprovfSflfdtion();
+        }
+    }
+
+    protfdtfd MousfListfnfr drfbtfDoublfClidkListfnfr(finbl JFilfCioosfr fd, finbl JTbblfExtfnsion list) {
+        rfturn nfw DoublfClidkListfnfr(list);
+    }
+
+    // listfns for drbg fvfnts onto tif JFilfCioosfr bnd sfts tif sflfdtfd filf or dirfdtory
+    dlbss DnDHbndlfr fxtfnds DropTbrgftAdbptfr {
+        publid void drbgEntfr(finbl DropTbrgftDrbgEvfnt dtdf) {
+            tryToAddfptDrbg(dtdf);
         }
 
-        public void dropActionChanged(final DropTargetDragEvent dtde) {
-            tryToAcceptDrag(dtde);
+        publid void drbgOvfr(finbl DropTbrgftDrbgEvfnt dtdf) {
+            tryToAddfptDrbg(dtdf);
         }
 
-        public void drop(final DropTargetDropEvent dtde) {
-            if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-                handleFileDropEvent(dtde);
-                return;
-            }
-
-            if (dtde.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-                handleStringDropEvent(dtde);
-                return;
-            }
+        publid void dropAdtionCibngfd(finbl DropTbrgftDrbgEvfnt dtdf) {
+            tryToAddfptDrbg(dtdf);
         }
 
-        protected void tryToAcceptDrag(final DropTargetDragEvent dtde) {
-            if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor) || dtde.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-                dtde.acceptDrag(DnDConstants.ACTION_COPY);
-                return;
+        publid void drop(finbl DropTbrgftDropEvfnt dtdf) {
+            if (dtdf.isDbtbFlbvorSupportfd(DbtbFlbvor.jbvbFilfListFlbvor)) {
+                ibndlfFilfDropEvfnt(dtdf);
+                rfturn;
             }
 
-            dtde.rejectDrag();
+            if (dtdf.isDbtbFlbvorSupportfd(DbtbFlbvor.stringFlbvor)) {
+                ibndlfStringDropEvfnt(dtdf);
+                rfturn;
+            }
         }
 
-        protected void handleFileDropEvent(final DropTargetDropEvent dtde) {
-            dtde.acceptDrop(dtde.getDropAction());
-            final Transferable transferable = dtde.getTransferable();
+        protfdtfd void tryToAddfptDrbg(finbl DropTbrgftDrbgEvfnt dtdf) {
+            if (dtdf.isDbtbFlbvorSupportfd(DbtbFlbvor.jbvbFilfListFlbvor) || dtdf.isDbtbFlbvorSupportfd(DbtbFlbvor.stringFlbvor)) {
+                dtdf.bddfptDrbg(DnDConstbnts.ACTION_COPY);
+                rfturn;
+            }
+
+            dtdf.rfjfdtDrbg();
+        }
+
+        protfdtfd void ibndlfFilfDropEvfnt(finbl DropTbrgftDropEvfnt dtdf) {
+            dtdf.bddfptDrop(dtdf.gftDropAdtion());
+            finbl Trbnsffrbblf trbnsffrbblf = dtdf.gftTrbnsffrbblf();
 
             try {
-                @SuppressWarnings("unchecked")
-                final java.util.List<File> fileList = (java.util.List<File>)transferable.getTransferData(DataFlavor.javaFileListFlavor);
-                dropFiles(fileList.toArray(new File[fileList.size()]));
-                dtde.dropComplete(true);
-            } catch (final Exception e) {
-                dtde.dropComplete(false);
+                @SupprfssWbrnings("undifdkfd")
+                finbl jbvb.util.List<Filf> filfList = (jbvb.util.List<Filf>)trbnsffrbblf.gftTrbnsffrDbtb(DbtbFlbvor.jbvbFilfListFlbvor);
+                dropFilfs(filfList.toArrby(nfw Filf[filfList.sizf()]));
+                dtdf.dropComplftf(truf);
+            } dbtdi (finbl Exdfption f) {
+                dtdf.dropComplftf(fblsf);
             }
         }
 
-        protected void handleStringDropEvent(final DropTargetDropEvent dtde) {
-            dtde.acceptDrop(dtde.getDropAction());
-            final Transferable transferable = dtde.getTransferable();
+        protfdtfd void ibndlfStringDropEvfnt(finbl DropTbrgftDropEvfnt dtdf) {
+            dtdf.bddfptDrop(dtdf.gftDropAdtion());
+            finbl Trbnsffrbblf trbnsffrbblf = dtdf.gftTrbnsffrbblf();
 
-            final String stringData;
+            finbl String stringDbtb;
             try {
-                stringData = (String)transferable.getTransferData(DataFlavor.stringFlavor);
-            } catch (final Exception e) {
-                dtde.dropComplete(false);
-                return;
-            }
-
-            try {
-                final File fileAsPath = new File(stringData);
-                if (fileAsPath.exists()) {
-                    dropFiles(new File[] {fileAsPath});
-                    dtde.dropComplete(true);
-                    return;
-                }
-            } catch (final Exception e) {
-                // try again
+                stringDbtb = (String)trbnsffrbblf.gftTrbnsffrDbtb(DbtbFlbvor.stringFlbvor);
+            } dbtdi (finbl Exdfption f) {
+                dtdf.dropComplftf(fblsf);
+                rfturn;
             }
 
             try {
-                final File fileAsURI = new File(new URI(stringData));
-                if (fileAsURI.exists()) {
-                    dropFiles(new File[] {fileAsURI});
-                    dtde.dropComplete(true);
-                    return;
+                finbl Filf filfAsPbti = nfw Filf(stringDbtb);
+                if (filfAsPbti.fxists()) {
+                    dropFilfs(nfw Filf[] {filfAsPbti});
+                    dtdf.dropComplftf(truf);
+                    rfturn;
                 }
-            } catch (final Exception e) {
-                // nothing more to do
+            } dbtdi (finbl Exdfption f) {
+                // try bgbin
             }
 
-            dtde.dropComplete(false);
+            try {
+                finbl Filf filfAsURI = nfw Filf(nfw URI(stringDbtb));
+                if (filfAsURI.fxists()) {
+                    dropFilfs(nfw Filf[] {filfAsURI});
+                    dtdf.dropComplftf(truf);
+                    rfturn;
+                }
+            } dbtdi (finbl Exdfption f) {
+                // notiing morf to do
+            }
+
+            dtdf.dropComplftf(fblsf);
         }
 
-        protected void dropFiles(final File[] files) {
-            final JFileChooser jfc = getFileChooser();
+        protfdtfd void dropFilfs(finbl Filf[] filfs) {
+            finbl JFilfCioosfr jfd = gftFilfCioosfr();
 
-            if (files.length == 1) {
-                if (files[0].isDirectory()) {
-                    jfc.setCurrentDirectory(files[0]);
-                    return;
+            if (filfs.lfngti == 1) {
+                if (filfs[0].isDirfdtory()) {
+                    jfd.sftCurrfntDirfdtory(filfs[0]);
+                    rfturn;
                 }
 
-                if (!isSelectableForMode(jfc, files[0])) {
-                    return;
+                if (!isSflfdtbblfForModf(jfd, filfs[0])) {
+                    rfturn;
                 }
             }
 
-            jfc.setSelectedFiles(files);
-            for (final File file : files) {
-                jfc.ensureFileIsVisible(file);
+            jfd.sftSflfdtfdFilfs(filfs);
+            for (finbl Filf filf : filfs) {
+                jfd.fnsurfFilfIsVisiblf(filf);
             }
-            getModel().runWhenDone(new Runnable() {
-                public void run() {
-                    final AquaFileSystemModel fileSystemModel = getModel();
-                    for (final File element : files) {
-                        final int index = fileSystemModel.indexOf(element);
-                        if (index >= 0) fFileList.addRowSelectionInterval(index, index);
+            gftModfl().runWifnDonf(nfw Runnbblf() {
+                publid void run() {
+                    finbl AqubFilfSystfmModfl filfSystfmModfl = gftModfl();
+                    for (finbl Filf flfmfnt : filfs) {
+                        finbl int indfx = filfSystfmModfl.indfxOf(flfmfnt);
+                        if (indfx >= 0) fFilfList.bddRowSflfdtionIntfrvbl(indfx, indfx);
                     }
                 }
             });
         }
     }
 
-    // FileChooser UI PLAF methods
+    // FilfCioosfr UI PLAF mftiods
 
     /**
-     * Returns the default accept all file filter
+     * Rfturns tif dffbult bddfpt bll filf filtfr
      */
-    public FileFilter getAcceptAllFileFilter(final JFileChooser fc) {
-        return acceptAllFileFilter;
+    publid FilfFiltfr gftAddfptAllFilfFiltfr(finbl JFilfCioosfr fd) {
+        rfturn bddfptAllFilfFiltfr;
     }
 
-    public FileView getFileView(final JFileChooser fc) {
-        return fileView;
+    publid FilfVifw gftFilfVifw(finbl JFilfCioosfr fd) {
+        rfturn filfVifw;
     }
 
     /**
-     * Returns the title of this dialog
+     * Rfturns tif titlf of tiis diblog
      */
-    public String getDialogTitle(final JFileChooser fc) {
-        if (fc.getDialogTitle() == null) {
-            if (getFileChooser().getDialogType() == JFileChooser.OPEN_DIALOG) {
-                return openTitleText;
-            } else if (getFileChooser().getDialogType() == JFileChooser.SAVE_DIALOG) { return saveTitleText; }
+    publid String gftDiblogTitlf(finbl JFilfCioosfr fd) {
+        if (fd.gftDiblogTitlf() == null) {
+            if (gftFilfCioosfr().gftDiblogTypf() == JFilfCioosfr.OPEN_DIALOG) {
+                rfturn opfnTitlfTfxt;
+            } flsf if (gftFilfCioosfr().gftDiblogTypf() == JFilfCioosfr.SAVE_DIALOG) { rfturn sbvfTitlfTfxt; }
         }
-        return fc.getDialogTitle();
+        rfturn fd.gftDiblogTitlf();
     }
 
-    // Utility to get the first selected item regardless of whether we're single or multi select
-    File getFirstSelectedItem() {
-        // Get the selected item
-        File selectedFile = null;
-        final int index = fFileList.getSelectedRow();
-        if (index >= 0) {
-            selectedFile = (File)((AquaFileSystemModel)fFileList.getModel()).getElementAt(index);
+    // Utility to gft tif first sflfdtfd itfm rfgbrdlfss of wiftifr wf'rf singlf or multi sflfdt
+    Filf gftFirstSflfdtfdItfm() {
+        // Gft tif sflfdtfd itfm
+        Filf sflfdtfdFilf = null;
+        finbl int indfx = fFilfList.gftSflfdtfdRow();
+        if (indfx >= 0) {
+            sflfdtfdFilf = (Filf)((AqubFilfSystfmModfl)fFilfList.gftModfl()).gftElfmfntAt(indfx);
         }
-        return selectedFile;
+        rfturn sflfdtfdFilf;
     }
 
-    // Make a file from the filename
-    File makeFile(final JFileChooser fc, final String filename) {
-        File selectedFile = null;
-        // whitespace is legal on Macs, even on beginning and end of filename
-        if (filename != null && !filename.equals("")) {
-            final FileSystemView fs = fc.getFileSystemView();
-            selectedFile = fs.createFileObject(filename);
-            if (!selectedFile.isAbsolute()) {
-                selectedFile = fs.createFileObject(fc.getCurrentDirectory(), filename);
+    // Mbkf b filf from tif filfnbmf
+    Filf mbkfFilf(finbl JFilfCioosfr fd, finbl String filfnbmf) {
+        Filf sflfdtfdFilf = null;
+        // wiitfspbdf is lfgbl on Mbds, fvfn on bfginning bnd fnd of filfnbmf
+        if (filfnbmf != null && !filfnbmf.fqubls("")) {
+            finbl FilfSystfmVifw fs = fd.gftFilfSystfmVifw();
+            sflfdtfdFilf = fs.drfbtfFilfObjfdt(filfnbmf);
+            if (!sflfdtfdFilf.isAbsolutf()) {
+                sflfdtfdFilf = fs.drfbtfFilfObjfdt(fd.gftCurrfntDirfdtory(), filfnbmf);
             }
         }
-        return selectedFile;
+        rfturn sflfdtfdFilf;
     }
 
-    // Utility to tell if the textfield has anything in it
-    boolean textfieldIsValid() {
-        final String s = getFileName();
-        return (s != null && !s.equals(""));
+    // Utility to tfll if tif tfxtfifld ibs bnytiing in it
+    boolfbn tfxtfifldIsVblid() {
+        finbl String s = gftFilfNbmf();
+        rfturn (s != null && !s.fqubls(""));
     }
 
-    // Action to attach to the file list so we can override the default action
-    // of the table for the return key, which is to select the next line.
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DefaultButtonAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            final JRootPane root = AquaFileChooserUI.this.getFileChooser().getRootPane();
-            final JFileChooser fc = AquaFileChooserUI.this.getFileChooser();
-            final JButton owner = root.getDefaultButton();
-            if (owner != null && SwingUtilities.getRootPane(owner) == root && owner.isEnabled()) {
-                owner.doClick(20);
-            } else if (!fc.getControlButtonsAreShown()) {
-                final JButton defaultButton = AquaFileChooserUI.this.fSubPanel.getDefaultButton(fc);
+    // Adtion to bttbdi to tif filf list so wf dbn ovfrridf tif dffbult bdtion
+    // of tif tbblf for tif rfturn kfy, wiidi is to sflfdt tif nfxt linf.
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss DffbultButtonAdtion fxtfnds AbstrbdtAdtion {
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl JRootPbnf root = AqubFilfCioosfrUI.tiis.gftFilfCioosfr().gftRootPbnf();
+            finbl JFilfCioosfr fd = AqubFilfCioosfrUI.tiis.gftFilfCioosfr();
+            finbl JButton ownfr = root.gftDffbultButton();
+            if (ownfr != null && SwingUtilitifs.gftRootPbnf(ownfr) == root && ownfr.isEnbblfd()) {
+                ownfr.doClidk(20);
+            } flsf if (!fd.gftControlButtonsArfSiown()) {
+                finbl JButton dffbultButton = AqubFilfCioosfrUI.tiis.fSubPbnfl.gftDffbultButton(fd);
 
-                if (defaultButton != null) {
-                    defaultButton.doClick(20);
+                if (dffbultButton != null) {
+                    dffbultButton.doClidk(20);
                 }
-            } else {
-                Toolkit.getDefaultToolkit().beep();
+            } flsf {
+                Toolkit.gftDffbultToolkit().bffp();
             }
         }
 
-        public boolean isEnabled() {
-            return true;
+        publid boolfbn isEnbblfd() {
+            rfturn truf;
         }
     }
 
     /**
-     * Creates a new folder.
+     * Crfbtfs b nfw foldfr.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class NewFolderAction extends AbstractAction {
-        protected NewFolderAction() {
-            super(newFolderAccessibleName);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss NfwFoldfrAdtion fxtfnds AbstrbdtAdtion {
+        protfdtfd NfwFoldfrAdtion() {
+            supfr(nfwFoldfrAddfssiblfNbmf);
         }
 
-        // Muchlike showInputDialog, but we give it options instead of selectionValues
-        private Object showNewFolderDialog(final Component parentComponent, final Object message, final String title, final int messageType, final Icon icon, final Object[] options, final Object initialSelectionValue) {
-            final JOptionPane pane = new JOptionPane(message, messageType, JOptionPane.OK_CANCEL_OPTION, icon, options, null);
+        // Mudilikf siowInputDiblog, but wf givf it options instfbd of sflfdtionVblufs
+        privbtf Objfdt siowNfwFoldfrDiblog(finbl Componfnt pbrfntComponfnt, finbl Objfdt mfssbgf, finbl String titlf, finbl int mfssbgfTypf, finbl Idon idon, finbl Objfdt[] options, finbl Objfdt initiblSflfdtionVbluf) {
+            finbl JOptionPbnf pbnf = nfw JOptionPbnf(mfssbgf, mfssbgfTypf, JOptionPbnf.OK_CANCEL_OPTION, idon, options, null);
 
-            pane.setWantsInput(true);
-            pane.setInitialSelectionValue(initialSelectionValue);
+            pbnf.sftWbntsInput(truf);
+            pbnf.sftInitiblSflfdtionVbluf(initiblSflfdtionVbluf);
 
-            final JDialog dialog = pane.createDialog(parentComponent, title);
+            finbl JDiblog diblog = pbnf.drfbtfDiblog(pbrfntComponfnt, titlf);
 
-            pane.selectInitialValue();
-            dialog.setVisible(true);
-            dialog.dispose();
+            pbnf.sflfdtInitiblVbluf();
+            diblog.sftVisiblf(truf);
+            diblog.disposf();
 
-            final Object value = pane.getValue();
+            finbl Objfdt vbluf = pbnf.gftVbluf();
 
-            if (value == null || value.equals(cancelButtonText)) {
-                return null;
+            if (vbluf == null || vbluf.fqubls(dbndflButtonTfxt)) {
+                rfturn null;
             }
-            return pane.getInputValue();
+            rfturn pbnf.gftInputVbluf();
         }
 
-        public void actionPerformed(final ActionEvent e) {
-            final JFileChooser fc = getFileChooser();
-            final File currentDirectory = fc.getCurrentDirectory();
-            File newFolder = null;
-            final String[] options = {createButtonText, cancelButtonText};
-            final String filename = (String)showNewFolderDialog(fc, //parentComponent
-                    newFolderDialogPrompt, // message
-                    newFolderTitleText, // title
-                    JOptionPane.PLAIN_MESSAGE, // messageType
-                    null, // icon
-                    options, // selectionValues
-                    newFolderDefaultName); // initialSelectionValue
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl JFilfCioosfr fd = gftFilfCioosfr();
+            finbl Filf durrfntDirfdtory = fd.gftCurrfntDirfdtory();
+            Filf nfwFoldfr = null;
+            finbl String[] options = {drfbtfButtonTfxt, dbndflButtonTfxt};
+            finbl String filfnbmf = (String)siowNfwFoldfrDiblog(fd, //pbrfntComponfnt
+                    nfwFoldfrDiblogPrompt, // mfssbgf
+                    nfwFoldfrTitlfTfxt, // titlf
+                    JOptionPbnf.PLAIN_MESSAGE, // mfssbgfTypf
+                    null, // idon
+                    options, // sflfdtionVblufs
+                    nfwFoldfrDffbultNbmf); // initiblSflfdtionVbluf
 
-            if (filename != null) {
+            if (filfnbmf != null) {
                 try {
-                    newFolder = fc.getFileSystemView().createFileObject(currentDirectory, filename);
-                    if (newFolder.exists()) {
-                        JOptionPane.showMessageDialog(fc, newFolderExistsErrorText, "", JOptionPane.ERROR_MESSAGE);
-                        return;
+                    nfwFoldfr = fd.gftFilfSystfmVifw().drfbtfFilfObjfdt(durrfntDirfdtory, filfnbmf);
+                    if (nfwFoldfr.fxists()) {
+                        JOptionPbnf.siowMfssbgfDiblog(fd, nfwFoldfrExistsErrorTfxt, "", JOptionPbnf.ERROR_MESSAGE);
+                        rfturn;
                     }
 
-                    newFolder.mkdirs();
-                } catch(final Exception exc) {
-                    JOptionPane.showMessageDialog(fc, newFolderErrorText, "", JOptionPane.ERROR_MESSAGE);
-                    return;
+                    nfwFoldfr.mkdirs();
+                } dbtdi(finbl Exdfption fxd) {
+                    JOptionPbnf.siowMfssbgfDiblog(fd, nfwFoldfrErrorTfxt, "", JOptionPbnf.ERROR_MESSAGE);
+                    rfturn;
                 }
 
-                openDirectory(newFolder);
+                opfnDirfdtory(nfwFoldfr);
             }
         }
     }
 
     /**
-     * Responds to an Open, Save, or Choose request
+     * Rfsponds to bn Opfn, Sbvf, or Cioosf rfqufst
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class ApproveSelectionAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            fSubPanel.approveSelection(getFileChooser());
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss ApprovfSflfdtionAdtion fxtfnds AbstrbdtAdtion {
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            fSubPbnfl.bpprovfSflfdtion(gftFilfCioosfr());
         }
     }
 
     /**
-     * Responds to an OpenDirectory request
+     * Rfsponds to bn OpfnDirfdtory rfqufst
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class OpenSelectionAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            final int index = fFileList.getSelectedRow();
-            if (index >= 0) {
-                final File selectedFile = (File)((AquaFileSystemModel)fFileList.getModel()).getElementAt(index);
-                if (selectedFile != null) openDirectory(selectedFile);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss OpfnSflfdtionAdtion fxtfnds AbstrbdtAdtion {
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl int indfx = fFilfList.gftSflfdtfdRow();
+            if (indfx >= 0) {
+                finbl Filf sflfdtfdFilf = (Filf)((AqubFilfSystfmModfl)fFilfList.gftModfl()).gftElfmfntAt(indfx);
+                if (sflfdtfdFilf != null) opfnDirfdtory(sflfdtfdFilf);
             }
         }
     }
 
     /**
-     * Responds to a cancel request.
+     * Rfsponds to b dbndfl rfqufst.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class CancelSelectionAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            getFileChooser().cancelSelection();
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss CbndflSflfdtionAdtion fxtfnds AbstrbdtAdtion {
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            gftFilfCioosfr().dbndflSflfdtion();
         }
 
-        public boolean isEnabled() {
-            return getFileChooser().isEnabled();
+        publid boolfbn isEnbblfd() {
+            rfturn gftFilfCioosfr().isEnbblfd();
         }
     }
 
     /**
-     * Rescans the files in the current directory
+     * Rfsdbns tif filfs in tif durrfnt dirfdtory
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class UpdateAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            final JFileChooser fc = getFileChooser();
-            fc.setCurrentDirectory(fc.getFileSystemView().createFileObject(getDirectoryName()));
-            fc.rescanCurrentDirectory();
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss UpdbtfAdtion fxtfnds AbstrbdtAdtion {
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl JFilfCioosfr fd = gftFilfCioosfr();
+            fd.sftCurrfntDirfdtory(fd.gftFilfSystfmVifw().drfbtfFilfObjfdt(gftDirfdtoryNbmf()));
+            fd.rfsdbnCurrfntDirfdtory();
         }
     }
 
     // *****************************************
-    // ***** default AcceptAll file filter *****
+    // ***** dffbult AddfptAll filf filtfr *****
     // *****************************************
-    protected class AcceptAllFileFilter extends FileFilter {
-        public AcceptAllFileFilter() {
+    protfdtfd dlbss AddfptAllFilfFiltfr fxtfnds FilfFiltfr {
+        publid AddfptAllFilfFiltfr() {
         }
 
-        public boolean accept(final File f) {
-            return true;
+        publid boolfbn bddfpt(finbl Filf f) {
+            rfturn truf;
         }
 
-        public String getDescription() {
-            return UIManager.getString("FileChooser.acceptAllFileFilterText");
+        publid String gftDfsdription() {
+            rfturn UIMbnbgfr.gftString("FilfCioosfr.bddfptAllFilfFiltfrTfxt");
         }
     }
 
-    // Penultimate superclass is JLabel
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class MacFCTableCellRenderer extends DefaultTableCellRenderer {
-        boolean fIsSelected = false;
+    // Pfnultimbtf supfrdlbss is JLbbfl
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss MbdFCTbblfCfllRfndfrfr fxtfnds DffbultTbblfCfllRfndfrfr {
+        boolfbn fIsSflfdtfd = fblsf;
 
-        public MacFCTableCellRenderer(final Font f) {
-            super();
-            setFont(f);
-            setIconTextGap(10);
+        publid MbdFCTbblfCfllRfndfrfr(finbl Font f) {
+            supfr();
+            sftFont(f);
+            sftIdonTfxtGbp(10);
         }
 
-        public Component getTableCellRendererComponent(final JTable list, final Object value, final boolean isSelected, final boolean cellHasFocus, final int index, final int col) {
-            super.getTableCellRendererComponent(list, value, isSelected, false, index, col); // No focus border, thanks
-            fIsSelected = isSelected;
-            return this;
+        publid Componfnt gftTbblfCfllRfndfrfrComponfnt(finbl JTbblf list, finbl Objfdt vbluf, finbl boolfbn isSflfdtfd, finbl boolfbn dfllHbsFodus, finbl int indfx, finbl int dol) {
+            supfr.gftTbblfCfllRfndfrfrComponfnt(list, vbluf, isSflfdtfd, fblsf, indfx, dol); // No fodus bordfr, tibnks
+            fIsSflfdtfd = isSflfdtfd;
+            rfturn tiis;
         }
 
-        public boolean isSelected() {
-            return fIsSelected && isEnabled();
+        publid boolfbn isSflfdtfd() {
+            rfturn fIsSflfdtfd && isEnbblfd();
         }
 
-        protected String layoutCL(final JLabel label, final FontMetrics fontMetrics, final String text, final Icon icon, final Rectangle viewR, final Rectangle iconR, final Rectangle textR) {
-            return SwingUtilities.layoutCompoundLabel(label, fontMetrics, text, icon, label.getVerticalAlignment(), label.getHorizontalAlignment(), label.getVerticalTextPosition(), label.getHorizontalTextPosition(), viewR, iconR, textR, label.getIconTextGap());
+        protfdtfd String lbyoutCL(finbl JLbbfl lbbfl, finbl FontMftrids fontMftrids, finbl String tfxt, finbl Idon idon, finbl Rfdtbnglf vifwR, finbl Rfdtbnglf idonR, finbl Rfdtbnglf tfxtR) {
+            rfturn SwingUtilitifs.lbyoutCompoundLbbfl(lbbfl, fontMftrids, tfxt, idon, lbbfl.gftVfrtidblAlignmfnt(), lbbfl.gftHorizontblAlignmfnt(), lbbfl.gftVfrtidblTfxtPosition(), lbbfl.gftHorizontblTfxtPosition(), vifwR, idonR, tfxtR, lbbfl.gftIdonTfxtGbp());
         }
 
-        protected void paintComponent(final Graphics g) {
-            final String text = getText();
-            Icon icon = getIcon();
-            if (icon != null && !isEnabled()) {
-                final Icon disabledIcon = getDisabledIcon();
-                if (disabledIcon != null) icon = disabledIcon;
+        protfdtfd void pbintComponfnt(finbl Grbpiids g) {
+            finbl String tfxt = gftTfxt();
+            Idon idon = gftIdon();
+            if (idon != null && !isEnbblfd()) {
+                finbl Idon disbblfdIdon = gftDisbblfdIdon();
+                if (disbblfdIdon != null) idon = disbblfdIdon;
             }
 
-            if ((icon == null) && (text == null)) { return; }
+            if ((idon == null) && (tfxt == null)) { rfturn; }
 
-            // from ComponentUI update
-            g.setColor(getBackground());
-            g.fillRect(0, 0, getWidth(), getHeight());
+            // from ComponfntUI updbtf
+            g.sftColor(gftBbdkground());
+            g.fillRfdt(0, 0, gftWidti(), gftHfigit());
 
-            // from BasicLabelUI paint
-            final FontMetrics fm = g.getFontMetrics();
-            Insets paintViewInsets = getInsets(null);
-            paintViewInsets.left += 10;
+            // from BbsidLbbflUI pbint
+            finbl FontMftrids fm = g.gftFontMftrids();
+            Insfts pbintVifwInsfts = gftInsfts(null);
+            pbintVifwInsfts.lfft += 10;
 
-            Rectangle paintViewR = new Rectangle(paintViewInsets.left, paintViewInsets.top, getWidth() - (paintViewInsets.left + paintViewInsets.right), getHeight() - (paintViewInsets.top + paintViewInsets.bottom));
+            Rfdtbnglf pbintVifwR = nfw Rfdtbnglf(pbintVifwInsfts.lfft, pbintVifwInsfts.top, gftWidti() - (pbintVifwInsfts.lfft + pbintVifwInsfts.rigit), gftHfigit() - (pbintVifwInsfts.top + pbintVifwInsfts.bottom));
 
-            Rectangle paintIconR = new Rectangle();
-            Rectangle paintTextR = new Rectangle();
+            Rfdtbnglf pbintIdonR = nfw Rfdtbnglf();
+            Rfdtbnglf pbintTfxtR = nfw Rfdtbnglf();
 
-            final String clippedText = layoutCL(this, fm, text, icon, paintViewR, paintIconR, paintTextR);
+            finbl String dlippfdTfxt = lbyoutCL(tiis, fm, tfxt, idon, pbintVifwR, pbintIdonR, pbintTfxtR);
 
-            if (icon != null) {
-                icon.paintIcon(this, g, paintIconR.x + 5, paintIconR.y);
+            if (idon != null) {
+                idon.pbintIdon(tiis, g, pbintIdonR.x + 5, pbintIdonR.y);
             }
 
-            if (text != null) {
-                final int textX = paintTextR.x;
-                final int textY = paintTextR.y + fm.getAscent() + 1;
-                if (isEnabled()) {
-                    // Color background = fIsSelected ? getForeground() : getBackground();
-                    final Color background = getBackground();
+            if (tfxt != null) {
+                finbl int tfxtX = pbintTfxtR.x;
+                finbl int tfxtY = pbintTfxtR.y + fm.gftAsdfnt() + 1;
+                if (isEnbblfd()) {
+                    // Color bbdkground = fIsSflfdtfd ? gftForfground() : gftBbdkground();
+                    finbl Color bbdkground = gftBbdkground();
 
-                    g.setColor(background);
-                    g.fillRect(textX - 1, paintTextR.y, paintTextR.width + 2, fm.getAscent() + 2);
+                    g.sftColor(bbdkground);
+                    g.fillRfdt(tfxtX - 1, pbintTfxtR.y, pbintTfxtR.widti + 2, fm.gftAsdfnt() + 2);
 
-                    g.setColor(getForeground());
-                    SwingUtilities2.drawString(filechooser, g, clippedText, textX, textY);
-                } else {
-                    final Color background = getBackground();
-                    g.setColor(background);
-                    g.fillRect(textX - 1, paintTextR.y, paintTextR.width + 2, fm.getAscent() + 2);
+                    g.sftColor(gftForfground());
+                    SwingUtilitifs2.drbwString(filfdioosfr, g, dlippfdTfxt, tfxtX, tfxtY);
+                } flsf {
+                    finbl Color bbdkground = gftBbdkground();
+                    g.sftColor(bbdkground);
+                    g.fillRfdt(tfxtX - 1, pbintTfxtR.y, pbintTfxtR.widti + 2, fm.gftAsdfnt() + 2);
 
-                    g.setColor(background.brighter());
-                    SwingUtilities2.drawString(filechooser, g, clippedText, textX, textY);
-                    g.setColor(background.darker());
-                    SwingUtilities2.drawString(filechooser, g, clippedText, textX + 1, textY + 1);
+                    g.sftColor(bbdkground.brigitfr());
+                    SwingUtilitifs2.drbwString(filfdioosfr, g, dlippfdTfxt, tfxtX, tfxtY);
+                    g.sftColor(bbdkground.dbrkfr());
+                    SwingUtilitifs2.drbwString(filfdioosfr, g, dlippfdTfxt, tfxtX + 1, tfxtY + 1);
                 }
             }
         }
 
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class FileRenderer extends MacFCTableCellRenderer {
-        public FileRenderer(final Font f) {
-            super(f);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss FilfRfndfrfr fxtfnds MbdFCTbblfCfllRfndfrfr {
+        publid FilfRfndfrfr(finbl Font f) {
+            supfr(f);
         }
 
-        public Component getTableCellRendererComponent(final JTable list, final Object value, final boolean isSelected, final boolean cellHasFocus, final int index, final int col) {
-            super.getTableCellRendererComponent(list, value, isSelected, false, index, col); // No focus border, thanks
-            final File file = (File)value;
-            final JFileChooser fc = getFileChooser();
-            setText(fc.getName(file));
-            setIcon(fc.getIcon(file));
-            setEnabled(isSelectableInList(file));
-            return this;
+        publid Componfnt gftTbblfCfllRfndfrfrComponfnt(finbl JTbblf list, finbl Objfdt vbluf, finbl boolfbn isSflfdtfd, finbl boolfbn dfllHbsFodus, finbl int indfx, finbl int dol) {
+            supfr.gftTbblfCfllRfndfrfrComponfnt(list, vbluf, isSflfdtfd, fblsf, indfx, dol); // No fodus bordfr, tibnks
+            finbl Filf filf = (Filf)vbluf;
+            finbl JFilfCioosfr fd = gftFilfCioosfr();
+            sftTfxt(fd.gftNbmf(filf));
+            sftIdon(fd.gftIdon(filf));
+            sftEnbblfd(isSflfdtbblfInList(filf));
+            rfturn tiis;
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DateRenderer extends MacFCTableCellRenderer {
-        public DateRenderer(final Font f) {
-            super(f);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss DbtfRfndfrfr fxtfnds MbdFCTbblfCfllRfndfrfr {
+        publid DbtfRfndfrfr(finbl Font f) {
+            supfr(f);
         }
 
-        public Component getTableCellRendererComponent(final JTable list, final Object value, final boolean isSelected, final boolean cellHasFocus, final int index, final int col) {
-            super.getTableCellRendererComponent(list, value, isSelected, false, index, col);
-            final File file = (File)fFileList.getValueAt(index, 0);
-            setEnabled(isSelectableInList(file));
-            final DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT);
-            final Date date = (Date)value;
+        publid Componfnt gftTbblfCfllRfndfrfrComponfnt(finbl JTbblf list, finbl Objfdt vbluf, finbl boolfbn isSflfdtfd, finbl boolfbn dfllHbsFodus, finbl int indfx, finbl int dol) {
+            supfr.gftTbblfCfllRfndfrfrComponfnt(list, vbluf, isSflfdtfd, fblsf, indfx, dol);
+            finbl Filf filf = (Filf)fFilfList.gftVblufAt(indfx, 0);
+            sftEnbblfd(isSflfdtbblfInList(filf));
+            finbl DbtfFormbt formbttfr = DbtfFormbt.gftDbtfTimfInstbndf(DbtfFormbt.FULL, DbtfFormbt.SHORT);
+            finbl Dbtf dbtf = (Dbtf)vbluf;
 
-            if (date != null) {
-                setText(formatter.format(date));
-            } else {
-                setText("");
+            if (dbtf != null) {
+                sftTfxt(formbttfr.formbt(dbtf));
+            } flsf {
+                sftTfxt("");
             }
 
-            return this;
+            rfturn tiis;
         }
     }
 
-    public Dimension getPreferredSize(final JComponent c) {
-        return PREF_SIZE;
+    publid Dimfnsion gftPrfffrrfdSizf(finbl JComponfnt d) {
+        rfturn PREF_SIZE;
     }
 
-    public Dimension getMinimumSize(final JComponent c) {
-        return MIN_SIZE;
+    publid Dimfnsion gftMinimumSizf(finbl JComponfnt d) {
+        rfturn MIN_SIZE;
     }
 
-    public Dimension getMaximumSize(final JComponent c) {
-        return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    publid Dimfnsion gftMbximumSizf(finbl JComponfnt d) {
+        rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
     }
 
-    @SuppressWarnings("serial") // anonymous class
-    protected ListCellRenderer<File> createDirectoryComboBoxRenderer(final JFileChooser fc) {
-        return new AquaComboBoxRendererInternal<File>(directoryComboBox) {
-            public Component getListCellRendererComponent(final JList<? extends File> list,
-                                                          final File directory,
-                                                          final int index,
-                                                          final boolean isSelected,
-                                                          final boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, directory, index, isSelected, cellHasFocus);
-                if (directory == null) {
-                    setText("");
-                    return this;
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd ListCfllRfndfrfr<Filf> drfbtfDirfdtoryComboBoxRfndfrfr(finbl JFilfCioosfr fd) {
+        rfturn nfw AqubComboBoxRfndfrfrIntfrnbl<Filf>(dirfdtoryComboBox) {
+            publid Componfnt gftListCfllRfndfrfrComponfnt(finbl JList<? fxtfnds Filf> list,
+                                                          finbl Filf dirfdtory,
+                                                          finbl int indfx,
+                                                          finbl boolfbn isSflfdtfd,
+                                                          finbl boolfbn dfllHbsFodus) {
+                supfr.gftListCfllRfndfrfrComponfnt(list, dirfdtory, indfx, isSflfdtfd, dfllHbsFodus);
+                if (dirfdtory == null) {
+                    sftTfxt("");
+                    rfturn tiis;
                 }
 
-                final JFileChooser chooser = getFileChooser();
-                setText(chooser.getName(directory));
-                setIcon(chooser.getIcon(directory));
-                return this;
+                finbl JFilfCioosfr dioosfr = gftFilfCioosfr();
+                sftTfxt(dioosfr.gftNbmf(dirfdtory));
+                sftIdon(dioosfr.gftIdon(dirfdtory));
+                rfturn tiis;
             }
         };
     }
 
     //
-    // DataModel for DirectoryComboxbox
+    // DbtbModfl for DirfdtoryComboxbox
     //
-    protected DirectoryComboBoxModel createDirectoryComboBoxModel(final JFileChooser fc) {
-        return new DirectoryComboBoxModel();
+    protfdtfd DirfdtoryComboBoxModfl drfbtfDirfdtoryComboBoxModfl(finbl JFilfCioosfr fd) {
+        rfturn nfw DirfdtoryComboBoxModfl();
     }
 
     /**
-     * Data model for a type-face selection combo-box.
+     * Dbtb modfl for b typf-fbdf sflfdtion dombo-box.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DirectoryComboBoxModel extends AbstractListModel<File> implements ComboBoxModel<File> {
-        Vector<File> fDirectories = new Vector<File>();
-        int topIndex = -1;
-        int fPathCount = 0;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss DirfdtoryComboBoxModfl fxtfnds AbstrbdtListModfl<Filf> implfmfnts ComboBoxModfl<Filf> {
+        Vfdtor<Filf> fDirfdtorifs = nfw Vfdtor<Filf>();
+        int topIndfx = -1;
+        int fPbtiCount = 0;
 
-        File fSelectedDirectory = null;
+        Filf fSflfdtfdDirfdtory = null;
 
-        public DirectoryComboBoxModel() {
-            super();
-            // Add the current directory to the model, and make it the
-            // selectedDirectory
-            addItem(getFileChooser().getCurrentDirectory());
+        publid DirfdtoryComboBoxModfl() {
+            supfr();
+            // Add tif durrfnt dirfdtory to tif modfl, bnd mbkf it tif
+            // sflfdtfdDirfdtory
+            bddItfm(gftFilfCioosfr().gftCurrfntDirfdtory());
         }
 
         /**
-         * Removes the selected directory, and clears out the
-         * path file entries leading up to that directory.
+         * Rfmovfs tif sflfdtfd dirfdtory, bnd dlfbrs out tif
+         * pbti filf fntrifs lfbding up to tibt dirfdtory.
          */
-        private void removeSelectedDirectory() {
-            fDirectories.removeAllElements();
-            fPathCount = 0;
-            fSelectedDirectory = null;
+        privbtf void rfmovfSflfdtfdDirfdtory() {
+            fDirfdtorifs.rfmovfAllElfmfnts();
+            fPbtiCount = 0;
+            fSflfdtfdDirfdtory = null;
             // dump();
         }
 
         /**
-         * Adds the directory to the model and sets it to be selected,
-         * additionally clears out the previous selected directory and
-         * the paths leading up to it, if any.
+         * Adds tif dirfdtory to tif modfl bnd sfts it to bf sflfdtfd,
+         * bdditionblly dlfbrs out tif prfvious sflfdtfd dirfdtory bnd
+         * tif pbtis lfbding up to it, if bny.
          */
-        void addItem(final File directory) {
-            if (directory == null) { return; }
-            if (fSelectedDirectory != null) {
-                removeSelectedDirectory();
+        void bddItfm(finbl Filf dirfdtory) {
+            if (dirfdtory == null) { rfturn; }
+            if (fSflfdtfdDirfdtory != null) {
+                rfmovfSflfdtfdDirfdtory();
             }
 
-            // create File instances of each directory leading up to the top
-            File f = directory.getAbsoluteFile();
-            final Vector<File> path = new Vector<File>(10);
-            while (f.getParent() != null) {
-                path.addElement(f);
-                f = getFileChooser().getFileSystemView().createFileObject(f.getParent());
+            // drfbtf Filf instbndfs of fbdi dirfdtory lfbding up to tif top
+            Filf f = dirfdtory.gftAbsolutfFilf();
+            finbl Vfdtor<Filf> pbti = nfw Vfdtor<Filf>(10);
+            wiilf (f.gftPbrfnt() != null) {
+                pbti.bddElfmfnt(f);
+                f = gftFilfCioosfr().gftFilfSystfmVifw().drfbtfFilfObjfdt(f.gftPbrfnt());
             };
 
-            // Add root file (the desktop) to the model
-            final File[] roots = getFileChooser().getFileSystemView().getRoots();
-            for (final File element : roots) {
-                path.addElement(element);
+            // Add root filf (tif dfsktop) to tif modfl
+            finbl Filf[] roots = gftFilfCioosfr().gftFilfSystfmVifw().gftRoots();
+            for (finbl Filf flfmfnt : roots) {
+                pbti.bddElfmfnt(flfmfnt);
             }
-            fPathCount = path.size();
+            fPbtiCount = pbti.sizf();
 
-            // insert all the path fDirectories leading up to the
-            // selected directory in reverse order (current directory at top)
-            for (int i = 0; i < path.size(); i++) {
-                fDirectories.addElement(path.elementAt(i));
+            // insfrt bll tif pbti fDirfdtorifs lfbding up to tif
+            // sflfdtfd dirfdtory in rfvfrsf ordfr (durrfnt dirfdtory bt top)
+            for (int i = 0; i < pbti.sizf(); i++) {
+                fDirfdtorifs.bddElfmfnt(pbti.flfmfntAt(i));
             }
 
-            setSelectedItem(fDirectories.elementAt(0));
+            sftSflfdtfdItfm(fDirfdtorifs.flfmfntAt(0));
 
             // dump();
         }
 
-        public void setSelectedItem(final Object selectedDirectory) {
-            this.fSelectedDirectory = (File)selectedDirectory;
-            fireContentsChanged(this, -1, -1);
+        publid void sftSflfdtfdItfm(finbl Objfdt sflfdtfdDirfdtory) {
+            tiis.fSflfdtfdDirfdtory = (Filf)sflfdtfdDirfdtory;
+            firfContfntsCibngfd(tiis, -1, -1);
         }
 
-        public Object getSelectedItem() {
-            return fSelectedDirectory;
+        publid Objfdt gftSflfdtfdItfm() {
+            rfturn fSflfdtfdDirfdtory;
         }
 
-        public int getSize() {
-            return fDirectories.size();
+        publid int gftSizf() {
+            rfturn fDirfdtorifs.sizf();
         }
 
-        public File getElementAt(final int index) {
-            return fDirectories.elementAt(index);
+        publid Filf gftElfmfntAt(finbl int indfx) {
+            rfturn fDirfdtorifs.flfmfntAt(indfx);
         }
     }
 
     //
-    // Renderer for Types ComboBox
+    // Rfndfrfr for Typfs ComboBox
     //
-    @SuppressWarnings("serial") // anonymous class
-    protected ListCellRenderer<FileFilter> createFilterComboBoxRenderer() {
-        return new AquaComboBoxRendererInternal<FileFilter>(filterComboBox) {
-            public Component getListCellRendererComponent(final JList<? extends FileFilter> list,
-                                                          final FileFilter filter,
-                                                          final int index,
-                                                          final boolean isSelected,
-                                                          final boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, filter, index, isSelected, cellHasFocus);
-                if (filter != null) setText(filter.getDescription());
-                return this;
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd ListCfllRfndfrfr<FilfFiltfr> drfbtfFiltfrComboBoxRfndfrfr() {
+        rfturn nfw AqubComboBoxRfndfrfrIntfrnbl<FilfFiltfr>(filtfrComboBox) {
+            publid Componfnt gftListCfllRfndfrfrComponfnt(finbl JList<? fxtfnds FilfFiltfr> list,
+                                                          finbl FilfFiltfr filtfr,
+                                                          finbl int indfx,
+                                                          finbl boolfbn isSflfdtfd,
+                                                          finbl boolfbn dfllHbsFodus) {
+                supfr.gftListCfllRfndfrfrComponfnt(list, filtfr, indfx, isSflfdtfd, dfllHbsFodus);
+                if (filtfr != null) sftTfxt(filtfr.gftDfsdription());
+                rfturn tiis;
             }
         };
     }
 
     //
-    // DataModel for Types Comboxbox
+    // DbtbModfl for Typfs Comboxbox
     //
-    protected FilterComboBoxModel createFilterComboBoxModel() {
-        return new FilterComboBoxModel();
+    protfdtfd FiltfrComboBoxModfl drfbtfFiltfrComboBoxModfl() {
+        rfturn nfw FiltfrComboBoxModfl();
     }
 
     /**
-     * Data model for a type-face selection combo-box.
+     * Dbtb modfl for b typf-fbdf sflfdtion dombo-box.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class FilterComboBoxModel extends AbstractListModel<FileFilter> implements ComboBoxModel<FileFilter>,
-            PropertyChangeListener {
-        protected FileFilter[] filters;
-        protected FilterComboBoxModel() {
-            super();
-            filters = getFileChooser().getChoosableFileFilters();
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss FiltfrComboBoxModfl fxtfnds AbstrbdtListModfl<FilfFiltfr> implfmfnts ComboBoxModfl<FilfFiltfr>,
+            PropfrtyCibngfListfnfr {
+        protfdtfd FilfFiltfr[] filtfrs;
+        protfdtfd FiltfrComboBoxModfl() {
+            supfr();
+            filtfrs = gftFilfCioosfr().gftCioosbblfFilfFiltfrs();
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            String prop = e.getPropertyName();
-            if(prop == JFileChooser.CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY) {
-                filters = (FileFilter[]) e.getNewValue();
-                fireContentsChanged(this, -1, -1);
-            } else if (prop == JFileChooser.FILE_FILTER_CHANGED_PROPERTY) {
-                fireContentsChanged(this, -1, -1);
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            String prop = f.gftPropfrtyNbmf();
+            if(prop == JFilfCioosfr.CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY) {
+                filtfrs = (FilfFiltfr[]) f.gftNfwVbluf();
+                firfContfntsCibngfd(tiis, -1, -1);
+            } flsf if (prop == JFilfCioosfr.FILE_FILTER_CHANGED_PROPERTY) {
+                firfContfntsCibngfd(tiis, -1, -1);
             }
         }
 
-        public void setSelectedItem(Object filter) {
-            if(filter != null) {
-                getFileChooser().setFileFilter((FileFilter) filter);
-                fireContentsChanged(this, -1, -1);
+        publid void sftSflfdtfdItfm(Objfdt filtfr) {
+            if(filtfr != null) {
+                gftFilfCioosfr().sftFilfFiltfr((FilfFiltfr) filtfr);
+                firfContfntsCibngfd(tiis, -1, -1);
             }
         }
 
-        public Object getSelectedItem() {
-            // Ensure that the current filter is in the list.
-            // NOTE: we shouldnt' have to do this, since JFileChooser adds
-            // the filter to the choosable filters list when the filter
-            // is set. Lets be paranoid just in case someone overrides
-            // setFileFilter in JFileChooser.
-            FileFilter currentFilter = getFileChooser().getFileFilter();
-            boolean found = false;
-            if(currentFilter != null) {
-                for (FileFilter filter : filters) {
-                    if (filter == currentFilter) {
-                        found = true;
+        publid Objfdt gftSflfdtfdItfm() {
+            // Ensurf tibt tif durrfnt filtfr is in tif list.
+            // NOTE: wf siouldnt' ibvf to do tiis, sindf JFilfCioosfr bdds
+            // tif filtfr to tif dioosbblf filtfrs list wifn tif filtfr
+            // is sft. Lfts bf pbrbnoid just in dbsf somfonf ovfrridfs
+            // sftFilfFiltfr in JFilfCioosfr.
+            FilfFiltfr durrfntFiltfr = gftFilfCioosfr().gftFilfFiltfr();
+            boolfbn found = fblsf;
+            if(durrfntFiltfr != null) {
+                for (FilfFiltfr filtfr : filtfrs) {
+                    if (filtfr == durrfntFiltfr) {
+                        found = truf;
                     }
                 }
-                if(found == false) {
-                    getFileChooser().addChoosableFileFilter(currentFilter);
+                if(found == fblsf) {
+                    gftFilfCioosfr().bddCioosbblfFilfFiltfr(durrfntFiltfr);
                 }
             }
-            return getFileChooser().getFileFilter();
+            rfturn gftFilfCioosfr().gftFilfFiltfr();
         }
 
-        public int getSize() {
-            if(filters != null) {
-                return filters.length;
-            } else {
-                return 0;
+        publid int gftSizf() {
+            if(filtfrs != null) {
+                rfturn filtfrs.lfngti;
+            } flsf {
+                rfturn 0;
             }
         }
 
-        public FileFilter getElementAt(int index) {
-            if(index > getSize() - 1) {
-                // This shouldn't happen. Try to recover gracefully.
-                return getFileChooser().getFileFilter();
+        publid FilfFiltfr gftElfmfntAt(int indfx) {
+            if(indfx > gftSizf() - 1) {
+                // Tiis siouldn't ibppfn. Try to rfdovfr grbdffully.
+                rfturn gftFilfCioosfr().gftFilfFiltfr();
             }
-            if(filters != null) {
-                return filters[index];
-            } else {
-                return null;
+            if(filtfrs != null) {
+                rfturn filtfrs[indfx];
+            } flsf {
+                rfturn null;
             }
         }
     }
 
     /**
-     * Acts when FilterComboBox has changed the selected item.
+     * Adts wifn FiltfrComboBox ibs dibngfd tif sflfdtfd itfm.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class FilterComboBoxAction extends AbstractAction {
-        protected FilterComboBoxAction() {
-            super("FilterComboBoxAction");
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss FiltfrComboBoxAdtion fxtfnds AbstrbdtAdtion {
+        protfdtfd FiltfrComboBoxAdtion() {
+            supfr("FiltfrComboBoxAdtion");
         }
 
-        public void actionPerformed(final ActionEvent e) {
-            getFileChooser().setFileFilter((FileFilter) filterComboBox.getSelectedItem());
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            gftFilfCioosfr().sftFilfFiltfr((FilfFiltfr) filtfrComboBox.gftSflfdtfdItfm());
         }
     }
 
     /**
-     * Acts when DirectoryComboBox has changed the selected item.
+     * Adts wifn DirfdtoryComboBox ibs dibngfd tif sflfdtfd itfm.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DirectoryComboBoxAction extends AbstractAction {
-        protected DirectoryComboBoxAction() {
-            super("DirectoryComboBoxAction");
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss DirfdtoryComboBoxAdtion fxtfnds AbstrbdtAdtion {
+        protfdtfd DirfdtoryComboBoxAdtion() {
+            supfr("DirfdtoryComboBoxAdtion");
         }
 
-        public void actionPerformed(final ActionEvent e) {
-            getFileChooser().setCurrentDirectory((File)directoryComboBox.getSelectedItem());
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            gftFilfCioosfr().sftCurrfntDirfdtory((Filf)dirfdtoryComboBox.gftSflfdtfdItfm());
         }
     }
 
-    // Sorting Table operations
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class JSortingTableHeader extends JTableHeader {
-        public JSortingTableHeader(final TableColumnModel cm) {
-            super(cm);
-            setReorderingAllowed(true); // This causes mousePress to call setDraggedColumn
+    // Sorting Tbblf opfrbtions
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    dlbss JSortingTbblfHfbdfr fxtfnds JTbblfHfbdfr {
+        publid JSortingTbblfHfbdfr(finbl TbblfColumnModfl dm) {
+            supfr(dm);
+            sftRfordfringAllowfd(truf); // Tiis dbusfs mousfPrfss to dbll sftDrbggfdColumn
         }
 
-        // One sort state for each column.  Both are ascending by default
-        final boolean fSortAscending[] = {true, true};
+        // Onf sort stbtf for fbdi dolumn.  Boti brf bsdfnding by dffbult
+        finbl boolfbn fSortAsdfnding[] = {truf, truf};
 
-        // Instead of dragging, it selects which one to sort by
-        public void setDraggedColumn(final TableColumn aColumn) {
-            if (aColumn != null) {
-                final int colIndex = aColumn.getModelIndex();
-                if (colIndex != fSortColumn) {
-                    filechooser.firePropertyChange(AquaFileSystemModel.SORT_BY_CHANGED, fSortColumn, colIndex);
-                    fSortColumn = colIndex;
-                } else {
-                    fSortAscending[colIndex] = !fSortAscending[colIndex];
-                    filechooser.firePropertyChange(AquaFileSystemModel.SORT_ASCENDING_CHANGED, !fSortAscending[colIndex], fSortAscending[colIndex]);
+        // Instfbd of drbgging, it sflfdts wiidi onf to sort by
+        publid void sftDrbggfdColumn(finbl TbblfColumn bColumn) {
+            if (bColumn != null) {
+                finbl int dolIndfx = bColumn.gftModflIndfx();
+                if (dolIndfx != fSortColumn) {
+                    filfdioosfr.firfPropfrtyCibngf(AqubFilfSystfmModfl.SORT_BY_CHANGED, fSortColumn, dolIndfx);
+                    fSortColumn = dolIndfx;
+                } flsf {
+                    fSortAsdfnding[dolIndfx] = !fSortAsdfnding[dolIndfx];
+                    filfdioosfr.firfPropfrtyCibngf(AqubFilfSystfmModfl.SORT_ASCENDING_CHANGED, !fSortAsdfnding[dolIndfx], fSortAsdfnding[dolIndfx]);
                 }
-                // Need to repaint the highlighted column.
-                repaint();
+                // Nffd to rfpbint tif iigiligitfd dolumn.
+                rfpbint();
             }
         }
 
-        // This stops mouseDrags from moving the column
-        public TableColumn getDraggedColumn() {
-            return null;
+        // Tiis stops mousfDrbgs from moving tif dolumn
+        publid TbblfColumn gftDrbggfdColumn() {
+            rfturn null;
         }
 
-        protected TableCellRenderer createDefaultRenderer() {
-            final DefaultTableCellRenderer label = new AquaTableCellRenderer();
-            label.setHorizontalAlignment(SwingConstants.LEFT);
-            return label;
+        protfdtfd TbblfCfllRfndfrfr drfbtfDffbultRfndfrfr() {
+            finbl DffbultTbblfCfllRfndfrfr lbbfl = nfw AqubTbblfCfllRfndfrfr();
+            lbbfl.sftHorizontblAlignmfnt(SwingConstbnts.LEFT);
+            rfturn lbbfl;
         }
 
-        @SuppressWarnings("serial") // Superclass is not serializable across versions
-        class AquaTableCellRenderer extends DefaultTableCellRenderer implements UIResource {
-            public Component getTableCellRendererComponent(final JTable localTable, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
-                if (localTable != null) {
-                    final JTableHeader header = localTable.getTableHeader();
-                    if (header != null) {
-                        setForeground(header.getForeground());
-                        setBackground(header.getBackground());
-                        setFont(UIManager.getFont("TableHeader.font"));
+        @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+        dlbss AqubTbblfCfllRfndfrfr fxtfnds DffbultTbblfCfllRfndfrfr implfmfnts UIRfsourdf {
+            publid Componfnt gftTbblfCfllRfndfrfrComponfnt(finbl JTbblf lodblTbblf, finbl Objfdt vbluf, finbl boolfbn isSflfdtfd, finbl boolfbn ibsFodus, finbl int row, finbl int dolumn) {
+                if (lodblTbblf != null) {
+                    finbl JTbblfHfbdfr ifbdfr = lodblTbblf.gftTbblfHfbdfr();
+                    if (ifbdfr != null) {
+                        sftForfground(ifbdfr.gftForfground());
+                        sftBbdkground(ifbdfr.gftBbdkground());
+                        sftFont(UIMbnbgfr.gftFont("TbblfHfbdfr.font"));
                     }
                 }
 
-                setText((value == null) ? "" : value.toString());
+                sftTfxt((vbluf == null) ? "" : vbluf.toString());
 
-                // Modify the table "border" to draw smaller, and with the titles in the right position
-                // and sort indicators, just like an NSSave/Open panel.
-                final AquaTableHeaderBorder cellBorder = AquaTableHeaderBorder.getListHeaderBorder();
-                cellBorder.setSelected(column == fSortColumn);
-                final int horizontalShift = (column == 0 ? 35 : 10);
-                cellBorder.setHorizontalShift(horizontalShift);
+                // Modify tif tbblf "bordfr" to drbw smbllfr, bnd witi tif titlfs in tif rigit position
+                // bnd sort indidbtors, just likf bn NSSbvf/Opfn pbnfl.
+                finbl AqubTbblfHfbdfrBordfr dfllBordfr = AqubTbblfHfbdfrBordfr.gftListHfbdfrBordfr();
+                dfllBordfr.sftSflfdtfd(dolumn == fSortColumn);
+                finbl int iorizontblSiift = (dolumn == 0 ? 35 : 10);
+                dfllBordfr.sftHorizontblSiift(iorizontblSiift);
 
-                if (column == fSortColumn) {
-                    cellBorder.setSortOrder(fSortAscending[column] ? AquaTableHeaderBorder.SORT_ASCENDING : AquaTableHeaderBorder.SORT_DECENDING);
-                } else {
-                    cellBorder.setSortOrder(AquaTableHeaderBorder.SORT_NONE);
+                if (dolumn == fSortColumn) {
+                    dfllBordfr.sftSortOrdfr(fSortAsdfnding[dolumn] ? AqubTbblfHfbdfrBordfr.SORT_ASCENDING : AqubTbblfHfbdfrBordfr.SORT_DECENDING);
+                } flsf {
+                    dfllBordfr.sftSortOrdfr(AqubTbblfHfbdfrBordfr.SORT_NONE);
                 }
-                setBorder(cellBorder);
-                return this;
+                sftBordfr(dfllBordfr);
+                rfturn tiis;
             }
         }
     }
 
-    public void installComponents(final JFileChooser fc) {
-        JPanel tPanel; // temp panel
-        // set to a Y BoxLayout. The chooser will be laid out top to bottom.
-        fc.setLayout(new BoxLayout(fc, BoxLayout.Y_AXIS));
-        fc.add(Box.createRigidArea(vstrut10));
+    publid void instbllComponfnts(finbl JFilfCioosfr fd) {
+        JPbnfl tPbnfl; // tfmp pbnfl
+        // sft to b Y BoxLbyout. Tif dioosfr will bf lbid out top to bottom.
+        fd.sftLbyout(nfw BoxLbyout(fd, BoxLbyout.Y_AXIS));
+        fd.bdd(Box.drfbtfRigidArfb(vstrut10));
 
-        // construct the top panel
+        // donstrudt tif top pbnfl
 
-        final JPanel topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-        fc.add(topPanel);
-        fc.add(Box.createRigidArea(vstrut10));
+        finbl JPbnfl topPbnfl = nfw JPbnfl();
+        topPbnfl.sftLbyout(nfw BoxLbyout(topPbnfl, BoxLbyout.Y_AXIS));
+        fd.bdd(topPbnfl);
+        fd.bdd(Box.drfbtfRigidArfb(vstrut10));
 
-        // Add the textfield pane
+        // Add tif tfxtfifld pbnf
 
-        fTextfieldPanel = new JPanel();
-        fTextfieldPanel.setLayout(new BorderLayout());
-        // setBottomPanelForMode will make this visible if we need it
-        fTextfieldPanel.setVisible(false);
-        topPanel.add(fTextfieldPanel);
+        fTfxtfifldPbnfl = nfw JPbnfl();
+        fTfxtfifldPbnfl.sftLbyout(nfw BordfrLbyout());
+        // sftBottomPbnflForModf will mbkf tiis visiblf if wf nffd it
+        fTfxtfifldPbnfl.sftVisiblf(fblsf);
+        topPbnfl.bdd(fTfxtfifldPbnfl);
 
-        tPanel = new JPanel();
-        tPanel.setLayout(new BoxLayout(tPanel, BoxLayout.Y_AXIS));
-        final JPanel labelArea = new JPanel();
-        labelArea.setLayout(new FlowLayout(FlowLayout.CENTER));
-        fTextFieldLabel = new JLabel(fileNameLabelText);
-        labelArea.add(fTextFieldLabel);
+        tPbnfl = nfw JPbnfl();
+        tPbnfl.sftLbyout(nfw BoxLbyout(tPbnfl, BoxLbyout.Y_AXIS));
+        finbl JPbnfl lbbflArfb = nfw JPbnfl();
+        lbbflArfb.sftLbyout(nfw FlowLbyout(FlowLbyout.CENTER));
+        fTfxtFifldLbbfl = nfw JLbbfl(filfNbmfLbbflTfxt);
+        lbbflArfb.bdd(fTfxtFifldLbbfl);
 
-        // text field
-        filenameTextField = new JTextField();
-        fTextFieldLabel.setLabelFor(filenameTextField);
-        filenameTextField.addActionListener(getAction(kOpen));
-        filenameTextField.addFocusListener(new SaveTextFocusListener());
-        final Dimension minSize = filenameTextField.getMinimumSize();
-        Dimension d = new Dimension(250, (int)minSize.getHeight());
-        filenameTextField.setPreferredSize(d);
-        filenameTextField.setMaximumSize(d);
-        labelArea.add(filenameTextField);
-        final File f = fc.getSelectedFile();
+        // tfxt fifld
+        filfnbmfTfxtFifld = nfw JTfxtFifld();
+        fTfxtFifldLbbfl.sftLbbflFor(filfnbmfTfxtFifld);
+        filfnbmfTfxtFifld.bddAdtionListfnfr(gftAdtion(kOpfn));
+        filfnbmfTfxtFifld.bddFodusListfnfr(nfw SbvfTfxtFodusListfnfr());
+        finbl Dimfnsion minSizf = filfnbmfTfxtFifld.gftMinimumSizf();
+        Dimfnsion d = nfw Dimfnsion(250, (int)minSizf.gftHfigit());
+        filfnbmfTfxtFifld.sftPrfffrrfdSizf(d);
+        filfnbmfTfxtFifld.sftMbximumSizf(d);
+        lbbflArfb.bdd(filfnbmfTfxtFifld);
+        finbl Filf f = fd.gftSflfdtfdFilf();
         if (f != null) {
-            setFileName(fc.getName(f));
-        } else if (fc.getDialogType() == JFileChooser.SAVE_DIALOG) {
-            setFileName(newFileDefaultName);
+            sftFilfNbmf(fd.gftNbmf(f));
+        } flsf if (fd.gftDiblogTypf() == JFilfCioosfr.SAVE_DIALOG) {
+            sftFilfNbmf(nfwFilfDffbultNbmf);
         }
 
-        tPanel.add(labelArea);
-        // separator line
-        @SuppressWarnings("serial") // anonymous class
-        final JSeparator sep = new JSeparator(){
-            public Dimension getPreferredSize() {
-                return new Dimension(((JComponent)getParent()).getWidth(), 3);
+        tPbnfl.bdd(lbbflArfb);
+        // sfpbrbtor linf
+        @SupprfssWbrnings("sfribl") // bnonymous dlbss
+        finbl JSfpbrbtor sfp = nfw JSfpbrbtor(){
+            publid Dimfnsion gftPrfffrrfdSizf() {
+                rfturn nfw Dimfnsion(((JComponfnt)gftPbrfnt()).gftWidti(), 3);
             }
         };
-        tPanel.add(Box.createRigidArea(new Dimension(1, 8)));
-        tPanel.add(sep);
-        tPanel.add(Box.createRigidArea(new Dimension(1, 7)));
-        fTextfieldPanel.add(tPanel, BorderLayout.CENTER);
+        tPbnfl.bdd(Box.drfbtfRigidArfb(nfw Dimfnsion(1, 8)));
+        tPbnfl.bdd(sfp);
+        tPbnfl.bdd(Box.drfbtfRigidArfb(nfw Dimfnsion(1, 7)));
+        fTfxtfifldPbnfl.bdd(tPbnfl, BordfrLbyout.CENTER);
 
-        // DirectoryComboBox, left-justified, 200x20 not including drop shadow
-        directoryComboBox = new JComboBox<>();
-        directoryComboBox.putClientProperty("JComboBox.lightweightKeyboardNavigation", "Lightweight");
-        fDirectoryComboBoxModel = createDirectoryComboBoxModel(fc);
-        directoryComboBox.setModel(fDirectoryComboBoxModel);
-        directoryComboBox.addActionListener(directoryComboBoxAction);
-        directoryComboBox.setRenderer(createDirectoryComboBoxRenderer(fc));
-        directoryComboBox.setToolTipText(directoryComboBoxToolTipText);
-        d = new Dimension(250, (int)directoryComboBox.getMinimumSize().getHeight());
-        directoryComboBox.setPreferredSize(d);
-        directoryComboBox.setMaximumSize(d);
-        topPanel.add(directoryComboBox);
+        // DirfdtoryComboBox, lfft-justififd, 200x20 not indluding drop sibdow
+        dirfdtoryComboBox = nfw JComboBox<>();
+        dirfdtoryComboBox.putClifntPropfrty("JComboBox.ligitwfigitKfybobrdNbvigbtion", "Ligitwfigit");
+        fDirfdtoryComboBoxModfl = drfbtfDirfdtoryComboBoxModfl(fd);
+        dirfdtoryComboBox.sftModfl(fDirfdtoryComboBoxModfl);
+        dirfdtoryComboBox.bddAdtionListfnfr(dirfdtoryComboBoxAdtion);
+        dirfdtoryComboBox.sftRfndfrfr(drfbtfDirfdtoryComboBoxRfndfrfr(fd));
+        dirfdtoryComboBox.sftToolTipTfxt(dirfdtoryComboBoxToolTipTfxt);
+        d = nfw Dimfnsion(250, (int)dirfdtoryComboBox.gftMinimumSizf().gftHfigit());
+        dirfdtoryComboBox.sftPrfffrrfdSizf(d);
+        dirfdtoryComboBox.sftMbximumSizf(d);
+        topPbnfl.bdd(dirfdtoryComboBox);
 
         // ************************************** //
-        // ** Add the directory/Accessory pane ** //
+        // ** Add tif dirfdtory/Addfssory pbnf ** //
         // ************************************** //
-        final JPanel centerPanel = new JPanel(new BorderLayout());
-        fc.add(centerPanel);
+        finbl JPbnfl dfntfrPbnfl = nfw JPbnfl(nfw BordfrLbyout());
+        fd.bdd(dfntfrPbnfl);
 
-        // Accessory pane (equiv to Preview pane in NavServices)
-        final JComponent accessory = fc.getAccessory();
-        if (accessory != null) {
-            getAccessoryPanel().add(accessory);
+        // Addfssory pbnf (fquiv to Prfvifw pbnf in NbvSfrvidfs)
+        finbl JComponfnt bddfssory = fd.gftAddfssory();
+        if (bddfssory != null) {
+            gftAddfssoryPbnfl().bdd(bddfssory);
         }
-        centerPanel.add(getAccessoryPanel(), BorderLayout.LINE_START);
+        dfntfrPbnfl.bdd(gftAddfssoryPbnfl(), BordfrLbyout.LINE_START);
 
-        // Directory list(table), right-justified, resizable
-        final JPanel p = createList(fc);
-        p.setMinimumSize(LIST_MIN_SIZE);
-        centerPanel.add(p, BorderLayout.CENTER);
+        // Dirfdtory list(tbblf), rigit-justififd, rfsizbblf
+        finbl JPbnfl p = drfbtfList(fd);
+        p.sftMinimumSizf(LIST_MIN_SIZE);
+        dfntfrPbnfl.bdd(p, BordfrLbyout.CENTER);
 
         // ********************************** //
-        // **** Construct the bottom panel ** //
+        // **** Construdt tif bottom pbnfl ** //
         // ********************************** //
-        fBottomPanel = new JPanel();
-        fBottomPanel.setLayout(new BoxLayout(fBottomPanel, BoxLayout.Y_AXIS));
-        fc.add(fBottomPanel);
+        fBottomPbnfl = nfw JPbnfl();
+        fBottomPbnfl.sftLbyout(nfw BoxLbyout(fBottomPbnfl, BoxLbyout.Y_AXIS));
+        fd.bdd(fBottomPbnfl);
 
-        // Filter label and combobox.
-        // I know it's unMaclike, but the filter goes on Directory_only too.
-        tPanel = new JPanel();
-        tPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        tPanel.setBorder(AquaGroupBorder.getTitlelessBorder());
-        final JLabel formatLabel = new JLabel(filesOfTypeLabelText);
-        tPanel.add(formatLabel);
+        // Filtfr lbbfl bnd dombobox.
+        // I know it's unMbdlikf, but tif filtfr gofs on Dirfdtory_only too.
+        tPbnfl = nfw JPbnfl();
+        tPbnfl.sftLbyout(nfw FlowLbyout(FlowLbyout.CENTER));
+        tPbnfl.sftBordfr(AqubGroupBordfr.gftTitlflfssBordfr());
+        finbl JLbbfl formbtLbbfl = nfw JLbbfl(filfsOfTypfLbbflTfxt);
+        tPbnfl.bdd(formbtLbbfl);
 
         // Combobox
-        filterComboBoxModel = createFilterComboBoxModel();
-        fc.addPropertyChangeListener(filterComboBoxModel);
-        filterComboBox = new JComboBox<>(filterComboBoxModel);
-        formatLabel.setLabelFor(filterComboBox);
-        filterComboBox.setRenderer(createFilterComboBoxRenderer());
-        d = new Dimension(220, (int)filterComboBox.getMinimumSize().getHeight());
-        filterComboBox.setPreferredSize(d);
-        filterComboBox.setMaximumSize(d);
-        filterComboBox.addActionListener(filterComboBoxAction);
-        filterComboBox.setOpaque(false);
-        tPanel.add(filterComboBox);
+        filtfrComboBoxModfl = drfbtfFiltfrComboBoxModfl();
+        fd.bddPropfrtyCibngfListfnfr(filtfrComboBoxModfl);
+        filtfrComboBox = nfw JComboBox<>(filtfrComboBoxModfl);
+        formbtLbbfl.sftLbbflFor(filtfrComboBox);
+        filtfrComboBox.sftRfndfrfr(drfbtfFiltfrComboBoxRfndfrfr());
+        d = nfw Dimfnsion(220, (int)filtfrComboBox.gftMinimumSizf().gftHfigit());
+        filtfrComboBox.sftPrfffrrfdSizf(d);
+        filtfrComboBox.sftMbximumSizf(d);
+        filtfrComboBox.bddAdtionListfnfr(filtfrComboBoxAdtion);
+        filtfrComboBox.sftOpbquf(fblsf);
+        tPbnfl.bdd(filtfrComboBox);
 
-        fBottomPanel.add(tPanel);
+        fBottomPbnfl.bdd(tPbnfl);
 
-        // fDirectoryPanel: New, Open, Cancel, Approve buttons, right-justified, 82x22
-        // (sometimes the NewFolder and OpenFolder buttons are invisible)
-        fDirectoryPanel = new JPanel();
-        fDirectoryPanel.setLayout(new BoxLayout(fDirectoryPanel, BoxLayout.PAGE_AXIS));
-        JPanel directoryPanel = new JPanel(new BorderLayout());
-        JPanel newFolderButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-        newFolderButtonPanel.add(Box.createHorizontalStrut(20));
-        fNewFolderButton = createNewFolderButton(); // Because we hide it depending on style
-        newFolderButtonPanel.add(fNewFolderButton);
-        directoryPanel.add(newFolderButtonPanel, BorderLayout.LINE_START);
-        JPanel approveCancelButtonPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 0, 0));
-        fOpenButton = createButton(kOpenDirectory, openButtonText);
-        approveCancelButtonPanel.add(fOpenButton);
-        approveCancelButtonPanel.add(Box.createHorizontalStrut(8));
-        fCancelButton = createButton(kCancel, null);
-        approveCancelButtonPanel.add(fCancelButton);
-        approveCancelButtonPanel.add(Box.createHorizontalStrut(8));
-        // The ApproveSelection button
-        fApproveButton = new JButton();
-        fApproveButton.addActionListener(fApproveSelectionAction);
-        approveCancelButtonPanel.add(fApproveButton);
-        approveCancelButtonPanel.add(Box.createHorizontalStrut(20));
-        directoryPanel.add(approveCancelButtonPanel, BorderLayout.LINE_END);
-        fDirectoryPanel.add(Box.createVerticalStrut(5));
-        fDirectoryPanel.add(directoryPanel);
-        fDirectoryPanel.add(Box.createVerticalStrut(12));
-        fDirectoryPanelSpacer = Box.createRigidArea(hstrut10);
+        // fDirfdtoryPbnfl: Nfw, Opfn, Cbndfl, Approvf buttons, rigit-justififd, 82x22
+        // (somftimfs tif NfwFoldfr bnd OpfnFoldfr buttons brf invisiblf)
+        fDirfdtoryPbnfl = nfw JPbnfl();
+        fDirfdtoryPbnfl.sftLbyout(nfw BoxLbyout(fDirfdtoryPbnfl, BoxLbyout.PAGE_AXIS));
+        JPbnfl dirfdtoryPbnfl = nfw JPbnfl(nfw BordfrLbyout());
+        JPbnfl nfwFoldfrButtonPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.LEADING, 0, 0));
+        nfwFoldfrButtonPbnfl.bdd(Box.drfbtfHorizontblStrut(20));
+        fNfwFoldfrButton = drfbtfNfwFoldfrButton(); // Bfdbusf wf iidf it dfpfnding on stylf
+        nfwFoldfrButtonPbnfl.bdd(fNfwFoldfrButton);
+        dirfdtoryPbnfl.bdd(nfwFoldfrButtonPbnfl, BordfrLbyout.LINE_START);
+        JPbnfl bpprovfCbndflButtonPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.TRAILING, 0, 0));
+        fOpfnButton = drfbtfButton(kOpfnDirfdtory, opfnButtonTfxt);
+        bpprovfCbndflButtonPbnfl.bdd(fOpfnButton);
+        bpprovfCbndflButtonPbnfl.bdd(Box.drfbtfHorizontblStrut(8));
+        fCbndflButton = drfbtfButton(kCbndfl, null);
+        bpprovfCbndflButtonPbnfl.bdd(fCbndflButton);
+        bpprovfCbndflButtonPbnfl.bdd(Box.drfbtfHorizontblStrut(8));
+        // Tif ApprovfSflfdtion button
+        fApprovfButton = nfw JButton();
+        fApprovfButton.bddAdtionListfnfr(fApprovfSflfdtionAdtion);
+        bpprovfCbndflButtonPbnfl.bdd(fApprovfButton);
+        bpprovfCbndflButtonPbnfl.bdd(Box.drfbtfHorizontblStrut(20));
+        dirfdtoryPbnfl.bdd(bpprovfCbndflButtonPbnfl, BordfrLbyout.LINE_END);
+        fDirfdtoryPbnfl.bdd(Box.drfbtfVfrtidblStrut(5));
+        fDirfdtoryPbnfl.bdd(dirfdtoryPbnfl);
+        fDirfdtoryPbnfl.bdd(Box.drfbtfVfrtidblStrut(12));
+        fDirfdtoryPbnflSpbdfr = Box.drfbtfRigidArfb(istrut10);
 
-        if (fc.getControlButtonsAreShown()) {
-            fBottomPanel.add(fDirectoryPanelSpacer);
-            fBottomPanel.add(fDirectoryPanel);
+        if (fd.gftControlButtonsArfSiown()) {
+            fBottomPbnfl.bdd(fDirfdtoryPbnflSpbdfr);
+            fBottomPbnfl.bdd(fDirfdtoryPbnfl);
         }
 
-        setBottomPanelForMode(fc); // updates ApproveButtonText etc
+        sftBottomPbnflForModf(fd); // updbtfs ApprovfButtonTfxt ftd
 
-        // don't create til after the FCSubpanel and buttons are made
-        filenameTextField.getDocument().addDocumentListener(new SaveTextDocumentListener());
+        // don't drfbtf til bftfr tif FCSubpbnfl bnd buttons brf mbdf
+        filfnbmfTfxtFifld.gftDodumfnt().bddDodumfntListfnfr(nfw SbvfTfxtDodumfntListfnfr());
     }
 
-    void setDefaultButtonForMode(final JFileChooser fc) {
-        final JButton defaultButton = fSubPanel.getDefaultButton(fc);
-        final JRootPane root = defaultButton.getRootPane();
+    void sftDffbultButtonForModf(finbl JFilfCioosfr fd) {
+        finbl JButton dffbultButton = fSubPbnfl.gftDffbultButton(fd);
+        finbl JRootPbnf root = dffbultButton.gftRootPbnf();
         if (root != null) {
-            root.setDefaultButton(defaultButton);
+            root.sftDffbultButton(dffbultButton);
         }
     }
 
-    // Macs start with their focus in text areas if they have them,
-    // lists otherwise (the other plafs start with the focus on approveButton)
-    void setFocusForMode(final JFileChooser fc) {
-        final JComponent focusComponent = fSubPanel.getFocusComponent(fc);
-        if (focusComponent != null) {
-            focusComponent.requestFocus();
+    // Mbds stbrt witi tifir fodus in tfxt brfbs if tify ibvf tifm,
+    // lists otifrwisf (tif otifr plbfs stbrt witi tif fodus on bpprovfButton)
+    void sftFodusForModf(finbl JFilfCioosfr fd) {
+        finbl JComponfnt fodusComponfnt = fSubPbnfl.gftFodusComponfnt(fd);
+        if (fodusComponfnt != null) {
+            fodusComponfnt.rfqufstFodus();
         }
     }
 
-    // Enable/disable buttons as needed for the current selection/focus state
-    void updateButtonState(final JFileChooser fc) {
-        fSubPanel.updateButtonState(fc, getFirstSelectedItem());
-        updateApproveButton(fc);
+    // Enbblf/disbblf buttons bs nffdfd for tif durrfnt sflfdtion/fodus stbtf
+    void updbtfButtonStbtf(finbl JFilfCioosfr fd) {
+        fSubPbnfl.updbtfButtonStbtf(fd, gftFirstSflfdtfdItfm());
+        updbtfApprovfButton(fd);
     }
 
-    void updateApproveButton(final JFileChooser chooser) {
-        fApproveButton.setText(getApproveButtonText(chooser));
-        fApproveButton.setToolTipText(getApproveButtonToolTipText(chooser));
-        fApproveButton.setMnemonic(getApproveButtonMnemonic(chooser));
-        fCancelButton.setToolTipText(getCancelButtonToolTipText(chooser));
+    void updbtfApprovfButton(finbl JFilfCioosfr dioosfr) {
+        fApprovfButton.sftTfxt(gftApprovfButtonTfxt(dioosfr));
+        fApprovfButton.sftToolTipTfxt(gftApprovfButtonToolTipTfxt(dioosfr));
+        fApprovfButton.sftMnfmonid(gftApprovfButtonMnfmonid(dioosfr));
+        fCbndflButton.sftToolTipTfxt(gftCbndflButtonToolTipTfxt(dioosfr));
     }
 
-    // Lazy-init the subpanels
-    synchronized FCSubpanel getSaveFilePanel() {
-        if (fSaveFilePanel == null) fSaveFilePanel = new SaveFilePanel();
-        return fSaveFilePanel;
+    // Lbzy-init tif subpbnfls
+    syndironizfd FCSubpbnfl gftSbvfFilfPbnfl() {
+        if (fSbvfFilfPbnfl == null) fSbvfFilfPbnfl = nfw SbvfFilfPbnfl();
+        rfturn fSbvfFilfPbnfl;
     }
 
-    synchronized FCSubpanel getOpenFilePanel() {
-        if (fOpenFilePanel == null) fOpenFilePanel = new OpenFilePanel();
-        return fOpenFilePanel;
+    syndironizfd FCSubpbnfl gftOpfnFilfPbnfl() {
+        if (fOpfnFilfPbnfl == null) fOpfnFilfPbnfl = nfw OpfnFilfPbnfl();
+        rfturn fOpfnFilfPbnfl;
     }
 
-    synchronized FCSubpanel getOpenDirOrAnyPanel() {
-        if (fOpenDirOrAnyPanel == null) fOpenDirOrAnyPanel = new OpenDirOrAnyPanel();
-        return fOpenDirOrAnyPanel;
+    syndironizfd FCSubpbnfl gftOpfnDirOrAnyPbnfl() {
+        if (fOpfnDirOrAnyPbnfl == null) fOpfnDirOrAnyPbnfl = nfw OpfnDirOrAnyPbnfl();
+        rfturn fOpfnDirOrAnyPbnfl;
     }
 
-    synchronized FCSubpanel getCustomFilePanel() {
-        if (fCustomFilePanel == null) fCustomFilePanel = new CustomFilePanel();
-        return fCustomFilePanel;
+    syndironizfd FCSubpbnfl gftCustomFilfPbnfl() {
+        if (fCustomFilfPbnfl == null) fCustomFilfPbnfl = nfw CustomFilfPbnfl();
+        rfturn fCustomFilfPbnfl;
     }
 
-    synchronized FCSubpanel getCustomDirOrAnyPanel() {
-        if (fCustomDirOrAnyPanel == null) fCustomDirOrAnyPanel = new CustomDirOrAnyPanel();
-        return fCustomDirOrAnyPanel;
+    syndironizfd FCSubpbnfl gftCustomDirOrAnyPbnfl() {
+        if (fCustomDirOrAnyPbnfl == null) fCustomDirOrAnyPbnfl = nfw CustomDirOrAnyPbnfl();
+        rfturn fCustomDirOrAnyPbnfl;
     }
 
-    void setBottomPanelForMode(final JFileChooser fc) {
-        if (fc.getDialogType() == JFileChooser.SAVE_DIALOG) fSubPanel = getSaveFilePanel();
-        else if (fc.getDialogType() == JFileChooser.OPEN_DIALOG) {
-            if (fc.getFileSelectionMode() == JFileChooser.FILES_ONLY) fSubPanel = getOpenFilePanel();
-            else fSubPanel = getOpenDirOrAnyPanel();
-        } else if (fc.getDialogType() == JFileChooser.CUSTOM_DIALOG) {
-            if (fc.getFileSelectionMode() == JFileChooser.FILES_ONLY) fSubPanel = getCustomFilePanel();
-            else fSubPanel = getCustomDirOrAnyPanel();
+    void sftBottomPbnflForModf(finbl JFilfCioosfr fd) {
+        if (fd.gftDiblogTypf() == JFilfCioosfr.SAVE_DIALOG) fSubPbnfl = gftSbvfFilfPbnfl();
+        flsf if (fd.gftDiblogTypf() == JFilfCioosfr.OPEN_DIALOG) {
+            if (fd.gftFilfSflfdtionModf() == JFilfCioosfr.FILES_ONLY) fSubPbnfl = gftOpfnFilfPbnfl();
+            flsf fSubPbnfl = gftOpfnDirOrAnyPbnfl();
+        } flsf if (fd.gftDiblogTypf() == JFilfCioosfr.CUSTOM_DIALOG) {
+            if (fd.gftFilfSflfdtionModf() == JFilfCioosfr.FILES_ONLY) fSubPbnfl = gftCustomFilfPbnfl();
+            flsf fSubPbnfl = gftCustomDirOrAnyPbnfl();
         }
 
-        fSubPanel.installPanel(fc, true);
-        updateApproveButton(fc);
-        updateButtonState(fc);
-        setDefaultButtonForMode(fc);
-        setFocusForMode(fc);
-        fc.invalidate();
+        fSubPbnfl.instbllPbnfl(fd, truf);
+        updbtfApprovfButton(fd);
+        updbtfButtonStbtf(fd);
+        sftDffbultButtonForModf(fd);
+        sftFodusForModf(fd);
+        fd.invblidbtf();
     }
 
-    // fTextfieldPanel and fDirectoryPanel both have NewFolder buttons; only one should be visible at a time
-    JButton createNewFolderButton() {
-        final JButton b = new JButton(newFolderButtonText);
-        b.setToolTipText(newFolderToolTipText);
-        b.getAccessibleContext().setAccessibleName(newFolderAccessibleName);
-        b.setHorizontalTextPosition(SwingConstants.LEFT);
-        b.setAlignmentX(Component.LEFT_ALIGNMENT);
-        b.setAlignmentY(Component.CENTER_ALIGNMENT);
-        b.addActionListener(getAction(kNewFolder));
-        return b;
+    // fTfxtfifldPbnfl bnd fDirfdtoryPbnfl boti ibvf NfwFoldfr buttons; only onf siould bf visiblf bt b timf
+    JButton drfbtfNfwFoldfrButton() {
+        finbl JButton b = nfw JButton(nfwFoldfrButtonTfxt);
+        b.sftToolTipTfxt(nfwFoldfrToolTipTfxt);
+        b.gftAddfssiblfContfxt().sftAddfssiblfNbmf(nfwFoldfrAddfssiblfNbmf);
+        b.sftHorizontblTfxtPosition(SwingConstbnts.LEFT);
+        b.sftAlignmfntX(Componfnt.LEFT_ALIGNMENT);
+        b.sftAlignmfntY(Componfnt.CENTER_ALIGNMENT);
+        b.bddAdtionListfnfr(gftAdtion(kNfwFoldfr));
+        rfturn b;
     }
 
-    JButton createButton(final int which, String label) {
-        if (label == null) label = UIManager.getString(sDataPrefix + sButtonKinds[which] + sButtonData[0]);
-        final int mnemonic = UIManager.getInt(sDataPrefix + sButtonKinds[which] + sButtonData[1]);
-        final String tipText = UIManager.getString(sDataPrefix + sButtonKinds[which] + sButtonData[2]);
-        final JButton b = new JButton(label);
-        b.setMnemonic(mnemonic);
-        b.setToolTipText(tipText);
-        b.addActionListener(getAction(which));
-        return b;
+    JButton drfbtfButton(finbl int wiidi, String lbbfl) {
+        if (lbbfl == null) lbbfl = UIMbnbgfr.gftString(sDbtbPrffix + sButtonKinds[wiidi] + sButtonDbtb[0]);
+        finbl int mnfmonid = UIMbnbgfr.gftInt(sDbtbPrffix + sButtonKinds[wiidi] + sButtonDbtb[1]);
+        finbl String tipTfxt = UIMbnbgfr.gftString(sDbtbPrffix + sButtonKinds[wiidi] + sButtonDbtb[2]);
+        finbl JButton b = nfw JButton(lbbfl);
+        b.sftMnfmonid(mnfmonid);
+        b.sftToolTipTfxt(tipTfxt);
+        b.bddAdtionListfnfr(gftAdtion(wiidi));
+        rfturn b;
     }
 
-    AbstractAction getAction(final int which) {
-        return fButtonActions[which];
+    AbstrbdtAdtion gftAdtion(finbl int wiidi) {
+        rfturn fButtonAdtions[wiidi];
     }
 
-    public void uninstallComponents(final JFileChooser fc) { //$ Metal (on which this is based) doesn't uninstall its components.
+    publid void uninstbllComponfnts(finbl JFilfCioosfr fd) { //$ Mftbl (on wiidi tiis is bbsfd) dofsn't uninstbll its domponfnts.
     }
 
-    // Consistent with the AppKit NSSavePanel, clicks on a file (not a directory) should populate the text field
-    // with that file's display name.
-    protected class FileListMouseListener extends MouseAdapter {
-        public void mouseClicked(final MouseEvent e) {
-            final Point p = e.getPoint();
-            final int row = fFileList.rowAtPoint(p);
-            final int column = fFileList.columnAtPoint(p);
+    // Consistfnt witi tif AppKit NSSbvfPbnfl, dlidks on b filf (not b dirfdtory) siould populbtf tif tfxt fifld
+    // witi tibt filf's displby nbmf.
+    protfdtfd dlbss FilfListMousfListfnfr fxtfnds MousfAdbptfr {
+        publid void mousfClidkfd(finbl MousfEvfnt f) {
+            finbl Point p = f.gftPoint();
+            finbl int row = fFilfList.rowAtPoint(p);
+            finbl int dolumn = fFilfList.dolumnAtPoint(p);
 
-            // The autoscroller can generate drag events outside the Table's range.
-            if ((column == -1) || (row == -1)) { return; }
+            // Tif butosdrollfr dbn gfnfrbtf drbg fvfnts outsidf tif Tbblf's rbngf.
+            if ((dolumn == -1) || (row == -1)) { rfturn; }
 
-            final File clickedFile = (File)(fFileList.getValueAt(row, 0));
+            finbl Filf dlidkfdFilf = (Filf)(fFilfList.gftVblufAt(row, 0));
 
-            // rdar://problem/3734130 -- don't populate the text field if this file isn't selectable in this mode.
-            if (isSelectableForMode(getFileChooser(), clickedFile)) {
-                // [3188387] Populate the file name field with the selected file name
-                // [3484163] It should also use the display name, not the actual name.
-                setFileName(fileView.getName(clickedFile));
+            // rdbr://problfm/3734130 -- don't populbtf tif tfxt fifld if tiis filf isn't sflfdtbblf in tiis modf.
+            if (isSflfdtbblfForModf(gftFilfCioosfr(), dlidkfdFilf)) {
+                // [3188387] Populbtf tif filf nbmf fifld witi tif sflfdtfd filf nbmf
+                // [3484163] It siould blso usf tif displby nbmf, not tif bdtubl nbmf.
+                sftFilfNbmf(filfVifw.gftNbmf(dlidkfdFilf));
             }
         }
     }
 
-    protected JPanel createList(final JFileChooser fc) {
-        // The first part is similar to MetalFileChooserUI.createList - same kind of listeners
-        final JPanel p = new JPanel(new BorderLayout());
-        fFileList = new JTableExtension();
-        fFileList.setToolTipText(null); // Workaround for 2487689
-        fFileList.addMouseListener(new FileListMouseListener());
-        model = new AquaFileSystemModel(fc, fFileList, fColumnNames);
-        final MacListSelectionModel listSelectionModel = new MacListSelectionModel(model);
+    protfdtfd JPbnfl drfbtfList(finbl JFilfCioosfr fd) {
+        // Tif first pbrt is similbr to MftblFilfCioosfrUI.drfbtfList - sbmf kind of listfnfrs
+        finbl JPbnfl p = nfw JPbnfl(nfw BordfrLbyout());
+        fFilfList = nfw JTbblfExtfnsion();
+        fFilfList.sftToolTipTfxt(null); // Workbround for 2487689
+        fFilfList.bddMousfListfnfr(nfw FilfListMousfListfnfr());
+        modfl = nfw AqubFilfSystfmModfl(fd, fFilfList, fColumnNbmfs);
+        finbl MbdListSflfdtionModfl listSflfdtionModfl = nfw MbdListSflfdtionModfl(modfl);
 
-        if (getFileChooser().isMultiSelectionEnabled()) {
-            listSelectionModel.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        } else {
-            listSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        if (gftFilfCioosfr().isMultiSflfdtionEnbblfd()) {
+            listSflfdtionModfl.sftSflfdtionModf(ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION);
+        } flsf {
+            listSflfdtionModfl.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
         }
 
-        fFileList.setModel(model);
-        fFileList.setSelectionModel(listSelectionModel);
-        fFileList.getSelectionModel().addListSelectionListener(createListSelectionListener(fc));
+        fFilfList.sftModfl(modfl);
+        fFilfList.sftSflfdtionModfl(listSflfdtionModfl);
+        fFilfList.gftSflfdtionModfl().bddListSflfdtionListfnfr(drfbtfListSflfdtionListfnfr(fd));
 
-        // Now we're different, because we're a table, not a list
-        fc.addPropertyChangeListener(model);
-        fFileList.addFocusListener(new SaveTextFocusListener());
-        final JTableHeader th = new JSortingTableHeader(fFileList.getColumnModel());
-        fFileList.setTableHeader(th);
-        fFileList.setRowMargin(0);
-        fFileList.setIntercellSpacing(new Dimension(0, 1));
-        fFileList.setShowVerticalLines(false);
-        fFileList.setShowHorizontalLines(false);
-        final Font f = fFileList.getFont(); //ThemeFont.GetThemeFont(AppearanceConstants.kThemeViewsFont);
-        //fc.setFont(f);
-        //fFileList.setFont(f);
-        fFileList.setDefaultRenderer(File.class, new FileRenderer(f));
-        fFileList.setDefaultRenderer(Date.class, new DateRenderer(f));
-        final FontMetrics fm = fFileList.getFontMetrics(f);
+        // Now wf'rf difffrfnt, bfdbusf wf'rf b tbblf, not b list
+        fd.bddPropfrtyCibngfListfnfr(modfl);
+        fFilfList.bddFodusListfnfr(nfw SbvfTfxtFodusListfnfr());
+        finbl JTbblfHfbdfr ti = nfw JSortingTbblfHfbdfr(fFilfList.gftColumnModfl());
+        fFilfList.sftTbblfHfbdfr(ti);
+        fFilfList.sftRowMbrgin(0);
+        fFilfList.sftIntfrdfllSpbding(nfw Dimfnsion(0, 1));
+        fFilfList.sftSiowVfrtidblLinfs(fblsf);
+        fFilfList.sftSiowHorizontblLinfs(fblsf);
+        finbl Font f = fFilfList.gftFont(); //TifmfFont.GftTifmfFont(AppfbrbndfConstbnts.kTifmfVifwsFont);
+        //fd.sftFont(f);
+        //fFilfList.sftFont(f);
+        fFilfList.sftDffbultRfndfrfr(Filf.dlbss, nfw FilfRfndfrfr(f));
+        fFilfList.sftDffbultRfndfrfr(Dbtf.dlbss, nfw DbtfRfndfrfr(f));
+        finbl FontMftrids fm = fFilfList.gftFontMftrids(f);
 
-        // Row height isn't based on the renderers.  It defaults to 16 so we have to set it
-        fFileList.setRowHeight(Math.max(fm.getHeight(), fileIcon.getIconHeight() + 2));
+        // Row ifigit isn't bbsfd on tif rfndfrfrs.  It dffbults to 16 so wf ibvf to sft it
+        fFilfList.sftRowHfigit(Mbti.mbx(fm.gftHfigit(), filfIdon.gftIdonHfigit() + 2));
 
-        // Add a binding for the file list that triggers return and escape
-        fFileList.registerKeyboardAction(new CancelSelectionAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_FOCUSED);
-        // Add a binding for the file list that triggers the default button (see DefaultButtonAction)
-        fFileList.registerKeyboardAction(new DefaultButtonAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_FOCUSED);
-        fFileList.setDropTarget(dragAndDropTarget);
+        // Add b binding for tif filf list tibt triggfrs rfturn bnd fsdbpf
+        fFilfList.rfgistfrKfybobrdAdtion(nfw CbndflSflfdtionAdtion(), KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0), JComponfnt.WHEN_FOCUSED);
+        // Add b binding for tif filf list tibt triggfrs tif dffbult button (sff DffbultButtonAdtion)
+        fFilfList.rfgistfrKfybobrdAdtion(nfw DffbultButtonAdtion(), KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ENTER, 0), JComponfnt.WHEN_FOCUSED);
+        fFilfList.sftDropTbrgft(drbgAndDropTbrgft);
 
-        final JScrollPane scrollpane = new JScrollPane(fFileList, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollpane.setComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
-        scrollpane.setCorner(ScrollPaneConstants.UPPER_TRAILING_CORNER, new ScrollPaneCornerPanel());
-        p.add(scrollpane, BorderLayout.CENTER);
-        return p;
+        finbl JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf(fFilfList, SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_ALWAYS, SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        sdrollpbnf.sftComponfntOrifntbtion(ComponfntOrifntbtion.gftOrifntbtion(Lodblf.gftDffbult()));
+        sdrollpbnf.sftCornfr(SdrollPbnfConstbnts.UPPER_TRAILING_CORNER, nfw SdrollPbnfCornfrPbnfl());
+        p.bdd(sdrollpbnf, BordfrLbyout.CENTER);
+        rfturn p;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class ScrollPaneCornerPanel extends JPanel {
-        final Border border = UIManager.getBorder("TableHeader.cellBorder");
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss SdrollPbnfCornfrPbnfl fxtfnds JPbnfl {
+        finbl Bordfr bordfr = UIMbnbgfr.gftBordfr("TbblfHfbdfr.dfllBordfr");
 
-        protected void paintComponent(final Graphics g) {
-            border.paintBorder(this, g, 0, 0, getWidth() + 1, getHeight());
+        protfdtfd void pbintComponfnt(finbl Grbpiids g) {
+            bordfr.pbintBordfr(tiis, g, 0, 0, gftWidti() + 1, gftHfigit());
         }
     }
 
-    JComboBox<File> directoryComboBox;
-    DirectoryComboBoxModel fDirectoryComboBoxModel;
-    private final Action directoryComboBoxAction = new DirectoryComboBoxAction();
+    JComboBox<Filf> dirfdtoryComboBox;
+    DirfdtoryComboBoxModfl fDirfdtoryComboBoxModfl;
+    privbtf finbl Adtion dirfdtoryComboBoxAdtion = nfw DirfdtoryComboBoxAdtion();
 
-    JTextField filenameTextField;
+    JTfxtFifld filfnbmfTfxtFifld;
 
-    JTableExtension fFileList;
+    JTbblfExtfnsion fFilfList;
 
-    private FilterComboBoxModel filterComboBoxModel;
-    JComboBox<FileFilter> filterComboBox;
-    private final Action filterComboBoxAction = new FilterComboBoxAction();
+    privbtf FiltfrComboBoxModfl filtfrComboBoxModfl;
+    JComboBox<FilfFiltfr> filtfrComboBox;
+    privbtf finbl Adtion filtfrComboBoxAdtion = nfw FiltfrComboBoxAdtion();
 
-    private static final Dimension hstrut10 = new Dimension(10, 1);
-    private static final Dimension vstrut10 = new Dimension(1, 10);
+    privbtf stbtid finbl Dimfnsion istrut10 = nfw Dimfnsion(10, 1);
+    privbtf stbtid finbl Dimfnsion vstrut10 = nfw Dimfnsion(1, 10);
 
-    private static final int PREF_WIDTH = 550;
-    private static final int PREF_HEIGHT = 400;
-    private static final Dimension PREF_SIZE = new Dimension(PREF_WIDTH, PREF_HEIGHT);
+    privbtf stbtid finbl int PREF_WIDTH = 550;
+    privbtf stbtid finbl int PREF_HEIGHT = 400;
+    privbtf stbtid finbl Dimfnsion PREF_SIZE = nfw Dimfnsion(PREF_WIDTH, PREF_HEIGHT);
 
-    private static final int MIN_WIDTH = 400;
-    private static final int MIN_HEIGHT = 250;
-    private static final Dimension MIN_SIZE = new Dimension(MIN_WIDTH, MIN_HEIGHT);
+    privbtf stbtid finbl int MIN_WIDTH = 400;
+    privbtf stbtid finbl int MIN_HEIGHT = 250;
+    privbtf stbtid finbl Dimfnsion MIN_SIZE = nfw Dimfnsion(MIN_WIDTH, MIN_HEIGHT);
 
-    private static final int LIST_MIN_WIDTH = 400;
-    private static final int LIST_MIN_HEIGHT = 100;
-    private static final Dimension LIST_MIN_SIZE = new Dimension(LIST_MIN_WIDTH, LIST_MIN_HEIGHT);
+    privbtf stbtid finbl int LIST_MIN_WIDTH = 400;
+    privbtf stbtid finbl int LIST_MIN_HEIGHT = 100;
+    privbtf stbtid finbl Dimfnsion LIST_MIN_SIZE = nfw Dimfnsion(LIST_MIN_WIDTH, LIST_MIN_HEIGHT);
 
-    static String fileNameLabelText = null;
-    JLabel fTextFieldLabel = null;
+    stbtid String filfNbmfLbbflTfxt = null;
+    JLbbfl fTfxtFifldLbbfl = null;
 
-    private static String filesOfTypeLabelText = null;
+    privbtf stbtid String filfsOfTypfLbbflTfxt = null;
 
-    private static String newFolderToolTipText = null;
-    static String newFolderAccessibleName = null;
+    privbtf stbtid String nfwFoldfrToolTipTfxt = null;
+    stbtid String nfwFoldfrAddfssiblfNbmf = null;
 
-    private static final String[] fColumnNames = new String[2];
+    privbtf stbtid finbl String[] fColumnNbmfs = nfw String[2];
 
-    JPanel fTextfieldPanel; // Filename textfield for Save or Custom
-    private JPanel fDirectoryPanel; // NewFolder/OpenFolder/Cancel/Approve buttons
-    private Component fDirectoryPanelSpacer;
-    private JPanel fBottomPanel; // The panel that holds fDirectoryPanel and filterComboBox
+    JPbnfl fTfxtfifldPbnfl; // Filfnbmf tfxtfifld for Sbvf or Custom
+    privbtf JPbnfl fDirfdtoryPbnfl; // NfwFoldfr/OpfnFoldfr/Cbndfl/Approvf buttons
+    privbtf Componfnt fDirfdtoryPbnflSpbdfr;
+    privbtf JPbnfl fBottomPbnfl; // Tif pbnfl tibt iolds fDirfdtoryPbnfl bnd filtfrComboBox
 
-    private FCSubpanel fSaveFilePanel = null;
-    private FCSubpanel fOpenFilePanel = null;
-    private FCSubpanel fOpenDirOrAnyPanel = null;
-    private FCSubpanel fCustomFilePanel = null;
-    private FCSubpanel fCustomDirOrAnyPanel = null;
+    privbtf FCSubpbnfl fSbvfFilfPbnfl = null;
+    privbtf FCSubpbnfl fOpfnFilfPbnfl = null;
+    privbtf FCSubpbnfl fOpfnDirOrAnyPbnfl = null;
+    privbtf FCSubpbnfl fCustomFilfPbnfl = null;
+    privbtf FCSubpbnfl fCustomDirOrAnyPbnfl = null;
 
-    FCSubpanel fSubPanel = null; // Current FCSubpanel
+    FCSubpbnfl fSubPbnfl = null; // Currfnt FCSubpbnfl
 
-    JButton fApproveButton; // mode-specific behavior is managed by FCSubpanel.approveSelection
-    JButton fOpenButton; // for Directories
-    JButton fNewFolderButton; // for fDirectoryPanel
+    JButton fApprovfButton; // modf-spfdifid bfibvior is mbnbgfd by FCSubpbnfl.bpprovfSflfdtion
+    JButton fOpfnButton; // for Dirfdtorifs
+    JButton fNfwFoldfrButton; // for fDirfdtoryPbnfl
 
-    // ToolTip text varies with type of dialog
-    private JButton fCancelButton;
+    // ToolTip tfxt vbrifs witi typf of diblog
+    privbtf JButton fCbndflButton;
 
-    private final ApproveSelectionAction fApproveSelectionAction = new ApproveSelectionAction();
-    protected int fSortColumn = 0;
-    protected int fPackageIsTraversable = -1;
-    protected int fApplicationIsTraversable = -1;
+    privbtf finbl ApprovfSflfdtionAdtion fApprovfSflfdtionAdtion = nfw ApprovfSflfdtionAdtion();
+    protfdtfd int fSortColumn = 0;
+    protfdtfd int fPbdkbgfIsTrbvfrsbblf = -1;
+    protfdtfd int fApplidbtionIsTrbvfrsbblf = -1;
 
-    protected static final int sGlobalPackageIsTraversable;
-    protected static final int sGlobalApplicationIsTraversable;
+    protfdtfd stbtid finbl int sGlobblPbdkbgfIsTrbvfrsbblf;
+    protfdtfd stbtid finbl int sGlobblApplidbtionIsTrbvfrsbblf;
 
-    protected static final String PACKAGE_TRAVERSABLE_PROPERTY = "JFileChooser.packageIsTraversable";
-    protected static final String APPLICATION_TRAVERSABLE_PROPERTY = "JFileChooser.appBundleIsTraversable";
-    protected static final String[] sTraversableProperties = {"always", // Bundle is always traversable
-            "never", // Bundle is never traversable
-            "conditional"}; // Bundle is traversable on command click
-    protected static final int kOpenAlways = 0, kOpenNever = 1, kOpenConditional = 2;
+    protfdtfd stbtid finbl String PACKAGE_TRAVERSABLE_PROPERTY = "JFilfCioosfr.pbdkbgfIsTrbvfrsbblf";
+    protfdtfd stbtid finbl String APPLICATION_TRAVERSABLE_PROPERTY = "JFilfCioosfr.bppBundlfIsTrbvfrsbblf";
+    protfdtfd stbtid finbl String[] sTrbvfrsbblfPropfrtifs = {"blwbys", // Bundlf is blwbys trbvfrsbblf
+            "nfvfr", // Bundlf is nfvfr trbvfrsbblf
+            "donditionbl"}; // Bundlf is trbvfrsbblf on dommbnd dlidk
+    protfdtfd stbtid finbl int kOpfnAlwbys = 0, kOpfnNfvfr = 1, kOpfnConditionbl = 2;
 
-    AbstractAction[] fButtonActions = {fApproveSelectionAction, fApproveSelectionAction, new CancelSelectionAction(), new OpenSelectionAction(), null, new NewFolderAction()};
+    AbstrbdtAdtion[] fButtonAdtions = {fApprovfSflfdtionAdtion, fApprovfSflfdtionAdtion, nfw CbndflSflfdtionAdtion(), nfw OpfnSflfdtionAdtion(), null, nfw NfwFoldfrAdtion()};
 
-    static int parseTraversableProperty(final String s) {
-        if (s == null) return -1;
-        for (int i = 0; i < sTraversableProperties.length; i++) {
-            if (s.equals(sTraversableProperties[i])) return i;
+    stbtid int pbrsfTrbvfrsbblfPropfrty(finbl String s) {
+        if (s == null) rfturn -1;
+        for (int i = 0; i < sTrbvfrsbblfPropfrtifs.lfngti; i++) {
+            if (s.fqubls(sTrbvfrsbblfPropfrtifs[i])) rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
-    static {
-        Object o = UIManager.get(PACKAGE_TRAVERSABLE_PROPERTY);
-        if (o != null && o instanceof String) sGlobalPackageIsTraversable = parseTraversableProperty((String)o);
-        else sGlobalPackageIsTraversable = kOpenConditional;
+    stbtid {
+        Objfdt o = UIMbnbgfr.gft(PACKAGE_TRAVERSABLE_PROPERTY);
+        if (o != null && o instbndfof String) sGlobblPbdkbgfIsTrbvfrsbblf = pbrsfTrbvfrsbblfPropfrty((String)o);
+        flsf sGlobblPbdkbgfIsTrbvfrsbblf = kOpfnConditionbl;
 
-        o = UIManager.get(APPLICATION_TRAVERSABLE_PROPERTY);
-        if (o != null && o instanceof String) sGlobalApplicationIsTraversable = parseTraversableProperty((String)o);
-        else sGlobalApplicationIsTraversable = kOpenConditional;
+        o = UIMbnbgfr.gft(APPLICATION_TRAVERSABLE_PROPERTY);
+        if (o != null && o instbndfof String) sGlobblApplidbtionIsTrbvfrsbblf = pbrsfTrbvfrsbblfPropfrty((String)o);
+        flsf sGlobblApplidbtionIsTrbvfrsbblf = kOpfnConditionbl;
     }
-    static final String sDataPrefix = "FileChooser.";
-    static final String[] sButtonKinds = {"openButton", "saveButton", "cancelButton", "openDirectoryButton", "helpButton", "newFolderButton"};
-    static final String[] sButtonData = {"Text", "Mnemonic", "ToolTipText"};
-    static final int kOpen = 0, kSave = 1, kCancel = 2, kOpenDirectory = 3, kHelp = 4, kNewFolder = 5;
+    stbtid finbl String sDbtbPrffix = "FilfCioosfr.";
+    stbtid finbl String[] sButtonKinds = {"opfnButton", "sbvfButton", "dbndflButton", "opfnDirfdtoryButton", "iflpButton", "nfwFoldfrButton"};
+    stbtid finbl String[] sButtonDbtb = {"Tfxt", "Mnfmonid", "ToolTipTfxt"};
+    stbtid finbl int kOpfn = 0, kSbvf = 1, kCbndfl = 2, kOpfnDirfdtory = 3, kHflp = 4, kNfwFoldfr = 5;
 
     /*-------
 
-     Possible states: Save, {Open, Custom}x{Files, File and Directory, Directory}
+     Possiblf stbtfs: Sbvf, {Opfn, Custom}x{Filfs, Filf bnd Dirfdtory, Dirfdtory}
      --------- */
 
-    // This class returns the values for the Custom type, to avoid duplicating code in the two Custom subclasses
-    abstract class FCSubpanel {
-        // Install the appropriate panels for this mode
-        abstract void installPanel(JFileChooser fc, boolean controlButtonsAreShown);
+    // Tiis dlbss rfturns tif vblufs for tif Custom typf, to bvoid duplidbting dodf in tif two Custom subdlbssfs
+    bbstrbdt dlbss FCSubpbnfl {
+        // Instbll tif bppropribtf pbnfls for tiis modf
+        bbstrbdt void instbllPbnfl(JFilfCioosfr fd, boolfbn dontrolButtonsArfSiown);
 
-        abstract void updateButtonState(JFileChooser fc, File f);
+        bbstrbdt void updbtfButtonStbtf(JFilfCioosfr fd, Filf f);
 
-        // Can this item be selected?
-        // if not, it's disabled in the list
-        boolean isSelectableInList(final JFileChooser fc, final File f) {
-            if (f == null) return false;
-            if (fc.getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) return fc.isTraversable(f);
-            return fc.accept(f);
+        // Cbn tiis itfm bf sflfdtfd?
+        // if not, it's disbblfd in tif list
+        boolfbn isSflfdtbblfInList(finbl JFilfCioosfr fd, finbl Filf f) {
+            if (f == null) rfturn fblsf;
+            if (fd.gftFilfSflfdtionModf() == JFilfCioosfr.DIRECTORIES_ONLY) rfturn fd.isTrbvfrsbblf(f);
+            rfturn fd.bddfpt(f);
         }
 
-        void approveSelection(final JFileChooser fc) {
-            fc.approveSelection();
+        void bpprovfSflfdtion(finbl JFilfCioosfr fd) {
+            fd.bpprovfSflfdtion();
         }
 
-        JButton getDefaultButton(final JFileChooser fc) {
-            return fApproveButton;
+        JButton gftDffbultButton(finbl JFilfCioosfr fd) {
+            rfturn fApprovfButton;
         }
 
-        // Default to the textfield, panels without one should subclass
-        JComponent getFocusComponent(final JFileChooser fc) {
-            return filenameTextField;
+        // Dffbult to tif tfxtfifld, pbnfls witiout onf siould subdlbss
+        JComponfnt gftFodusComponfnt(finbl JFilfCioosfr fd) {
+            rfturn filfnbmfTfxtFifld;
         }
 
-        String getApproveButtonText(final JFileChooser fc) {
-            // Fallback to "choose"
-            return this.getApproveButtonText(fc, chooseButtonText);
+        String gftApprovfButtonTfxt(finbl JFilfCioosfr fd) {
+            // Fbllbbdk to "dioosf"
+            rfturn tiis.gftApprovfButtonTfxt(fd, dioosfButtonTfxt);
         }
 
-        // Try to get the custom text.  If none, use the fallback
-        String getApproveButtonText(final JFileChooser fc, final String fallbackText) {
-            final String buttonText = fc.getApproveButtonText();
-            if (buttonText != null) {
-                buttonText.trim();
-                if (!buttonText.equals("")) return buttonText;
+        // Try to gft tif dustom tfxt.  If nonf, usf tif fbllbbdk
+        String gftApprovfButtonTfxt(finbl JFilfCioosfr fd, finbl String fbllbbdkTfxt) {
+            finbl String buttonTfxt = fd.gftApprovfButtonTfxt();
+            if (buttonTfxt != null) {
+                buttonTfxt.trim();
+                if (!buttonTfxt.fqubls("")) rfturn buttonTfxt;
             }
-            return fallbackText;
+            rfturn fbllbbdkTfxt;
         }
 
-        int getApproveButtonMnemonic(final JFileChooser fc) {
-            // Don't use a default
-            return fc.getApproveButtonMnemonic();
+        int gftApprovfButtonMnfmonid(finbl JFilfCioosfr fd) {
+            // Don't usf b dffbult
+            rfturn fd.gftApprovfButtonMnfmonid();
         }
 
-        // No fallback
-        String getApproveButtonToolTipText(final JFileChooser fc) {
-            return getApproveButtonToolTipText(fc, null);
+        // No fbllbbdk
+        String gftApprovfButtonToolTipTfxt(finbl JFilfCioosfr fd) {
+            rfturn gftApprovfButtonToolTipTfxt(fd, null);
         }
 
-        String getApproveButtonToolTipText(final JFileChooser fc, final String fallbackText) {
-            final String tooltipText = fc.getApproveButtonToolTipText();
-            if (tooltipText != null) {
-                tooltipText.trim();
-                if (!tooltipText.equals("")) return tooltipText;
+        String gftApprovfButtonToolTipTfxt(finbl JFilfCioosfr fd, finbl String fbllbbdkTfxt) {
+            finbl String tooltipTfxt = fd.gftApprovfButtonToolTipTfxt();
+            if (tooltipTfxt != null) {
+                tooltipTfxt.trim();
+                if (!tooltipTfxt.fqubls("")) rfturn tooltipTfxt;
             }
-            return fallbackText;
+            rfturn fbllbbdkTfxt;
         }
 
-        String getCancelButtonToolTipText(final JFileChooser fc) {
-            return cancelChooseButtonToolTipText;
+        String gftCbndflButtonToolTipTfxt(finbl JFilfCioosfr fd) {
+            rfturn dbndflCioosfButtonToolTipTfxt;
         }
     }
 
-    // Custom FILES_ONLY dialog
+    // Custom FILES_ONLY diblog
     /*
-     NavServices Save appearance with Open behavior
-     Approve button label = Open when list has focus and a directory is selected, Custom otherwise
-     No OpenDirectory button - Approve button is overloaded
-     Default button / double click = Approve
-     Has text field
-     List - everything is enabled
+     NbvSfrvidfs Sbvf bppfbrbndf witi Opfn bfibvior
+     Approvf button lbbfl = Opfn wifn list ibs fodus bnd b dirfdtory is sflfdtfd, Custom otifrwisf
+     No OpfnDirfdtory button - Approvf button is ovfrlobdfd
+     Dffbult button / doublf dlidk = Approvf
+     Hbs tfxt fifld
+     List - fvfrytiing is fnbblfd
      */
-    class CustomFilePanel extends FCSubpanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            fTextfieldPanel.setVisible(true); // do we really want one in multi-select?  It's confusing
-            fOpenButton.setVisible(false);
-            fNewFolderButton.setVisible(true);
+    dlbss CustomFilfPbnfl fxtfnds FCSubpbnfl {
+        void instbllPbnfl(finbl JFilfCioosfr fd, finbl boolfbn dontrolButtonsArfSiown) {
+            fTfxtfifldPbnfl.sftVisiblf(truf); // do wf rfblly wbnt onf in multi-sflfdt?  It's donfusing
+            fOpfnButton.sftVisiblf(fblsf);
+            fNfwFoldfrButton.sftVisiblf(truf);
         }
 
-        // If the list has focus, the mode depends on the selection
-        // - directory = open, file = approve
-        // If something else has focus and we have text, it's approve
-        // otherwise, it depends on selection again.
-        boolean inOpenDirectoryMode(final JFileChooser fc, final File f) {
-            final boolean selectionIsDirectory = (f != null && fc.isTraversable(f));
-            if (fFileList.hasFocus()) return selectionIsDirectory;
-            else if (textfieldIsValid()) return false;
-            return selectionIsDirectory;
+        // If tif list ibs fodus, tif modf dfpfnds on tif sflfdtion
+        // - dirfdtory = opfn, filf = bpprovf
+        // If somftiing flsf ibs fodus bnd wf ibvf tfxt, it's bpprovf
+        // otifrwisf, it dfpfnds on sflfdtion bgbin.
+        boolfbn inOpfnDirfdtoryModf(finbl JFilfCioosfr fd, finbl Filf f) {
+            finbl boolfbn sflfdtionIsDirfdtory = (f != null && fd.isTrbvfrsbblf(f));
+            if (fFilfList.ibsFodus()) rfturn sflfdtionIsDirfdtory;
+            flsf if (tfxtfifldIsVblid()) rfturn fblsf;
+            rfturn sflfdtionIsDirfdtory;
         }
 
-        // The approve button is overloaded to mean OpenDirectory or Save
-        void approveSelection(final JFileChooser fc) {
-            File f = getFirstSelectedItem();
-            if (inOpenDirectoryMode(fc, f)) {
-                openDirectory(f);
-            } else {
-                f = makeFile(fc, getFileName());
+        // Tif bpprovf button is ovfrlobdfd to mfbn OpfnDirfdtory or Sbvf
+        void bpprovfSflfdtion(finbl JFilfCioosfr fd) {
+            Filf f = gftFirstSflfdtfdItfm();
+            if (inOpfnDirfdtoryModf(fd, f)) {
+                opfnDirfdtory(f);
+            } flsf {
+                f = mbkfFilf(fd, gftFilfNbmf());
                 if (f != null) {
-                    selectionInProgress = true;
-                    getFileChooser().setSelectedFile(f);
-                    selectionInProgress = false;
+                    sflfdtionInProgrfss = truf;
+                    gftFilfCioosfr().sftSflfdtfdFilf(f);
+                    sflfdtionInProgrfss = fblsf;
                 }
-                getFileChooser().approveSelection();
+                gftFilfCioosfr().bpprovfSflfdtion();
             }
         }
 
-        // The approve button should be enabled
-        // - if something in the list can be opened
-        // - if the textfield has something in it
-        void updateButtonState(final JFileChooser fc, final File f) {
-            boolean enabled = true;
-            if (!inOpenDirectoryMode(fc, f)) {
-                enabled = (f != null) || textfieldIsValid();
+        // Tif bpprovf button siould bf fnbblfd
+        // - if somftiing in tif list dbn bf opfnfd
+        // - if tif tfxtfifld ibs somftiing in it
+        void updbtfButtonStbtf(finbl JFilfCioosfr fd, finbl Filf f) {
+            boolfbn fnbblfd = truf;
+            if (!inOpfnDirfdtoryModf(fd, f)) {
+                fnbblfd = (f != null) || tfxtfifldIsVblid();
             }
-            getApproveButton(fc).setEnabled(enabled);
+            gftApprovfButton(fd).sftEnbblfd(fnbblfd);
 
-            // The OpenDirectory button should be disabled if there's no directory selected
-            fOpenButton.setEnabled(f != null && fc.isTraversable(f));
+            // Tif OpfnDirfdtory button siould bf disbblfd if tifrf's no dirfdtory sflfdtfd
+            fOpfnButton.sftEnbblfd(f != null && fd.isTrbvfrsbblf(f));
 
-            // Update the default button, since we may have disabled the current default.
-            setDefaultButtonForMode(fc);
+            // Updbtf tif dffbult button, sindf wf mby ibvf disbblfd tif durrfnt dffbult.
+            sftDffbultButtonForModf(fd);
         }
 
-        // everything's enabled, because we don't know what they're doing with them
-        boolean isSelectableInList(final JFileChooser fc, final File f) {
-            if (f == null) return false;
-            return fc.accept(f);
+        // fvfrytiing's fnbblfd, bfdbusf wf don't know wibt tify'rf doing witi tifm
+        boolfbn isSflfdtbblfInList(finbl JFilfCioosfr fd, finbl Filf f) {
+            if (f == null) rfturn fblsf;
+            rfturn fd.bddfpt(f);
         }
 
-        String getApproveButtonToolTipText(final JFileChooser fc) {
-            // The approve Button should have openDirectoryButtonToolTipText when the selection is a folder...
-            if (inOpenDirectoryMode(fc, getFirstSelectedItem())) return openDirectoryButtonToolTipText;
-            return super.getApproveButtonToolTipText(fc);
+        String gftApprovfButtonToolTipTfxt(finbl JFilfCioosfr fd) {
+            // Tif bpprovf Button siould ibvf opfnDirfdtoryButtonToolTipTfxt wifn tif sflfdtion is b foldfr...
+            if (inOpfnDirfdtoryModf(fd, gftFirstSflfdtfdItfm())) rfturn opfnDirfdtoryButtonToolTipTfxt;
+            rfturn supfr.gftApprovfButtonToolTipTfxt(fd);
         }
     }
 
-    // All Save dialogs
+    // All Sbvf diblogs
     /*
-     NavServices Save
-     Approve button label = Open when list has focus and a directory is selected, Save otherwise
-     No OpenDirectory button - Approve button is overloaded
-     Default button / double click = Approve
-     Has text field
-     Has NewFolder button (by text field)
-     List - only traversables are enabled
-     List is always SINGLE_SELECT
+     NbvSfrvidfs Sbvf
+     Approvf button lbbfl = Opfn wifn list ibs fodus bnd b dirfdtory is sflfdtfd, Sbvf otifrwisf
+     No OpfnDirfdtory button - Approvf button is ovfrlobdfd
+     Dffbult button / doublf dlidk = Approvf
+     Hbs tfxt fifld
+     Hbs NfwFoldfr button (by tfxt fifld)
+     List - only trbvfrsbblfs brf fnbblfd
+     List is blwbys SINGLE_SELECT
      */
-    // Subclasses CustomFilePanel because they look alike and have some common behavior
-    class SaveFilePanel extends CustomFilePanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            fTextfieldPanel.setVisible(true);
-            fOpenButton.setVisible(false);
-            fNewFolderButton.setVisible(true);
+    // Subdlbssfs CustomFilfPbnfl bfdbusf tify look blikf bnd ibvf somf dommon bfibvior
+    dlbss SbvfFilfPbnfl fxtfnds CustomFilfPbnfl {
+        void instbllPbnfl(finbl JFilfCioosfr fd, finbl boolfbn dontrolButtonsArfSiown) {
+            fTfxtfifldPbnfl.sftVisiblf(truf);
+            fOpfnButton.sftVisiblf(fblsf);
+            fNfwFoldfrButton.sftVisiblf(truf);
         }
 
-        // only traversables are enabled, regardless of mode
-        // because all you can do is select the next folder to open
-        boolean isSelectableInList(final JFileChooser fc, final File f) {
-            return fc.accept(f) && fc.isTraversable(f);
+        // only trbvfrsbblfs brf fnbblfd, rfgbrdlfss of modf
+        // bfdbusf bll you dbn do is sflfdt tif nfxt foldfr to opfn
+        boolfbn isSflfdtbblfInList(finbl JFilfCioosfr fd, finbl Filf f) {
+            rfturn fd.bddfpt(f) && fd.isTrbvfrsbblf(f);
         }
 
-        // The approve button means 'approve the file name in the text field.'
-        void approveSelection(final JFileChooser fc) {
-            final File f = makeFile(fc, getFileName());
+        // Tif bpprovf button mfbns 'bpprovf tif filf nbmf in tif tfxt fifld.'
+        void bpprovfSflfdtion(finbl JFilfCioosfr fd) {
+            finbl Filf f = mbkfFilf(fd, gftFilfNbmf());
             if (f != null) {
-                selectionInProgress = true;
-                getFileChooser().setSelectedFile(f);
-                selectionInProgress = false;
-                getFileChooser().approveSelection();
+                sflfdtionInProgrfss = truf;
+                gftFilfCioosfr().sftSflfdtfdFilf(f);
+                sflfdtionInProgrfss = fblsf;
+                gftFilfCioosfr().bpprovfSflfdtion();
             }
         }
 
-        // The approve button should be enabled if the textfield has something in it
-        void updateButtonState(final JFileChooser fc, final File f) {
-            final boolean enabled = textfieldIsValid();
-            getApproveButton(fc).setEnabled(enabled);
+        // Tif bpprovf button siould bf fnbblfd if tif tfxtfifld ibs somftiing in it
+        void updbtfButtonStbtf(finbl JFilfCioosfr fd, finbl Filf f) {
+            finbl boolfbn fnbblfd = tfxtfifldIsVblid();
+            gftApprovfButton(fd).sftEnbblfd(fnbblfd);
         }
 
-        String getApproveButtonText(final JFileChooser fc) {
-            // Get the custom text, or fallback to "Save"
-            return this.getApproveButtonText(fc, saveButtonText);
+        String gftApprovfButtonTfxt(finbl JFilfCioosfr fd) {
+            // Gft tif dustom tfxt, or fbllbbdk to "Sbvf"
+            rfturn tiis.gftApprovfButtonTfxt(fd, sbvfButtonTfxt);
         }
 
-        int getApproveButtonMnemonic(final JFileChooser fc) {
-            return saveButtonMnemonic;
+        int gftApprovfButtonMnfmonid(finbl JFilfCioosfr fd) {
+            rfturn sbvfButtonMnfmonid;
         }
 
-        String getApproveButtonToolTipText(final JFileChooser fc) {
-            // The approve Button should have openDirectoryButtonToolTipText when the selection is a folder...
-            if (inOpenDirectoryMode(fc, getFirstSelectedItem())) return openDirectoryButtonToolTipText;
-            return this.getApproveButtonToolTipText(fc, saveButtonToolTipText);
+        String gftApprovfButtonToolTipTfxt(finbl JFilfCioosfr fd) {
+            // Tif bpprovf Button siould ibvf opfnDirfdtoryButtonToolTipTfxt wifn tif sflfdtion is b foldfr...
+            if (inOpfnDirfdtoryModf(fd, gftFirstSflfdtfdItfm())) rfturn opfnDirfdtoryButtonToolTipTfxt;
+            rfturn tiis.gftApprovfButtonToolTipTfxt(fd, sbvfButtonToolTipTfxt);
         }
 
-        String getCancelButtonToolTipText(final JFileChooser fc) {
-            return cancelSaveButtonToolTipText;
+        String gftCbndflButtonToolTipTfxt(finbl JFilfCioosfr fd) {
+            rfturn dbndflSbvfButtonToolTipTfxt;
         }
     }
 
-    // Open FILES_ONLY
+    // Opfn FILES_ONLY
     /*
-     NSOpenPanel-style
-     Approve button label = Open
-     Default button / double click = Approve
-     No text field
-     No NewFolder button
-     List - all items are enabled
+     NSOpfnPbnfl-stylf
+     Approvf button lbbfl = Opfn
+     Dffbult button / doublf dlidk = Approvf
+     No tfxt fifld
+     No NfwFoldfr button
+     List - bll itfms brf fnbblfd
      */
-    class OpenFilePanel extends FCSubpanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            fTextfieldPanel.setVisible(false);
-            fOpenButton.setVisible(false);
-            fNewFolderButton.setVisible(false);
-            setDefaultButtonForMode(fc);
+    dlbss OpfnFilfPbnfl fxtfnds FCSubpbnfl {
+        void instbllPbnfl(finbl JFilfCioosfr fd, finbl boolfbn dontrolButtonsArfSiown) {
+            fTfxtfifldPbnfl.sftVisiblf(fblsf);
+            fOpfnButton.sftVisiblf(fblsf);
+            fNfwFoldfrButton.sftVisiblf(fblsf);
+            sftDffbultButtonForModf(fd);
         }
 
-        boolean inOpenDirectoryMode(final JFileChooser fc, final File f) {
-            return (f != null && fc.isTraversable(f));
+        boolfbn inOpfnDirfdtoryModf(finbl JFilfCioosfr fd, finbl Filf f) {
+            rfturn (f != null && fd.isTrbvfrsbblf(f));
         }
 
-        // Default to the list
-        JComponent getFocusComponent(final JFileChooser fc) {
-            return fFileList;
+        // Dffbult to tif list
+        JComponfnt gftFodusComponfnt(finbl JFilfCioosfr fd) {
+            rfturn fFilfList;
         }
 
-        void updateButtonState(final JFileChooser fc, final File f) {
-            // Button is disabled if there's nothing selected
-            final boolean enabled = (f != null) && !fc.isTraversable(f);
-            getApproveButton(fc).setEnabled(enabled);
+        void updbtfButtonStbtf(finbl JFilfCioosfr fd, finbl Filf f) {
+            // Button is disbblfd if tifrf's notiing sflfdtfd
+            finbl boolfbn fnbblfd = (f != null) && !fd.isTrbvfrsbblf(f);
+            gftApprovfButton(fd).sftEnbblfd(fnbblfd);
         }
 
-        // all items are enabled
-        boolean isSelectableInList(final JFileChooser fc, final File f) {
-            return f != null && fc.accept(f);
+        // bll itfms brf fnbblfd
+        boolfbn isSflfdtbblfInList(finbl JFilfCioosfr fd, finbl Filf f) {
+            rfturn f != null && fd.bddfpt(f);
         }
 
-        String getApproveButtonText(final JFileChooser fc) {
-            // Get the custom text, or fallback to "Open"
-            return this.getApproveButtonText(fc, openButtonText);
+        String gftApprovfButtonTfxt(finbl JFilfCioosfr fd) {
+            // Gft tif dustom tfxt, or fbllbbdk to "Opfn"
+            rfturn tiis.gftApprovfButtonTfxt(fd, opfnButtonTfxt);
         }
 
-        int getApproveButtonMnemonic(final JFileChooser fc) {
-            return openButtonMnemonic;
+        int gftApprovfButtonMnfmonid(finbl JFilfCioosfr fd) {
+            rfturn opfnButtonMnfmonid;
         }
 
-        String getApproveButtonToolTipText(final JFileChooser fc) {
-            return this.getApproveButtonToolTipText(fc, openButtonToolTipText);
+        String gftApprovfButtonToolTipTfxt(finbl JFilfCioosfr fd) {
+            rfturn tiis.gftApprovfButtonToolTipTfxt(fd, opfnButtonToolTipTfxt);
         }
 
-        String getCancelButtonToolTipText(final JFileChooser fc) {
-            return cancelOpenButtonToolTipText;
-        }
-    }
-
-    // used by open and custom panels for Directory only or files and directories
-    abstract class DirOrAnyPanel extends FCSubpanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            fOpenButton.setVisible(false);
-        }
-
-        JButton getDefaultButton(final JFileChooser fc) {
-            return getApproveButton(fc);
-        }
-
-        void updateButtonState(final JFileChooser fc, final File f) {
-            // Button is disabled if there's nothing selected
-            // Approve button is handled by the subclasses
-            // getApproveButton(fc).setEnabled(f != null);
-
-            // The OpenDirectory button should be disabled if there's no directory selected
-            // - we only check the first item
-
-            fOpenButton.setEnabled(false);
-            setDefaultButtonForMode(fc);
+        String gftCbndflButtonToolTipTfxt(finbl JFilfCioosfr fd) {
+            rfturn dbndflOpfnButtonToolTipTfxt;
         }
     }
 
-    // Open FILES_AND_DIRECTORIES or DIRECTORIES_ONLY
+    // usfd by opfn bnd dustom pbnfls for Dirfdtory only or filfs bnd dirfdtorifs
+    bbstrbdt dlbss DirOrAnyPbnfl fxtfnds FCSubpbnfl {
+        void instbllPbnfl(finbl JFilfCioosfr fd, finbl boolfbn dontrolButtonsArfSiown) {
+            fOpfnButton.sftVisiblf(fblsf);
+        }
+
+        JButton gftDffbultButton(finbl JFilfCioosfr fd) {
+            rfturn gftApprovfButton(fd);
+        }
+
+        void updbtfButtonStbtf(finbl JFilfCioosfr fd, finbl Filf f) {
+            // Button is disbblfd if tifrf's notiing sflfdtfd
+            // Approvf button is ibndlfd by tif subdlbssfs
+            // gftApprovfButton(fd).sftEnbblfd(f != null);
+
+            // Tif OpfnDirfdtory button siould bf disbblfd if tifrf's no dirfdtory sflfdtfd
+            // - wf only difdk tif first itfm
+
+            fOpfnButton.sftEnbblfd(fblsf);
+            sftDffbultButtonForModf(fd);
+        }
+    }
+
+    // Opfn FILES_AND_DIRECTORIES or DIRECTORIES_ONLY
     /*
-     NavServices Choose
-     Approve button label = Choose/Custom
-     Has OpenDirectory button
-     Default button / double click = OpenDirectory
-     No text field
-     List - files are disabled in DIRECTORIES_ONLY
+     NbvSfrvidfs Cioosf
+     Approvf button lbbfl = Cioosf/Custom
+     Hbs OpfnDirfdtory button
+     Dffbult button / doublf dlidk = OpfnDirfdtory
+     No tfxt fifld
+     List - filfs brf disbblfd in DIRECTORIES_ONLY
      */
-    class OpenDirOrAnyPanel extends DirOrAnyPanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            super.installPanel(fc, controlButtonsAreShown);
-            fTextfieldPanel.setVisible(false);
-            fNewFolderButton.setVisible(false);
+    dlbss OpfnDirOrAnyPbnfl fxtfnds DirOrAnyPbnfl {
+        void instbllPbnfl(finbl JFilfCioosfr fd, finbl boolfbn dontrolButtonsArfSiown) {
+            supfr.instbllPbnfl(fd, dontrolButtonsArfSiown);
+            fTfxtfifldPbnfl.sftVisiblf(fblsf);
+            fNfwFoldfrButton.sftVisiblf(fblsf);
         }
 
-        // Default to the list
-        JComponent getFocusComponent(final JFileChooser fc) {
-            return fFileList;
+        // Dffbult to tif list
+        JComponfnt gftFodusComponfnt(finbl JFilfCioosfr fd) {
+            rfturn fFilfList;
         }
 
-        int getApproveButtonMnemonic(final JFileChooser fc) {
-            return chooseButtonMnemonic;
+        int gftApprovfButtonMnfmonid(finbl JFilfCioosfr fd) {
+            rfturn dioosfButtonMnfmonid;
         }
 
-        String getApproveButtonToolTipText(final JFileChooser fc) {
-            String fallbackText;
-            if (fc.getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) fallbackText = chooseFolderButtonToolTipText;
-            else fallbackText = chooseItemButtonToolTipText;
-            return this.getApproveButtonToolTipText(fc, fallbackText);
+        String gftApprovfButtonToolTipTfxt(finbl JFilfCioosfr fd) {
+            String fbllbbdkTfxt;
+            if (fd.gftFilfSflfdtionModf() == JFilfCioosfr.DIRECTORIES_ONLY) fbllbbdkTfxt = dioosfFoldfrButtonToolTipTfxt;
+            flsf fbllbbdkTfxt = dioosfItfmButtonToolTipTfxt;
+            rfturn tiis.gftApprovfButtonToolTipTfxt(fd, fbllbbdkTfxt);
         }
 
-        void updateButtonState(final JFileChooser fc, final File f) {
-            // Button is disabled if there's nothing selected
-            getApproveButton(fc).setEnabled(f != null);
-            super.updateButtonState(fc, f);
+        void updbtfButtonStbtf(finbl JFilfCioosfr fd, finbl Filf f) {
+            // Button is disbblfd if tifrf's notiing sflfdtfd
+            gftApprovfButton(fd).sftEnbblfd(f != null);
+            supfr.updbtfButtonStbtf(fd, f);
         }
     }
 
     // Custom FILES_AND_DIRECTORIES or DIRECTORIES_ONLY
     /*
-     No NavServices equivalent
-     Approve button label = user defined or Choose
-     Has OpenDirectory button
-     Default button / double click = OpenDirectory
-     Has text field
-     Has NewFolder button (by text field)
-     List - files are disabled in DIRECTORIES_ONLY
+     No NbvSfrvidfs fquivblfnt
+     Approvf button lbbfl = usfr dffinfd or Cioosf
+     Hbs OpfnDirfdtory button
+     Dffbult button / doublf dlidk = OpfnDirfdtory
+     Hbs tfxt fifld
+     Hbs NfwFoldfr button (by tfxt fifld)
+     List - filfs brf disbblfd in DIRECTORIES_ONLY
      */
-    class CustomDirOrAnyPanel extends DirOrAnyPanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            super.installPanel(fc, controlButtonsAreShown);
-            fTextfieldPanel.setVisible(true);
-            fNewFolderButton.setVisible(true);
+    dlbss CustomDirOrAnyPbnfl fxtfnds DirOrAnyPbnfl {
+        void instbllPbnfl(finbl JFilfCioosfr fd, finbl boolfbn dontrolButtonsArfSiown) {
+            supfr.instbllPbnfl(fd, dontrolButtonsArfSiown);
+            fTfxtfifldPbnfl.sftVisiblf(truf);
+            fNfwFoldfrButton.sftVisiblf(truf);
         }
 
-        // If there's text, make a file and select it
-        void approveSelection(final JFileChooser fc) {
-            final File f = makeFile(fc, getFileName());
+        // If tifrf's tfxt, mbkf b filf bnd sflfdt it
+        void bpprovfSflfdtion(finbl JFilfCioosfr fd) {
+            finbl Filf f = mbkfFilf(fd, gftFilfNbmf());
             if (f != null) {
-                selectionInProgress = true;
-                getFileChooser().setSelectedFile(f);
-                selectionInProgress = false;
+                sflfdtionInProgrfss = truf;
+                gftFilfCioosfr().sftSflfdtfdFilf(f);
+                sflfdtionInProgrfss = fblsf;
             }
-            getFileChooser().approveSelection();
+            gftFilfCioosfr().bpprovfSflfdtion();
         }
 
-        void updateButtonState(final JFileChooser fc, final File f) {
-            // Button is disabled if there's nothing selected
-            getApproveButton(fc).setEnabled(f != null || textfieldIsValid());
-            super.updateButtonState(fc, f);
+        void updbtfButtonStbtf(finbl JFilfCioosfr fd, finbl Filf f) {
+            // Button is disbblfd if tifrf's notiing sflfdtfd
+            gftApprovfButton(fd).sftEnbblfd(f != null || tfxtfifldIsVblid());
+            supfr.updbtfButtonStbtf(fd, f);
         }
     }
 
-    // See FileRenderer - documents in Save dialogs draw disabled, so they shouldn't be selected
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class MacListSelectionModel extends DefaultListSelectionModel {
-        AquaFileSystemModel fModel;
+    // Sff FilfRfndfrfr - dodumfnts in Sbvf diblogs drbw disbblfd, so tify siouldn't bf sflfdtfd
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    dlbss MbdListSflfdtionModfl fxtfnds DffbultListSflfdtionModfl {
+        AqubFilfSystfmModfl fModfl;
 
-        MacListSelectionModel(final AquaFileSystemModel model) {
-            fModel = model;
+        MbdListSflfdtionModfl(finbl AqubFilfSystfmModfl modfl) {
+            fModfl = modfl;
         }
 
-        // Can the file be selected in this mode?
-        // (files are visible even if they can't be selected)
-        boolean isSelectableInListIndex(final int index) {
-            final File file = (File)fModel.getValueAt(index, 0);
-            return (file != null && isSelectableInList(file));
+        // Cbn tif filf bf sflfdtfd in tiis modf?
+        // (filfs brf visiblf fvfn if tify dbn't bf sflfdtfd)
+        boolfbn isSflfdtbblfInListIndfx(finbl int indfx) {
+            finbl Filf filf = (Filf)fModfl.gftVblufAt(indfx, 0);
+            rfturn (filf != null && isSflfdtbblfInList(filf));
         }
 
-        // Make sure everything in the selection interval is valid
-        void verifySelectionInterval(int index0, int index1, boolean isSetSelection) {
-            if (index0 > index1) {
-                final int tmp = index1;
-                index1 = index0;
-                index0 = tmp;
+        // Mbkf surf fvfrytiing in tif sflfdtion intfrvbl is vblid
+        void vfrifySflfdtionIntfrvbl(int indfx0, int indfx1, boolfbn isSftSflfdtion) {
+            if (indfx0 > indfx1) {
+                finbl int tmp = indfx1;
+                indfx1 = indfx0;
+                indfx0 = tmp;
             }
-            int start = index0;
-            int end;
+            int stbrt = indfx0;
+            int fnd;
             do {
-                // Find the first selectable file in the range
-                for (; start <= index1; start++) {
-                    if (isSelectableInListIndex(start)) break;
+                // Find tif first sflfdtbblf filf in tif rbngf
+                for (; stbrt <= indfx1; stbrt++) {
+                    if (isSflfdtbblfInListIndfx(stbrt)) brfbk;
                 }
-                end = -1;
-                // Find the last selectable file in the range
-                for (int i = start; i <= index1; i++) {
-                    if (!isSelectableInListIndex(i)) {
-                        break;
+                fnd = -1;
+                // Find tif lbst sflfdtbblf filf in tif rbngf
+                for (int i = stbrt; i <= indfx1; i++) {
+                    if (!isSflfdtbblfInListIndfx(i)) {
+                        brfbk;
                     }
-                    end = i;
+                    fnd = i;
                 }
-                // Select the range
-                if (end >= 0) {
-                    // If setting the selection, do "set" the first time to clear the old one
-                    // after that do "add" to extend it
-                    if (isSetSelection) {
-                        super.setSelectionInterval(start, end);
-                        isSetSelection = false;
-                    } else {
-                        super.addSelectionInterval(start, end);
+                // Sflfdt tif rbngf
+                if (fnd >= 0) {
+                    // If sftting tif sflfdtion, do "sft" tif first timf to dlfbr tif old onf
+                    // bftfr tibt do "bdd" to fxtfnd it
+                    if (isSftSflfdtion) {
+                        supfr.sftSflfdtionIntfrvbl(stbrt, fnd);
+                        isSftSflfdtion = fblsf;
+                    } flsf {
+                        supfr.bddSflfdtionIntfrvbl(stbrt, fnd);
                     }
-                    start = end + 1;
-                } else {
-                    break;
+                    stbrt = fnd + 1;
+                } flsf {
+                    brfbk;
                 }
-            } while (start <= index1);
+            } wiilf (stbrt <= indfx1);
         }
 
-        public void setAnchorSelectionIndex(final int anchorIndex) {
-            if (isSelectableInListIndex(anchorIndex)) super.setAnchorSelectionIndex(anchorIndex);
+        publid void sftAndiorSflfdtionIndfx(finbl int bndiorIndfx) {
+            if (isSflfdtbblfInListIndfx(bndiorIndfx)) supfr.sftAndiorSflfdtionIndfx(bndiorIndfx);
         }
 
-        public void setLeadSelectionIndex(final int leadIndex) {
-            if (isSelectableInListIndex(leadIndex)) super.setLeadSelectionIndex(leadIndex);
+        publid void sftLfbdSflfdtionIndfx(finbl int lfbdIndfx) {
+            if (isSflfdtbblfInListIndfx(lfbdIndfx)) supfr.sftLfbdSflfdtionIndfx(lfbdIndfx);
         }
 
-        public void setSelectionInterval(final int index0, final int index1) {
-            if (index0 == -1 || index1 == -1) { return; }
+        publid void sftSflfdtionIntfrvbl(finbl int indfx0, finbl int indfx1) {
+            if (indfx0 == -1 || indfx1 == -1) { rfturn; }
 
-            if ((getSelectionMode() == SINGLE_SELECTION) || (index0 == index1)) {
-                if (isSelectableInListIndex(index1)) super.setSelectionInterval(index1, index1);
-            } else {
-                verifySelectionInterval(index0, index1, true);
+            if ((gftSflfdtionModf() == SINGLE_SELECTION) || (indfx0 == indfx1)) {
+                if (isSflfdtbblfInListIndfx(indfx1)) supfr.sftSflfdtionIntfrvbl(indfx1, indfx1);
+            } flsf {
+                vfrifySflfdtionIntfrvbl(indfx0, indfx1, truf);
             }
         }
 
-        public void addSelectionInterval(final int index0, final int index1) {
-            if (index0 == -1 || index1 == -1) { return; }
+        publid void bddSflfdtionIntfrvbl(finbl int indfx0, finbl int indfx1) {
+            if (indfx0 == -1 || indfx1 == -1) { rfturn; }
 
-            if (index0 == index1) {
-                if (isSelectableInListIndex(index1)) super.addSelectionInterval(index1, index1);
-                return;
+            if (indfx0 == indfx1) {
+                if (isSflfdtbblfInListIndfx(indfx1)) supfr.bddSflfdtionIntfrvbl(indfx1, indfx1);
+                rfturn;
             }
 
-            if (getSelectionMode() != MULTIPLE_INTERVAL_SELECTION) {
-                setSelectionInterval(index0, index1);
-                return;
+            if (gftSflfdtionModf() != MULTIPLE_INTERVAL_SELECTION) {
+                sftSflfdtionIntfrvbl(indfx0, indfx1);
+                rfturn;
             }
 
-            verifySelectionInterval(index0, index1, false);
+            vfrifySflfdtionIntfrvbl(indfx0, indfx1, fblsf);
         }
     }
 
-    // Convenience, to translate from the JList directory view to the Mac-style JTable
-    //   & minimize diffs between this and BasicFileChooserUI
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class JTableExtension extends JTable {
-        public void setSelectedIndex(final int index) {
-            getSelectionModel().setSelectionInterval(index, index);
+    // Convfnifndf, to trbnslbtf from tif JList dirfdtory vifw to tif Mbd-stylf JTbblf
+    //   & minimizf diffs bftwffn tiis bnd BbsidFilfCioosfrUI
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    dlbss JTbblfExtfnsion fxtfnds JTbblf {
+        publid void sftSflfdtfdIndfx(finbl int indfx) {
+            gftSflfdtionModfl().sftSflfdtionIntfrvbl(indfx, indfx);
         }
 
-        public void removeSelectedIndex(final int index) {
-            getSelectionModel().removeSelectionInterval(index, index);
+        publid void rfmovfSflfdtfdIndfx(finbl int indfx) {
+            gftSflfdtionModfl().rfmovfSflfdtionIntfrvbl(indfx, indfx);
         }
 
-        public void ensureIndexIsVisible(final int index) {
-            final Rectangle cellBounds = getCellRect(index, 0, false);
-            if (cellBounds != null) {
-                scrollRectToVisible(cellBounds);
+        publid void fnsurfIndfxIsVisiblf(finbl int indfx) {
+            finbl Rfdtbnglf dfllBounds = gftCfllRfdt(indfx, 0, fblsf);
+            if (dfllBounds != null) {
+                sdrollRfdtToVisiblf(dfllBounds);
             }
         }
 
-        public int locationToIndex(final Point location) {
-            return rowAtPoint(location);
+        publid int lodbtionToIndfx(finbl Point lodbtion) {
+            rfturn rowAtPoint(lodbtion);
         }
     }
 }

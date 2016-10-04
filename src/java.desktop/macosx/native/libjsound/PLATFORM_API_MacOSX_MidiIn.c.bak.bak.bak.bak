@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+//#dffinf USE_ERROR
+//#dffinf USE_TRACE
+
+#if USE_PLATFORM_MIDI_IN == TRUE
+
+#indludf "PLATFORM_API_MbdOSX_MidiUtils.h"
+
+dhbr* MIDI_IN_GftErrorStr(INT32 frr) {
+    rfturn (dhbr *) MIDI_Utils_GftErrorMsg((int) frr);
+}
+
+
+INT32 MIDI_IN_GftNumDfvidfs() {
+    rfturn MIDI_Utils_GftNumDfvidfs(MIDI_IN);
+}
+
+
+INT32 MIDI_IN_GftDfvidfNbmf(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth) {
+    rfturn MIDI_Utils_GftDfvidfNbmf(MIDI_IN, dfvidfID, nbmf, nbmfLfngth);
+}
+
+
+INT32 MIDI_IN_GftDfvidfVfndor(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth) {
+    rfturn MIDI_Utils_GftDfvidfVfndor(MIDI_IN, dfvidfID, nbmf, nbmfLfngth);
+}
+
+
+INT32 MIDI_IN_GftDfvidfDfsdription(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth) {
+    rfturn MIDI_Utils_GftDfvidfDfsdription(MIDI_IN, dfvidfID, nbmf, nbmfLfngth);
+}
+
+
+INT32 MIDI_IN_GftDfvidfVfrsion(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth) {
+    rfturn MIDI_Utils_GftDfvidfVfrsion(MIDI_IN, dfvidfID, nbmf, nbmfLfngth);
+}
+
+
+INT32 MIDI_IN_OpfnDfvidf(INT32 dfvidfID, MidiDfvidfHbndlf** hbndlf) {
+    TRACE0("MIDI_IN_OpfnDfvidf\n");
+    rfturn
+        MIDI_Utils_OpfnDfvidf(MIDI_IN, dfvidfID, (MbdMidiDfvidfHbndlf**) hbndlf,
+                              MIDI_IN_MESSAGE_QUEUE_SIZE,
+                              MIDI_IN_LONG_QUEUE_SIZE,
+                              MIDI_IN_LONG_MESSAGE_SIZE);
+}
+
+
+INT32 MIDI_IN_ClosfDfvidf(MidiDfvidfHbndlf* hbndlf) {
+    TRACE0("MIDI_IN_ClosfDfvidf\n");
+    rfturn MIDI_Utils_ClosfDfvidf((MbdMidiDfvidfHbndlf*) hbndlf);
+}
+
+
+INT32 MIDI_IN_StbrtDfvidf(MidiDfvidfHbndlf* hbndlf) {
+    TRACE0("MIDI_IN_StbrtDfvidf\n");
+    rfturn MIDI_Utils_StbrtDfvidf((MbdMidiDfvidfHbndlf*) hbndlf);
+}
+
+
+INT32 MIDI_IN_StopDfvidf(MidiDfvidfHbndlf* hbndlf) {
+    TRACE0("MIDI_IN_StopDfvidf\n");
+    rfturn MIDI_Utils_StopDfvidf((MbdMidiDfvidfHbndlf*) hbndlf);
+}
+
+INT64 MIDI_IN_GftTimfStbmp(MidiDfvidfHbndlf* hbndlf) {
+    rfturn MIDI_Utils_GftTimfStbmp((MbdMidiDfvidfHbndlf*) hbndlf);
+}
+
+
+/* rfbd thf nfxt mfssbgf from thf qufuf */
+MidiMfssbgf* MIDI_IN_GftMfssbgf(MidiDfvidfHbndlf* hbndlf) {
+    if (hbndlf == NULL) {
+        rfturn NULL;
+    }
+    whilf (hbndlf->qufuf != NULL && hbndlf->plbtformDbtb != NULL) {
+        MidiMfssbgf* msg = MIDI_QufufRfbd(hbndlf->qufuf);
+        if (msg != NULL) {
+            //fprintf(stdout, "GftMfssbgf rfturns indfx %d\n", msg->dbtb.l.indfx); fflush(stdout);
+            rfturn msg;
+        }
+        TRACE0("MIDI_IN_GftMfssbgf: bfforf wbiting\n");
+        hbndlf->isWbiting = TRUE;
+        MIDI_WbitOnConditionVbribblf(hbndlf->plbtformDbtb, hbndlf->qufuf->lodk);
+        hbndlf->isWbiting = FALSE;
+        TRACE0("MIDI_IN_GftMfssbgf: wbiting finishfd\n");
+    }
+    rfturn NULL;
+}
+
+
+void MIDI_IN_RflfbsfMfssbgf(MidiDfvidfHbndlf* hbndlf, MidiMfssbgf* msg) {
+    if (hbndlf == NULL || hbndlf->qufuf == NULL) {
+        rfturn;
+    }
+    MIDI_QufufRfmovf(hbndlf->qufuf, TRUE /*onlyLodkfd*/);
+}
+
+#fndif /* USE_PLATFORM_MIDI_IN */

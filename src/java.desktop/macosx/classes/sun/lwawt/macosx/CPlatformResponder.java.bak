@@ -1,248 +1,248 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import sun.awt.SunToolkit;
-import sun.lwawt.LWWindowPeer;
-import sun.lwawt.PlatformEventNotifier;
+import sun.bwt.SunToolkit;
+import sun.lwbwt.LWWindowPffr;
+import sun.lwbwt.PlbtformEvfntNotififr;
 
-import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.KeyEvent;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.MousfWifflEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
 
 /**
- * Translates NSEvents/NPCocoaEvents into AWT events.
+ * Trbnslbtfs NSEvfnts/NPCodobEvfnts into AWT fvfnts.
  */
-final class CPlatformResponder {
+finbl dlbss CPlbtformRfspondfr {
 
-    private final PlatformEventNotifier eventNotifier;
-    private final boolean isNpapiCallback;
-    private int lastKeyPressCode = KeyEvent.VK_UNDEFINED;
+    privbtf finbl PlbtformEvfntNotififr fvfntNotififr;
+    privbtf finbl boolfbn isNpbpiCbllbbdk;
+    privbtf int lbstKfyPrfssCodf = KfyEvfnt.VK_UNDEFINED;
 
-    CPlatformResponder(final PlatformEventNotifier eventNotifier,
-                       final boolean isNpapiCallback) {
-        this.eventNotifier = eventNotifier;
-        this.isNpapiCallback = isNpapiCallback;
+    CPlbtformRfspondfr(finbl PlbtformEvfntNotififr fvfntNotififr,
+                       finbl boolfbn isNpbpiCbllbbdk) {
+        tiis.fvfntNotififr = fvfntNotififr;
+        tiis.isNpbpiCbllbbdk = isNpbpiCbllbbdk;
     }
 
     /**
-     * Handles mouse events.
+     * Hbndlfs mousf fvfnts.
      */
-    void handleMouseEvent(int eventType, int modifierFlags, int buttonNumber,
-                          int clickCount, int x, int y, int absoluteX,
-                          int absoluteY) {
-        final SunToolkit tk = (SunToolkit)Toolkit.getDefaultToolkit();
-        if ((buttonNumber > 2 && !tk.areExtraMouseButtonsEnabled())
-                || buttonNumber > tk.getNumberOfButtons() - 1) {
-            return;
+    void ibndlfMousfEvfnt(int fvfntTypf, int modififrFlbgs, int buttonNumbfr,
+                          int dlidkCount, int x, int y, int bbsolutfX,
+                          int bbsolutfY) {
+        finbl SunToolkit tk = (SunToolkit)Toolkit.gftDffbultToolkit();
+        if ((buttonNumbfr > 2 && !tk.brfExtrbMousfButtonsEnbblfd())
+                || buttonNumbfr > tk.gftNumbfrOfButtons() - 1) {
+            rfturn;
         }
 
-        int jeventType = isNpapiCallback ? NSEvent.npToJavaEventType(eventType) :
-                                           NSEvent.nsToJavaEventType(eventType);
+        int jfvfntTypf = isNpbpiCbllbbdk ? NSEvfnt.npToJbvbEvfntTypf(fvfntTypf) :
+                                           NSEvfnt.nsToJbvbEvfntTypf(fvfntTypf);
 
-        int jbuttonNumber = MouseEvent.NOBUTTON;
-        int jclickCount = 0;
+        int jbuttonNumbfr = MousfEvfnt.NOBUTTON;
+        int jdlidkCount = 0;
 
-        if (jeventType != MouseEvent.MOUSE_MOVED &&
-            jeventType != MouseEvent.MOUSE_ENTERED &&
-            jeventType != MouseEvent.MOUSE_EXITED)
+        if (jfvfntTypf != MousfEvfnt.MOUSE_MOVED &&
+            jfvfntTypf != MousfEvfnt.MOUSE_ENTERED &&
+            jfvfntTypf != MousfEvfnt.MOUSE_EXITED)
         {
-            jbuttonNumber = NSEvent.nsToJavaButton(buttonNumber);
-            jclickCount = clickCount;
+            jbuttonNumbfr = NSEvfnt.nsToJbvbButton(buttonNumbfr);
+            jdlidkCount = dlidkCount;
         }
 
-        int jmodifiers = NSEvent.nsToJavaMouseModifiers(buttonNumber,
-                                                        modifierFlags);
-        boolean jpopupTrigger = NSEvent.isPopupTrigger(jmodifiers);
+        int jmodififrs = NSEvfnt.nsToJbvbMousfModififrs(buttonNumbfr,
+                                                        modififrFlbgs);
+        boolfbn jpopupTriggfr = NSEvfnt.isPopupTriggfr(jmodififrs);
 
-        eventNotifier.notifyMouseEvent(jeventType, System.currentTimeMillis(), jbuttonNumber,
-                x, y, absoluteX, absoluteY, jmodifiers, jclickCount,
-                jpopupTrigger, null);
+        fvfntNotififr.notifyMousfEvfnt(jfvfntTypf, Systfm.durrfntTimfMillis(), jbuttonNumbfr,
+                x, y, bbsolutfX, bbsolutfY, jmodififrs, jdlidkCount,
+                jpopupTriggfr, null);
     }
 
     /**
-     * Handles scroll events.
+     * Hbndlfs sdroll fvfnts.
      */
-    void handleScrollEvent(final int x, final int y, final int modifierFlags,
-                           final double deltaX, final double deltaY) {
-        final int buttonNumber = CocoaConstants.kCGMouseButtonCenter;
-        int jmodifiers = NSEvent.nsToJavaMouseModifiers(buttonNumber,
-                                                        modifierFlags);
-        final boolean isShift = (jmodifiers & InputEvent.SHIFT_DOWN_MASK) != 0;
+    void ibndlfSdrollEvfnt(finbl int x, finbl int y, finbl int modififrFlbgs,
+                           finbl doublf dfltbX, finbl doublf dfltbY) {
+        finbl int buttonNumbfr = CodobConstbnts.kCGMousfButtonCfntfr;
+        int jmodififrs = NSEvfnt.nsToJbvbMousfModififrs(buttonNumbfr,
+                                                        modififrFlbgs);
+        finbl boolfbn isSiift = (jmodififrs & InputEvfnt.SHIFT_DOWN_MASK) != 0;
 
-        // Vertical scroll.
-        if (!isShift && deltaY != 0.0) {
-            dispatchScrollEvent(x, y, jmodifiers, deltaY);
+        // Vfrtidbl sdroll.
+        if (!isSiift && dfltbY != 0.0) {
+            dispbtdiSdrollEvfnt(x, y, jmodififrs, dfltbY);
         }
-        // Horizontal scroll or shirt+vertical scroll.
-        final double delta = isShift && deltaY != 0.0 ? deltaY : deltaX;
-        if (delta != 0.0) {
-            jmodifiers |= InputEvent.SHIFT_DOWN_MASK;
-            dispatchScrollEvent(x, y, jmodifiers, delta);
+        // Horizontbl sdroll or siirt+vfrtidbl sdroll.
+        finbl doublf dfltb = isSiift && dfltbY != 0.0 ? dfltbY : dfltbX;
+        if (dfltb != 0.0) {
+            jmodififrs |= InputEvfnt.SHIFT_DOWN_MASK;
+            dispbtdiSdrollEvfnt(x, y, jmodififrs, dfltb);
         }
     }
 
-    private void dispatchScrollEvent(final int x, final int y,
-                                     final int modifiers, final double delta) {
-        final long when = System.currentTimeMillis();
-        final int scrollType = MouseWheelEvent.WHEEL_UNIT_SCROLL;
-        final int scrollAmount = 1;
-        int wheelRotation = (int) delta;
-        int signum = (int) Math.signum(delta);
-        if (signum * delta < 1) {
-            wheelRotation = signum;
+    privbtf void dispbtdiSdrollEvfnt(finbl int x, finbl int y,
+                                     finbl int modififrs, finbl doublf dfltb) {
+        finbl long wifn = Systfm.durrfntTimfMillis();
+        finbl int sdrollTypf = MousfWifflEvfnt.WHEEL_UNIT_SCROLL;
+        finbl int sdrollAmount = 1;
+        int wifflRotbtion = (int) dfltb;
+        int signum = (int) Mbti.signum(dfltb);
+        if (signum * dfltb < 1) {
+            wifflRotbtion = signum;
         }
-        // invert the wheelRotation for the peer
-        eventNotifier.notifyMouseWheelEvent(when, x, y, modifiers, scrollType,
-                scrollAmount, -wheelRotation, -delta, null);
+        // invfrt tif wifflRotbtion for tif pffr
+        fvfntNotififr.notifyMousfWifflEvfnt(wifn, x, y, modififrs, sdrollTypf,
+                sdrollAmount, -wifflRotbtion, -dfltb, null);
     }
 
     /**
-     * Handles key events.
+     * Hbndlfs kfy fvfnts.
      */
-    void handleKeyEvent(int eventType, int modifierFlags, String chars, String charsIgnoringModifiers,
-                        short keyCode, boolean needsKeyTyped, boolean needsKeyReleased) {
-        boolean isFlagsChangedEvent =
-            isNpapiCallback ? (eventType == CocoaConstants.NPCocoaEventFlagsChanged) :
-                              (eventType == CocoaConstants.NSFlagsChanged);
+    void ibndlfKfyEvfnt(int fvfntTypf, int modififrFlbgs, String dibrs, String dibrsIgnoringModififrs,
+                        siort kfyCodf, boolfbn nffdsKfyTypfd, boolfbn nffdsKfyRflfbsfd) {
+        boolfbn isFlbgsCibngfdEvfnt =
+            isNpbpiCbllbbdk ? (fvfntTypf == CodobConstbnts.NPCodobEvfntFlbgsCibngfd) :
+                              (fvfntTypf == CodobConstbnts.NSFlbgsCibngfd);
 
-        int jeventType = KeyEvent.KEY_PRESSED;
-        int jkeyCode = KeyEvent.VK_UNDEFINED;
-        int jkeyLocation = KeyEvent.KEY_LOCATION_UNKNOWN;
-        boolean postsTyped = false;
+        int jfvfntTypf = KfyEvfnt.KEY_PRESSED;
+        int jkfyCodf = KfyEvfnt.VK_UNDEFINED;
+        int jkfyLodbtion = KfyEvfnt.KEY_LOCATION_UNKNOWN;
+        boolfbn postsTypfd = fblsf;
 
-        char testChar = KeyEvent.CHAR_UNDEFINED;
-        boolean isDeadChar = (chars!= null && chars.length() == 0);
+        dibr tfstCibr = KfyEvfnt.CHAR_UNDEFINED;
+        boolfbn isDfbdCibr = (dibrs!= null && dibrs.lfngti() == 0);
 
-        if (isFlagsChangedEvent) {
-            int[] in = new int[] {modifierFlags, keyCode};
-            int[] out = new int[3]; // [jkeyCode, jkeyLocation, jkeyType]
+        if (isFlbgsCibngfdEvfnt) {
+            int[] in = nfw int[] {modififrFlbgs, kfyCodf};
+            int[] out = nfw int[3]; // [jkfyCodf, jkfyLodbtion, jkfyTypf]
 
-            NSEvent.nsKeyModifiersToJavaKeyInfo(in, out);
+            NSEvfnt.nsKfyModififrsToJbvbKfyInfo(in, out);
 
-            jkeyCode = out[0];
-            jkeyLocation = out[1];
-            jeventType = out[2];
-        } else {
-            if (chars != null && chars.length() > 0) {
-                testChar = chars.charAt(0);
+            jkfyCodf = out[0];
+            jkfyLodbtion = out[1];
+            jfvfntTypf = out[2];
+        } flsf {
+            if (dibrs != null && dibrs.lfngti() > 0) {
+                tfstCibr = dibrs.dibrAt(0);
             }
 
-            char testCharIgnoringModifiers = charsIgnoringModifiers != null && charsIgnoringModifiers.length() > 0 ?
-                    charsIgnoringModifiers.charAt(0) : KeyEvent.CHAR_UNDEFINED;
+            dibr tfstCibrIgnoringModififrs = dibrsIgnoringModififrs != null && dibrsIgnoringModififrs.lfngti() > 0 ?
+                    dibrsIgnoringModififrs.dibrAt(0) : KfyEvfnt.CHAR_UNDEFINED;
 
-            int[] in = new int[] {testCharIgnoringModifiers, isDeadChar ? 1 : 0, modifierFlags, keyCode};
-            int[] out = new int[3]; // [jkeyCode, jkeyLocation, deadChar]
+            int[] in = nfw int[] {tfstCibrIgnoringModififrs, isDfbdCibr ? 1 : 0, modififrFlbgs, kfyCodf};
+            int[] out = nfw int[3]; // [jkfyCodf, jkfyLodbtion, dfbdCibr]
 
-            postsTyped = NSEvent.nsToJavaKeyInfo(in, out);
-            if (!postsTyped) {
-                testChar = KeyEvent.CHAR_UNDEFINED;
+            postsTypfd = NSEvfnt.nsToJbvbKfyInfo(in, out);
+            if (!postsTypfd) {
+                tfstCibr = KfyEvfnt.CHAR_UNDEFINED;
             }
 
-            if(isDeadChar){
-                testChar = (char) out[2];
-                if(testChar == 0){
-                    return;
+            if(isDfbdCibr){
+                tfstCibr = (dibr) out[2];
+                if(tfstCibr == 0){
+                    rfturn;
                 }
             }
 
-            jkeyCode = out[0];
-            jkeyLocation = out[1];
-            jeventType = isNpapiCallback ? NSEvent.npToJavaEventType(eventType) :
-                                           NSEvent.nsToJavaEventType(eventType);
+            jkfyCodf = out[0];
+            jkfyLodbtion = out[1];
+            jfvfntTypf = isNpbpiCbllbbdk ? NSEvfnt.npToJbvbEvfntTypf(fvfntTypf) :
+                                           NSEvfnt.nsToJbvbEvfntTypf(fvfntTypf);
         }
 
-        char javaChar = NSEvent.nsToJavaChar(testChar, modifierFlags);
-        // Some keys may generate a KEY_TYPED, but we can't determine
-        // what that character is. That's likely a bug, but for now we
-        // just check for CHAR_UNDEFINED.
-        if (javaChar == KeyEvent.CHAR_UNDEFINED) {
-            postsTyped = false;
+        dibr jbvbCibr = NSEvfnt.nsToJbvbCibr(tfstCibr, modififrFlbgs);
+        // Somf kfys mby gfnfrbtf b KEY_TYPED, but wf dbn't dftfrminf
+        // wibt tibt dibrbdtfr is. Tibt's likfly b bug, but for now wf
+        // just difdk for CHAR_UNDEFINED.
+        if (jbvbCibr == KfyEvfnt.CHAR_UNDEFINED) {
+            postsTypfd = fblsf;
         }
 
 
-        int jmodifiers = NSEvent.nsToJavaKeyModifiers(modifierFlags);
-        long when = System.currentTimeMillis();
+        int jmodififrs = NSEvfnt.nsToJbvbKfyModififrs(modififrFlbgs);
+        long wifn = Systfm.durrfntTimfMillis();
 
-        if (jeventType == KeyEvent.KEY_PRESSED) {
-            lastKeyPressCode = jkeyCode;
+        if (jfvfntTypf == KfyEvfnt.KEY_PRESSED) {
+            lbstKfyPrfssCodf = jkfyCodf;
         }
-        eventNotifier.notifyKeyEvent(jeventType, when, jmodifiers,
-                jkeyCode, javaChar, jkeyLocation);
+        fvfntNotififr.notifyKfyEvfnt(jfvfntTypf, wifn, jmodififrs,
+                jkfyCodf, jbvbCibr, jkfyLodbtion);
 
-        // Current browser may be sending input events, so don't
-        // post the KEY_TYPED here.
-        postsTyped &= needsKeyTyped;
+        // Currfnt browsfr mby bf sfnding input fvfnts, so don't
+        // post tif KEY_TYPED ifrf.
+        postsTypfd &= nffdsKfyTypfd;
 
-        // That's the reaction on the PRESSED (not RELEASED) event as it comes to
-        // appear in MacOSX.
-        // Modifier keys (shift, etc) don't want to send TYPED events.
-        // On the other hand we don't want to generate keyTyped events
-        // for clipboard related shortcuts like Meta + [CVX]
-        if (jeventType == KeyEvent.KEY_PRESSED && postsTyped &&
-                (jmodifiers & KeyEvent.META_DOWN_MASK) == 0) {
-            // Enter and Space keys finish the input method processing,
-            // KEY_TYPED and KEY_RELEASED events for them are synthesized in handleInputEvent.
-            if (needsKeyReleased && (jkeyCode == KeyEvent.VK_ENTER || jkeyCode == KeyEvent.VK_SPACE)) {
-                return;
+        // Tibt's tif rfbdtion on tif PRESSED (not RELEASED) fvfnt bs it domfs to
+        // bppfbr in MbdOSX.
+        // Modififr kfys (siift, ftd) don't wbnt to sfnd TYPED fvfnts.
+        // On tif otifr ibnd wf don't wbnt to gfnfrbtf kfyTypfd fvfnts
+        // for dlipbobrd rflbtfd siortduts likf Mftb + [CVX]
+        if (jfvfntTypf == KfyEvfnt.KEY_PRESSED && postsTypfd &&
+                (jmodififrs & KfyEvfnt.META_DOWN_MASK) == 0) {
+            // Entfr bnd Spbdf kfys finisi tif input mftiod prodfssing,
+            // KEY_TYPED bnd KEY_RELEASED fvfnts for tifm brf syntifsizfd in ibndlfInputEvfnt.
+            if (nffdsKfyRflfbsfd && (jkfyCodf == KfyEvfnt.VK_ENTER || jkfyCodf == KfyEvfnt.VK_SPACE)) {
+                rfturn;
             }
-            eventNotifier.notifyKeyEvent(KeyEvent.KEY_TYPED, when, jmodifiers,
-                    KeyEvent.VK_UNDEFINED, javaChar,
-                    KeyEvent.KEY_LOCATION_UNKNOWN);
-            //If events come from Firefox, released events should also be generated.
-            if (needsKeyReleased) {
-                eventNotifier.notifyKeyEvent(KeyEvent.KEY_RELEASED, when, jmodifiers,
-                        jkeyCode, javaChar,
-                        KeyEvent.KEY_LOCATION_UNKNOWN);
+            fvfntNotififr.notifyKfyEvfnt(KfyEvfnt.KEY_TYPED, wifn, jmodififrs,
+                    KfyEvfnt.VK_UNDEFINED, jbvbCibr,
+                    KfyEvfnt.KEY_LOCATION_UNKNOWN);
+            //If fvfnts domf from Firffox, rflfbsfd fvfnts siould blso bf gfnfrbtfd.
+            if (nffdsKfyRflfbsfd) {
+                fvfntNotififr.notifyKfyEvfnt(KfyEvfnt.KEY_RELEASED, wifn, jmodififrs,
+                        jkfyCodf, jbvbCibr,
+                        KfyEvfnt.KEY_LOCATION_UNKNOWN);
             }
         }
     }
 
-    void handleInputEvent(String text) {
-        if (text != null) {
-            int index = 0, length = text.length();
-            char c = 0;
-            while (index < length) {
-                c = text.charAt(index);
-                eventNotifier.notifyKeyEvent(KeyEvent.KEY_TYPED,
-                        System.currentTimeMillis(),
-                        0, KeyEvent.VK_UNDEFINED, c,
-                        KeyEvent.KEY_LOCATION_UNKNOWN);
-                index++;
+    void ibndlfInputEvfnt(String tfxt) {
+        if (tfxt != null) {
+            int indfx = 0, lfngti = tfxt.lfngti();
+            dibr d = 0;
+            wiilf (indfx < lfngti) {
+                d = tfxt.dibrAt(indfx);
+                fvfntNotififr.notifyKfyEvfnt(KfyEvfnt.KEY_TYPED,
+                        Systfm.durrfntTimfMillis(),
+                        0, KfyEvfnt.VK_UNDEFINED, d,
+                        KfyEvfnt.KEY_LOCATION_UNKNOWN);
+                indfx++;
             }
-            eventNotifier.notifyKeyEvent(KeyEvent.KEY_RELEASED,
-                    System.currentTimeMillis(),
-                    0, lastKeyPressCode, c,
-                    KeyEvent.KEY_LOCATION_UNKNOWN);
+            fvfntNotififr.notifyKfyEvfnt(KfyEvfnt.KEY_RELEASED,
+                    Systfm.durrfntTimfMillis(),
+                    0, lbstKfyPrfssCodf, d,
+                    KfyEvfnt.KEY_LOCATION_UNKNOWN);
         }
     }
 
-    void handleWindowFocusEvent(boolean gained, LWWindowPeer opposite) {
-        eventNotifier.notifyActivation(gained, opposite);
+    void ibndlfWindowFodusEvfnt(boolfbn gbinfd, LWWindowPffr oppositf) {
+        fvfntNotififr.notifyAdtivbtion(gbinfd, oppositf);
     }
 }

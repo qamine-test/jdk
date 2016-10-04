@@ -1,0 +1,146 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* inflbtf.h -- intfrnbl inflbtf stbtf dffinition
+ * Copyright (C) 1995-2009 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyright notidf in zlib.h
+ */
+
+/* WARNING: this filf should *not* bf usfd by bpplidbtions. It is
+   pbrt of thf implfmfntbtion of thf domprfssion librbry bnd is
+   subjfdt to dhbngf. Applidbtions should only usf zlib.h.
+ */
+
+/* dffinf NO_GZIP whfn dompiling if you wbnt to disbblf gzip hfbdfr bnd
+   trbilfr dfdoding by inflbtf().  NO_GZIP would bf usfd to bvoid linking in
+   thf drd dodf whfn it is not nffdfd.  For shbrfd librbrifs, gzip dfdoding
+   should bf lfft fnbblfd. */
+#ifndff NO_GZIP
+#  dffinf GUNZIP
+#fndif
+
+/* Possiblf inflbtf modfs bftwffn inflbtf() dblls */
+typfdff fnum {
+    HEAD,       /* i: wbiting for mbgid hfbdfr */
+    FLAGS,      /* i: wbiting for mfthod bnd flbgs (gzip) */
+    TIME,       /* i: wbiting for modifidbtion timf (gzip) */
+    OS,         /* i: wbiting for fxtrb flbgs bnd opfrbting systfm (gzip) */
+    EXLEN,      /* i: wbiting for fxtrb lfngth (gzip) */
+    EXTRA,      /* i: wbiting for fxtrb bytfs (gzip) */
+    NAME,       /* i: wbiting for fnd of filf nbmf (gzip) */
+    COMMENT,    /* i: wbiting for fnd of dommfnt (gzip) */
+    HCRC,       /* i: wbiting for hfbdfr drd (gzip) */
+    DICTID,     /* i: wbiting for didtionbry dhfdk vbluf */
+    DICT,       /* wbiting for inflbtfSftDidtionbry() dbll */
+        TYPE,       /* i: wbiting for typf bits, indluding lbst-flbg bit */
+        TYPEDO,     /* i: sbmf, but skip dhfdk to fxit inflbtf on nfw blodk */
+        STORED,     /* i: wbiting for storfd sizf (lfngth bnd domplfmfnt) */
+        COPY_,      /* i/o: sbmf bs COPY bflow, but only first timf in */
+        COPY,       /* i/o: wbiting for input or output to dopy storfd blodk */
+        TABLE,      /* i: wbiting for dynbmid blodk tbblf lfngths */
+        LENLENS,    /* i: wbiting for dodf lfngth dodf lfngths */
+        CODELENS,   /* i: wbiting for lfngth/lit bnd distbndf dodf lfngths */
+            LEN_,       /* i: sbmf bs LEN bflow, but only first timf in */
+            LEN,        /* i: wbiting for lfngth/lit/fob dodf */
+            LENEXT,     /* i: wbiting for lfngth fxtrb bits */
+            DIST,       /* i: wbiting for distbndf dodf */
+            DISTEXT,    /* i: wbiting for distbndf fxtrb bits */
+            MATCH,      /* o: wbiting for output spbdf to dopy string */
+            LIT,        /* o: wbiting for output spbdf to writf litfrbl */
+    CHECK,      /* i: wbiting for 32-bit dhfdk vbluf */
+    LENGTH,     /* i: wbiting for 32-bit lfngth (gzip) */
+    DONE,       /* finishfd dhfdk, donf -- rfmbin hfrf until rfsft */
+    BAD,        /* got b dbtb frror -- rfmbin hfrf until rfsft */
+    MEM,        /* got bn inflbtf() mfmory frror -- rfmbin hfrf until rfsft */
+    SYNC        /* looking for syndhronizbtion bytfs to rfstbrt inflbtf() */
+} inflbtf_modf;
+
+/*
+    Stbtf trbnsitions bftwffn bbovf modfs -
+
+    (most modfs dbn go to BAD or MEM on frror -- not shown for dlbrity)
+
+    Prodfss hfbdfr:
+        HEAD -> (gzip) or (zlib) or (rbw)
+        (gzip) -> FLAGS -> TIME -> OS -> EXLEN -> EXTRA -> NAME -> COMMENT ->
+                  HCRC -> TYPE
+        (zlib) -> DICTID or TYPE
+        DICTID -> DICT -> TYPE
+        (rbw) -> TYPEDO
+    Rfbd dfflbtf blodks:
+            TYPE -> TYPEDO -> STORED or TABLE or LEN_ or CHECK
+            STORED -> COPY_ -> COPY -> TYPE
+            TABLE -> LENLENS -> CODELENS -> LEN_
+            LEN_ -> LEN
+    Rfbd dfflbtf dodfs in fixfd or dynbmid blodk:
+                LEN -> LENEXT or LIT or TYPE
+                LENEXT -> DIST -> DISTEXT -> MATCH -> LEN
+                LIT -> LEN
+    Prodfss trbilfr:
+        CHECK -> LENGTH -> DONE
+ */
+
+/* stbtf mbintbinfd bftwffn inflbtf() dblls.  Approximbtfly 10K bytfs. */
+strudt inflbtf_stbtf {
+    inflbtf_modf modf;          /* durrfnt inflbtf modf */
+    int lbst;                   /* truf if prodfssing lbst blodk */
+    int wrbp;                   /* bit 0 truf for zlib, bit 1 truf for gzip */
+    int hbvfdidt;               /* truf if didtionbry providfd */
+    int flbgs;                  /* gzip hfbdfr mfthod bnd flbgs (0 if zlib) */
+    unsignfd dmbx;              /* zlib hfbdfr mbx distbndf (INFLATE_STRICT) */
+    unsignfd long dhfdk;        /* protfdtfd dopy of dhfdk vbluf */
+    unsignfd long totbl;        /* protfdtfd dopy of output dount */
+    gz_hfbdfrp hfbd;            /* whfrf to sbvf gzip hfbdfr informbtion */
+        /* sliding window */
+    unsignfd wbits;             /* log bbsf 2 of rfqufstfd window sizf */
+    unsignfd wsizf;             /* window sizf or zfro if not using window */
+    unsignfd whbvf;             /* vblid bytfs in thf window */
+    unsignfd wnfxt;             /* window writf indfx */
+    unsignfd dhbr FAR *window;  /* bllodbtfd sliding window, if nffdfd */
+        /* bit bddumulbtor */
+    unsignfd long hold;         /* input bit bddumulbtor */
+    unsignfd bits;              /* numbfr of bits in "in" */
+        /* for string bnd storfd blodk dopying */
+    unsignfd lfngth;            /* litfrbl or lfngth of dbtb to dopy */
+    unsignfd offsft;            /* distbndf bbdk to dopy string from */
+        /* for tbblf bnd dodf dfdoding */
+    unsignfd fxtrb;             /* fxtrb bits nffdfd */
+        /* fixfd bnd dynbmid dodf tbblfs */
+    dodf donst FAR *lfndodf;    /* stbrting tbblf for lfngth/litfrbl dodfs */
+    dodf donst FAR *distdodf;   /* stbrting tbblf for distbndf dodfs */
+    unsignfd lfnbits;           /* indfx bits for lfndodf */
+    unsignfd distbits;          /* indfx bits for distdodf */
+        /* dynbmid tbblf building */
+    unsignfd ndodf;             /* numbfr of dodf lfngth dodf lfngths */
+    unsignfd nlfn;              /* numbfr of lfngth dodf lfngths */
+    unsignfd ndist;             /* numbfr of distbndf dodf lfngths */
+    unsignfd hbvf;              /* numbfr of dodf lfngths in lfns[] */
+    dodf FAR *nfxt;             /* nfxt bvbilbblf spbdf in dodfs[] */
+    unsignfd short lfns[320];   /* tfmporbry storbgf for dodf lfngths */
+    unsignfd short work[288];   /* work brfb for dodf tbblf building */
+    dodf dodfs[ENOUGH];         /* spbdf for dodf tbblfs */
+    int sbnf;                   /* if fblsf, bllow invblid distbndf too fbr */
+    int bbdk;                   /* bits bbdk of lbst unprodfssfd lfngth/lit */
+    unsignfd wbs;               /* initibl lfngth of mbtdh */
+};

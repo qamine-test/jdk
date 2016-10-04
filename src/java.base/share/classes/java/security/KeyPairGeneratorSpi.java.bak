@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
 /**
- * <p> This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code KeyPairGenerator} class, which is used to generate
- * pairs of public and private keys.
+ * <p> Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif {@dodf KfyPbirGfnfrbtor} dlbss, wiidi is usfd to gfnfrbtf
+ * pbirs of publid bnd privbtf kfys.
  *
- * <p> All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a key pair generator for a particular algorithm.
+ * <p> All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b kfy pbir gfnfrbtor for b pbrtidulbr blgoritim.
  *
- * <p> In case the client does not explicitly initialize the KeyPairGenerator
- * (via a call to an {@code initialize} method), each provider must
- * supply (and document) a default initialization.
- * For example, the <i>Sun</i> provider uses a default modulus size (keysize)
+ * <p> In dbsf tif dlifnt dofs not fxpliditly initiblizf tif KfyPbirGfnfrbtor
+ * (vib b dbll to bn {@dodf initiblizf} mftiod), fbdi providfr must
+ * supply (bnd dodumfnt) b dffbult initiblizbtion.
+ * For fxbmplf, tif <i>Sun</i> providfr usfs b dffbult modulus sizf (kfysizf)
  * of 1024 bits.
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  *
  *
- * @see KeyPairGenerator
- * @see java.security.spec.AlgorithmParameterSpec
+ * @sff KfyPbirGfnfrbtor
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
  */
 
-public abstract class KeyPairGeneratorSpi {
+publid bbstrbdt dlbss KfyPbirGfnfrbtorSpi {
 
     /**
-     * Initializes the key pair generator for a certain keysize, using
-     * the default parameter set.
+     * Initiblizfs tif kfy pbir gfnfrbtor for b dfrtbin kfysizf, using
+     * tif dffbult pbrbmftfr sft.
      *
-     * @param keysize the keysize. This is an
-     * algorithm-specific metric, such as modulus length, specified in
-     * number of bits.
+     * @pbrbm kfysizf tif kfysizf. Tiis is bn
+     * blgoritim-spfdifid mftrid, sudi bs modulus lfngti, spfdififd in
+     * numbfr of bits.
      *
-     * @param random the source of randomness for this generator.
+     * @pbrbm rbndom tif sourdf of rbndomnfss for tiis gfnfrbtor.
      *
-     * @exception InvalidParameterException if the {@code keysize} is not
-     * supported by this KeyPairGeneratorSpi object.
+     * @fxdfption InvblidPbrbmftfrExdfption if tif {@dodf kfysizf} is not
+     * supportfd by tiis KfyPbirGfnfrbtorSpi objfdt.
      */
-    public abstract void initialize(int keysize, SecureRandom random);
+    publid bbstrbdt void initiblizf(int kfysizf, SfdurfRbndom rbndom);
 
     /**
-     * Initializes the key pair generator using the specified parameter
-     * set and user-provided source of randomness.
+     * Initiblizfs tif kfy pbir gfnfrbtor using tif spfdififd pbrbmftfr
+     * sft bnd usfr-providfd sourdf of rbndomnfss.
      *
-     * <p>This concrete method has been added to this previously-defined
-     * abstract class. (For backwards compatibility, it cannot be abstract.)
-     * It may be overridden by a provider to initialize the key pair
-     * generator. Such an override
-     * is expected to throw an InvalidAlgorithmParameterException if
-     * a parameter is inappropriate for this key pair generator.
-     * If this method is not overridden, it always throws an
-     * UnsupportedOperationException.
+     * <p>Tiis dondrftf mftiod ibs bffn bddfd to tiis prfviously-dffinfd
+     * bbstrbdt dlbss. (For bbdkwbrds dompbtibility, it dbnnot bf bbstrbdt.)
+     * It mby bf ovfrriddfn by b providfr to initiblizf tif kfy pbir
+     * gfnfrbtor. Sudi bn ovfrridf
+     * is fxpfdtfd to tirow bn InvblidAlgoritimPbrbmftfrExdfption if
+     * b pbrbmftfr is inbppropribtf for tiis kfy pbir gfnfrbtor.
+     * If tiis mftiod is not ovfrriddfn, it blwbys tirows bn
+     * UnsupportfdOpfrbtionExdfption.
      *
-     * @param params the parameter set used to generate the keys.
+     * @pbrbm pbrbms tif pbrbmftfr sft usfd to gfnfrbtf tif kfys.
      *
-     * @param random the source of randomness for this generator.
+     * @pbrbm rbndom tif sourdf of rbndomnfss for tiis gfnfrbtor.
      *
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key pair generator.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfrs
+     * brf inbppropribtf for tiis kfy pbir gfnfrbtor.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public void initialize(AlgorithmParameterSpec params,
-                           SecureRandom random)
-        throws InvalidAlgorithmParameterException {
-            throw new UnsupportedOperationException();
+    publid void initiblizf(AlgoritimPbrbmftfrSpfd pbrbms,
+                           SfdurfRbndom rbndom)
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Generates a key pair. Unless an initialization method is called
-     * using a KeyPairGenerator interface, algorithm-specific defaults
-     * will be used. This will generate a new key pair every time it
-     * is called.
+     * Gfnfrbtfs b kfy pbir. Unlfss bn initiblizbtion mftiod is dbllfd
+     * using b KfyPbirGfnfrbtor intfrfbdf, blgoritim-spfdifid dffbults
+     * will bf usfd. Tiis will gfnfrbtf b nfw kfy pbir fvfry timf it
+     * is dbllfd.
      *
-     * @return the newly generated {@code KeyPair}
+     * @rfturn tif nfwly gfnfrbtfd {@dodf KfyPbir}
      */
-    public abstract KeyPair generateKeyPair();
+    publid bbstrbdt KfyPbir gfnfrbtfKfyPbir();
 }

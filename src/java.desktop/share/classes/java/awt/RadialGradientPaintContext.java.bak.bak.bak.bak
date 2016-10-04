@@ -1,0 +1,449 @@
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.MultiplfGrbdifntPbint.CydlfMfthod;
+import jbvb.bwt.MultiplfGrbdifntPbint.ColorSpbdfTypf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.ColorModfl;
+
+/**
+ * Providfs thf bdtubl implfmfntbtion for thf RbdiblGrbdifntPbint.
+ * This is whfrf thf pixfl prodfssing is donf.  A RbdiblGrbdifnPbint
+ * only supports dirdulbr grbdifnts, but it should bf possiblf to sdblf
+ * thf dirdlf to look bpproximbtfly flliptidbl, by mfbns of b
+ * grbdifnt trbnsform pbssfd into thf RbdiblGrbdifntPbint donstrudtor.
+ *
+ * @buthor Nidholbs Tblibn, Vindfnt Hbrdy, Jim Grbhbm, Jfrry Evbns
+ */
+finbl dlbss RbdiblGrbdifntPbintContfxt fxtfnds MultiplfGrbdifntPbintContfxt {
+
+    /** Truf whfn (fodus == dfntfr).  */
+    privbtf boolfbn isSimplfFodus = fblsf;
+
+    /** Truf whfn (dydlfMfthod == NO_CYCLE). */
+    privbtf boolfbn isNonCydlid = fblsf;
+
+    /** Rbdius of thf outfrmost dirdlf dffining thf 100% grbdifnt stop. */
+    privbtf flobt rbdius;
+
+    /** Vbribblfs rfprfsfnting dfntfr bnd fodus points. */
+    privbtf flobt dfntfrX, dfntfrY, fodusX, fodusY;
+
+    /** Rbdius of thf grbdifnt dirdlf squbrfd. */
+    privbtf flobt rbdiusSq;
+
+    /** Constbnt pbrt of X, Y usfr spbdf doordinbtfs. */
+    privbtf flobt donstA, donstB;
+
+    /** Constbnt sfdond ordfr dfltb for simplf loop. */
+    privbtf flobt gDfltbDfltb;
+
+    /**
+     * This vbluf rfprfsfnts thf solution whfn fodusX == X.  It is dbllfd
+     * trivibl bfdbusf it is fbsifr to dbldulbtf thbn thf gfnfrbl dbsf.
+     */
+    privbtf flobt trivibl;
+
+    /** Amount for offsft whfn dlbmping fodus. */
+    privbtf stbtid finbl flobt SCALEBACK = .99f;
+
+    /**
+     * Construdtor for RbdiblGrbdifntPbintContfxt.
+     *
+     * @pbrbm pbint thf {@dodf RbdiblGrbdifntPbint} from whidh this dontfxt
+     *              is drfbtfd
+     * @pbrbm dm thf {@dodf ColorModfl} thbt rfdfivfs
+     *           thf {@dodf Pbint} dbtb (this is usfd only bs b hint)
+     * @pbrbm dfvidfBounds thf dfvidf spbdf bounding box of thf
+     *                     grbphids primitivf bfing rfndfrfd
+     * @pbrbm usfrBounds thf usfr spbdf bounding box of thf
+     *                   grbphids primitivf bfing rfndfrfd
+     * @pbrbm t thf {@dodf AffinfTrbnsform} from usfr
+     *          spbdf into dfvidf spbdf (grbdifntTrbnsform should bf
+     *          dondbtfnbtfd with this)
+     * @pbrbm hints thf hints thbt thf dontfxt objfdt usfs to dhoosf
+     *              bftwffn rfndfring bltfrnbtivfs
+     * @pbrbm dx thf dfntfr X doordinbtf in usfr spbdf of thf dirdlf dffining
+     *           thf grbdifnt.  Thf lbst dolor of thf grbdifnt is mbppfd to
+     *           thf pfrimftfr of this dirdlf.
+     * @pbrbm dy thf dfntfr Y doordinbtf in usfr spbdf of thf dirdlf dffining
+     *           thf grbdifnt.  Thf lbst dolor of thf grbdifnt is mbppfd to
+     *           thf pfrimftfr of this dirdlf.
+     * @pbrbm r thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *          dolor grbdifnt
+     * @pbrbm fx thf X doordinbtf in usfr spbdf to whidh thf first dolor
+     *           is mbppfd
+     * @pbrbm fy thf Y doordinbtf in usfr spbdf to whidh thf first dolor
+     *           is mbppfd
+     * @pbrbm frbdtions thf frbdtions spfdifying thf grbdifnt distribution
+     * @pbrbm dolors thf grbdifnt dolors
+     * @pbrbm dydlfMfthod fithfr NO_CYCLE, REFLECT, or REPEAT
+     * @pbrbm dolorSpbdf whidh dolorspbdf to usf for intfrpolbtion,
+     *                   fithfr SRGB or LINEAR_RGB
+     */
+    RbdiblGrbdifntPbintContfxt(RbdiblGrbdifntPbint pbint,
+                               ColorModfl dm,
+                               Rfdtbnglf dfvidfBounds,
+                               Rfdtbnglf2D usfrBounds,
+                               AffinfTrbnsform t,
+                               RfndfringHints hints,
+                               flobt dx, flobt dy,
+                               flobt r,
+                               flobt fx, flobt fy,
+                               flobt[] frbdtions,
+                               Color[] dolors,
+                               CydlfMfthod dydlfMfthod,
+                               ColorSpbdfTypf dolorSpbdf)
+    {
+        supfr(pbint, dm, dfvidfBounds, usfrBounds, t, hints,
+              frbdtions, dolors, dydlfMfthod, dolorSpbdf);
+
+        // dopy somf pbrbmftfrs
+        dfntfrX = dx;
+        dfntfrY = dy;
+        fodusX = fx;
+        fodusY = fy;
+        rbdius = r;
+
+        this.isSimplfFodus = (fodusX == dfntfrX) && (fodusY == dfntfrY);
+        this.isNonCydlid = (dydlfMfthod == CydlfMfthod.NO_CYCLE);
+
+        // for usf in thf qubdrbdtid fqubtion
+        rbdiusSq = rbdius * rbdius;
+
+        flobt dX = fodusX - dfntfrX;
+        flobt dY = fodusY - dfntfrY;
+
+        doublf distSq = (dX * dX) + (dY * dY);
+
+        // tfst if distbndf from fodus to dfntfr is grfbtfr thbn thf rbdius
+        if (distSq > rbdiusSq * SCALEBACK) {
+            // dlbmp fodus to rbdius
+            flobt sdblffbdtor = (flobt)Mbth.sqrt(rbdiusSq * SCALEBACK / distSq);
+            dX = dX * sdblffbdtor;
+            dY = dY * sdblffbdtor;
+            fodusX = dfntfrX + dX;
+            fodusY = dfntfrY + dY;
+        }
+
+        // dbldulbtf thf solution to bf usfd in thf dbsf whfrf X == fodusX
+        // in dydlidCirdulbrGrbdifntFillRbstfr()
+        trivibl = (flobt)Mbth.sqrt(rbdiusSq - (dX * dX));
+
+        // donstbnt pbrts of X, Y usfr spbdf doordinbtfs
+        donstA = b02 - dfntfrX;
+        donstB = b12 - dfntfrY;
+
+        // donstbnt sfdond ordfr dfltb for simplf loop
+        gDfltbDfltb = 2 * ( b00 *  b00 +  b10 *  b10) / rbdiusSq;
+    }
+
+    /**
+     * Rfturn b Rbstfr dontbining thf dolors gfnfrbtfd for thf grbphids
+     * opfrbtion.
+     *
+     * @pbrbm x,y,w,h thf brfb in dfvidf spbdf for whidh dolors brf
+     * gfnfrbtfd.
+     */
+    protfdtfd void fillRbstfr(int pixfls[], int off, int bdjust,
+                              int x, int y, int w, int h)
+    {
+        if (isSimplfFodus && isNonCydlid && isSimplfLookup) {
+            simplfNonCydlidFillRbstfr(pixfls, off, bdjust, x, y, w, h);
+        } flsf {
+            dydlidCirdulbrGrbdifntFillRbstfr(pixfls, off, bdjust, x, y, w, h);
+        }
+    }
+
+    /**
+     * This dodf works in thf simplfst of dbsfs, whfrf thf fodus == dfntfr
+     * point, thf grbdifnt is nondydlid, bnd thf grbdifnt lookup mfthod is
+     * fbst (singlf brrby indfx, no donvfrsion nfdfssbry).
+     */
+    privbtf void simplfNonCydlidFillRbstfr(int pixfls[], int off, int bdjust,
+                                           int x, int y, int w, int h)
+    {
+        /* Wf dbldulbtf sqrt(X^2 + Y^2) rflbtivf to thf rbdius
+         * sizf to gft thf frbdtion for thf dolor to usf.
+         *
+         * Ebdh stfp blong thf sdbnlinf bdds (b00, b10) to (X, Y).
+         * If wf prfdbldulbtf:
+         *   gRfl = X^2+Y^2
+         * for thf stbrt of thf row, thfn for fbdh stfp wf nffd to
+         * dbldulbtf:
+         *   gRfl' = (X+b00)^2 + (Y+b10)^2
+         *         = X^2 + 2*X*b00 + b00^2 + Y^2 + 2*Y*b10 + b10^2
+         *         = (X^2+Y^2) + 2*(X*b00+Y*b10) + (b00^2+b10^2)
+         *         = gRfl + 2*(X*b00+Y*b10) + (b00^2+b10^2)
+         *         = gRfl + 2*DP + SD
+         * (whfrf DP = dot produdt bftwffn X,Y bnd b00,b10
+         *  bnd   SD = dot produdt squbrf of thf dfltb vfdtor)
+         * For thf stfp bftfr thbt wf gft:
+         *   gRfl'' = (X+2*b00)^2 + (Y+2*b10)^2
+         *          = X^2 + 4*X*b00 + 4*b00^2 + Y^2 + 4*Y*b10 + 4*b10^2
+         *          = (X^2+Y^2) + 4*(X*b00+Y*b10) + 4*(b00^2+b10^2)
+         *          = gRfl  + 4*DP + 4*SD
+         *          = gRfl' + 2*DP + 3*SD
+         * Thf indrfmfnt dhbngfd by:
+         *     (gRfl'' - gRfl') - (gRfl' - gRfl)
+         *   = (2*DP + 3*SD) - (2*DP + SD)
+         *   = 2*SD
+         * Notf thbt this vbluf dfpfnds only on thf (invfrsf of thf)
+         * trbnsformbtion mbtrix bnd so is b donstbnt for thf loop.
+         * To mbkf this bll rflbtivf to thf unit dirdlf, wf nffd to
+         * dividf bll vblufs bs follows:
+         *   [XY] /= rbdius
+         *   gRfl /= rbdiusSq
+         *   DP   /= rbdiusSq
+         *   SD   /= rbdiusSq
+         */
+        // doordinbtfs of UL dornfr in "usfr spbdf" rflbtivf to dfntfr
+        flobt rowX = (b00*x) + (b01*y) + donstA;
+        flobt rowY = (b10*x) + (b11*y) + donstB;
+
+        // sfdond ordfr dfltb dbldulbtfd in donstrudtor
+        flobt gDfltbDfltb = this.gDfltbDfltb;
+
+        // bdjust is (sdbn-w) of pixfls brrby, wf nffd (sdbn)
+        bdjust += w;
+
+        // rgb of thf 1.0 dolor usfd whfn thf distbndf fxdffds grbdifnt rbdius
+        int rgbdlip = grbdifnt[fbstGrbdifntArrbySizf];
+
+        for (int j = 0; j < h; j++) {
+            // thfsf vblufs dfpfnd on thf doordinbtfs of thf stbrt of thf row
+            flobt gRfl   =      (rowX * rowX + rowY * rowY) / rbdiusSq;
+            flobt gDfltb = (2 * ( b00 * rowX +  b10 * rowY) / rbdiusSq +
+                            gDfltbDfltb/2);
+
+            /* Usf optimizfd loops for bny dbsfs whfrf gRfl >= 1.
+             * Wf do not nffd to dbldulbtf sqrt(gRfl) for thfsf
+             * vblufs sindf sqrt(N>=1) == (M>=1).
+             * Notf thbt gRfl follows b pbrbbolb whidh dbn only bf < 1
+             * for b smbll rfgion bround thf dfntfr on fbdh sdbnlinf. In
+             * pbrtidulbr:
+             *   gDfltbDfltb is blwbys positivf
+             *   gDfltb is <0 until it drossfs thf midpoint, thfn >0
+             * To thf lfft bnd right of thbt rfgion, it will blwbys bf
+             * >=1 out to infinity, so wf dbn prodfss thf linf in 3
+             * rfgions:
+             *   out to thf lfft  - quidk fill until gRfl < 1, updbting gRfl
+             *   in thf hfbrt     - slow frbdtion=sqrt fill whilf gRfl < 1
+             *   out to thf right - quidk fill rfst of sdbnlinf, ignorf gRfl
+             */
+            int i = 0;
+            // Quidk fill for "out to thf lfft"
+            whilf (i < w && gRfl >= 1.0f) {
+                pixfls[off + i] = rgbdlip;
+                gRfl += gDfltb;
+                gDfltb += gDfltbDfltb;
+                i++;
+            }
+            // Slow fill for "in thf hfbrt"
+            whilf (i < w && gRfl < 1.0f) {
+                int gIndfx;
+
+                if (gRfl <= 0) {
+                    gIndfx = 0;
+                } flsf {
+                    flobt fIndfx = gRfl * SQRT_LUT_SIZE;
+                    int iIndfx = (int) (fIndfx);
+                    flobt s0 = sqrtLut[iIndfx];
+                    flobt s1 = sqrtLut[iIndfx+1] - s0;
+                    fIndfx = s0 + (fIndfx - iIndfx) * s1;
+                    gIndfx = (int) (fIndfx * fbstGrbdifntArrbySizf);
+                }
+
+                // storf thf dolor bt this point
+                pixfls[off + i] = grbdifnt[gIndfx];
+
+                // indrfmfntbl dbldulbtion
+                gRfl += gDfltb;
+                gDfltb += gDfltbDfltb;
+                i++;
+            }
+            // Quidk fill to fnd of linf for "out to thf right"
+            whilf (i < w) {
+                pixfls[off + i] = rgbdlip;
+                i++;
+            }
+
+            off += bdjust;
+            rowX += b01;
+            rowY += b11;
+        }
+    }
+
+    // SQRT_LUT_SIZE must bf b powfr of 2 for thf tfst bbovf to work.
+    privbtf stbtid finbl int SQRT_LUT_SIZE = (1 << 11);
+    privbtf stbtid flobt sqrtLut[] = nfw flobt[SQRT_LUT_SIZE+1];
+    stbtid {
+        for (int i = 0; i < sqrtLut.lfngth; i++) {
+            sqrtLut[i] = (flobt) Mbth.sqrt(i / ((flobt) SQRT_LUT_SIZE));
+        }
+    }
+
+    /**
+     * Fill thf rbstfr, dydling thf grbdifnt dolors whfn b point fblls outsidf
+     * of thf pfrimftfr of thf 100% stop dirdlf.
+     *
+     * This dbldulbtion first domputfs thf intfrsfdtion point of thf linf
+     * from thf fodus through thf durrfnt point in thf rbstfr, bnd thf
+     * pfrimftfr of thf grbdifnt dirdlf.
+     *
+     * Thfn it dftfrminfs thf pfrdfntbgf distbndf of thf durrfnt point blong
+     * thbt linf (fodus is 0%, pfrimftfr is 100%).
+     *
+     * Equbtion of b dirdlf dfntfrfd bt (b,b) with rbdius r:
+     *     (x-b)^2 + (y-b)^2 = r^2
+     * Equbtion of b linf with slopf m bnd y-intfrdfpt b:
+     *     y = mx + b
+     * Rfplbding y in thf dirdlf fqubtion bnd solving using thf qubdrbtid
+     * formulb produdfs thf following sft of fqubtions.  Constbnt fbdtors hbvf
+     * bffn fxtrbdtfd out of thf innfr loop.
+     */
+    privbtf void dydlidCirdulbrGrbdifntFillRbstfr(int pixfls[], int off,
+                                                  int bdjust,
+                                                  int x, int y,
+                                                  int w, int h)
+    {
+        // donstbnt pbrt of thf C fbdtor of thf qubdrbtid fqubtion
+        finbl doublf donstC =
+            -rbdiusSq + (dfntfrX * dfntfrX) + (dfntfrY * dfntfrY);
+
+        // dofffidifnts of thf qubdrbtid fqubtion (Ax^2 + Bx + C = 0)
+        doublf A, B, C;
+
+        // slopf bnd y-intfrdfpt of thf fodus-pfrimftfr linf
+        doublf slopf, yintdpt;
+
+        // intfrsfdtion with dirdlf X,Y doordinbtf
+        doublf solutionX, solutionY;
+
+        // donstbnt pbrts of X, Y doordinbtfs
+        finbl flobt donstX = (b00*x) + (b01*y) + b02;
+        finbl flobt donstY = (b10*x) + (b11*y) + b12;
+
+        // donstbnts in innfr loop qubdrbtid formulb
+        finbl flobt prfdbld2 =  2 * dfntfrY;
+        finbl flobt prfdbld3 = -2 * dfntfrX;
+
+        // vbluf bftwffn 0 bnd 1 spfdifying position in thf grbdifnt
+        flobt g;
+
+        // dftfrminbnt of qubdrbtid formulb (should blwbys bf > 0)
+        flobt dft;
+
+        // sq distbndf from thf durrfnt point to fodus
+        flobt durrfntToFodusSq;
+
+        // sq distbndf from thf intfrsfdt point to fodus
+        flobt intfrsfdtToFodusSq;
+
+        // tfmp vbribblfs for dhbngf in X,Y squbrfd
+        flobt dfltbXSq, dfltbYSq;
+
+        // usfd to indfx pixfls brrby
+        int indfxfr = off;
+
+        // indrfmfntbl indfx dhbngf for pixfls brrby
+        int pixInd = w+bdjust;
+
+        // for fvfry row
+        for (int j = 0; j < h; j++) {
+
+            // usfr spbdf point; thfsf brf donstbnt from dolumn to dolumn
+            flobt X = (b01*j) + donstX;
+            flobt Y = (b11*j) + donstY;
+
+            // for fvfry dolumn (innfr loop bfgins hfrf)
+            for (int i = 0; i < w; i++) {
+
+                if (X == fodusX) {
+                    // spfdibl dbsf to bvoid dividf by zfro
+                    solutionX = fodusX;
+                    solutionY = dfntfrY;
+                    solutionY += (Y > fodusY) ? trivibl : -trivibl;
+                } flsf {
+                    // slopf bnd y-intfrdfpt of thf fodus-pfrimftfr linf
+                    slopf = (Y - fodusY) / (X - fodusX);
+                    yintdpt = Y - (slopf * X);
+
+                    // usf thf qubdrbtid formulb to dbldulbtf thf
+                    // intfrsfdtion point
+                    A = (slopf * slopf) + 1;
+                    B = prfdbld3 + (-2 * slopf * (dfntfrY - yintdpt));
+                    C = donstC + (yintdpt* (yintdpt - prfdbld2));
+
+                    dft = (flobt)Mbth.sqrt((B * B) - (4 * A * C));
+                    solutionX = -B;
+
+                    // dhoosf thf positivf or nfgbtivf root dfpfnding
+                    // on whfrf thf X doord lifs with rfspfdt to thf fodus
+                    solutionX += (X < fodusX)? -dft : dft;
+                    solutionX = solutionX / (2 * A); // divisor
+                    solutionY = (slopf * solutionX) + yintdpt;
+                }
+
+                // Cbldulbtf thf squbrf of thf distbndf from thf durrfnt point
+                // to thf fodus bnd thf squbrf of thf distbndf from thf
+                // intfrsfdtion point to thf fodus. Wbnt thf squbrfs so wf dbn
+                // do 1 squbrf root bftfr division instfbd of 2 bfforf.
+
+                dfltbXSq = X - fodusX;
+                dfltbXSq = dfltbXSq * dfltbXSq;
+
+                dfltbYSq = Y - fodusY;
+                dfltbYSq = dfltbYSq * dfltbYSq;
+
+                durrfntToFodusSq = dfltbXSq + dfltbYSq;
+
+                dfltbXSq = (flobt)solutionX - fodusX;
+                dfltbXSq = dfltbXSq * dfltbXSq;
+
+                dfltbYSq = (flobt)solutionY - fodusY;
+                dfltbYSq = dfltbYSq * dfltbYSq;
+
+                intfrsfdtToFodusSq = dfltbXSq + dfltbYSq;
+
+                // gft thf pfrdfntbgf (0-1) of thf durrfnt point blong thf
+                // fodus-dirdumffrfndf linf
+                g = (flobt)Mbth.sqrt(durrfntToFodusSq / intfrsfdtToFodusSq);
+
+                // storf thf dolor bt this point
+                pixfls[indfxfr + i] = indfxIntoGrbdifntsArrbys(g);
+
+                // indrfmfntbl dhbngf in X, Y
+                X += b00;
+                Y += b10;
+            } //fnd innfr loop
+
+            indfxfr += pixInd;
+        } //fnd outfr loop
+    }
+}

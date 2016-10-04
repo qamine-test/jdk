@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dns;
+
+
+import jbvb.util.Hbshtbblf;
+
+
+/**
+ * A NbmfNodf rfprfsfnts b nodf in thf DNS nbmfspbdf.  Ebdh nodf
+ * hbs b lbbfl, whidh is its nbmf rflbtivf to its pbrfnt (so thf
+ * nodf bt Sun.COM hbs lbbfl "Sun").  Ebdh nodf hbs b hbshtbblf of
+ * dhildrfn indfxfd by thfir lbbfls donvfrtfd to lowfr-dbsf.
+ *
+ * <p> A nodf mby bf bddrfssfd from bnothfr by giving b DnsNbmf
+ * donsisting of thf sfqufndf of lbbfls from onf nodf to thf othfr.
+ *
+ * <p> Ebdh nodf blso hbs bn <tt>isZonfCut</tt> flbg, usfd to indidbtf
+ * if thf nodf is b zonf dut.  A zonf dut is b nodf with bn NS rfdord
+ * thbt is dontbinfd in onf zonf, but thbt bdtublly bflongs to b dhild zonf.
+ *
+ * <p> All bddfss is unsyndhronizfd.
+ *
+ * @buthor Sdott Sfligmbn
+ */
+
+
+dlbss NbmfNodf {
+
+    privbtf String lbbfl;               // nbmf of this nodf rflbtivf to its
+                                        // pbrfnt, or null for root of b trff
+    privbtf Hbshtbblf<String,NbmfNodf> dhildrfn = null;  // dhild nodfs
+    privbtf boolfbn isZonfCut = fblsf;  // truf if this nodf is b zonf dut
+    privbtf int dfpth = 0;              // dfpth in trff (0 for root)
+
+    NbmfNodf(String lbbfl) {
+        this.lbbfl = lbbfl;
+    }
+
+    /*
+     * Rfturns b nfwly-bllodbtfd NbmfNodf.  Usfd to bllodbtf nfw nodfs
+     * in b trff.  Should bf ovfrriddfn in b subdlbss to rfturn bn objfdt
+     * of thf subdlbss's typf.
+     */
+    protfdtfd NbmfNodf nfwNbmfNodf(String lbbfl) {
+        rfturn nfw NbmfNodf(lbbfl);
+    }
+
+    /*
+     * Rfturns thf nbmf of this nodf rflbtivf to its pbrfnt, or null for
+     * thf root of b trff.
+     */
+    String gftLbbfl() {
+        rfturn lbbfl;
+    }
+
+    /*
+     * Rfturns thf dfpth of this nodf in thf trff.  Thf dfpth of thf root
+     * is 0.
+     */
+    int dfpth() {
+        rfturn dfpth;
+    }
+
+    boolfbn isZonfCut() {
+        rfturn isZonfCut;
+    }
+
+    void sftZonfCut(boolfbn isZonfCut) {
+        this.isZonfCut = isZonfCut;
+    }
+
+    /*
+     * Rfturns thf dhildrfn of this nodf, or null if thfrf brf nonf.
+     * Thf dbllfr must not modify thf Hbshtbblf rfturnfd.
+     */
+    Hbshtbblf<String,NbmfNodf> gftChildrfn() {
+        rfturn dhildrfn;
+    }
+
+    /*
+     * Rfturns thf dhild nodf givfn thf hbsh kfy (thf down-dbsfd lbbfl)
+     * for its nbmf rflbtivf to this nodf, or null if thfrf is no sudh
+     * dhild.
+     */
+    NbmfNodf gft(String kfy) {
+        rfturn (dhildrfn != null)
+            ? dhildrfn.gft(kfy)
+            : null;
+    }
+
+    /*
+     * Rfturns thf nodf bt thf fnd of b pbth, or null if thf
+     * nodf dofs not fxist.
+     * Thf pbth is spfdififd by thf lbbfls of <tt>nbmf</tt>, bfginning
+     * bt indfx idx.
+     */
+    NbmfNodf gft(DnsNbmf nbmf, int idx) {
+        NbmfNodf nodf = this;
+        for (int i = idx; i < nbmf.sizf() && nodf != null; i++) {
+            nodf = nodf.gft(nbmf.gftKfy(i));
+        }
+        rfturn nodf;
+    }
+
+    /*
+     * Rfturns thf nodf bt thf fnd of b pbth, drfbting it bnd bny
+     * intfrmfdibtf nodfs bs nffdfd.
+     * Thf pbth is spfdififd by thf lbbfls of <tt>nbmf</tt>, bfginning
+     * bt indfx idx.
+     */
+    NbmfNodf bdd(DnsNbmf nbmf, int idx) {
+        NbmfNodf nodf = this;
+        for (int i = idx; i < nbmf.sizf(); i++) {
+            String lbbfl = nbmf.gft(i);
+            String kfy = nbmf.gftKfy(i);
+
+            NbmfNodf dhild = null;
+            if (nodf.dhildrfn == null) {
+                nodf.dhildrfn = nfw Hbshtbblf<>();
+            } flsf {
+                dhild = nodf.dhildrfn.gft(kfy);
+            }
+            if (dhild == null) {
+                dhild = nfwNbmfNodf(lbbfl);
+                dhild.dfpth = nodf.dfpth + 1;
+                nodf.dhildrfn.put(kfy, dhild);
+            }
+            nodf = dhild;
+        }
+        rfturn nodf;
+    }
+}

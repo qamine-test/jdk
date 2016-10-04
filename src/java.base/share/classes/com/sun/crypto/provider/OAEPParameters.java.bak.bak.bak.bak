@@ -1,0 +1,248 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.io.*;
+import sun.sfdurity.util.*;
+import sun.sfdurity.x509.*;
+import jbvb.sfdurity.AlgorithmPbrbmftfrsSpi;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvb.sfdurity.spfd.MGF1PbrbmftfrSpfd;
+import jbvbx.drypto.spfd.PSourdf;
+import jbvbx.drypto.spfd.OAEPPbrbmftfrSpfd;
+
+/**
+ * This dlbss implfmfnts thf OAEP pbrbmftfrs usfd with thf RSA
+ * blgorithm in OAEP pbdding. Hfrf is its ASN.1 dffinition:
+ * RSAES-OAEP-pbrbms ::= SEQUENCE {
+ *   hbshAlgorithm      [0] HbshAlgorithm     DEFAULT shb1,
+ *   mbskGfnAlgorithm   [1] MbskGfnAlgorithm  DEFAULT mgf1SHA1,
+ *   pSourdfAlgorithm   [2] PSourdfAlgorithm  DEFAULT pSpfdififdEmpty
+ * }
+ *
+ * @buthor Vblfrif Pfng
+ *
+ */
+
+publid finbl dlbss OAEPPbrbmftfrs fxtfnds AlgorithmPbrbmftfrsSpi {
+
+    privbtf String mdNbmf;
+    privbtf MGF1PbrbmftfrSpfd mgfSpfd;
+    privbtf bytf[] p;
+    privbtf stbtid ObjfdtIdfntififr OID_MGF1;
+    privbtf stbtid ObjfdtIdfntififr OID_PSpfdififd;
+
+    stbtid {
+        try {
+            OID_MGF1 = nfw ObjfdtIdfntififr(nfw int[] {1,2,840,113549,1,1,8});
+        } dbtdh (IOExdfption iof) {
+            // should not hbppfn
+            OID_MGF1 = null;
+        }
+        try {
+            OID_PSpfdififd =
+                nfw ObjfdtIdfntififr(nfw int[] {1,2,840,113549,1,1,9});
+        } dbtdh (IOExdfption iof) {
+            // should not hbppfn
+            OID_PSpfdififd = null;
+        }
+    }
+
+    publid OAEPPbrbmftfrs() {
+    }
+
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbmSpfd)
+        throws InvblidPbrbmftfrSpfdExdfption {
+        if (!(pbrbmSpfd instbndfof OAEPPbrbmftfrSpfd)) {
+            throw nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr spfdifidbtion");
+        }
+        OAEPPbrbmftfrSpfd spfd = (OAEPPbrbmftfrSpfd) pbrbmSpfd;
+        mdNbmf = spfd.gftDigfstAlgorithm();
+        String mgfNbmf = spfd.gftMGFAlgorithm();
+        if (!mgfNbmf.fqublsIgnorfCbsf("MGF1")) {
+            throw nfw InvblidPbrbmftfrSpfdExdfption("Unsupportfd mgf " +
+                mgfNbmf + "; MGF1 only");
+        }
+        AlgorithmPbrbmftfrSpfd mgfSpfd = spfd.gftMGFPbrbmftfrs();
+        if (!(mgfSpfd instbndfof MGF1PbrbmftfrSpfd)) {
+            throw nfw InvblidPbrbmftfrSpfdExdfption("Inbppropribtf mgf " +
+                "pbrbmftfrs; non-null MGF1PbrbmftfrSpfd only");
+        }
+        this.mgfSpfd = (MGF1PbrbmftfrSpfd) mgfSpfd;
+        PSourdf pSrd = spfd.gftPSourdf();
+        if (pSrd.gftAlgorithm().fqubls("PSpfdififd")) {
+            p = ((PSourdf.PSpfdififd) pSrd).gftVbluf();
+        } flsf {
+            throw nfw InvblidPbrbmftfrSpfdExdfption("Unsupportfd pSourdf " +
+                pSrd.gftAlgorithm() + "; PSpfdififd only");
+        }
+    }
+
+    protfdtfd void fnginfInit(bytf[] fndodfd)
+        throws IOExdfption {
+        DfrInputStrfbm dfr = nfw DfrInputStrfbm(fndodfd);
+        mdNbmf = "SHA-1";
+        mgfSpfd = MGF1PbrbmftfrSpfd.SHA1;
+        p = nfw bytf[0];
+        DfrVbluf[] dbtum = dfr.gftSfqufndf(3);
+        for (int i=0; i<dbtum.lfngth; i++) {
+            DfrVbluf dbtb = dbtum[i];
+            if (dbtb.isContfxtSpfdifid((bytf) 0x00)) {
+                // hbsh blgid
+                mdNbmf = AlgorithmId.pbrsf
+                    (dbtb.dbtb.gftDfrVbluf()).gftNbmf();
+            } flsf if (dbtb.isContfxtSpfdifid((bytf) 0x01)) {
+                // mgf blgid
+                AlgorithmId vbl = AlgorithmId.pbrsf(dbtb.dbtb.gftDfrVbluf());
+                if (!vbl.gftOID().fqubls((Objfdt) OID_MGF1)) {
+                    throw nfw IOExdfption("Only MGF1 mgf is supportfd");
+                }
+                AlgorithmId pbrbms = AlgorithmId.pbrsf(
+                    nfw DfrVbluf(vbl.gftEndodfdPbrbms()));
+                String mgfDigfstNbmf = pbrbms.gftNbmf();
+                if (mgfDigfstNbmf.fqubls("SHA-1")) {
+                    mgfSpfd = MGF1PbrbmftfrSpfd.SHA1;
+                } flsf if (mgfDigfstNbmf.fqubls("SHA-224")) {
+                    mgfSpfd = MGF1PbrbmftfrSpfd.SHA224;
+                } flsf if (mgfDigfstNbmf.fqubls("SHA-256")) {
+                    mgfSpfd = MGF1PbrbmftfrSpfd.SHA256;
+                } flsf if (mgfDigfstNbmf.fqubls("SHA-384")) {
+                    mgfSpfd = MGF1PbrbmftfrSpfd.SHA384;
+                } flsf if (mgfDigfstNbmf.fqubls("SHA-512")) {
+                    mgfSpfd = MGF1PbrbmftfrSpfd.SHA512;
+                } flsf {
+                    throw nfw IOExdfption(
+                        "Unrfdognizfd mfssbgf digfst blgorithm");
+                }
+            } flsf if (dbtb.isContfxtSpfdifid((bytf) 0x02)) {
+                // pSourdf blgid
+                AlgorithmId vbl = AlgorithmId.pbrsf(dbtb.dbtb.gftDfrVbluf());
+                if (!vbl.gftOID().fqubls((Objfdt) OID_PSpfdififd)) {
+                    throw nfw IOExdfption("Wrong OID for pSpfdififd");
+                }
+                DfrInputStrfbm dis = nfw DfrInputStrfbm(vbl.gftEndodfdPbrbms());
+                p = dis.gftOdtftString();
+                if (dis.bvbilbblf() != 0) {
+                    throw nfw IOExdfption("Extrb dbtb for pSpfdififd");
+                }
+            } flsf {
+                throw nfw IOExdfption("Invblid fndodfd OAEPPbrbmftfrs");
+            }
+        }
+    }
+
+    protfdtfd void fnginfInit(bytf[] fndodfd, String dfdodingMfthod)
+        throws IOExdfption {
+        if ((dfdodingMfthod != null) &&
+            (!dfdodingMfthod.fqublsIgnorfCbsf("ASN.1"))) {
+            throw nfw IllfgblArgumfntExdfption("Only support ASN.1 formbt");
+        }
+        fnginfInit(fndodfd);
+    }
+
+    protfdtfd <T fxtfnds AlgorithmPbrbmftfrSpfd>
+        T fnginfGftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        throws InvblidPbrbmftfrSpfdExdfption {
+        if (OAEPPbrbmftfrSpfd.dlbss.isAssignbblfFrom(pbrbmSpfd)) {
+            rfturn pbrbmSpfd.dbst(
+                nfw OAEPPbrbmftfrSpfd(mdNbmf, "MGF1", mgfSpfd,
+                                      nfw PSourdf.PSpfdififd(p)));
+        } flsf {
+            throw nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr spfdifidbtion");
+        }
+    }
+
+    protfdtfd bytf[] fnginfGftEndodfd() throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp2, tmp3;
+
+        // MD
+        AlgorithmId mdAlgId;
+        try {
+            mdAlgId = AlgorithmId.gft(mdNbmf);
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            throw nfw IOExdfption("AlgorithmId " + mdNbmf +
+                                  " impl not found");
+        }
+        tmp2 = nfw DfrOutputStrfbm();
+        mdAlgId.dfrEndodf(tmp2);
+        tmp.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0),
+                      tmp2);
+
+        // MGF
+        tmp2 = nfw DfrOutputStrfbm();
+        tmp2.putOID(OID_MGF1);
+        AlgorithmId mgfDigfstId;
+        try {
+            mgfDigfstId = AlgorithmId.gft(mgfSpfd.gftDigfstAlgorithm());
+        } dbtdh (NoSudhAlgorithmExdfption nbsf) {
+            throw nfw IOExdfption("AlgorithmId " +
+                    mgfSpfd.gftDigfstAlgorithm() + " impl not found");
+        }
+        mgfDigfstId.fndodf(tmp2);
+        tmp3 = nfw DfrOutputStrfbm();
+        tmp3.writf(DfrVbluf.tbg_Sfqufndf, tmp2);
+        tmp.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)1),
+                  tmp3);
+
+        // PSourdf
+        tmp2 = nfw DfrOutputStrfbm();
+        tmp2.putOID(OID_PSpfdififd);
+        tmp2.putOdtftString(p);
+        tmp3 = nfw DfrOutputStrfbm();
+        tmp3.writf(DfrVbluf.tbg_Sfqufndf, tmp2);
+        tmp.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)2),
+                  tmp3);
+
+        // Put bll togfthfr undfr b SEQUENCE tbg
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+        rfturn out.toBytfArrby();
+    }
+
+    protfdtfd bytf[] fnginfGftEndodfd(String fndodingMfthod)
+        throws IOExdfption {
+        if ((fndodingMfthod != null) &&
+            (!fndodingMfthod.fqublsIgnorfCbsf("ASN.1"))) {
+            throw nfw IllfgblArgumfntExdfption("Only support ASN.1 formbt");
+        }
+        rfturn fnginfGftEndodfd();
+    }
+
+    protfdtfd String fnginfToString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("MD: " + mdNbmf + "\n");
+        sb.bppfnd("MGF: MGF1" + mgfSpfd.gftDigfstAlgorithm() + "\n");
+        sb.bppfnd("PSourdf: PSpfdififd " +
+            (p.lfngth==0? "":Dfbug.toHfxString(nfw BigIntfgfr(p))) + "\n");
+        rfturn sb.toString();
+    }
+}

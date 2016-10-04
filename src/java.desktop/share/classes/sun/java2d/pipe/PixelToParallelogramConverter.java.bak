@@ -1,414 +1,414 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.Shape;
-import java.awt.BasicStroke;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
-import sun.java2d.SunGraphics2D;
-import sun.awt.SunHints;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.gfom.Linf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.bwt.SunHints;
 
 /**
- * This class converts calls to the basic pixel rendering methods
- * into calls to the methods on a ParallelogramPipe.
- * Most calls are transformed into calls to the fill(Shape) method
- * by the parent PixelToShapeConverter class, but some calls are
- * transformed into calls to fill/drawParallelogram().
+ * Tiis dlbss donvfrts dblls to tif bbsid pixfl rfndfring mftiods
+ * into dblls to tif mftiods on b PbrbllflogrbmPipf.
+ * Most dblls brf trbnsformfd into dblls to tif fill(Sibpf) mftiod
+ * by tif pbrfnt PixflToSibpfConvfrtfr dlbss, but somf dblls brf
+ * trbnsformfd into dblls to fill/drbwPbrbllflogrbm().
  */
-public class PixelToParallelogramConverter extends PixelToShapeConverter
-    implements ShapeDrawPipe
+publid dlbss PixflToPbrbllflogrbmConvfrtfr fxtfnds PixflToSibpfConvfrtfr
+    implfmfnts SibpfDrbwPipf
 {
-    ParallelogramPipe outrenderer;
-    double minPenSize;
-    double normPosition;
-    double normRoundingBias;
-    boolean adjustfill;
+    PbrbllflogrbmPipf outrfndfrfr;
+    doublf minPfnSizf;
+    doublf normPosition;
+    doublf normRoundingBibs;
+    boolfbn bdjustfill;
 
     /**
-     * @param shapepipe pipeline to forward shape calls to
-     * @param pgrampipe pipeline to forward parallelogram calls to
-     *                  (and drawLine calls if possible)
-     * @param minPenSize minimum pen size for dropout control
-     * @param normPosition sub-pixel location to normalize endpoints
-     *                     for STROKE_NORMALIZE cases
-     * @param adjustFill boolean to control whethere normalization
-     *                   constants are also applied to fill operations
-     *                   (normally true for non-AA, false for AA)
+     * @pbrbm sibpfpipf pipflinf to forwbrd sibpf dblls to
+     * @pbrbm pgrbmpipf pipflinf to forwbrd pbrbllflogrbm dblls to
+     *                  (bnd drbwLinf dblls if possiblf)
+     * @pbrbm minPfnSizf minimum pfn sizf for dropout dontrol
+     * @pbrbm normPosition sub-pixfl lodbtion to normblizf fndpoints
+     *                     for STROKE_NORMALIZE dbsfs
+     * @pbrbm bdjustFill boolfbn to dontrol wiftifrf normblizbtion
+     *                   donstbnts brf blso bpplifd to fill opfrbtions
+     *                   (normblly truf for non-AA, fblsf for AA)
      */
-    public PixelToParallelogramConverter(ShapeDrawPipe shapepipe,
-                                         ParallelogramPipe pgrampipe,
-                                         double minPenSize,
-                                         double normPosition,
-                                         boolean adjustfill)
+    publid PixflToPbrbllflogrbmConvfrtfr(SibpfDrbwPipf sibpfpipf,
+                                         PbrbllflogrbmPipf pgrbmpipf,
+                                         doublf minPfnSizf,
+                                         doublf normPosition,
+                                         boolfbn bdjustfill)
     {
-        super(shapepipe);
-        outrenderer = pgrampipe;
-        this.minPenSize = minPenSize;
-        this.normPosition = normPosition;
-        this.normRoundingBias = 0.5 - normPosition;
-        this.adjustfill = adjustfill;
+        supfr(sibpfpipf);
+        outrfndfrfr = pgrbmpipf;
+        tiis.minPfnSizf = minPfnSizf;
+        tiis.normPosition = normPosition;
+        tiis.normRoundingBibs = 0.5 - normPosition;
+        tiis.bdjustfill = bdjustfill;
     }
 
-    public void drawLine(SunGraphics2D sg2d,
+    publid void drbwLinf(SunGrbpiids2D sg2d,
                          int x1, int y1, int x2, int y2)
     {
-        if (!drawGeneralLine(sg2d, x1, y1, x2, y2)) {
-            super.drawLine(sg2d, x1, y1, x2, y2);
+        if (!drbwGfnfrblLinf(sg2d, x1, y1, x2, y2)) {
+            supfr.drbwLinf(sg2d, x1, y1, x2, y2);
         }
     }
 
-    public void drawRect(SunGraphics2D sg2d,
-                         int x, int y, int w, int h)
+    publid void drbwRfdt(SunGrbpiids2D sg2d,
+                         int x, int y, int w, int i)
     {
-        if (w >= 0 && h >= 0) {
-            if (sg2d.strokeState < SunGraphics2D.STROKE_CUSTOM) {
-                BasicStroke bs = ((BasicStroke) sg2d.stroke);
-                if (w > 0 && h > 0) {
-                    if (bs.getLineJoin() == BasicStroke.JOIN_MITER &&
-                        bs.getDashArray() == null)
+        if (w >= 0 && i >= 0) {
+            if (sg2d.strokfStbtf < SunGrbpiids2D.STROKE_CUSTOM) {
+                BbsidStrokf bs = ((BbsidStrokf) sg2d.strokf);
+                if (w > 0 && i > 0) {
+                    if (bs.gftLinfJoin() == BbsidStrokf.JOIN_MITER &&
+                        bs.gftDbsiArrby() == null)
                     {
-                        double lw = bs.getLineWidth();
-                        drawRectangle(sg2d, x, y, w, h, lw);
-                        return;
+                        doublf lw = bs.gftLinfWidti();
+                        drbwRfdtbnglf(sg2d, x, y, w, i, lw);
+                        rfturn;
                     }
-                } else {
-                    // Note: This calls the integer version which
-                    // will verify that the local drawLine optimizations
-                    // work and call super.drawLine(), if not.
-                    drawLine(sg2d, x, y, x+w, y+h);
-                    return;
+                } flsf {
+                    // Notf: Tiis dblls tif intfgfr vfrsion wiidi
+                    // will vfrify tibt tif lodbl drbwLinf optimizbtions
+                    // work bnd dbll supfr.drbwLinf(), if not.
+                    drbwLinf(sg2d, x, y, x+w, y+i);
+                    rfturn;
                 }
             }
-            super.drawRect(sg2d, x, y, w, h);
+            supfr.drbwRfdt(sg2d, x, y, w, i);
         }
     }
 
-    public void fillRect(SunGraphics2D sg2d,
-                         int x, int y, int w, int h)
+    publid void fillRfdt(SunGrbpiids2D sg2d,
+                         int x, int y, int w, int i)
     {
-        if (w > 0 && h > 0) {
-            fillRectangle(sg2d, x, y, w, h);
+        if (w > 0 && i > 0) {
+            fillRfdtbnglf(sg2d, x, y, w, i);
         }
     }
 
-    public void draw(SunGraphics2D sg2d, Shape s) {
-        if (sg2d.strokeState < SunGraphics2D.STROKE_CUSTOM) {
-            BasicStroke bs = ((BasicStroke) sg2d.stroke);
-            if (s instanceof Rectangle2D) {
-                if (bs.getLineJoin() == BasicStroke.JOIN_MITER &&
-                    bs.getDashArray() == null)
+    publid void drbw(SunGrbpiids2D sg2d, Sibpf s) {
+        if (sg2d.strokfStbtf < SunGrbpiids2D.STROKE_CUSTOM) {
+            BbsidStrokf bs = ((BbsidStrokf) sg2d.strokf);
+            if (s instbndfof Rfdtbnglf2D) {
+                if (bs.gftLinfJoin() == BbsidStrokf.JOIN_MITER &&
+                    bs.gftDbsiArrby() == null)
                 {
-                    Rectangle2D r2d = (Rectangle2D) s;
-                    double w = r2d.getWidth();
-                    double h = r2d.getHeight();
-                    double x = r2d.getX();
-                    double y = r2d.getY();
-                    if (w >= 0 && h >= 0) {
-                        double lw = bs.getLineWidth();
-                        drawRectangle(sg2d, x, y, w, h, lw);
+                    Rfdtbnglf2D r2d = (Rfdtbnglf2D) s;
+                    doublf w = r2d.gftWidti();
+                    doublf i = r2d.gftHfigit();
+                    doublf x = r2d.gftX();
+                    doublf y = r2d.gftY();
+                    if (w >= 0 && i >= 0) {
+                        doublf lw = bs.gftLinfWidti();
+                        drbwRfdtbnglf(sg2d, x, y, w, i, lw);
                     }
-                    return;
+                    rfturn;
                 }
-            } else if (s instanceof Line2D) {
-                Line2D l2d = (Line2D) s;
-                if (drawGeneralLine(sg2d,
-                                    l2d.getX1(), l2d.getY1(),
-                                    l2d.getX2(), l2d.getY2()))
+            } flsf if (s instbndfof Linf2D) {
+                Linf2D l2d = (Linf2D) s;
+                if (drbwGfnfrblLinf(sg2d,
+                                    l2d.gftX1(), l2d.gftY1(),
+                                    l2d.gftX2(), l2d.gftY2()))
                 {
-                    return;
+                    rfturn;
                 }
             }
         }
 
-        outpipe.draw(sg2d, s);
+        outpipf.drbw(sg2d, s);
     }
 
-    public void fill(SunGraphics2D sg2d, Shape s) {
-        if (s instanceof Rectangle2D) {
-            Rectangle2D r2d = (Rectangle2D) s;
-            double w = r2d.getWidth();
-            double h = r2d.getHeight();
-            if (w > 0 && h > 0) {
-                double x = r2d.getX();
-                double y = r2d.getY();
-                fillRectangle(sg2d, x, y, w, h);
+    publid void fill(SunGrbpiids2D sg2d, Sibpf s) {
+        if (s instbndfof Rfdtbnglf2D) {
+            Rfdtbnglf2D r2d = (Rfdtbnglf2D) s;
+            doublf w = r2d.gftWidti();
+            doublf i = r2d.gftHfigit();
+            if (w > 0 && i > 0) {
+                doublf x = r2d.gftX();
+                doublf y = r2d.gftY();
+                fillRfdtbnglf(sg2d, x, y, w, i);
             }
-            return;
+            rfturn;
         }
 
-        outpipe.fill(sg2d, s);
+        outpipf.fill(sg2d, s);
     }
 
-    static double len(double x, double y) {
-        return ((x == 0) ? Math.abs(y)
-                : ((y == 0) ? Math.abs(x)
-                   : Math.sqrt(x * x + y * y)));
+    stbtid doublf lfn(doublf x, doublf y) {
+        rfturn ((x == 0) ? Mbti.bbs(y)
+                : ((y == 0) ? Mbti.bbs(x)
+                   : Mbti.sqrt(x * x + y * y)));
     }
 
-    double normalize(double v) {
-        return Math.floor(v + normRoundingBias) + normPosition;
+    doublf normblizf(doublf v) {
+        rfturn Mbti.floor(v + normRoundingBibs) + normPosition;
     }
 
-    public boolean drawGeneralLine(SunGraphics2D sg2d,
-                                   double ux1, double uy1,
-                                   double ux2, double uy2)
+    publid boolfbn drbwGfnfrblLinf(SunGrbpiids2D sg2d,
+                                   doublf ux1, doublf uy1,
+                                   doublf ux2, doublf uy2)
     {
-        if (sg2d.strokeState == SunGraphics2D.STROKE_CUSTOM ||
-            sg2d.strokeState == SunGraphics2D.STROKE_THINDASHED)
+        if (sg2d.strokfStbtf == SunGrbpiids2D.STROKE_CUSTOM ||
+            sg2d.strokfStbtf == SunGrbpiids2D.STROKE_THINDASHED)
         {
-            return false;
+            rfturn fblsf;
         }
-        BasicStroke bs = (BasicStroke) sg2d.stroke;
-        int cap = bs.getEndCap();
-        if (cap == BasicStroke.CAP_ROUND || bs.getDashArray() != null) {
-            // TODO: we could construct the GeneralPath directly
-            // for CAP_ROUND and save a lot of processing in that case...
-            // And again, we would need to deal with dropout control...
-            return false;
+        BbsidStrokf bs = (BbsidStrokf) sg2d.strokf;
+        int dbp = bs.gftEndCbp();
+        if (dbp == BbsidStrokf.CAP_ROUND || bs.gftDbsiArrby() != null) {
+            // TODO: wf dould donstrudt tif GfnfrblPbti dirfdtly
+            // for CAP_ROUND bnd sbvf b lot of prodfssing in tibt dbsf...
+            // And bgbin, wf would nffd to dfbl witi dropout dontrol...
+            rfturn fblsf;
         }
-        double lw = bs.getLineWidth();
-        // Save the original dx, dy in case we need it to transform
-        // the linewidth as a perpendicular vector below
-        double dx = ux2 - ux1;
-        double dy = uy2 - uy1;
-        double x1, y1, x2, y2;
-        switch (sg2d.transformState) {
-        case SunGraphics2D.TRANSFORM_GENERIC:
-        case SunGraphics2D.TRANSFORM_TRANSLATESCALE:
+        doublf lw = bs.gftLinfWidti();
+        // Sbvf tif originbl dx, dy in dbsf wf nffd it to trbnsform
+        // tif linfwidti bs b pfrpfndidulbr vfdtor bflow
+        doublf dx = ux2 - ux1;
+        doublf dy = uy2 - uy1;
+        doublf x1, y1, x2, y2;
+        switdi (sg2d.trbnsformStbtf) {
+        dbsf SunGrbpiids2D.TRANSFORM_GENERIC:
+        dbsf SunGrbpiids2D.TRANSFORM_TRANSLATESCALE:
             {
-                double coords[] = {ux1, uy1, ux2, uy2};
-                sg2d.transform.transform(coords, 0, coords, 0, 2);
-                x1 = coords[0];
-                y1 = coords[1];
-                x2 = coords[2];
-                y2 = coords[3];
+                doublf doords[] = {ux1, uy1, ux2, uy2};
+                sg2d.trbnsform.trbnsform(doords, 0, doords, 0, 2);
+                x1 = doords[0];
+                y1 = doords[1];
+                x2 = doords[2];
+                y2 = doords[3];
             }
-            break;
-        case SunGraphics2D.TRANSFORM_ANY_TRANSLATE:
-        case SunGraphics2D.TRANSFORM_INT_TRANSLATE:
+            brfbk;
+        dbsf SunGrbpiids2D.TRANSFORM_ANY_TRANSLATE:
+        dbsf SunGrbpiids2D.TRANSFORM_INT_TRANSLATE:
             {
-                double tx = sg2d.transform.getTranslateX();
-                double ty = sg2d.transform.getTranslateY();
+                doublf tx = sg2d.trbnsform.gftTrbnslbtfX();
+                doublf ty = sg2d.trbnsform.gftTrbnslbtfY();
                 x1 = ux1 + tx;
                 y1 = uy1 + ty;
                 x2 = ux2 + tx;
                 y2 = uy2 + ty;
             }
-            break;
-        case SunGraphics2D.TRANSFORM_ISIDENT:
+            brfbk;
+        dbsf SunGrbpiids2D.TRANSFORM_ISIDENT:
             x1 = ux1;
             y1 = uy1;
             x2 = ux2;
             y2 = uy2;
-            break;
-        default:
-            throw new InternalError("unknown TRANSFORM state...");
+            brfbk;
+        dffbult:
+            tirow nfw IntfrnblError("unknown TRANSFORM stbtf...");
         }
-        if (sg2d.strokeHint != SunHints.INTVAL_STROKE_PURE) {
-            if (sg2d.strokeState == SunGraphics2D.STROKE_THIN &&
-                outrenderer instanceof PixelDrawPipe)
+        if (sg2d.strokfHint != SunHints.INTVAL_STROKE_PURE) {
+            if (sg2d.strokfStbtf == SunGrbpiids2D.STROKE_THIN &&
+                outrfndfrfr instbndfof PixflDrbwPipf)
             {
-                // PixelDrawPipes will add sg2d.transXY so we need to factor
-                // that out...
-                int ix1 = (int) Math.floor(x1 - sg2d.transX);
-                int iy1 = (int) Math.floor(y1 - sg2d.transY);
-                int ix2 = (int) Math.floor(x2 - sg2d.transX);
-                int iy2 = (int) Math.floor(y2 - sg2d.transY);
-                ((PixelDrawPipe)outrenderer).drawLine(sg2d, ix1, iy1, ix2, iy2);
-                return true;
+                // PixflDrbwPipfs will bdd sg2d.trbnsXY so wf nffd to fbdtor
+                // tibt out...
+                int ix1 = (int) Mbti.floor(x1 - sg2d.trbnsX);
+                int iy1 = (int) Mbti.floor(y1 - sg2d.trbnsY);
+                int ix2 = (int) Mbti.floor(x2 - sg2d.trbnsX);
+                int iy2 = (int) Mbti.floor(y2 - sg2d.trbnsY);
+                ((PixflDrbwPipf)outrfndfrfr).drbwLinf(sg2d, ix1, iy1, ix2, iy2);
+                rfturn truf;
             }
-            x1 = normalize(x1);
-            y1 = normalize(y1);
-            x2 = normalize(x2);
-            y2 = normalize(y2);
+            x1 = normblizf(x1);
+            y1 = normblizf(y1);
+            x2 = normblizf(x2);
+            y2 = normblizf(y2);
         }
-        if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-            // Transform the linewidth...
-            // calculate the scaling factor for a unit vector
-            // perpendicular to the original user space line.
-            double len = len(dx, dy);
-            if (len == 0) {
-                dx = len = 1;
-                // dy = 0; already
+        if (sg2d.trbnsformStbtf >= SunGrbpiids2D.TRANSFORM_TRANSLATESCALE) {
+            // Trbnsform tif linfwidti...
+            // dbldulbtf tif sdbling fbdtor for b unit vfdtor
+            // pfrpfndidulbr to tif originbl usfr spbdf linf.
+            doublf lfn = lfn(dx, dy);
+            if (lfn == 0) {
+                dx = lfn = 1;
+                // dy = 0; blrfbdy
             }
-            // delta transform the transposed (90 degree rotated) unit vector
-            double unitvector[] = {dy/len, -dx/len};
-            sg2d.transform.deltaTransform(unitvector, 0, unitvector, 0, 1);
-            lw *= len(unitvector[0], unitvector[1]);
+            // dfltb trbnsform tif trbnsposfd (90 dfgrff rotbtfd) unit vfdtor
+            doublf unitvfdtor[] = {dy/lfn, -dx/lfn};
+            sg2d.trbnsform.dfltbTrbnsform(unitvfdtor, 0, unitvfdtor, 0, 1);
+            lw *= lfn(unitvfdtor[0], unitvfdtor[1]);
         }
-        lw = Math.max(lw, minPenSize);
+        lw = Mbti.mbx(lw, minPfnSizf);
         dx = x2 - x1;
         dy = y2 - y1;
-        double len = len(dx, dy);
-        double udx, udy;
-        if (len == 0) {
-            if (cap == BasicStroke.CAP_BUTT) {
-                return true;
+        doublf lfn = lfn(dx, dy);
+        doublf udx, udy;
+        if (lfn == 0) {
+            if (dbp == BbsidStrokf.CAP_BUTT) {
+                rfturn truf;
             }
             udx = lw;
             udy = 0;
-        } else {
-            udx = lw * dx / len;
-            udy = lw * dy / len;
+        } flsf {
+            udx = lw * dx / lfn;
+            udy = lw * dy / lfn;
         }
-        double px = x1 + udy / 2.0;
-        double py = y1 - udx / 2.0;
-        if (cap == BasicStroke.CAP_SQUARE) {
+        doublf px = x1 + udy / 2.0;
+        doublf py = y1 - udx / 2.0;
+        if (dbp == BbsidStrokf.CAP_SQUARE) {
             px -= udx / 2.0;
             py -= udy / 2.0;
             dx += udx;
             dy += udy;
         }
-        outrenderer.fillParallelogram(sg2d, ux1, uy1, ux2, uy2,
+        outrfndfrfr.fillPbrbllflogrbm(sg2d, ux1, uy1, ux2, uy2,
                                       px, py, -udy, udx, dx, dy);
-        return true;
+        rfturn truf;
     }
 
-    public void fillRectangle(SunGraphics2D sg2d,
-                              double rx, double ry,
-                              double rw, double rh)
+    publid void fillRfdtbnglf(SunGrbpiids2D sg2d,
+                              doublf rx, doublf ry,
+                              doublf rw, doublf ri)
     {
-        double px, py;
-        double dx1, dy1, dx2, dy2;
-        AffineTransform txform = sg2d.transform;
-        dx1 = txform.getScaleX();
-        dy1 = txform.getShearY();
-        dx2 = txform.getShearX();
-        dy2 = txform.getScaleY();
-        px = rx * dx1 + ry * dx2 + txform.getTranslateX();
-        py = rx * dy1 + ry * dy2 + txform.getTranslateY();
+        doublf px, py;
+        doublf dx1, dy1, dx2, dy2;
+        AffinfTrbnsform txform = sg2d.trbnsform;
+        dx1 = txform.gftSdblfX();
+        dy1 = txform.gftSifbrY();
+        dx2 = txform.gftSifbrX();
+        dy2 = txform.gftSdblfY();
+        px = rx * dx1 + ry * dx2 + txform.gftTrbnslbtfX();
+        py = rx * dy1 + ry * dy2 + txform.gftTrbnslbtfY();
         dx1 *= rw;
         dy1 *= rw;
-        dx2 *= rh;
-        dy2 *= rh;
-        if (adjustfill &&
-            sg2d.strokeState < SunGraphics2D.STROKE_CUSTOM &&
-            sg2d.strokeHint != SunHints.INTVAL_STROKE_PURE)
+        dx2 *= ri;
+        dy2 *= ri;
+        if (bdjustfill &&
+            sg2d.strokfStbtf < SunGrbpiids2D.STROKE_CUSTOM &&
+            sg2d.strokfHint != SunHints.INTVAL_STROKE_PURE)
         {
-            double newx = normalize(px);
-            double newy = normalize(py);
-            dx1 = normalize(px + dx1) - newx;
-            dy1 = normalize(py + dy1) - newy;
-            dx2 = normalize(px + dx2) - newx;
-            dy2 = normalize(py + dy2) - newy;
-            px = newx;
-            py = newy;
+            doublf nfwx = normblizf(px);
+            doublf nfwy = normblizf(py);
+            dx1 = normblizf(px + dx1) - nfwx;
+            dy1 = normblizf(py + dy1) - nfwy;
+            dx2 = normblizf(px + dx2) - nfwx;
+            dy2 = normblizf(py + dy2) - nfwy;
+            px = nfwx;
+            py = nfwy;
         }
-        outrenderer.fillParallelogram(sg2d, rx, ry, rx+rw, ry+rh,
+        outrfndfrfr.fillPbrbllflogrbm(sg2d, rx, ry, rx+rw, ry+ri,
                                       px, py, dx1, dy1, dx2, dy2);
     }
 
-    public void drawRectangle(SunGraphics2D sg2d,
-                              double rx, double ry,
-                              double rw, double rh,
-                              double lw)
+    publid void drbwRfdtbnglf(SunGrbpiids2D sg2d,
+                              doublf rx, doublf ry,
+                              doublf rw, doublf ri,
+                              doublf lw)
     {
-        double px, py;
-        double dx1, dy1, dx2, dy2;
-        double lw1, lw2;
-        AffineTransform txform = sg2d.transform;
-        dx1 = txform.getScaleX();
-        dy1 = txform.getShearY();
-        dx2 = txform.getShearX();
-        dy2 = txform.getScaleY();
-        px = rx * dx1 + ry * dx2 + txform.getTranslateX();
-        py = rx * dy1 + ry * dy2 + txform.getTranslateY();
-        // lw along dx1,dy1 scale by transformed length of dx2,dy2 vectors
-        // and vice versa
-        lw1 = len(dx1, dy1) * lw;
-        lw2 = len(dx2, dy2) * lw;
+        doublf px, py;
+        doublf dx1, dy1, dx2, dy2;
+        doublf lw1, lw2;
+        AffinfTrbnsform txform = sg2d.trbnsform;
+        dx1 = txform.gftSdblfX();
+        dy1 = txform.gftSifbrY();
+        dx2 = txform.gftSifbrX();
+        dy2 = txform.gftSdblfY();
+        px = rx * dx1 + ry * dx2 + txform.gftTrbnslbtfX();
+        py = rx * dy1 + ry * dy2 + txform.gftTrbnslbtfY();
+        // lw blong dx1,dy1 sdblf by trbnsformfd lfngti of dx2,dy2 vfdtors
+        // bnd vidf vfrsb
+        lw1 = lfn(dx1, dy1) * lw;
+        lw2 = lfn(dx2, dy2) * lw;
         dx1 *= rw;
         dy1 *= rw;
-        dx2 *= rh;
-        dy2 *= rh;
-        if (sg2d.strokeState < SunGraphics2D.STROKE_CUSTOM &&
-            sg2d.strokeHint != SunHints.INTVAL_STROKE_PURE)
+        dx2 *= ri;
+        dy2 *= ri;
+        if (sg2d.strokfStbtf < SunGrbpiids2D.STROKE_CUSTOM &&
+            sg2d.strokfHint != SunHints.INTVAL_STROKE_PURE)
         {
-            double newx = normalize(px);
-            double newy = normalize(py);
-            dx1 = normalize(px + dx1) - newx;
-            dy1 = normalize(py + dy1) - newy;
-            dx2 = normalize(px + dx2) - newx;
-            dy2 = normalize(py + dy2) - newy;
-            px = newx;
-            py = newy;
+            doublf nfwx = normblizf(px);
+            doublf nfwy = normblizf(py);
+            dx1 = normblizf(px + dx1) - nfwx;
+            dy1 = normblizf(py + dy1) - nfwy;
+            dx2 = normblizf(px + dx2) - nfwx;
+            dy2 = normblizf(py + dy2) - nfwy;
+            px = nfwx;
+            py = nfwy;
         }
-        lw1 = Math.max(lw1, minPenSize);
-        lw2 = Math.max(lw2, minPenSize);
-        double len1 = len(dx1, dy1);
-        double len2 = len(dx2, dy2);
-        if (lw1 >= len1 || lw2 >= len2) {
-            // The line widths are large enough to consume the
-            // entire hole in the middle of the parallelogram
-            // so we can just fill the outer parallelogram.
-            fillOuterParallelogram(sg2d,
-                                   rx, ry, rx+rw, ry+rh,
+        lw1 = Mbti.mbx(lw1, minPfnSizf);
+        lw2 = Mbti.mbx(lw2, minPfnSizf);
+        doublf lfn1 = lfn(dx1, dy1);
+        doublf lfn2 = lfn(dx2, dy2);
+        if (lw1 >= lfn1 || lw2 >= lfn2) {
+            // Tif linf widtis brf lbrgf fnougi to donsumf tif
+            // fntirf iolf in tif middlf of tif pbrbllflogrbm
+            // so wf dbn just fill tif outfr pbrbllflogrbm.
+            fillOutfrPbrbllflogrbm(sg2d,
+                                   rx, ry, rx+rw, ry+ri,
                                    px, py, dx1, dy1, dx2, dy2,
-                                   len1, len2, lw1, lw2);
-        } else {
-            outrenderer.drawParallelogram(sg2d,
-                                          rx, ry, rx+rw, ry+rh,
+                                   lfn1, lfn2, lw1, lw2);
+        } flsf {
+            outrfndfrfr.drbwPbrbllflogrbm(sg2d,
+                                          rx, ry, rx+rw, ry+ri,
                                           px, py, dx1, dy1, dx2, dy2,
-                                          lw1 / len1, lw2 / len2);
+                                          lw1 / lfn1, lw2 / lfn2);
         }
     }
 
     /**
-     * This utility function handles the case where a drawRectangle
-     * operation discovered that the interior hole in the rectangle
-     * or parallelogram has been completely filled in by the stroke
-     * width.  It calculates the outer parallelogram of the stroke
-     * and issues a single fillParallelogram request to fill it.
+     * Tiis utility fundtion ibndlfs tif dbsf wifrf b drbwRfdtbnglf
+     * opfrbtion disdovfrfd tibt tif intfrior iolf in tif rfdtbnglf
+     * or pbrbllflogrbm ibs bffn domplftfly fillfd in by tif strokf
+     * widti.  It dbldulbtfs tif outfr pbrbllflogrbm of tif strokf
+     * bnd issufs b singlf fillPbrbllflogrbm rfqufst to fill it.
      */
-    public void fillOuterParallelogram(SunGraphics2D sg2d,
-                                       double ux1, double uy1,
-                                       double ux2, double uy2,
-                                       double px, double py,
-                                       double dx1, double dy1,
-                                       double dx2, double dy2,
-                                       double len1, double len2,
-                                       double lw1, double lw2)
+    publid void fillOutfrPbrbllflogrbm(SunGrbpiids2D sg2d,
+                                       doublf ux1, doublf uy1,
+                                       doublf ux2, doublf uy2,
+                                       doublf px, doublf py,
+                                       doublf dx1, doublf dy1,
+                                       doublf dx2, doublf dy2,
+                                       doublf lfn1, doublf lfn2,
+                                       doublf lw1, doublf lw2)
     {
-        double udx1 = dx1 / len1;
-        double udy1 = dy1 / len1;
-        double udx2 = dx2 / len2;
-        double udy2 = dy2 / len2;
-        if (len1 == 0) {
-            // len1 is 0, replace udxy1 with perpendicular of udxy2
-            if (len2 == 0) {
-                // both are 0, use a unit Y vector for udxy2
+        doublf udx1 = dx1 / lfn1;
+        doublf udy1 = dy1 / lfn1;
+        doublf udx2 = dx2 / lfn2;
+        doublf udy2 = dy2 / lfn2;
+        if (lfn1 == 0) {
+            // lfn1 is 0, rfplbdf udxy1 witi pfrpfndidulbr of udxy2
+            if (lfn2 == 0) {
+                // boti brf 0, usf b unit Y vfdtor for udxy2
                 udx2 = 0;
                 udy2 = 1;
             }
             udx1 = udy2;
             udy1 = -udx2;
-        } else if (len2 == 0) {
-            // len2 is 0, replace udxy2 with perpendicular of udxy1
+        } flsf if (lfn2 == 0) {
+            // lfn2 is 0, rfplbdf udxy2 witi pfrpfndidulbr of udxy1
             udx2 = udy1;
             udy2 = -udx1;
         }
@@ -423,7 +423,7 @@ public class PixelToParallelogramConverter extends PixelToShapeConverter
         dx2 += udx2;
         dy2 += udy2;
 
-        outrenderer.fillParallelogram(sg2d, ux1, uy1, ux2, uy2,
+        outrfndfrfr.fillPbrbllflogrbm(sg2d, ux1, uy1, ux2, uy2,
                                       px, py, dx1, dy1, dx2, dy2);
     }
 }

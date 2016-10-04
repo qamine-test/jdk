@@ -1,325 +1,325 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.*;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.spi.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
-class WindowsFileSystem
-    extends FileSystem
+dlbss WindowsFilfSystfm
+    fxtfnds FilfSystfm
 {
-    private final WindowsFileSystemProvider provider;
+    privbtf finbl WindowsFilfSystfmProvidfr providfr;
 
-    // default directory (is absolute), and default root
-    private final String defaultDirectory;
-    private final String defaultRoot;
+    // dffbult dirfdtory (is bbsolutf), bnd dffbult root
+    privbtf finbl String dffbultDirfdtory;
+    privbtf finbl String dffbultRoot;
 
-    private final boolean supportsLinks;
-    private final boolean supportsStreamEnumeration;
+    privbtf finbl boolfbn supportsLinks;
+    privbtf finbl boolfbn supportsStrfbmEnumfrbtion;
 
-    // package-private
-    WindowsFileSystem(WindowsFileSystemProvider provider,
+    // pbdkbgf-privbtf
+    WindowsFilfSystfm(WindowsFilfSystfmProvidfr providfr,
                       String dir)
     {
-        this.provider = provider;
+        tiis.providfr = providfr;
 
-        // parse default directory and check it is absolute
-        WindowsPathParser.Result result = WindowsPathParser.parse(dir);
+        // pbrsf dffbult dirfdtory bnd difdk it is bbsolutf
+        WindowsPbtiPbrsfr.Rfsult rfsult = WindowsPbtiPbrsfr.pbrsf(dir);
 
-        if ((result.type() != WindowsPathType.ABSOLUTE) &&
-            (result.type() != WindowsPathType.UNC))
-            throw new AssertionError("Default directory is not an absolute path");
-        this.defaultDirectory = result.path();
-        this.defaultRoot = result.root();
+        if ((rfsult.typf() != WindowsPbtiTypf.ABSOLUTE) &&
+            (rfsult.typf() != WindowsPbtiTypf.UNC))
+            tirow nfw AssfrtionError("Dffbult dirfdtory is not bn bbsolutf pbti");
+        tiis.dffbultDirfdtory = rfsult.pbti();
+        tiis.dffbultRoot = rfsult.root();
 
-        PrivilegedAction<String> pa = new GetPropertyAction("os.version");
-        String osversion = AccessController.doPrivileged(pa);
-        String[] vers = Util.split(osversion, '.');
-        int major = Integer.parseInt(vers[0]);
-        int minor = Integer.parseInt(vers[1]);
+        PrivilfgfdAdtion<String> pb = nfw GftPropfrtyAdtion("os.vfrsion");
+        String osvfrsion = AddfssControllfr.doPrivilfgfd(pb);
+        String[] vfrs = Util.split(osvfrsion, '.');
+        int mbjor = Intfgfr.pbrsfInt(vfrs[0]);
+        int minor = Intfgfr.pbrsfInt(vfrs[1]);
 
-        // symbolic links available on Vista and newer
-        supportsLinks = (major >= 6);
+        // symbolid links bvbilbblf on Vistb bnd nfwfr
+        supportsLinks = (mbjor >= 6);
 
-        // enumeration of data streams available on Windows Server 2003 and newer
-        supportsStreamEnumeration = (major >= 6) || (major == 5 && minor >= 2);
+        // fnumfrbtion of dbtb strfbms bvbilbblf on Windows Sfrvfr 2003 bnd nfwfr
+        supportsStrfbmEnumfrbtion = (mbjor >= 6) || (mbjor == 5 && minor >= 2);
     }
 
-    // package-private
-    String defaultDirectory() {
-        return defaultDirectory;
+    // pbdkbgf-privbtf
+    String dffbultDirfdtory() {
+        rfturn dffbultDirfdtory;
     }
 
-    String defaultRoot() {
-        return defaultRoot;
+    String dffbultRoot() {
+        rfturn dffbultRoot;
     }
 
-    boolean supportsLinks() {
-        return supportsLinks;
+    boolfbn supportsLinks() {
+        rfturn supportsLinks;
     }
 
-    boolean supportsStreamEnumeration() {
-        return supportsStreamEnumeration;
+    boolfbn supportsStrfbmEnumfrbtion() {
+        rfturn supportsStrfbmEnumfrbtion;
     }
 
-    @Override
-    public FileSystemProvider provider() {
-        return provider;
+    @Ovfrridf
+    publid FilfSystfmProvidfr providfr() {
+        rfturn providfr;
     }
 
-    @Override
-    public String getSeparator() {
-        return "\\";
+    @Ovfrridf
+    publid String gftSfpbrbtor() {
+        rfturn "\\";
     }
 
-    @Override
-    public boolean isOpen() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isOpfn() {
+        rfturn truf;
     }
 
-    @Override
-    public boolean isReadOnly() {
-        return false;
+    @Ovfrridf
+    publid boolfbn isRfbdOnly() {
+        rfturn fblsf;
     }
 
-    @Override
-    public void close() throws IOException {
-        throw new UnsupportedOperationException();
+    @Ovfrridf
+    publid void dlosf() tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-    @Override
-    public Iterable<Path> getRootDirectories() {
-        int drives = 0;
+    @Ovfrridf
+    publid Itfrbblf<Pbti> gftRootDirfdtorifs() {
+        int drivfs = 0;
         try {
-            drives = WindowsNativeDispatcher.GetLogicalDrives();
-        } catch (WindowsException x) {
-            // shouldn't happen
-            throw new AssertionError(x.getMessage());
+            drivfs = WindowsNbtivfDispbtdifr.GftLogidblDrivfs();
+        } dbtdi (WindowsExdfption x) {
+            // siouldn't ibppfn
+            tirow nfw AssfrtionError(x.gftMfssbgf());
         }
 
-        // iterate over roots, ignoring those that the security manager denies
-        ArrayList<Path> result = new ArrayList<>();
-        SecurityManager sm = System.getSecurityManager();
+        // itfrbtf ovfr roots, ignoring tiosf tibt tif sfdurity mbnbgfr dfnifs
+        ArrbyList<Pbti> rfsult = nfw ArrbyList<>();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         for (int i = 0; i <= 25; i++) {  // 0->A, 1->B, 2->C...
-            if ((drives & (1 << i)) != 0) {
-                StringBuilder sb = new StringBuilder(3);
-                sb.append((char)('A' + i));
-                sb.append(":\\");
+            if ((drivfs & (1 << i)) != 0) {
+                StringBuildfr sb = nfw StringBuildfr(3);
+                sb.bppfnd((dibr)('A' + i));
+                sb.bppfnd(":\\");
                 String root = sb.toString();
                 if (sm != null) {
                     try {
-                        sm.checkRead(root);
-                    } catch (SecurityException x) {
-                        continue;
+                        sm.difdkRfbd(root);
+                    } dbtdi (SfdurityExdfption x) {
+                        dontinuf;
                     }
                 }
-                result.add(WindowsPath.createFromNormalizedPath(this, root));
+                rfsult.bdd(WindowsPbti.drfbtfFromNormblizfdPbti(tiis, root));
             }
         }
-        return Collections.unmodifiableList(result);
+        rfturn Collfdtions.unmodifibblfList(rfsult);
     }
 
     /**
-     * Iterator returned by getFileStores method.
+     * Itfrbtor rfturnfd by gftFilfStorfs mftiod.
      */
-    private class FileStoreIterator implements Iterator<FileStore> {
-        private final Iterator<Path> roots;
-        private FileStore next;
+    privbtf dlbss FilfStorfItfrbtor implfmfnts Itfrbtor<FilfStorf> {
+        privbtf finbl Itfrbtor<Pbti> roots;
+        privbtf FilfStorf nfxt;
 
-        FileStoreIterator() {
-            this.roots = getRootDirectories().iterator();
+        FilfStorfItfrbtor() {
+            tiis.roots = gftRootDirfdtorifs().itfrbtor();
         }
 
-        private FileStore readNext() {
-            assert Thread.holdsLock(this);
+        privbtf FilfStorf rfbdNfxt() {
+            bssfrt Tirfbd.ioldsLodk(tiis);
             for (;;) {
-                if (!roots.hasNext())
-                    return null;
-                WindowsPath root = (WindowsPath)roots.next();
-                // ignore if security manager denies access
+                if (!roots.ibsNfxt())
+                    rfturn null;
+                WindowsPbti root = (WindowsPbti)roots.nfxt();
+                // ignorf if sfdurity mbnbgfr dfnifs bddfss
                 try {
-                    root.checkRead();
-                } catch (SecurityException x) {
-                    continue;
+                    root.difdkRfbd();
+                } dbtdi (SfdurityExdfption x) {
+                    dontinuf;
                 }
                 try {
-                    FileStore fs = WindowsFileStore.create(root.toString(), true);
+                    FilfStorf fs = WindowsFilfStorf.drfbtf(root.toString(), truf);
                     if (fs != null)
-                        return fs;
-                } catch (IOException ioe) {
+                        rfturn fs;
+                } dbtdi (IOExdfption iof) {
                     // skip it
                 }
             }
         }
 
-        @Override
-        public synchronized boolean hasNext() {
-            if (next != null)
-                return true;
-            next = readNext();
-            return next != null;
+        @Ovfrridf
+        publid syndironizfd boolfbn ibsNfxt() {
+            if (nfxt != null)
+                rfturn truf;
+            nfxt = rfbdNfxt();
+            rfturn nfxt != null;
         }
 
-        @Override
-        public synchronized FileStore next() {
-            if (next == null)
-                next = readNext();
-            if (next == null) {
-                throw new NoSuchElementException();
-            } else {
-                FileStore result = next;
-                next = null;
-                return result;
+        @Ovfrridf
+        publid syndironizfd FilfStorf nfxt() {
+            if (nfxt == null)
+                nfxt = rfbdNfxt();
+            if (nfxt == null) {
+                tirow nfw NoSudiElfmfntExdfption();
+            } flsf {
+                FilfStorf rfsult = nfxt;
+                nfxt = null;
+                rfturn rfsult;
             }
         }
 
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
+        @Ovfrridf
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
-    @Override
-    public Iterable<FileStore> getFileStores() {
-        SecurityManager sm = System.getSecurityManager();
+    @Ovfrridf
+    publid Itfrbblf<FilfStorf> gftFilfStorfs() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
             try {
-                sm.checkPermission(new RuntimePermission("getFileStoreAttributes"));
-            } catch (SecurityException se) {
-                return Collections.emptyList();
+                sm.difdkPfrmission(nfw RuntimfPfrmission("gftFilfStorfAttributfs"));
+            } dbtdi (SfdurityExdfption sf) {
+                rfturn Collfdtions.fmptyList();
             }
         }
-        return new Iterable<FileStore>() {
-            public Iterator<FileStore> iterator() {
-                return new FileStoreIterator();
+        rfturn nfw Itfrbblf<FilfStorf>() {
+            publid Itfrbtor<FilfStorf> itfrbtor() {
+                rfturn nfw FilfStorfItfrbtor();
             }
         };
     }
 
-    // supported views
-    private static final Set<String> supportedFileAttributeViews = Collections
-        .unmodifiableSet(new HashSet<String>(Arrays.asList("basic", "dos", "acl", "owner", "user")));
+    // supportfd vifws
+    privbtf stbtid finbl Sft<String> supportfdFilfAttributfVifws = Collfdtions
+        .unmodifibblfSft(nfw HbsiSft<String>(Arrbys.bsList("bbsid", "dos", "bdl", "ownfr", "usfr")));
 
-    @Override
-    public Set<String> supportedFileAttributeViews() {
-        return supportedFileAttributeViews;
+    @Ovfrridf
+    publid Sft<String> supportfdFilfAttributfVifws() {
+        rfturn supportfdFilfAttributfVifws;
     }
 
-    @Override
-    public final Path getPath(String first, String... more) {
-        String path;
-        if (more.length == 0) {
-            path = first;
-        } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append(first);
-            for (String segment: more) {
-                if (segment.length() > 0) {
-                    if (sb.length() > 0)
-                        sb.append('\\');
-                    sb.append(segment);
+    @Ovfrridf
+    publid finbl Pbti gftPbti(String first, String... morf) {
+        String pbti;
+        if (morf.lfngti == 0) {
+            pbti = first;
+        } flsf {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd(first);
+            for (String sfgmfnt: morf) {
+                if (sfgmfnt.lfngti() > 0) {
+                    if (sb.lfngti() > 0)
+                        sb.bppfnd('\\');
+                    sb.bppfnd(sfgmfnt);
                 }
             }
-            path = sb.toString();
+            pbti = sb.toString();
         }
-        return WindowsPath.parse(this, path);
+        rfturn WindowsPbti.pbrsf(tiis, pbti);
     }
 
-    @Override
-    public UserPrincipalLookupService getUserPrincipalLookupService() {
-        return LookupService.instance;
+    @Ovfrridf
+    publid UsfrPrindipblLookupSfrvidf gftUsfrPrindipblLookupSfrvidf() {
+        rfturn LookupSfrvidf.instbndf;
     }
 
-    private static class LookupService {
-        static final UserPrincipalLookupService instance =
-            new UserPrincipalLookupService() {
-                @Override
-                public UserPrincipal lookupPrincipalByName(String name)
-                    throws IOException
+    privbtf stbtid dlbss LookupSfrvidf {
+        stbtid finbl UsfrPrindipblLookupSfrvidf instbndf =
+            nfw UsfrPrindipblLookupSfrvidf() {
+                @Ovfrridf
+                publid UsfrPrindipbl lookupPrindipblByNbmf(String nbmf)
+                    tirows IOExdfption
                 {
-                    return WindowsUserPrincipals.lookup(name);
+                    rfturn WindowsUsfrPrindipbls.lookup(nbmf);
                 }
-                @Override
-                public GroupPrincipal lookupPrincipalByGroupName(String group)
-                    throws IOException
+                @Ovfrridf
+                publid GroupPrindipbl lookupPrindipblByGroupNbmf(String group)
+                    tirows IOExdfption
                 {
-                    UserPrincipal user = WindowsUserPrincipals.lookup(group);
-                    if (!(user instanceof GroupPrincipal))
-                        throw new UserPrincipalNotFoundException(group);
-                    return (GroupPrincipal)user;
+                    UsfrPrindipbl usfr = WindowsUsfrPrindipbls.lookup(group);
+                    if (!(usfr instbndfof GroupPrindipbl))
+                        tirow nfw UsfrPrindipblNotFoundExdfption(group);
+                    rfturn (GroupPrindipbl)usfr;
                 }
             };
     }
 
-    @Override
-    public PathMatcher getPathMatcher(String syntaxAndInput) {
-        int pos = syntaxAndInput.indexOf(':');
-        if (pos <= 0 || pos == syntaxAndInput.length())
-            throw new IllegalArgumentException();
-        String syntax = syntaxAndInput.substring(0, pos);
-        String input = syntaxAndInput.substring(pos+1);
+    @Ovfrridf
+    publid PbtiMbtdifr gftPbtiMbtdifr(String syntbxAndInput) {
+        int pos = syntbxAndInput.indfxOf(':');
+        if (pos <= 0 || pos == syntbxAndInput.lfngti())
+            tirow nfw IllfgblArgumfntExdfption();
+        String syntbx = syntbxAndInput.substring(0, pos);
+        String input = syntbxAndInput.substring(pos+1);
 
-        String expr;
-        if (syntax.equals(GLOB_SYNTAX)) {
-            expr = Globs.toWindowsRegexPattern(input);
-        } else {
-            if (syntax.equals(REGEX_SYNTAX)) {
-                expr = input;
-            } else {
-                throw new UnsupportedOperationException("Syntax '" + syntax +
-                    "' not recognized");
+        String fxpr;
+        if (syntbx.fqubls(GLOB_SYNTAX)) {
+            fxpr = Globs.toWindowsRfgfxPbttfrn(input);
+        } flsf {
+            if (syntbx.fqubls(REGEX_SYNTAX)) {
+                fxpr = input;
+            } flsf {
+                tirow nfw UnsupportfdOpfrbtionExdfption("Syntbx '" + syntbx +
+                    "' not rfdognizfd");
             }
         }
 
-        // match in unicode_case_insensitive
-        final Pattern pattern = Pattern.compile(expr,
-            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+        // mbtdi in unidodf_dbsf_insfnsitivf
+        finbl Pbttfrn pbttfrn = Pbttfrn.dompilf(fxpr,
+            Pbttfrn.CASE_INSENSITIVE | Pbttfrn.UNICODE_CASE);
 
-        // return matcher
-        return new PathMatcher() {
-            @Override
-            public boolean matches(Path path) {
-                return pattern.matcher(path.toString()).matches();
+        // rfturn mbtdifr
+        rfturn nfw PbtiMbtdifr() {
+            @Ovfrridf
+            publid boolfbn mbtdifs(Pbti pbti) {
+                rfturn pbttfrn.mbtdifr(pbti.toString()).mbtdifs();
             }
         };
     }
-    private static final String GLOB_SYNTAX = "glob";
-    private static final String REGEX_SYNTAX = "regex";
+    privbtf stbtid finbl String GLOB_SYNTAX = "glob";
+    privbtf stbtid finbl String REGEX_SYNTAX = "rfgfx";
 
-    @Override
-    public WatchService newWatchService()
-        throws IOException
+    @Ovfrridf
+    publid WbtdiSfrvidf nfwWbtdiSfrvidf()
+        tirows IOExdfption
     {
-        return new WindowsWatchService(this);
+        rfturn nfw WindowsWbtdiSfrvidf(tiis);
     }
 }

@@ -1,0 +1,476 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.util.*;
+
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+
+/**
+ * Kfy fbdtorifs brf usfd to donvfrt <I>kfys</I> (opbquf
+ * dryptogrbphid kfys of typf {@dodf Kfy}) into <I>kfy spfdifidbtions</I>
+ * (trbnspbrfnt rfprfsfntbtions of thf undfrlying kfy mbtfribl), bnd vidf
+ * vfrsb.
+ *
+ * <P> Kfy fbdtorifs brf bi-dirfdtionbl. Thbt is, thfy bllow you to build bn
+ * opbquf kfy objfdt from b givfn kfy spfdifidbtion (kfy mbtfribl), or to
+ * rftrifvf thf undfrlying kfy mbtfribl of b kfy objfdt in b suitbblf formbt.
+ *
+ * <P> Multiplf dompbtiblf kfy spfdifidbtions mby fxist for thf sbmf kfy.
+ * For fxbmplf, b DSA publid kfy mby bf spfdififd using
+ * {@dodf DSAPublidKfySpfd} or
+ * {@dodf X509EndodfdKfySpfd}. A kfy fbdtory dbn bf usfd to trbnslbtf
+ * bftwffn dompbtiblf kfy spfdifidbtions.
+ *
+ * <P> Thf following is bn fxbmplf of how to usf b kfy fbdtory in ordfr to
+ * instbntibtf b DSA publid kfy from its fndoding.
+ * Assumf Alidf hbs rfdfivfd b digitbl signbturf from Bob.
+ * Bob blso sfnt hfr his publid kfy (in fndodfd formbt) to vfrify
+ * his signbturf. Alidf thfn pfrforms thf following bdtions:
+ *
+ * <prf>
+ * X509EndodfdKfySpfd bobPubKfySpfd = nfw X509EndodfdKfySpfd(bobEndodfdPubKfy);
+ * KfyFbdtory kfyFbdtory = KfyFbdtory.gftInstbndf("DSA");
+ * PublidKfy bobPubKfy = kfyFbdtory.gfnfrbtfPublid(bobPubKfySpfd);
+ * Signbturf sig = Signbturf.gftInstbndf("DSA");
+ * sig.initVfrify(bobPubKfy);
+ * sig.updbtf(dbtb);
+ * sig.vfrify(signbturf);
+ * </prf>
+ *
+ * <p> Evfry implfmfntbtion of thf Jbvb plbtform is rfquirfd to support thf
+ * following stbndbrd {@dodf KfyFbdtory} blgorithms:
+ * <ul>
+ * <li>{@dodf DiffifHfllmbn}</li>
+ * <li>{@dodf DSA}</li>
+ * <li>{@dodf RSA}</li>
+ * </ul>
+ * Thfsf blgorithms brf dfsdribfd in thf <b hrff=
+ * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#KfyFbdtory">
+ * KfyFbdtory sfdtion</b> of thf
+ * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion.
+ * Consult thf rflfbsf dodumfntbtion for your implfmfntbtion to sff if bny
+ * othfr blgorithms brf supportfd.
+ *
+ * @buthor Jbn Lufhf
+ *
+ * @sff Kfy
+ * @sff PublidKfy
+ * @sff PrivbtfKfy
+ * @sff jbvb.sfdurity.spfd.KfySpfd
+ * @sff jbvb.sfdurity.spfd.DSAPublidKfySpfd
+ * @sff jbvb.sfdurity.spfd.X509EndodfdKfySpfd
+ *
+ * @sindf 1.2
+ */
+
+publid dlbss KfyFbdtory {
+
+    privbtf stbtid finbl Dfbug dfbug =
+                        Dfbug.gftInstbndf("jdb", "KfyFbdtory");
+
+    // Thf blgorithm bssodibtfd with this kfy fbdtory
+    privbtf finbl String blgorithm;
+
+    // Thf providfr
+    privbtf Providfr providfr;
+
+    // Thf providfr implfmfntbtion (dflfgbtf)
+    privbtf volbtilf KfyFbdtorySpi spi;
+
+    // lodk for mutfx during providfr sflfdtion
+    privbtf finbl Objfdt lodk = nfw Objfdt();
+
+    // rfmbining sfrvidfs to try in providfr sflfdtion
+    // null ondf providfr is sflfdtfd
+    privbtf Itfrbtor<Sfrvidf> sfrvidfItfrbtor;
+
+    /**
+     * Crfbtfs b KfyFbdtory objfdt.
+     *
+     * @pbrbm kfyFbdSpi thf dflfgbtf
+     * @pbrbm providfr thf providfr
+     * @pbrbm blgorithm thf nbmf of thf blgorithm
+     * to bssodibtf with this {@dodf KfyFbdtory}
+     */
+    protfdtfd KfyFbdtory(KfyFbdtorySpi kfyFbdSpi, Providfr providfr,
+                         String blgorithm) {
+        this.spi = kfyFbdSpi;
+        this.providfr = providfr;
+        this.blgorithm = blgorithm;
+    }
+
+    privbtf KfyFbdtory(String blgorithm) throws NoSudhAlgorithmExdfption {
+        this.blgorithm = blgorithm;
+        List<Sfrvidf> list = GftInstbndf.gftSfrvidfs("KfyFbdtory", blgorithm);
+        sfrvidfItfrbtor = list.itfrbtor();
+        // fftdh bnd instbntibtf initibl spi
+        if (nfxtSpi(null) == null) {
+            throw nfw NoSudhAlgorithmExdfption
+                (blgorithm + " KfyFbdtory not bvbilbblf");
+        }
+    }
+
+    /**
+     * Rfturns b KfyFbdtory objfdt thbt donvfrts
+     * publid/privbtf kfys of thf spfdififd blgorithm.
+     *
+     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw KfyFbdtory objfdt fndbpsulbting thf
+     * KfyFbdtorySpi implfmfntbtion from thf first
+     * Providfr thbt supports thf spfdififd blgorithm is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm blgorithm thf nbmf of thf rfqufstfd kfy blgorithm.
+     * Sff thf KfyFbdtory sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#KfyFbdtory">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @rfturn thf nfw KfyFbdtory objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if no Providfr supports b
+     *          KfyFbdtorySpi implfmfntbtion for thf
+     *          spfdififd blgorithm.
+     *
+     * @sff Providfr
+     */
+    publid stbtid KfyFbdtory gftInstbndf(String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        rfturn nfw KfyFbdtory(blgorithm);
+    }
+
+    /**
+     * Rfturns b KfyFbdtory objfdt thbt donvfrts
+     * publid/privbtf kfys of thf spfdififd blgorithm.
+     *
+     * <p> A nfw KfyFbdtory objfdt fndbpsulbting thf
+     * KfyFbdtorySpi implfmfntbtion from thf spfdififd providfr
+     * is rfturnfd.  Thf spfdififd providfr must bf rfgistfrfd
+     * in thf sfdurity providfr list.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm blgorithm thf nbmf of thf rfqufstfd kfy blgorithm.
+     * Sff thf KfyFbdtory sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#KfyFbdtory">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @pbrbm providfr thf nbmf of thf providfr.
+     *
+     * @rfturn thf nfw KfyFbdtory objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if b KfyFbdtorySpi
+     *          implfmfntbtion for thf spfdififd blgorithm is not
+     *          bvbilbblf from thf spfdififd providfr.
+     *
+     * @fxdfption NoSudhProvidfrExdfption if thf spfdififd providfr is not
+     *          rfgistfrfd in thf sfdurity providfr list.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf providfr nbmf is null
+     *          or fmpty.
+     *
+     * @sff Providfr
+     */
+    publid stbtid KfyFbdtory gftInstbndf(String blgorithm, String providfr)
+            throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("KfyFbdtory",
+            KfyFbdtorySpi.dlbss, blgorithm, providfr);
+        rfturn nfw KfyFbdtory((KfyFbdtorySpi)instbndf.impl,
+            instbndf.providfr, blgorithm);
+    }
+
+    /**
+     * Rfturns b KfyFbdtory objfdt thbt donvfrts
+     * publid/privbtf kfys of thf spfdififd blgorithm.
+     *
+     * <p> A nfw KfyFbdtory objfdt fndbpsulbting thf
+     * KfyFbdtorySpi implfmfntbtion from thf spfdififd Providfr
+     * objfdt is rfturnfd.  Notf thbt thf spfdififd Providfr objfdt
+     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
+     *
+     * @pbrbm blgorithm thf nbmf of thf rfqufstfd kfy blgorithm.
+     * Sff thf KfyFbdtory sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#KfyFbdtory">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @pbrbm providfr thf providfr.
+     *
+     * @rfturn thf nfw KfyFbdtory objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if b KfyFbdtorySpi
+     *          implfmfntbtion for thf spfdififd blgorithm is not bvbilbblf
+     *          from thf spfdififd Providfr objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd providfr is null.
+     *
+     * @sff Providfr
+     *
+     * @sindf 1.4
+     */
+    publid stbtid KfyFbdtory gftInstbndf(String blgorithm, Providfr providfr)
+            throws NoSudhAlgorithmExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("KfyFbdtory",
+            KfyFbdtorySpi.dlbss, blgorithm, providfr);
+        rfturn nfw KfyFbdtory((KfyFbdtorySpi)instbndf.impl,
+            instbndf.providfr, blgorithm);
+    }
+
+    /**
+     * Rfturns thf providfr of this kfy fbdtory objfdt.
+     *
+     * @rfturn thf providfr of this kfy fbdtory objfdt
+     */
+    publid finbl Providfr gftProvidfr() {
+        syndhronizfd (lodk) {
+            // disbblf furthfr fbilovfr bftfr this dbll
+            sfrvidfItfrbtor = null;
+            rfturn providfr;
+        }
+    }
+
+    /**
+     * Gfts thf nbmf of thf blgorithm
+     * bssodibtfd with this {@dodf KfyFbdtory}.
+     *
+     * @rfturn thf nbmf of thf blgorithm bssodibtfd with this
+     * {@dodf KfyFbdtory}
+     */
+    publid finbl String gftAlgorithm() {
+        rfturn this.blgorithm;
+    }
+
+    /**
+     * Updbtf thf bdtivf KfyFbdtorySpi of this dlbss bnd rfturn thf nfxt
+     * implfmfntbtion for fbilovfr. If no morf implfmfnbtions brf
+     * bvbilbblf, this mfthod rfturns null. Howfvfr, thf bdtivf spi of
+     * this dlbss is nfvfr sft to null.
+     */
+    privbtf KfyFbdtorySpi nfxtSpi(KfyFbdtorySpi oldSpi) {
+        syndhronizfd (lodk) {
+            // somfbody flsf did b fbilovfr dondurrfntly
+            // try thbt spi now
+            if ((oldSpi != null) && (oldSpi != spi)) {
+                rfturn spi;
+            }
+            if (sfrvidfItfrbtor == null) {
+                rfturn null;
+            }
+            whilf (sfrvidfItfrbtor.hbsNfxt()) {
+                Sfrvidf s = sfrvidfItfrbtor.nfxt();
+                try {
+                    Objfdt obj = s.nfwInstbndf(null);
+                    if (obj instbndfof KfyFbdtorySpi == fblsf) {
+                        dontinuf;
+                    }
+                    KfyFbdtorySpi spi = (KfyFbdtorySpi)obj;
+                    providfr = s.gftProvidfr();
+                    this.spi = spi;
+                    rfturn spi;
+                } dbtdh (NoSudhAlgorithmExdfption f) {
+                    // ignorf
+                }
+            }
+            sfrvidfItfrbtor = null;
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gfnfrbtfs b publid kfy objfdt from thf providfd kfy spfdifidbtion
+     * (kfy mbtfribl).
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion (kfy mbtfribl) of thf publid kfy.
+     *
+     * @rfturn thf publid kfy.
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf givfn kfy spfdifidbtion
+     * is inbppropribtf for this kfy fbdtory to produdf b publid kfy.
+     */
+    publid finbl PublidKfy gfnfrbtfPublid(KfySpfd kfySpfd)
+            throws InvblidKfySpfdExdfption {
+        if (sfrvidfItfrbtor == null) {
+            rfturn spi.fnginfGfnfrbtfPublid(kfySpfd);
+        }
+        Exdfption fbilurf = null;
+        KfyFbdtorySpi mySpi = spi;
+        do {
+            try {
+                rfturn mySpi.fnginfGfnfrbtfPublid(kfySpfd);
+            } dbtdh (Exdfption f) {
+                if (fbilurf == null) {
+                    fbilurf = f;
+                }
+                mySpi = nfxtSpi(mySpi);
+            }
+        } whilf (mySpi != null);
+        if (fbilurf instbndfof RuntimfExdfption) {
+            throw (RuntimfExdfption)fbilurf;
+        }
+        if (fbilurf instbndfof InvblidKfySpfdExdfption) {
+            throw (InvblidKfySpfdExdfption)fbilurf;
+        }
+        throw nfw InvblidKfySpfdExdfption
+                ("Could not gfnfrbtf publid kfy", fbilurf);
+    }
+
+    /**
+     * Gfnfrbtfs b privbtf kfy objfdt from thf providfd kfy spfdifidbtion
+     * (kfy mbtfribl).
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion (kfy mbtfribl) of thf privbtf kfy.
+     *
+     * @rfturn thf privbtf kfy.
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf givfn kfy spfdifidbtion
+     * is inbppropribtf for this kfy fbdtory to produdf b privbtf kfy.
+     */
+    publid finbl PrivbtfKfy gfnfrbtfPrivbtf(KfySpfd kfySpfd)
+            throws InvblidKfySpfdExdfption {
+        if (sfrvidfItfrbtor == null) {
+            rfturn spi.fnginfGfnfrbtfPrivbtf(kfySpfd);
+        }
+        Exdfption fbilurf = null;
+        KfyFbdtorySpi mySpi = spi;
+        do {
+            try {
+                rfturn mySpi.fnginfGfnfrbtfPrivbtf(kfySpfd);
+            } dbtdh (Exdfption f) {
+                if (fbilurf == null) {
+                    fbilurf = f;
+                }
+                mySpi = nfxtSpi(mySpi);
+            }
+        } whilf (mySpi != null);
+        if (fbilurf instbndfof RuntimfExdfption) {
+            throw (RuntimfExdfption)fbilurf;
+        }
+        if (fbilurf instbndfof InvblidKfySpfdExdfption) {
+            throw (InvblidKfySpfdExdfption)fbilurf;
+        }
+        throw nfw InvblidKfySpfdExdfption
+                ("Could not gfnfrbtf privbtf kfy", fbilurf);
+    }
+
+    /**
+     * Rfturns b spfdifidbtion (kfy mbtfribl) of thf givfn kfy objfdt.
+     * {@dodf kfySpfd} idfntififs thf spfdifidbtion dlbss in whidh
+     * thf kfy mbtfribl should bf rfturnfd. It dould, for fxbmplf, bf
+     * {@dodf DSAPublidKfySpfd.dlbss}, to indidbtf thbt thf
+     * kfy mbtfribl should bf rfturnfd in bn instbndf of thf
+     * {@dodf DSAPublidKfySpfd} dlbss.
+     *
+     * @pbrbm <T> thf typf of thf kfy spfdifidbtion to bf rfturnfd
+     *
+     * @pbrbm kfy thf kfy.
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion dlbss in whidh
+     * thf kfy mbtfribl should bf rfturnfd.
+     *
+     * @rfturn thf undfrlying kfy spfdifidbtion (kfy mbtfribl) in bn instbndf
+     * of thf rfqufstfd spfdifidbtion dlbss.
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf rfqufstfd kfy spfdifidbtion is
+     * inbppropribtf for thf givfn kfy, or thf givfn kfy dbnnot bf prodfssfd
+     * (f.g., thf givfn kfy hbs bn unrfdognizfd blgorithm or formbt).
+     */
+    publid finbl <T fxtfnds KfySpfd> T gftKfySpfd(Kfy kfy, Clbss<T> kfySpfd)
+            throws InvblidKfySpfdExdfption {
+        if (sfrvidfItfrbtor == null) {
+            rfturn spi.fnginfGftKfySpfd(kfy, kfySpfd);
+        }
+        Exdfption fbilurf = null;
+        KfyFbdtorySpi mySpi = spi;
+        do {
+            try {
+                rfturn mySpi.fnginfGftKfySpfd(kfy, kfySpfd);
+            } dbtdh (Exdfption f) {
+                if (fbilurf == null) {
+                    fbilurf = f;
+                }
+                mySpi = nfxtSpi(mySpi);
+            }
+        } whilf (mySpi != null);
+        if (fbilurf instbndfof RuntimfExdfption) {
+            throw (RuntimfExdfption)fbilurf;
+        }
+        if (fbilurf instbndfof InvblidKfySpfdExdfption) {
+            throw (InvblidKfySpfdExdfption)fbilurf;
+        }
+        throw nfw InvblidKfySpfdExdfption
+                ("Could not gft kfy spfd", fbilurf);
+    }
+
+    /**
+     * Trbnslbtfs b kfy objfdt, whosf providfr mby bf unknown or potfntiblly
+     * untrustfd, into b dorrfsponding kfy objfdt of this kfy fbdtory.
+     *
+     * @pbrbm kfy thf kfy whosf providfr is unknown or untrustfd.
+     *
+     * @rfturn thf trbnslbtfd kfy.
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy dbnnot bf prodfssfd
+     * by this kfy fbdtory.
+     */
+    publid finbl Kfy trbnslbtfKfy(Kfy kfy) throws InvblidKfyExdfption {
+        if (sfrvidfItfrbtor == null) {
+            rfturn spi.fnginfTrbnslbtfKfy(kfy);
+        }
+        Exdfption fbilurf = null;
+        KfyFbdtorySpi mySpi = spi;
+        do {
+            try {
+                rfturn mySpi.fnginfTrbnslbtfKfy(kfy);
+            } dbtdh (Exdfption f) {
+                if (fbilurf == null) {
+                    fbilurf = f;
+                }
+                mySpi = nfxtSpi(mySpi);
+            }
+        } whilf (mySpi != null);
+        if (fbilurf instbndfof RuntimfExdfption) {
+            throw (RuntimfExdfption)fbilurf;
+        }
+        if (fbilurf instbndfof InvblidKfyExdfption) {
+            throw (InvblidKfyExdfption)fbilurf;
+        }
+        throw nfw InvblidKfyExdfption
+                ("Could not trbnslbtf kfy", fbilurf);
+    }
+
+}

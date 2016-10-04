@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.nio.ch.sctp;
+pbdkbgf sun.nio.di.sdtp;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * Wraps the actual message or notification so that it can be
- * set and returned from the native receive implementation.
+ * Wrbps tif bdtubl mfssbgf or notifidbtion so tibt it dbn bf
+ * sft bnd rfturnfd from tif nbtivf rfdfivf implfmfntbtion.
  */
-public class ResultContainer {
-    /* static final ints so that they can be referenced from native */
-    @Native static final int NOTHING = 0;
-    @Native static final int MESSAGE = 1;
-    @Native static final int SEND_FAILED = 2;
-    @Native static final int ASSOCIATION_CHANGED = 3;
-    @Native static final int PEER_ADDRESS_CHANGED = 4;
-    @Native static final int SHUTDOWN = 5;
+publid dlbss RfsultContbinfr {
+    /* stbtid finbl ints so tibt tify dbn bf rfffrfndfd from nbtivf */
+    @Nbtivf stbtid finbl int NOTHING = 0;
+    @Nbtivf stbtid finbl int MESSAGE = 1;
+    @Nbtivf stbtid finbl int SEND_FAILED = 2;
+    @Nbtivf stbtid finbl int ASSOCIATION_CHANGED = 3;
+    @Nbtivf stbtid finbl int PEER_ADDRESS_CHANGED = 4;
+    @Nbtivf stbtid finbl int SHUTDOWN = 5;
 
-    private Object value;
-    private int type;
+    privbtf Objfdt vbluf;
+    privbtf int typf;
 
-    int type() {
-        return type;
+    int typf() {
+        rfturn typf;
     }
 
-    boolean hasSomething() {
-        return type() != NOTHING;
+    boolfbn ibsSomftiing() {
+        rfturn typf() != NOTHING;
     }
 
-    boolean isNotification() {
-        return type() != MESSAGE && type() != NOTHING ? true : false;
+    boolfbn isNotifidbtion() {
+        rfturn typf() != MESSAGE && typf() != NOTHING ? truf : fblsf;
     }
 
-    void clear() {
-        type = NOTHING;
-        value = null;
+    void dlfbr() {
+        typf = NOTHING;
+        vbluf = null;
     }
 
-    SctpNotification notification() {
-        assert type() != MESSAGE && type() != NOTHING;
+    SdtpNotifidbtion notifidbtion() {
+        bssfrt typf() != MESSAGE && typf() != NOTHING;
 
-        return (SctpNotification) value;
+        rfturn (SdtpNotifidbtion) vbluf;
     }
 
-    MessageInfoImpl getMessageInfo() {
-        assert type() == MESSAGE;
+    MfssbgfInfoImpl gftMfssbgfInfo() {
+        bssfrt typf() == MESSAGE;
 
-        if (value instanceof MessageInfoImpl)
-            return (MessageInfoImpl) value;
+        if (vbluf instbndfof MfssbgfInfoImpl)
+            rfturn (MfssbgfInfoImpl) vbluf;
 
-        return null;
+        rfturn null;
     }
 
-    SendFailed getSendFailed() {
-        assert type() == SEND_FAILED;
+    SfndFbilfd gftSfndFbilfd() {
+        bssfrt typf() == SEND_FAILED;
 
-        if (value instanceof SendFailed)
-            return (SendFailed) value;
+        if (vbluf instbndfof SfndFbilfd)
+            rfturn (SfndFbilfd) vbluf;
 
-        return null;
+        rfturn null;
     }
 
-    AssociationChange getAssociationChanged() {
-        assert type() == ASSOCIATION_CHANGED;
+    AssodibtionCibngf gftAssodibtionCibngfd() {
+        bssfrt typf() == ASSOCIATION_CHANGED;
 
-        if (value instanceof AssociationChange)
-            return (AssociationChange) value;
+        if (vbluf instbndfof AssodibtionCibngf)
+            rfturn (AssodibtionCibngf) vbluf;
 
-        return null;
+        rfturn null;
     }
 
-    PeerAddrChange getPeerAddressChanged() {
-        assert type() == PEER_ADDRESS_CHANGED;
+    PffrAddrCibngf gftPffrAddrfssCibngfd() {
+        bssfrt typf() == PEER_ADDRESS_CHANGED;
 
-        if (value instanceof PeerAddrChange)
-            return (PeerAddrChange) value;
+        if (vbluf instbndfof PffrAddrCibngf)
+            rfturn (PffrAddrCibngf) vbluf;
 
-        return null;
+        rfturn null;
     }
 
-    Shutdown getShutdown() {
-        assert type() == SHUTDOWN;
+    Siutdown gftSiutdown() {
+        bssfrt typf() == SHUTDOWN;
 
-        if (value instanceof Shutdown)
-            return (Shutdown) value;
+        if (vbluf instbndfof Siutdown)
+            rfturn (Siutdown) vbluf;
 
-        return null;
+        rfturn null;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Type: ");
-        switch (type) {
-            case NOTHING:              sb.append("NOTHING");             break;
-            case MESSAGE:              sb.append("MESSAGE");             break;
-            case SEND_FAILED:          sb.append("SEND FAILED");         break;
-            case ASSOCIATION_CHANGED:  sb.append("ASSOCIATION CHANGE");  break;
-            case PEER_ADDRESS_CHANGED: sb.append("PEER ADDRESS CHANGE"); break;
-            case SHUTDOWN:             sb.append("SHUTDOWN");            break;
-            default :                  sb.append("Unknown result type");
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("Typf: ");
+        switdi (typf) {
+            dbsf NOTHING:              sb.bppfnd("NOTHING");             brfbk;
+            dbsf MESSAGE:              sb.bppfnd("MESSAGE");             brfbk;
+            dbsf SEND_FAILED:          sb.bppfnd("SEND FAILED");         brfbk;
+            dbsf ASSOCIATION_CHANGED:  sb.bppfnd("ASSOCIATION CHANGE");  brfbk;
+            dbsf PEER_ADDRESS_CHANGED: sb.bppfnd("PEER ADDRESS CHANGE"); brfbk;
+            dbsf SHUTDOWN:             sb.bppfnd("SHUTDOWN");            brfbk;
+            dffbult :                  sb.bppfnd("Unknown rfsult typf");
         }
-        sb.append(", Value: ");
-        sb.append((value == null) ? "null" : value.toString());
-        return sb.toString();
+        sb.bppfnd(", Vbluf: ");
+        sb.bppfnd((vbluf == null) ? "null" : vbluf.toString());
+        rfturn sb.toString();
     }
 }

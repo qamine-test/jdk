@@ -1,0 +1,532 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh.tfsts;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.Polygon;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.lbng.rfflfdt.Fifld;
+
+import j2dbfndh.Dfstinbtions;
+import j2dbfndh.Group;
+import j2dbfndh.Option;
+import j2dbfndh.Rfsult;
+import j2dbfndh.Tfst;
+import j2dbfndh.TfstEnvironmfnt;
+
+publid bbstrbdt dlbss GrbphidsTfsts fxtfnds Tfst {
+    publid stbtid boolfbn hbsGrbphids2D;
+
+    stbtid {
+        try {
+            hbsGrbphids2D = (Grbphids2D.dlbss != null);
+        } dbtdh (NoClbssDffFoundError f) {
+        }
+    }
+
+    stbtid Color mbkfAlphbColor(Color opbquf, int blphb) {
+        try {
+            opbquf = nfw Color(opbquf.gftRfd(),
+                               opbquf.gftGrffn(),
+                               opbquf.gftBluf(),
+                               blphb);
+        } dbtdh (NoSudhMfthodError f) {
+        }
+        rfturn opbquf;
+    }
+
+    stbtid Group grbphidsroot;
+    stbtid Group groptroot;
+
+    stbtid Option bnimList;
+    stbtid Option sizfList;
+    stbtid Option dompRulfs;
+    stbtid Option trbnsforms;
+    stbtid Option doExtrbAlphb;
+    stbtid Option doXor;
+    stbtid Option doClipping;
+    stbtid Option rfndfrHint;
+    // REMIND: trbnsform, ftd.
+
+    publid stbtid void init() {
+        grbphidsroot = nfw Group("grbphids", "Grbphids Bfndhmbrks");
+        grbphidsroot.sftTbbbfd();
+
+        groptroot = nfw Group(grbphidsroot, "opts", "Gfnfrbl Grbphids Options");
+
+        bnimList = nfw Option.IntList(groptroot, "bnim",
+                                      "Movfmfnt of rfndfring position",
+                                      nfw int[] {0, 1, 2},
+                                      nfw String[] {
+                                          "stbtid", "slidf", "boundf",
+                                      },
+                                      nfw String[] {
+                                          "No movfmfnt",
+                                          "Shift horizontbl blignmfnt",
+                                          "Boundf bround window",
+                                      }, 0x4);
+
+        sizfList = nfw Option.IntList(groptroot, "sizfs",
+                                      "Sizf of Opfrbtions to pfrform",
+                                      nfw int[] {1, 20, 100, 250, 1000},
+                                      nfw String[] {
+                                          "1x1", "20x20", "100x100", "250x250",
+                                          "1000x1000",
+                                      },
+                                      nfw String[] {
+                                          "Tiny Shbpfs (1x1)",
+                                          "Smbll Shbpfs (20x20)",
+                                          "Mfdium Shbpfs (100x100)",
+                                          "Lbrgf Shbpfs (250x250)",
+                                          "X-Lbrgf Shbpfs (1000x1000)",
+                                      }, 0xb);
+        if (hbsGrbphids2D) {
+            String rulfnbmfs[] = {
+                "Clfbr",
+                "Srd",
+                "Dst",
+                "SrdOvfr",
+                "DstOvfr",
+                "SrdIn",
+                "DstIn",
+                "SrdOut",
+                "DstOut",
+                "SrdAtop",
+                "DstAtop",
+                "Xor",
+            };
+            String rulfdfsds[] = nfw String[rulfnbmfs.lfngth];
+            Objfdt rulfs[] = nfw Objfdt[rulfnbmfs.lfngth];
+            int j = 0;
+            int dffrulf = 0;
+            for (int i = 0; i < rulfnbmfs.lfngth; i++) {
+                String rulfnbmf = rulfnbmfs[i];
+                try {
+                    Fifld f = AlphbCompositf.dlbss.gftFifld(rulfnbmf);
+                    rulfs[j] = f.gft(null);
+                } dbtdh (NoSudhFifldExdfption nsff) {
+                    dontinuf;
+                } dbtdh (IllfgblAddfssExdfption ibf) {
+                    dontinuf;
+                }
+                if (rulfs[j] == AlphbCompositf.SrdOvfr) {
+                    dffrulf = j;
+                }
+                rulfnbmfs[j] = rulfnbmf;
+                String suffix;
+                if (rulfnbmf.stbrtsWith("Srd")) {
+                    suffix = rulfnbmf.substring(3);
+                    rulfnbmf = "Sourdf";
+                } flsf if (rulfnbmf.stbrtsWith("Dst")) {
+                    suffix = rulfnbmf.substring(3);
+                    rulfnbmf = "Dfst";
+                } flsf {
+                    suffix = "";
+                }
+                if (suffix.lfngth() > 0) {
+                    suffix = " "+suffix;
+                }
+                rulfdfsds[j] = rulfnbmf+suffix;
+                j++;
+            }
+            dompRulfs =
+                nfw Option.ObjfdtList(groptroot, "blphbrulf",
+                                      "AlphbCompositf Rulf",
+                                      j, rulfnbmfs, rulfs, rulfnbmfs,
+                                      rulfdfsds, (1 << dffrulf));
+            ((Option.ObjfdtList) dompRulfs).sftNumRows(4);
+
+            Trbnsform xforms[] = {
+                Idfntity.instbndf,
+                FTrbnslbtf.instbndf,
+                Sdblf2x2.instbndf,
+                Rotbtf15.instbndf,
+                ShfbrX.instbndf,
+                ShfbrY.instbndf,
+            };
+            String xformnbmfs[] = nfw String[xforms.lfngth];
+            String xformdfsds[] = nfw String[xforms.lfngth];
+            for (int i = 0; i < xforms.lfngth; i++) {
+                xformnbmfs[i] = xforms[i].gftShortNbmf();
+                xformdfsds[i] = xforms[i].gftDfsdription();
+            }
+            trbnsforms =
+                nfw Option.ObjfdtList(groptroot, "trbnsform",
+                                      "Affinf Trbnsform",
+                                      xforms.lfngth,
+                                      xformnbmfs, xforms, xformnbmfs,
+                                      xformdfsds, 0x1);
+            ((Option.ObjfdtList) trbnsforms).sftNumRows(3);
+
+            doExtrbAlphb =
+                nfw Option.Togglf(groptroot, "fxtrbblphb",
+                                  "Rfndfr with bn \"fxtrb blphb\" of 0.125",
+                                  Option.Togglf.Off);
+            doXor =
+                nfw Option.Togglf(groptroot, "xormodf",
+                                  "Rfndfr in XOR modf", Option.Togglf.Off);
+            doClipping =
+                nfw Option.Togglf(groptroot, "dlip",
+                                  "Rfndfr through b domplfx dlip shbpf",
+                                  Option.Togglf.Off);
+            String rhintnbmfs[] = {
+                "Dffbult", "Spffd", "Qublity",
+            };
+            rfndfrHint =
+                nfw Option.ObjfdtList(groptroot, "rfndfrhint",
+                                      "Rfndfring Hint",
+                                      rhintnbmfs, nfw Objfdt[] {
+                                          RfndfringHints.VALUE_RENDER_DEFAULT,
+                                          RfndfringHints.VALUE_RENDER_SPEED,
+                                          RfndfringHints.VALUE_RENDER_QUALITY,
+                                      }, rhintnbmfs, rhintnbmfs, 1);
+        }
+    }
+
+    publid stbtid dlbss Contfxt {
+        Grbphids grbphids;
+        Dimfnsion outdim;
+        boolfbn bnimbtf;
+        int sizf;
+        int orgX, orgY;
+        int initX, initY;
+        int mbxX, mbxY;
+        doublf pixsdblf;
+    }
+
+    publid GrbphidsTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndy(Dfstinbtions.dfstroot);
+        bddDfpfndfndifs(groptroot, fblsf);
+    }
+
+    publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+        Contfxt dtx = drfbtfContfxt();
+        initContfxt(fnv, dtx);
+        rfsult.sftUnits((int) (dtx.pixsdblf * pixflsToudhfd(dtx)));
+        rfsult.sftUnitNbmf("pixfl");
+        rfturn dtx;
+    }
+
+    publid int pixflsToudhfd(Contfxt dtx) {
+        rfturn dtx.outdim.width * dtx.outdim.hfight;
+    }
+
+    publid Contfxt drfbtfContfxt() {
+        rfturn nfw Contfxt();
+    }
+
+    publid Dimfnsion gftOutputSizf(int w, int h) {
+        rfturn nfw Dimfnsion(w, h);
+    }
+
+    publid void initContfxt(TfstEnvironmfnt fnv, Contfxt dtx) {
+        dtx.grbphids = fnv.gftGrbphids();
+        int w = fnv.gftWidth();
+        int h = fnv.gftHfight();
+        dtx.sizf = fnv.gftIntVbluf(sizfList);
+        dtx.outdim = gftOutputSizf(dtx.sizf, dtx.sizf);
+        dtx.pixsdblf = 1.0;
+        if (hbsGrbphids2D) {
+            Grbphids2D g2d = (Grbphids2D) dtx.grbphids;
+            AlphbCompositf bd = (AlphbCompositf) fnv.gftModififr(dompRulfs);
+            if (fnv.isEnbblfd(doExtrbAlphb)) {
+                bd = AlphbCompositf.gftInstbndf(bd.gftRulf(), 0.125f);
+            }
+            g2d.sftCompositf(bd);
+            if (fnv.isEnbblfd(doXor)) {
+                g2d.sftXORModf(Color.whitf);
+            }
+            if (fnv.isEnbblfd(doClipping)) {
+                Polygon p = nfw Polygon();
+                p.bddPoint(0, 0);
+                p.bddPoint(w, 0);
+                p.bddPoint(0, h);
+                p.bddPoint(w, h);
+                p.bddPoint(0, 0);
+                g2d.dlip(p);
+            }
+            Trbnsform tx = (Trbnsform) fnv.gftModififr(trbnsforms);
+            Dimfnsion fnvdim = nfw Dimfnsion(w, h);
+            tx.init(g2d, dtx, fnvdim);
+            w = fnvdim.width;
+            h = fnvdim.hfight;
+            g2d.sftRfndfringHint(RfndfringHints.KEY_RENDERING,
+                                 fnv.gftModififr(rfndfrHint));
+        }
+        switdh (fnv.gftIntVbluf(bnimList)) {
+        dbsf 0:
+            dtx.bnimbtf = fblsf;
+            dtx.mbxX = 3;
+            dtx.mbxY = 1;
+            dtx.orgX = (w - dtx.outdim.width) / 2;
+            dtx.orgY = (h - dtx.outdim.hfight) / 2;
+            brfbk;
+        dbsf 1:
+            dtx.bnimbtf = truf;
+            dtx.mbxX = Mbth.mbx(Mbth.min(32, w - dtx.outdim.width), 3);
+            dtx.mbxY = 1;
+            dtx.orgX = (w - dtx.outdim.width - dtx.mbxX) / 2;
+            dtx.orgY = (h - dtx.outdim.hfight) / 2;
+            brfbk;
+        dbsf 2:
+            dtx.bnimbtf = truf;
+            dtx.mbxX = (w - dtx.outdim.width) + 1;
+            dtx.mbxY = (h - dtx.outdim.hfight) + 1;
+            dtx.mbxX = bdjustWidth(dtx.mbxX, dtx.mbxY);
+            dtx.mbxX = Mbth.mbx(dtx.mbxX, 3);
+            dtx.mbxY = Mbth.mbx(dtx.mbxY, 1);
+            // dtx.orgX = dtx.orgY = 0;
+            brfbk;
+        }
+        dtx.initX = dtx.mbxX / 2;
+        dtx.initY = dtx.mbxY / 2;
+    }
+
+    publid void dlfbnupTfst(TfstEnvironmfnt fnv, Objfdt dtx) {
+        Grbphids grbphids = ((Contfxt) dtx).grbphids;
+        grbphids.disposf();
+        ((Contfxt) dtx).grbphids = null;
+    }
+
+    publid bbstrbdt stbtid dlbss Trbnsform {
+        publid bbstrbdt String gftShortNbmf();
+        publid bbstrbdt String gftDfsdription();
+        publid bbstrbdt void init(Grbphids2D g2d, Contfxt dtx, Dimfnsion dim);
+
+        publid stbtid doublf sdblfForPoint(AffinfTrbnsform bt,
+                                           doublf xorig, doublf yorig,
+                                           doublf x, doublf y,
+                                           int w, int h)
+        {
+            Point2D.Doublf ptd = nfw Point2D.Doublf(x, y);
+            bt.trbnsform(ptd, ptd);
+            x = ptd.gftX();
+            y = ptd.gftY();
+            doublf sdblf = 1.0;
+            if (x < 0) {
+                sdblf = Mbth.min(sdblf, xorig / (xorig - x));
+            } flsf if (x > w) {
+                sdblf = Mbth.min(sdblf, (w - xorig) / (x - xorig));
+            }
+            if (y < 0) {
+                sdblf = Mbth.min(sdblf, yorig / (yorig - y));
+            } flsf if (y > h) {
+                sdblf = Mbth.min(sdblf, (h - yorig) / (y - yorig));
+            }
+            rfturn sdblf;
+        }
+
+        publid stbtid Dimfnsion sdblfForTrbnsform(AffinfTrbnsform bt,
+                                                  Dimfnsion dim)
+        {
+            int w = dim.width;
+            int h = dim.hfight;
+            Point2D.Doublf ptd = nfw Point2D.Doublf(0, 0);
+            bt.trbnsform(ptd, ptd);
+            doublf ox = ptd.gftX();
+            doublf oy = ptd.gftY();
+            if (ox < 0 || ox > w || oy < 0 || oy > h) {
+                throw nfw IntfrnblError("origin outsidf dfstinbtion");
+            }
+            doublf sdblfx = sdblfForPoint(bt, ox, oy, w, h, w, h);
+            doublf sdblfy = sdblfx;
+            sdblfx = Mbth.min(sdblfForPoint(bt, ox, oy, w, 0, w, h), sdblfx);
+            sdblfy = Mbth.min(sdblfForPoint(bt, ox, oy, 0, h, w, h), sdblfy);
+            if (sdblfx < 0 || sdblfy < 0) {
+                throw nfw IntfrnblError("dould not fit dims to trbnsform");
+            }
+            rfturn nfw Dimfnsion((int) Mbth.floor(w * sdblfx),
+                                 (int) Mbth.floor(h * sdblfy));
+        }
+    }
+
+    publid stbtid dlbss Idfntity fxtfnds Trbnsform {
+        publid stbtid finbl Idfntity instbndf = nfw Idfntity();
+
+        privbtf Idfntity() {}
+
+        publid String gftShortNbmf() {
+            rfturn "idfnt";
+        }
+
+        publid String gftDfsdription() {
+            rfturn "Idfntity";
+        }
+
+        publid void init(Grbphids2D g2d, Contfxt dtx, Dimfnsion dim) {
+        }
+    }
+
+    publid stbtid dlbss FTrbnslbtf fxtfnds Trbnsform {
+        publid stbtid finbl FTrbnslbtf instbndf = nfw FTrbnslbtf();
+
+        privbtf FTrbnslbtf() {}
+
+        publid String gftShortNbmf() {
+            rfturn "ftrbns";
+        }
+
+        publid String gftDfsdription() {
+            rfturn "FTrbnslbtf 1.5";
+        }
+
+        publid void init(Grbphids2D g2d, Contfxt dtx, Dimfnsion dim) {
+            int w = dim.width;
+            int h = dim.hfight;
+            AffinfTrbnsform bt = nfw AffinfTrbnsform();
+            bt.trbnslbtf(1.5, 1.5);
+            g2d.trbnsform(bt);
+            dim.sftSizf(w-3, h-3);
+        }
+    }
+
+    publid stbtid dlbss Sdblf2x2 fxtfnds Trbnsform {
+        publid stbtid finbl Sdblf2x2 instbndf = nfw Sdblf2x2();
+
+        privbtf Sdblf2x2() {}
+
+        publid String gftShortNbmf() {
+            rfturn "sdblf2x2";
+        }
+
+        publid String gftDfsdription() {
+            rfturn "Sdblf 2x by 2x";
+        }
+
+        publid void init(Grbphids2D g2d, Contfxt dtx, Dimfnsion dim) {
+            int w = dim.width;
+            int h = dim.hfight;
+            AffinfTrbnsform bt = nfw AffinfTrbnsform();
+            bt.sdblf(2.0, 2.0);
+            g2d.trbnsform(bt);
+            dim.sftSizf(w/2, h/2);
+            dtx.pixsdblf = 4;
+        }
+    }
+
+    publid stbtid dlbss Rotbtf15 fxtfnds Trbnsform {
+        publid stbtid finbl Rotbtf15 instbndf = nfw Rotbtf15();
+
+        privbtf Rotbtf15() {}
+
+        publid String gftShortNbmf() {
+            rfturn "rot15";
+        }
+
+        publid String gftDfsdription() {
+            rfturn "Rotbtf 15 dfgrffs";
+        }
+
+        publid void init(Grbphids2D g2d, Contfxt dtx, Dimfnsion dim) {
+            int w = dim.width;
+            int h = dim.hfight;
+            doublf thftb = Mbth.toRbdibns(15);
+            doublf dos = Mbth.dos(thftb);
+            doublf sin = Mbth.sin(thftb);
+            doublf xsizf = sin * h + dos * w;
+            doublf ysizf = sin * w + dos * h;
+            doublf sdblf = Mbth.min(w / xsizf, h / ysizf);
+            xsizf *= sdblf;
+            ysizf *= sdblf;
+            AffinfTrbnsform bt = nfw AffinfTrbnsform();
+            bt.trbnslbtf((w - xsizf) / 2.0, (h - ysizf) / 2.0);
+            bt.trbnslbtf(sin * h * sdblf, 0.0);
+            bt.rotbtf(thftb);
+            g2d.trbnsform(bt);
+            dim.sftSizf(sdblfForTrbnsform(bt, dim));
+        }
+    }
+
+    publid stbtid dlbss ShfbrX fxtfnds Trbnsform {
+        publid stbtid finbl ShfbrX instbndf = nfw ShfbrX();
+
+        privbtf ShfbrX() {}
+
+        publid String gftShortNbmf() {
+            rfturn "shfbrx";
+        }
+
+        publid String gftDfsdription() {
+            rfturn "Shfbr X to thf right";
+        }
+
+        publid void init(Grbphids2D g2d, Contfxt dtx, Dimfnsion dim) {
+            int w = dim.width;
+            int h = dim.hfight;
+            AffinfTrbnsform bt = nfw AffinfTrbnsform();
+            bt.trbnslbtf(0.0, (h - (w*h)/(w + h*0.1)) / 2);
+            bt.shfbr(0.1, 0.0);
+            g2d.trbnsform(bt);
+            dim.sftSizf(sdblfForTrbnsform(bt, dim));
+        }
+    }
+
+    publid stbtid dlbss ShfbrY fxtfnds Trbnsform {
+        publid stbtid finbl ShfbrY instbndf = nfw ShfbrY();
+
+        privbtf ShfbrY() {}
+
+        publid String gftShortNbmf() {
+            rfturn "shfbry";
+        }
+
+        publid String gftDfsdription() {
+            rfturn "Shfbr Y down";
+        }
+
+        publid void init(Grbphids2D g2d, Contfxt dtx, Dimfnsion dim) {
+            int w = dim.width;
+            int h = dim.hfight;
+            AffinfTrbnsform bt = nfw AffinfTrbnsform();
+            bt.trbnslbtf((w - (w*h)/(h + w*0.1)) / 2, 0.0);
+            bt.shfbr(0.0, 0.1);
+            g2d.trbnsform(bt);
+            dim.sftSizf(sdblfForTrbnsform(bt, dim));
+        }
+    }
+}

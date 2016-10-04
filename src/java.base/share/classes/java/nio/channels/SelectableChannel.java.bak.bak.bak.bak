@@ -1,0 +1,344 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbnnfls.spi.AbstrbdtIntfrruptiblfChbnnfl;
+import jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr;
+
+
+/**
+ * A dhbnnfl thbt dbn bf multiplfxfd vib b {@link Sflfdtor}.
+ *
+ * <p> In ordfr to bf usfd with b sflfdtor, bn instbndf of this dlbss must
+ * first bf <i>rfgistfrfd</i> vib thf {@link #rfgistfr(Sflfdtor,int,Objfdt)
+ * rfgistfr} mfthod.  This mfthod rfturns b nfw {@link SflfdtionKfy} objfdt
+ * thbt rfprfsfnts thf dhbnnfl's rfgistrbtion with thf sflfdtor.
+ *
+ * <p> Ondf rfgistfrfd with b sflfdtor, b dhbnnfl rfmbins rfgistfrfd until it
+ * is <i>dfrfgistfrfd</i>.  This involvfs dfbllodbting whbtfvfr rfsourdfs wfrf
+ * bllodbtfd to thf dhbnnfl by thf sflfdtor.
+ *
+ * <p> A dhbnnfl dbnnot bf dfrfgistfrfd dirfdtly; instfbd, thf kfy rfprfsfnting
+ * its rfgistrbtion must bf <i>dbndfllfd</i>.  Cbndflling b kfy rfqufsts thbt
+ * thf dhbnnfl bf dfrfgistfrfd during thf sflfdtor's nfxt sflfdtion opfrbtion.
+ * A kfy mby bf dbndfllfd fxpliditly by invoking its {@link
+ * SflfdtionKfy#dbndfl() dbndfl} mfthod.  All of b dhbnnfl's kfys brf dbndfllfd
+ * impliditly whfn thf dhbnnfl is dlosfd, whfthfr by invoking its {@link
+ * Chbnnfl#dlosf dlosf} mfthod or by intfrrupting b thrfbd blodkfd in bn I/O
+ * opfrbtion upon thf dhbnnfl.
+ *
+ * <p> If thf sflfdtor itsflf is dlosfd thfn thf dhbnnfl will bf dfrfgistfrfd,
+ * bnd thf kfy rfprfsfnting its rfgistrbtion will bf invblidbtfd, without
+ * furthfr dflby.
+ *
+ * <p> A dhbnnfl mby bf rfgistfrfd bt most ondf with bny pbrtidulbr sflfdtor.
+ *
+ * <p> Whfthfr or not b dhbnnfl is rfgistfrfd with onf or morf sflfdtors mby bf
+ * dftfrminfd by invoking thf {@link #isRfgistfrfd isRfgistfrfd} mfthod.
+ *
+ * <p> Sflfdtbblf dhbnnfls brf sbff for usf by multiplf dondurrfnt
+ * thrfbds. </p>
+ *
+ *
+ * <b nbmf="bm"></b>
+ * <h2>Blodking modf</h2>
+ *
+ * A sflfdtbblf dhbnnfl is fithfr in <i>blodking</i> modf or in
+ * <i>non-blodking</i> modf.  In blodking modf, fvfry I/O opfrbtion invokfd
+ * upon thf dhbnnfl will blodk until it domplftfs.  In non-blodking modf bn I/O
+ * opfrbtion will nfvfr blodk bnd mby trbnsffr ffwfr bytfs thbn wfrf rfqufstfd
+ * or possibly no bytfs bt bll.  Thf blodking modf of b sflfdtbblf dhbnnfl mby
+ * bf dftfrminfd by invoking its {@link #isBlodking isBlodking} mfthod.
+ *
+ * <p> Nfwly-drfbtfd sflfdtbblf dhbnnfls brf blwbys in blodking modf.
+ * Non-blodking modf is most usfful in donjundtion with sflfdtor-bbsfd
+ * multiplfxing.  A dhbnnfl must bf plbdfd into non-blodking modf bfforf bfing
+ * rfgistfrfd with b sflfdtor, bnd mby not bf rfturnfd to blodking modf until
+ * it hbs bffn dfrfgistfrfd.
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ *
+ * @sff SflfdtionKfy
+ * @sff Sflfdtor
+ */
+
+publid bbstrbdt dlbss SflfdtbblfChbnnfl
+    fxtfnds AbstrbdtIntfrruptiblfChbnnfl
+    implfmfnts Chbnnfl
+{
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd SflfdtbblfChbnnfl() { }
+
+    /**
+     * Rfturns thf providfr thbt drfbtfd this dhbnnfl.
+     *
+     * @rfturn  Thf providfr thbt drfbtfd this dhbnnfl
+     */
+    publid bbstrbdt SflfdtorProvidfr providfr();
+
+    /**
+     * Rfturns bn <b hrff="SflfdtionKfy.html#opsfts">opfrbtion sft</b>
+     * idfntifying this dhbnnfl's supportfd opfrbtions.  Thf bits thbt brf sft
+     * in this intfgfr vbluf dfnotf fxbdtly thf opfrbtions thbt brf vblid for
+     * this dhbnnfl.  This mfthod blwbys rfturns thf sbmf vbluf for b givfn
+     * dondrftf dhbnnfl dlbss.
+     *
+     * @rfturn  Thf vblid-opfrbtion sft
+     */
+    publid bbstrbdt int vblidOps();
+
+    // Intfrnbl stbtf:
+    //   kfySft, mby bf fmpty but is nfvfr null, typ. b tiny brrby
+    //   boolfbn isRfgistfrfd, protfdtfd by kfy sft
+    //   rfgLodk, lodk objfdt to prfvfnt duplidbtf rfgistrbtions
+    //   boolfbn isBlodking, protfdtfd by rfgLodk
+
+    /**
+     * Tflls whfthfr or not this dhbnnfl is durrfntly rfgistfrfd with bny
+     * sflfdtors.  A nfwly-drfbtfd dhbnnfl is not rfgistfrfd.
+     *
+     * <p> Duf to thf inhfrfnt dflby bftwffn kfy dbndfllbtion bnd dhbnnfl
+     * dfrfgistrbtion, b dhbnnfl mby rfmbin rfgistfrfd for somf timf bftfr bll
+     * of its kfys hbvf bffn dbndfllfd.  A dhbnnfl mby blso rfmbin rfgistfrfd
+     * for somf timf bftfr it is dlosfd.  </p>
+     *
+     * @rfturn <tt>truf</tt> if, bnd only if, this dhbnnfl is rfgistfrfd
+     */
+    publid bbstrbdt boolfbn isRfgistfrfd();
+    //
+    // synd(kfySft) { rfturn isRfgistfrfd; }
+
+    /**
+     * Rftrifvfs thf kfy rfprfsfnting thf dhbnnfl's rfgistrbtion with thf givfn
+     * sflfdtor.
+     *
+     * @pbrbm   sfl
+     *          Thf sflfdtor
+     *
+     * @rfturn  Thf kfy rfturnfd whfn this dhbnnfl wbs lbst rfgistfrfd with thf
+     *          givfn sflfdtor, or <tt>null</tt> if this dhbnnfl is not
+     *          durrfntly rfgistfrfd with thbt sflfdtor
+     */
+    publid bbstrbdt SflfdtionKfy kfyFor(Sflfdtor sfl);
+    //
+    // synd(kfySft) { rfturn findKfy(sfl); }
+
+    /**
+     * Rfgistfrs this dhbnnfl with thf givfn sflfdtor, rfturning b sflfdtion
+     * kfy.
+     *
+     * <p> If this dhbnnfl is durrfntly rfgistfrfd with thf givfn sflfdtor thfn
+     * thf sflfdtion kfy rfprfsfnting thbt rfgistrbtion is rfturnfd.  Thf kfy's
+     * intfrfst sft will hbvf bffn dhbngfd to <tt>ops</tt>, bs if by invoking
+     * thf {@link SflfdtionKfy#intfrfstOps(int) intfrfstOps(int)} mfthod.  If
+     * thf <tt>btt</tt> brgumfnt is not <tt>null</tt> thfn thf kfy's bttbdhmfnt
+     * will hbvf bffn sft to thbt vbluf.  A {@link CbndfllfdKfyExdfption} will
+     * bf thrown if thf kfy hbs blrfbdy bffn dbndfllfd.
+     *
+     * <p> Othfrwisf this dhbnnfl hbs not yft bffn rfgistfrfd with thf givfn
+     * sflfdtor, so it is rfgistfrfd bnd thf rfsulting nfw kfy is rfturnfd.
+     * Thf kfy's initibl intfrfst sft will bf <tt>ops</tt> bnd its bttbdhmfnt
+     * will bf <tt>btt</tt>.
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf.  If this mfthod is invokfd
+     * whilf bnothfr invodbtion of this mfthod or of thf {@link
+     * #donfigurfBlodking(boolfbn) donfigurfBlodking} mfthod is in progrfss
+     * thfn it will first blodk until thf othfr opfrbtion is domplftf.  This
+     * mfthod will thfn syndhronizf on thf sflfdtor's kfy sft bnd thfrfforf mby
+     * blodk if invokfd dondurrfntly with bnothfr rfgistrbtion or sflfdtion
+     * opfrbtion involving thf sbmf sflfdtor. </p>
+     *
+     * <p> If this dhbnnfl is dlosfd whilf this opfrbtion is in progrfss thfn
+     * thf kfy rfturnfd by this mfthod will hbvf bffn dbndfllfd bnd will
+     * thfrfforf bf invblid. </p>
+     *
+     * @pbrbm  sfl
+     *         Thf sflfdtor with whidh this dhbnnfl is to bf rfgistfrfd
+     *
+     * @pbrbm  ops
+     *         Thf intfrfst sft for thf rfsulting kfy
+     *
+     * @pbrbm  btt
+     *         Thf bttbdhmfnt for thf rfsulting kfy; mby bf <tt>null</tt>
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  ClosfdSflfdtorExdfption
+     *          If thf sflfdtor is dlosfd
+     *
+     * @throws  IllfgblBlodkingModfExdfption
+     *          If this dhbnnfl is in blodking modf
+     *
+     * @throws  IllfgblSflfdtorExdfption
+     *          If this dhbnnfl wbs not drfbtfd by thf sbmf providfr
+     *          bs thf givfn sflfdtor
+     *
+     * @throws  CbndfllfdKfyExdfption
+     *          If this dhbnnfl is durrfntly rfgistfrfd with thf givfn sflfdtor
+     *          but thf dorrfsponding kfy hbs blrfbdy bffn dbndfllfd
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If b bit in thf <tt>ops</tt> sft dofs not dorrfspond to bn
+     *          opfrbtion thbt is supportfd by this dhbnnfl, thbt is, if
+     *          {@dodf sft & ~vblidOps() != 0}
+     *
+     * @rfturn  A kfy rfprfsfnting thf rfgistrbtion of this dhbnnfl with
+     *          thf givfn sflfdtor
+     */
+    publid bbstrbdt SflfdtionKfy rfgistfr(Sflfdtor sfl, int ops, Objfdt btt)
+        throws ClosfdChbnnflExdfption;
+    //
+    // synd(rfgLodk) {
+    //   synd(kfySft) { look for sflfdtor }
+    //   if (dhbnnfl found) { sft intfrfst ops -- mby blodk in sflfdtor;
+    //                        rfturn kfy; }
+    //   drfbtf nfw kfy -- mby blodk somfwhfrf in sflfdtor;
+    //   synd(kfySft) { bdd kfy; }
+    //   bttbdh(bttbdhmfnt);
+    //   rfturn kfy;
+    // }
+
+    /**
+     * Rfgistfrs this dhbnnfl with thf givfn sflfdtor, rfturning b sflfdtion
+     * kfy.
+     *
+     * <p> An invodbtion of this donvfnifndf mfthod of thf form
+     *
+     * <blodkquotf><tt>sd.rfgistfr(sfl, ops)</tt></blodkquotf>
+     *
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <blodkquotf><tt>sd.{@link
+     * #rfgistfr(jbvb.nio.dhbnnfls.Sflfdtor,int,jbvb.lbng.Objfdt)
+     * rfgistfr}(sfl, ops, null)</tt></blodkquotf>
+     *
+     * @pbrbm  sfl
+     *         Thf sflfdtor with whidh this dhbnnfl is to bf rfgistfrfd
+     *
+     * @pbrbm  ops
+     *         Thf intfrfst sft for thf rfsulting kfy
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  ClosfdSflfdtorExdfption
+     *          If thf sflfdtor is dlosfd
+     *
+     * @throws  IllfgblBlodkingModfExdfption
+     *          If this dhbnnfl is in blodking modf
+     *
+     * @throws  IllfgblSflfdtorExdfption
+     *          If this dhbnnfl wbs not drfbtfd by thf sbmf providfr
+     *          bs thf givfn sflfdtor
+     *
+     * @throws  CbndfllfdKfyExdfption
+     *          If this dhbnnfl is durrfntly rfgistfrfd with thf givfn sflfdtor
+     *          but thf dorrfsponding kfy hbs blrfbdy bffn dbndfllfd
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If b bit in <tt>ops</tt> dofs not dorrfspond to bn opfrbtion
+     *          thbt is supportfd by this dhbnnfl, thbt is, if {@dodf sft &
+     *          ~vblidOps() != 0}
+     *
+     * @rfturn  A kfy rfprfsfnting thf rfgistrbtion of this dhbnnfl with
+     *          thf givfn sflfdtor
+     */
+    publid finbl SflfdtionKfy rfgistfr(Sflfdtor sfl, int ops)
+        throws ClosfdChbnnflExdfption
+    {
+        rfturn rfgistfr(sfl, ops, null);
+    }
+
+    /**
+     * Adjusts this dhbnnfl's blodking modf.
+     *
+     * <p> If this dhbnnfl is rfgistfrfd with onf or morf sflfdtors thfn bn
+     * bttfmpt to plbdf it into blodking modf will dbusf bn {@link
+     * IllfgblBlodkingModfExdfption} to bf thrown.
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf.  Thf nfw blodking modf will
+     * only bfffdt I/O opfrbtions thbt brf initibtfd bftfr this mfthod rfturns.
+     * For somf implfmfntbtions this mby rfquirf blodking until bll pfnding I/O
+     * opfrbtions brf domplftf.
+     *
+     * <p> If this mfthod is invokfd whilf bnothfr invodbtion of this mfthod or
+     * of thf {@link #rfgistfr(Sflfdtor, int) rfgistfr} mfthod is in progrfss
+     * thfn it will first blodk until thf othfr opfrbtion is domplftf. </p>
+     *
+     * @pbrbm  blodk  If <tt>truf</tt> thfn this dhbnnfl will bf plbdfd in
+     *                blodking modf; if <tt>fblsf</tt> thfn it will bf plbdfd
+     *                non-blodking modf
+     *
+     * @rfturn  This sflfdtbblf dhbnnfl
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  IllfgblBlodkingModfExdfption
+     *          If <tt>blodk</tt> is <tt>truf</tt> bnd this dhbnnfl is
+     *          rfgistfrfd with onf or morf sflfdtors
+     *
+     * @throws IOExdfption
+     *         If bn I/O frror oddurs
+     */
+    publid bbstrbdt SflfdtbblfChbnnfl donfigurfBlodking(boolfbn blodk)
+        throws IOExdfption;
+    //
+    // synd(rfgLodk) {
+    //   synd(kfySft) { throw IBME if blodk && isRfgistfrfd; }
+    //   dhbngf modf;
+    // }
+
+    /**
+     * Tflls whfthfr or not fvfry I/O opfrbtion on this dhbnnfl will blodk
+     * until it domplftfs.  A nfwly-drfbtfd dhbnnfl is blwbys in blodking modf.
+     *
+     * <p> If this dhbnnfl is dlosfd thfn thf vbluf rfturnfd by this mfthod is
+     * not spfdififd. </p>
+     *
+     * @rfturn <tt>truf</tt> if, bnd only if, this dhbnnfl is in blodking modf
+     */
+    publid bbstrbdt boolfbn isBlodking();
+
+    /**
+     * Rftrifvfs thf objfdt upon whidh thf {@link #donfigurfBlodking
+     * donfigurfBlodking} bnd {@link #rfgistfr rfgistfr} mfthods syndhronizf.
+     * This is oftfn usfful in thf implfmfntbtion of bdbptors thbt rfquirf b
+     * spfdifid blodking modf to bf mbintbinfd for b short pfriod of timf.
+     *
+     * @rfturn  Thf blodking-modf lodk objfdt
+     */
+    publid bbstrbdt Objfdt blodkingLodk();
+
+}

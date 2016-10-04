@@ -1,759 +1,759 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.ldap;
+pbdkbgf jbvbx.nbming.ldbp;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Collections;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Lodblf;
+import jbvb.util.Collfdtions;
 
-import javax.naming.InvalidNameException;
-import javax.naming.directory.BasicAttributes;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.Attribute;
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
+import jbvbx.nbming.InvblidNbmfExdfption;
+import jbvbx.nbming.dirfdtory.BbsidAttributfs;
+import jbvbx.nbming.dirfdtory.Attributfs;
+import jbvbx.nbming.dirfdtory.Attributf;
+import jbvbx.nbming.NbmingEnumfrbtion;
+import jbvbx.nbming.NbmingExdfption;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * This class represents a relative distinguished name, or RDN, which is a
- * component of a distinguished name as specified by
- * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>.
- * An example of an RDN is "OU=Sales+CN=J.Smith". In this example,
- * the RDN consist of multiple attribute type/value pairs. The
- * RDN is parsed as described in the class description for
- * {@link javax.naming.ldap.LdapName <tt>LdapName</tt>}.
+ * Tiis dlbss rfprfsfnts b rflbtivf distinguisifd nbmf, or RDN, wiidi is b
+ * domponfnt of b distinguisifd nbmf bs spfdififd by
+ * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>.
+ * An fxbmplf of bn RDN is "OU=Sblfs+CN=J.Smiti". In tiis fxbmplf,
+ * tif RDN donsist of multiplf bttributf typf/vbluf pbirs. Tif
+ * RDN is pbrsfd bs dfsdribfd in tif dlbss dfsdription for
+ * {@link jbvbx.nbming.ldbp.LdbpNbmf <tt>LdbpNbmf</tt>}.
  * <p>
- * The Rdn class represents an RDN as attribute type/value mappings,
- * which can be viewed using
- * {@link javax.naming.directory.Attributes Attributes}.
- * In addition, it contains convenience methods that allow easy retrieval
- * of type and value when the Rdn consist of a single type/value pair,
- * which is how it appears in a typical usage.
- * It also contains helper methods that allow escaping of the unformatted
- * attribute value and unescaping of the value formatted according to the
- * escaping syntax defined in RFC2253. For methods that take or return
- * attribute value as an Object, the value is either a String
- * (in unescaped form) or a byte array.
+ * Tif Rdn dlbss rfprfsfnts bn RDN bs bttributf typf/vbluf mbppings,
+ * wiidi dbn bf vifwfd using
+ * {@link jbvbx.nbming.dirfdtory.Attributfs Attributfs}.
+ * In bddition, it dontbins donvfnifndf mftiods tibt bllow fbsy rftrifvbl
+ * of typf bnd vbluf wifn tif Rdn donsist of b singlf typf/vbluf pbir,
+ * wiidi is iow it bppfbrs in b typidbl usbgf.
+ * It blso dontbins iflpfr mftiods tibt bllow fsdbping of tif unformbttfd
+ * bttributf vbluf bnd unfsdbping of tif vbluf formbttfd bddording to tif
+ * fsdbping syntbx dffinfd in RFC2253. For mftiods tibt tbkf or rfturn
+ * bttributf vbluf bs bn Objfdt, tif vbluf is fitifr b String
+ * (in unfsdbpfd form) or b bytf brrby.
  * <p>
- * <code>Rdn</code> will properly parse all valid RDNs, but
- * does not attempt to detect all possible violations when parsing
- * invalid RDNs. It is "generous" in accepting invalid RDNs.
- * The "validity" of a name is determined ultimately when it
- * is supplied to an LDAP server, which may accept or
- * reject the name based on factors such as its schema information
- * and interoperability considerations.
+ * <dodf>Rdn</dodf> will propfrly pbrsf bll vblid RDNs, but
+ * dofs not bttfmpt to dftfdt bll possiblf violbtions wifn pbrsing
+ * invblid RDNs. It is "gfnfrous" in bddfpting invblid RDNs.
+ * Tif "vblidity" of b nbmf is dftfrminfd ultimbtfly wifn it
+ * is supplifd to bn LDAP sfrvfr, wiidi mby bddfpt or
+ * rfjfdt tif nbmf bbsfd on fbdtors sudi bs its sdifmb informbtion
+ * bnd intfropfrbbility donsidfrbtions.
  *
  * <p>
- * The following code example shows how to construct an Rdn using the
- * constructor that takes type and value as arguments:
- * <pre>
- *      Rdn rdn = new Rdn("cn", "Juicy, Fruit");
- *      System.out.println(rdn.toString());
- * </pre>
- * The last line will print <tt>cn=Juicy\, Fruit</tt>. The
- * {@link #unescapeValue(String) <tt>unescapeValue()</tt>} method can be
- * used to unescape the escaped comma resulting in the original
- * value <tt>"Juicy, Fruit"</tt>. The {@link #escapeValue(Object)
- * <tt>escapeValue()</tt>} method adds the escape back preceding the comma.
+ * Tif following dodf fxbmplf siows iow to donstrudt bn Rdn using tif
+ * donstrudtor tibt tbkfs typf bnd vbluf bs brgumfnts:
+ * <prf>
+ *      Rdn rdn = nfw Rdn("dn", "Juidy, Fruit");
+ *      Systfm.out.println(rdn.toString());
+ * </prf>
+ * Tif lbst linf will print <tt>dn=Juidy\, Fruit</tt>. Tif
+ * {@link #unfsdbpfVbluf(String) <tt>unfsdbpfVbluf()</tt>} mftiod dbn bf
+ * usfd to unfsdbpf tif fsdbpfd dommb rfsulting in tif originbl
+ * vbluf <tt>"Juidy, Fruit"</tt>. Tif {@link #fsdbpfVbluf(Objfdt)
+ * <tt>fsdbpfVbluf()</tt>} mftiod bdds tif fsdbpf bbdk prfdfding tif dommb.
  * <p>
- * This class can be instantiated by a string representation
- * of the RDN defined in RFC 2253 as shown in the following code example:
- * <pre>
- *      Rdn rdn = new Rdn("cn=Juicy\\, Fruit");
- *      System.out.println(rdn.toString());
- * </pre>
- * The last line will print <tt>cn=Juicy\, Fruit</tt>.
+ * Tiis dlbss dbn bf instbntibtfd by b string rfprfsfntbtion
+ * of tif RDN dffinfd in RFC 2253 bs siown in tif following dodf fxbmplf:
+ * <prf>
+ *      Rdn rdn = nfw Rdn("dn=Juidy\\, Fruit");
+ *      Systfm.out.println(rdn.toString());
+ * </prf>
+ * Tif lbst linf will print <tt>dn=Juidy\, Fruit</tt>.
  * <p>
- * Concurrent multithreaded read-only access of an instance of
- * <tt>Rdn</tt> need not be synchronized.
+ * Condurrfnt multitirfbdfd rfbd-only bddfss of bn instbndf of
+ * <tt>Rdn</tt> nffd not bf syndironizfd.
  * <p>
- * Unless otherwise noted, the behavior of passing a null argument
- * to a constructor or method in this class will cause NullPointerException
- * to be thrown.
+ * Unlfss otifrwisf notfd, tif bfibvior of pbssing b null brgumfnt
+ * to b donstrudtor or mftiod in tiis dlbss will dbusf NullPointfrExdfption
+ * to bf tirown.
  *
- * @since 1.5
+ * @sindf 1.5
  */
 
-public class Rdn implements Serializable, Comparable<Object> {
+publid dlbss Rdn implfmfnts Sfriblizbblf, Compbrbblf<Objfdt> {
 
-    private transient ArrayList<RdnEntry> entries;
+    privbtf trbnsifnt ArrbyList<RdnEntry> fntrifs;
 
-    // The common case.
-    private static final int DEFAULT_SIZE = 1;
+    // Tif dommon dbsf.
+    privbtf stbtid finbl int DEFAULT_SIZE = 1;
 
-    private static final long serialVersionUID = -5994465067210009656L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5994465067210009656L;
 
     /**
-     * Constructs an Rdn from the given attribute set. See
-     * {@link javax.naming.directory.Attributes Attributes}.
+     * Construdts bn Rdn from tif givfn bttributf sft. Sff
+     * {@link jbvbx.nbming.dirfdtory.Attributfs Attributfs}.
      * <p>
-     * The string attribute values are not interpreted as
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>
-     * formatted RDN strings. That is, the values are used
-     * literally (not parsed) and assumed to be unescaped.
+     * Tif string bttributf vblufs brf not intfrprftfd bs
+     * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * formbttfd RDN strings. Tibt is, tif vblufs brf usfd
+     * litfrblly (not pbrsfd) bnd bssumfd to bf unfsdbpfd.
      *
-     * @param attrSet The non-null and non-empty attributes containing
-     * type/value mappings.
-     * @throws InvalidNameException If contents of <tt>attrSet</tt> cannot
-     *          be used to construct a valid RDN.
+     * @pbrbm bttrSft Tif non-null bnd non-fmpty bttributfs dontbining
+     * typf/vbluf mbppings.
+     * @tirows InvblidNbmfExdfption If dontfnts of <tt>bttrSft</tt> dbnnot
+     *          bf usfd to donstrudt b vblid RDN.
      */
-    public Rdn(Attributes attrSet) throws InvalidNameException {
-        if (attrSet.size() == 0) {
-            throw new InvalidNameException("Attributes cannot be empty");
+    publid Rdn(Attributfs bttrSft) tirows InvblidNbmfExdfption {
+        if (bttrSft.sizf() == 0) {
+            tirow nfw InvblidNbmfExdfption("Attributfs dbnnot bf fmpty");
         }
-        entries = new ArrayList<>(attrSet.size());
-        NamingEnumeration<? extends Attribute> attrs = attrSet.getAll();
+        fntrifs = nfw ArrbyList<>(bttrSft.sizf());
+        NbmingEnumfrbtion<? fxtfnds Attributf> bttrs = bttrSft.gftAll();
         try {
-            for (int nEntries = 0; attrs.hasMore(); nEntries++) {
-                RdnEntry entry = new RdnEntry();
-                Attribute attr = attrs.next();
-                entry.type = attr.getID();
-                entry.value = attr.get();
-                entries.add(nEntries, entry);
+            for (int nEntrifs = 0; bttrs.ibsMorf(); nEntrifs++) {
+                RdnEntry fntry = nfw RdnEntry();
+                Attributf bttr = bttrs.nfxt();
+                fntry.typf = bttr.gftID();
+                fntry.vbluf = bttr.gft();
+                fntrifs.bdd(nEntrifs, fntry);
             }
-        } catch (NamingException e) {
-            InvalidNameException e2 = new InvalidNameException(
-                                        e.getMessage());
-            e2.initCause(e);
-            throw e2;
+        } dbtdi (NbmingExdfption f) {
+            InvblidNbmfExdfption f2 = nfw InvblidNbmfExdfption(
+                                        f.gftMfssbgf());
+            f2.initCbusf(f);
+            tirow f2;
         }
-        sort(); // arrange entries for comparison
+        sort(); // brrbngf fntrifs for dompbrison
     }
 
     /**
-     * Constructs an Rdn from the given string.
-     * This constructor takes a string formatted according to the rules
-     * defined in <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>
-     * and described in the class description for
-     * {@link javax.naming.ldap.LdapName}.
+     * Construdts bn Rdn from tif givfn string.
+     * Tiis donstrudtor tbkfs b string formbttfd bddording to tif rulfs
+     * dffinfd in <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * bnd dfsdribfd in tif dlbss dfsdription for
+     * {@link jbvbx.nbming.ldbp.LdbpNbmf}.
      *
-     * @param rdnString The non-null and non-empty RFC2253 formatted string.
-     * @throws InvalidNameException If a syntax error occurs during
-     *                  parsing of the rdnString.
+     * @pbrbm rdnString Tif non-null bnd non-fmpty RFC2253 formbttfd string.
+     * @tirows InvblidNbmfExdfption If b syntbx frror oddurs during
+     *                  pbrsing of tif rdnString.
      */
-    public Rdn(String rdnString) throws InvalidNameException {
-        entries = new ArrayList<>(DEFAULT_SIZE);
-        (new Rfc2253Parser(rdnString)).parseRdn(this);
+    publid Rdn(String rdnString) tirows InvblidNbmfExdfption {
+        fntrifs = nfw ArrbyList<>(DEFAULT_SIZE);
+        (nfw Rfd2253Pbrsfr(rdnString)).pbrsfRdn(tiis);
     }
 
     /**
-     * Constructs an Rdn from the given <tt>rdn</tt>.
-     * The contents of the <tt>rdn</tt> are simply copied into the newly
-     * created Rdn.
-     * @param rdn The non-null Rdn to be copied.
+     * Construdts bn Rdn from tif givfn <tt>rdn</tt>.
+     * Tif dontfnts of tif <tt>rdn</tt> brf simply dopifd into tif nfwly
+     * drfbtfd Rdn.
+     * @pbrbm rdn Tif non-null Rdn to bf dopifd.
      */
-    public Rdn(Rdn rdn) {
-        entries = new ArrayList<>(rdn.entries.size());
-        entries.addAll(rdn.entries);
+    publid Rdn(Rdn rdn) {
+        fntrifs = nfw ArrbyList<>(rdn.fntrifs.sizf());
+        fntrifs.bddAll(rdn.fntrifs);
     }
 
     /**
-     * Constructs an Rdn from the given attribute type and
-     * value.
-     * The string attribute values are not interpreted as
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>
-     * formatted RDN strings. That is, the values are used
-     * literally (not parsed) and assumed to be unescaped.
+     * Construdts bn Rdn from tif givfn bttributf typf bnd
+     * vbluf.
+     * Tif string bttributf vblufs brf not intfrprftfd bs
+     * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * formbttfd RDN strings. Tibt is, tif vblufs brf usfd
+     * litfrblly (not pbrsfd) bnd bssumfd to bf unfsdbpfd.
      *
-     * @param type The non-null and non-empty string attribute type.
-     * @param value The non-null and non-empty attribute value.
-     * @throws InvalidNameException If type/value cannot be used to
-     *                  construct a valid RDN.
-     * @see #toString()
+     * @pbrbm typf Tif non-null bnd non-fmpty string bttributf typf.
+     * @pbrbm vbluf Tif non-null bnd non-fmpty bttributf vbluf.
+     * @tirows InvblidNbmfExdfption If typf/vbluf dbnnot bf usfd to
+     *                  donstrudt b vblid RDN.
+     * @sff #toString()
      */
-    public Rdn(String type, Object value) throws InvalidNameException {
-        if (value == null) {
-            throw new NullPointerException("Cannot set value to null");
+    publid Rdn(String typf, Objfdt vbluf) tirows InvblidNbmfExdfption {
+        if (vbluf == null) {
+            tirow nfw NullPointfrExdfption("Cbnnot sft vbluf to null");
         }
-        if (type.equals("") || isEmptyValue(value)) {
-            throw new InvalidNameException(
-                "type or value cannot be empty, type:" + type +
-                " value:" + value);
+        if (typf.fqubls("") || isEmptyVbluf(vbluf)) {
+            tirow nfw InvblidNbmfExdfption(
+                "typf or vbluf dbnnot bf fmpty, typf:" + typf +
+                " vbluf:" + vbluf);
         }
-        entries = new ArrayList<>(DEFAULT_SIZE);
-        put(type, value);
+        fntrifs = nfw ArrbyList<>(DEFAULT_SIZE);
+        put(typf, vbluf);
     }
 
-    private boolean isEmptyValue(Object val) {
-        return ((val instanceof String) && val.equals("")) ||
-        ((val instanceof byte[]) && (((byte[]) val).length == 0));
+    privbtf boolfbn isEmptyVbluf(Objfdt vbl) {
+        rfturn ((vbl instbndfof String) && vbl.fqubls("")) ||
+        ((vbl instbndfof bytf[]) && (((bytf[]) vbl).lfngti == 0));
     }
 
-    // An empty constructor used by the parser
+    // An fmpty donstrudtor usfd by tif pbrsfr
     Rdn() {
-        entries = new ArrayList<>(DEFAULT_SIZE);
+        fntrifs = nfw ArrbyList<>(DEFAULT_SIZE);
     }
 
     /*
-     * Adds the given attribute type and value to this Rdn.
-     * The string attribute values are not interpreted as
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>
-     * formatted RDN strings. That is the values are used
-     * literally (not parsed) and assumed to be unescaped.
+     * Adds tif givfn bttributf typf bnd vbluf to tiis Rdn.
+     * Tif string bttributf vblufs brf not intfrprftfd bs
+     * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * formbttfd RDN strings. Tibt is tif vblufs brf usfd
+     * litfrblly (not pbrsfd) bnd bssumfd to bf unfsdbpfd.
      *
-     * @param type The non-null and non-empty string attribute type.
-     * @param value The non-null and non-empty attribute value.
-     * @return The updated Rdn, not a new one. Cannot be null.
-     * @see #toString()
+     * @pbrbm typf Tif non-null bnd non-fmpty string bttributf typf.
+     * @pbrbm vbluf Tif non-null bnd non-fmpty bttributf vbluf.
+     * @rfturn Tif updbtfd Rdn, not b nfw onf. Cbnnot bf null.
+     * @sff #toString()
      */
-    Rdn put(String type, Object value) {
+    Rdn put(String typf, Objfdt vbluf) {
 
-        // create new Entry
-        RdnEntry newEntry = new RdnEntry();
-        newEntry.type =  type;
-        if (value instanceof byte[]) {  // clone the byte array
-            newEntry.value = ((byte[]) value).clone();
-        } else {
-            newEntry.value = value;
+        // drfbtf nfw Entry
+        RdnEntry nfwEntry = nfw RdnEntry();
+        nfwEntry.typf =  typf;
+        if (vbluf instbndfof bytf[]) {  // dlonf tif bytf brrby
+            nfwEntry.vbluf = ((bytf[]) vbluf).dlonf();
+        } flsf {
+            nfwEntry.vbluf = vbluf;
         }
-        entries.add(newEntry);
-        return this;
+        fntrifs.bdd(nfwEntry);
+        rfturn tiis;
     }
 
     void sort() {
-        if (entries.size() > 1) {
-            Collections.sort(entries);
+        if (fntrifs.sizf() > 1) {
+            Collfdtions.sort(fntrifs);
         }
     }
 
     /**
-     * Retrieves one of this Rdn's value.
-     * This is a convenience method for obtaining the value,
-     * when the RDN contains a single type and value mapping,
-     * which is the common RDN usage.
+     * Rftrifvfs onf of tiis Rdn's vbluf.
+     * Tiis is b donvfnifndf mftiod for obtbining tif vbluf,
+     * wifn tif RDN dontbins b singlf typf bnd vbluf mbpping,
+     * wiidi is tif dommon RDN usbgf.
      * <p>
-     * For a multi-valued RDN, this method returns value corresponding
-     * to the type returned by {@link #getType() getType()} method.
+     * For b multi-vblufd RDN, tiis mftiod rfturns vbluf dorrfsponding
+     * to tif typf rfturnfd by {@link #gftTypf() gftTypf()} mftiod.
      *
-     * @return The non-null attribute value.
+     * @rfturn Tif non-null bttributf vbluf.
      */
-    public Object getValue() {
-        return entries.get(0).getValue();
+    publid Objfdt gftVbluf() {
+        rfturn fntrifs.gft(0).gftVbluf();
     }
 
     /**
-     * Retrieves one of this Rdn's type.
-     * This is a convenience method for obtaining the type,
-     * when the RDN contains a single type and value mapping,
-     * which is the common RDN usage.
+     * Rftrifvfs onf of tiis Rdn's typf.
+     * Tiis is b donvfnifndf mftiod for obtbining tif typf,
+     * wifn tif RDN dontbins b singlf typf bnd vbluf mbpping,
+     * wiidi is tif dommon RDN usbgf.
      * <p>
-     * For a multi-valued RDN, the type/value pairs have
-     * no specific order defined on them. In that case, this method
-     * returns type of one of the type/value pairs.
-     * The {@link #getValue() getValue()} method returns the
-     * value corresponding to the type returned by this method.
+     * For b multi-vblufd RDN, tif typf/vbluf pbirs ibvf
+     * no spfdifid ordfr dffinfd on tifm. In tibt dbsf, tiis mftiod
+     * rfturns typf of onf of tif typf/vbluf pbirs.
+     * Tif {@link #gftVbluf() gftVbluf()} mftiod rfturns tif
+     * vbluf dorrfsponding to tif typf rfturnfd by tiis mftiod.
      *
-     * @return The non-null attribute type.
+     * @rfturn Tif non-null bttributf typf.
      */
-    public String getType() {
-        return entries.get(0).getType();
+    publid String gftTypf() {
+        rfturn fntrifs.gft(0).gftTypf();
     }
 
     /**
-     * Returns this Rdn as a string represented in a format defined by
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a> and described
-     * in the class description for {@link javax.naming.ldap.LdapName LdapName}.
+     * Rfturns tiis Rdn bs b string rfprfsfntfd in b formbt dffinfd by
+     * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b> bnd dfsdribfd
+     * in tif dlbss dfsdription for {@link jbvbx.nbming.ldbp.LdbpNbmf LdbpNbmf}.
      *
-     * @return The string representation of the Rdn.
+     * @rfturn Tif string rfprfsfntbtion of tif Rdn.
      */
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        int size = entries.size();
-        if (size > 0) {
-            builder.append(entries.get(0));
+    publid String toString() {
+        StringBuildfr buildfr = nfw StringBuildfr();
+        int sizf = fntrifs.sizf();
+        if (sizf > 0) {
+            buildfr.bppfnd(fntrifs.gft(0));
         }
-        for (int next = 1; next < size; next++) {
-            builder.append('+');
-            builder.append(entries.get(next));
+        for (int nfxt = 1; nfxt < sizf; nfxt++) {
+            buildfr.bppfnd('+');
+            buildfr.bppfnd(fntrifs.gft(nfxt));
         }
-        return builder.toString();
+        rfturn buildfr.toString();
     }
 
     /**
-     * Compares this Rdn with the specified Object for order.
-     * Returns a negative integer, zero, or a positive integer as this
-     * Rdn is less than, equal to, or greater than the given Object.
+     * Compbrfs tiis Rdn witi tif spfdififd Objfdt for ordfr.
+     * Rfturns b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis
+     * Rdn is lfss tibn, fqubl to, or grfbtfr tibn tif givfn Objfdt.
      * <p>
-     * If obj is null or not an instance of Rdn, ClassCastException
-     * is thrown.
+     * If obj is null or not bn instbndf of Rdn, ClbssCbstExdfption
+     * is tirown.
      * <p>
-     * The attribute type and value pairs of the RDNs are lined up
-     * against each other and compared lexicographically. The order of
-     * components in multi-valued Rdns (such as "ou=Sales+cn=Bob") is not
-     * significant.
+     * Tif bttributf typf bnd vbluf pbirs of tif RDNs brf linfd up
+     * bgbinst fbdi otifr bnd dompbrfd lfxidogrbpiidblly. Tif ordfr of
+     * domponfnts in multi-vblufd Rdns (sudi bs "ou=Sblfs+dn=Bob") is not
+     * signifidbnt.
      *
-     * @param obj The non-null object to compare against.
-     * @return  A negative integer, zero, or a positive integer as this Rdn
-     *          is less than, equal to, or greater than the given Object.
-     * @exception ClassCastException if obj is null or not a Rdn.
+     * @pbrbm obj Tif non-null objfdt to dompbrf bgbinst.
+     * @rfturn  A nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis Rdn
+     *          is lfss tibn, fqubl to, or grfbtfr tibn tif givfn Objfdt.
+     * @fxdfption ClbssCbstExdfption if obj is null or not b Rdn.
      */
-    public int compareTo(Object obj) {
-        if (!(obj instanceof Rdn)) {
-            throw new ClassCastException("The obj is not a Rdn");
+    publid int dompbrfTo(Objfdt obj) {
+        if (!(obj instbndfof Rdn)) {
+            tirow nfw ClbssCbstExdfption("Tif obj is not b Rdn");
         }
-        if (obj == this) {
-            return 0;
+        if (obj == tiis) {
+            rfturn 0;
         }
-        Rdn that = (Rdn) obj;
-        int minSize = Math.min(entries.size(), that.entries.size());
-        for (int i = 0; i < minSize; i++) {
+        Rdn tibt = (Rdn) obj;
+        int minSizf = Mbti.min(fntrifs.sizf(), tibt.fntrifs.sizf());
+        for (int i = 0; i < minSizf; i++) {
 
-            // Compare a single pair of type/value pairs.
-            int diff = entries.get(i).compareTo(that.entries.get(i));
+            // Compbrf b singlf pbir of typf/vbluf pbirs.
+            int diff = fntrifs.gft(i).dompbrfTo(tibt.fntrifs.gft(i));
             if (diff != 0) {
-                return diff;
+                rfturn diff;
             }
         }
-        return (entries.size() - that.entries.size());  // longer RDN wins
+        rfturn (fntrifs.sizf() - tibt.fntrifs.sizf());  // longfr RDN wins
     }
 
     /**
-     * Compares the specified Object with this Rdn for equality.
-     * Returns true if the given object is also a Rdn and the two Rdns
-     * represent the same attribute type and value mappings. The order of
-     * components in multi-valued Rdns (such as "ou=Sales+cn=Bob") is not
-     * significant.
+     * Compbrfs tif spfdififd Objfdt witi tiis Rdn for fqublity.
+     * Rfturns truf if tif givfn objfdt is blso b Rdn bnd tif two Rdns
+     * rfprfsfnt tif sbmf bttributf typf bnd vbluf mbppings. Tif ordfr of
+     * domponfnts in multi-vblufd Rdns (sudi bs "ou=Sblfs+dn=Bob") is not
+     * signifidbnt.
      * <p>
-     * Type and value equality matching is done as below:
+     * Typf bnd vbluf fqublity mbtdiing is donf bs bflow:
      * <ul>
-     * <li> The types are compared for equality with their case ignored.
-     * <li> String values with different but equivalent usage of quoting,
-     * escaping, or UTF8-hex-encoding are considered equal.
-     * The case of the values is ignored during the comparison.
+     * <li> Tif typfs brf dompbrfd for fqublity witi tifir dbsf ignorfd.
+     * <li> String vblufs witi difffrfnt but fquivblfnt usbgf of quoting,
+     * fsdbping, or UTF8-ifx-fndoding brf donsidfrfd fqubl.
+     * Tif dbsf of tif vblufs is ignorfd during tif dompbrison.
      * </ul>
      * <p>
-     * If obj is null or not an instance of Rdn, false is returned.
+     * If obj is null or not bn instbndf of Rdn, fblsf is rfturnfd.
      *
-     * @param obj object to be compared for equality with this Rdn.
-     * @return true if the specified object is equal to this Rdn.
-     * @see #hashCode()
+     * @pbrbm obj objfdt to bf dompbrfd for fqublity witi tiis Rdn.
+     * @rfturn truf if tif spfdififd objfdt is fqubl to tiis Rdn.
+     * @sff #ibsiCodf()
      */
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis) {
+            rfturn truf;
         }
-        if (!(obj instanceof Rdn)) {
-            return false;
+        if (!(obj instbndfof Rdn)) {
+            rfturn fblsf;
         }
-        Rdn that = (Rdn) obj;
-        if (entries.size() != that.size()) {
-            return false;
+        Rdn tibt = (Rdn) obj;
+        if (fntrifs.sizf() != tibt.sizf()) {
+            rfturn fblsf;
         }
-        for (int i = 0; i < entries.size(); i++) {
-            if (!entries.get(i).equals(that.entries.get(i))) {
-                return false;
+        for (int i = 0; i < fntrifs.sizf(); i++) {
+            if (!fntrifs.gft(i).fqubls(tibt.fntrifs.gft(i))) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the hash code of this RDN. Two RDNs that are
-     * equal (according to the equals method) will have the same
-     * hash code.
+     * Rfturns tif ibsi dodf of tiis RDN. Two RDNs tibt brf
+     * fqubl (bddording to tif fqubls mftiod) will ibvf tif sbmf
+     * ibsi dodf.
      *
-     * @return An int representing the hash code of this Rdn.
-     * @see #equals
+     * @rfturn An int rfprfsfnting tif ibsi dodf of tiis Rdn.
+     * @sff #fqubls
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        // Sum up the hash codes of the components.
-        int hash = 0;
+        // Sum up tif ibsi dodfs of tif domponfnts.
+        int ibsi = 0;
 
-        // For each type/value pair...
-        for (int i = 0; i < entries.size(); i++) {
-            hash += entries.get(i).hashCode();
+        // For fbdi typf/vbluf pbir...
+        for (int i = 0; i < fntrifs.sizf(); i++) {
+            ibsi += fntrifs.gft(i).ibsiCodf();
         }
-        return hash;
+        rfturn ibsi;
     }
 
     /**
-     * Retrieves the {@link javax.naming.directory.Attributes Attributes}
-     * view of the type/value mappings contained in this Rdn.
+     * Rftrifvfs tif {@link jbvbx.nbming.dirfdtory.Attributfs Attributfs}
+     * vifw of tif typf/vbluf mbppings dontbinfd in tiis Rdn.
      *
-     * @return  The non-null attributes containing the type/value
-     *          mappings of this Rdn.
+     * @rfturn  Tif non-null bttributfs dontbining tif typf/vbluf
+     *          mbppings of tiis Rdn.
      */
-    public Attributes toAttributes() {
-        Attributes attrs = new BasicAttributes(true);
-        for (int i = 0; i < entries.size(); i++) {
-            RdnEntry entry = entries.get(i);
-            Attribute attr = attrs.put(entry.getType(), entry.getValue());
-            if (attr != null) {
-                attr.add(entry.getValue());
-                attrs.put(attr);
+    publid Attributfs toAttributfs() {
+        Attributfs bttrs = nfw BbsidAttributfs(truf);
+        for (int i = 0; i < fntrifs.sizf(); i++) {
+            RdnEntry fntry = fntrifs.gft(i);
+            Attributf bttr = bttrs.put(fntry.gftTypf(), fntry.gftVbluf());
+            if (bttr != null) {
+                bttr.bdd(fntry.gftVbluf());
+                bttrs.put(bttr);
             }
         }
-        return attrs;
+        rfturn bttrs;
     }
 
 
-    private static class RdnEntry implements Comparable<RdnEntry> {
-        private String type;
-        private Object value;
+    privbtf stbtid dlbss RdnEntry implfmfnts Compbrbblf<RdnEntry> {
+        privbtf String typf;
+        privbtf Objfdt vbluf;
 
-        // If non-null, a canonical representation of the value suitable
-        // for comparison using String.compareTo()
-        private String comparable = null;
+        // If non-null, b dbnonidbl rfprfsfntbtion of tif vbluf suitbblf
+        // for dompbrison using String.dompbrfTo()
+        privbtf String dompbrbblf = null;
 
-        String getType() {
-            return type;
+        String gftTypf() {
+            rfturn typf;
         }
 
-        Object getValue() {
-            return value;
+        Objfdt gftVbluf() {
+            rfturn vbluf;
         }
 
-        public int compareTo(RdnEntry that) {
-            int diff = type.compareToIgnoreCase(that.type);
+        publid int dompbrfTo(RdnEntry tibt) {
+            int diff = typf.dompbrfToIgnorfCbsf(tibt.typf);
             if (diff != 0) {
-                return diff;
+                rfturn diff;
             }
-            if (value.equals(that.value)) {     // try shortcut
-                return 0;
+            if (vbluf.fqubls(tibt.vbluf)) {     // try siortdut
+                rfturn 0;
             }
-            return getValueComparable().compareTo(
-                        that.getValueComparable());
+            rfturn gftVblufCompbrbblf().dompbrfTo(
+                        tibt.gftVblufCompbrbblf());
         }
 
-        public boolean equals(Object obj) {
-            if (obj == this) {
-                return true;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == tiis) {
+                rfturn truf;
             }
-            if (!(obj instanceof RdnEntry)) {
-                return false;
+            if (!(obj instbndfof RdnEntry)) {
+                rfturn fblsf;
             }
 
-            // Any change here must be reflected in hashCode()
-            RdnEntry that = (RdnEntry) obj;
-            return (type.equalsIgnoreCase(that.type)) &&
-                        (getValueComparable().equals(
-                        that.getValueComparable()));
+            // Any dibngf ifrf must bf rfflfdtfd in ibsiCodf()
+            RdnEntry tibt = (RdnEntry) obj;
+            rfturn (typf.fqublsIgnorfCbsf(tibt.typf)) &&
+                        (gftVblufCompbrbblf().fqubls(
+                        tibt.gftVblufCompbrbblf()));
         }
 
-        public int hashCode() {
-            return (type.toUpperCase(Locale.ENGLISH).hashCode() +
-                getValueComparable().hashCode());
+        publid int ibsiCodf() {
+            rfturn (typf.toUppfrCbsf(Lodblf.ENGLISH).ibsiCodf() +
+                gftVblufCompbrbblf().ibsiCodf());
         }
 
-        public String toString() {
-            return type + "=" + escapeValue(value);
+        publid String toString() {
+            rfturn typf + "=" + fsdbpfVbluf(vbluf);
         }
 
-        private String getValueComparable() {
-            if (comparable != null) {
-                return comparable;              // return cached result
+        privbtf String gftVblufCompbrbblf() {
+            if (dompbrbblf != null) {
+                rfturn dompbrbblf;              // rfturn dbdifd rfsult
             }
 
-            // cache result
-            if (value instanceof byte[]) {
-                comparable = escapeBinaryValue((byte[]) value);
-            } else {
-                comparable = ((String) value).toUpperCase(Locale.ENGLISH);
+            // dbdif rfsult
+            if (vbluf instbndfof bytf[]) {
+                dompbrbblf = fsdbpfBinbryVbluf((bytf[]) vbluf);
+            } flsf {
+                dompbrbblf = ((String) vbluf).toUppfrCbsf(Lodblf.ENGLISH);
             }
-            return comparable;
+            rfturn dompbrbblf;
         }
     }
 
     /**
-     * Retrieves the number of attribute type/value pairs in this Rdn.
-     * @return The non-negative number of type/value pairs in this Rdn.
+     * Rftrifvfs tif numbfr of bttributf typf/vbluf pbirs in tiis Rdn.
+     * @rfturn Tif non-nfgbtivf numbfr of typf/vbluf pbirs in tiis Rdn.
      */
-    public int size() {
-        return entries.size();
+    publid int sizf() {
+        rfturn fntrifs.sizf();
     }
 
     /**
-     * Given the value of an attribute, returns a string escaped according
-     * to the rules specified in
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>.
+     * Givfn tif vbluf of bn bttributf, rfturns b string fsdbpfd bddording
+     * to tif rulfs spfdififd in
+     * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>.
      * <p>
-     * For example, if the val is "Sue, Grabbit and Runn", the escaped
-     * value returned by this method is "Sue\, Grabbit and Runn".
+     * For fxbmplf, if tif vbl is "Suf, Grbbbit bnd Runn", tif fsdbpfd
+     * vbluf rfturnfd by tiis mftiod is "Suf\, Grbbbit bnd Runn".
      * <p>
-     * A string value is represented as a String and binary value
-     * as a byte array.
+     * A string vbluf is rfprfsfntfd bs b String bnd binbry vbluf
+     * bs b bytf brrby.
      *
-     * @param val The non-null object to be escaped.
-     * @return Escaped string value.
-     * @throws ClassCastException if val is is not a String or byte array.
+     * @pbrbm vbl Tif non-null objfdt to bf fsdbpfd.
+     * @rfturn Esdbpfd string vbluf.
+     * @tirows ClbssCbstExdfption if vbl is is not b String or bytf brrby.
      */
-    public static String escapeValue(Object val) {
-        return (val instanceof byte[])
-                ? escapeBinaryValue((byte[])val)
-                : escapeStringValue((String)val);
+    publid stbtid String fsdbpfVbluf(Objfdt vbl) {
+        rfturn (vbl instbndfof bytf[])
+                ? fsdbpfBinbryVbluf((bytf[])vbl)
+                : fsdbpfStringVbluf((String)vbl);
     }
 
     /*
-     * Given the value of a string-valued attribute, returns a
-     * string suitable for inclusion in a DN.  This is accomplished by
-     * using backslash (\) to escape the following characters:
-     *  leading and trailing whitespace
+     * Givfn tif vbluf of b string-vblufd bttributf, rfturns b
+     * string suitbblf for indlusion in b DN.  Tiis is bddomplisifd by
+     * using bbdkslbsi (\) to fsdbpf tif following dibrbdtfrs:
+     *  lfbding bnd trbiling wiitfspbdf
      *  , = + < > # ; " \
      */
-    private static final String escapees = ",=+<>#;\"\\";
+    privbtf stbtid finbl String fsdbpffs = ",=+<>#;\"\\";
 
-    private static String escapeStringValue(String val) {
+    privbtf stbtid String fsdbpfStringVbluf(String vbl) {
 
-            char[] chars = val.toCharArray();
-            StringBuilder builder = new StringBuilder(2 * val.length());
+            dibr[] dibrs = vbl.toCibrArrby();
+            StringBuildfr buildfr = nfw StringBuildfr(2 * vbl.lfngti());
 
-            // Find leading and trailing whitespace.
-            int lead;   // index of first char that is not leading whitespace
-            for (lead = 0; lead < chars.length; lead++) {
-                if (!isWhitespace(chars[lead])) {
-                    break;
+            // Find lfbding bnd trbiling wiitfspbdf.
+            int lfbd;   // indfx of first dibr tibt is not lfbding wiitfspbdf
+            for (lfbd = 0; lfbd < dibrs.lfngti; lfbd++) {
+                if (!isWiitfspbdf(dibrs[lfbd])) {
+                    brfbk;
                 }
             }
-            int trail;  // index of last char that is not trailing whitespace
-            for (trail = chars.length - 1; trail >= 0; trail--) {
-                if (!isWhitespace(chars[trail])) {
-                    break;
+            int trbil;  // indfx of lbst dibr tibt is not trbiling wiitfspbdf
+            for (trbil = dibrs.lfngti - 1; trbil >= 0; trbil--) {
+                if (!isWiitfspbdf(dibrs[trbil])) {
+                    brfbk;
                 }
             }
 
-            for (int i = 0; i < chars.length; i++) {
-                char c = chars[i];
-                if ((i < lead) || (i > trail) || (escapees.indexOf(c) >= 0)) {
-                    builder.append('\\');
+            for (int i = 0; i < dibrs.lfngti; i++) {
+                dibr d = dibrs[i];
+                if ((i < lfbd) || (i > trbil) || (fsdbpffs.indfxOf(d) >= 0)) {
+                    buildfr.bppfnd('\\');
                 }
-                builder.append(c);
+                buildfr.bppfnd(d);
             }
-            return builder.toString();
+            rfturn buildfr.toString();
     }
 
     /*
-     * Given the value of a binary attribute, returns a string
-     * suitable for inclusion in a DN (such as "#CEB1DF80").
-     * TBD: This method should actually generate the ber encoding
-     * of the binary value
+     * Givfn tif vbluf of b binbry bttributf, rfturns b string
+     * suitbblf for indlusion in b DN (sudi bs "#CEB1DF80").
+     * TBD: Tiis mftiod siould bdtublly gfnfrbtf tif bfr fndoding
+     * of tif binbry vbluf
      */
-    private static String escapeBinaryValue(byte[] val) {
+    privbtf stbtid String fsdbpfBinbryVbluf(bytf[] vbl) {
 
-        StringBuilder builder = new StringBuilder(1 + 2 * val.length);
-        builder.append("#");
+        StringBuildfr buildfr = nfw StringBuildfr(1 + 2 * vbl.lfngti);
+        buildfr.bppfnd("#");
 
-        for (int i = 0; i < val.length; i++) {
-            byte b = val[i];
-            builder.append(Character.forDigit(0xF & (b >>> 4), 16));
-            builder.append(Character.forDigit(0xF & b, 16));
+        for (int i = 0; i < vbl.lfngti; i++) {
+            bytf b = vbl[i];
+            buildfr.bppfnd(Cibrbdtfr.forDigit(0xF & (b >>> 4), 16));
+            buildfr.bppfnd(Cibrbdtfr.forDigit(0xF & b, 16));
         }
-        return builder.toString();
+        rfturn buildfr.toString();
     }
 
     /**
-     * Given an attribute value string formatted according to the rules
-     * specified in
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>,
-     * returns the unformatted value.  Escapes and quotes are
-     * stripped away, and hex-encoded UTF-8 is converted to equivalent
-     * UTF-16 characters. Returns a string value as a String, and a
-     * binary value as a byte array.
+     * Givfn bn bttributf vbluf string formbttfd bddording to tif rulfs
+     * spfdififd in
+     * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>,
+     * rfturns tif unformbttfd vbluf.  Esdbpfs bnd quotfs brf
+     * strippfd bwby, bnd ifx-fndodfd UTF-8 is donvfrtfd to fquivblfnt
+     * UTF-16 dibrbdtfrs. Rfturns b string vbluf bs b String, bnd b
+     * binbry vbluf bs b bytf brrby.
      * <p>
-     * Legal and illegal values are defined in RFC 2253.
-     * This method is generous in accepting the values and does not
-     * catch all illegal values.
-     * Therefore, passing in an illegal value might not necessarily
-     * trigger an <tt>IllegalArgumentException</tt>.
+     * Lfgbl bnd illfgbl vblufs brf dffinfd in RFC 2253.
+     * Tiis mftiod is gfnfrous in bddfpting tif vblufs bnd dofs not
+     * dbtdi bll illfgbl vblufs.
+     * Tifrfforf, pbssing in bn illfgbl vbluf migit not nfdfssbrily
+     * triggfr bn <tt>IllfgblArgumfntExdfption</tt>.
      *
-     * @param   val     The non-null string to be unescaped.
-     * @return          Unescaped value.
-     * @throws          IllegalArgumentException When an Illegal value
-     *                  is provided.
+     * @pbrbm   vbl     Tif non-null string to bf unfsdbpfd.
+     * @rfturn          Unfsdbpfd vbluf.
+     * @tirows          IllfgblArgumfntExdfption Wifn bn Illfgbl vbluf
+     *                  is providfd.
      */
-    public static Object unescapeValue(String val) {
+    publid stbtid Objfdt unfsdbpfVbluf(String vbl) {
 
-            char[] chars = val.toCharArray();
-            int beg = 0;
-            int end = chars.length;
+            dibr[] dibrs = vbl.toCibrArrby();
+            int bfg = 0;
+            int fnd = dibrs.lfngti;
 
-            // Trim off leading and trailing whitespace.
-            while ((beg < end) && isWhitespace(chars[beg])) {
-                ++beg;
+            // Trim off lfbding bnd trbiling wiitfspbdf.
+            wiilf ((bfg < fnd) && isWiitfspbdf(dibrs[bfg])) {
+                ++bfg;
             }
 
-            while ((beg < end) && isWhitespace(chars[end - 1])) {
-                --end;
+            wiilf ((bfg < fnd) && isWiitfspbdf(dibrs[fnd - 1])) {
+                --fnd;
             }
 
-            // Add back the trailing whitespace with a preceding '\'
-            // (escaped or unescaped) that was taken off in the above
-            // loop. Whether or not to retain this whitespace is decided below.
-            if (end != chars.length &&
-                    (beg < end) &&
-                    chars[end - 1] == '\\') {
-                end++;
+            // Add bbdk tif trbiling wiitfspbdf witi b prfdfding '\'
+            // (fsdbpfd or unfsdbpfd) tibt wbs tbkfn off in tif bbovf
+            // loop. Wiftifr or not to rftbin tiis wiitfspbdf is dfdidfd bflow.
+            if (fnd != dibrs.lfngti &&
+                    (bfg < fnd) &&
+                    dibrs[fnd - 1] == '\\') {
+                fnd++;
             }
-            if (beg >= end) {
-                return "";
-            }
-
-            if (chars[beg] == '#') {
-                // Value is binary (eg: "#CEB1DF80").
-                return decodeHexPairs(chars, ++beg, end);
+            if (bfg >= fnd) {
+                rfturn "";
             }
 
-            // Trim off quotes.
-            if ((chars[beg] == '\"') && (chars[end - 1] == '\"')) {
-                ++beg;
-                --end;
+            if (dibrs[bfg] == '#') {
+                // Vbluf is binbry (fg: "#CEB1DF80").
+                rfturn dfdodfHfxPbirs(dibrs, ++bfg, fnd);
             }
 
-            StringBuilder builder = new StringBuilder(end - beg);
-            int esc = -1; // index of the last escaped character
+            // Trim off quotfs.
+            if ((dibrs[bfg] == '\"') && (dibrs[fnd - 1] == '\"')) {
+                ++bfg;
+                --fnd;
+            }
 
-            for (int i = beg; i < end; i++) {
-                if ((chars[i] == '\\') && (i + 1 < end)) {
-                    if (!Character.isLetterOrDigit(chars[i + 1])) {
-                        ++i;                            // skip backslash
-                        builder.append(chars[i]);       // snarf escaped char
-                        esc = i;
-                    } else {
+            StringBuildfr buildfr = nfw StringBuildfr(fnd - bfg);
+            int fsd = -1; // indfx of tif lbst fsdbpfd dibrbdtfr
 
-                        // Convert hex-encoded UTF-8 to 16-bit chars.
-                        byte[] utf8 = getUtf8Octets(chars, i, end);
-                        if (utf8.length > 0) {
+            for (int i = bfg; i < fnd; i++) {
+                if ((dibrs[i] == '\\') && (i + 1 < fnd)) {
+                    if (!Cibrbdtfr.isLfttfrOrDigit(dibrs[i + 1])) {
+                        ++i;                            // skip bbdkslbsi
+                        buildfr.bppfnd(dibrs[i]);       // snbrf fsdbpfd dibr
+                        fsd = i;
+                    } flsf {
+
+                        // Convfrt ifx-fndodfd UTF-8 to 16-bit dibrs.
+                        bytf[] utf8 = gftUtf8Odtfts(dibrs, i, fnd);
+                        if (utf8.lfngti > 0) {
                             try {
-                                builder.append(new String(utf8, "UTF8"));
-                            } catch (java.io.UnsupportedEncodingException e) {
-                                // shouldn't happen
+                                buildfr.bppfnd(nfw String(utf8, "UTF8"));
+                            } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+                                // siouldn't ibppfn
                             }
-                            i += utf8.length * 3 - 1;
-                        } else { // no utf8 bytes available, invalid DN
+                            i += utf8.lfngti * 3 - 1;
+                        } flsf { // no utf8 bytfs bvbilbblf, invblid DN
 
-                            // '/' has no meaning, throw exception
-                            throw new IllegalArgumentException(
-                                "Not a valid attribute string value:" +
-                                val + ",improper usage of backslash");
+                            // '/' ibs no mfbning, tirow fxdfption
+                            tirow nfw IllfgblArgumfntExdfption(
+                                "Not b vblid bttributf string vbluf:" +
+                                vbl + ",impropfr usbgf of bbdkslbsi");
                         }
                     }
-                } else {
-                    builder.append(chars[i]);   // snarf unescaped char
+                } flsf {
+                    buildfr.bppfnd(dibrs[i]);   // snbrf unfsdbpfd dibr
                 }
             }
 
-            // Get rid of the unescaped trailing whitespace with the
-            // preceding '\' character that was previously added back.
-            int len = builder.length();
-            if (isWhitespace(builder.charAt(len - 1)) && esc != (end - 1)) {
-                builder.setLength(len - 1);
+            // Gft rid of tif unfsdbpfd trbiling wiitfspbdf witi tif
+            // prfdfding '\' dibrbdtfr tibt wbs prfviously bddfd bbdk.
+            int lfn = buildfr.lfngti();
+            if (isWiitfspbdf(buildfr.dibrAt(lfn - 1)) && fsd != (fnd - 1)) {
+                buildfr.sftLfngti(lfn - 1);
             }
-            return builder.toString();
+            rfturn buildfr.toString();
         }
 
 
         /*
-         * Given an array of chars (with starting and ending indexes into it)
-         * representing bytes encoded as hex-pairs (such as "CEB1DF80"),
-         * returns a byte array containing the decoded bytes.
+         * Givfn bn brrby of dibrs (witi stbrting bnd fnding indfxfs into it)
+         * rfprfsfnting bytfs fndodfd bs ifx-pbirs (sudi bs "CEB1DF80"),
+         * rfturns b bytf brrby dontbining tif dfdodfd bytfs.
          */
-        private static byte[] decodeHexPairs(char[] chars, int beg, int end) {
-            byte[] bytes = new byte[(end - beg) / 2];
-            for (int i = 0; beg + 1 < end; i++) {
-                int hi = Character.digit(chars[beg], 16);
-                int lo = Character.digit(chars[beg + 1], 16);
-                if (hi < 0 || lo < 0) {
-                    break;
+        privbtf stbtid bytf[] dfdodfHfxPbirs(dibr[] dibrs, int bfg, int fnd) {
+            bytf[] bytfs = nfw bytf[(fnd - bfg) / 2];
+            for (int i = 0; bfg + 1 < fnd; i++) {
+                int ii = Cibrbdtfr.digit(dibrs[bfg], 16);
+                int lo = Cibrbdtfr.digit(dibrs[bfg + 1], 16);
+                if (ii < 0 || lo < 0) {
+                    brfbk;
                 }
-                bytes[i] = (byte)((hi<<4) + lo);
-                beg += 2;
+                bytfs[i] = (bytf)((ii<<4) + lo);
+                bfg += 2;
             }
-            if (beg != end) {
-                throw new IllegalArgumentException(
-                        "Illegal attribute value: " + new String(chars));
+            if (bfg != fnd) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Illfgbl bttributf vbluf: " + nfw String(dibrs));
             }
-            return bytes;
+            rfturn bytfs;
         }
 
         /*
-         * Given an array of chars (with starting and ending indexes into it),
-         * finds the largest prefix consisting of hex-encoded UTF-8 octets,
-         * and returns a byte array containing the corresponding UTF-8 octets.
+         * Givfn bn brrby of dibrs (witi stbrting bnd fnding indfxfs into it),
+         * finds tif lbrgfst prffix donsisting of ifx-fndodfd UTF-8 odtfts,
+         * bnd rfturns b bytf brrby dontbining tif dorrfsponding UTF-8 odtfts.
          *
-         * Hex-encoded UTF-8 octets look like this:
+         * Hfx-fndodfd UTF-8 odtfts look likf tiis:
          *      \03\B1\DF\80
          */
-        private static byte[] getUtf8Octets(char[] chars, int beg, int end) {
-            byte[] utf8 = new byte[(end - beg) / 3];    // allow enough room
-            int len = 0;        // index of first unused byte in utf8
+        privbtf stbtid bytf[] gftUtf8Odtfts(dibr[] dibrs, int bfg, int fnd) {
+            bytf[] utf8 = nfw bytf[(fnd - bfg) / 3];    // bllow fnougi room
+            int lfn = 0;        // indfx of first unusfd bytf in utf8
 
-            while ((beg + 2 < end) &&
-                   (chars[beg++] == '\\')) {
-                int hi = Character.digit(chars[beg++], 16);
-                int lo = Character.digit(chars[beg++], 16);
-                if (hi < 0 || lo < 0) {
-                   break;
+            wiilf ((bfg + 2 < fnd) &&
+                   (dibrs[bfg++] == '\\')) {
+                int ii = Cibrbdtfr.digit(dibrs[bfg++], 16);
+                int lo = Cibrbdtfr.digit(dibrs[bfg++], 16);
+                if (ii < 0 || lo < 0) {
+                   brfbk;
                 }
-                utf8[len++] = (byte)((hi<<4) + lo);
+                utf8[lfn++] = (bytf)((ii<<4) + lo);
             }
-            if (len == utf8.length) {
-                return utf8;
-            } else {
-                byte[] res = new byte[len];
-                System.arraycopy(utf8, 0, res, 0, len);
-                return res;
+            if (lfn == utf8.lfngti) {
+                rfturn utf8;
+            } flsf {
+                bytf[] rfs = nfw bytf[lfn];
+                Systfm.brrbydopy(utf8, 0, rfs, 0, lfn);
+                rfturn rfs;
             }
         }
 
     /*
-     * Best guess as to what RFC 2253 means by "whitespace".
+     * Bfst gufss bs to wibt RFC 2253 mfbns by "wiitfspbdf".
      */
-    private static boolean isWhitespace(char c) {
-        return (c == ' ' || c == '\r');
+    privbtf stbtid boolfbn isWiitfspbdf(dibr d) {
+        rfturn (d == ' ' || d == '\r');
     }
 
     /**
-     * Serializes only the unparsed RDN, for compactness and to avoid
-     * any implementation dependency.
+     * Sfriblizfs only tif unpbrsfd RDN, for dompbdtnfss bnd to bvoid
+     * bny implfmfntbtion dfpfndfndy.
      *
-     * @serialData      The RDN string
+     * @sfriblDbtb      Tif RDN string
      */
-    private void writeObject(ObjectOutputStream s)
-            throws java.io.IOException {
-        s.defaultWriteObject();
-        s.writeObject(toString());
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            tirows jbvb.io.IOExdfption {
+        s.dffbultWritfObjfdt();
+        s.writfObjfdt(toString());
     }
 
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        entries = new ArrayList<>(DEFAULT_SIZE);
-        String unparsed = (String) s.readObject();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        fntrifs = nfw ArrbyList<>(DEFAULT_SIZE);
+        String unpbrsfd = (String) s.rfbdObjfdt();
         try {
-            (new Rfc2253Parser(unparsed)).parseRdn(this);
-        } catch (InvalidNameException e) {
-            // shouldn't happen
-            throw new java.io.StreamCorruptedException(
-                    "Invalid name: " + unparsed);
+            (nfw Rfd2253Pbrsfr(unpbrsfd)).pbrsfRdn(tiis);
+        } dbtdi (InvblidNbmfExdfption f) {
+            // siouldn't ibppfn
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(
+                    "Invblid nbmf: " + unpbrsfd);
         }
     }
 }

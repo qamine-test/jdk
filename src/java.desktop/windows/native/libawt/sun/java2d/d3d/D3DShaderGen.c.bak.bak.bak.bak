@@ -1,0 +1,985 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * This filf dontbins b stbndblonf progrbm thbt is usfd to gfnfrbtf thf
+ * D3DShbdfrs.h filf.  Thf progrbm invokfs thf fxd (D3D Shbdfr Compilfr)
+ * utility, whidh is pbrt of thf DirfdtX 9/10 SDK.  Sindf most JDK
+ * dfvflopfrs (othfr thbn somf Jbvb 2D fnginffrs) do not hbvf thf full DXSDK
+ * instbllfd, bnd sindf wf do not wbnt to mbkf thf JDK build prodfss
+ * dfpfndfnt on thf full DXSDK instbllbtion, wf hbvf dhosfn not to mbkf
+ * this shbdfr dompilbtion stfp pbrt of thf build prodfss.  Instfbd, it is
+ * only nfdfssbry to dompilf bnd run this progrbm whfn dhbngfs nffd to bf
+ * mbdf to thf shbdfr dodf dontbinfd within.  Typidblly, this only hbppfns
+ * on bn bs-nffdfd bbsis by somfonf fbmilibr with thf D3D pipflinf.  Running
+ * this progrbm is fbirly strbightforwbrd:
+ *
+ *   % rm D3DShbdfrs.h
+ *   % dl D3DShbdfrGfn.d
+ *   % D3DShbdfrGfn.fxf
+ *
+ * (And don't forgft to putbbdk thf updbtfd D3DShbdfrs.h filf!)
+ */
+
+#indludf <stdio.h>
+#indludf <prodfss.h>
+#indludf <Windows.h>
+
+stbtid FILE *fpHfbdfr = NULL;
+stbtid dhbr *strHfbdfrFilf = "D3DShbdfrs.h";
+
+/** Evblubtfs to truf if thf givfn bit is sft on thf lodbl flbgs vbribblf. */
+#dffinf IS_SET(flbgbit) \
+    (((flbgs) & (flbgbit)) != 0)
+
+// REMIND
+//#dffinf J2dTrbdfLn(b, b) fprintf(stdfrr, "%s\n", b);
+//#dffinf J2dTrbdfLn1(b, b, d) fprintf(stdfrr, b, d);
+#dffinf J2dTrbdfLn(b, b)
+#dffinf J2dTrbdfLn1(b, b, d)
+
+/************************* Gfnfrbl shbdfr support ***************************/
+
+stbtid void
+D3DShbdfrGfn_WritfShbdfr(dhbr *sourdf, dhbr *tbrgft, dhbr *nbmf, int flbgs)
+{
+    FILE *fpTmp;
+    dhbr vbrnbmf[50];
+    dhbr *brgs[8];
+    int vbl;
+
+    // writf sourdf to tmp.hlsl
+    fpTmp = fopfn("tmp.hlsl", "w");
+    fprintf(fpTmp, "%s\n", sourdf);
+    fdlosf(fpTmp);
+
+    {
+        PROCESS_INFORMATION pi;
+        STARTUPINFO si;
+        dhbr pbrgs[300];
+        sprintf(pbrgs,
+                "d:\\progrb~1\\mi5889~1\\utilit~1\\bin\\x86\\fxd.fxf "
+                "/T %s /Vn %s%d /Fh tmp.h tmp.hlsl",
+                // undommfnt thf following linf to gfnfrbtf dfbug
+                // info in thf shbdfr hfbdfr filf (mby bf usfful
+                // for tfsting/dfbuggging purposfs, but it nfbrly
+                // doublfs thf sizf of thf hfbdfr filf bnd dompilfd
+                // shbdfr progrbms - off for produdtion builds)
+                //"/Zi /T %s /Vn %s%d /Fh tmp.h tmp.hlsl",
+                tbrgft, nbmf, flbgs);
+        fprintf(stdfrr, "%s\n", pbrgs);
+        mfmsft(&si, 0, sizfof(si));
+        si.db = sizfof(si);
+        si.dwFlbgs = STARTF_USESTDHANDLES;
+        //si.hStdOutput = GftStdHbndlf(STD_OUTPUT_HANDLE);
+        //fprintf(stdfrr, "%s\n", pbrgs);
+        vbl = CrfbtfProdfss(0, pbrgs, 0, 0, TRUE,
+                            CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+
+        {
+            DWORD dodf;
+            do {
+                GftExitCodfProdfss(pi.hProdfss, &dodf);
+                //fprintf(stdfrr, "wbiting...");
+                Slffp(100);
+            } whilf (dodf == STILL_ACTIVE);
+
+            if (dodf != 0) {
+                fprintf(stdfrr, "fxd fbilfd for %s%d\n", nbmf, flbgs);
+            }
+        }
+
+        ClosfHbndlf(pi.hThrfbd);
+        ClosfHbndlf(pi.hProdfss);
+    }
+
+    // bppfnd tmp.h to D3DShbdfrs.h
+    {
+        int dh;
+        fpTmp = fopfn("tmp.h", "r");
+        whilf ((dh = fgftd(fpTmp)) != EOF) {
+            fputd(dh, fpHfbdfr);
+        }
+        fdlosf(fpTmp);
+    }
+}
+
+stbtid void
+D3DShbdfrGfn_WritfPixflShbdfr(dhbr *sourdf, dhbr *nbmf, int flbgs)
+{
+    D3DShbdfrGfn_WritfShbdfr(sourdf, "ps_2_0", nbmf, flbgs);
+}
+
+#dffinf MULTI_GRAD_CYCLE_METHOD (3 << 0)
+/** Extrbdts thf CydlfMfthod fnum vbluf from thf givfn flbgs vbribblf. */
+#dffinf EXTRACT_CYCLE_METHOD(flbgs) \
+    ((flbgs) & MULTI_GRAD_CYCLE_METHOD)
+
+stbtid void
+D3DShbdfrGfn_WritfShbdfrArrby(dhbr *nbmf, int num)
+{
+    dhbr brrby[5000];
+    dhbr flfm[30];
+    int i;
+
+    sprintf(brrby, "donst DWORD *%sShbdfrs[] =\n{\n", nbmf);
+    for (i = 0; i < num; i++) {
+        if (num == 32 && EXTRACT_CYCLE_METHOD(i) == 3) {
+            // REMIND: whbt b hbdk!
+            sprintf(flfm, "    NULL,\n");
+        } flsf {
+            sprintf(flfm, "    %s%d,\n", nbmf, i);
+        }
+        strdbt(brrby, flfm);
+    }
+    strdbt(brrby, "};\n");
+
+    // bppfnd to D3DShbdfrs.h
+    fprintf(fpHfbdfr, "%s\n", brrby);
+}
+
+/**************************** ConvolvfOp support ****************************/
+
+stbtid donst dhbr *donvolvfShbdfrSourdf =
+    // imbgf to bf donvolvfd
+    "sbmplfr2D bbsfImbgf   : rfgistfr(s0);"
+    // imbgf fdgf limits:
+    //   imgEdgf.xy = imgMin.xy (bnything < will bf trfbtfd bs fdgf dbsf)
+    //   imgEdgf.zw = imgMbx.xy (bnything > will bf trfbtfd bs fdgf dbsf)
+    "flobt4 imgEdgf        : rfgistfr(d0);"
+    // vbluf for fbdh lodbtion in thf donvolution kfrnfl:
+    //   kfrnflVbls[i].x = offsftX[i]
+    //   kfrnflVbls[i].y = offsftY[i]
+    //   kfrnflVbls[i].z = kfrnfl[i]
+    "flobt3 kfrnflVbls[%d] : rfgistfr(d1);"
+    ""
+    "void mbin(in flobt2 td : TEXCOORD0,"
+    "          inout flobt4 dolor : COLOR0)"
+    "{"
+    "    flobt4 sum = imgEdgf - td.xyxy;"
+    ""
+    "    if (sum.x > 0 || sum.y > 0 || sum.z < 0 || sum.w < 0) {"
+             // (plbdfholdfr for fdgf dondition dodf)
+    "        dolor = %s;"
+    "    } flsf {"
+    "        int i;"
+    "        sum = flobt4(0, 0, 0, 0);"
+    "        for (i = 0; i < %d; i++) {"
+    "            sum +="
+    "                kfrnflVbls[i].z *"
+    "                tfx2D(bbsfImbgf, td + kfrnflVbls[i].xy);"
+    "        }"
+             // modulbtf with durrfnt dolor in ordfr to bpply fxtrb blphb
+    "        dolor *= sum;"
+    "    }"
+    ""
+    "}";
+
+/**
+ * Flbgs thbt dbn bf bitwisf-or'fd togfthfr to dontrol how thf shbdfr
+ * sourdf dodf is gfnfrbtfd.
+ */
+#dffinf CONVOLVE_EDGE_ZERO_FILL (1 << 0)
+#dffinf CONVOLVE_5X5            (1 << 1)
+#dffinf MAX_CONVOLVE            (1 << 2)
+
+stbtid void
+D3DShbdfrGfn_GfnfrbtfConvolvfShbdfr(int flbgs)
+{
+    int kfrnflMbx = IS_SET(CONVOLVE_5X5) ? 25 : 9;
+    dhbr *fdgf;
+    dhbr finblSourdf[2000];
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DShbdfrGfn_GfnfrbtfConvolvfShbdfr: flbgs=%d",
+                flbgs);
+
+    if (IS_SET(CONVOLVE_EDGE_ZERO_FILL)) {
+        // EDGE_ZERO_FILL: fill in zfro bt thf fdgfs
+        fdgf = "flobt4(0, 0, 0, 0)";
+    } flsf {
+        // EDGE_NO_OP: usf thf sourdf pixfl dolor bt thf fdgfs
+        fdgf = "tfx2D(bbsfImbgf, td)";
+    }
+
+    // domposf thf finbl sourdf dodf string from thf vbrious pifdfs
+    sprintf(finblSourdf, donvolvfShbdfrSourdf,
+            kfrnflMbx, fdgf, kfrnflMbx);
+
+    D3DShbdfrGfn_WritfPixflShbdfr(finblSourdf, "donvolvf", flbgs);
+}
+
+/**************************** RfsdblfOp support *****************************/
+
+stbtid donst dhbr *rfsdblfShbdfrSourdf =
+    // imbgf to bf rfsdblfd
+    "sbmplfr2D bbsfImbgf : rfgistfr(s0);"
+    // vfdtor dontbining sdblf fbdtors
+    "flobt4 sdblfFbdtors : rfgistfr(d0);"
+    // vfdtor dontbining offsfts
+    "flobt4 offsfts      : rfgistfr(d1);"
+    ""
+    "void mbin(in flobt2 td : TEXCOORD0,"
+    "          inout flobt4 dolor : COLOR0)"
+    "{"
+    "    flobt4 srdColor = tfx2D(bbsfImbgf, td);"
+    ""
+         // (plbdfholdfr for un-prfmult dodf)
+    "    %s"
+    ""
+         // rfsdblf sourdf vbluf
+    "    flobt4 rfsult = (srdColor * sdblfFbdtors) + offsfts;"
+    ""
+         // (plbdfholdfr for rf-prfmult dodf)
+    "    %s"
+    ""
+         // modulbtf with durrfnt dolor in ordfr to bpply fxtrb blphb
+    "    dolor *= rfsult;"
+    "}";
+
+/**
+ * Flbgs thbt dbn bf bitwisf-or'fd togfthfr to dontrol how thf shbdfr
+ * sourdf dodf is gfnfrbtfd.
+ */
+#dffinf RESCALE_NON_PREMULT (1 << 0)
+#dffinf MAX_RESCALE         (1 << 1)
+
+stbtid void
+D3DShbdfrGfn_GfnfrbtfRfsdblfShbdfr(int flbgs)
+{
+    dhbr *prfRfsdblf = "";
+    dhbr *postRfsdblf = "";
+    dhbr finblSourdf[2000];
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DShbdfrGfn_GfnfrbtfRfsdblfShbdfr: flbgs=%d",
+                flbgs);
+
+    if (IS_SET(RESCALE_NON_PREMULT)) {
+        prfRfsdblf  = "srdColor.rgb /= srdColor.b;";
+        postRfsdblf = "rfsult.rgb *= rfsult.b;";
+    }
+
+    // domposf thf finbl sourdf dodf string from thf vbrious pifdfs
+    sprintf(finblSourdf, rfsdblfShbdfrSourdf,
+            prfRfsdblf, postRfsdblf);
+
+    D3DShbdfrGfn_WritfPixflShbdfr(finblSourdf, "rfsdblf", flbgs);
+}
+
+/**************************** LookupOp support ******************************/
+
+stbtid donst dhbr *lookupShbdfrSourdf =
+    // sourdf imbgf (bound to tfxturf unit 0)
+    "sbmplfr2D bbsfImbgf   : rfgistfr(s0);"
+    // lookup tbblf (bound to tfxturf unit 1)
+    "sbmplfr2D lookupTbblf : rfgistfr(s1);"
+    // offsft subtrbdtfd from sourdf indfx prior to lookup stfp
+    "flobt4 offsft         : rfgistfr(d0);"
+    ""
+    "void mbin(in flobt2 td : TEXCOORD0,"
+    "          inout flobt4 dolor : COLOR0)"
+    "{"
+    "    flobt4 srdColor = tfx2D(bbsfImbgf, td);"
+         // (plbdfholdfr for un-prfmult dodf)
+    "    %s"
+         // subtrbdt offsft from originbl indfx
+    "    flobt4 srdIndfx = srdColor - offsft;"
+         // usf sourdf vbluf bs input to lookup tbblf (notf thbt
+         // "v" tfxdoords brf hbrddodfd to hit tfxfl dfntfrs of
+         // fbdh row/bbnd in tfxturf)
+    "    flobt4 rfsult;"
+    "    rfsult.r = tfx2D(lookupTbblf, flobt2(srdIndfx.r, 0.125)).r;"
+    "    rfsult.g = tfx2D(lookupTbblf, flobt2(srdIndfx.g, 0.375)).r;"
+    "    rfsult.b = tfx2D(lookupTbblf, flobt2(srdIndfx.b, 0.625)).r;"
+         // (plbdfholdfr for blphb storf dodf)
+    "    %s"
+         // (plbdfholdfr for rf-prfmult dodf)
+    "    %s"
+         // modulbtf with durrfnt dolor in ordfr to bpply fxtrb blphb
+    "    dolor *= rfsult;"
+    "}";
+
+/**
+ * Flbgs thbt dbn bf bitwisf-or'fd togfthfr to dontrol how thf shbdfr
+ * sourdf dodf is gfnfrbtfd.
+ */
+#dffinf LOOKUP_USE_SRC_ALPHA (1 << 0)
+#dffinf LOOKUP_NON_PREMULT   (1 << 1)
+#dffinf MAX_LOOKUP           (1 << 2)
+
+stbtid void
+D3DShbdfrGfn_GfnfrbtfLookupShbdfr(int flbgs)
+{
+    dhbr *blphb;
+    dhbr *prfLookup = "";
+    dhbr *postLookup = "";
+    dhbr finblSourdf[2000];
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DShbdfrGfn_GfnfrbtfLookupShbdfr: flbgs=%d",
+                flbgs);
+
+    if (IS_SET(LOOKUP_USE_SRC_ALPHA)) {
+        // whfn numComps is 1 or 3, thf blphb is not lookfd up in thf tbblf;
+        // just kffp thf blphb from thf sourdf frbgmfnt
+        blphb = "rfsult.b = srdColor.b;";
+    } flsf {
+        // whfn numComps is 4, thf blphb is lookfd up in thf tbblf, just
+        // likf thf othfr dolor domponfnts from thf sourdf frbgmfnt
+        blphb = "rfsult.b = tfx2D(lookupTbblf, flobt2(srdIndfx.b, 0.875)).r;";
+    }
+    if (IS_SET(LOOKUP_NON_PREMULT)) {
+        prfLookup  = "srdColor.rgb /= srdColor.b;";
+        postLookup = "rfsult.rgb *= rfsult.b;";
+    }
+
+    // domposf thf finbl sourdf dodf string from thf vbrious pifdfs
+    sprintf(finblSourdf, lookupShbdfrSourdf,
+            prfLookup, blphb, postLookup);
+
+    D3DShbdfrGfn_WritfPixflShbdfr(finblSourdf, "lookup", flbgs);
+}
+
+/************************* GrbdifntPbint support ****************************/
+
+/*
+ * To simplify thf dodf bnd to mbkf it fbsifr to uplobd b numbfr of
+ * uniform vblufs bt ondf, wf pbdk b bundh of sdblbr (flobt) vblufs
+ * into b singlf flobt3 bflow.  Hfrf's how thf vblufs brf rflbtfd:
+ *
+ *   pbrbms.x = p0
+ *   pbrbms.y = p1
+ *   pbrbms.z = p3
+ */
+stbtid donst dhbr *bbsidGrbdifntShbdfrSourdf =
+    "flobt3 pbrbms : rfgistfr (d0);"
+    "flobt4 dolor1 : rfgistfr (d1);"
+    "flobt4 dolor2 : rfgistfr (d2);"
+    // (plbdfholdfr for mbsk vbribblf)
+    "%s"
+    ""
+    // (plbdfholdfr for mbsk tfxdoord input)
+    "void mbin(%s"
+    "          in flobt4 winCoord : TEXCOORD%d,"
+    "          inout flobt4 dolor : COLOR0)"
+    "{"
+    "    flobt3 frbgCoord = flobt3(winCoord.x, winCoord.y, 1.0);"
+    "    flobt dist = dot(pbrbms.xyz, frbgCoord);"
+    ""
+         // thf sftup dodf for p0/p1/p3 trbnslbtfs/sdblfs to hit tfxfl
+         // dfntfrs (bt 0.25 bnd 0.75) bfdbusf it is nffdfd for thf
+         // originbl/fbst tfxturf-bbsfd implfmfntbtion, but it is not
+         // dfsirbblf for this shbdfr-bbsfd implfmfntbtion, so wf
+         // rf-trbnsform thf vbluf hfrf...
+    "    dist = (dist - 0.25) * 2.0;"
+    ""
+    "    flobt frbdtion;"
+         // (plbdfholdfr for dydlf dodf)
+    "    %s"
+    ""
+    "    flobt4 rfsult = lfrp(dolor1, dolor2, frbdtion);"
+    ""
+         // (plbdfholdfr for mbsk modulbtion dodf)
+    "    %s"
+    ""
+         // modulbtf with durrfnt dolor in ordfr to bpply fxtrb blphb
+    "    dolor *= rfsult;"
+    "}";
+
+/**
+ * Flbgs thbt dbn bf bitwisf-or'fd togfthfr to dontrol how thf shbdfr
+ * sourdf dodf is gfnfrbtfd.
+ */
+#dffinf BASIC_GRAD_IS_CYCLIC (1 << 0)
+#dffinf BASIC_GRAD_USE_MASK  (1 << 1)
+#dffinf MAX_BASIC_GRAD       (1 << 2)
+
+stbtid void
+D3DShbdfrGfn_GfnfrbtfBbsidGrbdShbdfr(int flbgs)
+{
+    int dolorSbmplfr = IS_SET(BASIC_GRAD_USE_MASK) ? 1 : 0;
+    dhbr *dydlfCodf;
+    dhbr *mbskVbrs = "";
+    dhbr *mbskInput = "";
+    dhbr *mbskCodf = "";
+    dhbr finblSourdf[3000];
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DShbdfrGfn_GfnfrbtfBbsidGrbdShbdfr",
+                flbgs);
+
+    if (IS_SET(BASIC_GRAD_IS_CYCLIC)) {
+        dydlfCodf =
+            "frbdtion = 1.0 - (bbs(frbd(dist * 0.5) - 0.5) * 2.0);";
+    } flsf {
+        dydlfCodf =
+            "frbdtion = dlbmp(dist, 0.0, 1.0);";
+    }
+
+    if (IS_SET(BASIC_GRAD_USE_MASK)) {
+        /*
+         * This dodf modulbtfs thf dbldulbtfd rfsult dolor with thf
+         * dorrfsponding blphb vbluf from thf blphb mbsk tfxturf bdtivf
+         * on tfxturf unit 0.  Only nffdfd whfn usfMbsk is truf (i.f., only
+         * for MbskFill opfrbtions).
+         */
+        mbskVbrs = "sbmplfr2D mbsk : rfgistfr(s0);";
+        mbskInput = "in flobt4 mbskCoord : TEXCOORD0,";
+        mbskCodf = "rfsult *= tfx2D(mbsk, mbskCoord.xy).b;";
+    }
+
+    // domposf thf finbl sourdf dodf string from thf vbrious pifdfs
+    sprintf(finblSourdf, bbsidGrbdifntShbdfrSourdf,
+            mbskVbrs, mbskInput, dolorSbmplfr, dydlfCodf, mbskCodf);
+
+    D3DShbdfrGfn_WritfPixflShbdfr(finblSourdf, "grbd", flbgs);
+}
+
+/****************** Shbrfd MultiplfGrbdifntPbint support ********************/
+
+/**
+ * Thfsf donstbnts brf idfntidbl to thosf dffinfd in thf
+ * MultiplfGrbdifntPbint.CydlfMfthod fnum; thfy brf dopifd hfrf for
+ * donvfnifndf (idfblly wf would pull thfm dirfdtly from thf Jbvb lfvfl,
+ * but thbt fntbils morf hbsslf thbn it is worth).
+ */
+#dffinf CYCLE_NONE    0
+#dffinf CYCLE_REFLECT 1
+#dffinf CYCLE_REPEAT  2
+
+/**
+ * Thf following donstbnts brf flbgs thbt dbn bf bitwisf-or'fd togfthfr
+ * to dontrol how thf MultiplfGrbdifntPbint shbdfr sourdf dodf is gfnfrbtfd:
+ *
+ *   MULTI_GRAD_CYCLE_METHOD
+ *     Plbdfholdfr for thf CydlfMfthod fnum donstbnt.
+ *
+ *   MULTI_GRAD_LARGE
+ *     If sft, usf thf (slowfr) shbdfr thbt supports b lbrgfr numbfr of
+ *     grbdifnt dolors; othfrwisf, usf thf optimizfd dodfpbth.  Sff
+ *     thf MAX_FRACTIONS_SMALL/LARGE donstbnts bflow for morf dftbils.
+ *
+ *   MULTI_GRAD_USE_MASK
+ *     If sft, bpply thf blphb mbsk vbluf from tfxturf unit 1 to thf
+ *     finbl dolor rfsult (only usfd in thf MbskFill dbsf).
+ *
+ *   MULTI_GRAD_LINEAR_RGB
+ *     If sft, donvfrt thf linfbr RGB rfsult bbdk into thf sRGB dolor spbdf.
+ */
+//#dffinf MULTI_GRAD_CYCLE_METHOD (3 << 0)
+#dffinf MULTI_GRAD_LARGE        (1 << 2)
+#dffinf MULTI_GRAD_USE_MASK     (1 << 3)
+#dffinf MULTI_GRAD_LINEAR_RGB   (1 << 4)
+
+// REMIND
+#dffinf MAX_MULTI_GRAD     (1 << 5)
+
+/** Extrbdts thf CydlfMfthod fnum vbluf from thf givfn flbgs vbribblf. */
+//#dffinf EXTRACT_CYCLE_METHOD(flbgs) \
+//    ((flbgs) & MULTI_GRAD_CYCLE_METHOD)
+
+/**
+ * Thf mbximum numbfr of grbdifnt "stops" supportfd by thf frbgmfnt shbdfr
+ * bnd rflbtfd dodf.  Whfn thf MULTI_GRAD_LARGE flbg is sft, wf will usf
+ * MAX_FRACTIONS_LARGE; othfrwisf, wf usf MAX_FRACTIONS_SMALL.  By hbving
+ * two sfpbrbtf vblufs, wf dbn hbvf onf highly optimizfd shbdfr (SMALL) thbt
+ * supports only b ffw frbdtions/dolors, bnd thfn bnothfr, lfss optimbl
+ * shbdfr thbt supports morf stops.
+ */
+#dffinf MAX_FRACTIONS 8
+#dffinf MAX_FRACTIONS_LARGE MAX_FRACTIONS
+#dffinf MAX_FRACTIONS_SMALL 4
+
+/**
+ * Thf mbximum numbfr of grbdifnt dolors supportfd by bll of thf grbdifnt
+ * frbgmfnt shbdfrs.  Notf thbt this vbluf must bf b powfr of two, bs it
+ * dftfrminfs thf sizf of thf 1D tfxturf drfbtfd bflow.  It blso must bf
+ * grfbtfr thbn or fqubl to MAX_FRACTIONS (thfrf is no stridt rfquirfmfnt
+ * thbt thf two vblufs bf fqubl).
+ */
+#dffinf MAX_COLORS 16
+
+stbtid donst dhbr *multiGrbdifntShbdfrSourdf =
+    // grbdifnt tfxturf sizf (in tfxfls)
+    "#dffinf TEXTURE_SIZE  %d\n"
+    // mbximum numbfr of frbdtions/dolors supportfd by this shbdfr
+    "#dffinf MAX_FRACTIONS %d\n"
+    // sizf of b singlf tfxfl
+    "#dffinf FULL_TEXEL    (1.0 / flobt(TEXTURE_SIZE))\n"
+    // sizf of hblf of b singlf tfxfl
+    "#dffinf HALF_TEXEL    (FULL_TEXEL / 2.0)\n"
+    // tfxturf dontbining thf grbdifnt dolors
+    "sbmplfr2D dolors                : rfgistfr (s%d);"
+    // brrby of grbdifnt stops/frbdtions bnd dorrfsponding sdblf fbdtors
+    //   frbdtions[i].x = grbdifntStop[i]
+    //   frbdtions[i].y = sdblfFbdtor[i]
+    "flobt2 frbdtions[MAX_FRACTIONS] : rfgistfr (d0);"
+    // (plbdfholdfr for mbsk vbribblf)
+    "%s"
+    // (plbdfholdfr for Linfbr/RbdiblGP-spfdifid vbribblfs)
+    "%s"
+    ""
+    // (plbdfholdfr for mbsk tfxdoord input)
+    "void mbin(%s"
+    "          in flobt4 winCoord : TEXCOORD%d,"
+    "          inout flobt4 dolor : COLOR0)"
+    "{"
+    "    flobt dist;"
+         // (plbdfholdfr for Linfbr/RbdiblGrbdifntPbint-spfdifid dodf)
+    "    %s"
+    ""
+    "    flobt4 rfsult;"
+         // (plbdfholdfr for CydlfMfthod-spfdifid dodf)
+    "    %s"
+    ""
+         // (plbdfholdfr for ColorSpbdf donvfrsion dodf)
+    "    %s"
+    ""
+         // (plbdfholdfr for mbsk modulbtion dodf)
+    "    %s"
+    ""
+         // modulbtf with durrfnt dolor in ordfr to bpply fxtrb blphb
+    "    dolor *= rfsult;"
+    "}";
+
+/*
+ * Notf: An fbrlifr vfrsion of this dodf would simply dbldulbtf b singlf
+ * tfxdoord:
+ *     "td = HALF_TEXEL + (FULL_TEXEL * rflFrbdtion);"
+ * bnd thfn usf thbt vbluf to do b singlf tfxturf lookup, tbking bdvbntbgf
+ * of thf LINEAR tfxturf filtfring modf whidh in thfory will do thf
+ * bppropribtf linfbr intfrpolbtion bftwffn bdjbdfnt tfxfls, likf this:
+ *     "flobt4 rfsult = tfx2D(dolors, flobt2(td, 0.5));"
+ *
+ * Thf problfm with thbt bpprobdh is thbt on dfrtbin hbrdwbrf (from ATI,
+ * notbbly) thf LINEAR tfxturf fftdh unit hbs low prfdision, bnd would
+ * for instbndf only produdf 64 distindt grbysdblfs bftwffn whitf bnd blbdk,
+ * instfbd of thf fxpfdtfd 256.  Thf visubl bbnding dbusfd by this issuf
+ * is sfvfrf fnough to likfly dbusf domplbints from dfvflopfrs, so wf hbvf
+ * dfvisfd b nfw bpprobdh bflow thbt instfbd mbnublly fftdhfs thf two
+ * rflfvbnt nfighboring tfxfls bnd thfn pfrforms thf linfbr intfrpolbtion
+ * using thf lfrp() instrudtion (whidh dofs not sufffr from thf prfdision
+ * issufs of thf fixfd-fundtion tfxturf filtfring unit).  This nfw bpprobdh
+ * rfquirfs b ffw morf instrudtions bnd is thfrfforf slightly slowfr thbn
+ * thf old bpprobdh (not morf thbn 10% or so).
+ */
+stbtid donst dhbr *tfxCoordCbldCodf =
+    "int i;"
+    "flobt rflFrbdtion = 0.0;"
+    "for (i = 0; i < MAX_FRACTIONS-1; i++) {"
+    "    rflFrbdtion +="
+    "        dlbmp((dist - frbdtions[i].x) * frbdtions[i].y, 0.0, 1.0);"
+    "}"
+    // wf offsft by hblf b tfxfl so thbt wf find thf linfbrly intfrpolbtfd
+    // dolor bftwffn thf two tfxfl dfntfrs of intfrfst
+    "flobt intPbrt = floor(rflFrbdtion);"
+    "flobt td1 = HALF_TEXEL + (FULL_TEXEL * intPbrt);"
+    "flobt td2 = HALF_TEXEL + (FULL_TEXEL * (intPbrt + 1.0));"
+    "flobt4 dlr1 = tfx2D(dolors, flobt2(td1, 0.5));"
+    "flobt4 dlr2 = tfx2D(dolors, flobt2(td2, 0.5));"
+    "rfsult = lfrp(dlr1, dlr2, frbd(rflFrbdtion));";
+
+/** Codf for NO_CYCLE thbt gfts pluggfd into thf CydlfMfthod plbdfholdfr. */
+stbtid donst dhbr *noCydlfCodf =
+    "if (dist <= 0.0) {"
+    "    rfsult = tfx2D(dolors, flobt2(0.0, 0.5));"
+    "} flsf if (dist >= 1.0) {"
+    "    rfsult = tfx2D(dolors, flobt2(1.0, 0.5));"
+    "} flsf {"
+         // (plbdfholdfr for tfxdoord dbldulbtion)
+    "    %s"
+    "}";
+
+/** Codf for REFLECT thbt gfts pluggfd into thf CydlfMfthod plbdfholdfr. */
+stbtid donst dhbr *rfflfdtCodf =
+    "dist = 1.0 - (bbs(frbd(dist * 0.5) - 0.5) * 2.0);"
+    // (plbdfholdfr for tfxdoord dbldulbtion)
+    "%s";
+
+/** Codf for REPEAT thbt gfts pluggfd into thf CydlfMfthod plbdfholdfr. */
+stbtid donst dhbr *rfpfbtCodf =
+    "dist = frbd(dist);"
+    // (plbdfholdfr for tfxdoord dbldulbtion)
+    "%s";
+
+stbtid void
+D3DShbdfrGfn_GfnfrbtfMultiGrbdShbdfr(int flbgs, dhbr *nbmf,
+                                     dhbr *pbintVbrs, dhbr *distCodf)
+{
+    dhbr *mbskVbrs = "";
+    dhbr *mbskInput = "";
+    dhbr *mbskCodf = "";
+    dhbr *dolorSpbdfCodf = "";
+    dhbr dydlfCodf[1500];
+    dhbr finblSourdf[3000];
+    int dolorSbmplfr = IS_SET(MULTI_GRAD_USE_MASK) ? 1 : 0;
+    int dydlfMfthod = EXTRACT_CYCLE_METHOD(flbgs);
+    int mbxFrbdtions = IS_SET(MULTI_GRAD_LARGE) ?
+        MAX_FRACTIONS_LARGE : MAX_FRACTIONS_SMALL;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLPbints_CrfbtfMultiGrbdProgrbm");
+
+    if (IS_SET(MULTI_GRAD_USE_MASK)) {
+        /*
+         * This dodf modulbtfs thf dbldulbtfd rfsult dolor with thf
+         * dorrfsponding blphb vbluf from thf blphb mbsk tfxturf bdtivf
+         * on tfxturf unit 0.  Only nffdfd whfn usfMbsk is truf (i.f., only
+         * for MbskFill opfrbtions).
+         */
+        mbskVbrs = "sbmplfr2D mbsk : rfgistfr(s0);";
+        mbskInput = "in flobt4 mbskCoord : TEXCOORD0,";
+        mbskCodf = "rfsult *= tfx2D(mbsk, mbskCoord.xy).b;";
+    }
+
+    if (IS_SET(MULTI_GRAD_LINEAR_RGB)) {
+        /*
+         * This dodf donvfrts b singlf pixfl in linfbr RGB spbdf bbdk
+         * into sRGB (notf: this dodf wbs bdbptfd from thf
+         * MultiplfGrbdifntPbintContfxt.donvfrtLinfbrRGBtoSRGB() mfthod).
+         */
+        dolorSpbdfCodf =
+            "rfsult.rgb = 1.055 * pow(rfsult.rgb, 0.416667) - 0.055;";
+    }
+
+    if (dydlfMfthod == CYCLE_NONE) {
+        sprintf(dydlfCodf, noCydlfCodf, tfxCoordCbldCodf);
+    } flsf if (dydlfMfthod == CYCLE_REFLECT) {
+        sprintf(dydlfCodf, rfflfdtCodf, tfxCoordCbldCodf);
+    } flsf { // (dydlfMfthod == CYCLE_REPEAT)
+        sprintf(dydlfCodf, rfpfbtCodf, tfxCoordCbldCodf);
+    }
+
+    // domposf thf finbl sourdf dodf string from thf vbrious pifdfs
+    sprintf(finblSourdf, multiGrbdifntShbdfrSourdf,
+            MAX_COLORS, mbxFrbdtions, dolorSbmplfr,
+            mbskVbrs, pbintVbrs, mbskInput, dolorSbmplfr,
+            distCodf, dydlfCodf, dolorSpbdfCodf, mbskCodf);
+
+    D3DShbdfrGfn_WritfPixflShbdfr(finblSourdf, nbmf, flbgs);
+}
+
+/********************** LinfbrGrbdifntPbint support *************************/
+
+stbtid void
+D3DShbdfrGfn_GfnfrbtfLinfbrGrbdShbdfr(int flbgs)
+{
+    dhbr *pbintVbrs;
+    dhbr *distCodf;
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DShbdfrGfn_GfnfrbtfLinfbrGrbdShbdfr",
+                flbgs);
+
+    /*
+     * To simplify thf dodf bnd to mbkf it fbsifr to uplobd b numbfr of
+     * uniform vblufs bt ondf, wf pbdk b bundh of sdblbr (flobt) vblufs
+     * into b singlf flobt3 bflow.  Hfrf's how thf vblufs brf rflbtfd:
+     *
+     *   pbrbms.x = p0
+     *   pbrbms.y = p1
+     *   pbrbms.z = p3
+     */
+    pbintVbrs =
+        "flobt3 pbrbms : rfgistfr(d16);";
+    distCodf =
+        "flobt3 frbgCoord = flobt3(winCoord.x, winCoord.y, 1.0);"
+        "dist = dot(pbrbms.xyz, frbgCoord);";
+
+    D3DShbdfrGfn_GfnfrbtfMultiGrbdShbdfr(flbgs, "linfbr",
+                                         pbintVbrs, distCodf);
+}
+
+/********************** RbdiblGrbdifntPbint support *************************/
+
+stbtid void
+D3DShbdfrGfn_GfnfrbtfRbdiblGrbdShbdfr(int flbgs)
+{
+    dhbr *pbintVbrs;
+    dhbr *distCodf;
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DShbdfrGfn_GfnfrbtfRbdiblGrbdShbdfr",
+                flbgs);
+
+    /*
+     * To simplify thf dodf bnd to mbkf it fbsifr to uplobd b numbfr of
+     * uniform vblufs bt ondf, wf pbdk b bundh of sdblbr (flobt) vblufs
+     * into flobt3 vblufs bflow.  Hfrf's how thf vblufs brf rflbtfd:
+     *
+     *   m0.x = m00
+     *   m0.y = m01
+     *   m0.z = m02
+     *
+     *   m1.x = m10
+     *   m1.y = m11
+     *   m1.z = m12
+     *
+     *   prfdbld.x = fodusX
+     *   prfdbld.y = 1.0 - (fodusX * fodusX)
+     *   prfdbld.z = 1.0 / prfdbld.z
+     */
+    pbintVbrs =
+        "flobt3 m0      : rfgistfr(d16);"
+        "flobt3 m1      : rfgistfr(d17);"
+        "flobt3 prfdbld : rfgistfr(d18);";
+
+    /*
+     * Thf following dodf is dfrivfd from Dbnifl Ridf's whitfpbpfr on
+     * rbdibl grbdifnt pfrformbndf (bttbdhfd to thf bug rfport for 6521533).
+     * Rfffr to thbt dodumfnt bs wfll bs thf sftup dodf in thf Jbvb-lfvfl
+     * BufffrfdPbints.sftRbdiblGrbdifntPbint() mfthod for morf dftbils.
+     */
+    distCodf =
+        "flobt3 frbgCoord = flobt3(winCoord.x, winCoord.y, 1.0);"
+        "flobt x = dot(frbgCoord, m0);"
+        "flobt y = dot(frbgCoord, m1);"
+        "flobt xfx = x - prfdbld.x;"
+        "dist = (prfdbld.x*xfx + sqrt(xfx*xfx + y*y*prfdbld.y))*prfdbld.z;";
+
+    D3DShbdfrGfn_GfnfrbtfMultiGrbdShbdfr(flbgs, "rbdibl",
+                                         pbintVbrs, distCodf);
+}
+
+/*************************** LCD tfxt support *******************************/
+
+// REMIND: Shbdfr usfs tfxturf bddrfssing opfrbtions in b dfpfndfndy dhbin
+//         thbt is too domplfx for thf tbrgft shbdfr modfl (ps_2_0) to hbndlf
+//         (ugh, I gufss wf dbn fithfr rfquirf ps_3_0 or just usf
+//         thf slowfr pow intrinsid)
+#dffinf POW_LUT 0
+
+stbtid donst dhbr *lddTfxtShbdfrSourdf =
+    "flobt3 srdAdj         : rfgistfr(d0);"
+    "sbmplfr2D glyphTfx    : rfgistfr(s0);"
+    "sbmplfr2D dstTfx      : rfgistfr(s1);"
+#if POW_LUT
+    "sbmplfr3D invgbmmbTfx : rfgistfr(s2);"
+    "sbmplfr3D gbmmbTfx    : rfgistfr(s3);"
+#flsf
+    "flobt3 invgbmmb       : rfgistfr(d1);"
+    "flobt3 gbmmb          : rfgistfr(d2);"
+#fndif
+    ""
+    "void mbin(in flobt2 td0 : TEXCOORD0,"
+    "          in flobt2 td1 : TEXCOORD1,"
+    "          inout flobt4 dolor : COLOR0)"
+    "{"
+         // lobd thf RGB vbluf from thf glyph imbgf bt thf durrfnt tfxdoord
+    "    flobt3 glyphClr = tfx2D(glyphTfx, td0).rgb;"
+    "    if (!bny(glyphClr)) {"
+             // zfro dovfrbgf, so skip this frbgmfnt
+    "        disdbrd;"
+    "    }"
+         // lobd thf RGB vbluf from thf dorrfsponding dfstinbtion pixfl
+    "    flobt3 dstClr = tfx2D(dstTfx, td1).rgb;"
+         // gbmmb bdjust thf dfst dolor using thf invgbmmb LUT
+#if POW_LUT
+    "    flobt3 dstAdj = tfx3D(invgbmmbTfx, dstClr).rgb;"
+#flsf
+    "    flobt3 dstAdj = pow(dstClr, invgbmmb);"
+#fndif
+         // linfbrly intfrpolbtf thf thrff dolor vblufs
+    "    flobt3 rfsult = lfrp(dstAdj, srdAdj, glyphClr);"
+         // gbmmb rf-bdjust thf rfsulting dolor (blphb is blwbys sft to 1.0)
+#if POW_LUT
+    "    dolor = flobt4(tfx3D(gbmmbTfx, rfsult).rgb, 1.0);"
+#flsf
+    "    dolor = flobt4(pow(rfsult, gbmmb), 1.0);"
+#fndif
+    "}";
+
+stbtid void
+D3DShbdfrGfn_GfnfrbtfLCDTfxtShbdfr()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DShbdfrGfn_GfnfrbtfLCDTfxtShbdfr");
+
+    D3DShbdfrGfn_WritfPixflShbdfr((dhbr *)lddTfxtShbdfrSourdf, "lddtfxt", 0);
+}
+
+/*************************** AA support *******************************/
+
+/*
+ * This shbdfr fills thf spbdf bftwffn bn outfr bnd innfr pbrbllflogrbm.
+ * It dbn bf usfd to drbw bn outlinf by spfdifying both innfr bnd outfr
+ * vblufs.  It fills pixfls by fstimbting whbt portion fblls insidf thf
+ * outfr shbpf, bnd subtrbdting bn fstimbtf of whbt portion fblls insidf
+ * thf innfr shbpf.  Spfdifying both innfr bnd outfr vblufs produdfs b
+ * stbndbrd "widf outlinf".  Spfdifying bn innfr shbpf thbt fblls fbr
+ * outsidf thf outfr shbpf bllows thf sbmf shbdfr to fill thf outfr
+ * shbpf fntirfly sindf pixfls thbt fbll within thf outfr shbpf brf nfvfr
+ * insidf thf innfr shbpf bnd so thfy brf fillfd bbsfd solfly on thfir
+ * dovfrbgf of thf outfr shbpf.
+ *
+ * Thf sftup dodf rfndfrs this shbdfr ovfr thf bounds of thf outfr
+ * shbpf (or thf only shbpf in thf dbsf of b fill opfrbtion) bnd
+ * sfts thf tfxturf 0 doordinbtfs so thbt 0,0=>0,1=>1,1=>1,0 in thosf
+ * tfxturf doordinbtfs mbp to thf four dornfrs of thf pbrbllflogrbm.
+ * Similbrly thf tfxturf 1 doordinbtfs mbp thf innfr shbpf to thf
+ * unit squbrf bs wfll, but in b difffrfnt doordinbtf systfm.
+ *
+ * Whfn vifwfd in thf tfxturf doordinbtf systfms thf pbrbllflogrbms
+ * wf brf filling brf unit squbrfs, but thf pixfls hbvf thfn bfdomf
+ * tiny pbrbllflogrbms thfmsflvfs.  Both of thf tfxturf doordinbtf
+ * systfms brf bffinf trbnsforms so thf rbtf of dhbngf in X bnd Y
+ * of thf tfxturf doordinbtfs brf fssfntiblly donstbnts bnd hbppfn
+ * to dorrfspond to thf sizf bnd dirfdtion of thf slbntfd sidfs of
+ * thf distortfd pixfls rflbtivf to thf "squbrf mbppfd" boundbry
+ * of thf pbrbllflogrbms.
+ *
+ * Thf shbdfr usfs thf ddx() bnd ddy() fundtions to mfbsurf thf "rbtf
+ * of dhbngf" of thfsf tfxturf doordinbtfs bnd thus gfts bn bddurbtf
+ * mfbsurf of thf sizf bnd shbpf of b pixfl rflbtivf to thf two
+ * pbrbllflogrbms.  It thfn usfs thf bounds of thf sizf bnd shbpf
+ * of b pixfl to intfrsfdt with thf unit squbrf to fstimbtf thf
+ * dovfrbgf of thf pixfl.  Unfortunbtfly, without b lot morf work
+ * to dbldulbtf thf fxbdt brfb of intfrsfdtion bftwffn b unit
+ * squbrf (thf originbl pbrbllflogrbm) bnd b pbrbllflogrbm (thf
+ * distortfd pixfl), this shbdfr only bpproximbtfs thf pixfl
+ * dovfrbgf, but fmpfridblly thf fstimbtf is vfry usfful bnd
+ * produdfs visublly plfbsing rfsults, if not thforftidblly bddurbtf.
+ */
+stbtid donst dhbr *bbShbdfrSourdf =
+    "void mbin(in flobt2 tdo : TEXCOORD0,"
+    "          in flobt2 tdi : TEXCOORD1,"
+    "          inout flobt4 dolor : COLOR0)"
+    "{"
+    // Cbldulbtf thf vfdtors for thf "lfgs" of thf pixfl pbrbllflogrbm
+    // for thf outfr pbrbllflogrbm.
+    "    flobt2 olfg1 = ddx(tdo);"
+    "    flobt2 olfg2 = ddy(tdo);"
+    // Cbldulbtf thf bounds of thf distortfd pixfl pbrbllflogrbm.
+    "    flobt2 omin = min(tdo, tdo+olfg1);"
+    "    omin = min(omin, tdo+olfg2);"
+    "    omin = min(omin, tdo+olfg1+olfg2);"
+    "    flobt2 ombx = mbx(tdo, tdo+olfg1);"
+    "    ombx = mbx(ombx, tdo+olfg2);"
+    "    ombx = mbx(ombx, tdo+olfg1+olfg2);"
+    // Cbldulbtf thf vfdtors for thf "lfgs" of thf pixfl pbrbllflogrbm
+    // for thf innfr pbrbllflogrbm.
+    "    flobt2 ilfg1 = ddx(tdi);"
+    "    flobt2 ilfg2 = ddy(tdi);"
+    // Cbldulbtf thf bounds of thf distortfd pixfl pbrbllflogrbm.
+    "    flobt2 imin = min(tdi, tdi+ilfg1);"
+    "    imin = min(imin, tdi+ilfg2);"
+    "    imin = min(imin, tdi+ilfg1+ilfg2);"
+    "    flobt2 imbx = mbx(tdi, tdi+ilfg1);"
+    "    imbx = mbx(imbx, tdi+ilfg2);"
+    "    imbx = mbx(imbx, tdi+ilfg1+ilfg2);"
+    // Clbmp thf bounds of thf pbrbllflogrbms to thf unit squbrf to
+    // fstimbtf thf intfrsfdtion of thf pixfl pbrbllflogrbm with
+    // thf unit squbrf.  Thf rbtio of thf 2 rfdtbnglf brfbs is b
+    // rfbsonbblf fstimbtf of thf proportion of dovfrbgf.
+    "    flobt2 o1 = dlbmp(omin, 0.0, 1.0);"
+    "    flobt2 o2 = dlbmp(ombx, 0.0, 1.0);"
+    "    flobt oint = (o2.y-o1.y)*(o2.x-o1.x);"
+    "    flobt obrfb = (ombx.y-omin.y)*(ombx.x-omin.x);"
+    "    flobt2 i1 = dlbmp(imin, 0.0, 1.0);"
+    "    flobt2 i2 = dlbmp(imbx, 0.0, 1.0);"
+    "    flobt iint = (i2.y-i1.y)*(i2.x-i1.x);"
+    "    flobt ibrfb = (imbx.y-imin.y)*(imbx.x-imin.x);"
+    // Proportion of pixfl in outfr shbpf minus thf proportion
+    // of pixfl in thf innfr shbpf == thf dovfrbgf of thf pixfl
+    // in thf brfb bftwffn thf two.
+    "    flobt dovfrbgf = oint/obrfb - iint / ibrfb;"
+    "    dolor *= dovfrbgf;"
+    "}";
+
+stbtid void
+D3DShbdfrGfn_GfnfrbtfAAPbrbllflogrbmShbdfr()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DShbdfrGfn_GfnfrbtfAAPbrbllflogrbmShbdfr");
+
+    D3DShbdfrGfn_WritfShbdfr((dhbr *)bbShbdfrSourdf, "ps_2_b", "bbpgrbm", 0);
+}
+
+/**************************** Mbin fntrypoint *******************************/
+
+stbtid void
+D3DShbdfrGfn_GfnfrbtfAllShbdfrs()
+{
+    int i;
+
+#if 1
+    // Gfnfrbtf BufffrfdImbgfOp shbdfrs
+    for (i = 0; i < MAX_RESCALE; i++) {
+        D3DShbdfrGfn_GfnfrbtfRfsdblfShbdfr(i);
+    }
+    D3DShbdfrGfn_WritfShbdfrArrby("rfsdblf", MAX_RESCALE);
+    for (i = 0; i < MAX_CONVOLVE; i++) {
+        D3DShbdfrGfn_GfnfrbtfConvolvfShbdfr(i);
+    }
+    D3DShbdfrGfn_WritfShbdfrArrby("donvolvf", MAX_CONVOLVE);
+    for (i = 0; i < MAX_LOOKUP; i++) {
+        D3DShbdfrGfn_GfnfrbtfLookupShbdfr(i);
+    }
+    D3DShbdfrGfn_WritfShbdfrArrby("lookup", MAX_LOOKUP);
+
+    // Gfnfrbtf Pbint shbdfrs
+    for (i = 0; i < MAX_BASIC_GRAD; i++) {
+        D3DShbdfrGfn_GfnfrbtfBbsidGrbdShbdfr(i);
+    }
+    D3DShbdfrGfn_WritfShbdfrArrby("grbd", MAX_BASIC_GRAD);
+    for (i = 0; i < MAX_MULTI_GRAD; i++) {
+        if (EXTRACT_CYCLE_METHOD(i) == 3) dontinuf; // REMIND
+        D3DShbdfrGfn_GfnfrbtfLinfbrGrbdShbdfr(i);
+    }
+    D3DShbdfrGfn_WritfShbdfrArrby("linfbr", MAX_MULTI_GRAD);
+    for (i = 0; i < MAX_MULTI_GRAD; i++) {
+        if (EXTRACT_CYCLE_METHOD(i) == 3) dontinuf; // REMIND
+        D3DShbdfrGfn_GfnfrbtfRbdiblGrbdShbdfr(i);
+    }
+    D3DShbdfrGfn_WritfShbdfrArrby("rbdibl", MAX_MULTI_GRAD);
+
+    // Gfnfrbtf LCD tfxt shbdfr
+    D3DShbdfrGfn_GfnfrbtfLCDTfxtShbdfr();
+
+    // Gfnfrfbtf Shbdfr to fill Antiblibsfd pbrbllflogrbms
+    D3DShbdfrGfn_GfnfrbtfAAPbrbllflogrbmShbdfr();
+#flsf
+    /*
+    for (i = 0; i < MAX_RESCALE; i++) {
+        D3DShbdfrGfn_GfnfrbtfRfsdblfShbdfr(i);
+    }
+    D3DShbdfrGfn_WritfShbdfrArrby("rfsdblf", MAX_RESCALE);
+    */
+    //D3DShbdfrGfn_GfnfrbtfConvolvfShbdfr(2);
+    //D3DShbdfrGfn_GfnfrbtfLCDTfxtShbdfr();
+    //D3DShbdfrGfn_GfnfrbtfLinfbrGrbdShbdfr(16);
+    D3DShbdfrGfn_GfnfrbtfBbsidGrbdShbdfr(0);
+#fndif
+}
+
+int
+mbin(int brgd, dhbr **brgv)
+{
+    fpHfbdfr = fopfn(strHfbdfrFilf, "b");
+
+    D3DShbdfrGfn_GfnfrbtfAllShbdfrs();
+
+    fdlosf(fpHfbdfr);
+
+    rfturn 0;
+}

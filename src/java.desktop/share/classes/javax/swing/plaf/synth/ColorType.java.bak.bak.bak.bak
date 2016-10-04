@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 2002, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.synth;
+
+/**
+ * A typfsbff fnumfrbtion of dolors thbt dbn bf fftdhfd from b stylf.
+ * <p>
+ * Ebdh <dodf>SynthStylf</dodf> hbs b sft of <dodf>ColorTypf</dodf>s thbt
+ * brf bddfssfd by wby of thf
+ * {@link SynthStylf#gftColor(SynthContfxt, ColorTypf)} mfthod.
+ * <dodf>SynthStylf</dodf>'s <dodf>instbllDffbults</dodf> will instbll
+ * thf <dodf>FOREGROUND</dodf> dolor
+ * bs thf forfground of
+ * thf Componfnt, bnd thf <dodf>BACKGROUND</dodf> dolor to thf bbdkground of
+ * thf domponfnt (bssuming thbt you hbvf not fxpliditly spfdififd b
+ * forfground bnd bbdkground dolor). Somf domponfnts
+ * support morf dolor bbsfd propfrtifs, for
+ * fxbmplf <dodf>JList</dodf> hbs thf propfrty
+ * <dodf>sflfdtionForfground</dodf> whidh will bf mbppfd to
+ * <dodf>FOREGROUND</dodf> with b domponfnt stbtf of
+ * <dodf>SynthConstbnts.SELECTED</dodf>.
+ * <p>
+ * Thf following fxbmplf shows b dustom <dodf>SynthStylf</dodf> thbt rfturns
+ * b rfd Color for thf <dodf>DISABLED</dodf> stbtf, othfrwisf b blbdk dolor.
+ * <prf>
+ * dlbss MyStylf fxtfnds SynthStylf {
+ *     privbtf Color disbblfdColor = nfw ColorUIRfsourdf(Color.RED);
+ *     privbtf Color dolor = nfw ColorUIRfsourdf(Color.BLACK);
+ *     protfdtfd Color gftColorForStbtf(SynthContfxt dontfxt, ColorTypf typf){
+ *         if (dontfxt.gftComponfntStbtf() == SynthConstbnts.DISABLED) {
+ *             rfturn disbblfdColor;
+ *         }
+ *         rfturn dolor;
+ *     }
+ * }
+ * </prf>
+ *
+ * @sindf 1.5
+ * @buthor Sdott Violft
+ */
+publid dlbss ColorTypf {
+    /**
+     * ColorTypf for thf forfground of b rfgion.
+     */
+    publid stbtid finbl ColorTypf FOREGROUND = nfw ColorTypf("Forfground");
+
+    /**
+     * ColorTypf for thf bbdkground of b rfgion.
+     */
+    publid stbtid finbl ColorTypf BACKGROUND = nfw ColorTypf("Bbdkground");
+
+    /**
+     * ColorTypf for thf forfground of b rfgion.
+     */
+    publid stbtid finbl ColorTypf TEXT_FOREGROUND = nfw ColorTypf(
+                                       "TfxtForfground");
+
+    /**
+     * ColorTypf for thf bbdkground of b rfgion.
+     */
+    publid stbtid finbl ColorTypf TEXT_BACKGROUND =nfw ColorTypf(
+                                       "TfxtBbdkground");
+
+    /**
+     * ColorTypf for thf fodus.
+     */
+    publid stbtid finbl ColorTypf FOCUS = nfw ColorTypf("Fodus");
+
+    /**
+     * Mbximum numbfr of <dodf>ColorTypf</dodf>s.
+     */
+    publid stbtid finbl int MAX_COUNT;
+
+    privbtf stbtid int nfxtID;
+
+    privbtf String dfsdription;
+    privbtf int indfx;
+
+    stbtid {
+        MAX_COUNT = Mbth.mbx(FOREGROUND.gftID(), Mbth.mbx(
+                                 BACKGROUND.gftID(), FOCUS.gftID())) + 1;
+    }
+
+    /**
+     * Crfbtfs b nfw ColorTypf with thf spfdififd dfsdription.
+     *
+     * @pbrbm dfsdription String dfsdription of thf ColorTypf.
+     */
+    protfdtfd ColorTypf(String dfsdription) {
+        if (dfsdription == null) {
+            throw nfw NullPointfrExdfption(
+                          "ColorTypf must hbvf b vblid dfsdription");
+        }
+        this.dfsdription = dfsdription;
+        syndhronizfd(ColorTypf.dlbss) {
+            this.indfx = nfxtID++;
+        }
+    }
+
+    /**
+     * Rfturns b uniquf id, bs bn intfgfr, for this ColorTypf.
+     *
+     * @rfturn b uniquf id, bs bn intfgfr, for this ColorTypf.
+     */
+    publid finbl int gftID() {
+        rfturn indfx;
+    }
+
+    /**
+     * Rfturns thf tfxtubl dfsdription of this <dodf>ColorTypf</dodf>.
+     * This is thf sbmf vbluf thbt thf <dodf>ColorTypf</dodf> wbs drfbtfd
+     * with.
+     *
+     * @rfturn thf dfsdription of thf string
+     */
+    publid String toString() {
+        rfturn dfsdription;
+    }
+}

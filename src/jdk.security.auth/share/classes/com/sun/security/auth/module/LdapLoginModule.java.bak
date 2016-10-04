@@ -1,1018 +1,1018 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth.module;
+pbdkbgf dom.sun.sfdurity.buti.modulf;
 
-import java.security.AccessController;
-import java.net.SocketPermission;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.Set;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Arrbys;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Mbp;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.rfgfx.Mbtdifr;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.Sft;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.ldap.*;
-import javax.security.auth.*;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import javax.security.auth.spi.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.ldbp.*;
+import jbvbx.sfdurity.buti.*;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvbx.sfdurity.buti.login.*;
+import jbvbx.sfdurity.buti.spi.*;
 
-import com.sun.security.auth.LdapPrincipal;
-import com.sun.security.auth.UserPrincipal;
+import dom.sun.sfdurity.buti.LdbpPrindipbl;
+import dom.sun.sfdurity.buti.UsfrPrindipbl;
 
 
 /**
- * This {@link LoginModule} performs LDAP-based authentication.
- * A username and password is verified against the corresponding user
- * credentials stored in an LDAP directory.
- * This module requires the supplied {@link CallbackHandler} to support a
- * {@link NameCallback} and a {@link PasswordCallback}.
- * If authentication is successful then a new {@link LdapPrincipal} is created
- * using the user's distinguished name and a new {@link UserPrincipal} is
- * created using the user's username and both are associated
- * with the current {@link Subject}.
+ * Tiis {@link LoginModulf} pfrforms LDAP-bbsfd butifntidbtion.
+ * A usfrnbmf bnd pbssword is vfrififd bgbinst tif dorrfsponding usfr
+ * drfdfntibls storfd in bn LDAP dirfdtory.
+ * Tiis modulf rfquirfs tif supplifd {@link CbllbbdkHbndlfr} to support b
+ * {@link NbmfCbllbbdk} bnd b {@link PbsswordCbllbbdk}.
+ * If butifntidbtion is suddfssful tifn b nfw {@link LdbpPrindipbl} is drfbtfd
+ * using tif usfr's distinguisifd nbmf bnd b nfw {@link UsfrPrindipbl} is
+ * drfbtfd using tif usfr's usfrnbmf bnd boti brf bssodibtfd
+ * witi tif durrfnt {@link Subjfdt}.
  *
- * <p> This module operates in one of three modes: <i>search-first</i>,
- * <i>authentication-first</i> or <i>authentication-only</i>.
- * A mode is selected by specifying a particular set of options.
+ * <p> Tiis modulf opfrbtfs in onf of tirff modfs: <i>sfbrdi-first</i>,
+ * <i>butifntidbtion-first</i> or <i>butifntidbtion-only</i>.
+ * A modf is sflfdtfd by spfdifying b pbrtidulbr sft of options.
  *
- * <p> In search-first mode, the LDAP directory is searched to determine the
- * user's distinguished name and then authentication is attempted.
- * An (anonymous) search is performed using the supplied username in
- * conjunction with a specified search filter.
- * If successful then authentication is attempted using the user's
- * distinguished name and the supplied password.
- * To enable this mode, set the <code>userFilter</code> option and omit the
- * <code>authIdentity</code> option.
- * Use search-first mode when the user's distinguished name is not
- * known in advance.
+ * <p> In sfbrdi-first modf, tif LDAP dirfdtory is sfbrdifd to dftfrminf tif
+ * usfr's distinguisifd nbmf bnd tifn butifntidbtion is bttfmptfd.
+ * An (bnonymous) sfbrdi is pfrformfd using tif supplifd usfrnbmf in
+ * donjundtion witi b spfdififd sfbrdi filtfr.
+ * If suddfssful tifn butifntidbtion is bttfmptfd using tif usfr's
+ * distinguisifd nbmf bnd tif supplifd pbssword.
+ * To fnbblf tiis modf, sft tif <dodf>usfrFiltfr</dodf> option bnd omit tif
+ * <dodf>butiIdfntity</dodf> option.
+ * Usf sfbrdi-first modf wifn tif usfr's distinguisifd nbmf is not
+ * known in bdvbndf.
  *
- * <p> In authentication-first mode, authentication is attempted using the
- * supplied username and password and then the LDAP directory is searched.
- * If authentication is successful then a search is performed using the
- * supplied username in conjunction with a specified search filter.
- * To enable this mode, set the <code>authIdentity</code> and the
- * <code>userFilter</code> options.
- * Use authentication-first mode when accessing an LDAP directory
- * that has been configured to disallow anonymous searches.
+ * <p> In butifntidbtion-first modf, butifntidbtion is bttfmptfd using tif
+ * supplifd usfrnbmf bnd pbssword bnd tifn tif LDAP dirfdtory is sfbrdifd.
+ * If butifntidbtion is suddfssful tifn b sfbrdi is pfrformfd using tif
+ * supplifd usfrnbmf in donjundtion witi b spfdififd sfbrdi filtfr.
+ * To fnbblf tiis modf, sft tif <dodf>butiIdfntity</dodf> bnd tif
+ * <dodf>usfrFiltfr</dodf> options.
+ * Usf butifntidbtion-first modf wifn bddfssing bn LDAP dirfdtory
+ * tibt ibs bffn donfigurfd to disbllow bnonymous sfbrdifs.
  *
- * <p> In authentication-only mode, authentication is attempted using the
- * supplied username and password. The LDAP directory is not searched because
- * the user's distinguished name is already known.
- * To enable this mode, set the <code>authIdentity</code> option to a valid
- * distinguished name and omit the <code>userFilter</code> option.
- * Use authentication-only mode when the user's distinguished name is
- * known in advance.
+ * <p> In butifntidbtion-only modf, butifntidbtion is bttfmptfd using tif
+ * supplifd usfrnbmf bnd pbssword. Tif LDAP dirfdtory is not sfbrdifd bfdbusf
+ * tif usfr's distinguisifd nbmf is blrfbdy known.
+ * To fnbblf tiis modf, sft tif <dodf>butiIdfntity</dodf> option to b vblid
+ * distinguisifd nbmf bnd omit tif <dodf>usfrFiltfr</dodf> option.
+ * Usf butifntidbtion-only modf wifn tif usfr's distinguisifd nbmf is
+ * known in bdvbndf.
  *
- * <p> The following option is mandatory and must be specified in this
- * module's login {@link Configuration}:
+ * <p> Tif following option is mbndbtory bnd must bf spfdififd in tiis
+ * modulf's login {@link Configurbtion}:
  * <dl><dt></dt><dd>
  * <dl>
- * <dt> <code>userProvider=<b>ldap_urls</b></code>
+ * <dt> <dodf>usfrProvidfr=<b>ldbp_urls</b></dodf>
  * </dt>
- * <dd> This option identifies the LDAP directory that stores user entries.
- *      <b>ldap_urls</b> is a list of space-separated LDAP URLs
- *      (<a href="http://www.ietf.org/rfc/rfc2255.txt">RFC 2255</a>)
- *      that identifies the LDAP server to use and the position in
- *      its directory tree where user entries are located.
- *      When several LDAP URLs are specified then each is attempted,
- *      in turn, until the first successful connection is established.
- *      Spaces in the distinguished name component of the URL must be escaped
- *      using the standard mechanism of percent character ('<code>%</code>')
- *      followed by two hexadecimal digits (see {@link java.net.URI}).
- *      Query components must also be omitted from the URL.
+ * <dd> Tiis option idfntififs tif LDAP dirfdtory tibt storfs usfr fntrifs.
+ *      <b>ldbp_urls</b> is b list of spbdf-sfpbrbtfd LDAP URLs
+ *      (<b irff="ittp://www.iftf.org/rfd/rfd2255.txt">RFC 2255</b>)
+ *      tibt idfntififs tif LDAP sfrvfr to usf bnd tif position in
+ *      its dirfdtory trff wifrf usfr fntrifs brf lodbtfd.
+ *      Wifn sfvfrbl LDAP URLs brf spfdififd tifn fbdi is bttfmptfd,
+ *      in turn, until tif first suddfssful donnfdtion is fstbblisifd.
+ *      Spbdfs in tif distinguisifd nbmf domponfnt of tif URL must bf fsdbpfd
+ *      using tif stbndbrd mfdibnism of pfrdfnt dibrbdtfr ('<dodf>%</dodf>')
+ *      followfd by two ifxbdfdimbl digits (sff {@link jbvb.nft.URI}).
+ *      Qufry domponfnts must blso bf omittfd from tif URL.
  *
  *      <p>
- *      Automatic discovery of the LDAP server via DNS
- *      (<a href="http://www.ietf.org/rfc/rfc2782.txt">RFC 2782</a>)
- *      is supported (once DNS has been configured to support such a service).
- *      It is enabled by omitting the hostname and port number components from
- *      the LDAP URL. </dd>
+ *      Autombtid disdovfry of tif LDAP sfrvfr vib DNS
+ *      (<b irff="ittp://www.iftf.org/rfd/rfd2782.txt">RFC 2782</b>)
+ *      is supportfd (ondf DNS ibs bffn donfigurfd to support sudi b sfrvidf).
+ *      It is fnbblfd by omitting tif iostnbmf bnd port numbfr domponfnts from
+ *      tif LDAP URL. </dd>
  * </dl></dl>
  *
- * <p> This module also recognizes the following optional {@link Configuration}
+ * <p> Tiis modulf blso rfdognizfs tif following optionbl {@link Configurbtion}
  *     options:
  * <dl><dt></dt><dd>
  * <dl>
- * <dt> <code>userFilter=<b>ldap_filter</b></code> </dt>
- * <dd> This option specifies the search filter to use to locate a user's
- *      entry in the LDAP directory. It is used to determine a user's
- *      distinguished name.
- *      <code><b>ldap_filter</b></code> is an LDAP filter string
- *      (<a href="http://www.ietf.org/rfc/rfc2254.txt">RFC 2254</a>).
- *      If it contains the special token "<code><b>{USERNAME}</b></code>"
- *      then that token will be replaced with the supplied username value
- *      before the filter is used to search the directory. </dd>
+ * <dt> <dodf>usfrFiltfr=<b>ldbp_filtfr</b></dodf> </dt>
+ * <dd> Tiis option spfdififs tif sfbrdi filtfr to usf to lodbtf b usfr's
+ *      fntry in tif LDAP dirfdtory. It is usfd to dftfrminf b usfr's
+ *      distinguisifd nbmf.
+ *      <dodf><b>ldbp_filtfr</b></dodf> is bn LDAP filtfr string
+ *      (<b irff="ittp://www.iftf.org/rfd/rfd2254.txt">RFC 2254</b>).
+ *      If it dontbins tif spfdibl tokfn "<dodf><b>{USERNAME}</b></dodf>"
+ *      tifn tibt tokfn will bf rfplbdfd witi tif supplifd usfrnbmf vbluf
+ *      bfforf tif filtfr is usfd to sfbrdi tif dirfdtory. </dd>
  *
- * <dt> <code>authIdentity=<b>auth_id</b></code> </dt>
- * <dd> This option specifies the identity to use when authenticating a user
- *      to the LDAP directory.
- *      <code><b>auth_id</b></code> may be an LDAP distinguished name string
- *      (<a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>) or some
- *      other string name.
- *      It must contain the special token "<code><b>{USERNAME}</b></code>"
- *      which will be replaced with the supplied username value before the
- *      name is used for authentication.
- *      Note that if this option does not contain a distinguished name then
- *      the <code>userFilter</code> option must also be specified. </dd>
+ * <dt> <dodf>butiIdfntity=<b>buti_id</b></dodf> </dt>
+ * <dd> Tiis option spfdififs tif idfntity to usf wifn butifntidbting b usfr
+ *      to tif LDAP dirfdtory.
+ *      <dodf><b>buti_id</b></dodf> mby bf bn LDAP distinguisifd nbmf string
+ *      (<b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>) or somf
+ *      otifr string nbmf.
+ *      It must dontbin tif spfdibl tokfn "<dodf><b>{USERNAME}</b></dodf>"
+ *      wiidi will bf rfplbdfd witi tif supplifd usfrnbmf vbluf bfforf tif
+ *      nbmf is usfd for butifntidbtion.
+ *      Notf tibt if tiis option dofs not dontbin b distinguisifd nbmf tifn
+ *      tif <dodf>usfrFiltfr</dodf> option must blso bf spfdififd. </dd>
  *
- * <dt> <code>authzIdentity=<b>authz_id</b></code> </dt>
- * <dd> This option specifies an authorization identity for the user.
- *      <code><b>authz_id</b></code> is any string name.
- *      If it comprises a single special token with curly braces then
- *      that token is treated as a attribute name and will be replaced with a
- *      single value of that attribute from the user's LDAP entry.
- *      If the attribute cannot be found then the option is ignored.
- *      When this option is supplied and the user has been successfully
- *      authenticated then an additional {@link UserPrincipal}
- *      is created using the authorization identity and it is associated with
- *      the current {@link Subject}. </dd>
+ * <dt> <dodf>butizIdfntity=<b>butiz_id</b></dodf> </dt>
+ * <dd> Tiis option spfdififs bn butiorizbtion idfntity for tif usfr.
+ *      <dodf><b>butiz_id</b></dodf> is bny string nbmf.
+ *      If it domprisfs b singlf spfdibl tokfn witi durly brbdfs tifn
+ *      tibt tokfn is trfbtfd bs b bttributf nbmf bnd will bf rfplbdfd witi b
+ *      singlf vbluf of tibt bttributf from tif usfr's LDAP fntry.
+ *      If tif bttributf dbnnot bf found tifn tif option is ignorfd.
+ *      Wifn tiis option is supplifd bnd tif usfr ibs bffn suddfssfully
+ *      butifntidbtfd tifn bn bdditionbl {@link UsfrPrindipbl}
+ *      is drfbtfd using tif butiorizbtion idfntity bnd it is bssodibtfd witi
+ *      tif durrfnt {@link Subjfdt}. </dd>
  *
- * <dt> <code>useSSL</code> </dt>
- * <dd> if <code>false</code>, this module does not establish an SSL connection
- *      to the LDAP server before attempting authentication. SSL is used to
- *      protect the privacy of the user's password because it is transmitted
- *      in the clear over LDAP.
- *      By default, this module uses SSL. </dd>
+ * <dt> <dodf>usfSSL</dodf> </dt>
+ * <dd> if <dodf>fblsf</dodf>, tiis modulf dofs not fstbblisi bn SSL donnfdtion
+ *      to tif LDAP sfrvfr bfforf bttfmpting butifntidbtion. SSL is usfd to
+ *      protfdt tif privbdy of tif usfr's pbssword bfdbusf it is trbnsmittfd
+ *      in tif dlfbr ovfr LDAP.
+ *      By dffbult, tiis modulf usfs SSL. </dd>
  *
- * <dt> <code>useFirstPass</code> </dt>
- * <dd> if <code>true</code>, this module retrieves the username and password
- *      from the module's shared state, using "javax.security.auth.login.name"
- *      and "javax.security.auth.login.password" as the respective keys. The
- *      retrieved values are used for authentication. If authentication fails,
- *      no attempt for a retry is made, and the failure is reported back to
- *      the calling application.</dd>
+ * <dt> <dodf>usfFirstPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *      bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys. Tif
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      no bttfmpt for b rftry is mbdf, bnd tif fbilurf is rfportfd bbdk to
+ *      tif dblling bpplidbtion.</dd>
  *
- * <dt> <code>tryFirstPass</code> </dt>
- * <dd> if <code>true</code>, this module retrieves the username and password
- *      from the module's shared state, using "javax.security.auth.login.name"
- *       and "javax.security.auth.login.password" as the respective keys.  The
- *      retrieved values are used for authentication. If authentication fails,
- *      the module uses the {@link CallbackHandler} to retrieve a new username
- *      and password, and another attempt to authenticate is made. If the
- *      authentication fails, the failure is reported back to the calling
- *      application.</dd>
+ * <dt> <dodf>tryFirstPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *       bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tif
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      tif modulf usfs tif {@link CbllbbdkHbndlfr} to rftrifvf b nfw usfrnbmf
+ *      bnd pbssword, bnd bnotifr bttfmpt to butifntidbtf is mbdf. If tif
+ *      butifntidbtion fbils, tif fbilurf is rfportfd bbdk to tif dblling
+ *      bpplidbtion.</dd>
  *
- * <dt> <code>storePass</code> </dt>
- * <dd> if <code>true</code>, this module stores the username and password
- *      obtained from the {@link CallbackHandler} in the module's shared state,
+ * <dt> <dodf>storfPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, tiis modulf storfs tif usfrnbmf bnd pbssword
+ *      obtbinfd from tif {@link CbllbbdkHbndlfr} in tif modulf's sibrfd stbtf,
  *      using
- *      "javax.security.auth.login.name" and
- *      "javax.security.auth.login.password" as the respective keys.  This is
- *      not performed if existing values already exist for the username and
- *      password in the shared state, or if authentication fails.</dd>
+ *      "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *      "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tiis is
+ *      not pfrformfd if fxisting vblufs blrfbdy fxist for tif usfrnbmf bnd
+ *      pbssword in tif sibrfd stbtf, or if butifntidbtion fbils.</dd>
  *
- * <dt> <code>clearPass</code> </dt>
- * <dd> if <code>true</code>, this module clears the username and password
- *      stored in the module's shared state after both phases of authentication
- *      (login and commit) have completed.</dd>
+ * <dt> <dodf>dlfbrPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, tiis modulf dlfbrs tif usfrnbmf bnd pbssword
+ *      storfd in tif modulf's sibrfd stbtf bftfr boti pibsfs of butifntidbtion
+ *      (login bnd dommit) ibvf domplftfd.</dd>
  *
- * <dt> <code>debug</code> </dt>
- * <dd> if <code>true</code>, debug messages are displayed on the standard
- *      output stream.
+ * <dt> <dodf>dfbug</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, dfbug mfssbgfs brf displbyfd on tif stbndbrd
+ *      output strfbm.
  * </dl>
  * </dl>
  *
  * <p>
- * Arbitrary
- * <a href="{@docRoot}/../../../../../technotes/guides/jndi/jndi-ldap-gl.html#PROP">JNDI properties</a>
- * may also be specified in the {@link Configuration}.
- * They are added to the environment and passed to the LDAP provider.
- * Note that the following four JNDI properties are set by this module directly
- * and are ignored if also present in the configuration:
+ * Arbitrbry
+ * <b irff="{@dodRoot}/../../../../../tfdinotfs/guidfs/jndi/jndi-ldbp-gl.itml#PROP">JNDI propfrtifs</b>
+ * mby blso bf spfdififd in tif {@link Configurbtion}.
+ * Tify brf bddfd to tif fnvironmfnt bnd pbssfd to tif LDAP providfr.
+ * Notf tibt tif following four JNDI propfrtifs brf sft by tiis modulf dirfdtly
+ * bnd brf ignorfd if blso prfsfnt in tif donfigurbtion:
  * <ul>
- * <li> <code>java.naming.provider.url</code>
- * <li> <code>java.naming.security.principal</code>
- * <li> <code>java.naming.security.credentials</code>
- * <li> <code>java.naming.security.protocol</code>
+ * <li> <dodf>jbvb.nbming.providfr.url</dodf>
+ * <li> <dodf>jbvb.nbming.sfdurity.prindipbl</dodf>
+ * <li> <dodf>jbvb.nbming.sfdurity.drfdfntibls</dodf>
+ * <li> <dodf>jbvb.nbming.sfdurity.protodol</dodf>
  * </ul>
  *
  * <p>
- * Three sample {@link Configuration}s are shown below.
- * The first one activates search-first mode. It identifies the LDAP server
- * and specifies that users' entries be located by their <code>uid</code> and
- * <code>objectClass</code> attributes. It also specifies that an identity
- * based on the user's <code>employeeNumber</code> attribute should be created.
- * The second one activates authentication-first mode. It requests that the
- * LDAP server be located dynamically, that authentication be performed using
- * the supplied username directly but without the protection of SSL and that
- * users' entries be located by one of three naming attributes and their
- * <code>objectClass</code> attribute.
- * The third one activates authentication-only mode. It identifies alternative
- * LDAP servers, it specifies the distinguished name to use for
- * authentication and a fixed identity to use for authorization. No directory
- * search is performed.
+ * Tirff sbmplf {@link Configurbtion}s brf siown bflow.
+ * Tif first onf bdtivbtfs sfbrdi-first modf. It idfntififs tif LDAP sfrvfr
+ * bnd spfdififs tibt usfrs' fntrifs bf lodbtfd by tifir <dodf>uid</dodf> bnd
+ * <dodf>objfdtClbss</dodf> bttributfs. It blso spfdififs tibt bn idfntity
+ * bbsfd on tif usfr's <dodf>fmployffNumbfr</dodf> bttributf siould bf drfbtfd.
+ * Tif sfdond onf bdtivbtfs butifntidbtion-first modf. It rfqufsts tibt tif
+ * LDAP sfrvfr bf lodbtfd dynbmidblly, tibt butifntidbtion bf pfrformfd using
+ * tif supplifd usfrnbmf dirfdtly but witiout tif protfdtion of SSL bnd tibt
+ * usfrs' fntrifs bf lodbtfd by onf of tirff nbming bttributfs bnd tifir
+ * <dodf>objfdtClbss</dodf> bttributf.
+ * Tif tiird onf bdtivbtfs butifntidbtion-only modf. It idfntififs bltfrnbtivf
+ * LDAP sfrvfrs, it spfdififs tif distinguisifd nbmf to usf for
+ * butifntidbtion bnd b fixfd idfntity to usf for butiorizbtion. No dirfdtory
+ * sfbrdi is pfrformfd.
  *
- * <pre>
+ * <prf>
  *
- *     ExampleApplication {
- *         com.sun.security.auth.module.LdapLoginModule REQUIRED
- *             userProvider="ldap://ldap-svr/ou=people,dc=example,dc=com"
- *             userFilter="(&(uid={USERNAME})(objectClass=inetOrgPerson))"
- *             authzIdentity="{EMPLOYEENUMBER}"
- *             debug=true;
+ *     ExbmplfApplidbtion {
+ *         dom.sun.sfdurity.buti.modulf.LdbpLoginModulf REQUIRED
+ *             usfrProvidfr="ldbp://ldbp-svr/ou=pfoplf,dd=fxbmplf,dd=dom"
+ *             usfrFiltfr="(&(uid={USERNAME})(objfdtClbss=inftOrgPfrson))"
+ *             butizIdfntity="{EMPLOYEENUMBER}"
+ *             dfbug=truf;
  *     };
  *
- *     ExampleApplication {
- *         com.sun.security.auth.module.LdapLoginModule REQUIRED
- *             userProvider="ldap:///cn=users,dc=example,dc=com"
- *             authIdentity="{USERNAME}"
- *             userFilter="(&(|(samAccountName={USERNAME})(userPrincipalName={USERNAME})(cn={USERNAME}))(objectClass=user))"
- *             useSSL=false
- *             debug=true;
+ *     ExbmplfApplidbtion {
+ *         dom.sun.sfdurity.buti.modulf.LdbpLoginModulf REQUIRED
+ *             usfrProvidfr="ldbp:///dn=usfrs,dd=fxbmplf,dd=dom"
+ *             butiIdfntity="{USERNAME}"
+ *             usfrFiltfr="(&(|(sbmAddountNbmf={USERNAME})(usfrPrindipblNbmf={USERNAME})(dn={USERNAME}))(objfdtClbss=usfr))"
+ *             usfSSL=fblsf
+ *             dfbug=truf;
  *     };
  *
- *     ExampleApplication {
- *         com.sun.security.auth.module.LdapLoginModule REQUIRED
- *             userProvider="ldap://ldap-svr1 ldap://ldap-svr2"
- *             authIdentity="cn={USERNAME},ou=people,dc=example,dc=com"
- *             authzIdentity="staff"
- *             debug=true;
+ *     ExbmplfApplidbtion {
+ *         dom.sun.sfdurity.buti.modulf.LdbpLoginModulf REQUIRED
+ *             usfrProvidfr="ldbp://ldbp-svr1 ldbp://ldbp-svr2"
+ *             butiIdfntity="dn={USERNAME},ou=pfoplf,dd=fxbmplf,dd=dom"
+ *             butizIdfntity="stbff"
+ *             dfbug=truf;
  *     };
  *
- * </pre>
+ * </prf>
  *
  * <dl>
- * <dt><b>Note:</b> </dt>
- * <dd>When a {@link SecurityManager} is active then an application
- *     that creates a {@link LoginContext} and uses a {@link LoginModule}
- *     must be granted certain permissions.
+ * <dt><b>Notf:</b> </dt>
+ * <dd>Wifn b {@link SfdurityMbnbgfr} is bdtivf tifn bn bpplidbtion
+ *     tibt drfbtfs b {@link LoginContfxt} bnd usfs b {@link LoginModulf}
+ *     must bf grbntfd dfrtbin pfrmissions.
  *     <p>
- *     If the application creates a login context using an <em>installed</em>
- *     {@link Configuration} then the application must be granted the
- *     {@link AuthPermission} to create login contexts.
- *     For example, the following security policy allows an application in
- *     the user's current directory to instantiate <em>any</em> login context:
- *     <pre>
+ *     If tif bpplidbtion drfbtfs b login dontfxt using bn <fm>instbllfd</fm>
+ *     {@link Configurbtion} tifn tif bpplidbtion must bf grbntfd tif
+ *     {@link AutiPfrmission} to drfbtf login dontfxts.
+ *     For fxbmplf, tif following sfdurity polidy bllows bn bpplidbtion in
+ *     tif usfr's durrfnt dirfdtory to instbntibtf <fm>bny</fm> login dontfxt:
+ *     <prf>
  *
- *     grant codebase "file:${user.dir}/" {
- *         permission javax.security.auth.AuthPermission "createLoginContext.*";
+ *     grbnt dodfbbsf "filf:${usfr.dir}/" {
+ *         pfrmission jbvbx.sfdurity.buti.AutiPfrmission "drfbtfLoginContfxt.*";
  *     };
- *     </pre>
+ *     </prf>
  *
- *     Alternatively, if the application creates a login context using a
- *     <em>caller-specified</em> {@link Configuration} then the application
- *     must be granted the permissions required by the {@link LoginModule}.
- *     <em>This</em> module requires the following two permissions:
+ *     Altfrnbtivfly, if tif bpplidbtion drfbtfs b login dontfxt using b
+ *     <fm>dbllfr-spfdififd</fm> {@link Configurbtion} tifn tif bpplidbtion
+ *     must bf grbntfd tif pfrmissions rfquirfd by tif {@link LoginModulf}.
+ *     <fm>Tiis</fm> modulf rfquirfs tif following two pfrmissions:
  *     <p>
  *     <ul>
- *     <li> The {@link SocketPermission} to connect to an LDAP server.
- *     <li> The {@link AuthPermission} to modify the set of {@link Principal}s
- *          associated with a {@link Subject}.
+ *     <li> Tif {@link SodkftPfrmission} to donnfdt to bn LDAP sfrvfr.
+ *     <li> Tif {@link AutiPfrmission} to modify tif sft of {@link Prindipbl}s
+ *          bssodibtfd witi b {@link Subjfdt}.
  *     </ul>
  *     <p>
- *     For example, the following security policy grants an application in the
- *     user's current directory all the permissions required by this module:
- *     <pre>
+ *     For fxbmplf, tif following sfdurity polidy grbnts bn bpplidbtion in tif
+ *     usfr's durrfnt dirfdtory bll tif pfrmissions rfquirfd by tiis modulf:
+ *     <prf>
  *
- *     grant codebase "file:${user.dir}/" {
- *         permission java.net.SocketPermission "*:389", "connect";
- *         permission java.net.SocketPermission "*:636", "connect";
- *         permission javax.security.auth.AuthPermission "modifyPrincipals";
+ *     grbnt dodfbbsf "filf:${usfr.dir}/" {
+ *         pfrmission jbvb.nft.SodkftPfrmission "*:389", "donnfdt";
+ *         pfrmission jbvb.nft.SodkftPfrmission "*:636", "donnfdt";
+ *         pfrmission jbvbx.sfdurity.buti.AutiPfrmission "modifyPrindipbls";
  *     };
- *     </pre>
+ *     </prf>
  * </dd>
  * </dl>
  *
- * @since 1.6
+ * @sindf 1.6
  */
-@jdk.Exported
-public class LdapLoginModule implements LoginModule {
+@jdk.Exportfd
+publid dlbss LdbpLoginModulf implfmfnts LoginModulf {
 
-    // Use the default classloader for this class to load the prompt strings.
-    private static final ResourceBundle rb = AccessController.doPrivileged(
-            new PrivilegedAction<ResourceBundle>() {
-                public ResourceBundle run() {
-                    return ResourceBundle.getBundle(
-                        "sun.security.util.AuthResources");
+    // Usf tif dffbult dlbsslobdfr for tiis dlbss to lobd tif prompt strings.
+    privbtf stbtid finbl RfsourdfBundlf rb = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<RfsourdfBundlf>() {
+                publid RfsourdfBundlf run() {
+                    rfturn RfsourdfBundlf.gftBundlf(
+                        "sun.sfdurity.util.AutiRfsourdfs");
                 }
             }
         );
 
-    // Keys to retrieve the stored username and password
-    private static final String USERNAME_KEY = "javax.security.auth.login.name";
-    private static final String PASSWORD_KEY =
-        "javax.security.auth.login.password";
+    // Kfys to rftrifvf tif storfd usfrnbmf bnd pbssword
+    privbtf stbtid finbl String USERNAME_KEY = "jbvbx.sfdurity.buti.login.nbmf";
+    privbtf stbtid finbl String PASSWORD_KEY =
+        "jbvbx.sfdurity.buti.login.pbssword";
 
-    // Option names
-    private static final String USER_PROVIDER = "userProvider";
-    private static final String USER_FILTER = "userFilter";
-    private static final String AUTHC_IDENTITY = "authIdentity";
-    private static final String AUTHZ_IDENTITY = "authzIdentity";
+    // Option nbmfs
+    privbtf stbtid finbl String USER_PROVIDER = "usfrProvidfr";
+    privbtf stbtid finbl String USER_FILTER = "usfrFiltfr";
+    privbtf stbtid finbl String AUTHC_IDENTITY = "butiIdfntity";
+    privbtf stbtid finbl String AUTHZ_IDENTITY = "butizIdfntity";
 
-    // Used for the username token replacement
-    private static final String USERNAME_TOKEN = "{USERNAME}";
-    private static final Pattern USERNAME_PATTERN =
-        Pattern.compile("\\{USERNAME\\}");
+    // Usfd for tif usfrnbmf tokfn rfplbdfmfnt
+    privbtf stbtid finbl String USERNAME_TOKEN = "{USERNAME}";
+    privbtf stbtid finbl Pbttfrn USERNAME_PATTERN =
+        Pbttfrn.dompilf("\\{USERNAME\\}");
 
-    // Configurable options
-    private String userProvider;
-    private String userFilter;
-    private String authcIdentity;
-    private String authzIdentity;
-    private String authzIdentityAttr = null;
-    private boolean useSSL = true;
-    private boolean authFirst = false;
-    private boolean authOnly = false;
-    private boolean useFirstPass = false;
-    private boolean tryFirstPass = false;
-    private boolean storePass = false;
-    private boolean clearPass = false;
-    private boolean debug = false;
+    // Configurbblf options
+    privbtf String usfrProvidfr;
+    privbtf String usfrFiltfr;
+    privbtf String butidIdfntity;
+    privbtf String butizIdfntity;
+    privbtf String butizIdfntityAttr = null;
+    privbtf boolfbn usfSSL = truf;
+    privbtf boolfbn butiFirst = fblsf;
+    privbtf boolfbn butiOnly = fblsf;
+    privbtf boolfbn usfFirstPbss = fblsf;
+    privbtf boolfbn tryFirstPbss = fblsf;
+    privbtf boolfbn storfPbss = fblsf;
+    privbtf boolfbn dlfbrPbss = fblsf;
+    privbtf boolfbn dfbug = fblsf;
 
-    // Authentication status
-    private boolean succeeded = false;
-    private boolean commitSucceeded = false;
+    // Autifntidbtion stbtus
+    privbtf boolfbn suddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
 
-    // Supplied username and password
-    private String username;
-    private char[] password;
+    // Supplifd usfrnbmf bnd pbssword
+    privbtf String usfrnbmf;
+    privbtf dibr[] pbssword;
 
-    // User's identities
-    private LdapPrincipal ldapPrincipal;
-    private UserPrincipal userPrincipal;
-    private UserPrincipal authzPrincipal;
+    // Usfr's idfntitifs
+    privbtf LdbpPrindipbl ldbpPrindipbl;
+    privbtf UsfrPrindipbl usfrPrindipbl;
+    privbtf UsfrPrindipbl butizPrindipbl;
 
-    // Initial state
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, Object> sharedState;
-    private Map<String, ?> options;
-    private LdapContext ctx;
-    private Matcher identityMatcher = null;
-    private Matcher filterMatcher = null;
-    private Hashtable<String, Object> ldapEnvironment;
-    private SearchControls constraints = null;
+    // Initibl stbtf
+    privbtf Subjfdt subjfdt;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf Mbp<String, Objfdt> sibrfdStbtf;
+    privbtf Mbp<String, ?> options;
+    privbtf LdbpContfxt dtx;
+    privbtf Mbtdifr idfntityMbtdifr = null;
+    privbtf Mbtdifr filtfrMbtdifr = null;
+    privbtf Hbsitbblf<String, Objfdt> ldbpEnvironmfnt;
+    privbtf SfbrdiControls donstrbints = null;
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblizf tiis <dodf>LoginModulf</dodf>.
      *
-     * @param subject the <code>Subject</code> to be authenticated.
-     * @param callbackHandler a <code>CallbackHandler</code> to acquire the
-     *                  username and password.
-     * @param sharedState shared <code>LoginModule</code> state.
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
-     *                  <code>LoginModule</code>.
+     * @pbrbm subjfdt tif <dodf>Subjfdt</dodf> to bf butifntidbtfd.
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> to bdquirf tif
+     *                  usfrnbmf bnd pbssword.
+     * @pbrbm sibrfdStbtf sibrfd <dodf>LoginModulf</dodf> stbtf.
+     * @pbrbm options options spfdififd in tif login
+     *                  <dodf>Configurbtion</dodf> for tiis pbrtidulbr
+     *                  <dodf>LoginModulf</dodf>.
      */
-    // Unchecked warning from (Map<String, Object>)sharedState is safe
-    // since javax.security.auth.login.LoginContext passes a raw HashMap.
-    @SuppressWarnings("unchecked")
-    public void initialize(Subject subject, CallbackHandler callbackHandler,
-                        Map<String, ?> sharedState, Map<String, ?> options) {
+    // Undifdkfd wbrning from (Mbp<String, Objfdt>)sibrfdStbtf is sbff
+    // sindf jbvbx.sfdurity.buti.login.LoginContfxt pbssfs b rbw HbsiMbp.
+    @SupprfssWbrnings("undifdkfd")
+    publid void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
+                        Mbp<String, ?> sibrfdStbtf, Mbp<String, ?> options) {
 
-        this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = (Map<String, Object>)sharedState;
-        this.options = options;
+        tiis.subjfdt = subjfdt;
+        tiis.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        tiis.sibrfdStbtf = (Mbp<String, Objfdt>)sibrfdStbtf;
+        tiis.options = options;
 
-        ldapEnvironment = new Hashtable<String, Object>(9);
-        ldapEnvironment.put(Context.INITIAL_CONTEXT_FACTORY,
-            "com.sun.jndi.ldap.LdapCtxFactory");
+        ldbpEnvironmfnt = nfw Hbsitbblf<String, Objfdt>(9);
+        ldbpEnvironmfnt.put(Contfxt.INITIAL_CONTEXT_FACTORY,
+            "dom.sun.jndi.ldbp.LdbpCtxFbdtory");
 
-        // Add any JNDI properties to the environment
-        for (String key : options.keySet()) {
-            if (key.indexOf('.') > -1) {
-                ldapEnvironment.put(key, options.get(key));
+        // Add bny JNDI propfrtifs to tif fnvironmfnt
+        for (String kfy : options.kfySft()) {
+            if (kfy.indfxOf('.') > -1) {
+                ldbpEnvironmfnt.put(kfy, options.gft(kfy));
             }
         }
 
-        // initialize any configured options
+        // initiblizf bny donfigurfd options
 
-        userProvider = (String)options.get(USER_PROVIDER);
-        if (userProvider != null) {
-            ldapEnvironment.put(Context.PROVIDER_URL, userProvider);
+        usfrProvidfr = (String)options.gft(USER_PROVIDER);
+        if (usfrProvidfr != null) {
+            ldbpEnvironmfnt.put(Contfxt.PROVIDER_URL, usfrProvidfr);
         }
 
-        authcIdentity = (String)options.get(AUTHC_IDENTITY);
-        if (authcIdentity != null &&
-            (authcIdentity.indexOf(USERNAME_TOKEN) != -1)) {
-            identityMatcher = USERNAME_PATTERN.matcher(authcIdentity);
+        butidIdfntity = (String)options.gft(AUTHC_IDENTITY);
+        if (butidIdfntity != null &&
+            (butidIdfntity.indfxOf(USERNAME_TOKEN) != -1)) {
+            idfntityMbtdifr = USERNAME_PATTERN.mbtdifr(butidIdfntity);
         }
 
-        userFilter = (String)options.get(USER_FILTER);
-        if (userFilter != null) {
-            if (userFilter.indexOf(USERNAME_TOKEN) != -1) {
-                filterMatcher = USERNAME_PATTERN.matcher(userFilter);
+        usfrFiltfr = (String)options.gft(USER_FILTER);
+        if (usfrFiltfr != null) {
+            if (usfrFiltfr.indfxOf(USERNAME_TOKEN) != -1) {
+                filtfrMbtdifr = USERNAME_PATTERN.mbtdifr(usfrFiltfr);
             }
-            constraints = new SearchControls();
-            constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
-            constraints.setReturningAttributes(new String[0]); //return no attrs
-            constraints.setReturningObjFlag(true); // to get the full DN
+            donstrbints = nfw SfbrdiControls();
+            donstrbints.sftSfbrdiSdopf(SfbrdiControls.SUBTREE_SCOPE);
+            donstrbints.sftRfturningAttributfs(nfw String[0]); //rfturn no bttrs
+            donstrbints.sftRfturningObjFlbg(truf); // to gft tif full DN
         }
 
-        authzIdentity = (String)options.get(AUTHZ_IDENTITY);
-        if (authzIdentity != null &&
-            authzIdentity.startsWith("{") && authzIdentity.endsWith("}")) {
-            if (constraints != null) {
-                authzIdentityAttr =
-                    authzIdentity.substring(1, authzIdentity.length() - 1);
-                constraints.setReturningAttributes(
-                    new String[]{authzIdentityAttr});
+        butizIdfntity = (String)options.gft(AUTHZ_IDENTITY);
+        if (butizIdfntity != null &&
+            butizIdfntity.stbrtsWiti("{") && butizIdfntity.fndsWiti("}")) {
+            if (donstrbints != null) {
+                butizIdfntityAttr =
+                    butizIdfntity.substring(1, butizIdfntity.lfngti() - 1);
+                donstrbints.sftRfturningAttributfs(
+                    nfw String[]{butizIdfntityAttr});
             }
-            authzIdentity = null; // set later, from the specified attribute
+            butizIdfntity = null; // sft lbtfr, from tif spfdififd bttributf
         }
 
-        // determine mode
-        if (authcIdentity != null) {
-            if (userFilter != null) {
-                authFirst = true; // authentication-first mode
-            } else {
-                authOnly = true; // authentication-only mode
+        // dftfrminf modf
+        if (butidIdfntity != null) {
+            if (usfrFiltfr != null) {
+                butiFirst = truf; // butifntidbtion-first modf
+            } flsf {
+                butiOnly = truf; // butifntidbtion-only modf
             }
         }
 
-        if ("false".equalsIgnoreCase((String)options.get("useSSL"))) {
-            useSSL = false;
-            ldapEnvironment.remove(Context.SECURITY_PROTOCOL);
-        } else {
-            ldapEnvironment.put(Context.SECURITY_PROTOCOL, "ssl");
+        if ("fblsf".fqublsIgnorfCbsf((String)options.gft("usfSSL"))) {
+            usfSSL = fblsf;
+            ldbpEnvironmfnt.rfmovf(Contfxt.SECURITY_PROTOCOL);
+        } flsf {
+            ldbpEnvironmfnt.put(Contfxt.SECURITY_PROTOCOL, "ssl");
         }
 
-        tryFirstPass =
-                "true".equalsIgnoreCase((String)options.get("tryFirstPass"));
+        tryFirstPbss =
+                "truf".fqublsIgnorfCbsf((String)options.gft("tryFirstPbss"));
 
-        useFirstPass =
-                "true".equalsIgnoreCase((String)options.get("useFirstPass"));
+        usfFirstPbss =
+                "truf".fqublsIgnorfCbsf((String)options.gft("usfFirstPbss"));
 
-        storePass = "true".equalsIgnoreCase((String)options.get("storePass"));
+        storfPbss = "truf".fqublsIgnorfCbsf((String)options.gft("storfPbss"));
 
-        clearPass = "true".equalsIgnoreCase((String)options.get("clearPass"));
+        dlfbrPbss = "truf".fqublsIgnorfCbsf((String)options.gft("dlfbrPbss"));
 
-        debug = "true".equalsIgnoreCase((String)options.get("debug"));
+        dfbug = "truf".fqublsIgnorfCbsf((String)options.gft("dfbug"));
 
-        if (debug) {
-            if (authFirst) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "authentication-first mode; " +
-                    (useSSL ? "SSL enabled" : "SSL disabled"));
-            } else if (authOnly) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "authentication-only mode; " +
-                    (useSSL ? "SSL enabled" : "SSL disabled"));
-            } else {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "search-first mode; " +
-                    (useSSL ? "SSL enabled" : "SSL disabled"));
+        if (dfbug) {
+            if (butiFirst) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "butifntidbtion-first modf; " +
+                    (usfSSL ? "SSL fnbblfd" : "SSL disbblfd"));
+            } flsf if (butiOnly) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "butifntidbtion-only modf; " +
+                    (usfSSL ? "SSL fnbblfd" : "SSL disbblfd"));
+            } flsf {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "sfbrdi-first modf; " +
+                    (usfSSL ? "SSL fnbblfd" : "SSL disbblfd"));
             }
         }
     }
 
     /**
-     * Begin user authentication.
+     * Bfgin usfr butifntidbtion.
      *
-     * <p> Acquire the user's credentials and verify them against the
-     * specified LDAP directory.
+     * <p> Adquirf tif usfr's drfdfntibls bnd vfrify tifm bgbinst tif
+     * spfdififd LDAP dirfdtory.
      *
-     * @return true always, since this <code>LoginModule</code>
-     *          should not be ignored.
-     * @exception FailedLoginException if the authentication fails.
-     * @exception LoginException if this <code>LoginModule</code>
-     *          is unable to perform the authentication.
+     * @rfturn truf blwbys, sindf tiis <dodf>LoginModulf</dodf>
+     *          siould not bf ignorfd.
+     * @fxdfption FbilfdLoginExdfption if tif butifntidbtion fbils.
+     * @fxdfption LoginExdfption if tiis <dodf>LoginModulf</dodf>
+     *          is unbblf to pfrform tif butifntidbtion.
      */
-    public boolean login() throws LoginException {
+    publid boolfbn login() tirows LoginExdfption {
 
-        if (userProvider == null) {
-            throw new LoginException
-                ("Unable to locate the LDAP directory service");
+        if (usfrProvidfr == null) {
+            tirow nfw LoginExdfption
+                ("Unbblf to lodbtf tif LDAP dirfdtory sfrvidf");
         }
 
-        if (debug) {
-            System.out.println("\t\t[LdapLoginModule] user provider: " +
-                userProvider);
+        if (dfbug) {
+            Systfm.out.println("\t\t[LdbpLoginModulf] usfr providfr: " +
+                usfrProvidfr);
         }
 
-        // attempt the authentication
-        if (tryFirstPass) {
+        // bttfmpt tif butifntidbtion
+        if (tryFirstPbss) {
 
             try {
-                // attempt the authentication by getting the
-                // username and password from shared state
-                attemptAuthentication(true);
+                // bttfmpt tif butifntidbtion by gftting tif
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                bttfmptAutifntidbtion(truf);
 
-                // authentication succeeded
-                succeeded = true;
-                if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                                "tryFirstPass succeeded");
+                // butifntidbtion suddffdfd
+                suddffdfd = truf;
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "tryFirstPbss suddffdfd");
                 }
-                return true;
+                rfturn truf;
 
-            } catch (LoginException le) {
-                // authentication failed -- try again below by prompting
-                cleanState();
-                if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                                "tryFirstPass failed: " + le.toString());
+            } dbtdi (LoginExdfption lf) {
+                // butifntidbtion fbilfd -- try bgbin bflow by prompting
+                dlfbnStbtf();
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "tryFirstPbss fbilfd: " + lf.toString());
                 }
             }
 
-        } else if (useFirstPass) {
+        } flsf if (usfFirstPbss) {
 
             try {
-                // attempt the authentication by getting the
-                // username and password from shared state
-                attemptAuthentication(true);
+                // bttfmpt tif butifntidbtion by gftting tif
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                bttfmptAutifntidbtion(truf);
 
-                // authentication succeeded
-                succeeded = true;
-                if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                                "useFirstPass succeeded");
+                // butifntidbtion suddffdfd
+                suddffdfd = truf;
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "usfFirstPbss suddffdfd");
                 }
-                return true;
+                rfturn truf;
 
-            } catch (LoginException le) {
-                // authentication failed
-                cleanState();
-                if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                                "useFirstPass failed");
+            } dbtdi (LoginExdfption lf) {
+                // butifntidbtion fbilfd
+                dlfbnStbtf();
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "usfFirstPbss fbilfd");
                 }
-                throw le;
+                tirow lf;
             }
         }
 
-        // attempt the authentication by prompting for the username and pwd
+        // bttfmpt tif butifntidbtion by prompting for tif usfrnbmf bnd pwd
         try {
-            attemptAuthentication(false);
+            bttfmptAutifntidbtion(fblsf);
 
-            // authentication succeeded
-           succeeded = true;
-            if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                                "authentication succeeded");
+            // butifntidbtion suddffdfd
+           suddffdfd = truf;
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "butifntidbtion suddffdfd");
             }
-            return true;
+            rfturn truf;
 
-        } catch (LoginException le) {
-            cleanState();
-            if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                                "authentication failed");
+        } dbtdi (LoginExdfption lf) {
+            dlfbnStbtf();
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "butifntidbtion fbilfd");
             }
-            throw le;
+            tirow lf;
         }
     }
 
     /**
-     * Complete user authentication.
+     * Complftf usfr butifntidbtion.
      *
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
-     * succeeded).
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * ovfrbll butifntidbtion suddffdfd
+     * (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * suddffdfd).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> method), then this method associates an
-     * <code>LdapPrincipal</code> and one or more <code>UserPrincipal</code>s
-     * with the <code>Subject</code> located in the
-     * <code>LoginModule</code>.  If this LoginModule's own
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * <dodf>login</dodf> mftiod), tifn tiis mftiod bssodibtfs bn
+     * <dodf>LdbpPrindipbl</dodf> bnd onf or morf <dodf>UsfrPrindipbl</dodf>s
+     * witi tif <dodf>Subjfdt</dodf> lodbtfd in tif
+     * <dodf>LoginModulf</dodf>.  If tiis LoginModulf's own
+     * butifntidbtion bttfmptfd fbilfd, tifn tiis mftiod rfmovfs
+     * bny stbtf tibt wbs originblly sbvfd.
      *
-     * @exception LoginException if the commit fails
-     * @return true if this LoginModule's own login and commit
-     *          attempts succeeded, or false otherwise.
+     * @fxdfption LoginExdfption if tif dommit fbils
+     * @rfturn truf if tiis LoginModulf's own login bnd dommit
+     *          bttfmpts suddffdfd, or fblsf otifrwisf.
      */
-    public boolean commit() throws LoginException {
+    publid boolfbn dommit() tirows LoginExdfption {
 
-        if (succeeded == false) {
-            return false;
-        } else {
-            if (subject.isReadOnly()) {
-                cleanState();
-                throw new LoginException ("Subject is read-only");
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf {
+            if (subjfdt.isRfbdOnly()) {
+                dlfbnStbtf();
+                tirow nfw LoginExdfption ("Subjfdt is rfbd-only");
             }
-            // add Principals to the Subject
-            Set<Principal> principals = subject.getPrincipals();
-            if (! principals.contains(ldapPrincipal)) {
-                principals.add(ldapPrincipal);
+            // bdd Prindipbls to tif Subjfdt
+            Sft<Prindipbl> prindipbls = subjfdt.gftPrindipbls();
+            if (! prindipbls.dontbins(ldbpPrindipbl)) {
+                prindipbls.bdd(ldbpPrindipbl);
             }
-            if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                                   "added LdapPrincipal \"" +
-                                   ldapPrincipal +
-                                   "\" to Subject");
-            }
-
-            if (! principals.contains(userPrincipal)) {
-                principals.add(userPrincipal);
-            }
-            if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                                   "added UserPrincipal \"" +
-                                   userPrincipal +
-                                   "\" to Subject");
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                   "bddfd LdbpPrindipbl \"" +
+                                   ldbpPrindipbl +
+                                   "\" to Subjfdt");
             }
 
-            if (authzPrincipal != null &&
-                (! principals.contains(authzPrincipal))) {
-                principals.add(authzPrincipal);
+            if (! prindipbls.dontbins(usfrPrindipbl)) {
+                prindipbls.bdd(usfrPrindipbl);
+            }
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                   "bddfd UsfrPrindipbl \"" +
+                                   usfrPrindipbl +
+                                   "\" to Subjfdt");
+            }
 
-                if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                                   "added UserPrincipal \"" +
-                                   authzPrincipal +
-                                   "\" to Subject");
+            if (butizPrindipbl != null &&
+                (! prindipbls.dontbins(butizPrindipbl))) {
+                prindipbls.bdd(butizPrindipbl);
+
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                   "bddfd UsfrPrindipbl \"" +
+                                   butizPrindipbl +
+                                   "\" to Subjfdt");
                 }
             }
         }
-        // in any case, clean out state
-        cleanState();
-        commitSucceeded = true;
-        return true;
+        // in bny dbsf, dlfbn out stbtf
+        dlfbnStbtf();
+        dommitSuddffdfd = truf;
+        rfturn truf;
     }
 
     /**
-     * Abort user authentication.
+     * Abort usfr butifntidbtion.
      *
-     * <p> This method is called if the overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
-     * did not succeed).
+     * <p> Tiis mftiod is dbllfd if tif ovfrbll butifntidbtion fbilfd.
+     * (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * did not suddffd).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> and <code>commit</code> methods),
-     * then this method cleans up any state that was originally saved.
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mftiods),
+     * tifn tiis mftiod dlfbns up bny stbtf tibt wbs originblly sbvfd.
      *
-     * @exception LoginException if the abort fails.
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @fxdfption LoginExdfption if tif bbort fbils.
+     * @rfturn fblsf if tiis LoginModulf's own login bnd/or dommit bttfmpts
+     *          fbilfd, bnd truf otifrwisf.
      */
-    public boolean abort() throws LoginException {
-        if (debug)
-            System.out.println("\t\t[LdapLoginModule] " +
-                "aborted authentication");
+    publid boolfbn bbort() tirows LoginExdfption {
+        if (dfbug)
+            Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                "bbortfd butifntidbtion");
 
-        if (succeeded == false) {
-            return false;
-        } else if (succeeded == true && commitSucceeded == false) {
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
 
-            // Clean out state
-            succeeded = false;
-            cleanState();
+            // Clfbn out stbtf
+            suddffdfd = fblsf;
+            dlfbnStbtf();
 
-            ldapPrincipal = null;
-            userPrincipal = null;
-            authzPrincipal = null;
-        } else {
-            // overall authentication succeeded and commit succeeded,
-            // but someone else's commit failed
+            ldbpPrindipbl = null;
+            usfrPrindipbl = null;
+            butizPrindipbl = null;
+        } flsf {
+            // ovfrbll butifntidbtion suddffdfd bnd dommit suddffdfd,
+            // but somfonf flsf's dommit fbilfd
             logout();
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Logout a user.
+     * Logout b usfr.
      *
-     * <p> This method removes the Principals
-     * that were added by the <code>commit</code> method.
+     * <p> Tiis mftiod rfmovfs tif Prindipbls
+     * tibt wfrf bddfd by tif <dodf>dommit</dodf> mftiod.
      *
-     * @exception LoginException if the logout fails.
-     * @return true in all cases since this <code>LoginModule</code>
-     *          should not be ignored.
+     * @fxdfption LoginExdfption if tif logout fbils.
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     *          siould not bf ignorfd.
      */
-    public boolean logout() throws LoginException {
-        if (subject.isReadOnly()) {
-            cleanState();
-            throw new LoginException ("Subject is read-only");
+    publid boolfbn logout() tirows LoginExdfption {
+        if (subjfdt.isRfbdOnly()) {
+            dlfbnStbtf();
+            tirow nfw LoginExdfption ("Subjfdt is rfbd-only");
         }
-        Set<Principal> principals = subject.getPrincipals();
-        principals.remove(ldapPrincipal);
-        principals.remove(userPrincipal);
-        if (authzIdentity != null) {
-            principals.remove(authzPrincipal);
+        Sft<Prindipbl> prindipbls = subjfdt.gftPrindipbls();
+        prindipbls.rfmovf(ldbpPrindipbl);
+        prindipbls.rfmovf(usfrPrindipbl);
+        if (butizIdfntity != null) {
+            prindipbls.rfmovf(butizPrindipbl);
         }
 
-        // clean out state
-        cleanState();
-        succeeded = false;
-        commitSucceeded = false;
+        // dlfbn out stbtf
+        dlfbnStbtf();
+        suddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
 
-        ldapPrincipal = null;
-        userPrincipal = null;
-        authzPrincipal = null;
+        ldbpPrindipbl = null;
+        usfrPrindipbl = null;
+        butizPrindipbl = null;
 
-        if (debug) {
-            System.out.println("\t\t[LdapLoginModule] logged out Subject");
+        if (dfbug) {
+            Systfm.out.println("\t\t[LdbpLoginModulf] loggfd out Subjfdt");
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Attempt authentication
+     * Attfmpt butifntidbtion
      *
-     * @param getPasswdFromSharedState boolean that tells this method whether
-     *          to retrieve the password from the sharedState.
-     * @exception LoginException if the authentication attempt fails.
+     * @pbrbm gftPbsswdFromSibrfdStbtf boolfbn tibt tflls tiis mftiod wiftifr
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     * @fxdfption LoginExdfption if tif butifntidbtion bttfmpt fbils.
      */
-    private void attemptAuthentication(boolean getPasswdFromSharedState)
-        throws LoginException {
+    privbtf void bttfmptAutifntidbtion(boolfbn gftPbsswdFromSibrfdStbtf)
+        tirows LoginExdfption {
 
-        // first get the username and password
-        getUsernamePassword(getPasswdFromSharedState);
+        // first gft tif usfrnbmf bnd pbssword
+        gftUsfrnbmfPbssword(gftPbsswdFromSibrfdStbtf);
 
-        if (password == null || password.length == 0) {
-            throw (LoginException)
-                new FailedLoginException("No password was supplied");
+        if (pbssword == null || pbssword.lfngti == 0) {
+            tirow (LoginExdfption)
+                nfw FbilfdLoginExdfption("No pbssword wbs supplifd");
         }
 
         String dn = "";
 
-        if (authFirst || authOnly) {
+        if (butiFirst || butiOnly) {
 
-            String id = replaceUsernameToken(identityMatcher, authcIdentity);
+            String id = rfplbdfUsfrnbmfTokfn(idfntityMbtdifr, butidIdfntity);
 
-            // Prepare to bind using user's username and password
-            ldapEnvironment.put(Context.SECURITY_CREDENTIALS, password);
-            ldapEnvironment.put(Context.SECURITY_PRINCIPAL, id);
+            // Prfpbrf to bind using usfr's usfrnbmf bnd pbssword
+            ldbpEnvironmfnt.put(Contfxt.SECURITY_CREDENTIALS, pbssword);
+            ldbpEnvironmfnt.put(Contfxt.SECURITY_PRINCIPAL, id);
 
-            if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "attempting to authenticate user: " + username);
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "bttfmpting to butifntidbtf usfr: " + usfrnbmf);
             }
 
             try {
-                // Connect to the LDAP server (using simple bind)
-                ctx = new InitialLdapContext(ldapEnvironment, null);
+                // Connfdt to tif LDAP sfrvfr (using simplf bind)
+                dtx = nfw InitiblLdbpContfxt(ldbpEnvironmfnt, null);
 
-            } catch (NamingException e) {
-                throw (LoginException)
-                    new FailedLoginException("Cannot bind to LDAP server")
-                        .initCause(e);
+            } dbtdi (NbmingExdfption f) {
+                tirow (LoginExdfption)
+                    nfw FbilfdLoginExdfption("Cbnnot bind to LDAP sfrvfr")
+                        .initCbusf(f);
             }
 
-            // Authentication has succeeded
+            // Autifntidbtion ibs suddffdfd
 
-            // Locate the user's distinguished name
-            if (userFilter != null) {
-                dn = findUserDN(ctx);
-            } else {
+            // Lodbtf tif usfr's distinguisifd nbmf
+            if (usfrFiltfr != null) {
+                dn = findUsfrDN(dtx);
+            } flsf {
                 dn = id;
             }
 
-        } else {
+        } flsf {
 
             try {
-                // Connect to the LDAP server (using anonymous bind)
-                ctx = new InitialLdapContext(ldapEnvironment, null);
+                // Connfdt to tif LDAP sfrvfr (using bnonymous bind)
+                dtx = nfw InitiblLdbpContfxt(ldbpEnvironmfnt, null);
 
-            } catch (NamingException e) {
-                throw (LoginException)
-                    new FailedLoginException("Cannot connect to LDAP server")
-                        .initCause(e);
+            } dbtdi (NbmingExdfption f) {
+                tirow (LoginExdfption)
+                    nfw FbilfdLoginExdfption("Cbnnot donnfdt to LDAP sfrvfr")
+                        .initCbusf(f);
             }
 
-            // Locate the user's distinguished name
-            dn = findUserDN(ctx);
+            // Lodbtf tif usfr's distinguisifd nbmf
+            dn = findUsfrDN(dtx);
 
             try {
 
-                // Prepare to bind using user's distinguished name and password
-                ctx.addToEnvironment(Context.SECURITY_AUTHENTICATION, "simple");
-                ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, dn);
-                ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
+                // Prfpbrf to bind using usfr's distinguisifd nbmf bnd pbssword
+                dtx.bddToEnvironmfnt(Contfxt.SECURITY_AUTHENTICATION, "simplf");
+                dtx.bddToEnvironmfnt(Contfxt.SECURITY_PRINCIPAL, dn);
+                dtx.bddToEnvironmfnt(Contfxt.SECURITY_CREDENTIALS, pbssword);
 
-                if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                        "attempting to authenticate user: " + username);
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                        "bttfmpting to butifntidbtf usfr: " + usfrnbmf);
                 }
-                // Connect to the LDAP server (using simple bind)
-                ctx.reconnect(null);
+                // Connfdt to tif LDAP sfrvfr (using simplf bind)
+                dtx.rfdonnfdt(null);
 
-                // Authentication has succeeded
+                // Autifntidbtion ibs suddffdfd
 
-            } catch (NamingException e) {
-                throw (LoginException)
-                    new FailedLoginException("Cannot bind to LDAP server")
-                        .initCause(e);
+            } dbtdi (NbmingExdfption f) {
+                tirow (LoginExdfption)
+                    nfw FbilfdLoginExdfption("Cbnnot bind to LDAP sfrvfr")
+                        .initCbusf(f);
             }
         }
 
-        // Save input as shared state only if authentication succeeded
-        if (storePass &&
-            !sharedState.containsKey(USERNAME_KEY) &&
-            !sharedState.containsKey(PASSWORD_KEY)) {
-            sharedState.put(USERNAME_KEY, username);
-            sharedState.put(PASSWORD_KEY, password);
+        // Sbvf input bs sibrfd stbtf only if butifntidbtion suddffdfd
+        if (storfPbss &&
+            !sibrfdStbtf.dontbinsKfy(USERNAME_KEY) &&
+            !sibrfdStbtf.dontbinsKfy(PASSWORD_KEY)) {
+            sibrfdStbtf.put(USERNAME_KEY, usfrnbmf);
+            sibrfdStbtf.put(PASSWORD_KEY, pbssword);
         }
 
-        // Create the user principals
-        userPrincipal = new UserPrincipal(username);
-        if (authzIdentity != null) {
-            authzPrincipal = new UserPrincipal(authzIdentity);
+        // Crfbtf tif usfr prindipbls
+        usfrPrindipbl = nfw UsfrPrindipbl(usfrnbmf);
+        if (butizIdfntity != null) {
+            butizPrindipbl = nfw UsfrPrindipbl(butizIdfntity);
         }
 
         try {
 
-            ldapPrincipal = new LdapPrincipal(dn);
+            ldbpPrindipbl = nfw LdbpPrindipbl(dn);
 
-        } catch (InvalidNameException e) {
-            if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                                   "cannot create LdapPrincipal: bad DN");
+        } dbtdi (InvblidNbmfExdfption f) {
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                   "dbnnot drfbtf LdbpPrindipbl: bbd DN");
             }
-            throw (LoginException)
-                new FailedLoginException("Cannot create LdapPrincipal")
-                    .initCause(e);
+            tirow (LoginExdfption)
+                nfw FbilfdLoginExdfption("Cbnnot drfbtf LdbpPrindipbl")
+                    .initCbusf(f);
         }
     }
 
     /**
-     * Search for the user's entry.
-     * Determine the distinguished name of the user's entry and optionally
-     * an authorization identity for the user.
+     * Sfbrdi for tif usfr's fntry.
+     * Dftfrminf tif distinguisifd nbmf of tif usfr's fntry bnd optionblly
+     * bn butiorizbtion idfntity for tif usfr.
      *
-     * @param ctx an LDAP context to use for the search
-     * @return the user's distinguished name or an empty string if none
-     *         was found.
-     * @exception LoginException if the user's entry cannot be found.
+     * @pbrbm dtx bn LDAP dontfxt to usf for tif sfbrdi
+     * @rfturn tif usfr's distinguisifd nbmf or bn fmpty string if nonf
+     *         wbs found.
+     * @fxdfption LoginExdfption if tif usfr's fntry dbnnot bf found.
      */
-    private String findUserDN(LdapContext ctx) throws LoginException {
+    privbtf String findUsfrDN(LdbpContfxt dtx) tirows LoginExdfption {
 
-        String userDN = "";
+        String usfrDN = "";
 
-        // Locate the user's LDAP entry
-        if (userFilter != null) {
-            if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "searching for entry belonging to user: " + username);
+        // Lodbtf tif usfr's LDAP fntry
+        if (usfrFiltfr != null) {
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "sfbrdiing for fntry bflonging to usfr: " + usfrnbmf);
             }
-        } else {
-            if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "cannot search for entry belonging to user: " + username);
+        } flsf {
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "dbnnot sfbrdi for fntry bflonging to usfr: " + usfrnbmf);
             }
-            throw (LoginException)
-                new FailedLoginException("Cannot find user's LDAP entry");
+            tirow (LoginExdfption)
+                nfw FbilfdLoginExdfption("Cbnnot find usfr's LDAP fntry");
         }
 
         try {
-            NamingEnumeration<SearchResult> results = ctx.search("",
-                replaceUsernameToken(filterMatcher, userFilter), constraints);
+            NbmingEnumfrbtion<SfbrdiRfsult> rfsults = dtx.sfbrdi("",
+                rfplbdfUsfrnbmfTokfn(filtfrMbtdifr, usfrFiltfr), donstrbints);
 
-            // Extract the distinguished name of the user's entry
-            // (Use the first entry if more than one is returned)
-            if (results.hasMore()) {
-                SearchResult entry = results.next();
+            // Extrbdt tif distinguisifd nbmf of tif usfr's fntry
+            // (Usf tif first fntry if morf tibn onf is rfturnfd)
+            if (rfsults.ibsMorf()) {
+                SfbrdiRfsult fntry = rfsults.nfxt();
 
-                // %%% - use the SearchResult.getNameInNamespace method
-                //        available in JDK 1.5 and later.
-                //        (can remove call to constraints.setReturningObjFlag)
-                userDN = ((Context)entry.getObject()).getNameInNamespace();
+                // %%% - usf tif SfbrdiRfsult.gftNbmfInNbmfspbdf mftiod
+                //        bvbilbblf in JDK 1.5 bnd lbtfr.
+                //        (dbn rfmovf dbll to donstrbints.sftRfturningObjFlbg)
+                usfrDN = ((Contfxt)fntry.gftObjfdt()).gftNbmfInNbmfspbdf();
 
-                if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] found entry: " +
-                        userDN);
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] found fntry: " +
+                        usfrDN);
                 }
 
-                // Extract a value from user's authorization identity attribute
-                if (authzIdentityAttr != null) {
-                    Attribute attr =
-                        entry.getAttributes().get(authzIdentityAttr);
-                    if (attr != null) {
-                        Object val = attr.get();
-                        if (val instanceof String) {
-                            authzIdentity = (String) val;
+                // Extrbdt b vbluf from usfr's butiorizbtion idfntity bttributf
+                if (butizIdfntityAttr != null) {
+                    Attributf bttr =
+                        fntry.gftAttributfs().gft(butizIdfntityAttr);
+                    if (bttr != null) {
+                        Objfdt vbl = bttr.gft();
+                        if (vbl instbndfof String) {
+                            butizIdfntity = (String) vbl;
                         }
                     }
                 }
 
-                results.close();
+                rfsults.dlosf();
 
-            } else {
-                // Bad username
-                if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] user's entry " +
+            } flsf {
+                // Bbd usfrnbmf
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] usfr's fntry " +
                         "not found");
                 }
             }
 
-        } catch (NamingException e) {
-            // ignore
+        } dbtdi (NbmingExdfption f) {
+            // ignorf
         }
 
-        if (userDN.equals("")) {
-            throw (LoginException)
-                new FailedLoginException("Cannot find user's LDAP entry");
-        } else {
-            return userDN;
+        if (usfrDN.fqubls("")) {
+            tirow (LoginExdfption)
+                nfw FbilfdLoginExdfption("Cbnnot find usfr's LDAP fntry");
+        } flsf {
+            rfturn usfrDN;
         }
     }
 
     /**
-     * Replace the username token
+     * Rfplbdf tif usfrnbmf tokfn
      *
-     * @param string the target string
-     * @return the modified string
+     * @pbrbm string tif tbrgft string
+     * @rfturn tif modififd string
      */
-    private String replaceUsernameToken(Matcher matcher, String string) {
-        return matcher != null ? matcher.replaceAll(username) : string;
+    privbtf String rfplbdfUsfrnbmfTokfn(Mbtdifr mbtdifr, String string) {
+        rfturn mbtdifr != null ? mbtdifr.rfplbdfAll(usfrnbmf) : string;
     }
 
     /**
-     * Get the username and password.
-     * This method does not return any value.
-     * Instead, it sets global name and password variables.
+     * Gft tif usfrnbmf bnd pbssword.
+     * Tiis mftiod dofs not rfturn bny vbluf.
+     * Instfbd, it sfts globbl nbmf bnd pbssword vbribblfs.
      *
-     * <p> Also note that this method will set the username and password
-     * values in the shared state in case subsequent LoginModules
-     * want to use them via use/tryFirstPass.
+     * <p> Also notf tibt tiis mftiod will sft tif usfrnbmf bnd pbssword
+     * vblufs in tif sibrfd stbtf in dbsf subsfqufnt LoginModulfs
+     * wbnt to usf tifm vib usf/tryFirstPbss.
      *
-     * @param getPasswdFromSharedState boolean that tells this method whether
-     *          to retrieve the password from the sharedState.
-     * @exception LoginException if the username/password cannot be acquired.
+     * @pbrbm gftPbsswdFromSibrfdStbtf boolfbn tibt tflls tiis mftiod wiftifr
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     * @fxdfption LoginExdfption if tif usfrnbmf/pbssword dbnnot bf bdquirfd.
      */
-    private void getUsernamePassword(boolean getPasswdFromSharedState)
-        throws LoginException {
+    privbtf void gftUsfrnbmfPbssword(boolfbn gftPbsswdFromSibrfdStbtf)
+        tirows LoginExdfption {
 
-        if (getPasswdFromSharedState) {
-            // use the password saved by the first module in the stack
-            username = (String)sharedState.get(USERNAME_KEY);
-            password = (char[])sharedState.get(PASSWORD_KEY);
-            return;
+        if (gftPbsswdFromSibrfdStbtf) {
+            // usf tif pbssword sbvfd by tif first modulf in tif stbdk
+            usfrnbmf = (String)sibrfdStbtf.gft(USERNAME_KEY);
+            pbssword = (dibr[])sibrfdStbtf.gft(PASSWORD_KEY);
+            rfturn;
         }
 
-        // prompt for a username and password
-        if (callbackHandler == null)
-            throw new LoginException("No CallbackHandler available " +
-                "to acquire authentication information from the user");
+        // prompt for b usfrnbmf bnd pbssword
+        if (dbllbbdkHbndlfr == null)
+            tirow nfw LoginExdfption("No CbllbbdkHbndlfr bvbilbblf " +
+                "to bdquirf butifntidbtion informbtion from tif usfr");
 
-        Callback[] callbacks = new Callback[2];
-        callbacks[0] = new NameCallback(rb.getString("username."));
-        callbacks[1] = new PasswordCallback(rb.getString("password."), false);
+        Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[2];
+        dbllbbdks[0] = nfw NbmfCbllbbdk(rb.gftString("usfrnbmf."));
+        dbllbbdks[1] = nfw PbsswordCbllbbdk(rb.gftString("pbssword."), fblsf);
 
         try {
-            callbackHandler.handle(callbacks);
-            username = ((NameCallback)callbacks[0]).getName();
-            char[] tmpPassword = ((PasswordCallback)callbacks[1]).getPassword();
-            password = new char[tmpPassword.length];
-            System.arraycopy(tmpPassword, 0,
-                                password, 0, tmpPassword.length);
-            ((PasswordCallback)callbacks[1]).clearPassword();
+            dbllbbdkHbndlfr.ibndlf(dbllbbdks);
+            usfrnbmf = ((NbmfCbllbbdk)dbllbbdks[0]).gftNbmf();
+            dibr[] tmpPbssword = ((PbsswordCbllbbdk)dbllbbdks[1]).gftPbssword();
+            pbssword = nfw dibr[tmpPbssword.lfngti];
+            Systfm.brrbydopy(tmpPbssword, 0,
+                                pbssword, 0, tmpPbssword.lfngti);
+            ((PbsswordCbllbbdk)dbllbbdks[1]).dlfbrPbssword();
 
-        } catch (java.io.IOException ioe) {
-            throw new LoginException(ioe.toString());
+        } dbtdi (jbvb.io.IOExdfption iof) {
+            tirow nfw LoginExdfption(iof.toString());
 
-        } catch (UnsupportedCallbackException uce) {
-            throw new LoginException("Error: " + uce.getCallback().toString() +
-                        " not available to acquire authentication information" +
-                        " from the user");
+        } dbtdi (UnsupportfdCbllbbdkExdfption udf) {
+            tirow nfw LoginExdfption("Error: " + udf.gftCbllbbdk().toString() +
+                        " not bvbilbblf to bdquirf butifntidbtion informbtion" +
+                        " from tif usfr");
         }
     }
 
     /**
-     * Clean out state because of a failed authentication attempt
+     * Clfbn out stbtf bfdbusf of b fbilfd butifntidbtion bttfmpt
      */
-    private void cleanState() {
-        username = null;
-        if (password != null) {
-            Arrays.fill(password, ' ');
-            password = null;
+    privbtf void dlfbnStbtf() {
+        usfrnbmf = null;
+        if (pbssword != null) {
+            Arrbys.fill(pbssword, ' ');
+            pbssword = null;
         }
         try {
-            if (ctx != null) {
-                ctx.close();
+            if (dtx != null) {
+                dtx.dlosf();
             }
-        } catch (NamingException e) {
-            // ignore
+        } dbtdi (NbmingExdfption f) {
+            // ignorf
         }
-        ctx = null;
+        dtx = null;
 
-        if (clearPass) {
-            sharedState.remove(USERNAME_KEY);
-            sharedState.remove(PASSWORD_KEY);
+        if (dlfbrPbss) {
+            sibrfdStbtf.rfmovf(USERNAME_KEY);
+            sibrfdStbtf.rfmovf(PASSWORD_KEY);
         }
     }
 }

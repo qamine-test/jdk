@@ -1,0 +1,234 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls.spi;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbnnfls.SflfdtionKfy;
+import jbvb.nio.dhbnnfls.Sflfdtor;
+import jbvb.util.HbshSft;
+import jbvb.util.Sft;
+import sun.nio.dh.Intfrruptiblf;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+
+
+/**
+ * Bbsf implfmfntbtion dlbss for sflfdtors.
+ *
+ * <p> This dlbss fndbpsulbtfs thf low-lfvfl mbdhinfry rfquirfd to implfmfnt
+ * thf intfrruption of sflfdtion opfrbtions.  A dondrftf sflfdtor dlbss must
+ * invokf thf {@link #bfgin bfgin} bnd {@link #fnd fnd} mfthods bfforf bnd
+ * bftfr, rfspfdtivfly, invoking bn I/O opfrbtion thbt might blodk
+ * indffinitfly.  In ordfr to fnsurf thbt thf {@link #fnd fnd} mfthod is blwbys
+ * invokfd, thfsf mfthods should bf usfd within b
+ * <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> blodk:
+ *
+ * <blodkquotf><prf>
+ * try {
+ *     bfgin();
+ *     // Pfrform blodking I/O opfrbtion hfrf
+ *     ...
+ * } finblly {
+ *     fnd();
+ * }</prf></blodkquotf>
+ *
+ * <p> This dlbss blso dffinfs mfthods for mbintbining b sflfdtor's
+ * dbndfllfd-kfy sft bnd for rfmoving b kfy from its dhbnnfl's kfy sft, bnd
+ * dfdlbrfs thf bbstrbdt {@link #rfgistfr rfgistfr} mfthod thbt is invokfd by b
+ * sflfdtbblf dhbnnfl's {@link AbstrbdtSflfdtbblfChbnnfl#rfgistfr rfgistfr}
+ * mfthod in ordfr to pfrform thf bdtubl work of rfgistfring b dhbnnfl.  </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss AbstrbdtSflfdtor
+    fxtfnds Sflfdtor
+{
+
+    privbtf AtomidBoolfbn sflfdtorOpfn = nfw AtomidBoolfbn(truf);
+
+    // Thf providfr thbt drfbtfd this sflfdtor
+    privbtf finbl SflfdtorProvidfr providfr;
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     *
+     * @pbrbm  providfr
+     *         Thf providfr thbt drfbtfd this sflfdtor
+     */
+    protfdtfd AbstrbdtSflfdtor(SflfdtorProvidfr providfr) {
+        this.providfr = providfr;
+    }
+
+    privbtf finbl Sft<SflfdtionKfy> dbndfllfdKfys = nfw HbshSft<SflfdtionKfy>();
+
+    void dbndfl(SflfdtionKfy k) {                       // pbdkbgf-privbtf
+        syndhronizfd (dbndfllfdKfys) {
+            dbndfllfdKfys.bdd(k);
+        }
+    }
+
+    /**
+     * Closfs this sflfdtor.
+     *
+     * <p> If thf sflfdtor hbs blrfbdy bffn dlosfd thfn this mfthod rfturns
+     * immfdibtfly.  Othfrwisf it mbrks thf sflfdtor bs dlosfd bnd thfn invokfs
+     * thf {@link #implClosfSflfdtor implClosfSflfdtor} mfthod in ordfr to
+     * domplftf thf dlosf opfrbtion.  </p>
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid finbl void dlosf() throws IOExdfption {
+        boolfbn opfn = sflfdtorOpfn.gftAndSft(fblsf);
+        if (!opfn)
+            rfturn;
+        implClosfSflfdtor();
+    }
+
+    /**
+     * Closfs this sflfdtor.
+     *
+     * <p> This mfthod is invokfd by thf {@link #dlosf dlosf} mfthod in ordfr
+     * to pfrform thf bdtubl work of dlosing thf sflfdtor.  This mfthod is only
+     * invokfd if thf sflfdtor hbs not yft bffn dlosfd, bnd it is nfvfr invokfd
+     * morf thbn ondf.
+     *
+     * <p> An implfmfntbtion of this mfthod must brrbngf for bny othfr thrfbd
+     * thbt is blodkfd in b sflfdtion opfrbtion upon this sflfdtor to rfturn
+     * immfdibtfly bs if by invoking thf {@link
+     * jbvb.nio.dhbnnfls.Sflfdtor#wbkfup wbkfup} mfthod. </p>
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs whilf dlosing thf sflfdtor
+     */
+    protfdtfd bbstrbdt void implClosfSflfdtor() throws IOExdfption;
+
+    publid finbl boolfbn isOpfn() {
+        rfturn sflfdtorOpfn.gft();
+    }
+
+    /**
+     * Rfturns thf providfr thbt drfbtfd this dhbnnfl.
+     *
+     * @rfturn  Thf providfr thbt drfbtfd this dhbnnfl
+     */
+    publid finbl SflfdtorProvidfr providfr() {
+        rfturn providfr;
+    }
+
+    /**
+     * Rftrifvfs this sflfdtor's dbndfllfd-kfy sft.
+     *
+     * <p> This sft should only bf usfd whilf syndhronizfd upon it.  </p>
+     *
+     * @rfturn  Thf dbndfllfd-kfy sft
+     */
+    protfdtfd finbl Sft<SflfdtionKfy> dbndfllfdKfys() {
+        rfturn dbndfllfdKfys;
+    }
+
+    /**
+     * Rfgistfrs thf givfn dhbnnfl with this sflfdtor.
+     *
+     * <p> This mfthod is invokfd by b dhbnnfl's {@link
+     * AbstrbdtSflfdtbblfChbnnfl#rfgistfr rfgistfr} mfthod in ordfr to pfrform
+     * thf bdtubl work of rfgistfring thf dhbnnfl with this sflfdtor.  </p>
+     *
+     * @pbrbm  dh
+     *         Thf dhbnnfl to bf rfgistfrfd
+     *
+     * @pbrbm  ops
+     *         Thf initibl intfrfst sft, whidh must bf vblid
+     *
+     * @pbrbm  btt
+     *         Thf initibl bttbdhmfnt for thf rfsulting kfy
+     *
+     * @rfturn  A nfw kfy rfprfsfnting thf rfgistrbtion of thf givfn dhbnnfl
+     *          with this sflfdtor
+     */
+    protfdtfd bbstrbdt SflfdtionKfy rfgistfr(AbstrbdtSflfdtbblfChbnnfl dh,
+                                             int ops, Objfdt btt);
+
+    /**
+     * Rfmovfs thf givfn kfy from its dhbnnfl's kfy sft.
+     *
+     * <p> This mfthod must bf invokfd by thf sflfdtor for fbdh dhbnnfl thbt it
+     * dfrfgistfrs.  </p>
+     *
+     * @pbrbm  kfy
+     *         Thf sflfdtion kfy to bf rfmovfd
+     */
+    protfdtfd finbl void dfrfgistfr(AbstrbdtSflfdtionKfy kfy) {
+        ((AbstrbdtSflfdtbblfChbnnfl)kfy.dhbnnfl()).rfmovfKfy(kfy);
+    }
+
+
+    // -- Intfrruption mbdhinfry --
+
+    privbtf Intfrruptiblf intfrruptor = null;
+
+    /**
+     * Mbrks thf bfginning of bn I/O opfrbtion thbt might blodk indffinitfly.
+     *
+     * <p> This mfthod should bf invokfd in tbndfm with thf {@link #fnd fnd}
+     * mfthod, using b <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> blodk bs
+     * shown <b hrff="#bf">bbovf</b>, in ordfr to implfmfnt intfrruption for
+     * this sflfdtor.
+     *
+     * <p> Invoking this mfthod brrbngfs for thf sflfdtor's {@link
+     * Sflfdtor#wbkfup wbkfup} mfthod to bf invokfd if b thrfbd's {@link
+     * Thrfbd#intfrrupt intfrrupt} mfthod is invokfd whilf thf thrfbd is
+     * blodkfd in bn I/O opfrbtion upon thf sflfdtor.  </p>
+     */
+    protfdtfd finbl void bfgin() {
+        if (intfrruptor == null) {
+            intfrruptor = nfw Intfrruptiblf() {
+                    publid void intfrrupt(Thrfbd ignorf) {
+                        AbstrbdtSflfdtor.this.wbkfup();
+                    }};
+        }
+        AbstrbdtIntfrruptiblfChbnnfl.blodkfdOn(intfrruptor);
+        Thrfbd mf = Thrfbd.durrfntThrfbd();
+        if (mf.isIntfrruptfd())
+            intfrruptor.intfrrupt(mf);
+    }
+
+    /**
+     * Mbrks thf fnd of bn I/O opfrbtion thbt might blodk indffinitfly.
+     *
+     * <p> This mfthod should bf invokfd in tbndfm with thf {@link #bfgin bfgin}
+     * mfthod, using b <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> blodk bs
+     * shown <b hrff="#bf">bbovf</b>, in ordfr to implfmfnt intfrruption for
+     * this sflfdtor.  </p>
+     */
+    protfdtfd finbl void fnd() {
+        AbstrbdtIntfrruptiblfChbnnfl.blodkfdOn(null);
+    }
+
+}

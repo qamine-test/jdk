@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.url.ldap;
+pbdkbgf dom.sun.jndi.url.ldbp;
 
-import java.util.Hashtable;
-import javax.naming.*;
-import javax.naming.directory.DirContext;
-import javax.naming.spi.*;
-import com.sun.jndi.ldap.LdapCtx;
-import com.sun.jndi.ldap.LdapCtxFactory;
-import com.sun.jndi.ldap.LdapURL;
+import jbvb.util.Hbsitbblf;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.DirContfxt;
+import jbvbx.nbming.spi.*;
+import dom.sun.jndi.ldbp.LdbpCtx;
+import dom.sun.jndi.ldbp.LdbpCtxFbdtory;
+import dom.sun.jndi.ldbp.LdbpURL;
 
 /**
- * An LDAP URL context factory.
+ * An LDAP URL dontfxt fbdtory.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @author Vincent Ryan
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
+ * @butior Vindfnt Rybn
  */
 
-public class ldapURLContextFactory implements ObjectFactory {
+publid dlbss ldbpURLContfxtFbdtory implfmfnts ObjfdtFbdtory {
 
-    public Object getObjectInstance(Object urlInfo, Name name, Context nameCtx,
-            Hashtable<?,?> env) throws Exception {
+    publid Objfdt gftObjfdtInstbndf(Objfdt urlInfo, Nbmf nbmf, Contfxt nbmfCtx,
+            Hbsitbblf<?,?> fnv) tirows Exdfption {
 
         if (urlInfo == null) {
-            return new ldapURLContext(env);
-        } else {
-            return LdapCtxFactory.getLdapCtxInstance(urlInfo, env);
+            rfturn nfw ldbpURLContfxt(fnv);
+        } flsf {
+            rfturn LdbpCtxFbdtory.gftLdbpCtxInstbndf(urlInfo, fnv);
         }
     }
 
-    static ResolveResult getUsingURLIgnoreRootDN(String url, Hashtable<?,?> env)
-            throws NamingException {
-        LdapURL ldapUrl = new LdapURL(url);
-        DirContext ctx = new LdapCtx("", ldapUrl.getHost(), ldapUrl.getPort(),
-            env, ldapUrl.useSsl());
-        String dn = (ldapUrl.getDN() != null ? ldapUrl.getDN() : "");
+    stbtid RfsolvfRfsult gftUsingURLIgnorfRootDN(String url, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
+        LdbpURL ldbpUrl = nfw LdbpURL(url);
+        DirContfxt dtx = nfw LdbpCtx("", ldbpUrl.gftHost(), ldbpUrl.gftPort(),
+            fnv, ldbpUrl.usfSsl());
+        String dn = (ldbpUrl.gftDN() != null ? ldbpUrl.gftDN() : "");
 
-        // Represent DN as empty or single-component composite name.
-        CompositeName remaining = new CompositeName();
-        if (!"".equals(dn)) {
-            // if nonempty, add component
-            remaining.add(dn);
+        // Rfprfsfnt DN bs fmpty or singlf-domponfnt dompositf nbmf.
+        CompositfNbmf rfmbining = nfw CompositfNbmf();
+        if (!"".fqubls(dn)) {
+            // if nonfmpty, bdd domponfnt
+            rfmbining.bdd(dn);
         }
 
-        return new ResolveResult(ctx, remaining);
+        rfturn nfw RfsolvfRfsult(dtx, rfmbining);
     }
 }

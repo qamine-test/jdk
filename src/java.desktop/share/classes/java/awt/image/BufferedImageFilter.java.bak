@@ -1,417 +1,417 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.util.Hashtable;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageFilter;
+import jbvb.util.Hbsitbblf;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfFiltfr;
 
 /**
- * The <code>BufferedImageFilter</code> class subclasses an
- * <code>ImageFilter</code> to provide a simple means of
- * using a single-source/single-destination image operator
- * ({@link BufferedImageOp}) to filter a <code>BufferedImage</code>
- * in the Image Producer/Consumer/Observer
- * paradigm. Examples of these image operators are: {@link ConvolveOp},
- * {@link AffineTransformOp} and {@link LookupOp}.
+ * Tif <dodf>BufffrfdImbgfFiltfr</dodf> dlbss subdlbssfs bn
+ * <dodf>ImbgfFiltfr</dodf> to providf b simplf mfbns of
+ * using b singlf-sourdf/singlf-dfstinbtion imbgf opfrbtor
+ * ({@link BufffrfdImbgfOp}) to filtfr b <dodf>BufffrfdImbgf</dodf>
+ * in tif Imbgf Produdfr/Consumfr/Obsfrvfr
+ * pbrbdigm. Exbmplfs of tifsf imbgf opfrbtors brf: {@link ConvolvfOp},
+ * {@link AffinfTrbnsformOp} bnd {@link LookupOp}.
  *
- * @see ImageFilter
- * @see BufferedImage
- * @see BufferedImageOp
+ * @sff ImbgfFiltfr
+ * @sff BufffrfdImbgf
+ * @sff BufffrfdImbgfOp
  */
 
-public class BufferedImageFilter extends ImageFilter implements Cloneable {
-    BufferedImageOp bufferedImageOp;
-    ColorModel model;
-    int width;
-    int height;
-    byte[] bytePixels;
-    int[] intPixels;
+publid dlbss BufffrfdImbgfFiltfr fxtfnds ImbgfFiltfr implfmfnts Clonfbblf {
+    BufffrfdImbgfOp bufffrfdImbgfOp;
+    ColorModfl modfl;
+    int widti;
+    int ifigit;
+    bytf[] bytfPixfls;
+    int[] intPixfls;
 
     /**
-     * Constructs a <code>BufferedImageFilter</code> with the
-     * specified single-source/single-destination operator.
-     * @param op the specified <code>BufferedImageOp</code> to
-     *           use to filter a <code>BufferedImage</code>
-     * @throws NullPointerException if op is null
+     * Construdts b <dodf>BufffrfdImbgfFiltfr</dodf> witi tif
+     * spfdififd singlf-sourdf/singlf-dfstinbtion opfrbtor.
+     * @pbrbm op tif spfdififd <dodf>BufffrfdImbgfOp</dodf> to
+     *           usf to filtfr b <dodf>BufffrfdImbgf</dodf>
+     * @tirows NullPointfrExdfption if op is null
      */
-    public BufferedImageFilter (BufferedImageOp op) {
-        super();
+    publid BufffrfdImbgfFiltfr (BufffrfdImbgfOp op) {
+        supfr();
         if (op == null) {
-            throw new NullPointerException("Operation cannot be null");
+            tirow nfw NullPointfrExdfption("Opfrbtion dbnnot bf null");
         }
-        bufferedImageOp = op;
+        bufffrfdImbgfOp = op;
     }
 
     /**
-     * Returns the <code>BufferedImageOp</code>.
-     * @return the operator of this <code>BufferedImageFilter</code>.
+     * Rfturns tif <dodf>BufffrfdImbgfOp</dodf>.
+     * @rfturn tif opfrbtor of tiis <dodf>BufffrfdImbgfFiltfr</dodf>.
      */
-    public BufferedImageOp getBufferedImageOp() {
-        return bufferedImageOp;
+    publid BufffrfdImbgfOp gftBufffrfdImbgfOp() {
+        rfturn bufffrfdImbgfOp;
     }
 
     /**
-     * Filters the information provided in the
-     * {@link ImageConsumer#setDimensions(int, int) setDimensions } method
-     * of the {@link ImageConsumer} interface.
+     * Filtfrs tif informbtion providfd in tif
+     * {@link ImbgfConsumfr#sftDimfnsions(int, int) sftDimfnsions } mftiod
+     * of tif {@link ImbgfConsumfr} intfrfbdf.
      * <p>
-     * Note: This method is intended to be called by the
-     * {@link ImageProducer} of the <code>Image</code> whose pixels are
-     * being filtered. Developers using this class to retrieve pixels from
-     * an image should avoid calling this method directly since that
-     * operation could result in problems with retrieving the requested
-     * pixels.
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * {@link ImbgfProdudfr} of tif <dodf>Imbgf</dodf> wiosf pixfls brf
+     * bfing filtfrfd. Dfvflopfrs using tiis dlbss to rftrifvf pixfls from
+     * bn imbgf siould bvoid dblling tiis mftiod dirfdtly sindf tibt
+     * opfrbtion dould rfsult in problfms witi rftrifving tif rfqufstfd
+     * pixfls.
      *
-     * @param width the width to which to set the width of this
-     *        <code>BufferedImageFilter</code>
-     * @param height the height to which to set the height of this
-     *        <code>BufferedImageFilter</code>
-     * @see ImageConsumer#setDimensions
+     * @pbrbm widti tif widti to wiidi to sft tif widti of tiis
+     *        <dodf>BufffrfdImbgfFiltfr</dodf>
+     * @pbrbm ifigit tif ifigit to wiidi to sft tif ifigit of tiis
+     *        <dodf>BufffrfdImbgfFiltfr</dodf>
+     * @sff ImbgfConsumfr#sftDimfnsions
      */
-    public void setDimensions(int width, int height) {
-        if (width <= 0 || height <= 0) {
-            imageComplete(STATICIMAGEDONE);
-            return;
+    publid void sftDimfnsions(int widti, int ifigit) {
+        if (widti <= 0 || ifigit <= 0) {
+            imbgfComplftf(STATICIMAGEDONE);
+            rfturn;
         }
-        this.width  = width;
-        this.height = height;
+        tiis.widti  = widti;
+        tiis.ifigit = ifigit;
     }
 
     /**
-     * Filters the information provided in the
-     * {@link ImageConsumer#setColorModel(ColorModel) setColorModel} method
-     * of the <code>ImageConsumer</code> interface.
+     * Filtfrs tif informbtion providfd in tif
+     * {@link ImbgfConsumfr#sftColorModfl(ColorModfl) sftColorModfl} mftiod
+     * of tif <dodf>ImbgfConsumfr</dodf> intfrfbdf.
      * <p>
-     * If <code>model</code> is <code>null</code>, this
-     * method clears the current <code>ColorModel</code> of this
-     * <code>BufferedImageFilter</code>.
+     * If <dodf>modfl</dodf> is <dodf>null</dodf>, tiis
+     * mftiod dlfbrs tif durrfnt <dodf>ColorModfl</dodf> of tiis
+     * <dodf>BufffrfdImbgfFiltfr</dodf>.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code>
-     * whose pixels are being filtered.  Developers using this
-     * class to retrieve pixels from an image
-     * should avoid calling this method directly since that
-     * operation could result in problems with retrieving the
-     * requested pixels.
-     * @param model the {@link ColorModel} to which to set the
-     *        <code>ColorModel</code> of this <code>BufferedImageFilter</code>
-     * @see ImageConsumer#setColorModel
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf>
+     * wiosf pixfls brf bfing filtfrfd.  Dfvflopfrs using tiis
+     * dlbss to rftrifvf pixfls from bn imbgf
+     * siould bvoid dblling tiis mftiod dirfdtly sindf tibt
+     * opfrbtion dould rfsult in problfms witi rftrifving tif
+     * rfqufstfd pixfls.
+     * @pbrbm modfl tif {@link ColorModfl} to wiidi to sft tif
+     *        <dodf>ColorModfl</dodf> of tiis <dodf>BufffrfdImbgfFiltfr</dodf>
+     * @sff ImbgfConsumfr#sftColorModfl
      */
-    public void setColorModel(ColorModel model) {
-        this.model = model;
+    publid void sftColorModfl(ColorModfl modfl) {
+        tiis.modfl = modfl;
     }
 
-    private void convertToRGB() {
-        int size = width * height;
-        int newpixels[] = new int[size];
-        if (bytePixels != null) {
-            for (int i = 0; i < size; i++) {
-                newpixels[i] = this.model.getRGB(bytePixels[i] & 0xff);
+    privbtf void donvfrtToRGB() {
+        int sizf = widti * ifigit;
+        int nfwpixfls[] = nfw int[sizf];
+        if (bytfPixfls != null) {
+            for (int i = 0; i < sizf; i++) {
+                nfwpixfls[i] = tiis.modfl.gftRGB(bytfPixfls[i] & 0xff);
             }
-        } else if (intPixels != null) {
-            for (int i = 0; i < size; i++) {
-                newpixels[i] = this.model.getRGB(intPixels[i]);
+        } flsf if (intPixfls != null) {
+            for (int i = 0; i < sizf; i++) {
+                nfwpixfls[i] = tiis.modfl.gftRGB(intPixfls[i]);
             }
         }
-        bytePixels = null;
-        intPixels = newpixels;
-        this.model = ColorModel.getRGBdefault();
+        bytfPixfls = null;
+        intPixfls = nfwpixfls;
+        tiis.modfl = ColorModfl.gftRGBdffbult();
     }
 
     /**
-     * Filters the information provided in the <code>setPixels</code>
-     * method of the <code>ImageConsumer</code> interface which takes
-     * an array of bytes.
+     * Filtfrs tif informbtion providfd in tif <dodf>sftPixfls</dodf>
+     * mftiod of tif <dodf>ImbgfConsumfr</dodf> intfrfbdf wiidi tbkfs
+     * bn brrby of bytfs.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose pixels
-     * are being filtered.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
-     * with retrieving the requested pixels.
-     * @throws IllegalArgumentException if width or height are less than
-     * zero.
-     * @see ImageConsumer#setPixels(int, int, int, int, ColorModel, byte[],
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * brf bfing filtfrfd.  Dfvflopfrs using
+     * tiis dlbss to rftrifvf pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould rfsult in problfms
+     * witi rftrifving tif rfqufstfd pixfls.
+     * @tirows IllfgblArgumfntExdfption if widti or ifigit brf lfss tibn
+     * zfro.
+     * @sff ImbgfConsumfr#sftPixfls(int, int, int, int, ColorModfl, bytf[],
                                     int, int)
      */
-    public void setPixels(int x, int y, int w, int h,
-                          ColorModel model, byte pixels[], int off,
-                          int scansize) {
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          int sdbnsizf) {
         // Fix 4184230
-        if (w < 0 || h < 0) {
-            throw new IllegalArgumentException("Width ("+w+
-                                                ") and height ("+h+
-                                                ") must be > 0");
+        if (w < 0 || i < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Widti ("+w+
+                                                ") bnd ifigit ("+i+
+                                                ") must bf > 0");
         }
-        // Nothing to do
-        if (w == 0 || h == 0) {
-            return;
+        // Notiing to do
+        if (w == 0 || i == 0) {
+            rfturn;
         }
         if (y < 0) {
             int diff = -y;
-            if (diff >= h) {
-                return;
+            if (diff >= i) {
+                rfturn;
             }
-            off += scansize * diff;
+            off += sdbnsizf * diff;
             y += diff;
-            h -= diff;
+            i -= diff;
         }
-        if (y + h > height) {
-            h = height - y;
-            if (h <= 0) {
-                return;
+        if (y + i > ifigit) {
+            i = ifigit - y;
+            if (i <= 0) {
+                rfturn;
             }
         }
         if (x < 0) {
             int diff = -x;
             if (diff >= w) {
-                return;
+                rfturn;
             }
             off += diff;
             x += diff;
             w -= diff;
         }
-        if (x + w > width) {
-            w = width - x;
+        if (x + w > widti) {
+            w = widti - x;
             if (w <= 0) {
-                return;
+                rfturn;
             }
         }
-        int dstPtr = y*width + x;
-        if (intPixels == null) {
-            if (bytePixels == null) {
-                bytePixels = new byte[width*height];
-                this.model = model;
-            } else if (this.model != model) {
-                convertToRGB();
+        int dstPtr = y*widti + x;
+        if (intPixfls == null) {
+            if (bytfPixfls == null) {
+                bytfPixfls = nfw bytf[widti*ifigit];
+                tiis.modfl = modfl;
+            } flsf if (tiis.modfl != modfl) {
+                donvfrtToRGB();
             }
-            if (bytePixels != null) {
-                for (int sh = h; sh > 0; sh--) {
-                    System.arraycopy(pixels, off, bytePixels, dstPtr, w);
-                    off += scansize;
-                    dstPtr += width;
+            if (bytfPixfls != null) {
+                for (int si = i; si > 0; si--) {
+                    Systfm.brrbydopy(pixfls, off, bytfPixfls, dstPtr, w);
+                    off += sdbnsizf;
+                    dstPtr += widti;
                 }
             }
         }
-        if (intPixels != null) {
-            int dstRem = width - w;
-            int srcRem = scansize - w;
-            for (int sh = h; sh > 0; sh--) {
+        if (intPixfls != null) {
+            int dstRfm = widti - w;
+            int srdRfm = sdbnsizf - w;
+            for (int si = i; si > 0; si--) {
                 for (int sw = w; sw > 0; sw--) {
-                    intPixels[dstPtr++] = model.getRGB(pixels[off++]&0xff);
+                    intPixfls[dstPtr++] = modfl.gftRGB(pixfls[off++]&0xff);
                 }
-                off    += srcRem;
-                dstPtr += dstRem;
+                off    += srdRfm;
+                dstPtr += dstRfm;
             }
         }
     }
     /**
-     * Filters the information provided in the <code>setPixels</code>
-     * method of the <code>ImageConsumer</code> interface which takes
-     * an array of integers.
+     * Filtfrs tif informbtion providfd in tif <dodf>sftPixfls</dodf>
+     * mftiod of tif <dodf>ImbgfConsumfr</dodf> intfrfbdf wiidi tbkfs
+     * bn brrby of intfgfrs.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose
-     * pixels are being filtered.  Developers using this class to
-     * retrieve pixels from an image should avoid calling this method
-     * directly since that operation could result in problems
-     * with retrieving the requested pixels.
-     * @throws IllegalArgumentException if width or height are less than
-     * zero.
-     * @see ImageConsumer#setPixels(int, int, int, int, ColorModel, int[],
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf
+     * pixfls brf bfing filtfrfd.  Dfvflopfrs using tiis dlbss to
+     * rftrifvf pixfls from bn imbgf siould bvoid dblling tiis mftiod
+     * dirfdtly sindf tibt opfrbtion dould rfsult in problfms
+     * witi rftrifving tif rfqufstfd pixfls.
+     * @tirows IllfgblArgumfntExdfption if widti or ifigit brf lfss tibn
+     * zfro.
+     * @sff ImbgfConsumfr#sftPixfls(int, int, int, int, ColorModfl, int[],
                                     int, int)
      */
-    public void setPixels(int x, int y, int w, int h,
-                          ColorModel model, int pixels[], int off,
-                          int scansize) {
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
         // Fix 4184230
-        if (w < 0 || h < 0) {
-            throw new IllegalArgumentException("Width ("+w+
-                                                ") and height ("+h+
-                                                ") must be > 0");
+        if (w < 0 || i < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Widti ("+w+
+                                                ") bnd ifigit ("+i+
+                                                ") must bf > 0");
         }
-        // Nothing to do
-        if (w == 0 || h == 0) {
-            return;
+        // Notiing to do
+        if (w == 0 || i == 0) {
+            rfturn;
         }
         if (y < 0) {
             int diff = -y;
-            if (diff >= h) {
-                return;
+            if (diff >= i) {
+                rfturn;
             }
-            off += scansize * diff;
+            off += sdbnsizf * diff;
             y += diff;
-            h -= diff;
+            i -= diff;
         }
-        if (y + h > height) {
-            h = height - y;
-            if (h <= 0) {
-                return;
+        if (y + i > ifigit) {
+            i = ifigit - y;
+            if (i <= 0) {
+                rfturn;
             }
         }
         if (x < 0) {
             int diff = -x;
             if (diff >= w) {
-                return;
+                rfturn;
             }
             off += diff;
             x += diff;
             w -= diff;
         }
-        if (x + w > width) {
-            w = width - x;
+        if (x + w > widti) {
+            w = widti - x;
             if (w <= 0) {
-                return;
+                rfturn;
             }
         }
 
-        if (intPixels == null) {
-            if (bytePixels == null) {
-                intPixels = new int[width * height];
-                this.model = model;
-            } else {
-                convertToRGB();
+        if (intPixfls == null) {
+            if (bytfPixfls == null) {
+                intPixfls = nfw int[widti * ifigit];
+                tiis.modfl = modfl;
+            } flsf {
+                donvfrtToRGB();
             }
         }
-        int dstPtr = y*width + x;
-        if (this.model == model) {
-            for (int sh = h; sh > 0; sh--) {
-                System.arraycopy(pixels, off, intPixels, dstPtr, w);
-                off += scansize;
-                dstPtr += width;
+        int dstPtr = y*widti + x;
+        if (tiis.modfl == modfl) {
+            for (int si = i; si > 0; si--) {
+                Systfm.brrbydopy(pixfls, off, intPixfls, dstPtr, w);
+                off += sdbnsizf;
+                dstPtr += widti;
             }
-        } else {
-            if (this.model != ColorModel.getRGBdefault()) {
-                convertToRGB();
+        } flsf {
+            if (tiis.modfl != ColorModfl.gftRGBdffbult()) {
+                donvfrtToRGB();
             }
-            int dstRem = width - w;
-            int srcRem = scansize - w;
-            for (int sh = h; sh > 0; sh--) {
+            int dstRfm = widti - w;
+            int srdRfm = sdbnsizf - w;
+            for (int si = i; si > 0; si--) {
                 for (int sw = w; sw > 0; sw--) {
-                    intPixels[dstPtr++] = model.getRGB(pixels[off++]);
+                    intPixfls[dstPtr++] = modfl.gftRGB(pixfls[off++]);
                 }
-                off += srcRem;
-                dstPtr += dstRem;
+                off += srdRfm;
+                dstPtr += dstRfm;
             }
         }
     }
 
     /**
-     * Filters the information provided in the <code>imageComplete</code>
-     * method of the <code>ImageConsumer</code> interface.
+     * Filtfrs tif informbtion providfd in tif <dodf>imbgfComplftf</dodf>
+     * mftiod of tif <dodf>ImbgfConsumfr</dodf> intfrfbdf.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose pixels
-     * are being filtered.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
-     * with retrieving the requested pixels.
-     * @param status the status of image loading
-     * @throws ImagingOpException if there was a problem calling the filter
-     * method of the <code>BufferedImageOp</code> associated with this
-     * instance.
-     * @see ImageConsumer#imageComplete
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * brf bfing filtfrfd.  Dfvflopfrs using
+     * tiis dlbss to rftrifvf pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould rfsult in problfms
+     * witi rftrifving tif rfqufstfd pixfls.
+     * @pbrbm stbtus tif stbtus of imbgf lobding
+     * @tirows ImbgingOpExdfption if tifrf wbs b problfm dblling tif filtfr
+     * mftiod of tif <dodf>BufffrfdImbgfOp</dodf> bssodibtfd witi tiis
+     * instbndf.
+     * @sff ImbgfConsumfr#imbgfComplftf
      */
-    public void imageComplete(int status) {
-        WritableRaster wr;
-        switch(status) {
-        case IMAGEERROR:
-        case IMAGEABORTED:
-            // reinitialize the params
-            model  = null;
-            width  = -1;
-            height = -1;
-            intPixels  = null;
-            bytePixels = null;
-            break;
+    publid void imbgfComplftf(int stbtus) {
+        WritbblfRbstfr wr;
+        switdi(stbtus) {
+        dbsf IMAGEERROR:
+        dbsf IMAGEABORTED:
+            // rfinitiblizf tif pbrbms
+            modfl  = null;
+            widti  = -1;
+            ifigit = -1;
+            intPixfls  = null;
+            bytfPixfls = null;
+            brfbk;
 
-        case SINGLEFRAMEDONE:
-        case STATICIMAGEDONE:
-            if (width <= 0 || height <= 0) break;
-            if (model instanceof DirectColorModel) {
-                if (intPixels == null) break;
-                wr = createDCMraster();
+        dbsf SINGLEFRAMEDONE:
+        dbsf STATICIMAGEDONE:
+            if (widti <= 0 || ifigit <= 0) brfbk;
+            if (modfl instbndfof DirfdtColorModfl) {
+                if (intPixfls == null) brfbk;
+                wr = drfbtfDCMrbstfr();
             }
-            else if (model instanceof IndexColorModel) {
-                int[] bandOffsets = {0};
-                if (bytePixels == null) break;
-                DataBufferByte db = new DataBufferByte(bytePixels,
-                                                       width*height);
-                wr = Raster.createInterleavedRaster(db, width, height, width,
-                                                    1, bandOffsets, null);
+            flsf if (modfl instbndfof IndfxColorModfl) {
+                int[] bbndOffsfts = {0};
+                if (bytfPixfls == null) brfbk;
+                DbtbBufffrBytf db = nfw DbtbBufffrBytf(bytfPixfls,
+                                                       widti*ifigit);
+                wr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(db, widti, ifigit, widti,
+                                                    1, bbndOffsfts, null);
             }
-            else {
-                convertToRGB();
-                if (intPixels == null) break;
-                wr = createDCMraster();
+            flsf {
+                donvfrtToRGB();
+                if (intPixfls == null) brfbk;
+                wr = drfbtfDCMrbstfr();
             }
-            BufferedImage bi = new BufferedImage(model, wr,
-                                                 model.isAlphaPremultiplied(),
+            BufffrfdImbgf bi = nfw BufffrfdImbgf(modfl, wr,
+                                                 modfl.isAlpibPrfmultiplifd(),
                                                  null);
-            bi = bufferedImageOp.filter(bi, null);
-            WritableRaster r = bi.getRaster();
-            ColorModel cm = bi.getColorModel();
-            int w = r.getWidth();
-            int h = r.getHeight();
-            consumer.setDimensions(w, h);
-            consumer.setColorModel(cm);
-            if (cm instanceof DirectColorModel) {
-                DataBufferInt db = (DataBufferInt) r.getDataBuffer();
-                consumer.setPixels(0, 0, w, h,
-                                   cm, db.getData(), 0, w);
+            bi = bufffrfdImbgfOp.filtfr(bi, null);
+            WritbblfRbstfr r = bi.gftRbstfr();
+            ColorModfl dm = bi.gftColorModfl();
+            int w = r.gftWidti();
+            int i = r.gftHfigit();
+            donsumfr.sftDimfnsions(w, i);
+            donsumfr.sftColorModfl(dm);
+            if (dm instbndfof DirfdtColorModfl) {
+                DbtbBufffrInt db = (DbtbBufffrInt) r.gftDbtbBufffr();
+                donsumfr.sftPixfls(0, 0, w, i,
+                                   dm, db.gftDbtb(), 0, w);
             }
-            else if (cm instanceof IndexColorModel) {
-                DataBufferByte db = (DataBufferByte) r.getDataBuffer();
-                consumer.setPixels(0, 0, w, h,
-                                   cm, db.getData(), 0, w);
+            flsf if (dm instbndfof IndfxColorModfl) {
+                DbtbBufffrBytf db = (DbtbBufffrBytf) r.gftDbtbBufffr();
+                donsumfr.sftPixfls(0, 0, w, i,
+                                   dm, db.gftDbtb(), 0, w);
             }
-            else {
-                throw new InternalError("Unknown color model "+cm);
+            flsf {
+                tirow nfw IntfrnblError("Unknown dolor modfl "+dm);
             }
-            break;
+            brfbk;
         }
-        consumer.imageComplete(status);
+        donsumfr.imbgfComplftf(stbtus);
     }
 
-    private final WritableRaster createDCMraster() {
-        WritableRaster wr;
-        DirectColorModel dcm = (DirectColorModel) model;
-        boolean hasAlpha = model.hasAlpha();
-        int[] bandMasks = new int[3+(hasAlpha ? 1 : 0)];
-        bandMasks[0] = dcm.getRedMask();
-        bandMasks[1] = dcm.getGreenMask();
-        bandMasks[2] = dcm.getBlueMask();
-        if (hasAlpha) {
-            bandMasks[3] = dcm.getAlphaMask();
+    privbtf finbl WritbblfRbstfr drfbtfDCMrbstfr() {
+        WritbblfRbstfr wr;
+        DirfdtColorModfl ddm = (DirfdtColorModfl) modfl;
+        boolfbn ibsAlpib = modfl.ibsAlpib();
+        int[] bbndMbsks = nfw int[3+(ibsAlpib ? 1 : 0)];
+        bbndMbsks[0] = ddm.gftRfdMbsk();
+        bbndMbsks[1] = ddm.gftGrffnMbsk();
+        bbndMbsks[2] = ddm.gftBlufMbsk();
+        if (ibsAlpib) {
+            bbndMbsks[3] = ddm.gftAlpibMbsk();
         }
-        DataBufferInt db = new DataBufferInt(intPixels, width*height);
-        wr = Raster.createPackedRaster(db, width, height, width,
-                                       bandMasks, null);
-        return wr;
+        DbtbBufffrInt db = nfw DbtbBufffrInt(intPixfls, widti*ifigit);
+        wr = Rbstfr.drfbtfPbdkfdRbstfr(db, widti, ifigit, widti,
+                                       bbndMbsks, null);
+        rfturn wr;
     }
 
 }

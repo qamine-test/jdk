@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.script;
+pbdkbgf jbvbx.sdript;
 
 /**
- * The optional interface implemented by ScriptEngines whose methods allow the invocation of
- * procedures in scripts that have previously been executed.
+ * Tif optionbl intfrfbdf implfmfntfd by SdriptEnginfs wiosf mftiods bllow tif invodbtion of
+ * prodfdurfs in sdripts tibt ibvf prfviously bffn fxfdutfd.
  *
- * @author  Mike Grogan
- * @author  A. Sundararajan
- * @since 1.6
+ * @butior  Mikf Grogbn
+ * @butior  A. Sundbrbrbjbn
+ * @sindf 1.6
  */
-public interface Invocable  {
+publid intfrfbdf Invodbblf  {
     /**
-     * Calls a method on a script object compiled during a previous script execution,
-     * which is retained in the state of the <code>ScriptEngine</code>.
+     * Cblls b mftiod on b sdript objfdt dompilfd during b prfvious sdript fxfdution,
+     * wiidi is rftbinfd in tif stbtf of tif <dodf>SdriptEnginf</dodf>.
      *
-     * @param name The name of the procedure to be called.
+     * @pbrbm nbmf Tif nbmf of tif prodfdurf to bf dbllfd.
      *
-     * @param thiz If the procedure is a member  of a class
-     * defined in the script and thiz is an instance of that class
-     * returned by a previous execution or invocation, the named method is
-     * called through that instance.
+     * @pbrbm tiiz If tif prodfdurf is b mfmbfr  of b dlbss
+     * dffinfd in tif sdript bnd tiiz is bn instbndf of tibt dlbss
+     * rfturnfd by b prfvious fxfdution or invodbtion, tif nbmfd mftiod is
+     * dbllfd tirougi tibt instbndf.
      *
-     * @param args Arguments to pass to the procedure.  The rules for converting
-     * the arguments to scripting variables are implementation-specific.
+     * @pbrbm brgs Argumfnts to pbss to tif prodfdurf.  Tif rulfs for donvfrting
+     * tif brgumfnts to sdripting vbribblfs brf implfmfntbtion-spfdifid.
      *
-     * @return The value returned by the procedure.  The rules for converting the scripting
-     * variable returned by the script method to a Java Object are implementation-specific.
+     * @rfturn Tif vbluf rfturnfd by tif prodfdurf.  Tif rulfs for donvfrting tif sdripting
+     * vbribblf rfturnfd by tif sdript mftiod to b Jbvb Objfdt brf implfmfntbtion-spfdifid.
      *
-     * @throws ScriptException if an error occurs during invocation of the method.
-     * @throws NoSuchMethodException if method with given name or matching argument types cannot be found.
-     * @throws NullPointerException if the method name is null.
-     * @throws IllegalArgumentException if the specified thiz is null or the specified Object is
-     * does not represent a scripting object.
+     * @tirows SdriptExdfption if bn frror oddurs during invodbtion of tif mftiod.
+     * @tirows NoSudiMftiodExdfption if mftiod witi givfn nbmf or mbtdiing brgumfnt typfs dbnnot bf found.
+     * @tirows NullPointfrExdfption if tif mftiod nbmf is null.
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd tiiz is null or tif spfdififd Objfdt is
+     * dofs not rfprfsfnt b sdripting objfdt.
      */
-    public Object invokeMethod(Object thiz, String name, Object... args)
-        throws ScriptException, NoSuchMethodException;
+    publid Objfdt invokfMftiod(Objfdt tiiz, String nbmf, Objfdt... brgs)
+        tirows SdriptExdfption, NoSudiMftiodExdfption;
 
     /**
-     * Used to call top-level procedures and functions defined in scripts.
+     * Usfd to dbll top-lfvfl prodfdurfs bnd fundtions dffinfd in sdripts.
      *
-     * @param name of the procedure or function to call
-     * @param args Arguments to pass to the procedure or function
-     * @return The value returned by the procedure or function
+     * @pbrbm nbmf of tif prodfdurf or fundtion to dbll
+     * @pbrbm brgs Argumfnts to pbss to tif prodfdurf or fundtion
+     * @rfturn Tif vbluf rfturnfd by tif prodfdurf or fundtion
      *
-     * @throws ScriptException if an error occurs during invocation of the method.
-     * @throws NoSuchMethodException if method with given name or matching argument types cannot be found.
-     * @throws NullPointerException if method name is null.
+     * @tirows SdriptExdfption if bn frror oddurs during invodbtion of tif mftiod.
+     * @tirows NoSudiMftiodExdfption if mftiod witi givfn nbmf or mbtdiing brgumfnt typfs dbnnot bf found.
+     * @tirows NullPointfrExdfption if mftiod nbmf is null.
      */
-     public Object invokeFunction(String name, Object... args)
-        throws ScriptException, NoSuchMethodException;
+     publid Objfdt invokfFundtion(String nbmf, Objfdt... brgs)
+        tirows SdriptExdfption, NoSudiMftiodExdfption;
 
 
      /**
-     * Returns an implementation of an interface using functions compiled in
-     * the interpreter. The methods of the interface
-     * may be implemented using the <code>invokeFunction</code> method.
+     * Rfturns bn implfmfntbtion of bn intfrfbdf using fundtions dompilfd in
+     * tif intfrprftfr. Tif mftiods of tif intfrfbdf
+     * mby bf implfmfntfd using tif <dodf>invokfFundtion</dodf> mftiod.
      *
-     * @param <T> the type of the interface to return
-     * @param clasz The <code>Class</code> object of the interface to return.
+     * @pbrbm <T> tif typf of tif intfrfbdf to rfturn
+     * @pbrbm dlbsz Tif <dodf>Clbss</dodf> objfdt of tif intfrfbdf to rfturn.
      *
-     * @return An instance of requested interface - null if the requested interface is unavailable,
-     * i. e. if compiled functions in the <code>ScriptEngine</code> cannot be found matching
-     * the ones in the requested interface.
+     * @rfturn An instbndf of rfqufstfd intfrfbdf - null if tif rfqufstfd intfrfbdf is unbvbilbblf,
+     * i. f. if dompilfd fundtions in tif <dodf>SdriptEnginf</dodf> dbnnot bf found mbtdiing
+     * tif onfs in tif rfqufstfd intfrfbdf.
      *
-     * @throws IllegalArgumentException if the specified <code>Class</code> object
-     * is null or is not an interface.
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd <dodf>Clbss</dodf> objfdt
+     * is null or is not bn intfrfbdf.
      */
-    public <T> T getInterface(Class<T> clasz);
+    publid <T> T gftIntfrfbdf(Clbss<T> dlbsz);
 
     /**
-     * Returns an implementation of an interface using member functions of
-     * a scripting object compiled in the interpreter. The methods of the
-     * interface may be implemented using the <code>invokeMethod</code> method.
+     * Rfturns bn implfmfntbtion of bn intfrfbdf using mfmbfr fundtions of
+     * b sdripting objfdt dompilfd in tif intfrprftfr. Tif mftiods of tif
+     * intfrfbdf mby bf implfmfntfd using tif <dodf>invokfMftiod</dodf> mftiod.
      *
-     * @param <T> the type of the interface to return
-     * @param thiz The scripting object whose member functions are used to implement the methods of the interface.
-     * @param clasz The <code>Class</code> object of the interface to return.
+     * @pbrbm <T> tif typf of tif intfrfbdf to rfturn
+     * @pbrbm tiiz Tif sdripting objfdt wiosf mfmbfr fundtions brf usfd to implfmfnt tif mftiods of tif intfrfbdf.
+     * @pbrbm dlbsz Tif <dodf>Clbss</dodf> objfdt of tif intfrfbdf to rfturn.
      *
-     * @return An instance of requested interface - null if the requested interface is unavailable,
-     * i. e. if compiled methods in the <code>ScriptEngine</code> cannot be found matching
-     * the ones in the requested interface.
+     * @rfturn An instbndf of rfqufstfd intfrfbdf - null if tif rfqufstfd intfrfbdf is unbvbilbblf,
+     * i. f. if dompilfd mftiods in tif <dodf>SdriptEnginf</dodf> dbnnot bf found mbtdiing
+     * tif onfs in tif rfqufstfd intfrfbdf.
      *
-     * @throws IllegalArgumentException if the specified <code>Class</code> object
-     * is null or is not an interface, or if the specified Object is
-     * null or does not represent a scripting object.
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd <dodf>Clbss</dodf> objfdt
+     * is null or is not bn intfrfbdf, or if tif spfdififd Objfdt is
+     * null or dofs not rfprfsfnt b sdripting objfdt.
      */
-     public <T> T getInterface(Object thiz, Class<T> clasz);
+     publid <T> T gftIntfrfbdf(Objfdt tiiz, Clbss<T> dlbsz);
 
 }

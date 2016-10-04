@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.AccessController;
-import java.security.Provider;
-import java.security.SecureRandom;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.SfdurfRbndom;
 
 
 /**
- * The "SunJCE" Cryptographic Service Provider.
+ * Tif "SunJCE" Cryptogrbpiid Sfrvidf Providfr.
  *
- * @author Jan Luehe
- * @author Sharon Liu
+ * @butior Jbn Lufif
+ * @butior Sibron Liu
  */
 
 /**
- * Defines the "SunJCE" provider.
+ * Dffinfs tif "SunJCE" providfr.
  *
- * Supported algorithms and their names:
+ * Supportfd blgoritims bnd tifir nbmfs:
  *
- * - RSA encryption (PKCS#1 v1.5 and raw)
+ * - RSA fndryption (PKCS#1 v1.5 bnd rbw)
  *
  * - DES
  *
@@ -50,80 +50,80 @@ import java.security.SecureRandom;
  *
  * - AES
  *
- * - Blowfish
+ * - Blowfisi
  *
  * - RC2
  *
- * - ARCFOUR (RC4 compatible)
+ * - ARCFOUR (RC4 dompbtiblf)
  *
- * - Cipher modes ECB, CBC, CFB, OFB, PCBC, CTR, and CTS for all block ciphers
- *   and mode GCM for AES cipher
+ * - Cipifr modfs ECB, CBC, CFB, OFB, PCBC, CTR, bnd CTS for bll blodk dipifrs
+ *   bnd modf GCM for AES dipifr
  *
- * - Cipher padding ISO10126Padding for non-PKCS#5 block ciphers and
- *   NoPadding and PKCS5Padding for all block ciphers
+ * - Cipifr pbdding ISO10126Pbdding for non-PKCS#5 blodk dipifrs bnd
+ *   NoPbdding bnd PKCS5Pbdding for bll blodk dipifrs
  *
- * - Password-based Encryption (PBE)
+ * - Pbssword-bbsfd Endryption (PBE)
  *
- * - Diffie-Hellman Key Agreement
+ * - Diffif-Hfllmbn Kfy Agrffmfnt
  *
  * - HMAC-MD5, HMAC-SHA1, HMAC-SHA-224, HMAC-SHA-256, HMAC-SHA-384, HMAC-SHA-512
  *
  */
 
-public final class SunJCE extends Provider {
+publid finbl dlbss SunJCE fxtfnds Providfr {
 
-    private static final long serialVersionUID = 6812507587804302833L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6812507587804302833L;
 
-    private static final String info = "SunJCE Provider " +
-    "(implements RSA, DES, Triple DES, AES, Blowfish, ARCFOUR, RC2, PBE, "
-    + "Diffie-Hellman, HMAC)";
+    privbtf stbtid finbl String info = "SunJCE Providfr " +
+    "(implfmfnts RSA, DES, Triplf DES, AES, Blowfisi, ARCFOUR, RC2, PBE, "
+    + "Diffif-Hfllmbn, HMAC)";
 
-    private static final String OID_PKCS12_RC4_128 = "1.2.840.113549.1.12.1.1";
-    private static final String OID_PKCS12_RC4_40 = "1.2.840.113549.1.12.1.2";
-    private static final String OID_PKCS12_DESede = "1.2.840.113549.1.12.1.3";
-    private static final String OID_PKCS12_RC2_128 = "1.2.840.113549.1.12.1.5";
-    private static final String OID_PKCS12_RC2_40 = "1.2.840.113549.1.12.1.6";
-    private static final String OID_PKCS5_MD5_DES = "1.2.840.113549.1.5.3";
-    private static final String OID_PKCS5_PBKDF2 = "1.2.840.113549.1.5.12";
-    private static final String OID_PKCS5_PBES2 = "1.2.840.113549.1.5.13";
-    private static final String OID_PKCS3 = "1.2.840.113549.1.3.1";
+    privbtf stbtid finbl String OID_PKCS12_RC4_128 = "1.2.840.113549.1.12.1.1";
+    privbtf stbtid finbl String OID_PKCS12_RC4_40 = "1.2.840.113549.1.12.1.2";
+    privbtf stbtid finbl String OID_PKCS12_DESfdf = "1.2.840.113549.1.12.1.3";
+    privbtf stbtid finbl String OID_PKCS12_RC2_128 = "1.2.840.113549.1.12.1.5";
+    privbtf stbtid finbl String OID_PKCS12_RC2_40 = "1.2.840.113549.1.12.1.6";
+    privbtf stbtid finbl String OID_PKCS5_MD5_DES = "1.2.840.113549.1.5.3";
+    privbtf stbtid finbl String OID_PKCS5_PBKDF2 = "1.2.840.113549.1.5.12";
+    privbtf stbtid finbl String OID_PKCS5_PBES2 = "1.2.840.113549.1.5.13";
+    privbtf stbtid finbl String OID_PKCS3 = "1.2.840.113549.1.3.1";
 
-    /* Are we debugging? -- for developers */
-    static final boolean debug = false;
+    /* Arf wf dfbugging? -- for dfvflopfrs */
+    stbtid finbl boolfbn dfbug = fblsf;
 
-    // Instance of this provider, so we don't have to call the provider list
-    // to find ourselves or run the risk of not being in the list.
-    private static volatile SunJCE instance = null;
+    // Instbndf of tiis providfr, so wf don't ibvf to dbll tif providfr list
+    // to find oursflvfs or run tif risk of not bfing in tif list.
+    privbtf stbtid volbtilf SunJCE instbndf = null;
 
-    // lazy initialize SecureRandom to avoid potential recursion if Sun
-    // provider has not been installed yet
-    private static class SecureRandomHolder {
-        static final SecureRandom RANDOM = new SecureRandom();
+    // lbzy initiblizf SfdurfRbndom to bvoid potfntibl rfdursion if Sun
+    // providfr ibs not bffn instbllfd yft
+    privbtf stbtid dlbss SfdurfRbndomHoldfr {
+        stbtid finbl SfdurfRbndom RANDOM = nfw SfdurfRbndom();
     }
-    static SecureRandom getRandom() { return SecureRandomHolder.RANDOM; }
+    stbtid SfdurfRbndom gftRbndom() { rfturn SfdurfRbndomHoldfr.RANDOM; }
 
-    public SunJCE() {
-        /* We are the "SunJCE" provider */
-        super("SunJCE", 1.9d, info);
+    publid SunJCE() {
+        /* Wf brf tif "SunJCE" providfr */
+        supfr("SunJCE", 1.9d, info);
 
-        final String BLOCK_MODES = "ECB|CBC|PCBC|CTR|CTS|CFB|OFB" +
+        finbl String BLOCK_MODES = "ECB|CBC|PCBC|CTR|CTS|CFB|OFB" +
             "|CFB8|CFB16|CFB24|CFB32|CFB40|CFB48|CFB56|CFB64" +
             "|OFB8|OFB16|OFB24|OFB32|OFB40|OFB48|OFB56|OFB64";
-        final String BLOCK_MODES128 = BLOCK_MODES +
+        finbl String BLOCK_MODES128 = BLOCK_MODES +
             "|GCM|CFB72|CFB80|CFB88|CFB96|CFB104|CFB112|CFB120|CFB128" +
             "|OFB72|OFB80|OFB88|OFB96|OFB104|OFB112|OFB120|OFB128";
-        final String BLOCK_PADS = "NOPADDING|PKCS5PADDING|ISO10126PADDING";
+        finbl String BLOCK_PADS = "NOPADDING|PKCS5PADDING|ISO10126PADDING";
 
-        AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Object>() {
-                public Object run() {
+        AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
 
                     /*
-                     * Cipher engines
+                     * Cipifr fnginfs
                      */
-                    put("Cipher.RSA", "com.sun.crypto.provider.RSACipher");
-                    put("Cipher.RSA SupportedModes", "ECB");
-                    put("Cipher.RSA SupportedPaddings",
+                    put("Cipifr.RSA", "dom.sun.drypto.providfr.RSACipifr");
+                    put("Cipifr.RSA SupportfdModfs", "ECB");
+                    put("Cipifr.RSA SupportfdPbddings",
                             "NOPADDING|PKCS1PADDING|OAEPPADDING"
                             + "|OAEPWITHMD5ANDMGF1PADDING"
                             + "|OAEPWITHSHA1ANDMGF1PADDING"
@@ -132,661 +132,661 @@ public final class SunJCE extends Provider {
                             + "|OAEPWITHSHA-256ANDMGF1PADDING"
                             + "|OAEPWITHSHA-384ANDMGF1PADDING"
                             + "|OAEPWITHSHA-512ANDMGF1PADDING");
-                    put("Cipher.RSA SupportedKeyClasses",
-                            "java.security.interfaces.RSAPublicKey" +
-                            "|java.security.interfaces.RSAPrivateKey");
+                    put("Cipifr.RSA SupportfdKfyClbssfs",
+                            "jbvb.sfdurity.intfrfbdfs.RSAPublidKfy" +
+                            "|jbvb.sfdurity.intfrfbdfs.RSAPrivbtfKfy");
 
-                    put("Cipher.DES", "com.sun.crypto.provider.DESCipher");
-                    put("Cipher.DES SupportedModes", BLOCK_MODES);
-                    put("Cipher.DES SupportedPaddings", BLOCK_PADS);
-                    put("Cipher.DES SupportedKeyFormats", "RAW");
+                    put("Cipifr.DES", "dom.sun.drypto.providfr.DESCipifr");
+                    put("Cipifr.DES SupportfdModfs", BLOCK_MODES);
+                    put("Cipifr.DES SupportfdPbddings", BLOCK_PADS);
+                    put("Cipifr.DES SupportfdKfyFormbts", "RAW");
 
-                    put("Cipher.DESede", "com.sun.crypto.provider.DESedeCipher");
-                    put("Alg.Alias.Cipher.TripleDES", "DESede");
-                    put("Cipher.DESede SupportedModes", BLOCK_MODES);
-                    put("Cipher.DESede SupportedPaddings", BLOCK_PADS);
-                    put("Cipher.DESede SupportedKeyFormats", "RAW");
+                    put("Cipifr.DESfdf", "dom.sun.drypto.providfr.DESfdfCipifr");
+                    put("Alg.Alibs.Cipifr.TriplfDES", "DESfdf");
+                    put("Cipifr.DESfdf SupportfdModfs", BLOCK_MODES);
+                    put("Cipifr.DESfdf SupportfdPbddings", BLOCK_PADS);
+                    put("Cipifr.DESfdf SupportfdKfyFormbts", "RAW");
 
-                    put("Cipher.DESedeWrap",
-                        "com.sun.crypto.provider.DESedeWrapCipher");
-                    put("Cipher.DESedeWrap SupportedModes", "CBC");
-                    put("Cipher.DESedeWrap SupportedPaddings", "NOPADDING");
-                    put("Cipher.DESedeWrap SupportedKeyFormats", "RAW");
+                    put("Cipifr.DESfdfWrbp",
+                        "dom.sun.drypto.providfr.DESfdfWrbpCipifr");
+                    put("Cipifr.DESfdfWrbp SupportfdModfs", "CBC");
+                    put("Cipifr.DESfdfWrbp SupportfdPbddings", "NOPADDING");
+                    put("Cipifr.DESfdfWrbp SupportfdKfyFormbts", "RAW");
 
                     // PBES1
 
-                    put("Cipher.PBEWithMD5AndDES",
-                        "com.sun.crypto.provider.PBEWithMD5AndDESCipher");
-                    put("Alg.Alias.Cipher.OID."+OID_PKCS5_MD5_DES,
-                        "PBEWithMD5AndDES");
-                    put("Alg.Alias.Cipher."+OID_PKCS5_MD5_DES,
-                        "PBEWithMD5AndDES");
+                    put("Cipifr.PBEWitiMD5AndDES",
+                        "dom.sun.drypto.providfr.PBEWitiMD5AndDESCipifr");
+                    put("Alg.Alibs.Cipifr.OID."+OID_PKCS5_MD5_DES,
+                        "PBEWitiMD5AndDES");
+                    put("Alg.Alibs.Cipifr."+OID_PKCS5_MD5_DES,
+                        "PBEWitiMD5AndDES");
 
-                    put("Cipher.PBEWithMD5AndTripleDES",
-                        "com.sun.crypto.provider.PBEWithMD5AndTripleDESCipher");
+                    put("Cipifr.PBEWitiMD5AndTriplfDES",
+                        "dom.sun.drypto.providfr.PBEWitiMD5AndTriplfDESCipifr");
 
-                    put("Cipher.PBEWithSHA1AndDESede",
-                        "com.sun.crypto.provider.PKCS12PBECipherCore$" +
-                        "PBEWithSHA1AndDESede");
-                    put("Alg.Alias.Cipher.OID." + OID_PKCS12_DESede,
-                        "PBEWithSHA1AndDESede");
-                    put("Alg.Alias.Cipher." + OID_PKCS12_DESede,
-                        "PBEWithSHA1AndDESede");
+                    put("Cipifr.PBEWitiSHA1AndDESfdf",
+                        "dom.sun.drypto.providfr.PKCS12PBECipifrCorf$" +
+                        "PBEWitiSHA1AndDESfdf");
+                    put("Alg.Alibs.Cipifr.OID." + OID_PKCS12_DESfdf,
+                        "PBEWitiSHA1AndDESfdf");
+                    put("Alg.Alibs.Cipifr." + OID_PKCS12_DESfdf,
+                        "PBEWitiSHA1AndDESfdf");
 
-                    put("Cipher.PBEWithSHA1AndRC2_40",
-                        "com.sun.crypto.provider.PKCS12PBECipherCore$" +
-                        "PBEWithSHA1AndRC2_40");
-                    put("Alg.Alias.Cipher.OID." + OID_PKCS12_RC2_40,
-                        "PBEWithSHA1AndRC2_40");
-                    put("Alg.Alias.Cipher." + OID_PKCS12_RC2_40,
-                        "PBEWithSHA1AndRC2_40");
+                    put("Cipifr.PBEWitiSHA1AndRC2_40",
+                        "dom.sun.drypto.providfr.PKCS12PBECipifrCorf$" +
+                        "PBEWitiSHA1AndRC2_40");
+                    put("Alg.Alibs.Cipifr.OID." + OID_PKCS12_RC2_40,
+                        "PBEWitiSHA1AndRC2_40");
+                    put("Alg.Alibs.Cipifr." + OID_PKCS12_RC2_40,
+                        "PBEWitiSHA1AndRC2_40");
 
-                    put("Cipher.PBEWithSHA1AndRC2_128",
-                        "com.sun.crypto.provider.PKCS12PBECipherCore$" +
-                        "PBEWithSHA1AndRC2_128");
-                    put("Alg.Alias.Cipher.OID." + OID_PKCS12_RC2_128,
-                        "PBEWithSHA1AndRC2_128");
-                    put("Alg.Alias.Cipher." + OID_PKCS12_RC2_128,
-                        "PBEWithSHA1AndRC2_128");
+                    put("Cipifr.PBEWitiSHA1AndRC2_128",
+                        "dom.sun.drypto.providfr.PKCS12PBECipifrCorf$" +
+                        "PBEWitiSHA1AndRC2_128");
+                    put("Alg.Alibs.Cipifr.OID." + OID_PKCS12_RC2_128,
+                        "PBEWitiSHA1AndRC2_128");
+                    put("Alg.Alibs.Cipifr." + OID_PKCS12_RC2_128,
+                        "PBEWitiSHA1AndRC2_128");
 
-                    put("Cipher.PBEWithSHA1AndRC4_40",
-                        "com.sun.crypto.provider.PKCS12PBECipherCore$" +
-                        "PBEWithSHA1AndRC4_40");
-                    put("Alg.Alias.Cipher.OID." + OID_PKCS12_RC4_40,
-                        "PBEWithSHA1AndRC4_40");
-                    put("Alg.Alias.Cipher." + OID_PKCS12_RC4_40,
-                        "PBEWithSHA1AndRC4_40");
+                    put("Cipifr.PBEWitiSHA1AndRC4_40",
+                        "dom.sun.drypto.providfr.PKCS12PBECipifrCorf$" +
+                        "PBEWitiSHA1AndRC4_40");
+                    put("Alg.Alibs.Cipifr.OID." + OID_PKCS12_RC4_40,
+                        "PBEWitiSHA1AndRC4_40");
+                    put("Alg.Alibs.Cipifr." + OID_PKCS12_RC4_40,
+                        "PBEWitiSHA1AndRC4_40");
 
-                    put("Cipher.PBEWithSHA1AndRC4_128",
-                        "com.sun.crypto.provider.PKCS12PBECipherCore$" +
-                        "PBEWithSHA1AndRC4_128");
-                    put("Alg.Alias.Cipher.OID." + OID_PKCS12_RC4_128,
-                        "PBEWithSHA1AndRC4_128");
-                    put("Alg.Alias.Cipher." + OID_PKCS12_RC4_128,
-                        "PBEWithSHA1AndRC4_128");
+                    put("Cipifr.PBEWitiSHA1AndRC4_128",
+                        "dom.sun.drypto.providfr.PKCS12PBECipifrCorf$" +
+                        "PBEWitiSHA1AndRC4_128");
+                    put("Alg.Alibs.Cipifr.OID." + OID_PKCS12_RC4_128,
+                        "PBEWitiSHA1AndRC4_128");
+                    put("Alg.Alibs.Cipifr." + OID_PKCS12_RC4_128,
+                        "PBEWitiSHA1AndRC4_128");
 
                     //PBES2
 
-                    put("Cipher.PBEWithHmacSHA1AndAES_128",
-                        "com.sun.crypto.provider.PBES2Core$HmacSHA1AndAES_128");
+                    put("Cipifr.PBEWitiHmbdSHA1AndAES_128",
+                        "dom.sun.drypto.providfr.PBES2Corf$HmbdSHA1AndAES_128");
 
-                    put("Cipher.PBEWithHmacSHA224AndAES_128",
-                        "com.sun.crypto.provider.PBES2Core$" +
-                            "HmacSHA224AndAES_128");
+                    put("Cipifr.PBEWitiHmbdSHA224AndAES_128",
+                        "dom.sun.drypto.providfr.PBES2Corf$" +
+                            "HmbdSHA224AndAES_128");
 
-                    put("Cipher.PBEWithHmacSHA256AndAES_128",
-                        "com.sun.crypto.provider.PBES2Core$" +
-                            "HmacSHA256AndAES_128");
+                    put("Cipifr.PBEWitiHmbdSHA256AndAES_128",
+                        "dom.sun.drypto.providfr.PBES2Corf$" +
+                            "HmbdSHA256AndAES_128");
 
-                    put("Cipher.PBEWithHmacSHA384AndAES_128",
-                        "com.sun.crypto.provider.PBES2Core$" +
-                            "HmacSHA384AndAES_128");
+                    put("Cipifr.PBEWitiHmbdSHA384AndAES_128",
+                        "dom.sun.drypto.providfr.PBES2Corf$" +
+                            "HmbdSHA384AndAES_128");
 
-                    put("Cipher.PBEWithHmacSHA512AndAES_128",
-                        "com.sun.crypto.provider.PBES2Core$" +
-                            "HmacSHA512AndAES_128");
+                    put("Cipifr.PBEWitiHmbdSHA512AndAES_128",
+                        "dom.sun.drypto.providfr.PBES2Corf$" +
+                            "HmbdSHA512AndAES_128");
 
-                    put("Cipher.PBEWithHmacSHA1AndAES_256",
-                        "com.sun.crypto.provider.PBES2Core$HmacSHA1AndAES_256");
+                    put("Cipifr.PBEWitiHmbdSHA1AndAES_256",
+                        "dom.sun.drypto.providfr.PBES2Corf$HmbdSHA1AndAES_256");
 
-                    put("Cipher.PBEWithHmacSHA224AndAES_256",
-                        "com.sun.crypto.provider.PBES2Core$" +
-                            "HmacSHA224AndAES_256");
+                    put("Cipifr.PBEWitiHmbdSHA224AndAES_256",
+                        "dom.sun.drypto.providfr.PBES2Corf$" +
+                            "HmbdSHA224AndAES_256");
 
-                    put("Cipher.PBEWithHmacSHA256AndAES_256",
-                        "com.sun.crypto.provider.PBES2Core$" +
-                            "HmacSHA256AndAES_256");
+                    put("Cipifr.PBEWitiHmbdSHA256AndAES_256",
+                        "dom.sun.drypto.providfr.PBES2Corf$" +
+                            "HmbdSHA256AndAES_256");
 
-                    put("Cipher.PBEWithHmacSHA384AndAES_256",
-                        "com.sun.crypto.provider.PBES2Core$" +
-                            "HmacSHA384AndAES_256");
+                    put("Cipifr.PBEWitiHmbdSHA384AndAES_256",
+                        "dom.sun.drypto.providfr.PBES2Corf$" +
+                            "HmbdSHA384AndAES_256");
 
-                    put("Cipher.PBEWithHmacSHA512AndAES_256",
-                        "com.sun.crypto.provider.PBES2Core$" +
-                            "HmacSHA512AndAES_256");
+                    put("Cipifr.PBEWitiHmbdSHA512AndAES_256",
+                        "dom.sun.drypto.providfr.PBES2Corf$" +
+                            "HmbdSHA512AndAES_256");
 
-                    put("Cipher.Blowfish",
-                        "com.sun.crypto.provider.BlowfishCipher");
-                    put("Cipher.Blowfish SupportedModes", BLOCK_MODES);
-                    put("Cipher.Blowfish SupportedPaddings", BLOCK_PADS);
-                    put("Cipher.Blowfish SupportedKeyFormats", "RAW");
+                    put("Cipifr.Blowfisi",
+                        "dom.sun.drypto.providfr.BlowfisiCipifr");
+                    put("Cipifr.Blowfisi SupportfdModfs", BLOCK_MODES);
+                    put("Cipifr.Blowfisi SupportfdPbddings", BLOCK_PADS);
+                    put("Cipifr.Blowfisi SupportfdKfyFormbts", "RAW");
 
-                    put("Cipher.AES", "com.sun.crypto.provider.AESCipher$General");
-                    put("Alg.Alias.Cipher.Rijndael", "AES");
-                    put("Cipher.AES SupportedModes", BLOCK_MODES128);
-                    put("Cipher.AES SupportedPaddings", BLOCK_PADS);
-                    put("Cipher.AES SupportedKeyFormats", "RAW");
+                    put("Cipifr.AES", "dom.sun.drypto.providfr.AESCipifr$Gfnfrbl");
+                    put("Alg.Alibs.Cipifr.Rijndbfl", "AES");
+                    put("Cipifr.AES SupportfdModfs", BLOCK_MODES128);
+                    put("Cipifr.AES SupportfdPbddings", BLOCK_PADS);
+                    put("Cipifr.AES SupportfdKfyFormbts", "RAW");
 
-                    put("Cipher.AES_128/ECB/NoPadding", "com.sun.crypto.provider.AESCipher$AES128_ECB_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.1", "AES_128/ECB/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.1", "AES_128/ECB/NoPadding");
-                    put("Cipher.AES_128/CBC/NoPadding", "com.sun.crypto.provider.AESCipher$AES128_CBC_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.2", "AES_128/CBC/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.2", "AES_128/CBC/NoPadding");
-                    put("Cipher.AES_128/OFB/NoPadding", "com.sun.crypto.provider.AESCipher$AES128_OFB_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.3", "AES_128/OFB/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.3", "AES_128/OFB/NoPadding");
-                    put("Cipher.AES_128/CFB/NoPadding", "com.sun.crypto.provider.AESCipher$AES128_CFB_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.4", "AES_128/CFB/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.4", "AES_128/CFB/NoPadding");
-                    put("Cipher.AES_128/GCM/NoPadding", "com.sun.crypto.provider.AESCipher$AES128_GCM_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.6", "AES_128/GCM/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.6", "AES_128/GCM/NoPadding");
+                    put("Cipifr.AES_128/ECB/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES128_ECB_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.1", "AES_128/ECB/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.1", "AES_128/ECB/NoPbdding");
+                    put("Cipifr.AES_128/CBC/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES128_CBC_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.2", "AES_128/CBC/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.2", "AES_128/CBC/NoPbdding");
+                    put("Cipifr.AES_128/OFB/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES128_OFB_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.3", "AES_128/OFB/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.3", "AES_128/OFB/NoPbdding");
+                    put("Cipifr.AES_128/CFB/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES128_CFB_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.4", "AES_128/CFB/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.4", "AES_128/CFB/NoPbdding");
+                    put("Cipifr.AES_128/GCM/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES128_GCM_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.6", "AES_128/GCM/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.6", "AES_128/GCM/NoPbdding");
 
-                    put("Cipher.AES_192/ECB/NoPadding", "com.sun.crypto.provider.AESCipher$AES192_ECB_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.21", "AES_192/ECB/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.21", "AES_192/ECB/NoPadding");
-                    put("Cipher.AES_192/CBC/NoPadding", "com.sun.crypto.provider.AESCipher$AES192_CBC_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.22", "AES_192/CBC/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.22", "AES_192/CBC/NoPadding");
-                    put("Cipher.AES_192/OFB/NoPadding", "com.sun.crypto.provider.AESCipher$AES192_OFB_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.23", "AES_192/OFB/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.23", "AES_192/OFB/NoPadding");
-                    put("Cipher.AES_192/CFB/NoPadding", "com.sun.crypto.provider.AESCipher$AES192_CFB_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.24", "AES_192/CFB/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.24", "AES_192/CFB/NoPadding");
-                    put("Cipher.AES_192/GCM/NoPadding", "com.sun.crypto.provider.AESCipher$AES192_GCM_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.26", "AES_192/GCM/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.26", "AES_192/GCM/NoPadding");
+                    put("Cipifr.AES_192/ECB/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES192_ECB_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.21", "AES_192/ECB/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.21", "AES_192/ECB/NoPbdding");
+                    put("Cipifr.AES_192/CBC/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES192_CBC_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.22", "AES_192/CBC/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.22", "AES_192/CBC/NoPbdding");
+                    put("Cipifr.AES_192/OFB/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES192_OFB_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.23", "AES_192/OFB/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.23", "AES_192/OFB/NoPbdding");
+                    put("Cipifr.AES_192/CFB/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES192_CFB_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.24", "AES_192/CFB/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.24", "AES_192/CFB/NoPbdding");
+                    put("Cipifr.AES_192/GCM/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES192_GCM_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.26", "AES_192/GCM/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.26", "AES_192/GCM/NoPbdding");
 
-                    put("Cipher.AES_256/ECB/NoPadding", "com.sun.crypto.provider.AESCipher$AES256_ECB_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.41", "AES_256/ECB/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.41", "AES_256/ECB/NoPadding");
-                    put("Cipher.AES_256/CBC/NoPadding", "com.sun.crypto.provider.AESCipher$AES256_CBC_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.42", "AES_256/CBC/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.42", "AES_256/CBC/NoPadding");
-                    put("Cipher.AES_256/OFB/NoPadding", "com.sun.crypto.provider.AESCipher$AES256_OFB_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.43", "AES_256/OFB/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.43", "AES_256/OFB/NoPadding");
-                    put("Cipher.AES_256/CFB/NoPadding", "com.sun.crypto.provider.AESCipher$AES256_CFB_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.44", "AES_256/CFB/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.44", "AES_256/CFB/NoPadding");
-                    put("Cipher.AES_256/GCM/NoPadding", "com.sun.crypto.provider.AESCipher$AES256_GCM_NoPadding");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.46", "AES_256/GCM/NoPadding");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.46", "AES_256/GCM/NoPadding");
+                    put("Cipifr.AES_256/ECB/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES256_ECB_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.41", "AES_256/ECB/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.41", "AES_256/ECB/NoPbdding");
+                    put("Cipifr.AES_256/CBC/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES256_CBC_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.42", "AES_256/CBC/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.42", "AES_256/CBC/NoPbdding");
+                    put("Cipifr.AES_256/OFB/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES256_OFB_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.43", "AES_256/OFB/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.43", "AES_256/OFB/NoPbdding");
+                    put("Cipifr.AES_256/CFB/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES256_CFB_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.44", "AES_256/CFB/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.44", "AES_256/CFB/NoPbdding");
+                    put("Cipifr.AES_256/GCM/NoPbdding", "dom.sun.drypto.providfr.AESCipifr$AES256_GCM_NoPbdding");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.46", "AES_256/GCM/NoPbdding");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.46", "AES_256/GCM/NoPbdding");
 
-                    put("Cipher.AESWrap", "com.sun.crypto.provider.AESWrapCipher$General");
-                    put("Cipher.AESWrap SupportedModes", "ECB");
-                    put("Cipher.AESWrap SupportedPaddings", "NOPADDING");
-                    put("Cipher.AESWrap SupportedKeyFormats", "RAW");
+                    put("Cipifr.AESWrbp", "dom.sun.drypto.providfr.AESWrbpCipifr$Gfnfrbl");
+                    put("Cipifr.AESWrbp SupportfdModfs", "ECB");
+                    put("Cipifr.AESWrbp SupportfdPbddings", "NOPADDING");
+                    put("Cipifr.AESWrbp SupportfdKfyFormbts", "RAW");
 
-                    put("Cipher.AESWrap_128", "com.sun.crypto.provider.AESWrapCipher$AES128");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.5", "AESWrap_128");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.5", "AESWrap_128");
-                    put("Cipher.AESWrap_192", "com.sun.crypto.provider.AESWrapCipher$AES192");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.25", "AESWrap_192");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.25", "AESWrap_192");
-                    put("Cipher.AESWrap_256", "com.sun.crypto.provider.AESWrapCipher$AES256");
-                    put("Alg.Alias.Cipher.2.16.840.1.101.3.4.1.45", "AESWrap_256");
-                    put("Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.45", "AESWrap_256");
+                    put("Cipifr.AESWrbp_128", "dom.sun.drypto.providfr.AESWrbpCipifr$AES128");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.5", "AESWrbp_128");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.5", "AESWrbp_128");
+                    put("Cipifr.AESWrbp_192", "dom.sun.drypto.providfr.AESWrbpCipifr$AES192");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.25", "AESWrbp_192");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.25", "AESWrbp_192");
+                    put("Cipifr.AESWrbp_256", "dom.sun.drypto.providfr.AESWrbpCipifr$AES256");
+                    put("Alg.Alibs.Cipifr.2.16.840.1.101.3.4.1.45", "AESWrbp_256");
+                    put("Alg.Alibs.Cipifr.OID.2.16.840.1.101.3.4.1.45", "AESWrbp_256");
 
-                    put("Cipher.RC2",
-                        "com.sun.crypto.provider.RC2Cipher");
-                    put("Cipher.RC2 SupportedModes", BLOCK_MODES);
-                    put("Cipher.RC2 SupportedPaddings", BLOCK_PADS);
-                    put("Cipher.RC2 SupportedKeyFormats", "RAW");
+                    put("Cipifr.RC2",
+                        "dom.sun.drypto.providfr.RC2Cipifr");
+                    put("Cipifr.RC2 SupportfdModfs", BLOCK_MODES);
+                    put("Cipifr.RC2 SupportfdPbddings", BLOCK_PADS);
+                    put("Cipifr.RC2 SupportfdKfyFormbts", "RAW");
 
-                    put("Cipher.ARCFOUR",
-                        "com.sun.crypto.provider.ARCFOURCipher");
-                    put("Alg.Alias.Cipher.RC4", "ARCFOUR");
-                    put("Cipher.ARCFOUR SupportedModes", "ECB");
-                    put("Cipher.ARCFOUR SupportedPaddings", "NOPADDING");
-                    put("Cipher.ARCFOUR SupportedKeyFormats", "RAW");
-
-                    /*
-                     * Key(pair) Generator engines
-                     */
-                    put("KeyGenerator.DES",
-                        "com.sun.crypto.provider.DESKeyGenerator");
-
-                    put("KeyGenerator.DESede",
-                        "com.sun.crypto.provider.DESedeKeyGenerator");
-                    put("Alg.Alias.KeyGenerator.TripleDES", "DESede");
-
-                    put("KeyGenerator.Blowfish",
-                        "com.sun.crypto.provider.BlowfishKeyGenerator");
-
-                    put("KeyGenerator.AES",
-                        "com.sun.crypto.provider.AESKeyGenerator");
-                    put("Alg.Alias.KeyGenerator.Rijndael", "AES");
-
-                    put("KeyGenerator.RC2",
-                        "com.sun.crypto.provider.KeyGeneratorCore$" +
-                        "RC2KeyGenerator");
-                    put("KeyGenerator.ARCFOUR",
-                        "com.sun.crypto.provider.KeyGeneratorCore$" +
-                        "ARCFOURKeyGenerator");
-                    put("Alg.Alias.KeyGenerator.RC4", "ARCFOUR");
-
-                    put("KeyGenerator.HmacMD5",
-                        "com.sun.crypto.provider.HmacMD5KeyGenerator");
-
-                    put("KeyGenerator.HmacSHA1",
-                        "com.sun.crypto.provider.HmacSHA1KeyGenerator");
-                    put("Alg.Alias.KeyGenerator.OID.1.2.840.113549.2.7", "HmacSHA1");
-                    put("Alg.Alias.KeyGenerator.1.2.840.113549.2.7", "HmacSHA1");
-
-                    put("KeyGenerator.HmacSHA224",
-                        "com.sun.crypto.provider.KeyGeneratorCore$HmacSHA2KG$SHA224");
-                    put("Alg.Alias.KeyGenerator.OID.1.2.840.113549.2.8", "HmacSHA224");
-                    put("Alg.Alias.KeyGenerator.1.2.840.113549.2.8", "HmacSHA224");
-
-                    put("KeyGenerator.HmacSHA256",
-                        "com.sun.crypto.provider.KeyGeneratorCore$HmacSHA2KG$SHA256");
-                    put("Alg.Alias.KeyGenerator.OID.1.2.840.113549.2.9", "HmacSHA256");
-                    put("Alg.Alias.KeyGenerator.1.2.840.113549.2.9", "HmacSHA256");
-
-                    put("KeyGenerator.HmacSHA384",
-                        "com.sun.crypto.provider.KeyGeneratorCore$HmacSHA2KG$SHA384");
-                    put("Alg.Alias.KeyGenerator.OID.1.2.840.113549.2.10", "HmacSHA384");
-                    put("Alg.Alias.KeyGenerator.1.2.840.113549.2.10", "HmacSHA384");
-
-                    put("KeyGenerator.HmacSHA512",
-                        "com.sun.crypto.provider.KeyGeneratorCore$HmacSHA2KG$SHA512");
-                    put("Alg.Alias.KeyGenerator.OID.1.2.840.113549.2.11", "HmacSHA512");
-                    put("Alg.Alias.KeyGenerator.1.2.840.113549.2.11", "HmacSHA512");
-
-                    put("KeyPairGenerator.DiffieHellman",
-                        "com.sun.crypto.provider.DHKeyPairGenerator");
-                    put("Alg.Alias.KeyPairGenerator.DH", "DiffieHellman");
-                    put("Alg.Alias.KeyPairGenerator.OID."+OID_PKCS3,
-                        "DiffieHellman");
-                    put("Alg.Alias.KeyPairGenerator."+OID_PKCS3,
-                        "DiffieHellman");
+                    put("Cipifr.ARCFOUR",
+                        "dom.sun.drypto.providfr.ARCFOURCipifr");
+                    put("Alg.Alibs.Cipifr.RC4", "ARCFOUR");
+                    put("Cipifr.ARCFOUR SupportfdModfs", "ECB");
+                    put("Cipifr.ARCFOUR SupportfdPbddings", "NOPADDING");
+                    put("Cipifr.ARCFOUR SupportfdKfyFormbts", "RAW");
 
                     /*
-                     * Algorithm parameter generation engines
+                     * Kfy(pbir) Gfnfrbtor fnginfs
                      */
-                    put("AlgorithmParameterGenerator.DiffieHellman",
-                        "com.sun.crypto.provider.DHParameterGenerator");
-                    put("Alg.Alias.AlgorithmParameterGenerator.DH",
-                        "DiffieHellman");
-                    put("Alg.Alias.AlgorithmParameterGenerator.OID."+OID_PKCS3,
-                        "DiffieHellman");
-                    put("Alg.Alias.AlgorithmParameterGenerator."+OID_PKCS3,
-                        "DiffieHellman");
+                    put("KfyGfnfrbtor.DES",
+                        "dom.sun.drypto.providfr.DESKfyGfnfrbtor");
+
+                    put("KfyGfnfrbtor.DESfdf",
+                        "dom.sun.drypto.providfr.DESfdfKfyGfnfrbtor");
+                    put("Alg.Alibs.KfyGfnfrbtor.TriplfDES", "DESfdf");
+
+                    put("KfyGfnfrbtor.Blowfisi",
+                        "dom.sun.drypto.providfr.BlowfisiKfyGfnfrbtor");
+
+                    put("KfyGfnfrbtor.AES",
+                        "dom.sun.drypto.providfr.AESKfyGfnfrbtor");
+                    put("Alg.Alibs.KfyGfnfrbtor.Rijndbfl", "AES");
+
+                    put("KfyGfnfrbtor.RC2",
+                        "dom.sun.drypto.providfr.KfyGfnfrbtorCorf$" +
+                        "RC2KfyGfnfrbtor");
+                    put("KfyGfnfrbtor.ARCFOUR",
+                        "dom.sun.drypto.providfr.KfyGfnfrbtorCorf$" +
+                        "ARCFOURKfyGfnfrbtor");
+                    put("Alg.Alibs.KfyGfnfrbtor.RC4", "ARCFOUR");
+
+                    put("KfyGfnfrbtor.HmbdMD5",
+                        "dom.sun.drypto.providfr.HmbdMD5KfyGfnfrbtor");
+
+                    put("KfyGfnfrbtor.HmbdSHA1",
+                        "dom.sun.drypto.providfr.HmbdSHA1KfyGfnfrbtor");
+                    put("Alg.Alibs.KfyGfnfrbtor.OID.1.2.840.113549.2.7", "HmbdSHA1");
+                    put("Alg.Alibs.KfyGfnfrbtor.1.2.840.113549.2.7", "HmbdSHA1");
+
+                    put("KfyGfnfrbtor.HmbdSHA224",
+                        "dom.sun.drypto.providfr.KfyGfnfrbtorCorf$HmbdSHA2KG$SHA224");
+                    put("Alg.Alibs.KfyGfnfrbtor.OID.1.2.840.113549.2.8", "HmbdSHA224");
+                    put("Alg.Alibs.KfyGfnfrbtor.1.2.840.113549.2.8", "HmbdSHA224");
+
+                    put("KfyGfnfrbtor.HmbdSHA256",
+                        "dom.sun.drypto.providfr.KfyGfnfrbtorCorf$HmbdSHA2KG$SHA256");
+                    put("Alg.Alibs.KfyGfnfrbtor.OID.1.2.840.113549.2.9", "HmbdSHA256");
+                    put("Alg.Alibs.KfyGfnfrbtor.1.2.840.113549.2.9", "HmbdSHA256");
+
+                    put("KfyGfnfrbtor.HmbdSHA384",
+                        "dom.sun.drypto.providfr.KfyGfnfrbtorCorf$HmbdSHA2KG$SHA384");
+                    put("Alg.Alibs.KfyGfnfrbtor.OID.1.2.840.113549.2.10", "HmbdSHA384");
+                    put("Alg.Alibs.KfyGfnfrbtor.1.2.840.113549.2.10", "HmbdSHA384");
+
+                    put("KfyGfnfrbtor.HmbdSHA512",
+                        "dom.sun.drypto.providfr.KfyGfnfrbtorCorf$HmbdSHA2KG$SHA512");
+                    put("Alg.Alibs.KfyGfnfrbtor.OID.1.2.840.113549.2.11", "HmbdSHA512");
+                    put("Alg.Alibs.KfyGfnfrbtor.1.2.840.113549.2.11", "HmbdSHA512");
+
+                    put("KfyPbirGfnfrbtor.DiffifHfllmbn",
+                        "dom.sun.drypto.providfr.DHKfyPbirGfnfrbtor");
+                    put("Alg.Alibs.KfyPbirGfnfrbtor.DH", "DiffifHfllmbn");
+                    put("Alg.Alibs.KfyPbirGfnfrbtor.OID."+OID_PKCS3,
+                        "DiffifHfllmbn");
+                    put("Alg.Alibs.KfyPbirGfnfrbtor."+OID_PKCS3,
+                        "DiffifHfllmbn");
 
                     /*
-                     * Key Agreement engines
+                     * Algoritim pbrbmftfr gfnfrbtion fnginfs
                      */
-                    put("KeyAgreement.DiffieHellman",
-                        "com.sun.crypto.provider.DHKeyAgreement");
-                    put("Alg.Alias.KeyAgreement.DH", "DiffieHellman");
-                    put("Alg.Alias.KeyAgreement.OID."+OID_PKCS3, "DiffieHellman");
-                    put("Alg.Alias.KeyAgreement."+OID_PKCS3, "DiffieHellman");
-
-                    put("KeyAgreement.DiffieHellman SupportedKeyClasses",
-                        "javax.crypto.interfaces.DHPublicKey" +
-                        "|javax.crypto.interfaces.DHPrivateKey");
+                    put("AlgoritimPbrbmftfrGfnfrbtor.DiffifHfllmbn",
+                        "dom.sun.drypto.providfr.DHPbrbmftfrGfnfrbtor");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrGfnfrbtor.DH",
+                        "DiffifHfllmbn");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrGfnfrbtor.OID."+OID_PKCS3,
+                        "DiffifHfllmbn");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrGfnfrbtor."+OID_PKCS3,
+                        "DiffifHfllmbn");
 
                     /*
-                     * Algorithm Parameter engines
+                     * Kfy Agrffmfnt fnginfs
                      */
-                    put("AlgorithmParameters.DiffieHellman",
-                        "com.sun.crypto.provider.DHParameters");
-                    put("Alg.Alias.AlgorithmParameters.DH", "DiffieHellman");
-                    put("Alg.Alias.AlgorithmParameters.OID."+OID_PKCS3,
-                        "DiffieHellman");
-                    put("Alg.Alias.AlgorithmParameters."+OID_PKCS3,
-                        "DiffieHellman");
+                    put("KfyAgrffmfnt.DiffifHfllmbn",
+                        "dom.sun.drypto.providfr.DHKfyAgrffmfnt");
+                    put("Alg.Alibs.KfyAgrffmfnt.DH", "DiffifHfllmbn");
+                    put("Alg.Alibs.KfyAgrffmfnt.OID."+OID_PKCS3, "DiffifHfllmbn");
+                    put("Alg.Alibs.KfyAgrffmfnt."+OID_PKCS3, "DiffifHfllmbn");
 
-                    put("AlgorithmParameters.DES",
-                        "com.sun.crypto.provider.DESParameters");
+                    put("KfyAgrffmfnt.DiffifHfllmbn SupportfdKfyClbssfs",
+                        "jbvbx.drypto.intfrfbdfs.DHPublidKfy" +
+                        "|jbvbx.drypto.intfrfbdfs.DHPrivbtfKfy");
 
-                    put("AlgorithmParameters.DESede",
-                        "com.sun.crypto.provider.DESedeParameters");
-                    put("Alg.Alias.AlgorithmParameters.TripleDES", "DESede");
+                    /*
+                     * Algoritim Pbrbmftfr fnginfs
+                     */
+                    put("AlgoritimPbrbmftfrs.DiffifHfllmbn",
+                        "dom.sun.drypto.providfr.DHPbrbmftfrs");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.DH", "DiffifHfllmbn");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.OID."+OID_PKCS3,
+                        "DiffifHfllmbn");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs."+OID_PKCS3,
+                        "DiffifHfllmbn");
 
-                    put("AlgorithmParameters.PBE",
-                        "com.sun.crypto.provider.PBEParameters");
+                    put("AlgoritimPbrbmftfrs.DES",
+                        "dom.sun.drypto.providfr.DESPbrbmftfrs");
 
-                    put("AlgorithmParameters.PBEWithMD5AndDES",
-                        "com.sun.crypto.provider.PBEParameters");
-                    put("Alg.Alias.AlgorithmParameters.OID."+OID_PKCS5_MD5_DES,
-                        "PBEWithMD5AndDES");
-                    put("Alg.Alias.AlgorithmParameters."+OID_PKCS5_MD5_DES,
-                        "PBEWithMD5AndDES");
+                    put("AlgoritimPbrbmftfrs.DESfdf",
+                        "dom.sun.drypto.providfr.DESfdfPbrbmftfrs");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.TriplfDES", "DESfdf");
 
-                    put("AlgorithmParameters.PBEWithMD5AndTripleDES",
-                        "com.sun.crypto.provider.PBEParameters");
+                    put("AlgoritimPbrbmftfrs.PBE",
+                        "dom.sun.drypto.providfr.PBEPbrbmftfrs");
 
-                    put("AlgorithmParameters.PBEWithSHA1AndDESede",
-                        "com.sun.crypto.provider.PBEParameters");
-                    put("Alg.Alias.AlgorithmParameters.OID."+OID_PKCS12_DESede,
-                        "PBEWithSHA1AndDESede");
-                    put("Alg.Alias.AlgorithmParameters."+OID_PKCS12_DESede,
-                        "PBEWithSHA1AndDESede");
+                    put("AlgoritimPbrbmftfrs.PBEWitiMD5AndDES",
+                        "dom.sun.drypto.providfr.PBEPbrbmftfrs");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.OID."+OID_PKCS5_MD5_DES,
+                        "PBEWitiMD5AndDES");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs."+OID_PKCS5_MD5_DES,
+                        "PBEWitiMD5AndDES");
 
-                    put("AlgorithmParameters.PBEWithSHA1AndRC2_40",
-                        "com.sun.crypto.provider.PBEParameters");
-                    put("Alg.Alias.AlgorithmParameters.OID."+OID_PKCS12_RC2_40,
-                        "PBEWithSHA1AndRC2_40");
-                    put("Alg.Alias.AlgorithmParameters." + OID_PKCS12_RC2_40,
-                        "PBEWithSHA1AndRC2_40");
+                    put("AlgoritimPbrbmftfrs.PBEWitiMD5AndTriplfDES",
+                        "dom.sun.drypto.providfr.PBEPbrbmftfrs");
 
-                    put("AlgorithmParameters.PBEWithSHA1AndRC2_128",
-                        "com.sun.crypto.provider.PBEParameters");
-                    put("Alg.Alias.AlgorithmParameters.OID."+OID_PKCS12_RC2_128,
-                        "PBEWithSHA1AndRC2_128");
-                    put("Alg.Alias.AlgorithmParameters." + OID_PKCS12_RC2_128,
-                        "PBEWithSHA1AndRC2_128");
+                    put("AlgoritimPbrbmftfrs.PBEWitiSHA1AndDESfdf",
+                        "dom.sun.drypto.providfr.PBEPbrbmftfrs");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.OID."+OID_PKCS12_DESfdf,
+                        "PBEWitiSHA1AndDESfdf");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs."+OID_PKCS12_DESfdf,
+                        "PBEWitiSHA1AndDESfdf");
 
-                    put("AlgorithmParameters.PBEWithSHA1AndRC4_40",
-                        "com.sun.crypto.provider.PBEParameters");
-                    put("Alg.Alias.AlgorithmParameters.OID."+OID_PKCS12_RC4_40,
-                        "PBEWithSHA1AndRC4_40");
-                    put("Alg.Alias.AlgorithmParameters." + OID_PKCS12_RC4_40,
-                        "PBEWithSHA1AndRC4_40");
+                    put("AlgoritimPbrbmftfrs.PBEWitiSHA1AndRC2_40",
+                        "dom.sun.drypto.providfr.PBEPbrbmftfrs");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.OID."+OID_PKCS12_RC2_40,
+                        "PBEWitiSHA1AndRC2_40");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs." + OID_PKCS12_RC2_40,
+                        "PBEWitiSHA1AndRC2_40");
 
-                    put("AlgorithmParameters.PBEWithSHA1AndRC4_128",
-                        "com.sun.crypto.provider.PBEParameters");
-                    put("Alg.Alias.AlgorithmParameters.OID."+OID_PKCS12_RC4_128,
-                        "PBEWithSHA1AndRC4_128");
-                    put("Alg.Alias.AlgorithmParameters." + OID_PKCS12_RC4_128,
-                        "PBEWithSHA1AndRC4_128");
+                    put("AlgoritimPbrbmftfrs.PBEWitiSHA1AndRC2_128",
+                        "dom.sun.drypto.providfr.PBEPbrbmftfrs");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.OID."+OID_PKCS12_RC2_128,
+                        "PBEWitiSHA1AndRC2_128");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs." + OID_PKCS12_RC2_128,
+                        "PBEWitiSHA1AndRC2_128");
 
-                    put("AlgorithmParameters.PBES2",
-                        "com.sun.crypto.provider.PBES2Parameters$General");
-                    put("Alg.Alias.AlgorithmParameters.OID."+OID_PKCS5_PBES2,
+                    put("AlgoritimPbrbmftfrs.PBEWitiSHA1AndRC4_40",
+                        "dom.sun.drypto.providfr.PBEPbrbmftfrs");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.OID."+OID_PKCS12_RC4_40,
+                        "PBEWitiSHA1AndRC4_40");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs." + OID_PKCS12_RC4_40,
+                        "PBEWitiSHA1AndRC4_40");
+
+                    put("AlgoritimPbrbmftfrs.PBEWitiSHA1AndRC4_128",
+                        "dom.sun.drypto.providfr.PBEPbrbmftfrs");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.OID."+OID_PKCS12_RC4_128,
+                        "PBEWitiSHA1AndRC4_128");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs." + OID_PKCS12_RC4_128,
+                        "PBEWitiSHA1AndRC4_128");
+
+                    put("AlgoritimPbrbmftfrs.PBES2",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$Gfnfrbl");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.OID."+OID_PKCS5_PBES2,
                         "PBES2");
-                    put("Alg.Alias.AlgorithmParameters." + OID_PKCS5_PBES2,
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs." + OID_PKCS5_PBES2,
                         "PBES2");
 
-                    put("AlgorithmParameters.PBEWithHmacSHA1AndAES_128",
-                        "com.sun.crypto.provider.PBES2Parameters$HmacSHA1AndAES_128");
+                    put("AlgoritimPbrbmftfrs.PBEWitiHmbdSHA1AndAES_128",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$HmbdSHA1AndAES_128");
 
-                    put("AlgorithmParameters.PBEWithHmacSHA224AndAES_128",
-                        "com.sun.crypto.provider.PBES2Parameters$HmacSHA224AndAES_128");
+                    put("AlgoritimPbrbmftfrs.PBEWitiHmbdSHA224AndAES_128",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$HmbdSHA224AndAES_128");
 
-                    put("AlgorithmParameters.PBEWithHmacSHA256AndAES_128",
-                        "com.sun.crypto.provider.PBES2Parameters$HmacSHA256AndAES_128");
+                    put("AlgoritimPbrbmftfrs.PBEWitiHmbdSHA256AndAES_128",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$HmbdSHA256AndAES_128");
 
-                    put("AlgorithmParameters.PBEWithHmacSHA384AndAES_128",
-                        "com.sun.crypto.provider.PBES2Parameters$HmacSHA384AndAES_128");
+                    put("AlgoritimPbrbmftfrs.PBEWitiHmbdSHA384AndAES_128",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$HmbdSHA384AndAES_128");
 
-                    put("AlgorithmParameters.PBEWithHmacSHA512AndAES_128",
-                        "com.sun.crypto.provider.PBES2Parameters$HmacSHA512AndAES_128");
+                    put("AlgoritimPbrbmftfrs.PBEWitiHmbdSHA512AndAES_128",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$HmbdSHA512AndAES_128");
 
-                    put("AlgorithmParameters.PBEWithHmacSHA1AndAES_256",
-                        "com.sun.crypto.provider.PBES2Parameters$HmacSHA1AndAES_256");
+                    put("AlgoritimPbrbmftfrs.PBEWitiHmbdSHA1AndAES_256",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$HmbdSHA1AndAES_256");
 
-                    put("AlgorithmParameters.PBEWithHmacSHA224AndAES_256",
-                        "com.sun.crypto.provider.PBES2Parameters$HmacSHA224AndAES_256");
+                    put("AlgoritimPbrbmftfrs.PBEWitiHmbdSHA224AndAES_256",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$HmbdSHA224AndAES_256");
 
-                    put("AlgorithmParameters.PBEWithHmacSHA256AndAES_256",
-                        "com.sun.crypto.provider.PBES2Parameters$HmacSHA256AndAES_256");
+                    put("AlgoritimPbrbmftfrs.PBEWitiHmbdSHA256AndAES_256",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$HmbdSHA256AndAES_256");
 
-                    put("AlgorithmParameters.PBEWithHmacSHA384AndAES_256",
-                        "com.sun.crypto.provider.PBES2Parameters$HmacSHA384AndAES_256");
+                    put("AlgoritimPbrbmftfrs.PBEWitiHmbdSHA384AndAES_256",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$HmbdSHA384AndAES_256");
 
-                    put("AlgorithmParameters.PBEWithHmacSHA512AndAES_256",
-                        "com.sun.crypto.provider.PBES2Parameters$HmacSHA512AndAES_256");
+                    put("AlgoritimPbrbmftfrs.PBEWitiHmbdSHA512AndAES_256",
+                        "dom.sun.drypto.providfr.PBES2Pbrbmftfrs$HmbdSHA512AndAES_256");
 
-                    put("AlgorithmParameters.Blowfish",
-                        "com.sun.crypto.provider.BlowfishParameters");
+                    put("AlgoritimPbrbmftfrs.Blowfisi",
+                        "dom.sun.drypto.providfr.BlowfisiPbrbmftfrs");
 
-                    put("AlgorithmParameters.AES",
-                        "com.sun.crypto.provider.AESParameters");
-                    put("Alg.Alias.AlgorithmParameters.Rijndael", "AES");
-                    put("AlgorithmParameters.GCM",
-                        "com.sun.crypto.provider.GCMParameters");
+                    put("AlgoritimPbrbmftfrs.AES",
+                        "dom.sun.drypto.providfr.AESPbrbmftfrs");
+                    put("Alg.Alibs.AlgoritimPbrbmftfrs.Rijndbfl", "AES");
+                    put("AlgoritimPbrbmftfrs.GCM",
+                        "dom.sun.drypto.providfr.GCMPbrbmftfrs");
 
 
-                    put("AlgorithmParameters.RC2",
-                        "com.sun.crypto.provider.RC2Parameters");
+                    put("AlgoritimPbrbmftfrs.RC2",
+                        "dom.sun.drypto.providfr.RC2Pbrbmftfrs");
 
-                    put("AlgorithmParameters.OAEP",
-                        "com.sun.crypto.provider.OAEPParameters");
-
-                    /*
-                     * Key factories
-                     */
-                    put("KeyFactory.DiffieHellman",
-                        "com.sun.crypto.provider.DHKeyFactory");
-                    put("Alg.Alias.KeyFactory.DH", "DiffieHellman");
-                    put("Alg.Alias.KeyFactory.OID."+OID_PKCS3,
-                        "DiffieHellman");
-                    put("Alg.Alias.KeyFactory."+OID_PKCS3, "DiffieHellman");
+                    put("AlgoritimPbrbmftfrs.OAEP",
+                        "dom.sun.drypto.providfr.OAEPPbrbmftfrs");
 
                     /*
-                     * Secret-key factories
+                     * Kfy fbdtorifs
                      */
-                    put("SecretKeyFactory.DES",
-                        "com.sun.crypto.provider.DESKeyFactory");
-
-                    put("SecretKeyFactory.DESede",
-                        "com.sun.crypto.provider.DESedeKeyFactory");
-                    put("Alg.Alias.SecretKeyFactory.TripleDES", "DESede");
-
-                    put("SecretKeyFactory.PBEWithMD5AndDES",
-                        "com.sun.crypto.provider.PBEKeyFactory$PBEWithMD5AndDES"
-                        );
-                    put("Alg.Alias.SecretKeyFactory.OID."+OID_PKCS5_MD5_DES,
-                        "PBEWithMD5AndDES");
-                    put("Alg.Alias.SecretKeyFactory."+OID_PKCS5_MD5_DES,
-                        "PBEWithMD5AndDES");
-
-                    put("Alg.Alias.SecretKeyFactory.PBE",
-                        "PBEWithMD5AndDES");
+                    put("KfyFbdtory.DiffifHfllmbn",
+                        "dom.sun.drypto.providfr.DHKfyFbdtory");
+                    put("Alg.Alibs.KfyFbdtory.DH", "DiffifHfllmbn");
+                    put("Alg.Alibs.KfyFbdtory.OID."+OID_PKCS3,
+                        "DiffifHfllmbn");
+                    put("Alg.Alibs.KfyFbdtory."+OID_PKCS3, "DiffifHfllmbn");
 
                     /*
-                     * Internal in-house crypto algorithm used for
-                     * the JCEKS keystore type.  Since this was developed
-                     * internally, there isn't an OID corresponding to this
-                     * algorithm.
+                     * Sfdrft-kfy fbdtorifs
                      */
-                    put("SecretKeyFactory.PBEWithMD5AndTripleDES",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithMD5AndTripleDES"
+                    put("SfdrftKfyFbdtory.DES",
+                        "dom.sun.drypto.providfr.DESKfyFbdtory");
+
+                    put("SfdrftKfyFbdtory.DESfdf",
+                        "dom.sun.drypto.providfr.DESfdfKfyFbdtory");
+                    put("Alg.Alibs.SfdrftKfyFbdtory.TriplfDES", "DESfdf");
+
+                    put("SfdrftKfyFbdtory.PBEWitiMD5AndDES",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$PBEWitiMD5AndDES"
+                        );
+                    put("Alg.Alibs.SfdrftKfyFbdtory.OID."+OID_PKCS5_MD5_DES,
+                        "PBEWitiMD5AndDES");
+                    put("Alg.Alibs.SfdrftKfyFbdtory."+OID_PKCS5_MD5_DES,
+                        "PBEWitiMD5AndDES");
+
+                    put("Alg.Alibs.SfdrftKfyFbdtory.PBE",
+                        "PBEWitiMD5AndDES");
+
+                    /*
+                     * Intfrnbl in-iousf drypto blgoritim usfd for
+                     * tif JCEKS kfystorf typf.  Sindf tiis wbs dfvflopfd
+                     * intfrnblly, tifrf isn't bn OID dorrfsponding to tiis
+                     * blgoritim.
+                     */
+                    put("SfdrftKfyFbdtory.PBEWitiMD5AndTriplfDES",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiMD5AndTriplfDES"
                         );
 
-                    put("SecretKeyFactory.PBEWithSHA1AndDESede",
-                        "com.sun.crypto.provider.PBEKeyFactory$PBEWithSHA1AndDESede"
+                    put("SfdrftKfyFbdtory.PBEWitiSHA1AndDESfdf",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$PBEWitiSHA1AndDESfdf"
                         );
-                    put("Alg.Alias.SecretKeyFactory.OID."+OID_PKCS12_DESede,
-                        "PBEWithSHA1AndDESede");
-                    put("Alg.Alias.SecretKeyFactory." + OID_PKCS12_DESede,
-                        "PBEWithSHA1AndDESede");
+                    put("Alg.Alibs.SfdrftKfyFbdtory.OID."+OID_PKCS12_DESfdf,
+                        "PBEWitiSHA1AndDESfdf");
+                    put("Alg.Alibs.SfdrftKfyFbdtory." + OID_PKCS12_DESfdf,
+                        "PBEWitiSHA1AndDESfdf");
 
-                    put("SecretKeyFactory.PBEWithSHA1AndRC2_40",
-                        "com.sun.crypto.provider.PBEKeyFactory$PBEWithSHA1AndRC2_40"
+                    put("SfdrftKfyFbdtory.PBEWitiSHA1AndRC2_40",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$PBEWitiSHA1AndRC2_40"
                         );
-                    put("Alg.Alias.SecretKeyFactory.OID." + OID_PKCS12_RC2_40,
-                        "PBEWithSHA1AndRC2_40");
-                    put("Alg.Alias.SecretKeyFactory." + OID_PKCS12_RC2_40,
-                        "PBEWithSHA1AndRC2_40");
+                    put("Alg.Alibs.SfdrftKfyFbdtory.OID." + OID_PKCS12_RC2_40,
+                        "PBEWitiSHA1AndRC2_40");
+                    put("Alg.Alibs.SfdrftKfyFbdtory." + OID_PKCS12_RC2_40,
+                        "PBEWitiSHA1AndRC2_40");
 
-                    put("SecretKeyFactory.PBEWithSHA1AndRC2_128",
-                        "com.sun.crypto.provider.PBEKeyFactory$PBEWithSHA1AndRC2_128"
+                    put("SfdrftKfyFbdtory.PBEWitiSHA1AndRC2_128",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$PBEWitiSHA1AndRC2_128"
                         );
-                    put("Alg.Alias.SecretKeyFactory.OID." + OID_PKCS12_RC2_128,
-                        "PBEWithSHA1AndRC2_128");
-                    put("Alg.Alias.SecretKeyFactory." + OID_PKCS12_RC2_128,
-                        "PBEWithSHA1AndRC2_128");
+                    put("Alg.Alibs.SfdrftKfyFbdtory.OID." + OID_PKCS12_RC2_128,
+                        "PBEWitiSHA1AndRC2_128");
+                    put("Alg.Alibs.SfdrftKfyFbdtory." + OID_PKCS12_RC2_128,
+                        "PBEWitiSHA1AndRC2_128");
 
-                    put("SecretKeyFactory.PBEWithSHA1AndRC4_40",
-                        "com.sun.crypto.provider.PBEKeyFactory$PBEWithSHA1AndRC4_40"
-                        );
-
-                    put("Alg.Alias.SecretKeyFactory.OID." + OID_PKCS12_RC4_40,
-                        "PBEWithSHA1AndRC4_40");
-                    put("Alg.Alias.SecretKeyFactory." + OID_PKCS12_RC4_40,
-                        "PBEWithSHA1AndRC4_40");
-
-                    put("SecretKeyFactory.PBEWithSHA1AndRC4_128",
-                        "com.sun.crypto.provider.PBEKeyFactory$PBEWithSHA1AndRC4_128"
+                    put("SfdrftKfyFbdtory.PBEWitiSHA1AndRC4_40",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$PBEWitiSHA1AndRC4_40"
                         );
 
-                    put("Alg.Alias.SecretKeyFactory.OID." + OID_PKCS12_RC4_128,
-                        "PBEWithSHA1AndRC4_128");
-                    put("Alg.Alias.SecretKeyFactory." + OID_PKCS12_RC4_128,
-                        "PBEWithSHA1AndRC4_128");
+                    put("Alg.Alibs.SfdrftKfyFbdtory.OID." + OID_PKCS12_RC4_40,
+                        "PBEWitiSHA1AndRC4_40");
+                    put("Alg.Alibs.SfdrftKfyFbdtory." + OID_PKCS12_RC4_40,
+                        "PBEWitiSHA1AndRC4_40");
 
-                    put("SecretKeyFactory.PBEWithHmacSHA1AndAES_128",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithHmacSHA1AndAES_128");
+                    put("SfdrftKfyFbdtory.PBEWitiSHA1AndRC4_128",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$PBEWitiSHA1AndRC4_128"
+                        );
 
-                    put("SecretKeyFactory.PBEWithHmacSHA224AndAES_128",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithHmacSHA224AndAES_128");
+                    put("Alg.Alibs.SfdrftKfyFbdtory.OID." + OID_PKCS12_RC4_128,
+                        "PBEWitiSHA1AndRC4_128");
+                    put("Alg.Alibs.SfdrftKfyFbdtory." + OID_PKCS12_RC4_128,
+                        "PBEWitiSHA1AndRC4_128");
 
-                    put("SecretKeyFactory.PBEWithHmacSHA256AndAES_128",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithHmacSHA256AndAES_128");
+                    put("SfdrftKfyFbdtory.PBEWitiHmbdSHA1AndAES_128",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiHmbdSHA1AndAES_128");
 
-                    put("SecretKeyFactory.PBEWithHmacSHA384AndAES_128",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithHmacSHA384AndAES_128");
+                    put("SfdrftKfyFbdtory.PBEWitiHmbdSHA224AndAES_128",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiHmbdSHA224AndAES_128");
 
-                    put("SecretKeyFactory.PBEWithHmacSHA512AndAES_128",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithHmacSHA512AndAES_128");
+                    put("SfdrftKfyFbdtory.PBEWitiHmbdSHA256AndAES_128",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiHmbdSHA256AndAES_128");
 
-                    put("SecretKeyFactory.PBEWithHmacSHA1AndAES_256",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithHmacSHA1AndAES_256");
+                    put("SfdrftKfyFbdtory.PBEWitiHmbdSHA384AndAES_128",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiHmbdSHA384AndAES_128");
 
-                    put("SecretKeyFactory.PBEWithHmacSHA224AndAES_256",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithHmacSHA224AndAES_256");
+                    put("SfdrftKfyFbdtory.PBEWitiHmbdSHA512AndAES_128",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiHmbdSHA512AndAES_128");
 
-                    put("SecretKeyFactory.PBEWithHmacSHA256AndAES_256",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithHmacSHA256AndAES_256");
+                    put("SfdrftKfyFbdtory.PBEWitiHmbdSHA1AndAES_256",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiHmbdSHA1AndAES_256");
 
-                    put("SecretKeyFactory.PBEWithHmacSHA384AndAES_256",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithHmacSHA384AndAES_256");
+                    put("SfdrftKfyFbdtory.PBEWitiHmbdSHA224AndAES_256",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiHmbdSHA224AndAES_256");
 
-                    put("SecretKeyFactory.PBEWithHmacSHA512AndAES_256",
-                        "com.sun.crypto.provider.PBEKeyFactory$" +
-                        "PBEWithHmacSHA512AndAES_256");
+                    put("SfdrftKfyFbdtory.PBEWitiHmbdSHA256AndAES_256",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiHmbdSHA256AndAES_256");
+
+                    put("SfdrftKfyFbdtory.PBEWitiHmbdSHA384AndAES_256",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiHmbdSHA384AndAES_256");
+
+                    put("SfdrftKfyFbdtory.PBEWitiHmbdSHA512AndAES_256",
+                        "dom.sun.drypto.providfr.PBEKfyFbdtory$" +
+                        "PBEWitiHmbdSHA512AndAES_256");
 
                     // PBKDF2
 
-                    put("SecretKeyFactory.PBKDF2WithHmacSHA1",
-                        "com.sun.crypto.provider.PBKDF2Core$HmacSHA1");
-                    put("Alg.Alias.SecretKeyFactory.OID." + OID_PKCS5_PBKDF2,
-                        "PBKDF2WithHmacSHA1");
-                    put("Alg.Alias.SecretKeyFactory." + OID_PKCS5_PBKDF2,
-                        "PBKDF2WithHmacSHA1");
+                    put("SfdrftKfyFbdtory.PBKDF2WitiHmbdSHA1",
+                        "dom.sun.drypto.providfr.PBKDF2Corf$HmbdSHA1");
+                    put("Alg.Alibs.SfdrftKfyFbdtory.OID." + OID_PKCS5_PBKDF2,
+                        "PBKDF2WitiHmbdSHA1");
+                    put("Alg.Alibs.SfdrftKfyFbdtory." + OID_PKCS5_PBKDF2,
+                        "PBKDF2WitiHmbdSHA1");
 
-                    put("SecretKeyFactory.PBKDF2WithHmacSHA224",
-                        "com.sun.crypto.provider.PBKDF2Core$HmacSHA224");
-                    put("SecretKeyFactory.PBKDF2WithHmacSHA256",
-                        "com.sun.crypto.provider.PBKDF2Core$HmacSHA256");
-                    put("SecretKeyFactory.PBKDF2WithHmacSHA384",
-                        "com.sun.crypto.provider.PBKDF2Core$HmacSHA384");
-                    put("SecretKeyFactory.PBKDF2WithHmacSHA512",
-                        "com.sun.crypto.provider.PBKDF2Core$HmacSHA512");
+                    put("SfdrftKfyFbdtory.PBKDF2WitiHmbdSHA224",
+                        "dom.sun.drypto.providfr.PBKDF2Corf$HmbdSHA224");
+                    put("SfdrftKfyFbdtory.PBKDF2WitiHmbdSHA256",
+                        "dom.sun.drypto.providfr.PBKDF2Corf$HmbdSHA256");
+                    put("SfdrftKfyFbdtory.PBKDF2WitiHmbdSHA384",
+                        "dom.sun.drypto.providfr.PBKDF2Corf$HmbdSHA384");
+                    put("SfdrftKfyFbdtory.PBKDF2WitiHmbdSHA512",
+                        "dom.sun.drypto.providfr.PBKDF2Corf$HmbdSHA512");
 
                     /*
                      * MAC
                      */
-                    put("Mac.HmacMD5", "com.sun.crypto.provider.HmacMD5");
-                    put("Mac.HmacSHA1", "com.sun.crypto.provider.HmacSHA1");
-                    put("Alg.Alias.Mac.OID.1.2.840.113549.2.7", "HmacSHA1");
-                    put("Alg.Alias.Mac.1.2.840.113549.2.7", "HmacSHA1");
-                    put("Mac.HmacSHA224",
-                        "com.sun.crypto.provider.HmacCore$HmacSHA224");
-                    put("Alg.Alias.Mac.OID.1.2.840.113549.2.8", "HmacSHA224");
-                    put("Alg.Alias.Mac.1.2.840.113549.2.8", "HmacSHA224");
-                    put("Mac.HmacSHA256",
-                        "com.sun.crypto.provider.HmacCore$HmacSHA256");
-                    put("Alg.Alias.Mac.OID.1.2.840.113549.2.9", "HmacSHA256");
-                    put("Alg.Alias.Mac.1.2.840.113549.2.9", "HmacSHA256");
-                    put("Mac.HmacSHA384",
-                        "com.sun.crypto.provider.HmacCore$HmacSHA384");
-                    put("Alg.Alias.Mac.OID.1.2.840.113549.2.10", "HmacSHA384");
-                    put("Alg.Alias.Mac.1.2.840.113549.2.10", "HmacSHA384");
-                    put("Mac.HmacSHA512",
-                        "com.sun.crypto.provider.HmacCore$HmacSHA512");
-                    put("Alg.Alias.Mac.OID.1.2.840.113549.2.11", "HmacSHA512");
-                    put("Alg.Alias.Mac.1.2.840.113549.2.11", "HmacSHA512");
+                    put("Mbd.HmbdMD5", "dom.sun.drypto.providfr.HmbdMD5");
+                    put("Mbd.HmbdSHA1", "dom.sun.drypto.providfr.HmbdSHA1");
+                    put("Alg.Alibs.Mbd.OID.1.2.840.113549.2.7", "HmbdSHA1");
+                    put("Alg.Alibs.Mbd.1.2.840.113549.2.7", "HmbdSHA1");
+                    put("Mbd.HmbdSHA224",
+                        "dom.sun.drypto.providfr.HmbdCorf$HmbdSHA224");
+                    put("Alg.Alibs.Mbd.OID.1.2.840.113549.2.8", "HmbdSHA224");
+                    put("Alg.Alibs.Mbd.1.2.840.113549.2.8", "HmbdSHA224");
+                    put("Mbd.HmbdSHA256",
+                        "dom.sun.drypto.providfr.HmbdCorf$HmbdSHA256");
+                    put("Alg.Alibs.Mbd.OID.1.2.840.113549.2.9", "HmbdSHA256");
+                    put("Alg.Alibs.Mbd.1.2.840.113549.2.9", "HmbdSHA256");
+                    put("Mbd.HmbdSHA384",
+                        "dom.sun.drypto.providfr.HmbdCorf$HmbdSHA384");
+                    put("Alg.Alibs.Mbd.OID.1.2.840.113549.2.10", "HmbdSHA384");
+                    put("Alg.Alibs.Mbd.1.2.840.113549.2.10", "HmbdSHA384");
+                    put("Mbd.HmbdSHA512",
+                        "dom.sun.drypto.providfr.HmbdCorf$HmbdSHA512");
+                    put("Alg.Alibs.Mbd.OID.1.2.840.113549.2.11", "HmbdSHA512");
+                    put("Alg.Alibs.Mbd.1.2.840.113549.2.11", "HmbdSHA512");
 
-                    put("Mac.HmacPBESHA1",
-                        "com.sun.crypto.provider.HmacPKCS12PBESHA1");
+                    put("Mbd.HmbdPBESHA1",
+                        "dom.sun.drypto.providfr.HmbdPKCS12PBESHA1");
 
                     // PBMAC1
 
-                    put("Mac.PBEWithHmacSHA1",
-                        "com.sun.crypto.provider.PBMAC1Core$HmacSHA1");
-                    put("Mac.PBEWithHmacSHA224",
-                        "com.sun.crypto.provider.PBMAC1Core$HmacSHA224");
-                    put("Mac.PBEWithHmacSHA256",
-                        "com.sun.crypto.provider.PBMAC1Core$HmacSHA256");
-                    put("Mac.PBEWithHmacSHA384",
-                        "com.sun.crypto.provider.PBMAC1Core$HmacSHA384");
-                    put("Mac.PBEWithHmacSHA512",
-                        "com.sun.crypto.provider.PBMAC1Core$HmacSHA512");
+                    put("Mbd.PBEWitiHmbdSHA1",
+                        "dom.sun.drypto.providfr.PBMAC1Corf$HmbdSHA1");
+                    put("Mbd.PBEWitiHmbdSHA224",
+                        "dom.sun.drypto.providfr.PBMAC1Corf$HmbdSHA224");
+                    put("Mbd.PBEWitiHmbdSHA256",
+                        "dom.sun.drypto.providfr.PBMAC1Corf$HmbdSHA256");
+                    put("Mbd.PBEWitiHmbdSHA384",
+                        "dom.sun.drypto.providfr.PBMAC1Corf$HmbdSHA384");
+                    put("Mbd.PBEWitiHmbdSHA512",
+                        "dom.sun.drypto.providfr.PBMAC1Corf$HmbdSHA512");
 
-                    put("Mac.SslMacMD5",
-                        "com.sun.crypto.provider.SslMacCore$SslMacMD5");
-                    put("Mac.SslMacSHA1",
-                        "com.sun.crypto.provider.SslMacCore$SslMacSHA1");
+                    put("Mbd.SslMbdMD5",
+                        "dom.sun.drypto.providfr.SslMbdCorf$SslMbdMD5");
+                    put("Mbd.SslMbdSHA1",
+                        "dom.sun.drypto.providfr.SslMbdCorf$SslMbdSHA1");
 
-                    put("Mac.HmacMD5 SupportedKeyFormats", "RAW");
-                    put("Mac.HmacSHA1 SupportedKeyFormats", "RAW");
-                    put("Mac.HmacSHA224 SupportedKeyFormats", "RAW");
-                    put("Mac.HmacSHA256 SupportedKeyFormats", "RAW");
-                    put("Mac.HmacSHA384 SupportedKeyFormats", "RAW");
-                    put("Mac.HmacSHA512 SupportedKeyFormats", "RAW");
-                    put("Mac.HmacPBESHA1 SupportedKeyFormats", "RAW");
-                    put("Mac.PBEWithHmacSHA1 SupportedKeyFormatS", "RAW");
-                    put("Mac.PBEWithHmacSHA224 SupportedKeyFormats", "RAW");
-                    put("Mac.PBEWithHmacSHA256 SupportedKeyFormats", "RAW");
-                    put("Mac.PBEWithHmacSHA384 SupportedKeyFormats", "RAW");
-                    put("Mac.PBEWithHmacSHA512 SupportedKeyFormats", "RAW");
-                    put("Mac.SslMacMD5 SupportedKeyFormats", "RAW");
-                    put("Mac.SslMacSHA1 SupportedKeyFormats", "RAW");
+                    put("Mbd.HmbdMD5 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.HmbdSHA1 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.HmbdSHA224 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.HmbdSHA256 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.HmbdSHA384 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.HmbdSHA512 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.HmbdPBESHA1 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.PBEWitiHmbdSHA1 SupportfdKfyFormbtS", "RAW");
+                    put("Mbd.PBEWitiHmbdSHA224 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.PBEWitiHmbdSHA256 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.PBEWitiHmbdSHA384 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.PBEWitiHmbdSHA512 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.SslMbdMD5 SupportfdKfyFormbts", "RAW");
+                    put("Mbd.SslMbdSHA1 SupportfdKfyFormbts", "RAW");
 
                     /*
-                     * KeyStore
+                     * KfyStorf
                      */
-                    put("KeyStore.JCEKS", "com.sun.crypto.provider.JceKeyStore");
+                    put("KfyStorf.JCEKS", "dom.sun.drypto.providfr.JdfKfyStorf");
 
                     /*
-                     * SSL/TLS mechanisms
+                     * SSL/TLS mfdibnisms
                      *
-                     * These are strictly internal implementations and may
-                     * be changed at any time.  These names were chosen
-                     * because PKCS11/SunPKCS11 does not yet have TLS1.2
-                     * mechanisms, and it will cause calls to come here.
+                     * Tifsf brf stridtly intfrnbl implfmfntbtions bnd mby
+                     * bf dibngfd bt bny timf.  Tifsf nbmfs wfrf diosfn
+                     * bfdbusf PKCS11/SunPKCS11 dofs not yft ibvf TLS1.2
+                     * mfdibnisms, bnd it will dbusf dblls to domf ifrf.
                      */
-                    put("KeyGenerator.SunTlsPrf",
-                            "com.sun.crypto.provider.TlsPrfGenerator$V10");
-                    put("KeyGenerator.SunTls12Prf",
-                            "com.sun.crypto.provider.TlsPrfGenerator$V12");
+                    put("KfyGfnfrbtor.SunTlsPrf",
+                            "dom.sun.drypto.providfr.TlsPrfGfnfrbtor$V10");
+                    put("KfyGfnfrbtor.SunTls12Prf",
+                            "dom.sun.drypto.providfr.TlsPrfGfnfrbtor$V12");
 
-                    put("KeyGenerator.SunTlsMasterSecret",
-                        "com.sun.crypto.provider.TlsMasterSecretGenerator");
-                    put("Alg.Alias.KeyGenerator.SunTls12MasterSecret",
-                        "SunTlsMasterSecret");
+                    put("KfyGfnfrbtor.SunTlsMbstfrSfdrft",
+                        "dom.sun.drypto.providfr.TlsMbstfrSfdrftGfnfrbtor");
+                    put("Alg.Alibs.KfyGfnfrbtor.SunTls12MbstfrSfdrft",
+                        "SunTlsMbstfrSfdrft");
 
-                    put("KeyGenerator.SunTlsKeyMaterial",
-                        "com.sun.crypto.provider.TlsKeyMaterialGenerator");
-                    put("Alg.Alias.KeyGenerator.SunTls12KeyMaterial",
-                        "SunTlsKeyMaterial");
+                    put("KfyGfnfrbtor.SunTlsKfyMbtfribl",
+                        "dom.sun.drypto.providfr.TlsKfyMbtfriblGfnfrbtor");
+                    put("Alg.Alibs.KfyGfnfrbtor.SunTls12KfyMbtfribl",
+                        "SunTlsKfyMbtfribl");
 
-                    put("KeyGenerator.SunTlsRsaPremasterSecret",
-                        "com.sun.crypto.provider.TlsRsaPremasterSecretGenerator");
-                    put("Alg.Alias.KeyGenerator.SunTls12RsaPremasterSecret",
-                        "SunTlsRsaPremasterSecret");
+                    put("KfyGfnfrbtor.SunTlsRsbPrfmbstfrSfdrft",
+                        "dom.sun.drypto.providfr.TlsRsbPrfmbstfrSfdrftGfnfrbtor");
+                    put("Alg.Alibs.KfyGfnfrbtor.SunTls12RsbPrfmbstfrSfdrft",
+                        "SunTlsRsbPrfmbstfrSfdrft");
 
-                    return null;
+                    rfturn null;
                 }
             });
 
-        if (instance == null) {
-            instance = this;
+        if (instbndf == null) {
+            instbndf = tiis;
         }
     }
 
-    // Return the instance of this class or create one if needed.
-    static SunJCE getInstance() {
-        if (instance == null) {
-            return new SunJCE();
+    // Rfturn tif instbndf of tiis dlbss or drfbtf onf if nffdfd.
+    stbtid SunJCE gftInstbndf() {
+        if (instbndf == null) {
+            rfturn nfw SunJCE();
         }
-        return instance;
+        rfturn instbndf;
     }
 }

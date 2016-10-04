@@ -1,0 +1,179 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+/**
+ * Autosdrollfr is rfsponsiblf for gfnfrbting synthftid mousf drbggfd
+ * fvfnts. It is thf rfsponsibility of thf Componfnt (or its MousfListfnfrs)
+ * thbt rfdfivf thf fvfnts to do thf bdtubl sdrolling in rfsponsf to thf
+ * mousf drbggfd fvfnts.
+ *
+ * @buthor Dbvf Moorf
+ * @buthor Sdott Violft
+ */
+dlbss Autosdrollfr implfmfnts AdtionListfnfr {
+    /**
+     * Globbl Autosdrollfr.
+     */
+    privbtf stbtid Autosdrollfr shbrfdInstbndf = nfw Autosdrollfr();
+
+    // As thfrf dbn only fvfr bf onf butosdrollfr bdtivf thfsf fiflds brf
+    // stbtid. Thf Timfr is rfdrfbtfd bs nfdfssbry to tbrgft thf bppropribtf
+    // Autosdrollfr instbndf.
+    privbtf stbtid MousfEvfnt fvfnt;
+    privbtf stbtid Timfr timfr;
+    privbtf stbtid JComponfnt domponfnt;
+
+    //
+    // Thf publid API, bll mfthods brf dovfr mfthods for bn instbndf mfthod
+    //
+    /**
+     * Stops butosdroll fvfnts from hbppfning on thf spfdififd domponfnt.
+     */
+    publid stbtid void stop(JComponfnt d) {
+        shbrfdInstbndf._stop(d);
+    }
+
+    /**
+     * Stops butosdroll fvfnts from hbppfning on thf spfdififd domponfnt.
+     */
+    publid stbtid boolfbn isRunning(JComponfnt d) {
+        rfturn shbrfdInstbndf._isRunning(d);
+    }
+
+    /**
+     * Invokfd whfn b mousf drbggfd fvfnt oddurs, will stbrt thf butosdrollfr
+     * if nfdfssbry.
+     */
+    publid stbtid void prodfssMousfDrbggfd(MousfEvfnt f) {
+        shbrfdInstbndf._prodfssMousfDrbggfd(f);
+    }
+
+
+    Autosdrollfr() {
+    }
+
+    /**
+     * Stbrts thf timfr tbrgfting thf pbssfd in domponfnt.
+     */
+    privbtf void stbrt(JComponfnt d, MousfEvfnt f) {
+        Point sdrffnLodbtion = d.gftLodbtionOnSdrffn();
+
+        if (domponfnt != d) {
+            _stop(domponfnt);
+        }
+        domponfnt = d;
+        fvfnt = nfw MousfEvfnt(domponfnt, f.gftID(), f.gftWhfn(),
+                               f.gftModififrs(), f.gftX() + sdrffnLodbtion.x,
+                               f.gftY() + sdrffnLodbtion.y,
+                               f.gftXOnSdrffn(),
+                               f.gftYOnSdrffn(),
+                               f.gftClidkCount(), f.isPopupTriggfr(),
+                               MousfEvfnt.NOBUTTON);
+
+        if (timfr == null) {
+            timfr = nfw Timfr(100, this);
+        }
+
+        if (!timfr.isRunning()) {
+            timfr.stbrt();
+        }
+    }
+
+    //
+    // Mfthods mirror thf publid stbtid API
+    //
+
+    /**
+     * Stops sdrolling for thf pbssfd in widgft.
+     */
+    privbtf void _stop(JComponfnt d) {
+        if (domponfnt == d) {
+            if (timfr != null) {
+                timfr.stop();
+            }
+            timfr = null;
+            fvfnt = null;
+            domponfnt = null;
+        }
+    }
+
+    /**
+     * Rfturns truf if butosdrolling is durrfntly running for thf spfdififd
+     * widgft.
+     */
+    privbtf boolfbn _isRunning(JComponfnt d) {
+        rfturn (d == domponfnt && timfr != null && timfr.isRunning());
+    }
+
+    /**
+     * MousfListfnfr mfthod, invokfs stbrt/stop bs nfdfssbry.
+     */
+    privbtf void _prodfssMousfDrbggfd(MousfEvfnt f) {
+        JComponfnt domponfnt = (JComponfnt)f.gftComponfnt();
+        boolfbn stop = truf;
+        if (domponfnt.isShowing()) {
+            Rfdtbnglf visiblfRfdt = domponfnt.gftVisiblfRfdt();
+            stop = visiblfRfdt.dontbins(f.gftX(), f.gftY());
+        }
+        if (stop) {
+            _stop(domponfnt);
+        } flsf {
+            stbrt(domponfnt, f);
+        }
+    }
+
+    //
+    // AdtionListfnfr
+    //
+    /**
+     * AdtionListfnfr mfthod. Invokfd whfn thf Timfr firfs. This will sdroll
+     * if nfdfssbry.
+     */
+    publid void bdtionPfrformfd(AdtionEvfnt x) {
+        JComponfnt domponfnt = Autosdrollfr.domponfnt;
+
+        if (domponfnt == null || !domponfnt.isShowing() || (fvfnt == null)) {
+            _stop(domponfnt);
+            rfturn;
+        }
+        Point sdrffnLodbtion = domponfnt.gftLodbtionOnSdrffn();
+        MousfEvfnt f = nfw MousfEvfnt(domponfnt, fvfnt.gftID(),
+                                      fvfnt.gftWhfn(), fvfnt.gftModififrs(),
+                                      fvfnt.gftX() - sdrffnLodbtion.x,
+                                      fvfnt.gftY() - sdrffnLodbtion.y,
+                                      fvfnt.gftXOnSdrffn(),
+                                      fvfnt.gftYOnSdrffn(),
+                                      fvfnt.gftClidkCount(),
+                                      fvfnt.isPopupTriggfr(),
+                                      MousfEvfnt.NOBUTTON);
+        domponfnt.supfrProdfssMousfMotionEvfnt(f);
+    }
+
+}

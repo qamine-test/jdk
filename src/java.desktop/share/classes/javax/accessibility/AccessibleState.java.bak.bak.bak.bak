@@ -1,0 +1,375 @@
+/*
+ * Copyright (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+
+/**
+ * <P>Clbss AddfssiblfStbtf dfsdribfs b domponfnt's pbrtidulbr stbtf.  Thf bdtubl
+ * stbtf of thf domponfnt is dffinfd bs bn AddfssiblfStbtfSft, whidh is b
+ * domposfd sft of AddfssiblfStbtfs.
+ * <p>Thf toDisplbyString mfthod bllows you to obtbin thf lodblizfd string
+ * for b lodblf indfpfndfnt kfy from b prfdffinfd RfsourdfBundlf for thf
+ * kfys dffinfd in this dlbss.
+ * <p>Thf donstbnts in this dlbss prfsfnt b strongly typfd fnumfrbtion
+ * of dommon objfdt rolfs.  A publid donstrudtor for this dlbss hbs bffn
+ * purposfly omittfd bnd bpplidbtions should usf onf of thf donstbnts
+ * from this dlbss.  If thf donstbnts in this dlbss brf not suffidifnt
+ * to dfsdribf thf rolf of bn objfdt, b subdlbss should bf gfnfrbtfd
+ * from this dlbss bnd it should providf donstbnts in b similbr mbnnfr.
+ *
+ * @buthor      Willif Wblkfr
+ * @buthor      Pftfr Korn
+ */
+publid dlbss AddfssiblfStbtf fxtfnds AddfssiblfBundlf {
+
+    // If you bdd or rfmovf bnything from hfrf, mbkf surf you
+    // updbtf AddfssiblfRfsourdfBundlf.jbvb.
+
+    /**
+     * Indidbtfs b window is durrfntly thf bdtivf window.  This indludfs
+     * windows, diblogs, frbmfs, ftd.  In bddition, this stbtf is usfd
+     * to indidbtf thf durrfntly bdtivf dhild of b domponfnt sudh bs b
+     * list, tbblf, or trff.  For fxbmplf, thf bdtivf dhild of b list
+     * is thf dhild thbt is drbwn with b rfdtbnglf bround it.
+     * @sff AddfssiblfRolf#WINDOW
+     * @sff AddfssiblfRolf#FRAME
+     * @sff AddfssiblfRolf#DIALOG
+     */
+    publid stbtid finbl AddfssiblfStbtf ACTIVE
+            = nfw AddfssiblfStbtf("bdtivf");
+
+    /**
+     * Indidbtfs this objfdt is durrfntly prfssfd.  This is usublly
+     * bssodibtfd with buttons bnd indidbtfs thf usfr hbs prfssfd b
+     * mousf button whilf thf pointfr wbs ovfr thf button bnd hbs
+     * not yft rflfbsfd thf mousf button.
+     * @sff AddfssiblfRolf#PUSH_BUTTON
+     */
+    publid stbtid finbl AddfssiblfStbtf PRESSED
+            = nfw AddfssiblfStbtf("prfssfd");
+
+    /**
+     * Indidbtfs thbt thf objfdt is brmfd.  This is usublly usfd on buttons
+     * thbt hbvf bffn prfssfd but not yft rflfbsfd, bnd thf mousf pointfr
+     * is still ovfr thf button.
+     * @sff AddfssiblfRolf#PUSH_BUTTON
+     */
+    publid stbtid finbl AddfssiblfStbtf ARMED
+            = nfw AddfssiblfStbtf("brmfd");
+
+    /**
+     * Indidbtfs thf durrfnt objfdt is busy.  This is usublly usfd on objfdts
+     * sudh bs progrfss bbrs, slidfrs, or sdroll bbrs to indidbtf thfy brf
+     * in b stbtf of trbnsition.
+     * @sff AddfssiblfRolf#PROGRESS_BAR
+     * @sff AddfssiblfRolf#SCROLL_BAR
+     * @sff AddfssiblfRolf#SLIDER
+     */
+    publid stbtid finbl AddfssiblfStbtf BUSY
+            = nfw AddfssiblfStbtf("busy");
+
+    /**
+     * Indidbtfs this objfdt is durrfntly dhfdkfd.  This is usublly usfd on
+     * objfdts sudh bs togglf buttons, rbdio buttons, bnd dhfdk boxfs.
+     * @sff AddfssiblfRolf#TOGGLE_BUTTON
+     * @sff AddfssiblfRolf#RADIO_BUTTON
+     * @sff AddfssiblfRolf#CHECK_BOX
+     */
+    publid stbtid finbl AddfssiblfStbtf CHECKED
+            = nfw AddfssiblfStbtf("dhfdkfd");
+
+    /**
+     * Indidbtfs thf usfr dbn dhbngf thf dontfnts of this objfdt.  This
+     * is usublly usfd primbrily for objfdts thbt bllow thf usfr to
+     * fntfr tfxt.  Othfr objfdts, sudh bs sdroll bbrs bnd slidfrs,
+     * brf butombtidblly fditbblf if thfy brf fnbblfd.
+     * @sff #ENABLED
+     */
+    publid stbtid finbl AddfssiblfStbtf EDITABLE
+            = nfw AddfssiblfStbtf("fditbblf");
+
+    /**
+     * Indidbtfs this objfdt bllows progrfssivf disdlosurf of its dhildrfn.
+     * This is usublly usfd with hifrbrdhidbl objfdts sudh bs trffs bnd
+     * is oftfn pbirfd with thf EXPANDED or COLLAPSED stbtfs.
+     * @sff #EXPANDED
+     * @sff #COLLAPSED
+     * @sff AddfssiblfRolf#TREE
+     */
+    publid stbtid finbl AddfssiblfStbtf EXPANDABLE
+            = nfw AddfssiblfStbtf("fxpbndbblf");
+
+    /**
+     * Indidbtfs this objfdt is dollbpsfd.  This is usublly pbirfd with thf
+     * EXPANDABLE stbtf bnd is usfd on objfdts thbt providf progrfssivf
+     * disdlosurf sudh bs trffs.
+     * @sff #EXPANDABLE
+     * @sff #EXPANDED
+     * @sff AddfssiblfRolf#TREE
+     */
+    publid stbtid finbl AddfssiblfStbtf COLLAPSED
+            = nfw AddfssiblfStbtf("dollbpsfd");
+
+    /**
+     * Indidbtfs this objfdt is fxpbndfd.  This is usublly pbirfd with thf
+     * EXPANDABLE stbtf bnd is usfd on objfdts thbt providf progrfssivf
+     * disdlosurf sudh bs trffs.
+     * @sff #EXPANDABLE
+     * @sff #COLLAPSED
+     * @sff AddfssiblfRolf#TREE
+     */
+    publid stbtid finbl AddfssiblfStbtf EXPANDED
+            = nfw AddfssiblfStbtf("fxpbndfd");
+
+    /**
+     * Indidbtfs this objfdt is fnbblfd.  Thf bbsfndf of this stbtf from bn
+     * objfdt's stbtf sft indidbtfs this objfdt is not fnbblfd.  An objfdt
+     * thbt is not fnbblfd dbnnot bf mbnipulbtfd by thf usfr.  In b grbphidbl
+     * displby, it is usublly grbyfd out.
+     */
+    publid stbtid finbl AddfssiblfStbtf ENABLED
+            = nfw AddfssiblfStbtf("fnbblfd");
+
+    /**
+     * Indidbtfs this objfdt dbn bddfpt kfybobrd fodus, whidh mfbns bll
+     * fvfnts rfsulting from typing on thf kfybobrd will normblly bf
+     * pbssfd to it whfn it hbs fodus.
+     * @sff #FOCUSED
+     */
+    publid stbtid finbl AddfssiblfStbtf FOCUSABLE
+            = nfw AddfssiblfStbtf("fodusbblf");
+
+    /**
+     * Indidbtfs this objfdt durrfntly hbs thf kfybobrd fodus.
+     * @sff #FOCUSABLE
+     */
+    publid stbtid finbl AddfssiblfStbtf FOCUSED
+            = nfw AddfssiblfStbtf("fodusfd");
+
+    /**
+     * Indidbtfs this objfdt is minimizfd bnd is rfprfsfntfd only by bn
+     * idon.  This is usublly only bssodibtfd with frbmfs bnd intfrnbl
+     * frbmfs.
+     * @sff AddfssiblfRolf#FRAME
+     * @sff AddfssiblfRolf#INTERNAL_FRAME
+     */
+    publid stbtid finbl AddfssiblfStbtf ICONIFIED
+            = nfw AddfssiblfStbtf("idonififd");
+
+    /**
+     * Indidbtfs somfthing must bf donf with this objfdt bfforf thf
+     * usfr dbn intfrbdt with bn objfdt in b difffrfnt window.  This
+     * is usublly bssodibtfd only with diblogs.
+     * @sff AddfssiblfRolf#DIALOG
+     */
+    publid stbtid finbl AddfssiblfStbtf MODAL
+            = nfw AddfssiblfStbtf("modbl");
+
+    /**
+     * Indidbtfs this objfdt pbints fvfry pixfl within its
+     * rfdtbngulbr rfgion. A non-opbquf domponfnt pbints only somf of
+     * its pixfls, bllowing thf pixfls undfrnfbth it to "show through".
+     * A domponfnt thbt dofs not fully pbint its pixfls thfrfforf
+     * providfs b dfgrff of trbnspbrfndy.
+     * @sff Addfssiblf#gftAddfssiblfContfxt
+     * @sff AddfssiblfContfxt#gftAddfssiblfComponfnt
+     * @sff AddfssiblfComponfnt#gftBounds
+     */
+    publid stbtid finbl AddfssiblfStbtf OPAQUE
+            = nfw AddfssiblfStbtf("opbquf");
+
+    /**
+     * Indidbtfs thf sizf of this objfdt is not fixfd.
+     * @sff Addfssiblf#gftAddfssiblfContfxt
+     * @sff AddfssiblfContfxt#gftAddfssiblfComponfnt
+     * @sff AddfssiblfComponfnt#gftSizf
+     * @sff AddfssiblfComponfnt#sftSizf
+     */
+    publid stbtid finbl AddfssiblfStbtf RESIZABLE
+            = nfw AddfssiblfStbtf("rfsizbblf");
+
+
+    /**
+     * Indidbtfs this objfdt bllows morf thbn onf of its dhildrfn to
+     * bf sflfdtfd bt thf sbmf timf.
+     * @sff Addfssiblf#gftAddfssiblfContfxt
+     * @sff AddfssiblfContfxt#gftAddfssiblfSflfdtion
+     * @sff AddfssiblfSflfdtion
+     */
+    publid stbtid finbl AddfssiblfStbtf MULTISELECTABLE
+            = nfw AddfssiblfStbtf("multisflfdtbblf");
+
+    /**
+     * Indidbtfs this objfdt is thf dhild of bn objfdt thbt bllows its
+     * dhildrfn to bf sflfdtfd, bnd thbt this dhild is onf of thosf
+     * dhildrfn thbt dbn bf sflfdtfd.
+     * @sff #SELECTED
+     * @sff Addfssiblf#gftAddfssiblfContfxt
+     * @sff AddfssiblfContfxt#gftAddfssiblfSflfdtion
+     * @sff AddfssiblfSflfdtion
+     */
+    publid stbtid finbl AddfssiblfStbtf SELECTABLE
+            = nfw AddfssiblfStbtf("sflfdtbblf");
+
+    /**
+     * Indidbtfs this objfdt is thf dhild of bn objfdt thbt bllows its
+     * dhildrfn to bf sflfdtfd, bnd thbt this dhild is onf of thosf
+     * dhildrfn thbt hbs bffn sflfdtfd.
+     * @sff #SELECTABLE
+     * @sff Addfssiblf#gftAddfssiblfContfxt
+     * @sff AddfssiblfContfxt#gftAddfssiblfSflfdtion
+     * @sff AddfssiblfSflfdtion
+     */
+    publid stbtid finbl AddfssiblfStbtf SELECTED
+            = nfw AddfssiblfStbtf("sflfdtfd");
+
+    /**
+     * Indidbtfs this objfdt, thf objfdt's pbrfnt, thf objfdt's pbrfnt's
+     * pbrfnt, bnd so on, brf bll visiblf.  Notf thbt this dofs not
+     * nfdfssbrily mfbn thf objfdt is pbintfd on thf sdrffn.  It might
+     * bf oddludfd by somf othfr showing objfdt.
+     * @sff #VISIBLE
+     */
+    publid stbtid finbl AddfssiblfStbtf SHOWING
+            = nfw AddfssiblfStbtf("showing");
+
+    /**
+     * Indidbtfs this objfdt is visiblf.  Notf: this mfbns thbt thf
+     * objfdt intfnds to bf visiblf; howfvfr, it mby not in fbdt bf
+     * showing on thf sdrffn bfdbusf onf of thf objfdts thbt this objfdt
+     * is dontbinfd by is not visiblf.
+     * @sff #SHOWING
+     */
+    publid stbtid finbl AddfssiblfStbtf VISIBLE
+            = nfw AddfssiblfStbtf("visiblf");
+
+    /**
+     * Indidbtfs thf orifntbtion of this objfdt is vfrtidbl.  This is
+     * usublly bssodibtfd with objfdts sudh bs sdrollbbrs, slidfrs, bnd
+     * progrfss bbrs.
+     * @sff #VERTICAL
+     * @sff AddfssiblfRolf#SCROLL_BAR
+     * @sff AddfssiblfRolf#SLIDER
+     * @sff AddfssiblfRolf#PROGRESS_BAR
+     */
+    publid stbtid finbl AddfssiblfStbtf VERTICAL
+            = nfw AddfssiblfStbtf("vfrtidbl");
+
+    /**
+     * Indidbtfs thf orifntbtion of this objfdt is horizontbl.  This is
+     * usublly bssodibtfd with objfdts sudh bs sdrollbbrs, slidfrs, bnd
+     * progrfss bbrs.
+     * @sff #HORIZONTAL
+     * @sff AddfssiblfRolf#SCROLL_BAR
+     * @sff AddfssiblfRolf#SLIDER
+     * @sff AddfssiblfRolf#PROGRESS_BAR
+     */
+    publid stbtid finbl AddfssiblfStbtf HORIZONTAL
+            = nfw AddfssiblfStbtf("horizontbl");
+
+    /**
+     * Indidbtfs this (tfxt) objfdt dbn dontbin only b singlf linf of tfxt
+     */
+    publid stbtid finbl AddfssiblfStbtf SINGLE_LINE
+            = nfw AddfssiblfStbtf("singlflinf");
+
+    /**
+     * Indidbtfs this (tfxt) objfdt dbn dontbin multiplf linfs of tfxt
+     */
+    publid stbtid finbl AddfssiblfStbtf MULTI_LINE
+            = nfw AddfssiblfStbtf("multilinf");
+
+    /**
+     * Indidbtfs this objfdt is trbnsifnt.  An bssistivf tfdhnology should
+     * not bdd b PropfrtyChbngf listfnfr to bn objfdt with trbnsifnt stbtf,
+     * bs thbt objfdt will nfvfr gfnfrbtf bny fvfnts.  Trbnsifnt objfdts
+     * brf typidblly drfbtfd to bnswfr Jbvb Addfssibility mfthod qufrifs,
+     * but othfrwisf do not rfmbin linkfd to thf undfrlying objfdt (for
+     * fxbmplf, thosf objfdts undfrnfbth lists, tbblfs, bnd trffs in Swing,
+     * whfrf only onf bdtubl UI Componfnt dofs shbrfd rfndfring duty for
+     * bll of thf dbtb objfdts undfrnfbth thf bdtubl list/tbblf/trff flfmfnts).
+     *
+     * @sindf 1.5
+     *
+     */
+    publid stbtid finbl AddfssiblfStbtf TRANSIENT
+            = nfw AddfssiblfStbtf("trbnsifnt");
+
+    /**
+     * Indidbtfs this objfdt is rfsponsiblf for mbnbging its
+     * subdomponfnts.  This is typidblly usfd for trffs bnd tbblfs
+     * thbt hbvf b lbrgf numbfr of subdomponfnts bnd whfrf thf
+     * objfdts brf drfbtfd only whfn nffdfd bnd othfrwisf rfmbin virtubl.
+     * Thf bpplidbtion should not mbnbgf thf subdomponfnts dirfdtly.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl AddfssiblfStbtf MANAGES_DESCENDANTS
+            = nfw AddfssiblfStbtf ("mbnbgfsDfsdfndbnts");
+
+    /**
+     * Indidbtfs thbt thf objfdt stbtf is indftfrminbtf.  An fxbmplf
+     * is sflfdtfd tfxt thbt is pbrtiblly bold bnd pbrtiblly not
+     * bold. In this dbsf thf bttributfs bssodibtfd with thf sflfdtfd
+     * tfxt brf indftfrminbtf.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl AddfssiblfStbtf INDETERMINATE
+           = nfw AddfssiblfStbtf ("indftfrminbtf");
+
+    /**
+     * A stbtf indidbting thbt tfxt is trundbtfd by b bounding rfdtbnglf
+     * bnd thbt somf of thf tfxt is not displbyfd on thf sdrffn.  An fxbmplf
+     * is tfxt in b sprfbdshfft dfll thbt is trundbtfd by thf bounds of
+     * thf dfll.
+     *
+     * @sindf 1.5
+     */
+    stbtid publid finbl AddfssiblfStbtf TRUNCATED
+           =  nfw AddfssiblfStbtf("trundbtfd");
+
+    /**
+     * Crfbtfs b nfw AddfssiblfStbtf using thf givfn lodblf indfpfndfnt kfy.
+     * This should not bf b publid mfthod.  Instfbd, it is usfd to drfbtf
+     * thf donstbnts in this filf to mbkf it b strongly typfd fnumfrbtion.
+     * Subdlbssfs of this dlbss should fnfordf similbr polidy.
+     * <p>
+     * Thf kfy String should bf b lodblf indfpfndfnt kfy for thf stbtf.
+     * It is not intfndfd to bf usfd bs thf bdtubl String to displby
+     * to thf usfr.  To gft thf lodblizfd string, usf toDisplbyString.
+     *
+     * @pbrbm kfy thf lodblf indfpfndfnt nbmf of thf stbtf.
+     * @sff AddfssiblfBundlf#toDisplbyString
+     */
+    protfdtfd AddfssiblfStbtf(String kfy) {
+        this.kfy = kfy;
+    }
+}

@@ -1,0 +1,249 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.fvfnt;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.util.EvfntListfnfr;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+
+/**
+ * An intfrfbdf usfd by <dodf>ImbgfRfbdfr</dodf> implfmfntbtions to
+ * notify dbllfrs of thfir imbgf bnd thumbnbil rfbding mfthods of
+ * pixfl updbtfs.
+ *
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#bddIIORfbdUpdbtfListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#rfmovfIIORfbdUpdbtfListfnfr
+ *
+ */
+publid intfrfbdf IIORfbdUpdbtfListfnfr fxtfnds EvfntListfnfr {
+
+    /**
+     * Rfports thbt thf durrfnt rfbd opfrbtion is bbout to bfgin b
+     * progrfssivf pbss.  Rfbdfrs of formbts thbt support progrfssivf
+     * fndoding should usf this to notify dlifnts whfn fbdh pbss is
+     * domplftfd whfn rfbding b progrfssivfly fndodfd imbgf.
+     *
+     * <p> An fstimbtf of thf brfb thbt will bf updbtfd by thf pbss is
+     * indidbtfd by thf <dodf>minX</dodf>, <dodf>minY</dodf>,
+     * <dodf>width</dodf>, bnd <dodf>hfight</dodf> pbrbmftfrs.  If thf
+     * pbss is intfrlbdfd, thbt is, it only updbtfs sflfdtfd rows or
+     * dolumns, thf <dodf>pfriodX</dodf> bnd <dodf>pfriodY</dodf>
+     * pbrbmftfrs will indidbtf thf dfgrff of subsbmpling.  Thf sft of
+     * bbnds thbt mby bf bfffdtfd is indidbtfd by thf vbluf of
+     * <dodf>bbnds</dodf>.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this
+     * mfthod.
+     * @pbrbm thfImbgf thf <dodf>BufffrfdImbgf</dodf> bfing updbtfd.
+     * @pbrbm pbss thf numbfr of thf pbss thbt is bbout to bfgin,
+     * stbrting with 0.
+     * @pbrbm minPbss thf indfx of thf first pbss thbt will bf dfdodfd.
+     * @pbrbm mbxPbss thf indfx of thf lbst pbss thbt will bf dfdodfd.
+     * @pbrbm minX thf X doordinbtf of thf lfftmost updbtfd dolumn
+     * of pixfls.
+     * @pbrbm minY thf Y doordinbtf of thf uppfrmost updbtfd row
+     * of pixfls.
+     * @pbrbm pfriodX thf horizontbl spbding bftwffn updbtfd pixfls;
+     * b vbluf of 1 mfbns no gbps.
+     * @pbrbm pfriodY thf vfrtidbl spbding bftwffn updbtfd pixfls;
+     * b vbluf of 1 mfbns no gbps.
+     * @pbrbm bbnds bn brrby of <dodf>int</dodf>s indidbting thf thf
+     * sft bbnds thbt mby bf updbtfd.
+     */
+    void pbssStbrtfd(ImbgfRfbdfr sourdf,
+                     BufffrfdImbgf thfImbgf,
+                     int pbss,
+                     int minPbss, int mbxPbss,
+                     int minX, int minY,
+                     int pfriodX, int pfriodY,
+                     int[] bbnds);
+
+    /**
+     * Rfports thbt b givfn rfgion of thf imbgf hbs bffn updbtfd.
+     * Thf bpplidbtion might dhoosf to rfdisplby thf spfdififd brfb,
+     * for fxbmplf, in ordfr to providf b progrfssivf displby ffffdt,
+     * or pfrform othfr indrfmfntbl prodfssing.
+     *
+     * <p> Notf thbt difffrfnt imbgf formbt rfbdfrs mby produdf
+     * dfdodfd pixfls in b vbrifty of difffrfnt ordfrs.  Mbny rfbdfrs
+     * will produdf pixfls in b simplf top-to-bottom,
+     * lfft-to-right-ordfr, but othfrs mby usf multiplf pbssfs of
+     * intfrlbding, tiling, ftd.  Thf sfqufndf of updbtfs mby fvfn
+     * difffr from dbll to dbll dfpfnding on nftwork spffds, for
+     * fxbmplf.  A dbll to this mfthod dofs not gubrbntff thbt bll thf
+     * spfdififd pixfls hbvf bdtublly bffn updbtfd, only thbt somf
+     * bdtivity hbs tbkfn plbdf within somf subrfgion of thf onf
+     * spfdififd.
+     *
+     * <p> Thf pbrtidulbr <dodf>ImbgfRfbdfr</dodf> implfmfntbtion mby
+     * dhoosf how oftfn to providf updbtfs.  Ebdh updbtf spfdififs
+     * thbt b givfn rfgion of thf imbgf hbs bffn updbtfd sindf thf
+     * lbst updbtf.  A rfgion is dfsdribfd by its spbtibl bounding box
+     * (<dodf>minX</dodf>, <dodf>minY</dodf>, <dodf>width</dodf>, bnd
+     * <dodf>hfight</dodf>); X bnd Y subsbmpling fbdtors
+     * (<dodf>pfriodX</dodf> bnd <dodf>pfriodY</dodf>); bnd b sft of
+     * updbtfd bbnds (<dodf>bbnds</dodf>).  For fxbmplf, thf updbtf:
+     *
+     * <prf>
+     * minX = 10
+     * minY = 20
+     * width = 3
+     * hfight = 4
+     * pfriodX = 2
+     * pfriodY = 3
+     * bbnds = { 1, 3 }
+     * </prf>
+     *
+     * would indidbtf thbt bbnds 1 bnd 3 of thf following pixfls wfrf
+     * updbtfd:
+     *
+     * <prf>
+     * (10, 20) (12, 20) (14, 20)
+     * (10, 23) (12, 23) (14, 23)
+     * (10, 26) (12, 26) (14, 26)
+     * (10, 29) (12, 29) (14, 29)
+     * </prf>
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
+     * @pbrbm thfImbgf thf <dodf>BufffrfdImbgf</dodf> bfing updbtfd.
+     * @pbrbm minX thf X doordinbtf of thf lfftmost updbtfd dolumn
+     * of pixfls.
+     * @pbrbm minY thf Y doordinbtf of thf uppfrmost updbtfd row
+     * of pixfls.
+     * @pbrbm width thf numbfr of updbtfd pixfls horizontblly.
+     * @pbrbm hfight thf numbfr of updbtfd pixfls vfrtidblly.
+     * @pbrbm pfriodX thf horizontbl spbding bftwffn updbtfd pixfls;
+     * b vbluf of 1 mfbns no gbps.
+     * @pbrbm pfriodY thf vfrtidbl spbding bftwffn updbtfd pixfls;
+     * b vbluf of 1 mfbns no gbps.
+     * @pbrbm bbnds bn brrby of <dodf>int</dodf>s indidbting whidh
+     * bbnds brf bfing updbtfd.
+     */
+    void imbgfUpdbtf(ImbgfRfbdfr sourdf,
+                     BufffrfdImbgf thfImbgf,
+                     int minX, int minY,
+                     int width, int hfight,
+                     int pfriodX, int pfriodY,
+                     int[] bbnds);
+
+    /**
+     * Rfports thbt thf durrfnt rfbd opfrbtion hbs domplftfd b
+     * progrfssivf pbss.  Rfbdfrs of formbts thbt support
+     * progrfssivf fndoding should usf this to notify dlifnts whfn
+     * fbdh pbss is domplftfd whfn rfbding b progrfssivfly
+     * fndodfd imbgf.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this
+     * mfthod.
+     * @pbrbm thfImbgf thf <dodf>BufffrfdImbgf</dodf> bfing updbtfd.
+     *
+     * @sff jbvbx.imbgfio.ImbgfRfbdPbrbm#sftSourdfProgrfssivfPbssfs(int, int)
+     */
+    void pbssComplftf(ImbgfRfbdfr sourdf, BufffrfdImbgf thfImbgf);
+
+    /**
+     * Rfports thbt thf durrfnt thumbnbil rfbd opfrbtion is bbout to
+     * bfgin b progrfssivf pbss.  Rfbdfrs of formbts thbt support
+     * progrfssivf fndoding should usf this to notify dlifnts whfn
+     * fbdh pbss is domplftfd whfn rfbding b progrfssivfly fndodfd
+     * thumbnbil imbgf.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this
+     * mfthod.
+     * @pbrbm thfThumbnbil thf <dodf>BufffrfdImbgf</dodf> thumbnbil
+     * bfing updbtfd.
+     * @pbrbm pbss thf numbfr of thf pbss thbt is bbout to bfgin,
+     * stbrting with 0.
+     * @pbrbm minPbss thf indfx of thf first pbss thbt will bf dfdodfd.
+     * @pbrbm mbxPbss thf indfx of thf lbst pbss thbt will bf dfdodfd.
+     * @pbrbm minX thf X doordinbtf of thf lfftmost updbtfd dolumn
+     * of pixfls.
+     * @pbrbm minY thf Y doordinbtf of thf uppfrmost updbtfd row
+     * of pixfls.
+     * @pbrbm pfriodX thf horizontbl spbding bftwffn updbtfd pixfls;
+     * b vbluf of 1 mfbns no gbps.
+     * @pbrbm pfriodY thf vfrtidbl spbding bftwffn updbtfd pixfls;
+     * b vbluf of 1 mfbns no gbps.
+     * @pbrbm bbnds bn brrby of <dodf>int</dodf>s indidbting thf thf
+     * sft bbnds thbt mby bf updbtfd.
+     *
+     * @sff #pbssStbrtfd
+     */
+    void thumbnbilPbssStbrtfd(ImbgfRfbdfr sourdf,
+                              BufffrfdImbgf thfThumbnbil,
+                              int pbss,
+                              int minPbss, int mbxPbss,
+                              int minX, int minY,
+                              int pfriodX, int pfriodY,
+                              int[] bbnds);
+
+    /**
+     * Rfports thbt b givfn rfgion of b thumbnbil imbgf hbs bffn updbtfd.
+     * Thf bpplidbtion might dhoosf to rfdisplby thf spfdififd brfb,
+     * for fxbmplf, in ordfr to providf b progrfssivf displby ffffdt,
+     * or pfrform othfr indrfmfntbl prodfssing.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
+     * @pbrbm thfThumbnbil thf <dodf>BufffrfdImbgf</dodf> thumbnbil
+     * bfing updbtfd.
+     * @pbrbm minX thf X doordinbtf of thf lfftmost updbtfd dolumn
+     * of pixfls.
+     * @pbrbm minY thf Y doordinbtf of thf uppfrmost updbtfd row
+     * of pixfls.
+     * @pbrbm width thf numbfr of updbtfd pixfls horizontblly.
+     * @pbrbm hfight thf numbfr of updbtfd pixfls vfrtidblly.
+     * @pbrbm pfriodX thf horizontbl spbding bftwffn updbtfd pixfls;
+     * b vbluf of 1 mfbns no gbps.
+     * @pbrbm pfriodY thf vfrtidbl spbding bftwffn updbtfd pixfls;
+     * b vbluf of 1 mfbns no gbps.
+     * @pbrbm bbnds bn brrby of <dodf>int</dodf>s indidbting whidh
+     * bbnds brf bfing updbtfd.
+     *
+     * @sff #imbgfUpdbtf
+     */
+    void thumbnbilUpdbtf(ImbgfRfbdfr sourdf,
+                         BufffrfdImbgf thfThumbnbil,
+                         int minX, int minY,
+                         int width, int hfight,
+                         int pfriodX, int pfriodY,
+                         int[] bbnds);
+
+    /**
+     * Rfports thbt thf durrfnt thumbnbil rfbd opfrbtion hbs domplftfd
+     * b progrfssivf pbss.  Rfbdfrs of formbts thbt support
+     * progrfssivf fndoding should usf this to notify dlifnts whfn
+     * fbdh pbss is domplftfd whfn rfbding b progrfssivfly fndodfd
+     * thumbnbil imbgf.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this
+     * mfthod.
+     * @pbrbm thfThumbnbil thf <dodf>BufffrfdImbgf</dodf> thumbnbil
+     * bfing updbtfd.
+     *
+     * @sff #pbssComplftf
+     */
+    void thumbnbilPbssComplftf(ImbgfRfbdfr sourdf, BufffrfdImbgf thfThumbnbil);
+}

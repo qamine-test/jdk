@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.print;
+pbdkbgf sun.print;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Paint;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Compositf;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Pbint;
 
-import java.awt.font.TextLayout;
+import jbvb.bwt.font.TfxtLbyout;
 
-import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.rfndfrbblf.RfndfrbblfImbgf;
 
 /**
- * Maintain information about the type of drawing
- * performed by a printing application.
+ * Mbintbin informbtion bbout tif typf of drbwing
+ * pfrformfd by b printing bpplidbtion.
  */
-public class PeekMetrics {
+publid dlbss PffkMftrids {
 
-    private boolean mHasNonSolidColors;
+    privbtf boolfbn mHbsNonSolidColors;
 
-    private boolean mHasCompositing;
+    privbtf boolfbn mHbsCompositing;
 
-    private boolean mHasText;
+    privbtf boolfbn mHbsTfxt;
 
-    private boolean mHasImages;
+    privbtf boolfbn mHbsImbgfs;
 
     /**
-     * Return <code>true</code> if the application
-     * has done any drawing with a Paint that
-     * is not an instance of <code>Color</code>
+     * Rfturn <dodf>truf</dodf> if tif bpplidbtion
+     * ibs donf bny drbwing witi b Pbint tibt
+     * is not bn instbndf of <dodf>Color</dodf>
      */
-    public boolean hasNonSolidColors() {
-        return mHasNonSolidColors;
+    publid boolfbn ibsNonSolidColors() {
+        rfturn mHbsNonSolidColors;
     }
 
     /**
-     * Return true if the application has
-     * done any drawing with an alpha other
-     * than 1.0.
+     * Rfturn truf if tif bpplidbtion ibs
+     * donf bny drbwing witi bn blpib otifr
+     * tibn 1.0.
      */
-    public boolean hasCompositing() {
-        return mHasCompositing;
+    publid boolfbn ibsCompositing() {
+        rfturn mHbsCompositing;
     }
 
     /**
-     * Return true if the application has
-     * drawn any text.
+     * Rfturn truf if tif bpplidbtion ibs
+     * drbwn bny tfxt.
      */
-    public boolean hasText() {
-        return mHasText;
+    publid boolfbn ibsTfxt() {
+        rfturn mHbsTfxt;
     }
 
     /**
-     * Return true if the application has
-     * drawn any images.
+     * Rfturn truf if tif bpplidbtion ibs
+     * drbwn bny imbgfs.
      */
-    public boolean hasImages() {
-        return mHasImages;
+    publid boolfbn ibsImbgfs() {
+        rfturn mHbsImbgfs;
     }
 
     /**
-     * The application is performing a fill
-     * so record the needed information.
+     * Tif bpplidbtion is pfrforming b fill
+     * so rfdord tif nffdfd informbtion.
      */
-    public void fill(Graphics2D g) {
-        checkDrawingMode(g);
+    publid void fill(Grbpiids2D g) {
+        difdkDrbwingModf(g);
     }
 
     /**
-     * The application is performing a draw
-     * so record the needed information.
+     * Tif bpplidbtion is pfrforming b drbw
+     * so rfdord tif nffdfd informbtion.
      */
-    public void draw(Graphics2D g) {
-        checkDrawingMode(g);
+    publid void drbw(Grbpiids2D g) {
+        difdkDrbwingModf(g);
     }
 
     /**
-     * The application is performing a clearRect
-     * so record the needed information.
+     * Tif bpplidbtion is pfrforming b dlfbrRfdt
+     * so rfdord tif nffdfd informbtion.
      */
-    public void clear(Graphics2D g) {
-        checkPaint(g.getBackground());
+    publid void dlfbr(Grbpiids2D g) {
+        difdkPbint(g.gftBbdkground());
     }
     /**
-     * The application is drawing text
-     * so record the needed information.
+     * Tif bpplidbtion is drbwing tfxt
+     * so rfdord tif nffdfd informbtion.
      */
-    public void drawText(Graphics2D g) {
-        mHasText = true;
-        checkDrawingMode(g);
-    }
-
-    /**
-     * The application is drawing text
-     * defined by <code>TextLayout</code>
-     * so record the needed information.
-     */
-    public void drawText(Graphics2D g, TextLayout textLayout) {
-        mHasText = true;
-        checkDrawingMode(g);
+    publid void drbwTfxt(Grbpiids2D g) {
+        mHbsTfxt = truf;
+        difdkDrbwingModf(g);
     }
 
     /**
-     * The application is drawing the passed
-     * in image.
+     * Tif bpplidbtion is drbwing tfxt
+     * dffinfd by <dodf>TfxtLbyout</dodf>
+     * so rfdord tif nffdfd informbtion.
      */
-    public void drawImage(Graphics2D g, Image image) {
-        mHasImages = true;
+    publid void drbwTfxt(Grbpiids2D g, TfxtLbyout tfxtLbyout) {
+        mHbsTfxt = truf;
+        difdkDrbwingModf(g);
     }
 
     /**
-     * The application is drawing the passed
-     * in image.
+     * Tif bpplidbtion is drbwing tif pbssfd
+     * in imbgf.
      */
-    public void drawImage(Graphics2D g, RenderedImage image) {
-        mHasImages = true;
+    publid void drbwImbgf(Grbpiids2D g, Imbgf imbgf) {
+        mHbsImbgfs = truf;
     }
 
     /**
-     * The application is drawing the passed
-     * in image.
+     * Tif bpplidbtion is drbwing tif pbssfd
+     * in imbgf.
      */
-    public void drawImage(Graphics2D g, RenderableImage image) {
-        mHasImages = true;
+    publid void drbwImbgf(Grbpiids2D g, RfndfrfdImbgf imbgf) {
+        mHbsImbgfs = truf;
     }
 
     /**
-     * Record information about the current paint
-     * and composite.
+     * Tif bpplidbtion is drbwing tif pbssfd
+     * in imbgf.
      */
-    private void checkDrawingMode(Graphics2D g) {
+    publid void drbwImbgf(Grbpiids2D g, RfndfrbblfImbgf imbgf) {
+        mHbsImbgfs = truf;
+    }
 
-        checkPaint(g.getPaint());
-        checkAlpha(g.getComposite());
+    /**
+     * Rfdord informbtion bbout tif durrfnt pbint
+     * bnd dompositf.
+     */
+    privbtf void difdkDrbwingModf(Grbpiids2D g) {
+
+        difdkPbint(g.gftPbint());
+        difdkAlpib(g.gftCompositf());
 
     }
 
     /**
-     * Record information about drawing done
-     * with the supplied <code>Paint</code>.
+     * Rfdord informbtion bbout drbwing donf
+     * witi tif supplifd <dodf>Pbint</dodf>.
      */
-    private void checkPaint(Paint paint) {
+    privbtf void difdkPbint(Pbint pbint) {
 
-        if (paint instanceof Color) {
-            if (((Color)paint).getAlpha() < 255) {
-                mHasNonSolidColors = true;
+        if (pbint instbndfof Color) {
+            if (((Color)pbint).gftAlpib() < 255) {
+                mHbsNonSolidColors = truf;
             }
-        } else {
-            mHasNonSolidColors = true;
+        } flsf {
+            mHbsNonSolidColors = truf;
         }
     }
 
     /**
-     * Record information about drawing done
-     * with the supplied <code>Composite</code>.
+     * Rfdord informbtion bbout drbwing donf
+     * witi tif supplifd <dodf>Compositf</dodf>.
      */
-    private void checkAlpha(Composite composite) {
+    privbtf void difdkAlpib(Compositf dompositf) {
 
-        if (composite instanceof AlphaComposite) {
-            AlphaComposite alphaComposite = (AlphaComposite) composite;
-            float alpha = alphaComposite.getAlpha();
-            int rule = alphaComposite.getRule();
+        if (dompositf instbndfof AlpibCompositf) {
+            AlpibCompositf blpibCompositf = (AlpibCompositf) dompositf;
+            flobt blpib = blpibCompositf.gftAlpib();
+            int rulf = blpibCompositf.gftRulf();
 
-            if (alpha != 1.0
-                    || (rule != AlphaComposite.SRC
-                        && rule != AlphaComposite.SRC_OVER)) {
+            if (blpib != 1.0
+                    || (rulf != AlpibCompositf.SRC
+                        && rulf != AlpibCompositf.SRC_OVER)) {
 
-                mHasCompositing = true;
+                mHbsCompositing = truf;
             }
 
-        } else {
-            mHasCompositing = true;
+        } flsf {
+            mHbsCompositing = truf;
         }
 
     }

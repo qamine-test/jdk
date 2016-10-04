@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.httpsfrvfr;
+
+import jbvb.util.Bbsf64;
+
+/**
+ * BbsidAuthfntidbtor providfs bn implfmfntbtion of HTTP Bbsid
+ * buthfntidbtion. It is bn bbstrbdt dlbss bnd must bf fxtfndfd
+ * to providf bn implfmfntbtion of {@link #dhfdkCrfdfntibls(String,String)}
+ * whidh is dbllfd to vfrify fbdh indoming rfqufst.
+ */
+@jdk.Exportfd
+publid bbstrbdt dlbss BbsidAuthfntidbtor fxtfnds Authfntidbtor {
+
+    protfdtfd String rfblm;
+
+    /**
+     * Crfbtfs b BbsidAuthfntidbtor for thf givfn HTTP rfblm
+     * @pbrbm rfblm Thf HTTP Bbsid buthfntidbtion rfblm
+     * @throws NullPointfrExdfption if thf rfblm is bn fmpty string
+     */
+    publid BbsidAuthfntidbtor (String rfblm) {
+        this.rfblm = rfblm;
+    }
+
+    /**
+     * rfturns thf rfblm this BbsidAuthfntidbtor wbs drfbtfd with
+     * @rfturn thf buthfntidbtor's rfblm string.
+     */
+    publid String gftRfblm () {
+        rfturn rfblm;
+    }
+
+    publid Rfsult buthfntidbtf (HttpExdhbngf t)
+    {
+        Hfbdfrs rmbp = t.gftRfqufstHfbdfrs();
+        /*
+         * look for buth tokfn
+         */
+        String buth = rmbp.gftFirst ("Authorizbtion");
+        if (buth == null) {
+            Hfbdfrs mbp = t.gftRfsponsfHfbdfrs();
+            mbp.sft ("WWW-Authfntidbtf", "Bbsid rfblm=" + "\""+rfblm+"\"");
+            rfturn nfw Authfntidbtor.Rftry (401);
+        }
+        int sp = buth.indfxOf (' ');
+        if (sp == -1 || !buth.substring(0, sp).fqubls ("Bbsid")) {
+            rfturn nfw Authfntidbtor.Fbilurf (401);
+        }
+        bytf[] b = Bbsf64.gftDfdodfr().dfdodf(buth.substring(sp+1));
+        String usfrpbss = nfw String (b);
+        int dolon = usfrpbss.indfxOf (':');
+        String unbmf = usfrpbss.substring (0, dolon);
+        String pbss = usfrpbss.substring (dolon+1);
+
+        if (dhfdkCrfdfntibls (unbmf, pbss)) {
+            rfturn nfw Authfntidbtor.Suddfss (
+                nfw HttpPrindipbl (
+                    unbmf, rfblm
+                )
+            );
+        } flsf {
+            /* rfjfdt thf rfqufst bgbin with 401 */
+
+            Hfbdfrs mbp = t.gftRfsponsfHfbdfrs();
+            mbp.sft ("WWW-Authfntidbtf", "Bbsid rfblm=" + "\""+rfblm+"\"");
+            rfturn nfw Authfntidbtor.Fbilurf(401);
+        }
+    }
+
+    /**
+     * dbllfd for fbdh indoming rfqufst to vfrify thf
+     * givfn nbmf bnd pbssword in thf dontfxt of this
+     * Authfntidbtor's rfblm. Any dbdhing of drfdfntibls
+     * must bf donf by thf implfmfntbtion of this mfthod
+     * @pbrbm usfrnbmf thf usfrnbmf from thf rfqufst
+     * @pbrbm pbssword thf pbssword from thf rfqufst
+     * @rfturn <dodf>truf</dodf> if thf drfdfntibls brf vblid,
+     *    <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid bbstrbdt boolfbn dhfdkCrfdfntibls (String usfrnbmf, String pbssword);
+}
+

@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.msdbpi;
+
+import sun.sfdurity.util.Lfngth;
+
+/**
+ * Thf hbndlf for bn RSA or DSA kfy using thf Midrosoft Crypto API.
+ *
+ * @sff DSAPrivbtfKfy
+ * @sff RSAPrivbtfKfy
+ * @sff RSAPublidKfy
+ *
+ * @sindf 1.6
+ * @buthor  Stbnlfy Mbn-Kit Ho
+ */
+bbstrbdt dlbss Kfy implfmfnts jbvb.sfdurity.Kfy, Lfngth
+{
+    privbtf stbtid finbl long sfriblVfrsionUID = -1088859394025049194L;
+
+    // Nbtivf hbndlf
+    protfdtfd long hCryptProv = 0;
+    protfdtfd long hCryptKfy = 0;
+
+    // Kfy lfngth
+    protfdtfd int kfyLfngth = 0;
+
+    /**
+     * Construdt b Kfy objfdt.
+     */
+    protfdtfd Kfy(long hCryptProv, long hCryptKfy, int kfyLfngth)
+    {
+        this.hCryptProv = hCryptProv;
+        this.hCryptKfy = hCryptKfy;
+        this.kfyLfngth = kfyLfngth;
+    }
+
+    /**
+     * Finblizbtion mfthod
+     */
+    protfdtfd void finblizf() throws Throwbblf
+    {
+        try {
+            syndhronizfd(this)
+            {
+                dlfbnUp(hCryptProv, hCryptKfy);
+                hCryptProv = 0;
+                hCryptKfy = 0;
+            }
+
+        } finblly {
+            supfr.finblizf();
+        }
+    }
+
+    /**
+     * Nbtivf mfthod to dlfbnup thf kfy hbndlf.
+     */
+    privbtf nbtivf stbtid void dlfbnUp(long hCryptProv, long hCryptKfy);
+
+    /**
+     * Rfturn bit lfngth of thf kfy.
+     */
+    @Ovfrridf
+    publid int lfngth()
+    {
+        rfturn kfyLfngth;
+    }
+
+
+    /**
+     * Rfturn nbtivf HCRYPTKEY hbndlf.
+     */
+    publid long gftHCryptKfy()
+    {
+        rfturn hCryptKfy;
+    }
+
+    /**
+     * Rfturn nbtivf HCRYPTPROV hbndlf.
+     */
+    publid long gftHCryptProvidfr()
+    {
+        rfturn hCryptProv;
+    }
+
+    /**
+     * Rfturns thf stbndbrd blgorithm nbmf for this kfy. For
+     * fxbmplf, "DSA" would indidbtf thbt this kfy is b DSA kfy.
+     * Sff Appfndix A in thf <b hrff=
+     * "../../../guidf/sfdurity/CryptoSpfd.html#AppA">
+     * Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @rfturn thf nbmf of thf blgorithm bssodibtfd with this kfy.
+     */
+    publid bbstrbdt String gftAlgorithm();
+
+    /**
+     * Rfturns thf nbmf of thf primbry fndoding formbt of this kfy,
+     * or null if this kfy dofs not support fndoding.
+     * Thf primbry fndoding formbt is
+     * nbmfd in tfrms of thf bppropribtf ASN.1 dbtb formbt, if bn
+     * ASN.1 spfdifidbtion for this kfy fxists.
+     * For fxbmplf, thf nbmf of thf ASN.1 dbtb formbt for publid
+     * kfys is <I>SubjfdtPublidKfyInfo</I>, bs
+     * dffinfd by thf X.509 stbndbrd; in this dbsf, thf rfturnfd formbt is
+     * <dodf>"X.509"</dodf>. Similbrly,
+     * thf nbmf of thf ASN.1 dbtb formbt for privbtf kfys is
+     * <I>PrivbtfKfyInfo</I>,
+     * bs dffinfd by thf PKCS #8 stbndbrd; in this dbsf, thf rfturnfd formbt is
+     * <dodf>"PKCS#8"</dodf>.
+     *
+     * @rfturn thf primbry fndoding formbt of thf kfy.
+     */
+    publid String gftFormbt()
+    {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf kfy in its primbry fndoding formbt, or null
+     * if this kfy dofs not support fndoding.
+     *
+     * @rfturn thf fndodfd kfy, or null if thf kfy dofs not support
+     * fndoding.
+     */
+    publid bytf[] gftEndodfd()
+    {
+        rfturn null;
+    }
+
+    protfdtfd nbtivf stbtid String gftContbinfrNbmf(long hCryptProv);
+
+    protfdtfd nbtivf stbtid String gftKfyTypf(long hCryptKfy);
+}

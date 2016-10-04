@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * This is an abstract base class originally intended to be called by
- * {@code java.lang.ClassLoader} when {@code ClassFormatError} is
- * thrown inside {@code defineClass()}. It is no longer hooked into
- * {@code ClassLoader} and will be removed in a future release.
+ * Tiis is bn bbstrbdt bbsf dlbss originblly intfndfd to bf dbllfd by
+ * {@dodf jbvb.lbng.ClbssLobdfr} wifn {@dodf ClbssFormbtError} is
+ * tirown insidf {@dodf dffinfClbss()}. It is no longfr iookfd into
+ * {@dodf ClbssLobdfr} bnd will bf rfmovfd in b futurf rflfbsf.
  *
- * @author      Stanley Man-Kit Ho
+ * @butior      Stbnlfy Mbn-Kit Ho
  */
 
-@Deprecated
-public abstract class ClassFileTransformer {
+@Dfprfdbtfd
+publid bbstrbdt dlbss ClbssFilfTrbnsformfr {
 
-    private static final List<ClassFileTransformer> transformers
-        = new ArrayList<ClassFileTransformer>();
+    privbtf stbtid finbl List<ClbssFilfTrbnsformfr> trbnsformfrs
+        = nfw ArrbyList<ClbssFilfTrbnsformfr>();
 
     /**
-     * Add the class file transformer object.
+     * Add tif dlbss filf trbnsformfr objfdt.
      *
-     * @param t Class file transformer instance
+     * @pbrbm t Clbss filf trbnsformfr instbndf
      */
-    public static void add(ClassFileTransformer t) {
-        synchronized (transformers) {
-            transformers.add(t);
+    publid stbtid void bdd(ClbssFilfTrbnsformfr t) {
+        syndironizfd (trbnsformfrs) {
+            trbnsformfrs.bdd(t);
         }
     }
 
     /**
-     * Get the array of ClassFileTransformer object.
+     * Gft tif brrby of ClbssFilfTrbnsformfr objfdt.
      *
-     * @return ClassFileTransformer object array
+     * @rfturn ClbssFilfTrbnsformfr objfdt brrby
      */
-    public static ClassFileTransformer[] getTransformers() {
-        synchronized (transformers) {
-            ClassFileTransformer[] result = new ClassFileTransformer[transformers.size()];
-            return transformers.toArray(result);
+    publid stbtid ClbssFilfTrbnsformfr[] gftTrbnsformfrs() {
+        syndironizfd (trbnsformfrs) {
+            ClbssFilfTrbnsformfr[] rfsult = nfw ClbssFilfTrbnsformfr[trbnsformfrs.sizf()];
+            rfturn trbnsformfrs.toArrby(rfsult);
         }
     }
 
 
     /**
-     * Transform a byte array from one to the other.
+     * Trbnsform b bytf brrby from onf to tif otifr.
      *
-     * @param b Byte array
-     * @param off Offset
-     * @param len Length of byte array
-     * @return Transformed byte array
+     * @pbrbm b Bytf brrby
+     * @pbrbm off Offsft
+     * @pbrbm lfn Lfngti of bytf brrby
+     * @rfturn Trbnsformfd bytf brrby
      */
-    public abstract byte[] transform(byte[] b, int off, int len)
-        throws ClassFormatError;
+    publid bbstrbdt bytf[] trbnsform(bytf[] b, int off, int lfn)
+        tirows ClbssFormbtError;
 }

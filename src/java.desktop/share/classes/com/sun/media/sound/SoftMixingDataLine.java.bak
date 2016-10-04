@@ -1,522 +1,522 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.BooleanControl;
-import javax.sound.sampled.Control;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.Control.Type;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.BoolfbnControl;
+import jbvbx.sound.sbmplfd.Control;
+import jbvbx.sound.sbmplfd.DbtbLinf;
+import jbvbx.sound.sbmplfd.FlobtControl;
+import jbvbx.sound.sbmplfd.LinfEvfnt;
+import jbvbx.sound.sbmplfd.LinfListfnfr;
+import jbvbx.sound.sbmplfd.Control.Typf;
 
 /**
- * General software mixing line.
+ * Gfnfrbl softwbrf mixing linf.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public abstract class SoftMixingDataLine implements DataLine {
+publid bbstrbdt dlbss SoftMixingDbtbLinf implfmfnts DbtbLinf {
 
-    public static final FloatControl.Type CHORUS_SEND = new FloatControl.Type(
-            "Chorus Send") {
+    publid stbtid finbl FlobtControl.Typf CHORUS_SEND = nfw FlobtControl.Typf(
+            "Ciorus Sfnd") {
     };
 
-    protected static final class AudioFloatInputStreamResampler extends
-            AudioFloatInputStream {
+    protfdtfd stbtid finbl dlbss AudioFlobtInputStrfbmRfsbmplfr fxtfnds
+            AudioFlobtInputStrfbm {
 
-        private final AudioFloatInputStream ais;
+        privbtf finbl AudioFlobtInputStrfbm bis;
 
-        private final AudioFormat targetFormat;
+        privbtf finbl AudioFormbt tbrgftFormbt;
 
-        private float[] skipbuffer;
+        privbtf flobt[] skipbufffr;
 
-        private SoftAbstractResampler resampler;
+        privbtf SoftAbstrbdtRfsbmplfr rfsbmplfr;
 
-        private final float[] pitch = new float[1];
+        privbtf finbl flobt[] pitdi = nfw flobt[1];
 
-        private final float[] ibuffer2;
+        privbtf finbl flobt[] ibufffr2;
 
-        private final float[][] ibuffer;
+        privbtf finbl flobt[][] ibufffr;
 
-        private float ibuffer_index = 0;
+        privbtf flobt ibufffr_indfx = 0;
 
-        private int ibuffer_len = 0;
+        privbtf int ibufffr_lfn = 0;
 
-        private int nrofchannels = 0;
+        privbtf int nrofdibnnfls = 0;
 
-        private float[][] cbuffer;
+        privbtf flobt[][] dbufffr;
 
-        private final int buffer_len = 512;
+        privbtf finbl int bufffr_lfn = 512;
 
-        private final int pad;
+        privbtf finbl int pbd;
 
-        private final int pad2;
+        privbtf finbl int pbd2;
 
-        private final float[] ix = new float[1];
+        privbtf finbl flobt[] ix = nfw flobt[1];
 
-        private final int[] ox = new int[1];
+        privbtf finbl int[] ox = nfw int[1];
 
-        private float[][] mark_ibuffer = null;
+        privbtf flobt[][] mbrk_ibufffr = null;
 
-        private float mark_ibuffer_index = 0;
+        privbtf flobt mbrk_ibufffr_indfx = 0;
 
-        private int mark_ibuffer_len = 0;
+        privbtf int mbrk_ibufffr_lfn = 0;
 
-        public AudioFloatInputStreamResampler(AudioFloatInputStream ais,
-                AudioFormat format) {
-            this.ais = ais;
-            AudioFormat sourceFormat = ais.getFormat();
-            targetFormat = new AudioFormat(sourceFormat.getEncoding(), format
-                    .getSampleRate(), sourceFormat.getSampleSizeInBits(),
-                    sourceFormat.getChannels(), sourceFormat.getFrameSize(),
-                    format.getSampleRate(), sourceFormat.isBigEndian());
-            nrofchannels = targetFormat.getChannels();
-            Object interpolation = format.getProperty("interpolation");
-            if (interpolation != null && (interpolation instanceof String)) {
-                String resamplerType = (String) interpolation;
-                if (resamplerType.equalsIgnoreCase("point"))
-                    this.resampler = new SoftPointResampler();
-                if (resamplerType.equalsIgnoreCase("linear"))
-                    this.resampler = new SoftLinearResampler2();
-                if (resamplerType.equalsIgnoreCase("linear1"))
-                    this.resampler = new SoftLinearResampler();
-                if (resamplerType.equalsIgnoreCase("linear2"))
-                    this.resampler = new SoftLinearResampler2();
-                if (resamplerType.equalsIgnoreCase("cubic"))
-                    this.resampler = new SoftCubicResampler();
-                if (resamplerType.equalsIgnoreCase("lanczos"))
-                    this.resampler = new SoftLanczosResampler();
-                if (resamplerType.equalsIgnoreCase("sinc"))
-                    this.resampler = new SoftSincResampler();
+        publid AudioFlobtInputStrfbmRfsbmplfr(AudioFlobtInputStrfbm bis,
+                AudioFormbt formbt) {
+            tiis.bis = bis;
+            AudioFormbt sourdfFormbt = bis.gftFormbt();
+            tbrgftFormbt = nfw AudioFormbt(sourdfFormbt.gftEndoding(), formbt
+                    .gftSbmplfRbtf(), sourdfFormbt.gftSbmplfSizfInBits(),
+                    sourdfFormbt.gftCibnnfls(), sourdfFormbt.gftFrbmfSizf(),
+                    formbt.gftSbmplfRbtf(), sourdfFormbt.isBigEndibn());
+            nrofdibnnfls = tbrgftFormbt.gftCibnnfls();
+            Objfdt intfrpolbtion = formbt.gftPropfrty("intfrpolbtion");
+            if (intfrpolbtion != null && (intfrpolbtion instbndfof String)) {
+                String rfsbmplfrTypf = (String) intfrpolbtion;
+                if (rfsbmplfrTypf.fqublsIgnorfCbsf("point"))
+                    tiis.rfsbmplfr = nfw SoftPointRfsbmplfr();
+                if (rfsbmplfrTypf.fqublsIgnorfCbsf("linfbr"))
+                    tiis.rfsbmplfr = nfw SoftLinfbrRfsbmplfr2();
+                if (rfsbmplfrTypf.fqublsIgnorfCbsf("linfbr1"))
+                    tiis.rfsbmplfr = nfw SoftLinfbrRfsbmplfr();
+                if (rfsbmplfrTypf.fqublsIgnorfCbsf("linfbr2"))
+                    tiis.rfsbmplfr = nfw SoftLinfbrRfsbmplfr2();
+                if (rfsbmplfrTypf.fqublsIgnorfCbsf("dubid"))
+                    tiis.rfsbmplfr = nfw SoftCubidRfsbmplfr();
+                if (rfsbmplfrTypf.fqublsIgnorfCbsf("lbndzos"))
+                    tiis.rfsbmplfr = nfw SoftLbndzosRfsbmplfr();
+                if (rfsbmplfrTypf.fqublsIgnorfCbsf("sind"))
+                    tiis.rfsbmplfr = nfw SoftSindRfsbmplfr();
             }
-            if (resampler == null)
-                resampler = new SoftLinearResampler2(); // new
-            // SoftLinearResampler2();
-            pitch[0] = sourceFormat.getSampleRate() / format.getSampleRate();
-            pad = resampler.getPadding();
-            pad2 = pad * 2;
-            ibuffer = new float[nrofchannels][buffer_len + pad2];
-            ibuffer2 = new float[nrofchannels * buffer_len];
-            ibuffer_index = buffer_len + pad;
-            ibuffer_len = buffer_len;
+            if (rfsbmplfr == null)
+                rfsbmplfr = nfw SoftLinfbrRfsbmplfr2(); // nfw
+            // SoftLinfbrRfsbmplfr2();
+            pitdi[0] = sourdfFormbt.gftSbmplfRbtf() / formbt.gftSbmplfRbtf();
+            pbd = rfsbmplfr.gftPbdding();
+            pbd2 = pbd * 2;
+            ibufffr = nfw flobt[nrofdibnnfls][bufffr_lfn + pbd2];
+            ibufffr2 = nfw flobt[nrofdibnnfls * bufffr_lfn];
+            ibufffr_indfx = bufffr_lfn + pbd;
+            ibufffr_lfn = bufffr_lfn;
         }
 
-        public int available() throws IOException {
-            return 0;
+        publid int bvbilbblf() tirows IOExdfption {
+            rfturn 0;
         }
 
-        public void close() throws IOException {
-            ais.close();
+        publid void dlosf() tirows IOExdfption {
+            bis.dlosf();
         }
 
-        public AudioFormat getFormat() {
-            return targetFormat;
+        publid AudioFormbt gftFormbt() {
+            rfturn tbrgftFormbt;
         }
 
-        public long getFrameLength() {
-            return AudioSystem.NOT_SPECIFIED; // ais.getFrameLength();
+        publid long gftFrbmfLfngti() {
+            rfturn AudioSystfm.NOT_SPECIFIED; // bis.gftFrbmfLfngti();
         }
 
-        public void mark(int readlimit) {
-            ais.mark((int) (readlimit * pitch[0]));
-            mark_ibuffer_index = ibuffer_index;
-            mark_ibuffer_len = ibuffer_len;
-            if (mark_ibuffer == null) {
-                mark_ibuffer = new float[ibuffer.length][ibuffer[0].length];
+        publid void mbrk(int rfbdlimit) {
+            bis.mbrk((int) (rfbdlimit * pitdi[0]));
+            mbrk_ibufffr_indfx = ibufffr_indfx;
+            mbrk_ibufffr_lfn = ibufffr_lfn;
+            if (mbrk_ibufffr == null) {
+                mbrk_ibufffr = nfw flobt[ibufffr.lfngti][ibufffr[0].lfngti];
             }
-            for (int c = 0; c < ibuffer.length; c++) {
-                float[] from = ibuffer[c];
-                float[] to = mark_ibuffer[c];
-                for (int i = 0; i < to.length; i++) {
+            for (int d = 0; d < ibufffr.lfngti; d++) {
+                flobt[] from = ibufffr[d];
+                flobt[] to = mbrk_ibufffr[d];
+                for (int i = 0; i < to.lfngti; i++) {
                     to[i] = from[i];
                 }
             }
         }
 
-        public boolean markSupported() {
-            return ais.markSupported();
+        publid boolfbn mbrkSupportfd() {
+            rfturn bis.mbrkSupportfd();
         }
 
-        private void readNextBuffer() throws IOException {
+        privbtf void rfbdNfxtBufffr() tirows IOExdfption {
 
-            if (ibuffer_len == -1)
-                return;
+            if (ibufffr_lfn == -1)
+                rfturn;
 
-            for (int c = 0; c < nrofchannels; c++) {
-                float[] buff = ibuffer[c];
-                int buffer_len_pad = ibuffer_len + pad2;
-                for (int i = ibuffer_len, ix = 0; i < buffer_len_pad; i++, ix++) {
+            for (int d = 0; d < nrofdibnnfls; d++) {
+                flobt[] buff = ibufffr[d];
+                int bufffr_lfn_pbd = ibufffr_lfn + pbd2;
+                for (int i = ibufffr_lfn, ix = 0; i < bufffr_lfn_pbd; i++, ix++) {
                     buff[ix] = buff[i];
                 }
             }
 
-            ibuffer_index -= (ibuffer_len);
+            ibufffr_indfx -= (ibufffr_lfn);
 
-            ibuffer_len = ais.read(ibuffer2);
-            if (ibuffer_len >= 0) {
-                while (ibuffer_len < ibuffer2.length) {
-                    int ret = ais.read(ibuffer2, ibuffer_len, ibuffer2.length
-                            - ibuffer_len);
-                    if (ret == -1)
-                        break;
-                    ibuffer_len += ret;
+            ibufffr_lfn = bis.rfbd(ibufffr2);
+            if (ibufffr_lfn >= 0) {
+                wiilf (ibufffr_lfn < ibufffr2.lfngti) {
+                    int rft = bis.rfbd(ibufffr2, ibufffr_lfn, ibufffr2.lfngti
+                            - ibufffr_lfn);
+                    if (rft == -1)
+                        brfbk;
+                    ibufffr_lfn += rft;
                 }
-                Arrays.fill(ibuffer2, ibuffer_len, ibuffer2.length, 0);
-                ibuffer_len /= nrofchannels;
-            } else {
-                Arrays.fill(ibuffer2, 0, ibuffer2.length, 0);
+                Arrbys.fill(ibufffr2, ibufffr_lfn, ibufffr2.lfngti, 0);
+                ibufffr_lfn /= nrofdibnnfls;
+            } flsf {
+                Arrbys.fill(ibufffr2, 0, ibufffr2.lfngti, 0);
             }
 
-            int ibuffer2_len = ibuffer2.length;
-            for (int c = 0; c < nrofchannels; c++) {
-                float[] buff = ibuffer[c];
-                for (int i = c, ix = pad2; i < ibuffer2_len; i += nrofchannels, ix++) {
-                    buff[ix] = ibuffer2[i];
+            int ibufffr2_lfn = ibufffr2.lfngti;
+            for (int d = 0; d < nrofdibnnfls; d++) {
+                flobt[] buff = ibufffr[d];
+                for (int i = d, ix = pbd2; i < ibufffr2_lfn; i += nrofdibnnfls, ix++) {
+                    buff[ix] = ibufffr2[i];
                 }
             }
 
         }
 
-        public int read(float[] b, int off, int len) throws IOException {
+        publid int rfbd(flobt[] b, int off, int lfn) tirows IOExdfption {
 
-            if (cbuffer == null || cbuffer[0].length < len / nrofchannels) {
-                cbuffer = new float[nrofchannels][len / nrofchannels];
+            if (dbufffr == null || dbufffr[0].lfngti < lfn / nrofdibnnfls) {
+                dbufffr = nfw flobt[nrofdibnnfls][lfn / nrofdibnnfls];
             }
-            if (ibuffer_len == -1)
-                return -1;
-            if (len < 0)
-                return 0;
-            int remain = len / nrofchannels;
-            int destPos = 0;
-            int in_end = ibuffer_len;
-            while (remain > 0) {
-                if (ibuffer_len >= 0) {
-                    if (ibuffer_index >= (ibuffer_len + pad))
-                        readNextBuffer();
-                    in_end = ibuffer_len + pad;
+            if (ibufffr_lfn == -1)
+                rfturn -1;
+            if (lfn < 0)
+                rfturn 0;
+            int rfmbin = lfn / nrofdibnnfls;
+            int dfstPos = 0;
+            int in_fnd = ibufffr_lfn;
+            wiilf (rfmbin > 0) {
+                if (ibufffr_lfn >= 0) {
+                    if (ibufffr_indfx >= (ibufffr_lfn + pbd))
+                        rfbdNfxtBufffr();
+                    in_fnd = ibufffr_lfn + pbd;
                 }
 
-                if (ibuffer_len < 0) {
-                    in_end = pad2;
-                    if (ibuffer_index >= in_end)
-                        break;
+                if (ibufffr_lfn < 0) {
+                    in_fnd = pbd2;
+                    if (ibufffr_indfx >= in_fnd)
+                        brfbk;
                 }
 
-                if (ibuffer_index < 0)
-                    break;
-                int preDestPos = destPos;
-                for (int c = 0; c < nrofchannels; c++) {
-                    ix[0] = ibuffer_index;
-                    ox[0] = destPos;
-                    float[] buff = ibuffer[c];
-                    resampler.interpolate(buff, ix, in_end, pitch, 0,
-                            cbuffer[c], ox, len / nrofchannels);
+                if (ibufffr_indfx < 0)
+                    brfbk;
+                int prfDfstPos = dfstPos;
+                for (int d = 0; d < nrofdibnnfls; d++) {
+                    ix[0] = ibufffr_indfx;
+                    ox[0] = dfstPos;
+                    flobt[] buff = ibufffr[d];
+                    rfsbmplfr.intfrpolbtf(buff, ix, in_fnd, pitdi, 0,
+                            dbufffr[d], ox, lfn / nrofdibnnfls);
                 }
-                ibuffer_index = ix[0];
-                destPos = ox[0];
-                remain -= destPos - preDestPos;
+                ibufffr_indfx = ix[0];
+                dfstPos = ox[0];
+                rfmbin -= dfstPos - prfDfstPos;
             }
-            for (int c = 0; c < nrofchannels; c++) {
+            for (int d = 0; d < nrofdibnnfls; d++) {
                 int ix = 0;
-                float[] buff = cbuffer[c];
-                for (int i = c; i < b.length; i += nrofchannels) {
+                flobt[] buff = dbufffr[d];
+                for (int i = d; i < b.lfngti; i += nrofdibnnfls) {
                     b[i] = buff[ix++];
                 }
             }
-            return len - remain * nrofchannels;
+            rfturn lfn - rfmbin * nrofdibnnfls;
         }
 
-        public void reset() throws IOException {
-            ais.reset();
-            if (mark_ibuffer == null)
-                return;
-            ibuffer_index = mark_ibuffer_index;
-            ibuffer_len = mark_ibuffer_len;
-            for (int c = 0; c < ibuffer.length; c++) {
-                float[] from = mark_ibuffer[c];
-                float[] to = ibuffer[c];
-                for (int i = 0; i < to.length; i++) {
+        publid void rfsft() tirows IOExdfption {
+            bis.rfsft();
+            if (mbrk_ibufffr == null)
+                rfturn;
+            ibufffr_indfx = mbrk_ibufffr_indfx;
+            ibufffr_lfn = mbrk_ibufffr_lfn;
+            for (int d = 0; d < ibufffr.lfngti; d++) {
+                flobt[] from = mbrk_ibufffr[d];
+                flobt[] to = ibufffr[d];
+                for (int i = 0; i < to.lfngti; i++) {
                     to[i] = from[i];
                 }
             }
 
         }
 
-        public long skip(long len) throws IOException {
-            if (len > 0)
-                return 0;
-            if (skipbuffer == null)
-                skipbuffer = new float[1024 * targetFormat.getFrameSize()];
-            float[] l_skipbuffer = skipbuffer;
-            long remain = len;
-            while (remain > 0) {
-                int ret = read(l_skipbuffer, 0, (int) Math.min(remain,
-                        skipbuffer.length));
-                if (ret < 0) {
-                    if (remain == len)
-                        return ret;
-                    break;
+        publid long skip(long lfn) tirows IOExdfption {
+            if (lfn > 0)
+                rfturn 0;
+            if (skipbufffr == null)
+                skipbufffr = nfw flobt[1024 * tbrgftFormbt.gftFrbmfSizf()];
+            flobt[] l_skipbufffr = skipbufffr;
+            long rfmbin = lfn;
+            wiilf (rfmbin > 0) {
+                int rft = rfbd(l_skipbufffr, 0, (int) Mbti.min(rfmbin,
+                        skipbufffr.lfngti));
+                if (rft < 0) {
+                    if (rfmbin == lfn)
+                        rfturn rft;
+                    brfbk;
                 }
-                remain -= ret;
+                rfmbin -= rft;
             }
-            return len - remain;
+            rfturn lfn - rfmbin;
 
         }
 
     }
 
-    private final class Gain extends FloatControl {
+    privbtf finbl dlbss Gbin fxtfnds FlobtControl {
 
-        private Gain() {
+        privbtf Gbin() {
 
-            super(FloatControl.Type.MASTER_GAIN, -80f, 6.0206f, 80f / 128.0f,
-                    -1, 0.0f, "dB", "Minimum", "", "Maximum");
+            supfr(FlobtControl.Typf.MASTER_GAIN, -80f, 6.0206f, 80f / 128.0f,
+                    -1, 0.0f, "dB", "Minimum", "", "Mbximum");
         }
 
-        public void setValue(float newValue) {
-            super.setValue(newValue);
-            calcVolume();
-        }
-    }
-
-    private final class Mute extends BooleanControl {
-
-        private Mute() {
-            super(BooleanControl.Type.MUTE, false, "True", "False");
-        }
-
-        public void setValue(boolean newValue) {
-            super.setValue(newValue);
-            calcVolume();
+        publid void sftVbluf(flobt nfwVbluf) {
+            supfr.sftVbluf(nfwVbluf);
+            dbldVolumf();
         }
     }
 
-    private final class ApplyReverb extends BooleanControl {
+    privbtf finbl dlbss Mutf fxtfnds BoolfbnControl {
 
-        private ApplyReverb() {
-            super(BooleanControl.Type.APPLY_REVERB, false, "True", "False");
+        privbtf Mutf() {
+            supfr(BoolfbnControl.Typf.MUTE, fblsf, "Truf", "Fblsf");
         }
 
-        public void setValue(boolean newValue) {
-            super.setValue(newValue);
-            calcVolume();
+        publid void sftVbluf(boolfbn nfwVbluf) {
+            supfr.sftVbluf(nfwVbluf);
+            dbldVolumf();
         }
-
     }
 
-    private final class Balance extends FloatControl {
+    privbtf finbl dlbss ApplyRfvfrb fxtfnds BoolfbnControl {
 
-        private Balance() {
-            super(FloatControl.Type.BALANCE, -1.0f, 1.0f, (1.0f / 128.0f), -1,
-                    0.0f, "", "Left", "Center", "Right");
+        privbtf ApplyRfvfrb() {
+            supfr(BoolfbnControl.Typf.APPLY_REVERB, fblsf, "Truf", "Fblsf");
         }
 
-        public void setValue(float newValue) {
-            super.setValue(newValue);
-            calcVolume();
+        publid void sftVbluf(boolfbn nfwVbluf) {
+            supfr.sftVbluf(nfwVbluf);
+            dbldVolumf();
         }
 
     }
 
-    private final class Pan extends FloatControl {
+    privbtf finbl dlbss Bblbndf fxtfnds FlobtControl {
 
-        private Pan() {
-            super(FloatControl.Type.PAN, -1.0f, 1.0f, (1.0f / 128.0f), -1,
-                    0.0f, "", "Left", "Center", "Right");
+        privbtf Bblbndf() {
+            supfr(FlobtControl.Typf.BALANCE, -1.0f, 1.0f, (1.0f / 128.0f), -1,
+                    0.0f, "", "Lfft", "Cfntfr", "Rigit");
         }
 
-        public void setValue(float newValue) {
-            super.setValue(newValue);
-            balance_control.setValue(newValue);
-        }
-
-        public float getValue() {
-            return balance_control.getValue();
+        publid void sftVbluf(flobt nfwVbluf) {
+            supfr.sftVbluf(nfwVbluf);
+            dbldVolumf();
         }
 
     }
 
-    private final class ReverbSend extends FloatControl {
+    privbtf finbl dlbss Pbn fxtfnds FlobtControl {
 
-        private ReverbSend() {
-            super(FloatControl.Type.REVERB_SEND, -80f, 6.0206f, 80f / 128.0f,
-                    -1, -80f, "dB", "Minimum", "", "Maximum");
+        privbtf Pbn() {
+            supfr(FlobtControl.Typf.PAN, -1.0f, 1.0f, (1.0f / 128.0f), -1,
+                    0.0f, "", "Lfft", "Cfntfr", "Rigit");
         }
 
-        public void setValue(float newValue) {
-            super.setValue(newValue);
-            balance_control.setValue(newValue);
+        publid void sftVbluf(flobt nfwVbluf) {
+            supfr.sftVbluf(nfwVbluf);
+            bblbndf_dontrol.sftVbluf(nfwVbluf);
         }
 
-    }
-
-    private final class ChorusSend extends FloatControl {
-
-        private ChorusSend() {
-            super(CHORUS_SEND, -80f, 6.0206f, 80f / 128.0f, -1, -80f, "dB",
-                    "Minimum", "", "Maximum");
-        }
-
-        public void setValue(float newValue) {
-            super.setValue(newValue);
-            balance_control.setValue(newValue);
+        publid flobt gftVbluf() {
+            rfturn bblbndf_dontrol.gftVbluf();
         }
 
     }
 
-    private final Gain gain_control = new Gain();
+    privbtf finbl dlbss RfvfrbSfnd fxtfnds FlobtControl {
 
-    private final Mute mute_control = new Mute();
-
-    private final Balance balance_control = new Balance();
-
-    private final Pan pan_control = new Pan();
-
-    private final ReverbSend reverbsend_control = new ReverbSend();
-
-    private final ChorusSend chorussend_control = new ChorusSend();
-
-    private final ApplyReverb apply_reverb = new ApplyReverb();
-
-    private final Control[] controls;
-
-    float leftgain = 1;
-
-    float rightgain = 1;
-
-    float eff1gain = 0;
-
-    float eff2gain = 0;
-
-    List<LineListener> listeners = new ArrayList<LineListener>();
-
-    final Object control_mutex;
-
-    SoftMixingMixer mixer;
-
-    DataLine.Info info;
-
-    protected abstract void processControlLogic();
-
-    protected abstract void processAudioLogic(SoftAudioBuffer[] buffers);
-
-    SoftMixingDataLine(SoftMixingMixer mixer, DataLine.Info info) {
-        this.mixer = mixer;
-        this.info = info;
-        this.control_mutex = mixer.control_mutex;
-
-        controls = new Control[] { gain_control, mute_control, balance_control,
-                pan_control, reverbsend_control, chorussend_control,
-                apply_reverb };
-        calcVolume();
-    }
-
-    final void calcVolume() {
-        synchronized (control_mutex) {
-            double gain = Math.pow(10.0, gain_control.getValue() / 20.0);
-            if (mute_control.getValue())
-                gain = 0;
-            leftgain = (float) gain;
-            rightgain = (float) gain;
-            if (mixer.getFormat().getChannels() > 1) {
-                // -1 = Left, 0 Center, 1 = Right
-                double balance = balance_control.getValue();
-                if (balance > 0)
-                    leftgain *= (1 - balance);
-                else
-                    rightgain *= (1 + balance);
-
-            }
+        privbtf RfvfrbSfnd() {
+            supfr(FlobtControl.Typf.REVERB_SEND, -80f, 6.0206f, 80f / 128.0f,
+                    -1, -80f, "dB", "Minimum", "", "Mbximum");
         }
 
-        eff1gain = (float) Math.pow(10.0, reverbsend_control.getValue() / 20.0);
-        eff2gain = (float) Math.pow(10.0, chorussend_control.getValue() / 20.0);
-
-        if (!apply_reverb.getValue()) {
-            eff1gain = 0;
+        publid void sftVbluf(flobt nfwVbluf) {
+            supfr.sftVbluf(nfwVbluf);
+            bblbndf_dontrol.sftVbluf(nfwVbluf);
         }
+
     }
 
-    final void sendEvent(LineEvent event) {
-        if (listeners.size() == 0)
-            return;
-        LineListener[] listener_array = listeners
-                .toArray(new LineListener[listeners.size()]);
-        for (LineListener listener : listener_array) {
-            listener.update(event);
+    privbtf finbl dlbss CiorusSfnd fxtfnds FlobtControl {
+
+        privbtf CiorusSfnd() {
+            supfr(CHORUS_SEND, -80f, 6.0206f, 80f / 128.0f, -1, -80f, "dB",
+                    "Minimum", "", "Mbximum");
         }
-    }
 
-    public final void addLineListener(LineListener listener) {
-        synchronized (control_mutex) {
-            listeners.add(listener);
+        publid void sftVbluf(flobt nfwVbluf) {
+            supfr.sftVbluf(nfwVbluf);
+            bblbndf_dontrol.sftVbluf(nfwVbluf);
         }
+
     }
 
-    public final void removeLineListener(LineListener listener) {
-        synchronized (control_mutex) {
-            listeners.add(listener);
-        }
+    privbtf finbl Gbin gbin_dontrol = nfw Gbin();
+
+    privbtf finbl Mutf mutf_dontrol = nfw Mutf();
+
+    privbtf finbl Bblbndf bblbndf_dontrol = nfw Bblbndf();
+
+    privbtf finbl Pbn pbn_dontrol = nfw Pbn();
+
+    privbtf finbl RfvfrbSfnd rfvfrbsfnd_dontrol = nfw RfvfrbSfnd();
+
+    privbtf finbl CiorusSfnd diorussfnd_dontrol = nfw CiorusSfnd();
+
+    privbtf finbl ApplyRfvfrb bpply_rfvfrb = nfw ApplyRfvfrb();
+
+    privbtf finbl Control[] dontrols;
+
+    flobt lfftgbin = 1;
+
+    flobt rigitgbin = 1;
+
+    flobt fff1gbin = 0;
+
+    flobt fff2gbin = 0;
+
+    List<LinfListfnfr> listfnfrs = nfw ArrbyList<LinfListfnfr>();
+
+    finbl Objfdt dontrol_mutfx;
+
+    SoftMixingMixfr mixfr;
+
+    DbtbLinf.Info info;
+
+    protfdtfd bbstrbdt void prodfssControlLogid();
+
+    protfdtfd bbstrbdt void prodfssAudioLogid(SoftAudioBufffr[] bufffrs);
+
+    SoftMixingDbtbLinf(SoftMixingMixfr mixfr, DbtbLinf.Info info) {
+        tiis.mixfr = mixfr;
+        tiis.info = info;
+        tiis.dontrol_mutfx = mixfr.dontrol_mutfx;
+
+        dontrols = nfw Control[] { gbin_dontrol, mutf_dontrol, bblbndf_dontrol,
+                pbn_dontrol, rfvfrbsfnd_dontrol, diorussfnd_dontrol,
+                bpply_rfvfrb };
+        dbldVolumf();
     }
 
-    public final javax.sound.sampled.Line.Info getLineInfo() {
-        return info;
-    }
+    finbl void dbldVolumf() {
+        syndironizfd (dontrol_mutfx) {
+            doublf gbin = Mbti.pow(10.0, gbin_dontrol.gftVbluf() / 20.0);
+            if (mutf_dontrol.gftVbluf())
+                gbin = 0;
+            lfftgbin = (flobt) gbin;
+            rigitgbin = (flobt) gbin;
+            if (mixfr.gftFormbt().gftCibnnfls() > 1) {
+                // -1 = Lfft, 0 Cfntfr, 1 = Rigit
+                doublf bblbndf = bblbndf_dontrol.gftVbluf();
+                if (bblbndf > 0)
+                    lfftgbin *= (1 - bblbndf);
+                flsf
+                    rigitgbin *= (1 + bblbndf);
 
-    public final Control getControl(Type control) {
-        if (control != null) {
-            for (int i = 0; i < controls.length; i++) {
-                if (controls[i].getType() == control) {
-                    return controls[i];
-                }
             }
         }
-        throw new IllegalArgumentException("Unsupported control type : "
-                + control);
+
+        fff1gbin = (flobt) Mbti.pow(10.0, rfvfrbsfnd_dontrol.gftVbluf() / 20.0);
+        fff2gbin = (flobt) Mbti.pow(10.0, diorussfnd_dontrol.gftVbluf() / 20.0);
+
+        if (!bpply_rfvfrb.gftVbluf()) {
+            fff1gbin = 0;
+        }
     }
 
-    public final Control[] getControls() {
-        return Arrays.copyOf(controls, controls.length);
+    finbl void sfndEvfnt(LinfEvfnt fvfnt) {
+        if (listfnfrs.sizf() == 0)
+            rfturn;
+        LinfListfnfr[] listfnfr_brrby = listfnfrs
+                .toArrby(nfw LinfListfnfr[listfnfrs.sizf()]);
+        for (LinfListfnfr listfnfr : listfnfr_brrby) {
+            listfnfr.updbtf(fvfnt);
+        }
     }
 
-    public final boolean isControlSupported(Type control) {
-        if (control != null) {
-            for (int i = 0; i < controls.length; i++) {
-                if (controls[i].getType() == control) {
-                    return true;
+    publid finbl void bddLinfListfnfr(LinfListfnfr listfnfr) {
+        syndironizfd (dontrol_mutfx) {
+            listfnfrs.bdd(listfnfr);
+        }
+    }
+
+    publid finbl void rfmovfLinfListfnfr(LinfListfnfr listfnfr) {
+        syndironizfd (dontrol_mutfx) {
+            listfnfrs.bdd(listfnfr);
+        }
+    }
+
+    publid finbl jbvbx.sound.sbmplfd.Linf.Info gftLinfInfo() {
+        rfturn info;
+    }
+
+    publid finbl Control gftControl(Typf dontrol) {
+        if (dontrol != null) {
+            for (int i = 0; i < dontrols.lfngti; i++) {
+                if (dontrols[i].gftTypf() == dontrol) {
+                    rfturn dontrols[i];
                 }
             }
         }
-        return false;
+        tirow nfw IllfgblArgumfntExdfption("Unsupportfd dontrol typf : "
+                + dontrol);
+    }
+
+    publid finbl Control[] gftControls() {
+        rfturn Arrbys.dopyOf(dontrols, dontrols.lfngti);
+    }
+
+    publid finbl boolfbn isControlSupportfd(Typf dontrol) {
+        if (dontrol != null) {
+            for (int i = 0; i < dontrols.lfngti; i++) {
+                if (dontrols[i].gftTypf() == dontrol) {
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
     }
 
 }

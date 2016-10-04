@@ -1,721 +1,721 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import java.io.IOException;
-import java.io.StreamCorruptedException;
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Objects;
+import jbvb.io.IOExdfption;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Objfdts;
 
-import static javax.management.ImmutableDescriptor.nonNullDescriptor;
+import stbtid jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor.nonNullDfsdriptor;
 
 /**
- * <p>Describes the management interface exposed by an MBean; that is,
- * the set of attributes and operations which are available for
- * management operations.  Instances of this class are immutable.
- * Subclasses may be mutable but this is not recommended.</p>
+ * <p>Dfsdribfs tif mbnbgfmfnt intfrfbdf fxposfd by bn MBfbn; tibt is,
+ * tif sft of bttributfs bnd opfrbtions wiidi brf bvbilbblf for
+ * mbnbgfmfnt opfrbtions.  Instbndfs of tiis dlbss brf immutbblf.
+ * Subdlbssfs mby bf mutbblf but tiis is not rfdommfndfd.</p>
  *
- * <p id="info-changed">Usually the {@code MBeanInfo} for any given MBean does
- * not change over the lifetime of that MBean.  Dynamic MBeans can change their
- * {@code MBeanInfo} and in that case it is recommended that they emit a {@link
- * Notification} with a {@linkplain Notification#getType() type} of {@code
- * "jmx.mbean.info.changed"} and a {@linkplain Notification#getUserData()
- * userData} that is the new {@code MBeanInfo}.  This is not required, but
- * provides a conventional way for clients of the MBean to discover the change.
- * See also the <a href="Descriptor.html#immutableInfo">immutableInfo</a> and
- * <a href="Descriptor.html#infoTimeout">infoTimeout</a> fields in the {@code
- * MBeanInfo} {@link Descriptor}.</p>
+ * <p id="info-dibngfd">Usublly tif {@dodf MBfbnInfo} for bny givfn MBfbn dofs
+ * not dibngf ovfr tif lifftimf of tibt MBfbn.  Dynbmid MBfbns dbn dibngf tifir
+ * {@dodf MBfbnInfo} bnd in tibt dbsf it is rfdommfndfd tibt tify fmit b {@link
+ * Notifidbtion} witi b {@linkplbin Notifidbtion#gftTypf() typf} of {@dodf
+ * "jmx.mbfbn.info.dibngfd"} bnd b {@linkplbin Notifidbtion#gftUsfrDbtb()
+ * usfrDbtb} tibt is tif nfw {@dodf MBfbnInfo}.  Tiis is not rfquirfd, but
+ * providfs b donvfntionbl wby for dlifnts of tif MBfbn to disdovfr tif dibngf.
+ * Sff blso tif <b irff="Dfsdriptor.itml#immutbblfInfo">immutbblfInfo</b> bnd
+ * <b irff="Dfsdriptor.itml#infoTimfout">infoTimfout</b> fiflds in tif {@dodf
+ * MBfbnInfo} {@link Dfsdriptor}.</p>
  *
- * <p>The contents of the <code>MBeanInfo</code> for a Dynamic MBean
- * are determined by its {@link DynamicMBean#getMBeanInfo
- * getMBeanInfo()} method.  This includes Open MBeans and Model
- * MBeans, which are kinds of Dynamic MBeans.</p>
+ * <p>Tif dontfnts of tif <dodf>MBfbnInfo</dodf> for b Dynbmid MBfbn
+ * brf dftfrminfd by its {@link DynbmidMBfbn#gftMBfbnInfo
+ * gftMBfbnInfo()} mftiod.  Tiis indludfs Opfn MBfbns bnd Modfl
+ * MBfbns, wiidi brf kinds of Dynbmid MBfbns.</p>
  *
- * <p>The contents of the <code>MBeanInfo</code> for a Standard MBean
- * are determined by the MBean server as follows:</p>
+ * <p>Tif dontfnts of tif <dodf>MBfbnInfo</dodf> for b Stbndbrd MBfbn
+ * brf dftfrminfd by tif MBfbn sfrvfr bs follows:</p>
  *
  * <ul>
  *
- * <li>{@link #getClassName()} returns the Java class name of the MBean
- * object;
+ * <li>{@link #gftClbssNbmf()} rfturns tif Jbvb dlbss nbmf of tif MBfbn
+ * objfdt;
  *
- * <li>{@link #getConstructors()} returns the list of all public
- * constructors in that object;
+ * <li>{@link #gftConstrudtors()} rfturns tif list of bll publid
+ * donstrudtors in tibt objfdt;
  *
- * <li>{@link #getAttributes()} returns the list of all attributes
- * whose existence is deduced from the presence in the MBean interface
- * of a <code>get<i>Name</i></code>, <code>is<i>Name</i></code>, or
- * <code>set<i>Name</i></code> method that conforms to the conventions
- * for Standard MBeans;
+ * <li>{@link #gftAttributfs()} rfturns tif list of bll bttributfs
+ * wiosf fxistfndf is dfdudfd from tif prfsfndf in tif MBfbn intfrfbdf
+ * of b <dodf>gft<i>Nbmf</i></dodf>, <dodf>is<i>Nbmf</i></dodf>, or
+ * <dodf>sft<i>Nbmf</i></dodf> mftiod tibt donforms to tif donvfntions
+ * for Stbndbrd MBfbns;
  *
- * <li>{@link #getOperations()} returns the list of all methods in
- * the MBean interface that do not represent attributes;
+ * <li>{@link #gftOpfrbtions()} rfturns tif list of bll mftiods in
+ * tif MBfbn intfrfbdf tibt do not rfprfsfnt bttributfs;
  *
- * <li>{@link #getNotifications()} returns an empty array if the MBean
- * does not implement the {@link NotificationBroadcaster} interface,
- * otherwise the result of calling {@link
- * NotificationBroadcaster#getNotificationInfo()} on it;
+ * <li>{@link #gftNotifidbtions()} rfturns bn fmpty brrby if tif MBfbn
+ * dofs not implfmfnt tif {@link NotifidbtionBrobddbstfr} intfrfbdf,
+ * otifrwisf tif rfsult of dblling {@link
+ * NotifidbtionBrobddbstfr#gftNotifidbtionInfo()} on it;
  *
- * <li>{@link #getDescriptor()} returns a descriptor containing the contents
- * of any descriptor annotations in the MBean interface (see
- * {@link DescriptorKey &#64;DescriptorKey}).
+ * <li>{@link #gftDfsdriptor()} rfturns b dfsdriptor dontbining tif dontfnts
+ * of bny dfsdriptor bnnotbtions in tif MBfbn intfrfbdf (sff
+ * {@link DfsdriptorKfy &#64;DfsdriptorKfy}).
  *
  * </ul>
  *
- * <p>The description returned by {@link #getDescription()} and the
- * descriptions of the contained attributes and operations are not specified.</p>
+ * <p>Tif dfsdription rfturnfd by {@link #gftDfsdription()} bnd tif
+ * dfsdriptions of tif dontbinfd bttributfs bnd opfrbtions brf not spfdififd.</p>
  *
- * <p>The remaining details of the <code>MBeanInfo</code> for a
- * Standard MBean are not specified.  This includes the description of
- * any contained constructors, and notifications; the names
- * of parameters to constructors and operations; and the descriptions of
- * constructor parameters.</p>
+ * <p>Tif rfmbining dftbils of tif <dodf>MBfbnInfo</dodf> for b
+ * Stbndbrd MBfbn brf not spfdififd.  Tiis indludfs tif dfsdription of
+ * bny dontbinfd donstrudtors, bnd notifidbtions; tif nbmfs
+ * of pbrbmftfrs to donstrudtors bnd opfrbtions; bnd tif dfsdriptions of
+ * donstrudtor pbrbmftfrs.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class MBeanInfo implements Cloneable, Serializable, DescriptorRead {
+publid dlbss MBfbnInfo implfmfnts Clonfbblf, Sfriblizbblf, DfsdriptorRfbd {
 
-    /* Serial version */
-    static final long serialVersionUID = -6451021435135161911L;
-
-    /**
-     * @serial The Descriptor for the MBean.  This field
-     * can be null, which is equivalent to an empty Descriptor.
-     */
-    private transient Descriptor descriptor;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = -6451021435135161911L;
 
     /**
-     * @serial The human readable description of the class.
+     * @sfribl Tif Dfsdriptor for tif MBfbn.  Tiis fifld
+     * dbn bf null, wiidi is fquivblfnt to bn fmpty Dfsdriptor.
      */
-    private final String description;
+    privbtf trbnsifnt Dfsdriptor dfsdriptor;
 
     /**
-     * @serial The MBean qualified name.
+     * @sfribl Tif iumbn rfbdbblf dfsdription of tif dlbss.
      */
-    private final String className;
+    privbtf finbl String dfsdription;
 
     /**
-     * @serial The MBean attribute descriptors.
+     * @sfribl Tif MBfbn qublififd nbmf.
      */
-    private final MBeanAttributeInfo[] attributes;
+    privbtf finbl String dlbssNbmf;
 
     /**
-     * @serial The MBean operation descriptors.
+     * @sfribl Tif MBfbn bttributf dfsdriptors.
      */
-    private final MBeanOperationInfo[] operations;
+    privbtf finbl MBfbnAttributfInfo[] bttributfs;
+
+    /**
+     * @sfribl Tif MBfbn opfrbtion dfsdriptors.
+     */
+    privbtf finbl MBfbnOpfrbtionInfo[] opfrbtions;
 
      /**
-     * @serial The MBean constructor descriptors.
+     * @sfribl Tif MBfbn donstrudtor dfsdriptors.
      */
-    private final MBeanConstructorInfo[] constructors;
+    privbtf finbl MBfbnConstrudtorInfo[] donstrudtors;
 
     /**
-     * @serial The MBean notification descriptors.
+     * @sfribl Tif MBfbn notifidbtion dfsdriptors.
      */
-    private final MBeanNotificationInfo[] notifications;
+    privbtf finbl MBfbnNotifidbtionInfo[] notifidbtions;
 
-    private transient int hashCode;
+    privbtf trbnsifnt int ibsiCodf;
 
     /**
-     * <p>True if this class is known not to override the array-valued
-     * getters of MBeanInfo.  Obviously true for MBeanInfo itself, and true
-     * for a subclass where we succeed in reflecting on the methods
-     * and discover they are not overridden.</p>
+     * <p>Truf if tiis dlbss is known not to ovfrridf tif brrby-vblufd
+     * gfttfrs of MBfbnInfo.  Obviously truf for MBfbnInfo itsflf, bnd truf
+     * for b subdlbss wifrf wf suddffd in rfflfdting on tif mftiods
+     * bnd disdovfr tify brf not ovfrriddfn.</p>
      *
-     * <p>The purpose of this variable is to avoid cloning the arrays
-     * when doing operations like {@link #equals} where we know they
-     * will not be changed.  If a subclass overrides a getter, we
-     * cannot access the corresponding array directly.</p>
+     * <p>Tif purposf of tiis vbribblf is to bvoid dloning tif brrbys
+     * wifn doing opfrbtions likf {@link #fqubls} wifrf wf know tify
+     * will not bf dibngfd.  If b subdlbss ovfrridfs b gfttfr, wf
+     * dbnnot bddfss tif dorrfsponding brrby dirfdtly.</p>
      */
-    private final transient boolean arrayGettersSafe;
+    privbtf finbl trbnsifnt boolfbn brrbyGfttfrsSbff;
 
     /**
-     * Constructs an <CODE>MBeanInfo</CODE>.
+     * Construdts bn <CODE>MBfbnInfo</CODE>.
      *
-     * @param className The name of the Java class of the MBean described
-     * by this <CODE>MBeanInfo</CODE>.  This value may be any
-     * syntactically legal Java class name.  It does not have to be a
-     * Java class known to the MBean server or to the MBean's
-     * ClassLoader.  If it is a Java class known to the MBean's
-     * ClassLoader, it is recommended but not required that the
-     * class's public methods include those that would appear in a
-     * Standard MBean implementing the attributes and operations in
-     * this MBeanInfo.
-     * @param description A human readable description of the MBean (optional).
-     * @param attributes The list of exposed attributes of the MBean.
-     * This may be null with the same effect as a zero-length array.
-     * @param constructors The list of public constructors of the
-     * MBean.  This may be null with the same effect as a zero-length
-     * array.
-     * @param operations The list of operations of the MBean.  This
-     * may be null with the same effect as a zero-length array.
-     * @param notifications The list of notifications emitted.  This
-     * may be null with the same effect as a zero-length array.
+     * @pbrbm dlbssNbmf Tif nbmf of tif Jbvb dlbss of tif MBfbn dfsdribfd
+     * by tiis <CODE>MBfbnInfo</CODE>.  Tiis vbluf mby bf bny
+     * syntbdtidblly lfgbl Jbvb dlbss nbmf.  It dofs not ibvf to bf b
+     * Jbvb dlbss known to tif MBfbn sfrvfr or to tif MBfbn's
+     * ClbssLobdfr.  If it is b Jbvb dlbss known to tif MBfbn's
+     * ClbssLobdfr, it is rfdommfndfd but not rfquirfd tibt tif
+     * dlbss's publid mftiods indludf tiosf tibt would bppfbr in b
+     * Stbndbrd MBfbn implfmfnting tif bttributfs bnd opfrbtions in
+     * tiis MBfbnInfo.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif MBfbn (optionbl).
+     * @pbrbm bttributfs Tif list of fxposfd bttributfs of tif MBfbn.
+     * Tiis mby bf null witi tif sbmf ffffdt bs b zfro-lfngti brrby.
+     * @pbrbm donstrudtors Tif list of publid donstrudtors of tif
+     * MBfbn.  Tiis mby bf null witi tif sbmf ffffdt bs b zfro-lfngti
+     * brrby.
+     * @pbrbm opfrbtions Tif list of opfrbtions of tif MBfbn.  Tiis
+     * mby bf null witi tif sbmf ffffdt bs b zfro-lfngti brrby.
+     * @pbrbm notifidbtions Tif list of notifidbtions fmittfd.  Tiis
+     * mby bf null witi tif sbmf ffffdt bs b zfro-lfngti brrby.
      */
-    public MBeanInfo(String className,
-                     String description,
-                     MBeanAttributeInfo[] attributes,
-                     MBeanConstructorInfo[] constructors,
-                     MBeanOperationInfo[] operations,
-                     MBeanNotificationInfo[] notifications)
-            throws IllegalArgumentException {
-        this(className, description, attributes, constructors, operations,
-             notifications, null);
+    publid MBfbnInfo(String dlbssNbmf,
+                     String dfsdription,
+                     MBfbnAttributfInfo[] bttributfs,
+                     MBfbnConstrudtorInfo[] donstrudtors,
+                     MBfbnOpfrbtionInfo[] opfrbtions,
+                     MBfbnNotifidbtionInfo[] notifidbtions)
+            tirows IllfgblArgumfntExdfption {
+        tiis(dlbssNbmf, dfsdription, bttributfs, donstrudtors, opfrbtions,
+             notifidbtions, null);
     }
 
     /**
-     * Constructs an <CODE>MBeanInfo</CODE>.
+     * Construdts bn <CODE>MBfbnInfo</CODE>.
      *
-     * @param className The name of the Java class of the MBean described
-     * by this <CODE>MBeanInfo</CODE>.  This value may be any
-     * syntactically legal Java class name.  It does not have to be a
-     * Java class known to the MBean server or to the MBean's
-     * ClassLoader.  If it is a Java class known to the MBean's
-     * ClassLoader, it is recommended but not required that the
-     * class's public methods include those that would appear in a
-     * Standard MBean implementing the attributes and operations in
-     * this MBeanInfo.
-     * @param description A human readable description of the MBean (optional).
-     * @param attributes The list of exposed attributes of the MBean.
-     * This may be null with the same effect as a zero-length array.
-     * @param constructors The list of public constructors of the
-     * MBean.  This may be null with the same effect as a zero-length
-     * array.
-     * @param operations The list of operations of the MBean.  This
-     * may be null with the same effect as a zero-length array.
-     * @param notifications The list of notifications emitted.  This
-     * may be null with the same effect as a zero-length array.
-     * @param descriptor The descriptor for the MBean.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm dlbssNbmf Tif nbmf of tif Jbvb dlbss of tif MBfbn dfsdribfd
+     * by tiis <CODE>MBfbnInfo</CODE>.  Tiis vbluf mby bf bny
+     * syntbdtidblly lfgbl Jbvb dlbss nbmf.  It dofs not ibvf to bf b
+     * Jbvb dlbss known to tif MBfbn sfrvfr or to tif MBfbn's
+     * ClbssLobdfr.  If it is b Jbvb dlbss known to tif MBfbn's
+     * ClbssLobdfr, it is rfdommfndfd but not rfquirfd tibt tif
+     * dlbss's publid mftiods indludf tiosf tibt would bppfbr in b
+     * Stbndbrd MBfbn implfmfnting tif bttributfs bnd opfrbtions in
+     * tiis MBfbnInfo.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif MBfbn (optionbl).
+     * @pbrbm bttributfs Tif list of fxposfd bttributfs of tif MBfbn.
+     * Tiis mby bf null witi tif sbmf ffffdt bs b zfro-lfngti brrby.
+     * @pbrbm donstrudtors Tif list of publid donstrudtors of tif
+     * MBfbn.  Tiis mby bf null witi tif sbmf ffffdt bs b zfro-lfngti
+     * brrby.
+     * @pbrbm opfrbtions Tif list of opfrbtions of tif MBfbn.  Tiis
+     * mby bf null witi tif sbmf ffffdt bs b zfro-lfngti brrby.
+     * @pbrbm notifidbtions Tif list of notifidbtions fmittfd.  Tiis
+     * mby bf null witi tif sbmf ffffdt bs b zfro-lfngti brrby.
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif MBfbn.  Tiis mby bf null
+     * wiidi is fquivblfnt to bn fmpty dfsdriptor.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public MBeanInfo(String className,
-                     String description,
-                     MBeanAttributeInfo[] attributes,
-                     MBeanConstructorInfo[] constructors,
-                     MBeanOperationInfo[] operations,
-                     MBeanNotificationInfo[] notifications,
-                     Descriptor descriptor)
-            throws IllegalArgumentException {
+    publid MBfbnInfo(String dlbssNbmf,
+                     String dfsdription,
+                     MBfbnAttributfInfo[] bttributfs,
+                     MBfbnConstrudtorInfo[] donstrudtors,
+                     MBfbnOpfrbtionInfo[] opfrbtions,
+                     MBfbnNotifidbtionInfo[] notifidbtions,
+                     Dfsdriptor dfsdriptor)
+            tirows IllfgblArgumfntExdfption {
 
-        this.className = className;
+        tiis.dlbssNbmf = dlbssNbmf;
 
-        this.description = description;
+        tiis.dfsdription = dfsdription;
 
-        if (attributes == null)
-            attributes = MBeanAttributeInfo.NO_ATTRIBUTES;
-        this.attributes = attributes;
+        if (bttributfs == null)
+            bttributfs = MBfbnAttributfInfo.NO_ATTRIBUTES;
+        tiis.bttributfs = bttributfs;
 
-        if (operations == null)
-            operations = MBeanOperationInfo.NO_OPERATIONS;
-        this.operations = operations;
+        if (opfrbtions == null)
+            opfrbtions = MBfbnOpfrbtionInfo.NO_OPERATIONS;
+        tiis.opfrbtions = opfrbtions;
 
-        if (constructors == null)
-            constructors = MBeanConstructorInfo.NO_CONSTRUCTORS;
-        this.constructors = constructors;
+        if (donstrudtors == null)
+            donstrudtors = MBfbnConstrudtorInfo.NO_CONSTRUCTORS;
+        tiis.donstrudtors = donstrudtors;
 
-        if (notifications == null)
-            notifications = MBeanNotificationInfo.NO_NOTIFICATIONS;
-        this.notifications = notifications;
+        if (notifidbtions == null)
+            notifidbtions = MBfbnNotifidbtionInfo.NO_NOTIFICATIONS;
+        tiis.notifidbtions = notifidbtions;
 
-        if (descriptor == null)
-            descriptor = ImmutableDescriptor.EMPTY_DESCRIPTOR;
-        this.descriptor = descriptor;
+        if (dfsdriptor == null)
+            dfsdriptor = ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
+        tiis.dfsdriptor = dfsdriptor;
 
-        this.arrayGettersSafe =
-                arrayGettersSafe(this.getClass(), MBeanInfo.class);
+        tiis.brrbyGfttfrsSbff =
+                brrbyGfttfrsSbff(tiis.gftClbss(), MBfbnInfo.dlbss);
     }
 
     /**
-     * <p>Returns a shallow clone of this instance.
-     * The clone is obtained by simply calling <tt>super.clone()</tt>,
-     * thus calling the default native shallow cloning mechanism
-     * implemented by <tt>Object.clone()</tt>.
-     * No deeper cloning of any internal field is made.</p>
+     * <p>Rfturns b sibllow dlonf of tiis instbndf.
+     * Tif dlonf is obtbinfd by simply dblling <tt>supfr.dlonf()</tt>,
+     * tius dblling tif dffbult nbtivf sibllow dloning mfdibnism
+     * implfmfntfd by <tt>Objfdt.dlonf()</tt>.
+     * No dffpfr dloning of bny intfrnbl fifld is mbdf.</p>
      *
-     * <p>Since this class is immutable, the clone method is chiefly of
-     * interest to subclasses.</p>
+     * <p>Sindf tiis dlbss is immutbblf, tif dlonf mftiod is diiffly of
+     * intfrfst to subdlbssfs.</p>
      */
-     @Override
-     public Object clone () {
+     @Ovfrridf
+     publid Objfdt dlonf () {
          try {
-             return super.clone() ;
-         } catch (CloneNotSupportedException e) {
-             // should not happen as this class is cloneable
-             return null;
+             rfturn supfr.dlonf() ;
+         } dbtdi (ClonfNotSupportfdExdfption f) {
+             // siould not ibppfn bs tiis dlbss is dlonfbblf
+             rfturn null;
          }
      }
 
 
     /**
-     * Returns the name of the Java class of the MBean described by
-     * this <CODE>MBeanInfo</CODE>.
+     * Rfturns tif nbmf of tif Jbvb dlbss of tif MBfbn dfsdribfd by
+     * tiis <CODE>MBfbnInfo</CODE>.
      *
-     * @return the class name.
+     * @rfturn tif dlbss nbmf.
      */
-    public String getClassName()  {
-        return className;
+    publid String gftClbssNbmf()  {
+        rfturn dlbssNbmf;
     }
 
     /**
-     * Returns a human readable description of the MBean.
+     * Rfturns b iumbn rfbdbblf dfsdription of tif MBfbn.
      *
-     * @return the description.
+     * @rfturn tif dfsdription.
      */
-    public String getDescription()  {
-        return description;
+    publid String gftDfsdription()  {
+        rfturn dfsdription;
     }
 
     /**
-     * Returns the list of attributes exposed for management.
-     * Each attribute is described by an <CODE>MBeanAttributeInfo</CODE> object.
+     * Rfturns tif list of bttributfs fxposfd for mbnbgfmfnt.
+     * Ebdi bttributf is dfsdribfd by bn <CODE>MBfbnAttributfInfo</CODE> objfdt.
      *
-     * The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanAttributeInfo</CODE> objects
-     * but that each referenced <CODE>MBeanAttributeInfo</CODE> object is not copied.
+     * Tif rfturnfd brrby is b sibllow dopy of tif intfrnbl brrby,
+     * wiidi mfbns tibt it is b dopy of tif intfrnbl brrby of
+     * rfffrfndfs to tif <CODE>MBfbnAttributfInfo</CODE> objfdts
+     * but tibt fbdi rfffrfndfd <CODE>MBfbnAttributfInfo</CODE> objfdt is not dopifd.
      *
-     * @return  An array of <CODE>MBeanAttributeInfo</CODE> objects.
+     * @rfturn  An brrby of <CODE>MBfbnAttributfInfo</CODE> objfdts.
      */
-    public MBeanAttributeInfo[] getAttributes()   {
-        MBeanAttributeInfo[] as = nonNullAttributes();
-        if (as.length == 0)
-            return as;
-        else
-            return as.clone();
+    publid MBfbnAttributfInfo[] gftAttributfs()   {
+        MBfbnAttributfInfo[] bs = nonNullAttributfs();
+        if (bs.lfngti == 0)
+            rfturn bs;
+        flsf
+            rfturn bs.dlonf();
     }
 
-    private MBeanAttributeInfo[] fastGetAttributes() {
-        if (arrayGettersSafe)
-            return nonNullAttributes();
-        else
-            return getAttributes();
+    privbtf MBfbnAttributfInfo[] fbstGftAttributfs() {
+        if (brrbyGfttfrsSbff)
+            rfturn nonNullAttributfs();
+        flsf
+            rfturn gftAttributfs();
     }
 
     /**
-     * Return the value of the attributes field, or an empty array if
-     * the field is null.  This can't happen with a
-     * normally-constructed instance of this class, but can if the
-     * instance was deserialized from another implementation that
-     * allows the field to be null.  It would be simpler if we enforced
-     * the class invariant that these fields cannot be null by writing
-     * a readObject() method, but that would require us to define the
-     * various array fields as non-final, which is annoying because
-     * conceptually they are indeed final.
+     * Rfturn tif vbluf of tif bttributfs fifld, or bn fmpty brrby if
+     * tif fifld is null.  Tiis dbn't ibppfn witi b
+     * normblly-donstrudtfd instbndf of tiis dlbss, but dbn if tif
+     * instbndf wbs dfsfriblizfd from bnotifr implfmfntbtion tibt
+     * bllows tif fifld to bf null.  It would bf simplfr if wf fnfordfd
+     * tif dlbss invbribnt tibt tifsf fiflds dbnnot bf null by writing
+     * b rfbdObjfdt() mftiod, but tibt would rfquirf us to dffinf tif
+     * vbrious brrby fiflds bs non-finbl, wiidi is bnnoying bfdbusf
+     * dondfptublly tify brf indffd finbl.
      */
-    private MBeanAttributeInfo[] nonNullAttributes() {
-        return (attributes == null) ?
-            MBeanAttributeInfo.NO_ATTRIBUTES : attributes;
+    privbtf MBfbnAttributfInfo[] nonNullAttributfs() {
+        rfturn (bttributfs == null) ?
+            MBfbnAttributfInfo.NO_ATTRIBUTES : bttributfs;
     }
 
     /**
-     * Returns the list of operations  of the MBean.
-     * Each operation is described by an <CODE>MBeanOperationInfo</CODE> object.
+     * Rfturns tif list of opfrbtions  of tif MBfbn.
+     * Ebdi opfrbtion is dfsdribfd by bn <CODE>MBfbnOpfrbtionInfo</CODE> objfdt.
      *
-     * The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanOperationInfo</CODE> objects
-     * but that each referenced <CODE>MBeanOperationInfo</CODE> object is not copied.
+     * Tif rfturnfd brrby is b sibllow dopy of tif intfrnbl brrby,
+     * wiidi mfbns tibt it is b dopy of tif intfrnbl brrby of
+     * rfffrfndfs to tif <CODE>MBfbnOpfrbtionInfo</CODE> objfdts
+     * but tibt fbdi rfffrfndfd <CODE>MBfbnOpfrbtionInfo</CODE> objfdt is not dopifd.
      *
-     * @return  An array of <CODE>MBeanOperationInfo</CODE> objects.
+     * @rfturn  An brrby of <CODE>MBfbnOpfrbtionInfo</CODE> objfdts.
      */
-    public MBeanOperationInfo[] getOperations()  {
-        MBeanOperationInfo[] os = nonNullOperations();
-        if (os.length == 0)
-            return os;
-        else
-            return os.clone();
+    publid MBfbnOpfrbtionInfo[] gftOpfrbtions()  {
+        MBfbnOpfrbtionInfo[] os = nonNullOpfrbtions();
+        if (os.lfngti == 0)
+            rfturn os;
+        flsf
+            rfturn os.dlonf();
     }
 
-    private MBeanOperationInfo[] fastGetOperations() {
-        if (arrayGettersSafe)
-            return nonNullOperations();
-        else
-            return getOperations();
+    privbtf MBfbnOpfrbtionInfo[] fbstGftOpfrbtions() {
+        if (brrbyGfttfrsSbff)
+            rfturn nonNullOpfrbtions();
+        flsf
+            rfturn gftOpfrbtions();
     }
 
-    private MBeanOperationInfo[] nonNullOperations() {
-        return (operations == null) ?
-            MBeanOperationInfo.NO_OPERATIONS : operations;
+    privbtf MBfbnOpfrbtionInfo[] nonNullOpfrbtions() {
+        rfturn (opfrbtions == null) ?
+            MBfbnOpfrbtionInfo.NO_OPERATIONS : opfrbtions;
     }
 
     /**
-     * <p>Returns the list of the public constructors of the MBean.
-     * Each constructor is described by an
-     * <CODE>MBeanConstructorInfo</CODE> object.</p>
+     * <p>Rfturns tif list of tif publid donstrudtors of tif MBfbn.
+     * Ebdi donstrudtor is dfsdribfd by bn
+     * <CODE>MBfbnConstrudtorInfo</CODE> objfdt.</p>
      *
-     * <p>The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanConstructorInfo</CODE> objects but
-     * that each referenced <CODE>MBeanConstructorInfo</CODE> object
-     * is not copied.</p>
+     * <p>Tif rfturnfd brrby is b sibllow dopy of tif intfrnbl brrby,
+     * wiidi mfbns tibt it is b dopy of tif intfrnbl brrby of
+     * rfffrfndfs to tif <CODE>MBfbnConstrudtorInfo</CODE> objfdts but
+     * tibt fbdi rfffrfndfd <CODE>MBfbnConstrudtorInfo</CODE> objfdt
+     * is not dopifd.</p>
      *
-     * <p>The returned list is not necessarily exhaustive.  That is,
-     * the MBean may have a public constructor that is not in the
-     * list.  In this case, the MBean server can construct another
-     * instance of this MBean's class using that constructor, even
-     * though it is not listed here.</p>
+     * <p>Tif rfturnfd list is not nfdfssbrily fxibustivf.  Tibt is,
+     * tif MBfbn mby ibvf b publid donstrudtor tibt is not in tif
+     * list.  In tiis dbsf, tif MBfbn sfrvfr dbn donstrudt bnotifr
+     * instbndf of tiis MBfbn's dlbss using tibt donstrudtor, fvfn
+     * tiougi it is not listfd ifrf.</p>
      *
-     * @return  An array of <CODE>MBeanConstructorInfo</CODE> objects.
+     * @rfturn  An brrby of <CODE>MBfbnConstrudtorInfo</CODE> objfdts.
      */
-    public MBeanConstructorInfo[] getConstructors()  {
-        MBeanConstructorInfo[] cs = nonNullConstructors();
-        if (cs.length == 0)
-            return cs;
-        else
-            return cs.clone();
+    publid MBfbnConstrudtorInfo[] gftConstrudtors()  {
+        MBfbnConstrudtorInfo[] ds = nonNullConstrudtors();
+        if (ds.lfngti == 0)
+            rfturn ds;
+        flsf
+            rfturn ds.dlonf();
     }
 
-    private MBeanConstructorInfo[] fastGetConstructors() {
-        if (arrayGettersSafe)
-            return nonNullConstructors();
-        else
-            return getConstructors();
+    privbtf MBfbnConstrudtorInfo[] fbstGftConstrudtors() {
+        if (brrbyGfttfrsSbff)
+            rfturn nonNullConstrudtors();
+        flsf
+            rfturn gftConstrudtors();
     }
 
-    private MBeanConstructorInfo[] nonNullConstructors() {
-        return (constructors == null) ?
-            MBeanConstructorInfo.NO_CONSTRUCTORS : constructors;
+    privbtf MBfbnConstrudtorInfo[] nonNullConstrudtors() {
+        rfturn (donstrudtors == null) ?
+            MBfbnConstrudtorInfo.NO_CONSTRUCTORS : donstrudtors;
     }
 
     /**
-     * Returns the list of the notifications emitted by the MBean.
-     * Each notification is described by an <CODE>MBeanNotificationInfo</CODE> object.
+     * Rfturns tif list of tif notifidbtions fmittfd by tif MBfbn.
+     * Ebdi notifidbtion is dfsdribfd by bn <CODE>MBfbnNotifidbtionInfo</CODE> objfdt.
      *
-     * The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanNotificationInfo</CODE> objects
-     * but that each referenced <CODE>MBeanNotificationInfo</CODE> object is not copied.
+     * Tif rfturnfd brrby is b sibllow dopy of tif intfrnbl brrby,
+     * wiidi mfbns tibt it is b dopy of tif intfrnbl brrby of
+     * rfffrfndfs to tif <CODE>MBfbnNotifidbtionInfo</CODE> objfdts
+     * but tibt fbdi rfffrfndfd <CODE>MBfbnNotifidbtionInfo</CODE> objfdt is not dopifd.
      *
-     * @return  An array of <CODE>MBeanNotificationInfo</CODE> objects.
+     * @rfturn  An brrby of <CODE>MBfbnNotifidbtionInfo</CODE> objfdts.
      */
-    public MBeanNotificationInfo[] getNotifications()  {
-        MBeanNotificationInfo[] ns = nonNullNotifications();
-        if (ns.length == 0)
-            return ns;
-        else
-            return ns.clone();
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtions()  {
+        MBfbnNotifidbtionInfo[] ns = nonNullNotifidbtions();
+        if (ns.lfngti == 0)
+            rfturn ns;
+        flsf
+            rfturn ns.dlonf();
     }
 
-    private MBeanNotificationInfo[] fastGetNotifications() {
-        if (arrayGettersSafe)
-            return nonNullNotifications();
-        else
-            return getNotifications();
+    privbtf MBfbnNotifidbtionInfo[] fbstGftNotifidbtions() {
+        if (brrbyGfttfrsSbff)
+            rfturn nonNullNotifidbtions();
+        flsf
+            rfturn gftNotifidbtions();
     }
 
-    private MBeanNotificationInfo[] nonNullNotifications() {
-        return (notifications == null) ?
-            MBeanNotificationInfo.NO_NOTIFICATIONS : notifications;
+    privbtf MBfbnNotifidbtionInfo[] nonNullNotifidbtions() {
+        rfturn (notifidbtions == null) ?
+            MBfbnNotifidbtionInfo.NO_NOTIFICATIONS : notifidbtions;
     }
 
     /**
-     * Get the descriptor of this MBeanInfo.  Changing the returned value
-     * will have no affect on the original descriptor.
+     * Gft tif dfsdriptor of tiis MBfbnInfo.  Cibnging tif rfturnfd vbluf
+     * will ibvf no bfffdt on tif originbl dfsdriptor.
      *
-     * @return a descriptor that is either immutable or a copy of the original.
+     * @rfturn b dfsdriptor tibt is fitifr immutbblf or b dopy of tif originbl.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Descriptor getDescriptor() {
-        return (Descriptor) nonNullDescriptor(descriptor).clone();
+    publid Dfsdriptor gftDfsdriptor() {
+        rfturn (Dfsdriptor) nonNullDfsdriptor(dfsdriptor).dlonf();
     }
 
-    @Override
-    public String toString() {
-        return
-            getClass().getName() + "[" +
-            "description=" + getDescription() + ", " +
-            "attributes=" + Arrays.asList(fastGetAttributes()) + ", " +
-            "constructors=" + Arrays.asList(fastGetConstructors()) + ", " +
-            "operations=" + Arrays.asList(fastGetOperations()) + ", " +
-            "notifications=" + Arrays.asList(fastGetNotifications()) + ", " +
-            "descriptor=" + getDescriptor() +
+    @Ovfrridf
+    publid String toString() {
+        rfturn
+            gftClbss().gftNbmf() + "[" +
+            "dfsdription=" + gftDfsdription() + ", " +
+            "bttributfs=" + Arrbys.bsList(fbstGftAttributfs()) + ", " +
+            "donstrudtors=" + Arrbys.bsList(fbstGftConstrudtors()) + ", " +
+            "opfrbtions=" + Arrbys.bsList(fbstGftOpfrbtions()) + ", " +
+            "notifidbtions=" + Arrbys.bsList(fbstGftNotifidbtions()) + ", " +
+            "dfsdriptor=" + gftDfsdriptor() +
             "]";
     }
 
     /**
-     * <p>Compare this MBeanInfo to another.  Two MBeanInfo objects
-     * are equal if and only if they return equal values for {@link
-     * #getClassName()}, for {@link #getDescription()}, and for
-     * {@link #getDescriptor()}, and the
-     * arrays returned by the two objects for {@link
-     * #getAttributes()}, {@link #getOperations()}, {@link
-     * #getConstructors()}, and {@link #getNotifications()} are
-     * pairwise equal.  Here "equal" means {@link
-     * Object#equals(Object)}, not identity.</p>
+     * <p>Compbrf tiis MBfbnInfo to bnotifr.  Two MBfbnInfo objfdts
+     * brf fqubl if bnd only if tify rfturn fqubl vblufs for {@link
+     * #gftClbssNbmf()}, for {@link #gftDfsdription()}, bnd for
+     * {@link #gftDfsdriptor()}, bnd tif
+     * brrbys rfturnfd by tif two objfdts for {@link
+     * #gftAttributfs()}, {@link #gftOpfrbtions()}, {@link
+     * #gftConstrudtors()}, bnd {@link #gftNotifidbtions()} brf
+     * pbirwisf fqubl.  Hfrf "fqubl" mfbns {@link
+     * Objfdt#fqubls(Objfdt)}, not idfntity.</p>
      *
-     * <p>If two MBeanInfo objects return the same values in one of
-     * their arrays but in a different order then they are not equal.</p>
+     * <p>If two MBfbnInfo objfdts rfturn tif sbmf vblufs in onf of
+     * tifir brrbys but in b difffrfnt ordfr tifn tify brf not fqubl.</p>
      *
-     * @param o the object to compare to.
+     * @pbrbm o tif objfdt to dompbrf to.
      *
-     * @return true if and only if <code>o</code> is an MBeanInfo that is equal
-     * to this one according to the rules above.
+     * @rfturn truf if bnd only if <dodf>o</dodf> is bn MBfbnInfo tibt is fqubl
+     * to tiis onf bddording to tif rulfs bbovf.
      */
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof MBeanInfo))
-            return false;
-        MBeanInfo p = (MBeanInfo) o;
-        if (!isEqual(getClassName(),  p.getClassName()) ||
-                !isEqual(getDescription(), p.getDescription()) ||
-                !getDescriptor().equals(p.getDescriptor())) {
-            return false;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis)
+            rfturn truf;
+        if (!(o instbndfof MBfbnInfo))
+            rfturn fblsf;
+        MBfbnInfo p = (MBfbnInfo) o;
+        if (!isEqubl(gftClbssNbmf(),  p.gftClbssNbmf()) ||
+                !isEqubl(gftDfsdription(), p.gftDfsdription()) ||
+                !gftDfsdriptor().fqubls(p.gftDfsdriptor())) {
+            rfturn fblsf;
         }
 
-        return
-            (Arrays.equals(p.fastGetAttributes(), fastGetAttributes()) &&
-             Arrays.equals(p.fastGetOperations(), fastGetOperations()) &&
-             Arrays.equals(p.fastGetConstructors(), fastGetConstructors()) &&
-             Arrays.equals(p.fastGetNotifications(), fastGetNotifications()));
+        rfturn
+            (Arrbys.fqubls(p.fbstGftAttributfs(), fbstGftAttributfs()) &&
+             Arrbys.fqubls(p.fbstGftOpfrbtions(), fbstGftOpfrbtions()) &&
+             Arrbys.fqubls(p.fbstGftConstrudtors(), fbstGftConstrudtors()) &&
+             Arrbys.fqubls(p.fbstGftNotifidbtions(), fbstGftNotifidbtions()));
     }
 
-    @Override
-    public int hashCode() {
-        /* Since computing the hashCode is quite expensive, we cache it.
-           If by some terrible misfortune the computed value is 0, the
-           caching won't work and we will recompute it every time.
+    @Ovfrridf
+    publid int ibsiCodf() {
+        /* Sindf domputing tif ibsiCodf is quitf fxpfnsivf, wf dbdif it.
+           If by somf tfrriblf misfortunf tif domputfd vbluf is 0, tif
+           dbdiing won't work bnd wf will rfdomputf it fvfry timf.
 
-           We don't bother synchronizing, because, at worst, n different
-           threads will compute the same hashCode at the same time.  */
-        if (hashCode != 0)
-            return hashCode;
+           Wf don't botifr syndironizing, bfdbusf, bt worst, n difffrfnt
+           tirfbds will domputf tif sbmf ibsiCodf bt tif sbmf timf.  */
+        if (ibsiCodf != 0)
+            rfturn ibsiCodf;
 
-        hashCode = Objects.hash(getClassName(), getDescriptor())
-                ^ Arrays.hashCode(fastGetAttributes())
-                ^ Arrays.hashCode(fastGetOperations())
-                ^ Arrays.hashCode(fastGetConstructors())
-                ^ Arrays.hashCode(fastGetNotifications());
+        ibsiCodf = Objfdts.ibsi(gftClbssNbmf(), gftDfsdriptor())
+                ^ Arrbys.ibsiCodf(fbstGftAttributfs())
+                ^ Arrbys.ibsiCodf(fbstGftOpfrbtions())
+                ^ Arrbys.ibsiCodf(fbstGftConstrudtors())
+                ^ Arrbys.ibsiCodf(fbstGftNotifidbtions());
 
-        return hashCode;
+        rfturn ibsiCodf;
     }
 
     /**
-     * Cached results of previous calls to arrayGettersSafe.  This is
-     * a WeakHashMap so that we don't prevent a class from being
-     * garbage collected just because we know whether it's immutable.
+     * Cbdifd rfsults of prfvious dblls to brrbyGfttfrsSbff.  Tiis is
+     * b WfbkHbsiMbp so tibt wf don't prfvfnt b dlbss from bfing
+     * gbrbbgf dollfdtfd just bfdbusf wf know wiftifr it's immutbblf.
      */
-    private static final Map<Class<?>, Boolean> arrayGettersSafeMap =
-        new WeakHashMap<Class<?>, Boolean>();
+    privbtf stbtid finbl Mbp<Clbss<?>, Boolfbn> brrbyGfttfrsSbffMbp =
+        nfw WfbkHbsiMbp<Clbss<?>, Boolfbn>();
 
     /**
-     * Return true if <code>subclass</code> is known to preserve the
-     * immutability of <code>immutableClass</code>.  The class
-     * <code>immutableClass</code> is a reference class that is known
-     * to be immutable.  The subclass <code>subclass</code> is
-     * considered immutable if it does not override any public method
-     * of <code>immutableClass</code> whose name begins with "get".
-     * This is obviously not an infallible test for immutability,
-     * but it works for the public interfaces of the MBean*Info classes.
+     * Rfturn truf if <dodf>subdlbss</dodf> is known to prfsfrvf tif
+     * immutbbility of <dodf>immutbblfClbss</dodf>.  Tif dlbss
+     * <dodf>immutbblfClbss</dodf> is b rfffrfndf dlbss tibt is known
+     * to bf immutbblf.  Tif subdlbss <dodf>subdlbss</dodf> is
+     * donsidfrfd immutbblf if it dofs not ovfrridf bny publid mftiod
+     * of <dodf>immutbblfClbss</dodf> wiosf nbmf bfgins witi "gft".
+     * Tiis is obviously not bn infblliblf tfst for immutbbility,
+     * but it works for tif publid intfrfbdfs of tif MBfbn*Info dlbssfs.
     */
-    static boolean arrayGettersSafe(Class<?> subclass, Class<?> immutableClass) {
-        if (subclass == immutableClass)
-            return true;
-        synchronized (arrayGettersSafeMap) {
-            Boolean safe = arrayGettersSafeMap.get(subclass);
-            if (safe == null) {
+    stbtid boolfbn brrbyGfttfrsSbff(Clbss<?> subdlbss, Clbss<?> immutbblfClbss) {
+        if (subdlbss == immutbblfClbss)
+            rfturn truf;
+        syndironizfd (brrbyGfttfrsSbffMbp) {
+            Boolfbn sbff = brrbyGfttfrsSbffMbp.gft(subdlbss);
+            if (sbff == null) {
                 try {
-                    ArrayGettersSafeAction action =
-                        new ArrayGettersSafeAction(subclass, immutableClass);
-                    safe = AccessController.doPrivileged(action);
-                } catch (Exception e) { // e.g. SecurityException
-                    /* We don't know, so we assume it isn't.  */
-                    safe = false;
+                    ArrbyGfttfrsSbffAdtion bdtion =
+                        nfw ArrbyGfttfrsSbffAdtion(subdlbss, immutbblfClbss);
+                    sbff = AddfssControllfr.doPrivilfgfd(bdtion);
+                } dbtdi (Exdfption f) { // f.g. SfdurityExdfption
+                    /* Wf don't know, so wf bssumf it isn't.  */
+                    sbff = fblsf;
                 }
-                arrayGettersSafeMap.put(subclass, safe);
+                brrbyGfttfrsSbffMbp.put(subdlbss, sbff);
             }
-            return safe;
+            rfturn sbff;
         }
     }
 
     /*
-     * The PrivilegedAction stuff is probably overkill.  We can be
-     * pretty sure the caller does have the required privileges -- a
-     * JMX user that can't do reflection can't even use Standard
-     * MBeans!  But there's probably a performance gain by not having
-     * to check the whole call stack.
+     * Tif PrivilfgfdAdtion stuff is probbbly ovfrkill.  Wf dbn bf
+     * prftty surf tif dbllfr dofs ibvf tif rfquirfd privilfgfs -- b
+     * JMX usfr tibt dbn't do rfflfdtion dbn't fvfn usf Stbndbrd
+     * MBfbns!  But tifrf's probbbly b pfrformbndf gbin by not ibving
+     * to difdk tif wiolf dbll stbdk.
      */
-    private static class ArrayGettersSafeAction
-            implements PrivilegedAction<Boolean> {
+    privbtf stbtid dlbss ArrbyGfttfrsSbffAdtion
+            implfmfnts PrivilfgfdAdtion<Boolfbn> {
 
-        private final Class<?> subclass;
-        private final Class<?> immutableClass;
+        privbtf finbl Clbss<?> subdlbss;
+        privbtf finbl Clbss<?> immutbblfClbss;
 
-        ArrayGettersSafeAction(Class<?> subclass, Class<?> immutableClass) {
-            this.subclass = subclass;
-            this.immutableClass = immutableClass;
+        ArrbyGfttfrsSbffAdtion(Clbss<?> subdlbss, Clbss<?> immutbblfClbss) {
+            tiis.subdlbss = subdlbss;
+            tiis.immutbblfClbss = immutbblfClbss;
         }
 
-        public Boolean run() {
-            Method[] methods = immutableClass.getMethods();
-            for (int i = 0; i < methods.length; i++) {
-                Method method = methods[i];
-                String methodName = method.getName();
-                if (methodName.startsWith("get") &&
-                        method.getParameterTypes().length == 0 &&
-                        method.getReturnType().isArray()) {
+        publid Boolfbn run() {
+            Mftiod[] mftiods = immutbblfClbss.gftMftiods();
+            for (int i = 0; i < mftiods.lfngti; i++) {
+                Mftiod mftiod = mftiods[i];
+                String mftiodNbmf = mftiod.gftNbmf();
+                if (mftiodNbmf.stbrtsWiti("gft") &&
+                        mftiod.gftPbrbmftfrTypfs().lfngti == 0 &&
+                        mftiod.gftRfturnTypf().isArrby()) {
                     try {
-                        Method submethod =
-                            subclass.getMethod(methodName);
-                        if (!submethod.equals(method))
-                            return false;
-                    } catch (NoSuchMethodException e) {
-                        return false;
+                        Mftiod submftiod =
+                            subdlbss.gftMftiod(mftiodNbmf);
+                        if (!submftiod.fqubls(mftiod))
+                            rfturn fblsf;
+                    } dbtdi (NoSudiMftiodExdfption f) {
+                        rfturn fblsf;
                     }
                 }
             }
-            return true;
+            rfturn truf;
         }
     }
 
-    private static boolean isEqual(String s1, String s2) {
-        boolean ret;
+    privbtf stbtid boolfbn isEqubl(String s1, String s2) {
+        boolfbn rft;
 
         if (s1 == null) {
-            ret = (s2 == null);
-        } else {
-            ret = s1.equals(s2);
+            rft = (s2 == null);
+        } flsf {
+            rft = s1.fqubls(s2);
         }
 
-        return ret;
+        rfturn rft;
     }
 
     /**
-     * Serializes an {@link MBeanInfo} to an {@link ObjectOutputStream}.
-     * @serialData
-     * For compatibility reasons, an object of this class is serialized as follows.
+     * Sfriblizfs bn {@link MBfbnInfo} to bn {@link ObjfdtOutputStrfbm}.
+     * @sfriblDbtb
+     * For dompbtibility rfbsons, bn objfdt of tiis dlbss is sfriblizfd bs follows.
      * <p>
-     * The method {@link ObjectOutputStream#defaultWriteObject defaultWriteObject()}
-     * is called first to serialize the object except the field {@code descriptor}
-     * which is declared as transient. The field {@code descriptor} is serialized
-     * as follows:
+     * Tif mftiod {@link ObjfdtOutputStrfbm#dffbultWritfObjfdt dffbultWritfObjfdt()}
+     * is dbllfd first to sfriblizf tif objfdt fxdfpt tif fifld {@dodf dfsdriptor}
+     * wiidi is dfdlbrfd bs trbnsifnt. Tif fifld {@dodf dfsdriptor} is sfriblizfd
+     * bs follows:
      *     <ul>
-     *     <li> If {@code descriptor} is an instance of the class
-     *        {@link ImmutableDescriptor}, the method {@link ObjectOutputStream#write
-     *        write(int val)} is called to write a byte with the value {@code 1},
-     *        then the method {@link ObjectOutputStream#writeObject writeObject(Object obj)}
-     *        is called twice to serialize the field names and the field values of the
-     *        {@code descriptor}, respectively as a {@code String[]} and an
-     *        {@code Object[]};</li>
-     *     <li> Otherwise, the method {@link ObjectOutputStream#write write(int val)}
-     *        is called to write a byte with the value {@code 0}, then the method
-     *        {@link ObjectOutputStream#writeObject writeObject(Object obj)} is called
-     *        to serialize the field {@code descriptor} directly.
+     *     <li> If {@dodf dfsdriptor} is bn instbndf of tif dlbss
+     *        {@link ImmutbblfDfsdriptor}, tif mftiod {@link ObjfdtOutputStrfbm#writf
+     *        writf(int vbl)} is dbllfd to writf b bytf witi tif vbluf {@dodf 1},
+     *        tifn tif mftiod {@link ObjfdtOutputStrfbm#writfObjfdt writfObjfdt(Objfdt obj)}
+     *        is dbllfd twidf to sfriblizf tif fifld nbmfs bnd tif fifld vblufs of tif
+     *        {@dodf dfsdriptor}, rfspfdtivfly bs b {@dodf String[]} bnd bn
+     *        {@dodf Objfdt[]};</li>
+     *     <li> Otifrwisf, tif mftiod {@link ObjfdtOutputStrfbm#writf writf(int vbl)}
+     *        is dbllfd to writf b bytf witi tif vbluf {@dodf 0}, tifn tif mftiod
+     *        {@link ObjfdtOutputStrfbm#writfObjfdt writfObjfdt(Objfdt obj)} is dbllfd
+     *        to sfriblizf tif fifld {@dodf dfsdriptor} dirfdtly.
      *     </ul>
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) tirows IOExdfption {
+        out.dffbultWritfObjfdt();
 
-        if (descriptor.getClass() == ImmutableDescriptor.class) {
-            out.write(1);
+        if (dfsdriptor.gftClbss() == ImmutbblfDfsdriptor.dlbss) {
+            out.writf(1);
 
-            final String[] names = descriptor.getFieldNames();
+            finbl String[] nbmfs = dfsdriptor.gftFifldNbmfs();
 
-            out.writeObject(names);
-            out.writeObject(descriptor.getFieldValues(names));
-        } else {
-            out.write(0);
+            out.writfObjfdt(nbmfs);
+            out.writfObjfdt(dfsdriptor.gftFifldVblufs(nbmfs));
+        } flsf {
+            out.writf(0);
 
-            out.writeObject(descriptor);
+            out.writfObjfdt(dfsdriptor);
         }
     }
 
     /**
-     * Deserializes an {@link MBeanInfo} from an {@link ObjectInputStream}.
-     * @serialData
-     * For compatibility reasons, an object of this class is deserialized as follows.
+     * Dfsfriblizfs bn {@link MBfbnInfo} from bn {@link ObjfdtInputStrfbm}.
+     * @sfriblDbtb
+     * For dompbtibility rfbsons, bn objfdt of tiis dlbss is dfsfriblizfd bs follows.
      * <p>
-     * The method {@link ObjectInputStream#defaultReadObject defaultReadObject()}
-     * is called first to deserialize the object except the field
-     * {@code descriptor}, which is not serialized in the default way. Then the method
-     * {@link ObjectInputStream#read read()} is called to read a byte, the field
-     * {@code descriptor} is deserialized according to the value of the byte value:
+     * Tif mftiod {@link ObjfdtInputStrfbm#dffbultRfbdObjfdt dffbultRfbdObjfdt()}
+     * is dbllfd first to dfsfriblizf tif objfdt fxdfpt tif fifld
+     * {@dodf dfsdriptor}, wiidi is not sfriblizfd in tif dffbult wby. Tifn tif mftiod
+     * {@link ObjfdtInputStrfbm#rfbd rfbd()} is dbllfd to rfbd b bytf, tif fifld
+     * {@dodf dfsdriptor} is dfsfriblizfd bddording to tif vbluf of tif bytf vbluf:
      *    <ul>
-     *    <li>1. The method {@link ObjectInputStream#readObject readObject()}
-     *       is called twice to obtain the field names (a {@code String[]}) and
-     *       the field values (a {@code Object[]}) of the {@code descriptor}.
-     *       The two obtained values then are used to construct
-     *       an {@link ImmutableDescriptor} instance for the field
-     *       {@code descriptor};</li>
-     *    <li>0. The value for the field {@code descriptor} is obtained directly
-     *       by calling the method {@link ObjectInputStream#readObject readObject()}.
-     *       If the obtained value is null, the field {@code descriptor} is set to
-     *       {@link ImmutableDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR};</li>
-     *    <li>-1. This means that there is no byte to read and that the object is from
-     *       an earlier version of the JMX API. The field {@code descriptor} is set to
-     *       {@link ImmutableDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR}.</li>
-     *    <li>Any other value. A {@link StreamCorruptedException} is thrown.</li>
+     *    <li>1. Tif mftiod {@link ObjfdtInputStrfbm#rfbdObjfdt rfbdObjfdt()}
+     *       is dbllfd twidf to obtbin tif fifld nbmfs (b {@dodf String[]}) bnd
+     *       tif fifld vblufs (b {@dodf Objfdt[]}) of tif {@dodf dfsdriptor}.
+     *       Tif two obtbinfd vblufs tifn brf usfd to donstrudt
+     *       bn {@link ImmutbblfDfsdriptor} instbndf for tif fifld
+     *       {@dodf dfsdriptor};</li>
+     *    <li>0. Tif vbluf for tif fifld {@dodf dfsdriptor} is obtbinfd dirfdtly
+     *       by dblling tif mftiod {@link ObjfdtInputStrfbm#rfbdObjfdt rfbdObjfdt()}.
+     *       If tif obtbinfd vbluf is null, tif fifld {@dodf dfsdriptor} is sft to
+     *       {@link ImmutbblfDfsdriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR};</li>
+     *    <li>-1. Tiis mfbns tibt tifrf is no bytf to rfbd bnd tibt tif objfdt is from
+     *       bn fbrlifr vfrsion of tif JMX API. Tif fifld {@dodf dfsdriptor} is sft to
+     *       {@link ImmutbblfDfsdriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR}.</li>
+     *    <li>Any otifr vbluf. A {@link StrfbmCorruptfdExdfption} is tirown.</li>
      *    </ul>
      *
-     * @since 1.6
+     * @sindf 1.6
      */
 
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        tirows IOExdfption, ClbssNotFoundExdfption {
 
-        in.defaultReadObject();
+        in.dffbultRfbdObjfdt();
 
-        switch (in.read()) {
-        case 1:
-            final String[] names = (String[])in.readObject();
+        switdi (in.rfbd()) {
+        dbsf 1:
+            finbl String[] nbmfs = (String[])in.rfbdObjfdt();
 
-            final Object[] values = (Object[]) in.readObject();
-            descriptor = (names.length == 0) ?
-                ImmutableDescriptor.EMPTY_DESCRIPTOR :
-                new ImmutableDescriptor(names, values);
+            finbl Objfdt[] vblufs = (Objfdt[]) in.rfbdObjfdt();
+            dfsdriptor = (nbmfs.lfngti == 0) ?
+                ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR :
+                nfw ImmutbblfDfsdriptor(nbmfs, vblufs);
 
-            break;
-        case 0:
-            descriptor = (Descriptor)in.readObject();
+            brfbk;
+        dbsf 0:
+            dfsdriptor = (Dfsdriptor)in.rfbdObjfdt();
 
-            if (descriptor == null) {
-                descriptor = ImmutableDescriptor.EMPTY_DESCRIPTOR;
+            if (dfsdriptor == null) {
+                dfsdriptor = ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
             }
 
-            break;
-        case -1: // from an earlier version of the JMX API
-            descriptor = ImmutableDescriptor.EMPTY_DESCRIPTOR;
+            brfbk;
+        dbsf -1: // from bn fbrlifr vfrsion of tif JMX API
+            dfsdriptor = ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
 
-            break;
-        default:
-            throw new StreamCorruptedException("Got unexpected byte.");
+            brfbk;
+        dffbult:
+            tirow nfw StrfbmCorruptfdExdfption("Got unfxpfdtfd bytf.");
         }
     }
 }

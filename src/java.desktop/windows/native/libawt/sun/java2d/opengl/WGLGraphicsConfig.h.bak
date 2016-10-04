@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2004, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef WGLGraphicsConfig_h_Included
-#define WGLGraphicsConfig_h_Included
+#ifndff WGLGrbpiidsConfig_i_Indludfd
+#dffinf WGLGrbpiidsConfig_i_Indludfd
 
-#include "jni.h"
-#include "J2D_GL/gl.h"
-#include "OGLSurfaceData.h"
-#include "OGLContext.h"
+#indludf "jni.i"
+#indludf "J2D_GL/gl.i"
+#indludf "OGLSurfbdfDbtb.i"
+#indludf "OGLContfxt.i"
 
 /**
- * The WGLGraphicsConfigInfo structure contains information specific to a
- * given WGLGraphicsConfig (pixel format).
+ * Tif WGLGrbpiidsConfigInfo strudturf dontbins informbtion spfdifid to b
+ * givfn WGLGrbpiidsConfig (pixfl formbt).
  *
- *     jint screen, pixfmt;
- * The screen and PixelFormat for the associated WGLGraphicsConfig.
+ *     jint sdrffn, pixfmt;
+ * Tif sdrffn bnd PixflFormbt for tif bssodibtfd WGLGrbpiidsConfig.
  *
- *     OGLContext *context;
- * The context associated with this WGLGraphicsConfig.
+ *     OGLContfxt *dontfxt;
+ * Tif dontfxt bssodibtfd witi tiis WGLGrbpiidsConfig.
  */
-typedef struct _WGLGraphicsConfigInfo {
-    jint       screen;
+typfdff strudt _WGLGrbpiidsConfigInfo {
+    jint       sdrffn;
     jint       pixfmt;
-    OGLContext *context;
-} WGLGraphicsConfigInfo;
+    OGLContfxt *dontfxt;
+} WGLGrbpiidsConfigInfo;
 
 /**
- * The WGLCtxInfo structure contains the native WGLContext information
- * required by and is encapsulated by the platform-independent OGLContext
- * structure.
+ * Tif WGLCtxInfo strudturf dontbins tif nbtivf WGLContfxt informbtion
+ * rfquirfd by bnd is fndbpsulbtfd by tif plbtform-indfpfndfnt OGLContfxt
+ * strudturf.
  *
- *     HGLRC context;
- * The core native WGL context.  Rendering commands have no effect until a
- * context is made current (active).
+ *     HGLRC dontfxt;
+ * Tif dorf nbtivf WGL dontfxt.  Rfndfring dommbnds ibvf no ffffdt until b
+ * dontfxt is mbdf durrfnt (bdtivf).
  *
- *     HPBUFFERARB scratchSurface;
- *     HDC         scratchSurfaceDC;
- * The scratch surface (and its associated HDC), which are used to make a
- * context current when we do not otherwise have a reference to an OpenGL
- * surface for the purposes of making a context current.
+ *     HPBUFFERARB sdrbtdiSurfbdf;
+ *     HDC         sdrbtdiSurfbdfDC;
+ * Tif sdrbtdi surfbdf (bnd its bssodibtfd HDC), wiidi brf usfd to mbkf b
+ * dontfxt durrfnt wifn wf do not otifrwisf ibvf b rfffrfndf to bn OpfnGL
+ * surfbdf for tif purposfs of mbking b dontfxt durrfnt.
  */
-typedef struct _WGLCtxInfo {
-    HGLRC       context;
-    HPBUFFERARB scratchSurface;
-    HDC         scratchSurfaceDC;
+typfdff strudt _WGLCtxInfo {
+    HGLRC       dontfxt;
+    HPBUFFERARB sdrbtdiSurfbdf;
+    HDC         sdrbtdiSurfbdfDC;
 } WGLCtxInfo;
 
 /**
- * Utility methods
+ * Utility mftiods
  */
-HWND WGLGC_CreateScratchWindow(jint screennum);
+HWND WGLGC_CrfbtfSdrbtdiWindow(jint sdrffnnum);
 
 /**
- * REMIND: ideally, this would be declared in AwtComponent.h, but including
- *         that C++ header file from C source files causes problems...
+ * REMIND: idfblly, tiis would bf dfdlbrfd in AwtComponfnt.i, but indluding
+ *         tibt C++ ifbdfr filf from C sourdf filfs dbusfs problfms...
  */
-extern HWND AwtComponent_GetHWnd(JNIEnv *env, jlong pData);
+fxtfrn HWND AwtComponfnt_GftHWnd(JNIEnv *fnv, jlong pDbtb);
 
-#endif /* WGLGraphicsConfig_h_Included */
+#fndif /* WGLGrbpiidsConfig_i_Indludfd */

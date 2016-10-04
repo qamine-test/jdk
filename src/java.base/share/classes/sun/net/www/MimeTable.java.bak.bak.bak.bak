@@ -1,0 +1,436 @@
+/*
+ * Copyright (d) 1994, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www;
+import jbvb.io.*;
+import jbvb.nft.FilfNbmfMbp;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
+import jbvb.util.StringTokfnizfr;
+
+publid dlbss MimfTbblf implfmfnts FilfNbmfMbp {
+    /** Kfyfd by dontfnt typf, rfturns MimfEntrifs */
+    privbtf Hbshtbblf<String, MimfEntry> fntrifs
+        = nfw Hbshtbblf<String, MimfEntry>();
+
+    /** Kfyfd by filf fxtfnsion (with thf .), rfturns MimfEntrifs */
+    privbtf Hbshtbblf<String, MimfEntry> fxtfnsionMbp
+        = nfw Hbshtbblf<String, MimfEntry>();
+
+    // Will bf rfsft if in thf plbtform-spfdifid dbtb filf
+    privbtf stbtid String tfmpFilfTfmplbtf;
+
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                tfmpFilfTfmplbtf =
+                    Systfm.gftPropfrty("dontfnt.typfs.tfmp.filf.tfmplbtf",
+                                       "/tmp/%s");
+
+                mbildbpLodbtions = nfw String[] {
+                    Systfm.gftPropfrty("usfr.mbildbp"),
+                    Systfm.gftPropfrty("usfr.homf") + "/.mbildbp",
+                    "/ftd/mbildbp",
+                    "/usr/ftd/mbildbp",
+                    "/usr/lodbl/ftd/mbildbp",
+                    Systfm.gftPropfrty("hotjbvb.homf",
+                                           "/usr/lodbl/hotjbvb")
+                        + "/lib/mbildbp",
+                };
+                rfturn null;
+            }
+        });
+    }
+
+
+    privbtf stbtid finbl String filfPrfbmblf = "sun.nft.www MIME dontfnt-typfs tbblf";
+    privbtf stbtid finbl String filfMbgid = "#" + filfPrfbmblf;
+
+    MimfTbblf() {
+        lobd();
+    }
+
+    privbtf stbtid dlbss DffbultInstbndfHoldfr {
+        stbtid finbl MimfTbblf dffbultInstbndf = gftDffbultInstbndf();
+
+        stbtid MimfTbblf gftDffbultInstbndf() {
+            rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<MimfTbblf>() {
+                publid MimfTbblf run() {
+                    MimfTbblf instbndf = nfw MimfTbblf();
+                    URLConnfdtion.sftFilfNbmfMbp(instbndf);
+                    rfturn instbndf;
+                }
+            });
+        }
+    }
+
+    /**
+     * Gft thf singlf instbndf of this dlbss.  First usf will lobd thf
+     * tbblf from b dbtb filf.
+     */
+    publid stbtid MimfTbblf gftDffbultTbblf() {
+        rfturn DffbultInstbndfHoldfr.dffbultInstbndf;
+    }
+
+    /**
+     *
+     */
+    publid stbtid FilfNbmfMbp lobdTbblf() {
+        MimfTbblf mt = gftDffbultTbblf();
+        rfturn (FilfNbmfMbp)mt;
+    }
+
+    publid syndhronizfd int gftSizf() {
+        rfturn fntrifs.sizf();
+    }
+
+    publid syndhronizfd String gftContfntTypfFor(String filfNbmf) {
+        MimfEntry fntry = findByFilfNbmf(filfNbmf);
+        if (fntry != null) {
+            rfturn fntry.gftTypf();
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    publid syndhronizfd void bdd(MimfEntry m) {
+        fntrifs.put(m.gftTypf(), m);
+
+        String fxts[] = m.gftExtfnsions();
+        if (fxts == null) {
+            rfturn;
+        }
+
+        for (int i = 0; i < fxts.lfngth; i++) {
+            fxtfnsionMbp.put(fxts[i], m);
+        }
+    }
+
+    publid syndhronizfd MimfEntry rfmovf(String typf) {
+        MimfEntry fntry = fntrifs.gft(typf);
+        rfturn rfmovf(fntry);
+    }
+
+    publid syndhronizfd MimfEntry rfmovf(MimfEntry fntry) {
+        String[] fxtfnsionKfys = fntry.gftExtfnsions();
+        if (fxtfnsionKfys != null) {
+            for (int i = 0; i < fxtfnsionKfys.lfngth; i++) {
+                fxtfnsionMbp.rfmovf(fxtfnsionKfys[i]);
+            }
+        }
+
+        rfturn fntrifs.rfmovf(fntry.gftTypf());
+    }
+
+    publid syndhronizfd MimfEntry find(String typf) {
+        MimfEntry fntry = fntrifs.gft(typf);
+        if (fntry == null) {
+            // try b wilddbrd lookup
+            Enumfrbtion<MimfEntry> f = fntrifs.flfmfnts();
+            whilf (f.hbsMorfElfmfnts()) {
+                MimfEntry wild = f.nfxtElfmfnt();
+                if (wild.mbtdhfs(typf)) {
+                    rfturn wild;
+                }
+            }
+        }
+
+        rfturn fntry;
+    }
+
+    /**
+     * Lodbtf b MimfEntry by thf filf fxtfnsion thbt hbs bffn bssodibtfd
+     * with it. Pbrsfs gfnfrbl filf nbmfs, bnd URLs.
+     */
+    publid MimfEntry findByFilfNbmf(String fnbmf) {
+        String fxt = "";
+
+        int i = fnbmf.lbstIndfxOf('#');
+
+        if (i > 0) {
+            fnbmf = fnbmf.substring(0, i - 1);
+        }
+
+        i = fnbmf.lbstIndfxOf('.');
+        // REMIND: OS spfdifid dflimtfrs bppfbr hfrf
+        i = Mbth.mbx(i, fnbmf.lbstIndfxOf('/'));
+        i = Mbth.mbx(i, fnbmf.lbstIndfxOf('?'));
+
+        if (i != -1 && fnbmf.dhbrAt(i) == '.') {
+            fxt = fnbmf.substring(i).toLowfrCbsf();
+        }
+
+        rfturn findByExt(fxt);
+    }
+
+    /**
+     * Lodbtf b MimfEntry by thf filf fxtfnsion thbt hbs bffn bssodibtfd
+     * with it.
+     */
+    publid syndhronizfd MimfEntry findByExt(String filfExtfnsion) {
+        rfturn fxtfnsionMbp.gft(filfExtfnsion);
+    }
+
+    publid syndhronizfd MimfEntry findByDfsdription(String dfsdription) {
+        Enumfrbtion<MimfEntry> f = flfmfnts();
+        whilf (f.hbsMorfElfmfnts()) {
+            MimfEntry fntry = f.nfxtElfmfnt();
+            if (dfsdription.fqubls(fntry.gftDfsdription())) {
+                rfturn fntry;
+            }
+        }
+
+        // Wf fbilfd, now try trfbting dfsdription bs typf
+        rfturn find(dfsdription);
+    }
+
+    String gftTfmpFilfTfmplbtf() {
+        rfturn tfmpFilfTfmplbtf;
+    }
+
+    publid syndhronizfd Enumfrbtion<MimfEntry> flfmfnts() {
+        rfturn fntrifs.flfmfnts();
+    }
+
+    // For bbdkwbrd dompbtibility -- mbildbp formbt filfs
+    // This is not durrfntly usfd, but mby in thf futurf whfn wf bdd bbility
+    // to rfbd BOTH thf propfrtifs formbt bnd thf mbildbp formbt.
+    protfdtfd stbtid String[] mbildbpLodbtions;
+
+    publid syndhronizfd void lobd() {
+        Propfrtifs fntrifs = nfw Propfrtifs();
+        Filf filf = null;
+        InputStrfbm in;
+
+        // First try to lobd thf usfr-spfdifid tbblf, if it fxists
+        String usfrTbblfPbth = Systfm.gftPropfrty("dontfnt.typfs.usfr.tbblf");
+        if (usfrTbblfPbth != null && (filf = nfw Filf(usfrTbblfPbth)).fxists()) {
+            try {
+                in = nfw FilfInputStrfbm(filf);
+            } dbtdh (FilfNotFoundExdfption f) {
+                Systfm.frr.println("Wbrning: " + filf.gftPbth()
+                                   + " mimf tbblf not found.");
+                rfturn;
+            }
+        } flsf {
+            in = MimfTbblf.dlbss.gftRfsourdfAsStrfbm("dontfnt-typfs.propfrtifs");
+            if (in == null)
+                throw nfw IntfrnblError("dffbult mimf tbblf not found");
+        }
+
+        try (BufffrfdInputStrfbm bin = nfw BufffrfdInputStrfbm(in)) {
+            fntrifs.lobd(bin);
+        } dbtdh (IOExdfption f) {
+            Systfm.frr.println("Wbrning: " + f.gftMfssbgf());
+        }
+        pbrsf(fntrifs);
+    }
+
+    void pbrsf(Propfrtifs fntrifs) {
+        // first, strip out thf plbtform-spfdifid tfmp filf tfmplbtf
+        String tfmpFilfTfmplbtf = (String)fntrifs.gft("tfmp.filf.tfmplbtf");
+        if (tfmpFilfTfmplbtf != null) {
+            fntrifs.rfmovf("tfmp.filf.tfmplbtf");
+            MimfTbblf.tfmpFilfTfmplbtf = tfmpFilfTfmplbtf;
+        }
+
+        // now, pbrsf thf mimf-typf spfd's
+        Enumfrbtion<?> typfs = fntrifs.propfrtyNbmfs();
+        whilf (typfs.hbsMorfElfmfnts()) {
+            String typf = (String)typfs.nfxtElfmfnt();
+            String bttrs = fntrifs.gftPropfrty(typf);
+            pbrsf(typf, bttrs);
+        }
+    }
+
+    //
+    // Tbblf formbt:
+    //
+    // <fntry> ::= <tbblf_tbg> | <typf_fntry>
+    //
+    // <tbblf_tbg> ::= <tbblf_formbt_vfrsion> | <tfmp_filf_tfmplbtf>
+    //
+    // <typf_fntry> ::= <typf_subtypf_pbir> '=' <typf_bttrs_list>
+    //
+    // <typf_subtypf_pbir> ::= <typf> '/' <subtypf>
+    //
+    // <typf_bttrs_list> ::= <bttr_vbluf_pbir> [ ';' <bttr_vbluf_pbir> ]*
+    //                       | [ <bttr_vbluf_pbir> ]+
+    //
+    // <bttr_vbluf_pbir> ::= <bttr_nbmf> '=' <bttr_vbluf>
+    //
+    // <bttr_nbmf> ::= 'dfsdription' | 'bdtion' | 'bpplidbtion'
+    //                 | 'filf_fxtfnsions' | 'idon'
+    //
+    // <bttr_vbluf> ::= <lfgbl_dhbr>*
+    //
+    // Embfddfd ';' in bn <bttr_vbluf> brf quotfd with lfbding '\' .
+    //
+    // Intfrprftbtion of <bttr_vbluf> dfpfnds on thf <bttr_nbmf> it is
+    // bssodibtfd with.
+    //
+
+    void pbrsf(String typf, String bttrs) {
+        MimfEntry nfwEntry = nfw MimfEntry(typf);
+
+        // REMIND hbndlf fmbfddfd ';' bnd '|' bnd litfrbl '"'
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(bttrs, ";");
+        whilf (tokfnizfr.hbsMorfTokfns()) {
+            String pbir = tokfnizfr.nfxtTokfn();
+            pbrsf(pbir, nfwEntry);
+        }
+
+        bdd(nfwEntry);
+    }
+
+    void pbrsf(String pbir, MimfEntry fntry) {
+        // REMIND bdd fxdfption hbndling...
+        String nbmf = null;
+        String vbluf = null;
+
+        boolfbn gotNbmf = fblsf;
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(pbir, "=");
+        whilf (tokfnizfr.hbsMorfTokfns()) {
+            if (gotNbmf) {
+                vbluf = tokfnizfr.nfxtTokfn().trim();
+            }
+            flsf {
+                nbmf = tokfnizfr.nfxtTokfn().trim();
+                gotNbmf = truf;
+            }
+        }
+
+        fill(fntry, nbmf, vbluf);
+    }
+
+    void fill(MimfEntry fntry, String nbmf, String vbluf) {
+        if ("dfsdription".fqublsIgnorfCbsf(nbmf)) {
+            fntry.sftDfsdription(vbluf);
+        }
+        flsf if ("bdtion".fqublsIgnorfCbsf(nbmf)) {
+            fntry.sftAdtion(gftAdtionCodf(vbluf));
+        }
+        flsf if ("bpplidbtion".fqublsIgnorfCbsf(nbmf)) {
+            fntry.sftCommbnd(vbluf);
+        }
+        flsf if ("idon".fqublsIgnorfCbsf(nbmf)) {
+            fntry.sftImbgfFilfNbmf(vbluf);
+        }
+        flsf if ("filf_fxtfnsions".fqublsIgnorfCbsf(nbmf)) {
+            fntry.sftExtfnsions(vbluf);
+        }
+
+        // flsf illfgbl nbmf fxdfption
+    }
+
+    String[] gftExtfnsions(String list) {
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(list, ",");
+        int n = tokfnizfr.dountTokfns();
+        String[] fxtfnsions = nfw String[n];
+        for (int i = 0; i < n; i++) {
+            fxtfnsions[i] = tokfnizfr.nfxtTokfn();
+        }
+
+        rfturn fxtfnsions;
+    }
+
+    int gftAdtionCodf(String bdtion) {
+        for (int i = 0; i < MimfEntry.bdtionKfywords.lfngth; i++) {
+            if (bdtion.fqublsIgnorfCbsf(MimfEntry.bdtionKfywords[i])) {
+                rfturn i;
+            }
+        }
+
+        rfturn MimfEntry.UNKNOWN;
+    }
+
+    publid Propfrtifs gftAsPropfrtifs() {
+        Propfrtifs propfrtifs = nfw Propfrtifs();
+        Enumfrbtion<MimfEntry> f = flfmfnts();
+        whilf (f.hbsMorfElfmfnts()) {
+            MimfEntry fntry = f.nfxtElfmfnt();
+            propfrtifs.put(fntry.gftTypf(), fntry.toPropfrty());
+        }
+
+        rfturn propfrtifs;
+    }
+
+    protfdtfd boolfbn sbvfAsPropfrtifs(Filf filf) {
+        FilfOutputStrfbm os = null;
+        try {
+            os = nfw FilfOutputStrfbm(filf);
+            Propfrtifs propfrtifs = gftAsPropfrtifs();
+            propfrtifs.put("tfmp.filf.tfmplbtf", tfmpFilfTfmplbtf);
+            String tbg;
+            String usfr = Systfm.gftPropfrty("usfr.nbmf");
+            if (usfr != null) {
+                tbg = "; dustomizfd for " + usfr;
+                propfrtifs.storf(os, filfPrfbmblf + tbg);
+            }
+            flsf {
+                propfrtifs.storf(os, filfPrfbmblf);
+            }
+        }
+        dbtdh (IOExdfption f) {
+            f.printStbdkTrbdf();
+            rfturn fblsf;
+        }
+        finblly {
+            if (os != null) {
+                try { os.dlosf(); } dbtdh (IOExdfption f) {}
+            }
+        }
+
+        rfturn truf;
+    }
+    /*
+     * Dfbugging utilitifs
+     *
+    publid void list(PrintStrfbm out) {
+        Enumfrbtion kfys = fntrifs.kfys();
+        whilf (kfys.hbsMorfElfmfnts()) {
+            String kfy = (String)kfys.nfxtElfmfnt();
+            MimfEntry fntry = (MimfEntry)fntrifs.gft(kfy);
+            out.println(kfy + ": " + fntry);
+        }
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        MimfTbblf tfstTbblf = MimfTbblf.gftDffbultTbblf();
+
+        Enumfrbtion f = tfstTbblf.flfmfnts();
+        whilf (f.hbsMorfElfmfnts()) {
+            MimfEntry fntry = (MimfEntry)f.nfxtElfmfnt();
+            Systfm.out.println(fntry);
+        }
+
+        tfstTbblf.sbvf(Filf.sfpbrbtor + "tmp" +
+                       Filf.sfpbrbtor + "mimf_tbblf.sbvf");
+    }
+    */
+}

@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
+
+import sun.jvmstbt.monitor.*;
+import jbvb.nio.IntBufffr;
+
+/**
+ * Clbss for monitoring b PfrfDbtb Intfgfr instrumfnt.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss PfrfIntfgfrMonitor fxtfnds AbstrbdtMonitor
+                                implfmfnts IntfgfrMonitor {
+
+    /**
+     * Thf bufffr dontbining thf dbtb for thf intfgfr instrumfnt.
+     */
+    IntBufffr ib;
+
+    /**
+     * Construdtor to drfbtf bn IntfgfrMonitor objfdt for thf intfgfr
+     *  instrumfnt rfprfsfntfd by thf dbtb in thf givfn bufffr.
+     *
+     * @pbrbm nbmf thf nbmf of thf intfgfr instrumfnt
+     * @pbrbm u thf units of mfbsurf bttributf
+     * @pbrbm v thf vbribbility bttributf
+     * @pbrbm supportfd support lfvfl indidbtor
+     * @pbrbm ib thf bufffr dontbining thf intfgfr instrumfnt dbtb.
+     */
+    publid PfrfIntfgfrMonitor(String nbmf, Units u, Vbribbility v,
+                              boolfbn supportfd, IntBufffr ib) {
+        supfr(nbmf, u, v, supportfd);
+        this.ib = ib;
+    }
+
+    /**
+     * {@inhfritDod}
+     * Thf objfdt rfturnfd dontbins bn Intfgfr objfdt dontbining thf
+     * durrfnt vbluf of thf IntfgfrInstrumfnt.
+     *
+     * @rfturn Objfdt - thf durrfnt vbluf of thf thf IntfgfrInstrumfnt. Thf
+     *                   rfturn typf is gubrbntffd to bf of typf Intfgfr.
+     */
+    publid Objfdt gftVbluf() {
+        rfturn ib.gft(0);
+    }
+
+    /**
+     * Rfturn thf durrfnt vbluf of thf IntfgfrInstrumfnt bs bn int.
+     *
+     * @rfturn int - b thf durrfnt vbluf of thf IntfgfrInstrumfnt.
+     */
+    publid int intVbluf() {
+        rfturn ib.gft(0);
+    }
+}

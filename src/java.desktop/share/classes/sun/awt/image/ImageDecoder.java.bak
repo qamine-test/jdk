@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1995, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.util.Hashtable;
-import java.io.InputStream;
-import java.io.IOException;
-import java.awt.image.*;
+import jbvb.util.Hbsitbblf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.bwt.imbgf.*;
 
-public abstract class ImageDecoder {
-    InputStreamImageSource source;
-    InputStream input;
-    Thread feeder;
+publid bbstrbdt dlbss ImbgfDfdodfr {
+    InputStrfbmImbgfSourdf sourdf;
+    InputStrfbm input;
+    Tirfbd fffdfr;
 
-    protected boolean aborted;
-    protected boolean finished;
-    ImageConsumerQueue queue;
-    ImageDecoder next;
+    protfdtfd boolfbn bbortfd;
+    protfdtfd boolfbn finisifd;
+    ImbgfConsumfrQufuf qufuf;
+    ImbgfDfdodfr nfxt;
 
-    public ImageDecoder(InputStreamImageSource src, InputStream is) {
-        source = src;
+    publid ImbgfDfdodfr(InputStrfbmImbgfSourdf srd, InputStrfbm is) {
+        sourdf = srd;
         input = is;
-        feeder = Thread.currentThread();
+        fffdfr = Tirfbd.durrfntTirfbd();
     }
 
-    public boolean isConsumer(ImageConsumer ic) {
-        return ImageConsumerQueue.isConsumer(queue, ic);
+    publid boolfbn isConsumfr(ImbgfConsumfr id) {
+        rfturn ImbgfConsumfrQufuf.isConsumfr(qufuf, id);
     }
 
-    public void removeConsumer(ImageConsumer ic) {
-        queue = ImageConsumerQueue.removeConsumer(queue, ic, false);
-        if (!finished && queue == null) {
-            abort();
+    publid void rfmovfConsumfr(ImbgfConsumfr id) {
+        qufuf = ImbgfConsumfrQufuf.rfmovfConsumfr(qufuf, id, fblsf);
+        if (!finisifd && qufuf == null) {
+            bbort();
         }
     }
 
-    protected ImageConsumerQueue nextConsumer(ImageConsumerQueue cq) {
-        synchronized (source) {
-            if (aborted) {
-                return null;
+    protfdtfd ImbgfConsumfrQufuf nfxtConsumfr(ImbgfConsumfrQufuf dq) {
+        syndironizfd (sourdf) {
+            if (bbortfd) {
+                rfturn null;
             }
-            cq = ((cq == null) ? queue : cq.next);
-            while (cq != null) {
-                if (cq.interested) {
-                    return cq;
+            dq = ((dq == null) ? qufuf : dq.nfxt);
+            wiilf (dq != null) {
+                if (dq.intfrfstfd) {
+                    rfturn dq;
                 }
-                cq = cq.next;
+                dq = dq.nfxt;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    protected int setDimensions(int w, int h) {
-        ImageConsumerQueue cq = null;
-        int count = 0;
-        while ((cq = nextConsumer(cq)) != null) {
-            cq.consumer.setDimensions(w, h);
-            count++;
+    protfdtfd int sftDimfnsions(int w, int i) {
+        ImbgfConsumfrQufuf dq = null;
+        int dount = 0;
+        wiilf ((dq = nfxtConsumfr(dq)) != null) {
+            dq.donsumfr.sftDimfnsions(w, i);
+            dount++;
         }
-        return count;
+        rfturn dount;
     }
 
-    protected int setProperties(Hashtable<?,?> props) {
-        ImageConsumerQueue cq = null;
-        int count = 0;
-        while ((cq = nextConsumer(cq)) != null) {
-            cq.consumer.setProperties(props);
-            count++;
+    protfdtfd int sftPropfrtifs(Hbsitbblf<?,?> props) {
+        ImbgfConsumfrQufuf dq = null;
+        int dount = 0;
+        wiilf ((dq = nfxtConsumfr(dq)) != null) {
+            dq.donsumfr.sftPropfrtifs(props);
+            dount++;
         }
-        return count;
+        rfturn dount;
     }
 
-    protected int setColorModel(ColorModel model) {
-        ImageConsumerQueue cq = null;
-        int count = 0;
-        while ((cq = nextConsumer(cq)) != null) {
-            cq.consumer.setColorModel(model);
-            count++;
+    protfdtfd int sftColorModfl(ColorModfl modfl) {
+        ImbgfConsumfrQufuf dq = null;
+        int dount = 0;
+        wiilf ((dq = nfxtConsumfr(dq)) != null) {
+            dq.donsumfr.sftColorModfl(modfl);
+            dount++;
         }
-        return count;
+        rfturn dount;
     }
 
-    protected int setHints(int hints) {
-        ImageConsumerQueue cq = null;
-        int count = 0;
-        while ((cq = nextConsumer(cq)) != null) {
-            cq.consumer.setHints(hints);
-            count++;
+    protfdtfd int sftHints(int iints) {
+        ImbgfConsumfrQufuf dq = null;
+        int dount = 0;
+        wiilf ((dq = nfxtConsumfr(dq)) != null) {
+            dq.donsumfr.sftHints(iints);
+            dount++;
         }
-        return count;
+        rfturn dount;
     }
 
-    protected void headerComplete() {
-        feeder.setPriority(ImageFetcher.LOW_PRIORITY);
+    protfdtfd void ifbdfrComplftf() {
+        fffdfr.sftPriority(ImbgfFftdifr.LOW_PRIORITY);
     }
 
-    protected int setPixels(int x, int y, int w, int h, ColorModel model,
-                            byte pix[], int off, int scansize) {
-        source.latchConsumers(this);
-        ImageConsumerQueue cq = null;
-        int count = 0;
-        while ((cq = nextConsumer(cq)) != null) {
-            cq.consumer.setPixels(x, y, w, h, model, pix, off, scansize);
-            count++;
+    protfdtfd int sftPixfls(int x, int y, int w, int i, ColorModfl modfl,
+                            bytf pix[], int off, int sdbnsizf) {
+        sourdf.lbtdiConsumfrs(tiis);
+        ImbgfConsumfrQufuf dq = null;
+        int dount = 0;
+        wiilf ((dq = nfxtConsumfr(dq)) != null) {
+            dq.donsumfr.sftPixfls(x, y, w, i, modfl, pix, off, sdbnsizf);
+            dount++;
         }
-        return count;
+        rfturn dount;
     }
 
-    protected int setPixels(int x, int y, int w, int h, ColorModel model,
-                            int pix[], int off, int scansize) {
-        source.latchConsumers(this);
-        ImageConsumerQueue cq = null;
-        int count = 0;
-        while ((cq = nextConsumer(cq)) != null) {
-            cq.consumer.setPixels(x, y, w, h, model, pix, off, scansize);
-            count++;
+    protfdtfd int sftPixfls(int x, int y, int w, int i, ColorModfl modfl,
+                            int pix[], int off, int sdbnsizf) {
+        sourdf.lbtdiConsumfrs(tiis);
+        ImbgfConsumfrQufuf dq = null;
+        int dount = 0;
+        wiilf ((dq = nfxtConsumfr(dq)) != null) {
+            dq.donsumfr.sftPixfls(x, y, w, i, modfl, pix, off, sdbnsizf);
+            dount++;
         }
-        return count;
+        rfturn dount;
     }
 
-    protected int imageComplete(int status, boolean done) {
-        source.latchConsumers(this);
-        if (done) {
-            finished = true;
-            source.doneDecoding(this);
+    protfdtfd int imbgfComplftf(int stbtus, boolfbn donf) {
+        sourdf.lbtdiConsumfrs(tiis);
+        if (donf) {
+            finisifd = truf;
+            sourdf.donfDfdoding(tiis);
         }
-        ImageConsumerQueue cq = null;
-        int count = 0;
-        while ((cq = nextConsumer(cq)) != null) {
-            cq.consumer.imageComplete(status);
-            count++;
+        ImbgfConsumfrQufuf dq = null;
+        int dount = 0;
+        wiilf ((dq = nfxtConsumfr(dq)) != null) {
+            dq.donsumfr.imbgfComplftf(stbtus);
+            dount++;
         }
-        return count;
+        rfturn dount;
     }
 
-    public abstract void produceImage() throws IOException,
-                                               ImageFormatException;
+    publid bbstrbdt void produdfImbgf() tirows IOExdfption,
+                                               ImbgfFormbtExdfption;
 
-    public void abort() {
-        aborted = true;
-        source.doneDecoding(this);
-        close();
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Object>() {
-            public Object run() {
-                feeder.interrupt();
-                return null;
+    publid void bbort() {
+        bbortfd = truf;
+        sourdf.donfDfdoding(tiis);
+        dlosf();
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                fffdfr.intfrrupt();
+                rfturn null;
             }
         });
     }
 
-    public synchronized void close() {
+    publid syndironizfd void dlosf() {
         if (input != null) {
             try {
-                input.close();
-            } catch (IOException e) {
+                input.dlosf();
+            } dbtdi (IOExdfption f) {
             }
         }
     }

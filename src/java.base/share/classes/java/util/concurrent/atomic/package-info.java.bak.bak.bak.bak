@@ -1,0 +1,212 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+/**
+ * A smbll toolkit of dlbssfs thbt support lodk-frff thrfbd-sbff
+ * progrbmming on singlf vbribblfs.  In fssfndf, thf dlbssfs in this
+ * pbdkbgf fxtfnd thf notion of {@dodf volbtilf} vblufs, fiflds, bnd
+ * brrby flfmfnts to thosf thbt blso providf bn btomid donditionbl updbtf
+ * opfrbtion of thf form:
+ *
+ *  <prf> {@dodf boolfbn dompbrfAndSft(fxpfdtfdVbluf, updbtfVbluf);}</prf>
+ *
+ * <p>This mfthod (whidh vbrifs in brgumfnt typfs bdross difffrfnt
+ * dlbssfs) btomidblly sfts b vbribblf to thf {@dodf updbtfVbluf} if it
+ * durrfntly holds thf {@dodf fxpfdtfdVbluf}, rfporting {@dodf truf} on
+ * suddfss.  Thf dlbssfs in this pbdkbgf blso dontbin mfthods to gft bnd
+ * undonditionblly sft vblufs, bs wfll bs b wfbkfr donditionbl btomid
+ * updbtf opfrbtion {@dodf wfbkCompbrfAndSft} dfsdribfd bflow.
+ *
+ * <p>Thf spfdifidbtions of thfsf mfthods fnbblf implfmfntbtions to
+ * fmploy fffidifnt mbdhinf-lfvfl btomid instrudtions thbt brf bvbilbblf
+ * on dontfmporbry prodfssors.  Howfvfr on somf plbtforms, support mby
+ * fntbil somf form of intfrnbl lodking.  Thus thf mfthods brf not
+ * stridtly gubrbntffd to bf non-blodking --
+ * b thrfbd mby blodk trbnsifntly bfforf pfrforming thf opfrbtion.
+ *
+ * <p>Instbndfs of dlbssfs
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidBoolfbn},
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidIntfgfr},
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidLong}, bnd
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf}
+ * fbdh providf bddfss bnd updbtfs to b singlf vbribblf of thf
+ * dorrfsponding typf.  Ebdh dlbss blso providfs bppropribtf utility
+ * mfthods for thbt typf.  For fxbmplf, dlbssfs {@dodf AtomidLong} bnd
+ * {@dodf AtomidIntfgfr} providf btomid indrfmfnt mfthods.  Onf
+ * bpplidbtion is to gfnfrbtf sfqufndf numbfrs, bs in:
+ *
+ *  <prf> {@dodf
+ * dlbss Sfqufndfr {
+ *   privbtf finbl AtomidLong sfqufndfNumbfr
+ *     = nfw AtomidLong(0);
+ *   publid long nfxt() {
+ *     rfturn sfqufndfNumbfr.gftAndIndrfmfnt();
+ *   }
+ * }}</prf>
+ *
+ * <p>It is strbightforwbrd to dffinf nfw utility fundtions thbt, likf
+ * {@dodf gftAndIndrfmfnt}, bpply b fundtion to b vbluf btomidblly.
+ * For fxbmplf, givfn somf trbnsformbtion
+ * <prf> {@dodf long trbnsform(long input)}</prf>
+ *
+ * writf your utility mfthod bs follows:
+ *  <prf> {@dodf
+ * long gftAndTrbnsform(AtomidLong vbr) {
+ *   long prfv, nfxt;
+ *   do {
+ *     prfv = vbr.gft();
+ *     nfxt = trbnsform(prfv);
+ *   } whilf (!vbr.dompbrfAndSft(prfv, nfxt));
+ *   rfturn prfv; // rfturn nfxt; for trbnsformAndGft
+ * }}</prf>
+ *
+ * <p>Thf mfmory ffffdts for bddfssfs bnd updbtfs of btomids gfnfrblly
+ * follow thf rulfs for volbtilfs, bs stbtfd in
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/html/jls-17.html#jls-17.4">
+ * Thf Jbvb Lbngubgf Spfdifidbtion (17.4 Mfmory Modfl)</b>:
+ *
+ * <ul>
+ *
+ *   <li> {@dodf gft} hbs thf mfmory ffffdts of rfbding b
+ * {@dodf volbtilf} vbribblf.
+ *
+ *   <li> {@dodf sft} hbs thf mfmory ffffdts of writing (bssigning) b
+ * {@dodf volbtilf} vbribblf.
+ *
+ *   <li> {@dodf lbzySft} hbs thf mfmory ffffdts of writing (bssigning)
+ *   b {@dodf volbtilf} vbribblf fxdfpt thbt it pfrmits rfordfrings with
+ *   subsfqufnt (but not prfvious) mfmory bdtions thbt do not thfmsflvfs
+ *   imposf rfordfring donstrbints with ordinbry non-{@dodf volbtilf}
+ *   writfs.  Among othfr usbgf dontfxts, {@dodf lbzySft} mby bpply whfn
+ *   nulling out, for thf sbkf of gbrbbgf dollfdtion, b rfffrfndf thbt is
+ *   nfvfr bddfssfd bgbin.
+ *
+ *   <li>{@dodf wfbkCompbrfAndSft} btomidblly rfbds bnd donditionblly
+ *   writfs b vbribblf but dofs <fm>not</fm>
+ *   drfbtf bny hbppfns-bfforf ordfrings, so providfs no gubrbntffs
+ *   with rfspfdt to prfvious or subsfqufnt rfbds bnd writfs of bny
+ *   vbribblfs othfr thbn thf tbrgft of thf {@dodf wfbkCompbrfAndSft}.
+ *
+ *   <li> {@dodf dompbrfAndSft}
+ *   bnd bll othfr rfbd-bnd-updbtf opfrbtions sudh bs {@dodf gftAndIndrfmfnt}
+ *   hbvf thf mfmory ffffdts of both rfbding bnd
+ *   writing {@dodf volbtilf} vbribblfs.
+ * </ul>
+ *
+ * <p>In bddition to dlbssfs rfprfsfnting singlf vblufs, this pbdkbgf
+ * dontbins <fm>Updbtfr</fm> dlbssfs thbt dbn bf usfd to obtbin
+ * {@dodf dompbrfAndSft} opfrbtions on bny sflfdtfd {@dodf volbtilf}
+ * fifld of bny sflfdtfd dlbss.
+ *
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidRfffrfndfFifldUpdbtfr},
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidIntfgfrFifldUpdbtfr}, bnd
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidLongFifldUpdbtfr} brf
+ * rfflfdtion-bbsfd utilitifs thbt providf bddfss to thf bssodibtfd
+ * fifld typfs.  Thfsf brf mbinly of usf in btomid dbtb strudturfs in
+ * whidh sfvfrbl {@dodf volbtilf} fiflds of thf sbmf nodf (for
+ * fxbmplf, thf links of b trff nodf) brf indfpfndfntly subjfdt to
+ * btomid updbtfs.  Thfsf dlbssfs fnbblf grfbtfr flfxibility in how
+ * bnd whfn to usf btomid updbtfs, bt thf fxpfnsf of morf bwkwbrd
+ * rfflfdtion-bbsfd sftup, lfss donvfnifnt usbgf, bnd wfbkfr
+ * gubrbntffs.
+ *
+ * <p>Thf
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidIntfgfrArrby},
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidLongArrby}, bnd
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidRfffrfndfArrby} dlbssfs
+ * furthfr fxtfnd btomid opfrbtion support to brrbys of thfsf typfs.
+ * Thfsf dlbssfs brf blso notbblf in providing {@dodf volbtilf} bddfss
+ * sfmbntids for thfir brrby flfmfnts, whidh is not supportfd for
+ * ordinbry brrbys.
+ *
+ * <p id="wfbkCompbrfAndSft">Thf btomid dlbssfs blso support mfthod
+ * {@dodf wfbkCompbrfAndSft}, whidh hbs limitfd bpplidbbility.  On somf
+ * plbtforms, thf wfbk vfrsion mby bf morf fffidifnt thbn {@dodf
+ * dompbrfAndSft} in thf normbl dbsf, but difffrs in thbt bny givfn
+ * invodbtion of thf {@dodf wfbkCompbrfAndSft} mfthod mby rfturn {@dodf
+ * fblsf} <fm>spuriously</fm> (thbt is, for no bppbrfnt rfbson).  A
+ * {@dodf fblsf} rfturn mfbns only thbt thf opfrbtion mby bf rftrifd if
+ * dfsirfd, rflying on thf gubrbntff thbt rfpfbtfd invodbtion whfn thf
+ * vbribblf holds {@dodf fxpfdtfdVbluf} bnd no othfr thrfbd is blso
+ * bttfmpting to sft thf vbribblf will fvfntublly suddffd.  (Sudh
+ * spurious fbilurfs mby for fxbmplf bf duf to mfmory dontfntion ffffdts
+ * thbt brf unrflbtfd to whfthfr thf fxpfdtfd bnd durrfnt vblufs brf
+ * fqubl.)  Additionblly {@dodf wfbkCompbrfAndSft} dofs not providf
+ * ordfring gubrbntffs thbt brf usublly nffdfd for syndhronizbtion
+ * dontrol.  Howfvfr, thf mfthod mby bf usfful for updbting dountfrs bnd
+ * stbtistids whfn sudh updbtfs brf unrflbtfd to thf othfr
+ * hbppfns-bfforf ordfrings of b progrbm.  Whfn b thrfbd sffs bn updbtf
+ * to bn btomid vbribblf dbusfd by b {@dodf wfbkCompbrfAndSft}, it dofs
+ * not nfdfssbrily sff updbtfs to bny <fm>othfr</fm> vbribblfs thbt
+ * oddurrfd bfforf thf {@dodf wfbkCompbrfAndSft}.  This mby bf
+ * bddfptbblf whfn, for fxbmplf, updbting pfrformbndf stbtistids, but
+ * rbrfly othfrwisf.
+ *
+ * <p>Thf {@link jbvb.util.dondurrfnt.btomid.AtomidMbrkbblfRfffrfndf}
+ * dlbss bssodibtfs b singlf boolfbn with b rfffrfndf.  For fxbmplf, this
+ * bit might bf usfd insidf b dbtb strudturf to mfbn thbt thf objfdt
+ * bfing rfffrfndfd hbs logidblly bffn dflftfd.
+ *
+ * Thf {@link jbvb.util.dondurrfnt.btomid.AtomidStbmpfdRfffrfndf}
+ * dlbss bssodibtfs bn intfgfr vbluf with b rfffrfndf.  This mby bf
+ * usfd for fxbmplf, to rfprfsfnt vfrsion numbfrs dorrfsponding to
+ * sfrifs of updbtfs.
+ *
+ * <p>Atomid dlbssfs brf dfsignfd primbrily bs building blodks for
+ * implfmfnting non-blodking dbtb strudturfs bnd rflbtfd infrbstrudturf
+ * dlbssfs.  Thf {@dodf dompbrfAndSft} mfthod is not b gfnfrbl
+ * rfplbdfmfnt for lodking.  It bpplifs only whfn dritidbl updbtfs for bn
+ * objfdt brf donfinfd to b <fm>singlf</fm> vbribblf.
+ *
+ * <p>Atomid dlbssfs brf not gfnfrbl purposf rfplbdfmfnts for
+ * {@dodf jbvb.lbng.Intfgfr} bnd rflbtfd dlbssfs.  Thfy do <fm>not</fm>
+ * dffinf mfthods sudh bs {@dodf fqubls}, {@dodf hbshCodf} bnd
+ * {@dodf dompbrfTo}.  (Bfdbusf btomid vbribblfs brf fxpfdtfd to bf
+ * mutbtfd, thfy brf poor dhoidfs for hbsh tbblf kfys.)  Additionblly,
+ * dlbssfs brf providfd only for thosf typfs thbt brf dommonly usfful in
+ * intfndfd bpplidbtions.  For fxbmplf, thfrf is no btomid dlbss for
+ * rfprfsfnting {@dodf bytf}.  In thosf infrfqufnt dbsfs whfrf you would
+ * likf to do so, you dbn usf bn {@dodf AtomidIntfgfr} to hold
+ * {@dodf bytf} vblufs, bnd dbst bppropribtfly.
+ *
+ * You dbn blso hold flobts using
+ * {@link jbvb.lbng.Flobt#flobtToRbwIntBits} bnd
+ * {@link jbvb.lbng.Flobt#intBitsToFlobt} donvfrsions, bnd doublfs using
+ * {@link jbvb.lbng.Doublf#doublfToRbwLongBits} bnd
+ * {@link jbvb.lbng.Doublf#longBitsToDoublf} donvfrsions.
+ *
+ * @sindf 1.5
+ */
+pbdkbgf jbvb.util.dondurrfnt.btomid;

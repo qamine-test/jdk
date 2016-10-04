@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include    <jni.h>
+#indludf    <jni.i>
 
-#include    "JPLISAgent.h"
-#include    "JPLISAssert.h"
-#include    "Utilities.h"
-#include    "JavaExceptions.h"
-#include    "FileSystemSupport.h"   /* For uintptr_t */
-#include    "sun_instrument_InstrumentationImpl.h"
+#indludf    "JPLISAgfnt.i"
+#indludf    "JPLISAssfrt.i"
+#indludf    "Utilitifs.i"
+#indludf    "JbvbExdfptions.i"
+#indludf    "FilfSystfmSupport.i"   /* For uintptr_t */
+#indludf    "sun_instrumfnt_InstrumfntbtionImpl.i"
 
 /*
- * Copyright 2003 Wily Technology, Inc.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
  */
 
 /**
- * This module contains the native method implementations to back the
- * sun.instrument.InstrumentationImpl class.
- * The bridge between Java and native code is built by storing a native
- * pointer to the JPLISAgent data structure in a 64 bit scalar field
- * in the InstrumentationImpl instance which is passed to each method.
+ * Tiis modulf dontbins tif nbtivf mftiod implfmfntbtions to bbdk tif
+ * sun.instrumfnt.InstrumfntbtionImpl dlbss.
+ * Tif bridgf bftwffn Jbvb bnd nbtivf dodf is built by storing b nbtivf
+ * pointfr to tif JPLISAgfnt dbtb strudturf in b 64 bit sdblbr fifld
+ * in tif InstrumfntbtionImpl instbndf wiidi is pbssfd to fbdi mftiod.
  */
 
 
 /*
- * Native methods
+ * Nbtivf mftiods
  */
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    isModifiableClass0
- * Signature: (Ljava/lang/Class;)Z
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mftiod:    isModifibblfClbss0
+ * Signbturf: (Ljbvb/lbng/Clbss;)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_instrument_InstrumentationImpl_isModifiableClass0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jclass clazz) {
-    return isModifiableClass(jnienv, (JPLISAgent*)(intptr_t)agent, clazz);
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_instrumfnt_InstrumfntbtionImpl_isModifibblfClbss0
+  (JNIEnv * jnifnv, jobjfdt implTiis, jlong bgfnt, jdlbss dlbzz) {
+    rfturn isModifibblfClbss(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, dlbzz);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    isRetransformClassesSupported0
- * Signature: ()Z
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mftiod:    isRftrbnsformClbssfsSupportfd0
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_instrument_InstrumentationImpl_isRetransformClassesSupported0
-  (JNIEnv * jnienv, jobject implThis, jlong agent) {
-    return isRetransformClassesSupported(jnienv, (JPLISAgent*)(intptr_t)agent);
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_instrumfnt_InstrumfntbtionImpl_isRftrbnsformClbssfsSupportfd0
+  (JNIEnv * jnifnv, jobjfdt implTiis, jlong bgfnt) {
+    rfturn isRftrbnsformClbssfsSupportfd(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    setHasRetransformableTransformers
- * Signature: (Z)V
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mftiod:    sftHbsRftrbnsformbblfTrbnsformfrs
+ * Signbturf: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_instrument_InstrumentationImpl_setHasRetransformableTransformers
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jboolean has) {
-    setHasRetransformableTransformers(jnienv, (JPLISAgent*)(intptr_t)agent, has);
+Jbvb_sun_instrumfnt_InstrumfntbtionImpl_sftHbsRftrbnsformbblfTrbnsformfrs
+  (JNIEnv * jnifnv, jobjfdt implTiis, jlong bgfnt, jboolfbn ibs) {
+    sftHbsRftrbnsformbblfTrbnsformfrs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, ibs);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    retransformClasses0
- * Signature: ([Ljava/lang/Class;)V
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mftiod:    rftrbnsformClbssfs0
+ * Signbturf: ([Ljbvb/lbng/Clbss;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_instrument_InstrumentationImpl_retransformClasses0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jobjectArray classes) {
-    retransformClasses(jnienv, (JPLISAgent*)(intptr_t)agent, classes);
+Jbvb_sun_instrumfnt_InstrumfntbtionImpl_rftrbnsformClbssfs0
+  (JNIEnv * jnifnv, jobjfdt implTiis, jlong bgfnt, jobjfdtArrby dlbssfs) {
+    rftrbnsformClbssfs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, dlbssfs);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    redefineClasses0
- * Signature: ([Ljava/lang/instrument/ClassDefinition;)V
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mftiod:    rfdffinfClbssfs0
+ * Signbturf: ([Ljbvb/lbng/instrumfnt/ClbssDffinition;)V
  */
-JNIEXPORT void JNICALL Java_sun_instrument_InstrumentationImpl_redefineClasses0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jobjectArray classDefinitions) {
-    redefineClasses(jnienv, (JPLISAgent*)(intptr_t)agent, classDefinitions);
+JNIEXPORT void JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_rfdffinfClbssfs0
+  (JNIEnv * jnifnv, jobjfdt implTiis, jlong bgfnt, jobjfdtArrby dlbssDffinitions) {
+    rfdffinfClbssfs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, dlbssDffinitions);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    getAllLoadedClasses0
- * Signature: ()[Ljava/lang/Class;
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mftiod:    gftAllLobdfdClbssfs0
+ * Signbturf: ()[Ljbvb/lbng/Clbss;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_instrument_InstrumentationImpl_getAllLoadedClasses0
-  (JNIEnv * jnienv, jobject implThis, jlong agent) {
-    return getAllLoadedClasses(jnienv, (JPLISAgent*)(intptr_t)agent);
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_gftAllLobdfdClbssfs0
+  (JNIEnv * jnifnv, jobjfdt implTiis, jlong bgfnt) {
+    rfturn gftAllLobdfdClbssfs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    getInitiatedClasses0
- * Signature: (Ljava/lang/ClassLoader;)[Ljava/lang/Class;
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mftiod:    gftInitibtfdClbssfs0
+ * Signbturf: (Ljbvb/lbng/ClbssLobdfr;)[Ljbvb/lbng/Clbss;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_instrument_InstrumentationImpl_getInitiatedClasses0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jobject classLoader) {
-    return getInitiatedClasses(jnienv, (JPLISAgent*)(intptr_t)agent, classLoader);
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_gftInitibtfdClbssfs0
+  (JNIEnv * jnifnv, jobjfdt implTiis, jlong bgfnt, jobjfdt dlbssLobdfr) {
+    rfturn gftInitibtfdClbssfs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, dlbssLobdfr);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    getObjectSize0
- * Signature: (Ljava/lang/Object;)J
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mftiod:    gftObjfdtSizf0
+ * Signbturf: (Ljbvb/lbng/Objfdt;)J
  */
-JNIEXPORT jlong JNICALL Java_sun_instrument_InstrumentationImpl_getObjectSize0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jobject objectToSize) {
-    return getObjectSize(jnienv, (JPLISAgent*)(intptr_t)agent, objectToSize);
-}
-
-
-/*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    appendToClassLoaderSearch0
- * Signature: (Ljava/lang/String;Z)V
- */
-JNIEXPORT void JNICALL Java_sun_instrument_InstrumentationImpl_appendToClassLoaderSearch0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jstring jarFile, jboolean isBootLoader) {
-    appendToClassLoaderSearch(jnienv, (JPLISAgent*)(intptr_t)agent, jarFile, isBootLoader);
+JNIEXPORT jlong JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_gftObjfdtSizf0
+  (JNIEnv * jnifnv, jobjfdt implTiis, jlong bgfnt, jobjfdt objfdtToSizf) {
+    rfturn gftObjfdtSizf(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, objfdtToSizf);
 }
 
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    setNativeMethodPrefixes
- * Signature: ([Ljava/lang/String;Z)V
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mftiod:    bppfndToClbssLobdfrSfbrdi0
+ * Signbturf: (Ljbvb/lbng/String;Z)V
  */
-JNIEXPORT void JNICALL Java_sun_instrument_InstrumentationImpl_setNativeMethodPrefixes
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jobjectArray prefixArray, jboolean isRetransformable) {
-    setNativeMethodPrefixes(jnienv, (JPLISAgent*)(intptr_t)agent, prefixArray, isRetransformable);
+JNIEXPORT void JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_bppfndToClbssLobdfrSfbrdi0
+  (JNIEnv * jnifnv, jobjfdt implTiis, jlong bgfnt, jstring jbrFilf, jboolfbn isBootLobdfr) {
+    bppfndToClbssLobdfrSfbrdi(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, jbrFilf, isBootLobdfr);
+}
+
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mftiod:    sftNbtivfMftiodPrffixfs
+ * Signbturf: ([Ljbvb/lbng/String;Z)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_sftNbtivfMftiodPrffixfs
+  (JNIEnv * jnifnv, jobjfdt implTiis, jlong bgfnt, jobjfdtArrby prffixArrby, jboolfbn isRftrbnsformbblf) {
+    sftNbtivfMftiodPrffixfs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, prffixArrby, isRftrbnsformbblf);
 }

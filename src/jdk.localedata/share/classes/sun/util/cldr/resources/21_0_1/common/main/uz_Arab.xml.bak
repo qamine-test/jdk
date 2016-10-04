@@ -1,185 +1,185 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="uz"/>
-		<script type="Arab"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="fa">دری</language>
-			<language type="ps">پشتو</language>
-			<language type="uz">اۉزبېک</language>
-		</languages>
-		<territories>
-			<territory type="AF">افغانستان</territory>
-		</territories>
-	</localeDisplayNames>
-	<layout>
-		<orientation characters="right-to-left"/>
-	</layout>
-	<characters>
-		<exemplarCharacters>[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0654 \u0670 ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[\u200C\u200D]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">جنو</month>
-							<month type="2" draft="unconfirmed">فبر</month>
-							<month type="3" draft="unconfirmed">مار</month>
-							<month type="4" draft="unconfirmed">اپر</month>
-							<month type="5" draft="unconfirmed">مـی</month>
-							<month type="6" draft="unconfirmed">جون</month>
-							<month type="7" draft="unconfirmed">جول</month>
-							<month type="8" draft="unconfirmed">اگس</month>
-							<month type="9" draft="unconfirmed">سپت</month>
-							<month type="10" draft="unconfirmed">اکت</month>
-							<month type="11" draft="unconfirmed">نوم</month>
-							<month type="12" draft="unconfirmed">دسم</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">جنوری</month>
-							<month type="2" draft="unconfirmed">فبروری</month>
-							<month type="3" draft="unconfirmed">مارچ</month>
-							<month type="4" draft="unconfirmed">اپریل</month>
-							<month type="5" draft="unconfirmed">می</month>
-							<month type="6" draft="unconfirmed">جون</month>
-							<month type="7" draft="unconfirmed">جولای</month>
-							<month type="8" draft="unconfirmed">اگست</month>
-							<month type="9" draft="unconfirmed">سپتمبر</month>
-							<month type="10" draft="unconfirmed">اکتوبر</month>
-							<month type="11" draft="unconfirmed">نومبر</month>
-							<month type="12" draft="unconfirmed">دسمبر</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">ی.</day>
-							<day type="mon" draft="unconfirmed">د.</day>
-							<day type="tue" draft="unconfirmed">س.</day>
-							<day type="wed" draft="unconfirmed">چ.</day>
-							<day type="thu" draft="unconfirmed">پ.</day>
-							<day type="fri" draft="unconfirmed">ج.</day>
-							<day type="sat" draft="unconfirmed">ش.</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">یکشنبه</day>
-							<day type="mon" draft="unconfirmed">دوشنبه</day>
-							<day type="tue" draft="unconfirmed">سه‌شنبه</day>
-							<day type="wed" draft="unconfirmed">چهارشنبه</day>
-							<day type="thu" draft="unconfirmed">پنجشنبه</day>
-							<day type="fri" draft="unconfirmed">جمعه</day>
-							<day type="sat" draft="unconfirmed">شنبه</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<eras>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">ق.م.</era>
-						<era type="1" draft="unconfirmed">م.</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">y نچی ییل d نچی MMMM EEEE کونی</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">d نچی MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">yyyy/M/d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">H:mm:ss (zzzz)</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">H:mm:ss (z)</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">H:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">H:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md" draft="unconfirmed">M/d</dateFormatItem>
-						<dateFormatItem id="MMMMd" draft="unconfirmed">d نچی MMMM</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<zone type="Asia/Kabul">
-				<exemplarCity>کابل</exemplarCity>
-			</zone>
-			<metazone type="Afghanistan">
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="uz"/>
+		<sdript typf="Arbb"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="fb">دری</lbngubgf>
+			<lbngubgf typf="ps">پشتو</lbngubgf>
+			<lbngubgf typf="uz">اۉزبېک</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="AF">افغانستان</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<lbyout>
+		<orifntbtion dibrbdtfrs="rigit-to-lfft"/>
+	</lbyout>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0654 \u0670 ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">جنو</monti>
+							<monti typf="2" drbft="undonfirmfd">فبر</monti>
+							<monti typf="3" drbft="undonfirmfd">مار</monti>
+							<monti typf="4" drbft="undonfirmfd">اپر</monti>
+							<monti typf="5" drbft="undonfirmfd">مـی</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="7" drbft="undonfirmfd">جول</monti>
+							<monti typf="8" drbft="undonfirmfd">اگس</monti>
+							<monti typf="9" drbft="undonfirmfd">سپت</monti>
+							<monti typf="10" drbft="undonfirmfd">اکت</monti>
+							<monti typf="11" drbft="undonfirmfd">نوم</monti>
+							<monti typf="12" drbft="undonfirmfd">دسم</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">جنوری</monti>
+							<monti typf="2" drbft="undonfirmfd">فبروری</monti>
+							<monti typf="3" drbft="undonfirmfd">مارچ</monti>
+							<monti typf="4" drbft="undonfirmfd">اپریل</monti>
+							<monti typf="5" drbft="undonfirmfd">می</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="7" drbft="undonfirmfd">جولای</monti>
+							<monti typf="8" drbft="undonfirmfd">اگست</monti>
+							<monti typf="9" drbft="undonfirmfd">سپتمبر</monti>
+							<monti typf="10" drbft="undonfirmfd">اکتوبر</monti>
+							<monti typf="11" drbft="undonfirmfd">نومبر</monti>
+							<monti typf="12" drbft="undonfirmfd">دسمبر</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">ی.</dby>
+							<dby typf="mon" drbft="undonfirmfd">د.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">س.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پ.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ج.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ش.</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">یکشنبه</dby>
+							<dby typf="mon" drbft="undonfirmfd">دوشنبه</dby>
+							<dby typf="tuf" drbft="undonfirmfd">سه‌شنبه</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چهارشنبه</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پنجشنبه</dby>
+							<dby typf="fri" drbft="undonfirmfd">جمعه</dby>
+							<dby typf="sbt" drbft="undonfirmfd">شنبه</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">ق.م.</frb>
+						<frb typf="1" drbft="undonfirmfd">م.</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y نچی ییل d نچی MMMM EEEE کونی</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d نچی MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">yyyy/M/d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (zzzz)</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (z)</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md" drbft="undonfirmfd">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd" drbft="undonfirmfd">d نچی MMMM</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<zonf typf="Asib/Kbbul">
+				<fxfmplbrCity>کابل</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Afgibnistbn">
 				<long>
-					<standard draft="unconfirmed">افغانستان وقتی</standard>
+					<stbndbrd drbft="undonfirmfd">افغانستان وقتی</stbndbrd>
 				</long>
-			</metazone>
-		</timeZoneNames>
-	</dates>
-	<numbers>
-		<defaultNumberingSystem>arabext</defaultNumberingSystem>
-		<otherNumberingSystems>
-			<native>arabext</native>
-		</otherNumberingSystems>
-		<symbols numberSystem="arabext">
-			<decimal>٫</decimal>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>brbbfxt</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+			<nbtivf>brbbfxt</nbtivf>
+		</otifrNumbfringSystfms>
+		<symbols numbfrSystfm="brbbfxt">
+			<dfdimbl>٫</dfdimbl>
 			<group>٬</group>
-			<percentSign>٪</percentSign>
-			<exponential>×۱۰^</exponential>
+			<pfrdfntSign>٪</pfrdfntSign>
+			<fxponfntibl>×۱۰^</fxponfntibl>
 		</symbols>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
 			<group>.</group>
 			<minusSign>−</minusSign>
 		</symbols>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern draft="unconfirmed">#,##0.00 ¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="AFN">
-				<displayName>افغانی</displayName>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn drbft="undonfirmfd">#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AFN">
+				<displbyNbmf>افغانی</displbyNbmf>
 				<symbol>؋</symbol>
-			</currency>
-		</currencies>
-	</numbers>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 </ldml>
 

@@ -1,834 +1,834 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * The {@code StreamTokenizer} class takes an input stream and
- * parses it into "tokens", allowing the tokens to be
- * read one at a time. The parsing process is controlled by a table
- * and a number of flags that can be set to various states. The
- * stream tokenizer can recognize identifiers, numbers, quoted
- * strings, and various comment styles.
+ * Tif {@dodf StrfbmTokfnizfr} dlbss tbkfs bn input strfbm bnd
+ * pbrsfs it into "tokfns", bllowing tif tokfns to bf
+ * rfbd onf bt b timf. Tif pbrsing prodfss is dontrollfd by b tbblf
+ * bnd b numbfr of flbgs tibt dbn bf sft to vbrious stbtfs. Tif
+ * strfbm tokfnizfr dbn rfdognizf idfntififrs, numbfrs, quotfd
+ * strings, bnd vbrious dommfnt stylfs.
  * <p>
- * Each byte read from the input stream is regarded as a character
- * in the range {@code '\u005Cu0000'} through {@code '\u005Cu00FF'}.
- * The character value is used to look up five possible attributes of
- * the character: <i>white space</i>, <i>alphabetic</i>,
- * <i>numeric</i>, <i>string quote</i>, and <i>comment character</i>.
- * Each character can have zero or more of these attributes.
+ * Ebdi bytf rfbd from tif input strfbm is rfgbrdfd bs b dibrbdtfr
+ * in tif rbngf {@dodf '\u005Cu0000'} tirougi {@dodf '\u005Cu00FF'}.
+ * Tif dibrbdtfr vbluf is usfd to look up fivf possiblf bttributfs of
+ * tif dibrbdtfr: <i>wiitf spbdf</i>, <i>blpibbftid</i>,
+ * <i>numfrid</i>, <i>string quotf</i>, bnd <i>dommfnt dibrbdtfr</i>.
+ * Ebdi dibrbdtfr dbn ibvf zfro or morf of tifsf bttributfs.
  * <p>
- * In addition, an instance has four flags. These flags indicate:
+ * In bddition, bn instbndf ibs four flbgs. Tifsf flbgs indidbtf:
  * <ul>
- * <li>Whether line terminators are to be returned as tokens or treated
- *     as white space that merely separates tokens.
- * <li>Whether C-style comments are to be recognized and skipped.
- * <li>Whether C++-style comments are to be recognized and skipped.
- * <li>Whether the characters of identifiers are converted to lowercase.
+ * <li>Wiftifr linf tfrminbtors brf to bf rfturnfd bs tokfns or trfbtfd
+ *     bs wiitf spbdf tibt mfrfly sfpbrbtfs tokfns.
+ * <li>Wiftifr C-stylf dommfnts brf to bf rfdognizfd bnd skippfd.
+ * <li>Wiftifr C++-stylf dommfnts brf to bf rfdognizfd bnd skippfd.
+ * <li>Wiftifr tif dibrbdtfrs of idfntififrs brf donvfrtfd to lowfrdbsf.
  * </ul>
  * <p>
- * A typical application first constructs an instance of this class,
- * sets up the syntax tables, and then repeatedly loops calling the
- * {@code nextToken} method in each iteration of the loop until
- * it returns the value {@code TT_EOF}.
+ * A typidbl bpplidbtion first donstrudts bn instbndf of tiis dlbss,
+ * sfts up tif syntbx tbblfs, bnd tifn rfpfbtfdly loops dblling tif
+ * {@dodf nfxtTokfn} mftiod in fbdi itfrbtion of tif loop until
+ * it rfturns tif vbluf {@dodf TT_EOF}.
  *
- * @author  James Gosling
- * @see     java.io.StreamTokenizer#nextToken()
- * @see     java.io.StreamTokenizer#TT_EOF
- * @since   1.0
+ * @butior  Jbmfs Gosling
+ * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+ * @sff     jbvb.io.StrfbmTokfnizfr#TT_EOF
+ * @sindf   1.0
  */
 
-public class StreamTokenizer {
+publid dlbss StrfbmTokfnizfr {
 
-    /* Only one of these will be non-null */
-    private Reader reader = null;
-    private InputStream input = null;
+    /* Only onf of tifsf will bf non-null */
+    privbtf Rfbdfr rfbdfr = null;
+    privbtf InputStrfbm input = null;
 
-    private char buf[] = new char[20];
+    privbtf dibr buf[] = nfw dibr[20];
 
     /**
-     * The next character to be considered by the nextToken method.  May also
-     * be NEED_CHAR to indicate that a new character should be read, or SKIP_LF
-     * to indicate that a new character should be read and, if it is a '\n'
-     * character, it should be discarded and a second new character should be
-     * read.
+     * Tif nfxt dibrbdtfr to bf donsidfrfd by tif nfxtTokfn mftiod.  Mby blso
+     * bf NEED_CHAR to indidbtf tibt b nfw dibrbdtfr siould bf rfbd, or SKIP_LF
+     * to indidbtf tibt b nfw dibrbdtfr siould bf rfbd bnd, if it is b '\n'
+     * dibrbdtfr, it siould bf disdbrdfd bnd b sfdond nfw dibrbdtfr siould bf
+     * rfbd.
      */
-    private int peekc = NEED_CHAR;
+    privbtf int pffkd = NEED_CHAR;
 
-    private static final int NEED_CHAR = Integer.MAX_VALUE;
-    private static final int SKIP_LF = Integer.MAX_VALUE - 1;
+    privbtf stbtid finbl int NEED_CHAR = Intfgfr.MAX_VALUE;
+    privbtf stbtid finbl int SKIP_LF = Intfgfr.MAX_VALUE - 1;
 
-    private boolean pushedBack;
-    private boolean forceLower;
-    /** The line number of the last token read */
-    private int LINENO = 1;
+    privbtf boolfbn pusifdBbdk;
+    privbtf boolfbn fordfLowfr;
+    /** Tif linf numbfr of tif lbst tokfn rfbd */
+    privbtf int LINENO = 1;
 
-    private boolean eolIsSignificantP = false;
-    private boolean slashSlashCommentsP = false;
-    private boolean slashStarCommentsP = false;
+    privbtf boolfbn folIsSignifidbntP = fblsf;
+    privbtf boolfbn slbsiSlbsiCommfntsP = fblsf;
+    privbtf boolfbn slbsiStbrCommfntsP = fblsf;
 
-    private byte ctype[] = new byte[256];
-    private static final byte CT_WHITESPACE = 1;
-    private static final byte CT_DIGIT = 2;
-    private static final byte CT_ALPHA = 4;
-    private static final byte CT_QUOTE = 8;
-    private static final byte CT_COMMENT = 16;
+    privbtf bytf dtypf[] = nfw bytf[256];
+    privbtf stbtid finbl bytf CT_WHITESPACE = 1;
+    privbtf stbtid finbl bytf CT_DIGIT = 2;
+    privbtf stbtid finbl bytf CT_ALPHA = 4;
+    privbtf stbtid finbl bytf CT_QUOTE = 8;
+    privbtf stbtid finbl bytf CT_COMMENT = 16;
 
     /**
-     * After a call to the {@code nextToken} method, this field
-     * contains the type of the token just read. For a single character
-     * token, its value is the single character, converted to an integer.
-     * For a quoted string token, its value is the quote character.
-     * Otherwise, its value is one of the following:
+     * Aftfr b dbll to tif {@dodf nfxtTokfn} mftiod, tiis fifld
+     * dontbins tif typf of tif tokfn just rfbd. For b singlf dibrbdtfr
+     * tokfn, its vbluf is tif singlf dibrbdtfr, donvfrtfd to bn intfgfr.
+     * For b quotfd string tokfn, its vbluf is tif quotf dibrbdtfr.
+     * Otifrwisf, its vbluf is onf of tif following:
      * <ul>
-     * <li>{@code TT_WORD} indicates that the token is a word.
-     * <li>{@code TT_NUMBER} indicates that the token is a number.
-     * <li>{@code TT_EOL} indicates that the end of line has been read.
-     *     The field can only have this value if the
-     *     {@code eolIsSignificant} method has been called with the
-     *     argument {@code true}.
-     * <li>{@code TT_EOF} indicates that the end of the input stream
-     *     has been reached.
+     * <li>{@dodf TT_WORD} indidbtfs tibt tif tokfn is b word.
+     * <li>{@dodf TT_NUMBER} indidbtfs tibt tif tokfn is b numbfr.
+     * <li>{@dodf TT_EOL} indidbtfs tibt tif fnd of linf ibs bffn rfbd.
+     *     Tif fifld dbn only ibvf tiis vbluf if tif
+     *     {@dodf folIsSignifidbnt} mftiod ibs bffn dbllfd witi tif
+     *     brgumfnt {@dodf truf}.
+     * <li>{@dodf TT_EOF} indidbtfs tibt tif fnd of tif input strfbm
+     *     ibs bffn rfbdifd.
      * </ul>
      * <p>
-     * The initial value of this field is -4.
+     * Tif initibl vbluf of tiis fifld is -4.
      *
-     * @see     java.io.StreamTokenizer#eolIsSignificant(boolean)
-     * @see     java.io.StreamTokenizer#nextToken()
-     * @see     java.io.StreamTokenizer#quoteChar(int)
-     * @see     java.io.StreamTokenizer#TT_EOF
-     * @see     java.io.StreamTokenizer#TT_EOL
-     * @see     java.io.StreamTokenizer#TT_NUMBER
-     * @see     java.io.StreamTokenizer#TT_WORD
+     * @sff     jbvb.io.StrfbmTokfnizfr#folIsSignifidbnt(boolfbn)
+     * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+     * @sff     jbvb.io.StrfbmTokfnizfr#quotfCibr(int)
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_EOF
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_EOL
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_NUMBER
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_WORD
      */
-    public int ttype = TT_NOTHING;
+    publid int ttypf = TT_NOTHING;
 
     /**
-     * A constant indicating that the end of the stream has been read.
+     * A donstbnt indidbting tibt tif fnd of tif strfbm ibs bffn rfbd.
      */
-    public static final int TT_EOF = -1;
+    publid stbtid finbl int TT_EOF = -1;
 
     /**
-     * A constant indicating that the end of the line has been read.
+     * A donstbnt indidbting tibt tif fnd of tif linf ibs bffn rfbd.
      */
-    public static final int TT_EOL = '\n';
+    publid stbtid finbl int TT_EOL = '\n';
 
     /**
-     * A constant indicating that a number token has been read.
+     * A donstbnt indidbting tibt b numbfr tokfn ibs bffn rfbd.
      */
-    public static final int TT_NUMBER = -2;
+    publid stbtid finbl int TT_NUMBER = -2;
 
     /**
-     * A constant indicating that a word token has been read.
+     * A donstbnt indidbting tibt b word tokfn ibs bffn rfbd.
      */
-    public static final int TT_WORD = -3;
+    publid stbtid finbl int TT_WORD = -3;
 
-    /* A constant indicating that no token has been read, used for
-     * initializing ttype.  FIXME This could be made public and
-     * made available as the part of the API in a future release.
+    /* A donstbnt indidbting tibt no tokfn ibs bffn rfbd, usfd for
+     * initiblizing ttypf.  FIXME Tiis dould bf mbdf publid bnd
+     * mbdf bvbilbblf bs tif pbrt of tif API in b futurf rflfbsf.
      */
-    private static final int TT_NOTHING = -4;
+    privbtf stbtid finbl int TT_NOTHING = -4;
 
     /**
-     * If the current token is a word token, this field contains a
-     * string giving the characters of the word token. When the current
-     * token is a quoted string token, this field contains the body of
-     * the string.
+     * If tif durrfnt tokfn is b word tokfn, tiis fifld dontbins b
+     * string giving tif dibrbdtfrs of tif word tokfn. Wifn tif durrfnt
+     * tokfn is b quotfd string tokfn, tiis fifld dontbins tif body of
+     * tif string.
      * <p>
-     * The current token is a word when the value of the
-     * {@code ttype} field is {@code TT_WORD}. The current token is
-     * a quoted string token when the value of the {@code ttype} field is
-     * a quote character.
+     * Tif durrfnt tokfn is b word wifn tif vbluf of tif
+     * {@dodf ttypf} fifld is {@dodf TT_WORD}. Tif durrfnt tokfn is
+     * b quotfd string tokfn wifn tif vbluf of tif {@dodf ttypf} fifld is
+     * b quotf dibrbdtfr.
      * <p>
-     * The initial value of this field is null.
+     * Tif initibl vbluf of tiis fifld is null.
      *
-     * @see     java.io.StreamTokenizer#quoteChar(int)
-     * @see     java.io.StreamTokenizer#TT_WORD
-     * @see     java.io.StreamTokenizer#ttype
+     * @sff     jbvb.io.StrfbmTokfnizfr#quotfCibr(int)
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_WORD
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
      */
-    public String sval;
+    publid String svbl;
 
     /**
-     * If the current token is a number, this field contains the value
-     * of that number. The current token is a number when the value of
-     * the {@code ttype} field is {@code TT_NUMBER}.
+     * If tif durrfnt tokfn is b numbfr, tiis fifld dontbins tif vbluf
+     * of tibt numbfr. Tif durrfnt tokfn is b numbfr wifn tif vbluf of
+     * tif {@dodf ttypf} fifld is {@dodf TT_NUMBER}.
      * <p>
-     * The initial value of this field is 0.0.
+     * Tif initibl vbluf of tiis fifld is 0.0.
      *
-     * @see     java.io.StreamTokenizer#TT_NUMBER
-     * @see     java.io.StreamTokenizer#ttype
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_NUMBER
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
      */
-    public double nval;
+    publid doublf nvbl;
 
-    /** Private constructor that initializes everything except the streams. */
-    private StreamTokenizer() {
-        wordChars('a', 'z');
-        wordChars('A', 'Z');
-        wordChars(128 + 32, 255);
-        whitespaceChars(0, ' ');
-        commentChar('/');
-        quoteChar('"');
-        quoteChar('\'');
-        parseNumbers();
+    /** Privbtf donstrudtor tibt initiblizfs fvfrytiing fxdfpt tif strfbms. */
+    privbtf StrfbmTokfnizfr() {
+        wordCibrs('b', 'z');
+        wordCibrs('A', 'Z');
+        wordCibrs(128 + 32, 255);
+        wiitfspbdfCibrs(0, ' ');
+        dommfntCibr('/');
+        quotfCibr('"');
+        quotfCibr('\'');
+        pbrsfNumbfrs();
     }
 
     /**
-     * Creates a stream tokenizer that parses the specified input
-     * stream. The stream tokenizer is initialized to the following
-     * default state:
+     * Crfbtfs b strfbm tokfnizfr tibt pbrsfs tif spfdififd input
+     * strfbm. Tif strfbm tokfnizfr is initiblizfd to tif following
+     * dffbult stbtf:
      * <ul>
-     * <li>All byte values {@code 'A'} through {@code 'Z'},
-     *     {@code 'a'} through {@code 'z'}, and
-     *     {@code '\u005Cu00A0'} through {@code '\u005Cu00FF'} are
-     *     considered to be alphabetic.
-     * <li>All byte values {@code '\u005Cu0000'} through
-     *     {@code '\u005Cu0020'} are considered to be white space.
-     * <li>{@code '/'} is a comment character.
-     * <li>Single quote {@code '\u005C''} and double quote {@code '"'}
-     *     are string quote characters.
-     * <li>Numbers are parsed.
-     * <li>Ends of lines are treated as white space, not as separate tokens.
-     * <li>C-style and C++-style comments are not recognized.
+     * <li>All bytf vblufs {@dodf 'A'} tirougi {@dodf 'Z'},
+     *     {@dodf 'b'} tirougi {@dodf 'z'}, bnd
+     *     {@dodf '\u005Cu00A0'} tirougi {@dodf '\u005Cu00FF'} brf
+     *     donsidfrfd to bf blpibbftid.
+     * <li>All bytf vblufs {@dodf '\u005Cu0000'} tirougi
+     *     {@dodf '\u005Cu0020'} brf donsidfrfd to bf wiitf spbdf.
+     * <li>{@dodf '/'} is b dommfnt dibrbdtfr.
+     * <li>Singlf quotf {@dodf '\u005C''} bnd doublf quotf {@dodf '"'}
+     *     brf string quotf dibrbdtfrs.
+     * <li>Numbfrs brf pbrsfd.
+     * <li>Ends of linfs brf trfbtfd bs wiitf spbdf, not bs sfpbrbtf tokfns.
+     * <li>C-stylf bnd C++-stylf dommfnts brf not rfdognizfd.
      * </ul>
      *
-     * @deprecated As of JDK version 1.1, the preferred way to tokenize an
-     * input stream is to convert it into a character stream, for example:
-     * <blockquote><pre>
-     *   Reader r = new BufferedReader(new InputStreamReader(is));
-     *   StreamTokenizer st = new StreamTokenizer(r);
-     * </pre></blockquote>
+     * @dfprfdbtfd As of JDK vfrsion 1.1, tif prfffrrfd wby to tokfnizf bn
+     * input strfbm is to donvfrt it into b dibrbdtfr strfbm, for fxbmplf:
+     * <blodkquotf><prf>
+     *   Rfbdfr r = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(is));
+     *   StrfbmTokfnizfr st = nfw StrfbmTokfnizfr(r);
+     * </prf></blodkquotf>
      *
-     * @param      is        an input stream.
-     * @see        java.io.BufferedReader
-     * @see        java.io.InputStreamReader
-     * @see        java.io.StreamTokenizer#StreamTokenizer(java.io.Reader)
+     * @pbrbm      is        bn input strfbm.
+     * @sff        jbvb.io.BufffrfdRfbdfr
+     * @sff        jbvb.io.InputStrfbmRfbdfr
+     * @sff        jbvb.io.StrfbmTokfnizfr#StrfbmTokfnizfr(jbvb.io.Rfbdfr)
      */
-    @Deprecated
-    public StreamTokenizer(InputStream is) {
-        this();
+    @Dfprfdbtfd
+    publid StrfbmTokfnizfr(InputStrfbm is) {
+        tiis();
         if (is == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
         input = is;
     }
 
     /**
-     * Create a tokenizer that parses the given character stream.
+     * Crfbtf b tokfnizfr tibt pbrsfs tif givfn dibrbdtfr strfbm.
      *
-     * @param r  a Reader object providing the input stream.
-     * @since   1.1
+     * @pbrbm r  b Rfbdfr objfdt providing tif input strfbm.
+     * @sindf   1.1
      */
-    public StreamTokenizer(Reader r) {
-        this();
+    publid StrfbmTokfnizfr(Rfbdfr r) {
+        tiis();
         if (r == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        reader = r;
+        rfbdfr = r;
     }
 
     /**
-     * Resets this tokenizer's syntax table so that all characters are
-     * "ordinary." See the {@code ordinaryChar} method
-     * for more information on a character being ordinary.
+     * Rfsfts tiis tokfnizfr's syntbx tbblf so tibt bll dibrbdtfrs brf
+     * "ordinbry." Sff tif {@dodf ordinbryCibr} mftiod
+     * for morf informbtion on b dibrbdtfr bfing ordinbry.
      *
-     * @see     java.io.StreamTokenizer#ordinaryChar(int)
+     * @sff     jbvb.io.StrfbmTokfnizfr#ordinbryCibr(int)
      */
-    public void resetSyntax() {
-        for (int i = ctype.length; --i >= 0;)
-            ctype[i] = 0;
+    publid void rfsftSyntbx() {
+        for (int i = dtypf.lfngti; --i >= 0;)
+            dtypf[i] = 0;
     }
 
     /**
-     * Specifies that all characters <i>c</i> in the range
-     * <code>low&nbsp;&lt;=&nbsp;<i>c</i>&nbsp;&lt;=&nbsp;high</code>
-     * are word constituents. A word token consists of a word constituent
-     * followed by zero or more word constituents or number constituents.
+     * Spfdififs tibt bll dibrbdtfrs <i>d</i> in tif rbngf
+     * <dodf>low&nbsp;&lt;=&nbsp;<i>d</i>&nbsp;&lt;=&nbsp;iigi</dodf>
+     * brf word donstitufnts. A word tokfn donsists of b word donstitufnt
+     * followfd by zfro or morf word donstitufnts or numbfr donstitufnts.
      *
-     * @param   low   the low end of the range.
-     * @param   hi    the high end of the range.
+     * @pbrbm   low   tif low fnd of tif rbngf.
+     * @pbrbm   ii    tif iigi fnd of tif rbngf.
      */
-    public void wordChars(int low, int hi) {
+    publid void wordCibrs(int low, int ii) {
         if (low < 0)
             low = 0;
-        if (hi >= ctype.length)
-            hi = ctype.length - 1;
-        while (low <= hi)
-            ctype[low++] |= CT_ALPHA;
+        if (ii >= dtypf.lfngti)
+            ii = dtypf.lfngti - 1;
+        wiilf (low <= ii)
+            dtypf[low++] |= CT_ALPHA;
     }
 
     /**
-     * Specifies that all characters <i>c</i> in the range
-     * <code>low&nbsp;&lt;=&nbsp;<i>c</i>&nbsp;&lt;=&nbsp;high</code>
-     * are white space characters. White space characters serve only to
-     * separate tokens in the input stream.
+     * Spfdififs tibt bll dibrbdtfrs <i>d</i> in tif rbngf
+     * <dodf>low&nbsp;&lt;=&nbsp;<i>d</i>&nbsp;&lt;=&nbsp;iigi</dodf>
+     * brf wiitf spbdf dibrbdtfrs. Wiitf spbdf dibrbdtfrs sfrvf only to
+     * sfpbrbtf tokfns in tif input strfbm.
      *
-     * <p>Any other attribute settings for the characters in the specified
-     * range are cleared.
+     * <p>Any otifr bttributf sfttings for tif dibrbdtfrs in tif spfdififd
+     * rbngf brf dlfbrfd.
      *
-     * @param   low   the low end of the range.
-     * @param   hi    the high end of the range.
+     * @pbrbm   low   tif low fnd of tif rbngf.
+     * @pbrbm   ii    tif iigi fnd of tif rbngf.
      */
-    public void whitespaceChars(int low, int hi) {
+    publid void wiitfspbdfCibrs(int low, int ii) {
         if (low < 0)
             low = 0;
-        if (hi >= ctype.length)
-            hi = ctype.length - 1;
-        while (low <= hi)
-            ctype[low++] = CT_WHITESPACE;
+        if (ii >= dtypf.lfngti)
+            ii = dtypf.lfngti - 1;
+        wiilf (low <= ii)
+            dtypf[low++] = CT_WHITESPACE;
     }
 
     /**
-     * Specifies that all characters <i>c</i> in the range
-     * <code>low&nbsp;&lt;=&nbsp;<i>c</i>&nbsp;&lt;=&nbsp;high</code>
-     * are "ordinary" in this tokenizer. See the
-     * {@code ordinaryChar} method for more information on a
-     * character being ordinary.
+     * Spfdififs tibt bll dibrbdtfrs <i>d</i> in tif rbngf
+     * <dodf>low&nbsp;&lt;=&nbsp;<i>d</i>&nbsp;&lt;=&nbsp;iigi</dodf>
+     * brf "ordinbry" in tiis tokfnizfr. Sff tif
+     * {@dodf ordinbryCibr} mftiod for morf informbtion on b
+     * dibrbdtfr bfing ordinbry.
      *
-     * @param   low   the low end of the range.
-     * @param   hi    the high end of the range.
-     * @see     java.io.StreamTokenizer#ordinaryChar(int)
+     * @pbrbm   low   tif low fnd of tif rbngf.
+     * @pbrbm   ii    tif iigi fnd of tif rbngf.
+     * @sff     jbvb.io.StrfbmTokfnizfr#ordinbryCibr(int)
      */
-    public void ordinaryChars(int low, int hi) {
+    publid void ordinbryCibrs(int low, int ii) {
         if (low < 0)
             low = 0;
-        if (hi >= ctype.length)
-            hi = ctype.length - 1;
-        while (low <= hi)
-            ctype[low++] = 0;
+        if (ii >= dtypf.lfngti)
+            ii = dtypf.lfngti - 1;
+        wiilf (low <= ii)
+            dtypf[low++] = 0;
     }
 
     /**
-     * Specifies that the character argument is "ordinary"
-     * in this tokenizer. It removes any special significance the
-     * character has as a comment character, word component, string
-     * delimiter, white space, or number character. When such a character
-     * is encountered by the parser, the parser treats it as a
-     * single-character token and sets {@code ttype} field to the
-     * character value.
+     * Spfdififs tibt tif dibrbdtfr brgumfnt is "ordinbry"
+     * in tiis tokfnizfr. It rfmovfs bny spfdibl signifidbndf tif
+     * dibrbdtfr ibs bs b dommfnt dibrbdtfr, word domponfnt, string
+     * dflimitfr, wiitf spbdf, or numbfr dibrbdtfr. Wifn sudi b dibrbdtfr
+     * is fndountfrfd by tif pbrsfr, tif pbrsfr trfbts it bs b
+     * singlf-dibrbdtfr tokfn bnd sfts {@dodf ttypf} fifld to tif
+     * dibrbdtfr vbluf.
      *
-     * <p>Making a line terminator character "ordinary" may interfere
-     * with the ability of a {@code StreamTokenizer} to count
-     * lines. The {@code lineno} method may no longer reflect
-     * the presence of such terminator characters in its line count.
+     * <p>Mbking b linf tfrminbtor dibrbdtfr "ordinbry" mby intfrffrf
+     * witi tif bbility of b {@dodf StrfbmTokfnizfr} to dount
+     * linfs. Tif {@dodf linfno} mftiod mby no longfr rfflfdt
+     * tif prfsfndf of sudi tfrminbtor dibrbdtfrs in its linf dount.
      *
-     * @param   ch   the character.
-     * @see     java.io.StreamTokenizer#ttype
+     * @pbrbm   di   tif dibrbdtfr.
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
      */
-    public void ordinaryChar(int ch) {
-        if (ch >= 0 && ch < ctype.length)
-            ctype[ch] = 0;
+    publid void ordinbryCibr(int di) {
+        if (di >= 0 && di < dtypf.lfngti)
+            dtypf[di] = 0;
     }
 
     /**
-     * Specified that the character argument starts a single-line
-     * comment. All characters from the comment character to the end of
-     * the line are ignored by this stream tokenizer.
+     * Spfdififd tibt tif dibrbdtfr brgumfnt stbrts b singlf-linf
+     * dommfnt. All dibrbdtfrs from tif dommfnt dibrbdtfr to tif fnd of
+     * tif linf brf ignorfd by tiis strfbm tokfnizfr.
      *
-     * <p>Any other attribute settings for the specified character are cleared.
+     * <p>Any otifr bttributf sfttings for tif spfdififd dibrbdtfr brf dlfbrfd.
      *
-     * @param   ch   the character.
+     * @pbrbm   di   tif dibrbdtfr.
      */
-    public void commentChar(int ch) {
-        if (ch >= 0 && ch < ctype.length)
-            ctype[ch] = CT_COMMENT;
+    publid void dommfntCibr(int di) {
+        if (di >= 0 && di < dtypf.lfngti)
+            dtypf[di] = CT_COMMENT;
     }
 
     /**
-     * Specifies that matching pairs of this character delimit string
-     * constants in this tokenizer.
+     * Spfdififs tibt mbtdiing pbirs of tiis dibrbdtfr dflimit string
+     * donstbnts in tiis tokfnizfr.
      * <p>
-     * When the {@code nextToken} method encounters a string
-     * constant, the {@code ttype} field is set to the string
-     * delimiter and the {@code sval} field is set to the body of
-     * the string.
+     * Wifn tif {@dodf nfxtTokfn} mftiod fndountfrs b string
+     * donstbnt, tif {@dodf ttypf} fifld is sft to tif string
+     * dflimitfr bnd tif {@dodf svbl} fifld is sft to tif body of
+     * tif string.
      * <p>
-     * If a string quote character is encountered, then a string is
-     * recognized, consisting of all characters after (but not including)
-     * the string quote character, up to (but not including) the next
-     * occurrence of that same string quote character, or a line
-     * terminator, or end of file. The usual escape sequences such as
-     * {@code "\u005Cn"} and {@code "\u005Ct"} are recognized and
-     * converted to single characters as the string is parsed.
+     * If b string quotf dibrbdtfr is fndountfrfd, tifn b string is
+     * rfdognizfd, donsisting of bll dibrbdtfrs bftfr (but not indluding)
+     * tif string quotf dibrbdtfr, up to (but not indluding) tif nfxt
+     * oddurrfndf of tibt sbmf string quotf dibrbdtfr, or b linf
+     * tfrminbtor, or fnd of filf. Tif usubl fsdbpf sfqufndfs sudi bs
+     * {@dodf "\u005Cn"} bnd {@dodf "\u005Ct"} brf rfdognizfd bnd
+     * donvfrtfd to singlf dibrbdtfrs bs tif string is pbrsfd.
      *
-     * <p>Any other attribute settings for the specified character are cleared.
+     * <p>Any otifr bttributf sfttings for tif spfdififd dibrbdtfr brf dlfbrfd.
      *
-     * @param   ch   the character.
-     * @see     java.io.StreamTokenizer#nextToken()
-     * @see     java.io.StreamTokenizer#sval
-     * @see     java.io.StreamTokenizer#ttype
+     * @pbrbm   di   tif dibrbdtfr.
+     * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+     * @sff     jbvb.io.StrfbmTokfnizfr#svbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
      */
-    public void quoteChar(int ch) {
-        if (ch >= 0 && ch < ctype.length)
-            ctype[ch] = CT_QUOTE;
+    publid void quotfCibr(int di) {
+        if (di >= 0 && di < dtypf.lfngti)
+            dtypf[di] = CT_QUOTE;
     }
 
     /**
-     * Specifies that numbers should be parsed by this tokenizer. The
-     * syntax table of this tokenizer is modified so that each of the twelve
-     * characters:
-     * <blockquote><pre>
+     * Spfdififs tibt numbfrs siould bf pbrsfd by tiis tokfnizfr. Tif
+     * syntbx tbblf of tiis tokfnizfr is modififd so tibt fbdi of tif twflvf
+     * dibrbdtfrs:
+     * <blodkquotf><prf>
      *      0 1 2 3 4 5 6 7 8 9 . -
-     * </pre></blockquote>
+     * </prf></blodkquotf>
      * <p>
-     * has the "numeric" attribute.
+     * ibs tif "numfrid" bttributf.
      * <p>
-     * When the parser encounters a word token that has the format of a
-     * double precision floating-point number, it treats the token as a
-     * number rather than a word, by setting the {@code ttype}
-     * field to the value {@code TT_NUMBER} and putting the numeric
-     * value of the token into the {@code nval} field.
+     * Wifn tif pbrsfr fndountfrs b word tokfn tibt ibs tif formbt of b
+     * doublf prfdision flobting-point numbfr, it trfbts tif tokfn bs b
+     * numbfr rbtifr tibn b word, by sftting tif {@dodf ttypf}
+     * fifld to tif vbluf {@dodf TT_NUMBER} bnd putting tif numfrid
+     * vbluf of tif tokfn into tif {@dodf nvbl} fifld.
      *
-     * @see     java.io.StreamTokenizer#nval
-     * @see     java.io.StreamTokenizer#TT_NUMBER
-     * @see     java.io.StreamTokenizer#ttype
+     * @sff     jbvb.io.StrfbmTokfnizfr#nvbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_NUMBER
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
      */
-    public void parseNumbers() {
+    publid void pbrsfNumbfrs() {
         for (int i = '0'; i <= '9'; i++)
-            ctype[i] |= CT_DIGIT;
-        ctype['.'] |= CT_DIGIT;
-        ctype['-'] |= CT_DIGIT;
+            dtypf[i] |= CT_DIGIT;
+        dtypf['.'] |= CT_DIGIT;
+        dtypf['-'] |= CT_DIGIT;
     }
 
     /**
-     * Determines whether or not ends of line are treated as tokens.
-     * If the flag argument is true, this tokenizer treats end of lines
-     * as tokens; the {@code nextToken} method returns
-     * {@code TT_EOL} and also sets the {@code ttype} field to
-     * this value when an end of line is read.
+     * Dftfrminfs wiftifr or not fnds of linf brf trfbtfd bs tokfns.
+     * If tif flbg brgumfnt is truf, tiis tokfnizfr trfbts fnd of linfs
+     * bs tokfns; tif {@dodf nfxtTokfn} mftiod rfturns
+     * {@dodf TT_EOL} bnd blso sfts tif {@dodf ttypf} fifld to
+     * tiis vbluf wifn bn fnd of linf is rfbd.
      * <p>
-     * A line is a sequence of characters ending with either a
-     * carriage-return character ({@code '\u005Cr'}) or a newline
-     * character ({@code '\u005Cn'}). In addition, a carriage-return
-     * character followed immediately by a newline character is treated
-     * as a single end-of-line token.
+     * A linf is b sfqufndf of dibrbdtfrs fnding witi fitifr b
+     * dbrribgf-rfturn dibrbdtfr ({@dodf '\u005Cr'}) or b nfwlinf
+     * dibrbdtfr ({@dodf '\u005Cn'}). In bddition, b dbrribgf-rfturn
+     * dibrbdtfr followfd immfdibtfly by b nfwlinf dibrbdtfr is trfbtfd
+     * bs b singlf fnd-of-linf tokfn.
      * <p>
-     * If the {@code flag} is false, end-of-line characters are
-     * treated as white space and serve only to separate tokens.
+     * If tif {@dodf flbg} is fblsf, fnd-of-linf dibrbdtfrs brf
+     * trfbtfd bs wiitf spbdf bnd sfrvf only to sfpbrbtf tokfns.
      *
-     * @param   flag   {@code true} indicates that end-of-line characters
-     *                 are separate tokens; {@code false} indicates that
-     *                 end-of-line characters are white space.
-     * @see     java.io.StreamTokenizer#nextToken()
-     * @see     java.io.StreamTokenizer#ttype
-     * @see     java.io.StreamTokenizer#TT_EOL
+     * @pbrbm   flbg   {@dodf truf} indidbtfs tibt fnd-of-linf dibrbdtfrs
+     *                 brf sfpbrbtf tokfns; {@dodf fblsf} indidbtfs tibt
+     *                 fnd-of-linf dibrbdtfrs brf wiitf spbdf.
+     * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_EOL
      */
-    public void eolIsSignificant(boolean flag) {
-        eolIsSignificantP = flag;
+    publid void folIsSignifidbnt(boolfbn flbg) {
+        folIsSignifidbntP = flbg;
     }
 
     /**
-     * Determines whether or not the tokenizer recognizes C-style comments.
-     * If the flag argument is {@code true}, this stream tokenizer
-     * recognizes C-style comments. All text between successive
-     * occurrences of {@code /*} and <code>*&#47;</code> are discarded.
+     * Dftfrminfs wiftifr or not tif tokfnizfr rfdognizfs C-stylf dommfnts.
+     * If tif flbg brgumfnt is {@dodf truf}, tiis strfbm tokfnizfr
+     * rfdognizfs C-stylf dommfnts. All tfxt bftwffn suddfssivf
+     * oddurrfndfs of {@dodf /*} bnd <dodf>*&#47;</dodf> brf disdbrdfd.
      * <p>
-     * If the flag argument is {@code false}, then C-style comments
-     * are not treated specially.
+     * If tif flbg brgumfnt is {@dodf fblsf}, tifn C-stylf dommfnts
+     * brf not trfbtfd spfdiblly.
      *
-     * @param   flag   {@code true} indicates to recognize and ignore
-     *                 C-style comments.
+     * @pbrbm   flbg   {@dodf truf} indidbtfs to rfdognizf bnd ignorf
+     *                 C-stylf dommfnts.
      */
-    public void slashStarComments(boolean flag) {
-        slashStarCommentsP = flag;
+    publid void slbsiStbrCommfnts(boolfbn flbg) {
+        slbsiStbrCommfntsP = flbg;
     }
 
     /**
-     * Determines whether or not the tokenizer recognizes C++-style comments.
-     * If the flag argument is {@code true}, this stream tokenizer
-     * recognizes C++-style comments. Any occurrence of two consecutive
-     * slash characters ({@code '/'}) is treated as the beginning of
-     * a comment that extends to the end of the line.
+     * Dftfrminfs wiftifr or not tif tokfnizfr rfdognizfs C++-stylf dommfnts.
+     * If tif flbg brgumfnt is {@dodf truf}, tiis strfbm tokfnizfr
+     * rfdognizfs C++-stylf dommfnts. Any oddurrfndf of two donsfdutivf
+     * slbsi dibrbdtfrs ({@dodf '/'}) is trfbtfd bs tif bfginning of
+     * b dommfnt tibt fxtfnds to tif fnd of tif linf.
      * <p>
-     * If the flag argument is {@code false}, then C++-style
-     * comments are not treated specially.
+     * If tif flbg brgumfnt is {@dodf fblsf}, tifn C++-stylf
+     * dommfnts brf not trfbtfd spfdiblly.
      *
-     * @param   flag   {@code true} indicates to recognize and ignore
-     *                 C++-style comments.
+     * @pbrbm   flbg   {@dodf truf} indidbtfs to rfdognizf bnd ignorf
+     *                 C++-stylf dommfnts.
      */
-    public void slashSlashComments(boolean flag) {
-        slashSlashCommentsP = flag;
+    publid void slbsiSlbsiCommfnts(boolfbn flbg) {
+        slbsiSlbsiCommfntsP = flbg;
     }
 
     /**
-     * Determines whether or not word token are automatically lowercased.
-     * If the flag argument is {@code true}, then the value in the
-     * {@code sval} field is lowercased whenever a word token is
-     * returned (the {@code ttype} field has the
-     * value {@code TT_WORD} by the {@code nextToken} method
-     * of this tokenizer.
+     * Dftfrminfs wiftifr or not word tokfn brf butombtidblly lowfrdbsfd.
+     * If tif flbg brgumfnt is {@dodf truf}, tifn tif vbluf in tif
+     * {@dodf svbl} fifld is lowfrdbsfd wifnfvfr b word tokfn is
+     * rfturnfd (tif {@dodf ttypf} fifld ibs tif
+     * vbluf {@dodf TT_WORD} by tif {@dodf nfxtTokfn} mftiod
+     * of tiis tokfnizfr.
      * <p>
-     * If the flag argument is {@code false}, then the
-     * {@code sval} field is not modified.
+     * If tif flbg brgumfnt is {@dodf fblsf}, tifn tif
+     * {@dodf svbl} fifld is not modififd.
      *
-     * @param   fl   {@code true} indicates that all word tokens should
-     *               be lowercased.
-     * @see     java.io.StreamTokenizer#nextToken()
-     * @see     java.io.StreamTokenizer#ttype
-     * @see     java.io.StreamTokenizer#TT_WORD
+     * @pbrbm   fl   {@dodf truf} indidbtfs tibt bll word tokfns siould
+     *               bf lowfrdbsfd.
+     * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_WORD
      */
-    public void lowerCaseMode(boolean fl) {
-        forceLower = fl;
+    publid void lowfrCbsfModf(boolfbn fl) {
+        fordfLowfr = fl;
     }
 
-    /** Read the next character */
-    private int read() throws IOException {
-        if (reader != null)
-            return reader.read();
-        else if (input != null)
-            return input.read();
-        else
-            throw new IllegalStateException();
+    /** Rfbd tif nfxt dibrbdtfr */
+    privbtf int rfbd() tirows IOExdfption {
+        if (rfbdfr != null)
+            rfturn rfbdfr.rfbd();
+        flsf if (input != null)
+            rfturn input.rfbd();
+        flsf
+            tirow nfw IllfgblStbtfExdfption();
     }
 
     /**
-     * Parses the next token from the input stream of this tokenizer.
-     * The type of the next token is returned in the {@code ttype}
-     * field. Additional information about the token may be in the
-     * {@code nval} field or the {@code sval} field of this
-     * tokenizer.
+     * Pbrsfs tif nfxt tokfn from tif input strfbm of tiis tokfnizfr.
+     * Tif typf of tif nfxt tokfn is rfturnfd in tif {@dodf ttypf}
+     * fifld. Additionbl informbtion bbout tif tokfn mby bf in tif
+     * {@dodf nvbl} fifld or tif {@dodf svbl} fifld of tiis
+     * tokfnizfr.
      * <p>
-     * Typical clients of this
-     * class first set up the syntax tables and then sit in a loop
-     * calling nextToken to parse successive tokens until TT_EOF
-     * is returned.
+     * Typidbl dlifnts of tiis
+     * dlbss first sft up tif syntbx tbblfs bnd tifn sit in b loop
+     * dblling nfxtTokfn to pbrsf suddfssivf tokfns until TT_EOF
+     * is rfturnfd.
      *
-     * @return     the value of the {@code ttype} field.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.StreamTokenizer#nval
-     * @see        java.io.StreamTokenizer#sval
-     * @see        java.io.StreamTokenizer#ttype
+     * @rfturn     tif vbluf of tif {@dodf ttypf} fifld.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.StrfbmTokfnizfr#nvbl
+     * @sff        jbvb.io.StrfbmTokfnizfr#svbl
+     * @sff        jbvb.io.StrfbmTokfnizfr#ttypf
      */
-    public int nextToken() throws IOException {
-        if (pushedBack) {
-            pushedBack = false;
-            return ttype;
+    publid int nfxtTokfn() tirows IOExdfption {
+        if (pusifdBbdk) {
+            pusifdBbdk = fblsf;
+            rfturn ttypf;
         }
-        byte ct[] = ctype;
-        sval = null;
+        bytf dt[] = dtypf;
+        svbl = null;
 
-        int c = peekc;
-        if (c < 0)
-            c = NEED_CHAR;
-        if (c == SKIP_LF) {
-            c = read();
-            if (c < 0)
-                return ttype = TT_EOF;
-            if (c == '\n')
-                c = NEED_CHAR;
+        int d = pffkd;
+        if (d < 0)
+            d = NEED_CHAR;
+        if (d == SKIP_LF) {
+            d = rfbd();
+            if (d < 0)
+                rfturn ttypf = TT_EOF;
+            if (d == '\n')
+                d = NEED_CHAR;
         }
-        if (c == NEED_CHAR) {
-            c = read();
-            if (c < 0)
-                return ttype = TT_EOF;
+        if (d == NEED_CHAR) {
+            d = rfbd();
+            if (d < 0)
+                rfturn ttypf = TT_EOF;
         }
-        ttype = c;              /* Just to be safe */
+        ttypf = d;              /* Just to bf sbff */
 
-        /* Set peekc so that the next invocation of nextToken will read
-         * another character unless peekc is reset in this invocation
+        /* Sft pffkd so tibt tif nfxt invodbtion of nfxtTokfn will rfbd
+         * bnotifr dibrbdtfr unlfss pffkd is rfsft in tiis invodbtion
          */
-        peekc = NEED_CHAR;
+        pffkd = NEED_CHAR;
 
-        int ctype = c < 256 ? ct[c] : CT_ALPHA;
-        while ((ctype & CT_WHITESPACE) != 0) {
-            if (c == '\r') {
+        int dtypf = d < 256 ? dt[d] : CT_ALPHA;
+        wiilf ((dtypf & CT_WHITESPACE) != 0) {
+            if (d == '\r') {
                 LINENO++;
-                if (eolIsSignificantP) {
-                    peekc = SKIP_LF;
-                    return ttype = TT_EOL;
+                if (folIsSignifidbntP) {
+                    pffkd = SKIP_LF;
+                    rfturn ttypf = TT_EOL;
                 }
-                c = read();
-                if (c == '\n')
-                    c = read();
-            } else {
-                if (c == '\n') {
+                d = rfbd();
+                if (d == '\n')
+                    d = rfbd();
+            } flsf {
+                if (d == '\n') {
                     LINENO++;
-                    if (eolIsSignificantP) {
-                        return ttype = TT_EOL;
+                    if (folIsSignifidbntP) {
+                        rfturn ttypf = TT_EOL;
                     }
                 }
-                c = read();
+                d = rfbd();
             }
-            if (c < 0)
-                return ttype = TT_EOF;
-            ctype = c < 256 ? ct[c] : CT_ALPHA;
+            if (d < 0)
+                rfturn ttypf = TT_EOF;
+            dtypf = d < 256 ? dt[d] : CT_ALPHA;
         }
 
-        if ((ctype & CT_DIGIT) != 0) {
-            boolean neg = false;
-            if (c == '-') {
-                c = read();
-                if (c != '.' && (c < '0' || c > '9')) {
-                    peekc = c;
-                    return ttype = '-';
+        if ((dtypf & CT_DIGIT) != 0) {
+            boolfbn nfg = fblsf;
+            if (d == '-') {
+                d = rfbd();
+                if (d != '.' && (d < '0' || d > '9')) {
+                    pffkd = d;
+                    rfturn ttypf = '-';
                 }
-                neg = true;
+                nfg = truf;
             }
-            double v = 0;
-            int decexp = 0;
-            int seendot = 0;
-            while (true) {
-                if (c == '.' && seendot == 0)
-                    seendot = 1;
-                else if ('0' <= c && c <= '9') {
-                    v = v * 10 + (c - '0');
-                    decexp += seendot;
-                } else
-                    break;
-                c = read();
+            doublf v = 0;
+            int dfdfxp = 0;
+            int sffndot = 0;
+            wiilf (truf) {
+                if (d == '.' && sffndot == 0)
+                    sffndot = 1;
+                flsf if ('0' <= d && d <= '9') {
+                    v = v * 10 + (d - '0');
+                    dfdfxp += sffndot;
+                } flsf
+                    brfbk;
+                d = rfbd();
             }
-            peekc = c;
-            if (decexp != 0) {
-                double denom = 10;
-                decexp--;
-                while (decexp > 0) {
-                    denom *= 10;
-                    decexp--;
+            pffkd = d;
+            if (dfdfxp != 0) {
+                doublf dfnom = 10;
+                dfdfxp--;
+                wiilf (dfdfxp > 0) {
+                    dfnom *= 10;
+                    dfdfxp--;
                 }
-                /* Do one division of a likely-to-be-more-accurate number */
-                v = v / denom;
+                /* Do onf division of b likfly-to-bf-morf-bddurbtf numbfr */
+                v = v / dfnom;
             }
-            nval = neg ? -v : v;
-            return ttype = TT_NUMBER;
+            nvbl = nfg ? -v : v;
+            rfturn ttypf = TT_NUMBER;
         }
 
-        if ((ctype & CT_ALPHA) != 0) {
+        if ((dtypf & CT_ALPHA) != 0) {
             int i = 0;
             do {
-                if (i >= buf.length) {
-                    buf = Arrays.copyOf(buf, buf.length * 2);
+                if (i >= buf.lfngti) {
+                    buf = Arrbys.dopyOf(buf, buf.lfngti * 2);
                 }
-                buf[i++] = (char) c;
-                c = read();
-                ctype = c < 0 ? CT_WHITESPACE : c < 256 ? ct[c] : CT_ALPHA;
-            } while ((ctype & (CT_ALPHA | CT_DIGIT)) != 0);
-            peekc = c;
-            sval = String.copyValueOf(buf, 0, i);
-            if (forceLower)
-                sval = sval.toLowerCase();
-            return ttype = TT_WORD;
+                buf[i++] = (dibr) d;
+                d = rfbd();
+                dtypf = d < 0 ? CT_WHITESPACE : d < 256 ? dt[d] : CT_ALPHA;
+            } wiilf ((dtypf & (CT_ALPHA | CT_DIGIT)) != 0);
+            pffkd = d;
+            svbl = String.dopyVblufOf(buf, 0, i);
+            if (fordfLowfr)
+                svbl = svbl.toLowfrCbsf();
+            rfturn ttypf = TT_WORD;
         }
 
-        if ((ctype & CT_QUOTE) != 0) {
-            ttype = c;
+        if ((dtypf & CT_QUOTE) != 0) {
+            ttypf = d;
             int i = 0;
-            /* Invariants (because \Octal needs a lookahead):
-             *   (i)  c contains char value
-             *   (ii) d contains the lookahead
+            /* Invbribnts (bfdbusf \Odtbl nffds b lookbifbd):
+             *   (i)  d dontbins dibr vbluf
+             *   (ii) d dontbins tif lookbifbd
              */
-            int d = read();
-            while (d >= 0 && d != ttype && d != '\n' && d != '\r') {
+            int d = rfbd();
+            wiilf (d >= 0 && d != ttypf && d != '\n' && d != '\r') {
                 if (d == '\\') {
-                    c = read();
-                    int first = c;   /* To allow \377, but not \477 */
-                    if (c >= '0' && c <= '7') {
-                        c = c - '0';
-                        int c2 = read();
-                        if ('0' <= c2 && c2 <= '7') {
-                            c = (c << 3) + (c2 - '0');
-                            c2 = read();
-                            if ('0' <= c2 && c2 <= '7' && first <= '3') {
-                                c = (c << 3) + (c2 - '0');
-                                d = read();
-                            } else
-                                d = c2;
-                        } else
-                          d = c2;
-                    } else {
-                        switch (c) {
-                        case 'a':
-                            c = 0x7;
-                            break;
-                        case 'b':
-                            c = '\b';
-                            break;
-                        case 'f':
-                            c = 0xC;
-                            break;
-                        case 'n':
-                            c = '\n';
-                            break;
-                        case 'r':
-                            c = '\r';
-                            break;
-                        case 't':
-                            c = '\t';
-                            break;
-                        case 'v':
-                            c = 0xB;
-                            break;
+                    d = rfbd();
+                    int first = d;   /* To bllow \377, but not \477 */
+                    if (d >= '0' && d <= '7') {
+                        d = d - '0';
+                        int d2 = rfbd();
+                        if ('0' <= d2 && d2 <= '7') {
+                            d = (d << 3) + (d2 - '0');
+                            d2 = rfbd();
+                            if ('0' <= d2 && d2 <= '7' && first <= '3') {
+                                d = (d << 3) + (d2 - '0');
+                                d = rfbd();
+                            } flsf
+                                d = d2;
+                        } flsf
+                          d = d2;
+                    } flsf {
+                        switdi (d) {
+                        dbsf 'b':
+                            d = 0x7;
+                            brfbk;
+                        dbsf 'b':
+                            d = '\b';
+                            brfbk;
+                        dbsf 'f':
+                            d = 0xC;
+                            brfbk;
+                        dbsf 'n':
+                            d = '\n';
+                            brfbk;
+                        dbsf 'r':
+                            d = '\r';
+                            brfbk;
+                        dbsf 't':
+                            d = '\t';
+                            brfbk;
+                        dbsf 'v':
+                            d = 0xB;
+                            brfbk;
                         }
-                        d = read();
+                        d = rfbd();
                     }
-                } else {
-                    c = d;
-                    d = read();
+                } flsf {
+                    d = d;
+                    d = rfbd();
                 }
-                if (i >= buf.length) {
-                    buf = Arrays.copyOf(buf, buf.length * 2);
+                if (i >= buf.lfngti) {
+                    buf = Arrbys.dopyOf(buf, buf.lfngti * 2);
                 }
-                buf[i++] = (char)c;
+                buf[i++] = (dibr)d;
             }
 
-            /* If we broke out of the loop because we found a matching quote
-             * character then arrange to read a new character next time
-             * around; otherwise, save the character.
+            /* If wf brokf out of tif loop bfdbusf wf found b mbtdiing quotf
+             * dibrbdtfr tifn brrbngf to rfbd b nfw dibrbdtfr nfxt timf
+             * bround; otifrwisf, sbvf tif dibrbdtfr.
              */
-            peekc = (d == ttype) ? NEED_CHAR : d;
+            pffkd = (d == ttypf) ? NEED_CHAR : d;
 
-            sval = String.copyValueOf(buf, 0, i);
-            return ttype;
+            svbl = String.dopyVblufOf(buf, 0, i);
+            rfturn ttypf;
         }
 
-        if (c == '/' && (slashSlashCommentsP || slashStarCommentsP)) {
-            c = read();
-            if (c == '*' && slashStarCommentsP) {
-                int prevc = 0;
-                while ((c = read()) != '/' || prevc != '*') {
-                    if (c == '\r') {
+        if (d == '/' && (slbsiSlbsiCommfntsP || slbsiStbrCommfntsP)) {
+            d = rfbd();
+            if (d == '*' && slbsiStbrCommfntsP) {
+                int prfvd = 0;
+                wiilf ((d = rfbd()) != '/' || prfvd != '*') {
+                    if (d == '\r') {
                         LINENO++;
-                        c = read();
-                        if (c == '\n') {
-                            c = read();
+                        d = rfbd();
+                        if (d == '\n') {
+                            d = rfbd();
                         }
-                    } else {
-                        if (c == '\n') {
+                    } flsf {
+                        if (d == '\n') {
                             LINENO++;
-                            c = read();
+                            d = rfbd();
                         }
                     }
-                    if (c < 0)
-                        return ttype = TT_EOF;
-                    prevc = c;
+                    if (d < 0)
+                        rfturn ttypf = TT_EOF;
+                    prfvd = d;
                 }
-                return nextToken();
-            } else if (c == '/' && slashSlashCommentsP) {
-                while ((c = read()) != '\n' && c != '\r' && c >= 0);
-                peekc = c;
-                return nextToken();
-            } else {
-                /* Now see if it is still a single line comment */
-                if ((ct['/'] & CT_COMMENT) != 0) {
-                    while ((c = read()) != '\n' && c != '\r' && c >= 0);
-                    peekc = c;
-                    return nextToken();
-                } else {
-                    peekc = c;
-                    return ttype = '/';
+                rfturn nfxtTokfn();
+            } flsf if (d == '/' && slbsiSlbsiCommfntsP) {
+                wiilf ((d = rfbd()) != '\n' && d != '\r' && d >= 0);
+                pffkd = d;
+                rfturn nfxtTokfn();
+            } flsf {
+                /* Now sff if it is still b singlf linf dommfnt */
+                if ((dt['/'] & CT_COMMENT) != 0) {
+                    wiilf ((d = rfbd()) != '\n' && d != '\r' && d >= 0);
+                    pffkd = d;
+                    rfturn nfxtTokfn();
+                } flsf {
+                    pffkd = d;
+                    rfturn ttypf = '/';
                 }
             }
         }
 
-        if ((ctype & CT_COMMENT) != 0) {
-            while ((c = read()) != '\n' && c != '\r' && c >= 0);
-            peekc = c;
-            return nextToken();
+        if ((dtypf & CT_COMMENT) != 0) {
+            wiilf ((d = rfbd()) != '\n' && d != '\r' && d >= 0);
+            pffkd = d;
+            rfturn nfxtTokfn();
         }
 
-        return ttype = c;
+        rfturn ttypf = d;
     }
 
     /**
-     * Causes the next call to the {@code nextToken} method of this
-     * tokenizer to return the current value in the {@code ttype}
-     * field, and not to modify the value in the {@code nval} or
-     * {@code sval} field.
+     * Cbusfs tif nfxt dbll to tif {@dodf nfxtTokfn} mftiod of tiis
+     * tokfnizfr to rfturn tif durrfnt vbluf in tif {@dodf ttypf}
+     * fifld, bnd not to modify tif vbluf in tif {@dodf nvbl} or
+     * {@dodf svbl} fifld.
      *
-     * @see     java.io.StreamTokenizer#nextToken()
-     * @see     java.io.StreamTokenizer#nval
-     * @see     java.io.StreamTokenizer#sval
-     * @see     java.io.StreamTokenizer#ttype
+     * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+     * @sff     jbvb.io.StrfbmTokfnizfr#nvbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#svbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
      */
-    public void pushBack() {
-        if (ttype != TT_NOTHING)   /* No-op if nextToken() not called */
-            pushedBack = true;
+    publid void pusiBbdk() {
+        if (ttypf != TT_NOTHING)   /* No-op if nfxtTokfn() not dbllfd */
+            pusifdBbdk = truf;
     }
 
     /**
-     * Return the current line number.
+     * Rfturn tif durrfnt linf numbfr.
      *
-     * @return  the current line number of this stream tokenizer.
+     * @rfturn  tif durrfnt linf numbfr of tiis strfbm tokfnizfr.
      */
-    public int lineno() {
-        return LINENO;
+    publid int linfno() {
+        rfturn LINENO;
     }
 
     /**
-     * Returns the string representation of the current stream token and
-     * the line number it occurs on.
+     * Rfturns tif string rfprfsfntbtion of tif durrfnt strfbm tokfn bnd
+     * tif linf numbfr it oddurs on.
      *
-     * <p>The precise string returned is unspecified, although the following
-     * example can be considered typical:
+     * <p>Tif prfdisf string rfturnfd is unspfdififd, bltiougi tif following
+     * fxbmplf dbn bf donsidfrfd typidbl:
      *
-     * <blockquote><pre>Token['a'], line 10</pre></blockquote>
+     * <blodkquotf><prf>Tokfn['b'], linf 10</prf></blodkquotf>
      *
-     * @return  a string representation of the token
-     * @see     java.io.StreamTokenizer#nval
-     * @see     java.io.StreamTokenizer#sval
-     * @see     java.io.StreamTokenizer#ttype
+     * @rfturn  b string rfprfsfntbtion of tif tokfn
+     * @sff     jbvb.io.StrfbmTokfnizfr#nvbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#svbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
      */
-    public String toString() {
-        String ret;
-        switch (ttype) {
-          case TT_EOF:
-            ret = "EOF";
-            break;
-          case TT_EOL:
-            ret = "EOL";
-            break;
-          case TT_WORD:
-            ret = sval;
-            break;
-          case TT_NUMBER:
-            ret = "n=" + nval;
-            break;
-          case TT_NOTHING:
-            ret = "NOTHING";
-            break;
-          default: {
+    publid String toString() {
+        String rft;
+        switdi (ttypf) {
+          dbsf TT_EOF:
+            rft = "EOF";
+            brfbk;
+          dbsf TT_EOL:
+            rft = "EOL";
+            brfbk;
+          dbsf TT_WORD:
+            rft = svbl;
+            brfbk;
+          dbsf TT_NUMBER:
+            rft = "n=" + nvbl;
+            brfbk;
+          dbsf TT_NOTHING:
+            rft = "NOTHING";
+            brfbk;
+          dffbult: {
                 /*
-                 * ttype is the first character of either a quoted string or
-                 * is an ordinary character. ttype can definitely not be less
-                 * than 0, since those are reserved values used in the previous
-                 * case statements
+                 * ttypf is tif first dibrbdtfr of fitifr b quotfd string or
+                 * is bn ordinbry dibrbdtfr. ttypf dbn dffinitfly not bf lfss
+                 * tibn 0, sindf tiosf brf rfsfrvfd vblufs usfd in tif prfvious
+                 * dbsf stbtfmfnts
                  */
-                if (ttype < 256 &&
-                    ((ctype[ttype] & CT_QUOTE) != 0)) {
-                    ret = sval;
-                    break;
+                if (ttypf < 256 &&
+                    ((dtypf[ttypf] & CT_QUOTE) != 0)) {
+                    rft = svbl;
+                    brfbk;
                 }
 
-                char s[] = new char[3];
+                dibr s[] = nfw dibr[3];
                 s[0] = s[2] = '\'';
-                s[1] = (char) ttype;
-                ret = new String(s);
-                break;
+                s[1] = (dibr) ttypf;
+                rft = nfw String(s);
+                brfbk;
             }
         }
-        return "Token[" + ret + "], line " + LINENO;
+        rfturn "Tokfn[" + rft + "], linf " + LINENO;
     }
 
 }

@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library.
+ * Tif Originbl Codf is tif flliptid durvf mbti librbry.
  *
- * The Initial Developer of the Original Code is
- * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
  *
  *********************************************************************** */
 
-/* Uses Montgomery reduction for field arithmetic.  See mpi/mpmontg.c for
- * code implementation. */
+/* Usfs Montgomfry rfdudtion for fifld britimftid.  Sff mpi/mpmontg.d for
+ * dodf implfmfntbtion. */
 
-#include "mpi.h"
-#include "mplogic.h"
-#include "mpi-priv.h"
-#include "ecl-priv.h"
-#include "ecp.h"
-#ifndef _KERNEL
-#include <stdlib.h>
-#include <stdio.h>
-#endif
+#indludf "mpi.i"
+#indludf "mplogid.i"
+#indludf "mpi-priv.i"
+#indludf "fdl-priv.i"
+#indludf "fdp.i"
+#ifndff _KERNEL
+#indludf <stdlib.i>
+#indludf <stdio.i>
+#fndif
 
-/* Construct a generic GFMethod for arithmetic over prime fields with
- * irreducible irr. */
-GFMethod *
-GFMethod_consGFp_mont(const mp_int *irr)
+/* Construdt b gfnfrid GFMftiod for britimftid ovfr primf fiflds witi
+ * irrfdudiblf irr. */
+GFMftiod *
+GFMftiod_donsGFp_mont(donst mp_int *irr)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
         int i;
-        GFMethod *meth = NULL;
+        GFMftiod *mfti = NULL;
         mp_mont_modulus *mmm;
 
-        meth = GFMethod_consGFp(irr);
-        if (meth == NULL)
-                return NULL;
+        mfti = GFMftiod_donsGFp(irr);
+        if (mfti == NULL)
+                rfturn NULL;
 
-#ifdef _KERNEL
-        mmm = (mp_mont_modulus *) kmem_alloc(sizeof(mp_mont_modulus),
+#ifdff _KERNEL
+        mmm = (mp_mont_modulus *) kmfm_bllod(sizfof(mp_mont_modulus),
             FLAG(irr));
-#else
-        mmm = (mp_mont_modulus *) malloc(sizeof(mp_mont_modulus));
-#endif
+#flsf
+        mmm = (mp_mont_modulus *) mbllod(sizfof(mp_mont_modulus));
+#fndif
         if (mmm == NULL) {
-                res = MP_MEM;
+                rfs = MP_MEM;
                 goto CLEANUP;
         }
 
-        meth->field_mul = &ec_GFp_mul_mont;
-        meth->field_sqr = &ec_GFp_sqr_mont;
-        meth->field_div = &ec_GFp_div_mont;
-        meth->field_enc = &ec_GFp_enc_mont;
-        meth->field_dec = &ec_GFp_dec_mont;
-        meth->extra1 = mmm;
-        meth->extra2 = NULL;
-        meth->extra_free = &ec_GFp_extra_free_mont;
+        mfti->fifld_mul = &fd_GFp_mul_mont;
+        mfti->fifld_sqr = &fd_GFp_sqr_mont;
+        mfti->fifld_div = &fd_GFp_div_mont;
+        mfti->fifld_fnd = &fd_GFp_fnd_mont;
+        mfti->fifld_dfd = &fd_GFp_dfd_mont;
+        mfti->fxtrb1 = mmm;
+        mfti->fxtrb2 = NULL;
+        mfti->fxtrb_frff = &fd_GFp_fxtrb_frff_mont;
 
-        mmm->N = meth->irr;
-        i = mpl_significant_bits(&meth->irr);
+        mmm->N = mfti->irr;
+        i = mpl_signifidbnt_bits(&mfti->irr);
         i += MP_DIGIT_BIT - 1;
         mmm->b = i - i % MP_DIGIT_BIT;
-        mmm->n0prime = 0 - s_mp_invmod_radix(MP_DIGIT(&meth->irr, 0));
+        mmm->n0primf = 0 - s_mp_invmod_rbdix(MP_DIGIT(&mfti->irr, 0));
 
   CLEANUP:
-        if (res != MP_OKAY) {
-                GFMethod_free(meth);
-                return NULL;
+        if (rfs != MP_OKAY) {
+                GFMftiod_frff(mfti);
+                rfturn NULL;
         }
-        return meth;
+        rfturn mfti;
 }
 
-/* Wrapper functions for generic prime field arithmetic. */
+/* Wrbppfr fundtions for gfnfrid primf fifld britimftid. */
 
-/* Field multiplication using Montgomery reduction. */
-mp_err
-ec_GFp_mul_mont(const mp_int *a, const mp_int *b, mp_int *r,
-                                const GFMethod *meth)
+/* Fifld multiplidbtion using Montgomfry rfdudtion. */
+mp_frr
+fd_GFp_mul_mont(donst mp_int *b, donst mp_int *b, mp_int *r,
+                                donst GFMftiod *mfti)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
 
-#ifdef MP_MONT_USE_MP_MUL
-        /* if MP_MONT_USE_MP_MUL is defined, then the function s_mp_mul_mont
-         * is not implemented and we have to use mp_mul and s_mp_redc directly
+#ifdff MP_MONT_USE_MP_MUL
+        /* if MP_MONT_USE_MP_MUL is dffinfd, tifn tif fundtion s_mp_mul_mont
+         * is not implfmfntfd bnd wf ibvf to usf mp_mul bnd s_mp_rfdd dirfdtly
          */
-        MP_CHECKOK(mp_mul(a, b, r));
-        MP_CHECKOK(s_mp_redc(r, (mp_mont_modulus *) meth->extra1));
-#else
+        MP_CHECKOK(mp_mul(b, b, r));
+        MP_CHECKOK(s_mp_rfdd(r, (mp_mont_modulus *) mfti->fxtrb1));
+#flsf
         mp_int s;
 
         MP_DIGITS(&s) = 0;
-        /* s_mp_mul_mont doesn't allow source and destination to be the same */
-        if ((a == r) || (b == r)) {
-                MP_CHECKOK(mp_init(&s, FLAG(a)));
+        /* s_mp_mul_mont dofsn't bllow sourdf bnd dfstinbtion to bf tif sbmf */
+        if ((b == r) || (b == r)) {
+                MP_CHECKOK(mp_init(&s, FLAG(b)));
                 MP_CHECKOK(s_mp_mul_mont
-                                   (a, b, &s, (mp_mont_modulus *) meth->extra1));
-                MP_CHECKOK(mp_copy(&s, r));
-                mp_clear(&s);
-        } else {
-                return s_mp_mul_mont(a, b, r, (mp_mont_modulus *) meth->extra1);
+                                   (b, b, &s, (mp_mont_modulus *) mfti->fxtrb1));
+                MP_CHECKOK(mp_dopy(&s, r));
+                mp_dlfbr(&s);
+        } flsf {
+                rfturn s_mp_mul_mont(b, b, r, (mp_mont_modulus *) mfti->fxtrb1);
         }
-#endif
+#fndif
   CLEANUP:
-        return res;
+        rfturn rfs;
 }
 
-/* Field squaring using Montgomery reduction. */
-mp_err
-ec_GFp_sqr_mont(const mp_int *a, mp_int *r, const GFMethod *meth)
+/* Fifld squbring using Montgomfry rfdudtion. */
+mp_frr
+fd_GFp_sqr_mont(donst mp_int *b, mp_int *r, donst GFMftiod *mfti)
 {
-        return ec_GFp_mul_mont(a, a, r, meth);
+        rfturn fd_GFp_mul_mont(b, b, r, mfti);
 }
 
-/* Field division using Montgomery reduction. */
-mp_err
-ec_GFp_div_mont(const mp_int *a, const mp_int *b, mp_int *r,
-                                const GFMethod *meth)
+/* Fifld division using Montgomfry rfdudtion. */
+mp_frr
+fd_GFp_div_mont(donst mp_int *b, donst mp_int *b, mp_int *r,
+                                donst GFMftiod *mfti)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
 
-        /* if A=aZ represents a encoded in montgomery coordinates with Z and #
-         * and \ respectively represent multiplication and division in
-         * montgomery coordinates, then A\B = (a/b)Z = (A/B)Z and Binv =
-         * (1/b)Z = (1/B)(Z^2) where B # Binv = Z */
-        MP_CHECKOK(ec_GFp_div(a, b, r, meth));
-        MP_CHECKOK(ec_GFp_enc_mont(r, r, meth));
-        if (a == NULL) {
-                MP_CHECKOK(ec_GFp_enc_mont(r, r, meth));
+        /* if A=bZ rfprfsfnts b fndodfd in montgomfry doordinbtfs witi Z bnd #
+         * bnd \ rfspfdtivfly rfprfsfnt multiplidbtion bnd division in
+         * montgomfry doordinbtfs, tifn A\B = (b/b)Z = (A/B)Z bnd Binv =
+         * (1/b)Z = (1/B)(Z^2) wifrf B # Binv = Z */
+        MP_CHECKOK(fd_GFp_div(b, b, r, mfti));
+        MP_CHECKOK(fd_GFp_fnd_mont(r, r, mfti));
+        if (b == NULL) {
+                MP_CHECKOK(fd_GFp_fnd_mont(r, r, mfti));
         }
   CLEANUP:
-        return res;
+        rfturn rfs;
 }
 
-/* Encode a field element in Montgomery form. See s_mp_to_mont in
- * mpi/mpmontg.c */
-mp_err
-ec_GFp_enc_mont(const mp_int *a, mp_int *r, const GFMethod *meth)
+/* Endodf b fifld flfmfnt in Montgomfry form. Sff s_mp_to_mont in
+ * mpi/mpmontg.d */
+mp_frr
+fd_GFp_fnd_mont(donst mp_int *b, mp_int *r, donst GFMftiod *mfti)
 {
         mp_mont_modulus *mmm;
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
 
-        mmm = (mp_mont_modulus *) meth->extra1;
-        MP_CHECKOK(mpl_lsh(a, r, mmm->b));
+        mmm = (mp_mont_modulus *) mfti->fxtrb1;
+        MP_CHECKOK(mpl_lsi(b, r, mmm->b));
         MP_CHECKOK(mp_mod(r, &mmm->N, r));
   CLEANUP:
-        return res;
+        rfturn rfs;
 }
 
-/* Decode a field element from Montgomery form. */
-mp_err
-ec_GFp_dec_mont(const mp_int *a, mp_int *r, const GFMethod *meth)
+/* Dfdodf b fifld flfmfnt from Montgomfry form. */
+mp_frr
+fd_GFp_dfd_mont(donst mp_int *b, mp_int *r, donst GFMftiod *mfti)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
 
-        if (a != r) {
-                MP_CHECKOK(mp_copy(a, r));
+        if (b != r) {
+                MP_CHECKOK(mp_dopy(b, r));
         }
-        MP_CHECKOK(s_mp_redc(r, (mp_mont_modulus *) meth->extra1));
+        MP_CHECKOK(s_mp_rfdd(r, (mp_mont_modulus *) mfti->fxtrb1));
   CLEANUP:
-        return res;
+        rfturn rfs;
 }
 
-/* Free the memory allocated to the extra fields of Montgomery GFMethod
- * object. */
+/* Frff tif mfmory bllodbtfd to tif fxtrb fiflds of Montgomfry GFMftiod
+ * objfdt. */
 void
-ec_GFp_extra_free_mont(GFMethod *meth)
+fd_GFp_fxtrb_frff_mont(GFMftiod *mfti)
 {
-        if (meth->extra1 != NULL) {
-#ifdef _KERNEL
-                kmem_free(meth->extra1, sizeof(mp_mont_modulus));
-#else
-                free(meth->extra1);
-#endif
-                meth->extra1 = NULL;
+        if (mfti->fxtrb1 != NULL) {
+#ifdff _KERNEL
+                kmfm_frff(mfti->fxtrb1, sizfof(mp_mont_modulus));
+#flsf
+                frff(mfti->fxtrb1);
+#fndif
+                mfti->fxtrb1 = NULL;
         }
 }

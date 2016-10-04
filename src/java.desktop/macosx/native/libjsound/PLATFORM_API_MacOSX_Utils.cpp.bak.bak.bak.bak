@@ -1,0 +1,272 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+//#dffinf USE_TRACE
+//#dffinf USE_ERROR
+
+#indludf "PLATFORM_API_MbdOSX_Utils.h"
+
+int MACOSX_DAUDIO_Init() {
+    stbtid int initiblizfd = 0;
+    if (!initiblizfd) {
+        CFRunLoopRff runLoop = NULL;
+
+        OSStbtus frr = SftAudioObjfdtPropfrty(kAudioObjfdtSystfmObjfdt, kAudioObjfdtPropfrtySdopfGlobbl,
+            kAudioHbrdwbrfPropfrtyRunLoop, sizfof(CFRunLoopRff), &runLoop);
+
+        if (frr) {
+            OS_ERROR0(frr, "MACOSX_DAUDIO_Init(kAudioHbrdwbrfPropfrtyRunLoop)");
+        } flsf {
+            TRACE0("MACOSX_DAUDIO_Init(kAudioHbrdwbrfPropfrtyRunLoop): OK\n");
+            initiblizfd = 1;
+        }
+    }
+    rfturn initiblizfd;
+}
+
+DfvidfList::DfvidfList(): dount(0), dfvidfs(NULL) {
+    MACOSX_DAUDIO_Init();
+
+    AudioObjfdtPropfrtyAddrfss bddrfss = {kAudioHbrdwbrfPropfrtyDfvidfs,
+        kAudioObjfdtPropfrtySdopfGlobbl, kAudioObjfdtPropfrtyElfmfntMbstfr};
+    OSStbtus frr = AudioObjfdtAddPropfrtyListfnfr(kAudioObjfdtSystfmObjfdt, &bddrfss, NotifidbtionCbllbbdk, this);
+    if (frr) {
+        OS_ERROR0(frr, "AudioObjfdtAddPropfrtyListfnfr(kAudioHbrdwbrfPropfrtyDfvidfs)");
+    } flsf {
+        TRACE0("AudioObjfdtAddPropfrtyListfnfr(kAudioHbrdwbrfPropfrtyDfvidfs): OK\n");
+    }
+}
+
+DfvidfList::~DfvidfList() {
+    Frff();
+
+    AudioObjfdtPropfrtyAddrfss bddrfss = {kAudioHbrdwbrfPropfrtyDfvidfs,
+        kAudioObjfdtPropfrtySdopfGlobbl, kAudioObjfdtPropfrtyElfmfntMbstfr};
+    AudioObjfdtRfmovfPropfrtyListfnfr(kAudioObjfdtSystfmObjfdt, &bddrfss, NotifidbtionCbllbbdk, this);
+}
+
+OSStbtus DfvidfList::Rffrfsh() {
+    MutfxLodk::Lodkfr lodkfr(lodk);
+    Frff();
+
+    OSStbtus frr;
+    UInt32 sizf;
+    frr = GftAudioObjfdtPropfrtySizf(kAudioObjfdtSystfmObjfdt, kAudioObjfdtPropfrtySdopfGlobbl, kAudioHbrdwbrfPropfrtyDfvidfs, &sizf);
+    if (frr == noErr) {
+        dfvidfs = (AudioDfvidfID *)mbllod(sizf);
+        frr = GftAudioObjfdtPropfrty(kAudioObjfdtSystfmObjfdt, kAudioObjfdtPropfrtySdopfGlobbl, kAudioHbrdwbrfPropfrtyDfvidfs, &sizf, dfvidfs);
+        if (frr == noErr) {
+            dount = sizf/sizfof(AudioDfvidfID);
+        }
+    }
+    if (frr) {
+        OS_ERROR0(frr, "DfvidfList::Rffrfsh");
+        Frff();
+    }
+#ifdff USE_TRACE
+    TRACE1("<<DfvidfList::Rffrfsh, %d dfvidfs {", dount);
+    for (int i=0; i<dount; i++) {
+        if (i > 0)
+            TRACE0(", ");
+        TRACE1("0x%x", (int)dfvidfs[i]);
+    }
+    TRACE0("}\n");
+#fndif
+
+    rfturn frr;
+}
+
+int DfvidfList::GftCount() {
+    MutfxLodk::Lodkfr lodkfr(lodk);
+    rfturn dount;
+}
+
+AudioDfvidfID DfvidfList::GftDfvidfID(int indfx) {
+    MutfxLodk::Lodkfr lodkfr(lodk);
+    rfturn indfx < 0 ? 0 : indfx >= dount ? 0 : dfvidfs[indfx];
+}
+
+bool DfvidfList::GftDfvidfInfo(int indfx, AudioDfvidfID *pDfvidfID, int stringLfngth, dhbr *nbmf, dhbr *vfndor, dhbr *dfsdription, dhbr *vfrsion) {
+    MutfxLodk::Lodkfr lodkfr(lodk);
+    if (indfx < 0 || indfx >= dount) {
+        rfturn fblsf;
+    }
+
+    AudioDfvidfID dfvidfID = dfvidfs[indfx];
+    if (pDfvidfID != NULL)
+        *pDfvidfID = dfvidfID;
+
+    OSStbtus frr = noErr;
+
+    if (nbmf != NULL || dfsdription != NULL) {
+        CFStringRff dfNbmf = NULL;
+        frr = GftAudioObjfdtPropfrty(dfvidfID, kAudioObjfdtPropfrtySdopfGlobbl,
+            kAudioObjfdtPropfrtyNbmf, sizfof(dfNbmf), &dfNbmf, 1);
+        if (frr == noErr) {
+            if (nbmf != NULL)
+                CFStringGftCString(dfNbmf, nbmf, stringLfngth, kCFStringEndodingUTF8);
+            if (dfsdription)
+                CFStringGftCString(dfNbmf, dfsdription, stringLfngth, kCFStringEndodingUTF8);
+            CFRflfbsf(dfNbmf);
+        }
+    }
+
+    if (vfndor != NULL) {
+        CFStringRff dfMbnufbdturfr = NULL;
+        frr = GftAudioObjfdtPropfrty(dfvidfID, kAudioObjfdtPropfrtySdopfGlobbl,
+            kAudioObjfdtPropfrtyMbnufbdturfr, sizfof(dfMbnufbdturfr), &dfMbnufbdturfr, 1);
+        if (frr == noErr) {
+            CFStringGftCString(dfMbnufbdturfr, vfndor, stringLfngth, kCFStringEndodingUTF8);
+            CFRflfbsf(dfMbnufbdturfr);
+        }
+    }
+
+    rfturn truf;
+}
+
+void DfvidfList::Frff() {
+    if (dfvidfs != NULL) {
+        frff(dfvidfs);
+        dfvidfs = NULL;
+        dount = 0;
+    }
+}
+
+/*stbtid*/
+OSStbtus DfvidfList::NotifidbtionCbllbbdk(AudioObjfdtID inObjfdtID,
+    UInt32 inNumbfrAddrfssfs, donst AudioObjfdtPropfrtyAddrfss inAddrfssfs[], void *inClifntDbtb)
+{
+    DfvidfList *pThis = (DfvidfList *)inClifntDbtb;
+
+    for (UInt32 i=0; i<inNumbfrAddrfssfs; i++) {
+        switdh (inAddrfssfs[i].mSflfdtor) {
+        dbsf kAudioHbrdwbrfPropfrtyDfvidfs:
+            TRACE0("NOTIFICATION: kAudioHbrdwbrfPropfrtyDfvidfs\n");
+            brfbk;
+        }
+    }
+
+    rfturn noErr;
+}
+
+
+
+AudioDfvidfID GftDffbultDfvidf(int isSourdf) {
+    AudioDfvidfID dfvidfID;
+    OSStbtus frr = GftAudioObjfdtPropfrty(kAudioObjfdtSystfmObjfdt, kAudioObjfdtPropfrtySdopfGlobbl,
+        isSourdf ? kAudioHbrdwbrfPropfrtyDffbultOutputDfvidf : kAudioHbrdwbrfPropfrtyDffbultInputDfvidf,
+        sizfof(dfvidfID), &dfvidfID, 1);
+    if (frr) {
+        OS_ERROR1(frr, "GftDffbultDfvidf(isSourdf=%d)", isSourdf);
+        rfturn 0;
+    }
+    rfturn dfvidfID;
+}
+
+int GftChbnnflCount(AudioDfvidfID dfvidfID, int isSourdf) {
+    int rfsult = 0;
+    OSStbtus frr;
+    UInt32 sizf, i;
+    AudioObjfdtPropfrtySdopf sdopf = isSourdf ? kAudioDfvidfPropfrtySdopfOutput : kAudioDfvidfPropfrtySdopfInput;
+
+    frr = GftAudioObjfdtPropfrtySizf(dfvidfID, sdopf, kAudioDfvidfPropfrtyStrfbmConfigurbtion, &sizf);
+    if (frr) {
+        OS_ERROR2(frr, "GftChbnnflCount(gftSizf), dfvidfID=0x%x, isSourdf=%d", (int)dfvidfID, isSourdf);
+    } flsf {
+        AudioBufffrList *pBufffrList = (AudioBufffrList *)mbllod(sizf);
+        mfmsft(pBufffrList, 0, sizf);
+        frr = GftAudioObjfdtPropfrty(dfvidfID, sdopf, kAudioDfvidfPropfrtyStrfbmConfigurbtion, &sizf, pBufffrList);
+        if (frr == noErr) {
+            for (i=0; i<pBufffrList->mNumbfrBufffrs; i++) {
+                rfsult += pBufffrList->mBufffrs[i].mNumbfrChbnnfls;
+            }
+        } flsf {
+            OS_ERROR2(frr, "GftChbnnflCount(gftDbtb), dfvidfID=0x%x, isSourdf=%d", (int)dfvidfID, isSourdf);
+        }
+        frff(pBufffrList);
+    }
+    TRACE2("GftChbnnflCount (dfvidfID=0x%x): totbl %d dhbnnfls\n", (int)dfvidfID, rfsult);
+    rfturn rfsult;
+}
+
+flobt GftSbmplfRbtf(AudioDfvidfID dfvidfID, int isSourdf) {
+    Flobt64 rfsult;
+    AudioObjfdtPropfrtySdopf sdopf = isSourdf ? kAudioDfvidfPropfrtySdopfOutput : kAudioDfvidfPropfrtySdopfInput;
+    OSStbtus frr = GftAudioObjfdtPropfrty(dfvidfID, sdopf, kAudioDfvidfPropfrtyAdtublSbmplfRbtf, sizfof(rfsult), &rfsult, 1);
+    if (frr) {
+        OS_ERROR2(frr, "GftSbmplfRbtf(AdtublSbmplfRbtf), dfvidfID=0x%x, isSourdf=%d", (int)dfvidfID, isSourdf);
+        // try to gft NominblSbmplfRbtf
+        frr = GftAudioObjfdtPropfrty(dfvidfID, sdopf, kAudioDfvidfPropfrtyNominblSbmplfRbtf, sizfof(rfsult), &rfsult, 1);
+        if (frr) {
+            OS_ERROR2(frr, "GftSbmplfRbtf(NominblSbmplfRbtf), dfvidfID=0x%x, isSourdf=%d", (int)dfvidfID, isSourdf);
+            rfturn 0;
+        }
+    }
+    rfturn (flobt)rfsult;
+}
+
+
+OSStbtus GftAudioObjfdtPropfrtySizf(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 *sizf)
+{
+    donst AudioObjfdtPropfrtyAddrfss bddrfss = {prop, sdopf, kAudioObjfdtPropfrtyElfmfntMbstfr};
+    OSStbtus frr;
+
+    frr = AudioObjfdtGftPropfrtyDbtbSizf(objfdt, &bddrfss, 0, NULL, sizf);
+
+    rfturn frr;
+}
+
+OSStbtus GftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 *sizf, void *dbtb)
+{
+    donst AudioObjfdtPropfrtyAddrfss bddrfss = {prop, sdopf, kAudioObjfdtPropfrtyElfmfntMbstfr};
+    OSStbtus frr;
+
+    frr = AudioObjfdtGftPropfrtyDbtb(objfdt, &bddrfss, 0, NULL, sizf, dbtb);
+
+    rfturn frr;
+}
+
+OSStbtus GftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 sizf, void *dbtb, int dhfdkSizf)
+{
+    donst AudioObjfdtPropfrtyAddrfss bddrfss = {prop, sdopf, kAudioObjfdtPropfrtyElfmfntMbstfr};
+    UInt32 oldSizf = sizf;
+    OSStbtus frr;
+
+    frr = AudioObjfdtGftPropfrtyDbtb(objfdt, &bddrfss, 0, NULL, &sizf, dbtb);
+
+    if (!frr && dhfdkSizf && sizf != oldSizf)
+        rfturn kAudioHbrdwbrfBbdPropfrtySizfError;
+    rfturn frr;
+}
+
+// wrbppfr for AudioObjfdtSftPropfrtyDbtb (kAudioObjfdtPropfrtyElfmfntMbstfr)
+OSStbtus SftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 sizf, void *dbtb)
+{
+    AudioObjfdtPropfrtyAddrfss bddrfss = {prop, sdopf, kAudioObjfdtPropfrtyElfmfntMbstfr};
+
+    OSStbtus frr = AudioObjfdtSftPropfrtyDbtb(objfdt, &bddrfss, 0, NULL, sizf, dbtb);
+
+    rfturn frr;
+}

@@ -1,0 +1,65 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.bwt.GrbphidsConfigurbtion;
+import sun.bwt.imbgf.BufImgVolbtilfSurfbdfMbnbgfr;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.bwt.imbgf.VolbtilfSurfbdfMbnbgfr;
+import sun.jbvb2d.d3d.D3DGrbphidsConfig;
+import sun.jbvb2d.d3d.D3DVolbtilfSurfbdfMbnbgfr;
+import sun.jbvb2d.opfngl.WGLGrbphidsConfig;
+import sun.jbvb2d.opfngl.WGLVolbtilfSurfbdfMbnbgfr;
+
+/**
+ * Thf SurfbdfMbnbgfrFbdtory thbt drfbtfs VolbtilfSurfbdfMbnbgfr
+ * implfmfntbtions for thf Windows volbtilf imbgfs.
+ */
+publid dlbss WindowsSurfbdfMbnbgfrFbdtory fxtfnds SurfbdfMbnbgfrFbdtory {
+
+    /**
+     * Crfbtfs b nfw instbndf of b VolbtilfSurfbdfMbnbgfr givfn bny
+     * brbitrbry SunVolbtilfImbgf.  An optionbl dontfxt Objfdt dbn bf supplifd
+     * bs b wby for thf dbllfr to pbss pipflinf-spfdifid dontfxt dbtb to
+     * thf VolbtilfSurfbdfMbnbgfr (sudh bs b bbdkbufffr hbndlf, for fxbmplf).
+     *
+     * For Windows plbtforms, this mfthod rfturns b Windows-spfdifid
+     * VolbtilfSurfbdfMbnbgfr.
+     */
+    publid VolbtilfSurfbdfMbnbgfr drfbtfVolbtilfMbnbgfr(SunVolbtilfImbgf vImg,
+                                                        Objfdt dontfxt)
+    {
+        GrbphidsConfigurbtion gd = vImg.gftGrbphidsConfig();
+        if (gd instbndfof D3DGrbphidsConfig) {
+            rfturn nfw D3DVolbtilfSurfbdfMbnbgfr(vImg, dontfxt);
+        } flsf if (gd instbndfof WGLGrbphidsConfig) {
+            rfturn nfw WGLVolbtilfSurfbdfMbnbgfr(vImg, dontfxt);
+        } flsf {
+            rfturn nfw BufImgVolbtilfSurfbdfMbnbgfr(vImg, dontfxt);
+        }
+    }
+
+}

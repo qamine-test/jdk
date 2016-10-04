@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.loops;
+pbdkbgf sun.jbvb2d.loops;
 
-import java.awt.Composite;
-import java.awt.geom.AffineTransform;
-import java.lang.ref.WeakReference;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.Compositf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import sun.jbvb2d.pipf.Rfgion;
 
 /**
- * TransformBlit
- * 1) applies an AffineTransform to a rectangle of pixels while copying
- *    from one surface to another
- * 2) performs compositing of colors based upon a Composite
- *    parameter
+ * TrbnsformBlit
+ * 1) bpplifs bn AffinfTrbnsform to b rfdtbnglf of pixfls wiilf dopying
+ *    from onf surfbdf to bnotifr
+ * 2) pfrforms dompositing of dolors bbsfd upon b Compositf
+ *    pbrbmftfr
  *
- * precise behavior is undefined if the source surface
- * and the destination surface are the same surface
- * with overlapping regions of pixels
+ * prfdisf bfibvior is undffinfd if tif sourdf surfbdf
+ * bnd tif dfstinbtion surfbdf brf tif sbmf surfbdf
+ * witi ovfrlbpping rfgions of pixfls
  */
 
-public class TransformBlit extends GraphicsPrimitive
+publid dlbss TrbnsformBlit fxtfnds GrbpiidsPrimitivf
 {
-    public static final String methodSignature =
-        "TransformBlit(...)".toString();
+    publid stbtid finbl String mftiodSignbturf =
+        "TrbnsformBlit(...)".toString();
 
-    public static final int primTypeID = makePrimTypeID();
+    publid stbtid finbl int primTypfID = mbkfPrimTypfID();
 
-    private static RenderCache blitcache = new RenderCache(10);
+    privbtf stbtid RfndfrCbdif blitdbdif = nfw RfndfrCbdif(10);
 
-    public static TransformBlit locate(SurfaceType srctype,
-                                       CompositeType comptype,
-                                       SurfaceType dsttype)
+    publid stbtid TrbnsformBlit lodbtf(SurfbdfTypf srdtypf,
+                                       CompositfTypf domptypf,
+                                       SurfbdfTypf dsttypf)
     {
-        return (TransformBlit)
-            GraphicsPrimitiveMgr.locate(primTypeID,
-                                        srctype, comptype, dsttype);
+        rfturn (TrbnsformBlit)
+            GrbpiidsPrimitivfMgr.lodbtf(primTypfID,
+                                        srdtypf, domptypf, dsttypf);
     }
 
-    public static TransformBlit getFromCache(SurfaceType src,
-                                             CompositeType comp,
-                                             SurfaceType dst)
+    publid stbtid TrbnsformBlit gftFromCbdif(SurfbdfTypf srd,
+                                             CompositfTypf domp,
+                                             SurfbdfTypf dst)
     {
-        Object o = blitcache.get(src, comp, dst);
+        Objfdt o = blitdbdif.gft(srd, domp, dst);
         if (o != null) {
-            return (TransformBlit) o;
+            rfturn (TrbnsformBlit) o;
         }
-        TransformBlit blit = locate(src, comp, dst);
+        TrbnsformBlit blit = lodbtf(srd, domp, dst);
         if (blit == null) {
             /*
-            System.out.println("blit loop not found for:");
-            System.out.println("src:  "+src);
-            System.out.println("comp: "+comp);
-            System.out.println("dst:  "+dst);
+            Systfm.out.println("blit loop not found for:");
+            Systfm.out.println("srd:  "+srd);
+            Systfm.out.println("domp: "+domp);
+            Systfm.out.println("dst:  "+dst);
             */
-        } else {
-            blitcache.put(src, comp, dst, blit);
+        } flsf {
+            blitdbdif.put(srd, domp, dst, blit);
         }
-        return blit;
+        rfturn blit;
     }
 
-    protected TransformBlit(SurfaceType srctype,
-                            CompositeType comptype,
-                            SurfaceType dsttype)
+    protfdtfd TrbnsformBlit(SurfbdfTypf srdtypf,
+                            CompositfTypf domptypf,
+                            SurfbdfTypf dsttypf)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        supfr(mftiodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
     }
 
-    public TransformBlit(long pNativePrim,
-                         SurfaceType srctype,
-                         CompositeType comptype,
-                         SurfaceType dsttype)
+    publid TrbnsformBlit(long pNbtivfPrim,
+                         SurfbdfTypf srdtypf,
+                         CompositfTypf domptypf,
+                         SurfbdfTypf dsttypf)
     {
-        super(pNativePrim, methodSignature, primTypeID,
-              srctype, comptype, dsttype);
+        supfr(pNbtivfPrim, mftiodSignbturf, primTypfID,
+              srdtypf, domptypf, dsttypf);
     }
 
-    public native void Transform(SurfaceData src, SurfaceData dst,
-                                 Composite comp, Region clip,
-                                 AffineTransform at, int hint,
-                                 int srcx, int srcy, int dstx, int dsty,
-                                 int width, int height);
+    publid nbtivf void Trbnsform(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                                 Compositf domp, Rfgion dlip,
+                                 AffinfTrbnsform bt, int iint,
+                                 int srdx, int srdy, int dstx, int dsty,
+                                 int widti, int ifigit);
 
-    // REMIND: do we have a general loop?
-    static {
-        GraphicsPrimitiveMgr.registerGeneral(new TransformBlit(null, null,
+    // REMIND: do wf ibvf b gfnfrbl loop?
+    stbtid {
+        GrbpiidsPrimitivfMgr.rfgistfrGfnfrbl(nfw TrbnsformBlit(null, null,
                                                                null));
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
-                                           CompositeType comptype,
-                                           SurfaceType dsttype)
+    publid GrbpiidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf)
     {
         /*
-        System.out.println("Constructing general blit for:");
-        System.out.println("src:  "+srctype);
-        System.out.println("comp: "+comptype);
-        System.out.println("dst:  "+dsttype);
+        Systfm.out.println("Construdting gfnfrbl blit for:");
+        Systfm.out.println("srd:  "+srdtypf);
+        Systfm.out.println("domp: "+domptypf);
+        Systfm.out.println("dst:  "+dsttypf);
         */
-        return null;
+        rfturn null;
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceTransformBlit(this);
+    publid GrbpiidsPrimitivf trbdfWrbp() {
+        rfturn nfw TrbdfTrbnsformBlit(tiis);
     }
 
-    private static class TraceTransformBlit extends TransformBlit {
-        TransformBlit target;
+    privbtf stbtid dlbss TrbdfTrbnsformBlit fxtfnds TrbnsformBlit {
+        TrbnsformBlit tbrgft;
 
-        public TraceTransformBlit(TransformBlit target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        publid TrbdfTrbnsformBlit(TrbnsformBlit tbrgft) {
+            supfr(tbrgft.gftSourdfTypf(),
+                  tbrgft.gftCompositfTypf(),
+                  tbrgft.gftDfstTypf());
+            tiis.tbrgft = tbrgft;
         }
 
-        public GraphicsPrimitive traceWrap() {
-            return this;
+        publid GrbpiidsPrimitivf trbdfWrbp() {
+            rfturn tiis;
         }
 
-        public void Transform(SurfaceData src, SurfaceData dst,
-                              Composite comp, Region clip,
-                              AffineTransform at, int hint,
-                              int srcx, int srcy, int dstx, int dsty,
-                              int width, int height)
+        publid void Trbnsform(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                              Compositf domp, Rfgion dlip,
+                              AffinfTrbnsform bt, int iint,
+                              int srdx, int srdy, int dstx, int dsty,
+                              int widti, int ifigit)
         {
-            tracePrimitive(target);
-            target.Transform(src, dst, comp, clip, at, hint,
-                             srcx, srcy, dstx, dsty, width, height);
+            trbdfPrimitivf(tbrgft);
+            tbrgft.Trbnsform(srd, dst, domp, dlip, bt, iint,
+                             srdx, srdy, dstx, dsty, widti, ifigit);
         }
     }
 }

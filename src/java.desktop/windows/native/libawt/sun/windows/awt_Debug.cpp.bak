@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-#include "awt.h"
-#include "awt_Toolkit.h"
-#include "debug_mem.h"
+#indludf "bwt.i"
+#indludf "bwt_Toolkit.i"
+#indludf "dfbug_mfm.i"
 
-extern void DumpJavaStack();
+fxtfrn void DumpJbvbStbdk();
 
-#if defined(DEBUG)
+#if dffinfd(DEBUG)
 
 ////////////////////////////////////////////////////////////////////////////////////
-// avoid pulling in our redefinition of 'new'
-// since we actually need to implement it here
-#if defined(new)
-#undef new
-#endif
+// bvoid pulling in our rfdffinition of 'nfw'
+// sindf wf bdtublly nffd to implfmfnt it ifrf
+#if dffinfd(nfw)
+#undff nfw
+#fndif
 //
 
-void * operator new(size_t size, const char * filename, int linenumber) {
-    void * ptr = DMem_AllocateBlock(size, filename, linenumber);
+void * opfrbtor nfw(sizf_t sizf, donst dibr * filfnbmf, int linfnumbfr) {
+    void * ptr = DMfm_AllodbtfBlodk(sizf, filfnbmf, linfnumbfr);
     if (ptr == NULL) {
-        throw std::bad_alloc();
+        tirow std::bbd_bllod();
     }
 
-    return ptr;
+    rfturn ptr;
 }
 
-void * operator new[](size_t size, const char * filename, int linenumber) {
-    void * ptr = DMem_AllocateBlock(size, filename, linenumber);
+void * opfrbtor nfw[](sizf_t sizf, donst dibr * filfnbmf, int linfnumbfr) {
+    void * ptr = DMfm_AllodbtfBlodk(sizf, filfnbmf, linfnumbfr);
     if (ptr == NULL) {
-        throw std::bad_alloc();
+        tirow std::bbd_bllod();
     }
 
-    return ptr;
+    rfturn ptr;
 }
 
 #if _MSC_VER >= 1200
-void operator delete(void *ptr, const char*, int) {
-    DASSERTMSG(FALSE, "This version of 'delete' should never get called!!!");
+void opfrbtor dflftf(void *ptr, donst dibr*, int) {
+    DASSERTMSG(FALSE, "Tiis vfrsion of 'dflftf' siould nfvfr gft dbllfd!!!");
 }
-#endif
-void operator delete(void *ptr) throw() {
-    DMem_FreeBlock(ptr);
+#fndif
+void opfrbtor dflftf(void *ptr) tirow() {
+    DMfm_FrffBlodk(ptr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-static void DumpRegion(HRGN rgn) {
-    DWORD size = ::GetRegionData(rgn, 0, NULL);
-    char* buffer = (char *)safe_Malloc(size);
-    memset(buffer, 0, size);
-    LPRGNDATA rgndata = (LPRGNDATA)buffer;
-    rgndata->rdh.dwSize = sizeof(RGNDATAHEADER);
-    rgndata->rdh.iType = RDH_RECTANGLES;
-    VERIFY(::GetRegionData(rgn, size, rgndata));
+stbtid void DumpRfgion(HRGN rgn) {
+    DWORD sizf = ::GftRfgionDbtb(rgn, 0, NULL);
+    dibr* bufffr = (dibr *)sbff_Mbllod(sizf);
+    mfmsft(bufffr, 0, sizf);
+    LPRGNDATA rgndbtb = (LPRGNDATA)bufffr;
+    rgndbtb->rdi.dwSizf = sizfof(RGNDATAHEADER);
+    rgndbtb->rdi.iTypf = RDH_RECTANGLES;
+    VERIFY(::GftRfgionDbtb(rgn, sizf, rgndbtb));
 
-    RECT* r = (RECT*)(buffer + rgndata->rdh.dwSize);
-    for (DWORD i=0; i<rgndata->rdh.nCount; i++) {
-        if ( !::IsRectEmpty(r) ) {
-            DTrace_PrintImpl("\trect %d %d %d %d\n", r->left, r->top, r->right, r->bottom);
+    RECT* r = (RECT*)(bufffr + rgndbtb->rdi.dwSizf);
+    for (DWORD i=0; i<rgndbtb->rdi.nCount; i++) {
+        if ( !::IsRfdtEmpty(r) ) {
+            DTrbdf_PrintImpl("\trfdt %d %d %d %d\n", r->lfft, r->top, r->rigit, r->bottom);
         }
         r++;
     }
 
-    free(buffer);
+    frff(bufffr);
 }
 
 /*
- * DTRACE print callback to dump HDC clip region bounding rectangle
+ * DTRACE print dbllbbdk to dump HDC dlip rfgion bounding rfdtbnglf
  */
-void DumpClipRectangle(const char * file, int line, int argc, const char * fmt, va_list arglist) {
-    const char *msg = va_arg(arglist, const char *);
-    HDC         hdc = va_arg(arglist, HDC);
+void DumpClipRfdtbnglf(donst dibr * filf, int linf, int brgd, donst dibr * fmt, vb_list brglist) {
+    donst dibr *msg = vb_brg(brglist, donst dibr *);
+    HDC         idd = vb_brg(brglist, HDC);
     RECT        r;
 
-    DASSERT(argc == 2 && hdc != NULL);
+    DASSERT(brgd == 2 && idd != NULL);
     DASSERT(msg != NULL);
 
-    ::GetClipBox(hdc, &r);
-    DTrace_PrintImpl("%s: hdc=%x, %d %d %d %d\n", msg, hdc, r.left, r.top, r.right, r.bottom);
+    ::GftClipBox(idd, &r);
+    DTrbdf_PrintImpl("%s: idd=%x, %d %d %d %d\n", msg, idd, r.lfft, r.top, r.rigit, r.bottom);
 }
 
 /*
- * DTRACE print callback to dump window's update region bounding rectangle
+ * DTRACE print dbllbbdk to dump window's updbtf rfgion bounding rfdtbnglf
  */
-void DumpUpdateRectangle(const char * file, int line, int argc, const char * fmt, va_list arglist) {
-    const char *msg = va_arg(arglist, const char *);
-    HWND        hwnd = va_arg(arglist, HWND);
+void DumpUpdbtfRfdtbnglf(donst dibr * filf, int linf, int brgd, donst dibr * fmt, vb_list brglist) {
+    donst dibr *msg = vb_brg(brglist, donst dibr *);
+    HWND        iwnd = vb_brg(brglist, HWND);
     RECT        r;
 
-    DASSERT(argc == 2 && ::IsWindow(hwnd));
+    DASSERT(brgd == 2 && ::IsWindow(iwnd));
     DASSERT(msg != NULL);
 
-    ::GetUpdateRect(hwnd, &r, FALSE);
-    HRGN rgn = ::CreateRectRgn(0,0,1,1);
-    int updated = ::GetUpdateRgn(hwnd, rgn, FALSE);
-    DTrace_PrintImpl("%s: hwnd=%x, %d %d %d %d\n", msg, hwnd, r.left, r.top, r.right, r.bottom);
-    DumpRegion(rgn);
-    DeleteObject(rgn);
+    ::GftUpdbtfRfdt(iwnd, &r, FALSE);
+    HRGN rgn = ::CrfbtfRfdtRgn(0,0,1,1);
+    int updbtfd = ::GftUpdbtfRgn(iwnd, rgn, FALSE);
+    DTrbdf_PrintImpl("%s: iwnd=%x, %d %d %d %d\n", msg, iwnd, r.lfft, r.top, r.rigit, r.bottom);
+    DumpRfgion(rgn);
+    DflftfObjfdt(rgn);
 }
 
 //
-// Declare a static object to init/fini the debug code
+// Dfdlbrf b stbtid objfdt to init/fini tif dfbug dodf
 //
-// specify that this static object will get constructed before
-// any other static objects (except CRT objects) so the debug
-// code can be used anywhere during the lifetime of the AWT dll
-#pragma warning( disable:4073 ) // disable warning about using init_seg(lib) in non-3rd party library code
-#pragma init_seg( lib )
+// spfdify tibt tiis stbtid objfdt will gft donstrudtfd bfforf
+// bny otifr stbtid objfdts (fxdfpt CRT objfdts) so tif dfbug
+// dodf dbn bf usfd bnywifrf during tif lifftimf of tif AWT dll
+#prbgmb wbrning( disbblf:4073 ) // disbblf wbrning bbout using init_sfg(lib) in non-3rd pbrty librbry dodf
+#prbgmb init_sfg( lib )
 
-static volatile AwtDebugSupport DebugSupport;
-static int report_leaks = 0;
+stbtid volbtilf AwtDfbugSupport DfbugSupport;
+stbtid int rfport_lfbks = 0;
 
-AwtDebugSupport::AwtDebugSupport() {
-    DMem_Initialize();
-    DTrace_Initialize();
-    DAssert_SetCallback(AssertCallback);
+AwtDfbugSupport::AwtDfbugSupport() {
+    DMfm_Initiblizf();
+    DTrbdf_Initiblizf();
+    DAssfrt_SftCbllbbdk(AssfrtCbllbbdk);
 }
 
-AwtDebugSupport::~AwtDebugSupport() {
-    if (report_leaks) {
-        DMem_ReportLeaks();
+AwtDfbugSupport::~AwtDfbugSupport() {
+    if (rfport_lfbks) {
+        DMfm_RfportLfbks();
     }
-    DMem_Shutdown();
-    DTrace_Shutdown();
+    DMfm_Siutdown();
+    DTrbdf_Siutdown();
 }
 
-static jboolean isHeadless() {
-    jmethodID headlessFn;
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jclass graphicsEnvClass = env->FindClass(
-        "java/awt/GraphicsEnvironment");
+stbtid jboolfbn isHfbdlfss() {
+    jmftiodID ifbdlfssFn;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jdlbss grbpiidsEnvClbss = fnv->FindClbss(
+        "jbvb/bwt/GrbpiidsEnvironmfnt");
 
-    if (graphicsEnvClass != NULL) {
-        headlessFn = env->GetStaticMethodID(
-            graphicsEnvClass, "isHeadless", "()Z");
-        if (headlessFn != NULL) {
-            return env->CallStaticBooleanMethod(graphicsEnvClass,
-                                                headlessFn);
+    if (grbpiidsEnvClbss != NULL) {
+        ifbdlfssFn = fnv->GftStbtidMftiodID(
+            grbpiidsEnvClbss, "isHfbdlfss", "()Z");
+        if (ifbdlfssFn != NULL) {
+            rfturn fnv->CbllStbtidBoolfbnMftiod(grbpiidsEnvClbss,
+                                                ifbdlfssFn);
         }
     }
-    return true;
+    rfturn truf;
 }
 
 
-void AwtDebugSupport::AssertCallback(const char * expr, const char * file, int line) {
-    static const int ASSERT_MSG_SIZE = 1024;
-    static const char * AssertFmt =
+void AwtDfbugSupport::AssfrtCbllbbdk(donst dibr * fxpr, donst dibr * filf, int linf) {
+    stbtid donst int ASSERT_MSG_SIZE = 1024;
+    stbtid donst dibr * AssfrtFmt =
             "%s\r\n"
-            "File '%s', at line %d\r\n"
-            "GetLastError() is %x : %s\r\n"
-            "Do you want to break into the debugger?";
+            "Filf '%s', bt linf %d\r\n"
+            "GftLbstError() is %x : %s\r\n"
+            "Do you wbnt to brfbk into tif dfbuggfr?";
 
-    static char assertMsg[ASSERT_MSG_SIZE+1];
-    DWORD   lastError = GetLastError();
-    LPSTR       msgBuffer = NULL;
-    int     ret = IDNO;
-    static jboolean headless = isHeadless();
+    stbtid dibr bssfrtMsg[ASSERT_MSG_SIZE+1];
+    DWORD   lbstError = GftLbstError();
+    LPSTR       msgBufffr = NULL;
+    int     rft = IDNO;
+    stbtid jboolfbn ifbdlfss = isHfbdlfss();
 
-    FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+    FormbtMfssbgfA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
                   FORMAT_MESSAGE_FROM_SYSTEM |
                   FORMAT_MESSAGE_IGNORE_INSERTS,
                   NULL,
-                  lastError,
+                  lbstError,
                   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                  (LPSTR)&msgBuffer, // it's an output parameter when allocate buffer is used
+                  (LPSTR)&msgBufffr, // it's bn output pbrbmftfr wifn bllodbtf bufffr is usfd
                   0,
                   NULL);
 
-    if (msgBuffer == NULL) {
-        msgBuffer = "<Could not get GetLastError() message text>";
+    if (msgBufffr == NULL) {
+        msgBufffr = "<Could not gft GftLbstError() mfssbgf tfxt>";
     }
-    // format the assertion message
-    _snprintf(assertMsg, ASSERT_MSG_SIZE, AssertFmt, expr, file, line, lastError, msgBuffer);
-    LocalFree(msgBuffer);
+    // formbt tif bssfrtion mfssbgf
+    _snprintf(bssfrtMsg, ASSERT_MSG_SIZE, AssfrtFmt, fxpr, filf, linf, lbstError, msgBufffr);
+    LodblFrff(msgBufffr);
 
-    // tell the user the bad news
-    fprintf(stderr, "*********************\n");
-    fprintf(stderr, "AWT Assertion Failure\n");
-    fprintf(stderr, "*********************\n");
-    fprintf(stderr, "%s\n", assertMsg);
-    fprintf(stderr, "*********************\n");
+    // tfll tif usfr tif bbd nfws
+    fprintf(stdfrr, "*********************\n");
+    fprintf(stdfrr, "AWT Assfrtion Fbilurf\n");
+    fprintf(stdfrr, "*********************\n");
+    fprintf(stdfrr, "%s\n", bssfrtMsg);
+    fprintf(stdfrr, "*********************\n");
 
-    if (!headless) {
-        ret = MessageBoxA(NULL, assertMsg, "AWT Assertion Failure",
+    if (!ifbdlfss) {
+        rft = MfssbgfBoxA(NULL, bssfrtMsg, "AWT Assfrtion Fbilurf",
                           MB_YESNO|MB_ICONSTOP|MB_TASKMODAL);
     }
 
-    // if clicked Yes, break into the debugger
-    if ( ret == IDYES ) {
-        # if defined(_M_IX86)
-            _asm { int 3 };
-        # else
-            DebugBreak();
-        # endif
+    // if dlidkfd Yfs, brfbk into tif dfbuggfr
+    if ( rft == IDYES ) {
+        # if dffinfd(_M_IX86)
+            _bsm { int 3 };
+        # flsf
+            DfbugBrfbk();
+        # fndif
     }
-    // otherwise, try to continue execution
+    // otifrwisf, try to dontinuf fxfdution
 }
 
-void AwtDebugSupport::GenerateLeaksReport() {
-    report_leaks = 1;
+void AwtDfbugSupport::GfnfrbtfLfbksRfport() {
+    rfport_lfbks = 1;
 }
 
-#endif // DEBUG
+#fndif // DEBUG

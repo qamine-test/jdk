@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.*;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.*;
+import sun.util.logging.PlbtformLoggfr;
 
-class XScrollbarPeer extends XComponentPeer implements ScrollbarPeer, XScrollbarClient {
-    private final static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XScrollbarPeer");
+dlbss XSdrollbbrPffr fxtfnds XComponfntPffr implfmfnts SdrollbbrPffr, XSdrollbbrClifnt {
+    privbtf finbl stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XSdrollbbrPffr");
 
-    private static final int DEFAULT_LENGTH = 50;
-    private static final int DEFAULT_WIDTH_SOLARIS = 19;
-    private static final int DEFAULT_WIDTH_LINUX;
+    privbtf stbtid finbl int DEFAULT_LENGTH = 50;
+    privbtf stbtid finbl int DEFAULT_WIDTH_SOLARIS = 19;
+    privbtf stbtid finbl int DEFAULT_WIDTH_LINUX;
 
-    XScrollbar tsb;
+    XSdrollbbr tsb;
 
-    static {
-        DEFAULT_WIDTH_LINUX = XToolkit.getUIDefaults().getInt("ScrollBar.defaultWidth");
+    stbtid {
+        DEFAULT_WIDTH_LINUX = XToolkit.gftUIDffbults().gftInt("SdrollBbr.dffbultWidti");
     }
 
-    public void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        Scrollbar target = (Scrollbar) this.target;
-        if (target.getOrientation() == Scrollbar.VERTICAL) {
-            tsb = new XVerticalScrollbar(this);
-        } else {
-            tsb = new XHorizontalScrollbar(this);
+    publid void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
+        Sdrollbbr tbrgft = (Sdrollbbr) tiis.tbrgft;
+        if (tbrgft.gftOrifntbtion() == Sdrollbbr.VERTICAL) {
+            tsb = nfw XVfrtidblSdrollbbr(tiis);
+        } flsf {
+            tsb = nfw XHorizontblSdrollbbr(tiis);
         }
-        int min = target.getMinimum();
-        int max = target.getMaximum();
-        int vis = target.getVisibleAmount();
-        int val = target.getValue();
-        int line = target.getLineIncrement();
-        int page = target.getPageIncrement();
-        tsb.setValues(val, vis, min, max, line, page);
+        int min = tbrgft.gftMinimum();
+        int mbx = tbrgft.gftMbximum();
+        int vis = tbrgft.gftVisiblfAmount();
+        int vbl = tbrgft.gftVbluf();
+        int linf = tbrgft.gftLinfIndrfmfnt();
+        int pbgf = tbrgft.gftPbgfIndrfmfnt();
+        tsb.sftVblufs(vbl, vis, min, mbx, linf, pbgf);
     }
 
     /**
-     * Create a scrollbar.
+     * Crfbtf b sdrollbbr.
      */
-    XScrollbarPeer(Scrollbar target) {
-        super(target);
-        this.target = target;
-        xSetVisible(true);
+    XSdrollbbrPffr(Sdrollbbr tbrgft) {
+        supfr(tbrgft);
+        tiis.tbrgft = tbrgft;
+        xSftVisiblf(truf);
     }
 
     /**
-     * Returns default size of scrollbar on the platform
-     * Currently uses hardcoded values
+     * Rfturns dffbult sizf of sdrollbbr on tif plbtform
+     * Currfntly usfs ibrddodfd vblufs
      */
-    private int getDefaultDimension() {
-        if (System.getProperty("os.name").equals("Linux")) {
-            return DEFAULT_WIDTH_LINUX;
-        } else {
-            return DEFAULT_WIDTH_SOLARIS;
+    privbtf int gftDffbultDimfnsion() {
+        if (Systfm.gftPropfrty("os.nbmf").fqubls("Linux")) {
+            rfturn DEFAULT_WIDTH_LINUX;
+        } flsf {
+            rfturn DEFAULT_WIDTH_SOLARIS;
         }
     }
 
     /**
-     * Compute the minimum size for the scrollbar.
+     * Computf tif minimum sizf for tif sdrollbbr.
      */
-    public Dimension getMinimumSize() {
-        Scrollbar sb = (Scrollbar)target;
-        return (sb.getOrientation() == Scrollbar.VERTICAL)
-            ? new Dimension(getDefaultDimension(), DEFAULT_LENGTH)
-                : new Dimension(DEFAULT_LENGTH, getDefaultDimension());
+    publid Dimfnsion gftMinimumSizf() {
+        Sdrollbbr sb = (Sdrollbbr)tbrgft;
+        rfturn (sb.gftOrifntbtion() == Sdrollbbr.VERTICAL)
+            ? nfw Dimfnsion(gftDffbultDimfnsion(), DEFAULT_LENGTH)
+                : nfw Dimfnsion(DEFAULT_LENGTH, gftDffbultDimfnsion());
     }
     /**
-     * Paint the scrollbar.
+     * Pbint tif sdrollbbr.
      */
-    @Override
-    void paintPeer(final Graphics g) {
-        final Color[] colors = getGUIcolors();
-        g.setColor(colors[BACKGROUND_COLOR]);
-        tsb.paint(g, colors, true);
-        // paint the whole scrollbar
+    @Ovfrridf
+    void pbintPffr(finbl Grbpiids g) {
+        finbl Color[] dolors = gftGUIdolors();
+        g.sftColor(dolors[BACKGROUND_COLOR]);
+        tsb.pbint(g, dolors, truf);
+        // pbint tif wiolf sdrollbbr
     }
 
-    public void repaintScrollbarRequest(XScrollbar sb) {
-     repaint();
+    publid void rfpbintSdrollbbrRfqufst(XSdrollbbr sb) {
+     rfpbint();
     }
 
     /**
-     * The value has changed.
+     * Tif vbluf ibs dibngfd.
      */
-    public void notifyValue(XScrollbar obj, int type, int value, boolean isAdjusting) {
-        Scrollbar sb = (Scrollbar)target;
-        sb.setValue(value);
-        postEvent( new AdjustmentEvent(sb, AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED, type, value, isAdjusting));
+    publid void notifyVbluf(XSdrollbbr obj, int typf, int vbluf, boolfbn isAdjusting) {
+        Sdrollbbr sb = (Sdrollbbr)tbrgft;
+        sb.sftVbluf(vbluf);
+        postEvfnt( nfw AdjustmfntEvfnt(sb, AdjustmfntEvfnt.ADJUSTMENT_VALUE_CHANGED, typf, vbluf, isAdjusting));
     }
 
     /**
      *
-     * @see java.awt.event.MouseEvent
-     * MouseEvent.MOUSE_CLICKED
-     * MouseEvent.MOUSE_PRESSED
-     * MouseEvent.MOUSE_RELEASED
-     * MouseEvent.MOUSE_MOVED
-     * MouseEvent.MOUSE_ENTERED
-     * MouseEvent.MOUSE_EXITED
-     * MouseEvent.MOUSE_DRAGGED
+     * @sff jbvb.bwt.fvfnt.MousfEvfnt
+     * MousfEvfnt.MOUSE_CLICKED
+     * MousfEvfnt.MOUSE_PRESSED
+     * MousfEvfnt.MOUSE_RELEASED
+     * MousfEvfnt.MOUSE_MOVED
+     * MousfEvfnt.MOUSE_ENTERED
+     * MousfEvfnt.MOUSE_EXITED
+     * MousfEvfnt.MOUSE_DRAGGED
      */
-    public void handleJavaMouseEvent( MouseEvent mouseEvent ) {
-        super.handleJavaMouseEvent(mouseEvent);
+    publid void ibndlfJbvbMousfEvfnt( MousfEvfnt mousfEvfnt ) {
+        supfr.ibndlfJbvbMousfEvfnt(mousfEvfnt);
 
-        int x = mouseEvent.getX();
-        int y = mouseEvent.getY();
-        int modifiers = mouseEvent.getModifiers();
-        int id = mouseEvent.getID();
+        int x = mousfEvfnt.gftX();
+        int y = mousfEvfnt.gftY();
+        int modififrs = mousfEvfnt.gftModififrs();
+        int id = mousfEvfnt.gftID();
 
 
-        if ((mouseEvent.getModifiers() & InputEvent.BUTTON1_MASK) == 0) {
-            return;
+        if ((mousfEvfnt.gftModififrs() & InputEvfnt.BUTTON1_MASK) == 0) {
+            rfturn;
         }
 
-        switch (mouseEvent.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
-              target.requestFocus();
-              tsb.handleMouseEvent(id, modifiers,x,y);
-              break;
+        switdi (mousfEvfnt.gftID()) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+              tbrgft.rfqufstFodus();
+              tsb.ibndlfMousfEvfnt(id, modififrs,x,y);
+              brfbk;
 
-          case MouseEvent.MOUSE_RELEASED:
-              tsb.handleMouseEvent(id, modifiers,x,y);
-              break;
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              tsb.ibndlfMousfEvfnt(id, modififrs,x,y);
+              brfbk;
 
-          case MouseEvent.MOUSE_DRAGGED:
-              tsb.handleMouseEvent(id, modifiers,x,y);
-              break;
+          dbsf MousfEvfnt.MOUSE_DRAGGED:
+              tsb.ibndlfMousfEvfnt(id, modififrs,x,y);
+              brfbk;
         }
     }
 
-    public void handleJavaKeyEvent(KeyEvent event) {
-        super.handleJavaKeyEvent(event);
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("KeyEvent on scrollbar: " + event);
+    publid void ibndlfJbvbKfyEvfnt(KfyEvfnt fvfnt) {
+        supfr.ibndlfJbvbKfyEvfnt(fvfnt);
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("KfyEvfnt on sdrollbbr: " + fvfnt);
         }
-        if (!(event.isConsumed()) && event.getID() == KeyEvent.KEY_RELEASED) {
-            switch(event.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                log.finer("Scrolling up");
-                tsb.notifyValue(tsb.getValue() - tsb.getUnitIncrement());
-                break;
-            case KeyEvent.VK_DOWN:
-                log.finer("Scrolling down");
-                tsb.notifyValue(tsb.getValue() + tsb.getUnitIncrement());
-                break;
-            case KeyEvent.VK_LEFT:
-                log.finer("Scrolling up");
-                tsb.notifyValue(tsb.getValue() - tsb.getUnitIncrement());
-                break;
-            case KeyEvent.VK_RIGHT:
-                log.finer("Scrolling down");
-                tsb.notifyValue(tsb.getValue() + tsb.getUnitIncrement());
-                break;
-            case KeyEvent.VK_PAGE_UP:
-                log.finer("Scrolling page up");
-                tsb.notifyValue(tsb.getValue() - tsb.getBlockIncrement());
-                break;
-            case KeyEvent.VK_PAGE_DOWN:
-                log.finer("Scrolling page down");
-                tsb.notifyValue(tsb.getValue() + tsb.getBlockIncrement());
-                break;
-            case KeyEvent.VK_HOME:
-                log.finer("Scrolling to home");
-                tsb.notifyValue(0);
-                break;
-            case KeyEvent.VK_END:
-                log.finer("Scrolling to end");
-                tsb.notifyValue(tsb.getMaximum());
-                break;
+        if (!(fvfnt.isConsumfd()) && fvfnt.gftID() == KfyEvfnt.KEY_RELEASED) {
+            switdi(fvfnt.gftKfyCodf()) {
+            dbsf KfyEvfnt.VK_UP:
+                log.finfr("Sdrolling up");
+                tsb.notifyVbluf(tsb.gftVbluf() - tsb.gftUnitIndrfmfnt());
+                brfbk;
+            dbsf KfyEvfnt.VK_DOWN:
+                log.finfr("Sdrolling down");
+                tsb.notifyVbluf(tsb.gftVbluf() + tsb.gftUnitIndrfmfnt());
+                brfbk;
+            dbsf KfyEvfnt.VK_LEFT:
+                log.finfr("Sdrolling up");
+                tsb.notifyVbluf(tsb.gftVbluf() - tsb.gftUnitIndrfmfnt());
+                brfbk;
+            dbsf KfyEvfnt.VK_RIGHT:
+                log.finfr("Sdrolling down");
+                tsb.notifyVbluf(tsb.gftVbluf() + tsb.gftUnitIndrfmfnt());
+                brfbk;
+            dbsf KfyEvfnt.VK_PAGE_UP:
+                log.finfr("Sdrolling pbgf up");
+                tsb.notifyVbluf(tsb.gftVbluf() - tsb.gftBlodkIndrfmfnt());
+                brfbk;
+            dbsf KfyEvfnt.VK_PAGE_DOWN:
+                log.finfr("Sdrolling pbgf down");
+                tsb.notifyVbluf(tsb.gftVbluf() + tsb.gftBlodkIndrfmfnt());
+                brfbk;
+            dbsf KfyEvfnt.VK_HOME:
+                log.finfr("Sdrolling to iomf");
+                tsb.notifyVbluf(0);
+                brfbk;
+            dbsf KfyEvfnt.VK_END:
+                log.finfr("Sdrolling to fnd");
+                tsb.notifyVbluf(tsb.gftMbximum());
+                brfbk;
             }
         }
     }
 
-    public void setValue(int value) {
-        tsb.setValue(value);
-        repaint();
+    publid void sftVbluf(int vbluf) {
+        tsb.sftVbluf(vbluf);
+        rfpbint();
     }
 
-    public void setValues(int value, int visible, int minimum, int maximum) {
+    publid void sftVblufs(int vbluf, int visiblf, int minimum, int mbximum) {
 
-        tsb.setValues(value, visible, minimum, maximum);
-        repaint();
+        tsb.sftVblufs(vbluf, visiblf, minimum, mbximum);
+        rfpbint();
     }
 
-    public void setLineIncrement(int l) {
-        tsb.setUnitIncrement(l);
+    publid void sftLinfIndrfmfnt(int l) {
+        tsb.sftUnitIndrfmfnt(l);
     }
 
-    public void setPageIncrement(int p) {
-        tsb.setBlockIncrement(p);
+    publid void sftPbgfIndrfmfnt(int p) {
+        tsb.sftBlodkIndrfmfnt(p);
     }
 
-    public void layout() {
-        super.layout();
-        tsb.setSize(width, height);
+    publid void lbyout() {
+        supfr.lbyout();
+        tsb.sftSizf(widti, ifigit);
     }
 }

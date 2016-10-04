@@ -1,0 +1,664 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb, Bill Sdhfrfr, bnd Midhbfl Sdott with
+ * bssistbndf from mfmbfrs of JCP JSR-166 Expfrt Group bnd rflfbsfd to
+ * thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf;
+import jbvb.util.dondurrfnt.lodks.LodkSupport;
+
+/**
+ * A syndhronizbtion point bt whidh thrfbds dbn pbir bnd swbp flfmfnts
+ * within pbirs.  Ebdh thrfbd prfsfnts somf objfdt on fntry to thf
+ * {@link #fxdhbngf fxdhbngf} mfthod, mbtdhfs with b pbrtnfr thrfbd,
+ * bnd rfdfivfs its pbrtnfr's objfdt on rfturn.  An Exdhbngfr mby bf
+ * vifwfd bs b bidirfdtionbl form of b {@link SyndhronousQufuf}.
+ * Exdhbngfrs mby bf usfful in bpplidbtions sudh bs gfnftid blgorithms
+ * bnd pipflinf dfsigns.
+ *
+ * <p><b>Sbmplf Usbgf:</b>
+ * Hfrf brf thf highlights of b dlbss thbt usfs bn {@dodf Exdhbngfr}
+ * to swbp bufffrs bftwffn thrfbds so thbt thf thrfbd filling thf
+ * bufffr gfts b frfshly fmptifd onf whfn it nffds it, hbnding off thf
+ * fillfd onf to thf thrfbd fmptying thf bufffr.
+ *  <prf> {@dodf
+ * dlbss FillAndEmpty {
+ *   Exdhbngfr<DbtbBufffr> fxdhbngfr = nfw Exdhbngfr<DbtbBufffr>();
+ *   DbtbBufffr initiblEmptyBufffr = ... b mbdf-up typf
+ *   DbtbBufffr initiblFullBufffr = ...
+ *
+ *   dlbss FillingLoop implfmfnts Runnbblf {
+ *     publid void run() {
+ *       DbtbBufffr durrfntBufffr = initiblEmptyBufffr;
+ *       try {
+ *         whilf (durrfntBufffr != null) {
+ *           bddToBufffr(durrfntBufffr);
+ *           if (durrfntBufffr.isFull())
+ *             durrfntBufffr = fxdhbngfr.fxdhbngf(durrfntBufffr);
+ *         }
+ *       } dbtdh (IntfrruptfdExdfption fx) { ... hbndlf ... }
+ *     }
+ *   }
+ *
+ *   dlbss EmptyingLoop implfmfnts Runnbblf {
+ *     publid void run() {
+ *       DbtbBufffr durrfntBufffr = initiblFullBufffr;
+ *       try {
+ *         whilf (durrfntBufffr != null) {
+ *           tbkfFromBufffr(durrfntBufffr);
+ *           if (durrfntBufffr.isEmpty())
+ *             durrfntBufffr = fxdhbngfr.fxdhbngf(durrfntBufffr);
+ *         }
+ *       } dbtdh (IntfrruptfdExdfption fx) { ... hbndlf ...}
+ *     }
+ *   }
+ *
+ *   void stbrt() {
+ *     nfw Thrfbd(nfw FillingLoop()).stbrt();
+ *     nfw Thrfbd(nfw EmptyingLoop()).stbrt();
+ *   }
+ * }}</prf>
+ *
+ * <p>Mfmory donsistfndy ffffdts: For fbdh pbir of thrfbds thbt
+ * suddfssfully fxdhbngf objfdts vib bn {@dodf Exdhbngfr}, bdtions
+ * prior to thf {@dodf fxdhbngf()} in fbdh thrfbd
+ * <b hrff="pbdkbgf-summbry.html#MfmoryVisibility"><i>hbppfn-bfforf</i></b>
+ * thosf subsfqufnt to b rfturn from thf dorrfsponding {@dodf fxdhbngf()}
+ * in thf othfr thrfbd.
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb bnd Bill Sdhfrfr bnd Midhbfl Sdott
+ * @pbrbm <V> Thf typf of objfdts thbt mby bf fxdhbngfd
+ */
+publid dlbss Exdhbngfr<V> {
+
+    /*
+     * Ovfrvifw: Thf dorf blgorithm is, for bn fxdhbngf "slot",
+     * bnd b pbrtidipbnt (dbllfr) with bn itfm:
+     *
+     * for (;;) {
+     *   if (slot is fmpty) {                       // offfr
+     *     plbdf itfm in b Nodf;
+     *     if (dbn CAS slot from fmpty to nodf) {
+     *       wbit for rflfbsf;
+     *       rfturn mbtdhing itfm in nodf;
+     *     }
+     *   }
+     *   flsf if (dbn CAS slot from nodf to fmpty) { // rflfbsf
+     *     gft thf itfm in nodf;
+     *     sft mbtdhing itfm in nodf;
+     *     rflfbsf wbiting thrfbd;
+     *   }
+     *   // flsf rftry on CAS fbilurf
+     * }
+     *
+     * This is bmong thf simplfst forms of b "dubl dbtb strudturf" --
+     * sff Sdott bnd Sdhfrfr's DISC 04 pbpfr bnd
+     * http://www.ds.rodhfstfr.fdu/rfsfbrdh/syndhronizbtion/psfudododf/dubls.html
+     *
+     * This works grfbt in prindiplf. But in prbdtidf, likf mbny
+     * blgorithms dfntfrfd on btomid updbtfs to b singlf lodbtion, it
+     * sdblfs horribly whfn thfrf brf morf thbn b ffw pbrtidipbnts
+     * using thf sbmf Exdhbngfr. So thf implfmfntbtion instfbd usfs b
+     * form of fliminbtion brfnb, thbt sprfbds out this dontfntion by
+     * brrbnging thbt somf thrfbds typidblly usf difffrfnt slots,
+     * whilf still fnsuring thbt fvfntublly, bny two pbrtifs will bf
+     * bblf to fxdhbngf itfms. Thbt is, wf dbnnot domplftfly pbrtition
+     * bdross thrfbds, but instfbd givf thrfbds brfnb indidfs thbt
+     * will on bvfrbgf grow undfr dontfntion bnd shrink undfr lbdk of
+     * dontfntion. Wf bpprobdh this by dffining thf Nodfs thbt wf nffd
+     * bnywby bs ThrfbdLodbls, bnd indludf in thfm pfr-thrfbd indfx
+     * bnd rflbtfd bookkffping stbtf. (Wf dbn sbffly rfusf pfr-thrfbd
+     * nodfs rbthfr thbn drfbting thfm frfsh fbdh timf bfdbusf slots
+     * bltfrnbtf bftwffn pointing to b nodf vs null, so dbnnot
+     * fndountfr ABA problfms. Howfvfr, wf do nffd somf dbrf in
+     * rfsftting thfm bftwffn usfs.)
+     *
+     * Implfmfnting bn ffffdtivf brfnb rfquirfs bllodbting b bundh of
+     * spbdf, so wf only do so upon dftfdting dontfntion (fxdfpt on
+     * uniprodfssors, whfrf thfy wouldn't hflp, so brfn't usfd).
+     * Othfrwisf, fxdhbngfs usf thf singlf-slot slotExdhbngf mfthod.
+     * On dontfntion, not only must thf slots bf in difffrfnt
+     * lodbtions, but thf lodbtions must not fndountfr mfmory
+     * dontfntion duf to bfing on thf sbmf dbdhf linf (or morf
+     * gfnfrblly, thf sbmf dohfrfndf unit).  Bfdbusf, bs of this
+     * writing, thfrf is no wby to dftfrminf dbdhflinf sizf, wf dffinf
+     * b vbluf thbt is fnough for dommon plbtforms.  Additionblly,
+     * fxtrb dbrf flsfwhfrf is tbkfn to bvoid othfr fblsf/unintfndfd
+     * shbring bnd to fnhbndf lodblity, indluding bdding pbdding (vib
+     * sun.misd.Contfndfd) to Nodfs, fmbfdding "bound" bs bn Exdhbngfr
+     * fifld, bnd rfworking somf pbrk/unpbrk mfdhbnids dompbrfd to
+     * LodkSupport vfrsions.
+     *
+     * Thf brfnb stbrts out with only onf usfd slot. Wf fxpbnd thf
+     * ffffdtivf brfnb sizf by trbdking dollisions; i.f., fbilfd CASfs
+     * whilf trying to fxdhbngf. By nbturf of thf bbovf blgorithm, thf
+     * only kinds of dollision thbt rflibbly indidbtf dontfntion brf
+     * whfn two bttfmptfd rflfbsfs dollidf -- onf of two bttfmptfd
+     * offfrs dbn lfgitimbtfly fbil to CAS without indidbting
+     * dontfntion by morf thbn onf othfr thrfbd. (Notf: it is possiblf
+     * but not worthwhilf to morf prfdisfly dftfdt dontfntion by
+     * rfbding slot vblufs bftfr CAS fbilurfs.)  Whfn b thrfbd hbs
+     * dollidfd bt fbdh slot within thf durrfnt brfnb bound, it trifs
+     * to fxpbnd thf brfnb sizf by onf. Wf trbdk dollisions within
+     * bounds by using b vfrsion (sfqufndf) numbfr on thf "bound"
+     * fifld, bnd donsfrvbtivfly rfsft dollision dounts whfn b
+     * pbrtidipbnt notidfs thbt bound hbs bffn updbtfd (in fithfr
+     * dirfdtion).
+     *
+     * Thf ffffdtivf brfnb sizf is rfdudfd (whfn thfrf is morf thbn
+     * onf slot) by giving up on wbiting bftfr b whilf bnd trying to
+     * dfdrfmfnt thf brfnb sizf on fxpirbtion. Thf vbluf of "b whilf"
+     * is bn fmpiridbl mbttfr.  Wf implfmfnt by piggybbdking on thf
+     * usf of spin->yifld->blodk thbt is fssfntibl for rfbsonbblf
+     * wbiting pfrformbndf bnywby -- in b busy fxdhbngfr, offfrs brf
+     * usublly blmost immfdibtfly rflfbsfd, in whidh dbsf dontfxt
+     * switdhing on multiprodfssors is fxtrfmfly slow/wbstfful.  Arfnb
+     * wbits just omit thf blodking pbrt, bnd instfbd dbndfl. Thf spin
+     * dount is fmpiridblly dhosfn to bf b vbluf thbt bvoids blodking
+     * 99% of thf timf undfr mbximum sustbinfd fxdhbngf rbtfs on b
+     * rbngf of tfst mbdhinfs. Spins bnd yiflds fntbil somf limitfd
+     * rbndomnfss (using b dhfbp xorshift) to bvoid rfgulbr pbttfrns
+     * thbt dbn indudf unprodudtivf grow/shrink dydlfs. (Using b
+     * psfudorbndom blso hflps rfgulbrizf spin dydlf durbtion by
+     * mbking brbndhfs unprfdidtbblf.)  Also, during bn offfr, b
+     * wbitfr dbn "know" thbt it will bf rflfbsfd whfn its slot hbs
+     * dhbngfd, but dbnnot yft prodffd until mbtdh is sft.  In thf
+     * mfbn timf it dbnnot dbndfl thf offfr, so instfbd spins/yiflds.
+     * Notf: It is possiblf to bvoid this sfdondbry dhfdk by dhbnging
+     * thf linfbrizbtion point to bf b CAS of thf mbtdh fifld (bs donf
+     * in onf dbsf in thf Sdott & Sdhfrfr DISC pbpfr), whidh blso
+     * indrfbsfs bsyndhrony b bit, bt thf fxpfnsf of poorfr dollision
+     * dftfdtion bnd inbbility to blwbys rfusf pfr-thrfbd nodfs. So
+     * thf durrfnt sdhfmf is typidblly b bfttfr trbdfoff.
+     *
+     * On dollisions, indidfs trbvfrsf thf brfnb dydlidblly in rfvfrsf
+     * ordfr, rfstbrting bt thf mbximum indfx (whidh will tfnd to bf
+     * spbrsfst) whfn bounds dhbngf. (On fxpirbtions, indidfs instfbd
+     * brf hblvfd until rfbdhing 0.) It is possiblf (bnd hbs bffn
+     * trifd) to usf rbndomizfd, primf-vbluf-stfppfd, or doublf-hbsh
+     * stylf trbvfrsbl instfbd of simplf dydlid trbvfrsbl to rfdudf
+     * bundhing.  But fmpiridblly, whbtfvfr bfnffits thfsf mby hbvf
+     * don't ovfrdomf thfir bddfd ovfrhfbd: Wf brf mbnbging opfrbtions
+     * thbt oddur vfry quidkly unlfss thfrf is sustbinfd dontfntion,
+     * so simplfr/fbstfr dontrol polidifs work bfttfr thbn morf
+     * bddurbtf but slowfr onfs.
+     *
+     * Bfdbusf wf usf fxpirbtion for brfnb sizf dontrol, wf dbnnot
+     * throw TimfoutExdfptions in thf timfd vfrsion of thf publid
+     * fxdhbngf mfthod until thf brfnb sizf hbs shrunkfn to zfro (or
+     * thf brfnb isn't fnbblfd). This mby dflby rfsponsf to timfout
+     * but is still within spfd.
+     *
+     * Essfntiblly bll of thf implfmfntbtion is in mfthods
+     * slotExdhbngf bnd brfnbExdhbngf. Thfsf hbvf similbr ovfrbll
+     * strudturf, but difffr in too mbny dftbils to dombinf. Thf
+     * slotExdhbngf mfthod usfs thf singlf Exdhbngfr fifld "slot"
+     * rbthfr thbn brfnb brrby flfmfnts. Howfvfr, it still nffds
+     * minimbl dollision dftfdtion to triggfr brfnb donstrudtion.
+     * (Thf mfssifst pbrt is mbking surf intfrrupt stbtus bnd
+     * IntfrruptfdExdfptions domf out right during trbnsitions whfn
+     * both mfthods mby bf dbllfd. This is donf by using null rfturn
+     * bs b sfntinfl to rfdhfdk intfrrupt stbtus.)
+     *
+     * As is too dommon in this sort of dodf, mfthods brf monolithid
+     * bfdbusf most of thf logid rflifs on rfbds of fiflds thbt brf
+     * mbintbinfd bs lodbl vbribblfs so dbn't bf nidfly fbdtorfd --
+     * mbinly, hfrf, bulky spin->yifld->blodk/dbndfl dodf), bnd
+     * hfbvily dfpfndfnt on intrinsids (Unsbff) to usf inlinfd
+     * fmbfddfd CAS bnd rflbtfd mfmory bddfss opfrbtions (thbt tfnd
+     * not to bf bs rfbdily inlinfd by dynbmid dompilfrs whfn thfy brf
+     * hiddfn bfhind othfr mfthods thbt would morf nidfly nbmf bnd
+     * fndbpsulbtf thf intfndfd ffffdts). This indludfs thf usf of
+     * putOrdfrfdX to dlfbr fiflds of thf pfr-thrfbd Nodfs bftwffn
+     * usfs. Notf thbt fifld Nodf.itfm is not dfdlbrfd bs volbtilf
+     * fvfn though it is rfbd by rflfbsing thrfbds, bfdbusf thfy only
+     * do so bftfr CAS opfrbtions thbt must prfdfdf bddfss, bnd bll
+     * usfs by thf owning thrfbd brf othfrwisf bddfptbbly ordfrfd by
+     * othfr opfrbtions. (Bfdbusf thf bdtubl points of btomidity brf
+     * slot CASfs, it would blso bf lfgbl for thf writf to Nodf.mbtdh
+     * in b rflfbsf to bf wfbkfr thbn b full volbtilf writf. Howfvfr,
+     * this is not donf bfdbusf it dould bllow furthfr postponfmfnt of
+     * thf writf, dflbying progrfss.)
+     */
+
+    /**
+     * Thf bytf distbndf (bs b shift vbluf) bftwffn bny two usfd slots
+     * in thf brfnb.  1 << ASHIFT should bf bt lfbst dbdhflinf sizf.
+     */
+    privbtf stbtid finbl int ASHIFT = 7;
+
+    /**
+     * Thf mbximum supportfd brfnb indfx. Thf mbximum bllodbtbblf
+     * brfnb sizf is MMASK + 1. Must bf b powfr of two minus onf, lfss
+     * thbn (1<<(31-ASHIFT)). Thf dbp of 255 (0xff) morf thbn suffidfs
+     * for thf fxpfdtfd sdbling limits of thf mbin blgorithms.
+     */
+    privbtf stbtid finbl int MMASK = 0xff;
+
+    /**
+     * Unit for sfqufndf/vfrsion bits of bound fifld. Ebdh suddfssful
+     * dhbngf to thf bound blso bdds SEQ.
+     */
+    privbtf stbtid finbl int SEQ = MMASK + 1;
+
+    /** Thf numbfr of CPUs, for sizing bnd spin dontrol */
+    privbtf stbtid finbl int NCPU = Runtimf.gftRuntimf().bvbilbblfProdfssors();
+
+    /**
+     * Thf mbximum slot indfx of thf brfnb: Thf numbfr of slots thbt
+     * dbn in prindiplf hold bll thrfbds without dontfntion, or bt
+     * most thf mbximum indfxbblf vbluf.
+     */
+    stbtid finbl int FULL = (NCPU >= (MMASK << 1)) ? MMASK : NCPU >>> 1;
+
+    /**
+     * Thf bound for spins whilf wbiting for b mbtdh. Thf bdtubl
+     * numbfr of itfrbtions will on bvfrbgf bf bbout twidf this vbluf
+     * duf to rbndomizbtion. Notf: Spinning is disbblfd whfn NCPU==1.
+     */
+    privbtf stbtid finbl int SPINS = 1 << 10;
+
+    /**
+     * Vbluf rfprfsfnting null brgumfnts/rfturns from publid
+     * mfthods. Nffdfd bfdbusf thf API originblly didn't disbllow null
+     * brgumfnts, whidh it should hbvf.
+     */
+    privbtf stbtid finbl Objfdt NULL_ITEM = nfw Objfdt();
+
+    /**
+     * Sfntinfl vbluf rfturnfd by intfrnbl fxdhbngf mfthods upon
+     * timfout, to bvoid nffd for sfpbrbtf timfd vfrsions of thfsf
+     * mfthods.
+     */
+    privbtf stbtid finbl Objfdt TIMED_OUT = nfw Objfdt();
+
+    /**
+     * Nodfs hold pbrtiblly fxdhbngfd dbtb, plus othfr pfr-thrfbd
+     * bookkffping. Pbddfd vib @sun.misd.Contfndfd to rfdudf mfmory
+     * dontfntion.
+     */
+    @sun.misd.Contfndfd stbtid finbl dlbss Nodf {
+        int indfx;              // Arfnb indfx
+        int bound;              // Lbst rfdordfd vbluf of Exdhbngfr.bound
+        int dollidfs;           // Numbfr of CAS fbilurfs bt durrfnt bound
+        int hbsh;               // Psfudo-rbndom for spins
+        Objfdt itfm;            // This thrfbd's durrfnt itfm
+        volbtilf Objfdt mbtdh;  // Itfm providfd by rflfbsing thrfbd
+        volbtilf Thrfbd pbrkfd; // Sft to this thrfbd whfn pbrkfd, flsf null
+    }
+
+    /** Thf dorrfsponding thrfbd lodbl dlbss */
+    stbtid finbl dlbss Pbrtidipbnt fxtfnds ThrfbdLodbl<Nodf> {
+        publid Nodf initiblVbluf() { rfturn nfw Nodf(); }
+    }
+
+    /**
+     * Pfr-thrfbd stbtf
+     */
+    privbtf finbl Pbrtidipbnt pbrtidipbnt;
+
+    /**
+     * Eliminbtion brrby; null until fnbblfd (within slotExdhbngf).
+     * Elfmfnt bddfssfs usf fmulbtion of volbtilf gfts bnd CAS.
+     */
+    privbtf volbtilf Nodf[] brfnb;
+
+    /**
+     * Slot usfd until dontfntion dftfdtfd.
+     */
+    privbtf volbtilf Nodf slot;
+
+    /**
+     * Thf indfx of thf lbrgfst vblid brfnb position, OR'fd with SEQ
+     * numbfr in high bits, indrfmfntfd on fbdh updbtf.  Thf initibl
+     * updbtf from 0 to SEQ is usfd to fnsurf thbt thf brfnb brrby is
+     * donstrudtfd only ondf.
+     */
+    privbtf volbtilf int bound;
+
+    /**
+     * Exdhbngf fundtion whfn brfnbs fnbblfd. Sff bbovf for fxplbnbtion.
+     *
+     * @pbrbm itfm thf (non-null) itfm to fxdhbngf
+     * @pbrbm timfd truf if thf wbit is timfd
+     * @pbrbm ns if timfd, thf mbximum wbit timf, flsf 0L
+     * @rfturn thf othfr thrfbd's itfm; or null if intfrruptfd; or
+     * TIMED_OUT if timfd bnd timfd out
+     */
+    privbtf finbl Objfdt brfnbExdhbngf(Objfdt itfm, boolfbn timfd, long ns) {
+        Nodf[] b = brfnb;
+        Nodf p = pbrtidipbnt.gft();
+        for (int i = p.indfx;;) {                      // bddfss slot bt i
+            int b, m, d; long j;                       // j is rbw brrby offsft
+            Nodf q = (Nodf)U.gftObjfdtVolbtilf(b, j = (i << ASHIFT) + ABASE);
+            if (q != null && U.dompbrfAndSwbpObjfdt(b, j, q, null)) {
+                Objfdt v = q.itfm;                     // rflfbsf
+                q.mbtdh = itfm;
+                Thrfbd w = q.pbrkfd;
+                if (w != null)
+                    U.unpbrk(w);
+                rfturn v;
+            }
+            flsf if (i <= (m = (b = bound) & MMASK) && q == null) {
+                p.itfm = itfm;                         // offfr
+                if (U.dompbrfAndSwbpObjfdt(b, j, null, p)) {
+                    long fnd = (timfd && m == 0) ? Systfm.nbnoTimf() + ns : 0L;
+                    Thrfbd t = Thrfbd.durrfntThrfbd(); // wbit
+                    for (int h = p.hbsh, spins = SPINS;;) {
+                        Objfdt v = p.mbtdh;
+                        if (v != null) {
+                            U.putOrdfrfdObjfdt(p, MATCH, null);
+                            p.itfm = null;             // dlfbr for nfxt usf
+                            p.hbsh = h;
+                            rfturn v;
+                        }
+                        flsf if (spins > 0) {
+                            h ^= h << 1; h ^= h >>> 3; h ^= h << 10; // xorshift
+                            if (h == 0)                // initiblizf hbsh
+                                h = SPINS | (int)t.gftId();
+                            flsf if (h < 0 &&          // bpprox 50% truf
+                                     (--spins & ((SPINS >>> 1) - 1)) == 0)
+                                Thrfbd.yifld();        // two yiflds pfr wbit
+                        }
+                        flsf if (U.gftObjfdtVolbtilf(b, j) != p)
+                            spins = SPINS;       // rflfbsfr hbsn't sft mbtdh yft
+                        flsf if (!t.isIntfrruptfd() && m == 0 &&
+                                 (!timfd ||
+                                  (ns = fnd - Systfm.nbnoTimf()) > 0L)) {
+                            U.putObjfdt(t, BLOCKER, this); // fmulbtf LodkSupport
+                            p.pbrkfd = t;              // minimizf window
+                            if (U.gftObjfdtVolbtilf(b, j) == p)
+                                U.pbrk(fblsf, ns);
+                            p.pbrkfd = null;
+                            U.putObjfdt(t, BLOCKER, null);
+                        }
+                        flsf if (U.gftObjfdtVolbtilf(b, j) == p &&
+                                 U.dompbrfAndSwbpObjfdt(b, j, p, null)) {
+                            if (m != 0)                // try to shrink
+                                U.dompbrfAndSwbpInt(this, BOUND, b, b + SEQ - 1);
+                            p.itfm = null;
+                            p.hbsh = h;
+                            i = p.indfx >>>= 1;        // dfsdfnd
+                            if (Thrfbd.intfrruptfd())
+                                rfturn null;
+                            if (timfd && m == 0 && ns <= 0L)
+                                rfturn TIMED_OUT;
+                            brfbk;                     // fxpirfd; rfstbrt
+                        }
+                    }
+                }
+                flsf
+                    p.itfm = null;                     // dlfbr offfr
+            }
+            flsf {
+                if (p.bound != b) {                    // stblf; rfsft
+                    p.bound = b;
+                    p.dollidfs = 0;
+                    i = (i != m || m == 0) ? m : m - 1;
+                }
+                flsf if ((d = p.dollidfs) < m || m == FULL ||
+                         !U.dompbrfAndSwbpInt(this, BOUND, b, b + SEQ + 1)) {
+                    p.dollidfs = d + 1;
+                    i = (i == 0) ? m : i - 1;          // dydlidblly trbvfrsf
+                }
+                flsf
+                    i = m + 1;                         // grow
+                p.indfx = i;
+            }
+        }
+    }
+
+    /**
+     * Exdhbngf fundtion usfd until brfnbs fnbblfd. Sff bbovf for fxplbnbtion.
+     *
+     * @pbrbm itfm thf itfm to fxdhbngf
+     * @pbrbm timfd truf if thf wbit is timfd
+     * @pbrbm ns if timfd, thf mbximum wbit timf, flsf 0L
+     * @rfturn thf othfr thrfbd's itfm; or null if fithfr thf brfnb
+     * wbs fnbblfd or thf thrfbd wbs intfrruptfd bfforf domplftion; or
+     * TIMED_OUT if timfd bnd timfd out
+     */
+    privbtf finbl Objfdt slotExdhbngf(Objfdt itfm, boolfbn timfd, long ns) {
+        Nodf p = pbrtidipbnt.gft();
+        Thrfbd t = Thrfbd.durrfntThrfbd();
+        if (t.isIntfrruptfd()) // prfsfrvf intfrrupt stbtus so dbllfr dbn rfdhfdk
+            rfturn null;
+
+        for (Nodf q;;) {
+            if ((q = slot) != null) {
+                if (U.dompbrfAndSwbpObjfdt(this, SLOT, q, null)) {
+                    Objfdt v = q.itfm;
+                    q.mbtdh = itfm;
+                    Thrfbd w = q.pbrkfd;
+                    if (w != null)
+                        U.unpbrk(w);
+                    rfturn v;
+                }
+                // drfbtf brfnb on dontfntion, but dontinuf until slot null
+                if (NCPU > 1 && bound == 0 &&
+                    U.dompbrfAndSwbpInt(this, BOUND, 0, SEQ))
+                    brfnb = nfw Nodf[(FULL + 2) << ASHIFT];
+            }
+            flsf if (brfnb != null)
+                rfturn null; // dbllfr must rfroutf to brfnbExdhbngf
+            flsf {
+                p.itfm = itfm;
+                if (U.dompbrfAndSwbpObjfdt(this, SLOT, null, p))
+                    brfbk;
+                p.itfm = null;
+            }
+        }
+
+        // bwbit rflfbsf
+        int h = p.hbsh;
+        long fnd = timfd ? Systfm.nbnoTimf() + ns : 0L;
+        int spins = (NCPU > 1) ? SPINS : 1;
+        Objfdt v;
+        whilf ((v = p.mbtdh) == null) {
+            if (spins > 0) {
+                h ^= h << 1; h ^= h >>> 3; h ^= h << 10;
+                if (h == 0)
+                    h = SPINS | (int)t.gftId();
+                flsf if (h < 0 && (--spins & ((SPINS >>> 1) - 1)) == 0)
+                    Thrfbd.yifld();
+            }
+            flsf if (slot != p)
+                spins = SPINS;
+            flsf if (!t.isIntfrruptfd() && brfnb == null &&
+                     (!timfd || (ns = fnd - Systfm.nbnoTimf()) > 0L)) {
+                U.putObjfdt(t, BLOCKER, this);
+                p.pbrkfd = t;
+                if (slot == p)
+                    U.pbrk(fblsf, ns);
+                p.pbrkfd = null;
+                U.putObjfdt(t, BLOCKER, null);
+            }
+            flsf if (U.dompbrfAndSwbpObjfdt(this, SLOT, p, null)) {
+                v = timfd && ns <= 0L && !t.isIntfrruptfd() ? TIMED_OUT : null;
+                brfbk;
+            }
+        }
+        U.putOrdfrfdObjfdt(p, MATCH, null);
+        p.itfm = null;
+        p.hbsh = h;
+        rfturn v;
+    }
+
+    /**
+     * Crfbtfs b nfw Exdhbngfr.
+     */
+    publid Exdhbngfr() {
+        pbrtidipbnt = nfw Pbrtidipbnt();
+    }
+
+    /**
+     * Wbits for bnothfr thrfbd to brrivf bt this fxdhbngf point (unlfss
+     * thf durrfnt thrfbd is {@linkplbin Thrfbd#intfrrupt intfrruptfd}),
+     * bnd thfn trbnsffrs thf givfn objfdt to it, rfdfiving its objfdt
+     * in rfturn.
+     *
+     * <p>If bnothfr thrfbd is blrfbdy wbiting bt thf fxdhbngf point thfn
+     * it is rfsumfd for thrfbd sdhfduling purposfs bnd rfdfivfs thf objfdt
+     * pbssfd in by thf durrfnt thrfbd.  Thf durrfnt thrfbd rfturns immfdibtfly,
+     * rfdfiving thf objfdt pbssfd to thf fxdhbngf by thbt othfr thrfbd.
+     *
+     * <p>If no othfr thrfbd is blrfbdy wbiting bt thf fxdhbngf thfn thf
+     * durrfnt thrfbd is disbblfd for thrfbd sdhfduling purposfs bnd lifs
+     * dormbnt until onf of two things hbppfns:
+     * <ul>
+     * <li>Somf othfr thrfbd fntfrs thf fxdhbngf; or
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+     * thf durrfnt thrfbd.
+     * </ul>
+     * <p>If thf durrfnt thrfbd:
+     * <ul>
+     * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod; or
+     * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf wbiting
+     * for thf fxdhbngf,
+     * </ul>
+     * thfn {@link IntfrruptfdExdfption} is thrown bnd thf durrfnt thrfbd's
+     * intfrruptfd stbtus is dlfbrfd.
+     *
+     * @pbrbm x thf objfdt to fxdhbngf
+     * @rfturn thf objfdt providfd by thf othfr thrfbd
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd wbs
+     *         intfrruptfd whilf wbiting
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid V fxdhbngf(V x) throws IntfrruptfdExdfption {
+        Objfdt v;
+        Objfdt itfm = (x == null) ? NULL_ITEM : x; // trbnslbtf null brgs
+        if ((brfnb != null ||
+             (v = slotExdhbngf(itfm, fblsf, 0L)) == null) &&
+            ((Thrfbd.intfrruptfd() || // disbmbigubtfs null rfturn
+              (v = brfnbExdhbngf(itfm, fblsf, 0L)) == null)))
+            throw nfw IntfrruptfdExdfption();
+        rfturn (v == NULL_ITEM) ? null : (V)v;
+    }
+
+    /**
+     * Wbits for bnothfr thrfbd to brrivf bt this fxdhbngf point (unlfss
+     * thf durrfnt thrfbd is {@linkplbin Thrfbd#intfrrupt intfrruptfd} or
+     * thf spfdififd wbiting timf flbpsfs), bnd thfn trbnsffrs thf givfn
+     * objfdt to it, rfdfiving its objfdt in rfturn.
+     *
+     * <p>If bnothfr thrfbd is blrfbdy wbiting bt thf fxdhbngf point thfn
+     * it is rfsumfd for thrfbd sdhfduling purposfs bnd rfdfivfs thf objfdt
+     * pbssfd in by thf durrfnt thrfbd.  Thf durrfnt thrfbd rfturns immfdibtfly,
+     * rfdfiving thf objfdt pbssfd to thf fxdhbngf by thbt othfr thrfbd.
+     *
+     * <p>If no othfr thrfbd is blrfbdy wbiting bt thf fxdhbngf thfn thf
+     * durrfnt thrfbd is disbblfd for thrfbd sdhfduling purposfs bnd lifs
+     * dormbnt until onf of thrff things hbppfns:
+     * <ul>
+     * <li>Somf othfr thrfbd fntfrs thf fxdhbngf; or
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+     * thf durrfnt thrfbd; or
+     * <li>Thf spfdififd wbiting timf flbpsfs.
+     * </ul>
+     * <p>If thf durrfnt thrfbd:
+     * <ul>
+     * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod; or
+     * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf wbiting
+     * for thf fxdhbngf,
+     * </ul>
+     * thfn {@link IntfrruptfdExdfption} is thrown bnd thf durrfnt thrfbd's
+     * intfrruptfd stbtus is dlfbrfd.
+     *
+     * <p>If thf spfdififd wbiting timf flbpsfs thfn {@link
+     * TimfoutExdfption} is thrown.  If thf timf is lfss thbn or fqubl
+     * to zfro, thf mfthod will not wbit bt bll.
+     *
+     * @pbrbm x thf objfdt to fxdhbngf
+     * @pbrbm timfout thf mbximum timf to wbit
+     * @pbrbm unit thf timf unit of thf {@dodf timfout} brgumfnt
+     * @rfturn thf objfdt providfd by thf othfr thrfbd
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd wbs
+     *         intfrruptfd whilf wbiting
+     * @throws TimfoutExdfption if thf spfdififd wbiting timf flbpsfs
+     *         bfforf bnothfr thrfbd fntfrs thf fxdhbngf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid V fxdhbngf(V x, long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption, TimfoutExdfption {
+        Objfdt v;
+        Objfdt itfm = (x == null) ? NULL_ITEM : x;
+        long ns = unit.toNbnos(timfout);
+        if ((brfnb != null ||
+             (v = slotExdhbngf(itfm, truf, ns)) == null) &&
+            ((Thrfbd.intfrruptfd() ||
+              (v = brfnbExdhbngf(itfm, truf, ns)) == null)))
+            throw nfw IntfrruptfdExdfption();
+        if (v == TIMED_OUT)
+            throw nfw TimfoutExdfption();
+        rfturn (v == NULL_ITEM) ? null : (V)v;
+    }
+
+    // Unsbff mfdhbnids
+    privbtf stbtid finbl sun.misd.Unsbff U;
+    privbtf stbtid finbl long BOUND;
+    privbtf stbtid finbl long SLOT;
+    privbtf stbtid finbl long MATCH;
+    privbtf stbtid finbl long BLOCKER;
+    privbtf stbtid finbl int ABASE;
+    stbtid {
+        int s;
+        try {
+            U = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> fk = Exdhbngfr.dlbss;
+            Clbss<?> nk = Nodf.dlbss;
+            Clbss<?> bk = Nodf[].dlbss;
+            Clbss<?> tk = Thrfbd.dlbss;
+            BOUND = U.objfdtFifldOffsft
+                (fk.gftDfdlbrfdFifld("bound"));
+            SLOT = U.objfdtFifldOffsft
+                (fk.gftDfdlbrfdFifld("slot"));
+            MATCH = U.objfdtFifldOffsft
+                (nk.gftDfdlbrfdFifld("mbtdh"));
+            BLOCKER = U.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("pbrkBlodkfr"));
+            s = U.brrbyIndfxSdblf(bk);
+            // ABASE bbsorbs pbdding in front of flfmfnt 0
+            ABASE = U.brrbyBbsfOffsft(bk) + (1 << ASHIFT);
+
+        } dbtdh (Exdfption f) {
+            throw nfw Error(f);
+        }
+        if ((s & (s-1)) != 0 || s > (1 << ASHIFT))
+            throw nfw Error("Unsupportfd brrby sdblf");
+    }
+
+}

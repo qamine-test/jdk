@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.image.ImageConsumer;
-import java.awt.image.ColorModel;
-import java.util.Hashtable;
-import java.awt.Rectangle;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.util.Hbsitbblf;
+import jbvb.bwt.Rfdtbnglf;
 
 /**
- * An ImageFilter class for cropping images.
- * This class extends the basic ImageFilter Class to extract a given
- * rectangular region of an existing Image and provide a source for a
- * new image containing just the extracted region.  It is meant to
- * be used in conjunction with a FilteredImageSource object to produce
- * cropped versions of existing images.
+ * An ImbgfFiltfr dlbss for dropping imbgfs.
+ * Tiis dlbss fxtfnds tif bbsid ImbgfFiltfr Clbss to fxtrbdt b givfn
+ * rfdtbngulbr rfgion of bn fxisting Imbgf bnd providf b sourdf for b
+ * nfw imbgf dontbining just tif fxtrbdtfd rfgion.  It is mfbnt to
+ * bf usfd in donjundtion witi b FiltfrfdImbgfSourdf objfdt to produdf
+ * droppfd vfrsions of fxisting imbgfs.
  *
- * @see FilteredImageSource
- * @see ImageFilter
+ * @sff FiltfrfdImbgfSourdf
+ * @sff ImbgfFiltfr
  *
- * @author      Jim Graham
+ * @butior      Jim Grbibm
  */
-public class CropImageFilter extends ImageFilter {
-    int cropX;
-    int cropY;
-    int cropW;
-    int cropH;
+publid dlbss CropImbgfFiltfr fxtfnds ImbgfFiltfr {
+    int dropX;
+    int dropY;
+    int dropW;
+    int dropH;
 
     /**
-     * Constructs a CropImageFilter that extracts the absolute rectangular
-     * region of pixels from its source Image as specified by the x, y,
-     * w, and h parameters.
-     * @param x the x location of the top of the rectangle to be extracted
-     * @param y the y location of the top of the rectangle to be extracted
-     * @param w the width of the rectangle to be extracted
-     * @param h the height of the rectangle to be extracted
+     * Construdts b CropImbgfFiltfr tibt fxtrbdts tif bbsolutf rfdtbngulbr
+     * rfgion of pixfls from its sourdf Imbgf bs spfdififd by tif x, y,
+     * w, bnd i pbrbmftfrs.
+     * @pbrbm x tif x lodbtion of tif top of tif rfdtbnglf to bf fxtrbdtfd
+     * @pbrbm y tif y lodbtion of tif top of tif rfdtbnglf to bf fxtrbdtfd
+     * @pbrbm w tif widti of tif rfdtbnglf to bf fxtrbdtfd
+     * @pbrbm i tif ifigit of tif rfdtbnglf to bf fxtrbdtfd
      */
-    public CropImageFilter(int x, int y, int w, int h) {
-        cropX = x;
-        cropY = y;
-        cropW = w;
-        cropH = h;
+    publid CropImbgfFiltfr(int x, int y, int w, int i) {
+        dropX = x;
+        dropY = y;
+        dropW = w;
+        dropH = i;
     }
 
     /**
-     * Passes along  the properties from the source object after adding a
-     * property indicating the cropped region.
-     * This method invokes <code>super.setProperties</code>,
-     * which might result in additional properties being added.
+     * Pbssfs blong  tif propfrtifs from tif sourdf objfdt bftfr bdding b
+     * propfrty indidbting tif droppfd rfgion.
+     * Tiis mftiod invokfs <dodf>supfr.sftPropfrtifs</dodf>,
+     * wiidi migit rfsult in bdditionbl propfrtifs bfing bddfd.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose pixels
-     * are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
      */
-    public void setProperties(Hashtable<?,?> props) {
-        @SuppressWarnings("unchecked")
-        Hashtable<Object,Object> p = (Hashtable<Object,Object>)props.clone();
-        p.put("croprect", new Rectangle(cropX, cropY, cropW, cropH));
-        super.setProperties(p);
+    publid void sftPropfrtifs(Hbsitbblf<?,?> props) {
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<Objfdt,Objfdt> p = (Hbsitbblf<Objfdt,Objfdt>)props.dlonf();
+        p.put("droprfdt", nfw Rfdtbnglf(dropX, dropY, dropW, dropH));
+        supfr.sftPropfrtifs(p);
     }
 
     /**
-     * Override the source image's dimensions and pass the dimensions
-     * of the rectangular cropped region to the ImageConsumer.
+     * Ovfrridf tif sourdf imbgf's dimfnsions bnd pbss tif dimfnsions
+     * of tif rfdtbngulbr droppfd rfgion to tif ImbgfConsumfr.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose
-     * pixels are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ImageConsumer
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf
+     * pixfls brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
+     * @sff ImbgfConsumfr
      */
-    public void setDimensions(int w, int h) {
-        consumer.setDimensions(cropW, cropH);
+    publid void sftDimfnsions(int w, int i) {
+        donsumfr.sftDimfnsions(dropW, dropH);
     }
 
     /**
-     * Determine whether the delivered byte pixels intersect the region to
-     * be extracted and passes through only that subset of pixels that
-     * appear in the output region.
+     * Dftfrminf wiftifr tif dflivfrfd bytf pixfls intfrsfdt tif rfgion to
+     * bf fxtrbdtfd bnd pbssfs tirougi only tibt subsft of pixfls tibt
+     * bppfbr in tif output rfgion.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose
-     * pixels are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf
+     * pixfls brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
      */
-    public void setPixels(int x, int y, int w, int h,
-                          ColorModel model, byte pixels[], int off,
-                          int scansize) {
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          int sdbnsizf) {
         int x1 = x;
-        if (x1 < cropX) {
-            x1 = cropX;
+        if (x1 < dropX) {
+            x1 = dropX;
         }
-    int x2 = addWithoutOverflow(x, w);
-        if (x2 > cropX + cropW) {
-            x2 = cropX + cropW;
+    int x2 = bddWitioutOvfrflow(x, w);
+        if (x2 > dropX + dropW) {
+            x2 = dropX + dropW;
         }
         int y1 = y;
-        if (y1 < cropY) {
-            y1 = cropY;
+        if (y1 < dropY) {
+            y1 = dropY;
         }
 
-    int y2 = addWithoutOverflow(y, h);
-        if (y2 > cropY + cropH) {
-            y2 = cropY + cropH;
+    int y2 = bddWitioutOvfrflow(y, i);
+        if (y2 > dropY + dropH) {
+            y2 = dropY + dropH;
         }
         if (x1 >= x2 || y1 >= y2) {
-            return;
+            rfturn;
         }
-        consumer.setPixels(x1 - cropX, y1 - cropY, (x2 - x1), (y2 - y1),
-                           model, pixels,
-                           off + (y1 - y) * scansize + (x1 - x), scansize);
+        donsumfr.sftPixfls(x1 - dropX, y1 - dropY, (x2 - x1), (y2 - y1),
+                           modfl, pixfls,
+                           off + (y1 - y) * sdbnsizf + (x1 - x), sdbnsizf);
     }
 
     /**
-     * Determine if the delivered int pixels intersect the region to
-     * be extracted and pass through only that subset of pixels that
-     * appear in the output region.
+     * Dftfrminf if tif dflivfrfd int pixfls intfrsfdt tif rfgion to
+     * bf fxtrbdtfd bnd pbss tirougi only tibt subsft of pixfls tibt
+     * bppfbr in tif output rfgion.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose
-     * pixels are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf
+     * pixfls brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
      */
-    public void setPixels(int x, int y, int w, int h,
-                          ColorModel model, int pixels[], int off,
-                          int scansize) {
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
         int x1 = x;
-        if (x1 < cropX) {
-            x1 = cropX;
+        if (x1 < dropX) {
+            x1 = dropX;
         }
-    int x2 = addWithoutOverflow(x, w);
-        if (x2 > cropX + cropW) {
-            x2 = cropX + cropW;
+    int x2 = bddWitioutOvfrflow(x, w);
+        if (x2 > dropX + dropW) {
+            x2 = dropX + dropW;
         }
         int y1 = y;
-        if (y1 < cropY) {
-            y1 = cropY;
+        if (y1 < dropY) {
+            y1 = dropY;
         }
 
-    int y2 = addWithoutOverflow(y, h);
-        if (y2 > cropY + cropH) {
-            y2 = cropY + cropH;
+    int y2 = bddWitioutOvfrflow(y, i);
+        if (y2 > dropY + dropH) {
+            y2 = dropY + dropH;
         }
         if (x1 >= x2 || y1 >= y2) {
-            return;
+            rfturn;
         }
-        consumer.setPixels(x1 - cropX, y1 - cropY, (x2 - x1), (y2 - y1),
-                           model, pixels,
-                           off + (y1 - y) * scansize + (x1 - x), scansize);
+        donsumfr.sftPixfls(x1 - dropX, y1 - dropY, (x2 - x1), (y2 - y1),
+                           modfl, pixfls,
+                           off + (y1 - y) * sdbnsizf + (x1 - x), sdbnsizf);
     }
 
-    //check for potential overflow (see bug 4801285)
-    private int addWithoutOverflow(int x, int w) {
+    //difdk for potfntibl ovfrflow (sff bug 4801285)
+    privbtf int bddWitioutOvfrflow(int x, int w) {
         int x2 = x + w;
         if ( x > 0 && w > 0 && x2 < 0 ) {
-            x2 = Integer.MAX_VALUE;
-        } else if( x < 0 && w < 0 && x2 > 0 ) {
-            x2 = Integer.MIN_VALUE;
+            x2 = Intfgfr.MAX_VALUE;
+        } flsf if( x < 0 && w < 0 && x2 > 0 ) {
+            x2 = Intfgfr.MIN_VALUE;
         }
-        return x2;
+        rfturn x2;
     }
 }

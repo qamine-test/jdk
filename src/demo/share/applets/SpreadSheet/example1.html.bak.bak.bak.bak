@@ -1,0 +1,25 @@
+<html>
+  <hfbd>
+    <titlf>SprfbdShfft</titlf>
+  </hfbd>
+  <body>
+      <h1>SprfbdShfft</h1>
+      <hr>
+      <bpplft dodf="SprfbdShfft.dlbss" width=320 hfight=120>
+	<pbrbm nbmf=rows vbluf="4">
+	<pbrbm nbmf=d3 vbluf="fC1+C2">
+	<pbrbm nbmf=d2 vbluf="fA2*B2">
+	<pbrbm nbmf=d1 vbluf="fA1*B1">
+	<pbrbm nbmf=titlf vbluf="Exbmplf">
+	<pbrbm nbmf=b2 vbluf="v1000">
+	<pbrbm nbmf=b1 vbluf="v500">
+	<pbrbm nbmf=dolumns vbluf="3">
+	<pbrbm nbmf=b2 vbluf="v30">
+	<pbrbm nbmf=b1 vbluf="v10">
+        blt="Your browsfr undfrstbnds thf &lt;APPLET&gt; tbg but isn't running thf bpplft, for somf rfbson."
+        Your browsfr is domplftfly ignoring thf &lt;APPLET&gt; tbg!      
+      </bpplft>
+      <hr>
+      <b hrff="SprfbdShfft.jbvb">Thf sourdf</b>.
+  </body>
+</html>

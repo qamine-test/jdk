@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.logging;
+pbdkbgf jbvb.util.logging;
 
-import java.util.Enumeration;
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
 /**
- * Logging is the implementation class of LoggingMXBean.
+ * Logging is tif implfmfntbtion dlbss of LoggingMXBfbn.
  *
- * The <tt>LoggingMXBean</tt> interface provides a standard
- * method for management access to the individual
- * {@code Logger} objects available at runtime.
+ * Tif <tt>LoggingMXBfbn</tt> intfrfbdf providfs b stbndbrd
+ * mftiod for mbnbgfmfnt bddfss to tif individubl
+ * {@dodf Loggfr} objfdts bvbilbblf bt runtimf.
  *
- * @author Ron Mann
- * @author Mandy Chung
- * @since 1.5
+ * @butior Ron Mbnn
+ * @butior Mbndy Ciung
+ * @sindf 1.5
  *
- * @see javax.management
- * @see Logger
- * @see LogManager
+ * @sff jbvbx.mbnbgfmfnt
+ * @sff Loggfr
+ * @sff LogMbnbgfr
  */
-class Logging implements LoggingMXBean {
+dlbss Logging implfmfnts LoggingMXBfbn {
 
-    private static LogManager logManager = LogManager.getLogManager();
+    privbtf stbtid LogMbnbgfr logMbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
 
-    /** Constructor of Logging which is the implementation class
-     *  of LoggingMXBean.
+    /** Construdtor of Logging wiidi is tif implfmfntbtion dlbss
+     *  of LoggingMXBfbn.
      */
     Logging() {
     }
 
-    public List<String> getLoggerNames() {
-        Enumeration<String> loggers = logManager.getLoggerNames();
-        ArrayList<String> array = new ArrayList<>();
+    publid List<String> gftLoggfrNbmfs() {
+        Enumfrbtion<String> loggfrs = logMbnbgfr.gftLoggfrNbmfs();
+        ArrbyList<String> brrby = nfw ArrbyList<>();
 
-        for (; loggers.hasMoreElements();) {
-            array.add(loggers.nextElement());
+        for (; loggfrs.ibsMorfElfmfnts();) {
+            brrby.bdd(loggfrs.nfxtElfmfnt());
         }
-        return array;
+        rfturn brrby;
     }
 
-    private static String EMPTY_STRING = "";
-    public String getLoggerLevel(String loggerName) {
-        Logger l = logManager.getLogger(loggerName);
+    privbtf stbtid String EMPTY_STRING = "";
+    publid String gftLoggfrLfvfl(String loggfrNbmf) {
+        Loggfr l = logMbnbgfr.gftLoggfr(loggfrNbmf);
         if (l == null) {
-            return null;
+            rfturn null;
         }
 
-        Level level = l.getLevel();
-        if (level == null) {
-            return EMPTY_STRING;
-        } else {
-            return level.getLevelName();
+        Lfvfl lfvfl = l.gftLfvfl();
+        if (lfvfl == null) {
+            rfturn EMPTY_STRING;
+        } flsf {
+            rfturn lfvfl.gftLfvflNbmf();
         }
     }
 
-    public void setLoggerLevel(String loggerName, String levelName) {
-        if (loggerName == null) {
-            throw new NullPointerException("loggerName is null");
+    publid void sftLoggfrLfvfl(String loggfrNbmf, String lfvflNbmf) {
+        if (loggfrNbmf == null) {
+            tirow nfw NullPointfrExdfption("loggfrNbmf is null");
         }
 
-        Logger logger = logManager.getLogger(loggerName);
-        if (logger == null) {
-            throw new IllegalArgumentException("Logger " + loggerName +
-                " does not exist");
+        Loggfr loggfr = logMbnbgfr.gftLoggfr(loggfrNbmf);
+        if (loggfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("Loggfr " + loggfrNbmf +
+                " dofs not fxist");
         }
 
-        Level level = null;
-        if (levelName != null) {
-            // parse will throw IAE if logLevel is invalid
-            level = Level.findLevel(levelName);
-            if (level == null) {
-                throw new IllegalArgumentException("Unknown level \"" + levelName + "\"");
+        Lfvfl lfvfl = null;
+        if (lfvflNbmf != null) {
+            // pbrsf will tirow IAE if logLfvfl is invblid
+            lfvfl = Lfvfl.findLfvfl(lfvflNbmf);
+            if (lfvfl == null) {
+                tirow nfw IllfgblArgumfntExdfption("Unknown lfvfl \"" + lfvflNbmf + "\"");
             }
         }
 
-        logger.setLevel(level);
+        loggfr.sftLfvfl(lfvfl);
     }
 
-    public String getParentLoggerName( String loggerName ) {
-        Logger l = logManager.getLogger( loggerName );
+    publid String gftPbrfntLoggfrNbmf( String loggfrNbmf ) {
+        Loggfr l = logMbnbgfr.gftLoggfr( loggfrNbmf );
         if (l == null) {
-            return null;
+            rfturn null;
         }
 
-        Logger p = l.getParent();
+        Loggfr p = l.gftPbrfnt();
         if (p == null) {
-            // root logger
-            return EMPTY_STRING;
-        } else {
-            return p.getName();
+            // root loggfr
+            rfturn EMPTY_STRING;
+        } flsf {
+            rfturn p.gftNbmf();
         }
     }
 }

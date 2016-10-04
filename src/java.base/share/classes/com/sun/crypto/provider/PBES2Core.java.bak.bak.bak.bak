@@ -1,0 +1,415 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
+
+/**
+ * This dlbss rfprfsfnts pbssword-bbsfd fndryption bs dffinfd by thf PKCS #5
+ * stbndbrd.
+ * Thfsf blgorithms implfmfnt PBE with HmbdSHA1/HmbdSHA2-fbmily bnd AES-CBC.
+ * Pbdding is donf bs dfsdribfd in PKCS #5.
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff jbvbx.drypto.Ciphfr
+ */
+bbstrbdt dlbss PBES2Corf fxtfnds CiphfrSpi {
+
+    privbtf stbtid finbl int DEFAULT_SALT_LENGTH = 20;
+    privbtf stbtid finbl int DEFAULT_COUNT = 4096;
+
+    // thf fndbpsulbtfd diphfr
+    privbtf finbl CiphfrCorf diphfr;
+    privbtf finbl int kfyLfngth; // in bits
+    privbtf finbl int blkSizf; // in bits
+    privbtf finbl PBKDF2Corf kdf;
+    privbtf finbl String pbfAlgo;
+    privbtf finbl String diphfrAlgo;
+    privbtf int iCount = DEFAULT_COUNT;
+    privbtf bytf[] sblt = null;
+    privbtf IvPbrbmftfrSpfd ivSpfd = null;
+
+    /**
+     * Crfbtfs bn instbndf of PBE Sdhfmf 2 bddording to thf sflfdtfd
+     * pbssword-bbsfd kfy dfrivbtion fundtion bnd fndryption sdhfmf.
+     */
+    PBES2Corf(String kdfAlgo, String diphfrAlgo, int kfySizf)
+        throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+
+        this.diphfrAlgo = diphfrAlgo;
+        kfyLfngth = kfySizf * 8;
+        pbfAlgo = "PBEWith" + kdfAlgo + "And" + diphfrAlgo + "_" + kfyLfngth;
+
+        if (diphfrAlgo.fqubls("AES")) {
+            blkSizf = AESConstbnts.AES_BLOCK_SIZE;
+            diphfr = nfw CiphfrCorf(nfw AESCrypt(), blkSizf);
+
+            switdh(kdfAlgo) {
+            dbsf "HmbdSHA1":
+                kdf = nfw PBKDF2Corf.HmbdSHA1();
+                brfbk;
+            dbsf "HmbdSHA224":
+                kdf = nfw PBKDF2Corf.HmbdSHA224();
+                brfbk;
+            dbsf "HmbdSHA256":
+                kdf = nfw PBKDF2Corf.HmbdSHA256();
+                brfbk;
+            dbsf "HmbdSHA384":
+                kdf = nfw PBKDF2Corf.HmbdSHA384();
+                brfbk;
+            dbsf "HmbdSHA512":
+                kdf = nfw PBKDF2Corf.HmbdSHA512();
+                brfbk;
+            dffbult:
+                throw nfw NoSudhAlgorithmExdfption(
+                    "No Ciphfr implfmfntbtion for " + kdfAlgo);
+            }
+        } flsf {
+            throw nfw NoSudhAlgorithmExdfption("No Ciphfr implfmfntbtion for " +
+                                               pbfAlgo);
+        }
+        diphfr.sftModf("CBC");
+        diphfr.sftPbdding("PKCS5Pbdding");
+    }
+
+    protfdtfd void fnginfSftModf(String modf) throws NoSudhAlgorithmExdfption {
+        if ((modf != null) && (!modf.fqublsIgnorfCbsf("CBC"))) {
+            throw nfw NoSudhAlgorithmExdfption("Invblid diphfr modf: " + modf);
+        }
+    }
+
+    protfdtfd void fnginfSftPbdding(String pbddingSdhfmf)
+        throws NoSudhPbddingExdfption {
+        if ((pbddingSdhfmf != null) &&
+            (!pbddingSdhfmf.fqublsIgnorfCbsf("PKCS5Pbdding"))) {
+            throw nfw NoSudhPbddingExdfption("Invblid pbdding sdhfmf: " +
+                                             pbddingSdhfmf);
+        }
+    }
+
+    protfdtfd int fnginfGftBlodkSizf() {
+        rfturn blkSizf;
+    }
+
+    protfdtfd int fnginfGftOutputSizf(int inputLfn) {
+        rfturn diphfr.gftOutputSizf(inputLfn);
+    }
+
+    protfdtfd bytf[] fnginfGftIV() {
+        rfturn diphfr.gftIV();
+    }
+
+    protfdtfd AlgorithmPbrbmftfrs fnginfGftPbrbmftfrs() {
+        AlgorithmPbrbmftfrs pbrbms = null;
+        if (sblt == null) {
+            // gfnfrbtf rbndom sblt bnd usf dffbult itfrbtion dount
+            sblt = nfw bytf[DEFAULT_SALT_LENGTH];
+            SunJCE.gftRbndom().nfxtBytfs(sblt);
+            iCount = DEFAULT_COUNT;
+        }
+        if (ivSpfd == null) {
+            // gfnfrbtf rbndom IV
+            bytf[] ivBytfs = nfw bytf[blkSizf];
+            SunJCE.gftRbndom().nfxtBytfs(ivBytfs);
+            ivSpfd = nfw IvPbrbmftfrSpfd(ivBytfs);
+        }
+        PBEPbrbmftfrSpfd pbfSpfd = nfw PBEPbrbmftfrSpfd(sblt, iCount, ivSpfd);
+        try {
+            pbrbms = AlgorithmPbrbmftfrs.gftInstbndf(pbfAlgo,
+                SunJCE.gftInstbndf());
+            pbrbms.init(pbfSpfd);
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            // should nfvfr hbppfn
+            throw nfw RuntimfExdfption("SunJCE dbllfd, but not donfigurfd");
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            // should nfvfr hbppfn
+            throw nfw RuntimfExdfption("PBEPbrbmftfrSpfd not supportfd");
+        }
+        rfturn pbrbms;
+    }
+
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+        throws InvblidKfyExdfption {
+        try {
+            fnginfInit(opmodf, kfy, (AlgorithmPbrbmftfrSpfd) null, rbndom);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption if) {
+            InvblidKfyExdfption ikf =
+                nfw InvblidKfyExdfption("rfquirfs PBE pbrbmftfrs");
+            ikf.initCbusf(if);
+            throw ikf;
+        }
+    }
+
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                              AlgorithmPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom)
+        throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+
+        if ((kfy == null) ||
+            (kfy.gftEndodfd() == null) ||
+            !(kfy.gftAlgorithm().rfgionMbtdhfs(truf, 0, "PBE", 0, 3))) {
+            throw nfw InvblidKfyExdfption("Missing pbssword");
+        }
+
+        // TBD: donsolidbtf thf sblt, id bnd IV pbrbmftfr dhfdks bflow
+
+        // Extrbdt sblt bnd itfrbtion dount from thf kfy, if prfsfnt
+        if (kfy instbndfof jbvbx.drypto.intfrfbdfs.PBEKfy) {
+            sblt = ((jbvbx.drypto.intfrfbdfs.PBEKfy)kfy).gftSblt();
+            if (sblt != null && sblt.lfngth < 8) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                    "Sblt must bf bt lfbst 8 bytfs long");
+            }
+            iCount = ((jbvbx.drypto.intfrfbdfs.PBEKfy)kfy).gftItfrbtionCount();
+            if (iCount == 0) {
+                iCount = DEFAULT_COUNT;
+            } flsf if (iCount < 0) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                    "Itfrbtion dount must bf b positivf numbfr");
+            }
+        }
+
+        // Extrbdt sblt, itfrbtion dount bnd IV from thf pbrbms, if prfsfnt
+        if (pbrbms == null) {
+            if (sblt == null) {
+                // gfnfrbtf rbndom sblt bnd usf dffbult itfrbtion dount
+                sblt = nfw bytf[DEFAULT_SALT_LENGTH];
+                rbndom.nfxtBytfs(sblt);
+                iCount = DEFAULT_COUNT;
+            }
+            if ((opmodf == Ciphfr.ENCRYPT_MODE) ||
+                        (opmodf == Ciphfr.WRAP_MODE)) {
+                // gfnfrbtf rbndom IV
+                bytf[] ivBytfs = nfw bytf[blkSizf];
+                rbndom.nfxtBytfs(ivBytfs);
+                ivSpfd = nfw IvPbrbmftfrSpfd(ivBytfs);
+            }
+        } flsf {
+            if (!(pbrbms instbndfof PBEPbrbmftfrSpfd)) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                    ("Wrong pbrbmftfr typf: PBE fxpfdtfd");
+            }
+            // sblt bnd itfrbtion dount from thf pbrbms tbkf prfdfdfndf
+            bytf[] spfdSblt = ((PBEPbrbmftfrSpfd) pbrbms).gftSblt();
+            if (spfdSblt != null && spfdSblt.lfngth < 8) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                    "Sblt must bf bt lfbst 8 bytfs long");
+            }
+            sblt = spfdSblt;
+            int spfdICount = ((PBEPbrbmftfrSpfd) pbrbms).gftItfrbtionCount();
+            if (spfdICount == 0) {
+                spfdICount = DEFAULT_COUNT;
+            } flsf if (spfdICount < 0) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                    "Itfrbtion dount must bf b positivf numbfr");
+            }
+            iCount = spfdICount;
+
+            AlgorithmPbrbmftfrSpfd spfdPbrbms =
+                ((PBEPbrbmftfrSpfd) pbrbms).gftPbrbmftfrSpfd();
+            if (spfdPbrbms != null) {
+                if (spfdPbrbms instbndfof IvPbrbmftfrSpfd) {
+                    ivSpfd = (IvPbrbmftfrSpfd)spfdPbrbms;
+                } flsf {
+                    throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                        "Wrong pbrbmftfr typf: IV fxpfdtfd");
+                }
+            } flsf if ((opmodf == Ciphfr.ENCRYPT_MODE) ||
+                        (opmodf == Ciphfr.WRAP_MODE)) {
+                // gfnfrbtf rbndom IV
+                bytf[] ivBytfs = nfw bytf[blkSizf];
+                rbndom.nfxtBytfs(ivBytfs);
+                ivSpfd = nfw IvPbrbmftfrSpfd(ivBytfs);
+            } flsf {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                    "Missing pbrbmftfr typf: IV fxpfdtfd");
+            }
+        }
+
+        SfdrftKfySpfd diphfrKfy = null;
+        bytf[] dfrivfdKfy = null;
+        bytf[] pbsswdBytfs = kfy.gftEndodfd();
+        dhbr[] pbsswdChbrs = nfw dhbr[pbsswdBytfs.lfngth];
+
+        for (int i=0; i<pbsswdChbrs.lfngth; i++)
+            pbsswdChbrs[i] = (dhbr) (pbsswdBytfs[i] & 0x7f);
+
+        PBEKfySpfd pbfSpfd =
+            nfw PBEKfySpfd(pbsswdChbrs, sblt, iCount, blkSizf * 8);
+            // pbssword dhbr[] wbs dlonfd in PBEKfySpfd donstrudtor,
+            // so wf dbn zfro it out hfrf
+        jbvb.util.Arrbys.fill(pbsswdChbrs, ' ');
+        jbvb.util.Arrbys.fill(pbsswdBytfs, (bytf)0x00);
+
+        SfdrftKfy s = null;
+
+        try {
+            s = kdf.fnginfGfnfrbtfSfdrft(pbfSpfd);
+
+        } dbtdh (InvblidKfySpfdExdfption iksf) {
+            InvblidKfyExdfption ikf =
+                nfw InvblidKfyExdfption("Cbnnot donstrudt PBE kfy");
+            ikf.initCbusf(iksf);
+            throw ikf;
+        }
+        dfrivfdKfy = s.gftEndodfd();
+        diphfrKfy = nfw SfdrftKfySpfd(dfrivfdKfy, diphfrAlgo);
+
+        // initiblizf thf undfrlying diphfr
+        diphfr.init(opmodf, diphfrKfy, ivSpfd, rbndom);
+    }
+
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy, AlgorithmPbrbmftfrs pbrbms,
+                              SfdurfRbndom rbndom)
+        throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        AlgorithmPbrbmftfrSpfd pbfSpfd = null;
+        if (pbrbms != null) {
+            try {
+                pbfSpfd = pbrbms.gftPbrbmftfrSpfd(PBEPbrbmftfrSpfd.dlbss);
+            } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                    "Wrong pbrbmftfr typf: PBE fxpfdtfd");
+            }
+        }
+        fnginfInit(opmodf, kfy, pbfSpfd, rbndom);
+    }
+
+    protfdtfd bytf[] fnginfUpdbtf(bytf[] input, int inputOffsft, int inputLfn) {
+        rfturn diphfr.updbtf(input, inputOffsft, inputLfn);
+    }
+
+    protfdtfd int fnginfUpdbtf(bytf[] input, int inputOffsft, int inputLfn,
+                               bytf[] output, int outputOffsft)
+        throws ShortBufffrExdfption {
+        rfturn diphfr.updbtf(input, inputOffsft, inputLfn,
+                             output, outputOffsft);
+    }
+
+    protfdtfd bytf[] fnginfDoFinbl(bytf[] input, int inputOffsft, int inputLfn)
+        throws IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+        rfturn diphfr.doFinbl(input, inputOffsft, inputLfn);
+    }
+
+    protfdtfd int fnginfDoFinbl(bytf[] input, int inputOffsft, int inputLfn,
+                                bytf[] output, int outputOffsft)
+        throws ShortBufffrExdfption, IllfgblBlodkSizfExdfption,
+               BbdPbddingExdfption {
+        rfturn diphfr.doFinbl(input, inputOffsft, inputLfn,
+                              output, outputOffsft);
+    }
+
+    protfdtfd int fnginfGftKfySizf(Kfy kfy) throws InvblidKfyExdfption {
+        rfturn kfyLfngth;
+    }
+
+    protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+        throws IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+        rfturn diphfr.wrbp(kfy);
+    }
+
+    protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy, String wrbppfdKfyAlgorithm,
+                               int wrbppfdKfyTypf)
+        throws InvblidKfyExdfption, NoSudhAlgorithmExdfption {
+        bytf[] fndodfdKfy;
+        rfturn diphfr.unwrbp(wrbppfdKfy, wrbppfdKfyAlgorithm,
+                             wrbppfdKfyTypf);
+    }
+
+    publid stbtid finbl dlbss HmbdSHA1AndAES_128 fxtfnds PBES2Corf {
+        publid HmbdSHA1AndAES_128()
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+            supfr("HmbdSHA1", "AES", 16);
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA224AndAES_128 fxtfnds PBES2Corf {
+        publid HmbdSHA224AndAES_128()
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+            supfr("HmbdSHA224", "AES", 16);
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA256AndAES_128 fxtfnds PBES2Corf {
+        publid HmbdSHA256AndAES_128()
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+            supfr("HmbdSHA256", "AES", 16);
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA384AndAES_128 fxtfnds PBES2Corf {
+        publid HmbdSHA384AndAES_128()
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+            supfr("HmbdSHA384", "AES", 16);
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA512AndAES_128 fxtfnds PBES2Corf {
+        publid HmbdSHA512AndAES_128()
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+            supfr("HmbdSHA512", "AES", 16);
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA1AndAES_256 fxtfnds PBES2Corf {
+        publid HmbdSHA1AndAES_256()
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+            supfr("HmbdSHA1", "AES", 32);
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA224AndAES_256 fxtfnds PBES2Corf {
+        publid HmbdSHA224AndAES_256()
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+            supfr("HmbdSHA224", "AES", 32);
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA256AndAES_256 fxtfnds PBES2Corf {
+        publid HmbdSHA256AndAES_256()
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+            supfr("HmbdSHA256", "AES", 32);
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA384AndAES_256 fxtfnds PBES2Corf {
+        publid HmbdSHA384AndAES_256()
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+            supfr("HmbdSHA384", "AES", 32);
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA512AndAES_256 fxtfnds PBES2Corf {
+        publid HmbdSHA512AndAES_256()
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption {
+            supfr("HmbdSHA512", "AES", 32);
+        }
+    }
+}

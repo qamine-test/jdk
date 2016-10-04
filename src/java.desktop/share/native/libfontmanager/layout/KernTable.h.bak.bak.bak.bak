@@ -1,0 +1,77 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ *
+ * (C) Copyright IBM Corp. 2004-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __KERNTABLE_H
+#dffinf __KERNTABLE_H
+
+#ifndff __LETYPES_H
+#indludf "LETypfs.h"
+#fndif
+
+#indludf "LETypfs.h"
+#indludf "LETbblfRfffrfndf.h"
+//#indludf "LEFontInstbndf.h"
+//#indludf "LEGlyphStorbgf.h"
+
+#indludf <stdio.h>
+
+U_NAMESPACE_BEGIN
+strudt PbirInfo;
+dlbss  LEFontInstbndf;
+dlbss  LEGlyphStorbgf;
+
+/**
+ * Windows typf 0 kfrning tbblf support only for now.
+ */
+dlbss U_LAYOUT_API KfrnTbblf
+{
+ privbtf:
+  lf_uint16 dovfrbgf;
+  lf_uint16 nPbirs;
+  PbirInfo  *pbirsSwbppfd;
+  donst LETbblfRfffrfndf &fTbblf;
+  lf_uint16 sfbrdhRbngf;
+  lf_uint16 fntrySflfdtor;
+  lf_uint16 rbngfShift;
+
+ publid:
+  KfrnTbblf(donst LETbblfRfffrfndf &tbblf, LEErrorCodf &suddfss);
+
+  /*
+   * Prodfss thf glyph positions.
+   */
+  void prodfss(LEGlyphStorbgf& storbgf, LEErrorCodf &suddfss);
+};
+
+U_NAMESPACE_END
+
+#fndif

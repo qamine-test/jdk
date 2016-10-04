@@ -1,608 +1,608 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.*;
-import java.util.*;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 
 /**
- * This class identifies algorithms, such as cryptographic transforms, each
- * of which may be associated with parameters.  Instances of this base class
- * are used when this runtime environment has no special knowledge of the
- * algorithm type, and may also be used in other cases.  Equivalence is
- * defined according to OID and (where relevant) parameters.
+ * Tiis dlbss idfntififs blgoritims, sudi bs dryptogrbpiid trbnsforms, fbdi
+ * of wiidi mby bf bssodibtfd witi pbrbmftfrs.  Instbndfs of tiis bbsf dlbss
+ * brf usfd wifn tiis runtimf fnvironmfnt ibs no spfdibl knowlfdgf of tif
+ * blgoritim typf, bnd mby blso bf usfd in otifr dbsfs.  Equivblfndf is
+ * dffinfd bddording to OID bnd (wifrf rflfvbnt) pbrbmftfrs.
  *
- * <P>Subclasses may be used, for example when when the algorithm ID has
- * associated parameters which some code (e.g. code using public keys) needs
- * to have parsed.  Two examples of such algorithms are Diffie-Hellman key
- * exchange, and the Digital Signature Standard Algorithm (DSS/DSA).
+ * <P>Subdlbssfs mby bf usfd, for fxbmplf wifn wifn tif blgoritim ID ibs
+ * bssodibtfd pbrbmftfrs wiidi somf dodf (f.g. dodf using publid kfys) nffds
+ * to ibvf pbrsfd.  Two fxbmplfs of sudi blgoritims brf Diffif-Hfllmbn kfy
+ * fxdibngf, bnd tif Digitbl Signbturf Stbndbrd Algoritim (DSS/DSA).
  *
- * <P>The OID constants defined in this class correspond to some widely
- * used algorithms, for which conventional string names have been defined.
- * This class is not a general repository for OIDs, or for such string names.
- * Note that the mappings between algorithm IDs and algorithm names is
- * not one-to-one.
+ * <P>Tif OID donstbnts dffinfd in tiis dlbss dorrfspond to somf widfly
+ * usfd blgoritims, for wiidi donvfntionbl string nbmfs ibvf bffn dffinfd.
+ * Tiis dlbss is not b gfnfrbl rfpository for OIDs, or for sudi string nbmfs.
+ * Notf tibt tif mbppings bftwffn blgoritim IDs bnd blgoritim nbmfs is
+ * not onf-to-onf.
  *
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Dbvid Brownfll
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class AlgorithmId implements Serializable, DerEncoder {
+publid dlbss AlgoritimId implfmfnts Sfriblizbblf, DfrEndodfr {
 
-    /** use serialVersionUID from JDK 1.1. for interoperability */
-    private static final long serialVersionUID = 7205873507486557157L;
+    /** usf sfriblVfrsionUID from JDK 1.1. for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 7205873507486557157L;
 
     /**
-     * The object identitifer being used for this algorithm.
+     * Tif objfdt idfntitiffr bfing usfd for tiis blgoritim.
      */
-    private ObjectIdentifier algid;
+    privbtf ObjfdtIdfntififr blgid;
 
-    // The (parsed) parameters
-    private AlgorithmParameters algParams;
-    private boolean constructedFromDer = true;
+    // Tif (pbrsfd) pbrbmftfrs
+    privbtf AlgoritimPbrbmftfrs blgPbrbms;
+    privbtf boolfbn donstrudtfdFromDfr = truf;
 
     /**
-     * Parameters for this algorithm.  These are stored in unparsed
-     * DER-encoded form; subclasses can be made to automaticaly parse
-     * them so there is fast access to these parameters.
+     * Pbrbmftfrs for tiis blgoritim.  Tifsf brf storfd in unpbrsfd
+     * DER-fndodfd form; subdlbssfs dbn bf mbdf to butombtidbly pbrsf
+     * tifm so tifrf is fbst bddfss to tifsf pbrbmftfrs.
      */
-    protected DerValue          params;
+    protfdtfd DfrVbluf          pbrbms;
 
 
     /**
-     * Constructs an algorithm ID which will be initialized
-     * separately, for example by deserialization.
-     * @deprecated use one of the other constructors.
+     * Construdts bn blgoritim ID wiidi will bf initiblizfd
+     * sfpbrbtfly, for fxbmplf by dfsfriblizbtion.
+     * @dfprfdbtfd usf onf of tif otifr donstrudtors.
      */
-    @Deprecated
-    public AlgorithmId() { }
+    @Dfprfdbtfd
+    publid AlgoritimId() { }
 
     /**
-     * Constructs a parameterless algorithm ID.
+     * Construdts b pbrbmftfrlfss blgoritim ID.
      *
-     * @param oid the identifier for the algorithm
+     * @pbrbm oid tif idfntififr for tif blgoritim
      */
-    public AlgorithmId(ObjectIdentifier oid) {
-        algid = oid;
+    publid AlgoritimId(ObjfdtIdfntififr oid) {
+        blgid = oid;
     }
 
     /**
-     * Constructs an algorithm ID with algorithm parameters.
+     * Construdts bn blgoritim ID witi blgoritim pbrbmftfrs.
      *
-     * @param oid the identifier for the algorithm.
-     * @param algparams the associated algorithm parameters.
+     * @pbrbm oid tif idfntififr for tif blgoritim.
+     * @pbrbm blgpbrbms tif bssodibtfd blgoritim pbrbmftfrs.
      */
-    public AlgorithmId(ObjectIdentifier oid, AlgorithmParameters algparams) {
-        algid = oid;
-        algParams = algparams;
-        constructedFromDer = false;
+    publid AlgoritimId(ObjfdtIdfntififr oid, AlgoritimPbrbmftfrs blgpbrbms) {
+        blgid = oid;
+        blgPbrbms = blgpbrbms;
+        donstrudtfdFromDfr = fblsf;
     }
 
-    private AlgorithmId(ObjectIdentifier oid, DerValue params)
-            throws IOException {
-        this.algid = oid;
-        this.params = params;
-        if (this.params != null) {
-            decodeParams();
+    privbtf AlgoritimId(ObjfdtIdfntififr oid, DfrVbluf pbrbms)
+            tirows IOExdfption {
+        tiis.blgid = oid;
+        tiis.pbrbms = pbrbms;
+        if (tiis.pbrbms != null) {
+            dfdodfPbrbms();
         }
     }
 
-    protected void decodeParams() throws IOException {
-        String algidString = algid.toString();
+    protfdtfd void dfdodfPbrbms() tirows IOExdfption {
+        String blgidString = blgid.toString();
         try {
-            algParams = AlgorithmParameters.getInstance(algidString);
-        } catch (NoSuchAlgorithmException e) {
+            blgPbrbms = AlgoritimPbrbmftfrs.gftInstbndf(blgidString);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
             /*
-             * This algorithm parameter type is not supported, so we cannot
-             * parse the parameters.
+             * Tiis blgoritim pbrbmftfr typf is not supportfd, so wf dbnnot
+             * pbrsf tif pbrbmftfrs.
              */
-            algParams = null;
-            return;
+            blgPbrbms = null;
+            rfturn;
         }
 
-        // Decode (parse) the parameters
-        algParams.init(params.toByteArray());
+        // Dfdodf (pbrsf) tif pbrbmftfrs
+        blgPbrbms.init(pbrbms.toBytfArrby());
     }
 
     /**
-     * Marshal a DER-encoded "AlgorithmID" sequence on the DER stream.
+     * Mbrsibl b DER-fndodfd "AlgoritimID" sfqufndf on tif DER strfbm.
      */
-    public final void encode(DerOutputStream out) throws IOException {
-        derEncode(out);
+    publid finbl void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        dfrEndodf(out);
     }
 
     /**
-     * DER encode this object onto an output stream.
-     * Implements the <code>DerEncoder</code> interface.
+     * DER fndodf tiis objfdt onto bn output strfbm.
+     * Implfmfnts tif <dodf>DfrEndodfr</dodf> intfrfbdf.
      *
-     * @param out
-     * the output stream on which to write the DER encoding.
+     * @pbrbm out
+     * tif output strfbm on wiidi to writf tif DER fndoding.
      *
-     * @exception IOException on encoding error.
+     * @fxdfption IOExdfption on fndoding frror.
      */
-    public void derEncode (OutputStream out) throws IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+    publid void dfrEndodf (OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
 
-        bytes.putOID(algid);
-        // Setup params from algParams since no DER encoding is given
-        if (constructedFromDer == false) {
-            if (algParams != null) {
-                params = new DerValue(algParams.getEncoded());
-            } else {
-                params = null;
+        bytfs.putOID(blgid);
+        // Sftup pbrbms from blgPbrbms sindf no DER fndoding is givfn
+        if (donstrudtfdFromDfr == fblsf) {
+            if (blgPbrbms != null) {
+                pbrbms = nfw DfrVbluf(blgPbrbms.gftEndodfd());
+            } flsf {
+                pbrbms = null;
             }
         }
-        if (params == null) {
-            // Changes backed out for compatibility with Solaris
+        if (pbrbms == null) {
+            // Cibngfs bbdkfd out for dompbtibility witi Solbris
 
-            // Several AlgorithmId should omit the whole parameter part when
-            // it's NULL. They are ---
-            // rfc3370 2.1: Implementations SHOULD generate SHA-1
-            // AlgorithmIdentifiers with absent parameters.
-            // rfc3447 C1: When id-sha1, id-sha224, id-sha256, id-sha384 and
-            // id-sha512 are used in an AlgorithmIdentifier the parameters
-            // (which are optional) SHOULD be omitted.
-            // rfc3279 2.3.2: The id-dsa algorithm syntax includes optional
-            // domain parameters... When omitted, the parameters component
-            // MUST be omitted entirely
-            // rfc3370 3.1: When the id-dsa-with-sha1 algorithm identifier
-            // is used, the AlgorithmIdentifier parameters field MUST be absent.
+            // Sfvfrbl AlgoritimId siould omit tif wiolf pbrbmftfr pbrt wifn
+            // it's NULL. Tify brf ---
+            // rfd3370 2.1: Implfmfntbtions SHOULD gfnfrbtf SHA-1
+            // AlgoritimIdfntififrs witi bbsfnt pbrbmftfrs.
+            // rfd3447 C1: Wifn id-sib1, id-sib224, id-sib256, id-sib384 bnd
+            // id-sib512 brf usfd in bn AlgoritimIdfntififr tif pbrbmftfrs
+            // (wiidi brf optionbl) SHOULD bf omittfd.
+            // rfd3279 2.3.2: Tif id-dsb blgoritim syntbx indludfs optionbl
+            // dombin pbrbmftfrs... Wifn omittfd, tif pbrbmftfrs domponfnt
+            // MUST bf omittfd fntirfly
+            // rfd3370 3.1: Wifn tif id-dsb-witi-sib1 blgoritim idfntififr
+            // is usfd, tif AlgoritimIdfntififr pbrbmftfrs fifld MUST bf bbsfnt.
             /*if (
-                algid.equals((Object)SHA_oid) ||
-                algid.equals((Object)SHA224_oid) ||
-                algid.equals((Object)SHA256_oid) ||
-                algid.equals((Object)SHA384_oid) ||
-                algid.equals((Object)SHA512_oid) ||
-                algid.equals((Object)DSA_oid) ||
-                algid.equals((Object)sha1WithDSA_oid)) {
-                ; // no parameter part encoded
-            } else {
-                bytes.putNull();
+                blgid.fqubls((Objfdt)SHA_oid) ||
+                blgid.fqubls((Objfdt)SHA224_oid) ||
+                blgid.fqubls((Objfdt)SHA256_oid) ||
+                blgid.fqubls((Objfdt)SHA384_oid) ||
+                blgid.fqubls((Objfdt)SHA512_oid) ||
+                blgid.fqubls((Objfdt)DSA_oid) ||
+                blgid.fqubls((Objfdt)sib1WitiDSA_oid)) {
+                ; // no pbrbmftfr pbrt fndodfd
+            } flsf {
+                bytfs.putNull();
             }*/
-            bytes.putNull();
-        } else {
-            bytes.putDerValue(params);
+            bytfs.putNull();
+        } flsf {
+            bytfs.putDfrVbluf(pbrbms);
         }
-        tmp.write(DerValue.tag_Sequence, bytes);
-        out.write(tmp.toByteArray());
+        tmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        out.writf(tmp.toBytfArrby());
     }
 
 
     /**
-     * Returns the DER-encoded X.509 AlgorithmId as a byte array.
+     * Rfturns tif DER-fndodfd X.509 AlgoritimId bs b bytf brrby.
      */
-    public final byte[] encode() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        derEncode(out);
-        return out.toByteArray();
+    publid finbl bytf[] fndodf() tirows IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        dfrEndodf(out);
+        rfturn out.toBytfArrby();
     }
 
     /**
-     * Returns the ISO OID for this algorithm.  This is usually converted
-     * to a string and used as part of an algorithm name, for example
-     * "OID.1.3.14.3.2.13" style notation.  Use the <code>getName</code>
-     * call when you do not need to ensure cross-system portability
-     * of algorithm names, or need a user friendly name.
+     * Rfturns tif ISO OID for tiis blgoritim.  Tiis is usublly donvfrtfd
+     * to b string bnd usfd bs pbrt of bn blgoritim nbmf, for fxbmplf
+     * "OID.1.3.14.3.2.13" stylf notbtion.  Usf tif <dodf>gftNbmf</dodf>
+     * dbll wifn you do not nffd to fnsurf dross-systfm portbbility
+     * of blgoritim nbmfs, or nffd b usfr frifndly nbmf.
      */
-    public final ObjectIdentifier getOID () {
-        return algid;
+    publid finbl ObjfdtIdfntififr gftOID () {
+        rfturn blgid;
     }
 
     /**
-     * Returns a name for the algorithm which may be more intelligible
-     * to humans than the algorithm's OID, but which won't necessarily
-     * be comprehensible on other systems.  For example, this might
-     * return a name such as "MD5withRSA" for a signature algorithm on
-     * some systems.  It also returns names like "OID.1.2.3.4", when
-     * no particular name for the algorithm is known.
+     * Rfturns b nbmf for tif blgoritim wiidi mby bf morf intflligiblf
+     * to iumbns tibn tif blgoritim's OID, but wiidi won't nfdfssbrily
+     * bf domprfifnsiblf on otifr systfms.  For fxbmplf, tiis migit
+     * rfturn b nbmf sudi bs "MD5witiRSA" for b signbturf blgoritim on
+     * somf systfms.  It blso rfturns nbmfs likf "OID.1.2.3.4", wifn
+     * no pbrtidulbr nbmf for tif blgoritim is known.
      */
-    public String getName() {
-        String algName = nameTable.get(algid);
-        if (algName != null) {
-            return algName;
+    publid String gftNbmf() {
+        String blgNbmf = nbmfTbblf.gft(blgid);
+        if (blgNbmf != null) {
+            rfturn blgNbmf;
         }
-        if ((params != null) && algid.equals((Object)specifiedWithECDSA_oid)) {
+        if ((pbrbms != null) && blgid.fqubls((Objfdt)spfdififdWitiECDSA_oid)) {
             try {
-                AlgorithmId paramsId =
-                        AlgorithmId.parse(new DerValue(getEncodedParams()));
-                String paramsName = paramsId.getName();
-                algName = makeSigAlg(paramsName, "EC");
-            } catch (IOException e) {
-                // ignore
+                AlgoritimId pbrbmsId =
+                        AlgoritimId.pbrsf(nfw DfrVbluf(gftEndodfdPbrbms()));
+                String pbrbmsNbmf = pbrbmsId.gftNbmf();
+                blgNbmf = mbkfSigAlg(pbrbmsNbmf, "EC");
+            } dbtdi (IOExdfption f) {
+                // ignorf
             }
         }
-        return (algName == null) ? algid.toString() : algName;
+        rfturn (blgNbmf == null) ? blgid.toString() : blgNbmf;
     }
 
-    public AlgorithmParameters getParameters() {
-        return algParams;
+    publid AlgoritimPbrbmftfrs gftPbrbmftfrs() {
+        rfturn blgPbrbms;
     }
 
     /**
-     * Returns the DER encoded parameter, which can then be
-     * used to initialize java.security.AlgorithmParamters.
+     * Rfturns tif DER fndodfd pbrbmftfr, wiidi dbn tifn bf
+     * usfd to initiblizf jbvb.sfdurity.AlgoritimPbrbmtfrs.
      *
-     * @return DER encoded parameters, or null not present.
+     * @rfturn DER fndodfd pbrbmftfrs, or null not prfsfnt.
      */
-    public byte[] getEncodedParams() throws IOException {
-        return (params == null) ? null : params.toByteArray();
+    publid bytf[] gftEndodfdPbrbms() tirows IOExdfption {
+        rfturn (pbrbms == null) ? null : pbrbms.toBytfArrby();
     }
 
     /**
-     * Returns true iff the argument indicates the same algorithm
-     * with the same parameters.
+     * Rfturns truf iff tif brgumfnt indidbtfs tif sbmf blgoritim
+     * witi tif sbmf pbrbmftfrs.
      */
-    public boolean equals(AlgorithmId other) {
-        boolean paramsEqual =
-          (params == null ? other.params == null : params.equals(other.params));
-        return (algid.equals((Object)other.algid) && paramsEqual);
+    publid boolfbn fqubls(AlgoritimId otifr) {
+        boolfbn pbrbmsEqubl =
+          (pbrbms == null ? otifr.pbrbms == null : pbrbms.fqubls(otifr.pbrbms));
+        rfturn (blgid.fqubls((Objfdt)otifr.blgid) && pbrbmsEqubl);
     }
 
     /**
-     * Compares this AlgorithmID to another.  If algorithm parameters are
-     * available, they are compared.  Otherwise, just the object IDs
-     * for the algorithm are compared.
+     * Compbrfs tiis AlgoritimID to bnotifr.  If blgoritim pbrbmftfrs brf
+     * bvbilbblf, tify brf dompbrfd.  Otifrwisf, just tif objfdt IDs
+     * for tif blgoritim brf dompbrfd.
      *
-     * @param other preferably an AlgorithmId, else an ObjectIdentifier
+     * @pbrbm otifr prfffrbbly bn AlgoritimId, flsf bn ObjfdtIdfntififr
      */
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
         }
-        if (other instanceof AlgorithmId) {
-            return equals((AlgorithmId) other);
-        } else if (other instanceof ObjectIdentifier) {
-            return equals((ObjectIdentifier) other);
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Compares two algorithm IDs for equality.  Returns true iff
-     * they are the same algorithm, ignoring algorithm parameters.
-     */
-    public final boolean equals(ObjectIdentifier id) {
-        return algid.equals((Object)id);
-    }
-
-    /**
-     * Returns a hashcode for this AlgorithmId.
-     *
-     * @return a hashcode for this AlgorithmId.
-     */
-    public int hashCode() {
-        StringBuilder sbuf = new StringBuilder();
-        sbuf.append(algid.toString());
-        sbuf.append(paramsToString());
-        return sbuf.toString().hashCode();
-    }
-
-    /**
-     * Provides a human-readable description of the algorithm parameters.
-     * This may be redefined by subclasses which parse those parameters.
-     */
-    protected String paramsToString() {
-        if (params == null) {
-            return "";
-        } else if (algParams != null) {
-            return algParams.toString();
-        } else {
-            return ", params unparsed";
+        if (otifr instbndfof AlgoritimId) {
+            rfturn fqubls((AlgoritimId) otifr);
+        } flsf if (otifr instbndfof ObjfdtIdfntififr) {
+            rfturn fqubls((ObjfdtIdfntififr) otifr);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Returns a string describing the algorithm and its parameters.
+     * Compbrfs two blgoritim IDs for fqublity.  Rfturns truf iff
+     * tify brf tif sbmf blgoritim, ignoring blgoritim pbrbmftfrs.
      */
-    public String toString() {
-        return getName() + paramsToString();
+    publid finbl boolfbn fqubls(ObjfdtIdfntififr id) {
+        rfturn blgid.fqubls((Objfdt)id);
     }
 
     /**
-     * Parse (unmarshal) an ID from a DER sequence input value.  This form
-     * parsing might be used when expanding a value which has already been
-     * partially unmarshaled as a set or sequence member.
+     * Rfturns b ibsidodf for tiis AlgoritimId.
      *
-     * @exception IOException on error.
-     * @param val the input value, which contains the algid and, if
-     *          there are any parameters, those parameters.
-     * @return an ID for the algorithm.  If the system is configured
-     *          appropriately, this may be an instance of a class
-     *          with some kind of special support for this algorithm.
-     *          In that case, you may "narrow" the type of the ID.
+     * @rfturn b ibsidodf for tiis AlgoritimId.
      */
-    public static AlgorithmId parse(DerValue val) throws IOException {
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("algid parse error, not a sequence");
+    publid int ibsiCodf() {
+        StringBuildfr sbuf = nfw StringBuildfr();
+        sbuf.bppfnd(blgid.toString());
+        sbuf.bppfnd(pbrbmsToString());
+        rfturn sbuf.toString().ibsiCodf();
+    }
+
+    /**
+     * Providfs b iumbn-rfbdbblf dfsdription of tif blgoritim pbrbmftfrs.
+     * Tiis mby bf rfdffinfd by subdlbssfs wiidi pbrsf tiosf pbrbmftfrs.
+     */
+    protfdtfd String pbrbmsToString() {
+        if (pbrbms == null) {
+            rfturn "";
+        } flsf if (blgPbrbms != null) {
+            rfturn blgPbrbms.toString();
+        } flsf {
+            rfturn ", pbrbms unpbrsfd";
+        }
+    }
+
+    /**
+     * Rfturns b string dfsdribing tif blgoritim bnd its pbrbmftfrs.
+     */
+    publid String toString() {
+        rfturn gftNbmf() + pbrbmsToString();
+    }
+
+    /**
+     * Pbrsf (unmbrsibl) bn ID from b DER sfqufndf input vbluf.  Tiis form
+     * pbrsing migit bf usfd wifn fxpbnding b vbluf wiidi ibs blrfbdy bffn
+     * pbrtiblly unmbrsiblfd bs b sft or sfqufndf mfmbfr.
+     *
+     * @fxdfption IOExdfption on frror.
+     * @pbrbm vbl tif input vbluf, wiidi dontbins tif blgid bnd, if
+     *          tifrf brf bny pbrbmftfrs, tiosf pbrbmftfrs.
+     * @rfturn bn ID for tif blgoritim.  If tif systfm is donfigurfd
+     *          bppropribtfly, tiis mby bf bn instbndf of b dlbss
+     *          witi somf kind of spfdibl support for tiis blgoritim.
+     *          In tibt dbsf, you mby "nbrrow" tif typf of tif ID.
+     */
+    publid stbtid AlgoritimId pbrsf(DfrVbluf vbl) tirows IOExdfption {
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("blgid pbrsf frror, not b sfqufndf");
         }
 
         /*
-         * Get the algorithm ID and any parameters.
+         * Gft tif blgoritim ID bnd bny pbrbmftfrs.
          */
-        ObjectIdentifier        algid;
-        DerValue                params;
-        DerInputStream          in = val.toDerInputStream();
+        ObjfdtIdfntififr        blgid;
+        DfrVbluf                pbrbms;
+        DfrInputStrfbm          in = vbl.toDfrInputStrfbm();
 
-        algid = in.getOID();
-        if (in.available() == 0) {
-            params = null;
-        } else {
-            params = in.getDerValue();
-            if (params.tag == DerValue.tag_Null) {
-                if (params.length() != 0) {
-                    throw new IOException("invalid NULL");
+        blgid = in.gftOID();
+        if (in.bvbilbblf() == 0) {
+            pbrbms = null;
+        } flsf {
+            pbrbms = in.gftDfrVbluf();
+            if (pbrbms.tbg == DfrVbluf.tbg_Null) {
+                if (pbrbms.lfngti() != 0) {
+                    tirow nfw IOExdfption("invblid NULL");
                 }
-                params = null;
+                pbrbms = null;
             }
-            if (in.available() != 0) {
-                throw new IOException("Invalid AlgorithmIdentifier: extra data");
+            if (in.bvbilbblf() != 0) {
+                tirow nfw IOExdfption("Invblid AlgoritimIdfntififr: fxtrb dbtb");
             }
         }
 
-        return new AlgorithmId(algid, params);
+        rfturn nfw AlgoritimId(blgid, pbrbms);
     }
 
     /**
-     * Returns one of the algorithm IDs most commonly associated
-     * with this algorithm name.
+     * Rfturns onf of tif blgoritim IDs most dommonly bssodibtfd
+     * witi tiis blgoritim nbmf.
      *
-     * @param algname the name being used
-     * @deprecated use the short get form of this method.
-     * @exception NoSuchAlgorithmException on error.
+     * @pbrbm blgnbmf tif nbmf bfing usfd
+     * @dfprfdbtfd usf tif siort gft form of tiis mftiod.
+     * @fxdfption NoSudiAlgoritimExdfption on frror.
      */
-    @Deprecated
-    public static AlgorithmId getAlgorithmId(String algname)
-            throws NoSuchAlgorithmException {
-        return get(algname);
+    @Dfprfdbtfd
+    publid stbtid AlgoritimId gftAlgoritimId(String blgnbmf)
+            tirows NoSudiAlgoritimExdfption {
+        rfturn gft(blgnbmf);
     }
 
     /**
-     * Returns one of the algorithm IDs most commonly associated
-     * with this algorithm name.
+     * Rfturns onf of tif blgoritim IDs most dommonly bssodibtfd
+     * witi tiis blgoritim nbmf.
      *
-     * @param algname the name being used
-     * @exception NoSuchAlgorithmException on error.
+     * @pbrbm blgnbmf tif nbmf bfing usfd
+     * @fxdfption NoSudiAlgoritimExdfption on frror.
      */
-    public static AlgorithmId get(String algname)
-            throws NoSuchAlgorithmException {
-        ObjectIdentifier oid;
+    publid stbtid AlgoritimId gft(String blgnbmf)
+            tirows NoSudiAlgoritimExdfption {
+        ObjfdtIdfntififr oid;
         try {
-            oid = algOID(algname);
-        } catch (IOException ioe) {
-            throw new NoSuchAlgorithmException
-                ("Invalid ObjectIdentifier " + algname);
+            oid = blgOID(blgnbmf);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw NoSudiAlgoritimExdfption
+                ("Invblid ObjfdtIdfntififr " + blgnbmf);
         }
 
         if (oid == null) {
-            throw new NoSuchAlgorithmException
-                ("unrecognized algorithm name: " + algname);
+            tirow nfw NoSudiAlgoritimExdfption
+                ("unrfdognizfd blgoritim nbmf: " + blgnbmf);
         }
-        return new AlgorithmId(oid);
+        rfturn nfw AlgoritimId(oid);
     }
 
     /**
-     * Returns one of the algorithm IDs most commonly associated
-     * with this algorithm parameters.
+     * Rfturns onf of tif blgoritim IDs most dommonly bssodibtfd
+     * witi tiis blgoritim pbrbmftfrs.
      *
-     * @param algparams the associated algorithm parameters.
-     * @exception NoSuchAlgorithmException on error.
+     * @pbrbm blgpbrbms tif bssodibtfd blgoritim pbrbmftfrs.
+     * @fxdfption NoSudiAlgoritimExdfption on frror.
      */
-    public static AlgorithmId get(AlgorithmParameters algparams)
-            throws NoSuchAlgorithmException {
-        ObjectIdentifier oid;
-        String algname = algparams.getAlgorithm();
+    publid stbtid AlgoritimId gft(AlgoritimPbrbmftfrs blgpbrbms)
+            tirows NoSudiAlgoritimExdfption {
+        ObjfdtIdfntififr oid;
+        String blgnbmf = blgpbrbms.gftAlgoritim();
         try {
-            oid = algOID(algname);
-        } catch (IOException ioe) {
-            throw new NoSuchAlgorithmException
-                ("Invalid ObjectIdentifier " + algname);
+            oid = blgOID(blgnbmf);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw NoSudiAlgoritimExdfption
+                ("Invblid ObjfdtIdfntififr " + blgnbmf);
         }
         if (oid == null) {
-            throw new NoSuchAlgorithmException
-                ("unrecognized algorithm name: " + algname);
+            tirow nfw NoSudiAlgoritimExdfption
+                ("unrfdognizfd blgoritim nbmf: " + blgnbmf);
         }
-        return new AlgorithmId(oid, algparams);
+        rfturn nfw AlgoritimId(oid, blgpbrbms);
     }
 
     /*
-     * Translates from some common algorithm names to the
-     * OID with which they're usually associated ... this mapping
-     * is the reverse of the one below, except in those cases
-     * where synonyms are supported or where a given algorithm
-     * is commonly associated with multiple OIDs.
+     * Trbnslbtfs from somf dommon blgoritim nbmfs to tif
+     * OID witi wiidi tify'rf usublly bssodibtfd ... tiis mbpping
+     * is tif rfvfrsf of tif onf bflow, fxdfpt in tiosf dbsfs
+     * wifrf synonyms brf supportfd or wifrf b givfn blgoritim
+     * is dommonly bssodibtfd witi multiplf OIDs.
      *
-     * XXX This method needs to be enhanced so that we can also pass the
-     * scope of the algorithm name to it, e.g., the algorithm name "DSA"
-     * may have a different OID when used as a "Signature" algorithm than when
-     * used as a "KeyPairGenerator" algorithm.
+     * XXX Tiis mftiod nffds to bf fnibndfd so tibt wf dbn blso pbss tif
+     * sdopf of tif blgoritim nbmf to it, f.g., tif blgoritim nbmf "DSA"
+     * mby ibvf b difffrfnt OID wifn usfd bs b "Signbturf" blgoritim tibn wifn
+     * usfd bs b "KfyPbirGfnfrbtor" blgoritim.
      */
-    private static ObjectIdentifier algOID(String name) throws IOException {
-        // See if algname is in printable OID ("dot-dot") notation
-        if (name.indexOf('.') != -1) {
-            if (name.startsWith("OID.")) {
-                return new ObjectIdentifier(name.substring("OID.".length()));
-            } else {
-                return new ObjectIdentifier(name);
+    privbtf stbtid ObjfdtIdfntififr blgOID(String nbmf) tirows IOExdfption {
+        // Sff if blgnbmf is in printbblf OID ("dot-dot") notbtion
+        if (nbmf.indfxOf('.') != -1) {
+            if (nbmf.stbrtsWiti("OID.")) {
+                rfturn nfw ObjfdtIdfntififr(nbmf.substring("OID.".lfngti()));
+            } flsf {
+                rfturn nfw ObjfdtIdfntififr(nbmf);
             }
         }
 
-        // Digesting algorithms
-        if (name.equalsIgnoreCase("MD5")) {
-            return AlgorithmId.MD5_oid;
+        // Digfsting blgoritims
+        if (nbmf.fqublsIgnorfCbsf("MD5")) {
+            rfturn AlgoritimId.MD5_oid;
         }
-        if (name.equalsIgnoreCase("MD2")) {
-            return AlgorithmId.MD2_oid;
+        if (nbmf.fqublsIgnorfCbsf("MD2")) {
+            rfturn AlgoritimId.MD2_oid;
         }
-        if (name.equalsIgnoreCase("SHA") || name.equalsIgnoreCase("SHA1")
-            || name.equalsIgnoreCase("SHA-1")) {
-            return AlgorithmId.SHA_oid;
+        if (nbmf.fqublsIgnorfCbsf("SHA") || nbmf.fqublsIgnorfCbsf("SHA1")
+            || nbmf.fqublsIgnorfCbsf("SHA-1")) {
+            rfturn AlgoritimId.SHA_oid;
         }
-        if (name.equalsIgnoreCase("SHA-256") ||
-            name.equalsIgnoreCase("SHA256")) {
-            return AlgorithmId.SHA256_oid;
+        if (nbmf.fqublsIgnorfCbsf("SHA-256") ||
+            nbmf.fqublsIgnorfCbsf("SHA256")) {
+            rfturn AlgoritimId.SHA256_oid;
         }
-        if (name.equalsIgnoreCase("SHA-384") ||
-            name.equalsIgnoreCase("SHA384")) {
-            return AlgorithmId.SHA384_oid;
+        if (nbmf.fqublsIgnorfCbsf("SHA-384") ||
+            nbmf.fqublsIgnorfCbsf("SHA384")) {
+            rfturn AlgoritimId.SHA384_oid;
         }
-        if (name.equalsIgnoreCase("SHA-512") ||
-            name.equalsIgnoreCase("SHA512")) {
-            return AlgorithmId.SHA512_oid;
+        if (nbmf.fqublsIgnorfCbsf("SHA-512") ||
+            nbmf.fqublsIgnorfCbsf("SHA512")) {
+            rfturn AlgoritimId.SHA512_oid;
         }
-        if (name.equalsIgnoreCase("SHA-224") ||
-            name.equalsIgnoreCase("SHA224")) {
-            return AlgorithmId.SHA224_oid;
-        }
-
-        // Various public key algorithms
-        if (name.equalsIgnoreCase("RSA")) {
-            return AlgorithmId.RSAEncryption_oid;
-        }
-        if (name.equalsIgnoreCase("Diffie-Hellman")
-            || name.equalsIgnoreCase("DH")) {
-            return AlgorithmId.DH_oid;
-        }
-        if (name.equalsIgnoreCase("DSA")) {
-            return AlgorithmId.DSA_oid;
-        }
-        if (name.equalsIgnoreCase("EC")) {
-            return EC_oid;
-        }
-        if (name.equalsIgnoreCase("ECDH")) {
-            return AlgorithmId.ECDH_oid;
+        if (nbmf.fqublsIgnorfCbsf("SHA-224") ||
+            nbmf.fqublsIgnorfCbsf("SHA224")) {
+            rfturn AlgoritimId.SHA224_oid;
         }
 
-        // Secret key algorithms
-        if (name.equalsIgnoreCase("AES")) {
-            return AlgorithmId.AES_oid;
+        // Vbrious publid kfy blgoritims
+        if (nbmf.fqublsIgnorfCbsf("RSA")) {
+            rfturn AlgoritimId.RSAEndryption_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("Diffif-Hfllmbn")
+            || nbmf.fqublsIgnorfCbsf("DH")) {
+            rfturn AlgoritimId.DH_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("DSA")) {
+            rfturn AlgoritimId.DSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("EC")) {
+            rfturn EC_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("ECDH")) {
+            rfturn AlgoritimId.ECDH_oid;
         }
 
-        // Common signature types
-        if (name.equalsIgnoreCase("MD5withRSA")
-            || name.equalsIgnoreCase("MD5/RSA")) {
-            return AlgorithmId.md5WithRSAEncryption_oid;
-        }
-        if (name.equalsIgnoreCase("MD2withRSA")
-            || name.equalsIgnoreCase("MD2/RSA")) {
-            return AlgorithmId.md2WithRSAEncryption_oid;
-        }
-        if (name.equalsIgnoreCase("SHAwithDSA")
-            || name.equalsIgnoreCase("SHA1withDSA")
-            || name.equalsIgnoreCase("SHA/DSA")
-            || name.equalsIgnoreCase("SHA1/DSA")
-            || name.equalsIgnoreCase("DSAWithSHA1")
-            || name.equalsIgnoreCase("DSS")
-            || name.equalsIgnoreCase("SHA-1/DSA")) {
-            return AlgorithmId.sha1WithDSA_oid;
-        }
-        if (name.equalsIgnoreCase("SHA224WithDSA")) {
-            return AlgorithmId.sha224WithDSA_oid;
-        }
-        if (name.equalsIgnoreCase("SHA256WithDSA")) {
-            return AlgorithmId.sha256WithDSA_oid;
-        }
-        if (name.equalsIgnoreCase("SHA1WithRSA")
-            || name.equalsIgnoreCase("SHA1/RSA")) {
-            return AlgorithmId.sha1WithRSAEncryption_oid;
-        }
-        if (name.equalsIgnoreCase("SHA1withECDSA")
-                || name.equalsIgnoreCase("ECDSA")) {
-            return AlgorithmId.sha1WithECDSA_oid;
-        }
-        if (name.equalsIgnoreCase("SHA224withECDSA")) {
-            return AlgorithmId.sha224WithECDSA_oid;
-        }
-        if (name.equalsIgnoreCase("SHA256withECDSA")) {
-            return AlgorithmId.sha256WithECDSA_oid;
-        }
-        if (name.equalsIgnoreCase("SHA384withECDSA")) {
-            return AlgorithmId.sha384WithECDSA_oid;
-        }
-        if (name.equalsIgnoreCase("SHA512withECDSA")) {
-            return AlgorithmId.sha512WithECDSA_oid;
+        // Sfdrft kfy blgoritims
+        if (nbmf.fqublsIgnorfCbsf("AES")) {
+            rfturn AlgoritimId.AES_oid;
         }
 
-        // See if any of the installed providers supply a mapping from
-        // the given algorithm name to an OID string
+        // Common signbturf typfs
+        if (nbmf.fqublsIgnorfCbsf("MD5witiRSA")
+            || nbmf.fqublsIgnorfCbsf("MD5/RSA")) {
+            rfturn AlgoritimId.md5WitiRSAEndryption_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("MD2witiRSA")
+            || nbmf.fqublsIgnorfCbsf("MD2/RSA")) {
+            rfturn AlgoritimId.md2WitiRSAEndryption_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHAwitiDSA")
+            || nbmf.fqublsIgnorfCbsf("SHA1witiDSA")
+            || nbmf.fqublsIgnorfCbsf("SHA/DSA")
+            || nbmf.fqublsIgnorfCbsf("SHA1/DSA")
+            || nbmf.fqublsIgnorfCbsf("DSAWitiSHA1")
+            || nbmf.fqublsIgnorfCbsf("DSS")
+            || nbmf.fqublsIgnorfCbsf("SHA-1/DSA")) {
+            rfturn AlgoritimId.sib1WitiDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA224WitiDSA")) {
+            rfturn AlgoritimId.sib224WitiDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA256WitiDSA")) {
+            rfturn AlgoritimId.sib256WitiDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA1WitiRSA")
+            || nbmf.fqublsIgnorfCbsf("SHA1/RSA")) {
+            rfturn AlgoritimId.sib1WitiRSAEndryption_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA1witiECDSA")
+                || nbmf.fqublsIgnorfCbsf("ECDSA")) {
+            rfturn AlgoritimId.sib1WitiECDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA224witiECDSA")) {
+            rfturn AlgoritimId.sib224WitiECDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA256witiECDSA")) {
+            rfturn AlgoritimId.sib256WitiECDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA384witiECDSA")) {
+            rfturn AlgoritimId.sib384WitiECDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA512witiECDSA")) {
+            rfturn AlgoritimId.sib512WitiECDSA_oid;
+        }
+
+        // Sff if bny of tif instbllfd providfrs supply b mbpping from
+        // tif givfn blgoritim nbmf to bn OID string
         String oidString;
-        if (!initOidTable) {
-            Provider[] provs = Security.getProviders();
-            for (int i=0; i<provs.length; i++) {
-                for (Enumeration<Object> enum_ = provs[i].keys();
-                     enum_.hasMoreElements(); ) {
-                    String alias = (String)enum_.nextElement();
-                    String upperCaseAlias = alias.toUpperCase(Locale.ENGLISH);
-                    int index;
-                    if (upperCaseAlias.startsWith("ALG.ALIAS") &&
-                            (index=upperCaseAlias.indexOf("OID.", 0)) != -1) {
-                        index += "OID.".length();
-                        if (index == alias.length()) {
-                            // invalid alias entry
-                            break;
+        if (!initOidTbblf) {
+            Providfr[] provs = Sfdurity.gftProvidfrs();
+            for (int i=0; i<provs.lfngti; i++) {
+                for (Enumfrbtion<Objfdt> fnum_ = provs[i].kfys();
+                     fnum_.ibsMorfElfmfnts(); ) {
+                    String blibs = (String)fnum_.nfxtElfmfnt();
+                    String uppfrCbsfAlibs = blibs.toUppfrCbsf(Lodblf.ENGLISH);
+                    int indfx;
+                    if (uppfrCbsfAlibs.stbrtsWiti("ALG.ALIAS") &&
+                            (indfx=uppfrCbsfAlibs.indfxOf("OID.", 0)) != -1) {
+                        indfx += "OID.".lfngti();
+                        if (indfx == blibs.lfngti()) {
+                            // invblid blibs fntry
+                            brfbk;
                         }
-                        if (oidTable == null) {
-                            oidTable = new HashMap<String,ObjectIdentifier>();
+                        if (oidTbblf == null) {
+                            oidTbblf = nfw HbsiMbp<String,ObjfdtIdfntififr>();
                         }
-                        oidString = alias.substring(index);
-                        String stdAlgName = provs[i].getProperty(alias);
-                        if (stdAlgName != null) {
-                            stdAlgName = stdAlgName.toUpperCase(Locale.ENGLISH);
+                        oidString = blibs.substring(indfx);
+                        String stdAlgNbmf = provs[i].gftPropfrty(blibs);
+                        if (stdAlgNbmf != null) {
+                            stdAlgNbmf = stdAlgNbmf.toUppfrCbsf(Lodblf.ENGLISH);
                         }
-                        if (stdAlgName != null &&
-                                oidTable.get(stdAlgName) == null) {
-                            oidTable.put(stdAlgName,
-                                         new ObjectIdentifier(oidString));
+                        if (stdAlgNbmf != null &&
+                                oidTbblf.gft(stdAlgNbmf) == null) {
+                            oidTbblf.put(stdAlgNbmf,
+                                         nfw ObjfdtIdfntififr(oidString));
                         }
                     }
                 }
             }
 
-            if (oidTable == null) {
-                oidTable = new HashMap<String,ObjectIdentifier>(1);
+            if (oidTbblf == null) {
+                oidTbblf = nfw HbsiMbp<String,ObjfdtIdfntififr>(1);
             }
-            initOidTable = true;
+            initOidTbblf = truf;
         }
 
-        return oidTable.get(name.toUpperCase(Locale.ENGLISH));
+        rfturn oidTbblf.gft(nbmf.toUppfrCbsf(Lodblf.ENGLISH));
     }
 
-    private static ObjectIdentifier oid(int ... values) {
-        return ObjectIdentifier.newInternal(values);
+    privbtf stbtid ObjfdtIdfntififr oid(int ... vblufs) {
+        rfturn ObjfdtIdfntififr.nfwIntfrnbl(vblufs);
     }
 
-    private static boolean initOidTable = false;
-    private static Map<String,ObjectIdentifier> oidTable;
-    private static final Map<ObjectIdentifier,String> nameTable;
+    privbtf stbtid boolfbn initOidTbblf = fblsf;
+    privbtf stbtid Mbp<String,ObjfdtIdfntififr> oidTbblf;
+    privbtf stbtid finbl Mbp<ObjfdtIdfntififr,String> nbmfTbblf;
 
     /*****************************************************************/
 
@@ -611,370 +611,370 @@ public class AlgorithmId implements Serializable, DerEncoder {
      */
 
     /**
-     * Algorithm ID for the MD2 Message Digest Algorthm, from RFC 1319.
+     * Algoritim ID for tif MD2 Mfssbgf Digfst Algortim, from RFC 1319.
      * OID = 1.2.840.113549.2.2
      */
-    public static final ObjectIdentifier MD2_oid =
-    ObjectIdentifier.newInternal(new int[] {1, 2, 840, 113549, 2, 2});
+    publid stbtid finbl ObjfdtIdfntififr MD2_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 2, 2});
 
     /**
-     * Algorithm ID for the MD5 Message Digest Algorthm, from RFC 1321.
+     * Algoritim ID for tif MD5 Mfssbgf Digfst Algortim, from RFC 1321.
      * OID = 1.2.840.113549.2.5
      */
-    public static final ObjectIdentifier MD5_oid =
-    ObjectIdentifier.newInternal(new int[] {1, 2, 840, 113549, 2, 5});
+    publid stbtid finbl ObjfdtIdfntififr MD5_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 2, 5});
 
     /**
-     * Algorithm ID for the SHA1 Message Digest Algorithm, from FIPS 180-1.
-     * This is sometimes called "SHA", though that is often confusing since
-     * many people refer to FIPS 180 (which has an error) as defining SHA.
+     * Algoritim ID for tif SHA1 Mfssbgf Digfst Algoritim, from FIPS 180-1.
+     * Tiis is somftimfs dbllfd "SHA", tiougi tibt is oftfn donfusing sindf
+     * mbny pfoplf rfffr to FIPS 180 (wiidi ibs bn frror) bs dffining SHA.
      * OID = 1.3.14.3.2.26. Old SHA-0 OID: 1.3.14.3.2.18.
      */
-    public static final ObjectIdentifier SHA_oid =
-    ObjectIdentifier.newInternal(new int[] {1, 3, 14, 3, 2, 26});
+    publid stbtid finbl ObjfdtIdfntififr SHA_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 3, 14, 3, 2, 26});
 
-    public static final ObjectIdentifier SHA224_oid =
-    ObjectIdentifier.newInternal(new int[] {2, 16, 840, 1, 101, 3, 4, 2, 4});
+    publid stbtid finbl ObjfdtIdfntififr SHA224_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {2, 16, 840, 1, 101, 3, 4, 2, 4});
 
-    public static final ObjectIdentifier SHA256_oid =
-    ObjectIdentifier.newInternal(new int[] {2, 16, 840, 1, 101, 3, 4, 2, 1});
+    publid stbtid finbl ObjfdtIdfntififr SHA256_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {2, 16, 840, 1, 101, 3, 4, 2, 1});
 
-    public static final ObjectIdentifier SHA384_oid =
-    ObjectIdentifier.newInternal(new int[] {2, 16, 840, 1, 101, 3, 4, 2, 2});
+    publid stbtid finbl ObjfdtIdfntififr SHA384_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {2, 16, 840, 1, 101, 3, 4, 2, 2});
 
-    public static final ObjectIdentifier SHA512_oid =
-    ObjectIdentifier.newInternal(new int[] {2, 16, 840, 1, 101, 3, 4, 2, 3});
+    publid stbtid finbl ObjfdtIdfntififr SHA512_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {2, 16, 840, 1, 101, 3, 4, 2, 3});
 
     /*
      * COMMON PUBLIC KEY TYPES
      */
-    private static final int DH_data[] = { 1, 2, 840, 113549, 1, 3, 1 };
-    private static final int DH_PKIX_data[] = { 1, 2, 840, 10046, 2, 1 };
-    private static final int DSA_OIW_data[] = { 1, 3, 14, 3, 2, 12 };
-    private static final int DSA_PKIX_data[] = { 1, 2, 840, 10040, 4, 1 };
-    private static final int RSA_data[] = { 2, 5, 8, 1, 1 };
-    private static final int RSAEncryption_data[] =
+    privbtf stbtid finbl int DH_dbtb[] = { 1, 2, 840, 113549, 1, 3, 1 };
+    privbtf stbtid finbl int DH_PKIX_dbtb[] = { 1, 2, 840, 10046, 2, 1 };
+    privbtf stbtid finbl int DSA_OIW_dbtb[] = { 1, 3, 14, 3, 2, 12 };
+    privbtf stbtid finbl int DSA_PKIX_dbtb[] = { 1, 2, 840, 10040, 4, 1 };
+    privbtf stbtid finbl int RSA_dbtb[] = { 2, 5, 8, 1, 1 };
+    privbtf stbtid finbl int RSAEndryption_dbtb[] =
                                  { 1, 2, 840, 113549, 1, 1, 1 };
 
-    public static final ObjectIdentifier DH_oid;
-    public static final ObjectIdentifier DH_PKIX_oid;
-    public static final ObjectIdentifier DSA_oid;
-    public static final ObjectIdentifier DSA_OIW_oid;
-    public static final ObjectIdentifier EC_oid = oid(1, 2, 840, 10045, 2, 1);
-    public static final ObjectIdentifier ECDH_oid = oid(1, 3, 132, 1, 12);
-    public static final ObjectIdentifier RSA_oid;
-    public static final ObjectIdentifier RSAEncryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr DH_oid;
+    publid stbtid finbl ObjfdtIdfntififr DH_PKIX_oid;
+    publid stbtid finbl ObjfdtIdfntififr DSA_oid;
+    publid stbtid finbl ObjfdtIdfntififr DSA_OIW_oid;
+    publid stbtid finbl ObjfdtIdfntififr EC_oid = oid(1, 2, 840, 10045, 2, 1);
+    publid stbtid finbl ObjfdtIdfntififr ECDH_oid = oid(1, 3, 132, 1, 12);
+    publid stbtid finbl ObjfdtIdfntififr RSA_oid;
+    publid stbtid finbl ObjfdtIdfntififr RSAEndryption_oid;
 
     /*
      * COMMON SECRET KEY TYPES
      */
-    public static final ObjectIdentifier AES_oid =
+    publid stbtid finbl ObjfdtIdfntififr AES_oid =
                                             oid(2, 16, 840, 1, 101, 3, 4, 1);
 
     /*
      * COMMON SIGNATURE ALGORITHMS
      */
-    private static final int md2WithRSAEncryption_data[] =
+    privbtf stbtid finbl int md2WitiRSAEndryption_dbtb[] =
                                        { 1, 2, 840, 113549, 1, 1, 2 };
-    private static final int md5WithRSAEncryption_data[] =
+    privbtf stbtid finbl int md5WitiRSAEndryption_dbtb[] =
                                        { 1, 2, 840, 113549, 1, 1, 4 };
-    private static final int sha1WithRSAEncryption_data[] =
+    privbtf stbtid finbl int sib1WitiRSAEndryption_dbtb[] =
                                        { 1, 2, 840, 113549, 1, 1, 5 };
-    private static final int sha1WithRSAEncryption_OIW_data[] =
+    privbtf stbtid finbl int sib1WitiRSAEndryption_OIW_dbtb[] =
                                        { 1, 3, 14, 3, 2, 29 };
-    private static final int sha224WithRSAEncryption_data[] =
+    privbtf stbtid finbl int sib224WitiRSAEndryption_dbtb[] =
                                        { 1, 2, 840, 113549, 1, 1, 14 };
-    private static final int sha256WithRSAEncryption_data[] =
+    privbtf stbtid finbl int sib256WitiRSAEndryption_dbtb[] =
                                        { 1, 2, 840, 113549, 1, 1, 11 };
-    private static final int sha384WithRSAEncryption_data[] =
+    privbtf stbtid finbl int sib384WitiRSAEndryption_dbtb[] =
                                        { 1, 2, 840, 113549, 1, 1, 12 };
-    private static final int sha512WithRSAEncryption_data[] =
+    privbtf stbtid finbl int sib512WitiRSAEndryption_dbtb[] =
                                        { 1, 2, 840, 113549, 1, 1, 13 };
-    private static final int shaWithDSA_OIW_data[] =
+    privbtf stbtid finbl int sibWitiDSA_OIW_dbtb[] =
                                        { 1, 3, 14, 3, 2, 13 };
-    private static final int sha1WithDSA_OIW_data[] =
+    privbtf stbtid finbl int sib1WitiDSA_OIW_dbtb[] =
                                        { 1, 3, 14, 3, 2, 27 };
-    private static final int dsaWithSHA1_PKIX_data[] =
+    privbtf stbtid finbl int dsbWitiSHA1_PKIX_dbtb[] =
                                        { 1, 2, 840, 10040, 4, 3 };
 
-    public static final ObjectIdentifier md2WithRSAEncryption_oid;
-    public static final ObjectIdentifier md5WithRSAEncryption_oid;
-    public static final ObjectIdentifier sha1WithRSAEncryption_oid;
-    public static final ObjectIdentifier sha1WithRSAEncryption_OIW_oid;
-    public static final ObjectIdentifier sha224WithRSAEncryption_oid;
-    public static final ObjectIdentifier sha256WithRSAEncryption_oid;
-    public static final ObjectIdentifier sha384WithRSAEncryption_oid;
-    public static final ObjectIdentifier sha512WithRSAEncryption_oid;
-    public static final ObjectIdentifier shaWithDSA_OIW_oid;
-    public static final ObjectIdentifier sha1WithDSA_OIW_oid;
-    public static final ObjectIdentifier sha1WithDSA_oid;
-    public static final ObjectIdentifier sha224WithDSA_oid =
+    publid stbtid finbl ObjfdtIdfntififr md2WitiRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr md5WitiRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr sib1WitiRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr sib1WitiRSAEndryption_OIW_oid;
+    publid stbtid finbl ObjfdtIdfntififr sib224WitiRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr sib256WitiRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr sib384WitiRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr sib512WitiRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr sibWitiDSA_OIW_oid;
+    publid stbtid finbl ObjfdtIdfntififr sib1WitiDSA_OIW_oid;
+    publid stbtid finbl ObjfdtIdfntififr sib1WitiDSA_oid;
+    publid stbtid finbl ObjfdtIdfntififr sib224WitiDSA_oid =
                                             oid(2, 16, 840, 1, 101, 3, 4, 3, 1);
-    public static final ObjectIdentifier sha256WithDSA_oid =
+    publid stbtid finbl ObjfdtIdfntififr sib256WitiDSA_oid =
                                             oid(2, 16, 840, 1, 101, 3, 4, 3, 2);
 
-    public static final ObjectIdentifier sha1WithECDSA_oid =
+    publid stbtid finbl ObjfdtIdfntififr sib1WitiECDSA_oid =
                                             oid(1, 2, 840, 10045, 4, 1);
-    public static final ObjectIdentifier sha224WithECDSA_oid =
+    publid stbtid finbl ObjfdtIdfntififr sib224WitiECDSA_oid =
                                             oid(1, 2, 840, 10045, 4, 3, 1);
-    public static final ObjectIdentifier sha256WithECDSA_oid =
+    publid stbtid finbl ObjfdtIdfntififr sib256WitiECDSA_oid =
                                             oid(1, 2, 840, 10045, 4, 3, 2);
-    public static final ObjectIdentifier sha384WithECDSA_oid =
+    publid stbtid finbl ObjfdtIdfntififr sib384WitiECDSA_oid =
                                             oid(1, 2, 840, 10045, 4, 3, 3);
-    public static final ObjectIdentifier sha512WithECDSA_oid =
+    publid stbtid finbl ObjfdtIdfntififr sib512WitiECDSA_oid =
                                             oid(1, 2, 840, 10045, 4, 3, 4);
-    public static final ObjectIdentifier specifiedWithECDSA_oid =
+    publid stbtid finbl ObjfdtIdfntififr spfdififdWitiECDSA_oid =
                                             oid(1, 2, 840, 10045, 4, 3);
 
     /**
-     * Algorithm ID for the PBE encryption algorithms from PKCS#5 and
+     * Algoritim ID for tif PBE fndryption blgoritims from PKCS#5 bnd
      * PKCS#12.
      */
-    public static final ObjectIdentifier pbeWithMD5AndDES_oid =
-        ObjectIdentifier.newInternal(new int[]{1, 2, 840, 113549, 1, 5, 3});
-    public static final ObjectIdentifier pbeWithMD5AndRC2_oid =
-        ObjectIdentifier.newInternal(new int[] {1, 2, 840, 113549, 1, 5, 6});
-    public static final ObjectIdentifier pbeWithSHA1AndDES_oid =
-        ObjectIdentifier.newInternal(new int[] {1, 2, 840, 113549, 1, 5, 10});
-    public static final ObjectIdentifier pbeWithSHA1AndRC2_oid =
-        ObjectIdentifier.newInternal(new int[] {1, 2, 840, 113549, 1, 5, 11});
-    public static ObjectIdentifier pbeWithSHA1AndDESede_oid =
-        ObjectIdentifier.newInternal(new int[] {1, 2, 840, 113549, 1, 12, 1, 3});
-    public static ObjectIdentifier pbeWithSHA1AndRC2_40_oid =
-        ObjectIdentifier.newInternal(new int[] {1, 2, 840, 113549, 1, 12, 1, 6});
+    publid stbtid finbl ObjfdtIdfntififr pbfWitiMD5AndDES_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[]{1, 2, 840, 113549, 1, 5, 3});
+    publid stbtid finbl ObjfdtIdfntififr pbfWitiMD5AndRC2_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 1, 5, 6});
+    publid stbtid finbl ObjfdtIdfntififr pbfWitiSHA1AndDES_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 1, 5, 10});
+    publid stbtid finbl ObjfdtIdfntififr pbfWitiSHA1AndRC2_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 1, 5, 11});
+    publid stbtid ObjfdtIdfntififr pbfWitiSHA1AndDESfdf_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 1, 12, 1, 3});
+    publid stbtid ObjfdtIdfntififr pbfWitiSHA1AndRC2_40_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 1, 12, 1, 6});
 
-    static {
+    stbtid {
     /*
-     * Note the preferred OIDs are named simply with no "OIW" or
-     * "PKIX" in them, even though they may point to data from these
-     * specs; e.g. SHA_oid, DH_oid, DSA_oid, SHA1WithDSA_oid...
+     * Notf tif prfffrrfd OIDs brf nbmfd simply witi no "OIW" or
+     * "PKIX" in tifm, fvfn tiougi tify mby point to dbtb from tifsf
+     * spfds; f.g. SHA_oid, DH_oid, DSA_oid, SHA1WitiDSA_oid...
      */
     /**
-     * Algorithm ID for Diffie Hellman Key agreement, from PKCS #3.
-     * Parameters include public values P and G, and may optionally specify
-     * the length of the private key X.  Alternatively, algorithm parameters
-     * may be derived from another source such as a Certificate Authority's
-     * certificate.
+     * Algoritim ID for Diffif Hfllmbn Kfy bgrffmfnt, from PKCS #3.
+     * Pbrbmftfrs indludf publid vblufs P bnd G, bnd mby optionblly spfdify
+     * tif lfngti of tif privbtf kfy X.  Altfrnbtivfly, blgoritim pbrbmftfrs
+     * mby bf dfrivfd from bnotifr sourdf sudi bs b Cfrtifidbtf Autiority's
+     * dfrtifidbtf.
      * OID = 1.2.840.113549.1.3.1
      */
-        DH_oid = ObjectIdentifier.newInternal(DH_data);
+        DH_oid = ObjfdtIdfntififr.nfwIntfrnbl(DH_dbtb);
 
     /**
-     * Algorithm ID for the Diffie Hellman Key Agreement (DH), from RFC 3279.
-     * Parameters may include public values P and G.
+     * Algoritim ID for tif Diffif Hfllmbn Kfy Agrffmfnt (DH), from RFC 3279.
+     * Pbrbmftfrs mby indludf publid vblufs P bnd G.
      * OID = 1.2.840.10046.2.1
      */
-        DH_PKIX_oid = ObjectIdentifier.newInternal(DH_PKIX_data);
+        DH_PKIX_oid = ObjfdtIdfntififr.nfwIntfrnbl(DH_PKIX_dbtb);
 
     /**
-     * Algorithm ID for the Digital Signing Algorithm (DSA), from the
-     * NIST OIW Stable Agreements part 12.
-     * Parameters may include public values P, Q, and G; or these may be
-     * derived from
-     * another source such as a Certificate Authority's certificate.
+     * Algoritim ID for tif Digitbl Signing Algoritim (DSA), from tif
+     * NIST OIW Stbblf Agrffmfnts pbrt 12.
+     * Pbrbmftfrs mby indludf publid vblufs P, Q, bnd G; or tifsf mby bf
+     * dfrivfd from
+     * bnotifr sourdf sudi bs b Cfrtifidbtf Autiority's dfrtifidbtf.
      * OID = 1.3.14.3.2.12
      */
-        DSA_OIW_oid = ObjectIdentifier.newInternal(DSA_OIW_data);
+        DSA_OIW_oid = ObjfdtIdfntififr.nfwIntfrnbl(DSA_OIW_dbtb);
 
     /**
-     * Algorithm ID for the Digital Signing Algorithm (DSA), from RFC 3279.
-     * Parameters may include public values P, Q, and G; or these may be
-     * derived from another source such as a Certificate Authority's
-     * certificate.
+     * Algoritim ID for tif Digitbl Signing Algoritim (DSA), from RFC 3279.
+     * Pbrbmftfrs mby indludf publid vblufs P, Q, bnd G; or tifsf mby bf
+     * dfrivfd from bnotifr sourdf sudi bs b Cfrtifidbtf Autiority's
+     * dfrtifidbtf.
      * OID = 1.2.840.10040.4.1
      */
-        DSA_oid = ObjectIdentifier.newInternal(DSA_PKIX_data);
+        DSA_oid = ObjfdtIdfntififr.nfwIntfrnbl(DSA_PKIX_dbtb);
 
     /**
-     * Algorithm ID for RSA keys used for any purpose, as defined in X.509.
-     * The algorithm parameter is a single value, the number of bits in the
-     * public modulus.
+     * Algoritim ID for RSA kfys usfd for bny purposf, bs dffinfd in X.509.
+     * Tif blgoritim pbrbmftfr is b singlf vbluf, tif numbfr of bits in tif
+     * publid modulus.
      * OID = 2.5.8.1.1
      */
-        RSA_oid = ObjectIdentifier.newInternal(RSA_data);
+        RSA_oid = ObjfdtIdfntififr.nfwIntfrnbl(RSA_dbtb);
 
     /**
-     * Algorithm ID for RSA keys used with RSA encryption, as defined
-     * in PKCS #1.  There are no parameters associated with this algorithm.
+     * Algoritim ID for RSA kfys usfd witi RSA fndryption, bs dffinfd
+     * in PKCS #1.  Tifrf brf no pbrbmftfrs bssodibtfd witi tiis blgoritim.
      * OID = 1.2.840.113549.1.1.1
      */
-        RSAEncryption_oid = ObjectIdentifier.newInternal(RSAEncryption_data);
+        RSAEndryption_oid = ObjfdtIdfntififr.nfwIntfrnbl(RSAEndryption_dbtb);
 
     /**
-     * Identifies a signing algorithm where an MD2 digest is encrypted
-     * using an RSA private key; defined in PKCS #1.  Use of this
-     * signing algorithm is discouraged due to MD2 vulnerabilities.
+     * Idfntififs b signing blgoritim wifrf bn MD2 digfst is fndryptfd
+     * using bn RSA privbtf kfy; dffinfd in PKCS #1.  Usf of tiis
+     * signing blgoritim is disdourbgfd duf to MD2 vulnfrbbilitifs.
      * OID = 1.2.840.113549.1.1.2
      */
-        md2WithRSAEncryption_oid =
-            ObjectIdentifier.newInternal(md2WithRSAEncryption_data);
+        md2WitiRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(md2WitiRSAEndryption_dbtb);
 
     /**
-     * Identifies a signing algorithm where an MD5 digest is
-     * encrypted using an RSA private key; defined in PKCS #1.
+     * Idfntififs b signing blgoritim wifrf bn MD5 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd in PKCS #1.
      * OID = 1.2.840.113549.1.1.4
      */
-        md5WithRSAEncryption_oid =
-            ObjectIdentifier.newInternal(md5WithRSAEncryption_data);
+        md5WitiRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(md5WitiRSAEndryption_dbtb);
 
     /**
-     * Identifies a signing algorithm where a SHA1 digest is
-     * encrypted using an RSA private key; defined by RSA DSI.
+     * Idfntififs b signing blgoritim wifrf b SHA1 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd by RSA DSI.
      * OID = 1.2.840.113549.1.1.5
      */
-        sha1WithRSAEncryption_oid =
-            ObjectIdentifier.newInternal(sha1WithRSAEncryption_data);
+        sib1WitiRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(sib1WitiRSAEndryption_dbtb);
 
     /**
-     * Identifies a signing algorithm where a SHA1 digest is
-     * encrypted using an RSA private key; defined in NIST OIW.
+     * Idfntififs b signing blgoritim wifrf b SHA1 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd in NIST OIW.
      * OID = 1.3.14.3.2.29
      */
-        sha1WithRSAEncryption_OIW_oid =
-            ObjectIdentifier.newInternal(sha1WithRSAEncryption_OIW_data);
+        sib1WitiRSAEndryption_OIW_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(sib1WitiRSAEndryption_OIW_dbtb);
 
     /**
-     * Identifies a signing algorithm where a SHA224 digest is
-     * encrypted using an RSA private key; defined by PKCS #1.
+     * Idfntififs b signing blgoritim wifrf b SHA224 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd by PKCS #1.
      * OID = 1.2.840.113549.1.1.14
      */
-        sha224WithRSAEncryption_oid =
-            ObjectIdentifier.newInternal(sha224WithRSAEncryption_data);
+        sib224WitiRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(sib224WitiRSAEndryption_dbtb);
 
     /**
-     * Identifies a signing algorithm where a SHA256 digest is
-     * encrypted using an RSA private key; defined by PKCS #1.
+     * Idfntififs b signing blgoritim wifrf b SHA256 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd by PKCS #1.
      * OID = 1.2.840.113549.1.1.11
      */
-        sha256WithRSAEncryption_oid =
-            ObjectIdentifier.newInternal(sha256WithRSAEncryption_data);
+        sib256WitiRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(sib256WitiRSAEndryption_dbtb);
 
     /**
-     * Identifies a signing algorithm where a SHA384 digest is
-     * encrypted using an RSA private key; defined by PKCS #1.
+     * Idfntififs b signing blgoritim wifrf b SHA384 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd by PKCS #1.
      * OID = 1.2.840.113549.1.1.12
      */
-        sha384WithRSAEncryption_oid =
-            ObjectIdentifier.newInternal(sha384WithRSAEncryption_data);
+        sib384WitiRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(sib384WitiRSAEndryption_dbtb);
 
     /**
-     * Identifies a signing algorithm where a SHA512 digest is
-     * encrypted using an RSA private key; defined by PKCS #1.
+     * Idfntififs b signing blgoritim wifrf b SHA512 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd by PKCS #1.
      * OID = 1.2.840.113549.1.1.13
      */
-        sha512WithRSAEncryption_oid =
-            ObjectIdentifier.newInternal(sha512WithRSAEncryption_data);
+        sib512WitiRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(sib512WitiRSAEndryption_dbtb);
 
     /**
-     * Identifies the FIPS 186 "Digital Signature Standard" (DSS), where a
-     * SHA digest is signed using the Digital Signing Algorithm (DSA).
-     * This should not be used.
+     * Idfntififs tif FIPS 186 "Digitbl Signbturf Stbndbrd" (DSS), wifrf b
+     * SHA digfst is signfd using tif Digitbl Signing Algoritim (DSA).
+     * Tiis siould not bf usfd.
      * OID = 1.3.14.3.2.13
      */
-        shaWithDSA_OIW_oid = ObjectIdentifier.newInternal(shaWithDSA_OIW_data);
+        sibWitiDSA_OIW_oid = ObjfdtIdfntififr.nfwIntfrnbl(sibWitiDSA_OIW_dbtb);
 
     /**
-     * Identifies the FIPS 186 "Digital Signature Standard" (DSS), where a
-     * SHA1 digest is signed using the Digital Signing Algorithm (DSA).
+     * Idfntififs tif FIPS 186 "Digitbl Signbturf Stbndbrd" (DSS), wifrf b
+     * SHA1 digfst is signfd using tif Digitbl Signing Algoritim (DSA).
      * OID = 1.3.14.3.2.27
      */
-        sha1WithDSA_OIW_oid = ObjectIdentifier.newInternal(sha1WithDSA_OIW_data);
+        sib1WitiDSA_OIW_oid = ObjfdtIdfntififr.nfwIntfrnbl(sib1WitiDSA_OIW_dbtb);
 
     /**
-     * Identifies the FIPS 186 "Digital Signature Standard" (DSS), where a
-     * SHA1 digest is signed using the Digital Signing Algorithm (DSA).
+     * Idfntififs tif FIPS 186 "Digitbl Signbturf Stbndbrd" (DSS), wifrf b
+     * SHA1 digfst is signfd using tif Digitbl Signing Algoritim (DSA).
      * OID = 1.2.840.10040.4.3
      */
-        sha1WithDSA_oid = ObjectIdentifier.newInternal(dsaWithSHA1_PKIX_data);
+        sib1WitiDSA_oid = ObjfdtIdfntififr.nfwIntfrnbl(dsbWitiSHA1_PKIX_dbtb);
 
-        nameTable = new HashMap<ObjectIdentifier,String>();
-        nameTable.put(MD5_oid, "MD5");
-        nameTable.put(MD2_oid, "MD2");
-        nameTable.put(SHA_oid, "SHA-1");
-        nameTable.put(SHA224_oid, "SHA-224");
-        nameTable.put(SHA256_oid, "SHA-256");
-        nameTable.put(SHA384_oid, "SHA-384");
-        nameTable.put(SHA512_oid, "SHA-512");
-        nameTable.put(RSAEncryption_oid, "RSA");
-        nameTable.put(RSA_oid, "RSA");
-        nameTable.put(DH_oid, "Diffie-Hellman");
-        nameTable.put(DH_PKIX_oid, "Diffie-Hellman");
-        nameTable.put(DSA_oid, "DSA");
-        nameTable.put(DSA_OIW_oid, "DSA");
-        nameTable.put(EC_oid, "EC");
-        nameTable.put(ECDH_oid, "ECDH");
+        nbmfTbblf = nfw HbsiMbp<ObjfdtIdfntififr,String>();
+        nbmfTbblf.put(MD5_oid, "MD5");
+        nbmfTbblf.put(MD2_oid, "MD2");
+        nbmfTbblf.put(SHA_oid, "SHA-1");
+        nbmfTbblf.put(SHA224_oid, "SHA-224");
+        nbmfTbblf.put(SHA256_oid, "SHA-256");
+        nbmfTbblf.put(SHA384_oid, "SHA-384");
+        nbmfTbblf.put(SHA512_oid, "SHA-512");
+        nbmfTbblf.put(RSAEndryption_oid, "RSA");
+        nbmfTbblf.put(RSA_oid, "RSA");
+        nbmfTbblf.put(DH_oid, "Diffif-Hfllmbn");
+        nbmfTbblf.put(DH_PKIX_oid, "Diffif-Hfllmbn");
+        nbmfTbblf.put(DSA_oid, "DSA");
+        nbmfTbblf.put(DSA_OIW_oid, "DSA");
+        nbmfTbblf.put(EC_oid, "EC");
+        nbmfTbblf.put(ECDH_oid, "ECDH");
 
-        nameTable.put(AES_oid, "AES");
+        nbmfTbblf.put(AES_oid, "AES");
 
-        nameTable.put(sha1WithECDSA_oid, "SHA1withECDSA");
-        nameTable.put(sha224WithECDSA_oid, "SHA224withECDSA");
-        nameTable.put(sha256WithECDSA_oid, "SHA256withECDSA");
-        nameTable.put(sha384WithECDSA_oid, "SHA384withECDSA");
-        nameTable.put(sha512WithECDSA_oid, "SHA512withECDSA");
-        nameTable.put(md5WithRSAEncryption_oid, "MD5withRSA");
-        nameTable.put(md2WithRSAEncryption_oid, "MD2withRSA");
-        nameTable.put(sha1WithDSA_oid, "SHA1withDSA");
-        nameTable.put(sha1WithDSA_OIW_oid, "SHA1withDSA");
-        nameTable.put(shaWithDSA_OIW_oid, "SHA1withDSA");
-        nameTable.put(sha224WithDSA_oid, "SHA224withDSA");
-        nameTable.put(sha256WithDSA_oid, "SHA256withDSA");
-        nameTable.put(sha1WithRSAEncryption_oid, "SHA1withRSA");
-        nameTable.put(sha1WithRSAEncryption_OIW_oid, "SHA1withRSA");
-        nameTable.put(sha224WithRSAEncryption_oid, "SHA224withRSA");
-        nameTable.put(sha256WithRSAEncryption_oid, "SHA256withRSA");
-        nameTable.put(sha384WithRSAEncryption_oid, "SHA384withRSA");
-        nameTable.put(sha512WithRSAEncryption_oid, "SHA512withRSA");
-        nameTable.put(pbeWithMD5AndDES_oid, "PBEWithMD5AndDES");
-        nameTable.put(pbeWithMD5AndRC2_oid, "PBEWithMD5AndRC2");
-        nameTable.put(pbeWithSHA1AndDES_oid, "PBEWithSHA1AndDES");
-        nameTable.put(pbeWithSHA1AndRC2_oid, "PBEWithSHA1AndRC2");
-        nameTable.put(pbeWithSHA1AndDESede_oid, "PBEWithSHA1AndDESede");
-        nameTable.put(pbeWithSHA1AndRC2_40_oid, "PBEWithSHA1AndRC2_40");
+        nbmfTbblf.put(sib1WitiECDSA_oid, "SHA1witiECDSA");
+        nbmfTbblf.put(sib224WitiECDSA_oid, "SHA224witiECDSA");
+        nbmfTbblf.put(sib256WitiECDSA_oid, "SHA256witiECDSA");
+        nbmfTbblf.put(sib384WitiECDSA_oid, "SHA384witiECDSA");
+        nbmfTbblf.put(sib512WitiECDSA_oid, "SHA512witiECDSA");
+        nbmfTbblf.put(md5WitiRSAEndryption_oid, "MD5witiRSA");
+        nbmfTbblf.put(md2WitiRSAEndryption_oid, "MD2witiRSA");
+        nbmfTbblf.put(sib1WitiDSA_oid, "SHA1witiDSA");
+        nbmfTbblf.put(sib1WitiDSA_OIW_oid, "SHA1witiDSA");
+        nbmfTbblf.put(sibWitiDSA_OIW_oid, "SHA1witiDSA");
+        nbmfTbblf.put(sib224WitiDSA_oid, "SHA224witiDSA");
+        nbmfTbblf.put(sib256WitiDSA_oid, "SHA256witiDSA");
+        nbmfTbblf.put(sib1WitiRSAEndryption_oid, "SHA1witiRSA");
+        nbmfTbblf.put(sib1WitiRSAEndryption_OIW_oid, "SHA1witiRSA");
+        nbmfTbblf.put(sib224WitiRSAEndryption_oid, "SHA224witiRSA");
+        nbmfTbblf.put(sib256WitiRSAEndryption_oid, "SHA256witiRSA");
+        nbmfTbblf.put(sib384WitiRSAEndryption_oid, "SHA384witiRSA");
+        nbmfTbblf.put(sib512WitiRSAEndryption_oid, "SHA512witiRSA");
+        nbmfTbblf.put(pbfWitiMD5AndDES_oid, "PBEWitiMD5AndDES");
+        nbmfTbblf.put(pbfWitiMD5AndRC2_oid, "PBEWitiMD5AndRC2");
+        nbmfTbblf.put(pbfWitiSHA1AndDES_oid, "PBEWitiSHA1AndDES");
+        nbmfTbblf.put(pbfWitiSHA1AndRC2_oid, "PBEWitiSHA1AndRC2");
+        nbmfTbblf.put(pbfWitiSHA1AndDESfdf_oid, "PBEWitiSHA1AndDESfdf");
+        nbmfTbblf.put(pbfWitiSHA1AndRC2_40_oid, "PBEWitiSHA1AndRC2_40");
     }
 
     /**
-     * Creates a signature algorithm name from a digest algorithm
-     * name and a encryption algorithm name.
+     * Crfbtfs b signbturf blgoritim nbmf from b digfst blgoritim
+     * nbmf bnd b fndryption blgoritim nbmf.
      */
-    public static String makeSigAlg(String digAlg, String encAlg) {
-        digAlg = digAlg.replace("-", "");
-        if (encAlg.equalsIgnoreCase("EC")) encAlg = "ECDSA";
+    publid stbtid String mbkfSigAlg(String digAlg, String fndAlg) {
+        digAlg = digAlg.rfplbdf("-", "");
+        if (fndAlg.fqublsIgnorfCbsf("EC")) fndAlg = "ECDSA";
 
-        return digAlg + "with" + encAlg;
+        rfturn digAlg + "witi" + fndAlg;
     }
 
     /**
-     * Extracts the encryption algorithm name from a signature
-     * algorithm name.
+     * Extrbdts tif fndryption blgoritim nbmf from b signbturf
+     * blgoritim nbmf.
       */
-    public static String getEncAlgFromSigAlg(String signatureAlgorithm) {
-        signatureAlgorithm = signatureAlgorithm.toUpperCase(Locale.ENGLISH);
-        int with = signatureAlgorithm.indexOf("WITH");
-        String keyAlgorithm = null;
-        if (with > 0) {
-            int and = signatureAlgorithm.indexOf("AND", with + 4);
-            if (and > 0) {
-                keyAlgorithm = signatureAlgorithm.substring(with + 4, and);
-            } else {
-                keyAlgorithm = signatureAlgorithm.substring(with + 4);
+    publid stbtid String gftEndAlgFromSigAlg(String signbturfAlgoritim) {
+        signbturfAlgoritim = signbturfAlgoritim.toUppfrCbsf(Lodblf.ENGLISH);
+        int witi = signbturfAlgoritim.indfxOf("WITH");
+        String kfyAlgoritim = null;
+        if (witi > 0) {
+            int bnd = signbturfAlgoritim.indfxOf("AND", witi + 4);
+            if (bnd > 0) {
+                kfyAlgoritim = signbturfAlgoritim.substring(witi + 4, bnd);
+            } flsf {
+                kfyAlgoritim = signbturfAlgoritim.substring(witi + 4);
             }
-            if (keyAlgorithm.equalsIgnoreCase("ECDSA")) {
-                keyAlgorithm = "EC";
+            if (kfyAlgoritim.fqublsIgnorfCbsf("ECDSA")) {
+                kfyAlgoritim = "EC";
             }
         }
-        return keyAlgorithm;
+        rfturn kfyAlgoritim;
     }
 
     /**
-     * Extracts the digest algorithm name from a signature
-     * algorithm name.
+     * Extrbdts tif digfst blgoritim nbmf from b signbturf
+     * blgoritim nbmf.
       */
-    public static String getDigAlgFromSigAlg(String signatureAlgorithm) {
-        signatureAlgorithm = signatureAlgorithm.toUpperCase(Locale.ENGLISH);
-        int with = signatureAlgorithm.indexOf("WITH");
-        if (with > 0) {
-            return signatureAlgorithm.substring(0, with);
+    publid stbtid String gftDigAlgFromSigAlg(String signbturfAlgoritim) {
+        signbturfAlgoritim = signbturfAlgoritim.toUppfrCbsf(Lodblf.ENGLISH);
+        int witi = signbturfAlgoritim.indfxOf("WITH");
+        if (witi > 0) {
+            rfturn signbturfAlgoritim.substring(0, witi);
         }
-        return null;
+        rfturn null;
     }
 }

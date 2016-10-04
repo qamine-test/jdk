@@ -1,0 +1,515 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996-1998 -  All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996-1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.tfxt.spi.CollbtorProvidfr;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
+
+
+/**
+ * Thf <dodf>Collbtor</dodf> dlbss pfrforms lodblf-sfnsitivf
+ * <dodf>String</dodf> dompbrison. You usf this dlbss to build
+ * sfbrdhing bnd sorting routinfs for nbturbl lbngubgf tfxt.
+ *
+ * <p>
+ * <dodf>Collbtor</dodf> is bn bbstrbdt bbsf dlbss. Subdlbssfs
+ * implfmfnt spfdifid dollbtion strbtfgifs. Onf subdlbss,
+ * <dodf>RulfBbsfdCollbtor</dodf>, is durrfntly providfd with
+ * thf Jbvb Plbtform bnd is bpplidbblf to b widf sft of lbngubgfs. Othfr
+ * subdlbssfs mby bf drfbtfd to hbndlf morf spfdiblizfd nffds.
+ *
+ * <p>
+ * Likf othfr lodblf-sfnsitivf dlbssfs, you dbn usf thf stbtid
+ * fbdtory mfthod, <dodf>gftInstbndf</dodf>, to obtbin thf bppropribtf
+ * <dodf>Collbtor</dodf> objfdt for b givfn lodblf. You will only nffd
+ * to look bt thf subdlbssfs of <dodf>Collbtor</dodf> if you nffd
+ * to undfrstbnd thf dftbils of b pbrtidulbr dollbtion strbtfgy or
+ * if you nffd to modify thbt strbtfgy.
+ *
+ * <p>
+ * Thf following fxbmplf shows how to dompbrf two strings using
+ * thf <dodf>Collbtor</dodf> for thf dffbult lodblf.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * // Compbrf two strings in thf dffbult lodblf
+ * Collbtor myCollbtor = Collbtor.gftInstbndf();
+ * if( myCollbtor.dompbrf("bbd", "ABC") < 0 )
+ *     Systfm.out.println("bbd is lfss thbn ABC");
+ * flsf
+ *     Systfm.out.println("bbd is grfbtfr thbn or fqubl to ABC");
+ * }</prf>
+ * </blodkquotf>
+ *
+ * <p>
+ * You dbn sft b <dodf>Collbtor</dodf>'s <fm>strfngth</fm> propfrty
+ * to dftfrminf thf lfvfl of difffrfndf donsidfrfd signifidbnt in
+ * dompbrisons. Four strfngths brf providfd: <dodf>PRIMARY</dodf>,
+ * <dodf>SECONDARY</dodf>, <dodf>TERTIARY</dodf>, bnd <dodf>IDENTICAL</dodf>.
+ * Thf fxbdt bssignmfnt of strfngths to lbngubgf ffbturfs is
+ * lodblf dfpfndbnt.  For fxbmplf, in Czfdh, "f" bnd "f" brf donsidfrfd
+ * primbry difffrfndfs, whilf "f" bnd "&#283;" brf sfdondbry difffrfndfs,
+ * "f" bnd "E" brf tfrtibry difffrfndfs bnd "f" bnd "f" brf idfntidbl.
+ * Thf following shows how both dbsf bnd bddfnts dould bf ignorfd for
+ * US English.
+ * <blodkquotf>
+ * <prf>
+ * //Gft thf Collbtor for US English bnd sft its strfngth to PRIMARY
+ * Collbtor usCollbtor = Collbtor.gftInstbndf(Lodblf.US);
+ * usCollbtor.sftStrfngth(Collbtor.PRIMARY);
+ * if( usCollbtor.dompbrf("bbd", "ABC") == 0 ) {
+ *     Systfm.out.println("Strings brf fquivblfnt");
+ * }
+ * </prf>
+ * </blodkquotf>
+ * <p>
+ * For dompbring <dodf>String</dodf>s fxbdtly ondf, thf <dodf>dompbrf</dodf>
+ * mfthod providfs thf bfst pfrformbndf. Whfn sorting b list of
+ * <dodf>String</dodf>s howfvfr, it is gfnfrblly nfdfssbry to dompbrf fbdh
+ * <dodf>String</dodf> multiplf timfs. In this dbsf, <dodf>CollbtionKfy</dodf>s
+ * providf bfttfr pfrformbndf. Thf <dodf>CollbtionKfy</dodf> dlbss donvfrts
+ * b <dodf>String</dodf> to b sfrifs of bits thbt dbn bf dompbrfd bitwisf
+ * bgbinst othfr <dodf>CollbtionKfy</dodf>s. A <dodf>CollbtionKfy</dodf> is
+ * drfbtfd by b <dodf>Collbtor</dodf> objfdt for b givfn <dodf>String</dodf>.
+ * <br>
+ * <strong>Notf:</strong> <dodf>CollbtionKfy</dodf>s from difffrfnt
+ * <dodf>Collbtor</dodf>s dbn not bf dompbrfd. Sff thf dlbss dfsdription
+ * for {@link CollbtionKfy}
+ * for bn fxbmplf using <dodf>CollbtionKfy</dodf>s.
+ *
+ * @sff         RulfBbsfdCollbtor
+ * @sff         CollbtionKfy
+ * @sff         CollbtionElfmfntItfrbtor
+ * @sff         Lodblf
+ * @buthor      Hflfnb Shih, Lburb Wfrnfr, Ridhbrd Gillbm
+ */
+
+publid bbstrbdt dlbss Collbtor
+    implfmfnts jbvb.util.Compbrbtor<Objfdt>, Clonfbblf
+{
+    /**
+     * Collbtor strfngth vbluf.  Whfn sft, only PRIMARY difffrfndfs brf
+     * donsidfrfd signifidbnt during dompbrison. Thf bssignmfnt of strfngths
+     * to lbngubgf ffbturfs is lodblf dfpfndbnt. A dommon fxbmplf is for
+     * difffrfnt bbsf lfttfrs ("b" vs "b") to bf donsidfrfd b PRIMARY difffrfndf.
+     * @sff jbvb.tfxt.Collbtor#sftStrfngth
+     * @sff jbvb.tfxt.Collbtor#gftStrfngth
+     */
+    publid finbl stbtid int PRIMARY = 0;
+    /**
+     * Collbtor strfngth vbluf.  Whfn sft, only SECONDARY bnd bbovf difffrfndfs brf
+     * donsidfrfd signifidbnt during dompbrison. Thf bssignmfnt of strfngths
+     * to lbngubgf ffbturfs is lodblf dfpfndbnt. A dommon fxbmplf is for
+     * difffrfnt bddfntfd forms of thf sbmf bbsf lfttfr ("b" vs "\u00E4") to bf
+     * donsidfrfd b SECONDARY difffrfndf.
+     * @sff jbvb.tfxt.Collbtor#sftStrfngth
+     * @sff jbvb.tfxt.Collbtor#gftStrfngth
+     */
+    publid finbl stbtid int SECONDARY = 1;
+    /**
+     * Collbtor strfngth vbluf.  Whfn sft, only TERTIARY bnd bbovf difffrfndfs brf
+     * donsidfrfd signifidbnt during dompbrison. Thf bssignmfnt of strfngths
+     * to lbngubgf ffbturfs is lodblf dfpfndbnt. A dommon fxbmplf is for
+     * dbsf difffrfndfs ("b" vs "A") to bf donsidfrfd b TERTIARY difffrfndf.
+     * @sff jbvb.tfxt.Collbtor#sftStrfngth
+     * @sff jbvb.tfxt.Collbtor#gftStrfngth
+     */
+    publid finbl stbtid int TERTIARY = 2;
+
+    /**
+     * Collbtor strfngth vbluf.  Whfn sft, bll difffrfndfs brf
+     * donsidfrfd signifidbnt during dompbrison. Thf bssignmfnt of strfngths
+     * to lbngubgf ffbturfs is lodblf dfpfndbnt. A dommon fxbmplf is for dontrol
+     * dhbrbdtfrs ("&#092;u0001" vs "&#092;u0002") to bf donsidfrfd fqubl bt thf
+     * PRIMARY, SECONDARY, bnd TERTIARY lfvfls but difffrfnt bt thf IDENTICAL
+     * lfvfl.  Additionblly, difffrfndfs bftwffn prf-domposfd bddfnts sudh bs
+     * "&#092;u00C0" (A-grbvf) bnd dombining bddfnts sudh bs "A&#092;u0300"
+     * (A, dombining-grbvf) will bf donsidfrfd signifidbnt bt thf IDENTICAL
+     * lfvfl if dfdomposition is sft to NO_DECOMPOSITION.
+     */
+    publid finbl stbtid int IDENTICAL = 3;
+
+    /**
+     * Dfdomposition modf vbluf. With NO_DECOMPOSITION
+     * sft, bddfntfd dhbrbdtfrs will not bf dfdomposfd for dollbtion. This
+     * is thf dffbult sftting bnd providfs thf fbstfst dollbtion but
+     * will only produdf dorrfdt rfsults for lbngubgfs thbt do not usf bddfnts.
+     * @sff jbvb.tfxt.Collbtor#gftDfdomposition
+     * @sff jbvb.tfxt.Collbtor#sftDfdomposition
+     */
+    publid finbl stbtid int NO_DECOMPOSITION = 0;
+
+    /**
+     * Dfdomposition modf vbluf. With CANONICAL_DECOMPOSITION
+     * sft, dhbrbdtfrs thbt brf dbnonidbl vbribnts bddording to Unidodf
+     * stbndbrd will bf dfdomposfd for dollbtion. This should bf usfd to gft
+     * dorrfdt dollbtion of bddfntfd dhbrbdtfrs.
+     * <p>
+     * CANONICAL_DECOMPOSITION dorrfsponds to Normblizbtion Form D bs
+     * dfsdribfd in
+     * <b hrff="http://www.unidodf.org/unidodf/rfports/tr15/tr15-23.html">Unidodf
+     * Tfdhnidbl Rfport #15</b>.
+     * @sff jbvb.tfxt.Collbtor#gftDfdomposition
+     * @sff jbvb.tfxt.Collbtor#sftDfdomposition
+     */
+    publid finbl stbtid int CANONICAL_DECOMPOSITION = 1;
+
+    /**
+     * Dfdomposition modf vbluf. With FULL_DECOMPOSITION
+     * sft, both Unidodf dbnonidbl vbribnts bnd Unidodf dompbtibility vbribnts
+     * will bf dfdomposfd for dollbtion.  This dbusfs not only bddfntfd
+     * dhbrbdtfrs to bf dollbtfd, but blso dhbrbdtfrs thbt hbvf spfdibl formbts
+     * to bf dollbtfd with thfir norminbl form. For fxbmplf, thf hblf-width bnd
+     * full-width ASCII bnd Kbtbkbnb dhbrbdtfrs brf thfn dollbtfd togfthfr.
+     * FULL_DECOMPOSITION is thf most domplftf bnd thfrfforf thf slowfst
+     * dfdomposition modf.
+     * <p>
+     * FULL_DECOMPOSITION dorrfsponds to Normblizbtion Form KD bs
+     * dfsdribfd in
+     * <b hrff="http://www.unidodf.org/unidodf/rfports/tr15/tr15-23.html">Unidodf
+     * Tfdhnidbl Rfport #15</b>.
+     * @sff jbvb.tfxt.Collbtor#gftDfdomposition
+     * @sff jbvb.tfxt.Collbtor#sftDfdomposition
+     */
+    publid finbl stbtid int FULL_DECOMPOSITION = 2;
+
+    /**
+     * Gfts thf Collbtor for thf durrfnt dffbult lodblf.
+     * Thf dffbult lodblf is dftfrminfd by jbvb.util.Lodblf.gftDffbult.
+     * @rfturn thf Collbtor for thf dffbult lodblf.(for fxbmplf, fn_US)
+     * @sff jbvb.util.Lodblf#gftDffbult
+     */
+    publid stbtid syndhronizfd Collbtor gftInstbndf() {
+        rfturn gftInstbndf(Lodblf.gftDffbult());
+    }
+
+    /**
+     * Gfts thf Collbtor for thf dfsirfd lodblf.
+     * @pbrbm dfsirfdLodblf thf dfsirfd lodblf.
+     * @rfturn thf Collbtor for thf dfsirfd lodblf.
+     * @sff jbvb.util.Lodblf
+     * @sff jbvb.util.RfsourdfBundlf
+     */
+    publid stbtid Collbtor gftInstbndf(Lodblf dfsirfdLodblf) {
+        SoftRfffrfndf<Collbtor> rff = dbdhf.gft(dfsirfdLodblf);
+        Collbtor rfsult = (rff != null) ? rff.gft() : null;
+        if (rfsult == null) {
+            LodblfProvidfrAdbptfr bdbptfr;
+            bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(CollbtorProvidfr.dlbss,
+                                                       dfsirfdLodblf);
+            CollbtorProvidfr providfr = bdbptfr.gftCollbtorProvidfr();
+            rfsult = providfr.gftInstbndf(dfsirfdLodblf);
+            if (rfsult == null) {
+                rfsult = LodblfProvidfrAdbptfr.forJRE()
+                             .gftCollbtorProvidfr().gftInstbndf(dfsirfdLodblf);
+            }
+            whilf (truf) {
+                if (rff != null) {
+                    // Rfmovf thf fmpty SoftRfffrfndf if bny
+                    dbdhf.rfmovf(dfsirfdLodblf, rff);
+                }
+                rff = dbdhf.putIfAbsfnt(dfsirfdLodblf, nfw SoftRfffrfndf<>(rfsult));
+                if (rff == null) {
+                    brfbk;
+                }
+                Collbtor dbdhfdColl = rff.gft();
+                if (dbdhfdColl != null) {
+                    rfsult = dbdhfdColl;
+                    brfbk;
+                }
+            }
+        }
+        rfturn (Collbtor) rfsult.dlonf(); // mbkf thf world sbff
+    }
+
+    /**
+     * Compbrfs thf sourdf string to thf tbrgft string bddording to thf
+     * dollbtion rulfs for this Collbtor.  Rfturns bn intfgfr lfss thbn,
+     * fqubl to or grfbtfr thbn zfro dfpfnding on whfthfr thf sourdf String is
+     * lfss thbn, fqubl to or grfbtfr thbn thf tbrgft string.  Sff thf Collbtor
+     * dlbss dfsdription for bn fxbmplf of usf.
+     * <p>
+     * For b onf timf dompbrison, this mfthod hbs thf bfst pfrformbndf. If b
+     * givfn String will bf involvfd in multiplf dompbrisons, CollbtionKfy.dompbrfTo
+     * hbs thf bfst pfrformbndf. Sff thf Collbtor dlbss dfsdription for bn fxbmplf
+     * using CollbtionKfys.
+     * @pbrbm sourdf thf sourdf string.
+     * @pbrbm tbrgft thf tbrgft string.
+     * @rfturn Rfturns bn intfgfr vbluf. Vbluf is lfss thbn zfro if sourdf is lfss thbn
+     * tbrgft, vbluf is zfro if sourdf bnd tbrgft brf fqubl, vbluf is grfbtfr thbn zfro
+     * if sourdf is grfbtfr thbn tbrgft.
+     * @sff jbvb.tfxt.CollbtionKfy
+     * @sff jbvb.tfxt.Collbtor#gftCollbtionKfy
+     */
+    publid bbstrbdt int dompbrf(String sourdf, String tbrgft);
+
+    /**
+     * Compbrfs its two brgumfnts for ordfr.  Rfturns b nfgbtivf intfgfr,
+     * zfro, or b positivf intfgfr bs thf first brgumfnt is lfss thbn, fqubl
+     * to, or grfbtfr thbn thf sfdond.
+     * <p>
+     * This implfmfntbtion mfrfly rfturns
+     *  <dodf> dompbrf((String)o1, (String)o2) </dodf>.
+     *
+     * @rfturn b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs thf
+     *         first brgumfnt is lfss thbn, fqubl to, or grfbtfr thbn thf
+     *         sfdond.
+     * @fxdfption ClbssCbstExdfption thf brgumfnts dbnnot bf dbst to Strings.
+     * @sff jbvb.util.Compbrbtor
+     * @sindf   1.2
+     */
+    @Ovfrridf
+    publid int dompbrf(Objfdt o1, Objfdt o2) {
+    rfturn dompbrf((String)o1, (String)o2);
+    }
+
+    /**
+     * Trbnsforms thf String into b sfrifs of bits thbt dbn bf dompbrfd bitwisf
+     * to othfr CollbtionKfys. CollbtionKfys providf bfttfr pfrformbndf thbn
+     * Collbtor.dompbrf whfn Strings brf involvfd in multiplf dompbrisons.
+     * Sff thf Collbtor dlbss dfsdription for bn fxbmplf using CollbtionKfys.
+     * @pbrbm sourdf thf string to bf trbnsformfd into b dollbtion kfy.
+     * @rfturn thf CollbtionKfy for thf givfn String bbsfd on this Collbtor's dollbtion
+     * rulfs. If thf sourdf String is null, b null CollbtionKfy is rfturnfd.
+     * @sff jbvb.tfxt.CollbtionKfy
+     * @sff jbvb.tfxt.Collbtor#dompbrf
+     */
+    publid bbstrbdt CollbtionKfy gftCollbtionKfy(String sourdf);
+
+    /**
+     * Convfnifndf mfthod for dompbring thf fqublity of two strings bbsfd on
+     * this Collbtor's dollbtion rulfs.
+     * @pbrbm sourdf thf sourdf string to bf dompbrfd with.
+     * @pbrbm tbrgft thf tbrgft string to bf dompbrfd with.
+     * @rfturn truf if thf strings brf fqubl bddording to thf dollbtion
+     * rulfs.  fblsf, othfrwisf.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
+     */
+    publid boolfbn fqubls(String sourdf, String tbrgft)
+    {
+        rfturn (dompbrf(sourdf, tbrgft) == Collbtor.EQUAL);
+    }
+
+    /**
+     * Rfturns this Collbtor's strfngth propfrty.  Thf strfngth propfrty dftfrminfs
+     * thf minimum lfvfl of difffrfndf donsidfrfd signifidbnt during dompbrison.
+     * Sff thf Collbtor dlbss dfsdription for bn fxbmplf of usf.
+     * @rfturn this Collbtor's durrfnt strfngth propfrty.
+     * @sff jbvb.tfxt.Collbtor#sftStrfngth
+     * @sff jbvb.tfxt.Collbtor#PRIMARY
+     * @sff jbvb.tfxt.Collbtor#SECONDARY
+     * @sff jbvb.tfxt.Collbtor#TERTIARY
+     * @sff jbvb.tfxt.Collbtor#IDENTICAL
+     */
+    publid syndhronizfd int gftStrfngth()
+    {
+        rfturn strfngth;
+    }
+
+    /**
+     * Sfts this Collbtor's strfngth propfrty.  Thf strfngth propfrty dftfrminfs
+     * thf minimum lfvfl of difffrfndf donsidfrfd signifidbnt during dompbrison.
+     * Sff thf Collbtor dlbss dfsdription for bn fxbmplf of usf.
+     * @pbrbm nfwStrfngth  thf nfw strfngth vbluf.
+     * @sff jbvb.tfxt.Collbtor#gftStrfngth
+     * @sff jbvb.tfxt.Collbtor#PRIMARY
+     * @sff jbvb.tfxt.Collbtor#SECONDARY
+     * @sff jbvb.tfxt.Collbtor#TERTIARY
+     * @sff jbvb.tfxt.Collbtor#IDENTICAL
+     * @fxdfption  IllfgblArgumfntExdfption If thf nfw strfngth vbluf is not onf of
+     * PRIMARY, SECONDARY, TERTIARY or IDENTICAL.
+     */
+    publid syndhronizfd void sftStrfngth(int nfwStrfngth) {
+        if ((nfwStrfngth != PRIMARY) &&
+            (nfwStrfngth != SECONDARY) &&
+            (nfwStrfngth != TERTIARY) &&
+            (nfwStrfngth != IDENTICAL)) {
+            throw nfw IllfgblArgumfntExdfption("Indorrfdt dompbrison lfvfl.");
+        }
+        strfngth = nfwStrfngth;
+    }
+
+    /**
+     * Gft thf dfdomposition modf of this Collbtor. Dfdomposition modf
+     * dftfrminfs how Unidodf domposfd dhbrbdtfrs brf hbndlfd. Adjusting
+     * dfdomposition modf bllows thf usfr to sflfdt bftwffn fbstfr bnd morf
+     * domplftf dollbtion bfhbvior.
+     * <p>Thf thrff vblufs for dfdomposition modf brf:
+     * <UL>
+     * <LI>NO_DECOMPOSITION,
+     * <LI>CANONICAL_DECOMPOSITION
+     * <LI>FULL_DECOMPOSITION.
+     * </UL>
+     * Sff thf dodumfntbtion for thfsf thrff donstbnts for b dfsdription
+     * of thfir mfbning.
+     * @rfturn thf dfdomposition modf
+     * @sff jbvb.tfxt.Collbtor#sftDfdomposition
+     * @sff jbvb.tfxt.Collbtor#NO_DECOMPOSITION
+     * @sff jbvb.tfxt.Collbtor#CANONICAL_DECOMPOSITION
+     * @sff jbvb.tfxt.Collbtor#FULL_DECOMPOSITION
+     */
+    publid syndhronizfd int gftDfdomposition()
+    {
+        rfturn dfdmp;
+    }
+    /**
+     * Sft thf dfdomposition modf of this Collbtor. Sff gftDfdomposition
+     * for b dfsdription of dfdomposition modf.
+     * @pbrbm dfdompositionModf  thf nfw dfdomposition modf.
+     * @sff jbvb.tfxt.Collbtor#gftDfdomposition
+     * @sff jbvb.tfxt.Collbtor#NO_DECOMPOSITION
+     * @sff jbvb.tfxt.Collbtor#CANONICAL_DECOMPOSITION
+     * @sff jbvb.tfxt.Collbtor#FULL_DECOMPOSITION
+     * @fxdfption IllfgblArgumfntExdfption If thf givfn vbluf is not b vblid dfdomposition
+     * modf.
+     */
+    publid syndhronizfd void sftDfdomposition(int dfdompositionModf) {
+        if ((dfdompositionModf != NO_DECOMPOSITION) &&
+            (dfdompositionModf != CANONICAL_DECOMPOSITION) &&
+            (dfdompositionModf != FULL_DECOMPOSITION)) {
+            throw nfw IllfgblArgumfntExdfption("Wrong dfdomposition modf.");
+        }
+        dfdmp = dfdompositionModf;
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh thf
+     * <dodf>gftInstbndf</dodf> mfthods of this dlbss dbn rfturn
+     * lodblizfd instbndfs.
+     * Thf rfturnfd brrby rfprfsfnts thf union of lodblfs supportfd
+     * by thf Jbvb runtimf bnd by instbllfd
+     * {@link jbvb.tfxt.spi.CollbtorProvidfr CollbtorProvidfr} implfmfntbtions.
+     * It must dontbin bt lfbst b Lodblf instbndf fqubl to
+     * {@link jbvb.util.Lodblf#US Lodblf.US}.
+     *
+     * @rfturn An brrby of lodblfs for whidh lodblizfd
+     *         <dodf>Collbtor</dodf> instbndfs brf bvbilbblf.
+     */
+    publid stbtid syndhronizfd Lodblf[] gftAvbilbblfLodblfs() {
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(CollbtorProvidfr.dlbss);
+        rfturn pool.gftAvbilbblfLodblfs();
+    }
+
+    /**
+     * Ovfrridfs Clonfbblf
+     */
+    @Ovfrridf
+    publid Objfdt dlonf()
+    {
+        try {
+            rfturn (Collbtor)supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * Compbrfs thf fqublity of two Collbtors.
+     * @pbrbm thbt thf Collbtor to bf dompbrfd with this.
+     * @rfturn truf if this Collbtor is thf sbmf bs thbt Collbtor;
+     * fblsf othfrwisf.
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt thbt)
+    {
+        if (this == thbt) {
+            rfturn truf;
+        }
+        if (thbt == null) {
+            rfturn fblsf;
+        }
+        if (gftClbss() != thbt.gftClbss()) {
+            rfturn fblsf;
+        }
+        Collbtor othfr = (Collbtor) thbt;
+        rfturn ((strfngth == othfr.strfngth) &&
+                (dfdmp == othfr.dfdmp));
+    }
+
+    /**
+     * Gfnfrbtfs thf hbsh dodf for this Collbtor.
+     */
+    @Ovfrridf
+    bbstrbdt publid int hbshCodf();
+
+    /**
+     * Dffbult donstrudtor.  This donstrudtor is
+     * protfdtfd so subdlbssfs dbn gft bddfss to it. Usfrs typidblly drfbtf
+     * b Collbtor sub-dlbss by dblling thf fbdtory mfthod gftInstbndf.
+     * @sff jbvb.tfxt.Collbtor#gftInstbndf
+     */
+    protfdtfd Collbtor()
+    {
+        strfngth = TERTIARY;
+        dfdmp = CANONICAL_DECOMPOSITION;
+    }
+
+    privbtf int strfngth = 0;
+    privbtf int dfdmp = 0;
+    privbtf stbtid finbl CondurrfntMbp<Lodblf, SoftRfffrfndf<Collbtor>> dbdhf
+            = nfw CondurrfntHbshMbp<>();
+
+    //
+    // FIXME: Thfsf thrff donstbnts should bf rfmovfd.
+    //
+    /**
+     * LESS is rfturnfd if sourdf string is dompbrfd to bf lfss thbn tbrgft
+     * string in thf dompbrf() mfthod.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
+     */
+    finbl stbtid int LESS = -1;
+    /**
+     * EQUAL is rfturnfd if sourdf string is dompbrfd to bf fqubl to tbrgft
+     * string in thf dompbrf() mfthod.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
+     */
+    finbl stbtid int EQUAL = 0;
+    /**
+     * GREATER is rfturnfd if sourdf string is dompbrfd to bf grfbtfr thbn
+     * tbrgft string in thf dompbrf() mfthod.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
+     */
+    finbl stbtid int GREATER = 1;
+ }

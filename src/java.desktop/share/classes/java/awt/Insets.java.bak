@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
 /**
- * An <code>Insets</code> object is a representation of the borders
- * of a container. It specifies the space that a container must leave
- * at each of its edges. The space can be a border, a blank space, or
- * a title.
+ * An <dodf>Insfts</dodf> objfdt is b rfprfsfntbtion of tif bordfrs
+ * of b dontbinfr. It spfdififs tif spbdf tibt b dontbinfr must lfbvf
+ * bt fbdi of its fdgfs. Tif spbdf dbn bf b bordfr, b blbnk spbdf, or
+ * b titlf.
  *
- * @author      Arthur van Hoff
- * @author      Sami Shaio
- * @see         java.awt.LayoutManager
- * @see         java.awt.Container
- * @since       1.0
+ * @butior      Artiur vbn Hoff
+ * @butior      Sbmi Sibio
+ * @sff         jbvb.bwt.LbyoutMbnbgfr
+ * @sff         jbvb.bwt.Contbinfr
+ * @sindf       1.0
  */
-public class Insets implements Cloneable, java.io.Serializable {
+publid dlbss Insfts implfmfnts Clonfbblf, jbvb.io.Sfriblizbblf {
 
     /**
-     * The inset from the top.
-     * This value is added to the Top of the rectangle
-     * to yield a new location for the Top.
+     * Tif insft from tif top.
+     * Tiis vbluf is bddfd to tif Top of tif rfdtbnglf
+     * to yifld b nfw lodbtion for tif Top.
      *
-     * @serial
-     * @see #clone()
+     * @sfribl
+     * @sff #dlonf()
      */
-    public int top;
+    publid int top;
 
     /**
-     * The inset from the left.
-     * This value is added to the Left of the rectangle
-     * to yield a new location for the Left edge.
+     * Tif insft from tif lfft.
+     * Tiis vbluf is bddfd to tif Lfft of tif rfdtbnglf
+     * to yifld b nfw lodbtion for tif Lfft fdgf.
      *
-     * @serial
-     * @see #clone()
+     * @sfribl
+     * @sff #dlonf()
      */
-    public int left;
+    publid int lfft;
 
     /**
-     * The inset from the bottom.
-     * This value is subtracted from the Bottom of the rectangle
-     * to yield a new location for the Bottom.
+     * Tif insft from tif bottom.
+     * Tiis vbluf is subtrbdtfd from tif Bottom of tif rfdtbnglf
+     * to yifld b nfw lodbtion for tif Bottom.
      *
-     * @serial
-     * @see #clone()
+     * @sfribl
+     * @sff #dlonf()
      */
-    public int bottom;
+    publid int bottom;
 
     /**
-     * The inset from the right.
-     * This value is subtracted from the Right of the rectangle
-     * to yield a new location for the Right edge.
+     * Tif insft from tif rigit.
+     * Tiis vbluf is subtrbdtfd from tif Rigit of tif rfdtbnglf
+     * to yifld b nfw lodbtion for tif Rigit fdgf.
      *
-     * @serial
-     * @see #clone()
+     * @sfribl
+     * @sff #dlonf()
      */
-    public int right;
+    publid int rigit;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -2272572637695466749L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2272572637695466749L;
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
     /**
-     * Creates and initializes a new <code>Insets</code> object with the
-     * specified top, left, bottom, and right insets.
-     * @param       top   the inset from the top.
-     * @param       left   the inset from the left.
-     * @param       bottom   the inset from the bottom.
-     * @param       right   the inset from the right.
+     * Crfbtfs bnd initiblizfs b nfw <dodf>Insfts</dodf> objfdt witi tif
+     * spfdififd top, lfft, bottom, bnd rigit insfts.
+     * @pbrbm       top   tif insft from tif top.
+     * @pbrbm       lfft   tif insft from tif lfft.
+     * @pbrbm       bottom   tif insft from tif bottom.
+     * @pbrbm       rigit   tif insft from tif rigit.
      */
-    public Insets(int top, int left, int bottom, int right) {
-        this.top = top;
-        this.left = left;
-        this.bottom = bottom;
-        this.right = right;
+    publid Insfts(int top, int lfft, int bottom, int rigit) {
+        tiis.top = top;
+        tiis.lfft = lfft;
+        tiis.bottom = bottom;
+        tiis.rigit = rigit;
     }
 
     /**
-     * Set top, left, bottom, and right to the specified values
+     * Sft top, lfft, bottom, bnd rigit to tif spfdififd vblufs
      *
-     * @param       top   the inset from the top.
-     * @param       left   the inset from the left.
-     * @param       bottom   the inset from the bottom.
-     * @param       right   the inset from the right.
-     * @since 1.5
+     * @pbrbm       top   tif insft from tif top.
+     * @pbrbm       lfft   tif insft from tif lfft.
+     * @pbrbm       bottom   tif insft from tif bottom.
+     * @pbrbm       rigit   tif insft from tif rigit.
+     * @sindf 1.5
      */
-    public void set(int top, int left, int bottom, int right) {
-        this.top = top;
-        this.left = left;
-        this.bottom = bottom;
-        this.right = right;
+    publid void sft(int top, int lfft, int bottom, int rigit) {
+        tiis.top = top;
+        tiis.lfft = lfft;
+        tiis.bottom = bottom;
+        tiis.rigit = rigit;
     }
 
     /**
-     * Checks whether two insets objects are equal. Two instances
-     * of <code>Insets</code> are equal if the four integer values
-     * of the fields <code>top</code>, <code>left</code>,
-     * <code>bottom</code>, and <code>right</code> are all equal.
-     * @return      <code>true</code> if the two insets are equal;
-     *                          otherwise <code>false</code>.
-     * @since       1.1
+     * Cifdks wiftifr two insfts objfdts brf fqubl. Two instbndfs
+     * of <dodf>Insfts</dodf> brf fqubl if tif four intfgfr vblufs
+     * of tif fiflds <dodf>top</dodf>, <dodf>lfft</dodf>,
+     * <dodf>bottom</dodf>, bnd <dodf>rigit</dodf> brf bll fqubl.
+     * @rfturn      <dodf>truf</dodf> if tif two insfts brf fqubl;
+     *                          otifrwisf <dodf>fblsf</dodf>.
+     * @sindf       1.1
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Insets) {
-            Insets insets = (Insets)obj;
-            return ((top == insets.top) && (left == insets.left) &&
-                    (bottom == insets.bottom) && (right == insets.right));
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Insfts) {
+            Insfts insfts = (Insfts)obj;
+            rfturn ((top == insfts.top) && (lfft == insfts.lfft) &&
+                    (bottom == insfts.bottom) && (rigit == insfts.rigit));
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the hash code for this Insets.
+     * Rfturns tif ibsi dodf for tiis Insfts.
      *
-     * @return    a hash code for this Insets.
+     * @rfturn    b ibsi dodf for tiis Insfts.
      */
-    public int hashCode() {
-        int sum1 = left + bottom;
-        int sum2 = right + top;
-        int val1 = sum1 * (sum1 + 1)/2 + left;
-        int val2 = sum2 * (sum2 + 1)/2 + top;
-        int sum3 = val1 + val2;
-        return sum3 * (sum3 + 1)/2 + val2;
+    publid int ibsiCodf() {
+        int sum1 = lfft + bottom;
+        int sum2 = rigit + top;
+        int vbl1 = sum1 * (sum1 + 1)/2 + lfft;
+        int vbl2 = sum2 * (sum2 + 1)/2 + top;
+        int sum3 = vbl1 + vbl2;
+        rfturn sum3 * (sum3 + 1)/2 + vbl2;
     }
 
     /**
-     * Returns a string representation of this <code>Insets</code> object.
-     * This method is intended to be used only for debugging purposes, and
-     * the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>Insfts</dodf> objfdt.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd
+     * tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>Insets</code> object.
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>Insfts</dodf> objfdt.
      */
-    public String toString() {
-        return getClass().getName() + "[top="  + top + ",left=" + left + ",bottom=" + bottom + ",right=" + right + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[top="  + top + ",lfft=" + lfft + ",bottom=" + bottom + ",rigit=" + rigit + "]";
     }
 
     /**
-     * Create a copy of this object.
-     * @return     a copy of this <code>Insets</code> object.
+     * Crfbtf b dopy of tiis objfdt.
+     * @rfturn     b dopy of tiis <dodf>Insfts</dodf> objfdt.
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError(f);
         }
     }
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
 }

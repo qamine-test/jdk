@@ -1,195 +1,195 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.util.Hashtable;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageProducer;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
+import jbvb.util.Hbsitbblf;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffr;
 
-public class OffScreenImageSource implements ImageProducer {
-    BufferedImage image;
-    int width;
-    int height;
-    Hashtable<?, ?> properties;
+publid dlbss OffSdrffnImbgfSourdf implfmfnts ImbgfProdudfr {
+    BufffrfdImbgf imbgf;
+    int widti;
+    int ifigit;
+    Hbsitbblf<?, ?> propfrtifs;
 
-    public OffScreenImageSource(BufferedImage image,
-                                Hashtable<?, ?> properties) {
-        this.image = image;
-        if (properties != null) {
-            this.properties = properties;
-        } else {
-            this.properties = new Hashtable<String, Object>();
+    publid OffSdrffnImbgfSourdf(BufffrfdImbgf imbgf,
+                                Hbsitbblf<?, ?> propfrtifs) {
+        tiis.imbgf = imbgf;
+        if (propfrtifs != null) {
+            tiis.propfrtifs = propfrtifs;
+        } flsf {
+            tiis.propfrtifs = nfw Hbsitbblf<String, Objfdt>();
         }
-        width  = image.getWidth();
-        height = image.getHeight();
+        widti  = imbgf.gftWidti();
+        ifigit = imbgf.gftHfigit();
     }
 
-    public OffScreenImageSource(BufferedImage image) {
-        this(image, null);
+    publid OffSdrffnImbgfSourdf(BufffrfdImbgf imbgf) {
+        tiis(imbgf, null);
     }
 
-    // We can only have one consumer since we immediately return the data...
-    private ImageConsumer theConsumer;
+    // Wf dbn only ibvf onf donsumfr sindf wf immfdibtfly rfturn tif dbtb...
+    privbtf ImbgfConsumfr tifConsumfr;
 
-    public synchronized void addConsumer(ImageConsumer ic) {
-        theConsumer = ic;
-        produce();
+    publid syndironizfd void bddConsumfr(ImbgfConsumfr id) {
+        tifConsumfr = id;
+        produdf();
     }
 
-    public synchronized boolean isConsumer(ImageConsumer ic) {
-        return (ic == theConsumer);
+    publid syndironizfd boolfbn isConsumfr(ImbgfConsumfr id) {
+        rfturn (id == tifConsumfr);
     }
 
-    public synchronized void removeConsumer(ImageConsumer ic) {
-        if (theConsumer == ic) {
-            theConsumer = null;
+    publid syndironizfd void rfmovfConsumfr(ImbgfConsumfr id) {
+        if (tifConsumfr == id) {
+            tifConsumfr = null;
         }
     }
 
-    public void startProduction(ImageConsumer ic) {
-        addConsumer(ic);
+    publid void stbrtProdudtion(ImbgfConsumfr id) {
+        bddConsumfr(id);
     }
 
-    public void requestTopDownLeftRightResend(ImageConsumer ic) {
+    publid void rfqufstTopDownLfftRigitRfsfnd(ImbgfConsumfr id) {
     }
 
-    private void sendPixels() {
-        ColorModel cm = image.getColorModel();
-        WritableRaster raster = image.getRaster();
-        int numDataElements = raster.getNumDataElements();
-        int dataType = raster.getDataBuffer().getDataType();
-        int[] scanline = new int[width*numDataElements];
-        boolean needToCvt = true;
+    privbtf void sfndPixfls() {
+        ColorModfl dm = imbgf.gftColorModfl();
+        WritbblfRbstfr rbstfr = imbgf.gftRbstfr();
+        int numDbtbElfmfnts = rbstfr.gftNumDbtbElfmfnts();
+        int dbtbTypf = rbstfr.gftDbtbBufffr().gftDbtbTypf();
+        int[] sdbnlinf = nfw int[widti*numDbtbElfmfnts];
+        boolfbn nffdToCvt = truf;
 
-        if (cm instanceof IndexColorModel) {
-            byte[] pixels = new byte[width];
-            theConsumer.setColorModel(cm);
+        if (dm instbndfof IndfxColorModfl) {
+            bytf[] pixfls = nfw bytf[widti];
+            tifConsumfr.sftColorModfl(dm);
 
-            if (raster instanceof ByteComponentRaster) {
-                needToCvt = false;
-                for (int y=0; y < height; y++) {
-                    raster.getDataElements(0, y, width, 1, pixels);
-                    theConsumer.setPixels(0, y, width, 1, cm, pixels, 0,
-                                          width);
+            if (rbstfr instbndfof BytfComponfntRbstfr) {
+                nffdToCvt = fblsf;
+                for (int y=0; y < ifigit; y++) {
+                    rbstfr.gftDbtbElfmfnts(0, y, widti, 1, pixfls);
+                    tifConsumfr.sftPixfls(0, y, widti, 1, dm, pixfls, 0,
+                                          widti);
                 }
             }
-            else if (raster instanceof BytePackedRaster) {
-                needToCvt = false;
-                // Binary image.  Need to unpack it
-                for (int y=0; y < height; y++) {
-                    raster.getPixels(0, y, width, 1, scanline);
-                    for (int x=0; x < width; x++) {
-                        pixels[x] = (byte) scanline[x];
+            flsf if (rbstfr instbndfof BytfPbdkfdRbstfr) {
+                nffdToCvt = fblsf;
+                // Binbry imbgf.  Nffd to unpbdk it
+                for (int y=0; y < ifigit; y++) {
+                    rbstfr.gftPixfls(0, y, widti, 1, sdbnlinf);
+                    for (int x=0; x < widti; x++) {
+                        pixfls[x] = (bytf) sdbnlinf[x];
                     }
-                    theConsumer.setPixels(0, y, width, 1, cm, pixels, 0,
-                                          width);
+                    tifConsumfr.sftPixfls(0, y, widti, 1, dm, pixfls, 0,
+                                          widti);
                 }
             }
-            else if (dataType == DataBuffer.TYPE_SHORT ||
-                     dataType == DataBuffer.TYPE_INT)
+            flsf if (dbtbTypf == DbtbBufffr.TYPE_SHORT ||
+                     dbtbTypf == DbtbBufffr.TYPE_INT)
             {
-                // Probably a short or int "GRAY" image
-                needToCvt = false;
-                for (int y=0; y < height; y++) {
-                    raster.getPixels(0, y, width, 1, scanline);
-                    theConsumer.setPixels(0, y, width, 1, cm, scanline, 0,
-                                          width);
+                // Probbbly b siort or int "GRAY" imbgf
+                nffdToCvt = fblsf;
+                for (int y=0; y < ifigit; y++) {
+                    rbstfr.gftPixfls(0, y, widti, 1, sdbnlinf);
+                    tifConsumfr.sftPixfls(0, y, widti, 1, dm, sdbnlinf, 0,
+                                          widti);
                 }
             }
         }
-        else if (cm instanceof DirectColorModel) {
-            theConsumer.setColorModel(cm);
-            needToCvt = false;
-            switch (dataType) {
-            case DataBuffer.TYPE_INT:
-                for (int y=0; y < height; y++) {
-                    raster.getDataElements(0, y, width, 1, scanline);
-                    theConsumer.setPixels(0, y, width, 1, cm, scanline, 0,
-                                          width);
+        flsf if (dm instbndfof DirfdtColorModfl) {
+            tifConsumfr.sftColorModfl(dm);
+            nffdToCvt = fblsf;
+            switdi (dbtbTypf) {
+            dbsf DbtbBufffr.TYPE_INT:
+                for (int y=0; y < ifigit; y++) {
+                    rbstfr.gftDbtbElfmfnts(0, y, widti, 1, sdbnlinf);
+                    tifConsumfr.sftPixfls(0, y, widti, 1, dm, sdbnlinf, 0,
+                                          widti);
                 }
-                break;
-            case DataBuffer.TYPE_BYTE:
-                byte[] bscanline = new byte[width];
-                for (int y=0; y < height; y++) {
-                    raster.getDataElements(0, y, width, 1, bscanline);
-                    for (int x=0; x < width; x++) {
-                        scanline[x] = bscanline[x]&0xff;
+                brfbk;
+            dbsf DbtbBufffr.TYPE_BYTE:
+                bytf[] bsdbnlinf = nfw bytf[widti];
+                for (int y=0; y < ifigit; y++) {
+                    rbstfr.gftDbtbElfmfnts(0, y, widti, 1, bsdbnlinf);
+                    for (int x=0; x < widti; x++) {
+                        sdbnlinf[x] = bsdbnlinf[x]&0xff;
                     }
-                    theConsumer.setPixels(0, y, width, 1, cm, scanline, 0,
-                                          width);
+                    tifConsumfr.sftPixfls(0, y, widti, 1, dm, sdbnlinf, 0,
+                                          widti);
                 }
-                break;
-            case DataBuffer.TYPE_USHORT:
-                short[] sscanline = new short[width];
-                for (int y=0; y < height; y++) {
-                    raster.getDataElements(0, y, width, 1, sscanline);
-                    for (int x=0; x < width; x++) {
-                        scanline[x] = sscanline[x]&0xffff;
+                brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+                siort[] ssdbnlinf = nfw siort[widti];
+                for (int y=0; y < ifigit; y++) {
+                    rbstfr.gftDbtbElfmfnts(0, y, widti, 1, ssdbnlinf);
+                    for (int x=0; x < widti; x++) {
+                        sdbnlinf[x] = ssdbnlinf[x]&0xffff;
                     }
-                    theConsumer.setPixels(0, y, width, 1, cm, scanline, 0,
-                                          width);
+                    tifConsumfr.sftPixfls(0, y, widti, 1, dm, sdbnlinf, 0,
+                                          widti);
                 }
-                break;
-            default:
-                needToCvt = true;
+                brfbk;
+            dffbult:
+                nffdToCvt = truf;
             }
         }
 
-        if (needToCvt) {
-            // REMIND: Need to add other types of CMs here
-            ColorModel newcm = ColorModel.getRGBdefault();
-            theConsumer.setColorModel(newcm);
+        if (nffdToCvt) {
+            // REMIND: Nffd to bdd otifr typfs of CMs ifrf
+            ColorModfl nfwdm = ColorModfl.gftRGBdffbult();
+            tifConsumfr.sftColorModfl(nfwdm);
 
-            for (int y=0; y < height; y++) {
-                for (int x=0; x < width; x++) {
-                    scanline[x] = image.getRGB(x, y);
+            for (int y=0; y < ifigit; y++) {
+                for (int x=0; x < widti; x++) {
+                    sdbnlinf[x] = imbgf.gftRGB(x, y);
                 }
-                theConsumer.setPixels(0, y, width, 1, newcm, scanline, 0,
-                                      width);
+                tifConsumfr.sftPixfls(0, y, widti, 1, nfwdm, sdbnlinf, 0,
+                                      widti);
             }
         }
     }
 
-    private void produce() {
+    privbtf void produdf() {
         try {
-            theConsumer.setDimensions(image.getWidth(), image.getHeight());
-            theConsumer.setProperties(properties);
-            sendPixels();
-            theConsumer.imageComplete(ImageConsumer.SINGLEFRAMEDONE);
-            theConsumer.imageComplete(ImageConsumer.STATICIMAGEDONE);
-        } catch (NullPointerException e) {
-            if (theConsumer != null) {
-                theConsumer.imageComplete(ImageConsumer.IMAGEERROR);
+            tifConsumfr.sftDimfnsions(imbgf.gftWidti(), imbgf.gftHfigit());
+            tifConsumfr.sftPropfrtifs(propfrtifs);
+            sfndPixfls();
+            tifConsumfr.imbgfComplftf(ImbgfConsumfr.SINGLEFRAMEDONE);
+            tifConsumfr.imbgfComplftf(ImbgfConsumfr.STATICIMAGEDONE);
+        } dbtdi (NullPointfrExdfption f) {
+            if (tifConsumfr != null) {
+                tifConsumfr.imbgfComplftf(ImbgfConsumfr.IMAGEERROR);
             }
         }
     }

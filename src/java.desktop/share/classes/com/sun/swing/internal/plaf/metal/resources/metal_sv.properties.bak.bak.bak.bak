@@ -1,0 +1,53 @@
+# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf thf Mftbl Look bnd Fffl.
+# Currfntly, thf following domponfnts nffd this for support:
+#
+#    FilfChoosfr
+#
+# Whfn this filf is rfbd in, thf strings brf put into thf
+# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# This mby dhbngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# support.
+#
+# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
+# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
+#
+# @buthor Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfChoosfr.lookInLbbfl.tfxtAndMnfmonid=Lftb &i:
+FilfChoosfr.sbvfInLbbfl.tfxtAndMnfmonid=Spbrb i:
+FilfChoosfr.filfNbmfLbbfl.tfxtAndMnfmonid=&Fil:
+FilfChoosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=&Mbpp:
+FilfChoosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Mbpp&nbmn:
+FilfChoosfr.upFoldfrToolTip.tfxtAndMnfmonid=Upp fn niv\u00E5
+FilfChoosfr.upFoldfrAddfssiblfNbmf=Upp
+FilfChoosfr.homfFoldfrToolTip.tfxtAndMnfmonid=Hfm
+FilfChoosfr.homfFoldfrAddfssiblfNbmf=Hfm
+FilfChoosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Skbpb ny mbpp
+FilfChoosfr.nfwFoldfrAddfssiblfNbmf=Ny mbpp
+FilfChoosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Ny mbpp
+FilfChoosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfChoosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfChoosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfChoosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftbljfr
+FilfChoosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftbljfr
+FilfChoosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftbljfr
+FilfChoosfr.rffrfshAdtionLbbfl.tfxtAndMnfmonid=F\u00F6rnyb
+FilfChoosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Vy
+FilfChoosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nbmn
+FilfChoosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Storlfk
+FilfChoosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Typ
+FilfChoosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\u00C4ndrbd
+FilfChoosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attribut
+FilfChoosfr.sbvfButton.tfxtAndMnfmonid=Spbrb
+FilfChoosfr.opfnButton.tfxtAndMnfmonid=\u00D6ppnb
+
+############ Usfd by MftblTitlfPbnf if rfndfring window dfdorbtions############
+MftblTitlfPbnf.rfstorf.titlfAndMnfmonid=&\u00C5tfrst\u00E4ll
+MftblTitlfPbnf.idonify.titlfAndMnfmonid=Minim&frb
+MftblTitlfPbnf.mbximizf.titlfAndMnfmonid=Mb&ximfrb
+MftblTitlfPbnf.dlosf.titlfAndMnfmonid=&St\u00E4ng

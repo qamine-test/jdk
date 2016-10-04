@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing.icon;
+pbdkbgf sun.swing.idon;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.io.Serializable;
-import javax.swing.Icon;
-import javax.swing.UIManager;
-import javax.swing.plaf.UIResource;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbpiids;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.Idon;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.UIRfsourdf;
 
 /**
- * Sorting icon.
+ * Sorting idon.
  *
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class SortArrowIcon implements Icon, UIResource, Serializable {
-    // Height of the arrow, the width is ARROW_HEIGHT
-    private static final int ARROW_HEIGHT = 5;
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss SortArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
+    // Hfigit of tif brrow, tif widti is ARROW_HEIGHT
+    privbtf stbtid finbl int ARROW_HEIGHT = 5;
 
-    // Amount of pad to left of arrow
-    private static final int X_PADDING = 7;
+    // Amount of pbd to lfft of brrow
+    privbtf stbtid finbl int X_PADDING = 7;
 
-    // Sort direction
-    private boolean ascending;
+    // Sort dirfdtion
+    privbtf boolfbn bsdfnding;
 
-    // The Color to use, may be null indicating colorKey should be used
-    private Color color;
+    // Tif Color to usf, mby bf null indidbting dolorKfy siould bf usfd
+    privbtf Color dolor;
 
-    // If non-null indicates the color should come from the UIManager with
-    // this key.
-    private String colorKey;
-
-    /**
-     * Creates a <code>SortArrowIcon</code>.
-     *
-     * @param ascending if true, icon respresenting ascending sort, otherwise
-     *        descending
-     * @param color the color to render the icon
-     */
-    public SortArrowIcon(boolean ascending, Color color) {
-        this.ascending = ascending;
-        this.color = color;
-        if (color == null) {
-            throw new IllegalArgumentException();
-        }
-    }
+    // If non-null indidbtfs tif dolor siould domf from tif UIMbnbgfr witi
+    // tiis kfy.
+    privbtf String dolorKfy;
 
     /**
-     * Creates a <code>SortArrowIcon</code>.
+     * Crfbtfs b <dodf>SortArrowIdon</dodf>.
      *
-     * @param ascending if true, icon respresenting ascending sort, otherwise
-     *        descending
-     * @param colorKey the key used to find color in UIManager
+     * @pbrbm bsdfnding if truf, idon rfsprfsfnting bsdfnding sort, otifrwisf
+     *        dfsdfnding
+     * @pbrbm dolor tif dolor to rfndfr tif idon
      */
-    public SortArrowIcon(boolean ascending, String colorKey) {
-        this.ascending = ascending;
-        this.colorKey = colorKey;
-        if (colorKey == null) {
-            throw new IllegalArgumentException();
+    publid SortArrowIdon(boolfbn bsdfnding, Color dolor) {
+        tiis.bsdfnding = bsdfnding;
+        tiis.dolor = dolor;
+        if (dolor == null) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
     }
 
-    public void paintIcon(Component c, Graphics g, int x, int y) {
-        g.setColor(getColor());
-        int startX = X_PADDING + x + ARROW_HEIGHT / 2;
-        if (ascending) {
-            int startY = y;
-            g.fillRect(startX, startY, 1, 1);
-            for (int line = 1; line < ARROW_HEIGHT; line++) {
-                g.fillRect(startX - line, startY + line,
-                           line + line + 1, 1);
+    /**
+     * Crfbtfs b <dodf>SortArrowIdon</dodf>.
+     *
+     * @pbrbm bsdfnding if truf, idon rfsprfsfnting bsdfnding sort, otifrwisf
+     *        dfsdfnding
+     * @pbrbm dolorKfy tif kfy usfd to find dolor in UIMbnbgfr
+     */
+    publid SortArrowIdon(boolfbn bsdfnding, String dolorKfy) {
+        tiis.bsdfnding = bsdfnding;
+        tiis.dolorKfy = dolorKfy;
+        if (dolorKfy == null) {
+            tirow nfw IllfgblArgumfntExdfption();
+        }
+    }
+
+    publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+        g.sftColor(gftColor());
+        int stbrtX = X_PADDING + x + ARROW_HEIGHT / 2;
+        if (bsdfnding) {
+            int stbrtY = y;
+            g.fillRfdt(stbrtX, stbrtY, 1, 1);
+            for (int linf = 1; linf < ARROW_HEIGHT; linf++) {
+                g.fillRfdt(stbrtX - linf, stbrtY + linf,
+                           linf + linf + 1, 1);
             }
         }
-        else {
-            int startY = y + ARROW_HEIGHT - 1;
-            g.fillRect(startX, startY, 1, 1);
-            for (int line = 1; line < ARROW_HEIGHT; line++) {
-                g.fillRect(startX - line, startY - line,
-                           line + line + 1, 1);
+        flsf {
+            int stbrtY = y + ARROW_HEIGHT - 1;
+            g.fillRfdt(stbrtX, stbrtY, 1, 1);
+            for (int linf = 1; linf < ARROW_HEIGHT; linf++) {
+                g.fillRfdt(stbrtX - linf, stbrtY - linf,
+                           linf + linf + 1, 1);
             }
         }
     }
 
-    public int getIconWidth() {
-        return X_PADDING + ARROW_HEIGHT * 2;
+    publid int gftIdonWidti() {
+        rfturn X_PADDING + ARROW_HEIGHT * 2;
     }
 
-    public int getIconHeight() {
-        return ARROW_HEIGHT + 2;
+    publid int gftIdonHfigit() {
+        rfturn ARROW_HEIGHT + 2;
     }
 
-    private Color getColor() {
-        if (color != null) {
-            return color;
+    privbtf Color gftColor() {
+        if (dolor != null) {
+            rfturn dolor;
         }
-        return UIManager.getColor(colorKey);
+        rfturn UIMbnbgfr.gftColor(dolorKfy);
     }
 }

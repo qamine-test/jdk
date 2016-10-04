@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-import java.awt.Component;
-import javax.swing.UIManager;
+import jbvb.bwt.Componfnt;
+import jbvbx.swing.UIMbnbgfr;
 
-class ColorModel {
+dlbss ColorModfl {
 
-    private final String prefix;
-    private final String[] labels;
+    privbtf finbl String prffix;
+    privbtf finbl String[] lbbfls;
 
-    ColorModel(String name, String... labels) {
-        this.prefix = "ColorChooser." + name; // NON-NLS: default prefix
-        this.labels = labels;
+    ColorModfl(String nbmf, String... lbbfls) {
+        tiis.prffix = "ColorCioosfr." + nbmf; // NON-NLS: dffbult prffix
+        tiis.lbbfls = lbbfls;
     }
 
-    ColorModel() {
-        this("rgb", "Red", "Green", "Blue", "Alpha"); // NON-NLS: components
+    ColorModfl() {
+        tiis("rgb", "Rfd", "Grffn", "Bluf", "Alpib"); // NON-NLS: domponfnts
     }
 
-    void setColor(int color, float[] model) {
-        model[0] = normalize(color >> 16);
-        model[1] = normalize(color >> 8);
-        model[2] = normalize(color);
-        model[3] = normalize(color >> 24);
+    void sftColor(int dolor, flobt[] modfl) {
+        modfl[0] = normblizf(dolor >> 16);
+        modfl[1] = normblizf(dolor >> 8);
+        modfl[2] = normblizf(dolor);
+        modfl[3] = normblizf(dolor >> 24);
     }
 
-    int getColor(float[] model) {
-        return to8bit(model[2]) | (to8bit(model[1]) << 8) | (to8bit(model[0]) << 16) | (to8bit(model[3]) << 24);
+    int gftColor(flobt[] modfl) {
+        rfturn to8bit(modfl[2]) | (to8bit(modfl[1]) << 8) | (to8bit(modfl[0]) << 16) | (to8bit(modfl[3]) << 24);
     }
 
-    int getCount() {
-        return this.labels.length;
+    int gftCount() {
+        rfturn tiis.lbbfls.lfngti;
     }
 
-    int getMinimum(int index) {
-        return 0;
+    int gftMinimum(int indfx) {
+        rfturn 0;
     }
 
-    int getMaximum(int index) {
-        return 255;
+    int gftMbximum(int indfx) {
+        rfturn 255;
     }
 
-    float getDefault(int index) {
-        return 0.0f;
+    flobt gftDffbult(int indfx) {
+        rfturn 0.0f;
     }
 
-    final String getLabel(Component component, int index) {
-        return getText(component, this.labels[index]);
+    finbl String gftLbbfl(Componfnt domponfnt, int indfx) {
+        rfturn gftTfxt(domponfnt, tiis.lbbfls[indfx]);
     }
 
-    private static float normalize(int value) {
-        return (float) (value & 0xFF) / 255.0f;
+    privbtf stbtid flobt normblizf(int vbluf) {
+        rfturn (flobt) (vbluf & 0xFF) / 255.0f;
     }
 
-    private static int to8bit(float value) {
-        return (int) (255.0f * value);
+    privbtf stbtid int to8bit(flobt vbluf) {
+        rfturn (int) (255.0f * vbluf);
     }
 
-    final String getText(Component component, String suffix) {
-        return UIManager.getString(this.prefix + suffix + "Text", component.getLocale()); // NON-NLS: default postfix
+    finbl String gftTfxt(Componfnt domponfnt, String suffix) {
+        rfturn UIMbnbgfr.gftString(tiis.prffix + suffix + "Tfxt", domponfnt.gftLodblf()); // NON-NLS: dffbult postfix
     }
 
-    final int getInteger(Component component, String suffix) {
-        Object value = UIManager.get(this.prefix + suffix, component.getLocale());
-        if (value instanceof Integer) {
-            return (Integer) value;
+    finbl int gftIntfgfr(Componfnt domponfnt, String suffix) {
+        Objfdt vbluf = UIMbnbgfr.gft(tiis.prffix + suffix, domponfnt.gftLodblf());
+        if (vbluf instbndfof Intfgfr) {
+            rfturn (Intfgfr) vbluf;
         }
-        if (value instanceof String) {
+        if (vbluf instbndfof String) {
             try {
-                return Integer.parseInt((String) value);
+                rfturn Intfgfr.pbrsfInt((String) vbluf);
             }
-            catch (NumberFormatException exception) {
+            dbtdi (NumbfrFormbtExdfption fxdfption) {
             }
         }
-        return -1;
+        rfturn -1;
     }
 }

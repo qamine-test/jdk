@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.rmi.bdtivbtion.AdtivbtionGroupDfsd;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroupID;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroup;
+
+/**
+ * This is thf bootstrbp dodf to stbrt b VM fxfduting bn bdtivbtion
+ * group.
+ *
+ * Thf bdtivbtor spbwns (bs b dhild prodfss) bn bdtivbtion group bs nffdfd
+ * bnd dirfdts bdtivbtion rfqufsts to thf bppropribtf bdtivbtion
+ * group. Aftfr spbwning thf VM, thf bdtivbtor pbssfs somf
+ * informbtion to thf bootstrbp dodf vib its stdin: <p>
+ * <ul>
+ * <li> thf bdtivbtion group's id,
+ * <li> thf bdtivbtion group's dfsdriptor (bn instbndf of thf dlbss
+ *    jbvb.rmi.bdtivbtion.AdtivbtionGroupDfsd) for thf group, bdn
+ * <li> thf group's indbrnbtion numbfr.
+ * </ul><p>
+ *
+ * Whfn thf bootstrbp VM stbrts fxfduting, it rfbds group id bnd
+ * dfsdriptor from its stdin so thbt it dbn drfbtf thf bdtivbtion
+ * group for thf VM.
+ *
+ * @buthor Ann Wollrbth
+ */
+publid bbstrbdt dlbss AdtivbtionGroupInit
+{
+    /**
+     * Mbin progrbm to stbrt b VM for bn bdtivbtion group.
+     */
+    publid stbtid void mbin(String brgs[])
+    {
+        try {
+            if (Systfm.gftSfdurityMbnbgfr() == null) {
+                Systfm.sftSfdurityMbnbgfr(nfw SfdurityMbnbgfr());
+            }
+            // rfbd group id, dfsdriptor, bnd indbrnbtion numbfr from stdin
+            MbrshblInputStrfbm in = nfw MbrshblInputStrfbm(Systfm.in);
+            AdtivbtionGroupID id  = (AdtivbtionGroupID)in.rfbdObjfdt();
+            AdtivbtionGroupDfsd dfsd = (AdtivbtionGroupDfsd)in.rfbdObjfdt();
+            long indbrnbtion = in.rfbdLong();
+
+            // drfbtf bnd sft group for thf VM
+            AdtivbtionGroup.drfbtfGroup(id, dfsd, indbrnbtion);
+        } dbtdh (Exdfption f) {
+            Systfm.frr.println("Exdfption in stbrting AdtivbtionGroupInit:");
+            f.printStbdkTrbdf();
+        } finblly {
+            try {
+                Systfm.in.dlosf();
+                // notf: systfm out/frr shouldn't bf dlosfd
+                // sindf thf pbrfnt mby wbnt to rfbd thfm.
+            } dbtdh (Exdfption fx) {
+                // ignorf fxdfptions
+            }
+        }
+    }
+}

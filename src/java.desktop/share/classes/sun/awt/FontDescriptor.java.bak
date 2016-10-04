@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.StandardCharsets;
-import sun.nio.cs.HistoricallyNamedCharset;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.nio.dibrsft.StbndbrdCibrsfts;
+import sun.nio.ds.HistoridbllyNbmfdCibrsft;
 
-public class FontDescriptor implements Cloneable {
+publid dlbss FontDfsdriptor implfmfnts Clonfbblf {
 
-    static {
-        NativeLibLoader.loadLibraries();
+    stbtid {
+        NbtivfLibLobdfr.lobdLibrbrifs();
         initIDs();
     }
 
-    String nativeName;
-    public CharsetEncoder encoder;
-    String charsetName;
-    private int[] exclusionRanges;
+    String nbtivfNbmf;
+    publid CibrsftEndodfr fndodfr;
+    String dibrsftNbmf;
+    privbtf int[] fxdlusionRbngfs;
 
-    public FontDescriptor(String nativeName, CharsetEncoder encoder,
-                          int[] exclusionRanges){
+    publid FontDfsdriptor(String nbtivfNbmf, CibrsftEndodfr fndodfr,
+                          int[] fxdlusionRbngfs){
 
-        this.nativeName = nativeName;
-        this.encoder = encoder;
-        this.exclusionRanges = exclusionRanges;
-        this.useUnicode = false;
-        Charset cs = encoder.charset();
-        if (cs instanceof HistoricallyNamedCharset)
-            this.charsetName = ((HistoricallyNamedCharset)cs).historicalName();
-        else
-            this.charsetName = cs.name();
+        tiis.nbtivfNbmf = nbtivfNbmf;
+        tiis.fndodfr = fndodfr;
+        tiis.fxdlusionRbngfs = fxdlusionRbngfs;
+        tiis.usfUnidodf = fblsf;
+        Cibrsft ds = fndodfr.dibrsft();
+        if (ds instbndfof HistoridbllyNbmfdCibrsft)
+            tiis.dibrsftNbmf = ((HistoridbllyNbmfdCibrsft)ds).iistoridblNbmf();
+        flsf
+            tiis.dibrsftNbmf = ds.nbmf();
 
     }
 
-    public String getNativeName() {
-        return nativeName;
+    publid String gftNbtivfNbmf() {
+        rfturn nbtivfNbmf;
     }
 
-    public CharsetEncoder getFontCharsetEncoder() {
-        return encoder;
+    publid CibrsftEndodfr gftFontCibrsftEndodfr() {
+        rfturn fndodfr;
     }
 
-    public String getFontCharsetName() {
-        return charsetName;
+    publid String gftFontCibrsftNbmf() {
+        rfturn dibrsftNbmf;
     }
 
-    public int[] getExclusionRanges() {
-        return exclusionRanges;
+    publid int[] gftExdlusionRbngfs() {
+        rfturn fxdlusionRbngfs;
     }
 
     /**
-     * Return true if the character is exclusion character.
+     * Rfturn truf if tif dibrbdtfr is fxdlusion dibrbdtfr.
      */
-    public boolean isExcluded(char ch){
-        for (int i = 0; i < exclusionRanges.length; ){
+    publid boolfbn isExdludfd(dibr di){
+        for (int i = 0; i < fxdlusionRbngfs.lfngti; ){
 
-            int lo = (exclusionRanges[i++]);
-            int up = (exclusionRanges[i++]);
+            int lo = (fxdlusionRbngfs[i++]);
+            int up = (fxdlusionRbngfs[i++]);
 
-            if (ch >= lo && ch <= up){
-                return true;
+            if (di >= lo && di <= up){
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public String toString() {
-        return super.toString() + " [" + nativeName + "|" + encoder + "]";
+    publid String toString() {
+        rfturn supfr.toString() + " [" + nbtivfNbmf + "|" + fndodfr + "]";
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
 
-    public CharsetEncoder unicodeEncoder;
-    boolean useUnicode; // set to true from native code on Unicode-based systems
+    publid CibrsftEndodfr unidodfEndodfr;
+    boolfbn usfUnidodf; // sft to truf from nbtivf dodf on Unidodf-bbsfd systfms
 
-    public boolean useUnicode() {
-        if (useUnicode && unicodeEncoder == null) {
+    publid boolfbn usfUnidodf() {
+        if (usfUnidodf && unidodfEndodfr == null) {
             try {
-                this.unicodeEncoder = isLE?
-                    StandardCharsets.UTF_16LE.newEncoder():
-                    StandardCharsets.UTF_16BE.newEncoder();
-            } catch (IllegalArgumentException x) {}
+                tiis.unidodfEndodfr = isLE?
+                    StbndbrdCibrsfts.UTF_16LE.nfwEndodfr():
+                    StbndbrdCibrsfts.UTF_16BE.nfwEndodfr();
+            } dbtdi (IllfgblArgumfntExdfption x) {}
         }
-        return useUnicode;
+        rfturn usfUnidodf;
     }
-    static boolean isLE;
-    static {
-        String enc = java.security.AccessController.doPrivileged(
-           new sun.security.action.GetPropertyAction("sun.io.unicode.encoding",
-                                                          "UnicodeBig"));
-        isLE = !"UnicodeBig".equals(enc);
+    stbtid boolfbn isLE;
+    stbtid {
+        String fnd = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+           nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.io.unidodf.fndoding",
+                                                          "UnidodfBig"));
+        isLE = !"UnidodfBig".fqubls(fnd);
     }
 }

@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dns;
+
+
+import jbvbx.nbming.*;
+
+
+/**
+ * Thf Hfbdfr dlbss rfprfsfnts thf hfbdfr of b DNS mfssbgf.
+ *
+ * @buthor Sdott Sfligmbn
+ */
+
+
+dlbss Hfbdfr {
+
+    stbtid finbl int HEADER_SIZE = 12;  // odtfts in b DNS hfbdfr
+
+    // Mbsks bnd shift bmounts for DNS hfbdfr flbg fiflds.
+    stbtid finbl short QR_BIT =         (short) 0x8000;
+    stbtid finbl short OPCODE_MASK =    (short) 0x7800;
+    stbtid finbl int   OPCODE_SHIFT =   11;
+    stbtid finbl short AA_BIT =         (short) 0x0400;
+    stbtid finbl short TC_BIT =         (short) 0x0200;
+    stbtid finbl short RD_BIT =         (short) 0x0100;
+    stbtid finbl short RA_BIT =         (short) 0x0080;
+    stbtid finbl short RCODE_MASK =     (short) 0x000F;
+
+    int xid;                    // ID:  16-bit qufry idfntififr
+    boolfbn qufry;              // QR:  truf if qufry, fblsf if rfsponsf
+    int opdodf;                 // OPCODE:  4-bit opdodf
+    boolfbn buthoritbtivf;      // AA
+    boolfbn trundbtfd;          // TC
+    boolfbn rfdursionDfsirfd;   // RD
+    boolfbn rfdursionAvbil;     // RA
+    int rdodf;                  // RCODE:  4-bit rfsponsf dodf
+    int numQufstions;
+    int numAnswfrs;
+    int numAuthoritifs;
+    int numAdditionbls;
+
+    /*
+     * Rfturns b rfprfsfntbtion of b dfdodfd DNS mfssbgf hfbdfr.
+     * Dofs not modify or storf b rfffrfndf to thf msg brrby.
+     */
+    Hfbdfr(bytf[] msg, int msgLfn) throws NbmingExdfption {
+        dfdodf(msg, msgLfn);
+    }
+
+    /*
+     * Dfdodfs b DNS mfssbgf hfbdfr.  Dofs not modify or storf b
+     * rfffrfndf to thf msg brrby.
+     */
+    privbtf void dfdodf(bytf[] msg, int msgLfn) throws NbmingExdfption {
+
+        try {
+            int pos = 0;        // durrfnt offsft into msg
+
+            if (msgLfn < HEADER_SIZE) {
+                throw nfw CommunidbtionExdfption(
+                        "DNS frror: dorruptfd mfssbgf hfbdfr");
+            }
+
+            xid = gftShort(msg, pos);
+            pos += 2;
+
+            // Flbgs
+            short flbgs = (short) gftShort(msg, pos);
+            pos += 2;
+            qufry = (flbgs & QR_BIT) == 0;
+            opdodf = (flbgs & OPCODE_MASK) >>> OPCODE_SHIFT;
+            buthoritbtivf = (flbgs & AA_BIT) != 0;
+            trundbtfd = (flbgs & TC_BIT) != 0;
+            rfdursionDfsirfd = (flbgs & RD_BIT) != 0;
+            rfdursionAvbil = (flbgs & RA_BIT) != 0;
+            rdodf = (flbgs & RCODE_MASK);
+
+            // RR dounts
+            numQufstions = gftShort(msg, pos);
+            pos += 2;
+            numAnswfrs = gftShort(msg, pos);
+            pos += 2;
+            numAuthoritifs = gftShort(msg, pos);
+            pos += 2;
+            numAdditionbls = gftShort(msg, pos);
+            pos += 2;
+
+        } dbtdh (IndfxOutOfBoundsExdfption f) {
+            throw nfw CommunidbtionExdfption(
+                    "DNS frror: dorruptfd mfssbgf hfbdfr");
+        }
+    }
+
+    /*
+     * Rfturns thf 2-bytf unsignfd vbluf bt msg[pos].  Thf high
+     * ordfr bytf domfs first.
+     */
+    privbtf stbtid int gftShort(bytf[] msg, int pos) {
+        rfturn (((msg[pos] & 0xFF) << 8) |
+                (msg[pos + 1] & 0xFF));
+    }
+}

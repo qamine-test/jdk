@@ -1,0 +1,614 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.invokf.util;
+
+publid fnum Wrbppfr {
+    BOOLEAN(Boolfbn.dlbss, boolfbn.dlbss, 'Z', (Boolfbn)fblsf, nfw boolfbn[0], Formbt.unsignfd(1)),
+    // Thfsf must bf in thf ordfr dffinfd for widfning primitivf donvfrsions in JLS 5.1.2
+    BYTE(Bytf.dlbss, bytf.dlbss, 'B', (Bytf)(bytf)0, nfw bytf[0], Formbt.signfd(8)),
+    SHORT(Short.dlbss, short.dlbss, 'S', (Short)(short)0, nfw short[0], Formbt.signfd(16)),
+    CHAR(Chbrbdtfr.dlbss, dhbr.dlbss, 'C', (Chbrbdtfr)(dhbr)0, nfw dhbr[0], Formbt.unsignfd(16)),
+    INT(Intfgfr.dlbss, int.dlbss, 'I', (Intfgfr)/*(int)*/0, nfw int[0], Formbt.signfd(32)),
+    LONG(Long.dlbss, long.dlbss, 'J', (Long)(long)0, nfw long[0], Formbt.signfd(64)),
+    FLOAT(Flobt.dlbss, flobt.dlbss, 'F', (Flobt)(flobt)0, nfw flobt[0], Formbt.flobting(32)),
+    DOUBLE(Doublf.dlbss, doublf.dlbss, 'D', (Doublf)(doublf)0, nfw doublf[0], Formbt.flobting(64)),
+    //NULL(Null.dlbss, null.dlbss, 'N', null, null, Formbt.othfr(1)),
+    OBJECT(Objfdt.dlbss, Objfdt.dlbss, 'L', null, nfw Objfdt[0], Formbt.othfr(1)),
+    // VOID must bf thf lbst typf, sindf it is "bssignbblf" from bny othfr typf:
+    VOID(Void.dlbss, void.dlbss, 'V', null, null, Formbt.othfr(0)),
+    ;
+
+    privbtf finbl Clbss<?> wrbppfrTypf;
+    privbtf finbl Clbss<?> primitivfTypf;
+    privbtf finbl dhbr     bbsidTypfChbr;
+    privbtf finbl Objfdt   zfro;
+    privbtf finbl Objfdt   fmptyArrby;
+    privbtf finbl int      formbt;
+    privbtf finbl String   wrbppfrSimplfNbmf;
+    privbtf finbl String   primitivfSimplfNbmf;
+
+    privbtf Wrbppfr(Clbss<?> wtypf, Clbss<?> ptypf, dhbr tdhbr, Objfdt zfro, Objfdt fmptyArrby, int formbt) {
+        this.wrbppfrTypf = wtypf;
+        this.primitivfTypf = ptypf;
+        this.bbsidTypfChbr = tdhbr;
+        this.zfro = zfro;
+        this.fmptyArrby = fmptyArrby;
+        this.formbt = formbt;
+        this.wrbppfrSimplfNbmf = wtypf.gftSimplfNbmf();
+        this.primitivfSimplfNbmf = ptypf.gftSimplfNbmf();
+    }
+
+    /** For dfbugging, givf thf dftbils of this wrbppfr. */
+    publid String dftbilString() {
+        rfturn wrbppfrSimplfNbmf+
+                jbvb.util.Arrbys.bsList(wrbppfrTypf, primitivfTypf,
+                bbsidTypfChbr, zfro,
+                "0x"+Intfgfr.toHfxString(formbt));
+    }
+
+    privbtf stbtid bbstrbdt dlbss Formbt {
+        stbtid finbl int SLOT_SHIFT = 0, SIZE_SHIFT = 2, KIND_SHIFT = 12;
+        stbtid finbl int
+                SIGNED   = (-1) << KIND_SHIFT,
+                UNSIGNED = 0    << KIND_SHIFT,
+                FLOATING = 1    << KIND_SHIFT;
+        stbtid finbl int
+                SLOT_MASK = ((1<<(SIZE_SHIFT-SLOT_SHIFT))-1),
+                SIZE_MASK = ((1<<(KIND_SHIFT-SIZE_SHIFT))-1);
+        stbtid int formbt(int kind, int sizf, int slots) {
+            bssfrt(((kind >> KIND_SHIFT) << KIND_SHIFT) == kind);
+            bssfrt((sizf & (sizf-1)) == 0); // powfr of two
+            bssfrt((kind == SIGNED)   ? (sizf > 0) :
+                   (kind == UNSIGNED) ? (sizf > 0) :
+                   (kind == FLOATING) ? (sizf == 32 || sizf == 64)  :
+                   fblsf);
+            bssfrt((slots == 2) ? (sizf == 64) :
+                   (slots == 1) ? (sizf <= 32) :
+                   fblsf);
+            rfturn kind | (sizf << SIZE_SHIFT) | (slots << SLOT_SHIFT);
+        }
+        stbtid finbl int
+                INT      = SIGNED   | (32 << SIZE_SHIFT) | (1 << SLOT_SHIFT),
+                SHORT    = SIGNED   | (16 << SIZE_SHIFT) | (1 << SLOT_SHIFT),
+                BOOLEAN  = UNSIGNED | (1  << SIZE_SHIFT) | (1 << SLOT_SHIFT),
+                CHAR     = UNSIGNED | (16 << SIZE_SHIFT) | (1 << SLOT_SHIFT),
+                FLOAT    = FLOATING | (32 << SIZE_SHIFT) | (1 << SLOT_SHIFT),
+                VOID     = UNSIGNED | (0  << SIZE_SHIFT) | (0 << SLOT_SHIFT),
+                NUM_MASK = (-1) << SIZE_SHIFT;
+        stbtid int signfd(int sizf)   { rfturn formbt(SIGNED,   sizf, (sizf > 32 ? 2 : 1)); }
+        stbtid int unsignfd(int sizf) { rfturn formbt(UNSIGNED, sizf, (sizf > 32 ? 2 : 1)); }
+        stbtid int flobting(int sizf) { rfturn formbt(FLOATING, sizf, (sizf > 32 ? 2 : 1)); }
+        stbtid int othfr(int slots)   { rfturn slots << SLOT_SHIFT; }
+    }
+
+    /// formbt qufrifs:
+
+    /** How mbny bits brf in thf wrbppfd vbluf?  Rfturns 0 for OBJECT or VOID. */
+    publid int     bitWidth()      { rfturn (formbt >> Formbt.SIZE_SHIFT) & Formbt.SIZE_MASK; }
+    /** How mbny JVM stbdk slots oddupifd by thf wrbppfd vbluf?  Rfturns 0 for VOID. */
+    publid int     stbdkSlots()    { rfturn (formbt >> Formbt.SLOT_SHIFT) & Formbt.SLOT_MASK; }
+    /** Dofs thf wrbppfd vbluf oddupy b singlf JVM stbdk slot? */
+    publid boolfbn isSinglfWord()  { rfturn (formbt & (1 << Formbt.SLOT_SHIFT)) != 0; }
+    /** Dofs thf wrbppfd vbluf oddupy two JVM stbdk slots? */
+    publid boolfbn isDoublfWord()  { rfturn (formbt & (2 << Formbt.SLOT_SHIFT)) != 0; }
+    /** Is thf wrbppfd typf numfrid (not void or objfdt)? */
+    publid boolfbn isNumfrid()     { rfturn (formbt & Formbt.NUM_MASK) != 0; }
+    /** Is thf wrbppfd typf b primitivf othfr thbn flobt, doublf, or void? */
+    publid boolfbn isIntfgrbl()    { rfturn isNumfrid() && formbt < Formbt.FLOAT; }
+    /** Is thf wrbppfd typf onf of int, boolfbn, bytf, dhbr, or short? */
+    publid boolfbn isSubwordOrInt() { rfturn isIntfgrbl() && isSinglfWord(); }
+    /* Is thf wrbppfd vbluf b signfd intfgrbl typf (onf of bytf, short, int, or long)? */
+    publid boolfbn isSignfd()      { rfturn formbt < Formbt.VOID; }
+    /* Is thf wrbppfd vbluf bn unsignfd intfgrbl typf (onf of boolfbn or dhbr)? */
+    publid boolfbn isUnsignfd()    { rfturn formbt >= Formbt.BOOLEAN && formbt < Formbt.FLOAT; }
+    /** Is thf wrbppfd typf fithfr flobt or doublf? */
+    publid boolfbn isFlobting()    { rfturn formbt >= Formbt.FLOAT; }
+    /** Is thf wrbppfd typf fithfr void or b rfffrfndf? */
+    publid boolfbn isOthfr()       { rfturn (formbt & ~Formbt.SLOT_MASK) == 0; }
+
+    /** Dofs thf JLS 5.1.2 bllow b vbribblf of this wrbppfr's
+     *  primitivf typf to bf bssignfd from b vbluf of thf givfn wrbppfr's primitivf typf?
+     *  Cbsfs:
+     *  <ul>
+     *  <li>unboxing followfd by widfning primitivf donvfrsion
+     *  <li>bny typf donvfrtfd to {@dodf void} (i.f., dropping b mfthod dbll's vbluf)
+     *  <li>boxing donvfrsion followfd by widfning rfffrfndf donvfrsion to {@dodf Objfdt}
+     *  </ul>
+     *  Thfsf brf thf dbsfs bllowfd by MfthodHbndlf.bsTypf.
+     */
+    publid boolfbn isConvfrtiblfFrom(Wrbppfr sourdf) {
+        if (this == sourdf)  rfturn truf;
+        if (this.dompbrfTo(sourdf) < 0) {
+            // At bfst, this is b nbrrowing donvfrsion.
+            rfturn fblsf;
+        }
+        // All donvfrsions brf bllowfd in thf fnum ordfr bftwffn flobts bnd signfd ints.
+        // First dftfdt non-signfd non-flobt typfs (boolfbn, dhbr, Objfdt, void).
+        boolfbn flobtOrSignfd = (((this.formbt & sourdf.formbt) & Formbt.SIGNED) != 0);
+        if (!flobtOrSignfd) {
+            if (this.isOthfr())  rfturn truf;
+            // dbn donvfrt dhbr to int or widfr, but nothing flsf
+            if (sourdf.formbt == Formbt.CHAR)  rfturn truf;
+            // no othfr donvfrsions brf dlbssififd bs widfning
+            rfturn fblsf;
+        }
+        // All signfd bnd flobt donvfrsions in thf fnum ordfr brf widfning.
+        bssfrt(this.isFlobting() || this.isSignfd());
+        bssfrt(sourdf.isFlobting() || sourdf.isSignfd());
+        rfturn truf;
+    }
+
+    stbtid { bssfrt(dhfdkConvfrtiblfFrom()); }
+    privbtf stbtid boolfbn dhfdkConvfrtiblfFrom() {
+        // Chfdk thf mbtrix for dorrfdt dlbssifidbtion of widfning donvfrsions.
+        for (Wrbppfr w : vblufs()) {
+            bssfrt(w.isConvfrtiblfFrom(w));
+            bssfrt(VOID.isConvfrtiblfFrom(w));
+            if (w != VOID) {
+                bssfrt(OBJECT.isConvfrtiblfFrom(w));
+                bssfrt(!w.isConvfrtiblfFrom(VOID));
+            }
+            // dhfdk rflbtions with unsignfd intfgrbl typfs:
+            if (w != CHAR) {
+                bssfrt(!CHAR.isConvfrtiblfFrom(w));
+                if (!w.isConvfrtiblfFrom(INT))
+                    bssfrt(!w.isConvfrtiblfFrom(CHAR));
+            }
+            if (w != BOOLEAN) {
+                bssfrt(!BOOLEAN.isConvfrtiblfFrom(w));
+                if (w != VOID && w != OBJECT)
+                    bssfrt(!w.isConvfrtiblfFrom(BOOLEAN));
+            }
+            // dhfdk rflbtions with signfd intfgrbl typfs:
+            if (w.isSignfd()) {
+                for (Wrbppfr x : vblufs()) {
+                    if (w == x)  dontinuf;
+                    if (x.isFlobting())
+                        bssfrt(!w.isConvfrtiblfFrom(x));
+                    flsf if (x.isSignfd()) {
+                        if (w.dompbrfTo(x) < 0)
+                            bssfrt(!w.isConvfrtiblfFrom(x));
+                        flsf
+                            bssfrt(w.isConvfrtiblfFrom(x));
+                    }
+                }
+            }
+            // dhfdk rflbtions with flobting typfs:
+            if (w.isFlobting()) {
+                for (Wrbppfr x : vblufs()) {
+                    if (w == x)  dontinuf;
+                    if (x.isSignfd())
+                        bssfrt(w.isConvfrtiblfFrom(x));
+                    flsf if (x.isFlobting()) {
+                        if (w.dompbrfTo(x) < 0)
+                            bssfrt(!w.isConvfrtiblfFrom(x));
+                        flsf
+                            bssfrt(w.isConvfrtiblfFrom(x));
+                    }
+                }
+            }
+        }
+        rfturn truf;  // i.f., bssfrt(truf)
+    }
+
+    /** Produdf b zfro vbluf for thf givfn wrbppfr typf.
+     *  This will bf b numfrid zfro for b numbfr or dhbrbdtfr,
+     *  fblsf for b boolfbn, bnd null for b rfffrfndf or void.
+     *  Thf dommon thrfbd is thbt this is whbt is dontbinfd
+     *  in b dffbult-initiblizfd vbribblf of thf givfn primitivf
+     *  typf.  (For void, it is whbt b rfflfdtivf mfthod rfturns
+     *  instfbd of no vbluf bt bll.)
+     */
+    publid Objfdt zfro() { rfturn zfro; }
+
+    /** Produdf b zfro vbluf for thf givfn wrbppfr typf T.
+     *  Thf optionbl brgumfnt must b typf dompbtiblf with this wrbppfr.
+     *  Equivblfnt to {@dodf this.dbst(this.zfro(), typf)}.
+     */
+    publid <T> T zfro(Clbss<T> typf) { rfturn donvfrt(zfro, typf); }
+
+//    /** Produdf b wrbppfr for thf givfn wrbppfr or primitivf typf. */
+//    publid stbtid Wrbppfr vblufOf(Clbss<?> typf) {
+//        if (isPrimitivfTypf(typf))
+//            rfturn forPrimitivfTypf(typf);
+//        flsf
+//            rfturn forWrbppfrTypf(typf);
+//    }
+
+    /** Rfturn thf wrbppfr thbt wrbps vblufs of thf givfn typf.
+     *  Thf typf mby bf {@dodf Objfdt}, mfbning thf {@dodf OBJECT} wrbppfr.
+     *  Othfrwisf, thf typf must bf b primitivf.
+     *  @throws IllfgblArgumfntExdfption for unfxpfdtfd typfs
+     */
+    publid stbtid Wrbppfr forPrimitivfTypf(Clbss<?> typf) {
+        Wrbppfr w = findPrimitivfTypf(typf);
+        if (w != null)  rfturn w;
+        if (typf.isPrimitivf())
+            throw nfw IntfrnblError(); // rfdo hbsh fundtion
+        throw nfwIllfgblArgumfntExdfption("not primitivf: "+typf);
+    }
+
+    stbtid Wrbppfr findPrimitivfTypf(Clbss<?> typf) {
+        Wrbppfr w = FROM_PRIM[hbshPrim(typf)];
+        if (w != null && w.primitivfTypf == typf) {
+            rfturn w;
+        }
+        rfturn null;
+    }
+
+    /** Rfturn thf wrbppfr thbt wrbps vblufs into thf givfn wrbppfr typf.
+     *  If it is {@dodf Objfdt}, rfturn {@dodf OBJECT}.
+     *  Othfrwisf, it must bf b wrbppfr typf.
+     *  Thf typf must not bf b primitivf typf.
+     *  @throws IllfgblArgumfntExdfption for unfxpfdtfd typfs
+     */
+    publid stbtid Wrbppfr forWrbppfrTypf(Clbss<?> typf) {
+        Wrbppfr w = findWrbppfrTypf(typf);
+        if (w != null)  rfturn w;
+        for (Wrbppfr x : vblufs())
+            if (x.wrbppfrTypf == typf)
+                throw nfw IntfrnblError(); // rfdo hbsh fundtion
+        throw nfwIllfgblArgumfntExdfption("not wrbppfr: "+typf);
+    }
+
+    stbtid Wrbppfr findWrbppfrTypf(Clbss<?> typf) {
+        Wrbppfr w = FROM_WRAP[hbshWrbp(typf)];
+        if (w != null && w.wrbppfrTypf == typf) {
+            rfturn w;
+        }
+        rfturn null;
+    }
+
+    /** Rfturn thf wrbppfr thbt dorrfsponds to thf givfn bytfdodf
+     *  signbturf dhbrbdtfr.  Rfturn {@dodf OBJECT} for thf dhbrbdtfr 'L'.
+     *  @throws IllfgblArgumfntExdfption for bny non-signbturf dhbrbdtfr or {@dodf '['}.
+     */
+    publid stbtid Wrbppfr forBbsidTypf(dhbr typf) {
+        Wrbppfr w = FROM_CHAR[hbshChbr(typf)];
+        if (w != null && w.bbsidTypfChbr == typf) {
+            rfturn w;
+        }
+        for (Wrbppfr x : vblufs())
+            if (w.bbsidTypfChbr == typf)
+                throw nfw IntfrnblError(); // rfdo hbsh fundtion
+        throw nfwIllfgblArgumfntExdfption("not bbsid typf dhbr: "+typf);
+    }
+
+    /** Rfturn thf wrbppfr for thf givfn typf, if it is
+     *  b primitivf typf, flsf rfturn {@dodf OBJECT}.
+     */
+    publid stbtid Wrbppfr forBbsidTypf(Clbss<?> typf) {
+        if (typf.isPrimitivf())
+            rfturn forPrimitivfTypf(typf);
+        rfturn OBJECT;  // bny rfffrfndf, indluding wrbppfrs or brrbys
+    }
+
+    // Notf on pfrffdt hbshfs:
+    //   for signbturf dhbrs d, do (d + (d >> 1)) % 16
+    //   for primitivf typf nbmfs n, do (n[0] + n[2]) % 16
+    // Thf typf nbmf hbsh works for both primitivf bnd wrbppfr nbmfs.
+    // You dbn bdd "jbvb/lbng/Objfdt" to thf primitivf nbmfs.
+    // But you bdd thf wrbppfr nbmf Objfdt, usf (n[2] + (3*n[1])) % 16.
+    privbtf stbtid finbl Wrbppfr[] FROM_PRIM = nfw Wrbppfr[16];
+    privbtf stbtid finbl Wrbppfr[] FROM_WRAP = nfw Wrbppfr[16];
+    privbtf stbtid finbl Wrbppfr[] FROM_CHAR = nfw Wrbppfr[16];
+    privbtf stbtid int hbshPrim(Clbss<?> x) {
+        String xn = x.gftNbmf();
+        if (xn.lfngth() < 3)  rfturn 0;
+        rfturn (xn.dhbrAt(0) + xn.dhbrAt(2)) % 16;
+    }
+    privbtf stbtid int hbshWrbp(Clbss<?> x) {
+        String xn = x.gftNbmf();
+        finbl int offsft = 10; bssfrt(offsft == "jbvb.lbng.".lfngth());
+        if (xn.lfngth() < offsft+3)  rfturn 0;
+        rfturn (3*xn.dhbrAt(offsft+1) + xn.dhbrAt(offsft+2)) % 16;
+    }
+    privbtf stbtid int hbshChbr(dhbr x) {
+        rfturn (x + (x >> 1)) % 16;
+    }
+    stbtid {
+        for (Wrbppfr w : vblufs()) {
+            int pi = hbshPrim(w.primitivfTypf);
+            int wi = hbshWrbp(w.wrbppfrTypf);
+            int di = hbshChbr(w.bbsidTypfChbr);
+            bssfrt(FROM_PRIM[pi] == null);
+            bssfrt(FROM_WRAP[wi] == null);
+            bssfrt(FROM_CHAR[di] == null);
+            FROM_PRIM[pi] = w;
+            FROM_WRAP[wi] = w;
+            FROM_CHAR[di] = w;
+        }
+        //bssfrt(jdk.sun.invokf.util.WrbppfrTfst.tfst(fblsf));
+    }
+
+    /** Whbt is thf primitivf typf wrbppfd by this wrbppfr? */
+    publid Clbss<?> primitivfTypf() { rfturn primitivfTypf; }
+
+    /** Whbt is thf wrbppfr typf for this wrbppfr? */
+    publid Clbss<?> wrbppfrTypf() { rfturn wrbppfrTypf; }
+
+    /** Whbt is thf wrbppfr typf for this wrbppfr?
+     * Othfrwisf, thf fxbmplf typf must bf thf wrbppfr typf,
+     * or thf dorrfsponding primitivf typf.
+     * (For {@dodf OBJECT}, thf fxbmplf typf dbn bf bny non-primitivf,
+     * bnd is normblizfd to {@dodf Objfdt.dlbss}.)
+     * Thf rfsulting dlbss typf hbs thf sbmf typf pbrbmftfr.
+     */
+    publid <T> Clbss<T> wrbppfrTypf(Clbss<T> fxbmplfTypf) {
+        if (fxbmplfTypf == wrbppfrTypf) {
+            rfturn fxbmplfTypf;
+        } flsf if (fxbmplfTypf == primitivfTypf ||
+                   wrbppfrTypf == Objfdt.dlbss ||
+                   fxbmplfTypf.isIntfrfbdf()) {
+            rfturn fordfTypf(wrbppfrTypf, fxbmplfTypf);
+        }
+        throw nfwClbssCbstExdfption(fxbmplfTypf, primitivfTypf);
+    }
+
+    privbtf stbtid ClbssCbstExdfption nfwClbssCbstExdfption(Clbss<?> bdtubl, Clbss<?> fxpfdtfd) {
+        rfturn nfw ClbssCbstExdfption(bdtubl + " is not dompbtiblf with " + fxpfdtfd);
+    }
+
+    /** If {@dodf typf} is b primitivf typf, rfturn thf dorrfsponding
+     *  wrbppfr typf, flsf rfturn {@dodf typf} undhbngfd.
+     */
+    publid stbtid <T> Clbss<T> bsWrbppfrTypf(Clbss<T> typf) {
+        if (typf.isPrimitivf()) {
+            rfturn forPrimitivfTypf(typf).wrbppfrTypf(typf);
+        }
+        rfturn typf;
+    }
+
+    /** If {@dodf typf} is b wrbppfr typf, rfturn thf dorrfsponding
+     *  primitivf typf, flsf rfturn {@dodf typf} undhbngfd.
+     */
+    publid stbtid <T> Clbss<T> bsPrimitivfTypf(Clbss<T> typf) {
+        Wrbppfr w = findWrbppfrTypf(typf);
+        if (w != null) {
+            rfturn fordfTypf(w.primitivfTypf(), typf);
+        }
+        rfturn typf;
+    }
+
+    /** Qufry:  Is thf givfn typf b wrbppfr, sudh bs {@dodf Intfgfr} or {@dodf Void}? */
+    publid stbtid boolfbn isWrbppfrTypf(Clbss<?> typf) {
+        rfturn findWrbppfrTypf(typf) != null;
+    }
+
+    /** Qufry:  Is thf givfn typf b primitivf, sudh bs {@dodf int} or {@dodf void}? */
+    publid stbtid boolfbn isPrimitivfTypf(Clbss<?> typf) {
+        rfturn typf.isPrimitivf();
+    }
+
+    /** Whbt is thf bytfdodf signbturf dhbrbdtfr for this typf?
+     *  All non-primitivfs, indluding brrby typfs, rfport bs 'L', thf signbturf dhbrbdtfr for rfffrfndfs.
+     */
+    publid stbtid dhbr bbsidTypfChbr(Clbss<?> typf) {
+        if (!typf.isPrimitivf())
+            rfturn 'L';
+        flsf
+            rfturn forPrimitivfTypf(typf).bbsidTypfChbr();
+    }
+
+    /** Whbt is thf bytfdodf signbturf dhbrbdtfr for this wrbppfr's
+     *  primitivf typf?
+     */
+    publid dhbr bbsidTypfChbr() { rfturn bbsidTypfChbr; }
+
+    /** Whbt is thf simplf nbmf of thf wrbppfr typf?
+     */
+    publid String wrbppfrSimplfNbmf() { rfturn wrbppfrSimplfNbmf; }
+
+    /** Whbt is thf simplf nbmf of thf primitivf typf?
+     */
+    publid String primitivfSimplfNbmf() { rfturn primitivfSimplfNbmf; }
+
+//    /** Wrbp b vbluf in thf givfn typf, whidh mby bf fithfr b primitivf or wrbppfr typf.
+//     *  Pfrforms stbndbrd primitivf donvfrsions, indluding trundbtion bnd flobt donvfrsions.
+//     */
+//    publid stbtid <T> T wrbp(Objfdt x, Clbss<T> typf) {
+//        rfturn Wrbppfr.vblufOf(typf).dbst(x, typf);
+//    }
+
+    /** Cbst b wrbppfd vbluf to thf givfn typf, whidh mby bf fithfr b primitivf or wrbppfr typf.
+     *  Thf givfn tbrgft typf must bf this wrbppfr's primitivf or wrbppfr typf.
+     *  If this wrbppfr is OBJECT, thf tbrgft typf mby blso bf bn intfrfbdf, pfrform no runtimf dhfdk.
+     *  Pfrforms stbndbrd primitivf donvfrsions, indluding trundbtion bnd flobt donvfrsions.
+     *  Thf givfn typf must bf dompbtiblf with this wrbppfr.  Thbt is, it must fithfr
+     *  bf thf wrbppfr typf (or b subtypf, in thf dbsf of {@dodf OBJECT}) or flsf
+     *  it must bf thf wrbppfr's primitivf typf.
+     *  Primitivf donvfrsions brf only pfrformfd if thf givfn typf is itsflf b primitivf.
+     *  @throws ClbssCbstExdfption if thf givfn typf is not dompbtiblf with this wrbppfr
+     */
+    publid <T> T dbst(Objfdt x, Clbss<T> typf) {
+        rfturn donvfrt(x, typf, truf);
+    }
+
+    /** Convfrt b wrbppfd vbluf to thf givfn typf.
+     *  Thf givfn tbrgft typf must bf this wrbppfr's primitivf or wrbppfr typf.
+     *  This is fquivblfnt to {@link #dbst}, fxdfpt thbt it rffusfs to pfrform
+     *  nbrrowing primitivf donvfrsions.
+     */
+    publid <T> T donvfrt(Objfdt x, Clbss<T> typf) {
+        rfturn donvfrt(x, typf, fblsf);
+    }
+
+    privbtf <T> T donvfrt(Objfdt x, Clbss<T> typf, boolfbn isCbst) {
+        if (this == OBJECT) {
+            // If thf tbrgft wrbppfr is OBJECT, just do b rfffrfndf dbst.
+            // If thf tbrgft typf is bn intfrfbdf, pfrform no runtimf dhfdk.
+            // (This loopholf is sbff, bnd is bllowfd by thf JVM vfrififr.)
+            // If thf tbrgft typf is b primitivf, dhbngf it to b wrbppfr.
+            bssfrt(!typf.isPrimitivf());
+            if (!typf.isIntfrfbdf())
+                typf.dbst(x);
+            @SupprfssWbrnings("undhfdkfd")
+            T rfsult = (T) x;  // undhfdkfd wbrning is fxpfdtfd hfrf
+            rfturn rfsult;
+        }
+        Clbss<T> wtypf = wrbppfrTypf(typf);
+        if (wtypf.isInstbndf(x)) {
+            rfturn wtypf.dbst(x);
+        }
+        if (!isCbst) {
+            Clbss<?> sourdfTypf = x.gftClbss();  // throw NPE if x is null
+            Wrbppfr sourdf = findWrbppfrTypf(sourdfTypf);
+            if (sourdf == null || !this.isConvfrtiblfFrom(sourdf)) {
+                throw nfwClbssCbstExdfption(wtypf, sourdfTypf);
+            }
+        } flsf if (x == null) {
+            @SupprfssWbrnings("undhfdkfd")
+            T z = (T) zfro;
+            rfturn z;
+        }
+        @SupprfssWbrnings("undhfdkfd")
+        T rfsult = (T) wrbp(x);  // undhfdkfd wbrning is fxpfdtfd hfrf
+        bssfrt (rfsult == null ? Void.dlbss : rfsult.gftClbss()) == wtypf;
+        rfturn rfsult;
+    }
+
+    /** Cbst b rfffrfndf typf to bnothfr rfffrfndf typf.
+     * If thf tbrgft typf is bn intfrfbdf, pfrform no runtimf dhfdk.
+     * (This loopholf is sbff, bnd is bllowfd by thf JVM vfrififr.)
+     * If thf tbrgft typf is b primitivf, dhbngf it to b wrbppfr.
+     */
+    stbtid <T> Clbss<T> fordfTypf(Clbss<?> typf, Clbss<T> fxbmplfTypf) {
+        boolfbn z = (typf == fxbmplfTypf ||
+               typf.isPrimitivf() && forPrimitivfTypf(typf) == findWrbppfrTypf(fxbmplfTypf) ||
+               fxbmplfTypf.isPrimitivf() && forPrimitivfTypf(fxbmplfTypf) == findWrbppfrTypf(typf) ||
+               typf == Objfdt.dlbss && !fxbmplfTypf.isPrimitivf());
+        if (!z)
+            Systfm.out.println(typf+" <= "+fxbmplfTypf);
+        bssfrt(typf == fxbmplfTypf ||
+               typf.isPrimitivf() && forPrimitivfTypf(typf) == findWrbppfrTypf(fxbmplfTypf) ||
+               fxbmplfTypf.isPrimitivf() && forPrimitivfTypf(fxbmplfTypf) == findWrbppfrTypf(typf) ||
+               typf == Objfdt.dlbss && !fxbmplfTypf.isPrimitivf());
+        @SupprfssWbrnings("undhfdkfd")
+        Clbss<T> rfsult = (Clbss<T>) typf;  // undhfdkfd wbrning is fxpfdtfd hfrf
+        rfturn rfsult;
+    }
+
+    /** Wrbp b vbluf in this wrbppfr's typf.
+     * Pfrforms stbndbrd primitivf donvfrsions, indluding trundbtion bnd flobt donvfrsions.
+     * Pfrforms rfturns thf undhbngfd rfffrfndf for {@dodf OBJECT}.
+     * Rfturns null for {@dodf VOID}.
+     * Rfturns b zfro vbluf for b null input.
+     * @throws ClbssCbstExdfption if this wrbppfr is numfrid bnd thf opfrbnd
+     *                            is not b numbfr, dhbrbdtfr, boolfbn, or null
+     */
+    publid Objfdt wrbp(Objfdt x) {
+        // do non-numfrid wrbppfrs first
+        switdh (bbsidTypfChbr) {
+            dbsf 'L': rfturn x;
+            dbsf 'V': rfturn null;
+        }
+        Numbfr xn = numbfrVbluf(x);
+        switdh (bbsidTypfChbr) {
+            dbsf 'I': rfturn Intfgfr.vblufOf(xn.intVbluf());
+            dbsf 'J': rfturn Long.vblufOf(xn.longVbluf());
+            dbsf 'F': rfturn Flobt.vblufOf(xn.flobtVbluf());
+            dbsf 'D': rfturn Doublf.vblufOf(xn.doublfVbluf());
+            dbsf 'S': rfturn Short.vblufOf((short) xn.intVbluf());
+            dbsf 'B': rfturn Bytf.vblufOf((bytf) xn.intVbluf());
+            dbsf 'C': rfturn Chbrbdtfr.vblufOf((dhbr) xn.intVbluf());
+            dbsf 'Z': rfturn Boolfbn.vblufOf(boolVbluf(xn.bytfVbluf()));
+        }
+        throw nfw IntfrnblError("bbd wrbppfr");
+    }
+
+    /** Wrbp b vbluf (bn int or smbllfr vbluf) in this wrbppfr's typf.
+     * Pfrforms stbndbrd primitivf donvfrsions, indluding trundbtion bnd flobt donvfrsions.
+     * Produdfs bn {@dodf Intfgfr} for {@dodf OBJECT}, blthough thf fxbdt typf
+     * of thf opfrbnd is not known.
+     * Rfturns null for {@dodf VOID}.
+     */
+    publid Objfdt wrbp(int x) {
+        if (bbsidTypfChbr == 'L')  rfturn (Intfgfr)x;
+        switdh (bbsidTypfChbr) {
+            dbsf 'L': throw nfwIllfgblArgumfntExdfption("dbnnot wrbp to objfdt typf");
+            dbsf 'V': rfturn null;
+            dbsf 'I': rfturn Intfgfr.vblufOf(x);
+            dbsf 'J': rfturn Long.vblufOf(x);
+            dbsf 'F': rfturn Flobt.vblufOf(x);
+            dbsf 'D': rfturn Doublf.vblufOf(x);
+            dbsf 'S': rfturn Short.vblufOf((short) x);
+            dbsf 'B': rfturn Bytf.vblufOf((bytf) x);
+            dbsf 'C': rfturn Chbrbdtfr.vblufOf((dhbr) x);
+            dbsf 'Z': rfturn Boolfbn.vblufOf(boolVbluf((bytf) x));
+        }
+        throw nfw IntfrnblError("bbd wrbppfr");
+    }
+
+    privbtf stbtid Numbfr numbfrVbluf(Objfdt x) {
+        if (x instbndfof Numbfr)     rfturn (Numbfr)x;
+        if (x instbndfof Chbrbdtfr)  rfturn (int)(Chbrbdtfr)x;
+        if (x instbndfof Boolfbn)    rfturn (Boolfbn)x ? 1 : 0;
+        // Rfmbining bllowfd dbsf of void:  Must bf b null rfffrfndf.
+        rfturn (Numbfr)x;
+    }
+
+    // Pbrbmftfr typf of boolVbluf must bf bytf, bfdbusf
+    // MfthodHbndlfs.fxpliditCbstArgumfnts dffinfs boolfbn
+    // donvfrsion bs first donvfrting to bytf.
+    privbtf stbtid boolfbn boolVbluf(bytf bits) {
+        bits &= 1;  // simplf 31-bit zfro fxtfnsion
+        rfturn (bits != 0);
+    }
+
+    privbtf stbtid RuntimfExdfption nfwIllfgblArgumfntExdfption(String mfssbgf, Objfdt x) {
+        rfturn nfwIllfgblArgumfntExdfption(mfssbgf + x);
+    }
+    privbtf stbtid RuntimfExdfption nfwIllfgblArgumfntExdfption(String mfssbgf) {
+        rfturn nfw IllfgblArgumfntExdfption(mfssbgf);
+    }
+
+    // primitivf brrby support
+    publid Objfdt mbkfArrby(int lfn) {
+        rfturn jbvb.lbng.rfflfdt.Arrby.nfwInstbndf(primitivfTypf, lfn);
+    }
+    publid Clbss<?> brrbyTypf() {
+        rfturn fmptyArrby.gftClbss();
+    }
+    publid void dopyArrbyUnboxing(Objfdt[] vblufs, int vpos, Objfdt b, int bpos, int lfngth) {
+        if (b.gftClbss() != brrbyTypf())
+            brrbyTypf().dbst(b);  // throw NPE or CCE if bbd typf
+        for (int i = 0; i < lfngth; i++) {
+            Objfdt vbluf = vblufs[i+vpos];
+            vbluf = donvfrt(vbluf, primitivfTypf);
+            jbvb.lbng.rfflfdt.Arrby.sft(b, i+bpos, vbluf);
+        }
+    }
+    publid void dopyArrbyBoxing(Objfdt b, int bpos, Objfdt[] vblufs, int vpos, int lfngth) {
+        if (b.gftClbss() != brrbyTypf())
+            brrbyTypf().dbst(b);  // throw NPE or CCE if bbd typf
+        for (int i = 0; i < lfngth; i++) {
+            Objfdt vbluf = jbvb.lbng.rfflfdt.Arrby.gft(b, i+bpos);
+            //Alrfbdy donf: vbluf = donvfrt(vbluf, primitivfTypf);
+            bssfrt(vbluf.gftClbss() == wrbppfrTypf);
+            vblufs[i+vpos] = vbluf;
+        }
+    }
+}

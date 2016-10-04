@@ -1,481 +1,481 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 // -*- C++ -*-
-struct entry;
-struct cpindex;
-struct unpacker;
+strudt fntry;
+strudt dpindfx;
+strudt unpbdkfr;
 
-struct band {
-  const char*   name;
-  int           bn;             // band_number of this band
-  coding*       defc;           // default coding method
-  cpindex*      ix;             // CP entry mapping, if CPRefBand
-  byte          ixTag;          // 0 or 1; null is coded as (nullOK?0:-1)
-  byte          nullOK;         // 0 or 1; null is coded as (nullOK?0:-1)
-  int           length;         // expected # values
-  unpacker*     u;              // back pointer
+strudt bbnd {
+  donst dibr*   nbmf;
+  int           bn;             // bbnd_numbfr of tiis bbnd
+  doding*       dffd;           // dffbult doding mftiod
+  dpindfx*      ix;             // CP fntry mbpping, if CPRffBbnd
+  bytf          ixTbg;          // 0 or 1; null is dodfd bs (nullOK?0:-1)
+  bytf          nullOK;         // 0 or 1; null is dodfd bs (nullOK?0:-1)
+  int           lfngti;         // fxpfdtfd # vblufs
+  unpbdkfr*     u;              // bbdk pointfr
 
-  value_stream  vs[2];         // source of values
-  coding_method cm;            // method used for initial state of vs[0]
-  byte*         rplimit;       // end of band (encoded, transmitted)
+  vbluf_strfbm  vs[2];         // sourdf of vblufs
+  doding_mftiod dm;            // mftiod usfd for initibl stbtf of vs[0]
+  bytf*         rplimit;       // fnd of bbnd (fndodfd, trbnsmittfd)
 
-  int           total_memo;    // cached value of getIntTotal, or -1
-  int*          hist0;         // approximate. histogram
-  enum { HIST0_MIN = 0, HIST0_MAX = 255 }; // catches the usual cases
+  int           totbl_mfmo;    // dbdifd vbluf of gftIntTotbl, or -1
+  int*          iist0;         // bpproximbtf. iistogrbm
+  fnum { HIST0_MIN = 0, HIST0_MAX = 255 }; // dbtdifs tif usubl dbsfs
 
-  // properties for attribute layout elements:
-  byte          le_kind;       // EK_XXX
-  byte          le_bci;        // 0,EK_BCI,EK_BCD,EK_BCO
-  byte          le_back;       // ==EF_BACK
-  byte          le_len;        // 0,1,2,4 (size in classfile), or call addr
-  band**        le_body;       // body of repl, union, call (null-terminated)
-  // Note:  EK_CASE elements use hist0 to record union tags.
-  #define       le_casetags    hist0
+  // propfrtifs for bttributf lbyout flfmfnts:
+  bytf          lf_kind;       // EK_XXX
+  bytf          lf_bdi;        // 0,EK_BCI,EK_BCD,EK_BCO
+  bytf          lf_bbdk;       // ==EF_BACK
+  bytf          lf_lfn;        // 0,1,2,4 (sizf in dlbssfilf), or dbll bddr
+  bbnd**        lf_body;       // body of rfpl, union, dbll (null-tfrminbtfd)
+  // Notf:  EK_CASE flfmfnts usf iist0 to rfdord union tbgs.
+  #dffinf       lf_dbsftbgs    iist0
 
-  band& nextBand() { return this[1]; }
-  band& prevBand() { return this[-1]; }
+  bbnd& nfxtBbnd() { rfturn tiis[1]; }
+  bbnd& prfvBbnd() { rfturn tiis[-1]; }
 
-  void init(unpacker* u_, int bn_, coding* defc_) {
+  void init(unpbdkfr* u_, int bn_, doding* dffd_) {
     u    = u_;
-    cm.u = u_;
+    dm.u = u_;
     bn   = bn_;
-    defc = defc_;
+    dffd = dffd_;
   }
-  void init(unpacker* u_, int bn_, int defcSpec) {
-    init(u_, bn_, coding::findBySpec(defcSpec));
+  void init(unpbdkfr* u_, int bn_, int dffdSpfd) {
+    init(u_, bn_, doding::findBySpfd(dffdSpfd));
   }
-  void initRef(int ixTag_ = 0, bool nullOK_ = false) {
-    ixTag  = ixTag_;
+  void initRff(int ixTbg_ = 0, bool nullOK_ = fblsf) {
+    ixTbg  = ixTbg_;
     nullOK = nullOK_;
-    setIndexByTag(ixTag);
+    sftIndfxByTbg(ixTbg);
   }
 
-  void expectMoreLength(int l) {
-    assert(length >= 0);      // able to accept a length
-    assert((int)l >= 0);      // no overflow
-    assert(rplimit == null);  // readData not yet called
-    length += l;
-    assert(length >= l);      // no overflow
+  void fxpfdtMorfLfngti(int l) {
+    bssfrt(lfngti >= 0);      // bblf to bddfpt b lfngti
+    bssfrt((int)l >= 0);      // no ovfrflow
+    bssfrt(rplimit == null);  // rfbdDbtb not yft dbllfd
+    lfngti += l;
+    bssfrt(lfngti >= l);      // no ovfrflow
   }
 
-  void setIndex(cpindex* ix_);
-  void setIndexByTag(byte tag);
+  void sftIndfx(dpindfx* ix_);
+  void sftIndfxByTbg(bytf tbg);
 
-  // Parse the band and its meta-coding header.
-  void readData(int expectedLength = 0);
+  // Pbrsf tif bbnd bnd its mftb-doding ifbdfr.
+  void rfbdDbtb(int fxpfdtfdLfngti = 0);
 
-  // Reset the band for another pass (Cf. Java Band.resetForSecondPass.)
-  void rewind() {
-    cm.reset(&vs[0]);
+  // Rfsft tif bbnd for bnotifr pbss (Cf. Jbvb Bbnd.rfsftForSfdondPbss.)
+  void rfwind() {
+    dm.rfsft(&vs[0]);
   }
 
-  byte* &curRP()    { return vs[0].rp; }
-  byte*  minRP()    { return cm.vs0.rp; }
-  byte*  maxRP()    { return rplimit; }
-  size_t size()     { return maxRP() - minRP(); }
+  bytf* &durRP()    { rfturn vs[0].rp; }
+  bytf*  minRP()    { rfturn dm.vs0.rp; }
+  bytf*  mbxRP()    { rfturn rplimit; }
+  sizf_t sizf()     { rfturn mbxRP() - minRP(); }
 
-  int    getByte()  { assert(ix == null); return vs[0].getByte(); }
-  int    getInt()   { assert(ix == null); return vs[0].getInt(); }
-  entry* getRefN()  { return getRefCommon(ix, true); }
-  entry* getRef()   { return getRefCommon(ix, false); }
-  entry* getRefUsing(cpindex* ix2)
-                    { assert(ix == null); return getRefCommon(ix2, true); }
-  entry* getRefCommon(cpindex* ix, bool nullOK);
-  jlong  getLong(band& lo_band, bool have_hi);
+  int    gftBytf()  { bssfrt(ix == null); rfturn vs[0].gftBytf(); }
+  int    gftInt()   { bssfrt(ix == null); rfturn vs[0].gftInt(); }
+  fntry* gftRffN()  { rfturn gftRffCommon(ix, truf); }
+  fntry* gftRff()   { rfturn gftRffCommon(ix, fblsf); }
+  fntry* gftRffUsing(dpindfx* ix2)
+                    { bssfrt(ix == null); rfturn gftRffCommon(ix2, truf); }
+  fntry* gftRffCommon(dpindfx* ix, bool nullOK);
+  jlong  gftLong(bbnd& lo_bbnd, bool ibvf_ii);
 
-  static jlong makeLong(uint hi, uint lo) {
-    return ((julong)hi << 32) + (((julong)lo << 32) >> 32);
+  stbtid jlong mbkfLong(uint ii, uint lo) {
+    rfturn ((julong)ii << 32) + (((julong)lo << 32) >> 32);
   }
 
-  int    getIntTotal();
-  int    getIntCount(int tag);
+  int    gftIntTotbl();
+  int    gftIntCount(int tbg);
 
-  static band* makeBands(unpacker* u);
-  static void initIndexes(unpacker* u);
+  stbtid bbnd* mbkfBbnds(unpbdkfr* u);
+  stbtid void initIndfxfs(unpbdkfr* u);
 
-#ifndef PRODUCT
+#ifndff PRODUCT
   void dump();
-#endif
+#fndif
 
-  void abort(const char* msg = null); //{ u->abort(msg); }
-  bool aborting(); //{ return u->aborting(); }
+  void bbort(donst dibr* msg = null); //{ u->bbort(msg); }
+  bool bborting(); //{ rfturn u->bborting(); }
 };
 
-extern band all_bands[];
+fxtfrn bbnd bll_bbnds[];
 
-#define BAND_LOCAL /* \
-  band* band_temp = all_bands; \
-  band* all_bands = band_temp */
+#dffinf BAND_LOCAL /* \
+  bbnd* bbnd_tfmp = bll_bbnds; \
+  bbnd* bll_bbnds = bbnd_tfmp */
 
-// Band schema:
-enum band_number {
-  //e_archive_magic,
-  //e_archive_header,
-  //e_band_headers,
+// Bbnd sdifmb:
+fnum bbnd_numbfr {
+  //f_brdiivf_mbgid,
+  //f_brdiivf_ifbdfr,
+  //f_bbnd_ifbdfrs,
 
-    // constant pool contents
-    e_cp_Utf8_prefix,
-    e_cp_Utf8_suffix,
-    e_cp_Utf8_chars,
-    e_cp_Utf8_big_suffix,
-    e_cp_Utf8_big_chars,
-    e_cp_Int,
-    e_cp_Float,
-    e_cp_Long_hi,
-    e_cp_Long_lo,
-    e_cp_Double_hi,
-    e_cp_Double_lo,
-    e_cp_String,
-    e_cp_Class,
-    e_cp_Signature_form,
-    e_cp_Signature_classes,
-    e_cp_Descr_name,
-    e_cp_Descr_type,
-    e_cp_Field_class,
-    e_cp_Field_desc,
-    e_cp_Method_class,
-    e_cp_Method_desc,
-    e_cp_Imethod_class,
-    e_cp_Imethod_desc,
-    e_cp_MethodHandle_refkind,
-    e_cp_MethodHandle_member,
-    e_cp_MethodType,
-    e_cp_BootstrapMethod_ref,
-    e_cp_BootstrapMethod_arg_count,
-    e_cp_BootstrapMethod_arg,
-    e_cp_InvokeDynamic_spec,
-    e_cp_InvokeDynamic_desc,
+    // donstbnt pool dontfnts
+    f_dp_Utf8_prffix,
+    f_dp_Utf8_suffix,
+    f_dp_Utf8_dibrs,
+    f_dp_Utf8_big_suffix,
+    f_dp_Utf8_big_dibrs,
+    f_dp_Int,
+    f_dp_Flobt,
+    f_dp_Long_ii,
+    f_dp_Long_lo,
+    f_dp_Doublf_ii,
+    f_dp_Doublf_lo,
+    f_dp_String,
+    f_dp_Clbss,
+    f_dp_Signbturf_form,
+    f_dp_Signbturf_dlbssfs,
+    f_dp_Dfsdr_nbmf,
+    f_dp_Dfsdr_typf,
+    f_dp_Fifld_dlbss,
+    f_dp_Fifld_dfsd,
+    f_dp_Mftiod_dlbss,
+    f_dp_Mftiod_dfsd,
+    f_dp_Imftiod_dlbss,
+    f_dp_Imftiod_dfsd,
+    f_dp_MftiodHbndlf_rffkind,
+    f_dp_MftiodHbndlf_mfmbfr,
+    f_dp_MftiodTypf,
+    f_dp_BootstrbpMftiod_rff,
+    f_dp_BootstrbpMftiod_brg_dount,
+    f_dp_BootstrbpMftiod_brg,
+    f_dp_InvokfDynbmid_spfd,
+    f_dp_InvokfDynbmid_dfsd,
 
-    // bands which define transmission of attributes
-    e_attr_definition_headers,
-    e_attr_definition_name,
-    e_attr_definition_layout,
+    // bbnds wiidi dffinf trbnsmission of bttributfs
+    f_bttr_dffinition_ifbdfrs,
+    f_bttr_dffinition_nbmf,
+    f_bttr_dffinition_lbyout,
 
-    // band for hardwired InnerClasses attribute (shared across the package)
-    e_ic_this_class,
-    e_ic_flags,
-    // These bands contain data only where flags sets ACC_IC_LONG_FORM:
-    e_ic_outer_class,
-    e_ic_name,
+    // bbnd for ibrdwirfd InnfrClbssfs bttributf (sibrfd bdross tif pbdkbgf)
+    f_id_tiis_dlbss,
+    f_id_flbgs,
+    // Tifsf bbnds dontbin dbtb only wifrf flbgs sfts ACC_IC_LONG_FORM:
+    f_id_outfr_dlbss,
+    f_id_nbmf,
 
-    // bands for carrying class schema information:
-    e_class_this,
-    e_class_super,
-    e_class_interface_count,
-    e_class_interface,
+    // bbnds for dbrrying dlbss sdifmb informbtion:
+    f_dlbss_tiis,
+    f_dlbss_supfr,
+    f_dlbss_intfrfbdf_dount,
+    f_dlbss_intfrfbdf,
 
-    // bands for class members
-    e_class_field_count,
-    e_class_method_count,
+    // bbnds for dlbss mfmbfrs
+    f_dlbss_fifld_dount,
+    f_dlbss_mftiod_dount,
 
-    e_field_descr,
-    e_field_flags_hi,
-    e_field_flags_lo,
-    e_field_attr_count,
-    e_field_attr_indexes,
-    e_field_attr_calls,
-    e_field_ConstantValue_KQ,
-    e_field_Signature_RS,
-    e_field_metadata_bands,
-    e_field_attr_bands,
+    f_fifld_dfsdr,
+    f_fifld_flbgs_ii,
+    f_fifld_flbgs_lo,
+    f_fifld_bttr_dount,
+    f_fifld_bttr_indfxfs,
+    f_fifld_bttr_dblls,
+    f_fifld_ConstbntVbluf_KQ,
+    f_fifld_Signbturf_RS,
+    f_fifld_mftbdbtb_bbnds,
+    f_fifld_bttr_bbnds,
 
-    e_method_descr,
-    e_method_flags_hi,
-    e_method_flags_lo,
-    e_method_attr_count,
-    e_method_attr_indexes,
-    e_method_attr_calls,
-    e_method_Exceptions_N,
-    e_method_Exceptions_RC,
-    e_method_Signature_RS,
-    e_method_metadata_bands,
-    e_method_MethodParameters_NB,
-    e_method_MethodParameters_name_RUN,
-    e_method_MethodParameters_flag_FH,
-    e_method_attr_bands,
+    f_mftiod_dfsdr,
+    f_mftiod_flbgs_ii,
+    f_mftiod_flbgs_lo,
+    f_mftiod_bttr_dount,
+    f_mftiod_bttr_indfxfs,
+    f_mftiod_bttr_dblls,
+    f_mftiod_Exdfptions_N,
+    f_mftiod_Exdfptions_RC,
+    f_mftiod_Signbturf_RS,
+    f_mftiod_mftbdbtb_bbnds,
+    f_mftiod_MftiodPbrbmftfrs_NB,
+    f_mftiod_MftiodPbrbmftfrs_nbmf_RUN,
+    f_mftiod_MftiodPbrbmftfrs_flbg_FH,
+    f_mftiod_bttr_bbnds,
 
-    e_class_flags_hi,
-    e_class_flags_lo,
-    e_class_attr_count,
-    e_class_attr_indexes,
-    e_class_attr_calls,
-    e_class_SourceFile_RUN,
-    e_class_EnclosingMethod_RC,
-    e_class_EnclosingMethod_RDN,
-    e_class_Signature_RS,
-    e_class_metadata_bands,
-    e_class_InnerClasses_N,
-    e_class_InnerClasses_RC,
-    e_class_InnerClasses_F,
-    e_class_InnerClasses_outer_RCN,
-    e_class_InnerClasses_name_RUN,
-    e_class_ClassFile_version_minor_H,
-    e_class_ClassFile_version_major_H,
-    e_class_attr_bands,
+    f_dlbss_flbgs_ii,
+    f_dlbss_flbgs_lo,
+    f_dlbss_bttr_dount,
+    f_dlbss_bttr_indfxfs,
+    f_dlbss_bttr_dblls,
+    f_dlbss_SourdfFilf_RUN,
+    f_dlbss_EndlosingMftiod_RC,
+    f_dlbss_EndlosingMftiod_RDN,
+    f_dlbss_Signbturf_RS,
+    f_dlbss_mftbdbtb_bbnds,
+    f_dlbss_InnfrClbssfs_N,
+    f_dlbss_InnfrClbssfs_RC,
+    f_dlbss_InnfrClbssfs_F,
+    f_dlbss_InnfrClbssfs_outfr_RCN,
+    f_dlbss_InnfrClbssfs_nbmf_RUN,
+    f_dlbss_ClbssFilf_vfrsion_minor_H,
+    f_dlbss_ClbssFilf_vfrsion_mbjor_H,
+    f_dlbss_bttr_bbnds,
 
-    e_code_headers,
-    e_code_max_stack,
-    e_code_max_na_locals,
-    e_code_handler_count,
-    e_code_handler_start_P,
-    e_code_handler_end_PO,
-    e_code_handler_catch_PO,
-    e_code_handler_class_RCN,
+    f_dodf_ifbdfrs,
+    f_dodf_mbx_stbdk,
+    f_dodf_mbx_nb_lodbls,
+    f_dodf_ibndlfr_dount,
+    f_dodf_ibndlfr_stbrt_P,
+    f_dodf_ibndlfr_fnd_PO,
+    f_dodf_ibndlfr_dbtdi_PO,
+    f_dodf_ibndlfr_dlbss_RCN,
 
-    // code attributes
-    e_code_flags_hi,
-    e_code_flags_lo,
-    e_code_attr_count,
-    e_code_attr_indexes,
-    e_code_attr_calls,
-    e_code_StackMapTable_N,
-    e_code_StackMapTable_frame_T,
-    e_code_StackMapTable_local_N,
-    e_code_StackMapTable_stack_N,
-    e_code_StackMapTable_offset,
-    e_code_StackMapTable_T,
-    e_code_StackMapTable_RC,
-    e_code_StackMapTable_P,
-    e_code_LineNumberTable_N,
-    e_code_LineNumberTable_bci_P,
-    e_code_LineNumberTable_line,
-    e_code_LocalVariableTable_N,
-    e_code_LocalVariableTable_bci_P,
-    e_code_LocalVariableTable_span_O,
-    e_code_LocalVariableTable_name_RU,
-    e_code_LocalVariableTable_type_RS,
-    e_code_LocalVariableTable_slot,
-    e_code_LocalVariableTypeTable_N,
-    e_code_LocalVariableTypeTable_bci_P,
-    e_code_LocalVariableTypeTable_span_O,
-    e_code_LocalVariableTypeTable_name_RU,
-    e_code_LocalVariableTypeTable_type_RS,
-    e_code_LocalVariableTypeTable_slot,
-    e_code_attr_bands,
+    // dodf bttributfs
+    f_dodf_flbgs_ii,
+    f_dodf_flbgs_lo,
+    f_dodf_bttr_dount,
+    f_dodf_bttr_indfxfs,
+    f_dodf_bttr_dblls,
+    f_dodf_StbdkMbpTbblf_N,
+    f_dodf_StbdkMbpTbblf_frbmf_T,
+    f_dodf_StbdkMbpTbblf_lodbl_N,
+    f_dodf_StbdkMbpTbblf_stbdk_N,
+    f_dodf_StbdkMbpTbblf_offsft,
+    f_dodf_StbdkMbpTbblf_T,
+    f_dodf_StbdkMbpTbblf_RC,
+    f_dodf_StbdkMbpTbblf_P,
+    f_dodf_LinfNumbfrTbblf_N,
+    f_dodf_LinfNumbfrTbblf_bdi_P,
+    f_dodf_LinfNumbfrTbblf_linf,
+    f_dodf_LodblVbribblfTbblf_N,
+    f_dodf_LodblVbribblfTbblf_bdi_P,
+    f_dodf_LodblVbribblfTbblf_spbn_O,
+    f_dodf_LodblVbribblfTbblf_nbmf_RU,
+    f_dodf_LodblVbribblfTbblf_typf_RS,
+    f_dodf_LodblVbribblfTbblf_slot,
+    f_dodf_LodblVbribblfTypfTbblf_N,
+    f_dodf_LodblVbribblfTypfTbblf_bdi_P,
+    f_dodf_LodblVbribblfTypfTbblf_spbn_O,
+    f_dodf_LodblVbribblfTypfTbblf_nbmf_RU,
+    f_dodf_LodblVbribblfTypfTbblf_typf_RS,
+    f_dodf_LodblVbribblfTypfTbblf_slot,
+    f_dodf_bttr_bbnds,
 
-    // bands for bytecodes
-    e_bc_codes,
-    // remaining bands provide typed opcode fields required by the bc_codes
+    // bbnds for bytfdodfs
+    f_bd_dodfs,
+    // rfmbining bbnds providf typfd opdodf fiflds rfquirfd by tif bd_dodfs
 
-    e_bc_case_count,
-    e_bc_case_value,
-    e_bc_byte,
-    e_bc_short,
-    e_bc_local,
-    e_bc_label,
+    f_bd_dbsf_dount,
+    f_bd_dbsf_vbluf,
+    f_bd_bytf,
+    f_bd_siort,
+    f_bd_lodbl,
+    f_bd_lbbfl,
 
-    // ldc* operands:
-    e_bc_intref,
-    e_bc_floatref,
-    e_bc_longref,
-    e_bc_doubleref,
-    e_bc_stringref,
-    e_bc_loadablevalueref,
-    e_bc_classref,
+    // ldd* opfrbnds:
+    f_bd_intrff,
+    f_bd_flobtrff,
+    f_bd_longrff,
+    f_bd_doublfrff,
+    f_bd_stringrff,
+    f_bd_lobdbblfvblufrff,
+    f_bd_dlbssrff,
 
-    e_bc_fieldref,
-    e_bc_methodref,
-    e_bc_imethodref,
-    e_bc_indyref,
+    f_bd_fifldrff,
+    f_bd_mftiodrff,
+    f_bd_imftiodrff,
+    f_bd_indyrff,
 
-    // _self_linker_op family
-    e_bc_thisfield,
-    e_bc_superfield,
-    e_bc_thismethod,
-    e_bc_supermethod,
+    // _sflf_linkfr_op fbmily
+    f_bd_tiisfifld,
+    f_bd_supfrfifld,
+    f_bd_tiismftiod,
+    f_bd_supfrmftiod,
 
-    // bc_invokeinit family:
-    e_bc_initref,
+    // bd_invokfinit fbmily:
+    f_bd_initrff,
 
-    // bytecode escape sequences
-    e_bc_escref,
-    e_bc_escrefsize,
-    e_bc_escsize,
-    e_bc_escbyte,
+    // bytfdodf fsdbpf sfqufndfs
+    f_bd_fsdrff,
+    f_bd_fsdrffsizf,
+    f_bd_fsdsizf,
+    f_bd_fsdbytf,
 
-    // file attributes and contents
-    e_file_name,
-    e_file_size_hi,
-    e_file_size_lo,
-    e_file_modtime,
-    e_file_options,
-    //e_file_bits,  // handled specially as an appendix
+    // filf bttributfs bnd dontfnts
+    f_filf_nbmf,
+    f_filf_sizf_ii,
+    f_filf_sizf_lo,
+    f_filf_modtimf,
+    f_filf_options,
+    //f_filf_bits,  // ibndlfd spfdiblly bs bn bppfndix
 
     BAND_LIMIT
 };
 
-// Symbolic names for bands, as if in a giant global struct:
-//#define archive_magic all_bands[e_archive_magic]
-//#define archive_header all_bands[e_archive_header]
-//#define band_headers all_bands[e_band_headers]
-#define cp_Utf8_prefix all_bands[e_cp_Utf8_prefix]
-#define cp_Utf8_suffix all_bands[e_cp_Utf8_suffix]
-#define cp_Utf8_chars all_bands[e_cp_Utf8_chars]
-#define cp_Utf8_big_suffix all_bands[e_cp_Utf8_big_suffix]
-#define cp_Utf8_big_chars all_bands[e_cp_Utf8_big_chars]
-#define cp_Int all_bands[e_cp_Int]
-#define cp_Float all_bands[e_cp_Float]
-#define cp_Long_hi all_bands[e_cp_Long_hi]
-#define cp_Long_lo all_bands[e_cp_Long_lo]
-#define cp_Double_hi all_bands[e_cp_Double_hi]
-#define cp_Double_lo all_bands[e_cp_Double_lo]
-#define cp_String all_bands[e_cp_String]
-#define cp_Class all_bands[e_cp_Class]
-#define cp_Signature_form all_bands[e_cp_Signature_form]
-#define cp_Signature_classes all_bands[e_cp_Signature_classes]
-#define cp_Descr_name all_bands[e_cp_Descr_name]
-#define cp_Descr_type all_bands[e_cp_Descr_type]
-#define cp_Field_class all_bands[e_cp_Field_class]
-#define cp_Field_desc all_bands[e_cp_Field_desc]
-#define cp_Method_class all_bands[e_cp_Method_class]
-#define cp_Method_desc all_bands[e_cp_Method_desc]
-#define cp_Imethod_class all_bands[e_cp_Imethod_class]
-#define cp_Imethod_desc all_bands[e_cp_Imethod_desc]
-#define cp_MethodHandle_refkind all_bands[e_cp_MethodHandle_refkind]
-#define cp_MethodHandle_member all_bands[e_cp_MethodHandle_member]
-#define cp_MethodType all_bands[e_cp_MethodType]
-#define cp_BootstrapMethod_ref all_bands[e_cp_BootstrapMethod_ref]
-#define cp_BootstrapMethod_arg_count all_bands[e_cp_BootstrapMethod_arg_count]
-#define cp_BootstrapMethod_arg all_bands[e_cp_BootstrapMethod_arg]
-#define cp_InvokeDynamic_spec  all_bands[e_cp_InvokeDynamic_spec]
-#define cp_InvokeDynamic_desc all_bands[e_cp_InvokeDynamic_desc]
-#define attr_definition_headers all_bands[e_attr_definition_headers]
-#define attr_definition_name all_bands[e_attr_definition_name]
-#define attr_definition_layout all_bands[e_attr_definition_layout]
-#define ic_this_class all_bands[e_ic_this_class]
-#define ic_flags all_bands[e_ic_flags]
-#define ic_outer_class all_bands[e_ic_outer_class]
-#define ic_name all_bands[e_ic_name]
-#define class_this all_bands[e_class_this]
-#define class_super all_bands[e_class_super]
-#define class_interface_count all_bands[e_class_interface_count]
-#define class_interface all_bands[e_class_interface]
-#define class_field_count all_bands[e_class_field_count]
-#define class_method_count all_bands[e_class_method_count]
-#define field_descr all_bands[e_field_descr]
-#define field_flags_hi all_bands[e_field_flags_hi]
-#define field_flags_lo all_bands[e_field_flags_lo]
-#define field_attr_count all_bands[e_field_attr_count]
-#define field_attr_indexes all_bands[e_field_attr_indexes]
-#define field_ConstantValue_KQ all_bands[e_field_ConstantValue_KQ]
-#define field_Signature_RS all_bands[e_field_Signature_RS]
-#define field_attr_bands all_bands[e_field_attr_bands]
-#define method_descr all_bands[e_method_descr]
-#define method_flags_hi all_bands[e_method_flags_hi]
-#define method_flags_lo all_bands[e_method_flags_lo]
-#define method_attr_count all_bands[e_method_attr_count]
-#define method_attr_indexes all_bands[e_method_attr_indexes]
-#define method_Exceptions_N all_bands[e_method_Exceptions_N]
-#define method_Exceptions_RC all_bands[e_method_Exceptions_RC]
-#define method_Signature_RS all_bands[e_method_Signature_RS]
-#define method_MethodParameters_NB all_bands[e_method_MethodParameters_NB]
-#define method_MethodParameters_name_RUN all_bands[e_method_MethodParameters_name_RUN]
-#define method_MethodParameters_flag_FH all_bands[e_method_MethodParameters_flag_FH]
-#define method_attr_bands all_bands[e_method_attr_bands]
-#define class_flags_hi all_bands[e_class_flags_hi]
-#define class_flags_lo all_bands[e_class_flags_lo]
-#define class_attr_count all_bands[e_class_attr_count]
-#define class_attr_indexes all_bands[e_class_attr_indexes]
-#define class_SourceFile_RUN all_bands[e_class_SourceFile_RUN]
-#define class_EnclosingMethod_RC all_bands[e_class_EnclosingMethod_RC]
-#define class_EnclosingMethod_RDN all_bands[e_class_EnclosingMethod_RDN]
-#define class_Signature_RS all_bands[e_class_Signature_RS]
-#define class_InnerClasses_N all_bands[e_class_InnerClasses_N]
-#define class_InnerClasses_RC all_bands[e_class_InnerClasses_RC]
-#define class_InnerClasses_F all_bands[e_class_InnerClasses_F]
-#define class_InnerClasses_outer_RCN all_bands[e_class_InnerClasses_outer_RCN]
-#define class_InnerClasses_name_RUN all_bands[e_class_InnerClasses_name_RUN]
-#define class_ClassFile_version_minor_H all_bands[e_class_ClassFile_version_minor_H]
-#define class_ClassFile_version_major_H all_bands[e_class_ClassFile_version_major_H]
-#define class_attr_bands all_bands[e_class_attr_bands]
-#define code_headers all_bands[e_code_headers]
-#define code_max_stack all_bands[e_code_max_stack]
-#define code_max_na_locals all_bands[e_code_max_na_locals]
-#define code_handler_count all_bands[e_code_handler_count]
-#define code_handler_start_P all_bands[e_code_handler_start_P]
-#define code_handler_end_PO all_bands[e_code_handler_end_PO]
-#define code_handler_catch_PO all_bands[e_code_handler_catch_PO]
-#define code_handler_class_RCN all_bands[e_code_handler_class_RCN]
-#define code_flags_hi all_bands[e_code_flags_hi]
-#define code_flags_lo all_bands[e_code_flags_lo]
-#define code_attr_count all_bands[e_code_attr_count]
-#define code_attr_indexes all_bands[e_code_attr_indexes]
-#define code_StackMapTable_N all_bands[e_code_StackMapTable_N]
-#define code_StackMapTable_frame_T all_bands[e_code_StackMapTable_frame_T]
-#define code_StackMapTable_local_N all_bands[e_code_StackMapTable_local_N]
-#define code_StackMapTable_stack_N all_bands[e_code_StackMapTable_stack_N]
-#define code_StackMapTable_offset all_bands[e_code_StackMapTable_offset]
-#define code_StackMapTable_T all_bands[e_code_StackMapTable_T]
-#define code_StackMapTable_RC all_bands[e_code_StackMapTable_RC]
-#define code_StackMapTable_P all_bands[e_code_StackMapTable_P]
-#define code_LineNumberTable_N all_bands[e_code_LineNumberTable_N]
-#define code_LineNumberTable_bci_P all_bands[e_code_LineNumberTable_bci_P]
-#define code_LineNumberTable_line all_bands[e_code_LineNumberTable_line]
-#define code_LocalVariableTable_N all_bands[e_code_LocalVariableTable_N]
-#define code_LocalVariableTable_bci_P all_bands[e_code_LocalVariableTable_bci_P]
-#define code_LocalVariableTable_span_O all_bands[e_code_LocalVariableTable_span_O]
-#define code_LocalVariableTable_name_RU all_bands[e_code_LocalVariableTable_name_RU]
-#define code_LocalVariableTable_type_RS all_bands[e_code_LocalVariableTable_type_RS]
-#define code_LocalVariableTable_slot all_bands[e_code_LocalVariableTable_slot]
-#define code_LocalVariableTypeTable_N all_bands[e_code_LocalVariableTypeTable_N]
-#define code_LocalVariableTypeTable_bci_P all_bands[e_code_LocalVariableTypeTable_bci_P]
-#define code_LocalVariableTypeTable_span_O all_bands[e_code_LocalVariableTypeTable_span_O]
-#define code_LocalVariableTypeTable_name_RU all_bands[e_code_LocalVariableTypeTable_name_RU]
-#define code_LocalVariableTypeTable_type_RS all_bands[e_code_LocalVariableTypeTable_type_RS]
-#define code_LocalVariableTypeTable_slot all_bands[e_code_LocalVariableTypeTable_slot]
-#define code_attr_bands all_bands[e_code_attr_bands]
-#define bc_codes all_bands[e_bc_codes]
-#define bc_case_count all_bands[e_bc_case_count]
-#define bc_case_value all_bands[e_bc_case_value]
-#define bc_byte all_bands[e_bc_byte]
-#define bc_short all_bands[e_bc_short]
-#define bc_local all_bands[e_bc_local]
-#define bc_label all_bands[e_bc_label]
-#define bc_intref all_bands[e_bc_intref]
-#define bc_floatref all_bands[e_bc_floatref]
-#define bc_longref all_bands[e_bc_longref]
-#define bc_doubleref all_bands[e_bc_doubleref]
-#define bc_stringref all_bands[e_bc_stringref]
-#define bc_loadablevalueref all_bands[e_bc_loadablevalueref]
-#define bc_classref all_bands[e_bc_classref]
-#define bc_fieldref all_bands[e_bc_fieldref]
-#define bc_methodref all_bands[e_bc_methodref]
-#define bc_imethodref all_bands[e_bc_imethodref]
-#define bc_indyref all_bands[e_bc_indyref]
-#define bc_thisfield all_bands[e_bc_thisfield]
-#define bc_superfield all_bands[e_bc_superfield]
-#define bc_thismethod all_bands[e_bc_thismethod]
-#define bc_supermethod all_bands[e_bc_supermethod]
-#define bc_initref all_bands[e_bc_initref]
-#define bc_escref all_bands[e_bc_escref]
-#define bc_escrefsize all_bands[e_bc_escrefsize]
-#define bc_escsize all_bands[e_bc_escsize]
-#define bc_escbyte all_bands[e_bc_escbyte]
-#define file_name all_bands[e_file_name]
-#define file_size_hi all_bands[e_file_size_hi]
-#define file_size_lo all_bands[e_file_size_lo]
-#define file_modtime all_bands[e_file_modtime]
-#define file_options all_bands[e_file_options]
+// Symbolid nbmfs for bbnds, bs if in b gibnt globbl strudt:
+//#dffinf brdiivf_mbgid bll_bbnds[f_brdiivf_mbgid]
+//#dffinf brdiivf_ifbdfr bll_bbnds[f_brdiivf_ifbdfr]
+//#dffinf bbnd_ifbdfrs bll_bbnds[f_bbnd_ifbdfrs]
+#dffinf dp_Utf8_prffix bll_bbnds[f_dp_Utf8_prffix]
+#dffinf dp_Utf8_suffix bll_bbnds[f_dp_Utf8_suffix]
+#dffinf dp_Utf8_dibrs bll_bbnds[f_dp_Utf8_dibrs]
+#dffinf dp_Utf8_big_suffix bll_bbnds[f_dp_Utf8_big_suffix]
+#dffinf dp_Utf8_big_dibrs bll_bbnds[f_dp_Utf8_big_dibrs]
+#dffinf dp_Int bll_bbnds[f_dp_Int]
+#dffinf dp_Flobt bll_bbnds[f_dp_Flobt]
+#dffinf dp_Long_ii bll_bbnds[f_dp_Long_ii]
+#dffinf dp_Long_lo bll_bbnds[f_dp_Long_lo]
+#dffinf dp_Doublf_ii bll_bbnds[f_dp_Doublf_ii]
+#dffinf dp_Doublf_lo bll_bbnds[f_dp_Doublf_lo]
+#dffinf dp_String bll_bbnds[f_dp_String]
+#dffinf dp_Clbss bll_bbnds[f_dp_Clbss]
+#dffinf dp_Signbturf_form bll_bbnds[f_dp_Signbturf_form]
+#dffinf dp_Signbturf_dlbssfs bll_bbnds[f_dp_Signbturf_dlbssfs]
+#dffinf dp_Dfsdr_nbmf bll_bbnds[f_dp_Dfsdr_nbmf]
+#dffinf dp_Dfsdr_typf bll_bbnds[f_dp_Dfsdr_typf]
+#dffinf dp_Fifld_dlbss bll_bbnds[f_dp_Fifld_dlbss]
+#dffinf dp_Fifld_dfsd bll_bbnds[f_dp_Fifld_dfsd]
+#dffinf dp_Mftiod_dlbss bll_bbnds[f_dp_Mftiod_dlbss]
+#dffinf dp_Mftiod_dfsd bll_bbnds[f_dp_Mftiod_dfsd]
+#dffinf dp_Imftiod_dlbss bll_bbnds[f_dp_Imftiod_dlbss]
+#dffinf dp_Imftiod_dfsd bll_bbnds[f_dp_Imftiod_dfsd]
+#dffinf dp_MftiodHbndlf_rffkind bll_bbnds[f_dp_MftiodHbndlf_rffkind]
+#dffinf dp_MftiodHbndlf_mfmbfr bll_bbnds[f_dp_MftiodHbndlf_mfmbfr]
+#dffinf dp_MftiodTypf bll_bbnds[f_dp_MftiodTypf]
+#dffinf dp_BootstrbpMftiod_rff bll_bbnds[f_dp_BootstrbpMftiod_rff]
+#dffinf dp_BootstrbpMftiod_brg_dount bll_bbnds[f_dp_BootstrbpMftiod_brg_dount]
+#dffinf dp_BootstrbpMftiod_brg bll_bbnds[f_dp_BootstrbpMftiod_brg]
+#dffinf dp_InvokfDynbmid_spfd  bll_bbnds[f_dp_InvokfDynbmid_spfd]
+#dffinf dp_InvokfDynbmid_dfsd bll_bbnds[f_dp_InvokfDynbmid_dfsd]
+#dffinf bttr_dffinition_ifbdfrs bll_bbnds[f_bttr_dffinition_ifbdfrs]
+#dffinf bttr_dffinition_nbmf bll_bbnds[f_bttr_dffinition_nbmf]
+#dffinf bttr_dffinition_lbyout bll_bbnds[f_bttr_dffinition_lbyout]
+#dffinf id_tiis_dlbss bll_bbnds[f_id_tiis_dlbss]
+#dffinf id_flbgs bll_bbnds[f_id_flbgs]
+#dffinf id_outfr_dlbss bll_bbnds[f_id_outfr_dlbss]
+#dffinf id_nbmf bll_bbnds[f_id_nbmf]
+#dffinf dlbss_tiis bll_bbnds[f_dlbss_tiis]
+#dffinf dlbss_supfr bll_bbnds[f_dlbss_supfr]
+#dffinf dlbss_intfrfbdf_dount bll_bbnds[f_dlbss_intfrfbdf_dount]
+#dffinf dlbss_intfrfbdf bll_bbnds[f_dlbss_intfrfbdf]
+#dffinf dlbss_fifld_dount bll_bbnds[f_dlbss_fifld_dount]
+#dffinf dlbss_mftiod_dount bll_bbnds[f_dlbss_mftiod_dount]
+#dffinf fifld_dfsdr bll_bbnds[f_fifld_dfsdr]
+#dffinf fifld_flbgs_ii bll_bbnds[f_fifld_flbgs_ii]
+#dffinf fifld_flbgs_lo bll_bbnds[f_fifld_flbgs_lo]
+#dffinf fifld_bttr_dount bll_bbnds[f_fifld_bttr_dount]
+#dffinf fifld_bttr_indfxfs bll_bbnds[f_fifld_bttr_indfxfs]
+#dffinf fifld_ConstbntVbluf_KQ bll_bbnds[f_fifld_ConstbntVbluf_KQ]
+#dffinf fifld_Signbturf_RS bll_bbnds[f_fifld_Signbturf_RS]
+#dffinf fifld_bttr_bbnds bll_bbnds[f_fifld_bttr_bbnds]
+#dffinf mftiod_dfsdr bll_bbnds[f_mftiod_dfsdr]
+#dffinf mftiod_flbgs_ii bll_bbnds[f_mftiod_flbgs_ii]
+#dffinf mftiod_flbgs_lo bll_bbnds[f_mftiod_flbgs_lo]
+#dffinf mftiod_bttr_dount bll_bbnds[f_mftiod_bttr_dount]
+#dffinf mftiod_bttr_indfxfs bll_bbnds[f_mftiod_bttr_indfxfs]
+#dffinf mftiod_Exdfptions_N bll_bbnds[f_mftiod_Exdfptions_N]
+#dffinf mftiod_Exdfptions_RC bll_bbnds[f_mftiod_Exdfptions_RC]
+#dffinf mftiod_Signbturf_RS bll_bbnds[f_mftiod_Signbturf_RS]
+#dffinf mftiod_MftiodPbrbmftfrs_NB bll_bbnds[f_mftiod_MftiodPbrbmftfrs_NB]
+#dffinf mftiod_MftiodPbrbmftfrs_nbmf_RUN bll_bbnds[f_mftiod_MftiodPbrbmftfrs_nbmf_RUN]
+#dffinf mftiod_MftiodPbrbmftfrs_flbg_FH bll_bbnds[f_mftiod_MftiodPbrbmftfrs_flbg_FH]
+#dffinf mftiod_bttr_bbnds bll_bbnds[f_mftiod_bttr_bbnds]
+#dffinf dlbss_flbgs_ii bll_bbnds[f_dlbss_flbgs_ii]
+#dffinf dlbss_flbgs_lo bll_bbnds[f_dlbss_flbgs_lo]
+#dffinf dlbss_bttr_dount bll_bbnds[f_dlbss_bttr_dount]
+#dffinf dlbss_bttr_indfxfs bll_bbnds[f_dlbss_bttr_indfxfs]
+#dffinf dlbss_SourdfFilf_RUN bll_bbnds[f_dlbss_SourdfFilf_RUN]
+#dffinf dlbss_EndlosingMftiod_RC bll_bbnds[f_dlbss_EndlosingMftiod_RC]
+#dffinf dlbss_EndlosingMftiod_RDN bll_bbnds[f_dlbss_EndlosingMftiod_RDN]
+#dffinf dlbss_Signbturf_RS bll_bbnds[f_dlbss_Signbturf_RS]
+#dffinf dlbss_InnfrClbssfs_N bll_bbnds[f_dlbss_InnfrClbssfs_N]
+#dffinf dlbss_InnfrClbssfs_RC bll_bbnds[f_dlbss_InnfrClbssfs_RC]
+#dffinf dlbss_InnfrClbssfs_F bll_bbnds[f_dlbss_InnfrClbssfs_F]
+#dffinf dlbss_InnfrClbssfs_outfr_RCN bll_bbnds[f_dlbss_InnfrClbssfs_outfr_RCN]
+#dffinf dlbss_InnfrClbssfs_nbmf_RUN bll_bbnds[f_dlbss_InnfrClbssfs_nbmf_RUN]
+#dffinf dlbss_ClbssFilf_vfrsion_minor_H bll_bbnds[f_dlbss_ClbssFilf_vfrsion_minor_H]
+#dffinf dlbss_ClbssFilf_vfrsion_mbjor_H bll_bbnds[f_dlbss_ClbssFilf_vfrsion_mbjor_H]
+#dffinf dlbss_bttr_bbnds bll_bbnds[f_dlbss_bttr_bbnds]
+#dffinf dodf_ifbdfrs bll_bbnds[f_dodf_ifbdfrs]
+#dffinf dodf_mbx_stbdk bll_bbnds[f_dodf_mbx_stbdk]
+#dffinf dodf_mbx_nb_lodbls bll_bbnds[f_dodf_mbx_nb_lodbls]
+#dffinf dodf_ibndlfr_dount bll_bbnds[f_dodf_ibndlfr_dount]
+#dffinf dodf_ibndlfr_stbrt_P bll_bbnds[f_dodf_ibndlfr_stbrt_P]
+#dffinf dodf_ibndlfr_fnd_PO bll_bbnds[f_dodf_ibndlfr_fnd_PO]
+#dffinf dodf_ibndlfr_dbtdi_PO bll_bbnds[f_dodf_ibndlfr_dbtdi_PO]
+#dffinf dodf_ibndlfr_dlbss_RCN bll_bbnds[f_dodf_ibndlfr_dlbss_RCN]
+#dffinf dodf_flbgs_ii bll_bbnds[f_dodf_flbgs_ii]
+#dffinf dodf_flbgs_lo bll_bbnds[f_dodf_flbgs_lo]
+#dffinf dodf_bttr_dount bll_bbnds[f_dodf_bttr_dount]
+#dffinf dodf_bttr_indfxfs bll_bbnds[f_dodf_bttr_indfxfs]
+#dffinf dodf_StbdkMbpTbblf_N bll_bbnds[f_dodf_StbdkMbpTbblf_N]
+#dffinf dodf_StbdkMbpTbblf_frbmf_T bll_bbnds[f_dodf_StbdkMbpTbblf_frbmf_T]
+#dffinf dodf_StbdkMbpTbblf_lodbl_N bll_bbnds[f_dodf_StbdkMbpTbblf_lodbl_N]
+#dffinf dodf_StbdkMbpTbblf_stbdk_N bll_bbnds[f_dodf_StbdkMbpTbblf_stbdk_N]
+#dffinf dodf_StbdkMbpTbblf_offsft bll_bbnds[f_dodf_StbdkMbpTbblf_offsft]
+#dffinf dodf_StbdkMbpTbblf_T bll_bbnds[f_dodf_StbdkMbpTbblf_T]
+#dffinf dodf_StbdkMbpTbblf_RC bll_bbnds[f_dodf_StbdkMbpTbblf_RC]
+#dffinf dodf_StbdkMbpTbblf_P bll_bbnds[f_dodf_StbdkMbpTbblf_P]
+#dffinf dodf_LinfNumbfrTbblf_N bll_bbnds[f_dodf_LinfNumbfrTbblf_N]
+#dffinf dodf_LinfNumbfrTbblf_bdi_P bll_bbnds[f_dodf_LinfNumbfrTbblf_bdi_P]
+#dffinf dodf_LinfNumbfrTbblf_linf bll_bbnds[f_dodf_LinfNumbfrTbblf_linf]
+#dffinf dodf_LodblVbribblfTbblf_N bll_bbnds[f_dodf_LodblVbribblfTbblf_N]
+#dffinf dodf_LodblVbribblfTbblf_bdi_P bll_bbnds[f_dodf_LodblVbribblfTbblf_bdi_P]
+#dffinf dodf_LodblVbribblfTbblf_spbn_O bll_bbnds[f_dodf_LodblVbribblfTbblf_spbn_O]
+#dffinf dodf_LodblVbribblfTbblf_nbmf_RU bll_bbnds[f_dodf_LodblVbribblfTbblf_nbmf_RU]
+#dffinf dodf_LodblVbribblfTbblf_typf_RS bll_bbnds[f_dodf_LodblVbribblfTbblf_typf_RS]
+#dffinf dodf_LodblVbribblfTbblf_slot bll_bbnds[f_dodf_LodblVbribblfTbblf_slot]
+#dffinf dodf_LodblVbribblfTypfTbblf_N bll_bbnds[f_dodf_LodblVbribblfTypfTbblf_N]
+#dffinf dodf_LodblVbribblfTypfTbblf_bdi_P bll_bbnds[f_dodf_LodblVbribblfTypfTbblf_bdi_P]
+#dffinf dodf_LodblVbribblfTypfTbblf_spbn_O bll_bbnds[f_dodf_LodblVbribblfTypfTbblf_spbn_O]
+#dffinf dodf_LodblVbribblfTypfTbblf_nbmf_RU bll_bbnds[f_dodf_LodblVbribblfTypfTbblf_nbmf_RU]
+#dffinf dodf_LodblVbribblfTypfTbblf_typf_RS bll_bbnds[f_dodf_LodblVbribblfTypfTbblf_typf_RS]
+#dffinf dodf_LodblVbribblfTypfTbblf_slot bll_bbnds[f_dodf_LodblVbribblfTypfTbblf_slot]
+#dffinf dodf_bttr_bbnds bll_bbnds[f_dodf_bttr_bbnds]
+#dffinf bd_dodfs bll_bbnds[f_bd_dodfs]
+#dffinf bd_dbsf_dount bll_bbnds[f_bd_dbsf_dount]
+#dffinf bd_dbsf_vbluf bll_bbnds[f_bd_dbsf_vbluf]
+#dffinf bd_bytf bll_bbnds[f_bd_bytf]
+#dffinf bd_siort bll_bbnds[f_bd_siort]
+#dffinf bd_lodbl bll_bbnds[f_bd_lodbl]
+#dffinf bd_lbbfl bll_bbnds[f_bd_lbbfl]
+#dffinf bd_intrff bll_bbnds[f_bd_intrff]
+#dffinf bd_flobtrff bll_bbnds[f_bd_flobtrff]
+#dffinf bd_longrff bll_bbnds[f_bd_longrff]
+#dffinf bd_doublfrff bll_bbnds[f_bd_doublfrff]
+#dffinf bd_stringrff bll_bbnds[f_bd_stringrff]
+#dffinf bd_lobdbblfvblufrff bll_bbnds[f_bd_lobdbblfvblufrff]
+#dffinf bd_dlbssrff bll_bbnds[f_bd_dlbssrff]
+#dffinf bd_fifldrff bll_bbnds[f_bd_fifldrff]
+#dffinf bd_mftiodrff bll_bbnds[f_bd_mftiodrff]
+#dffinf bd_imftiodrff bll_bbnds[f_bd_imftiodrff]
+#dffinf bd_indyrff bll_bbnds[f_bd_indyrff]
+#dffinf bd_tiisfifld bll_bbnds[f_bd_tiisfifld]
+#dffinf bd_supfrfifld bll_bbnds[f_bd_supfrfifld]
+#dffinf bd_tiismftiod bll_bbnds[f_bd_tiismftiod]
+#dffinf bd_supfrmftiod bll_bbnds[f_bd_supfrmftiod]
+#dffinf bd_initrff bll_bbnds[f_bd_initrff]
+#dffinf bd_fsdrff bll_bbnds[f_bd_fsdrff]
+#dffinf bd_fsdrffsizf bll_bbnds[f_bd_fsdrffsizf]
+#dffinf bd_fsdsizf bll_bbnds[f_bd_fsdsizf]
+#dffinf bd_fsdbytf bll_bbnds[f_bd_fsdbytf]
+#dffinf filf_nbmf bll_bbnds[f_filf_nbmf]
+#dffinf filf_sizf_ii bll_bbnds[f_filf_sizf_ii]
+#dffinf filf_sizf_lo bll_bbnds[f_filf_sizf_lo]
+#dffinf filf_modtimf bll_bbnds[f_filf_modtimf]
+#dffinf filf_options bll_bbnds[f_filf_options]

@@ -1,276 +1,276 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
-import sun.security.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Arrbys;
+import sun.sfdurity.util.*;
 
 /**
- * Represent a X509 Extension Attribute.
+ * Rfprfsfnt b X509 Extfnsion Attributf.
  *
- * <p>Extensions are additional attributes which can be inserted in a X509
- * v3 certificate. For example a "Driving License Certificate" could have
- * the driving license number as a extension.
+ * <p>Extfnsions brf bdditionbl bttributfs wiidi dbn bf insfrtfd in b X509
+ * v3 dfrtifidbtf. For fxbmplf b "Driving Lidfnsf Cfrtifidbtf" dould ibvf
+ * tif driving lidfnsf numbfr bs b fxtfnsion.
  *
- * <p>Extensions are represented as a sequence of the extension identifier
- * (Object Identifier), a boolean flag stating whether the extension is to
- * be treated as being critical and the extension value itself (this is again
- * a DER encoding of the extension value).
- * <pre>
- * ASN.1 definition of Extension:
- * Extension ::= SEQUENCE {
- *      ExtensionId     OBJECT IDENTIFIER,
- *      critical        BOOLEAN DEFAULT FALSE,
- *      extensionValue  OCTET STRING
+ * <p>Extfnsions brf rfprfsfntfd bs b sfqufndf of tif fxtfnsion idfntififr
+ * (Objfdt Idfntififr), b boolfbn flbg stbting wiftifr tif fxtfnsion is to
+ * bf trfbtfd bs bfing dritidbl bnd tif fxtfnsion vbluf itsflf (tiis is bgbin
+ * b DER fndoding of tif fxtfnsion vbluf).
+ * <prf>
+ * ASN.1 dffinition of Extfnsion:
+ * Extfnsion ::= SEQUENCE {
+ *      ExtfnsionId     OBJECT IDENTIFIER,
+ *      dritidbl        BOOLEAN DEFAULT FALSE,
+ *      fxtfnsionVbluf  OCTET STRING
  * }
- * </pre>
- * All subclasses need to implement a constructor of the form
- * <pre>
- *     <subclass> (Boolean, Object)
- * </pre>
- * where the Object is typically an array of DER encoded bytes.
+ * </prf>
+ * All subdlbssfs nffd to implfmfnt b donstrudtor of tif form
+ * <prf>
+ *     <subdlbss> (Boolfbn, Objfdt)
+ * </prf>
+ * wifrf tif Objfdt is typidblly bn brrby of DER fndodfd bytfs.
  * <p>
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class Extension implements java.security.cert.Extension {
+publid dlbss Extfnsion implfmfnts jbvb.sfdurity.dfrt.Extfnsion {
 
-    protected ObjectIdentifier  extensionId = null;
-    protected boolean           critical = false;
-    protected byte[]            extensionValue = null;
-
-    /**
-     * Default constructor.  Used only by sub-classes.
-     */
-    public Extension() { }
+    protfdtfd ObjfdtIdfntififr  fxtfnsionId = null;
+    protfdtfd boolfbn           dritidbl = fblsf;
+    protfdtfd bytf[]            fxtfnsionVbluf = null;
 
     /**
-     * Constructs an extension from a DER encoded array of bytes.
+     * Dffbult donstrudtor.  Usfd only by sub-dlbssfs.
      */
-    public Extension(DerValue derVal) throws IOException {
+    publid Extfnsion() { }
 
-        DerInputStream in = derVal.toDerInputStream();
+    /**
+     * Construdts bn fxtfnsion from b DER fndodfd brrby of bytfs.
+     */
+    publid Extfnsion(DfrVbluf dfrVbl) tirows IOExdfption {
 
-        // Object identifier
-        extensionId = in.getOID();
+        DfrInputStrfbm in = dfrVbl.toDfrInputStrfbm();
 
-        // If the criticality flag was false, it will not have been encoded.
-        DerValue val = in.getDerValue();
-        if (val.tag == DerValue.tag_Boolean) {
-            critical = val.getBoolean();
+        // Objfdt idfntififr
+        fxtfnsionId = in.gftOID();
 
-            // Extension value (DER encoded)
-            val = in.getDerValue();
-            extensionValue = val.getOctetString();
-        } else {
-            critical = false;
-            extensionValue = val.getOctetString();
+        // If tif dritidblity flbg wbs fblsf, it will not ibvf bffn fndodfd.
+        DfrVbluf vbl = in.gftDfrVbluf();
+        if (vbl.tbg == DfrVbluf.tbg_Boolfbn) {
+            dritidbl = vbl.gftBoolfbn();
+
+            // Extfnsion vbluf (DER fndodfd)
+            vbl = in.gftDfrVbluf();
+            fxtfnsionVbluf = vbl.gftOdtftString();
+        } flsf {
+            dritidbl = fblsf;
+            fxtfnsionVbluf = vbl.gftOdtftString();
         }
     }
 
     /**
-     * Constructs an Extension from individual components of ObjectIdentifier,
-     * criticality and the DER encoded OctetString.
+     * Construdts bn Extfnsion from individubl domponfnts of ObjfdtIdfntififr,
+     * dritidblity bnd tif DER fndodfd OdtftString.
      *
-     * @param extensionId the ObjectIdentifier of the extension
-     * @param critical the boolean indicating if the extension is critical
-     * @param extensionValue the DER encoded octet string of the value.
+     * @pbrbm fxtfnsionId tif ObjfdtIdfntififr of tif fxtfnsion
+     * @pbrbm dritidbl tif boolfbn indidbting if tif fxtfnsion is dritidbl
+     * @pbrbm fxtfnsionVbluf tif DER fndodfd odtft string of tif vbluf.
      */
-    public Extension(ObjectIdentifier extensionId, boolean critical,
-                     byte[] extensionValue) throws IOException {
-        this.extensionId = extensionId;
-        this.critical = critical;
-        // passed in a DER encoded octet string, strip off the tag
-        // and length
-        DerValue inDerVal = new DerValue(extensionValue);
-        this.extensionValue = inDerVal.getOctetString();
+    publid Extfnsion(ObjfdtIdfntififr fxtfnsionId, boolfbn dritidbl,
+                     bytf[] fxtfnsionVbluf) tirows IOExdfption {
+        tiis.fxtfnsionId = fxtfnsionId;
+        tiis.dritidbl = dritidbl;
+        // pbssfd in b DER fndodfd odtft string, strip off tif tbg
+        // bnd lfngti
+        DfrVbluf inDfrVbl = nfw DfrVbluf(fxtfnsionVbluf);
+        tiis.fxtfnsionVbluf = inDfrVbl.gftOdtftString();
     }
 
     /**
-     * Constructs an Extension from another extension. To be used for
-     * creating decoded subclasses.
+     * Construdts bn Extfnsion from bnotifr fxtfnsion. To bf usfd for
+     * drfbting dfdodfd subdlbssfs.
      *
-     * @param ext the extension to create from.
+     * @pbrbm fxt tif fxtfnsion to drfbtf from.
      */
-    public Extension(Extension ext) {
-        this.extensionId = ext.extensionId;
-        this.critical = ext.critical;
-        this.extensionValue = ext.extensionValue;
+    publid Extfnsion(Extfnsion fxt) {
+        tiis.fxtfnsionId = fxt.fxtfnsionId;
+        tiis.dritidbl = fxt.dritidbl;
+        tiis.fxtfnsionVbluf = fxt.fxtfnsionVbluf;
     }
 
     /**
-     * Constructs an Extension from individual components of ObjectIdentifier,
-     * criticality and the raw encoded extension value.
+     * Construdts bn Extfnsion from individubl domponfnts of ObjfdtIdfntififr,
+     * dritidblity bnd tif rbw fndodfd fxtfnsion vbluf.
      *
-     * @param extensionId the ObjectIdentifier of the extension
-     * @param critical the boolean indicating if the extension is critical
-     * @param rawExtensionValue the raw DER-encoded extension value (this
-     * is not the encoded OctetString).
+     * @pbrbm fxtfnsionId tif ObjfdtIdfntififr of tif fxtfnsion
+     * @pbrbm dritidbl tif boolfbn indidbting if tif fxtfnsion is dritidbl
+     * @pbrbm rbwExtfnsionVbluf tif rbw DER-fndodfd fxtfnsion vbluf (tiis
+     * is not tif fndodfd OdtftString).
      */
-    public static Extension newExtension(ObjectIdentifier extensionId,
-        boolean critical, byte[] rawExtensionValue) throws IOException {
-        Extension ext = new Extension();
-        ext.extensionId = extensionId;
-        ext.critical = critical;
-        ext.extensionValue = rawExtensionValue;
-        return ext;
+    publid stbtid Extfnsion nfwExtfnsion(ObjfdtIdfntififr fxtfnsionId,
+        boolfbn dritidbl, bytf[] rbwExtfnsionVbluf) tirows IOExdfption {
+        Extfnsion fxt = nfw Extfnsion();
+        fxt.fxtfnsionId = fxtfnsionId;
+        fxt.dritidbl = dritidbl;
+        fxt.fxtfnsionVbluf = rbwExtfnsionVbluf;
+        rfturn fxt;
     }
 
-    public void encode(OutputStream out) throws IOException {
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
         if (out == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
 
-        DerOutputStream dos1 = new DerOutputStream();
-        DerOutputStream dos2 = new DerOutputStream();
+        DfrOutputStrfbm dos1 = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm dos2 = nfw DfrOutputStrfbm();
 
-        dos1.putOID(extensionId);
-        if (critical) {
-            dos1.putBoolean(critical);
+        dos1.putOID(fxtfnsionId);
+        if (dritidbl) {
+            dos1.putBoolfbn(dritidbl);
         }
-        dos1.putOctetString(extensionValue);
+        dos1.putOdtftString(fxtfnsionVbluf);
 
-        dos2.write(DerValue.tag_Sequence, dos1);
-        out.write(dos2.toByteArray());
+        dos2.writf(DfrVbluf.tbg_Sfqufndf, dos1);
+        out.writf(dos2.toBytfArrby());
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on encoding errors
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors
      */
-    public void encode(DerOutputStream out) throws IOException {
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
 
-        if (extensionId == null)
-            throw new IOException("Null OID to encode for the extension!");
-        if (extensionValue == null)
-            throw new IOException("No value to encode for the extension!");
+        if (fxtfnsionId == null)
+            tirow nfw IOExdfption("Null OID to fndodf for tif fxtfnsion!");
+        if (fxtfnsionVbluf == null)
+            tirow nfw IOExdfption("No vbluf to fndodf for tif fxtfnsion!");
 
-        DerOutputStream dos = new DerOutputStream();
+        DfrOutputStrfbm dos = nfw DfrOutputStrfbm();
 
-        dos.putOID(extensionId);
-        if (critical)
-            dos.putBoolean(critical);
-        dos.putOctetString(extensionValue);
+        dos.putOID(fxtfnsionId);
+        if (dritidbl)
+            dos.putBoolfbn(dritidbl);
+        dos.putOdtftString(fxtfnsionVbluf);
 
-        out.write(DerValue.tag_Sequence, dos);
+        out.writf(DfrVbluf.tbg_Sfqufndf, dos);
     }
 
     /**
-     * Returns true if extension is critical.
+     * Rfturns truf if fxtfnsion is dritidbl.
      */
-    public boolean isCritical() {
-        return critical;
+    publid boolfbn isCritidbl() {
+        rfturn dritidbl;
     }
 
     /**
-     * Returns the ObjectIdentifier of the extension.
+     * Rfturns tif ObjfdtIdfntififr of tif fxtfnsion.
      */
-    public ObjectIdentifier getExtensionId() {
-        return extensionId;
+    publid ObjfdtIdfntififr gftExtfnsionId() {
+        rfturn fxtfnsionId;
     }
 
-    public byte[] getValue() {
-        return extensionValue.clone();
+    publid bytf[] gftVbluf() {
+        rfturn fxtfnsionVbluf.dlonf();
     }
 
     /**
-     * Returns the extension value as an byte array for further processing.
-     * Note, this is the raw DER value of the extension, not the DER
-     * encoded octet string which is in the certificate.
-     * This method does not return a clone; it is the responsibility of the
-     * caller to clone the array if necessary.
+     * Rfturns tif fxtfnsion vbluf bs bn bytf brrby for furtifr prodfssing.
+     * Notf, tiis is tif rbw DER vbluf of tif fxtfnsion, not tif DER
+     * fndodfd odtft string wiidi is in tif dfrtifidbtf.
+     * Tiis mftiod dofs not rfturn b dlonf; it is tif rfsponsibility of tif
+     * dbllfr to dlonf tif brrby if nfdfssbry.
      */
-    public byte[] getExtensionValue() {
-        return extensionValue;
+    publid bytf[] gftExtfnsionVbluf() {
+        rfturn fxtfnsionVbluf;
     }
 
-    public String getId() {
-        return extensionId.toString();
+    publid String gftId() {
+        rfturn fxtfnsionId.toString();
     }
 
     /**
-     * Returns the Extension in user readable form.
+     * Rfturns tif Extfnsion in usfr rfbdbblf form.
      */
-    public String toString() {
-        String s = "ObjectId: " + extensionId.toString();
-        if (critical) {
-            s += " Criticality=true\n";
-        } else {
-            s += " Criticality=false\n";
+    publid String toString() {
+        String s = "ObjfdtId: " + fxtfnsionId.toString();
+        if (dritidbl) {
+            s += " Critidblity=truf\n";
+        } flsf {
+            s += " Critidblity=fblsf\n";
         }
-        return (s);
+        rfturn (s);
     }
 
-    // Value to mix up the hash
-    private static final int hashMagic = 31;
+    // Vbluf to mix up tif ibsi
+    privbtf stbtid finbl int ibsiMbgid = 31;
 
     /**
-     * Returns a hashcode value for this Extension.
+     * Rfturns b ibsidodf vbluf for tiis Extfnsion.
      *
-     * @return the hashcode value.
+     * @rfturn tif ibsidodf vbluf.
      */
-    public int hashCode() {
-        int h = 0;
-        if (extensionValue != null) {
-            byte[] val = extensionValue;
-            int len = val.length;
-            while (len > 0)
-                h += len * val[--len];
+    publid int ibsiCodf() {
+        int i = 0;
+        if (fxtfnsionVbluf != null) {
+            bytf[] vbl = fxtfnsionVbluf;
+            int lfn = vbl.lfngti;
+            wiilf (lfn > 0)
+                i += lfn * vbl[--lfn];
         }
-        h = h * hashMagic + extensionId.hashCode();
-        h = h * hashMagic + (critical?1231:1237);
-        return h;
+        i = i * ibsiMbgid + fxtfnsionId.ibsiCodf();
+        i = i * ibsiMbgid + (dritidbl?1231:1237);
+        rfturn i;
     }
 
     /**
-     * Compares this Extension for equality with the specified
-     * object. If the <code>other</code> object is an
-     * <code>instanceof</code> <code>Extension</code>, then
-     * its encoded form is retrieved and compared with the
-     * encoded form of this Extension.
+     * Compbrfs tiis Extfnsion for fqublity witi tif spfdififd
+     * objfdt. If tif <dodf>otifr</dodf> objfdt is bn
+     * <dodf>instbndfof</dodf> <dodf>Extfnsion</dodf>, tifn
+     * its fndodfd form is rftrifvfd bnd dompbrfd witi tif
+     * fndodfd form of tiis Extfnsion.
      *
-     * @param other the object to test for equality with this Extension.
-     * @return true iff the other object is of type Extension, and the
-     * criticality flag, object identifier and encoded extension value of
-     * the two Extensions match, false otherwise.
+     * @pbrbm otifr tif objfdt to tfst for fqublity witi tiis Extfnsion.
+     * @rfturn truf iff tif otifr objfdt is of typf Extfnsion, bnd tif
+     * dritidblity flbg, objfdt idfntififr bnd fndodfd fxtfnsion vbluf of
+     * tif two Extfnsions mbtdi, fblsf otifrwisf.
      */
-    public boolean equals(Object other) {
-        if (this == other)
-            return true;
-        if (!(other instanceof Extension))
-            return false;
-        Extension otherExt = (Extension) other;
-        if (critical != otherExt.critical)
-            return false;
-        if (!extensionId.equals((Object)otherExt.extensionId))
-            return false;
-        return Arrays.equals(extensionValue, otherExt.extensionValue);
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr)
+            rfturn truf;
+        if (!(otifr instbndfof Extfnsion))
+            rfturn fblsf;
+        Extfnsion otifrExt = (Extfnsion) otifr;
+        if (dritidbl != otifrExt.dritidbl)
+            rfturn fblsf;
+        if (!fxtfnsionId.fqubls((Objfdt)otifrExt.fxtfnsionId))
+            rfturn fblsf;
+        rfturn Arrbys.fqubls(fxtfnsionVbluf, otifrExt.fxtfnsionVbluf);
     }
 }

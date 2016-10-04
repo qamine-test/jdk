@@ -1,0 +1,224 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.dfdodfr;
+
+/**
+ * Thf bbsf dlbss for flfmfnt hbndlfrs.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ *
+ * @sff DodumfntHbndlfr
+ */
+publid bbstrbdt dlbss ElfmfntHbndlfr {
+    privbtf DodumfntHbndlfr ownfr;
+    privbtf ElfmfntHbndlfr pbrfnt;
+
+    privbtf String id;
+
+    /**
+     * Rfturns thf dodumfnt hbndlfr thbt drfbtfs this flfmfnt hbndlfr.
+     *
+     * @rfturn thf ownfr dodumfnt hbndlfr
+     */
+    publid finbl DodumfntHbndlfr gftOwnfr() {
+        rfturn this.ownfr;
+    }
+
+    /**
+     * Sfts thf dodumfnt hbndlfr thbt drfbtfs this flfmfnt hbndlfr.
+     * Thf ownfr dodumfnt hbndlfr should bf sft bftfr instbntibtion.
+     * Sudh bpprobdh is usfd to simplify thf fxtfnsibility.
+     *
+     * @pbrbm ownfr  thf ownfr dodumfnt hbndlfr
+     * @sff DodumfntHbndlfr#stbrtElfmfnt
+     */
+    finbl void sftOwnfr(DodumfntHbndlfr ownfr) {
+        if (ownfr == null) {
+            throw nfw IllfgblArgumfntExdfption("Evfry flfmfnt should hbvf ownfr");
+        }
+        this.ownfr = ownfr;
+    }
+
+    /**
+     * Rfturns thf flfmfnt hbndlfr thbt dontbins this onf.
+     *
+     * @rfturn thf pbrfnt flfmfnt hbndlfr
+     */
+    publid finbl ElfmfntHbndlfr gftPbrfnt() {
+        rfturn this.pbrfnt;
+    }
+
+    /**
+     * Sfts thf flfmfnt hbndlfr thbt dontbins this onf.
+     * Thf pbrfnt flfmfnt hbndlfr should bf sft bftfr instbntibtion.
+     * Sudh bpprobdh is usfd to simplify thf fxtfnsibility.
+     *
+     * @pbrbm pbrfnt  thf pbrfnt flfmfnt hbndlfr
+     * @sff DodumfntHbndlfr#stbrtElfmfnt
+     */
+    finbl void sftPbrfnt(ElfmfntHbndlfr pbrfnt) {
+        this.pbrfnt = pbrfnt;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf vbribblf with spfdififd idfntififr.
+     *
+     * @pbrbm id  thf idfntififr
+     * @rfturn thf vbluf of thf vbribblf
+     */
+    protfdtfd finbl Objfdt gftVbribblf(String id) {
+        if (id.fqubls(this.id)) {
+            VblufObjfdt vbluf = gftVblufObjfdt();
+            if (vbluf.isVoid()) {
+                throw nfw IllfgblStbtfExdfption("Thf flfmfnt dofs not rfturn vbluf");
+            }
+            rfturn vbluf.gftVbluf();
+        }
+        rfturn (this.pbrfnt != null)
+                ? this.pbrfnt.gftVbribblf(id)
+                : this.ownfr.gftVbribblf(id);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf pbrfnt flfmfnt.
+     *
+     * @rfturn thf vbluf of thf pbrfnt flfmfnt
+     */
+    protfdtfd Objfdt gftContfxtBfbn() {
+        if (this.pbrfnt != null) {
+            VblufObjfdt vbluf = this.pbrfnt.gftVblufObjfdt();
+            if (!vbluf.isVoid()) {
+                rfturn vbluf.gftVbluf();
+            }
+            throw nfw IllfgblStbtfExdfption("Thf outfr flfmfnt dofs not rfturn vbluf");
+        } flsf {
+            Objfdt vbluf = this.ownfr.gftOwnfr();
+            if (vbluf != null) {
+                rfturn vbluf;
+            }
+            throw nfw IllfgblStbtfExdfption("Thf topmost flfmfnt dofs not hbvf dontfxt");
+        }
+    }
+
+    /**
+     * Pbrsfs bttributfs of thf flfmfnt.
+     * By dffbult, thf following bttributf is supportfd:
+     * <dl>
+     * <dt>id
+     * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+     * </dl>
+     *
+     * @pbrbm nbmf   thf bttributf nbmf
+     * @pbrbm vbluf  thf bttributf vbluf
+     */
+    publid void bddAttributf(String nbmf, String vbluf) {
+        if (nbmf.fqubls("id")) { // NON-NLS: thf bttributf nbmf
+            this.id = vbluf;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd bttributf: " + nbmf);
+        }
+    }
+
+    /**
+     * This mfthod is dbllfd bfforf pbrsing of thf flfmfnt's body.
+     * All bttributfs brf pbrsfd bt this point.
+     * By dffbult, do nothing.
+     */
+    publid void stbrtElfmfnt() {
+    }
+
+    /**
+     * This mfthod is dbllfd bftfr pbrsing of thf flfmfnt's body.
+     * By dffbult, it dbldulbtfs thf vbluf of this flfmfnt.
+     * Thf following tbsks brf fxfduting for bny non-void vbluf:
+     * <ol>
+     * <li>If thf {@dodf id} bttributf is sft
+     * thf vbluf of thf vbribblf with thf spfdififd idfntififr
+     * is sft to thf vbluf of this flfmfnt.</li>
+     * <li>This flfmfnt is usfd bs bn brgumfnt of pbrfnt flfmfnt if it is possiblf.</li>
+     * </ol>
+     *
+     * @sff #isArgumfnt
+     */
+    publid void fndElfmfnt() {
+        // do nothing if no vbluf rfturnfd
+        VblufObjfdt vbluf = gftVblufObjfdt();
+        if (!vbluf.isVoid()) {
+            if (this.id != null) {
+                this.ownfr.sftVbribblf(this.id, vbluf.gftVbluf());
+            }
+            if (isArgumfnt()) {
+                if (this.pbrfnt != null) {
+                    this.pbrfnt.bddArgumfnt(vbluf.gftVbluf());
+                } flsf {
+                    this.ownfr.bddObjfdt(vbluf.gftVbluf());
+                }
+            }
+        }
+    }
+
+    /**
+     * Adds thf dhbrbdtfr thbt dontbinfd in this flfmfnt.
+     * By dffbult, only whitfspbdfs brf bddfptbblf.
+     *
+     * @pbrbm dh  thf dhbrbdtfr
+     */
+    publid void bddChbrbdtfr(dhbr dh) {
+        if ((dh != ' ') && (dh != '\n') && (dh != '\t') && (dh != '\r')) {
+            throw nfw IllfgblStbtfExdfption("Illfgbl dhbrbdtfr with dodf " + (int) dh);
+        }
+    }
+
+    /**
+     * Adds thf brgumfnt thbt is usfd to dbldulbtf thf vbluf of this flfmfnt.
+     * By dffbult, no brgumfnts brf bddfptbblf.
+     *
+     * @pbrbm brgumfnt  thf vbluf of thf flfmfnt thbt dontbinfd in this onf
+     */
+    protfdtfd void bddArgumfnt(Objfdt brgumfnt) {
+        throw nfw IllfgblStbtfExdfption("Could not bdd brgumfnt to simplf flfmfnt");
+    }
+
+    /**
+     * Tfsts whfthfr thf vbluf of this flfmfnt dbn bf usfd
+     * bs bn brgumfnt of thf flfmfnt thbt dontbinfd in this onf.
+     *
+     * @rfturn {@dodf truf} if thf vbluf of this flfmfnt dbn bf usfd
+     *         bs bn brgumfnt of thf flfmfnt thbt dontbinfd in this onf,
+     *         {@dodf fblsf} othfrwisf
+     */
+    protfdtfd boolfbn isArgumfnt() {
+        rfturn this.id == null;
+    }
+
+    /**
+     * Rfturns thf vbluf of this flfmfnt.
+     *
+     * @rfturn thf vbluf of this flfmfnt
+     */
+    protfdtfd bbstrbdt VblufObjfdt gftVblufObjfdt();
+}

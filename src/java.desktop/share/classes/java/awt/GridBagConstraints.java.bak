@@ -1,663 +1,663 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
 /**
- * The <code>GridBagConstraints</code> class specifies constraints
- * for components that are laid out using the
- * <code>GridBagLayout</code> class.
+ * Tif <dodf>GridBbgConstrbints</dodf> dlbss spfdififs donstrbints
+ * for domponfnts tibt brf lbid out using tif
+ * <dodf>GridBbgLbyout</dodf> dlbss.
  *
- * @author Doug Stein
- * @author Bill Spitzak (orignial NeWS &amp; OLIT implementation)
- * @see java.awt.GridBagLayout
- * @since 1.0
+ * @butior Doug Stfin
+ * @butior Bill Spitzbk (orignibl NfWS &bmp; OLIT implfmfntbtion)
+ * @sff jbvb.bwt.GridBbgLbyout
+ * @sindf 1.0
  */
-public class GridBagConstraints implements Cloneable, java.io.Serializable {
+publid dlbss GridBbgConstrbints implfmfnts Clonfbblf, jbvb.io.Sfriblizbblf {
 
     /**
-     * Specifies that this component is the next-to-last component in its
-     * column or row (<code>gridwidth</code>, <code>gridheight</code>),
-     * or that this component be placed next to the previously added
-     * component (<code>gridx</code>, <code>gridy</code>).
-     * @see      java.awt.GridBagConstraints#gridwidth
-     * @see      java.awt.GridBagConstraints#gridheight
-     * @see      java.awt.GridBagConstraints#gridx
-     * @see      java.awt.GridBagConstraints#gridy
+     * Spfdififs tibt tiis domponfnt is tif nfxt-to-lbst domponfnt in its
+     * dolumn or row (<dodf>gridwidti</dodf>, <dodf>gridifigit</dodf>),
+     * or tibt tiis domponfnt bf plbdfd nfxt to tif prfviously bddfd
+     * domponfnt (<dodf>gridx</dodf>, <dodf>gridy</dodf>).
+     * @sff      jbvb.bwt.GridBbgConstrbints#gridwidti
+     * @sff      jbvb.bwt.GridBbgConstrbints#gridifigit
+     * @sff      jbvb.bwt.GridBbgConstrbints#gridx
+     * @sff      jbvb.bwt.GridBbgConstrbints#gridy
      */
-    public static final int RELATIVE = -1;
+    publid stbtid finbl int RELATIVE = -1;
 
     /**
-     * Specifies that this component is the
-     * last component in its column or row.
+     * Spfdififs tibt tiis domponfnt is tif
+     * lbst domponfnt in its dolumn or row.
      */
-    public static final int REMAINDER = 0;
+    publid stbtid finbl int REMAINDER = 0;
 
     /**
-     * Do not resize the component.
+     * Do not rfsizf tif domponfnt.
      */
-    public static final int NONE = 0;
+    publid stbtid finbl int NONE = 0;
 
     /**
-     * Resize the component both horizontally and vertically.
+     * Rfsizf tif domponfnt boti iorizontblly bnd vfrtidblly.
      */
-    public static final int BOTH = 1;
+    publid stbtid finbl int BOTH = 1;
 
     /**
-     * Resize the component horizontally but not vertically.
+     * Rfsizf tif domponfnt iorizontblly but not vfrtidblly.
      */
-    public static final int HORIZONTAL = 2;
+    publid stbtid finbl int HORIZONTAL = 2;
 
     /**
-     * Resize the component vertically but not horizontally.
+     * Rfsizf tif domponfnt vfrtidblly but not iorizontblly.
      */
-    public static final int VERTICAL = 3;
+    publid stbtid finbl int VERTICAL = 3;
 
     /**
-     * Put the component in the center of its display area.
+     * Put tif domponfnt in tif dfntfr of its displby brfb.
      */
-    public static final int CENTER = 10;
+    publid stbtid finbl int CENTER = 10;
 
     /**
-     * Put the component at the top of its display area,
-     * centered horizontally.
+     * Put tif domponfnt bt tif top of its displby brfb,
+     * dfntfrfd iorizontblly.
      */
-    public static final int NORTH = 11;
+    publid stbtid finbl int NORTH = 11;
 
     /**
-     * Put the component at the top-right corner of its display area.
+     * Put tif domponfnt bt tif top-rigit dornfr of its displby brfb.
      */
-    public static final int NORTHEAST = 12;
+    publid stbtid finbl int NORTHEAST = 12;
 
     /**
-     * Put the component on the right side of its display area,
-     * centered vertically.
+     * Put tif domponfnt on tif rigit sidf of its displby brfb,
+     * dfntfrfd vfrtidblly.
      */
-    public static final int EAST = 13;
+    publid stbtid finbl int EAST = 13;
 
     /**
-     * Put the component at the bottom-right corner of its display area.
+     * Put tif domponfnt bt tif bottom-rigit dornfr of its displby brfb.
      */
-    public static final int SOUTHEAST = 14;
+    publid stbtid finbl int SOUTHEAST = 14;
 
     /**
-     * Put the component at the bottom of its display area, centered
-     * horizontally.
+     * Put tif domponfnt bt tif bottom of its displby brfb, dfntfrfd
+     * iorizontblly.
      */
-    public static final int SOUTH = 15;
+    publid stbtid finbl int SOUTH = 15;
 
     /**
-     * Put the component at the bottom-left corner of its display area.
+     * Put tif domponfnt bt tif bottom-lfft dornfr of its displby brfb.
      */
-    public static final int SOUTHWEST = 16;
+    publid stbtid finbl int SOUTHWEST = 16;
 
     /**
-     * Put the component on the left side of its display area,
-     * centered vertically.
+     * Put tif domponfnt on tif lfft sidf of its displby brfb,
+     * dfntfrfd vfrtidblly.
      */
-    public static final int WEST = 17;
+    publid stbtid finbl int WEST = 17;
 
     /**
-     * Put the component at the top-left corner of its display area.
+     * Put tif domponfnt bt tif top-lfft dornfr of its displby brfb.
      */
-    public static final int NORTHWEST = 18;
+    publid stbtid finbl int NORTHWEST = 18;
 
     /**
-     * Place the component centered along the edge of its display area
-     * associated with the start of a page for the current
-     * {@code ComponentOrientation}.  Equal to NORTH for horizontal
-     * orientations.
+     * Plbdf tif domponfnt dfntfrfd blong tif fdgf of its displby brfb
+     * bssodibtfd witi tif stbrt of b pbgf for tif durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to NORTH for iorizontbl
+     * orifntbtions.
      */
-    public static final int PAGE_START = 19;
+    publid stbtid finbl int PAGE_START = 19;
 
     /**
-     * Place the component centered along the edge of its display area
-     * associated with the end of a page for the current
-     * {@code ComponentOrientation}.  Equal to SOUTH for horizontal
-     * orientations.
+     * Plbdf tif domponfnt dfntfrfd blong tif fdgf of its displby brfb
+     * bssodibtfd witi tif fnd of b pbgf for tif durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to SOUTH for iorizontbl
+     * orifntbtions.
      */
-    public static final int PAGE_END = 20;
+    publid stbtid finbl int PAGE_END = 20;
 
     /**
-     * Place the component centered along the edge of its display area where
-     * lines of text would normally begin for the current
-     * {@code ComponentOrientation}.  Equal to WEST for horizontal,
-     * left-to-right orientations and EAST for horizontal, right-to-left
-     * orientations.
+     * Plbdf tif domponfnt dfntfrfd blong tif fdgf of its displby brfb wifrf
+     * linfs of tfxt would normblly bfgin for tif durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to WEST for iorizontbl,
+     * lfft-to-rigit orifntbtions bnd EAST for iorizontbl, rigit-to-lfft
+     * orifntbtions.
      */
-    public static final int LINE_START = 21;
+    publid stbtid finbl int LINE_START = 21;
 
     /**
-     * Place the component centered along the edge of its display area where
-     * lines of text would normally end for the current
-     * {@code ComponentOrientation}.  Equal to EAST for horizontal,
-     * left-to-right orientations and WEST for horizontal, right-to-left
-     * orientations.
+     * Plbdf tif domponfnt dfntfrfd blong tif fdgf of its displby brfb wifrf
+     * linfs of tfxt would normblly fnd for tif durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to EAST for iorizontbl,
+     * lfft-to-rigit orifntbtions bnd WEST for iorizontbl, rigit-to-lfft
+     * orifntbtions.
      */
-    public static final int LINE_END = 22;
+    publid stbtid finbl int LINE_END = 22;
 
     /**
-     * Place the component in the corner of its display area where
-     * the first line of text on a page would normally begin for the current
-     * {@code ComponentOrientation}.  Equal to NORTHWEST for horizontal,
-     * left-to-right orientations and NORTHEAST for horizontal, right-to-left
-     * orientations.
+     * Plbdf tif domponfnt in tif dornfr of its displby brfb wifrf
+     * tif first linf of tfxt on b pbgf would normblly bfgin for tif durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to NORTHWEST for iorizontbl,
+     * lfft-to-rigit orifntbtions bnd NORTHEAST for iorizontbl, rigit-to-lfft
+     * orifntbtions.
      */
-    public static final int FIRST_LINE_START = 23;
+    publid stbtid finbl int FIRST_LINE_START = 23;
 
     /**
-     * Place the component in the corner of its display area where
-     * the first line of text on a page would normally end for the current
-     * {@code ComponentOrientation}.  Equal to NORTHEAST for horizontal,
-     * left-to-right orientations and NORTHWEST for horizontal, right-to-left
-     * orientations.
+     * Plbdf tif domponfnt in tif dornfr of its displby brfb wifrf
+     * tif first linf of tfxt on b pbgf would normblly fnd for tif durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to NORTHEAST for iorizontbl,
+     * lfft-to-rigit orifntbtions bnd NORTHWEST for iorizontbl, rigit-to-lfft
+     * orifntbtions.
      */
-    public static final int FIRST_LINE_END = 24;
+    publid stbtid finbl int FIRST_LINE_END = 24;
 
     /**
-     * Place the component in the corner of its display area where
-     * the last line of text on a page would normally start for the current
-     * {@code ComponentOrientation}.  Equal to SOUTHWEST for horizontal,
-     * left-to-right orientations and SOUTHEAST for horizontal, right-to-left
-     * orientations.
+     * Plbdf tif domponfnt in tif dornfr of its displby brfb wifrf
+     * tif lbst linf of tfxt on b pbgf would normblly stbrt for tif durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to SOUTHWEST for iorizontbl,
+     * lfft-to-rigit orifntbtions bnd SOUTHEAST for iorizontbl, rigit-to-lfft
+     * orifntbtions.
      */
-    public static final int LAST_LINE_START = 25;
+    publid stbtid finbl int LAST_LINE_START = 25;
 
     /**
-     * Place the component in the corner of its display area where
-     * the last line of text on a page would normally end for the current
-     * {@code ComponentOrientation}.  Equal to SOUTHEAST for horizontal,
-     * left-to-right orientations and SOUTHWEST for horizontal, right-to-left
-     * orientations.
+     * Plbdf tif domponfnt in tif dornfr of its displby brfb wifrf
+     * tif lbst linf of tfxt on b pbgf would normblly fnd for tif durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to SOUTHEAST for iorizontbl,
+     * lfft-to-rigit orifntbtions bnd SOUTHWEST for iorizontbl, rigit-to-lfft
+     * orifntbtions.
      */
-    public static final int LAST_LINE_END = 26;
+    publid stbtid finbl int LAST_LINE_END = 26;
 
     /**
-     * Possible value for the <code>anchor</code> field.  Specifies
-     * that the component should be horizontally centered and
-     * vertically aligned along the baseline of the prevailing row.
-     * If the component does not have a baseline it will be vertically
-     * centered.
+     * Possiblf vbluf for tif <dodf>bndior</dodf> fifld.  Spfdififs
+     * tibt tif domponfnt siould bf iorizontblly dfntfrfd bnd
+     * vfrtidblly blignfd blong tif bbsflinf of tif prfvbiling row.
+     * If tif domponfnt dofs not ibvf b bbsflinf it will bf vfrtidblly
+     * dfntfrfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int BASELINE = 0x100;
+    publid stbtid finbl int BASELINE = 0x100;
 
     /**
-     * Possible value for the <code>anchor</code> field.  Specifies
-     * that the component should be horizontally placed along the
-     * leading edge.  For components with a left-to-right orientation,
-     * the leading edge is the left edge.  Vertically the component is
-     * aligned along the baseline of the prevailing row.  If the
-     * component does not have a baseline it will be vertically
-     * centered.
+     * Possiblf vbluf for tif <dodf>bndior</dodf> fifld.  Spfdififs
+     * tibt tif domponfnt siould bf iorizontblly plbdfd blong tif
+     * lfbding fdgf.  For domponfnts witi b lfft-to-rigit orifntbtion,
+     * tif lfbding fdgf is tif lfft fdgf.  Vfrtidblly tif domponfnt is
+     * blignfd blong tif bbsflinf of tif prfvbiling row.  If tif
+     * domponfnt dofs not ibvf b bbsflinf it will bf vfrtidblly
+     * dfntfrfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int BASELINE_LEADING = 0x200;
+    publid stbtid finbl int BASELINE_LEADING = 0x200;
 
     /**
-     * Possible value for the <code>anchor</code> field.  Specifies
-     * that the component should be horizontally placed along the
-     * trailing edge.  For components with a left-to-right
-     * orientation, the trailing edge is the right edge.  Vertically
-     * the component is aligned along the baseline of the prevailing
-     * row.  If the component does not have a baseline it will be
-     * vertically centered.
+     * Possiblf vbluf for tif <dodf>bndior</dodf> fifld.  Spfdififs
+     * tibt tif domponfnt siould bf iorizontblly plbdfd blong tif
+     * trbiling fdgf.  For domponfnts witi b lfft-to-rigit
+     * orifntbtion, tif trbiling fdgf is tif rigit fdgf.  Vfrtidblly
+     * tif domponfnt is blignfd blong tif bbsflinf of tif prfvbiling
+     * row.  If tif domponfnt dofs not ibvf b bbsflinf it will bf
+     * vfrtidblly dfntfrfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int BASELINE_TRAILING = 0x300;
+    publid stbtid finbl int BASELINE_TRAILING = 0x300;
 
     /**
-     * Possible value for the <code>anchor</code> field.  Specifies
-     * that the component should be horizontally centered.  Vertically
-     * the component is positioned so that its bottom edge touches
-     * the baseline of the starting row.  If the starting row does not
-     * have a baseline it will be vertically centered.
+     * Possiblf vbluf for tif <dodf>bndior</dodf> fifld.  Spfdififs
+     * tibt tif domponfnt siould bf iorizontblly dfntfrfd.  Vfrtidblly
+     * tif domponfnt is positionfd so tibt its bottom fdgf toudifs
+     * tif bbsflinf of tif stbrting row.  If tif stbrting row dofs not
+     * ibvf b bbsflinf it will bf vfrtidblly dfntfrfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int ABOVE_BASELINE = 0x400;
+    publid stbtid finbl int ABOVE_BASELINE = 0x400;
 
     /**
-     * Possible value for the <code>anchor</code> field.  Specifies
-     * that the component should be horizontally placed along the
-     * leading edge.  For components with a left-to-right orientation,
-     * the leading edge is the left edge.  Vertically the component is
-     * positioned so that its bottom edge touches the baseline of the
-     * starting row.  If the starting row does not have a baseline it
-     * will be vertically centered.
+     * Possiblf vbluf for tif <dodf>bndior</dodf> fifld.  Spfdififs
+     * tibt tif domponfnt siould bf iorizontblly plbdfd blong tif
+     * lfbding fdgf.  For domponfnts witi b lfft-to-rigit orifntbtion,
+     * tif lfbding fdgf is tif lfft fdgf.  Vfrtidblly tif domponfnt is
+     * positionfd so tibt its bottom fdgf toudifs tif bbsflinf of tif
+     * stbrting row.  If tif stbrting row dofs not ibvf b bbsflinf it
+     * will bf vfrtidblly dfntfrfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int ABOVE_BASELINE_LEADING = 0x500;
+    publid stbtid finbl int ABOVE_BASELINE_LEADING = 0x500;
 
     /**
-     * Possible value for the <code>anchor</code> field.  Specifies
-     * that the component should be horizontally placed along the
-     * trailing edge.  For components with a left-to-right
-     * orientation, the trailing edge is the right edge.  Vertically
-     * the component is positioned so that its bottom edge touches
-     * the baseline of the starting row.  If the starting row does not
-     * have a baseline it will be vertically centered.
+     * Possiblf vbluf for tif <dodf>bndior</dodf> fifld.  Spfdififs
+     * tibt tif domponfnt siould bf iorizontblly plbdfd blong tif
+     * trbiling fdgf.  For domponfnts witi b lfft-to-rigit
+     * orifntbtion, tif trbiling fdgf is tif rigit fdgf.  Vfrtidblly
+     * tif domponfnt is positionfd so tibt its bottom fdgf toudifs
+     * tif bbsflinf of tif stbrting row.  If tif stbrting row dofs not
+     * ibvf b bbsflinf it will bf vfrtidblly dfntfrfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int ABOVE_BASELINE_TRAILING = 0x600;
+    publid stbtid finbl int ABOVE_BASELINE_TRAILING = 0x600;
 
     /**
-     * Possible value for the <code>anchor</code> field.  Specifies
-     * that the component should be horizontally centered.  Vertically
-     * the component is positioned so that its top edge touches the
-     * baseline of the starting row.  If the starting row does not
-     * have a baseline it will be vertically centered.
+     * Possiblf vbluf for tif <dodf>bndior</dodf> fifld.  Spfdififs
+     * tibt tif domponfnt siould bf iorizontblly dfntfrfd.  Vfrtidblly
+     * tif domponfnt is positionfd so tibt its top fdgf toudifs tif
+     * bbsflinf of tif stbrting row.  If tif stbrting row dofs not
+     * ibvf b bbsflinf it will bf vfrtidblly dfntfrfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int BELOW_BASELINE = 0x700;
+    publid stbtid finbl int BELOW_BASELINE = 0x700;
 
     /**
-     * Possible value for the <code>anchor</code> field.  Specifies
-     * that the component should be horizontally placed along the
-     * leading edge.  For components with a left-to-right orientation,
-     * the leading edge is the left edge.  Vertically the component is
-     * positioned so that its top edge touches the baseline of the
-     * starting row.  If the starting row does not have a baseline it
-     * will be vertically centered.
+     * Possiblf vbluf for tif <dodf>bndior</dodf> fifld.  Spfdififs
+     * tibt tif domponfnt siould bf iorizontblly plbdfd blong tif
+     * lfbding fdgf.  For domponfnts witi b lfft-to-rigit orifntbtion,
+     * tif lfbding fdgf is tif lfft fdgf.  Vfrtidblly tif domponfnt is
+     * positionfd so tibt its top fdgf toudifs tif bbsflinf of tif
+     * stbrting row.  If tif stbrting row dofs not ibvf b bbsflinf it
+     * will bf vfrtidblly dfntfrfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int BELOW_BASELINE_LEADING = 0x800;
+    publid stbtid finbl int BELOW_BASELINE_LEADING = 0x800;
 
     /**
-     * Possible value for the <code>anchor</code> field.  Specifies
-     * that the component should be horizontally placed along the
-     * trailing edge.  For components with a left-to-right
-     * orientation, the trailing edge is the right edge.  Vertically
-     * the component is positioned so that its top edge touches the
-     * baseline of the starting row.  If the starting row does not
-     * have a baseline it will be vertically centered.
+     * Possiblf vbluf for tif <dodf>bndior</dodf> fifld.  Spfdififs
+     * tibt tif domponfnt siould bf iorizontblly plbdfd blong tif
+     * trbiling fdgf.  For domponfnts witi b lfft-to-rigit
+     * orifntbtion, tif trbiling fdgf is tif rigit fdgf.  Vfrtidblly
+     * tif domponfnt is positionfd so tibt its top fdgf toudifs tif
+     * bbsflinf of tif stbrting row.  If tif stbrting row dofs not
+     * ibvf b bbsflinf it will bf vfrtidblly dfntfrfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int BELOW_BASELINE_TRAILING = 0x900;
+    publid stbtid finbl int BELOW_BASELINE_TRAILING = 0x900;
 
     /**
-     * Specifies the cell containing the leading edge of the component's
-     * display area, where the first cell in a row has <code>gridx=0</code>.
-     * The leading edge of a component's display area is its left edge for
-     * a horizontal, left-to-right container and its right edge for a
-     * horizontal, right-to-left container.
-     * The value
-     * <code>RELATIVE</code> specifies that the component be placed
-     * immediately following the component that was added to the container
-     * just before this component was added.
+     * Spfdififs tif dfll dontbining tif lfbding fdgf of tif domponfnt's
+     * displby brfb, wifrf tif first dfll in b row ibs <dodf>gridx=0</dodf>.
+     * Tif lfbding fdgf of b domponfnt's displby brfb is its lfft fdgf for
+     * b iorizontbl, lfft-to-rigit dontbinfr bnd its rigit fdgf for b
+     * iorizontbl, rigit-to-lfft dontbinfr.
+     * Tif vbluf
+     * <dodf>RELATIVE</dodf> spfdififs tibt tif domponfnt bf plbdfd
+     * immfdibtfly following tif domponfnt tibt wbs bddfd to tif dontbinfr
+     * just bfforf tiis domponfnt wbs bddfd.
      * <p>
-     * The default value is <code>RELATIVE</code>.
-     * <code>gridx</code> should be a non-negative value.
-     * @serial
-     * @see #clone()
-     * @see java.awt.GridBagConstraints#gridy
-     * @see java.awt.ComponentOrientation
+     * Tif dffbult vbluf is <dodf>RELATIVE</dodf>.
+     * <dodf>gridx</dodf> siould bf b non-nfgbtivf vbluf.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#gridy
+     * @sff jbvb.bwt.ComponfntOrifntbtion
      */
-    public int gridx;
+    publid int gridx;
 
     /**
-     * Specifies the cell at the top of the component's display area,
-     * where the topmost cell has <code>gridy=0</code>. The value
-     * <code>RELATIVE</code> specifies that the component be placed just
-     * below the component that was added to the container just before
-     * this component was added.
+     * Spfdififs tif dfll bt tif top of tif domponfnt's displby brfb,
+     * wifrf tif topmost dfll ibs <dodf>gridy=0</dodf>. Tif vbluf
+     * <dodf>RELATIVE</dodf> spfdififs tibt tif domponfnt bf plbdfd just
+     * bflow tif domponfnt tibt wbs bddfd to tif dontbinfr just bfforf
+     * tiis domponfnt wbs bddfd.
      * <p>
-     * The default value is <code>RELATIVE</code>.
-     * <code>gridy</code> should be a non-negative value.
-     * @serial
-     * @see #clone()
-     * @see java.awt.GridBagConstraints#gridx
+     * Tif dffbult vbluf is <dodf>RELATIVE</dodf>.
+     * <dodf>gridy</dodf> siould bf b non-nfgbtivf vbluf.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#gridx
      */
-    public int gridy;
+    publid int gridy;
 
     /**
-     * Specifies the number of cells in a row for the component's
-     * display area.
+     * Spfdififs tif numbfr of dflls in b row for tif domponfnt's
+     * displby brfb.
      * <p>
-     * Use <code>REMAINDER</code> to specify that the component's
-     * display area will be from <code>gridx</code> to the last
-     * cell in the row.
-     * Use <code>RELATIVE</code> to specify that the component's
-     * display area will be from <code>gridx</code> to the next
-     * to the last one in its row.
+     * Usf <dodf>REMAINDER</dodf> to spfdify tibt tif domponfnt's
+     * displby brfb will bf from <dodf>gridx</dodf> to tif lbst
+     * dfll in tif row.
+     * Usf <dodf>RELATIVE</dodf> to spfdify tibt tif domponfnt's
+     * displby brfb will bf from <dodf>gridx</dodf> to tif nfxt
+     * to tif lbst onf in its row.
      * <p>
-     * <code>gridwidth</code> should be non-negative and the default
-     * value is 1.
-     * @serial
-     * @see #clone()
-     * @see java.awt.GridBagConstraints#gridheight
+     * <dodf>gridwidti</dodf> siould bf non-nfgbtivf bnd tif dffbult
+     * vbluf is 1.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#gridifigit
      */
-    public int gridwidth;
+    publid int gridwidti;
 
     /**
-     * Specifies the number of cells in a column for the component's
-     * display area.
+     * Spfdififs tif numbfr of dflls in b dolumn for tif domponfnt's
+     * displby brfb.
      * <p>
-     * Use <code>REMAINDER</code> to specify that the component's
-     * display area will be from <code>gridy</code> to the last
-     * cell in the column.
-     * Use <code>RELATIVE</code> to specify that the component's
-     * display area will be from <code>gridy</code> to the next
-     * to the last one in its column.
+     * Usf <dodf>REMAINDER</dodf> to spfdify tibt tif domponfnt's
+     * displby brfb will bf from <dodf>gridy</dodf> to tif lbst
+     * dfll in tif dolumn.
+     * Usf <dodf>RELATIVE</dodf> to spfdify tibt tif domponfnt's
+     * displby brfb will bf from <dodf>gridy</dodf> to tif nfxt
+     * to tif lbst onf in its dolumn.
      * <p>
-     * <code>gridheight</code> should be a non-negative value and the
-     * default value is 1.
-     * @serial
-     * @see #clone()
-     * @see java.awt.GridBagConstraints#gridwidth
+     * <dodf>gridifigit</dodf> siould bf b non-nfgbtivf vbluf bnd tif
+     * dffbult vbluf is 1.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#gridwidti
      */
-    public int gridheight;
+    publid int gridifigit;
 
     /**
-     * Specifies how to distribute extra horizontal space.
+     * Spfdififs iow to distributf fxtrb iorizontbl spbdf.
      * <p>
-     * The grid bag layout manager calculates the weight of a column to
-     * be the maximum <code>weightx</code> of all the components in a
-     * column. If the resulting layout is smaller horizontally than the area
-     * it needs to fill, the extra space is distributed to each column in
-     * proportion to its weight. A column that has a weight of zero receives
-     * no extra space.
+     * Tif grid bbg lbyout mbnbgfr dbldulbtfs tif wfigit of b dolumn to
+     * bf tif mbximum <dodf>wfigitx</dodf> of bll tif domponfnts in b
+     * dolumn. If tif rfsulting lbyout is smbllfr iorizontblly tibn tif brfb
+     * it nffds to fill, tif fxtrb spbdf is distributfd to fbdi dolumn in
+     * proportion to its wfigit. A dolumn tibt ibs b wfigit of zfro rfdfivfs
+     * no fxtrb spbdf.
      * <p>
-     * If all the weights are zero, all the extra space appears between
-     * the grids of the cell and the left and right edges.
+     * If bll tif wfigits brf zfro, bll tif fxtrb spbdf bppfbrs bftwffn
+     * tif grids of tif dfll bnd tif lfft bnd rigit fdgfs.
      * <p>
-     * The default value of this field is <code>0</code>.
-     * <code>weightx</code> should be a non-negative value.
-     * @serial
-     * @see #clone()
-     * @see java.awt.GridBagConstraints#weighty
+     * Tif dffbult vbluf of tiis fifld is <dodf>0</dodf>.
+     * <dodf>wfigitx</dodf> siould bf b non-nfgbtivf vbluf.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#wfigity
      */
-    public double weightx;
+    publid doublf wfigitx;
 
     /**
-     * Specifies how to distribute extra vertical space.
+     * Spfdififs iow to distributf fxtrb vfrtidbl spbdf.
      * <p>
-     * The grid bag layout manager calculates the weight of a row to be
-     * the maximum <code>weighty</code> of all the components in a row.
-     * If the resulting layout is smaller vertically than the area it
-     * needs to fill, the extra space is distributed to each row in
-     * proportion to its weight. A row that has a weight of zero receives no
-     * extra space.
+     * Tif grid bbg lbyout mbnbgfr dbldulbtfs tif wfigit of b row to bf
+     * tif mbximum <dodf>wfigity</dodf> of bll tif domponfnts in b row.
+     * If tif rfsulting lbyout is smbllfr vfrtidblly tibn tif brfb it
+     * nffds to fill, tif fxtrb spbdf is distributfd to fbdi row in
+     * proportion to its wfigit. A row tibt ibs b wfigit of zfro rfdfivfs no
+     * fxtrb spbdf.
      * <p>
-     * If all the weights are zero, all the extra space appears between
-     * the grids of the cell and the top and bottom edges.
+     * If bll tif wfigits brf zfro, bll tif fxtrb spbdf bppfbrs bftwffn
+     * tif grids of tif dfll bnd tif top bnd bottom fdgfs.
      * <p>
-     * The default value of this field is <code>0</code>.
-     * <code>weighty</code> should be a non-negative value.
-     * @serial
-     * @see #clone()
-     * @see java.awt.GridBagConstraints#weightx
+     * Tif dffbult vbluf of tiis fifld is <dodf>0</dodf>.
+     * <dodf>wfigity</dodf> siould bf b non-nfgbtivf vbluf.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#wfigitx
      */
-    public double weighty;
+    publid doublf wfigity;
 
     /**
-     * This field is used when the component is smaller than its
-     * display area. It determines where, within the display area, to
-     * place the component.
-     * <p> There are three kinds of possible values: orientation
-     * relative, baseline relative and absolute.  Orientation relative
-     * values are interpreted relative to the container's component
-     * orientation property, baseline relative values are interpreted
-     * relative to the baseline and absolute values are not.  The
-     * absolute values are:
-     * <code>CENTER</code>, <code>NORTH</code>, <code>NORTHEAST</code>,
-     * <code>EAST</code>, <code>SOUTHEAST</code>, <code>SOUTH</code>,
-     * <code>SOUTHWEST</code>, <code>WEST</code>, and <code>NORTHWEST</code>.
-     * The orientation relative values are: <code>PAGE_START</code>,
-     * <code>PAGE_END</code>,
-     * <code>LINE_START</code>, <code>LINE_END</code>,
-     * <code>FIRST_LINE_START</code>, <code>FIRST_LINE_END</code>,
-     * <code>LAST_LINE_START</code> and <code>LAST_LINE_END</code>.  The
-     * baseline relative values are:
-     * <code>BASELINE</code>, <code>BASELINE_LEADING</code>,
-     * <code>BASELINE_TRAILING</code>,
-     * <code>ABOVE_BASELINE</code>, <code>ABOVE_BASELINE_LEADING</code>,
-     * <code>ABOVE_BASELINE_TRAILING</code>,
-     * <code>BELOW_BASELINE</code>, <code>BELOW_BASELINE_LEADING</code>,
-     * and <code>BELOW_BASELINE_TRAILING</code>.
-     * The default value is <code>CENTER</code>.
-     * @serial
-     * @see #clone()
-     * @see java.awt.ComponentOrientation
+     * Tiis fifld is usfd wifn tif domponfnt is smbllfr tibn its
+     * displby brfb. It dftfrminfs wifrf, witiin tif displby brfb, to
+     * plbdf tif domponfnt.
+     * <p> Tifrf brf tirff kinds of possiblf vblufs: orifntbtion
+     * rflbtivf, bbsflinf rflbtivf bnd bbsolutf.  Orifntbtion rflbtivf
+     * vblufs brf intfrprftfd rflbtivf to tif dontbinfr's domponfnt
+     * orifntbtion propfrty, bbsflinf rflbtivf vblufs brf intfrprftfd
+     * rflbtivf to tif bbsflinf bnd bbsolutf vblufs brf not.  Tif
+     * bbsolutf vblufs brf:
+     * <dodf>CENTER</dodf>, <dodf>NORTH</dodf>, <dodf>NORTHEAST</dodf>,
+     * <dodf>EAST</dodf>, <dodf>SOUTHEAST</dodf>, <dodf>SOUTH</dodf>,
+     * <dodf>SOUTHWEST</dodf>, <dodf>WEST</dodf>, bnd <dodf>NORTHWEST</dodf>.
+     * Tif orifntbtion rflbtivf vblufs brf: <dodf>PAGE_START</dodf>,
+     * <dodf>PAGE_END</dodf>,
+     * <dodf>LINE_START</dodf>, <dodf>LINE_END</dodf>,
+     * <dodf>FIRST_LINE_START</dodf>, <dodf>FIRST_LINE_END</dodf>,
+     * <dodf>LAST_LINE_START</dodf> bnd <dodf>LAST_LINE_END</dodf>.  Tif
+     * bbsflinf rflbtivf vblufs brf:
+     * <dodf>BASELINE</dodf>, <dodf>BASELINE_LEADING</dodf>,
+     * <dodf>BASELINE_TRAILING</dodf>,
+     * <dodf>ABOVE_BASELINE</dodf>, <dodf>ABOVE_BASELINE_LEADING</dodf>,
+     * <dodf>ABOVE_BASELINE_TRAILING</dodf>,
+     * <dodf>BELOW_BASELINE</dodf>, <dodf>BELOW_BASELINE_LEADING</dodf>,
+     * bnd <dodf>BELOW_BASELINE_TRAILING</dodf>.
+     * Tif dffbult vbluf is <dodf>CENTER</dodf>.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.ComponfntOrifntbtion
      */
-    public int anchor;
+    publid int bndior;
 
     /**
-     * This field is used when the component's display area is larger
-     * than the component's requested size. It determines whether to
-     * resize the component, and if so, how.
+     * Tiis fifld is usfd wifn tif domponfnt's displby brfb is lbrgfr
+     * tibn tif domponfnt's rfqufstfd sizf. It dftfrminfs wiftifr to
+     * rfsizf tif domponfnt, bnd if so, iow.
      * <p>
-     * The following values are valid for <code>fill</code>:
+     * Tif following vblufs brf vblid for <dodf>fill</dodf>:
      *
      * <ul>
      * <li>
-     * <code>NONE</code>: Do not resize the component.
+     * <dodf>NONE</dodf>: Do not rfsizf tif domponfnt.
      * <li>
-     * <code>HORIZONTAL</code>: Make the component wide enough to fill
-     *         its display area horizontally, but do not change its height.
+     * <dodf>HORIZONTAL</dodf>: Mbkf tif domponfnt widf fnougi to fill
+     *         its displby brfb iorizontblly, but do not dibngf its ifigit.
      * <li>
-     * <code>VERTICAL</code>: Make the component tall enough to fill its
-     *         display area vertically, but do not change its width.
+     * <dodf>VERTICAL</dodf>: Mbkf tif domponfnt tbll fnougi to fill its
+     *         displby brfb vfrtidblly, but do not dibngf its widti.
      * <li>
-     * <code>BOTH</code>: Make the component fill its display area
-     *         entirely.
+     * <dodf>BOTH</dodf>: Mbkf tif domponfnt fill its displby brfb
+     *         fntirfly.
      * </ul>
      * <p>
-     * The default value is <code>NONE</code>.
-     * @serial
-     * @see #clone()
+     * Tif dffbult vbluf is <dodf>NONE</dodf>.
+     * @sfribl
+     * @sff #dlonf()
      */
-    public int fill;
+    publid int fill;
 
     /**
-     * This field specifies the external padding of the component, the
-     * minimum amount of space between the component and the edges of its
-     * display area.
+     * Tiis fifld spfdififs tif fxtfrnbl pbdding of tif domponfnt, tif
+     * minimum bmount of spbdf bftwffn tif domponfnt bnd tif fdgfs of its
+     * displby brfb.
      * <p>
-     * The default value is <code>new Insets(0, 0, 0, 0)</code>.
-     * @serial
-     * @see #clone()
+     * Tif dffbult vbluf is <dodf>nfw Insfts(0, 0, 0, 0)</dodf>.
+     * @sfribl
+     * @sff #dlonf()
      */
-    public Insets insets;
+    publid Insfts insfts;
 
     /**
-     * This field specifies the internal padding of the component, how much
-     * space to add to the minimum width of the component. The width of
-     * the component is at least its minimum width plus
-     * <code>ipadx</code> pixels.
+     * Tiis fifld spfdififs tif intfrnbl pbdding of tif domponfnt, iow mudi
+     * spbdf to bdd to tif minimum widti of tif domponfnt. Tif widti of
+     * tif domponfnt is bt lfbst its minimum widti plus
+     * <dodf>ipbdx</dodf> pixfls.
      * <p>
-     * The default value is <code>0</code>.
-     * @serial
-     * @see #clone()
-     * @see java.awt.GridBagConstraints#ipady
+     * Tif dffbult vbluf is <dodf>0</dodf>.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#ipbdy
      */
-    public int ipadx;
+    publid int ipbdx;
 
     /**
-     * This field specifies the internal padding, that is, how much
-     * space to add to the minimum height of the component. The height of
-     * the component is at least its minimum height plus
-     * <code>ipady</code> pixels.
+     * Tiis fifld spfdififs tif intfrnbl pbdding, tibt is, iow mudi
+     * spbdf to bdd to tif minimum ifigit of tif domponfnt. Tif ifigit of
+     * tif domponfnt is bt lfbst its minimum ifigit plus
+     * <dodf>ipbdy</dodf> pixfls.
      * <p>
-     * The default value is 0.
-     * @serial
-     * @see #clone()
-     * @see java.awt.GridBagConstraints#ipadx
+     * Tif dffbult vbluf is 0.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#ipbdx
      */
-    public int ipady;
+    publid int ipbdy;
 
     /**
-     * Temporary place holder for the x coordinate.
-     * @serial
+     * Tfmporbry plbdf ioldfr for tif x doordinbtf.
+     * @sfribl
      */
-    int tempX;
+    int tfmpX;
     /**
-     * Temporary place holder for the y coordinate.
-     * @serial
+     * Tfmporbry plbdf ioldfr for tif y doordinbtf.
+     * @sfribl
      */
-    int tempY;
+    int tfmpY;
     /**
-     * Temporary place holder for the Width of the component.
-     * @serial
+     * Tfmporbry plbdf ioldfr for tif Widti of tif domponfnt.
+     * @sfribl
      */
-    int tempWidth;
+    int tfmpWidti;
     /**
-     * Temporary place holder for the Height of the component.
-     * @serial
+     * Tfmporbry plbdf ioldfr for tif Hfigit of tif domponfnt.
+     * @sfribl
      */
-    int tempHeight;
+    int tfmpHfigit;
     /**
-     * The minimum width of the component.  It is used to calculate
-     * <code>ipady</code>, where the default will be 0.
-     * @serial
-     * @see #ipady
+     * Tif minimum widti of tif domponfnt.  It is usfd to dbldulbtf
+     * <dodf>ipbdy</dodf>, wifrf tif dffbult will bf 0.
+     * @sfribl
+     * @sff #ipbdy
      */
-    int minWidth;
+    int minWidti;
     /**
-     * The minimum height of the component. It is used to calculate
-     * <code>ipadx</code>, where the default will be 0.
-     * @serial
-     * @see #ipadx
+     * Tif minimum ifigit of tif domponfnt. It is usfd to dbldulbtf
+     * <dodf>ipbdx</dodf>, wifrf tif dffbult will bf 0.
+     * @sfribl
+     * @sff #ipbdx
      */
-    int minHeight;
+    int minHfigit;
 
-    // The following fields are only used if the anchor is
-    // one of BASELINE, BASELINE_LEADING or BASELINE_TRAILING.
-    // ascent and descent include the insets and ipady values.
-    transient int ascent;
-    transient int descent;
-    transient Component.BaselineResizeBehavior baselineResizeBehavior;
-    // The folllowing two fields are used if the baseline type is
+    // Tif following fiflds brf only usfd if tif bndior is
+    // onf of BASELINE, BASELINE_LEADING or BASELINE_TRAILING.
+    // bsdfnt bnd dfsdfnt indludf tif insfts bnd ipbdy vblufs.
+    trbnsifnt int bsdfnt;
+    trbnsifnt int dfsdfnt;
+    trbnsifnt Componfnt.BbsflinfRfsizfBfibvior bbsflinfRfsizfBfibvior;
+    // Tif folllowing two fiflds brf usfd if tif bbsflinf typf is
     // CENTER_OFFSET.
-    // centerPadding is either 0 or 1 and indicates if
-    // the height needs to be padded by one when calculating where the
-    // baseline lands
-    transient int centerPadding;
-    // Where the baseline lands relative to the center of the component.
-    transient int centerOffset;
+    // dfntfrPbdding is fitifr 0 or 1 bnd indidbtfs if
+    // tif ifigit nffds to bf pbddfd by onf wifn dbldulbting wifrf tif
+    // bbsflinf lbnds
+    trbnsifnt int dfntfrPbdding;
+    // Wifrf tif bbsflinf lbnds rflbtivf to tif dfntfr of tif domponfnt.
+    trbnsifnt int dfntfrOffsft;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -1000070633030801713L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1000070633030801713L;
 
     /**
-     * Creates a <code>GridBagConstraint</code> object with
-     * all of its fields set to their default value.
+     * Crfbtfs b <dodf>GridBbgConstrbint</dodf> objfdt witi
+     * bll of its fiflds sft to tifir dffbult vbluf.
      */
-    public GridBagConstraints () {
+    publid GridBbgConstrbints () {
         gridx = RELATIVE;
         gridy = RELATIVE;
-        gridwidth = 1;
-        gridheight = 1;
+        gridwidti = 1;
+        gridifigit = 1;
 
-        weightx = 0;
-        weighty = 0;
-        anchor = CENTER;
+        wfigitx = 0;
+        wfigity = 0;
+        bndior = CENTER;
         fill = NONE;
 
-        insets = new Insets(0, 0, 0, 0);
-        ipadx = 0;
-        ipady = 0;
+        insfts = nfw Insfts(0, 0, 0, 0);
+        ipbdx = 0;
+        ipbdy = 0;
     }
 
     /**
-     * Creates a <code>GridBagConstraints</code> object with
-     * all of its fields set to the passed-in arguments.
+     * Crfbtfs b <dodf>GridBbgConstrbints</dodf> objfdt witi
+     * bll of its fiflds sft to tif pbssfd-in brgumfnts.
      *
-     * Note: Because the use of this constructor hinders readability
-     * of source code, this constructor should only be used by
-     * automatic source code generation tools.
+     * Notf: Bfdbusf tif usf of tiis donstrudtor iindfrs rfbdbbility
+     * of sourdf dodf, tiis donstrudtor siould only bf usfd by
+     * butombtid sourdf dodf gfnfrbtion tools.
      *
-     * @param gridx     The initial gridx value.
-     * @param gridy     The initial gridy value.
-     * @param gridwidth The initial gridwidth value.
-     * @param gridheight        The initial gridheight value.
-     * @param weightx   The initial weightx value.
-     * @param weighty   The initial weighty value.
-     * @param anchor    The initial anchor value.
-     * @param fill      The initial fill value.
-     * @param insets    The initial insets value.
-     * @param ipadx     The initial ipadx value.
-     * @param ipady     The initial ipady value.
+     * @pbrbm gridx     Tif initibl gridx vbluf.
+     * @pbrbm gridy     Tif initibl gridy vbluf.
+     * @pbrbm gridwidti Tif initibl gridwidti vbluf.
+     * @pbrbm gridifigit        Tif initibl gridifigit vbluf.
+     * @pbrbm wfigitx   Tif initibl wfigitx vbluf.
+     * @pbrbm wfigity   Tif initibl wfigity vbluf.
+     * @pbrbm bndior    Tif initibl bndior vbluf.
+     * @pbrbm fill      Tif initibl fill vbluf.
+     * @pbrbm insfts    Tif initibl insfts vbluf.
+     * @pbrbm ipbdx     Tif initibl ipbdx vbluf.
+     * @pbrbm ipbdy     Tif initibl ipbdy vbluf.
      *
-     * @see java.awt.GridBagConstraints#gridx
-     * @see java.awt.GridBagConstraints#gridy
-     * @see java.awt.GridBagConstraints#gridwidth
-     * @see java.awt.GridBagConstraints#gridheight
-     * @see java.awt.GridBagConstraints#weightx
-     * @see java.awt.GridBagConstraints#weighty
-     * @see java.awt.GridBagConstraints#anchor
-     * @see java.awt.GridBagConstraints#fill
-     * @see java.awt.GridBagConstraints#insets
-     * @see java.awt.GridBagConstraints#ipadx
-     * @see java.awt.GridBagConstraints#ipady
+     * @sff jbvb.bwt.GridBbgConstrbints#gridx
+     * @sff jbvb.bwt.GridBbgConstrbints#gridy
+     * @sff jbvb.bwt.GridBbgConstrbints#gridwidti
+     * @sff jbvb.bwt.GridBbgConstrbints#gridifigit
+     * @sff jbvb.bwt.GridBbgConstrbints#wfigitx
+     * @sff jbvb.bwt.GridBbgConstrbints#wfigity
+     * @sff jbvb.bwt.GridBbgConstrbints#bndior
+     * @sff jbvb.bwt.GridBbgConstrbints#fill
+     * @sff jbvb.bwt.GridBbgConstrbints#insfts
+     * @sff jbvb.bwt.GridBbgConstrbints#ipbdx
+     * @sff jbvb.bwt.GridBbgConstrbints#ipbdy
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public GridBagConstraints(int gridx, int gridy,
-                              int gridwidth, int gridheight,
-                              double weightx, double weighty,
-                              int anchor, int fill,
-                              Insets insets, int ipadx, int ipady) {
-        this.gridx = gridx;
-        this.gridy = gridy;
-        this.gridwidth = gridwidth;
-        this.gridheight = gridheight;
-        this.fill = fill;
-        this.ipadx = ipadx;
-        this.ipady = ipady;
-        this.insets = insets;
-        this.anchor  = anchor;
-        this.weightx = weightx;
-        this.weighty = weighty;
+    publid GridBbgConstrbints(int gridx, int gridy,
+                              int gridwidti, int gridifigit,
+                              doublf wfigitx, doublf wfigity,
+                              int bndior, int fill,
+                              Insfts insfts, int ipbdx, int ipbdy) {
+        tiis.gridx = gridx;
+        tiis.gridy = gridy;
+        tiis.gridwidti = gridwidti;
+        tiis.gridifigit = gridifigit;
+        tiis.fill = fill;
+        tiis.ipbdx = ipbdx;
+        tiis.ipbdy = ipbdy;
+        tiis.insfts = insfts;
+        tiis.bndior  = bndior;
+        tiis.wfigitx = wfigitx;
+        tiis.wfigity = wfigity;
     }
 
     /**
-     * Creates a copy of this grid bag constraint.
-     * @return     a copy of this grid bag constraint
+     * Crfbtfs b dopy of tiis grid bbg donstrbint.
+     * @rfturn     b dopy of tiis grid bbg donstrbint
      */
-    public Object clone () {
+    publid Objfdt dlonf () {
         try {
-            GridBagConstraints c = (GridBagConstraints)super.clone();
-            c.insets = (Insets)insets.clone();
-            return c;
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+            GridBbgConstrbints d = (GridBbgConstrbints)supfr.dlonf();
+            d.insfts = (Insfts)insfts.dlonf();
+            rfturn d;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError(f);
         }
     }
 
-    boolean isVerticallyResizable() {
-        return (fill == BOTH || fill == VERTICAL);
+    boolfbn isVfrtidbllyRfsizbblf() {
+        rfturn (fill == BOTH || fill == VERTICAL);
     }
 }

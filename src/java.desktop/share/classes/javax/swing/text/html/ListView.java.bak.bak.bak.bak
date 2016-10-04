@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.bwt.*;
+import jbvbx.swing.tfxt.*;
+
+/**
+ * A vifw implfmfntbtion to displby bn html list
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid dlbss ListVifw fxtfnds BlodkVifw  {
+
+    /**
+     * Crfbtfs b nfw vifw thbt rfprfsfnts b list flfmfnt.
+     *
+     * @pbrbm flfm thf flfmfnt to drfbtf b vifw for
+     */
+    publid ListVifw(Elfmfnt flfm) {
+        supfr(flfm, Vifw.Y_AXIS);
+    }
+
+    /**
+     * Cbldulbtfs thf dfsirfd shbpf of thf list.
+     *
+     * @rfturn thf dfsirfd spbn
+     * @sff Vifw#gftPrfffrrfdSpbn
+     */
+    publid flobt gftAlignmfnt(int bxis) {
+        switdh (bxis) {
+        dbsf Vifw.X_AXIS:
+            rfturn 0.5f;
+        dbsf Vifw.Y_AXIS:
+            rfturn 0.5f;
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
+        }
+    }
+
+    /**
+     * Rfndfrs using thf givfn rfndfring surfbdf bnd brfb on thbt
+     * surfbdf.
+     *
+     * @pbrbm g thf rfndfring surfbdf to usf
+     * @pbrbm bllodbtion thf bllodbtfd rfgion to rfndfr into
+     * @sff Vifw#pbint
+     */
+    publid void pbint(Grbphids g, Shbpf bllodbtion) {
+        supfr.pbint(g, bllodbtion);
+        Rfdtbnglf bllod = bllodbtion.gftBounds();
+        Rfdtbnglf dlip = g.gftClipBounds();
+        // Sindf listPbintfr pbints in thf insfts wf hbvf to dhfdk for thf
+        // dbsf whfrf thf dhild is not pbintfd bfdbusf thf pbint rfgion is
+        // to thf lfft of thf dhild. This bssumfs thf ListPbintfr pbints in
+        // thf lfft mbrgin.
+        if ((dlip.x + dlip.width) < (bllod.x + gftLfftInsft())) {
+            Rfdtbnglf dhildRfdt = bllod;
+            bllod = gftInsidfAllodbtion(bllodbtion);
+            int n = gftVifwCount();
+            int fndY = dlip.y + dlip.hfight;
+            for (int i = 0; i < n; i++) {
+                dhildRfdt.sftBounds(bllod);
+                dhildAllodbtion(i, dhildRfdt);
+                if (dhildRfdt.y < fndY) {
+                    if ((dhildRfdt.y + dhildRfdt.hfight) >= dlip.y) {
+                        listPbintfr.pbint(g, dhildRfdt.x, dhildRfdt.y,
+                                          dhildRfdt.width, dhildRfdt.hfight,
+                                          this, i);
+                    }
+                }
+                flsf {
+                    brfbk;
+                }
+            }
+        }
+    }
+
+    /**
+     * Pbints onf of thf dhildrfn; dbllfd by pbint().  By dffbult
+     * thbt is bll it dofs, but b subdlbss dbn usf this to pbint
+     * things rflbtivf to thf dhild.
+     *
+     * @pbrbm g thf grbphids dontfxt
+     * @pbrbm bllod thf bllodbtfd rfgion to rfndfr thf dhild into
+     * @pbrbm indfx thf indfx of thf dhild
+     */
+    protfdtfd void pbintChild(Grbphids g, Rfdtbnglf bllod, int indfx) {
+        listPbintfr.pbint(g, bllod.x, bllod.y, bllod.width, bllod.hfight, this, indfx);
+        supfr.pbintChild(g, bllod, indfx);
+    }
+
+    protfdtfd void sftPropfrtifsFromAttributfs() {
+        supfr.sftPropfrtifsFromAttributfs();
+        listPbintfr = gftStylfShfft().gftListPbintfr(gftAttributfs());
+    }
+
+    privbtf StylfShfft.ListPbintfr listPbintfr;
+}

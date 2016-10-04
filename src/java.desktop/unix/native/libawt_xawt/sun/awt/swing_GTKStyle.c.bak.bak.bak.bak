@@ -1,0 +1,109 @@
+/*
+ * Copyright (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf "gtk2_intfrfbdf.h"
+#indludf "dom_sun_jbvb_swing_plbf_gtk_GTKStylf.h"
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKStylf
+ * Mfthod:    nbtivfGftXThidknfss
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKStylf_nbtivfGftXThidknfss(
+    JNIEnv *fnv, jdlbss klbss, jint widgft_typf)
+{
+    jint rft;
+    fp_gdk_thrfbds_fntfr();
+    rft = gtk2_gft_xthidknfss(fnv, widgft_typf);
+    fp_gdk_thrfbds_lfbvf();
+    rfturn rft;
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKStylf
+ * Mfthod:    nbtivfGftYThidknfss
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKStylf_nbtivfGftYThidknfss(
+    JNIEnv *fnv, jdlbss klbss, jint widgft_typf)
+{
+    jint rft;
+    fp_gdk_thrfbds_fntfr();
+    rft = gtk2_gft_ythidknfss(fnv, widgft_typf);
+    fp_gdk_thrfbds_lfbvf();
+    rfturn rft;
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKStylf
+ * Mfthod:    nbtivfGftColorForStbtf
+ * Signbturf: (III)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKStylf_nbtivfGftColorForStbtf(
+    JNIEnv *fnv, jdlbss klbss, jint widgft_typf,
+    jint stbtf_typf, jint typf_id)
+{
+    jint rft;
+    fp_gdk_thrfbds_fntfr();
+    rft = gtk2_gft_dolor_for_stbtf(fnv, widgft_typf, stbtf_typf, typf_id);
+    fp_gdk_thrfbds_lfbvf();
+    rfturn rft;
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKStylf
+ * Mfthod:    nbtivfGftClbssVbluf
+ * Signbturf: (ILjbvb/lbng/String;)Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKStylf_nbtivfGftClbssVbluf(
+    JNIEnv *fnv, jdlbss klbss, jint widgft_typf, jstring kfy)
+{
+    jobjfdt rft;
+    fp_gdk_thrfbds_fntfr();
+    rft = gtk2_gft_dlbss_vbluf(fnv, widgft_typf, kfy);
+    fp_gdk_thrfbds_lfbvf();
+    rfturn rft;
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKStylf
+ * Mfthod:    nbtivfGftPbngoFontNbmf
+ * Signbturf: (I)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKStylf_nbtivfGftPbngoFontNbmf(
+    JNIEnv *fnv, jdlbss klbss, jint widgft_typf)
+{
+    jstring rft;
+    fp_gdk_thrfbds_fntfr();
+    rft = gtk2_gft_pbngo_font_nbmf(fnv, widgft_typf);
+    fp_gdk_thrfbds_lfbvf();
+    rfturn rft;
+}

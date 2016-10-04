@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.tools.attach;
+pbdkbgf sun.tools.bttbdi;
 
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
-import com.sun.tools.attach.AttachNotSupportedException;
+import dom.sun.tools.bttbdi.VirtublMbdiinf;
+import dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
 
-public class WindowsAttachProvider extends HotSpotAttachProvider {
+publid dlbss WindowsAttbdiProvidfr fxtfnds HotSpotAttbdiProvidfr {
 
-    public WindowsAttachProvider() {
-        String os = System.getProperty("os.name");
-        if (os.startsWith("Windows 9") || os.equals("Windows Me")) {
-            throw new RuntimeException(
-                "This provider is not supported on this version of Windows");
+    publid WindowsAttbdiProvidfr() {
+        String os = Systfm.gftPropfrty("os.nbmf");
+        if (os.stbrtsWiti("Windows 9") || os.fqubls("Windows Mf")) {
+            tirow nfw RuntimfExdfption(
+                "Tiis providfr is not supportfd on tiis vfrsion of Windows");
         }
-        String arch = System.getProperty("os.arch");
-        if (!arch.equals("x86") && !arch.equals("amd64")) {
-            throw new RuntimeException(
-                "This provider is not supported on this processor architecture");
+        String brdi = Systfm.gftPropfrty("os.brdi");
+        if (!brdi.fqubls("x86") && !brdi.fqubls("bmd64")) {
+            tirow nfw RuntimfExdfption(
+                "Tiis providfr is not supportfd on tiis prodfssor brdiitfdturf");
         }
     }
 
-    public String name() {
-        return "sun";
+    publid String nbmf() {
+        rfturn "sun";
     }
 
-    public String type() {
-        return "windows";
+    publid String typf() {
+        rfturn "windows";
     }
 
-    public VirtualMachine attachVirtualMachine(String vmid)
-        throws AttachNotSupportedException, IOException
+    publid VirtublMbdiinf bttbdiVirtublMbdiinf(String vmid)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
     {
-        checkAttachPermission();
+        difdkAttbdiPfrmission();
 
-        // AttachNotSupportedException will be thrown if the target VM can be determined
-        // to be not attachable.
-        testAttachable(vmid);
+        // AttbdiNotSupportfdExdfption will bf tirown if tif tbrgft VM dbn bf dftfrminfd
+        // to bf not bttbdibblf.
+        tfstAttbdibblf(vmid);
 
-        return new WindowsVirtualMachine(this, vmid);
+        rfturn nfw WindowsVirtublMbdiinf(tiis, vmid);
     }
 
-    public List<VirtualMachineDescriptor> listVirtualMachines() {
-        // If the temporary file system is secure then we use the default
-        // implementation, otherwise we create a list of Windows processes.
-        if (isTempPathSecure()) {
-            return super.listVirtualMachines();
-        } else {
-            return listJavaProcesses();
+    publid List<VirtublMbdiinfDfsdriptor> listVirtublMbdiinfs() {
+        // If tif tfmporbry filf systfm is sfdurf tifn wf usf tif dffbult
+        // implfmfntbtion, otifrwisf wf drfbtf b list of Windows prodfssfs.
+        if (isTfmpPbtiSfdurf()) {
+            rfturn supfr.listVirtublMbdiinfs();
+        } flsf {
+            rfturn listJbvbProdfssfs();
         }
     }
 
     /**
-     * Returns true if the temporary file system supports security
+     * Rfturns truf if tif tfmporbry filf systfm supports sfdurity
      */
-    private static boolean isTempPathSecure() {
-        if (!wasTempPathChecked) {
-            synchronized (WindowsAttachProvider.class) {
-                if (!wasTempPathChecked) {
-                    // get the value of TMP/TEMP, ignoring UNC, and paths that
-                    // aren't absolute
-                    String temp = tempPath();
-                    if ((temp != null) && (temp.length() >= 3) &&
-                        (temp.charAt(1) == ':') && (temp.charAt(2) == '\\'))
+    privbtf stbtid boolfbn isTfmpPbtiSfdurf() {
+        if (!wbsTfmpPbtiCifdkfd) {
+            syndironizfd (WindowsAttbdiProvidfr.dlbss) {
+                if (!wbsTfmpPbtiCifdkfd) {
+                    // gft tif vbluf of TMP/TEMP, ignoring UNC, bnd pbtis tibt
+                    // brfn't bbsolutf
+                    String tfmp = tfmpPbti();
+                    if ((tfmp != null) && (tfmp.lfngti() >= 3) &&
+                        (tfmp.dibrAt(1) == ':') && (tfmp.dibrAt(2) == '\\'))
                     {
-                        // check if the volume supports security
-                        long flags = volumeFlags(temp.substring(0, 3));
-                        isTempPathSecure = ((flags & FS_PERSISTENT_ACLS) != 0);
+                        // difdk if tif volumf supports sfdurity
+                        long flbgs = volumfFlbgs(tfmp.substring(0, 3));
+                        isTfmpPbtiSfdurf = ((flbgs & FS_PERSISTENT_ACLS) != 0);
                     }
-                    wasTempPathChecked = true;
+                    wbsTfmpPbtiCifdkfd = truf;
                 }
             }
         }
 
-        return isTempPathSecure;
+        rfturn isTfmpPbtiSfdurf;
     }
 
-    // flag to indicate persistent ACLs are supported
-    private static final long FS_PERSISTENT_ACLS = 0x8L;
+    // flbg to indidbtf pfrsistfnt ACLs brf supportfd
+    privbtf stbtid finbl long FS_PERSISTENT_ACLS = 0x8L;
 
-    // indicates if we've checked the temporary file system
-    private static volatile boolean wasTempPathChecked;
+    // indidbtfs if wf'vf difdkfd tif tfmporbry filf systfm
+    privbtf stbtid volbtilf boolfbn wbsTfmpPbtiCifdkfd;
 
-    // indicates if the temporary file system is secure (only valid when
-    // wasTempPathChecked is true)
-    private static boolean isTempPathSecure;
+    // indidbtfs if tif tfmporbry filf systfm is sfdurf (only vblid wifn
+    // wbsTfmpPbtiCifdkfd is truf)
+    privbtf stbtid boolfbn isTfmpPbtiSfdurf;
 
-    // returns the value of TMP/TEMP
-    private static native String tempPath();
+    // rfturns tif vbluf of TMP/TEMP
+    privbtf stbtid nbtivf String tfmpPbti();
 
-    // returns the flags for the given volume
-    private static native long volumeFlags(String volume);
+    // rfturns tif flbgs for tif givfn volumf
+    privbtf stbtid nbtivf long volumfFlbgs(String volumf);
 
 
     /**
-     * Returns a list of virtual machine descriptors derived from an enumeration
-     * of the process list.
+     * Rfturns b list of virtubl mbdiinf dfsdriptors dfrivfd from bn fnumfrbtion
+     * of tif prodfss list.
      */
-    private List<VirtualMachineDescriptor> listJavaProcesses() {
-        ArrayList<VirtualMachineDescriptor> list =
-            new ArrayList<VirtualMachineDescriptor>();
+    privbtf List<VirtublMbdiinfDfsdriptor> listJbvbProdfssfs() {
+        ArrbyList<VirtublMbdiinfDfsdriptor> list =
+            nfw ArrbyList<VirtublMbdiinfDfsdriptor>();
 
-        // Use localhost in the display name
-        String host = "localhost";
+        // Usf lodbliost in tif displby nbmf
+        String iost = "lodbliost";
         try {
-            host = InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException uhe) {
-            // ignore
+            iost = InftAddrfss.gftLodblHost().gftHostNbmf();
+        } dbtdi (UnknownHostExdfption uif) {
+            // ignorf
         }
 
-        // Enumerate all processes.
-        // For those processes that have loaded a library named "jvm.dll"
-        // then we attempt to attach. If we succeed then we have a 6.0+ VM.
-        int processes[] = new int[1024];
-        int count = enumProcesses(processes, processes.length);
-        for (int i=0; i<count; i++) {
-            if (isLibraryLoadedByProcess("jvm.dll", processes[i])) {
-                String pid = Integer.toString(processes[i]);
+        // Enumfrbtf bll prodfssfs.
+        // For tiosf prodfssfs tibt ibvf lobdfd b librbry nbmfd "jvm.dll"
+        // tifn wf bttfmpt to bttbdi. If wf suddffd tifn wf ibvf b 6.0+ VM.
+        int prodfssfs[] = nfw int[1024];
+        int dount = fnumProdfssfs(prodfssfs, prodfssfs.lfngti);
+        for (int i=0; i<dount; i++) {
+            if (isLibrbryLobdfdByProdfss("jvm.dll", prodfssfs[i])) {
+                String pid = Intfgfr.toString(prodfssfs[i]);
                 try {
-                    new WindowsVirtualMachine(this, pid).detach();
+                    nfw WindowsVirtublMbdiinf(tiis, pid).dftbdi();
 
-                    // FIXME - for now we don't have an appropriate display
-                    // name so we use pid@hostname
-                    String name = pid + "@" + host;
+                    // FIXME - for now wf don't ibvf bn bppropribtf displby
+                    // nbmf so wf usf pid@iostnbmf
+                    String nbmf = pid + "@" + iost;
 
-                    list.add(new HotSpotVirtualMachineDescriptor(this, pid, name));
-                } catch (AttachNotSupportedException x) {
-                } catch (IOException ioe) {
+                    list.bdd(nfw HotSpotVirtublMbdiinfDfsdriptor(tiis, pid, nbmf));
+                } dbtdi (AttbdiNotSupportfdExdfption x) {
+                } dbtdi (IOExdfption iof) {
                 }
             }
         }
 
-        return list;
+        rfturn list;
     }
 
-    // enumerates processes using psapi's EnumProcesses
-    private static native int enumProcesses(int[] processes, int max);
+    // fnumfrbtfs prodfssfs using psbpi's EnumProdfssfs
+    privbtf stbtid nbtivf int fnumProdfssfs(int[] prodfssfs, int mbx);
 
-    // indicates if a library of a given name has been loaded by a process
-    private static native boolean isLibraryLoadedByProcess(String library,
-                                                           int processId);
+    // indidbtfs if b librbry of b givfn nbmf ibs bffn lobdfd by b prodfss
+    privbtf stbtid nbtivf boolfbn isLibrbryLobdfdByProdfss(String librbry,
+                                                           int prodfssId);
 
 
-    // native functions in this library
-    static {
-        System.loadLibrary("attach");
+    // nbtivf fundtions in tiis librbry
+    stbtid {
+        Systfm.lobdLibrbry("bttbdi");
     }
 
 }

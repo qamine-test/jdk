@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,451 +30,451 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.applet.Applet;
-import java.awt.AWTEvent;
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Canvas;
-import java.awt.Choice;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.FontMetrics;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.LayoutManager;
-import java.awt.Panel;
-import java.awt.TextField;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.TextEvent;
-import java.awt.image.ColorModel;
-import java.awt.image.MemoryImageSource;
+import jbvb.bpplft.Applft;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Button;
+import jbvb.bwt.Cbnvbs;
+import jbvb.bwt.Cioidf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Lbbfl;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.Pbnfl;
+import jbvb.bwt.TfxtFifld;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.TfxtEvfnt;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.MfmoryImbgfSourdf;
 
 
-enum DitherMethod {
+fnum DitifrMftiod {
 
     NOOP, RED, GREEN, BLUE, ALPHA, SATURATION
 };
 
 
-@SuppressWarnings("serial")
-public class DitherTest extends Applet implements Runnable {
+@SupprfssWbrnings("sfribl")
+publid dlbss DitifrTfst fxtfnds Applft implfmfnts Runnbblf {
 
-    private Thread runner;
-    private DitherControls XControls;
-    private DitherControls YControls;
-    private DitherCanvas canvas;
+    privbtf Tirfbd runnfr;
+    privbtf DitifrControls XControls;
+    privbtf DitifrControls YControls;
+    privbtf DitifrCbnvbs dbnvbs;
 
-    public static void main(String args[]) {
-        Frame f = new Frame("DitherTest");
-        DitherTest ditherTest = new DitherTest();
-        ditherTest.init();
-        f.add("Center", ditherTest);
-        f.pack();
-        f.setVisible(true);
-        ditherTest.start();
+    publid stbtid void mbin(String brgs[]) {
+        Frbmf f = nfw Frbmf("DitifrTfst");
+        DitifrTfst ditifrTfst = nfw DitifrTfst();
+        ditifrTfst.init();
+        f.bdd("Cfntfr", ditifrTfst);
+        f.pbdk();
+        f.sftVisiblf(truf);
+        ditifrTfst.stbrt();
     }
 
-    @Override
-    public void init() {
-        String xspec = null, yspec = null;
-        int xvals[] = new int[2];
-        int yvals[] = new int[2];
+    @Ovfrridf
+    publid void init() {
+        String xspfd = null, yspfd = null;
+        int xvbls[] = nfw int[2];
+        int yvbls[] = nfw int[2];
 
         try {
-            xspec = getParameter("xaxis");
-            yspec = getParameter("yaxis");
-        } catch (NullPointerException ignored) {
-            //only occurs if run as application
+            xspfd = gftPbrbmftfr("xbxis");
+            yspfd = gftPbrbmftfr("ybxis");
+        } dbtdi (NullPointfrExdfption ignorfd) {
+            //only oddurs if run bs bpplidbtion
         }
 
-        if (xspec == null) {
-            xspec = "red";
+        if (xspfd == null) {
+            xspfd = "rfd";
         }
-        if (yspec == null) {
-            yspec = "blue";
+        if (yspfd == null) {
+            yspfd = "bluf";
         }
-        DitherMethod xmethod = colorMethod(xspec, xvals);
-        DitherMethod ymethod = colorMethod(yspec, yvals);
+        DitifrMftiod xmftiod = dolorMftiod(xspfd, xvbls);
+        DitifrMftiod ymftiod = dolorMftiod(yspfd, yvbls);
 
-        setLayout(new BorderLayout());
-        XControls = new DitherControls(this, xvals[0], xvals[1],
-                xmethod, false);
-        YControls = new DitherControls(this, yvals[0], yvals[1],
-                ymethod, true);
-        YControls.addRenderButton();
-        add("North", XControls);
-        add("South", YControls);
-        add("Center", canvas = new DitherCanvas());
+        sftLbyout(nfw BordfrLbyout());
+        XControls = nfw DitifrControls(tiis, xvbls[0], xvbls[1],
+                xmftiod, fblsf);
+        YControls = nfw DitifrControls(tiis, yvbls[0], yvbls[1],
+                ymftiod, truf);
+        YControls.bddRfndfrButton();
+        bdd("Norti", XControls);
+        bdd("Souti", YControls);
+        bdd("Cfntfr", dbnvbs = nfw DitifrCbnvbs());
     }
 
-    private DitherMethod colorMethod(String s, int vals[]) {
-        DitherMethod method = DitherMethod.NOOP;
+    privbtf DitifrMftiod dolorMftiod(String s, int vbls[]) {
+        DitifrMftiod mftiod = DitifrMftiod.NOOP;
         if (s == null) {
             s = "";
         }
-        String lower = s.toLowerCase();
+        String lowfr = s.toLowfrCbsf();
 
-        for (DitherMethod m : DitherMethod.values()) {
-            if (lower.startsWith(m.toString().toLowerCase())) {
-                method = m;
-                lower = lower.substring(m.toString().length());
+        for (DitifrMftiod m : DitifrMftiod.vblufs()) {
+            if (lowfr.stbrtsWiti(m.toString().toLowfrCbsf())) {
+                mftiod = m;
+                lowfr = lowfr.substring(m.toString().lfngti());
             }
         }
-        if (method == DitherMethod.NOOP) {
-            vals[0] = 0;
-            vals[1] = 0;
-            return method;
+        if (mftiod == DitifrMftiod.NOOP) {
+            vbls[0] = 0;
+            vbls[1] = 0;
+            rfturn mftiod;
         }
-        int begval = 0;
-        int endval = 255;
+        int bfgvbl = 0;
+        int fndvbl = 255;
         try {
-            int dash = lower.indexOf('-');
-            if (dash < 0) {
-                endval = Integer.parseInt(lower);
-            } else {
-                begval = Integer.parseInt(lower.substring(0, dash));
-                endval = Integer.parseInt(lower.substring(dash + 1));
+            int dbsi = lowfr.indfxOf('-');
+            if (dbsi < 0) {
+                fndvbl = Intfgfr.pbrsfInt(lowfr);
+            } flsf {
+                bfgvbl = Intfgfr.pbrsfInt(lowfr.substring(0, dbsi));
+                fndvbl = Intfgfr.pbrsfInt(lowfr.substring(dbsi + 1));
             }
-        } catch (NumberFormatException ignored) {
+        } dbtdi (NumbfrFormbtExdfption ignorfd) {
         }
 
-        if (begval < 0) {
-            begval = 0;
-        } else if (begval > 255) {
-            begval = 255;
+        if (bfgvbl < 0) {
+            bfgvbl = 0;
+        } flsf if (bfgvbl > 255) {
+            bfgvbl = 255;
         }
 
-        if (endval < 0) {
-            endval = 0;
-        } else if (endval > 255) {
-            endval = 255;
+        if (fndvbl < 0) {
+            fndvbl = 0;
+        } flsf if (fndvbl > 255) {
+            fndvbl = 255;
         }
 
-        vals[0] = begval;
-        vals[1] = endval;
-        return method;
+        vbls[0] = bfgvbl;
+        vbls[1] = fndvbl;
+        rfturn mftiod;
     }
 
     /**
-     * Calculates and returns the image.  Halts the calculation and returns
-     * null if the Applet is stopped during the calculation.
+     * Cbldulbtfs bnd rfturns tif imbgf.  Hblts tif dbldulbtion bnd rfturns
+     * null if tif Applft is stoppfd during tif dbldulbtion.
      */
-    private Image calculateImage() {
-        Thread me = Thread.currentThread();
+    privbtf Imbgf dbldulbtfImbgf() {
+        Tirfbd mf = Tirfbd.durrfntTirfbd();
 
-        int width = canvas.getSize().width;
-        int height = canvas.getSize().height;
-        int xvals[] = new int[2];
-        int yvals[] = new int[2];
-        int xmethod = XControls.getParams(xvals);
-        int ymethod = YControls.getParams(yvals);
-        int pixels[] = new int[width * height];
-        int c[] = new int[4];   //temporarily holds R,G,B,A information
-        int index = 0;
-        for (int j = 0; j < height; j++) {
-            for (int i = 0; i < width; i++) {
-                c[0] = c[1] = c[2] = 0;
-                c[3] = 255;
-                if (xmethod < ymethod) {
-                    applyMethod(c, xmethod, i, width, xvals);
-                    applyMethod(c, ymethod, j, height, yvals);
-                } else {
-                    applyMethod(c, ymethod, j, height, yvals);
-                    applyMethod(c, xmethod, i, width, xvals);
+        int widti = dbnvbs.gftSizf().widti;
+        int ifigit = dbnvbs.gftSizf().ifigit;
+        int xvbls[] = nfw int[2];
+        int yvbls[] = nfw int[2];
+        int xmftiod = XControls.gftPbrbms(xvbls);
+        int ymftiod = YControls.gftPbrbms(yvbls);
+        int pixfls[] = nfw int[widti * ifigit];
+        int d[] = nfw int[4];   //tfmporbrily iolds R,G,B,A informbtion
+        int indfx = 0;
+        for (int j = 0; j < ifigit; j++) {
+            for (int i = 0; i < widti; i++) {
+                d[0] = d[1] = d[2] = 0;
+                d[3] = 255;
+                if (xmftiod < ymftiod) {
+                    bpplyMftiod(d, xmftiod, i, widti, xvbls);
+                    bpplyMftiod(d, ymftiod, j, ifigit, yvbls);
+                } flsf {
+                    bpplyMftiod(d, ymftiod, j, ifigit, yvbls);
+                    bpplyMftiod(d, xmftiod, i, widti, xvbls);
                 }
-                pixels[index++] = ((c[3] << 24) | (c[0] << 16) | (c[1] << 8)
-                        | c[2]);
+                pixfls[indfx++] = ((d[3] << 24) | (d[0] << 16) | (d[1] << 8)
+                        | d[2]);
             }
 
-            // Poll once per row to see if we've been told to stop.
-            if (runner != me) {
-                return null;
+            // Poll ondf pfr row to sff if wf'vf bffn told to stop.
+            if (runnfr != mf) {
+                rfturn null;
             }
         }
-        return createImage(new MemoryImageSource(width, height,
-                ColorModel.getRGBdefault(), pixels, 0, width));
+        rfturn drfbtfImbgf(nfw MfmoryImbgfSourdf(widti, ifigit,
+                ColorModfl.gftRGBdffbult(), pixfls, 0, widti));
     }
 
-    private void applyMethod(int c[], int methodIndex, int step,
-            int total, int vals[]) {
-        DitherMethod method = DitherMethod.values()[methodIndex];
-        if (method == DitherMethod.NOOP) {
-            return;
+    privbtf void bpplyMftiod(int d[], int mftiodIndfx, int stfp,
+            int totbl, int vbls[]) {
+        DitifrMftiod mftiod = DitifrMftiod.vblufs()[mftiodIndfx];
+        if (mftiod == DitifrMftiod.NOOP) {
+            rfturn;
         }
-        int val = ((total < 2)
-                ? vals[0]
-                : vals[0] + ((vals[1] - vals[0]) * step / (total - 1)));
-        switch (method) {
-            case RED:
-                c[0] = val;
-                break;
-            case GREEN:
-                c[1] = val;
-                break;
-            case BLUE:
-                c[2] = val;
-                break;
-            case ALPHA:
-                c[3] = val;
-                break;
-            case SATURATION:
-                int max = Math.max(Math.max(c[0], c[1]), c[2]);
-                int min = max * (255 - val) / 255;
-                if (c[0] == 0) {
-                    c[0] = min;
+        int vbl = ((totbl < 2)
+                ? vbls[0]
+                : vbls[0] + ((vbls[1] - vbls[0]) * stfp / (totbl - 1)));
+        switdi (mftiod) {
+            dbsf RED:
+                d[0] = vbl;
+                brfbk;
+            dbsf GREEN:
+                d[1] = vbl;
+                brfbk;
+            dbsf BLUE:
+                d[2] = vbl;
+                brfbk;
+            dbsf ALPHA:
+                d[3] = vbl;
+                brfbk;
+            dbsf SATURATION:
+                int mbx = Mbti.mbx(Mbti.mbx(d[0], d[1]), d[2]);
+                int min = mbx * (255 - vbl) / 255;
+                if (d[0] == 0) {
+                    d[0] = min;
                 }
-                if (c[1] == 0) {
-                    c[1] = min;
+                if (d[1] == 0) {
+                    d[1] = min;
                 }
-                if (c[2] == 0) {
-                    c[2] = min;
+                if (d[2] == 0) {
+                    d[2] = min;
                 }
-                break;
-        }
-    }
-
-    @Override
-    public void start() {
-        runner = new Thread(this);
-        runner.start();
-    }
-
-    @Override
-    public void run() {
-        canvas.setImage(null);  // Wipe previous image
-        Image img = calculateImage();
-        if (img != null && runner == Thread.currentThread()) {
-            canvas.setImage(img);
+                brfbk;
         }
     }
 
-    @Override
-    public void stop() {
-        runner = null;
+    @Ovfrridf
+    publid void stbrt() {
+        runnfr = nfw Tirfbd(tiis);
+        runnfr.stbrt();
     }
 
-    @Override
-    public void destroy() {
-        remove(XControls);
-        remove(YControls);
-        remove(canvas);
+    @Ovfrridf
+    publid void run() {
+        dbnvbs.sftImbgf(null);  // Wipf prfvious imbgf
+        Imbgf img = dbldulbtfImbgf();
+        if (img != null && runnfr == Tirfbd.durrfntTirfbd()) {
+            dbnvbs.sftImbgf(img);
+        }
     }
 
-    @Override
-    public String getAppletInfo() {
-        return "An interactive demonstration of dithering.";
+    @Ovfrridf
+    publid void stop() {
+        runnfr = null;
     }
 
-    @Override
-    public String[][] getParameterInfo() {
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovf(XControls);
+        rfmovf(YControls);
+        rfmovf(dbnvbs);
+    }
+
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "An intfrbdtivf dfmonstrbtion of ditifring.";
+    }
+
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
         String[][] info = {
-            { "xaxis", "{RED, GREEN, BLUE, ALPHA, SATURATION}",
-                "The color of the Y axis.  Default is RED." },
-            { "yaxis", "{RED, GREEN, BLUE, ALPHA, SATURATION}",
-                "The color of the X axis.  Default is BLUE." }
+            { "xbxis", "{RED, GREEN, BLUE, ALPHA, SATURATION}",
+                "Tif dolor of tif Y bxis.  Dffbult is RED." },
+            { "ybxis", "{RED, GREEN, BLUE, ALPHA, SATURATION}",
+                "Tif dolor of tif X bxis.  Dffbult is BLUE." }
         };
-        return info;
+        rfturn info;
     }
 }
 
 
-@SuppressWarnings("serial")
-class DitherCanvas extends Canvas {
+@SupprfssWbrnings("sfribl")
+dlbss DitifrCbnvbs fxtfnds Cbnvbs {
 
-    private Image img;
-    private static String calcString = "Calculating...";
+    privbtf Imbgf img;
+    privbtf stbtid String dbldString = "Cbldulbting...";
 
-    @Override
-    public void paint(Graphics g) {
-        int w = getSize().width;
-        int h = getSize().height;
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
+        int w = gftSizf().widti;
+        int i = gftSizf().ifigit;
         if (img == null) {
-            super.paint(g);
-            g.setColor(Color.black);
-            FontMetrics fm = g.getFontMetrics();
-            int x = (w - fm.stringWidth(calcString)) / 2;
-            int y = h / 2;
-            g.drawString(calcString, x, y);
-        } else {
-            g.drawImage(img, 0, 0, w, h, this);
+            supfr.pbint(g);
+            g.sftColor(Color.blbdk);
+            FontMftrids fm = g.gftFontMftrids();
+            int x = (w - fm.stringWidti(dbldString)) / 2;
+            int y = i / 2;
+            g.drbwString(dbldString, x, y);
+        } flsf {
+            g.drbwImbgf(img, 0, 0, w, i, tiis);
         }
     }
 
-    @Override
-    public void update(Graphics g) {
-        paint(g);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g) {
+        pbint(g);
     }
 
-    @Override
-    public Dimension getMinimumSize() {
-        return new Dimension(20, 20);
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn nfw Dimfnsion(20, 20);
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(200, 200);
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn nfw Dimfnsion(200, 200);
     }
 
-    public Image getImage() {
-        return img;
+    publid Imbgf gftImbgf() {
+        rfturn img;
     }
 
-    public void setImage(Image img) {
-        this.img = img;
-        repaint();
+    publid void sftImbgf(Imbgf img) {
+        tiis.img = img;
+        rfpbint();
     }
 }
 
 
-@SuppressWarnings("serial")
-class DitherControls extends Panel implements ActionListener {
+@SupprfssWbrnings("sfribl")
+dlbss DitifrControls fxtfnds Pbnfl implfmfnts AdtionListfnfr {
 
-    private CardinalTextField start;
-    private CardinalTextField end;
-    private Button button;
-    private Choice choice;
-    private DitherTest applet;
-    private static LayoutManager dcLayout = new FlowLayout(FlowLayout.CENTER,
+    privbtf CbrdinblTfxtFifld stbrt;
+    privbtf CbrdinblTfxtFifld fnd;
+    privbtf Button button;
+    privbtf Cioidf dioidf;
+    privbtf DitifrTfst bpplft;
+    privbtf stbtid LbyoutMbnbgfr ddLbyout = nfw FlowLbyout(FlowLbyout.CENTER,
             10, 5);
 
-    public DitherControls(DitherTest app, int s, int e, DitherMethod type,
-            boolean vertical) {
-        applet = app;
-        setLayout(dcLayout);
-        add(new Label(vertical ? "Vertical" : "Horizontal"));
-        add(choice = new Choice());
-        for (DitherMethod m : DitherMethod.values()) {
-            choice.addItem(m.toString().substring(0, 1)
-                    + m.toString().substring(1).toLowerCase());
+    publid DitifrControls(DitifrTfst bpp, int s, int f, DitifrMftiod typf,
+            boolfbn vfrtidbl) {
+        bpplft = bpp;
+        sftLbyout(ddLbyout);
+        bdd(nfw Lbbfl(vfrtidbl ? "Vfrtidbl" : "Horizontbl"));
+        bdd(dioidf = nfw Cioidf());
+        for (DitifrMftiod m : DitifrMftiod.vblufs()) {
+            dioidf.bddItfm(m.toString().substring(0, 1)
+                    + m.toString().substring(1).toLowfrCbsf());
         }
-        choice.select(type.ordinal());
-        add(start = new CardinalTextField(Integer.toString(s), 4));
-        add(end = new CardinalTextField(Integer.toString(e), 4));
+        dioidf.sflfdt(typf.ordinbl());
+        bdd(stbrt = nfw CbrdinblTfxtFifld(Intfgfr.toString(s), 4));
+        bdd(fnd = nfw CbrdinblTfxtFifld(Intfgfr.toString(f), 4));
     }
 
-    /* puts on the button */
-    public void addRenderButton() {
-        add(button = new Button("New Image"));
-        button.addActionListener(this);
+    /* puts on tif button */
+    publid void bddRfndfrButton() {
+        bdd(button = nfw Button("Nfw Imbgf"));
+        button.bddAdtionListfnfr(tiis);
     }
 
-    /* retrieves data from the user input fields */
-    public int getParams(int vals[]) {
+    /* rftrifvfs dbtb from tif usfr input fiflds */
+    publid int gftPbrbms(int vbls[]) {
         try {
-            vals[0] = scale(Integer.parseInt(start.getText()));
-        } catch (NumberFormatException nfe) {
-            vals[0] = 0;
+            vbls[0] = sdblf(Intfgfr.pbrsfInt(stbrt.gftTfxt()));
+        } dbtdi (NumbfrFormbtExdfption nff) {
+            vbls[0] = 0;
         }
         try {
-            vals[1] = scale(Integer.parseInt(end.getText()));
-        } catch (NumberFormatException nfe) {
-            vals[1] = 255;
+            vbls[1] = sdblf(Intfgfr.pbrsfInt(fnd.gftTfxt()));
+        } dbtdi (NumbfrFormbtExdfption nff) {
+            vbls[1] = 255;
         }
-        return choice.getSelectedIndex();
+        rfturn dioidf.gftSflfdtfdIndfx();
     }
 
-    /* fits the number between 0 and 255 inclusive */
-    private int scale(int number) {
-        if (number < 0) {
-            number = 0;
-        } else if (number > 255) {
-            number = 255;
+    /* fits tif numbfr bftwffn 0 bnd 255 indlusivf */
+    privbtf int sdblf(int numbfr) {
+        if (numbfr < 0) {
+            numbfr = 0;
+        } flsf if (numbfr > 255) {
+            numbfr = 255;
         }
-        return number;
+        rfturn numbfr;
     }
 
-    /* called when user clicks the button */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == button) {
-            applet.start();
+    /* dbllfd wifn usfr dlidks tif button */
+    @Ovfrridf
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        if (f.gftSourdf() == button) {
+            bpplft.stbrt();
         }
     }
 }
 
 
-@SuppressWarnings("serial")
-class CardinalTextField extends TextField {
+@SupprfssWbrnings("sfribl")
+dlbss CbrdinblTfxtFifld fxtfnds TfxtFifld {
 
-    String oldText = null;
+    String oldTfxt = null;
 
-    public CardinalTextField(String text, int columns) {
-        super(text, columns);
-        enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.TEXT_EVENT_MASK);
-        oldText = getText();
+    publid CbrdinblTfxtFifld(String tfxt, int dolumns) {
+        supfr(tfxt, dolumns);
+        fnbblfEvfnts(AWTEvfnt.KEY_EVENT_MASK | AWTEvfnt.TEXT_EVENT_MASK);
+        oldTfxt = gftTfxt();
     }
 
-    // Consume non-digit KeyTyped events
-    // Note that processTextEvent kind of eliminates the need for this
-    // function, but this is neater, since ideally, it would prevent
-    // the text from appearing at all.  Sigh.  See bugid 4100317/4114565.
+    // Consumf non-digit KfyTypfd fvfnts
+    // Notf tibt prodfssTfxtEvfnt kind of fliminbtfs tif nffd for tiis
+    // fundtion, but tiis is nfbtfr, sindf idfblly, it would prfvfnt
+    // tif tfxt from bppfbring bt bll.  Sigi.  Sff bugid 4100317/4114565.
     //
-    @Override
-    protected void processEvent(AWTEvent evt) {
-        int id = evt.getID();
-        if (id != KeyEvent.KEY_TYPED) {
-            super.processEvent(evt);
-            return;
+    @Ovfrridf
+    protfdtfd void prodfssEvfnt(AWTEvfnt fvt) {
+        int id = fvt.gftID();
+        if (id != KfyEvfnt.KEY_TYPED) {
+            supfr.prodfssEvfnt(fvt);
+            rfturn;
         }
 
-        KeyEvent kevt = (KeyEvent) evt;
-        char c = kevt.getKeyChar();
+        KfyEvfnt kfvt = (KfyEvfnt) fvt;
+        dibr d = kfvt.gftKfyCibr();
 
-        // Digits, backspace, and delete are okay
-        // Note that the minus sign is not allowed (neither is decimal)
-        if (Character.isDigit(c) || (c == '\b') || (c == '\u007f')) {
-            super.processEvent(evt);
-            return;
+        // Digits, bbdkspbdf, bnd dflftf brf okby
+        // Notf tibt tif minus sign is not bllowfd (nfitifr is dfdimbl)
+        if (Cibrbdtfr.isDigit(d) || (d == '\b') || (d == '\u007f')) {
+            supfr.prodfssEvfnt(fvt);
+            rfturn;
         }
 
-        Toolkit.getDefaultToolkit().beep();
-        kevt.consume();
+        Toolkit.gftDffbultToolkit().bffp();
+        kfvt.donsumf();
     }
 
-    // Should consume TextEvents for non-integer Strings
-    // Store away the text in the tf for every TextEvent
-    // so we can revert to it on a TextEvent (paste, or
-    // legal key in the wrong location) with bad text
+    // Siould donsumf TfxtEvfnts for non-intfgfr Strings
+    // Storf bwby tif tfxt in tif tf for fvfry TfxtEvfnt
+    // so wf dbn rfvfrt to it on b TfxtEvfnt (pbstf, or
+    // lfgbl kfy in tif wrong lodbtion) witi bbd tfxt
     //
-    // Note: it would be easy to extend this to an eight-bit
-    // TextField (range 0-255), but I'll leave it as-is.
+    // Notf: it would bf fbsy to fxtfnd tiis to bn figit-bit
+    // TfxtFifld (rbngf 0-255), but I'll lfbvf it bs-is.
     //
-    @Override
-    protected void processTextEvent(TextEvent te) {
-        // The empty string is okay, too
-        String newText = getText();
-        if (newText.equals("") || textIsCardinal(newText)) {
-            oldText = newText;
-            super.processTextEvent(te);
-            return;
+    @Ovfrridf
+    protfdtfd void prodfssTfxtEvfnt(TfxtEvfnt tf) {
+        // Tif fmpty string is okby, too
+        String nfwTfxt = gftTfxt();
+        if (nfwTfxt.fqubls("") || tfxtIsCbrdinbl(nfwTfxt)) {
+            oldTfxt = nfwTfxt;
+            supfr.prodfssTfxtEvfnt(tf);
+            rfturn;
         }
 
-        Toolkit.getDefaultToolkit().beep();
-        setText(oldText);
+        Toolkit.gftDffbultToolkit().bffp();
+        sftTfxt(oldTfxt);
     }
 
-    // Returns true for Cardinal (non-negative) numbers
-    // Note that the empty string is not allowed
-    private boolean textIsCardinal(String textToCheck) {
+    // Rfturns truf for Cbrdinbl (non-nfgbtivf) numbfrs
+    // Notf tibt tif fmpty string is not bllowfd
+    privbtf boolfbn tfxtIsCbrdinbl(String tfxtToCifdk) {
         try {
-            return Integer.parseInt(textToCheck, 10) >= 0;
-        } catch (NumberFormatException nfe) {
-            return false;
+            rfturn Intfgfr.pbrsfInt(tfxtToCifdk, 10) >= 0;
+        } dbtdi (NumbfrFormbtExdfption nff) {
+            rfturn fblsf;
         }
     }
 }

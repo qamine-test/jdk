@@ -1,0 +1,201 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
+ * is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
+ * subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.Rfbdfr;
+import jbvb.io.IOExdfption;
+import sun.util.RfsourdfBundlfEnumfrbtion;
+
+/**
+ * <dodf>PropfrtyRfsourdfBundlf</dodf> is b dondrftf subdlbss of
+ * <dodf>RfsourdfBundlf</dodf> thbt mbnbgfs rfsourdfs for b lodblf
+ * using b sft of stbtid strings from b propfrty filf. Sff
+ * {@link RfsourdfBundlf RfsourdfBundlf} for morf informbtion bbout rfsourdf
+ * bundlfs.
+ *
+ * <p>
+ * Unlikf othfr typfs of rfsourdf bundlf, you don't subdlbss
+ * <dodf>PropfrtyRfsourdfBundlf</dodf>.  Instfbd, you supply propfrtifs
+ * filfs dontbining thf rfsourdf dbtb.  <dodf>RfsourdfBundlf.gftBundlf</dodf>
+ * will butombtidblly look for thf bppropribtf propfrtifs filf bnd drfbtf b
+ * <dodf>PropfrtyRfsourdfBundlf</dodf> thbt rfffrs to it. Sff
+ * {@link RfsourdfBundlf#gftBundlf(jbvb.lbng.String, jbvb.util.Lodblf, jbvb.lbng.ClbssLobdfr) RfsourdfBundlf.gftBundlf}
+ * for b domplftf dfsdription of thf sfbrdh bnd instbntibtion strbtfgy.
+ *
+ * <p>
+ * Thf following <b nbmf="sbmplf">fxbmplf</b> shows b mfmbfr of b rfsourdf
+ * bundlf fbmily with thf bbsf nbmf "MyRfsourdfs".
+ * Thf tfxt dffinfs thf bundlf "MyRfsourdfs_df",
+ * thf Gfrmbn mfmbfr of thf bundlf fbmily.
+ * This mfmbfr is bbsfd on <dodf>PropfrtyRfsourdfBundlf</dodf>, bnd thf tfxt
+ * thfrfforf is thf dontfnt of thf filf "MyRfsourdfs_df.propfrtifs"
+ * (b rflbtfd <b hrff="ListRfsourdfBundlf.html#sbmplf">fxbmplf</b> shows
+ * how you dbn bdd bundlfs to this fbmily thbt brf implfmfntfd bs subdlbssfs
+ * of <dodf>ListRfsourdfBundlf</dodf>).
+ * Thf kfys in this fxbmplf brf of thf form "s1" ftd. Thf bdtubl
+ * kfys brf fntirfly up to your dhoidf, so long bs thfy brf thf sbmf bs
+ * thf kfys you usf in your progrbm to rftrifvf thf objfdts from thf bundlf.
+ * Kfys brf dbsf-sfnsitivf.
+ * <blodkquotf>
+ * <prf>
+ * # MfssbgfFormbt pbttfrn
+ * s1=Dif Plbttf \"{1}\" fnth&buml;lt {0}.
+ *
+ * # lodbtion of {0} in pbttfrn
+ * s2=1
+ *
+ * # sbmplf disk nbmf
+ * s3=Mfinf Plbttf
+ *
+ * # first ChoidfFormbt dhoidf
+ * s4=kfinf Dbtfifn
+ *
+ * # sfdond ChoidfFormbt dhoidf
+ * s5=finf Dbtfi
+ *
+ * # third ChoidfFormbt dhoidf
+ * s6={0,numbfr} Dbtfifn
+ *
+ * # sbmplf dbtf
+ * s7=3. M&buml;rz 1996
+ * </prf>
+ * </blodkquotf>
+ *
+ * <p>
+ * Thf implfmfntbtion of b {@dodf PropfrtyRfsourdfBundlf} subdlbss must bf
+ * thrfbd-sbff if it's simultbnfously usfd by multiplf thrfbds. Thf dffbult
+ * implfmfntbtions of thf non-bbstrbdt mfthods in this dlbss brf thrfbd-sbff.
+ *
+ * <p>
+ * <strong>Notf:</strong> PropfrtyRfsourdfBundlf dbn bf donstrudtfd fithfr
+ * from bn InputStrfbm or b Rfbdfr, whidh rfprfsfnts b propfrty filf.
+ * Construdting b PropfrtyRfsourdfBundlf instbndf from bn InputStrfbm rfquirfs
+ * thbt thf input strfbm bf fndodfd in ISO-8859-1.  In thbt dbsf, dhbrbdtfrs
+ * thbt dbnnot bf rfprfsfntfd in ISO-8859-1 fndoding must bf rfprfsfntfd by Unidodf Esdbpfs
+ * bs dffinfd in sfdtion 3.3 of
+ * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+ * whfrfbs thf othfr donstrudtor whidh tbkfs b Rfbdfr dofs not hbvf thbt limitbtion.
+ *
+ * @sff RfsourdfBundlf
+ * @sff ListRfsourdfBundlf
+ * @sff Propfrtifs
+ * @sindf 1.1
+ */
+publid dlbss PropfrtyRfsourdfBundlf fxtfnds RfsourdfBundlf {
+    /**
+     * Crfbtfs b propfrty rfsourdf bundlf from bn {@link jbvb.io.InputStrfbm
+     * InputStrfbm}.  Thf propfrty filf rfbd with this donstrudtor
+     * must bf fndodfd in ISO-8859-1.
+     *
+     * @pbrbm strfbm bn InputStrfbm thbt rfprfsfnts b propfrty filf
+     *        to rfbd from.
+     * @throws IOExdfption if bn I/O frror oddurs
+     * @throws NullPointfrExdfption if <dodf>strfbm</dodf> is null
+     * @throws IllfgblArgumfntExdfption if {@dodf strfbm} dontbins b
+     *     mblformfd Unidodf fsdbpf sfqufndf.
+     */
+    @SupprfssWbrnings({"undhfdkfd", "rbwtypfs"})
+    publid PropfrtyRfsourdfBundlf (InputStrfbm strfbm) throws IOExdfption {
+        Propfrtifs propfrtifs = nfw Propfrtifs();
+        propfrtifs.lobd(strfbm);
+        lookup = nfw HbshMbp(propfrtifs);
+    }
+
+    /**
+     * Crfbtfs b propfrty rfsourdf bundlf from b {@link jbvb.io.Rfbdfr
+     * Rfbdfr}.  Unlikf thf donstrudtor
+     * {@link #PropfrtyRfsourdfBundlf(jbvb.io.InputStrfbm) PropfrtyRfsourdfBundlf(InputStrfbm)},
+     * thfrf is no limitbtion bs to thf fndoding of thf input propfrty filf.
+     *
+     * @pbrbm rfbdfr b Rfbdfr thbt rfprfsfnts b propfrty filf to
+     *        rfbd from.
+     * @throws IOExdfption if bn I/O frror oddurs
+     * @throws NullPointfrExdfption if <dodf>rfbdfr</dodf> is null
+     * @throws IllfgblArgumfntExdfption if b mblformfd Unidodf fsdbpf sfqufndf bppfbrs
+     *     from {@dodf rfbdfr}.
+     * @sindf 1.6
+     */
+    @SupprfssWbrnings({"undhfdkfd", "rbwtypfs"})
+    publid PropfrtyRfsourdfBundlf (Rfbdfr rfbdfr) throws IOExdfption {
+        Propfrtifs propfrtifs = nfw Propfrtifs();
+        propfrtifs.lobd(rfbdfr);
+        lookup = nfw HbshMbp(propfrtifs);
+    }
+
+    // Implfmfnts jbvb.util.RfsourdfBundlf.hbndlfGftObjfdt; inhfrits jbvbdod spfdifidbtion.
+    publid Objfdt hbndlfGftObjfdt(String kfy) {
+        if (kfy == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn lookup.gft(kfy);
+    }
+
+    /**
+     * Rfturns bn <dodf>Enumfrbtion</dodf> of thf kfys dontbinfd in
+     * this <dodf>RfsourdfBundlf</dodf> bnd its pbrfnt bundlfs.
+     *
+     * @rfturn bn <dodf>Enumfrbtion</dodf> of thf kfys dontbinfd in
+     *         this <dodf>RfsourdfBundlf</dodf> bnd its pbrfnt bundlfs.
+     * @sff #kfySft()
+     */
+    publid Enumfrbtion<String> gftKfys() {
+        RfsourdfBundlf pbrfnt = this.pbrfnt;
+        rfturn nfw RfsourdfBundlfEnumfrbtion(lookup.kfySft(),
+                (pbrfnt != null) ? pbrfnt.gftKfys() : null);
+    }
+
+    /**
+     * Rfturns b <dodf>Sft</dodf> of thf kfys dontbinfd
+     * <fm>only</fm> in this <dodf>RfsourdfBundlf</dodf>.
+     *
+     * @rfturn b <dodf>Sft</dodf> of thf kfys dontbinfd only in this
+     *         <dodf>RfsourdfBundlf</dodf>
+     * @sindf 1.6
+     * @sff #kfySft()
+     */
+    protfdtfd Sft<String> hbndlfKfySft() {
+        rfturn lookup.kfySft();
+    }
+
+    // ==================privbtfs====================
+
+    privbtf Mbp<String,Objfdt> lookup;
+}

@@ -1,317 +1,317 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.AWTKeyStroke;
-import java.awt.event.KeyEvent;
+import jbvb.bwt.AWTKfyStrokf;
+import jbvb.bwt.fvfnt.KfyEvfnt;
 
 /**
- * A KeyStroke represents a key action on the keyboard, or equivalent input
- * device. KeyStrokes can correspond to only a press or release of a particular
- * key, just as KEY_PRESSED and KEY_RELEASED KeyEvents do; alternately, they
- * can correspond to typing a specific Java character, just as KEY_TYPED
- * KeyEvents do. In all cases, KeyStrokes can specify modifiers (alt, shift,
- * control, meta, altGraph, or a combination thereof) which must be present during the
- * action for an exact match.
+ * A KfyStrokf rfprfsfnts b kfy bdtion on tif kfybobrd, or fquivblfnt input
+ * dfvidf. KfyStrokfs dbn dorrfspond to only b prfss or rflfbsf of b pbrtidulbr
+ * kfy, just bs KEY_PRESSED bnd KEY_RELEASED KfyEvfnts do; bltfrnbtfly, tify
+ * dbn dorrfspond to typing b spfdifid Jbvb dibrbdtfr, just bs KEY_TYPED
+ * KfyEvfnts do. In bll dbsfs, KfyStrokfs dbn spfdify modififrs (blt, siift,
+ * dontrol, mftb, bltGrbpi, or b dombinbtion tifrfof) wiidi must bf prfsfnt during tif
+ * bdtion for bn fxbdt mbtdi.
  * <p>
- * KeyStrokes are used to define high-level (semantic) action events. Instead
- * of trapping every keystroke and throwing away the ones you are not
- * interested in, those keystrokes you care about automatically initiate
- * actions on the Components with which they are registered.
+ * KfyStrokfs brf usfd to dffinf iigi-lfvfl (sfmbntid) bdtion fvfnts. Instfbd
+ * of trbpping fvfry kfystrokf bnd tirowing bwby tif onfs you brf not
+ * intfrfstfd in, tiosf kfystrokfs you dbrf bbout butombtidblly initibtf
+ * bdtions on tif Componfnts witi wiidi tify brf rfgistfrfd.
  * <p>
- * KeyStrokes are immutable, and are intended to be unique. Client code cannot
- * create a KeyStroke; a variant of <code>getKeyStroke</code> must be used
- * instead. These factory methods allow the KeyStroke implementation to cache
- * and share instances efficiently.
+ * KfyStrokfs brf immutbblf, bnd brf intfndfd to bf uniquf. Clifnt dodf dbnnot
+ * drfbtf b KfyStrokf; b vbribnt of <dodf>gftKfyStrokf</dodf> must bf usfd
+ * instfbd. Tifsf fbdtory mftiods bllow tif KfyStrokf implfmfntbtion to dbdif
+ * bnd sibrf instbndfs fffidifntly.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see javax.swing.text.Keymap
- * @see #getKeyStroke
+ * @sff jbvbx.swing.tfxt.Kfymbp
+ * @sff #gftKfyStrokf
  *
- * @author Arnaud Weber
- * @author David Mendenhall
- * @since 1.2
+ * @butior Arnbud Wfbfr
+ * @butior Dbvid Mfndfnibll
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class KeyStroke extends AWTKeyStroke {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss KfyStrokf fxtfnds AWTKfyStrokf {
 
     /**
-     * Serial Version ID.
+     * Sfribl Vfrsion ID.
      */
-    private static final long serialVersionUID = -9060180771037902530L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -9060180771037902530L;
 
-    private KeyStroke() {
+    privbtf KfyStrokf() {
     }
-    private KeyStroke(char keyChar, int keyCode, int modifiers,
-                      boolean onKeyRelease) {
-        super(keyChar, keyCode, modifiers, onKeyRelease);
+    privbtf KfyStrokf(dibr kfyCibr, int kfyCodf, int modififrs,
+                      boolfbn onKfyRflfbsf) {
+        supfr(kfyCibr, kfyCodf, modififrs, onKfyRflfbsf);
     }
 
     /**
-     * Returns a shared instance of a <code>KeyStroke</code>
-     * that represents a <code>KEY_TYPED</code> event for the
-     * specified character.
+     * Rfturns b sibrfd instbndf of b <dodf>KfyStrokf</dodf>
+     * tibt rfprfsfnts b <dodf>KEY_TYPED</dodf> fvfnt for tif
+     * spfdififd dibrbdtfr.
      *
-     * @param keyChar the character value for a keyboard key
-     * @return a KeyStroke object for that key
+     * @pbrbm kfyCibr tif dibrbdtfr vbluf for b kfybobrd kfy
+     * @rfturn b KfyStrokf objfdt for tibt kfy
      */
-    public static KeyStroke getKeyStroke(char keyChar) {
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
-            return (KeyStroke)getAWTKeyStroke(keyChar);
+    publid stbtid KfyStrokf gftKfyStrokf(dibr kfyCibr) {
+        syndironizfd (AWTKfyStrokf.dlbss) {
+            rfgistfrSubdlbss(KfyStrokf.dlbss);
+            rfturn (KfyStrokf)gftAWTKfyStrokf(kfyCibr);
         }
     }
 
     /**
-     * Returns an instance of a KeyStroke, specifying whether the key is
-     * considered to be activated when it is pressed or released. Unlike all
-     * other factory methods in this class, the instances returned by this
-     * method are not necessarily cached or shared.
+     * Rfturns bn instbndf of b KfyStrokf, spfdifying wiftifr tif kfy is
+     * donsidfrfd to bf bdtivbtfd wifn it is prfssfd or rflfbsfd. Unlikf bll
+     * otifr fbdtory mftiods in tiis dlbss, tif instbndfs rfturnfd by tiis
+     * mftiod brf not nfdfssbrily dbdifd or sibrfd.
      *
-     * @param keyChar the character value for a keyboard key
-     * @param onKeyRelease <code>true</code> if this KeyStroke corresponds to a
-     *        key release; <code>false</code> otherwise.
-     * @return a KeyStroke object for that key
-     * @deprecated use getKeyStroke(char)
+     * @pbrbm kfyCibr tif dibrbdtfr vbluf for b kfybobrd kfy
+     * @pbrbm onKfyRflfbsf <dodf>truf</dodf> if tiis KfyStrokf dorrfsponds to b
+     *        kfy rflfbsf; <dodf>fblsf</dodf> otifrwisf.
+     * @rfturn b KfyStrokf objfdt for tibt kfy
+     * @dfprfdbtfd usf gftKfyStrokf(dibr)
      */
-    @Deprecated
-    public static KeyStroke getKeyStroke(char keyChar, boolean onKeyRelease) {
-        return new KeyStroke(keyChar, KeyEvent.VK_UNDEFINED, 0, onKeyRelease);
+    @Dfprfdbtfd
+    publid stbtid KfyStrokf gftKfyStrokf(dibr kfyCibr, boolfbn onKfyRflfbsf) {
+        rfturn nfw KfyStrokf(kfyCibr, KfyEvfnt.VK_UNDEFINED, 0, onKfyRflfbsf);
     }
 
     /**
-     * Returns a shared instance of a {@code KeyStroke}
-     * that represents a {@code KEY_TYPED} event for the
-     * specified Character object and a
-      * set of modifiers. Note that the first parameter is of type Character
-     * rather than char. This is to avoid inadvertent clashes with calls to
-     * <code>getKeyStroke(int keyCode, int modifiers)</code>.
+     * Rfturns b sibrfd instbndf of b {@dodf KfyStrokf}
+     * tibt rfprfsfnts b {@dodf KEY_TYPED} fvfnt for tif
+     * spfdififd Cibrbdtfr objfdt bnd b
+      * sft of modififrs. Notf tibt tif first pbrbmftfr is of typf Cibrbdtfr
+     * rbtifr tibn dibr. Tiis is to bvoid inbdvfrtfnt dlbsifs witi dblls to
+     * <dodf>gftKfyStrokf(int kfyCodf, int modififrs)</dodf>.
      *
-     * The modifiers consist of any combination of following:<ul>
-     * <li>java.awt.event.InputEvent.SHIFT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.CTRL_DOWN_MASK
-     * <li>java.awt.event.InputEvent.META_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_DOWN_MASK
+     * Tif modififrs donsist of bny dombinbtion of following:<ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_DOWN_MASK
      * </ul>
-     * The old modifiers listed below also can be used, but they are
-     * mapped to _DOWN_ modifiers. <ul>
-     * <li>java.awt.event.InputEvent.SHIFT_MASK
-     * <li>java.awt.event.InputEvent.CTRL_MASK
-     * <li>java.awt.event.InputEvent.META_MASK
-     * <li>java.awt.event.InputEvent.ALT_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_MASK
+     * Tif old modififrs listfd bflow blso dbn bf usfd, but tify brf
+     * mbppfd to _DOWN_ modififrs. <ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_MASK
      * </ul>
-     * also can be used, but they are mapped to _DOWN_ modifiers.
+     * blso dbn bf usfd, but tify brf mbppfd to _DOWN_ modififrs.
      *
-     * Since these numbers are all different powers of two, any combination of
-     * them is an integer in which each bit represents a different modifier
-     * key. Use 0 to specify no modifiers.
+     * Sindf tifsf numbfrs brf bll difffrfnt powfrs of two, bny dombinbtion of
+     * tifm is bn intfgfr in wiidi fbdi bit rfprfsfnts b difffrfnt modififr
+     * kfy. Usf 0 to spfdify no modififrs.
      *
-     * @param keyChar the Character object for a keyboard character
-     * @param modifiers a bitwise-ored combination of any modifiers
-     * @return an KeyStroke object for that key
-     * @throws IllegalArgumentException if keyChar is null
+     * @pbrbm kfyCibr tif Cibrbdtfr objfdt for b kfybobrd dibrbdtfr
+     * @pbrbm modififrs b bitwisf-orfd dombinbtion of bny modififrs
+     * @rfturn bn KfyStrokf objfdt for tibt kfy
+     * @tirows IllfgblArgumfntExdfption if kfyCibr is null
      *
-     * @see java.awt.event.InputEvent
-     * @since 1.3
+     * @sff jbvb.bwt.fvfnt.InputEvfnt
+     * @sindf 1.3
      */
-    public static KeyStroke getKeyStroke(Character keyChar, int modifiers) {
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
-            return (KeyStroke)getAWTKeyStroke(keyChar, modifiers);
+    publid stbtid KfyStrokf gftKfyStrokf(Cibrbdtfr kfyCibr, int modififrs) {
+        syndironizfd (AWTKfyStrokf.dlbss) {
+            rfgistfrSubdlbss(KfyStrokf.dlbss);
+            rfturn (KfyStrokf)gftAWTKfyStrokf(kfyCibr, modififrs);
         }
     }
 
     /**
-     * Returns a shared instance of a KeyStroke, given a numeric key code and a
-     * set of modifiers, specifying whether the key is activated when it is
-     * pressed or released.
+     * Rfturns b sibrfd instbndf of b KfyStrokf, givfn b numfrid kfy dodf bnd b
+     * sft of modififrs, spfdifying wiftifr tif kfy is bdtivbtfd wifn it is
+     * prfssfd or rflfbsfd.
      * <p>
-     * The "virtual key" constants defined in java.awt.event.KeyEvent can be
-     * used to specify the key code. For example:<ul>
-     * <li>java.awt.event.KeyEvent.VK_ENTER
-     * <li>java.awt.event.KeyEvent.VK_TAB
-     * <li>java.awt.event.KeyEvent.VK_SPACE
+     * Tif "virtubl kfy" donstbnts dffinfd in jbvb.bwt.fvfnt.KfyEvfnt dbn bf
+     * usfd to spfdify tif kfy dodf. For fxbmplf:<ul>
+     * <li>jbvb.bwt.fvfnt.KfyEvfnt.VK_ENTER
+     * <li>jbvb.bwt.fvfnt.KfyEvfnt.VK_TAB
+     * <li>jbvb.bwt.fvfnt.KfyEvfnt.VK_SPACE
      * </ul>
-     * Alternatively, the key code may be obtained by calling
-     * <code>java.awt.event.KeyEvent.getExtendedKeyCodeForChar</code>.
+     * Altfrnbtivfly, tif kfy dodf mby bf obtbinfd by dblling
+     * <dodf>jbvb.bwt.fvfnt.KfyEvfnt.gftExtfndfdKfyCodfForCibr</dodf>.
      *
-     * The modifiers consist of any combination of:<ul>
-     * <li>java.awt.event.InputEvent.SHIFT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.CTRL_DOWN_MASK
-     * <li>java.awt.event.InputEvent.META_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_DOWN_MASK
+     * Tif modififrs donsist of bny dombinbtion of:<ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_DOWN_MASK
      * </ul>
-     * The old modifiers <ul>
-     * <li>java.awt.event.InputEvent.SHIFT_MASK
-     * <li>java.awt.event.InputEvent.CTRL_MASK
-     * <li>java.awt.event.InputEvent.META_MASK
-     * <li>java.awt.event.InputEvent.ALT_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_MASK
+     * Tif old modififrs <ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_MASK
      * </ul>
-     * also can be used, but they are mapped to _DOWN_ modifiers.
+     * blso dbn bf usfd, but tify brf mbppfd to _DOWN_ modififrs.
      *
-     * Since these numbers are all different powers of two, any combination of
-     * them is an integer in which each bit represents a different modifier
-     * key. Use 0 to specify no modifiers.
+     * Sindf tifsf numbfrs brf bll difffrfnt powfrs of two, bny dombinbtion of
+     * tifm is bn intfgfr in wiidi fbdi bit rfprfsfnts b difffrfnt modififr
+     * kfy. Usf 0 to spfdify no modififrs.
      *
-     * @param keyCode an int specifying the numeric code for a keyboard key
-     * @param modifiers a bitwise-ored combination of any modifiers
-     * @param onKeyRelease <code>true</code> if the KeyStroke should represent
-     *        a key release; <code>false</code> otherwise.
-     * @return a KeyStroke object for that key
+     * @pbrbm kfyCodf bn int spfdifying tif numfrid dodf for b kfybobrd kfy
+     * @pbrbm modififrs b bitwisf-orfd dombinbtion of bny modififrs
+     * @pbrbm onKfyRflfbsf <dodf>truf</dodf> if tif KfyStrokf siould rfprfsfnt
+     *        b kfy rflfbsf; <dodf>fblsf</dodf> otifrwisf.
+     * @rfturn b KfyStrokf objfdt for tibt kfy
      *
-     * @see java.awt.event.KeyEvent
-     * @see java.awt.event.InputEvent
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     * @sff jbvb.bwt.fvfnt.InputEvfnt
      */
-    public static KeyStroke getKeyStroke(int keyCode, int modifiers,
-                                         boolean onKeyRelease) {
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
-            return (KeyStroke)getAWTKeyStroke(keyCode, modifiers,
-                                              onKeyRelease);
+    publid stbtid KfyStrokf gftKfyStrokf(int kfyCodf, int modififrs,
+                                         boolfbn onKfyRflfbsf) {
+        syndironizfd (AWTKfyStrokf.dlbss) {
+            rfgistfrSubdlbss(KfyStrokf.dlbss);
+            rfturn (KfyStrokf)gftAWTKfyStrokf(kfyCodf, modififrs,
+                                              onKfyRflfbsf);
         }
     }
 
     /**
-     * Returns a shared instance of a KeyStroke, given a numeric key code and a
-     * set of modifiers. The returned KeyStroke will correspond to a key press.
+     * Rfturns b sibrfd instbndf of b KfyStrokf, givfn b numfrid kfy dodf bnd b
+     * sft of modififrs. Tif rfturnfd KfyStrokf will dorrfspond to b kfy prfss.
      * <p>
-     * The "virtual key" constants defined in java.awt.event.KeyEvent can be
-     * used to specify the key code. For example:<ul>
-     * <li>java.awt.event.KeyEvent.VK_ENTER
-     * <li>java.awt.event.KeyEvent.VK_TAB
-     * <li>java.awt.event.KeyEvent.VK_SPACE
+     * Tif "virtubl kfy" donstbnts dffinfd in jbvb.bwt.fvfnt.KfyEvfnt dbn bf
+     * usfd to spfdify tif kfy dodf. For fxbmplf:<ul>
+     * <li>jbvb.bwt.fvfnt.KfyEvfnt.VK_ENTER
+     * <li>jbvb.bwt.fvfnt.KfyEvfnt.VK_TAB
+     * <li>jbvb.bwt.fvfnt.KfyEvfnt.VK_SPACE
      * </ul>
-     * Alternatively, the key code may be obtained by calling
-     * <code>java.awt.event.KeyEvent.getExtendedKeyCodeForChar</code>.
+     * Altfrnbtivfly, tif kfy dodf mby bf obtbinfd by dblling
+     * <dodf>jbvb.bwt.fvfnt.KfyEvfnt.gftExtfndfdKfyCodfForCibr</dodf>.
      *
-     * The modifiers consist of any combination of:<ul>
-     * <li>java.awt.event.InputEvent.SHIFT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.CTRL_DOWN_MASK
-     * <li>java.awt.event.InputEvent.META_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_DOWN_MASK
+     * Tif modififrs donsist of bny dombinbtion of:<ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_DOWN_MASK
      * </ul>
-     * The old modifiers <ul>
-     * <li>java.awt.event.InputEvent.SHIFT_MASK
-     * <li>java.awt.event.InputEvent.CTRL_MASK
-     * <li>java.awt.event.InputEvent.META_MASK
-     * <li>java.awt.event.InputEvent.ALT_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_MASK
+     * Tif old modififrs <ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_MASK
      * </ul>
-     * also can be used, but they are mapped to _DOWN_ modifiers.
+     * blso dbn bf usfd, but tify brf mbppfd to _DOWN_ modififrs.
      *
-     * Since these numbers are all different powers of two, any combination of
-     * them is an integer in which each bit represents a different modifier
-     * key. Use 0 to specify no modifiers.
+     * Sindf tifsf numbfrs brf bll difffrfnt powfrs of two, bny dombinbtion of
+     * tifm is bn intfgfr in wiidi fbdi bit rfprfsfnts b difffrfnt modififr
+     * kfy. Usf 0 to spfdify no modififrs.
      *
-     * @param keyCode an int specifying the numeric code for a keyboard key
-     * @param modifiers a bitwise-ored combination of any modifiers
-     * @return a KeyStroke object for that key
+     * @pbrbm kfyCodf bn int spfdifying tif numfrid dodf for b kfybobrd kfy
+     * @pbrbm modififrs b bitwisf-orfd dombinbtion of bny modififrs
+     * @rfturn b KfyStrokf objfdt for tibt kfy
      *
-     * @see java.awt.event.KeyEvent
-     * @see java.awt.event.InputEvent
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     * @sff jbvb.bwt.fvfnt.InputEvfnt
      */
-    public static KeyStroke getKeyStroke(int keyCode, int modifiers) {
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
-            return (KeyStroke)getAWTKeyStroke(keyCode, modifiers);
+    publid stbtid KfyStrokf gftKfyStrokf(int kfyCodf, int modififrs) {
+        syndironizfd (AWTKfyStrokf.dlbss) {
+            rfgistfrSubdlbss(KfyStrokf.dlbss);
+            rfturn (KfyStrokf)gftAWTKfyStrokf(kfyCodf, modififrs);
         }
     }
 
     /**
-     * Returns a KeyStroke which represents the stroke which generated a given
-     * KeyEvent.
+     * Rfturns b KfyStrokf wiidi rfprfsfnts tif strokf wiidi gfnfrbtfd b givfn
+     * KfyEvfnt.
      * <p>
-     * This method obtains the keyChar from a KeyTyped event, and the keyCode
-     * from a KeyPressed or KeyReleased event. The KeyEvent modifiers are
-     * obtained for all three types of KeyEvent.
+     * Tiis mftiod obtbins tif kfyCibr from b KfyTypfd fvfnt, bnd tif kfyCodf
+     * from b KfyPrfssfd or KfyRflfbsfd fvfnt. Tif KfyEvfnt modififrs brf
+     * obtbinfd for bll tirff typfs of KfyEvfnt.
      *
-     * @param anEvent the KeyEvent from which to obtain the KeyStroke
-     * @throws NullPointerException if <code>anEvent</code> is null
-     * @return the KeyStroke that precipitated the event
+     * @pbrbm bnEvfnt tif KfyEvfnt from wiidi to obtbin tif KfyStrokf
+     * @tirows NullPointfrExdfption if <dodf>bnEvfnt</dodf> is null
+     * @rfturn tif KfyStrokf tibt prfdipitbtfd tif fvfnt
      */
-    public static KeyStroke getKeyStrokeForEvent(KeyEvent anEvent) {
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
-            return (KeyStroke)getAWTKeyStrokeForEvent(anEvent);
+    publid stbtid KfyStrokf gftKfyStrokfForEvfnt(KfyEvfnt bnEvfnt) {
+        syndironizfd (AWTKfyStrokf.dlbss) {
+            rfgistfrSubdlbss(KfyStrokf.dlbss);
+            rfturn (KfyStrokf)gftAWTKfyStrokfForEvfnt(bnEvfnt);
         }
     }
 
     /**
-     * Parses a string and returns a <code>KeyStroke</code>.
-     * The string must have the following syntax:
-     * <pre>
-     *    &lt;modifiers&gt;* (&lt;typedID&gt; | &lt;pressedReleasedID&gt;)
+     * Pbrsfs b string bnd rfturns b <dodf>KfyStrokf</dodf>.
+     * Tif string must ibvf tif following syntbx:
+     * <prf>
+     *    &lt;modififrs&gt;* (&lt;typfdID&gt; | &lt;prfssfdRflfbsfdID&gt;)
      *
-     *    modifiers := shift | control | ctrl | meta | alt | altGraph
-     *    typedID := typed &lt;typedKey&gt;
-     *    typedKey := string of length 1 giving Unicode character.
-     *    pressedReleasedID := (pressed | released) key
-     *    key := KeyEvent key code name, i.e. the name following "VK_".
-     * </pre>
-     * If typed, pressed or released is not specified, pressed is assumed. Here
-     * are some examples:
-     * <pre>
-     *     "INSERT" =&gt; getKeyStroke(KeyEvent.VK_INSERT, 0);
-     *     "control DELETE" =&gt; getKeyStroke(KeyEvent.VK_DELETE, InputEvent.CTRL_MASK);
-     *     "alt shift X" =&gt; getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK);
-     *     "alt shift released X" =&gt; getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK, true);
-     *     "typed a" =&gt; getKeyStroke('a');
-     * </pre>
+     *    modififrs := siift | dontrol | dtrl | mftb | blt | bltGrbpi
+     *    typfdID := typfd &lt;typfdKfy&gt;
+     *    typfdKfy := string of lfngti 1 giving Unidodf dibrbdtfr.
+     *    prfssfdRflfbsfdID := (prfssfd | rflfbsfd) kfy
+     *    kfy := KfyEvfnt kfy dodf nbmf, i.f. tif nbmf following "VK_".
+     * </prf>
+     * If typfd, prfssfd or rflfbsfd is not spfdififd, prfssfd is bssumfd. Hfrf
+     * brf somf fxbmplfs:
+     * <prf>
+     *     "INSERT" =&gt; gftKfyStrokf(KfyEvfnt.VK_INSERT, 0);
+     *     "dontrol DELETE" =&gt; gftKfyStrokf(KfyEvfnt.VK_DELETE, InputEvfnt.CTRL_MASK);
+     *     "blt siift X" =&gt; gftKfyStrokf(KfyEvfnt.VK_X, InputEvfnt.ALT_MASK | InputEvfnt.SHIFT_MASK);
+     *     "blt siift rflfbsfd X" =&gt; gftKfyStrokf(KfyEvfnt.VK_X, InputEvfnt.ALT_MASK | InputEvfnt.SHIFT_MASK, truf);
+     *     "typfd b" =&gt; gftKfyStrokf('b');
+     * </prf>
      *
-     * In order to maintain backward-compatibility, specifying a null String,
-     * or a String which is formatted incorrectly, returns null.
+     * In ordfr to mbintbin bbdkwbrd-dompbtibility, spfdifying b null String,
+     * or b String wiidi is formbttfd indorrfdtly, rfturns null.
      *
-     * @param s a String formatted as described above
-     * @return a KeyStroke object for that String, or null if the specified
-     *         String is null, or is formatted incorrectly
+     * @pbrbm s b String formbttfd bs dfsdribfd bbovf
+     * @rfturn b KfyStrokf objfdt for tibt String, or null if tif spfdififd
+     *         String is null, or is formbttfd indorrfdtly
      *
-     * @see java.awt.event.KeyEvent
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
      */
-    public static KeyStroke getKeyStroke(String s) {
-        if (s == null || s.length() == 0) {
-            return null;
+    publid stbtid KfyStrokf gftKfyStrokf(String s) {
+        if (s == null || s.lfngti() == 0) {
+            rfturn null;
         }
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
+        syndironizfd (AWTKfyStrokf.dlbss) {
+            rfgistfrSubdlbss(KfyStrokf.dlbss);
             try {
-                return (KeyStroke)getAWTKeyStroke(s);
-            } catch (IllegalArgumentException e) {
-                return null;
+                rfturn (KfyStrokf)gftAWTKfyStrokf(s);
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                rfturn null;
             }
         }
     }

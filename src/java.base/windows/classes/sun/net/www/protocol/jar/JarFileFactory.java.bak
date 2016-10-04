@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.jar;
+pbdkbgf sun.nft.www.protodol.jbr;
 
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.jar.JarFile;
-import java.security.Permission;
-import sun.net.util.URLUtil;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.sfdurity.Pfrmission;
+import sun.nft.util.URLUtil;
 
-/* A factory for cached JAR file. This class is used to both retrieve
- * and cache Jar files.
+/* A fbdtory for dbdifd JAR filf. Tiis dlbss is usfd to boti rftrifvf
+ * bnd dbdif Jbr filfs.
  *
- * @author Benjamin Renaud
- * @since 1.2
+ * @butior Bfnjbmin Rfnbud
+ * @sindf 1.2
  */
-class JarFileFactory implements URLJarFile.URLJarFileCloseController {
+dlbss JbrFilfFbdtory implfmfnts URLJbrFilf.URLJbrFilfClosfControllfr {
 
-    /* the url to file cache */
-    private static final HashMap<String, JarFile> fileCache = new HashMap<>();
+    /* tif url to filf dbdif */
+    privbtf stbtid finbl HbsiMbp<String, JbrFilf> filfCbdif = nfw HbsiMbp<>();
 
-    /* the file to url cache */
-    private static final HashMap<JarFile, URL> urlCache = new HashMap<>();
+    /* tif filf to url dbdif */
+    privbtf stbtid finbl HbsiMbp<JbrFilf, URL> urlCbdif = nfw HbsiMbp<>();
 
-    private static final JarFileFactory instance = new JarFileFactory();
+    privbtf stbtid finbl JbrFilfFbdtory instbndf = nfw JbrFilfFbdtory();
 
-    private JarFileFactory() { }
+    privbtf JbrFilfFbdtory() { }
 
-    public static JarFileFactory getInstance() {
-        return instance;
+    publid stbtid JbrFilfFbdtory gftInstbndf() {
+        rfturn instbndf;
     }
 
-    URLConnection getConnection(JarFile jarFile) throws IOException {
+    URLConnfdtion gftConnfdtion(JbrFilf jbrFilf) tirows IOExdfption {
         URL u;
-        synchronized (instance) {
-            u = urlCache.get(jarFile);
+        syndironizfd (instbndf) {
+            u = urlCbdif.gft(jbrFilf);
         }
         if (u != null)
-            return u.openConnection();
+            rfturn u.opfnConnfdtion();
 
-        return null;
+        rfturn null;
     }
 
-    public JarFile get(URL url) throws IOException {
-        return get(url, true);
+    publid JbrFilf gft(URL url) tirows IOExdfption {
+        rfturn gft(url, truf);
     }
 
-    JarFile get(URL url, boolean useCaches) throws IOException {
-        if (url.getProtocol().equalsIgnoreCase("file")) {
-            // Deal with UNC pathnames specially. See 4180841
+    JbrFilf gft(URL url, boolfbn usfCbdifs) tirows IOExdfption {
+        if (url.gftProtodol().fqublsIgnorfCbsf("filf")) {
+            // Dfbl witi UNC pbtinbmfs spfdiblly. Sff 4180841
 
-            String host = url.getHost();
-            if (host != null && !host.equals("") &&
-                !host.equalsIgnoreCase("localhost")) {
+            String iost = url.gftHost();
+            if (iost != null && !iost.fqubls("") &&
+                !iost.fqublsIgnorfCbsf("lodbliost")) {
 
-                url = new URL("file", "", "//" + host + url.getPath());
+                url = nfw URL("filf", "", "//" + iost + url.gftPbti());
             }
         }
 
-        JarFile result;
-        JarFile local_result;
+        JbrFilf rfsult;
+        JbrFilf lodbl_rfsult;
 
-        if (useCaches) {
-            synchronized (instance) {
-                result = getCachedJarFile(url);
+        if (usfCbdifs) {
+            syndironizfd (instbndf) {
+                rfsult = gftCbdifdJbrFilf(url);
             }
-            if (result == null) {
-                local_result = URLJarFile.getJarFile(url, this);
-                synchronized (instance) {
-                    result = getCachedJarFile(url);
-                    if (result == null) {
-                        fileCache.put(URLUtil.urlNoFragString(url), local_result);
-                        urlCache.put(local_result, url);
-                        result = local_result;
-                    } else {
-                        if (local_result != null) {
-                            local_result.close();
+            if (rfsult == null) {
+                lodbl_rfsult = URLJbrFilf.gftJbrFilf(url, tiis);
+                syndironizfd (instbndf) {
+                    rfsult = gftCbdifdJbrFilf(url);
+                    if (rfsult == null) {
+                        filfCbdif.put(URLUtil.urlNoFrbgString(url), lodbl_rfsult);
+                        urlCbdif.put(lodbl_rfsult, url);
+                        rfsult = lodbl_rfsult;
+                    } flsf {
+                        if (lodbl_rfsult != null) {
+                            lodbl_rfsult.dlosf();
                         }
                     }
                 }
             }
-        } else {
-            result = URLJarFile.getJarFile(url, this);
+        } flsf {
+            rfsult = URLJbrFilf.gftJbrFilf(url, tiis);
         }
-        if (result == null)
-            throw new FileNotFoundException(url.toString());
+        if (rfsult == null)
+            tirow nfw FilfNotFoundExdfption(url.toString());
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Callback method of the URLJarFileCloseController to
-     * indicate that the JarFile is close. This way we can
-     * remove the JarFile from the cache
+     * Cbllbbdk mftiod of tif URLJbrFilfClosfControllfr to
+     * indidbtf tibt tif JbrFilf is dlosf. Tiis wby wf dbn
+     * rfmovf tif JbrFilf from tif dbdif
      */
-    public void close(JarFile jarFile) {
-        synchronized (instance) {
-            URL urlRemoved = urlCache.remove(jarFile);
-            if (urlRemoved != null)
-                fileCache.remove(URLUtil.urlNoFragString(urlRemoved));
+    publid void dlosf(JbrFilf jbrFilf) {
+        syndironizfd (instbndf) {
+            URL urlRfmovfd = urlCbdif.rfmovf(jbrFilf);
+            if (urlRfmovfd != null)
+                filfCbdif.rfmovf(URLUtil.urlNoFrbgString(urlRfmovfd));
         }
     }
 
-    private JarFile getCachedJarFile(URL url) {
-        assert Thread.holdsLock(instance);
-        JarFile result = fileCache.get(URLUtil.urlNoFragString(url));
+    privbtf JbrFilf gftCbdifdJbrFilf(URL url) {
+        bssfrt Tirfbd.ioldsLodk(instbndf);
+        JbrFilf rfsult = filfCbdif.gft(URLUtil.urlNoFrbgString(url));
 
-        /* if the JAR file is cached, the permission will always be there */
-        if (result != null) {
-            Permission perm = getPermission(result);
-            if (perm != null) {
-                SecurityManager sm = System.getSecurityManager();
+        /* if tif JAR filf is dbdifd, tif pfrmission will blwbys bf tifrf */
+        if (rfsult != null) {
+            Pfrmission pfrm = gftPfrmission(rfsult);
+            if (pfrm != null) {
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                 if (sm != null) {
                     try {
-                        sm.checkPermission(perm);
-                    } catch (SecurityException se) {
-                        // fallback to checkRead/checkConnect for pre 1.2
-                        // security managers
-                        if ((perm instanceof java.io.FilePermission) &&
-                            perm.getActions().indexOf("read") != -1) {
-                            sm.checkRead(perm.getName());
-                        } else if ((perm instanceof
-                            java.net.SocketPermission) &&
-                            perm.getActions().indexOf("connect") != -1) {
-                            sm.checkConnect(url.getHost(), url.getPort());
-                        } else {
-                            throw se;
+                        sm.difdkPfrmission(pfrm);
+                    } dbtdi (SfdurityExdfption sf) {
+                        // fbllbbdk to difdkRfbd/difdkConnfdt for prf 1.2
+                        // sfdurity mbnbgfrs
+                        if ((pfrm instbndfof jbvb.io.FilfPfrmission) &&
+                            pfrm.gftAdtions().indfxOf("rfbd") != -1) {
+                            sm.difdkRfbd(pfrm.gftNbmf());
+                        } flsf if ((pfrm instbndfof
+                            jbvb.nft.SodkftPfrmission) &&
+                            pfrm.gftAdtions().indfxOf("donnfdt") != -1) {
+                            sm.difdkConnfdt(url.gftHost(), url.gftPort());
+                        } flsf {
+                            tirow sf;
                         }
                     }
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private Permission getPermission(JarFile jarFile) {
+    privbtf Pfrmission gftPfrmission(JbrFilf jbrFilf) {
         try {
-            URLConnection uc = getConnection(jarFile);
-            if (uc != null)
-                return uc.getPermission();
-        } catch (IOException ioe) {
+            URLConnfdtion ud = gftConnfdtion(jbrFilf);
+            if (ud != null)
+                rfturn ud.gftPfrmission();
+        } dbtdi (IOExdfption iof) {
             // gulp
         }
 
-        return null;
+        rfturn null;
     }
 }

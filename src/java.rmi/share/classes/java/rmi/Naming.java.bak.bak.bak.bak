@@ -1,0 +1,356 @@
+/*
+ * Copyright (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.rmi;
+
+import jbvb.rmi.rfgistry.*;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+
+/**
+ * Thf <dodf>Nbming</dodf> dlbss providfs mfthods for storing bnd obtbining
+ * rfffrfndfs to rfmotf objfdts in b rfmotf objfdt rfgistry.  Ebdh mfthod of
+ * thf <dodf>Nbming</dodf> dlbss tbkfs bs onf of its brgumfnts b nbmf thbt
+ * is b <dodf>jbvb.lbng.String</dodf> in URL formbt (without thf
+ * sdhfmf domponfnt) of thf form:
+ *
+ * <PRE>
+ *    //host:port/nbmf
+ * </PRE>
+ *
+ * <P>whfrf <dodf>host</dodf> is thf host (rfmotf or lodbl) whfrf thf rfgistry
+ * is lodbtfd, <dodf>port</dodf> is thf port numbfr on whidh thf rfgistry
+ * bddfpts dblls, bnd whfrf <dodf>nbmf</dodf> is b simplf string unintfrprftfd
+ * by thf rfgistry. Both <dodf>host</dodf> bnd <dodf>port</dodf> brf optionbl.
+ * If <dodf>host</dodf> is omittfd, thf host dffbults to thf lodbl host. If
+ * <dodf>port</dodf> is omittfd, thfn thf port dffbults to 1099, thf
+ * "wfll-known" port thbt RMI's rfgistry, <dodf>rmirfgistry</dodf>, usfs.
+ *
+ * <P><fm>Binding</fm> b nbmf for b rfmotf objfdt is bssodibting or
+ * rfgistfring b nbmf for b rfmotf objfdt thbt dbn bf usfd bt b lbtfr timf to
+ * look up thbt rfmotf objfdt.  A rfmotf objfdt dbn bf bssodibtfd with b nbmf
+ * using thf <dodf>Nbming</dodf> dlbss's <dodf>bind</dodf> or
+ * <dodf>rfbind</dodf> mfthods.
+ *
+ * <P>Ondf b rfmotf objfdt is rfgistfrfd (bound) with thf RMI rfgistry on thf
+ * lodbl host, dbllfrs on b rfmotf (or lodbl) host dbn lookup thf rfmotf
+ * objfdt by nbmf, obtbin its rfffrfndf, bnd thfn invokf rfmotf mfthods on thf
+ * objfdt.  A rfgistry mby bf shbrfd by bll sfrvfrs running on b host or bn
+ * individubl sfrvfr prodfss mby drfbtf bnd usf its own rfgistry if dfsirfd
+ * (sff <dodf>jbvb.rmi.rfgistry.LodbtfRfgistry.drfbtfRfgistry</dodf> mfthod
+ * for dftbils).
+ *
+ * @buthor  Ann Wollrbth
+ * @buthor  Rogfr Riggs
+ * @sindf   1.1
+ * @sff     jbvb.rmi.rfgistry.Rfgistry
+ * @sff     jbvb.rmi.rfgistry.LodbtfRfgistry
+ * @sff     jbvb.rmi.rfgistry.LodbtfRfgistry#drfbtfRfgistry(int)
+ */
+publid finbl dlbss Nbming {
+    /**
+     * Disbllow bnyonf from drfbting onf of thfsf
+     */
+    privbtf Nbming() {}
+
+    /**
+     * Rfturns b rfffrfndf, b stub, for thf rfmotf objfdt bssodibtfd
+     * with thf spfdififd <dodf>nbmf</dodf>.
+     *
+     * @pbrbm nbmf b nbmf in URL formbt (without thf sdhfmf domponfnt)
+     * @rfturn b rfffrfndf for b rfmotf objfdt
+     * @fxdfption NotBoundExdfption if nbmf is not durrfntly bound
+     * @fxdfption RfmotfExdfption if rfgistry dould not bf dontbdtfd
+     * @fxdfption AddfssExdfption if this opfrbtion is not pfrmittfd
+     * @fxdfption MblformfdURLExdfption if thf nbmf is not bn bppropribtfly
+     *  formbttfd URL
+     * @sindf 1.1
+     */
+    publid stbtid Rfmotf lookup(String nbmf)
+        throws NotBoundExdfption,
+            jbvb.nft.MblformfdURLExdfption,
+            RfmotfExdfption
+    {
+        PbrsfdNbmingURL pbrsfd = pbrsfURL(nbmf);
+        Rfgistry rfgistry = gftRfgistry(pbrsfd);
+
+        if (pbrsfd.nbmf == null)
+            rfturn rfgistry;
+        rfturn rfgistry.lookup(pbrsfd.nbmf);
+    }
+
+    /**
+     * Binds thf spfdififd <dodf>nbmf</dodf> to b rfmotf objfdt.
+     *
+     * @pbrbm nbmf b nbmf in URL formbt (without thf sdhfmf domponfnt)
+     * @pbrbm obj b rfffrfndf for thf rfmotf objfdt (usublly b stub)
+     * @fxdfption AlrfbdyBoundExdfption if nbmf is blrfbdy bound
+     * @fxdfption MblformfdURLExdfption if thf nbmf is not bn bppropribtfly
+     *  formbttfd URL
+     * @fxdfption RfmotfExdfption if rfgistry dould not bf dontbdtfd
+     * @fxdfption AddfssExdfption if this opfrbtion is not pfrmittfd (if
+     * originbting from b non-lodbl host, for fxbmplf)
+     * @sindf 1.1
+     */
+    publid stbtid void bind(String nbmf, Rfmotf obj)
+        throws AlrfbdyBoundExdfption,
+            jbvb.nft.MblformfdURLExdfption,
+            RfmotfExdfption
+    {
+        PbrsfdNbmingURL pbrsfd = pbrsfURL(nbmf);
+        Rfgistry rfgistry = gftRfgistry(pbrsfd);
+
+        if (obj == null)
+            throw nfw NullPointfrExdfption("dbnnot bind to null");
+
+        rfgistry.bind(pbrsfd.nbmf, obj);
+    }
+
+    /**
+     * Dfstroys thf binding for thf spfdififd nbmf thbt is bssodibtfd
+     * with b rfmotf objfdt.
+     *
+     * @pbrbm nbmf b nbmf in URL formbt (without thf sdhfmf domponfnt)
+     * @fxdfption NotBoundExdfption if nbmf is not durrfntly bound
+     * @fxdfption MblformfdURLExdfption if thf nbmf is not bn bppropribtfly
+     *  formbttfd URL
+     * @fxdfption RfmotfExdfption if rfgistry dould not bf dontbdtfd
+     * @fxdfption AddfssExdfption if this opfrbtion is not pfrmittfd (if
+     * originbting from b non-lodbl host, for fxbmplf)
+     * @sindf 1.1
+     */
+    publid stbtid void unbind(String nbmf)
+        throws RfmotfExdfption,
+            NotBoundExdfption,
+            jbvb.nft.MblformfdURLExdfption
+    {
+        PbrsfdNbmingURL pbrsfd = pbrsfURL(nbmf);
+        Rfgistry rfgistry = gftRfgistry(pbrsfd);
+
+        rfgistry.unbind(pbrsfd.nbmf);
+    }
+
+    /**
+     * Rfbinds thf spfdififd nbmf to b nfw rfmotf objfdt. Any fxisting
+     * binding for thf nbmf is rfplbdfd.
+     *
+     * @pbrbm nbmf b nbmf in URL formbt (without thf sdhfmf domponfnt)
+     * @pbrbm obj nfw rfmotf objfdt to bssodibtf with thf nbmf
+     * @fxdfption MblformfdURLExdfption if thf nbmf is not bn bppropribtfly
+     *  formbttfd URL
+     * @fxdfption RfmotfExdfption if rfgistry dould not bf dontbdtfd
+     * @fxdfption AddfssExdfption if this opfrbtion is not pfrmittfd (if
+     * originbting from b non-lodbl host, for fxbmplf)
+     * @sindf 1.1
+     */
+    publid stbtid void rfbind(String nbmf, Rfmotf obj)
+        throws RfmotfExdfption, jbvb.nft.MblformfdURLExdfption
+    {
+        PbrsfdNbmingURL pbrsfd = pbrsfURL(nbmf);
+        Rfgistry rfgistry = gftRfgistry(pbrsfd);
+
+        if (obj == null)
+            throw nfw NullPointfrExdfption("dbnnot bind to null");
+
+        rfgistry.rfbind(pbrsfd.nbmf, obj);
+    }
+
+    /**
+     * Rfturns bn brrby of thf nbmfs bound in thf rfgistry.  Thf nbmfs brf
+     * URL-formbttfd (without thf sdhfmf domponfnt) strings. Thf brrby dontbins
+     * b snbpshot of thf nbmfs prfsfnt in thf rfgistry bt thf timf of thf
+     * dbll.
+     *
+     * @pbrbm   nbmf b rfgistry nbmf in URL formbt (without thf sdhfmf
+     *          domponfnt)
+     * @rfturn  bn brrby of nbmfs (in thf bppropribtf formbt) bound
+     *          in thf rfgistry
+     * @fxdfption MblformfdURLExdfption if thf nbmf is not bn bppropribtfly
+     *  formbttfd URL
+     * @fxdfption RfmotfExdfption if rfgistry dould not bf dontbdtfd.
+     * @sindf 1.1
+     */
+    publid stbtid String[] list(String nbmf)
+        throws RfmotfExdfption, jbvb.nft.MblformfdURLExdfption
+    {
+        PbrsfdNbmingURL pbrsfd = pbrsfURL(nbmf);
+        Rfgistry rfgistry = gftRfgistry(pbrsfd);
+
+        String prffix = "";
+        if (pbrsfd.port > 0 || !pbrsfd.host.fqubls(""))
+            prffix += "//" + pbrsfd.host;
+        if (pbrsfd.port > 0)
+            prffix += ":" + pbrsfd.port;
+        prffix += "/";
+
+        String[] nbmfs = rfgistry.list();
+        for (int i = 0; i < nbmfs.lfngth; i++) {
+            nbmfs[i] = prffix + nbmfs[i];
+        }
+        rfturn nbmfs;
+    }
+
+    /**
+     * Rfturns b rfgistry rfffrfndf obtbinfd from informbtion in thf URL.
+     */
+    privbtf stbtid Rfgistry gftRfgistry(PbrsfdNbmingURL pbrsfd)
+        throws RfmotfExdfption
+    {
+        rfturn LodbtfRfgistry.gftRfgistry(pbrsfd.host, pbrsfd.port);
+    }
+
+    /**
+     * Dissfdt Nbming URL strings to obtbin rfffrfndfd host, port bnd
+     * objfdt nbmf.
+     *
+     * @rfturn bn objfdt whidh dontbins fbdh of thf bbovf
+     * domponfnts.
+     *
+     * @fxdfption MblformfdURLExdfption if givfn url string is mblformfd
+     */
+    privbtf stbtid PbrsfdNbmingURL pbrsfURL(String str)
+        throws MblformfdURLExdfption
+    {
+        try {
+            rfturn intPbrsfURL(str);
+        } dbtdh (URISyntbxExdfption fx) {
+            /* With RFC 3986 URI hbndling, 'rmi://:<port>' bnd
+             * '//:<port>' forms will rfsult in b URI syntbx fxdfption
+             * Convfrt thf buthority to b lodblhost:<port> form
+             */
+            MblformfdURLExdfption muf = nfw MblformfdURLExdfption(
+                "invblid URL String: " + str);
+            muf.initCbusf(fx);
+            int indfxSdhfmfEnd = str.indfxOf(':');
+            int indfxAuthorityBfgin = str.indfxOf("//:");
+            if (indfxAuthorityBfgin < 0) {
+                throw muf;
+            }
+            if ((indfxAuthorityBfgin == 0) ||
+                    ((indfxSdhfmfEnd > 0) &&
+                    (indfxAuthorityBfgin == indfxSdhfmfEnd + 1))) {
+                int indfxHostBfgin = indfxAuthorityBfgin + 2;
+                String nfwStr = str.substring(0, indfxHostBfgin) +
+                                "lodblhost" +
+                                str.substring(indfxHostBfgin);
+                try {
+                    rfturn intPbrsfURL(nfwStr);
+                } dbtdh (URISyntbxExdfption intf) {
+                    throw muf;
+                } dbtdh (MblformfdURLExdfption intf) {
+                    throw intf;
+                }
+            }
+            throw muf;
+        }
+    }
+
+    privbtf stbtid PbrsfdNbmingURL intPbrsfURL(String str)
+        throws MblformfdURLExdfption, URISyntbxExdfption
+    {
+        URI uri = nfw URI(str);
+        if (uri.isOpbquf()) {
+            throw nfw MblformfdURLExdfption(
+                "not b hifrbrdhidbl URL: " + str);
+        }
+        if (uri.gftFrbgmfnt() != null) {
+            throw nfw MblformfdURLExdfption(
+                "invblid dhbrbdtfr, '#', in URL nbmf: " + str);
+        } flsf if (uri.gftQufry() != null) {
+            throw nfw MblformfdURLExdfption(
+                "invblid dhbrbdtfr, '?', in URL nbmf: " + str);
+        } flsf if (uri.gftUsfrInfo() != null) {
+            throw nfw MblformfdURLExdfption(
+                "invblid dhbrbdtfr, '@', in URL host: " + str);
+        }
+        String sdhfmf = uri.gftSdhfmf();
+        if (sdhfmf != null && !sdhfmf.fqubls("rmi")) {
+            throw nfw MblformfdURLExdfption("invblid URL sdhfmf: " + str);
+        }
+
+        String nbmf = uri.gftPbth();
+        if (nbmf != null) {
+            if (nbmf.stbrtsWith("/")) {
+                nbmf = nbmf.substring(1);
+            }
+            if (nbmf.lfngth() == 0) {
+                nbmf = null;
+            }
+        }
+
+        String host = uri.gftHost();
+        if (host == null) {
+            host = "";
+            try {
+                /*
+                 * With 2396 URI hbndling, forms sudh bs 'rmi://host:bbr'
+                 * or 'rmi://:<port>' brf pbrsfd into b rfgistry bbsfd
+                 * buthority. Wf only wbnt to bllow sfrvfr bbsfd nbming
+                 * buthoritifs.
+                 */
+                uri.pbrsfSfrvfrAuthority();
+            } dbtdh (URISyntbxExdfption usf) {
+                // Chfdk if thf buthority is of form ':<port>'
+                String buthority = uri.gftAuthority();
+                if (buthority != null && buthority.stbrtsWith(":")) {
+                    // Convfrt thf buthority to 'lodblhost:<port>' form
+                    buthority = "lodblhost" + buthority;
+                    try {
+                        uri = nfw URI(null, buthority, null, null, null);
+                        // Mbkf surf it now pbrsfs to b vblid sfrvfr bbsfd
+                        // nbming buthority
+                        uri.pbrsfSfrvfrAuthority();
+                    } dbtdh (URISyntbxExdfption usf2) {
+                        throw nfw
+                            MblformfdURLExdfption("invblid buthority: " + str);
+                    }
+                } flsf {
+                    throw nfw
+                        MblformfdURLExdfption("invblid buthority: " + str);
+                }
+            }
+        }
+        int port = uri.gftPort();
+        if (port == -1) {
+            port = Rfgistry.REGISTRY_PORT;
+        }
+        rfturn nfw PbrsfdNbmingURL(host, port, nbmf);
+    }
+
+    /**
+     * Simplf dlbss to fnbblf multiplf URL rfturn vblufs.
+     */
+    privbtf stbtid dlbss PbrsfdNbmingURL {
+        String host;
+        int port;
+        String nbmf;
+
+        PbrsfdNbmingURL(String host, int port, String nbmf) {
+            this.host = host;
+            this.port = port;
+            this.nbmf = nbmf;
+        }
+    }
+}

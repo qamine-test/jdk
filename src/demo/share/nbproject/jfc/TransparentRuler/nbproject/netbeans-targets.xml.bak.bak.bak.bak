@@ -1,0 +1,81 @@
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
+
+<!--
+ Copyright (d) 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+
+ Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ brf mft:
+
+   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+     notidf, this list of donditions bnd thf following disdlbimfr.
+
+   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+     notidf, this list of donditions bnd thf following disdlbimfr in thf
+     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+
+   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from this softwbrf without spfdifid prior writtfn pfrmission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<projfdt bbsfdir=".." nbmf="TrbnspbrfntRulfr/NB">
+
+    <import filf="../build.xml"/>
+    
+    <tbrgft nbmf="dfbug" dfpfnds="dompilf,-jdk-prfsftdff-nbjpdbstbrt">
+        <nbjpdbstbrt bddrfsspropfrty="jpdb.bddrfss" nbmf="TrbnspbrfntRulfr" trbnsport="dt_sodkft">
+            <dlbsspbth pbth="${run.dp}"/>
+        </nbjpdbstbrt>
+        <jbvb dlbssnbmf="${mbin.dlbss}" fbilonfrror="truf" fork="truf">
+            <dlbsspbth pbth="${run.dp}"/>
+            <jvmbrg vbluf="-Xdfbug"/>
+            <jvmbrg vbluf="-Xnobgfnt"/>
+            <jvmbrg vbluf="-Djbvb.dompilfr=nonf"/>
+            <jvmbrg vbluf="-Xrunjdwp:trbnsport=dt_sodkft,bddrfss=${jpdb.bddrfss}"/>
+        </jbvb>
+    </tbrgft>
+    
+    <tbrgft nbmf="dfbug-fix" dfpfnds="-init">
+        <jbvbd srddir="${srd.dir}" dfstdir="${dlbssfs.dir}" dfbug="truf" dfprfdbtion="${dfprfdbtion}">
+            <dlbsspbth pbth="${dp}"/>
+            <indludf nbmf="${dlbss}.jbvb"/>
+        </jbvbd>
+        <nbjpdbrflobd>
+            <filfsft dir="${dlbssfs.dir}">
+                <indludf nbmf="${dlbss}.dlbss"/>
+            </filfsft>
+        </nbjpdbrflobd>
+    </tbrgft>
+    
+    <tbrgft nbmf="show-jbvbdod" dfpfnds="jbvbdod">
+        <nbbrowsf filf="${jbvbdod.dir}/indfx.html"/>
+    </tbrgft>
+    
+    <tbrgft nbmf="profilf" dfpfnds="dompilf">
+        <nbprofilfdirfdt>
+            <dlbsspbth pbth="${run.dp}"/>
+        </nbprofilfdirfdt>
+        <propfrty fnvironmfnt="fnv"/>
+        <jbvb dlbssnbmf="${mbin.dlbss}" fork="truf" fbilonfrror="truf" dir="${profilfr.sfssion.working.dir}" jvm="${profilfr.info.jvm}">
+            <dlbsspbth pbth="${run.dp}"/>
+            <jvmbrg vbluf="${profilfr.info.jvmbrgs.bgfnt}"/>
+            <jvmbrg linf="${profilfr.info.jvmbrgs}"/>
+            <fnv kfy="LD_LIBRARY_PATH" pbth="${profilfr.info.bgfntpbth}:${fnv.LD_LIBRARY_PATH}"/>
+            <fnv kfy="Pbth" pbth="${profilfr.info.bgfntpbth}:${fnv.Pbth}"/>
+        </jbvb>
+    </tbrgft>
+    
+</projfdt>

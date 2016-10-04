@@ -1,250 +1,250 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * A class to perform rendering of the glyphs.
- * This can be implemented to be stateless, or
- * to hold some information as a cache to
- * facilitate faster rendering and model/view
- * translation.  At a minimum, the GlyphPainter
- * allows a View implementation to perform its
- * duties independent of a particular version
- * of JVM and selection of capabilities (i.e.
- * shaping for i18n, etc).
+ * A dlbss to pfrform rfndfring of tif glypis.
+ * Tiis dbn bf implfmfntfd to bf stbtflfss, or
+ * to iold somf informbtion bs b dbdif to
+ * fbdilitbtf fbstfr rfndfring bnd modfl/vifw
+ * trbnslbtion.  At b minimum, tif GlypiPbintfr
+ * bllows b Vifw implfmfntbtion to pfrform its
+ * dutifs indfpfndfnt of b pbrtidulbr vfrsion
+ * of JVM bnd sflfdtion of dbpbbilitifs (i.f.
+ * sibping for i18n, ftd).
  * <p>
- * This implementation is intended for operation
- * under the JDK1.1 API of the Java Platform.
- * Since the JDK is backward compatible with
- * JDK1.1 API, this class will also function on
- * Java 2.  The JDK introduces improved
- * API for rendering text however, so the GlyphPainter2
- * is recommended for the DK.
+ * Tiis implfmfntbtion is intfndfd for opfrbtion
+ * undfr tif JDK1.1 API of tif Jbvb Plbtform.
+ * Sindf tif JDK is bbdkwbrd dompbtiblf witi
+ * JDK1.1 API, tiis dlbss will blso fundtion on
+ * Jbvb 2.  Tif JDK introdudfs improvfd
+ * API for rfndfring tfxt iowfvfr, so tif GlypiPbintfr2
+ * is rfdommfndfd for tif DK.
  *
- * @author  Timothy Prinzing
- * @see GlyphView
+ * @butior  Timotiy Prinzing
+ * @sff GlypiVifw
  */
-class GlyphPainter1 extends GlyphView.GlyphPainter {
+dlbss GlypiPbintfr1 fxtfnds GlypiVifw.GlypiPbintfr {
 
     /**
-     * Determine the span the glyphs given a start location
-     * (for tab expansion).
+     * Dftfrminf tif spbn tif glypis givfn b stbrt lodbtion
+     * (for tbb fxpbnsion).
      */
-    public float getSpan(GlyphView v, int p0, int p1,
-                         TabExpander e, float x) {
-        sync(v);
-        Segment text = v.getText(p0, p1);
-        int[] justificationData = getJustificationData(v);
-        int width = Utilities.getTabbedTextWidth(v, text, metrics, (int) x, e, p0,
-                                                 justificationData);
-        SegmentCache.releaseSharedSegment(text);
-        return width;
+    publid flobt gftSpbn(GlypiVifw v, int p0, int p1,
+                         TbbExpbndfr f, flobt x) {
+        synd(v);
+        Sfgmfnt tfxt = v.gftTfxt(p0, p1);
+        int[] justifidbtionDbtb = gftJustifidbtionDbtb(v);
+        int widti = Utilitifs.gftTbbbfdTfxtWidti(v, tfxt, mftrids, (int) x, f, p0,
+                                                 justifidbtionDbtb);
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(tfxt);
+        rfturn widti;
     }
 
-    public float getHeight(GlyphView v) {
-        sync(v);
-        return metrics.getHeight();
-    }
-
-    /**
-     * Fetches the ascent above the baseline for the glyphs
-     * corresponding to the given range in the model.
-     */
-    public float getAscent(GlyphView v) {
-        sync(v);
-        return metrics.getAscent();
+    publid flobt gftHfigit(GlypiVifw v) {
+        synd(v);
+        rfturn mftrids.gftHfigit();
     }
 
     /**
-     * Fetches the descent below the baseline for the glyphs
-     * corresponding to the given range in the model.
+     * Fftdifs tif bsdfnt bbovf tif bbsflinf for tif glypis
+     * dorrfsponding to tif givfn rbngf in tif modfl.
      */
-    public float getDescent(GlyphView v) {
-        sync(v);
-        return metrics.getDescent();
+    publid flobt gftAsdfnt(GlypiVifw v) {
+        synd(v);
+        rfturn mftrids.gftAsdfnt();
     }
 
     /**
-     * Paints the glyphs representing the given range.
+     * Fftdifs tif dfsdfnt bflow tif bbsflinf for tif glypis
+     * dorrfsponding to tif givfn rbngf in tif modfl.
      */
-    public void paint(GlyphView v, Graphics g, Shape a, int p0, int p1) {
-        sync(v);
-        Segment text;
-        TabExpander expander = v.getTabExpander();
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
+    publid flobt gftDfsdfnt(GlypiVifw v) {
+        synd(v);
+        rfturn mftrids.gftDfsdfnt();
+    }
 
-        // determine the x coordinate to render the glyphs
-        int x = alloc.x;
-        int p = v.getStartOffset();
-        int[] justificationData = getJustificationData(v);
+    /**
+     * Pbints tif glypis rfprfsfnting tif givfn rbngf.
+     */
+    publid void pbint(GlypiVifw v, Grbpiids g, Sibpf b, int p0, int p1) {
+        synd(v);
+        Sfgmfnt tfxt;
+        TbbExpbndfr fxpbndfr = v.gftTbbExpbndfr();
+        Rfdtbnglf bllod = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b : b.gftBounds();
+
+        // dftfrminf tif x doordinbtf to rfndfr tif glypis
+        int x = bllod.x;
+        int p = v.gftStbrtOffsft();
+        int[] justifidbtionDbtb = gftJustifidbtionDbtb(v);
         if (p != p0) {
-            text = v.getText(p, p0);
-            int width = Utilities.getTabbedTextWidth(v, text, metrics, x, expander, p,
-                                                     justificationData);
-            x += width;
-            SegmentCache.releaseSharedSegment(text);
+            tfxt = v.gftTfxt(p, p0);
+            int widti = Utilitifs.gftTbbbfdTfxtWidti(v, tfxt, mftrids, x, fxpbndfr, p,
+                                                     justifidbtionDbtb);
+            x += widti;
+            SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(tfxt);
         }
 
-        // determine the y coordinate to render the glyphs
-        int y = alloc.y + metrics.getHeight() - metrics.getDescent();
+        // dftfrminf tif y doordinbtf to rfndfr tif glypis
+        int y = bllod.y + mftrids.gftHfigit() - mftrids.gftDfsdfnt();
 
-        // render the glyphs
-        text = v.getText(p0, p1);
-        g.setFont(metrics.getFont());
+        // rfndfr tif glypis
+        tfxt = v.gftTfxt(p0, p1);
+        g.sftFont(mftrids.gftFont());
 
-        Utilities.drawTabbedText(v, text, x, y, g, expander,p0,
-                                 justificationData);
-        SegmentCache.releaseSharedSegment(text);
+        Utilitifs.drbwTbbbfdTfxt(v, tfxt, x, y, g, fxpbndfr,p0,
+                                 justifidbtionDbtb);
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(tfxt);
     }
 
-    public Shape modelToView(GlyphView v, int pos, Position.Bias bias,
-                             Shape a) throws BadLocationException {
+    publid Sibpf modflToVifw(GlypiVifw v, int pos, Position.Bibs bibs,
+                             Sibpf b) tirows BbdLodbtionExdfption {
 
-        sync(v);
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
-        int p0 = v.getStartOffset();
-        int p1 = v.getEndOffset();
-        TabExpander expander = v.getTabExpander();
-        Segment text;
+        synd(v);
+        Rfdtbnglf bllod = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b : b.gftBounds();
+        int p0 = v.gftStbrtOffsft();
+        int p1 = v.gftEndOffsft();
+        TbbExpbndfr fxpbndfr = v.gftTbbExpbndfr();
+        Sfgmfnt tfxt;
 
         if(pos == p1) {
-            // The caller of this is left to right and borders a right to
-            // left view, return our end location.
-            return new Rectangle(alloc.x + alloc.width, alloc.y, 0,
-                                 metrics.getHeight());
+            // Tif dbllfr of tiis is lfft to rigit bnd bordfrs b rigit to
+            // lfft vifw, rfturn our fnd lodbtion.
+            rfturn nfw Rfdtbnglf(bllod.x + bllod.widti, bllod.y, 0,
+                                 mftrids.gftHfigit());
         }
         if ((pos >= p0) && (pos <= p1)) {
-            // determine range to the left of the position
-            text = v.getText(p0, pos);
-            int[] justificationData = getJustificationData(v);
-            int width = Utilities.getTabbedTextWidth(v, text, metrics, alloc.x, expander, p0,
-                                                     justificationData);
-            SegmentCache.releaseSharedSegment(text);
-            return new Rectangle(alloc.x + width, alloc.y, 0, metrics.getHeight());
+            // dftfrminf rbngf to tif lfft of tif position
+            tfxt = v.gftTfxt(p0, pos);
+            int[] justifidbtionDbtb = gftJustifidbtionDbtb(v);
+            int widti = Utilitifs.gftTbbbfdTfxtWidti(v, tfxt, mftrids, bllod.x, fxpbndfr, p0,
+                                                     justifidbtionDbtb);
+            SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(tfxt);
+            rfturn nfw Rfdtbnglf(bllod.x + widti, bllod.y, 0, mftrids.gftHfigit());
         }
-        throw new BadLocationException("modelToView - can't convert", p1);
+        tirow nfw BbdLodbtionExdfption("modflToVifw - dbn't donvfrt", p1);
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.
      *
-     * @param v the view containing the view coordinates
-     * @param x the X coordinate
-     * @param y the Y coordinate
-     * @param a the allocated region to render into
-     * @param biasReturn always returns <code>Position.Bias.Forward</code>
-     *   as the zero-th element of this array
-     * @return the location within the model that best represents the
-     *  given point in the view
-     * @see View#viewToModel
+     * @pbrbm v tif vifw dontbining tif vifw doordinbtfs
+     * @pbrbm x tif X doordinbtf
+     * @pbrbm y tif Y doordinbtf
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm bibsRfturn blwbys rfturns <dodf>Position.Bibs.Forwbrd</dodf>
+     *   bs tif zfro-ti flfmfnt of tiis brrby
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point in tif vifw
+     * @sff Vifw#vifwToModfl
      */
-    public int viewToModel(GlyphView v, float x, float y, Shape a,
-                           Position.Bias[] biasReturn) {
+    publid int vifwToModfl(GlypiVifw v, flobt x, flobt y, Sibpf b,
+                           Position.Bibs[] bibsRfturn) {
 
-        sync(v);
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
-        int p0 = v.getStartOffset();
-        int p1 = v.getEndOffset();
-        TabExpander expander = v.getTabExpander();
-        Segment text = v.getText(p0, p1);
-        int[] justificationData = getJustificationData(v);
-        int offs = Utilities.getTabbedTextOffset(v, text, metrics,
-                                                 alloc.x, (int) x, expander, p0,
-                                                 justificationData);
-        SegmentCache.releaseSharedSegment(text);
-        int retValue = p0 + offs;
-        if(retValue == p1) {
-            // No need to return backward bias as GlyphPainter1 is used for
-            // ltr text only.
-            retValue--;
+        synd(v);
+        Rfdtbnglf bllod = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b : b.gftBounds();
+        int p0 = v.gftStbrtOffsft();
+        int p1 = v.gftEndOffsft();
+        TbbExpbndfr fxpbndfr = v.gftTbbExpbndfr();
+        Sfgmfnt tfxt = v.gftTfxt(p0, p1);
+        int[] justifidbtionDbtb = gftJustifidbtionDbtb(v);
+        int offs = Utilitifs.gftTbbbfdTfxtOffsft(v, tfxt, mftrids,
+                                                 bllod.x, (int) x, fxpbndfr, p0,
+                                                 justifidbtionDbtb);
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(tfxt);
+        int rftVbluf = p0 + offs;
+        if(rftVbluf == p1) {
+            // No nffd to rfturn bbdkwbrd bibs bs GlypiPbintfr1 is usfd for
+            // ltr tfxt only.
+            rftVbluf--;
         }
-        biasReturn[0] = Position.Bias.Forward;
-        return retValue;
+        bibsRfturn[0] = Position.Bibs.Forwbrd;
+        rfturn rftVbluf;
     }
 
     /**
-     * Determines the best location (in the model) to break
-     * the given view.
-     * This method attempts to break on a whitespace
-     * location.  If a whitespace location can't be found, the
-     * nearest character location is returned.
+     * Dftfrminfs tif bfst lodbtion (in tif modfl) to brfbk
+     * tif givfn vifw.
+     * Tiis mftiod bttfmpts to brfbk on b wiitfspbdf
+     * lodbtion.  If b wiitfspbdf lodbtion dbn't bf found, tif
+     * nfbrfst dibrbdtfr lodbtion is rfturnfd.
      *
-     * @param v the view
-     * @param p0 the location in the model where the
-     *  fragment should start its representation >= 0
-     * @param pos the graphic location along the axis that the
-     *  broken view would occupy >= 0; this may be useful for
-     *  things like tab calculations
-     * @param len specifies the distance into the view
-     *  where a potential break is desired >= 0
-     * @return the model location desired for a break
-     * @see View#breakView
+     * @pbrbm v tif vifw
+     * @pbrbm p0 tif lodbtion in tif modfl wifrf tif
+     *  frbgmfnt siould stbrt its rfprfsfntbtion >= 0
+     * @pbrbm pos tif grbpiid lodbtion blong tif bxis tibt tif
+     *  brokfn vifw would oddupy >= 0; tiis mby bf usfful for
+     *  tiings likf tbb dbldulbtions
+     * @pbrbm lfn spfdififs tif distbndf into tif vifw
+     *  wifrf b potfntibl brfbk is dfsirfd >= 0
+     * @rfturn tif modfl lodbtion dfsirfd for b brfbk
+     * @sff Vifw#brfbkVifw
      */
-    public int getBoundedPosition(GlyphView v, int p0, float x, float len) {
-        sync(v);
-        TabExpander expander = v.getTabExpander();
-        Segment s = v.getText(p0, v.getEndOffset());
-        int[] justificationData = getJustificationData(v);
-        int index = Utilities.getTabbedTextOffset(v, s, metrics, (int)x, (int)(x+len),
-                                                  expander, p0, false,
-                                                  justificationData);
-        SegmentCache.releaseSharedSegment(s);
-        int p1 = p0 + index;
-        return p1;
+    publid int gftBoundfdPosition(GlypiVifw v, int p0, flobt x, flobt lfn) {
+        synd(v);
+        TbbExpbndfr fxpbndfr = v.gftTbbExpbndfr();
+        Sfgmfnt s = v.gftTfxt(p0, v.gftEndOffsft());
+        int[] justifidbtionDbtb = gftJustifidbtionDbtb(v);
+        int indfx = Utilitifs.gftTbbbfdTfxtOffsft(v, s, mftrids, (int)x, (int)(x+lfn),
+                                                  fxpbndfr, p0, fblsf,
+                                                  justifidbtionDbtb);
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(s);
+        int p1 = p0 + indfx;
+        rfturn p1;
     }
 
-    void sync(GlyphView v) {
-        Font f = v.getFont();
-        if ((metrics == null) || (! f.equals(metrics.getFont()))) {
-            // fetch a new FontMetrics
-            Container c = v.getContainer();
-            metrics = (c != null) ? c.getFontMetrics(f) :
-                Toolkit.getDefaultToolkit().getFontMetrics(f);
+    void synd(GlypiVifw v) {
+        Font f = v.gftFont();
+        if ((mftrids == null) || (! f.fqubls(mftrids.gftFont()))) {
+            // fftdi b nfw FontMftrids
+            Contbinfr d = v.gftContbinfr();
+            mftrids = (d != null) ? d.gftFontMftrids(f) :
+                Toolkit.gftDffbultToolkit().gftFontMftrids(f);
         }
     }
 
 
 
     /**
-     * @return justificationData from the ParagraphRow this GlyphView
-     * is in or {@code null} if no justification is needed
+     * @rfturn justifidbtionDbtb from tif PbrbgrbpiRow tiis GlypiVifw
+     * is in or {@dodf null} if no justifidbtion is nffdfd
      */
-    private int[] getJustificationData(GlyphView v) {
-        View parent = v.getParent();
-        int [] ret = null;
-        if (parent instanceof ParagraphView.Row) {
-            ParagraphView.Row row = ((ParagraphView.Row) parent);
-            ret = row.justificationData;
+    privbtf int[] gftJustifidbtionDbtb(GlypiVifw v) {
+        Vifw pbrfnt = v.gftPbrfnt();
+        int [] rft = null;
+        if (pbrfnt instbndfof PbrbgrbpiVifw.Row) {
+            PbrbgrbpiVifw.Row row = ((PbrbgrbpiVifw.Row) pbrfnt);
+            rft = row.justifidbtionDbtb;
         }
-        return ret;
+        rfturn rft;
     }
 
-    // --- variables ---------------------------------------------
+    // --- vbribblfs ---------------------------------------------
 
-    FontMetrics metrics;
+    FontMftrids mftrids;
 }

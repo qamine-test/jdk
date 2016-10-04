@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 
-// java import
+// jbvb import
 //
 
 
 // jmx import
 //
-import javax.management.MBeanParameterInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
 
 
 /**
- * <p>Describes a constructor of an Open MBean.</p>
+ * <p>Dfsdribfs b donstrudtor of bn Opfn MBfbn.</p>
  *
- * <p>This interface declares the same methods as the class {@link
- * javax.management.MBeanConstructorInfo}.  A class implementing this
- * interface (typically {@link OpenMBeanConstructorInfoSupport})
- * should extend {@link javax.management.MBeanConstructorInfo}.</p>
+ * <p>Tiis intfrfbdf dfdlbrfs tif sbmf mftiods bs tif dlbss {@link
+ * jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo}.  A dlbss implfmfnting tiis
+ * intfrfbdf (typidblly {@link OpfnMBfbnConstrudtorInfoSupport})
+ * siould fxtfnd {@link jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo}.</p>
  *
- * <p>The {@link #getSignature()} method should return at runtime an
- * array of instances of a subclass of {@link MBeanParameterInfo}
- * which implements the {@link OpenMBeanParameterInfo} interface
- * (typically {@link OpenMBeanParameterInfoSupport}).</p>
+ * <p>Tif {@link #gftSignbturf()} mftiod siould rfturn bt runtimf bn
+ * brrby of instbndfs of b subdlbss of {@link MBfbnPbrbmftfrInfo}
+ * wiidi implfmfnts tif {@link OpfnMBfbnPbrbmftfrInfo} intfrfbdf
+ * (typidblly {@link OpfnMBfbnPbrbmftfrInfoSupport}).</p>
  *
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface OpenMBeanConstructorInfo {
+publid intfrfbdf OpfnMBfbnConstrudtorInfo {
 
-    // Re-declares the methods that are in class MBeanConstructorInfo of JMX 1.0
-    // (methods will be removed when MBeanConstructorInfo is made a parent interface of this interface)
-
-    /**
-     * Returns a human readable description of the constructor
-     * described by this <tt>OpenMBeanConstructorInfo</tt> instance.
-     *
-     * @return the description.
-     */
-    public String getDescription() ;
+    // Rf-dfdlbrfs tif mftiods tibt brf in dlbss MBfbnConstrudtorInfo of JMX 1.0
+    // (mftiods will bf rfmovfd wifn MBfbnConstrudtorInfo is mbdf b pbrfnt intfrfbdf of tiis intfrfbdf)
 
     /**
-     * Returns the name of the constructor
-     * described by this <tt>OpenMBeanConstructorInfo</tt> instance.
+     * Rfturns b iumbn rfbdbblf dfsdription of tif donstrudtor
+     * dfsdribfd by tiis <tt>OpfnMBfbnConstrudtorInfo</tt> instbndf.
      *
-     * @return the name.
+     * @rfturn tif dfsdription.
      */
-    public String getName() ;
+    publid String gftDfsdription() ;
 
     /**
-     * Returns an array of <tt>OpenMBeanParameterInfo</tt> instances
-     * describing each parameter in the signature of the constructor
-     * described by this <tt>OpenMBeanConstructorInfo</tt> instance.
+     * Rfturns tif nbmf of tif donstrudtor
+     * dfsdribfd by tiis <tt>OpfnMBfbnConstrudtorInfo</tt> instbndf.
      *
-     * @return the signature.
+     * @rfturn tif nbmf.
      */
-    public MBeanParameterInfo[] getSignature() ;
+    publid String gftNbmf() ;
+
+    /**
+     * Rfturns bn brrby of <tt>OpfnMBfbnPbrbmftfrInfo</tt> instbndfs
+     * dfsdribing fbdi pbrbmftfr in tif signbturf of tif donstrudtor
+     * dfsdribfd by tiis <tt>OpfnMBfbnConstrudtorInfo</tt> instbndf.
+     *
+     * @rfturn tif signbturf.
+     */
+    publid MBfbnPbrbmftfrInfo[] gftSignbturf() ;
 
 
-    // commodity methods
+    // dommodity mftiods
     //
 
     /**
-     * Compares the specified <var>obj</var> parameter with this <code>OpenMBeanConstructorInfo</code> instance for equality.
+     * Compbrfs tif spfdififd <vbr>obj</vbr> pbrbmftfr witi tiis <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf for fqublity.
      * <p>
-     * Returns <tt>true</tt> if and only if all of the following statements are true:
+     * Rfturns <tt>truf</tt> if bnd only if bll of tif following stbtfmfnts brf truf:
      * <ul>
-     * <li><var>obj</var> is non null,</li>
-     * <li><var>obj</var> also implements the <code>OpenMBeanConstructorInfo</code> interface,</li>
-     * <li>their names are equal</li>
-     * <li>their signatures are equal.</li>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implfmfnts tif <dodf>OpfnMBfbnConstrudtorInfo</dodf> intfrfbdf,</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir signbturfs brf fqubl.</li>
      * </ul>
-     * This ensures that this <tt>equals</tt> method works properly for <var>obj</var> parameters which are
-     * different implementations of the <code>OpenMBeanConstructorInfo</code> interface.
+     * Tiis fnsurfs tibt tiis <tt>fqubls</tt> mftiod works propfrly for <vbr>obj</vbr> pbrbmftfrs wiidi brf
+     * difffrfnt implfmfntbtions of tif <dodf>OpfnMBfbnConstrudtorInfo</dodf> intfrfbdf.
      * <br>&nbsp;
-     * @param  obj  the object to be compared for equality with this <code>OpenMBeanConstructorInfo</code> instance;
+     * @pbrbm  obj  tif objfdt to bf dompbrfd for fqublity witi tiis <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf;
      *
-     * @return  <code>true</code> if the specified object is equal to this <code>OpenMBeanConstructorInfo</code> instance.
+     * @rfturn  <dodf>truf</dodf> if tif spfdififd objfdt is fqubl to tiis <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf.
      */
-    public boolean equals(Object obj);
+    publid boolfbn fqubls(Objfdt obj);
 
     /**
-     * Returns the hash code value for this <code>OpenMBeanConstructorInfo</code> instance.
+     * Rfturns tif ibsi dodf vbluf for tiis <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf.
      * <p>
-     * The hash code of an <code>OpenMBeanConstructorInfo</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: its name and signature, where the signature hashCode is calculated by a call to
-     *  <tt>java.util.Arrays.asList(this.getSignature).hashCode()</tt>).
+     * Tif ibsi dodf of bn <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf is tif sum of tif ibsi dodfs
+     * of bll flfmfnts of informbtion usfd in <dodf>fqubls</dodf> dompbrisons
+     * (if: its nbmf bnd signbturf, wifrf tif signbturf ibsiCodf is dbldulbtfd by b dbll to
+     *  <tt>jbvb.util.Arrbys.bsList(tiis.gftSignbturf).ibsiCodf()</tt>).
      * <p>
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>OpenMBeanConstructorInfo</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * Tiis fnsurfs tibt <dodf> t1.fqubls(t2) </dodf> implifs tibt <dodf> t1.ibsiCodf()==t2.ibsiCodf() </dodf>
+     * for bny two <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.
      *
-     * @return  the hash code value for this <code>OpenMBeanConstructorInfo</code> instance
+     * @rfturn  tif ibsi dodf vbluf for tiis <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf
      */
-    public int hashCode();
+    publid int ibsiCodf();
 
     /**
-     * Returns a string representation of this <code>OpenMBeanConstructorInfo</code> instance.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf.
      * <p>
-     * The string representation consists of the name of this class (ie <code>javax.management.openmbean.OpenMBeanConstructorInfo</code>),
-     * and the name and signature of the described constructor.
+     * Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss (if <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfo</dodf>),
+     * bnd tif nbmf bnd signbturf of tif dfsdribfd donstrudtor.
      *
-     * @return  a string representation of this <code>OpenMBeanConstructorInfo</code> instance
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf
      */
-    public String toString();
+    publid String toString();
 
 }

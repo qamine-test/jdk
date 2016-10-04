@@ -1,249 +1,249 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.ldap;
+pbdkbgf jbvbx.nbming.ldbp;
 
-import java.util.Iterator;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import javax.naming.ConfigurationException;
-import javax.naming.NamingException;
-import com.sun.naming.internal.VersionHelper;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
+import jbvb.util.Itfrbtor;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.nbming.ConfigurbtionExdfption;
+import jbvbx.nbming.NbmingExdfption;
+import dom.sun.nbming.intfrnbl.VfrsionHflpfr;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
 
 /**
- * This class implements the LDAPv3 Extended Request for StartTLS as
- * defined in
- * <a href="http://www.ietf.org/rfc/rfc2830.txt">Lightweight Directory
- * Access Protocol (v3): Extension for Transport Layer Security</a>
+ * Tiis dlbss implfmfnts tif LDAPv3 Extfndfd Rfqufst for StbrtTLS bs
+ * dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd2830.txt">Ligitwfigit Dirfdtory
+ * Addfss Protodol (v3): Extfnsion for Trbnsport Lbyfr Sfdurity</b>
  *
- * The object identifier for StartTLS is 1.3.6.1.4.1.1466.20037
- * and no extended request value is defined.
+ * Tif objfdt idfntififr for StbrtTLS is 1.3.6.1.4.1.1466.20037
+ * bnd no fxtfndfd rfqufst vbluf is dffinfd.
  *<p>
- * <tt>StartTlsRequest</tt>/<tt>StartTlsResponse</tt> are used to establish
- * a TLS connection over the existing LDAP connection associated with
- * the JNDI context on which <tt>extendedOperation()</tt> is invoked.
- * Typically, a JNDI program uses these classes as follows.
- * <blockquote><pre>
- * import javax.naming.ldap.*;
+ * <tt>StbrtTlsRfqufst</tt>/<tt>StbrtTlsRfsponsf</tt> brf usfd to fstbblisi
+ * b TLS donnfdtion ovfr tif fxisting LDAP donnfdtion bssodibtfd witi
+ * tif JNDI dontfxt on wiidi <tt>fxtfndfdOpfrbtion()</tt> is invokfd.
+ * Typidblly, b JNDI progrbm usfs tifsf dlbssfs bs follows.
+ * <blodkquotf><prf>
+ * import jbvbx.nbming.ldbp.*;
  *
- * // Open an LDAP association
- * LdapContext ctx = new InitialLdapContext();
+ * // Opfn bn LDAP bssodibtion
+ * LdbpContfxt dtx = nfw InitiblLdbpContfxt();
  *
- * // Perform a StartTLS extended operation
- * StartTlsResponse tls =
- *     (StartTlsResponse) ctx.extendedOperation(new StartTlsRequest());
+ * // Pfrform b StbrtTLS fxtfndfd opfrbtion
+ * StbrtTlsRfsponsf tls =
+ *     (StbrtTlsRfsponsf) dtx.fxtfndfdOpfrbtion(nfw StbrtTlsRfqufst());
  *
- * // Open a TLS connection (over the existing LDAP association) and get details
- * // of the negotiated TLS session: cipher suite, peer certificate, etc.
- * SSLSession session = tls.negotiate();
+ * // Opfn b TLS donnfdtion (ovfr tif fxisting LDAP bssodibtion) bnd gft dftbils
+ * // of tif nfgotibtfd TLS sfssion: dipifr suitf, pffr dfrtifidbtf, ftd.
+ * SSLSfssion sfssion = tls.nfgotibtf();
  *
- * // ... use ctx to perform protected LDAP operations
+ * // ... usf dtx to pfrform protfdtfd LDAP opfrbtions
  *
- * // Close the TLS connection (revert back to the underlying LDAP association)
- * tls.close();
+ * // Closf tif TLS donnfdtion (rfvfrt bbdk to tif undfrlying LDAP bssodibtion)
+ * tls.dlosf();
  *
- * // ... use ctx to perform unprotected LDAP operations
+ * // ... usf dtx to pfrform unprotfdtfd LDAP opfrbtions
  *
- * // Close the LDAP association
- * ctx.close;
- * </pre></blockquote>
+ * // Closf tif LDAP bssodibtion
+ * dtx.dlosf;
+ * </prf></blodkquotf>
  *
- * @since 1.4
- * @see StartTlsResponse
- * @author Vincent Ryan
+ * @sindf 1.4
+ * @sff StbrtTlsRfsponsf
+ * @butior Vindfnt Rybn
  */
-public class StartTlsRequest implements ExtendedRequest {
+publid dlbss StbrtTlsRfqufst implfmfnts ExtfndfdRfqufst {
 
-    // Constant
+    // Constbnt
 
     /**
-     * The StartTLS extended request's assigned object identifier
+     * Tif StbrtTLS fxtfndfd rfqufst's bssignfd objfdt idfntififr
      * is 1.3.6.1.4.1.1466.20037.
      */
-    public static final String OID = "1.3.6.1.4.1.1466.20037";
+    publid stbtid finbl String OID = "1.3.6.1.4.1.1466.20037";
 
 
-    // Constructors
+    // Construdtors
 
     /**
-     * Constructs a StartTLS extended request.
+     * Construdts b StbrtTLS fxtfndfd rfqufst.
      */
-    public StartTlsRequest() {
+    publid StbrtTlsRfqufst() {
     }
 
 
-    // ExtendedRequest methods
+    // ExtfndfdRfqufst mftiods
 
     /**
-     * Retrieves the StartTLS request's object identifier string.
+     * Rftrifvfs tif StbrtTLS rfqufst's objfdt idfntififr string.
      *
-     * @return The object identifier string, "1.3.6.1.4.1.1466.20037".
+     * @rfturn Tif objfdt idfntififr string, "1.3.6.1.4.1.1466.20037".
      */
-    public String getID() {
-        return OID;
+    publid String gftID() {
+        rfturn OID;
     }
 
     /**
-     * Retrieves the StartTLS request's ASN.1 BER encoded value.
-     * Since the request has no defined value, null is always
-     * returned.
+     * Rftrifvfs tif StbrtTLS rfqufst's ASN.1 BER fndodfd vbluf.
+     * Sindf tif rfqufst ibs no dffinfd vbluf, null is blwbys
+     * rfturnfd.
      *
-     * @return The null value.
+     * @rfturn Tif null vbluf.
      */
-    public byte[] getEncodedValue() {
-        return null;
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn null;
     }
 
     /**
-     * Creates an extended response object that corresponds to the
-     * LDAP StartTLS extended request.
+     * Crfbtfs bn fxtfndfd rfsponsf objfdt tibt dorrfsponds to tif
+     * LDAP StbrtTLS fxtfndfd rfqufst.
      * <p>
-     * The result must be a concrete subclass of StartTlsResponse
-     * and must have a public zero-argument constructor.
+     * Tif rfsult must bf b dondrftf subdlbss of StbrtTlsRfsponsf
+     * bnd must ibvf b publid zfro-brgumfnt donstrudtor.
      * <p>
-     * This method locates the implementation class by locating
-     * configuration files that have the name:
-     * <blockquote><tt>
-     *     META-INF/services/javax.naming.ldap.StartTlsResponse
-     * </tt></blockquote>
-     * The configuration files and their corresponding implementation classes must
-     * be accessible to the calling thread's context class loader.
+     * Tiis mftiod lodbtfs tif implfmfntbtion dlbss by lodbting
+     * donfigurbtion filfs tibt ibvf tif nbmf:
+     * <blodkquotf><tt>
+     *     META-INF/sfrvidfs/jbvbx.nbming.ldbp.StbrtTlsRfsponsf
+     * </tt></blodkquotf>
+     * Tif donfigurbtion filfs bnd tifir dorrfsponding implfmfntbtion dlbssfs must
+     * bf bddfssiblf to tif dblling tirfbd's dontfxt dlbss lobdfr.
      * <p>
-     * Each configuration file should contain a list of fully-qualified class
-     * names, one per line.  Space and tab characters surrounding each name, as
-     * well as blank lines, are ignored.  The comment character is <tt>'#'</tt>
-     * (<tt>0x23</tt>); on each line all characters following the first comment
-     * character are ignored.  The file must be encoded in UTF-8.
+     * Ebdi donfigurbtion filf siould dontbin b list of fully-qublififd dlbss
+     * nbmfs, onf pfr linf.  Spbdf bnd tbb dibrbdtfrs surrounding fbdi nbmf, bs
+     * wfll bs blbnk linfs, brf ignorfd.  Tif dommfnt dibrbdtfr is <tt>'#'</tt>
+     * (<tt>0x23</tt>); on fbdi linf bll dibrbdtfrs following tif first dommfnt
+     * dibrbdtfr brf ignorfd.  Tif filf must bf fndodfd in UTF-8.
      * <p>
-     * This method will return an instance of the first implementation
-     * class that it is able to load and instantiate successfully from
-     * the list of class names collected from the configuration files.
-     * This method uses the calling thread's context classloader to find the
-     * configuration files and to load the implementation class.
+     * Tiis mftiod will rfturn bn instbndf of tif first implfmfntbtion
+     * dlbss tibt it is bblf to lobd bnd instbntibtf suddfssfully from
+     * tif list of dlbss nbmfs dollfdtfd from tif donfigurbtion filfs.
+     * Tiis mftiod usfs tif dblling tirfbd's dontfxt dlbsslobdfr to find tif
+     * donfigurbtion filfs bnd to lobd tif implfmfntbtion dlbss.
      * <p>
-     * If no class can be found in this way, this method will use
-     * an implementation-specific way to locate an implementation.
-     * If none is found, a NamingException is thrown.
+     * If no dlbss dbn bf found in tiis wby, tiis mftiod will usf
+     * bn implfmfntbtion-spfdifid wby to lodbtf bn implfmfntbtion.
+     * If nonf is found, b NbmingExdfption is tirown.
      *
-     * @param id         The object identifier of the extended response.
-     *                   Its value must be "1.3.6.1.4.1.1466.20037" or null.
-     *                   Both values are equivalent.
-     * @param berValue   The possibly null ASN.1 BER encoded value of the
-     *                   extended response. This is the raw BER bytes
-     *                   including the tag and length of the response value.
-     *                   It does not include the response OID.
-     *                   Its value is ignored because a Start TLS response
-     *                   is not expected to contain any response value.
-     * @param offset     The starting position in berValue of the bytes to use.
-     *                   Its value is ignored because a Start TLS response
-     *                   is not expected to contain any response value.
-     * @param length     The number of bytes in berValue to use.
-     *                   Its value is ignored because a Start TLS response
-     *                   is not expected to contain any response value.
-     * @return           The StartTLS extended response object.
-     * @exception        NamingException If a naming exception was encountered
-     *                   while creating the StartTLS extended response object.
+     * @pbrbm id         Tif objfdt idfntififr of tif fxtfndfd rfsponsf.
+     *                   Its vbluf must bf "1.3.6.1.4.1.1466.20037" or null.
+     *                   Boti vblufs brf fquivblfnt.
+     * @pbrbm bfrVbluf   Tif possibly null ASN.1 BER fndodfd vbluf of tif
+     *                   fxtfndfd rfsponsf. Tiis is tif rbw BER bytfs
+     *                   indluding tif tbg bnd lfngti of tif rfsponsf vbluf.
+     *                   It dofs not indludf tif rfsponsf OID.
+     *                   Its vbluf is ignorfd bfdbusf b Stbrt TLS rfsponsf
+     *                   is not fxpfdtfd to dontbin bny rfsponsf vbluf.
+     * @pbrbm offsft     Tif stbrting position in bfrVbluf of tif bytfs to usf.
+     *                   Its vbluf is ignorfd bfdbusf b Stbrt TLS rfsponsf
+     *                   is not fxpfdtfd to dontbin bny rfsponsf vbluf.
+     * @pbrbm lfngti     Tif numbfr of bytfs in bfrVbluf to usf.
+     *                   Its vbluf is ignorfd bfdbusf b Stbrt TLS rfsponsf
+     *                   is not fxpfdtfd to dontbin bny rfsponsf vbluf.
+     * @rfturn           Tif StbrtTLS fxtfndfd rfsponsf objfdt.
+     * @fxdfption        NbmingExdfption If b nbming fxdfption wbs fndountfrfd
+     *                   wiilf drfbting tif StbrtTLS fxtfndfd rfsponsf objfdt.
      */
-    public ExtendedResponse createExtendedResponse(String id, byte[] berValue,
-        int offset, int length) throws NamingException {
+    publid ExtfndfdRfsponsf drfbtfExtfndfdRfsponsf(String id, bytf[] bfrVbluf,
+        int offsft, int lfngti) tirows NbmingExdfption {
 
-        // Confirm that the object identifier is correct
-        if ((id != null) && (!id.equals(OID))) {
-            throw new ConfigurationException(
-                "Start TLS received the following response instead of " +
+        // Confirm tibt tif objfdt idfntififr is dorrfdt
+        if ((id != null) && (!id.fqubls(OID))) {
+            tirow nfw ConfigurbtionExdfption(
+                "Stbrt TLS rfdfivfd tif following rfsponsf instfbd of " +
                 OID + ": " + id);
         }
 
-        StartTlsResponse resp = null;
+        StbrtTlsRfsponsf rfsp = null;
 
-        ServiceLoader<StartTlsResponse> sl = ServiceLoader.load(
-                StartTlsResponse.class, getContextClassLoader());
-        Iterator<StartTlsResponse> iter = sl.iterator();
+        SfrvidfLobdfr<StbrtTlsRfsponsf> sl = SfrvidfLobdfr.lobd(
+                StbrtTlsRfsponsf.dlbss, gftContfxtClbssLobdfr());
+        Itfrbtor<StbrtTlsRfsponsf> itfr = sl.itfrbtor();
 
-        while (resp == null && privilegedHasNext(iter)) {
-            resp = iter.next();
+        wiilf (rfsp == null && privilfgfdHbsNfxt(itfr)) {
+            rfsp = itfr.nfxt();
         }
-        if (resp != null) {
-            return resp;
+        if (rfsp != null) {
+            rfturn rfsp;
         }
         try {
-            VersionHelper helper = VersionHelper.getVersionHelper();
-            Class<?> clas = helper.loadClass(
-                "com.sun.jndi.ldap.ext.StartTlsResponseImpl");
+            VfrsionHflpfr iflpfr = VfrsionHflpfr.gftVfrsionHflpfr();
+            Clbss<?> dlbs = iflpfr.lobdClbss(
+                "dom.sun.jndi.ldbp.fxt.StbrtTlsRfsponsfImpl");
 
-            resp = (StartTlsResponse) clas.newInstance();
+            rfsp = (StbrtTlsRfsponsf) dlbs.nfwInstbndf();
 
-        } catch (IllegalAccessException e) {
-            throw wrapException(e);
+        } dbtdi (IllfgblAddfssExdfption f) {
+            tirow wrbpExdfption(f);
 
-        } catch (InstantiationException e) {
-            throw wrapException(e);
+        } dbtdi (InstbntibtionExdfption f) {
+            tirow wrbpExdfption(f);
 
-        } catch (ClassNotFoundException e) {
-            throw wrapException(e);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow wrbpExdfption(f);
         }
 
-        return resp;
+        rfturn rfsp;
     }
 
     /*
-     * Wrap an exception, thrown while attempting to load the StartTlsResponse
-     * class, in a configuration exception.
+     * Wrbp bn fxdfption, tirown wiilf bttfmpting to lobd tif StbrtTlsRfsponsf
+     * dlbss, in b donfigurbtion fxdfption.
      */
-    private ConfigurationException wrapException(Exception e) {
-        ConfigurationException ce = new ConfigurationException(
-            "Cannot load implementation of javax.naming.ldap.StartTlsResponse");
+    privbtf ConfigurbtionExdfption wrbpExdfption(Exdfption f) {
+        ConfigurbtionExdfption df = nfw ConfigurbtionExdfption(
+            "Cbnnot lobd implfmfntbtion of jbvbx.nbming.ldbp.StbrtTlsRfsponsf");
 
-        ce.setRootCause(e);
-        return ce;
+        df.sftRootCbusf(f);
+        rfturn df;
     }
 
     /*
-     * Acquire the class loader associated with this thread.
+     * Adquirf tif dlbss lobdfr bssodibtfd witi tiis tirfbd.
      */
-    private final ClassLoader getContextClassLoader() {
-        return AccessController.doPrivileged(
-            new PrivilegedAction<ClassLoader>() {
-                public ClassLoader run() {
-                    return Thread.currentThread().getContextClassLoader();
+    privbtf finbl ClbssLobdfr gftContfxtClbssLobdfr() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                publid ClbssLobdfr run() {
+                    rfturn Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
                 }
             }
         );
     }
 
-    private final static boolean privilegedHasNext(final Iterator<StartTlsResponse> iter) {
-        Boolean answer = AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                return Boolean.valueOf(iter.hasNext());
+    privbtf finbl stbtid boolfbn privilfgfdHbsNfxt(finbl Itfrbtor<StbrtTlsRfsponsf> itfr) {
+        Boolfbn bnswfr = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
+                rfturn Boolfbn.vblufOf(itfr.ibsNfxt());
             }
         });
-        return answer.booleanValue();
+        rfturn bnswfr.boolfbnVbluf();
     }
 
-    private static final long serialVersionUID = 4441679576360753397L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4441679576360753397L;
 }

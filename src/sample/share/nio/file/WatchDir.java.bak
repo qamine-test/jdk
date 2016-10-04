@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,156 +30,156 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.nio.file.*;
-import static java.nio.file.StandardWatchEventKinds.*;
-import static java.nio.file.LinkOption.*;
-import java.nio.file.attribute.*;
-import java.io.IOException;
+import jbvb.nio.filf.*;
+import stbtid jbvb.nio.filf.StbndbrdWbtdiEvfntKinds.*;
+import stbtid jbvb.nio.filf.LinkOption.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
 
 /**
- * Example to watch a directory (or tree) for changes to files.
+ * Exbmplf to wbtdi b dirfdtory (or trff) for dibngfs to filfs.
  */
 
-public class WatchDir {
+publid dlbss WbtdiDir {
 
-    private final WatchService watcher;
-    private final boolean recursive;
-    private boolean trace = false;
-    private int count;
+    privbtf finbl WbtdiSfrvidf wbtdifr;
+    privbtf finbl boolfbn rfdursivf;
+    privbtf boolfbn trbdf = fblsf;
+    privbtf int dount;
 
-    @SuppressWarnings("unchecked")
-    static <T> WatchEvent<T> cast(WatchEvent<?> event) {
-        return (WatchEvent<T>)event;
+    @SupprfssWbrnings("undifdkfd")
+    stbtid <T> WbtdiEvfnt<T> dbst(WbtdiEvfnt<?> fvfnt) {
+        rfturn (WbtdiEvfnt<T>)fvfnt;
     }
 
     /**
-     * Register the given directory with the WatchService
+     * Rfgistfr tif givfn dirfdtory witi tif WbtdiSfrvidf
      */
-    private void register(Path dir) throws IOException {
-        WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-        count++;
-        if (trace)
-            System.out.format("register: %s\n", dir);
+    privbtf void rfgistfr(Pbti dir) tirows IOExdfption {
+        WbtdiKfy kfy = dir.rfgistfr(wbtdifr, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+        dount++;
+        if (trbdf)
+            Systfm.out.formbt("rfgistfr: %s\n", dir);
     }
 
     /**
-     * Register the given directory, and all its sub-directories, with the
-     * WatchService.
+     * Rfgistfr tif givfn dirfdtory, bnd bll its sub-dirfdtorifs, witi tif
+     * WbtdiSfrvidf.
      */
-    private void registerAll(final Path start) throws IOException {
-        // register directory and sub-directories
-        Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                throws IOException
+    privbtf void rfgistfrAll(finbl Pbti stbrt) tirows IOExdfption {
+        // rfgistfr dirfdtory bnd sub-dirfdtorifs
+        Filfs.wblkFilfTrff(stbrt, nfw SimplfFilfVisitor<Pbti>() {
+            @Ovfrridf
+            publid FilfVisitRfsult prfVisitDirfdtory(Pbti dir, BbsidFilfAttributfs bttrs)
+                tirows IOExdfption
             {
-                register(dir);
-                return FileVisitResult.CONTINUE;
+                rfgistfr(dir);
+                rfturn FilfVisitRfsult.CONTINUE;
             }
         });
     }
 
     /**
-     * Creates a WatchService and registers the given directory
+     * Crfbtfs b WbtdiSfrvidf bnd rfgistfrs tif givfn dirfdtory
      */
-    WatchDir(Path dir, boolean recursive) throws IOException {
-        this.watcher = FileSystems.getDefault().newWatchService();
-        this.recursive = recursive;
+    WbtdiDir(Pbti dir, boolfbn rfdursivf) tirows IOExdfption {
+        tiis.wbtdifr = FilfSystfms.gftDffbult().nfwWbtdiSfrvidf();
+        tiis.rfdursivf = rfdursivf;
 
-        if (recursive) {
-            System.out.format("Scanning %s ...\n", dir);
-            registerAll(dir);
-            System.out.println("Done.");
-        } else {
-            register(dir);
+        if (rfdursivf) {
+            Systfm.out.formbt("Sdbnning %s ...\n", dir);
+            rfgistfrAll(dir);
+            Systfm.out.println("Donf.");
+        } flsf {
+            rfgistfr(dir);
         }
 
-        // enable trace after initial registration
-        this.trace = true;
+        // fnbblf trbdf bftfr initibl rfgistrbtion
+        tiis.trbdf = truf;
     }
 
     /**
-     * Process all events for keys queued to the watcher
+     * Prodfss bll fvfnts for kfys qufufd to tif wbtdifr
      */
-    void processEvents() {
+    void prodfssEvfnts() {
         for (;;) {
 
-            // wait for key to be signalled
-            WatchKey key;
+            // wbit for kfy to bf signbllfd
+            WbtdiKfy kfy;
             try {
-                key = watcher.take();
-            } catch (InterruptedException x) {
-                return;
+                kfy = wbtdifr.tbkf();
+            } dbtdi (IntfrruptfdExdfption x) {
+                rfturn;
             }
 
-            for (WatchEvent<?> event: key.pollEvents()) {
-                WatchEvent.Kind kind = event.kind();
+            for (WbtdiEvfnt<?> fvfnt: kfy.pollEvfnts()) {
+                WbtdiEvfnt.Kind kind = fvfnt.kind();
 
-                // TBD - provide example of how OVERFLOW event is handled
+                // TBD - providf fxbmplf of iow OVERFLOW fvfnt is ibndlfd
                 if (kind == OVERFLOW) {
-                    continue;
+                    dontinuf;
                 }
 
-                // Context for directory entry event is the file name of entry
-                WatchEvent<Path> ev = cast(event);
-                Path name = ev.context();
-                Path child = ((Path)key.watchable()).resolve(name);
+                // Contfxt for dirfdtory fntry fvfnt is tif filf nbmf of fntry
+                WbtdiEvfnt<Pbti> fv = dbst(fvfnt);
+                Pbti nbmf = fv.dontfxt();
+                Pbti diild = ((Pbti)kfy.wbtdibblf()).rfsolvf(nbmf);
 
-                // print out event
-                System.out.format("%s: %s\n", event.kind().name(), child);
+                // print out fvfnt
+                Systfm.out.formbt("%s: %s\n", fvfnt.kind().nbmf(), diild);
 
-                // if directory is created, and watching recursively, then
-                // register it and its sub-directories
-                if (recursive && (kind == ENTRY_CREATE)) {
+                // if dirfdtory is drfbtfd, bnd wbtdiing rfdursivfly, tifn
+                // rfgistfr it bnd its sub-dirfdtorifs
+                if (rfdursivf && (kind == ENTRY_CREATE)) {
                     try {
-                        if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
-                            registerAll(child);
+                        if (Filfs.isDirfdtory(diild, NOFOLLOW_LINKS)) {
+                            rfgistfrAll(diild);
                         }
-                    } catch (IOException x) {
-                        // ignore to keep sample readbale
+                    } dbtdi (IOExdfption x) {
+                        // ignorf to kffp sbmplf rfbdbblf
                     }
                 }
             }
 
-            // reset key
-            boolean valid = key.reset();
-            if (!valid) {
-                // directory no longer accessible
-                count--;
-                if (count == 0)
-                    break;
+            // rfsft kfy
+            boolfbn vblid = kfy.rfsft();
+            if (!vblid) {
+                // dirfdtory no longfr bddfssiblf
+                dount--;
+                if (dount == 0)
+                    brfbk;
             }
         }
     }
 
-    static void usage() {
-        System.err.println("usage: java WatchDir [-r] dir");
-        System.exit(-1);
+    stbtid void usbgf() {
+        Systfm.frr.println("usbgf: jbvb WbtdiDir [-r] dir");
+        Systfm.fxit(-1);
     }
 
-    public static void main(String[] args) throws IOException {
-        // parse arguments
-        if (args.length == 0 || args.length > 2)
-            usage();
-        boolean recursive = false;
+    publid stbtid void mbin(String[] brgs) tirows IOExdfption {
+        // pbrsf brgumfnts
+        if (brgs.lfngti == 0 || brgs.lfngti > 2)
+            usbgf();
+        boolfbn rfdursivf = fblsf;
         int dirArg = 0;
-        if (args[0].equals("-r")) {
-            if (args.length < 2)
-                usage();
-            recursive = true;
+        if (brgs[0].fqubls("-r")) {
+            if (brgs.lfngti < 2)
+                usbgf();
+            rfdursivf = truf;
             dirArg++;
         }
 
-        // register directory and process its events
-        Path dir = Paths.get(args[dirArg]);
-        new WatchDir(dir, recursive).processEvents();
+        // rfgistfr dirfdtory bnd prodfss its fvfnts
+        Pbti dir = Pbtis.gft(brgs[dirArg]);
+        nfw WbtdiDir(dir, rfdursivf).prodfssEvfnts();
     }
 }

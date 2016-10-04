@@ -1,0 +1,540 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.pffr;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.PbintEvfnt;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.jbvb2d.pipf.Rfgion;
+
+
+/**
+ * Thf pffr intfrfbdf for {@link Componfnt}. This is thf top lfvfl pffr
+ * intfrfbdf for widgfts bnd dffinfs thf bulk of mfthods for AWT domponfnt
+ * pffrs. Most domponfnt pffrs hbvf to implfmfnt this intfrfbdf (vib onf
+ * of thf subintfrfbdfs), fxdfpt mfnu domponfnts, whidh implfmfnt
+ * {@link MfnuComponfntPffr}.
+ *
+ * Thf pffr intfrfbdfs brf intfndfd only for usf in porting
+ * thf AWT. Thfy brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs should not implfmfnt pffrs
+ * nor invokf bny of thf pffr mfthods dirfdtly on thf pffr
+ * instbndfs.
+ */
+publid intfrfbdf ComponfntPffr {
+
+    /**
+     * Opfrbtion for {@link #sftBounds(int, int, int, int, int)}, indidbting
+     * b dhbngf in thf domponfnt lodbtion only.
+     *
+     * @sff #sftBounds(int, int, int, int, int)
+     */
+    publid stbtid finbl int SET_LOCATION = 1;
+
+    /**
+     * Opfrbtion for {@link #sftBounds(int, int, int, int, int)}, indidbting
+     * b dhbngf in thf domponfnt sizf only.
+     *
+     * @sff #sftBounds(int, int, int, int, int)
+     */
+    publid stbtid finbl int SET_SIZE = 2;
+
+    /**
+     * Opfrbtion for {@link #sftBounds(int, int, int, int, int)}, indidbting
+     * b dhbngf in thf domponfnt sizf bnd lodbtion.
+     *
+     * @sff #sftBounds(int, int, int, int, int)
+     */
+    publid stbtid finbl int SET_BOUNDS = 3;
+
+    /**
+     * Opfrbtion for {@link #sftBounds(int, int, int, int, int)}, indidbting
+     * b dhbngf in thf domponfnt dlifnt sizf. This is usfd for sftting
+     * thf 'insidf' sizf of windows, without thf bordfr insfts.
+     *
+     * @sff #sftBounds(int, int, int, int, int)
+     */
+    publid stbtid finbl int SET_CLIENT_SIZE = 4;
+
+    /**
+     * Rfsfts thf sftBounds() opfrbtion to DEFAULT_OPERATION. This is not
+     * pbssfd into {@link #sftBounds(int, int, int, int, int)}.
+     *
+     * TODO: This is only usfd intfrnblly bnd should probbbly bf movfd outsidf
+     *       thf pffr intfrfbdf.
+     *
+     * @sff Componfnt#sftBoundsOp
+     */
+    publid stbtid finbl int RESET_OPERATION = 5;
+
+    /**
+     * A flbg thbt is usfd to supprfss dhfdks for fmbfddfd frbmfs.
+     *
+     * TODO: This is only usfd intfrnblly bnd should probbbly bf movfd outsidf
+     *       thf pffr intfrfbdf.
+     */
+    publid stbtid finbl int NO_EMBEDDED_CHECK = (1 << 14);
+
+    /**
+     * Thf dffbult opfrbtion, whidh is to sft sizf bnd lodbtion.
+     *
+     * TODO: This is only usfd intfrnblly bnd should probbbly bf movfd outsidf
+     *       thf pffr intfrfbdf.
+     *
+     * @sff Componfnt#sftBoundsOp
+     */
+    publid stbtid finbl int DEFAULT_OPERATION = SET_BOUNDS;
+
+    /**
+     * Dftfrminfs if b domponfnt hbs bffn obsdurfd, i.f. by bn ovfrlbpping
+     * window or similbr. This is usfd by JVifwport for optimizing pfrformbndf.
+     * This dofsn't hbvf to bf implfmfntfd, whfn
+     * {@link #dbnDftfrminfObsdurity()} rfturns {@dodf fblsf}.
+     *
+     * @rfturn {@dodf truf} whfn thf domponfnt hbs bffn obsdurfd,
+     *         {@dodf fblsf} othfrwisf
+     *
+     * @sff #dbnDftfrminfObsdurity()
+     * @sff jbvbx.swing.JVifwport#nffdsRfpbintAftfrBlit
+     */
+    boolfbn isObsdurfd();
+
+    /**
+     * Rfturns {@dodf truf} whfn thf pffr dbn dftfrminf if b domponfnt
+     * hbs bffn obsdurfd, {@dodf fblsf} fblsf othfrwisf.
+     *
+     * @rfturn {@dodf truf} whfn thf pffr dbn dftfrminf if b domponfnt
+     *         hbs bffn obsdurfd, {@dodf fblsf} fblsf othfrwisf
+     *
+     * @sff #isObsdurfd()
+     * @sff jbvbx.swing.JVifwport#nffdsRfpbintAftfrBlit
+     */
+    boolfbn dbnDftfrminfObsdurity();
+
+    /**
+     * Mbkfs b domponfnt visiblf or invisiblf.
+     *
+     * @pbrbm v {@dodf truf} to mbkf b domponfnt visiblf,
+     *          {@dodf fblsf} to mbkf it invisiblf
+     *
+     * @sff Componfnt#sftVisiblf(boolfbn)
+     */
+    void sftVisiblf(boolfbn v);
+
+    /**
+     * Enbblfs or disbblfs b domponfnt. Disbblfd domponfnts brf usublly grbyfd
+     * out bnd dbnnot bf bdtivbtfd.
+     *
+     * @pbrbm f {@dodf truf} to fnbblf thf domponfnt, {@dodf fblsf}
+     *          to disbblf it
+     *
+     * @sff Componfnt#sftEnbblfd(boolfbn)
+     */
+    void sftEnbblfd(boolfbn f);
+
+    /**
+     * Pbints thf domponfnt to thf spfdififd grbphids dontfxt. This is dbllfd
+     * by {@link Componfnt#pbintAll(Grbphids)} to pbint thf domponfnt.
+     *
+     * @pbrbm g thf grbphids dontfxt to pbint to
+     *
+     * @sff Componfnt#pbintAll(Grbphids)
+     */
+    void pbint(Grbphids g);
+
+    /**
+     * Prints thf domponfnt to thf spfdififd grbphids dontfxt. This is dbllfd
+     * by {@link Componfnt#printAll(Grbphids)} to print thf domponfnt.
+     *
+     * @pbrbm g thf grbphids dontfxt to print to
+     *
+     * @sff Componfnt#printAll(Grbphids)
+     */
+    void print(Grbphids g);
+
+    /**
+     * Sfts thf lodbtion or sizf or both of thf domponfnt. Thf lodbtion is
+     * spfdififd rflbtivf to thf domponfnt's pbrfnt. Thf {@dodf op}
+     * pbrbmftfr spfdififs whidh propfrtifs dhbngf. If it is
+     * {@link #SET_LOCATION}, thfn only thf lodbtion dhbngfs (bnd thf sizf
+     * pbrbmftfrs dbn bf ignorfd). If {@dodf op} is {@link #SET_SIZE},
+     * thfn only thf sizf dhbngfs (bnd thf lodbtion dbn bf ignorfd). If
+     * {@dodf op} is {@link #SET_BOUNDS}, thfn both dhbngf. Thfrf is b
+     * spfdibl vbluf {@link #SET_CLIENT_SIZE}, whidh is usfd only for
+     * window-likf domponfnts to sft thf sizf of thf dlifnt (i.f. thf 'innfr'
+     * sizf, without thf insfts of thf window bordfrs).
+     *
+     * @pbrbm x thf X lodbtion of thf domponfnt
+     * @pbrbm y thf Y lodbtion of thf domponfnt
+     * @pbrbm width thf width of thf domponfnt
+     * @pbrbm hfight thf hfight of thf domponfnt
+     * @pbrbm op thf opfrbtion flbg
+     *
+     * @sff #SET_BOUNDS
+     * @sff #SET_LOCATION
+     * @sff #SET_SIZE
+     * @sff #SET_CLIENT_SIZE
+     */
+    void sftBounds(int x, int y, int width, int hfight, int op);
+
+    /**
+     * Cbllfd to lft thf domponfnt pffr hbndlf fvfnts.
+     *
+     * @pbrbm f thf AWT fvfnt to hbndlf
+     *
+     * @sff Componfnt#dispbtdhEvfnt(AWTEvfnt)
+     */
+    void hbndlfEvfnt(AWTEvfnt f);
+
+    /**
+     * Cbllfd to doblfsdf pbint fvfnts.
+     *
+     * @pbrbm f thf pbint fvfnt to donsidfr to doblfsdf
+     *
+     * @sff EvfntQufuf#doblfsdfPbintEvfnt
+     */
+    void doblfsdfPbintEvfnt(PbintEvfnt f);
+
+    /**
+     * Dftfrminfs thf lodbtion of thf domponfnt on thf sdrffn.
+     *
+     * @rfturn thf lodbtion of thf domponfnt on thf sdrffn
+     *
+     * @sff Componfnt#gftLodbtionOnSdrffn()
+     */
+    Point gftLodbtionOnSdrffn();
+
+    /**
+     * Dftfrminfs thf prfffrrfd sizf of thf domponfnt.
+     *
+     * @rfturn thf prfffrrfd sizf of thf domponfnt
+     *
+     * @sff Componfnt#gftPrfffrrfdSizf()
+     */
+    Dimfnsion gftPrfffrrfdSizf();
+
+    /**
+     * Dftfrminfs thf minimum sizf of thf domponfnt.
+     *
+     * @rfturn thf minimum sizf of thf domponfnt
+     *
+     * @sff Componfnt#gftMinimumSizf()
+     */
+    Dimfnsion gftMinimumSizf();
+
+    /**
+     * Rfturns thf dolor modfl usfd by thf domponfnt.
+     *
+     * @rfturn thf dolor modfl usfd by thf domponfnt
+     *
+     * @sff Componfnt#gftColorModfl()
+     */
+    ColorModfl gftColorModfl();
+
+    /**
+     * Rfturns b grbphids objfdt to pbint on thf domponfnt.
+     *
+     * @rfturn b grbphids objfdt to pbint on thf domponfnt
+     *
+     * @sff Componfnt#gftGrbphids()
+     */
+    // TODO: Mbybf dhbngf this to fordf Grbphids2D, sindf mbny things will
+    // brfbk with plbin Grbphids nowbdbys.
+    Grbphids gftGrbphids();
+
+    /**
+     * Rfturns b font mftrids objfdt to dftfrminf thf mftrids propfrtifs of
+     * thf spfdififd font.
+     *
+     * @pbrbm font thf font to dftfrminf thf mftrids for
+     *
+     * @rfturn b font mftrids objfdt to dftfrminf thf mftrids propfrtifs of
+     *         thf spfdififd font
+     *
+     * @sff Componfnt#gftFontMftrids(Font)
+     */
+    FontMftrids gftFontMftrids(Font font);
+
+    /**
+     * Disposfs bll rfsourdfs hfld by thf domponfnt pffr. This is dbllfd
+     * whfn thf domponfnt hbs bffn disdonnfdtfd from thf domponfnt hifrbrdhy
+     * bnd is bbout to bf gbrbbgf dollfdtfd.
+     *
+     * @sff Componfnt#rfmovfNotify()
+     */
+    void disposf();
+
+    /**
+     * Sfts thf forfground dolor of this domponfnt.
+     *
+     * @pbrbm d thf forfground dolor to sft
+     *
+     * @sff Componfnt#sftForfground(Color)
+     */
+    void sftForfground(Color d);
+
+    /**
+     * Sfts thf bbdkground dolor of this domponfnt.
+     *
+     * @pbrbm d thf bbdkground dolor to sft
+     *
+     * @sff Componfnt#sftBbdkground(Color)
+     */
+    void sftBbdkground(Color d);
+
+    /**
+     * Sfts thf font of this domponfnt.
+     *
+     * @pbrbm f thf font of this domponfnt
+     *
+     * @sff Componfnt#sftFont(Font)
+     */
+    void sftFont(Font f);
+
+    /**
+     * Updbtfs thf dursor of thf domponfnt.
+     *
+     * @sff Componfnt#updbtfCursorImmfdibtfly
+     */
+    void updbtfCursorImmfdibtfly();
+
+    /**
+     * Rfqufsts fodus on this domponfnt.
+     *
+     * @pbrbm lightwfightChild thf bdtubl lightwfight dhild thbt rfqufsts thf
+     *        fodus
+     * @pbrbm tfmporbry {@dodf truf} if thf fodus dhbngf is tfmporbry,
+     *        {@dodf fblsf} othfrwisf
+     * @pbrbm fodusfdWindowChbngfAllowfd {@dodf truf} if dhbnging thf
+     *        fodus of thf dontbining window is bllowfd or not
+     * @pbrbm timf thf timf of thf fodus dhbngf rfqufst
+     * @pbrbm dbusf thf dbusf of thf fodus dhbngf rfqufst
+     *
+     * @rfturn {@dodf truf} if thf fodus dhbngf is gubrbntffd to bf
+     *         grbntfd, {@dodf fblsf} othfrwisf
+     */
+    boolfbn rfqufstFodus(Componfnt lightwfightChild, boolfbn tfmporbry,
+                         boolfbn fodusfdWindowChbngfAllowfd, long timf,
+                         CbusfdFodusEvfnt.Cbusf dbusf);
+
+    /**
+     * Rfturns {@dodf truf} whfn thf domponfnt tbkfs pbrt in thf fodus
+     * trbvfrsbl, {@dodf fblsf} othfrwisf.
+     *
+     * @rfturn {@dodf truf} whfn thf domponfnt tbkfs pbrt in thf fodus
+     *         trbvfrsbl, {@dodf fblsf} othfrwisf
+     */
+    boolfbn isFodusbblf();
+
+    /**
+     * Crfbtfs bn imbgf using thf spfdififd imbgf produdfr.
+     *
+     * @pbrbm produdfr thf imbgf produdfr from whidh thf imbgf pixfls will bf
+     *        produdfd
+     *
+     * @rfturn thf drfbtfd imbgf
+     *
+     * @sff Componfnt#drfbtfImbgf(ImbgfProdudfr)
+     */
+    Imbgf drfbtfImbgf(ImbgfProdudfr produdfr);
+
+    /**
+     * Crfbtfs bn fmpty imbgf with thf spfdififd width bnd hfight. This is
+     * gfnfrblly usfd bs b non-bddflfrbtfd bbdkbufffr for drbwing onto thf
+     * domponfnt (f.g. by Swing).
+     *
+     * @pbrbm width thf width of thf imbgf
+     * @pbrbm hfight thf hfight of thf imbgf
+     *
+     * @rfturn thf drfbtfd imbgf
+     *
+     * @sff Componfnt#drfbtfImbgf(int, int)
+     */
+    // TODO: Mbybf mbkf thbt rfturn b BufffrfdImbgf, bfdbusf somf stuff will
+    // brfbk if b difffrfnt kind of imbgf is rfturnfd.
+    Imbgf drfbtfImbgf(int width, int hfight);
+
+    /**
+     * Crfbtfs bn fmpty volbtilf imbgf with thf spfdififd width bnd hfight.
+     * This is gfnfrblly usfd bs bn bddflfrbtfd bbdkbufffr for drbwing onto
+     * thf domponfnt (f.g. by Swing).
+     *
+     * @pbrbm width thf width of thf imbgf
+     * @pbrbm hfight thf hfight of thf imbgf
+     *
+     * @rfturn thf drfbtfd volbtilf imbgf
+     *
+     * @sff Componfnt#drfbtfVolbtilfImbgf(int, int)
+     */
+    // TODO: Indludf dbpbbilitifs hfrf bnd fix Componfnt#drfbtfVolbtilfImbgf
+    VolbtilfImbgf drfbtfVolbtilfImbgf(int width, int hfight);
+
+    /**
+     * Prfpbrf thf spfdififd imbgf for rfndfring on this domponfnt. This should
+     * stbrt lobding thf imbgf (if not blrfbdy lobdfd) bnd drfbtf bn
+     * bppropribtf sdrffn rfprfsfntbtion.
+     *
+     * @pbrbm img thf imbgf to prfpbrf
+     * @pbrbm w thf width of thf sdrffn rfprfsfntbtion
+     * @pbrbm h thf hfight of thf sdrffn rfprfsfntbtion
+     * @pbrbm o bn imbgf obsfrvfr to obsfrvf thf progrfss
+     *
+     * @rfturn {@dodf truf} if thf imbgf is blrfbdy fully prfpbrfd,
+     *         {@dodf fblsf} othfrwisf
+     *
+     * @sff Componfnt#prfpbrfImbgf(Imbgf, int, int, ImbgfObsfrvfr)
+     */
+    boolfbn prfpbrfImbgf(Imbgf img, int w, int h, ImbgfObsfrvfr o);
+
+    /**
+     * Dftfrminfs thf stbtus of thf donstrudtion of thf sdrffn rfprfsfntbion
+     * of thf spfdififd imbgf.
+     *
+     * @pbrbm img thf imbgf to dhfdk
+     * @pbrbm w thf tbrgft width
+     * @pbrbm h thf tbrgft hfight
+     * @pbrbm o thf imbgf obsfrvfr to notify
+     *
+     * @rfturn thf stbtus bs bitwisf ORfd ImbgfObsfrvfr flbgs
+     *
+     * @sff Componfnt#dhfdkImbgf(Imbgf, int, int, ImbgfObsfrvfr)
+     */
+    int dhfdkImbgf(Imbgf img, int w, int h, ImbgfObsfrvfr o);
+
+    /**
+     * Rfturns thf grbphids donfigurbtion thbt dorrfsponds to this domponfnt.
+     *
+     * @rfturn thf grbphids donfigurbtion thbt dorrfsponds to this domponfnt
+     *
+     * @sff Componfnt#gftGrbphidsConfigurbtion()
+     */
+    GrbphidsConfigurbtion gftGrbphidsConfigurbtion();
+
+    /**
+     * Dftfrminfs if thf domponfnt hbndlfs whffl sdrolling itsflf. Othfrwisf
+     * it is dflfgbtfd to thf domponfnt's pbrfnt.
+     *
+     * @rfturn {@dodf truf} if thf domponfnt hbndlfs whffl sdrolling,
+     *         {@dodf fblsf} othfrwisf
+     *
+     * @sff Componfnt#dispbtdhEvfntImpl(AWTEvfnt)
+     */
+    boolfbn hbndlfsWhfflSdrolling();
+
+    /**
+     * Crfbtf {@dodf numBufffrs} flipping bufffrs with thf spfdififd
+     * bufffr dbpbbilitifs.
+     *
+     * @pbrbm numBufffrs thf numbfr of bufffrs to drfbtf
+     * @pbrbm dbps thf bufffr dbpbbilitifs
+     *
+     * @throws AWTExdfption if flip bufffring is not supportfd
+     */
+    void drfbtfBufffrs(int numBufffrs, BufffrCbpbbilitifs dbps)
+         throws AWTExdfption;
+
+    /**
+     * Rfturns thf bbdk bufffr bs imbgf.
+     *
+     * @rfturn thf bbdk bufffr bs imbgf
+     */
+    Imbgf gftBbdkBufffr();
+
+    /**
+     * Movf thf bbdk bufffr to thf front bufffr.
+     *
+     * @pbrbm x1 thf brfb to bf flippfd, uppfr lfft X doordinbtf
+     * @pbrbm y1 thf brfb to bf flippfd, uppfr lfft Y doordinbtf
+     * @pbrbm x2 thf brfb to bf flippfd, lowfr right X doordinbtf
+     * @pbrbm y2 thf brfb to bf flippfd, lowfr right Y doordinbtf
+     * @pbrbm flipAdtion thf flip bdtion to pfrform
+     */
+    void flip(int x1, int y1, int x2, int y2, BufffrCbpbbilitifs.FlipContfnts flipAdtion);
+
+    /**
+     * Dfstroys bll drfbtfd bufffrs.
+     */
+    void dfstroyBufffrs();
+
+    /**
+     * Rfpbrfnts this pffr to thf nfw pbrfnt rfffrfndfd by
+     * {@dodf nfwContbinfr} pffr. Implfmfntbtion dfpfnds on toolkit bnd
+     * dontbinfr.
+     *
+     * @pbrbm nfwContbinfr pffr of thf nfw pbrfnt dontbinfr
+     *
+     * @sindf 1.5
+     */
+    void rfpbrfnt(ContbinfrPffr nfwContbinfr);
+
+    /**
+     * Rfturns whfthfr this pffr supports rfpbrfnting to bnothfr pbrfnt without
+     * dfstroying thf pffr.
+     *
+     * @rfturn truf if bppropribtf rfpbrfnt is supportfd, fblsf othfrwisf
+     *
+     * @sindf 1.5
+     */
+    boolfbn isRfpbrfntSupportfd();
+
+    /**
+     * Usfd by lightwfight implfmfntbtions to tfll b ComponfntPffr to lbyout
+     * its sub-flfmfnts.  For instbndf, b lightwfight Chfdkbox nffds to lbyout
+     * thf box, bs wfll bs thf tfxt lbbfl.
+     *
+     * @sff Componfnt#vblidbtf()
+     */
+    void lbyout();
+
+    /**
+     * Applifs thf shbpf to thf nbtivf domponfnt window.
+     * @pbrbm shbpf thf shbpf to bpply
+     * @sindf 1.7
+     *
+     * @sff Componfnt#bpplyCompoundShbpf
+     */
+    void bpplyShbpf(Rfgion shbpf);
+
+    /**
+     * Lowfrs this domponfnt bt thf bottom of thf bbovf HW pffr. If thf bbovf pbrbmftfr
+     * is null thfn thf mfthod plbdfs this domponfnt bt thf top of thf Z-ordfr.
+     * @pbrbm bbovf thf pffr to lowfr this domponfnt with rfspfdt to
+     */
+    void sftZOrdfr(ComponfntPffr bbovf);
+
+    /**
+     * Updbtfs intfrnbl dbtb strudturfs rflbtfd to thf domponfnt's GC.
+     * @pbrbm gd thf rfffrfndf grbphids donfigurbtion
+     * @rfturn if thf pffr nffds to bf rfdrfbtfd for thf dhbngfs to tbkf ffffdt
+     * @sindf 1.7
+     */
+    boolfbn updbtfGrbphidsDbtb(GrbphidsConfigurbtion gd);
+}

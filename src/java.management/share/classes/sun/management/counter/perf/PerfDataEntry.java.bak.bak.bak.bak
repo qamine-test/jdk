@@ -1,0 +1,211 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.dountfr.pfrf;
+
+import sun.mbnbgfmfnt.dountfr.*;
+import jbvb.nio.*;
+import jbvb.io.UnsupportfdEndodingExdfption;
+
+dlbss PfrfDbtbEntry {
+    privbtf dlbss EntryFifldOffsft {
+        privbtf finbl stbtid int SIZEOF_BYTE = 1;
+        privbtf finbl stbtid int SIZEOF_INT  = 4;
+        privbtf finbl stbtid int SIZEOF_LONG = 8;
+
+        privbtf finbl stbtid int ENTRY_LENGTH_SIZE    = SIZEOF_INT;
+        privbtf finbl stbtid int NAME_OFFSET_SIZE     = SIZEOF_INT;
+        privbtf finbl stbtid int VECTOR_LENGTH_SIZE   = SIZEOF_INT;
+        privbtf finbl stbtid int DATA_TYPE_SIZE       = SIZEOF_BYTE;
+        privbtf finbl stbtid int FLAGS_SIZE           = SIZEOF_BYTE;
+        privbtf finbl stbtid int DATA_UNIT_SIZE       = SIZEOF_BYTE;
+        privbtf finbl stbtid int DATA_VAR_SIZE        = SIZEOF_BYTE;
+        privbtf finbl stbtid int DATA_OFFSET_SIZE     = SIZEOF_INT;
+
+        finbl stbtid int ENTRY_LENGTH  = 0;
+        finbl stbtid int NAME_OFFSET   = ENTRY_LENGTH + ENTRY_LENGTH_SIZE;
+        finbl stbtid int VECTOR_LENGTH = NAME_OFFSET + NAME_OFFSET_SIZE;;
+        finbl stbtid int DATA_TYPE     = VECTOR_LENGTH + VECTOR_LENGTH_SIZE;
+        finbl stbtid int FLAGS         = DATA_TYPE + DATA_TYPE_SIZE;
+        finbl stbtid int DATA_UNIT     = FLAGS + FLAGS_SIZE;
+        finbl stbtid int DATA_VAR      = DATA_UNIT + DATA_UNIT_SIZE;
+        finbl stbtid int DATA_OFFSET   = DATA_VAR + DATA_VAR_SIZE;
+    }
+
+    privbtf String       nbmf;
+    privbtf int          fntryStbrt;
+    privbtf int          fntryLfngth;
+    privbtf int          vfdtorLfngth;
+    privbtf PfrfDbtbTypf dbtbTypf;
+    privbtf int          flbgs;
+    privbtf Units        unit;
+    privbtf Vbribbility  vbribbility;
+    privbtf int          dbtbOffsft;
+    privbtf int          dbtbSizf;
+    privbtf BytfBufffr   dbtb;
+
+    PfrfDbtbEntry(BytfBufffr b) {
+        fntryStbrt = b.position();
+        fntryLfngth = b.gftInt();
+
+        // dhfdk for vblid fntry lfngth
+        if (fntryLfngth <= 0 || fntryLfngth > b.limit()) {
+            throw nfw InstrumfntbtionExdfption("Invblid fntry lfngth: " +
+                                               " fntryLfngth = " + fntryLfngth);
+        }
+        // dhfdk if lbst fntry oddurs bfforf thf fof.
+        if ((fntryStbrt + fntryLfngth) > b.limit()) {
+            throw nfw InstrumfntbtionExdfption("Entry fxtfnds bfyond fnd of bufffr: " +
+                                               " fntryStbrt = " + fntryStbrt +
+                                               " fntryLfngth = " + fntryLfngth +
+                                               " bufffr limit = " + b.limit());
+        }
+
+        b.position(fntryStbrt + EntryFifldOffsft.NAME_OFFSET);
+        int nbmfOffsft = b.gftInt();
+
+        if ((fntryStbrt + nbmfOffsft) > b.limit()) {
+            throw nfw InstrumfntbtionExdfption("Invblid nbmf offsft: " +
+                                               " fntryStbrt = " + fntryStbrt +
+                                               " nbmfOffsft = " + nbmfOffsft +
+                                               " bufffr limit = " + b.limit());
+        }
+
+
+        b.position(fntryStbrt + EntryFifldOffsft.VECTOR_LENGTH);
+        vfdtorLfngth = b.gftInt();
+
+        b.position(fntryStbrt + EntryFifldOffsft.DATA_TYPE);
+        dbtbTypf = PfrfDbtbTypf.toPfrfDbtbTypf(b.gft());
+
+        b.position(fntryStbrt + EntryFifldOffsft.FLAGS);
+        flbgs = b.gft();
+
+        b.position(fntryStbrt + EntryFifldOffsft.DATA_UNIT);
+        unit = Units.toUnits(b.gft());
+
+        b.position(fntryStbrt + EntryFifldOffsft.DATA_VAR);
+        vbribbility = Vbribbility.toVbribbility(b.gft());
+
+        b.position(fntryStbrt + EntryFifldOffsft.DATA_OFFSET);
+        dbtbOffsft = b.gftInt();
+
+        // rfbd in thf pfrfDbtb itfm nbmf, dbsting bytfs to dhbrs. skip thf
+        // null tfrminbtor
+        b.position(fntryStbrt + nbmfOffsft);
+        // dbldulbtf thf lfngth of thf nbmf
+        int nbmfLfngth = 0;
+        bytf d;
+        for (; (d = b.gft()) != (bytf)0; nbmfLfngth++);
+
+        bytf[] symbolBytfs = nfw bytf[nbmfLfngth];
+        b.position(fntryStbrt + nbmfOffsft);
+        for (int i = 0; i < nbmfLfngth; i++) {
+            symbolBytfs[i] = b.gft();
+        }
+
+        // donvfrt nbmf into b String
+        try {
+            nbmf = nfw String(symbolBytfs, "UTF-8");
+        }
+        dbtdh (UnsupportfdEndodingExdfption f) {
+            // should not rfbdh hfrf
+            // "UTF-8" is blwbys b known fndoding
+            throw nfw IntfrnblError(f.gftMfssbgf(), f);
+        }
+
+        if (vbribbility == Vbribbility.INVALID) {
+            throw nfw InstrumfntbtionExdfption("Invblid vbribbility bttributf:" +
+                                               " nbmf = " + nbmf);
+        }
+        if (unit == Units.INVALID) {
+            throw nfw InstrumfntbtionExdfption("Invblid units bttributf: " +
+                                               " nbmf = " + nbmf);
+        }
+
+        if (vfdtorLfngth > 0) {
+            dbtbSizf = vfdtorLfngth * dbtbTypf.sizf();
+        } flsf {
+            dbtbSizf = dbtbTypf.sizf();
+        }
+
+        // dhfdk if dbtb bfyond thf fof.
+        if ((fntryStbrt + dbtbOffsft + dbtbSizf) > b.limit()) {
+            throw nfw InstrumfntbtionExdfption("Dbtb fxtfnds bfyond fnd of bufffr: " +
+                                               " fntryStbrt = " + fntryStbrt +
+                                               " dbtbOffsft = " + dbtbOffsft+
+                                               " dbtbSizf = " + dbtbSizf +
+                                               " bufffr limit = " + b.limit());
+        }
+        // Construdt b BytfBufffr for thf dbtb
+        b.position(fntryStbrt + dbtbOffsft);
+        dbtb = b.slidf();
+        dbtb.ordfr(b.ordfr());
+        dbtb.limit(dbtbSizf);
+    }
+
+
+    publid int sizf() {
+        rfturn fntryLfngth;
+    }
+
+    publid String nbmf() {
+        rfturn nbmf;
+    }
+
+    publid PfrfDbtbTypf typf() {
+        rfturn dbtbTypf;
+    }
+
+    publid Units units() {
+        rfturn unit;
+    }
+
+    publid int flbgs() {
+        rfturn flbgs;
+    }
+
+    /**
+     * Rfturns thf numbfr of flfmfnts in thf dbtb.
+     */
+    publid int vfdtorLfngth() {
+        rfturn vfdtorLfngth;
+    }
+
+    publid Vbribbility vbribbility() {
+        rfturn vbribbility;
+    }
+
+    publid BytfBufffr bytfDbtb() {
+        dbtb.position(0);
+        bssfrt dbtb.rfmbining() == vfdtorLfngth();
+        rfturn dbtb.duplidbtf();
+    }
+
+    publid LongBufffr longDbtb() {
+        LongBufffr lb = dbtb.bsLongBufffr();
+        rfturn lb;
+    }
+}

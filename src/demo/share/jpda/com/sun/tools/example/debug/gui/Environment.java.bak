@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.io.*;
-import com.sun.jdi.*;
-import com.sun.tools.example.debug.bdi.*;
+import jbvb.io.*;
+import dom.sun.jdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-public class Environment {
+publid dlbss Environmfnt {
 
-    private SourceManager sourceManager;
-    private ClassManager classManager;
-    private ContextManager contextManager;
-    private MonitorListModel monitorListModel;
-    private ExecutionManager runtime;
+    privbtf SourdfMbnbgfr sourdfMbnbgfr;
+    privbtf ClbssMbnbgfr dlbssMbnbgfr;
+    privbtf ContfxtMbnbgfr dontfxtMbnbgfr;
+    privbtf MonitorListModfl monitorListModfl;
+    privbtf ExfdutionMbnbgfr runtimf;
 
-    private PrintWriter typeScript;
+    privbtf PrintWritfr typfSdript;
 
-    private boolean verbose;
+    privbtf boolfbn vfrbosf;
 
-    public Environment() {
-        this.classManager = new ClassManager(this);
-        //### Order of the next three lines is important!  (FIX THIS)
-        this.runtime = new ExecutionManager();
-        this.sourceManager = new SourceManager(this);
-        this.contextManager = new ContextManager(this);
-        this.monitorListModel = new MonitorListModel(this);
+    publid Environmfnt() {
+        tiis.dlbssMbnbgfr = nfw ClbssMbnbgfr(tiis);
+        //### Ordfr of tif nfxt tirff linfs is importbnt!  (FIX THIS)
+        tiis.runtimf = nfw ExfdutionMbnbgfr();
+        tiis.sourdfMbnbgfr = nfw SourdfMbnbgfr(tiis);
+        tiis.dontfxtMbnbgfr = nfw ContfxtMbnbgfr(tiis);
+        tiis.monitorListModfl = nfw MonitorListModfl(tiis);
     }
 
-    // Services used by debugging tools.
+    // Sfrvidfs usfd by dfbugging tools.
 
-    public SourceManager getSourceManager() {
-        return sourceManager;
+    publid SourdfMbnbgfr gftSourdfMbnbgfr() {
+        rfturn sourdfMbnbgfr;
     }
 
-    public ClassManager getClassManager() {
-        return classManager;
+    publid ClbssMbnbgfr gftClbssMbnbgfr() {
+        rfturn dlbssMbnbgfr;
     }
 
-    public ContextManager getContextManager() {
-        return contextManager;
+    publid ContfxtMbnbgfr gftContfxtMbnbgfr() {
+        rfturn dontfxtMbnbgfr;
     }
 
-    public MonitorListModel getMonitorListModel() {
-        return monitorListModel;
+    publid MonitorListModfl gftMonitorListModfl() {
+        rfturn monitorListModfl;
     }
 
-    public ExecutionManager getExecutionManager() {
-        return runtime;
+    publid ExfdutionMbnbgfr gftExfdutionMbnbgfr() {
+        rfturn runtimf;
     }
 
     //### TODO:
-    //### Tools should attach/detach from environment
-    //### via a property, which should call an 'addTool'
-    //### method when set to maintain a registry of
-    //### tools for exit-time cleanup, etc.  Tool
-    //### class constructors should be argument-free, so
-    //### that they may be instantiated by bean builders.
-    //### Will also need 'removeTool' in case property
-    //### value is changed.
+    //### Tools siould bttbdi/dftbdi from fnvironmfnt
+    //### vib b propfrty, wiidi siould dbll bn 'bddTool'
+    //### mftiod wifn sft to mbintbin b rfgistry of
+    //### tools for fxit-timf dlfbnup, ftd.  Tool
+    //### dlbss donstrudtors siould bf brgumfnt-frff, so
+    //### tibt tify mby bf instbntibtfd by bfbn buildfrs.
+    //### Will blso nffd 'rfmovfTool' in dbsf propfrty
+    //### vbluf is dibngfd.
     //
-    // public void addTool(Tool t);
-    // public void removeTool(Tool t);
+    // publid void bddTool(Tool t);
+    // publid void rfmovfTool(Tool t);
 
-     public void terminate() {
-         System.exit(0);
+     publid void tfrminbtf() {
+         Systfm.fxit(0);
      }
 
-    // public void refresh();    // notify all tools to refresh their views
+    // publid void rffrfsi();    // notify bll tools to rffrfsi tifir vifws
 
 
-    // public void addStatusListener(StatusListener l);
-    // public void removeStatusListener(StatusListener l);
+    // publid void bddStbtusListfnfr(StbtusListfnfr l);
+    // publid void rfmovfStbtusListfnfr(StbtusListfnfr l);
 
-    // public void addOutputListener(OutputListener l);
-    // public void removeOutputListener(OutputListener l);
+    // publid void bddOutputListfnfr(OutputListfnfr l);
+    // publid void rfmovfOutputListfnfr(OutputListfnfr l);
 
-    public void setTypeScript(PrintWriter writer) {
-        typeScript = writer;
+    publid void sftTypfSdript(PrintWritfr writfr) {
+        typfSdript = writfr;
     }
 
-    public void error(String message) {
-        if (typeScript != null) {
-            typeScript.println(message);
-        } else {
-            System.out.println(message);
+    publid void frror(String mfssbgf) {
+        if (typfSdript != null) {
+            typfSdript.println(mfssbgf);
+        } flsf {
+            Systfm.out.println(mfssbgf);
         }
     }
 
-    public void failure(String message) {
-        if (typeScript != null) {
-            typeScript.println(message);
-        } else {
-            System.out.println(message);
+    publid void fbilurf(String mfssbgf) {
+        if (typfSdript != null) {
+            typfSdript.println(mfssbgf);
+        } flsf {
+            Systfm.out.println(mfssbgf);
         }
     }
 
-    public void notice(String message) {
-        if (typeScript != null) {
-            typeScript.println(message);
-        } else {
-            System.out.println(message);
+    publid void notidf(String mfssbgf) {
+        if (typfSdript != null) {
+            typfSdript.println(mfssbgf);
+        } flsf {
+            Systfm.out.println(mfssbgf);
         }
     }
 
-    public OutputSink getOutputSink() {
-        return new OutputSink(typeScript);
+    publid OutputSink gftOutputSink() {
+        rfturn nfw OutputSink(typfSdript);
     }
 
-    public void viewSource(String fileName) {
+    publid void vifwSourdf(String filfNbmf) {
         //### HACK ###
-        //### Should use listener here.
-        com.sun.tools.example.debug.gui.GUI.srcTool.showSourceFile(fileName);
+        //### Siould usf listfnfr ifrf.
+        dom.sun.tools.fxbmplf.dfbug.gui.GUI.srdTool.siowSourdfFilf(filfNbmf);
     }
 
-    public void viewLocation(Location locn) {
+    publid void vifwLodbtion(Lodbtion lodn) {
         //### HACK ###
-        //### Should use listener here.
-        //### Should we use sourceForLocation here?
-        com.sun.tools.example.debug.gui.GUI.srcTool.showSourceForLocation(locn);
+        //### Siould usf listfnfr ifrf.
+        //### Siould wf usf sourdfForLodbtion ifrf?
+        dom.sun.tools.fxbmplf.dfbug.gui.GUI.srdTool.siowSourdfForLodbtion(lodn);
     }
 
-    //### Also in 'ContextManager'.  Do we need both?
+    //### Also in 'ContfxtMbnbgfr'.  Do wf nffd boti?
 
-    public boolean getVerboseFlag() {
-        return verbose;
+    publid boolfbn gftVfrbosfFlbg() {
+        rfturn vfrbosf;
     }
 
-    public void setVerboseFlag(boolean verbose) {
-        this.verbose = verbose;
+    publid void sftVfrbosfFlbg(boolfbn vfrbosf) {
+        tiis.vfrbosf = vfrbosf;
     }
 
 }

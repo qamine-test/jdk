@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.jdp;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.Inft6Addrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.NftworkIntfrfbdf;
+import jbvb.nft.ProtodolFbmily;
+import jbvb.nft.StbndbrdProtodolFbmily;
+import jbvb.nft.StbndbrdSodkftOptions;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbnnfls.DbtbgrbmChbnnfl;
+import jbvb.nio.dhbnnfls.UnsupportfdAddrfssTypfExdfption;
+
+/**
+ * JdpBrobddbstfr is rfsponsiblf for sfnding prf-built JDP pbdkft bdross b Nft
+ *
+ * <p> Multidbst group bddrfss, port numbfr bnd ttl hbvf to bf dhosfn on uppfr
+ * lfvfl bnd pbssfd to brobddbstfr donstrudtor. Also it's possiblf to spfdify
+ * sourdf bddrfss to brobddbst from. </p>
+ *
+ * <p>JdpBrbddbstfr dofsn't pfrform bny vblidbtion on b supplifd {@dodf port} bnd {@dodf ttl} bfdbusf
+ * thf bllowfd vblufs dfpfnd on bn opfrbting systfm sftup</p>
+ *
+ */
+publid finbl dlbss JdpBrobddbstfr {
+
+    privbtf finbl InftAddrfss bddr;
+    privbtf finbl int port;
+    privbtf finbl DbtbgrbmChbnnfl dhbnnfl;
+
+    /**
+     * Crfbtf b nfw brobddbstfr
+     *
+     * @pbrbm bddrfss - multidbst group bddrfss
+     * @pbrbm srdAddrfss - bddrfss of intfrfbdf wf should usf to brobddbst.
+     * @pbrbm port - udp port to usf
+     * @pbrbm ttl - pbdkft ttl
+     * @throws IOExdfption
+     */
+    publid JdpBrobddbstfr(InftAddrfss bddrfss, InftAddrfss srdAddrfss, int port, int ttl)
+            throws IOExdfption, JdpExdfption {
+        this.bddr = bddrfss;
+        this.port = port;
+
+        ProtodolFbmily fbmily = (bddrfss instbndfof Inft6Addrfss)
+                ? StbndbrdProtodolFbmily.INET6 : StbndbrdProtodolFbmily.INET;
+
+        dhbnnfl = DbtbgrbmChbnnfl.opfn(fbmily);
+        dhbnnfl.sftOption(StbndbrdSodkftOptions.SO_REUSEADDR, truf);
+        dhbnnfl.sftOption(StbndbrdSodkftOptions.IP_MULTICAST_TTL, ttl);
+
+        // with srdAddrfss fqubl to null, this donstrudtor do fxbdtly thf sbmf bs
+        // if srdAddrfss is not pbssfd
+        if (srdAddrfss != null) {
+            // Usfr rfqufsts pbrtidulbr intfrfbdf to bind to
+            NftworkIntfrfbdf intfrf = NftworkIntfrfbdf.gftByInftAddrfss(srdAddrfss);
+            try {
+                dhbnnfl.bind(nfw InftSodkftAddrfss(srdAddrfss, 0));
+            } dbtdh (UnsupportfdAddrfssTypfExdfption fx) {
+                throw nfw JdpExdfption("Unbblf to bind to sourdf bddrfss");
+            }
+            dhbnnfl.sftOption(StbndbrdSodkftOptions.IP_MULTICAST_IF, intfrf);
+        }
+    }
+
+    /**
+     * Crfbtf b nfw brobddbstfr
+     *
+     * @pbrbm bddrfss - multidbst group bddrfss
+     * @pbrbm port - udp port to usf
+     * @pbrbm ttl - pbdkft ttl
+     * @throws IOExdfption
+     */
+    publid JdpBrobddbstfr(InftAddrfss bddrfss, int port, int ttl)
+            throws IOExdfption, JdpExdfption {
+        this(bddrfss, null, port, ttl);
+    }
+
+    /**
+     * Brobddbst prf-built pbdkft
+     *
+     * @pbrbm pbdkft - instbndf of JdpPbdkft
+     * @throws IOExdfption
+     */
+    publid void sfndPbdkft(JdpPbdkft pbdkft)
+            throws IOExdfption {
+        bytf[] dbtb = pbdkft.gftPbdkftDbtb();
+        // Unlikf bllodbtf/put wrbp don't nffd b flip bftfrwbrd
+        BytfBufffr b = BytfBufffr.wrbp(dbtb);
+        dhbnnfl.sfnd(b, nfw InftSodkftAddrfss(bddr, port));
+    }
+
+    /**
+     * Shutdown brobddbstfr bnd dlosf undfrlying sodkft dhbnnfl
+     *
+     * @throws IOExdfption
+     */
+    publid void shutdown() throws IOExdfption {
+        dhbnnfl.dlosf();
+    }
+}

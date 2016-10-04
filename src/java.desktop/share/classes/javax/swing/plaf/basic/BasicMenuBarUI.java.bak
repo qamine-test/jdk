@@ -1,283 +1,283 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import sun.swing.DefaultLookup;
-import sun.swing.UIAction;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
-import javax.swing.border.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
 
 
 /**
- * A default L&amp;F implementation of MenuBarUI.  This implementation
- * is a "combined" view/controller.
+ * A dffbult L&bmp;F implfmfntbtion of MfnuBbrUI.  Tiis implfmfntbtion
+ * is b "dombinfd" vifw/dontrollfr.
  *
- * @author Georges Saab
- * @author David Karlton
- * @author Arnaud Weber
+ * @butior Gforgfs Sbbb
+ * @butior Dbvid Kbrlton
+ * @butior Arnbud Wfbfr
  */
-public class BasicMenuBarUI extends MenuBarUI  {
+publid dlbss BbsidMfnuBbrUI fxtfnds MfnuBbrUI  {
 
     /**
-     * The instance of {@code JMenuBar}.
+     * Tif instbndf of {@dodf JMfnuBbr}.
      */
-    protected JMenuBar              menuBar = null;
+    protfdtfd JMfnuBbr              mfnuBbr = null;
 
     /**
-     * The instance of {@code ContainerListener}.
+     * Tif instbndf of {@dodf ContbinfrListfnfr}.
      */
-    protected ContainerListener     containerListener;
+    protfdtfd ContbinfrListfnfr     dontbinfrListfnfr;
 
     /**
-     * The instance of {@code ChangeListener}.
+     * Tif instbndf of {@dodf CibngfListfnfr}.
      */
-    protected ChangeListener        changeListener;
-    private Handler handler;
+    protfdtfd CibngfListfnfr        dibngfListfnfr;
+    privbtf Hbndlfr ibndlfr;
 
     /**
-     * Returns a new instance of {@code BasicMenuBarUI}.
+     * Rfturns b nfw instbndf of {@dodf BbsidMfnuBbrUI}.
      *
-     * @param x a component
-     * @return a new instance of {@code BasicMenuBarUI}
+     * @pbrbm x b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidMfnuBbrUI}
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new BasicMenuBarUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw BbsidMfnuBbrUI();
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.TAKE_FOCUS));
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw Adtions(Adtions.TAKE_FOCUS));
     }
 
-    public void installUI(JComponent c) {
-        menuBar = (JMenuBar) c;
+    publid void instbllUI(JComponfnt d) {
+        mfnuBbr = (JMfnuBbr) d;
 
-        installDefaults();
-        installListeners();
-        installKeyboardActions();
+        instbllDffbults();
+        instbllListfnfrs();
+        instbllKfybobrdAdtions();
 
     }
 
     /**
-     * Installs default properties.
+     * Instblls dffbult propfrtifs.
      */
-    protected void installDefaults() {
-        if (menuBar.getLayout() == null ||
-            menuBar.getLayout() instanceof UIResource) {
-            menuBar.setLayout(new DefaultMenuLayout(menuBar,BoxLayout.LINE_AXIS));
+    protfdtfd void instbllDffbults() {
+        if (mfnuBbr.gftLbyout() == null ||
+            mfnuBbr.gftLbyout() instbndfof UIRfsourdf) {
+            mfnuBbr.sftLbyout(nfw DffbultMfnuLbyout(mfnuBbr,BoxLbyout.LINE_AXIS));
         }
 
-        LookAndFeel.installProperty(menuBar, "opaque", Boolean.TRUE);
-        LookAndFeel.installBorder(menuBar,"MenuBar.border");
-        LookAndFeel.installColorsAndFont(menuBar,
-                                              "MenuBar.background",
-                                              "MenuBar.foreground",
-                                              "MenuBar.font");
+        LookAndFffl.instbllPropfrty(mfnuBbr, "opbquf", Boolfbn.TRUE);
+        LookAndFffl.instbllBordfr(mfnuBbr,"MfnuBbr.bordfr");
+        LookAndFffl.instbllColorsAndFont(mfnuBbr,
+                                              "MfnuBbr.bbdkground",
+                                              "MfnuBbr.forfground",
+                                              "MfnuBbr.font");
     }
 
     /**
-     * Registers listeners.
+     * Rfgistfrs listfnfrs.
      */
-    protected void installListeners() {
-        containerListener = createContainerListener();
-        changeListener = createChangeListener();
+    protfdtfd void instbllListfnfrs() {
+        dontbinfrListfnfr = drfbtfContbinfrListfnfr();
+        dibngfListfnfr = drfbtfCibngfListfnfr();
 
-        for (int i = 0; i < menuBar.getMenuCount(); i++) {
-            JMenu menu = menuBar.getMenu(i);
-            if (menu!=null)
-                menu.getModel().addChangeListener(changeListener);
+        for (int i = 0; i < mfnuBbr.gftMfnuCount(); i++) {
+            JMfnu mfnu = mfnuBbr.gftMfnu(i);
+            if (mfnu!=null)
+                mfnu.gftModfl().bddCibngfListfnfr(dibngfListfnfr);
         }
-        menuBar.addContainerListener(containerListener);
+        mfnuBbr.bddContbinfrListfnfr(dontbinfrListfnfr);
     }
 
     /**
-     * Registers keyboard actions.
+     * Rfgistfrs kfybobrd bdtions.
      */
-    protected void installKeyboardActions() {
-        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    protfdtfd void instbllKfybobrdAdtions() {
+        InputMbp inputMbp = gftInputMbp(JComponfnt.WHEN_IN_FOCUSED_WINDOW);
 
-        SwingUtilities.replaceUIInputMap(menuBar,
-                           JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        SwingUtilitifs.rfplbdfUIInputMbp(mfnuBbr,
+                           JComponfnt.WHEN_IN_FOCUSED_WINDOW, inputMbp);
 
-        LazyActionMap.installLazyActionMap(menuBar, BasicMenuBarUI.class,
-                                           "MenuBar.actionMap");
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(mfnuBbr, BbsidMfnuBbrUI.dlbss,
+                                           "MfnuBbr.bdtionMbp");
     }
 
-    InputMap getInputMap(int condition) {
-        if (condition == JComponent.WHEN_IN_FOCUSED_WINDOW) {
-            Object[] bindings = (Object[])DefaultLookup.get
-                                (menuBar, this, "MenuBar.windowBindings");
+    InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_IN_FOCUSED_WINDOW) {
+            Objfdt[] bindings = (Objfdt[])DffbultLookup.gft
+                                (mfnuBbr, tiis, "MfnuBbr.windowBindings");
             if (bindings != null) {
-                return LookAndFeel.makeComponentInputMap(menuBar, bindings);
+                rfturn LookAndFffl.mbkfComponfntInputMbp(mfnuBbr, bindings);
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults();
-        uninstallListeners();
-        uninstallKeyboardActions();
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllDffbults();
+        uninstbllListfnfrs();
+        uninstbllKfybobrdAdtions();
 
-        menuBar = null;
+        mfnuBbr = null;
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls dffbult propfrtifs.
      */
-    protected void uninstallDefaults() {
-        if (menuBar!=null) {
-            LookAndFeel.uninstallBorder(menuBar);
+    protfdtfd void uninstbllDffbults() {
+        if (mfnuBbr!=null) {
+            LookAndFffl.uninstbllBordfr(mfnuBbr);
         }
     }
 
     /**
-     * Unregisters listeners.
+     * Unrfgistfrs listfnfrs.
      */
-    protected void uninstallListeners() {
-        menuBar.removeContainerListener(containerListener);
+    protfdtfd void uninstbllListfnfrs() {
+        mfnuBbr.rfmovfContbinfrListfnfr(dontbinfrListfnfr);
 
-        for (int i = 0; i < menuBar.getMenuCount(); i++) {
-            JMenu menu = menuBar.getMenu(i);
-            if (menu !=null)
-                menu.getModel().removeChangeListener(changeListener);
+        for (int i = 0; i < mfnuBbr.gftMfnuCount(); i++) {
+            JMfnu mfnu = mfnuBbr.gftMfnu(i);
+            if (mfnu !=null)
+                mfnu.gftModfl().rfmovfCibngfListfnfr(dibngfListfnfr);
         }
 
-        containerListener = null;
-        changeListener = null;
-        handler = null;
+        dontbinfrListfnfr = null;
+        dibngfListfnfr = null;
+        ibndlfr = null;
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unrfgistfrs kfybobrd bdtions.
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIInputMap(menuBar, JComponent.
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        SwingUtilitifs.rfplbdfUIInputMbp(mfnuBbr, JComponfnt.
                                        WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIActionMap(menuBar, null);
+        SwingUtilitifs.rfplbdfUIAdtionMbp(mfnuBbr, null);
     }
 
     /**
-     * Returns an instance of {@code ContainerListener}.
+     * Rfturns bn instbndf of {@dodf ContbinfrListfnfr}.
      *
-     * @return an instance of {@code ContainerListener}
+     * @rfturn bn instbndf of {@dodf ContbinfrListfnfr}
      */
-    protected ContainerListener createContainerListener() {
-        return getHandler();
+    protfdtfd ContbinfrListfnfr drfbtfContbinfrListfnfr() {
+        rfturn gftHbndlfr();
     }
 
     /**
-     * Returns an instance of {@code ChangeListener}.
+     * Rfturns bn instbndf of {@dodf CibngfListfnfr}.
      *
-     * @return an instance of {@code ChangeListener}
+     * @rfturn bn instbndf of {@dodf CibngfListfnfr}
      */
-    protected ChangeListener createChangeListener() {
-        return getHandler();
+    protfdtfd CibngfListfnfr drfbtfCibngfListfnfr() {
+        rfturn gftHbndlfr();
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
         }
-        return handler;
+        rfturn ibndlfr;
     }
 
 
-    public Dimension getMinimumSize(JComponent c) {
-        return null;
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        rfturn null;
     }
 
-    public Dimension getMaximumSize(JComponent c) {
-        return null;
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        rfturn null;
     }
 
-    private class Handler implements ChangeListener, ContainerListener {
+    privbtf dlbss Hbndlfr implfmfnts CibngfListfnfr, ContbinfrListfnfr {
         //
-        // ChangeListener
+        // CibngfListfnfr
         //
-        public void stateChanged(ChangeEvent e) {
-            int i,c;
-            for(i=0,c = menuBar.getMenuCount() ; i < c ; i++) {
-                JMenu menu = menuBar.getMenu(i);
-                if(menu !=null && menu.isSelected()) {
-                    menuBar.getSelectionModel().setSelectedIndex(i);
-                    break;
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            int i,d;
+            for(i=0,d = mfnuBbr.gftMfnuCount() ; i < d ; i++) {
+                JMfnu mfnu = mfnuBbr.gftMfnu(i);
+                if(mfnu !=null && mfnu.isSflfdtfd()) {
+                    mfnuBbr.gftSflfdtionModfl().sftSflfdtfdIndfx(i);
+                    brfbk;
                 }
             }
         }
 
         //
-        // ContainerListener
+        // ContbinfrListfnfr
         //
-        public void componentAdded(ContainerEvent e) {
-            Component c = e.getChild();
-            if (c instanceof JMenu)
-                ((JMenu)c).getModel().addChangeListener(changeListener);
+        publid void domponfntAddfd(ContbinfrEvfnt f) {
+            Componfnt d = f.gftCiild();
+            if (d instbndfof JMfnu)
+                ((JMfnu)d).gftModfl().bddCibngfListfnfr(dibngfListfnfr);
         }
-        public void componentRemoved(ContainerEvent e) {
-            Component c = e.getChild();
-            if (c instanceof JMenu)
-                ((JMenu)c).getModel().removeChangeListener(changeListener);
+        publid void domponfntRfmovfd(ContbinfrEvfnt f) {
+            Componfnt d = f.gftCiild();
+            if (d instbndfof JMfnu)
+                ((JMfnu)d).gftModfl().rfmovfCibngfListfnfr(dibngfListfnfr);
         }
     }
 
 
-    private static class Actions extends UIAction {
-        private static final String TAKE_FOCUS = "takeFocus";
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        privbtf stbtid finbl String TAKE_FOCUS = "tbkfFodus";
 
-        Actions(String key) {
-            super(key);
+        Adtions(String kfy) {
+            supfr(kfy);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
             // TAKE_FOCUS
-            JMenuBar menuBar = (JMenuBar)e.getSource();
-            MenuSelectionManager defaultManager = MenuSelectionManager.defaultManager();
-            MenuElement me[];
-            MenuElement subElements[];
-            JMenu menu = menuBar.getMenu(0);
-            if (menu!=null) {
-                    me = new MenuElement[3];
-                    me[0] = (MenuElement) menuBar;
-                    me[1] = (MenuElement) menu;
-                    me[2] = (MenuElement) menu.getPopupMenu();
-                    defaultManager.setSelectedPath(me);
+            JMfnuBbr mfnuBbr = (JMfnuBbr)f.gftSourdf();
+            MfnuSflfdtionMbnbgfr dffbultMbnbgfr = MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+            MfnuElfmfnt mf[];
+            MfnuElfmfnt subElfmfnts[];
+            JMfnu mfnu = mfnuBbr.gftMfnu(0);
+            if (mfnu!=null) {
+                    mf = nfw MfnuElfmfnt[3];
+                    mf[0] = (MfnuElfmfnt) mfnuBbr;
+                    mf[1] = (MfnuElfmfnt) mfnu;
+                    mf[2] = (MfnuElfmfnt) mfnu.gftPopupMfnu();
+                    dffbultMbnbgfr.sftSflfdtfdPbti(mf);
             }
         }
     }

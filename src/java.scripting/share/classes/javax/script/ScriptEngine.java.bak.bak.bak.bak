@@ -1,0 +1,323 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sdript;
+
+import jbvb.io.Rfbdfr;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+/**
+ * <dodf>SdriptEnginf</dodf> is thf fundbmfntbl intfrfbdf whosf mfthods must bf
+ * fully fundtionbl in fvfry implfmfntbtion of this spfdifidbtion.
+ * <br><br>
+ * Thfsf mfthods providf bbsid sdripting fundtionblity.  Applidbtions writtfn to this
+ * simplf intfrfbdf brf fxpfdtfd to work with minimbl modifidbtions in fvfry implfmfntbtion.
+ * It indludfs mfthods thbt fxfdutf sdripts, bnd onfs thbt sft bnd gft vblufs.
+ * <br><br>
+ * Thf vblufs brf kfy/vbluf pbirs of two typfs.  Thf first typf of pbirs donsists of
+ * thosf whosf kfys brf rfsfrvfd bnd dffinfd in this spfdifidbtion or  by individubl
+ * implfmfntbtions.  Thf vblufs in thf pbirs with rfsfrvfd kfys hbvf spfdififd mfbnings.
+ * <br><br>
+ * Thf othfr typf of pbirs donsists of thosf thbt drfbtf Jbvb lbngubgf Bindings, thf vblufs brf
+ * usublly rfprfsfntfd in sdripts by thf dorrfsponding kfys or by dfdorbtfd forms of thfm.
+ *
+ * @buthor Mikf Grogbn
+ * @sindf 1.6
+ */
+
+publid intfrfbdf SdriptEnginf  {
+
+    /**
+     * Rfsfrvfd kfy for b nbmfd vbluf thbt pbssfs
+     * bn brrby of positionbl brgumfnts to b sdript.
+     */
+    publid stbtid finbl String ARGV="jbvbx.sdript.brgv";
+
+    /**
+     * Rfsfrvfd kfy for b nbmfd vbluf thbt is
+     * thf nbmf of thf filf bfing fxfdutfd.
+     */
+    publid stbtid finbl String FILENAME = "jbvbx.sdript.filfnbmf";
+
+    /**
+     * Rfsfrvfd kfy for b nbmfd vbluf thbt is
+     * thf nbmf of thf <dodf>SdriptEnginf</dodf> implfmfntbtion.
+     */
+    publid stbtid finbl String ENGINE = "jbvbx.sdript.fnginf";
+
+    /**
+     * Rfsfrvfd kfy for b nbmfd vbluf thbt idfntififs
+     * thf vfrsion of thf <dodf>SdriptEnginf</dodf> implfmfntbtion.
+     */
+    publid stbtid finbl String ENGINE_VERSION = "jbvbx.sdript.fnginf_vfrsion";
+
+    /**
+     * Rfsfrvfd kfy for b nbmfd vbluf thbt idfntififs
+     * thf short nbmf of thf sdripting lbngubgf.  Thf nbmf is usfd by thf
+     * <dodf>SdriptEnginfMbnbgfr</dodf> to lodbtf b <dodf>SdriptEnginf</dodf>
+     * with b givfn nbmf in thf <dodf>gftEnginfByNbmf</dodf> mfthod.
+     */
+    publid stbtid finbl String NAME = "jbvbx.sdript.nbmf";
+
+    /**
+     * Rfsfrvfd kfy for b nbmfd vbluf thbt is
+     * thf full nbmf of Sdripting Lbngubgf supportfd by thf implfmfntbtion.
+     */
+    publid stbtid finbl String LANGUAGE = "jbvbx.sdript.lbngubgf";
+
+    /**
+     * Rfsfrvfd kfy for thf nbmfd vbluf thbt idfntififs
+     * thf vfrsion of thf sdripting lbngubgf supportfd by thf implfmfntbtion.
+     */
+    publid stbtid finbl String LANGUAGE_VERSION ="jbvbx.sdript.lbngubgf_vfrsion";
+
+
+    /**
+     * Cbusfs thf immfdibtf fxfdution of thf sdript whosf sourdf is thf String
+     * pbssfd bs thf first brgumfnt.  Thf sdript mby bf rfpbrsfd or rfdompilfd bfforf
+     * fxfdution.  Stbtf lfft in thf fnginf from prfvious fxfdutions, indluding
+     * vbribblf vblufs bnd dompilfd prodfdurfs mby bf visiblf during this fxfdution.
+     *
+     * @pbrbm sdript Thf sdript to bf fxfdutfd by thf sdript fnginf.
+     *
+     * @pbrbm dontfxt A <dodf>SdriptContfxt</dodf> fxposing sfts of bttributfs in
+     * difffrfnt sdopfs.  Thf mfbnings of thf sdopfs <dodf>SdriptContfxt.GLOBAL_SCOPE</dodf>,
+     * bnd <dodf>SdriptContfxt.ENGINE_SCOPE</dodf> brf dffinfd in thf spfdifidbtion.
+     * <br><br>
+     * Thf <dodf>ENGINE_SCOPE</dodf> <dodf>Bindings</dodf> of thf <dodf>SdriptContfxt</dodf> dontbins thf
+     * bindings of sdripting vbribblfs to bpplidbtion objfdts to bf usfd during this
+     * sdript fxfdution.
+     *
+     *
+     * @rfturn Thf vbluf rfturnfd from thf fxfdution of thf sdript.
+     *
+     * @throws SdriptExdfption if bn frror oddurs in sdript. SdriptEnginfs should drfbtf bnd throw
+     * <dodf>SdriptExdfption</dodf> wrbppfrs for dhfdkfd Exdfptions thrown by undfrlying sdripting
+     * implfmfntbtions.
+     * @throws NullPointfrExdfption if fithfr brgumfnt is null.
+     */
+    publid Objfdt fvbl(String sdript, SdriptContfxt dontfxt) throws SdriptExdfption;
+
+
+    /**
+     * Sbmf bs <dodf>fvbl(String, SdriptContfxt)</dodf> whfrf thf sourdf of thf sdript
+     * is rfbd from b <dodf>Rfbdfr</dodf>.
+     *
+     * @pbrbm rfbdfr Thf sourdf of thf sdript to bf fxfdutfd by thf sdript fnginf.
+     *
+     * @pbrbm dontfxt Thf <dodf>SdriptContfxt</dodf> pbssfd to thf sdript fnginf.
+     *
+     * @rfturn Thf vbluf rfturnfd from thf fxfdution of thf sdript.
+     *
+     * @throws SdriptExdfption if bn frror oddurs in sdript.
+     * @throws NullPointfrExdfption if fithfr brgumfnt is null.
+     */
+    publid Objfdt fvbl(Rfbdfr rfbdfr , SdriptContfxt dontfxt) throws SdriptExdfption;
+
+    /**
+     * Exfdutfs thf spfdififd sdript.  Thf dffbult <dodf>SdriptContfxt</dodf> for thf <dodf>SdriptEnginf</dodf>
+     * is usfd.
+     *
+     * @pbrbm sdript Thf sdript lbngubgf sourdf to bf fxfdutfd.
+     *
+     * @rfturn Thf vbluf rfturnfd from thf fxfdution of thf sdript.
+     *
+     * @throws SdriptExdfption if frror oddurs in sdript.
+     * @throws NullPointfrExdfption if thf brgumfnt is null.
+     */
+    publid Objfdt fvbl(String sdript) throws SdriptExdfption;
+
+    /**
+     * Sbmf bs <dodf>fvbl(String)</dodf> fxdfpt thbt thf sourdf of thf sdript is
+     * providfd bs b <dodf>Rfbdfr</dodf>
+     *
+     * @pbrbm rfbdfr Thf sourdf of thf sdript.
+     *
+     * @rfturn Thf vbluf rfturnfd by thf sdript.
+     *
+     * @throws SdriptExdfption if bn frror oddurs in sdript.
+     * @throws NullPointfrExdfption if thf brgumfnt is null.
+     */
+    publid Objfdt fvbl(Rfbdfr rfbdfr) throws SdriptExdfption;
+
+    /**
+     * Exfdutfs thf sdript using thf <dodf>Bindings</dodf> brgumfnt bs thf <dodf>ENGINE_SCOPE</dodf>
+     * <dodf>Bindings</dodf> of thf <dodf>SdriptEnginf</dodf> during thf sdript fxfdution.  Thf
+     * <dodf>Rfbdfr</dodf>, <dodf>Writfr</dodf> bnd non-<dodf>ENGINE_SCOPE</dodf> <dodf>Bindings</dodf> of thf
+     * dffbult <dodf>SdriptContfxt</dodf> brf usfd. Thf <dodf>ENGINE_SCOPE</dodf>
+     * <dodf>Bindings</dodf> of thf <dodf>SdriptEnginf</dodf> is not dhbngfd, bnd its
+     * mbppings brf unbltfrfd by thf sdript fxfdution.
+     *
+     * @pbrbm sdript Thf sourdf for thf sdript.
+     *
+     * @pbrbm n Thf <dodf>Bindings</dodf> of bttributfs to bf usfd for sdript fxfdution.
+     *
+     * @rfturn Thf vbluf rfturnfd by thf sdript.
+     *
+     * @throws SdriptExdfption if bn frror oddurs in sdript.
+     * @throws NullPointfrExdfption if fithfr brgumfnt is null.
+     */
+    publid Objfdt fvbl(String sdript, Bindings n) throws SdriptExdfption;
+
+    /**
+     * Sbmf bs <dodf>fvbl(String, Bindings)</dodf> fxdfpt thbt thf sourdf of thf sdript
+     * is providfd bs b <dodf>Rfbdfr</dodf>.
+     *
+     * @pbrbm rfbdfr Thf sourdf of thf sdript.
+     * @pbrbm n Thf <dodf>Bindings</dodf> of bttributfs.
+     *
+     * @rfturn Thf vbluf rfturnfd by thf sdript.
+     *
+     * @throws SdriptExdfption if bn frror oddurs.
+     * @throws NullPointfrExdfption if fithfr brgumfnt is null.
+     */
+    publid Objfdt fvbl(Rfbdfr rfbdfr , Bindings n) throws SdriptExdfption;
+
+
+
+    /**
+     * Sfts b kfy/vbluf pbir in thf stbtf of thf SdriptEnginf thbt mby fithfr drfbtf
+     * b Jbvb Lbngubgf Binding to bf usfd in thf fxfdution of sdripts or bf usfd in somf
+     * othfr wby, dfpfnding on whfthfr thf kfy is rfsfrvfd.  Must hbvf thf sbmf ffffdt bs
+     * <dodf>gftBindings(SdriptContfxt.ENGINE_SCOPE).put</dodf>.
+     *
+     * @pbrbm kfy Thf nbmf of nbmfd vbluf to bdd
+     * @pbrbm vbluf Thf vbluf of nbmfd vbluf to bdd.
+     *
+     * @throws NullPointfrExdfption if kfy is null.
+     * @throws IllfgblArgumfntExdfption if kfy is fmpty.
+     */
+    publid void put(String kfy, Objfdt vbluf);
+
+
+    /**
+     * Rftrifvfs b vbluf sft in thf stbtf of this fnginf.  Thf vbluf might bf onf
+     * whidh wbs sft using <dodf>sftVbluf</dodf> or somf othfr vbluf in thf stbtf
+     * of thf <dodf>SdriptEnginf</dodf>, dfpfnding on thf implfmfntbtion.  Must hbvf thf sbmf ffffdt
+     * bs <dodf>gftBindings(SdriptContfxt.ENGINE_SCOPE).gft</dodf>
+     *
+     * @pbrbm kfy Thf kfy whosf vbluf is to bf rfturnfd
+     * @rfturn thf vbluf for thf givfn kfy
+     *
+     * @throws NullPointfrExdfption if kfy is null.
+     * @throws IllfgblArgumfntExdfption if kfy is fmpty.
+     */
+    publid Objfdt gft(String kfy);
+
+
+    /**
+     * Rfturns b sdopf of nbmfd vblufs.  Thf possiblf sdopfs brf:
+     * <br><br>
+     * <ul>
+     * <li><dodf>SdriptContfxt.GLOBAL_SCOPE</dodf> - Thf sft of nbmfd vblufs rfprfsfnting globbl
+     * sdopf. If this <dodf>SdriptEnginf</dodf> is drfbtfd by b <dodf>SdriptEnginfMbnbgfr</dodf>,
+     * thfn thf mbnbgfr sfts globbl sdopf bindings. This mby bf <dodf>null</dodf> if no globbl
+     * sdopf is bssodibtfd with this <dodf>SdriptEnginf</dodf></li>
+     * <li><dodf>SdriptContfxt.ENGINE_SCOPE</dodf> - Thf sft of nbmfd vblufs rfprfsfnting thf stbtf of
+     * this <dodf>SdriptEnginf</dodf>.  Thf vblufs brf gfnfrblly visiblf in sdripts using
+     * thf bssodibtfd kfys bs vbribblf nbmfs.</li>
+     * <li>Any othfr vbluf of sdopf dffinfd in thf dffbult <dodf>SdriptContfxt</dodf> of thf <dodf>SdriptEnginf</dodf>.
+     * </li>
+     * </ul>
+     * <br><br>
+     * Thf <dodf>Bindings</dodf> instbndfs thbt brf rfturnfd must bf idfntidbl to thosf rfturnfd by thf
+     * <dodf>gftBindings</dodf> mfthod of <dodf>SdriptContfxt</dodf> dbllfd with dorrfsponding brgumfnts on
+     * thf dffbult <dodf>SdriptContfxt</dodf> of thf <dodf>SdriptEnginf</dodf>.
+     *
+     * @pbrbm sdopf Eithfr <dodf>SdriptContfxt.ENGINE_SCOPE</dodf> or <dodf>SdriptContfxt.GLOBAL_SCOPE</dodf>
+     * whidh spfdififs thf <dodf>Bindings</dodf> to rfturn.  Implfmfntbtions of <dodf>SdriptContfxt</dodf>
+     * mby dffinf bdditionbl sdopfs.  If thf dffbult <dodf>SdriptContfxt</dodf> of thf <dodf>SdriptEnginf</dodf>
+     * dffinfs bdditionbl sdopfs, bny of thfm dbn bf pbssfd to gft thf dorrfsponding <dodf>Bindings</dodf>.
+     *
+     * @rfturn Thf <dodf>Bindings</dodf> with thf spfdififd sdopf.
+     *
+     * @throws IllfgblArgumfntExdfption if spfdififd sdopf is invblid
+     *
+     */
+    publid Bindings gftBindings(int sdopf);
+
+    /**
+     * Sfts b sdopf of nbmfd vblufs to bf usfd by sdripts.  Thf possiblf sdopfs brf:
+     *<br><br>
+     * <ul>
+     * <li><dodf>SdriptContfxt.ENGINE_SCOPE</dodf> - Thf spfdififd <dodf>Bindings</dodf> rfplbdfs thf
+     * fnginf sdopf of thf <dodf>SdriptEnginf</dodf>.
+     * </li>
+     * <li><dodf>SdriptContfxt.GLOBAL_SCOPE</dodf> - Thf spfdififd <dodf>Bindings</dodf> must bf visiblf
+     * bs thf <dodf>GLOBAL_SCOPE</dodf>.
+     * </li>
+     * <li>Any othfr vbluf of sdopf dffinfd in thf dffbult <dodf>SdriptContfxt</dodf> of thf <dodf>SdriptEnginf</dodf>.
+     *</li>
+     * </ul>
+     * <br><br>
+     * Thf mfthod must hbvf thf sbmf ffffdt bs dblling thf <dodf>sftBindings</dodf> mfthod of
+     * <dodf>SdriptContfxt</dodf> with thf dorrfsponding vbluf of <dodf>sdopf</dodf> on thf dffbult
+     * <dodf>SdriptContfxt</dodf> of thf <dodf>SdriptEnginf</dodf>.
+     *
+     * @pbrbm bindings Thf <dodf>Bindings</dodf> for thf spfdififd sdopf.
+     * @pbrbm sdopf Thf spfdififd sdopf.  Eithfr <dodf>SdriptContfxt.ENGINE_SCOPE</dodf>,
+     * <dodf>SdriptContfxt.GLOBAL_SCOPE</dodf>, or bny othfr vblid vbluf of sdopf.
+     *
+     * @throws IllfgblArgumfntExdfption if thf sdopf is invblid
+     * @throws NullPointfrExdfption if thf bindings is null bnd thf sdopf is
+     * <dodf>SdriptContfxt.ENGINE_SCOPE</dodf>
+     */
+    publid void sftBindings(Bindings bindings, int sdopf);
+
+
+    /**
+     * Rfturns bn uninitiblizfd <dodf>Bindings</dodf>.
+     *
+     * @rfturn A <dodf>Bindings</dodf> thbt dbn bf usfd to rfplbdf thf stbtf of this <dodf>SdriptEnginf</dodf>.
+     **/
+    publid Bindings drfbtfBindings();
+
+
+    /**
+     * Rfturns thf dffbult <dodf>SdriptContfxt</dodf> of thf <dodf>SdriptEnginf</dodf> whosf Bindings, Rfbdfr
+     * bnd Writfrs brf usfd for sdript fxfdutions whfn no <dodf>SdriptContfxt</dodf> is spfdififd.
+     *
+     * @rfturn Thf dffbult <dodf>SdriptContfxt</dodf> of thf <dodf>SdriptEnginf</dodf>.
+     */
+    publid SdriptContfxt gftContfxt();
+
+    /**
+     * Sfts thf dffbult <dodf>SdriptContfxt</dodf> of thf <dodf>SdriptEnginf</dodf> whosf Bindings, Rfbdfr
+     * bnd Writfrs brf usfd for sdript fxfdutions whfn no <dodf>SdriptContfxt</dodf> is spfdififd.
+     *
+     * @pbrbm dontfxt A <dodf>SdriptContfxt</dodf> thbt will rfplbdf thf dffbult <dodf>SdriptContfxt</dodf> in
+     * thf <dodf>SdriptEnginf</dodf>.
+     * @throws NullPointfrExdfption if dontfxt is null.
+     */
+    publid void sftContfxt(SdriptContfxt dontfxt);
+
+    /**
+     * Rfturns b <dodf>SdriptEnginfFbdtory</dodf> for thf dlbss to whidh this <dodf>SdriptEnginf</dodf> bflongs.
+     *
+     * @rfturn Thf <dodf>SdriptEnginfFbdtory</dodf>
+     */
+    publid SdriptEnginfFbdtory gftFbdtory();
+}

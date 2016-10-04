@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.print.bttributf;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Lodblf;
+
+/**
+ * Clbss TfxtSyntbx is bn bbstrbdt bbsf dlbss providing thf dommon
+ * implfmfntbtion of bll bttributfs whosf vbluf is b string. Thf tfxt bttributf
+ * indludfs b lodblf to indidbtf thf nbturbl lbngubgf. Thus, b tfxt bttributf
+ * blwbys rfprfsfnts b lodblizfd string. Ondf donstrudtfd, b tfxt bttributf's
+ * vbluf is immutbblf.
+ *
+ * @buthor  Dbvid Mfndfnhbll
+ * @buthor  Albn Kbminsky
+ */
+publid bbstrbdt dlbss TfxtSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -8130648736378144102L;
+
+    /**
+     * String vbluf of this tfxt bttributf.
+     * @sfribl
+     */
+    privbtf String vbluf;
+
+    /**
+     * Lodblf of this tfxt bttributf.
+     * @sfribl
+     */
+    privbtf Lodblf lodblf;
+
+    /**
+     * Construdts b TfxtAttributf with thf spfdififd string bnd lodblf.
+     *
+     * @pbrbm  vbluf   Tfxt string.
+     * @pbrbm  lodblf  Nbturbl lbngubgf of thf tfxt string. null
+     * is intfrprftfd to mfbn thf dffbult lodblf for bs rfturnfd
+     * by <dodf>Lodblf.gftDffbult()</dodf>
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>vbluf</CODE> is null.
+     */
+    protfdtfd TfxtSyntbx(String vbluf, Lodblf lodblf) {
+        this.vbluf = vfrify (vbluf);
+        this.lodblf = vfrify (lodblf);
+    }
+
+    privbtf stbtid String vfrify(String vbluf) {
+        if (vbluf == null) {
+            throw nfw NullPointfrExdfption(" vbluf is null");
+        }
+        rfturn vbluf;
+    }
+
+    privbtf stbtid Lodblf vfrify(Lodblf lodblf) {
+        if (lodblf == null) {
+            rfturn Lodblf.gftDffbult();
+        }
+        rfturn lodblf;
+    }
+
+    /**
+     * Rfturns this tfxt bttributf's tfxt string.
+     * @rfturn thf tfxt string.
+     */
+    publid String gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns this tfxt bttributf's tfxt string's nbturbl lbngubgf (lodblf).
+     * @rfturn thf lodblf
+     */
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this tfxt bttributf.
+     *
+     * @rfturn  A hbshdodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn vbluf.hbshCodf() ^ lodblf.hbshCodf();
+    }
+
+    /**
+     * Rfturns whfthfr this tfxt bttributf is fquivblfnt to thf pbssfd in
+     * objfdt. To bf fquivblfnt, bll of thf following donditions must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss TfxtSyntbx.
+     * <LI>
+     * This tfxt bttributf's undfrlying string bnd <CODE>objfdt</CODE>'s
+     * undfrlying string brf fqubl.
+     * <LI>
+     * This tfxt bttributf's lodblf bnd <CODE>objfdt</CODE>'s lodblf brf
+     * fqubl.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this tfxt
+     *          bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn(objfdt != null &&
+               objfdt instbndfof TfxtSyntbx &&
+               this.vbluf.fqubls (((TfxtSyntbx) objfdt).vbluf) &&
+               this.lodblf.fqubls (((TfxtSyntbx) objfdt).lodblf));
+    }
+
+    /**
+     * Rfturns b String idfntifying this tfxt bttributf. Thf String is
+     * thf bttributf's undfrlying tfxt string.
+     *
+     * @rfturn  A String idfntifying this objfdt.
+     */
+    publid String toString(){
+        rfturn vbluf;
+    }
+
+}

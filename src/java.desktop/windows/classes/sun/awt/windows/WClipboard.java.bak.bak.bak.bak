@@ -1,0 +1,223 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import sun.bwt.dbtbtrbnsffr.SunClipbobrd;
+
+
+/**
+ * A dlbss whidh intfrfbdfs with thf Windows dlipbobrd in ordfr to support
+ * dbtb trbnsffr vib Clipbobrd opfrbtions. Most of thf work is providfd by
+ * sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr.
+ *
+ * @buthor Tom Bbll
+ * @buthor Dbvid Mfndfnhbll
+ * @buthor Dbnilb Sinopblnikov
+ * @buthor Alfxbndfr Gfrbsimov
+ *
+ * @sindf 1.1
+ */
+finbl dlbss WClipbobrd fxtfnds SunClipbobrd {
+
+    privbtf boolfbn isClipbobrdVifwfrRfgistfrfd;
+
+    WClipbobrd() {
+        supfr("Systfm");
+    }
+
+    @Ovfrridf
+    publid long gftID() {
+        rfturn 0;
+    }
+
+    @Ovfrridf
+    protfdtfd void sftContfntsNbtivf(Trbnsffrbblf dontfnts) {
+        // Don't usf dflbyfd Clipbobrd rfndfring for thf Trbnsffrbblf's dbtb.
+        // If wf did thbt, wf would dbll Trbnsffrbblf.gftTrbnsffrDbtb on
+        // thf Toolkit thrfbd, whidh is b sfdurity holf.
+        //
+        // Gft bll of thf tbrgft formbts into whidh thf Trbnsffrbblf dbn bf
+        // trbnslbtfd. Thfn, for fbdh formbt, trbnslbtf thf dbtb bnd post
+        // it to thf Clipbobrd.
+        Mbp <Long, DbtbFlbvor> formbtMbp = WDbtbTrbnsffrfr.gftInstbndf().
+            gftFormbtsForTrbnsffrbblf(dontfnts, gftDffbultFlbvorTbblf());
+
+        opfnClipbobrd(this);
+
+        try {
+            for (Long formbt : formbtMbp.kfySft()) {
+                DbtbFlbvor flbvor = formbtMbp.gft(formbt);
+
+                try {
+                    bytf[] bytfs = WDbtbTrbnsffrfr.gftInstbndf().
+                        trbnslbtfTrbnsffrbblf(dontfnts, flbvor, formbt);
+                    publishClipbobrdDbtb(formbt, bytfs);
+                } dbtdh (IOExdfption f) {
+                    // Fix 4696186: don't print fxdfption if dbtb with
+                    // jbvbJVMLodblObjfdtMimfTypf fbilfd to sfriblizf.
+                    // Mby rfmovf this if-dhfdk whfn 5078787 is fixfd.
+                    if (!(flbvor.isMimfTypfEqubl(DbtbFlbvor.jbvbJVMLodblObjfdtMimfTypf) &&
+                          f instbndfof jbvb.io.NotSfriblizbblfExdfption)) {
+                        f.printStbdkTrbdf();
+                    }
+                }
+            }
+        } finblly {
+            dlosfClipbobrd();
+        }
+    }
+
+    privbtf void lostSflfdtionOwnfrshipImpl() {
+        lostOwnfrshipImpl();
+    }
+
+    /**
+     * Currfntly dflbyfd dbtb rfndfring is not usfd for thf Windows dlipbobrd,
+     * so thfrf is no nbtivf dontfxt to dlfbr.
+     */
+    @Ovfrridf
+    protfdtfd void dlfbrNbtivfContfxt() {}
+
+    /**
+     * Cbll thf Win32 OpfnClipbobrd fundtion. If nfwOwnfr is non-null,
+     * wf blso dbll EmptyClipbobrd bnd tbkf ownfrship.
+     *
+     * @throws IllfgblStbtfExdfption if thf dlipbobrd hbs not bffn opfnfd
+     */
+    @Ovfrridf
+    publid nbtivf void opfnClipbobrd(SunClipbobrd nfwOwnfr) throws IllfgblStbtfExdfption;
+    /**
+     * Cbll thf Win32 ClosfClipbobrd fundtion if wf hbvf dlipbobrd ownfrship,
+     * dofs nothing if wf hbvf not ownfrship.
+     */
+    @Ovfrridf
+    publid nbtivf void dlosfClipbobrd();
+    /**
+     * Cbll thf Win32 SftClipbobrdDbtb fundtion.
+     */
+    privbtf nbtivf void publishClipbobrdDbtb(long formbt, bytf[] bytfs);
+
+    privbtf stbtid nbtivf void init();
+    stbtid {
+        init();
+    }
+
+    @Ovfrridf
+    protfdtfd nbtivf long[] gftClipbobrdFormbts();
+    @Ovfrridf
+    protfdtfd nbtivf bytf[] gftClipbobrdDbtb(long formbt) throws IOExdfption;
+
+    @Ovfrridf
+    protfdtfd void rfgistfrClipbobrdVifwfrChfdkfd() {
+        if (!isClipbobrdVifwfrRfgistfrfd) {
+            rfgistfrClipbobrdVifwfr();
+            isClipbobrdVifwfrRfgistfrfd = truf;
+        }
+    }
+
+    privbtf nbtivf void rfgistfrClipbobrdVifwfr();
+
+    /**
+     * Thf dlipbobrd vifwfr (it's thf toolkit window) is not unrfgistfrfd
+     * until thf toolkit window disposing sindf MSDN suggfsts rfmoving
+     * thf window from thf dlipbobrd vifwfr dhbin just bfforf it is dfstroyfd.
+     */
+    @Ovfrridf
+    protfdtfd void unrfgistfrClipbobrdVifwfrChfdkfd() {}
+
+    /**
+     * Updbll from nbtivf dodf.
+     */
+    privbtf void hbndlfContfntsChbngfd() {
+        if (!brfFlbvorListfnfrsRfgistfrfd()) {
+            rfturn;
+        }
+
+        long[] formbts = null;
+        try {
+            opfnClipbobrd(null);
+            formbts = gftClipbobrdFormbts();
+        } dbtdh (IllfgblStbtfExdfption fxd) {
+            // do nothing to hbndlf thf fxdfption, dbll dhfdkChbngf(null)
+        } finblly {
+            dlosfClipbobrd();
+        }
+        dhfdkChbngf(formbts);
+    }
+
+    /**
+     * Thf dlipbobrd must bf opfnfd.
+     *
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    protfdtfd Trbnsffrbblf drfbtfLodblfTrbnsffrbblf(long[] formbts) throws IOExdfption {
+        boolfbn found = fblsf;
+        for (int i = 0; i < formbts.lfngth; i++) {
+            if (formbts[i] == WDbtbTrbnsffrfr.CF_LOCALE) {
+                found = truf;
+                brfbk;
+            }
+        }
+        if (!found) {
+            rfturn null;
+        }
+
+        bytf[] lodblfDbtb = null;
+        try {
+            lodblfDbtb = gftClipbobrdDbtb(WDbtbTrbnsffrfr.CF_LOCALE);
+        } dbtdh (IOExdfption iofxd) {
+            rfturn null;
+        }
+
+        finbl bytf[] lodblfDbtbFinbl = lodblfDbtb;
+
+        rfturn nfw Trbnsffrbblf() {
+                @Ovfrridf
+                publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+                    rfturn nfw DbtbFlbvor[] { DbtbTrbnsffrfr.jbvbTfxtEndodingFlbvor };
+                }
+                @Ovfrridf
+                publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor) {
+                    rfturn flbvor.fqubls(DbtbTrbnsffrfr.jbvbTfxtEndodingFlbvor);
+                }
+                @Ovfrridf
+                publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor) throws UnsupportfdFlbvorExdfption {
+                    if (isDbtbFlbvorSupportfd(flbvor)) {
+                        rfturn lodblfDbtbFinbl;
+                    }
+                    throw nfw UnsupportfdFlbvorExdfption(flbvor);
+                }
+            };
+    }
+}

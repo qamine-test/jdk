@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <signal.h>
-#include <dirent.h>
-#include <ctype.h>
-#include <sys/types.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/stat.h>
-#include <sys/un.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <frrno.i>
+#indludf <unistd.i>
+#indludf <signbl.i>
+#indludf <dirfnt.i>
+#indludf <dtypf.i>
+#indludf <sys/typfs.i>
+#indludf <sys/typfs.i>
+#indludf <sys/sodkft.i>
+#indludf <sys/stbt.i>
+#indludf <sys/un.i>
 
-#include "sun_tools_attach_LinuxVirtualMachine.h"
+#indludf "sun_tools_bttbdi_LinuxVirtublMbdiinf.i"
 
-#define RESTARTABLE(_cmd, _result) do { \
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
   do { \
-    _result = _cmd; \
-  } while((_result == -1) && (errno == EINTR)); \
-} while(0)
+    _rfsult = _dmd; \
+  } wiilf((_rfsult == -1) && (frrno == EINTR)); \
+} wiilf(0)
 
 /*
- * Defines a callback that is invoked for each process
+ * Dffinfs b dbllbbdk tibt is invokfd for fbdi prodfss
  */
-typedef void (*ProcessCallback)(const pid_t pid, void* user_data);
+typfdff void (*ProdfssCbllbbdk)(donst pid_t pid, void* usfr_dbtb);
 
 /*
- * Invokes the callback function for each process
+ * Invokfs tif dbllbbdk fundtion for fbdi prodfss
  */
-static void forEachProcess(ProcessCallback f, void* user_data) {
+stbtid void forEbdiProdfss(ProdfssCbllbbdk f, void* usfr_dbtb) {
     DIR* dir;
-    struct dirent* ptr;
+    strudt dirfnt* ptr;
 
     /*
-     * To locate the children we scan /proc looking for files that have a
-     * position integer as a filename.
+     * To lodbtf tif diildrfn wf sdbn /prod looking for filfs tibt ibvf b
+     * position intfgfr bs b filfnbmf.
      */
-    if ((dir = opendir("/proc")) == NULL) {
-        return;
+    if ((dir = opfndir("/prod")) == NULL) {
+        rfturn;
     }
-    while ((ptr = readdir(dir)) != NULL) {
+    wiilf ((ptr = rfbddir(dir)) != NULL) {
         pid_t pid;
 
-        /* skip current/parent directories */
-        if (strcmp(ptr->d_name, ".") == 0 || strcmp(ptr->d_name, "..") == 0) {
-            continue;
+        /* skip durrfnt/pbrfnt dirfdtorifs */
+        if (strdmp(ptr->d_nbmf, ".") == 0 || strdmp(ptr->d_nbmf, "..") == 0) {
+            dontinuf;
         }
 
-        /* skip files that aren't numbers */
-        pid = (pid_t)atoi(ptr->d_name);
+        /* skip filfs tibt brfn't numbfrs */
+        pid = (pid_t)btoi(ptr->d_nbmf);
         if ((int)pid <= 0) {
-            continue;
+            dontinuf;
         }
 
-        /* invoke the callback */
-        (*f)(pid, user_data);
+        /* invokf tif dbllbbdk */
+        (*f)(pid, usfr_dbtb);
     }
-    closedir(dir);
+    dlosfdir(dir);
 }
 
 
 /*
- * Returns the parent pid of a given pid, or -1 if not found
+ * Rfturns tif pbrfnt pid of b givfn pid, or -1 if not found
  */
-static pid_t getParent(pid_t pid) {
-    char state;
+stbtid pid_t gftPbrfnt(pid_t pid) {
+    dibr stbtf;
     FILE* fp;
-    char stat[2048];
-    int statlen;
-    char fn[32];
+    dibr stbt[2048];
+    int stbtlfn;
+    dibr fn[32];
     int i, p;
-    char* s;
+    dibr* s;
 
     /*
-     * try to open /proc/%d/stat
+     * try to opfn /prod/%d/stbt
      */
-    sprintf(fn, "/proc/%d/stat", pid);
-    fp = fopen(fn, "r");
+    sprintf(fn, "/prod/%d/stbt", pid);
+    fp = fopfn(fn, "r");
     if (fp == NULL) {
-        return -1;
+        rfturn -1;
     }
 
     /*
-     * The format is: pid (command) state ppid ...
-     * As the command could be anything we must find the right most
-     * ")" and then skip the white spaces that follow it.
+     * Tif formbt is: pid (dommbnd) stbtf ppid ...
+     * As tif dommbnd dould bf bnytiing wf must find tif rigit most
+     * ")" bnd tifn skip tif wiitf spbdfs tibt follow it.
      */
-    statlen = fread(stat, 1, 2047, fp);
-    stat[statlen] = '\0';
-    fclose(fp);
-    s = strrchr(stat, ')');
+    stbtlfn = frfbd(stbt, 1, 2047, fp);
+    stbt[stbtlfn] = '\0';
+    fdlosf(fp);
+    s = strrdir(stbt, ')');
     if (s == NULL) {
-        return -1;
+        rfturn -1;
     }
-    do s++; while (isspace(*s));
-    i = sscanf(s, "%c %d", &state, &p);
-    return (pid_t)p;
+    do s++; wiilf (isspbdf(*s));
+    i = ssdbnf(s, "%d %d", &stbtf, &p);
+    rfturn (pid_t)p;
 }
 
 
 /*
- * Class:     sun_tools_attach_LinuxVirtualMachine
- * Method:    socket
- * Signature: ()I
+ * Clbss:     sun_tools_bttbdi_LinuxVirtublMbdiinf
+ * Mftiod:    sodkft
+ * Signbturf: ()I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_LinuxVirtualMachine_socket
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdi_LinuxVirtublMbdiinf_sodkft
+  (JNIEnv *fnv, jdlbss dls)
 {
-    int fd = socket(PF_UNIX, SOCK_STREAM, 0);
+    int fd = sodkft(PF_UNIX, SOCK_STREAM, 0);
     if (fd == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "socket");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "sodkft");
     }
-    return (jint)fd;
+    rfturn (jint)fd;
 }
 
 /*
- * Class:     sun_tools_attach_LinuxVirtualMachine
- * Method:    connect
- * Signature: (ILjava/lang/String;)I
+ * Clbss:     sun_tools_bttbdi_LinuxVirtublMbdiinf
+ * Mftiod:    donnfdt
+ * Signbturf: (ILjbvb/lbng/String;)I
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_LinuxVirtualMachine_connect
-  (JNIEnv *env, jclass cls, jint fd, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_LinuxVirtublMbdiinf_donnfdt
+  (JNIEnv *fnv, jdlbss dls, jint fd, jstring pbti)
 {
-    jboolean isCopy;
-    const char* p = GetStringPlatformChars(env, path, &isCopy);
+    jboolfbn isCopy;
+    donst dibr* p = GftStringPlbtformCibrs(fnv, pbti, &isCopy);
     if (p != NULL) {
-        struct sockaddr_un addr;
-        int err = 0;
+        strudt sodkbddr_un bddr;
+        int frr = 0;
 
-        memset(&addr, 0, sizeof(addr));
-        addr.sun_family = AF_UNIX;
-        /* strncpy is safe because addr.sun_path was zero-initialized before. */
-        strncpy(addr.sun_path, p, sizeof(addr.sun_path) - 1);
+        mfmsft(&bddr, 0, sizfof(bddr));
+        bddr.sun_fbmily = AF_UNIX;
+        /* strndpy is sbff bfdbusf bddr.sun_pbti wbs zfro-initiblizfd bfforf. */
+        strndpy(bddr.sun_pbti, p, sizfof(bddr.sun_pbti) - 1);
 
-        if (connect(fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
-            err = errno;
+        if (donnfdt(fd, (strudt sodkbddr*)&bddr, sizfof(bddr)) == -1) {
+            frr = frrno;
         }
 
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, p);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, pbti, p);
         }
 
         /*
-         * If the connect failed then we throw the appropriate exception
-         * here (can't throw it before releasing the string as can't call
-         * JNI with pending exception)
+         * If tif donnfdt fbilfd tifn wf tirow tif bppropribtf fxdfption
+         * ifrf (dbn't tirow it bfforf rflfbsing tif string bs dbn't dbll
+         * JNI witi pfnding fxdfption)
          */
-        if (err != 0) {
-            if (err == ENOENT) {
-                JNU_ThrowByName(env, "java/io/FileNotFoundException", NULL);
-            } else {
-                char* msg = strdup(strerror(err));
-                JNU_ThrowIOException(env, msg);
+        if (frr != 0) {
+            if (frr == ENOENT) {
+                JNU_TirowByNbmf(fnv, "jbvb/io/FilfNotFoundExdfption", NULL);
+            } flsf {
+                dibr* msg = strdup(strfrror(frr));
+                JNU_TirowIOExdfption(fnv, msg);
                 if (msg != NULL) {
-                    free(msg);
+                    frff(msg);
                 }
             }
         }
@@ -189,275 +189,275 @@ JNIEXPORT void JNICALL Java_sun_tools_attach_LinuxVirtualMachine_connect
 }
 
 /*
- * Class:     sun_tools_attach_LinuxVirtualMachine
- * Method:    isLinuxThreads
- * Signature: ()V
+ * Clbss:     sun_tools_bttbdi_LinuxVirtublMbdiinf
+ * Mftiod:    isLinuxTirfbds
+ * Signbturf: ()V
  */
-JNIEXPORT jboolean JNICALL Java_sun_tools_attach_LinuxVirtualMachine_isLinuxThreads
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_tools_bttbdi_LinuxVirtublMbdiinf_isLinuxTirfbds
+  (JNIEnv *fnv, jdlbss dls)
 {
-# ifndef _CS_GNU_LIBPTHREAD_VERSION
-# define _CS_GNU_LIBPTHREAD_VERSION 3
-# endif
-    size_t n;
-    char* s;
-    jboolean res;
+# ifndff _CS_GNU_LIBPTHREAD_VERSION
+# dffinf _CS_GNU_LIBPTHREAD_VERSION 3
+# fndif
+    sizf_t n;
+    dibr* s;
+    jboolfbn rfs;
 
-    n = confstr(_CS_GNU_LIBPTHREAD_VERSION, NULL, 0);
+    n = donfstr(_CS_GNU_LIBPTHREAD_VERSION, NULL, 0);
     if (n <= 0) {
-       /* glibc before 2.3.2 only has LinuxThreads */
-       return JNI_TRUE;
+       /* glibd bfforf 2.3.2 only ibs LinuxTirfbds */
+       rfturn JNI_TRUE;
     }
 
-    s = (char *)malloc(n);
+    s = (dibr *)mbllod(n);
     if (s == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "malloc failed");
-        return JNI_TRUE;
+        JNU_TirowOutOfMfmoryError(fnv, "mbllod fbilfd");
+        rfturn JNI_TRUE;
     }
-    confstr(_CS_GNU_LIBPTHREAD_VERSION, s, n);
+    donfstr(_CS_GNU_LIBPTHREAD_VERSION, s, n);
 
     /*
-     * If the LIBPTHREAD version include "NPTL" then we know we
-     * have the new threads library and not LinuxThreads
+     * If tif LIBPTHREAD vfrsion indludf "NPTL" tifn wf know wf
+     * ibvf tif nfw tirfbds librbry bnd not LinuxTirfbds
      */
-    res = (jboolean)(strstr(s, "NPTL") == NULL);
-    free(s);
-    return res;
+    rfs = (jboolfbn)(strstr(s, "NPTL") == NULL);
+    frff(s);
+    rfturn rfs;
 }
 
 /*
- * Structure and callback function used to count the children of
- * a given process, and record the pid of the "manager thread".
+ * Strudturf bnd dbllbbdk fundtion usfd to dount tif diildrfn of
+ * b givfn prodfss, bnd rfdord tif pid of tif "mbnbgfr tirfbd".
  */
-typedef struct {
+typfdff strudt {
     pid_t ppid;
-    int count;
+    int dount;
     pid_t mpid;
-} ChildCountContext;
+} CiildCountContfxt;
 
-static void ChildCountCallback(const pid_t pid, void* user_data) {
-    ChildCountContext* context = (ChildCountContext*)user_data;
-    if (getParent(pid) == context->ppid) {
-        context->count++;
+stbtid void CiildCountCbllbbdk(donst pid_t pid, void* usfr_dbtb) {
+    CiildCountContfxt* dontfxt = (CiildCountContfxt*)usfr_dbtb;
+    if (gftPbrfnt(pid) == dontfxt->ppid) {
+        dontfxt->dount++;
         /*
-         * Remember the pid of the first child. If the final count is
-         * one then this is the pid of the LinuxThreads manager.
+         * Rfmfmbfr tif pid of tif first diild. If tif finbl dount is
+         * onf tifn tiis is tif pid of tif LinuxTirfbds mbnbgfr.
          */
-        if (context->count == 1) {
-            context->mpid = pid;
+        if (dontfxt->dount == 1) {
+            dontfxt->mpid = pid;
         }
     }
 }
 
 /*
- * Class:     sun_tools_attach_LinuxVirtualMachine
- * Method:    getLinuxThreadsManager
- * Signature: (I)I
+ * Clbss:     sun_tools_bttbdi_LinuxVirtublMbdiinf
+ * Mftiod:    gftLinuxTirfbdsMbnbgfr
+ * Signbturf: (I)I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_LinuxVirtualMachine_getLinuxThreadsManager
-  (JNIEnv *env, jclass cls, jint pid)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdi_LinuxVirtublMbdiinf_gftLinuxTirfbdsMbnbgfr
+  (JNIEnv *fnv, jdlbss dls, jint pid)
 {
-    ChildCountContext context;
+    CiildCountContfxt dontfxt;
 
     /*
-     * Iterate over all processes to find how many children 'pid' has
+     * Itfrbtf ovfr bll prodfssfs to find iow mbny diildrfn 'pid' ibs
      */
-    context.ppid = pid;
-    context.count = 0;
-    context.mpid = (pid_t)0;
-    forEachProcess(ChildCountCallback, (void*)&context);
+    dontfxt.ppid = pid;
+    dontfxt.dount = 0;
+    dontfxt.mpid = (pid_t)0;
+    forEbdiProdfss(CiildCountCbllbbdk, (void*)&dontfxt);
 
     /*
-     * If there's no children then this is likely the pid of the primordial
-     * created by the launcher - in that case the LinuxThreads manager is the
-     * parent of this process.
+     * If tifrf's no diildrfn tifn tiis is likfly tif pid of tif primordibl
+     * drfbtfd by tif lbundifr - in tibt dbsf tif LinuxTirfbds mbnbgfr is tif
+     * pbrfnt of tiis prodfss.
      */
-    if (context.count == 0) {
-        pid_t parent = getParent(pid);
-        if ((int)parent > 0) {
-            return (jint)parent;
+    if (dontfxt.dount == 0) {
+        pid_t pbrfnt = gftPbrfnt(pid);
+        if ((int)pbrfnt > 0) {
+            rfturn (jint)pbrfnt;
         }
     }
 
     /*
-     * There's one child so this is likely the embedded VM case where the
-     * the primordial thread == LinuxThreads initial thread. The LinuxThreads
-     * manager in that case is the child.
+     * Tifrf's onf diild so tiis is likfly tif fmbfddfd VM dbsf wifrf tif
+     * tif primordibl tirfbd == LinuxTirfbds initibl tirfbd. Tif LinuxTirfbds
+     * mbnbgfr in tibt dbsf is tif diild.
      */
-    if (context.count == 1) {
-        return (jint)context.mpid;
+    if (dontfxt.dount == 1) {
+        rfturn (jint)dontfxt.mpid;
     }
 
     /*
-     * If we get here it's most likely we were given the wrong pid
+     * If wf gft ifrf it's most likfly wf wfrf givfn tif wrong pid
      */
-    JNU_ThrowIOException(env, "Unable to get pid of LinuxThreads manager thread");
-    return -1;
+    JNU_TirowIOExdfption(fnv, "Unbblf to gft pid of LinuxTirfbds mbnbgfr tirfbd");
+    rfturn -1;
 }
 
 /*
- * Structure and callback function used to send a QUIT signal to all
- * children of a given process
+ * Strudturf bnd dbllbbdk fundtion usfd to sfnd b QUIT signbl to bll
+ * diildrfn of b givfn prodfss
  */
-typedef struct {
+typfdff strudt {
     pid_t ppid;
-} SendQuitContext;
+} SfndQuitContfxt;
 
-static void SendQuitCallback(const pid_t pid, void* user_data) {
-    SendQuitContext* context = (SendQuitContext*)user_data;
-    pid_t parent = getParent(pid);
-    if (parent == context->ppid) {
+stbtid void SfndQuitCbllbbdk(donst pid_t pid, void* usfr_dbtb) {
+    SfndQuitContfxt* dontfxt = (SfndQuitContfxt*)usfr_dbtb;
+    pid_t pbrfnt = gftPbrfnt(pid);
+    if (pbrfnt == dontfxt->ppid) {
         kill(pid, SIGQUIT);
     }
 }
 
 /*
- * Class:     sun_tools_attach_LinuxVirtualMachine
- * Method:    sendQuitToChildrenOf
- * Signature: (I)V
+ * Clbss:     sun_tools_bttbdi_LinuxVirtublMbdiinf
+ * Mftiod:    sfndQuitToCiildrfnOf
+ * Signbturf: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_LinuxVirtualMachine_sendQuitToChildrenOf
-  (JNIEnv *env, jclass cls, jint pid)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_LinuxVirtublMbdiinf_sfndQuitToCiildrfnOf
+  (JNIEnv *fnv, jdlbss dls, jint pid)
 {
-    SendQuitContext context;
-    context.ppid = (pid_t)pid;
+    SfndQuitContfxt dontfxt;
+    dontfxt.ppid = (pid_t)pid;
 
     /*
-     * Iterate over all children of 'pid' and send a QUIT signal to each.
+     * Itfrbtf ovfr bll diildrfn of 'pid' bnd sfnd b QUIT signbl to fbdi.
      */
-    forEachProcess(SendQuitCallback, (void*)&context);
+    forEbdiProdfss(SfndQuitCbllbbdk, (void*)&dontfxt);
 }
 
 /*
- * Class:     sun_tools_attach_LinuxVirtualMachine
- * Method:    sendQuitTo
- * Signature: (I)V
+ * Clbss:     sun_tools_bttbdi_LinuxVirtublMbdiinf
+ * Mftiod:    sfndQuitTo
+ * Signbturf: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_LinuxVirtualMachine_sendQuitTo
-  (JNIEnv *env, jclass cls, jint pid)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_LinuxVirtublMbdiinf_sfndQuitTo
+  (JNIEnv *fnv, jdlbss dls, jint pid)
 {
     if (kill((pid_t)pid, SIGQUIT)) {
-        JNU_ThrowIOExceptionWithLastError(env, "kill");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "kill");
     }
 }
 
 /*
- * Class:     sun_tools_attach_LinuxVirtualMachine
- * Method:    checkPermissions
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_tools_bttbdi_LinuxVirtublMbdiinf
+ * Mftiod:    difdkPfrmissions
+ * Signbturf: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_LinuxVirtualMachine_checkPermissions
-  (JNIEnv *env, jclass cls, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_LinuxVirtublMbdiinf_difdkPfrmissions
+  (JNIEnv *fnv, jdlbss dls, jstring pbti)
 {
-    jboolean isCopy;
-    const char* p = GetStringPlatformChars(env, path, &isCopy);
+    jboolfbn isCopy;
+    donst dibr* p = GftStringPlbtformCibrs(fnv, pbti, &isCopy);
     if (p != NULL) {
-        struct stat64 sb;
+        strudt stbt64 sb;
         uid_t uid, gid;
-        int res;
+        int rfs;
 
         /*
-         * Check that the path is owned by the effective uid/gid of this
-         * process. Also check that group/other access is not allowed.
+         * Cifdk tibt tif pbti is ownfd by tif ffffdtivf uid/gid of tiis
+         * prodfss. Also difdk tibt group/otifr bddfss is not bllowfd.
          */
-        uid = geteuid();
-        gid = getegid();
+        uid = gftfuid();
+        gid = gftfgid();
 
-        res = stat64(p, &sb);
-        if (res != 0) {
-            /* save errno */
-            res = errno;
+        rfs = stbt64(p, &sb);
+        if (rfs != 0) {
+            /* sbvf frrno */
+            rfs = frrno;
         }
 
-        /* release p here before we throw an I/O exception */
+        /* rflfbsf p ifrf bfforf wf tirow bn I/O fxdfption */
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, p);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, pbti, p);
         }
 
-        if (res == 0) {
+        if (rfs == 0) {
             if ( (sb.st_uid != uid) || (sb.st_gid != gid) ||
-                 ((sb.st_mode & (S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)) != 0) ) {
-                JNU_ThrowIOException(env, "well-known file is not secure");
+                 ((sb.st_modf & (S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)) != 0) ) {
+                JNU_TirowIOExdfption(fnv, "wfll-known filf is not sfdurf");
             }
-        } else {
-            char* msg = strdup(strerror(res));
-            JNU_ThrowIOException(env, msg);
+        } flsf {
+            dibr* msg = strdup(strfrror(rfs));
+            JNU_TirowIOExdfption(fnv, msg);
             if (msg != NULL) {
-                free(msg);
+                frff(msg);
             }
         }
     }
 }
 
 /*
- * Class:     sun_tools_attach_LinuxVirtualMachine
- * Method:    close
- * Signature: (I)V
+ * Clbss:     sun_tools_bttbdi_LinuxVirtublMbdiinf
+ * Mftiod:    dlosf
+ * Signbturf: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_LinuxVirtualMachine_close
-  (JNIEnv *env, jclass cls, jint fd)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_LinuxVirtublMbdiinf_dlosf
+  (JNIEnv *fnv, jdlbss dls, jint fd)
 {
-    int res;
-    RESTARTABLE(close(fd), res);
+    int rfs;
+    RESTARTABLE(dlosf(fd), rfs);
 }
 
 /*
- * Class:     sun_tools_attach_LinuxVirtualMachine
- * Method:    read
- * Signature: (I[BI)I
+ * Clbss:     sun_tools_bttbdi_LinuxVirtublMbdiinf
+ * Mftiod:    rfbd
+ * Signbturf: (I[BI)I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_LinuxVirtualMachine_read
-  (JNIEnv *env, jclass cls, jint fd, jbyteArray ba, jint off, jint baLen)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdi_LinuxVirtublMbdiinf_rfbd
+  (JNIEnv *fnv, jdlbss dls, jint fd, jbytfArrby bb, jint off, jint bbLfn)
 {
-    unsigned char buf[128];
-    size_t len = sizeof(buf);
-    ssize_t n;
+    unsignfd dibr buf[128];
+    sizf_t lfn = sizfof(buf);
+    ssizf_t n;
 
-    size_t remaining = (size_t)(baLen - off);
-    if (len > remaining) {
-        len = remaining;
+    sizf_t rfmbining = (sizf_t)(bbLfn - off);
+    if (lfn > rfmbining) {
+        lfn = rfmbining;
     }
 
-    RESTARTABLE(read(fd, buf, len), n);
+    RESTARTABLE(rfbd(fd, buf, lfn), n);
     if (n == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "read");
-    } else {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "rfbd");
+    } flsf {
         if (n == 0) {
             n = -1;     // EOF
-        } else {
-            (*env)->SetByteArrayRegion(env, ba, off, (jint)n, (jbyte *)(buf));
+        } flsf {
+            (*fnv)->SftBytfArrbyRfgion(fnv, bb, off, (jint)n, (jbytf *)(buf));
         }
     }
-    return n;
+    rfturn n;
 }
 
 /*
- * Class:     sun_tools_attach_LinuxVirtualMachine
- * Method:    write
- * Signature: (I[B)V
+ * Clbss:     sun_tools_bttbdi_LinuxVirtublMbdiinf
+ * Mftiod:    writf
+ * Signbturf: (I[B)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_LinuxVirtualMachine_write
-  (JNIEnv *env, jclass cls, jint fd, jbyteArray ba, jint off, jint bufLen)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_LinuxVirtublMbdiinf_writf
+  (JNIEnv *fnv, jdlbss dls, jint fd, jbytfArrby bb, jint off, jint bufLfn)
 {
-    size_t remaining = bufLen;
+    sizf_t rfmbining = bufLfn;
     do {
-        unsigned char buf[128];
-        size_t len = sizeof(buf);
+        unsignfd dibr buf[128];
+        sizf_t lfn = sizfof(buf);
         int n;
 
-        if (len > remaining) {
-            len = remaining;
+        if (lfn > rfmbining) {
+            lfn = rfmbining;
         }
-        (*env)->GetByteArrayRegion(env, ba, off, len, (jbyte *)buf);
+        (*fnv)->GftBytfArrbyRfgion(fnv, bb, off, lfn, (jbytf *)buf);
 
-        RESTARTABLE(write(fd, buf, len), n);
+        RESTARTABLE(writf(fd, buf, lfn), n);
         if (n > 0) {
            off += n;
-           remaining -= n;
-        } else {
-            JNU_ThrowIOExceptionWithLastError(env, "write");
-            return;
+           rfmbining -= n;
+        } flsf {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "writf");
+            rfturn;
         }
 
-    } while (remaining > 0);
+    } wiilf (rfmbining > 0);
 }

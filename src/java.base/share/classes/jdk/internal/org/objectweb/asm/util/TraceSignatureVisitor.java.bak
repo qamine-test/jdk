@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,290 +56,290 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.util;
 
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.signature.SignatureVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.signbturf.SignbturfVisitor;
 
 /**
- * A {@link SignatureVisitor} that prints a disassembled view of the signature
+ * A {@link SignbturfVisitor} tibt prints b disbssfmblfd vifw of tif signbturf
  * it visits.
  *
- * @author Eugene Kuleshov
- * @author Eric Bruneton
+ * @butior Eugfnf Kulfsiov
+ * @butior Erid Brunfton
  */
-public final class TraceSignatureVisitor extends SignatureVisitor {
+publid finbl dlbss TrbdfSignbturfVisitor fxtfnds SignbturfVisitor {
 
-    private final StringBuffer declaration;
+    privbtf finbl StringBufffr dfdlbrbtion;
 
-    private boolean isInterface;
+    privbtf boolfbn isIntfrfbdf;
 
-    private boolean seenFormalParameter;
+    privbtf boolfbn sffnFormblPbrbmftfr;
 
-    private boolean seenInterfaceBound;
+    privbtf boolfbn sffnIntfrfbdfBound;
 
-    private boolean seenParameter;
+    privbtf boolfbn sffnPbrbmftfr;
 
-    private boolean seenInterface;
+    privbtf boolfbn sffnIntfrfbdf;
 
-    private StringBuffer returnType;
+    privbtf StringBufffr rfturnTypf;
 
-    private StringBuffer exceptions;
+    privbtf StringBufffr fxdfptions;
 
     /**
-     * Stack used to keep track of class types that have arguments. Each element
-     * of this stack is a boolean encoded in one bit. The top of the stack is
-     * the lowest order bit. Pushing false = *2, pushing true = *2+1, popping =
+     * Stbdk usfd to kffp trbdk of dlbss typfs tibt ibvf brgumfnts. Ebdi flfmfnt
+     * of tiis stbdk is b boolfbn fndodfd in onf bit. Tif top of tif stbdk is
+     * tif lowfst ordfr bit. Pusiing fblsf = *2, pusiing truf = *2+1, popping =
      * /2.
      */
-    private int argumentStack;
+    privbtf int brgumfntStbdk;
 
     /**
-     * Stack used to keep track of array class types. Each element of this stack
-     * is a boolean encoded in one bit. The top of the stack is the lowest order
-     * bit. Pushing false = *2, pushing true = *2+1, popping = /2.
+     * Stbdk usfd to kffp trbdk of brrby dlbss typfs. Ebdi flfmfnt of tiis stbdk
+     * is b boolfbn fndodfd in onf bit. Tif top of tif stbdk is tif lowfst ordfr
+     * bit. Pusiing fblsf = *2, pusiing truf = *2+1, popping = /2.
      */
-    private int arrayStack;
+    privbtf int brrbyStbdk;
 
-    private String separator = "";
+    privbtf String sfpbrbtor = "";
 
-    public TraceSignatureVisitor(final int access) {
-        super(Opcodes.ASM5);
-        isInterface = (access & Opcodes.ACC_INTERFACE) != 0;
-        this.declaration = new StringBuffer();
+    publid TrbdfSignbturfVisitor(finbl int bddfss) {
+        supfr(Opdodfs.ASM5);
+        isIntfrfbdf = (bddfss & Opdodfs.ACC_INTERFACE) != 0;
+        tiis.dfdlbrbtion = nfw StringBufffr();
     }
 
-    private TraceSignatureVisitor(final StringBuffer buf) {
-        super(Opcodes.ASM5);
-        this.declaration = buf;
+    privbtf TrbdfSignbturfVisitor(finbl StringBufffr buf) {
+        supfr(Opdodfs.ASM5);
+        tiis.dfdlbrbtion = buf;
     }
 
-    @Override
-    public void visitFormalTypeParameter(final String name) {
-        declaration.append(seenFormalParameter ? ", " : "<").append(name);
-        seenFormalParameter = true;
-        seenInterfaceBound = false;
+    @Ovfrridf
+    publid void visitFormblTypfPbrbmftfr(finbl String nbmf) {
+        dfdlbrbtion.bppfnd(sffnFormblPbrbmftfr ? ", " : "<").bppfnd(nbmf);
+        sffnFormblPbrbmftfr = truf;
+        sffnIntfrfbdfBound = fblsf;
     }
 
-    @Override
-    public SignatureVisitor visitClassBound() {
-        separator = " extends ";
-        startType();
-        return this;
+    @Ovfrridf
+    publid SignbturfVisitor visitClbssBound() {
+        sfpbrbtor = " fxtfnds ";
+        stbrtTypf();
+        rfturn tiis;
     }
 
-    @Override
-    public SignatureVisitor visitInterfaceBound() {
-        separator = seenInterfaceBound ? ", " : " extends ";
-        seenInterfaceBound = true;
-        startType();
-        return this;
+    @Ovfrridf
+    publid SignbturfVisitor visitIntfrfbdfBound() {
+        sfpbrbtor = sffnIntfrfbdfBound ? ", " : " fxtfnds ";
+        sffnIntfrfbdfBound = truf;
+        stbrtTypf();
+        rfturn tiis;
     }
 
-    @Override
-    public SignatureVisitor visitSuperclass() {
-        endFormals();
-        separator = " extends ";
-        startType();
-        return this;
+    @Ovfrridf
+    publid SignbturfVisitor visitSupfrdlbss() {
+        fndFormbls();
+        sfpbrbtor = " fxtfnds ";
+        stbrtTypf();
+        rfturn tiis;
     }
 
-    @Override
-    public SignatureVisitor visitInterface() {
-        separator = seenInterface ? ", " : isInterface ? " extends "
-                : " implements ";
-        seenInterface = true;
-        startType();
-        return this;
+    @Ovfrridf
+    publid SignbturfVisitor visitIntfrfbdf() {
+        sfpbrbtor = sffnIntfrfbdf ? ", " : isIntfrfbdf ? " fxtfnds "
+                : " implfmfnts ";
+        sffnIntfrfbdf = truf;
+        stbrtTypf();
+        rfturn tiis;
     }
 
-    @Override
-    public SignatureVisitor visitParameterType() {
-        endFormals();
-        if (seenParameter) {
-            declaration.append(", ");
-        } else {
-            seenParameter = true;
-            declaration.append('(');
+    @Ovfrridf
+    publid SignbturfVisitor visitPbrbmftfrTypf() {
+        fndFormbls();
+        if (sffnPbrbmftfr) {
+            dfdlbrbtion.bppfnd(", ");
+        } flsf {
+            sffnPbrbmftfr = truf;
+            dfdlbrbtion.bppfnd('(');
         }
-        startType();
-        return this;
+        stbrtTypf();
+        rfturn tiis;
     }
 
-    @Override
-    public SignatureVisitor visitReturnType() {
-        endFormals();
-        if (seenParameter) {
-            seenParameter = false;
-        } else {
-            declaration.append('(');
+    @Ovfrridf
+    publid SignbturfVisitor visitRfturnTypf() {
+        fndFormbls();
+        if (sffnPbrbmftfr) {
+            sffnPbrbmftfr = fblsf;
+        } flsf {
+            dfdlbrbtion.bppfnd('(');
         }
-        declaration.append(')');
-        returnType = new StringBuffer();
-        return new TraceSignatureVisitor(returnType);
+        dfdlbrbtion.bppfnd(')');
+        rfturnTypf = nfw StringBufffr();
+        rfturn nfw TrbdfSignbturfVisitor(rfturnTypf);
     }
 
-    @Override
-    public SignatureVisitor visitExceptionType() {
-        if (exceptions == null) {
-            exceptions = new StringBuffer();
-        } else {
-            exceptions.append(", ");
+    @Ovfrridf
+    publid SignbturfVisitor visitExdfptionTypf() {
+        if (fxdfptions == null) {
+            fxdfptions = nfw StringBufffr();
+        } flsf {
+            fxdfptions.bppfnd(", ");
         }
-        // startType();
-        return new TraceSignatureVisitor(exceptions);
+        // stbrtTypf();
+        rfturn nfw TrbdfSignbturfVisitor(fxdfptions);
     }
 
-    @Override
-    public void visitBaseType(final char descriptor) {
-        switch (descriptor) {
-        case 'V':
-            declaration.append("void");
-            break;
-        case 'B':
-            declaration.append("byte");
-            break;
-        case 'J':
-            declaration.append("long");
-            break;
-        case 'Z':
-            declaration.append("boolean");
-            break;
-        case 'I':
-            declaration.append("int");
-            break;
-        case 'S':
-            declaration.append("short");
-            break;
-        case 'C':
-            declaration.append("char");
-            break;
-        case 'F':
-            declaration.append("float");
-            break;
-        // case 'D':
-        default:
-            declaration.append("double");
-            break;
+    @Ovfrridf
+    publid void visitBbsfTypf(finbl dibr dfsdriptor) {
+        switdi (dfsdriptor) {
+        dbsf 'V':
+            dfdlbrbtion.bppfnd("void");
+            brfbk;
+        dbsf 'B':
+            dfdlbrbtion.bppfnd("bytf");
+            brfbk;
+        dbsf 'J':
+            dfdlbrbtion.bppfnd("long");
+            brfbk;
+        dbsf 'Z':
+            dfdlbrbtion.bppfnd("boolfbn");
+            brfbk;
+        dbsf 'I':
+            dfdlbrbtion.bppfnd("int");
+            brfbk;
+        dbsf 'S':
+            dfdlbrbtion.bppfnd("siort");
+            brfbk;
+        dbsf 'C':
+            dfdlbrbtion.bppfnd("dibr");
+            brfbk;
+        dbsf 'F':
+            dfdlbrbtion.bppfnd("flobt");
+            brfbk;
+        // dbsf 'D':
+        dffbult:
+            dfdlbrbtion.bppfnd("doublf");
+            brfbk;
         }
-        endType();
+        fndTypf();
     }
 
-    @Override
-    public void visitTypeVariable(final String name) {
-        declaration.append(name);
-        endType();
+    @Ovfrridf
+    publid void visitTypfVbribblf(finbl String nbmf) {
+        dfdlbrbtion.bppfnd(nbmf);
+        fndTypf();
     }
 
-    @Override
-    public SignatureVisitor visitArrayType() {
-        startType();
-        arrayStack |= 1;
-        return this;
+    @Ovfrridf
+    publid SignbturfVisitor visitArrbyTypf() {
+        stbrtTypf();
+        brrbyStbdk |= 1;
+        rfturn tiis;
     }
 
-    @Override
-    public void visitClassType(final String name) {
-        if ("java/lang/Object".equals(name)) {
-            // Map<java.lang.Object,java.util.List>
+    @Ovfrridf
+    publid void visitClbssTypf(finbl String nbmf) {
+        if ("jbvb/lbng/Objfdt".fqubls(nbmf)) {
+            // Mbp<jbvb.lbng.Objfdt,jbvb.util.List>
             // or
-            // abstract public V get(Object key); (seen in Dictionary.class)
-            // should have Object
-            // but java.lang.String extends java.lang.Object is unnecessary
-            boolean needObjectClass = argumentStack % 2 != 0 || seenParameter;
-            if (needObjectClass) {
-                declaration.append(separator).append(name.replace('/', '.'));
+            // bbstrbdt publid V gft(Objfdt kfy); (sffn in Didtionbry.dlbss)
+            // siould ibvf Objfdt
+            // but jbvb.lbng.String fxtfnds jbvb.lbng.Objfdt is unnfdfssbry
+            boolfbn nffdObjfdtClbss = brgumfntStbdk % 2 != 0 || sffnPbrbmftfr;
+            if (nffdObjfdtClbss) {
+                dfdlbrbtion.bppfnd(sfpbrbtor).bppfnd(nbmf.rfplbdf('/', '.'));
             }
-        } else {
-            declaration.append(separator).append(name.replace('/', '.'));
+        } flsf {
+            dfdlbrbtion.bppfnd(sfpbrbtor).bppfnd(nbmf.rfplbdf('/', '.'));
         }
-        separator = "";
-        argumentStack *= 2;
+        sfpbrbtor = "";
+        brgumfntStbdk *= 2;
     }
 
-    @Override
-    public void visitInnerClassType(final String name) {
-        if (argumentStack % 2 != 0) {
-            declaration.append('>');
+    @Ovfrridf
+    publid void visitInnfrClbssTypf(finbl String nbmf) {
+        if (brgumfntStbdk % 2 != 0) {
+            dfdlbrbtion.bppfnd('>');
         }
-        argumentStack /= 2;
-        declaration.append('.');
-        declaration.append(separator).append(name.replace('/', '.'));
-        separator = "";
-        argumentStack *= 2;
+        brgumfntStbdk /= 2;
+        dfdlbrbtion.bppfnd('.');
+        dfdlbrbtion.bppfnd(sfpbrbtor).bppfnd(nbmf.rfplbdf('/', '.'));
+        sfpbrbtor = "";
+        brgumfntStbdk *= 2;
     }
 
-    @Override
-    public void visitTypeArgument() {
-        if (argumentStack % 2 == 0) {
-            ++argumentStack;
-            declaration.append('<');
-        } else {
-            declaration.append(", ");
+    @Ovfrridf
+    publid void visitTypfArgumfnt() {
+        if (brgumfntStbdk % 2 == 0) {
+            ++brgumfntStbdk;
+            dfdlbrbtion.bppfnd('<');
+        } flsf {
+            dfdlbrbtion.bppfnd(", ");
         }
-        declaration.append('?');
+        dfdlbrbtion.bppfnd('?');
     }
 
-    @Override
-    public SignatureVisitor visitTypeArgument(final char tag) {
-        if (argumentStack % 2 == 0) {
-            ++argumentStack;
-            declaration.append('<');
-        } else {
-            declaration.append(", ");
-        }
-
-        if (tag == EXTENDS) {
-            declaration.append("? extends ");
-        } else if (tag == SUPER) {
-            declaration.append("? super ");
+    @Ovfrridf
+    publid SignbturfVisitor visitTypfArgumfnt(finbl dibr tbg) {
+        if (brgumfntStbdk % 2 == 0) {
+            ++brgumfntStbdk;
+            dfdlbrbtion.bppfnd('<');
+        } flsf {
+            dfdlbrbtion.bppfnd(", ");
         }
 
-        startType();
-        return this;
-    }
-
-    @Override
-    public void visitEnd() {
-        if (argumentStack % 2 != 0) {
-            declaration.append('>');
+        if (tbg == EXTENDS) {
+            dfdlbrbtion.bppfnd("? fxtfnds ");
+        } flsf if (tbg == SUPER) {
+            dfdlbrbtion.bppfnd("? supfr ");
         }
-        argumentStack /= 2;
-        endType();
+
+        stbrtTypf();
+        rfturn tiis;
     }
 
-    public String getDeclaration() {
-        return declaration.toString();
+    @Ovfrridf
+    publid void visitEnd() {
+        if (brgumfntStbdk % 2 != 0) {
+            dfdlbrbtion.bppfnd('>');
+        }
+        brgumfntStbdk /= 2;
+        fndTypf();
     }
 
-    public String getReturnType() {
-        return returnType == null ? null : returnType.toString();
+    publid String gftDfdlbrbtion() {
+        rfturn dfdlbrbtion.toString();
     }
 
-    public String getExceptions() {
-        return exceptions == null ? null : exceptions.toString();
+    publid String gftRfturnTypf() {
+        rfturn rfturnTypf == null ? null : rfturnTypf.toString();
+    }
+
+    publid String gftExdfptions() {
+        rfturn fxdfptions == null ? null : fxdfptions.toString();
     }
 
     // -----------------------------------------------
 
-    private void endFormals() {
-        if (seenFormalParameter) {
-            declaration.append('>');
-            seenFormalParameter = false;
+    privbtf void fndFormbls() {
+        if (sffnFormblPbrbmftfr) {
+            dfdlbrbtion.bppfnd('>');
+            sffnFormblPbrbmftfr = fblsf;
         }
     }
 
-    private void startType() {
-        arrayStack *= 2;
+    privbtf void stbrtTypf() {
+        brrbyStbdk *= 2;
     }
 
-    private void endType() {
-        if (arrayStack % 2 == 0) {
-            arrayStack /= 2;
-        } else {
-            while (arrayStack % 2 != 0) {
-                arrayStack /= 2;
-                declaration.append("[]");
+    privbtf void fndTypf() {
+        if (brrbyStbdk % 2 == 0) {
+            brrbyStbdk /= 2;
+        } flsf {
+            wiilf (brrbyStbdk % 2 != 0) {
+                brrbyStbdk /= 2;
+                dfdlbrbtion.bppfnd("[]");
             }
         }
     }

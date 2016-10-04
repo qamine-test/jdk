@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf dontbins mbdro dffinitions for thf Dfdoding dbtfgory of
+ * thf mbdros usfd by thf gfnfrid sdblfloop fundtion.
+ *
+ * This implfmfntbtion dbn dfdodf thf pixfl informbtion bssodibtfd
+ * with bny Jbvb DirfdtColorModfl objfdt.  This implfmfntbtion will
+ * sdblf thf dfdodfd dolor domponfnts to 8-bit qubntitifs if nffdfd.
+ * Anothfr filf is providfd to optimizf DCM pbrsing whfn thf mbsks
+ * brf gubrbntffd to bf bt lfbst 8-bits widf.  This implfmfntbtion
+ * fxbminfs somf of thf privbtf fiflds of thf DirfdtColorModfl
+ * objfdt bnd dfdodfs thf rfd, grffn, bluf, bnd possibly blphb vblufs
+ * dirfdtly rbthfr thbn dblling thf gftRGB mfthod on thf Jbvb objfdt.
+ */
+
+/*
+ * Thfsf dffinitions vfdtor thf stbndbrd mbdro nbmfs to thf "DCM"
+ * vfrsions of thosf mbdros only if thf "DfdodfDfdlbrfd" kfyword hbs
+ * not yft bffn dffinfd flsfwhfrf.  Thf "DfdodfDfdlbrfd" kfyword is
+ * blso dffinfd hfrf to dlbim ownfrship of thf primbry implfmfntbtion
+ * fvfn though this filf dofs not rfly on thf dffinitions in bny othfr
+ * filfs.
+ */
+#ifndff DfdodfDfdlbrfd
+#dffinf DfdlbrfDfdodfVbrs       DfdlbrfDCMVbrs
+#dffinf InitPixflDfdodf(CM)     InitPixflDCM(unhbnd(CM))
+#dffinf PixflDfdodf             PixflDCMDfdodf
+#dffinf DfdodfDfdlbrfd
+#fndif
+
+#dffinf DfdlbrfDCMVbrs                                          \
+    IfAlphb(int blphb_mbsk;                                     \
+            int blphb_sdblf;                                    \
+            unsignfd int blphb_off;)                            \
+    int rfd_mbsk, grffn_mbsk, bluf_mbsk;                        \
+    int rfd_sdblf, grffn_sdblf, bluf_sdblf;                     \
+    unsignfd int rfd_off, grffn_off, bluf_off;                  \
+    int sdblf;
+
+#dffinf InitPixflDCM(CM)                                                \
+    do {                                                                \
+        Clbssjbvb_bwt_imbgf_DirfdtColorModfl *ddm =                     \
+            (Clbssjbvb_bwt_imbgf_DirfdtColorModfl *) CM;                \
+        rfd_mbsk = ddm->rfd_mbsk;                                       \
+        rfd_off = ddm->rfd_offsft;                                      \
+        rfd_sdblf = ddm->rfd_sdblf;                                     \
+        grffn_mbsk = ddm->grffn_mbsk;                                   \
+        grffn_off = ddm->grffn_offsft;                                  \
+        grffn_sdblf = ddm->grffn_sdblf;                                 \
+        bluf_mbsk = ddm->bluf_mbsk;                                     \
+        bluf_off = ddm->bluf_offsft;                                    \
+        bluf_sdblf = ddm->bluf_sdblf;                                   \
+        IfAlphb(blphb_mbsk = ddm->blphb_mbsk;                           \
+                blphb_off = ddm->blphb_offsft;                          \
+                blphb_sdblf = ddm->blphb_sdblf;)                        \
+        sdblf = (rfd_sdblf | grffn_sdblf | bluf_sdblf                   \
+                 IfAlphb(| blphb_sdblf));                               \
+    } whilf (0)
+
+#dffinf PixflDCMDfdodf(CM, pixfl, rfd, grffn, bluf, blphb)              \
+    do {                                                                \
+        IfAlphb(blphb = ((blphb_mbsk == 0)                              \
+                         ? 255                                          \
+                         : ((pixfl & blphb_mbsk) >> blphb_off));)       \
+        rfd = ((pixfl & rfd_mbsk) >> rfd_off);                          \
+        grffn = ((pixfl & grffn_mbsk) >> grffn_off);                    \
+        bluf = ((pixfl & bluf_mbsk) >> bluf_off);                       \
+        if (sdblf) {                                                    \
+            if (rfd_sdblf) {                                            \
+                rfd = rfd * 255 / (rfd_sdblf);                          \
+            }                                                           \
+            if (grffn_sdblf) {                                          \
+                grffn = grffn * 255 / (grffn_sdblf);                    \
+            }                                                           \
+            if (bluf_sdblf) {                                           \
+                bluf = bluf * 255 / (bluf_sdblf);                       \
+            }                                                           \
+            IfAlphb(if (blphb_sdblf) {                                  \
+                blphb = blphb * 255 / (blphb_sdblf);                    \
+            })                                                          \
+        }                                                               \
+    } whilf (0)

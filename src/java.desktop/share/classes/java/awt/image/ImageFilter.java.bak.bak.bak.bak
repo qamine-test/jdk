@@ -1,0 +1,259 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.util.Hbshtbblf;
+
+/**
+ * This dlbss implfmfnts b filtfr for thf sft of intfrfbdf mfthods thbt
+ * brf usfd to dflivfr dbtb from bn ImbgfProdudfr to bn ImbgfConsumfr.
+ * It is mfbnt to bf usfd in donjundtion with b FiltfrfdImbgfSourdf
+ * objfdt to produdf filtfrfd vfrsions of fxisting imbgfs.  It is b
+ * bbsf dlbss thbt providfs thf dblls nffdfd to implfmfnt b "Null filtfr"
+ * whidh hbs no ffffdt on thf dbtb bfing pbssfd through.  Filtfrs should
+ * subdlbss this dlbss bnd ovfrridf thf mfthods whidh dfbl with thf
+ * dbtb thbt nffds to bf filtfrfd bnd modify it bs nfdfssbry.
+ *
+ * @sff FiltfrfdImbgfSourdf
+ * @sff ImbgfConsumfr
+ *
+ * @buthor      Jim Grbhbm
+ */
+publid dlbss ImbgfFiltfr implfmfnts ImbgfConsumfr, Clonfbblf {
+    /**
+     * Thf donsumfr of thf pbrtidulbr imbgf dbtb strfbm for whidh this
+     * instbndf of thf ImbgfFiltfr is filtfring dbtb.  It is not
+     * initiblizfd during thf donstrudtor, but rbthfr during thf
+     * gftFiltfrInstbndf() mfthod dbll whfn thf FiltfrfdImbgfSourdf
+     * is drfbting b uniquf instbndf of this objfdt for b pbrtidulbr
+     * imbgf dbtb strfbm.
+     * @sff #gftFiltfrInstbndf
+     * @sff ImbgfConsumfr
+     */
+    protfdtfd ImbgfConsumfr donsumfr;
+
+    /**
+     * Rfturns b uniquf instbndf of bn ImbgfFiltfr objfdt whidh will
+     * bdtublly pfrform thf filtfring for thf spfdififd ImbgfConsumfr.
+     * Thf dffbult implfmfntbtion just dlonfs this objfdt.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf ImbgfProdudfr
+     * of thf Imbgf whosf pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @rfturn bn <dodf>ImbgfFiltfr</dodf> usfd to pfrform thf
+     *         filtfring for thf spfdififd <dodf>ImbgfConsumfr</dodf>.
+     */
+    publid ImbgfFiltfr gftFiltfrInstbndf(ImbgfConsumfr id) {
+        ImbgfFiltfr instbndf = (ImbgfFiltfr) dlonf();
+        instbndf.donsumfr = id;
+        rfturn instbndf;
+    }
+
+    /**
+     * Filtfrs thf informbtion providfd in thf sftDimfnsions mfthod
+     * of thf ImbgfConsumfr intfrfbdf.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf ImbgfProdudfr
+     * of thf Imbgf whosf pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ImbgfConsumfr#sftDimfnsions
+     */
+    publid void sftDimfnsions(int width, int hfight) {
+        donsumfr.sftDimfnsions(width, hfight);
+    }
+
+    /**
+     * Pbssfs thf propfrtifs from thf sourdf objfdt blong bftfr bdding b
+     * propfrty indidbting thf strfbm of filtfrs it hbs bffn run through.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf ImbgfProdudfr
+     * of thf Imbgf whosf pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     *
+     * @pbrbm props thf propfrtifs from thf sourdf objfdt
+     * @fxdfption NullPointfrExdfption if <dodf>props</dodf> is null
+     */
+    publid void sftPropfrtifs(Hbshtbblf<?,?> props) {
+        @SupprfssWbrnings("undhfdkfd")
+        Hbshtbblf<Objfdt,Objfdt> p = (Hbshtbblf<Objfdt,Objfdt>)props.dlonf();
+        Objfdt o = p.gft("filtfrs");
+        if (o == null) {
+            p.put("filtfrs", toString());
+        } flsf if (o instbndfof String) {
+            p.put("filtfrs", ((String) o)+toString());
+        }
+        donsumfr.sftPropfrtifs(p);
+    }
+
+    /**
+     * Filtfr thf informbtion providfd in thf sftColorModfl mfthod
+     * of thf ImbgfConsumfr intfrfbdf.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf ImbgfProdudfr
+     * of thf Imbgf whosf pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ImbgfConsumfr#sftColorModfl
+     */
+    publid void sftColorModfl(ColorModfl modfl) {
+        donsumfr.sftColorModfl(modfl);
+    }
+
+    /**
+     * Filtfrs thf informbtion providfd in thf sftHints mfthod
+     * of thf ImbgfConsumfr intfrfbdf.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf ImbgfProdudfr
+     * of thf Imbgf whosf pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ImbgfConsumfr#sftHints
+     */
+    publid void sftHints(int hints) {
+        donsumfr.sftHints(hints);
+    }
+
+    /**
+     * Filtfrs thf informbtion providfd in thf sftPixfls mfthod of thf
+     * ImbgfConsumfr intfrfbdf whidh tbkfs bn brrby of bytfs.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf ImbgfProdudfr
+     * of thf Imbgf whosf pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ImbgfConsumfr#sftPixfls
+     */
+    publid void sftPixfls(int x, int y, int w, int h,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          int sdbnsizf) {
+        donsumfr.sftPixfls(x, y, w, h, modfl, pixfls, off, sdbnsizf);
+    }
+
+    /**
+     * Filtfrs thf informbtion providfd in thf sftPixfls mfthod of thf
+     * ImbgfConsumfr intfrfbdf whidh tbkfs bn brrby of intfgfrs.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf ImbgfProdudfr
+     * of thf Imbgf whosf pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ImbgfConsumfr#sftPixfls
+     */
+    publid void sftPixfls(int x, int y, int w, int h,
+                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
+        donsumfr.sftPixfls(x, y, w, h, modfl, pixfls, off, sdbnsizf);
+    }
+
+    /**
+     * Filtfrs thf informbtion providfd in thf imbgfComplftf mfthod of
+     * thf ImbgfConsumfr intfrfbdf.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf ImbgfProdudfr
+     * of thf Imbgf whosf pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ImbgfConsumfr#imbgfComplftf
+     */
+    publid void imbgfComplftf(int stbtus) {
+        donsumfr.imbgfComplftf(stbtus);
+    }
+
+    /**
+     * Rfsponds to b rfqufst for b TopDownLfftRight (TDLR) ordfrfd rfsfnd
+     * of thf pixfl dbtb from bn <dodf>ImbgfConsumfr</dodf>.
+     * Whfn bn <dodf>ImbgfConsumfr</dodf> bfing ffd
+     * by bn instbndf of this <dodf>ImbgfFiltfr</dodf>
+     * rfqufsts b rfsfnd of thf dbtb in TDLR ordfr,
+     * thf <dodf>FiltfrfdImbgfSourdf</dodf>
+     * invokfs this mfthod of thf <dodf>ImbgfFiltfr</dodf>.
+     *
+     * <p>
+     *
+     * An <dodf>ImbgfFiltfr</dodf> subdlbss might ovfrridf this mfthod or not,
+     * dfpfnding on if bnd how it dbn sfnd dbtb in TDLR ordfr.
+     * Thrff possibilitifs fxist:
+     *
+     * <ul>
+     * <li>
+     * Do not ovfrridf this mfthod.
+     * This mbkfs thf subdlbss usf thf dffbult implfmfntbtion,
+     * whidh is to
+     * forwbrd thf rfqufst
+     * to thf indidbtfd <dodf>ImbgfProdudfr</dodf>
+     * using this filtfr bs thf rfqufsting <dodf>ImbgfConsumfr</dodf>.
+     * This bfhbvior
+     * is bppropribtf if thf filtfr dbn dftfrminf
+     * thbt it will forwbrd thf pixfls
+     * in TDLR ordfr if its upstrfbm produdfr objfdt
+     * sfnds thfm in TDLR ordfr.
+     *
+     * <li>
+     * Ovfrridf thf mfthod to simply sfnd thf dbtb.
+     * This is bppropribtf if thf filtfr dbn hbndlf thf rfqufst itsflf &#8212;
+     * for fxbmplf,
+     * if thf gfnfrbtfd pixfls hbvf bffn sbvfd in somf sort of bufffr.
+     *
+     * <li>
+     * Ovfrridf thf mfthod to do nothing.
+     * This is bppropribtf
+     * if thf filtfr dbnnot produdf filtfrfd dbtb in TDLR ordfr.
+     * </ul>
+     *
+     * @sff ImbgfProdudfr#rfqufstTopDownLfftRightRfsfnd
+     * @pbrbm ip thf ImbgfProdudfr thbt is fffding this instbndf of
+     * thf filtfr - blso thf ImbgfProdudfr thbt thf rfqufst should bf
+     * forwbrdfd to if nfdfssbry
+     * @fxdfption NullPointfrExdfption if <dodf>ip</dodf> is null
+     */
+    publid void rfsfndTopDownLfftRight(ImbgfProdudfr ip) {
+        ip.rfqufstTopDownLfftRightRfsfnd(this);
+    }
+
+    /**
+     * Clonfs this objfdt.
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+    }
+}

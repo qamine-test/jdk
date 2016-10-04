@@ -1,471 +1,471 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.text.BreakIterator;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Locale;
-import sun.text.Normalizer;
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.util.HbsiSft;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import sun.tfxt.Normblizfr;
 
 
 /**
- * This is a utility class for <code>String.toLowerCase()</code> and
- * <code>String.toUpperCase()</code>, that handles special casing with
- * conditions.  In other words, it handles the mappings with conditions
- * that are defined in
- * <a href="http://www.unicode.org/Public/UNIDATA/SpecialCasing.txt">Special
- * Casing Properties</a> file.
+ * Tiis is b utility dlbss for <dodf>String.toLowfrCbsf()</dodf> bnd
+ * <dodf>String.toUppfrCbsf()</dodf>, tibt ibndlfs spfdibl dbsing witi
+ * donditions.  In otifr words, it ibndlfs tif mbppings witi donditions
+ * tibt brf dffinfd in
+ * <b irff="ittp://www.unidodf.org/Publid/UNIDATA/SpfdiblCbsing.txt">Spfdibl
+ * Cbsing Propfrtifs</b> filf.
  * <p>
- * Note that the unconditional case mappings (including 1:M mappings)
- * are handled in <code>Character.toLower/UpperCase()</code>.
+ * Notf tibt tif undonditionbl dbsf mbppings (indluding 1:M mbppings)
+ * brf ibndlfd in <dodf>Cibrbdtfr.toLowfr/UppfrCbsf()</dodf>.
  */
-final class ConditionalSpecialCasing {
+finbl dlbss ConditionblSpfdiblCbsing {
 
-    // context conditions.
-    final static int FINAL_CASED =              1;
-    final static int AFTER_SOFT_DOTTED =        2;
-    final static int MORE_ABOVE =               3;
-    final static int AFTER_I =                  4;
-    final static int NOT_BEFORE_DOT =           5;
+    // dontfxt donditions.
+    finbl stbtid int FINAL_CASED =              1;
+    finbl stbtid int AFTER_SOFT_DOTTED =        2;
+    finbl stbtid int MORE_ABOVE =               3;
+    finbl stbtid int AFTER_I =                  4;
+    finbl stbtid int NOT_BEFORE_DOT =           5;
 
-    // combining class definitions
-    final static int COMBINING_CLASS_ABOVE = 230;
+    // dombining dlbss dffinitions
+    finbl stbtid int COMBINING_CLASS_ABOVE = 230;
 
-    // Special case mapping entries
-    static Entry[] entry = {
+    // Spfdibl dbsf mbpping fntrifs
+    stbtid Entry[] fntry = {
         //# ================================================================================
-        //# Conditional mappings
+        //# Conditionbl mbppings
         //# ================================================================================
-        new Entry(0x03A3, new char[]{0x03C2}, new char[]{0x03A3}, null, FINAL_CASED), // # GREEK CAPITAL LETTER SIGMA
-        new Entry(0x0130, new char[]{0x0069, 0x0307}, new char[]{0x0130}, null, 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
-
-        //# ================================================================================
-        //# Locale-sensitive mappings
-        //# ================================================================================
-        //# Lithuanian
-        new Entry(0x0307, new char[]{0x0307}, new char[]{}, "lt",  AFTER_SOFT_DOTTED), // # COMBINING DOT ABOVE
-        new Entry(0x0049, new char[]{0x0069, 0x0307}, new char[]{0x0049}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER I
-        new Entry(0x004A, new char[]{0x006A, 0x0307}, new char[]{0x004A}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER J
-        new Entry(0x012E, new char[]{0x012F, 0x0307}, new char[]{0x012E}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER I WITH OGONEK
-        new Entry(0x00CC, new char[]{0x0069, 0x0307, 0x0300}, new char[]{0x00CC}, "lt", 0), // # LATIN CAPITAL LETTER I WITH GRAVE
-        new Entry(0x00CD, new char[]{0x0069, 0x0307, 0x0301}, new char[]{0x00CD}, "lt", 0), // # LATIN CAPITAL LETTER I WITH ACUTE
-        new Entry(0x0128, new char[]{0x0069, 0x0307, 0x0303}, new char[]{0x0128}, "lt", 0), // # LATIN CAPITAL LETTER I WITH TILDE
+        nfw Entry(0x03A3, nfw dibr[]{0x03C2}, nfw dibr[]{0x03A3}, null, FINAL_CASED), // # GREEK CAPITAL LETTER SIGMA
+        nfw Entry(0x0130, nfw dibr[]{0x0069, 0x0307}, nfw dibr[]{0x0130}, null, 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
 
         //# ================================================================================
-        //# Turkish and Azeri
-        new Entry(0x0130, new char[]{0x0069}, new char[]{0x0130}, "tr", 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
-        new Entry(0x0130, new char[]{0x0069}, new char[]{0x0130}, "az", 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
-        new Entry(0x0307, new char[]{}, new char[]{0x0307}, "tr", AFTER_I), // # COMBINING DOT ABOVE
-        new Entry(0x0307, new char[]{}, new char[]{0x0307}, "az", AFTER_I), // # COMBINING DOT ABOVE
-        new Entry(0x0049, new char[]{0x0131}, new char[]{0x0049}, "tr", NOT_BEFORE_DOT), // # LATIN CAPITAL LETTER I
-        new Entry(0x0049, new char[]{0x0131}, new char[]{0x0049}, "az", NOT_BEFORE_DOT), // # LATIN CAPITAL LETTER I
-        new Entry(0x0069, new char[]{0x0069}, new char[]{0x0130}, "tr", 0), // # LATIN SMALL LETTER I
-        new Entry(0x0069, new char[]{0x0069}, new char[]{0x0130}, "az", 0)  // # LATIN SMALL LETTER I
+        //# Lodblf-sfnsitivf mbppings
+        //# ================================================================================
+        //# Litiubnibn
+        nfw Entry(0x0307, nfw dibr[]{0x0307}, nfw dibr[]{}, "lt",  AFTER_SOFT_DOTTED), // # COMBINING DOT ABOVE
+        nfw Entry(0x0049, nfw dibr[]{0x0069, 0x0307}, nfw dibr[]{0x0049}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER I
+        nfw Entry(0x004A, nfw dibr[]{0x006A, 0x0307}, nfw dibr[]{0x004A}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER J
+        nfw Entry(0x012E, nfw dibr[]{0x012F, 0x0307}, nfw dibr[]{0x012E}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER I WITH OGONEK
+        nfw Entry(0x00CC, nfw dibr[]{0x0069, 0x0307, 0x0300}, nfw dibr[]{0x00CC}, "lt", 0), // # LATIN CAPITAL LETTER I WITH GRAVE
+        nfw Entry(0x00CD, nfw dibr[]{0x0069, 0x0307, 0x0301}, nfw dibr[]{0x00CD}, "lt", 0), // # LATIN CAPITAL LETTER I WITH ACUTE
+        nfw Entry(0x0128, nfw dibr[]{0x0069, 0x0307, 0x0303}, nfw dibr[]{0x0128}, "lt", 0), // # LATIN CAPITAL LETTER I WITH TILDE
+
+        //# ================================================================================
+        //# Turkisi bnd Azfri
+        nfw Entry(0x0130, nfw dibr[]{0x0069}, nfw dibr[]{0x0130}, "tr", 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
+        nfw Entry(0x0130, nfw dibr[]{0x0069}, nfw dibr[]{0x0130}, "bz", 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
+        nfw Entry(0x0307, nfw dibr[]{}, nfw dibr[]{0x0307}, "tr", AFTER_I), // # COMBINING DOT ABOVE
+        nfw Entry(0x0307, nfw dibr[]{}, nfw dibr[]{0x0307}, "bz", AFTER_I), // # COMBINING DOT ABOVE
+        nfw Entry(0x0049, nfw dibr[]{0x0131}, nfw dibr[]{0x0049}, "tr", NOT_BEFORE_DOT), // # LATIN CAPITAL LETTER I
+        nfw Entry(0x0049, nfw dibr[]{0x0131}, nfw dibr[]{0x0049}, "bz", NOT_BEFORE_DOT), // # LATIN CAPITAL LETTER I
+        nfw Entry(0x0069, nfw dibr[]{0x0069}, nfw dibr[]{0x0130}, "tr", 0), // # LATIN SMALL LETTER I
+        nfw Entry(0x0069, nfw dibr[]{0x0069}, nfw dibr[]{0x0130}, "bz", 0)  // # LATIN SMALL LETTER I
     };
 
-    // A hash table that contains the above entries
-    static Hashtable<Integer, HashSet<Entry>> entryTable = new Hashtable<>();
-    static {
-        // create hashtable from the entry
-        for (Entry cur : entry) {
-            Integer cp = cur.getCodePoint();
-            HashSet<Entry> set = entryTable.get(cp);
-            if (set == null) {
-                set = new HashSet<>();
-                entryTable.put(cp, set);
+    // A ibsi tbblf tibt dontbins tif bbovf fntrifs
+    stbtid Hbsitbblf<Intfgfr, HbsiSft<Entry>> fntryTbblf = nfw Hbsitbblf<>();
+    stbtid {
+        // drfbtf ibsitbblf from tif fntry
+        for (Entry dur : fntry) {
+            Intfgfr dp = dur.gftCodfPoint();
+            HbsiSft<Entry> sft = fntryTbblf.gft(dp);
+            if (sft == null) {
+                sft = nfw HbsiSft<>();
+                fntryTbblf.put(dp, sft);
             }
-            set.add(cur);
+            sft.bdd(dur);
         }
     }
 
-    static int toLowerCaseEx(String src, int index, Locale locale) {
-        char[] result = lookUpTable(src, index, locale, true);
+    stbtid int toLowfrCbsfEx(String srd, int indfx, Lodblf lodblf) {
+        dibr[] rfsult = lookUpTbblf(srd, indfx, lodblf, truf);
 
-        if (result != null) {
-            if (result.length == 1) {
-                return result[0];
-            } else {
-                return Character.ERROR;
+        if (rfsult != null) {
+            if (rfsult.lfngti == 1) {
+                rfturn rfsult[0];
+            } flsf {
+                rfturn Cibrbdtfr.ERROR;
             }
-        } else {
-            // default to Character class' one
-            return Character.toLowerCase(src.codePointAt(index));
+        } flsf {
+            // dffbult to Cibrbdtfr dlbss' onf
+            rfturn Cibrbdtfr.toLowfrCbsf(srd.dodfPointAt(indfx));
         }
     }
 
-    static int toUpperCaseEx(String src, int index, Locale locale) {
-        char[] result = lookUpTable(src, index, locale, false);
+    stbtid int toUppfrCbsfEx(String srd, int indfx, Lodblf lodblf) {
+        dibr[] rfsult = lookUpTbblf(srd, indfx, lodblf, fblsf);
 
-        if (result != null) {
-            if (result.length == 1) {
-                return result[0];
-            } else {
-                return Character.ERROR;
+        if (rfsult != null) {
+            if (rfsult.lfngti == 1) {
+                rfturn rfsult[0];
+            } flsf {
+                rfturn Cibrbdtfr.ERROR;
             }
-        } else {
-            // default to Character class' one
-            return Character.toUpperCaseEx(src.codePointAt(index));
+        } flsf {
+            // dffbult to Cibrbdtfr dlbss' onf
+            rfturn Cibrbdtfr.toUppfrCbsfEx(srd.dodfPointAt(indfx));
         }
     }
 
-    static char[] toLowerCaseCharArray(String src, int index, Locale locale) {
-        return lookUpTable(src, index, locale, true);
+    stbtid dibr[] toLowfrCbsfCibrArrby(String srd, int indfx, Lodblf lodblf) {
+        rfturn lookUpTbblf(srd, indfx, lodblf, truf);
     }
 
-    static char[] toUpperCaseCharArray(String src, int index, Locale locale) {
-        char[] result = lookUpTable(src, index, locale, false);
-        if (result != null) {
-            return result;
-        } else {
-            return Character.toUpperCaseCharArray(src.codePointAt(index));
+    stbtid dibr[] toUppfrCbsfCibrArrby(String srd, int indfx, Lodblf lodblf) {
+        dibr[] rfsult = lookUpTbblf(srd, indfx, lodblf, fblsf);
+        if (rfsult != null) {
+            rfturn rfsult;
+        } flsf {
+            rfturn Cibrbdtfr.toUppfrCbsfCibrArrby(srd.dodfPointAt(indfx));
         }
     }
 
-    private static char[] lookUpTable(String src, int index, Locale locale, boolean bLowerCasing) {
-        HashSet<Entry> set = entryTable.get(src.codePointAt(index));
-        char[] ret = null;
+    privbtf stbtid dibr[] lookUpTbblf(String srd, int indfx, Lodblf lodblf, boolfbn bLowfrCbsing) {
+        HbsiSft<Entry> sft = fntryTbblf.gft(srd.dodfPointAt(indfx));
+        dibr[] rft = null;
 
-        if (set != null) {
-            Iterator<Entry> iter = set.iterator();
-            String currentLang = locale.getLanguage();
-            while (iter.hasNext()) {
-                Entry entry = iter.next();
-                String conditionLang = entry.getLanguage();
-                if (((conditionLang == null) || (conditionLang.equals(currentLang))) &&
-                        isConditionMet(src, index, locale, entry.getCondition())) {
-                    ret = bLowerCasing ? entry.getLowerCase() : entry.getUpperCase();
-                    if (conditionLang != null) {
-                        break;
+        if (sft != null) {
+            Itfrbtor<Entry> itfr = sft.itfrbtor();
+            String durrfntLbng = lodblf.gftLbngubgf();
+            wiilf (itfr.ibsNfxt()) {
+                Entry fntry = itfr.nfxt();
+                String donditionLbng = fntry.gftLbngubgf();
+                if (((donditionLbng == null) || (donditionLbng.fqubls(durrfntLbng))) &&
+                        isConditionMft(srd, indfx, lodblf, fntry.gftCondition())) {
+                    rft = bLowfrCbsing ? fntry.gftLowfrCbsf() : fntry.gftUppfrCbsf();
+                    if (donditionLbng != null) {
+                        brfbk;
                     }
                 }
             }
         }
 
-        return ret;
+        rfturn rft;
     }
 
-    private static boolean isConditionMet(String src, int index, Locale locale, int condition) {
-        switch (condition) {
-        case FINAL_CASED:
-            return isFinalCased(src, index, locale);
+    privbtf stbtid boolfbn isConditionMft(String srd, int indfx, Lodblf lodblf, int dondition) {
+        switdi (dondition) {
+        dbsf FINAL_CASED:
+            rfturn isFinblCbsfd(srd, indfx, lodblf);
 
-        case AFTER_SOFT_DOTTED:
-            return isAfterSoftDotted(src, index);
+        dbsf AFTER_SOFT_DOTTED:
+            rfturn isAftfrSoftDottfd(srd, indfx);
 
-        case MORE_ABOVE:
-            return isMoreAbove(src, index);
+        dbsf MORE_ABOVE:
+            rfturn isMorfAbovf(srd, indfx);
 
-        case AFTER_I:
-            return isAfterI(src, index);
+        dbsf AFTER_I:
+            rfturn isAftfrI(srd, indfx);
 
-        case NOT_BEFORE_DOT:
-            return !isBeforeDot(src, index);
+        dbsf NOT_BEFORE_DOT:
+            rfturn !isBfforfDot(srd, indfx);
 
-        default:
-            return true;
+        dffbult:
+            rfturn truf;
         }
     }
 
     /**
-     * Implements the "Final_Cased" condition
+     * Implfmfnts tif "Finbl_Cbsfd" dondition
      *
-     * Specification: Within the closest word boundaries containing C, there is a cased
-     * letter before C, and there is no cased letter after C.
+     * Spfdifidbtion: Witiin tif dlosfst word boundbrifs dontbining C, tifrf is b dbsfd
+     * lfttfr bfforf C, bnd tifrf is no dbsfd lfttfr bftfr C.
      *
-     * Regular Expression:
-     *   Before C: [{cased==true}][{wordBoundary!=true}]*
-     *   After C: !([{wordBoundary!=true}]*[{cased}])
+     * Rfgulbr Exprfssion:
+     *   Bfforf C: [{dbsfd==truf}][{wordBoundbry!=truf}]*
+     *   Aftfr C: !([{wordBoundbry!=truf}]*[{dbsfd}])
      */
-    private static boolean isFinalCased(String src, int index, Locale locale) {
-        BreakIterator wordBoundary = BreakIterator.getWordInstance(locale);
-        wordBoundary.setText(src);
-        int ch;
+    privbtf stbtid boolfbn isFinblCbsfd(String srd, int indfx, Lodblf lodblf) {
+        BrfbkItfrbtor wordBoundbry = BrfbkItfrbtor.gftWordInstbndf(lodblf);
+        wordBoundbry.sftTfxt(srd);
+        int di;
 
-        // Look for a preceding 'cased' letter
-        for (int i = index; (i >= 0) && !wordBoundary.isBoundary(i);
-                i -= Character.charCount(ch)) {
+        // Look for b prfdfding 'dbsfd' lfttfr
+        for (int i = indfx; (i >= 0) && !wordBoundbry.isBoundbry(i);
+                i -= Cibrbdtfr.dibrCount(di)) {
 
-            ch = src.codePointBefore(i);
-            if (isCased(ch)) {
+            di = srd.dodfPointBfforf(i);
+            if (isCbsfd(di)) {
 
-                int len = src.length();
-                // Check that there is no 'cased' letter after the index
-                for (i = index + Character.charCount(src.codePointAt(index));
-                        (i < len) && !wordBoundary.isBoundary(i);
-                        i += Character.charCount(ch)) {
+                int lfn = srd.lfngti();
+                // Cifdk tibt tifrf is no 'dbsfd' lfttfr bftfr tif indfx
+                for (i = indfx + Cibrbdtfr.dibrCount(srd.dodfPointAt(indfx));
+                        (i < lfn) && !wordBoundbry.isBoundbry(i);
+                        i += Cibrbdtfr.dibrCount(di)) {
 
-                    ch = src.codePointAt(i);
-                    if (isCased(ch)) {
-                        return false;
+                    di = srd.dodfPointAt(i);
+                    if (isCbsfd(di)) {
+                        rfturn fblsf;
                     }
                 }
 
-                return true;
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Implements the "After_I" condition
+     * Implfmfnts tif "Aftfr_I" dondition
      *
-     * Specification: The last preceding base character was an uppercase I,
-     * and there is no intervening combining character class 230 (ABOVE).
+     * Spfdifidbtion: Tif lbst prfdfding bbsf dibrbdtfr wbs bn uppfrdbsf I,
+     * bnd tifrf is no intfrvfning dombining dibrbdtfr dlbss 230 (ABOVE).
      *
-     * Regular Expression:
-     *   Before C: [I]([{cc!=230}&{cc!=0}])*
+     * Rfgulbr Exprfssion:
+     *   Bfforf C: [I]([{dd!=230}&{dd!=0}])*
      */
-    private static boolean isAfterI(String src, int index) {
-        int ch;
-        int cc;
+    privbtf stbtid boolfbn isAftfrI(String srd, int indfx) {
+        int di;
+        int dd;
 
-        // Look for the last preceding base character
-        for (int i = index; i > 0; i -= Character.charCount(ch)) {
+        // Look for tif lbst prfdfding bbsf dibrbdtfr
+        for (int i = indfx; i > 0; i -= Cibrbdtfr.dibrCount(di)) {
 
-            ch = src.codePointBefore(i);
+            di = srd.dodfPointBfforf(i);
 
-            if (ch == 'I') {
-                return true;
-            } else {
-                cc = Normalizer.getCombiningClass(ch);
-                if ((cc == 0) || (cc == COMBINING_CLASS_ABOVE)) {
-                    return false;
+            if (di == 'I') {
+                rfturn truf;
+            } flsf {
+                dd = Normblizfr.gftCombiningClbss(di);
+                if ((dd == 0) || (dd == COMBINING_CLASS_ABOVE)) {
+                    rfturn fblsf;
                 }
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Implements the "After_Soft_Dotted" condition
+     * Implfmfnts tif "Aftfr_Soft_Dottfd" dondition
      *
-     * Specification: The last preceding character with combining class
-     * of zero before C was Soft_Dotted, and there is no intervening
-     * combining character class 230 (ABOVE).
+     * Spfdifidbtion: Tif lbst prfdfding dibrbdtfr witi dombining dlbss
+     * of zfro bfforf C wbs Soft_Dottfd, bnd tifrf is no intfrvfning
+     * dombining dibrbdtfr dlbss 230 (ABOVE).
      *
-     * Regular Expression:
-     *   Before C: [{Soft_Dotted==true}]([{cc!=230}&{cc!=0}])*
+     * Rfgulbr Exprfssion:
+     *   Bfforf C: [{Soft_Dottfd==truf}]([{dd!=230}&{dd!=0}])*
      */
-    private static boolean isAfterSoftDotted(String src, int index) {
-        int ch;
-        int cc;
+    privbtf stbtid boolfbn isAftfrSoftDottfd(String srd, int indfx) {
+        int di;
+        int dd;
 
-        // Look for the last preceding character
-        for (int i = index; i > 0; i -= Character.charCount(ch)) {
+        // Look for tif lbst prfdfding dibrbdtfr
+        for (int i = indfx; i > 0; i -= Cibrbdtfr.dibrCount(di)) {
 
-            ch = src.codePointBefore(i);
+            di = srd.dodfPointBfforf(i);
 
-            if (isSoftDotted(ch)) {
-                return true;
-            } else {
-                cc = Normalizer.getCombiningClass(ch);
-                if ((cc == 0) || (cc == COMBINING_CLASS_ABOVE)) {
-                    return false;
+            if (isSoftDottfd(di)) {
+                rfturn truf;
+            } flsf {
+                dd = Normblizfr.gftCombiningClbss(di);
+                if ((dd == 0) || (dd == COMBINING_CLASS_ABOVE)) {
+                    rfturn fblsf;
                 }
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Implements the "More_Above" condition
+     * Implfmfnts tif "Morf_Abovf" dondition
      *
-     * Specification: C is followed by one or more characters of combining
-     * class 230 (ABOVE) in the combining character sequence.
+     * Spfdifidbtion: C is followfd by onf or morf dibrbdtfrs of dombining
+     * dlbss 230 (ABOVE) in tif dombining dibrbdtfr sfqufndf.
      *
-     * Regular Expression:
-     *   After C: [{cc!=0}]*[{cc==230}]
+     * Rfgulbr Exprfssion:
+     *   Aftfr C: [{dd!=0}]*[{dd==230}]
      */
-    private static boolean isMoreAbove(String src, int index) {
-        int ch;
-        int cc;
-        int len = src.length();
+    privbtf stbtid boolfbn isMorfAbovf(String srd, int indfx) {
+        int di;
+        int dd;
+        int lfn = srd.lfngti();
 
-        // Look for a following ABOVE combining class character
-        for (int i = index + Character.charCount(src.codePointAt(index));
-                i < len; i += Character.charCount(ch)) {
+        // Look for b following ABOVE dombining dlbss dibrbdtfr
+        for (int i = indfx + Cibrbdtfr.dibrCount(srd.dodfPointAt(indfx));
+                i < lfn; i += Cibrbdtfr.dibrCount(di)) {
 
-            ch = src.codePointAt(i);
-            cc = Normalizer.getCombiningClass(ch);
+            di = srd.dodfPointAt(i);
+            dd = Normblizfr.gftCombiningClbss(di);
 
-            if (cc == COMBINING_CLASS_ABOVE) {
-                return true;
-            } else if (cc == 0) {
-                return false;
+            if (dd == COMBINING_CLASS_ABOVE) {
+                rfturn truf;
+            } flsf if (dd == 0) {
+                rfturn fblsf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Implements the "Before_Dot" condition
+     * Implfmfnts tif "Bfforf_Dot" dondition
      *
-     * Specification: C is followed by <code>U+0307 COMBINING DOT ABOVE</code>.
-     * Any sequence of characters with a combining class that is
-     * neither 0 nor 230 may intervene between the current character
-     * and the combining dot above.
+     * Spfdifidbtion: C is followfd by <dodf>U+0307 COMBINING DOT ABOVE</dodf>.
+     * Any sfqufndf of dibrbdtfrs witi b dombining dlbss tibt is
+     * nfitifr 0 nor 230 mby intfrvfnf bftwffn tif durrfnt dibrbdtfr
+     * bnd tif dombining dot bbovf.
      *
-     * Regular Expression:
-     *   After C: ([{cc!=230}&{cc!=0}])*[\u0307]
+     * Rfgulbr Exprfssion:
+     *   Aftfr C: ([{dd!=230}&{dd!=0}])*[\u0307]
      */
-    private static boolean isBeforeDot(String src, int index) {
-        int ch;
-        int cc;
-        int len = src.length();
+    privbtf stbtid boolfbn isBfforfDot(String srd, int indfx) {
+        int di;
+        int dd;
+        int lfn = srd.lfngti();
 
-        // Look for a following COMBINING DOT ABOVE
-        for (int i = index + Character.charCount(src.codePointAt(index));
-                i < len; i += Character.charCount(ch)) {
+        // Look for b following COMBINING DOT ABOVE
+        for (int i = indfx + Cibrbdtfr.dibrCount(srd.dodfPointAt(indfx));
+                i < lfn; i += Cibrbdtfr.dibrCount(di)) {
 
-            ch = src.codePointAt(i);
+            di = srd.dodfPointAt(i);
 
-            if (ch == '\u0307') {
-                return true;
-            } else {
-                cc = Normalizer.getCombiningClass(ch);
-                if ((cc == 0) || (cc == COMBINING_CLASS_ABOVE)) {
-                    return false;
+            if (di == '\u0307') {
+                rfturn truf;
+            } flsf {
+                dd = Normblizfr.gftCombiningClbss(di);
+                if ((dd == 0) || (dd == COMBINING_CLASS_ABOVE)) {
+                    rfturn fblsf;
                 }
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Examines whether a character is 'cased'.
+     * Exbminfs wiftifr b dibrbdtfr is 'dbsfd'.
      *
-     * A character C is defined to be 'cased' if and only if at least one of
-     * following are true for C: uppercase==true, or lowercase==true, or
-     * general_category==titlecase_letter.
+     * A dibrbdtfr C is dffinfd to bf 'dbsfd' if bnd only if bt lfbst onf of
+     * following brf truf for C: uppfrdbsf==truf, or lowfrdbsf==truf, or
+     * gfnfrbl_dbtfgory==titlfdbsf_lfttfr.
      *
-     * The uppercase and lowercase property values are specified in the data
-     * file DerivedCoreProperties.txt in the Unicode Character Database.
+     * Tif uppfrdbsf bnd lowfrdbsf propfrty vblufs brf spfdififd in tif dbtb
+     * filf DfrivfdCorfPropfrtifs.txt in tif Unidodf Cibrbdtfr Dbtbbbsf.
      */
-    private static boolean isCased(int ch) {
-        int type = Character.getType(ch);
-        if (type == Character.LOWERCASE_LETTER ||
-                type == Character.UPPERCASE_LETTER ||
-                type == Character.TITLECASE_LETTER) {
-            return true;
-        } else {
-            // Check for Other_Lowercase and Other_Uppercase
+    privbtf stbtid boolfbn isCbsfd(int di) {
+        int typf = Cibrbdtfr.gftTypf(di);
+        if (typf == Cibrbdtfr.LOWERCASE_LETTER ||
+                typf == Cibrbdtfr.UPPERCASE_LETTER ||
+                typf == Cibrbdtfr.TITLECASE_LETTER) {
+            rfturn truf;
+        } flsf {
+            // Cifdk for Otifr_Lowfrdbsf bnd Otifr_Uppfrdbsf
             //
-            if ((ch >= 0x02B0) && (ch <= 0x02B8)) {
+            if ((di >= 0x02B0) && (di <= 0x02B8)) {
                 // MODIFIER LETTER SMALL H..MODIFIER LETTER SMALL Y
-                return true;
-            } else if ((ch >= 0x02C0) && (ch <= 0x02C1)) {
+                rfturn truf;
+            } flsf if ((di >= 0x02C0) && (di <= 0x02C1)) {
                 // MODIFIER LETTER GLOTTAL STOP..MODIFIER LETTER REVERSED GLOTTAL STOP
-                return true;
-            } else if ((ch >= 0x02E0) && (ch <= 0x02E4)) {
+                rfturn truf;
+            } flsf if ((di >= 0x02E0) && (di <= 0x02E4)) {
                 // MODIFIER LETTER SMALL GAMMA..MODIFIER LETTER SMALL REVERSED GLOTTAL STOP
-                return true;
-            } else if (ch == 0x0345) {
+                rfturn truf;
+            } flsf if (di == 0x0345) {
                 // COMBINING GREEK YPOGEGRAMMENI
-                return true;
-            } else if (ch == 0x037A) {
+                rfturn truf;
+            } flsf if (di == 0x037A) {
                 // GREEK YPOGEGRAMMENI
-                return true;
-            } else if ((ch >= 0x1D2C) && (ch <= 0x1D61)) {
+                rfturn truf;
+            } flsf if ((di >= 0x1D2C) && (di <= 0x1D61)) {
                 // MODIFIER LETTER CAPITAL A..MODIFIER LETTER SMALL CHI
-                return true;
-            } else if ((ch >= 0x2160) && (ch <= 0x217F)) {
+                rfturn truf;
+            } flsf if ((di >= 0x2160) && (di <= 0x217F)) {
                 // ROMAN NUMERAL ONE..ROMAN NUMERAL ONE THOUSAND
                 // SMALL ROMAN NUMERAL ONE..SMALL ROMAN NUMERAL ONE THOUSAND
-                return true;
-            } else if ((ch >= 0x24B6) && (ch <= 0x24E9)) {
+                rfturn truf;
+            } flsf if ((di >= 0x24B6) && (di <= 0x24E9)) {
                 // CIRCLED LATIN CAPITAL LETTER A..CIRCLED LATIN CAPITAL LETTER Z
                 // CIRCLED LATIN SMALL LETTER A..CIRCLED LATIN SMALL LETTER Z
-                return true;
-            } else {
-                return false;
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
             }
         }
     }
 
-    private static boolean isSoftDotted(int ch) {
-        switch (ch) {
-        case 0x0069: // Soft_Dotted # L&       LATIN SMALL LETTER I
-        case 0x006A: // Soft_Dotted # L&       LATIN SMALL LETTER J
-        case 0x012F: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH OGONEK
-        case 0x0268: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH STROKE
-        case 0x0456: // Soft_Dotted # L&       CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I
-        case 0x0458: // Soft_Dotted # L&       CYRILLIC SMALL LETTER JE
-        case 0x1D62: // Soft_Dotted # L&       LATIN SUBSCRIPT SMALL LETTER I
-        case 0x1E2D: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH TILDE BELOW
-        case 0x1ECB: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH DOT BELOW
-        case 0x2071: // Soft_Dotted # L&       SUPERSCRIPT LATIN SMALL LETTER I
-            return true;
-        default:
-            return false;
+    privbtf stbtid boolfbn isSoftDottfd(int di) {
+        switdi (di) {
+        dbsf 0x0069: // Soft_Dottfd # L&       LATIN SMALL LETTER I
+        dbsf 0x006A: // Soft_Dottfd # L&       LATIN SMALL LETTER J
+        dbsf 0x012F: // Soft_Dottfd # L&       LATIN SMALL LETTER I WITH OGONEK
+        dbsf 0x0268: // Soft_Dottfd # L&       LATIN SMALL LETTER I WITH STROKE
+        dbsf 0x0456: // Soft_Dottfd # L&       CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I
+        dbsf 0x0458: // Soft_Dottfd # L&       CYRILLIC SMALL LETTER JE
+        dbsf 0x1D62: // Soft_Dottfd # L&       LATIN SUBSCRIPT SMALL LETTER I
+        dbsf 0x1E2D: // Soft_Dottfd # L&       LATIN SMALL LETTER I WITH TILDE BELOW
+        dbsf 0x1ECB: // Soft_Dottfd # L&       LATIN SMALL LETTER I WITH DOT BELOW
+        dbsf 0x2071: // Soft_Dottfd # L&       SUPERSCRIPT LATIN SMALL LETTER I
+            rfturn truf;
+        dffbult:
+            rfturn fblsf;
         }
     }
 
     /**
-     * An internal class that represents an entry in the Special Casing Properties.
+     * An intfrnbl dlbss tibt rfprfsfnts bn fntry in tif Spfdibl Cbsing Propfrtifs.
      */
-    static class Entry {
-        int ch;
-        char [] lower;
-        char [] upper;
-        String lang;
-        int condition;
+    stbtid dlbss Entry {
+        int di;
+        dibr [] lowfr;
+        dibr [] uppfr;
+        String lbng;
+        int dondition;
 
-        Entry(int ch, char[] lower, char[] upper, String lang, int condition) {
-            this.ch = ch;
-            this.lower = lower;
-            this.upper = upper;
-            this.lang = lang;
-            this.condition = condition;
+        Entry(int di, dibr[] lowfr, dibr[] uppfr, String lbng, int dondition) {
+            tiis.di = di;
+            tiis.lowfr = lowfr;
+            tiis.uppfr = uppfr;
+            tiis.lbng = lbng;
+            tiis.dondition = dondition;
         }
 
-        int getCodePoint() {
-            return ch;
+        int gftCodfPoint() {
+            rfturn di;
         }
 
-        char[] getLowerCase() {
-            return lower;
+        dibr[] gftLowfrCbsf() {
+            rfturn lowfr;
         }
 
-        char[] getUpperCase() {
-            return upper;
+        dibr[] gftUppfrCbsf() {
+            rfturn uppfr;
         }
 
-        String getLanguage() {
-            return lang;
+        String gftLbngubgf() {
+            rfturn lbng;
         }
 
-        int getCondition() {
-            return condition;
+        int gftCondition() {
+            rfturn dondition;
         }
     }
 }

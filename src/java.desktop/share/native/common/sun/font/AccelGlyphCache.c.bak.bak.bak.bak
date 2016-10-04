@@ -1,0 +1,415 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf "jni.h"
+#indludf "AddflGlyphCbdhf.h"
+#indludf "Trbdf.h"
+
+/**
+ * Whfn thf dbdhf is full, wf will try to rfusf thf dbdhf dflls thbt hbvf
+ * bffn usfd rflbtivfly lfss thbn thf othfrs (bnd wf will sbvf thf dflls thbt
+ * hbvf bffn rfndfrfd morf thbn thf thrfshold dffinfd hfrf).
+ */
+#dffinf TIMES_RENDERED_THRESHOLD 5
+
+/**
+ * Crfbtfs b nfw GlyphCbdhfInfo strudturf, fills in thf initibl vblufs, bnd
+ * thfn rfturns b pointfr to thf GlyphCbdhfInfo rfdord.
+ *
+ * Notf thbt this mfthod only sfts up b dbtb strudturf dfsdribing b
+ * rfdtbngulbr rfgion of bddflfrbtfd mfmory, dontbining "virtubl" dflls of
+ * thf rfqufstfd sizf.  Thf dfll informbtion is bddfd lbzily to thf linkfd
+ * list dfsdribing thf dbdhf bs nfw glyphs brf bddfd.  Plbtform spfdifid
+ * glyph dbdhing dodf is rfsponsiblf for bdtublly drfbting thf bddflfrbtfd
+ * mfmory surfbdf thbt will dontbin thf individubl glyph imbgfs.
+ *
+ * Ebdh glyph dontbins b rfffrfndf to b list of dfll infos - onf pfr glyph
+ * dbdhf. Thfrf mby bf multiplf glyph dbdhfs (for fxbmplf, onf pfr grbphids
+ * bdbptfr), so if thf glyph is dbdhfd on two dfvidfs its dfll list will
+ * donsists of two flfmfnts dorrfsponding to difffrfnt glyph dbdhfs.
+ *
+ * Thf plbtform-spfdifid glyph dbdhing dodf is supposfd to usf
+ * GftCfllInfoForCbdhf mfthod for rftrifving dbdhf infos from thf glyph's list.
+ *
+ * Notf thbt if it is gubrbntffd thbt thfrf will bf only onf globbl glyph
+ * dbdhf thfn it onf dofs not hbvf to usf AddflGlyphCbdhf_GftCfllInfoForCbdhf
+ * for rftrifving dfll info for thf glyph, but instfbd just usf thf strudt's
+ * fifld dirfdtly.
+ */
+GlyphCbdhfInfo *
+AddflGlyphCbdhf_Init(jint width, jint hfight,
+                     jint dfllWidth, jint dfllHfight,
+                     FlushFund *fund)
+{
+    GlyphCbdhfInfo *gdinfo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_Init");
+
+    gdinfo = (GlyphCbdhfInfo *)mbllod(sizfof(GlyphCbdhfInfo));
+    if (gdinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "AddflGlyphCbdhf_Init: dould not bllodbtf GlyphCbdhfInfo");
+        rfturn NULL;
+    }
+
+    gdinfo->hfbd = NULL;
+    gdinfo->tbil = NULL;
+    gdinfo->width = width;
+    gdinfo->hfight = hfight;
+    gdinfo->dfllWidth = dfllWidth;
+    gdinfo->dfllHfight = dfllHfight;
+    gdinfo->isFull = JNI_FALSE;
+    gdinfo->Flush = fund;
+
+    rfturn gdinfo;
+}
+
+/**
+ * Attfmpts to bdd thf providfd glyph to thf spfdififd dbdhf.  If thf
+ * opfrbtion is suddfssful, b pointfr to thf nfwly oddupifd dbdhf dfll is
+ * storfd in thf glyph's dfllInfo fifld; othfrwisf, its dfllInfo fifld is
+ * sft to NULL, indidbting thbt thf glyph's originbl bits should bf rfndfrfd
+ * instfbd.  If thf dbdhf is full, thf lfbst-rfdfntly-usfd glyph is
+ * invblidbtfd bnd its dbdhf dfll is rfbssignfd to thf nfw glyph bfing bddfd.
+ *
+ * Notf thbt this mfthod only fnsurfs thbt b rfdtbngulbr rfgion in thf
+ * "virtubl" glyph dbdhf is bvbilbblf for thf glyph imbgf.  Plbtform spfdifid
+ * glyph dbdhing dodf is rfsponsiblf for bdtublly dbdhing thf glyph imbgf
+ * in thf bssodibtfd bddflfrbtfd mfmory surfbdf.
+ *
+ * Rfturns drfbtfd dfll info if it wbs suddfssfully drfbtfd bnd bddfd to thf
+ * dbdhf bnd glyph's dfll lists, NULL othfrwisf.
+ */
+CbdhfCfllInfo *
+AddflGlyphCbdhf_AddGlyph(GlyphCbdhfInfo *dbdhf, GlyphInfo *glyph)
+{
+    CbdhfCfllInfo *dfllinfo = NULL;
+    jint w = glyph->width;
+    jint h = glyph->hfight;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_AddGlyph");
+
+    if ((glyph->width > dbdhf->dfllWidth) ||
+        (glyph->hfight > dbdhf->dfllHfight))
+    {
+        rfturn NULL;
+    }
+
+    if (!dbdhf->isFull) {
+        jint x, y;
+
+        if (dbdhf->hfbd == NULL) {
+            x = 0;
+            y = 0;
+        } flsf {
+            x = dbdhf->tbil->x + dbdhf->dfllWidth;
+            y = dbdhf->tbil->y;
+            if ((x + dbdhf->dfllWidth) > dbdhf->width) {
+                x = 0;
+                y += dbdhf->dfllHfight;
+                if ((y + dbdhf->dfllHfight) > dbdhf->hfight) {
+                    // no room lfft for b nfw dfll; wf'll go through thf
+                    // isFull pbth bflow
+                    dbdhf->isFull = JNI_TRUE;
+                }
+            }
+        }
+
+        if (!dbdhf->isFull) {
+            // drfbtf nfw CbdhfCfllInfo
+            dfllinfo = (CbdhfCfllInfo *)mbllod(sizfof(CbdhfCfllInfo));
+            if (dfllinfo == NULL) {
+                J2dTrbdfLn(J2D_TRACE_ERROR, "dould not bllodbtf CfllInfo");
+                rfturn NULL;
+            }
+
+            dfllinfo->dbdhfInfo = dbdhf;
+            dfllinfo->glyphInfo = glyph;
+            dfllinfo->timfsRfndfrfd = 0;
+            dfllinfo->x = x;
+            dfllinfo->y = y;
+            dfllinfo->lfftOff = 0;
+            dfllinfo->rightOff = 0;
+            dfllinfo->tx1 = (jflobt)dfllinfo->x / dbdhf->width;
+            dfllinfo->ty1 = (jflobt)dfllinfo->y / dbdhf->hfight;
+            dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdhf->width);
+            dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)h / dbdhf->hfight);
+
+            if (dbdhf->hfbd == NULL) {
+                // initiblizf thf hfbd dfll
+                dbdhf->hfbd = dfllinfo;
+            } flsf {
+                // updbtf fxisting tbil dfll
+                dbdhf->tbil->nfxt = dfllinfo;
+            }
+
+            // bdd thf nfw dfll to thf fnd of thf list
+            dbdhf->tbil = dfllinfo;
+            dfllinfo->nfxt = NULL;
+            dfllinfo->nfxtGCI = NULL;
+        }
+    }
+
+    if (dbdhf->isFull) {
+        /**
+         * Sfbrdh through thf dflls, bnd for fbdh dfll:
+         *   - rfsft its timfsRfndfrfd dountfr to zfro
+         *   - toss it to thf fnd of thf list
+         * Evfntublly wf will find b dfll thbt fithfr:
+         *   - is fmpty, or
+         *   - hbs bffn usfd lfss thbn thf thrfshold
+         * Whfn wf find sudh b dfll, wf will:
+         *   - brfbk out of thf loop
+         *   - invblidbtf bny glyph thbt mby bf rfsiding in thbt dfll
+         *   - updbtf thf dfll with thf nfw rfsidfnt glyph's informbtion
+         *
+         * Thf gobl hfrf is to kffp thf glyphs rfndfrfd most oftfn in thf
+         * dbdhf, whilf youngfr glyphs hbng out nfbr thf fnd of thf list.
+         * Thosf young glyphs thbt hbvf only bffn usfd b ffw timfs will movf
+         * towbrds thf hfbd of thf list bnd will fvfntublly bf kidkfd to
+         * thf durb.
+         *
+         * In thf worst-dbsf sdfnbrio, bll dflls will bf oddupifd bnd thfy
+         * will bll hbvf timfsRfndfrfd dounts bbovf thf thrfshold, so wf will
+         * fnd up itfrbting through bll thf dflls fxbdtly ondf.  Sindf wf brf
+         * rfsftting thfir dountfrs blong thf wby, wf brf gubrbntffd to
+         * fvfntublly hit thf originbl "hfbd" dfll, whosf dountfr is now zfro.
+         * This bvoids thf possibility of bn infinitf loop.
+         */
+
+        do {
+            // thf hfbd dfll will bf updbtfd on fbdh itfrbtion
+            CbdhfCfllInfo *durrfnt = dbdhf->hfbd;
+
+            if ((durrfnt->glyphInfo == NULL) ||
+                (durrfnt->timfsRfndfrfd < TIMES_RENDERED_THRESHOLD))
+            {
+                // bll bow bfforf thf dhosfn onf (wf will brfbk out of thf
+                // loop now thbt wf'vf found bn bppropribtf dfll)
+                dfllinfo = durrfnt;
+            }
+
+            // movf dfll to thf fnd of thf list; updbtf fxisting hfbd bnd
+            // tbil pointfrs
+            dbdhf->hfbd = durrfnt->nfxt;
+            dbdhf->tbil->nfxt = durrfnt;
+            dbdhf->tbil = durrfnt;
+            durrfnt->nfxt = NULL;
+            durrfnt->timfsRfndfrfd = 0;
+        } whilf (dfllinfo == NULL);
+
+        if (dfllinfo->glyphInfo != NULL) {
+            // flush in dbsf bny pfnding vfrtidfs brf dfpfnding on thf
+            // glyph thbt is bbout to bf kidkfd out
+            if (dbdhf->Flush != NULL) {
+                dbdhf->Flush();
+            }
+
+            // if thf dfll is oddupifd, notify thf bbsf glyph thbt thf
+            // dbdhfd vfrsion for this dbdhf is bbout to bf kidkfd out
+            AddflGlyphCbdhf_RfmovfCfllInfo(dfllinfo->glyphInfo, dfllinfo);
+        }
+
+        // updbtf dfllinfo with glyph's oddupifd rfgion informbtion
+        dfllinfo->glyphInfo = glyph;
+        dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdhf->width);
+        dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)h / dbdhf->hfight);
+    }
+
+    // bdd dbdhf dfll to thf glyph's dflls list
+    AddflGlyphCbdhf_AddCfllInfo(glyph, dfllinfo);
+    rfturn dfllinfo;
+}
+
+/**
+ * Invblidbtfs bll dflls in thf dbdhf.  Notf thbt this mfthod dofs not
+ * bttfmpt to dompbdt thf dbdhf in bny wby; it just invblidbtfs bny dflls
+ * thbt blrfbdy fxist.
+ */
+void
+AddflGlyphCbdhf_Invblidbtf(GlyphCbdhfInfo *dbdhf)
+{
+    CbdhfCfllInfo *dfllinfo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_Invblidbtf");
+
+    if (dbdhf == NULL) {
+        rfturn;
+    }
+
+    // flush bny pfnding vfrtidfs thbt mby bf dfpfnding on thf durrfnt
+    // glyph dbdhf lbyout
+    if (dbdhf->Flush != NULL) {
+        dbdhf->Flush();
+    }
+
+    dfllinfo = dbdhf->hfbd;
+    whilf (dfllinfo != NULL) {
+        if (dfllinfo->glyphInfo != NULL) {
+            // if thf dfll is oddupifd, notify thf bbsf glyph thbt its
+            // dbdhfd vfrsion for this dbdhf is bbout to bf invblidbtfd
+            AddflGlyphCbdhf_RfmovfCfllInfo(dfllinfo->glyphInfo, dfllinfo);
+        }
+        dfllinfo = dfllinfo->nfxt;
+    }
+}
+
+/**
+ * Invblidbtfs bnd frffs bll dflls bnd thf dbdhf itsflf. Thf "dbdhf" pointfr
+ * bfdomfs invblid bftfr this fundtion rfturns.
+ */
+void
+AddflGlyphCbdhf_Frff(GlyphCbdhfInfo *dbdhf)
+{
+    CbdhfCfllInfo *dfllinfo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_Frff");
+
+    if (dbdhf == NULL) {
+        rfturn;
+    }
+
+    // flush bny pfnding vfrtidfs thbt mby bf dfpfnding on thf durrfnt
+    // glyph dbdhf
+    if (dbdhf->Flush != NULL) {
+        dbdhf->Flush();
+    }
+
+    whilf (dbdhf->hfbd != NULL) {
+        dfllinfo = dbdhf->hfbd;
+        if (dfllinfo->glyphInfo != NULL) {
+            // if thf dfll is oddupifd, notify thf bbsf glyph thbt its
+            // dbdhfd vfrsion for this dbdhf is bbout to bf invblidbtfd
+            AddflGlyphCbdhf_RfmovfCfllInfo(dfllinfo->glyphInfo, dfllinfo);
+        }
+        dbdhf->hfbd = dfllinfo->nfxt;
+        frff(dfllinfo);
+    }
+    frff(dbdhf);
+}
+
+/**
+ * Add dfll info to thf hfbd of thf glyph's list of dbdhfd dflls.
+ */
+void
+AddflGlyphCbdhf_AddCfllInfo(GlyphInfo *glyph, CbdhfCfllInfo *dfllInfo)
+{
+    // bssfrt (glyph != NULL && dfllInfo != NULL)
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_AddCfllInfo");
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  glyph 0x%x: bdding dfll 0x%x to thf list",
+                glyph, dfllInfo);
+
+    dfllInfo->glyphInfo = glyph;
+    dfllInfo->nfxtGCI = glyph->dfllInfo;
+    glyph->dfllInfo = dfllInfo;
+    glyph->mbnbgfd = MANAGED_GLYPH;
+}
+
+/**
+ * Rfmovfs dfll info from thf glyph's list of dbdhfd dflls.
+ */
+void
+AddflGlyphCbdhf_RfmovfCfllInfo(GlyphInfo *glyph, CbdhfCfllInfo *dfllInfo)
+{
+    CbdhfCfllInfo *durrCfllInfo = glyph->dfllInfo;
+    CbdhfCfllInfo *prfvInfo = NULL;
+    // bssfrt (glyph!= NULL && glyph->dfllInfo != NULL && dfllInfo != NULL)
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_RfmovfCfllInfo");
+    do {
+        if (durrCfllInfo == dfllInfo) {
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                        "  glyph 0x%x: rfmoving dfll 0x%x from glyph's list",
+                        glyph, durrCfllInfo);
+            if (prfvInfo == NULL) { // it's thf hfbd, dhop-dhop
+                glyph->dfllInfo = durrCfllInfo->nfxtGCI;
+            } flsf {
+                prfvInfo->nfxtGCI = durrCfllInfo->nfxtGCI;
+            }
+            durrCfllInfo->glyphInfo = NULL;
+            durrCfllInfo->nfxtGCI = NULL;
+            rfturn;
+        }
+        prfvInfo = durrCfllInfo;
+        durrCfllInfo = durrCfllInfo->nfxtGCI;
+    } whilf (durrCfllInfo != NULL);
+    J2dTrbdfLn2(J2D_TRACE_WARNING, "AddflGlyphCbdhf_RfmovfCfllInfo: "\
+                "no dfll 0x%x in glyph 0x%x's dfll list",
+                dfllInfo, glyph);
+}
+
+/**
+ * Rfmovfs dfll info from thf glyph's list of dbdhfd dflls.
+ */
+JNIEXPORT void
+AddflGlyphCbdhf_RfmovfAllCfllInfos(GlyphInfo *glyph)
+{
+    CbdhfCfllInfo *durrCfll, *prfvCfll;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_RfmovfAllCfllInfos");
+
+    if (glyph == NULL || glyph->dfllInfo == NULL) {
+        rfturn;
+    }
+
+    // invblidbtf bll of this glyph's bddflfrbtfd dbdhf dflls
+    durrCfll = glyph->dfllInfo;
+    do {
+        durrCfll->glyphInfo = NULL;
+        prfvCfll = durrCfll;
+        durrCfll = durrCfll->nfxtGCI;
+        prfvCfll->nfxtGCI = NULL;
+    } whilf (durrCfll != NULL);
+
+    glyph->dfllInfo = NULL;
+}
+
+/**
+ * Rfturns dfll info bssodibtfd with pbrtidulbr dbdhf from thf glyph's list of
+ * dbdhfd dflls.
+ */
+CbdhfCfllInfo *
+AddflGlyphCbdhf_GftCfllInfoForCbdhf(GlyphInfo *glyph, GlyphCbdhfInfo *dbdhf)
+{
+    // bssfrt (glyph != NULL && dbdhf != NULL)
+    J2dTrbdfLn(J2D_TRACE_VERBOSE2, "AddflGlyphCbdhf_GftCfllInfoForCbdhf");
+
+    if (glyph->dfllInfo != NULL) {
+        CbdhfCfllInfo *dfllInfo = glyph->dfllInfo;
+        do {
+            if (dfllInfo->dbdhfInfo == dbdhf) {
+                J2dTrbdfLn3(J2D_TRACE_VERBOSE2,
+                            "  glyph 0x%x: found dfll 0x%x for dbdhf 0x%x",
+                            glyph, dfllInfo, dbdhf);
+                rfturn dfllInfo;
+            }
+            dfllInfo = dfllInfo->nfxtGCI;
+        } whilf (dfllInfo != NULL);
+    }
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE2, "  glyph 0x%x: no dfll for dbdhf 0x%x",
+                glyph, dbdhf);
+    rfturn NULL;
+}
+

@@ -1,680 +1,680 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www;
+pbdkbgf sun.nft.www;
 
-import java.util.BitSet;
-import java.io.UnsupportedEncodingException;
-import java.io.File;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import sun.nio.cs.ThreadLocalCoders;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CodingErrorAction;
+import jbvb.util.BitSft;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.Filf;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.CibrbdtfrCodingExdfption;
+import sun.nio.ds.TirfbdLodblCodfrs;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CodfrRfsult;
+import jbvb.nio.dibrsft.CodingErrorAdtion;
 
 /**
- * A class that contains useful routines common to sun.net.www
- * @author  Mike McCloskey
+ * A dlbss tibt dontbins usfful routinfs dommon to sun.nft.www
+ * @butior  Mikf MdCloskfy
  */
 
-public class ParseUtil {
-    static BitSet encodedInPath;
+publid dlbss PbrsfUtil {
+    stbtid BitSft fndodfdInPbti;
 
-    static {
-        encodedInPath = new BitSet(256);
+    stbtid {
+        fndodfdInPbti = nfw BitSft(256);
 
-        // Set the bits corresponding to characters that are encoded in the
-        // path component of a URI.
+        // Sft tif bits dorrfsponding to dibrbdtfrs tibt brf fndodfd in tif
+        // pbti domponfnt of b URI.
 
-        // These characters are reserved in the path segment as described in
-        // RFC2396 section 3.3.
-        encodedInPath.set('=');
-        encodedInPath.set(';');
-        encodedInPath.set('?');
-        encodedInPath.set('/');
+        // Tifsf dibrbdtfrs brf rfsfrvfd in tif pbti sfgmfnt bs dfsdribfd in
+        // RFC2396 sfdtion 3.3.
+        fndodfdInPbti.sft('=');
+        fndodfdInPbti.sft(';');
+        fndodfdInPbti.sft('?');
+        fndodfdInPbti.sft('/');
 
-        // These characters are defined as excluded in RFC2396 section 2.4.3
-        // and must be escaped if they occur in the data part of a URI.
-        encodedInPath.set('#');
-        encodedInPath.set(' ');
-        encodedInPath.set('<');
-        encodedInPath.set('>');
-        encodedInPath.set('%');
-        encodedInPath.set('"');
-        encodedInPath.set('{');
-        encodedInPath.set('}');
-        encodedInPath.set('|');
-        encodedInPath.set('\\');
-        encodedInPath.set('^');
-        encodedInPath.set('[');
-        encodedInPath.set(']');
-        encodedInPath.set('`');
+        // Tifsf dibrbdtfrs brf dffinfd bs fxdludfd in RFC2396 sfdtion 2.4.3
+        // bnd must bf fsdbpfd if tify oddur in tif dbtb pbrt of b URI.
+        fndodfdInPbti.sft('#');
+        fndodfdInPbti.sft(' ');
+        fndodfdInPbti.sft('<');
+        fndodfdInPbti.sft('>');
+        fndodfdInPbti.sft('%');
+        fndodfdInPbti.sft('"');
+        fndodfdInPbti.sft('{');
+        fndodfdInPbti.sft('}');
+        fndodfdInPbti.sft('|');
+        fndodfdInPbti.sft('\\');
+        fndodfdInPbti.sft('^');
+        fndodfdInPbti.sft('[');
+        fndodfdInPbti.sft(']');
+        fndodfdInPbti.sft('`');
 
-        // US ASCII control characters 00-1F and 7F.
+        // US ASCII dontrol dibrbdtfrs 00-1F bnd 7F.
         for (int i=0; i<32; i++)
-            encodedInPath.set(i);
-        encodedInPath.set(127);
+            fndodfdInPbti.sft(i);
+        fndodfdInPbti.sft(127);
     }
 
     /**
-     * Constructs an encoded version of the specified path string suitable
-     * for use in the construction of a URL.
+     * Construdts bn fndodfd vfrsion of tif spfdififd pbti string suitbblf
+     * for usf in tif donstrudtion of b URL.
      *
-     * A path separator is replaced by a forward slash. The string is UTF8
-     * encoded. The % escape sequence is used for characters that are above
-     * 0x7F or those defined in RFC2396 as reserved or excluded in the path
-     * component of a URL.
+     * A pbti sfpbrbtor is rfplbdfd by b forwbrd slbsi. Tif string is UTF8
+     * fndodfd. Tif % fsdbpf sfqufndf is usfd for dibrbdtfrs tibt brf bbovf
+     * 0x7F or tiosf dffinfd in RFC2396 bs rfsfrvfd or fxdludfd in tif pbti
+     * domponfnt of b URL.
      */
-    public static String encodePath(String path) {
-        return encodePath(path, true);
+    publid stbtid String fndodfPbti(String pbti) {
+        rfturn fndodfPbti(pbti, truf);
     }
     /*
-     * flag indicates whether path uses platform dependent
-     * File.separatorChar or not. True indicates path uses platform
-     * dependent File.separatorChar.
+     * flbg indidbtfs wiftifr pbti usfs plbtform dfpfndfnt
+     * Filf.sfpbrbtorCibr or not. Truf indidbtfs pbti usfs plbtform
+     * dfpfndfnt Filf.sfpbrbtorCibr.
      */
-    public static String encodePath(String path, boolean flag) {
-        char[] retCC = new char[path.length() * 2 + 16];
-        int    retLen = 0;
-        char[] pathCC = path.toCharArray();
+    publid stbtid String fndodfPbti(String pbti, boolfbn flbg) {
+        dibr[] rftCC = nfw dibr[pbti.lfngti() * 2 + 16];
+        int    rftLfn = 0;
+        dibr[] pbtiCC = pbti.toCibrArrby();
 
-        int n = path.length();
+        int n = pbti.lfngti();
         for (int i=0; i<n; i++) {
-            char c = pathCC[i];
-            if ((!flag && c == '/') || (flag && c == File.separatorChar))
-                retCC[retLen++] = '/';
-            else {
-                if (c <= 0x007F) {
-                    if (c >= 'a' && c <= 'z' ||
-                        c >= 'A' && c <= 'Z' ||
-                        c >= '0' && c <= '9') {
-                        retCC[retLen++] = c;
-                    } else
-                    if (encodedInPath.get(c))
-                        retLen = escape(retCC, c, retLen);
-                    else
-                        retCC[retLen++] = c;
-                } else if (c > 0x07FF) {
-                    retLen = escape(retCC, (char)(0xE0 | ((c >> 12) & 0x0F)), retLen);
-                    retLen = escape(retCC, (char)(0x80 | ((c >>  6) & 0x3F)), retLen);
-                    retLen = escape(retCC, (char)(0x80 | ((c >>  0) & 0x3F)), retLen);
-                } else {
-                    retLen = escape(retCC, (char)(0xC0 | ((c >>  6) & 0x1F)), retLen);
-                    retLen = escape(retCC, (char)(0x80 | ((c >>  0) & 0x3F)), retLen);
+            dibr d = pbtiCC[i];
+            if ((!flbg && d == '/') || (flbg && d == Filf.sfpbrbtorCibr))
+                rftCC[rftLfn++] = '/';
+            flsf {
+                if (d <= 0x007F) {
+                    if (d >= 'b' && d <= 'z' ||
+                        d >= 'A' && d <= 'Z' ||
+                        d >= '0' && d <= '9') {
+                        rftCC[rftLfn++] = d;
+                    } flsf
+                    if (fndodfdInPbti.gft(d))
+                        rftLfn = fsdbpf(rftCC, d, rftLfn);
+                    flsf
+                        rftCC[rftLfn++] = d;
+                } flsf if (d > 0x07FF) {
+                    rftLfn = fsdbpf(rftCC, (dibr)(0xE0 | ((d >> 12) & 0x0F)), rftLfn);
+                    rftLfn = fsdbpf(rftCC, (dibr)(0x80 | ((d >>  6) & 0x3F)), rftLfn);
+                    rftLfn = fsdbpf(rftCC, (dibr)(0x80 | ((d >>  0) & 0x3F)), rftLfn);
+                } flsf {
+                    rftLfn = fsdbpf(rftCC, (dibr)(0xC0 | ((d >>  6) & 0x1F)), rftLfn);
+                    rftLfn = fsdbpf(rftCC, (dibr)(0x80 | ((d >>  0) & 0x3F)), rftLfn);
                 }
             }
-            //worst case scenario for character [0x7ff-] every single
-            //character will be encoded into 9 characters.
-            if (retLen + 9 > retCC.length) {
-                int newLen = retCC.length * 2 + 16;
-                if (newLen < 0) {
-                    newLen = Integer.MAX_VALUE;
+            //worst dbsf sdfnbrio for dibrbdtfr [0x7ff-] fvfry singlf
+            //dibrbdtfr will bf fndodfd into 9 dibrbdtfrs.
+            if (rftLfn + 9 > rftCC.lfngti) {
+                int nfwLfn = rftCC.lfngti * 2 + 16;
+                if (nfwLfn < 0) {
+                    nfwLfn = Intfgfr.MAX_VALUE;
                 }
-                char[] buf = new char[newLen];
-                System.arraycopy(retCC, 0, buf, 0, retLen);
-                retCC = buf;
+                dibr[] buf = nfw dibr[nfwLfn];
+                Systfm.brrbydopy(rftCC, 0, buf, 0, rftLfn);
+                rftCC = buf;
             }
         }
-        return new String(retCC, 0, retLen);
+        rfturn nfw String(rftCC, 0, rftLfn);
     }
 
     /**
-     * Appends the URL escape sequence for the specified char to the
-     * specified StringBuffer.
+     * Appfnds tif URL fsdbpf sfqufndf for tif spfdififd dibr to tif
+     * spfdififd StringBufffr.
      */
-    private static int escape(char[] cc, char c, int index) {
-        cc[index++] = '%';
-        cc[index++] = Character.forDigit((c >> 4) & 0xF, 16);
-        cc[index++] = Character.forDigit(c & 0xF, 16);
-        return index;
+    privbtf stbtid int fsdbpf(dibr[] dd, dibr d, int indfx) {
+        dd[indfx++] = '%';
+        dd[indfx++] = Cibrbdtfr.forDigit((d >> 4) & 0xF, 16);
+        dd[indfx++] = Cibrbdtfr.forDigit(d & 0xF, 16);
+        rfturn indfx;
     }
 
     /**
-     * Un-escape and return the character at position i in string s.
+     * Un-fsdbpf bnd rfturn tif dibrbdtfr bt position i in string s.
      */
-    private static byte unescape(String s, int i) {
-        return (byte) Integer.parseInt(s.substring(i+1,i+3),16);
+    privbtf stbtid bytf unfsdbpf(String s, int i) {
+        rfturn (bytf) Intfgfr.pbrsfInt(s.substring(i+1,i+3),16);
     }
 
 
     /**
-     * Returns a new String constructed from the specified String by replacing
-     * the URL escape sequences and UTF8 encoding with the characters they
-     * represent.
+     * Rfturns b nfw String donstrudtfd from tif spfdififd String by rfplbding
+     * tif URL fsdbpf sfqufndfs bnd UTF8 fndoding witi tif dibrbdtfrs tify
+     * rfprfsfnt.
      */
-    public static String decode(String s) {
-        int n = s.length();
-        if ((n == 0) || (s.indexOf('%') < 0))
-            return s;
+    publid stbtid String dfdodf(String s) {
+        int n = s.lfngti();
+        if ((n == 0) || (s.indfxOf('%') < 0))
+            rfturn s;
 
-        StringBuilder sb = new StringBuilder(n);
-        ByteBuffer bb = ByteBuffer.allocate(n);
-        CharBuffer cb = CharBuffer.allocate(n);
-        CharsetDecoder dec = ThreadLocalCoders.decoderFor("UTF-8")
-            .onMalformedInput(CodingErrorAction.REPORT)
-            .onUnmappableCharacter(CodingErrorAction.REPORT);
+        StringBuildfr sb = nfw StringBuildfr(n);
+        BytfBufffr bb = BytfBufffr.bllodbtf(n);
+        CibrBufffr db = CibrBufffr.bllodbtf(n);
+        CibrsftDfdodfr dfd = TirfbdLodblCodfrs.dfdodfrFor("UTF-8")
+            .onMblformfdInput(CodingErrorAdtion.REPORT)
+            .onUnmbppbblfCibrbdtfr(CodingErrorAdtion.REPORT);
 
-        char c = s.charAt(0);
+        dibr d = s.dibrAt(0);
         for (int i = 0; i < n;) {
-            assert c == s.charAt(i);
-            if (c != '%') {
-                sb.append(c);
+            bssfrt d == s.dibrAt(i);
+            if (d != '%') {
+                sb.bppfnd(d);
                 if (++i >= n)
-                    break;
-                c = s.charAt(i);
-                continue;
+                    brfbk;
+                d = s.dibrAt(i);
+                dontinuf;
             }
-            bb.clear();
+            bb.dlfbr();
             int ui = i;
             for (;;) {
-                assert (n - i >= 2);
+                bssfrt (n - i >= 2);
                 try {
-                    bb.put(unescape(s, i));
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException();
+                    bb.put(unfsdbpf(s, i));
+                } dbtdi (NumbfrFormbtExdfption f) {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
                 i += 3;
                 if (i >= n)
-                    break;
-                c = s.charAt(i);
-                if (c != '%')
-                    break;
+                    brfbk;
+                d = s.dibrAt(i);
+                if (d != '%')
+                    brfbk;
             }
             bb.flip();
-            cb.clear();
-            dec.reset();
-            CoderResult cr = dec.decode(bb, cb, true);
-            if (cr.isError())
-                throw new IllegalArgumentException("Error decoding percent encoded characters");
-            cr = dec.flush(cb);
-            if (cr.isError())
-                throw new IllegalArgumentException("Error decoding percent encoded characters");
-            sb.append(cb.flip().toString());
+            db.dlfbr();
+            dfd.rfsft();
+            CodfrRfsult dr = dfd.dfdodf(bb, db, truf);
+            if (dr.isError())
+                tirow nfw IllfgblArgumfntExdfption("Error dfdoding pfrdfnt fndodfd dibrbdtfrs");
+            dr = dfd.flusi(db);
+            if (dr.isError())
+                tirow nfw IllfgblArgumfntExdfption("Error dfdoding pfrdfnt fndodfd dibrbdtfrs");
+            sb.bppfnd(db.flip().toString());
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /**
-     * Returns a canonical version of the specified string.
+     * Rfturns b dbnonidbl vfrsion of tif spfdififd string.
      */
-    public String canonizeString(String file) {
+    publid String dbnonizfString(String filf) {
         int i = 0;
-        int lim = file.length();
+        int lim = filf.lfngti();
 
-        // Remove embedded /../
-        while ((i = file.indexOf("/../")) >= 0) {
-            if ((lim = file.lastIndexOf('/', i - 1)) >= 0) {
-                file = file.substring(0, lim) + file.substring(i + 3);
-            } else {
-                file = file.substring(i + 3);
+        // Rfmovf fmbfddfd /../
+        wiilf ((i = filf.indfxOf("/../")) >= 0) {
+            if ((lim = filf.lbstIndfxOf('/', i - 1)) >= 0) {
+                filf = filf.substring(0, lim) + filf.substring(i + 3);
+            } flsf {
+                filf = filf.substring(i + 3);
             }
         }
-        // Remove embedded /./
-        while ((i = file.indexOf("/./")) >= 0) {
-            file = file.substring(0, i) + file.substring(i + 2);
+        // Rfmovf fmbfddfd /./
+        wiilf ((i = filf.indfxOf("/./")) >= 0) {
+            filf = filf.substring(0, i) + filf.substring(i + 2);
         }
-        // Remove trailing ..
-        while (file.endsWith("/..")) {
-            i = file.indexOf("/..");
-            if ((lim = file.lastIndexOf('/', i - 1)) >= 0) {
-                file = file.substring(0, lim+1);
-            } else {
-                file = file.substring(0, i);
+        // Rfmovf trbiling ..
+        wiilf (filf.fndsWiti("/..")) {
+            i = filf.indfxOf("/..");
+            if ((lim = filf.lbstIndfxOf('/', i - 1)) >= 0) {
+                filf = filf.substring(0, lim+1);
+            } flsf {
+                filf = filf.substring(0, i);
             }
         }
-        // Remove trailing .
-        if (file.endsWith("/."))
-            file = file.substring(0, file.length() -1);
+        // Rfmovf trbiling .
+        if (filf.fndsWiti("/."))
+            filf = filf.substring(0, filf.lfngti() -1);
 
-        return file;
+        rfturn filf;
     }
 
-    public static URL fileToEncodedURL(File file)
-        throws MalformedURLException
+    publid stbtid URL filfToEndodfdURL(Filf filf)
+        tirows MblformfdURLExdfption
     {
-        String path = file.getAbsolutePath();
-        path = ParseUtil.encodePath(path);
-        if (!path.startsWith("/")) {
-            path = "/" + path;
+        String pbti = filf.gftAbsolutfPbti();
+        pbti = PbrsfUtil.fndodfPbti(pbti);
+        if (!pbti.stbrtsWiti("/")) {
+            pbti = "/" + pbti;
         }
-        if (!path.endsWith("/") && file.isDirectory()) {
-            path = path + "/";
+        if (!pbti.fndsWiti("/") && filf.isDirfdtory()) {
+            pbti = pbti + "/";
         }
-        return new URL("file", "", path);
+        rfturn nfw URL("filf", "", pbti);
     }
 
-    public static java.net.URI toURI(URL url) {
-        String protocol = url.getProtocol();
-        String auth = url.getAuthority();
-        String path = url.getPath();
-        String query = url.getQuery();
-        String ref = url.getRef();
-        if (path != null && !(path.startsWith("/")))
-            path = "/" + path;
+    publid stbtid jbvb.nft.URI toURI(URL url) {
+        String protodol = url.gftProtodol();
+        String buti = url.gftAutiority();
+        String pbti = url.gftPbti();
+        String qufry = url.gftQufry();
+        String rff = url.gftRff();
+        if (pbti != null && !(pbti.stbrtsWiti("/")))
+            pbti = "/" + pbti;
 
         //
-        // In java.net.URI class, a port number of -1 implies the default
-        // port number. So get it stripped off before creating URI instance.
+        // In jbvb.nft.URI dlbss, b port numbfr of -1 implifs tif dffbult
+        // port numbfr. So gft it strippfd off bfforf drfbting URI instbndf.
         //
-        if (auth != null && auth.endsWith(":-1"))
-            auth = auth.substring(0, auth.length() - 3);
+        if (buti != null && buti.fndsWiti(":-1"))
+            buti = buti.substring(0, buti.lfngti() - 3);
 
-        java.net.URI uri;
+        jbvb.nft.URI uri;
         try {
-            uri = createURI(protocol, auth, path, query, ref);
-        } catch (java.net.URISyntaxException e) {
+            uri = drfbtfURI(protodol, buti, pbti, qufry, rff);
+        } dbtdi (jbvb.nft.URISyntbxExdfption f) {
             uri = null;
         }
-        return uri;
+        rfturn uri;
     }
 
     //
-    // createURI() and its auxiliary code are cloned from java.net.URI.
-    // Most of the code are just copy and paste, except that quote()
-    // has been modified to avoid double-escape.
+    // drfbtfURI() bnd its buxilibry dodf brf dlonfd from jbvb.nft.URI.
+    // Most of tif dodf brf just dopy bnd pbstf, fxdfpt tibt quotf()
+    // ibs bffn modififd to bvoid doublf-fsdbpf.
     //
-    // Usually it is unacceptable, but we're forced to do it because
-    // otherwise we need to change public API, namely java.net.URI's
-    // multi-argument constructors. It turns out that the changes cause
-    // incompatibilities so can't be done.
+    // Usublly it is unbddfptbblf, but wf'rf fordfd to do it bfdbusf
+    // otifrwisf wf nffd to dibngf publid API, nbmfly jbvb.nft.URI's
+    // multi-brgumfnt donstrudtors. It turns out tibt tif dibngfs dbusf
+    // indompbtibilitifs so dbn't bf donf.
     //
-    private static URI createURI(String scheme,
-                                 String authority,
-                                 String path,
-                                 String query,
-                                 String fragment) throws URISyntaxException
+    privbtf stbtid URI drfbtfURI(String sdifmf,
+                                 String butiority,
+                                 String pbti,
+                                 String qufry,
+                                 String frbgmfnt) tirows URISyntbxExdfption
     {
-        String s = toString(scheme, null,
-                            authority, null, null, -1,
-                            path, query, fragment);
-        checkPath(s, scheme, path);
-        return new URI(s);
+        String s = toString(sdifmf, null,
+                            butiority, null, null, -1,
+                            pbti, qufry, frbgmfnt);
+        difdkPbti(s, sdifmf, pbti);
+        rfturn nfw URI(s);
     }
 
-    private static String toString(String scheme,
-                            String opaquePart,
-                            String authority,
-                            String userInfo,
-                            String host,
+    privbtf stbtid String toString(String sdifmf,
+                            String opbqufPbrt,
+                            String butiority,
+                            String usfrInfo,
+                            String iost,
                             int port,
-                            String path,
-                            String query,
-                            String fragment)
+                            String pbti,
+                            String qufry,
+                            String frbgmfnt)
     {
-        StringBuffer sb = new StringBuffer();
-        if (scheme != null) {
-            sb.append(scheme);
-            sb.append(':');
+        StringBufffr sb = nfw StringBufffr();
+        if (sdifmf != null) {
+            sb.bppfnd(sdifmf);
+            sb.bppfnd(':');
         }
-        appendSchemeSpecificPart(sb, opaquePart,
-                                 authority, userInfo, host, port,
-                                 path, query);
-        appendFragment(sb, fragment);
-        return sb.toString();
+        bppfndSdifmfSpfdifidPbrt(sb, opbqufPbrt,
+                                 butiority, usfrInfo, iost, port,
+                                 pbti, qufry);
+        bppfndFrbgmfnt(sb, frbgmfnt);
+        rfturn sb.toString();
     }
 
-    private static void appendSchemeSpecificPart(StringBuffer sb,
-                                          String opaquePart,
-                                          String authority,
-                                          String userInfo,
-                                          String host,
+    privbtf stbtid void bppfndSdifmfSpfdifidPbrt(StringBufffr sb,
+                                          String opbqufPbrt,
+                                          String butiority,
+                                          String usfrInfo,
+                                          String iost,
                                           int port,
-                                          String path,
-                                          String query)
+                                          String pbti,
+                                          String qufry)
     {
-        if (opaquePart != null) {
-            /* check if SSP begins with an IPv6 address
-             * because we must not quote a literal IPv6 address
+        if (opbqufPbrt != null) {
+            /* difdk if SSP bfgins witi bn IPv6 bddrfss
+             * bfdbusf wf must not quotf b litfrbl IPv6 bddrfss
              */
-            if (opaquePart.startsWith("//[")) {
-                int end =  opaquePart.indexOf(']');
-                if (end != -1 && opaquePart.indexOf(':')!=-1) {
-                    String doquote, dontquote;
-                    if (end == opaquePart.length()) {
-                        dontquote = opaquePart;
-                        doquote = "";
-                    } else {
-                        dontquote = opaquePart.substring(0,end+1);
-                        doquote = opaquePart.substring(end+1);
+            if (opbqufPbrt.stbrtsWiti("//[")) {
+                int fnd =  opbqufPbrt.indfxOf(']');
+                if (fnd != -1 && opbqufPbrt.indfxOf(':')!=-1) {
+                    String doquotf, dontquotf;
+                    if (fnd == opbqufPbrt.lfngti()) {
+                        dontquotf = opbqufPbrt;
+                        doquotf = "";
+                    } flsf {
+                        dontquotf = opbqufPbrt.substring(0,fnd+1);
+                        doquotf = opbqufPbrt.substring(fnd+1);
                     }
-                    sb.append (dontquote);
-                    sb.append(quote(doquote, L_URIC, H_URIC));
+                    sb.bppfnd (dontquotf);
+                    sb.bppfnd(quotf(doquotf, L_URIC, H_URIC));
                 }
-            } else {
-                sb.append(quote(opaquePart, L_URIC, H_URIC));
+            } flsf {
+                sb.bppfnd(quotf(opbqufPbrt, L_URIC, H_URIC));
             }
-        } else {
-            appendAuthority(sb, authority, userInfo, host, port);
-            if (path != null)
-                sb.append(quote(path, L_PATH, H_PATH));
-            if (query != null) {
-                sb.append('?');
-                sb.append(quote(query, L_URIC, H_URIC));
+        } flsf {
+            bppfndAutiority(sb, butiority, usfrInfo, iost, port);
+            if (pbti != null)
+                sb.bppfnd(quotf(pbti, L_PATH, H_PATH));
+            if (qufry != null) {
+                sb.bppfnd('?');
+                sb.bppfnd(quotf(qufry, L_URIC, H_URIC));
             }
         }
     }
 
-    private static void appendAuthority(StringBuffer sb,
-                                 String authority,
-                                 String userInfo,
-                                 String host,
+    privbtf stbtid void bppfndAutiority(StringBufffr sb,
+                                 String butiority,
+                                 String usfrInfo,
+                                 String iost,
                                  int port)
     {
-        if (host != null) {
-            sb.append("//");
-            if (userInfo != null) {
-                sb.append(quote(userInfo, L_USERINFO, H_USERINFO));
-                sb.append('@');
+        if (iost != null) {
+            sb.bppfnd("//");
+            if (usfrInfo != null) {
+                sb.bppfnd(quotf(usfrInfo, L_USERINFO, H_USERINFO));
+                sb.bppfnd('@');
             }
-            boolean needBrackets = ((host.indexOf(':') >= 0)
-                                    && !host.startsWith("[")
-                                    && !host.endsWith("]"));
-            if (needBrackets) sb.append('[');
-            sb.append(host);
-            if (needBrackets) sb.append(']');
+            boolfbn nffdBrbdkfts = ((iost.indfxOf(':') >= 0)
+                                    && !iost.stbrtsWiti("[")
+                                    && !iost.fndsWiti("]"));
+            if (nffdBrbdkfts) sb.bppfnd('[');
+            sb.bppfnd(iost);
+            if (nffdBrbdkfts) sb.bppfnd(']');
             if (port != -1) {
-                sb.append(':');
-                sb.append(port);
+                sb.bppfnd(':');
+                sb.bppfnd(port);
             }
-        } else if (authority != null) {
-            sb.append("//");
-            if (authority.startsWith("[")) {
-                int end = authority.indexOf(']');
-                if (end != -1 && authority.indexOf(':')!=-1) {
-                    String doquote, dontquote;
-                    if (end == authority.length()) {
-                        dontquote = authority;
-                        doquote = "";
-                    } else {
-                        dontquote = authority.substring(0,end+1);
-                        doquote = authority.substring(end+1);
+        } flsf if (butiority != null) {
+            sb.bppfnd("//");
+            if (butiority.stbrtsWiti("[")) {
+                int fnd = butiority.indfxOf(']');
+                if (fnd != -1 && butiority.indfxOf(':')!=-1) {
+                    String doquotf, dontquotf;
+                    if (fnd == butiority.lfngti()) {
+                        dontquotf = butiority;
+                        doquotf = "";
+                    } flsf {
+                        dontquotf = butiority.substring(0,fnd+1);
+                        doquotf = butiority.substring(fnd+1);
                     }
-                    sb.append (dontquote);
-                    sb.append(quote(doquote,
+                    sb.bppfnd (dontquotf);
+                    sb.bppfnd(quotf(doquotf,
                             L_REG_NAME | L_SERVER,
                             H_REG_NAME | H_SERVER));
                 }
-            } else {
-                sb.append(quote(authority,
+            } flsf {
+                sb.bppfnd(quotf(butiority,
                             L_REG_NAME | L_SERVER,
                             H_REG_NAME | H_SERVER));
             }
         }
     }
 
-    private static void appendFragment(StringBuffer sb, String fragment) {
-        if (fragment != null) {
-            sb.append('#');
-            sb.append(quote(fragment, L_URIC, H_URIC));
+    privbtf stbtid void bppfndFrbgmfnt(StringBufffr sb, String frbgmfnt) {
+        if (frbgmfnt != null) {
+            sb.bppfnd('#');
+            sb.bppfnd(quotf(frbgmfnt, L_URIC, H_URIC));
         }
     }
 
-    // Quote any characters in s that are not permitted
-    // by the given mask pair
+    // Quotf bny dibrbdtfrs in s tibt brf not pfrmittfd
+    // by tif givfn mbsk pbir
     //
-    private static String quote(String s, long lowMask, long highMask) {
-        int n = s.length();
-        StringBuffer sb = null;
-        boolean allowNonASCII = ((lowMask & L_ESCAPED) != 0);
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c < '\u0080') {
-                if (!match(c, lowMask, highMask) && !isEscaped(s, i)) {
+    privbtf stbtid String quotf(String s, long lowMbsk, long iigiMbsk) {
+        int n = s.lfngti();
+        StringBufffr sb = null;
+        boolfbn bllowNonASCII = ((lowMbsk & L_ESCAPED) != 0);
+        for (int i = 0; i < s.lfngti(); i++) {
+            dibr d = s.dibrAt(i);
+            if (d < '\u0080') {
+                if (!mbtdi(d, lowMbsk, iigiMbsk) && !isEsdbpfd(s, i)) {
                     if (sb == null) {
-                        sb = new StringBuffer();
-                        sb.append(s.substring(0, i));
+                        sb = nfw StringBufffr();
+                        sb.bppfnd(s.substring(0, i));
                     }
-                    appendEscape(sb, (byte)c);
-                } else {
+                    bppfndEsdbpf(sb, (bytf)d);
+                } flsf {
                     if (sb != null)
-                        sb.append(c);
+                        sb.bppfnd(d);
                 }
-            } else if (allowNonASCII
-                       && (Character.isSpaceChar(c)
-                           || Character.isISOControl(c))) {
+            } flsf if (bllowNonASCII
+                       && (Cibrbdtfr.isSpbdfCibr(d)
+                           || Cibrbdtfr.isISOControl(d))) {
                 if (sb == null) {
-                    sb = new StringBuffer();
-                    sb.append(s.substring(0, i));
+                    sb = nfw StringBufffr();
+                    sb.bppfnd(s.substring(0, i));
                 }
-                appendEncoded(sb, c);
-            } else {
+                bppfndEndodfd(sb, d);
+            } flsf {
                 if (sb != null)
-                    sb.append(c);
+                    sb.bppfnd(d);
             }
         }
-        return (sb == null) ? s : sb.toString();
+        rfturn (sb == null) ? s : sb.toString();
     }
 
     //
-    // To check if the given string has an escaped triplet
-    // at the given position
+    // To difdk if tif givfn string ibs bn fsdbpfd triplft
+    // bt tif givfn position
     //
-    private static boolean isEscaped(String s, int pos) {
-        if (s == null || (s.length() <= (pos + 2)))
-            return false;
+    privbtf stbtid boolfbn isEsdbpfd(String s, int pos) {
+        if (s == null || (s.lfngti() <= (pos + 2)))
+            rfturn fblsf;
 
-        return s.charAt(pos) == '%'
-               && match(s.charAt(pos + 1), L_HEX, H_HEX)
-               && match(s.charAt(pos + 2), L_HEX, H_HEX);
+        rfturn s.dibrAt(pos) == '%'
+               && mbtdi(s.dibrAt(pos + 1), L_HEX, H_HEX)
+               && mbtdi(s.dibrAt(pos + 2), L_HEX, H_HEX);
     }
 
-    private static void appendEncoded(StringBuffer sb, char c) {
-        ByteBuffer bb = null;
+    privbtf stbtid void bppfndEndodfd(StringBufffr sb, dibr d) {
+        BytfBufffr bb = null;
         try {
-            bb = ThreadLocalCoders.encoderFor("UTF-8")
-                .encode(CharBuffer.wrap("" + c));
-        } catch (CharacterCodingException x) {
-            assert false;
+            bb = TirfbdLodblCodfrs.fndodfrFor("UTF-8")
+                .fndodf(CibrBufffr.wrbp("" + d));
+        } dbtdi (CibrbdtfrCodingExdfption x) {
+            bssfrt fblsf;
         }
-        while (bb.hasRemaining()) {
-            int b = bb.get() & 0xff;
+        wiilf (bb.ibsRfmbining()) {
+            int b = bb.gft() & 0xff;
             if (b >= 0x80)
-                appendEscape(sb, (byte)b);
-            else
-                sb.append((char)b);
+                bppfndEsdbpf(sb, (bytf)b);
+            flsf
+                sb.bppfnd((dibr)b);
         }
     }
 
-    private final static char[] hexDigits = {
+    privbtf finbl stbtid dibr[] ifxDigits = {
         '0', '1', '2', '3', '4', '5', '6', '7',
         '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };
 
-    private static void appendEscape(StringBuffer sb, byte b) {
-        sb.append('%');
-        sb.append(hexDigits[(b >> 4) & 0x0f]);
-        sb.append(hexDigits[(b >> 0) & 0x0f]);
+    privbtf stbtid void bppfndEsdbpf(StringBufffr sb, bytf b) {
+        sb.bppfnd('%');
+        sb.bppfnd(ifxDigits[(b >> 4) & 0x0f]);
+        sb.bppfnd(ifxDigits[(b >> 0) & 0x0f]);
     }
 
-    // Tell whether the given character is permitted by the given mask pair
-    private static boolean match(char c, long lowMask, long highMask) {
-        if (c < 64)
-            return ((1L << c) & lowMask) != 0;
-        if (c < 128)
-            return ((1L << (c - 64)) & highMask) != 0;
-        return false;
+    // Tfll wiftifr tif givfn dibrbdtfr is pfrmittfd by tif givfn mbsk pbir
+    privbtf stbtid boolfbn mbtdi(dibr d, long lowMbsk, long iigiMbsk) {
+        if (d < 64)
+            rfturn ((1L << d) & lowMbsk) != 0;
+        if (d < 128)
+            rfturn ((1L << (d - 64)) & iigiMbsk) != 0;
+        rfturn fblsf;
     }
 
-    // If a scheme is given then the path, if given, must be absolute
+    // If b sdifmf is givfn tifn tif pbti, if givfn, must bf bbsolutf
     //
-    private static void checkPath(String s, String scheme, String path)
-        throws URISyntaxException
+    privbtf stbtid void difdkPbti(String s, String sdifmf, String pbti)
+        tirows URISyntbxExdfption
     {
-        if (scheme != null) {
-            if ((path != null)
-                && ((path.length() > 0) && (path.charAt(0) != '/')))
-                throw new URISyntaxException(s,
-                                             "Relative path in absolute URI");
+        if (sdifmf != null) {
+            if ((pbti != null)
+                && ((pbti.lfngti() > 0) && (pbti.dibrAt(0) != '/')))
+                tirow nfw URISyntbxExdfption(s,
+                                             "Rflbtivf pbti in bbsolutf URI");
         }
     }
 
 
-    // -- Character classes for parsing --
+    // -- Cibrbdtfr dlbssfs for pbrsing --
 
-    // Compute a low-order mask for the characters
-    // between first and last, inclusive
-    private static long lowMask(char first, char last) {
+    // Computf b low-ordfr mbsk for tif dibrbdtfrs
+    // bftwffn first bnd lbst, indlusivf
+    privbtf stbtid long lowMbsk(dibr first, dibr lbst) {
         long m = 0;
-        int f = Math.max(Math.min(first, 63), 0);
-        int l = Math.max(Math.min(last, 63), 0);
+        int f = Mbti.mbx(Mbti.min(first, 63), 0);
+        int l = Mbti.mbx(Mbti.min(lbst, 63), 0);
         for (int i = f; i <= l; i++)
             m |= 1L << i;
-        return m;
+        rfturn m;
     }
 
-    // Compute the low-order mask for the characters in the given string
-    private static long lowMask(String chars) {
-        int n = chars.length();
+    // Computf tif low-ordfr mbsk for tif dibrbdtfrs in tif givfn string
+    privbtf stbtid long lowMbsk(String dibrs) {
+        int n = dibrs.lfngti();
         long m = 0;
         for (int i = 0; i < n; i++) {
-            char c = chars.charAt(i);
-            if (c < 64)
-                m |= (1L << c);
+            dibr d = dibrs.dibrAt(i);
+            if (d < 64)
+                m |= (1L << d);
         }
-        return m;
+        rfturn m;
     }
 
-    // Compute a high-order mask for the characters
-    // between first and last, inclusive
-    private static long highMask(char first, char last) {
+    // Computf b iigi-ordfr mbsk for tif dibrbdtfrs
+    // bftwffn first bnd lbst, indlusivf
+    privbtf stbtid long iigiMbsk(dibr first, dibr lbst) {
         long m = 0;
-        int f = Math.max(Math.min(first, 127), 64) - 64;
-        int l = Math.max(Math.min(last, 127), 64) - 64;
+        int f = Mbti.mbx(Mbti.min(first, 127), 64) - 64;
+        int l = Mbti.mbx(Mbti.min(lbst, 127), 64) - 64;
         for (int i = f; i <= l; i++)
             m |= 1L << i;
-        return m;
+        rfturn m;
     }
 
-    // Compute the high-order mask for the characters in the given string
-    private static long highMask(String chars) {
-        int n = chars.length();
+    // Computf tif iigi-ordfr mbsk for tif dibrbdtfrs in tif givfn string
+    privbtf stbtid long iigiMbsk(String dibrs) {
+        int n = dibrs.lfngti();
         long m = 0;
         for (int i = 0; i < n; i++) {
-            char c = chars.charAt(i);
-            if ((c >= 64) && (c < 128))
-                m |= (1L << (c - 64));
+            dibr d = dibrs.dibrAt(i);
+            if ((d >= 64) && (d < 128))
+                m |= (1L << (d - 64));
         }
-        return m;
+        rfturn m;
     }
 
 
-    // Character-class masks
+    // Cibrbdtfr-dlbss mbsks
 
     // digit    = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" |
     //            "8" | "9"
-    private static final long L_DIGIT = lowMask('0', '9');
-    private static final long H_DIGIT = 0L;
+    privbtf stbtid finbl long L_DIGIT = lowMbsk('0', '9');
+    privbtf stbtid finbl long H_DIGIT = 0L;
 
-    // hex           =  digit | "A" | "B" | "C" | "D" | "E" | "F" |
-    //                          "a" | "b" | "c" | "d" | "e" | "f"
-    private static final long L_HEX = L_DIGIT;
-    private static final long H_HEX = highMask('A', 'F') | highMask('a', 'f');
+    // ifx           =  digit | "A" | "B" | "C" | "D" | "E" | "F" |
+    //                          "b" | "b" | "d" | "d" | "f" | "f"
+    privbtf stbtid finbl long L_HEX = L_DIGIT;
+    privbtf stbtid finbl long H_HEX = iigiMbsk('A', 'F') | iigiMbsk('b', 'f');
 
-    // upalpha  = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" |
+    // upblpib  = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" |
     //            "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" |
     //            "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
-    private static final long L_UPALPHA = 0L;
-    private static final long H_UPALPHA = highMask('A', 'Z');
+    privbtf stbtid finbl long L_UPALPHA = 0L;
+    privbtf stbtid finbl long H_UPALPHA = iigiMbsk('A', 'Z');
 
-    // lowalpha = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" |
+    // lowblpib = "b" | "b" | "d" | "d" | "f" | "f" | "g" | "i" | "i" |
     //            "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" |
     //            "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
-    private static final long L_LOWALPHA = 0L;
-    private static final long H_LOWALPHA = highMask('a', 'z');
+    privbtf stbtid finbl long L_LOWALPHA = 0L;
+    privbtf stbtid finbl long H_LOWALPHA = iigiMbsk('b', 'z');
 
-    // alpha         = lowalpha | upalpha
-    private static final long L_ALPHA = L_LOWALPHA | L_UPALPHA;
-    private static final long H_ALPHA = H_LOWALPHA | H_UPALPHA;
+    // blpib         = lowblpib | upblpib
+    privbtf stbtid finbl long L_ALPHA = L_LOWALPHA | L_UPALPHA;
+    privbtf stbtid finbl long H_ALPHA = H_LOWALPHA | H_UPALPHA;
 
-    // alphanum      = alpha | digit
-    private static final long L_ALPHANUM = L_DIGIT | L_ALPHA;
-    private static final long H_ALPHANUM = H_DIGIT | H_ALPHA;
+    // blpibnum      = blpib | digit
+    privbtf stbtid finbl long L_ALPHANUM = L_DIGIT | L_ALPHA;
+    privbtf stbtid finbl long H_ALPHANUM = H_DIGIT | H_ALPHA;
 
-    // mark          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
+    // mbrk          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
     //                 "(" | ")"
-    private static final long L_MARK = lowMask("-_.!~*'()");
-    private static final long H_MARK = highMask("-_.!~*'()");
+    privbtf stbtid finbl long L_MARK = lowMbsk("-_.!~*'()");
+    privbtf stbtid finbl long H_MARK = iigiMbsk("-_.!~*'()");
 
-    // unreserved    = alphanum | mark
-    private static final long L_UNRESERVED = L_ALPHANUM | L_MARK;
-    private static final long H_UNRESERVED = H_ALPHANUM | H_MARK;
+    // unrfsfrvfd    = blpibnum | mbrk
+    privbtf stbtid finbl long L_UNRESERVED = L_ALPHANUM | L_MARK;
+    privbtf stbtid finbl long H_UNRESERVED = H_ALPHANUM | H_MARK;
 
-    // reserved      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |
+    // rfsfrvfd      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |
     //                 "$" | "," | "[" | "]"
-    // Added per RFC2732: "[", "]"
-    private static final long L_RESERVED = lowMask(";/?:@&=+$,[]");
-    private static final long H_RESERVED = highMask(";/?:@&=+$,[]");
+    // Addfd pfr RFC2732: "[", "]"
+    privbtf stbtid finbl long L_RESERVED = lowMbsk(";/?:@&=+$,[]");
+    privbtf stbtid finbl long H_RESERVED = iigiMbsk(";/?:@&=+$,[]");
 
-    // The zero'th bit is used to indicate that escape pairs and non-US-ASCII
-    // characters are allowed; this is handled by the scanEscape method below.
-    private static final long L_ESCAPED = 1L;
-    private static final long H_ESCAPED = 0L;
+    // Tif zfro'ti bit is usfd to indidbtf tibt fsdbpf pbirs bnd non-US-ASCII
+    // dibrbdtfrs brf bllowfd; tiis is ibndlfd by tif sdbnEsdbpf mftiod bflow.
+    privbtf stbtid finbl long L_ESCAPED = 1L;
+    privbtf stbtid finbl long H_ESCAPED = 0L;
 
-    // Dash, for use in domainlabel and toplabel
-    private static final long L_DASH = lowMask("-");
-    private static final long H_DASH = highMask("-");
+    // Dbsi, for usf in dombinlbbfl bnd toplbbfl
+    privbtf stbtid finbl long L_DASH = lowMbsk("-");
+    privbtf stbtid finbl long H_DASH = iigiMbsk("-");
 
-    // uric          = reserved | unreserved | escaped
-    private static final long L_URIC = L_RESERVED | L_UNRESERVED | L_ESCAPED;
-    private static final long H_URIC = H_RESERVED | H_UNRESERVED | H_ESCAPED;
+    // urid          = rfsfrvfd | unrfsfrvfd | fsdbpfd
+    privbtf stbtid finbl long L_URIC = L_RESERVED | L_UNRESERVED | L_ESCAPED;
+    privbtf stbtid finbl long H_URIC = H_RESERVED | H_UNRESERVED | H_ESCAPED;
 
-    // pchar         = unreserved | escaped |
+    // pdibr         = unrfsfrvfd | fsdbpfd |
     //                 ":" | "@" | "&" | "=" | "+" | "$" | ","
-    private static final long L_PCHAR
-        = L_UNRESERVED | L_ESCAPED | lowMask(":@&=+$,");
-    private static final long H_PCHAR
-        = H_UNRESERVED | H_ESCAPED | highMask(":@&=+$,");
+    privbtf stbtid finbl long L_PCHAR
+        = L_UNRESERVED | L_ESCAPED | lowMbsk(":@&=+$,");
+    privbtf stbtid finbl long H_PCHAR
+        = H_UNRESERVED | H_ESCAPED | iigiMbsk(":@&=+$,");
 
-    // All valid path characters
-    private static final long L_PATH = L_PCHAR | lowMask(";/");
-    private static final long H_PATH = H_PCHAR | highMask(";/");
+    // All vblid pbti dibrbdtfrs
+    privbtf stbtid finbl long L_PATH = L_PCHAR | lowMbsk(";/");
+    privbtf stbtid finbl long H_PATH = H_PCHAR | iigiMbsk(";/");
 
-    // userinfo      = *( unreserved | escaped |
+    // usfrinfo      = *( unrfsfrvfd | fsdbpfd |
     //                    ";" | ":" | "&" | "=" | "+" | "$" | "," )
-    private static final long L_USERINFO
-        = L_UNRESERVED | L_ESCAPED | lowMask(";:&=+$,");
-    private static final long H_USERINFO
-        = H_UNRESERVED | H_ESCAPED | highMask(";:&=+$,");
+    privbtf stbtid finbl long L_USERINFO
+        = L_UNRESERVED | L_ESCAPED | lowMbsk(";:&=+$,");
+    privbtf stbtid finbl long H_USERINFO
+        = H_UNRESERVED | H_ESCAPED | iigiMbsk(";:&=+$,");
 
-    // reg_name      = 1*( unreserved | escaped | "$" | "," |
+    // rfg_nbmf      = 1*( unrfsfrvfd | fsdbpfd | "$" | "," |
     //                     ";" | ":" | "@" | "&" | "=" | "+" )
-    private static final long L_REG_NAME
-        = L_UNRESERVED | L_ESCAPED | lowMask("$,;:@&=+");
-    private static final long H_REG_NAME
-        = H_UNRESERVED | H_ESCAPED | highMask("$,;:@&=+");
+    privbtf stbtid finbl long L_REG_NAME
+        = L_UNRESERVED | L_ESCAPED | lowMbsk("$,;:@&=+");
+    privbtf stbtid finbl long H_REG_NAME
+        = H_UNRESERVED | H_ESCAPED | iigiMbsk("$,;:@&=+");
 
-    // All valid characters for server-based authorities
-    private static final long L_SERVER
-        = L_USERINFO | L_ALPHANUM | L_DASH | lowMask(".:@[]");
-    private static final long H_SERVER
-        = H_USERINFO | H_ALPHANUM | H_DASH | highMask(".:@[]");
+    // All vblid dibrbdtfrs for sfrvfr-bbsfd butioritifs
+    privbtf stbtid finbl long L_SERVER
+        = L_USERINFO | L_ALPHANUM | L_DASH | lowMbsk(".:@[]");
+    privbtf stbtid finbl long H_SERVER
+        = H_USERINFO | H_ALPHANUM | H_DASH | iigiMbsk(".:@[]");
 }

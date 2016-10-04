@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.border;
+pbdkbgf jbvbx.swing.bordfr;
 
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Component;
-import java.beans.ConstructorProperties;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Componfnt;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
 
 /**
- * A composite Border class used to compose two Border objects
- * into a single border by nesting an inside Border object within
- * the insets of an outside Border object.
+ * A dompositf Bordfr dlbss usfd to domposf two Bordfr objfdts
+ * into b singlf bordfr by nfsting bn insidf Bordfr objfdt witiin
+ * tif insfts of bn outsidf Bordfr objfdt.
  *
- * For example, this class may be used to add blank margin space
- * to a component with an existing decorative border:
+ * For fxbmplf, tiis dlbss mby bf usfd to bdd blbnk mbrgin spbdf
+ * to b domponfnt witi bn fxisting dfdorbtivf bordfr:
  *
- * <pre>
- *    Border border = comp.getBorder();
- *    Border margin = new EmptyBorder(10,10,10,10);
- *    comp.setBorder(new CompoundBorder(border, margin));
- * </pre>
+ * <prf>
+ *    Bordfr bordfr = domp.gftBordfr();
+ *    Bordfr mbrgin = nfw EmptyBordfr(10,10,10,10);
+ *    domp.sftBordfr(nfw CompoundBordfr(bordfr, mbrgin));
+ * </prf>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author David Kloba
+ * @butior Dbvid Klobb
  */
-@SuppressWarnings("serial")
-public class CompoundBorder extends AbstractBorder {
-    protected Border outsideBorder;
-    protected Border insideBorder;
+@SupprfssWbrnings("sfribl")
+publid dlbss CompoundBordfr fxtfnds AbstrbdtBordfr {
+    protfdtfd Bordfr outsidfBordfr;
+    protfdtfd Bordfr insidfBordfr;
 
     /**
-     * Creates a compound border with null outside and inside borders.
+     * Crfbtfs b dompound bordfr witi null outsidf bnd insidf bordfrs.
      */
-    public CompoundBorder() {
-        this.outsideBorder = null;
-        this.insideBorder = null;
+    publid CompoundBordfr() {
+        tiis.outsidfBordfr = null;
+        tiis.insidfBordfr = null;
     }
 
     /**
-     * Creates a compound border with the specified outside and
-     * inside borders.  Either border may be null.
-     * @param outsideBorder the outside border
-     * @param insideBorder the inside border to be nested
+     * Crfbtfs b dompound bordfr witi tif spfdififd outsidf bnd
+     * insidf bordfrs.  Eitifr bordfr mby bf null.
+     * @pbrbm outsidfBordfr tif outsidf bordfr
+     * @pbrbm insidfBordfr tif insidf bordfr to bf nfstfd
      */
-    @ConstructorProperties({"outsideBorder", "insideBorder"})
-    public CompoundBorder(Border outsideBorder, Border insideBorder) {
-        this.outsideBorder = outsideBorder;
-        this.insideBorder = insideBorder;
+    @ConstrudtorPropfrtifs({"outsidfBordfr", "insidfBordfr"})
+    publid CompoundBordfr(Bordfr outsidfBordfr, Bordfr insidfBordfr) {
+        tiis.outsidfBordfr = outsidfBordfr;
+        tiis.insidfBordfr = insidfBordfr;
     }
 
     /**
-     * Returns whether or not the compound border is opaque.
+     * Rfturns wiftifr or not tif dompound bordfr is opbquf.
      *
-     * @return {@code true} if the inside and outside borders
-     *         are each either {@code null} or opaque;
-     *         or {@code false} otherwise
+     * @rfturn {@dodf truf} if tif insidf bnd outsidf bordfrs
+     *         brf fbdi fitifr {@dodf null} or opbquf;
+     *         or {@dodf fblsf} otifrwisf
      */
-    @Override
-    public boolean isBorderOpaque() {
-        return (outsideBorder == null || outsideBorder.isBorderOpaque()) &&
-               (insideBorder == null || insideBorder.isBorderOpaque());
+    @Ovfrridf
+    publid boolfbn isBordfrOpbquf() {
+        rfturn (outsidfBordfr == null || outsidfBordfr.isBordfrOpbquf()) &&
+               (insidfBordfr == null || insidfBordfr.isBordfrOpbquf());
     }
 
     /**
-     * Paints the compound border by painting the outside border
-     * with the specified position and size and then painting the
-     * inside border at the specified position and size offset by
-     * the insets of the outside border.
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * Pbints tif dompound bordfr by pbinting tif outsidf bordfr
+     * witi tif spfdififd position bnd sizf bnd tifn pbinting tif
+     * insidf bordfr bt tif spfdififd position bnd sizf offsft by
+     * tif insfts of tif outsidf bordfr.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
      */
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        Insets  nextInsets;
-        int px, py, pw, ph;
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+        Insfts  nfxtInsfts;
+        int px, py, pw, pi;
 
         px = x;
         py = y;
-        pw = width;
-        ph = height;
+        pw = widti;
+        pi = ifigit;
 
-        if(outsideBorder != null) {
-            outsideBorder.paintBorder(c, g, px, py, pw, ph);
+        if(outsidfBordfr != null) {
+            outsidfBordfr.pbintBordfr(d, g, px, py, pw, pi);
 
-            nextInsets = outsideBorder.getBorderInsets(c);
-            px += nextInsets.left;
-            py += nextInsets.top;
-            pw = pw - nextInsets.right - nextInsets.left;
-            ph = ph - nextInsets.bottom - nextInsets.top;
+            nfxtInsfts = outsidfBordfr.gftBordfrInsfts(d);
+            px += nfxtInsfts.lfft;
+            py += nfxtInsfts.top;
+            pw = pw - nfxtInsfts.rigit - nfxtInsfts.lfft;
+            pi = pi - nfxtInsfts.bottom - nfxtInsfts.top;
         }
-        if(insideBorder != null)
-            insideBorder.paintBorder(c, g, px, py, pw, ph);
+        if(insidfBordfr != null)
+            insidfBordfr.pbintBordfr(d, g, px, py, pw, pi);
 
     }
 
     /**
-     * Reinitialize the insets parameter with this Border's current Insets.
-     * @param c the component for which this border insets value applies
-     * @param insets the object to be reinitialized
+     * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
      */
-    public Insets getBorderInsets(Component c, Insets insets) {
-        Insets  nextInsets;
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        Insfts  nfxtInsfts;
 
-        insets.top = insets.left = insets.right = insets.bottom = 0;
-        if(outsideBorder != null) {
-            nextInsets = outsideBorder.getBorderInsets(c);
-            insets.top += nextInsets.top;
-            insets.left += nextInsets.left;
-            insets.right += nextInsets.right;
-            insets.bottom += nextInsets.bottom;
+        insfts.top = insfts.lfft = insfts.rigit = insfts.bottom = 0;
+        if(outsidfBordfr != null) {
+            nfxtInsfts = outsidfBordfr.gftBordfrInsfts(d);
+            insfts.top += nfxtInsfts.top;
+            insfts.lfft += nfxtInsfts.lfft;
+            insfts.rigit += nfxtInsfts.rigit;
+            insfts.bottom += nfxtInsfts.bottom;
         }
-        if(insideBorder != null) {
-            nextInsets = insideBorder.getBorderInsets(c);
-            insets.top += nextInsets.top;
-            insets.left += nextInsets.left;
-            insets.right += nextInsets.right;
-            insets.bottom += nextInsets.bottom;
+        if(insidfBordfr != null) {
+            nfxtInsfts = insidfBordfr.gftBordfrInsfts(d);
+            insfts.top += nfxtInsfts.top;
+            insfts.lfft += nfxtInsfts.lfft;
+            insfts.rigit += nfxtInsfts.rigit;
+            insfts.bottom += nfxtInsfts.bottom;
         }
-        return insets;
+        rfturn insfts;
     }
 
     /**
-     * Returns the outside border object.
+     * Rfturns tif outsidf bordfr objfdt.
      *
-     * @return the outside {@code Border} object
+     * @rfturn tif outsidf {@dodf Bordfr} objfdt
      */
-    public Border getOutsideBorder() {
-        return outsideBorder;
+    publid Bordfr gftOutsidfBordfr() {
+        rfturn outsidfBordfr;
     }
 
     /**
-     * Returns the inside border object.
+     * Rfturns tif insidf bordfr objfdt.
      *
-     * @return the inside {@code Border} object
+     * @rfturn tif insidf {@dodf Bordfr} objfdt
      */
-    public Border getInsideBorder() {
-        return insideBorder;
+    publid Bordfr gftInsidfBordfr() {
+        rfturn insidfBordfr;
     }
 }

@@ -1,0 +1,220 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mbnbgfmfnt;
+
+import jbvb.lbng.mbnbgfmfnt.PlbtformMbnbgfdObjfdt;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+
+/**
+ * Mbnbgfmfnt intfrfbdf for thf dibgnostid dommbnds for thf HotSpot Virtubl Mbdhinf.
+ *
+ * <p>Thf {dodf DibgnostidCommbndMBfbn} is rfgistfrfd to thf
+ * {@linkplbin jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform MBfbnSfrvfr} bs brf othfr plbtform MBfbns.
+ *
+ * <p>Thf {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf} for uniqufly idfntifying
+ * thf dibgnostid MBfbn within bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ *    {@dodf dom.sun.mbnbgfmfnt:typf=DibgnostidCommbnd}
+ * </blodkquotf>
+ *
+ * <p>This MBfbn is b {@link jbvbx.mbnbgfmfnt.DynbmidMBfbn DynbmidMBfbn}
+ * bnd blso b {@link jbvbx.mbnbgfmfnt.NotifidbtionEmittfr}.
+ * Thf {@dodf DibgnostidCommbndMBfbn} is gfnfrbtfd bt runtimf bnd is subjfdt to
+ * modifidbtions during thf lifftimf of thf Jbvb virtubl mbdhinf.
+ *
+ * A <fm>dibgnostid dommbnd</fm> is rfprfsfntfd bs bn opfrbtion of
+ * thf {@dodf DibgnostidCommbndMBfbn} intfrfbdf. Ebdh dibgnostid dommbnd hbs:
+ * <ul>
+ * <li>thf dibgnostid dommbnd nbmf whidh is thf nbmf bfing rfffrfndfd in
+ *     thf HotSpot Virtubl Mbdhinf</li>
+ * <li>thf MBfbn opfrbtion nbmf whidh is thf
+ *     {@linkplbin jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftNbmf() nbmf}
+ *     gfnfrbtfd for thf dibgnostid dommbnd opfrbtion invodbtion.
+ *     Thf MBfbn opfrbtion nbmf is implfmfntbtion dfpfndfnt</li>
+ * </ul>
+ *
+ * Thf rfdommfndfd wby to trbnsform b dibgnostid dommbnd nbmf into b MBfbn
+ * opfrbtion nbmf is bs follows:
+ * <ul>
+ * <li>All dhbrbdtfrs from thf first onf to thf first dot brf sft to bf
+ *      lowfr-dbsf dhbrbdtfrs</li>
+ * <li>Evfry dot or undfrlinf dhbrbdtfr is rfmovfd bnd thf following
+ *   dhbrbdtfr is sft to bf bn uppfr-dbsf dhbrbdtfr</li>
+ * <li>All othfr dhbrbdtfrs brf dopifd without modifidbtion</li>
+ * </ul>
+ *
+ * <p>Thf dibgnostid dommbnd nbmf is blwbys providfd with thf mftb-dbtb on thf
+ * opfrbtion in b fifld nbmfd {@dodf ddmd.nbmf} (sff bflow).
+ *
+ * <p>A dibgnostid dommbnd mby or mby not support options or brgumfnts.
+ * All thf opfrbtions rfturn {@dodf String} bnd fithfr tbkf
+ * no pbrbmftfr for opfrbtions thbt do not support bny option or brgumfnt,
+ * or tbkf b {@dodf String[]} pbrbmftfr for opfrbtions thbt support bt lfbst
+ * onf option or brgumfnt.
+ * Ebdh option or brgumfnt must bf storfd in b singlf String.
+ * Options or brgumfnts split bdross sfvfrbl String instbndfs brf not supportfd.
+ *
+ * <p>Thf distindtion bftwffn options bnd brgumfnts: options brf idfntififd by
+ * thf option nbmf whilf brgumfnts brf idfntififd by thfir position in thf
+ * dommbnd linf. Options bnd brgumfnts brf prodfssfd in thf ordfr of thf brrby
+ * pbssfd to thf invodbtion mfthod.
+ *
+ * <p>Likf bny opfrbtion of b dynbmid MBfbn, fbdh of thfsf opfrbtions is
+ * dfsdribfd by {@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo MBfbnOpfrbtionInfo}
+ * instbndf. Hfrf's thf vblufs rfturnfd by this objfdt:
+ * <ul>
+ *  <li>{@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftNbmf() gftNbmf()}
+ *      rfturns thf opfrbtion nbmf gfnfrbtfd from thf dibgnostid dommbnd nbmf</li>
+ *  <li>{@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftDfsdription() gftDfsdription()}
+ *      rfturns thf dibgnostid dommbnd dfsdription
+ *      (thf sbmf bs thf onf rfturn in thf 'hflp' dommbnd)</li>
+ *  <li>{@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftImpbdt() gftImpbdt()}
+ *      rfturns <dodf>ACTION_INFO</dodf></li>
+ *  <li>{@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftRfturnTypf() gftRfturnTypf()}
+ *      rfturns {@dodf jbvb.lbng.String}</li>
+ *  <li>{@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftDfsdriptor() gftDfsdriptor()}
+ *      rfturns b Dfsdriptor instbndf (sff bflow)</li>
+ * </ul>
+ *
+ * <p>Thf {@link jbvbx.mbnbgfmfnt.Dfsdriptor Dfsdriptor}
+ * is b dollfdtion of fiflds dontbining bdditionbl
+ * mftb-dbtb for b JMX flfmfnt. A fifld is b nbmf bnd bn bssodibtfd vbluf.
+ * Thf bdditionbl mftb-dbtb providfd for bn opfrbtion bssodibtfd with b
+ * dibgnostid dommbnd brf dfsdribfd in thf tbblf bflow:
+ * <p>
+ *
+ * <tbblf bordfr="1" dfllpbdding="5">
+ *   <tr>
+ *     <th>Nbmf</th><th>Typf</th><th>Dfsdription</th>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.nbmf</td><td>String</td>
+ *     <td>Thf originbl dibgnostid dommbnd nbmf (not thf opfrbtion nbmf)</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.dfsdription</td><td>String</td>
+ *     <td>Thf dibgnostid dommbnd dfsdription</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.hflp</td><td>String</td>
+ *     <td>Thf full hflp mfssbgf for this dibgnostid dommbnd (sbmf output bs
+ *          thf onf produdfd by thf 'hflp' dommbnd)</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.vmImpbdt</td><td>String</td>
+ *     <td>Thf impbdt of thf dibgnostid dommbnd,
+ *      this vbluf is thf sbmf bs thf onf printfd in thf 'impbdt'
+ *      sfdtion of thf hflp mfssbgf of thf dibgnostid dommbnd, bnd it
+ *      is difffrfnt from thf gftImpbdt() of thf MBfbnOpfrbtionInfo</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.fnbblfd</td><td>boolfbn</td>
+ *     <td>Truf if thf dibgnostid dommbnd is fnbblfd, fblsf othfrwisf</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.pfrmissionClbss</td><td>String</td>
+ *     <td>Somf dibgnostid dommbnd might rfquirf b spfdifid pfrmission to bf
+ *          fxfdutfd, in bddition to thf MBfbnPfrmission to invokf thfir
+ *          bssodibtfd MBfbn opfrbtion. This fifld rfturns thf fully qublififd
+ *          nbmf of thf pfrmission dlbss or null if no pfrmission is rfquirfd
+ *   </td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.pfrmissionNbmf</td><td>String</td>
+ *     <td>Thf fist brgumfnt of thf pfrmission rfquirfd to fxfdutf this
+ *          dibgnostid dommbnd or null if no pfrmission is rfquirfd</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.pfrmissionAdtion</td><td>String</td>
+ *     <td>Thf sfdond brgumfnt of thf pfrmission rfquirfd to fxfdutf this
+ *          dibgnostid dommbnd or null if thf pfrmission donstrudtor hbs only
+ *          onf brgumfnt (likf thf MbnbgfmfntPfrmission) or if no pfrmission
+ *          is rfquirfd</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.brgumfnts</td><td>Dfsdriptor</td>
+ *     <td>A Dfsdriptor instbndf dontbining thf dfsdriptions of options bnd
+ *          brgumfnts supportfd by thf dibgnostid dommbnd (sff bflow)</td>
+ *   </tr>
+ * </tbblf>
+ * <p>
+ *
+ * <p>Thf dfsdription of pbrbmftfrs (options or brgumfnts) of b dibgnostid
+ * dommbnd is providfd within b Dfsdriptor instbndf. In this Dfsdriptor,
+ * fbdh fifld nbmf is b pbrbmftfr nbmf, bnd fbdh fifld vbluf is itsflf
+ * b Dfsdriptor instbndf. Thf fiflds providfd in this sfdond Dfsdriptor
+ * instbndf brf dfsdribfd in thf tbblf bflow:
+ *
+ * <tbblf bordfr="1" dfllpbdding="5">
+ *   <tr>
+ *     <th>Nbmf</th><th>Typf</th><th>Dfsdription</th>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.brg.nbmf</td><td>String</td>
+ *     <td>Thf nbmf of thf pbrbmftfr</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.brg.typf</td><td>String</td>
+ *     <td>Thf typf of thf pbrbmftfr. Thf rfturnfd String is thf nbmf of b typf
+ *          rfdognizfd by thf dibgnostid dommbnd pbrsfr. Thfsf typfs brf not
+ *          Jbvb typfs bnd brf implfmfntbtion dfpfndfnt.
+ *          </td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.brg.dfsdription</td><td>String</td>
+ *     <td>Thf pbrbmftfr dfsdription</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.brg.isMbndbtory</td><td>boolfbn</td>
+ *     <td>Truf if thf pbrbmftfr is mbndbtory, fblsf othfrwisf</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.brg.isOption</td><td>boolfbn</td>
+ *     <td>Truf if thf pbrbmftfr is bn option, fblsf if it is bn brgumfnt</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ddmd.brg.isMultiplf</td><td>boolfbn</td>
+ *     <td>Truf if thf pbrbmftfr dbn bf spfdififd sfvfrbl timfs, fblsf
+ *          othfrwisf</td>
+ *   </tr>
+ * </tbblf>
+ *
+ * <p>Whfn thf sft of dibgnostid dommbnds durrfntly supportfd by thf Jbvb
+ * Virtubl Mbdhinf is modififd, thf {@dodf DibgnostidCommbndMBfbn} fmits
+ * b {@link jbvbx.mbnbgfmfnt.Notifidbtion} with b
+ * {@linkplbin jbvbx.mbnbgfmfnt.Notifidbtion#gftTypf() typf} of
+ * <b hrff="{@dodRoot}/../../../../bpi/jbvbx/mbnbgfmfnt/MBfbnInfo.html#info-dhbngfd">
+ * {@dodf "jmx.mbfbn.info.dhbngfd"}</b> bnd b
+ * {@linkplbin jbvbx.mbnbgfmfnt.Notifidbtion#gftUsfrDbtb() usfrDbtb} thbt
+ * is thf nfw {@dodf MBfbnInfo}.
+ *
+ * @sindf 1.8
+ */
+publid intfrfbdf DibgnostidCommbndMBfbn fxtfnds DynbmidMBfbn
+{
+
+}

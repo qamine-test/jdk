@@ -1,245 +1,245 @@
 /*
- * Copyright (c) 1994, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * A <code>FilterInputStream</code> contains
- * some other input stream, which it uses as
- * its  basic source of data, possibly transforming
- * the data along the way or providing  additional
- * functionality. The class <code>FilterInputStream</code>
- * itself simply overrides all  methods of
- * <code>InputStream</code> with versions that
- * pass all requests to the contained  input
- * stream. Subclasses of <code>FilterInputStream</code>
- * may further override some of  these methods
- * and may also provide additional methods
- * and fields.
+ * A <dodf>FiltfrInputStrfbm</dodf> dontbins
+ * somf otifr input strfbm, wiidi it usfs bs
+ * its  bbsid sourdf of dbtb, possibly trbnsforming
+ * tif dbtb blong tif wby or providing  bdditionbl
+ * fundtionblity. Tif dlbss <dodf>FiltfrInputStrfbm</dodf>
+ * itsflf simply ovfrridfs bll  mftiods of
+ * <dodf>InputStrfbm</dodf> witi vfrsions tibt
+ * pbss bll rfqufsts to tif dontbinfd  input
+ * strfbm. Subdlbssfs of <dodf>FiltfrInputStrfbm</dodf>
+ * mby furtifr ovfrridf somf of  tifsf mftiods
+ * bnd mby blso providf bdditionbl mftiods
+ * bnd fiflds.
  *
- * @author  Jonathan Payne
- * @since   1.0
+ * @butior  Jonbtibn Pbynf
+ * @sindf   1.0
  */
-public
-class FilterInputStream extends InputStream {
+publid
+dlbss FiltfrInputStrfbm fxtfnds InputStrfbm {
     /**
-     * The input stream to be filtered.
+     * Tif input strfbm to bf filtfrfd.
      */
-    protected volatile InputStream in;
+    protfdtfd volbtilf InputStrfbm in;
 
     /**
-     * Creates a <code>FilterInputStream</code>
-     * by assigning the  argument <code>in</code>
-     * to the field <code>this.in</code> so as
-     * to remember it for later use.
+     * Crfbtfs b <dodf>FiltfrInputStrfbm</dodf>
+     * by bssigning tif  brgumfnt <dodf>in</dodf>
+     * to tif fifld <dodf>tiis.in</dodf> so bs
+     * to rfmfmbfr it for lbtfr usf.
      *
-     * @param   in   the underlying input stream, or <code>null</code> if
-     *          this instance is to be created without an underlying stream.
+     * @pbrbm   in   tif undfrlying input strfbm, or <dodf>null</dodf> if
+     *          tiis instbndf is to bf drfbtfd witiout bn undfrlying strfbm.
      */
-    protected FilterInputStream(InputStream in) {
-        this.in = in;
+    protfdtfd FiltfrInputStrfbm(InputStrfbm in) {
+        tiis.in = in;
     }
 
     /**
-     * Reads the next byte of data from this input stream. The value
-     * byte is returned as an <code>int</code> in the range
-     * <code>0</code> to <code>255</code>. If no byte is available
-     * because the end of the stream has been reached, the value
-     * <code>-1</code> is returned. This method blocks until input data
-     * is available, the end of the stream is detected, or an exception
-     * is thrown.
+     * Rfbds tif nfxt bytf of dbtb from tiis input strfbm. Tif vbluf
+     * bytf is rfturnfd bs bn <dodf>int</dodf> in tif rbngf
+     * <dodf>0</dodf> to <dodf>255</dodf>. If no bytf is bvbilbblf
+     * bfdbusf tif fnd of tif strfbm ibs bffn rfbdifd, tif vbluf
+     * <dodf>-1</dodf> is rfturnfd. Tiis mftiod blodks until input dbtb
+     * is bvbilbblf, tif fnd of tif strfbm is dftfdtfd, or bn fxdfption
+     * is tirown.
      * <p>
-     * This method
-     * simply performs <code>in.read()</code> and returns the result.
+     * Tiis mftiod
+     * simply pfrforms <dodf>in.rfbd()</dodf> bnd rfturns tif rfsult.
      *
-     * @return     the next byte of data, or <code>-1</code> if the end of the
-     *             stream is reached.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @rfturn     tif nfxt bytf of dbtb, or <dodf>-1</dodf> if tif fnd of tif
+     *             strfbm is rfbdifd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrInputStrfbm#in
      */
-    public int read() throws IOException {
-        return in.read();
+    publid int rfbd() tirows IOExdfption {
+        rfturn in.rfbd();
     }
 
     /**
-     * Reads up to <code>byte.length</code> bytes of data from this
-     * input stream into an array of bytes. This method blocks until some
-     * input is available.
+     * Rfbds up to <dodf>bytf.lfngti</dodf> bytfs of dbtb from tiis
+     * input strfbm into bn brrby of bytfs. Tiis mftiod blodks until somf
+     * input is bvbilbblf.
      * <p>
-     * This method simply performs the call
-     * <code>read(b, 0, b.length)</code> and returns
-     * the  result. It is important that it does
-     * <i>not</i> do <code>in.read(b)</code> instead;
-     * certain subclasses of  <code>FilterInputStream</code>
-     * depend on the implementation strategy actually
-     * used.
+     * Tiis mftiod simply pfrforms tif dbll
+     * <dodf>rfbd(b, 0, b.lfngti)</dodf> bnd rfturns
+     * tif  rfsult. It is importbnt tibt it dofs
+     * <i>not</i> do <dodf>in.rfbd(b)</dodf> instfbd;
+     * dfrtbin subdlbssfs of  <dodf>FiltfrInputStrfbm</dodf>
+     * dfpfnd on tif implfmfntbtion strbtfgy bdtublly
+     * usfd.
      *
-     * @param      b   the buffer into which the data is read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end of
-     *             the stream has been reached.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#read(byte[], int, int)
+     * @pbrbm      b   tif bufffr into wiidi tif dbtb is rfbd.
+     * @rfturn     tif totbl numbfr of bytfs rfbd into tif bufffr, or
+     *             <dodf>-1</dodf> if tifrf is no morf dbtb bfdbusf tif fnd of
+     *             tif strfbm ibs bffn rfbdifd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrInputStrfbm#rfbd(bytf[], int, int)
      */
-    public int read(byte b[]) throws IOException {
-        return read(b, 0, b.length);
+    publid int rfbd(bytf b[]) tirows IOExdfption {
+        rfturn rfbd(b, 0, b.lfngti);
     }
 
     /**
-     * Reads up to <code>len</code> bytes of data from this input stream
-     * into an array of bytes. If <code>len</code> is not zero, the method
-     * blocks until some input is available; otherwise, no
-     * bytes are read and <code>0</code> is returned.
+     * Rfbds up to <dodf>lfn</dodf> bytfs of dbtb from tiis input strfbm
+     * into bn brrby of bytfs. If <dodf>lfn</dodf> is not zfro, tif mftiod
+     * blodks until somf input is bvbilbblf; otifrwisf, no
+     * bytfs brf rfbd bnd <dodf>0</dodf> is rfturnfd.
      * <p>
-     * This method simply performs <code>in.read(b, off, len)</code>
-     * and returns the result.
+     * Tiis mftiod simply pfrforms <dodf>in.rfbd(b, off, lfn)</dodf>
+     * bnd rfturns tif rfsult.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset in the destination array <code>b</code>
-     * @param      len   the maximum number of bytes read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end of
-     *             the stream has been reached.
-     * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
-     * <code>b.length - off</code>
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @pbrbm      b     tif bufffr into wiidi tif dbtb is rfbd.
+     * @pbrbm      off   tif stbrt offsft in tif dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm      lfn   tif mbximum numbfr of bytfs rfbd.
+     * @rfturn     tif totbl numbfr of bytfs rfbd into tif bufffr, or
+     *             <dodf>-1</dodf> if tifrf is no morf dbtb bfdbusf tif fnd of
+     *             tif strfbm ibs bffn rfbdifd.
+     * @fxdfption  NullPointfrExdfption If <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr tibn
+     * <dodf>b.lfngti - off</dodf>
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrInputStrfbm#in
      */
-    public int read(byte b[], int off, int len) throws IOException {
-        return in.read(b, off, len);
+    publid int rfbd(bytf b[], int off, int lfn) tirows IOExdfption {
+        rfturn in.rfbd(b, off, lfn);
     }
 
     /**
-     * Skips over and discards <code>n</code> bytes of data from the
-     * input stream. The <code>skip</code> method may, for a variety of
-     * reasons, end up skipping over some smaller number of bytes,
-     * possibly <code>0</code>. The actual number of bytes skipped is
-     * returned.
+     * Skips ovfr bnd disdbrds <dodf>n</dodf> bytfs of dbtb from tif
+     * input strfbm. Tif <dodf>skip</dodf> mftiod mby, for b vbrifty of
+     * rfbsons, fnd up skipping ovfr somf smbllfr numbfr of bytfs,
+     * possibly <dodf>0</dodf>. Tif bdtubl numbfr of bytfs skippfd is
+     * rfturnfd.
      * <p>
-     * This method simply performs <code>in.skip(n)</code>.
+     * Tiis mftiod simply pfrforms <dodf>in.skip(n)</dodf>.
      *
-     * @param      n   the number of bytes to be skipped.
-     * @return     the actual number of bytes skipped.
-     * @exception  IOException  if the stream does not support seek,
-     *                          or if some other I/O error occurs.
+     * @pbrbm      n   tif numbfr of bytfs to bf skippfd.
+     * @rfturn     tif bdtubl numbfr of bytfs skippfd.
+     * @fxdfption  IOExdfption  if tif strfbm dofs not support sffk,
+     *                          or if somf otifr I/O frror oddurs.
      */
-    public long skip(long n) throws IOException {
-        return in.skip(n);
+    publid long skip(long n) tirows IOExdfption {
+        rfturn in.skip(n);
     }
 
     /**
-     * Returns an estimate of the number of bytes that can be read (or
-     * skipped over) from this input stream without blocking by the next
-     * caller of a method for this input stream. The next caller might be
-     * the same thread or another thread.  A single read or skip of this
-     * many bytes will not block, but may read or skip fewer bytes.
+     * Rfturns bn fstimbtf of tif numbfr of bytfs tibt dbn bf rfbd (or
+     * skippfd ovfr) from tiis input strfbm witiout blodking by tif nfxt
+     * dbllfr of b mftiod for tiis input strfbm. Tif nfxt dbllfr migit bf
+     * tif sbmf tirfbd or bnotifr tirfbd.  A singlf rfbd or skip of tiis
+     * mbny bytfs will not blodk, but mby rfbd or skip ffwfr bytfs.
      * <p>
-     * This method returns the result of {@link #in in}.available().
+     * Tiis mftiod rfturns tif rfsult of {@link #in in}.bvbilbblf().
      *
-     * @return     an estimate of the number of bytes that can be read (or skipped
-     *             over) from this input stream without blocking.
-     * @exception  IOException  if an I/O error occurs.
+     * @rfturn     bn fstimbtf of tif numbfr of bytfs tibt dbn bf rfbd (or skippfd
+     *             ovfr) from tiis input strfbm witiout blodking.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public int available() throws IOException {
-        return in.available();
+    publid int bvbilbblf() tirows IOExdfption {
+        rfturn in.bvbilbblf();
     }
 
     /**
-     * Closes this input stream and releases any system resources
-     * associated with the stream.
-     * This
-     * method simply performs <code>in.close()</code>.
+     * Closfs tiis input strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd witi tif strfbm.
+     * Tiis
+     * mftiod simply pfrforms <dodf>in.dlosf()</dodf>.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrInputStrfbm#in
      */
-    public void close() throws IOException {
-        in.close();
+    publid void dlosf() tirows IOExdfption {
+        in.dlosf();
     }
 
     /**
-     * Marks the current position in this input stream. A subsequent
-     * call to the <code>reset</code> method repositions this stream at
-     * the last marked position so that subsequent reads re-read the same bytes.
+     * Mbrks tif durrfnt position in tiis input strfbm. A subsfqufnt
+     * dbll to tif <dodf>rfsft</dodf> mftiod rfpositions tiis strfbm bt
+     * tif lbst mbrkfd position so tibt subsfqufnt rfbds rf-rfbd tif sbmf bytfs.
      * <p>
-     * The <code>readlimit</code> argument tells this input stream to
-     * allow that many bytes to be read before the mark position gets
-     * invalidated.
+     * Tif <dodf>rfbdlimit</dodf> brgumfnt tflls tiis input strfbm to
+     * bllow tibt mbny bytfs to bf rfbd bfforf tif mbrk position gfts
+     * invblidbtfd.
      * <p>
-     * This method simply performs <code>in.mark(readlimit)</code>.
+     * Tiis mftiod simply pfrforms <dodf>in.mbrk(rfbdlimit)</dodf>.
      *
-     * @param   readlimit   the maximum limit of bytes that can be read before
-     *                      the mark position becomes invalid.
-     * @see     java.io.FilterInputStream#in
-     * @see     java.io.FilterInputStream#reset()
+     * @pbrbm   rfbdlimit   tif mbximum limit of bytfs tibt dbn bf rfbd bfforf
+     *                      tif mbrk position bfdomfs invblid.
+     * @sff     jbvb.io.FiltfrInputStrfbm#in
+     * @sff     jbvb.io.FiltfrInputStrfbm#rfsft()
      */
-    public synchronized void mark(int readlimit) {
-        in.mark(readlimit);
+    publid syndironizfd void mbrk(int rfbdlimit) {
+        in.mbrk(rfbdlimit);
     }
 
     /**
-     * Repositions this stream to the position at the time the
-     * <code>mark</code> method was last called on this input stream.
+     * Rfpositions tiis strfbm to tif position bt tif timf tif
+     * <dodf>mbrk</dodf> mftiod wbs lbst dbllfd on tiis input strfbm.
      * <p>
-     * This method
-     * simply performs <code>in.reset()</code>.
+     * Tiis mftiod
+     * simply pfrforms <dodf>in.rfsft()</dodf>.
      * <p>
-     * Stream marks are intended to be used in
-     * situations where you need to read ahead a little to see what's in
-     * the stream. Often this is most easily done by invoking some
-     * general parser. If the stream is of the type handled by the
-     * parse, it just chugs along happily. If the stream is not of
-     * that type, the parser should toss an exception when it fails.
-     * If this happens within readlimit bytes, it allows the outer
-     * code to reset the stream and try another parser.
+     * Strfbm mbrks brf intfndfd to bf usfd in
+     * situbtions wifrf you nffd to rfbd bifbd b littlf to sff wibt's in
+     * tif strfbm. Oftfn tiis is most fbsily donf by invoking somf
+     * gfnfrbl pbrsfr. If tif strfbm is of tif typf ibndlfd by tif
+     * pbrsf, it just diugs blong ibppily. If tif strfbm is not of
+     * tibt typf, tif pbrsfr siould toss bn fxdfption wifn it fbils.
+     * If tiis ibppfns witiin rfbdlimit bytfs, it bllows tif outfr
+     * dodf to rfsft tif strfbm bnd try bnotifr pbrsfr.
      *
-     * @exception  IOException  if the stream has not been marked or if the
-     *               mark has been invalidated.
-     * @see        java.io.FilterInputStream#in
-     * @see        java.io.FilterInputStream#mark(int)
+     * @fxdfption  IOExdfption  if tif strfbm ibs not bffn mbrkfd or if tif
+     *               mbrk ibs bffn invblidbtfd.
+     * @sff        jbvb.io.FiltfrInputStrfbm#in
+     * @sff        jbvb.io.FiltfrInputStrfbm#mbrk(int)
      */
-    public synchronized void reset() throws IOException {
-        in.reset();
+    publid syndironizfd void rfsft() tirows IOExdfption {
+        in.rfsft();
     }
 
     /**
-     * Tests if this input stream supports the <code>mark</code>
-     * and <code>reset</code> methods.
-     * This method
-     * simply performs <code>in.markSupported()</code>.
+     * Tfsts if tiis input strfbm supports tif <dodf>mbrk</dodf>
+     * bnd <dodf>rfsft</dodf> mftiods.
+     * Tiis mftiod
+     * simply pfrforms <dodf>in.mbrkSupportfd()</dodf>.
      *
-     * @return  <code>true</code> if this stream type supports the
-     *          <code>mark</code> and <code>reset</code> method;
-     *          <code>false</code> otherwise.
-     * @see     java.io.FilterInputStream#in
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.InputStream#reset()
+     * @rfturn  <dodf>truf</dodf> if tiis strfbm typf supports tif
+     *          <dodf>mbrk</dodf> bnd <dodf>rfsft</dodf> mftiod;
+     *          <dodf>fblsf</dodf> otifrwisf.
+     * @sff     jbvb.io.FiltfrInputStrfbm#in
+     * @sff     jbvb.io.InputStrfbm#mbrk(int)
+     * @sff     jbvb.io.InputStrfbm#rfsft()
      */
-    public boolean markSupported() {
-        return in.markSupported();
+    publid boolfbn mbrkSupportfd() {
+        rfturn in.mbrkSupportfd();
     }
 }

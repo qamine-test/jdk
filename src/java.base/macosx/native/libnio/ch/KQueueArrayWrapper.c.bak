@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * KQueueArrayWrapper.c
- * Implementation of Selector using FreeBSD / Mac OS X kqueues
- * Derived from Sun's DevPollArrayWrapper
+ * KQufufArrbyWrbppfr.d
+ * Implfmfntbtion of Sflfdtor using FrffBSD / Mbd OS X kqufufs
+ * Dfrivfd from Sun's DfvPollArrbyWrbppfr
  */
 
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
 
-#include <sys/types.h>
-#include <sys/event.h>
-#include <sys/time.h>
+#indludf <sys/typfs.i>
+#indludf <sys/fvfnt.i>
+#indludf <sys/timf.i>
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_KQueueArrayWrapper_initStructSizes(JNIEnv *env, jclass clazz)
+Jbvb_sun_nio_di_KQufufArrbyWrbppfr_initStrudtSizfs(JNIEnv *fnv, jdlbss dlbzz)
 {
-#define CHECK_EXCEPTION() { \
-    if ((*env)->ExceptionCheck(env)) { \
-        goto exceptionOccurred; \
+#dffinf CHECK_EXCEPTION() { \
+    if ((*fnv)->ExdfptionCifdk(fnv)) { \
+        goto fxdfptionOddurrfd; \
     } \
 }
 
-#define CHECK_ERROR_AND_EXCEPTION(_field) { \
-    if (_field == NULL) { \
-        goto badField; \
+#dffinf CHECK_ERROR_AND_EXCEPTION(_fifld) { \
+    if (_fifld == NULL) { \
+        goto bbdFifld; \
     } \
     CHECK_EXCEPTION(); \
 }
 
 
-    jfieldID field;
+    jfifldID fifld;
 
-    field = (*env)->GetStaticFieldID(env, clazz, "EVFILT_READ", "S");
-    CHECK_ERROR_AND_EXCEPTION(field);
-    (*env)->SetStaticShortField(env, clazz, field, EVFILT_READ);
+    fifld = (*fnv)->GftStbtidFifldID(fnv, dlbzz, "EVFILT_READ", "S");
+    CHECK_ERROR_AND_EXCEPTION(fifld);
+    (*fnv)->SftStbtidSiortFifld(fnv, dlbzz, fifld, EVFILT_READ);
     CHECK_EXCEPTION();
 
-    field = (*env)->GetStaticFieldID(env, clazz, "EVFILT_WRITE", "S");
-    CHECK_ERROR_AND_EXCEPTION(field);
-    (*env)->SetStaticShortField(env, clazz, field, EVFILT_WRITE);
+    fifld = (*fnv)->GftStbtidFifldID(fnv, dlbzz, "EVFILT_WRITE", "S");
+    CHECK_ERROR_AND_EXCEPTION(fifld);
+    (*fnv)->SftStbtidSiortFifld(fnv, dlbzz, fifld, EVFILT_WRITE);
     CHECK_EXCEPTION();
 
-    field = (*env)->GetStaticFieldID(env, clazz, "SIZEOF_KEVENT", "S");
-    CHECK_ERROR_AND_EXCEPTION(field);
-    (*env)->SetStaticShortField(env, clazz, field, (short) sizeof(struct kevent));
+    fifld = (*fnv)->GftStbtidFifldID(fnv, dlbzz, "SIZEOF_KEVENT", "S");
+    CHECK_ERROR_AND_EXCEPTION(fifld);
+    (*fnv)->SftStbtidSiortFifld(fnv, dlbzz, fifld, (siort) sizfof(strudt kfvfnt));
     CHECK_EXCEPTION();
 
-    field = (*env)->GetStaticFieldID(env, clazz, "FD_OFFSET", "S");
-    CHECK_ERROR_AND_EXCEPTION(field);
-    (*env)->SetStaticShortField(env, clazz, field, (short) offsetof(struct kevent, ident));
+    fifld = (*fnv)->GftStbtidFifldID(fnv, dlbzz, "FD_OFFSET", "S");
+    CHECK_ERROR_AND_EXCEPTION(fifld);
+    (*fnv)->SftStbtidSiortFifld(fnv, dlbzz, fifld, (siort) offsftof(strudt kfvfnt, idfnt));
     CHECK_EXCEPTION();
 
-    field = (*env)->GetStaticFieldID(env, clazz, "FILTER_OFFSET", "S");
-    CHECK_ERROR_AND_EXCEPTION(field);
-    (*env)->SetStaticShortField(env, clazz, field, (short) offsetof(struct kevent, filter));
+    fifld = (*fnv)->GftStbtidFifldID(fnv, dlbzz, "FILTER_OFFSET", "S");
+    CHECK_ERROR_AND_EXCEPTION(fifld);
+    (*fnv)->SftStbtidSiortFifld(fnv, dlbzz, fifld, (siort) offsftof(strudt kfvfnt, filtfr));
     CHECK_EXCEPTION();
-    return;
+    rfturn;
 
-badField:
-    return;
+bbdFifld:
+    rfturn;
 
-exceptionOccurred:
-    return;
+fxdfptionOddurrfd:
+    rfturn;
 
-#undef CHECK_EXCEPTION
-#undef CHECK_ERROR_AND_EXCEPTION
+#undff CHECK_EXCEPTION
+#undff CHECK_ERROR_AND_EXCEPTION
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_KQueueArrayWrapper_init(JNIEnv *env, jobject this)
+Jbvb_sun_nio_di_KQufufArrbyWrbppfr_init(JNIEnv *fnv, jobjfdt tiis)
 {
-    int kq = kqueue();
+    int kq = kqufuf();
     if (kq < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "KQueueArrayWrapper: kqueue() failed");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "KQufufArrbyWrbppfr: kqufuf() fbilfd");
     }
-    return kq;
+    rfturn kq;
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_KQueueArrayWrapper_register0(JNIEnv *env, jobject this,
+Jbvb_sun_nio_di_KQufufArrbyWrbppfr_rfgistfr0(JNIEnv *fnv, jobjfdt tiis,
                                              jint kq, jint fd, jint r, jint w)
 {
-    struct kevent changes[2];
-    struct kevent errors[2];
-    struct timespec dontBlock = {0, 0};
+    strudt kfvfnt dibngfs[2];
+    strudt kfvfnt frrors[2];
+    strudt timfspfd dontBlodk = {0, 0};
 
-    // if (r) then { register for read } else { unregister for read }
-    // if (w) then { register for write } else { unregister for write }
-    // Ignore errors - they're probably complaints about deleting non-
-    //   added filters - but provide an error array anyway because
-    //   kqueue behaves erratically if some of its registrations fail.
-    EV_SET(&changes[0], fd, EVFILT_READ,  r ? EV_ADD : EV_DELETE, 0, 0, 0);
-    EV_SET(&changes[1], fd, EVFILT_WRITE, w ? EV_ADD : EV_DELETE, 0, 0, 0);
-    kevent(kq, changes, 2, errors, 2, &dontBlock);
+    // if (r) tifn { rfgistfr for rfbd } flsf { unrfgistfr for rfbd }
+    // if (w) tifn { rfgistfr for writf } flsf { unrfgistfr for writf }
+    // Ignorf frrors - tify'rf probbbly domplbints bbout dflfting non-
+    //   bddfd filtfrs - but providf bn frror brrby bnywby bfdbusf
+    //   kqufuf bfibvfs frrbtidblly if somf of its rfgistrbtions fbil.
+    EV_SET(&dibngfs[0], fd, EVFILT_READ,  r ? EV_ADD : EV_DELETE, 0, 0, 0);
+    EV_SET(&dibngfs[1], fd, EVFILT_WRITE, w ? EV_ADD : EV_DELETE, 0, 0, 0);
+    kfvfnt(kq, dibngfs, 2, frrors, 2, &dontBlodk);
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_KQueueArrayWrapper_kevent0(JNIEnv *env, jobject this, jint kq,
-                                           jlong kevAddr, jint kevCount,
-                                           jlong timeout)
+Jbvb_sun_nio_di_KQufufArrbyWrbppfr_kfvfnt0(JNIEnv *fnv, jobjfdt tiis, jint kq,
+                                           jlong kfvAddr, jint kfvCount,
+                                           jlong timfout)
 {
-    struct kevent *kevs = (struct kevent *)jlong_to_ptr(kevAddr);
-    struct timespec ts;
-    struct timespec *tsp;
-    int result;
+    strudt kfvfnt *kfvs = (strudt kfvfnt *)jlong_to_ptr(kfvAddr);
+    strudt timfspfd ts;
+    strudt timfspfd *tsp;
+    int rfsult;
 
-    // Java timeout is in milliseconds. Convert to struct timespec.
-    // Java timeout == -1 : wait forever : timespec timeout of NULL
-    // Java timeout == 0  : return immediately : timespec timeout of zero
-    if (timeout >= 0) {
-        ts.tv_sec = timeout / 1000;
-        ts.tv_nsec = (timeout % 1000) * 1000000; //nanosec = 1 million millisec
+    // Jbvb timfout is in millisfdonds. Convfrt to strudt timfspfd.
+    // Jbvb timfout == -1 : wbit forfvfr : timfspfd timfout of NULL
+    // Jbvb timfout == 0  : rfturn immfdibtfly : timfspfd timfout of zfro
+    if (timfout >= 0) {
+        ts.tv_sfd = timfout / 1000;
+        ts.tv_nsfd = (timfout % 1000) * 1000000; //nbnosfd = 1 million millisfd
         tsp = &ts;
-    } else {
+    } flsf {
         tsp = NULL;
     }
 
-    result = kevent(kq, NULL, 0, kevs, kevCount, tsp);
+    rfsult = kfvfnt(kq, NULL, 0, kfvs, kfvCount, tsp);
 
-    if (result < 0) {
-        if (errno == EINTR) {
-            // ignore EINTR, pretend nothing was selected
-            result = 0;
-        } else {
-            JNU_ThrowIOExceptionWithLastError(env, "KQueueArrayWrapper: kqueue failed");
+    if (rfsult < 0) {
+        if (frrno == EINTR) {
+            // ignorf EINTR, prftfnd notiing wbs sflfdtfd
+            rfsult = 0;
+        } flsf {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "KQufufArrbyWrbppfr: kqufuf fbilfd");
         }
     }
 
-    return result;
+    rfturn rfsult;
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_KQueueArrayWrapper_interrupt(JNIEnv *env, jclass cls, jint fd)
+Jbvb_sun_nio_di_KQufufArrbyWrbppfr_intfrrupt(JNIEnv *fnv, jdlbss dls, jint fd)
 {
-    char c = 1;
-    if (1 != write(fd, &c, 1)) {
-        JNU_ThrowIOExceptionWithLastError(env, "KQueueArrayWrapper: interrupt failed");
+    dibr d = 1;
+    if (1 != writf(fd, &d, 1)) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "KQufufArrbyWrbppfr: intfrrupt fbilfd");
     }
 }
 

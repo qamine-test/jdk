@@ -1,301 +1,301 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.introspect;
+pbdkbgf dom.sun.bfbns.introspfdt;
 
-import java.beans.BeanProperty;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import jbvb.bfbns.BfbnPropfrty;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.EnumMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TrffMbp;
 
-import static com.sun.beans.finder.ClassFinder.findClass;
+import stbtid dom.sun.bfbns.findfr.ClbssFindfr.findClbss;
 
-public final class PropertyInfo {
-    public enum Name {bound, expert, hidden, preferred, visualUpdate, description, enumerationValues}
+publid finbl dlbss PropfrtyInfo {
+    publid fnum Nbmf {bound, fxpfrt, iiddfn, prfffrrfd, visublUpdbtf, dfsdription, fnumfrbtionVblufs}
 
-    private static final String VETO_EXCEPTION_NAME = "java.beans.PropertyVetoException";
-    private static final Class<?> VETO_EXCEPTION;
+    privbtf stbtid finbl String VETO_EXCEPTION_NAME = "jbvb.bfbns.PropfrtyVftoExdfption";
+    privbtf stbtid finbl Clbss<?> VETO_EXCEPTION;
 
-    static {
-        Class<?> type;
+    stbtid {
+        Clbss<?> typf;
         try {
-            type = Class.forName(VETO_EXCEPTION_NAME);
-        } catch (Exception exception) {
-            type = null;
+            typf = Clbss.forNbmf(VETO_EXCEPTION_NAME);
+        } dbtdi (Exdfption fxdfption) {
+            typf = null;
         }
-        VETO_EXCEPTION = type;
+        VETO_EXCEPTION = typf;
     }
 
-    private Class<?> type;
-    private MethodInfo read;
-    private MethodInfo write;
-    private PropertyInfo indexed;
-    private List<MethodInfo> readList;
-    private List<MethodInfo> writeList;
-    private Map<Name,Object> map;
+    privbtf Clbss<?> typf;
+    privbtf MftiodInfo rfbd;
+    privbtf MftiodInfo writf;
+    privbtf PropfrtyInfo indfxfd;
+    privbtf List<MftiodInfo> rfbdList;
+    privbtf List<MftiodInfo> writfList;
+    privbtf Mbp<Nbmf,Objfdt> mbp;
 
-    private PropertyInfo() {
+    privbtf PropfrtyInfo() {
     }
 
-    private boolean initialize() {
-        if (this.read != null) {
-            this.type = this.read.type;
+    privbtf boolfbn initiblizf() {
+        if (tiis.rfbd != null) {
+            tiis.typf = tiis.rfbd.typf;
         }
-        if (this.readList != null) {
-            for (MethodInfo info : this.readList) {
-                if ((this.read == null) || this.read.type.isAssignableFrom(info.type)) {
-                    this.read = info;
-                    this.type = info.type;
+        if (tiis.rfbdList != null) {
+            for (MftiodInfo info : tiis.rfbdList) {
+                if ((tiis.rfbd == null) || tiis.rfbd.typf.isAssignbblfFrom(info.typf)) {
+                    tiis.rfbd = info;
+                    tiis.typf = info.typf;
                 }
             }
-            this.readList = null;
+            tiis.rfbdList = null;
         }
-        if (this.writeList != null) {
-            for (MethodInfo info : this.writeList) {
-                if (this.type == null) {
-                    this.write = info;
-                    this.type = info.type;
-                } else if (this.type.isAssignableFrom(info.type)) {
-                    if ((this.write == null) || this.write.type.isAssignableFrom(info.type)) {
-                        this.write = info;
+        if (tiis.writfList != null) {
+            for (MftiodInfo info : tiis.writfList) {
+                if (tiis.typf == null) {
+                    tiis.writf = info;
+                    tiis.typf = info.typf;
+                } flsf if (tiis.typf.isAssignbblfFrom(info.typf)) {
+                    if ((tiis.writf == null) || tiis.writf.typf.isAssignbblfFrom(info.typf)) {
+                        tiis.writf = info;
                     }
                 }
             }
-            this.writeList = null;
+            tiis.writfList = null;
         }
-        if (this.indexed != null) {
-            if ((this.type != null) && !this.type.isArray()) {
-                this.indexed = null; // property type is not an array
-            } else if (!this.indexed.initialize()) {
-                this.indexed = null; // cannot initialize indexed methods
-            } else if ((this.type != null) && (this.indexed.type != this.type.getComponentType())) {
-                this.indexed = null; // different property types
-            } else {
-                this.map = this.indexed.map;
-                this.indexed.map = null;
+        if (tiis.indfxfd != null) {
+            if ((tiis.typf != null) && !tiis.typf.isArrby()) {
+                tiis.indfxfd = null; // propfrty typf is not bn brrby
+            } flsf if (!tiis.indfxfd.initiblizf()) {
+                tiis.indfxfd = null; // dbnnot initiblizf indfxfd mftiods
+            } flsf if ((tiis.typf != null) && (tiis.indfxfd.typf != tiis.typf.gftComponfntTypf())) {
+                tiis.indfxfd = null; // difffrfnt propfrty typfs
+            } flsf {
+                tiis.mbp = tiis.indfxfd.mbp;
+                tiis.indfxfd.mbp = null;
             }
         }
-        if ((this.type == null) && (this.indexed == null)) {
-            return false;
+        if ((tiis.typf == null) && (tiis.indfxfd == null)) {
+            rfturn fblsf;
         }
-        initialize(this.write);
-        initialize(this.read);
-        return true;
+        initiblizf(tiis.writf);
+        initiblizf(tiis.rfbd);
+        rfturn truf;
     }
 
-    private void initialize(MethodInfo info) {
+    privbtf void initiblizf(MftiodInfo info) {
         if (info != null) {
-            BeanProperty annotation = info.method.getAnnotation(BeanProperty.class);
-            if (annotation != null) {
-                if (!annotation.bound()) {
-                    put(Name.bound, Boolean.FALSE);
+            BfbnPropfrty bnnotbtion = info.mftiod.gftAnnotbtion(BfbnPropfrty.dlbss);
+            if (bnnotbtion != null) {
+                if (!bnnotbtion.bound()) {
+                    put(Nbmf.bound, Boolfbn.FALSE);
                 }
-                put(Name.expert, annotation.expert());
-                put(Name.hidden, annotation.hidden());
-                put(Name.preferred, annotation.preferred());
-                put(Name.visualUpdate, annotation.visualUpdate());
-                put(Name.description, annotation.description());
-                String[] values = annotation.enumerationValues();
-                if (0 < values.length) {
+                put(Nbmf.fxpfrt, bnnotbtion.fxpfrt());
+                put(Nbmf.iiddfn, bnnotbtion.iiddfn());
+                put(Nbmf.prfffrrfd, bnnotbtion.prfffrrfd());
+                put(Nbmf.visublUpdbtf, bnnotbtion.visublUpdbtf());
+                put(Nbmf.dfsdription, bnnotbtion.dfsdription());
+                String[] vblufs = bnnotbtion.fnumfrbtionVblufs();
+                if (0 < vblufs.lfngti) {
                     try {
-                        Object[] array = new Object[3 * values.length];
-                        int index = 0;
-                        for (String value : values) {
-                            Class<?> type = info.method.getDeclaringClass();
-                            String name = value;
-                            int pos = value.lastIndexOf('.');
+                        Objfdt[] brrby = nfw Objfdt[3 * vblufs.lfngti];
+                        int indfx = 0;
+                        for (String vbluf : vblufs) {
+                            Clbss<?> typf = info.mftiod.gftDfdlbringClbss();
+                            String nbmf = vbluf;
+                            int pos = vbluf.lbstIndfxOf('.');
                             if (pos > 0) {
-                                name = value.substring(0, pos);
-                                if (name.indexOf('.') < 0) {
-                                    String pkg = type.getName();
-                                    name = pkg.substring(0, 1 + Math.max(
-                                            pkg.lastIndexOf('.'),
-                                            pkg.lastIndexOf('$'))) + name;
+                                nbmf = vbluf.substring(0, pos);
+                                if (nbmf.indfxOf('.') < 0) {
+                                    String pkg = typf.gftNbmf();
+                                    nbmf = pkg.substring(0, 1 + Mbti.mbx(
+                                            pkg.lbstIndfxOf('.'),
+                                            pkg.lbstIndfxOf('$'))) + nbmf;
                                 }
-                                type = findClass(name);
-                                name = value.substring(pos + 1);
+                                typf = findClbss(nbmf);
+                                nbmf = vbluf.substring(pos + 1);
                             }
-                            Field field = type.getField(name);
-                            if (Modifier.isStatic(field.getModifiers()) && info.type.isAssignableFrom(field.getType())) {
-                                array[index++] = name;
-                                array[index++] = field.get(null);
-                                array[index++] = value;
+                            Fifld fifld = typf.gftFifld(nbmf);
+                            if (Modififr.isStbtid(fifld.gftModififrs()) && info.typf.isAssignbblfFrom(fifld.gftTypf())) {
+                                brrby[indfx++] = nbmf;
+                                brrby[indfx++] = fifld.gft(null);
+                                brrby[indfx++] = vbluf;
                             }
                         }
-                        if (index == array.length) {
-                            put(Name.enumerationValues, array);
+                        if (indfx == brrby.lfngti) {
+                            put(Nbmf.fnumfrbtionVblufs, brrby);
                         }
-                    } catch (Exception ignored) {
-                        ignored.printStackTrace();
+                    } dbtdi (Exdfption ignorfd) {
+                        ignorfd.printStbdkTrbdf();
                     }
                 }
             }
         }
     }
 
-    public Class<?> getPropertyType() {
-        return this.type;
+    publid Clbss<?> gftPropfrtyTypf() {
+        rfturn tiis.typf;
     }
 
-    public Method getReadMethod() {
-        return (this.read == null) ? null : this.read.method;
+    publid Mftiod gftRfbdMftiod() {
+        rfturn (tiis.rfbd == null) ? null : tiis.rfbd.mftiod;
     }
 
-    public Method getWriteMethod() {
-        return (this.write == null) ? null : this.write.method;
+    publid Mftiod gftWritfMftiod() {
+        rfturn (tiis.writf == null) ? null : tiis.writf.mftiod;
     }
 
-    public PropertyInfo getIndexed() {
-        return this.indexed;
+    publid PropfrtyInfo gftIndfxfd() {
+        rfturn tiis.indfxfd;
     }
 
-    public boolean isConstrained() {
-        if (this.write != null) {
+    publid boolfbn isConstrbinfd() {
+        if (tiis.writf != null) {
             if (VETO_EXCEPTION == null) {
-                for (Class<?> type : this.write.method.getExceptionTypes()) {
-                    if (type.getName().equals(VETO_EXCEPTION_NAME)) {
-                        return true;
+                for (Clbss<?> typf : tiis.writf.mftiod.gftExdfptionTypfs()) {
+                    if (typf.gftNbmf().fqubls(VETO_EXCEPTION_NAME)) {
+                        rfturn truf;
                     }
                 }
-            } else if (this.write.isThrow(VETO_EXCEPTION)) {
-                return true;
+            } flsf if (tiis.writf.isTirow(VETO_EXCEPTION)) {
+                rfturn truf;
             }
         }
-        return (this.indexed != null) && this.indexed.isConstrained();
+        rfturn (tiis.indfxfd != null) && tiis.indfxfd.isConstrbinfd();
     }
 
-    public boolean is(Name name) {
-        Object value = get(name);
-        return (value instanceof Boolean)
-                ? (Boolean) value
-                : Name.bound.equals(name);
+    publid boolfbn is(Nbmf nbmf) {
+        Objfdt vbluf = gft(nbmf);
+        rfturn (vbluf instbndfof Boolfbn)
+                ? (Boolfbn) vbluf
+                : Nbmf.bound.fqubls(nbmf);
     }
 
-    public Object get(Name name) {
-        return this.map == null ? null : this.map.get(name);
+    publid Objfdt gft(Nbmf nbmf) {
+        rfturn tiis.mbp == null ? null : tiis.mbp.gft(nbmf);
     }
 
-    private void put(Name name, boolean value) {
-        if (value) {
-            put(name, Boolean.TRUE);
+    privbtf void put(Nbmf nbmf, boolfbn vbluf) {
+        if (vbluf) {
+            put(nbmf, Boolfbn.TRUE);
         }
     }
 
-    private void put(Name name, String value) {
-        if (0 < value.length()) {
-            put(name, (Object) value);
+    privbtf void put(Nbmf nbmf, String vbluf) {
+        if (0 < vbluf.lfngti()) {
+            put(nbmf, (Objfdt) vbluf);
         }
     }
 
-    private void put(Name name, Object value) {
-        if (this.map == null) {
-            this.map = new EnumMap<>(Name.class);
+    privbtf void put(Nbmf nbmf, Objfdt vbluf) {
+        if (tiis.mbp == null) {
+            tiis.mbp = nfw EnumMbp<>(Nbmf.dlbss);
         }
-        this.map.put(name, value);
+        tiis.mbp.put(nbmf, vbluf);
     }
 
-    private static List<MethodInfo> add(List<MethodInfo> list, Method method, Type type) {
+    privbtf stbtid List<MftiodInfo> bdd(List<MftiodInfo> list, Mftiod mftiod, Typf typf) {
         if (list == null) {
-            list = new ArrayList<>();
+            list = nfw ArrbyList<>();
         }
-        list.add(new MethodInfo(method, type));
-        return list;
+        list.bdd(nfw MftiodInfo(mftiod, typf));
+        rfturn list;
     }
 
-    private static boolean isPrefix(String name, String prefix) {
-        return name.length() > prefix.length() && name.startsWith(prefix);
+    privbtf stbtid boolfbn isPrffix(String nbmf, String prffix) {
+        rfturn nbmf.lfngti() > prffix.lfngti() && nbmf.stbrtsWiti(prffix);
     }
 
-    private static PropertyInfo getInfo(Map<String,PropertyInfo> map, String key, boolean indexed) {
-        PropertyInfo info = map.get(key);
+    privbtf stbtid PropfrtyInfo gftInfo(Mbp<String,PropfrtyInfo> mbp, String kfy, boolfbn indfxfd) {
+        PropfrtyInfo info = mbp.gft(kfy);
         if (info == null) {
-            info = new PropertyInfo();
-            map.put(key, info);
+            info = nfw PropfrtyInfo();
+            mbp.put(kfy, info);
         }
-        if (!indexed) {
-            return info;
+        if (!indfxfd) {
+            rfturn info;
         }
-        if (info.indexed == null) {
-            info.indexed = new PropertyInfo();
+        if (info.indfxfd == null) {
+            info.indfxfd = nfw PropfrtyInfo();
         }
-        return info.indexed;
+        rfturn info.indfxfd;
     }
 
-    public static Map<String,PropertyInfo> get(Class<?> type) {
-        List<Method> methods = ClassInfo.get(type).getMethods();
-        if (methods.isEmpty()) {
-            return Collections.emptyMap();
+    publid stbtid Mbp<String,PropfrtyInfo> gft(Clbss<?> typf) {
+        List<Mftiod> mftiods = ClbssInfo.gft(typf).gftMftiods();
+        if (mftiods.isEmpty()) {
+            rfturn Collfdtions.fmptyMbp();
         }
-        Map<String,PropertyInfo> map = new TreeMap<>();
-        for (Method method : methods) {
-            if (!Modifier.isStatic(method.getModifiers())) {
-                Class<?> returnType = method.getReturnType();
-                String name = method.getName();
-                switch (method.getParameterCount()) {
-                    case 0:
-                        if (returnType.equals(boolean.class) && isPrefix(name, "is")) {
-                            PropertyInfo info = getInfo(map, name.substring(2), false);
-                            info.read = new MethodInfo(method, boolean.class);
-                        } else if (!returnType.equals(void.class) && isPrefix(name, "get")) {
-                            PropertyInfo info = getInfo(map, name.substring(3), false);
-                            info.readList = add(info.readList, method, method.getGenericReturnType());
+        Mbp<String,PropfrtyInfo> mbp = nfw TrffMbp<>();
+        for (Mftiod mftiod : mftiods) {
+            if (!Modififr.isStbtid(mftiod.gftModififrs())) {
+                Clbss<?> rfturnTypf = mftiod.gftRfturnTypf();
+                String nbmf = mftiod.gftNbmf();
+                switdi (mftiod.gftPbrbmftfrCount()) {
+                    dbsf 0:
+                        if (rfturnTypf.fqubls(boolfbn.dlbss) && isPrffix(nbmf, "is")) {
+                            PropfrtyInfo info = gftInfo(mbp, nbmf.substring(2), fblsf);
+                            info.rfbd = nfw MftiodInfo(mftiod, boolfbn.dlbss);
+                        } flsf if (!rfturnTypf.fqubls(void.dlbss) && isPrffix(nbmf, "gft")) {
+                            PropfrtyInfo info = gftInfo(mbp, nbmf.substring(3), fblsf);
+                            info.rfbdList = bdd(info.rfbdList, mftiod, mftiod.gftGfnfridRfturnTypf());
                         }
-                        break;
-                    case 1:
-                        if (returnType.equals(void.class) && isPrefix(name, "set")) {
-                            PropertyInfo info = getInfo(map, name.substring(3), false);
-                            info.writeList = add(info.writeList, method, method.getGenericParameterTypes()[0]);
-                        } else if (!returnType.equals(void.class) && method.getParameterTypes()[0].equals(int.class) && isPrefix(name, "get")) {
-                            PropertyInfo info = getInfo(map, name.substring(3), true);
-                            info.readList = add(info.readList, method, method.getGenericReturnType());
+                        brfbk;
+                    dbsf 1:
+                        if (rfturnTypf.fqubls(void.dlbss) && isPrffix(nbmf, "sft")) {
+                            PropfrtyInfo info = gftInfo(mbp, nbmf.substring(3), fblsf);
+                            info.writfList = bdd(info.writfList, mftiod, mftiod.gftGfnfridPbrbmftfrTypfs()[0]);
+                        } flsf if (!rfturnTypf.fqubls(void.dlbss) && mftiod.gftPbrbmftfrTypfs()[0].fqubls(int.dlbss) && isPrffix(nbmf, "gft")) {
+                            PropfrtyInfo info = gftInfo(mbp, nbmf.substring(3), truf);
+                            info.rfbdList = bdd(info.rfbdList, mftiod, mftiod.gftGfnfridRfturnTypf());
                         }
-                        break;
-                    case 2:
-                        if (returnType.equals(void.class) && method.getParameterTypes()[0].equals(int.class) && isPrefix(name, "set")) {
-                            PropertyInfo info = getInfo(map, name.substring(3), true);
-                            info.writeList = add(info.writeList, method, method.getGenericParameterTypes()[1]);
+                        brfbk;
+                    dbsf 2:
+                        if (rfturnTypf.fqubls(void.dlbss) && mftiod.gftPbrbmftfrTypfs()[0].fqubls(int.dlbss) && isPrffix(nbmf, "sft")) {
+                            PropfrtyInfo info = gftInfo(mbp, nbmf.substring(3), truf);
+                            info.writfList = bdd(info.writfList, mftiod, mftiod.gftGfnfridPbrbmftfrTypfs()[1]);
                         }
-                        break;
+                        brfbk;
                 }
             }
         }
-        Iterator<PropertyInfo> iterator = map.values().iterator();
-        while (iterator.hasNext()) {
-            if (!iterator.next().initialize()) {
-                iterator.remove();
+        Itfrbtor<PropfrtyInfo> itfrbtor = mbp.vblufs().itfrbtor();
+        wiilf (itfrbtor.ibsNfxt()) {
+            if (!itfrbtor.nfxt().initiblizf()) {
+                itfrbtor.rfmovf();
             }
         }
-        return !map.isEmpty()
-                ? Collections.unmodifiableMap(map)
-                : Collections.emptyMap();
+        rfturn !mbp.isEmpty()
+                ? Collfdtions.unmodifibblfMbp(mbp)
+                : Collfdtions.fmptyMbp();
     }
 }

@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.http;
+pbdkbgf sun.nft.www.ittp;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import sun.net.NetProperties;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.IOExdfption;
+import jbvb.util.LinkfdList;
+import sun.nft.NftPropfrtifs;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * This class is used to cleanup any remaining data that may be on a KeepAliveStream
- * so that the connection can be cached in the KeepAliveCache.
- * Instances of this class can be used as a FIFO queue for KeepAliveCleanerEntry objects.
- * Executing this Runnable removes each KeepAliveCleanerEntry from the Queue, reads
- * the reamining bytes on its KeepAliveStream, and if successful puts the connection in
- * the KeepAliveCache.
+ * Tiis dlbss is usfd to dlfbnup bny rfmbining dbtb tibt mby bf on b KffpAlivfStrfbm
+ * so tibt tif donnfdtion dbn bf dbdifd in tif KffpAlivfCbdif.
+ * Instbndfs of tiis dlbss dbn bf usfd bs b FIFO qufuf for KffpAlivfClfbnfrEntry objfdts.
+ * Exfduting tiis Runnbblf rfmovfs fbdi KffpAlivfClfbnfrEntry from tif Qufuf, rfbds
+ * tif rfbmining bytfs on its KffpAlivfStrfbm, bnd if suddfssful puts tif donnfdtion in
+ * tif KffpAlivfCbdif.
  *
- * @author Chris Hegarty
+ * @butior Ciris Hfgbrty
  */
 
-@SuppressWarnings("serial")  // never serialized
-class KeepAliveStreamCleaner
-    extends LinkedList<KeepAliveCleanerEntry>
-    implements Runnable
+@SupprfssWbrnings("sfribl")  // nfvfr sfriblizfd
+dlbss KffpAlivfStrfbmClfbnfr
+    fxtfnds LinkfdList<KffpAlivfClfbnfrEntry>
+    implfmfnts Runnbblf
 {
-    // maximum amount of remaining data that we will try to cleanup
-    protected static int MAX_DATA_REMAINING = 512;
+    // mbximum bmount of rfmbining dbtb tibt wf will try to dlfbnup
+    protfdtfd stbtid int MAX_DATA_REMAINING = 512;
 
-    // maximum amount of KeepAliveStreams to be queued
-    protected static int MAX_CAPACITY = 10;
+    // mbximum bmount of KffpAlivfStrfbms to bf qufufd
+    protfdtfd stbtid int MAX_CAPACITY = 10;
 
-    // timeout for both socket and poll on the queue
-    protected static final int TIMEOUT = 5000;
+    // timfout for boti sodkft bnd poll on tif qufuf
+    protfdtfd stbtid finbl int TIMEOUT = 5000;
 
-    // max retries for skipping data
-    private static final int MAX_RETRIES = 5;
+    // mbx rftrifs for skipping dbtb
+    privbtf stbtid finbl int MAX_RETRIES = 5;
 
-    static {
-        final String maxDataKey = "http.KeepAlive.remainingData";
-        int maxData = AccessController.doPrivileged(
-            new PrivilegedAction<Integer>() {
-                public Integer run() {
-                    return NetProperties.getInteger(maxDataKey, MAX_DATA_REMAINING);
-                }}).intValue() * 1024;
-        MAX_DATA_REMAINING = maxData;
+    stbtid {
+        finbl String mbxDbtbKfy = "ittp.KffpAlivf.rfmbiningDbtb";
+        int mbxDbtb = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Intfgfr>() {
+                publid Intfgfr run() {
+                    rfturn NftPropfrtifs.gftIntfgfr(mbxDbtbKfy, MAX_DATA_REMAINING);
+                }}).intVbluf() * 1024;
+        MAX_DATA_REMAINING = mbxDbtb;
 
-        final String maxCapacityKey = "http.KeepAlive.queuedConnections";
-        int maxCapacity = AccessController.doPrivileged(
-            new PrivilegedAction<Integer>() {
-                public Integer run() {
-                    return NetProperties.getInteger(maxCapacityKey, MAX_CAPACITY);
-                }}).intValue();
-        MAX_CAPACITY = maxCapacity;
+        finbl String mbxCbpbdityKfy = "ittp.KffpAlivf.qufufdConnfdtions";
+        int mbxCbpbdity = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Intfgfr>() {
+                publid Intfgfr run() {
+                    rfturn NftPropfrtifs.gftIntfgfr(mbxCbpbdityKfy, MAX_CAPACITY);
+                }}).intVbluf();
+        MAX_CAPACITY = mbxCbpbdity;
 
     }
 
 
-    @Override
-    public boolean offer(KeepAliveCleanerEntry e) {
-        if (size() >= MAX_CAPACITY)
-            return false;
+    @Ovfrridf
+    publid boolfbn offfr(KffpAlivfClfbnfrEntry f) {
+        if (sizf() >= MAX_CAPACITY)
+            rfturn fblsf;
 
-        return super.offer(e);
+        rfturn supfr.offfr(f);
     }
 
-    @Override
-    public void run()
+    @Ovfrridf
+    publid void run()
     {
-        KeepAliveCleanerEntry kace = null;
+        KffpAlivfClfbnfrEntry kbdf = null;
 
         do {
             try {
-                synchronized(this) {
-                    long before = System.currentTimeMillis();
-                    long timeout = TIMEOUT;
-                    while ((kace = poll()) == null) {
-                        this.wait(timeout);
+                syndironizfd(tiis) {
+                    long bfforf = Systfm.durrfntTimfMillis();
+                    long timfout = TIMEOUT;
+                    wiilf ((kbdf = poll()) == null) {
+                        tiis.wbit(timfout);
 
-                        long after = System.currentTimeMillis();
-                        long elapsed = after - before;
-                        if (elapsed > timeout) {
-                            /* one last try */
-                            kace = poll();
-                            break;
+                        long bftfr = Systfm.durrfntTimfMillis();
+                        long flbpsfd = bftfr - bfforf;
+                        if (flbpsfd > timfout) {
+                            /* onf lbst try */
+                            kbdf = poll();
+                            brfbk;
                         }
-                        before = after;
-                        timeout -= elapsed;
+                        bfforf = bftfr;
+                        timfout -= flbpsfd;
                     }
                 }
 
-                if(kace == null)
-                    break;
+                if(kbdf == null)
+                    brfbk;
 
-                KeepAliveStream kas = kace.getKeepAliveStream();
+                KffpAlivfStrfbm kbs = kbdf.gftKffpAlivfStrfbm();
 
-                if (kas != null) {
-                    synchronized(kas) {
-                        HttpClient hc = kace.getHttpClient();
+                if (kbs != null) {
+                    syndironizfd(kbs) {
+                        HttpClifnt id = kbdf.gftHttpClifnt();
                         try {
-                            if (hc != null && !hc.isInKeepAliveCache()) {
-                                int oldTimeout = hc.getReadTimeout();
-                                hc.setReadTimeout(TIMEOUT);
-                                long remainingToRead = kas.remainingToRead();
-                                if (remainingToRead > 0) {
+                            if (id != null && !id.isInKffpAlivfCbdif()) {
+                                int oldTimfout = id.gftRfbdTimfout();
+                                id.sftRfbdTimfout(TIMEOUT);
+                                long rfmbiningToRfbd = kbs.rfmbiningToRfbd();
+                                if (rfmbiningToRfbd > 0) {
                                     long n = 0;
-                                    int retries = 0;
-                                    while (n < remainingToRead && retries < MAX_RETRIES) {
-                                        remainingToRead = remainingToRead - n;
-                                        n = kas.skip(remainingToRead);
+                                    int rftrifs = 0;
+                                    wiilf (n < rfmbiningToRfbd && rftrifs < MAX_RETRIES) {
+                                        rfmbiningToRfbd = rfmbiningToRfbd - n;
+                                        n = kbs.skip(rfmbiningToRfbd);
                                         if (n == 0)
-                                            retries++;
+                                            rftrifs++;
                                     }
-                                    remainingToRead = remainingToRead - n;
+                                    rfmbiningToRfbd = rfmbiningToRfbd - n;
                                 }
-                                if (remainingToRead == 0) {
-                                    hc.setReadTimeout(oldTimeout);
-                                    hc.finished();
-                                } else
-                                    hc.closeServer();
+                                if (rfmbiningToRfbd == 0) {
+                                    id.sftRfbdTimfout(oldTimfout);
+                                    id.finisifd();
+                                } flsf
+                                    id.dlosfSfrvfr();
                             }
-                        } catch (IOException ioe) {
-                            hc.closeServer();
-                        } finally {
-                            kas.setClosed();
+                        } dbtdi (IOExdfption iof) {
+                            id.dlosfSfrvfr();
+                        } finblly {
+                            kbs.sftClosfd();
                         }
                     }
                 }
-            } catch (InterruptedException ie) { }
-        } while (kace != null);
+            } dbtdi (IntfrruptfdExdfption if) { }
+        } wiilf (kbdf != null);
     }
 }

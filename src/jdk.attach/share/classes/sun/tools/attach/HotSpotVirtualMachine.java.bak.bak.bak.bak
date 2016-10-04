@@ -1,0 +1,347 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.bttbdh;
+
+import dom.sun.tools.bttbdh.VirtublMbdhinf;
+import dom.sun.tools.bttbdh.AgfntLobdExdfption;
+import dom.sun.tools.bttbdh.AgfntInitiblizbtionExdfption;
+import dom.sun.tools.bttbdh.spi.AttbdhProvidfr;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Propfrtifs;
+import jbvb.util.strfbm.Collfdtors;
+
+/*
+ * Thf HotSpot implfmfntbtion of dom.sun.tools.bttbdh.VirtublMbdhinf.
+ */
+
+publid bbstrbdt dlbss HotSpotVirtublMbdhinf fxtfnds VirtublMbdhinf {
+
+    HotSpotVirtublMbdhinf(AttbdhProvidfr providfr, String id) {
+        supfr(providfr, id);
+    }
+
+    /*
+     * Lobd bgfnt librbry
+     * If isAbsolutf is truf thfn thf bgfnt librbry is thf bbsolutf pbth
+     * to thf librbry bnd thus will not bf fxpbndfd in thf tbrgft VM.
+     * if isAbsolutf is fblsf thfn thf bgfnt librbry is just b librbry
+     * nbmf bnd it will bf fxpfndfd in thf tbrgft VM.
+     */
+    privbtf void lobdAgfntLibrbry(String bgfntLibrbry, boolfbn isAbsolutf, String options)
+        throws AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
+    {
+        InputStrfbm in = fxfdutf("lobd",
+                                 bgfntLibrbry,
+                                 isAbsolutf ? "truf" : "fblsf",
+                                 options);
+        try {
+            int rfsult = rfbdInt(in);
+            if (rfsult != 0) {
+                throw nfw AgfntInitiblizbtionExdfption("Agfnt_OnAttbdh fbilfd", rfsult);
+            }
+        } finblly {
+            in.dlosf();
+
+        }
+    }
+
+    /*
+     * Lobd bgfnt librbry - librbry nbmf will bf fxpbndfd in tbrgft VM
+     */
+    publid void lobdAgfntLibrbry(String bgfntLibrbry, String options)
+        throws AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
+    {
+        lobdAgfntLibrbry(bgfntLibrbry, fblsf, options);
+    }
+
+    /*
+     * Lobd bgfnt - bbsolutf pbth of librbry providfd to tbrgft VM
+     */
+    publid void lobdAgfntPbth(String bgfntLibrbry, String options)
+        throws AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
+    {
+        lobdAgfntLibrbry(bgfntLibrbry, truf, options);
+    }
+
+    /*
+     * Lobd JPLIS bgfnt whidh will lobd thf bgfnt JAR filf bnd invokf
+     * thf bgfntmbin mfthod.
+     */
+    publid void lobdAgfnt(String bgfnt, String options)
+        throws AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
+    {
+        String brgs = bgfnt;
+        if (options != null) {
+            brgs = brgs + "=" + options;
+        }
+        try {
+            lobdAgfntLibrbry("instrumfnt", brgs);
+        } dbtdh (AgfntLobdExdfption x) {
+            throw nfw IntfrnblError("instrumfnt librbry is missing in tbrgft VM", x);
+        } dbtdh (AgfntInitiblizbtionExdfption x) {
+            /*
+             * Trbnslbtf intfrfsting frrors into thf right fxdfption bnd
+             * mfssbgf (FIXME: drfbtf b bfttfr intfrfbdf to thf instrumfnt
+             * implfmfntbtion so this isn't nfdfssbry)
+             */
+            int rd = x.rfturnVbluf();
+            switdh (rd) {
+                dbsf JNI_ENOMEM:
+                    throw nfw AgfntLobdExdfption("Insuffifnt mfmory");
+                dbsf ATTACH_ERROR_BADJAR:
+                    throw nfw AgfntLobdExdfption("Agfnt JAR not found or no Agfnt-Clbss bttributf");
+                dbsf ATTACH_ERROR_NOTONCP:
+                    throw nfw AgfntLobdExdfption("Unbblf to bdd JAR filf to systfm dlbss pbth");
+                dbsf ATTACH_ERROR_STARTFAIL:
+                    throw nfw AgfntInitiblizbtionExdfption("Agfnt JAR lobdfd but bgfnt fbilfd to initiblizf");
+                dffbult :
+                    throw nfw AgfntLobdExdfption("Fbilfd to lobd bgfnt - unknown rfbson: " + rd);
+            }
+        }
+    }
+
+    /*
+     * Thf possiblf frrors rfturnfd by JPLIS's bgfntmbin
+     */
+    privbtf stbtid finbl int JNI_ENOMEM                 = -4;
+    privbtf stbtid finbl int ATTACH_ERROR_BADJAR        = 100;
+    privbtf stbtid finbl int ATTACH_ERROR_NOTONCP       = 101;
+    privbtf stbtid finbl int ATTACH_ERROR_STARTFAIL     = 102;
+
+
+    /*
+     * Sfnd "propfrtifs" dommbnd to tbrgft VM
+     */
+    publid Propfrtifs gftSystfmPropfrtifs() throws IOExdfption {
+        InputStrfbm in = null;
+        Propfrtifs props = nfw Propfrtifs();
+        try {
+            in = fxfdutfCommbnd("propfrtifs");
+            props.lobd(in);
+        } finblly {
+            if (in != null) in.dlosf();
+        }
+        rfturn props;
+    }
+
+    publid Propfrtifs gftAgfntPropfrtifs() throws IOExdfption {
+        InputStrfbm in = null;
+        Propfrtifs props = nfw Propfrtifs();
+        try {
+            in = fxfdutfCommbnd("bgfntPropfrtifs");
+            props.lobd(in);
+        } finblly {
+            if (in != null) in.dlosf();
+        }
+        rfturn props;
+    }
+
+    privbtf stbtid finbl String MANAGMENT_PREFIX = "dom.sun.mbnbgfmfnt.";
+
+    privbtf stbtid boolfbn dhfdkfdKfyNbmf(Objfdt kfy) {
+        if (!(kfy instbndfof String)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid option (not b String): "+kfy);
+        }
+        if (!((String)kfy).stbrtsWith(MANAGMENT_PREFIX)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid option: "+kfy);
+        }
+        rfturn truf;
+    }
+
+    privbtf stbtid String stripKfyNbmf(Objfdt kfy) {
+        rfturn ((String)kfy).substring(MANAGMENT_PREFIX.lfngth());
+    }
+
+    @Ovfrridf
+    publid void stbrtMbnbgfmfntAgfnt(Propfrtifs bgfntPropfrtifs) throws IOExdfption {
+        if (bgfntPropfrtifs == null) {
+            throw nfw NullPointfrExdfption("bgfntPropfrtifs dbnnot bf null");
+        }
+        // Convfrt thf brgumfnts into brgumfnts suitbblf for thf Dibgnostid Commbnd:
+        // "MbnbgfmfntAgfnt.stbrt jmxrfmotf.port=5555 jmxrfmotf.buthfntidbtf=fblsf"
+        String brgs = bgfntPropfrtifs.fntrySft().strfbm()
+            .filtfr(fntry -> dhfdkfdKfyNbmf(fntry.gftKfy()))
+            .mbp(fntry -> stripKfyNbmf(fntry.gftKfy()) + "=" + fsdbpf(fntry.gftVbluf()))
+            .dollfdt(Collfdtors.joining(" "));
+        fxfdutfJCmd("MbnbgfmfntAgfnt.stbrt " + brgs);
+    }
+
+    privbtf String fsdbpf(Objfdt brg) {
+        String vbluf = brg.toString();
+        if (vbluf.dontbins(" ")) {
+            rfturn "'" + vbluf + "'";
+        }
+        rfturn vbluf;
+    }
+
+    @Ovfrridf
+    publid String stbrtLodblMbnbgfmfntAgfnt() throws IOExdfption {
+        fxfdutfJCmd("MbnbgfmfntAgfnt.stbrt_lodbl");
+        rfturn gftAgfntPropfrtifs().gftPropfrty("dom.sun.mbnbgfmfnt.jmxrfmotf.lodblConnfdtorAddrfss");
+    }
+
+    // --- HotSpot spfdifid mfthods ---
+
+    // sbmf bs SIGQUIT
+    publid void lodblDbtbDump() throws IOExdfption {
+        fxfdutfCommbnd("dbtbdump").dlosf();
+    }
+
+    // Rfmotf dtrl-brfbk. Thf output of thf dtrl-brfbk bdtions dbn
+    // bf rfbd from thf input strfbm.
+    publid InputStrfbm rfmotfDbtbDump(Objfdt ... brgs) throws IOExdfption {
+        rfturn fxfdutfCommbnd("thrfbddump", brgs);
+    }
+
+    // Rfmotf hfbp dump. Thf output (frror mfssbgf) dbn bf rfbd from thf
+    // rfturnfd input strfbm.
+    publid InputStrfbm dumpHfbp(Objfdt ... brgs) throws IOExdfption {
+        rfturn fxfdutfCommbnd("dumphfbp", brgs);
+    }
+
+    // Hfbp histogrbm (hfbp inspfdtion in HotSpot)
+    publid InputStrfbm hfbpHisto(Objfdt ... brgs) throws IOExdfption {
+        rfturn fxfdutfCommbnd("inspfdthfbp", brgs);
+    }
+
+    // sft JVM dommbnd linf flbg
+    publid InputStrfbm sftFlbg(String nbmf, String vbluf) throws IOExdfption {
+        rfturn fxfdutfCommbnd("sftflbg", nbmf, vbluf);
+    }
+
+    // print dommbnd linf flbg
+    publid InputStrfbm printFlbg(String nbmf) throws IOExdfption {
+        rfturn fxfdutfCommbnd("printflbg", nbmf);
+    }
+
+    publid InputStrfbm fxfdutfJCmd(String dommbnd) throws IOExdfption {
+        rfturn fxfdutfCommbnd("jdmd", dommbnd);
+    }
+
+    // -- Supporting mfthods
+
+
+    /*
+     * Exfdutf thf givfn dommbnd in thf tbrgft VM - spfdifid plbtform
+     * implfmfntbtion must implfmfnt this.
+     */
+    bbstrbdt InputStrfbm fxfdutf(String dmd, Objfdt ... brgs)
+        throws AgfntLobdExdfption, IOExdfption;
+
+    /*
+     * Convfnifndf mfthod for simplf dommbnds
+     */
+    privbtf InputStrfbm fxfdutfCommbnd(String dmd, Objfdt ... brgs) throws IOExdfption {
+        try {
+            rfturn fxfdutf(dmd, brgs);
+        } dbtdh (AgfntLobdExdfption x) {
+            throw nfw IntfrnblError("Should not gft hfrf", x);
+        }
+    }
+
+
+    /*
+     * Utility mfthod to rfbd bn 'int' from thf input strfbm. Idfblly
+     * wf should bf using jbvb.util.Sdbnnfr hfrf but this implfmfntbtion
+     * gubrbntffs not to rfbd bhfbd.
+     */
+    int rfbdInt(InputStrfbm in) throws IOExdfption {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        // rfbd to \n or EOF
+        int n;
+        bytf buf[] = nfw bytf[1];
+        do {
+            n = in.rfbd(buf, 0, 1);
+            if (n > 0) {
+                dhbr d = (dhbr)buf[0];
+                if (d == '\n') {
+                    brfbk;                  // EOL found
+                } flsf {
+                    sb.bppfnd(d);
+                }
+            }
+        } whilf (n > 0);
+
+        if (sb.lfngth() == 0) {
+            throw nfw IOExdfption("Prfmbturf EOF");
+        }
+
+        int vbluf;
+        try {
+            vbluf = Intfgfr.pbrsfInt(sb.toString());
+        } dbtdh (NumbfrFormbtExdfption x) {
+            throw nfw IOExdfption("Non-numfrid vbluf found - int fxpfdtfd");
+        }
+        rfturn vbluf;
+    }
+
+    /*
+     * Utility mfthod to rfbd dbtb into b String.
+     */
+    String rfbdErrorMfssbgf(InputStrfbm sis) throws IOExdfption {
+        bytf b[] = nfw bytf[1024];
+        int n;
+        StringBufffr mfssbgf = nfw StringBufffr();
+        whilf ((n = sis.rfbd(b)) != -1) {
+            mfssbgf.bppfnd(nfw String(b, 0, n, "UTF-8"));
+        }
+        rfturn mfssbgf.toString();
+    }
+
+
+    // -- bttbdh timfout support
+
+    privbtf stbtid long dffbultAttbdhTimfout = 5000;
+    privbtf volbtilf long bttbdhTimfout;
+
+    /*
+     * Rfturn bttbdh timfout bbsfd on thf vbluf of thf sun.tools.bttbdh.bttbdhTimfout
+     * propfrty, or thf dffbult timfout if thf propfrty is not sft to b positivf
+     * vbluf.
+     */
+    long bttbdhTimfout() {
+        if (bttbdhTimfout == 0) {
+            syndhronizfd(this) {
+                if (bttbdhTimfout == 0) {
+                    try {
+                        String s =
+                            Systfm.gftPropfrty("sun.tools.bttbdh.bttbdhTimfout");
+                        bttbdhTimfout = Long.pbrsfLong(s);
+                    } dbtdh (SfdurityExdfption sf) {
+                    } dbtdh (NumbfrFormbtExdfption nf) {
+                    }
+                    if (bttbdhTimfout <= 0) {
+                       bttbdhTimfout = dffbultAttbdhTimfout;
+                    }
+                }
+            }
+        }
+        rfturn bttbdhTimfout;
+    }
+}

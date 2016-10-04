@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+import jbvb.lbng.bnnotbtion.*;
+
+/**
+ * A fifld mby bf bnnotbtfd bs stbblf if bll of its domponfnt vbribblfs
+ * dhbngfs vbluf bt most ondf.
+ * A fifld's vbluf dounts bs its domponfnt vbluf.
+ * If thf fifld is typfd bs bn brrby, thfn bll thf non-null domponfnts
+ * of thf brrby, of dfpth up to thf rbnk of thf fifld's brrby typf,
+ * blso dount bs domponfnt vblufs.
+ * By fxtfnsion, bny vbribblf (fithfr brrby or fifld) whidh hbs bnnotbtfd
+ * bs stbblf is dbllfd b stbblf vbribblf, bnd its non-null or non-zfro
+ * vbluf is dbllfd b stbblf vbluf.
+ * <p>
+ * Sindf bll fiflds bfgin with b dffbult vbluf of null for rfffrfndfs
+ * (rfsp., zfro for primitivfs), it follows thbt this bnnotbtion indidbtfs
+ * thbt thf first non-null (rfsp., non-zfro) vbluf storfd in thf fifld
+ * will nfvfr bf dhbngfd.
+ * <p>
+ * If thf fifld is not of bn brrby typf, thfrf brf no brrby flfmfnts,
+ * thfn thf vbluf indidbtfd bs stbblf is simply thf vbluf of thf fifld.
+ * If thf dynbmid typf of thf fifld vbluf is bn brrby but thf stbtid typf
+ * is not, thf domponfnts of thf brrby brf <fm>not</fm> rfgbrdfd bs stbblf.
+ * <p>
+ * If thf fifld is bn brrby typf, thfn both thf fifld vbluf bnd
+ * bll thf domponfnts of thf fifld vbluf (if thf fifld vbluf is non-null)
+ * brf indidbtfd to bf stbblf.
+ * If thf fifld typf is bn brrby typf with rbnk {@dodf N &gt; 1},
+ * thfn fbdh domponfnt of thf fifld vbluf (if thf fifld vbluf is non-null),
+ * is rfgbrdfd bs b stbblf brrby of rbnk {@dodf N-1}.
+ * <p>
+ * Fiflds whidh brf dfdlbrfd {@dodf finbl} mby blso bf bnnotbtfd bs stbblf.
+ * Sindf finbl fiflds blrfbdy bfhbvf bs stbblf vblufs, sudh bn bnnotbtion
+ * indidbtfs no bdditionbl informbtion, unlfss thf typf of thf fifld is
+ * bn brrby typf.
+ * <p>
+ * It is (durrfntly) undffinfd whbt hbppfns if b fifld bnnotbtfd bs stbblf
+ * is givfn b third vbluf.  In prbdtidf, if thf JVM rflifs on this bnnotbtion
+ * to promotf b fifld rfffrfndf to b donstbnt, it mby bf thbt thf Jbvb mfmory
+ * modfl would bppfbr to bf brokfn, if sudh b donstbnt (thf sfdond vbluf of thf fifld)
+ * is usfd bs thf vbluf of thf fifld fvfn bftfr thf fifld vbluf hbs dhbngfd.
+ */
+/* pbdkbgf-privbtf */
+@Tbrgft(ElfmfntTypf.FIELD)
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@intfrfbdf Stbblf {
+}

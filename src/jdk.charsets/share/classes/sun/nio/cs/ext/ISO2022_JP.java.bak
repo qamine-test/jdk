@@ -1,762 +1,762 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CodingErrorAction;
-import sun.nio.cs.HistoricallyNamedCharset;
-import sun.nio.cs.Surrogate;
-import sun.nio.cs.US_ASCII;
-import static sun.nio.cs.CharsetMapping.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.nio.dibrsft.CodfrRfsult;
+import jbvb.nio.dibrsft.CodingErrorAdtion;
+import sun.nio.ds.HistoridbllyNbmfdCibrsft;
+import sun.nio.ds.Surrogbtf;
+import sun.nio.ds.US_ASCII;
+import stbtid sun.nio.ds.CibrsftMbpping.*;
 
 /*
- * Implementation notes:
+ * Implfmfntbtion notfs:
  *
- * (1)"Standard based" (ASCII, JIS_X_0201 and JIS_X_0208) ISO2022-JP charset
- * is provided by the base implementation of this class.
+ * (1)"Stbndbrd bbsfd" (ASCII, JIS_X_0201 bnd JIS_X_0208) ISO2022-JP dibrsft
+ * is providfd by tif bbsf implfmfntbtion of tiis dlbss.
  *
- * Three Microsoft ISO2022-JP variants, MS50220, MS50221 and MSISO2022JP
- * are provided via subclasses.
+ * Tirff Midrosoft ISO2022-JP vbribnts, MS50220, MS50221 bnd MSISO2022JP
+ * brf providfd vib subdlbssfs.
  *
- * (2)MS50220 and MS50221 are assumed to work the same way as Microsoft
- * CP50220 and CP50221's 7-bit implementation works by using CP5022X
- * specific JIS0208 and JIS0212 mapping tables (generated via Microsoft's
- * MultiByteToWideChar/WideCharToMultiByte APIs). The only difference
- * between these 2 classes is that MS50220 does not support singlebyte
- * halfwidth kana (Uff61-Uff9f) shiftin mechanism when "encoding", instead
- * these halfwidth kana characters are converted to their fullwidth JIS0208
- * counterparts.
+ * (2)MS50220 bnd MS50221 brf bssumfd to work tif sbmf wby bs Midrosoft
+ * CP50220 bnd CP50221's 7-bit implfmfntbtion works by using CP5022X
+ * spfdifid JIS0208 bnd JIS0212 mbpping tbblfs (gfnfrbtfd vib Midrosoft's
+ * MultiBytfToWidfCibr/WidfCibrToMultiBytf APIs). Tif only difffrfndf
+ * bftwffn tifsf 2 dlbssfs is tibt MS50220 dofs not support singlfbytf
+ * iblfwidti kbnb (Uff61-Uff9f) siiftin mfdibnism wifn "fndoding", instfbd
+ * tifsf iblfwidti kbnb dibrbdtfrs brf donvfrtfd to tifir fullwidti JIS0208
+ * dountfrpbrts.
  *
- * The difference between the standard JIS_X_0208 and JIS_X_0212 mappings
- * and the CP50220/50221 specific are
+ * Tif difffrfndf bftwffn tif stbndbrd JIS_X_0208 bnd JIS_X_0212 mbppings
+ * bnd tif CP50220/50221 spfdifid brf
  *
- * 0208 mapping:
- *              1)0x213d <-> U2015 (compared to U2014)
- *              2)One way mappings for 5 characters below
+ * 0208 mbpping:
+ *              1)0x213d <-> U2015 (dompbrfd to U2014)
+ *              2)Onf wby mbppings for 5 dibrbdtfrs bflow
  *                u2225 (ms) -> 0x2142 <-> u2016 (jis)
  *                uff0d (ms) -> 0x215d <-> u2212 (jis)
- *                uffe0 (ms) -> 0x2171 <-> u00a2 (jis)
- *                uffe1 (ms) -> 0x2172 <-> u00a3 (jis)
- *                uffe2 (ms) -> 0x224c <-> u00ac (jis)
- *                //should consider 0xff5e -> 0x2141 <-> U301c?
+ *                ufff0 (ms) -> 0x2171 <-> u00b2 (jis)
+ *                ufff1 (ms) -> 0x2172 <-> u00b3 (jis)
+ *                ufff2 (ms) -> 0x224d <-> u00bd (jis)
+ *                //siould donsidfr 0xff5f -> 0x2141 <-> U301d?
  *              3)NEC Row13 0x2d21-0x2d79
- *              4)85-94 ku <-> UE000,UE3AB (includes NEC selected
- *                IBM kanji in 89-92ku)
- *              5)UFF61-UFF9f -> Fullwidth 0208 KANA
+ *              4)85-94 ku <-> UE000,UE3AB (indludfs NEC sflfdtfd
+ *                IBM kbnji in 89-92ku)
+ *              5)UFF61-UFF9f -> Fullwidti 0208 KANA
  *
- * 0212 mapping:
- *              1)0x2237 <-> UFF5E (Fullwidth Tilde)
- *              2)0x2271 <-> U2116 (Numero Sign)
+ * 0212 mbpping:
+ *              1)0x2237 <-> UFF5E (Fullwidti Tildf)
+ *              2)0x2271 <-> U2116 (Numfro Sign)
  *              3)85-94 ku <-> UE3AC - UE757
  *
- * (3)MSISO2022JP uses a JIS0208 mapping generated from MS932DB.b2c
- * and MS932DB.c2b by converting the SJIS codepoints back to their
- * JIS0208 counterparts. With the exception of
+ * (3)MSISO2022JP usfs b JIS0208 mbpping gfnfrbtfd from MS932DB.b2d
+ * bnd MS932DB.d2b by donvfrting tif SJIS dodfpoints bbdk to tifir
+ * JIS0208 dountfrpbrts. Witi tif fxdfption of
  *
- * (a)Codepoints with a resulting JIS0208 codepoints beyond 0x7e00 are
- *    dropped (this includs the IBM Extended Kanji/Non-kanji from 0x9321
- *    to 0x972c)
- * (b)The Unicode codepoints that the IBM Extended Kanji/Non-kanji are
- *    mapped to (in MS932) are mapped back to NEC selected IBM Kanji/
- *    Non-kanji area at 0x7921-0x7c7e.
+ * (b)Codfpoints witi b rfsulting JIS0208 dodfpoints bfyond 0x7f00 brf
+ *    droppfd (tiis indluds tif IBM Extfndfd Kbnji/Non-kbnji from 0x9321
+ *    to 0x972d)
+ * (b)Tif Unidodf dodfpoints tibt tif IBM Extfndfd Kbnji/Non-kbnji brf
+ *    mbppfd to (in MS932) brf mbppfd bbdk to NEC sflfdtfd IBM Kbnji/
+ *    Non-kbnji brfb bt 0x7921-0x7d7f.
  *
- * Compared to JIS_X_0208 mapping, this MS932 based mapping has
+ * Compbrfd to JIS_X_0208 mbpping, tiis MS932 bbsfd mbpping ibs
 
- * (a)different mappings for 7 JIS codepoints
+ * (b)difffrfnt mbppings for 7 JIS dodfpoints
  *        0x213d <-> U2015
  *        0x2141 <-> UFF5E
  *        0x2142 <-> U2225
  *        0x215d <-> Uff0d
- *        0x2171 <-> Uffe0
- *        0x2172 <-> Uffe1
- *        0x224c <-> Uffe2
- * (b)added one-way c2b mappings for
+ *        0x2171 <-> Ufff0
+ *        0x2172 <-> Ufff1
+ *        0x224d <-> Ufff2
+ * (b)bddfd onf-wby d2b mbppings for
  *        U00b8 -> 0x2124
  *        U00b7 -> 0x2126
- *        U00af -> 0x2131
- *        U00ab -> 0x2263
+ *        U00bf -> 0x2131
+ *        U00bb -> 0x2263
  *        U00bb -> 0x2264
  *        U3094 -> 0x2574
- *        U00b5 -> 0x264c
- * (c)NEC Row 13
- * (d)NEC selected IBM extended Kanji/Non-kanji
- *    These codepoints are mapped to the same Unicode codepoints as
- *    the MS932 does, while MS50220/50221 maps them to the Unicode
- *    private area.
+ *        U00b5 -> 0x264d
+ * (d)NEC Row 13
+ * (d)NEC sflfdtfd IBM fxtfndfd Kbnji/Non-kbnji
+ *    Tifsf dodfpoints brf mbppfd to tif sbmf Unidodf dodfpoints bs
+ *    tif MS932 dofs, wiilf MS50220/50221 mbps tifm to tif Unidodf
+ *    privbtf brfb.
  *
- * # There is also an interesting difference when compared to MS5022X
- *   0208 mapping for JIS codepoint "0x2D60", MS932 maps it to U301d
- *   but MS5022X maps it to U301e, obvious MS5022X is wrong, but...
+ * # Tifrf is blso bn intfrfsting difffrfndf wifn dompbrfd to MS5022X
+ *   0208 mbpping for JIS dodfpoint "0x2D60", MS932 mbps it to U301d
+ *   but MS5022X mbps it to U301f, obvious MS5022X is wrong, but...
  */
 
-public class ISO2022_JP
-    extends Charset
-    implements HistoricallyNamedCharset
+publid dlbss ISO2022_JP
+    fxtfnds Cibrsft
+    implfmfnts HistoridbllyNbmfdCibrsft
 {
-    private static final int ASCII = 0;                 // ESC ( B
-    private static final int JISX0201_1976 = 1;         // ESC ( J
-    private static final int JISX0208_1978 = 2;         // ESC $ @
-    private static final int JISX0208_1983 = 3;         // ESC $ B
-    private static final int JISX0212_1990 = 4;         // ESC $ ( D
-    private static final int JISX0201_1976_KANA = 5;    // ESC ( I
-    private static final int SHIFTOUT = 6;
+    privbtf stbtid finbl int ASCII = 0;                 // ESC ( B
+    privbtf stbtid finbl int JISX0201_1976 = 1;         // ESC ( J
+    privbtf stbtid finbl int JISX0208_1978 = 2;         // ESC $ @
+    privbtf stbtid finbl int JISX0208_1983 = 3;         // ESC $ B
+    privbtf stbtid finbl int JISX0212_1990 = 4;         // ESC $ ( D
+    privbtf stbtid finbl int JISX0201_1976_KANA = 5;    // ESC ( I
+    privbtf stbtid finbl int SHIFTOUT = 6;
 
-    private static final int ESC = 0x1b;
-    private static final int SO = 0x0e;
-    private static final int SI = 0x0f;
+    privbtf stbtid finbl int ESC = 0x1b;
+    privbtf stbtid finbl int SO = 0x0f;
+    privbtf stbtid finbl int SI = 0x0f;
 
-    public ISO2022_JP() {
-        super("ISO-2022-JP",
-              ExtendedCharsets.aliasesFor("ISO-2022-JP"));
+    publid ISO2022_JP() {
+        supfr("ISO-2022-JP",
+              ExtfndfdCibrsfts.blibsfsFor("ISO-2022-JP"));
     }
 
-    protected ISO2022_JP(String canonicalName,
-                         String[] aliases) {
-        super(canonicalName, aliases);
+    protfdtfd ISO2022_JP(String dbnonidblNbmf,
+                         String[] blibsfs) {
+        supfr(dbnonidblNbmf, blibsfs);
     }
 
-    public String historicalName() {
-        return "ISO2022JP";
+    publid String iistoridblNbmf() {
+        rfturn "ISO2022JP";
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs instanceof JIS_X_0201)
-                || (cs instanceof US_ASCII)
-                || (cs instanceof JIS_X_0208)
-                || (cs instanceof ISO2022_JP));
+    publid boolfbn dontbins(Cibrsft ds) {
+        rfturn ((ds instbndfof JIS_X_0201)
+                || (ds instbndfof US_ASCII)
+                || (ds instbndfof JIS_X_0208)
+                || (ds instbndfof ISO2022_JP));
     }
 
-    public CharsetDecoder newDecoder() {
-        return new Decoder(this);
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(tiis);
     }
 
-    public CharsetEncoder newEncoder() {
-        return new Encoder(this);
+    publid CibrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(tiis);
     }
 
-    protected boolean doSBKANA() {
-        return true;
+    protfdtfd boolfbn doSBKANA() {
+        rfturn truf;
     }
 
-    static class Decoder extends CharsetDecoder
-        implements DelegatableDecoder {
+    stbtid dlbss Dfdodfr fxtfnds CibrsftDfdodfr
+        implfmfnts DflfgbtbblfDfdodfr {
 
-        final static DoubleByte.Decoder DEC0208 =
-            (DoubleByte.Decoder)new JIS_X_0208().newDecoder();
+        finbl stbtid DoublfBytf.Dfdodfr DEC0208 =
+            (DoublfBytf.Dfdodfr)nfw JIS_X_0208().nfwDfdodfr();
 
-        private int currentState;
-        private int previousState;
+        privbtf int durrfntStbtf;
+        privbtf int prfviousStbtf;
 
-        private DoubleByte.Decoder dec0208;
-        private DoubleByte.Decoder dec0212;
+        privbtf DoublfBytf.Dfdodfr dfd0208;
+        privbtf DoublfBytf.Dfdodfr dfd0212;
 
-        private Decoder(Charset cs) {
-            this(cs, DEC0208, null);
+        privbtf Dfdodfr(Cibrsft ds) {
+            tiis(ds, DEC0208, null);
         }
 
-        protected Decoder(Charset cs,
-                          DoubleByte.Decoder dec0208,
-                          DoubleByte.Decoder dec0212) {
-            super(cs, 0.5f, 1.0f);
-            this.dec0208 = dec0208;
-            this.dec0212 = dec0212;
-            currentState = ASCII;
-            previousState = ASCII;
+        protfdtfd Dfdodfr(Cibrsft ds,
+                          DoublfBytf.Dfdodfr dfd0208,
+                          DoublfBytf.Dfdodfr dfd0212) {
+            supfr(ds, 0.5f, 1.0f);
+            tiis.dfd0208 = dfd0208;
+            tiis.dfd0212 = dfd0212;
+            durrfntStbtf = ASCII;
+            prfviousStbtf = ASCII;
         }
 
-        public void implReset() {
-            currentState = ASCII;
-            previousState = ASCII;
+        publid void implRfsft() {
+            durrfntStbtf = ASCII;
+            prfviousStbtf = ASCII;
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbtf CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd,
+                                            CibrBufffr dst)
         {
-            int inputSize = 0;
+            int inputSizf = 0;
             int b1 = 0, b2 = 0, b3 = 0, b4 = 0;
-            char c = UNMAPPABLE_DECODING;
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            dibr d = UNMAPPABLE_DECODING;
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
             sp = (sp <= sl ? sp : sl);
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            dibr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             try {
-                while (sp < sl) {
-                    b1 = sa[sp] & 0xff;
-                    inputSize = 1;
+                wiilf (sp < sl) {
+                    b1 = sb[sp] & 0xff;
+                    inputSizf = 1;
                     if ((b1 & 0x80) != 0) {
-                        return CoderResult.malformedForLength(inputSize);
+                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                     }
                     if (b1 == ESC || b1 == SO || b1 == SI) {
                         if (b1 == ESC) {
-                            if (sp + inputSize + 2 > sl)
-                                return CoderResult.UNDERFLOW;
-                            b2 = sa[sp + inputSize++] & 0xff;
+                            if (sp + inputSizf + 2 > sl)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = sb[sp + inputSizf++] & 0xff;
                             if (b2 == '(') {
-                                b3 = sa[sp + inputSize++] & 0xff;
+                                b3 = sb[sp + inputSizf++] & 0xff;
                                 if (b3 == 'B'){
-                                    currentState = ASCII;
-                                } else if (b3 == 'J'){
-                                    currentState = JISX0201_1976;
-                                } else if (b3 == 'I'){
-                                    currentState = JISX0201_1976_KANA;
-                                } else {
-                                    return CoderResult.malformedForLength(inputSize);
+                                    durrfntStbtf = ASCII;
+                                } flsf if (b3 == 'J'){
+                                    durrfntStbtf = JISX0201_1976;
+                                } flsf if (b3 == 'I'){
+                                    durrfntStbtf = JISX0201_1976_KANA;
+                                } flsf {
+                                    rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                 }
-                            } else if (b2 == '$'){
-                                b3 = sa[sp + inputSize++] & 0xff;
+                            } flsf if (b2 == '$'){
+                                b3 = sb[sp + inputSizf++] & 0xff;
                                 if (b3 == '@'){
-                                    currentState = JISX0208_1978;
-                                } else if (b3 == 'B'){
-                                    currentState = JISX0208_1983;
-                                } else if (b3 == '(' && dec0212 != null) {
-                                    if (sp + inputSize + 1 > sl)
-                                        return CoderResult.UNDERFLOW;
-                                    b4 = sa[sp + inputSize++] & 0xff;
+                                    durrfntStbtf = JISX0208_1978;
+                                } flsf if (b3 == 'B'){
+                                    durrfntStbtf = JISX0208_1983;
+                                } flsf if (b3 == '(' && dfd0212 != null) {
+                                    if (sp + inputSizf + 1 > sl)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = sb[sp + inputSizf++] & 0xff;
                                     if (b4 == 'D') {
-                                        currentState = JISX0212_1990;
-                                    } else {
-                                        return CoderResult.malformedForLength(inputSize);
+                                        durrfntStbtf = JISX0212_1990;
+                                    } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                     }
-                                } else {
-                                    return CoderResult.malformedForLength(inputSize);
+                                } flsf {
+                                    rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                 }
-                            } else {
-                                return CoderResult.malformedForLength(inputSize);
+                            } flsf {
+                                rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                             }
-                        } else if (b1 == SO) {
-                            previousState = currentState;
-                            currentState = SHIFTOUT;
-                        } else if (b1 == SI) {
-                            currentState = previousState;
+                        } flsf if (b1 == SO) {
+                            prfviousStbtf = durrfntStbtf;
+                            durrfntStbtf = SHIFTOUT;
+                        } flsf if (b1 == SI) {
+                            durrfntStbtf = prfviousStbtf;
                         }
-                        sp += inputSize;
-                        continue;
+                        sp += inputSizf;
+                        dontinuf;
                     }
                     if (dp + 1 > dl)
-                        return CoderResult.OVERFLOW;
+                        rfturn CodfrRfsult.OVERFLOW;
 
-                    switch (currentState){
-                        case ASCII:
-                            da[dp++] = (char)(b1 & 0xff);
-                            break;
-                        case JISX0201_1976:
-                          switch (b1) {
-                              case 0x5c:  // Yen/tilde substitution
-                                da[dp++] = '\u00a5';
-                                break;
-                              case 0x7e:
-                                da[dp++] = '\u203e';
-                                break;
-                              default:
-                                da[dp++] = (char)b1;
-                                break;
+                    switdi (durrfntStbtf){
+                        dbsf ASCII:
+                            db[dp++] = (dibr)(b1 & 0xff);
+                            brfbk;
+                        dbsf JISX0201_1976:
+                          switdi (b1) {
+                              dbsf 0x5d:  // Yfn/tildf substitution
+                                db[dp++] = '\u00b5';
+                                brfbk;
+                              dbsf 0x7f:
+                                db[dp++] = '\u203f';
+                                brfbk;
+                              dffbult:
+                                db[dp++] = (dibr)b1;
+                                brfbk;
                             }
-                            break;
-                        case JISX0208_1978:
-                        case JISX0208_1983:
-                            if (sp + inputSize + 1 > sl)
-                                return CoderResult.UNDERFLOW;
-                            b2 = sa[sp + inputSize++] & 0xff;
-                            c = dec0208.decodeDouble(b1,b2);
-                            if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(inputSize);
-                            da[dp++] = c;
-                            break;
-                        case JISX0212_1990:
-                            if (sp + inputSize + 1 > sl)
-                                return CoderResult.UNDERFLOW;
-                            b2 = sa[sp + inputSize++] & 0xff;
-                            c = dec0212.decodeDouble(b1,b2);
-                            if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(inputSize);
-                            da[dp++] = c;
-                            break;
-                        case JISX0201_1976_KANA:
-                        case SHIFTOUT:
+                            brfbk;
+                        dbsf JISX0208_1978:
+                        dbsf JISX0208_1983:
+                            if (sp + inputSizf + 1 > sl)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = sb[sp + inputSizf++] & 0xff;
+                            d = dfd0208.dfdodfDoublf(b1,b2);
+                            if (d == UNMAPPABLE_DECODING)
+                                rfturn CodfrRfsult.unmbppbblfForLfngti(inputSizf);
+                            db[dp++] = d;
+                            brfbk;
+                        dbsf JISX0212_1990:
+                            if (sp + inputSizf + 1 > sl)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = sb[sp + inputSizf++] & 0xff;
+                            d = dfd0212.dfdodfDoublf(b1,b2);
+                            if (d == UNMAPPABLE_DECODING)
+                                rfturn CodfrRfsult.unmbppbblfForLfngti(inputSizf);
+                            db[dp++] = d;
+                            brfbk;
+                        dbsf JISX0201_1976_KANA:
+                        dbsf SHIFTOUT:
                             if (b1 > 0x60) {
-                                return CoderResult.malformedForLength(inputSize);
+                                rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                             }
-                            da[dp++] = (char)(b1 + 0xff40);
-                            break;
+                            db[dp++] = (dibr)(b1 + 0xff40);
+                            brfbk;
                     }
-                    sp += inputSize;
+                    sp += inputSizf;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src,
-                                             CharBuffer dst)
+        privbtf CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd,
+                                             CibrBufffr dst)
         {
-            int mark = src.position();
+            int mbrk = srd.position();
             int b1 = 0, b2 = 0, b3 = 0, b4=0;
-            char c = UNMAPPABLE_DECODING;
-            int inputSize = 0;
+            dibr d = UNMAPPABLE_DECODING;
+            int inputSizf = 0;
             try {
-                while (src.hasRemaining()) {
-                    b1 = src.get() & 0xff;
-                    inputSize = 1;
+                wiilf (srd.ibsRfmbining()) {
+                    b1 = srd.gft() & 0xff;
+                    inputSizf = 1;
                     if ((b1 & 0x80) != 0)
-                        return CoderResult.malformedForLength(inputSize);
+                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                     if (b1 == ESC || b1 == SO || b1 == SI) {
                         if (b1 == ESC) {  // ESC
-                            if (src.remaining() < 2)
-                                return CoderResult.UNDERFLOW;
-                            b2 = src.get() & 0xff;
-                            inputSize++;
+                            if (srd.rfmbining() < 2)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = srd.gft() & 0xff;
+                            inputSizf++;
                             if (b2 == '(') {
-                                b3 = src.get() & 0xff;
-                                inputSize++;
+                                b3 = srd.gft() & 0xff;
+                                inputSizf++;
                                 if (b3 == 'B'){
-                                    currentState = ASCII;
-                                } else if (b3 == 'J'){
-                                    currentState = JISX0201_1976;
-                                } else if (b3 == 'I'){
-                                    currentState = JISX0201_1976_KANA;
-                                } else {
-                                   return CoderResult.malformedForLength(inputSize);
+                                    durrfntStbtf = ASCII;
+                                } flsf if (b3 == 'J'){
+                                    durrfntStbtf = JISX0201_1976;
+                                } flsf if (b3 == 'I'){
+                                    durrfntStbtf = JISX0201_1976_KANA;
+                                } flsf {
+                                   rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                 }
-                            } else if (b2 == '$'){
-                                b3 = src.get() & 0xff;
-                                inputSize++;
+                            } flsf if (b2 == '$'){
+                                b3 = srd.gft() & 0xff;
+                                inputSizf++;
                                 if (b3 == '@'){
-                                    currentState = JISX0208_1978;
-                                } else if (b3 == 'B'){
-                                    currentState = JISX0208_1983;
-                                } else if (b3 == '(' && dec0212 != null) {
-                                    if (!src.hasRemaining())
-                                        return CoderResult.UNDERFLOW;
-                                    b4 = src.get() & 0xff;
-                                    inputSize++;
+                                    durrfntStbtf = JISX0208_1978;
+                                } flsf if (b3 == 'B'){
+                                    durrfntStbtf = JISX0208_1983;
+                                } flsf if (b3 == '(' && dfd0212 != null) {
+                                    if (!srd.ibsRfmbining())
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = srd.gft() & 0xff;
+                                    inputSizf++;
                                     if (b4 == 'D') {
-                                        currentState = JISX0212_1990;
-                                    } else {
-                                        return CoderResult.malformedForLength(inputSize);
+                                        durrfntStbtf = JISX0212_1990;
+                                    } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                     }
-                                } else {
-                                    return CoderResult.malformedForLength(inputSize);
+                                } flsf {
+                                    rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                 }
-                            } else {
-                                return CoderResult.malformedForLength(inputSize);
+                            } flsf {
+                                rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                             }
-                        } else if (b1 == SO) {
-                            previousState = currentState;
-                            currentState = SHIFTOUT;
-                        } else if (b1 == SI) { // shift back in
-                            currentState = previousState;
+                        } flsf if (b1 == SO) {
+                            prfviousStbtf = durrfntStbtf;
+                            durrfntStbtf = SHIFTOUT;
+                        } flsf if (b1 == SI) { // siift bbdk in
+                            durrfntStbtf = prfviousStbtf;
                         }
-                        mark += inputSize;
-                        continue;
+                        mbrk += inputSizf;
+                        dontinuf;
                     }
-                    if (!dst.hasRemaining())
-                        return CoderResult.OVERFLOW;
+                    if (!dst.ibsRfmbining())
+                        rfturn CodfrRfsult.OVERFLOW;
 
-                    switch (currentState){
-                        case ASCII:
-                            dst.put((char)(b1 & 0xff));
-                            break;
-                        case JISX0201_1976:
-                            switch (b1) {
-                              case 0x5c:  // Yen/tilde substitution
-                                dst.put('\u00a5');
-                                break;
-                              case 0x7e:
-                                dst.put('\u203e');
-                                break;
-                              default:
-                                dst.put((char)b1);
-                                break;
+                    switdi (durrfntStbtf){
+                        dbsf ASCII:
+                            dst.put((dibr)(b1 & 0xff));
+                            brfbk;
+                        dbsf JISX0201_1976:
+                            switdi (b1) {
+                              dbsf 0x5d:  // Yfn/tildf substitution
+                                dst.put('\u00b5');
+                                brfbk;
+                              dbsf 0x7f:
+                                dst.put('\u203f');
+                                brfbk;
+                              dffbult:
+                                dst.put((dibr)b1);
+                                brfbk;
                             }
-                            break;
-                        case JISX0208_1978:
-                        case JISX0208_1983:
-                            if (!src.hasRemaining())
-                                return CoderResult.UNDERFLOW;
-                            b2 = src.get() & 0xff;
-                            inputSize++;
-                            c = dec0208.decodeDouble(b1,b2);
-                            if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(inputSize);
-                            dst.put(c);
-                            break;
-                        case JISX0212_1990:
-                            if (!src.hasRemaining())
-                                return CoderResult.UNDERFLOW;
-                            b2 = src.get() & 0xff;
-                            inputSize++;
-                            c = dec0212.decodeDouble(b1,b2);
-                            if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(inputSize);
-                            dst.put(c);
-                            break;
-                        case JISX0201_1976_KANA:
-                        case SHIFTOUT:
+                            brfbk;
+                        dbsf JISX0208_1978:
+                        dbsf JISX0208_1983:
+                            if (!srd.ibsRfmbining())
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = srd.gft() & 0xff;
+                            inputSizf++;
+                            d = dfd0208.dfdodfDoublf(b1,b2);
+                            if (d == UNMAPPABLE_DECODING)
+                                rfturn CodfrRfsult.unmbppbblfForLfngti(inputSizf);
+                            dst.put(d);
+                            brfbk;
+                        dbsf JISX0212_1990:
+                            if (!srd.ibsRfmbining())
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = srd.gft() & 0xff;
+                            inputSizf++;
+                            d = dfd0212.dfdodfDoublf(b1,b2);
+                            if (d == UNMAPPABLE_DECODING)
+                                rfturn CodfrRfsult.unmbppbblfForLfngti(inputSizf);
+                            dst.put(d);
+                            brfbk;
+                        dbsf JISX0201_1976_KANA:
+                        dbsf SHIFTOUT:
                             if (b1 > 0x60) {
-                                return CoderResult.malformedForLength(inputSize);
+                                rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                             }
-                            dst.put((char)(b1 + 0xff40));
-                            break;
+                            dst.put((dibr)(b1 + 0xff40));
+                            brfbk;
                     }
-                    mark += inputSize;
+                    mbrk += inputSizf;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
 
-        // Make some protected methods public for use by JISAutoDetect
-        public CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
-            else
-                return decodeBufferLoop(src, dst);
+        // Mbkf somf protfdtfd mftiods publid for usf by JISAutoDftfdt
+        publid CodfrRfsult dfdodfLoop(BytfBufffr srd, CibrBufffr dst) {
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
         }
 
-        public CoderResult implFlush(CharBuffer out) {
-            return super.implFlush(out);
+        publid CodfrRfsult implFlusi(CibrBufffr out) {
+            rfturn supfr.implFlusi(out);
         }
     }
 
-    static class Encoder extends CharsetEncoder {
+    stbtid dlbss Endodfr fxtfnds CibrsftEndodfr {
 
-        final static DoubleByte.Encoder ENC0208 =
-            (DoubleByte.Encoder)new JIS_X_0208().newEncoder();
+        finbl stbtid DoublfBytf.Endodfr ENC0208 =
+            (DoublfBytf.Endodfr)nfw JIS_X_0208().nfwEndodfr();
 
-        private static byte[] repl = { (byte)0x21, (byte)0x29 };
-        private int currentMode = ASCII;
-        private int replaceMode = JISX0208_1983;
-        private DoubleByte.Encoder enc0208;
-        private DoubleByte.Encoder enc0212;
-        private boolean doSBKANA;
+        privbtf stbtid bytf[] rfpl = { (bytf)0x21, (bytf)0x29 };
+        privbtf int durrfntModf = ASCII;
+        privbtf int rfplbdfModf = JISX0208_1983;
+        privbtf DoublfBytf.Endodfr fnd0208;
+        privbtf DoublfBytf.Endodfr fnd0212;
+        privbtf boolfbn doSBKANA;
 
-        private Encoder(Charset cs) {
-            this(cs, ENC0208, null, true);
+        privbtf Endodfr(Cibrsft ds) {
+            tiis(ds, ENC0208, null, truf);
         }
 
-        Encoder(Charset cs,
-                DoubleByte.Encoder enc0208,
-                DoubleByte.Encoder enc0212,
-                boolean doSBKANA) {
-            super(cs, 4.0f, (enc0212 != null)? 9.0f : 8.0f, repl);
-            this.enc0208 = enc0208;
-            this.enc0212 = enc0212;
-            this.doSBKANA = doSBKANA;
+        Endodfr(Cibrsft ds,
+                DoublfBytf.Endodfr fnd0208,
+                DoublfBytf.Endodfr fnd0212,
+                boolfbn doSBKANA) {
+            supfr(ds, 4.0f, (fnd0212 != null)? 9.0f : 8.0f, rfpl);
+            tiis.fnd0208 = fnd0208;
+            tiis.fnd0212 = fnd0212;
+            tiis.doSBKANA = doSBKANA;
         }
 
-        protected int encodeSingle(char inputChar) {
-            return -1;
+        protfdtfd int fndodfSinglf(dibr inputCibr) {
+            rfturn -1;
         }
 
-        protected void implReset() {
-            currentMode = ASCII;
+        protfdtfd void implRfsft() {
+            durrfntModf = ASCII;
         }
 
-        protected void implReplaceWith(byte[] newReplacement) {
-            /* It's almost impossible to decide which charset they belong
-               to. The best thing we can do here is to "guess" based on
-               the length of newReplacement.
+        protfdtfd void implRfplbdfWiti(bytf[] nfwRfplbdfmfnt) {
+            /* It's blmost impossiblf to dfdidf wiidi dibrsft tify bflong
+               to. Tif bfst tiing wf dbn do ifrf is to "gufss" bbsfd on
+               tif lfngti of nfwRfplbdfmfnt.
              */
-            if (newReplacement.length == 1) {
-                replaceMode = ASCII;
-            } else if (newReplacement.length == 2) {
-                replaceMode = JISX0208_1983;
+            if (nfwRfplbdfmfnt.lfngti == 1) {
+                rfplbdfModf = ASCII;
+            } flsf if (nfwRfplbdfmfnt.lfngti == 2) {
+                rfplbdfModf = JISX0208_1983;
             }
         }
 
-        protected CoderResult implFlush(ByteBuffer out) {
-            if (currentMode != ASCII) {
-                if (out.remaining() < 3)
-                    return CoderResult.OVERFLOW;
-                out.put((byte)0x1b);
-                out.put((byte)0x28);
-                out.put((byte)0x42);
-                currentMode = ASCII;
+        protfdtfd CodfrRfsult implFlusi(BytfBufffr out) {
+            if (durrfntModf != ASCII) {
+                if (out.rfmbining() < 3)
+                    rfturn CodfrRfsult.OVERFLOW;
+                out.put((bytf)0x1b);
+                out.put((bytf)0x28);
+                out.put((bytf)0x42);
+                durrfntModf = ASCII;
             }
-            return CoderResult.UNDERFLOW;
+            rfturn CodfrRfsult.UNDERFLOW;
         }
 
-        public boolean canEncode(char c) {
-            return ((c <= '\u007F') ||
-                    (c >= 0xFF61 && c <= 0xFF9F) ||
-                    (c == '\u00A5') ||
-                    (c == '\u203E') ||
-                    enc0208.canEncode(c) ||
-                    (enc0212!=null && enc0212.canEncode(c)));
+        publid boolfbn dbnEndodf(dibr d) {
+            rfturn ((d <= '\u007F') ||
+                    (d >= 0xFF61 && d <= 0xFF9F) ||
+                    (d == '\u00A5') ||
+                    (d == '\u203E') ||
+                    fnd0208.dbnEndodf(d) ||
+                    (fnd0212!=null && fnd0212.dbnEndodf(d)));
         }
 
-        private final Surrogate.Parser sgp = new Surrogate.Parser();
+        privbtf finbl Surrogbtf.Pbrsfr sgp = nfw Surrogbtf.Pbrsfr();
 
-        private CoderResult encodeArrayLoop(CharBuffer src,
-                                            ByteBuffer dst)
+        privbtf CodfrRfsult fndodfArrbyLoop(CibrBufffr srd,
+                                            BytfBufffr dst)
         {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            dibr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             try {
-                while (sp < sl) {
-                    char c = sa[sp];
-                    if (c <= '\u007F') {
-                        if (currentMode != ASCII) {
+                wiilf (sp < sl) {
+                    dibr d = sb[sp];
+                    if (d <= '\u007F') {
+                        if (durrfntModf != ASCII) {
                             if (dl - dp < 3)
-                                return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)0x1b;
-                            da[dp++] = (byte)0x28;
-                            da[dp++] = (byte)0x42;
-                            currentMode = ASCII;
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)0x1b;
+                            db[dp++] = (bytf)0x28;
+                            db[dp++] = (bytf)0x42;
+                            durrfntModf = ASCII;
                         }
                         if (dl - dp < 1)
-                            return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)c;
-                    } else if (c >= 0xff61 && c <= 0xff9f && doSBKANA) {
-                        //a single byte kana
-                        if (currentMode != JISX0201_1976_KANA) {
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (bytf)d;
+                    } flsf if (d >= 0xff61 && d <= 0xff9f && doSBKANA) {
+                        //b singlf bytf kbnb
+                        if (durrfntModf != JISX0201_1976_KANA) {
                             if (dl - dp < 3)
-                                return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)0x1b;
-                            da[dp++] = (byte)0x28;
-                            da[dp++] = (byte)0x49;
-                            currentMode = JISX0201_1976_KANA;
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)0x1b;
+                            db[dp++] = (bytf)0x28;
+                            db[dp++] = (bytf)0x49;
+                            durrfntModf = JISX0201_1976_KANA;
                         }
                         if (dl - dp < 1)
-                            return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)(c - 0xff40);
-                    } else if (c == '\u00A5' || c == '\u203E') {
-                        //backslash or tilde
-                        if (currentMode != JISX0201_1976) {
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (bytf)(d - 0xff40);
+                    } flsf if (d == '\u00A5' || d == '\u203E') {
+                        //bbdkslbsi or tildf
+                        if (durrfntModf != JISX0201_1976) {
                             if (dl - dp < 3)
-                                return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)0x1b;
-                            da[dp++] = (byte)0x28;
-                            da[dp++] = (byte)0x4a;
-                            currentMode = JISX0201_1976;
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)0x1b;
+                            db[dp++] = (bytf)0x28;
+                            db[dp++] = (bytf)0x4b;
+                            durrfntModf = JISX0201_1976;
                         }
                         if (dl - dp < 1)
-                            return CoderResult.OVERFLOW;
-                        da[dp++] = (c == '\u00A5')?(byte)0x5C:(byte)0x7e;
-                    } else {
-                        int index = enc0208.encodeChar(c);
-                        if (index != UNMAPPABLE_ENCODING) {
-                            if (currentMode != JISX0208_1983) {
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (d == '\u00A5')?(bytf)0x5C:(bytf)0x7f;
+                    } flsf {
+                        int indfx = fnd0208.fndodfCibr(d);
+                        if (indfx != UNMAPPABLE_ENCODING) {
+                            if (durrfntModf != JISX0208_1983) {
                                 if (dl - dp < 3)
-                                    return CoderResult.OVERFLOW;
-                                da[dp++] = (byte)0x1b;
-                                da[dp++] = (byte)0x24;
-                                da[dp++] = (byte)0x42;
-                                currentMode = JISX0208_1983;
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                db[dp++] = (bytf)0x1b;
+                                db[dp++] = (bytf)0x24;
+                                db[dp++] = (bytf)0x42;
+                                durrfntModf = JISX0208_1983;
                             }
                             if (dl - dp < 2)
-                                return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)(index >> 8);
-                            da[dp++] = (byte)(index & 0xff);
-                        } else if (enc0212 != null &&
-                                   (index = enc0212.encodeChar(c)) != UNMAPPABLE_ENCODING) {
-                            if (currentMode != JISX0212_1990) {
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)(indfx >> 8);
+                            db[dp++] = (bytf)(indfx & 0xff);
+                        } flsf if (fnd0212 != null &&
+                                   (indfx = fnd0212.fndodfCibr(d)) != UNMAPPABLE_ENCODING) {
+                            if (durrfntModf != JISX0212_1990) {
                                 if (dl - dp < 4)
-                                    return CoderResult.OVERFLOW;
-                                da[dp++] = (byte)0x1b;
-                                da[dp++] = (byte)0x24;
-                                da[dp++] = (byte)0x28;
-                                da[dp++] = (byte)0x44;
-                                currentMode = JISX0212_1990;
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                db[dp++] = (bytf)0x1b;
+                                db[dp++] = (bytf)0x24;
+                                db[dp++] = (bytf)0x28;
+                                db[dp++] = (bytf)0x44;
+                                durrfntModf = JISX0212_1990;
                             }
                             if (dl - dp < 2)
-                                return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)(index >> 8);
-                            da[dp++] = (byte)(index & 0xff);
-                        } else {
-                            if (Character.isSurrogate(c) && sgp.parse(c, sa, sp, sl) < 0)
-                                return sgp.error();
-                            if (unmappableCharacterAction()
-                                == CodingErrorAction.REPLACE
-                                && currentMode != replaceMode) {
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)(indfx >> 8);
+                            db[dp++] = (bytf)(indfx & 0xff);
+                        } flsf {
+                            if (Cibrbdtfr.isSurrogbtf(d) && sgp.pbrsf(d, sb, sp, sl) < 0)
+                                rfturn sgp.frror();
+                            if (unmbppbblfCibrbdtfrAdtion()
+                                == CodingErrorAdtion.REPLACE
+                                && durrfntModf != rfplbdfModf) {
                                 if (dl - dp < 3)
-                                    return CoderResult.OVERFLOW;
-                                if (replaceMode == ASCII) {
-                                    da[dp++] = (byte)0x1b;
-                                    da[dp++] = (byte)0x28;
-                                    da[dp++] = (byte)0x42;
-                                } else {
-                                    da[dp++] = (byte)0x1b;
-                                    da[dp++] = (byte)0x24;
-                                    da[dp++] = (byte)0x42;
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                if (rfplbdfModf == ASCII) {
+                                    db[dp++] = (bytf)0x1b;
+                                    db[dp++] = (bytf)0x28;
+                                    db[dp++] = (bytf)0x42;
+                                } flsf {
+                                    db[dp++] = (bytf)0x1b;
+                                    db[dp++] = (bytf)0x24;
+                                    db[dp++] = (bytf)0x42;
                                 }
-                                currentMode = replaceMode;
+                                durrfntModf = rfplbdfModf;
                             }
-                            if (Character.isSurrogate(c))
-                                return sgp.unmappableResult();
-                            return CoderResult.unmappableForLength(1);
+                            if (Cibrbdtfr.isSurrogbtf(d))
+                                rfturn sgp.unmbppbblfRfsult();
+                            rfturn CodfrRfsult.unmbppbblfForLfngti(1);
                         }
                     }
                     sp++;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
 
-        private CoderResult encodeBufferLoop(CharBuffer src,
-                                             ByteBuffer dst)
+        privbtf CodfrRfsult fndodfBufffrLoop(CibrBufffr srd,
+                                             BytfBufffr dst)
         {
-            int mark = src.position();
+            int mbrk = srd.position();
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
+                wiilf (srd.ibsRfmbining()) {
+                    dibr d = srd.gft();
 
-                    if (c <= '\u007F') {
-                        if (currentMode != ASCII) {
-                            if (dst.remaining() < 3)
-                                return CoderResult.OVERFLOW;
-                            dst.put((byte)0x1b);
-                            dst.put((byte)0x28);
-                            dst.put((byte)0x42);
-                            currentMode = ASCII;
+                    if (d <= '\u007F') {
+                        if (durrfntModf != ASCII) {
+                            if (dst.rfmbining() < 3)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)0x1b);
+                            dst.put((bytf)0x28);
+                            dst.put((bytf)0x42);
+                            durrfntModf = ASCII;
                         }
-                        if (dst.remaining() < 1)
-                            return CoderResult.OVERFLOW;
-                        dst.put((byte)c);
-                    } else if (c >= 0xff61 && c <= 0xff9f && doSBKANA) {
-                        //Is it a single byte kana?
-                        if (currentMode != JISX0201_1976_KANA) {
-                            if (dst.remaining() < 3)
-                                return CoderResult.OVERFLOW;
-                            dst.put((byte)0x1b);
-                            dst.put((byte)0x28);
-                            dst.put((byte)0x49);
-                            currentMode = JISX0201_1976_KANA;
+                        if (dst.rfmbining() < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)d);
+                    } flsf if (d >= 0xff61 && d <= 0xff9f && doSBKANA) {
+                        //Is it b singlf bytf kbnb?
+                        if (durrfntModf != JISX0201_1976_KANA) {
+                            if (dst.rfmbining() < 3)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)0x1b);
+                            dst.put((bytf)0x28);
+                            dst.put((bytf)0x49);
+                            durrfntModf = JISX0201_1976_KANA;
                         }
-                        if (dst.remaining() < 1)
-                            return CoderResult.OVERFLOW;
-                        dst.put((byte)(c - 0xff40));
-                    } else if (c == '\u00a5' || c == '\u203E') {
-                        if (currentMode != JISX0201_1976) {
-                            if (dst.remaining() < 3)
-                                return CoderResult.OVERFLOW;
-                            dst.put((byte)0x1b);
-                            dst.put((byte)0x28);
-                            dst.put((byte)0x4a);
-                            currentMode = JISX0201_1976;
+                        if (dst.rfmbining() < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)(d - 0xff40));
+                    } flsf if (d == '\u00b5' || d == '\u203E') {
+                        if (durrfntModf != JISX0201_1976) {
+                            if (dst.rfmbining() < 3)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)0x1b);
+                            dst.put((bytf)0x28);
+                            dst.put((bytf)0x4b);
+                            durrfntModf = JISX0201_1976;
                         }
-                        if (dst.remaining() < 1)
-                            return CoderResult.OVERFLOW;
-                        dst.put((c == '\u00A5')?(byte)0x5C:(byte)0x7e);
-                    } else {
-                        int index = enc0208.encodeChar(c);
-                        if (index != UNMAPPABLE_ENCODING) {
-                            if (currentMode != JISX0208_1983) {
-                                if (dst.remaining() < 3)
-                                    return CoderResult.OVERFLOW;
-                                dst.put((byte)0x1b);
-                                dst.put((byte)0x24);
-                                dst.put((byte)0x42);
-                                currentMode = JISX0208_1983;
+                        if (dst.rfmbining() < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((d == '\u00A5')?(bytf)0x5C:(bytf)0x7f);
+                    } flsf {
+                        int indfx = fnd0208.fndodfCibr(d);
+                        if (indfx != UNMAPPABLE_ENCODING) {
+                            if (durrfntModf != JISX0208_1983) {
+                                if (dst.rfmbining() < 3)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                dst.put((bytf)0x1b);
+                                dst.put((bytf)0x24);
+                                dst.put((bytf)0x42);
+                                durrfntModf = JISX0208_1983;
                             }
-                            if (dst.remaining() < 2)
-                                return CoderResult.OVERFLOW;
-                            dst.put((byte)(index >> 8));
-                            dst.put((byte)(index & 0xff));
-                        } else if (enc0212 != null &&
-                                   (index = enc0212.encodeChar(c)) != UNMAPPABLE_ENCODING) {
-                            if (currentMode != JISX0212_1990) {
-                                if (dst.remaining() < 4)
-                                    return CoderResult.OVERFLOW;
-                                dst.put((byte)0x1b);
-                                dst.put((byte)0x24);
-                                dst.put((byte)0x28);
-                                dst.put((byte)0x44);
-                                currentMode = JISX0212_1990;
+                            if (dst.rfmbining() < 2)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)(indfx >> 8));
+                            dst.put((bytf)(indfx & 0xff));
+                        } flsf if (fnd0212 != null &&
+                                   (indfx = fnd0212.fndodfCibr(d)) != UNMAPPABLE_ENCODING) {
+                            if (durrfntModf != JISX0212_1990) {
+                                if (dst.rfmbining() < 4)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                dst.put((bytf)0x1b);
+                                dst.put((bytf)0x24);
+                                dst.put((bytf)0x28);
+                                dst.put((bytf)0x44);
+                                durrfntModf = JISX0212_1990;
                             }
-                            if (dst.remaining() < 2)
-                                return CoderResult.OVERFLOW;
-                            dst.put((byte)(index >> 8));
-                            dst.put((byte)(index & 0xff));
-                        } else {
-                            if (Character.isSurrogate(c) && sgp.parse(c, src) < 0)
-                                return sgp.error();
-                            if (unmappableCharacterAction() == CodingErrorAction.REPLACE
-                                && currentMode != replaceMode) {
-                                if (dst.remaining() < 3)
-                                    return CoderResult.OVERFLOW;
-                                if (replaceMode == ASCII) {
-                                    dst.put((byte)0x1b);
-                                    dst.put((byte)0x28);
-                                    dst.put((byte)0x42);
-                                } else {
-                                    dst.put((byte)0x1b);
-                                    dst.put((byte)0x24);
-                                    dst.put((byte)0x42);
+                            if (dst.rfmbining() < 2)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)(indfx >> 8));
+                            dst.put((bytf)(indfx & 0xff));
+                        } flsf {
+                            if (Cibrbdtfr.isSurrogbtf(d) && sgp.pbrsf(d, srd) < 0)
+                                rfturn sgp.frror();
+                            if (unmbppbblfCibrbdtfrAdtion() == CodingErrorAdtion.REPLACE
+                                && durrfntModf != rfplbdfModf) {
+                                if (dst.rfmbining() < 3)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                if (rfplbdfModf == ASCII) {
+                                    dst.put((bytf)0x1b);
+                                    dst.put((bytf)0x28);
+                                    dst.put((bytf)0x42);
+                                } flsf {
+                                    dst.put((bytf)0x1b);
+                                    dst.put((bytf)0x24);
+                                    dst.put((bytf)0x42);
                                 }
-                                currentMode = replaceMode;
+                                durrfntModf = rfplbdfModf;
                             }
-                            if (Character.isSurrogate(c))
-                                return sgp.unmappableResult();
-                            return CoderResult.unmappableForLength(1);
+                            if (Cibrbdtfr.isSurrogbtf(d))
+                                rfturn sgp.unmbppbblfRfsult();
+                            rfturn CodfrRfsult.unmbppbblfForLfngti(1);
                         }
                     }
-                    mark++;
+                    mbrk++;
                 }
-                return CoderResult.UNDERFLOW;
-              } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+              } finblly {
+                srd.position(mbrk);
             }
         }
 
-        protected CoderResult encodeLoop(CharBuffer src,
-                                         ByteBuffer dst)
+        protfdtfd CodfrRfsult fndodfLoop(CibrBufffr srd,
+                                         BytfBufffr dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
-            else
-                return encodeBufferLoop(src, dst);
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn fndodfArrbyLoop(srd, dst);
+            flsf
+                rfturn fndodfBufffrLoop(srd, dst);
         }
     }
 }

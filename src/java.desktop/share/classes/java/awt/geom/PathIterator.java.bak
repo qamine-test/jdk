@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.geom;
+pbdkbgf jbvb.bwt.gfom;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * The <code>PathIterator</code> interface provides the mechanism
- * for objects that implement the {@link java.awt.Shape Shape}
- * interface to return the geometry of their boundary by allowing
- * a caller to retrieve the path of that boundary a segment at a
- * time.  This interface allows these objects to retrieve the path of
- * their boundary a segment at a time by using 1st through 3rd order
- * B&eacute;zier curves, which are lines and quadratic or cubic
- * B&eacute;zier splines.
+ * Tif <dodf>PbtiItfrbtor</dodf> intfrfbdf providfs tif mfdibnism
+ * for objfdts tibt implfmfnt tif {@link jbvb.bwt.Sibpf Sibpf}
+ * intfrfbdf to rfturn tif gfomftry of tifir boundbry by bllowing
+ * b dbllfr to rftrifvf tif pbti of tibt boundbry b sfgmfnt bt b
+ * timf.  Tiis intfrfbdf bllows tifsf objfdts to rftrifvf tif pbti of
+ * tifir boundbry b sfgmfnt bt b timf by using 1st tirougi 3rd ordfr
+ * B&fbdutf;zifr durvfs, wiidi brf linfs bnd qubdrbtid or dubid
+ * B&fbdutf;zifr splinfs.
  * <p>
- * Multiple subpaths can be expressed by using a "MOVETO" segment to
- * create a discontinuity in the geometry to move from the end of
- * one subpath to the beginning of the next.
+ * Multiplf subpbtis dbn bf fxprfssfd by using b "MOVETO" sfgmfnt to
+ * drfbtf b disdontinuity in tif gfomftry to movf from tif fnd of
+ * onf subpbti to tif bfginning of tif nfxt.
  * <p>
- * Each subpath can be closed manually by ending the last segment in
- * the subpath on the same coordinate as the beginning "MOVETO" segment
- * for that subpath or by using a "CLOSE" segment to append a line
- * segment from the last point back to the first.
- * Be aware that manually closing an outline as opposed to using a
- * "CLOSE" segment to close the path might result in different line
- * style decorations being used at the end points of the subpath.
- * For example, the {@link java.awt.BasicStroke BasicStroke} object
- * uses a line "JOIN" decoration to connect the first and last points
- * if a "CLOSE" segment is encountered, whereas simply ending the path
- * on the same coordinate as the beginning coordinate results in line
- * "CAP" decorations being used at the ends.
+ * Ebdi subpbti dbn bf dlosfd mbnublly by fnding tif lbst sfgmfnt in
+ * tif subpbti on tif sbmf doordinbtf bs tif bfginning "MOVETO" sfgmfnt
+ * for tibt subpbti or by using b "CLOSE" sfgmfnt to bppfnd b linf
+ * sfgmfnt from tif lbst point bbdk to tif first.
+ * Bf bwbrf tibt mbnublly dlosing bn outlinf bs opposfd to using b
+ * "CLOSE" sfgmfnt to dlosf tif pbti migit rfsult in difffrfnt linf
+ * stylf dfdorbtions bfing usfd bt tif fnd points of tif subpbti.
+ * For fxbmplf, tif {@link jbvb.bwt.BbsidStrokf BbsidStrokf} objfdt
+ * usfs b linf "JOIN" dfdorbtion to donnfdt tif first bnd lbst points
+ * if b "CLOSE" sfgmfnt is fndountfrfd, wifrfbs simply fnding tif pbti
+ * on tif sbmf doordinbtf bs tif bfginning doordinbtf rfsults in linf
+ * "CAP" dfdorbtions bfing usfd bt tif fnds.
  *
- * @see java.awt.Shape
- * @see java.awt.BasicStroke
+ * @sff jbvb.bwt.Sibpf
+ * @sff jbvb.bwt.BbsidStrokf
  *
- * @author Jim Graham
+ * @butior Jim Grbibm
  */
-public interface PathIterator {
+publid intfrfbdf PbtiItfrbtor {
     /**
-     * The winding rule constant for specifying an even-odd rule
-     * for determining the interior of a path.
-     * The even-odd rule specifies that a point lies inside the
-     * path if a ray drawn in any direction from that point to
-     * infinity is crossed by path segments an odd number of times.
+     * Tif winding rulf donstbnt for spfdifying bn fvfn-odd rulf
+     * for dftfrmining tif intfrior of b pbti.
+     * Tif fvfn-odd rulf spfdififs tibt b point lifs insidf tif
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * infinity is drossfd by pbti sfgmfnts bn odd numbfr of timfs.
      */
-    @Native public static final int WIND_EVEN_ODD       = 0;
+    @Nbtivf publid stbtid finbl int WIND_EVEN_ODD       = 0;
 
     /**
-     * The winding rule constant for specifying a non-zero rule
-     * for determining the interior of a path.
-     * The non-zero rule specifies that a point lies inside the
-     * path if a ray drawn in any direction from that point to
-     * infinity is crossed by path segments a different number
-     * of times in the counter-clockwise direction than the
-     * clockwise direction.
+     * Tif winding rulf donstbnt for spfdifying b non-zfro rulf
+     * for dftfrmining tif intfrior of b pbti.
+     * Tif non-zfro rulf spfdififs tibt b point lifs insidf tif
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * infinity is drossfd by pbti sfgmfnts b difffrfnt numbfr
+     * of timfs in tif dountfr-dlodkwisf dirfdtion tibn tif
+     * dlodkwisf dirfdtion.
      */
-    @Native public static final int WIND_NON_ZERO       = 1;
+    @Nbtivf publid stbtid finbl int WIND_NON_ZERO       = 1;
 
     /**
-     * The segment type constant for a point that specifies the
-     * starting location for a new subpath.
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * stbrting lodbtion for b nfw subpbti.
      */
-    @Native public static final int SEG_MOVETO          = 0;
+    @Nbtivf publid stbtid finbl int SEG_MOVETO          = 0;
 
     /**
-     * The segment type constant for a point that specifies the
-     * end point of a line to be drawn from the most recently
-     * specified point.
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * fnd point of b linf to bf drbwn from tif most rfdfntly
+     * spfdififd point.
      */
-    @Native public static final int SEG_LINETO          = 1;
+    @Nbtivf publid stbtid finbl int SEG_LINETO          = 1;
 
     /**
-     * The segment type constant for the pair of points that specify
-     * a quadratic parametric curve to be drawn from the most recently
-     * specified point.
-     * The curve is interpolated by solving the parametric control
-     * equation in the range <code>(t=[0..1])</code> using
-     * the most recently specified (current) point (CP),
-     * the first control point (P1),
-     * and the final interpolated control point (P2).
-     * The parametric control equation for this curve is:
-     * <pre>
+     * Tif sfgmfnt typf donstbnt for tif pbir of points tibt spfdify
+     * b qubdrbtid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
+     * spfdififd point.
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif first dontrol point (P1),
+     * bnd tif finbl intfrpolbtfd dontrol point (P2).
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * <prf>
      *          P(t) = B(2,0)*CP + B(2,1)*P1 + B(2,2)*P2
      *          0 &lt;= t &lt;= 1
      *
-     *        B(n,m) = mth coefficient of nth degree Bernstein polynomial
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
      *               = C(n,m) * t^(m) * (1 - t)^(n-m)
-     *        C(n,m) = Combinations of n things, taken m at a time
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
      *               = n! / (m! * (n-m)!)
-     * </pre>
+     * </prf>
      */
-    @Native public static final int SEG_QUADTO          = 2;
+    @Nbtivf publid stbtid finbl int SEG_QUADTO          = 2;
 
     /**
-     * The segment type constant for the set of 3 points that specify
-     * a cubic parametric curve to be drawn from the most recently
-     * specified point.
-     * The curve is interpolated by solving the parametric control
-     * equation in the range <code>(t=[0..1])</code> using
-     * the most recently specified (current) point (CP),
-     * the first control point (P1),
-     * the second control point (P2),
-     * and the final interpolated control point (P3).
-     * The parametric control equation for this curve is:
-     * <pre>
+     * Tif sfgmfnt typf donstbnt for tif sft of 3 points tibt spfdify
+     * b dubid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
+     * spfdififd point.
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif first dontrol point (P1),
+     * tif sfdond dontrol point (P2),
+     * bnd tif finbl intfrpolbtfd dontrol point (P3).
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * <prf>
      *          P(t) = B(3,0)*CP + B(3,1)*P1 + B(3,2)*P2 + B(3,3)*P3
      *          0 &lt;= t &lt;= 1
      *
-     *        B(n,m) = mth coefficient of nth degree Bernstein polynomial
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
      *               = C(n,m) * t^(m) * (1 - t)^(n-m)
-     *        C(n,m) = Combinations of n things, taken m at a time
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
      *               = n! / (m! * (n-m)!)
-     * </pre>
-     * This form of curve is commonly known as a B&eacute;zier curve.
+     * </prf>
+     * Tiis form of durvf is dommonly known bs b B&fbdutf;zifr durvf.
      */
-    @Native public static final int SEG_CUBICTO         = 3;
+    @Nbtivf publid stbtid finbl int SEG_CUBICTO         = 3;
 
     /**
-     * The segment type constant that specifies that
-     * the preceding subpath should be closed by appending a line segment
-     * back to the point corresponding to the most recent SEG_MOVETO.
+     * Tif sfgmfnt typf donstbnt tibt spfdififs tibt
+     * tif prfdfding subpbti siould bf dlosfd by bppfnding b linf sfgmfnt
+     * bbdk to tif point dorrfsponding to tif most rfdfnt SEG_MOVETO.
      */
-    @Native public static final int SEG_CLOSE           = 4;
+    @Nbtivf publid stbtid finbl int SEG_CLOSE           = 4;
 
     /**
-     * Returns the winding rule for determining the interior of the
-     * path.
-     * @return the winding rule.
-     * @see #WIND_EVEN_ODD
-     * @see #WIND_NON_ZERO
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * pbti.
+     * @rfturn tif winding rulf.
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_NON_ZERO
      */
-    public int getWindingRule();
+    publid int gftWindingRulf();
 
     /**
-     * Tests if the iteration is complete.
-     * @return <code>true</code> if all the segments have
-     * been read; <code>false</code> otherwise.
+     * Tfsts if tif itfrbtion is domplftf.
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isDone();
+    publid boolfbn isDonf();
 
     /**
-     * Moves the iterator to the next segment of the path forwards
-     * along the primary direction of traversal as long as there are
-     * more points in that direction.
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * morf points in tibt dirfdtion.
      */
-    public void next();
+    publid void nfxt();
 
     /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path-segment type:
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * tif itfrbtion.
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A float array of length 6 must be passed in and can be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of float x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types returns one point,
-     * SEG_QUADTO returns two points,
-     * SEG_CUBICTO returns 3 points
-     * and SEG_CLOSE does not return any points.
-     * @param coords an array that holds the data returned from
-     * this method
-     * @return the path-segment type of the current path segment.
-     * @see #SEG_MOVETO
-     * @see #SEG_LINETO
-     * @see #SEG_QUADTO
-     * @see #SEG_CUBICTO
-     * @see #SEG_CLOSE
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf tif doordinbtfs of tif point(s).
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
+     * SEG_QUADTO rfturns two points,
+     * SEG_CUBICTO rfturns 3 points
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * tiis mftiod
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @sff #SEG_MOVETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CLOSE
      */
-    public int currentSegment(float[] coords);
+    publid int durrfntSfgmfnt(flobt[] doords);
 
     /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path-segment type:
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * tif itfrbtion.
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A double array of length 6 must be passed in and can be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of double x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types returns one point,
-     * SEG_QUADTO returns two points,
-     * SEG_CUBICTO returns 3 points
-     * and SEG_CLOSE does not return any points.
-     * @param coords an array that holds the data returned from
-     * this method
-     * @return the path-segment type of the current path segment.
-     * @see #SEG_MOVETO
-     * @see #SEG_LINETO
-     * @see #SEG_QUADTO
-     * @see #SEG_CUBICTO
-     * @see #SEG_CLOSE
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf tif doordinbtfs of tif point(s).
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
+     * SEG_QUADTO rfturns two points,
+     * SEG_CUBICTO rfturns 3 points
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * tiis mftiod
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @sff #SEG_MOVETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CLOSE
      */
-    public int currentSegment(double[] coords);
+    publid int durrfntSfgmfnt(doublf[] doords);
 }

@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 
 /**
- * Abstract class for reading filtered character streams.
- * The abstract class <code>FilterReader</code> itself
- * provides default methods that pass all requests to
- * the contained stream. Subclasses of <code>FilterReader</code>
- * should override some of these methods and may also provide
- * additional methods and fields.
+ * Abstrbdt dlbss for rfbding filtfrfd dibrbdtfr strfbms.
+ * Tif bbstrbdt dlbss <dodf>FiltfrRfbdfr</dodf> itsflf
+ * providfs dffbult mftiods tibt pbss bll rfqufsts to
+ * tif dontbinfd strfbm. Subdlbssfs of <dodf>FiltfrRfbdfr</dodf>
+ * siould ovfrridf somf of tifsf mftiods bnd mby blso providf
+ * bdditionbl mftiods bnd fiflds.
  *
- * @author      Mark Reinhold
- * @since       1.1
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
  */
 
-public abstract class FilterReader extends Reader {
+publid bbstrbdt dlbss FiltfrRfbdfr fxtfnds Rfbdfr {
 
     /**
-     * The underlying character-input stream.
+     * Tif undfrlying dibrbdtfr-input strfbm.
      */
-    protected Reader in;
+    protfdtfd Rfbdfr in;
 
     /**
-     * Creates a new filtered reader.
+     * Crfbtfs b nfw filtfrfd rfbdfr.
      *
-     * @param in  a Reader object providing the underlying stream.
-     * @throws NullPointerException if <code>in</code> is <code>null</code>
+     * @pbrbm in  b Rfbdfr objfdt providing tif undfrlying strfbm.
+     * @tirows NullPointfrExdfption if <dodf>in</dodf> is <dodf>null</dodf>
      */
-    protected FilterReader(Reader in) {
-        super(in);
-        this.in = in;
+    protfdtfd FiltfrRfbdfr(Rfbdfr in) {
+        supfr(in);
+        tiis.in = in;
     }
 
     /**
-     * Reads a single character.
+     * Rfbds b singlf dibrbdtfr.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public int read() throws IOException {
-        return in.read();
+    publid int rfbd() tirows IOExdfption {
+        rfturn in.rfbd();
     }
 
     /**
-     * Reads characters into a portion of an array.
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public int read(char cbuf[], int off, int len) throws IOException {
-        return in.read(cbuf, off, len);
+    publid int rfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        rfturn in.rfbd(dbuf, off, lfn);
     }
 
     /**
-     * Skips characters.
+     * Skips dibrbdtfrs.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public long skip(long n) throws IOException {
-        return in.skip(n);
+    publid long skip(long n) tirows IOExdfption {
+        rfturn in.skip(n);
     }
 
     /**
-     * Tells whether this stream is ready to be read.
+     * Tflls wiftifr tiis strfbm is rfbdy to bf rfbd.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public boolean ready() throws IOException {
-        return in.ready();
+    publid boolfbn rfbdy() tirows IOExdfption {
+        rfturn in.rfbdy();
     }
 
     /**
-     * Tells whether this stream supports the mark() operation.
+     * Tflls wiftifr tiis strfbm supports tif mbrk() opfrbtion.
      */
-    public boolean markSupported() {
-        return in.markSupported();
+    publid boolfbn mbrkSupportfd() {
+        rfturn in.mbrkSupportfd();
     }
 
     /**
-     * Marks the present position in the stream.
+     * Mbrks tif prfsfnt position in tif strfbm.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void mark(int readAheadLimit) throws IOException {
-        in.mark(readAheadLimit);
+    publid void mbrk(int rfbdAifbdLimit) tirows IOExdfption {
+        in.mbrk(rfbdAifbdLimit);
     }
 
     /**
-     * Resets the stream.
+     * Rfsfts tif strfbm.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void reset() throws IOException {
-        in.reset();
+    publid void rfsft() tirows IOExdfption {
+        in.rfsft();
     }
 
-    public void close() throws IOException {
-        in.close();
+    publid void dlosf() tirows IOExdfption {
+        in.dlosf();
     }
 
 }

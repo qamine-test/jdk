@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.io.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import com.sun.jdi.*;
-import com.sun.tools.example.debug.bdi.*;
+import dom.sun.jdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-public class GUI extends JPanel {
+publid dlbss GUI fxtfnds JPbnfl {
 
-    private static final long serialVersionUID = 3292463234530679091L;
-    private CommandTool cmdTool;
-    private ApplicationTool appTool;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3292463234530679091L;
+    privbtf CommbndTool dmdTool;
+    privbtf ApplidbtionTool bppTool;
     //###HACK##
-    //### There is currently dirty code in Environment that
-    //### accesses this directly.
-    //private SourceTool srcTool;
-    public static SourceTool srcTool;
+    //### Tifrf is durrfntly dirty dodf in Environmfnt tibt
+    //### bddfssfs tiis dirfdtly.
+    //privbtf SourdfTool srdTool;
+    publid stbtid SourdfTool srdTool;
 
-    private SourceTreeTool sourceTreeTool;
-    private ClassTreeTool classTreeTool;
-    private ThreadTreeTool threadTreeTool;
-    private StackTraceTool stackTool;
-    private MonitorTool monitorTool;
+    privbtf SourdfTrffTool sourdfTrffTool;
+    privbtf ClbssTrffTool dlbssTrffTool;
+    privbtf TirfbdTrffTool tirfbdTrffTool;
+    privbtf StbdkTrbdfTool stbdkTool;
+    privbtf MonitorTool monitorTool;
 
-    public static final String progname = "javadt";
-    public static final String version = "1.0Beta";  //### FIX ME.
-    public static final String windowBanner = "Java(tm) platform Debug Tool";
+    publid stbtid finbl String prognbmf = "jbvbdt";
+    publid stbtid finbl String vfrsion = "1.0Bftb";  //### FIX ME.
+    publid stbtid finbl String windowBbnnfr = "Jbvb(tm) plbtform Dfbug Tool";
 
-    private Font fixedFont = new Font("monospaced", Font.PLAIN, 10);
+    privbtf Font fixfdFont = nfw Font("monospbdfd", Font.PLAIN, 10);
 
-    private GUI(Environment env) {
-        setLayout(new BorderLayout());
+    privbtf GUI(Environmfnt fnv) {
+        sftLbyout(nfw BordfrLbyout());
 
-        setBorder(new EmptyBorder(5, 5, 5, 5));
+        sftBordfr(nfw EmptyBordfr(5, 5, 5, 5));
 
-        add(new JDBToolBar(env), BorderLayout.NORTH);
+        bdd(nfw JDBToolBbr(fnv), BordfrLbyout.NORTH);
 
-        srcTool = new SourceTool(env);
-        srcTool.setPreferredSize(new java.awt.Dimension(500, 300));
-        srcTool.setTextFont(fixedFont);
+        srdTool = nfw SourdfTool(fnv);
+        srdTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(500, 300));
+        srdTool.sftTfxtFont(fixfdFont);
 
-        stackTool = new StackTraceTool(env);
-        stackTool.setPreferredSize(new java.awt.Dimension(500, 100));
+        stbdkTool = nfw StbdkTrbdfTool(fnv);
+        stbdkTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(500, 100));
 
-        monitorTool = new MonitorTool(env);
-        monitorTool.setPreferredSize(new java.awt.Dimension(500, 50));
+        monitorTool = nfw MonitorTool(fnv);
+        monitorTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(500, 50));
 
-        JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, srcTool,
-            new JSplitPane(JSplitPane.VERTICAL_SPLIT, stackTool, monitorTool));
+        JSplitPbnf rigit = nfw JSplitPbnf(JSplitPbnf.VERTICAL_SPLIT, srdTool,
+            nfw JSplitPbnf(JSplitPbnf.VERTICAL_SPLIT, stbdkTool, monitorTool));
 
-        sourceTreeTool = new SourceTreeTool(env);
-        sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+        sourdfTrffTool = nfw SourdfTrffTool(fnv);
+        sourdfTrffTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(200, 450));
 
-        classTreeTool = new ClassTreeTool(env);
-        classTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+        dlbssTrffTool = nfw ClbssTrffTool(fnv);
+        dlbssTrffTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(200, 450));
 
-        threadTreeTool = new ThreadTreeTool(env);
-        threadTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+        tirfbdTrffTool = nfw TirfbdTrffTool(fnv);
+        tirfbdTrffTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(200, 450));
 
-        JTabbedPane treePane = new JTabbedPane(SwingConstants.BOTTOM);
-        treePane.addTab("Source", null, sourceTreeTool);
-        treePane.addTab("Classes", null, classTreeTool);
-        treePane.addTab("Threads", null, threadTreeTool);
+        JTbbbfdPbnf trffPbnf = nfw JTbbbfdPbnf(SwingConstbnts.BOTTOM);
+        trffPbnf.bddTbb("Sourdf", null, sourdfTrffTool);
+        trffPbnf.bddTbb("Clbssfs", null, dlbssTrffTool);
+        trffPbnf.bddTbb("Tirfbds", null, tirfbdTrffTool);
 
-        JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treePane, right);
+        JSplitPbnf dfntfrTop = nfw JSplitPbnf(JSplitPbnf.HORIZONTAL_SPLIT, trffPbnf, rigit);
 
-        cmdTool = new CommandTool(env);
-        cmdTool.setPreferredSize(new java.awt.Dimension(700, 150));
+        dmdTool = nfw CommbndTool(fnv);
+        dmdTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(700, 150));
 
-        appTool = new ApplicationTool(env);
-        appTool.setPreferredSize(new java.awt.Dimension(700, 200));
+        bppTool = nfw ApplidbtionTool(fnv);
+        bppTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(700, 200));
 
-        JSplitPane centerBottom = new JSplitPane(JSplitPane.VERTICAL_SPLIT, cmdTool, appTool);
-        //        centerBottom.setPreferredSize(new java.awt.Dimension(700, 350));
+        JSplitPbnf dfntfrBottom = nfw JSplitPbnf(JSplitPbnf.VERTICAL_SPLIT, dmdTool, bppTool);
+        //        dfntfrBottom.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(700, 350));
 
-        JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerTop, centerBottom);
+        JSplitPbnf dfntfr = nfw JSplitPbnf(JSplitPbnf.VERTICAL_SPLIT, dfntfrTop, dfntfrBottom);
 
-        add(center, BorderLayout.CENTER);
+        bdd(dfntfr, BordfrLbyout.CENTER);
 
 
     }
 
-    private static void usage() {
-        String separator = File.pathSeparator;
-        System.out.println("Usage: " + progname + " <options> <class> <arguments>");
-        System.out.println();
-        System.out.println("where options include:");
-        System.out.println("    -help             print out this message and exit");
-        System.out.println("    -sourcepath <directories separated by \"" +
-                           separator + "\">");
-        System.out.println("                      list directories in which to look for source files");
-        System.out.println("    -remote <hostname>:<port-number>");
-        System.out.println("                      host machine and port number of interpreter to attach to");
-        System.out.println("    -dbgtrace [flags] print info for debugging " + progname);
-        System.out.println();
-        System.out.println("options forwarded to debuggee process:");
-        System.out.println("    -v -verbose[:class|gc|jni]");
-        System.out.println("                      turn on verbose mode");
-        System.out.println("    -D<name>=<value>  set a system property");
-        System.out.println("    -classpath <directories separated by \"" +
-                           separator + "\">");
-        System.out.println("                      list directories in which to look for classes");
-        System.out.println("    -X<option>        non-standard debuggee VM option");
-        System.out.println();
-        System.out.println("<class> is the name of the class to begin debugging");
-        System.out.println("<arguments> are the arguments passed to the main() method of <class>");
-        System.out.println();
-        System.out.println("For command help type 'help' at " + progname + " prompt");
+    privbtf stbtid void usbgf() {
+        String sfpbrbtor = Filf.pbtiSfpbrbtor;
+        Systfm.out.println("Usbgf: " + prognbmf + " <options> <dlbss> <brgumfnts>");
+        Systfm.out.println();
+        Systfm.out.println("wifrf options indludf:");
+        Systfm.out.println("    -iflp             print out tiis mfssbgf bnd fxit");
+        Systfm.out.println("    -sourdfpbti <dirfdtorifs sfpbrbtfd by \"" +
+                           sfpbrbtor + "\">");
+        Systfm.out.println("                      list dirfdtorifs in wiidi to look for sourdf filfs");
+        Systfm.out.println("    -rfmotf <iostnbmf>:<port-numbfr>");
+        Systfm.out.println("                      iost mbdiinf bnd port numbfr of intfrprftfr to bttbdi to");
+        Systfm.out.println("    -dbgtrbdf [flbgs] print info for dfbugging " + prognbmf);
+        Systfm.out.println();
+        Systfm.out.println("options forwbrdfd to dfbuggff prodfss:");
+        Systfm.out.println("    -v -vfrbosf[:dlbss|gd|jni]");
+        Systfm.out.println("                      turn on vfrbosf modf");
+        Systfm.out.println("    -D<nbmf>=<vbluf>  sft b systfm propfrty");
+        Systfm.out.println("    -dlbsspbti <dirfdtorifs sfpbrbtfd by \"" +
+                           sfpbrbtor + "\">");
+        Systfm.out.println("                      list dirfdtorifs in wiidi to look for dlbssfs");
+        Systfm.out.println("    -X<option>        non-stbndbrd dfbuggff VM option");
+        Systfm.out.println();
+        Systfm.out.println("<dlbss> is tif nbmf of tif dlbss to bfgin dfbugging");
+        Systfm.out.println("<brgumfnts> brf tif brgumfnts pbssfd to tif mbin() mftiod of <dlbss>");
+        Systfm.out.println();
+        Systfm.out.println("For dommbnd iflp typf 'iflp' bt " + prognbmf + " prompt");
     }
 
-    public static void main(String argv[]) {
-        String clsName = "";
+    publid stbtid void mbin(String brgv[]) {
+        String dlsNbmf = "";
         String progArgs = "";
-        String javaArgs = "";
-        final Environment env = new Environment();
+        String jbvbArgs = "";
+        finbl Environmfnt fnv = nfw Environmfnt();
 
-        JPanel mainPanel = new GUI(env);
+        JPbnfl mbinPbnfl = nfw GUI(fnv);
 
-        ContextManager context = env.getContextManager();
-        ExecutionManager runtime = env.getExecutionManager();
+        ContfxtMbnbgfr dontfxt = fnv.gftContfxtMbnbgfr();
+        ExfdutionMbnbgfr runtimf = fnv.gftExfdutionMbnbgfr();
 
-        for (int i = 0; i < argv.length; i++) {
-            String token = argv[i];
-            if (token.equals("-dbgtrace")) {
-            if ((i == argv.length - 1) ||
-                ! Character.isDigit(argv[i+1].charAt(0))) {
-                runtime.setTraceMode(VirtualMachine.TRACE_ALL);
-            } else {
-                String flagStr = argv[++i];
-                runtime.setTraceMode(Integer.decode(flagStr).intValue());
+        for (int i = 0; i < brgv.lfngti; i++) {
+            String tokfn = brgv[i];
+            if (tokfn.fqubls("-dbgtrbdf")) {
+            if ((i == brgv.lfngti - 1) ||
+                ! Cibrbdtfr.isDigit(brgv[i+1].dibrAt(0))) {
+                runtimf.sftTrbdfModf(VirtublMbdiinf.TRACE_ALL);
+            } flsf {
+                String flbgStr = brgv[++i];
+                runtimf.sftTrbdfModf(Intfgfr.dfdodf(flbgStr).intVbluf());
             }
-        } else if (token.equals("-X")) {
-                System.out.println(
-                       "Use 'java -X' to see the available non-standard options");
-                System.out.println();
-                usage();
-                System.exit(1);
-            } else if (
-                   // Standard VM options passed on
-                   token.equals("-v") || token.startsWith("-v:") ||  // -v[:...]
-                   token.startsWith("-verbose") ||                  // -verbose[:...]
-                   token.startsWith("-D") ||
-                   // NonStandard options passed on
-                   token.startsWith("-X") ||
-                   // Old-style options
-                   // (These should remain in place as long as the standard VM accepts them)
-                   token.equals("-noasyncgc") || token.equals("-prof") ||
-                   token.equals("-verify") || token.equals("-noverify") ||
-                   token.equals("-verifyremote") ||
-                   token.equals("-verbosegc") ||
-                   token.startsWith("-ms") || token.startsWith("-mx") ||
-                   token.startsWith("-ss") || token.startsWith("-oss") ) {
-                javaArgs += token + " ";
-            } else if (token.equals("-sourcepath")) {
-                if (i == (argv.length - 1)) {
-                    System.out.println("No sourcepath specified.");
-                    usage();
-                    System.exit(1);
+        } flsf if (tokfn.fqubls("-X")) {
+                Systfm.out.println(
+                       "Usf 'jbvb -X' to sff tif bvbilbblf non-stbndbrd options");
+                Systfm.out.println();
+                usbgf();
+                Systfm.fxit(1);
+            } flsf if (
+                   // Stbndbrd VM options pbssfd on
+                   tokfn.fqubls("-v") || tokfn.stbrtsWiti("-v:") ||  // -v[:...]
+                   tokfn.stbrtsWiti("-vfrbosf") ||                  // -vfrbosf[:...]
+                   tokfn.stbrtsWiti("-D") ||
+                   // NonStbndbrd options pbssfd on
+                   tokfn.stbrtsWiti("-X") ||
+                   // Old-stylf options
+                   // (Tifsf siould rfmbin in plbdf bs long bs tif stbndbrd VM bddfpts tifm)
+                   tokfn.fqubls("-nobsyndgd") || tokfn.fqubls("-prof") ||
+                   tokfn.fqubls("-vfrify") || tokfn.fqubls("-novfrify") ||
+                   tokfn.fqubls("-vfrifyrfmotf") ||
+                   tokfn.fqubls("-vfrbosfgd") ||
+                   tokfn.stbrtsWiti("-ms") || tokfn.stbrtsWiti("-mx") ||
+                   tokfn.stbrtsWiti("-ss") || tokfn.stbrtsWiti("-oss") ) {
+                jbvbArgs += tokfn + " ";
+            } flsf if (tokfn.fqubls("-sourdfpbti")) {
+                if (i == (brgv.lfngti - 1)) {
+                    Systfm.out.println("No sourdfpbti spfdififd.");
+                    usbgf();
+                    Systfm.fxit(1);
                 }
-                env.getSourceManager().setSourcePath(new SearchPath(argv[++i]));
-            } else if (token.equals("-classpath")) {
-                if (i == (argv.length - 1)) {
-                    System.out.println("No classpath specified.");
-                    usage();
-                    System.exit(1);
+                fnv.gftSourdfMbnbgfr().sftSourdfPbti(nfw SfbrdiPbti(brgv[++i]));
+            } flsf if (tokfn.fqubls("-dlbsspbti")) {
+                if (i == (brgv.lfngti - 1)) {
+                    Systfm.out.println("No dlbsspbti spfdififd.");
+                    usbgf();
+                    Systfm.fxit(1);
                 }
-                env.getClassManager().setClassPath(new SearchPath(argv[++i]));
-            } else if (token.equals("-remote")) {
-                if (i == (argv.length - 1)) {
-                    System.out.println("No remote specified.");
-                    usage();
-                    System.exit(1);
+                fnv.gftClbssMbnbgfr().sftClbssPbti(nfw SfbrdiPbti(brgv[++i]));
+            } flsf if (tokfn.fqubls("-rfmotf")) {
+                if (i == (brgv.lfngti - 1)) {
+                    Systfm.out.println("No rfmotf spfdififd.");
+                    usbgf();
+                    Systfm.fxit(1);
                 }
-                env.getContextManager().setRemotePort(argv[++i]);
-            } else if (token.equals("-help")) {
-                usage();
-                System.exit(0);
-            } else if (token.equals("-version")) {
-                System.out.println(progname + " version " + version);
-                System.exit(0);
-            } else if (token.startsWith("-")) {
-                System.out.println("invalid option: " + token);
-                usage();
-                System.exit(1);
-            } else {
-                // Everything from here is part of the command line
-                clsName = token;
-                for (i++; i < argv.length; i++) {
-                    progArgs += argv[i] + " ";
+                fnv.gftContfxtMbnbgfr().sftRfmotfPort(brgv[++i]);
+            } flsf if (tokfn.fqubls("-iflp")) {
+                usbgf();
+                Systfm.fxit(0);
+            } flsf if (tokfn.fqubls("-vfrsion")) {
+                Systfm.out.println(prognbmf + " vfrsion " + vfrsion);
+                Systfm.fxit(0);
+            } flsf if (tokfn.stbrtsWiti("-")) {
+                Systfm.out.println("invblid option: " + tokfn);
+                usbgf();
+                Systfm.fxit(1);
+            } flsf {
+                // Evfrytiing from ifrf is pbrt of tif dommbnd linf
+                dlsNbmf = tokfn;
+                for (i++; i < brgv.lfngti; i++) {
+                    progArgs += brgv[i] + " ";
                 }
-                break;
+                brfbk;
             }
         }
 
-        context.setMainClassName(clsName);
-        context.setProgramArguments(progArgs);
-        context.setVmArguments(javaArgs);
+        dontfxt.sftMbinClbssNbmf(dlsNbmf);
+        dontfxt.sftProgrbmArgumfnts(progArgs);
+        dontfxt.sftVmArgumfnts(jbvbArgs);
 
-        // Force Cross Platform L&F
+        // Fordf Cross Plbtform L&F
         try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            // If you want the System L&F instead, comment out the above line and
-            // uncomment the following:
-            // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception exc) {
-            System.err.println("Error loading L&F: " + exc);
+            UIMbnbgfr.sftLookAndFffl(UIMbnbgfr.gftCrossPlbtformLookAndFfflClbssNbmf());
+            // If you wbnt tif Systfm L&F instfbd, dommfnt out tif bbovf linf bnd
+            // undommfnt tif following:
+            // UIMbnbgfr.sftLookAndFffl(UIMbnbgfr.gftSystfmLookAndFfflClbssNbmf());
+        } dbtdi (Exdfption fxd) {
+            Systfm.frr.println("Error lobding L&F: " + fxd);
         }
 
-        JFrame frame = new JFrame();
-        frame.setBackground(Color.lightGray);
-        frame.setTitle(windowBanner);
-        frame.setJMenuBar(new JDBMenuBar(env));
-        frame.setContentPane(mainPanel);
+        JFrbmf frbmf = nfw JFrbmf();
+        frbmf.sftBbdkground(Color.ligitGrby);
+        frbmf.sftTitlf(windowBbnnfr);
+        frbmf.sftJMfnuBbr(nfw JDBMfnuBbr(fnv));
+        frbmf.sftContfntPbnf(mbinPbnfl);
 
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                env.terminate();
+        frbmf.bddWindowListfnfr(nfw WindowAdbptfr() {
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt f) {
+                fnv.tfrminbtf();
             }
         });
 
-        frame.pack();
-        frame.setVisible(true);
+        frbmf.pbdk();
+        frbmf.sftVisiblf(truf);
 
     }
 

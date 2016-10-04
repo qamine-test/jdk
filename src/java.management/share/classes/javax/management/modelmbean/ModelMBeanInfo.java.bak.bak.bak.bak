@@ -1,0 +1,370 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * @buthor    IBM Corp.
+ *
+ * Copyright IBM Corp. 1999-2000.  All rights rfsfrvfd.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
+
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo;
+
+/**
+ * This intfrfbdf is implfmfntfd by thf ModflMBfbnInfo for fvfry ModflMBfbn. An implfmfntbtion of this intfrfbdf
+ * must bf shippfd with fvfry JMX Agfnt.
+ * <P>
+ * Jbvb rfsourdfs wishing to bf mbnbgfbblf instbntibtf thf ModflMBfbn using thf MBfbnSfrvfr's
+ * drfbtfMBfbn mfthod.  Thf rfsourdf thfn sfts thf ModflMBfbnInfo bnd Dfsdriptors for thf ModflMBfbn
+ * instbndf. Thf bttributfs, opfrbtions, bnd notifidbtions fxposfd vib thf ModflMBfbnInfo for thf
+ * ModflMBfbn domprisf thf mbnbgfmfnt intfrfbdf bnd brf bddfssiblf
+ * from MBfbns, donnfdtors/bdbptors likf othfr MBfbns. Through thf Dfsdriptors, vblufs bnd mfthods in
+ * thf mbnbgfd bpplidbtion dbn bf dffinfd bnd mbppfd to bttributfs bnd opfrbtions of thf ModflMBfbn.
+ * This mbpping dbn bf dffinfd during dfvflopmfnt in b filf or dynbmidblly bnd
+ * progrbmmbtidblly bt runtimf.
+ * <P>
+ * Evfry ModflMBfbn whidh is instbntibtfd in thf MBfbnSfrvfr bfdomfs mbnbgfbblf:
+ * its bttributfs, opfrbtions, bnd notifidbtions
+ * bfdomf rfmotfly bddfssiblf through thf donnfdtors/bdbptors donnfdtfd to thbt MBfbnSfrvfr.
+ * A Jbvb objfdt dbnnot bf rfgistfrfd in thf MBfbnSfrvfr unlfss it is b JMX domplibnt MBfbn.
+ * By instbntibting b ModflMBfbn, rfsourdfs brf gubrbntffd thbt thf MBfbn is vblid.
+ *
+ * MBfbnExdfption bnd RuntimfOpfrbtionsExdfption must bf thrown on fvfry publid mfthod.  This bllows
+ *  for wrbpping fxdfptions from distributfd dommunidbtions (RMI, EJB, ftd.)
+ *
+ * @sindf 1.5
+ */
+
+publid intfrfbdf ModflMBfbnInfo
+{
+
+
+    /**
+     * Rfturns b Dfsdriptor brrby donsisting of bll
+     * Dfsdriptors for thf ModflMBfbnInfo of typf inDfsdriptorTypf.
+     *
+     * @pbrbm inDfsdriptorTypf vbluf of dfsdriptorTypf fifld thbt must bf sft for thf dfsdriptor
+     * to bf rfturnfd.  Must bf "mbfbn", "bttributf", "opfrbtion", "donstrudtor" or "notifidbtion".
+     * If it is null or fmpty thfn bll typfs will bf rfturnfd.
+     *
+     * @rfturn Dfsdriptor brrby dontbining bll dfsdriptors for thf ModflMBfbn if typf inDfsdriptorTypf.
+     *
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption whfn thf dfsdriptorTypf in pbrbmftfr is
+     * not onf of: "mbfbn", "bttributf", "opfrbtion", "donstrudtor", "notifidbtion", fmpty or null.
+     *
+     * @sff #sftDfsdriptors
+     */
+    publid Dfsdriptor[] gftDfsdriptors(String inDfsdriptorTypf)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+    /**
+     * Adds or rfplbdfs dfsdriptors in thf ModflMBfbnInfo.
+     *
+     * @pbrbm inDfsdriptors Thf dfsdriptors to bf sft in thf ModflMBfbnInfo. Null
+     * flfmfnts of thf list will bf ignorfd.  All dfsdriptors must hbvf nbmf bnd dfsdriptorTypf fiflds.
+     *
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption for b null or invblid dfsdriptor.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     *
+     * @sff #gftDfsdriptors
+     */
+    publid void sftDfsdriptors(Dfsdriptor[] inDfsdriptors)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+    /**
+     * Rfturns b Dfsdriptor rfqufstfd by nbmf bnd dfsdriptorTypf.
+     *
+     * @pbrbm inDfsdriptorNbmf Thf nbmf of thf dfsdriptor.
+     * @pbrbm inDfsdriptorTypf Thf typf of thf dfsdriptor bfing
+     * rfqufstfd.  If this is null or fmpty thfn bll typfs brf
+     * sfbrdhfd. Vblid typfs brf 'mbfbn', 'bttributf', 'donstrudtor'
+     * 'opfrbtion', bnd 'notifidbtion'. This vbluf will bf fqubl to
+     * thf 'dfsdriptorTypf' fifld in thf dfsdriptor thbt is rfturnfd.
+     *
+     * @rfturn Dfsdriptor dontbining thf dfsdriptor for thf ModflMBfbn
+     * with thf sbmf nbmf bnd dfsdriptorTypf.  If no dfsdriptor is
+     * found, null is rfturnfd.
+     *
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption for b null dfsdriptor nbmf or null or invblid typf.
+     * Thf typf must bf "mbfbn","bttributf", "donstrudtor", "opfrbtion", or "notifidbtion".
+     *
+     * @sff #sftDfsdriptor
+     */
+
+    publid Dfsdriptor gftDfsdriptor(String inDfsdriptorNbmf, String inDfsdriptorTypf)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+    /**
+     * Sfts dfsdriptors in thf info brrby of typf inDfsdriptorTypf
+     * for thf ModflMBfbn.  Thf sftDfsdriptor mfthod of thf
+     * dorrfsponding ModflMBfbn*Info will bf dbllfd to sft thf
+     * spfdififd dfsdriptor.
+     *
+     * @pbrbm inDfsdriptor Thf dfsdriptor to bf sft in thf
+     * ModflMBfbn. It must NOT bf null.  All dfsdriptors must hbvf
+     * nbmf bnd dfsdriptorTypf fiflds.
+     * @pbrbm inDfsdriptorTypf Thf typf of thf dfsdriptor bfing
+     * sft. If this is null thfn thf dfsdriptorTypf fifld in thf
+     * dfsdriptor is usfd. If spfdififd this vbluf must bf sft in
+     * thf dfsdriptorTypf fifld in thf dfsdriptor. Must bf
+     * "mbfbn","bttributf", "donstrudtor", "opfrbtion", or
+     * "notifidbtion".
+     *
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+     * IllfgblArgumfntExdfption for illfgbl or null brgumfnts or
+     * if thf nbmf fifld of thf dfsdriptor is not found in thf
+     * dorrfsponding MBfbnAttributfInfo or MBfbnConstrudtorInfo or
+     * MBfbnNotifidbtionInfo or MBfbnOpfrbtionInfo.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion
+     * Exdfption.
+     *
+     * @sff #gftDfsdriptor
+     */
+
+    publid void sftDfsdriptor(Dfsdriptor inDfsdriptor, String inDfsdriptorTypf)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+
+    /**
+     * <p>Rfturns thf ModflMBfbn's dfsdriptor whidh dontbins MBfbn widf
+     * polidifs.  This dfsdriptor dontbins mftbdbtb bbout thf MBfbn bnd dffbult
+     * polidifs for pfrsistfndf bnd dbdhing.</p>
+     *
+     * <P id="dfsdriptor">
+     * Thf fiflds in thf dfsdriptor brf dffinfd, but not limitfd to, thf
+     * following.  Notf thbt whfn thf Typf in this tbblf is Numbfr, b String
+     * thbt is thf dfdimbl rfprfsfntbtion of b Long dbn blso bf usfd.</P>
+     *
+     * <tbblf bordfr="1" dfllpbdding="5" summbry="ModflMBfbn Fiflds">
+     * <tr><th>Nbmf</th><th>Typf</th><th>Mfbning</th></tr>
+     * <tr><td>nbmf</td><td>String</td>
+     *     <td>MBfbn nbmf.</td></tr>
+     * <tr><td>dfsdriptorTypf</td><td>String</td>
+     *     <td>Must bf "mbfbn".</td></tr>
+     * <tr><td>displbyNbmf</td><td>String</td>
+     *     <td>Nbmf of MBfbn to bf usfd in displbys.</td></tr>
+     * <tr><td>pfrsistPolidy</td><td>String</td>
+     *     <td>Onf of: OnUpdbtf|OnTimfr|NoMorfOftfnThbn|OnUnrfgistfr|Alwbys|Nfvfr.
+     *         Sff thf sfdtion "MBfbn Dfsdriptor Fiflds" in thf JMX spfdifidbtion
+     *         dodumfnt.</td></tr>
+     * <tr><td>pfrsistLodbtion</td><td>String</td>
+     *     <td>Thf fully qublififd dirfdtory nbmf whfrf thf MBfbn should bf
+     *         pfrsistfd (if bppropribtf).</td></tr>
+     * <tr><td>pfrsistFilf</td><td>String</td>
+     *     <td>Filf nbmf into whidh thf MBfbn should bf pfrsistfd.</td></tr>
+     * <tr><td>pfrsistPfriod</td><td>Numbfr</td>
+     *     <td>Frfqufndy of pfrsist dydlf in sfdonds, for OnTimf bnd
+     *         NoMorfOftfnThbn PfrsistPolidy</td></tr>
+     * <tr><td>durrfndyTimfLimit</td><td>Numbfr</td>
+     *     <td>How long dbdhfd vbluf is vblid: &lt;0 nfvfr, =0 blwbys,
+     *         &gt;0 sfdonds.</td></tr>
+     * <tr><td>log</td><td>String</td>
+     *     <td>t: log bll notifidbtions, f: log no notifidbtions.</td></tr>
+     * <tr><td>logfilf</td><td>String</td>
+     *     <td>Fully qublififd filfnbmf to log fvfnts to.</td></tr>
+     * <tr><td>visibility</td><td>Numbfr</td>
+     *     <td>1-4 whfrf 1: blwbys visiblf 4: rbrfly visiblf.</td></tr>
+     * <tr><td>fxport</td><td>String</td>
+     *     <td>Nbmf to bf usfd to fxport/fxposf this MBfbn so thbt it is
+     *         findbblf by othfr JMX Agfnts.</td></tr>
+     * <tr><td>prfsfntbtionString</td><td>String</td>
+     *     <td>XML formbttfd string to bllow prfsfntbtion of dbtb to bf
+     *         bssodibtfd with thf MBfbn.</td></tr>
+     * </tbblf>
+     *
+     * <P>
+     * Thf dffbult dfsdriptor is: nbmf=dlbssNbmf,dfsdriptorTypf="mbfbn", displbyNbmf=dlbssNbmf,
+     *  pfrsistPolidy="nfvfr",log="F",visibility="1"
+     * If thf dfsdriptor dofs not dontbin bll thfsf fiflds, thfy will bf bddfd with thfsf dffbult vblufs.
+     *
+     * <p><b>Notf:</b> bfdbusf of indonsistfndifs in prfvious vfrsions of
+     * this spfdifidbtion, it is rfdommfndfd not to usf nfgbtivf or zfro
+     * vblufs for <dodf>durrfndyTimfLimit</dodf>.  To indidbtf thbt b
+     * dbdhfd vbluf is nfvfr vblid, omit thf
+     * <dodf>durrfndyTimfLimit</dodf> fifld.  To indidbtf thbt it is
+     * blwbys vblid, usf b vfry lbrgf numbfr for this fifld.</p>
+     *
+     * @rfturn thf MBfbn dfsdriptor.
+     *
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion
+     * Exdfption.
+     *
+     * @fxdfption RuntimfOpfrbtionsExdfption b {@link
+     * RuntimfExdfption} oddurrfd whilf gftting thf dfsdriptor.
+     *
+     * @sff #sftMBfbnDfsdriptor
+     */
+    publid Dfsdriptor gftMBfbnDfsdriptor()
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+    /**
+     * Sfts thf ModflMBfbn's dfsdriptor.  This dfsdriptor dontbins dffbult, MBfbn widf
+     * mftbdbtb bbout thf MBfbn bnd dffbult polidifs for pfrsistfndf bnd dbdhing. This opfrbtion
+     * dofs b domplftf rfplbdfmfnt of thf dfsdriptor, no mfrging is donf. If thf dfsdriptor to
+     * sft to is null thfn thf dffbult dfsdriptor will bf drfbtfd.
+     * Thf dffbult dfsdriptor is: nbmf=dlbssNbmf,dfsdriptorTypf="mbfbn", displbyNbmf=dlbssNbmf,
+     *  pfrsistPolidy="nfvfr",log="F",visibility="1"
+     * If thf dfsdriptor dofs not dontbin bll thfsf fiflds, thfy will bf bddfd with thfsf dffbult vblufs.
+     *
+     * Sff {@link #gftMBfbnDfsdriptor gftMBfbnDfsdriptor} mfthod jbvbdod for dfsdription of vblid fifld nbmfs.
+     *
+     * @pbrbm inDfsdriptor thf dfsdriptor to sft.
+     *
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption  for invblid dfsdriptor.
+     *
+     *
+     * @sff #gftMBfbnDfsdriptor
+     */
+
+    publid void sftMBfbnDfsdriptor(Dfsdriptor inDfsdriptor)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+
+    /**
+     * Rfturns b ModflMBfbnAttributfInfo rfqufstfd by nbmf.
+     *
+     * @pbrbm inNbmf Thf nbmf of thf ModflMBfbnAttributfInfo to gft.
+     * If no ModflMBfbnAttributfInfo fxists for this nbmf null is rfturnfd.
+     *
+     * @rfturn thf bttributf info for thf nbmfd bttributf, or null
+     * if thfrf is nonf.
+     *
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion
+     * Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+     * IllfgblArgumfntExdfption for b null bttributf nbmf.
+     *
+     */
+
+    publid ModflMBfbnAttributfInfo gftAttributf(String inNbmf)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+
+    /**
+     * Rfturns b ModflMBfbnOpfrbtionInfo rfqufstfd by nbmf.
+     *
+     * @pbrbm inNbmf Thf nbmf of thf ModflMBfbnOpfrbtionInfo to gft.
+     * If no ModflMBfbnOpfrbtionInfo fxists for this nbmf null is rfturnfd.
+     *
+     * @rfturn thf opfrbtion info for thf nbmfd opfrbtion, or null
+     * if thfrf is nonf.
+     *
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption for b null opfrbtion nbmf.
+     *
+     */
+
+    publid ModflMBfbnOpfrbtionInfo gftOpfrbtion(String inNbmf)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+
+    /**
+     * Rfturns b ModflMBfbnNotifidbtionInfo rfqufstfd by nbmf.
+     *
+     * @pbrbm inNbmf Thf nbmf of thf ModflMBfbnNotifidbtionInfo to gft.
+     * If no ModflMBfbnNotifidbtionInfo fxists for this nbmf null is rfturnfd.
+     *
+     * @rfturn thf info for thf nbmfd notifidbtion, or null if thfrf
+     * is nonf.
+     *
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption for b null notifidbtion nbmf.
+     *
+     */
+    publid ModflMBfbnNotifidbtionInfo gftNotifidbtion(String inNbmf)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+    /**
+     * Crfbtfs bnd rfturns b dopy of this objfdt.
+     */
+    publid jbvb.lbng.Objfdt dlonf();
+
+    /**
+     * Rfturns thf list of bttributfs fxposfd for mbnbgfmfnt.
+     * Ebdh bttributf is dfsdribfd by bn <CODE>MBfbnAttributfInfo</CODE> objfdt.
+     *
+     * @rfturn  An brrby of <CODE>MBfbnAttributfInfo</CODE> objfdts.
+     */
+    publid MBfbnAttributfInfo[] gftAttributfs();
+
+    /**
+     * Rfturns thf nbmf of thf Jbvb dlbss of thf MBfbn dfsdribfd by
+     * this <CODE>MBfbnInfo</CODE>.
+     *
+     * @rfturn thf Jbvb dlbss nbmf.
+     */
+    publid jbvb.lbng.String gftClbssNbmf();
+
+    /**
+     * Rfturns thf list of thf publid donstrudtors  of thf MBfbn.
+     * Ebdh donstrudtor is dfsdribfd by bn <CODE>MBfbnConstrudtorInfo</CODE> objfdt.
+     *
+     * @rfturn  An brrby of <CODE>MBfbnConstrudtorInfo</CODE> objfdts.
+     */
+    publid MBfbnConstrudtorInfo[] gftConstrudtors();
+
+    /**
+     * Rfturns b humbn rfbdbblf dfsdription of thf MBfbn.
+     *
+     * @rfturn thf dfsdription.
+     */
+    publid jbvb.lbng.String gftDfsdription();
+
+    /**
+     * Rfturns thf list of thf notifidbtions fmittfd by thf MBfbn.
+     * Ebdh notifidbtion is dfsdribfd by bn <CODE>MBfbnNotifidbtionInfo</CODE> objfdt.
+     * <P>
+     * In bddition to bny notifidbtion spfdififd by thf bpplidbtion,
+     * b ModflMBfbn mby blwbys sfnd blso two bdditionbl notifidbtions:
+     * <UL>
+     * <LI> Onf with dfsdriptor nbmf "GENERIC" bnd displbyNbmf "jmx.modflmbfbn.gfnfrid"
+     * <LI> Sfdond is b stbndbrd bttributf dhbngf notifidbtion
+     *      with dfsdriptor nbmf "ATTRIBUTE_CHANGE" bnd displbyNbmf "jmx.bttributf.dhbngf"
+     * </UL>
+     * Thus bny implfmfntbtion of ModflMBfbnInfo should blwbys bdd thosf two notifidbtions
+     * in bddition to thosf spfdififd by thf bpplidbtion.
+     *
+     * @rfturn  An brrby of <CODE>MBfbnNotifidbtionInfo</CODE> objfdts.
+     */
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtions();
+
+    /**
+     * Rfturns thf list of opfrbtions  of thf MBfbn.
+     * Ebdh opfrbtion is dfsdribfd by bn <CODE>MBfbnOpfrbtionInfo</CODE> objfdt.
+     *
+     * @rfturn  An brrby of <CODE>MBfbnOpfrbtionInfo</CODE> objfdts.
+     */
+    publid MBfbnOpfrbtionInfo[] gftOpfrbtions();
+
+}

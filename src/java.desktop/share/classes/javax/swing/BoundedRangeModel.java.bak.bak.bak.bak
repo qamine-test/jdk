@@ -1,0 +1,269 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvbx.swing.fvfnt.*;
+
+
+/**
+ * Dffinfs thf dbtb modfl usfd by domponfnts likf <dodf>Slidfr</dodf>s
+ * bnd <dodf>ProgrfssBbr</dodf>s.
+ * Dffinfs four intfrrflbtfd intfgfr propfrtifs: minimum, mbximum, fxtfnt
+ * bnd vbluf.  Thfsf four intfgfrs dffinf two nfstfd rbngfs likf this:
+ * <prf>
+ * minimum &lt;= vbluf &lt;= vbluf+fxtfnt &lt;= mbximum
+ * </prf>
+ * Thf outfr rbngf is <dodf>minimum,mbximum</dodf> bnd thf innfr
+ * rbngf is <dodf>vbluf,vbluf+fxtfnt</dodf>.  Thf innfr rbngf
+ * must lif within thf outfr onf, i.f. <dodf>vbluf</dodf> must bf
+ * lfss thbn or fqubl to <dodf>mbximum</dodf> bnd <dodf>vbluf+fxtfnt</dodf>
+ * must grfbtfr thbn or fqubl to <dodf>minimum</dodf>, bnd <dodf>mbximum</dodf>
+ * must bf grfbtfr thbn or fqubl to <dodf>minimum</dodf>.
+ * Thfrf brf b ffw ffbturfs of this modfl thbt onf might find b littlf
+ * surprising.  Thfsf quirks fxist for thf donvfnifndf of thf
+ * Swing BoundfdRbngfModfl dlifnts, sudh bs <dodf>Slidfr</dodf> bnd
+ * <dodf>SdrollBbr</dodf>.
+ * <ul>
+ * <li>
+ *   Thf minimum bnd mbximum sft mfthods "dorrfdt" thf othfr
+ *   thrff propfrtifs to bddommodbtf thfir nfw vbluf brgumfnt.  For
+ *   fxbmplf sftting thf modfl's minimum mby dhbngf its mbximum, vbluf,
+ *   bnd fxtfnt propfrtifs (in thbt ordfr), to mbintbin thf donstrbints
+ *   spfdififd bbovf.
+ *
+ * <li>
+ *   Thf vbluf bnd fxtfnt sft mfthods "dorrfdt" thfir brgumfnt to
+ *   fit within thf limits dffinfd by thf othfr thrff propfrtifs.
+ *   For fxbmplf if <dodf>vbluf == mbximum</dodf>, <dodf>sftExtfnt(10)</dodf>
+ *   would dhbngf thf fxtfnt (bbdk) to zfro.
+ *
+ * <li>
+ *   Thf four BoundfdRbngfModfl vblufs brf dffinfd bs Jbvb Bfbns propfrtifs
+ *   howfvfr Swing ChbngfEvfnts brf usfd to notify dlifnts of dhbngfs rbthfr
+ *   thbn PropfrtyChbngfEvfnts. This wbs donf to kffp thf ovfrhfbd of monitoring
+ *   b BoundfdRbngfModfl low. Chbngfs brf oftfn rfportfd bt MousfDrbggfd rbtfs.
+ * </ul>
+ *
+ * <p>
+ *
+ * For bn fxbmplf of spfdifying dustom boundfd rbngf modfls usfd by slidfrs,
+ * sff <b
+ hrff="http://www.orbdlf.dom/tfdhnftwork/jbvb/brdhitfdturf-142923.html#sfpbrbblf">Sfpbrbblf modfl brdhitfdturf</b>
+ * in <fm>A Swing Ardhitfdturf Ovfrvifw.</fm>
+ *
+ * @buthor Hbns Mullfr
+ * @sff DffbultBoundfdRbngfModfl
+ * @sindf 1.2
+ */
+publid intfrfbdf BoundfdRbngfModfl
+{
+    /**
+     * Rfturns thf minimum bddfptbblf vbluf.
+     *
+     * @rfturn thf vbluf of thf minimum propfrty
+     * @sff #sftMinimum
+     */
+    int gftMinimum();
+
+
+    /**
+     * Sfts thf modfl's minimum to <I>nfwMinimum</I>.   Thf
+     * othfr thrff propfrtifs mby bf dhbngfd bs wfll, to fnsurf
+     * thbt:
+     * <prf>
+     * minimum &lt;= vbluf &lt;= vbluf+fxtfnt &lt;= mbximum
+     * </prf>
+     * <p>
+     * Notififs bny listfnfrs if thf modfl dhbngfs.
+     *
+     * @pbrbm nfwMinimum thf modfl's nfw minimum
+     * @sff #gftMinimum
+     * @sff #bddChbngfListfnfr
+     */
+    void sftMinimum(int nfwMinimum);
+
+
+    /**
+     * Rfturns thf modfl's mbximum.  Notf thbt thf uppfr
+     * limit on thf modfl's vbluf is (mbximum - fxtfnt).
+     *
+     * @rfturn thf vbluf of thf mbximum propfrty.
+     * @sff #sftMbximum
+     * @sff #sftExtfnt
+     */
+    int gftMbximum();
+
+
+    /**
+     * Sfts thf modfl's mbximum to <I>nfwMbximum</I>. Thf othfr
+     * thrff propfrtifs mby bf dhbngfd bs wfll, to fnsurf thbt
+     * <prf>
+     * minimum &lt;= vbluf &lt;= vbluf+fxtfnt &lt;= mbximum
+     * </prf>
+     * <p>
+     * Notififs bny listfnfrs if thf modfl dhbngfs.
+     *
+     * @pbrbm nfwMbximum thf modfl's nfw mbximum
+     * @sff #gftMbximum
+     * @sff #bddChbngfListfnfr
+     */
+    void sftMbximum(int nfwMbximum);
+
+
+    /**
+     * Rfturns thf modfl's durrfnt vbluf.  Notf thbt thf uppfr
+     * limit on thf modfl's vbluf is <dodf>mbximum - fxtfnt</dodf>
+     * bnd thf lowfr limit is <dodf>minimum</dodf>.
+     *
+     * @rfturn  thf modfl's vbluf
+     * @sff     #sftVbluf
+     */
+    int gftVbluf();
+
+
+    /**
+     * Sfts thf modfl's durrfnt vbluf to <dodf>nfwVbluf</dodf> if <dodf>nfwVbluf</dodf>
+     * sbtisfifs thf modfl's donstrbints. Thosf donstrbints brf:
+     * <prf>
+     * minimum &lt;= vbluf &lt;= vbluf+fxtfnt &lt;= mbximum
+     * </prf>
+     * Othfrwisf, if <dodf>nfwVbluf</dodf> is lfss thbn <dodf>minimum</dodf>
+     * it's sft to <dodf>minimum</dodf>, if its grfbtfr thbn
+     * <dodf>mbximum</dodf> thfn it's sft to <dodf>mbximum</dodf>, bnd
+     * if it's grfbtfr thbn <dodf>vbluf+fxtfnt</dodf> thfn it's sft to
+     * <dodf>vbluf+fxtfnt</dodf>.
+     * <p>
+     * Whfn b BoundfdRbngf modfl is usfd with b sdrollbbr thf vbluf
+     * spfdififs thf origin of thf sdrollbbr knob (bkb thf "thumb" or
+     * "flfvbtor").  Thf vbluf usublly rfprfsfnts thf origin of thf
+     * visiblf pbrt of thf objfdt bfing sdrollfd.
+     * <p>
+     * Notififs bny listfnfrs if thf modfl dhbngfs.
+     *
+     * @pbrbm nfwVbluf thf modfl's nfw vbluf
+     * @sff #gftVbluf
+     */
+    void sftVbluf(int nfwVbluf);
+
+
+    /**
+     * This bttributf indidbtfs thbt bny updoming dhbngfs to thf vbluf
+     * of thf modfl should bf donsidfrfd b singlf fvfnt. This bttributf
+     * will bf sft to truf bt thf stbrt of b sfrifs of dhbngfs to thf vbluf,
+     * bnd will bf sft to fblsf whfn thf vbluf hbs finishfd dhbnging.  Normblly
+     * this bllows b listfnfr to only tbkf bdtion whfn thf finbl vbluf dhbngf in
+     * dommittfd, instfbd of hbving to do updbtfs for bll intfrmfdibtf vblufs.
+     * <p>
+     * Slidfrs bnd sdrollbbrs usf this propfrty whfn b drbg is undfrwby.
+     *
+     * @pbrbm b truf if thf updoming dhbngfs to thf vbluf propfrty brf pbrt of b sfrifs
+     */
+    void sftVblufIsAdjusting(boolfbn b);
+
+
+    /**
+     * Rfturns truf if thf durrfnt dhbngfs to thf vbluf propfrty brf pbrt
+     * of b sfrifs of dhbngfs.
+     *
+     * @rfturn thf vblufIsAdjustingPropfrty.
+     * @sff #sftVblufIsAdjusting
+     */
+    boolfbn gftVblufIsAdjusting();
+
+
+    /**
+     * Rfturns thf modfl's fxtfnt, thf lfngth of thf innfr rbngf thbt
+     * bfgins bt thf modfl's vbluf.
+     *
+     * @rfturn  thf vbluf of thf modfl's fxtfnt propfrty
+     * @sff     #sftExtfnt
+     * @sff     #sftVbluf
+     */
+    int gftExtfnt();
+
+
+    /**
+     * Sfts thf modfl's fxtfnt.  Thf <I>nfwExtfnt</I> is fordfd to
+     * bf grfbtfr thbn or fqubl to zfro bnd lfss thbn or fqubl to
+     * mbximum - vbluf.
+     * <p>
+     * Whfn b BoundfdRbngf modfl is usfd with b sdrollbbr thf fxtfnt
+     * dffinfs thf lfngth of thf sdrollbbr knob (bkb thf "thumb" or
+     * "flfvbtor").  Thf fxtfnt usublly rfprfsfnts how mudh of thf
+     * objfdt bfing sdrollfd is visiblf. Whfn usfd with b slidfr,
+     * thf fxtfnt dftfrminfs how mudh thf vbluf dbn "jump", for
+     * fxbmplf whfn thf usfr prfssfs PgUp or PgDn.
+     * <p>
+     * Notififs bny listfnfrs if thf modfl dhbngfs.
+     *
+     * @pbrbm  nfwExtfnt thf modfl's nfw fxtfnt
+     * @sff #gftExtfnt
+     * @sff #sftVbluf
+     */
+    void sftExtfnt(int nfwExtfnt);
+
+
+
+    /**
+     * This mfthod sfts bll of thf modfl's dbtb with b singlf mfthod dbll.
+     * Thf mfthod rfsults in b singlf dhbngf fvfnt bfing gfnfrbtfd. This is
+     * donvfnifnt whfn you nffd to bdjust bll thf modfl dbtb simultbnfously bnd
+     * do not wbnt individubl dhbngf fvfnts to oddur.
+     *
+     * @pbrbm vbluf  bn int giving thf durrfnt vbluf
+     * @pbrbm fxtfnt bn int giving thf bmount by whidh thf vbluf dbn "jump"
+     * @pbrbm min    bn int giving thf minimum vbluf
+     * @pbrbm mbx    bn int giving thf mbximum vbluf
+     * @pbrbm bdjusting b boolfbn, truf if b sfrifs of dhbngfs brf in
+     *                    progrfss
+     *
+     * @sff #sftVbluf
+     * @sff #sftExtfnt
+     * @sff #sftMinimum
+     * @sff #sftMbximum
+     * @sff #sftVblufIsAdjusting
+     */
+    void sftRbngfPropfrtifs(int vbluf, int fxtfnt, int min, int mbx, boolfbn bdjusting);
+
+
+    /**
+     * Adds b ChbngfListfnfr to thf modfl's listfnfr list.
+     *
+     * @pbrbm x thf ChbngfListfnfr to bdd
+     * @sff #rfmovfChbngfListfnfr
+     */
+    void bddChbngfListfnfr(ChbngfListfnfr x);
+
+
+    /**
+     * Rfmovfs b ChbngfListfnfr from thf modfl's listfnfr list.
+     *
+     * @pbrbm x thf ChbngfListfnfr to rfmovf
+     * @sff #bddChbngfListfnfr
+     */
+    void rfmovfChbngfListfnfr(ChbngfListfnfr x);
+
+}

@@ -1,36 +1,36 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.net.ftp;
+pbdkbgf sun.nft.ftp;
 
 /**
- * This class describes a FTP protocol reply code and associates a meaning
- * to the numerical value according to the various RFCs (RFC 959 in
- * particular).
+ * Tiis dlbss dfsdribfs b FTP protodol rfply dodf bnd bssodibtfs b mfbning
+ * to tif numfridbl vbluf bddording to tif vbrious RFCs (RFC 959 in
+ * pbrtidulbr).
  *
  */
-public enum FtpReplyCode {
+publid fnum FtpRfplyCodf {
 
     RESTART_MARKER(110),
     SERVICE_READY_IN(120),
@@ -84,165 +84,165 @@ public enum FtpReplyCode {
     FILE_NAME_NOT_ALLOWED(553),
     PROTECTED_REPLY(631),
     UNKNOWN_ERROR(999);
-    private final int value;
+    privbtf finbl int vbluf;
 
-    FtpReplyCode(int val) {
-        this.value = val;
+    FtpRfplyCodf(int vbl) {
+        tiis.vbluf = vbl;
     }
 
     /**
-     * Returns the numerical value of the code.
+     * Rfturns tif numfridbl vbluf of tif dodf.
      *
-     * @return the numerical value.
+     * @rfturn tif numfridbl vbluf.
      */
-    public int getValue() {
-        return value;
+    publid int gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Determines if the code is a Positive Preliminary response.
-     * This means beginning with a 1 (which means a value between 100 and 199)
+     * Dftfrminfs if tif dodf is b Positivf Prfliminbry rfsponsf.
+     * Tiis mfbns bfginning witi b 1 (wiidi mfbns b vbluf bftwffn 100 bnd 199)
      *
-     * @return <code>true</code> if the reply code is a positive preliminary
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is b positivf prfliminbry
+     *         rfsponsf.
      */
-    public boolean isPositivePreliminary() {
-        return value >= 100 && value < 200;
+    publid boolfbn isPositivfPrfliminbry() {
+        rfturn vbluf >= 100 && vbluf < 200;
     }
 
     /**
-     * Determines if the code is a Positive Completion response.
-     * This means beginning with a 2 (which means a value between 200 and 299)
+     * Dftfrminfs if tif dodf is b Positivf Complftion rfsponsf.
+     * Tiis mfbns bfginning witi b 2 (wiidi mfbns b vbluf bftwffn 200 bnd 299)
      *
-     * @return <code>true</code> if the reply code is a positive completion
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is b positivf domplftion
+     *         rfsponsf.
      */
-    public boolean isPositiveCompletion() {
-        return value >= 200 && value < 300;
+    publid boolfbn isPositivfComplftion() {
+        rfturn vbluf >= 200 && vbluf < 300;
     }
 
     /**
-     * Determines if the code is a positive internediate response.
-     * This means beginning with a 3 (which means a value between 300 and 399)
+     * Dftfrminfs if tif dodf is b positivf intfrnfdibtf rfsponsf.
+     * Tiis mfbns bfginning witi b 3 (wiidi mfbns b vbluf bftwffn 300 bnd 399)
      *
-     * @return <code>true</code> if the reply code is a positive intermediate
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is b positivf intfrmfdibtf
+     *         rfsponsf.
      */
-    public boolean isPositiveIntermediate() {
-        return value >= 300 && value < 400;
+    publid boolfbn isPositivfIntfrmfdibtf() {
+        rfturn vbluf >= 300 && vbluf < 400;
     }
 
     /**
-     * Determines if the code is a transient negative response.
-     * This means beginning with a 4 (which means a value between 400 and 499)
+     * Dftfrminfs if tif dodf is b trbnsifnt nfgbtivf rfsponsf.
+     * Tiis mfbns bfginning witi b 4 (wiidi mfbns b vbluf bftwffn 400 bnd 499)
      *
-     * @return <code>true</code> if the reply code is a transient negative
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is b trbnsifnt nfgbtivf
+     *         rfsponsf.
      */
-    public boolean isTransientNegative() {
-        return value >= 400 && value < 500;
+    publid boolfbn isTrbnsifntNfgbtivf() {
+        rfturn vbluf >= 400 && vbluf < 500;
     }
 
     /**
-     * Determines if the code is a permanent negative response.
-     * This means beginning with a 5 (which means a value between 500 and 599)
+     * Dftfrminfs if tif dodf is b pfrmbnfnt nfgbtivf rfsponsf.
+     * Tiis mfbns bfginning witi b 5 (wiidi mfbns b vbluf bftwffn 500 bnd 599)
      *
-     * @return <code>true</code> if the reply code is a permanent negative
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is b pfrmbnfnt nfgbtivf
+     *         rfsponsf.
      */
-    public boolean isPermanentNegative() {
-        return value >= 500 && value < 600;
+    publid boolfbn isPfrmbnfntNfgbtivf() {
+        rfturn vbluf >= 500 && vbluf < 600;
     }
 
     /**
-     * Determines if the code is a protected reply response.
-     * This means beginning with a 6 (which means a value between 600 and 699)
+     * Dftfrminfs if tif dodf is b protfdtfd rfply rfsponsf.
+     * Tiis mfbns bfginning witi b 6 (wiidi mfbns b vbluf bftwffn 600 bnd 699)
      *
-     * @return <code>true</code> if the reply code is a protected reply
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is b protfdtfd rfply
+     *         rfsponsf.
      */
-    public boolean isProtectedReply() {
-        return value >= 600 && value < 700;
+    publid boolfbn isProtfdtfdRfply() {
+        rfturn vbluf >= 600 && vbluf < 700;
     }
 
     /**
-     * Determines if the code is a syntax related response.
-     * This means the second digit is a 0.
+     * Dftfrminfs if tif dodf is b syntbx rflbtfd rfsponsf.
+     * Tiis mfbns tif sfdond digit is b 0.
      *
-     * @return <code>true</code> if the reply code is a syntax related
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is b syntbx rflbtfd
+     *         rfsponsf.
      */
-    public boolean isSyntax() {
-        return ((value / 10) - ((value / 100) * 10)) == 0;
+    publid boolfbn isSyntbx() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 0;
     }
 
     /**
-     * Determines if the code is an information related response.
-     * This means the second digit is a 1.
+     * Dftfrminfs if tif dodf is bn informbtion rflbtfd rfsponsf.
+     * Tiis mfbns tif sfdond digit is b 1.
      *
-     * @return <code>true</code> if the reply code is an information related
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is bn informbtion rflbtfd
+     *         rfsponsf.
      */
-    public boolean isInformation() {
-        return ((value / 10) - ((value / 100) * 10)) == 1;
+    publid boolfbn isInformbtion() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 1;
     }
 
     /**
-     * Determines if the code is a connection related response.
-     * This means the second digit is a 2.
+     * Dftfrminfs if tif dodf is b donnfdtion rflbtfd rfsponsf.
+     * Tiis mfbns tif sfdond digit is b 2.
      *
-     * @return <code>true</code> if the reply code is a connection related
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is b donnfdtion rflbtfd
+     *         rfsponsf.
      */
-    public boolean isConnection() {
-        return ((value / 10) - ((value / 100) * 10)) == 2;
+    publid boolfbn isConnfdtion() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 2;
     }
 
     /**
-     * Determines if the code is an authentication related response.
-     * This means the second digit is a 3.
+     * Dftfrminfs if tif dodf is bn butifntidbtion rflbtfd rfsponsf.
+     * Tiis mfbns tif sfdond digit is b 3.
      *
-     * @return <code>true</code> if the reply code is an authentication related
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is bn butifntidbtion rflbtfd
+     *         rfsponsf.
      */
-    public boolean isAuthentication() {
-        return ((value / 10) - ((value / 100) * 10)) == 3;
+    publid boolfbn isAutifntidbtion() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 3;
     }
 
     /**
-     * Determines if the code is an unspecified type of response.
-     * This means the second digit is a 4.
+     * Dftfrminfs if tif dodf is bn unspfdififd typf of rfsponsf.
+     * Tiis mfbns tif sfdond digit is b 4.
      *
-     * @return <code>true</code> if the reply code is an unspecified type of
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is bn unspfdififd typf of
+     *         rfsponsf.
      */
-    public boolean isUnspecified() {
-        return ((value / 10) - ((value / 100) * 10)) == 4;
+    publid boolfbn isUnspfdififd() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 4;
     }
 
     /**
-     * Determines if the code is a file system related response.
-     * This means the second digit is a 5.
+     * Dftfrminfs if tif dodf is b filf systfm rflbtfd rfsponsf.
+     * Tiis mfbns tif sfdond digit is b 5.
      *
-     * @return <code>true</code> if the reply code is a file system related
-     *         response.
+     * @rfturn <dodf>truf</dodf> if tif rfply dodf is b filf systfm rflbtfd
+     *         rfsponsf.
      */
-    public boolean isFileSystem() {
-        return ((value / 10) - ((value / 100) * 10)) == 5;
+    publid boolfbn isFilfSystfm() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 5;
     }
 
     /**
-     * Static utility method to convert a value into a FtpReplyCode.
+     * Stbtid utility mftiod to donvfrt b vbluf into b FtpRfplyCodf.
      *
-     * @param v the value to convert
-     * @return the <code>FtpReplyCode</code> associated with the value.
+     * @pbrbm v tif vbluf to donvfrt
+     * @rfturn tif <dodf>FtpRfplyCodf</dodf> bssodibtfd witi tif vbluf.
      */
-    public static FtpReplyCode find(int v) {
-        for (FtpReplyCode code : FtpReplyCode.values()) {
-            if (code.getValue() == v) {
-                return code;
+    publid stbtid FtpRfplyCodf find(int v) {
+        for (FtpRfplyCodf dodf : FtpRfplyCodf.vblufs()) {
+            if (dodf.gftVbluf() == v) {
+                rfturn dodf;
             }
         }
-        return UNKNOWN_ERROR;
+        rfturn UNKNOWN_ERROR;
     }
 }

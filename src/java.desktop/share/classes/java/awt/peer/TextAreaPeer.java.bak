@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt.peer;
+pbdkbgf jbvb.bwt.pffr;
 
-import java.awt.Dimension;
-import java.awt.TextArea;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.TfxtArfb;
 
 /**
- * The peer interface for {@link TextArea}.
+ * Tif pffr intfrfbdf for {@link TfxtArfb}.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * Tif pffr intfrfbdfs brf intfndfd only for usf in porting
+ * tif AWT. Tify brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs siould not implfmfnt pffrs
+ * nor invokf bny of tif pffr mftiods dirfdtly on tif pffr
+ * instbndfs.
  */
-public interface TextAreaPeer extends TextComponentPeer {
+publid intfrfbdf TfxtArfbPffr fxtfnds TfxtComponfntPffr {
 
     /**
-     * Inserts the specified text at the specified position in the document.
+     * Insfrts tif spfdififd tfxt bt tif spfdififd position in tif dodumfnt.
      *
-     * @param text the text to insert
-     * @param pos the position to insert
+     * @pbrbm tfxt tif tfxt to insfrt
+     * @pbrbm pos tif position to insfrt
      *
-     * @see TextArea#insert(String, int)
+     * @sff TfxtArfb#insfrt(String, int)
      */
-    void insert(String text, int pos);
+    void insfrt(String tfxt, int pos);
 
     /**
-     * Replaces a range of text by the specified string.
+     * Rfplbdfs b rbngf of tfxt by tif spfdififd string.
      *
-     * @param text the replacement string
-     * @param start the begin of the range to replace
-     * @param end the end of the range to replace
+     * @pbrbm tfxt tif rfplbdfmfnt string
+     * @pbrbm stbrt tif bfgin of tif rbngf to rfplbdf
+     * @pbrbm fnd tif fnd of tif rbngf to rfplbdf
      *
-     * @see TextArea#replaceRange(String, int, int)
+     * @sff TfxtArfb#rfplbdfRbngf(String, int, int)
      */
-    void replaceRange(String text, int start, int end);
+    void rfplbdfRbngf(String tfxt, int stbrt, int fnd);
 
     /**
-     * Returns the preferred size of a textarea with the specified number of
-     * columns and rows.
+     * Rfturns tif prfffrrfd sizf of b tfxtbrfb witi tif spfdififd numbfr of
+     * dolumns bnd rows.
      *
-     * @param rows the number of rows
-     * @param columns the number of columns
+     * @pbrbm rows tif numbfr of rows
+     * @pbrbm dolumns tif numbfr of dolumns
      *
-     * @return the preferred size of a textarea
+     * @rfturn tif prfffrrfd sizf of b tfxtbrfb
      *
-     * @see TextArea#getPreferredSize(int, int)
+     * @sff TfxtArfb#gftPrfffrrfdSizf(int, int)
      */
-    Dimension getPreferredSize(int rows, int columns);
+    Dimfnsion gftPrfffrrfdSizf(int rows, int dolumns);
 
     /**
-     * Returns the minimum size of a textarea with the specified number of
-     * columns and rows.
+     * Rfturns tif minimum sizf of b tfxtbrfb witi tif spfdififd numbfr of
+     * dolumns bnd rows.
      *
-     * @param rows the number of rows
-     * @param columns the number of columns
+     * @pbrbm rows tif numbfr of rows
+     * @pbrbm dolumns tif numbfr of dolumns
      *
-     * @return the minimum size of a textarea
+     * @rfturn tif minimum sizf of b tfxtbrfb
      *
-     * @see TextArea#getMinimumSize(int, int)
+     * @sff TfxtArfb#gftMinimumSizf(int, int)
      */
-    Dimension getMinimumSize(int rows, int columns);
+    Dimfnsion gftMinimumSizf(int rows, int dolumns);
 
 }

@@ -1,541 +1,541 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * @author    IBM Corp.
+ * @butior    IBM Corp.
  *
- * Copyright IBM Corp. 1999-2000.  All rights reserved.
+ * Copyrigit IBM Corp. 1999-2000.  All rigits rfsfrvfd.
  */
 
-package javax.management.modelmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
 
-import static com.sun.jmx.defaults.JmxProperties.MODELMBEAN_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MODELMBEAN_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.util.logging.Level;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.logging.Lfvfl;
 
-import javax.management.Descriptor;
-import javax.management.DescriptorAccess;
-import javax.management.DescriptorKey;
-import javax.management.MBeanOperationInfo;
-import javax.management.MBeanParameterInfo;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.DfsdriptorAddfss;
+import jbvbx.mbnbgfmfnt.DfsdriptorKfy;
+import jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
 
 /**
- * <p>The ModelMBeanOperationInfo object describes a management operation of
- * the ModelMBean.  It is a subclass of MBeanOperationInfo with the addition
- * of an associated Descriptor and an implementation of the DescriptorAccess
- * interface.</p>
+ * <p>Tif ModflMBfbnOpfrbtionInfo objfdt dfsdribfs b mbnbgfmfnt opfrbtion of
+ * tif ModflMBfbn.  It is b subdlbss of MBfbnOpfrbtionInfo witi tif bddition
+ * of bn bssodibtfd Dfsdriptor bnd bn implfmfntbtion of tif DfsdriptorAddfss
+ * intfrfbdf.</p>
  *
- * <P id="descriptor">
- * The fields in the descriptor are defined, but not limited to, the following.
- * Note that when the Type in this table is Number, a String that is the decimal
- * representation of a Long can also be used.</P>
+ * <P id="dfsdriptor">
+ * Tif fiflds in tif dfsdriptor brf dffinfd, but not limitfd to, tif following.
+ * Notf tibt wifn tif Typf in tiis tbblf is Numbfr, b String tibt is tif dfdimbl
+ * rfprfsfntbtion of b Long dbn blso bf usfd.</P>
  *
- * <table border="1" cellpadding="5" summary="ModelMBeanOperationInfo Fields">
- * <tr><th>Name</th><th>Type</th><th>Meaning</th></tr>
- * <tr><td>name</td><td>String</td>
- *     <td>Operation name.</td></tr>
- * <tr><td>descriptorType</td><td>String</td>
- *     <td>Must be "operation".</td></tr>
- * <tr><td>class</td><td>String</td>
- *     <td>Class where method is defined (fully qualified).</td></tr>
- * <tr><td>role</td><td>String</td>
- *     <td>Must be "operation", "getter", or "setter".</td></tr>
- * <tr><td>targetObject</td><td>Object</td>
- *     <td>Object on which to execute this method.</td></tr>
- * <tr><td>targetType</td><td>String</td>
- *     <td>type of object reference for targetObject. Can be:
- *         ObjectReference | Handle | EJBHandle | IOR | RMIReference.</td></tr>
- * <tr><td>value</td><td>Object</td>
- *     <td>Cached value for operation.</td></tr>
- * <tr><td>displayName</td><td>String</td>
- *     <td>Human readable display name of the operation.</td>
- * <tr><td>currencyTimeLimit</td><td>Number</td>
- *     <td>How long cached value is valid.</td></tr>
- * <tr><td>lastUpdatedTimeStamp</td><td>Number</td>
- *     <td>When cached value was set.</td></tr>
- * <tr><td>visibility</td><td>Number</td>
- *     <td>1-4 where 1: always visible 4: rarely visible.</td></tr>
- * <tr><td>presentationString</td><td>String</td>
- *     <td>XML formatted string to describe how to present operation</td></tr>
- * </table>
+ * <tbblf bordfr="1" dfllpbdding="5" summbry="ModflMBfbnOpfrbtionInfo Fiflds">
+ * <tr><ti>Nbmf</ti><ti>Typf</ti><ti>Mfbning</ti></tr>
+ * <tr><td>nbmf</td><td>String</td>
+ *     <td>Opfrbtion nbmf.</td></tr>
+ * <tr><td>dfsdriptorTypf</td><td>String</td>
+ *     <td>Must bf "opfrbtion".</td></tr>
+ * <tr><td>dlbss</td><td>String</td>
+ *     <td>Clbss wifrf mftiod is dffinfd (fully qublififd).</td></tr>
+ * <tr><td>rolf</td><td>String</td>
+ *     <td>Must bf "opfrbtion", "gfttfr", or "sfttfr".</td></tr>
+ * <tr><td>tbrgftObjfdt</td><td>Objfdt</td>
+ *     <td>Objfdt on wiidi to fxfdutf tiis mftiod.</td></tr>
+ * <tr><td>tbrgftTypf</td><td>String</td>
+ *     <td>typf of objfdt rfffrfndf for tbrgftObjfdt. Cbn bf:
+ *         ObjfdtRfffrfndf | Hbndlf | EJBHbndlf | IOR | RMIRfffrfndf.</td></tr>
+ * <tr><td>vbluf</td><td>Objfdt</td>
+ *     <td>Cbdifd vbluf for opfrbtion.</td></tr>
+ * <tr><td>displbyNbmf</td><td>String</td>
+ *     <td>Humbn rfbdbblf displby nbmf of tif opfrbtion.</td>
+ * <tr><td>durrfndyTimfLimit</td><td>Numbfr</td>
+ *     <td>How long dbdifd vbluf is vblid.</td></tr>
+ * <tr><td>lbstUpdbtfdTimfStbmp</td><td>Numbfr</td>
+ *     <td>Wifn dbdifd vbluf wbs sft.</td></tr>
+ * <tr><td>visibility</td><td>Numbfr</td>
+ *     <td>1-4 wifrf 1: blwbys visiblf 4: rbrfly visiblf.</td></tr>
+ * <tr><td>prfsfntbtionString</td><td>String</td>
+ *     <td>XML formbttfd string to dfsdribf iow to prfsfnt opfrbtion</td></tr>
+ * </tbblf>
  *
- * <p>The default descriptor will have name, descriptorType, displayName and
- * role fields set.  The default value of the name and displayName fields is
- * the operation name.</p>
+ * <p>Tif dffbult dfsdriptor will ibvf nbmf, dfsdriptorTypf, displbyNbmf bnd
+ * rolf fiflds sft.  Tif dffbult vbluf of tif nbmf bnd displbyNbmf fiflds is
+ * tif opfrbtion nbmf.</p>
  *
- * <p><b>Note:</b> because of inconsistencies in previous versions of
- * this specification, it is recommended not to use negative or zero
- * values for <code>currencyTimeLimit</code>.  To indicate that a
- * cached value is never valid, omit the
- * <code>currencyTimeLimit</code> field.  To indicate that it is
- * always valid, use a very large number for this field.</p>
+ * <p><b>Notf:</b> bfdbusf of indonsistfndifs in prfvious vfrsions of
+ * tiis spfdifidbtion, it is rfdommfndfd not to usf nfgbtivf or zfro
+ * vblufs for <dodf>durrfndyTimfLimit</dodf>.  To indidbtf tibt b
+ * dbdifd vbluf is nfvfr vblid, omit tif
+ * <dodf>durrfndyTimfLimit</dodf> fifld.  To indidbtf tibt it is
+ * blwbys vblid, usf b vfry lbrgf numbfr for tiis fifld.</p>
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>6532732096650090465L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>6532732096650090465L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
 
-@SuppressWarnings("serial")  // serialVersionUID is not constant
-public class ModelMBeanOperationInfo extends MBeanOperationInfo
-         implements DescriptorAccess
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID is not donstbnt
+publid dlbss ModflMBfbnOpfrbtionInfo fxtfnds MBfbnOpfrbtionInfo
+         implfmfnts DfsdriptorAddfss
 {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 9087646304346171239L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 9087646304346171239L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = 6532732096650090465L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = 6532732096650090465L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("operationDescriptor", Descriptor.class),
-      new ObjectStreamField("currClass", String.class)
+      nfw ObjfdtStrfbmFifld("opfrbtionDfsdriptor", Dfsdriptor.dlbss),
+      nfw ObjfdtStrfbmFifld("durrClbss", String.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("operationDescriptor", Descriptor.class)
+      nfw ObjfdtStrfbmFifld("opfrbtionDfsdriptor", Dfsdriptor.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField operationDescriptor Descriptor The descriptor
-     * containing the appropriate metadata for this instance
+     * @sfriblFifld opfrbtionDfsdriptor Dfsdriptor Tif dfsdriptor
+     * dontbining tif bppropribtf mftbdbtb for tiis instbndf
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: No compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK: No dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
         /**
-         * @serial The descriptor containing the appropriate metadata for this instance
+         * @sfribl Tif dfsdriptor dontbining tif bppropribtf mftbdbtb for tiis instbndf
          */
-        private Descriptor operationDescriptor = validDescriptor(null);
+        privbtf Dfsdriptor opfrbtionDfsdriptor = vblidDfsdriptor(null);
 
-        private static final String currClass = "ModelMBeanOperationInfo";
+        privbtf stbtid finbl String durrClbss = "ModflMBfbnOpfrbtionInfo";
 
         /**
-         * Constructs a ModelMBeanOperationInfo object with a default
-         * descriptor. The {@link Descriptor} of the constructed
-         * object will include fields contributed by any annotations
-         * on the {@code Method} object that contain the {@link
-         * DescriptorKey} meta-annotation.
+         * Construdts b ModflMBfbnOpfrbtionInfo objfdt witi b dffbult
+         * dfsdriptor. Tif {@link Dfsdriptor} of tif donstrudtfd
+         * objfdt will indludf fiflds dontributfd by bny bnnotbtions
+         * on tif {@dodf Mftiod} objfdt tibt dontbin tif {@link
+         * DfsdriptorKfy} mftb-bnnotbtion.
          *
-         * @param operationMethod The java.lang.reflect.Method object
-         * describing the MBean operation.
-         * @param description A human readable description of the operation.
+         * @pbrbm opfrbtionMftiod Tif jbvb.lbng.rfflfdt.Mftiod objfdt
+         * dfsdribing tif MBfbn opfrbtion.
+         * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif opfrbtion.
          */
 
-        public ModelMBeanOperationInfo(String description,
-                                       Method operationMethod)
+        publid ModflMBfbnOpfrbtionInfo(String dfsdription,
+                                       Mftiod opfrbtionMftiod)
         {
-                super(description, operationMethod);
-                // create default descriptor
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                    MODELMBEAN_LOGGER.logp(Level.FINER,
-                            ModelMBeanOperationInfo.class.getName(),
-                            "ModelMBeanOperationInfo(String,Method)",
+                supfr(dfsdription, opfrbtionMftiod);
+                // drfbtf dffbult dfsdriptor
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                            ModflMBfbnOpfrbtionInfo.dlbss.gftNbmf(),
+                            "ModflMBfbnOpfrbtionInfo(String,Mftiod)",
                             "Entry");
                 }
-                operationDescriptor = validDescriptor(null);
+                opfrbtionDfsdriptor = vblidDfsdriptor(null);
         }
 
         /**
-         * Constructs a ModelMBeanOperationInfo object. The {@link
-         * Descriptor} of the constructed object will include fields
-         * contributed by any annotations on the {@code Method} object
-         * that contain the {@link DescriptorKey} meta-annotation.
+         * Construdts b ModflMBfbnOpfrbtionInfo objfdt. Tif {@link
+         * Dfsdriptor} of tif donstrudtfd objfdt will indludf fiflds
+         * dontributfd by bny bnnotbtions on tif {@dodf Mftiod} objfdt
+         * tibt dontbin tif {@link DfsdriptorKfy} mftb-bnnotbtion.
          *
-         * @param operationMethod The java.lang.reflect.Method object
-         * describing the MBean operation.
-         * @param description A human readable description of the
-         * operation.
-         * @param descriptor An instance of Descriptor containing the
-         * appropriate metadata for this instance of the
-         * ModelMBeanOperationInfo.  If it is null a default
-         * descriptor will be created. If the descriptor does not
-         * contain the fields
-         * "displayName" or "role", the missing ones are added with
-         * their default values.
+         * @pbrbm opfrbtionMftiod Tif jbvb.lbng.rfflfdt.Mftiod objfdt
+         * dfsdribing tif MBfbn opfrbtion.
+         * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif
+         * opfrbtion.
+         * @pbrbm dfsdriptor An instbndf of Dfsdriptor dontbining tif
+         * bppropribtf mftbdbtb for tiis instbndf of tif
+         * ModflMBfbnOpfrbtionInfo.  If it is null b dffbult
+         * dfsdriptor will bf drfbtfd. If tif dfsdriptor dofs not
+         * dontbin tif fiflds
+         * "displbyNbmf" or "rolf", tif missing onfs brf bddfd witi
+         * tifir dffbult vblufs.
          *
-         * @exception RuntimeOperationsException Wraps an
-         * IllegalArgumentException. The descriptor is invalid; or
-         * descriptor field "name" is not equal to
-         * operation name; or descriptor field "DescriptorType" is
-         * not equal to "operation"; or descriptor
-         * optional field "role" is present but not equal to "operation",
-         * "getter", or "setter".
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+         * IllfgblArgumfntExdfption. Tif dfsdriptor is invblid; or
+         * dfsdriptor fifld "nbmf" is not fqubl to
+         * opfrbtion nbmf; or dfsdriptor fifld "DfsdriptorTypf" is
+         * not fqubl to "opfrbtion"; or dfsdriptor
+         * optionbl fifld "rolf" is prfsfnt but not fqubl to "opfrbtion",
+         * "gfttfr", or "sfttfr".
          *
          */
 
-        public ModelMBeanOperationInfo(String description,
-                                       Method operationMethod,
-                                       Descriptor descriptor)
+        publid ModflMBfbnOpfrbtionInfo(String dfsdription,
+                                       Mftiod opfrbtionMftiod,
+                                       Dfsdriptor dfsdriptor)
         {
 
-                super(description, operationMethod);
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                    MODELMBEAN_LOGGER.logp(Level.FINER,
-                            ModelMBeanOperationInfo.class.getName(),
-                            "ModelMBeanOperationInfo(String,Method,Descriptor)",
+                supfr(dfsdription, opfrbtionMftiod);
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                            ModflMBfbnOpfrbtionInfo.dlbss.gftNbmf(),
+                            "ModflMBfbnOpfrbtionInfo(String,Mftiod,Dfsdriptor)",
                             "Entry");
                 }
-                operationDescriptor = validDescriptor(descriptor);
+                opfrbtionDfsdriptor = vblidDfsdriptor(dfsdriptor);
         }
 
         /**
-        * Constructs a ModelMBeanOperationInfo object with a default descriptor.
+        * Construdts b ModflMBfbnOpfrbtionInfo objfdt witi b dffbult dfsdriptor.
         *
-        * @param name The name of the method.
-        * @param description A human readable description of the operation.
-        * @param signature MBeanParameterInfo objects describing the
-        * parameters(arguments) of the method.
-        * @param type The type of the method's return value.
-        * @param impact The impact of the method, one of INFO, ACTION,
+        * @pbrbm nbmf Tif nbmf of tif mftiod.
+        * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif opfrbtion.
+        * @pbrbm signbturf MBfbnPbrbmftfrInfo objfdts dfsdribing tif
+        * pbrbmftfrs(brgumfnts) of tif mftiod.
+        * @pbrbm typf Tif typf of tif mftiod's rfturn vbluf.
+        * @pbrbm impbdt Tif impbdt of tif mftiod, onf of INFO, ACTION,
         * ACTION_INFO, UNKNOWN.
         */
 
-        public ModelMBeanOperationInfo(String name,
-                                       String description,
-                                       MBeanParameterInfo[] signature,
-                                       String type,
-                                       int impact)
+        publid ModflMBfbnOpfrbtionInfo(String nbmf,
+                                       String dfsdription,
+                                       MBfbnPbrbmftfrInfo[] signbturf,
+                                       String typf,
+                                       int impbdt)
         {
 
-                super(name, description, signature, type, impact);
-                // create default descriptor
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                    MODELMBEAN_LOGGER.logp(Level.FINER,
-                            ModelMBeanOperationInfo.class.getName(),
-                            "ModelMBeanOperationInfo(" +
-                            "String,String,MBeanParameterInfo[],String,int)",
+                supfr(nbmf, dfsdription, signbturf, typf, impbdt);
+                // drfbtf dffbult dfsdriptor
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                            ModflMBfbnOpfrbtionInfo.dlbss.gftNbmf(),
+                            "ModflMBfbnOpfrbtionInfo(" +
+                            "String,String,MBfbnPbrbmftfrInfo[],String,int)",
                             "Entry");
                 }
-                operationDescriptor = validDescriptor(null);
+                opfrbtionDfsdriptor = vblidDfsdriptor(null);
         }
 
         /**
-        * Constructs a ModelMBeanOperationInfo object.
+        * Construdts b ModflMBfbnOpfrbtionInfo objfdt.
         *
-        * @param name The name of the method.
-        * @param description A human readable description of the operation.
-        * @param signature MBeanParameterInfo objects describing the
-        * parameters(arguments) of the method.
-        * @param type The type of the method's return value.
-        * @param impact The impact of the method, one of INFO, ACTION,
+        * @pbrbm nbmf Tif nbmf of tif mftiod.
+        * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif opfrbtion.
+        * @pbrbm signbturf MBfbnPbrbmftfrInfo objfdts dfsdribing tif
+        * pbrbmftfrs(brgumfnts) of tif mftiod.
+        * @pbrbm typf Tif typf of tif mftiod's rfturn vbluf.
+        * @pbrbm impbdt Tif impbdt of tif mftiod, onf of INFO, ACTION,
         * ACTION_INFO, UNKNOWN.
-        * @param descriptor An instance of Descriptor containing the
-        * appropriate metadata for this instance of the
-        * MBeanOperationInfo. If it is null then a default descriptor
-        * will be created.  If the descriptor does not contain
-        * fields "displayName" or "role",
-        * the missing ones are added with their default values.
+        * @pbrbm dfsdriptor An instbndf of Dfsdriptor dontbining tif
+        * bppropribtf mftbdbtb for tiis instbndf of tif
+        * MBfbnOpfrbtionInfo. If it is null tifn b dffbult dfsdriptor
+        * will bf drfbtfd.  If tif dfsdriptor dofs not dontbin
+        * fiflds "displbyNbmf" or "rolf",
+        * tif missing onfs brf bddfd witi tifir dffbult vblufs.
         *
-        * @exception RuntimeOperationsException Wraps an
-        * IllegalArgumentException. The descriptor is invalid; or
-        * descriptor field "name" is not equal to
-        * operation name; or descriptor field "DescriptorType" is
-        * not equal to "operation"; or descriptor optional
-        * field "role" is present but not equal to "operation", "getter", or
-        * "setter".
+        * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+        * IllfgblArgumfntExdfption. Tif dfsdriptor is invblid; or
+        * dfsdriptor fifld "nbmf" is not fqubl to
+        * opfrbtion nbmf; or dfsdriptor fifld "DfsdriptorTypf" is
+        * not fqubl to "opfrbtion"; or dfsdriptor optionbl
+        * fifld "rolf" is prfsfnt but not fqubl to "opfrbtion", "gfttfr", or
+        * "sfttfr".
         */
 
-        public ModelMBeanOperationInfo(String name,
-                                       String description,
-                                       MBeanParameterInfo[] signature,
-                                       String type,
-                                       int impact,
-                                       Descriptor descriptor)
+        publid ModflMBfbnOpfrbtionInfo(String nbmf,
+                                       String dfsdription,
+                                       MBfbnPbrbmftfrInfo[] signbturf,
+                                       String typf,
+                                       int impbdt,
+                                       Dfsdriptor dfsdriptor)
         {
-                super(name, description, signature, type, impact);
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                    MODELMBEAN_LOGGER.logp(Level.FINER,
-                            ModelMBeanOperationInfo.class.getName(),
-                            "ModelMBeanOperationInfo(String,String," +
-                            "MBeanParameterInfo[],String,int,Descriptor)",
+                supfr(nbmf, dfsdription, signbturf, typf, impbdt);
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                            ModflMBfbnOpfrbtionInfo.dlbss.gftNbmf(),
+                            "ModflMBfbnOpfrbtionInfo(String,String," +
+                            "MBfbnPbrbmftfrInfo[],String,int,Dfsdriptor)",
                             "Entry");
                 }
-                operationDescriptor = validDescriptor(descriptor);
+                opfrbtionDfsdriptor = vblidDfsdriptor(dfsdriptor);
         }
 
         /**
-         * Constructs a new ModelMBeanOperationInfo object from this
-         * ModelMBeanOperation Object.
+         * Construdts b nfw ModflMBfbnOpfrbtionInfo objfdt from tiis
+         * ModflMBfbnOpfrbtion Objfdt.
          *
-         * @param inInfo the ModelMBeanOperationInfo to be duplicated
+         * @pbrbm inInfo tif ModflMBfbnOpfrbtionInfo to bf duplidbtfd
          *
          */
 
-        public ModelMBeanOperationInfo(ModelMBeanOperationInfo inInfo)
+        publid ModflMBfbnOpfrbtionInfo(ModflMBfbnOpfrbtionInfo inInfo)
         {
-                super(inInfo.getName(),
-                          inInfo.getDescription(),
-                          inInfo.getSignature(),
-                          inInfo.getReturnType(),
-                          inInfo.getImpact());
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                    MODELMBEAN_LOGGER.logp(Level.FINER,
-                            ModelMBeanOperationInfo.class.getName(),
-                            "ModelMBeanOperationInfo(ModelMBeanOperationInfo)",
+                supfr(inInfo.gftNbmf(),
+                          inInfo.gftDfsdription(),
+                          inInfo.gftSignbturf(),
+                          inInfo.gftRfturnTypf(),
+                          inInfo.gftImpbdt());
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                            ModflMBfbnOpfrbtionInfo.dlbss.gftNbmf(),
+                            "ModflMBfbnOpfrbtionInfo(ModflMBfbnOpfrbtionInfo)",
                             "Entry");
                 }
-                Descriptor newDesc = inInfo.getDescriptor();
-                operationDescriptor = validDescriptor(newDesc);
+                Dfsdriptor nfwDfsd = inInfo.gftDfsdriptor();
+                opfrbtionDfsdriptor = vblidDfsdriptor(nfwDfsd);
         }
 
         /**
-        * Creates and returns a new ModelMBeanOperationInfo which is a
-        * duplicate of this ModelMBeanOperationInfo.
+        * Crfbtfs bnd rfturns b nfw ModflMBfbnOpfrbtionInfo wiidi is b
+        * duplidbtf of tiis ModflMBfbnOpfrbtionInfo.
         *
         */
 
-        public Object clone ()
+        publid Objfdt dlonf ()
         {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanOperationInfo.class.getName(),
-                        "clone()", "Entry");
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnOpfrbtionInfo.dlbss.gftNbmf(),
+                        "dlonf()", "Entry");
             }
-                return(new ModelMBeanOperationInfo(this)) ;
+                rfturn(nfw ModflMBfbnOpfrbtionInfo(tiis)) ;
         }
 
         /**
-         * Returns a copy of the associated Descriptor of the
-         * ModelMBeanOperationInfo.
+         * Rfturns b dopy of tif bssodibtfd Dfsdriptor of tif
+         * ModflMBfbnOpfrbtionInfo.
          *
-         * @return Descriptor associated with the
-         * ModelMBeanOperationInfo object.
+         * @rfturn Dfsdriptor bssodibtfd witi tif
+         * ModflMBfbnOpfrbtionInfo objfdt.
          *
-         * @see #setDescriptor
+         * @sff #sftDfsdriptor
          */
 
-        public Descriptor getDescriptor()
+        publid Dfsdriptor gftDfsdriptor()
         {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanOperationInfo.class.getName(),
-                        "getDescriptor()", "Entry");
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnOpfrbtionInfo.dlbss.gftNbmf(),
+                        "gftDfsdriptor()", "Entry");
             }
-            if (operationDescriptor == null) {
-                operationDescriptor = validDescriptor(null);
+            if (opfrbtionDfsdriptor == null) {
+                opfrbtionDfsdriptor = vblidDfsdriptor(null);
             }
 
-            return((Descriptor) operationDescriptor.clone());
+            rfturn((Dfsdriptor) opfrbtionDfsdriptor.dlonf());
         }
 
         /**
-         * Sets associated Descriptor (full replace) for the
-         * ModelMBeanOperationInfo If the new Descriptor is null, then
-         * the associated Descriptor reverts to a default descriptor.
-         * The Descriptor is validated before it is assigned.  If the
-         * new Descriptor is invalid, then a
-         * RuntimeOperationsException wrapping an
-         * IllegalArgumentException is thrown.
+         * Sfts bssodibtfd Dfsdriptor (full rfplbdf) for tif
+         * ModflMBfbnOpfrbtionInfo If tif nfw Dfsdriptor is null, tifn
+         * tif bssodibtfd Dfsdriptor rfvfrts to b dffbult dfsdriptor.
+         * Tif Dfsdriptor is vblidbtfd bfforf it is bssignfd.  If tif
+         * nfw Dfsdriptor is invblid, tifn b
+         * RuntimfOpfrbtionsExdfption wrbpping bn
+         * IllfgblArgumfntExdfption is tirown.
          *
-         * @param inDescriptor replaces the Descriptor associated with the
-         * ModelMBeanOperation.
+         * @pbrbm inDfsdriptor rfplbdfs tif Dfsdriptor bssodibtfd witi tif
+         * ModflMBfbnOpfrbtion.
          *
-         * @exception RuntimeOperationsException Wraps an
-         * IllegalArgumentException for invalid Descriptor.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+         * IllfgblArgumfntExdfption for invblid Dfsdriptor.
          *
-         * @see #getDescriptor
+         * @sff #gftDfsdriptor
          */
-        public void setDescriptor(Descriptor inDescriptor)
+        publid void sftDfsdriptor(Dfsdriptor inDfsdriptor)
         {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanOperationInfo.class.getName(),
-                        "setDescriptor(Descriptor)", "Entry");
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnOpfrbtionInfo.dlbss.gftNbmf(),
+                        "sftDfsdriptor(Dfsdriptor)", "Entry");
             }
-            operationDescriptor = validDescriptor(inDescriptor);
+            opfrbtionDfsdriptor = vblidDfsdriptor(inDfsdriptor);
         }
 
         /**
-        * Returns a string containing the entire contents of the
-        * ModelMBeanOperationInfo in human readable form.
+        * Rfturns b string dontbining tif fntirf dontfnts of tif
+        * ModflMBfbnOpfrbtionInfo in iumbn rfbdbblf form.
         */
-        public String toString()
+        publid String toString()
         {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanOperationInfo.class.getName(),
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnOpfrbtionInfo.dlbss.gftNbmf(),
                         "toString()", "Entry");
             }
-                String retStr =
-                    "ModelMBeanOperationInfo: " + this.getName() +
-                    " ; Description: " + this.getDescription() +
-                    " ; Descriptor: " + this.getDescriptor() +
-                    " ; ReturnType: " + this.getReturnType() +
-                    " ; Signature: ";
-                MBeanParameterInfo[] pTypes = this.getSignature();
-                for (int i=0; i < pTypes.length; i++)
+                String rftStr =
+                    "ModflMBfbnOpfrbtionInfo: " + tiis.gftNbmf() +
+                    " ; Dfsdription: " + tiis.gftDfsdription() +
+                    " ; Dfsdriptor: " + tiis.gftDfsdriptor() +
+                    " ; RfturnTypf: " + tiis.gftRfturnTypf() +
+                    " ; Signbturf: ";
+                MBfbnPbrbmftfrInfo[] pTypfs = tiis.gftSignbturf();
+                for (int i=0; i < pTypfs.lfngti; i++)
                 {
-                        retStr = retStr.concat((pTypes[i]).getType() + ", ");
+                        rftStr = rftStr.dondbt((pTypfs[i]).gftTypf() + ", ");
                 }
-                return retStr;
+                rfturn rftStr;
         }
 
         /**
-         * Clones the passed in Descriptor, sets default values, and checks for validity.
-         * If the Descriptor is invalid (for instance by having the wrong "name"),
-         * this indicates programming error and a RuntimeOperationsException will be thrown.
+         * Clonfs tif pbssfd in Dfsdriptor, sfts dffbult vblufs, bnd difdks for vblidity.
+         * If tif Dfsdriptor is invblid (for instbndf by ibving tif wrong "nbmf"),
+         * tiis indidbtfs progrbmming frror bnd b RuntimfOpfrbtionsExdfption will bf tirown.
          *
-         * The following fields will be defaulted if they are not already set:
-         * displayName=this.getName(),name=this.getName(),
-         * descriptorType="operation", role="operation"
+         * Tif following fiflds will bf dffbultfd if tify brf not blrfbdy sft:
+         * displbyNbmf=tiis.gftNbmf(),nbmf=tiis.gftNbmf(),
+         * dfsdriptorTypf="opfrbtion", rolf="opfrbtion"
          *
          *
-         * @param in Descriptor to be checked, or null which is equivalent to
-         * an empty Descriptor.
-         * @exception RuntimeOperationsException if Descriptor is invalid
+         * @pbrbm in Dfsdriptor to bf difdkfd, or null wiidi is fquivblfnt to
+         * bn fmpty Dfsdriptor.
+         * @fxdfption RuntimfOpfrbtionsExdfption if Dfsdriptor is invblid
          */
-        private Descriptor validDescriptor(final Descriptor in)
-        throws RuntimeOperationsException {
-            Descriptor clone;
-            boolean defaulted = (in == null);
-            if (defaulted) {
-                clone = new DescriptorSupport();
-                MODELMBEAN_LOGGER.finer("Null Descriptor, creating new.");
-            } else {
-                clone = (Descriptor) in.clone();
+        privbtf Dfsdriptor vblidDfsdriptor(finbl Dfsdriptor in)
+        tirows RuntimfOpfrbtionsExdfption {
+            Dfsdriptor dlonf;
+            boolfbn dffbultfd = (in == null);
+            if (dffbultfd) {
+                dlonf = nfw DfsdriptorSupport();
+                MODELMBEAN_LOGGER.finfr("Null Dfsdriptor, drfbting nfw.");
+            } flsf {
+                dlonf = (Dfsdriptor) in.dlonf();
             }
 
-            //Setting defaults.
-            if (defaulted && clone.getFieldValue("name")==null) {
-                clone.setField("name", this.getName());
-                MODELMBEAN_LOGGER.finer("Defaulting Descriptor name to " + this.getName());
+            //Sftting dffbults.
+            if (dffbultfd && dlonf.gftFifldVbluf("nbmf")==null) {
+                dlonf.sftFifld("nbmf", tiis.gftNbmf());
+                MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor nbmf to " + tiis.gftNbmf());
             }
-            if (defaulted && clone.getFieldValue("descriptorType")==null) {
-                clone.setField("descriptorType", "operation");
-                MODELMBEAN_LOGGER.finer("Defaulting descriptorType to \"operation\"");
+            if (dffbultfd && dlonf.gftFifldVbluf("dfsdriptorTypf")==null) {
+                dlonf.sftFifld("dfsdriptorTypf", "opfrbtion");
+                MODELMBEAN_LOGGER.finfr("Dffbulting dfsdriptorTypf to \"opfrbtion\"");
             }
-            if (clone.getFieldValue("displayName") == null) {
-                clone.setField("displayName",this.getName());
-                MODELMBEAN_LOGGER.finer("Defaulting Descriptor displayName to " + this.getName());
+            if (dlonf.gftFifldVbluf("displbyNbmf") == null) {
+                dlonf.sftFifld("displbyNbmf",tiis.gftNbmf());
+                MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor displbyNbmf to " + tiis.gftNbmf());
             }
-            if (clone.getFieldValue("role") == null) {
-                clone.setField("role","operation");
-                MODELMBEAN_LOGGER.finer("Defaulting Descriptor role field to \"operation\"");
+            if (dlonf.gftFifldVbluf("rolf") == null) {
+                dlonf.sftFifld("rolf","opfrbtion");
+                MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor rolf fifld to \"opfrbtion\"");
             }
 
-            //Checking validity
-            if (!clone.isValid()) {
-                 throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                    "The isValid() method of the Descriptor object itself returned false,"+
-                    "one or more required fields are invalid. Descriptor:" + clone.toString());
+            //Cifdking vblidity
+            if (!dlonf.isVblid()) {
+                 tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                    "Tif isVblid() mftiod of tif Dfsdriptor objfdt itsflf rfturnfd fblsf,"+
+                    "onf or morf rfquirfd fiflds brf invblid. Dfsdriptor:" + dlonf.toString());
             }
-            if (!getName().equalsIgnoreCase((String) clone.getFieldValue("name"))) {
-                    throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                    "The Descriptor \"name\" field does not match the object described. " +
-                     " Expected: "+ this.getName() + " , was: " + clone.getFieldValue("name"));
+            if (!gftNbmf().fqublsIgnorfCbsf((String) dlonf.gftFifldVbluf("nbmf"))) {
+                    tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                    "Tif Dfsdriptor \"nbmf\" fifld dofs not mbtdi tif objfdt dfsdribfd. " +
+                     " Expfdtfd: "+ tiis.gftNbmf() + " , wbs: " + dlonf.gftFifldVbluf("nbmf"));
             }
-            if (!"operation".equalsIgnoreCase((String) clone.getFieldValue("descriptorType"))) {
-                     throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                    "The Descriptor \"descriptorType\" field does not match the object described. " +
-                     " Expected: \"operation\" ," + " was: " + clone.getFieldValue("descriptorType"));
+            if (!"opfrbtion".fqublsIgnorfCbsf((String) dlonf.gftFifldVbluf("dfsdriptorTypf"))) {
+                     tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                    "Tif Dfsdriptor \"dfsdriptorTypf\" fifld dofs not mbtdi tif objfdt dfsdribfd. " +
+                     " Expfdtfd: \"opfrbtion\" ," + " wbs: " + dlonf.gftFifldVbluf("dfsdriptorTypf"));
             }
-            final String role = (String)clone.getFieldValue("role");
-            if (!(role.equalsIgnoreCase("operation") ||
-                  role.equalsIgnoreCase("setter") ||
-                  role.equalsIgnoreCase("getter"))) {
-                     throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                    "The Descriptor \"role\" field does not match the object described. " +
-                     " Expected: \"operation\", \"setter\", or \"getter\" ," + " was: " + clone.getFieldValue("role"));
+            finbl String rolf = (String)dlonf.gftFifldVbluf("rolf");
+            if (!(rolf.fqublsIgnorfCbsf("opfrbtion") ||
+                  rolf.fqublsIgnorfCbsf("sfttfr") ||
+                  rolf.fqublsIgnorfCbsf("gfttfr"))) {
+                     tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                    "Tif Dfsdriptor \"rolf\" fifld dofs not mbtdi tif objfdt dfsdribfd. " +
+                     " Expfdtfd: \"opfrbtion\", \"sfttfr\", or \"gfttfr\" ," + " wbs: " + dlonf.gftFifldVbluf("rolf"));
             }
-            final Object targetValue = clone.getFieldValue("targetType");
-            if (targetValue != null) {
-                if (!(targetValue instanceof java.lang.String)) {
-                    throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                    "The Descriptor field \"targetValue\" is invalid class. " +
-                     " Expected: java.lang.String, " + " was: " + targetValue.getClass().getName());
+            finbl Objfdt tbrgftVbluf = dlonf.gftFifldVbluf("tbrgftTypf");
+            if (tbrgftVbluf != null) {
+                if (!(tbrgftVbluf instbndfof jbvb.lbng.String)) {
+                    tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                    "Tif Dfsdriptor fifld \"tbrgftVbluf\" is invblid dlbss. " +
+                     " Expfdtfd: jbvb.lbng.String, " + " wbs: " + tbrgftVbluf.gftClbss().gftNbmf());
                 }
             }
-            return clone;
+            rfturn dlonf;
         }
 
     /**
-     * Deserializes a {@link ModelMBeanOperationInfo} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link ModflMBfbnOpfrbtionInfo} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      // New serial form ignores extra field "currClass"
-      in.defaultReadObject();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      // Nfw sfribl form ignorfs fxtrb fifld "durrClbss"
+      in.dffbultRfbdObjfdt();
     }
 
 
     /**
-     * Serializes a {@link ModelMBeanOperationInfo} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link ModflMBfbnOpfrbtionInfo} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-      if (compat)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+      if (dompbt)
       {
-        // Serializes this instance in the old serial form
+        // Sfriblizfs tiis instbndf in tif old sfribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("operationDescriptor", operationDescriptor);
-        fields.put("currClass", currClass);
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("opfrbtionDfsdriptor", opfrbtionDfsdriptor);
+        fiflds.put("durrClbss", durrClbss);
+        out.writfFiflds();
       }
-      else
+      flsf
       {
-        // Serializes this instance in the new serial form
+        // Sfriblizfs tiis instbndf in tif nfw sfribl form
         //
-        out.defaultWriteObject();
+        out.dffbultWritfObjfdt();
       }
     }
 

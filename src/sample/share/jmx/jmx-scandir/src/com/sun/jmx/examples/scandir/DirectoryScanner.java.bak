@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,562 +30,562 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
 
-import static com.sun.jmx.examples.scandir.ScanManager.getNextSeqNumber;
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import static com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState.*;
-import static com.sun.jmx.examples.scandir.config.DirectoryScannerConfig.Action.*;
-import com.sun.jmx.examples.scandir.config.XmlConfigUtils;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig.Action;
-import com.sun.jmx.examples.scandir.config.ResultRecord;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.management.AttributeChangeNotification;
-import javax.management.InstanceNotFoundException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.gftNfxtSfqNumbfr;
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf.*;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig.Adtion.*;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.XmlConfigUtils;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig.Adtion;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultRfdord;
+import jbvb.io.Filf;
+import jbvb.io.FilfFiltfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.EnumSft;
+import jbvb.util.HbsiSft;
+import jbvb.util.LinkfdList;
+import jbvb.util.Sft;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
 
 /**
- * A <code>DirectoryScanner</code> is an MBean that
- * scans a file system starting at a given root directory,
- * and then looks for files that match a given criteria.
+ * A <dodf>DirfdtorySdbnnfr</dodf> is bn MBfbn tibt
+ * sdbns b filf systfm stbrting bt b givfn root dirfdtory,
+ * bnd tifn looks for filfs tibt mbtdi b givfn dritfrib.
  * <p>
- * When such a file is found, the <code>DirectoryScanner</code> takes
- * the action for which it was configured: emit a notification,
- * <i>and or</i> log a {@link
- * com.sun.jmx.examples.scandir.config.ResultRecord} for this file,
- * <i>and or</i> delete that file.
+ * Wifn sudi b filf is found, tif <dodf>DirfdtorySdbnnfr</dodf> tbkfs
+ * tif bdtion for wiidi it wbs donfigurfd: fmit b notifidbtion,
+ * <i>bnd or</i> log b {@link
+ * dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultRfdord} for tiis filf,
+ * <i>bnd or</i> dflftf tibt filf.
  * </p>
  * <p>
- * The code that would actually delete the file is commented out - so that
- * nothing valuable is lost if this example is run by mistake on the wrong
- * set of directories.<br>
- * Logged results are logged by sending them to the {@link ResultLogManager}.
+ * Tif dodf tibt would bdtublly dflftf tif filf is dommfntfd out - so tibt
+ * notiing vblubblf is lost if tiis fxbmplf is run by mistbkf on tif wrong
+ * sft of dirfdtorifs.<br>
+ * Loggfd rfsults brf loggfd by sfnding tifm to tif {@link RfsultLogMbnbgfr}.
  * </p>
  * <p>
- * <code>DirectoryScannerMXBeans</code> are created, initialized, and
- * registered by the {@link ScanManagerMXBean}.
- * The {@link ScanManagerMXBean} will also schedule and run them in
- * background by calling their {@link #scan} method.
+ * <dodf>DirfdtorySdbnnfrMXBfbns</dodf> brf drfbtfd, initiblizfd, bnd
+ * rfgistfrfd by tif {@link SdbnMbnbgfrMXBfbn}.
+ * Tif {@link SdbnMbnbgfrMXBfbn} will blso sdifdulf bnd run tifm in
+ * bbdkground by dblling tifir {@link #sdbn} mftiod.
  * </p>
- * <p>Client code is not expected to create or register directly any such
- * MBean. Instead, clients are expected to modify the configuration, using
- * the {@link ScanDirConfigMXBean}, and then apply it, using the {@link
- * ScanManagerMXBean}. Instances of <code>DirectoryScannerMXBeans</code>
- * will then be created and registered (or unregistered and garbage collected)
- * as a side effect of applying that configuration.
+ * <p>Clifnt dodf is not fxpfdtfd to drfbtf or rfgistfr dirfdtly bny sudi
+ * MBfbn. Instfbd, dlifnts brf fxpfdtfd to modify tif donfigurbtion, using
+ * tif {@link SdbnDirConfigMXBfbn}, bnd tifn bpply it, using tif {@link
+ * SdbnMbnbgfrMXBfbn}. Instbndfs of <dodf>DirfdtorySdbnnfrMXBfbns</dodf>
+ * will tifn bf drfbtfd bnd rfgistfrfd (or unrfgistfrfd bnd gbrbbgf dollfdtfd)
+ * bs b sidf ffffdt of bpplying tibt donfigurbtion.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-public class DirectoryScanner implements
-        DirectoryScannerMXBean, NotificationEmitter {
+publid dlbss DirfdtorySdbnnfr implfmfnts
+        DirfdtorySdbnnfrMXBfbn, NotifidbtionEmittfr {
 
     /**
-     * The type for <i>com.sun.jmx.examples.scandir.filematch</i> notifications.
-     * Notifications of this type will be emitted whenever a file that
-     * matches this {@code DirectoryScanner} criteria is found, but only if
-     * this {@code DirectoryScanner} was configured to {@link
-     * Action#NOTIFY notify} for matching files.
+     * Tif typf for <i>dom.sun.jmx.fxbmplfs.sdbndir.filfmbtdi</i> notifidbtions.
+     * Notifidbtions of tiis typf will bf fmittfd wifnfvfr b filf tibt
+     * mbtdifs tiis {@dodf DirfdtorySdbnnfr} dritfrib is found, but only if
+     * tiis {@dodf DirfdtorySdbnnfr} wbs donfigurfd to {@link
+     * Adtion#NOTIFY notify} for mbtdiing filfs.
      **/
-    public static final String FILE_MATCHES_NOTIFICATION =
-            "com.sun.jmx.examples.scandir.filematch";
+    publid stbtid finbl String FILE_MATCHES_NOTIFICATION =
+            "dom.sun.jmx.fxbmplfs.sdbndir.filfmbtdi";
 
     /**
-     * A logger for this class.
+     * A loggfr for tiis dlbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(DirectoryScanner.class.getName());
+    privbtf stbtid finbl Loggfr LOG =
+            Loggfr.gftLoggfr(DirfdtorySdbnnfr.dlbss.gftNbmf());
 
-    // Attribute : State
+    // Attributf : Stbtf
     //
-    private volatile ScanState state = STOPPED;
+    privbtf volbtilf SdbnStbtf stbtf = STOPPED;
 
-    // The DirectoryScanner delegates the implementation of
-    // the NotificationEmitter interface to a wrapped instance
-    // of NotificationBroadcasterSupport.
+    // Tif DirfdtorySdbnnfr dflfgbtfs tif implfmfntbtion of
+    // tif NotifidbtionEmittfr intfrfbdf to b wrbppfd instbndf
+    // of NotifidbtionBrobddbstfrSupport.
     //
-    private final NotificationBroadcasterSupport broadcaster;
+    privbtf finbl NotifidbtionBrobddbstfrSupport brobddbstfr;
 
-    // The root directory at which this DirectoryScanner will start
-    // scanning. Constructed from config.getRootDirectory().
+    // Tif root dirfdtory bt wiidi tiis DirfdtorySdbnnfr will stbrt
+    // sdbnning. Construdtfd from donfig.gftRootDirfdtory().
     //
-    private final File rootFile;
+    privbtf finbl Filf rootFilf;
 
-    // This DirectoryScanner config - this is a constant which is
-    // provided at construction time by the {@link ScanManager}.
+    // Tiis DirfdtorySdbnnfr donfig - tiis is b donstbnt wiidi is
+    // providfd bt donstrudtion timf by tif {@link SdbnMbnbgfr}.
     //
-    private final DirectoryScannerConfig config;
+    privbtf finbl DirfdtorySdbnnfrConfig donfig;
 
-    // The set of actions for which this DirectoryScanner is configured.
-    // Constructed from config.getActions()
+    // Tif sft of bdtions for wiidi tiis DirfdtorySdbnnfr is donfigurfd.
+    // Construdtfd from donfig.gftAdtions()
     //
-    final Set<Action> actions;
+    finbl Sft<Adtion> bdtions;
 
-    // The ResultLogManager that this DirectoryScanner will use to log
-    // info. This is a hard reference to another MBean, provided
-    // at construction time by the ScanManager.
-    // The ScanManager makes sure that the life cycle of these two MBeans
-    // is consistent.
+    // Tif RfsultLogMbnbgfr tibt tiis DirfdtorySdbnnfr will usf to log
+    // info. Tiis is b ibrd rfffrfndf to bnotifr MBfbn, providfd
+    // bt donstrudtion timf by tif SdbnMbnbgfr.
+    // Tif SdbnMbnbgfr mbkfs surf tibt tif liff dydlf of tifsf two MBfbns
+    // is donsistfnt.
     //
-    final ResultLogManager logManager;
+    finbl RfsultLogMbnbgfr logMbnbgfr;
 
     /**
-     * Constructs a new {@code DirectoryScanner}.
-     * <p>This constructor is
-     * package protected, and this MBean cannot be created by a remote
-     * client, because it needs a reference to the {@link ResultLogManager},
-     * which cannot be provided from remote.
+     * Construdts b nfw {@dodf DirfdtorySdbnnfr}.
+     * <p>Tiis donstrudtor is
+     * pbdkbgf protfdtfd, bnd tiis MBfbn dbnnot bf drfbtfd by b rfmotf
+     * dlifnt, bfdbusf it nffds b rfffrfndf to tif {@link RfsultLogMbnbgfr},
+     * wiidi dbnnot bf providfd from rfmotf.
      * </p>
-     * <p>This is a conscious design choice: {@code DirectoryScanner} MBeans
-     * are expected to be completely managed (created, registered, unregistered)
-     * by the {@link ScanManager} which does provide this reference.
+     * <p>Tiis is b donsdious dfsign dioidf: {@dodf DirfdtorySdbnnfr} MBfbns
+     * brf fxpfdtfd to bf domplftfly mbnbgfd (drfbtfd, rfgistfrfd, unrfgistfrfd)
+     * by tif {@link SdbnMbnbgfr} wiidi dofs providf tiis rfffrfndf.
      * </p>
      *
-     * @param config This {@code DirectoryScanner} configuration.
-     * @param logManager The info log manager with which to log the info
-     *        records.
-     * @throws IllegalArgumentException if one of the parameter is null, or if
-     *         the provided {@code config} doesn't have its {@code name} set,
-     *         or if the {@link DirectoryScannerConfig#getRootDirectory
-     *         root directory} provided in the {@code config} is not acceptable
-     *         (not provided or not found or not readable, etc...).
+     * @pbrbm donfig Tiis {@dodf DirfdtorySdbnnfr} donfigurbtion.
+     * @pbrbm logMbnbgfr Tif info log mbnbgfr witi wiidi to log tif info
+     *        rfdords.
+     * @tirows IllfgblArgumfntExdfption if onf of tif pbrbmftfr is null, or if
+     *         tif providfd {@dodf donfig} dofsn't ibvf its {@dodf nbmf} sft,
+     *         or if tif {@link DirfdtorySdbnnfrConfig#gftRootDirfdtory
+     *         root dirfdtory} providfd in tif {@dodf donfig} is not bddfptbblf
+     *         (not providfd or not found or not rfbdbblf, ftd...).
      **/
-    public DirectoryScanner(DirectoryScannerConfig config,
-                            ResultLogManager logManager)
-        throws IllegalArgumentException {
-        if (logManager == null)
-            throw new IllegalArgumentException("log=null");
-        if (config == null)
-            throw new IllegalArgumentException("config=null");
-        if (config.getName() == null)
-            throw new IllegalArgumentException("config.name=null");
+    publid DirfdtorySdbnnfr(DirfdtorySdbnnfrConfig donfig,
+                            RfsultLogMbnbgfr logMbnbgfr)
+        tirows IllfgblArgumfntExdfption {
+        if (logMbnbgfr == null)
+            tirow nfw IllfgblArgumfntExdfption("log=null");
+        if (donfig == null)
+            tirow nfw IllfgblArgumfntExdfption("donfig=null");
+        if (donfig.gftNbmf() == null)
+            tirow nfw IllfgblArgumfntExdfption("donfig.nbmf=null");
 
-         broadcaster = new NotificationBroadcasterSupport();
+         brobddbstfr = nfw NotifidbtionBrobddbstfrSupport();
 
-         // Clone the config: ensure data encapsulation.
+         // Clonf tif donfig: fnsurf dbtb fndbpsulbtion.
          //
-         this.config = XmlConfigUtils.xmlClone(config);
+         tiis.donfig = XmlConfigUtils.xmlClonf(donfig);
 
-         // Checks that the provided root directory is valid.
-         // Throws IllegalArgumentException if it isn't.
+         // Cifdks tibt tif providfd root dirfdtory is vblid.
+         // Tirows IllfgblArgumfntExdfption if it isn't.
          //
-         rootFile = validateRoot(config.getRootDirectory());
+         rootFilf = vblidbtfRoot(donfig.gftRootDirfdtory());
 
-         // Initialize the Set<Action> for which this DirectoryScanner
-         // is configured.
+         // Initiblizf tif Sft<Adtion> for wiidi tiis DirfdtorySdbnnfr
+         // is donfigurfd.
          //
-         if (config.getActions() == null)
-             actions = Collections.emptySet();
-         else
-             actions = EnumSet.copyOf(Arrays.asList(config.getActions()));
-         this.logManager = logManager;
+         if (donfig.gftAdtions() == null)
+             bdtions = Collfdtions.fmptySft();
+         flsf
+             bdtions = EnumSft.dopyOf(Arrbys.bsList(donfig.gftAdtions()));
+         tiis.logMbnbgfr = logMbnbgfr;
     }
 
-    // see DirectoryScannerMXBean
-    public void stop() {
-        // switch state to stop and send AttributeValueChangeNotification
-        setStateAndNotify(STOPPED);
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid void stop() {
+        // switdi stbtf to stop bnd sfnd AttributfVblufCibngfNotifidbtion
+        sftStbtfAndNotify(STOPPED);
     }
 
-    // see DirectoryScannerMXBean
-    public String getRootDirectory() {
-        return rootFile.getAbsolutePath();
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid String gftRootDirfdtory() {
+        rfturn rootFilf.gftAbsolutfPbti();
     }
 
 
-    // see DirectoryScannerMXBean
-    public ScanState getState() {
-        return state;
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid SdbnStbtf gftStbtf() {
+        rfturn stbtf;
     }
 
-    // see DirectoryScannerMXBean
-    public DirectoryScannerConfig getConfiguration() {
-        return config;
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid DirfdtorySdbnnfrConfig gftConfigurbtion() {
+        rfturn donfig;
     }
 
-    // see DirectoryScannerMXBean
-    public String getCurrentScanInfo() {
-        final ScanTask currentOrLastTask = currentTask;
-        if (currentOrLastTask == null) return "Never Run";
-        return currentOrLastTask.getScanInfo();
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid String gftCurrfntSdbnInfo() {
+        finbl SdbnTbsk durrfntOrLbstTbsk = durrfntTbsk;
+        if (durrfntOrLbstTbsk == null) rfturn "Nfvfr Run";
+        rfturn durrfntOrLbstTbsk.gftSdbnInfo();
     }
 
-    // This variable points to the current (or latest) scan.
+    // Tiis vbribblf points to tif durrfnt (or lbtfst) sdbn.
     //
-    private volatile ScanTask currentTask = null;
+    privbtf volbtilf SdbnTbsk durrfntTbsk = null;
 
-    // see DirectoryScannerMXBean
-    public void scan() {
-        final ScanTask task;
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid void sdbn() {
+        finbl SdbnTbsk tbsk;
 
-        synchronized (this) {
-            final LinkedList<File> list;
-            switch (state) {
-                case RUNNING:
-                case SCHEDULED:
-                    throw new IllegalStateException(state.toString());
-                case STOPPED:
-                case COMPLETED:
-                    // only accept to scan if state is STOPPED or COMPLETED.
-                    list = new LinkedList<File>();
-                    list.add(rootFile);
-                    break;
-                default:
-                    throw new IllegalStateException(String.valueOf(state));
+        syndironizfd (tiis) {
+            finbl LinkfdList<Filf> list;
+            switdi (stbtf) {
+                dbsf RUNNING:
+                dbsf SCHEDULED:
+                    tirow nfw IllfgblStbtfExdfption(stbtf.toString());
+                dbsf STOPPED:
+                dbsf COMPLETED:
+                    // only bddfpt to sdbn if stbtf is STOPPED or COMPLETED.
+                    list = nfw LinkfdList<Filf>();
+                    list.bdd(rootFilf);
+                    brfbk;
+                dffbult:
+                    tirow nfw IllfgblStbtfExdfption(String.vblufOf(stbtf));
             }
 
-            // Create a new ScanTask object for our root directory file.
+            // Crfbtf b nfw SdbnTbsk objfdt for our root dirfdtory filf.
             //
-            currentTask = task = new ScanTask(list,this);
+            durrfntTbsk = tbsk = nfw SdbnTbsk(list,tiis);
 
-            // transient state... will be switched to RUNNING when
-            // task.execute() is called. This code could in fact be modified
-            // to use java.util.concurent.Future and, to push the task to
-            // an executor. We would then need to wait for the task to
-            // complete before returning.  However, this wouldn't buy us
-            // anything - since this method should wait for the task to
-            // finish anyway: so why would we do it?
-            // As it stands, we simply call task.execute() in the current
-            // thread - brave and fearless readers may want to attempt the
-            // modification ;-)
+            // trbnsifnt stbtf... will bf switdifd to RUNNING wifn
+            // tbsk.fxfdutf() is dbllfd. Tiis dodf dould in fbdt bf modififd
+            // to usf jbvb.util.dondurfnt.Futurf bnd, to pusi tif tbsk to
+            // bn fxfdutor. Wf would tifn nffd to wbit for tif tbsk to
+            // domplftf bfforf rfturning.  Howfvfr, tiis wouldn't buy us
+            // bnytiing - sindf tiis mftiod siould wbit for tif tbsk to
+            // finisi bnywby: so wiy would wf do it?
+            // As it stbnds, wf simply dbll tbsk.fxfdutf() in tif durrfnt
+            // tirfbd - brbvf bnd ffbrlfss rfbdfrs mby wbnt to bttfmpt tif
+            // modifidbtion ;-)
             //
-            setStateAndNotify(SCHEDULED);
+            sftStbtfAndNotify(SCHEDULED);
         }
-        task.execute();
+        tbsk.fxfdutf();
     }
 
-    // This method is invoked to carry out the configured actions on a
-    // matching file.
-    // Do not call this method from within synchronized() { } as this
-    // method may send notifications!
+    // Tiis mftiod is invokfd to dbrry out tif donfigurfd bdtions on b
+    // mbtdiing filf.
+    // Do not dbll tiis mftiod from witiin syndironizfd() { } bs tiis
+    // mftiod mby sfnd notifidbtions!
     //
-    void actOn(File file) {
+    void bdtOn(Filf filf) {
 
-        // Which action were actually taken
+        // Wiidi bdtion wfrf bdtublly tbkfn
         //
-        final Set<Action> taken = new HashSet<Action>();
-        boolean logresult = false;
+        finbl Sft<Adtion> tbkfn = nfw HbsiSft<Adtion>();
+        boolfbn logrfsult = fblsf;
 
-        // Check out which actions are configured and carry them out.
+        // Cifdk out wiidi bdtions brf donfigurfd bnd dbrry tifm out.
         //
-        for (Action action : actions) {
-            switch (action) {
-                case DELETE:
-                    if (deleteFile(file)) {
-                        // Delete succeeded: add DELETE to the set of
-                        // actions carried out.
-                        taken.add(DELETE);
+        for (Adtion bdtion : bdtions) {
+            switdi (bdtion) {
+                dbsf DELETE:
+                    if (dflftfFilf(filf)) {
+                        // Dflftf suddffdfd: bdd DELETE to tif sft of
+                        // bdtions dbrrifd out.
+                        tbkfn.bdd(DELETE);
                     }
-                    break;
-                case NOTIFY:
-                    if (notifyMatch(file)) {
-                        // Notify succeeded: add NOTIFY to the set of
-                        // actions carried out.
-                        taken.add(NOTIFY);
+                    brfbk;
+                dbsf NOTIFY:
+                    if (notifyMbtdi(filf)) {
+                        // Notify suddffdfd: bdd NOTIFY to tif sft of
+                        // bdtions dbrrifd out.
+                        tbkfn.bdd(NOTIFY);
                     }
-                    break;
-                case LOGRESULT:
-                    // LOGRESULT was configured - log actions carried out.
-                    // => we must execute this action as the last action.
-                    //    simply set logresult=true for now. We will do
-                    //    the logging later
-                    logresult = true;
-                    break;
-                default:
-                    LOG.fine("Failed to execute action: " +action +
-                            " - action not supported");
-                    break;
+                    brfbk;
+                dbsf LOGRESULT:
+                    // LOGRESULT wbs donfigurfd - log bdtions dbrrifd out.
+                    // => wf must fxfdutf tiis bdtion bs tif lbst bdtion.
+                    //    simply sft logrfsult=truf for now. Wf will do
+                    //    tif logging lbtfr
+                    logrfsult = truf;
+                    brfbk;
+                dffbult:
+                    LOG.finf("Fbilfd to fxfdutf bdtion: " +bdtion +
+                            " - bdtion not supportfd");
+                    brfbk;
             }
         }
 
-        // Now is time for logging:
-        if (logresult) {
-            taken.add(LOGRESULT);
-            if (!logResult(file,taken.toArray(new Action[taken.size()])))
-                taken.remove(LOGRESULT); // just for the last trace below...
+        // Now is timf for logging:
+        if (logrfsult) {
+            tbkfn.bdd(LOGRESULT);
+            if (!logRfsult(filf,tbkfn.toArrby(nfw Adtion[tbkfn.sizf()])))
+                tbkfn.rfmovf(LOGRESULT); // just for tif lbst trbdf bflow...
         }
 
-        LOG.finest("File processed: "+taken+" - "+file.getAbsolutePath());
+        LOG.finfst("Filf prodfssfd: "+tbkfn+" - "+filf.gftAbsolutfPbti());
     }
 
-    // Deletes a matching file.
-    private boolean deleteFile(File file) {
+    // Dflftfs b mbtdiing filf.
+    privbtf boolfbn dflftfFilf(Filf filf) {
         try {
-            // file.delete() is commented so that we don't do anything
-            // bad if the example is mistakenly run on the wrong set of
-            // directories.
+            // filf.dflftf() is dommfntfd so tibt wf don't do bnytiing
+            // bbd if tif fxbmplf is mistbkfnly run on tif wrong sft of
+            // dirfdtorifs.
             //
-            /* file.delete(); */
-            System.out.println("DELETE not implemented for safety reasons.");
-            return true;
-        } catch (Exception x) {
-            LOG.fine("Failed to delete: "+file.getAbsolutePath());
+            /* filf.dflftf(); */
+            Systfm.out.println("DELETE not implfmfntfd for sbffty rfbsons.");
+            rfturn truf;
+        } dbtdi (Exdfption x) {
+            LOG.finf("Fbilfd to dflftf: "+filf.gftAbsolutfPbti());
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // Notifies of a matching file.
-    private boolean notifyMatch(File file) {
+    // Notififs of b mbtdiing filf.
+    privbtf boolfbn notifyMbtdi(Filf filf) {
         try {
-            final Notification n =
-                    new Notification(FILE_MATCHES_NOTIFICATION,this,
-                    getNextSeqNumber(),
-                    file.getAbsolutePath());
+            finbl Notifidbtion n =
+                    nfw Notifidbtion(FILE_MATCHES_NOTIFICATION,tiis,
+                    gftNfxtSfqNumbfr(),
+                    filf.gftAbsolutfPbti());
 
-            // This method *is not* called from any synchronized block, so
-            // we can happily call broadcaster.sendNotification() here.
-            // Note that verifying whether a method is called from within
-            // a synchronized block demends a thoroughful code reading,
-            // examining each of the 'parent' methods in turn.
+            // Tiis mftiod *is not* dbllfd from bny syndironizfd blodk, so
+            // wf dbn ibppily dbll brobddbstfr.sfndNotifidbtion() ifrf.
+            // Notf tibt vfrifying wiftifr b mftiod is dbllfd from witiin
+            // b syndironizfd blodk dfmfnds b tiorougiful dodf rfbding,
+            // fxbmining fbdi of tif 'pbrfnt' mftiods in turn.
             //
-            broadcaster.sendNotification(n);
-            return true;
-        } catch (Exception x) {
-            LOG.fine("Failed to notify: "+file.getAbsolutePath());
+            brobddbstfr.sfndNotifidbtion(n);
+            rfturn truf;
+        } dbtdi (Exdfption x) {
+            LOG.finf("Fbilfd to notify: "+filf.gftAbsolutfPbti());
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // Logs a result with the ResultLogManager
-    private boolean logResult(File file,Action[] actions) {
+    // Logs b rfsult witi tif RfsultLogMbnbgfr
+    privbtf boolfbn logRfsult(Filf filf,Adtion[] bdtions) {
         try {
-            logManager.log(new ResultRecord(config, actions,file));
-            return true;
-        } catch (Exception x) {
-            LOG.fine("Failed to log: "+file.getAbsolutePath());
+            logMbnbgfr.log(nfw RfsultRfdord(donfig, bdtions,filf));
+            rfturn truf;
+        } dbtdi (Exdfption x) {
+            LOG.finf("Fbilfd to log: "+filf.gftAbsolutfPbti());
         }
-        return false;
+        rfturn fblsf;
     }
 
 
-    // Contextual object used to store info about current
-    // (or last) scan.
+    // Contfxtubl objfdt usfd to storf info bbout durrfnt
+    // (or lbst) sdbn.
     //
-    private static class ScanTask {
+    privbtf stbtid dlbss SdbnTbsk {
 
-        // List of Files that remain to scan.
-        // When files are discovered they are added to the list.
-        // When they are being handled, they are removed from the list.
-        // When the list is empty, the scanning is finished.
+        // List of Filfs tibt rfmbin to sdbn.
+        // Wifn filfs brf disdovfrfd tify brf bddfd to tif list.
+        // Wifn tify brf bfing ibndlfd, tify brf rfmovfd from tif list.
+        // Wifn tif list is fmpty, tif sdbnning is finisifd.
         //
-        private final LinkedList<File>   list;
-        private final DirectoryScanner scan;
+        privbtf finbl LinkfdList<Filf>   list;
+        privbtf finbl DirfdtorySdbnnfr sdbn;
 
-        // Some statistics...
+        // Somf stbtistids...
         //
-        private volatile long scanned=0;
-        private volatile long matching=0;
+        privbtf volbtilf long sdbnnfd=0;
+        privbtf volbtilf long mbtdiing=0;
 
-        private volatile String info="Not started";
+        privbtf volbtilf String info="Not stbrtfd";
 
-        ScanTask(LinkedList<File> list, DirectoryScanner scan) {
-            this.list = list; this.scan = scan;
+        SdbnTbsk(LinkfdList<Filf> list, DirfdtorySdbnnfr sdbn) {
+            tiis.list = list; tiis.sdbn = sdbn;
         }
 
-        public void execute() {
-            scan(list);
+        publid void fxfdutf() {
+            sdbn(list);
         }
 
-        private void scan(LinkedList<File> list) {
-             scan.scan(this,list);
+        privbtf void sdbn(LinkfdList<Filf> list) {
+             sdbn.sdbn(tiis,list);
         }
 
-        public String getScanInfo() {
-            return info+" - ["+scanned+" scanned, "+matching+" matching]";
+        publid String gftSdbnInfo() {
+            rfturn info+" - ["+sdbnnfd+" sdbnnfd, "+mbtdiing+" mbtdiing]";
         }
     }
 
-    // The actual scan logic. Switches state to RUNNING,
-    // and scan the list of given dirs.
-    // The list is a live object which is updated by this method.
-    // This would allow us to implement methods like "pause" and "resume",
-    // since all the info needed to resume would be in the list.
+    // Tif bdtubl sdbn logid. Switdifs stbtf to RUNNING,
+    // bnd sdbn tif list of givfn dirs.
+    // Tif list is b livf objfdt wiidi is updbtfd by tiis mftiod.
+    // Tiis would bllow us to implfmfnt mftiods likf "pbusf" bnd "rfsumf",
+    // sindf bll tif info nffdfd to rfsumf would bf in tif list.
     //
-    private void scan(ScanTask task, LinkedList<File> list) {
-        setStateAndNotify(RUNNING);
-        task.info = "In Progress";
+    privbtf void sdbn(SdbnTbsk tbsk, LinkfdList<Filf> list) {
+        sftStbtfAndNotify(RUNNING);
+        tbsk.info = "In Progrfss";
         try {
 
-            // The FileFilter will tell us which files match and which don't.
+            // Tif FilfFiltfr will tfll us wiidi filfs mbtdi bnd wiidi don't.
             //
-            final FileFilter filter = config.buildFileFilter();
+            finbl FilfFiltfr filtfr = donfig.buildFilfFiltfr();
 
-            // We have two condition to end the loop: either the list is
-            // empty, meaning there's nothing more to scan, or the state of
-            // the DirectoryScanner was asynchronously switched to STOPPED by
-            // another thread, e.g. because someone called "stop" on the
-            // ScanManagerMXBean
+            // Wf ibvf two dondition to fnd tif loop: fitifr tif list is
+            // fmpty, mfbning tifrf's notiing morf to sdbn, or tif stbtf of
+            // tif DirfdtorySdbnnfr wbs bsyndironously switdifd to STOPPED by
+            // bnotifr tirfbd, f.g. bfdbusf somfonf dbllfd "stop" on tif
+            // SdbnMbnbgfrMXBfbn
             //
-            while (!list.isEmpty() && state == RUNNING) {
+            wiilf (!list.isEmpty() && stbtf == RUNNING) {
 
-                // Get and remove the first element in the list.
+                // Gft bnd rfmovf tif first flfmfnt in tif list.
                 //
-                final File current = list.poll();
+                finbl Filf durrfnt = list.poll();
 
-                // Increment number of file scanned.
-                task.scanned++;
+                // Indrfmfnt numbfr of filf sdbnnfd.
+                tbsk.sdbnnfd++;
 
-                // If 'current' is a file, it's already been matched by our
-                // file filter (see below): act on it.
-                // Note that for the first iteration of this loop, there will
-                // be one single file in the list: the root directory for this
-                // scanner.
+                // If 'durrfnt' is b filf, it's blrfbdy bffn mbtdifd by our
+                // filf filtfr (sff bflow): bdt on it.
+                // Notf tibt for tif first itfrbtion of tiis loop, tifrf will
+                // bf onf singlf filf in tif list: tif root dirfdtory for tiis
+                // sdbnnfr.
                 //
-                if (current.isFile()) {
-                    task.matching++;
-                    actOn(current);
+                if (durrfnt.isFilf()) {
+                    tbsk.mbtdiing++;
+                    bdtOn(durrfnt);
                 }
 
-                // If 'current' is a directory, then
-                // find files and directories that match the file filter
-                // in this directory
+                // If 'durrfnt' is b dirfdtory, tifn
+                // find filfs bnd dirfdtorifs tibt mbtdi tif filf filtfr
+                // in tiis dirfdtory
                 //
-                if (current.isDirectory()) {
+                if (durrfnt.isDirfdtory()) {
 
-                    // Gets matching files and directories
-                    final File[] content = current.listFiles(filter);
-                    if (content == null) continue;
+                    // Gfts mbtdiing filfs bnd dirfdtorifs
+                    finbl Filf[] dontfnt = durrfnt.listFilfs(filtfr);
+                    if (dontfnt == null) dontinuf;
 
-                    // Adds all matching file to the list.
-                    list.addAll(0,Arrays.asList(content));
+                    // Adds bll mbtdiing filf to tif list.
+                    list.bddAll(0,Arrbys.bsList(dontfnt));
                 }
             }
 
-            // The loop terminated. If the list is empty, then we have
-            // completed our task. If not, then somebody must have called
-            // stop() on this directory scanner.
+            // Tif loop tfrminbtfd. If tif list is fmpty, tifn wf ibvf
+            // domplftfd our tbsk. If not, tifn somfbody must ibvf dbllfd
+            // stop() on tiis dirfdtory sdbnnfr.
             //
             if (list.isEmpty()) {
-                task.info = "Successfully Completed";
-                setStateAndNotify(COMPLETED);
+                tbsk.info = "Suddfssfully Complftfd";
+                sftStbtfAndNotify(COMPLETED);
             }
-        } catch (Exception x) {
-            // We got an exception: stop the scan
+        } dbtdi (Exdfption x) {
+            // Wf got bn fxdfption: stop tif sdbn
             //
-            task.info = "Failed: "+x;
-            if (LOG.isLoggable(Level.FINEST))
-                LOG.log(Level.FINEST,"scan task failed: "+x,x);
-            else if (LOG.isLoggable(Level.FINE))
-                LOG.log(Level.FINE,"scan task failed: "+x);
-            setStateAndNotify(STOPPED);
-        } catch (Error e) {
-            // We got an Error:
-            // Should not happen unless we ran out of memory or
-            // whatever - don't even try to notify, but
-            // stop the scan anyway!
+            tbsk.info = "Fbilfd: "+x;
+            if (LOG.isLoggbblf(Lfvfl.FINEST))
+                LOG.log(Lfvfl.FINEST,"sdbn tbsk fbilfd: "+x,x);
+            flsf if (LOG.isLoggbblf(Lfvfl.FINE))
+                LOG.log(Lfvfl.FINE,"sdbn tbsk fbilfd: "+x);
+            sftStbtfAndNotify(STOPPED);
+        } dbtdi (Error f) {
+            // Wf got bn Error:
+            // Siould not ibppfn unlfss wf rbn out of mfmory or
+            // wibtfvfr - don't fvfn try to notify, but
+            // stop tif sdbn bnywby!
             //
-            state=STOPPED;
-            task.info = "Error: "+e;
+            stbtf=STOPPED;
+            tbsk.info = "Error: "+f;
 
-            // rethrow error.
+            // rftirow frror.
             //
-            throw e;
+            tirow f;
         }
     }
 
     /**
-     * MBeanNotification support - delegates to broadcaster.
+     * MBfbnNotifidbtion support - dflfgbtfs to brobddbstfr.
      */
-    public void addNotificationListener(NotificationListener listener,
-            NotificationFilter filter, Object handback)
-            throws IllegalArgumentException {
-        broadcaster.addNotificationListener(listener, filter, handback);
+    publid void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+            NotifidbtionFiltfr filtfr, Objfdt ibndbbdk)
+            tirows IllfgblArgumfntExdfption {
+        brobddbstfr.bddNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
     }
 
-    // Switch this object state to the desired value an send
-    // a notification. Don't call this method from within a
-    // synchronized block!
+    // Switdi tiis objfdt stbtf to tif dfsirfd vbluf bn sfnd
+    // b notifidbtion. Don't dbll tiis mftiod from witiin b
+    // syndironizfd blodk!
     //
-    private final void setStateAndNotify(ScanState desired) {
-        final ScanState old = state;
-        if (old == desired) return;
-        state = desired;
-        final AttributeChangeNotification n =
-                new AttributeChangeNotification(this,
-                getNextSeqNumber(),System.currentTimeMillis(),
-                "state change","State",ScanState.class.getName(),
-                String.valueOf(old),String.valueOf(desired));
-        broadcaster.sendNotification(n);
+    privbtf finbl void sftStbtfAndNotify(SdbnStbtf dfsirfd) {
+        finbl SdbnStbtf old = stbtf;
+        if (old == dfsirfd) rfturn;
+        stbtf = dfsirfd;
+        finbl AttributfCibngfNotifidbtion n =
+                nfw AttributfCibngfNotifidbtion(tiis,
+                gftNfxtSfqNumbfr(),Systfm.durrfntTimfMillis(),
+                "stbtf dibngf","Stbtf",SdbnStbtf.dlbss.gftNbmf(),
+                String.vblufOf(old),String.vblufOf(dfsirfd));
+        brobddbstfr.sfndNotifidbtion(n);
     }
 
 
     /**
-     * The {@link DirectoryScannerMXBean} may send two types of
-     * notifications: filematch, and state attribute changed.
+     * Tif {@link DirfdtorySdbnnfrMXBfbn} mby sfnd two typfs of
+     * notifidbtions: filfmbtdi, bnd stbtf bttributf dibngfd.
      **/
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return new MBeanNotificationInfo[] {
-            new MBeanNotificationInfo(
-                    new String[] {FILE_MATCHES_NOTIFICATION},
-                    Notification.class.getName(),
-                    "Emitted when a file that matches the scan criteria is found"
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn nfw MBfbnNotifidbtionInfo[] {
+            nfw MBfbnNotifidbtionInfo(
+                    nfw String[] {FILE_MATCHES_NOTIFICATION},
+                    Notifidbtion.dlbss.gftNbmf(),
+                    "Emittfd wifn b filf tibt mbtdifs tif sdbn dritfrib is found"
                     ),
-            new MBeanNotificationInfo(
-                    new String[] {AttributeChangeNotification.ATTRIBUTE_CHANGE},
-                    AttributeChangeNotification.class.getName(),
-                    "Emitted when the State attribute changes"
+            nfw MBfbnNotifidbtionInfo(
+                    nfw String[] {AttributfCibngfNotifidbtion.ATTRIBUTE_CHANGE},
+                    AttributfCibngfNotifidbtion.dlbss.gftNbmf(),
+                    "Emittfd wifn tif Stbtf bttributf dibngfs"
                     )
         };
     }
 
     /**
-     * MBeanNotification support - delegates to broadcaster.
+     * MBfbnNotifidbtion support - dflfgbtfs to brobddbstfr.
      */
-    public void removeNotificationListener(NotificationListener listener)
-        throws ListenerNotFoundException {
-        broadcaster.removeNotificationListener(listener);
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        tirows ListfnfrNotFoundExdfption {
+        brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr);
     }
 
     /**
-     * MBeanNotification support - delegates to broadcaster.
+     * MBfbnNotifidbtion support - dflfgbtfs to brobddbstfr.
      */
-    public void removeNotificationListener(NotificationListener listener,
-            NotificationFilter filter, Object handback)
-            throws ListenerNotFoundException {
-        broadcaster.removeNotificationListener(listener, filter, handback);
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+            NotifidbtionFiltfr filtfr, Objfdt ibndbbdk)
+            tirows ListfnfrNotFoundExdfption {
+        brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
     }
 
-    // Validates the given root directory, returns a File object for
-    // that directory.
-    // Throws IllegalArgumentException if the given root is not
-    // acceptable.
+    // Vblidbtfs tif givfn root dirfdtory, rfturns b Filf objfdt for
+    // tibt dirfdtory.
+    // Tirows IllfgblArgumfntExdfption if tif givfn root is not
+    // bddfptbblf.
     //
-    private static File validateRoot(String root) {
+    privbtf stbtid Filf vblidbtfRoot(String root) {
         if (root == null)
-            throw new IllegalArgumentException("no root specified");
-        if (root.length() == 0)
-            throw new IllegalArgumentException("specified root \"\" is invalid");
-        final File f = new File(root);
-        if (!f.canRead())
-            throw new IllegalArgumentException("can't read "+root);
-        if (!f.isDirectory())
-            throw new IllegalArgumentException("no such directory: "+root);
-        return f;
+            tirow nfw IllfgblArgumfntExdfption("no root spfdififd");
+        if (root.lfngti() == 0)
+            tirow nfw IllfgblArgumfntExdfption("spfdififd root \"\" is invblid");
+        finbl Filf f = nfw Filf(root);
+        if (!f.dbnRfbd())
+            tirow nfw IllfgblArgumfntExdfption("dbn't rfbd "+root);
+        if (!f.isDirfdtory())
+            tirow nfw IllfgblArgumfntExdfption("no sudi dirfdtory: "+root);
+        rfturn f;
     }
 
 }

@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
 /**
- * This class is an abstraction of certificate revocation lists (CRLs) that
- * have different formats but important common uses. For example, all CRLs
- * share the functionality of listing revoked certificates, and can be queried
- * on whether or not they list a given certificate.
+ * Tiis dlbss is bn bbstrbdtion of dfrtifidbtf rfvodbtion lists (CRLs) tibt
+ * ibvf difffrfnt formbts but importbnt dommon usfs. For fxbmplf, bll CRLs
+ * sibrf tif fundtionblity of listing rfvokfd dfrtifidbtfs, bnd dbn bf qufrifd
+ * on wiftifr or not tify list b givfn dfrtifidbtf.
  * <p>
- * Specialized CRL types can be defined by subclassing off of this abstract
- * class.
+ * Spfdiblizfd CRL typfs dbn bf dffinfd by subdlbssing off of tiis bbstrbdt
+ * dlbss.
  *
- * @author Hemma Prafullchandra
+ * @butior Hfmmb Prbfulldibndrb
  *
  *
- * @see X509CRL
- * @see CertificateFactory
+ * @sff X509CRL
+ * @sff CfrtifidbtfFbdtory
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public abstract class CRL {
+publid bbstrbdt dlbss CRL {
 
-    // the CRL type
-    private String type;
+    // tif CRL typf
+    privbtf String typf;
 
     /**
-     * Creates a CRL of the specified type.
+     * Crfbtfs b CRL of tif spfdififd typf.
      *
-     * @param type the standard name of the CRL type.
-     * See Appendix A in the <a href=
-     * "../../../../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>
-     * for information about standard CRL types.
+     * @pbrbm typf tif stbndbrd nbmf of tif CRL typf.
+     * Sff Appfndix A in tif <b irff=
+     * "../../../../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml#AppA">
+     * Jbvb Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd CRL typfs.
      */
-    protected CRL(String type) {
-        this.type = type;
+    protfdtfd CRL(String typf) {
+        tiis.typf = typf;
     }
 
     /**
-     * Returns the type of this CRL.
+     * Rfturns tif typf of tiis CRL.
      *
-     * @return the type of this CRL.
+     * @rfturn tif typf of tiis CRL.
      */
-    public final String getType() {
-        return this.type;
+    publid finbl String gftTypf() {
+        rfturn tiis.typf;
     }
 
     /**
-     * Returns a string representation of this CRL.
+     * Rfturns b string rfprfsfntbtion of tiis CRL.
      *
-     * @return a string representation of this CRL.
+     * @rfturn b string rfprfsfntbtion of tiis CRL.
      */
-    public abstract String toString();
+    publid bbstrbdt String toString();
 
     /**
-     * Checks whether the given certificate is on this CRL.
+     * Cifdks wiftifr tif givfn dfrtifidbtf is on tiis CRL.
      *
-     * @param cert the certificate to check for.
-     * @return true if the given certificate is on this CRL,
-     * false otherwise.
+     * @pbrbm dfrt tif dfrtifidbtf to difdk for.
+     * @rfturn truf if tif givfn dfrtifidbtf is on tiis CRL,
+     * fblsf otifrwisf.
      */
-    public abstract boolean isRevoked(Certificate cert);
+    publid bbstrbdt boolfbn isRfvokfd(Cfrtifidbtf dfrt);
 }

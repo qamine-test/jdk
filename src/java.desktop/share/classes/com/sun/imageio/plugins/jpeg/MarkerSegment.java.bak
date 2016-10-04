@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
 
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.IIOException;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.IIOExdfption;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NamedNodeMap;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NbmfdNodfMbp;
 
 /**
- * All metadata is stored in MarkerSegments.  Marker segments
- * that we know about are stored in subclasses of this
- * basic class, which used for unrecognized APPn marker
- * segments.  XXX break out UnknownMarkerSegment as a subclass
- * and make this abstract, avoiding unused data field.
+ * All mftbdbtb is storfd in MbrkfrSfgmfnts.  Mbrkfr sfgmfnts
+ * tibt wf know bbout brf storfd in subdlbssfs of tiis
+ * bbsid dlbss, wiidi usfd for unrfdognizfd APPn mbrkfr
+ * sfgmfnts.  XXX brfbk out UnknownMbrkfrSfgmfnt bs b subdlbss
+ * bnd mbkf tiis bbstrbdt, bvoiding unusfd dbtb fifld.
  */
-class MarkerSegment implements Cloneable {
-    protected static final int LENGTH_SIZE = 2; // length is 2 bytes
-    int tag;      // See JPEG.java
-    int length;    /* Sometimes needed by subclasses; doesn't include
-                      itself.  Meaningful only if constructed from a stream */
-    byte [] data = null;  // Raw segment data, used for unrecognized segments
-    boolean unknown = false; // Set to true if the tag is not recognized
+dlbss MbrkfrSfgmfnt implfmfnts Clonfbblf {
+    protfdtfd stbtid finbl int LENGTH_SIZE = 2; // lfngti is 2 bytfs
+    int tbg;      // Sff JPEG.jbvb
+    int lfngti;    /* Somftimfs nffdfd by subdlbssfs; dofsn't indludf
+                      itsflf.  Mfbningful only if donstrudtfd from b strfbm */
+    bytf [] dbtb = null;  // Rbw sfgmfnt dbtb, usfd for unrfdognizfd sfgmfnts
+    boolfbn unknown = fblsf; // Sft to truf if tif tbg is not rfdognizfd
 
     /**
-     * Constructor for creating <code>MarkerSegment</code>s by reading
-     * from an <code>ImageInputStream</code>.
+     * Construdtor for drfbting <dodf>MbrkfrSfgmfnt</dodf>s by rfbding
+     * from bn <dodf>ImbgfInputStrfbm</dodf>.
      */
-    MarkerSegment(JPEGBuffer buffer) throws IOException {
+    MbrkfrSfgmfnt(JPEGBufffr bufffr) tirows IOExdfption {
 
-        buffer.loadBuf(3);  // tag plus length
-        tag = buffer.buf[buffer.bufPtr++] & 0xff;
-        length = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
-        length |= buffer.buf[buffer.bufPtr++] & 0xff;
-        length -= 2;  // JPEG length includes itself, we don't
+        bufffr.lobdBuf(3);  // tbg plus lfngti
+        tbg = bufffr.buf[bufffr.bufPtr++] & 0xff;
+        lfngti = (bufffr.buf[bufffr.bufPtr++] & 0xff) << 8;
+        lfngti |= bufffr.buf[bufffr.bufPtr++] & 0xff;
+        lfngti -= 2;  // JPEG lfngti indludfs itsflf, wf don't
 
-        if (length < 0) {
-            throw new IIOException("Invalid segment length: " + length);
+        if (lfngti < 0) {
+            tirow nfw IIOExdfption("Invblid sfgmfnt lfngti: " + lfngti);
         }
-        buffer.bufAvail -= 3;
-        // Now that we know the true length, ensure that we've got it,
-        // or at least a bufferful if length is too big.
-        buffer.loadBuf(length);
+        bufffr.bufAvbil -= 3;
+        // Now tibt wf know tif truf lfngti, fnsurf tibt wf'vf got it,
+        // or bt lfbst b bufffrful if lfngti is too big.
+        bufffr.lobdBuf(lfngti);
     }
 
     /**
-     * Constructor used when creating segments other than by
-     * reading them from a stream.
+     * Construdtor usfd wifn drfbting sfgmfnts otifr tibn by
+     * rfbding tifm from b strfbm.
      */
-    MarkerSegment(int tag) {
-        this.tag = tag;
-        length = 0;
+    MbrkfrSfgmfnt(int tbg) {
+        tiis.tbg = tbg;
+        lfngti = 0;
     }
 
     /**
-     * Construct a MarkerSegment from an "unknown" DOM Node.
+     * Construdt b MbrkfrSfgmfnt from bn "unknown" DOM Nodf.
      */
-    MarkerSegment(Node node) throws IIOInvalidTreeException {
-        // The type of node should have been verified already.
-        // get the attribute and assign it to the tag
-        tag = getAttributeValue(node,
+    MbrkfrSfgmfnt(Nodf nodf) tirows IIOInvblidTrffExdfption {
+        // Tif typf of nodf siould ibvf bffn vfrififd blrfbdy.
+        // gft tif bttributf bnd bssign it to tif tbg
+        tbg = gftAttributfVbluf(nodf,
                                 null,
-                                "MarkerTag",
+                                "MbrkfrTbg",
                                 0, 255,
-                                true);
-        length = 0;
-        // get the user object and clone it to the data
-        if (node instanceof IIOMetadataNode) {
-            IIOMetadataNode iioNode = (IIOMetadataNode) node;
+                                truf);
+        lfngti = 0;
+        // gft tif usfr objfdt bnd dlonf it to tif dbtb
+        if (nodf instbndfof IIOMftbdbtbNodf) {
+            IIOMftbdbtbNodf iioNodf = (IIOMftbdbtbNodf) nodf;
             try {
-                data = (byte []) iioNode.getUserObject();
-            } catch (Exception e) {
-                IIOInvalidTreeException newGuy =
-                    new IIOInvalidTreeException
-                    ("Can't get User Object", node);
-                newGuy.initCause(e);
-                throw newGuy;
+                dbtb = (bytf []) iioNodf.gftUsfrObjfdt();
+            } dbtdi (Exdfption f) {
+                IIOInvblidTrffExdfption nfwGuy =
+                    nfw IIOInvblidTrffExdfption
+                    ("Cbn't gft Usfr Objfdt", nodf);
+                nfwGuy.initCbusf(f);
+                tirow nfwGuy;
             }
-        } else {
-            throw new IIOInvalidTreeException
-                ("Node must have User Object", node);
+        } flsf {
+            tirow nfw IIOInvblidTrffExdfption
+                ("Nodf must ibvf Usfr Objfdt", nodf);
         }
     }
 
     /**
-     * Deep copy of data array.
+     * Dffp dopy of dbtb brrby.
      */
-    protected Object clone() {
-        MarkerSegment newGuy = null;
+    protfdtfd Objfdt dlonf() {
+        MbrkfrSfgmfnt nfwGuy = null;
         try {
-            newGuy = (MarkerSegment) super.clone();
-        } catch (CloneNotSupportedException e) {} // won't happen
-        if (this.data != null) {
-            newGuy.data = data.clone();
+            nfwGuy = (MbrkfrSfgmfnt) supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {} // won't ibppfn
+        if (tiis.dbtb != null) {
+            nfwGuy.dbtb = dbtb.dlonf();
         }
-        return newGuy;
+        rfturn nfwGuy;
     }
 
     /**
-     * We have determined that we don't know the type, so load
-     * the data using the length parameter.
+     * Wf ibvf dftfrminfd tibt wf don't know tif typf, so lobd
+     * tif dbtb using tif lfngti pbrbmftfr.
      */
-    void loadData(JPEGBuffer buffer) throws IOException {
-        data = new byte[length];
-        buffer.readData(data);
+    void lobdDbtb(JPEGBufffr bufffr) tirows IOExdfption {
+        dbtb = nfw bytf[lfngti];
+        bufffr.rfbdDbtb(dbtb);
     }
 
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("unknown");
-        node.setAttribute("MarkerTag", Integer.toString(tag));
-        node.setUserObject(data);
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("unknown");
+        nodf.sftAttributf("MbrkfrTbg", Intfgfr.toString(tbg));
+        nodf.sftUsfrObjfdt(dbtb);
 
-        return node;
+        rfturn nodf;
     }
 
-    static int getAttributeValue(Node node,
-                                 NamedNodeMap attrs,
-                                 String name,
+    stbtid int gftAttributfVbluf(Nodf nodf,
+                                 NbmfdNodfMbp bttrs,
+                                 String nbmf,
                                  int min,
-                                 int max,
-                                 boolean required)
-        throws IIOInvalidTreeException {
-        if (attrs == null) {
-            attrs = node.getAttributes();
+                                 int mbx,
+                                 boolfbn rfquirfd)
+        tirows IIOInvblidTrffExdfption {
+        if (bttrs == null) {
+            bttrs = nodf.gftAttributfs();
         }
-        String valueString = attrs.getNamedItem(name).getNodeValue();
-        int value = -1;
-        if (valueString == null) {
-            if (required) {
-                throw new IIOInvalidTreeException
-                    (name + " attribute not found", node);
+        String vblufString = bttrs.gftNbmfdItfm(nbmf).gftNodfVbluf();
+        int vbluf = -1;
+        if (vblufString == null) {
+            if (rfquirfd) {
+                tirow nfw IIOInvblidTrffExdfption
+                    (nbmf + " bttributf not found", nodf);
             }
-        } else {
-              value = Integer.parseInt(valueString);
-              if ((value < min) || (value > max)) {
-                  throw new IIOInvalidTreeException
-                      (name + " attribute out of range", node);
+        } flsf {
+              vbluf = Intfgfr.pbrsfInt(vblufString);
+              if ((vbluf < min) || (vbluf > mbx)) {
+                  tirow nfw IIOInvblidTrffExdfption
+                      (nbmf + " bttributf out of rbngf", nodf);
               }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Writes the marker, tag, and length.  Note that length
-     * should be verified by the caller as a correct JPEG
-     * length, i.e it includes itself.
+     * Writfs tif mbrkfr, tbg, bnd lfngti.  Notf tibt lfngti
+     * siould bf vfrififd by tif dbllfr bs b dorrfdt JPEG
+     * lfngti, i.f it indludfs itsflf.
      */
-    void writeTag(ImageOutputStream ios) throws IOException {
-        ios.write(0xff);
-        ios.write(tag);
-        write2bytes(ios, length);
+    void writfTbg(ImbgfOutputStrfbm ios) tirows IOExdfption {
+        ios.writf(0xff);
+        ios.writf(tbg);
+        writf2bytfs(ios, lfngti);
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.
+     * Writfs tif dbtb for tiis sfgmfnt to tif strfbm in
+     * vblid JPEG formbt.
      */
-    void write(ImageOutputStream ios) throws IOException {
-        length = 2 + ((data != null) ? data.length : 0);
-        writeTag(ios);
-        if (data != null) {
-            ios.write(data);
+    void writf(ImbgfOutputStrfbm ios) tirows IOExdfption {
+        lfngti = 2 + ((dbtb != null) ? dbtb.lfngti : 0);
+        writfTbg(ios);
+        if (dbtb != null) {
+            ios.writf(dbtb);
         }
     }
 
-    static void write2bytes(ImageOutputStream ios,
-                            int value) throws IOException {
-        ios.write((value >> 8) & 0xff);
-        ios.write(value & 0xff);
+    stbtid void writf2bytfs(ImbgfOutputStrfbm ios,
+                            int vbluf) tirows IOExdfption {
+        ios.writf((vbluf >> 8) & 0xff);
+        ios.writf(vbluf & 0xff);
 
     }
 
-    void printTag(String prefix) {
-        System.out.println(prefix + " marker segment - marker = 0x"
-                           + Integer.toHexString(tag));
-        System.out.println("length: " + length);
+    void printTbg(String prffix) {
+        Systfm.out.println(prffix + " mbrkfr sfgmfnt - mbrkfr = 0x"
+                           + Intfgfr.toHfxString(tbg));
+        Systfm.out.println("lfngti: " + lfngti);
     }
 
     void print() {
-        printTag("Unknown");
-        if (length > 10) {
-            System.out.print("First 5 bytes:");
+        printTbg("Unknown");
+        if (lfngti > 10) {
+            Systfm.out.print("First 5 bytfs:");
             for (int i=0;i<5;i++) {
-                System.out.print(" Ox"
-                                 + Integer.toHexString((int)data[i]));
+                Systfm.out.print(" Ox"
+                                 + Intfgfr.toHfxString((int)dbtb[i]));
             }
-            System.out.print("\nLast 5 bytes:");
-            for (int i=data.length-5;i<data.length;i++) {
-                System.out.print(" Ox"
-                                 + Integer.toHexString((int)data[i]));
+            Systfm.out.print("\nLbst 5 bytfs:");
+            for (int i=dbtb.lfngti-5;i<dbtb.lfngti;i++) {
+                Systfm.out.print(" Ox"
+                                 + Intfgfr.toHfxString((int)dbtb[i]));
             }
-        } else {
-            System.out.print("Data:");
-            for (int i=0;i<data.length;i++) {
-                System.out.print(" Ox"
-                                 + Integer.toHexString((int)data[i]));
+        } flsf {
+            Systfm.out.print("Dbtb:");
+            for (int i=0;i<dbtb.lfngti;i++) {
+                Systfm.out.print(" Ox"
+                                 + Intfgfr.toHfxString((int)dbtb[i]));
             }
         }
-        System.out.println();
+        Systfm.out.println();
     }
 }

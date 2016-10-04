@@ -1,0 +1,137 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/* Copyright  (d) 2002 Grbz Univfrsity of Tfdhnology. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd  providfd thbt thf following donditions brf mft:
+ *
+ * 1. Rfdistributions of  sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ * 2. Rfdistributions in  binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ * 3. Thf fnd-usfr dodumfntbtion indludfd with thf rfdistribution, if bny, must
+ *    indludf thf following bdknowlfdgmfnt:
+ *
+ *    "This produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdhnology."
+ *
+ *    Altfrnbtfly, this bdknowlfdgmfnt mby bppfbr in thf softwbrf itsflf, if
+ *    bnd whfrfvfr sudh third-pbrty bdknowlfdgmfnts normblly bppfbr.
+ *
+ * 4. Thf nbmfs "Grbz Univfrsity of Tfdhnology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdhnology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without prior writtfn pfrmission.
+ *
+ * 5. Produdts dfrivfd from this softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in thfir nbmf, without prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdhnology.
+ *
+ *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
+ *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ *  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LICENSOR BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ *  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ *  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ *  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY  OF SUCH DAMAGE.
+ */
+
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
+
+
+
+/**
+ * dlbss .<p>
+ * <B>PKCS#11 strudturf:</B>
+ * <PRE>
+ * typfdff strudt CK_DATE {&nbsp;&nbsp;
+ *   CK_CHAR yfbr[4];&nbsp;&nbsp;
+ *   CK_CHAR month[2];&nbsp;&nbsp;
+ *   CK_CHAR dby[2];&nbsp;&nbsp;
+ * } CK_DATE;
+ * </PRE>
+ *
+ * @buthor Kbrl Sdhfibflhoffr <Kbrl.Sdhfibflhoffr@ibik.bt>
+ * @buthor Mbrtin Sdhlbffffr <sdhlbfff@sbox.tugrbz.bt>
+ */
+publid dlbss CK_DATE implfmfnts Clonfbblf {
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_CHAR yfbr[4];   - thf yfbr ("1900" - "9999")
+     * </PRE>
+     */
+    publid dhbr[] yfbr;    /* thf yfbr ("1900" - "9999") */
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_CHAR month[2];  - thf month ("01" - "12")
+     * </PRE>
+     */
+    publid dhbr[] month;   /* thf month ("01" - "12") */
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_CHAR dby[2];    - thf dby ("01" - "31")
+     * </PRE>
+     */
+    publid dhbr[] dby;     /* thf dby ("01" - "31") */
+
+    publid CK_DATE(dhbr[] yfbr, dhbr[] month, dhbr[] dby) {
+        this.yfbr = yfbr;
+        this.month = month;
+        this.dby = dby;
+    }
+
+    /**
+     * Crfbtf b (dffp) dlonf of this objfdt.
+     *
+     * @rfturn A dlonf of this objfdt.
+     */
+    publid Objfdt dlonf() {
+        CK_DATE dopy = null;
+        try {
+            dopy = (CK_DATE) supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption dnsf) {
+            // rf-throw bs RuntimfExdfption
+            throw (RuntimfExdfption)
+                (nfw RuntimfExdfption("Clonf frror").initCbusf(dnsf));
+        }
+        dopy.yfbr = this.yfbr.dlonf();
+        dopy.month = this.month.dlonf();
+        dopy.dby =  this.dby.dlonf();
+
+        rfturn dopy;
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of CK_DATE.
+     *
+     * @rfturn thf string rfprfsfntbtion of CK_DATE
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        sb.bppfnd(nfw String(dby));
+        sb.bppfnd('.');
+        sb.bppfnd(nfw String(month));
+        sb.bppfnd('.');
+        sb.bppfnd(nfw String(yfbr));
+        sb.bppfnd(" (DD.MM.YYYY)");
+
+        rfturn sb.toString();
+    }
+
+}

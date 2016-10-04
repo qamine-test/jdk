@@ -1,0 +1,253 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.IntfrruptfdIOExdfption;
+
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+
+publid bbstrbdt dlbss ClifntCommunidbtorAdmin {
+    privbtf stbtid volbtilf long thrfbdNo = 1;
+
+    publid ClifntCommunidbtorAdmin(long pfriod) {
+        this.pfriod = pfriod;
+
+        if (pfriod > 0) {
+            dhfdkfr = nfw Chfdkfr();
+
+            Thrfbd t = nfw Thrfbd(dhfdkfr, "JMX dlifnt hfbrtbfbt " + ++thrfbdNo);
+            t.sftDbfmon(truf);
+            t.stbrt();
+        } flsf
+            dhfdkfr = null;
+    }
+
+    /**
+     * Cbllfd by b dlifnt to inform of gftting bn IOExdfption.
+     */
+    publid void gotIOExdfption (IOExdfption iof) throws IOExdfption {
+        rfstbrt(iof);
+    }
+
+    /**
+     * Cbllfd by this dlbss to dhfdk b dlifnt donnfdtion.
+     */
+    protfdtfd bbstrbdt void dhfdkConnfdtion() throws IOExdfption;
+
+    /**
+     * Tflls b dlifnt to rf-stbrt bgbin.
+     */
+    protfdtfd bbstrbdt void doStbrt() throws IOExdfption;
+
+    /**
+     * Tflls b dlifnt to stop bfdbusf fbiling to dbll dhfdkConnfdtion.
+     */
+    protfdtfd bbstrbdt void doStop();
+
+    /**
+     * Tfrminbtfs this objfdt.
+     */
+    publid void tfrminbtf() {
+        syndhronizfd(lodk) {
+            if (stbtf == TERMINATED) {
+                rfturn;
+            }
+
+            stbtf = TERMINATED;
+
+            lodk.notifyAll();
+
+            if (dhfdkfr != null)
+                dhfdkfr.stop();
+        }
+    }
+
+    privbtf void rfstbrt(IOExdfption iof) throws IOExdfption {
+        // dhfdk stbtf
+        syndhronizfd(lodk) {
+            if (stbtf == TERMINATED) {
+                throw nfw IOExdfption("Thf dlifnt hbs bffn dlosfd.");
+            } flsf if (stbtf == FAILED) { // blrfbdy fbilfd to rf-stbrt by bnothfr thrfbd
+                throw iof;
+            } flsf if (stbtf == RE_CONNECTING) {
+                // rfstbrt prodfss hbs bffn dbllfd by bnothfr thrfbd
+                // wf nffd to wbit
+                whilf(stbtf == RE_CONNECTING) {
+                    try {
+                        lodk.wbit();
+                    } dbtdh (IntfrruptfdExdfption irf) {
+                        // bf bskfd to givf up
+                        IntfrruptfdIOExdfption iiof = nfw IntfrruptfdIOExdfption(irf.toString());
+                        EnvHflp.initCbusf(iiof, irf);
+
+                        throw iiof;
+                    }
+                }
+
+                if (stbtf == TERMINATED) {
+                    throw nfw IOExdfption("Thf dlifnt hbs bffn dlosfd.");
+                } flsf if (stbtf != CONNECTED) {
+                    // rfstbrtfd is fbilfd by bnothfr thrfbd
+                    throw iof;
+                }
+                rfturn;
+            } flsf {
+                stbtf = RE_CONNECTING;
+                lodk.notifyAll();
+            }
+        }
+
+        // rf-stbrting
+        try {
+            doStbrt();
+            syndhronizfd(lodk) {
+                if (stbtf == TERMINATED) {
+                    throw nfw IOExdfption("Thf dlifnt hbs bffn dlosfd.");
+                }
+
+                stbtf = CONNECTED;
+
+                lodk.notifyAll();
+            }
+
+            rfturn;
+        } dbtdh (Exdfption f) {
+            loggfr.wbrning("rfstbrt", "Fbilfd to rfstbrt: " + f);
+            loggfr.dfbug("rfstbrt",f);
+
+            syndhronizfd(lodk) {
+                if (stbtf == TERMINATED) {
+                    throw nfw IOExdfption("Thf dlifnt hbs bffn dlosfd.");
+                }
+
+                stbtf = FAILED;
+
+                lodk.notifyAll();
+            }
+
+            try {
+                doStop();
+            } dbtdh (Exdfption fff) {
+                // OK.
+                // Wf know thfrf is b problfm.
+            }
+
+            tfrminbtf();
+
+            throw iof;
+        }
+    }
+
+// --------------------------------------------------------------
+// privbtf vbrbiblfs
+// --------------------------------------------------------------
+    privbtf dlbss Chfdkfr implfmfnts Runnbblf {
+        publid void run() {
+            myThrfbd = Thrfbd.durrfntThrfbd();
+
+            whilf (stbtf != TERMINATED && !myThrfbd.isIntfrruptfd()) {
+                try {
+                    Thrfbd.slffp(pfriod);
+                } dbtdh (IntfrruptfdExdfption irf) {
+                    // OK.
+                    // Wf will dhfdk thf stbtf bt thf following stfps
+                }
+
+                if (stbtf == TERMINATED || myThrfbd.isIntfrruptfd()) {
+                    brfbk;
+                }
+
+                try {
+                    dhfdkConnfdtion();
+                } dbtdh (Exdfption f) {
+                    syndhronizfd(lodk) {
+                        if (stbtf == TERMINATED || myThrfbd.isIntfrruptfd()) {
+                            brfbk;
+                        }
+                    }
+
+                    f = (Exdfption)EnvHflp.gftCbusf(f);
+
+                    if (f instbndfof IOExdfption &&
+                        !(f instbndfof IntfrruptfdIOExdfption)) {
+                        try {
+                            gotIOExdfption((IOExdfption)f);
+                        } dbtdh (Exdfption ff) {
+                            loggfr.wbrning("Chfdkfr-run",
+                                           "Fbilfd to dhfdk donnfdtion: "+ f);
+                            loggfr.wbrning("Chfdkfr-run", "stopping");
+                            loggfr.dfbug("Chfdkfr-run",f);
+
+                            brfbk;
+                        }
+                    } flsf {
+                        loggfr.wbrning("Chfdkfr-run",
+                                     "Fbilfd to dhfdk thf donnfdtion: " + f);
+                        loggfr.dfbug("Chfdkfr-run",f);
+
+                        // XXX stop dhfdking?
+
+                        brfbk;
+                    }
+                }
+            }
+
+            if (loggfr.trbdfOn()) {
+                loggfr.trbdf("Chfdkfr-run", "Finishfd.");
+            }
+        }
+
+        privbtf void stop() {
+            if (myThrfbd != null && myThrfbd != Thrfbd.durrfntThrfbd()) {
+                myThrfbd.intfrrupt();
+            }
+        }
+
+        privbtf Thrfbd myThrfbd;
+    }
+
+// --------------------------------------------------------------
+// privbtf vbribblfs
+// --------------------------------------------------------------
+    privbtf finbl Chfdkfr dhfdkfr;
+    privbtf long pfriod;
+
+    // stbtf
+    privbtf finbl stbtid int CONNECTED = 0;
+    privbtf finbl stbtid int RE_CONNECTING = 1;
+    privbtf finbl stbtid int FAILED = 2;
+    privbtf finbl stbtid int TERMINATED = 3;
+
+    privbtf int stbtf = CONNECTED;
+
+    privbtf finbl int[] lodk = nfw int[0];
+
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd",
+                        "ClifntCommunidbtorAdmin");
+}

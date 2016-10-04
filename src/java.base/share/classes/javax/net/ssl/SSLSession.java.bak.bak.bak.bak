@@ -1,0 +1,410 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.sfdurity.Prindipbl;
+
+/**
+ * In SSL, sfssions brf usfd to dfsdribf bn ongoing rflbtionship bftwffn
+ * two fntitifs.  Ebdh SSL donnfdtion involvfs onf sfssion bt b timf, but
+ * thbt sfssion mby bf usfd on mbny donnfdtions bftwffn thosf fntitifs,
+ * simultbnfously or sfqufntiblly.  Thf sfssion usfd on b donnfdtion mby
+ * blso bf rfplbdfd by b difffrfnt sfssion.  Sfssions brf drfbtfd, or
+ * rfjoinfd, bs pbrt of thf SSL hbndshbking protodol. Sfssions mby bf
+ * invblidbtfd duf to polidifs bfffdting sfdurity or rfsourdf usbgf,
+ * or by bn bpplidbtion fxpliditly dblling <dodf>invblidbtf</dodf>.
+ * Sfssion mbnbgfmfnt polidifs brf typidblly usfd to tunf pfrformbndf.
+ *
+ * <P> In bddition to thf stbndbrd sfssion bttributfs, SSL sfssions fxposf
+ * thfsf rfbd-only bttributfs:  <UL>
+ *
+ *      <LI> <fm>Pffr Idfntity.</fm>  Sfssions brf bftwffn b pbrtidulbr
+ *      dlifnt bnd b pbrtidulbr sfrvfr.  Thf idfntity of thf pffr mby
+ *      hbvf bffn fstbblishfd bs pbrt of sfssion sftup.  Pffrs brf
+ *      gfnfrblly idfntififd by X.509 dfrtifidbtf dhbins.
+ *
+ *      <LI> <fm>Ciphfr Suitf Nbmf.</fm>  Ciphfr suitfs dfsdribf thf
+ *      kind of dryptogrbphid protfdtion thbt's usfd by donnfdtions
+ *      in b pbrtidulbr sfssion.
+ *
+ *      <LI> <fm>Pffr Host.</fm>  All donnfdtions in b sfssion brf
+ *      bftwffn thf sbmf two hosts.  Thf bddrfss of thf host on thf othfr
+ *      sidf of thf donnfdtion is bvbilbblf.
+ *
+ *      </UL>
+ *
+ * <P> Sfssions mby bf fxpliditly invblidbtfd.  Invblidbtion mby blso
+ * bf donf impliditly, whfn fbdfd with dfrtbin kinds of frrors.
+ *
+ * @sindf 1.4
+ * @buthor Dbvid Brownfll
+ */
+publid intfrfbdf SSLSfssion {
+
+    /**
+     * Rfturns thf idfntififr bssignfd to this Sfssion.
+     *
+     * @rfturn thf Sfssion idfntififr
+     */
+    publid bytf[] gftId();
+
+
+    /**
+     * Rfturns thf dontfxt in whidh this sfssion is bound.
+     * <P>
+     * This dontfxt mby bf unbvbilbblf in somf fnvironmfnts,
+     * in whidh dbsf this mfthod rfturns null.
+     * <P>
+     * If thf dontfxt is bvbilbblf bnd thfrf is b
+     * sfdurity mbnbgfr instbllfd, thf dbllfr mby rfquirf
+     * pfrmission to bddfss it or b sfdurity fxdfption mby bf thrown.
+     * In b Jbvb fnvironmfnt, thf sfdurity mbnbgfr's
+     * <dodf>dhfdkPfrmission</dodf> mfthod is dbllfd with b
+     * <dodf>SSLPfrmission("gftSSLSfssionContfxt")</dodf> pfrmission.
+     *
+     * @throws SfdurityExdfption if thf dblling thrfbd dofs not hbvf
+     *         pfrmission to gft SSL sfssion dontfxt.
+     * @rfturn thf sfssion dontfxt usfd for this sfssion, or null
+     * if thf dontfxt is unbvbilbblf.
+     */
+    publid SSLSfssionContfxt gftSfssionContfxt();
+
+
+    /**
+     * Rfturns thf timf bt whidh this Sfssion rfprfsfntbtion wbs drfbtfd,
+     * in millisfdonds sindf midnight, Jbnubry 1, 1970 UTC.
+     *
+     * @rfturn thf timf this Sfssion wbs drfbtfd
+     */
+    publid long gftCrfbtionTimf();
+
+
+    /**
+     * Rfturns thf lbst timf this Sfssion rfprfsfntbtion wbs bddfssfd by thf
+     * sfssion lfvfl infrbstrudturf, in millisfdonds sindf
+     * midnight, Jbnubry 1, 1970 UTC.
+     * <P>
+     * Addfss indidbtfs b nfw donnfdtion bfing fstbblishfd using sfssion dbtb.
+     * Applidbtion lfvfl opfrbtions, sudh bs gftting or sftting b vbluf
+     * bssodibtfd with thf sfssion, brf not rfflfdtfd in this bddfss timf.
+     *
+     * <P> This informbtion is pbrtidulbrly usfful in sfssion mbnbgfmfnt
+     * polidifs.  For fxbmplf, b sfssion mbnbgfr thrfbd dould lfbvf bll
+     * sfssions in b givfn dontfxt whidh hbvfn't bffn usfd in b long timf;
+     * or, thf sfssions might bf sortfd bddording to bgf to optimizf somf tbsk.
+     *
+     * @rfturn thf lbst timf this Sfssion wbs bddfssfd
+     */
+    publid long gftLbstAddfssfdTimf();
+
+
+    /**
+     * Invblidbtfs thf sfssion.
+     * <P>
+     * Futurf donnfdtions will not bf bblf to
+     * rfsumf or join this sfssion.  Howfvfr, bny fxisting donnfdtion
+     * using this sfssion dbn dontinuf to usf thf sfssion until thf
+     * donnfdtion is dlosfd.
+     *
+     * @sff #isVblid()
+     */
+    publid void invblidbtf();
+
+
+    /**
+     * Rfturns whfthfr this sfssion is vblid bnd bvbilbblf for rfsuming or
+     * joining.
+     *
+     * @rfturn truf if this sfssion mby bf rfjoinfd.
+     * @sff #invblidbtf()
+     *
+     * @sindf 1.5
+     */
+    publid boolfbn isVblid();
+
+
+    /**
+     *
+     * Binds thf spfdififd <dodf>vbluf</dodf> objfdt into thf
+     * sfssion's bpplidbtion lbyfr dbtb
+     * with thf givfn <dodf>nbmf</dodf>.
+     * <P>
+     * Any fxisting binding using thf sbmf <dodf>nbmf</dodf> is
+     * rfplbdfd.  If thf nfw (or fxisting) <dodf>vbluf</dodf> implfmfnts thf
+     * <dodf>SSLSfssionBindingListfnfr</dodf> intfrfbdf, thf objfdt
+     * rfprfsfntfd by <dodf>vbluf</dodf> is notififd bppropribtfly.
+     * <p>
+     * For sfdurity rfbsons, thf sbmf nbmfd vblufs mby not bf
+     * visiblf bdross difffrfnt bddfss dontrol dontfxts.
+     *
+     * @pbrbm nbmf thf nbmf to whidh thf dbtb objfdt will bf bound.
+     *          This mby not bf null.
+     * @pbrbm vbluf thf dbtb objfdt to bf bound. This mby not bf null.
+     * @throws IllfgblArgumfntExdfption if fithfr brgumfnt is null.
+     */
+    publid void putVbluf(String nbmf, Objfdt vbluf);
+
+
+    /**
+     * Rfturns thf objfdt bound to thf givfn nbmf in thf sfssion's
+     * bpplidbtion lbyfr dbtb.  Rfturns null if thfrf is no sudh binding.
+     * <p>
+     * For sfdurity rfbsons, thf sbmf nbmfd vblufs mby not bf
+     * visiblf bdross difffrfnt bddfss dontrol dontfxts.
+     *
+     * @pbrbm nbmf thf nbmf of thf binding to find.
+     * @rfturn thf vbluf bound to thbt nbmf, or null if thf binding dofs
+     *          not fxist.
+     * @throws IllfgblArgumfntExdfption if thf brgumfnt is null.
+     */
+    publid Objfdt gftVbluf(String nbmf);
+
+
+    /**
+     * Rfmovfs thf objfdt bound to thf givfn nbmf in thf sfssion's
+     * bpplidbtion lbyfr dbtb.  Dofs nothing if thfrf is no objfdt
+     * bound to thf givfn nbmf.  If thf bound fxisting objfdt
+     * implfmfnts thf <dodf>SfssionBindingListfnfr</dodf> intfrfbdf,
+     * it is notififd bppropribtfly.
+     * <p>
+     * For sfdurity rfbsons, thf sbmf nbmfd vblufs mby not bf
+     * visiblf bdross difffrfnt bddfss dontrol dontfxts.
+     *
+     * @pbrbm nbmf thf nbmf of thf objfdt to rfmovf visiblf
+     *          bdross difffrfnt bddfss dontrol dontfxts
+     * @throws IllfgblArgumfntExdfption if thf brgumfnt is null.
+     */
+    publid void rfmovfVbluf(String nbmf);
+
+
+    /**
+     * Rfturns bn brrby of thf nbmfs of bll thf bpplidbtion lbyfr
+     * dbtb objfdts bound into thf Sfssion.
+     * <p>
+     * For sfdurity rfbsons, thf sbmf nbmfd vblufs mby not bf
+     * visiblf bdross difffrfnt bddfss dontrol dontfxts.
+     *
+     * @rfturn b non-null (possibly fmpty) brrby of nbmfs of thf objfdts
+     *  bound to this Sfssion.
+     */
+    publid String [] gftVblufNbmfs();
+
+    /**
+     * Rfturns thf idfntity of thf pffr whidh wbs fstbblishfd bs pbrt
+     * of dffining thf sfssion.
+     * <P>
+     * Notf: This mfthod dbn bf usfd only whfn using dfrtifidbtf-bbsfd
+     * diphfr suitfs; using it with non-dfrtifidbtf-bbsfd diphfr suitfs,
+     * sudh bs Kfrbfros, will throw bn SSLPffrUnvfrififdExdfption.
+     *
+     * @rfturn bn ordfrfd brrby of pffr dfrtifidbtfs,
+     *          with thf pffr's own dfrtifidbtf first followfd by bny
+     *          dfrtifidbtf buthoritifs.
+     * @fxdfption SSLPffrUnvfrififdExdfption if thf pffr's idfntity hbs not
+     *          bffn vfrififd
+     * @sff #gftPffrPrindipbl()
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftPffrCfrtifidbtfs()
+            throws SSLPffrUnvfrififdExdfption;
+
+    /**
+     * Rfturns thf dfrtifidbtf(s) thbt wfrf sfnt to thf pffr during
+     * hbndshbking.
+     * <P>
+     * Notf: This mfthod is usfful only whfn using dfrtifidbtf-bbsfd
+     * diphfr suitfs.
+     * <P>
+     * Whfn multiplf dfrtifidbtfs brf bvbilbblf for usf in b
+     * hbndshbkf, thf implfmfntbtion dhoosfs whbt it donsidfrs thf
+     * "bfst" dfrtifidbtf dhbin bvbilbblf, bnd trbnsmits thbt to
+     * thf othfr sidf.  This mfthod bllows thf dbllfr to know
+     * whidh dfrtifidbtf dhbin wbs bdtublly usfd.
+     *
+     * @rfturn bn ordfrfd brrby of dfrtifidbtfs,
+     * with thf lodbl dfrtifidbtf first followfd by bny
+     * dfrtifidbtf buthoritifs.  If no dfrtifidbtfs wfrf sfnt,
+     * thfn null is rfturnfd.
+     *
+     * @sff #gftLodblPrindipbl()
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftLodblCfrtifidbtfs();
+
+    /**
+     * Rfturns thf idfntity of thf pffr whidh wbs idfntififd bs pbrt
+     * of dffining thf sfssion.
+     * <P>
+     * Notf: This mfthod dbn bf usfd only whfn using dfrtifidbtf-bbsfd
+     * diphfr suitfs; using it with non-dfrtifidbtf-bbsfd diphfr suitfs,
+     * sudh bs Kfrbfros, will throw bn SSLPffrUnvfrififdExdfption.
+     *
+     * <p><fm>Notf: this mfthod fxists for dompbtibility with prfvious
+     * rflfbsfs. Nfw bpplidbtions should usf
+     * {@link #gftPffrCfrtifidbtfs} instfbd.</fm></p>
+     *
+     * @rfturn bn ordfrfd brrby of pffr X.509 dfrtifidbtfs,
+     *          with thf pffr's own dfrtifidbtf first followfd by bny
+     *          dfrtifidbtf buthoritifs.  (Thf dfrtifidbtfs brf in
+     *          thf originbl JSSE dfrtifidbtf
+     *          {@link jbvbx.sfdurity.dfrt.X509Cfrtifidbtf} formbt.)
+     * @fxdfption SSLPffrUnvfrififdExdfption if thf pffr's idfntity
+     *          hbs not bffn vfrififd
+     * @sff #gftPffrPrindipbl()
+     */
+    publid jbvbx.sfdurity.dfrt.X509Cfrtifidbtf [] gftPffrCfrtifidbtfChbin()
+            throws SSLPffrUnvfrififdExdfption;
+
+    /**
+     * Rfturns thf idfntity of thf pffr whidh wbs fstbblishfd bs pbrt of
+     * dffining thf sfssion.
+     *
+     * @rfturn thf pffr's prindipbl. Rfturns bn X500Prindipbl of thf
+     * fnd-fntity dfrtitidbtf for X509-bbsfd diphfr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros diphfr suitfs.
+     *
+     * @throws SSLPffrUnvfrififdExdfption if thf pffr's idfntity hbs not
+     *          bffn vfrififd
+     *
+     * @sff #gftPffrCfrtifidbtfs()
+     * @sff #gftLodblPrindipbl()
+     *
+     * @sindf 1.5
+     */
+    publid Prindipbl gftPffrPrindipbl()
+            throws SSLPffrUnvfrififdExdfption;
+
+    /**
+     * Rfturns thf prindipbl thbt wbs sfnt to thf pffr during hbndshbking.
+     *
+     * @rfturn thf prindipbl sfnt to thf pffr. Rfturns bn X500Prindipbl
+     * of thf fnd-fntity dfrtifidbtf for X509-bbsfd diphfr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros diphfr suitfs. If no prindipbl wbs
+     * sfnt, thfn null is rfturnfd.
+     *
+     * @sff #gftLodblCfrtifidbtfs()
+     * @sff #gftPffrPrindipbl()
+     *
+     * @sindf 1.5
+     */
+    publid Prindipbl gftLodblPrindipbl();
+
+    /**
+     * Rfturns thf nbmf of thf SSL diphfr suitf whidh is usfd for bll
+     * donnfdtions in thf sfssion.
+     *
+     * <P> This dffinfs thf lfvfl of protfdtion
+     * providfd to thf dbtb sfnt on thf donnfdtion, indluding thf kind
+     * of fndryption usfd bnd most bspfdts of how buthfntidbtion is donf.
+     *
+     * @rfturn thf nbmf of thf sfssion's diphfr suitf
+     */
+    publid String gftCiphfrSuitf();
+
+    /**
+     * Rfturns thf stbndbrd nbmf of thf protodol usfd for bll
+     * donnfdtions in thf sfssion.
+     *
+     * <P> This dffinfs thf protodol usfd in thf donnfdtion.
+     *
+     * @rfturn thf stbndbrd nbmf of thf protodol usfd for bll
+     * donnfdtions in thf sfssion.
+     */
+    publid String gftProtodol();
+
+    /**
+     * Rfturns thf host nbmf of thf pffr in this sfssion.
+     * <P>
+     * For thf sfrvfr, this is thf dlifnt's host;  bnd for
+     * thf dlifnt, it is thf sfrvfr's host. Thf nbmf mby not bf
+     * b fully qublififd host nbmf or fvfn b host nbmf bt bll bs
+     * it mby rfprfsfnt b string fndoding of thf pffr's nftwork bddrfss.
+     * If sudh b nbmf is dfsirfd, it might
+     * bf rfsolvfd through b nbmf sfrvidf bbsfd on thf vbluf rfturnfd
+     * by this mfthod.
+     * <P>
+     * This vbluf is not buthfntidbtfd bnd should not bf rflifd upon.
+     * It is mbinly usfd bs b hint for <dodf>SSLSfssion</dodf> dbdhing
+     * strbtfgifs.
+     *
+     * @rfturn  thf host nbmf of thf pffr host, or null if no informbtion
+     *          is bvbilbblf.
+     */
+    publid String gftPffrHost();
+
+    /**
+     * Rfturns thf port numbfr of thf pffr in this sfssion.
+     * <P>
+     * For thf sfrvfr, this is thf dlifnt's port numbfr;  bnd for
+     * thf dlifnt, it is thf sfrvfr's port numbfr.
+     * <P>
+     * This vbluf is not buthfntidbtfd bnd should not bf rflifd upon.
+     * It is mbinly usfd bs b hint for <dodf>SSLSfssion</dodf> dbdhing
+     * strbtfgifs.
+     *
+     * @rfturn  thf port numbfr of thf pffr host, or -1 if no informbtion
+     *          is bvbilbblf.
+     *
+     * @sindf 1.5
+     */
+    publid int gftPffrPort();
+
+    /**
+     * Gfts thf durrfnt sizf of thf lbrgfst SSL/TLS pbdkft thbt is fxpfdtfd
+     * whfn using this sfssion.
+     * <P>
+     * A <dodf>SSLEnginf</dodf> using this sfssion mby gfnfrbtf SSL/TLS
+     * pbdkfts of bny sizf up to bnd indluding thf vbluf rfturnfd by this
+     * mfthod. All <dodf>SSLEnginf</dodf> nftwork bufffrs should bf sizfd
+     * bt lfbst this lbrgf to bvoid insuffidifnt spbdf problfms whfn
+     * pfrforming <dodf>wrbp</dodf> bnd <dodf>unwrbp</dodf> dblls.
+     *
+     * @rfturn  thf durrfnt mbximum fxpfdtfd nftwork pbdkft sizf
+     *
+     * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+     * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+     *
+     * @sindf 1.5
+     */
+    publid int gftPbdkftBufffrSizf();
+
+
+    /**
+     * Gfts thf durrfnt sizf of thf lbrgfst bpplidbtion dbtb thbt is
+     * fxpfdtfd whfn using this sfssion.
+     * <P>
+     * <dodf>SSLEnginf</dodf> bpplidbtion dbtb bufffrs must bf lbrgf
+     * fnough to hold thf bpplidbtion dbtb from bny inbound nftwork
+     * bpplidbtion dbtb pbdkft rfdfivfd.  Typidblly, outbound
+     * bpplidbtion dbtb bufffrs dbn bf of bny sizf.
+     *
+     * @rfturn  thf durrfnt mbximum fxpfdtfd bpplidbtion pbdkft sizf
+     *
+     * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+     * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+     *
+     * @sindf 1.5
+     */
+    publid int gftApplidbtionBufffrSizf();
+}

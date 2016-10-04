@@ -1,0 +1,199 @@
+/*
+ * Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.ssl.intfrnbl.www.protodol.https;
+
+import jbvb.nft.URL;
+import jbvb.nft.Proxy;
+import jbvb.io.IOExdfption;
+import jbvb.util.Collfdtion;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.*;
+
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.sfdurity.util.HostnbmfChfdkfr;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.x509.X500Nbmf;
+
+import sun.nft.www.protodol.https.AbstrbdtDflfgbtfHttpsURLConnfdtion;
+
+/**
+ * This dlbss wbs introdudfd to providf bn bdditionbl lfvfl of
+ * bbstrbdtion bftwffn jbvbx.nft.ssl.HttpURLConnfdtion bnd
+ * dom.sun.nft.ssl.HttpURLConnfdtion objfdts. <p>
+ *
+ * jbvbx.nft.ssl.HttpURLConnfdtion is usfd in thf nfw sun.nft vfrsion
+ * of protodol implfmfntbtion (this onf)
+ * dom.sun.nft.ssl.HttpURLConnfdtion is usfd in thf dom.sun vfrsion.
+ *
+ */
+publid dlbss DflfgbtfHttpsURLConnfdtion fxtfnds AbstrbdtDflfgbtfHttpsURLConnfdtion {
+
+    // wf nffd b rfffrfndf to thf HttpsURLConnfdtion to gft
+    // thf propfrtifs sft thfrf
+    // wf blso nffd it to bf publid so thbt it dbn bf rfffrfndfd
+    // from sun.nft.www.protodol.http.HttpURLConnfdtion
+    // this is for RfsponsfCbdhf.put(URI, URLConnfdtion)
+    // sfdond pbrbmftfr nffds to bf dbst to jbvbx.nft.ssl.HttpsURLConnfdtion
+    // instfbd of AbstrbdtDflfgbtfHttpsURLConnfdtion
+    publid dom.sun.nft.ssl.HttpsURLConnfdtion httpsURLConnfdtion;
+
+    DflfgbtfHttpsURLConnfdtion(URL url,
+            sun.nft.www.protodol.http.Hbndlfr hbndlfr,
+            dom.sun.nft.ssl.HttpsURLConnfdtion httpsURLConnfdtion)
+            throws IOExdfption {
+        this(url, null, hbndlfr, httpsURLConnfdtion);
+    }
+
+    DflfgbtfHttpsURLConnfdtion(URL url, Proxy p,
+            sun.nft.www.protodol.http.Hbndlfr hbndlfr,
+            dom.sun.nft.ssl.HttpsURLConnfdtion httpsURLConnfdtion)
+            throws IOExdfption {
+        supfr(url, p, hbndlfr);
+        this.httpsURLConnfdtion = httpsURLConnfdtion;
+    }
+
+    protfdtfd jbvbx.nft.ssl.SSLSodkftFbdtory gftSSLSodkftFbdtory() {
+        rfturn httpsURLConnfdtion.gftSSLSodkftFbdtory();
+    }
+
+    protfdtfd jbvbx.nft.ssl.HostnbmfVfrififr gftHostnbmfVfrififr() {
+        // notf: gftHostnbmfVfrififr() nfvfr rfturns null
+        rfturn nfw VfrififrWrbppfr(httpsURLConnfdtion.gftHostnbmfVfrififr());
+    }
+
+    /*
+     * Cbllfd by lbyfrfd dflfgbtor's finblizf() mfthod to hbndlf dlosing
+     * thf undfrlying objfdt.
+     */
+    protfdtfd void disposf() throws Throwbblf {
+        supfr.finblizf();
+    }
+}
+
+dlbss VfrififrWrbppfr implfmfnts jbvbx.nft.ssl.HostnbmfVfrififr {
+
+    privbtf dom.sun.nft.ssl.HostnbmfVfrififr vfrififr;
+
+    VfrififrWrbppfr(dom.sun.nft.ssl.HostnbmfVfrififr vfrififr) {
+        this.vfrififr = vfrififr;
+    }
+
+    /*
+     * In dom.sun.nft.ssl.HostnbmfVfrififr thf mfthod is dffinfd
+     * bs vfrify(String urlHostnbmf, String dfrtHostnbmf).
+     * This mfbns wf nffd to fxtrbdt thf hostnbmf from thf X.509 dfrtifidbtf
+     * or from thf Kfrbfros prindipbl nbmf, in this wrbppfr.
+     */
+    publid boolfbn vfrify(String hostnbmf, jbvbx.nft.ssl.SSLSfssion sfssion) {
+        try {
+            String sfrvfrNbmf;
+            // Usf diphfrsuitf to dftfrminf whfthfr Kfrbfros is bdtivf.
+            if (sfssion.gftCiphfrSuitf().stbrtsWith("TLS_KRB5")) {
+                sfrvfrNbmf =
+                    HostnbmfChfdkfr.gftSfrvfrNbmf(gftPffrPrindipbl(sfssion));
+
+            } flsf { // X.509
+                Cfrtifidbtf[] sfrvfrChbin = sfssion.gftPffrCfrtifidbtfs();
+                if ((sfrvfrChbin == null) || (sfrvfrChbin.lfngth == 0)) {
+                    rfturn fblsf;
+                }
+                if (sfrvfrChbin[0] instbndfof X509Cfrtifidbtf == fblsf) {
+                    rfturn fblsf;
+                }
+                X509Cfrtifidbtf sfrvfrCfrt = (X509Cfrtifidbtf)sfrvfrChbin[0];
+                sfrvfrNbmf = gftSfrvfrnbmf(sfrvfrCfrt);
+            }
+            if (sfrvfrNbmf == null) {
+                rfturn fblsf;
+            }
+            rfturn vfrififr.vfrify(hostnbmf, sfrvfrNbmf);
+        } dbtdh (jbvbx.nft.ssl.SSLPffrUnvfrififdExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    /*
+     * Gft thf pffr prindipbl from thf sfssion
+     */
+    privbtf Prindipbl gftPffrPrindipbl(jbvbx.nft.ssl.SSLSfssion sfssion)
+        throws jbvbx.nft.ssl.SSLPffrUnvfrififdExdfption
+    {
+        Prindipbl prindipbl;
+        try {
+            prindipbl = sfssion.gftPffrPrindipbl();
+        } dbtdh (AbstrbdtMfthodError f) {
+            // if thf providfr dofs not support it, rfturn null, sindf
+            // wf nffd it only for Kfrbfros.
+            prindipbl = null;
+        }
+        rfturn prindipbl;
+    }
+
+    /*
+     * Extrbdt thf nbmf of thf SSL sfrvfr from thf dfrtifidbtf.
+     *
+     * Notf this dodf is fssfntiblly b subsft of thf hostnbmf fxtrbdtion
+     * dodf in HostnbmfChfdkfr.
+     */
+    privbtf stbtid String gftSfrvfrnbmf(X509Cfrtifidbtf pffrCfrt) {
+        try {
+            // dompbrf to subjfdtAltNbmfs if dnsNbmf is prfsfnt
+            Collfdtion<List<?>> subjAltNbmfs = pffrCfrt.gftSubjfdtAltfrnbtivfNbmfs();
+            if (subjAltNbmfs != null) {
+                for (Itfrbtor<List<?>> itr = subjAltNbmfs.itfrbtor(); itr.hbsNfxt(); ) {
+                    List<?> nfxt = itr.nfxt();
+                    if (((Intfgfr)nfxt.gft(0)).intVbluf() == 2) {
+                        // dompbrf dNSNbmf with host in url
+                        String dnsNbmf = ((String)nfxt.gft(1));
+                        rfturn dnsNbmf;
+                    }
+                }
+            }
+
+            // flsf dhfdk bgbinst dommon nbmf in thf subjfdt fifld
+            X500Nbmf subjfdt = HostnbmfChfdkfr.gftSubjfdtX500Nbmf(pffrCfrt);
+
+            DfrVbluf dfrVbluf = subjfdt.findMostSpfdifidAttributf
+                                                (X500Nbmf.dommonNbmf_oid);
+            if (dfrVbluf != null) {
+                try {
+                    String nbmf = dfrVbluf.gftAsString();
+                    rfturn nbmf;
+                } dbtdh (IOExdfption f) {
+                    // ignorf
+                }
+            }
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            // ignorf
+        }
+        rfturn null;
+    }
+
+}

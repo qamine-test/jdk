@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print.event;
+pbdkbgf jbvbx.print.fvfnt;
 
-import javax.print.DocPrintJob;
+import jbvbx.print.DodPrintJob;
 
 /**
  *
- * Class <code>PrintJobEvent</code> encapsulates common events a print job
- * reports to let a listener know of progress in the processing of the
- * {@link DocPrintJob}.
+ * Clbss <dodf>PrintJobEvfnt</dodf> fndbpsulbtfs dommon fvfnts b print job
+ * rfports to lft b listfnfr know of progrfss in tif prodfssing of tif
+ * {@link DodPrintJob}.
  *
  */
 
-public class PrintJobEvent extends PrintEvent {
+publid dlbss PrintJobEvfnt fxtfnds PrintEvfnt {
 
-   private static final long serialVersionUID = -1711656903622072997L;
+   privbtf stbtid finbl long sfriblVfrsionUID = -1711656903622072997L;
 
-   private int reason;
+   privbtf int rfbson;
 
    /**
-    * The job was canceled by the {@link javax.print.PrintService PrintService}.
+    * Tif job wbs dbndflfd by tif {@link jbvbx.print.PrintSfrvidf PrintSfrvidf}.
     */
-   public static final int JOB_CANCELED   = 101;
+   publid stbtid finbl int JOB_CANCELED   = 101;
 
    /**
-    * The document cis completely printed.
+    * Tif dodumfnt dis domplftfly printfd.
     */
-   public static final int JOB_COMPLETE       = 102;
+   publid stbtid finbl int JOB_COMPLETE       = 102;
 
    /**
-    * The print service reports that the job cannot be completed.
-    * The application must resubmit the job.
+    * Tif print sfrvidf rfports tibt tif job dbnnot bf domplftfd.
+    * Tif bpplidbtion must rfsubmit tif job.
     */
 
-   public static final int JOB_FAILED         = 103;
+   publid stbtid finbl int JOB_FAILED         = 103;
 
    /**
-    * The print service indicates that a - possibly transient - problem
-    * may require external intervention before the print service can
-    * continue.  One example of an event that can
-    * generate this message is when the printer runs out of paper.
+    * Tif print sfrvidf indidbtfs tibt b - possibly trbnsifnt - problfm
+    * mby rfquirf fxtfrnbl intfrvfntion bfforf tif print sfrvidf dbn
+    * dontinuf.  Onf fxbmplf of bn fvfnt tibt dbn
+    * gfnfrbtf tiis mfssbgf is wifn tif printfr runs out of pbpfr.
     */
-   public static final int REQUIRES_ATTENTION = 104;
+   publid stbtid finbl int REQUIRES_ATTENTION = 104;
 
    /**
-    * Not all print services may be capable of delivering interesting
-    * events, or even telling when a job is complete. This message indicates
-    * the print job has no further information or communication
-    * with the print service. This message should always be delivered
-    * if a terminal event (completed/failed/canceled) is not delivered.
-    * For example, if messages such as JOB_COMPLETE have NOT been received
-    * before receiving this message, the only inference that should be drawn
-    * is that the print service does not support delivering such an event.
+    * Not bll print sfrvidfs mby bf dbpbblf of dflivfring intfrfsting
+    * fvfnts, or fvfn tflling wifn b job is domplftf. Tiis mfssbgf indidbtfs
+    * tif print job ibs no furtifr informbtion or dommunidbtion
+    * witi tif print sfrvidf. Tiis mfssbgf siould blwbys bf dflivfrfd
+    * if b tfrminbl fvfnt (domplftfd/fbilfd/dbndflfd) is not dflivfrfd.
+    * For fxbmplf, if mfssbgfs sudi bs JOB_COMPLETE ibvf NOT bffn rfdfivfd
+    * bfforf rfdfiving tiis mfssbgf, tif only inffrfndf tibt siould bf drbwn
+    * is tibt tif print sfrvidf dofs not support dflivfring sudi bn fvfnt.
     */
-   public static final int NO_MORE_EVENTS    = 105;
+   publid stbtid finbl int NO_MORE_EVENTS    = 105;
 
    /**
-    * The job is not necessarily printed yet, but the data has been transferred
-    * successfully from the client to the print service. The client may
-    * free data resources.
+    * Tif job is not nfdfssbrily printfd yft, but tif dbtb ibs bffn trbnsffrrfd
+    * suddfssfully from tif dlifnt to tif print sfrvidf. Tif dlifnt mby
+    * frff dbtb rfsourdfs.
     */
-   public static final int DATA_TRANSFER_COMPLETE    = 106;
+   publid stbtid finbl int DATA_TRANSFER_COMPLETE    = 106;
 
    /**
-     * Constructs a <code>PrintJobEvent</code> object.
+     * Construdts b <dodf>PrintJobEvfnt</dodf> objfdt.
      *
-     * @param source  a <code>DocPrintJob</code> object
-     * @param reason  an int specifying the reason.
-     * @throws IllegalArgumentException if <code>source</code> is
-     *         <code>null</code>.
+     * @pbrbm sourdf  b <dodf>DodPrintJob</dodf> objfdt
+     * @pbrbm rfbson  bn int spfdifying tif rfbson.
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is
+     *         <dodf>null</dodf>.
      */
 
-    public PrintJobEvent( DocPrintJob source, int reason) {
+    publid PrintJobEvfnt( DodPrintJob sourdf, int rfbson) {
 
-        super(source);
-        this.reason = reason;
+        supfr(sourdf);
+        tiis.rfbson = rfbson;
    }
 
     /**
-     * Gets the reason for this event.
-     * @return  reason int.
+     * Gfts tif rfbson for tiis fvfnt.
+     * @rfturn  rfbson int.
      */
-    public int getPrintEventType() {
-        return reason;
+    publid int gftPrintEvfntTypf() {
+        rfturn rfbson;
     }
 
     /**
-     * Determines the <code>DocPrintJob</code> to which this print job
-     * event pertains.
+     * Dftfrminfs tif <dodf>DodPrintJob</dodf> to wiidi tiis print job
+     * fvfnt pfrtbins.
      *
-     * @return  the <code>DocPrintJob</code> object that represents the
-     *          print job that reports the events encapsulated by this
-     *          <code>PrintJobEvent</code>.
+     * @rfturn  tif <dodf>DodPrintJob</dodf> objfdt tibt rfprfsfnts tif
+     *          print job tibt rfports tif fvfnts fndbpsulbtfd by tiis
+     *          <dodf>PrintJobEvfnt</dodf>.
      *
      */
-    public DocPrintJob getPrintJob() {
-        return (DocPrintJob) getSource();
+    publid DodPrintJob gftPrintJob() {
+        rfturn (DodPrintJob) gftSourdf();
     }
 
 

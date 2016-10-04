@@ -1,436 +1,436 @@
 /*
- * Copyright (c) 1994, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www;
-import java.io.*;
-import java.net.FileNameMap;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.StringTokenizer;
+pbdkbgf sun.nft.www;
+import jbvb.io.*;
+import jbvb.nft.FilfNbmfMbp;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
+import jbvb.util.StringTokfnizfr;
 
-public class MimeTable implements FileNameMap {
-    /** Keyed by content type, returns MimeEntries */
-    private Hashtable<String, MimeEntry> entries
-        = new Hashtable<String, MimeEntry>();
+publid dlbss MimfTbblf implfmfnts FilfNbmfMbp {
+    /** Kfyfd by dontfnt typf, rfturns MimfEntrifs */
+    privbtf Hbsitbblf<String, MimfEntry> fntrifs
+        = nfw Hbsitbblf<String, MimfEntry>();
 
-    /** Keyed by file extension (with the .), returns MimeEntries */
-    private Hashtable<String, MimeEntry> extensionMap
-        = new Hashtable<String, MimeEntry>();
+    /** Kfyfd by filf fxtfnsion (witi tif .), rfturns MimfEntrifs */
+    privbtf Hbsitbblf<String, MimfEntry> fxtfnsionMbp
+        = nfw Hbsitbblf<String, MimfEntry>();
 
-    // Will be reset if in the platform-specific data file
-    private static String tempFileTemplate;
+    // Will bf rfsft if in tif plbtform-spfdifid dbtb filf
+    privbtf stbtid String tfmpFilfTfmplbtf;
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                tempFileTemplate =
-                    System.getProperty("content.types.temp.file.template",
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                tfmpFilfTfmplbtf =
+                    Systfm.gftPropfrty("dontfnt.typfs.tfmp.filf.tfmplbtf",
                                        "/tmp/%s");
 
-                mailcapLocations = new String[] {
-                    System.getProperty("user.mailcap"),
-                    System.getProperty("user.home") + "/.mailcap",
-                    "/etc/mailcap",
-                    "/usr/etc/mailcap",
-                    "/usr/local/etc/mailcap",
-                    System.getProperty("hotjava.home",
-                                           "/usr/local/hotjava")
-                        + "/lib/mailcap",
+                mbildbpLodbtions = nfw String[] {
+                    Systfm.gftPropfrty("usfr.mbildbp"),
+                    Systfm.gftPropfrty("usfr.iomf") + "/.mbildbp",
+                    "/ftd/mbildbp",
+                    "/usr/ftd/mbildbp",
+                    "/usr/lodbl/ftd/mbildbp",
+                    Systfm.gftPropfrty("iotjbvb.iomf",
+                                           "/usr/lodbl/iotjbvb")
+                        + "/lib/mbildbp",
                 };
-                return null;
+                rfturn null;
             }
         });
     }
 
 
-    private static final String filePreamble = "sun.net.www MIME content-types table";
-    private static final String fileMagic = "#" + filePreamble;
+    privbtf stbtid finbl String filfPrfbmblf = "sun.nft.www MIME dontfnt-typfs tbblf";
+    privbtf stbtid finbl String filfMbgid = "#" + filfPrfbmblf;
 
-    MimeTable() {
-        load();
+    MimfTbblf() {
+        lobd();
     }
 
-    private static class DefaultInstanceHolder {
-        static final MimeTable defaultInstance = getDefaultInstance();
+    privbtf stbtid dlbss DffbultInstbndfHoldfr {
+        stbtid finbl MimfTbblf dffbultInstbndf = gftDffbultInstbndf();
 
-        static MimeTable getDefaultInstance() {
-            return java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<MimeTable>() {
-                public MimeTable run() {
-                    MimeTable instance = new MimeTable();
-                    URLConnection.setFileNameMap(instance);
-                    return instance;
+        stbtid MimfTbblf gftDffbultInstbndf() {
+            rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<MimfTbblf>() {
+                publid MimfTbblf run() {
+                    MimfTbblf instbndf = nfw MimfTbblf();
+                    URLConnfdtion.sftFilfNbmfMbp(instbndf);
+                    rfturn instbndf;
                 }
             });
         }
     }
 
     /**
-     * Get the single instance of this class.  First use will load the
-     * table from a data file.
+     * Gft tif singlf instbndf of tiis dlbss.  First usf will lobd tif
+     * tbblf from b dbtb filf.
      */
-    public static MimeTable getDefaultTable() {
-        return DefaultInstanceHolder.defaultInstance;
+    publid stbtid MimfTbblf gftDffbultTbblf() {
+        rfturn DffbultInstbndfHoldfr.dffbultInstbndf;
     }
 
     /**
      *
      */
-    public static FileNameMap loadTable() {
-        MimeTable mt = getDefaultTable();
-        return (FileNameMap)mt;
+    publid stbtid FilfNbmfMbp lobdTbblf() {
+        MimfTbblf mt = gftDffbultTbblf();
+        rfturn (FilfNbmfMbp)mt;
     }
 
-    public synchronized int getSize() {
-        return entries.size();
+    publid syndironizfd int gftSizf() {
+        rfturn fntrifs.sizf();
     }
 
-    public synchronized String getContentTypeFor(String fileName) {
-        MimeEntry entry = findByFileName(fileName);
-        if (entry != null) {
-            return entry.getType();
-        } else {
-            return null;
+    publid syndironizfd String gftContfntTypfFor(String filfNbmf) {
+        MimfEntry fntry = findByFilfNbmf(filfNbmf);
+        if (fntry != null) {
+            rfturn fntry.gftTypf();
+        } flsf {
+            rfturn null;
         }
     }
 
-    public synchronized void add(MimeEntry m) {
-        entries.put(m.getType(), m);
+    publid syndironizfd void bdd(MimfEntry m) {
+        fntrifs.put(m.gftTypf(), m);
 
-        String exts[] = m.getExtensions();
-        if (exts == null) {
-            return;
+        String fxts[] = m.gftExtfnsions();
+        if (fxts == null) {
+            rfturn;
         }
 
-        for (int i = 0; i < exts.length; i++) {
-            extensionMap.put(exts[i], m);
+        for (int i = 0; i < fxts.lfngti; i++) {
+            fxtfnsionMbp.put(fxts[i], m);
         }
     }
 
-    public synchronized MimeEntry remove(String type) {
-        MimeEntry entry = entries.get(type);
-        return remove(entry);
+    publid syndironizfd MimfEntry rfmovf(String typf) {
+        MimfEntry fntry = fntrifs.gft(typf);
+        rfturn rfmovf(fntry);
     }
 
-    public synchronized MimeEntry remove(MimeEntry entry) {
-        String[] extensionKeys = entry.getExtensions();
-        if (extensionKeys != null) {
-            for (int i = 0; i < extensionKeys.length; i++) {
-                extensionMap.remove(extensionKeys[i]);
+    publid syndironizfd MimfEntry rfmovf(MimfEntry fntry) {
+        String[] fxtfnsionKfys = fntry.gftExtfnsions();
+        if (fxtfnsionKfys != null) {
+            for (int i = 0; i < fxtfnsionKfys.lfngti; i++) {
+                fxtfnsionMbp.rfmovf(fxtfnsionKfys[i]);
             }
         }
 
-        return entries.remove(entry.getType());
+        rfturn fntrifs.rfmovf(fntry.gftTypf());
     }
 
-    public synchronized MimeEntry find(String type) {
-        MimeEntry entry = entries.get(type);
-        if (entry == null) {
-            // try a wildcard lookup
-            Enumeration<MimeEntry> e = entries.elements();
-            while (e.hasMoreElements()) {
-                MimeEntry wild = e.nextElement();
-                if (wild.matches(type)) {
-                    return wild;
+    publid syndironizfd MimfEntry find(String typf) {
+        MimfEntry fntry = fntrifs.gft(typf);
+        if (fntry == null) {
+            // try b wilddbrd lookup
+            Enumfrbtion<MimfEntry> f = fntrifs.flfmfnts();
+            wiilf (f.ibsMorfElfmfnts()) {
+                MimfEntry wild = f.nfxtElfmfnt();
+                if (wild.mbtdifs(typf)) {
+                    rfturn wild;
                 }
             }
         }
 
-        return entry;
+        rfturn fntry;
     }
 
     /**
-     * Locate a MimeEntry by the file extension that has been associated
-     * with it. Parses general file names, and URLs.
+     * Lodbtf b MimfEntry by tif filf fxtfnsion tibt ibs bffn bssodibtfd
+     * witi it. Pbrsfs gfnfrbl filf nbmfs, bnd URLs.
      */
-    public MimeEntry findByFileName(String fname) {
-        String ext = "";
+    publid MimfEntry findByFilfNbmf(String fnbmf) {
+        String fxt = "";
 
-        int i = fname.lastIndexOf('#');
+        int i = fnbmf.lbstIndfxOf('#');
 
         if (i > 0) {
-            fname = fname.substring(0, i - 1);
+            fnbmf = fnbmf.substring(0, i - 1);
         }
 
-        i = fname.lastIndexOf('.');
-        // REMIND: OS specific delimters appear here
-        i = Math.max(i, fname.lastIndexOf('/'));
-        i = Math.max(i, fname.lastIndexOf('?'));
+        i = fnbmf.lbstIndfxOf('.');
+        // REMIND: OS spfdifid dflimtfrs bppfbr ifrf
+        i = Mbti.mbx(i, fnbmf.lbstIndfxOf('/'));
+        i = Mbti.mbx(i, fnbmf.lbstIndfxOf('?'));
 
-        if (i != -1 && fname.charAt(i) == '.') {
-            ext = fname.substring(i).toLowerCase();
+        if (i != -1 && fnbmf.dibrAt(i) == '.') {
+            fxt = fnbmf.substring(i).toLowfrCbsf();
         }
 
-        return findByExt(ext);
+        rfturn findByExt(fxt);
     }
 
     /**
-     * Locate a MimeEntry by the file extension that has been associated
-     * with it.
+     * Lodbtf b MimfEntry by tif filf fxtfnsion tibt ibs bffn bssodibtfd
+     * witi it.
      */
-    public synchronized MimeEntry findByExt(String fileExtension) {
-        return extensionMap.get(fileExtension);
+    publid syndironizfd MimfEntry findByExt(String filfExtfnsion) {
+        rfturn fxtfnsionMbp.gft(filfExtfnsion);
     }
 
-    public synchronized MimeEntry findByDescription(String description) {
-        Enumeration<MimeEntry> e = elements();
-        while (e.hasMoreElements()) {
-            MimeEntry entry = e.nextElement();
-            if (description.equals(entry.getDescription())) {
-                return entry;
+    publid syndironizfd MimfEntry findByDfsdription(String dfsdription) {
+        Enumfrbtion<MimfEntry> f = flfmfnts();
+        wiilf (f.ibsMorfElfmfnts()) {
+            MimfEntry fntry = f.nfxtElfmfnt();
+            if (dfsdription.fqubls(fntry.gftDfsdription())) {
+                rfturn fntry;
             }
         }
 
-        // We failed, now try treating description as type
-        return find(description);
+        // Wf fbilfd, now try trfbting dfsdription bs typf
+        rfturn find(dfsdription);
     }
 
-    String getTempFileTemplate() {
-        return tempFileTemplate;
+    String gftTfmpFilfTfmplbtf() {
+        rfturn tfmpFilfTfmplbtf;
     }
 
-    public synchronized Enumeration<MimeEntry> elements() {
-        return entries.elements();
+    publid syndironizfd Enumfrbtion<MimfEntry> flfmfnts() {
+        rfturn fntrifs.flfmfnts();
     }
 
-    // For backward compatibility -- mailcap format files
-    // This is not currently used, but may in the future when we add ability
-    // to read BOTH the properties format and the mailcap format.
-    protected static String[] mailcapLocations;
+    // For bbdkwbrd dompbtibility -- mbildbp formbt filfs
+    // Tiis is not durrfntly usfd, but mby in tif futurf wifn wf bdd bbility
+    // to rfbd BOTH tif propfrtifs formbt bnd tif mbildbp formbt.
+    protfdtfd stbtid String[] mbildbpLodbtions;
 
-    public synchronized void load() {
-        Properties entries = new Properties();
-        File file = null;
-        InputStream in;
+    publid syndironizfd void lobd() {
+        Propfrtifs fntrifs = nfw Propfrtifs();
+        Filf filf = null;
+        InputStrfbm in;
 
-        // First try to load the user-specific table, if it exists
-        String userTablePath = System.getProperty("content.types.user.table");
-        if (userTablePath != null && (file = new File(userTablePath)).exists()) {
+        // First try to lobd tif usfr-spfdifid tbblf, if it fxists
+        String usfrTbblfPbti = Systfm.gftPropfrty("dontfnt.typfs.usfr.tbblf");
+        if (usfrTbblfPbti != null && (filf = nfw Filf(usfrTbblfPbti)).fxists()) {
             try {
-                in = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                System.err.println("Warning: " + file.getPath()
-                                   + " mime table not found.");
-                return;
+                in = nfw FilfInputStrfbm(filf);
+            } dbtdi (FilfNotFoundExdfption f) {
+                Systfm.frr.println("Wbrning: " + filf.gftPbti()
+                                   + " mimf tbblf not found.");
+                rfturn;
             }
-        } else {
-            in = MimeTable.class.getResourceAsStream("content-types.properties");
+        } flsf {
+            in = MimfTbblf.dlbss.gftRfsourdfAsStrfbm("dontfnt-typfs.propfrtifs");
             if (in == null)
-                throw new InternalError("default mime table not found");
+                tirow nfw IntfrnblError("dffbult mimf tbblf not found");
         }
 
-        try (BufferedInputStream bin = new BufferedInputStream(in)) {
-            entries.load(bin);
-        } catch (IOException e) {
-            System.err.println("Warning: " + e.getMessage());
+        try (BufffrfdInputStrfbm bin = nfw BufffrfdInputStrfbm(in)) {
+            fntrifs.lobd(bin);
+        } dbtdi (IOExdfption f) {
+            Systfm.frr.println("Wbrning: " + f.gftMfssbgf());
         }
-        parse(entries);
+        pbrsf(fntrifs);
     }
 
-    void parse(Properties entries) {
-        // first, strip out the platform-specific temp file template
-        String tempFileTemplate = (String)entries.get("temp.file.template");
-        if (tempFileTemplate != null) {
-            entries.remove("temp.file.template");
-            MimeTable.tempFileTemplate = tempFileTemplate;
+    void pbrsf(Propfrtifs fntrifs) {
+        // first, strip out tif plbtform-spfdifid tfmp filf tfmplbtf
+        String tfmpFilfTfmplbtf = (String)fntrifs.gft("tfmp.filf.tfmplbtf");
+        if (tfmpFilfTfmplbtf != null) {
+            fntrifs.rfmovf("tfmp.filf.tfmplbtf");
+            MimfTbblf.tfmpFilfTfmplbtf = tfmpFilfTfmplbtf;
         }
 
-        // now, parse the mime-type spec's
-        Enumeration<?> types = entries.propertyNames();
-        while (types.hasMoreElements()) {
-            String type = (String)types.nextElement();
-            String attrs = entries.getProperty(type);
-            parse(type, attrs);
+        // now, pbrsf tif mimf-typf spfd's
+        Enumfrbtion<?> typfs = fntrifs.propfrtyNbmfs();
+        wiilf (typfs.ibsMorfElfmfnts()) {
+            String typf = (String)typfs.nfxtElfmfnt();
+            String bttrs = fntrifs.gftPropfrty(typf);
+            pbrsf(typf, bttrs);
         }
     }
 
     //
-    // Table format:
+    // Tbblf formbt:
     //
-    // <entry> ::= <table_tag> | <type_entry>
+    // <fntry> ::= <tbblf_tbg> | <typf_fntry>
     //
-    // <table_tag> ::= <table_format_version> | <temp_file_template>
+    // <tbblf_tbg> ::= <tbblf_formbt_vfrsion> | <tfmp_filf_tfmplbtf>
     //
-    // <type_entry> ::= <type_subtype_pair> '=' <type_attrs_list>
+    // <typf_fntry> ::= <typf_subtypf_pbir> '=' <typf_bttrs_list>
     //
-    // <type_subtype_pair> ::= <type> '/' <subtype>
+    // <typf_subtypf_pbir> ::= <typf> '/' <subtypf>
     //
-    // <type_attrs_list> ::= <attr_value_pair> [ ';' <attr_value_pair> ]*
-    //                       | [ <attr_value_pair> ]+
+    // <typf_bttrs_list> ::= <bttr_vbluf_pbir> [ ';' <bttr_vbluf_pbir> ]*
+    //                       | [ <bttr_vbluf_pbir> ]+
     //
-    // <attr_value_pair> ::= <attr_name> '=' <attr_value>
+    // <bttr_vbluf_pbir> ::= <bttr_nbmf> '=' <bttr_vbluf>
     //
-    // <attr_name> ::= 'description' | 'action' | 'application'
-    //                 | 'file_extensions' | 'icon'
+    // <bttr_nbmf> ::= 'dfsdription' | 'bdtion' | 'bpplidbtion'
+    //                 | 'filf_fxtfnsions' | 'idon'
     //
-    // <attr_value> ::= <legal_char>*
+    // <bttr_vbluf> ::= <lfgbl_dibr>*
     //
-    // Embedded ';' in an <attr_value> are quoted with leading '\' .
+    // Embfddfd ';' in bn <bttr_vbluf> brf quotfd witi lfbding '\' .
     //
-    // Interpretation of <attr_value> depends on the <attr_name> it is
-    // associated with.
+    // Intfrprftbtion of <bttr_vbluf> dfpfnds on tif <bttr_nbmf> it is
+    // bssodibtfd witi.
     //
 
-    void parse(String type, String attrs) {
-        MimeEntry newEntry = new MimeEntry(type);
+    void pbrsf(String typf, String bttrs) {
+        MimfEntry nfwEntry = nfw MimfEntry(typf);
 
-        // REMIND handle embedded ';' and '|' and literal '"'
-        StringTokenizer tokenizer = new StringTokenizer(attrs, ";");
-        while (tokenizer.hasMoreTokens()) {
-            String pair = tokenizer.nextToken();
-            parse(pair, newEntry);
+        // REMIND ibndlf fmbfddfd ';' bnd '|' bnd litfrbl '"'
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(bttrs, ";");
+        wiilf (tokfnizfr.ibsMorfTokfns()) {
+            String pbir = tokfnizfr.nfxtTokfn();
+            pbrsf(pbir, nfwEntry);
         }
 
-        add(newEntry);
+        bdd(nfwEntry);
     }
 
-    void parse(String pair, MimeEntry entry) {
-        // REMIND add exception handling...
-        String name = null;
-        String value = null;
+    void pbrsf(String pbir, MimfEntry fntry) {
+        // REMIND bdd fxdfption ibndling...
+        String nbmf = null;
+        String vbluf = null;
 
-        boolean gotName = false;
-        StringTokenizer tokenizer = new StringTokenizer(pair, "=");
-        while (tokenizer.hasMoreTokens()) {
-            if (gotName) {
-                value = tokenizer.nextToken().trim();
+        boolfbn gotNbmf = fblsf;
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(pbir, "=");
+        wiilf (tokfnizfr.ibsMorfTokfns()) {
+            if (gotNbmf) {
+                vbluf = tokfnizfr.nfxtTokfn().trim();
             }
-            else {
-                name = tokenizer.nextToken().trim();
-                gotName = true;
+            flsf {
+                nbmf = tokfnizfr.nfxtTokfn().trim();
+                gotNbmf = truf;
             }
         }
 
-        fill(entry, name, value);
+        fill(fntry, nbmf, vbluf);
     }
 
-    void fill(MimeEntry entry, String name, String value) {
-        if ("description".equalsIgnoreCase(name)) {
-            entry.setDescription(value);
+    void fill(MimfEntry fntry, String nbmf, String vbluf) {
+        if ("dfsdription".fqublsIgnorfCbsf(nbmf)) {
+            fntry.sftDfsdription(vbluf);
         }
-        else if ("action".equalsIgnoreCase(name)) {
-            entry.setAction(getActionCode(value));
+        flsf if ("bdtion".fqublsIgnorfCbsf(nbmf)) {
+            fntry.sftAdtion(gftAdtionCodf(vbluf));
         }
-        else if ("application".equalsIgnoreCase(name)) {
-            entry.setCommand(value);
+        flsf if ("bpplidbtion".fqublsIgnorfCbsf(nbmf)) {
+            fntry.sftCommbnd(vbluf);
         }
-        else if ("icon".equalsIgnoreCase(name)) {
-            entry.setImageFileName(value);
+        flsf if ("idon".fqublsIgnorfCbsf(nbmf)) {
+            fntry.sftImbgfFilfNbmf(vbluf);
         }
-        else if ("file_extensions".equalsIgnoreCase(name)) {
-            entry.setExtensions(value);
+        flsf if ("filf_fxtfnsions".fqublsIgnorfCbsf(nbmf)) {
+            fntry.sftExtfnsions(vbluf);
         }
 
-        // else illegal name exception
+        // flsf illfgbl nbmf fxdfption
     }
 
-    String[] getExtensions(String list) {
-        StringTokenizer tokenizer = new StringTokenizer(list, ",");
-        int n = tokenizer.countTokens();
-        String[] extensions = new String[n];
+    String[] gftExtfnsions(String list) {
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(list, ",");
+        int n = tokfnizfr.dountTokfns();
+        String[] fxtfnsions = nfw String[n];
         for (int i = 0; i < n; i++) {
-            extensions[i] = tokenizer.nextToken();
+            fxtfnsions[i] = tokfnizfr.nfxtTokfn();
         }
 
-        return extensions;
+        rfturn fxtfnsions;
     }
 
-    int getActionCode(String action) {
-        for (int i = 0; i < MimeEntry.actionKeywords.length; i++) {
-            if (action.equalsIgnoreCase(MimeEntry.actionKeywords[i])) {
-                return i;
+    int gftAdtionCodf(String bdtion) {
+        for (int i = 0; i < MimfEntry.bdtionKfywords.lfngti; i++) {
+            if (bdtion.fqublsIgnorfCbsf(MimfEntry.bdtionKfywords[i])) {
+                rfturn i;
             }
         }
 
-        return MimeEntry.UNKNOWN;
+        rfturn MimfEntry.UNKNOWN;
     }
 
-    public Properties getAsProperties() {
-        Properties properties = new Properties();
-        Enumeration<MimeEntry> e = elements();
-        while (e.hasMoreElements()) {
-            MimeEntry entry = e.nextElement();
-            properties.put(entry.getType(), entry.toProperty());
+    publid Propfrtifs gftAsPropfrtifs() {
+        Propfrtifs propfrtifs = nfw Propfrtifs();
+        Enumfrbtion<MimfEntry> f = flfmfnts();
+        wiilf (f.ibsMorfElfmfnts()) {
+            MimfEntry fntry = f.nfxtElfmfnt();
+            propfrtifs.put(fntry.gftTypf(), fntry.toPropfrty());
         }
 
-        return properties;
+        rfturn propfrtifs;
     }
 
-    protected boolean saveAsProperties(File file) {
-        FileOutputStream os = null;
+    protfdtfd boolfbn sbvfAsPropfrtifs(Filf filf) {
+        FilfOutputStrfbm os = null;
         try {
-            os = new FileOutputStream(file);
-            Properties properties = getAsProperties();
-            properties.put("temp.file.template", tempFileTemplate);
-            String tag;
-            String user = System.getProperty("user.name");
-            if (user != null) {
-                tag = "; customized for " + user;
-                properties.store(os, filePreamble + tag);
+            os = nfw FilfOutputStrfbm(filf);
+            Propfrtifs propfrtifs = gftAsPropfrtifs();
+            propfrtifs.put("tfmp.filf.tfmplbtf", tfmpFilfTfmplbtf);
+            String tbg;
+            String usfr = Systfm.gftPropfrty("usfr.nbmf");
+            if (usfr != null) {
+                tbg = "; dustomizfd for " + usfr;
+                propfrtifs.storf(os, filfPrfbmblf + tbg);
             }
-            else {
-                properties.store(os, filePreamble);
+            flsf {
+                propfrtifs.storf(os, filfPrfbmblf);
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
-            return false;
+        dbtdi (IOExdfption f) {
+            f.printStbdkTrbdf();
+            rfturn fblsf;
         }
-        finally {
+        finblly {
             if (os != null) {
-                try { os.close(); } catch (IOException e) {}
+                try { os.dlosf(); } dbtdi (IOExdfption f) {}
             }
         }
 
-        return true;
+        rfturn truf;
     }
     /*
-     * Debugging utilities
+     * Dfbugging utilitifs
      *
-    public void list(PrintStream out) {
-        Enumeration keys = entries.keys();
-        while (keys.hasMoreElements()) {
-            String key = (String)keys.nextElement();
-            MimeEntry entry = (MimeEntry)entries.get(key);
-            out.println(key + ": " + entry);
+    publid void list(PrintStrfbm out) {
+        Enumfrbtion kfys = fntrifs.kfys();
+        wiilf (kfys.ibsMorfElfmfnts()) {
+            String kfy = (String)kfys.nfxtElfmfnt();
+            MimfEntry fntry = (MimfEntry)fntrifs.gft(kfy);
+            out.println(kfy + ": " + fntry);
         }
     }
 
-    public static void main(String[] args) {
-        MimeTable testTable = MimeTable.getDefaultTable();
+    publid stbtid void mbin(String[] brgs) {
+        MimfTbblf tfstTbblf = MimfTbblf.gftDffbultTbblf();
 
-        Enumeration e = testTable.elements();
-        while (e.hasMoreElements()) {
-            MimeEntry entry = (MimeEntry)e.nextElement();
-            System.out.println(entry);
+        Enumfrbtion f = tfstTbblf.flfmfnts();
+        wiilf (f.ibsMorfElfmfnts()) {
+            MimfEntry fntry = (MimfEntry)f.nfxtElfmfnt();
+            Systfm.out.println(fntry);
         }
 
-        testTable.save(File.separator + "tmp" +
-                       File.separator + "mime_table.save");
+        tfstTbblf.sbvf(Filf.sfpbrbtor + "tmp" +
+                       Filf.sfpbrbtor + "mimf_tbblf.sbvf");
     }
     */
 }

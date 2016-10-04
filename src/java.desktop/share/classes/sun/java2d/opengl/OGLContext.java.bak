@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.opengl;
+pbdkbgf sun.jbvb2d.opfngl;
 
-import sun.java2d.pipe.BufferedContext;
-import sun.java2d.pipe.RenderBuffer;
-import sun.java2d.pipe.RenderQueue;
-import sun.java2d.pipe.hw.ContextCapabilities;
-import static sun.java2d.pipe.BufferedOpCodes.*;
-import static sun.java2d.pipe.hw.ContextCapabilities.*;
+import sun.jbvb2d.pipf.BufffrfdContfxt;
+import sun.jbvb2d.pipf.RfndfrBufffr;
+import sun.jbvb2d.pipf.RfndfrQufuf;
+import sun.jbvb2d.pipf.iw.ContfxtCbpbbilitifs;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
+import stbtid sun.jbvb2d.pipf.iw.ContfxtCbpbbilitifs.*;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * Note that the RenderQueue lock must be acquired before calling any of
- * the methods in this class.
+ * Notf tibt tif RfndfrQufuf lodk must bf bdquirfd bfforf dblling bny of
+ * tif mftiods in tiis dlbss.
  */
-public class OGLContext extends BufferedContext {
+publid dlbss OGLContfxt fxtfnds BufffrfdContfxt {
 
-    private final OGLGraphicsConfig config;
+    privbtf finbl OGLGrbpiidsConfig donfig;
 
-    OGLContext(RenderQueue rq, OGLGraphicsConfig config) {
-        super(rq);
-        this.config = config;
+    OGLContfxt(RfndfrQufuf rq, OGLGrbpiidsConfig donfig) {
+        supfr(rq);
+        tiis.donfig = donfig;
     }
 
     /**
-     * Convenience method that delegates to setScratchSurface() below.
+     * Convfnifndf mftiod tibt dflfgbtfs to sftSdrbtdiSurfbdf() bflow.
      */
-    static void setScratchSurface(OGLGraphicsConfig gc) {
-        setScratchSurface(gc.getNativeConfigInfo());
+    stbtid void sftSdrbtdiSurfbdf(OGLGrbpiidsConfig gd) {
+        sftSdrbtdiSurfbdf(gd.gftNbtivfConfigInfo());
     }
 
     /**
-     * Makes the given GraphicsConfig's context current to its associated
-     * "scratch surface".  Each GraphicsConfig maintains a native context
-     * (GLXContext on Unix, HGLRC on Windows) as well as a native pbuffer
-     * known as the "scratch surface".  By making the context current to the
-     * scratch surface, we are assured that we have a current context for
-     * the relevant GraphicsConfig, and can therefore perform operations
-     * depending on the capabilities of that GraphicsConfig.  For example,
-     * if the GraphicsConfig supports the GL_ARB_texture_non_power_of_two
-     * extension, then we should be able to make a non-pow2 texture for this
-     * GraphicsConfig once we make the context current to the scratch surface.
+     * Mbkfs tif givfn GrbpiidsConfig's dontfxt durrfnt to its bssodibtfd
+     * "sdrbtdi surfbdf".  Ebdi GrbpiidsConfig mbintbins b nbtivf dontfxt
+     * (GLXContfxt on Unix, HGLRC on Windows) bs wfll bs b nbtivf pbufffr
+     * known bs tif "sdrbtdi surfbdf".  By mbking tif dontfxt durrfnt to tif
+     * sdrbtdi surfbdf, wf brf bssurfd tibt wf ibvf b durrfnt dontfxt for
+     * tif rflfvbnt GrbpiidsConfig, bnd dbn tifrfforf pfrform opfrbtions
+     * dfpfnding on tif dbpbbilitifs of tibt GrbpiidsConfig.  For fxbmplf,
+     * if tif GrbpiidsConfig supports tif GL_ARB_tfxturf_non_powfr_of_two
+     * fxtfnsion, tifn wf siould bf bblf to mbkf b non-pow2 tfxturf for tiis
+     * GrbpiidsConfig ondf wf mbkf tif dontfxt durrfnt to tif sdrbtdi surfbdf.
      *
-     * This method should be used for operations with an OpenGL texture
-     * as the destination surface (e.g. a sw->texture blit loop), or in those
-     * situations where we may not otherwise have a current context (e.g.
-     * when disposing a texture-based surface).
+     * Tiis mftiod siould bf usfd for opfrbtions witi bn OpfnGL tfxturf
+     * bs tif dfstinbtion surfbdf (f.g. b sw->tfxturf blit loop), or in tiosf
+     * situbtions wifrf wf mby not otifrwisf ibvf b durrfnt dontfxt (f.g.
+     * wifn disposing b tfxturf-bbsfd surfbdf).
      */
-    static void setScratchSurface(long pConfigInfo) {
-        // assert OGLRenderQueue.getInstance().lock.isHeldByCurrentThread();
+    stbtid void sftSdrbtdiSurfbdf(long pConfigInfo) {
+        // bssfrt OGLRfndfrQufuf.gftInstbndf().lodk.isHfldByCurrfntTirfbd();
 
-        // invalidate the current context
-        currentContext = null;
+        // invblidbtf tif durrfnt dontfxt
+        durrfntContfxt = null;
 
-        // set the scratch context
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacityAndAlignment(12, 4);
+        // sft tif sdrbtdi dontfxt
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdityAndAlignmfnt(12, 4);
         buf.putInt(SET_SCRATCH_SURFACE);
         buf.putLong(pConfigInfo);
     }
 
     /**
-     * Invalidates the currentContext field to ensure that we properly
-     * revalidate the OGLContext (make it current, etc.) next time through
-     * the validate() method.  This is typically invoked from methods
-     * that affect the current context state (e.g. disposing a context or
-     * surface).
+     * Invblidbtfs tif durrfntContfxt fifld to fnsurf tibt wf propfrly
+     * rfvblidbtf tif OGLContfxt (mbkf it durrfnt, ftd.) nfxt timf tirougi
+     * tif vblidbtf() mftiod.  Tiis is typidblly invokfd from mftiods
+     * tibt bfffdt tif durrfnt dontfxt stbtf (f.g. disposing b dontfxt or
+     * surfbdf).
      */
-    static void invalidateCurrentContext() {
-        // assert OGLRenderQueue.getInstance().lock.isHeldByCurrentThread();
+    stbtid void invblidbtfCurrfntContfxt() {
+        // bssfrt OGLRfndfrQufuf.gftInstbndf().lodk.isHfldByCurrfntTirfbd();
 
-        // invalidate the current Java-level context so that we
-        // revalidate everything the next time around
-        if (currentContext != null) {
-            currentContext.invalidateContext();
-            currentContext = null;
+        // invblidbtf tif durrfnt Jbvb-lfvfl dontfxt so tibt wf
+        // rfvblidbtf fvfrytiing tif nfxt timf bround
+        if (durrfntContfxt != null) {
+            durrfntContfxt.invblidbtfContfxt();
+            durrfntContfxt = null;
         }
 
-        // invalidate the context reference at the native level, and
-        // then flush the queue so that we have no pending operations
-        // dependent on the current context
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.ensureCapacity(4);
-        rq.getBuffer().putInt(INVALIDATE_CONTEXT);
-        rq.flushNow();
+        // invblidbtf tif dontfxt rfffrfndf bt tif nbtivf lfvfl, bnd
+        // tifn flusi tif qufuf so tibt wf ibvf no pfnding opfrbtions
+        // dfpfndfnt on tif durrfnt dontfxt
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.fnsurfCbpbdity(4);
+        rq.gftBufffr().putInt(INVALIDATE_CONTEXT);
+        rq.flusiNow();
     }
 
-    public RenderQueue getRenderQueue() {
-        return OGLRenderQueue.getInstance();
+    publid RfndfrQufuf gftRfndfrQufuf() {
+        rfturn OGLRfndfrQufuf.gftInstbndf();
     }
 
     /**
-     * Returns a string representing adapter id (vendor, renderer, version).
-     * Must be called on the rendering thread.
+     * Rfturns b string rfprfsfnting bdbptfr id (vfndor, rfndfrfr, vfrsion).
+     * Must bf dbllfd on tif rfndfring tirfbd.
      *
-     * @return an id string for the adapter
+     * @rfturn bn id string for tif bdbptfr
      */
-    static final native String getOGLIdString();
+    stbtid finbl nbtivf String gftOGLIdString();
 
-    @Override
-    public void saveState() {
-        // assert rq.lock.isHeldByCurrentThread();
+    @Ovfrridf
+    publid void sbvfStbtf() {
+        // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
 
-        // reset all attributes of this and current contexts
-        invalidateContext();
-        invalidateCurrentContext();
+        // rfsft bll bttributfs of tiis bnd durrfnt dontfxts
+        invblidbtfContfxt();
+        invblidbtfCurrfntContfxt();
 
-        setScratchSurface(config);
+        sftSdrbtdiSurfbdf(donfig);
 
-        // save the state on the native level
-        rq.ensureCapacity(4);
+        // sbvf tif stbtf on tif nbtivf lfvfl
+        rq.fnsurfCbpbdity(4);
         buf.putInt(SAVE_STATE);
-        rq.flushNow();
+        rq.flusiNow();
     }
 
-    @Override
-    public void restoreState() {
-        // assert rq.lock.isHeldByCurrentThread();
+    @Ovfrridf
+    publid void rfstorfStbtf() {
+        // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
 
-        // reset all attributes of this and current contexts
-        invalidateContext();
-        invalidateCurrentContext();
+        // rfsft bll bttributfs of tiis bnd durrfnt dontfxts
+        invblidbtfContfxt();
+        invblidbtfCurrfntContfxt();
 
-        setScratchSurface(config);
+        sftSdrbtdiSurfbdf(donfig);
 
-        // restore the state on the native level
-        rq.ensureCapacity(4);
+        // rfstorf tif stbtf on tif nbtivf lfvfl
+        rq.fnsurfCbpbdity(4);
         buf.putInt(RESTORE_STATE);
-        rq.flushNow();
+        rq.flusiNow();
     }
 
-    static class OGLContextCaps extends ContextCapabilities {
+    stbtid dlbss OGLContfxtCbps fxtfnds ContfxtCbpbbilitifs {
         /**
-         * Indicates the presence of the GL_EXT_framebuffer_object extension.
-         * This cap will only be set if the fbobject system property has been
-         * enabled and we are able to create an FBO with depth buffer.
+         * Indidbtfs tif prfsfndf of tif GL_EXT_frbmfbufffr_objfdt fxtfnsion.
+         * Tiis dbp will only bf sft if tif fbobjfdt systfm propfrty ibs bffn
+         * fnbblfd bnd wf brf bblf to drfbtf bn FBO witi dfpti bufffr.
          */
-        @Native
-        static final int CAPS_EXT_FBOBJECT     =
+        @Nbtivf
+        stbtid finbl int CAPS_EXT_FBOBJECT     =
                 (CAPS_RT_TEXTURE_ALPHA | CAPS_RT_TEXTURE_OPAQUE);
-        /** Indicates that the context supports a stored alpha channel. */
-        @Native
-        static final int CAPS_STORED_ALPHA     = CAPS_RT_PLAIN_ALPHA;
-        /** Indicates that the context is doublebuffered. */
-        @Native
-        static final int CAPS_DOUBLEBUFFERED   = (FIRST_PRIVATE_CAP << 0);
+        /** Indidbtfs tibt tif dontfxt supports b storfd blpib dibnnfl. */
+        @Nbtivf
+        stbtid finbl int CAPS_STORED_ALPHA     = CAPS_RT_PLAIN_ALPHA;
+        /** Indidbtfs tibt tif dontfxt is doublfbufffrfd. */
+        @Nbtivf
+        stbtid finbl int CAPS_DOUBLEBUFFERED   = (FIRST_PRIVATE_CAP << 0);
         /**
-         * Indicates the presence of the GL_ARB_fragment_shader extension.
-         * This cap will only be set if the lcdshader system property has been
-         * enabled and the hardware supports the minimum number of texture units
+         * Indidbtfs tif prfsfndf of tif GL_ARB_frbgmfnt_sibdfr fxtfnsion.
+         * Tiis dbp will only bf sft if tif lddsibdfr systfm propfrty ibs bffn
+         * fnbblfd bnd tif ibrdwbrf supports tif minimum numbfr of tfxturf units
          */
-        @Native
-        static final int CAPS_EXT_LCD_SHADER   = (FIRST_PRIVATE_CAP << 1);
+        @Nbtivf
+        stbtid finbl int CAPS_EXT_LCD_SHADER   = (FIRST_PRIVATE_CAP << 1);
         /**
-         * Indicates the presence of the GL_ARB_fragment_shader extension.
-         * This cap will only be set if the biopshader system property has been
-         * enabled and the hardware meets our minimum requirements.
+         * Indidbtfs tif prfsfndf of tif GL_ARB_frbgmfnt_sibdfr fxtfnsion.
+         * Tiis dbp will only bf sft if tif biopsibdfr systfm propfrty ibs bffn
+         * fnbblfd bnd tif ibrdwbrf mffts our minimum rfquirfmfnts.
          */
-        @Native
-        static final int CAPS_EXT_BIOP_SHADER  = (FIRST_PRIVATE_CAP << 2);
+        @Nbtivf
+        stbtid finbl int CAPS_EXT_BIOP_SHADER  = (FIRST_PRIVATE_CAP << 2);
         /**
-         * Indicates the presence of the GL_ARB_fragment_shader extension.
-         * This cap will only be set if the gradshader system property has been
-         * enabled and the hardware meets our minimum requirements.
+         * Indidbtfs tif prfsfndf of tif GL_ARB_frbgmfnt_sibdfr fxtfnsion.
+         * Tiis dbp will only bf sft if tif grbdsibdfr systfm propfrty ibs bffn
+         * fnbblfd bnd tif ibrdwbrf mffts our minimum rfquirfmfnts.
          */
-        @Native
-        static final int CAPS_EXT_GRAD_SHADER  = (FIRST_PRIVATE_CAP << 3);
-        /** Indicates the presence of the GL_ARB_texture_rectangle extension. */
-        @Native
-        static final int CAPS_EXT_TEXRECT      = (FIRST_PRIVATE_CAP << 4);
+        @Nbtivf
+        stbtid finbl int CAPS_EXT_GRAD_SHADER  = (FIRST_PRIVATE_CAP << 3);
+        /** Indidbtfs tif prfsfndf of tif GL_ARB_tfxturf_rfdtbnglf fxtfnsion. */
+        @Nbtivf
+        stbtid finbl int CAPS_EXT_TEXRECT      = (FIRST_PRIVATE_CAP << 4);
 
-        OGLContextCaps(int caps, String adapterId) {
-            super(caps, adapterId);
+        OGLContfxtCbps(int dbps, String bdbptfrId) {
+            supfr(dbps, bdbptfrId);
         }
 
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder(super.toString());
-            if ((caps & CAPS_EXT_FBOBJECT) != 0) {
-                sb.append("CAPS_EXT_FBOBJECT|");
+        @Ovfrridf
+        publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr(supfr.toString());
+            if ((dbps & CAPS_EXT_FBOBJECT) != 0) {
+                sb.bppfnd("CAPS_EXT_FBOBJECT|");
             }
-            if ((caps & CAPS_STORED_ALPHA) != 0) {
-                sb.append("CAPS_STORED_ALPHA|");
+            if ((dbps & CAPS_STORED_ALPHA) != 0) {
+                sb.bppfnd("CAPS_STORED_ALPHA|");
             }
-            if ((caps & CAPS_DOUBLEBUFFERED) != 0) {
-                sb.append("CAPS_DOUBLEBUFFERED|");
+            if ((dbps & CAPS_DOUBLEBUFFERED) != 0) {
+                sb.bppfnd("CAPS_DOUBLEBUFFERED|");
             }
-            if ((caps & CAPS_EXT_LCD_SHADER) != 0) {
-                sb.append("CAPS_EXT_LCD_SHADER|");
+            if ((dbps & CAPS_EXT_LCD_SHADER) != 0) {
+                sb.bppfnd("CAPS_EXT_LCD_SHADER|");
             }
-            if ((caps & CAPS_EXT_BIOP_SHADER) != 0) {
-                sb.append("CAPS_BIOP_SHADER|");
+            if ((dbps & CAPS_EXT_BIOP_SHADER) != 0) {
+                sb.bppfnd("CAPS_BIOP_SHADER|");
             }
-            if ((caps & CAPS_EXT_GRAD_SHADER) != 0) {
-                sb.append("CAPS_EXT_GRAD_SHADER|");
+            if ((dbps & CAPS_EXT_GRAD_SHADER) != 0) {
+                sb.bppfnd("CAPS_EXT_GRAD_SHADER|");
             }
-            if ((caps & CAPS_EXT_TEXRECT) != 0) {
-                sb.append("CAPS_EXT_TEXRECT|");
+            if ((dbps & CAPS_EXT_TEXRECT) != 0) {
+                sb.bppfnd("CAPS_EXT_TEXRECT|");
             }
-            return sb.toString();
+            rfturn sb.toString();
         }
     }
 }

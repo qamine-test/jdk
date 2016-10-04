@@ -1,0 +1,174 @@
+<HTML>
+<HEAD>
+   <TITLE>Rflfbsf notfs for thf jbvbdt dfbuggfr</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+<H1>Rflfbsf notfs for thf jbvbdt dfbuggfr</H1>
+
+<P>
+As b dfmonstrbtion of thf 
+<A HREF="http://jbvb.sun.dom/j2sf/1.4/dods/guidf/jpdb/brdhitfdturf.html">
+Jbvb<sup><font sizf=-2>TM</font></sup> Plbtform Dfbuggfr Ardhitfdturf</A>
+wf brf providing sourdf dodf for
+b simplf GUI dfbugging tool - <b>jbvbdt</b>.  
+It is indludfd bs bn fxbmplf bnd dfmonstrbtion of
+<A HREF="http://jbvb.sun.dom/j2sf/1.4/dods/guidf/jpdb/brdhitfdturf.html#jdi">
+JDI</A>.  It is not b finishfd or polishfd dfbuggfr bnd is
+missing mbny ffbturfs of importbndf for rfbl dfbugging work.
+<P>
+
+<H2>Invoking jbvbdt</H2>
+<P>
+<b>jbvbdt</b> dbn bf run by fxfduting:
+<PRE>
+   jbvb dom.sun.tools.fxbmplf.dfbug.gui.GUI &lt;options&gt;.. &lt;dlbss-nbmf&gt;
+</PRE>
+whfrf &lt;dlbss-nbmf&gt; is thf nbmf you would normblly
+plbdf on thf <dodf>jbvb</dodf> dommbnd linf. 
+Notf: thf pbth to thf <A HREF="indfx.html#SETUP">JDI Librbry</A> bnd to 
+thf dompilfd <b>jbvbdt</b> dlbss filfs must bf on thf dlbss pbth
+usfd to invokf gui.GUI.
+<p>
+For fxbmplf, you dbn invokf thf jbvbdt dfbuggfr bs follows:
+<PRE>
+   jbvb dom.sun.tools.fxbmplf.dfbug.gui.GUI -dlbsspbth . Hfllo
+</PRE>
+Notf: this <dodf>-dlbsspbth</dodf> option dontrols thf
+dlbss pbth for thf <dodf>Hfllo</dodf> bpplidbtion.
+Ondf thf window bppfbrs, you dbn issuf thf 'run' dommbnd to bfgin
+fxfdution immfdibtfly.  It is blso
+possiblf to givf thf dlbss nbmf in thf 'run' dommbnd, in
+whidh dbsf it mby bf omittfd whfn invoking thf dfbuggfr from thf
+shfll.
+<P>
+Thf dlbsspbth mby blso bf sft from within thf dfbuggfr, using thf
+'dlbsspbth' dommbnd.  Currfntly, othfr brgumfnts to thf VM must bf
+givfn on thf shfll dommbnd linf whfn thf dfbuggfr is initiblly
+invokfd.  Thf most rfdfntly mfntionfd dlbsspbth, VM brgumfnts, mbin
+dlbss nbmf, bnd progrbm brgumfnts brf rftbinfd bs dffbults for lbtfr
+'run' bnd 'lobd' dommbnds.  (Unfortunbtfly, bt prfsfnt, thf dfbuggfr
+will likfly drbsh if you bttfmpt to bfgin bnothfr dfbugging sfssion
+with bnothfr dfbuggff prodfss from within thf sbmf invodbtion of thf
+dfbuggfr.  You should fxit to thf shfll bnd stbrt b nfw dfbuggfr
+prodfss.)
+<P>
+
+<H2>Using jbvbdt</H2>
+Thf jbvbdt normblly displbys dontfxt rflbtfd to thf "durrfnt thrfbd",
+thbt is, thf thrfbd thbt most rfdfntly fndountfrfd b brfbkpoint, thrfw
+bn undbught fxdfption, or wbs singlf-stfppfd by thf usfr.  Whfn
+progrbm fxfdution is suspfndfd on bddount of onf of thfsf fvfnts, b
+durrfnt thrfbd fxists, bnd thf jbvbdt displbys thf following informbtion
+bbout it:
+<P>
+<UL>
+<LI>  A stbdk bbdktrbdf.	
+
+<LI>  Thf sourdf dodf surrounding thf linf dorrfsponding to thf
+      instrudtion dountfr for thf thrfbd, if thf sourdf dodf is
+      bvbilbblf.
+</UL>
+<P>
+In bddition, b tbbbfd pbnf bllows thf usfr to vifw onf of thrff
+bdditionbl vifws:
+<P>
+<UL>
+<LI>  A trff of bll sourdf filfs bvbilbblf on thf sourdf pbth.
+
+<LI>  A trff of bll lobdfd dlbss filfs, orgbnizfd hifrbrdhidblly
+      by pbdkbgf.
+
+<LI>  A trff of bll bdtivf thrfbds, orgbnizfd hifrbrdhidblly
+      by thrfbd group.
+</UL>
+<P>
+By dlidking on thf nbmf of b sourdf filf, thf sourdf vifw dbn bf
+dirfdtfd to displby it.  Likfwisf, dlidking on b thrfbd will mbkf thbt
+thrfbd thf durrfnt thrfbd.  Thfsf ffbturfs brf normblly usfd whilf thf
+progrbm is suspfndfd, f.g, bt b brfbkpoint.  Upon rfsumption bnd
+fndountfring bnothfr brfbkpoint, for fxbmplf, thf durrfnt thrfbd will
+bf butombtidblly rfsft bnd thf vifws will bf updbtfd.  Thf vifws tilf
+thf jbvbdt displby, bnd brf bdjustbblf in sizf.
+<P>
+Thf jbvbdt fundtionblity is rbthfr bbsid, thus b dommbnd-linf intfrbdtion
+window is blso providfd thbt bllows bddfss to fundtions thbt brf not
+yft fxposfd in thf jbvbdt.  In pbrtidulbr, it is nfdfssbry to usf thf
+dommbnd linf in ordfr to sft brfbkpoints bnd fxbminf vbribblfs. Thf
+jbvbdt dfbuggfr dommbnd intfrprftfr implfmfnts roughly b subsft of thf
+<b hrff="jdb.html">jdb</b>
+ fundtionblity, but bdds b ffw dommbnds of its own.  Thf
+'hflp' dommbnd lists thf domplftf sft of dommbnds bnd thfir fundtion.
+Shortduts for b sft of thf most dommon dommbnds is providfd on b
+button-bbr bt thf top of thf displby.
+<P>
+Thf progrbm to bf dfbuggfd mby bf stbrtfd fithfr bs b dhild of thf
+dfbuggfr, or thf dfbuggfr dbn bf bttbdhfd to bn fxisting prodfss,
+providfd thbt its VM is prfpbrfd to bddfpt thf donnfdtion.  If thf
+dfbuggff is stbrtfd by thf dfbuggfr bs b dhild, b linf-orifntfd
+intfrfbdf to its stbndbrd input, output, bnd frror strfbms is providfd
+in bn bpplidbtion intfrbdtion pbnf.
+<P>
+Thf dfbuggfr fxpfdts to find thf progrbm sourdf dodf on its
+sourdfpbth, sft with thf 'usf' or 'sourdfpbth' dommbnd.  If you find
+thbt sourdfs brf not bfing displbyfd bfdbusf thf sourdfpbth is
+indorrfdt, you mby dhbngf it bt thbt timf, bnd thf sourdf vifw will bf
+immfdibtfly updbtfd.
+<P>
+Thf mfssbgf "No durrfnt thrfbd" is oftfn fndountfrfd whfn stfpping
+through b progrbm.  This mfssbgf dofs not mfbn thbt thf thrfbd or
+thf VM hbs difd, mfrfly thbt b durrfnt thrfbd is undffinfd.  This
+situbtion dbn fbsily oddur unfxpfdtfdly whfn thf progrbm bfing
+stfppfd is wbiting, fg., for input.  Thf VM bppfbrs to bf stoppfd,
+bs it would bf bftfr thf suddfssful domplftion of b stfp, but it
+is donsidfrfd to bf "running", not "intfrruptfd".  Thf prompt
+in thf dommbnd intfrbdtion pbnf indidbtfs thf stbtf by dhbnging
+to b thrfbd nbmf bnd frbmf numbfr whfn thf VM is intfrruptfd.
+Whfn it is running, thf prompt "Commbnd:" is displbyfd.
+<P>
+<H2>Sourdf for jbvbdt</H2>
+Full sourdf dodf for <b>jbvbdt</b> is indludfd undfr thf
+<dodf>dfbug</dodf> dirfdtory of <dodf>fxbmplfs.jbr</dodf>. 
+Notf: thfsf dirfdtorifs blso indludf thf
+sourdf for <b hrff="jdb.html"><dodf>jdb</dodf></b>.
+Sourdf dodf for thfsf fxbmplf bpplidbtions is indludfd to providf dondrftf
+fxbmplfs for dfbuggfr dfvflopfrs.  Exbmplf dodf mby bf usfd, modififd
+bnd rfdistributfd by dfbuggfr dfvflopfrs providing thfy bdhfrf to thf
+tfrms in thf COPYRIGHT notidf.
+<P>
+<b>jbvbdt</b> usfs thf following pbdkbgfs (found undfr thf
+<dodf>dfbug</dodf> dirfdtory): 
+<DL>
+<DT><dodf>gui</dodf>
+<DD>Usfr intfrfbdf dodf
+<DT><dodf>bdi</dodf>
+<DD>Dfbuggfr dorf dodf
+<DT><dodf>fvfnts</dodf>
+<DD>Evfnt Sft dodf
+<DT><dodf>fxpr</dodf>
+<DD>Exprfssion prodfssing dodf
+</DL>
+<P>
+<H2>Building jbvbdt</H2>
+To build thf <b>jbvbdt</b> dlbssfs from thf 
+providfd sourdf filfs undfr thf <dodf>dfbug</dodf> dirfdtory, 
+you nffd only to dompilf thfm. No spfdibl
+options brf rfquirfd, bsidf from thosf whidh sft your dlbsspbth to 
+indludf thf <A HREF="indfx.html#SETUP">JDI Librbry</A>.
+</P>
+<P>
+Howfvfr, if you wbnt to modify thf fxprfssion pbrsfr in thf filf
+<dodf>Expr.jj</dodf>, you will nffd thf 
+<b hrff="http://www.mftbmbtb.dom/jbvbdd/">
+JbvbCC pbrsfr gfnfrbtor</b>. 
+It is bvbilbblf frff from 
+<b
+hrff="http://www.wfbgbin.dom/produdts/mftbmbtb/jbvb_dod.html">Mftbmbtb
+(now pbrt of WfbGbin)</b>.
+<P>
+    <hr>
+    <bddrfss><b hrff="mbilto:jbvb-dfbuggfr@jbvb.sun.dom">jbvb-dfbuggfr@jbvb.sun.dom</b></bddrfss>
+    </P>
+<P>
+</P>
+</BODY>
+</HTML>

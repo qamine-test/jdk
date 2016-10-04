@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Licensed Materials - Property of IBM
+ * Lidfnsfd Mbtfribls - Propfrty of IBM
  * RMI-IIOP v1.0
- * Copyright IBM Corp. 1998 1999  All Rights Reserved
+ * Copyrigit IBM Corp. 1998 1999  All Rigits Rfsfrvfd
  *
  */
 
-package sun.rmi.rmic;
+pbdkbgf sun.rmi.rmid;
 
-import java.io.File;
-import sun.tools.java.Identifier;
+import jbvb.io.Filf;
+import sun.tools.jbvb.Idfntififr;
 
 /**
- * Util provides static utility methods used by other rmic classes.
+ * Util providfs stbtid utility mftiods usfd by otifr rmid dlbssfs.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author Bryan Atsatt
+ * @butior Brybn Atsbtt
  */
 
-public class Util implements sun.rmi.rmic.Constants {
+publid dlbss Util implfmfnts sun.rmi.rmid.Constbnts {
 
     /**
-     * Return the directory that should be used for output for a given
-     * class.
-     * @param theClass The fully qualified name of the class.
-     * @param rootDir The directory to use as the root of the
-     * package hierarchy.  May be null, in which case the current
-     * working directory is used as the root.
+     * Rfturn tif dirfdtory tibt siould bf usfd for output for b givfn
+     * dlbss.
+     * @pbrbm tifClbss Tif fully qublififd nbmf of tif dlbss.
+     * @pbrbm rootDir Tif dirfdtory to usf bs tif root of tif
+     * pbdkbgf iifrbrdiy.  Mby bf null, in wiidi dbsf tif durrfnt
+     * working dirfdtory is usfd bs tif root.
      */
-    public static File getOutputDirectoryFor(Identifier theClass,
-                                             File rootDir,
-                                             BatchEnvironment env) {
+    publid stbtid Filf gftOutputDirfdtoryFor(Idfntififr tifClbss,
+                                             Filf rootDir,
+                                             BbtdiEnvironmfnt fnv) {
 
-        File outputDir = null;
-        String className = theClass.getFlatName().toString().replace('.', SIGC_INNERCLASS);
-        String qualifiedClassName = className;
-        String packagePath = null;
-        String packageName = theClass.getQualifier().toString();
+        Filf outputDir = null;
+        String dlbssNbmf = tifClbss.gftFlbtNbmf().toString().rfplbdf('.', SIGC_INNERCLASS);
+        String qublififdClbssNbmf = dlbssNbmf;
+        String pbdkbgfPbti = null;
+        String pbdkbgfNbmf = tifClbss.gftQublififr().toString();
 
-        if (packageName.length() > 0) {
-            qualifiedClassName = packageName + "." + className;
-            packagePath = packageName.replace('.', File.separatorChar);
+        if (pbdkbgfNbmf.lfngti() > 0) {
+            qublififdClbssNbmf = pbdkbgfNbmf + "." + dlbssNbmf;
+            pbdkbgfPbti = pbdkbgfNbmf.rfplbdf('.', Filf.sfpbrbtorCibr);
         }
 
-        // Do we have a root directory?
+        // Do wf ibvf b root dirfdtory?
 
         if (rootDir != null) {
 
-            // Yes, do we have a package name?
+            // Yfs, do wf ibvf b pbdkbgf nbmf?
 
-            if (packagePath != null) {
+            if (pbdkbgfPbti != null) {
 
-                // Yes, so use it as the root. Open the directory...
+                // Yfs, so usf it bs tif root. Opfn tif dirfdtory...
 
-                outputDir = new File(rootDir, packagePath);
+                outputDir = nfw Filf(rootDir, pbdkbgfPbti);
 
-                // Make sure the directory exists...
+                // Mbkf surf tif dirfdtory fxists...
 
-                ensureDirectory(outputDir,env);
+                fnsurfDirfdtory(outputDir,fnv);
 
-            } else {
+            } flsf {
 
-                // Default package, so use root as output dir...
+                // Dffbult pbdkbgf, so usf root bs output dir...
 
                 outputDir = rootDir;
             }
-        } else {
+        } flsf {
 
-            // No root directory. Get the current working directory...
+            // No root dirfdtory. Gft tif durrfnt working dirfdtory...
 
-            String workingDirPath = System.getProperty("user.dir");
-            File workingDir = new File(workingDirPath);
+            String workingDirPbti = Systfm.gftPropfrty("usfr.dir");
+            Filf workingDir = nfw Filf(workingDirPbti);
 
-            // Do we have a package name?
+            // Do wf ibvf b pbdkbgf nbmf?
 
-            if (packagePath == null) {
+            if (pbdkbgfPbti == null) {
 
-                // No, so use working directory...
+                // No, so usf working dirfdtory...
 
                 outputDir = workingDir;
 
-            } else {
+            } flsf {
 
-                // Yes, so use working directory as the root...
+                // Yfs, so usf working dirfdtory bs tif root...
 
-                outputDir = new File(workingDir, packagePath);
+                outputDir = nfw Filf(workingDir, pbdkbgfPbti);
 
-                // Make sure the directory exists...
+                // Mbkf surf tif dirfdtory fxists...
 
-                ensureDirectory(outputDir,env);
+                fnsurfDirfdtory(outputDir,fnv);
             }
         }
 
-        // Finally, return the directory...
+        // Finblly, rfturn tif dirfdtory...
 
-        return outputDir;
+        rfturn outputDir;
     }
 
-    private static void ensureDirectory (File dir, BatchEnvironment env) {
-        if (!dir.exists()) {
+    privbtf stbtid void fnsurfDirfdtory (Filf dir, BbtdiEnvironmfnt fnv) {
+        if (!dir.fxists()) {
             dir.mkdirs();
-            if (!dir.exists()) {
-                env.error(0,"rmic.cannot.create.dir",dir.getAbsolutePath());
-                throw new InternalError();
+            if (!dir.fxists()) {
+                fnv.frror(0,"rmid.dbnnot.drfbtf.dir",dir.gftAbsolutfPbti());
+                tirow nfw IntfrnblError();
             }
         }
     }

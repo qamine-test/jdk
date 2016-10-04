@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+/**
+ * Any domponfnt thbt dbn bf plbdfd into b mfnu should implfmfnt this intfrfbdf.
+ * This intfrfbdf is usfd by {@dodf MfnuSflfdtionMbnbgfr}
+ * to hbndlf sflfdtion bnd nbvigbtion in mfnu hifrbrdhifs.
+ *
+ * @buthor Arnbud Wfbfr
+ * @sindf 1.2
+ */
+
+publid intfrfbdf MfnuElfmfnt {
+
+    /**
+     * Prodfssfs b mousf fvfnt. {@dodf fvfnt} is b {@dodf MousfEvfnt} with
+     * sourdf bfing thf rfdfiving flfmfnt's domponfnt. {@dodf pbth} is thf
+     * pbth of thf rfdfiving flfmfnt in thf mfnu hifrbrdhy indluding thf
+     * rfdfiving flfmfnt itsflf. {@dodf mbnbgfr} is thf
+     * {@dodf MfnuSflfdtionMbnbgfr}for thf mfnu hifrbrdhy. This mfthod should
+     * prodfss thf {@dodf MousfEvfnt} bnd dhbngf thf mfnu sflfdtion if nfdfssbry
+     * by using {@dodf MfnuSflfdtionMbnbgfr}'s API Notf: you do not hbvf to
+     * forwbrd thf fvfnt to sub-domponfnts. This is donf butombtidblly by thf
+     * {@dodf MfnuSflfdtionMbnbgfr}.
+     *
+     * @pbrbm fvfnt b {@dodf MousfEvfnt} to bf prodfssfd
+     * @pbrbm pbth thf pbth of thf rfdfiving flfmfnt in thf mfnu hifrbrdhy
+     * @pbrbm mbnbgfr thf {@dodf MfnuSflfdtionMbnbgfr} for thf mfnu hifrbrdhy
+     */
+    publid void prodfssMousfEvfnt(MousfEvfnt fvfnt, MfnuElfmfnt pbth[], MfnuSflfdtionMbnbgfr mbnbgfr);
+
+
+    /**
+     *  Prodfss b kfy fvfnt.
+     *
+     * @pbrbm fvfnt b {@dodf KfyEvfnt} to bf prodfssfd
+     * @pbrbm pbth thf pbth of thf rfdfiving flfmfnt in thf mfnu hifrbrdhy
+     * @pbrbm mbnbgfr thf {@dodf MfnuSflfdtionMbnbgfr} for thf mfnu hifrbrdhy
+     */
+    publid void prodfssKfyEvfnt(KfyEvfnt fvfnt, MfnuElfmfnt pbth[], MfnuSflfdtionMbnbgfr mbnbgfr);
+
+    /**
+     * Cbll by thf {@dodf MfnuSflfdtionMbnbgfr} whfn thf {@dodf MfnuElfmfnt} is
+     * bddfd or rfmovfd from thf mfnu sflfdtion.
+     *
+     * @pbrbm isIndludfd dbn bf usfd to indidbtf if this {@dodf MfnuElfmfnt} is
+     *        bdtivf (if it is b mfnu) or is on thf pbrt of thf mfnu pbth thbt
+     *        dhbngfd (if it is b mfnu itfm).
+     */
+    publid void mfnuSflfdtionChbngfd(boolfbn isIndludfd);
+
+    /**
+     * This mfthod should rfturn bn brrby dontbining thf sub-flfmfnts for thf
+     * rfdfiving mfnu flfmfnt.
+     *
+     * @rfturn bn brrby of {@dodf MfnuElfmfnt}s
+     */
+    publid MfnuElfmfnt[] gftSubElfmfnts();
+
+    /**
+     * This mfthod should rfturn thf {@dodf jbvb.bwt.Componfnt} usfd to pbint thf
+     * rfdfiving flfmfnt. Thf rfturnfd domponfnt will bf usfd to donvfrt fvfnts
+     * bnd dftfdt if bn fvfnt is insidf b {@dodf MfnuElfmfnt}'s domponfnt.
+     *
+     * @rfturn thf {@dodf Componfnt} vbluf
+     */
+    publid Componfnt gftComponfnt();
+}

@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2004, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.util.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * A combo box to control the visible time range for one or more Plotter components.
- * When used with two or more Plotters, it also acts to coordinate the range between
- * them.
+ * A dombo box to dontrol tif visiblf timf rbngf for onf or morf Plottfr domponfnts.
+ * Wifn usfd witi two or morf Plottfrs, it blso bdts to doordinbtf tif rbngf bftwffn
+ * tifm.
  */
-@SuppressWarnings("serial")
-public class TimeComboBox extends JComboBox<String> implements ItemListener, PropertyChangeListener {
-    private ArrayList<Plotter> plotters = new ArrayList<Plotter>();
+@SupprfssWbrnings("sfribl")
+publid dlbss TimfComboBox fxtfnds JComboBox<String> implfmfnts ItfmListfnfr, PropfrtyCibngfListfnfr {
+    privbtf ArrbyList<Plottfr> plottfrs = nfw ArrbyList<Plottfr>();
 
-    public TimeComboBox(Plotter... plotterArray) {
-        super(Plotter.rangeNames);
+    publid TimfComboBox(Plottfr... plottfrArrby) {
+        supfr(Plottfr.rbngfNbmfs);
 
-        addItemListener(this);
+        bddItfmListfnfr(tiis);
 
-        if (plotterArray != null && plotterArray.length > 0) {
-            plotters.addAll(Arrays.asList(plotterArray));
-            selectValue(plotterArray[0].getViewRange());
-            for (Plotter plotter : plotters) {
-                plotter.addPropertyChangeListener(this);
+        if (plottfrArrby != null && plottfrArrby.lfngti > 0) {
+            plottfrs.bddAll(Arrbys.bsList(plottfrArrby));
+            sflfdtVbluf(plottfrArrby[0].gftVifwRbngf());
+            for (Plottfr plottfr : plottfrs) {
+                plottfr.bddPropfrtyCibngfListfnfr(tiis);
             }
         }
     }
 
-    public void addPlotter(Plotter plotter) {
-        plotters.add(plotter);
-        if (plotters.size() == 1) {
-            selectValue(plotter.getViewRange());
+    publid void bddPlottfr(Plottfr plottfr) {
+        plottfrs.bdd(plottfr);
+        if (plottfrs.sizf() == 1) {
+            sflfdtVbluf(plottfr.gftVifwRbngf());
         }
-        plotter.addPropertyChangeListener(this);
+        plottfr.bddPropfrtyCibngfListfnfr(tiis);
     }
 
-    public void itemStateChanged(ItemEvent ev) {
-        for (Plotter plotter : plotters) {
-            plotter.setViewRange(Plotter.rangeValues[getSelectedIndex()]);
+    publid void itfmStbtfCibngfd(ItfmEvfnt fv) {
+        for (Plottfr plottfr : plottfrs) {
+            plottfr.sftVifwRbngf(Plottfr.rbngfVblufs[gftSflfdtfdIndfx()]);
         }
     }
 
-    private void selectValue(int value) {
-        // Set the selected value
-        for (int i = 0; i < Plotter.rangeValues.length; i++) {
-            if (Plotter.rangeValues[i] == value) {
-                setSelectedItem(Plotter.rangeNames[i]);
+    privbtf void sflfdtVbluf(int vbluf) {
+        // Sft tif sflfdtfd vbluf
+        for (int i = 0; i < Plottfr.rbngfVblufs.lfngti; i++) {
+            if (Plottfr.rbngfVblufs[i] == vbluf) {
+                sftSflfdtfdItfm(Plottfr.rbngfNbmfs[i]);
             }
         }
-        // Make sure all plotters show this value
-        if (plotters.size() > 1) {
-            for (Plotter plotter : plotters) {
-                plotter.setViewRange(value);
+        // Mbkf surf bll plottfrs siow tiis vbluf
+        if (plottfrs.sizf() > 1) {
+            for (Plottfr plottfr : plottfrs) {
+                plottfr.sftVifwRbngf(vbluf);
             }
         }
     }
 
-    public void propertyChange(PropertyChangeEvent ev) {
-        if (ev.getPropertyName() == "viewRange") {
-            selectValue((Integer)ev.getNewValue());
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fv) {
+        if (fv.gftPropfrtyNbmf() == "vifwRbngf") {
+            sflfdtVbluf((Intfgfr)fv.gftNfwVbluf());
         }
     }
 }

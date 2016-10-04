@@ -1,362 +1,362 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.lang.ref.SoftReference;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.Didtionbry;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.NoSudiElfmfntExdfption;
 
 /**
- * Caches the collision list.
+ * Cbdifs tif dollision list.
  */
-class CacheEntry {
-    int hash;
-    Object key;
-    CacheEntry next;
-    SoftReference<Object> value;
+dlbss CbdifEntry {
+    int ibsi;
+    Objfdt kfy;
+    CbdifEntry nfxt;
+    SoftRfffrfndf<Objfdt> vbluf;
 
-    public CacheEntry() {
-        value = null;
+    publid CbdifEntry() {
+        vbluf = null;
     }
 
-    public CacheEntry(Object o) {
-        value = new SoftReference<>(o);
+    publid CbdifEntry(Objfdt o) {
+        vbluf = nfw SoftRfffrfndf<>(o);
     }
 
-    public Object get() {
-        return value.get();
+    publid Objfdt gft() {
+        rfturn vbluf.gft();
     }
 
-    public void setThing(Object thing) {
-        value = new SoftReference<>(thing);
+    publid void sftTiing(Objfdt tiing) {
+        vbluf = nfw SoftRfffrfndf<>(tiing);
     }
 }
 
 /**
- * The Cache class. Maps keys to values. Any object can be used as
- * a key and/or value.  This is very similar to the Hashtable
- * class, except that after putting an object into the Cache,
- * it is not guaranteed that a subsequent get will return it.
- * The Cache will automatically remove entries if memory is
- * getting tight and if the entry is not referenced from outside
- * the Cache.<p>
+ * Tif Cbdif dlbss. Mbps kfys to vblufs. Any objfdt dbn bf usfd bs
+ * b kfy bnd/or vbluf.  Tiis is vfry similbr to tif Hbsitbblf
+ * dlbss, fxdfpt tibt bftfr putting bn objfdt into tif Cbdif,
+ * it is not gubrbntffd tibt b subsfqufnt gft will rfturn it.
+ * Tif Cbdif will butombtidblly rfmovf fntrifs if mfmory is
+ * gftting tigit bnd if tif fntry is not rfffrfndfd from outsidf
+ * tif Cbdif.<p>
  *
- * To sucessfully store and retrieve objects from a hash table the
- * object used as the key must implement the hashCode() and equals()
- * methods.<p>
+ * To sudfssfully storf bnd rftrifvf objfdts from b ibsi tbblf tif
+ * objfdt usfd bs tif kfy must implfmfnt tif ibsiCodf() bnd fqubls()
+ * mftiods.<p>
  *
- * This example creates a Cache of numbers. It uses the names of
- * the numbers as keys:
- * <pre>
- *      Cache numbers = new Cache();
- *      numbers.put("one", new Integer(1));
- *      numbers.put("two", new Integer(1));
- *      numbers.put("three", new Integer(1));
- * </pre>
- * To retrieve a number use:
- * <pre>
- *      Integer n = (Integer)numbers.get("two");
+ * Tiis fxbmplf drfbtfs b Cbdif of numbfrs. It usfs tif nbmfs of
+ * tif numbfrs bs kfys:
+ * <prf>
+ *      Cbdif numbfrs = nfw Cbdif();
+ *      numbfrs.put("onf", nfw Intfgfr(1));
+ *      numbfrs.put("two", nfw Intfgfr(1));
+ *      numbfrs.put("tirff", nfw Intfgfr(1));
+ * </prf>
+ * To rftrifvf b numbfr usf:
+ * <prf>
+ *      Intfgfr n = (Intfgfr)numbfrs.gft("two");
  *      if (n != null) {
- *          System.out.println("two = " + n);
+ *          Systfm.out.println("two = " + n);
  *      }
- * </pre>
+ * </prf>
  *
- * @see java.lang.Object#hashCode
- * @see java.lang.Object#equals
- * @deprecated Consider {@link java.util.LinkedHashMap} for LRU caches.
+ * @sff jbvb.lbng.Objfdt#ibsiCodf
+ * @sff jbvb.lbng.Objfdt#fqubls
+ * @dfprfdbtfd Considfr {@link jbvb.util.LinkfdHbsiMbp} for LRU dbdifs.
  */
-@Deprecated
-public
-    class Cache extends Dictionary<Object, Object> {
+@Dfprfdbtfd
+publid
+    dlbss Cbdif fxtfnds Didtionbry<Objfdt, Objfdt> {
     /**
-     * The hash table data.
+     * Tif ibsi tbblf dbtb.
      */
-    private CacheEntry table[];
+    privbtf CbdifEntry tbblf[];
 
     /**
-     * The total number of entries in the hash table.
+     * Tif totbl numbfr of fntrifs in tif ibsi tbblf.
      */
-    private int count;
+    privbtf int dount;
 
     /**
-     * Rehashes the table when count exceeds this threshold.
+     * Rfibsifs tif tbblf wifn dount fxdffds tiis tirfsiold.
      */
-    private int threshold;
+    privbtf int tirfsiold;
 
     /**
-     * The load factor for the hashtable.
+     * Tif lobd fbdtor for tif ibsitbblf.
      */
-    private float loadFactor;
+    privbtf flobt lobdFbdtor;
 
-    private void init(int initialCapacity, float loadFactor) {
-        if ((initialCapacity <= 0) || (loadFactor <= 0.0)) {
-            throw new IllegalArgumentException();
+    privbtf void init(int initiblCbpbdity, flobt lobdFbdtor) {
+        if ((initiblCbpbdity <= 0) || (lobdFbdtor <= 0.0)) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        this.loadFactor = loadFactor;
-        table = new CacheEntry[initialCapacity];
-        threshold = (int) (initialCapacity * loadFactor);
+        tiis.lobdFbdtor = lobdFbdtor;
+        tbblf = nfw CbdifEntry[initiblCbpbdity];
+        tirfsiold = (int) (initiblCbpbdity * lobdFbdtor);
     }
 
     /**
-     * Constructs a new, empty Cache with the specified initial
-     * capacity and the specified load factor.
-     * @param initialCapacity the initial number of buckets
-     * @param loadFactor a number between 0.0 and 1.0, it defines
-     *          the threshold for rehashing the Cache into
-     *          a bigger one.
-     * @exception IllegalArgumentException If the initial capacity
-     * is less than or equal to zero.
-     * @exception IllegalArgumentException If the load factor is
-     * less than or equal to zero.
+     * Construdts b nfw, fmpty Cbdif witi tif spfdififd initibl
+     * dbpbdity bnd tif spfdififd lobd fbdtor.
+     * @pbrbm initiblCbpbdity tif initibl numbfr of budkfts
+     * @pbrbm lobdFbdtor b numbfr bftwffn 0.0 bnd 1.0, it dffinfs
+     *          tif tirfsiold for rfibsiing tif Cbdif into
+     *          b biggfr onf.
+     * @fxdfption IllfgblArgumfntExdfption If tif initibl dbpbdity
+     * is lfss tibn or fqubl to zfro.
+     * @fxdfption IllfgblArgumfntExdfption If tif lobd fbdtor is
+     * lfss tibn or fqubl to zfro.
      */
-    public Cache (int initialCapacity, float loadFactor) {
-        init(initialCapacity, loadFactor);
+    publid Cbdif (int initiblCbpbdity, flobt lobdFbdtor) {
+        init(initiblCbpbdity, lobdFbdtor);
     }
 
     /**
-     * Constructs a new, empty Cache with the specified initial
-     * capacity.
-     * @param initialCapacity the initial number of buckets
+     * Construdts b nfw, fmpty Cbdif witi tif spfdififd initibl
+     * dbpbdity.
+     * @pbrbm initiblCbpbdity tif initibl numbfr of budkfts
      */
-    public Cache (int initialCapacity) {
-        init(initialCapacity, 0.75f);
+    publid Cbdif (int initiblCbpbdity) {
+        init(initiblCbpbdity, 0.75f);
     }
 
     /**
-     * Constructs a new, empty Cache. A default capacity and load factor
-     * is used. Note that the Cache will automatically grow when it gets
+     * Construdts b nfw, fmpty Cbdif. A dffbult dbpbdity bnd lobd fbdtor
+     * is usfd. Notf tibt tif Cbdif will butombtidblly grow wifn it gfts
      * full.
      */
-    public Cache () {
+    publid Cbdif () {
         try {
             init(101, 0.75f);
-        } catch (IllegalArgumentException ex) {
-            // This should never happen
-            throw new Error("panic");
+        } dbtdi (IllfgblArgumfntExdfption fx) {
+            // Tiis siould nfvfr ibppfn
+            tirow nfw Error("pbnid");
         }
     }
 
     /**
-     * Returns the number of elements contained within the Cache.
+     * Rfturns tif numbfr of flfmfnts dontbinfd witiin tif Cbdif.
      */
-    public int size() {
-        return count;
+    publid int sizf() {
+        rfturn dount;
     }
 
     /**
-     * Returns true if the Cache contains no elements.
+     * Rfturns truf if tif Cbdif dontbins no flfmfnts.
      */
-    public boolean isEmpty() {
-        return count == 0;
+    publid boolfbn isEmpty() {
+        rfturn dount == 0;
     }
 
     /**
-     * Returns an enumeration of the Cache's keys.
-     * @see Cache#elements
-     * @see Enumeration
+     * Rfturns bn fnumfrbtion of tif Cbdif's kfys.
+     * @sff Cbdif#flfmfnts
+     * @sff Enumfrbtion
      */
-    public synchronized Enumeration<Object> keys() {
-        return new CacheEnumerator(table, true);
+    publid syndironizfd Enumfrbtion<Objfdt> kfys() {
+        rfturn nfw CbdifEnumfrbtor(tbblf, truf);
     }
 
     /**
-     * Returns an enumeration of the elements. Use the Enumeration methods
-     * on the returned object to fetch the elements sequentially.
-     * @see Cache#keys
-     * @see Enumeration
+     * Rfturns bn fnumfrbtion of tif flfmfnts. Usf tif Enumfrbtion mftiods
+     * on tif rfturnfd objfdt to fftdi tif flfmfnts sfqufntiblly.
+     * @sff Cbdif#kfys
+     * @sff Enumfrbtion
      */
-    public synchronized Enumeration<Object> elements() {
-        return new CacheEnumerator(table, false);
+    publid syndironizfd Enumfrbtion<Objfdt> flfmfnts() {
+        rfturn nfw CbdifEnumfrbtor(tbblf, fblsf);
     }
 
     /**
-     * Gets the object associated with the specified key in the Cache.
-     * @param key the key in the hash table
-     * @returns the element for the key or null if the key
-     *          is not defined in the hash table.
-     * @see Cache#put
+     * Gfts tif objfdt bssodibtfd witi tif spfdififd kfy in tif Cbdif.
+     * @pbrbm kfy tif kfy in tif ibsi tbblf
+     * @rfturns tif flfmfnt for tif kfy or null if tif kfy
+     *          is not dffinfd in tif ibsi tbblf.
+     * @sff Cbdif#put
      */
-    public synchronized Object get(Object key) {
-        CacheEntry tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        for (CacheEntry e = tab[index]; e != null; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
-                return e.get();
+    publid syndironizfd Objfdt gft(Objfdt kfy) {
+        CbdifEntry tbb[] = tbblf;
+        int ibsi = kfy.ibsiCodf();
+        int indfx = (ibsi & 0x7FFFFFFF) % tbb.lfngti;
+        for (CbdifEntry f = tbb[indfx]; f != null; f = f.nfxt) {
+            if ((f.ibsi == ibsi) && f.kfy.fqubls(kfy)) {
+                rfturn f.gft();
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Rehashes the contents of the table into a bigger table.
-     * This is method is called automatically when the Cache's
-     * size exceeds the threshold.
+     * Rfibsifs tif dontfnts of tif tbblf into b biggfr tbblf.
+     * Tiis is mftiod is dbllfd butombtidblly wifn tif Cbdif's
+     * sizf fxdffds tif tirfsiold.
      */
-    protected void rehash() {
-        int oldCapacity = table.length;
-        CacheEntry oldTable[] = table;
+    protfdtfd void rfibsi() {
+        int oldCbpbdity = tbblf.lfngti;
+        CbdifEntry oldTbblf[] = tbblf;
 
-        int newCapacity = oldCapacity * 2 + 1;
-        CacheEntry newTable[] = new CacheEntry[newCapacity];
+        int nfwCbpbdity = oldCbpbdity * 2 + 1;
+        CbdifEntry nfwTbblf[] = nfw CbdifEntry[nfwCbpbdity];
 
-        threshold = (int) (newCapacity * loadFactor);
-        table = newTable;
+        tirfsiold = (int) (nfwCbpbdity * lobdFbdtor);
+        tbblf = nfwTbblf;
 
-        // System.out.println("rehash old=" + oldCapacity + ", new=" +
-        // newCapacity + ", thresh=" + threshold + ", count=" + count);
+        // Systfm.out.println("rfibsi old=" + oldCbpbdity + ", nfw=" +
+        // nfwCbpbdity + ", tirfsi=" + tirfsiold + ", dount=" + dount);
 
-        for (int i = oldCapacity; i-- > 0;) {
-            for (CacheEntry old = oldTable[i]; old != null;) {
-                CacheEntry e = old;
-                old = old.next;
-                if (e.get() != null) {
-                    int index = (e.hash & 0x7FFFFFFF) % newCapacity;
-                    e.next = newTable[index];
-                    newTable[index] = e;
-                } else
-                    count--;    /* remove entries that have disappeared */
+        for (int i = oldCbpbdity; i-- > 0;) {
+            for (CbdifEntry old = oldTbblf[i]; old != null;) {
+                CbdifEntry f = old;
+                old = old.nfxt;
+                if (f.gft() != null) {
+                    int indfx = (f.ibsi & 0x7FFFFFFF) % nfwCbpbdity;
+                    f.nfxt = nfwTbblf[indfx];
+                    nfwTbblf[indfx] = f;
+                } flsf
+                    dount--;    /* rfmovf fntrifs tibt ibvf disbppfbrfd */
             }
         }
     }
 
     /**
-     * Puts the specified element into the Cache, using the specified
-     * key.  The element may be retrieved by doing a get() with the same
-     * key.  The key and the element cannot be null.
-     * @param key the specified hashtable key
-     * @param value the specified element
-     * @return the old value of the key, or null if it did not have one.
-     * @exception NullPointerException If the value of the specified
-     * element is null.
-     * @see Cache#get
+     * Puts tif spfdififd flfmfnt into tif Cbdif, using tif spfdififd
+     * kfy.  Tif flfmfnt mby bf rftrifvfd by doing b gft() witi tif sbmf
+     * kfy.  Tif kfy bnd tif flfmfnt dbnnot bf null.
+     * @pbrbm kfy tif spfdififd ibsitbblf kfy
+     * @pbrbm vbluf tif spfdififd flfmfnt
+     * @rfturn tif old vbluf of tif kfy, or null if it did not ibvf onf.
+     * @fxdfption NullPointfrExdfption If tif vbluf of tif spfdififd
+     * flfmfnt is null.
+     * @sff Cbdif#gft
      */
-    public synchronized Object put(Object key, Object value) {
-        // Make sure the value is not null
-        if (value == null) {
-            throw new NullPointerException();
+    publid syndironizfd Objfdt put(Objfdt kfy, Objfdt vbluf) {
+        // Mbkf surf tif vbluf is not null
+        if (vbluf == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        // Makes sure the key is not already in the cache.
-        CacheEntry tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        CacheEntry ne = null;
-        for (CacheEntry e = tab[index]; e != null; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
-                Object old = e.get();
-                e.setThing(value);
-                return old;
-            } else if (e.get() == null)
-                ne = e;         /* reuse old flushed value */
+        // Mbkfs surf tif kfy is not blrfbdy in tif dbdif.
+        CbdifEntry tbb[] = tbblf;
+        int ibsi = kfy.ibsiCodf();
+        int indfx = (ibsi & 0x7FFFFFFF) % tbb.lfngti;
+        CbdifEntry nf = null;
+        for (CbdifEntry f = tbb[indfx]; f != null; f = f.nfxt) {
+            if ((f.ibsi == ibsi) && f.kfy.fqubls(kfy)) {
+                Objfdt old = f.gft();
+                f.sftTiing(vbluf);
+                rfturn old;
+            } flsf if (f.gft() == null)
+                nf = f;         /* rfusf old flusifd vbluf */
         }
 
-        if (count >= threshold) {
-            // Rehash the table if the threshold is exceeded
-            rehash();
-            return put(key, value);
+        if (dount >= tirfsiold) {
+            // Rfibsi tif tbblf if tif tirfsiold is fxdffdfd
+            rfibsi();
+            rfturn put(kfy, vbluf);
         }
-        // Creates the new entry.
-        if (ne == null) {
-            ne = new CacheEntry ();
-            ne.next = tab[index];
-            tab[index] = ne;
-            count++;
+        // Crfbtfs tif nfw fntry.
+        if (nf == null) {
+            nf = nfw CbdifEntry ();
+            nf.nfxt = tbb[indfx];
+            tbb[indfx] = nf;
+            dount++;
         }
-        ne.hash = hash;
-        ne.key = key;
-        ne.setThing(value);
-        return null;
+        nf.ibsi = ibsi;
+        nf.kfy = kfy;
+        nf.sftTiing(vbluf);
+        rfturn null;
     }
 
     /**
-     * Removes the element corresponding to the key. Does nothing if the
-     * key is not present.
-     * @param key the key that needs to be removed
-     * @return the value of key, or null if the key was not found.
+     * Rfmovfs tif flfmfnt dorrfsponding to tif kfy. Dofs notiing if tif
+     * kfy is not prfsfnt.
+     * @pbrbm kfy tif kfy tibt nffds to bf rfmovfd
+     * @rfturn tif vbluf of kfy, or null if tif kfy wbs not found.
      */
-    public synchronized Object remove(Object key) {
-        CacheEntry tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        for (CacheEntry e = tab[index], prev = null; e != null; prev = e, e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
-                if (prev != null) {
-                    prev.next = e.next;
-                } else {
-                    tab[index] = e.next;
+    publid syndironizfd Objfdt rfmovf(Objfdt kfy) {
+        CbdifEntry tbb[] = tbblf;
+        int ibsi = kfy.ibsiCodf();
+        int indfx = (ibsi & 0x7FFFFFFF) % tbb.lfngti;
+        for (CbdifEntry f = tbb[indfx], prfv = null; f != null; prfv = f, f = f.nfxt) {
+            if ((f.ibsi == ibsi) && f.kfy.fqubls(kfy)) {
+                if (prfv != null) {
+                    prfv.nfxt = f.nfxt;
+                } flsf {
+                    tbb[indfx] = f.nfxt;
                 }
-                count--;
-                return e.get();
+                dount--;
+                rfturn f.gft();
             }
         }
-        return null;
+        rfturn null;
     }
 }
 
 /**
- * A Cache enumerator class.  This class should remain opaque
- * to the client. It will use the Enumeration interface.
+ * A Cbdif fnumfrbtor dlbss.  Tiis dlbss siould rfmbin opbquf
+ * to tif dlifnt. It will usf tif Enumfrbtion intfrfbdf.
  */
-class CacheEnumerator implements Enumeration<Object> {
-    boolean keys;
-    int index;
-    CacheEntry table[];
-    CacheEntry entry;
+dlbss CbdifEnumfrbtor implfmfnts Enumfrbtion<Objfdt> {
+    boolfbn kfys;
+    int indfx;
+    CbdifEntry tbblf[];
+    CbdifEntry fntry;
 
-    CacheEnumerator (CacheEntry table[], boolean keys) {
-        this.table = table;
-        this.keys = keys;
-        this.index = table.length;
+    CbdifEnumfrbtor (CbdifEntry tbblf[], boolfbn kfys) {
+        tiis.tbblf = tbblf;
+        tiis.kfys = kfys;
+        tiis.indfx = tbblf.lfngti;
     }
 
-    public boolean hasMoreElements() {
-        while (index >= 0) {
-            while (entry != null)
-                if (entry.get() != null)
-                    return true;
-                else
-                    entry = entry.next;
-            while (--index >= 0 && (entry = table[index]) == null) ;
+    publid boolfbn ibsMorfElfmfnts() {
+        wiilf (indfx >= 0) {
+            wiilf (fntry != null)
+                if (fntry.gft() != null)
+                    rfturn truf;
+                flsf
+                    fntry = fntry.nfxt;
+            wiilf (--indfx >= 0 && (fntry = tbblf[indfx]) == null) ;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public Object nextElement() {
-        while (index >= 0) {
-            if (entry == null)
-                while (--index >= 0 && (entry = table[index]) == null) ;
-            if (entry != null) {
-                CacheEntry e = entry;
-                entry = e.next;
-                if (e.get() != null)
-                    return keys ? e.key : e.get();
+    publid Objfdt nfxtElfmfnt() {
+        wiilf (indfx >= 0) {
+            if (fntry == null)
+                wiilf (--indfx >= 0 && (fntry = tbblf[indfx]) == null) ;
+            if (fntry != null) {
+                CbdifEntry f = fntry;
+                fntry = f.nfxt;
+                if (f.gft() != null)
+                    rfturn kfys ? f.kfy : f.gft();
             }
         }
-        throw new NoSuchElementException("CacheEnumerator");
+        tirow nfw NoSudiElfmfntExdfption("CbdifEnumfrbtor");
     }
 
 }

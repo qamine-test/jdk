@@ -1,0 +1,264 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * This intfrfbdf hbs to bf implfmfntfd by bny MBfbn dlbss fxpfdtfd to
+ * rfprfsfnt b rflbtion mbnbgfd using thf Rflbtion Sfrvidf.
+ * <P>Simplf rflbtions, i.f. hbving only rolfs, no propfrtifs or mfthods, dbn
+ * bf drfbtfd dirfdtly by thf Rflbtion Sfrvidf (rfprfsfntfd bs RflbtionSupport
+ * objfdts, intfrnblly hbndlfd by thf Rflbtion Sfrvidf).
+ * <P>If thf usfr wbnts to rfprfsfnt morf domplfx rflbtions, involving
+ * propfrtifs bnd/or mfthods, hf hbs to providf his own dlbss implfmfnting thf
+ * Rflbtion intfrfbdf. This dbn bf bdhifvfd fithfr by inhfriting from
+ * RflbtionSupport dlbss, or by implfmfnting thf intfrfbdf (fully or dflfgbtion to
+ * b RflbtionSupport objfdt mfmbfr).
+ * <P>Spfdifying sudh usfr rflbtion dlbss is to introdudf propfrtifs bnd/or
+ * mfthods. Thosf hbvf to bf fxposfd for rfmotf mbnbgfmfnt. So this mfbns thbt
+ * bny usfr rflbtion dlbss must bf b MBfbn dlbss.
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf Rflbtion {
+
+    /**
+     * Rftrifvfs rolf vbluf for givfn rolf nbmf.
+     * <P>Chfdks if thf rolf fxists bnd is rfbdbblf bddording to thf rflbtion
+     * typf.
+     *
+     * @pbrbm rolfNbmf  nbmf of rolf
+     *
+     * @rfturn thf ArrbyList of ObjfdtNbmf objfdts bfing thf rolf vbluf
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null rolf nbmf
+     * @fxdfption RolfNotFoundExdfption  if:
+     * <P>- thfrf is no rolf with givfn nbmf
+     * <P>- thf rolf is not rfbdbblf.
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     *
+     * @sff #sftRolf
+     */
+    publid List<ObjfdtNbmf> gftRolf(String rolfNbmf)
+        throws IllfgblArgumfntExdfption,
+               RolfNotFoundExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption;
+
+    /**
+     * Rftrifvfs vblufs of rolfs with givfn nbmfs.
+     * <P>Chfdks for fbdh rolf if it fxists bnd is rfbdbblf bddording to thf
+     * rflbtion typf.
+     *
+     * @pbrbm rolfNbmfArrby  brrby of nbmfs of rolfs to bf rftrifvfd
+     *
+     * @rfturn b RolfRfsult objfdt, indluding b RolfList (for rolfs
+     * suddfssfully rftrifvfd) bnd b RolfUnrfsolvfdList (for rolfs not
+     * rftrifvfd).
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null rolf nbmf
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     *
+     * @sff #sftRolfs
+     */
+    publid RolfRfsult gftRolfs(String[] rolfNbmfArrby)
+        throws IllfgblArgumfntExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption;
+
+    /**
+     * Rfturns thf numbfr of MBfbns durrfntly rfffrfndfd in thf givfn rolf.
+     *
+     * @pbrbm rolfNbmf  nbmf of rolf
+     *
+     * @rfturn thf numbfr of durrfntly rfffrfndfd MBfbns in thbt rolf
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null rolf nbmf
+     * @fxdfption RolfNotFoundExdfption  if thfrf is no rolf with givfn nbmf
+     */
+    publid Intfgfr gftRolfCbrdinblity(String rolfNbmf)
+        throws IllfgblArgumfntExdfption,
+               RolfNotFoundExdfption;
+
+    /**
+     * Rfturns bll rolfs prfsfnt in thf rflbtion.
+     *
+     * @rfturn b RolfRfsult objfdt, indluding b RolfList (for rolfs
+     * suddfssfully rftrifvfd) bnd b RolfUnrfsolvfdList (for rolfs not
+     * rfbdbblf).
+     *
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     */
+    publid RolfRfsult gftAllRolfs()
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption;
+
+    /**
+     * Rfturns bll rolfs in thf rflbtion without dhfdking rfbd modf.
+     *
+     * @rfturn b RolfList.
+     */
+    publid RolfList rftrifvfAllRolfs();
+
+    /**
+     * Sfts thf givfn rolf.
+     * <P>Will dhfdk thf rolf bddording to its dorrfsponding rolf dffinition
+     * providfd in rflbtion's rflbtion typf
+     * <P>Will sfnd b notifidbtion (RflbtionNotifidbtion with typf
+     * RELATION_BASIC_UPDATE or RELATION_MBEAN_UPDATE, dfpfnding if thf
+     * rflbtion is b MBfbn or not).
+     *
+     * @pbrbm rolf  rolf to bf sft (nbmf bnd nfw vbluf)
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null rolf
+     * @fxdfption RolfNotFoundExdfption  if thfrf is no rolf with thf supplifd
+     * rolf's nbmf or if thf rolf is not writbblf (no tfst on thf writf bddfss
+     * modf pfrformfd whfn initiblizing thf rolf)
+     * @fxdfption InvblidRolfVblufExdfption  if vbluf providfd for
+     * rolf is not vblid, i.f.:
+     * <P>- thf numbfr of rfffrfndfd MBfbns in givfn vbluf is lfss thbn
+     * fxpfdtfd minimum dfgrff
+     * <P>- thf numbfr of rfffrfndfd MBfbns in providfd vbluf fxdffds fxpfdtfd
+     * mbximum dfgrff
+     * <P>- onf rfffrfndfd MBfbn in thf vbluf is not bn Objfdt of thf MBfbn
+     * dlbss fxpfdtfd for thbt rolf
+     * <P>- b MBfbn providfd for thbt rolf dofs not fxist.
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption RflbtionTypfNotFoundExdfption  if thf rflbtion typf hbs not
+     * bffn dfdlbrfd in thf Rflbtion Sfrvidf.
+     * @fxdfption RflbtionNotFoundExdfption  if thf rflbtion hbs not bffn
+     * bddfd in thf Rflbtion Sfrvidf.
+     *
+     * @sff #gftRolf
+     */
+    publid void sftRolf(Rolf rolf)
+        throws IllfgblArgumfntExdfption,
+               RolfNotFoundExdfption,
+               RflbtionTypfNotFoundExdfption,
+               InvblidRolfVblufExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption,
+               RflbtionNotFoundExdfption;
+
+    /**
+     * Sfts thf givfn rolfs.
+     * <P>Will dhfdk thf rolf bddording to its dorrfsponding rolf dffinition
+     * providfd in rflbtion's rflbtion typf
+     * <P>Will sfnd onf notifidbtion (RflbtionNotifidbtion with typf
+     * RELATION_BASIC_UPDATE or RELATION_MBEAN_UPDATE, dfpfnding if thf
+     * rflbtion is b MBfbn or not) pfr updbtfd rolf.
+     *
+     * @pbrbm rolfList  list of rolfs to bf sft
+     *
+     * @rfturn b RolfRfsult objfdt, indluding b RolfList (for rolfs
+     * suddfssfully sft) bnd b RolfUnrfsolvfdList (for rolfs not
+     * sft).
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null rolf list
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption RflbtionTypfNotFoundExdfption  if thf rflbtion typf hbs not
+     * bffn dfdlbrfd in thf Rflbtion Sfrvidf.
+     * @fxdfption RflbtionNotFoundExdfption  if thf rflbtion MBfbn hbs not bffn
+     * bddfd in thf Rflbtion Sfrvidf.
+     *
+     * @sff #gftRolfs
+     */
+    publid RolfRfsult sftRolfs(RolfList rolfList)
+        throws IllfgblArgumfntExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption,
+               RflbtionTypfNotFoundExdfption,
+               RflbtionNotFoundExdfption;
+
+    /**
+     * Cbllbbdk usfd by thf Rflbtion Sfrvidf whfn b MBfbn rfffrfndfd in b rolf
+     * is unrfgistfrfd.
+     * <P>Thf Rflbtion Sfrvidf will dbll this mfthod to lft thf rflbtion
+     * tbkf bdtion to rfflfdt thf impbdt of sudh unrfgistrbtion.
+     * <P>BEWARE. thf usfr is not fxpfdtfd to dbll this mfthod.
+     * <P>Currfnt implfmfntbtion is to sft thf rolf with its durrfnt vbluf
+     * (list of ObjfdtNbmfs of rfffrfndfd MBfbns) without thf unrfgistfrfd
+     * onf.
+     *
+     * @pbrbm objfdtNbmf  ObjfdtNbmf of unrfgistfrfd MBfbn
+     * @pbrbm rolfNbmf  nbmf of rolf whfrf thf MBfbn is rfffrfndfd
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RolfNotFoundExdfption  if rolf dofs not fxist in thf
+     * rflbtion or is not writbblf
+     * @fxdfption InvblidRolfVblufExdfption  if rolf vbluf dofs not donform to
+     * thf bssodibtfd rolf info (this will nfvfr hbppfn whfn dbllfd from thf
+     * Rflbtion Sfrvidf)
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption RflbtionTypfNotFoundExdfption  if thf rflbtion typf hbs not
+     * bffn dfdlbrfd in thf Rflbtion Sfrvidf.
+     * @fxdfption RflbtionNotFoundExdfption  if this mfthod is dbllfd for b
+     * rflbtion MBfbn not bddfd in thf Rflbtion Sfrvidf.
+     */
+    publid void hbndlfMBfbnUnrfgistrbtion(ObjfdtNbmf objfdtNbmf,
+                                          String rolfNbmf)
+        throws IllfgblArgumfntExdfption,
+               RolfNotFoundExdfption,
+               InvblidRolfVblufExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption,
+               RflbtionTypfNotFoundExdfption,
+               RflbtionNotFoundExdfption;
+
+    /**
+     * Rftrifvfs MBfbns rfffrfndfd in thf vbrious rolfs of thf rflbtion.
+     *
+     * @rfturn b HbshMbp mbpping:
+     * <P> ObjfdtNbmf {@litfrbl ->} ArrbyList of String (rolf nbmfs)
+     */
+    publid Mbp<ObjfdtNbmf,List<String>> gftRfffrfndfdMBfbns();
+
+    /**
+     * Rfturns nbmf of bssodibtfd rflbtion typf.
+     *
+     * @rfturn thf nbmf of thf rflbtion typf.
+     */
+    publid String gftRflbtionTypfNbmf();
+
+    /**
+     * Rfturns ObjfdtNbmf of thf Rflbtion Sfrvidf hbndling thf rflbtion.
+     *
+     * @rfturn thf ObjfdtNbmf of thf Rflbtion Sfrvidf.
+     */
+    publid ObjfdtNbmf gftRflbtionSfrvidfNbmf();
+
+    /**
+     * Rfturns rflbtion idfntififr (usfd to uniqufly idfntify thf rflbtion
+     * insidf thf Rflbtion Sfrvidf).
+     *
+     * @rfturn thf rflbtion id.
+     */
+    publid String gftRflbtionId();
+}

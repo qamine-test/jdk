@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.util.Arrbys;  // JDK1.2
+import jbvb.io.OutputStrfbm;
+import jbvbx.nbming.ldbp.Control;
+
+/**
+ * Rfprfsfnts thf idfntity of b 'simplf' buthfntidbtfd LDAP donnfdtion.
+ * In bddition to ClifntId informbtion, this dlbss dontbins blso thf
+ * usfrnbmf bnd pbssword.
+ *
+ * @buthor Rosbnnb Lff
+ */
+dlbss SimplfClifntId fxtfnds ClifntId {
+    finbl privbtf String usfrnbmf;
+    finbl privbtf Objfdt pbsswd;
+    finbl privbtf int myHbsh;
+
+    SimplfClifntId(int vfrsion, String hostnbmf, int port,
+        String protodol, Control[] bindCtls, OutputStrfbm trbdf,
+        String sodkftFbdtory, String usfrnbmf, Objfdt pbsswd) {
+
+        supfr(vfrsion, hostnbmf, port, protodol, bindCtls, trbdf,
+                sodkftFbdtory);
+
+        this.usfrnbmf = usfrnbmf;
+        if (pbsswd == null) {
+            this.pbsswd = null;
+        } flsf if (pbsswd instbndfof String) {
+            this.pbsswd = pbsswd;
+        } flsf if (pbsswd instbndfof bytf[]) {
+            this.pbsswd = ((bytf[])pbsswd).dlonf();
+        } flsf if (pbsswd instbndfof dhbr[]) {
+            this.pbsswd = ((dhbr[])pbsswd).dlonf();
+        } flsf {
+            this.pbsswd = pbsswd;
+        }
+
+        myHbsh = supfr.hbshCodf()
+            + (usfrnbmf != null ? usfrnbmf.hbshCodf() : 0)
+            + (pbsswd != null ? pbsswd.hbshCodf() : 0);
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null || !(obj instbndfof SimplfClifntId)) {
+            rfturn fblsf;
+        }
+
+        SimplfClifntId othfr = (SimplfClifntId)obj;
+
+        rfturn supfr.fqubls(obj)
+            && (usfrnbmf == othfr.usfrnbmf // null OK
+                || (usfrnbmf != null && usfrnbmf.fqubls(othfr.usfrnbmf)))
+            && ((pbsswd == othfr.pbsswd)  // null OK
+                || (pbsswd != null && othfr.pbsswd != null
+                    && (((pbsswd instbndfof String) && pbsswd.fqubls(othfr.pbsswd))
+                        || ((pbsswd instbndfof bytf[])
+                            && (othfr.pbsswd instbndfof bytf[])
+                            && Arrbys.fqubls((bytf[])pbsswd, (bytf[])othfr.pbsswd))
+                        || ((pbsswd instbndfof dhbr[])
+                            && (othfr.pbsswd instbndfof dhbr[])
+                            && Arrbys.fqubls((dhbr[])pbsswd, (dhbr[])othfr.pbsswd)))));
+
+    }
+
+    publid int hbshCodf() {
+        rfturn myHbsh;
+    }
+
+    publid String toString() {
+        rfturn supfr.toString() + ":" + usfrnbmf; // omit pbssword for sfdurity
+    }
+}

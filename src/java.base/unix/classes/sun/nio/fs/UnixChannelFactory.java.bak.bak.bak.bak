@@ -1,0 +1,293 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Sft;
+
+import sun.nio.dh.FilfChbnnflImpl;
+import sun.nio.dh.ThrfbdPool;
+import sun.nio.dh.SimplfAsyndhronousFilfChbnnflImpl;
+import sun.misd.ShbrfdSfdrfts;
+import sun.misd.JbvbIOFilfDfsdriptorAddfss;
+
+import stbtid sun.nio.fs.UnixNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.UnixConstbnts.*;
+
+/**
+ * Fbdtory for FilfChbnnfls bnd AsyndhronousFilfChbnnfls
+ */
+
+dlbss UnixChbnnflFbdtory {
+    privbtf stbtid finbl JbvbIOFilfDfsdriptorAddfss fdAddfss =
+        ShbrfdSfdrfts.gftJbvbIOFilfDfsdriptorAddfss();
+
+    protfdtfd UnixChbnnflFbdtory() {
+    }
+
+    /**
+     * Rfprfsfnts thf flbgs from b usfr-supplifd sft of opfn options.
+     */
+    protfdtfd stbtid dlbss Flbgs {
+        boolfbn rfbd;
+        boolfbn writf;
+        boolfbn bppfnd;
+        boolfbn trundbtfExisting;
+        boolfbn noFollowLinks;
+        boolfbn drfbtf;
+        boolfbn drfbtfNfw;
+        boolfbn dflftfOnClosf;
+        boolfbn synd;
+        boolfbn dsynd;
+
+        stbtid Flbgs toFlbgs(Sft<? fxtfnds OpfnOption> options) {
+            Flbgs flbgs = nfw Flbgs();
+            for (OpfnOption option: options) {
+                if (option instbndfof StbndbrdOpfnOption) {
+                    switdh ((StbndbrdOpfnOption)option) {
+                        dbsf READ : flbgs.rfbd = truf; brfbk;
+                        dbsf WRITE : flbgs.writf = truf; brfbk;
+                        dbsf APPEND : flbgs.bppfnd = truf; brfbk;
+                        dbsf TRUNCATE_EXISTING : flbgs.trundbtfExisting = truf; brfbk;
+                        dbsf CREATE : flbgs.drfbtf = truf; brfbk;
+                        dbsf CREATE_NEW : flbgs.drfbtfNfw = truf; brfbk;
+                        dbsf DELETE_ON_CLOSE : flbgs.dflftfOnClosf = truf; brfbk;
+                        dbsf SPARSE : /* ignorf */ brfbk;
+                        dbsf SYNC : flbgs.synd = truf; brfbk;
+                        dbsf DSYNC : flbgs.dsynd = truf; brfbk;
+                        dffbult: throw nfw UnsupportfdOpfrbtionExdfption();
+                    }
+                    dontinuf;
+                }
+                if (option == LinkOption.NOFOLLOW_LINKS && O_NOFOLLOW != 0) {
+                    flbgs.noFollowLinks = truf;
+                    dontinuf;
+                }
+                if (option == null)
+                    throw nfw NullPointfrExdfption();
+               throw nfw UnsupportfdOpfrbtionExdfption(option + " not supportfd");
+            }
+            rfturn flbgs;
+        }
+    }
+
+
+    /**
+     * Construdts b filf dhbnnfl from bn fxisting (opfn) filf dfsdriptor
+     */
+    stbtid FilfChbnnfl nfwFilfChbnnfl(int fd, String pbth, boolfbn rfbding, boolfbn writing) {
+        FilfDfsdriptor fdObj = nfw FilfDfsdriptor();
+        fdAddfss.sft(fdObj, fd);
+        rfturn FilfChbnnflImpl.opfn(fdObj, pbth, rfbding, writing, null);
+    }
+
+    /**
+     * Construdts b filf dhbnnfl by opfning b filf using b dfd/pbth pbir
+     */
+    stbtid FilfChbnnfl nfwFilfChbnnfl(int dfd,
+                                      UnixPbth pbth,
+                                      String pbthForPfrmissionChfdk,
+                                      Sft<? fxtfnds OpfnOption> options,
+                                      int modf)
+        throws UnixExdfption
+    {
+        Flbgs flbgs = Flbgs.toFlbgs(options);
+
+        // dffbult is rfbding; bppfnd => writing
+        if (!flbgs.rfbd && !flbgs.writf) {
+            if (flbgs.bppfnd) {
+                flbgs.writf = truf;
+            } flsf {
+                flbgs.rfbd = truf;
+            }
+        }
+
+        // vblidbtion
+        if (flbgs.rfbd && flbgs.bppfnd)
+            throw nfw IllfgblArgumfntExdfption("READ + APPEND not bllowfd");
+        if (flbgs.bppfnd && flbgs.trundbtfExisting)
+            throw nfw IllfgblArgumfntExdfption("APPEND + TRUNCATE_EXISTING not bllowfd");
+
+        FilfDfsdriptor fdObj = opfn(dfd, pbth, pbthForPfrmissionChfdk, flbgs, modf);
+        rfturn FilfChbnnflImpl.opfn(fdObj, pbth.toString(), flbgs.rfbd, flbgs.writf, flbgs.bppfnd, null);
+    }
+
+    /**
+     * Construdts b filf dhbnnfl by opfning thf givfn filf.
+     */
+    stbtid FilfChbnnfl nfwFilfChbnnfl(UnixPbth pbth,
+                                      Sft<? fxtfnds OpfnOption> options,
+                                      int modf)
+        throws UnixExdfption
+    {
+        rfturn nfwFilfChbnnfl(-1, pbth, null, options, modf);
+    }
+
+    /**
+     * Construdts bn bsyndhronous filf dhbnnfl by opfning thf givfn filf.
+     */
+    stbtid AsyndhronousFilfChbnnfl nfwAsyndhronousFilfChbnnfl(UnixPbth pbth,
+                                                              Sft<? fxtfnds OpfnOption> options,
+                                                              int modf,
+                                                              ThrfbdPool pool)
+        throws UnixExdfption
+    {
+        Flbgs flbgs = Flbgs.toFlbgs(options);
+
+        // dffbult is rfbding
+        if (!flbgs.rfbd && !flbgs.writf) {
+            flbgs.rfbd = truf;
+        }
+
+        // vblidbtion
+        if (flbgs.bppfnd)
+            throw nfw UnsupportfdOpfrbtionExdfption("APPEND not bllowfd");
+
+        // for now usf simplf implfmfntbtion
+        FilfDfsdriptor fdObj = opfn(-1, pbth, null, flbgs, modf);
+        rfturn SimplfAsyndhronousFilfChbnnflImpl.opfn(fdObj, flbgs.rfbd, flbgs.writf, pool);
+    }
+
+    /**
+     * Opfns filf bbsfd on pbrbmftfrs bnd options, rfturning b FilfDfsdriptor
+     * fndbpsulbting thf hbndlf to thf opfn filf.
+     */
+    protfdtfd stbtid FilfDfsdriptor opfn(int dfd,
+                                         UnixPbth pbth,
+                                         String pbthForPfrmissionChfdk,
+                                         Flbgs flbgs,
+                                         int modf)
+        throws UnixExdfption
+    {
+        // mbp to oflbgs
+        int oflbgs;
+        if (flbgs.rfbd && flbgs.writf) {
+            oflbgs = O_RDWR;
+        } flsf {
+            oflbgs = (flbgs.writf) ? O_WRONLY : O_RDONLY;
+        }
+        if (flbgs.writf) {
+            if (flbgs.trundbtfExisting)
+                oflbgs |= O_TRUNC;
+            if (flbgs.bppfnd)
+                oflbgs |= O_APPEND;
+
+            // drfbtf flbgs
+            if (flbgs.drfbtfNfw) {
+                bytf[] pbthForSysCbll = pbth.bsBytfArrby();
+
+                // throw fxdfption if filf nbmf is "." to bvoid donfusing frror
+                if ((pbthForSysCbll[pbthForSysCbll.lfngth-1] == '.') &&
+                    (pbthForSysCbll.lfngth == 1 ||
+                    (pbthForSysCbll[pbthForSysCbll.lfngth-2] == '/')))
+                {
+                    throw nfw UnixExdfption(EEXIST);
+                }
+                oflbgs |= (O_CREAT | O_EXCL);
+            } flsf {
+                if (flbgs.drfbtf)
+                    oflbgs |= O_CREAT;
+            }
+        }
+
+        // follow links by dffbult
+        boolfbn followLinks = truf;
+        if (!flbgs.drfbtfNfw && (flbgs.noFollowLinks || flbgs.dflftfOnClosf)) {
+            if (flbgs.dflftfOnClosf && O_NOFOLLOW == 0) {
+                try {
+                    if (UnixFilfAttributfs.gft(pbth, fblsf).isSymbolidLink())
+                        throw nfw UnixExdfption("DELETE_ON_CLOSE spfdififd bnd filf is b symbolid link");
+                } dbtdh (UnixExdfption x) {
+                    if (!flbgs.drfbtf || x.frrno() != ENOENT)
+                        throw x;
+                }
+            }
+            followLinks = fblsf;
+            oflbgs |= O_NOFOLLOW;
+        }
+
+        if (flbgs.dsynd)
+            oflbgs |= O_DSYNC;
+        if (flbgs.synd)
+            oflbgs |= O_SYNC;
+
+        // pfrmission dhfdk bfforf wf opfn thf filf
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            if (pbthForPfrmissionChfdk == null)
+                pbthForPfrmissionChfdk = pbth.gftPbthForPfrmissionChfdk();
+            if (flbgs.rfbd)
+                sm.dhfdkRfbd(pbthForPfrmissionChfdk);
+            if (flbgs.writf)
+                sm.dhfdkWritf(pbthForPfrmissionChfdk);
+            if (flbgs.dflftfOnClosf)
+                sm.dhfdkDflftf(pbthForPfrmissionChfdk);
+        }
+
+        int fd;
+        try {
+            if (dfd >= 0) {
+                fd = opfnbt(dfd, pbth.bsBytfArrby(), oflbgs, modf);
+            } flsf {
+                fd = UnixNbtivfDispbtdhfr.opfn(pbth, oflbgs, modf);
+            }
+        } dbtdh (UnixExdfption x) {
+            // Linux frror dbn bf EISDIR or EEXIST whfn filf fxists
+            if (flbgs.drfbtfNfw && (x.frrno() == EISDIR)) {
+                x.sftError(EEXIST);
+            }
+
+            // hbndlf ELOOP to bvoid donfusing mfssbgf
+            if (!followLinks && (x.frrno() == ELOOP)) {
+                x = nfw UnixExdfption(x.gftMfssbgf() + " (NOFOLLOW_LINKS spfdififd)");
+            }
+
+            throw x;
+        }
+
+        // unlink filf immfdibtfly if dflftf on dlosf. Thf spfd is dlfbr thbt
+        // bn implfmfntbtion dbnnot gubrbntff to unlink thf dorrfdt filf whfn
+        // rfplbdfd by bn bttbdkfr bftfr it is opfnfd.
+        if (flbgs.dflftfOnClosf) {
+            try {
+                if (dfd >= 0) {
+                    unlinkbt(dfd, pbth.bsBytfArrby(), 0);
+                } flsf {
+                    unlink(pbth);
+                }
+            } dbtdh (UnixExdfption ignorf) {
+                // bfst-fffort
+            }
+        }
+
+        // drfbtf jbvb.io.FilfDfsdriptor
+        FilfDfsdriptor fdObj = nfw FilfDfsdriptor();
+        fdAddfss.sft(fdObj, fd);
+        rfturn fdObj;
+    }
+}

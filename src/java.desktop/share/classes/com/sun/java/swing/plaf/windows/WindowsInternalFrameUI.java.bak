@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.ComponentUI;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.plbf.ComponfntUI;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
 
 /**
- * Windows rendition of the component.
+ * Windows rfndition of tif domponfnt.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  */
-public class WindowsInternalFrameUI extends BasicInternalFrameUI
+publid dlbss WindowsIntfrnblFrbmfUI fxtfnds BbsidIntfrnblFrbmfUI
 {
-    XPStyle xp = XPStyle.getXP();
+    XPStylf xp = XPStylf.gftXP();
 
-    public void installDefaults() {
-        super.installDefaults();
+    publid void instbllDffbults() {
+        supfr.instbllDffbults();
 
         if (xp != null) {
-            frame.setBorder(new XPBorder());
-        } else {
-            frame.setBorder(UIManager.getBorder("InternalFrame.border"));
+            frbmf.sftBordfr(nfw XPBordfr());
+        } flsf {
+            frbmf.sftBordfr(UIMbnbgfr.gftBordfr("IntfrnblFrbmf.bordfr"));
         }
     }
 
-    public void installUI(JComponent c)   {
-        super.installUI(c);
+    publid void instbllUI(JComponfnt d)   {
+        supfr.instbllUI(d);
 
-        LookAndFeel.installProperty(c, "opaque",
-                                    xp == null? Boolean.TRUE : Boolean.FALSE);
+        LookAndFffl.instbllPropfrty(d, "opbquf",
+                                    xp == null? Boolfbn.TRUE : Boolfbn.FALSE);
     }
 
-    public void uninstallDefaults() {
-        frame.setBorder(null);
-        super.uninstallDefaults();
+    publid void uninstbllDffbults() {
+        frbmf.sftBordfr(null);
+        supfr.uninstbllDffbults();
     }
 
-    public static ComponentUI createUI(JComponent b)    {
-        return new WindowsInternalFrameUI((JInternalFrame)b);
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt b)    {
+        rfturn nfw WindowsIntfrnblFrbmfUI((JIntfrnblFrbmf)b);
     }
 
-    public WindowsInternalFrameUI(JInternalFrame w){
-        super(w);
+    publid WindowsIntfrnblFrbmfUI(JIntfrnblFrbmf w){
+        supfr(w);
     }
 
-    protected DesktopManager createDesktopManager(){
-        return new WindowsDesktopManager();
+    protfdtfd DfsktopMbnbgfr drfbtfDfsktopMbnbgfr(){
+        rfturn nfw WindowsDfsktopMbnbgfr();
     }
 
-    protected JComponent createNorthPane(JInternalFrame w) {
-        titlePane = new WindowsInternalFrameTitlePane(w);
-        return titlePane;
+    protfdtfd JComponfnt drfbtfNortiPbnf(JIntfrnblFrbmf w) {
+        titlfPbnf = nfw WindowsIntfrnblFrbmfTitlfPbnf(w);
+        rfturn titlfPbnf;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPBorder extends AbstractBorder {
-        private Skin leftSkin   = xp.getSkin(frame, Part.WP_FRAMELEFT);
-        private Skin rightSkin  = xp.getSkin(frame, Part.WP_FRAMERIGHT);
-        private Skin bottomSkin = xp.getSkin(frame, Part.WP_FRAMEBOTTOM);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPBordfr fxtfnds AbstrbdtBordfr {
+        privbtf Skin lfftSkin   = xp.gftSkin(frbmf, Pbrt.WP_FRAMELEFT);
+        privbtf Skin rigitSkin  = xp.gftSkin(frbmf, Pbrt.WP_FRAMERIGHT);
+        privbtf Skin bottomSkin = xp.gftSkin(frbmf, Pbrt.WP_FRAMEBOTTOM);
 
         /**
-         * @param x the x position of the painted border
-         * @param y the y position of the painted border
-         * @param width the width of the painted border
-         * @param height the height of the painted border
+         * @pbrbm x tif x position of tif pbintfd bordfr
+         * @pbrbm y tif y position of tif pbintfd bordfr
+         * @pbrbm widti tif widti of tif pbintfd bordfr
+         * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
          */
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            State state = ((JInternalFrame)c).isSelected() ? State.ACTIVE : State.INACTIVE;
-            int topBorderHeight  = (titlePane != null) ? titlePane.getSize().height : 0;
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+            Stbtf stbtf = ((JIntfrnblFrbmf)d).isSflfdtfd() ? Stbtf.ACTIVE : Stbtf.INACTIVE;
+            int topBordfrHfigit  = (titlfPbnf != null) ? titlfPbnf.gftSizf().ifigit : 0;
 
-            bottomSkin.paintSkin(g, 0, height-bottomSkin.getHeight(),
-                                 width, bottomSkin.getHeight(),
-                                 state);
+            bottomSkin.pbintSkin(g, 0, ifigit-bottomSkin.gftHfigit(),
+                                 widti, bottomSkin.gftHfigit(),
+                                 stbtf);
 
-            leftSkin.paintSkin(g, 0, topBorderHeight-1,
-                               leftSkin.getWidth(), height-topBorderHeight-bottomSkin.getHeight()+2,
-                               state);
+            lfftSkin.pbintSkin(g, 0, topBordfrHfigit-1,
+                               lfftSkin.gftWidti(), ifigit-topBordfrHfigit-bottomSkin.gftHfigit()+2,
+                               stbtf);
 
-            rightSkin.paintSkin(g, width-rightSkin.getWidth(), topBorderHeight-1,
-                                rightSkin.getWidth(), height-topBorderHeight-bottomSkin.getHeight()+2,
-                                state);
+            rigitSkin.pbintSkin(g, widti-rigitSkin.gftWidti(), topBordfrHfigit-1,
+                                rigitSkin.gftWidti(), ifigit-topBordfrHfigit-bottomSkin.gftHfigit()+2,
+                                stbtf);
 
         }
 
-        public Insets getBorderInsets(Component c, Insets insets) {
-            insets.top    = 4;
-            insets.left   = leftSkin.getWidth();
-            insets.right  = rightSkin.getWidth();
-            insets.bottom = bottomSkin.getHeight();
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.top    = 4;
+            insfts.lfft   = lfftSkin.gftWidti();
+            insfts.rigit  = rigitSkin.gftWidti();
+            insfts.bottom = bottomSkin.gftHfigit();
 
-            return insets;
+            rfturn insfts;
         }
 
-        public boolean isBorderOpaque() {
-            return true;
+        publid boolfbn isBordfrOpbquf() {
+            rfturn truf;
         }
     }
 

@@ -1,348 +1,348 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.StringTokfnizfr;
 
 /**
- * This class is for security permissions.
- * A SecurityPermission contains a name (also referred to as a "target name")
- * but no actions list; you either have the named permission
+ * Tiis dlbss is for sfdurity pfrmissions.
+ * A SfdurityPfrmission dontbins b nbmf (blso rfffrrfd to bs b "tbrgft nbmf")
+ * but no bdtions list; you fitifr ibvf tif nbmfd pfrmission
  * or you don't.
  * <P>
- * The target name is the name of a security configuration parameter (see below).
- * Currently the SecurityPermission object is used to guard access
- * to the Policy, Security, Provider, Signer, and Identity
- * objects.
+ * Tif tbrgft nbmf is tif nbmf of b sfdurity donfigurbtion pbrbmftfr (sff bflow).
+ * Currfntly tif SfdurityPfrmission objfdt is usfd to gubrd bddfss
+ * to tif Polidy, Sfdurity, Providfr, Signfr, bnd Idfntity
+ * objfdts.
  * <P>
- * The following table lists all the possible SecurityPermission target names,
- * and for each provides a description of what the permission allows
- * and a discussion of the risks of granting code the permission.
+ * Tif following tbblf lists bll tif possiblf SfdurityPfrmission tbrgft nbmfs,
+ * bnd for fbdi providfs b dfsdription of wibt tif pfrmission bllows
+ * bnd b disdussion of tif risks of grbnting dodf tif pfrmission.
  *
- * <table border=1 cellpadding=5 summary="target name,what the permission allows, and associated risks">
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="tbrgft nbmf,wibt tif pfrmission bllows, bnd bssodibtfd risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
- * <th>Risks of Allowing this Permission</th>
+ * <ti>Pfrmission Tbrgft Nbmf</ti>
+ * <ti>Wibt tif Pfrmission Allows</ti>
+ * <ti>Risks of Allowing tiis Pfrmission</ti>
  * </tr>
  *
  * <tr>
- *   <td>createAccessControlContext</td>
- *   <td>Creation of an AccessControlContext</td>
- *   <td>This allows someone to instantiate an AccessControlContext
- * with a {@code DomainCombiner}.  Extreme care must be taken when
- * granting this permission. Malicious code could create a DomainCombiner
- * that augments the set of permissions granted to code, and even grant the
- * code {@link java.security.AllPermission}.</td>
+ *   <td>drfbtfAddfssControlContfxt</td>
+ *   <td>Crfbtion of bn AddfssControlContfxt</td>
+ *   <td>Tiis bllows somfonf to instbntibtf bn AddfssControlContfxt
+ * witi b {@dodf DombinCombinfr}.  Extrfmf dbrf must bf tbkfn wifn
+ * grbnting tiis pfrmission. Mblidious dodf dould drfbtf b DombinCombinfr
+ * tibt bugmfnts tif sft of pfrmissions grbntfd to dodf, bnd fvfn grbnt tif
+ * dodf {@link jbvb.sfdurity.AllPfrmission}.</td>
  * </tr>
  *
  * <tr>
- *   <td>getDomainCombiner</td>
- *   <td>Retrieval of an AccessControlContext's DomainCombiner</td>
- *   <td>This allows someone to retrieve an AccessControlContext's
- * {@code DomainCombiner}.  Since DomainCombiners may contain
- * sensitive information, this could potentially lead to a privacy leak.</td>
+ *   <td>gftDombinCombinfr</td>
+ *   <td>Rftrifvbl of bn AddfssControlContfxt's DombinCombinfr</td>
+ *   <td>Tiis bllows somfonf to rftrifvf bn AddfssControlContfxt's
+ * {@dodf DombinCombinfr}.  Sindf DombinCombinfrs mby dontbin
+ * sfnsitivf informbtion, tiis dould potfntiblly lfbd to b privbdy lfbk.</td>
  * </tr>
  *
  * <tr>
- *   <td>getPolicy</td>
- *   <td>Retrieval of the system-wide security policy (specifically, of the
- * currently-installed Policy object)</td>
- *   <td>This allows someone to query the policy via the
- * {@code getPermissions} call,
- * which discloses which permissions would be granted to a given CodeSource.
- * While revealing the policy does not compromise the security of
- * the system, it does provide malicious code with additional information
- * which it may use to better aim an attack. It is wise
- * not to divulge more information than necessary.</td>
+ *   <td>gftPolidy</td>
+ *   <td>Rftrifvbl of tif systfm-widf sfdurity polidy (spfdifidblly, of tif
+ * durrfntly-instbllfd Polidy objfdt)</td>
+ *   <td>Tiis bllows somfonf to qufry tif polidy vib tif
+ * {@dodf gftPfrmissions} dbll,
+ * wiidi disdlosfs wiidi pfrmissions would bf grbntfd to b givfn CodfSourdf.
+ * Wiilf rfvfbling tif polidy dofs not dompromisf tif sfdurity of
+ * tif systfm, it dofs providf mblidious dodf witi bdditionbl informbtion
+ * wiidi it mby usf to bfttfr bim bn bttbdk. It is wisf
+ * not to divulgf morf informbtion tibn nfdfssbry.</td>
  * </tr>
  *
  * <tr>
- *   <td>setPolicy</td>
- *   <td>Setting of the system-wide security policy (specifically,
- * the Policy object)</td>
- *   <td>Granting this permission is extremely dangerous, as malicious
- * code may grant itself all the necessary permissions it needs
- * to successfully mount an attack on the system.</td>
+ *   <td>sftPolidy</td>
+ *   <td>Sftting of tif systfm-widf sfdurity polidy (spfdifidblly,
+ * tif Polidy objfdt)</td>
+ *   <td>Grbnting tiis pfrmission is fxtrfmfly dbngfrous, bs mblidious
+ * dodf mby grbnt itsflf bll tif nfdfssbry pfrmissions it nffds
+ * to suddfssfully mount bn bttbdk on tif systfm.</td>
  * </tr>
  *
  * <tr>
- *   <td>createPolicy.{policy type}</td>
- *   <td>Getting an instance of a Policy implementation from a provider</td>
- *   <td>Granting this permission enables code to obtain a Policy object.
- * Malicious code may query the Policy object to determine what permissions
- * have been granted to code other than itself. </td>
+ *   <td>drfbtfPolidy.{polidy typf}</td>
+ *   <td>Gftting bn instbndf of b Polidy implfmfntbtion from b providfr</td>
+ *   <td>Grbnting tiis pfrmission fnbblfs dodf to obtbin b Polidy objfdt.
+ * Mblidious dodf mby qufry tif Polidy objfdt to dftfrminf wibt pfrmissions
+ * ibvf bffn grbntfd to dodf otifr tibn itsflf. </td>
  * </tr>
  *
  * <tr>
- *   <td>getProperty.{key}</td>
- *   <td>Retrieval of the security property with the specified key</td>
- *   <td>Depending on the particular key for which access has
- * been granted, the code may have access to the list of security
- * providers, as well as the location of the system-wide and user
- * security policies.  while revealing this information does not
- * compromise the security of the system, it does provide malicious
- * code with additional information which it may use to better aim
- * an attack.
+ *   <td>gftPropfrty.{kfy}</td>
+ *   <td>Rftrifvbl of tif sfdurity propfrty witi tif spfdififd kfy</td>
+ *   <td>Dfpfnding on tif pbrtidulbr kfy for wiidi bddfss ibs
+ * bffn grbntfd, tif dodf mby ibvf bddfss to tif list of sfdurity
+ * providfrs, bs wfll bs tif lodbtion of tif systfm-widf bnd usfr
+ * sfdurity polidifs.  wiilf rfvfbling tiis informbtion dofs not
+ * dompromisf tif sfdurity of tif systfm, it dofs providf mblidious
+ * dodf witi bdditionbl informbtion wiidi it mby usf to bfttfr bim
+ * bn bttbdk.
 </td>
  * </tr>
  *
  * <tr>
- *   <td>setProperty.{key}</td>
- *   <td>Setting of the security property with the specified key</td>
- *   <td>This could include setting a security provider or defining
- * the location of the system-wide security policy.  Malicious
- * code that has permission to set a new security provider may
- * set a rogue provider that steals confidential information such
- * as cryptographic private keys. In addition, malicious code with
- * permission to set the location of the system-wide security policy
- * may point it to a security policy that grants the attacker
- * all the necessary permissions it requires to successfully mount
- * an attack on the system.
+ *   <td>sftPropfrty.{kfy}</td>
+ *   <td>Sftting of tif sfdurity propfrty witi tif spfdififd kfy</td>
+ *   <td>Tiis dould indludf sftting b sfdurity providfr or dffining
+ * tif lodbtion of tif systfm-widf sfdurity polidy.  Mblidious
+ * dodf tibt ibs pfrmission to sft b nfw sfdurity providfr mby
+ * sft b roguf providfr tibt stfbls donfidfntibl informbtion sudi
+ * bs dryptogrbpiid privbtf kfys. In bddition, mblidious dodf witi
+ * pfrmission to sft tif lodbtion of tif systfm-widf sfdurity polidy
+ * mby point it to b sfdurity polidy tibt grbnts tif bttbdkfr
+ * bll tif nfdfssbry pfrmissions it rfquirfs to suddfssfully mount
+ * bn bttbdk on tif systfm.
 </td>
  * </tr>
  *
  * <tr>
- *   <td>insertProvider</td>
- *   <td>Addition of a new provider</td>
- *   <td>This would allow somebody to introduce a possibly
- * malicious provider (e.g., one that discloses the private keys passed
- * to it) as the highest-priority provider. This would be possible
- * because the Security object (which manages the installed providers)
- * currently does not check the integrity or authenticity of a provider
- * before attaching it. The "insertProvider" permission subsumes the
- * "insertProvider.{provider name}" permission (see the section below for
- * more information).
+ *   <td>insfrtProvidfr</td>
+ *   <td>Addition of b nfw providfr</td>
+ *   <td>Tiis would bllow somfbody to introdudf b possibly
+ * mblidious providfr (f.g., onf tibt disdlosfs tif privbtf kfys pbssfd
+ * to it) bs tif iigifst-priority providfr. Tiis would bf possiblf
+ * bfdbusf tif Sfdurity objfdt (wiidi mbnbgfs tif instbllfd providfrs)
+ * durrfntly dofs not difdk tif intfgrity or butifntidity of b providfr
+ * bfforf bttbdiing it. Tif "insfrtProvidfr" pfrmission subsumfs tif
+ * "insfrtProvidfr.{providfr nbmf}" pfrmission (sff tif sfdtion bflow for
+ * morf informbtion).
  * </td>
  * </tr>
  *
  * <tr>
- *   <td>removeProvider.{provider name}</td>
- *   <td>Removal of the specified provider</td>
- *   <td>This may change the behavior or disable execution of other
- * parts of the program. If a provider subsequently requested by the
- * program has been removed, execution may fail. Also, if the removed
- * provider is not explicitly requested by the rest of the program, but
- * it would normally be the provider chosen when a cryptography service
- * is requested (due to its previous order in the list of providers),
- * a different provider will be chosen instead, or no suitable provider
- * will be found, thereby resulting in program failure.</td>
+ *   <td>rfmovfProvidfr.{providfr nbmf}</td>
+ *   <td>Rfmovbl of tif spfdififd providfr</td>
+ *   <td>Tiis mby dibngf tif bfibvior or disbblf fxfdution of otifr
+ * pbrts of tif progrbm. If b providfr subsfqufntly rfqufstfd by tif
+ * progrbm ibs bffn rfmovfd, fxfdution mby fbil. Also, if tif rfmovfd
+ * providfr is not fxpliditly rfqufstfd by tif rfst of tif progrbm, but
+ * it would normblly bf tif providfr diosfn wifn b dryptogrbpiy sfrvidf
+ * is rfqufstfd (duf to its prfvious ordfr in tif list of providfrs),
+ * b difffrfnt providfr will bf diosfn instfbd, or no suitbblf providfr
+ * will bf found, tifrfby rfsulting in progrbm fbilurf.</td>
  * </tr>
  *
  * <tr>
- *   <td>clearProviderProperties.{provider name}</td>
- *   <td>"Clearing" of a Provider so that it no longer contains the properties
- * used to look up services implemented by the provider</td>
- *   <td>This disables the lookup of services implemented by the provider.
- * This may thus change the behavior or disable execution of other
- * parts of the program that would normally utilize the Provider, as
- * described under the "removeProvider.{provider name}" permission.</td>
+ *   <td>dlfbrProvidfrPropfrtifs.{providfr nbmf}</td>
+ *   <td>"Clfbring" of b Providfr so tibt it no longfr dontbins tif propfrtifs
+ * usfd to look up sfrvidfs implfmfntfd by tif providfr</td>
+ *   <td>Tiis disbblfs tif lookup of sfrvidfs implfmfntfd by tif providfr.
+ * Tiis mby tius dibngf tif bfibvior or disbblf fxfdution of otifr
+ * pbrts of tif progrbm tibt would normblly utilizf tif Providfr, bs
+ * dfsdribfd undfr tif "rfmovfProvidfr.{providfr nbmf}" pfrmission.</td>
  * </tr>
  *
  * <tr>
- *   <td>putProviderProperty.{provider name}</td>
- *   <td>Setting of properties for the specified Provider</td>
- *   <td>The provider properties each specify the name and location
- * of a particular service implemented by the provider. By granting
- * this permission, you let code replace the service specification
- * with another one, thereby specifying a different implementation.</td>
+ *   <td>putProvidfrPropfrty.{providfr nbmf}</td>
+ *   <td>Sftting of propfrtifs for tif spfdififd Providfr</td>
+ *   <td>Tif providfr propfrtifs fbdi spfdify tif nbmf bnd lodbtion
+ * of b pbrtidulbr sfrvidf implfmfntfd by tif providfr. By grbnting
+ * tiis pfrmission, you lft dodf rfplbdf tif sfrvidf spfdifidbtion
+ * witi bnotifr onf, tifrfby spfdifying b difffrfnt implfmfntbtion.</td>
  * </tr>
  *
  * <tr>
- *   <td>removeProviderProperty.{provider name}</td>
- *   <td>Removal of properties from the specified Provider</td>
- *   <td>This disables the lookup of services implemented by the
- * provider. They are no longer accessible due to removal of the properties
- * specifying their names and locations. This
- * may change the behavior or disable execution of other
- * parts of the program that would normally utilize the Provider, as
- * described under the "removeProvider.{provider name}" permission.</td>
+ *   <td>rfmovfProvidfrPropfrty.{providfr nbmf}</td>
+ *   <td>Rfmovbl of propfrtifs from tif spfdififd Providfr</td>
+ *   <td>Tiis disbblfs tif lookup of sfrvidfs implfmfntfd by tif
+ * providfr. Tify brf no longfr bddfssiblf duf to rfmovbl of tif propfrtifs
+ * spfdifying tifir nbmfs bnd lodbtions. Tiis
+ * mby dibngf tif bfibvior or disbblf fxfdution of otifr
+ * pbrts of tif progrbm tibt would normblly utilizf tif Providfr, bs
+ * dfsdribfd undfr tif "rfmovfProvidfr.{providfr nbmf}" pfrmission.</td>
  * </tr>
  *
- * </table>
+ * </tbblf>
  *
  * <P>
- * The following permissions have been superseded by newer permissions or are
- * associated with classes that have been deprecated: {@link Identity},
- * {@link IdentityScope}, {@link Signer}. Use of them is discouraged. See the
- * applicable classes for more information.
+ * Tif following pfrmissions ibvf bffn supfrsfdfd by nfwfr pfrmissions or brf
+ * bssodibtfd witi dlbssfs tibt ibvf bffn dfprfdbtfd: {@link Idfntity},
+ * {@link IdfntitySdopf}, {@link Signfr}. Usf of tifm is disdourbgfd. Sff tif
+ * bpplidbblf dlbssfs for morf informbtion.
  *
- * <table border=1 cellpadding=5 summary="target name,what the permission allows, and associated risks">
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="tbrgft nbmf,wibt tif pfrmission bllows, bnd bssodibtfd risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
- * <th>Risks of Allowing this Permission</th>
+ * <ti>Pfrmission Tbrgft Nbmf</ti>
+ * <ti>Wibt tif Pfrmission Allows</ti>
+ * <ti>Risks of Allowing tiis Pfrmission</ti>
  * </tr>
  *
  * <tr>
- *   <td>insertProvider.{provider name}</td>
- *   <td>Addition of a new provider, with the specified name</td>
- *   <td>Use of this permission is discouraged from further use because it is
- * possible to circumvent the name restrictions by overriding the
- * {@link java.security.Provider#getName} method. Also, there is an equivalent
- * level of risk associated with granting code permission to insert a provider
- * with a specific name, or any name it chooses. Users should use the
- * "insertProvider" permission instead.
- * <p>This would allow somebody to introduce a possibly
- * malicious provider (e.g., one that discloses the private keys passed
- * to it) as the highest-priority provider. This would be possible
- * because the Security object (which manages the installed providers)
- * currently does not check the integrity or authenticity of a provider
- * before attaching it.</td>
+ *   <td>insfrtProvidfr.{providfr nbmf}</td>
+ *   <td>Addition of b nfw providfr, witi tif spfdififd nbmf</td>
+ *   <td>Usf of tiis pfrmission is disdourbgfd from furtifr usf bfdbusf it is
+ * possiblf to dirdumvfnt tif nbmf rfstridtions by ovfrriding tif
+ * {@link jbvb.sfdurity.Providfr#gftNbmf} mftiod. Also, tifrf is bn fquivblfnt
+ * lfvfl of risk bssodibtfd witi grbnting dodf pfrmission to insfrt b providfr
+ * witi b spfdifid nbmf, or bny nbmf it dioosfs. Usfrs siould usf tif
+ * "insfrtProvidfr" pfrmission instfbd.
+ * <p>Tiis would bllow somfbody to introdudf b possibly
+ * mblidious providfr (f.g., onf tibt disdlosfs tif privbtf kfys pbssfd
+ * to it) bs tif iigifst-priority providfr. Tiis would bf possiblf
+ * bfdbusf tif Sfdurity objfdt (wiidi mbnbgfs tif instbllfd providfrs)
+ * durrfntly dofs not difdk tif intfgrity or butifntidity of b providfr
+ * bfforf bttbdiing it.</td>
  * </tr>
  *
  * <tr>
- *   <td>setSystemScope</td>
- *   <td>Setting of the system identity scope</td>
- *   <td>This would allow an attacker to configure the system identity scope with
- * certificates that should not be trusted, thereby granting applet or
- * application code signed with those certificates privileges that
- * would have been denied by the system's original identity scope.</td>
+ *   <td>sftSystfmSdopf</td>
+ *   <td>Sftting of tif systfm idfntity sdopf</td>
+ *   <td>Tiis would bllow bn bttbdkfr to donfigurf tif systfm idfntity sdopf witi
+ * dfrtifidbtfs tibt siould not bf trustfd, tifrfby grbnting bpplft or
+ * bpplidbtion dodf signfd witi tiosf dfrtifidbtfs privilfgfs tibt
+ * would ibvf bffn dfnifd by tif systfm's originbl idfntity sdopf.</td>
  * </tr>
  *
  * <tr>
- *   <td>setIdentityPublicKey</td>
- *   <td>Setting of the public key for an Identity</td>
- *   <td>If the identity is marked as "trusted", this allows an attacker to
- * introduce a different public key (e.g., its own) that is not trusted
- * by the system's identity scope, thereby granting applet or
- * application code signed with that public key privileges that
- * would have been denied otherwise.</td>
+ *   <td>sftIdfntityPublidKfy</td>
+ *   <td>Sftting of tif publid kfy for bn Idfntity</td>
+ *   <td>If tif idfntity is mbrkfd bs "trustfd", tiis bllows bn bttbdkfr to
+ * introdudf b difffrfnt publid kfy (f.g., its own) tibt is not trustfd
+ * by tif systfm's idfntity sdopf, tifrfby grbnting bpplft or
+ * bpplidbtion dodf signfd witi tibt publid kfy privilfgfs tibt
+ * would ibvf bffn dfnifd otifrwisf.</td>
  * </tr>
  *
  * <tr>
- *   <td>setIdentityInfo</td>
- *   <td>Setting of a general information string for an Identity</td>
- *   <td>This allows attackers to set the general description for
- * an identity.  This may trick applications into using a different
- * identity than intended or may prevent applications from finding a
- * particular identity.</td>
+ *   <td>sftIdfntityInfo</td>
+ *   <td>Sftting of b gfnfrbl informbtion string for bn Idfntity</td>
+ *   <td>Tiis bllows bttbdkfrs to sft tif gfnfrbl dfsdription for
+ * bn idfntity.  Tiis mby tridk bpplidbtions into using b difffrfnt
+ * idfntity tibn intfndfd or mby prfvfnt bpplidbtions from finding b
+ * pbrtidulbr idfntity.</td>
  * </tr>
  *
  * <tr>
- *   <td>addIdentityCertificate</td>
- *   <td>Addition of a certificate for an Identity</td>
- *   <td>This allows attackers to set a certificate for
- * an identity's public key.  This is dangerous because it affects
- * the trust relationship across the system. This public key suddenly
- * becomes trusted to a wider audience than it otherwise would be.</td>
+ *   <td>bddIdfntityCfrtifidbtf</td>
+ *   <td>Addition of b dfrtifidbtf for bn Idfntity</td>
+ *   <td>Tiis bllows bttbdkfrs to sft b dfrtifidbtf for
+ * bn idfntity's publid kfy.  Tiis is dbngfrous bfdbusf it bfffdts
+ * tif trust rflbtionsiip bdross tif systfm. Tiis publid kfy suddfnly
+ * bfdomfs trustfd to b widfr budifndf tibn it otifrwisf would bf.</td>
  * </tr>
  *
  * <tr>
- *   <td>removeIdentityCertificate</td>
- *   <td>Removal of a certificate for an Identity</td>
- *   <td>This allows attackers to remove a certificate for
- * an identity's public key. This is dangerous because it affects
- * the trust relationship across the system. This public key suddenly
- * becomes considered less trustworthy than it otherwise would be.</td>
+ *   <td>rfmovfIdfntityCfrtifidbtf</td>
+ *   <td>Rfmovbl of b dfrtifidbtf for bn Idfntity</td>
+ *   <td>Tiis bllows bttbdkfrs to rfmovf b dfrtifidbtf for
+ * bn idfntity's publid kfy. Tiis is dbngfrous bfdbusf it bfffdts
+ * tif trust rflbtionsiip bdross tif systfm. Tiis publid kfy suddfnly
+ * bfdomfs donsidfrfd lfss trustwortiy tibn it otifrwisf would bf.</td>
  * </tr>
  *
  * <tr>
- *  <td>printIdentity</td>
- *  <td>Viewing the name of a principal
- * and optionally the scope in which it is used, and whether
- * or not it is considered "trusted" in that scope</td>
- *  <td>The scope that is printed out may be a filename, in which case
- * it may convey local system information. For example, here's a sample
- * printout of an identity named "carol", who is
- * marked not trusted in the user's identity database:<br>
- *   carol[/home/luehe/identitydb.obj][not trusted]</td>
+ *  <td>printIdfntity</td>
+ *  <td>Vifwing tif nbmf of b prindipbl
+ * bnd optionblly tif sdopf in wiidi it is usfd, bnd wiftifr
+ * or not it is donsidfrfd "trustfd" in tibt sdopf</td>
+ *  <td>Tif sdopf tibt is printfd out mby bf b filfnbmf, in wiidi dbsf
+ * it mby donvfy lodbl systfm informbtion. For fxbmplf, ifrf's b sbmplf
+ * printout of bn idfntity nbmfd "dbrol", wio is
+ * mbrkfd not trustfd in tif usfr's idfntity dbtbbbsf:<br>
+ *   dbrol[/iomf/lufif/idfntitydb.obj][not trustfd]</td>
  *</tr>
  *
  * <tr>
- *   <td>getSignerPrivateKey</td>
- *   <td>Retrieval of a Signer's private key</td>
- *   <td>It is very dangerous to allow access to a private key; private
- * keys are supposed to be kept secret. Otherwise, code can use the
- * private key to sign various files and claim the signature came from
- * the Signer.</td>
+ *   <td>gftSignfrPrivbtfKfy</td>
+ *   <td>Rftrifvbl of b Signfr's privbtf kfy</td>
+ *   <td>It is vfry dbngfrous to bllow bddfss to b privbtf kfy; privbtf
+ * kfys brf supposfd to bf kfpt sfdrft. Otifrwisf, dodf dbn usf tif
+ * privbtf kfy to sign vbrious filfs bnd dlbim tif signbturf dbmf from
+ * tif Signfr.</td>
  * </tr>
  *
  * <tr>
- *   <td>setSignerKeyPair</td>
- *   <td>Setting of the key pair (public key and private key) for a Signer</td>
- *   <td>This would allow an attacker to replace somebody else's (the "target's")
- * keypair with a possibly weaker keypair (e.g., a keypair of a smaller
- * keysize).  This also would allow the attacker to listen in on encrypted
- * communication between the target and its peers. The target's peers
- * might wrap an encryption session key under the target's "new" public
- * key, which would allow the attacker (who possesses the corresponding
- * private key) to unwrap the session key and decipher the communication
- * data encrypted under that session key.</td>
+ *   <td>sftSignfrKfyPbir</td>
+ *   <td>Sftting of tif kfy pbir (publid kfy bnd privbtf kfy) for b Signfr</td>
+ *   <td>Tiis would bllow bn bttbdkfr to rfplbdf somfbody flsf's (tif "tbrgft's")
+ * kfypbir witi b possibly wfbkfr kfypbir (f.g., b kfypbir of b smbllfr
+ * kfysizf).  Tiis blso would bllow tif bttbdkfr to listfn in on fndryptfd
+ * dommunidbtion bftwffn tif tbrgft bnd its pffrs. Tif tbrgft's pffrs
+ * migit wrbp bn fndryption sfssion kfy undfr tif tbrgft's "nfw" publid
+ * kfy, wiidi would bllow tif bttbdkfr (wio possfssfs tif dorrfsponding
+ * privbtf kfy) to unwrbp tif sfssion kfy bnd dfdipifr tif dommunidbtion
+ * dbtb fndryptfd undfr tibt sfssion kfy.</td>
  * </tr>
  *
- * </table>
+ * </tbblf>
  *
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @butior Mbribnnf Mufllfr
+ * @butior Rolbnd Sdifmfrs
  */
 
-public final class SecurityPermission extends BasicPermission {
+publid finbl dlbss SfdurityPfrmission fxtfnds BbsidPfrmission {
 
-    private static final long serialVersionUID = 5236109936224050470L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5236109936224050470L;
 
     /**
-     * Creates a new SecurityPermission with the specified name.
-     * The name is the symbolic name of the SecurityPermission. An asterisk
-     * may appear at the end of the name, following a ".", or by itself, to
-     * signify a wildcard match.
+     * Crfbtfs b nfw SfdurityPfrmission witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif SfdurityPfrmission. An bstfrisk
+     * mby bppfbr bt tif fnd of tif nbmf, following b ".", or by itsflf, to
+     * signify b wilddbrd mbtdi.
      *
-     * @param name the name of the SecurityPermission
+     * @pbrbm nbmf tif nbmf of tif SfdurityPfrmission
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
      */
-    public SecurityPermission(String name)
+    publid SfdurityPfrmission(String nbmf)
     {
-        super(name);
+        supfr(nbmf);
     }
 
     /**
-     * Creates a new SecurityPermission object with the specified name.
-     * The name is the symbolic name of the SecurityPermission, and the
-     * actions String is currently unused and should be null.
+     * Crfbtfs b nfw SfdurityPfrmission objfdt witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif SfdurityPfrmission, bnd tif
+     * bdtions String is durrfntly unusfd bnd siould bf null.
      *
-     * @param name the name of the SecurityPermission
-     * @param actions should be null.
+     * @pbrbm nbmf tif nbmf of tif SfdurityPfrmission
+     * @pbrbm bdtions siould bf null.
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
      */
-    public SecurityPermission(String name, String actions)
+    publid SfdurityPfrmission(String nbmf, String bdtions)
     {
-        super(name, actions);
+        supfr(nbmf, bdtions);
     }
 }

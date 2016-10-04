@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2004, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.util.*;
+
+import jbvbx.swing.*;
+
+/**
+ * A dombo box to dontrol thf visiblf timf rbngf for onf or morf Plottfr domponfnts.
+ * Whfn usfd with two or morf Plottfrs, it blso bdts to doordinbtf thf rbngf bftwffn
+ * thfm.
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss TimfComboBox fxtfnds JComboBox<String> implfmfnts ItfmListfnfr, PropfrtyChbngfListfnfr {
+    privbtf ArrbyList<Plottfr> plottfrs = nfw ArrbyList<Plottfr>();
+
+    publid TimfComboBox(Plottfr... plottfrArrby) {
+        supfr(Plottfr.rbngfNbmfs);
+
+        bddItfmListfnfr(this);
+
+        if (plottfrArrby != null && plottfrArrby.lfngth > 0) {
+            plottfrs.bddAll(Arrbys.bsList(plottfrArrby));
+            sflfdtVbluf(plottfrArrby[0].gftVifwRbngf());
+            for (Plottfr plottfr : plottfrs) {
+                plottfr.bddPropfrtyChbngfListfnfr(this);
+            }
+        }
+    }
+
+    publid void bddPlottfr(Plottfr plottfr) {
+        plottfrs.bdd(plottfr);
+        if (plottfrs.sizf() == 1) {
+            sflfdtVbluf(plottfr.gftVifwRbngf());
+        }
+        plottfr.bddPropfrtyChbngfListfnfr(this);
+    }
+
+    publid void itfmStbtfChbngfd(ItfmEvfnt fv) {
+        for (Plottfr plottfr : plottfrs) {
+            plottfr.sftVifwRbngf(Plottfr.rbngfVblufs[gftSflfdtfdIndfx()]);
+        }
+    }
+
+    privbtf void sflfdtVbluf(int vbluf) {
+        // Sft thf sflfdtfd vbluf
+        for (int i = 0; i < Plottfr.rbngfVblufs.lfngth; i++) {
+            if (Plottfr.rbngfVblufs[i] == vbluf) {
+                sftSflfdtfdItfm(Plottfr.rbngfNbmfs[i]);
+            }
+        }
+        // Mbkf surf bll plottfrs show this vbluf
+        if (plottfrs.sizf() > 1) {
+            for (Plottfr plottfr : plottfrs) {
+                plottfr.sftVifwRbngf(vbluf);
+            }
+        }
+    }
+
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt fv) {
+        if (fv.gftPropfrtyNbmf() == "vifwRbngf") {
+            sflfdtVbluf((Intfgfr)fv.gftNfwVbluf());
+        }
+    }
+}

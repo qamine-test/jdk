@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft.intfrnbl;
+
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.util.Arrbys;
+
+/**
+ * Thf bbstrbdt bbsf dlbss from whidh thf dlbssfs <dodf>Row</dodf>
+ * Thf dlbss <dodf>BbsfRow</dodf> storfs
+ * b row's originbl vblufs bs bn brrby of <dodf>Objfdt</dodf>
+ * vblufs, whidh dbn bf rftrifvfd with thf mfthod <dodf>gftOrigRow</dodf>.
+ * This dlbss blso providfs mfthods for gftting bnd sftting individubl
+ * vblufs in thf row.
+ * <P>
+ * A row's originbl vblufs brf thf vblufs it dontbinfd bfforf it wbs lbst
+ * modififd.  For fxbmplf, whfn thf <dodf>CbdhfdRowSft</dodf>mfthod
+ * <dodf>bddfptChbngfs</dodf> is dbllfd, it will rfsft b row's originbl
+ * vblufs to bf thf row's durrfnt vblufs.  Thfn, whfn thf row is modififd,
+ * thf vblufs thbt wfrf prfviously thf durrfnt vblufs will bfdomf thf row's
+ * originbl vblufs (thf vblufs thf row hbd immfdibtfly bfforf it wbs modififd).
+ * If b row hbs not bffn modififd, its originbl vblufs brf its initibl vblufs.
+ * <P>
+ * Subdlbssfs of this dlbss dontbin morf spfdifid dftbils, sudh bs
+ * thf donditions undfr whidh bn fxdfption is thrown or thf bounds for
+ * indfx pbrbmftfrs.
+ */
+publid bbstrbdt dlbss BbsfRow implfmfnts Sfriblizbblf, Clonfbblf {
+
+/**
+ * Spfdify thf sfriblVfrsionUID
+ */
+privbtf stbtid finbl long sfriblVfrsionUID = 4152013523511412238L;
+
+/**
+ * Thf brrby dontbining thf originbl vblufs for this <dodf>BbsfRow</dodf>
+ * objfdt.
+ * @sfribl
+ */
+    protfdtfd Objfdt[] origVbls;
+
+/**
+ * Rftrifvfs thf vblufs thbt this row dontbinfd immfdibtfly
+ * prior to its lbst modifidbtion.
+ *
+ * @rfturn bn brrby of <dodf>Objfdt</dodf> vblufs dontbining this row's
+ * originbl vblufs
+ */
+    publid Objfdt[] gftOrigRow() {
+        Objfdt[] origRow = this.origVbls;
+        rfturn (origRow == null) ? null: Arrbys.dopyOf(origRow, origRow.lfngth);
+    }
+
+/**
+ * Rftrifvfs thf brrby flfmfnt bt thf givfn indfx, whidh is
+ * thf originbl vbluf of dolumn numbfr <i>idx</i> in this row.
+ *
+ * @pbrbm idx thf indfx of thf flfmfnt to rfturn
+ * @rfturn thf <dodf>Objfdt</dodf> vbluf bt thf givfn indfx into this
+ *         row's brrby of originbl vblufs
+ * @throws SQLExdfption if thfrf is bn frror
+ */
+    publid bbstrbdt Objfdt gftColumnObjfdt(int idx) throws SQLExdfption;
+
+/**
+ * Sfts thf flfmfnt bt thf givfn indfx into this row's brrby of
+ * originbl vblufs to thf givfn vbluf.  Implfmfntbtions of thf dlbssfs
+ * <dodf>Row</dodf> bnd dftfrminf whbt hbppfns
+ * whfn thf dursor is on thf insfrt row bnd whfn it is on bny othfr row.
+ *
+ * @pbrbm idx thf indfx of thf flfmfnt to bf sft
+ * @pbrbm obj thf <dodf>Objfdt</dodf> to whidh thf flfmfnt bt indfx
+ *              <dodf>idx</dodf> to bf sft
+ * @throws SQLExdfption if thfrf is bn frror
+ */
+    publid bbstrbdt void sftColumnObjfdt(int idx, Objfdt obj) throws SQLExdfption;
+}

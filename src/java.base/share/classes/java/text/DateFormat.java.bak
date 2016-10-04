@@ -1,1040 +1,1040 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import java.io.InvalidObjectException;
-import java.text.spi.DateFormatProvider;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.TimeZone;
-import java.util.spi.LocaleServiceProvider;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleServiceProviderPool;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.tfxt.spi.DbtfFormbtProvidfr;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Dbtf;
+import jbvb.util.GrfgoribnCblfndbr;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.TimfZonf;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
 
 /**
- * {@code DateFormat} is an abstract class for date/time formatting subclasses which
- * formats and parses dates or time in a language-independent manner.
- * The date/time formatting subclass, such as {@link SimpleDateFormat}, allows for
- * formatting (i.e., date &rarr; text), parsing (text &rarr; date), and
- * normalization.  The date is represented as a <code>Date</code> object or
- * as the milliseconds since January 1, 1970, 00:00:00 GMT.
+ * {@dodf DbtfFormbt} is bn bbstrbdt dlbss for dbtf/timf formbtting subdlbssfs wiidi
+ * formbts bnd pbrsfs dbtfs or timf in b lbngubgf-indfpfndfnt mbnnfr.
+ * Tif dbtf/timf formbtting subdlbss, sudi bs {@link SimplfDbtfFormbt}, bllows for
+ * formbtting (i.f., dbtf &rbrr; tfxt), pbrsing (tfxt &rbrr; dbtf), bnd
+ * normblizbtion.  Tif dbtf is rfprfsfntfd bs b <dodf>Dbtf</dodf> objfdt or
+ * bs tif millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT.
  *
- * <p>{@code DateFormat} provides many class methods for obtaining default date/time
- * formatters based on the default or a given locale and a number of formatting
- * styles. The formatting styles include {@link #FULL}, {@link #LONG}, {@link #MEDIUM}, and {@link #SHORT}. More
- * detail and examples of using these styles are provided in the method
- * descriptions.
+ * <p>{@dodf DbtfFormbt} providfs mbny dlbss mftiods for obtbining dffbult dbtf/timf
+ * formbttfrs bbsfd on tif dffbult or b givfn lodblf bnd b numbfr of formbtting
+ * stylfs. Tif formbtting stylfs indludf {@link #FULL}, {@link #LONG}, {@link #MEDIUM}, bnd {@link #SHORT}. Morf
+ * dftbil bnd fxbmplfs of using tifsf stylfs brf providfd in tif mftiod
+ * dfsdriptions.
  *
- * <p>{@code DateFormat} helps you to format and parse dates for any locale.
- * Your code can be completely independent of the locale conventions for
- * months, days of the week, or even the calendar format: lunar vs. solar.
+ * <p>{@dodf DbtfFormbt} iflps you to formbt bnd pbrsf dbtfs for bny lodblf.
+ * Your dodf dbn bf domplftfly indfpfndfnt of tif lodblf donvfntions for
+ * montis, dbys of tif wffk, or fvfn tif dblfndbr formbt: lunbr vs. solbr.
  *
- * <p>To format a date for the current Locale, use one of the
- * static factory methods:
- * <blockquote>
- * <pre>{@code
- * myString = DateFormat.getDateInstance().format(myDate);
- * }</pre>
- * </blockquote>
- * <p>If you are formatting multiple dates, it is
- * more efficient to get the format and use it multiple times so that
- * the system doesn't have to fetch the information about the local
- * language and country conventions multiple times.
- * <blockquote>
- * <pre>{@code
- * DateFormat df = DateFormat.getDateInstance();
- * for (int i = 0; i < myDate.length; ++i) {
- *     output.println(df.format(myDate[i]) + "; ");
+ * <p>To formbt b dbtf for tif durrfnt Lodblf, usf onf of tif
+ * stbtid fbdtory mftiods:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * myString = DbtfFormbt.gftDbtfInstbndf().formbt(myDbtf);
+ * }</prf>
+ * </blodkquotf>
+ * <p>If you brf formbtting multiplf dbtfs, it is
+ * morf fffidifnt to gft tif formbt bnd usf it multiplf timfs so tibt
+ * tif systfm dofsn't ibvf to fftdi tif informbtion bbout tif lodbl
+ * lbngubgf bnd dountry donvfntions multiplf timfs.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * DbtfFormbt df = DbtfFormbt.gftDbtfInstbndf();
+ * for (int i = 0; i < myDbtf.lfngti; ++i) {
+ *     output.println(df.formbt(myDbtf[i]) + "; ");
  * }
- * }</pre>
- * </blockquote>
- * <p>To format a date for a different Locale, specify it in the
- * call to {@link #getDateInstance(int, Locale) getDateInstance()}.
- * <blockquote>
- * <pre>{@code
- * DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, Locale.FRANCE);
- * }</pre>
- * </blockquote>
- * <p>You can use a DateFormat to parse also.
- * <blockquote>
- * <pre>{@code
- * myDate = df.parse(myString);
- * }</pre>
- * </blockquote>
- * <p>Use {@code getDateInstance} to get the normal date format for that country.
- * There are other static factory methods available.
- * Use {@code getTimeInstance} to get the time format for that country.
- * Use {@code getDateTimeInstance} to get a date and time format. You can pass in
- * different options to these factory methods to control the length of the
- * result; from {@link #SHORT} to {@link #MEDIUM} to {@link #LONG} to {@link #FULL}. The exact result depends
- * on the locale, but generally:
- * <ul><li>{@link #SHORT} is completely numeric, such as {@code 12.13.52} or {@code 3:30pm}
- * <li>{@link #MEDIUM} is longer, such as {@code Jan 12, 1952}
- * <li>{@link #LONG} is longer, such as {@code January 12, 1952} or {@code 3:30:32pm}
- * <li>{@link #FULL} is pretty completely specified, such as
- * {@code Tuesday, April 12, 1952 AD or 3:30:42pm PST}.
+ * }</prf>
+ * </blodkquotf>
+ * <p>To formbt b dbtf for b difffrfnt Lodblf, spfdify it in tif
+ * dbll to {@link #gftDbtfInstbndf(int, Lodblf) gftDbtfInstbndf()}.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * DbtfFormbt df = DbtfFormbt.gftDbtfInstbndf(DbtfFormbt.LONG, Lodblf.FRANCE);
+ * }</prf>
+ * </blodkquotf>
+ * <p>You dbn usf b DbtfFormbt to pbrsf blso.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * myDbtf = df.pbrsf(myString);
+ * }</prf>
+ * </blodkquotf>
+ * <p>Usf {@dodf gftDbtfInstbndf} to gft tif normbl dbtf formbt for tibt dountry.
+ * Tifrf brf otifr stbtid fbdtory mftiods bvbilbblf.
+ * Usf {@dodf gftTimfInstbndf} to gft tif timf formbt for tibt dountry.
+ * Usf {@dodf gftDbtfTimfInstbndf} to gft b dbtf bnd timf formbt. You dbn pbss in
+ * difffrfnt options to tifsf fbdtory mftiods to dontrol tif lfngti of tif
+ * rfsult; from {@link #SHORT} to {@link #MEDIUM} to {@link #LONG} to {@link #FULL}. Tif fxbdt rfsult dfpfnds
+ * on tif lodblf, but gfnfrblly:
+ * <ul><li>{@link #SHORT} is domplftfly numfrid, sudi bs {@dodf 12.13.52} or {@dodf 3:30pm}
+ * <li>{@link #MEDIUM} is longfr, sudi bs {@dodf Jbn 12, 1952}
+ * <li>{@link #LONG} is longfr, sudi bs {@dodf Jbnubry 12, 1952} or {@dodf 3:30:32pm}
+ * <li>{@link #FULL} is prftty domplftfly spfdififd, sudi bs
+ * {@dodf Tufsdby, April 12, 1952 AD or 3:30:42pm PST}.
  * </ul>
  *
- * <p>You can also set the time zone on the format if you wish.
- * If you want even more control over the format or parsing,
- * (or want to give your users more control),
- * you can try casting the {@code DateFormat} you get from the factory methods
- * to a {@link SimpleDateFormat}. This will work for the majority
- * of countries; just remember to put it in a {@code try} block in case you
- * encounter an unusual one.
+ * <p>You dbn blso sft tif timf zonf on tif formbt if you wisi.
+ * If you wbnt fvfn morf dontrol ovfr tif formbt or pbrsing,
+ * (or wbnt to givf your usfrs morf dontrol),
+ * you dbn try dbsting tif {@dodf DbtfFormbt} you gft from tif fbdtory mftiods
+ * to b {@link SimplfDbtfFormbt}. Tiis will work for tif mbjority
+ * of dountrifs; just rfmfmbfr to put it in b {@dodf try} blodk in dbsf you
+ * fndountfr bn unusubl onf.
  *
- * <p>You can also use forms of the parse and format methods with
- * {@link ParsePosition} and {@link FieldPosition} to
- * allow you to
- * <ul><li>progressively parse through pieces of a string.
- * <li>align any particular field, or find out where it is for selection
- * on the screen.
+ * <p>You dbn blso usf forms of tif pbrsf bnd formbt mftiods witi
+ * {@link PbrsfPosition} bnd {@link FifldPosition} to
+ * bllow you to
+ * <ul><li>progrfssivfly pbrsf tirougi pifdfs of b string.
+ * <li>blign bny pbrtidulbr fifld, or find out wifrf it is for sflfdtion
+ * on tif sdrffn.
  * </ul>
  *
- * <h3><a name="synchronization">Synchronization</a></h3>
+ * <i3><b nbmf="syndironizbtion">Syndironizbtion</b></i3>
  *
  * <p>
- * Date formats are not synchronized.
- * It is recommended to create separate format instances for each thread.
- * If multiple threads access a format concurrently, it must be synchronized
- * externally.
+ * Dbtf formbts brf not syndironizfd.
+ * It is rfdommfndfd to drfbtf sfpbrbtf formbt instbndfs for fbdi tirfbd.
+ * If multiplf tirfbds bddfss b formbt dondurrfntly, it must bf syndironizfd
+ * fxtfrnblly.
  *
- * @see          Format
- * @see          NumberFormat
- * @see          SimpleDateFormat
- * @see          java.util.Calendar
- * @see          java.util.GregorianCalendar
- * @see          java.util.TimeZone
- * @author       Mark Davis, Chen-Lieh Huang, Alan Liu
+ * @sff          Formbt
+ * @sff          NumbfrFormbt
+ * @sff          SimplfDbtfFormbt
+ * @sff          jbvb.util.Cblfndbr
+ * @sff          jbvb.util.GrfgoribnCblfndbr
+ * @sff          jbvb.util.TimfZonf
+ * @butior       Mbrk Dbvis, Cifn-Lifi Hubng, Albn Liu
  */
-public abstract class DateFormat extends Format {
+publid bbstrbdt dlbss DbtfFormbt fxtfnds Formbt {
 
     /**
-     * The {@link Calendar} instance used for calculating the date-time fields
-     * and the instant of time. This field is used for both formatting and
-     * parsing.
+     * Tif {@link Cblfndbr} instbndf usfd for dbldulbting tif dbtf-timf fiflds
+     * bnd tif instbnt of timf. Tiis fifld is usfd for boti formbtting bnd
+     * pbrsing.
      *
-     * <p>Subclasses should initialize this field to a {@link Calendar}
-     * appropriate for the {@link Locale} associated with this
-     * <code>DateFormat</code>.
-     * @serial
+     * <p>Subdlbssfs siould initiblizf tiis fifld to b {@link Cblfndbr}
+     * bppropribtf for tif {@link Lodblf} bssodibtfd witi tiis
+     * <dodf>DbtfFormbt</dodf>.
+     * @sfribl
      */
-    protected Calendar calendar;
+    protfdtfd Cblfndbr dblfndbr;
 
     /**
-     * The number formatter that <code>DateFormat</code> uses to format numbers
-     * in dates and times.  Subclasses should initialize this to a number format
-     * appropriate for the locale associated with this <code>DateFormat</code>.
-     * @serial
+     * Tif numbfr formbttfr tibt <dodf>DbtfFormbt</dodf> usfs to formbt numbfrs
+     * in dbtfs bnd timfs.  Subdlbssfs siould initiblizf tiis to b numbfr formbt
+     * bppropribtf for tif lodblf bssodibtfd witi tiis <dodf>DbtfFormbt</dodf>.
+     * @sfribl
      */
-    protected NumberFormat numberFormat;
+    protfdtfd NumbfrFormbt numbfrFormbt;
 
     /**
-     * Useful constant for ERA field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for ERA fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int ERA_FIELD = 0;
+    publid finbl stbtid int ERA_FIELD = 0;
     /**
-     * Useful constant for YEAR field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for YEAR fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int YEAR_FIELD = 1;
+    publid finbl stbtid int YEAR_FIELD = 1;
     /**
-     * Useful constant for MONTH field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for MONTH fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int MONTH_FIELD = 2;
+    publid finbl stbtid int MONTH_FIELD = 2;
     /**
-     * Useful constant for DATE field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for DATE fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int DATE_FIELD = 3;
+    publid finbl stbtid int DATE_FIELD = 3;
     /**
-     * Useful constant for one-based HOUR_OF_DAY field alignment.
-     * Used in FieldPosition of date/time formatting.
-     * HOUR_OF_DAY1_FIELD is used for the one-based 24-hour clock.
-     * For example, 23:59 + 01:00 results in 24:59.
+     * Usfful donstbnt for onf-bbsfd HOUR_OF_DAY fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     * HOUR_OF_DAY1_FIELD is usfd for tif onf-bbsfd 24-iour dlodk.
+     * For fxbmplf, 23:59 + 01:00 rfsults in 24:59.
      */
-    public final static int HOUR_OF_DAY1_FIELD = 4;
+    publid finbl stbtid int HOUR_OF_DAY1_FIELD = 4;
     /**
-     * Useful constant for zero-based HOUR_OF_DAY field alignment.
-     * Used in FieldPosition of date/time formatting.
-     * HOUR_OF_DAY0_FIELD is used for the zero-based 24-hour clock.
-     * For example, 23:59 + 01:00 results in 00:59.
+     * Usfful donstbnt for zfro-bbsfd HOUR_OF_DAY fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     * HOUR_OF_DAY0_FIELD is usfd for tif zfro-bbsfd 24-iour dlodk.
+     * For fxbmplf, 23:59 + 01:00 rfsults in 00:59.
      */
-    public final static int HOUR_OF_DAY0_FIELD = 5;
+    publid finbl stbtid int HOUR_OF_DAY0_FIELD = 5;
     /**
-     * Useful constant for MINUTE field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for MINUTE fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int MINUTE_FIELD = 6;
+    publid finbl stbtid int MINUTE_FIELD = 6;
     /**
-     * Useful constant for SECOND field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for SECOND fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int SECOND_FIELD = 7;
+    publid finbl stbtid int SECOND_FIELD = 7;
     /**
-     * Useful constant for MILLISECOND field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for MILLISECOND fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int MILLISECOND_FIELD = 8;
+    publid finbl stbtid int MILLISECOND_FIELD = 8;
     /**
-     * Useful constant for DAY_OF_WEEK field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for DAY_OF_WEEK fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int DAY_OF_WEEK_FIELD = 9;
+    publid finbl stbtid int DAY_OF_WEEK_FIELD = 9;
     /**
-     * Useful constant for DAY_OF_YEAR field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for DAY_OF_YEAR fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int DAY_OF_YEAR_FIELD = 10;
+    publid finbl stbtid int DAY_OF_YEAR_FIELD = 10;
     /**
-     * Useful constant for DAY_OF_WEEK_IN_MONTH field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for DAY_OF_WEEK_IN_MONTH fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int DAY_OF_WEEK_IN_MONTH_FIELD = 11;
+    publid finbl stbtid int DAY_OF_WEEK_IN_MONTH_FIELD = 11;
     /**
-     * Useful constant for WEEK_OF_YEAR field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for WEEK_OF_YEAR fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int WEEK_OF_YEAR_FIELD = 12;
+    publid finbl stbtid int WEEK_OF_YEAR_FIELD = 12;
     /**
-     * Useful constant for WEEK_OF_MONTH field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for WEEK_OF_MONTH fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int WEEK_OF_MONTH_FIELD = 13;
+    publid finbl stbtid int WEEK_OF_MONTH_FIELD = 13;
     /**
-     * Useful constant for AM_PM field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for AM_PM fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int AM_PM_FIELD = 14;
+    publid finbl stbtid int AM_PM_FIELD = 14;
     /**
-     * Useful constant for one-based HOUR field alignment.
-     * Used in FieldPosition of date/time formatting.
-     * HOUR1_FIELD is used for the one-based 12-hour clock.
-     * For example, 11:30 PM + 1 hour results in 12:30 AM.
+     * Usfful donstbnt for onf-bbsfd HOUR fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     * HOUR1_FIELD is usfd for tif onf-bbsfd 12-iour dlodk.
+     * For fxbmplf, 11:30 PM + 1 iour rfsults in 12:30 AM.
      */
-    public final static int HOUR1_FIELD = 15;
+    publid finbl stbtid int HOUR1_FIELD = 15;
     /**
-     * Useful constant for zero-based HOUR field alignment.
-     * Used in FieldPosition of date/time formatting.
-     * HOUR0_FIELD is used for the zero-based 12-hour clock.
-     * For example, 11:30 PM + 1 hour results in 00:30 AM.
+     * Usfful donstbnt for zfro-bbsfd HOUR fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     * HOUR0_FIELD is usfd for tif zfro-bbsfd 12-iour dlodk.
+     * For fxbmplf, 11:30 PM + 1 iour rfsults in 00:30 AM.
      */
-    public final static int HOUR0_FIELD = 16;
+    publid finbl stbtid int HOUR0_FIELD = 16;
     /**
-     * Useful constant for TIMEZONE field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Usfful donstbnt for TIMEZONE fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
      */
-    public final static int TIMEZONE_FIELD = 17;
+    publid finbl stbtid int TIMEZONE_FIELD = 17;
 
-    // Proclaim serial compatibility with 1.1 FCS
-    private static final long serialVersionUID = 7218322306649953788L;
+    // Prodlbim sfribl dompbtibility witi 1.1 FCS
+    privbtf stbtid finbl long sfriblVfrsionUID = 7218322306649953788L;
 
     /**
-     * Overrides Format.
-     * Formats a time object into a time string. Examples of time objects
-     * are a time value expressed in milliseconds and a Date object.
-     * @param obj must be a Number or a Date.
-     * @param toAppendTo the string buffer for the returning time string.
-     * @return the string buffer passed in as toAppendTo, with formatted text appended.
-     * @param fieldPosition keeps track of the position of the field
-     * within the returned string.
-     * On input: an alignment field,
-     * if desired. On output: the offsets of the alignment field. For
-     * example, given a time text "1996.07.10 AD at 15:08:56 PDT",
-     * if the given fieldPosition is DateFormat.YEAR_FIELD, the
-     * begin index and end index of fieldPosition will be set to
-     * 0 and 4, respectively.
-     * Notice that if the same time field appears
-     * more than once in a pattern, the fieldPosition will be set for the first
-     * occurrence of that time field. For instance, formatting a Date to
-     * the time string "1 PM PDT (Pacific Daylight Time)" using the pattern
-     * "h a z (zzzz)" and the alignment field DateFormat.TIMEZONE_FIELD,
-     * the begin index and end index of fieldPosition will be set to
-     * 5 and 8, respectively, for the first occurrence of the timezone
-     * pattern character 'z'.
-     * @see java.text.Format
+     * Ovfrridfs Formbt.
+     * Formbts b timf objfdt into b timf string. Exbmplfs of timf objfdts
+     * brf b timf vbluf fxprfssfd in millisfdonds bnd b Dbtf objfdt.
+     * @pbrbm obj must bf b Numbfr or b Dbtf.
+     * @pbrbm toAppfndTo tif string bufffr for tif rfturning timf string.
+     * @rfturn tif string bufffr pbssfd in bs toAppfndTo, witi formbttfd tfxt bppfndfd.
+     * @pbrbm fifldPosition kffps trbdk of tif position of tif fifld
+     * witiin tif rfturnfd string.
+     * On input: bn blignmfnt fifld,
+     * if dfsirfd. On output: tif offsfts of tif blignmfnt fifld. For
+     * fxbmplf, givfn b timf tfxt "1996.07.10 AD bt 15:08:56 PDT",
+     * if tif givfn fifldPosition is DbtfFormbt.YEAR_FIELD, tif
+     * bfgin indfx bnd fnd indfx of fifldPosition will bf sft to
+     * 0 bnd 4, rfspfdtivfly.
+     * Notidf tibt if tif sbmf timf fifld bppfbrs
+     * morf tibn ondf in b pbttfrn, tif fifldPosition will bf sft for tif first
+     * oddurrfndf of tibt timf fifld. For instbndf, formbtting b Dbtf to
+     * tif timf string "1 PM PDT (Pbdifid Dbyligit Timf)" using tif pbttfrn
+     * "i b z (zzzz)" bnd tif blignmfnt fifld DbtfFormbt.TIMEZONE_FIELD,
+     * tif bfgin indfx bnd fnd indfx of fifldPosition will bf sft to
+     * 5 bnd 8, rfspfdtivfly, for tif first oddurrfndf of tif timfzonf
+     * pbttfrn dibrbdtfr 'z'.
+     * @sff jbvb.tfxt.Formbt
      */
-    public final StringBuffer format(Object obj, StringBuffer toAppendTo,
-                                     FieldPosition fieldPosition)
+    publid finbl StringBufffr formbt(Objfdt obj, StringBufffr toAppfndTo,
+                                     FifldPosition fifldPosition)
     {
-        if (obj instanceof Date)
-            return format( (Date)obj, toAppendTo, fieldPosition );
-        else if (obj instanceof Number)
-            return format( new Date(((Number)obj).longValue()),
-                          toAppendTo, fieldPosition );
-        else
-            throw new IllegalArgumentException("Cannot format given Object as a Date");
+        if (obj instbndfof Dbtf)
+            rfturn formbt( (Dbtf)obj, toAppfndTo, fifldPosition );
+        flsf if (obj instbndfof Numbfr)
+            rfturn formbt( nfw Dbtf(((Numbfr)obj).longVbluf()),
+                          toAppfndTo, fifldPosition );
+        flsf
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot formbt givfn Objfdt bs b Dbtf");
     }
 
     /**
-     * Formats a Date into a date/time string.
-     * @param date a Date to be formatted into a date/time string.
-     * @param toAppendTo the string buffer for the returning date/time string.
-     * @param fieldPosition keeps track of the position of the field
-     * within the returned string.
-     * On input: an alignment field,
-     * if desired. On output: the offsets of the alignment field. For
-     * example, given a time text "1996.07.10 AD at 15:08:56 PDT",
-     * if the given fieldPosition is DateFormat.YEAR_FIELD, the
-     * begin index and end index of fieldPosition will be set to
-     * 0 and 4, respectively.
-     * Notice that if the same time field appears
-     * more than once in a pattern, the fieldPosition will be set for the first
-     * occurrence of that time field. For instance, formatting a Date to
-     * the time string "1 PM PDT (Pacific Daylight Time)" using the pattern
-     * "h a z (zzzz)" and the alignment field DateFormat.TIMEZONE_FIELD,
-     * the begin index and end index of fieldPosition will be set to
-     * 5 and 8, respectively, for the first occurrence of the timezone
-     * pattern character 'z'.
-     * @return the string buffer passed in as toAppendTo, with formatted text appended.
+     * Formbts b Dbtf into b dbtf/timf string.
+     * @pbrbm dbtf b Dbtf to bf formbttfd into b dbtf/timf string.
+     * @pbrbm toAppfndTo tif string bufffr for tif rfturning dbtf/timf string.
+     * @pbrbm fifldPosition kffps trbdk of tif position of tif fifld
+     * witiin tif rfturnfd string.
+     * On input: bn blignmfnt fifld,
+     * if dfsirfd. On output: tif offsfts of tif blignmfnt fifld. For
+     * fxbmplf, givfn b timf tfxt "1996.07.10 AD bt 15:08:56 PDT",
+     * if tif givfn fifldPosition is DbtfFormbt.YEAR_FIELD, tif
+     * bfgin indfx bnd fnd indfx of fifldPosition will bf sft to
+     * 0 bnd 4, rfspfdtivfly.
+     * Notidf tibt if tif sbmf timf fifld bppfbrs
+     * morf tibn ondf in b pbttfrn, tif fifldPosition will bf sft for tif first
+     * oddurrfndf of tibt timf fifld. For instbndf, formbtting b Dbtf to
+     * tif timf string "1 PM PDT (Pbdifid Dbyligit Timf)" using tif pbttfrn
+     * "i b z (zzzz)" bnd tif blignmfnt fifld DbtfFormbt.TIMEZONE_FIELD,
+     * tif bfgin indfx bnd fnd indfx of fifldPosition will bf sft to
+     * 5 bnd 8, rfspfdtivfly, for tif first oddurrfndf of tif timfzonf
+     * pbttfrn dibrbdtfr 'z'.
+     * @rfturn tif string bufffr pbssfd in bs toAppfndTo, witi formbttfd tfxt bppfndfd.
      */
-    public abstract StringBuffer format(Date date, StringBuffer toAppendTo,
-                                        FieldPosition fieldPosition);
+    publid bbstrbdt StringBufffr formbt(Dbtf dbtf, StringBufffr toAppfndTo,
+                                        FifldPosition fifldPosition);
 
     /**
-     * Formats a Date into a date/time string.
-     * @param date the time value to be formatted into a time string.
-     * @return the formatted time string.
+     * Formbts b Dbtf into b dbtf/timf string.
+     * @pbrbm dbtf tif timf vbluf to bf formbttfd into b timf string.
+     * @rfturn tif formbttfd timf string.
      */
-    public final String format(Date date)
+    publid finbl String formbt(Dbtf dbtf)
     {
-        return format(date, new StringBuffer(),
-                      DontCareFieldPosition.INSTANCE).toString();
+        rfturn formbt(dbtf, nfw StringBufffr(),
+                      DontCbrfFifldPosition.INSTANCE).toString();
     }
 
     /**
-     * Parses text from the beginning of the given string to produce a date.
-     * The method may not use the entire text of the given string.
+     * Pbrsfs tfxt from tif bfginning of tif givfn string to produdf b dbtf.
+     * Tif mftiod mby not usf tif fntirf tfxt of tif givfn string.
      * <p>
-     * See the {@link #parse(String, ParsePosition)} method for more information
-     * on date parsing.
+     * Sff tif {@link #pbrsf(String, PbrsfPosition)} mftiod for morf informbtion
+     * on dbtf pbrsing.
      *
-     * @param source A <code>String</code> whose beginning should be parsed.
-     * @return A <code>Date</code> parsed from the string.
-     * @exception ParseException if the beginning of the specified string
-     *            cannot be parsed.
+     * @pbrbm sourdf A <dodf>String</dodf> wiosf bfginning siould bf pbrsfd.
+     * @rfturn A <dodf>Dbtf</dodf> pbrsfd from tif string.
+     * @fxdfption PbrsfExdfption if tif bfginning of tif spfdififd string
+     *            dbnnot bf pbrsfd.
      */
-    public Date parse(String source) throws ParseException
+    publid Dbtf pbrsf(String sourdf) tirows PbrsfExdfption
     {
-        ParsePosition pos = new ParsePosition(0);
-        Date result = parse(source, pos);
-        if (pos.index == 0)
-            throw new ParseException("Unparseable date: \"" + source + "\"" ,
-                pos.errorIndex);
-        return result;
+        PbrsfPosition pos = nfw PbrsfPosition(0);
+        Dbtf rfsult = pbrsf(sourdf, pos);
+        if (pos.indfx == 0)
+            tirow nfw PbrsfExdfption("Unpbrsfbblf dbtf: \"" + sourdf + "\"" ,
+                pos.frrorIndfx);
+        rfturn rfsult;
     }
 
     /**
-     * Parse a date/time string according to the given parse position.  For
-     * example, a time text {@code "07/10/96 4:5 PM, PDT"} will be parsed into a {@code Date}
-     * that is equivalent to {@code Date(837039900000L)}.
+     * Pbrsf b dbtf/timf string bddording to tif givfn pbrsf position.  For
+     * fxbmplf, b timf tfxt {@dodf "07/10/96 4:5 PM, PDT"} will bf pbrsfd into b {@dodf Dbtf}
+     * tibt is fquivblfnt to {@dodf Dbtf(837039900000L)}.
      *
-     * <p> By default, parsing is lenient: If the input is not in the form used
-     * by this object's format method but can still be parsed as a date, then
-     * the parse succeeds.  Clients may insist on strict adherence to the
-     * format by calling {@link #setLenient(boolean) setLenient(false)}.
+     * <p> By dffbult, pbrsing is lfnifnt: If tif input is not in tif form usfd
+     * by tiis objfdt's formbt mftiod but dbn still bf pbrsfd bs b dbtf, tifn
+     * tif pbrsf suddffds.  Clifnts mby insist on stridt bdifrfndf to tif
+     * formbt by dblling {@link #sftLfnifnt(boolfbn) sftLfnifnt(fblsf)}.
      *
-     * <p>This parsing operation uses the {@link #calendar} to produce
-     * a {@code Date}. As a result, the {@code calendar}'s date-time
-     * fields and the {@code TimeZone} value may have been
-     * overwritten, depending on subclass implementations. Any {@code
-     * TimeZone} value that has previously been set by a call to
-     * {@link #setTimeZone(java.util.TimeZone) setTimeZone} may need
-     * to be restored for further operations.
+     * <p>Tiis pbrsing opfrbtion usfs tif {@link #dblfndbr} to produdf
+     * b {@dodf Dbtf}. As b rfsult, tif {@dodf dblfndbr}'s dbtf-timf
+     * fiflds bnd tif {@dodf TimfZonf} vbluf mby ibvf bffn
+     * ovfrwrittfn, dfpfnding on subdlbss implfmfntbtions. Any {@dodf
+     * TimfZonf} vbluf tibt ibs prfviously bffn sft by b dbll to
+     * {@link #sftTimfZonf(jbvb.util.TimfZonf) sftTimfZonf} mby nffd
+     * to bf rfstorfd for furtifr opfrbtions.
      *
-     * @param source  The date/time string to be parsed
+     * @pbrbm sourdf  Tif dbtf/timf string to bf pbrsfd
      *
-     * @param pos   On input, the position at which to start parsing; on
-     *              output, the position at which parsing terminated, or the
-     *              start position if the parse failed.
+     * @pbrbm pos   On input, tif position bt wiidi to stbrt pbrsing; on
+     *              output, tif position bt wiidi pbrsing tfrminbtfd, or tif
+     *              stbrt position if tif pbrsf fbilfd.
      *
-     * @return      A {@code Date}, or {@code null} if the input could not be parsed
+     * @rfturn      A {@dodf Dbtf}, or {@dodf null} if tif input dould not bf pbrsfd
      */
-    public abstract Date parse(String source, ParsePosition pos);
+    publid bbstrbdt Dbtf pbrsf(String sourdf, PbrsfPosition pos);
 
     /**
-     * Parses text from a string to produce a <code>Date</code>.
+     * Pbrsfs tfxt from b string to produdf b <dodf>Dbtf</dodf>.
      * <p>
-     * The method attempts to parse text starting at the index given by
-     * <code>pos</code>.
-     * If parsing succeeds, then the index of <code>pos</code> is updated
-     * to the index after the last character used (parsing does not necessarily
-     * use all characters up to the end of the string), and the parsed
-     * date is returned. The updated <code>pos</code> can be used to
-     * indicate the starting point for the next call to this method.
-     * If an error occurs, then the index of <code>pos</code> is not
-     * changed, the error index of <code>pos</code> is set to the index of
-     * the character where the error occurred, and null is returned.
+     * Tif mftiod bttfmpts to pbrsf tfxt stbrting bt tif indfx givfn by
+     * <dodf>pos</dodf>.
+     * If pbrsing suddffds, tifn tif indfx of <dodf>pos</dodf> is updbtfd
+     * to tif indfx bftfr tif lbst dibrbdtfr usfd (pbrsing dofs not nfdfssbrily
+     * usf bll dibrbdtfrs up to tif fnd of tif string), bnd tif pbrsfd
+     * dbtf is rfturnfd. Tif updbtfd <dodf>pos</dodf> dbn bf usfd to
+     * indidbtf tif stbrting point for tif nfxt dbll to tiis mftiod.
+     * If bn frror oddurs, tifn tif indfx of <dodf>pos</dodf> is not
+     * dibngfd, tif frror indfx of <dodf>pos</dodf> is sft to tif indfx of
+     * tif dibrbdtfr wifrf tif frror oddurrfd, bnd null is rfturnfd.
      * <p>
-     * See the {@link #parse(String, ParsePosition)} method for more information
-     * on date parsing.
+     * Sff tif {@link #pbrsf(String, PbrsfPosition)} mftiod for morf informbtion
+     * on dbtf pbrsing.
      *
-     * @param source A <code>String</code>, part of which should be parsed.
-     * @param pos A <code>ParsePosition</code> object with index and error
-     *            index information as described above.
-     * @return A <code>Date</code> parsed from the string. In case of
-     *         error, returns null.
-     * @exception NullPointerException if <code>pos</code> is null.
+     * @pbrbm sourdf A <dodf>String</dodf>, pbrt of wiidi siould bf pbrsfd.
+     * @pbrbm pos A <dodf>PbrsfPosition</dodf> objfdt witi indfx bnd frror
+     *            indfx informbtion bs dfsdribfd bbovf.
+     * @rfturn A <dodf>Dbtf</dodf> pbrsfd from tif string. In dbsf of
+     *         frror, rfturns null.
+     * @fxdfption NullPointfrExdfption if <dodf>pos</dodf> is null.
      */
-    public Object parseObject(String source, ParsePosition pos) {
-        return parse(source, pos);
+    publid Objfdt pbrsfObjfdt(String sourdf, PbrsfPosition pos) {
+        rfturn pbrsf(sourdf, pos);
     }
 
     /**
-     * Constant for full style pattern.
+     * Constbnt for full stylf pbttfrn.
      */
-    public static final int FULL = 0;
+    publid stbtid finbl int FULL = 0;
     /**
-     * Constant for long style pattern.
+     * Constbnt for long stylf pbttfrn.
      */
-    public static final int LONG = 1;
+    publid stbtid finbl int LONG = 1;
     /**
-     * Constant for medium style pattern.
+     * Constbnt for mfdium stylf pbttfrn.
      */
-    public static final int MEDIUM = 2;
+    publid stbtid finbl int MEDIUM = 2;
     /**
-     * Constant for short style pattern.
+     * Constbnt for siort stylf pbttfrn.
      */
-    public static final int SHORT = 3;
+    publid stbtid finbl int SHORT = 3;
     /**
-     * Constant for default style pattern.  Its value is MEDIUM.
+     * Constbnt for dffbult stylf pbttfrn.  Its vbluf is MEDIUM.
      */
-    public static final int DEFAULT = MEDIUM;
+    publid stbtid finbl int DEFAULT = MEDIUM;
 
     /**
-     * Gets the time formatter with the default formatting style
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getTimeInstance(int, Locale) getTimeInstance(DEFAULT,
-     *     Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @return a time formatter.
+     * Gfts tif timf formbttfr witi tif dffbult formbtting stylf
+     * for tif dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>Tiis is fquivblfnt to dblling
+     * {@link #gftTimfInstbndf(int, Lodblf) gftTimfInstbndf(DEFAULT,
+     *     Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn b timf formbttfr.
      */
-    public final static DateFormat getTimeInstance()
+    publid finbl stbtid DbtfFormbt gftTimfInstbndf()
     {
-        return get(DEFAULT, 0, 1, Locale.getDefault(Locale.Category.FORMAT));
+        rfturn gft(DEFAULT, 0, 1, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
     }
 
     /**
-     * Gets the time formatter with the given formatting style
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getTimeInstance(int, Locale) getTimeInstance(style,
-     *     Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @param style the given formatting style. For example,
-     * SHORT for "h:mm a" in the US locale.
-     * @return a time formatter.
+     * Gfts tif timf formbttfr witi tif givfn formbtting stylf
+     * for tif dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>Tiis is fquivblfnt to dblling
+     * {@link #gftTimfInstbndf(int, Lodblf) gftTimfInstbndf(stylf,
+     *     Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @pbrbm stylf tif givfn formbtting stylf. For fxbmplf,
+     * SHORT for "i:mm b" in tif US lodblf.
+     * @rfturn b timf formbttfr.
      */
-    public final static DateFormat getTimeInstance(int style)
+    publid finbl stbtid DbtfFormbt gftTimfInstbndf(int stylf)
     {
-        return get(style, 0, 1, Locale.getDefault(Locale.Category.FORMAT));
+        rfturn gft(stylf, 0, 1, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
     }
 
     /**
-     * Gets the time formatter with the given formatting style
-     * for the given locale.
-     * @param style the given formatting style. For example,
-     * SHORT for "h:mm a" in the US locale.
-     * @param aLocale the given locale.
-     * @return a time formatter.
+     * Gfts tif timf formbttfr witi tif givfn formbtting stylf
+     * for tif givfn lodblf.
+     * @pbrbm stylf tif givfn formbtting stylf. For fxbmplf,
+     * SHORT for "i:mm b" in tif US lodblf.
+     * @pbrbm bLodblf tif givfn lodblf.
+     * @rfturn b timf formbttfr.
      */
-    public final static DateFormat getTimeInstance(int style,
-                                                 Locale aLocale)
+    publid finbl stbtid DbtfFormbt gftTimfInstbndf(int stylf,
+                                                 Lodblf bLodblf)
     {
-        return get(style, 0, 1, aLocale);
+        rfturn gft(stylf, 0, 1, bLodblf);
     }
 
     /**
-     * Gets the date formatter with the default formatting style
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getDateInstance(int, Locale) getDateInstance(DEFAULT,
-     *     Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @return a date formatter.
+     * Gfts tif dbtf formbttfr witi tif dffbult formbtting stylf
+     * for tif dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>Tiis is fquivblfnt to dblling
+     * {@link #gftDbtfInstbndf(int, Lodblf) gftDbtfInstbndf(DEFAULT,
+     *     Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn b dbtf formbttfr.
      */
-    public final static DateFormat getDateInstance()
+    publid finbl stbtid DbtfFormbt gftDbtfInstbndf()
     {
-        return get(0, DEFAULT, 2, Locale.getDefault(Locale.Category.FORMAT));
+        rfturn gft(0, DEFAULT, 2, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
     }
 
     /**
-     * Gets the date formatter with the given formatting style
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getDateInstance(int, Locale) getDateInstance(style,
-     *     Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @param style the given formatting style. For example,
-     * SHORT for "M/d/yy" in the US locale.
-     * @return a date formatter.
+     * Gfts tif dbtf formbttfr witi tif givfn formbtting stylf
+     * for tif dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>Tiis is fquivblfnt to dblling
+     * {@link #gftDbtfInstbndf(int, Lodblf) gftDbtfInstbndf(stylf,
+     *     Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @pbrbm stylf tif givfn formbtting stylf. For fxbmplf,
+     * SHORT for "M/d/yy" in tif US lodblf.
+     * @rfturn b dbtf formbttfr.
      */
-    public final static DateFormat getDateInstance(int style)
+    publid finbl stbtid DbtfFormbt gftDbtfInstbndf(int stylf)
     {
-        return get(0, style, 2, Locale.getDefault(Locale.Category.FORMAT));
+        rfturn gft(0, stylf, 2, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
     }
 
     /**
-     * Gets the date formatter with the given formatting style
-     * for the given locale.
-     * @param style the given formatting style. For example,
-     * SHORT for "M/d/yy" in the US locale.
-     * @param aLocale the given locale.
-     * @return a date formatter.
+     * Gfts tif dbtf formbttfr witi tif givfn formbtting stylf
+     * for tif givfn lodblf.
+     * @pbrbm stylf tif givfn formbtting stylf. For fxbmplf,
+     * SHORT for "M/d/yy" in tif US lodblf.
+     * @pbrbm bLodblf tif givfn lodblf.
+     * @rfturn b dbtf formbttfr.
      */
-    public final static DateFormat getDateInstance(int style,
-                                                 Locale aLocale)
+    publid finbl stbtid DbtfFormbt gftDbtfInstbndf(int stylf,
+                                                 Lodblf bLodblf)
     {
-        return get(0, style, 2, aLocale);
+        rfturn gft(0, stylf, 2, bLodblf);
     }
 
     /**
-     * Gets the date/time formatter with the default formatting style
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getDateTimeInstance(int, int, Locale) getDateTimeInstance(DEFAULT,
-     *     DEFAULT, Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @return a date/time formatter.
+     * Gfts tif dbtf/timf formbttfr witi tif dffbult formbtting stylf
+     * for tif dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>Tiis is fquivblfnt to dblling
+     * {@link #gftDbtfTimfInstbndf(int, int, Lodblf) gftDbtfTimfInstbndf(DEFAULT,
+     *     DEFAULT, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn b dbtf/timf formbttfr.
      */
-    public final static DateFormat getDateTimeInstance()
+    publid finbl stbtid DbtfFormbt gftDbtfTimfInstbndf()
     {
-        return get(DEFAULT, DEFAULT, 3, Locale.getDefault(Locale.Category.FORMAT));
+        rfturn gft(DEFAULT, DEFAULT, 3, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
     }
 
     /**
-     * Gets the date/time formatter with the given date and time
-     * formatting styles for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getDateTimeInstance(int, int, Locale) getDateTimeInstance(dateStyle,
-     *     timeStyle, Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @param dateStyle the given date formatting style. For example,
-     * SHORT for "M/d/yy" in the US locale.
-     * @param timeStyle the given time formatting style. For example,
-     * SHORT for "h:mm a" in the US locale.
-     * @return a date/time formatter.
+     * Gfts tif dbtf/timf formbttfr witi tif givfn dbtf bnd timf
+     * formbtting stylfs for tif dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>Tiis is fquivblfnt to dblling
+     * {@link #gftDbtfTimfInstbndf(int, int, Lodblf) gftDbtfTimfInstbndf(dbtfStylf,
+     *     timfStylf, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @pbrbm dbtfStylf tif givfn dbtf formbtting stylf. For fxbmplf,
+     * SHORT for "M/d/yy" in tif US lodblf.
+     * @pbrbm timfStylf tif givfn timf formbtting stylf. For fxbmplf,
+     * SHORT for "i:mm b" in tif US lodblf.
+     * @rfturn b dbtf/timf formbttfr.
      */
-    public final static DateFormat getDateTimeInstance(int dateStyle,
-                                                       int timeStyle)
+    publid finbl stbtid DbtfFormbt gftDbtfTimfInstbndf(int dbtfStylf,
+                                                       int timfStylf)
     {
-        return get(timeStyle, dateStyle, 3, Locale.getDefault(Locale.Category.FORMAT));
+        rfturn gft(timfStylf, dbtfStylf, 3, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
     }
 
     /**
-     * Gets the date/time formatter with the given formatting styles
-     * for the given locale.
-     * @param dateStyle the given date formatting style.
-     * @param timeStyle the given time formatting style.
-     * @param aLocale the given locale.
-     * @return a date/time formatter.
+     * Gfts tif dbtf/timf formbttfr witi tif givfn formbtting stylfs
+     * for tif givfn lodblf.
+     * @pbrbm dbtfStylf tif givfn dbtf formbtting stylf.
+     * @pbrbm timfStylf tif givfn timf formbtting stylf.
+     * @pbrbm bLodblf tif givfn lodblf.
+     * @rfturn b dbtf/timf formbttfr.
      */
-    public final static DateFormat
-        getDateTimeInstance(int dateStyle, int timeStyle, Locale aLocale)
+    publid finbl stbtid DbtfFormbt
+        gftDbtfTimfInstbndf(int dbtfStylf, int timfStylf, Lodblf bLodblf)
     {
-        return get(timeStyle, dateStyle, 3, aLocale);
+        rfturn gft(timfStylf, dbtfStylf, 3, bLodblf);
     }
 
     /**
-     * Get a default date/time formatter that uses the SHORT style for both the
-     * date and the time.
+     * Gft b dffbult dbtf/timf formbttfr tibt usfs tif SHORT stylf for boti tif
+     * dbtf bnd tif timf.
      *
-     * @return a date/time formatter
+     * @rfturn b dbtf/timf formbttfr
      */
-    public final static DateFormat getInstance() {
-        return getDateTimeInstance(SHORT, SHORT);
+    publid finbl stbtid DbtfFormbt gftInstbndf() {
+        rfturn gftDbtfTimfInstbndf(SHORT, SHORT);
     }
 
     /**
-     * Returns an array of all locales for which the
-     * <code>get*Instance</code> methods of this class can return
-     * localized instances.
-     * The returned array represents the union of locales supported by the Java
-     * runtime and by installed
-     * {@link java.text.spi.DateFormatProvider DateFormatProvider} implementations.
-     * It must contain at least a <code>Locale</code> instance equal to
-     * {@link java.util.Locale#US Locale.US}.
+     * Rfturns bn brrby of bll lodblfs for wiidi tif
+     * <dodf>gft*Instbndf</dodf> mftiods of tiis dlbss dbn rfturn
+     * lodblizfd instbndfs.
+     * Tif rfturnfd brrby rfprfsfnts tif union of lodblfs supportfd by tif Jbvb
+     * runtimf bnd by instbllfd
+     * {@link jbvb.tfxt.spi.DbtfFormbtProvidfr DbtfFormbtProvidfr} implfmfntbtions.
+     * It must dontbin bt lfbst b <dodf>Lodblf</dodf> instbndf fqubl to
+     * {@link jbvb.util.Lodblf#US Lodblf.US}.
      *
-     * @return An array of locales for which localized
-     *         <code>DateFormat</code> instances are available.
+     * @rfturn An brrby of lodblfs for wiidi lodblizfd
+     *         <dodf>DbtfFormbt</dodf> instbndfs brf bvbilbblf.
      */
-    public static Locale[] getAvailableLocales()
+    publid stbtid Lodblf[] gftAvbilbblfLodblfs()
     {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(DateFormatProvider.class);
-        return pool.getAvailableLocales();
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(DbtfFormbtProvidfr.dlbss);
+        rfturn pool.gftAvbilbblfLodblfs();
     }
 
     /**
-     * Set the calendar to be used by this date format.  Initially, the default
-     * calendar for the specified or default locale is used.
+     * Sft tif dblfndbr to bf usfd by tiis dbtf formbt.  Initiblly, tif dffbult
+     * dblfndbr for tif spfdififd or dffbult lodblf is usfd.
      *
-     * <p>Any {@link java.util.TimeZone TimeZone} and {@linkplain
-     * #isLenient() leniency} values that have previously been set are
-     * overwritten by {@code newCalendar}'s values.
+     * <p>Any {@link jbvb.util.TimfZonf TimfZonf} bnd {@linkplbin
+     * #isLfnifnt() lfnifndy} vblufs tibt ibvf prfviously bffn sft brf
+     * ovfrwrittfn by {@dodf nfwCblfndbr}'s vblufs.
      *
-     * @param newCalendar the new {@code Calendar} to be used by the date format
+     * @pbrbm nfwCblfndbr tif nfw {@dodf Cblfndbr} to bf usfd by tif dbtf formbt
      */
-    public void setCalendar(Calendar newCalendar)
+    publid void sftCblfndbr(Cblfndbr nfwCblfndbr)
     {
-        this.calendar = newCalendar;
+        tiis.dblfndbr = nfwCblfndbr;
     }
 
     /**
-     * Gets the calendar associated with this date/time formatter.
+     * Gfts tif dblfndbr bssodibtfd witi tiis dbtf/timf formbttfr.
      *
-     * @return the calendar associated with this date/time formatter.
+     * @rfturn tif dblfndbr bssodibtfd witi tiis dbtf/timf formbttfr.
      */
-    public Calendar getCalendar()
+    publid Cblfndbr gftCblfndbr()
     {
-        return calendar;
+        rfturn dblfndbr;
     }
 
     /**
-     * Allows you to set the number formatter.
-     * @param newNumberFormat the given new NumberFormat.
+     * Allows you to sft tif numbfr formbttfr.
+     * @pbrbm nfwNumbfrFormbt tif givfn nfw NumbfrFormbt.
      */
-    public void setNumberFormat(NumberFormat newNumberFormat)
+    publid void sftNumbfrFormbt(NumbfrFormbt nfwNumbfrFormbt)
     {
-        this.numberFormat = newNumberFormat;
+        tiis.numbfrFormbt = nfwNumbfrFormbt;
     }
 
     /**
-     * Gets the number formatter which this date/time formatter uses to
-     * format and parse a time.
-     * @return the number formatter which this date/time formatter uses.
+     * Gfts tif numbfr formbttfr wiidi tiis dbtf/timf formbttfr usfs to
+     * formbt bnd pbrsf b timf.
+     * @rfturn tif numbfr formbttfr wiidi tiis dbtf/timf formbttfr usfs.
      */
-    public NumberFormat getNumberFormat()
+    publid NumbfrFormbt gftNumbfrFormbt()
     {
-        return numberFormat;
+        rfturn numbfrFormbt;
     }
 
     /**
-     * Sets the time zone for the calendar of this {@code DateFormat} object.
-     * This method is equivalent to the following call.
-     * <blockquote><pre>{@code
-     * getCalendar().setTimeZone(zone)
-     * }</pre></blockquote>
+     * Sfts tif timf zonf for tif dblfndbr of tiis {@dodf DbtfFormbt} objfdt.
+     * Tiis mftiod is fquivblfnt to tif following dbll.
+     * <blodkquotf><prf>{@dodf
+     * gftCblfndbr().sftTimfZonf(zonf)
+     * }</prf></blodkquotf>
      *
-     * <p>The {@code TimeZone} set by this method is overwritten by a
-     * {@link #setCalendar(java.util.Calendar) setCalendar} call.
+     * <p>Tif {@dodf TimfZonf} sft by tiis mftiod is ovfrwrittfn by b
+     * {@link #sftCblfndbr(jbvb.util.Cblfndbr) sftCblfndbr} dbll.
      *
-     * <p>The {@code TimeZone} set by this method may be overwritten as
-     * a result of a call to the parse method.
+     * <p>Tif {@dodf TimfZonf} sft by tiis mftiod mby bf ovfrwrittfn bs
+     * b rfsult of b dbll to tif pbrsf mftiod.
      *
-     * @param zone the given new time zone.
+     * @pbrbm zonf tif givfn nfw timf zonf.
      */
-    public void setTimeZone(TimeZone zone)
+    publid void sftTimfZonf(TimfZonf zonf)
     {
-        calendar.setTimeZone(zone);
+        dblfndbr.sftTimfZonf(zonf);
     }
 
     /**
-     * Gets the time zone.
-     * This method is equivalent to the following call.
-     * <blockquote><pre>{@code
-     * getCalendar().getTimeZone()
-     * }</pre></blockquote>
+     * Gfts tif timf zonf.
+     * Tiis mftiod is fquivblfnt to tif following dbll.
+     * <blodkquotf><prf>{@dodf
+     * gftCblfndbr().gftTimfZonf()
+     * }</prf></blodkquotf>
      *
-     * @return the time zone associated with the calendar of DateFormat.
+     * @rfturn tif timf zonf bssodibtfd witi tif dblfndbr of DbtfFormbt.
      */
-    public TimeZone getTimeZone()
+    publid TimfZonf gftTimfZonf()
     {
-        return calendar.getTimeZone();
+        rfturn dblfndbr.gftTimfZonf();
     }
 
     /**
-     * Specify whether or not date/time parsing is to be lenient.  With
-     * lenient parsing, the parser may use heuristics to interpret inputs that
-     * do not precisely match this object's format.  With strict parsing,
-     * inputs must match this object's format.
+     * Spfdify wiftifr or not dbtf/timf pbrsing is to bf lfnifnt.  Witi
+     * lfnifnt pbrsing, tif pbrsfr mby usf ifuristids to intfrprft inputs tibt
+     * do not prfdisfly mbtdi tiis objfdt's formbt.  Witi stridt pbrsing,
+     * inputs must mbtdi tiis objfdt's formbt.
      *
-     * <p>This method is equivalent to the following call.
-     * <blockquote><pre>{@code
-     * getCalendar().setLenient(lenient)
-     * }</pre></blockquote>
+     * <p>Tiis mftiod is fquivblfnt to tif following dbll.
+     * <blodkquotf><prf>{@dodf
+     * gftCblfndbr().sftLfnifnt(lfnifnt)
+     * }</prf></blodkquotf>
      *
-     * <p>This leniency value is overwritten by a call to {@link
-     * #setCalendar(java.util.Calendar) setCalendar()}.
+     * <p>Tiis lfnifndy vbluf is ovfrwrittfn by b dbll to {@link
+     * #sftCblfndbr(jbvb.util.Cblfndbr) sftCblfndbr()}.
      *
-     * @param lenient when {@code true}, parsing is lenient
-     * @see java.util.Calendar#setLenient(boolean)
+     * @pbrbm lfnifnt wifn {@dodf truf}, pbrsing is lfnifnt
+     * @sff jbvb.util.Cblfndbr#sftLfnifnt(boolfbn)
      */
-    public void setLenient(boolean lenient)
+    publid void sftLfnifnt(boolfbn lfnifnt)
     {
-        calendar.setLenient(lenient);
+        dblfndbr.sftLfnifnt(lfnifnt);
     }
 
     /**
-     * Tell whether date/time parsing is to be lenient.
-     * This method is equivalent to the following call.
-     * <blockquote><pre>{@code
-     * getCalendar().isLenient()
-     * }</pre></blockquote>
+     * Tfll wiftifr dbtf/timf pbrsing is to bf lfnifnt.
+     * Tiis mftiod is fquivblfnt to tif following dbll.
+     * <blodkquotf><prf>{@dodf
+     * gftCblfndbr().isLfnifnt()
+     * }</prf></blodkquotf>
      *
-     * @return {@code true} if the {@link #calendar} is lenient;
-     *         {@code false} otherwise.
-     * @see java.util.Calendar#isLenient()
+     * @rfturn {@dodf truf} if tif {@link #dblfndbr} is lfnifnt;
+     *         {@dodf fblsf} otifrwisf.
+     * @sff jbvb.util.Cblfndbr#isLfnifnt()
      */
-    public boolean isLenient()
+    publid boolfbn isLfnifnt()
     {
-        return calendar.isLenient();
+        rfturn dblfndbr.isLfnifnt();
     }
 
     /**
-     * Overrides hashCode
+     * Ovfrridfs ibsiCodf
      */
-    public int hashCode() {
-        return numberFormat.hashCode();
-        // just enough fields for a reasonable distribution
+    publid int ibsiCodf() {
+        rfturn numbfrFormbt.ibsiCodf();
+        // just fnougi fiflds for b rfbsonbblf distribution
     }
 
     /**
-     * Overrides equals
+     * Ovfrridfs fqubls
      */
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        DateFormat other = (DateFormat) obj;
-        return (// calendar.equivalentTo(other.calendar) // THIS API DOESN'T EXIST YET!
-                calendar.getFirstDayOfWeek() == other.calendar.getFirstDayOfWeek() &&
-                calendar.getMinimalDaysInFirstWeek() == other.calendar.getMinimalDaysInFirstWeek() &&
-                calendar.isLenient() == other.calendar.isLenient() &&
-                calendar.getTimeZone().equals(other.calendar.getTimeZone()) &&
-                numberFormat.equals(other.numberFormat));
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) rfturn truf;
+        if (obj == null || gftClbss() != obj.gftClbss()) rfturn fblsf;
+        DbtfFormbt otifr = (DbtfFormbt) obj;
+        rfturn (// dblfndbr.fquivblfntTo(otifr.dblfndbr) // THIS API DOESN'T EXIST YET!
+                dblfndbr.gftFirstDbyOfWffk() == otifr.dblfndbr.gftFirstDbyOfWffk() &&
+                dblfndbr.gftMinimblDbysInFirstWffk() == otifr.dblfndbr.gftMinimblDbysInFirstWffk() &&
+                dblfndbr.isLfnifnt() == otifr.dblfndbr.isLfnifnt() &&
+                dblfndbr.gftTimfZonf().fqubls(otifr.dblfndbr.gftTimfZonf()) &&
+                numbfrFormbt.fqubls(otifr.numbfrFormbt));
     }
 
     /**
-     * Overrides Cloneable
+     * Ovfrridfs Clonfbblf
      */
-    public Object clone()
+    publid Objfdt dlonf()
     {
-        DateFormat other = (DateFormat) super.clone();
-        other.calendar = (Calendar) calendar.clone();
-        other.numberFormat = (NumberFormat) numberFormat.clone();
-        return other;
+        DbtfFormbt otifr = (DbtfFormbt) supfr.dlonf();
+        otifr.dblfndbr = (Cblfndbr) dblfndbr.dlonf();
+        otifr.numbfrFormbt = (NumbfrFormbt) numbfrFormbt.dlonf();
+        rfturn otifr;
     }
 
     /**
-     * Creates a DateFormat with the given time and/or date style in the given
-     * locale.
-     * @param timeStyle a value from 0 to 3 indicating the time format,
-     * ignored if flags is 2
-     * @param dateStyle a value from 0 to 3 indicating the time format,
-     * ignored if flags is 1
-     * @param flags either 1 for a time format, 2 for a date format,
-     * or 3 for a date/time format
-     * @param loc the locale for the format
+     * Crfbtfs b DbtfFormbt witi tif givfn timf bnd/or dbtf stylf in tif givfn
+     * lodblf.
+     * @pbrbm timfStylf b vbluf from 0 to 3 indidbting tif timf formbt,
+     * ignorfd if flbgs is 2
+     * @pbrbm dbtfStylf b vbluf from 0 to 3 indidbting tif timf formbt,
+     * ignorfd if flbgs is 1
+     * @pbrbm flbgs fitifr 1 for b timf formbt, 2 for b dbtf formbt,
+     * or 3 for b dbtf/timf formbt
+     * @pbrbm lod tif lodblf for tif formbt
      */
-    private static DateFormat get(int timeStyle, int dateStyle,
-                                  int flags, Locale loc) {
-        if ((flags & 1) != 0) {
-            if (timeStyle < 0 || timeStyle > 3) {
-                throw new IllegalArgumentException("Illegal time style " + timeStyle);
+    privbtf stbtid DbtfFormbt gft(int timfStylf, int dbtfStylf,
+                                  int flbgs, Lodblf lod) {
+        if ((flbgs & 1) != 0) {
+            if (timfStylf < 0 || timfStylf > 3) {
+                tirow nfw IllfgblArgumfntExdfption("Illfgbl timf stylf " + timfStylf);
             }
-        } else {
-            timeStyle = -1;
+        } flsf {
+            timfStylf = -1;
         }
-        if ((flags & 2) != 0) {
-            if (dateStyle < 0 || dateStyle > 3) {
-                throw new IllegalArgumentException("Illegal date style " + dateStyle);
+        if ((flbgs & 2) != 0) {
+            if (dbtfStylf < 0 || dbtfStylf > 3) {
+                tirow nfw IllfgblArgumfntExdfption("Illfgbl dbtf stylf " + dbtfStylf);
             }
-        } else {
-            dateStyle = -1;
+        } flsf {
+            dbtfStylf = -1;
         }
 
-        LocaleProviderAdapter adapter = LocaleProviderAdapter.getAdapter(DateFormatProvider.class, loc);
-        DateFormat dateFormat = get(adapter, timeStyle, dateStyle, loc);
-        if (dateFormat == null) {
-            dateFormat = get(LocaleProviderAdapter.forJRE(), timeStyle, dateStyle, loc);
+        LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(DbtfFormbtProvidfr.dlbss, lod);
+        DbtfFormbt dbtfFormbt = gft(bdbptfr, timfStylf, dbtfStylf, lod);
+        if (dbtfFormbt == null) {
+            dbtfFormbt = gft(LodblfProvidfrAdbptfr.forJRE(), timfStylf, dbtfStylf, lod);
         }
-        return dateFormat;
+        rfturn dbtfFormbt;
     }
 
-    private static DateFormat get(LocaleProviderAdapter adapter, int timeStyle, int dateStyle, Locale loc) {
-        DateFormatProvider provider = adapter.getDateFormatProvider();
-        DateFormat dateFormat;
-        if (timeStyle == -1) {
-            dateFormat = provider.getDateInstance(dateStyle, loc);
-        } else {
-            if (dateStyle == -1) {
-                dateFormat = provider.getTimeInstance(timeStyle, loc);
-            } else {
-                dateFormat = provider.getDateTimeInstance(dateStyle, timeStyle, loc);
+    privbtf stbtid DbtfFormbt gft(LodblfProvidfrAdbptfr bdbptfr, int timfStylf, int dbtfStylf, Lodblf lod) {
+        DbtfFormbtProvidfr providfr = bdbptfr.gftDbtfFormbtProvidfr();
+        DbtfFormbt dbtfFormbt;
+        if (timfStylf == -1) {
+            dbtfFormbt = providfr.gftDbtfInstbndf(dbtfStylf, lod);
+        } flsf {
+            if (dbtfStylf == -1) {
+                dbtfFormbt = providfr.gftTimfInstbndf(timfStylf, lod);
+            } flsf {
+                dbtfFormbt = providfr.gftDbtfTimfInstbndf(dbtfStylf, timfStylf, lod);
             }
         }
-        return dateFormat;
+        rfturn dbtfFormbt;
     }
 
     /**
-     * Create a new date format.
+     * Crfbtf b nfw dbtf formbt.
      */
-    protected DateFormat() {}
+    protfdtfd DbtfFormbt() {}
 
     /**
-     * Defines constants that are used as attribute keys in the
-     * <code>AttributedCharacterIterator</code> returned
-     * from <code>DateFormat.formatToCharacterIterator</code> and as
-     * field identifiers in <code>FieldPosition</code>.
+     * Dffinfs donstbnts tibt brf usfd bs bttributf kfys in tif
+     * <dodf>AttributfdCibrbdtfrItfrbtor</dodf> rfturnfd
+     * from <dodf>DbtfFormbt.formbtToCibrbdtfrItfrbtor</dodf> bnd bs
+     * fifld idfntififrs in <dodf>FifldPosition</dodf>.
      * <p>
-     * The class also provides two methods to map
-     * between its constants and the corresponding Calendar constants.
+     * Tif dlbss blso providfs two mftiods to mbp
+     * bftwffn its donstbnts bnd tif dorrfsponding Cblfndbr donstbnts.
      *
-     * @since 1.4
-     * @see java.util.Calendar
+     * @sindf 1.4
+     * @sff jbvb.util.Cblfndbr
      */
-    public static class Field extends Format.Field {
+    publid stbtid dlbss Fifld fxtfnds Formbt.Fifld {
 
-        // Proclaim serial compatibility with 1.4 FCS
-        private static final long serialVersionUID = 7441350119349544720L;
+        // Prodlbim sfribl dompbtibility witi 1.4 FCS
+        privbtf stbtid finbl long sfriblVfrsionUID = 7441350119349544720L;
 
-        // table of all instances in this class, used by readResolve
-        private static final Map<String, Field> instanceMap = new HashMap<>(18);
-        // Maps from Calendar constant (such as Calendar.ERA) to Field
-        // constant (such as Field.ERA).
-        private static final Field[] calendarToFieldMapping =
-                                             new Field[Calendar.FIELD_COUNT];
+        // tbblf of bll instbndfs in tiis dlbss, usfd by rfbdRfsolvf
+        privbtf stbtid finbl Mbp<String, Fifld> instbndfMbp = nfw HbsiMbp<>(18);
+        // Mbps from Cblfndbr donstbnt (sudi bs Cblfndbr.ERA) to Fifld
+        // donstbnt (sudi bs Fifld.ERA).
+        privbtf stbtid finbl Fifld[] dblfndbrToFifldMbpping =
+                                             nfw Fifld[Cblfndbr.FIELD_COUNT];
 
-        /** Calendar field. */
-        private int calendarField;
+        /** Cblfndbr fifld. */
+        privbtf int dblfndbrFifld;
 
         /**
-         * Returns the <code>Field</code> constant that corresponds to
-         * the <code>Calendar</code> constant <code>calendarField</code>.
-         * If there is no direct mapping between the <code>Calendar</code>
-         * constant and a <code>Field</code>, null is returned.
+         * Rfturns tif <dodf>Fifld</dodf> donstbnt tibt dorrfsponds to
+         * tif <dodf>Cblfndbr</dodf> donstbnt <dodf>dblfndbrFifld</dodf>.
+         * If tifrf is no dirfdt mbpping bftwffn tif <dodf>Cblfndbr</dodf>
+         * donstbnt bnd b <dodf>Fifld</dodf>, null is rfturnfd.
          *
-         * @throws IllegalArgumentException if <code>calendarField</code> is
-         *         not the value of a <code>Calendar</code> field constant.
-         * @param calendarField Calendar field constant
-         * @return Field instance representing calendarField.
-         * @see java.util.Calendar
+         * @tirows IllfgblArgumfntExdfption if <dodf>dblfndbrFifld</dodf> is
+         *         not tif vbluf of b <dodf>Cblfndbr</dodf> fifld donstbnt.
+         * @pbrbm dblfndbrFifld Cblfndbr fifld donstbnt
+         * @rfturn Fifld instbndf rfprfsfnting dblfndbrFifld.
+         * @sff jbvb.util.Cblfndbr
          */
-        public static Field ofCalendarField(int calendarField) {
-            if (calendarField < 0 || calendarField >=
-                        calendarToFieldMapping.length) {
-                throw new IllegalArgumentException("Unknown Calendar constant "
-                                                   + calendarField);
+        publid stbtid Fifld ofCblfndbrFifld(int dblfndbrFifld) {
+            if (dblfndbrFifld < 0 || dblfndbrFifld >=
+                        dblfndbrToFifldMbpping.lfngti) {
+                tirow nfw IllfgblArgumfntExdfption("Unknown Cblfndbr donstbnt "
+                                                   + dblfndbrFifld);
             }
-            return calendarToFieldMapping[calendarField];
+            rfturn dblfndbrToFifldMbpping[dblfndbrFifld];
         }
 
         /**
-         * Creates a <code>Field</code>.
+         * Crfbtfs b <dodf>Fifld</dodf>.
          *
-         * @param name the name of the <code>Field</code>
-         * @param calendarField the <code>Calendar</code> constant this
-         *        <code>Field</code> corresponds to; any value, even one
-         *        outside the range of legal <code>Calendar</code> values may
-         *        be used, but <code>-1</code> should be used for values
-         *        that don't correspond to legal <code>Calendar</code> values
+         * @pbrbm nbmf tif nbmf of tif <dodf>Fifld</dodf>
+         * @pbrbm dblfndbrFifld tif <dodf>Cblfndbr</dodf> donstbnt tiis
+         *        <dodf>Fifld</dodf> dorrfsponds to; bny vbluf, fvfn onf
+         *        outsidf tif rbngf of lfgbl <dodf>Cblfndbr</dodf> vblufs mby
+         *        bf usfd, but <dodf>-1</dodf> siould bf usfd for vblufs
+         *        tibt don't dorrfspond to lfgbl <dodf>Cblfndbr</dodf> vblufs
          */
-        protected Field(String name, int calendarField) {
-            super(name);
-            this.calendarField = calendarField;
-            if (this.getClass() == DateFormat.Field.class) {
-                instanceMap.put(name, this);
-                if (calendarField >= 0) {
-                    // assert(calendarField < Calendar.FIELD_COUNT);
-                    calendarToFieldMapping[calendarField] = this;
+        protfdtfd Fifld(String nbmf, int dblfndbrFifld) {
+            supfr(nbmf);
+            tiis.dblfndbrFifld = dblfndbrFifld;
+            if (tiis.gftClbss() == DbtfFormbt.Fifld.dlbss) {
+                instbndfMbp.put(nbmf, tiis);
+                if (dblfndbrFifld >= 0) {
+                    // bssfrt(dblfndbrFifld < Cblfndbr.FIELD_COUNT);
+                    dblfndbrToFifldMbpping[dblfndbrFifld] = tiis;
                 }
             }
         }
 
         /**
-         * Returns the <code>Calendar</code> field associated with this
-         * attribute. For example, if this represents the hours field of
-         * a <code>Calendar</code>, this would return
-         * <code>Calendar.HOUR</code>. If there is no corresponding
-         * <code>Calendar</code> constant, this will return -1.
+         * Rfturns tif <dodf>Cblfndbr</dodf> fifld bssodibtfd witi tiis
+         * bttributf. For fxbmplf, if tiis rfprfsfnts tif iours fifld of
+         * b <dodf>Cblfndbr</dodf>, tiis would rfturn
+         * <dodf>Cblfndbr.HOUR</dodf>. If tifrf is no dorrfsponding
+         * <dodf>Cblfndbr</dodf> donstbnt, tiis will rfturn -1.
          *
-         * @return Calendar constant for this field
-         * @see java.util.Calendar
+         * @rfturn Cblfndbr donstbnt for tiis fifld
+         * @sff jbvb.util.Cblfndbr
          */
-        public int getCalendarField() {
-            return calendarField;
+        publid int gftCblfndbrFifld() {
+            rfturn dblfndbrFifld;
         }
 
         /**
-         * Resolves instances being deserialized to the predefined constants.
+         * Rfsolvfs instbndfs bfing dfsfriblizfd to tif prfdffinfd donstbnts.
          *
-         * @throws InvalidObjectException if the constant could not be
-         *         resolved.
-         * @return resolved DateFormat.Field constant
+         * @tirows InvblidObjfdtExdfption if tif donstbnt dould not bf
+         *         rfsolvfd.
+         * @rfturn rfsolvfd DbtfFormbt.Fifld donstbnt
          */
-        @Override
-        protected Object readResolve() throws InvalidObjectException {
-            if (this.getClass() != DateFormat.Field.class) {
-                throw new InvalidObjectException("subclass didn't correctly implement readResolve");
+        @Ovfrridf
+        protfdtfd Objfdt rfbdRfsolvf() tirows InvblidObjfdtExdfption {
+            if (tiis.gftClbss() != DbtfFormbt.Fifld.dlbss) {
+                tirow nfw InvblidObjfdtExdfption("subdlbss didn't dorrfdtly implfmfnt rfbdRfsolvf");
             }
 
-            Object instance = instanceMap.get(getName());
-            if (instance != null) {
-                return instance;
-            } else {
-                throw new InvalidObjectException("unknown attribute name");
+            Objfdt instbndf = instbndfMbp.gft(gftNbmf());
+            if (instbndf != null) {
+                rfturn instbndf;
+            } flsf {
+                tirow nfw InvblidObjfdtExdfption("unknown bttributf nbmf");
             }
         }
 
         //
-        // The constants
+        // Tif donstbnts
         //
 
         /**
-         * Constant identifying the era field.
+         * Constbnt idfntifying tif frb fifld.
          */
-        public final static Field ERA = new Field("era", Calendar.ERA);
+        publid finbl stbtid Fifld ERA = nfw Fifld("frb", Cblfndbr.ERA);
 
         /**
-         * Constant identifying the year field.
+         * Constbnt idfntifying tif yfbr fifld.
          */
-        public final static Field YEAR = new Field("year", Calendar.YEAR);
+        publid finbl stbtid Fifld YEAR = nfw Fifld("yfbr", Cblfndbr.YEAR);
 
         /**
-         * Constant identifying the month field.
+         * Constbnt idfntifying tif monti fifld.
          */
-        public final static Field MONTH = new Field("month", Calendar.MONTH);
+        publid finbl stbtid Fifld MONTH = nfw Fifld("monti", Cblfndbr.MONTH);
 
         /**
-         * Constant identifying the day of month field.
+         * Constbnt idfntifying tif dby of monti fifld.
          */
-        public final static Field DAY_OF_MONTH = new
-                            Field("day of month", Calendar.DAY_OF_MONTH);
+        publid finbl stbtid Fifld DAY_OF_MONTH = nfw
+                            Fifld("dby of monti", Cblfndbr.DAY_OF_MONTH);
 
         /**
-         * Constant identifying the hour of day field, where the legal values
-         * are 1 to 24.
+         * Constbnt idfntifying tif iour of dby fifld, wifrf tif lfgbl vblufs
+         * brf 1 to 24.
          */
-        public final static Field HOUR_OF_DAY1 = new Field("hour of day 1",-1);
+        publid finbl stbtid Fifld HOUR_OF_DAY1 = nfw Fifld("iour of dby 1",-1);
 
         /**
-         * Constant identifying the hour of day field, where the legal values
-         * are 0 to 23.
+         * Constbnt idfntifying tif iour of dby fifld, wifrf tif lfgbl vblufs
+         * brf 0 to 23.
          */
-        public final static Field HOUR_OF_DAY0 = new
-               Field("hour of day", Calendar.HOUR_OF_DAY);
+        publid finbl stbtid Fifld HOUR_OF_DAY0 = nfw
+               Fifld("iour of dby", Cblfndbr.HOUR_OF_DAY);
 
         /**
-         * Constant identifying the minute field.
+         * Constbnt idfntifying tif minutf fifld.
          */
-        public final static Field MINUTE =new Field("minute", Calendar.MINUTE);
+        publid finbl stbtid Fifld MINUTE =nfw Fifld("minutf", Cblfndbr.MINUTE);
 
         /**
-         * Constant identifying the second field.
+         * Constbnt idfntifying tif sfdond fifld.
          */
-        public final static Field SECOND =new Field("second", Calendar.SECOND);
+        publid finbl stbtid Fifld SECOND =nfw Fifld("sfdond", Cblfndbr.SECOND);
 
         /**
-         * Constant identifying the millisecond field.
+         * Constbnt idfntifying tif millisfdond fifld.
          */
-        public final static Field MILLISECOND = new
-                Field("millisecond", Calendar.MILLISECOND);
+        publid finbl stbtid Fifld MILLISECOND = nfw
+                Fifld("millisfdond", Cblfndbr.MILLISECOND);
 
         /**
-         * Constant identifying the day of week field.
+         * Constbnt idfntifying tif dby of wffk fifld.
          */
-        public final static Field DAY_OF_WEEK = new
-                Field("day of week", Calendar.DAY_OF_WEEK);
+        publid finbl stbtid Fifld DAY_OF_WEEK = nfw
+                Fifld("dby of wffk", Cblfndbr.DAY_OF_WEEK);
 
         /**
-         * Constant identifying the day of year field.
+         * Constbnt idfntifying tif dby of yfbr fifld.
          */
-        public final static Field DAY_OF_YEAR = new
-                Field("day of year", Calendar.DAY_OF_YEAR);
+        publid finbl stbtid Fifld DAY_OF_YEAR = nfw
+                Fifld("dby of yfbr", Cblfndbr.DAY_OF_YEAR);
 
         /**
-         * Constant identifying the day of week field.
+         * Constbnt idfntifying tif dby of wffk fifld.
          */
-        public final static Field DAY_OF_WEEK_IN_MONTH =
-                     new Field("day of week in month",
-                                            Calendar.DAY_OF_WEEK_IN_MONTH);
+        publid finbl stbtid Fifld DAY_OF_WEEK_IN_MONTH =
+                     nfw Fifld("dby of wffk in monti",
+                                            Cblfndbr.DAY_OF_WEEK_IN_MONTH);
 
         /**
-         * Constant identifying the week of year field.
+         * Constbnt idfntifying tif wffk of yfbr fifld.
          */
-        public final static Field WEEK_OF_YEAR = new
-              Field("week of year", Calendar.WEEK_OF_YEAR);
+        publid finbl stbtid Fifld WEEK_OF_YEAR = nfw
+              Fifld("wffk of yfbr", Cblfndbr.WEEK_OF_YEAR);
 
         /**
-         * Constant identifying the week of month field.
+         * Constbnt idfntifying tif wffk of monti fifld.
          */
-        public final static Field WEEK_OF_MONTH = new
-            Field("week of month", Calendar.WEEK_OF_MONTH);
+        publid finbl stbtid Fifld WEEK_OF_MONTH = nfw
+            Fifld("wffk of monti", Cblfndbr.WEEK_OF_MONTH);
 
         /**
-         * Constant identifying the time of day indicator
-         * (e.g. "a.m." or "p.m.") field.
+         * Constbnt idfntifying tif timf of dby indidbtor
+         * (f.g. "b.m." or "p.m.") fifld.
          */
-        public final static Field AM_PM = new
-                            Field("am pm", Calendar.AM_PM);
+        publid finbl stbtid Fifld AM_PM = nfw
+                            Fifld("bm pm", Cblfndbr.AM_PM);
 
         /**
-         * Constant identifying the hour field, where the legal values are
+         * Constbnt idfntifying tif iour fifld, wifrf tif lfgbl vblufs brf
          * 1 to 12.
          */
-        public final static Field HOUR1 = new Field("hour 1", -1);
+        publid finbl stbtid Fifld HOUR1 = nfw Fifld("iour 1", -1);
 
         /**
-         * Constant identifying the hour field, where the legal values are
+         * Constbnt idfntifying tif iour fifld, wifrf tif lfgbl vblufs brf
          * 0 to 11.
          */
-        public final static Field HOUR0 = new
-                            Field("hour", Calendar.HOUR);
+        publid finbl stbtid Fifld HOUR0 = nfw
+                            Fifld("iour", Cblfndbr.HOUR);
 
         /**
-         * Constant identifying the time zone field.
+         * Constbnt idfntifying tif timf zonf fifld.
          */
-        public final static Field TIME_ZONE = new Field("time zone", -1);
+        publid finbl stbtid Fifld TIME_ZONE = nfw Fifld("timf zonf", -1);
     }
 }

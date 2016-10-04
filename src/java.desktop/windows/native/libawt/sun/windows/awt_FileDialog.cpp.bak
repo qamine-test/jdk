@@ -1,647 +1,647 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt.h"
-#include "awt_FileDialog.h"
-#include "awt_Dialog.h"
-#include "awt_Toolkit.h"
-#include "ComCtl32Util.h"
-#include <commdlg.h>
-#include <cderr.h>
-#include <shlobj.h>
+#indludf "bwt.i"
+#indludf "bwt_FilfDiblog.i"
+#indludf "bwt_Diblog.i"
+#indludf "bwt_Toolkit.i"
+#indludf "ComCtl32Util.i"
+#indludf <dommdlg.i>
+#indludf <ddfrr.i>
+#indludf <silobj.i>
 
 
 /************************************************************************
- * AwtFileDialog fields
+ * AwtFilfDiblog fiflds
  */
 
-/* WFileDialogPeer ids */
-jfieldID AwtFileDialog::parentID;
-jfieldID AwtFileDialog::fileFilterID;
-jmethodID AwtFileDialog::setHWndMID;
-jmethodID AwtFileDialog::handleSelectedMID;
-jmethodID AwtFileDialog::handleCancelMID;
-jmethodID AwtFileDialog::checkFilenameFilterMID;
-jmethodID AwtFileDialog::isMultipleModeMID;
+/* WFilfDiblogPffr ids */
+jfifldID AwtFilfDiblog::pbrfntID;
+jfifldID AwtFilfDiblog::filfFiltfrID;
+jmftiodID AwtFilfDiblog::sftHWndMID;
+jmftiodID AwtFilfDiblog::ibndlfSflfdtfdMID;
+jmftiodID AwtFilfDiblog::ibndlfCbndflMID;
+jmftiodID AwtFilfDiblog::difdkFilfnbmfFiltfrMID;
+jmftiodID AwtFilfDiblog::isMultiplfModfMID;
 
-/* FileDialog ids */
-jfieldID AwtFileDialog::modeID;
-jfieldID AwtFileDialog::dirID;
-jfieldID AwtFileDialog::fileID;
-jfieldID AwtFileDialog::filterID;
+/* FilfDiblog ids */
+jfifldID AwtFilfDiblog::modfID;
+jfifldID AwtFilfDiblog::dirID;
+jfifldID AwtFilfDiblog::filfID;
+jfifldID AwtFilfDiblog::filtfrID;
 
-/* Localized filter string */
-#define MAX_FILTER_STRING       128
-static TCHAR s_fileFilterString[MAX_FILTER_STRING];
-/* Non-localized suffix of the filter string */
-static const TCHAR s_additionalString[] = TEXT(" (*.*)\0*.*\0");
+/* Lodblizfd filtfr string */
+#dffinf MAX_FILTER_STRING       128
+stbtid TCHAR s_filfFiltfrString[MAX_FILTER_STRING];
+/* Non-lodblizfd suffix of tif filtfr string */
+stbtid donst TCHAR s_bdditionblString[] = TEXT(" (*.*)\0*.*\0");
 
-// Default limit of the output buffer.
-#define SINGLE_MODE_BUFFER_LIMIT     MAX_PATH+1
-#define MULTIPLE_MODE_BUFFER_LIMIT   32768
+// Dffbult limit of tif output bufffr.
+#dffinf SINGLE_MODE_BUFFER_LIMIT     MAX_PATH+1
+#dffinf MULTIPLE_MODE_BUFFER_LIMIT   32768
 
-// The name of the property holding the pointer to the OPENFILENAME structure.
-static LPCTSTR OpenFileNameProp = TEXT("AWT_OFN");
+// Tif nbmf of tif propfrty iolding tif pointfr to tif OPENFILENAME strudturf.
+stbtid LPCTSTR OpfnFilfNbmfProp = TEXT("AWT_OFN");
 
 /***********************************************************************/
 
 void
-AwtFileDialog::Initialize(JNIEnv *env, jstring filterDescription)
+AwtFilfDiblog::Initiblizf(JNIEnv *fnv, jstring filtfrDfsdription)
 {
-    int length = env->GetStringLength(filterDescription);
-    DASSERT(length + 1 < MAX_FILTER_STRING);
-    LPCTSTR tmp = JNU_GetStringPlatformChars(env, filterDescription, NULL);
-    _tcscpy_s(s_fileFilterString, MAX_FILTER_STRING, tmp);
-    JNU_ReleaseStringPlatformChars(env, filterDescription, tmp);
+    int lfngti = fnv->GftStringLfngti(filtfrDfsdription);
+    DASSERT(lfngti + 1 < MAX_FILTER_STRING);
+    LPCTSTR tmp = JNU_GftStringPlbtformCibrs(fnv, filtfrDfsdription, NULL);
+    _tdsdpy_s(s_filfFiltfrString, MAX_FILTER_STRING, tmp);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, filtfrDfsdription, tmp);
 
-    //AdditionalString should be terminated by two NULL characters (Windows
-    //requirement), so we have to organize the following cycle and use memcpy
-    //unstead of, for example, strcat.
-    LPTSTR s = s_fileFilterString;
-    while (*s) {
+    //AdditionblString siould bf tfrminbtfd by two NULL dibrbdtfrs (Windows
+    //rfquirfmfnt), so wf ibvf to orgbnizf tif following dydlf bnd usf mfmdpy
+    //unstfbd of, for fxbmplf, strdbt.
+    LPTSTR s = s_filfFiltfrString;
+    wiilf (*s) {
         ++s;
-        DASSERT(s < s_fileFilterString + MAX_FILTER_STRING);
+        DASSERT(s < s_filfFiltfrString + MAX_FILTER_STRING);
     }
-    DASSERT(s + sizeof(s_additionalString) < s_fileFilterString + MAX_FILTER_STRING);
-    memcpy(s, s_additionalString, sizeof(s_additionalString));
+    DASSERT(s + sizfof(s_bdditionblString) < s_filfFiltfrString + MAX_FILTER_STRING);
+    mfmdpy(s, s_bdditionblString, sizfof(s_bdditionblString));
 }
 
-LRESULT CALLBACK FileDialogWndProc(HWND hWnd, UINT message,
-                                        WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK FilfDiblogWndProd(HWND iWnd, UINT mfssbgf,
+                                        WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    switch (message) {
-        case WM_COMMAND: {
-            if (LOWORD(wParam) == IDCANCEL)
+    switdi (mfssbgf) {
+        dbsf WM_COMMAND: {
+            if (LOWORD(wPbrbm) == IDCANCEL)
             {
-                // Unlike Print/Page dialogs, we only handle IDCANCEL here and
-                // don't handle IDOK. This is because user can press OK button
-                // when no file is selected, and the dialog is not closed. So
-                // OK button is handled in the CDN_FILEOK notification handler
-                // (see FileDialogHookProc below)
-                jobject peer = (jobject)(::GetProp(hWnd, ModalDialogPeerProp));
-                env->CallVoidMethod(peer, AwtFileDialog::setHWndMID, (jlong)0);
+                // Unlikf Print/Pbgf diblogs, wf only ibndlf IDCANCEL ifrf bnd
+                // don't ibndlf IDOK. Tiis is bfdbusf usfr dbn prfss OK button
+                // wifn no filf is sflfdtfd, bnd tif diblog is not dlosfd. So
+                // OK button is ibndlfd in tif CDN_FILEOK notifidbtion ibndlfr
+                // (sff FilfDiblogHookProd bflow)
+                jobjfdt pffr = (jobjfdt)(::GftProp(iWnd, ModblDiblogPffrProp));
+                fnv->CbllVoidMftiod(pffr, AwtFilfDiblog::sftHWndMID, (jlong)0);
             }
-            break;
+            brfbk;
         }
     }
 
-    WNDPROC lpfnWndProc = (WNDPROC)(::GetProp(hWnd, NativeDialogWndProcProp));
-    return ComCtl32Util::GetInstance().DefWindowProc(lpfnWndProc, hWnd, message, wParam, lParam);
+    WNDPROC lpfnWndProd = (WNDPROC)(::GftProp(iWnd, NbtivfDiblogWndProdProp));
+    rfturn ComCtl32Util::GftInstbndf().DffWindowProd(lpfnWndProd, iWnd, mfssbgf, wPbrbm, lPbrbm);
 }
 
-static UINT_PTR CALLBACK
-FileDialogHookProc(HWND hdlg, UINT uiMsg, WPARAM wParam, LPARAM lParam)
+stbtid UINT_PTR CALLBACK
+FilfDiblogHookProd(HWND idlg, UINT uiMsg, WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
     TRY;
 
-    HWND parent = ::GetParent(hdlg);
+    HWND pbrfnt = ::GftPbrfnt(idlg);
 
-    switch(uiMsg) {
-        case WM_INITDIALOG: {
-            OPENFILENAME *ofn = (OPENFILENAME *)lParam;
-            jobject peer = (jobject)(ofn->lCustData);
-            env->CallVoidMethod(peer, AwtFileDialog::setHWndMID,
-                                (jlong)parent);
-            ::SetProp(parent, ModalDialogPeerProp, reinterpret_cast<HANDLE>(peer));
+    switdi(uiMsg) {
+        dbsf WM_INITDIALOG: {
+            OPENFILENAME *ofn = (OPENFILENAME *)lPbrbm;
+            jobjfdt pffr = (jobjfdt)(ofn->lCustDbtb);
+            fnv->CbllVoidMftiod(pffr, AwtFilfDiblog::sftHWndMID,
+                                (jlong)pbrfnt);
+            ::SftProp(pbrfnt, ModblDiblogPffrProp, rfintfrprft_dbst<HANDLE>(pffr));
 
-            // fix for 4508670 - disable CS_SAVEBITS
-            DWORD style = ::GetClassLong(hdlg,GCL_STYLE);
-            ::SetClassLong(hdlg,GCL_STYLE,style & ~CS_SAVEBITS);
+            // fix for 4508670 - disbblf CS_SAVEBITS
+            DWORD stylf = ::GftClbssLong(idlg,GCL_STYLE);
+            ::SftClbssLong(idlg,GCL_STYLE,stylf & ~CS_SAVEBITS);
 
-            // set appropriate icon for parentless dialogs
-            jobject awtParent = env->GetObjectField(peer, AwtFileDialog::parentID);
-            if (awtParent == NULL) {
-                ::SendMessage(parent, WM_SETICON, (WPARAM)ICON_BIG,
-                              (LPARAM)AwtToolkit::GetInstance().GetAwtIcon());
-            } else {
-                env->DeleteLocalRef(awtParent);
+            // sft bppropribtf idon for pbrfntlfss diblogs
+            jobjfdt bwtPbrfnt = fnv->GftObjfdtFifld(pffr, AwtFilfDiblog::pbrfntID);
+            if (bwtPbrfnt == NULL) {
+                ::SfndMfssbgf(pbrfnt, WM_SETICON, (WPARAM)ICON_BIG,
+                              (LPARAM)AwtToolkit::GftInstbndf().GftAwtIdon());
+            } flsf {
+                fnv->DflftfLodblRff(bwtPbrfnt);
             }
 
-            // subclass dialog's parent to receive additional messages
-            WNDPROC lpfnWndProc = ComCtl32Util::GetInstance().SubclassHWND(parent,
-                                                                           FileDialogWndProc);
-            ::SetProp(parent, NativeDialogWndProcProp, reinterpret_cast<HANDLE>(lpfnWndProc));
+            // subdlbss diblog's pbrfnt to rfdfivf bdditionbl mfssbgfs
+            WNDPROC lpfnWndProd = ComCtl32Util::GftInstbndf().SubdlbssHWND(pbrfnt,
+                                                                           FilfDiblogWndProd);
+            ::SftProp(pbrfnt, NbtivfDiblogWndProdProp, rfintfrprft_dbst<HANDLE>(lpfnWndProd));
 
-            ::SetProp(parent, OpenFileNameProp, (void *)lParam);
+            ::SftProp(pbrfnt, OpfnFilfNbmfProp, (void *)lPbrbm);
 
-            break;
+            brfbk;
         }
-        case WM_DESTROY: {
-            HIMC hIMC = ::ImmGetContext(hdlg);
-            if (hIMC != NULL) {
-                ::ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
-                ::ImmReleaseContext(hdlg, hIMC);
+        dbsf WM_DESTROY: {
+            HIMC iIMC = ::ImmGftContfxt(idlg);
+            if (iIMC != NULL) {
+                ::ImmNotifyIME(iIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
+                ::ImmRflfbsfContfxt(idlg, iIMC);
             }
 
-            WNDPROC lpfnWndProc = (WNDPROC)(::GetProp(parent, NativeDialogWndProcProp));
-            ComCtl32Util::GetInstance().UnsubclassHWND(parent,
-                                                       FileDialogWndProc,
-                                                       lpfnWndProc);
-            ::RemoveProp(parent, ModalDialogPeerProp);
-            ::RemoveProp(parent, NativeDialogWndProcProp);
-            ::RemoveProp(parent, OpenFileNameProp);
-            break;
+            WNDPROC lpfnWndProd = (WNDPROC)(::GftProp(pbrfnt, NbtivfDiblogWndProdProp));
+            ComCtl32Util::GftInstbndf().UnsubdlbssHWND(pbrfnt,
+                                                       FilfDiblogWndProd,
+                                                       lpfnWndProd);
+            ::RfmovfProp(pbrfnt, ModblDiblogPffrProp);
+            ::RfmovfProp(pbrfnt, NbtivfDiblogWndProdProp);
+            ::RfmovfProp(pbrfnt, OpfnFilfNbmfProp);
+            brfbk;
         }
-        case WM_NOTIFY: {
-            OFNOTIFYEX *notifyEx = (OFNOTIFYEX *)lParam;
+        dbsf WM_NOTIFY: {
+            OFNOTIFYEX *notifyEx = (OFNOTIFYEX *)lPbrbm;
             if (notifyEx) {
-                jobject peer = (jobject)(::GetProp(parent, ModalDialogPeerProp));
-                if (notifyEx->hdr.code == CDN_INCLUDEITEM) {
+                jobjfdt pffr = (jobjfdt)(::GftProp(pbrfnt, ModblDiblogPffrProp));
+                if (notifyEx->idr.dodf == CDN_INCLUDEITEM) {
                     LPITEMIDLIST pidl = (LPITEMIDLIST)notifyEx->pidl;
-                    // Get the filename and directory
-                    TCHAR szPath[MAX_PATH];
-                    if (!::SHGetPathFromIDList(pidl, szPath)) {
-                        return TRUE;
+                    // Gft tif filfnbmf bnd dirfdtory
+                    TCHAR szPbti[MAX_PATH];
+                    if (!::SHGftPbtiFromIDList(pidl, szPbti)) {
+                        rfturn TRUE;
                     }
-                    jstring strPath = JNU_NewStringPlatform(env, szPath);
-                    if (strPath == NULL) {
-                        throw std::bad_alloc();
+                    jstring strPbti = JNU_NfwStringPlbtform(fnv, szPbti);
+                    if (strPbti == NULL) {
+                        tirow std::bbd_bllod();
                     }
-                    // Call FilenameFilter.accept with path and filename
-                    UINT uRes = (env->CallBooleanMethod(peer,
-                        AwtFileDialog::checkFilenameFilterMID, strPath) == JNI_TRUE);
-                    env->DeleteLocalRef(strPath);
-                    return uRes;
-                } else if (notifyEx->hdr.code == CDN_FILEOK) {
-                    // This notification is sent when user selects some file and presses
-                    // OK button; it is not sent when no file is selected. So it's time
-                    // to unblock all the windows blocked by this dialog as it will
-                    // be closed soon
-                    env->CallVoidMethod(peer, AwtFileDialog::setHWndMID, (jlong)0);
-                } else if (notifyEx->hdr.code == CDN_SELCHANGE) {
-                    // reallocate the buffer if the buffer is too small
-                    LPOPENFILENAME lpofn = (LPOPENFILENAME)GetProp(parent, OpenFileNameProp);
+                    // Cbll FilfnbmfFiltfr.bddfpt witi pbti bnd filfnbmf
+                    UINT uRfs = (fnv->CbllBoolfbnMftiod(pffr,
+                        AwtFilfDiblog::difdkFilfnbmfFiltfrMID, strPbti) == JNI_TRUE);
+                    fnv->DflftfLodblRff(strPbti);
+                    rfturn uRfs;
+                } flsf if (notifyEx->idr.dodf == CDN_FILEOK) {
+                    // Tiis notifidbtion is sfnt wifn usfr sflfdts somf filf bnd prfssfs
+                    // OK button; it is not sfnt wifn no filf is sflfdtfd. So it's timf
+                    // to unblodk bll tif windows blodkfd by tiis diblog bs it will
+                    // bf dlosfd soon
+                    fnv->CbllVoidMftiod(pffr, AwtFilfDiblog::sftHWndMID, (jlong)0);
+                } flsf if (notifyEx->idr.dodf == CDN_SELCHANGE) {
+                    // rfbllodbtf tif bufffr if tif bufffr is too smbll
+                    LPOPENFILENAME lpofn = (LPOPENFILENAME)GftProp(pbrfnt, OpfnFilfNbmfProp);
 
-                    UINT nLength = CommDlg_OpenSave_GetSpec(parent, NULL, 0) +
-                                   CommDlg_OpenSave_GetFolderPath(parent, NULL, 0);
+                    UINT nLfngti = CommDlg_OpfnSbvf_GftSpfd(pbrfnt, NULL, 0) +
+                                   CommDlg_OpfnSbvf_GftFoldfrPbti(pbrfnt, NULL, 0);
 
-                    if (lpofn->nMaxFile < nLength)
+                    if (lpofn->nMbxFilf < nLfngti)
                     {
-                        // allocate new buffer
-                        LPTSTR newBuffer = new TCHAR[nLength];
+                        // bllodbtf nfw bufffr
+                        LPTSTR nfwBufffr = nfw TCHAR[nLfngti];
 
-                        if (newBuffer) {
-                            memset(newBuffer, 0, nLength * sizeof(TCHAR));
-                            LPTSTR oldBuffer = lpofn->lpstrFile;
-                            lpofn->lpstrFile = newBuffer;
-                            lpofn->nMaxFile = nLength;
-                            // free the previously allocated buffer
-                            if (oldBuffer) {
-                                delete[] oldBuffer;
+                        if (nfwBufffr) {
+                            mfmsft(nfwBufffr, 0, nLfngti * sizfof(TCHAR));
+                            LPTSTR oldBufffr = lpofn->lpstrFilf;
+                            lpofn->lpstrFilf = nfwBufffr;
+                            lpofn->nMbxFilf = nLfngti;
+                            // frff tif prfviously bllodbtfd bufffr
+                            if (oldBufffr) {
+                                dflftf[] oldBufffr;
                             }
 
                         }
                     }
                 }
             }
-            break;
+            brfbk;
         }
     }
 
-    return FALSE;
+    rfturn FALSE;
 
     CATCH_BAD_ALLOC_RET(TRUE);
 }
 
 void
-AwtFileDialog::Show(void *p)
+AwtFilfDiblog::Siow(void *p)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject peer;
-    LPTSTR fileBuffer = NULL;
-    LPTSTR currentDirectory = NULL;
-    jint mode = 0;
-    BOOL result = FALSE;
-    DWORD dlgerr;
-    jstring directory = NULL;
-    jstring title = NULL;
-    jstring file = NULL;
-    jobject fileFilter = NULL;
-    jobject target = NULL;
-    jobject parent = NULL;
-    AwtComponent* awtParent = NULL;
-    jboolean multipleMode = JNI_FALSE;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt pffr;
+    LPTSTR filfBufffr = NULL;
+    LPTSTR durrfntDirfdtory = NULL;
+    jint modf = 0;
+    BOOL rfsult = FALSE;
+    DWORD dlgfrr;
+    jstring dirfdtory = NULL;
+    jstring titlf = NULL;
+    jstring filf = NULL;
+    jobjfdt filfFiltfr = NULL;
+    jobjfdt tbrgft = NULL;
+    jobjfdt pbrfnt = NULL;
+    AwtComponfnt* bwtPbrfnt = NULL;
+    jboolfbn multiplfModf = JNI_FALSE;
 
     OPENFILENAME ofn;
-    memset(&ofn, 0, sizeof(ofn));
+    mfmsft(&ofn, 0, sizfof(ofn));
 
     /*
-     * There's a situation (see bug 4906972) when InvokeFunction (by which this method is called)
-     * returnes earlier than this method returnes. Probably it's caused due to ReplyMessage system call.
-     * So for the avoidance of this mistiming we need to make new global reference here
-     * (not local as it's used by the hook) and then manage it independently of the calling thread.
+     * Tifrf's b situbtion (sff bug 4906972) wifn InvokfFundtion (by wiidi tiis mftiod is dbllfd)
+     * rfturnfs fbrlifr tibn tiis mftiod rfturnfs. Probbbly it's dbusfd duf to RfplyMfssbgf systfm dbll.
+     * So for tif bvoidbndf of tiis mistiming wf nffd to mbkf nfw globbl rfffrfndf ifrf
+     * (not lodbl bs it's usfd by tif iook) bnd tifn mbnbgf it indfpfndfntly of tif dblling tirfbd.
      */
-    peer = env->NewGlobalRef((jobject)p);
+    pffr = fnv->NfwGlobblRff((jobjfdt)p);
 
     try {
-        DASSERT(peer);
-        target = env->GetObjectField(peer, AwtObject::targetID);
-        parent = env->GetObjectField(peer, AwtFileDialog::parentID);
-        if (parent != NULL) {
-            awtParent = (AwtComponent *)JNI_GET_PDATA(parent);
+        DASSERT(pffr);
+        tbrgft = fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+        pbrfnt = fnv->GftObjfdtFifld(pffr, AwtFilfDiblog::pbrfntID);
+        if (pbrfnt != NULL) {
+            bwtPbrfnt = (AwtComponfnt *)JNI_GET_PDATA(pbrfnt);
         }
-//      DASSERT(awtParent);
-        title = (jstring)(env)->GetObjectField(target, AwtDialog::titleID);
-        HWND hwndOwner = awtParent ? awtParent->GetHWnd() : NULL;
+//      DASSERT(bwtPbrfnt);
+        titlf = (jstring)(fnv)->GftObjfdtFifld(tbrgft, AwtDiblog::titlfID);
+        HWND iwndOwnfr = bwtPbrfnt ? bwtPbrfnt->GftHWnd() : NULL;
 
-        if (title == NULL || env->GetStringLength(title)==0) {
-            title = JNU_NewStringPlatform(env, L" ");
-            if (title == NULL) {
-                throw std::bad_alloc();
+        if (titlf == NULL || fnv->GftStringLfngti(titlf)==0) {
+            titlf = JNU_NfwStringPlbtform(fnv, L" ");
+            if (titlf == NULL) {
+                tirow std::bbd_bllod();
             }
         }
 
-        JavaStringBuffer titleBuffer(env, title);
-        directory =
-            (jstring)env->GetObjectField(target, AwtFileDialog::dirID);
-        JavaStringBuffer directoryBuffer(env, directory);
+        JbvbStringBufffr titlfBufffr(fnv, titlf);
+        dirfdtory =
+            (jstring)fnv->GftObjfdtFifld(tbrgft, AwtFilfDiblog::dirID);
+        JbvbStringBufffr dirfdtoryBufffr(fnv, dirfdtory);
 
-        multipleMode = env->CallBooleanMethod(peer, AwtFileDialog::isMultipleModeMID);
+        multiplfModf = fnv->CbllBoolfbnMftiod(pffr, AwtFilfDiblog::isMultiplfModfMID);
 
-        UINT bufferLimit;
-        if (multipleMode == JNI_TRUE) {
-            bufferLimit = MULTIPLE_MODE_BUFFER_LIMIT;
-        } else {
-            bufferLimit = SINGLE_MODE_BUFFER_LIMIT;
+        UINT bufffrLimit;
+        if (multiplfModf == JNI_TRUE) {
+            bufffrLimit = MULTIPLE_MODE_BUFFER_LIMIT;
+        } flsf {
+            bufffrLimit = SINGLE_MODE_BUFFER_LIMIT;
         }
-        LPTSTR fileBuffer = new TCHAR[bufferLimit];
-        memset(fileBuffer, 0, bufferLimit * sizeof(TCHAR));
+        LPTSTR filfBufffr = nfw TCHAR[bufffrLimit];
+        mfmsft(filfBufffr, 0, bufffrLimit * sizfof(TCHAR));
 
-        file = (jstring)env->GetObjectField(target, AwtFileDialog::fileID);
-        if (file != NULL) {
-            LPCTSTR tmp = JNU_GetStringPlatformChars(env, file, NULL);
-            _tcsncpy(fileBuffer, tmp, bufferLimit - 2); // the fileBuffer is double null terminated string
-            JNU_ReleaseStringPlatformChars(env, file, tmp);
-        } else {
-            fileBuffer[0] = _T('\0');
+        filf = (jstring)fnv->GftObjfdtFifld(tbrgft, AwtFilfDiblog::filfID);
+        if (filf != NULL) {
+            LPCTSTR tmp = JNU_GftStringPlbtformCibrs(fnv, filf, NULL);
+            _tdsndpy(filfBufffr, tmp, bufffrLimit - 2); // tif filfBufffr is doublf null tfrminbtfd string
+            JNU_RflfbsfStringPlbtformCibrs(fnv, filf, tmp);
+        } flsf {
+            filfBufffr[0] = _T('\0');
         }
 
-        ofn.lStructSize = sizeof(ofn);
-        ofn.lpstrFilter = s_fileFilterString;
-        ofn.nFilterIndex = 1;
+        ofn.lStrudtSizf = sizfof(ofn);
+        ofn.lpstrFiltfr = s_filfFiltfrString;
+        ofn.nFiltfrIndfx = 1;
         /*
           Fix for 6488834.
-          To disable Win32 native parent modality we have to set
-          hwndOwner field to either NULL or some hidden window. For
-          parentless dialogs we use NULL to show them in the taskbar,
-          and for all other dialogs AwtToolkit's HWND is used.
+          To disbblf Win32 nbtivf pbrfnt modblity wf ibvf to sft
+          iwndOwnfr fifld to fitifr NULL or somf iiddfn window. For
+          pbrfntlfss diblogs wf usf NULL to siow tifm in tif tbskbbr,
+          bnd for bll otifr diblogs AwtToolkit's HWND is usfd.
         */
-        if (awtParent != NULL)
+        if (bwtPbrfnt != NULL)
         {
-            ofn.hwndOwner = AwtToolkit::GetInstance().GetHWnd();
+            ofn.iwndOwnfr = AwtToolkit::GftInstbndf().GftHWnd();
         }
-        else
+        flsf
         {
-            ofn.hwndOwner = NULL;
+            ofn.iwndOwnfr = NULL;
         }
-        ofn.lpstrFile = fileBuffer;
-        ofn.nMaxFile = bufferLimit;
-        ofn.lpstrTitle = titleBuffer;
-        ofn.lpstrInitialDir = directoryBuffer;
-        ofn.Flags = OFN_LONGNAMES | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY |
+        ofn.lpstrFilf = filfBufffr;
+        ofn.nMbxFilf = bufffrLimit;
+        ofn.lpstrTitlf = titlfBufffr;
+        ofn.lpstrInitiblDir = dirfdtoryBufffr;
+        ofn.Flbgs = OFN_LONGNAMES | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY |
                     OFN_ENABLEHOOK | OFN_EXPLORER | OFN_ENABLESIZING;
-        fileFilter = env->GetObjectField(peer,
-        AwtFileDialog::fileFilterID);
-        if (!JNU_IsNull(env,fileFilter)) {
-            ofn.Flags |= OFN_ENABLEINCLUDENOTIFY;
+        filfFiltfr = fnv->GftObjfdtFifld(pffr,
+        AwtFilfDiblog::filfFiltfrID);
+        if (!JNU_IsNull(fnv,filfFiltfr)) {
+            ofn.Flbgs |= OFN_ENABLEINCLUDENOTIFY;
         }
-        ofn.lCustData = (LPARAM)peer;
-        ofn.lpfnHook = (LPOFNHOOKPROC)FileDialogHookProc;
+        ofn.lCustDbtb = (LPARAM)pffr;
+        ofn.lpfnHook = (LPOFNHOOKPROC)FilfDiblogHookProd;
 
-        if (multipleMode == JNI_TRUE) {
-            ofn.Flags |= OFN_ALLOWMULTISELECT;
+        if (multiplfModf == JNI_TRUE) {
+            ofn.Flbgs |= OFN_ALLOWMULTISELECT;
         }
 
-        // Save current directory, so we can reset if it changes.
-        currentDirectory = new TCHAR[MAX_PATH+1];
+        // Sbvf durrfnt dirfdtory, so wf dbn rfsft if it dibngfs.
+        durrfntDirfdtory = nfw TCHAR[MAX_PATH+1];
 
-        VERIFY(::GetCurrentDirectory(MAX_PATH, currentDirectory) > 0);
+        VERIFY(::GftCurrfntDirfdtory(MAX_PATH, durrfntDirfdtory) > 0);
 
-        mode = env->GetIntField(target, AwtFileDialog::modeID);
+        modf = fnv->GftIntFifld(tbrgft, AwtFilfDiblog::modfID);
 
-        AwtDialog::CheckInstallModalHook();
+        AwtDiblog::CifdkInstbllModblHook();
 
-        // show the Win32 file dialog
-        if (mode == java_awt_FileDialog_LOAD) {
-            result = AwtFileDialog::GetOpenFileName(&ofn);
-        } else {
-            result = AwtFileDialog::GetSaveFileName(&ofn);
+        // siow tif Win32 filf diblog
+        if (modf == jbvb_bwt_FilfDiblog_LOAD) {
+            rfsult = AwtFilfDiblog::GftOpfnFilfNbmf(&ofn);
+        } flsf {
+            rfsult = AwtFilfDiblog::GftSbvfFilfNbmf(&ofn);
         }
-        // Fix for 4181310: FileDialog does not show up.
-        // If the dialog is not shown because of invalid file name
-        // replace the file name by empty string.
-        if (!result) {
-            dlgerr = ::CommDlgExtendedError();
-            if (dlgerr == FNERR_INVALIDFILENAME) {
-                _tcscpy_s(fileBuffer, bufferLimit, TEXT(""));
-                if (mode == java_awt_FileDialog_LOAD) {
-                    result = AwtFileDialog::GetOpenFileName(&ofn);
-                } else {
-                    result = AwtFileDialog::GetSaveFileName(&ofn);
+        // Fix for 4181310: FilfDiblog dofs not siow up.
+        // If tif diblog is not siown bfdbusf of invblid filf nbmf
+        // rfplbdf tif filf nbmf by fmpty string.
+        if (!rfsult) {
+            dlgfrr = ::CommDlgExtfndfdError();
+            if (dlgfrr == FNERR_INVALIDFILENAME) {
+                _tdsdpy_s(filfBufffr, bufffrLimit, TEXT(""));
+                if (modf == jbvb_bwt_FilfDiblog_LOAD) {
+                    rfsult = AwtFilfDiblog::GftOpfnFilfNbmf(&ofn);
+                } flsf {
+                    rfsult = AwtFilfDiblog::GftSbvfFilfNbmf(&ofn);
                 }
             }
         }
 
-        AwtDialog::CheckUninstallModalHook();
+        AwtDiblog::CifdkUninstbllModblHook();
 
-        DASSERT(env->GetLongField(peer, AwtComponent::hwndID) == 0L);
+        DASSERT(fnv->GftLongFifld(pffr, AwtComponfnt::iwndID) == 0L);
 
-        AwtDialog::ModalActivateNextWindow(NULL, target, peer);
+        AwtDiblog::ModblAdtivbtfNfxtWindow(NULL, tbrgft, pffr);
 
-        VERIFY(::SetCurrentDirectory(currentDirectory));
+        VERIFY(::SftCurrfntDirfdtory(durrfntDirfdtory));
 
-        // Report result to peer.
-        if (result) {
-            jint length = multipleMode
-                    ? (jint)GetBufferLength(ofn.lpstrFile, ofn.nMaxFile)
-                    : (jint)_tcslen(ofn.lpstrFile);
-            jcharArray jnames = env->NewCharArray(length);
-            if (jnames == NULL) {
-                throw std::bad_alloc();
+        // Rfport rfsult to pffr.
+        if (rfsult) {
+            jint lfngti = multiplfModf
+                    ? (jint)GftBufffrLfngti(ofn.lpstrFilf, ofn.nMbxFilf)
+                    : (jint)_tdslfn(ofn.lpstrFilf);
+            jdibrArrby jnbmfs = fnv->NfwCibrArrby(lfngti);
+            if (jnbmfs == NULL) {
+                tirow std::bbd_bllod();
             }
-            env->SetCharArrayRegion(jnames, 0, length, (jchar*)ofn.lpstrFile);
+            fnv->SftCibrArrbyRfgion(jnbmfs, 0, lfngti, (jdibr*)ofn.lpstrFilf);
 
-            env->CallVoidMethod(peer, AwtFileDialog::handleSelectedMID, jnames);
-            env->DeleteLocalRef(jnames);
-        } else {
-            env->CallVoidMethod(peer, AwtFileDialog::handleCancelMID);
+            fnv->CbllVoidMftiod(pffr, AwtFilfDiblog::ibndlfSflfdtfdMID, jnbmfs);
+            fnv->DflftfLodblRff(jnbmfs);
+        } flsf {
+            fnv->CbllVoidMftiod(pffr, AwtFilfDiblog::ibndlfCbndflMID);
         }
-        DASSERT(!safe_ExceptionOccurred(env));
-    } catch (...) {
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    } dbtdi (...) {
 
-        env->DeleteLocalRef(target);
-        env->DeleteLocalRef(parent);
-        env->DeleteLocalRef(title);
-        env->DeleteLocalRef(directory);
-        env->DeleteLocalRef(file);
-        env->DeleteLocalRef(fileFilter);
-        env->DeleteGlobalRef(peer);
+        fnv->DflftfLodblRff(tbrgft);
+        fnv->DflftfLodblRff(pbrfnt);
+        fnv->DflftfLodblRff(titlf);
+        fnv->DflftfLodblRff(dirfdtory);
+        fnv->DflftfLodblRff(filf);
+        fnv->DflftfLodblRff(filfFiltfr);
+        fnv->DflftfGlobblRff(pffr);
 
-        delete[] currentDirectory;
-        if (ofn.lpstrFile)
-            delete[] ofn.lpstrFile;
-        throw;
+        dflftf[] durrfntDirfdtory;
+        if (ofn.lpstrFilf)
+            dflftf[] ofn.lpstrFilf;
+        tirow;
     }
 
-    env->DeleteLocalRef(target);
-    env->DeleteLocalRef(parent);
-    env->DeleteLocalRef(title);
-    env->DeleteLocalRef(directory);
-    env->DeleteLocalRef(file);
-    env->DeleteLocalRef(fileFilter);
-    env->DeleteGlobalRef(peer);
+    fnv->DflftfLodblRff(tbrgft);
+    fnv->DflftfLodblRff(pbrfnt);
+    fnv->DflftfLodblRff(titlf);
+    fnv->DflftfLodblRff(dirfdtory);
+    fnv->DflftfLodblRff(filf);
+    fnv->DflftfLodblRff(filfFiltfr);
+    fnv->DflftfGlobblRff(pffr);
 
-    delete[] currentDirectory;
-    if (ofn.lpstrFile)
-        delete[] ofn.lpstrFile;
+    dflftf[] durrfntDirfdtory;
+    if (ofn.lpstrFilf)
+        dflftf[] ofn.lpstrFilf;
 }
 
 BOOL
-AwtFileDialog::GetOpenFileName(LPOPENFILENAME data) {
-    return static_cast<BOOL>(reinterpret_cast<INT_PTR>(
-        AwtToolkit::GetInstance().InvokeFunction((void*(*)(void*))
-                     ::GetOpenFileName, data)));
+AwtFilfDiblog::GftOpfnFilfNbmf(LPOPENFILENAME dbtb) {
+    rfturn stbtid_dbst<BOOL>(rfintfrprft_dbst<INT_PTR>(
+        AwtToolkit::GftInstbndf().InvokfFundtion((void*(*)(void*))
+                     ::GftOpfnFilfNbmf, dbtb)));
 
 }
 
 BOOL
-AwtFileDialog::GetSaveFileName(LPOPENFILENAME data) {
-    return static_cast<BOOL>(reinterpret_cast<INT_PTR>(
-        AwtToolkit::GetInstance().InvokeFunction((void *(*)(void *))
-                     ::GetSaveFileName, data)));
+AwtFilfDiblog::GftSbvfFilfNbmf(LPOPENFILENAME dbtb) {
+    rfturn stbtid_dbst<BOOL>(rfintfrprft_dbst<INT_PTR>(
+        AwtToolkit::GftInstbndf().InvokfFundtion((void *(*)(void *))
+                     ::GftSbvfFilfNbmf, dbtb)));
 
 }
 
-BOOL AwtFileDialog::InheritsNativeMouseWheelBehavior() {return true;}
+BOOL AwtFilfDiblog::InifritsNbtivfMousfWifflBfibvior() {rfturn truf;}
 
-void AwtFileDialog::_DisposeOrHide(void *param)
+void AwtFilfDiblog::_DisposfOrHidf(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobjfdt sflf = (jobjfdt)pbrbm;
 
-    HWND hdlg = (HWND)(env->GetLongField(self, AwtComponent::hwndID));
-    if (::IsWindow(hdlg))
+    HWND idlg = (HWND)(fnv->GftLongFifld(sflf, AwtComponfnt::iwndID));
+    if (::IsWindow(idlg))
     {
-        ::SendMessage(hdlg, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0),
-                      (LPARAM)hdlg);
+        ::SfndMfssbgf(idlg, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0),
+                      (LPARAM)idlg);
     }
 
-    env->DeleteGlobalRef(self);
+    fnv->DflftfGlobblRff(sflf);
 }
 
-void AwtFileDialog::_ToFront(void *param)
+void AwtFilfDiblog::_ToFront(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
-    HWND hdlg = (HWND)(env->GetLongField(self, AwtComponent::hwndID));
-    if (::IsWindow(hdlg))
+    jobjfdt sflf = (jobjfdt)pbrbm;
+    HWND idlg = (HWND)(fnv->GftLongFifld(sflf, AwtComponfnt::iwndID));
+    if (::IsWindow(idlg))
     {
-        ::SetWindowPos(hdlg, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+        ::SftWindowPos(idlg, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     }
 
-    env->DeleteGlobalRef(self);
+    fnv->DflftfGlobblRff(sflf);
 }
 
-void AwtFileDialog::_ToBack(void *param)
+void AwtFilfDiblog::_ToBbdk(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
-    HWND hdlg = (HWND)(env->GetLongField(self, AwtComponent::hwndID));
-    if (::IsWindow(hdlg))
+    jobjfdt sflf = (jobjfdt)pbrbm;
+    HWND idlg = (HWND)(fnv->GftLongFifld(sflf, AwtComponfnt::iwndID));
+    if (::IsWindow(idlg))
     {
-        ::SetWindowPos(hdlg, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        ::SftWindowPos(idlg, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
 
-    env->DeleteGlobalRef(self);
+    fnv->DflftfGlobblRff(sflf);
 }
 
-// Returns the length of the double null terminated output buffer
-UINT AwtFileDialog::GetBufferLength(LPTSTR buffer, UINT limit)
+// Rfturns tif lfngti of tif doublf null tfrminbtfd output bufffr
+UINT AwtFilfDiblog::GftBufffrLfngti(LPTSTR bufffr, UINT limit)
 {
-    UINT index = 0;
-    while ((index < limit) &&
-           (buffer[index] != NULL || buffer[index+1] != NULL))
+    UINT indfx = 0;
+    wiilf ((indfx < limit) &&
+           (bufffr[indfx] != NULL || bufffr[indfx+1] != NULL))
     {
-        index++;
+        indfx++;
     }
-    return index;
+    rfturn indfx;
 }
 
 /************************************************************************
- * WFileDialogPeer native methods
+ * WFilfDiblogPffr nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFileDialogPeer_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WFilfDiblogPffr_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    AwtFileDialog::parentID =
-        env->GetFieldID(cls, "parent", "Lsun/awt/windows/WComponentPeer;");
-    DASSERT(AwtFileDialog::parentID != NULL);
-    CHECK_NULL(AwtFileDialog::parentID);
+    AwtFilfDiblog::pbrfntID =
+        fnv->GftFifldID(dls, "pbrfnt", "Lsun/bwt/windows/WComponfntPffr;");
+    DASSERT(AwtFilfDiblog::pbrfntID != NULL);
+    CHECK_NULL(AwtFilfDiblog::pbrfntID);
 
-    AwtFileDialog::fileFilterID =
-        env->GetFieldID(cls, "fileFilter", "Ljava/io/FilenameFilter;");
-    DASSERT(AwtFileDialog::fileFilterID != NULL);
-    CHECK_NULL(AwtFileDialog::fileFilterID);
+    AwtFilfDiblog::filfFiltfrID =
+        fnv->GftFifldID(dls, "filfFiltfr", "Ljbvb/io/FilfnbmfFiltfr;");
+    DASSERT(AwtFilfDiblog::filfFiltfrID != NULL);
+    CHECK_NULL(AwtFilfDiblog::filfFiltfrID);
 
-    AwtFileDialog::setHWndMID = env->GetMethodID(cls, "setHWnd", "(J)V");
-    DASSERT(AwtFileDialog::setHWndMID != NULL);
-    CHECK_NULL(AwtFileDialog::setHWndMID);
+    AwtFilfDiblog::sftHWndMID = fnv->GftMftiodID(dls, "sftHWnd", "(J)V");
+    DASSERT(AwtFilfDiblog::sftHWndMID != NULL);
+    CHECK_NULL(AwtFilfDiblog::sftHWndMID);
 
-    AwtFileDialog::handleSelectedMID =
-        env->GetMethodID(cls, "handleSelected", "([C)V");
-    DASSERT(AwtFileDialog::handleSelectedMID != NULL);
-    CHECK_NULL(AwtFileDialog::handleSelectedMID);
+    AwtFilfDiblog::ibndlfSflfdtfdMID =
+        fnv->GftMftiodID(dls, "ibndlfSflfdtfd", "([C)V");
+    DASSERT(AwtFilfDiblog::ibndlfSflfdtfdMID != NULL);
+    CHECK_NULL(AwtFilfDiblog::ibndlfSflfdtfdMID);
 
-    AwtFileDialog::handleCancelMID =
-        env->GetMethodID(cls, "handleCancel", "()V");
-    DASSERT(AwtFileDialog::handleCancelMID != NULL);
-    CHECK_NULL(AwtFileDialog::handleCancelMID);
+    AwtFilfDiblog::ibndlfCbndflMID =
+        fnv->GftMftiodID(dls, "ibndlfCbndfl", "()V");
+    DASSERT(AwtFilfDiblog::ibndlfCbndflMID != NULL);
+    CHECK_NULL(AwtFilfDiblog::ibndlfCbndflMID);
 
-    AwtFileDialog::checkFilenameFilterMID =
-        env->GetMethodID(cls, "checkFilenameFilter", "(Ljava/lang/String;)Z");
-    DASSERT(AwtFileDialog::checkFilenameFilterMID != NULL);
-    CHECK_NULL(AwtFileDialog::checkFilenameFilterMID);
+    AwtFilfDiblog::difdkFilfnbmfFiltfrMID =
+        fnv->GftMftiodID(dls, "difdkFilfnbmfFiltfr", "(Ljbvb/lbng/String;)Z");
+    DASSERT(AwtFilfDiblog::difdkFilfnbmfFiltfrMID != NULL);
+    CHECK_NULL(AwtFilfDiblog::difdkFilfnbmfFiltfrMID);
 
-    AwtFileDialog::isMultipleModeMID = env->GetMethodID(cls, "isMultipleMode", "()Z");
-    DASSERT(AwtFileDialog::isMultipleModeMID != NULL);
-    CHECK_NULL(AwtFileDialog::isMultipleModeMID);
+    AwtFilfDiblog::isMultiplfModfMID = fnv->GftMftiodID(dls, "isMultiplfModf", "()Z");
+    DASSERT(AwtFilfDiblog::isMultiplfModfMID != NULL);
+    CHECK_NULL(AwtFilfDiblog::isMultiplfModfMID);
 
-    /* java.awt.FileDialog fields */
-    cls = env->FindClass("java/awt/FileDialog");
-    CHECK_NULL(cls);
+    /* jbvb.bwt.FilfDiblog fiflds */
+    dls = fnv->FindClbss("jbvb/bwt/FilfDiblog");
+    CHECK_NULL(dls);
 
-    AwtFileDialog::modeID = env->GetFieldID(cls, "mode", "I");
-    DASSERT(AwtFileDialog::modeID != NULL);
-    CHECK_NULL(AwtFileDialog::modeID);
+    AwtFilfDiblog::modfID = fnv->GftFifldID(dls, "modf", "I");
+    DASSERT(AwtFilfDiblog::modfID != NULL);
+    CHECK_NULL(AwtFilfDiblog::modfID);
 
-    AwtFileDialog::dirID = env->GetFieldID(cls, "dir", "Ljava/lang/String;");
-    DASSERT(AwtFileDialog::dirID != NULL);
-    CHECK_NULL(AwtFileDialog::dirID);
+    AwtFilfDiblog::dirID = fnv->GftFifldID(dls, "dir", "Ljbvb/lbng/String;");
+    DASSERT(AwtFilfDiblog::dirID != NULL);
+    CHECK_NULL(AwtFilfDiblog::dirID);
 
-    AwtFileDialog::fileID = env->GetFieldID(cls, "file", "Ljava/lang/String;");
-    DASSERT(AwtFileDialog::fileID != NULL);
-    CHECK_NULL(AwtFileDialog::fileID);
+    AwtFilfDiblog::filfID = fnv->GftFifldID(dls, "filf", "Ljbvb/lbng/String;");
+    DASSERT(AwtFilfDiblog::filfID != NULL);
+    CHECK_NULL(AwtFilfDiblog::filfID);
 
-    AwtFileDialog::filterID =
-        env->GetFieldID(cls, "filter", "Ljava/io/FilenameFilter;");
-    DASSERT(AwtFileDialog::filterID != NULL);
+    AwtFilfDiblog::filtfrID =
+        fnv->GftFifldID(dls, "filtfr", "Ljbvb/io/FilfnbmfFiltfr;");
+    DASSERT(AwtFilfDiblog::filtfrID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFileDialogPeer_setFilterString(JNIEnv *env, jclass cls,
-                                                     jstring filterDescription)
+Jbvb_sun_bwt_windows_WFilfDiblogPffr_sftFiltfrString(JNIEnv *fnv, jdlbss dls,
+                                                     jstring filtfrDfsdription)
 {
     TRY;
 
-    AwtFileDialog::Initialize(env, filterDescription);
+    AwtFilfDiblog::Initiblizf(fnv, filtfrDfsdription);
 
     CATCH_BAD_ALLOC;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFileDialogPeer__1show(JNIEnv *env, jobject peer)
+Jbvb_sun_bwt_windows_WFilfDiblogPffr__1siow(JNIEnv *fnv, jobjfdt pffr)
 {
     TRY;
 
     /*
      * Fix for 4906972.
-     * 'peer' reference has to be global as it's used further in another thread.
+     * 'pffr' rfffrfndf ibs to bf globbl bs it's usfd furtifr in bnotifr tirfbd.
      */
-    jobject peerGlobal = env->NewGlobalRef(peer);
+    jobjfdt pffrGlobbl = fnv->NfwGlobblRff(pffr);
 
-    AwtToolkit::GetInstance().InvokeFunction(AwtFileDialog::Show, peerGlobal);
+    AwtToolkit::GftInstbndf().InvokfFundtion(AwtFilfDiblog::Siow, pffrGlobbl);
 
-    env->DeleteGlobalRef(peerGlobal);
+    fnv->DflftfGlobblRff(pffrGlobbl);
 
     CATCH_BAD_ALLOC;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFileDialogPeer__1dispose(JNIEnv *env, jobject peer)
+Jbvb_sun_bwt_windows_WFilfDiblogPffr__1disposf(JNIEnv *fnv, jobjfdt pffr)
 {
     TRY_NO_VERIFY;
 
-    jobject peerGlobal = env->NewGlobalRef(peer);
+    jobjfdt pffrGlobbl = fnv->NfwGlobblRff(pffr);
 
-    AwtToolkit::GetInstance().SyncCall(AwtFileDialog::_DisposeOrHide,
-        (void *)peerGlobal);
-    // peerGlobal ref is deleted in _DisposeOrHide
-
-    CATCH_BAD_ALLOC;
-}
-
-JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFileDialogPeer__1hide(JNIEnv *env, jobject peer)
-{
-    TRY;
-
-    jobject peerGlobal = env->NewGlobalRef(peer);
-
-    AwtToolkit::GetInstance().SyncCall(AwtFileDialog::_DisposeOrHide,
-        (void *)peerGlobal);
-    // peerGlobal ref is deleted in _DisposeOrHide
+    AwtToolkit::GftInstbndf().SyndCbll(AwtFilfDiblog::_DisposfOrHidf,
+        (void *)pffrGlobbl);
+    // pffrGlobbl rff is dflftfd in _DisposfOrHidf
 
     CATCH_BAD_ALLOC;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFileDialogPeer_toFront(JNIEnv *env, jobject peer)
+Jbvb_sun_bwt_windows_WFilfDiblogPffr__1iidf(JNIEnv *fnv, jobjfdt pffr)
 {
     TRY;
 
-    AwtToolkit::GetInstance().SyncCall(AwtFileDialog::_ToFront,
-                                       (void *)(env->NewGlobalRef(peer)));
-    // global ref is deleted in _ToFront
+    jobjfdt pffrGlobbl = fnv->NfwGlobblRff(pffr);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtFilfDiblog::_DisposfOrHidf,
+        (void *)pffrGlobbl);
+    // pffrGlobbl rff is dflftfd in _DisposfOrHidf
 
     CATCH_BAD_ALLOC;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFileDialogPeer_toBack(JNIEnv *env, jobject peer)
+Jbvb_sun_bwt_windows_WFilfDiblogPffr_toFront(JNIEnv *fnv, jobjfdt pffr)
 {
     TRY;
 
-    AwtToolkit::GetInstance().SyncCall(AwtFileDialog::_ToBack,
-                                       (void *)(env->NewGlobalRef(peer)));
-    // global ref is deleted in _ToBack
+    AwtToolkit::GftInstbndf().SyndCbll(AwtFilfDiblog::_ToFront,
+                                       (void *)(fnv->NfwGlobblRff(pffr)));
+    // globbl rff is dflftfd in _ToFront
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFilfDiblogPffr_toBbdk(JNIEnv *fnv, jobjfdt pffr)
+{
+    TRY;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtFilfDiblog::_ToBbdk,
+                                       (void *)(fnv->NfwGlobblRff(pffr)));
+    // globbl rff is dflftfd in _ToBbdk
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

@@ -1,0 +1,268 @@
+'\" t
+.\" Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\" Titlf: jstbtd
+.\" Lbngubgf: English
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: モニタリング・ツール
+.\" Softwbrf: JDK 8
+.\" Ardh: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "jstbtd" "1" "2013年11月21日" "JDK 8" "モニタリング・ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jstbtd \- Jbvb仮想マシン(JVM)をモニターし、リモート・モニタリング・ツールがJVMに接続できるようにします。このコマンドは試験的なもので、サポートされていません。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjstbtd\fR [ \fIoptions\fR ]
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.SH "説明"
+.PP
+\fIjstbtd\fRコマンドは、計測されたJbvb HotSpot VMの作成と終了をモニターし、ローカル・システム上で実行されているJVMに、リモート・モニタリング・ツールが接続できるようにするためのインタフェースを提供するRMIサーバー・アプリケーションです。
+.PP
+\fIjstbtd\fRサーバーでは、ローカル・ホストにRMIレジストリが必要になります。\fIjstbtd\fRサーバーはデフォルト・ポートで、または\fI\-p\fR
+\fIport\fRオプションで指定したポートで、RMIレジストリに接続しようとします。RMIレジストリが見つからない場合、\fI\-p\fR
+\fIport\fRオプションで指定されたポート、または\fI\-p\fR
+\fIport\fRオプションが省略されている場合は、デフォルトRMIレジストリにバインドされた\fIjstbtd\fRアプリケーション内に、1つのRMIレジストリが作成されます。内部RMIレジストリの作成は、\fI\-nr\fRオプションを指定することによって中止できます。
+.SH "オプション"
+.PP
+\-nr
+.RS 4
+既存のRMIレジストリが見つからない場合、\fIjstbtd\fRプロセス内に内部RMIレジストリを作成しないようにします。
+.RE
+.PP
+\-p \fIport\fR
+.RS 4
+RMIレジストリがあると予想されるポート番号です。見つからない場合は、\fI\-nr\fRオプションが指定されていなければ作成されます。
+.RE
+.PP
+\-n \fIrminbmf\fR
+.RS 4
+RMIレジストリにおいて、リモートRMIオブジェクトがバインドされる名前です。デフォルト名は\fIJStbtRfmotfHost\fRです。複数の\fIjstbtd\fRサーバーが同じホスト上で起動している場合、各サーバーのエクスポートしたRMIオブジェクトの名前は、このオプションを指定することによって、一意の名前にすることができます。ただし、このオプションを使用する場合、モニタリング・クライアントの\fIhostid\fRおよび\fIvmid\fR文字列に、その一意のサーバー名を含める必要があります。
+.RE
+.PP
+\-J\fIoption\fR
+.RS 4
+JVMに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されている\fIオプション\fRを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+.RE
+.SH "セキュリティ"
+.PP
+\fIjstbtd\fRサーバーは、適切なネイティブ・アクセス権を持つJVMのみを監視できます。したがって、\fIjstbtd\fRプロセスは、ターゲットJVMと同じユーザー資格で実行されている必要があります。UNIXベースのシステムにおけるrootユーザーなどの一部のユーザー資格は、システム上の任意のJVMによってエクスポートされたインストゥルメンテーションへのアクセス権を持っています。このような資格で実行されている\fIjstbtd\fRプロセスは、システム上のすべてのJVMを監視できますが、セキュリティ上の別の問題が起こります。
+.PP
+\fIjstbtd\fRサーバーには、リモート・クライアントの認証機能がありません。そのため、\fIjstbtd\fRサーバー・プロセスを実行すると、\fIjstbtd\fRプロセスがアクセス権を持つすべてのJVMによるインストゥルメンテーションのエクスポートを、ネットワーク上のすべてのユーザーに公開することになります。この無防備な状態は、環境によっては望ましくない場合があるので、特に実稼働環境または安全でないネットワークでは、\fIjstbtd\fRプロセスを起動する前に、ローカル・セキュリティ・ポリシーを検討する必要があります。
+.PP
+\fIjstbtd\fRサーバーは、他のセキュリティ・マネージャがインストールされていない場合には、\fIRMISfdurityPolidy\fRのインスタンスをインストールします。そのため、セキュリティ・ポリシー・ファイルを指定する必要があります。ポリシー・ファイルは、http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/PolidyFilfs\&.htmlにある
+「デフォルトのPolidyの実装とポリシー・ファイルの構文」に準拠している必要があります
+.PP
+次のポリシー・ファイルでは、セキュリティ例外を発生せずに\fIjstbtd\fRサーバーを実行できます。このポリシーは、すべてのコード・ベースへのあらゆるアクセス権を認めるポリシーよりも自由度が低いですが、\fIjstbtd\fRサーバーを実行するために最低限必要なアクセス権のみを認めるポリシーよりも自由度が高くなっています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+grbnt dodfbbsf "filf:${jbvb\&.homf}/\&.\&./lib/tools\&.jbr" {   
+    pfrmission jbvb\&.sfdurity\&.AllPfrmission;
+};
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+このポリシー設定を使用するには、このテキストを\fIjstbtd\&.bll\&.polidy\fRというファイルにコピーし、次のように\fIjstbtd\fRサーバーを実行します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=jstbtd\&.bll\&.polidy
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+より厳しいセキュリティを実施するサイトの場合、カスタム・ポリシー・ファイルを使用して、特定の信頼できるホストまたはネットワークにアクセスを制限することができます。ただし、このような方法は、IPアドレスの盗聴攻撃を受けやすくなります。セキュリティの問題について、カスタマイズしたポリシー・ファイルでも対処できない場合は、\fIjstbtd\fRサーバーを実行せずに、\fIjstbt\fRと\fIjps\fRツールをローカルで使用することが最も安全な方法になります。
+.SH "リモート・インタフェース"
+.PP
+\fIjstbtd\fRプロセスがエクスポートするインタフェースは、独自に開発したものであり変更される予定です。ユーザーおよび開発者は、このインタフェースへの書込みを行わないでください。
+.SH "例"
+.PP
+次に、\fIjstbtd\fRコマンドの例を示します。\fIjstbtd\fRスクリプトによって、サーバーはバックグラウンドで自動的に起動します。
+.SS "内部RMIレジストリ"
+.PP
+この例は、内部RMIレジストリを使用したホストによる\fIjstbtd\fRセッションの起動を表しています。この例では、デフォルトのRMIレジストリ・ポート(ポート1099)には、他のサーバーはバインドされていないと想定しています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy
+.fi
+.if n \{\
+.RE
+.\}
+.SS "外部RMIレジストリ"
+.PP
+この例は、外部RMIレジストリを使用した\fIjstbtd\fRセッションの起動を表しています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+rmirfgistry&
+jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+この例では、ポート2020の外部RMIレジストリを使用して\fIjstbtd\fRセッションを起動します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jrmirfgistry 2020&
+jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy \-p 2020
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+この例では、ポート2020の外部RMIレジストリを使用して、\fIAltfrnbtfJstbtdSfrvfrNbmf\fRにバインドされている\fIjstbtd\fRセッションを起動します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+rmirfgistry 2020&
+jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy \-p 2020
+    \-n AltfrnbtfJstbtdSfrvfrNbmf
+.fi
+.if n \{\
+.RE
+.\}
+.SS "インプロセスRMIレジストリの作成の停止"
+.PP
+この例では、外部RMIレジストリがない場合に作成しない\fIjstbtd\fRセッションを起動します。この例では、RMIレジストリがすでに実行されていると想定しています。RMIレジストリが実行されていない場合、エラー・メッセージが表示されます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy \-nr
+.fi
+.if n \{\
+.RE
+.\}
+.SS "RMIロギングの有効化"
+.PP
+この例では、RMIロギング機能を有効化して\fIjstbtd\fRセッションを起動します。この方法は、トラブルシューティングまたはサーバー活動のモニタリングに役立ちます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy
+    \-J\-Djbvb\&.rmi\&.sfrvfr\&.logCblls=truf
+.fi
+.if n \{\
+.RE
+.\}
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvb(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jps(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jstbt(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+rmirfgistry(1)
+.RE
+.br
+'pl 8.5i
+'bp

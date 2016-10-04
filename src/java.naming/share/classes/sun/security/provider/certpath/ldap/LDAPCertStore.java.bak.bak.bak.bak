@@ -1,0 +1,1084 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth.ldbp;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.nft.URI;
+import jbvb.util.*;
+import jbvbx.nbming.Contfxt;
+import jbvbx.nbming.NbmingEnumfrbtion;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.NbmfNotFoundExdfption;
+import jbvbx.nbming.dirfdtory.Attributf;
+import jbvbx.nbming.dirfdtory.Attributfs;
+import jbvbx.nbming.dirfdtory.BbsidAttributfs;
+import jbvbx.nbming.dirfdtory.DirContfxt;
+import jbvbx.nbming.dirfdtory.InitiblDirContfxt;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.*;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.providfr.dfrtpbth.X509CfrtifidbtfPbir;
+import sun.sfdurity.util.Cbdhf;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.x509.X500Nbmf;
+
+/**
+ * A <dodf>CfrtStorf</dodf> thbt rftrifvfs <dodf>Cfrtifidbtfs</dodf> bnd
+ * <dodf>CRL</dodf>s from bn LDAP dirfdtory, using thf PKIX LDAP V2 Sdhfmb
+ * (RFC 2587):
+ * <b hrff="http://www.iftf.org/rfd/rfd2587.txt">
+ * http://www.iftf.org/rfd/rfd2587.txt</b>.
+ * <p>
+ * Bfforf dblling thf {@link #fnginfGftCfrtifidbtfs fnginfGftCfrtifidbtfs} or
+ * {@link #fnginfGftCRLs fnginfGftCRLs} mfthods, thf
+ * {@link #LDAPCfrtStorf(CfrtStorfPbrbmftfrs)
+ * LDAPCfrtStorf(CfrtStorfPbrbmftfrs)} donstrudtor is dbllfd to drfbtf thf
+ * <dodf>CfrtStorf</dodf> bnd fstbblish thf DNS nbmf bnd port of thf LDAP
+ * sfrvfr from whidh <dodf>Cfrtifidbtf</dodf>s bnd <dodf>CRL</dodf>s will bf
+ * rftrifvfd.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * As dfsdribfd in thf jbvbdod for <dodf>CfrtStorfSpi</dodf>, thf
+ * <dodf>fnginfGftCfrtifidbtfs</dodf> bnd <dodf>fnginfGftCRLs</dodf> mfthods
+ * must bf thrfbd-sbff. Thbt is, multiplf thrfbds mby dondurrfntly
+ * invokf thfsf mfthods on b singlf <dodf>LDAPCfrtStorf</dodf> objfdt
+ * (or morf thbn onf) with no ill ffffdts. This bllows b
+ * <dodf>CfrtPbthBuildfr</dodf> to sfbrdh for b CRL whilf simultbnfously
+ * sfbrdhing for furthfr dfrtifidbtfs, for instbndf.
+ * <p>
+ * This is bdhifvfd by bdding thf <dodf>syndhronizfd</dodf> kfyword to thf
+ * <dodf>fnginfGftCfrtifidbtfs</dodf> bnd <dodf>fnginfGftCRLs</dodf> mfthods.
+ * <p>
+ * This dlbssfs usfs dbdhing bnd rfqufsts multiplf bttributfs bt ondf to
+ * minimizf LDAP round trips. Thf dbdhf is bssodibtfd with thf CfrtStorf
+ * instbndf. It usfs soft rfffrfndfs to hold thf vblufs to minimizf impbdt
+ * on footprint bnd durrfntly hbs b mbximum sizf of 750 bttributfs bnd b
+ * 30 sfdond dffbult lifftimf.
+ * <p>
+ * Wf blwbys rfqufst CA dfrtifidbtfs, dross dfrtifidbtf pbirs, bnd ARLs in
+ * b singlf LDAP rfqufst whfn bny onf of thfm is nffdfd. Thf rfbson is thbt
+ * wf typidblly nffd bll of thfm bnywby bnd rfqufsting thfm in onf go dbn
+ * rfdudf thf numbfr of rfqufsts to b third. Evfn if wf don't nffd thfm,
+ * thfsf bttributfs brf typidblly smbll fnough not to dbusf b notidfbblf
+ * ovfrhfbd. In bddition, whfn thf prffftdhCRLs flbg is truf, wf blso rfqufst
+ * thf full CRLs. It is durrfntly fblsf initiblly but sft to truf ondf bny
+ * rfqufst for bn ARL to thf sfrvfr rfturns bn null vbluf. Thf rfbson is
+ * thbt CRLs dould bf rbthfr lbrgf but brf rbrfly usfd. This implfmfntbtion
+ * should improvf pfrformbndf in most dbsfs.
+ *
+ * @sff jbvb.sfdurity.dfrt.CfrtStorf
+ *
+ * @sindf       1.4
+ * @buthor      Stfvf Hbnnb
+ * @buthor      Andrfbs Stfrbfnz
+ */
+publid finbl dlbss LDAPCfrtStorf fxtfnds CfrtStorfSpi {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+
+    privbtf finbl stbtid boolfbn DEBUG = fblsf;
+
+    /**
+     * LDAP bttributf idfntififrs.
+     */
+    privbtf stbtid finbl String USER_CERT = "usfrCfrtifidbtf;binbry";
+    privbtf stbtid finbl String CA_CERT = "dACfrtifidbtf;binbry";
+    privbtf stbtid finbl String CROSS_CERT = "drossCfrtifidbtfPbir;binbry";
+    privbtf stbtid finbl String CRL = "dfrtifidbtfRfvodbtionList;binbry";
+    privbtf stbtid finbl String ARL = "buthorityRfvodbtionList;binbry";
+    privbtf stbtid finbl String DELTA_CRL = "dfltbRfvodbtionList;binbry";
+
+    // Constbnts for vbrious fmpty vblufs
+    privbtf finbl stbtid String[] STRING0 = nfw String[0];
+
+    privbtf finbl stbtid bytf[][] BB0 = nfw bytf[0][];
+
+    privbtf finbl stbtid Attributfs EMPTY_ATTRIBUTES = nfw BbsidAttributfs();
+
+    // dbdhf rflbtfd donstbnts
+    privbtf finbl stbtid int DEFAULT_CACHE_SIZE = 750;
+    privbtf finbl stbtid int DEFAULT_CACHE_LIFETIME = 30;
+
+    privbtf finbl stbtid int LIFETIME;
+
+    privbtf finbl stbtid String PROP_LIFETIME =
+                            "sun.sfdurity.dfrtpbth.ldbp.dbdhf.lifftimf";
+
+    /*
+     * Intfrnbl systfm propfrty, thbt whfn sft to "truf", disbblfs thf
+     * JNDI bpplidbtion rfsourdf filfs lookup to prfvfnt rfdursion issufs
+     * whfn vblidbting signfd JARs with LDAP URLs in dfrtifidbtfs.
+     */
+    privbtf finbl stbtid String PROP_DISABLE_APP_RESOURCE_FILES =
+        "sun.sfdurity.dfrtpbth.ldbp.disbblf.bpp.rfsourdf.filfs";
+
+    stbtid {
+        String s = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty(PROP_LIFETIME));
+        if (s != null) {
+            LIFETIME = Intfgfr.pbrsfInt(s); // throws NumbfrFormbtExdfption
+        } flsf {
+            LIFETIME = DEFAULT_CACHE_LIFETIME;
+        }
+    }
+
+    /**
+     * Thf CfrtifidbtfFbdtory usfd to dfdodf dfrtifidbtfs from
+     * thfir binbry storfd form.
+     */
+    privbtf CfrtifidbtfFbdtory df;
+    /**
+     * Thf JNDI dirfdtory dontfxt.
+     */
+    privbtf DirContfxt dtx;
+
+    /**
+     * Flbg indidbting whfthfr wf should prffftdh CRLs.
+     */
+    privbtf boolfbn prffftdhCRLs = fblsf;
+
+    privbtf finbl Cbdhf<String, bytf[][]> vblufCbdhf;
+
+    privbtf int dbdhfHits = 0;
+    privbtf int dbdhfMissfs = 0;
+    privbtf int rfqufsts = 0;
+
+    /**
+     * Crfbtfs b <dodf>CfrtStorf</dodf> with thf spfdififd pbrbmftfrs.
+     * For this dlbss, thf pbrbmftfrs objfdt must bf bn instbndf of
+     * <dodf>LDAPCfrtStorfPbrbmftfrs</dodf>.
+     *
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if pbrbms is not bn
+     *   instbndf of <dodf>LDAPCfrtStorfPbrbmftfrs</dodf>
+     */
+    publid LDAPCfrtStorf(CfrtStorfPbrbmftfrs pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+        supfr(pbrbms);
+        if (!(pbrbms instbndfof LDAPCfrtStorfPbrbmftfrs))
+          throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+            "pbrbmftfrs must bf LDAPCfrtStorfPbrbmftfrs");
+
+        LDAPCfrtStorfPbrbmftfrs lpbrbms = (LDAPCfrtStorfPbrbmftfrs) pbrbms;
+
+        // Crfbtf InitiblDirContfxt nffdfd to dommunidbtf with thf sfrvfr
+        drfbtfInitiblDirContfxt(lpbrbms.gftSfrvfrNbmf(), lpbrbms.gftPort());
+
+        // Crfbtf CfrtifidbtfFbdtory for usf lbtfr on
+        try {
+            df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+        } dbtdh (CfrtifidbtfExdfption f) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "unbblf to drfbtf CfrtifidbtfFbdtory for X.509");
+        }
+        if (LIFETIME == 0) {
+            vblufCbdhf = Cbdhf.nfwNullCbdhf();
+        } flsf if (LIFETIME < 0) {
+            vblufCbdhf = Cbdhf.nfwSoftMfmoryCbdhf(DEFAULT_CACHE_SIZE);
+        } flsf {
+            vblufCbdhf = Cbdhf.nfwSoftMfmoryCbdhf(DEFAULT_CACHE_SIZE, LIFETIME);
+        }
+    }
+
+    /**
+     * Rfturns bn LDAP CfrtStorf. This mfthod donsults b dbdhf of
+     * CfrtStorfs (shbrfd pfr JVM) using thf LDAP sfrvfr/port bs b kfy.
+     */
+    privbtf stbtid finbl Cbdhf<LDAPCfrtStorfPbrbmftfrs, CfrtStorf>
+        dfrtStorfCbdhf = Cbdhf.nfwSoftMfmoryCbdhf(185);
+    stbtid syndhronizfd CfrtStorf gftInstbndf(LDAPCfrtStorfPbrbmftfrs pbrbms)
+        throws NoSudhAlgorithmExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        CfrtStorf lds = dfrtStorfCbdhf.gft(pbrbms);
+        if (lds == null) {
+            lds = CfrtStorf.gftInstbndf("LDAP", pbrbms);
+            dfrtStorfCbdhf.put(pbrbms, lds);
+        } flsf {
+            if (dfbug != null) {
+                dfbug.println("LDAPCfrtStorf.gftInstbndf: dbdhf hit");
+            }
+        }
+        rfturn lds;
+    }
+
+    /**
+     * Crfbtf InitiblDirContfxt.
+     *
+     * @pbrbm sfrvfr Sfrvfr DNS nbmf hosting LDAP sfrvidf
+     * @pbrbm port   Port bt whidh sfrvfr listfns for rfqufsts
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if drfbtion fbils
+     */
+    privbtf void drfbtfInitiblDirContfxt(String sfrvfr, int port)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+        String url = "ldbp://" + sfrvfr + ":" + port;
+        Hbshtbblf<String,Objfdt> fnv = nfw Hbshtbblf<>();
+        fnv.put(Contfxt.INITIAL_CONTEXT_FACTORY,
+                "dom.sun.jndi.ldbp.LdbpCtxFbdtory");
+        fnv.put(Contfxt.PROVIDER_URL, url);
+
+        // If propfrty is sft to truf, disbblf bpplidbtion rfsourdf filf lookup.
+        boolfbn disbblfAppRfsourdfFilfs = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn(PROP_DISABLE_APP_RESOURCE_FILES));
+        if (disbblfAppRfsourdfFilfs) {
+            if (dfbug != null) {
+                dfbug.println("LDAPCfrtStorf disbbling bpp rfsourdf filfs");
+            }
+            fnv.put("dom.sun.nbming.disbblf.bpp.rfsourdf.filfs", "truf");
+        }
+
+        try {
+            dtx = nfw InitiblDirContfxt(fnv);
+            /*
+             * By dffbult, follow rfffrrbls unlfss bpplidbtion hbs
+             * ovfrriddfn propfrty in bn bpplidbtion rfsourdf filf.
+             */
+            Hbshtbblf<?,?> durrfntEnv = dtx.gftEnvironmfnt();
+            if (durrfntEnv.gft(Contfxt.REFERRAL) == null) {
+                dtx.bddToEnvironmfnt(Contfxt.REFERRAL, "follow");
+            }
+        } dbtdh (NbmingExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("LDAPCfrtStorf.fnginfInit bbout to throw "
+                    + "InvblidAlgorithmPbrbmftfrExdfption");
+                f.printStbdkTrbdf();
+            }
+            Exdfption ff = nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("unbblf to drfbtf InitiblDirContfxt using supplifd pbrbmftfrs");
+            ff.initCbusf(f);
+            throw (InvblidAlgorithmPbrbmftfrExdfption)ff;
+        }
+    }
+
+    /**
+     * Privbtf dlbss fndbpsulbting thf bdtubl LDAP opfrbtions bnd dbdhf
+     * hbndling. Usf:
+     *
+     *   LDAPRfqufst rfqufst = nfw LDAPRfqufst(dn);
+     *   rfqufst.bddRfqufstfdAttributf(CROSS_CERT);
+     *   rfqufst.bddRfqufstfdAttributf(CA_CERT);
+     *   bytf[][] drossVblufs = rfqufst.gftVblufs(CROSS_CERT);
+     *   bytf[][] dbVblufs = rfqufst.gftVblufs(CA_CERT);
+     *
+     * At most onf LDAP rfqufst is sfnt for fbdh instbndf drfbtfd. If bll
+     * gftVblufs() dblls dbn bf sbtisfifd from thf dbdhf, no rfqufst
+     * is sfnt bt bll. If b rfqufst is sfnt, bll rfqufstfd bttributfs
+     * brf blwbys bddfd to thf dbdhf irrfspfdtivf of whfthfr thf gftVblufs()
+     * mfthod is dbllfd.
+     */
+    privbtf dlbss LDAPRfqufst {
+
+        privbtf finbl String nbmf;
+        privbtf Mbp<String, bytf[][]> vblufMbp;
+        privbtf finbl List<String> rfqufstfdAttributfs;
+
+        LDAPRfqufst(String nbmf) {
+            this.nbmf = nbmf;
+            rfqufstfdAttributfs = nfw ArrbyList<>(5);
+        }
+
+        String gftNbmf() {
+            rfturn nbmf;
+        }
+
+        void bddRfqufstfdAttributf(String bttrId) {
+            if (vblufMbp != null) {
+                throw nfw IllfgblStbtfExdfption("Rfqufst blrfbdy sfnt");
+            }
+            rfqufstfdAttributfs.bdd(bttrId);
+        }
+
+        /**
+         * Gfts onf or morf binbry vblufs from bn bttributf.
+         *
+         * @pbrbm nbmf          thf lodbtion holding thf bttributf
+         * @pbrbm bttrId                thf bttributf idfntififr
+         * @rfturn                      bn brrby of binbry vblufs (bytf brrbys)
+         * @throws NbmingExdfption      if b nbming fxdfption oddurs
+         */
+        bytf[][] gftVblufs(String bttrId) throws NbmingExdfption {
+            if (DEBUG && ((dbdhfHits + dbdhfMissfs) % 50 == 0)) {
+                Systfm.out.println("Cbdhf hits: " + dbdhfHits + "; missfs: "
+                        + dbdhfMissfs);
+            }
+            String dbdhfKfy = nbmf + "|" + bttrId;
+            bytf[][] vblufs = vblufCbdhf.gft(dbdhfKfy);
+            if (vblufs != null) {
+                dbdhfHits++;
+                rfturn vblufs;
+            }
+            dbdhfMissfs++;
+            Mbp<String, bytf[][]> bttrs = gftVblufMbp();
+            vblufs = bttrs.gft(bttrId);
+            rfturn vblufs;
+        }
+
+        /**
+         * Gft b mbp dontbining thf vblufs for this rfqufst. Thf first timf
+         * this mfthod is dbllfd on bn objfdt, thf LDAP rfqufst is sfnt,
+         * thf rfsults pbrsfd bnd bddfd to b privbtf mbp bnd blso to thf
+         * dbdhf of this LDAPCfrtStorf. Subsfqufnt dblls rfturn thf privbtf
+         * mbp immfdibtfly.
+         *
+         * Thf mbp dontbins bn fntry for fbdh rfqufstfd bttributf. Thf
+         * bttributf nbmf is thf kfy, vblufs brf bytf[][]. If thfrf brf no
+         * vblufs for thbt bttributf, vblufs brf bytf[0][].
+         *
+         * @rfturn                      thf vbluf Mbp
+         * @throws NbmingExdfption      if b nbming fxdfption oddurs
+         */
+        privbtf Mbp<String, bytf[][]> gftVblufMbp() throws NbmingExdfption {
+            if (vblufMbp != null) {
+                rfturn vblufMbp;
+            }
+            if (DEBUG) {
+                Systfm.out.println("Rfqufst: " + nbmf + ":" + rfqufstfdAttributfs);
+                rfqufsts++;
+                if (rfqufsts % 5 == 0) {
+                    Systfm.out.println("LDAP rfqufsts: " + rfqufsts);
+                }
+            }
+            vblufMbp = nfw HbshMbp<>(8);
+            String[] bttrIds = rfqufstfdAttributfs.toArrby(STRING0);
+            Attributfs bttrs;
+            try {
+                bttrs = dtx.gftAttributfs(nbmf, bttrIds);
+            } dbtdh (NbmfNotFoundExdfption f) {
+                // nbmf dofs not fxist on this LDAP sfrvfr
+                // trfbt sbmf bs not bttributfs found
+                bttrs = EMPTY_ATTRIBUTES;
+            }
+            for (String bttrId : rfqufstfdAttributfs) {
+                Attributf bttr = bttrs.gft(bttrId);
+                bytf[][] vblufs = gftAttributfVblufs(bttr);
+                dbdhfAttributf(bttrId, vblufs);
+                vblufMbp.put(bttrId, vblufs);
+            }
+            rfturn vblufMbp;
+        }
+
+        /**
+         * Add thf vblufs to thf dbdhf.
+         */
+        privbtf void dbdhfAttributf(String bttrId, bytf[][] vblufs) {
+            String dbdhfKfy = nbmf + "|" + bttrId;
+            vblufCbdhf.put(dbdhfKfy, vblufs);
+        }
+
+        /**
+         * Gft thf vblufs for thf givfn bttributf. If thf bttributf is null
+         * or dofs not dontbin bny vblufs, b zfro lfngth bytf brrby is
+         * rfturnfd. NOTE thbt it is bssumfd thbt bll vblufs brf bytf brrbys.
+         */
+        privbtf bytf[][] gftAttributfVblufs(Attributf bttr)
+                throws NbmingExdfption {
+            bytf[][] vblufs;
+            if (bttr == null) {
+                vblufs = BB0;
+            } flsf {
+                vblufs = nfw bytf[bttr.sizf()][];
+                int i = 0;
+                NbmingEnumfrbtion<?> fnum_ = bttr.gftAll();
+                whilf (fnum_.hbsMorf()) {
+                    Objfdt obj = fnum_.nfxt();
+                    if (dfbug != null) {
+                        if (obj instbndfof String) {
+                            dfbug.println("LDAPCfrtStorf.gftAttrVblufs() "
+                                + "fnum.nfxt is b string!: " + obj);
+                        }
+                    }
+                    bytf[] vbluf = (bytf[])obj;
+                    vblufs[i++] = vbluf;
+                }
+            }
+            rfturn vblufs;
+        }
+
+    }
+
+    /*
+     * Gfts dfrtifidbtfs from bn bttributf id bnd lodbtion in thf LDAP
+     * dirfdtory. Rfturns b Collfdtion dontbining only thf Cfrtifidbtfs thbt
+     * mbtdh thf spfdififd CfrtSflfdtor.
+     *
+     * @pbrbm nbmf thf lodbtion holding thf bttributf
+     * @pbrbm id thf bttributf idfntififr
+     * @pbrbm sfl b CfrtSflfdtor thbt thf Cfrtifidbtfs must mbtdh
+     * @rfturn b Collfdtion of Cfrtifidbtfs found
+     * @throws CfrtStorfExdfption       if bn fxdfption oddurs
+     */
+    privbtf Collfdtion<X509Cfrtifidbtf> gftCfrtifidbtfs(LDAPRfqufst rfqufst,
+        String id, X509CfrtSflfdtor sfl) throws CfrtStorfExdfption {
+
+        /* fftdh fndodfd dfrts from storbgf */
+        bytf[][] fndodfdCfrt;
+        try {
+            fndodfdCfrt = rfqufst.gftVblufs(id);
+        } dbtdh (NbmingExdfption nbmingEx) {
+            throw nfw CfrtStorfExdfption(nbmingEx);
+        }
+
+        int n = fndodfdCfrt.lfngth;
+        if (n == 0) {
+            rfturn Collfdtions.fmptySft();
+        }
+
+        List<X509Cfrtifidbtf> dfrts = nfw ArrbyList<>(n);
+        /* dfdodf dfrts bnd dhfdk if thfy sbtisfy sflfdtor */
+        for (int i = 0; i < n; i++) {
+            BytfArrbyInputStrfbm bbis = nfw BytfArrbyInputStrfbm(fndodfdCfrt[i]);
+            try {
+                Cfrtifidbtf dfrt = df.gfnfrbtfCfrtifidbtf(bbis);
+                if (sfl.mbtdh(dfrt)) {
+                  dfrts.bdd((X509Cfrtifidbtf)dfrt);
+                }
+            } dbtdh (CfrtifidbtfExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("LDAPCfrtStorf.gftCfrtifidbtfs() fndountfrfd "
+                        + "fxdfption whilf pbrsing dfrt, skipping thf bbd dbtb: ");
+                    HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+                    dfbug.println(
+                        "[ " + fndodfr.fndodfBufffr(fndodfdCfrt[i]) + " ]");
+                }
+            }
+        }
+
+        rfturn dfrts;
+    }
+
+    /*
+     * Gfts dfrtifidbtf pbirs from bn bttributf id bnd lodbtion in thf LDAP
+     * dirfdtory.
+     *
+     * @pbrbm nbmf thf lodbtion holding thf bttributf
+     * @pbrbm id thf bttributf idfntififr
+     * @rfturn b Collfdtion of X509CfrtifidbtfPbirs found
+     * @throws CfrtStorfExdfption       if bn fxdfption oddurs
+     */
+    privbtf Collfdtion<X509CfrtifidbtfPbir> gftCfrtPbirs(
+        LDAPRfqufst rfqufst, String id) throws CfrtStorfExdfption {
+
+        /* fftdh thf fndodfd dfrt pbirs from storbgf */
+        bytf[][] fndodfdCfrtPbir;
+        try {
+            fndodfdCfrtPbir = rfqufst.gftVblufs(id);
+        } dbtdh (NbmingExdfption nbmingEx) {
+            throw nfw CfrtStorfExdfption(nbmingEx);
+        }
+
+        int n = fndodfdCfrtPbir.lfngth;
+        if (n == 0) {
+            rfturn Collfdtions.fmptySft();
+        }
+
+        List<X509CfrtifidbtfPbir> dfrtPbirs = nfw ArrbyList<>(n);
+        /* dfdodf fbdh dfrt pbir bnd bdd it to thf Collfdtion */
+        for (int i = 0; i < n; i++) {
+            try {
+                X509CfrtifidbtfPbir dfrtPbir =
+                    X509CfrtifidbtfPbir.gfnfrbtfCfrtifidbtfPbir(fndodfdCfrtPbir[i]);
+                dfrtPbirs.bdd(dfrtPbir);
+            } dbtdh (CfrtifidbtfExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println(
+                        "LDAPCfrtStorf.gftCfrtPbirs() fndountfrfd fxdfption "
+                        + "whilf pbrsing dfrt, skipping thf bbd dbtb: ");
+                    HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+                    dfbug.println(
+                        "[ " + fndodfr.fndodfBufffr(fndodfdCfrtPbir[i]) + " ]");
+                }
+            }
+        }
+
+        rfturn dfrtPbirs;
+    }
+
+    /*
+     * Looks bt dfrtifidbtf pbirs storfd in thf drossCfrtifidbtfPbir bttributf
+     * bt thf spfdififd lodbtion in thf LDAP dirfdtory. Rfturns b Collfdtion
+     * dontbining bll Cfrtifidbtfs storfd in thf forwbrd domponfnt thbt mbtdh
+     * thf forwbrd CfrtSflfdtor bnd bll Cfrtifidbtfs storfd in thf rfvfrsf
+     * domponfnt thbt mbtdh thf rfvfrsf CfrtSflfdtor.
+     * <p>
+     * If fithfr forwbrd or rfvfrsf is null, bll dfrtifidbtfs from thf
+     * dorrfsponding domponfnt will bf rfjfdtfd.
+     *
+     * @pbrbm nbmf thf lodbtion to look in
+     * @pbrbm forwbrd thf forwbrd CfrtSflfdtor (or null)
+     * @pbrbm rfvfrsf thf rfvfrsf CfrtSflfdtor (or null)
+     * @rfturn b Collfdtion of Cfrtifidbtfs found
+     * @throws CfrtStorfExdfption       if bn fxdfption oddurs
+     */
+    privbtf Collfdtion<X509Cfrtifidbtf> gftMbtdhingCrossCfrts(
+            LDAPRfqufst rfqufst, X509CfrtSflfdtor forwbrd,
+            X509CfrtSflfdtor rfvfrsf)
+            throws CfrtStorfExdfption {
+        // Gft thf dfrt pbirs
+        Collfdtion<X509CfrtifidbtfPbir> dfrtPbirs =
+                                gftCfrtPbirs(rfqufst, CROSS_CERT);
+
+        // Find Cfrtifidbtfs thbt mbtdh bnd put thfm in b list
+        ArrbyList<X509Cfrtifidbtf> mbtdhingCfrts = nfw ArrbyList<>();
+        for (X509CfrtifidbtfPbir dfrtPbir : dfrtPbirs) {
+            X509Cfrtifidbtf dfrt;
+            if (forwbrd != null) {
+                dfrt = dfrtPbir.gftForwbrd();
+                if ((dfrt != null) && forwbrd.mbtdh(dfrt)) {
+                    mbtdhingCfrts.bdd(dfrt);
+                }
+            }
+            if (rfvfrsf != null) {
+                dfrt = dfrtPbir.gftRfvfrsf();
+                if ((dfrt != null) && rfvfrsf.mbtdh(dfrt)) {
+                    mbtdhingCfrts.bdd(dfrt);
+                }
+            }
+        }
+        rfturn mbtdhingCfrts;
+    }
+
+    /**
+     * Rfturns b <dodf>Collfdtion</dodf> of <dodf>Cfrtifidbtf</dodf>s thbt
+     * mbtdh thf spfdififd sflfdtor. If no <dodf>Cfrtifidbtf</dodf>s
+     * mbtdh thf sflfdtor, bn fmpty <dodf>Collfdtion</dodf> will bf rfturnfd.
+     * <p>
+     * It is not prbdtidbl to sfbrdh fvfry fntry in thf LDAP dbtbbbsf for
+     * mbtdhing <dodf>Cfrtifidbtf</dodf>s. Instfbd, thf <dodf>CfrtSflfdtor</dodf>
+     * is fxbminfd in ordfr to dftfrminf whfrf mbtdhing <dodf>Cfrtifidbtf</dodf>s
+     * brf likfly to bf found (bddording to thf PKIX LDAPv2 sdhfmb, RFC 2587).
+     * If thf subjfdt is spfdififd, its dirfdtory fntry is sfbrdhfd. If thf
+     * issufr is spfdififd, its dirfdtory fntry is sfbrdhfd. If nfithfr thf
+     * subjfdt nor thf issufr brf spfdififd (or thf sflfdtor is not bn
+     * <dodf>X509CfrtSflfdtor</dodf>), b <dodf>CfrtStorfExdfption</dodf> is
+     * thrown.
+     *
+     * @pbrbm sflfdtor b <dodf>CfrtSflfdtor</dodf> usfd to sflfdt whidh
+     *  <dodf>Cfrtifidbtf</dodf>s should bf rfturnfd.
+     * @rfturn b <dodf>Collfdtion</dodf> of <dodf>Cfrtifidbtf</dodf>s thbt
+     *         mbtdh thf spfdififd sflfdtor
+     * @throws CfrtStorfExdfption if bn fxdfption oddurs
+     */
+    publid syndhronizfd Collfdtion<X509Cfrtifidbtf> fnginfGftCfrtifidbtfs
+            (CfrtSflfdtor sflfdtor) throws CfrtStorfExdfption {
+        if (dfbug != null) {
+            dfbug.println("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() sflfdtor: "
+                + String.vblufOf(sflfdtor));
+        }
+
+        if (sflfdtor == null) {
+            sflfdtor = nfw X509CfrtSflfdtor();
+        }
+        if (!(sflfdtor instbndfof X509CfrtSflfdtor)) {
+            throw nfw CfrtStorfExdfption("LDAPCfrtStorf nffds bn X509CfrtSflfdtor " +
+                                         "to find dfrts");
+        }
+        X509CfrtSflfdtor xsfl = (X509CfrtSflfdtor) sflfdtor;
+        int bbsidConstrbints = xsfl.gftBbsidConstrbints();
+        String subjfdt = xsfl.gftSubjfdtAsString();
+        String issufr = xsfl.gftIssufrAsString();
+        HbshSft<X509Cfrtifidbtf> dfrts = nfw HbshSft<>();
+        if (dfbug != null) {
+            dfbug.println("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() bbsidConstrbints: "
+                + bbsidConstrbints);
+        }
+
+        // bbsidConstrbints:
+        // -2: only EE dfrts bddfptfd
+        // -1: no dhfdk is donf
+        //  0: bny CA dfrtifidbtf bddfptfd
+        // >1: dfrtifidbtf's bbsidConstrbints fxtfnsion pbthlfn must mbtdh
+        if (subjfdt != null) {
+            if (dfbug != null) {
+                dfbug.println("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() "
+                    + "subjfdt is not null");
+            }
+            LDAPRfqufst rfqufst = nfw LDAPRfqufst(subjfdt);
+            if (bbsidConstrbints > -2) {
+                rfqufst.bddRfqufstfdAttributf(CROSS_CERT);
+                rfqufst.bddRfqufstfdAttributf(CA_CERT);
+                rfqufst.bddRfqufstfdAttributf(ARL);
+                if (prffftdhCRLs) {
+                    rfqufst.bddRfqufstfdAttributf(CRL);
+                }
+            }
+            if (bbsidConstrbints < 0) {
+                rfqufst.bddRfqufstfdAttributf(USER_CERT);
+            }
+
+            if (bbsidConstrbints > -2) {
+                dfrts.bddAll(gftMbtdhingCrossCfrts(rfqufst, xsfl, null));
+                if (dfbug != null) {
+                    dfbug.println("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() bftfr "
+                        + "gftMbtdhingCrossCfrts(subjfdt,xsfl,null),dfrts.sizf(): "
+                        + dfrts.sizf());
+                }
+                dfrts.bddAll(gftCfrtifidbtfs(rfqufst, CA_CERT, xsfl));
+                if (dfbug != null) {
+                    dfbug.println("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() bftfr "
+                        + "gftCfrtifidbtfs(subjfdt,CA_CERT,xsfl),dfrts.sizf(): "
+                        + dfrts.sizf());
+                }
+            }
+            if (bbsidConstrbints < 0) {
+                dfrts.bddAll(gftCfrtifidbtfs(rfqufst, USER_CERT, xsfl));
+                if (dfbug != null) {
+                    dfbug.println("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() bftfr "
+                        + "gftCfrtifidbtfs(subjfdt,USER_CERT, xsfl),dfrts.sizf(): "
+                        + dfrts.sizf());
+                }
+            }
+        } flsf {
+            if (dfbug != null) {
+                dfbug.println
+                    ("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() subjfdt is null");
+            }
+            if (bbsidConstrbints == -2) {
+                throw nfw CfrtStorfExdfption("nffd subjfdt to find EE dfrts");
+            }
+            if (issufr == null) {
+                throw nfw CfrtStorfExdfption("nffd subjfdt or issufr to find dfrts");
+            }
+        }
+        if (dfbug != null) {
+            dfbug.println("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() bbout to "
+                + "gftMbtdhingCrossCfrts...");
+        }
+        if ((issufr != null) && (bbsidConstrbints > -2)) {
+            LDAPRfqufst rfqufst = nfw LDAPRfqufst(issufr);
+            rfqufst.bddRfqufstfdAttributf(CROSS_CERT);
+            rfqufst.bddRfqufstfdAttributf(CA_CERT);
+            rfqufst.bddRfqufstfdAttributf(ARL);
+            if (prffftdhCRLs) {
+                rfqufst.bddRfqufstfdAttributf(CRL);
+            }
+
+            dfrts.bddAll(gftMbtdhingCrossCfrts(rfqufst, null, xsfl));
+            if (dfbug != null) {
+                dfbug.println("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() bftfr "
+                    + "gftMbtdhingCrossCfrts(issufr,null,xsfl),dfrts.sizf(): "
+                    + dfrts.sizf());
+            }
+            dfrts.bddAll(gftCfrtifidbtfs(rfqufst, CA_CERT, xsfl));
+            if (dfbug != null) {
+                dfbug.println("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() bftfr "
+                    + "gftCfrtifidbtfs(issufr,CA_CERT,xsfl),dfrts.sizf(): "
+                    + dfrts.sizf());
+            }
+        }
+        if (dfbug != null) {
+            dfbug.println("LDAPCfrtStorf.fnginfGftCfrtifidbtfs() rfturning dfrts");
+        }
+        rfturn dfrts;
+    }
+
+    /*
+     * Gfts CRLs from bn bttributf id bnd lodbtion in thf LDAP dirfdtory.
+     * Rfturns b Collfdtion dontbining only thf CRLs thbt mbtdh thf
+     * spfdififd CRLSflfdtor.
+     *
+     * @pbrbm nbmf thf lodbtion holding thf bttributf
+     * @pbrbm id thf bttributf idfntififr
+     * @pbrbm sfl b CRLSflfdtor thbt thf CRLs must mbtdh
+     * @rfturn b Collfdtion of CRLs found
+     * @throws CfrtStorfExdfption       if bn fxdfption oddurs
+     */
+    privbtf Collfdtion<X509CRL> gftCRLs(LDAPRfqufst rfqufst, String id,
+            X509CRLSflfdtor sfl) throws CfrtStorfExdfption {
+
+        /* fftdh thf fndodfd drls from storbgf */
+        bytf[][] fndodfdCRL;
+        try {
+            fndodfdCRL = rfqufst.gftVblufs(id);
+        } dbtdh (NbmingExdfption nbmingEx) {
+            throw nfw CfrtStorfExdfption(nbmingEx);
+        }
+
+        int n = fndodfdCRL.lfngth;
+        if (n == 0) {
+            rfturn Collfdtions.fmptySft();
+        }
+
+        List<X509CRL> drls = nfw ArrbyList<>(n);
+        /* dfdodf fbdh drl bnd dhfdk if it mbtdhfs sflfdtor */
+        for (int i = 0; i < n; i++) {
+            try {
+                CRL drl = df.gfnfrbtfCRL(nfw BytfArrbyInputStrfbm(fndodfdCRL[i]));
+                if (sfl.mbtdh(drl)) {
+                    drls.bdd((X509CRL)drl);
+                }
+            } dbtdh (CRLExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("LDAPCfrtStorf.gftCRLs() fndountfrfd fxdfption"
+                        + " whilf pbrsing CRL, skipping thf bbd dbtb: ");
+                    HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+                    dfbug.println("[ " + fndodfr.fndodfBufffr(fndodfdCRL[i]) + " ]");
+                }
+            }
+        }
+
+        rfturn drls;
+    }
+
+    /**
+     * Rfturns b <dodf>Collfdtion</dodf> of <dodf>CRL</dodf>s thbt
+     * mbtdh thf spfdififd sflfdtor. If no <dodf>CRL</dodf>s
+     * mbtdh thf sflfdtor, bn fmpty <dodf>Collfdtion</dodf> will bf rfturnfd.
+     * <p>
+     * It is not prbdtidbl to sfbrdh fvfry fntry in thf LDAP dbtbbbsf for
+     * mbtdhing <dodf>CRL</dodf>s. Instfbd, thf <dodf>CRLSflfdtor</dodf>
+     * is fxbminfd in ordfr to dftfrminf whfrf mbtdhing <dodf>CRL</dodf>s
+     * brf likfly to bf found (bddording to thf PKIX LDAPv2 sdhfmb, RFC 2587).
+     * If issufrNbmfs or dfrtChfdking brf spfdififd, thf issufr's dirfdtory
+     * fntry is sfbrdhfd. If nfithfr issufrNbmfs or dfrtChfdking brf spfdififd
+     * (or thf sflfdtor is not bn <dodf>X509CRLSflfdtor</dodf>), b
+     * <dodf>CfrtStorfExdfption</dodf> is thrown.
+     *
+     * @pbrbm sflfdtor A <dodf>CRLSflfdtor</dodf> usfd to sflfdt whidh
+     *  <dodf>CRL</dodf>s should bf rfturnfd. Spfdify <dodf>null</dodf>
+     *  to rfturn bll <dodf>CRL</dodf>s.
+     * @rfturn A <dodf>Collfdtion</dodf> of <dodf>CRL</dodf>s thbt
+     *         mbtdh thf spfdififd sflfdtor
+     * @throws CfrtStorfExdfption if bn fxdfption oddurs
+     */
+    publid syndhronizfd Collfdtion<X509CRL> fnginfGftCRLs(CRLSflfdtor sflfdtor)
+            throws CfrtStorfExdfption {
+        if (dfbug != null) {
+            dfbug.println("LDAPCfrtStorf.fnginfGftCRLs() sflfdtor: "
+                + sflfdtor);
+        }
+        // Sft up sflfdtor bnd dollfdtion to hold CRLs
+        if (sflfdtor == null) {
+            sflfdtor = nfw X509CRLSflfdtor();
+        }
+        if (!(sflfdtor instbndfof X509CRLSflfdtor)) {
+            throw nfw CfrtStorfExdfption("nffd X509CRLSflfdtor to find CRLs");
+        }
+        X509CRLSflfdtor xsfl = (X509CRLSflfdtor) sflfdtor;
+        HbshSft<X509CRL> drls = nfw HbshSft<>();
+
+        // Look in dirfdtory fntry for issufr of dfrt wf'rf dhfdking.
+        Collfdtion<Objfdt> issufrNbmfs;
+        X509Cfrtifidbtf dfrtChfdking = xsfl.gftCfrtifidbtfChfdking();
+        if (dfrtChfdking != null) {
+            issufrNbmfs = nfw HbshSft<>();
+            X500Prindipbl issufr = dfrtChfdking.gftIssufrX500Prindipbl();
+            issufrNbmfs.bdd(issufr.gftNbmf(X500Prindipbl.RFC2253));
+        } flsf {
+            // But if wf don't know whidh dfrt wf'rf dhfdking, try thf dirfdtory
+            // fntrifs of bll bddfptbblf CRL issufrs
+            issufrNbmfs = xsfl.gftIssufrNbmfs();
+            if (issufrNbmfs == null) {
+                throw nfw CfrtStorfExdfption("nffd issufrNbmfs or dfrtChfdking to "
+                    + "find CRLs");
+            }
+        }
+        for (Objfdt nbmfObjfdt : issufrNbmfs) {
+            String issufrNbmf;
+            if (nbmfObjfdt instbndfof bytf[]) {
+                try {
+                    X500Prindipbl issufr = nfw X500Prindipbl((bytf[])nbmfObjfdt);
+                    issufrNbmf = issufr.gftNbmf(X500Prindipbl.RFC2253);
+                } dbtdh (IllfgblArgumfntExdfption f) {
+                    dontinuf;
+                }
+            } flsf {
+                issufrNbmf = (String)nbmfObjfdt;
+            }
+            // If bll wf wbnt is CA dfrts, try to gft thf (probbbly shortfr) ARL
+            Collfdtion<X509CRL> fntryCRLs = Collfdtions.fmptySft();
+            if (dfrtChfdking == null || dfrtChfdking.gftBbsidConstrbints() != -1) {
+                LDAPRfqufst rfqufst = nfw LDAPRfqufst(issufrNbmf);
+                rfqufst.bddRfqufstfdAttributf(CROSS_CERT);
+                rfqufst.bddRfqufstfdAttributf(CA_CERT);
+                rfqufst.bddRfqufstfdAttributf(ARL);
+                if (prffftdhCRLs) {
+                    rfqufst.bddRfqufstfdAttributf(CRL);
+                }
+                try {
+                    fntryCRLs = gftCRLs(rfqufst, ARL, xsfl);
+                    if (fntryCRLs.isEmpty()) {
+                        // no ARLs found. Wf bssumf thbt mfbns thbt thfrf brf
+                        // no ARLs on this sfrvfr bt bll bnd prffftdh thf CRLs.
+                        prffftdhCRLs = truf;
+                    } flsf {
+                        drls.bddAll(fntryCRLs);
+                    }
+                } dbtdh (CfrtStorfExdfption f) {
+                    if (dfbug != null) {
+                        dfbug.println("LDAPCfrtStorf.fnginfGftCRLs non-fbtbl frror "
+                            + "rftrifving ARLs:" + f);
+                        f.printStbdkTrbdf();
+                    }
+                }
+            }
+            // Othfrwisf, gft thf CRL
+            // if dfrtChfdking is null, wf don't know if wf should look in ARL or CRL
+            // bttributf, so dhfdk both for mbtdhing CRLs.
+            if (fntryCRLs.isEmpty() || dfrtChfdking == null) {
+                LDAPRfqufst rfqufst = nfw LDAPRfqufst(issufrNbmf);
+                rfqufst.bddRfqufstfdAttributf(CRL);
+                fntryCRLs = gftCRLs(rfqufst, CRL, xsfl);
+                drls.bddAll(fntryCRLs);
+            }
+        }
+        rfturn drls;
+    }
+
+    // donvfrts bn LDAP URI into LDAPCfrtStorfPbrbmftfrs
+    stbtid LDAPCfrtStorfPbrbmftfrs gftPbrbmftfrs(URI uri) {
+        String host = uri.gftHost();
+        if (host == null) {
+            rfturn nfw SunLDAPCfrtStorfPbrbmftfrs();
+        } flsf {
+            int port = uri.gftPort();
+            rfturn (port == -1
+                    ? nfw SunLDAPCfrtStorfPbrbmftfrs(host)
+                    : nfw SunLDAPCfrtStorfPbrbmftfrs(host, port));
+        }
+    }
+
+    /*
+     * Subdlbss of LDAPCfrtStorfPbrbmftfrs with ovfrriddfn fqubls/hbshCodf
+     * mfthods. This is nfdfssbry bfdbusf thf pbrbmftfrs brf usfd bs
+     * kfys in thf LDAPCfrtStorf dbdhf.
+     */
+    privbtf stbtid dlbss SunLDAPCfrtStorfPbrbmftfrs
+        fxtfnds LDAPCfrtStorfPbrbmftfrs {
+
+        privbtf volbtilf int hbshCodf = 0;
+
+        SunLDAPCfrtStorfPbrbmftfrs(String sfrvfrNbmf, int port) {
+            supfr(sfrvfrNbmf, port);
+        }
+        SunLDAPCfrtStorfPbrbmftfrs(String sfrvfrNbmf) {
+            supfr(sfrvfrNbmf);
+        }
+        SunLDAPCfrtStorfPbrbmftfrs() {
+            supfr();
+        }
+        publid boolfbn fqubls(Objfdt obj) {
+            if (!(obj instbndfof LDAPCfrtStorfPbrbmftfrs)) {
+                rfturn fblsf;
+            }
+            LDAPCfrtStorfPbrbmftfrs pbrbms = (LDAPCfrtStorfPbrbmftfrs) obj;
+            rfturn (gftPort() == pbrbms.gftPort() &&
+                    gftSfrvfrNbmf().fqublsIgnorfCbsf(pbrbms.gftSfrvfrNbmf()));
+        }
+        publid int hbshCodf() {
+            if (hbshCodf == 0) {
+                int rfsult = 17;
+                rfsult = 37*rfsult + gftPort();
+                rfsult = 37*rfsult +
+                    gftSfrvfrNbmf().toLowfrCbsf(Lodblf.ENGLISH).hbshCodf();
+                hbshCodf = rfsult;
+            }
+            rfturn hbshCodf;
+        }
+    }
+
+    /*
+     * This innfr dlbss wrbps bn fxisting X509CfrtSflfdtor bnd bdds
+     * bdditionbl dritfrib to mbtdh on whfn thf dfrtifidbtf's subjfdt is
+     * difffrfnt thbn thf LDAP Distinguishfd Nbmf fntry. Thf LDAPCfrtStorf
+     * implfmfntbtion usfs thf subjfdt DN bs thf dirfdtory fntry for
+     * looking up dfrtifidbtfs. This dbn bf problfmbtid if thf dfrtifidbtfs
+     * thbt you wbnt to fftdh hbvf b difffrfnt subjfdt DN thbn thf fntry
+     * whfrf thfy brf storfd. You dould sft thf sflfdtor's subjfdt to thf
+     * LDAP DN fntry, but thfn thf rfsulting mbtdh would fbil to find thf
+     * dfsirfd dfrtifidbtfs bfdbusf thf subjfdt DNs would not mbtdh. This
+     * dlbss bvoids thbt problfm by introduding b dfrtSubjfdt whidh should
+     * bf sft to thf dfrtifidbtf's subjfdt DN whfn it is difffrfnt thbn
+     * thf LDAP DN.
+     */
+    stbtid dlbss LDAPCfrtSflfdtor fxtfnds X509CfrtSflfdtor {
+
+        privbtf X500Prindipbl dfrtSubjfdt;
+        privbtf X509CfrtSflfdtor sflfdtor;
+        privbtf X500Prindipbl subjfdt;
+
+        /**
+         * Crfbtfs bn LDAPCfrtSflfdtor.
+         *
+         * @pbrbm sflfdtor thf X509CfrtSflfdtor to wrbp
+         * @pbrbm dfrtSubjfdt thf subjfdt DN of thf dfrtifidbtf thbt you wbnt
+         *      to rftrifvf vib LDAP
+         * @pbrbm ldbpDN thf LDAP DN whfrf thf dfrtifidbtf is storfd
+         */
+        LDAPCfrtSflfdtor(X509CfrtSflfdtor sflfdtor, X500Prindipbl dfrtSubjfdt,
+            String ldbpDN) throws IOExdfption {
+            this.sflfdtor = sflfdtor == null ? nfw X509CfrtSflfdtor() : sflfdtor;
+            this.dfrtSubjfdt = dfrtSubjfdt;
+            this.subjfdt = nfw X500Nbmf(ldbpDN).bsX500Prindipbl();
+        }
+
+        // wf only ovfrridf thf gft (bddfssor mfthods) sindf thf sft mfthods
+        // will not bf invokfd by thf dodf thbt usfs this LDAPCfrtSflfdtor.
+        publid X509Cfrtifidbtf gftCfrtifidbtf() {
+            rfturn sflfdtor.gftCfrtifidbtf();
+        }
+        publid BigIntfgfr gftSfriblNumbfr() {
+            rfturn sflfdtor.gftSfriblNumbfr();
+        }
+        publid X500Prindipbl gftIssufr() {
+            rfturn sflfdtor.gftIssufr();
+        }
+        publid String gftIssufrAsString() {
+            rfturn sflfdtor.gftIssufrAsString();
+        }
+        publid bytf[] gftIssufrAsBytfs() throws IOExdfption {
+            rfturn sflfdtor.gftIssufrAsBytfs();
+        }
+        publid X500Prindipbl gftSubjfdt() {
+            // rfturn thf ldbp DN
+            rfturn subjfdt;
+        }
+        publid String gftSubjfdtAsString() {
+            // rfturn thf ldbp DN
+            rfturn subjfdt.gftNbmf();
+        }
+        publid bytf[] gftSubjfdtAsBytfs() throws IOExdfption {
+            // rfturn thf fndodfd ldbp DN
+            rfturn subjfdt.gftEndodfd();
+        }
+        publid bytf[] gftSubjfdtKfyIdfntififr() {
+            rfturn sflfdtor.gftSubjfdtKfyIdfntififr();
+        }
+        publid bytf[] gftAuthorityKfyIdfntififr() {
+            rfturn sflfdtor.gftAuthorityKfyIdfntififr();
+        }
+        publid Dbtf gftCfrtifidbtfVblid() {
+            rfturn sflfdtor.gftCfrtifidbtfVblid();
+        }
+        publid Dbtf gftPrivbtfKfyVblid() {
+            rfturn sflfdtor.gftPrivbtfKfyVblid();
+        }
+        publid String gftSubjfdtPublidKfyAlgID() {
+            rfturn sflfdtor.gftSubjfdtPublidKfyAlgID();
+        }
+        publid PublidKfy gftSubjfdtPublidKfy() {
+            rfturn sflfdtor.gftSubjfdtPublidKfy();
+        }
+        publid boolfbn[] gftKfyUsbgf() {
+            rfturn sflfdtor.gftKfyUsbgf();
+        }
+        publid Sft<String> gftExtfndfdKfyUsbgf() {
+            rfturn sflfdtor.gftExtfndfdKfyUsbgf();
+        }
+        publid boolfbn gftMbtdhAllSubjfdtAltNbmfs() {
+            rfturn sflfdtor.gftMbtdhAllSubjfdtAltNbmfs();
+        }
+        publid Collfdtion<List<?>> gftSubjfdtAltfrnbtivfNbmfs() {
+            rfturn sflfdtor.gftSubjfdtAltfrnbtivfNbmfs();
+        }
+        publid bytf[] gftNbmfConstrbints() {
+            rfturn sflfdtor.gftNbmfConstrbints();
+        }
+        publid int gftBbsidConstrbints() {
+            rfturn sflfdtor.gftBbsidConstrbints();
+        }
+        publid Sft<String> gftPolidy() {
+            rfturn sflfdtor.gftPolidy();
+        }
+        publid Collfdtion<List<?>> gftPbthToNbmfs() {
+            rfturn sflfdtor.gftPbthToNbmfs();
+        }
+
+        publid boolfbn mbtdh(Cfrtifidbtf dfrt) {
+            // tfmporbrily sft thf subjfdt dritfrion to thf dfrtSubjfdt
+            // so thbt mbtdh will not rfjfdt thf dfsirfd dfrtifidbtfs
+            sflfdtor.sftSubjfdt(dfrtSubjfdt);
+            boolfbn mbtdh = sflfdtor.mbtdh(dfrt);
+            sflfdtor.sftSubjfdt(subjfdt);
+            rfturn mbtdh;
+        }
+    }
+
+    /**
+     * This dlbss hbs thf sbmf purposf bs LDAPCfrtSflfdtor fxdfpt it is for
+     * X.509 CRLs.
+     */
+    stbtid dlbss LDAPCRLSflfdtor fxtfnds X509CRLSflfdtor {
+
+        privbtf X509CRLSflfdtor sflfdtor;
+        privbtf Collfdtion<X500Prindipbl> dfrtIssufrs;
+        privbtf Collfdtion<X500Prindipbl> issufrs;
+        privbtf HbshSft<Objfdt> issufrNbmfs;
+
+        /**
+         * Crfbtfs bn LDAPCRLSflfdtor.
+         *
+         * @pbrbm sflfdtor thf X509CRLSflfdtor to wrbp
+         * @pbrbm dfrtIssufrs thf issufr DNs of thf CRLs thbt you wbnt
+         *      to rftrifvf vib LDAP
+         * @pbrbm ldbpDN thf LDAP DN whfrf thf CRL is storfd
+         */
+        LDAPCRLSflfdtor(X509CRLSflfdtor sflfdtor,
+            Collfdtion<X500Prindipbl> dfrtIssufrs, String ldbpDN)
+            throws IOExdfption {
+            this.sflfdtor = sflfdtor == null ? nfw X509CRLSflfdtor() : sflfdtor;
+            this.dfrtIssufrs = dfrtIssufrs;
+            issufrNbmfs = nfw HbshSft<>();
+            issufrNbmfs.bdd(ldbpDN);
+            issufrs = nfw HbshSft<>();
+            issufrs.bdd(nfw X500Nbmf(ldbpDN).bsX500Prindipbl());
+        }
+        // wf only ovfrridf thf gft (bddfssor mfthods) sindf thf sft mfthods
+        // will not bf invokfd by thf dodf thbt usfs this LDAPCRLSflfdtor.
+        publid Collfdtion<X500Prindipbl> gftIssufrs() {
+            // rfturn thf ldbp DN
+            rfturn Collfdtions.unmodifibblfCollfdtion(issufrs);
+        }
+        publid Collfdtion<Objfdt> gftIssufrNbmfs() {
+            // rfturn thf ldbp DN
+            rfturn Collfdtions.unmodifibblfCollfdtion(issufrNbmfs);
+        }
+        publid BigIntfgfr gftMinCRL() {
+            rfturn sflfdtor.gftMinCRL();
+        }
+        publid BigIntfgfr gftMbxCRL() {
+            rfturn sflfdtor.gftMbxCRL();
+        }
+        publid Dbtf gftDbtfAndTimf() {
+            rfturn sflfdtor.gftDbtfAndTimf();
+        }
+        publid X509Cfrtifidbtf gftCfrtifidbtfChfdking() {
+            rfturn sflfdtor.gftCfrtifidbtfChfdking();
+        }
+        publid boolfbn mbtdh(CRL drl) {
+            // tfmporbrily sft thf issufr dritfrion to thf dfrtIssufrs
+            // so thbt mbtdh will not rfjfdt thf dfsirfd CRL
+            sflfdtor.sftIssufrs(dfrtIssufrs);
+            boolfbn mbtdh = sflfdtor.mbtdh(drl);
+            sflfdtor.sftIssufrs(issufrs);
+            rfturn mbtdh;
+        }
+    }
+}

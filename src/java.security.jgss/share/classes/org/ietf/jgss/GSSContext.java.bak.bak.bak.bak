@@ -1,0 +1,1347 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf org.iftf.jgss;
+
+import sun.sfdurity.jgss.spi.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+
+/**
+ * This intfrfbdf fndbpsulbtfs thf GSS-API sfdurity dontfxt bnd providfs
+ * thf sfdurity sfrvidfs thbt brf bvbilbblf ovfr thf dontfxt.  Sfdurity
+ * dontfxts brf fstbblishfd bftwffn pffrs using lodblly bdquirfd
+ * drfdfntibls.  Multiplf dontfxts mby fxist simultbnfously bftwffn b pbir
+ * of pffrs, using thf sbmf or difffrfnt sft of drfdfntibls.  GSS-API
+ * fundtions in b mbnnfr indfpfndfnt of thf undfrlying trbnsport protodol
+ * bnd dfpfnds on its dblling bpplidbtion to trbnsport thf tokfns thbt brf
+ * gfnfrbtfd by thf sfdurity dontfxt bftwffn thf pffrs.<p>
+ *
+ * If thf dbllfr instbntibtfs thf dontfxt using thf dffbult
+ * <dodf>GSSMbnbgfr</dodf> instbndf, thfn thf Kfrbfros v5 GSS-API mfdhbnism
+ * is gubrbntffd to bf bvbilbblf for dontfxt fstbblishmfnt. This mfdhbnism
+ * is idfntififd by thf Oid "1.2.840.113554.1.2.2" bnd is dffinfd in RFC
+ * 1964.<p>
+ *
+ * Bfforf thf dontfxt fstbblishmfnt phbsf is initibtfd, thf dontfxt
+ * initibtor mby rfqufst spfdifid dhbrbdtfristids dfsirfd of thf
+ * fstbblishfd dontfxt. Not bll undfrlying mfdhbnisms support bll
+ * dhbrbdtfristids thbt b dbllfr might dfsirf. Aftfr thf dontfxt is
+ * fstbblishfd, thf dbllfr dbn dhfdk thf bdtubl dhbrbdtfristids bnd sfrvidfs
+ * offfrfd by thbt dontfxt by mfbns of vbrious qufry mfthods. Whfn using
+ * thf Kfrbfros v5 GSS-API mfdhbnism offfrfd by thf dffbult
+ * <dodf>GSSMbnbgfr</dodf> instbndf, bll optionbl sfrvidfs will bf
+ * bvbilbblf lodblly. Thfy brf mutubl buthfntidbtion, drfdfntibl
+ * dflfgbtion, donfidfntiblity bnd intfgrity protfdtion, bnd pfr-mfssbgf
+ * rfplby dftfdtion bnd sfqufnding. Notf thbt in thf GSS-API, mfssbgf intfgrity
+ * is b prfrfquisitf for mfssbgf donfidfntiblity.<p>
+ *
+ * Thf dontfxt fstbblishmfnt oddurs in b loop whfrf thf
+ * initibtor dblls {@link #initSfdContfxt(bytf[], int, int) initSfdContfxt}
+ * bnd thf bddfptor dblls {@link #bddfptSfdContfxt(bytf[], int, int)
+ * bddfptSfdContfxt} until thf dontfxt is fstbblishfd. Whilf in this loop
+ * thf <dodf>initSfdContfxt</dodf> bnd <dodf>bddfptSfdContfxt</dodf>
+ * mfthods produdf tokfns thbt thf bpplidbtion sfnds ovfr to thf pffr. Thf
+ * pffr pbssfs bny sudh tokfn bs input to its <dodf>bddfptSfdContfxt</dodf>
+ * or <dodf>initSfdContfxt</dodf> bs thf dbsf mby bf.<p>
+ *
+ * During thf dontfxt fstbblishmfnt phbsf, thf {@link
+ * #isProtRfbdy() isProtRfbdy} mfthod mby bf dbllfd to dftfrminf if thf
+ * dontfxt dbn bf usfd for thf pfr-mfssbgf opfrbtions of {@link
+ * #wrbp(bytf[], int, int, MfssbgfProp) wrbp} bnd {@link #gftMIC(bytf[],
+ * int, int, MfssbgfProp) gftMIC}.  This bllows bpplidbtions to usf
+ * pfr-mfssbgf opfrbtions on dontfxts whidh brfn't yft fully
+ * fstbblishfd.<p>
+ *
+ * Aftfr thf dontfxt hbs bffn fstbblishfd or thf <dodf>isProtRfbdy</dodf>
+ * mfthod rfturns <dodf>truf</dodf>, thf qufry routinfs dbn bf invokfd to
+ * dftfrminf thf bdtubl dhbrbdtfristids bnd sfrvidfs of thf fstbblishfd
+ * dontfxt.  Thf bpplidbtion dbn blso stbrt using thf pfr-mfssbgf mfthods
+ * of {@link #wrbp(bytf[], int, int, MfssbgfProp) wrbp} bnd
+ * {@link #gftMIC(bytf[], int, int, MfssbgfProp) gftMIC} to obtbin
+ * dryptogrbphid opfrbtions on bpplidbtion supplifd dbtb.<p>
+ *
+ * Whfn thf dontfxt is no longfr nffdfd, thf bpplidbtion should dbll
+ * {@link #disposf() disposf} to rflfbsf bny systfm rfsourdfs thf dontfxt
+ * mby bf using.<p>
+ *
+ * A sfdurity dontfxt typidblly mbintbins sfqufnding bnd rfplby dftfdtion
+ * informbtion bbout thf tokfns it prodfssfs. Thfrfforf, thf sfqufndf in
+ * whidh bny tokfns brf prfsfntfd to this dontfxt for prodfssing dbn bf
+ * importbnt. Also notf thbt nonf of thf mfthods in this intfrfbdf brf
+ * syndhronizfd. Thfrfforf, it is not bdvisbblf to shbrf b
+ * <dodf>GSSContfxt</dodf> bmong sfvfrbl thrfbds unlfss somf bpplidbtion
+ * lfvfl syndhronizbtion is in plbdf.<p>
+ *
+ * Finblly, difffrfnt mfdhbnism providfrs might plbdf difffrfnt sfdurity
+ * rfstridtions on using GSS-API dontfxts. Thfsf will bf dodumfntfd by thf
+ * mfdhbnism providfr. Thf bpplidbtion will nffd to fnsurf thbt it hbs thf
+ * bppropribtf pfrmissions if sudh dhfdks brf mbdf in thf mfdhbnism lbyfr.<p>
+ *
+ * Thf fxbmplf dodf prfsfntfd bflow dfmonstrbtfs thf usbgf of thf
+ * <dodf>GSSContfxt</dodf> intfrfbdf for thf initibting pffr.  Difffrfnt
+ * opfrbtions on thf <dodf>GSSContfxt</dodf> objfdt brf prfsfntfd,
+ * indluding: objfdt instbntibtion, sftting of dfsirfd flbgs, dontfxt
+ * fstbblishmfnt, qufry of bdtubl dontfxt flbgs, pfr-mfssbgf opfrbtions on
+ * bpplidbtion dbtb, bnd finblly dontfxt dflftion.<p>
+ *
+ * <prf>
+ *    // Crfbtf b dontfxt using dffbult drfdfntibls
+ *    // bnd thf implfmfntbtion spfdifid dffbult mfdhbnism
+ *    GSSMbnbgfr mbnbgfr ...
+ *    GSSNbmf tbrgftNbmf ...
+ *    GSSContfxt dontfxt = mbnbgfr.drfbtfContfxt(tbrgftNbmf, null, null,
+ *                                           GSSContfxt.INDEFINITE_LIFETIME);
+ *
+ *    // sft dfsirfd dontfxt options prior to dontfxt fstbblishmfnt
+ *    dontfxt.rfqufstConf(truf);
+ *    dontfxt.rfqufstMutublAuth(truf);
+ *    dontfxt.rfqufstRfplbyDft(truf);
+ *    dontfxt.rfqufstSfqufndfDft(truf);
+ *
+ *    // fstbblish b dontfxt bftwffn pffrs
+ *
+ *    bytf []inTokfn = nfw bytf[0];
+ *
+ *    // Loop whilf thfrf still is b tokfn to bf prodfssfd
+ *
+ *    whilf (!dontfxt.isEstbblishfd()) {
+ *
+ *        bytf[] outTokfn
+ *            = dontfxt.initSfdContfxt(inTokfn, 0, inTokfn.lfngth);
+ *
+ *        // sfnd thf output tokfn if gfnfrbtfd
+ *        if (outTokfn != null)
+ *            sfndTokfn(outTokfn);
+ *
+ *        if (!dontfxt.isEstbblishfd()) {
+ *            inTokfn = rfbdTokfn();
+ *    }
+ *
+ *     // displby dontfxt informbtion
+ *     Systfm.out.println("Rfmbining lifftimf in sfdonds = "
+ *                                          + dontfxt.gftLifftimf());
+ *     Systfm.out.println("Contfxt mfdhbnism = " + dontfxt.gftMfdh());
+ *     Systfm.out.println("Initibtor = " + dontfxt.gftSrdNbmf());
+ *     Systfm.out.println("Addfptor = " + dontfxt.gftTbrgNbmf());
+ *
+ *     if (dontfxt.gftConfStbtf())
+ *             Systfm.out.println("Confidfntiblity (i.f., privbdy) is bvbilbblf");
+ *
+ *     if (dontfxt.gftIntfgStbtf())
+ *             Systfm.out.println("Intfgrity is bvbilbblf");
+ *
+ *     // pfrform wrbp on bn bpplidbtion supplifd mfssbgf, bppMsg,
+ *     // using QOP = 0, bnd rfqufsting privbdy sfrvidf
+ *     bytf [] bppMsg ...
+ *
+ *     MfssbgfProp mProp = nfw MfssbgfProp(0, truf);
+ *
+ *     bytf []tok = dontfxt.wrbp(bppMsg, 0, bppMsg.lfngth, mProp);
+ *
+ *     sfndTokfn(tok);
+ *
+ *     // rflfbsf thf lodbl-fnd of thf dontfxt
+ *     dontfxt.disposf();
+ *
+ * </prf>
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @sindf 1.4
+ */
+publid intfrfbdf GSSContfxt {
+
+    /**
+     * A lifftimf donstbnt rfprfsfnting thf dffbult dontfxt lifftimf.  This
+     * vbluf is sft to 0.
+     */
+    publid stbtid finbl int DEFAULT_LIFETIME = 0;
+
+    /**
+     * A lifftimf donstbnt rfprfsfnting indffinitf dontfxt lifftimf.
+     * This vbluf must is sft to thf mbximum intfgfr vbluf in Jbvb -
+     * {@link jbvb.lbng.Intfgfr#MAX_VALUE Intfgfr.MAX_VALUE}.
+     */
+    publid stbtid finbl int INDEFINITE_LIFETIME = Intfgfr.MAX_VALUE;
+
+    /**
+     * Cbllfd by thf dontfxt initibtor to stbrt thf dontfxt drfbtion
+     * phbsf bnd prodfss bny tokfns gfnfrbtfd
+     * by thf pffr's <dodf>bddfptSfdContfxt</dodf> mfthod.
+     * This mfthod mby rfturn bn output tokfn whidh thf bpplidbtion will nffd
+     * to sfnd to thf pffr for prodfssing by its <dodf>bddfptSfdContfxt</dodf>
+     * mfthod. Thf bpplidbtion dbn dbll {@link #isEstbblishfd()
+     * isEstbblishfd} to dftfrminf if thf dontfxt fstbblishmfnt phbsf is
+     * domplftf on this sidf of thf dontfxt.  A rfturn vbluf of
+     * <dodf>fblsf</dodf> from <dodf>isEstbblishfd</dodf> indidbtfs thbt
+     * morf tokfns brf fxpfdtfd to bf supplifd to
+     * <dodf>initSfdContfxt</dodf>.  Upon domplftion of thf dontfxt
+     * fstbblishmfnt, thf bvbilbblf dontfxt options mby bf qufrifd through
+     * thf gft mfthods.<p>
+     *
+     * Notf thbt it is possiblf thbt thf <dodf>initSfdContfxt</dodf> mfthod
+     * rfturn b tokfn for thf pffr, bnd <dodf>isEstbblishfd</dodf> rfturn
+     * <dodf>truf</dodf> blso. This indidbtfs thbt thf tokfn nffds to bf sfnt
+     * to thf pffr, but thf lodbl fnd of thf dontfxt is now fully
+     * fstbblishfd.<p>
+     *
+     * Somf mfdhbnism providfrs might rfquirf thbt thf dbllfr bf grbntfd
+     * pfrmission to initibtf b sfdurity dontfxt. A fbilfd pfrmission dhfdk
+     * might dbusf b {@link jbvb.lbng.SfdurityExdfption SfdurityExdfption}
+     * to bf thrown from this mfthod.<p>
+     *
+     * @rfturn b bytf[] dontbining thf tokfn to bf sfnt to thf
+     * pffr. <dodf>null</dodf> indidbtfs thbt no tokfn is gfnfrbtfd.
+     * @pbrbm inputBuf tokfn gfnfrbtfd by thf pffr. This pbrbmftfr is ignorfd
+     * on thf first dbll sindf no tokfn hbs bffn rfdfivfd from thf pffr.
+     * @pbrbm offsft thf offsft within thf inputBuf whfrf thf tokfn bfgins.
+     * @pbrbm lfn thf lfngth of thf tokfn.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#DEFECTIVE_TOKEN GSSExdfption.DEFECTIVE_TOKEN},
+     *   {@link GSSExdfption#BAD_MIC GSSExdfption.BAD_MIC},
+     *   {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED},
+     *   {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                                  GSSExdfption.CREDENTIALS_EXPIRED},
+     *   {@link GSSExdfption#BAD_BINDINGS GSSExdfption.BAD_BINDINGS},
+     *   {@link GSSExdfption#OLD_TOKEN GSSExdfption.OLD_TOKEN},
+     *   {@link GSSExdfption#DUPLICATE_TOKEN GSSExdfption.DUPLICATE_TOKEN},
+     *   {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *   {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bytf[] initSfdContfxt(bytf inputBuf[], int offsft, int lfn)
+        throws GSSExdfption;
+
+    /**
+     * Cbllfd by thf dontfxt initibtor to stbrt thf dontfxt drfbtion
+     * phbsf bnd prodfss bny tokfns gfnfrbtfd
+     * by thf pffr's <dodf>bddfptSfdContfxt</dodf> mfthod using
+     * strfbms. This mfthod mby writf bn output tokfn to thf
+     * <dodf>OutpuStrfbm</dodf>, whidh thf bpplidbtion will
+     * nffd to sfnd to thf pffr for prodfssing by its
+     * <dodf>bddfptSfdContfxt</dodf> dbll. Typidblly, thf bpplidbtion would
+     * fnsurf this by dblling thf  {@link jbvb.io.OutputStrfbm#flush() flush}
+     * mfthod on bn <dodf>OutputStrfbm</dodf> thbt fndbpsulbtfs thf
+     * donnfdtion bftwffn thf two pffrs. Thf bpplidbtion dbn
+     * dftfrminf if b tokfn is writtfn to thf OutputStrfbm from thf rfturn
+     * vbluf of this mfthod. A rfturn vbluf of <dodf>0</dodf> indidbtfs thbt
+     * no tokfn wbs writtfn. Thf bpplidbtion dbn dbll
+     * {@link #isEstbblishfd() isEstbblishfd} to dftfrminf if thf dontfxt
+     * fstbblishmfnt phbsf is domplftf on this sidf of thf dontfxt. A
+     * rfturn  vbluf of <dodf>fblsf</dodf> from <dodf>isEstbblishfd</dodf>
+     * indidbtfs thbt morf tokfns brf fxpfdtfd to bf supplifd to
+     * <dodf>initSfdContfxt</dodf>.
+     * Upon domplftion of thf dontfxt fstbblishmfnt, thf bvbilbblf dontfxt
+     * options mby bf qufrifd through thf gft mfthods.<p>
+     *
+     * Notf thbt it is possiblf thbt thf <dodf>initSfdContfxt</dodf> mfthod
+     * rfturn b tokfn for thf pffr, bnd <dodf>isEstbblishfd</dodf> rfturn
+     * <dodf>truf</dodf> blso. This indidbtfs thbt thf tokfn nffds to bf sfnt
+     * to thf pffr, but thf lodbl fnd of thf dontfxt is now fully
+     * fstbblishfd.<p>
+     *
+     * Thf GSS-API buthfntidbtion tokfns dontbin b dffinitivf stbrt bnd
+     * fnd. This mfthod will bttfmpt to rfbd onf of thfsf tokfns pfr
+     * invodbtion, bnd mby blodk on thf strfbm if only pbrt of thf tokfn is
+     * bvbilbblf.  In bll othfr rfspfdts this mfthod is fquivblfnt to thf
+     * bytf brrby bbsfd {@link #initSfdContfxt(bytf[], int, int)
+     * initSfdContfxt}.<p>
+     *
+     * Somf mfdhbnism providfrs might rfquirf thbt thf dbllfr bf grbntfd
+     * pfrmission to initibtf b sfdurity dontfxt. A fbilfd pfrmission dhfdk
+     * might dbusf b {@link jbvb.lbng.SfdurityExdfption SfdurityExdfption}
+     * to bf thrown from this mfthod.<p>
+     *
+     * Thf following fxbmplf dodf dfmonstrbtfs how this mfthod might bf
+     * usfd:<p>
+     * <prf>
+     *     InputStrfbm is ...
+     *     OutputStrfbm os ...
+     *     GSSContfxt dontfxt ...
+     *
+     *     // Loop whilf thfrf is still b tokfn to bf prodfssfd
+     *
+     *     whilf (!dontfxt.isEstbblishfd()) {
+     *
+     *         dontfxt.initSfdContfxt(is, os);
+     *
+     *         // sfnd output tokfn if gfnfrbtfd
+     *         os.flush();
+     *     }
+     * </prf>
+     *
+     *
+     * @rfturn thf numbfr of bytfs writtfn to thf OutputStrfbm bs pbrt of thf
+     * tokfn to bf sfnt to thf pffr. A vbluf of 0 indidbtfs thbt no tokfn
+     * nffds to bf sfnt.
+     * @pbrbm inStrfbm bn InputStrfbm thbt dontbins thf tokfn gfnfrbtfd by
+     * thf pffr. This pbrbmftfr is ignorfd on thf first dbll sindf no tokfn
+     * hbs bffn or will bf rfdfivfd from thf pffr bt thbt point.
+     * @pbrbm outStrfbm bn OutputStrfbm whfrf thf output tokfn will bf
+     * writtfn. During thf finbl stbgf of dontfxt fstbblishmfnt, thfrf mby bf
+     * no bytfs writtfn.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#DEFECTIVE_TOKEN GSSExdfption.DEFECTIVE_TOKEN},
+     *   {@link GSSExdfption#BAD_MIC GSSExdfption.BAD_MIC},
+     *   {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED},
+     *   {@link GSSExdfption#CREDENTIALS_EXPIRED GSSExdfption.CREDENTIALS_EXPIRED},
+     *   {@link GSSExdfption#BAD_BINDINGS GSSExdfption.BAD_BINDINGS},
+     *   {@link GSSExdfption#OLD_TOKEN GSSExdfption.OLD_TOKEN},
+     *   {@link GSSExdfption#DUPLICATE_TOKEN GSSExdfption.DUPLICATE_TOKEN},
+     *   {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *   {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid int initSfdContfxt(InputStrfbm inStrfbm,
+                              OutputStrfbm outStrfbm) throws GSSExdfption;
+
+    /**
+     * Cbllfd by thf dontfxt bddfptor upon rfdfiving b tokfn from thf
+     * pffr. This mfthod mby rfturn bn output tokfn whidh thf bpplidbtion
+     * will nffd to sfnd to thf pffr for furthfr prodfssing by its
+     * <dodf>initSfdContfxt</dodf> dbll.<p>
+     *
+     * Thf bpplidbtion dbn dbll {@link #isEstbblishfd() isEstbblishfd} to
+     * dftfrminf if thf dontfxt fstbblishmfnt phbsf is domplftf for this
+     * pffr.  A rfturn vbluf of <dodf>fblsf</dodf> from
+     * <dodf>isEstbblishfd</dodf> indidbtfs thbt morf tokfns brf fxpfdtfd to
+     * bf supplifd to this mfthod.    Upon domplftion of thf dontfxt
+     * fstbblishmfnt, thf bvbilbblf dontfxt options mby bf qufrifd through
+     * thf gft mfthods.<p>
+     *
+     * Notf thbt it is possiblf thbt <dodf>bddfptSfdContfxt</dodf> rfturn b
+     * tokfn for thf pffr, bnd <dodf>isEstbblishfd</dodf> rfturn
+     * <dodf>truf</dodf> blso.  This indidbtfs thbt thf tokfn nffds to bf
+     * sfnt to thf pffr, but thf lodbl fnd of thf dontfxt is now fully
+     * fstbblishfd.<p>
+     *
+     * Somf mfdhbnism providfrs might rfquirf thbt thf dbllfr bf grbntfd
+     * pfrmission to bddfpt b sfdurity dontfxt. A fbilfd pfrmission dhfdk
+     * might dbusf b {@link jbvb.lbng.SfdurityExdfption SfdurityExdfption}
+     * to bf thrown from this mfthod.<p>
+     *
+     * Thf following fxbmplf dodf dfmonstrbtfs how this mfthod might bf
+     * usfd:<p>
+     * <prf>
+     *     bytf[] inTokfn;
+     *     bytf[] outTokfn;
+     *     GSSContfxt dontfxt ...
+     *
+     *     // Loop whilf thfrf is still b tokfn to bf prodfssfd
+     *
+     *     whilf (!dontfxt.isEstbblishfd()) {
+     *         inTokfn = rfbdTokfn();
+     *         outTokfn = dontfxt.bddfptSfdContfxt(inTokfn, 0,
+     *                                             inTokfn.lfngth);
+     *         // sfnd output tokfn if gfnfrbtfd
+     *         if (outTokfn != null)
+     *             sfndTokfn(outTokfn);
+     *     }
+     * </prf>
+     *
+     *
+     * @rfturn b bytf[] dontbining thf tokfn to bf sfnt to thf
+     * pffr. <dodf>null</dodf> indidbtfs thbt no tokfn is gfnfrbtfd.
+     * @pbrbm inTokfn tokfn gfnfrbtfd by thf pffr.
+     * @pbrbm offsft thf offsft within thf inTokfn whfrf thf tokfn bfgins.
+     * @pbrbm lfn thf lfngth of thf tokfn.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#DEFECTIVE_TOKEN GSSExdfption.DEFECTIVE_TOKEN},
+     *   {@link GSSExdfption#BAD_MIC GSSExdfption.BAD_MIC},
+     *   {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED},
+     *   {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                               GSSExdfption.CREDENTIALS_EXPIRED},
+     *   {@link GSSExdfption#BAD_BINDINGS GSSExdfption.BAD_BINDINGS},
+     *   {@link GSSExdfption#OLD_TOKEN GSSExdfption.OLD_TOKEN},
+     *   {@link GSSExdfption#DUPLICATE_TOKEN GSSExdfption.DUPLICATE_TOKEN},
+     *   {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bytf[] bddfptSfdContfxt(bytf inTokfn[], int offsft, int lfn)
+        throws GSSExdfption;
+
+    /**
+     * Cbllfd by thf dontfxt bddfptor to prodfss b tokfn from thf pffr using
+     * strfbms.   It mby writf bn output tokfn to thf
+     * <dodf>OutputStrfbm</dodf>, whidh thf bpplidbtion
+     * will nffd to sfnd to thf pffr for prodfssing by its
+     * <dodf>initSfdContfxt</dodf> mfthod.  Typidblly, thf bpplidbtion would
+     * fnsurf this by dblling thf  {@link jbvb.io.OutputStrfbm#flush() flush}
+     * mfthod on bn <dodf>OutputStrfbm</dodf> thbt fndbpsulbtfs thf
+     * donnfdtion bftwffn thf two pffrs. Thf bpplidbtion dbn dbll
+     * {@link #isEstbblishfd() isEstbblishfd} to dftfrminf if thf dontfxt
+     * fstbblishmfnt phbsf is domplftf on this sidf of thf dontfxt. A
+     * rfturn  vbluf of <dodf>fblsf</dodf> from <dodf>isEstbblishfd</dodf>
+     * indidbtfs thbt morf tokfns brf fxpfdtfd to bf supplifd to
+     * <dodf>bddfptSfdContfxt</dodf>.
+     * Upon domplftion of thf dontfxt fstbblishmfnt, thf bvbilbblf dontfxt
+     * options mby bf qufrifd through thf gft mfthods.<p>
+     *
+     * Notf thbt it is possiblf thbt <dodf>bddfptSfdContfxt</dodf> rfturn b
+     * tokfn for thf pffr, bnd <dodf>isEstbblishfd</dodf> rfturn
+     * <dodf>truf</dodf> blso.  This indidbtfs thbt thf tokfn nffds to bf
+     * sfnt to thf pffr, but thf lodbl fnd of thf dontfxt is now fully
+     * fstbblishfd.<p>
+     *
+     * Thf GSS-API buthfntidbtion tokfns dontbin b dffinitivf stbrt bnd
+     * fnd. This mfthod will bttfmpt to rfbd onf of thfsf tokfns pfr
+     * invodbtion, bnd mby blodk on thf strfbm if only pbrt of thf tokfn is
+     * bvbilbblf. In bll othfr rfspfdts this mfthod is fquivblfnt to thf bytf
+     * brrby bbsfd {@link #bddfptSfdContfxt(bytf[], int, int)
+     * bddfptSfdContfxt}.<p>
+     *
+     * Somf mfdhbnism providfrs might rfquirf thbt thf dbllfr bf grbntfd
+     * pfrmission to bddfpt b sfdurity dontfxt. A fbilfd pfrmission dhfdk
+     * might dbusf b {@link jbvb.lbng.SfdurityExdfption SfdurityExdfption}
+     * to bf thrown from this mfthod.<p>
+     *
+     * Thf following fxbmplf dodf dfmonstrbtfs how this mfthod might bf
+     * usfd:<p>
+     * <prf>
+     *     InputStrfbm is ...
+     *     OutputStrfbm os ...
+     *     GSSContfxt dontfxt ...
+     *
+     *     // Loop whilf thfrf is still b tokfn to bf prodfssfd
+     *
+     *     whilf (!dontfxt.isEstbblishfd()) {
+     *
+     *         dontfxt.bddfptSfdContfxt(is, os);
+     *
+     *         // sfnd output tokfn if gfnfrbtfd
+     *         os.flush();
+     *     }
+     * </prf>
+     *
+     *
+     * @pbrbm inStrfbm bn InputStrfbm thbt dontbins thf tokfn gfnfrbtfd by
+     * thf pffr.
+     * @pbrbm outStrfbm bn OutputStrfbm whfrf thf output tokfn will bf
+     * writtfn. During thf finbl stbgf of dontfxt fstbblishmfnt, thfrf mby bf
+     * no bytfs writtfn.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#DEFECTIVE_TOKEN GSSExdfption.DEFECTIVE_TOKEN},
+     *   {@link GSSExdfption#BAD_MIC GSSExdfption.BAD_MIC},
+     *   {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED},
+     *   {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                           GSSExdfption.CREDENTIALS_EXPIRED},
+     *   {@link GSSExdfption#BAD_BINDINGS GSSExdfption.BAD_BINDINGS},
+     *   {@link GSSExdfption#OLD_TOKEN GSSExdfption.OLD_TOKEN},
+     *   {@link GSSExdfption#DUPLICATE_TOKEN GSSExdfption.DUPLICATE_TOKEN},
+     *   {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    /* Missing rfturn vbluf in RFC. int should hbvf bffn rfturnfd.
+     * -----------------------------------------------------------
+     *
+     * Thf bpplidbtion dbn dftfrminf if b tokfn is writtfn to thf
+     * OutputStrfbm from thf rfturn vbluf of this mfthod. A rfturn vbluf of
+     * <dodf>0</dodf> indidbtfs thbt no tokfn wbs writtfn.
+     *
+     * @rfturn <strong>thf numbfr of bytfs writtfn to thf
+     * OutputStrfbm bs pbrt of thf tokfn to bf sfnt to thf pffr. A vbluf of
+     * 0 indidbtfs thbt no tokfn  nffds to bf
+     * sfnt.</strong>
+     */
+    publid void bddfptSfdContfxt(InputStrfbm inStrfbm,
+                                 OutputStrfbm outStrfbm) throws GSSExdfption;
+
+    /**
+     * Usfd during dontfxt fstbblishmfnt to dftfrminf thf stbtf of thf
+     * dontfxt.
+     *
+     * @rfturn <dodf>truf</dodf> if this is b fully fstbblishfd dontfxt on
+     * thf dbllfr's sidf bnd no morf tokfns brf nffdfd from thf pffr.
+     */
+    publid boolfbn isEstbblishfd();
+
+    /**
+     * Rflfbsfs bny systfm rfsourdfs bnd dryptogrbphid informbtion storfd in
+     * thf dontfxt objfdt bnd invblidbtfs thf dontfxt.
+     *
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void disposf() throws GSSExdfption;
+
+    /**
+     * Usfd to dftfrminf limits on thf sizf of thf mfssbgf
+     * thbt dbn bf pbssfd to <dodf>wrbp</dodf>. Rfturns thf mbximum
+     * mfssbgf sizf thbt, if prfsfntfd to thf <dodf>wrbp</dodf> mfthod with
+     * thf sbmf <dodf>donfRfq</dodf> bnd <dodf>qop</dodf> pbrbmftfrs, will
+     * rfsult in bn output tokfn dontbining no morf
+     * thbn <dodf>mbxTokfnSizf</dodf> bytfs.<p>
+     *
+     * This dbll is intfndfd for usf by bpplidbtions thbt dommunidbtf ovfr
+     * protodols thbt imposf b mbximum mfssbgf sizf.  It fnbblfs thf
+     * bpplidbtion to frbgmfnt mfssbgfs prior to bpplying protfdtion.<p>
+     *
+     * GSS-API implfmfntbtions brf rfdommfndfd but not rfquirfd to dftfdt
+     * invblid QOP vblufs whfn <dodf>gftWrbpSizfLimit</dodf> is dbllfd.
+     * This routinf gubrbntffs only b mbximum mfssbgf sizf, not thf
+     * bvbilbbility of spfdifid QOP vblufs for mfssbgf protfdtion.<p>
+     *
+     * @pbrbm qop thf lfvfl of protfdtion wrbp will bf bskfd to providf.
+     * @pbrbm donfRfq <dodf>truf</dodf> if wrbp will bf bskfd to providf
+     * privbdy, <dodf>fblsf</dodf>  othfrwisf.
+     * @pbrbm mbxTokfnSizf thf dfsirfd mbximum sizf of thf tokfn fmittfd by
+     * wrbp.
+     * @rfturn thf mbximum sizf of thf input tokfn for thf givfn output
+     * tokfn sizf
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#CONTEXT_EXPIRED GSSExdfption.CONTEXT_EXPIRED},
+     *   {@link GSSExdfption#BAD_QOP GSSExdfption.BAD_QOP},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid int gftWrbpSizfLimit(int qop, boolfbn donfRfq,
+                                int mbxTokfnSizf) throws GSSExdfption;
+
+    /**
+     * Applifs pfr-mfssbgf sfdurity sfrvidfs ovfr thf fstbblishfd sfdurity
+     * dontfxt. Thf mfthod will rfturn b tokfn with thf
+     * bpplidbtion supplifd dbtb bnd b dryptogrbphid MIC ovfr it.
+     * Thf dbtb mby bf fndryptfd if donfidfntiblity (privbdy) wbs
+     * rfqufstfd.<p>
+     *
+     * Thf MfssbgfProp objfdt is instbntibtfd by thf bpplidbtion bnd usfd
+     * to spfdify b QOP vbluf whidh sflfdts dryptogrbphid blgorithms, bnd b
+     * privbdy sfrvidf to optionblly fndrypt thf mfssbgf.  Thf undfrlying
+     * mfdhbnism thbt is usfd in thf dbll mby not bf bblf to providf thf
+     * privbdy sfrvidf.  It sfts thf bdtubl privbdy sfrvidf thbt it dofs
+     * providf in this MfssbgfProp objfdt whidh thf dbllfr should thfn
+     * qufry upon rfturn.  If thf mfdhbnism is not bblf to providf thf
+     * rfqufstfd QOP, it throws b GSSExdfption with thf BAD_QOP dodf.<p>
+     *
+     * Sindf somf bpplidbtion-lfvfl protodols mby wish to usf tokfns
+     * fmittfd by wrbp to providf "sfdurf frbming", implfmfntbtions should
+     * support thf wrbpping of zfro-lfngth mfssbgfs.<p>
+     *
+     * Thf bpplidbtion will bf rfsponsiblf for sfnding thf tokfn to thf
+     * pffr.
+     *
+     * @pbrbm inBuf bpplidbtion dbtb to bf protfdtfd.
+     * @pbrbm offsft thf offsft within thf inBuf whfrf thf dbtb bfgins.
+     * @pbrbm lfn thf lfngth of thf dbtb
+     * @pbrbm msgProp instbndf of MfssbgfProp thbt is usfd by thf
+     * bpplidbtion to sft thf dfsirfd QOP bnd privbdy stbtf. Sft thf
+     * dfsirfd QOP to 0 to rfqufst thf dffbult QOP. Upon rfturn from this
+     * mfthod, this objfdt will dontbin thf thf bdtubl privbdy stbtf thbt
+     * wbs bpplifd to thf mfssbgf by thf undfrlying mfdhbnism.
+     * @rfturn b bytf[] dontbining thf tokfn to bf sfnt to thf pffr.
+     *
+     * @throws GSSExdfption dontbining thf following mbjor frror dodfs:
+     *   {@link GSSExdfption#CONTEXT_EXPIRED GSSExdfption.CONTEXT_EXPIRED},
+     *   {@link GSSExdfption#BAD_QOP GSSExdfption.BAD_QOP},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bytf[] wrbp(bytf inBuf[], int offsft, int lfn,
+                       MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * Applifs pfr-mfssbgf sfdurity sfrvidfs ovfr thf fstbblishfd sfdurity
+     * dontfxt using strfbms. Thf mfthod will rfturn b
+     * tokfn with thf bpplidbtion supplifd dbtb bnd b dryptogrbphid MIC ovfr it.
+     * Thf dbtb mby bf fndryptfd if donfidfntiblity
+     * (privbdy) wbs rfqufstfd. This mfthod is fquivblfnt to thf bytf brrby
+     * bbsfd {@link #wrbp(bytf[], int, int, MfssbgfProp) wrbp} mfthod.<p>
+     *
+     * Thf bpplidbtion will bf rfsponsiblf for sfnding thf tokfn to thf
+     * pffr.  Typidblly, thf bpplidbtion would
+     * fnsurf this by dblling thf  {@link jbvb.io.OutputStrfbm#flush() flush}
+     * mfthod on bn <dodf>OutputStrfbm</dodf> thbt fndbpsulbtfs thf
+     * donnfdtion bftwffn thf two pffrs.<p>
+     *
+     * Thf MfssbgfProp objfdt is instbntibtfd by thf bpplidbtion bnd usfd
+     * to spfdify b QOP vbluf whidh sflfdts dryptogrbphid blgorithms, bnd b
+     * privbdy sfrvidf to optionblly fndrypt thf mfssbgf.  Thf undfrlying
+     * mfdhbnism thbt is usfd in thf dbll mby not bf bblf to providf thf
+     * privbdy sfrvidf.  It sfts thf bdtubl privbdy sfrvidf thbt it dofs
+     * providf in this MfssbgfProp objfdt whidh thf dbllfr should thfn
+     * qufry upon rfturn.  If thf mfdhbnism is not bblf to providf thf
+     * rfqufstfd QOP, it throws b GSSExdfption with thf BAD_QOP dodf.<p>
+     *
+     * Sindf somf bpplidbtion-lfvfl protodols mby wish to usf tokfns
+     * fmittfd by wrbp to providf "sfdurf frbming", implfmfntbtions should
+     * support thf wrbpping of zfro-lfngth mfssbgfs.<p>
+     *
+     * @pbrbm inStrfbm bn InputStrfbm dontbining thf bpplidbtion dbtb to bf
+     * protfdtfd. All of thf dbtb thbt is bvbilbblf in
+     * inStrfbm is usfd.
+     * @pbrbm outStrfbm bn OutputStrfbm to writf thf protfdtfd mfssbgf
+     * to.
+     * @pbrbm msgProp instbndf of MfssbgfProp thbt is usfd by thf
+     * bpplidbtion to sft thf dfsirfd QOP bnd privbdy stbtf. Sft thf
+     * dfsirfd QOP to 0 to rfqufst thf dffbult QOP. Upon rfturn from this
+     * mfthod, this objfdt will dontbin thf thf bdtubl privbdy stbtf thbt
+     * wbs bpplifd to thf mfssbgf by thf undfrlying mfdhbnism.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#CONTEXT_EXPIRED GSSExdfption.CONTEXT_EXPIRED},
+     *   {@link GSSExdfption#BAD_QOP GSSExdfption.BAD_QOP},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void wrbp(InputStrfbm inStrfbm, OutputStrfbm outStrfbm,
+                     MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * Usfd to prodfss tokfns gfnfrbtfd by thf <dodf>wrbp</dodf> mfthod on
+     * thf othfr sidf of thf dontfxt. Thf mfthod will rfturn thf mfssbgf
+     * supplifd by thf pffr bpplidbtion to its wrbp dbll, whilf bt thf sbmf
+     * timf vfrifying thf fmbfddfd MIC for thbt mfssbgf.<p>
+     *
+     * Thf MfssbgfProp objfdt is instbntibtfd by thf bpplidbtion bnd is
+     * usfd by thf undfrlying mfdhbnism to rfturn informbtion to thf dbllfr
+     * sudh bs thf QOP, whfthfr donfidfntiblity wbs bpplifd to thf mfssbgf,
+     * bnd othfr supplfmfntbry mfssbgf stbtf informbtion.<p>
+     *
+     * Sindf somf bpplidbtion-lfvfl protodols mby wish to usf tokfns
+     * fmittfd by wrbp to providf "sfdurf frbming", implfmfntbtions should
+     * support thf wrbpping bnd unwrbpping of zfro-lfngth mfssbgfs.<p>
+     *
+     * @pbrbm inBuf b bytf brrby dontbining thf wrbp tokfn rfdfivfd from
+     * pffr.
+     * @pbrbm offsft thf offsft whfrf thf tokfn bfgins.
+     * @pbrbm lfn thf lfngth of thf tokfn
+     * @pbrbm msgProp upon rfturn from thf mfthod, this objfdt will dontbin
+     * thf bpplifd QOP, thf privbdy stbtf of thf mfssbgf, bnd supplfmfntbry
+     * informbtion stbting if thf tokfn wbs b duplidbtf, old, out of
+     * sfqufndf or brriving bftfr b gbp.
+     * @rfturn b bytf[] dontbining thf mfssbgf unwrbppfd from thf input
+     * tokfn.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#DEFECTIVE_TOKEN GSSExdfption.DEFECTIVE_TOKEN},
+     *   {@link GSSExdfption#BAD_MIC GSSExdfption.BAD_MIC},
+     *   {@link GSSExdfption#CONTEXT_EXPIRED GSSExdfption.CONTEXT_EXPIRED},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bytf [] unwrbp(bytf[] inBuf, int offsft, int lfn,
+                          MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * Usfs strfbms to prodfss tokfns gfnfrbtfd by thf <dodf>wrbp</dodf>
+     * mfthod on thf othfr sidf of thf dontfxt. Thf mfthod will rfturn thf
+     * mfssbgf supplifd by thf pffr bpplidbtion to its wrbp dbll, whilf bt
+     * thf sbmf timf vfrifying thf fmbfddfd MIC for thbt mfssbgf.<p>
+     *
+     * Thf MfssbgfProp objfdt is instbntibtfd by thf bpplidbtion bnd is
+     * usfd by thf undfrlying mfdhbnism to rfturn informbtion to thf dbllfr
+     * sudh bs thf QOP, whfthfr donfidfntiblity wbs bpplifd to thf mfssbgf,
+     * bnd othfr supplfmfntbry mfssbgf stbtf informbtion.<p>
+     *
+     * Sindf somf bpplidbtion-lfvfl protodols mby wish to usf tokfns
+     * fmittfd by wrbp to providf "sfdurf frbming", implfmfntbtions should
+     * support thf wrbpping bnd unwrbpping of zfro-lfngth mfssbgfs.<p>
+     *
+     * Thf formbt of thf input tokfn thbt this mfthod
+     * rfbds is dffinfd in thf spfdifidbtion for thf undfrlying mfdhbnism thbt
+     * will bf usfd. This mfthod will bttfmpt to rfbd onf of thfsf tokfns pfr
+     * invodbtion. If thf mfdhbnism tokfn dontbins b dffinitivf stbrt bnd
+     * fnd this mfthod mby blodk on thf <dodf>InputStrfbm</dodf> if only
+     * pbrt of thf tokfn is bvbilbblf. If thf stbrt bnd fnd of thf tokfn
+     * brf not dffinitivf thfn thf mfthod will bttfmpt to trfbt bll
+     * bvbilbblf bytfs bs pbrt of thf tokfn.<p>
+     *
+     * Othfr thbn thf possiblf blodking bfhbvior dfsdribfd bbovf, this
+     * mfthod is fquivblfnt to thf bytf brrby bbsfd {@link #unwrbp(bytf[],
+     * int, int, MfssbgfProp) unwrbp} mfthod.<p>
+     *
+     * @pbrbm inStrfbm bn InputStrfbm thbt dontbins thf wrbp tokfn gfnfrbtfd
+     * by thf pffr.
+     * @pbrbm outStrfbm bn OutputStrfbm to writf thf bpplidbtion mfssbgf
+     * to.
+     * @pbrbm msgProp upon rfturn from thf mfthod, this objfdt will dontbin
+     * thf bpplifd QOP, thf privbdy stbtf of thf mfssbgf, bnd supplfmfntbry
+     * informbtion stbting if thf tokfn wbs b duplidbtf, old, out of
+     * sfqufndf or brriving bftfr b gbp.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#DEFECTIVE_TOKEN GSSExdfption.DEFECTIVE_TOKEN},
+     *   {@link GSSExdfption#BAD_MIC GSSExdfption.BAD_MIC},
+     *   {@link GSSExdfption#CONTEXT_EXPIRED GSSExdfption.CONTEXT_EXPIRED},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void unwrbp(InputStrfbm inStrfbm, OutputStrfbm outStrfbm,
+                       MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * Rfturns b tokfn dontbining b dryptogrbphid Mfssbgf Intfgrity Codf
+     * (MIC) for thf supplifd mfssbgf,  for trbnsffr to thf pffr
+     * bpplidbtion.  Unlikf wrbp, whidh fndbpsulbtfs thf usfr mfssbgf in thf
+     * rfturnfd tokfn, only thf mfssbgf MIC is rfturnfd in thf output
+     * tokfn.<p>
+     *
+     * Notf thbt privbdy dbn only bf bpplifd through thf wrbp dbll.<p>
+     *
+     * Sindf somf bpplidbtion-lfvfl protodols mby wish to usf tokfns fmittfd
+     * by gftMIC to providf "sfdurf frbming", implfmfntbtions should support
+     * dfrivbtion of MICs from zfro-lfngth mfssbgfs.
+     *
+     * @pbrbm inMsg thf mfssbgf to gfnfrbtf thf MIC ovfr.
+     * @pbrbm offsft offsft within thf inMsg whfrf thf mfssbgf bfgins.
+     * @pbrbm lfn thf lfngth of thf mfssbgf
+     * @pbrbm msgProp bn instbndf of <dodf>MfssbgfProp</dodf> thbt is usfd
+     * by thf bpplidbtion to sft thf dfsirfd QOP.  Sft thf dfsirfd QOP to
+     * <dodf>0</dodf> in <dodf>msgProp</dodf> to rfqufst thf dffbult
+     * QOP. Altfrnbtivfly pbss in <dodf>null</dodf> for <dodf>msgProp</dodf>
+     * to rfqufst thf dffbult QOP.
+     * @rfturn b bytf[] dontbining thf tokfn to bf sfnt to thf pffr.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#CONTEXT_EXPIRED GSSExdfption.CONTEXT_EXPIRED},
+     *   {@link GSSExdfption#BAD_QOP GSSExdfption.BAD_QOP},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bytf[] gftMIC(bytf []inMsg, int offsft, int lfn,
+                         MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * Usfs strfbms to produdf b tokfn dontbining b dryptogrbphid MIC for
+     * thf supplifd mfssbgf, for trbnsffr to thf pffr bpplidbtion.
+     * Unlikf wrbp, whidh fndbpsulbtfs thf usfr mfssbgf in thf rfturnfd
+     * tokfn, only thf mfssbgf MIC is produdfd in thf output tokfn. This
+     * mfthod is fquivblfnt to thf bytf brrby bbsfd {@link #gftMIC(bytf[],
+     * int, int, MfssbgfProp) gftMIC} mfthod.
+     *
+     * Notf thbt privbdy dbn only bf bpplifd through thf wrbp dbll.<p>
+     *
+     * Sindf somf bpplidbtion-lfvfl protodols mby wish to usf tokfns fmittfd
+     * by gftMIC to providf "sfdurf frbming", implfmfntbtions should support
+     * dfrivbtion of MICs from zfro-lfngth mfssbgfs.
+     *
+     * @pbrbm inStrfbm bn InputStrfbm dontbining thf mfssbgf to gfnfrbtf thf
+     * MIC ovfr. All of thf dbtb thbt is bvbilbblf in
+     * inStrfbm is usfd.
+     * @pbrbm outStrfbm bn OutputStrfbm to writf thf output tokfn to.
+     * @pbrbm msgProp bn instbndf of <dodf>MfssbgfProp</dodf> thbt is usfd
+     * by thf bpplidbtion to sft thf dfsirfd QOP.  Sft thf dfsirfd QOP to
+     * <dodf>0</dodf> in <dodf>msgProp</dodf> to rfqufst thf dffbult
+     * QOP. Altfrnbtivfly pbss in <dodf>null</dodf> for <dodf>msgProp</dodf>
+     * to rfqufst thf dffbult QOP.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#CONTEXT_EXPIRED GSSExdfption.CONTEXT_EXPIRED},
+     *   {@link GSSExdfption#BAD_QOP GSSExdfption.BAD_QOP},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void gftMIC(InputStrfbm inStrfbm, OutputStrfbm outStrfbm,
+                       MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * Vfrififs thf dryptogrbphid MIC, dontbinfd in thf tokfn pbrbmftfr,
+     * ovfr thf supplifd mfssbgf.<p>
+     *
+     * Thf MfssbgfProp objfdt is instbntibtfd by thf bpplidbtion bnd is usfd
+     * by thf undfrlying mfdhbnism to rfturn informbtion to thf dbllfr sudh
+     * bs thf QOP indidbting thf strfngth of protfdtion thbt wbs bpplifd to
+     * thf mfssbgf bnd othfr supplfmfntbry mfssbgf stbtf informbtion.<p>
+     *
+     * Sindf somf bpplidbtion-lfvfl protodols mby wish to usf tokfns fmittfd
+     * by gftMIC to providf "sfdurf frbming", implfmfntbtions should support
+     * thf dbldulbtion bnd vfrifidbtion of MICs ovfr zfro-lfngth mfssbgfs.
+     *
+     * @pbrbm inTokfn thf tokfn gfnfrbtfd by pffr's gftMIC mfthod.
+     * @pbrbm tokOffsft thf offsft within thf inTokfn whfrf thf tokfn
+     * bfgins.
+     * @pbrbm tokLfn thf lfngth of thf tokfn.
+     * @pbrbm inMsg thf bpplidbtion mfssbgf to vfrify thf dryptogrbphid MIC
+     * ovfr.
+     * @pbrbm msgOffsft thf offsft in inMsg whfrf thf mfssbgf bfgins.
+     * @pbrbm msgLfn thf lfngth of thf mfssbgf.
+     * @pbrbm msgProp upon rfturn from thf mfthod, this objfdt will dontbin
+     * thf bpplifd QOP bnd supplfmfntbry informbtion stbting if thf tokfn
+     * wbs b duplidbtf, old, out of sfqufndf or brriving bftfr b gbp.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#DEFECTIVE_TOKEN GSSExdfption.DEFECTIVE_TOKEN}
+     *   {@link GSSExdfption#BAD_MIC GSSExdfption.BAD_MIC}
+     *   {@link GSSExdfption#CONTEXT_EXPIRED GSSExdfption.CONTEXT_EXPIRED}
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void vfrifyMIC(bytf[] inTokfn, int tokOffsft, int tokLfn,
+                          bytf[] inMsg, int msgOffsft, int msgLfn,
+                          MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * Usfs strfbms to vfrify thf dryptogrbphid MIC, dontbinfd in thf tokfn
+     * pbrbmftfr, ovfr thf supplifd mfssbgf.  This mfthod is fquivblfnt to
+     * thf bytf brrby bbsfd {@link #vfrifyMIC(bytf[], int, int, bytf[], int,
+     * int, MfssbgfProp) vfrifyMIC} mfthod.
+     *
+     * Thf MfssbgfProp objfdt is instbntibtfd by thf bpplidbtion bnd is usfd
+     * by thf undfrlying mfdhbnism to rfturn informbtion to thf dbllfr sudh
+     * bs thf QOP indidbting thf strfngth of protfdtion thbt wbs bpplifd to
+     * thf mfssbgf bnd othfr supplfmfntbry mfssbgf stbtf informbtion.<p>
+     *
+     * Sindf somf bpplidbtion-lfvfl protodols mby wish to usf tokfns fmittfd
+     * by gftMIC to providf "sfdurf frbming", implfmfntbtions should support
+     * thf dbldulbtion bnd vfrifidbtion of MICs ovfr zfro-lfngth mfssbgfs.<p>
+     *
+     * Thf formbt of thf input tokfn thbt this mfthod
+     * rfbds is dffinfd in thf spfdifidbtion for thf undfrlying mfdhbnism thbt
+     * will bf usfd. This mfthod will bttfmpt to rfbd onf of thfsf tokfns pfr
+     * invodbtion. If thf mfdhbnism tokfn dontbins b dffinitivf stbrt bnd
+     * fnd this mfthod mby blodk on thf <dodf>InputStrfbm</dodf> if only
+     * pbrt of thf tokfn is bvbilbblf. If thf stbrt bnd fnd of thf tokfn
+     * brf not dffinitivf thfn thf mfthod will bttfmpt to trfbt bll
+     * bvbilbblf bytfs bs pbrt of thf tokfn.<p>
+     *
+     * Othfr thbn thf possiblf blodking bfhbvior dfsdribfd bbovf, this
+     * mfthod is fquivblfnt to thf bytf brrby bbsfd {@link #vfrifyMIC(bytf[],
+     * int, int, bytf[], int, int, MfssbgfProp) vfrifyMIC} mfthod.<p>
+     *
+     * @pbrbm tokStrfbm bn InputStrfbm dontbining thf tokfn gfnfrbtfd by thf
+     * pffr's gftMIC mfthod.
+     * @pbrbm msgStrfbm bn InputStrfbm dontbining thf bpplidbtion mfssbgf to
+     * vfrify thf dryptogrbphid MIC ovfr. All of thf dbtb
+     * thbt is bvbilbblf in msgStrfbm is usfd.
+     * @pbrbm msgProp upon rfturn from thf mfthod, this objfdt will dontbin
+     * thf bpplifd QOP bnd supplfmfntbry informbtion stbting if thf tokfn
+     * wbs b duplidbtf, old, out of sfqufndf or brriving bftfr b gbp.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#DEFECTIVE_TOKEN GSSExdfption.DEFECTIVE_TOKEN}
+     *   {@link GSSExdfption#BAD_MIC GSSExdfption.BAD_MIC}
+     *   {@link GSSExdfption#CONTEXT_EXPIRED GSSExdfption.CONTEXT_EXPIRED}
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void vfrifyMIC(InputStrfbm tokStrfbm, InputStrfbm msgStrfbm,
+                          MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * Exports this dontfxt so thbt bnothfr prodfss mby
+     * import it.. Providfd to support thf shbring of work bftwffn
+     * multiplf prodfssfs. This routinf will typidblly bf usfd by thf
+     * dontfxt-bddfptor, in bn bpplidbtion whfrf b singlf prodfss rfdfivfs
+     * indoming donnfdtion rfqufsts bnd bddfpts sfdurity dontfxts ovfr
+     * thfm, thfn pbssfs thf fstbblishfd dontfxt to onf or morf othfr
+     * prodfssfs for mfssbgf fxdhbngf.<p>
+     *
+     * This mfthod dfbdtivbtfs thf sfdurity dontfxt bnd drfbtfs bn
+     * intfrprodfss tokfn whidh, whfn pbssfd to {@link
+     * GSSMbnbgfr#drfbtfContfxt(bytf[]) GSSMbnbgfr.drfbtfContfxt} in
+     * bnothfr prodfss, will rf-bdtivbtf thf dontfxt in thf sfdond prodfss.
+     * Only b singlf instbntibtion of b givfn dontfxt mby bf bdtivf bt bny
+     * onf timf; b subsfqufnt bttfmpt by b dontfxt fxportfr to bddfss thf
+     * fxportfd sfdurity dontfxt will fbil.<p>
+     *
+     * Thf implfmfntbtion mby donstrbin thf sft of prodfssfs by whidh thf
+     * intfrprodfss tokfn mby bf importfd, fithfr bs b fundtion of lodbl
+     * sfdurity polidy, or bs b rfsult of implfmfntbtion dfdisions.  For
+     * fxbmplf, somf implfmfntbtions mby donstrbin dontfxts to bf pbssfd
+     * only bftwffn prodfssfs thbt run undfr thf sbmf bddount, or whidh brf
+     * pbrt of thf sbmf prodfss group.<p>
+     *
+     * Thf intfrprodfss tokfn mby dontbin sfdurity-sfnsitivf informbtion
+     * (for fxbmplf dryptogrbphid kfys).  Whilf mfdhbnisms brf fndourbgfd
+     * to fithfr bvoid plbding sudh sfnsitivf informbtion within
+     * intfrprodfss tokfns, or to fndrypt thf tokfn bfforf rfturning it to
+     * thf bpplidbtion, in b typidbl GSS-API implfmfntbtion this mby not bf
+     * possiblf.  Thus thf bpplidbtion must tbkf dbrf to protfdt thf
+     * intfrprodfss tokfn, bnd fnsurf thbt bny prodfss to whidh thf tokfn
+     * is trbnsffrrfd is trustworthy. <p>
+     *
+     * Implfmfntbtions brf not rfquirfd to support thf intfr-prodfss
+     * trbnsffr of sfdurity dontfxts.  Cblling thf {@link #isTrbnsffrbblf()
+     * isTrbnsffrbblf} mfthod will indidbtf if thf dontfxt objfdt is
+     * trbnsffrbblf.<p>
+     *
+     * Cblling this mfthod on b dontfxt thbt
+     * is not fxportbblf will rfsult in this fxdfption bfing thrown with
+     * thf frror dodf {@link GSSExdfption#UNAVAILABLE
+     * GSSExdfption.UNAVAILABLE}.
+     *
+     * @rfturn b bytf[] dontbining thf fxportfd dontfxt
+     * @sff GSSMbnbgfr#drfbtfContfxt(bytf[])
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE},
+     *   {@link GSSExdfption#CONTEXT_EXPIRED GSSExdfption.CONTEXT_EXPIRED},
+     *   {@link GSSExdfption#NO_CONTEXT GSSExdfption.NO_CONTEXT},
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bytf [] fxport() throws GSSExdfption;
+
+    /**
+     * Rfqufsts thbt mutubl buthfntidbtion bf donf during
+     * dontfxt fstbblishmfnt. This rfqufst dbn only bf mbdf on thf dontfxt
+     * initibtor's sidf bnd it hbs to bf donf prior to thf first dbll to
+     * <dodf>initSfdContfxt</dodf>.<p>
+     *
+     * Not bll mfdhbnisms support mutubl buthfntidbtion bnd somf mfdhbnisms
+     * might rfquirf mutubl buthfntidbtion fvfn if thf bpplidbtion
+     * dofsn't. Thfrfforf, thf bpplidbtion should dhfdk to sff if thf
+     * rfqufst wbs honorfd with thf {@link #gftMutublAuthStbtf()
+     * gftMutublAuthStbtf} mfthod.<p>
+     *
+     * @pbrbm stbtf b boolfbn vbluf indidbting whfthfr mutubl
+     * buthfntidbtion should bf usfd or not.
+     * @sff #gftMutublAuthStbtf()
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void rfqufstMutublAuth(boolfbn stbtf) throws GSSExdfption;
+
+    /**
+     * Rfqufsts thbt rfplby dftfdtion bf fnbblfd for thf
+     * pfr-mfssbgf sfdurity sfrvidfs bftfr dontfxt fstbblishmfnt. This
+     * rfqufst dbn only bf mbdf on thf dontfxt initibtor's sidf bnd it hbs
+     * to bf donf prior to thf first dbll to
+     * <dodf>initSfdContfxt</dodf>. During dontfxt fstbblishmfnt rfplby
+     * dftfdtion is not bn option bnd is b fundtion of thf undfrlying
+     * mfdhbnism's dbpbbilitifs.<p>
+     *
+     * Not bll mfdhbnisms support rfplby dftfdtion bnd somf mfdhbnisms
+     * might rfquirf rfplby dftfdtion fvfn if thf bpplidbtion
+     * dofsn't. Thfrfforf, thf bpplidbtion should dhfdk to sff if thf
+     * rfqufst wbs honorfd with thf {@link #gftRfplbyDftStbtf()
+     * gftRfplbyDftStbtf} mfthod. If rfplby dftfdtion is fnbblfd thfn thf
+     * {@link MfssbgfProp#isDuplidbtfTokfn() MfssbgfProp.isDuplidbtfTokfn} bnd {@link
+     * MfssbgfProp#isOldTokfn() MfssbgfProp.isOldTokfn} mfthods will rfturn
+     * vblid rfsults for thf <dodf>MfssbgfProp</dodf> objfdt thbt is pbssfd
+     * in to thf <dodf>unwrbp</dodf> mfthod or thf <dodf>vfrifyMIC</dodf>
+     * mfthod.<p>
+     *
+     * @pbrbm stbtf b boolfbn vbluf indidbting whfthfr rfplby dftfdtion
+     * should bf fnbblfd ovfr thf fstbblishfd dontfxt or not.
+     * @sff #gftRfplbyDftStbtf()
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void rfqufstRfplbyDft(boolfbn stbtf) throws GSSExdfption;
+
+    /**
+     * Rfqufsts thbt sfqufndf dhfdking bf fnbblfd for thf
+     * pfr-mfssbgf sfdurity sfrvidfs bftfr dontfxt fstbblishmfnt. This
+     * rfqufst dbn only bf mbdf on thf dontfxt initibtor's sidf bnd it hbs
+     * to bf donf prior to thf first dbll to
+     * <dodf>initSfdContfxt</dodf>. During dontfxt fstbblishmfnt sfqufndf
+     * dhfdking is not bn option bnd is b fundtion of thf undfrlying
+     * mfdhbnism's dbpbbilitifs.<p>
+     *
+     * Not bll mfdhbnisms support sfqufndf dhfdking bnd somf mfdhbnisms
+     * might rfquirf sfqufndf dhfdking fvfn if thf bpplidbtion
+     * dofsn't. Thfrfforf, thf bpplidbtion should dhfdk to sff if thf
+     * rfqufst wbs honorfd with thf {@link #gftSfqufndfDftStbtf()
+     * gftSfqufndfDftStbtf} mfthod. If sfqufndf dhfdking is fnbblfd thfn thf
+     * {@link MfssbgfProp#isDuplidbtfTokfn() MfssbgfProp.isDuplidbtfTokfn},
+     * {@link MfssbgfProp#isOldTokfn() MfssbgfProp.isOldTokfn},
+     * {@link MfssbgfProp#isUnsfqTokfn() MfssbgfProp.isUnsfqTokfn}, bnd
+     * {@link MfssbgfProp#isGbpTokfn() MfssbgfProp.isGbpTokfn} mfthods will rfturn
+     * vblid rfsults for thf <dodf>MfssbgfProp</dodf> objfdt thbt is pbssfd
+     * in to thf <dodf>unwrbp</dodf> mfthod or thf <dodf>vfrifyMIC</dodf>
+     * mfthod.<p>
+     *
+     * @pbrbm stbtf b boolfbn vbluf indidbting whfthfr sfqufndf dhfdking
+     * should bf fnbblfd ovfr thf fstbblishfd dontfxt or not.
+     * @sff #gftSfqufndfDftStbtf()
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void rfqufstSfqufndfDft(boolfbn stbtf) throws GSSExdfption;
+
+    /**
+     * Rfqufsts thbt thf initibtor's drfdfntibls bf
+     * dflfgbtfd to thf bddfptor during dontfxt fstbblishmfnt. This
+     * rfqufst dbn only bf mbdf on thf dontfxt initibtor's sidf bnd it hbs
+     * to bf donf prior to thf first dbll to
+     * <dodf>initSfdContfxt</dodf>.
+     *
+     * Not bll mfdhbnisms support drfdfntibl dflfgbtion. Thfrfforf, bn
+     * bpplidbtion thbt dfsirfs dflfgbtion should dhfdk to sff if thf
+     * rfqufst wbs honorfd with thf {@link #gftCrfdDflfgStbtf()
+     * gftCrfdDflfgStbtf} mfthod. If thf bpplidbtion indidbtfs thbt
+     * dflfgbtion must not bf usfd, thfn thf mfdhbnism will honor thf
+     * rfqufst bnd dflfgbtion will not oddur. This is bn fxdfption
+     * to thf gfnfrbl rulf thbt b mfdhbnism mby fnbblf b sfrvidf fvfn if it
+     * is not rfqufstfd.<p>
+     *
+     * @pbrbm stbtf b boolfbn vbluf indidbting whfthfr thf drfdfntibls
+     * should bf dflfgbtfd or not.
+     * @sff #gftCrfdDflfgStbtf()
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void rfqufstCrfdDflfg(boolfbn stbtf) throws GSSExdfption;
+
+    /**
+     * Rfqufsts thbt thf initibtor's idfntity not bf
+     * disdlosfd to thf bddfptor. This rfqufst dbn only bf mbdf on thf
+     * dontfxt initibtor's sidf bnd it hbs to bf donf prior to thf first
+     * dbll to <dodf>initSfdContfxt</dodf>.
+     *
+     * Not bll mfdhbnisms support bnonymity for thf initibtor. Thfrfforf, thf
+     * bpplidbtion should dhfdk to sff if thf rfqufst wbs honorfd with thf
+     * {@link #gftAnonymityStbtf() gftAnonymityStbtf} mfthod.<p>
+     *
+     * @pbrbm stbtf b boolfbn vbluf indidbting if thf initibtor should
+     * bf buthfntidbtfd to thf bddfptor bs bn bnonymous prindipbl.
+     * @sff #gftAnonymityStbtf
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void rfqufstAnonymity(boolfbn stbtf) throws GSSExdfption;
+
+    /**
+     * Rfqufsts thbt dbtb donfidfntiblity bf fnbblfd
+     * for thf <dodf>wrbp</dodf> mfthod. This rfqufst dbn only bf mbdf on
+     * thf dontfxt initibtor's sidf bnd it hbs to bf donf prior to thf
+     * first dbll to <dodf>initSfdContfxt</dodf>.
+     *
+     * Not bll mfdhbnisms support donfidfntiblity bnd othfr mfdhbnisms
+     * might fnbblf it fvfn if thf bpplidbtion dofsn't rfqufst
+     * it. Thf bpplidbtion mby dhfdk to sff if thf rfqufst wbs honorfd with
+     * thf {@link #gftConfStbtf() gftConfStbtf} mfthod. If donfidfntiblity
+     * is fnbblfd, only thfn will thf mfdhbnism honor b rfqufst for privbdy
+     * in thf {@link MfssbgfProp#MfssbgfProp(int, boolfbn) MfssbgfProp}
+     * objfdt thbt is pbssfd in to thf <dodf>wrbp</dodf> mfthod.<p>
+     *
+     * Enbbling donfidfntiblity will blso butombtidblly fnbblf
+     * intfgrity.<p>
+     *
+     * @pbrbm stbtf b boolfbn vbluf indidbting whfthfr donfidfntiblity
+     * should bf fnbblfd or not.
+     * @sff #gftConfStbtf()
+     * @sff #gftIntfgStbtf()
+     * @sff #rfqufstIntfg(boolfbn)
+     * @sff MfssbgfProp
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void rfqufstConf(boolfbn stbtf) throws GSSExdfption;
+
+    /**
+     * Rfqufsts thbt dbtb intfgrity bf fnbblfd
+     * for thf <dodf>wrbp</dodf> bnd <dodf>gftMIC</dodf>mfthods. This
+     * rfqufst dbn only bf mbdf on thf dontfxt initibtor's sidf bnd it hbs
+     * to bf donf prior to thf first dbll to <dodf>initSfdContfxt</dodf>.
+     *
+     * Not bll mfdhbnisms support intfgrity bnd othfr mfdhbnisms
+     * might fnbblf it fvfn if thf bpplidbtion dofsn't rfqufst
+     * it. Thf bpplidbtion mby dhfdk to sff if thf rfqufst wbs honorfd with
+     * thf {@link #gftIntfgStbtf() gftIntfgStbtf} mfthod.<p>
+     *
+     * Disbbling intfgrity will blso butombtidblly disbblf
+     * donfidfntiblity.<p>
+     *
+     * @pbrbm stbtf b boolfbn vbluf indidbting whfthfr intfgrity
+     * should bf fnbblfd or not.
+     * @sff #gftIntfgStbtf()
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void rfqufstIntfg(boolfbn stbtf) throws GSSExdfption;
+
+    /**
+     * Rfqufsts b lifftimf in sfdonds for thf
+     * dontfxt. This mfthod dbn only bf dbllfd on thf dontfxt initibtor's
+     * sidf  bnd it hbs to bf donf prior to thf first dbll to
+     * <dodf>initSfdContfxt</dodf>.<p>
+     *
+     * Thf bdtubl lifftimf of thf dontfxt will dfpfnd on thf dbpbbilitifs of
+     * thf undfrlying mfdhbnism bnd thf bpplidbtion should dbll thf {@link
+     * #gftLifftimf() gftLifftimf} mfthod to dftfrminf this.<p>
+     *
+     * @pbrbm lifftimf thf dfsirfd dontfxt lifftimf in sfdonds. Usf
+     * <dodf>INDEFINITE_LIFETIME</dodf> to rfqufst bn indffinitf lifftimf
+     * bnd <dodf>DEFAULT_LIFETIME</dodf> to rfqufst b dffbult lifftimf.
+     * @sff #gftLifftimf()
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void rfqufstLifftimf(int lifftimf) throws GSSExdfption;
+
+    /**
+     * Sfts thf dhbnnfl bindings to bf usfd during dontfxt
+     * fstbblishmfnt. This mfthod dbn bf dbllfd on both
+     * thf dontfxt initibtor's bnd thf dontfxt bddfptor's sidf, but it must
+     * bf dbllfd bfforf dontfxt fstbblishmfnt bfgins. This mfbns thbt bn
+     * initibtor must dbll it bfforf thf first dbll to
+     * <dodf>initSfdContfxt</dodf> bnd thf bddfptor must dbll it bfforf thf
+     * first dbll to <dodf>bddfptSfdContfxt</dodf>.
+     *
+     * @pbrbm db thf dhbnnfl bindings to usf.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void sftChbnnflBinding(ChbnnflBinding db) throws GSSExdfption;
+
+    /**
+     * Dftfrminfs if drfdfntibl dflfgbtion is fnbblfd on
+     * this dontfxt. It dbn bf dbllfd by both thf dontfxt initibtor bnd thf
+     * dontfxt bddfptor. For b dffinitivf bnswfr this mfthod must bf
+     * dbllfd only bftfr dontfxt fstbblishmfnt is domplftf. Notf thbt if bn
+     * initibtor rfqufsts thbt dflfgbtion not bf bllowfd thf {@link
+     * #rfqufstCrfdDflfg(boolfbn) rfqufstCrfdDflfg} mfthod will honor thbt
+     * rfqufst bnd this mfthod will rfturn <dodf>fblsf</dodf> on thf
+     * initibtor's sidf from thbt point onwbrds. <p>
+     *
+     * @rfturn truf if dflfgbtion is fnbblfd, fblsf othfrwisf.
+     * @sff #rfqufstCrfdDflfg(boolfbn)
+     */
+    publid boolfbn gftCrfdDflfgStbtf();
+
+    /**
+     * Dftfrminfs if mutubl buthfntidbtion is fnbblfd on
+     * this dontfxt. It dbn bf dbllfd by both thf dontfxt initibtor bnd thf
+     * dontfxt bddfptor. For b dffinitivf bnswfr this mfthod must bf
+     * dbllfd only bftfr dontfxt fstbblishmfnt is domplftf. An initibtor
+     * thbt rfqufsts mutubl buthfntidbtion dbn dbll this mfthod bftfr
+     * dontfxt domplftion bnd disposf thf dontfxt if its rfqufst wbs not
+     * honorfd.<p>
+     *
+     * @rfturn truf if mutubl buthfntidbtion is fnbblfd, fblsf othfrwisf.
+     * @sff #rfqufstMutublAuth(boolfbn)
+     */
+    publid boolfbn gftMutublAuthStbtf();
+
+    /**
+     * Dftfrminfs if rfplby dftfdtion is fnbblfd for thf
+     * pfr-mfssbgf sfdurity sfrvidfs from this dontfxt. It dbn bf dbllfd by
+     * both thf dontfxt initibtor bnd thf dontfxt bddfptor. For b
+     * dffinitivf bnswfr this mfthod must bf dbllfd only bftfr dontfxt
+     * fstbblishmfnt is domplftf. An initibtor thbt rfqufsts rfplby
+     * dftfdtion dbn dbll this mfthod bftfr dontfxt domplftion bnd
+     * disposf thf dontfxt if its rfqufst wbs not honorfd.<p>
+     *
+     * @rfturn truf if rfplby dftfdtion is fnbblfd, fblsf othfrwisf.
+     * @sff #rfqufstRfplbyDft(boolfbn)
+     */
+    publid boolfbn gftRfplbyDftStbtf();
+
+    /**
+     * Dftfrminfs if sfqufndf dhfdking is fnbblfd for thf
+     * pfr-mfssbgf sfdurity sfrvidfs from this dontfxt. It dbn bf dbllfd by
+     * both thf dontfxt initibtor bnd thf dontfxt bddfptor. For b
+     * dffinitivf bnswfr this mfthod must bf dbllfd only bftfr dontfxt
+     * fstbblishmfnt is domplftf. An initibtor thbt rfqufsts sfqufndf
+     * dhfdking dbn dbll this mfthod bftfr dontfxt domplftion bnd
+     * disposf thf dontfxt if its rfqufst wbs not honorfd.<p>
+     *
+     * @rfturn truf if sfqufndf dhfdking is fnbblfd, fblsf othfrwisf.
+     * @sff #rfqufstSfqufndfDft(boolfbn)
+     */
+    publid boolfbn gftSfqufndfDftStbtf();
+
+    /**
+     * Dftfrminfs if thf dontfxt initibtor is
+     * bnonymously buthfntidbtfd to thf dontfxt bddfptor. It dbn bf dbllfd by
+     * both thf dontfxt initibtor bnd thf dontfxt bddfptor, bnd bt bny
+     * timf. <strong>On thf initibtor sidf, b dbll to this mfthod dftfrminfs
+     * if thf idfntity of thf initibtor hbs bffn disdlosfd in bny of thf
+     * dontfxt fstbblishmfnt tokfns thbt might hbvf bffn gfnfrbtfd thus fbr
+     * by <dodf>initSfdContfxt</dodf>. An initibtor thbt bbsolutfly must bf
+     * buthfntidbtfd bnonymously should dbll this mfthod bftfr fbdh dbll to
+     * <dodf>initSfdContfxt</dodf> to dftfrminf if thf gfnfrbtfd tokfn
+     * should bf sfnt to thf pffr or thf dontfxt bbortfd.</strong> On thf
+     * bddfptor sidf, b dbll to this mfthod dftfrminfs if bny of thf tokfns
+     * prodfssfd by <dodf>bddfptSfdContfxt</dodf> thus fbr hbvf divulgfd
+     * thf idfntity of thf initibtor.<p>
+     *
+     * @rfturn truf if thf dontfxt initibtor is still bnonymous, fblsf
+     * othfrwisf.
+     * @sff #rfqufstAnonymity(boolfbn)
+     */
+    publid boolfbn gftAnonymityStbtf();
+
+    /**
+     * Dftfrminfs if thf dontfxt is trbnsffrbblf to othfr prodfssfs
+     * through thf usf of thf {@link #fxport() fxport} mfthod.  This dbll
+     * is only vblid on fully fstbblishfd dontfxts.
+     *
+     * @rfturn truf if this dontfxt dbn bf fxportfd, fblsf othfrwisf.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid boolfbn isTrbnsffrbblf() throws GSSExdfption;
+
+    /**
+     * Dftfrminfs if thf dontfxt is rfbdy for pfr mfssbgf opfrbtions to bf
+     * usfd ovfr it.  Somf mfdhbnisms mby bllow thf usbgf of thf
+     * pfr-mfssbgf opfrbtions bfforf thf dontfxt is fully fstbblishfd.
+     *
+     * @rfturn truf if mfthods likf <dodf>wrbp</dodf>, <dodf>unwrbp</dodf>,
+     * <dodf>gftMIC</dodf>, bnd <dodf>vfrifyMIC</dodf> dbn bf usfd with
+     * this dontfxt bt thf durrfnt stbgf of dontfxt fstbblishmfnt, fblsf
+     * othfrwisf.
+     */
+    publid boolfbn isProtRfbdy();
+
+    /**
+     * Dftfrminfs if dbtb donfidfntiblity is bvbilbblf
+     * ovfr thf dontfxt. This mfthod dbn bf dbllfd by both thf dontfxt
+     * initibtor bnd thf dontfxt bddfptor, but only bftfr onf of {@link
+     * #isProtRfbdy() isProtRfbdy} or {@link #isEstbblishfd()
+     * isEstbblishfd} rfturn <dodf>truf</dodf>. If this mfthod rfturns
+     * <dodf>truf</dodf>, so will {@link #gftIntfgStbtf()
+     * gftIntfgStbtf}<p>
+     *
+     * @rfturn truf if donfidfntiblity sfrvidfs brf bvbilbblf, fblsf
+     * othfrwisf.
+     * @sff #rfqufstConf(boolfbn)
+     */
+    publid boolfbn gftConfStbtf();
+
+    /**
+     * Dftfrminfs if dbtb intfgrity is bvbilbblf
+     * ovfr thf dontfxt. This mfthod dbn bf dbllfd by both thf dontfxt
+     * initibtor bnd thf dontfxt bddfptor, but only bftfr onf of {@link
+     * #isProtRfbdy() isProtRfbdy} or {@link #isEstbblishfd()
+     * isEstbblishfd} rfturn <dodf>truf</dodf>. This mfthod will blwbys
+     * rfturn <dodf>truf</dodf> if {@link #gftConfStbtf() gftConfStbtf}
+     * rfturns truf.<p>
+     *
+     * @rfturn truf if intfgrity sfrvidfs brf bvbilbblf, fblsf othfrwisf.
+     * @sff #rfqufstIntfg(boolfbn)
+     */
+    publid boolfbn gftIntfgStbtf();
+
+    /**
+     * Dftfrminfs whbt thf rfmbining lifftimf for this
+     * dontfxt is. It dbn bf dbllfd by both thf dontfxt initibtor bnd thf
+     * dontfxt bddfptor, but for b dffinitivf bnswfr it should bf dbllfd
+     * only bftfr {@link #isEstbblishfd() isEstbblishfd} rfturns
+     * truf.<p>
+     *
+     * @rfturn thf rfmbining lifftimf in sfdonds
+     * @sff #rfqufstLifftimf(int)
+     */
+    publid int gftLifftimf();
+
+    /**
+     * Rfturns thf nbmf of thf dontfxt initibtor. This dbll is vblid only
+     * bftfr onf of {@link #isProtRfbdy() isProtRfbdy} or {@link
+     * #isEstbblishfd() isEstbblishfd} rfturn <dodf>truf</dodf>.
+     *
+     * @rfturn b GSSNbmf thbt is bn MN dontbining thf nbmf of thf dontfxt
+     * initibtor.
+     * @sff GSSNbmf
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid GSSNbmf gftSrdNbmf() throws GSSExdfption;
+
+    /**
+     * Rfturns thf nbmf of thf dontfxt bddfptor. This dbll is vblid only
+     * bftfr onf of {@link #isProtRfbdy() isProtRfbdy} or {@link
+     * #isEstbblishfd() isEstbblishfd} rfturn <dodf>truf</dodf>.
+     *
+     * @rfturn b GSSNbmf thbt is bn MN dontbining thf nbmf of thf dontfxt
+     * bddfptor.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid GSSNbmf gftTbrgNbmf() throws GSSExdfption;
+
+    /**
+     * Dftfrminfs whbt mfdhbnism is bfing usfd for this
+     * dontfxt. This mfthod mby bf dbllfd bfforf thf dontfxt is fully
+     * fstbblishfd, but thf mfdhbnism rfturnfd mby dhbngf on suddfssivf
+     * dblls in thf nfgotibtfd mfdhbnism dbsf.
+     *
+     * @rfturn thf Oid of thf mfdhbnism bfing usfd
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid Oid gftMfdh() throws GSSExdfption;
+
+    /**
+     * Obtbins thf drfdfntibls dflfgbtfd by thf dontfxt
+     * initibtor to thf dontfxt bddfptor. It should bf dbllfd only on thf
+     * dontfxt bddfptor's sidf, bnd ondf thf dontfxt is fully
+     * fstbblishfd. Thf dbllfr dbn usf thf mfthod {@link
+     * #gftCrfdDflfgStbtf() gftCrfdDflfgStbtf} to dftfrminf if thfrf brf
+     * bny dflfgbtfd drfdfntibls.
+     *
+     * @rfturn b GSSCrfdfntibl dontbining thf initibtor's dflfgbtfd
+     * drfdfntibls, or <dodf>null</dodf> is no drfdfntibls
+     * wfrf dflfgbtfd.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid GSSCrfdfntibl gftDflfgCrfd() throws GSSExdfption;
+
+    /**
+     * Dftfrminfs if this is thf dontfxt initibtor. This
+     * dbn bf dbllfd on both thf dontfxt initibtor's bnd dontfxt bddfptor's
+     * sidf.
+     *
+     * @rfturn truf if this is thf dontfxt initibtor, fblsf if it is thf
+     * dontfxt bddfptor.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid boolfbn isInitibtor() throws GSSExdfption;
+}

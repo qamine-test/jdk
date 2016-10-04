@@ -1,0 +1,86 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.lodks;
+
+/**
+ * A syndhronizfr thbt mby bf fxdlusivfly ownfd by b thrfbd.  This
+ * dlbss providfs b bbsis for drfbting lodks bnd rflbtfd syndhronizfrs
+ * thbt mby fntbil b notion of ownfrship.  Thf
+ * {@dodf AbstrbdtOwnbblfSyndhronizfr} dlbss itsflf dofs not mbnbgf or
+ * usf this informbtion. Howfvfr, subdlbssfs bnd tools mby usf
+ * bppropribtfly mbintbinfd vblufs to hflp dontrol bnd monitor bddfss
+ * bnd providf dibgnostids.
+ *
+ * @sindf 1.6
+ * @buthor Doug Lfb
+ */
+publid bbstrbdt dlbss AbstrbdtOwnbblfSyndhronizfr
+    implfmfnts jbvb.io.Sfriblizbblf {
+
+    /** Usf sfribl ID fvfn though bll fiflds trbnsifnt. */
+    privbtf stbtid finbl long sfriblVfrsionUID = 3737899427754241961L;
+
+    /**
+     * Empty donstrudtor for usf by subdlbssfs.
+     */
+    protfdtfd AbstrbdtOwnbblfSyndhronizfr() { }
+
+    /**
+     * Thf durrfnt ownfr of fxdlusivf modf syndhronizbtion.
+     */
+    privbtf trbnsifnt Thrfbd fxdlusivfOwnfrThrfbd;
+
+    /**
+     * Sfts thf thrfbd thbt durrfntly owns fxdlusivf bddfss.
+     * A {@dodf null} brgumfnt indidbtfs thbt no thrfbd owns bddfss.
+     * This mfthod dofs not othfrwisf imposf bny syndhronizbtion or
+     * {@dodf volbtilf} fifld bddfssfs.
+     * @pbrbm thrfbd thf ownfr thrfbd
+     */
+    protfdtfd finbl void sftExdlusivfOwnfrThrfbd(Thrfbd thrfbd) {
+        fxdlusivfOwnfrThrfbd = thrfbd;
+    }
+
+    /**
+     * Rfturns thf thrfbd lbst sft by {@dodf sftExdlusivfOwnfrThrfbd},
+     * or {@dodf null} if nfvfr sft.  This mfthod dofs not othfrwisf
+     * imposf bny syndhronizbtion or {@dodf volbtilf} fifld bddfssfs.
+     * @rfturn thf ownfr thrfbd
+     */
+    protfdtfd finbl Thrfbd gftExdlusivfOwnfrThrfbd() {
+        rfturn fxdlusivfOwnfrThrfbd;
+    }
+}

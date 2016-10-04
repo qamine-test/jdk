@@ -1,0 +1,381 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2008-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.formbt;
+
+import jbvb.tfxt.DfdimblFormbtSymbols;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshSft;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+
+/**
+ * Lodblizfd dfdimbl stylf usfd in dbtf bnd timf formbtting.
+ * <p>
+ * A signifidbnt pbrt of dfbling with dbtfs bnd timfs is thf lodblizbtion.
+ * This dlbss bdts bs b dfntrbl point for bddfssing thf informbtion.
+ *
+ * @implSpfd
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss DfdimblStylf {
+
+    /**
+     * Thf stbndbrd sft of non-lodblizfd dfdimbl stylf symbols.
+     * <p>
+     * This usfs stbndbrd ASCII dhbrbdtfrs for zfro, positivf, nfgbtivf bnd b dot for thf dfdimbl point.
+     */
+    publid stbtid finbl DfdimblStylf STANDARD = nfw DfdimblStylf('0', '+', '-', '.');
+    /**
+     * Thf dbdhf of DfdimblStylf instbndfs.
+     */
+    privbtf stbtid finbl CondurrfntMbp<Lodblf, DfdimblStylf> CACHE = nfw CondurrfntHbshMbp<>(16, 0.75f, 2);
+
+    /**
+     * Thf zfro digit.
+     */
+    privbtf finbl dhbr zfroDigit;
+    /**
+     * Thf positivf sign.
+     */
+    privbtf finbl dhbr positivfSign;
+    /**
+     * Thf nfgbtivf sign.
+     */
+    privbtf finbl dhbr nfgbtivfSign;
+    /**
+     * Thf dfdimbl sfpbrbtor.
+     */
+    privbtf finbl dhbr dfdimblSfpbrbtor;
+
+    //-----------------------------------------------------------------------
+    /**
+     * Lists bll thf lodblfs thbt brf supportfd.
+     * <p>
+     * Thf lodblf 'fn_US' will blwbys bf prfsfnt.
+     *
+     * @rfturn b Sft of Lodblfs for whidh lodblizbtion is supportfd
+     */
+    publid stbtid Sft<Lodblf> gftAvbilbblfLodblfs() {
+        Lodblf[] l = DfdimblFormbtSymbols.gftAvbilbblfLodblfs();
+        Sft<Lodblf> lodblfs = nfw HbshSft<>(l.lfngth);
+        Collfdtions.bddAll(lodblfs, l);
+        rfturn lodblfs;
+    }
+
+    /**
+     * Obtbins thf DfdimblStylf for thf dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>
+     * This mfthod providfs bddfss to lodblf sfnsitivf dfdimbl stylf symbols.
+     * <p>
+     * This is fquivblfnt to dblling
+     * {@link #of(Lodblf)
+     *     of(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     *
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn thf dfdimbl stylf, not null
+     */
+    publid stbtid DfdimblStylf ofDffbultLodblf() {
+        rfturn of(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Obtbins thf DfdimblStylf for thf spfdififd lodblf.
+     * <p>
+     * This mfthod providfs bddfss to lodblf sfnsitivf dfdimbl stylf symbols.
+     *
+     * @pbrbm lodblf  thf lodblf, not null
+     * @rfturn thf dfdimbl stylf, not null
+     */
+    publid stbtid DfdimblStylf of(Lodblf lodblf) {
+        Objfdts.rfquirfNonNull(lodblf, "lodblf");
+        DfdimblStylf info = CACHE.gft(lodblf);
+        if (info == null) {
+            info = drfbtf(lodblf);
+            CACHE.putIfAbsfnt(lodblf, info);
+            info = CACHE.gft(lodblf);
+        }
+        rfturn info;
+    }
+
+    privbtf stbtid DfdimblStylf drfbtf(Lodblf lodblf) {
+        DfdimblFormbtSymbols oldSymbols = DfdimblFormbtSymbols.gftInstbndf(lodblf);
+        dhbr zfroDigit = oldSymbols.gftZfroDigit();
+        dhbr positivfSign = '+';
+        dhbr nfgbtivfSign = oldSymbols.gftMinusSign();
+        dhbr dfdimblSfpbrbtor = oldSymbols.gftDfdimblSfpbrbtor();
+        if (zfroDigit == '0' && nfgbtivfSign == '-' && dfdimblSfpbrbtor == '.') {
+            rfturn STANDARD;
+        }
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfstridtfd donstrudtor.
+     *
+     * @pbrbm zfroChbr  thf dhbrbdtfr to usf for thf digit of zfro
+     * @pbrbm positivfSignChbr  thf dhbrbdtfr to usf for thf positivf sign
+     * @pbrbm nfgbtivfSignChbr  thf dhbrbdtfr to usf for thf nfgbtivf sign
+     * @pbrbm dfdimblPointChbr  thf dhbrbdtfr to usf for thf dfdimbl point
+     */
+    privbtf DfdimblStylf(dhbr zfroChbr, dhbr positivfSignChbr, dhbr nfgbtivfSignChbr, dhbr dfdimblPointChbr) {
+        this.zfroDigit = zfroChbr;
+        this.positivfSign = positivfSignChbr;
+        this.nfgbtivfSign = nfgbtivfSignChbr;
+        this.dfdimblSfpbrbtor = dfdimblPointChbr;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf dhbrbdtfr thbt rfprfsfnts zfro.
+     * <p>
+     * Thf dhbrbdtfr usfd to rfprfsfnt digits mby vbry by dulturf.
+     * This mfthod spfdififs thf zfro dhbrbdtfr to usf, whidh implifs thf dhbrbdtfrs for onf to ninf.
+     *
+     * @rfturn thf dhbrbdtfr for zfro
+     */
+    publid dhbr gftZfroDigit() {
+        rfturn zfroDigit;
+    }
+
+    /**
+     * Rfturns b dopy of thf info with b nfw dhbrbdtfr thbt rfprfsfnts zfro.
+     * <p>
+     * Thf dhbrbdtfr usfd to rfprfsfnt digits mby vbry by dulturf.
+     * This mfthod spfdififs thf zfro dhbrbdtfr to usf, whidh implifs thf dhbrbdtfrs for onf to ninf.
+     *
+     * @pbrbm zfroDigit  thf dhbrbdtfr for zfro
+     * @rfturn  b dopy with b nfw dhbrbdtfr thbt rfprfsfnts zfro, not null
+
+     */
+    publid DfdimblStylf withZfroDigit(dhbr zfroDigit) {
+        if (zfroDigit == this.zfroDigit) {
+            rfturn this;
+        }
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf dhbrbdtfr thbt rfprfsfnts thf positivf sign.
+     * <p>
+     * Thf dhbrbdtfr usfd to rfprfsfnt b positivf numbfr mby vbry by dulturf.
+     * This mfthod spfdififs thf dhbrbdtfr to usf.
+     *
+     * @rfturn thf dhbrbdtfr for thf positivf sign
+     */
+    publid dhbr gftPositivfSign() {
+        rfturn positivfSign;
+    }
+
+    /**
+     * Rfturns b dopy of thf info with b nfw dhbrbdtfr thbt rfprfsfnts thf positivf sign.
+     * <p>
+     * Thf dhbrbdtfr usfd to rfprfsfnt b positivf numbfr mby vbry by dulturf.
+     * This mfthod spfdififs thf dhbrbdtfr to usf.
+     *
+     * @pbrbm positivfSign  thf dhbrbdtfr for thf positivf sign
+     * @rfturn  b dopy with b nfw dhbrbdtfr thbt rfprfsfnts thf positivf sign, not null
+     */
+    publid DfdimblStylf withPositivfSign(dhbr positivfSign) {
+        if (positivfSign == this.positivfSign) {
+            rfturn this;
+        }
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf dhbrbdtfr thbt rfprfsfnts thf nfgbtivf sign.
+     * <p>
+     * Thf dhbrbdtfr usfd to rfprfsfnt b nfgbtivf numbfr mby vbry by dulturf.
+     * This mfthod spfdififs thf dhbrbdtfr to usf.
+     *
+     * @rfturn thf dhbrbdtfr for thf nfgbtivf sign
+     */
+    publid dhbr gftNfgbtivfSign() {
+        rfturn nfgbtivfSign;
+    }
+
+    /**
+     * Rfturns b dopy of thf info with b nfw dhbrbdtfr thbt rfprfsfnts thf nfgbtivf sign.
+     * <p>
+     * Thf dhbrbdtfr usfd to rfprfsfnt b nfgbtivf numbfr mby vbry by dulturf.
+     * This mfthod spfdififs thf dhbrbdtfr to usf.
+     *
+     * @pbrbm nfgbtivfSign  thf dhbrbdtfr for thf nfgbtivf sign
+     * @rfturn  b dopy with b nfw dhbrbdtfr thbt rfprfsfnts thf nfgbtivf sign, not null
+     */
+    publid DfdimblStylf withNfgbtivfSign(dhbr nfgbtivfSign) {
+        if (nfgbtivfSign == this.nfgbtivfSign) {
+            rfturn this;
+        }
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf dhbrbdtfr thbt rfprfsfnts thf dfdimbl point.
+     * <p>
+     * Thf dhbrbdtfr usfd to rfprfsfnt b dfdimbl point mby vbry by dulturf.
+     * This mfthod spfdififs thf dhbrbdtfr to usf.
+     *
+     * @rfturn thf dhbrbdtfr for thf dfdimbl point
+     */
+    publid dhbr gftDfdimblSfpbrbtor() {
+        rfturn dfdimblSfpbrbtor;
+    }
+
+    /**
+     * Rfturns b dopy of thf info with b nfw dhbrbdtfr thbt rfprfsfnts thf dfdimbl point.
+     * <p>
+     * Thf dhbrbdtfr usfd to rfprfsfnt b dfdimbl point mby vbry by dulturf.
+     * This mfthod spfdififs thf dhbrbdtfr to usf.
+     *
+     * @pbrbm dfdimblSfpbrbtor  thf dhbrbdtfr for thf dfdimbl point
+     * @rfturn  b dopy with b nfw dhbrbdtfr thbt rfprfsfnts thf dfdimbl point, not null
+     */
+    publid DfdimblStylf withDfdimblSfpbrbtor(dhbr dfdimblSfpbrbtor) {
+        if (dfdimblSfpbrbtor == this.dfdimblSfpbrbtor) {
+            rfturn this;
+        }
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks whfthfr thf dhbrbdtfr is b digit, bbsfd on thf durrfntly sft zfro dhbrbdtfr.
+     *
+     * @pbrbm dh  thf dhbrbdtfr to dhfdk
+     * @rfturn thf vbluf, 0 to 9, of thf dhbrbdtfr, or -1 if not b digit
+     */
+    int donvfrtToDigit(dhbr dh) {
+        int vbl = dh - zfroDigit;
+        rfturn (vbl >= 0 && vbl <= 9) ? vbl : -1;
+    }
+
+    /**
+     * Convfrts thf input numfrid tfxt to thf intfrnbtionblizfd form using thf zfro dhbrbdtfr.
+     *
+     * @pbrbm numfridTfxt  thf tfxt, donsisting of digits 0 to 9, to donvfrt, not null
+     * @rfturn thf intfrnbtionblizfd tfxt, not null
+     */
+    String donvfrtNumbfrToI18N(String numfridTfxt) {
+        if (zfroDigit == '0') {
+            rfturn numfridTfxt;
+        }
+        int diff = zfroDigit - '0';
+        dhbr[] brrby = numfridTfxt.toChbrArrby();
+        for (int i = 0; i < brrby.lfngth; i++) {
+            brrby[i] = (dhbr) (brrby[i] + diff);
+        }
+        rfturn nfw String(brrby);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this DfdimblStylf is fqubl to bnothfr DfdimblStylf.
+     *
+     * @pbrbm obj  thf objfdt to dhfdk, null rfturns fblsf
+     * @rfturn truf if this is fqubl to thf othfr dbtf
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof DfdimblStylf) {
+            DfdimblStylf othfr = (DfdimblStylf) obj;
+            rfturn (zfroDigit == othfr.zfroDigit && positivfSign == othfr.positivfSign &&
+                    nfgbtivfSign == othfr.nfgbtivfSign && dfdimblSfpbrbtor == othfr.dfdimblSfpbrbtor);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * A hbsh dodf for this DfdimblStylf.
+     *
+     * @rfturn b suitbblf hbsh dodf
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn zfroDigit + positivfSign + nfgbtivfSign + dfdimblSfpbrbtor;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b string dfsdribing this DfdimblStylf.
+     *
+     * @rfturn b string dfsdription, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn "DfdimblStylf[" + zfroDigit + positivfSign + nfgbtivfSign + dfdimblSfpbrbtor + "]";
+    }
+
+}

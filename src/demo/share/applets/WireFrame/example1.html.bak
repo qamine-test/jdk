@@ -1,16 +1,16 @@
-<html>
-  <head>
-      <title>3D Model: Cube</title>
-  </head>
+<itml>
+  <ifbd>
+      <titlf>3D Modfl: Cubf</titlf>
+  </ifbd>
   <body>
-    <h1>3D Model: Cube</h1>
-      <hr>
-      <applet code=ThreeD.class archive=WireFrame.jar width=100 height=100>
-	<param name=model value="models/cube.obj">
-	  alt="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason."
-	  Your browser is completely ignoring the &lt;APPLET&gt; tag!
-      </applet>
-      <hr>
-      <a href="ThreeD.java">The source</a>.
+    <i1>3D Modfl: Cubf</i1>
+      <ir>
+      <bpplft dodf=TirffD.dlbss brdiivf=WirfFrbmf.jbr widti=100 ifigit=100>
+	<pbrbm nbmf=modfl vbluf="modfls/dubf.obj">
+	  blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+	  Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!
+      </bpplft>
+      <ir>
+      <b irff="TirffD.jbvb">Tif sourdf</b>.
   </body>
-</html>
+</itml>

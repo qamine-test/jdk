@@ -1,0 +1,306 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtf;
+
+/**
+ * <P>A thin wrbppfr bround b millisfdond vbluf thbt bllows
+ * JDBC to idfntify this bs bn SQL <dodf>DATE</dodf> vbluf.  A
+ * millisfdonds vbluf rfprfsfnts thf numbfr of millisfdonds thbt
+ * hbvf pbssfd sindf Jbnubry 1, 1970 00:00:00.000 GMT.
+ * <p>
+ * To donform with thf dffinition of SQL <dodf>DATE</dodf>, thf
+ * millisfdond vblufs wrbppfd by b <dodf>jbvb.sql.Dbtf</dodf> instbndf
+ * must bf 'normblizfd' by sftting thf
+ * hours, minutfs, sfdonds, bnd millisfdonds to zfro in thf pbrtidulbr
+ * timf zonf with whidh thf instbndf is bssodibtfd.
+ */
+publid dlbss Dbtf fxtfnds jbvb.util.Dbtf {
+
+    /**
+     * Construdts b <dodf>Dbtf</dodf> objfdt initiblizfd with thf givfn
+     * yfbr, month, bnd dby.
+     * <P>
+     * Thf rfsult is undffinfd if b givfn brgumfnt is out of bounds.
+     *
+     * @pbrbm yfbr thf yfbr minus 1900; must bf 0 to 8099. (Notf thbt
+     *        8099 is 9999 minus 1900.)
+     * @pbrbm month 0 to 11
+     * @pbrbm dby 1 to 31
+     * @dfprfdbtfd instfbd usf thf donstrudtor <dodf>Dbtf(long dbtf)</dodf>
+     */
+    @Dfprfdbtfd
+    publid Dbtf(int yfbr, int month, int dby) {
+        supfr(yfbr, month, dby);
+    }
+
+    /**
+     * Construdts b <dodf>Dbtf</dodf> objfdt using thf givfn millisfdonds
+     * timf vbluf.  If thf givfn millisfdonds vbluf dontbins timf
+     * informbtion, thf drivfr will sft thf timf domponfnts to thf
+     * timf in thf dffbult timf zonf (thf timf zonf of thf Jbvb virtubl
+     * mbdhinf running thf bpplidbtion) thbt dorrfsponds to zfro GMT.
+     *
+     * @pbrbm dbtf millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT not
+     *        to fxdffd thf millisfdonds rfprfsfntbtion for thf yfbr 8099.
+     *        A nfgbtivf numbfr indidbtfs thf numbfr of millisfdonds
+     *        bfforf Jbnubry 1, 1970, 00:00:00 GMT.
+     */
+    publid Dbtf(long dbtf) {
+        // If thf millisfdond dbtf vbluf dontbins timf info, mbsk it out.
+        supfr(dbtf);
+
+    }
+
+    /**
+     * Sfts bn fxisting <dodf>Dbtf</dodf> objfdt
+     * using thf givfn millisfdonds timf vbluf.
+     * If thf givfn millisfdonds vbluf dontbins timf informbtion,
+     * thf drivfr will sft thf timf domponfnts to thf
+     * timf in thf dffbult timf zonf (thf timf zonf of thf Jbvb virtubl
+     * mbdhinf running thf bpplidbtion) thbt dorrfsponds to zfro GMT.
+     *
+     * @pbrbm dbtf millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT not
+     *        to fxdffd thf millisfdonds rfprfsfntbtion for thf yfbr 8099.
+     *        A nfgbtivf numbfr indidbtfs thf numbfr of millisfdonds
+     *        bfforf Jbnubry 1, 1970, 00:00:00 GMT.
+     */
+    publid void sftTimf(long dbtf) {
+        // If thf millisfdond dbtf vbluf dontbins timf info, mbsk it out.
+        supfr.sftTimf(dbtf);
+    }
+
+    /**
+     * Convfrts b string in JDBC dbtf fsdbpf formbt to
+     * b <dodf>Dbtf</dodf> vbluf.
+     *
+     * @pbrbm s b <dodf>String</dodf> objfdt rfprfsfnting b dbtf in
+     *        in thf formbt "yyyy-[m]m-[d]d". Thf lfbding zfro for <dodf>mm</dodf>
+     * bnd <dodf>dd</dodf> mby blso bf omittfd.
+     * @rfturn b <dodf>jbvb.sql.Dbtf</dodf> objfdt rfprfsfnting thf
+     *         givfn dbtf
+     * @throws IllfgblArgumfntExdfption if thf dbtf givfn is not in thf
+     *         JDBC dbtf fsdbpf formbt (yyyy-[m]m-[d]d)
+     */
+    publid stbtid Dbtf vblufOf(String s) {
+        finbl int YEAR_LENGTH = 4;
+        finbl int MONTH_LENGTH = 2;
+        finbl int DAY_LENGTH = 2;
+        finbl int MAX_MONTH = 12;
+        finbl int MAX_DAY = 31;
+        int firstDbsh;
+        int sfdondDbsh;
+        Dbtf d = null;
+        if (s == null) {
+            throw nfw jbvb.lbng.IllfgblArgumfntExdfption();
+        }
+
+        firstDbsh = s.indfxOf('-');
+        sfdondDbsh = s.indfxOf('-', firstDbsh + 1);
+
+        if ((firstDbsh > 0) && (sfdondDbsh > 0) && (sfdondDbsh < s.lfngth() - 1)) {
+            String yyyy = s.substring(0, firstDbsh);
+            String mm = s.substring(firstDbsh + 1, sfdondDbsh);
+            String dd = s.substring(sfdondDbsh + 1);
+            if (yyyy.lfngth() == YEAR_LENGTH &&
+                    (mm.lfngth() >= 1 && mm.lfngth() <= MONTH_LENGTH) &&
+                    (dd.lfngth() >= 1 && dd.lfngth() <= DAY_LENGTH)) {
+                int yfbr = Intfgfr.pbrsfInt(yyyy);
+                int month = Intfgfr.pbrsfInt(mm);
+                int dby = Intfgfr.pbrsfInt(dd);
+
+                if ((month >= 1 && month <= MAX_MONTH) && (dby >= 1 && dby <= MAX_DAY)) {
+                    d = nfw Dbtf(yfbr - 1900, month - 1, dby);
+                }
+            }
+        }
+        if (d == null) {
+            throw nfw jbvb.lbng.IllfgblArgumfntExdfption();
+        }
+
+        rfturn d;
+
+    }
+
+
+    /**
+     * Formbts b dbtf in thf dbtf fsdbpf formbt yyyy-mm-dd.
+     *
+     * @rfturn b String in yyyy-mm-dd formbt
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid String toString () {
+        int yfbr = supfr.gftYfbr() + 1900;
+        int month = supfr.gftMonth() + 1;
+        int dby = supfr.gftDbtf();
+
+        dhbr buf[] = "2000-00-00".toChbrArrby();
+        buf[0] = Chbrbdtfr.forDigit(yfbr/1000,10);
+        buf[1] = Chbrbdtfr.forDigit((yfbr/100)%10,10);
+        buf[2] = Chbrbdtfr.forDigit((yfbr/10)%10,10);
+        buf[3] = Chbrbdtfr.forDigit(yfbr%10,10);
+        buf[5] = Chbrbdtfr.forDigit(month/10,10);
+        buf[6] = Chbrbdtfr.forDigit(month%10,10);
+        buf[8] = Chbrbdtfr.forDigit(dby/10,10);
+        buf[9] = Chbrbdtfr.forDigit(dby%10,10);
+
+        rfturn nfw String(buf);
+    }
+
+    // Ovfrridf bll thf timf opfrbtions inhfritfd from jbvb.util.Dbtf;
+
+   /**
+    * This mfthod is dfprfdbtfd bnd should not bf usfd bfdbusf SQL Dbtf
+    * vblufs do not hbvf b timf domponfnt.
+    *
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if this mfthod is invokfd
+    * @sff #sftHours
+    */
+    @Dfprfdbtfd
+    publid int gftHours() {
+        throw nfw jbvb.lbng.IllfgblArgumfntExdfption();
+    }
+
+   /**
+    * This mfthod is dfprfdbtfd bnd should not bf usfd bfdbusf SQL Dbtf
+    * vblufs do not hbvf b timf domponfnt.
+    *
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if this mfthod is invokfd
+    * @sff #sftMinutfs
+    */
+    @Dfprfdbtfd
+    publid int gftMinutfs() {
+        throw nfw jbvb.lbng.IllfgblArgumfntExdfption();
+    }
+
+   /**
+    * This mfthod is dfprfdbtfd bnd should not bf usfd bfdbusf SQL Dbtf
+    * vblufs do not hbvf b timf domponfnt.
+    *
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if this mfthod is invokfd
+    * @sff #sftSfdonds
+    */
+    @Dfprfdbtfd
+    publid int gftSfdonds() {
+        throw nfw jbvb.lbng.IllfgblArgumfntExdfption();
+    }
+
+   /**
+    * This mfthod is dfprfdbtfd bnd should not bf usfd bfdbusf SQL Dbtf
+    * vblufs do not hbvf b timf domponfnt.
+    *
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if this mfthod is invokfd
+    * @sff #gftHours
+    */
+    @Dfprfdbtfd
+    publid void sftHours(int i) {
+        throw nfw jbvb.lbng.IllfgblArgumfntExdfption();
+    }
+
+   /**
+    * This mfthod is dfprfdbtfd bnd should not bf usfd bfdbusf SQL Dbtf
+    * vblufs do not hbvf b timf domponfnt.
+    *
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if this mfthod is invokfd
+    * @sff #gftMinutfs
+    */
+    @Dfprfdbtfd
+    publid void sftMinutfs(int i) {
+        throw nfw jbvb.lbng.IllfgblArgumfntExdfption();
+    }
+
+   /**
+    * This mfthod is dfprfdbtfd bnd should not bf usfd bfdbusf SQL Dbtf
+    * vblufs do not hbvf b timf domponfnt.
+    *
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if this mfthod is invokfd
+    * @sff #gftSfdonds
+    */
+    @Dfprfdbtfd
+    publid void sftSfdonds(int i) {
+        throw nfw jbvb.lbng.IllfgblArgumfntExdfption();
+    }
+
+   /**
+    * Privbtf sfribl vfrsion uniquf ID to fnsurf sfriblizbtion
+    * dompbtibility.
+    */
+    stbtid finbl long sfriblVfrsionUID = 1511598038487230103L;
+
+    /**
+     * Obtbins bn instbndf of {@dodf Dbtf} from b {@link LodblDbtf} objfdt
+     * with thf sbmf yfbr, month bnd dby of month vbluf bs thf givfn
+     * {@dodf LodblDbtf}.
+     * <p>
+     * Thf providfd {@dodf LodblDbtf} is intfrprftfd bs thf lodbl dbtf
+     * in thf lodbl timf zonf.
+     *
+     * @pbrbm dbtf b {@dodf LodblDbtf} to donvfrt
+     * @rfturn b {@dodf Dbtf} objfdt
+     * @fxdfption NullPointfrExdfption if {@dodf dbtf} is null
+     * @sindf 1.8
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid stbtid Dbtf vblufOf(LodblDbtf dbtf) {
+        rfturn nfw Dbtf(dbtf.gftYfbr() - 1900, dbtf.gftMonthVbluf() -1,
+                        dbtf.gftDbyOfMonth());
+    }
+
+    /**
+     * Convfrts this {@dodf Dbtf} objfdt to b {@dodf LodblDbtf}
+     * <p>
+     * Thf donvfrsion drfbtfs b {@dodf LodblDbtf} thbt rfprfsfnts thf sbmf
+     * dbtf vbluf bs this {@dodf Dbtf} in lodbl timf zonf
+     *
+     * @rfturn b {@dodf LodblDbtf} objfdt rfprfsfnting thf sbmf dbtf vbluf
+     *
+     * @sindf 1.8
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid LodblDbtf toLodblDbtf() {
+        rfturn LodblDbtf.of(gftYfbr() + 1900, gftMonth() + 1, gftDbtf());
+    }
+
+   /**
+    * This mfthod blwbys throws bn UnsupportfdOpfrbtionExdfption bnd should
+    * not bf usfd bfdbusf SQL {@dodf Dbtf} vblufs do not hbvf b timf
+    * domponfnt.
+    *
+    * @fxdfption jbvb.lbng.UnsupportfdOpfrbtionExdfption if this mfthod is invokfd
+    */
+    @Ovfrridf
+    publid Instbnt toInstbnt() {
+        throw nfw jbvb.lbng.UnsupportfdOpfrbtionExdfption();
+    }
+}

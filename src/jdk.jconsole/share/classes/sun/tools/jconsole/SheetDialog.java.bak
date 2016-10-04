@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.tfxt.*;
 
-import static javax.swing.JOptionPane.*;
+import stbtid jbvbx.swing.JOptionPbnf.*;
 
-@SuppressWarnings("serial")
-public final class SheetDialog {
-    // Reusable objects
-    private static Rectangle iconR = new Rectangle();
-    private static Rectangle textR = new Rectangle();
-    private static Rectangle viewR = new Rectangle();
-    private static Insets viewInsets = new Insets(0, 0, 0, 0);
+@SupprfssWbrnings("sfribl")
+publid finbl dlbss SifftDiblog {
+    // Rfusbblf objfdts
+    privbtf stbtid Rfdtbnglf idonR = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf tfxtR = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf vifwR = nfw Rfdtbnglf();
+    privbtf stbtid Insfts vifwInsfts = nfw Insfts(0, 0, 0, 0);
 
-    /** Don't let anyone instantiate this class */
-    private SheetDialog() {
+    /** Don't lft bnyonf instbntibtf tiis dlbss */
+    privbtf SifftDiblog() {
     }
 
-    static JOptionPane showOptionDialog(final VMPanel vmPanel, Object message,
-                                        int optionType, int messageType,
-                                        Icon icon, Object[] options, Object initialValue) {
+    stbtid JOptionPbnf siowOptionDiblog(finbl VMPbnfl vmPbnfl, Objfdt mfssbgf,
+                                        int optionTypf, int mfssbgfTypf,
+                                        Idon idon, Objfdt[] options, Objfdt initiblVbluf) {
 
-        JRootPane rootPane = SwingUtilities.getRootPane(vmPanel);
-        JPanel glassPane = (JPanel)rootPane.getGlassPane();
+        JRootPbnf rootPbnf = SwingUtilitifs.gftRootPbnf(vmPbnfl);
+        JPbnfl glbssPbnf = (JPbnfl)rootPbnf.gftGlbssPbnf();
 
-        if (!(glassPane instanceof SlideAndFadeGlassPane)) {
-            glassPane = new SlideAndFadeGlassPane();
-            glassPane.setName(rootPane.getName()+".glassPane");
-            rootPane.setGlassPane(glassPane);
-            rootPane.revalidate();
+        if (!(glbssPbnf instbndfof SlidfAndFbdfGlbssPbnf)) {
+            glbssPbnf = nfw SlidfAndFbdfGlbssPbnf();
+            glbssPbnf.sftNbmf(rootPbnf.gftNbmf()+".glbssPbnf");
+            rootPbnf.sftGlbssPbnf(glbssPbnf);
+            rootPbnf.rfvblidbtf();
         }
 
-        final SlideAndFadeGlassPane safGlassPane = (SlideAndFadeGlassPane)glassPane;
+        finbl SlidfAndFbdfGlbssPbnf sbfGlbssPbnf = (SlidfAndFbdfGlbssPbnf)glbssPbnf;
 
-        // Workaround for the fact that JOptionPane does not handle
-        // limiting the width when using multi-line html messages.
-        // See Swing bug 5074006 and JConsole bug 6426317
-        message = fixWrapping(message, rootPane.getWidth() - 75); // Leave room for icon
+        // Workbround for tif fbdt tibt JOptionPbnf dofs not ibndlf
+        // limiting tif widti wifn using multi-linf itml mfssbgfs.
+        // Sff Swing bug 5074006 bnd JConsolf bug 6426317
+        mfssbgf = fixWrbpping(mfssbgf, rootPbnf.gftWidti() - 75); // Lfbvf room for idon
 
-        final SheetOptionPane optionPane = new SheetOptionPane(message, messageType, optionType,
-                                                           icon, options, initialValue);
+        finbl SifftOptionPbnf optionPbnf = nfw SifftOptionPbnf(mfssbgf, mfssbgfTypf, optionTypf,
+                                                           idon, options, initiblVbluf);
 
-        optionPane.setComponentOrientation(vmPanel.getComponentOrientation());
-        optionPane.addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent event) {
-                if (event.getPropertyName().equals(VALUE_PROPERTY) &&
-                    event.getNewValue() != null &&
-                    event.getNewValue() != UNINITIALIZED_VALUE) {
-                    ((SlideAndFadeGlassPane)optionPane.getParent()).hide(optionPane);
+        optionPbnf.sftComponfntOrifntbtion(vmPbnfl.gftComponfntOrifntbtion());
+        optionPbnf.bddPropfrtyCibngfListfnfr(nfw PropfrtyCibngfListfnfr() {
+            publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+                if (fvfnt.gftPropfrtyNbmf().fqubls(VALUE_PROPERTY) &&
+                    fvfnt.gftNfwVbluf() != null &&
+                    fvfnt.gftNfwVbluf() != UNINITIALIZED_VALUE) {
+                    ((SlidfAndFbdfGlbssPbnf)optionPbnf.gftPbrfnt()).iidf(optionPbnf);
                 }
             }
         });
 
-        // Delay this (even though we're already on the EDT)
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                safGlassPane.show(optionPane);
+        // Dflby tiis (fvfn tiougi wf'rf blrfbdy on tif EDT)
+        EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                sbfGlbssPbnf.siow(optionPbnf);
             }
         });
 
-        return optionPane;
+        rfturn optionPbnf;
     }
 
-    private static Object fixWrapping(Object message, final int maxWidth) {
-        if (message instanceof Object[]) {
-            Object[] arr = (Object[])message;
-            for (int i = 0; i < arr.length; i++) {
-                arr[i] = fixWrapping(arr[i], maxWidth);
+    privbtf stbtid Objfdt fixWrbpping(Objfdt mfssbgf, finbl int mbxWidti) {
+        if (mfssbgf instbndfof Objfdt[]) {
+            Objfdt[] brr = (Objfdt[])mfssbgf;
+            for (int i = 0; i < brr.lfngti; i++) {
+                brr[i] = fixWrbpping(brr[i], mbxWidti);
             }
-        } else if (message instanceof String &&
-                   ((String)message).startsWith("<html>")) {
-            message = new JLabel((String)message) {
-                public Dimension getPreferredSize() {
-                    String text = getText();
-                    Insets insets = getInsets(viewInsets);
-                    FontMetrics fm = getFontMetrics(getFont());
-                    Dimension pref = super.getPreferredSize();
-                    Dimension min = getMinimumSize();
+        } flsf if (mfssbgf instbndfof String &&
+                   ((String)mfssbgf).stbrtsWiti("<itml>")) {
+            mfssbgf = nfw JLbbfl((String)mfssbgf) {
+                publid Dimfnsion gftPrfffrrfdSizf() {
+                    String tfxt = gftTfxt();
+                    Insfts insfts = gftInsfts(vifwInsfts);
+                    FontMftrids fm = gftFontMftrids(gftFont());
+                    Dimfnsion prff = supfr.gftPrfffrrfdSizf();
+                    Dimfnsion min = gftMinimumSizf();
 
-                    iconR.x = iconR.y = iconR.width = iconR.height = 0;
-                    textR.x = textR.y = textR.width = textR.height = 0;
-                    int dx = insets.left + insets.right;
-                    int dy = insets.top + insets.bottom;
-                    viewR.x = dx;
-                    viewR.y = dy;
-                    viewR.width = viewR.height = Short.MAX_VALUE;
+                    idonR.x = idonR.y = idonR.widti = idonR.ifigit = 0;
+                    tfxtR.x = tfxtR.y = tfxtR.widti = tfxtR.ifigit = 0;
+                    int dx = insfts.lfft + insfts.rigit;
+                    int dy = insfts.top + insfts.bottom;
+                    vifwR.x = dx;
+                    vifwR.y = dy;
+                    vifwR.widti = vifwR.ifigit = Siort.MAX_VALUE;
 
-                    View v = (View)getClientProperty("html");
+                    Vifw v = (Vifw)gftClifntPropfrty("itml");
                     if (v != null) {
-                        // Use pref width if less than 300, otherwise
-                        // min width up to size of window.
-                        int w = Math.min(maxWidth,
-                                         Math.min(pref.width,
-                                                  Math.max(min.width, 300)));
-                        v.setSize((float)w, 0F);
+                        // Usf prff widti if lfss tibn 300, otifrwisf
+                        // min widti up to sizf of window.
+                        int w = Mbti.min(mbxWidti,
+                                         Mbti.min(prff.widti,
+                                                  Mbti.mbx(min.widti, 300)));
+                        v.sftSizf((flobt)w, 0F);
 
-                        SwingUtilities.layoutCompoundLabel(this, fm, text, null,
-                                                           getVerticalAlignment(),
-                                                           getHorizontalAlignment(),
-                                                           getVerticalTextPosition(),
-                                                           getHorizontalTextPosition(),
-                                                           viewR, iconR, textR,
-                                                           getIconTextGap());
-                        return new Dimension(textR.width + dx,
-                                             textR.height + dy);
-                    } else {
-                        return pref; //  Should not happen
+                        SwingUtilitifs.lbyoutCompoundLbbfl(tiis, fm, tfxt, null,
+                                                           gftVfrtidblAlignmfnt(),
+                                                           gftHorizontblAlignmfnt(),
+                                                           gftVfrtidblTfxtPosition(),
+                                                           gftHorizontblTfxtPosition(),
+                                                           vifwR, idonR, tfxtR,
+                                                           gftIdonTfxtGbp());
+                        rfturn nfw Dimfnsion(tfxtR.widti + dx,
+                                             tfxtR.ifigit + dy);
+                    } flsf {
+                        rfturn prff; //  Siould not ibppfn
                     }
                 }
             };
         }
-        return message;
+        rfturn mfssbgf;
     }
 
-    private static class SlideAndFadeGlassPane extends JPanel {
-        SheetOptionPane optionPane;
+    privbtf stbtid dlbss SlidfAndFbdfGlbssPbnf fxtfnds JPbnfl {
+        SifftOptionPbnf optionPbnf;
 
-        int fade = 20;
-        boolean slideIn = true;
+        int fbdf = 20;
+        boolfbn slidfIn = truf;
 
-        SlideAndFadeGlassPane() {
-            super(null);
-            setVisible(false);
-            setOpaque(false);
+        SlidfAndFbdfGlbssPbnf() {
+            supfr(null);
+            sftVisiblf(fblsf);
+            sftOpbquf(fblsf);
 
-            // Grab mouse input, making the dialog modal
-            addMouseListener(new MouseAdapter() {});
+            // Grbb mousf input, mbking tif diblog modbl
+            bddMousfListfnfr(nfw MousfAdbptfr() {});
         }
 
-        public void show(SheetOptionPane optionPane) {
-            this.optionPane = optionPane;
-            removeAll();
-            add(optionPane);
-            setVisible(true);
-            slideIn = true;
-            revalidate();
-            repaint();
-            doSlide();
+        publid void siow(SifftOptionPbnf optionPbnf) {
+            tiis.optionPbnf = optionPbnf;
+            rfmovfAll();
+            bdd(optionPbnf);
+            sftVisiblf(truf);
+            slidfIn = truf;
+            rfvblidbtf();
+            rfpbint();
+            doSlidf();
         }
 
-        public void hide(SheetOptionPane optionPane) {
-            if (optionPane != this.optionPane) {
-                return;
+        publid void iidf(SifftOptionPbnf optionPbnf) {
+            if (optionPbnf != tiis.optionPbnf) {
+                rfturn;
             }
 
-            slideIn = false;
-            revalidate();
-            repaint();
-            doSlide();
+            slidfIn = fblsf;
+            rfvblidbtf();
+            rfpbint();
+            doSlidf();
         }
 
-        private void doSlide() {
-            if (optionPane.getParent() == null) {
-                return;
+        privbtf void doSlidf() {
+            if (optionPbnf.gftPbrfnt() == null) {
+                rfturn;
             }
 
-            if (optionPane.getWidth() == 0) {
-                optionPane.setSize(optionPane.getPreferredSize());
+            if (optionPbnf.gftWidti() == 0) {
+                optionPbnf.sftSizf(optionPbnf.gftPrfffrrfdSizf());
             }
 
-            int glassPaneWidth = getWidth();
-            if (glassPaneWidth == 0 && getParent() != null) {
-                glassPaneWidth = getParent().getWidth();
+            int glbssPbnfWidti = gftWidti();
+            if (glbssPbnfWidti == 0 && gftPbrfnt() != null) {
+                glbssPbnfWidti = gftPbrfnt().gftWidti();
             }
 
-            int x = (glassPaneWidth - optionPane.getWidth()) / 2;
+            int x = (glbssPbnfWidti - optionPbnf.gftWidti()) / 2;
 
-            if (!slideIn) {
-                    remove(optionPane);
-                    setVisible(false);
-                    return;
-            } else {
-                    optionPane.setLocation(x, 0);
-                    setGrayLevel(fade);
-                    return;
+            if (!slidfIn) {
+                    rfmovf(optionPbnf);
+                    sftVisiblf(fblsf);
+                    rfturn;
+            } flsf {
+                    optionPbnf.sftLodbtion(x, 0);
+                    sftGrbyLfvfl(fbdf);
+                    rfturn;
             }
         }
 
-        public void setGrayLevel(int gray) {
-            gray = gray * 255 / 100;
-            setBackground(new Color(0, 0, 0, gray));
+        publid void sftGrbyLfvfl(int grby) {
+            grby = grby * 255 / 100;
+            sftBbdkground(nfw Color(0, 0, 0, grby));
         }
 
-        public void paint(Graphics g) {
-            g.setColor(getBackground());
-            g.fillRect(0, 0, getWidth(), getHeight());
-            super.paint(g);
+        publid void pbint(Grbpiids g) {
+            g.sftColor(gftBbdkground());
+            g.fillRfdt(0, 0, gftWidti(), gftHfigit());
+            supfr.pbint(g);
         }
     }
 
 
 
-    static class SheetOptionPane extends JOptionPane {
-        SheetOptionPane(Object message, int messageType, int optionType,
-                        Icon icon, Object[] options, Object initialValue) {
-            super(message, messageType, optionType, icon, options, initialValue);
+    stbtid dlbss SifftOptionPbnf fxtfnds JOptionPbnf {
+        SifftOptionPbnf(Objfdt mfssbgf, int mfssbgfTypf, int optionTypf,
+                        Idon idon, Objfdt[] options, Objfdt initiblVbluf) {
+            supfr(mfssbgf, mfssbgfTypf, optionTypf, idon, options, initiblVbluf);
 
-            setBorder(new CompoundBorder(new LineBorder(new Color(204, 204, 204), 1),
-                                         new EmptyBorder(4, 4, 4, 4)));
+            sftBordfr(nfw CompoundBordfr(nfw LinfBordfr(nfw Color(204, 204, 204), 1),
+                                         nfw EmptyBordfr(4, 4, 4, 4)));
         }
 
 
-        private static Composite comp =
-            AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8F);
+        privbtf stbtid Compositf domp =
+            AlpibCompositf.gftInstbndf(AlpibCompositf.SRC_OVER, 0.8F);
 
-        private static Color bgColor = new Color(241, 239, 239);
+        privbtf stbtid Color bgColor = nfw Color(241, 239, 239);
 
-        public void setVisible(boolean visible) {
-            SlideAndFadeGlassPane glassPane = (SlideAndFadeGlassPane)getParent();
-            if (glassPane != null) {
-                if (visible) {
-                    glassPane.show(this);
-                } else {
-                    glassPane.hide(this);
+        publid void sftVisiblf(boolfbn visiblf) {
+            SlidfAndFbdfGlbssPbnf glbssPbnf = (SlidfAndFbdfGlbssPbnf)gftPbrfnt();
+            if (glbssPbnf != null) {
+                if (visiblf) {
+                    glbssPbnf.siow(tiis);
+                } flsf {
+                    glbssPbnf.iidf(tiis);
                 }
             }
         }
 
-        public void paint(Graphics g) {
-            Graphics2D g2d = (Graphics2D)g;
-            Composite oldComp = g2d.getComposite();
-            g2d.setComposite(comp);
-            Color oldColor = g2d.getColor();
-            g2d.setColor(bgColor);
-            g2d.fillRect(0, 0, getWidth(), getHeight());
-            g2d.setColor(oldColor);
-            g2d.setComposite(oldComp);
-            super.paint(g);
+        publid void pbint(Grbpiids g) {
+            Grbpiids2D g2d = (Grbpiids2D)g;
+            Compositf oldComp = g2d.gftCompositf();
+            g2d.sftCompositf(domp);
+            Color oldColor = g2d.gftColor();
+            g2d.sftColor(bgColor);
+            g2d.fillRfdt(0, 0, gftWidti(), gftHfigit());
+            g2d.sftColor(oldColor);
+            g2d.sftCompositf(oldComp);
+            supfr.pbint(g);
         }
     }
 

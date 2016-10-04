@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import javax.swing.JWindow;
-import java.awt.Window;
-import java.awt.Graphics;
+import jbvbx.swing.JWindow;
+import jbvb.bwt.Window;
+import jbvb.bwt.Grbpiids;
 
 /**
- * A class which tags a window with a particular semantic usage,
- * either tooltip, menu, sub-menu, popup-menu, or comobobox-popup.
- * This is used as a temporary solution for getting native AWT support
- * for transition effects in Windows 98 and Windows 2000.  The native
- * code will interpret the windowType property and automatically
- * implement appropriate animation when the window is shown/hidden.
+ * A dlbss wiidi tbgs b window witi b pbrtidulbr sfmbntid usbgf,
+ * fitifr tooltip, mfnu, sub-mfnu, popup-mfnu, or domobobox-popup.
+ * Tiis is usfd bs b tfmporbry solution for gftting nbtivf AWT support
+ * for trbnsition ffffdts in Windows 98 bnd Windows 2000.  Tif nbtivf
+ * dodf will intfrprft tif windowTypf propfrty bnd butombtidblly
+ * implfmfnt bppropribtf bnimbtion wifn tif window is siown/iiddfn.
  * <p>
- * Note that support for transition effects may be supported with a
- * different mechanism in the future and so this class is
- * package-private and targeted for Swing implementation use only.
+ * Notf tibt support for trbnsition ffffdts mby bf supportfd witi b
+ * difffrfnt mfdibnism in tif futurf bnd so tiis dlbss is
+ * pbdkbgf-privbtf bnd tbrgftfd for Swing implfmfntbtion usf only.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author Amy Fowler
+ * @butior Amy Fowlfr
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class WindowsPopupWindow extends JWindow {
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss WindowsPopupWindow fxtfnds JWindow {
 
-    static final int UNDEFINED_WINDOW_TYPE      = 0;
-    static final int TOOLTIP_WINDOW_TYPE        = 1;
-    static final int MENU_WINDOW_TYPE           = 2;
-    static final int SUBMENU_WINDOW_TYPE        = 3;
-    static final int POPUPMENU_WINDOW_TYPE      = 4;
-    static final int COMBOBOX_POPUP_WINDOW_TYPE = 5;
+    stbtid finbl int UNDEFINED_WINDOW_TYPE      = 0;
+    stbtid finbl int TOOLTIP_WINDOW_TYPE        = 1;
+    stbtid finbl int MENU_WINDOW_TYPE           = 2;
+    stbtid finbl int SUBMENU_WINDOW_TYPE        = 3;
+    stbtid finbl int POPUPMENU_WINDOW_TYPE      = 4;
+    stbtid finbl int COMBOBOX_POPUP_WINDOW_TYPE = 5;
 
-    private int windowType;
+    privbtf int windowTypf;
 
-    WindowsPopupWindow(Window parent) {
-        super(parent);
-        setFocusableWindowState(false);
+    WindowsPopupWindow(Window pbrfnt) {
+        supfr(pbrfnt);
+        sftFodusbblfWindowStbtf(fblsf);
     }
 
-    void setWindowType(int type) {
-        windowType = type;
+    void sftWindowTypf(int typf) {
+        windowTypf = typf;
     }
 
-    int getWindowType() {
-        return windowType;
+    int gftWindowTypf() {
+        rfturn windowTypf;
     }
 
-    public void update(Graphics g) {
-        paint(g);
+    publid void updbtf(Grbpiids g) {
+        pbint(g);
     }
 
-    public void hide() {
-        super.hide();
-        /** We need to call removeNotify() here because hide() does
-         * something only if Component.visible is true. When the app
-         * frame is miniaturized, the parent frame of this frame is
-         * invisible, causing AWT to believe that this frame
-         *  is invisible and causing hide() to do nothing
+    publid void iidf() {
+        supfr.iidf();
+        /** Wf nffd to dbll rfmovfNotify() ifrf bfdbusf iidf() dofs
+         * somftiing only if Componfnt.visiblf is truf. Wifn tif bpp
+         * frbmf is minibturizfd, tif pbrfnt frbmf of tiis frbmf is
+         * invisiblf, dbusing AWT to bflifvf tibt tiis frbmf
+         *  is invisiblf bnd dbusing iidf() to do notiing
          */
-        removeNotify();
+        rfmovfNotify();
     }
 
-    public void show() {
-        super.show();
-        this.pack();
+    publid void siow() {
+        supfr.siow();
+        tiis.pbdk();
     }
 }

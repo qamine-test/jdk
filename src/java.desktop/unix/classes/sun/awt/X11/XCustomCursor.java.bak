@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import sun.awt.X11CustomCursor;
-import java.awt.*;
+import sun.bwt.X11CustomCursor;
+import jbvb.bwt.*;
 
 /**
- * A class to encapsulate a custom image-based cursor.
+ * A dlbss to fndbpsulbtf b dustom imbgf-bbsfd dursor.
  *
- * @see Component#setCursor
- * @author      Thomas Ball
- * @author      Bino George
+ * @sff Componfnt#sftCursor
+ * @butior      Tiombs Bbll
+ * @butior      Bino Gforgf
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class XCustomCursor extends X11CustomCursor {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss XCustomCursor fxtfnds X11CustomCursor {
 
-    public XCustomCursor(Image cursor, Point hotSpot, String name)
-      throws IndexOutOfBoundsException {
-        super(cursor, hotSpot, name);
+    publid XCustomCursor(Imbgf dursor, Point iotSpot, String nbmf)
+      tirows IndfxOutOfBoundsExdfption {
+        supfr(dursor, iotSpot, nbmf);
     }
 
     /**
-     * Returns the supported cursor size
+     * Rfturns tif supportfd dursor sizf
      */
-    static Dimension getBestCursorSize(int preferredWidth, int preferredHeight) {
+    stbtid Dimfnsion gftBfstCursorSizf(int prfffrrfdWidti, int prfffrrfdHfigit) {
 
-        // Fix for bug 4212593 The Toolkit.createCustomCursor does not
-        //                     check absence of the image of cursor
-        // We use XQueryBestCursor which accepts unsigned ints to obtain
-        // the largest cursor size that could be dislpayed
-        //Dimension d = new Dimension(Math.abs(preferredWidth), Math.abs(preferredHeight));
-        Dimension d;
+        // Fix for bug 4212593 Tif Toolkit.drfbtfCustomCursor dofs not
+        //                     difdk bbsfndf of tif imbgf of dursor
+        // Wf usf XQufryBfstCursor wiidi bddfpts unsignfd ints to obtbin
+        // tif lbrgfst dursor sizf tibt dould bf dislpbyfd
+        //Dimfnsion d = nfw Dimfnsion(Mbti.bbs(prfffrrfdWidti), Mbti.bbs(prfffrrfdHfigit));
+        Dimfnsion d;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            long display = XToolkit.getDisplay();
-            long root_window = XlibWrapper.RootWindow(display,
-                    XlibWrapper.DefaultScreen(display));
+            long displby = XToolkit.gftDisplby();
+            long root_window = XlibWrbppfr.RootWindow(displby,
+                    XlibWrbppfr.DffbultSdrffn(displby));
 
-            XlibWrapper.XQueryBestCursor(display,root_window, Math.abs(preferredWidth),Math.abs(preferredHeight),XlibWrapper.larg1,XlibWrapper.larg2);
-            d = new Dimension(XlibWrapper.unsafe.getInt(XlibWrapper.larg1),XlibWrapper.unsafe.getInt(XlibWrapper.larg2));
+            XlibWrbppfr.XQufryBfstCursor(displby,root_window, Mbti.bbs(prfffrrfdWidti),Mbti.bbs(prfffrrfdHfigit),XlibWrbppfr.lbrg1,XlibWrbppfr.lbrg2);
+            d = nfw Dimfnsion(XlibWrbppfr.unsbff.gftInt(XlibWrbppfr.lbrg1),XlibWrbppfr.unsbff.gftInt(XlibWrbppfr.lbrg2));
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlodk();
         }
-        return d;
+        rfturn d;
     }
 
-    protected void createCursor(byte[] xorMask, byte[] andMask,
-                                int width, int height,
-                                int fcolor, int bcolor,
+    protfdtfd void drfbtfCursor(bytf[] xorMbsk, bytf[] bndMbsk,
+                                int widti, int ifigit,
+                                int fdolor, int bdolor,
                                 int xHotSpot, int yHotSpot)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            long display = XToolkit.getDisplay();
-            long root_window = XlibWrapper.RootWindow(display,
-                    XlibWrapper.DefaultScreen(display));
+            long displby = XToolkit.gftDisplby();
+            long root_window = XlibWrbppfr.RootWindow(displby,
+                    XlibWrbppfr.DffbultSdrffn(displby));
 
-            long colormap = XToolkit.getDefaultXColormap();
-            XColor fore_color = new XColor();
+            long dolormbp = XToolkit.gftDffbultXColormbp();
+            XColor forf_dolor = nfw XColor();
 
-            fore_color.set_flags((byte) (XConstants.DoRed | XConstants.DoGreen | XConstants.DoBlue));
-            fore_color.set_red((short)(((fcolor >> 16) & 0x000000ff) << 8));
-            fore_color.set_green((short) (((fcolor >> 8) & 0x000000ff) << 8));
-            fore_color.set_blue((short)(((fcolor >> 0) & 0x000000ff) << 8));
+            forf_dolor.sft_flbgs((bytf) (XConstbnts.DoRfd | XConstbnts.DoGrffn | XConstbnts.DoBluf));
+            forf_dolor.sft_rfd((siort)(((fdolor >> 16) & 0x000000ff) << 8));
+            forf_dolor.sft_grffn((siort) (((fdolor >> 8) & 0x000000ff) << 8));
+            forf_dolor.sft_bluf((siort)(((fdolor >> 0) & 0x000000ff) << 8));
 
-            XlibWrapper.XAllocColor(display,colormap,fore_color.pData);
-
-
-            XColor back_color = new XColor();
-            back_color.set_flags((byte) (XConstants.DoRed | XConstants.DoGreen | XConstants.DoBlue));
-
-            back_color.set_red((short) (((bcolor >> 16) & 0x000000ff) << 8));
-            back_color.set_green((short) (((bcolor >> 8) & 0x000000ff) << 8));
-            back_color.set_blue((short) (((bcolor >> 0) & 0x000000ff) << 8));
-
-            XlibWrapper.XAllocColor(display,colormap,back_color.pData);
+            XlibWrbppfr.XAllodColor(displby,dolormbp,forf_dolor.pDbtb);
 
 
-            long nativeXorMask = Native.toData(xorMask);
-            long source = XlibWrapper.XCreateBitmapFromData(display,root_window,nativeXorMask,width,height);
+            XColor bbdk_dolor = nfw XColor();
+            bbdk_dolor.sft_flbgs((bytf) (XConstbnts.DoRfd | XConstbnts.DoGrffn | XConstbnts.DoBluf));
 
-            long nativeAndMask = Native.toData(andMask);
-            long mask =  XlibWrapper.XCreateBitmapFromData(display,root_window,nativeAndMask,width,height);
+            bbdk_dolor.sft_rfd((siort) (((bdolor >> 16) & 0x000000ff) << 8));
+            bbdk_dolor.sft_grffn((siort) (((bdolor >> 8) & 0x000000ff) << 8));
+            bbdk_dolor.sft_bluf((siort) (((bdolor >> 0) & 0x000000ff) << 8));
 
-            long cursor = XlibWrapper.XCreatePixmapCursor(display,source,mask,fore_color.pData,back_color.pData,xHotSpot,yHotSpot);
+            XlibWrbppfr.XAllodColor(displby,dolormbp,bbdk_dolor.pDbtb);
 
-            XlibWrapper.unsafe.freeMemory(nativeXorMask);
-            XlibWrapper.unsafe.freeMemory(nativeAndMask);
-            XlibWrapper.XFreePixmap(display,source);
-            XlibWrapper.XFreePixmap(display,mask);
-            back_color.dispose();
-            fore_color.dispose();
 
-            XGlobalCursorManager.setPData(this,cursor);
+            long nbtivfXorMbsk = Nbtivf.toDbtb(xorMbsk);
+            long sourdf = XlibWrbppfr.XCrfbtfBitmbpFromDbtb(displby,root_window,nbtivfXorMbsk,widti,ifigit);
+
+            long nbtivfAndMbsk = Nbtivf.toDbtb(bndMbsk);
+            long mbsk =  XlibWrbppfr.XCrfbtfBitmbpFromDbtb(displby,root_window,nbtivfAndMbsk,widti,ifigit);
+
+            long dursor = XlibWrbppfr.XCrfbtfPixmbpCursor(displby,sourdf,mbsk,forf_dolor.pDbtb,bbdk_dolor.pDbtb,xHotSpot,yHotSpot);
+
+            XlibWrbppfr.unsbff.frffMfmory(nbtivfXorMbsk);
+            XlibWrbppfr.unsbff.frffMfmory(nbtivfAndMbsk);
+            XlibWrbppfr.XFrffPixmbp(displby,sourdf);
+            XlibWrbppfr.XFrffPixmbp(displby,mbsk);
+            bbdk_dolor.disposf();
+            forf_dolor.disposf();
+
+            XGlobblCursorMbnbgfr.sftPDbtb(tiis,dursor);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlodk();
         }
 
     }

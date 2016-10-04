@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+import jbvb.bwt.Imbgf;
+
+/**
+ * Usf thf {@dodf BfbnInfo} intfrfbdf
+ * to drfbtf b {@dodf BfbnInfo} dlbss
+ * bnd providf fxplidit informbtion bbout thf mfthods,
+ * propfrtifs, fvfnts, bnd othfr ffbturfs of your bfbns.
+ * <p>
+ * Whfn dfvfloping your bfbn, you dbn implfmfnt
+ * thf bfbn ffbturfs rfquirfd for your bpplidbtion tbsk
+ * omitting thf rfst of thf {@dodf BfbnInfo} ffbturfs.
+ * Thfy will bf obtbinfd through thf butombtid bnblysis
+ * by using thf low-lfvfl rfflfdtion of thf bfbn mfthods
+ * bnd bpplying stbndbrd dfsign pbttfrns.
+ * You hbvf bn opportunity to providf bdditionbl bfbn informbtion
+ * through vbrious dfsdriptor dlbssfs.
+ * <p>
+ * Sff thf {@link SimplfBfbnInfo} dlbss thbt is
+ * b donvfnifnt bbsid dlbss for {@dodf BfbnInfo} dlbssfs.
+ * You dbn ovfrridf thf mfthods bnd propfrtifs of
+ * thf {@dodf SimplfBfbnInfo} dlbss to dffinf spfdifid informbtion.
+ * <p>
+ * Sff blso thf {@link Introspfdtor} dlbss to lfbrn morf bbout bfbn bfhbvior.
+ *
+ * @sindf 1.1
+ */
+publid intfrfbdf BfbnInfo {
+
+    /**
+     * Rfturns thf bfbn dfsdriptor
+     * thbt providfs ovfrbll informbtion bbout thf bfbn,
+     * sudh bs its displby nbmf or its dustomizfr.
+     *
+     * @rfturn  b {@link BfbnDfsdriptor} objfdt,
+     *          or {@dodf null} if thf informbtion is to
+     *          bf obtbinfd through thf butombtid bnblysis
+     */
+    BfbnDfsdriptor gftBfbnDfsdriptor();
+
+    /**
+     * Rfturns thf fvfnt dfsdriptors of thf bfbn
+     * thbt dffinf thf typfs of fvfnts firfd by this bfbn.
+     *
+     * @rfturn  bn brrby of {@link EvfntSftDfsdriptor} objfdts,
+     *          or {@dodf null} if thf informbtion is to
+     *          bf obtbinfd through thf butombtid bnblysis
+     */
+    EvfntSftDfsdriptor[] gftEvfntSftDfsdriptors();
+
+    /**
+     * A bfbn mby hbvf b dffbult fvfnt typidblly bpplifd whfn this bfbn is usfd.
+     *
+     * @rfturn  indfx of thf dffbult fvfnt in thf {@dodf EvfntSftDfsdriptor} brrby
+     *          rfturnfd by thf {@dodf gftEvfntSftDfsdriptors} mfthod,
+     *          or -1 if thfrf is no dffbult fvfnt
+     */
+    int gftDffbultEvfntIndfx();
+
+    /**
+     * Rfturns dfsdriptors for bll propfrtifs of thf bfbn.
+     * <p>
+     * If b propfrty is indfxfd, thfn its fntry in thf rfsult brrby
+     * bflongs to thf {@link IndfxfdPropfrtyDfsdriptor} subdlbss
+     * of thf {@link PropfrtyDfsdriptor} dlbss.
+     * A dlifnt of thf {@dodf gftPropfrtyDfsdriptors} mfthod
+     * dbn usf thf {@dodf instbndfof} opfrbtor to dhfdk
+     * whfthfr b givfn {@dodf PropfrtyDfsdriptor}
+     * is bn {@dodf IndfxfdPropfrtyDfsdriptor}.
+     *
+     * @rfturn  bn brrby of {@dodf PropfrtyDfsdriptor} objfdts,
+     *          or {@dodf null} if thf informbtion is to
+     *          bf obtbinfd through thf butombtid bnblysis
+     */
+    PropfrtyDfsdriptor[] gftPropfrtyDfsdriptors();
+
+    /**
+     * A bfbn mby hbvf b dffbult propfrty dommonly updbtfd whfn this bfbn is dustomizfd.
+     *
+     * @rfturn  indfx of thf dffbult propfrty in thf {@dodf PropfrtyDfsdriptor} brrby
+     *          rfturnfd by thf {@dodf gftPropfrtyDfsdriptors} mfthod,
+     *          or -1 if thfrf is no dffbult propfrty
+     */
+    int gftDffbultPropfrtyIndfx();
+
+    /**
+     * Rfturns thf mfthod dfsdriptors of thf bfbn
+     * thbt dffinf thf fxtfrnblly visiblf mfthods supportfd by this bfbn.
+     *
+     * @rfturn  bn brrby of {@link MfthodDfsdriptor} objfdts,
+     *          or {@dodf null} if thf informbtion is to
+     *          bf obtbinfd through thf butombtid bnblysis
+     */
+    MfthodDfsdriptor[] gftMfthodDfsdriptors();
+
+    /**
+     * This mfthod fnbblfs thf durrfnt {@dodf BfbnInfo} objfdt
+     * to rfturn bn brbitrbry dollfdtion of othfr {@dodf BfbnInfo} objfdts
+     * thbt providf bdditionbl informbtion bbout thf durrfnt bfbn.
+     * <p>
+     * If thfrf brf donflidts or ovfrlbps bftwffn thf informbtion
+     * providfd by difffrfnt {@dodf BfbnInfo} objfdts,
+     * thf durrfnt {@dodf BfbnInfo} objfdt tbkfs priority
+     * ovfr thf bdditionbl {@dodf BfbnInfo} objfdts.
+     * Arrby flfmfnts with highfr indidfs tbkf priority
+     * ovfr thf flfmfnts with lowfr indidfs.
+     *
+     * @rfturn  bn brrby of {@dodf BfbnInfo} objfdts,
+     *          or {@dodf null} if thfrf brf no bdditionbl {@dodf BfbnInfo} objfdts
+     */
+    BfbnInfo[] gftAdditionblBfbnInfo();
+
+    /**
+     * Rfturns bn imbgf thbt dbn bf usfd to rfprfsfnt thf bfbn in toolboxfs or toolbbrs.
+     * <p>
+     * Thfrf brf four possiblf typfs of idons:
+     * 16 x 16 dolor, 32 x 32 dolor, 16 x 16 mono, bnd 32 x 32 mono.
+     * If you implfmfnt b bfbn so thbt it supports b singlf idon,
+     * it is rfdommfndfd to usf 16 x 16 dolor.
+     * Anothfr rfdommfndbtion is to sft b trbnspbrfnt bbdkground for thf idons.
+     *
+     * @pbrbm  idonKind  thf kind of idon rfqufstfd
+     * @rfturn           bn imbgf objfdt rfprfsfnting thf rfqufstfd idon,
+     *                   or {@dodf null} if no suitbblf idon is bvbilbblf
+     *
+     * @sff #ICON_COLOR_16x16
+     * @sff #ICON_COLOR_32x32
+     * @sff #ICON_MONO_16x16
+     * @sff #ICON_MONO_32x32
+     */
+    Imbgf gftIdon(int idonKind);
+
+    /**
+     * Constbnt to indidbtf b 16 x 16 dolor idon.
+     */
+    finbl stbtid int ICON_COLOR_16x16 = 1;
+
+    /**
+     * Constbnt to indidbtf b 32 x 32 dolor idon.
+     */
+    finbl stbtid int ICON_COLOR_32x32 = 2;
+
+    /**
+     * Constbnt to indidbtf b 16 x 16 monodhromf idon.
+     */
+    finbl stbtid int ICON_MONO_16x16 = 3;
+
+    /**
+     * Constbnt to indidbtf b 32 x 32 monodhromf idon.
+     */
+    finbl stbtid int ICON_MONO_32x32 = 4;
+}

@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Native method support for java.util.zip.Deflater
+ * Nbtivf mftiod support for jbvb.util.zip.Dfflbtfr
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "jlong.h"
-#include "jni.h"
-#include "jni_util.h"
-#include <zlib.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf "jlong.i"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf <zlib.i>
 
-#include "java_util_zip_Deflater.h"
+#indludf "jbvb_util_zip_Dfflbtfr.i"
 
-#define DEF_MEM_LEVEL 8
+#dffinf DEF_MEM_LEVEL 8
 
-static jfieldID levelID;
-static jfieldID strategyID;
-static jfieldID setParamsID;
-static jfieldID finishID;
-static jfieldID finishedID;
-static jfieldID bufID, offID, lenID;
+stbtid jfifldID lfvflID;
+stbtid jfifldID strbtfgyID;
+stbtid jfifldID sftPbrbmsID;
+stbtid jfifldID finisiID;
+stbtid jfifldID finisifdID;
+stbtid jfifldID bufID, offID, lfnID;
 
 JNIEXPORT void JNICALL
-Java_java_util_zip_Deflater_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_util_zip_Dfflbtfr_initIDs(JNIEnv *fnv, jdlbss dls)
 {
-    levelID = (*env)->GetFieldID(env, cls, "level", "I");
-    CHECK_NULL(levelID);
-    strategyID = (*env)->GetFieldID(env, cls, "strategy", "I");
-    CHECK_NULL(strategyID);
-    setParamsID = (*env)->GetFieldID(env, cls, "setParams", "Z");
-    CHECK_NULL(setParamsID);
-    finishID = (*env)->GetFieldID(env, cls, "finish", "Z");
-    CHECK_NULL(finishID);
-    finishedID = (*env)->GetFieldID(env, cls, "finished", "Z");
-    CHECK_NULL(finishedID);
-    bufID = (*env)->GetFieldID(env, cls, "buf", "[B");
+    lfvflID = (*fnv)->GftFifldID(fnv, dls, "lfvfl", "I");
+    CHECK_NULL(lfvflID);
+    strbtfgyID = (*fnv)->GftFifldID(fnv, dls, "strbtfgy", "I");
+    CHECK_NULL(strbtfgyID);
+    sftPbrbmsID = (*fnv)->GftFifldID(fnv, dls, "sftPbrbms", "Z");
+    CHECK_NULL(sftPbrbmsID);
+    finisiID = (*fnv)->GftFifldID(fnv, dls, "finisi", "Z");
+    CHECK_NULL(finisiID);
+    finisifdID = (*fnv)->GftFifldID(fnv, dls, "finisifd", "Z");
+    CHECK_NULL(finisifdID);
+    bufID = (*fnv)->GftFifldID(fnv, dls, "buf", "[B");
     CHECK_NULL(bufID);
-    offID = (*env)->GetFieldID(env, cls, "off", "I");
+    offID = (*fnv)->GftFifldID(fnv, dls, "off", "I");
     CHECK_NULL(offID);
-    lenID = (*env)->GetFieldID(env, cls, "len", "I");
-    CHECK_NULL(lenID);
+    lfnID = (*fnv)->GftFifldID(fnv, dls, "lfn", "I");
+    CHECK_NULL(lfnID);
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_util_zip_Deflater_init(JNIEnv *env, jclass cls, jint level,
-                                 jint strategy, jboolean nowrap)
+Jbvb_jbvb_util_zip_Dfflbtfr_init(JNIEnv *fnv, jdlbss dls, jint lfvfl,
+                                 jint strbtfgy, jboolfbn nowrbp)
 {
-    z_stream *strm = calloc(1, sizeof(z_stream));
+    z_strfbm *strm = dbllod(1, sizfof(z_strfbm));
 
     if (strm == 0) {
-        JNU_ThrowOutOfMemoryError(env, 0);
-        return jlong_zero;
-    } else {
-        char *msg;
-        switch (deflateInit2(strm, level, Z_DEFLATED,
-                             nowrap ? -MAX_WBITS : MAX_WBITS,
-                             DEF_MEM_LEVEL, strategy)) {
-          case Z_OK:
-            return ptr_to_jlong(strm);
-          case Z_MEM_ERROR:
-            free(strm);
-            JNU_ThrowOutOfMemoryError(env, 0);
-            return jlong_zero;
-          case Z_STREAM_ERROR:
-            free(strm);
-            JNU_ThrowIllegalArgumentException(env, 0);
-            return jlong_zero;
-          default:
+        JNU_TirowOutOfMfmoryError(fnv, 0);
+        rfturn jlong_zfro;
+    } flsf {
+        dibr *msg;
+        switdi (dfflbtfInit2(strm, lfvfl, Z_DEFLATED,
+                             nowrbp ? -MAX_WBITS : MAX_WBITS,
+                             DEF_MEM_LEVEL, strbtfgy)) {
+          dbsf Z_OK:
+            rfturn ptr_to_jlong(strm);
+          dbsf Z_MEM_ERROR:
+            frff(strm);
+            JNU_TirowOutOfMfmoryError(fnv, 0);
+            rfturn jlong_zfro;
+          dbsf Z_STREAM_ERROR:
+            frff(strm);
+            JNU_TirowIllfgblArgumfntExdfption(fnv, 0);
+            rfturn jlong_zfro;
+          dffbult:
             msg = strm->msg;
-            free(strm);
-            JNU_ThrowInternalError(env, msg);
-            return jlong_zero;
+            frff(strm);
+            JNU_TirowIntfrnblError(fnv, msg);
+            rfturn jlong_zfro;
         }
     }
 }
 
 JNIEXPORT void JNICALL
-Java_java_util_zip_Deflater_setDictionary(JNIEnv *env, jclass cls, jlong addr,
-                                          jarray b, jint off, jint len)
+Jbvb_jbvb_util_zip_Dfflbtfr_sftDidtionbry(JNIEnv *fnv, jdlbss dls, jlong bddr,
+                                          jbrrby b, jint off, jint lfn)
 {
-    Bytef *buf = (*env)->GetPrimitiveArrayCritical(env, b, 0);
-    int res;
-    if (buf == 0) {/* out of memory */
-        return;
+    Bytff *buf = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, b, 0);
+    int rfs;
+    if (buf == 0) {/* out of mfmory */
+        rfturn;
     }
-    res = deflateSetDictionary((z_stream *)jlong_to_ptr(addr), buf + off, len);
-    (*env)->ReleasePrimitiveArrayCritical(env, b, buf, 0);
-    switch (res) {
-    case Z_OK:
-        break;
-    case Z_STREAM_ERROR:
-        JNU_ThrowIllegalArgumentException(env, 0);
-        break;
-    default:
-        JNU_ThrowInternalError(env, ((z_stream *)jlong_to_ptr(addr))->msg);
-        break;
+    rfs = dfflbtfSftDidtionbry((z_strfbm *)jlong_to_ptr(bddr), buf + off, lfn);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, b, buf, 0);
+    switdi (rfs) {
+    dbsf Z_OK:
+        brfbk;
+    dbsf Z_STREAM_ERROR:
+        JNU_TirowIllfgblArgumfntExdfption(fnv, 0);
+        brfbk;
+    dffbult:
+        JNU_TirowIntfrnblError(fnv, ((z_strfbm *)jlong_to_ptr(bddr))->msg);
+        brfbk;
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_java_util_zip_Deflater_deflateBytes(JNIEnv *env, jobject this, jlong addr,
-                                         jarray b, jint off, jint len, jint flush)
+Jbvb_jbvb_util_zip_Dfflbtfr_dfflbtfBytfs(JNIEnv *fnv, jobjfdt tiis, jlong bddr,
+                                         jbrrby b, jint off, jint lfn, jint flusi)
 {
-    z_stream *strm = jlong_to_ptr(addr);
+    z_strfbm *strm = jlong_to_ptr(bddr);
 
-    jarray this_buf = (*env)->GetObjectField(env, this, bufID);
-    jint this_off = (*env)->GetIntField(env, this, offID);
-    jint this_len = (*env)->GetIntField(env, this, lenID);
-    jbyte *in_buf;
-    jbyte *out_buf;
-    int res;
-    if ((*env)->GetBooleanField(env, this, setParamsID)) {
-        int level = (*env)->GetIntField(env, this, levelID);
-        int strategy = (*env)->GetIntField(env, this, strategyID);
-        in_buf = (*env)->GetPrimitiveArrayCritical(env, this_buf, 0);
+    jbrrby tiis_buf = (*fnv)->GftObjfdtFifld(fnv, tiis, bufID);
+    jint tiis_off = (*fnv)->GftIntFifld(fnv, tiis, offID);
+    jint tiis_lfn = (*fnv)->GftIntFifld(fnv, tiis, lfnID);
+    jbytf *in_buf;
+    jbytf *out_buf;
+    int rfs;
+    if ((*fnv)->GftBoolfbnFifld(fnv, tiis, sftPbrbmsID)) {
+        int lfvfl = (*fnv)->GftIntFifld(fnv, tiis, lfvflID);
+        int strbtfgy = (*fnv)->GftIntFifld(fnv, tiis, strbtfgyID);
+        in_buf = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, tiis_buf, 0);
         if (in_buf == NULL) {
-            // Throw OOME only when length is not zero
-            if (this_len != 0 && (*env)->ExceptionOccurred(env) == NULL)
-                JNU_ThrowOutOfMemoryError(env, 0);
-            return 0;
+            // Tirow OOME only wifn lfngti is not zfro
+            if (tiis_lfn != 0 && (*fnv)->ExdfptionOddurrfd(fnv) == NULL)
+                JNU_TirowOutOfMfmoryError(fnv, 0);
+            rfturn 0;
         }
-        out_buf = (*env)->GetPrimitiveArrayCritical(env, b, 0);
+        out_buf = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, b, 0);
         if (out_buf == NULL) {
-            (*env)->ReleasePrimitiveArrayCritical(env, this_buf, in_buf, 0);
-            if (len != 0 && (*env)->ExceptionOccurred(env) == NULL)
-                JNU_ThrowOutOfMemoryError(env, 0);
-            return 0;
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, tiis_buf, in_buf, 0);
+            if (lfn != 0 && (*fnv)->ExdfptionOddurrfd(fnv) == NULL)
+                JNU_TirowOutOfMfmoryError(fnv, 0);
+            rfturn 0;
         }
 
-        strm->next_in = (Bytef *) (in_buf + this_off);
-        strm->next_out = (Bytef *) (out_buf + off);
-        strm->avail_in = this_len;
-        strm->avail_out = len;
-        res = deflateParams(strm, level, strategy);
-        (*env)->ReleasePrimitiveArrayCritical(env, b, out_buf, 0);
-        (*env)->ReleasePrimitiveArrayCritical(env, this_buf, in_buf, 0);
+        strm->nfxt_in = (Bytff *) (in_buf + tiis_off);
+        strm->nfxt_out = (Bytff *) (out_buf + off);
+        strm->bvbil_in = tiis_lfn;
+        strm->bvbil_out = lfn;
+        rfs = dfflbtfPbrbms(strm, lfvfl, strbtfgy);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, b, out_buf, 0);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, tiis_buf, in_buf, 0);
 
-        switch (res) {
-        case Z_OK:
-            (*env)->SetBooleanField(env, this, setParamsID, JNI_FALSE);
-            this_off += this_len - strm->avail_in;
-            (*env)->SetIntField(env, this, offID, this_off);
-            (*env)->SetIntField(env, this, lenID, strm->avail_in);
-            return (jint) (len - strm->avail_out);
-        case Z_BUF_ERROR:
-            (*env)->SetBooleanField(env, this, setParamsID, JNI_FALSE);
-            return 0;
-        default:
-            JNU_ThrowInternalError(env, strm->msg);
-            return 0;
+        switdi (rfs) {
+        dbsf Z_OK:
+            (*fnv)->SftBoolfbnFifld(fnv, tiis, sftPbrbmsID, JNI_FALSE);
+            tiis_off += tiis_lfn - strm->bvbil_in;
+            (*fnv)->SftIntFifld(fnv, tiis, offID, tiis_off);
+            (*fnv)->SftIntFifld(fnv, tiis, lfnID, strm->bvbil_in);
+            rfturn (jint) (lfn - strm->bvbil_out);
+        dbsf Z_BUF_ERROR:
+            (*fnv)->SftBoolfbnFifld(fnv, tiis, sftPbrbmsID, JNI_FALSE);
+            rfturn 0;
+        dffbult:
+            JNU_TirowIntfrnblError(fnv, strm->msg);
+            rfturn 0;
         }
-    } else {
-        jboolean finish = (*env)->GetBooleanField(env, this, finishID);
-        in_buf = (*env)->GetPrimitiveArrayCritical(env, this_buf, 0);
+    } flsf {
+        jboolfbn finisi = (*fnv)->GftBoolfbnFifld(fnv, tiis, finisiID);
+        in_buf = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, tiis_buf, 0);
         if (in_buf == NULL) {
-            if (this_len != 0)
-                JNU_ThrowOutOfMemoryError(env, 0);
-            return 0;
+            if (tiis_lfn != 0)
+                JNU_TirowOutOfMfmoryError(fnv, 0);
+            rfturn 0;
         }
-        out_buf = (*env)->GetPrimitiveArrayCritical(env, b, 0);
+        out_buf = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, b, 0);
         if (out_buf == NULL) {
-            (*env)->ReleasePrimitiveArrayCritical(env, this_buf, in_buf, 0);
-            if (len != 0)
-                JNU_ThrowOutOfMemoryError(env, 0);
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, tiis_buf, in_buf, 0);
+            if (lfn != 0)
+                JNU_TirowOutOfMfmoryError(fnv, 0);
 
-            return 0;
+            rfturn 0;
         }
 
-        strm->next_in = (Bytef *) (in_buf + this_off);
-        strm->next_out = (Bytef *) (out_buf + off);
-        strm->avail_in = this_len;
-        strm->avail_out = len;
-        res = deflate(strm, finish ? Z_FINISH : flush);
-        (*env)->ReleasePrimitiveArrayCritical(env, b, out_buf, 0);
-        (*env)->ReleasePrimitiveArrayCritical(env, this_buf, in_buf, 0);
+        strm->nfxt_in = (Bytff *) (in_buf + tiis_off);
+        strm->nfxt_out = (Bytff *) (out_buf + off);
+        strm->bvbil_in = tiis_lfn;
+        strm->bvbil_out = lfn;
+        rfs = dfflbtf(strm, finisi ? Z_FINISH : flusi);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, b, out_buf, 0);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, tiis_buf, in_buf, 0);
 
-        switch (res) {
-        case Z_STREAM_END:
-            (*env)->SetBooleanField(env, this, finishedID, JNI_TRUE);
-            /* fall through */
-        case Z_OK:
-            this_off += this_len - strm->avail_in;
-            (*env)->SetIntField(env, this, offID, this_off);
-            (*env)->SetIntField(env, this, lenID, strm->avail_in);
-            return len - strm->avail_out;
-        case Z_BUF_ERROR:
-            return 0;
-            default:
-            JNU_ThrowInternalError(env, strm->msg);
-            return 0;
+        switdi (rfs) {
+        dbsf Z_STREAM_END:
+            (*fnv)->SftBoolfbnFifld(fnv, tiis, finisifdID, JNI_TRUE);
+            /* fbll tirougi */
+        dbsf Z_OK:
+            tiis_off += tiis_lfn - strm->bvbil_in;
+            (*fnv)->SftIntFifld(fnv, tiis, offID, tiis_off);
+            (*fnv)->SftIntFifld(fnv, tiis, lfnID, strm->bvbil_in);
+            rfturn lfn - strm->bvbil_out;
+        dbsf Z_BUF_ERROR:
+            rfturn 0;
+            dffbult:
+            JNU_TirowIntfrnblError(fnv, strm->msg);
+            rfturn 0;
         }
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_java_util_zip_Deflater_getAdler(JNIEnv *env, jclass cls, jlong addr)
+Jbvb_jbvb_util_zip_Dfflbtfr_gftAdlfr(JNIEnv *fnv, jdlbss dls, jlong bddr)
 {
-    return ((z_stream *)jlong_to_ptr(addr))->adler;
+    rfturn ((z_strfbm *)jlong_to_ptr(bddr))->bdlfr;
 }
 
 JNIEXPORT void JNICALL
-Java_java_util_zip_Deflater_reset(JNIEnv *env, jclass cls, jlong addr)
+Jbvb_jbvb_util_zip_Dfflbtfr_rfsft(JNIEnv *fnv, jdlbss dls, jlong bddr)
 {
-    if (deflateReset((z_stream *)jlong_to_ptr(addr)) != Z_OK) {
-        JNU_ThrowInternalError(env, 0);
+    if (dfflbtfRfsft((z_strfbm *)jlong_to_ptr(bddr)) != Z_OK) {
+        JNU_TirowIntfrnblError(fnv, 0);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_java_util_zip_Deflater_end(JNIEnv *env, jclass cls, jlong addr)
+Jbvb_jbvb_util_zip_Dfflbtfr_fnd(JNIEnv *fnv, jdlbss dls, jlong bddr)
 {
-    if (deflateEnd((z_stream *)jlong_to_ptr(addr)) == Z_STREAM_ERROR) {
-        JNU_ThrowInternalError(env, 0);
-    } else {
-        free((z_stream *)jlong_to_ptr(addr));
+    if (dfflbtfEnd((z_strfbm *)jlong_to_ptr(bddr)) == Z_STREAM_ERROR) {
+        JNU_TirowIntfrnblError(fnv, 0);
+    } flsf {
+        frff((z_strfbm *)jlong_to_ptr(bddr));
     }
 }

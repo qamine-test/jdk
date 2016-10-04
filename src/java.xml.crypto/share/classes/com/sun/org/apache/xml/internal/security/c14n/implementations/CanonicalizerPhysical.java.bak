@@ -1,184 +1,184 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.c14n.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+import jbvb.util.SortfdSft;
+import jbvb.util.TrffSft;
 
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.ProcessingInstruction;
-import org.xml.sax.SAXException;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Commfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.ProdfssingInstrudtion;
+import org.xml.sbx.SAXExdfption;
 
 /**
- * Serializes the physical representation of the subtree. All the attributes
- * present in the subtree are emitted. The attributes are sorted within an element,
- * with the namespace declarations appearing before the regular attributes.
- * This algorithm is not a true canonicalization since equivalent subtrees
- * may produce different output. It is therefore unsuitable for digital signatures.
- * This same property makes it ideal for XML Encryption Syntax and Processing,
- * because the decrypted XML content will share the same physical representation
- * as the original XML content that was encrypted.
+ * Sfriblizfs tif piysidbl rfprfsfntbtion of tif subtrff. All tif bttributfs
+ * prfsfnt in tif subtrff brf fmittfd. Tif bttributfs brf sortfd witiin bn flfmfnt,
+ * witi tif nbmfspbdf dfdlbrbtions bppfbring bfforf tif rfgulbr bttributfs.
+ * Tiis blgoritim is not b truf dbnonidblizbtion sindf fquivblfnt subtrffs
+ * mby produdf difffrfnt output. It is tifrfforf unsuitbblf for digitbl signbturfs.
+ * Tiis sbmf propfrty mbkfs it idfbl for XML Endryption Syntbx bnd Prodfssing,
+ * bfdbusf tif dfdryptfd XML dontfnt will sibrf tif sbmf piysidbl rfprfsfntbtion
+ * bs tif originbl XML dontfnt tibt wbs fndryptfd.
  */
-public class CanonicalizerPhysical extends CanonicalizerBase {
+publid dlbss CbnonidblizfrPiysidbl fxtfnds CbnonidblizfrBbsf {
 
-    private final SortedSet<Attr> result = new TreeSet<Attr>(COMPARE);
+    privbtf finbl SortfdSft<Attr> rfsult = nfw TrffSft<Attr>(COMPARE);
 
     /**
-     * Constructor Canonicalizer20010315
+     * Construdtor Cbnonidblizfr20010315
      */
-    public CanonicalizerPhysical() {
-        super(true);
+    publid CbnonidblizfrPiysidbl() {
+        supfr(truf);
     }
 
     /**
-     * Always throws a CanonicalizationException.
+     * Alwbys tirows b CbnonidblizbtionExdfption.
      *
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
-     * @return none it always fails
-     * @throws CanonicalizationException always
+     * @pbrbm xpbtiNodfSft
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn nonf it blwbys fbils
+     * @tirows CbnonidblizbtionExdfption blwbys
      */
-    public byte[] engineCanonicalizeXPathNodeSet(Set<Node> xpathNodeSet, String inclusiveNamespaces)
-        throws CanonicalizationException {
+    publid bytf[] fnginfCbnonidblizfXPbtiNodfSft(Sft<Nodf> xpbtiNodfSft, String indlusivfNbmfspbdfs)
+        tirows CbnonidblizbtionExdfption {
 
-        /** $todo$ well, should we throw UnsupportedOperationException ? */
-        throw new CanonicalizationException("c14n.Canonicalizer.UnsupportedOperation");
+        /** $todo$ wfll, siould wf tirow UnsupportfdOpfrbtionExdfption ? */
+        tirow nfw CbnonidblizbtionExdfption("d14n.Cbnonidblizfr.UnsupportfdOpfrbtion");
     }
 
     /**
-     * Always throws a CanonicalizationException.
+     * Alwbys tirows b CbnonidblizbtionExdfption.
      *
-     * @param rootNode
-     * @param inclusiveNamespaces
-     * @return none it always fails
-     * @throws CanonicalizationException
+     * @pbrbm rootNodf
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn nonf it blwbys fbils
+     * @tirows CbnonidblizbtionExdfption
      */
-    public byte[] engineCanonicalizeSubTree(Node rootNode, String inclusiveNamespaces)
-        throws CanonicalizationException {
+    publid bytf[] fnginfCbnonidblizfSubTrff(Nodf rootNodf, String indlusivfNbmfspbdfs)
+        tirows CbnonidblizbtionExdfption {
 
-        /** $todo$ well, should we throw UnsupportedOperationException ? */
-        throw new CanonicalizationException("c14n.Canonicalizer.UnsupportedOperation");
+        /** $todo$ wfll, siould wf tirow UnsupportfdOpfrbtionExdfption ? */
+        tirow nfw CbnonidblizbtionExdfption("d14n.Cbnonidblizfr.UnsupportfdOpfrbtion");
     }
 
     /**
-     * Returns the Attr[]s to be output for the given element.
+     * Rfturns tif Attr[]s to bf output for tif givfn flfmfnt.
      * <br>
-     * The code of this method is a copy of {@link #handleAttributes(Element,
-     * NameSpaceSymbTable)},
-     * whereas it takes into account that subtree-c14n is -- well -- subtree-based.
-     * So if the element in question isRoot of c14n, it's parent is not in the
-     * node set, as well as all other ancestors.
+     * Tif dodf of tiis mftiod is b dopy of {@link #ibndlfAttributfs(Elfmfnt,
+     * NbmfSpbdfSymbTbblf)},
+     * wifrfbs it tbkfs into bddount tibt subtrff-d14n is -- wfll -- subtrff-bbsfd.
+     * So if tif flfmfnt in qufstion isRoot of d14n, it's pbrfnt is not in tif
+     * nodf sft, bs wfll bs bll otifr bndfstors.
      *
-     * @param element
-     * @param ns
-     * @return the Attr[]s to be output
-     * @throws CanonicalizationException
+     * @pbrbm flfmfnt
+     * @pbrbm ns
+     * @rfturn tif Attr[]s to bf output
+     * @tirows CbnonidblizbtionExdfption
      */
-    @Override
-    protected Iterator<Attr> handleAttributesSubtree(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
-        if (!element.hasAttributes()) {
-            return null;
+    @Ovfrridf
+    protfdtfd Itfrbtor<Attr> ibndlfAttributfsSubtrff(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        tirows CbnonidblizbtionExdfption {
+        if (!flfmfnt.ibsAttributfs()) {
+            rfturn null;
         }
 
-        // result will contain all the attrs declared directly on that element
-        final SortedSet<Attr> result = this.result;
-        result.clear();
+        // rfsult will dontbin bll tif bttrs dfdlbrfd dirfdtly on tibt flfmfnt
+        finbl SortfdSft<Attr> rfsult = tiis.rfsult;
+        rfsult.dlfbr();
 
-        if (element.hasAttributes()) {
-            NamedNodeMap attrs = element.getAttributes();
-            int attrsLength = attrs.getLength();
+        if (flfmfnt.ibsAttributfs()) {
+            NbmfdNodfMbp bttrs = flfmfnt.gftAttributfs();
+            int bttrsLfngti = bttrs.gftLfngti();
 
-            for (int i = 0; i < attrsLength; i++) {
-                Attr attribute = (Attr) attrs.item(i);
-                result.add(attribute);
+            for (int i = 0; i < bttrsLfngti; i++) {
+                Attr bttributf = (Attr) bttrs.itfm(i);
+                rfsult.bdd(bttributf);
             }
         }
 
-        return result.iterator();
+        rfturn rfsult.itfrbtor();
     }
 
     /**
-     * Returns the Attr[]s to be output for the given element.
+     * Rfturns tif Attr[]s to bf output for tif givfn flfmfnt.
      *
-     * @param element
-     * @param ns
-     * @return the Attr[]s to be output
-     * @throws CanonicalizationException
+     * @pbrbm flfmfnt
+     * @pbrbm ns
+     * @rfturn tif Attr[]s to bf output
+     * @tirows CbnonidblizbtionExdfption
      */
-    @Override
-    protected Iterator<Attr> handleAttributes(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
+    @Ovfrridf
+    protfdtfd Itfrbtor<Attr> ibndlfAttributfs(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        tirows CbnonidblizbtionExdfption {
 
-        /** $todo$ well, should we throw UnsupportedOperationException ? */
-        throw new CanonicalizationException("c14n.Canonicalizer.UnsupportedOperation");
+        /** $todo$ wfll, siould wf tirow UnsupportfdOpfrbtionExdfption ? */
+        tirow nfw CbnonidblizbtionExdfption("d14n.Cbnonidblizfr.UnsupportfdOpfrbtion");
     }
 
-    protected void circumventBugIfNeeded(XMLSignatureInput input)
-        throws CanonicalizationException, ParserConfigurationException, IOException, SAXException {
-        // nothing to do
+    protfdtfd void dirdumvfntBugIfNffdfd(XMLSignbturfInput input)
+        tirows CbnonidblizbtionExdfption, PbrsfrConfigurbtionExdfption, IOExdfption, SAXExdfption {
+        // notiing to do
     }
 
-    @Override
-    protected void handleParent(Element e, NameSpaceSymbTable ns) {
-        // nothing to do
+    @Ovfrridf
+    protfdtfd void ibndlfPbrfnt(Elfmfnt f, NbmfSpbdfSymbTbblf ns) {
+        // notiing to do
     }
 
-    /** @inheritDoc */
-    public final String engineGetURI() {
-        return Canonicalizer.ALGO_ID_C14N_PHYSICAL;
+    /** @inifritDod */
+    publid finbl String fnginfGftURI() {
+        rfturn Cbnonidblizfr.ALGO_ID_C14N_PHYSICAL;
     }
 
-    /** @inheritDoc */
-    public final boolean engineGetIncludeComments() {
-        return true;
+    /** @inifritDod */
+    publid finbl boolfbn fnginfGftIndludfCommfnts() {
+        rfturn truf;
     }
 
-    @Override
-    protected void outputPItoWriter(ProcessingInstruction currentPI,
-                                    OutputStream writer, int position) throws IOException {
-        // Processing Instructions before or after the document element are not treated specially
-        super.outputPItoWriter(currentPI, writer, NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT);
+    @Ovfrridf
+    protfdtfd void outputPItoWritfr(ProdfssingInstrudtion durrfntPI,
+                                    OutputStrfbm writfr, int position) tirows IOExdfption {
+        // Prodfssing Instrudtions bfforf or bftfr tif dodumfnt flfmfnt brf not trfbtfd spfdiblly
+        supfr.outputPItoWritfr(durrfntPI, writfr, NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT);
     }
 
-    @Override
-    protected void outputCommentToWriter(Comment currentComment,
-                                         OutputStream writer, int position) throws IOException {
-        // Comments before or after the document element are not treated specially
-        super.outputCommentToWriter(currentComment, writer, NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT);
+    @Ovfrridf
+    protfdtfd void outputCommfntToWritfr(Commfnt durrfntCommfnt,
+                                         OutputStrfbm writfr, int position) tirows IOExdfption {
+        // Commfnts bfforf or bftfr tif dodumfnt flfmfnt brf not trfbtfd spfdiblly
+        supfr.outputCommfntToWritfr(durrfntCommfnt, writfr, NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT);
     }
 
 }

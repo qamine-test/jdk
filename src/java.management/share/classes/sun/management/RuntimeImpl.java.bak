@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.RuntimeMXBean;
-import java.lang.management.ManagementFactory;
+import jbvb.lbng.mbnbgfmfnt.RuntimfMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
 
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.Properties;
-import javax.management.ObjectName;
+import jbvb.util.List;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.Propfrtifs;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
- * Implementation class for the runtime subsystem.
- * Standard and committed hotspot-specific metrics if any.
+ * Implfmfntbtion dlbss for tif runtimf subsystfm.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
  *
- * ManagementFactory.getRuntimeMXBean() returns an instance
- * of this class.
+ * MbnbgfmfntFbdtory.gftRuntimfMXBfbn() rfturns bn instbndf
+ * of tiis dlbss.
  */
-class RuntimeImpl implements RuntimeMXBean {
+dlbss RuntimfImpl implfmfnts RuntimfMXBfbn {
 
-    private final VMManagement jvm;
-    private final long vmStartupTime;
+    privbtf finbl VMMbnbgfmfnt jvm;
+    privbtf finbl long vmStbrtupTimf;
 
     /**
-     * Constructor of RuntimeImpl class.
+     * Construdtor of RuntimfImpl dlbss.
      */
-    RuntimeImpl(VMManagement vm) {
-        this.jvm = vm;
-        this.vmStartupTime = jvm.getStartupTime();
+    RuntimfImpl(VMMbnbgfmfnt vm) {
+        tiis.jvm = vm;
+        tiis.vmStbrtupTimf = jvm.gftStbrtupTimf();
     }
 
-    public String getName() {
-        return jvm.getVmId();
+    publid String gftNbmf() {
+        rfturn jvm.gftVmId();
     }
 
-    public String getManagementSpecVersion() {
-        return jvm.getManagementVersion();
+    publid String gftMbnbgfmfntSpfdVfrsion() {
+        rfturn jvm.gftMbnbgfmfntVfrsion();
     }
 
-    public String getVmName() {
-        return jvm.getVmName();
+    publid String gftVmNbmf() {
+        rfturn jvm.gftVmNbmf();
     }
 
-    public String getVmVendor() {
-        return jvm.getVmVendor();
+    publid String gftVmVfndor() {
+        rfturn jvm.gftVmVfndor();
     }
 
-    public String getVmVersion() {
-        return jvm.getVmVersion();
+    publid String gftVmVfrsion() {
+        rfturn jvm.gftVmVfrsion();
     }
 
-    public String getSpecName() {
-        return jvm.getVmSpecName();
+    publid String gftSpfdNbmf() {
+        rfturn jvm.gftVmSpfdNbmf();
     }
 
-    public String getSpecVendor() {
-        return jvm.getVmSpecVendor();
+    publid String gftSpfdVfndor() {
+        rfturn jvm.gftVmSpfdVfndor();
     }
 
-    public String getSpecVersion() {
-        return jvm.getVmSpecVersion();
+    publid String gftSpfdVfrsion() {
+        rfturn jvm.gftVmSpfdVfrsion();
     }
 
-    public String getClassPath() {
-        return jvm.getClassPath();
+    publid String gftClbssPbti() {
+        rfturn jvm.gftClbssPbti();
     }
 
-    public String getLibraryPath() {
-        return jvm.getLibraryPath();
+    publid String gftLibrbryPbti() {
+        rfturn jvm.gftLibrbryPbti();
     }
 
-    public String getBootClassPath() {
-        if (!isBootClassPathSupported()) {
-            throw new UnsupportedOperationException(
-                "Boot class path mechanism is not supported");
+    publid String gftBootClbssPbti() {
+        if (!isBootClbssPbtiSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Boot dlbss pbti mfdibnism is not supportfd");
         }
-        Util.checkMonitorAccess();
-        return jvm.getBootClassPath();
+        Util.difdkMonitorAddfss();
+        rfturn jvm.gftBootClbssPbti();
     }
 
-    public List<String> getInputArguments() {
-        Util.checkMonitorAccess();
-        return jvm.getVmArguments();
+    publid List<String> gftInputArgumfnts() {
+        Util.difdkMonitorAddfss();
+        rfturn jvm.gftVmArgumfnts();
     }
 
-    public long getUptime() {
-        return jvm.getUptime();
+    publid long gftUptimf() {
+        rfturn jvm.gftUptimf();
     }
 
-    public long getStartTime() {
-        return vmStartupTime;
+    publid long gftStbrtTimf() {
+        rfturn vmStbrtupTimf;
     }
 
-    public boolean isBootClassPathSupported() {
-        return jvm.isBootClassPathSupported();
+    publid boolfbn isBootClbssPbtiSupportfd() {
+        rfturn jvm.isBootClbssPbtiSupportfd();
     }
 
-    public Map<String,String> getSystemProperties() {
-        Properties sysProps = System.getProperties();
-        Map<String,String> map = new HashMap<>();
+    publid Mbp<String,String> gftSystfmPropfrtifs() {
+        Propfrtifs sysProps = Systfm.gftPropfrtifs();
+        Mbp<String,String> mbp = nfw HbsiMbp<>();
 
-        // Properties.entrySet() does not include the entries in
-        // the default properties.  So use Properties.stringPropertyNames()
-        // to get the list of property keys including the default ones.
-        Set<String> keys = sysProps.stringPropertyNames();
-        for (String k : keys) {
-            String value = sysProps.getProperty(k);
-            map.put(k, value);
+        // Propfrtifs.fntrySft() dofs not indludf tif fntrifs in
+        // tif dffbult propfrtifs.  So usf Propfrtifs.stringPropfrtyNbmfs()
+        // to gft tif list of propfrty kfys indluding tif dffbult onfs.
+        Sft<String> kfys = sysProps.stringPropfrtyNbmfs();
+        for (String k : kfys) {
+            String vbluf = sysProps.gftPropfrty(k);
+            mbp.put(k, vbluf);
         }
 
-        return map;
+        rfturn mbp;
     }
 
-    public ObjectName getObjectName() {
-        return Util.newObjectName(ManagementFactory.RUNTIME_MXBEAN_NAME);
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.RUNTIME_MXBEAN_NAME);
     }
 
 }

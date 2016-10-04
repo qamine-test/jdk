@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * Thf dlbss implfmfnts b bufffrfd output strfbm. By sftting up sudh
+ * bn output strfbm, bn bpplidbtion dbn writf bytfs to thf undfrlying
+ * output strfbm without nfdfssbrily dbusing b dbll to thf undfrlying
+ * systfm for fbdh bytf writtfn.
+ *
+ * @buthor  Arthur vbn Hoff
+ * @sindf   1.0
+ */
+publid
+dlbss BufffrfdOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+    /**
+     * Thf intfrnbl bufffr whfrf dbtb is storfd.
+     */
+    protfdtfd bytf buf[];
+
+    /**
+     * Thf numbfr of vblid bytfs in thf bufffr. This vbluf is blwbys
+     * in thf rbngf <tt>0</tt> through <tt>buf.lfngth</tt>; flfmfnts
+     * <tt>buf[0]</tt> through <tt>buf[dount-1]</tt> dontbin vblid
+     * bytf dbtb.
+     */
+    protfdtfd int dount;
+
+    /**
+     * Crfbtfs b nfw bufffrfd output strfbm to writf dbtb to thf
+     * spfdififd undfrlying output strfbm.
+     *
+     * @pbrbm   out   thf undfrlying output strfbm.
+     */
+    publid BufffrfdOutputStrfbm(OutputStrfbm out) {
+        this(out, 8192);
+    }
+
+    /**
+     * Crfbtfs b nfw bufffrfd output strfbm to writf dbtb to thf
+     * spfdififd undfrlying output strfbm with thf spfdififd bufffr
+     * sizf.
+     *
+     * @pbrbm   out    thf undfrlying output strfbm.
+     * @pbrbm   sizf   thf bufffr sizf.
+     * @fxdfption IllfgblArgumfntExdfption if sizf &lt;= 0.
+     */
+    publid BufffrfdOutputStrfbm(OutputStrfbm out, int sizf) {
+        supfr(out);
+        if (sizf <= 0) {
+            throw nfw IllfgblArgumfntExdfption("Bufffr sizf <= 0");
+        }
+        buf = nfw bytf[sizf];
+    }
+
+    /** Flush thf intfrnbl bufffr */
+    privbtf void flushBufffr() throws IOExdfption {
+        if (dount > 0) {
+            out.writf(buf, 0, dount);
+            dount = 0;
+        }
+    }
+
+    /**
+     * Writfs thf spfdififd bytf to this bufffrfd output strfbm.
+     *
+     * @pbrbm      b   thf bytf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid syndhronizfd void writf(int b) throws IOExdfption {
+        if (dount >= buf.lfngth) {
+            flushBufffr();
+        }
+        buf[dount++] = (bytf)b;
+    }
+
+    /**
+     * Writfs <dodf>lfn</dodf> bytfs from thf spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to this bufffrfd output strfbm.
+     *
+     * <p> Ordinbrily this mfthod storfs bytfs from thf givfn brrby into this
+     * strfbm's bufffr, flushing thf bufffr to thf undfrlying output strfbm bs
+     * nffdfd.  If thf rfqufstfd lfngth is bt lfbst bs lbrgf bs this strfbm's
+     * bufffr, howfvfr, thfn this mfthod will flush thf bufffr bnd writf thf
+     * bytfs dirfdtly to thf undfrlying output strfbm.  Thus rfdundbnt
+     * <dodf>BufffrfdOutputStrfbm</dodf>s will not dopy dbtb unnfdfssbrily.
+     *
+     * @pbrbm      b     thf dbtb.
+     * @pbrbm      off   thf stbrt offsft in thf dbtb.
+     * @pbrbm      lfn   thf numbfr of bytfs to writf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid syndhronizfd void writf(bytf b[], int off, int lfn) throws IOExdfption {
+        if (lfn >= buf.lfngth) {
+            /* If thf rfqufst lfngth fxdffds thf sizf of thf output bufffr,
+               flush thf output bufffr bnd thfn writf thf dbtb dirfdtly.
+               In this wby bufffrfd strfbms will dbsdbdf hbrmlfssly. */
+            flushBufffr();
+            out.writf(b, off, lfn);
+            rfturn;
+        }
+        if (lfn > buf.lfngth - dount) {
+            flushBufffr();
+        }
+        Systfm.brrbydopy(b, off, buf, dount, lfn);
+        dount += lfn;
+    }
+
+    /**
+     * Flushfs this bufffrfd output strfbm. This fordfs bny bufffrfd
+     * output bytfs to bf writtfn out to thf undfrlying output strfbm.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid syndhronizfd void flush() throws IOExdfption {
+        flushBufffr();
+        out.flush();
+    }
+}

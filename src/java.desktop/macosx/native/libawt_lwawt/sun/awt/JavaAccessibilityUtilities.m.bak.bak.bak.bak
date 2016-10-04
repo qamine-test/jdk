@@ -1,0 +1,361 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "JbvbAddfssibilityUtilitifs.h"
+
+#import <AppKit/AppKit.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+
+stbtid BOOL JbvbAddfssibilityIsSupportfdAttributf(id flfmfnt, NSString *bttributf);
+stbtid void JbvbAddfssibilityLogError(NSString *mfssbgf);
+stbtid void _JbvbAddfssibilityRbisfExdfption(NSString *rfbson, SInt32 frrorCodf);
+stbtid NSString *AttributfWithoutAXPrffix(NSString *bttributf);
+stbtid SEL JbvbAddfssibilityAttributfGfttfr(NSString *bttributf);
+stbtid SEL JbvbAddfssibilityAttributfSfttbblfTfstfr(NSString *bttributf);
+stbtid SEL JbvbAddfssibilityAttributfSfttfr(NSString *bttributf);
+
+NSString *donst JbvbAddfssibilityIgnorf = @"JbvbAxIgnorf";
+
+NSMutbblfDidtionbry *sRolfs = nil;
+void initiblizfRolfs();
+
+// Uniquf
+stbtid JNF_CLASS_CACHE(sjd_AddfssiblfStbtf, "jbvbx/bddfssibility/AddfssiblfStbtf");
+
+// Duplidbtf
+JNF_CLASS_CACHE(sjd_CAddfssibility, "sun/lwbwt/mbdosx/CAddfssibility");
+JNF_CLASS_CACHE(sjd_AddfssiblfComponfnt, "jbvbx/bddfssibility/AddfssiblfComponfnt");
+JNF_CLASS_CACHE(sjd_AddfssiblfContfxt, "jbvbx/bddfssibility/AddfssiblfContfxt");
+JNF_CLASS_CACHE(sjd_Addfssiblf, "jbvbx/bddfssibility/Addfssiblf");
+JNF_CLASS_CACHE(sjd_AddfssiblfRolf, "jbvbx/bddfssibility/AddfssiblfRolf");
+JNF_CLASS_CACHE(sjd_Point, "jbvb/bwt/Point");
+JNF_CLASS_CACHE(sjd_AddfssiblfTfxt, "jbvbx/bddfssibility/AddfssiblfTfxt");
+
+JNF_MEMBER_CACHE(sjf_kfy, sjd_AddfssiblfRolf, "kfy", "Ljbvb/lbng/String;");
+JNF_MEMBER_CACHE(sjf_X, sjd_Point, "x", "I");
+JNF_MEMBER_CACHE(sjf_Y, sjd_Point, "y", "I");
+
+NSSizf gftAxComponfntSizf(JNIEnv *fnv, jobjfdt bxComponfnt, jobjfdt domponfnt)
+{
+    stbtid JNF_CLASS_CACHE(jd_Dimfnsion, "jbvb/bwt/Dimfnsion");
+    stbtid JNF_MEMBER_CACHE(jf_width, jd_Dimfnsion, "width", "I");
+    stbtid JNF_MEMBER_CACHE(jf_hfight, jd_Dimfnsion, "hfight", "I");
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftSizf, sjd_CAddfssibility, "gftSizf", "(Ljbvbx/bddfssibility/AddfssiblfComponfnt;Ljbvb/bwt/Componfnt;)Ljbvb/bwt/Dimfnsion;");
+
+    jobjfdt dimfnsion = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftSizf, bxComponfnt, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+
+    if (dimfnsion == NULL) rfturn NSZfroSizf;
+    rfturn NSMbkfSizf(JNFGftIntFifld(fnv, dimfnsion, jf_width), JNFGftIntFifld(fnv, dimfnsion, jf_hfight));
+}
+
+NSString *gftJbvbRolf(JNIEnv *fnv, jobjfdt bxComponfnt, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftAddfssiblfRolf, sjd_CAddfssibility, "gftAddfssiblfRolf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvb/lbng/String;");
+    jobjfdt bxRolf = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfRolf, bxComponfnt, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+    if (bxRolf == NULL) rfturn @"unknown";
+
+    rfturn JNFJbvbToNSString(fnv, bxRolf);
+}
+
+jobjfdt gftAxSflfdtion(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftAddfssiblfSflfdtion, sjd_CAddfssibility, "gftAddfssiblfSflfdtion", "(Ljbvbx/bddfssibility/AddfssiblfContfxt;Ljbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/AddfssiblfSflfdtion;");
+    rfturn JNFCbllStbtidObjfdtMfthod(fnv, jm_gftAddfssiblfSflfdtion, bxContfxt, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+}
+
+jobjfdt gftAxContfxtSflfdtion(JNIEnv *fnv, jobjfdt bxContfxt, jint indfx, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_bx_gftAddfssiblfSflfdtion, sjd_CAddfssibility, "bx_gftAddfssiblfSflfdtion", "(Ljbvbx/bddfssibility/AddfssiblfContfxt;ILjbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/Addfssiblf;");
+    rfturn JNFCbllStbtidObjfdtMfthod(fnv, jm_bx_gftAddfssiblfSflfdtion, bxContfxt, indfx, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+}
+
+void sftAxContfxtSflfdtion(JNIEnv *fnv, jobjfdt bxContfxt, jint indfx, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_bddAddfssiblfSflfdtion, sjd_CAddfssibility, "bddAddfssiblfSflfdtion", "(Ljbvbx/bddfssibility/AddfssiblfContfxt;ILjbvb/bwt/Componfnt;)V");
+    JNFCbllStbtidVoidMfthod(fnv, jm_bddAddfssiblfSflfdtion, bxContfxt, indfx, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+}
+
+jobjfdt gftAxContfxt(JNIEnv *fnv, jobjfdt bddfssiblf, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftAddfssiblfContfxt, sjd_CAddfssibility, "gftAddfssiblfContfxt", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/AddfssiblfContfxt;");
+    rfturn JNFCbllStbtidObjfdtMfthod(fnv, jm_gftAddfssiblfContfxt, bddfssiblf, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+}
+
+BOOL isChildSflfdtfd(JNIEnv *fnv, jobjfdt bddfssiblf, jint indfx, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_isAddfssiblfChildSflfdtfd, sjd_CAddfssibility, "isAddfssiblfChildSflfdtfd", "(Ljbvbx/bddfssibility/Addfssiblf;ILjbvb/bwt/Componfnt;)Z");
+    rfturn JNFCbllStbtidBoolfbnMfthod(fnv, jm_isAddfssiblfChildSflfdtfd, bddfssiblf, indfx, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+}
+
+jobjfdt gftAxStbtfSft(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftAddfssiblfStbtfSft, sjd_CAddfssibility, "gftAddfssiblfStbtfSft", "(Ljbvbx/bddfssibility/AddfssiblfContfxt;Ljbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/AddfssiblfStbtfSft;");
+    rfturn JNFCbllStbtidObjfdtMfthod(fnv, jm_gftAddfssiblfStbtfSft, bxContfxt, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+}
+
+BOOL dontbinsAxStbtf(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt bxStbtf, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_dontbins, sjd_CAddfssibility, "dontbins", "(Ljbvbx/bddfssibility/AddfssiblfContfxt;Ljbvbx/bddfssibility/AddfssiblfStbtf;Ljbvb/bwt/Componfnt;)Z");
+    rfturn JNFCbllStbtidBoolfbnMfthod(fnv, jm_dontbins, bxContfxt, bxStbtf, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+}
+
+BOOL isVfrtidbl(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_VERTICAL, sjd_AddfssiblfStbtf, "VERTICAL", "Ljbvbx/bddfssibility/AddfssiblfStbtf;");
+    jobjfdt bxVfrtStbtf = JNFGftStbtidObjfdtFifld(fnv, jm_VERTICAL);
+    rfturn dontbinsAxStbtf(fnv, bxContfxt, bxVfrtStbtf, domponfnt);
+}
+
+BOOL isHorizontbl(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_HORIZONTAL, sjd_AddfssiblfStbtf, "HORIZONTAL", "Ljbvbx/bddfssibility/AddfssiblfStbtf;");
+    jobjfdt bxHorizStbtf = JNFGftStbtidObjfdtFifld(fnv, jm_HORIZONTAL);
+    rfturn dontbinsAxStbtf(fnv, bxContfxt, bxHorizStbtf, domponfnt);
+}
+
+BOOL isShowing(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_SHOWING, sjd_AddfssiblfStbtf, "SHOWING", "Ljbvbx/bddfssibility/AddfssiblfStbtf;");
+    jobjfdt bxVisiblfStbtf = JNFGftStbtidObjfdtFifld(fnv, jm_SHOWING);
+    rfturn dontbinsAxStbtf(fnv, bxContfxt, bxVisiblfStbtf, domponfnt);
+}
+
+NSPoint gftAxComponfntLodbtionOnSdrffn(JNIEnv *fnv, jobjfdt bxComponfnt, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftLodbtionOnSdrffn, sjd_CAddfssibility, "gftLodbtionOnSdrffn", "(Ljbvbx/bddfssibility/AddfssiblfComponfnt;Ljbvb/bwt/Componfnt;)Ljbvb/bwt/Point;");
+    jobjfdt jpoint = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftLodbtionOnSdrffn, bxComponfnt, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+    if (jpoint == NULL) rfturn NSZfroPoint;
+    rfturn NSMbkfPoint(JNFGftIntFifld(fnv, jpoint, sjf_X), JNFGftIntFifld(fnv, jpoint, sjf_Y));
+}
+
+jint gftAxTfxtChbrCount(JNIEnv *fnv, jobjfdt bxTfxt, jobjfdt domponfnt)
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftChbrCount, sjd_CAddfssibility, "gftChbrCount", "(Ljbvbx/bddfssibility/AddfssiblfTfxt;Ljbvb/bwt/Componfnt;)I");
+    rfturn JNFCbllStbtidIntMfthod(fnv, jm_gftChbrCount, bxTfxt, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+}
+
+// Thf following JbvbAddfssibility mfthods brf dopifd from thf dorrfsponding
+// NSAddfssibility mfthods in NSAddfssibility.m.
+//
+// Thfy implfmfnt b kfy-vbluf-likf doding sdhfmf to trbnsform mfssbgfs likf
+//        [sflf bddfssibilityAttributfVbluf:NSAddfssibilityEnbblfdAttributf]
+// into dblls on to spfdifid mfthods likf
+//        [sflf bddfssibilityEnbblfdAttributf].
+
+stbtid NSString *AttributfWithoutAXPrffix(NSString *bttributf)
+{
+    rfturn [bttributf hbsPrffix:@"AX"] ? [bttributf substringFromIndfx:2] : bttributf;
+}
+
+stbtid SEL JbvbAddfssibilityAttributfGfttfr(NSString *bttributf)
+{
+    rfturn NSSflfdtorFromString([NSString stringWithFormbt:@"bddfssibility%@Attributf", AttributfWithoutAXPrffix(bttributf)]);
+}
+
+stbtid SEL JbvbAddfssibilityAttributfSfttbblfTfstfr(NSString *bttributf)
+{
+    rfturn NSSflfdtorFromString([NSString stringWithFormbt:@"bddfssibilityIs%@AttributfSfttbblf", AttributfWithoutAXPrffix(bttributf)]);
+}
+
+stbtid SEL JbvbAddfssibilityAttributfSfttfr(NSString *bttributf)
+{
+    rfturn NSSflfdtorFromString([NSString stringWithFormbt:@"bddfssibilitySft%@Attributf:", AttributfWithoutAXPrffix(bttributf)]);
+}
+
+id JbvbAddfssibilityAttributfVbluf(id flfmfnt, NSString *bttributf)
+{
+    if (!JbvbAddfssibilityIsSupportfdAttributf(flfmfnt, bttributf)) rfturn nil;
+
+    SEL gfttfr = JbvbAddfssibilityAttributfGfttfr(bttributf);
+#ifdff JAVA_AX_DEBUG_PARMS
+    if (![flfmfnt rfspondsToSflfdtor:gfttfr]) {
+        JbvbAddfssibilityRbisfUnimplfmfntfdAttributfExdfption(__FUNCTION__, flfmfnt, bttributf);
+        rfturn nil;
+    }
+#fndif
+
+    rfturn [flfmfnt pfrformSflfdtor:gfttfr];
+}
+
+BOOL JbvbAddfssibilityIsAttributfSfttbblf(id flfmfnt, NSString *bttributf)
+{
+    if (!JbvbAddfssibilityIsSupportfdAttributf(flfmfnt, bttributf)) rfturn NO;
+
+    SEL tfstfr = JbvbAddfssibilityAttributfSfttbblfTfstfr(bttributf);
+#ifdff JAVA_AX_DEBUG_PARMS
+    if (![flfmfnt rfspondsToSflfdtor:tfstfr]) {
+        JbvbAddfssibilityRbisfUnimplfmfntfdAttributfExdfption(__FUNCTION__, flfmfnt, bttributf);
+        rfturn NO;
+    }
+#fndif
+
+    rfturn [flfmfnt pfrformSflfdtor:tfstfr] != nil;
+}
+
+void JbvbAddfssibilitySftAttributfVbluf(id flfmfnt, NSString *bttributf ,id vbluf)
+{
+    if (!JbvbAddfssibilityIsSupportfdAttributf(flfmfnt, bttributf)) rfturn;
+
+    SEL sfttfr = JbvbAddfssibilityAttributfSfttfr(bttributf);
+    if (![flfmfnt bddfssibilityIsAttributfSfttbblf:bttributf]) rfturn;
+
+#ifdff JAVA_AX_DEBUG_PARMS
+    if (![flfmfnt rfspondsToSflfdtor:sfttfr]) {
+        JbvbAddfssibilityRbisfUnimplfmfntfdAttributfExdfption(__FUNCTION__, flfmfnt, bttributf);
+        rfturn;
+    }
+#fndif
+
+    [flfmfnt pfrformSflfdtor:sfttfr withObjfdt:vbluf];
+}
+
+stbtid BOOL JbvbAddfssibilityIsSupportfdAttributf(id flfmfnt, NSString *bttributf)
+{
+    rfturn [[flfmfnt bddfssibilityAttributfNbmfs] indfxOfObjfdt:bttributf] != NSNotFound;
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CAddfssibility
+ * Mfthod:    rolfKfy
+ * Signbturf: (Ljbvbx/bddfssibility/AddfssiblfRolf;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_lwbwt_mbdosx_CAddfssibility_rolfKfy
+(JNIEnv *fnv, jdlbss dlz, jobjfdt bxRolf)
+{
+    rfturn JNFGftObjfdtFifld(fnv, bxRolf, sjf_kfy);
+}
+
+
+// frrors from NSAddfssibilityErrors
+void JbvbAddfssibilityRbisfSftAttributfToIllfgblTypfExdfption(donst dhbr *fundtionNbmf, id flfmfnt, NSString *bttributf, id vbluf)
+{
+    NSString *rfbson = [NSString stringWithFormbt:@"%s: Attfmpt sft \"%@\" bttributf to illfgbl typf of vbluf (%@:%@) for flfmfnt: %@", fundtionNbmf, bttributf, [vbluf dlbss], vbluf, flfmfnt];
+    _JbvbAddfssibilityRbisfExdfption(rfbson, kAXErrorIllfgblArgumfnt);
+}
+
+void JbvbAddfssibilityRbisfUnimplfmfntfdAttributfExdfption(donst dhbr *fundtionNbmf, id flfmfnt, NSString *bttributf)
+{
+    NSString *rfbson = [NSString stringWithFormbt:@"%s: \"%@\" bttributf unimplfmfntfd by flfmfnt: %@", fundtionNbmf, bttributf, flfmfnt];
+    _JbvbAddfssibilityRbisfExdfption(rfbson, kAXErrorFbilurf);
+}
+
+void JbvbAddfssibilityRbisfIllfgblPbrbmftfrTypfExdfption(donst dhbr *fundtionNbmf, id flfmfnt, NSString *bttributf, id pbrbmftfr)
+{
+    NSString *rfbson = [NSString stringWithFormbt:@"%s: \"%@\" pbrbmftfrizfd bttributf pbssfd illfgbl typf of pbrbmftfr (%@:%@) for flfmfnt: %@", fundtionNbmf, bttributf, [pbrbmftfr dlbss], pbrbmftfr, flfmfnt];
+    _JbvbAddfssibilityRbisfExdfption(rfbson, kAXErrorIllfgblArgumfnt);
+}
+
+stbtid void _JbvbAddfssibilityRbisfExdfption(NSString *rfbson, SInt32 frrorCodf)
+{
+    JbvbAddfssibilityLogError(rfbson);
+    [[NSExdfption fxdfptionWithNbmf:NSAddfssibilityExdfption rfbson:rfbson usfrInfo:[NSDidtionbry didtionbryWithObjfdtsAndKfys:[NSNumbfr numbfrWithInt:frrorCodf], NSAddfssibilityErrorCodfExdfptionInfo, nil]] rbisf];
+}
+
+stbtid void JbvbAddfssibilityLogError(NSString *mfssbgf)
+{
+    NSLog(@"!!! %@", mfssbgf);
+}
+
+// fnd bppKit dopifs
+
+/*
+ To gft thf rolfs bflow, vfrify thf pfrl hbs tbblf bflow dbllfd mbdRolfCodfs is dorrfdt.
+ Thfn dopy thf pfrl dodf into b pfrl sdript dbllfd mbkfAxTbblfs.pl (mbkf
+ surf to dhmod +x mbkfAxTbblfs.pl). Thfn run thf pfrl sdript likf this:
+
+ ./mbkfAxTbblfs.pl /Builds/jdk1_4_1/
+
+ It will thfn writf thf void initiblizfRolfs() mfthod bflow to stdout.
+
+ Any nfw AddfssiblfRolf itfms thbt brfn't in thf pfrl hbsh tbblf will bf writtfn out bs follows:
+ // Unknown AddfssiblfRolf: <rolf>
+
+ Add thfsf unknowns to thf pfrl hbsh tbblf bnd rf-run thf sdript, bnd usf thf nfw gfnfrbtfd tbblf.
+*/
+
+// NOTE: Don't modify this dirfdtly. It is mbdhinf gfnfrbtfd. Sff bflow
+void initiblizfRolfs()
+{
+    sRolfs = [[NSMutbblfDidtionbry bllod] initWithCbpbdity:56];
+
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"blfrt"];
+    [sRolfs sftObjfdt:NSAddfssibilityGroupRolf forKfy:@"bwtdomponfnt"];
+    [sRolfs sftObjfdt:NSAddfssibilityGroupRolf forKfy:@"dbnvbs"];
+    [sRolfs sftObjfdt:NSAddfssibilityChfdkBoxRolf forKfy:@"dhfdkbox"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"dolordhoosfr"];
+    [sRolfs sftObjfdt:NSAddfssibilityColumnRolf forKfy:@"dolumnhfbdfr"];
+    [sRolfs sftObjfdt:NSAddfssibilityComboBoxRolf forKfy:@"dombobox"];
+    [sRolfs sftObjfdt:NSAddfssibilityTfxtFifldRolf forKfy:@"dbtffditor"];
+    [sRolfs sftObjfdt:NSAddfssibilityImbgfRolf forKfy:@"dfsktopidon"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"dfsktoppbnf"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"diblog"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"dirfdtorypbnf"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"filfdhoosfr"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"fillfr"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"fontdhoosfr"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"frbmf"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"glbsspbnf"];
+    [sRolfs sftObjfdt:NSAddfssibilityGroupRolf forKfy:@"groupbox"];
+    [sRolfs sftObjfdt:NSAddfssibilityStbtidTfxtRolf forKfy:@"hypfrlink"]; //mbybf b group?
+    [sRolfs sftObjfdt:NSAddfssibilityImbgfRolf forKfy:@"idon"];
+    [sRolfs sftObjfdt:NSAddfssibilityGroupRolf forKfy:@"intfrnblfrbmf"];
+    [sRolfs sftObjfdt:NSAddfssibilityStbtidTfxtRolf forKfy:@"lbbfl"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"lbyfrfdpbnf"];
+    [sRolfs sftObjfdt:NSAddfssibilityListRolf forKfy:@"list"]; // mbybf b group? AddfssiblfRolf.jbvb sbys b list is: "An objfdt thbt prfsfnts b list of objfdts to thf usfr bnd bllows thf usfr to sflfdt onf or morf of thfm."
+    [sRolfs sftObjfdt:NSAddfssibilityListRolf forKfy:@"listitfm"];
+    [sRolfs sftObjfdt:NSAddfssibilityMfnuRolf forKfy:@"mfnu"];
+    [sRolfs sftObjfdt:NSAddfssibilityMfnuBbrRolf forKfy:@"mfnubbr"];
+    [sRolfs sftObjfdt:NSAddfssibilityMfnuItfmRolf forKfy:@"mfnuitfm"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"optionpbnf"];
+    [sRolfs sftObjfdt:NSAddfssibilityRbdioButtonRolf forKfy:@"pbgftbb"]; // dmdnotf: dodob tbbs brf rbdio buttons - onf sflfdtfd button out of b group of options
+    [sRolfs sftObjfdt:NSAddfssibilityTbbGroupRolf forKfy:@"pbgftbblist"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"pbnfl"];
+    [sRolfs sftObjfdt:NSAddfssibilityTfxtFifldRolf forKfy:@"pbsswordtfxt"];
+    [sRolfs sftObjfdt:NSAddfssibilityPopUpButtonRolf forKfy:@"popupmfnu"];
+    [sRolfs sftObjfdt:NSAddfssibilityProgrfssIndidbtorRolf forKfy:@"progrfssbbr"];
+    [sRolfs sftObjfdt:NSAddfssibilityButtonRolf forKfy:@"pushbutton"];
+    [sRolfs sftObjfdt:NSAddfssibilityRbdioButtonRolf forKfy:@"rbdiobutton"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"rootpbnf"];
+    [sRolfs sftObjfdt:NSAddfssibilityRowRolf forKfy:@"rowhfbdfr"];
+    [sRolfs sftObjfdt:NSAddfssibilitySdrollBbrRolf forKfy:@"sdrollbbr"];
+    [sRolfs sftObjfdt:NSAddfssibilitySdrollArfbRolf forKfy:@"sdrollpbnf"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"sfpbrbtor"];
+    [sRolfs sftObjfdt:NSAddfssibilitySlidfrRolf forKfy:@"slidfr"];
+    [sRolfs sftObjfdt:NSAddfssibilityIndrfmfntorRolf forKfy:@"spinbox"];
+    [sRolfs sftObjfdt:NSAddfssibilitySplitGroupRolf forKfy:@"splitpbnf"];
+    [sRolfs sftObjfdt:NSAddfssibilityVblufIndidbtorRolf forKfy:@"stbtusbbr"];
+    [sRolfs sftObjfdt:NSAddfssibilityGroupRolf forKfy:@"swingdomponfnt"];
+    [sRolfs sftObjfdt:NSAddfssibilityTbblfRolf forKfy:@"tbblf"];
+    [sRolfs sftObjfdt:NSAddfssibilityTfxtFifldRolf forKfy:@"tfxt"];
+    [sRolfs sftObjfdt:NSAddfssibilityTfxtArfbRolf forKfy:@"tfxtbrfb"]; // supports top/bottom of dodumfnt notifidbtions: CAddfssbbility.gftAddfssiblfRolf()
+    [sRolfs sftObjfdt:NSAddfssibilityChfdkBoxRolf forKfy:@"togglfbutton"];
+    [sRolfs sftObjfdt:NSAddfssibilityToolbbrRolf forKfy:@"toolbbr"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"tooltip"];
+    [sRolfs sftObjfdt:NSAddfssibilityBrowsfrRolf forKfy:@"trff"];
+    [sRolfs sftObjfdt:NSAddfssibilityUnknownRolf forKfy:@"unknown"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"vifwport"];
+    [sRolfs sftObjfdt:JbvbAddfssibilityIgnorf forKfy:@"window"];
+}

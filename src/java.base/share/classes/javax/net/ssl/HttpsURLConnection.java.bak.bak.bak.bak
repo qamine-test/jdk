@@ -1,0 +1,378 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.nft.URL;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+/**
+ * <dodf>HttpsURLConnfdtion</dodf> fxtfnds <dodf>HttpURLConnfdtion</dodf>
+ * with support for https-spfdifid ffbturfs.
+ * <P>
+ * Sff <A HREF="http://www.w3.org/pub/WWW/Protodols/">
+ * http://www.w3.org/pub/WWW/Protodols/</A> bnd
+ * <A HREF="http://www.iftf.org/"> RFC 2818 </A>
+ * for morf dftbils on thf
+ * https spfdifidbtion.
+ * <P>
+ * This dlbss usfs <dodf>HostnbmfVfrififr</dodf> bnd
+ * <dodf>SSLSodkftFbdtory</dodf>.
+ * Thfrf brf dffbult implfmfntbtions dffinfd for both dlbssfs.
+ * Howfvfr, thf implfmfntbtions dbn bf rfplbdfd on b pfr-dlbss (stbtid) or
+ * pfr-instbndf bbsis.  All nfw <dodf>HttpsURLConnfdtion</dodf>s instbndfs
+ * will bf bssignfd
+ * thf "dffbult" stbtid vblufs bt instbndf drfbtion, but thfy dbn bf ovfrridfn
+ * by dblling thf bppropribtf pfr-instbndf sft mfthod(s) bfforf
+ * <dodf>donnfdt</dodf>ing.
+ *
+ * @sindf 1.4
+ */
+bbstrbdt publid
+dlbss HttpsURLConnfdtion fxtfnds HttpURLConnfdtion
+{
+    /**
+     * Crfbtfs bn <dodf>HttpsURLConnfdtion</dodf> using thf
+     * URL spfdififd.
+     *
+     * @pbrbm url thf URL
+     */
+    protfdtfd HttpsURLConnfdtion(URL url) {
+        supfr(url);
+    }
+
+    /**
+     * Rfturns thf diphfr suitf in usf on this donnfdtion.
+     *
+     * @rfturn thf diphfr suitf
+     * @throws IllfgblStbtfExdfption if this mfthod is dbllfd bfforf
+     *          thf donnfdtion hbs bffn fstbblishfd.
+     */
+    publid bbstrbdt String gftCiphfrSuitf();
+
+    /**
+     * Rfturns thf dfrtifidbtf(s) thbt wfrf sfnt to thf sfrvfr during
+     * hbndshbking.
+     * <P>
+     * Notf: This mfthod is usfful only whfn using dfrtifidbtf-bbsfd
+     * diphfr suitfs.
+     * <P>
+     * Whfn multiplf dfrtifidbtfs brf bvbilbblf for usf in b
+     * hbndshbkf, thf implfmfntbtion dhoosfs whbt it donsidfrs thf
+     * "bfst" dfrtifidbtf dhbin bvbilbblf, bnd trbnsmits thbt to
+     * thf othfr sidf.  This mfthod bllows thf dbllfr to know
+     * whidh dfrtifidbtf dhbin wbs bdtublly sfnt.
+     *
+     * @rfturn bn ordfrfd brrby of dfrtifidbtfs,
+     *          with thf dlifnt's own dfrtifidbtf first followfd by bny
+     *          dfrtifidbtf buthoritifs.  If no dfrtifidbtfs wfrf sfnt,
+     *          thfn null is rfturnfd.
+     * @throws IllfgblStbtfExdfption if this mfthod is dbllfd bfforf
+     *          thf donnfdtion hbs bffn fstbblishfd.
+     * @sff #gftLodblPrindipbl()
+     */
+    publid bbstrbdt jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftLodblCfrtifidbtfs();
+
+    /**
+     * Rfturns thf sfrvfr's dfrtifidbtf dhbin whidh wbs fstbblishfd
+     * bs pbrt of dffining thf sfssion.
+     * <P>
+     * Notf: This mfthod dbn bf usfd only whfn using dfrtifidbtf-bbsfd
+     * diphfr suitfs; using it with non-dfrtifidbtf-bbsfd diphfr suitfs,
+     * sudh bs Kfrbfros, will throw bn SSLPffrUnvfrififdExdfption.
+     *
+     * @rfturn bn ordfrfd brrby of sfrvfr dfrtifidbtfs,
+     *          with thf pffr's own dfrtifidbtf first followfd by
+     *          bny dfrtifidbtf buthoritifs.
+     * @throws SSLPffrUnvfrififdExdfption if thf pffr is not vfrififd.
+     * @throws IllfgblStbtfExdfption if this mfthod is dbllfd bfforf
+     *          thf donnfdtion hbs bffn fstbblishfd.
+     * @sff #gftPffrPrindipbl()
+     */
+    publid bbstrbdt jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftSfrvfrCfrtifidbtfs()
+            throws SSLPffrUnvfrififdExdfption;
+
+    /**
+     * Rfturns thf sfrvfr's prindipbl whidh wbs fstbblishfd bs pbrt of
+     * dffining thf sfssion.
+     * <P>
+     * Notf: Subdlbssfs should ovfrridf this mfthod. If not ovfrriddfn, it
+     * will dffbult to rfturning thf X500Prindipbl of thf sfrvfr's fnd-fntity
+     * dfrtifidbtf for dfrtifidbtf-bbsfd diphfrsuitfs, or throw bn
+     * SSLPffrUnvfrififdExdfption for non-dfrtifidbtf bbsfd diphfrsuitfs,
+     * sudh bs Kfrbfros.
+     *
+     * @rfturn thf sfrvfr's prindipbl. Rfturns bn X500Prindipbl of thf
+     * fnd-fntity dfrtitidbtf for X509-bbsfd diphfr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros diphfr suitfs.
+     *
+     * @throws SSLPffrUnvfrififdExdfption if thf pffr wbs not vfrififd
+     * @throws IllfgblStbtfExdfption if this mfthod is dbllfd bfforf
+     *          thf donnfdtion hbs bffn fstbblishfd.
+     *
+     * @sff #gftSfrvfrCfrtifidbtfs()
+     * @sff #gftLodblPrindipbl()
+     *
+     * @sindf 1.5
+     */
+    publid Prindipbl gftPffrPrindipbl()
+            throws SSLPffrUnvfrififdExdfption {
+
+        jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts = gftSfrvfrCfrtifidbtfs();
+        rfturn ((X509Cfrtifidbtf)dfrts[0]).gftSubjfdtX500Prindipbl();
+    }
+
+    /**
+     * Rfturns thf prindipbl thbt wbs sfnt to thf sfrvfr during hbndshbking.
+     * <P>
+     * Notf: Subdlbssfs should ovfrridf this mfthod. If not ovfrriddfn, it
+     * will dffbult to rfturning thf X500Prindipbl of thf fnd-fntity dfrtifidbtf
+     * thbt wbs sfnt to thf sfrvfr for dfrtifidbtf-bbsfd diphfrsuitfs or,
+     * rfturn null for non-dfrtifidbtf bbsfd diphfrsuitfs, sudh bs Kfrbfros.
+     *
+     * @rfturn thf prindipbl sfnt to thf sfrvfr. Rfturns bn X500Prindipbl
+     * of thf fnd-fntity dfrtifidbtf for X509-bbsfd diphfr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros diphfr suitfs. If no prindipbl wbs
+     * sfnt, thfn null is rfturnfd.
+     *
+     * @throws IllfgblStbtfExdfption if this mfthod is dbllfd bfforf
+     *          thf donnfdtion hbs bffn fstbblishfd.
+     *
+     * @sff #gftLodblCfrtifidbtfs()
+     * @sff #gftPffrPrindipbl()
+     *
+     * @sindf 1.5
+     */
+    publid Prindipbl gftLodblPrindipbl() {
+
+        jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts = gftLodblCfrtifidbtfs();
+        if (dfrts != null) {
+            rfturn ((X509Cfrtifidbtf)dfrts[0]).gftSubjfdtX500Prindipbl();
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * <dodf>HostnbmfVfrififr</dodf> providfs b dbllbbdk mfdhbnism so thbt
+     * implfmfntfrs of this intfrfbdf dbn supply b polidy for
+     * hbndling thf dbsf whfrf thf host to donnfdt to bnd
+     * thf sfrvfr nbmf from thf dfrtifidbtf mismbtdh.
+     * <p>
+     * Thf dffbult implfmfntbtion will dfny sudh donnfdtions.
+     */
+    privbtf stbtid HostnbmfVfrififr dffbultHostnbmfVfrififr =
+                                        nfw DffbultHostnbmfVfrififr();
+
+    /*
+     * Thf initibl dffbult <dodf>HostnbmfVfrififr</dodf>.  Should bf
+     * updbtfd for bnothfr othfr typf of <dodf>HostnbmfVfrififr</dodf>
+     * thbt brf drfbtfd.
+     */
+    privbtf stbtid dlbss DffbultHostnbmfVfrififr
+            implfmfnts HostnbmfVfrififr {
+        @Ovfrridf
+        publid boolfbn vfrify(String hostnbmf, SSLSfssion sfssion) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Thf <dodf>hostnbmfVfrififr</dodf> for this objfdt.
+     */
+    protfdtfd HostnbmfVfrififr hostnbmfVfrififr = dffbultHostnbmfVfrififr;
+
+    /**
+     * Sfts thf dffbult <dodf>HostnbmfVfrififr</dodf> inhfritfd by b
+     * nfw instbndf of this dlbss.
+     * <P>
+     * If this mfthod is not dbllfd, thf dffbult
+     * <dodf>HostnbmfVfrififr</dodf> bssumfs thf donnfdtion should not
+     * bf pfrmittfd.
+     *
+     * @pbrbm v thf dffbult host nbmf vfrififr
+     * @throws IllfgblArgumfntExdfption if thf <dodf>HostnbmfVfrififr</dodf>
+     *          pbrbmftfr is null.
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>dhfdkPfrmission</dodf> mfthod dofs not bllow
+     *         <dodf>SSLPfrmission("sftHostnbmfVfrififr")</dodf>
+     * @sff #gftDffbultHostnbmfVfrififr()
+     */
+    publid stbtid void sftDffbultHostnbmfVfrififr(HostnbmfVfrififr v) {
+        if (v == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "no dffbult HostnbmfVfrififr spfdififd");
+        }
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw SSLPfrmission("sftHostnbmfVfrififr"));
+        }
+        dffbultHostnbmfVfrififr = v;
+    }
+
+    /**
+     * Gfts thf dffbult <dodf>HostnbmfVfrififr</dodf> thbt is inhfritfd
+     * by nfw instbndfs of this dlbss.
+     *
+     * @rfturn thf dffbult host nbmf vfrififr
+     * @sff #sftDffbultHostnbmfVfrififr(HostnbmfVfrififr)
+     */
+    publid stbtid HostnbmfVfrififr gftDffbultHostnbmfVfrififr() {
+        rfturn dffbultHostnbmfVfrififr;
+    }
+
+    /**
+     * Sfts thf <dodf>HostnbmfVfrififr</dodf> for this instbndf.
+     * <P>
+     * Nfw instbndfs of this dlbss inhfrit thf dffbult stbtid hostnbmf
+     * vfrififr sft by {@link #sftDffbultHostnbmfVfrififr(HostnbmfVfrififr)
+     * sftDffbultHostnbmfVfrififr}.  Cblls to this mfthod rfplbdf
+     * this objfdt's <dodf>HostnbmfVfrififr</dodf>.
+     *
+     * @pbrbm v thf host nbmf vfrififr
+     * @throws IllfgblArgumfntExdfption if thf <dodf>HostnbmfVfrififr</dodf>
+     *  pbrbmftfr is null.
+     * @sff #gftHostnbmfVfrififr()
+     * @sff #sftDffbultHostnbmfVfrififr(HostnbmfVfrififr)
+     */
+    publid void sftHostnbmfVfrififr(HostnbmfVfrififr v) {
+        if (v == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "no HostnbmfVfrififr spfdififd");
+        }
+
+        hostnbmfVfrififr = v;
+    }
+
+    /**
+     * Gfts thf <dodf>HostnbmfVfrififr</dodf> in plbdf on this instbndf.
+     *
+     * @rfturn thf host nbmf vfrififr
+     * @sff #sftHostnbmfVfrififr(HostnbmfVfrififr)
+     * @sff #sftDffbultHostnbmfVfrififr(HostnbmfVfrififr)
+     */
+    publid HostnbmfVfrififr gftHostnbmfVfrififr() {
+        rfturn hostnbmfVfrififr;
+    }
+
+    privbtf stbtid SSLSodkftFbdtory dffbultSSLSodkftFbdtory = null;
+
+    /**
+     * Thf <dodf>SSLSodkftFbdtory</dodf> inhfritfd whfn bn instbndf
+     * of this dlbss is drfbtfd.
+     */
+    privbtf SSLSodkftFbdtory sslSodkftFbdtory = gftDffbultSSLSodkftFbdtory();
+
+    /**
+     * Sfts thf dffbult <dodf>SSLSodkftFbdtory</dodf> inhfritfd by nfw
+     * instbndfs of this dlbss.
+     * <P>
+     * Thf sodkft fbdtorifs brf usfd whfn drfbting sodkfts for sfdurf
+     * https URL donnfdtions.
+     *
+     * @pbrbm sf thf dffbult SSL sodkft fbdtory
+     * @throws IllfgblArgumfntExdfption if thf SSLSodkftFbdtory
+     *          pbrbmftfr is null.
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>dhfdkSftFbdtory</dodf> mfthod dofs not bllow
+     *         b sodkft fbdtory to bf spfdififd.
+     * @sff #gftDffbultSSLSodkftFbdtory()
+     */
+    publid stbtid void sftDffbultSSLSodkftFbdtory(SSLSodkftFbdtory sf) {
+        if (sf == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "no dffbult SSLSodkftFbdtory spfdififd");
+        }
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkSftFbdtory();
+        }
+        dffbultSSLSodkftFbdtory = sf;
+    }
+
+    /**
+     * Gfts thf dffbult stbtid <dodf>SSLSodkftFbdtory</dodf> thbt is
+     * inhfritfd by nfw instbndfs of this dlbss.
+     * <P>
+     * Thf sodkft fbdtorifs brf usfd whfn drfbting sodkfts for sfdurf
+     * https URL donnfdtions.
+     *
+     * @rfturn thf dffbult <dodf>SSLSodkftFbdtory</dodf>
+     * @sff #sftDffbultSSLSodkftFbdtory(SSLSodkftFbdtory)
+     */
+    publid stbtid SSLSodkftFbdtory gftDffbultSSLSodkftFbdtory() {
+        if (dffbultSSLSodkftFbdtory == null) {
+            dffbultSSLSodkftFbdtory =
+                (SSLSodkftFbdtory)SSLSodkftFbdtory.gftDffbult();
+        }
+        rfturn dffbultSSLSodkftFbdtory;
+    }
+
+    /**
+     * Sfts thf <dodf>SSLSodkftFbdtory</dodf> to bf usfd whfn this instbndf
+     * drfbtfs sodkfts for sfdurf https URL donnfdtions.
+     * <P>
+     * Nfw instbndfs of this dlbss inhfrit thf dffbult stbtid
+     * <dodf>SSLSodkftFbdtory</dodf> sft by
+     * {@link #sftDffbultSSLSodkftFbdtory(SSLSodkftFbdtory)
+     * sftDffbultSSLSodkftFbdtory}.  Cblls to this mfthod rfplbdf
+     * this objfdt's <dodf>SSLSodkftFbdtory</dodf>.
+     *
+     * @pbrbm sf thf SSL sodkft fbdtory
+     * @throws IllfgblArgumfntExdfption if thf <dodf>SSLSodkftFbdtory</dodf>
+     *          pbrbmftfr is null.
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>dhfdkSftFbdtory</dodf> mfthod dofs not bllow
+     *         b sodkft fbdtory to bf spfdififd.
+     * @sff #gftSSLSodkftFbdtory()
+     */
+    publid void sftSSLSodkftFbdtory(SSLSodkftFbdtory sf) {
+        if (sf == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "no SSLSodkftFbdtory spfdififd");
+        }
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkSftFbdtory();
+        }
+        sslSodkftFbdtory = sf;
+    }
+
+    /**
+     * Gfts thf SSL sodkft fbdtory to bf usfd whfn drfbting sodkfts
+     * for sfdurf https URL donnfdtions.
+     *
+     * @rfturn thf <dodf>SSLSodkftFbdtory</dodf>
+     * @sff #sftSSLSodkftFbdtory(SSLSodkftFbdtory)
+     */
+    publid SSLSodkftFbdtory gftSSLSodkftFbdtory() {
+        rfturn sslSodkftFbdtory;
+    }
+}

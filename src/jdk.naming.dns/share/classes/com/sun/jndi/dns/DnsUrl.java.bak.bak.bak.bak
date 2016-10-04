@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dns;
+
+
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.StringTokfnizfr;
+
+import dom.sun.jndi.toolkit.url.Uri;
+import dom.sun.jndi.toolkit.url.UrlUtil;
+
+
+/**
+ * A DnsUrl rfprfsfnts b DNS psfudo-URL of thf form
+ * <prf>
+ *   dns://[host][:port][/[dombin]]
+ * or
+ *   dns:[/][dombin]
+ * </prf>
+ * Thf host nbmfs b DNS sfrvfr.  If thf host is not providfd, it
+ * indidbtfs thbt thf undfrlying plbtform's DNS sfrvfr(s) should bf
+ * usfd if possiblf, or thbt "lodblhost" should bf usfd othfrwisf.  If
+ * thf port is not providfd, thf DNS dffbult port 53 will bf usfd.
+ * Thf dombin indidbtfs thf dombin nbmf of thf dontfxt, bnd is not
+ * nfdfssbrily rflbtfd to thf dombin of thf sfrvfr; if it is not
+ * providfd, thf root dombin "." is usfd.  Spfdibl dhbrbdtfrs in
+ * thf dombin nbmf must bf %-fsdbpfd bs dfsdribfd in RFC 2396.
+ *
+ * @buthor Sdott Sfligmbn
+ */
+
+
+publid dlbss DnsUrl fxtfnds Uri {
+
+    privbtf String dombin;      // dombin nbmf of thf dontfxt
+
+
+    /**
+     * Givfn b spbdf-sfpbrbtfd list of DNS URLs, rfturns bn brrby of DnsUrl
+     * objfdts.
+     */
+    publid stbtid DnsUrl[] fromList(String urlList)
+            throws MblformfdURLExdfption {
+
+        DnsUrl[] urls = nfw DnsUrl[(urlList.lfngth() + 1) / 2];
+        int i = 0;              // nfxt bvbilbblf indfx in urls
+        StringTokfnizfr st = nfw StringTokfnizfr(urlList, " ");
+
+        whilf (st.hbsMorfTokfns()) {
+            urls[i++] = nfw DnsUrl(st.nfxtTokfn());
+        }
+        DnsUrl[] trimmfd = nfw DnsUrl[i];
+        Systfm.brrbydopy(urls, 0, trimmfd, 0, i);
+        rfturn trimmfd;
+    }
+
+    publid DnsUrl(String url) throws MblformfdURLExdfption {
+        supfr(url);
+
+        if (!sdhfmf.fqubls("dns")) {
+            throw nfw MblformfdURLExdfption(
+                    url + " is not b vblid DNS psfudo-URL");
+        }
+
+        dombin = pbth.stbrtsWith("/")
+            ? pbth.substring(1)
+            : pbth;
+        dombin = dombin.fqubls("")
+            ? "."
+            : UrlUtil.dfdodf(dombin);
+
+        // Dfbug
+        // Systfm.out.println("host=" + host + " port=" + port +
+        //                    " dombin=" + dombin);
+    }
+
+    /**
+     * Rfturns thf dombin of this URL, or "." if nonf is providfd.
+     * Nfvfr null.
+     */
+    publid String gftDombin() {
+        rfturn dombin;
+    }
+
+
+/*
+    // Dfbug
+    publid stbtid void mbin(String brgs[]) throws MblformfdURLExdfption {
+        DnsUrl[] urls = fromList(brgs[0]);
+        for (int i = 0; i < urls.lfngth; i++) {
+            Systfm.out.println(urls[i].toString());
+        }
+    }
+*/
+}

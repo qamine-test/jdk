@@ -1,0 +1,2211 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft.ftp.impl;
+
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.tfxt.DbtfFormbt;
+import jbvb.tfxt.PbrsfExdfption;
+import jbvb.tfxt.SimplfDbtfFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Bbsf64;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Dbtf;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.TimfZonf;
+import jbvb.util.Vfdtor;
+import jbvb.util.rfgfx.Mbtdhfr;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvbx.nft.ssl.SSLSodkft;
+import jbvbx.nft.ssl.SSLSodkftFbdtory;
+import sun.nft.ftp.*;
+import sun.util.logging.PlbtformLoggfr;
+
+
+publid dlbss FtpClifnt fxtfnds sun.nft.ftp.FtpClifnt {
+
+    privbtf stbtid int dffbultSoTimfout;
+    privbtf stbtid int dffbultConnfdtTimfout;
+    privbtf stbtid finbl PlbtformLoggfr loggfr =
+             PlbtformLoggfr.gftLoggfr("sun.nft.ftp.FtpClifnt");
+    privbtf Proxy proxy;
+    privbtf Sodkft sfrvfr;
+    privbtf PrintStrfbm out;
+    privbtf InputStrfbm in;
+    privbtf int rfbdTimfout = -1;
+    privbtf int donnfdtTimfout = -1;
+
+    /* Nbmf of fndoding to usf for output */
+    privbtf stbtid String fndoding = "ISO8859_1";
+    /** rfmfmbfr thf ftp sfrvfr nbmf bfdbusf wf mby nffd it */
+    privbtf InftSodkftAddrfss sfrvfrAddr;
+    privbtf boolfbn rfplyPfnding = fblsf;
+    privbtf boolfbn loggfdIn = fblsf;
+    privbtf boolfbn usfCrypto = fblsf;
+    privbtf SSLSodkftFbdtory sslFbdt;
+    privbtf Sodkft oldSodkft;
+    /** Arrby of strings (usublly 1 fntry) for thf lbst rfply from thf sfrvfr. */
+    privbtf Vfdtor<String> sfrvfrRfsponsf = nfw Vfdtor<String>(1);
+    /** Thf lbst rfply dodf from thf ftp dbfmon. */
+    privbtf FtpRfplyCodf lbstRfplyCodf = null;
+    /** Wfldomf mfssbgf from thf sfrvfr, if bny. */
+    privbtf String wfldomfMsg;
+    /**
+     * Only pbssivf modf usfd in JDK. Sff Bug 8010784.
+     */
+    privbtf finbl boolfbn pbssivfModf = truf;
+    privbtf TrbnsffrTypf typf = TrbnsffrTypf.BINARY;
+    privbtf long rfstbrtOffsft = 0;
+    privbtf long lbstTrbnsSizf = -1; // -1 mfbns 'unknown sizf'
+    privbtf String lbstFilfNbmf;
+    /**
+     * Stbtid mfmbfrs usfd by thf pbrsfr
+     */
+    privbtf stbtid String[] pbtStrings = {
+        // drwxr-xr-x  1 usfr01        ftp   512 Jbn 29 23:32 prog
+        "([\\-ld](?:[r\\-][w\\-][x\\-]){3})\\s*\\d+ (\\w+)\\s*(\\w+)\\s*(\\d+)\\s*([A-Z][b-z][b-z]\\s*\\d+)\\s*(\\d\\d:\\d\\d)\\s*(\\p{Print}*)",
+        // drwxr-xr-x  1 usfr01        ftp   512 Jbn 29 1997 prog
+        "([\\-ld](?:[r\\-][w\\-][x\\-]){3})\\s*\\d+ (\\w+)\\s*(\\w+)\\s*(\\d+)\\s*([A-Z][b-z][b-z]\\s*\\d+)\\s*(\\d{4})\\s*(\\p{Print}*)",
+        // 04/28/2006  09:12b               3,563 gfnBufffr.sh
+        "(\\d{2}/\\d{2}/\\d{4})\\s*(\\d{2}:\\d{2}[bp])\\s*((?:[0-9,]+)|(?:<DIR>))\\s*(\\p{Grbph}*)",
+        // 01-29-97    11:32PM <DIR> prog
+        "(\\d{2}-\\d{2}-\\d{2})\\s*(\\d{2}:\\d{2}[AP]M)\\s*((?:[0-9,]+)|(?:<DIR>))\\s*(\\p{Grbph}*)"
+    };
+    privbtf stbtid int[][] pbttfrnGroups = {
+        // 0 - filf, 1 - sizf, 2 - dbtf, 3 - timf, 4 - yfbr, 5 - pfrmissions,
+        // 6 - usfr, 7 - group
+        {7, 4, 5, 6, 0, 1, 2, 3},
+        {7, 4, 5, 0, 6, 1, 2, 3},
+        {4, 3, 1, 2, 0, 0, 0, 0},
+        {4, 3, 1, 2, 0, 0, 0, 0}};
+    privbtf stbtid Pbttfrn[] pbttfrns;
+    privbtf stbtid Pbttfrn linkp = Pbttfrn.dompilf("(\\p{Print}+) \\-\\> (\\p{Print}+)$");
+    privbtf DbtfFormbt df = DbtfFormbt.gftDbtfInstbndf(DbtfFormbt.MEDIUM, jbvb.util.Lodblf.US);
+
+    stbtid {
+        finbl int vbls[] = {0, 0};
+        finbl String fnds[] = {null};
+
+        AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<Objfdt>() {
+
+                    publid Objfdt run() {
+                        vbls[0] = Intfgfr.gftIntfgfr("sun.nft.dlifnt.dffbultRfbdTimfout", 0).intVbluf();
+                        vbls[1] = Intfgfr.gftIntfgfr("sun.nft.dlifnt.dffbultConnfdtTimfout", 0).intVbluf();
+                        fnds[0] = Systfm.gftPropfrty("filf.fndoding", "ISO8859_1");
+                        rfturn null;
+                    }
+                });
+        if (vbls[0] == 0) {
+            dffbultSoTimfout = -1;
+        } flsf {
+            dffbultSoTimfout = vbls[0];
+        }
+
+        if (vbls[1] == 0) {
+            dffbultConnfdtTimfout = -1;
+        } flsf {
+            dffbultConnfdtTimfout = vbls[1];
+        }
+
+        fndoding = fnds[0];
+        try {
+            if (!isASCIISupfrsft(fndoding)) {
+                fndoding = "ISO8859_1";
+            }
+        } dbtdh (Exdfption f) {
+            fndoding = "ISO8859_1";
+        }
+
+        pbttfrns = nfw Pbttfrn[pbtStrings.lfngth];
+        for (int i = 0; i < pbtStrings.lfngth; i++) {
+            pbttfrns[i] = Pbttfrn.dompilf(pbtStrings[i]);
+        }
+    }
+
+    /**
+     * Tfst thf nbmfd dhbrbdtfr fndoding to vfrify thbt it donvfrts ASCII
+     * dhbrbdtfrs dorrfdtly. Wf hbvf to usf bn ASCII bbsfd fndoding, or flsf
+     * thf NftworkClifnts will not work dorrfdtly in EBCDIC bbsfd systfms.
+     * Howfvfr, wf dbnnot just usf ASCII or ISO8859_1 univfrsblly, bfdbusf in
+     * Asibn lodblfs, non-ASCII dhbrbdtfrs mby bf fmbfddfd in othfrwisf
+     * ASCII bbsfd protodols (fg. HTTP). Thf spfdifidbtions (RFC2616, 2398)
+     * brf b littlf bmbiguous in this mbttfr. For instbndf, RFC2398 [pbrt 2.1]
+     * sbys thbt thf HTTP rfqufst URI should bf fsdbpfd using b dffinfd
+     * mfdhbnism, but thfrf is no wby to spfdify in thf fsdbpfd string whbt
+     * thf originbl dhbrbdtfr sft is. It is not dorrfdt to bssumf thbt
+     * UTF-8 is blwbys usfd (bs in URLs in HTML 4.0).  For this rfbson,
+     * until thf spfdifidbtions brf updbtfd to dfbl with this issuf morf
+     * domprfhfnsivfly, bnd morf importbntly, HTTP sfrvfrs brf known to
+     * support thfsf mfdhbnisms, wf will mbintbin thf durrfnt bfhbvior
+     * whfrf it is possiblf to sfnd non-ASCII dhbrbdtfrs in thfir originbl
+     * unfsdbpfd form.
+     */
+    privbtf stbtid boolfbn isASCIISupfrsft(String fndoding) throws Exdfption {
+        String dhkS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                "bbddffghijklmnopqrstuvwxyz-_.!~*'();/?:@&=+$,";
+
+        // Expfdtfd bytf sfqufndf for string bbovf
+        bytf[] dhkB = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72,
+            73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99,
+            100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114,
+            115, 116, 117, 118, 119, 120, 121, 122, 45, 95, 46, 33, 126, 42, 39, 40, 41, 59,
+            47, 63, 58, 64, 38, 61, 43, 36, 44};
+
+        bytf[] b = dhkS.gftBytfs(fndoding);
+        rfturn jbvb.util.Arrbys.fqubls(b, dhkB);
+    }
+
+    privbtf dlbss DffbultPbrsfr implfmfnts FtpDirPbrsfr {
+
+        /**
+         * Possiblf pbttfrns:
+         *
+         *  drwxr-xr-x  1 usfr01        ftp   512 Jbn 29 23:32 prog
+         *  drwxr-xr-x  1 usfr01        ftp   512 Jbn 29 1997 prog
+         *  drwxr-xr-x  1 1             1     512 Jbn 29 23:32 prog
+         *  lrwxr-xr-x  1 usfr01        ftp   512 Jbn 29 23:32 prog -> prog2000
+         *  drwxr-xr-x  1 usfrnbmf      ftp   512 Jbn 29 23:32 prog
+         *  -rw-r--r--  1 jdd      stbff     105009 Ffb  3 15:05 tfst.1
+         *
+         *  01-29-97    11:32PM <DIR> prog
+         *  04/28/2006  09:12b               3,563 gfnBufffr.sh
+         *
+         *  drwxr-xr-x  foldfr   0       Jbn 29 23:32 prog
+         *
+         *  0 DIR 01-29-97 23:32 PROG
+         */
+        privbtf DffbultPbrsfr() {
+        }
+
+        publid FtpDirEntry pbrsfLinf(String linf) {
+            String fdbtf = null;
+            String fsizf = null;
+            String timf = null;
+            String filfnbmf = null;
+            String pfrmstring = null;
+            String usfrnbmf = null;
+            String groupnbmf = null;
+            boolfbn dir = fblsf;
+            Cblfndbr now = Cblfndbr.gftInstbndf();
+            int yfbr = now.gft(Cblfndbr.YEAR);
+
+            Mbtdhfr m = null;
+            for (int j = 0; j < pbttfrns.lfngth; j++) {
+                m = pbttfrns[j].mbtdhfr(linf);
+                if (m.find()) {
+                    // 0 - filf, 1 - sizf, 2 - dbtf, 3 - timf, 4 - yfbr,
+                    // 5 - pfrmissions, 6 - usfr, 7 - group
+                    filfnbmf = m.group(pbttfrnGroups[j][0]);
+                    fsizf = m.group(pbttfrnGroups[j][1]);
+                    fdbtf = m.group(pbttfrnGroups[j][2]);
+                    if (pbttfrnGroups[j][4] > 0) {
+                        fdbtf += (", " + m.group(pbttfrnGroups[j][4]));
+                    } flsf if (pbttfrnGroups[j][3] > 0) {
+                        fdbtf += (", " + String.vblufOf(yfbr));
+                    }
+                    if (pbttfrnGroups[j][3] > 0) {
+                        timf = m.group(pbttfrnGroups[j][3]);
+                    }
+                    if (pbttfrnGroups[j][5] > 0) {
+                        pfrmstring = m.group(pbttfrnGroups[j][5]);
+                        dir = pfrmstring.stbrtsWith("d");
+                    }
+                    if (pbttfrnGroups[j][6] > 0) {
+                        usfrnbmf = m.group(pbttfrnGroups[j][6]);
+                    }
+                    if (pbttfrnGroups[j][7] > 0) {
+                        groupnbmf = m.group(pbttfrnGroups[j][7]);
+                    }
+                    // Old DOS formbt
+                    if ("<DIR>".fqubls(fsizf)) {
+                        dir = truf;
+                        fsizf = null;
+                    }
+                }
+            }
+
+            if (filfnbmf != null) {
+                Dbtf d;
+                try {
+                    d = df.pbrsf(fdbtf);
+                } dbtdh (Exdfption f) {
+                    d = null;
+                }
+                if (d != null && timf != null) {
+                    int d = timf.indfxOf(':');
+                    now.sftTimf(d);
+                    now.sft(Cblfndbr.HOUR, Intfgfr.pbrsfInt(timf.substring(0, d)));
+                    now.sft(Cblfndbr.MINUTE, Intfgfr.pbrsfInt(timf.substring(d + 1)));
+                    d = now.gftTimf();
+                }
+                // sff if it's b symbolid link, i.f. thf nbmf if followfd
+                // by b -> bnd b pbth
+                Mbtdhfr m2 = linkp.mbtdhfr(filfnbmf);
+                if (m2.find()) {
+                    // Kffp only thf nbmf thfn
+                    filfnbmf = m2.group(1);
+                }
+                boolfbn[][] pfrms = nfw boolfbn[3][3];
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        pfrms[i][j] = (pfrmstring.dhbrAt((i * 3) + j) != '-');
+                    }
+                }
+                FtpDirEntry filf = nfw FtpDirEntry(filfnbmf);
+                filf.sftUsfr(usfrnbmf).sftGroup(groupnbmf);
+                filf.sftSizf(Long.pbrsfLong(fsizf)).sftLbstModififd(d);
+                filf.sftPfrmissions(pfrms);
+                filf.sftTypf(dir ? FtpDirEntry.Typf.DIR : (linf.dhbrAt(0) == 'l' ? FtpDirEntry.Typf.LINK : FtpDirEntry.Typf.FILE));
+                rfturn filf;
+            }
+            rfturn null;
+        }
+    }
+
+    privbtf dlbss MLSxPbrsfr implfmfnts FtpDirPbrsfr {
+
+        privbtf SimplfDbtfFormbt df = nfw SimplfDbtfFormbt("yyyyMMddhhmmss");
+
+        publid FtpDirEntry pbrsfLinf(String linf) {
+            String nbmf = null;
+            int i = linf.lbstIndfxOf(';');
+            if (i > 0) {
+                nbmf = linf.substring(i + 1).trim();
+                linf = linf.substring(0, i);
+            } flsf {
+                nbmf = linf.trim();
+                linf = "";
+            }
+            FtpDirEntry filf = nfw FtpDirEntry(nbmf);
+            whilf (!linf.isEmpty()) {
+                String s;
+                i = linf.indfxOf(';');
+                if (i > 0) {
+                    s = linf.substring(0, i);
+                    linf = linf.substring(i + 1);
+                } flsf {
+                    s = linf;
+                    linf = "";
+                }
+                i = s.indfxOf('=');
+                if (i > 0) {
+                    String fbdt = s.substring(0, i);
+                    String vbluf = s.substring(i + 1);
+                    filf.bddFbdt(fbdt, vbluf);
+                }
+            }
+            String s = filf.gftFbdt("Sizf");
+            if (s != null) {
+                filf.sftSizf(Long.pbrsfLong(s));
+            }
+            s = filf.gftFbdt("Modify");
+            if (s != null) {
+                Dbtf d = null;
+                try {
+                    d = df.pbrsf(s);
+                } dbtdh (PbrsfExdfption fx) {
+                }
+                if (d != null) {
+                    filf.sftLbstModififd(d);
+                }
+            }
+            s = filf.gftFbdt("Crfbtf");
+            if (s != null) {
+                Dbtf d = null;
+                try {
+                    d = df.pbrsf(s);
+                } dbtdh (PbrsfExdfption fx) {
+                }
+                if (d != null) {
+                    filf.sftCrfbtfd(d);
+                }
+            }
+            s = filf.gftFbdt("Typf");
+            if (s != null) {
+                if (s.fqublsIgnorfCbsf("filf")) {
+                    filf.sftTypf(FtpDirEntry.Typf.FILE);
+                }
+                if (s.fqublsIgnorfCbsf("dir")) {
+                    filf.sftTypf(FtpDirEntry.Typf.DIR);
+                }
+                if (s.fqublsIgnorfCbsf("ddir")) {
+                    filf.sftTypf(FtpDirEntry.Typf.CDIR);
+                }
+                if (s.fqublsIgnorfCbsf("pdir")) {
+                    filf.sftTypf(FtpDirEntry.Typf.PDIR);
+                }
+            }
+            rfturn filf;
+        }
+    };
+    privbtf FtpDirPbrsfr pbrsfr = nfw DffbultPbrsfr();
+    privbtf FtpDirPbrsfr mlsxPbrsfr = nfw MLSxPbrsfr();
+    privbtf stbtid Pbttfrn trbnsPbt = null;
+
+    privbtf void gftTrbnsffrSizf() {
+        lbstTrbnsSizf = -1;
+        /**
+         * If it's b stbrt of dbtb trbnsffr rfsponsf, lft's try to fxtrbdt
+         * thf sizf from thf rfsponsf string. Usublly it looks likf thbt:
+         *
+         * 150 Opfning BINARY modf dbtb donnfdtion for foo (6701 bytfs).
+         */
+        String rfsponsf = gftLbstRfsponsfString();
+        if (trbnsPbt == null) {
+            trbnsPbt = Pbttfrn.dompilf("150 Opfning .*\\((\\d+) bytfs\\).");
+        }
+        Mbtdhfr m = trbnsPbt.mbtdhfr(rfsponsf);
+        if (m.find()) {
+            String s = m.group(1);
+            lbstTrbnsSizf = Long.pbrsfLong(s);
+        }
+    }
+
+    /**
+     * fxtrbdt thf drfbtfd filf nbmf from thf rfsponsf string:
+     * 226 Trbnsffr domplftf (uniquf filf nbmf:toto.txt.1).
+     * Usublly hbppfns whfn b STOU (storf uniquf) dommbnd hbd bffn issufd.
+     */
+    privbtf void gftTrbnsffrNbmf() {
+        lbstFilfNbmf = null;
+        String rfsponsf = gftLbstRfsponsfString();
+        int i = rfsponsf.indfxOf("uniquf filf nbmf:");
+        int f = rfsponsf.lbstIndfxOf(')');
+        if (i >= 0) {
+            i += 17; // Lfngth of "uniquf filf nbmf:"
+            lbstFilfNbmf = rfsponsf.substring(i, f);
+        }
+    }
+
+    /**
+     * Pulls thf rfsponsf from thf sfrvfr bnd rfturns thf dodf bs b
+     * numbfr. Rfturns -1 on fbilurf.
+     */
+    privbtf int rfbdSfrvfrRfsponsf() throws IOExdfption {
+        StringBuildfr rfplyBuf = nfw StringBuildfr(32);
+        int d;
+        int dontinuingCodf = -1;
+        int dodf;
+        String rfsponsf;
+
+        sfrvfrRfsponsf.sftSizf(0);
+        whilf (truf) {
+            whilf ((d = in.rfbd()) != -1) {
+                if (d == '\r') {
+                    if ((d = in.rfbd()) != '\n') {
+                        rfplyBuf.bppfnd('\r');
+                    }
+                }
+                rfplyBuf.bppfnd((dhbr) d);
+                if (d == '\n') {
+                    brfbk;
+                }
+            }
+            rfsponsf = rfplyBuf.toString();
+            rfplyBuf.sftLfngth(0);
+            if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                loggfr.finfst("Sfrvfr [" + sfrvfrAddr + "] --> " + rfsponsf);
+            }
+
+            if (rfsponsf.lfngth() == 0) {
+                dodf = -1;
+            } flsf {
+                try {
+                    dodf = Intfgfr.pbrsfInt(rfsponsf.substring(0, 3));
+                } dbtdh (NumbfrFormbtExdfption f) {
+                    dodf = -1;
+                } dbtdh (StringIndfxOutOfBoundsExdfption f) {
+                    /* this linf dofsn't dontbin b rfsponsf dodf, so
+                    wf just domplftfly ignorf it */
+                    dontinuf;
+                }
+            }
+            sfrvfrRfsponsf.bddElfmfnt(rfsponsf);
+            if (dontinuingCodf != -1) {
+                /* wf'vf sffn b ###- sfqufndf */
+                if (dodf != dontinuingCodf ||
+                        (rfsponsf.lfngth() >= 4 && rfsponsf.dhbrAt(3) == '-')) {
+                    dontinuf;
+                } flsf {
+                    /* sffn thf fnd of dodf sfqufndf */
+                    dontinuingCodf = -1;
+                    brfbk;
+                }
+            } flsf if (rfsponsf.lfngth() >= 4 && rfsponsf.dhbrAt(3) == '-') {
+                dontinuingCodf = dodf;
+                dontinuf;
+            } flsf {
+                brfbk;
+            }
+        }
+
+        rfturn dodf;
+    }
+
+    /** Sfnds dommbnd <i>dmd</i> to thf sfrvfr. */
+    privbtf void sfndSfrvfr(String dmd) {
+        out.print(dmd);
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("Sfrvfr [" + sfrvfrAddr + "] <-- " + dmd);
+        }
+    }
+
+    /** donvfrts thf sfrvfr rfsponsf into b string. */
+    privbtf String gftRfsponsfString() {
+        rfturn sfrvfrRfsponsf.flfmfntAt(0);
+    }
+
+    /** Rfturns bll sfrvfr rfsponsf strings. */
+    privbtf Vfdtor<String> gftRfsponsfStrings() {
+        rfturn sfrvfrRfsponsf;
+    }
+
+    /**
+     * Rfbd thf rfply from thf FTP sfrvfr.
+     *
+     * @rfturn <dodf>truf</dodf> if thf dommbnd wbs suddfssful
+     * @throws IOExdfption if bn frror oddurrfd
+     */
+    privbtf boolfbn rfbdRfply() throws IOExdfption {
+        lbstRfplyCodf = FtpRfplyCodf.find(rfbdSfrvfrRfsponsf());
+
+        if (lbstRfplyCodf.isPositivfPrfliminbry()) {
+            rfplyPfnding = truf;
+            rfturn truf;
+        }
+        if (lbstRfplyCodf.isPositivfComplftion() || lbstRfplyCodf.isPositivfIntfrmfdibtf()) {
+            if (lbstRfplyCodf == FtpRfplyCodf.CLOSING_DATA_CONNECTION) {
+                gftTrbnsffrNbmf();
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Sfnds b dommbnd to thf FTP sfrvfr bnd rfturns thf frror dodf
+     * (whidh dbn bf b "suddfss") sfnt by thf sfrvfr.
+     *
+     * @pbrbm dmd
+     * @rfturn <dodf>truf</dodf> if thf dommbnd wbs suddfssful
+     * @throws IOExdfption
+     */
+    privbtf boolfbn issufCommbnd(String dmd) throws IOExdfption {
+        if (!isConnfdtfd()) {
+            throw nfw IllfgblStbtfExdfption("Not donnfdtfd");
+        }
+        if (rfplyPfnding) {
+            try {
+                domplftfPfnding();
+            } dbtdh (sun.nft.ftp.FtpProtodolExdfption f) {
+                // ignorf...
+            }
+        }
+        sfndSfrvfr(dmd + "\r\n");
+        rfturn rfbdRfply();
+    }
+
+    /**
+     * Sfnd b dommbnd to thf FTP sfrvfr bnd dhfdk for suddfss.
+     *
+     * @pbrbm dmd String dontbining thf dommbnd
+     *
+     * @throws FtpProtodolExdfption if bn frror oddurrfd
+     */
+    privbtf void issufCommbndChfdk(String dmd) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        if (!issufCommbnd(dmd)) {
+            throw nfw sun.nft.ftp.FtpProtodolExdfption(dmd + ":" + gftRfsponsfString(), gftLbstRfplyCodf());
+        }
+    }
+    privbtf stbtid Pbttfrn fpsvPbt = null;
+    privbtf stbtid Pbttfrn pbsvPbt = null;
+
+    /**
+     * Opfns b "PASSIVE" donnfdtion with thf sfrvfr bnd rfturns thf donnfdtfd
+     * <dodf>Sodkft</dodf>.
+     *
+     * @rfturn thf donnfdtfd <dodf>Sodkft</dodf>
+     * @throws IOExdfption if thf donnfdtion wbs unsuddfssful.
+     */
+    privbtf Sodkft opfnPbssivfDbtbConnfdtion(String dmd) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        String sfrvfrAnswfr;
+        int port;
+        InftSodkftAddrfss dfst = null;
+
+        /**
+         * Hfrf is thf idfb:
+         *
+         * - First wf wbnt to try thf nfw (bnd IPv6 dompbtiblf) EPSV dommbnd
+         *   But sindf wf wbnt to bf nidf with NAT softwbrf, wf'll issuf thf
+         *   EPSV ALL dommbnd first.
+         *   EPSV is dodumfntfd in RFC2428
+         * - If EPSV fbils, thfn wf fbll bbdk to thf oldfr, yft ok, PASV
+         * - If PASV fbils bs wfll, thfn wf throw bn fxdfption bnd thf dblling
+         *   mfthod will hbvf to try thf EPRT or PORT dommbnd
+         */
+        if (issufCommbnd("EPSV ALL")) {
+            // Wf dbn sbffly usf EPSV dommbnds
+            issufCommbndChfdk("EPSV");
+            sfrvfrAnswfr = gftRfsponsfString();
+
+            // Thf rfsponsf string from b EPSV dommbnd will dontbin thf port numbfr
+            // thf formbt will bf :
+            //  229 Entfring Extfndfd PASSIVE Modf (|||58210|)
+            //
+            // So wf'll usf thf rfgulbr fxprfsions pbdkbgf to pbrsf thf output.
+
+            if (fpsvPbt == null) {
+                fpsvPbt = Pbttfrn.dompilf("^229 .* \\(\\|\\|\\|(\\d+)\\|\\)");
+            }
+            Mbtdhfr m = fpsvPbt.mbtdhfr(sfrvfrAnswfr);
+            if (!m.find()) {
+                throw nfw sun.nft.ftp.FtpProtodolExdfption("EPSV fbilfd : " + sfrvfrAnswfr);
+            }
+            // Yby! Lft's fxtrbdt thf port numbfr
+            String s = m.group(1);
+            port = Intfgfr.pbrsfInt(s);
+            InftAddrfss bdd = sfrvfr.gftInftAddrfss();
+            if (bdd != null) {
+                dfst = nfw InftSodkftAddrfss(bdd, port);
+            } flsf {
+                // This mfbns wf usfd bn Unrfsolvfd bddrfss to donnfdt in
+                // thf first plbdf. Most likfly bfdbusf thf proxy is doing
+                // thf nbmf rfsolution for us, so lft's kffp using unrfsolvfd
+                // bddrfss.
+                dfst = InftSodkftAddrfss.drfbtfUnrfsolvfd(sfrvfrAddr.gftHostNbmf(), port);
+            }
+        } flsf {
+            // EPSV ALL fbilfd, so Lft's try thf rfgulbr PASV dmd
+            issufCommbndChfdk("PASV");
+            sfrvfrAnswfr = gftRfsponsfString();
+
+            // Lft's pbrsf thf rfsponsf String to gft thf IP & port to donnfdt
+            // to. Thf String should bf in thf following formbt :
+            //
+            // 227 Entfring PASSIVE Modf (A1,A2,A3,A4,p1,p2)
+            //
+            // Notf thbt thf two pbrfnthfsis brf optionbl
+            //
+            // Thf IP bddrfss is A1.A2.A3.A4 bnd thf port is p1 * 256 + p2
+            //
+            // Thf rfgulbr fxprfssion is b bit morf domplfx this timf, bfdbusf
+            // thf pbrfnthfsis brf optionbls bnd wf hbvf to usf 3 groups.
+
+            if (pbsvPbt == null) {
+                pbsvPbt = Pbttfrn.dompilf("227 .* \\(?(\\d{1,3},\\d{1,3},\\d{1,3},\\d{1,3}),(\\d{1,3}),(\\d{1,3})\\)?");
+            }
+            Mbtdhfr m = pbsvPbt.mbtdhfr(sfrvfrAnswfr);
+            if (!m.find()) {
+                throw nfw sun.nft.ftp.FtpProtodolExdfption("PASV fbilfd : " + sfrvfrAnswfr);
+            }
+            // Gft port numbfr out of group 2 & 3
+            port = Intfgfr.pbrsfInt(m.group(3)) + (Intfgfr.pbrsfInt(m.group(2)) << 8);
+            // IP bddrfss is simplf
+            String s = m.group(1).rfplbdf(',', '.');
+            dfst = nfw InftSodkftAddrfss(s, port);
+        }
+        // Got fvfrything, lft's opfn thf sodkft!
+        Sodkft s;
+        if (proxy != null) {
+            if (proxy.typf() == Proxy.Typf.SOCKS) {
+                s = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<Sodkft>() {
+
+                            publid Sodkft run() {
+                                rfturn nfw Sodkft(proxy);
+                            }
+                        });
+            } flsf {
+                s = nfw Sodkft(Proxy.NO_PROXY);
+            }
+        } flsf {
+            s = nfw Sodkft();
+        }
+
+        InftAddrfss sfrvfrAddrfss = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<InftAddrfss>() {
+                    @Ovfrridf
+                    publid InftAddrfss run() {
+                        rfturn sfrvfr.gftLodblAddrfss();
+                    }
+                });
+
+        // Bind thf sodkft to thf sbmf bddrfss bs thf dontrol dhbnnfl. This
+        // is nffdfd in dbsf of multi-homfd systfms.
+        s.bind(nfw InftSodkftAddrfss(sfrvfrAddrfss, 0));
+        if (donnfdtTimfout >= 0) {
+            s.donnfdt(dfst, donnfdtTimfout);
+        } flsf {
+            if (dffbultConnfdtTimfout > 0) {
+                s.donnfdt(dfst, dffbultConnfdtTimfout);
+            } flsf {
+                s.donnfdt(dfst);
+            }
+        }
+        if (rfbdTimfout >= 0) {
+            s.sftSoTimfout(rfbdTimfout);
+        } flsf if (dffbultSoTimfout > 0) {
+            s.sftSoTimfout(dffbultSoTimfout);
+        }
+        if (usfCrypto) {
+            try {
+                s = sslFbdt.drfbtfSodkft(s, dfst.gftHostNbmf(), dfst.gftPort(), truf);
+            } dbtdh (Exdfption f) {
+                throw nfw sun.nft.ftp.FtpProtodolExdfption("Cbn't opfn sfdurf dbtb dhbnnfl: " + f);
+            }
+        }
+        if (!issufCommbnd(dmd)) {
+            s.dlosf();
+            if (gftLbstRfplyCodf() == FtpRfplyCodf.FILE_UNAVAILABLE) {
+                // Ensurf bbdkwbrd dompbtibility
+                throw nfw FilfNotFoundExdfption(dmd);
+            }
+            throw nfw sun.nft.ftp.FtpProtodolExdfption(dmd + ":" + gftRfsponsfString(), gftLbstRfplyCodf());
+        }
+        rfturn s;
+    }
+
+    /**
+     * Opfns b dbtb donnfdtion with thf sfrvfr bddording to thf sft modf
+     * (ACTIVE or PASSIVE) thfn sfnd thf dommbnd pbssfd bs bn brgumfnt.
+     *
+     * @pbrbm dmd thf <dodf>String</dodf> dontbining thf dommbnd to fxfdutf
+     * @rfturn thf donnfdtfd <dodf>Sodkft</dodf>
+     * @throws IOExdfption if thf donnfdtion or dommbnd fbilfd
+     */
+    privbtf Sodkft opfnDbtbConnfdtion(String dmd) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        Sodkft dlifntSodkft;
+
+        if (pbssivfModf) {
+            try {
+                rfturn opfnPbssivfDbtbConnfdtion(dmd);
+            } dbtdh (sun.nft.ftp.FtpProtodolExdfption f) {
+                // If Pbssivf modf fbilfd, fbll bbdk on PORT
+                // Othfrwisf throw fxdfption
+                String frrmsg = f.gftMfssbgf();
+                if (!frrmsg.stbrtsWith("PASV") && !frrmsg.stbrtsWith("EPSV")) {
+                    throw f;
+                }
+            }
+        }
+        SfrvfrSodkft portSodkft;
+        InftAddrfss myAddrfss;
+        String portCmd;
+
+        if (proxy != null && proxy.typf() == Proxy.Typf.SOCKS) {
+            // Wf'rf bfhind b firfwbll bnd thf pbssivf modf fbil,
+            // sindf wf dbn't bddfpt b donnfdtion through SOCKS (yft)
+            // throw bn fxdfption
+            throw nfw sun.nft.ftp.FtpProtodolExdfption("Pbssivf modf fbilfd");
+        }
+        // Bind thf SfrvfrSodkft to thf sbmf bddrfss bs thf dontrol dhbnnfl
+        // This is nffdfd for multi-homfd systfms
+        portSodkft = nfw SfrvfrSodkft(0, 1, sfrvfr.gftLodblAddrfss());
+        try {
+            myAddrfss = portSodkft.gftInftAddrfss();
+            if (myAddrfss.isAnyLodblAddrfss()) {
+                myAddrfss = sfrvfr.gftLodblAddrfss();
+            }
+            // Lft's try thf nfw, IPv6 dompbtiblf EPRT dommbnd
+            // Sff RFC2428 for spfdifids
+            // Somf FTP sfrvfrs (likf thf onf on Solbris) brf buggfd, thfy
+            // will bddfpt thf EPRT dommbnd but thfn, thf subsfqufnt dommbnd
+            // (f.g. RETR) will fbil, so wf hbvf to dhfdk BOTH rfsults (thf
+            // EPRT dmd thfn thf bdtubl dommbnd) to dfdidf whfthfr wf should
+            // fbll bbdk on thf oldfr PORT dommbnd.
+            portCmd = "EPRT |" + ((myAddrfss instbndfof Inft6Addrfss) ? "2" : "1") + "|" +
+                    myAddrfss.gftHostAddrfss() + "|" + portSodkft.gftLodblPort() + "|";
+            if (!issufCommbnd(portCmd) || !issufCommbnd(dmd)) {
+                // Thf EPRT dommbnd fbilfd, lft's fbll bbdk to good old PORT
+                portCmd = "PORT ";
+                bytf[] bddr = myAddrfss.gftAddrfss();
+
+                /* bppfnd host bddr */
+                for (int i = 0; i < bddr.lfngth; i++) {
+                    portCmd = portCmd + (bddr[i] & 0xFF) + ",";
+                }
+
+                /* bppfnd port numbfr */
+                portCmd = portCmd + ((portSodkft.gftLodblPort() >>> 8) & 0xff) + "," + (portSodkft.gftLodblPort() & 0xff);
+                issufCommbndChfdk(portCmd);
+                issufCommbndChfdk(dmd);
+            }
+            // Eithfr thf EPRT or thf PORT dommbnd wbs suddfssful
+            // Lft's drfbtf thf dlifnt sodkft
+            if (donnfdtTimfout >= 0) {
+                portSodkft.sftSoTimfout(donnfdtTimfout);
+            } flsf {
+                if (dffbultConnfdtTimfout > 0) {
+                    portSodkft.sftSoTimfout(dffbultConnfdtTimfout);
+                }
+            }
+            dlifntSodkft = portSodkft.bddfpt();
+            if (rfbdTimfout >= 0) {
+                dlifntSodkft.sftSoTimfout(rfbdTimfout);
+            } flsf {
+                if (dffbultSoTimfout > 0) {
+                    dlifntSodkft.sftSoTimfout(dffbultSoTimfout);
+                }
+            }
+        } finblly {
+            portSodkft.dlosf();
+        }
+        if (usfCrypto) {
+            try {
+                dlifntSodkft = sslFbdt.drfbtfSodkft(dlifntSodkft, sfrvfrAddr.gftHostNbmf(), sfrvfrAddr.gftPort(), truf);
+            } dbtdh (Exdfption fx) {
+                throw nfw IOExdfption(fx.gftLodblizfdMfssbgf());
+            }
+        }
+        rfturn dlifntSodkft;
+    }
+
+    privbtf InputStrfbm drfbtfInputStrfbm(InputStrfbm in) {
+        if (typf == TrbnsffrTypf.ASCII) {
+            rfturn nfw sun.nft.TflnftInputStrfbm(in, fblsf);
+        }
+        rfturn in;
+    }
+
+    privbtf OutputStrfbm drfbtfOutputStrfbm(OutputStrfbm out) {
+        if (typf == TrbnsffrTypf.ASCII) {
+            rfturn nfw sun.nft.TflnftOutputStrfbm(out, fblsf);
+        }
+        rfturn out;
+    }
+
+    /**
+     * Crfbtfs bn instbndf of FtpClifnt. Thf dlifnt is not donnfdtfd to bny
+     * sfrvfr yft.
+     *
+     */
+    protfdtfd FtpClifnt() {
+    }
+
+    /**
+     * Crfbtfs bn instbndf of FtpClifnt. Thf dlifnt is not donnfdtfd to bny
+     * sfrvfr yft.
+     *
+     */
+    publid stbtid sun.nft.ftp.FtpClifnt drfbtf() {
+        rfturn nfw FtpClifnt();
+    }
+
+    /**
+     * Sft thf trbnsffr modf to <I>pbssivf</I>. In thbt modf, dbtb donnfdtions
+     * brf fstbblishfd by hbving thf dlifnt donnfdt to thf sfrvfr.
+     * This is thf rfdommfndfd dffbult modf bs it will work bfst through
+     * firfwblls bnd NATs.
+     *
+     * @rfturn This FtpClifnt
+     * @sff #sftAdtivfModf()
+     */
+    publid sun.nft.ftp.FtpClifnt fnbblfPbssivfModf(boolfbn pbssivf) {
+
+        // Only pbssivf modf usfd in JDK. Sff Bug 8010784.
+        // pbssivfModf = pbssivf;
+        rfturn this;
+    }
+
+    /**
+     * Gfts thf durrfnt trbnsffr modf.
+     *
+     * @rfturn thf durrfnt <dodf>FtpTrbnsffrModf</dodf>
+     */
+    publid boolfbn isPbssivfModfEnbblfd() {
+        rfturn pbssivfModf;
+    }
+
+    /**
+     * Sfts thf timfout vbluf to usf whfn donnfdting to thf sfrvfr,
+     *
+     * @pbrbm timfout thf timfout vbluf, in millisfdonds, to usf for thf donnfdt
+     *        opfrbtion. A vbluf of zfro or lfss, mfbns usf thf dffbult timfout.
+     *
+     * @rfturn This FtpClifnt
+     */
+    publid sun.nft.ftp.FtpClifnt sftConnfdtTimfout(int timfout) {
+        donnfdtTimfout = timfout;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf durrfnt donnfdtion timfout vbluf.
+     *
+     * @rfturn thf vbluf, in millisfdonds, of thf durrfnt donnfdt timfout.
+     * @sff #sftConnfdtTimfout(int)
+     */
+    publid int gftConnfdtTimfout() {
+        rfturn donnfdtTimfout;
+    }
+
+    /**
+     * Sfts thf timfout vbluf to usf whfn rfbding from thf sfrvfr,
+     *
+     * @pbrbm timfout thf timfout vbluf, in millisfdonds, to usf for thf rfbd
+     *        opfrbtion. A vbluf of zfro or lfss, mfbns usf thf dffbult timfout.
+     * @rfturn This FtpClifnt
+     */
+    publid sun.nft.ftp.FtpClifnt sftRfbdTimfout(int timfout) {
+        rfbdTimfout = timfout;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf durrfnt rfbd timfout vbluf.
+     *
+     * @rfturn thf vbluf, in millisfdonds, of thf durrfnt rfbd timfout.
+     * @sff #sftRfbdTimfout(int)
+     */
+    publid int gftRfbdTimfout() {
+        rfturn rfbdTimfout;
+    }
+
+    publid sun.nft.ftp.FtpClifnt sftProxy(Proxy p) {
+        proxy = p;
+        rfturn this;
+    }
+
+    /**
+     * Gft thf proxy of this FtpClifnt
+     *
+     * @rfturn thf <dodf>Proxy</dodf>, this dlifnt is using, or <dodf>null</dodf>
+     *         if nonf is usfd.
+     * @sff #sftProxy(Proxy)
+     */
+    publid Proxy gftProxy() {
+        rfturn proxy;
+    }
+
+    /**
+     * Connfdts to thf spfdififd dfstinbtion.
+     *
+     * @pbrbm dfst thf <dodf>InftSodkftAddrfss</dodf> to donnfdt to.
+     * @throws IOExdfption if thf donnfdtion fbils.
+     */
+    privbtf void tryConnfdt(InftSodkftAddrfss dfst, int timfout) throws IOExdfption {
+        if (isConnfdtfd()) {
+            disdonnfdt();
+        }
+        sfrvfr = doConnfdt(dfst, timfout);
+        try {
+            out = nfw PrintStrfbm(nfw BufffrfdOutputStrfbm(sfrvfr.gftOutputStrfbm()),
+                    truf, fndoding);
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            throw nfw IntfrnblError(fndoding + "fndoding not found", f);
+        }
+        in = nfw BufffrfdInputStrfbm(sfrvfr.gftInputStrfbm());
+    }
+
+    privbtf Sodkft doConnfdt(InftSodkftAddrfss dfst, int timfout) throws IOExdfption {
+        Sodkft s;
+        if (proxy != null) {
+            if (proxy.typf() == Proxy.Typf.SOCKS) {
+                s = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<Sodkft>() {
+
+                            publid Sodkft run() {
+                                rfturn nfw Sodkft(proxy);
+                            }
+                        });
+            } flsf {
+                s = nfw Sodkft(Proxy.NO_PROXY);
+            }
+        } flsf {
+            s = nfw Sodkft();
+        }
+        // Instbndf spfdifid timfouts do hbvf priority, thbt mfbns
+        // donnfdtTimfout & rfbdTimfout (-1 mfbns not sft)
+        // Thfn globbl dffbult timfouts
+        // Thfn no timfout.
+        if (timfout >= 0) {
+            s.donnfdt(dfst, timfout);
+        } flsf {
+            if (donnfdtTimfout >= 0) {
+                s.donnfdt(dfst, donnfdtTimfout);
+            } flsf {
+                if (dffbultConnfdtTimfout > 0) {
+                    s.donnfdt(dfst, dffbultConnfdtTimfout);
+                } flsf {
+                    s.donnfdt(dfst);
+                }
+            }
+        }
+        if (rfbdTimfout >= 0) {
+            s.sftSoTimfout(rfbdTimfout);
+        } flsf if (dffbultSoTimfout > 0) {
+            s.sftSoTimfout(dffbultSoTimfout);
+        }
+        rfturn s;
+    }
+
+    privbtf void disdonnfdt() throws IOExdfption {
+        if (isConnfdtfd()) {
+            sfrvfr.dlosf();
+        }
+        sfrvfr = null;
+        in = null;
+        out = null;
+        lbstTrbnsSizf = -1;
+        lbstFilfNbmf = null;
+        rfstbrtOffsft = 0;
+        wfldomfMsg = null;
+        lbstRfplyCodf = null;
+        sfrvfrRfsponsf.sftSizf(0);
+    }
+
+    /**
+     * Tfsts whfthfr this dlifnt is donnfdtfd or not to b sfrvfr.
+     *
+     * @rfturn <dodf>truf</dodf> if thf dlifnt is donnfdtfd.
+     */
+    publid boolfbn isConnfdtfd() {
+        rfturn sfrvfr != null;
+    }
+
+    publid SodkftAddrfss gftSfrvfrAddrfss() {
+        rfturn sfrvfr == null ? null : sfrvfr.gftRfmotfSodkftAddrfss();
+    }
+
+    publid sun.nft.ftp.FtpClifnt donnfdt(SodkftAddrfss dfst) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        rfturn donnfdt(dfst, -1);
+    }
+
+    /**
+     * Connfdts thf FtpClifnt to thf spfdififd dfstinbtion.
+     *
+     * @pbrbm dfst thf bddrfss of thf dfstinbtion sfrvfr
+     * @throws IOExdfption if donnfdtion fbilfd.
+     */
+    publid sun.nft.ftp.FtpClifnt donnfdt(SodkftAddrfss dfst, int timfout) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        if (!(dfst instbndfof InftSodkftAddrfss)) {
+            throw nfw IllfgblArgumfntExdfption("Wrong bddrfss typf");
+        }
+        sfrvfrAddr = (InftSodkftAddrfss) dfst;
+        tryConnfdt(sfrvfrAddr, timfout);
+        if (!rfbdRfply()) {
+            throw nfw sun.nft.ftp.FtpProtodolExdfption("Wfldomf mfssbgf: " +
+                    gftRfsponsfString(), lbstRfplyCodf);
+        }
+        wfldomfMsg = gftRfsponsfString().substring(4);
+        rfturn this;
+    }
+
+    privbtf void tryLogin(String usfr, dhbr[] pbssword) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("USER " + usfr);
+
+        /*
+         * Chfdks for "331 Usfr nbmf okby, nffd pbssword." bnswfr
+         */
+        if (lbstRfplyCodf == FtpRfplyCodf.NEED_PASSWORD) {
+            if ((pbssword != null) && (pbssword.lfngth > 0)) {
+                issufCommbndChfdk("PASS " + String.vblufOf(pbssword));
+            }
+        }
+    }
+
+    /**
+     * Attfmpts to log on thf sfrvfr with thf spfdififd usfr nbmf bnd pbssword.
+     *
+     * @pbrbm usfr Thf usfr nbmf
+     * @pbrbm pbssword Thf pbssword for thbt usfr
+     * @rfturn <dodf>truf</dodf> if thf login wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission
+     */
+    publid sun.nft.ftp.FtpClifnt login(String usfr, dhbr[] pbssword) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        if (!isConnfdtfd()) {
+            throw nfw sun.nft.ftp.FtpProtodolExdfption("Not donnfdtfd yft", FtpRfplyCodf.BAD_SEQUENCE);
+        }
+        if (usfr == null || usfr.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("Usfr nbmf dbn't bf null or fmpty");
+        }
+        tryLogin(usfr, pbssword);
+
+        // kffp thf wfldomf mfssbgf bround so wf dbn
+        // put it in thf rfsulting HTML pbgf.
+        String l;
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < sfrvfrRfsponsf.sizf(); i++) {
+            l = sfrvfrRfsponsf.flfmfntAt(i);
+            if (l != null) {
+                if (l.lfngth() >= 4 && l.stbrtsWith("230")) {
+                    // gft rid of thf "230-" prffix
+                    l = l.substring(4);
+                }
+                sb.bppfnd(l);
+            }
+        }
+        wfldomfMsg = sb.toString();
+        loggfdIn = truf;
+        rfturn this;
+    }
+
+    /**
+     * Attfmpts to log on thf sfrvfr with thf spfdififd usfr nbmf, pbssword bnd
+     * bddount nbmf.
+     *
+     * @pbrbm usfr Thf usfr nbmf
+     * @pbrbm pbssword Thf pbssword for thbt usfr.
+     * @pbrbm bddount Thf bddount nbmf for thbt usfr.
+     * @rfturn <dodf>truf</dodf> if thf login wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     */
+    publid sun.nft.ftp.FtpClifnt login(String usfr, dhbr[] pbssword, String bddount) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+
+        if (!isConnfdtfd()) {
+            throw nfw sun.nft.ftp.FtpProtodolExdfption("Not donnfdtfd yft", FtpRfplyCodf.BAD_SEQUENCE);
+        }
+        if (usfr == null || usfr.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("Usfr nbmf dbn't bf null or fmpty");
+        }
+        tryLogin(usfr, pbssword);
+
+        /*
+         * Chfdks for "332 Nffd bddount for login." bnswfr
+         */
+        if (lbstRfplyCodf == FtpRfplyCodf.NEED_ACCOUNT) {
+            issufCommbndChfdk("ACCT " + bddount);
+        }
+
+        // kffp thf wfldomf mfssbgf bround so wf dbn
+        // put it in thf rfsulting HTML pbgf.
+        StringBuildfr sb = nfw StringBuildfr();
+        if (sfrvfrRfsponsf != null) {
+            for (String l : sfrvfrRfsponsf) {
+                if (l != null) {
+                    if (l.lfngth() >= 4 && l.stbrtsWith("230")) {
+                        // gft rid of thf "230-" prffix
+                        l = l.substring(4);
+                    }
+                    sb.bppfnd(l);
+                }
+            }
+        }
+        wfldomfMsg = sb.toString();
+        loggfdIn = truf;
+        rfturn this;
+    }
+
+    /**
+     * Logs out thf durrfnt usfr. This is in ffffdt tfrminbtfs thf durrfnt
+     * sfssion bnd thf donnfdtion to thf sfrvfr will bf dlosfd.
+     *
+     */
+    publid void dlosf() throws IOExdfption {
+        if (isConnfdtfd()) {
+            issufCommbnd("QUIT");
+            loggfdIn = fblsf;
+        }
+        disdonnfdt();
+    }
+
+    /**
+     * Chfdks whfthfr thf dlifnt is loggfd in to thf sfrvfr or not.
+     *
+     * @rfturn <dodf>truf</dodf> if thf dlifnt hbs blrfbdy domplftfd b login.
+     */
+    publid boolfbn isLoggfdIn() {
+        rfturn loggfdIn;
+    }
+
+    /**
+     * Chbngfs to b spfdifid dirfdtory on b rfmotf FTP sfrvfr
+     *
+     * @pbrbm rfmotfDirfdtory pbth of thf dirfdtory to CD to.
+     * @rfturn <dodf>truf</dodf> if thf opfrbtion wbs suddfssful.
+     * @fxdfption <dodf>FtpProtodolExdfption</dodf>
+     */
+    publid sun.nft.ftp.FtpClifnt dhbngfDirfdtory(String rfmotfDirfdtory) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        if (rfmotfDirfdtory == null || "".fqubls(rfmotfDirfdtory)) {
+            throw nfw IllfgblArgumfntExdfption("dirfdtory dbn't bf null or fmpty");
+        }
+
+        issufCommbndChfdk("CWD " + rfmotfDirfdtory);
+        rfturn this;
+    }
+
+    /**
+     * Chbngfs to thf pbrfnt dirfdtory, sfnding thf CDUP dommbnd to thf sfrvfr.
+     *
+     * @rfturn <dodf>truf</dodf> if thf dommbnd wbs suddfssful.
+     * @throws IOExdfption
+     */
+    publid sun.nft.ftp.FtpClifnt dhbngfToPbrfntDirfdtory() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("CDUP");
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf sfrvfr durrfnt working dirfdtory, or <dodf>null</dodf> if
+     * thf PWD dommbnd fbilfd.
+     *
+     * @rfturn b <dodf>String</dodf> dontbining thf durrfnt working dirfdtory,
+     *         or <dodf>null</dodf>
+     * @throws IOExdfption
+     */
+    publid String gftWorkingDirfdtory() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("PWD");
+        /*
+         * bnswfr will bf of thf following formbt :
+         *
+         * 257 "/" is durrfnt dirfdtory.
+         */
+        String bnsw = gftRfsponsfString();
+        if (!bnsw.stbrtsWith("257")) {
+            rfturn null;
+        }
+        rfturn bnsw.substring(5, bnsw.lbstIndfxOf('"'));
+    }
+
+    /**
+     * Sfts thf rfstbrt offsft to thf spfdififd vbluf.  Thbt vbluf will bf
+     * sfnt through b <dodf>REST</dodf> dommbnd to sfrvfr bfforf b filf
+     * trbnsffr bnd hbs thf ffffdt of rfsuming b filf trbnsffr from thf
+     * spfdififd point. Aftfr b trbnsffr thf rfstbrt offsft is sft bbdk to
+     * zfro.
+     *
+     * @pbrbm offsft thf offsft in thf rfmotf filf bt whidh to stbrt thf nfxt
+     *        trbnsffr. This must bf b vbluf grfbtfr thbn or fqubl to zfro.
+     * @throws IllfgblArgumfntExdfption if thf offsft is nfgbtivf.
+     */
+    publid sun.nft.ftp.FtpClifnt sftRfstbrtOffsft(long offsft) {
+        if (offsft < 0) {
+            throw nfw IllfgblArgumfntExdfption("offsft dbn't bf nfgbtivf");
+        }
+        rfstbrtOffsft = offsft;
+        rfturn this;
+    }
+
+    /**
+     * Rftrifvfs b filf from thf ftp sfrvfr bnd writfs it to thf spfdififd
+     * <dodf>OutputStrfbm</dodf>.
+     * If thf rfstbrt offsft wbs sft, thfn b <dodf>REST</dodf> dommbnd will bf
+     * sfnt bfforf thf RETR in ordfr to rfstbrt thf trbnffr from thf spfdififd
+     * offsft.
+     * Thf <dodf>OutputStrfbm</dodf> is not dlosfd by this mfthod bt thf fnd
+     * of thf trbnsffr.
+     *
+     * @pbrbm nbmf b <dodf>String<dodf> dontbining thf nbmf of thf filf to
+     *        rftrfivf from thf sfrvfr.
+     * @pbrbm lodbl thf <dodf>OutputStrfbm</dodf> thf filf should bf writtfn to.
+     * @throws IOExdfption if thf trbnsffr fbils.
+     */
+    publid sun.nft.ftp.FtpClifnt gftFilf(String nbmf, OutputStrfbm lodbl) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        int mtu = 1500;
+        if (rfstbrtOffsft > 0) {
+            Sodkft s;
+            try {
+                s = opfnDbtbConnfdtion("REST " + rfstbrtOffsft);
+            } finblly {
+                rfstbrtOffsft = 0;
+            }
+            issufCommbndChfdk("RETR " + nbmf);
+            gftTrbnsffrSizf();
+            InputStrfbm rfmotf = drfbtfInputStrfbm(s.gftInputStrfbm());
+            bytf[] buf = nfw bytf[mtu * 10];
+            int l;
+            whilf ((l = rfmotf.rfbd(buf)) >= 0) {
+                if (l > 0) {
+                    lodbl.writf(buf, 0, l);
+                }
+            }
+            rfmotf.dlosf();
+        } flsf {
+            Sodkft s = opfnDbtbConnfdtion("RETR " + nbmf);
+            gftTrbnsffrSizf();
+            InputStrfbm rfmotf = drfbtfInputStrfbm(s.gftInputStrfbm());
+            bytf[] buf = nfw bytf[mtu * 10];
+            int l;
+            whilf ((l = rfmotf.rfbd(buf)) >= 0) {
+                if (l > 0) {
+                    lodbl.writf(buf, 0, l);
+                }
+            }
+            rfmotf.dlosf();
+        }
+        rfturn domplftfPfnding();
+    }
+
+    /**
+     * Rftrifvfs b filf from thf ftp sfrvfr, using thf RETR dommbnd, bnd
+     * rfturns thf InputStrfbm from* thf fstbblishfd dbtb donnfdtion.
+     * {@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is donf rfbding from thf rfturnfd strfbm.
+     *
+     * @pbrbm nbmf thf nbmf of thf rfmotf filf
+     * @rfturn thf {@link jbvb.io.InputStrfbm} from thf dbtb donnfdtion, or
+     *         <dodf>null</dodf> if thf dommbnd wbs unsuddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     */
+    publid InputStrfbm gftFilfStrfbm(String nbmf) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        Sodkft s;
+        if (rfstbrtOffsft > 0) {
+            try {
+                s = opfnDbtbConnfdtion("REST " + rfstbrtOffsft);
+            } finblly {
+                rfstbrtOffsft = 0;
+            }
+            if (s == null) {
+                rfturn null;
+            }
+            issufCommbndChfdk("RETR " + nbmf);
+            gftTrbnsffrSizf();
+            rfturn drfbtfInputStrfbm(s.gftInputStrfbm());
+        }
+
+        s = opfnDbtbConnfdtion("RETR " + nbmf);
+        if (s == null) {
+            rfturn null;
+        }
+        gftTrbnsffrSizf();
+        rfturn drfbtfInputStrfbm(s.gftInputStrfbm());
+    }
+
+    /**
+     * Trbnsffrs b filf from thf dlifnt to thf sfrvfr (bkb b <I>put</I>)
+     * by sfnding thf STOR or STOU dommbnd, dfpfnding on thf
+     * <dodf>uniquf</dodf> brgumfnt, bnd rfturns thf <dodf>OutputStrfbm</dodf>
+     * from thf fstbblishfd dbtb donnfdtion.
+     * {@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is finishfd writing to thf strfbm.
+     *
+     * A nfw filf is drfbtfd bt thf sfrvfr sitf if thf filf spfdififd dofs
+     * not blrfbdy fxist.
+     *
+     * If <dodf>uniquf</dodf> is sft to <dodf>truf</dodf>, thf rfsultbnt filf
+     * is to bf drfbtfd undfr b nbmf uniquf to thbt dirfdtory, mfbning
+     * it will not ovfrwritf bn fxisting filf, instfbd thf sfrvfr will
+     * gfnfrbtf b nfw, uniquf, filf nbmf.
+     * Thf nbmf of thf rfmotf filf dbn bf rftrifvfd, bftfr domplftion of thf
+     * trbnsffr, by dblling {@link #gftLbstFilfNbmf()}.
+     *
+     * @pbrbm nbmf thf nbmf of thf rfmotf filf to writf.
+     * @pbrbm uniquf <dodf>truf</dodf> if thf rfmotf filfs should bf uniquf,
+     *        in whidh dbsf thf STOU dommbnd will bf usfd.
+     * @rfturn thf {@link jbvb.io.OutputStrfbm} from thf dbtb donnfdtion or
+     *         <dodf>null</dodf> if thf dommbnd wbs unsuddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     */
+    publid OutputStrfbm putFilfStrfbm(String nbmf, boolfbn uniquf)
+        throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption
+    {
+        String dmd = uniquf ? "STOU " : "STOR ";
+        Sodkft s = opfnDbtbConnfdtion(dmd + nbmf);
+        if (s == null) {
+            rfturn null;
+        }
+        boolfbn bm = (typf == TrbnsffrTypf.BINARY);
+        rfturn nfw sun.nft.TflnftOutputStrfbm(s.gftOutputStrfbm(), bm);
+    }
+
+    /**
+     * Trbnsffrs b filf from thf dlifnt to thf sfrvfr (bkb b <I>put</I>)
+     * by sfnding thf STOR dommbnd. Thf dontfnt of thf <dodf>InputStrfbm</dodf>
+     * pbssfd in brgumfnt is writtfn into thf rfmotf filf, ovfrwriting bny
+     * fxisting dbtb.
+     *
+     * A nfw filf is drfbtfd bt thf sfrvfr sitf if thf filf spfdififd dofs
+     * not blrfbdy fxist.
+     *
+     * @pbrbm nbmf thf nbmf of thf rfmotf filf to writf.
+     * @pbrbm lodbl thf <dodf>InputStrfbm</dodf> thbt points to thf dbtb to
+     *        trbnsffr.
+     * @pbrbm uniquf <dodf>truf</dodf> if thf rfmotf filf should bf uniquf
+     *        (i.f. not blrfbdy fxisting), <dodf>fblsf</dodf> othfrwisf.
+     * @rfturn <dodf>truf</dodf> if thf trbnsffr wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @sff #gftLbstFilfNbmf()
+     */
+    publid sun.nft.ftp.FtpClifnt putFilf(String nbmf, InputStrfbm lodbl, boolfbn uniquf) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        String dmd = uniquf ? "STOU " : "STOR ";
+        int mtu = 1500;
+        if (typf == TrbnsffrTypf.BINARY) {
+            Sodkft s = opfnDbtbConnfdtion(dmd + nbmf);
+            OutputStrfbm rfmotf = drfbtfOutputStrfbm(s.gftOutputStrfbm());
+            bytf[] buf = nfw bytf[mtu * 10];
+            int l;
+            whilf ((l = lodbl.rfbd(buf)) >= 0) {
+                if (l > 0) {
+                    rfmotf.writf(buf, 0, l);
+                }
+            }
+            rfmotf.dlosf();
+        }
+        rfturn domplftfPfnding();
+    }
+
+    /**
+     * Sfnds thf APPE dommbnd to thf sfrvfr in ordfr to trbnsffr b dbtb strfbm
+     * pbssfd in brgumfnt bnd bppfnd it to thf dontfnt of thf spfdififd rfmotf
+     * filf.
+     *
+     * @pbrbm nbmf A <dodf>String</dodf> dontbining thf nbmf of thf rfmotf filf
+     *        to bppfnd to.
+     * @pbrbm lodbl Thf <dodf>InputStrfbm</dodf> providing bddfss to thf dbtb
+     *        to bf bppfndfd.
+     * @rfturn <dodf>truf</dodf> if thf trbnsffr wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     */
+    publid sun.nft.ftp.FtpClifnt bppfndFilf(String nbmf, InputStrfbm lodbl) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        int mtu = 1500;
+        Sodkft s = opfnDbtbConnfdtion("APPE " + nbmf);
+        OutputStrfbm rfmotf = drfbtfOutputStrfbm(s.gftOutputStrfbm());
+        bytf[] buf = nfw bytf[mtu * 10];
+        int l;
+        whilf ((l = lodbl.rfbd(buf)) >= 0) {
+            if (l > 0) {
+                rfmotf.writf(buf, 0, l);
+            }
+        }
+        rfmotf.dlosf();
+        rfturn domplftfPfnding();
+    }
+
+    /**
+     * Rfnbmfs b filf on thf sfrvfr.
+     *
+     * @pbrbm from thf nbmf of thf filf bfing rfnbmfd
+     * @pbrbm to thf nfw nbmf for thf filf
+     * @throws IOExdfption if thf dommbnd fbils
+     */
+    publid sun.nft.ftp.FtpClifnt rfnbmf(String from, String to) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("RNFR " + from);
+        issufCommbndChfdk("RNTO " + to);
+        rfturn this;
+    }
+
+    /**
+     * Dflftfs b filf on thf sfrvfr.
+     *
+     * @pbrbm nbmf b <dodf>String</dodf> dontbining thf nbmf of thf filf
+     *        to dflftf.
+     * @rfturn <dodf>truf</dodf> if thf dommbnd wbs suddfssful
+     * @throws IOExdfption if bn frror oddurrfd during thf fxdhbngf
+     */
+    publid sun.nft.ftp.FtpClifnt dflftfFilf(String nbmf) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("DELE " + nbmf);
+        rfturn this;
+    }
+
+    /**
+     * Crfbtfs b nfw dirfdtory on thf sfrvfr.
+     *
+     * @pbrbm nbmf b <dodf>String</dodf> dontbining thf nbmf of thf dirfdtory
+     *        to drfbtf.
+     * @rfturn <dodf>truf</dodf> if thf opfrbtion wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf fxdhbngf
+     */
+    publid sun.nft.ftp.FtpClifnt mbkfDirfdtory(String nbmf) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("MKD " + nbmf);
+        rfturn this;
+    }
+
+    /**
+     * Rfmovfs b dirfdtory on thf sfrvfr.
+     *
+     * @pbrbm nbmf b <dodf>String</dodf> dontbining thf nbmf of thf dirfdtory
+     *        to rfmovf.
+     *
+     * @rfturn <dodf>truf</dodf> if thf opfrbtion wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf fxdhbngf.
+     */
+    publid sun.nft.ftp.FtpClifnt rfmovfDirfdtory(String nbmf) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("RMD " + nbmf);
+        rfturn this;
+    }
+
+    /**
+     * Sfnds b No-opfrbtion dommbnd. It's usfful for tfsting thf donnfdtion
+     * stbtus or bs b <I>kffp blivf</I> mfdhbnism.
+     *
+     * @throws FtpProtodolExdfption if thf dommbnd fbils
+     */
+    publid sun.nft.ftp.FtpClifnt noop() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("NOOP");
+        rfturn this;
+    }
+
+    /**
+     * Sfnds thf STAT dommbnd to thf sfrvfr.
+     * This dbn bf usfd whilf b dbtb donnfdtion is opfn to gft b stbtus
+     * on thf durrfnt trbnsffr, in thbt dbsf thf pbrbmftfr should bf
+     * <dodf>null</dodf>.
+     * If usfd bftwffn filf trbnsffrs, it mby hbvf b pbthnbmf bs brgumfnt
+     * in whidh dbsf it will work bs thf LIST dommbnd fxdfpt no dbtb
+     * donnfdtion will bf drfbtfd.
+     *
+     * @pbrbm nbmf bn optionbl <dodf>String</dodf> dontbining thf pbthnbmf
+     *        thf STAT dommbnd should bpply to.
+     * @rfturn thf rfsponsf from thf sfrvfr or <dodf>null</dodf> if thf
+     *         dommbnd fbilfd.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     */
+    publid String gftStbtus(String nbmf) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk((nbmf == null ? "STAT" : "STAT " + nbmf));
+        /*
+         * A typidbl rfsponsf will bf:
+         *  213-stbtus of t32.gif:
+         * -rw-r--r--   1 jdd      stbff     247445 Ffb 17  1998 t32.gif
+         * 213 End of Stbtus
+         *
+         * or
+         *
+         * 211-jsn FTP sfrvfr stbtus:
+         *     Vfrsion wu-2.6.2+Sun
+         *     Connfdtfd to lodblhost (::1)
+         *     Loggfd in bs jddollft
+         *     TYPE: ASCII, FORM: Nonprint; STRUdturf: Filf; trbnsffr MODE: Strfbm
+         *      No dbtb donnfdtion
+         *     0 dbtb bytfs rfdfivfd in 0 filfs
+         *     0 dbtb bytfs trbnsmittfd in 0 filfs
+         *     0 dbtb bytfs totbl in 0 filfs
+         *     53 trbffid bytfs rfdfivfd in 0 trbnsffrs
+         *     485 trbffid bytfs trbnsmittfd in 0 trbnsffrs
+         *     587 trbffid bytfs totbl in 0 trbnsffrs
+         * 211 End of stbtus
+         *
+         * So wf nffd to rfmovf thf 1st bnd lbst linf
+         */
+        Vfdtor<String> rfsp = gftRfsponsfStrings();
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 1; i < rfsp.sizf() - 1; i++) {
+            sb.bppfnd(rfsp.gft(i));
+        }
+        rfturn sb.toString();
+    }
+
+    /**
+     * Sfnds thf FEAT dommbnd to thf sfrvfr bnd rfturns thf list of supportfd
+     * ffbturfs in thf form of strings.
+     *
+     * Thf ffbturfs brf thf supportfd dommbnds, likf AUTH TLS, PROT or PASV.
+     * Sff thf RFCs for b domplftf list.
+     *
+     * Notf thbt not bll FTP sfrvfrs support thbt dommbnd, in whidh dbsf
+     * thf mfthod will rfturn <dodf>null</dodf>
+     *
+     * @rfturn b <dodf>List</dodf> of <dodf>Strings</dodf> dfsdribing thf
+     *         supportfd bdditionbl ffbturfs, or <dodf>null</dodf>
+     *         if thf dommbnd is not supportfd.
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     */
+    publid List<String> gftFfbturfs() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        /*
+         * Thf FEAT dommbnd, whfn implfmfntfd will rfturn somfthing likf:
+         *
+         * 211-Ffbturfs:
+         *   AUTH TLS
+         *   PBSZ
+         *   PROT
+         *   EPSV
+         *   EPRT
+         *   PASV
+         *   REST STREAM
+         *  211 END
+         */
+        ArrbyList<String> ffbturfs = nfw ArrbyList<String>();
+        issufCommbndChfdk("FEAT");
+        Vfdtor<String> rfsp = gftRfsponsfStrings();
+        // Notf thbt wf stbrt bt indfx 1 to skip thf 1st linf (211-...)
+        // bnd wf stop bfforf thf lbst linf.
+        for (int i = 1; i < rfsp.sizf() - 1; i++) {
+            String s = rfsp.gft(i);
+            // Gft rid of lfbding spbdf bnd trbiling nfwlinf
+            ffbturfs.bdd(s.substring(1, s.lfngth() - 1));
+        }
+        rfturn ffbturfs;
+    }
+
+    /**
+     * sfnds thf ABOR dommbnd to thf sfrvfr.
+     * It tflls thf sfrvfr to stop thf prfvious dommbnd or trbnsffr.
+     *
+     * @rfturn <dodf>truf</dodf> if thf dommbnd wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     */
+    publid sun.nft.ftp.FtpClifnt bbort() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("ABOR");
+        // TODO: Must dhfdk thf RfplyCodf:
+        /*
+         * From thf RFC:
+         * Thfrf brf two dbsfs for thf sfrvfr upon rfdfipt of this
+         * dommbnd: (1) thf FTP sfrvidf dommbnd wbs blrfbdy domplftfd,
+         * or (2) thf FTP sfrvidf dommbnd is still in progrfss.
+         * In thf first dbsf, thf sfrvfr dlosfs thf dbtb donnfdtion
+         * (if it is opfn) bnd rfsponds with b 226 rfply, indidbting
+         * thbt thf bbort dommbnd wbs suddfssfully prodfssfd.
+         * In thf sfdond dbsf, thf sfrvfr bborts thf FTP sfrvidf in
+         * progrfss bnd dlosfs thf dbtb donnfdtion, rfturning b 426
+         * rfply to indidbtf thbt thf sfrvidf rfqufst tfrminbtfd
+         * bbnormblly.  Thf sfrvfr thfn sfnds b 226 rfply,
+         * indidbting thbt thf bbort dommbnd wbs suddfssfully
+         * prodfssfd.
+         */
+
+
+        rfturn this;
+    }
+
+    /**
+     * Somf mfthods do not wbit until domplftion bfforf rfturning, so this
+     * mfthod dbn bf dbllfd to wbit until domplftion. This is typidblly thf dbsf
+     * with dommbnds thbt triggfr b trbnsffr likf {@link #gftFilfStrfbm(String)}.
+     * So this mfthod should bf dbllfd bfforf bddfssing informbtion rflbtfd to
+     * sudh b dommbnd.
+     * <p>This mfthod will bdtublly blodk rfbding on thf dommbnd dhbnnfl for b
+     * notifidbtion from thf sfrvfr thbt thf dommbnd is finishfd. Sudh b
+     * notifidbtion oftfn dbrrifs fxtrb informbtion dondfrning thf domplftion
+     * of thf pfnding bdtion (f.g. numbfr of bytfs trbnsffrfd).</p>
+     * <p>Notf thbt this will rfturn truf immfdibtfly if no dommbnd or bdtion
+     * is pfnding</p>
+     * <p>It should bf blso notfd thbt most mfthods issuing dommbnds to thf ftp
+     * sfrvfr will dbll this mfthod if b prfvious dommbnd is pfnding.
+     * <p>Exbmplf of usf:
+     * <prf>
+     * InputStrfbm in = dl.gftFilfStrfbm("filf");
+     * ...
+     * dl.domplftfPfnding();
+     * long sizf = dl.gftLbstTrbnsffrSizf();
+     * </prf>
+     * On thf othfr hbnd, it's not nfdfssbry in b dbsf likf:
+     * <prf>
+     * InputStrfbm in = dl.gftFilfStrfbm("filf");
+     * // rfbd dontfnt
+     * ...
+     * dl.logout();
+     * </prf>
+     * <p>Sindf {@link #logout()} will dbll domplftfPfnding() if nfdfssbry.</p>
+     * @rfturn <dodf>truf</dodf> if thf domplftion wbs suddfssful or if no
+     *         bdtion wbs pfnding.
+     * @throws IOExdfption
+     */
+    publid sun.nft.ftp.FtpClifnt domplftfPfnding() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        whilf (rfplyPfnding) {
+            rfplyPfnding = fblsf;
+            if (!rfbdRfply()) {
+                throw nfw sun.nft.ftp.FtpProtodolExdfption(gftLbstRfsponsfString(), lbstRfplyCodf);
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * Rfinitiblizfs thf USER pbrbmftfrs on thf FTP sfrvfr
+     *
+     * @throws FtpProtodolExdfption if thf dommbnd fbils
+     */
+    publid sun.nft.ftp.FtpClifnt rfInit() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("REIN");
+        loggfdIn = fblsf;
+        if (usfCrypto) {
+            if (sfrvfr instbndfof SSLSodkft) {
+                jbvbx.nft.ssl.SSLSfssion sfssion = ((SSLSodkft) sfrvfr).gftSfssion();
+                sfssion.invblidbtf();
+                // Rfstorf prfvious sodkft bnd strfbms
+                sfrvfr = oldSodkft;
+                oldSodkft = null;
+                try {
+                    out = nfw PrintStrfbm(nfw BufffrfdOutputStrfbm(sfrvfr.gftOutputStrfbm()),
+                            truf, fndoding);
+                } dbtdh (UnsupportfdEndodingExdfption f) {
+                    throw nfw IntfrnblError(fndoding + "fndoding not found", f);
+                }
+                in = nfw BufffrfdInputStrfbm(sfrvfr.gftInputStrfbm());
+            }
+        }
+        usfCrypto = fblsf;
+        rfturn this;
+    }
+
+    /**
+     * Chbngfs thf trbnsffr typf (binbry, bsdii, fbddid) bnd issuf thf
+     * propfr dommbnd (f.g. TYPE A) to thf sfrvfr.
+     *
+     * @pbrbm typf thf <dodf>FtpTrbnsffrTypf</dodf> to usf.
+     * @rfturn This FtpClifnt
+     * @throws IOExdfption if bn frror oddurs during trbnsmission.
+     */
+    publid sun.nft.ftp.FtpClifnt sftTypf(TrbnsffrTypf typf) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        String dmd = "NOOP";
+
+        this.typf = typf;
+        if (typf == TrbnsffrTypf.ASCII) {
+            dmd = "TYPE A";
+        }
+        if (typf == TrbnsffrTypf.BINARY) {
+            dmd = "TYPE I";
+        }
+        if (typf == TrbnsffrTypf.EBCDIC) {
+            dmd = "TYPE E";
+        }
+        issufCommbndChfdk(dmd);
+        rfturn this;
+    }
+
+    /**
+     * Issufs b LIST dommbnd to thf sfrvfr to gft thf durrfnt dirfdtory
+     * listing, bnd rfturns thf InputStrfbm from thf dbtb donnfdtion.
+     * {@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is finishfd writing to thf strfbm.
+     *
+     * @pbrbm pbth thf pbthnbmf of thf dirfdtory to list, or <dodf>null</dodf>
+     *        for thf durrfnt working dirfdtory.
+     * @rfturn thf <dodf>InputStrfbm</dodf> from thf rfsulting dbtb donnfdtion
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @sff #dhbngfDirfdtory(String)
+     * @sff #listFilfs(String)
+     */
+    publid InputStrfbm list(String pbth) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        Sodkft s;
+        s = opfnDbtbConnfdtion(pbth == null ? "LIST" : "LIST " + pbth);
+        if (s != null) {
+            rfturn drfbtfInputStrfbm(s.gftInputStrfbm());
+        }
+        rfturn null;
+    }
+
+    /**
+     * Issufs b NLST pbth dommbnd to sfrvfr to gft thf spfdififd dirfdtory
+     * dontfnt. It difffrs from {@link #list(String)} mfthod by thf fbdt thbt
+     * it will only list thf filf nbmfs whidh would mbkf thf pbrsing of thf
+     * somfwhbt fbsifr.
+     *
+     * {@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is finishfd writing to thf strfbm.
+     *
+     * @pbrbm pbth b <dodf>String</dodf> dontbining thf pbthnbmf of thf
+     *        dirfdtory to list or <dodf>null</dodf> for thf durrfnt working
+     *        dirfdtory.
+     * @rfturn thf <dodf>InputStrfbm</dodf> from thf rfsulting dbtb donnfdtion
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     */
+    publid InputStrfbm nbmfList(String pbth) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        Sodkft s;
+        s = opfnDbtbConnfdtion("NLST " + pbth);
+        if (s != null) {
+            rfturn drfbtfInputStrfbm(s.gftInputStrfbm());
+        }
+        rfturn null;
+    }
+
+    /**
+     * Issufs thf SIZE [pbth] dommbnd to thf sfrvfr to gft thf sizf of b
+     * spfdifid filf on thf sfrvfr.
+     * Notf thbt this dommbnd mby not bf supportfd by thf sfrvfr. In whidh
+     * dbsf -1 will bf rfturnfd.
+     *
+     * @pbrbm pbth b <dodf>String</dodf> dontbining thf pbthnbmf of thf
+     *        filf.
+     * @rfturn b <dodf>long</dodf> dontbining thf sizf of thf filf or -1 if
+     *         thf sfrvfr rfturnfd bn frror, whidh dbn bf dhfdkfd with
+     *         {@link #gftLbstRfplyCodf()}.
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     */
+    publid long gftSizf(String pbth) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        if (pbth == null || pbth.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("pbth dbn't bf null or fmpty");
+        }
+        issufCommbndChfdk("SIZE " + pbth);
+        if (lbstRfplyCodf == FtpRfplyCodf.FILE_STATUS) {
+            String s = gftRfsponsfString();
+            s = s.substring(4, s.lfngth() - 1);
+            rfturn Long.pbrsfLong(s);
+        }
+        rfturn -1;
+    }
+    privbtf stbtid String[] MDTMformbts = {
+        "yyyyMMddHHmmss.SSS",
+        "yyyyMMddHHmmss"
+    };
+    privbtf stbtid SimplfDbtfFormbt[] dbtfFormbts = nfw SimplfDbtfFormbt[MDTMformbts.lfngth];
+
+    stbtid {
+        for (int i = 0; i < MDTMformbts.lfngth; i++) {
+            dbtfFormbts[i] = nfw SimplfDbtfFormbt(MDTMformbts[i]);
+            dbtfFormbts[i].sftTimfZonf(TimfZonf.gftTimfZonf("GMT"));
+        }
+    }
+
+    /**
+     * Issufs thf MDTM [pbth] dommbnd to thf sfrvfr to gft thf modifidbtion
+     * timf of b spfdifid filf on thf sfrvfr.
+     * Notf thbt this dommbnd mby not bf supportfd by thf sfrvfr, in whidh
+     * dbsf <dodf>null</dodf> will bf rfturnfd.
+     *
+     * @pbrbm pbth b <dodf>String</dodf> dontbining thf pbthnbmf of thf filf.
+     * @rfturn b <dodf>Dbtf</dodf> rfprfsfnting thf lbst modifidbtion timf
+     *         or <dodf>null</dodf> if thf sfrvfr rfturnfd bn frror, whidh
+     *         dbn bf dhfdkfd with {@link #gftLbstRfplyCodf()}.
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     */
+    publid Dbtf gftLbstModififd(String pbth) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("MDTM " + pbth);
+        if (lbstRfplyCodf == FtpRfplyCodf.FILE_STATUS) {
+            String s = gftRfsponsfString().substring(4);
+            Dbtf d = null;
+            for (SimplfDbtfFormbt dbtfFormbt : dbtfFormbts) {
+                try {
+                    d = dbtfFormbt.pbrsf(s);
+                } dbtdh (PbrsfExdfption fx) {
+                }
+                if (d != null) {
+                    rfturn d;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Sfts thf pbrsfr usfd to hbndlf thf dirfdtory output to thf spfdififd
+     * onf. By dffbult thf pbrsfr is sft to onf thbt dbn hbndlf most FTP
+     * sfrvfrs output (Unix bbsf mostly). Howfvfr it mby bf nfdfssbry for
+     * bnd bpplidbtion to providf its own pbrsfr duf to somf undommon
+     * output formbt.
+     *
+     * @pbrbm p Thf <dodf>FtpDirPbrsfr</dodf> to usf.
+     * @sff #listFilfs(String)
+     */
+    publid sun.nft.ftp.FtpClifnt sftDirPbrsfr(FtpDirPbrsfr p) {
+        pbrsfr = p;
+        rfturn this;
+    }
+
+    privbtf dlbss FtpFilfItfrbtor implfmfnts Itfrbtor<FtpDirEntry>, Closfbblf {
+
+        privbtf BufffrfdRfbdfr in = null;
+        privbtf FtpDirEntry nfxtFilf = null;
+        privbtf FtpDirPbrsfr fpbrsfr = null;
+        privbtf boolfbn fof = fblsf;
+
+        publid FtpFilfItfrbtor(FtpDirPbrsfr p, BufffrfdRfbdfr in) {
+            this.in = in;
+            this.fpbrsfr = p;
+            rfbdNfxt();
+        }
+
+        privbtf void rfbdNfxt() {
+            nfxtFilf = null;
+            if (fof) {
+                rfturn;
+            }
+            String linf = null;
+            try {
+                do {
+                    linf = in.rfbdLinf();
+                    if (linf != null) {
+                        nfxtFilf = fpbrsfr.pbrsfLinf(linf);
+                        if (nfxtFilf != null) {
+                            rfturn;
+                        }
+                    }
+                } whilf (linf != null);
+                in.dlosf();
+            } dbtdh (IOExdfption iOExdfption) {
+            }
+            fof = truf;
+        }
+
+        publid boolfbn hbsNfxt() {
+            rfturn nfxtFilf != null;
+        }
+
+        publid FtpDirEntry nfxt() {
+            FtpDirEntry rft = nfxtFilf;
+            rfbdNfxt();
+            rfturn rft;
+        }
+
+        publid void rfmovf() {
+            throw nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
+        }
+
+        publid void dlosf() throws IOExdfption {
+            if (in != null && !fof) {
+                in.dlosf();
+            }
+            fof = truf;
+            nfxtFilf = null;
+        }
+    }
+
+    /**
+     * Issufs b MLSD dommbnd to thf sfrvfr to gft thf spfdififd dirfdtory
+     * listing bnd bpplifs thf durrfnt pbrsfr to drfbtf bn Itfrbtor of
+     * {@link jbvb.nft.ftp.FtpDirEntry}. Notf thbt thf Itfrbtor rfturnfd is blso b
+     * {@link jbvb.io.Closfbblf}.
+     * If thf sfrvfr dofsn't support thf MLSD dommbnd, thf LIST dommbnd is usfd
+     * instfbd.
+     *
+     * {@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is finishfd itfrbting through thf filfs.
+     *
+     * @pbrbm pbth thf pbthnbmf of thf dirfdtory to list or <dodf>null</dodf>
+     *        for thf durrfnt working dirfdtoty.
+     * @rfturn b <dodf>Itfrbtor</dodf> of filfs or <dodf>null</dodf> if thf
+     *         dommbnd fbilfd.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission
+     * @sff #sftDirPbrsfr(FtpDirPbrsfr)
+     * @sff #dhbngfDirfdtory(String)
+     */
+    publid Itfrbtor<FtpDirEntry> listFilfs(String pbth) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        Sodkft s = null;
+        BufffrfdRfbdfr sin = null;
+        try {
+            s = opfnDbtbConnfdtion(pbth == null ? "MLSD" : "MLSD " + pbth);
+        } dbtdh (sun.nft.ftp.FtpProtodolExdfption FtpExdfption) {
+            // Thf sfrvfr dofsn't undfrstbnd nfw MLSD dommbnd, ignorf bnd fbll
+            // bbdk to LIST
+        }
+
+        if (s != null) {
+            sin = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(s.gftInputStrfbm()));
+            rfturn nfw FtpFilfItfrbtor(mlsxPbrsfr, sin);
+        } flsf {
+            s = opfnDbtbConnfdtion(pbth == null ? "LIST" : "LIST " + pbth);
+            if (s != null) {
+                sin = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(s.gftInputStrfbm()));
+                rfturn nfw FtpFilfItfrbtor(pbrsfr, sin);
+            }
+        }
+        rfturn null;
+    }
+
+    privbtf boolfbn sfndSfdurityDbtb(bytf[] buf) throws IOExdfption {
+        String s = Bbsf64.gftMimfEndodfr().fndodfToString(buf);
+        rfturn issufCommbnd("ADAT " + s);
+    }
+
+    privbtf bytf[] gftSfdurityDbtb() {
+        String s = gftLbstRfsponsfString();
+        if (s.substring(4, 9).fqublsIgnorfCbsf("ADAT=")) {
+            // Nffd to gft rid of thf lfbding '315 ADAT='
+            // bnd thf trbiling nfwlinf
+            rfturn Bbsf64.gftMimfDfdodfr().dfdodf(s.substring(9, s.lfngth() - 1));
+        }
+        rfturn null;
+    }
+
+    /**
+     * Attfmpts to usf Kfrbfros GSSAPI bs bn buthfntidbtion mfdhbnism with thf
+     * ftp sfrvfr. This will issuf bn <dodf>AUTH GSSAPI</dodf> dommbnd, bnd if
+     * it is bddfptfd by thf sfrvfr, will followup with <dodf>ADAT</dodf>
+     * dommbnd to fxdhbngf thf vbrious tokfns until buthfntifidbtion is
+     * suddfssful. This donforms to Appfndix I of RFC 2228.
+     *
+     * @rfturn <dodf>truf</dodf> if buthfntidbtion wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     */
+    publid sun.nft.ftp.FtpClifnt usfKfrbfros() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        /*
+         * Commfnt out for thf momfnt sindf it's not in usf bnd would drfbtf
+         * nffdlfss dross-pbdkbgf links.
+         *
+        issufCommbndChfdk("AUTH GSSAPI");
+        if (lbstRfplyCodf != FtpRfplyCodf.NEED_ADAT)
+        throw nfw sun.nft.ftp.FtpProtodolExdfption("Unfxpfdtfd rfply from sfrvfr");
+        try {
+        GSSMbnbgfr mbnbgfr = GSSMbnbgfr.gftInstbndf();
+        GSSNbmf nbmf = mbnbgfr.drfbtfNbmf("SERVICE:ftp@"+
+        sfrvfrAddr.gftHostNbmf(), null);
+        GSSContfxt dontfxt = mbnbgfr.drfbtfContfxt(nbmf, null, null,
+        GSSContfxt.DEFAULT_LIFETIME);
+        dontfxt.rfqufstMutublAuth(truf);
+        dontfxt.rfqufstRfplbyDft(truf);
+        dontfxt.rfqufstSfqufndfDft(truf);
+        dontfxt.rfqufstCrfdDflfg(truf);
+        bytf []inTokfn = nfw bytf[0];
+        whilf (!dontfxt.isEstbblishfd()) {
+        bytf[] outTokfn
+        = dontfxt.initSfdContfxt(inTokfn, 0, inTokfn.lfngth);
+        // sfnd thf output tokfn if gfnfrbtfd
+        if (outTokfn != null) {
+        if (sfndSfdurityDbtb(outTokfn)) {
+        inTokfn = gftSfdurityDbtb();
+        }
+        }
+        }
+        loggfdIn = truf;
+        } dbtdh (GSSExdfption f) {
+
+        }
+         */
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf Wfldomf string thf sfrvfr sfnt during initibl donnfdtion.
+     *
+     * @rfturn b <dodf>String</dodf> dontbining thf mfssbgf thf sfrvfr
+     *         rfturnfd during donnfdtion or <dodf>null</dodf>.
+     */
+    publid String gftWfldomfMsg() {
+        rfturn wfldomfMsg;
+    }
+
+    /**
+     * Rfturns thf lbst rfply dodf sfnt by thf sfrvfr.
+     *
+     * @rfturn thf lbstRfplyCodf
+     */
+    publid FtpRfplyCodf gftLbstRfplyCodf() {
+        rfturn lbstRfplyCodf;
+    }
+
+    /**
+     * Rfturns thf lbst rfsponsf string sfnt by thf sfrvfr.
+     *
+     * @rfturn thf mfssbgf string, whidh dbn bf quitf long, lbst rfturnfd
+     *         by thf sfrvfr.
+     */
+    publid String gftLbstRfsponsfString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        if (sfrvfrRfsponsf != null) {
+            for (String l : sfrvfrRfsponsf) {
+                if (l != null) {
+                    sb.bppfnd(l);
+                }
+            }
+        }
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns, whfn bvbilbblf, thf sizf of thf lbtfst stbrtfd trbnsffr.
+     * This is rftrfivfd by pbrsing thf rfsponsf string rfdfivfd bs bn initibl
+     * rfsponsf to b RETR or similbr rfqufst.
+     *
+     * @rfturn thf sizf of thf lbtfst trbnsffr or -1 if fithfr thfrf wbs no
+     *         trbnsffr or thf informbtion wbs unbvbilbblf.
+     */
+    publid long gftLbstTrbnsffrSizf() {
+        rfturn lbstTrbnsSizf;
+    }
+
+    /**
+     * Rfturns, whfn bvbilbblf, thf rfmotf nbmf of thf lbst trbnsffrfd filf.
+     * This is mbinly usfful for "put" opfrbtion whfn thf uniquf flbg wbs
+     * sft sindf it bllows to rfdovfr thf uniquf filf nbmf drfbtfd on thf
+     * sfrvfr whidh mby bf difffrfnt from thf onf submittfd with thf dommbnd.
+     *
+     * @rfturn thf nbmf thf lbtfst trbnsffrfd filf rfmotf nbmf, or
+     *         <dodf>null</dodf> if thbt informbtion is unbvbilbblf.
+     */
+    publid String gftLbstFilfNbmf() {
+        rfturn lbstFilfNbmf;
+    }
+
+    /**
+     * Attfmpts to switdh to b sfdurf, fndryptfd donnfdtion. This is donf by
+     * sfnding thf "AUTH TLS" dommbnd.
+     * <p>Sff <b hrff="http://www.iftf.org/rfd/rfd4217.txt">RFC 4217</b></p>
+     * If suddfssful this will fstbblish b sfdurf dommbnd dhbnnfl with thf
+     * sfrvfr, it will blso mbkf it so thbt bll othfr trbnsffrs (f.g. b RETR
+     * dommbnd) will bf donf ovfr bn fndryptfd dhbnnfl bs wfll unlfss b
+     * {@link #rfInit()} dommbnd or b {@link #fndSfdurfSfssion()} dommbnd is issufd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf opfrbtion wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @sff #fndSfdurfSfssion()
+     */
+    publid sun.nft.ftp.FtpClifnt stbrtSfdurfSfssion() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        if (!isConnfdtfd()) {
+            throw nfw sun.nft.ftp.FtpProtodolExdfption("Not donnfdtfd yft", FtpRfplyCodf.BAD_SEQUENCE);
+        }
+        if (sslFbdt == null) {
+            try {
+                sslFbdt = (SSLSodkftFbdtory) SSLSodkftFbdtory.gftDffbult();
+            } dbtdh (Exdfption f) {
+                throw nfw IOExdfption(f.gftLodblizfdMfssbgf());
+            }
+        }
+        issufCommbndChfdk("AUTH TLS");
+        Sodkft s = null;
+        try {
+            s = sslFbdt.drfbtfSodkft(sfrvfr, sfrvfrAddr.gftHostNbmf(), sfrvfrAddr.gftPort(), truf);
+        } dbtdh (jbvbx.nft.ssl.SSLExdfption sslf) {
+            try {
+                disdonnfdt();
+            } dbtdh (Exdfption f) {
+            }
+            throw sslf;
+        }
+        // Rfmfmbfr undfrlying sodkft so wf dbn rfstorf it lbtfr
+        oldSodkft = sfrvfr;
+        sfrvfr = s;
+        try {
+            out = nfw PrintStrfbm(nfw BufffrfdOutputStrfbm(sfrvfr.gftOutputStrfbm()),
+                    truf, fndoding);
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            throw nfw IntfrnblError(fndoding + "fndoding not found", f);
+        }
+        in = nfw BufffrfdInputStrfbm(sfrvfr.gftInputStrfbm());
+
+        issufCommbndChfdk("PBSZ 0");
+        issufCommbndChfdk("PROT P");
+        usfCrypto = truf;
+        rfturn this;
+    }
+
+    /**
+     * Sfnds b <dodf>CCC</dodf> dommbnd followfd by b <dodf>PROT C</dodf>
+     * dommbnd to thf sfrvfr tfrminbting bn fndryptfd sfssion bnd rfvfrting
+     * bbdk to b non dryptfd trbnsmission.
+     *
+     * @rfturn <dodf>truf</dodf> if thf opfrbtion wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during trbnsmission.
+     * @sff #stbrtSfdurfSfssion()
+     */
+    publid sun.nft.ftp.FtpClifnt fndSfdurfSfssion() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        if (!usfCrypto) {
+            rfturn this;
+        }
+
+        issufCommbndChfdk("CCC");
+        issufCommbndChfdk("PROT C");
+        usfCrypto = fblsf;
+        // Rfstorf prfvious sodkft bnd strfbms
+        sfrvfr = oldSodkft;
+        oldSodkft = null;
+        try {
+            out = nfw PrintStrfbm(nfw BufffrfdOutputStrfbm(sfrvfr.gftOutputStrfbm()),
+                    truf, fndoding);
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            throw nfw IntfrnblError(fndoding + "fndoding not found", f);
+        }
+        in = nfw BufffrfdInputStrfbm(sfrvfr.gftInputStrfbm());
+
+        rfturn this;
+    }
+
+    /**
+     * Sfnds thf "Allodbtf" (ALLO) dommbnd to thf sfrvfr tflling it to
+     * prf-bllodbtf thf spfdififd numbfr of bytfs for thf nfxt trbnsffr.
+     *
+     * @pbrbm sizf Thf numbfr of bytfs to bllodbtf.
+     * @rfturn <dodf>truf</dodf> if thf opfrbtion wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     */
+    publid sun.nft.ftp.FtpClifnt bllodbtf(long sizf) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("ALLO " + sizf);
+        rfturn this;
+    }
+
+    /**
+     * Sfnds thf "Strudturf Mount" (SMNT) dommbnd to thf sfrvfr. This lft thf
+     * usfr mount b difffrfnt filf systfm dbtb strudturf without bltfring his
+     * login or bddounting informbtion.
+     *
+     * @pbrbm strudt b <dodf>String</dodf> dontbining thf nbmf of thf
+     *        strudturf to mount.
+     * @rfturn <dodf>truf</dodf> if thf opfrbtion wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     */
+    publid sun.nft.ftp.FtpClifnt strudturfMount(String strudt) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("SMNT " + strudt);
+        rfturn this;
+    }
+
+    /**
+     * Sfnds b SYST (Systfm) dommbnd to thf sfrvfr bnd rfturns thf String
+     * sfnt bbdk by thf sfrvfr dfsdribing thf opfrbting systfm bt thf
+     * sfrvfr.
+     *
+     * @rfturn b <dodf>String</dodf> dfsdribing thf OS, or <dodf>null</dodf>
+     *         if thf opfrbtion wbs not suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     */
+    publid String gftSystfm() throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("SYST");
+        /*
+         * 215 UNIX Typf: L8 Vfrsion: SUNOS
+         */
+        String rfsp = gftRfsponsfString();
+        // Gft rid of thf lfbding dodf bnd blbnk
+        rfturn rfsp.substring(4);
+    }
+
+    /**
+     * Sfnds thf HELP dommbnd to thf sfrvfr, with bn optionbl dommbnd, likf
+     * SITE, bnd rfturns thf tfxt sfnt bbdk by thf sfrvfr.
+     *
+     * @pbrbm dmd thf dommbnd for whidh thf hflp is rfqufstfd or
+     *        <dodf>null</dodf> for thf gfnfrbl hflp
+     * @rfturn b <dodf>String</dodf> dontbining thf tfxt sfnt bbdk by thf
+     *         sfrvfr, or <dodf>null</dodf> if thf dommbnd fbilfd.
+     * @throws IOExdfption if bn frror oddurrfd during trbnsmission
+     */
+    publid String gftHflp(String dmd) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("HELP " + dmd);
+        /**
+         *
+         * HELP
+         * 214-Thf following dommbnds brf implfmfntfd.
+         *   USER    EPRT    STRU    ALLO    DELE    SYST    RMD     MDTM    ADAT
+         *   PASS    EPSV    MODE    REST    CWD     STAT    PWD     PROT
+         *   QUIT    LPRT    RETR    RNFR    LIST    HELP    CDUP    PBSZ
+         *   PORT    LPSV    STOR    RNTO    NLST    NOOP    STOU    AUTH
+         *   PASV    TYPE    APPE    ABOR    SITE    MKD     SIZE    CCC
+         * 214 Dirfdt dommfnts to ftp-bugs@jsn.
+         *
+         * HELP SITE
+         * 214-Thf following SITE dommbnds brf implfmfntfd.
+         *   UMASK           HELP            GROUPS
+         *   IDLE            ALIAS           CHECKMETHOD
+         *   CHMOD           CDPATH          CHECKSUM
+         * 214 Dirfdt dommfnts to ftp-bugs@jsn.
+         */
+        Vfdtor<String> rfsp = gftRfsponsfStrings();
+        if (rfsp.sizf() == 1) {
+            // Singlf linf rfsponsf
+            rfturn rfsp.gft(0).substring(4);
+        }
+        // on multiplf linfs bnswfrs, likf thf onfs bbovf, rfmovf 1st bnd lbst
+        // linf, dondbt thf thf othfrs.
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 1; i < rfsp.sizf() - 1; i++) {
+            sb.bppfnd(rfsp.gft(i).substring(3));
+        }
+        rfturn sb.toString();
+    }
+
+    /**
+     * Sfnds thf SITE dommbnd to thf sfrvfr. This is usfd by thf sfrvfr
+     * to providf sfrvidfs spfdifid to his systfm thbt brf fssfntibl
+     * to filf trbnsffr.
+     *
+     * @pbrbm dmd thf dommbnd to bf sfnt.
+     * @rfturn <dodf>truf</dodf> if thf dommbnd wbs suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during trbnsmission
+     */
+    publid sun.nft.ftp.FtpClifnt sitfCmd(String dmd) throws sun.nft.ftp.FtpProtodolExdfption, IOExdfption {
+        issufCommbndChfdk("SITE " + dmd);
+        rfturn this;
+    }
+}

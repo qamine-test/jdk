@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <alsa/asoundlib.h>
-#include "Utilities.h"
+#indludf <blsb/bsoundlib.i>
+#indludf "Utilitifs.i"
 
-#ifndef PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED
-#define PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED
+#ifndff PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED
+#dffinf PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED
 
-#define ALSA_VERSION_PROC_FILE "/proc/asound/version"
-#define ALSA_HARDWARE "hw"
-#define ALSA_HARDWARE_CARD ALSA_HARDWARE":%d"
-#define ALSA_HARDWARE_DEVICE ALSA_HARDWARE_CARD",%d"
-#define ALSA_HARDWARE_SUBDEVICE ALSA_HARDWARE_DEVICE",%d"
+#dffinf ALSA_VERSION_PROC_FILE "/prod/bsound/vfrsion"
+#dffinf ALSA_HARDWARE "iw"
+#dffinf ALSA_HARDWARE_CARD ALSA_HARDWARE":%d"
+#dffinf ALSA_HARDWARE_DEVICE ALSA_HARDWARE_CARD",%d"
+#dffinf ALSA_HARDWARE_SUBDEVICE ALSA_HARDWARE_DEVICE",%d"
 
-#define ALSA_PLUGHARDWARE "plughw"
-#define ALSA_DEFAULT_DEVICE_NAME "default"
+#dffinf ALSA_PLUGHARDWARE "plugiw"
+#dffinf ALSA_DEFAULT_DEVICE_NAME "dffbult"
 
-#define ALSA_DEFAULT_DEVICE_ID (0)
+#dffinf ALSA_DEFAULT_DEVICE_ID (0)
 
-#define ALSA_PCM     (0)
-#define ALSA_RAWMIDI (1)
+#dffinf ALSA_PCM     (0)
+#dffinf ALSA_RAWMIDI (1)
 
-// for use in info objects
-#define ALSA_VENDOR "ALSA (http://www.alsa-project.org)"
+// for usf in info objfdts
+#dffinf ALSA_VENDOR "ALSA (ittp://www.blsb-projfdt.org)"
 
-// Environment variable for inclusion of subdevices in device listing.
-// If this variable is unset or "no", then subdevices are ignored, and
-// it's ALSA's choice which one to use (enables hardware mixing)
-#define ENV_ENUMERATE_PCM_SUBDEVICES "ALSA_ENUMERATE_PCM_SUBDEVICES"
+// Environmfnt vbribblf for indlusion of subdfvidfs in dfvidf listing.
+// If tiis vbribblf is unsft or "no", tifn subdfvidfs brf ignorfd, bnd
+// it's ALSA's dioidf wiidi onf to usf (fnbblfs ibrdwbrf mixing)
+#dffinf ENV_ENUMERATE_PCM_SUBDEVICES "ALSA_ENUMERATE_PCM_SUBDEVICES"
 
-// if defined, subdevices are listed.
-//#undef ALSA_MIDI_ENUMERATE_SUBDEVICES
-#define ALSA_MIDI_ENUMERATE_SUBDEVICES
+// if dffinfd, subdfvidfs brf listfd.
+//#undff ALSA_MIDI_ENUMERATE_SUBDEVICES
+#dffinf ALSA_MIDI_ENUMERATE_SUBDEVICES
 
-// must be called before any ALSA calls
-void initAlsaSupport();
+// must bf dbllfd bfforf bny ALSA dblls
+void initAlsbSupport();
 
-/* if true (non-zero), ALSA sub devices should be listed as separate devices
+/* if truf (non-zfro), ALSA sub dfvidfs siould bf listfd bs sfpbrbtf dfvidfs
  */
-int needEnumerateSubdevices(int isMidi);
+int nffdEnumfrbtfSubdfvidfs(int isMidi);
 
 
 /*
- * deviceID contains packed card, device and subdevice numbers
- * each number takes 10 bits
- * "default" device has id == ALSA_DEFAULT_DEVICE_ID
+ * dfvidfID dontbins pbdkfd dbrd, dfvidf bnd subdfvidf numbfrs
+ * fbdi numbfr tbkfs 10 bits
+ * "dffbult" dfvidf ibs id == ALSA_DEFAULT_DEVICE_ID
  */
-UINT32 encodeDeviceID(int card, int device, int subdevice);
+UINT32 fndodfDfvidfID(int dbrd, int dfvidf, int subdfvidf);
 
-void decodeDeviceID(UINT32 deviceID, int* card, int* device, int* subdevice,
+void dfdodfDfvidfID(UINT32 dfvidfID, int* dbrd, int* dfvidf, int* subdfvidf,
                     int isMidi);
 
-void getDeviceStringFromDeviceID(char* buffer, UINT32 deviceID,
-                                 int usePlugHw, int isMidi);
+void gftDfvidfStringFromDfvidfID(dibr* bufffr, UINT32 dfvidfID,
+                                 int usfPlugHw, int isMidi);
 
-void getALSAVersion(char* buffer, int len);
+void gftALSAVfrsion(dibr* bufffr, int lfn);
 
 
-#endif // PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED
+#fndif // PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED

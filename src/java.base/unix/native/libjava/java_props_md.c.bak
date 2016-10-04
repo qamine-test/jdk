@@ -1,639 +1,639 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#if defined(__linux__) || defined(_ALLBSD_SOURCE)
-#include <stdio.h>
-#include <ctype.h>
-#endif
-#include <pwd.h>
-#include <locale.h>
-#ifndef ARCHPROPNAME
-#error "The macro ARCHPROPNAME has not been defined"
-#endif
-#include <sys/utsname.h>        /* For os_name and os_version */
-#include <langinfo.h>           /* For nl_langinfo */
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/param.h>
-#include <time.h>
-#include <errno.h>
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE)
+#indludf <stdio.i>
+#indludf <dtypf.i>
+#fndif
+#indludf <pwd.i>
+#indludf <lodblf.i>
+#ifndff ARCHPROPNAME
+#frror "Tif mbdro ARCHPROPNAME ibs not bffn dffinfd"
+#fndif
+#indludf <sys/utsnbmf.i>        /* For os_nbmf bnd os_vfrsion */
+#indludf <lbnginfo.i>           /* For nl_lbnginfo */
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <sys/typfs.i>
+#indludf <unistd.i>
+#indludf <sys/pbrbm.i>
+#indludf <timf.i>
+#indludf <frrno.i>
 
-#ifdef MACOSX
-#include "java_props_macosx.h"
-#endif
+#ifdff MACOSX
+#indludf "jbvb_props_mbdosx.i"
+#fndif
 
-#if defined(_ALLBSD_SOURCE)
-#if !defined(P_tmpdir)
-#include <paths.h>
-#define P_tmpdir _PATH_VARTMP
-#endif
-#endif
+#if dffinfd(_ALLBSD_SOURCE)
+#if !dffinfd(P_tmpdir)
+#indludf <pbtis.i>
+#dffinf P_tmpdir _PATH_VARTMP
+#fndif
+#fndif
 
-#include "locale_str.h"
-#include "java_props.h"
+#indludf "lodblf_str.i"
+#indludf "jbvb_props.i"
 
-#if !defined(_ALLBSD_SOURCE)
-#ifdef __linux__
-  #ifndef CODESET
-  #define CODESET _NL_CTYPE_CODESET_NAME
-  #endif
-#else
-#ifdef ALT_CODESET_KEY
-#define CODESET ALT_CODESET_KEY
-#endif
-#endif
-#endif /* !_ALLBSD_SOURCE */
+#if !dffinfd(_ALLBSD_SOURCE)
+#ifdff __linux__
+  #ifndff CODESET
+  #dffinf CODESET _NL_CTYPE_CODESET_NAME
+  #fndif
+#flsf
+#ifdff ALT_CODESET_KEY
+#dffinf CODESET ALT_CODESET_KEY
+#fndif
+#fndif
+#fndif /* !_ALLBSD_SOURCE */
 
-#ifdef JAVASE_EMBEDDED
-#include <dlfcn.h>
-#include <sys/stat.h>
-#endif
+#ifdff JAVASE_EMBEDDED
+#indludf <dlfdn.i>
+#indludf <sys/stbt.i>
+#fndif
 
-/* Take an array of string pairs (map of key->value) and a string (key).
- * Examine each pair in the map to see if the first string (key) matches the
- * string.  If so, store the second string of the pair (value) in the value and
- * return 1.  Otherwise do nothing and return 0.  The end of the map is
- * indicated by an empty string at the start of a pair (key of "").
+/* Tbkf bn brrby of string pbirs (mbp of kfy->vbluf) bnd b string (kfy).
+ * Exbminf fbdi pbir in tif mbp to sff if tif first string (kfy) mbtdifs tif
+ * string.  If so, storf tif sfdond string of tif pbir (vbluf) in tif vbluf bnd
+ * rfturn 1.  Otifrwisf do notiing bnd rfturn 0.  Tif fnd of tif mbp is
+ * indidbtfd by bn fmpty string bt tif stbrt of b pbir (kfy of "").
  */
-static int
-mapLookup(char* map[], const char* key, char** value) {
+stbtid int
+mbpLookup(dibr* mbp[], donst dibr* kfy, dibr** vbluf) {
     int i;
-    for (i = 0; strcmp(map[i], ""); i += 2){
-        if (!strcmp(key, map[i])){
-            *value = map[i + 1];
-            return 1;
+    for (i = 0; strdmp(mbp[i], ""); i += 2){
+        if (!strdmp(kfy, mbp[i])){
+            *vbluf = mbp[i + 1];
+            rfturn 1;
         }
     }
-    return 0;
+    rfturn 0;
 }
 
-/* This function sets an environment variable using envstring.
- * The format of envstring is "name=value".
- * If the name has already existed, it will append value to the name.
+/* Tiis fundtion sfts bn fnvironmfnt vbribblf using fnvstring.
+ * Tif formbt of fnvstring is "nbmf=vbluf".
+ * If tif nbmf ibs blrfbdy fxistfd, it will bppfnd vbluf to tif nbmf.
  */
-static void
-setPathEnvironment(char *envstring)
+stbtid void
+sftPbtiEnvironmfnt(dibr *fnvstring)
 {
-    char name[20], *value, *current;
+    dibr nbmf[20], *vbluf, *durrfnt;
 
-    value = strchr(envstring, '='); /* locate name and value separator */
+    vbluf = strdir(fnvstring, '='); /* lodbtf nbmf bnd vbluf sfpbrbtor */
 
-    if (! value)
-        return; /* not a valid environment setting */
+    if (! vbluf)
+        rfturn; /* not b vblid fnvironmfnt sftting */
 
-    /* copy first part as environment name */
-    strncpy(name, envstring, value - envstring);
-    name[value-envstring] = '\0';
+    /* dopy first pbrt bs fnvironmfnt nbmf */
+    strndpy(nbmf, fnvstring, vbluf - fnvstring);
+    nbmf[vbluf-fnvstring] = '\0';
 
-    value++; /* set value point to value of the envstring */
+    vbluf++; /* sft vbluf point to vbluf of tif fnvstring */
 
-    current = getenv(name);
-    if (current) {
-        if (! strstr(current, value)) {
-            /* value is not found in current environment, append it */
-            char *temp = malloc(strlen(envstring) + strlen(current) + 2);
-        strcpy(temp, name);
-        strcat(temp, "=");
-        strcat(temp, current);
-        strcat(temp, ":");
-        strcat(temp, value);
-        putenv(temp);
+    durrfnt = gftfnv(nbmf);
+    if (durrfnt) {
+        if (! strstr(durrfnt, vbluf)) {
+            /* vbluf is not found in durrfnt fnvironmfnt, bppfnd it */
+            dibr *tfmp = mbllod(strlfn(fnvstring) + strlfn(durrfnt) + 2);
+        strdpy(tfmp, nbmf);
+        strdbt(tfmp, "=");
+        strdbt(tfmp, durrfnt);
+        strdbt(tfmp, ":");
+        strdbt(tfmp, vbluf);
+        putfnv(tfmp);
         }
-        /* else the value has already been set, do nothing */
+        /* flsf tif vbluf ibs blrfbdy bffn sft, do notiing */
     }
-    else {
-        /* environment variable is not found */
-        putenv(envstring);
+    flsf {
+        /* fnvironmfnt vbribblf is not found */
+        putfnv(fnvstring);
     }
 }
 
-#ifndef P_tmpdir
-#define P_tmpdir "/var/tmp"
-#endif
+#ifndff P_tmpdir
+#dffinf P_tmpdir "/vbr/tmp"
+#fndif
 
-static int ParseLocale(JNIEnv* env, int cat, char ** std_language, char ** std_script,
-                       char ** std_country, char ** std_variant, char ** std_encoding) {
-    char *temp = NULL;
-    char *language = NULL, *country = NULL, *variant = NULL,
-         *encoding = NULL;
-    char *p, *encoding_variant, *old_temp, *old_ev;
-    char *lc;
+stbtid int PbrsfLodblf(JNIEnv* fnv, int dbt, dibr ** std_lbngubgf, dibr ** std_sdript,
+                       dibr ** std_dountry, dibr ** std_vbribnt, dibr ** std_fndoding) {
+    dibr *tfmp = NULL;
+    dibr *lbngubgf = NULL, *dountry = NULL, *vbribnt = NULL,
+         *fndoding = NULL;
+    dibr *p, *fndoding_vbribnt, *old_tfmp, *old_fv;
+    dibr *ld;
 
-    /* Query the locale set for the category */
+    /* Qufry tif lodblf sft for tif dbtfgory */
 
-#ifdef MACOSX
-    lc = setupMacOSXLocale(cat); // malloc'd memory, need to free
-#else
-    lc = setlocale(cat, NULL);
-#endif
+#ifdff MACOSX
+    ld = sftupMbdOSXLodblf(dbt); // mbllod'd mfmory, nffd to frff
+#flsf
+    ld = sftlodblf(dbt, NULL);
+#fndif
 
-#ifndef __linux__
-    if (lc == NULL) {
-        return 0;
+#ifndff __linux__
+    if (ld == NULL) {
+        rfturn 0;
     }
 
-    temp = malloc(strlen(lc) + 1);
-    if (temp == NULL) {
-#ifdef MACOSX
-        free(lc); // malloced memory
-#endif
-        JNU_ThrowOutOfMemoryError(env, NULL);
-        return 0;
+    tfmp = mbllod(strlfn(ld) + 1);
+    if (tfmp == NULL) {
+#ifdff MACOSX
+        frff(ld); // mbllodfd mfmory
+#fndif
+        JNU_TirowOutOfMfmoryError(fnv, NULL);
+        rfturn 0;
     }
 
-    if (cat == LC_CTYPE) {
+    if (dbt == LC_CTYPE) {
         /*
-         * Workaround for Solaris bug 4201684: Xlib doesn't like @euro
-         * locales. Since we don't depend on the libc @euro behavior,
-         * we just remove the qualifier.
-         * On Linux, the bug doesn't occur; on the other hand, @euro
-         * is needed there because it's a shortcut that also determines
-         * the encoding - without it, we wouldn't get ISO-8859-15.
-         * Therefore, this code section is Solaris-specific.
+         * Workbround for Solbris bug 4201684: Xlib dofsn't likf @furo
+         * lodblfs. Sindf wf don't dfpfnd on tif libd @furo bfibvior,
+         * wf just rfmovf tif qublififr.
+         * On Linux, tif bug dofsn't oddur; on tif otifr ibnd, @furo
+         * is nffdfd tifrf bfdbusf it's b siortdut tibt blso dftfrminfs
+         * tif fndoding - witiout it, wf wouldn't gft ISO-8859-15.
+         * Tifrfforf, tiis dodf sfdtion is Solbris-spfdifid.
          */
-        strcpy(temp, lc);
-        p = strstr(temp, "@euro");
+        strdpy(tfmp, ld);
+        p = strstr(tfmp, "@furo");
         if (p != NULL) {
             *p = '\0';
-            setlocale(LC_ALL, temp);
+            sftlodblf(LC_ALL, tfmp);
         }
     }
-#else
-    if (lc == NULL || !strcmp(lc, "C") || !strcmp(lc, "POSIX")) {
-        lc = "en_US";
+#flsf
+    if (ld == NULL || !strdmp(ld, "C") || !strdmp(ld, "POSIX")) {
+        ld = "fn_US";
     }
 
-    temp = malloc(strlen(lc) + 1);
-    if (temp == NULL) {
-        JNU_ThrowOutOfMemoryError(env, NULL);
-        return 0;
+    tfmp = mbllod(strlfn(ld) + 1);
+    if (tfmp == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, NULL);
+        rfturn 0;
     }
 
-#endif
+#fndif
 
     /*
-     * locale string format in Solaris is
-     * <language name>_<country name>.<encoding name>@<variant name>
-     * <country name>, <encoding name>, and <variant name> are optional.
+     * lodblf string formbt in Solbris is
+     * <lbngubgf nbmf>_<dountry nbmf>.<fndoding nbmf>@<vbribnt nbmf>
+     * <dountry nbmf>, <fndoding nbmf>, bnd <vbribnt nbmf> brf optionbl.
      */
 
-    strcpy(temp, lc);
-#ifdef MACOSX
-    free(lc); // malloced memory
-#endif
-    /* Parse the language, country, encoding, and variant from the
-     * locale.  Any of the elements may be missing, but they must occur
-     * in the order language_country.encoding@variant, and must be
-     * preceded by their delimiter (except for language).
+    strdpy(tfmp, ld);
+#ifdff MACOSX
+    frff(ld); // mbllodfd mfmory
+#fndif
+    /* Pbrsf tif lbngubgf, dountry, fndoding, bnd vbribnt from tif
+     * lodblf.  Any of tif flfmfnts mby bf missing, but tify must oddur
+     * in tif ordfr lbngubgf_dountry.fndoding@vbribnt, bnd must bf
+     * prfdfdfd by tifir dflimitfr (fxdfpt for lbngubgf).
      *
-     * If the locale name (without .encoding@variant, if any) matches
-     * any of the names in the locale_aliases list, map it to the
-     * corresponding full locale name.  Most of the entries in the
-     * locale_aliases list are locales that include a language name but
-     * no country name, and this facility is used to map each language
-     * to a default country if that's possible.  It's also used to map
-     * the Solaris locale aliases to their proper Java locale IDs.
+     * If tif lodblf nbmf (witiout .fndoding@vbribnt, if bny) mbtdifs
+     * bny of tif nbmfs in tif lodblf_blibsfs list, mbp it to tif
+     * dorrfsponding full lodblf nbmf.  Most of tif fntrifs in tif
+     * lodblf_blibsfs list brf lodblfs tibt indludf b lbngubgf nbmf but
+     * no dountry nbmf, bnd tiis fbdility is usfd to mbp fbdi lbngubgf
+     * to b dffbult dountry if tibt's possiblf.  It's blso usfd to mbp
+     * tif Solbris lodblf blibsfs to tifir propfr Jbvb lodblf IDs.
      */
 
-    encoding_variant = malloc(strlen(temp)+1);
-    if (encoding_variant == NULL) {
-        free(temp);
-        JNU_ThrowOutOfMemoryError(env, NULL);
-        return 0;
+    fndoding_vbribnt = mbllod(strlfn(tfmp)+1);
+    if (fndoding_vbribnt == NULL) {
+        frff(tfmp);
+        JNU_TirowOutOfMfmoryError(fnv, NULL);
+        rfturn 0;
     }
 
-    if ((p = strchr(temp, '.')) != NULL) {
-        strcpy(encoding_variant, p); /* Copy the leading '.' */
+    if ((p = strdir(tfmp, '.')) != NULL) {
+        strdpy(fndoding_vbribnt, p); /* Copy tif lfbding '.' */
         *p = '\0';
-    } else if ((p = strchr(temp, '@')) != NULL) {
-        strcpy(encoding_variant, p); /* Copy the leading '@' */
+    } flsf if ((p = strdir(tfmp, '@')) != NULL) {
+        strdpy(fndoding_vbribnt, p); /* Copy tif lfbding '@' */
         *p = '\0';
-    } else {
-        *encoding_variant = '\0';
+    } flsf {
+        *fndoding_vbribnt = '\0';
     }
 
-    if (mapLookup(locale_aliases, temp, &p)) {
-        old_temp = temp;
-        temp = realloc(temp, strlen(p)+1);
-        if (temp == NULL) {
-            free(old_temp);
-            free(encoding_variant);
-            JNU_ThrowOutOfMemoryError(env, NULL);
-            return 0;
+    if (mbpLookup(lodblf_blibsfs, tfmp, &p)) {
+        old_tfmp = tfmp;
+        tfmp = rfbllod(tfmp, strlfn(p)+1);
+        if (tfmp == NULL) {
+            frff(old_tfmp);
+            frff(fndoding_vbribnt);
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+            rfturn 0;
         }
-        strcpy(temp, p);
-        old_ev = encoding_variant;
-        encoding_variant = realloc(encoding_variant, strlen(temp)+1);
-        if (encoding_variant == NULL) {
-            free(old_ev);
-            free(temp);
-            JNU_ThrowOutOfMemoryError(env, NULL);
-            return 0;
+        strdpy(tfmp, p);
+        old_fv = fndoding_vbribnt;
+        fndoding_vbribnt = rfbllod(fndoding_vbribnt, strlfn(tfmp)+1);
+        if (fndoding_vbribnt == NULL) {
+            frff(old_fv);
+            frff(tfmp);
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+            rfturn 0;
         }
-        // check the "encoding_variant" again, if any.
-        if ((p = strchr(temp, '.')) != NULL) {
-            strcpy(encoding_variant, p); /* Copy the leading '.' */
+        // difdk tif "fndoding_vbribnt" bgbin, if bny.
+        if ((p = strdir(tfmp, '.')) != NULL) {
+            strdpy(fndoding_vbribnt, p); /* Copy tif lfbding '.' */
             *p = '\0';
-        } else if ((p = strchr(temp, '@')) != NULL) {
-            strcpy(encoding_variant, p); /* Copy the leading '@' */
+        } flsf if ((p = strdir(tfmp, '@')) != NULL) {
+            strdpy(fndoding_vbribnt, p); /* Copy tif lfbding '@' */
             *p = '\0';
         }
     }
 
-    language = temp;
-    if ((country = strchr(temp, '_')) != NULL) {
-        *country++ = '\0';
+    lbngubgf = tfmp;
+    if ((dountry = strdir(tfmp, '_')) != NULL) {
+        *dountry++ = '\0';
     }
 
-    p = encoding_variant;
-    if ((encoding = strchr(p, '.')) != NULL) {
-        p[encoding++ - p] = '\0';
-        p = encoding;
+    p = fndoding_vbribnt;
+    if ((fndoding = strdir(p, '.')) != NULL) {
+        p[fndoding++ - p] = '\0';
+        p = fndoding;
     }
-    if ((variant = strchr(p, '@')) != NULL) {
-        p[variant++ - p] = '\0';
+    if ((vbribnt = strdir(p, '@')) != NULL) {
+        p[vbribnt++ - p] = '\0';
     }
 
-    /* Normalize the language name */
-    if (std_language != NULL) {
-        *std_language = "en";
-        if (language != NULL && mapLookup(language_names, language, std_language) == 0) {
-            *std_language = malloc(strlen(language)+1);
-            strcpy(*std_language, language);
+    /* Normblizf tif lbngubgf nbmf */
+    if (std_lbngubgf != NULL) {
+        *std_lbngubgf = "fn";
+        if (lbngubgf != NULL && mbpLookup(lbngubgf_nbmfs, lbngubgf, std_lbngubgf) == 0) {
+            *std_lbngubgf = mbllod(strlfn(lbngubgf)+1);
+            strdpy(*std_lbngubgf, lbngubgf);
         }
     }
 
-    /* Normalize the country name */
-    if (std_country != NULL && country != NULL) {
-        if (mapLookup(country_names, country, std_country) == 0) {
-            *std_country = malloc(strlen(country)+1);
-            strcpy(*std_country, country);
+    /* Normblizf tif dountry nbmf */
+    if (std_dountry != NULL && dountry != NULL) {
+        if (mbpLookup(dountry_nbmfs, dountry, std_dountry) == 0) {
+            *std_dountry = mbllod(strlfn(dountry)+1);
+            strdpy(*std_dountry, dountry);
         }
     }
 
-    /* Normalize the script and variant name.  Note that we only use
-     * variants listed in the mapping array; others are ignored.
+    /* Normblizf tif sdript bnd vbribnt nbmf.  Notf tibt wf only usf
+     * vbribnts listfd in tif mbpping brrby; otifrs brf ignorfd.
      */
-    if (variant != NULL) {
-        if (std_script != NULL) {
-            mapLookup(script_names, variant, std_script);
+    if (vbribnt != NULL) {
+        if (std_sdript != NULL) {
+            mbpLookup(sdript_nbmfs, vbribnt, std_sdript);
         }
 
-        if (std_variant != NULL) {
-            mapLookup(variant_names, variant, std_variant);
+        if (std_vbribnt != NULL) {
+            mbpLookup(vbribnt_nbmfs, vbribnt, std_vbribnt);
         }
     }
 
-    /* Normalize the encoding name.  Note that we IGNORE the string
-     * 'encoding' extracted from the locale name above.  Instead, we use the
-     * more reliable method of calling nl_langinfo(CODESET).  This function
-     * returns an empty string if no encoding is set for the given locale
-     * (e.g., the C or POSIX locales); we use the default ISO 8859-1
-     * converter for such locales.
+    /* Normblizf tif fndoding nbmf.  Notf tibt wf IGNORE tif string
+     * 'fndoding' fxtrbdtfd from tif lodblf nbmf bbovf.  Instfbd, wf usf tif
+     * morf rflibblf mftiod of dblling nl_lbnginfo(CODESET).  Tiis fundtion
+     * rfturns bn fmpty string if no fndoding is sft for tif givfn lodblf
+     * (f.g., tif C or POSIX lodblfs); wf usf tif dffbult ISO 8859-1
+     * donvfrtfr for sudi lodblfs.
      */
-    if (std_encoding != NULL) {
-        /* OK, not so reliable - nl_langinfo() gives wrong answers on
-         * Euro locales, in particular. */
-        if (strcmp(p, "ISO8859-15") == 0)
+    if (std_fndoding != NULL) {
+        /* OK, not so rflibblf - nl_lbnginfo() givfs wrong bnswfrs on
+         * Euro lodblfs, in pbrtidulbr. */
+        if (strdmp(p, "ISO8859-15") == 0)
             p = "ISO8859-15";
-        else
-            p = nl_langinfo(CODESET);
+        flsf
+            p = nl_lbnginfo(CODESET);
 
-        /* Convert the bare "646" used on Solaris to a proper IANA name */
-        if (strcmp(p, "646") == 0)
+        /* Convfrt tif bbrf "646" usfd on Solbris to b propfr IANA nbmf */
+        if (strdmp(p, "646") == 0)
             p = "ISO646-US";
 
-        /* return same result nl_langinfo would return for en_UK,
-         * in order to use optimizations. */
-        *std_encoding = (*p != '\0') ? p : "ISO8859-1";
+        /* rfturn sbmf rfsult nl_lbnginfo would rfturn for fn_UK,
+         * in ordfr to usf optimizbtions. */
+        *std_fndoding = (*p != '\0') ? p : "ISO8859-1";
 
-#ifdef __linux__
+#ifdff __linux__
         /*
-         * Remap the encoding string to a different value for japanese
-         * locales on linux so that customized converters are used instead
-         * of the default converter for "EUC-JP". The customized converters
-         * omit support for the JIS0212 encoding which is not supported by
-         * the variant of "EUC-JP" encoding used on linux
+         * Rfmbp tif fndoding string to b difffrfnt vbluf for jbpbnfsf
+         * lodblfs on linux so tibt dustomizfd donvfrtfrs brf usfd instfbd
+         * of tif dffbult donvfrtfr for "EUC-JP". Tif dustomizfd donvfrtfrs
+         * omit support for tif JIS0212 fndoding wiidi is not supportfd by
+         * tif vbribnt of "EUC-JP" fndoding usfd on linux
          */
-        if (strcmp(p, "EUC-JP") == 0) {
-            *std_encoding = "EUC-JP-LINUX";
+        if (strdmp(p, "EUC-JP") == 0) {
+            *std_fndoding = "EUC-JP-LINUX";
         }
-#else
-        if (strcmp(p,"eucJP") == 0) {
-            /* For Solaris use customized vendor defined character
-             * customized EUC-JP converter
+#flsf
+        if (strdmp(p,"fudJP") == 0) {
+            /* For Solbris usf dustomizfd vfndor dffinfd dibrbdtfr
+             * dustomizfd EUC-JP donvfrtfr
              */
-            *std_encoding = "eucJP-open";
-        } else if (strcmp(p, "Big5") == 0 || strcmp(p, "BIG5") == 0) {
+            *std_fndoding = "fudJP-opfn";
+        } flsf if (strdmp(p, "Big5") == 0 || strdmp(p, "BIG5") == 0) {
             /*
-             * Remap the encoding string to Big5_Solaris which augments
-             * the default converter for Solaris Big5 locales to include
-             * seven additional ideographic characters beyond those included
-             * in the Java "Big5" converter.
+             * Rfmbp tif fndoding string to Big5_Solbris wiidi bugmfnts
+             * tif dffbult donvfrtfr for Solbris Big5 lodblfs to indludf
+             * sfvfn bdditionbl idfogrbpiid dibrbdtfrs bfyond tiosf indludfd
+             * in tif Jbvb "Big5" donvfrtfr.
              */
-            *std_encoding = "Big5_Solaris";
-        } else if (strcmp(p, "Big5-HKSCS") == 0) {
+            *std_fndoding = "Big5_Solbris";
+        } flsf if (strdmp(p, "Big5-HKSCS") == 0) {
             /*
-             * Solaris uses HKSCS2001
+             * Solbris usfs HKSCS2001
              */
-            *std_encoding = "Big5-HKSCS-2001";
+            *std_fndoding = "Big5-HKSCS-2001";
         }
-#endif
-#ifdef MACOSX
+#fndif
+#ifdff MACOSX
         /*
-         * For the case on MacOS X where encoding is set to US-ASCII, but we
-         * don't have any encoding hints from LANG/LC_ALL/LC_CTYPE, use UTF-8
-         * instead.
+         * For tif dbsf on MbdOS X wifrf fndoding is sft to US-ASCII, but wf
+         * don't ibvf bny fndoding iints from LANG/LC_ALL/LC_CTYPE, usf UTF-8
+         * instfbd.
          *
-         * The contents of ASCII files will still be read and displayed
-         * correctly, but so will files containing UTF-8 characters beyond the
-         * standard ASCII range.
+         * Tif dontfnts of ASCII filfs will still bf rfbd bnd displbyfd
+         * dorrfdtly, but so will filfs dontbining UTF-8 dibrbdtfrs bfyond tif
+         * stbndbrd ASCII rbngf.
          *
-         * Specifically, this allows apps launched by double-clicking a .jar
-         * file to correctly read UTF-8 files using the default encoding (see
+         * Spfdifidblly, tiis bllows bpps lbundifd by doublf-dlidking b .jbr
+         * filf to dorrfdtly rfbd UTF-8 filfs using tif dffbult fndoding (sff
          * 8011194).
          */
-        if (strcmp(p,"US-ASCII") == 0 && getenv("LANG") == NULL &&
-            getenv("LC_ALL") == NULL && getenv("LC_CTYPE") == NULL) {
-            *std_encoding = "UTF-8";
+        if (strdmp(p,"US-ASCII") == 0 && gftfnv("LANG") == NULL &&
+            gftfnv("LC_ALL") == NULL && gftfnv("LC_CTYPE") == NULL) {
+            *std_fndoding = "UTF-8";
         }
-#endif
+#fndif
     }
 
-    free(temp);
-    free(encoding_variant);
+    frff(tfmp);
+    frff(fndoding_vbribnt);
 
-    return 1;
+    rfturn 1;
 }
 
-#ifdef JAVASE_EMBEDDED
-/* Determine the default embedded toolkit based on whether libawt_xawt
- * exists in the JRE. This can still be overridden by -Dawt.toolkit=XXX
+#ifdff JAVASE_EMBEDDED
+/* Dftfrminf tif dffbult fmbfddfd toolkit bbsfd on wiftifr libbwt_xbwt
+ * fxists in tif JRE. Tiis dbn still bf ovfrriddfn by -Dbwt.toolkit=XXX
  */
-static char* getEmbeddedToolkit() {
+stbtid dibr* gftEmbfddfdToolkit() {
     Dl_info dlinfo;
-    char buf[MAXPATHLEN];
-    int32_t len;
-    char *p;
-    struct stat statbuf;
+    dibr buf[MAXPATHLEN];
+    int32_t lfn;
+    dibr *p;
+    strudt stbt stbtbuf;
 
-    /* Get address of this library and the directory containing it. */
-    dladdr((void *)getEmbeddedToolkit, &dlinfo);
-    realpath((char *)dlinfo.dli_fname, buf);
-    len = strlen(buf);
-    p = strrchr(buf, '/');
-    /* Default AWT Toolkit on Linux and Solaris is XAWT (libawt_xawt.so). */
-    strncpy(p, "/libawt_xawt.so", MAXPATHLEN-len-1);
-    /* Check if it exists */
-    if (stat(buf, &statbuf) == -1 && errno == ENOENT) {
-        /* No - this is a reduced-headless-jre so use special HToolkit */
-        return "sun.awt.HToolkit";
+    /* Gft bddrfss of tiis librbry bnd tif dirfdtory dontbining it. */
+    dlbddr((void *)gftEmbfddfdToolkit, &dlinfo);
+    rfblpbti((dibr *)dlinfo.dli_fnbmf, buf);
+    lfn = strlfn(buf);
+    p = strrdir(buf, '/');
+    /* Dffbult AWT Toolkit on Linux bnd Solbris is XAWT (libbwt_xbwt.so). */
+    strndpy(p, "/libbwt_xbwt.so", MAXPATHLEN-lfn-1);
+    /* Cifdk if it fxists */
+    if (stbt(buf, &stbtbuf) == -1 && frrno == ENOENT) {
+        /* No - tiis is b rfdudfd-ifbdlfss-jrf so usf spfdibl HToolkit */
+        rfturn "sun.bwt.HToolkit";
     }
-    else {
-        /* Yes - this is a headful JRE so fallback to SE defaults */
-        return NULL;
+    flsf {
+        /* Yfs - tiis is b ifbdful JRE so fbllbbdk to SE dffbults */
+        rfturn NULL;
     }
 }
-#endif
+#fndif
 
-/* This function gets called very early, before VM_CALLS are setup.
- * Do not use any of the VM_CALLS entries!!!
+/* Tiis fundtion gfts dbllfd vfry fbrly, bfforf VM_CALLS brf sftup.
+ * Do not usf bny of tif VM_CALLS fntrifs!!!
  */
-java_props_t *
-GetJavaProperties(JNIEnv *env)
+jbvb_props_t *
+GftJbvbPropfrtifs(JNIEnv *fnv)
 {
-    static java_props_t sprops;
-    char *v; /* tmp var */
+    stbtid jbvb_props_t sprops;
+    dibr *v; /* tmp vbr */
 
-    if (sprops.user_dir) {
-        return &sprops;
+    if (sprops.usfr_dir) {
+        rfturn &sprops;
     }
 
     /* tmp dir */
     sprops.tmp_dir = P_tmpdir;
-#ifdef MACOSX
-    /* darwin has a per-user temp dir */
-    static char tmp_path[PATH_MAX];
-    int pathSize = confstr(_CS_DARWIN_USER_TEMP_DIR, tmp_path, PATH_MAX);
-    if (pathSize > 0 && pathSize <= PATH_MAX) {
-        sprops.tmp_dir = tmp_path;
+#ifdff MACOSX
+    /* dbrwin ibs b pfr-usfr tfmp dir */
+    stbtid dibr tmp_pbti[PATH_MAX];
+    int pbtiSizf = donfstr(_CS_DARWIN_USER_TEMP_DIR, tmp_pbti, PATH_MAX);
+    if (pbtiSizf > 0 && pbtiSizf <= PATH_MAX) {
+        sprops.tmp_dir = tmp_pbti;
     }
-#endif /* MACOSX */
+#fndif /* MACOSX */
 
-    /* Printing properties */
-#ifdef MACOSX
-    sprops.printerJob = "sun.lwawt.macosx.CPrinterJob";
-#else
-    sprops.printerJob = "sun.print.PSPrinterJob";
-#endif
+    /* Printing propfrtifs */
+#ifdff MACOSX
+    sprops.printfrJob = "sun.lwbwt.mbdosx.CPrintfrJob";
+#flsf
+    sprops.printfrJob = "sun.print.PSPrintfrJob";
+#fndif
 
-    /* patches/service packs installed */
-    sprops.patch_level = "unknown";
+    /* pbtdifs/sfrvidf pbdks instbllfd */
+    sprops.pbtdi_lfvfl = "unknown";
 
-    /* Java 2D/AWT properties */
-#ifdef MACOSX
-    // Always the same GraphicsEnvironment and Toolkit on Mac OS X
-    sprops.graphics_env = "sun.awt.CGraphicsEnvironment";
-    sprops.awt_toolkit = "sun.lwawt.macosx.LWCToolkit";
+    /* Jbvb 2D/AWT propfrtifs */
+#ifdff MACOSX
+    // Alwbys tif sbmf GrbpiidsEnvironmfnt bnd Toolkit on Mbd OS X
+    sprops.grbpiids_fnv = "sun.bwt.CGrbpiidsEnvironmfnt";
+    sprops.bwt_toolkit = "sun.lwbwt.mbdosx.LWCToolkit";
 
-    // check if we're in a GUI login session and set java.awt.headless=true if not
-    sprops.awt_headless = isInAquaSession() ? NULL : "true";
-#else
-    sprops.graphics_env = "sun.awt.X11GraphicsEnvironment";
-#ifdef JAVASE_EMBEDDED
-    sprops.awt_toolkit = getEmbeddedToolkit();
-    if (sprops.awt_toolkit == NULL) // default as below
-#endif
-    sprops.awt_toolkit = "sun.awt.X11.XToolkit";
-#endif
+    // difdk if wf'rf in b GUI login sfssion bnd sft jbvb.bwt.ifbdlfss=truf if not
+    sprops.bwt_ifbdlfss = isInAqubSfssion() ? NULL : "truf";
+#flsf
+    sprops.grbpiids_fnv = "sun.bwt.X11GrbpiidsEnvironmfnt";
+#ifdff JAVASE_EMBEDDED
+    sprops.bwt_toolkit = gftEmbfddfdToolkit();
+    if (sprops.bwt_toolkit == NULL) // dffbult bs bflow
+#fndif
+    sprops.bwt_toolkit = "sun.bwt.X11.XToolkit";
+#fndif
 
-    /* This is used only for debugging of font problems. */
-    v = getenv("JAVA2D_FONTPATH");
+    /* Tiis is usfd only for dfbugging of font problfms. */
+    v = gftfnv("JAVA2D_FONTPATH");
     sprops.font_dir = v ? v : NULL;
 
-#ifdef SI_ISALIST
-    /* supported instruction sets */
+#ifdff SI_ISALIST
+    /* supportfd instrudtion sfts */
     {
-        char list[258];
-        sysinfo(SI_ISALIST, list, sizeof(list));
-        sprops.cpu_isalist = strdup(list);
+        dibr list[258];
+        sysinfo(SI_ISALIST, list, sizfof(list));
+        sprops.dpu_isblist = strdup(list);
     }
-#else
-    sprops.cpu_isalist = NULL;
-#endif
+#flsf
+    sprops.dpu_isblist = NULL;
+#fndif
 
-    /* endianness of platform */
+    /* fndibnnfss of plbtform */
     {
-        unsigned int endianTest = 0xff000000;
-        if (((char*)(&endianTest))[0] != 0)
-            sprops.cpu_endian = "big";
-        else
-            sprops.cpu_endian = "little";
+        unsignfd int fndibnTfst = 0xff000000;
+        if (((dibr*)(&fndibnTfst))[0] != 0)
+            sprops.dpu_fndibn = "big";
+        flsf
+            sprops.dpu_fndibn = "littlf";
     }
 
-    /* os properties */
+    /* os propfrtifs */
     {
-#ifdef MACOSX
-        setOSNameAndVersion(&sprops);
-#else
-        struct utsname name;
-        uname(&name);
-        sprops.os_name = strdup(name.sysname);
-        sprops.os_version = strdup(name.release);
-#endif
+#ifdff MACOSX
+        sftOSNbmfAndVfrsion(&sprops);
+#flsf
+        strudt utsnbmf nbmf;
+        unbmf(&nbmf);
+        sprops.os_nbmf = strdup(nbmf.sysnbmf);
+        sprops.os_vfrsion = strdup(nbmf.rflfbsf);
+#fndif
 
-        sprops.os_arch = ARCHPROPNAME;
+        sprops.os_brdi = ARCHPROPNAME;
 
-        if (getenv("GNOME_DESKTOP_SESSION_ID") != NULL) {
-            sprops.desktop = "gnome";
+        if (gftfnv("GNOME_DESKTOP_SESSION_ID") != NULL) {
+            sprops.dfsktop = "gnomf";
         }
-        else {
-            sprops.desktop = NULL;
+        flsf {
+            sprops.dfsktop = NULL;
         }
     }
 
-    /* ABI property (optional) */
-#ifdef JDK_ARCH_ABI_PROP_NAME
-    sprops.sun_arch_abi = JDK_ARCH_ABI_PROP_NAME;
-#endif
+    /* ABI propfrty (optionbl) */
+#ifdff JDK_ARCH_ABI_PROP_NAME
+    sprops.sun_brdi_bbi = JDK_ARCH_ABI_PROP_NAME;
+#fndif
 
-    /* Determine the language, country, variant, and encoding from the host,
-     * and store these in the user.language, user.country, user.variant and
-     * file.encoding system properties. */
-    setlocale(LC_ALL, "");
-    if (ParseLocale(env, LC_CTYPE,
-                    &(sprops.format_language),
-                    &(sprops.format_script),
-                    &(sprops.format_country),
-                    &(sprops.format_variant),
-                    &(sprops.encoding))) {
-        ParseLocale(env, LC_MESSAGES,
-                    &(sprops.language),
-                    &(sprops.script),
-                    &(sprops.country),
-                    &(sprops.variant),
+    /* Dftfrminf tif lbngubgf, dountry, vbribnt, bnd fndoding from tif iost,
+     * bnd storf tifsf in tif usfr.lbngubgf, usfr.dountry, usfr.vbribnt bnd
+     * filf.fndoding systfm propfrtifs. */
+    sftlodblf(LC_ALL, "");
+    if (PbrsfLodblf(fnv, LC_CTYPE,
+                    &(sprops.formbt_lbngubgf),
+                    &(sprops.formbt_sdript),
+                    &(sprops.formbt_dountry),
+                    &(sprops.formbt_vbribnt),
+                    &(sprops.fndoding))) {
+        PbrsfLodblf(fnv, LC_MESSAGES,
+                    &(sprops.lbngubgf),
+                    &(sprops.sdript),
+                    &(sprops.dountry),
+                    &(sprops.vbribnt),
                     NULL);
-    } else {
-        sprops.language = "en";
-        sprops.encoding = "ISO8859-1";
+    } flsf {
+        sprops.lbngubgf = "fn";
+        sprops.fndoding = "ISO8859-1";
     }
-    sprops.display_language = sprops.language;
-    sprops.display_script = sprops.script;
-    sprops.display_country = sprops.country;
-    sprops.display_variant = sprops.variant;
+    sprops.displby_lbngubgf = sprops.lbngubgf;
+    sprops.displby_sdript = sprops.sdript;
+    sprops.displby_dountry = sprops.dountry;
+    sprops.displby_vbribnt = sprops.vbribnt;
 
-    /* ParseLocale failed with OOME */
-    JNU_CHECK_EXCEPTION_RETURN(env, NULL);
+    /* PbrsfLodblf fbilfd witi OOME */
+    JNU_CHECK_EXCEPTION_RETURN(fnv, NULL);
 
-#ifdef MACOSX
-    sprops.sun_jnu_encoding = "UTF-8";
-#else
-    sprops.sun_jnu_encoding = sprops.encoding;
-#endif
+#ifdff MACOSX
+    sprops.sun_jnu_fndoding = "UTF-8";
+#flsf
+    sprops.sun_jnu_fndoding = sprops.fndoding;
+#fndif
 
-#ifdef _ALLBSD_SOURCE
+#ifdff _ALLBSD_SOURCE
 #if BYTE_ORDER == _LITTLE_ENDIAN
-     sprops.unicode_encoding = "UnicodeLittle";
- #else
-     sprops.unicode_encoding = "UnicodeBig";
- #endif
-#else /* !_ALLBSD_SOURCE */
-#ifdef __linux__
+     sprops.unidodf_fndoding = "UnidodfLittlf";
+ #flsf
+     sprops.unidodf_fndoding = "UnidodfBig";
+ #fndif
+#flsf /* !_ALLBSD_SOURCE */
+#ifdff __linux__
 #if __BYTE_ORDER == __LITTLE_ENDIAN
-    sprops.unicode_encoding = "UnicodeLittle";
-#else
-    sprops.unicode_encoding = "UnicodeBig";
-#endif
-#else
-    sprops.unicode_encoding = "UnicodeBig";
-#endif
-#endif /* _ALLBSD_SOURCE */
+    sprops.unidodf_fndoding = "UnidodfLittlf";
+#flsf
+    sprops.unidodf_fndoding = "UnidodfBig";
+#fndif
+#flsf
+    sprops.unidodf_fndoding = "UnidodfBig";
+#fndif
+#fndif /* _ALLBSD_SOURCE */
 
-    /* user properties */
+    /* usfr propfrtifs */
     {
-        struct passwd *pwent = getpwuid(getuid());
-        sprops.user_name = pwent ? strdup(pwent->pw_name) : "?";
-#ifdef MACOSX
-        setUserHome(&sprops);
-#else
-        sprops.user_home = pwent ? strdup(pwent->pw_dir) : NULL;
-#endif
-        if (sprops.user_home == NULL) {
-            sprops.user_home = "?";
+        strudt pbsswd *pwfnt = gftpwuid(gftuid());
+        sprops.usfr_nbmf = pwfnt ? strdup(pwfnt->pw_nbmf) : "?";
+#ifdff MACOSX
+        sftUsfrHomf(&sprops);
+#flsf
+        sprops.usfr_iomf = pwfnt ? strdup(pwfnt->pw_dir) : NULL;
+#fndif
+        if (sprops.usfr_iomf == NULL) {
+            sprops.usfr_iomf = "?";
         }
     }
 
-    /* User TIMEZONE */
+    /* Usfr TIMEZONE */
     {
         /*
-         * We defer setting up timezone until it's actually necessary.
-         * Refer to TimeZone.getDefault(). However, the system
-         * property is necessary to be able to be set by the command
-         * line interface -D. Here temporarily set a null string to
-         * timezone.
+         * Wf dfffr sftting up timfzonf until it's bdtublly nfdfssbry.
+         * Rfffr to TimfZonf.gftDffbult(). Howfvfr, tif systfm
+         * propfrty is nfdfssbry to bf bblf to bf sft by tif dommbnd
+         * linf intfrfbdf -D. Hfrf tfmporbrily sft b null string to
+         * timfzonf.
          */
-        tzset();        /* for compatibility */
-        sprops.timezone = "";
+        tzsft();        /* for dompbtibility */
+        sprops.timfzonf = "";
     }
 
-    /* Current directory */
+    /* Currfnt dirfdtory */
     {
-        char buf[MAXPATHLEN];
-        errno = 0;
-        if (getcwd(buf, sizeof(buf))  == NULL)
-            JNU_ThrowByName(env, "java/lang/Error",
-             "Properties init: Could not determine current working directory.");
-        else
-            sprops.user_dir = strdup(buf);
+        dibr buf[MAXPATHLEN];
+        frrno = 0;
+        if (gftdwd(buf, sizfof(buf))  == NULL)
+            JNU_TirowByNbmf(fnv, "jbvb/lbng/Error",
+             "Propfrtifs init: Could not dftfrminf durrfnt working dirfdtory.");
+        flsf
+            sprops.usfr_dir = strdup(buf);
     }
 
-    sprops.file_separator = "/";
-    sprops.path_separator = ":";
-    sprops.line_separator = "\n";
+    sprops.filf_sfpbrbtor = "/";
+    sprops.pbti_sfpbrbtor = ":";
+    sprops.linf_sfpbrbtor = "\n";
 
-#if !defined(_ALLBSD_SOURCE)
-    /* Append CDE message and resource search path to NLSPATH and
-     * XFILESEARCHPATH, in order to pick localized message for
-     * FileSelectionDialog window (Bug 4173641).
+#if !dffinfd(_ALLBSD_SOURCE)
+    /* Appfnd CDE mfssbgf bnd rfsourdf sfbrdi pbti to NLSPATH bnd
+     * XFILESEARCHPATH, in ordfr to pidk lodblizfd mfssbgf for
+     * FilfSflfdtionDiblog window (Bug 4173641).
      */
-    setPathEnvironment("NLSPATH=/usr/dt/lib/nls/msg/%L/%N.cat");
-    setPathEnvironment("XFILESEARCHPATH=/usr/dt/app-defaults/%L/Dt");
-#endif
+    sftPbtiEnvironmfnt("NLSPATH=/usr/dt/lib/nls/msg/%L/%N.dbt");
+    sftPbtiEnvironmfnt("XFILESEARCHPATH=/usr/dt/bpp-dffbults/%L/Dt");
+#fndif
 
 
-#ifdef MACOSX
-    setProxyProperties(&sprops);
-#endif
+#ifdff MACOSX
+    sftProxyPropfrtifs(&sprops);
+#fndif
 
-    return &sprops;
+    rfturn &sprops;
 }
 
 jstring
-GetStringPlatform(JNIEnv *env, nchar* cstr)
+GftStringPlbtform(JNIEnv *fnv, ndibr* dstr)
 {
-    return JNU_NewStringPlatform(env, cstr);
+    rfturn JNU_NfwStringPlbtform(fnv, dstr);
 }

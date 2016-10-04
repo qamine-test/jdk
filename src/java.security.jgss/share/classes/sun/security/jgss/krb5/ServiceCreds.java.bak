@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.krb5;
+pbdkbgf sun.sfdurity.jgss.krb5;
 
-import javax.security.auth.kerberos.KerberosTicket;
-import javax.security.auth.kerberos.KerberosKey;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import javax.security.auth.kerberos.KeyTab;
-import javax.security.auth.Subject;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosPrindipbl;
+import jbvbx.sfdurity.buti.kfrbfros.KfyTbb;
+import jbvbx.sfdurity.buti.Subjfdt;
 
-import sun.security.krb5.Credentials;
-import sun.security.krb5.EncryptionKey;
-import sun.security.krb5.KrbException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import sun.security.krb5.*;
-import sun.security.krb5.internal.Krb5;
+import sun.sfdurity.krb5.Crfdfntibls;
+import sun.sfdurity.krb5.EndryptionKfy;
+import sun.sfdurity.krb5.KrbExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
 
 /**
- * Credentials of a kerberos acceptor. A KerberosPrincipal object (kp) is
- * the principal. It can be specified as the serverPrincipal argument
- * in the getInstance() method, or uses only KerberosPrincipal in the subject.
- * Otherwise, the creds object is unbound and kp is null.
+ * Crfdfntibls of b kfrbfros bddfptor. A KfrbfrosPrindipbl objfdt (kp) is
+ * tif prindipbl. It dbn bf spfdififd bs tif sfrvfrPrindipbl brgumfnt
+ * in tif gftInstbndf() mftiod, or usfs only KfrbfrosPrindipbl in tif subjfdt.
+ * Otifrwisf, tif drfds objfdt is unbound bnd kp is null.
  *
- * The class also encapsulates various secrets, which can be:
+ * Tif dlbss blso fndbpsulbtfs vbrious sfdrfts, wiidi dbn bf:
  *
- *   1. Some KerberosKeys (generated from password)
- *   2. Some KeyTabs (for a typical service based on keytabs)
- *   3. A TGT (for S4U2proxy extension or user2user)
+ *   1. Somf KfrbfrosKfys (gfnfrbtfd from pbssword)
+ *   2. Somf KfyTbbs (for b typidbl sfrvidf bbsfd on kfytbbs)
+ *   3. A TGT (for S4U2proxy fxtfnsion or usfr2usfr)
  *
- * Note that some secrets can coexist. For example, a user2user service
- * can use its keytab (or keys) if the client can successfully obtain a
- * normal service ticket, or it can use the TGT (actually, the session key
- * of the TGT) if the client can only acquire a service ticket
- * of ENC-TKT-IN-SKEY style.
+ * Notf tibt somf sfdrfts dbn dofxist. For fxbmplf, b usfr2usfr sfrvidf
+ * dbn usf its kfytbb (or kfys) if tif dlifnt dbn suddfssfully obtbin b
+ * normbl sfrvidf tidkft, or it dbn usf tif TGT (bdtublly, tif sfssion kfy
+ * of tif TGT) if tif dlifnt dbn only bdquirf b sfrvidf tidkft
+ * of ENC-TKT-IN-SKEY stylf.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class ServiceCreds {
-    // The principal, or null if unbound
-    private KerberosPrincipal kp;
+publid finbl dlbss SfrvidfCrfds {
+    // Tif prindipbl, or null if unbound
+    privbtf KfrbfrosPrindipbl kp;
 
-    // All principals in the subject's princ set
-    private Set<KerberosPrincipal> allPrincs;
+    // All prindipbls in tif subjfdt's prind sft
+    privbtf Sft<KfrbfrosPrindipbl> bllPrinds;
 
-    // All private credentials that can be used
-    private List<KeyTab> ktabs;
-    private List<KerberosKey> kk;
-    private KerberosTicket tgt;
+    // All privbtf drfdfntibls tibt dbn bf usfd
+    privbtf List<KfyTbb> ktbbs;
+    privbtf List<KfrbfrosKfy> kk;
+    privbtf KfrbfrosTidkft tgt;
 
-    private boolean destroyed;
+    privbtf boolfbn dfstroyfd;
 
-    private ServiceCreds() {
-        // Make sure this class cannot be instantiated externally.
+    privbtf SfrvidfCrfds() {
+        // Mbkf surf tiis dlbss dbnnot bf instbntibtfd fxtfrnblly.
     }
 
     /**
-     * Creates a ServiceCreds object based on info in a Subject for
-     * a given principal name (if specified).
-     * @return the object, or null if there is no private creds for it
+     * Crfbtfs b SfrvidfCrfds objfdt bbsfd on info in b Subjfdt for
+     * b givfn prindipbl nbmf (if spfdififd).
+     * @rfturn tif objfdt, or null if tifrf is no privbtf drfds for it
      */
-    public static ServiceCreds getInstance(
-            Subject subj, String serverPrincipal) {
+    publid stbtid SfrvidfCrfds gftInstbndf(
+            Subjfdt subj, String sfrvfrPrindipbl) {
 
-        ServiceCreds sc = new ServiceCreds();
+        SfrvidfCrfds sd = nfw SfrvidfCrfds();
 
-        sc.allPrincs =
-                subj.getPrincipals(KerberosPrincipal.class);
+        sd.bllPrinds =
+                subj.gftPrindipbls(KfrbfrosPrindipbl.dlbss);
 
-        // Compatibility. A key implies its own principal
-        for (KerberosKey key: SubjectComber.findMany(
-                subj, serverPrincipal, null, KerberosKey.class)) {
-            sc.allPrincs.add(key.getPrincipal());
+        // Compbtibility. A kfy implifs its own prindipbl
+        for (KfrbfrosKfy kfy: SubjfdtCombfr.findMbny(
+                subj, sfrvfrPrindipbl, null, KfrbfrosKfy.dlbss)) {
+            sd.bllPrinds.bdd(kfy.gftPrindipbl());
         }
 
-        if (serverPrincipal != null) {      // A named principal
-            sc.kp = new KerberosPrincipal(serverPrincipal);
-        } else {
-            // For compatibility reason, we set the name of default principal
-            // to the "only possible" name it can take, which means there is
-            // only one KerberosPrincipal and there is no unbound keytabs
-            if (sc.allPrincs.size() == 1) {
-                boolean hasUnbound = false;
-                for (KeyTab ktab: SubjectComber.findMany(
-                        subj, null, null, KeyTab.class)) {
-                    if (!ktab.isBound()) {
-                        hasUnbound = true;
-                        break;
+        if (sfrvfrPrindipbl != null) {      // A nbmfd prindipbl
+            sd.kp = nfw KfrbfrosPrindipbl(sfrvfrPrindipbl);
+        } flsf {
+            // For dompbtibility rfbson, wf sft tif nbmf of dffbult prindipbl
+            // to tif "only possiblf" nbmf it dbn tbkf, wiidi mfbns tifrf is
+            // only onf KfrbfrosPrindipbl bnd tifrf is no unbound kfytbbs
+            if (sd.bllPrinds.sizf() == 1) {
+                boolfbn ibsUnbound = fblsf;
+                for (KfyTbb ktbb: SubjfdtCombfr.findMbny(
+                        subj, null, null, KfyTbb.dlbss)) {
+                    if (!ktbb.isBound()) {
+                        ibsUnbound = truf;
+                        brfbk;
                     }
                 }
-                if (!hasUnbound) {
-                    sc.kp = sc.allPrincs.iterator().next();
-                    serverPrincipal = sc.kp.getName();
+                if (!ibsUnbound) {
+                    sd.kp = sd.bllPrinds.itfrbtor().nfxt();
+                    sfrvfrPrindipbl = sd.kp.gftNbmf();
                 }
             }
         }
 
-        sc.ktabs = SubjectComber.findMany(
-                    subj, serverPrincipal, null, KeyTab.class);
-        sc.kk = SubjectComber.findMany(
-                    subj, serverPrincipal, null, KerberosKey.class);
-        sc.tgt = SubjectComber.find(
-                subj, null, serverPrincipal, KerberosTicket.class);
-        if (sc.ktabs.isEmpty() && sc.kk.isEmpty() && sc.tgt == null) {
-            return null;
+        sd.ktbbs = SubjfdtCombfr.findMbny(
+                    subj, sfrvfrPrindipbl, null, KfyTbb.dlbss);
+        sd.kk = SubjfdtCombfr.findMbny(
+                    subj, sfrvfrPrindipbl, null, KfrbfrosKfy.dlbss);
+        sd.tgt = SubjfdtCombfr.find(
+                subj, null, sfrvfrPrindipbl, KfrbfrosTidkft.dlbss);
+        if (sd.ktbbs.isEmpty() && sd.kk.isEmpty() && sd.tgt == null) {
+            rfturn null;
         }
 
-        sc.destroyed = false;
+        sd.dfstroyfd = fblsf;
 
-        return sc;
+        rfturn sd;
     }
 
-    // can be null
-    public String getName() {
-        if (destroyed) {
-            throw new IllegalStateException("This object is destroyed");
+    // dbn bf null
+    publid String gftNbmf() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is dfstroyfd");
         }
-        return kp == null ? null : kp.getName();
+        rfturn kp == null ? null : kp.gftNbmf();
     }
 
     /**
-     * Gets keys for "someone". Used in 2 cases:
-     * 1. By TLS because it needs to get keys before client comes in.
-     * 2. As a fallback in getEKeys() below.
-     * This method can still return an empty array.
+     * Gfts kfys for "somfonf". Usfd in 2 dbsfs:
+     * 1. By TLS bfdbusf it nffds to gft kfys bfforf dlifnt domfs in.
+     * 2. As b fbllbbdk in gftEKfys() bflow.
+     * Tiis mftiod dbn still rfturn bn fmpty brrby.
      */
-    public KerberosKey[] getKKeys() {
-        if (destroyed) {
-            throw new IllegalStateException("This object is destroyed");
+    publid KfrbfrosKfy[] gftKKfys() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is dfstroyfd");
         }
-        KerberosPrincipal one = kp;                 // named principal
-        if (one == null && !allPrincs.isEmpty()) {  // or, a known principal
-            one = allPrincs.iterator().next();
+        KfrbfrosPrindipbl onf = kp;                 // nbmfd prindipbl
+        if (onf == null && !bllPrinds.isEmpty()) {  // or, b known prindipbl
+            onf = bllPrinds.itfrbtor().nfxt();
         }
-        if (one == null) {                          // Or, some random one
-            for (KeyTab ktab: ktabs) {
-                // Must be unbound keytab, otherwise, allPrincs is not empty
-                PrincipalName pn =
-                        Krb5Util.snapshotFromJavaxKeyTab(ktab).getOneName();
+        if (onf == null) {                          // Or, somf rbndom onf
+            for (KfyTbb ktbb: ktbbs) {
+                // Must bf unbound kfytbb, otifrwisf, bllPrinds is not fmpty
+                PrindipblNbmf pn =
+                        Krb5Util.snbpsiotFromJbvbxKfyTbb(ktbb).gftOnfNbmf();
                 if (pn != null) {
-                    one = new KerberosPrincipal(pn.getName());
-                    break;
+                    onf = nfw KfrbfrosPrindipbl(pn.gftNbmf());
+                    brfbk;
                 }
             }
         }
-        if (one != null) {
-            return getKKeys(one);
-        } else {
-            return new KerberosKey[0];
+        if (onf != null) {
+            rfturn gftKKfys(onf);
+        } flsf {
+            rfturn nfw KfrbfrosKfy[0];
         }
     }
 
     /**
-     * Get kkeys for a principal,
-     * @param princ the target name initiator requests. Not null.
-     * @return keys for the princ, never null, might be empty
+     * Gft kkfys for b prindipbl,
+     * @pbrbm prind tif tbrgft nbmf initibtor rfqufsts. Not null.
+     * @rfturn kfys for tif prind, nfvfr null, migit bf fmpty
      */
-    public KerberosKey[] getKKeys(KerberosPrincipal princ) {
-        if (destroyed) {
-            throw new IllegalStateException("This object is destroyed");
+    publid KfrbfrosKfy[] gftKKfys(KfrbfrosPrindipbl prind) {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is dfstroyfd");
         }
-        ArrayList<KerberosKey> keys = new ArrayList<>();
-        if (kp != null && !princ.equals(kp)) {      // named principal
-            return new KerberosKey[0];
+        ArrbyList<KfrbfrosKfy> kfys = nfw ArrbyList<>();
+        if (kp != null && !prind.fqubls(kp)) {      // nbmfd prindipbl
+            rfturn nfw KfrbfrosKfy[0];
         }
-        for (KerberosKey k: kk) {
-            if (k.getPrincipal().equals(princ)) {
-                keys.add(k);
+        for (KfrbfrosKfy k: kk) {
+            if (k.gftPrindipbl().fqubls(prind)) {
+                kfys.bdd(k);
             }
         }
-        for (KeyTab ktab: ktabs) {
-            if (ktab.getPrincipal() == null && ktab.isBound()) {
-                // legacy bound keytab. although we don't know who
-                // the bound principal is, it must be in allPrincs
-                if (!allPrincs.contains(princ)) {
-                    continue;   // skip this legacy bound keytab
+        for (KfyTbb ktbb: ktbbs) {
+            if (ktbb.gftPrindipbl() == null && ktbb.isBound()) {
+                // lfgbdy bound kfytbb. bltiougi wf don't know wio
+                // tif bound prindipbl is, it must bf in bllPrinds
+                if (!bllPrinds.dontbins(prind)) {
+                    dontinuf;   // skip tiis lfgbdy bound kfytbb
                 }
             }
-            for (KerberosKey k: ktab.getKeys(princ)) {
-                keys.add(k);
+            for (KfrbfrosKfy k: ktbb.gftKfys(prind)) {
+                kfys.bdd(k);
             }
         }
-        return keys.toArray(new KerberosKey[keys.size()]);
+        rfturn kfys.toArrby(nfw KfrbfrosKfy[kfys.sizf()]);
     }
 
     /**
-     * Gets EKeys for a principal.
-     * @param princ the target name initiator requests. Not null.
-     * @return keys for the princ, never null, might be empty
+     * Gfts EKfys for b prindipbl.
+     * @pbrbm prind tif tbrgft nbmf initibtor rfqufsts. Not null.
+     * @rfturn kfys for tif prind, nfvfr null, migit bf fmpty
      */
-    public EncryptionKey[] getEKeys(PrincipalName princ) {
-        if (destroyed) {
-            throw new IllegalStateException("This object is destroyed");
+    publid EndryptionKfy[] gftEKfys(PrindipblNbmf prind) {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is dfstroyfd");
         }
-        KerberosKey[] kkeys = getKKeys(new KerberosPrincipal(princ.getName()));
-        if (kkeys.length == 0) {
-            // Fallback: old JDK does not perform real name checking. If the
-            // acceptor has host.sun.com but initiator requests for host,
-            // as long as their keys match (i.e. keys for one can decrypt
-            // the other's service ticket), the authentication is OK.
-            // There are real customers depending on this to use different
-            // names for a single service.
-            kkeys = getKKeys();
+        KfrbfrosKfy[] kkfys = gftKKfys(nfw KfrbfrosPrindipbl(prind.gftNbmf()));
+        if (kkfys.lfngti == 0) {
+            // Fbllbbdk: old JDK dofs not pfrform rfbl nbmf difdking. If tif
+            // bddfptor ibs iost.sun.dom but initibtor rfqufsts for iost,
+            // bs long bs tifir kfys mbtdi (i.f. kfys for onf dbn dfdrypt
+            // tif otifr's sfrvidf tidkft), tif butifntidbtion is OK.
+            // Tifrf brf rfbl dustomfrs dfpfnding on tiis to usf difffrfnt
+            // nbmfs for b singlf sfrvidf.
+            kkfys = gftKKfys();
         }
-        EncryptionKey[] ekeys = new EncryptionKey[kkeys.length];
-        for (int i=0; i<ekeys.length; i++) {
-            ekeys[i] =  new EncryptionKey(
-                        kkeys[i].getEncoded(), kkeys[i].getKeyType(),
-                        kkeys[i].getVersionNumber());
+        EndryptionKfy[] fkfys = nfw EndryptionKfy[kkfys.lfngti];
+        for (int i=0; i<fkfys.lfngti; i++) {
+            fkfys[i] =  nfw EndryptionKfy(
+                        kkfys[i].gftEndodfd(), kkfys[i].gftKfyTypf(),
+                        kkfys[i].gftVfrsionNumbfr());
         }
-        return ekeys;
+        rfturn fkfys;
     }
 
-    public Credentials getInitCred() {
-        if (destroyed) {
-            throw new IllegalStateException("This object is destroyed");
+    publid Crfdfntibls gftInitCrfd() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is dfstroyfd");
         }
         if (tgt == null) {
-            return null;
+            rfturn null;
         }
         try {
-            return Krb5Util.ticketToCreds(tgt);
-        } catch (KrbException | IOException e) {
-            return null;
+            rfturn Krb5Util.tidkftToCrfds(tgt);
+        } dbtdi (KrbExdfption | IOExdfption f) {
+            rfturn null;
         }
     }
 
-    public void destroy() {
-        // Do not wipe out real keys because they are references to the
-        // priv creds in subject. Just make it useless.
-        destroyed = true;
+    publid void dfstroy() {
+        // Do not wipf out rfbl kfys bfdbusf tify brf rfffrfndfs to tif
+        // priv drfds in subjfdt. Just mbkf it usflfss.
+        dfstroyfd = truf;
         kp = null;
-        ktabs.clear();
-        kk.clear();
+        ktbbs.dlfbr();
+        kk.dlfbr();
         tgt = null;
     }
 }

@@ -1,150 +1,150 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions;
 
-import java.security.Key;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import javax.crypto.SecretKey;
+import jbvbx.drypto.SfdrftKfy;
 
-import com.sun.org.apache.xml.internal.security.encryption.EncryptedKey;
-import com.sun.org.apache.xml.internal.security.encryption.XMLCipher;
-import com.sun.org.apache.xml.internal.security.encryption.XMLEncryptionException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.utils.EncryptionConstants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption.EndryptfdKfy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption.XMLCipifr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption.XMLEndryptionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.EndryptionConstbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * The <code>EncryptedKeyResolver</code> is not a generic resolver.  It can
- * only be for specific instantiations, as the key being unwrapped will
- * always be of a particular type and will always have been wrapped by
- * another key which needs to be recursively resolved.
+ * Tif <dodf>EndryptfdKfyRfsolvfr</dodf> is not b gfnfrid rfsolvfr.  It dbn
+ * only bf for spfdifid instbntibtions, bs tif kfy bfing unwrbppfd will
+ * blwbys bf of b pbrtidulbr typf bnd will blwbys ibvf bffn wrbppfd by
+ * bnotifr kfy wiidi nffds to bf rfdursivfly rfsolvfd.
  *
- * The <code>EncryptedKeyResolver</code> can therefore only be instantiated
- * with an algorithm.  It can also be instantiated with a key (the KEK) or
- * will search the static KeyResolvers to find the appropriate key.
+ * Tif <dodf>EndryptfdKfyRfsolvfr</dodf> dbn tifrfforf only bf instbntibtfd
+ * witi bn blgoritim.  It dbn blso bf instbntibtfd witi b kfy (tif KEK) or
+ * will sfbrdi tif stbtid KfyRfsolvfrs to find tif bppropribtf kfy.
  *
- * @author Berin Lautenbach
+ * @butior Bfrin Lbutfnbbdi
  */
-public class EncryptedKeyResolver extends KeyResolverSpi {
+publid dlbss EndryptfdKfyRfsolvfr fxtfnds KfyRfsolvfrSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(EncryptedKeyResolver.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(EndryptfdKfyRfsolvfr.dlbss.gftNbmf());
 
-    private Key kek;
-    private String algorithm;
-    private List<KeyResolverSpi> internalKeyResolvers;
+    privbtf Kfy kfk;
+    privbtf String blgoritim;
+    privbtf List<KfyRfsolvfrSpi> intfrnblKfyRfsolvfrs;
 
     /**
-     * Constructor for use when a KEK needs to be derived from a KeyInfo
+     * Construdtor for usf wifn b KEK nffds to bf dfrivfd from b KfyInfo
      * list
-     * @param algorithm
+     * @pbrbm blgoritim
      */
-    public EncryptedKeyResolver(String algorithm) {
-        kek = null;
-        this.algorithm = algorithm;
+    publid EndryptfdKfyRfsolvfr(String blgoritim) {
+        kfk = null;
+        tiis.blgoritim = blgoritim;
     }
 
     /**
-     * Constructor used for when a KEK has been set
-     * @param algorithm
-     * @param kek
+     * Construdtor usfd for wifn b KEK ibs bffn sft
+     * @pbrbm blgoritim
+     * @pbrbm kfk
      */
-    public EncryptedKeyResolver(String algorithm, Key kek) {
-        this.algorithm = algorithm;
-        this.kek = kek;
+    publid EndryptfdKfyRfsolvfr(String blgoritim, Kfy kfk) {
+        tiis.blgoritim = blgoritim;
+        tiis.kfk = kfk;
     }
 
     /**
-     * This method is used to add a custom {@link KeyResolverSpi} to help
-     * resolve the KEK.
+     * Tiis mftiod is usfd to bdd b dustom {@link KfyRfsolvfrSpi} to iflp
+     * rfsolvf tif KEK.
      *
-     * @param realKeyResolver
+     * @pbrbm rfblKfyRfsolvfr
      */
-    public void registerInternalKeyResolver(KeyResolverSpi realKeyResolver) {
-        if (internalKeyResolvers == null) {
-            internalKeyResolvers = new ArrayList<KeyResolverSpi>();
+    publid void rfgistfrIntfrnblKfyRfsolvfr(KfyRfsolvfrSpi rfblKfyRfsolvfr) {
+        if (intfrnblKfyRfsolvfrs == null) {
+            intfrnblKfyRfsolvfrs = nfw ArrbyList<KfyRfsolvfrSpi>();
         }
-        internalKeyResolvers.add(realKeyResolver);
+        intfrnblKfyRfsolvfrs.bdd(rfblKfyRfsolvfr);
     }
 
-    /** @inheritDoc */
-    public PublicKey engineLookupAndResolvePublicKey(
-        Element element, String BaseURI, StorageResolver storage
+    /** @inifritDod */
+    publid PublidKfy fnginfLookupAndRfsolvfPublidKfy(
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
     ) {
-        return null;
+        rfturn null;
     }
 
-    /** @inheritDoc */
-    public X509Certificate engineLookupResolveX509Certificate(
-        Element element, String BaseURI, StorageResolver storage
+    /** @inifritDod */
+    publid X509Cfrtifidbtf fnginfLookupRfsolvfX509Cfrtifidbtf(
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
     ) {
-        return null;
+        rfturn null;
     }
 
-    /** @inheritDoc */
-    public javax.crypto.SecretKey engineLookupAndResolveSecretKey(
-        Element element, String BaseURI, StorageResolver storage
+    /** @inifritDod */
+    publid jbvbx.drypto.SfdrftKfy fnginfLookupAndRfsolvfSfdrftKfy(
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
     ) {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "EncryptedKeyResolver - Can I resolve " + element.getTagName());
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "EndryptfdKfyRfsolvfr - Cbn I rfsolvf " + flfmfnt.gftTbgNbmf());
         }
 
-        if (element == null) {
-            return null;
+        if (flfmfnt == null) {
+            rfturn null;
         }
 
-        SecretKey key = null;
-        boolean isEncryptedKey =
-            XMLUtils.elementIsInEncryptionSpace(element, EncryptionConstants._TAG_ENCRYPTEDKEY);
-        if (isEncryptedKey) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Passed an Encrypted Key");
+        SfdrftKfy kfy = null;
+        boolfbn isEndryptfdKfy =
+            XMLUtils.flfmfntIsInEndryptionSpbdf(flfmfnt, EndryptionConstbnts._TAG_ENCRYPTEDKEY);
+        if (isEndryptfdKfy) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Pbssfd bn Endryptfd Kfy");
             }
             try {
-                XMLCipher cipher = XMLCipher.getInstance();
-                cipher.init(XMLCipher.UNWRAP_MODE, kek);
-                if (internalKeyResolvers != null) {
-                    int size = internalKeyResolvers.size();
-                    for (int i = 0; i < size; i++) {
-                        cipher.registerInternalKeyResolver(internalKeyResolvers.get(i));
+                XMLCipifr dipifr = XMLCipifr.gftInstbndf();
+                dipifr.init(XMLCipifr.UNWRAP_MODE, kfk);
+                if (intfrnblKfyRfsolvfrs != null) {
+                    int sizf = intfrnblKfyRfsolvfrs.sizf();
+                    for (int i = 0; i < sizf; i++) {
+                        dipifr.rfgistfrIntfrnblKfyRfsolvfr(intfrnblKfyRfsolvfrs.gft(i));
                     }
                 }
-                EncryptedKey ek = cipher.loadEncryptedKey(element);
-                key = (SecretKey) cipher.decryptKey(ek, algorithm);
-            } catch (XMLEncryptionException e) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, e.getMessage(), e);
+                EndryptfdKfy fk = dipifr.lobdEndryptfdKfy(flfmfnt);
+                kfy = (SfdrftKfy) dipifr.dfdryptKfy(fk, blgoritim);
+            } dbtdi (XMLEndryptionExdfption f) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, f.gftMfssbgf(), f);
                 }
             }
         }
 
-        return key;
+        rfturn kfy;
     }
 }

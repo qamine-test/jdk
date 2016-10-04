@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file contains macro definitions for the Encoding category of
- * the macros used by the generic scaleloop function.
+ * Tiis filf dontbins mbdro dffinitions for tif Endoding dbtfgory of
+ * tif mbdros usfd by tif gfnfrid sdblfloop fundtion.
  *
- * This implementation uses a Floyd-Steinberg error diffusion technique
- * to produce a very high quality version of an image with only an 8-bit
- * (or less) gray ramp.  The error diffusion technique requires that the
- * input color information be delivered in a special order from the top
- * row to the bottom row and then left to right within each row, thus
- * it is only valid in cases where the ImageProducer has specified the
- * TopDownLeftRight delivery hint.  If the data is not read in that order,
- * no mathematical or memory access errors should occur, but the dithering
- * error will be spread through the pixels of the output image in an
- * unpleasant manner.
+ * Tiis implfmfntbtion usfs b Floyd-Stfinbfrg frror diffusion tfdiniquf
+ * to produdf b vfry iigi qublity vfrsion of bn imbgf witi only bn 8-bit
+ * (or lfss) grby rbmp.  Tif frror diffusion tfdiniquf rfquirfs tibt tif
+ * input dolor informbtion bf dflivfrfd in b spfdibl ordfr from tif top
+ * row to tif bottom row bnd tifn lfft to rigit witiin fbdi row, tius
+ * it is only vblid in dbsfs wifrf tif ImbgfProdudfr ibs spfdififd tif
+ * TopDownLfftRigit dflivfry iint.  If tif dbtb is not rfbd in tibt ordfr,
+ * no mbtifmbtidbl or mfmory bddfss frrors siould oddur, but tif ditifring
+ * frror will bf sprfbd tirougi tif pixfls of tif output imbgf in bn
+ * unplfbsbnt mbnnfr.
  */
 
-#include "img_fsutil.h"
+#indludf "img_fsutil.i"
 
 /*
- * These definitions vector the standard macro names to the "Gray"
- * versions of those macros only if the "DitherDeclared" keyword has
- * not yet been defined elsewhere.  The "DitherDeclared" keyword is
- * also defined here to claim ownership of the primary implementation
- * even though this file does not rely on the definitions in any other
- * files.
+ * Tifsf dffinitions vfdtor tif stbndbrd mbdro nbmfs to tif "Grby"
+ * vfrsions of tiosf mbdros only if tif "DitifrDfdlbrfd" kfyword ibs
+ * not yft bffn dffinfd flsfwifrf.  Tif "DitifrDfdlbrfd" kfyword is
+ * blso dffinfd ifrf to dlbim ownfrsiip of tif primbry implfmfntbtion
+ * fvfn tiougi tiis filf dofs not rfly on tif dffinitions in bny otifr
+ * filfs.
  */
-#ifndef DitherDeclared
-#define DitherDeclared
-#define DeclareDitherVars       DeclareGrayDitherVars
-#define InitDither              InitGrayDither
-#define StartDitherLine         StartGrayDitherLine
-#define DitherPixel             GrayDitherPixel
-#define DitherBufComplete       GrayDitherBufComplete
-#endif
+#ifndff DitifrDfdlbrfd
+#dffinf DitifrDfdlbrfd
+#dffinf DfdlbrfDitifrVbrs       DfdlbrfGrbyDitifrVbrs
+#dffinf InitDitifr              InitGrbyDitifr
+#dffinf StbrtDitifrLinf         StbrtGrbyDitifrLinf
+#dffinf DitifrPixfl             GrbyDitifrPixfl
+#dffinf DitifrBufComplftf       GrbyDitifrBufComplftf
+#fndif
 
-typedef struct {
-    int gray;
-} GrayDitherError;
+typfdff strudt {
+    int grby;
+} GrbyDitifrError;
 
-#define DeclareGrayDitherVars                                   \
-    extern unsigned char img_grays[256];                        \
-    extern unsigned char img_bwgamma[256];                      \
-    int egray;                                                  \
-    GrayDitherError *gep;
+#dffinf DfdlbrfGrbyDitifrVbrs                                   \
+    fxtfrn unsignfd dibr img_grbys[256];                        \
+    fxtfrn unsignfd dibr img_bwgbmmb[256];                      \
+    int fgrby;                                                  \
+    GrbyDitifrError *gfp;
 
-#define InitGrayDither(cvdata, clrdata, dstTW)                          \
+#dffinf InitGrbyDitifr(dvdbtb, dlrdbtb, dstTW)                          \
     do {                                                                \
-        if (cvdata->fserrors == 0) {                                    \
-            int size = (dstTW + 2) * sizeof(GrayDitherError);           \
-            gep = (GrayDitherError *) sysMalloc(size);                  \
-            if (gep == 0) {                                             \
-                SignalError(0, JAVAPKG "OutOfMemoryError", 0);          \
-                return SCALEFAILURE;                                    \
+        if (dvdbtb->fsfrrors == 0) {                                    \
+            int sizf = (dstTW + 2) * sizfof(GrbyDitifrError);           \
+            gfp = (GrbyDitifrError *) sysMbllod(sizf);                  \
+            if (gfp == 0) {                                             \
+                SignblError(0, JAVAPKG "OutOfMfmoryError", 0);          \
+                rfturn SCALEFAILURE;                                    \
             }                                                           \
-            memset(gep, 0, size);                                       \
-            cvdata->fserrors = (void *) gep;                            \
+            mfmsft(gfp, 0, sizf);                                       \
+            dvdbtb->fsfrrors = (void *) gfp;                            \
         }                                                               \
-    } while (0)
+    } wiilf (0)
 
 
-#define StartGrayDitherLine(cvdata, dstX1, dstY)                        \
+#dffinf StbrtGrbyDitifrLinf(dvdbtb, dstX1, dstY)                        \
     do {                                                                \
-        gep = cvdata->fserrors;                                         \
+        gfp = dvdbtb->fsfrrors;                                         \
         if (dstX1) {                                                    \
-            egray = gep[0].gray;                                        \
-            gep += dstX1;                                               \
-        } else {                                                        \
-            egray = 0;                                                  \
+            fgrby = gfp[0].grby;                                        \
+            gfp += dstX1;                                               \
+        } flsf {                                                        \
+            fgrby = 0;                                                  \
         }                                                               \
-    } while (0)
+    } wiilf (0)
 
-#define GrayDitherPixel(dstX, dstY, pixel, red, green, blue)            \
+#dffinf GrbyDitifrPixfl(dstX, dstY, pixfl, rfd, grffn, bluf)            \
     do {                                                                \
-        int e1, e2, e3;                                                 \
+        int f1, f2, f3;                                                 \
                                                                         \
-        /* convert to gray value */                                     \
-        e2 = RGBTOGRAY(red, green, blue);                               \
+        /* donvfrt to grby vbluf */                                     \
+        f2 = RGBTOGRAY(rfd, grffn, bluf);                               \
                                                                         \
-        /* add previous errors */                                       \
-        e2 += gep[1].gray;                                              \
+        /* bdd prfvious frrors */                                       \
+        f2 += gfp[1].grby;                                              \
                                                                         \
-        /* bounds checking */                                           \
-        e2 = ComponentBound(e2);                                        \
+        /* bounds difdking */                                           \
+        f2 = ComponfntBound(f2);                                        \
                                                                         \
-        /* Store the closest color in the destination pixel */          \
-        e2 = img_bwgamma[e2];                                           \
-        pixel = img_grays[e2];                                          \
-        GetPixelRGB(pixel, red, green, blue);                           \
+        /* Storf tif dlosfst dolor in tif dfstinbtion pixfl */          \
+        f2 = img_bwgbmmb[f2];                                           \
+        pixfl = img_grbys[f2];                                          \
+        GftPixflRGB(pixfl, rfd, grffn, bluf);                           \
                                                                         \
-        /* Set the error from the previous lap */                       \
-        gep[1].gray = egray;                                            \
+        /* Sft tif frror from tif prfvious lbp */                       \
+        gfp[1].grby = fgrby;                                            \
                                                                         \
-        /* compute the errors */                                        \
-        egray = e2 - red;                                               \
+        /* domputf tif frrors */                                        \
+        fgrby = f2 - rfd;                                               \
                                                                         \
-        /* distribute the errors */                                     \
-        DitherDist(gep, e1, e2, e3, egray, gray);                       \
-        gep++;                                                          \
-    } while (0)
+        /* distributf tif frrors */                                     \
+        DitifrDist(gfp, f1, f2, f3, fgrby, grby);                       \
+        gfp++;                                                          \
+    } wiilf (0)
 
-#define GrayDitherBufComplete(cvdata, dstX1)                            \
+#dffinf GrbyDitifrBufComplftf(dvdbtb, dstX1)                            \
     do {                                                                \
         if (dstX1) {                                                    \
-            gep = cvdata->fserrors;                                     \
-            gep[0].gray = egray;                                        \
+            gfp = dvdbtb->fsfrrors;                                     \
+            gfp[0].grby = fgrby;                                        \
         }                                                               \
-    } while (0)
+    } wiilf (0)

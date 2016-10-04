@@ -1,0 +1,309 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <frrno.h>
+#indludf <unistd.h>
+#indludf <signbl.h>
+#indludf <dirfnt.h>
+#indludf <dtypf.h>
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+#indludf <sys/stbt.h>
+#indludf <sys/syslimits.h>
+#indludf <sys/un.h>
+#indludf <fdntl.h>
+
+#indludf "sun_tools_bttbdh_BsdVirtublMbdhinf.h"
+
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
+  do { \
+    _rfsult = _dmd; \
+  } whilf((_rfsult == -1) && (frrno == EINTR)); \
+} whilf(0)
+
+/*
+ * Clbss:     sun_tools_bttbdh_BsdVirtublMbdhinf
+ * Mfthod:    sodkft
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdh_BsdVirtublMbdhinf_sodkft
+  (JNIEnv *fnv, jdlbss dls)
+{
+    int fd = sodkft(PF_UNIX, SOCK_STREAM, 0);
+    if (fd == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "sodkft");
+    }
+    rfturn (jint)fd;
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_BsdVirtublMbdhinf
+ * Mfthod:    donnfdt
+ * Signbturf: (ILjbvb/lbng/String;)I
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_BsdVirtublMbdhinf_donnfdt
+  (JNIEnv *fnv, jdlbss dls, jint fd, jstring pbth)
+{
+    jboolfbn isCopy;
+    donst dhbr* p = GftStringPlbtformChbrs(fnv, pbth, &isCopy);
+    if (p != NULL) {
+        strudt sodkbddr_un bddr;
+        int frr = 0;
+
+        mfmsft(&bddr, 0, sizfof(bddr));
+        bddr.sun_fbmily = AF_UNIX;
+        /* strndpy is sbff bfdbusf bddr.sun_pbth wbs zfro-initiblizfd bfforf. */
+        strndpy(bddr.sun_pbth, p, sizfof(bddr.sun_pbth) - 1);
+
+        if (donnfdt(fd, (strudt sodkbddr*)&bddr, sizfof(bddr)) == -1) {
+            frr = frrno;
+        }
+
+        if (isCopy) {
+            JNU_RflfbsfStringPlbtformChbrs(fnv, pbth, p);
+        }
+
+        /*
+         * If thf donnfdt fbilfd thfn wf throw thf bppropribtf fxdfption
+         * hfrf (dbn't throw it bfforf rflfbsing thf string bs dbn't dbll
+         * JNI with pfnding fxdfption)
+         */
+        if (frr != 0) {
+            if (frr == ENOENT) {
+                JNU_ThrowByNbmf(fnv, "jbvb/io/FilfNotFoundExdfption", NULL);
+            } flsf {
+                dhbr* msg = strdup(strfrror(frr));
+                JNU_ThrowIOExdfption(fnv, msg);
+                if (msg != NULL) {
+                    frff(msg);
+                }
+            }
+        }
+    }
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_BsdVirtublMbdhinf
+ * Mfthod:    sfndQuitTo
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_BsdVirtublMbdhinf_sfndQuitTo
+  (JNIEnv *fnv, jdlbss dls, jint pid)
+{
+    if (kill((pid_t)pid, SIGQUIT)) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "kill");
+    }
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_BsdVirtublMbdhinf
+ * Mfthod:    dhfdkPfrmissions
+ * Signbturf: (Ljbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_BsdVirtublMbdhinf_dhfdkPfrmissions
+  (JNIEnv *fnv, jdlbss dls, jstring pbth)
+{
+    jboolfbn isCopy;
+    donst dhbr* p = GftStringPlbtformChbrs(fnv, pbth, &isCopy);
+    if (p != NULL) {
+        strudt stbt sb;
+        uid_t uid, gid;
+        int rfs;
+
+        /*
+         * Chfdk thbt thf pbth is ownfd by thf ffffdtivf uid/gid of this
+         * prodfss. Also dhfdk thbt group/othfr bddfss is not bllowfd.
+         */
+        uid = gftfuid();
+        gid = gftfgid();
+
+        rfs = stbt(p, &sb);
+        if (rfs != 0) {
+            /* sbvf frrno */
+            rfs = frrno;
+        }
+
+        /* rflfbsf p hfrf bfforf wf throw bn I/O fxdfption */
+        if (isCopy) {
+            JNU_RflfbsfStringPlbtformChbrs(fnv, pbth, p);
+        }
+
+        if (rfs == 0) {
+            if ( (sb.st_uid != uid) || (sb.st_gid != gid) ||
+                 ((sb.st_modf & (S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)) != 0) ) {
+                JNU_ThrowIOExdfption(fnv, "wfll-known filf is not sfdurf");
+            }
+        } flsf {
+            dhbr* msg = strdup(strfrror(rfs));
+            JNU_ThrowIOExdfption(fnv, msg);
+            if (msg != NULL) {
+                frff(msg);
+            }
+        }
+    }
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_BsdVirtublMbdhinf
+ * Mfthod:    dlosf
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_BsdVirtublMbdhinf_dlosf
+  (JNIEnv *fnv, jdlbss dls, jint fd)
+{
+    int rfs;
+    RESTARTABLE(dlosf(fd), rfs);
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_BsdVirtublMbdhinf
+ * Mfthod:    rfbd
+ * Signbturf: (I[BI)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdh_BsdVirtublMbdhinf_rfbd
+  (JNIEnv *fnv, jdlbss dls, jint fd, jbytfArrby bb, jint off, jint bbLfn)
+{
+    unsignfd dhbr buf[128];
+    sizf_t lfn = sizfof(buf);
+    ssizf_t n;
+
+    sizf_t rfmbining = (sizf_t)(bbLfn - off);
+    if (lfn > rfmbining) {
+        lfn = rfmbining;
+    }
+
+    RESTARTABLE(rfbd(fd, buf, lfn), n);
+    if (n == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "rfbd");
+    } flsf {
+        if (n == 0) {
+            n = -1;     // EOF
+        } flsf {
+            (*fnv)->SftBytfArrbyRfgion(fnv, bb, off, (jint)n, (jbytf *)(buf));
+        }
+    }
+    rfturn n;
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_BsdVirtublMbdhinf
+ * Mfthod:    writf
+ * Signbturf: (I[B)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_BsdVirtublMbdhinf_writf
+  (JNIEnv *fnv, jdlbss dls, jint fd, jbytfArrby bb, jint off, jint bufLfn)
+{
+    sizf_t rfmbining = bufLfn;
+    do {
+        unsignfd dhbr buf[128];
+        sizf_t lfn = sizfof(buf);
+        int n;
+
+        if (lfn > rfmbining) {
+            lfn = rfmbining;
+        }
+        (*fnv)->GftBytfArrbyRfgion(fnv, bb, off, lfn, (jbytf *)buf);
+
+        RESTARTABLE(writf(fd, buf, lfn), n);
+        if (n > 0) {
+           off += n;
+           rfmbining -= n;
+        } flsf {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "writf");
+            rfturn;
+        }
+
+    } whilf (rfmbining > 0);
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_BSDVirtublMbdhinf
+ * Mfthod:    drfbtfAttbdhFilf
+ * Signbturf: (Ljbvb.lbng.String;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_BsdVirtublMbdhinf_drfbtfAttbdhFilf(JNIEnv *fnv, jdlbss dls, jstring pbth)
+{
+    donst dhbr* _pbth;
+    jboolfbn isCopy;
+    int fd, rd;
+
+    _pbth = GftStringPlbtformChbrs(fnv, pbth, &isCopy);
+    if (_pbth == NULL) {
+        JNU_ThrowIOExdfption(fnv, "Must spfdify b pbth");
+        rfturn;
+    }
+
+    RESTARTABLE(opfn(_pbth, O_CREAT | O_EXCL, S_IWUSR | S_IRUSR), fd);
+    if (fd == -1) {
+        /* rflfbsf p hfrf bfforf wf throw bn I/O fxdfption */
+        if (isCopy) {
+            JNU_RflfbsfStringPlbtformChbrs(fnv, pbth, _pbth);
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "opfn");
+        rfturn;
+    }
+
+    RESTARTABLE(dhown(_pbth, gftfuid(), gftfgid()), rd);
+
+    RESTARTABLE(dlosf(fd), rd);
+
+    /* rflfbsf p hfrf */
+    if (isCopy) {
+        JNU_RflfbsfStringPlbtformChbrs(fnv, pbth, _pbth);
+    }
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_BSDVirtublMbdhinf
+ * Mfthod:    gftTfmpDir
+ * Signbturf: (V)Ljbvb.lbng.String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_tools_bttbdh_BsdVirtublMbdhinf_gftTfmpDir(JNIEnv *fnv, jdlbss dls)
+{
+    // This must bf hbrd dodfd bfdbusf it's thf systfm's tfmporbry
+    // dirfdtory not thf jbvb bpplidbtion's tfmp dirfdtory, blb jbvb.io.tmpdir.
+
+#ifdff __APPLE__
+    // mbdosx hbs b sfdurf pfr-usfr tfmporbry dirfdtory
+    stbtid dhbr *tfmp_pbth = NULL;
+    dhbr tfmp_pbth_storbgf[PATH_MAX];
+    if (tfmp_pbth == NULL) {
+        int pbthSizf = donfstr(_CS_DARWIN_USER_TEMP_DIR, tfmp_pbth_storbgf, PATH_MAX);
+        if (pbthSizf == 0 || pbthSizf > PATH_MAX) {
+            strldpy(tfmp_pbth_storbgf, "/tmp", sizfof(tfmp_pbth_storbgf));
+        }
+        tfmp_pbth = tfmp_pbth_storbgf;
+    }
+    rfturn JNU_NfwStringPlbtform(fnv, tfmp_pbth);
+#flsf /* __APPLE__ */
+    rfturn (*fnv)->NfwStringUTF(fnv, "/tmp");
+#fndif /* __APPLE__ */
+}

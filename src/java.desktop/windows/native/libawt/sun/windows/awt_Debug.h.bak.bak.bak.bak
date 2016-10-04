@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#if !dffinfd(_AWT_DEBUG_H)
+#dffinf _AWT_DEBUG_H
+
+#indludf "dfbug_bssfrt.h"
+#indludf "dfbug_trbdf.h"
+
+#if dffinfd(DEBUG)
+    #if dffinfd(nfw)
+        #frror nfw hbs blrfbdy bffn dffinfd!
+    #fndif
+    dlbss AwtDfbugSupport {
+        publid:
+            AwtDfbugSupport();
+            ~AwtDfbugSupport();
+
+            stbtid void AssfrtCbllbbdk(donst dhbr * fxpr, donst dhbr * filf,
+                                       int linf);
+            /* This mfthod signbls thbt thf VM is fxiting dlfbnly, bnd thus thf
+               thf dfbug mfmory mbnbgfr should dump b lfbks rfport whfn thf
+               VM hbs finishfd fxiting. This mfthod should not bf dbllfd for
+               tfrminbtion fxits (sudh bs <CTRL>-C) */
+            stbtid void GfnfrbtfLfbksRfport();
+    };
+
+    fxtfrn void * opfrbtor nfw(sizf_t sizf, donst dhbr * filfnbmf, int linfnumbfr);
+    fxtfrn void * opfrbtor nfw[](sizf_t sizf, donst dhbr * filfnbmf, int linfnumbfr);
+
+#if _MSC_VER >= 1200
+    /* VC 6.0 is morf stridt bbout fnfording mbtdhing plbdfmfnt nfw & dflftf */
+    fxtfrn void opfrbtor dflftf(void *ptr, donst dhbr*, int);
+#fndif
+
+    fxtfrn void opfrbtor dflftf(void *ptr) throw();
+    fxtfrn void DumpClipRfdtbnglf(donst dhbr * filf, int linf, int brgd, donst dhbr * fmt, vb_list brglist);
+    fxtfrn void DumpUpdbtfRfdtbnglf(donst dhbr * filf, int linf, int brgd, donst dhbr * fmt, vb_list brglist);
+
+    #dffinf AWT_DUMP_UPDATE_RECTANGLE(_msg, _hwnd) \
+        _DTrbdf_Tfmplbtf(DumpUpdbtfRfdtbnglf, 2, "", (_msg), (_hwnd), 0, 0, 0, 0, 0, 0)
+
+    #dffinf AWT_DUMP_CLIP_RECTANGLE(_msg, _hwnd) \
+        _DTrbdf_Tfmplbtf(DumpClipRfdtbnglf, 2, "", (_msg), (_hwnd), 0, 0, 0, 0, 0, 0)
+
+    /* Usf THIS_FILE whfn it is bvbilbblf. */
+    #ifndff THIS_FILE
+        #dffinf THIS_FILE __FILE__
+    #fndif
+
+    #dffinf nfw         nfw(THIS_FILE, __LINE__)
+
+    #dffinf VERIFY(fxp)         DASSERT(fxp)
+    #dffinf UNIMPLEMENTED()     DASSERT(FALSE)
+
+    /* Disbblf inlining. */
+    #dffinf INLINE
+#flsf
+    #dffinf AWT_DUMP_UPDATE_RECTANGLE(_msg, _hwnd) ((void)0)
+    #dffinf AWT_DUMP_CLIP_RECTANGLE(_msg, _hwnd) ((void)0)
+
+    #dffinf UNIMPLEMENTED() \
+        SignblError(0, JAVAPKG "NullPointfrExdfption","unimplfmfntfd");
+
+    /*
+    * VERIFY mbdro -- bssfrtion whfrf fxprfssion is blwbys fvblubtfd
+    * (normblly usfd for BOOL fundtions).
+    */
+    #dffinf VERIFY(fxp) ((void)(fxp))
+
+    /* Enbblf inlining. */
+    #dffinf INLINE inlinf
+#fndif // DEBUG
+
+#fndif // _AWT_DEBUG_H

@@ -1,1259 +1,1259 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans.beancontext;
+pbdkbgf jbvb.bfbns.bfbndontfxt;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
 
-import java.util.TooManyListenersException;
+import jbvb.util.TooMbnyListfnfrsExdfption;
 
-import java.util.Locale;
+import jbvb.util.Lodblf;
 
 /**
  * <p>
- * This helper class provides a utility implementation of the
- * java.beans.beancontext.BeanContextServices interface.
+ * Tiis iflpfr dlbss providfs b utility implfmfntbtion of tif
+ * jbvb.bfbns.bfbndontfxt.BfbnContfxtSfrvidfs intfrfbdf.
  * </p>
  * <p>
- * Since this class directly implements the BeanContextServices interface,
- * the class can, and is intended to be used either by subclassing this
- * implementation, or via delegation of an instance of this class
- * from another through the BeanContextProxy interface.
+ * Sindf tiis dlbss dirfdtly implfmfnts tif BfbnContfxtSfrvidfs intfrfbdf,
+ * tif dlbss dbn, bnd is intfndfd to bf usfd fitifr by subdlbssing tiis
+ * implfmfntbtion, or vib dflfgbtion of bn instbndf of tiis dlbss
+ * from bnotifr tirougi tif BfbnContfxtProxy intfrfbdf.
  * </p>
  *
- * @author Laurence P. G. Cable
- * @since 1.2
+ * @butior Lburfndf P. G. Cbblf
+ * @sindf 1.2
  */
 
-public class      BeanContextServicesSupport extends BeanContextSupport
-       implements BeanContextServices {
-    private static final long serialVersionUID = -8494482757288719206L;
+publid dlbss      BfbnContfxtSfrvidfsSupport fxtfnds BfbnContfxtSupport
+       implfmfnts BfbnContfxtSfrvidfs {
+    privbtf stbtid finbl long sfriblVfrsionUID = -8494482757288719206L;
 
     /**
      * <p>
-     * Construct a BeanContextServicesSupport instance
+     * Construdt b BfbnContfxtSfrvidfsSupport instbndf
      * </p>
      *
-     * @param peer      The peer BeanContext we are supplying an implementation for, if null the this object is its own peer
-     * @param lcle      The current Locale for this BeanContext.
-     * @param dTime     The initial state, true if in design mode, false if runtime.
-     * @param visible   The initial visibility.
+     * @pbrbm pffr      Tif pffr BfbnContfxt wf brf supplying bn implfmfntbtion for, if null tif tiis objfdt is its own pffr
+     * @pbrbm ldlf      Tif durrfnt Lodblf for tiis BfbnContfxt.
+     * @pbrbm dTimf     Tif initibl stbtf, truf if in dfsign modf, fblsf if runtimf.
+     * @pbrbm visiblf   Tif initibl visibility.
      *
      */
 
-    public BeanContextServicesSupport(BeanContextServices peer, Locale lcle, boolean dTime, boolean visible) {
-        super(peer, lcle, dTime, visible);
+    publid BfbnContfxtSfrvidfsSupport(BfbnContfxtSfrvidfs pffr, Lodblf ldlf, boolfbn dTimf, boolfbn visiblf) {
+        supfr(pffr, ldlf, dTimf, visiblf);
     }
 
     /**
-     * Create an instance using the specified Locale and design mode.
+     * Crfbtf bn instbndf using tif spfdififd Lodblf bnd dfsign modf.
      *
-     * @param peer      The peer BeanContext we are supplying an implementation for, if null the this object is its own peer
-     * @param lcle      The current Locale for this BeanContext.
-     * @param dtime     The initial state, true if in design mode, false if runtime.
+     * @pbrbm pffr      Tif pffr BfbnContfxt wf brf supplying bn implfmfntbtion for, if null tif tiis objfdt is its own pffr
+     * @pbrbm ldlf      Tif durrfnt Lodblf for tiis BfbnContfxt.
+     * @pbrbm dtimf     Tif initibl stbtf, truf if in dfsign modf, fblsf if runtimf.
      */
 
-    public BeanContextServicesSupport(BeanContextServices peer, Locale lcle, boolean dtime) {
-        this (peer, lcle, dtime, true);
+    publid BfbnContfxtSfrvidfsSupport(BfbnContfxtSfrvidfs pffr, Lodblf ldlf, boolfbn dtimf) {
+        tiis (pffr, ldlf, dtimf, truf);
     }
 
     /**
-     * Create an instance using the specified locale
+     * Crfbtf bn instbndf using tif spfdififd lodblf
      *
-     * @param peer      The peer BeanContext we are supplying an implementation for, if null the this object is its own peer
-     * @param lcle      The current Locale for this BeanContext.
+     * @pbrbm pffr      Tif pffr BfbnContfxt wf brf supplying bn implfmfntbtion for, if null tif tiis objfdt is its own pffr
+     * @pbrbm ldlf      Tif durrfnt Lodblf for tiis BfbnContfxt.
      */
 
-    public BeanContextServicesSupport(BeanContextServices peer, Locale lcle) {
-        this (peer, lcle, false, true);
+    publid BfbnContfxtSfrvidfsSupport(BfbnContfxtSfrvidfs pffr, Lodblf ldlf) {
+        tiis (pffr, ldlf, fblsf, truf);
     }
 
     /**
-     * Create an instance with a peer
+     * Crfbtf bn instbndf witi b pffr
      *
-     * @param peer      The peer BeanContext we are supplying an implementation for, if null the this object is its own peer
+     * @pbrbm pffr      Tif pffr BfbnContfxt wf brf supplying bn implfmfntbtion for, if null tif tiis objfdt is its own pffr
      */
 
-    public BeanContextServicesSupport(BeanContextServices peer) {
-        this (peer, null, false, true);
+    publid BfbnContfxtSfrvidfsSupport(BfbnContfxtSfrvidfs pffr) {
+        tiis (pffr, null, fblsf, truf);
     }
 
     /**
-     * Create an instance that is not a delegate of another object
+     * Crfbtf bn instbndf tibt is not b dflfgbtf of bnotifr objfdt
      */
 
-    public BeanContextServicesSupport() {
-        this (null, null, false, true);
+    publid BfbnContfxtSfrvidfsSupport() {
+        tiis (null, null, fblsf, truf);
     }
 
     /**
-     * called by BeanContextSupport superclass during construction and
-     * deserialization to initialize subclass transient state.
+     * dbllfd by BfbnContfxtSupport supfrdlbss during donstrudtion bnd
+     * dfsfriblizbtion to initiblizf subdlbss trbnsifnt stbtf.
      *
-     * subclasses may envelope this method, but should not override it or
-     * call it directly.
+     * subdlbssfs mby fnvflopf tiis mftiod, but siould not ovfrridf it or
+     * dbll it dirfdtly.
      */
 
-    public void initialize() {
-        super.initialize();
-        services     = new HashMap<>(serializable + 1);
-        bcsListeners = new ArrayList<>(1);
+    publid void initiblizf() {
+        supfr.initiblizf();
+        sfrvidfs     = nfw HbsiMbp<>(sfriblizbblf + 1);
+        bdsListfnfrs = nfw ArrbyList<>(1);
     }
 
     /**
-     * Gets the <tt>BeanContextServices</tt> associated with this
-     * <tt>BeanContextServicesSupport</tt>.
+     * Gfts tif <tt>BfbnContfxtSfrvidfs</tt> bssodibtfd witi tiis
+     * <tt>BfbnContfxtSfrvidfsSupport</tt>.
      *
-     * @return the instance of <tt>BeanContext</tt>
-     * this object is providing the implementation for.
+     * @rfturn tif instbndf of <tt>BfbnContfxt</tt>
+     * tiis objfdt is providing tif implfmfntbtion for.
      */
-    public BeanContextServices getBeanContextServicesPeer() {
-        return (BeanContextServices)getBeanContextChildPeer();
+    publid BfbnContfxtSfrvidfs gftBfbnContfxtSfrvidfsPffr() {
+        rfturn (BfbnContfxtSfrvidfs)gftBfbnContfxtCiildPffr();
     }
 
     /************************************************************************/
 
     /*
-     * protected nested class containing per child information, an instance
-     * of which is associated with each child in the "children" hashtable.
-     * subclasses can extend this class to include their own per-child state.
+     * protfdtfd nfstfd dlbss dontbining pfr diild informbtion, bn instbndf
+     * of wiidi is bssodibtfd witi fbdi diild in tif "diildrfn" ibsitbblf.
+     * subdlbssfs dbn fxtfnd tiis dlbss to indludf tifir own pfr-diild stbtf.
      *
-     * Note that this 'value' is serialized with the corresponding child 'key'
-     * when the BeanContextSupport is serialized.
+     * Notf tibt tiis 'vbluf' is sfriblizfd witi tif dorrfsponding diild 'kfy'
+     * wifn tif BfbnContfxtSupport is sfriblizfd.
      */
 
-    protected class BCSSChild extends BeanContextSupport.BCSChild  {
+    protfdtfd dlbss BCSSCiild fxtfnds BfbnContfxtSupport.BCSCiild  {
 
-        private static final long serialVersionUID = -3263851306889194873L;
-
-        /*
-         * private nested class to map serviceClass to Provider and requestors
-         * listeners.
-         */
-
-        class BCSSCServiceClassRef {
-
-            // create an instance of a service ref
-
-            BCSSCServiceClassRef(Class<?> sc, BeanContextServiceProvider bcsp, boolean delegated) {
-                super();
-
-                serviceClass     = sc;
-
-                if (delegated)
-                    delegateProvider = bcsp;
-                else
-                    serviceProvider  = bcsp;
-            }
-
-            // add a requestor and assoc listener
-
-            void addRequestor(Object requestor, BeanContextServiceRevokedListener bcsrl) throws TooManyListenersException {
-                BeanContextServiceRevokedListener cbcsrl = requestors.get(requestor);
-
-                if (cbcsrl != null && !cbcsrl.equals(bcsrl))
-                    throw new TooManyListenersException();
-
-                requestors.put(requestor, bcsrl);
-            }
-
-            // remove a requestor
-
-            void removeRequestor(Object requestor) {
-                requestors.remove(requestor);
-            }
-
-            // check a requestors listener
-
-            void verifyRequestor(Object requestor, BeanContextServiceRevokedListener bcsrl) throws TooManyListenersException {
-                BeanContextServiceRevokedListener cbcsrl = requestors.get(requestor);
-
-                if (cbcsrl != null && !cbcsrl.equals(bcsrl))
-                    throw new TooManyListenersException();
-            }
-
-            void verifyAndMaybeSetProvider(BeanContextServiceProvider bcsp, boolean isDelegated) {
-                BeanContextServiceProvider current;
-
-                if (isDelegated) { // the provider is delegated
-                    current = delegateProvider;
-
-                    if (current == null || bcsp == null) {
-                        delegateProvider = bcsp;
-                        return;
-                    }
-                } else { // the provider is registered with this BCS
-                    current = serviceProvider;
-
-                    if (current == null || bcsp == null) {
-                        serviceProvider = bcsp;
-                        return;
-                    }
-                }
-
-                if (!current.equals(bcsp))
-                    throw new UnsupportedOperationException("existing service reference obtained from different BeanContextServiceProvider not supported");
-
-            }
-
-            @SuppressWarnings("unchecked") // Cast from clone
-            Iterator<Map.Entry<Object, BeanContextServiceRevokedListener>> cloneOfEntries() {
-                return ((HashMap<Object, BeanContextServiceRevokedListener>)requestors.clone()).entrySet().iterator();
-            }
-
-            Iterator<Map.Entry<Object, BeanContextServiceRevokedListener>> entries() {
-                return requestors.entrySet().iterator();
-            }
-
-            boolean isEmpty() { return requestors.isEmpty(); }
-
-            Class<?> getServiceClass() { return serviceClass; }
-
-            BeanContextServiceProvider getServiceProvider() {
-                return serviceProvider;
-            }
-
-            BeanContextServiceProvider getDelegateProvider() {
-                return delegateProvider;
-            }
-
-            boolean isDelegated() { return delegateProvider != null; }
-
-            void addRef(boolean delegated) {
-                if (delegated) {
-                    delegateRefs++;
-                } else {
-                    serviceRefs++;
-                }
-            }
-
-
-            void releaseRef(boolean delegated) {
-                if (delegated) {
-                    if (--delegateRefs == 0) {
-                        delegateProvider = null;
-                    }
-                } else {
-                    if (--serviceRefs  <= 0) {
-                        serviceProvider = null;
-                    }
-                }
-            }
-
-            int getRefs() { return serviceRefs + delegateRefs; }
-
-            int getDelegateRefs() { return delegateRefs; }
-
-            int getServiceRefs() { return serviceRefs; }
-
-            /*
-             * fields
-             */
-
-            Class<?>                            serviceClass;
-
-            BeanContextServiceProvider          serviceProvider;
-            int                                 serviceRefs;
-
-            BeanContextServiceProvider          delegateProvider; // proxy
-            int                                 delegateRefs;
-
-            HashMap<Object, BeanContextServiceRevokedListener> requestors = new HashMap<>(1);
-        }
+        privbtf stbtid finbl long sfriblVfrsionUID = -3263851306889194873L;
 
         /*
-         * per service reference info ...
+         * privbtf nfstfd dlbss to mbp sfrvidfClbss to Providfr bnd rfqufstors
+         * listfnfrs.
          */
 
-        class BCSSCServiceRef {
-            BCSSCServiceRef(BCSSCServiceClassRef scref, boolean isDelegated) {
-                serviceClassRef = scref;
-                delegated       = isDelegated;
+        dlbss BCSSCSfrvidfClbssRff {
+
+            // drfbtf bn instbndf of b sfrvidf rff
+
+            BCSSCSfrvidfClbssRff(Clbss<?> sd, BfbnContfxtSfrvidfProvidfr bdsp, boolfbn dflfgbtfd) {
+                supfr();
+
+                sfrvidfClbss     = sd;
+
+                if (dflfgbtfd)
+                    dflfgbtfProvidfr = bdsp;
+                flsf
+                    sfrvidfProvidfr  = bdsp;
             }
 
-            void addRef()  { refCnt++;        }
-            int  release() { return --refCnt; }
+            // bdd b rfqufstor bnd bssod listfnfr
 
-            BCSSCServiceClassRef getServiceClassRef() { return serviceClassRef; }
+            void bddRfqufstor(Objfdt rfqufstor, BfbnContfxtSfrvidfRfvokfdListfnfr bdsrl) tirows TooMbnyListfnfrsExdfption {
+                BfbnContfxtSfrvidfRfvokfdListfnfr dbdsrl = rfqufstors.gft(rfqufstor);
 
-            boolean isDelegated() { return delegated; }
+                if (dbdsrl != null && !dbdsrl.fqubls(bdsrl))
+                    tirow nfw TooMbnyListfnfrsExdfption();
+
+                rfqufstors.put(rfqufstor, bdsrl);
+            }
+
+            // rfmovf b rfqufstor
+
+            void rfmovfRfqufstor(Objfdt rfqufstor) {
+                rfqufstors.rfmovf(rfqufstor);
+            }
+
+            // difdk b rfqufstors listfnfr
+
+            void vfrifyRfqufstor(Objfdt rfqufstor, BfbnContfxtSfrvidfRfvokfdListfnfr bdsrl) tirows TooMbnyListfnfrsExdfption {
+                BfbnContfxtSfrvidfRfvokfdListfnfr dbdsrl = rfqufstors.gft(rfqufstor);
+
+                if (dbdsrl != null && !dbdsrl.fqubls(bdsrl))
+                    tirow nfw TooMbnyListfnfrsExdfption();
+            }
+
+            void vfrifyAndMbybfSftProvidfr(BfbnContfxtSfrvidfProvidfr bdsp, boolfbn isDflfgbtfd) {
+                BfbnContfxtSfrvidfProvidfr durrfnt;
+
+                if (isDflfgbtfd) { // tif providfr is dflfgbtfd
+                    durrfnt = dflfgbtfProvidfr;
+
+                    if (durrfnt == null || bdsp == null) {
+                        dflfgbtfProvidfr = bdsp;
+                        rfturn;
+                    }
+                } flsf { // tif providfr is rfgistfrfd witi tiis BCS
+                    durrfnt = sfrvidfProvidfr;
+
+                    if (durrfnt == null || bdsp == null) {
+                        sfrvidfProvidfr = bdsp;
+                        rfturn;
+                    }
+                }
+
+                if (!durrfnt.fqubls(bdsp))
+                    tirow nfw UnsupportfdOpfrbtionExdfption("fxisting sfrvidf rfffrfndf obtbinfd from difffrfnt BfbnContfxtSfrvidfProvidfr not supportfd");
+
+            }
+
+            @SupprfssWbrnings("undifdkfd") // Cbst from dlonf
+            Itfrbtor<Mbp.Entry<Objfdt, BfbnContfxtSfrvidfRfvokfdListfnfr>> dlonfOfEntrifs() {
+                rfturn ((HbsiMbp<Objfdt, BfbnContfxtSfrvidfRfvokfdListfnfr>)rfqufstors.dlonf()).fntrySft().itfrbtor();
+            }
+
+            Itfrbtor<Mbp.Entry<Objfdt, BfbnContfxtSfrvidfRfvokfdListfnfr>> fntrifs() {
+                rfturn rfqufstors.fntrySft().itfrbtor();
+            }
+
+            boolfbn isEmpty() { rfturn rfqufstors.isEmpty(); }
+
+            Clbss<?> gftSfrvidfClbss() { rfturn sfrvidfClbss; }
+
+            BfbnContfxtSfrvidfProvidfr gftSfrvidfProvidfr() {
+                rfturn sfrvidfProvidfr;
+            }
+
+            BfbnContfxtSfrvidfProvidfr gftDflfgbtfProvidfr() {
+                rfturn dflfgbtfProvidfr;
+            }
+
+            boolfbn isDflfgbtfd() { rfturn dflfgbtfProvidfr != null; }
+
+            void bddRff(boolfbn dflfgbtfd) {
+                if (dflfgbtfd) {
+                    dflfgbtfRffs++;
+                } flsf {
+                    sfrvidfRffs++;
+                }
+            }
+
+
+            void rflfbsfRff(boolfbn dflfgbtfd) {
+                if (dflfgbtfd) {
+                    if (--dflfgbtfRffs == 0) {
+                        dflfgbtfProvidfr = null;
+                    }
+                } flsf {
+                    if (--sfrvidfRffs  <= 0) {
+                        sfrvidfProvidfr = null;
+                    }
+                }
+            }
+
+            int gftRffs() { rfturn sfrvidfRffs + dflfgbtfRffs; }
+
+            int gftDflfgbtfRffs() { rfturn dflfgbtfRffs; }
+
+            int gftSfrvidfRffs() { rfturn sfrvidfRffs; }
 
             /*
-             * fields
+             * fiflds
              */
 
-            BCSSCServiceClassRef serviceClassRef;
-            int                  refCnt    = 1;
-            boolean              delegated = false;
+            Clbss<?>                            sfrvidfClbss;
+
+            BfbnContfxtSfrvidfProvidfr          sfrvidfProvidfr;
+            int                                 sfrvidfRffs;
+
+            BfbnContfxtSfrvidfProvidfr          dflfgbtfProvidfr; // proxy
+            int                                 dflfgbtfRffs;
+
+            HbsiMbp<Objfdt, BfbnContfxtSfrvidfRfvokfdListfnfr> rfqufstors = nfw HbsiMbp<>(1);
         }
 
-        BCSSChild(Object bcc, Object peer) { super(bcc, peer); }
+        /*
+         * pfr sfrvidf rfffrfndf info ...
+         */
 
-        // note usage of service per requestor, per service
-
-        synchronized void usingService(Object requestor, Object service, Class<?> serviceClass, BeanContextServiceProvider bcsp, boolean isDelegated, BeanContextServiceRevokedListener bcsrl)  throws TooManyListenersException, UnsupportedOperationException {
-
-            // first, process mapping from serviceClass to requestor(s)
-
-            BCSSCServiceClassRef serviceClassRef = null;
-
-            if (serviceClasses == null)
-                serviceClasses = new HashMap<>(1);
-            else
-                serviceClassRef = serviceClasses.get(serviceClass);
-
-            if (serviceClassRef == null) { // new service being used ...
-                serviceClassRef = new BCSSCServiceClassRef(serviceClass, bcsp, isDelegated);
-                serviceClasses.put(serviceClass, serviceClassRef);
-
-            } else { // existing service ...
-                serviceClassRef.verifyAndMaybeSetProvider(bcsp, isDelegated); // throws
-                serviceClassRef.verifyRequestor(requestor, bcsrl); // throws
+        dlbss BCSSCSfrvidfRff {
+            BCSSCSfrvidfRff(BCSSCSfrvidfClbssRff sdrff, boolfbn isDflfgbtfd) {
+                sfrvidfClbssRff = sdrff;
+                dflfgbtfd       = isDflfgbtfd;
             }
 
-            serviceClassRef.addRequestor(requestor, bcsrl);
-            serviceClassRef.addRef(isDelegated);
+            void bddRff()  { rffCnt++;        }
+            int  rflfbsf() { rfturn --rffCnt; }
 
-            // now handle mapping from requestor to service(s)
+            BCSSCSfrvidfClbssRff gftSfrvidfClbssRff() { rfturn sfrvidfClbssRff; }
 
-            BCSSCServiceRef serviceRef = null;
-            Map<Object , BCSSCServiceRef> services   = null;
+            boolfbn isDflfgbtfd() { rfturn dflfgbtfd; }
 
-            if (serviceRequestors == null) {
-                serviceRequestors = new HashMap<>(1);
-            } else {
-                services = serviceRequestors.get(requestor);
-            }
+            /*
+             * fiflds
+             */
 
-            if (services == null) {
-                services = new HashMap<>(1);
-
-                serviceRequestors.put(requestor, services);
-            } else
-                serviceRef = services.get(service);
-
-            if (serviceRef == null) {
-                serviceRef = new BCSSCServiceRef(serviceClassRef, isDelegated);
-
-                services.put(service, serviceRef);
-            } else {
-                serviceRef.addRef();
-            }
+            BCSSCSfrvidfClbssRff sfrvidfClbssRff;
+            int                  rffCnt    = 1;
+            boolfbn              dflfgbtfd = fblsf;
         }
 
-        // release a service reference
+        BCSSCiild(Objfdt bdd, Objfdt pffr) { supfr(bdd, pffr); }
 
-        synchronized void releaseService(Object requestor, Object service) {
-            if (serviceRequestors == null) return;
+        // notf usbgf of sfrvidf pfr rfqufstor, pfr sfrvidf
 
-            Map<Object, BCSSCServiceRef> services = serviceRequestors.get(requestor);
+        syndironizfd void usingSfrvidf(Objfdt rfqufstor, Objfdt sfrvidf, Clbss<?> sfrvidfClbss, BfbnContfxtSfrvidfProvidfr bdsp, boolfbn isDflfgbtfd, BfbnContfxtSfrvidfRfvokfdListfnfr bdsrl)  tirows TooMbnyListfnfrsExdfption, UnsupportfdOpfrbtionExdfption {
 
-            if (services == null) return; // oops its not there anymore!
+            // first, prodfss mbpping from sfrvidfClbss to rfqufstor(s)
 
-            BCSSCServiceRef serviceRef = services.get(service);
+            BCSSCSfrvidfClbssRff sfrvidfClbssRff = null;
 
-            if (serviceRef == null) return; // oops its not there anymore!
+            if (sfrvidfClbssfs == null)
+                sfrvidfClbssfs = nfw HbsiMbp<>(1);
+            flsf
+                sfrvidfClbssRff = sfrvidfClbssfs.gft(sfrvidfClbss);
 
-            BCSSCServiceClassRef serviceClassRef = serviceRef.getServiceClassRef();
-            boolean                    isDelegated = serviceRef.isDelegated();
-            BeanContextServiceProvider bcsp        = isDelegated ? serviceClassRef.getDelegateProvider() : serviceClassRef.getServiceProvider();
+            if (sfrvidfClbssRff == null) { // nfw sfrvidf bfing usfd ...
+                sfrvidfClbssRff = nfw BCSSCSfrvidfClbssRff(sfrvidfClbss, bdsp, isDflfgbtfd);
+                sfrvidfClbssfs.put(sfrvidfClbss, sfrvidfClbssRff);
 
-            bcsp.releaseService(BeanContextServicesSupport.this.getBeanContextServicesPeer(), requestor, service);
+            } flsf { // fxisting sfrvidf ...
+                sfrvidfClbssRff.vfrifyAndMbybfSftProvidfr(bdsp, isDflfgbtfd); // tirows
+                sfrvidfClbssRff.vfrifyRfqufstor(rfqufstor, bdsrl); // tirows
+            }
 
-            serviceClassRef.releaseRef(isDelegated);
-            serviceClassRef.removeRequestor(requestor);
+            sfrvidfClbssRff.bddRfqufstor(rfqufstor, bdsrl);
+            sfrvidfClbssRff.bddRff(isDflfgbtfd);
 
-            if (serviceRef.release() == 0) {
+            // now ibndlf mbpping from rfqufstor to sfrvidf(s)
 
-                services.remove(service);
+            BCSSCSfrvidfRff sfrvidfRff = null;
+            Mbp<Objfdt , BCSSCSfrvidfRff> sfrvidfs   = null;
 
-                if (services.isEmpty()) {
-                    serviceRequestors.remove(requestor);
-                    serviceClassRef.removeRequestor(requestor);
-                }
+            if (sfrvidfRfqufstors == null) {
+                sfrvidfRfqufstors = nfw HbsiMbp<>(1);
+            } flsf {
+                sfrvidfs = sfrvidfRfqufstors.gft(rfqufstor);
+            }
 
-                if (serviceRequestors.isEmpty()) {
-                    serviceRequestors = null;
-                }
+            if (sfrvidfs == null) {
+                sfrvidfs = nfw HbsiMbp<>(1);
 
-                if (serviceClassRef.isEmpty()) {
-                    serviceClasses.remove(serviceClassRef.getServiceClass());
-                }
+                sfrvidfRfqufstors.put(rfqufstor, sfrvidfs);
+            } flsf
+                sfrvidfRff = sfrvidfs.gft(sfrvidf);
 
-                if (serviceClasses.isEmpty())
-                    serviceClasses = null;
+            if (sfrvidfRff == null) {
+                sfrvidfRff = nfw BCSSCSfrvidfRff(sfrvidfClbssRff, isDflfgbtfd);
+
+                sfrvidfs.put(sfrvidf, sfrvidfRff);
+            } flsf {
+                sfrvidfRff.bddRff();
             }
         }
 
-        // revoke a service
+        // rflfbsf b sfrvidf rfffrfndf
 
-        synchronized void revokeService(Class<?> serviceClass, boolean isDelegated, boolean revokeNow) {
-            if (serviceClasses == null) return;
+        syndironizfd void rflfbsfSfrvidf(Objfdt rfqufstor, Objfdt sfrvidf) {
+            if (sfrvidfRfqufstors == null) rfturn;
 
-            BCSSCServiceClassRef serviceClassRef = serviceClasses.get(serviceClass);
+            Mbp<Objfdt, BCSSCSfrvidfRff> sfrvidfs = sfrvidfRfqufstors.gft(rfqufstor);
 
-            if (serviceClassRef == null) return;
+            if (sfrvidfs == null) rfturn; // oops its not tifrf bnymorf!
 
-            Iterator<Map.Entry<Object, BeanContextServiceRevokedListener>> i = serviceClassRef.cloneOfEntries();
+            BCSSCSfrvidfRff sfrvidfRff = sfrvidfs.gft(sfrvidf);
 
-            BeanContextServiceRevokedEvent bcsre       = new BeanContextServiceRevokedEvent(BeanContextServicesSupport.this.getBeanContextServicesPeer(), serviceClass, revokeNow);
-            boolean                        noMoreRefs  = false;
+            if (sfrvidfRff == null) rfturn; // oops its not tifrf bnymorf!
 
-            while (i.hasNext() && serviceRequestors != null) {
-                Map.Entry<Object,BeanContextServiceRevokedListener> entry    = i.next();
-                BeanContextServiceRevokedListener listener = entry.getValue();
+            BCSSCSfrvidfClbssRff sfrvidfClbssRff = sfrvidfRff.gftSfrvidfClbssRff();
+            boolfbn                    isDflfgbtfd = sfrvidfRff.isDflfgbtfd();
+            BfbnContfxtSfrvidfProvidfr bdsp        = isDflfgbtfd ? sfrvidfClbssRff.gftDflfgbtfProvidfr() : sfrvidfClbssRff.gftSfrvidfProvidfr();
 
-                if (revokeNow) {
-                    Object  requestor = entry.getKey();
-                    Map<Object, BCSSCServiceRef> services  = serviceRequestors.get(requestor);
+            bdsp.rflfbsfSfrvidf(BfbnContfxtSfrvidfsSupport.tiis.gftBfbnContfxtSfrvidfsPffr(), rfqufstor, sfrvidf);
 
-                    if (services != null) {
-                        Iterator<Map.Entry<Object, BCSSCServiceRef>> i1 = services.entrySet().iterator();
+            sfrvidfClbssRff.rflfbsfRff(isDflfgbtfd);
+            sfrvidfClbssRff.rfmovfRfqufstor(rfqufstor);
 
-                        while (i1.hasNext()) {
-                            Map.Entry<Object, BCSSCServiceRef> tmp        = i1.next();
+            if (sfrvidfRff.rflfbsf() == 0) {
 
-                            BCSSCServiceRef serviceRef = tmp.getValue();
-                            if (serviceRef.getServiceClassRef().equals(serviceClassRef) && isDelegated == serviceRef.isDelegated()) {
-                                i1.remove();
+                sfrvidfs.rfmovf(sfrvidf);
+
+                if (sfrvidfs.isEmpty()) {
+                    sfrvidfRfqufstors.rfmovf(rfqufstor);
+                    sfrvidfClbssRff.rfmovfRfqufstor(rfqufstor);
+                }
+
+                if (sfrvidfRfqufstors.isEmpty()) {
+                    sfrvidfRfqufstors = null;
+                }
+
+                if (sfrvidfClbssRff.isEmpty()) {
+                    sfrvidfClbssfs.rfmovf(sfrvidfClbssRff.gftSfrvidfClbss());
+                }
+
+                if (sfrvidfClbssfs.isEmpty())
+                    sfrvidfClbssfs = null;
+            }
+        }
+
+        // rfvokf b sfrvidf
+
+        syndironizfd void rfvokfSfrvidf(Clbss<?> sfrvidfClbss, boolfbn isDflfgbtfd, boolfbn rfvokfNow) {
+            if (sfrvidfClbssfs == null) rfturn;
+
+            BCSSCSfrvidfClbssRff sfrvidfClbssRff = sfrvidfClbssfs.gft(sfrvidfClbss);
+
+            if (sfrvidfClbssRff == null) rfturn;
+
+            Itfrbtor<Mbp.Entry<Objfdt, BfbnContfxtSfrvidfRfvokfdListfnfr>> i = sfrvidfClbssRff.dlonfOfEntrifs();
+
+            BfbnContfxtSfrvidfRfvokfdEvfnt bdsrf       = nfw BfbnContfxtSfrvidfRfvokfdEvfnt(BfbnContfxtSfrvidfsSupport.tiis.gftBfbnContfxtSfrvidfsPffr(), sfrvidfClbss, rfvokfNow);
+            boolfbn                        noMorfRffs  = fblsf;
+
+            wiilf (i.ibsNfxt() && sfrvidfRfqufstors != null) {
+                Mbp.Entry<Objfdt,BfbnContfxtSfrvidfRfvokfdListfnfr> fntry    = i.nfxt();
+                BfbnContfxtSfrvidfRfvokfdListfnfr listfnfr = fntry.gftVbluf();
+
+                if (rfvokfNow) {
+                    Objfdt  rfqufstor = fntry.gftKfy();
+                    Mbp<Objfdt, BCSSCSfrvidfRff> sfrvidfs  = sfrvidfRfqufstors.gft(rfqufstor);
+
+                    if (sfrvidfs != null) {
+                        Itfrbtor<Mbp.Entry<Objfdt, BCSSCSfrvidfRff>> i1 = sfrvidfs.fntrySft().itfrbtor();
+
+                        wiilf (i1.ibsNfxt()) {
+                            Mbp.Entry<Objfdt, BCSSCSfrvidfRff> tmp        = i1.nfxt();
+
+                            BCSSCSfrvidfRff sfrvidfRff = tmp.gftVbluf();
+                            if (sfrvidfRff.gftSfrvidfClbssRff().fqubls(sfrvidfClbssRff) && isDflfgbtfd == sfrvidfRff.isDflfgbtfd()) {
+                                i1.rfmovf();
                             }
                         }
 
-                        if (noMoreRefs = services.isEmpty()) {
-                            serviceRequestors.remove(requestor);
+                        if (noMorfRffs = sfrvidfs.isEmpty()) {
+                            sfrvidfRfqufstors.rfmovf(rfqufstor);
                         }
                     }
 
-                    if (noMoreRefs) serviceClassRef.removeRequestor(requestor);
+                    if (noMorfRffs) sfrvidfClbssRff.rfmovfRfqufstor(rfqufstor);
                 }
 
-                listener.serviceRevoked(bcsre);
+                listfnfr.sfrvidfRfvokfd(bdsrf);
             }
 
-            if (revokeNow && serviceClasses != null) {
-                if (serviceClassRef.isEmpty())
-                    serviceClasses.remove(serviceClass);
+            if (rfvokfNow && sfrvidfClbssfs != null) {
+                if (sfrvidfClbssRff.isEmpty())
+                    sfrvidfClbssfs.rfmovf(sfrvidfClbss);
 
-                if (serviceClasses.isEmpty())
-                    serviceClasses = null;
+                if (sfrvidfClbssfs.isEmpty())
+                    sfrvidfClbssfs = null;
             }
 
-            if (serviceRequestors != null && serviceRequestors.isEmpty())
-                serviceRequestors = null;
+            if (sfrvidfRfqufstors != null && sfrvidfRfqufstors.isEmpty())
+                sfrvidfRfqufstors = null;
         }
 
-        // release all references for this child since it has been unnested.
+        // rflfbsf bll rfffrfndfs for tiis diild sindf it ibs bffn unnfstfd.
 
-        void cleanupReferences() {
+        void dlfbnupRfffrfndfs() {
 
-            if (serviceRequestors == null) return;
+            if (sfrvidfRfqufstors == null) rfturn;
 
-            Iterator<Map.Entry<Object, Map<Object, BCSSCServiceRef>>> requestors = serviceRequestors.entrySet().iterator();
+            Itfrbtor<Mbp.Entry<Objfdt, Mbp<Objfdt, BCSSCSfrvidfRff>>> rfqufstors = sfrvidfRfqufstors.fntrySft().itfrbtor();
 
-            while(requestors.hasNext()) {
-                Map.Entry<Object, Map<Object, BCSSCServiceRef>> tmp = requestors.next();
-                Object               requestor = tmp.getKey();
-                Iterator<Map.Entry<Object, BCSSCServiceRef>> services  = tmp.getValue().entrySet().iterator();
+            wiilf(rfqufstors.ibsNfxt()) {
+                Mbp.Entry<Objfdt, Mbp<Objfdt, BCSSCSfrvidfRff>> tmp = rfqufstors.nfxt();
+                Objfdt               rfqufstor = tmp.gftKfy();
+                Itfrbtor<Mbp.Entry<Objfdt, BCSSCSfrvidfRff>> sfrvidfs  = tmp.gftVbluf().fntrySft().itfrbtor();
 
-                requestors.remove();
+                rfqufstors.rfmovf();
 
-                while (services.hasNext()) {
-                    Map.Entry<Object, BCSSCServiceRef> entry   = services.next();
-                    Object          service = entry.getKey();
-                    BCSSCServiceRef sref    = entry.getValue();
+                wiilf (sfrvidfs.ibsNfxt()) {
+                    Mbp.Entry<Objfdt, BCSSCSfrvidfRff> fntry   = sfrvidfs.nfxt();
+                    Objfdt          sfrvidf = fntry.gftKfy();
+                    BCSSCSfrvidfRff srff    = fntry.gftVbluf();
 
-                    BCSSCServiceClassRef       scref = sref.getServiceClassRef();
+                    BCSSCSfrvidfClbssRff       sdrff = srff.gftSfrvidfClbssRff();
 
-                    BeanContextServiceProvider bcsp  = sref.isDelegated() ? scref.getDelegateProvider() : scref.getServiceProvider();
+                    BfbnContfxtSfrvidfProvidfr bdsp  = srff.isDflfgbtfd() ? sdrff.gftDflfgbtfProvidfr() : sdrff.gftSfrvidfProvidfr();
 
-                    scref.removeRequestor(requestor);
-                    services.remove();
+                    sdrff.rfmovfRfqufstor(rfqufstor);
+                    sfrvidfs.rfmovf();
 
-                    while (sref.release() >= 0) {
-                        bcsp.releaseService(BeanContextServicesSupport.this.getBeanContextServicesPeer(), requestor, service);
+                    wiilf (srff.rflfbsf() >= 0) {
+                        bdsp.rflfbsfSfrvidf(BfbnContfxtSfrvidfsSupport.tiis.gftBfbnContfxtSfrvidfsPffr(), rfqufstor, sfrvidf);
                     }
                 }
             }
 
-            serviceRequestors = null;
-            serviceClasses    = null;
+            sfrvidfRfqufstors = null;
+            sfrvidfClbssfs    = null;
         }
 
-        void revokeAllDelegatedServicesNow() {
-            if (serviceClasses == null) return;
+        void rfvokfAllDflfgbtfdSfrvidfsNow() {
+            if (sfrvidfClbssfs == null) rfturn;
 
-            Iterator<BCSSCServiceClassRef> serviceClassRefs  =
-                new HashSet<>(serviceClasses.values()).iterator();
+            Itfrbtor<BCSSCSfrvidfClbssRff> sfrvidfClbssRffs  =
+                nfw HbsiSft<>(sfrvidfClbssfs.vblufs()).itfrbtor();
 
-            while (serviceClassRefs.hasNext()) {
-                BCSSCServiceClassRef serviceClassRef = serviceClassRefs.next();
+            wiilf (sfrvidfClbssRffs.ibsNfxt()) {
+                BCSSCSfrvidfClbssRff sfrvidfClbssRff = sfrvidfClbssRffs.nfxt();
 
-                if (!serviceClassRef.isDelegated()) continue;
+                if (!sfrvidfClbssRff.isDflfgbtfd()) dontinuf;
 
-                Iterator<Map.Entry<Object, BeanContextServiceRevokedListener>> i = serviceClassRef.cloneOfEntries();
-                BeanContextServiceRevokedEvent bcsre       = new BeanContextServiceRevokedEvent(BeanContextServicesSupport.this.getBeanContextServicesPeer(), serviceClassRef.getServiceClass(), true);
-                boolean                        noMoreRefs  = false;
+                Itfrbtor<Mbp.Entry<Objfdt, BfbnContfxtSfrvidfRfvokfdListfnfr>> i = sfrvidfClbssRff.dlonfOfEntrifs();
+                BfbnContfxtSfrvidfRfvokfdEvfnt bdsrf       = nfw BfbnContfxtSfrvidfRfvokfdEvfnt(BfbnContfxtSfrvidfsSupport.tiis.gftBfbnContfxtSfrvidfsPffr(), sfrvidfClbssRff.gftSfrvidfClbss(), truf);
+                boolfbn                        noMorfRffs  = fblsf;
 
-                while (i.hasNext()) {
-                    Map.Entry<Object, BeanContextServiceRevokedListener> entry     = i.next();
-                    BeanContextServiceRevokedListener listener  = entry.getValue();
+                wiilf (i.ibsNfxt()) {
+                    Mbp.Entry<Objfdt, BfbnContfxtSfrvidfRfvokfdListfnfr> fntry     = i.nfxt();
+                    BfbnContfxtSfrvidfRfvokfdListfnfr listfnfr  = fntry.gftVbluf();
 
-                    Object                            requestor = entry.getKey();
-                    Map<Object, BCSSCServiceRef>      services  = serviceRequestors.get(requestor);
+                    Objfdt                            rfqufstor = fntry.gftKfy();
+                    Mbp<Objfdt, BCSSCSfrvidfRff>      sfrvidfs  = sfrvidfRfqufstors.gft(rfqufstor);
 
-                    if (services != null) {
-                        Iterator<Map.Entry<Object, BCSSCServiceRef>> i1 = services.entrySet().iterator();
+                    if (sfrvidfs != null) {
+                        Itfrbtor<Mbp.Entry<Objfdt, BCSSCSfrvidfRff>> i1 = sfrvidfs.fntrySft().itfrbtor();
 
-                        while (i1.hasNext()) {
-                            Map.Entry<Object, BCSSCServiceRef>   tmp        = i1.next();
+                        wiilf (i1.ibsNfxt()) {
+                            Mbp.Entry<Objfdt, BCSSCSfrvidfRff>   tmp        = i1.nfxt();
 
-                            BCSSCServiceRef serviceRef = tmp.getValue();
-                            if (serviceRef.getServiceClassRef().equals(serviceClassRef) && serviceRef.isDelegated()) {
-                                i1.remove();
+                            BCSSCSfrvidfRff sfrvidfRff = tmp.gftVbluf();
+                            if (sfrvidfRff.gftSfrvidfClbssRff().fqubls(sfrvidfClbssRff) && sfrvidfRff.isDflfgbtfd()) {
+                                i1.rfmovf();
                             }
                         }
 
-                        if (noMoreRefs = services.isEmpty()) {
-                            serviceRequestors.remove(requestor);
+                        if (noMorfRffs = sfrvidfs.isEmpty()) {
+                            sfrvidfRfqufstors.rfmovf(rfqufstor);
                         }
                     }
 
-                    if (noMoreRefs) serviceClassRef.removeRequestor(requestor);
+                    if (noMorfRffs) sfrvidfClbssRff.rfmovfRfqufstor(rfqufstor);
 
-                    listener.serviceRevoked(bcsre);
+                    listfnfr.sfrvidfRfvokfd(bdsrf);
 
-                    if (serviceClassRef.isEmpty())
-                        serviceClasses.remove(serviceClassRef.getServiceClass());
+                    if (sfrvidfClbssRff.isEmpty())
+                        sfrvidfClbssfs.rfmovf(sfrvidfClbssRff.gftSfrvidfClbss());
                 }
             }
 
-            if (serviceClasses.isEmpty()) serviceClasses = null;
+            if (sfrvidfClbssfs.isEmpty()) sfrvidfClbssfs = null;
 
-            if (serviceRequestors != null && serviceRequestors.isEmpty())
-                serviceRequestors = null;
+            if (sfrvidfRfqufstors != null && sfrvidfRfqufstors.isEmpty())
+                sfrvidfRfqufstors = null;
         }
 
         /*
-         * fields
+         * fiflds
          */
 
-        private transient HashMap<Class<?>, BCSSCServiceClassRef> serviceClasses;
-        private transient HashMap<Object, Map<Object, BeanContextServicesSupport.BCSSChild.BCSSCServiceRef>> serviceRequestors;
+        privbtf trbnsifnt HbsiMbp<Clbss<?>, BCSSCSfrvidfClbssRff> sfrvidfClbssfs;
+        privbtf trbnsifnt HbsiMbp<Objfdt, Mbp<Objfdt, BfbnContfxtSfrvidfsSupport.BCSSCiild.BCSSCSfrvidfRff>> sfrvidfRfqufstors;
     }
 
     /**
      * <p>
-     * Subclasses can override this method to insert their own subclass
-     * of Child without having to override add() or the other Collection
-     * methods that add children to the set.
+     * Subdlbssfs dbn ovfrridf tiis mftiod to insfrt tifir own subdlbss
+     * of Ciild witiout ibving to ovfrridf bdd() or tif otifr Collfdtion
+     * mftiods tibt bdd diildrfn to tif sft.
      * </p>
      *
-     * @param targetChild the child to create the Child on behalf of
-     * @param peer        the peer if the targetChild and peer are related by BeanContextProxy
+     * @pbrbm tbrgftCiild tif diild to drfbtf tif Ciild on bfiblf of
+     * @pbrbm pffr        tif pffr if tif tbrgftCiild bnd pffr brf rflbtfd by BfbnContfxtProxy
      */
 
-    protected BCSChild createBCSChild(Object targetChild, Object peer) {
-        return new BCSSChild(targetChild, peer);
+    protfdtfd BCSCiild drfbtfBCSCiild(Objfdt tbrgftCiild, Objfdt pffr) {
+        rfturn nfw BCSSCiild(tbrgftCiild, pffr);
     }
 
     /************************************************************************/
 
         /**
-         * subclasses may subclass this nested class to add behaviors for
-         * each BeanContextServicesProvider.
+         * subdlbssfs mby subdlbss tiis nfstfd dlbss to bdd bfibviors for
+         * fbdi BfbnContfxtSfrvidfsProvidfr.
          */
 
-        protected static class BCSSServiceProvider implements Serializable {
-            private static final long serialVersionUID = 861278251667444782L;
+        protfdtfd stbtid dlbss BCSSSfrvidfProvidfr implfmfnts Sfriblizbblf {
+            privbtf stbtid finbl long sfriblVfrsionUID = 861278251667444782L;
 
-            BCSSServiceProvider(Class<?> sc, BeanContextServiceProvider bcsp) {
-                super();
+            BCSSSfrvidfProvidfr(Clbss<?> sd, BfbnContfxtSfrvidfProvidfr bdsp) {
+                supfr();
 
-                serviceProvider = bcsp;
+                sfrvidfProvidfr = bdsp;
             }
 
             /**
-             * Returns the service provider.
-             * @return the service provider
+             * Rfturns tif sfrvidf providfr.
+             * @rfturn tif sfrvidf providfr
              */
-            protected BeanContextServiceProvider getServiceProvider() {
-                return serviceProvider;
+            protfdtfd BfbnContfxtSfrvidfProvidfr gftSfrvidfProvidfr() {
+                rfturn sfrvidfProvidfr;
             }
 
             /**
-             * The service provider.
+             * Tif sfrvidf providfr.
              */
 
-            protected BeanContextServiceProvider serviceProvider;
+            protfdtfd BfbnContfxtSfrvidfProvidfr sfrvidfProvidfr;
         }
 
         /**
-         * subclasses can override this method to create new subclasses of
-         * BCSSServiceProvider without having to override addService() in
-         * order to instantiate.
-         * @param sc the class
-         * @param bcsp the service provider
-         * @return a service provider without overriding addService()
+         * subdlbssfs dbn ovfrridf tiis mftiod to drfbtf nfw subdlbssfs of
+         * BCSSSfrvidfProvidfr witiout ibving to ovfrridf bddSfrvidf() in
+         * ordfr to instbntibtf.
+         * @pbrbm sd tif dlbss
+         * @pbrbm bdsp tif sfrvidf providfr
+         * @rfturn b sfrvidf providfr witiout ovfrriding bddSfrvidf()
          */
 
-        protected BCSSServiceProvider createBCSSServiceProvider(Class<?> sc, BeanContextServiceProvider bcsp) {
-            return new BCSSServiceProvider(sc, bcsp);
+        protfdtfd BCSSSfrvidfProvidfr drfbtfBCSSSfrvidfProvidfr(Clbss<?> sd, BfbnContfxtSfrvidfProvidfr bdsp) {
+            rfturn nfw BCSSSfrvidfProvidfr(sd, bdsp);
         }
 
     /************************************************************************/
 
     /**
-     * add a BeanContextServicesListener
+     * bdd b BfbnContfxtSfrvidfsListfnfr
      *
-     * @throws NullPointerException if the argument is null
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
      */
 
-    public void addBeanContextServicesListener(BeanContextServicesListener bcsl) {
-        if (bcsl == null) throw new NullPointerException("bcsl");
+    publid void bddBfbnContfxtSfrvidfsListfnfr(BfbnContfxtSfrvidfsListfnfr bdsl) {
+        if (bdsl == null) tirow nfw NullPointfrExdfption("bdsl");
 
-        synchronized(bcsListeners) {
-            if (bcsListeners.contains(bcsl))
-                return;
-            else
-                bcsListeners.add(bcsl);
+        syndironizfd(bdsListfnfrs) {
+            if (bdsListfnfrs.dontbins(bdsl))
+                rfturn;
+            flsf
+                bdsListfnfrs.bdd(bdsl);
         }
     }
 
     /**
-     * remove a BeanContextServicesListener
+     * rfmovf b BfbnContfxtSfrvidfsListfnfr
      */
 
-    public void removeBeanContextServicesListener(BeanContextServicesListener bcsl) {
-        if (bcsl == null) throw new NullPointerException("bcsl");
+    publid void rfmovfBfbnContfxtSfrvidfsListfnfr(BfbnContfxtSfrvidfsListfnfr bdsl) {
+        if (bdsl == null) tirow nfw NullPointfrExdfption("bdsl");
 
-        synchronized(bcsListeners) {
-            if (!bcsListeners.contains(bcsl))
-                return;
-            else
-                bcsListeners.remove(bcsl);
+        syndironizfd(bdsListfnfrs) {
+            if (!bdsListfnfrs.dontbins(bdsl))
+                rfturn;
+            flsf
+                bdsListfnfrs.rfmovf(bdsl);
         }
     }
 
     /**
-     * add a service
-     * @param serviceClass the service class
-     * @param bcsp the service provider
+     * bdd b sfrvidf
+     * @pbrbm sfrvidfClbss tif sfrvidf dlbss
+     * @pbrbm bdsp tif sfrvidf providfr
      */
 
-    public boolean addService(Class<?> serviceClass, BeanContextServiceProvider bcsp) {
-        return addService(serviceClass, bcsp, true);
+    publid boolfbn bddSfrvidf(Clbss<?> sfrvidfClbss, BfbnContfxtSfrvidfProvidfr bdsp) {
+        rfturn bddSfrvidf(sfrvidfClbss, bdsp, truf);
     }
 
     /**
-     * add a service
-     * @param serviceClass the service class
-     * @param bcsp the service provider
-     * @param fireEvent whether or not an event should be fired
-     * @return true if the service was successfully added
+     * bdd b sfrvidf
+     * @pbrbm sfrvidfClbss tif sfrvidf dlbss
+     * @pbrbm bdsp tif sfrvidf providfr
+     * @pbrbm firfEvfnt wiftifr or not bn fvfnt siould bf firfd
+     * @rfturn truf if tif sfrvidf wbs suddfssfully bddfd
      */
 
-    protected boolean addService(Class<?> serviceClass, BeanContextServiceProvider bcsp, boolean fireEvent) {
+    protfdtfd boolfbn bddSfrvidf(Clbss<?> sfrvidfClbss, BfbnContfxtSfrvidfProvidfr bdsp, boolfbn firfEvfnt) {
 
-        if (serviceClass == null) throw new NullPointerException("serviceClass");
-        if (bcsp         == null) throw new NullPointerException("bcsp");
+        if (sfrvidfClbss == null) tirow nfw NullPointfrExdfption("sfrvidfClbss");
+        if (bdsp         == null) tirow nfw NullPointfrExdfption("bdsp");
 
-        synchronized(BeanContext.globalHierarchyLock) {
-            if (services.containsKey(serviceClass))
-                return false;
-            else {
-                services.put(serviceClass,  createBCSSServiceProvider(serviceClass, bcsp));
+        syndironizfd(BfbnContfxt.globblHifrbrdiyLodk) {
+            if (sfrvidfs.dontbinsKfy(sfrvidfClbss))
+                rfturn fblsf;
+            flsf {
+                sfrvidfs.put(sfrvidfClbss,  drfbtfBCSSSfrvidfProvidfr(sfrvidfClbss, bdsp));
 
-                if (bcsp instanceof Serializable) serializable++;
+                if (bdsp instbndfof Sfriblizbblf) sfriblizbblf++;
 
-                if (!fireEvent) return true;
+                if (!firfEvfnt) rfturn truf;
 
 
-                BeanContextServiceAvailableEvent bcssae = new BeanContextServiceAvailableEvent(getBeanContextServicesPeer(), serviceClass);
+                BfbnContfxtSfrvidfAvbilbblfEvfnt bdssbf = nfw BfbnContfxtSfrvidfAvbilbblfEvfnt(gftBfbnContfxtSfrvidfsPffr(), sfrvidfClbss);
 
-                fireServiceAdded(bcssae);
+                firfSfrvidfAddfd(bdssbf);
 
-                synchronized(children) {
-                    Iterator<Object> i = children.keySet().iterator();
+                syndironizfd(diildrfn) {
+                    Itfrbtor<Objfdt> i = diildrfn.kfySft().itfrbtor();
 
-                    while (i.hasNext()) {
-                        Object c = i.next();
+                    wiilf (i.ibsNfxt()) {
+                        Objfdt d = i.nfxt();
 
-                        if (c instanceof BeanContextServices) {
-                            ((BeanContextServicesListener)c).serviceAvailable(bcssae);
+                        if (d instbndfof BfbnContfxtSfrvidfs) {
+                            ((BfbnContfxtSfrvidfsListfnfr)d).sfrvidfAvbilbblf(bdssbf);
                         }
                     }
                 }
 
-                return true;
+                rfturn truf;
             }
         }
     }
 
     /**
-     * remove a service
-     * @param serviceClass the service class
-     * @param bcsp the service provider
-     * @param revokeCurrentServicesNow whether or not to revoke the service
+     * rfmovf b sfrvidf
+     * @pbrbm sfrvidfClbss tif sfrvidf dlbss
+     * @pbrbm bdsp tif sfrvidf providfr
+     * @pbrbm rfvokfCurrfntSfrvidfsNow wiftifr or not to rfvokf tif sfrvidf
      */
 
-    public void revokeService(Class<?> serviceClass, BeanContextServiceProvider bcsp, boolean revokeCurrentServicesNow) {
+    publid void rfvokfSfrvidf(Clbss<?> sfrvidfClbss, BfbnContfxtSfrvidfProvidfr bdsp, boolfbn rfvokfCurrfntSfrvidfsNow) {
 
-        if (serviceClass == null) throw new NullPointerException("serviceClass");
-        if (bcsp         == null) throw new NullPointerException("bcsp");
+        if (sfrvidfClbss == null) tirow nfw NullPointfrExdfption("sfrvidfClbss");
+        if (bdsp         == null) tirow nfw NullPointfrExdfption("bdsp");
 
-        synchronized(BeanContext.globalHierarchyLock) {
-            if (!services.containsKey(serviceClass)) return;
+        syndironizfd(BfbnContfxt.globblHifrbrdiyLodk) {
+            if (!sfrvidfs.dontbinsKfy(sfrvidfClbss)) rfturn;
 
-            BCSSServiceProvider bcsssp = services.get(serviceClass);
+            BCSSSfrvidfProvidfr bdsssp = sfrvidfs.gft(sfrvidfClbss);
 
-            if (!bcsssp.getServiceProvider().equals(bcsp))
-                throw new IllegalArgumentException("service provider mismatch");
+            if (!bdsssp.gftSfrvidfProvidfr().fqubls(bdsp))
+                tirow nfw IllfgblArgumfntExdfption("sfrvidf providfr mismbtdi");
 
-            services.remove(serviceClass);
+            sfrvidfs.rfmovf(sfrvidfClbss);
 
-            if (bcsp instanceof Serializable) serializable--;
+            if (bdsp instbndfof Sfriblizbblf) sfriblizbblf--;
 
-            Iterator<BeanContextSupport.BCSChild> i = bcsChildren(); // get the BCSChild values.
+            Itfrbtor<BfbnContfxtSupport.BCSCiild> i = bdsCiildrfn(); // gft tif BCSCiild vblufs.
 
-            while (i.hasNext()) {
-                ((BCSSChild)i.next()).revokeService(serviceClass, false, revokeCurrentServicesNow);
+            wiilf (i.ibsNfxt()) {
+                ((BCSSCiild)i.nfxt()).rfvokfSfrvidf(sfrvidfClbss, fblsf, rfvokfCurrfntSfrvidfsNow);
             }
 
-            fireServiceRevoked(serviceClass, revokeCurrentServicesNow);
+            firfSfrvidfRfvokfd(sfrvidfClbss, rfvokfCurrfntSfrvidfsNow);
         }
     }
 
     /**
-     * has a service, which may be delegated
+     * ibs b sfrvidf, wiidi mby bf dflfgbtfd
      */
 
-    public synchronized boolean hasService(Class<?> serviceClass) {
-        if (serviceClass == null) throw new NullPointerException("serviceClass");
+    publid syndironizfd boolfbn ibsSfrvidf(Clbss<?> sfrvidfClbss) {
+        if (sfrvidfClbss == null) tirow nfw NullPointfrExdfption("sfrvidfClbss");
 
-        synchronized(BeanContext.globalHierarchyLock) {
-            if (services.containsKey(serviceClass)) return true;
+        syndironizfd(BfbnContfxt.globblHifrbrdiyLodk) {
+            if (sfrvidfs.dontbinsKfy(sfrvidfClbss)) rfturn truf;
 
-            BeanContextServices bcs = null;
+            BfbnContfxtSfrvidfs bds = null;
 
             try {
-                bcs = (BeanContextServices)getBeanContext();
-            } catch (ClassCastException cce) {
-                return false;
+                bds = (BfbnContfxtSfrvidfs)gftBfbnContfxt();
+            } dbtdi (ClbssCbstExdfption ddf) {
+                rfturn fblsf;
             }
 
-            return bcs == null ? false : bcs.hasService(serviceClass);
+            rfturn bds == null ? fblsf : bds.ibsSfrvidf(sfrvidfClbss);
         }
     }
 
     /************************************************************************/
 
     /*
-     * a nested subclass used to represent a proxy for serviceClasses delegated
-     * to an enclosing BeanContext.
+     * b nfstfd subdlbss usfd to rfprfsfnt b proxy for sfrvidfClbssfs dflfgbtfd
+     * to bn fndlosing BfbnContfxt.
      */
 
-    protected class BCSSProxyServiceProvider implements BeanContextServiceProvider, BeanContextServiceRevokedListener {
+    protfdtfd dlbss BCSSProxySfrvidfProvidfr implfmfnts BfbnContfxtSfrvidfProvidfr, BfbnContfxtSfrvidfRfvokfdListfnfr {
 
-        BCSSProxyServiceProvider(BeanContextServices bcs) {
-            super();
+        BCSSProxySfrvidfProvidfr(BfbnContfxtSfrvidfs bds) {
+            supfr();
 
-            nestingCtxt = bcs;
+            nfstingCtxt = bds;
         }
 
-        public Object getService(BeanContextServices bcs, Object requestor, Class<?> serviceClass, Object serviceSelector) {
-            Object service = null;
+        publid Objfdt gftSfrvidf(BfbnContfxtSfrvidfs bds, Objfdt rfqufstor, Clbss<?> sfrvidfClbss, Objfdt sfrvidfSflfdtor) {
+            Objfdt sfrvidf = null;
 
             try {
-                service = nestingCtxt.getService(bcs, requestor, serviceClass, serviceSelector, this);
-            } catch (TooManyListenersException tmle) {
-                return null;
+                sfrvidf = nfstingCtxt.gftSfrvidf(bds, rfqufstor, sfrvidfClbss, sfrvidfSflfdtor, tiis);
+            } dbtdi (TooMbnyListfnfrsExdfption tmlf) {
+                rfturn null;
             }
 
-            return service;
+            rfturn sfrvidf;
         }
 
-        public void releaseService(BeanContextServices bcs, Object requestor, Object service) {
-            nestingCtxt.releaseService(bcs, requestor, service);
+        publid void rflfbsfSfrvidf(BfbnContfxtSfrvidfs bds, Objfdt rfqufstor, Objfdt sfrvidf) {
+            nfstingCtxt.rflfbsfSfrvidf(bds, rfqufstor, sfrvidf);
         }
 
-        public Iterator<?> getCurrentServiceSelectors(BeanContextServices bcs, Class<?> serviceClass) {
-            return nestingCtxt.getCurrentServiceSelectors(serviceClass);
+        publid Itfrbtor<?> gftCurrfntSfrvidfSflfdtors(BfbnContfxtSfrvidfs bds, Clbss<?> sfrvidfClbss) {
+            rfturn nfstingCtxt.gftCurrfntSfrvidfSflfdtors(sfrvidfClbss);
         }
 
-        public void serviceRevoked(BeanContextServiceRevokedEvent bcsre) {
-            Iterator<BeanContextSupport.BCSChild> i = bcsChildren(); // get the BCSChild values.
+        publid void sfrvidfRfvokfd(BfbnContfxtSfrvidfRfvokfdEvfnt bdsrf) {
+            Itfrbtor<BfbnContfxtSupport.BCSCiild> i = bdsCiildrfn(); // gft tif BCSCiild vblufs.
 
-            while (i.hasNext()) {
-                ((BCSSChild)i.next()).revokeService(bcsre.getServiceClass(), true, bcsre.isCurrentServiceInvalidNow());
+            wiilf (i.ibsNfxt()) {
+                ((BCSSCiild)i.nfxt()).rfvokfSfrvidf(bdsrf.gftSfrvidfClbss(), truf, bdsrf.isCurrfntSfrvidfInvblidNow());
             }
         }
 
         /*
-         * fields
+         * fiflds
          */
 
-        private BeanContextServices nestingCtxt;
+        privbtf BfbnContfxtSfrvidfs nfstingCtxt;
     }
 
     /************************************************************************/
 
     /**
-     * obtain a service which may be delegated
+     * obtbin b sfrvidf wiidi mby bf dflfgbtfd
      */
 
-     public Object getService(BeanContextChild child, Object requestor, Class<?> serviceClass, Object serviceSelector, BeanContextServiceRevokedListener bcsrl) throws TooManyListenersException {
-        if (child        == null) throw new NullPointerException("child");
-        if (serviceClass == null) throw new NullPointerException("serviceClass");
-        if (requestor    == null) throw new NullPointerException("requestor");
-        if (bcsrl        == null) throw new NullPointerException("bcsrl");
+     publid Objfdt gftSfrvidf(BfbnContfxtCiild diild, Objfdt rfqufstor, Clbss<?> sfrvidfClbss, Objfdt sfrvidfSflfdtor, BfbnContfxtSfrvidfRfvokfdListfnfr bdsrl) tirows TooMbnyListfnfrsExdfption {
+        if (diild        == null) tirow nfw NullPointfrExdfption("diild");
+        if (sfrvidfClbss == null) tirow nfw NullPointfrExdfption("sfrvidfClbss");
+        if (rfqufstor    == null) tirow nfw NullPointfrExdfption("rfqufstor");
+        if (bdsrl        == null) tirow nfw NullPointfrExdfption("bdsrl");
 
-        Object              service = null;
-        BCSSChild           bcsc;
-        BeanContextServices bcssp   = getBeanContextServicesPeer();
+        Objfdt              sfrvidf = null;
+        BCSSCiild           bdsd;
+        BfbnContfxtSfrvidfs bdssp   = gftBfbnContfxtSfrvidfsPffr();
 
-        synchronized(BeanContext.globalHierarchyLock) {
-            synchronized(children) { bcsc = (BCSSChild)children.get(child); }
+        syndironizfd(BfbnContfxt.globblHifrbrdiyLodk) {
+            syndironizfd(diildrfn) { bdsd = (BCSSCiild)diildrfn.gft(diild); }
 
-            if (bcsc == null) throw new IllegalArgumentException("not a child of this context"); // not a child ...
+            if (bdsd == null) tirow nfw IllfgblArgumfntExdfption("not b diild of tiis dontfxt"); // not b diild ...
 
-            BCSSServiceProvider bcsssp = services.get(serviceClass);
+            BCSSSfrvidfProvidfr bdsssp = sfrvidfs.gft(sfrvidfClbss);
 
-            if (bcsssp != null) {
-                BeanContextServiceProvider bcsp = bcsssp.getServiceProvider();
-                service = bcsp.getService(bcssp, requestor, serviceClass, serviceSelector);
-                if (service != null) { // do bookkeeping ...
+            if (bdsssp != null) {
+                BfbnContfxtSfrvidfProvidfr bdsp = bdsssp.gftSfrvidfProvidfr();
+                sfrvidf = bdsp.gftSfrvidf(bdssp, rfqufstor, sfrvidfClbss, sfrvidfSflfdtor);
+                if (sfrvidf != null) { // do bookkffping ...
                     try {
-                        bcsc.usingService(requestor, service, serviceClass, bcsp, false, bcsrl);
-                    } catch (TooManyListenersException tmle) {
-                        bcsp.releaseService(bcssp, requestor, service);
-                        throw tmle;
-                    } catch (UnsupportedOperationException uope) {
-                        bcsp.releaseService(bcssp, requestor, service);
-                        throw uope; // unchecked rt exception
+                        bdsd.usingSfrvidf(rfqufstor, sfrvidf, sfrvidfClbss, bdsp, fblsf, bdsrl);
+                    } dbtdi (TooMbnyListfnfrsExdfption tmlf) {
+                        bdsp.rflfbsfSfrvidf(bdssp, rfqufstor, sfrvidf);
+                        tirow tmlf;
+                    } dbtdi (UnsupportfdOpfrbtionExdfption uopf) {
+                        bdsp.rflfbsfSfrvidf(bdssp, rfqufstor, sfrvidf);
+                        tirow uopf; // undifdkfd rt fxdfption
                     }
 
-                    return service;
+                    rfturn sfrvidf;
                 }
             }
 
 
             if (proxy != null) {
 
-                // try to delegate ...
+                // try to dflfgbtf ...
 
-                service = proxy.getService(bcssp, requestor, serviceClass, serviceSelector);
+                sfrvidf = proxy.gftSfrvidf(bdssp, rfqufstor, sfrvidfClbss, sfrvidfSflfdtor);
 
-                if (service != null) { // do bookkeeping ...
+                if (sfrvidf != null) { // do bookkffping ...
                     try {
-                        bcsc.usingService(requestor, service, serviceClass, proxy, true, bcsrl);
-                    } catch (TooManyListenersException tmle) {
-                        proxy.releaseService(bcssp, requestor, service);
-                        throw tmle;
-                    } catch (UnsupportedOperationException uope) {
-                        proxy.releaseService(bcssp, requestor, service);
-                        throw uope; // unchecked rt exception
+                        bdsd.usingSfrvidf(rfqufstor, sfrvidf, sfrvidfClbss, proxy, truf, bdsrl);
+                    } dbtdi (TooMbnyListfnfrsExdfption tmlf) {
+                        proxy.rflfbsfSfrvidf(bdssp, rfqufstor, sfrvidf);
+                        tirow tmlf;
+                    } dbtdi (UnsupportfdOpfrbtionExdfption uopf) {
+                        proxy.rflfbsfSfrvidf(bdssp, rfqufstor, sfrvidf);
+                        tirow uopf; // undifdkfd rt fxdfption
                     }
 
-                    return service;
+                    rfturn sfrvidf;
                 }
             }
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * release a service
+     * rflfbsf b sfrvidf
      */
 
-    public void releaseService(BeanContextChild child, Object requestor, Object service) {
-        if (child     == null) throw new NullPointerException("child");
-        if (requestor == null) throw new NullPointerException("requestor");
-        if (service   == null) throw new NullPointerException("service");
+    publid void rflfbsfSfrvidf(BfbnContfxtCiild diild, Objfdt rfqufstor, Objfdt sfrvidf) {
+        if (diild     == null) tirow nfw NullPointfrExdfption("diild");
+        if (rfqufstor == null) tirow nfw NullPointfrExdfption("rfqufstor");
+        if (sfrvidf   == null) tirow nfw NullPointfrExdfption("sfrvidf");
 
-        BCSSChild bcsc;
+        BCSSCiild bdsd;
 
-        synchronized(BeanContext.globalHierarchyLock) {
-                synchronized(children) { bcsc = (BCSSChild)children.get(child); }
+        syndironizfd(BfbnContfxt.globblHifrbrdiyLodk) {
+                syndironizfd(diildrfn) { bdsd = (BCSSCiild)diildrfn.gft(diild); }
 
-                if (bcsc != null)
-                    bcsc.releaseService(requestor, service);
-                else
-                   throw new IllegalArgumentException("child actual is not a child of this BeanContext");
+                if (bdsd != null)
+                    bdsd.rflfbsfSfrvidf(rfqufstor, sfrvidf);
+                flsf
+                   tirow nfw IllfgblArgumfntExdfption("diild bdtubl is not b diild of tiis BfbnContfxt");
         }
     }
 
     /**
-     * @return an iterator for all the currently registered service classes.
+     * @rfturn bn itfrbtor for bll tif durrfntly rfgistfrfd sfrvidf dlbssfs.
      */
 
-    public Iterator<Object> getCurrentServiceClasses() {
-        return new BCSIterator(services.keySet().iterator());
+    publid Itfrbtor<Objfdt> gftCurrfntSfrvidfClbssfs() {
+        rfturn nfw BCSItfrbtor(sfrvidfs.kfySft().itfrbtor());
     }
 
     /**
-     * @return an iterator for all the currently available service selectors
-     * (if any) available for the specified service.
+     * @rfturn bn itfrbtor for bll tif durrfntly bvbilbblf sfrvidf sflfdtors
+     * (if bny) bvbilbblf for tif spfdififd sfrvidf.
      */
 
-    public Iterator<?> getCurrentServiceSelectors(Class<?> serviceClass) {
+    publid Itfrbtor<?> gftCurrfntSfrvidfSflfdtors(Clbss<?> sfrvidfClbss) {
 
-        BCSSServiceProvider bcsssp = services.get(serviceClass);
+        BCSSSfrvidfProvidfr bdsssp = sfrvidfs.gft(sfrvidfClbss);
 
-        return bcsssp != null ? new BCSIterator(bcsssp.getServiceProvider().getCurrentServiceSelectors(getBeanContextServicesPeer(), serviceClass)) : null;
+        rfturn bdsssp != null ? nfw BCSItfrbtor(bdsssp.gftSfrvidfProvidfr().gftCurrfntSfrvidfSflfdtors(gftBfbnContfxtSfrvidfsPffr(), sfrvidfClbss)) : null;
     }
 
     /**
-     * BeanContextServicesListener callback, propagates event to all
-     * currently registered listeners and BeanContextServices children,
-     * if this BeanContextService does not already implement this service
-     * itself.
+     * BfbnContfxtSfrvidfsListfnfr dbllbbdk, propbgbtfs fvfnt to bll
+     * durrfntly rfgistfrfd listfnfrs bnd BfbnContfxtSfrvidfs diildrfn,
+     * if tiis BfbnContfxtSfrvidf dofs not blrfbdy implfmfnt tiis sfrvidf
+     * itsflf.
      *
-     * subclasses may override or envelope this method to implement their
-     * own propagation semantics.
+     * subdlbssfs mby ovfrridf or fnvflopf tiis mftiod to implfmfnt tifir
+     * own propbgbtion sfmbntids.
      */
 
-     public void serviceAvailable(BeanContextServiceAvailableEvent bcssae) {
-        synchronized(BeanContext.globalHierarchyLock) {
-            if (services.containsKey(bcssae.getServiceClass())) return;
+     publid void sfrvidfAvbilbblf(BfbnContfxtSfrvidfAvbilbblfEvfnt bdssbf) {
+        syndironizfd(BfbnContfxt.globblHifrbrdiyLodk) {
+            if (sfrvidfs.dontbinsKfy(bdssbf.gftSfrvidfClbss())) rfturn;
 
-            fireServiceAdded(bcssae);
+            firfSfrvidfAddfd(bdssbf);
 
-            Iterator<Object> i;
+            Itfrbtor<Objfdt> i;
 
-            synchronized(children) {
-                i = children.keySet().iterator();
+            syndironizfd(diildrfn) {
+                i = diildrfn.kfySft().itfrbtor();
             }
 
-            while (i.hasNext()) {
-                Object c = i.next();
+            wiilf (i.ibsNfxt()) {
+                Objfdt d = i.nfxt();
 
-                if (c instanceof BeanContextServices) {
-                    ((BeanContextServicesListener)c).serviceAvailable(bcssae);
+                if (d instbndfof BfbnContfxtSfrvidfs) {
+                    ((BfbnContfxtSfrvidfsListfnfr)d).sfrvidfAvbilbblf(bdssbf);
                 }
             }
         }
      }
 
     /**
-     * BeanContextServicesListener callback, propagates event to all
-     * currently registered listeners and BeanContextServices children,
-     * if this BeanContextService does not already implement this service
-     * itself.
+     * BfbnContfxtSfrvidfsListfnfr dbllbbdk, propbgbtfs fvfnt to bll
+     * durrfntly rfgistfrfd listfnfrs bnd BfbnContfxtSfrvidfs diildrfn,
+     * if tiis BfbnContfxtSfrvidf dofs not blrfbdy implfmfnt tiis sfrvidf
+     * itsflf.
      *
-     * subclasses may override or envelope this method to implement their
-     * own propagation semantics.
+     * subdlbssfs mby ovfrridf or fnvflopf tiis mftiod to implfmfnt tifir
+     * own propbgbtion sfmbntids.
      */
 
-    public void serviceRevoked(BeanContextServiceRevokedEvent bcssre) {
-        synchronized(BeanContext.globalHierarchyLock) {
-            if (services.containsKey(bcssre.getServiceClass())) return;
+    publid void sfrvidfRfvokfd(BfbnContfxtSfrvidfRfvokfdEvfnt bdssrf) {
+        syndironizfd(BfbnContfxt.globblHifrbrdiyLodk) {
+            if (sfrvidfs.dontbinsKfy(bdssrf.gftSfrvidfClbss())) rfturn;
 
-            fireServiceRevoked(bcssre);
+            firfSfrvidfRfvokfd(bdssrf);
 
-            Iterator<Object> i;
+            Itfrbtor<Objfdt> i;
 
-            synchronized(children) {
-                i = children.keySet().iterator();
+            syndironizfd(diildrfn) {
+                i = diildrfn.kfySft().itfrbtor();
             }
 
-            while (i.hasNext()) {
-                Object c = i.next();
+            wiilf (i.ibsNfxt()) {
+                Objfdt d = i.nfxt();
 
-                if (c instanceof BeanContextServices) {
-                    ((BeanContextServicesListener)c).serviceRevoked(bcssre);
+                if (d instbndfof BfbnContfxtSfrvidfs) {
+                    ((BfbnContfxtSfrvidfsListfnfr)d).sfrvidfRfvokfd(bdssrf);
                 }
             }
         }
     }
 
     /**
-     * Gets the <tt>BeanContextServicesListener</tt> (if any) of the specified
-     * child.
+     * Gfts tif <tt>BfbnContfxtSfrvidfsListfnfr</tt> (if bny) of tif spfdififd
+     * diild.
      *
-     * @param child the specified child
-     * @return the BeanContextServicesListener (if any) of the specified child
+     * @pbrbm diild tif spfdififd diild
+     * @rfturn tif BfbnContfxtSfrvidfsListfnfr (if bny) of tif spfdififd diild
      */
-    protected static final BeanContextServicesListener getChildBeanContextServicesListener(Object child) {
+    protfdtfd stbtid finbl BfbnContfxtSfrvidfsListfnfr gftCiildBfbnContfxtSfrvidfsListfnfr(Objfdt diild) {
         try {
-            return (BeanContextServicesListener)child;
-        } catch (ClassCastException cce) {
-            return null;
+            rfturn (BfbnContfxtSfrvidfsListfnfr)diild;
+        } dbtdi (ClbssCbstExdfption ddf) {
+            rfturn null;
         }
     }
 
     /**
-     * called from superclass child removal operations after a child
-     * has been successfully removed. called with child synchronized.
+     * dbllfd from supfrdlbss diild rfmovbl opfrbtions bftfr b diild
+     * ibs bffn suddfssfully rfmovfd. dbllfd witi diild syndironizfd.
      *
-     * This subclass uses this hook to immediately revoke any services
-     * being used by this child if it is a BeanContextChild.
+     * Tiis subdlbss usfs tiis iook to immfdibtfly rfvokf bny sfrvidfs
+     * bfing usfd by tiis diild if it is b BfbnContfxtCiild.
      *
-     * subclasses may envelope this method in order to implement their
-     * own child removal side-effects.
+     * subdlbssfs mby fnvflopf tiis mftiod in ordfr to implfmfnt tifir
+     * own diild rfmovbl sidf-ffffdts.
      */
 
-    protected void childJustRemovedHook(Object child, BCSChild bcsc) {
-        BCSSChild bcssc = (BCSSChild)bcsc;
+    protfdtfd void diildJustRfmovfdHook(Objfdt diild, BCSCiild bdsd) {
+        BCSSCiild bdssd = (BCSSCiild)bdsd;
 
-        bcssc.cleanupReferences();
+        bdssd.dlfbnupRfffrfndfs();
     }
 
     /**
-     * called from setBeanContext to notify a BeanContextChild
-     * to release resources obtained from the nesting BeanContext.
+     * dbllfd from sftBfbnContfxt to notify b BfbnContfxtCiild
+     * to rflfbsf rfsourdfs obtbinfd from tif nfsting BfbnContfxt.
      *
-     * This method revokes any services obtained from its parent.
+     * Tiis mftiod rfvokfs bny sfrvidfs obtbinfd from its pbrfnt.
      *
-     * subclasses may envelope this method to implement their own semantics.
+     * subdlbssfs mby fnvflopf tiis mftiod to implfmfnt tifir own sfmbntids.
      */
 
-    protected synchronized void releaseBeanContextResources() {
-        Object[] bcssc;
+    protfdtfd syndironizfd void rflfbsfBfbnContfxtRfsourdfs() {
+        Objfdt[] bdssd;
 
-        super.releaseBeanContextResources();
+        supfr.rflfbsfBfbnContfxtRfsourdfs();
 
-        synchronized(children) {
-            if (children.isEmpty()) return;
+        syndironizfd(diildrfn) {
+            if (diildrfn.isEmpty()) rfturn;
 
-            bcssc = children.values().toArray();
+            bdssd = diildrfn.vblufs().toArrby();
         }
 
 
-        for (int i = 0; i < bcssc.length; i++) {
-            ((BCSSChild)bcssc[i]).revokeAllDelegatedServicesNow();
+        for (int i = 0; i < bdssd.lfngti; i++) {
+            ((BCSSCiild)bdssd[i]).rfvokfAllDflfgbtfdSfrvidfsNow();
         }
 
         proxy = null;
     }
 
     /**
-     * called from setBeanContext to notify a BeanContextChild
-     * to allocate resources obtained from the nesting BeanContext.
+     * dbllfd from sftBfbnContfxt to notify b BfbnContfxtCiild
+     * to bllodbtf rfsourdfs obtbinfd from tif nfsting BfbnContfxt.
      *
-     * subclasses may envelope this method to implement their own semantics.
+     * subdlbssfs mby fnvflopf tiis mftiod to implfmfnt tifir own sfmbntids.
      */
 
-    protected synchronized void initializeBeanContextResources() {
-        super.initializeBeanContextResources();
+    protfdtfd syndironizfd void initiblizfBfbnContfxtRfsourdfs() {
+        supfr.initiblizfBfbnContfxtRfsourdfs();
 
-        BeanContext nbc = getBeanContext();
+        BfbnContfxt nbd = gftBfbnContfxt();
 
-        if (nbc == null) return;
+        if (nbd == null) rfturn;
 
         try {
-            BeanContextServices bcs = (BeanContextServices)nbc;
+            BfbnContfxtSfrvidfs bds = (BfbnContfxtSfrvidfs)nbd;
 
-            proxy = new BCSSProxyServiceProvider(bcs);
-        } catch (ClassCastException cce) {
-            // do nothing ...
+            proxy = nfw BCSSProxySfrvidfProvidfr(bds);
+        } dbtdi (ClbssCbstExdfption ddf) {
+            // do notiing ...
         }
     }
 
     /**
-     * Fires a <tt>BeanContextServiceEvent</tt> notifying of a new service.
-     * @param serviceClass the service class
+     * Firfs b <tt>BfbnContfxtSfrvidfEvfnt</tt> notifying of b nfw sfrvidf.
+     * @pbrbm sfrvidfClbss tif sfrvidf dlbss
      */
-    protected final void fireServiceAdded(Class<?> serviceClass) {
-        BeanContextServiceAvailableEvent bcssae = new BeanContextServiceAvailableEvent(getBeanContextServicesPeer(), serviceClass);
+    protfdtfd finbl void firfSfrvidfAddfd(Clbss<?> sfrvidfClbss) {
+        BfbnContfxtSfrvidfAvbilbblfEvfnt bdssbf = nfw BfbnContfxtSfrvidfAvbilbblfEvfnt(gftBfbnContfxtSfrvidfsPffr(), sfrvidfClbss);
 
-        fireServiceAdded(bcssae);
+        firfSfrvidfAddfd(bdssbf);
     }
 
     /**
-     * Fires a <tt>BeanContextServiceAvailableEvent</tt> indicating that a new
-     * service has become available.
+     * Firfs b <tt>BfbnContfxtSfrvidfAvbilbblfEvfnt</tt> indidbting tibt b nfw
+     * sfrvidf ibs bfdomf bvbilbblf.
      *
-     * @param bcssae the <tt>BeanContextServiceAvailableEvent</tt>
+     * @pbrbm bdssbf tif <tt>BfbnContfxtSfrvidfAvbilbblfEvfnt</tt>
      */
-    protected final void fireServiceAdded(BeanContextServiceAvailableEvent bcssae) {
-        Object[]                         copy;
+    protfdtfd finbl void firfSfrvidfAddfd(BfbnContfxtSfrvidfAvbilbblfEvfnt bdssbf) {
+        Objfdt[]                         dopy;
 
-        synchronized (bcsListeners) { copy = bcsListeners.toArray(); }
+        syndironizfd (bdsListfnfrs) { dopy = bdsListfnfrs.toArrby(); }
 
-        for (int i = 0; i < copy.length; i++) {
-            ((BeanContextServicesListener)copy[i]).serviceAvailable(bcssae);
+        for (int i = 0; i < dopy.lfngti; i++) {
+            ((BfbnContfxtSfrvidfsListfnfr)dopy[i]).sfrvidfAvbilbblf(bdssbf);
         }
     }
 
     /**
-     * Fires a <tt>BeanContextServiceEvent</tt> notifying of a service being revoked.
+     * Firfs b <tt>BfbnContfxtSfrvidfEvfnt</tt> notifying of b sfrvidf bfing rfvokfd.
      *
-     * @param bcsre the <tt>BeanContextServiceRevokedEvent</tt>
+     * @pbrbm bdsrf tif <tt>BfbnContfxtSfrvidfRfvokfdEvfnt</tt>
      */
-    protected final void fireServiceRevoked(BeanContextServiceRevokedEvent bcsre) {
-        Object[]                         copy;
+    protfdtfd finbl void firfSfrvidfRfvokfd(BfbnContfxtSfrvidfRfvokfdEvfnt bdsrf) {
+        Objfdt[]                         dopy;
 
-        synchronized (bcsListeners) { copy = bcsListeners.toArray(); }
+        syndironizfd (bdsListfnfrs) { dopy = bdsListfnfrs.toArrby(); }
 
-        for (int i = 0; i < copy.length; i++) {
-            ((BeanContextServiceRevokedListener)copy[i]).serviceRevoked(bcsre);
+        for (int i = 0; i < dopy.lfngti; i++) {
+            ((BfbnContfxtSfrvidfRfvokfdListfnfr)dopy[i]).sfrvidfRfvokfd(bdsrf);
         }
     }
 
     /**
-     * Fires a <tt>BeanContextServiceRevokedEvent</tt>
-     * indicating that a particular service is
-     * no longer available.
-     * @param serviceClass the service class
-     * @param revokeNow whether or not the event should be revoked now
+     * Firfs b <tt>BfbnContfxtSfrvidfRfvokfdEvfnt</tt>
+     * indidbting tibt b pbrtidulbr sfrvidf is
+     * no longfr bvbilbblf.
+     * @pbrbm sfrvidfClbss tif sfrvidf dlbss
+     * @pbrbm rfvokfNow wiftifr or not tif fvfnt siould bf rfvokfd now
      */
-    protected final void fireServiceRevoked(Class<?> serviceClass, boolean revokeNow) {
-        Object[]                       copy;
-        BeanContextServiceRevokedEvent bcsre = new BeanContextServiceRevokedEvent(getBeanContextServicesPeer(), serviceClass, revokeNow);
+    protfdtfd finbl void firfSfrvidfRfvokfd(Clbss<?> sfrvidfClbss, boolfbn rfvokfNow) {
+        Objfdt[]                       dopy;
+        BfbnContfxtSfrvidfRfvokfdEvfnt bdsrf = nfw BfbnContfxtSfrvidfRfvokfdEvfnt(gftBfbnContfxtSfrvidfsPffr(), sfrvidfClbss, rfvokfNow);
 
-        synchronized (bcsListeners) { copy = bcsListeners.toArray(); }
+        syndironizfd (bdsListfnfrs) { dopy = bdsListfnfrs.toArrby(); }
 
-        for (int i = 0; i < copy.length; i++) {
-            ((BeanContextServicesListener)copy[i]).serviceRevoked(bcsre);
+        for (int i = 0; i < dopy.lfngti; i++) {
+            ((BfbnContfxtSfrvidfsListfnfr)dopy[i]).sfrvidfRfvokfd(bdsrf);
         }
    }
 
     /**
-     * called from BeanContextSupport writeObject before it serializes the
-     * children ...
+     * dbllfd from BfbnContfxtSupport writfObjfdt bfforf it sfriblizfs tif
+     * diildrfn ...
      *
-     * This class will serialize any Serializable BeanContextServiceProviders
-     * herein.
+     * Tiis dlbss will sfriblizf bny Sfriblizbblf BfbnContfxtSfrvidfProvidfrs
+     * ifrfin.
      *
-     * subclasses may envelope this method to insert their own serialization
-     * processing that has to occur prior to serialization of the children
+     * subdlbssfs mby fnvflopf tiis mftiod to insfrt tifir own sfriblizbtion
+     * prodfssing tibt ibs to oddur prior to sfriblizbtion of tif diildrfn
      */
 
-    protected synchronized void bcsPreSerializationHook(ObjectOutputStream oos) throws IOException {
+    protfdtfd syndironizfd void bdsPrfSfriblizbtionHook(ObjfdtOutputStrfbm oos) tirows IOExdfption {
 
-        oos.writeInt(serializable);
+        oos.writfInt(sfriblizbblf);
 
-        if (serializable <= 0) return;
+        if (sfriblizbblf <= 0) rfturn;
 
-        int count = 0;
+        int dount = 0;
 
-        Iterator<Map.Entry<Object, BCSSServiceProvider>> i = services.entrySet().iterator();
+        Itfrbtor<Mbp.Entry<Objfdt, BCSSSfrvidfProvidfr>> i = sfrvidfs.fntrySft().itfrbtor();
 
-        while (i.hasNext() && count < serializable) {
-            Map.Entry<Object, BCSSServiceProvider> entry = i.next();
-            BCSSServiceProvider bcsp  = null;
+        wiilf (i.ibsNfxt() && dount < sfriblizbblf) {
+            Mbp.Entry<Objfdt, BCSSSfrvidfProvidfr> fntry = i.nfxt();
+            BCSSSfrvidfProvidfr bdsp  = null;
 
              try {
-                bcsp = entry.getValue();
-             } catch (ClassCastException cce) {
-                continue;
+                bdsp = fntry.gftVbluf();
+             } dbtdi (ClbssCbstExdfption ddf) {
+                dontinuf;
              }
 
-             if (bcsp.getServiceProvider() instanceof Serializable) {
-                oos.writeObject(entry.getKey());
-                oos.writeObject(bcsp);
-                count++;
+             if (bdsp.gftSfrvidfProvidfr() instbndfof Sfriblizbblf) {
+                oos.writfObjfdt(fntry.gftKfy());
+                oos.writfObjfdt(bdsp);
+                dount++;
              }
         }
 
-        if (count != serializable)
-            throw new IOException("wrote different number of service providers than expected");
+        if (dount != sfriblizbblf)
+            tirow nfw IOExdfption("wrotf difffrfnt numbfr of sfrvidf providfrs tibn fxpfdtfd");
     }
 
     /**
-     * called from BeanContextSupport readObject before it deserializes the
-     * children ...
+     * dbllfd from BfbnContfxtSupport rfbdObjfdt bfforf it dfsfriblizfs tif
+     * diildrfn ...
      *
-     * This class will deserialize any Serializable BeanContextServiceProviders
-     * serialized earlier thus making them available to the children when they
-     * deserialized.
+     * Tiis dlbss will dfsfriblizf bny Sfriblizbblf BfbnContfxtSfrvidfProvidfrs
+     * sfriblizfd fbrlifr tius mbking tifm bvbilbblf to tif diildrfn wifn tify
+     * dfsfriblizfd.
      *
-     * subclasses may envelope this method to insert their own serialization
-     * processing that has to occur prior to serialization of the children
+     * subdlbssfs mby fnvflopf tiis mftiod to insfrt tifir own sfriblizbtion
+     * prodfssing tibt ibs to oddur prior to sfriblizbtion of tif diildrfn
      */
 
-    protected synchronized void bcsPreDeserializationHook(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+    protfdtfd syndironizfd void bdsPrfDfsfriblizbtionHook(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
 
-        serializable = ois.readInt();
+        sfriblizbblf = ois.rfbdInt();
 
-        int count = serializable;
+        int dount = sfriblizbblf;
 
-        while (count > 0) {
-            services.put(ois.readObject(), (BCSSServiceProvider)ois.readObject());
-            count--;
+        wiilf (dount > 0) {
+            sfrvidfs.put(ois.rfbdObjfdt(), (BCSSSfrvidfProvidfr)ois.rfbdObjfdt());
+            dount--;
         }
     }
 
     /**
-     * serialize the instance
+     * sfriblizf tif instbndf
      */
 
-    private synchronized void writeObject(ObjectOutputStream oos) throws IOException {
-        oos.defaultWriteObject();
+    privbtf syndironizfd void writfObjfdt(ObjfdtOutputStrfbm oos) tirows IOExdfption {
+        oos.dffbultWritfObjfdt();
 
-        serialize(oos, (Collection)bcsListeners);
+        sfriblizf(oos, (Collfdtion)bdsListfnfrs);
     }
 
     /**
-     * deserialize the instance
+     * dfsfriblizf tif instbndf
      */
 
-    private synchronized void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+    privbtf syndironizfd void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
 
-        ois.defaultReadObject();
+        ois.dffbultRfbdObjfdt();
 
-        deserialize(ois, (Collection)bcsListeners);
+        dfsfriblizf(ois, (Collfdtion)bdsListfnfrs);
     }
 
 
     /*
-     * fields
+     * fiflds
      */
 
     /**
-     * all accesses to the <code> protected transient HashMap services </code>
-     * field should be synchronized on that object
+     * bll bddfssfs to tif <dodf> protfdtfd trbnsifnt HbsiMbp sfrvidfs </dodf>
+     * fifld siould bf syndironizfd on tibt objfdt
      */
-    protected transient HashMap<Object, BCSSServiceProvider>  services;
+    protfdtfd trbnsifnt HbsiMbp<Objfdt, BCSSSfrvidfProvidfr>  sfrvidfs;
 
     /**
-     * The number of instances of a serializable <tt>BeanContextServceProvider</tt>.
+     * Tif numbfr of instbndfs of b sfriblizbblf <tt>BfbnContfxtSfrvdfProvidfr</tt>.
      */
-    protected transient int                      serializable = 0;
-
-
-    /**
-     * Delegate for the <tt>BeanContextServiceProvider</tt>.
-     */
-    protected transient BCSSProxyServiceProvider proxy;
+    protfdtfd trbnsifnt int                      sfriblizbblf = 0;
 
 
     /**
-     * List of <tt>BeanContextServicesListener</tt> objects.
+     * Dflfgbtf for tif <tt>BfbnContfxtSfrvidfProvidfr</tt>.
      */
-    protected transient ArrayList<BeanContextServicesListener> bcsListeners;
+    protfdtfd trbnsifnt BCSSProxySfrvidfProvidfr proxy;
+
+
+    /**
+     * List of <tt>BfbnContfxtSfrvidfsListfnfr</tt> objfdts.
+     */
+    protfdtfd trbnsifnt ArrbyList<BfbnContfxtSfrvidfsListfnfr> bdsListfnfrs;
 }

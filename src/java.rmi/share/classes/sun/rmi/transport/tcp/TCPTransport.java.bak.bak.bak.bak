@@ -1,0 +1,867 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.tdp;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.UndfdlbrfdThrowbblfExdfption;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.Sodkft;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.ExportExdfption;
+import jbvb.rmi.sfrvfr.LogStrfbm;
+import jbvb.rmi.sfrvfr.RMIFbilurfHbndlfr;
+import jbvb.rmi.sfrvfr.RMISodkftFbdtory;
+import jbvb.rmi.sfrvfr.RfmotfCbll;
+import jbvb.rmi.sfrvfr.SfrvfrNotAdtivfExdfption;
+import jbvb.rmi.sfrvfr.UID;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.LinkfdList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbshMbp;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.SyndhronousQufuf;
+import jbvb.util.dondurrfnt.ThrfbdFbdtory;
+import jbvb.util.dondurrfnt.ThrfbdPoolExfdutor;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.NfwThrfbdAdtion;
+import sun.rmi.trbnsport.Chbnnfl;
+import sun.rmi.trbnsport.Connfdtion;
+import sun.rmi.trbnsport.DGCAdkHbndlfr;
+import sun.rmi.trbnsport.Endpoint;
+import sun.rmi.trbnsport.StrfbmRfmotfCbll;
+import sun.rmi.trbnsport.Tbrgft;
+import sun.rmi.trbnsport.Trbnsport;
+import sun.rmi.trbnsport.TrbnsportConstbnts;
+import sun.rmi.trbnsport.proxy.HttpRfdfivfSodkft;
+
+/**
+ * TCPTrbnsport is thf sodkft-bbsfd implfmfntbtion of thf RMI Trbnsport
+ * bbstrbdtion.
+ *
+ * @buthor Ann Wollrbth
+ * @buthor Pftfr Jonfs
+ */
+@SupprfssWbrnings("dfprfdbtion")
+publid dlbss TCPTrbnsport fxtfnds Trbnsport {
+
+    /* tdp pbdkbgf log */
+    stbtid finbl Log tdpLog = Log.gftLog("sun.rmi.trbnsport.tdp", "tdp",
+        LogStrfbm.pbrsfLfvfl(AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.trbnsport.tdp.logLfvfl"))));
+
+    /** mbximum numbfr of donnfdtion hbndlfr thrfbds */
+    privbtf stbtid finbl int mbxConnfdtionThrfbds =     // dffbult no limit
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Intfgfr>) () ->
+            Intfgfr.gftIntfgfr("sun.rmi.trbnsport.tdp.mbxConnfdtionThrfbds",
+                               Intfgfr.MAX_VALUE));
+
+    /** kffp blivf timf for idlf donnfdtion hbndlfr thrfbds */
+    privbtf stbtid finbl long thrfbdKffpAlivfTimf =     // dffbult 1 minutf
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("sun.rmi.trbnsport.tdp.thrfbdKffpAlivfTimf", 60000));
+
+    /** thrfbd pool for donnfdtion hbndlfrs */
+    privbtf stbtid finbl ExfdutorSfrvidf donnfdtionThrfbdPool =
+        nfw ThrfbdPoolExfdutor(0, mbxConnfdtionThrfbds,
+            thrfbdKffpAlivfTimf, TimfUnit.MILLISECONDS,
+            nfw SyndhronousQufuf<Runnbblf>(),
+            nfw ThrfbdFbdtory() {
+                publid Thrfbd nfwThrfbd(Runnbblf runnbblf) {
+                    rfturn AddfssControllfr.doPrivilfgfd(nfw NfwThrfbdAdtion(
+                        runnbblf, "TCP Connfdtion(idlf)", truf, truf));
+                }
+            });
+
+    /** totbl donnfdtions hbndlfd */
+    privbtf stbtid finbl AtomidIntfgfr donnfdtionCount = nfw AtomidIntfgfr(0);
+
+    /** dlifnt host for thf durrfnt thrfbd's donnfdtion */
+    privbtf stbtid finbl ThrfbdLodbl<ConnfdtionHbndlfr>
+        thrfbdConnfdtionHbndlfr = nfw ThrfbdLodbl<>();
+
+    /** fndpoints for this trbnsport */
+    privbtf finbl LinkfdList<TCPEndpoint> fpList;
+    /** numbfr of objfdts fxportfd on this trbnsport */
+    privbtf int fxportCount = 0;
+    /** sfrvfr sodkft for this trbnsport */
+    privbtf SfrvfrSodkft sfrvfr = null;
+    /** tbblf mbpping fndpoints to dhbnnfls */
+    privbtf finbl Mbp<TCPEndpoint,Rfffrfndf<TCPChbnnfl>> dhbnnflTbblf =
+        nfw WfbkHbshMbp<>();
+
+    stbtid finbl RMISodkftFbdtory dffbultSodkftFbdtory =
+        RMISodkftFbdtory.gftDffbultSodkftFbdtory();
+
+    /** numbfr of millisfdonds in bddfptfd-donnfdtion timfout.
+     * Wbrning: this should bf grfbtfr thbn 15 sfdonds (thf dlifnt-sidf
+     * timfout), bnd dffbults to 2 hours.
+     * Thf mbximum rfprfsfntbblf vbluf is slightly morf thbn 24 dbys
+     * bnd 20 hours.
+     */
+    privbtf stbtid finbl int donnfdtionRfbdTimfout =    // dffbult 2 hours
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Intfgfr>) () ->
+            Intfgfr.gftIntfgfr("sun.rmi.trbnsport.tdp.rfbdTimfout", 2 * 3600 * 1000));
+
+    /**
+     * Construdts b TCPTrbnsport.
+     */
+    TCPTrbnsport(LinkfdList<TCPEndpoint> fpList)  {
+        // bssfrt ((fpList.sizf() != null) && (fpList.sizf() >= 1))
+        this.fpList = fpList;
+        if (tdpLog.isLoggbblf(Log.BRIEF)) {
+            tdpLog.log(Log.BRIEF, "Vfrsion = " +
+                TrbnsportConstbnts.Vfrsion + ", fp = " + gftEndpoint());
+        }
+    }
+
+    /**
+     * Closfs bll dbdhfd donnfdtions in fvfry dhbnnfl subordinbtfd to this
+     * trbnsport.  Currfntly, this only dlosfs outgoing donnfdtions.
+     */
+    publid void shfdConnfdtionCbdhfs() {
+        List<TCPChbnnfl> dhbnnfls;
+        syndhronizfd (dhbnnflTbblf) {
+            dhbnnfls = nfw ArrbyList<TCPChbnnfl>(dhbnnflTbblf.vblufs().sizf());
+            for (Rfffrfndf<TCPChbnnfl> rff : dhbnnflTbblf.vblufs()) {
+                TCPChbnnfl dh = rff.gft();
+                if (dh != null) {
+                    dhbnnfls.bdd(dh);
+                }
+            }
+        }
+        for (TCPChbnnfl dhbnnfl : dhbnnfls) {
+            dhbnnfl.shfdCbdhf();
+        }
+    }
+
+    /**
+     * Rfturns b <I>Chbnnfl</I> thbt gfnfrbtfs donnfdtions to thf
+     * fndpoint <I>fp</I>. A Chbnnfl is bn objfdt thbt drfbtfs bnd
+     * mbnbgfs donnfdtions of b pbrtidulbr typf to somf pbrtidulbr
+     * bddrfss spbdf.
+     * @pbrbm fp thf fndpoint to whidh donnfdtions will bf gfnfrbtfd.
+     * @rfturn thf dhbnnfl or null if thf trbnsport dbnnot
+     * gfnfrbtf donnfdtions to this fndpoint
+     */
+    publid TCPChbnnfl gftChbnnfl(Endpoint fp) {
+        TCPChbnnfl dh = null;
+        if (fp instbndfof TCPEndpoint) {
+            syndhronizfd (dhbnnflTbblf) {
+                Rfffrfndf<TCPChbnnfl> rff = dhbnnflTbblf.gft(fp);
+                if (rff != null) {
+                    dh = rff.gft();
+                }
+                if (dh == null) {
+                    TCPEndpoint tdpEndpoint = (TCPEndpoint) fp;
+                    dh = nfw TCPChbnnfl(this, tdpEndpoint);
+                    dhbnnflTbblf.put(tdpEndpoint,
+                                     nfw WfbkRfffrfndf<TCPChbnnfl>(dh));
+                }
+            }
+        }
+        rfturn dh;
+    }
+
+    /**
+     * Rfmovfs thf <I>Chbnnfl</I> thbt gfnfrbtfs donnfdtions to thf
+     * fndpoint <I>fp</I>.
+     */
+    publid void frff(Endpoint fp) {
+        if (fp instbndfof TCPEndpoint) {
+            syndhronizfd (dhbnnflTbblf) {
+                Rfffrfndf<TCPChbnnfl> rff = dhbnnflTbblf.rfmovf(fp);
+                if (rff != null) {
+                    TCPChbnnfl dhbnnfl = rff.gft();
+                    if (dhbnnfl != null) {
+                        dhbnnfl.shfdCbdhf();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Export thf objfdt so thbt it dbn bddfpt indoming dblls.
+     */
+    publid void fxportObjfdt(Tbrgft tbrgft) throws RfmotfExdfption {
+        /*
+         * Ensurf thbt b sfrvfr sodkft is listfning, bnd dount this
+         * fxport whilf syndhronizfd to prfvfnt thf sfrvfr sodkft from
+         * bfing dlosfd duf to dondurrfnt unfxports.
+         */
+        syndhronizfd (this) {
+            listfn();
+            fxportCount++;
+        }
+
+        /*
+         * Try to bdd thf Tbrgft to thf fxportfd objfdt tbblf; kffp
+         * dounting this fxport (to kffp sfrvfr sodkft opfn) only if
+         * thbt suddffds.
+         */
+        boolfbn ok = fblsf;
+        try {
+            supfr.fxportObjfdt(tbrgft);
+            ok = truf;
+        } finblly {
+            if (!ok) {
+                syndhronizfd (this) {
+                    dfdrfmfntExportCount();
+                }
+            }
+        }
+    }
+
+    protfdtfd syndhronizfd void tbrgftUnfxportfd() {
+        dfdrfmfntExportCount();
+    }
+
+    /**
+     * Dfdrfmfnts thf dount of fxportfd objfdts, dlosing thf durrfnt
+     * sfrvfr sodkft if thf dount rfbdhfs zfro.
+     **/
+    privbtf void dfdrfmfntExportCount() {
+        bssfrt Thrfbd.holdsLodk(this);
+        fxportCount--;
+        if (fxportCount == 0 && gftEndpoint().gftListfnPort() != 0) {
+            SfrvfrSodkft ss = sfrvfr;
+            sfrvfr = null;
+            try {
+                ss.dlosf();
+            } dbtdh (IOExdfption f) {
+            }
+        }
+    }
+
+    /**
+     * Vfrify thbt thf durrfnt bddfss dontrol dontfxt hbs pfrmission to
+     * bddfpt thf donnfdtion bfing dispbtdhfd by thf durrfnt thrfbd.
+     */
+    protfdtfd void dhfdkAddfptPfrmission(AddfssControlContfxt bdd) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) {
+            rfturn;
+        }
+        ConnfdtionHbndlfr h = thrfbdConnfdtionHbndlfr.gft();
+        if (h == null) {
+            throw nfw Error(
+                "dhfdkAddfptPfrmission not in ConnfdtionHbndlfr thrfbd");
+        }
+        h.dhfdkAddfptPfrmission(sm, bdd);
+    }
+
+    privbtf TCPEndpoint gftEndpoint() {
+        syndhronizfd (fpList) {
+            rfturn fpList.gftLbst();
+        }
+    }
+
+    /**
+     * Listfn on trbnsport's fndpoint.
+     */
+    privbtf void listfn() throws RfmotfExdfption {
+        bssfrt Thrfbd.holdsLodk(this);
+        TCPEndpoint fp = gftEndpoint();
+        int port = fp.gftPort();
+
+        if (sfrvfr == null) {
+            if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                tdpLog.log(Log.BRIEF,
+                    "(port " + port + ") drfbtf sfrvfr sodkft");
+            }
+
+            try {
+                sfrvfr = fp.nfwSfrvfrSodkft();
+                /*
+                 * Don't rftry SfrvfrSodkft if drfbtion fbils sindf
+                 * "port in usf" will dbusf fxport to hbng if bn
+                 * RMIFbilurfHbndlfr is not instbllfd.
+                 */
+                Thrfbd t = AddfssControllfr.doPrivilfgfd(
+                    nfw NfwThrfbdAdtion(nfw AddfptLoop(sfrvfr),
+                                        "TCP Addfpt-" + port, truf));
+                t.stbrt();
+            } dbtdh (jbvb.nft.BindExdfption f) {
+                throw nfw ExportExdfption("Port blrfbdy in usf: " + port, f);
+            } dbtdh (IOExdfption f) {
+                throw nfw ExportExdfption("Listfn fbilfd on port: " + port, f);
+            }
+
+        } flsf {
+            // othfrwisf vfrify sfdurity bddfss to fxisting sfrvfr sodkft
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                sm.dhfdkListfn(port);
+            }
+        }
+    }
+
+    /**
+     * Workfr for bddfpting donnfdtions from b sfrvfr sodkft.
+     **/
+    privbtf dlbss AddfptLoop implfmfnts Runnbblf {
+
+        privbtf finbl SfrvfrSodkft sfrvfrSodkft;
+
+        // stbtf for throttling loop on fxdfptions (lodbl to bddfpt thrfbd)
+        privbtf long lbstExdfptionTimf = 0L;
+        privbtf int rfdfntExdfptionCount;
+
+        AddfptLoop(SfrvfrSodkft sfrvfrSodkft) {
+            this.sfrvfrSodkft = sfrvfrSodkft;
+        }
+
+        publid void run() {
+            try {
+                fxfdutfAddfptLoop();
+            } finblly {
+                try {
+                    /*
+                     * Only onf bddfpt loop is stbrtfd pfr sfrvfr
+                     * sodkft, so bftfr no morf donnfdtions will bf
+                     * bddfptfd, fnsurf thbt thf sfrvfr sodkft is no
+                     * longfr listfning.
+                     */
+                    sfrvfrSodkft.dlosf();
+                } dbtdh (IOExdfption f) {
+                }
+            }
+        }
+
+        /**
+         * Addfpts donnfdtions from thf sfrvfr sodkft bnd fxfdutfs
+         * hbndlfrs for thfm in thf thrfbd pool.
+         **/
+        privbtf void fxfdutfAddfptLoop() {
+            if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                tdpLog.log(Log.BRIEF, "listfning on port " +
+                           gftEndpoint().gftPort());
+            }
+
+            whilf (truf) {
+                Sodkft sodkft = null;
+                try {
+                    sodkft = sfrvfrSodkft.bddfpt();
+
+                    /*
+                     * Find dlifnt host nbmf (or "0.0.0.0" if unknown)
+                     */
+                    InftAddrfss dlifntAddr = sodkft.gftInftAddrfss();
+                    String dlifntHost = (dlifntAddr != null
+                                         ? dlifntAddr.gftHostAddrfss()
+                                         : "0.0.0.0");
+
+                    /*
+                     * Exfdutf donnfdtion hbndlfr in thf thrfbd pool,
+                     * whidh usfs non-systfm thrfbds.
+                     */
+                    try {
+                        donnfdtionThrfbdPool.fxfdutf(
+                            nfw ConnfdtionHbndlfr(sodkft, dlifntHost));
+                    } dbtdh (RfjfdtfdExfdutionExdfption f) {
+                        dlosfSodkft(sodkft);
+                        tdpLog.log(Log.BRIEF,
+                                   "rfjfdtfd donnfdtion from " + dlifntHost);
+                    }
+
+                } dbtdh (Throwbblf t) {
+                    try {
+                        /*
+                         * If thf sfrvfr sodkft hbs bffn dlosfd, sudh
+                         * bs bfdbusf thfrf brf no morf fxportfd
+                         * objfdts, thfn wf fxpfdt bddfpt to throw bn
+                         * fxdfption, so just tfrminbtf normblly.
+                         */
+                        if (sfrvfrSodkft.isClosfd()) {
+                            brfbk;
+                        }
+
+                        try {
+                            if (tdpLog.isLoggbblf(Lfvfl.WARNING)) {
+                                tdpLog.log(Lfvfl.WARNING,
+                                           "bddfpt loop for " + sfrvfrSodkft +
+                                           " throws", t);
+                            }
+                        } dbtdh (Throwbblf tt) {
+                        }
+                    } finblly {
+                        /*
+                         * Alwbys dlosf thf bddfptfd sodkft (if bny)
+                         * if bn fxdfption oddurs, but only bftfr
+                         * logging bn unfxpfdtfd fxdfption.
+                         */
+                        if (sodkft != null) {
+                            dlosfSodkft(sodkft);
+                        }
+                    }
+
+                    /*
+                     * In dbsf wf'rf running out of filf dfsdriptors,
+                     * rflfbsf rfsourdfs hfld in dbdhfs.
+                     */
+                    if (!(t instbndfof SfdurityExdfption)) {
+                        try {
+                            TCPEndpoint.shfdConnfdtionCbdhfs();
+                        } dbtdh (Throwbblf tt) {
+                        }
+                    }
+
+                    /*
+                     * A NoClbssDffFoundError dbn oddur if no filf
+                     * dfsdriptors brf bvbilbblf, in whidh dbsf this
+                     * loop should not tfrminbtf.
+                     */
+                    if (t instbndfof Exdfption ||
+                        t instbndfof OutOfMfmoryError ||
+                        t instbndfof NoClbssDffFoundError)
+                    {
+                        if (!dontinufAftfrAddfptFbilurf(t)) {
+                            rfturn;
+                        }
+                        // dontinuf loop
+                    } flsf if (t instbndfof Error) {
+                        throw (Error) t;
+                    } flsf {
+                        throw nfw UndfdlbrfdThrowbblfExdfption(t);
+                    }
+                }
+            }
+        }
+
+        /**
+         * Rfturns truf if thf bddfpt loop should dontinuf bftfr thf
+         * spfdififd fxdfption hbs bffn dbught, or fblsf if thf bddfpt
+         * loop should tfrminbtf (dlosing thf sfrvfr sodkft).  If
+         * thfrf is bn RMIFbilurfHbndlfr, this mfthod rfturns thf
+         * rfsult of pbssing thf spfdififd fxdfption to it; othfrwisf,
+         * this mfthod blwbys rfturns truf, bftfr slffping to throttlf
+         * thf bddfpt loop if nfdfssbry.
+         **/
+        privbtf boolfbn dontinufAftfrAddfptFbilurf(Throwbblf t) {
+            RMIFbilurfHbndlfr fh = RMISodkftFbdtory.gftFbilurfHbndlfr();
+            if (fh != null) {
+                rfturn fh.fbilurf(t instbndfof Exdfption ? (Exdfption) t :
+                                  nfw InvodbtionTbrgftExdfption(t));
+            } flsf {
+                throttlfLoopOnExdfption();
+                rfturn truf;
+            }
+        }
+
+        /**
+         * Throttlfs thf bddfpt loop bftfr bn fxdfption hbs bffn
+         * dbught: if b burst of 10 fxdfptions in 5 sfdonds oddurs,
+         * thfn wbit for 10 sfdonds to durb busy CPU usbgf.
+         **/
+        privbtf void throttlfLoopOnExdfption() {
+            long now = Systfm.durrfntTimfMillis();
+            if (lbstExdfptionTimf == 0L || (now - lbstExdfptionTimf) > 5000) {
+                // lbst fxdfption wbs long bgo (or this is thf first)
+                lbstExdfptionTimf = now;
+                rfdfntExdfptionCount = 0;
+            } flsf {
+                // fxdfption burst window wbs stbrtfd rfdfntly
+                if (++rfdfntExdfptionCount >= 10) {
+                    try {
+                        Thrfbd.slffp(10000);
+                    } dbtdh (IntfrruptfdExdfption ignorf) {
+                    }
+                }
+            }
+        }
+    }
+
+    /** dlosf sodkft bnd fbt fxdfption */
+    privbtf stbtid void dlosfSodkft(Sodkft sodk) {
+        try {
+            sodk.dlosf();
+        } dbtdh (IOExdfption fx) {
+            // fbt fxdfption
+        }
+    }
+
+    /**
+     * hbndlfMfssbgfs dfdodfs trbnsport opfrbtions bnd hbndlfs mfssbgfs
+     * bppropribtfly.  If bn fxdfption oddurs during mfssbgf hbndling,
+     * thf sodkft is dlosfd.
+     */
+    void hbndlfMfssbgfs(Connfdtion donn, boolfbn pfrsistfnt) {
+        int port = gftEndpoint().gftPort();
+
+        try {
+            DbtbInputStrfbm in = nfw DbtbInputStrfbm(donn.gftInputStrfbm());
+            do {
+                int op = in.rfbd();     // trbnsport op
+                if (op == -1) {
+                    if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                        tdpLog.log(Log.BRIEF, "(port " +
+                            port + ") donnfdtion dlosfd");
+                    }
+                    brfbk;
+                }
+
+                if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                    tdpLog.log(Log.BRIEF, "(port " + port +
+                        ") op = " + op);
+                }
+
+                switdh (op) {
+                dbsf TrbnsportConstbnts.Cbll:
+                    // sfrvidf indoming RMI dbll
+                    RfmotfCbll dbll = nfw StrfbmRfmotfCbll(donn);
+                    if (sfrvidfCbll(dbll) == fblsf)
+                        rfturn;
+                    brfbk;
+
+                dbsf TrbnsportConstbnts.Ping:
+                    // sfnd bdk for ping
+                    DbtbOutputStrfbm out =
+                        nfw DbtbOutputStrfbm(donn.gftOutputStrfbm());
+                    out.writfBytf(TrbnsportConstbnts.PingAdk);
+                    donn.rflfbsfOutputStrfbm();
+                    brfbk;
+
+                dbsf TrbnsportConstbnts.DGCAdk:
+                    DGCAdkHbndlfr.rfdfivfd(UID.rfbd(in));
+                    brfbk;
+
+                dffbult:
+                    throw nfw IOExdfption("unknown trbnsport op " + op);
+                }
+            } whilf (pfrsistfnt);
+
+        } dbtdh (IOExdfption f) {
+            // fxdfption during prodfssing dbusfs donnfdtion to dlosf (bflow)
+            if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                tdpLog.log(Log.BRIEF, "(port " + port +
+                    ") fxdfption: ", f);
+            }
+        } finblly {
+            try {
+                donn.dlosf();
+            } dbtdh (IOExdfption fx) {
+                // fbt fxdfption
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf dlifnt host for thf durrfnt thrfbd's donnfdtion.  Throws
+     * SfrvfrNotAdtivfExdfption if no donnfdtion is bdtivf for this thrfbd.
+     */
+    publid stbtid String gftClifntHost() throws SfrvfrNotAdtivfExdfption {
+        ConnfdtionHbndlfr h = thrfbdConnfdtionHbndlfr.gft();
+        if (h != null) {
+            rfturn h.gftClifntHost();
+        } flsf {
+            throw nfw SfrvfrNotAdtivfExdfption("not in b rfmotf dbll");
+        }
+    }
+
+    /**
+     * Sfrvidfs mfssbgfs on bddfptfd donnfdtion
+     */
+    privbtf dlbss ConnfdtionHbndlfr implfmfnts Runnbblf {
+
+        /** int vbluf of "POST" in ASCII (Jbvb's spfdififd dbtb formbts
+         *  mbkf this ondf-rfvilfd tbdtid bgbin sodiblly bddfptbblf) */
+        privbtf stbtid finbl int POST = 0x504f5354;
+
+        /** most rfdfntly bddfpt-buthorizfd AddfssControlContfxt */
+        privbtf AddfssControlContfxt okContfxt;
+        /** dbdhf of bddfpt-buthorizfd AddfssControlContfxts */
+        privbtf Mbp<AddfssControlContfxt,
+                    Rfffrfndf<AddfssControlContfxt>> buthCbdhf;
+        /** sfdurity mbnbgfr whidh buthorizfd dontfxts in buthCbdhf */
+        privbtf SfdurityMbnbgfr dbdhfSfdurityMbnbgfr = null;
+
+        privbtf Sodkft sodkft;
+        privbtf String rfmotfHost;
+
+        ConnfdtionHbndlfr(Sodkft sodkft, String rfmotfHost) {
+            this.sodkft = sodkft;
+            this.rfmotfHost = rfmotfHost;
+        }
+
+        String gftClifntHost() {
+            rfturn rfmotfHost;
+        }
+
+        /**
+         * Vfrify thbt thf givfn AddfssControlContfxt hbs pfrmission to
+         * bddfpt this donnfdtion.
+         */
+        void dhfdkAddfptPfrmission(SfdurityMbnbgfr sm,
+                                   AddfssControlContfxt bdd)
+        {
+            /*
+             * Notf: no nffd to syndhronizf on dbdhf-rflbtfd fiflds, sindf this
+             * mfthod only gfts dbllfd from thf ConnfdtionHbndlfr's thrfbd.
+             */
+            if (sm != dbdhfSfdurityMbnbgfr) {
+                okContfxt = null;
+                buthCbdhf = nfw WfbkHbshMbp<AddfssControlContfxt,
+                                            Rfffrfndf<AddfssControlContfxt>>();
+                dbdhfSfdurityMbnbgfr = sm;
+            }
+            if (bdd.fqubls(okContfxt) || buthCbdhf.dontbinsKfy(bdd)) {
+                rfturn;
+            }
+            InftAddrfss bddr = sodkft.gftInftAddrfss();
+            String host = (bddr != null) ? bddr.gftHostAddrfss() : "*";
+
+            sm.dhfdkAddfpt(host, sodkft.gftPort());
+
+            buthCbdhf.put(bdd, nfw SoftRfffrfndf<AddfssControlContfxt>(bdd));
+            okContfxt = bdd;
+        }
+
+        publid void run() {
+            Thrfbd t = Thrfbd.durrfntThrfbd();
+            String nbmf = t.gftNbmf();
+            try {
+                t.sftNbmf("RMI TCP Connfdtion(" +
+                          donnfdtionCount.indrfmfntAndGft() +
+                          ")-" + rfmotfHost);
+                run0();
+            } finblly {
+                t.sftNbmf(nbmf);
+            }
+        }
+
+        privbtf void run0() {
+            TCPEndpoint fndpoint = gftEndpoint();
+            int port = fndpoint.gftPort();
+
+            thrfbdConnfdtionHbndlfr.sft(this);
+
+            // sft sodkft to disbblf Nbglf's blgorithm (blwbys sfnd
+            // immfdibtfly)
+            // TBD: should this bf lfft up to sodkft fbdtory instfbd?
+            try {
+                sodkft.sftTdpNoDflby(truf);
+            } dbtdh (Exdfption f) {
+                // if wf fbil to sft this, ignorf bnd prodffd bnywby
+            }
+            // sft sodkft to timfout bftfr fxdfssivf idlf timf
+            try {
+                if (donnfdtionRfbdTimfout > 0)
+                    sodkft.sftSoTimfout(donnfdtionRfbdTimfout);
+            } dbtdh (Exdfption f) {
+                // too bbd, dontinuf bnywby
+            }
+
+            try {
+                InputStrfbm sodkIn = sodkft.gftInputStrfbm();
+                InputStrfbm bufIn = sodkIn.mbrkSupportfd()
+                        ? sodkIn
+                        : nfw BufffrfdInputStrfbm(sodkIn);
+
+                // Rfbd mbgid (or HTTP wrbppfr)
+                bufIn.mbrk(4);
+                DbtbInputStrfbm in = nfw DbtbInputStrfbm(bufIn);
+                int mbgid = in.rfbdInt();
+
+                if (mbgid == POST) {
+                    tdpLog.log(Log.BRIEF, "dfdoding HTTP-wrbppfd dbll");
+
+                    // It's rfblly b HTTP-wrbppfd rfqufst.  Rfpbdkbgf
+                    // thf sodkft in b HttpRfdfivfSodkft, rfinitiblizf
+                    // sodkIn bnd in, bnd rfrfbd mbgid.
+                    bufIn.rfsft();      // unrfbd "POST"
+
+                    try {
+                        sodkft = nfw HttpRfdfivfSodkft(sodkft, bufIn, null);
+                        rfmotfHost = "0.0.0.0";
+                        sodkIn = sodkft.gftInputStrfbm();
+                        bufIn = nfw BufffrfdInputStrfbm(sodkIn);
+                        in = nfw DbtbInputStrfbm(bufIn);
+                        mbgid = in.rfbdInt();
+
+                    } dbtdh (IOExdfption f) {
+                        throw nfw RfmotfExdfption("Error HTTP-unwrbpping dbll",
+                                                  f);
+                    }
+                }
+                // bufIn's mbrk will invblidbtf itsflf whfn it ovfrflows
+                // so it dofsn't hbvf to bf turnfd off
+
+                // rfbd bnd vfrify trbnsport hfbdfr
+                short vfrsion = in.rfbdShort();
+                if (mbgid != TrbnsportConstbnts.Mbgid ||
+                    vfrsion != TrbnsportConstbnts.Vfrsion) {
+                    // protodol mismbtdh dftfdtfd...
+                    // just dlosf sodkft: this would rfdursf if wf mbrshbl bn
+                    // fxdfption to thf dlifnt bnd thf protodol bt othfr fnd
+                    // dofsn't mbtdh.
+                    dlosfSodkft(sodkft);
+                    rfturn;
+                }
+
+                OutputStrfbm sodkOut = sodkft.gftOutputStrfbm();
+                BufffrfdOutputStrfbm bufOut =
+                    nfw BufffrfdOutputStrfbm(sodkOut);
+                DbtbOutputStrfbm out = nfw DbtbOutputStrfbm(bufOut);
+
+                int rfmotfPort = sodkft.gftPort();
+
+                if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                    tdpLog.log(Log.BRIEF, "bddfptfd sodkft from [" +
+                                     rfmotfHost + ":" + rfmotfPort + "]");
+                }
+
+                TCPEndpoint fp;
+                TCPChbnnfl dh;
+                TCPConnfdtion donn;
+
+                // sfnd bdk (or nbdk) for protodol
+                bytf protodol = in.rfbdBytf();
+                switdh (protodol) {
+                dbsf TrbnsportConstbnts.SinglfOpProtodol:
+                    // no bdk for protodol
+
+                    // drfbtf dummy dhbnnfl for rfdfiving mfssbgfs
+                    fp = nfw TCPEndpoint(rfmotfHost, sodkft.gftLodblPort(),
+                                         fndpoint.gftClifntSodkftFbdtory(),
+                                         fndpoint.gftSfrvfrSodkftFbdtory());
+                    dh = nfw TCPChbnnfl(TCPTrbnsport.this, fp);
+                    donn = nfw TCPConnfdtion(dh, sodkft, bufIn, bufOut);
+
+                    // rfbd input mfssbgfs
+                    hbndlfMfssbgfs(donn, fblsf);
+                    brfbk;
+
+                dbsf TrbnsportConstbnts.StrfbmProtodol:
+                    // sfnd bdk
+                    out.writfBytf(TrbnsportConstbnts.ProtodolAdk);
+
+                    // suggfst fndpoint (in dbsf dlifnt dofsn't know host nbmf)
+                    if (tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        tdpLog.log(Log.VERBOSE, "(port " + port +
+                            ") " + "suggfsting " + rfmotfHost + ":" +
+                            rfmotfPort);
+                    }
+
+                    out.writfUTF(rfmotfHost);
+                    out.writfInt(rfmotfPort);
+                    out.flush();
+
+                    // rfbd bnd disdbrd (possibly bogus) fndpoint
+                    // REMIND: would bf fbstfr to rfbd 2 bytfs thfn skip N+4
+                    String dlifntHost = in.rfbdUTF();
+                    int    dlifntPort = in.rfbdInt();
+                    if (tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        tdpLog.log(Log.VERBOSE, "(port " + port +
+                            ") dlifnt using " + dlifntHost + ":" + dlifntPort);
+                    }
+
+                    // drfbtf dummy dhbnnfl for rfdfiving mfssbgfs
+                    // (why not usf dlifntHost bnd dlifntPort?)
+                    fp = nfw TCPEndpoint(rfmotfHost, sodkft.gftLodblPort(),
+                                         fndpoint.gftClifntSodkftFbdtory(),
+                                         fndpoint.gftSfrvfrSodkftFbdtory());
+                    dh = nfw TCPChbnnfl(TCPTrbnsport.this, fp);
+                    donn = nfw TCPConnfdtion(dh, sodkft, bufIn, bufOut);
+
+                    // rfbd input mfssbgfs
+                    hbndlfMfssbgfs(donn, truf);
+                    brfbk;
+
+                dbsf TrbnsportConstbnts.MultiplfxProtodol:
+                    if (tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        tdpLog.log(Log.VERBOSE, "(port " + port +
+                            ") bddfpting multiplfx protodol");
+                    }
+
+                    // sfnd bdk
+                    out.writfBytf(TrbnsportConstbnts.ProtodolAdk);
+
+                    // suggfst fndpoint (in dbsf dlifnt dofsn't blrfbdy hbvf onf)
+                    if (tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        tdpLog.log(Log.VERBOSE, "(port " + port +
+                            ") suggfsting " + rfmotfHost + ":" + rfmotfPort);
+                    }
+
+                    out.writfUTF(rfmotfHost);
+                    out.writfInt(rfmotfPort);
+                    out.flush();
+
+                    // rfbd fndpoint dlifnt hbs dfdidfd to usf
+                    fp = nfw TCPEndpoint(in.rfbdUTF(), in.rfbdInt(),
+                                         fndpoint.gftClifntSodkftFbdtory(),
+                                         fndpoint.gftSfrvfrSodkftFbdtory());
+                    if (tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        tdpLog.log(Log.VERBOSE, "(port " +
+                            port + ") dlifnt using " +
+                            fp.gftHost() + ":" + fp.gftPort());
+                    }
+
+                    ConnfdtionMultiplfxfr multiplfxfr;
+                    syndhronizfd (dhbnnflTbblf) {
+                        // drfbtf or find dhbnnfl for this fndpoint
+                        dh = gftChbnnfl(fp);
+                        multiplfxfr =
+                            nfw ConnfdtionMultiplfxfr(dh, bufIn, sodkOut,
+                                                      fblsf);
+                        dh.usfMultiplfxfr(multiplfxfr);
+                    }
+                    multiplfxfr.run();
+                    brfbk;
+
+                dffbult:
+                    // protodol not undfrstood, sfnd nbdk bnd dlosf sodkft
+                    out.writfBytf(TrbnsportConstbnts.ProtodolNbdk);
+                    out.flush();
+                    brfbk;
+                }
+
+            } dbtdh (IOExdfption f) {
+                // sodkft in unknown stbtf: dfstroy sodkft
+                tdpLog.log(Log.BRIEF, "tfrminbtfd with fxdfption:", f);
+            } finblly {
+                dlosfSodkft(sodkft);
+            }
+        }
+    }
+}

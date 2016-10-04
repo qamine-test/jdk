@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.script;
+pbdkbgf jbvbx.sdript;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
 /**
- * Extended by classes that store results of compilations.  State
- * might be stored in the form of Java classes, Java class files or scripting
- * language opcodes.  The script may be executed repeatedly
- * without reparsing.
+ * Extfndfd by dlbssfs tibt storf rfsults of dompilbtions.  Stbtf
+ * migit bf storfd in tif form of Jbvb dlbssfs, Jbvb dlbss filfs or sdripting
+ * lbngubgf opdodfs.  Tif sdript mby bf fxfdutfd rfpfbtfdly
+ * witiout rfpbrsing.
  * <br><br>
- * Each <code>CompiledScript</code> is associated with a <code>ScriptEngine</code> -- A call to an  <code>eval</code>
- * method of the <code>CompiledScript</code> causes the execution of the script by the
- * <code>ScriptEngine</code>.  Changes in the state of the <code>ScriptEngine</code> caused by execution
- * of the <code>CompiledScript</code>  may visible during subsequent executions of scripts by the engine.
+ * Ebdi <dodf>CompilfdSdript</dodf> is bssodibtfd witi b <dodf>SdriptEnginf</dodf> -- A dbll to bn  <dodf>fvbl</dodf>
+ * mftiod of tif <dodf>CompilfdSdript</dodf> dbusfs tif fxfdution of tif sdript by tif
+ * <dodf>SdriptEnginf</dodf>.  Cibngfs in tif stbtf of tif <dodf>SdriptEnginf</dodf> dbusfd by fxfdution
+ * of tif <dodf>CompilfdSdript</dodf>  mby visiblf during subsfqufnt fxfdutions of sdripts by tif fnginf.
  *
- * @author Mike Grogan
- * @since 1.6
+ * @butior Mikf Grogbn
+ * @sindf 1.6
  */
-public abstract class CompiledScript {
+publid bbstrbdt dlbss CompilfdSdript {
 
     /**
-     * Executes the program stored in this <code>CompiledScript</code> object.
+     * Exfdutfs tif progrbm storfd in tiis <dodf>CompilfdSdript</dodf> objfdt.
      *
-     * @param context A <code>ScriptContext</code> that is used in the same way as
-     * the <code>ScriptContext</code> passed to the <code>eval</code> methods of
-     * <code>ScriptEngine</code>.
+     * @pbrbm dontfxt A <dodf>SdriptContfxt</dodf> tibt is usfd in tif sbmf wby bs
+     * tif <dodf>SdriptContfxt</dodf> pbssfd to tif <dodf>fvbl</dodf> mftiods of
+     * <dodf>SdriptEnginf</dodf>.
      *
-     * @return The value returned by the script execution, if any.  Should return <code>null</code>
-     * if no value is returned by the script execution.
+     * @rfturn Tif vbluf rfturnfd by tif sdript fxfdution, if bny.  Siould rfturn <dodf>null</dodf>
+     * if no vbluf is rfturnfd by tif sdript fxfdution.
      *
-     * @throws ScriptException if an error occurs.
-     * @throws NullPointerException if context is null.
+     * @tirows SdriptExdfption if bn frror oddurs.
+     * @tirows NullPointfrExdfption if dontfxt is null.
      */
 
-    public abstract Object eval(ScriptContext context) throws ScriptException;
+    publid bbstrbdt Objfdt fvbl(SdriptContfxt dontfxt) tirows SdriptExdfption;
 
     /**
-     * Executes the program stored in the <code>CompiledScript</code> object using
-     * the supplied <code>Bindings</code> of attributes as the <code>ENGINE_SCOPE</code> of the
-     * associated <code>ScriptEngine</code> during script execution.  If bindings is null,
-     * then the effect of calling this method is same as that of eval(getEngine().getContext()).
+     * Exfdutfs tif progrbm storfd in tif <dodf>CompilfdSdript</dodf> objfdt using
+     * tif supplifd <dodf>Bindings</dodf> of bttributfs bs tif <dodf>ENGINE_SCOPE</dodf> of tif
+     * bssodibtfd <dodf>SdriptEnginf</dodf> during sdript fxfdution.  If bindings is null,
+     * tifn tif ffffdt of dblling tiis mftiod is sbmf bs tibt of fvbl(gftEnginf().gftContfxt()).
      * <p>.
-     * The <code>GLOBAL_SCOPE</code> <code>Bindings</code>, <code>Reader</code> and <code>Writer</code>
-     * associated with the default <code>ScriptContext</code> of the associated <code>ScriptEngine</code> are used.
+     * Tif <dodf>GLOBAL_SCOPE</dodf> <dodf>Bindings</dodf>, <dodf>Rfbdfr</dodf> bnd <dodf>Writfr</dodf>
+     * bssodibtfd witi tif dffbult <dodf>SdriptContfxt</dodf> of tif bssodibtfd <dodf>SdriptEnginf</dodf> brf usfd.
      *
-     * @param bindings The bindings of attributes used for the <code>ENGINE_SCOPE</code>.
+     * @pbrbm bindings Tif bindings of bttributfs usfd for tif <dodf>ENGINE_SCOPE</dodf>.
      *
-     * @return The return value from the script execution
+     * @rfturn Tif rfturn vbluf from tif sdript fxfdution
      *
-     * @throws ScriptException if an error occurs.
+     * @tirows SdriptExdfption if bn frror oddurs.
      */
-    public Object eval(Bindings bindings) throws ScriptException {
+    publid Objfdt fvbl(Bindings bindings) tirows SdriptExdfption {
 
-        ScriptContext ctxt = getEngine().getContext();
+        SdriptContfxt dtxt = gftEnginf().gftContfxt();
 
         if (bindings != null) {
-            SimpleScriptContext tempctxt = new SimpleScriptContext();
-            tempctxt.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
-            tempctxt.setBindings(ctxt.getBindings(ScriptContext.GLOBAL_SCOPE),
-                    ScriptContext.GLOBAL_SCOPE);
-            tempctxt.setWriter(ctxt.getWriter());
-            tempctxt.setReader(ctxt.getReader());
-            tempctxt.setErrorWriter(ctxt.getErrorWriter());
-            ctxt = tempctxt;
+            SimplfSdriptContfxt tfmpdtxt = nfw SimplfSdriptContfxt();
+            tfmpdtxt.sftBindings(bindings, SdriptContfxt.ENGINE_SCOPE);
+            tfmpdtxt.sftBindings(dtxt.gftBindings(SdriptContfxt.GLOBAL_SCOPE),
+                    SdriptContfxt.GLOBAL_SCOPE);
+            tfmpdtxt.sftWritfr(dtxt.gftWritfr());
+            tfmpdtxt.sftRfbdfr(dtxt.gftRfbdfr());
+            tfmpdtxt.sftErrorWritfr(dtxt.gftErrorWritfr());
+            dtxt = tfmpdtxt;
         }
 
-        return eval(ctxt);
+        rfturn fvbl(dtxt);
     }
 
 
     /**
-     * Executes the program stored in the <code>CompiledScript</code> object.  The
-     * default <code>ScriptContext</code> of the associated <code>ScriptEngine</code> is used.
-     * The effect of calling this method is same as that of eval(getEngine().getContext()).
+     * Exfdutfs tif progrbm storfd in tif <dodf>CompilfdSdript</dodf> objfdt.  Tif
+     * dffbult <dodf>SdriptContfxt</dodf> of tif bssodibtfd <dodf>SdriptEnginf</dodf> is usfd.
+     * Tif ffffdt of dblling tiis mftiod is sbmf bs tibt of fvbl(gftEnginf().gftContfxt()).
      *
-     * @return The return value from the script execution
+     * @rfturn Tif rfturn vbluf from tif sdript fxfdution
      *
-     * @throws ScriptException if an error occurs.
+     * @tirows SdriptExdfption if bn frror oddurs.
      */
-    public Object eval() throws ScriptException {
-        return eval(getEngine().getContext());
+    publid Objfdt fvbl() tirows SdriptExdfption {
+        rfturn fvbl(gftEnginf().gftContfxt());
     }
 
     /**
-     * Returns the <code>ScriptEngine</code> whose <code>compile</code> method created this <code>CompiledScript</code>.
-     * The <code>CompiledScript</code> will execute in this engine.
+     * Rfturns tif <dodf>SdriptEnginf</dodf> wiosf <dodf>dompilf</dodf> mftiod drfbtfd tiis <dodf>CompilfdSdript</dodf>.
+     * Tif <dodf>CompilfdSdript</dodf> will fxfdutf in tiis fnginf.
      *
-     * @return The <code>ScriptEngine</code> that created this <code>CompiledScript</code>
+     * @rfturn Tif <dodf>SdriptEnginf</dodf> tibt drfbtfd tiis <dodf>CompilfdSdript</dodf>
      */
-    public abstract ScriptEngine getEngine();
+    publid bbstrbdt SdriptEnginf gftEnginf();
 
 }

@@ -1,248 +1,248 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.lwawt;
+pbdkbgf sun.lwbwt;
 
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.TextArea;
-import java.awt.event.TextEvent;
-import java.awt.peer.TextAreaPeer;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.TfxtArfb;
+import jbvb.bwt.fvfnt.TfxtEvfnt;
+import jbvb.bwt.pffr.TfxtArfbPffr;
 
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.text.Document;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.JSdrollBbr;
+import jbvbx.swing.JSdrollPbnf;
+import jbvbx.swing.JTfxtArfb;
+import jbvbx.swing.SdrollPbnfConstbnts;
+import jbvbx.swing.tfxt.Dodumfnt;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
 /**
- * Lightweight implementation of {@link TextAreaPeer}. Delegates most of the
- * work to the {@link JTextArea} inside {@link JScrollPane}.
+ * Ligitwfigit implfmfntbtion of {@link TfxtArfbPffr}. Dflfgbtfs most of tif
+ * work to tif {@link JTfxtArfb} insidf {@link JSdrollPbnf}.
  */
-final class LWTextAreaPeer
-        extends LWTextComponentPeer<TextArea, LWTextAreaPeer.ScrollableJTextArea>
-        implements TextAreaPeer {
+finbl dlbss LWTfxtArfbPffr
+        fxtfnds LWTfxtComponfntPffr<TfxtArfb, LWTfxtArfbPffr.SdrollbblfJTfxtArfb>
+        implfmfnts TfxtArfbPffr {
 
     /**
-     * The default number of visible columns.
+     * Tif dffbult numbfr of visiblf dolumns.
      */
-    private static final int DEFAULT_COLUMNS = 60;
+    privbtf stbtid finbl int DEFAULT_COLUMNS = 60;
 
     /**
-     * The default number of visible rows.
+     * Tif dffbult numbfr of visiblf rows.
      */
-    private static final int DEFAULT_ROWS = 10;
+    privbtf stbtid finbl int DEFAULT_ROWS = 10;
 
-    LWTextAreaPeer(final TextArea target,
-                   final PlatformComponent platformComponent) {
-        super(target, platformComponent);
+    LWTfxtArfbPffr(finbl TfxtArfb tbrgft,
+                   finbl PlbtformComponfnt plbtformComponfnt) {
+        supfr(tbrgft, plbtformComponfnt);
     }
 
-    @Override
-    ScrollableJTextArea createDelegate() {
-        return new ScrollableJTextArea();
+    @Ovfrridf
+    SdrollbblfJTfxtArfb drfbtfDflfgbtf() {
+        rfturn nfw SdrollbblfJTfxtArfb();
     }
 
-    @Override
-    void initializeImpl() {
-        super.initializeImpl();
-        final int visibility = getTarget().getScrollbarVisibility();
-        synchronized (getDelegateLock()) {
-            setScrollBarVisibility(visibility);
+    @Ovfrridf
+    void initiblizfImpl() {
+        supfr.initiblizfImpl();
+        finbl int visibility = gftTbrgft().gftSdrollbbrVisibility();
+        syndironizfd (gftDflfgbtfLodk()) {
+            sftSdrollBbrVisibility(visibility);
         }
     }
 
-    @Override
-    JTextComponent getTextComponent() {
-        return getDelegate().getView();
+    @Ovfrridf
+    JTfxtComponfnt gftTfxtComponfnt() {
+        rfturn gftDflfgbtf().gftVifw();
     }
 
-    @Override
-    Cursor getCursor(final Point p) {
-        final boolean isContains;
-        synchronized (getDelegateLock()) {
-            isContains = getDelegate().getViewport().getBounds().contains(p);
+    @Ovfrridf
+    Cursor gftCursor(finbl Point p) {
+        finbl boolfbn isContbins;
+        syndironizfd (gftDflfgbtfLodk()) {
+            isContbins = gftDflfgbtf().gftVifwport().gftBounds().dontbins(p);
         }
-        return isContains ? super.getCursor(p) : null;
+        rfturn isContbins ? supfr.gftCursor(p) : null;
     }
 
-    @Override
-    Component getDelegateFocusOwner() {
-        return getTextComponent();
+    @Ovfrridf
+    Componfnt gftDflfgbtfFodusOwnfr() {
+        rfturn gftTfxtComponfnt();
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return getMinimumSize();
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn gftMinimumSizf();
     }
 
-    @Override
-    public Dimension getMinimumSize() {
-        return getMinimumSize(DEFAULT_ROWS, DEFAULT_COLUMNS);
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn gftMinimumSizf(DEFAULT_ROWS, DEFAULT_COLUMNS);
     }
 
-    @Override
-    public Dimension getPreferredSize(final int rows, final int columns) {
-        return getMinimumSize(rows, columns);
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf(finbl int rows, finbl int dolumns) {
+        rfturn gftMinimumSizf(rows, dolumns);
     }
 
-    @Override
-    public Dimension getMinimumSize(final int rows, final int columns) {
-        final Dimension size = super.getMinimumSize(rows, columns);
-        synchronized (getDelegateLock()) {
-            // JScrollPane insets
-            final Insets pi = getDelegate().getInsets();
-            size.width += pi.left + pi.right;
-            size.height += pi.top + pi.bottom;
-            // Take scrollbars into account.
-            final int vsbPolicy = getDelegate().getVerticalScrollBarPolicy();
-            if (vsbPolicy == ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS) {
-                final JScrollBar vbar = getDelegate().getVerticalScrollBar();
-                size.width += vbar != null ? vbar.getMinimumSize().width : 0;
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf(finbl int rows, finbl int dolumns) {
+        finbl Dimfnsion sizf = supfr.gftMinimumSizf(rows, dolumns);
+        syndironizfd (gftDflfgbtfLodk()) {
+            // JSdrollPbnf insfts
+            finbl Insfts pi = gftDflfgbtf().gftInsfts();
+            sizf.widti += pi.lfft + pi.rigit;
+            sizf.ifigit += pi.top + pi.bottom;
+            // Tbkf sdrollbbrs into bddount.
+            finbl int vsbPolidy = gftDflfgbtf().gftVfrtidblSdrollBbrPolidy();
+            if (vsbPolidy == SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_ALWAYS) {
+                finbl JSdrollBbr vbbr = gftDflfgbtf().gftVfrtidblSdrollBbr();
+                sizf.widti += vbbr != null ? vbbr.gftMinimumSizf().widti : 0;
             }
-            final int hsbPolicy = getDelegate().getHorizontalScrollBarPolicy();
-            if (hsbPolicy == ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS) {
-                final JScrollBar hbar = getDelegate().getHorizontalScrollBar();
-                size.height += hbar != null ? hbar.getMinimumSize().height : 0;
+            finbl int isbPolidy = gftDflfgbtf().gftHorizontblSdrollBbrPolidy();
+            if (isbPolidy == SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS) {
+                finbl JSdrollBbr ibbr = gftDflfgbtf().gftHorizontblSdrollBbr();
+                sizf.ifigit += ibbr != null ? ibbr.gftMinimumSizf().ifigit : 0;
             }
         }
-        return size;
+        rfturn sizf;
     }
 
-    @Override
-    public void insert(final String text, final int pos) {
-        final ScrollableJTextArea pane = getDelegate();
-        synchronized (getDelegateLock()) {
-            final JTextArea area = pane.getView();
-            final boolean doScroll = pos >= area.getDocument().getLength()
-                                     && area.getDocument().getLength() != 0;
-            area.insert(text, pos);
-            revalidate();
-            if (doScroll) {
-                final JScrollBar vbar = pane.getVerticalScrollBar();
-                if (vbar != null) {
-                    vbar.setValue(vbar.getMaximum() - vbar.getVisibleAmount());
+    @Ovfrridf
+    publid void insfrt(finbl String tfxt, finbl int pos) {
+        finbl SdrollbblfJTfxtArfb pbnf = gftDflfgbtf();
+        syndironizfd (gftDflfgbtfLodk()) {
+            finbl JTfxtArfb brfb = pbnf.gftVifw();
+            finbl boolfbn doSdroll = pos >= brfb.gftDodumfnt().gftLfngti()
+                                     && brfb.gftDodumfnt().gftLfngti() != 0;
+            brfb.insfrt(tfxt, pos);
+            rfvblidbtf();
+            if (doSdroll) {
+                finbl JSdrollBbr vbbr = pbnf.gftVfrtidblSdrollBbr();
+                if (vbbr != null) {
+                    vbbr.sftVbluf(vbbr.gftMbximum() - vbbr.gftVisiblfAmount());
                 }
             }
         }
-        repaintPeer();
+        rfpbintPffr();
     }
 
-    @Override
-    public void replaceRange(final String text, final int start,
-                             final int end) {
-        synchronized (getDelegateLock()) {
-            // JTextArea.replaceRange() posts two different events.
-            // Since we make no differences between text events,
-            // the document listener has to be disabled while
-            // JTextArea.replaceRange() is called.
-            final Document document = getTextComponent().getDocument();
-            document.removeDocumentListener(this);
-            getDelegate().getView().replaceRange(text, start, end);
-            revalidate();
-            postEvent(new TextEvent(getTarget(), TextEvent.TEXT_VALUE_CHANGED));
-            document.addDocumentListener(this);
+    @Ovfrridf
+    publid void rfplbdfRbngf(finbl String tfxt, finbl int stbrt,
+                             finbl int fnd) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            // JTfxtArfb.rfplbdfRbngf() posts two difffrfnt fvfnts.
+            // Sindf wf mbkf no difffrfndfs bftwffn tfxt fvfnts,
+            // tif dodumfnt listfnfr ibs to bf disbblfd wiilf
+            // JTfxtArfb.rfplbdfRbngf() is dbllfd.
+            finbl Dodumfnt dodumfnt = gftTfxtComponfnt().gftDodumfnt();
+            dodumfnt.rfmovfDodumfntListfnfr(tiis);
+            gftDflfgbtf().gftVifw().rfplbdfRbngf(tfxt, stbrt, fnd);
+            rfvblidbtf();
+            postEvfnt(nfw TfxtEvfnt(gftTbrgft(), TfxtEvfnt.TEXT_VALUE_CHANGED));
+            dodumfnt.bddDodumfntListfnfr(tiis);
         }
-        repaintPeer();
+        rfpbintPffr();
     }
 
-    private void setScrollBarVisibility(final int visibility) {
-        final ScrollableJTextArea pane = getDelegate();
-        final JTextArea view = pane.getView();
-        view.setLineWrap(false);
+    privbtf void sftSdrollBbrVisibility(finbl int visibility) {
+        finbl SdrollbblfJTfxtArfb pbnf = gftDflfgbtf();
+        finbl JTfxtArfb vifw = pbnf.gftVifw();
+        vifw.sftLinfWrbp(fblsf);
 
-        switch (visibility) {
-            case TextArea.SCROLLBARS_NONE:
-                pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-                pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-                view.setLineWrap(true);
-                break;
-            case TextArea.SCROLLBARS_VERTICAL_ONLY:
-                pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-                pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-                view.setLineWrap(true);
-                break;
-            case TextArea.SCROLLBARS_HORIZONTAL_ONLY:
-                pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-                pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-                break;
-            default:
-                pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-                pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-                break;
+        switdi (visibility) {
+            dbsf TfxtArfb.SCROLLBARS_NONE:
+                pbnf.sftHorizontblSdrollBbrPolidy(SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_NEVER);
+                pbnf.sftVfrtidblSdrollBbrPolidy(SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_NEVER);
+                vifw.sftLinfWrbp(truf);
+                brfbk;
+            dbsf TfxtArfb.SCROLLBARS_VERTICAL_ONLY:
+                pbnf.sftHorizontblSdrollBbrPolidy(SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_NEVER);
+                pbnf.sftVfrtidblSdrollBbrPolidy(SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_ALWAYS);
+                vifw.sftLinfWrbp(truf);
+                brfbk;
+            dbsf TfxtArfb.SCROLLBARS_HORIZONTAL_ONLY:
+                pbnf.sftVfrtidblSdrollBbrPolidy(SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_NEVER);
+                pbnf.sftHorizontblSdrollBbrPolidy(SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS);
+                brfbk;
+            dffbult:
+                pbnf.sftHorizontblSdrollBbrPolidy(SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS);
+                pbnf.sftVfrtidblSdrollBbrPolidy(SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_ALWAYS);
+                brfbk;
         }
     }
 
-    @SuppressWarnings("serial")// Safe: outer class is non-serializable.
-    final class ScrollableJTextArea extends JScrollPane {
+    @SupprfssWbrnings("sfribl")// Sbff: outfr dlbss is non-sfriblizbblf.
+    finbl dlbss SdrollbblfJTfxtArfb fxtfnds JSdrollPbnf {
 
-        ScrollableJTextArea() {
-            super();
-            getViewport().setView(new JTextAreaDelegate());
+        SdrollbblfJTfxtArfb() {
+            supfr();
+            gftVifwport().sftVifw(nfw JTfxtArfbDflfgbtf());
         }
 
-        public JTextArea getView() {
-            return (JTextArea) getViewport().getView();
+        publid JTfxtArfb gftVifw() {
+            rfturn (JTfxtArfb) gftVifwport().gftVifw();
         }
 
-        @Override
-        public void setEnabled(final boolean enabled) {
-            getViewport().getView().setEnabled(enabled);
-            super.setEnabled(enabled);
+        @Ovfrridf
+        publid void sftEnbblfd(finbl boolfbn fnbblfd) {
+            gftVifwport().gftVifw().sftEnbblfd(fnbblfd);
+            supfr.sftEnbblfd(fnbblfd);
         }
 
-        private final class JTextAreaDelegate extends JTextArea {
+        privbtf finbl dlbss JTfxtArfbDflfgbtf fxtfnds JTfxtArfb {
 
-            // Empty non private constructor was added because access to this
-            // class shouldn't be emulated by a synthetic accessor method.
-            JTextAreaDelegate() {
-                super();
+            // Empty non privbtf donstrudtor wbs bddfd bfdbusf bddfss to tiis
+            // dlbss siouldn't bf fmulbtfd by b syntiftid bddfssor mftiod.
+            JTfxtArfbDflfgbtf() {
+                supfr();
             }
 
-            @Override
-            public void replaceSelection(String content) {
-                getDocument().removeDocumentListener(LWTextAreaPeer.this);
-                super.replaceSelection(content);
-                // post only one text event in this case
-                postTextEvent();
-                getDocument().addDocumentListener(LWTextAreaPeer.this);
+            @Ovfrridf
+            publid void rfplbdfSflfdtion(String dontfnt) {
+                gftDodumfnt().rfmovfDodumfntListfnfr(LWTfxtArfbPffr.tiis);
+                supfr.rfplbdfSflfdtion(dontfnt);
+                // post only onf tfxt fvfnt in tiis dbsf
+                postTfxtEvfnt();
+                gftDodumfnt().bddDodumfntListfnfr(LWTfxtArfbPffr.tiis);
             }
 
-            @Override
-            public boolean hasFocus() {
-                return getTarget().hasFocus();
+            @Ovfrridf
+            publid boolfbn ibsFodus() {
+                rfturn gftTbrgft().ibsFodus();
             }
 
-            @Override
-            public Point getLocationOnScreen() {
-                return LWTextAreaPeer.this.getLocationOnScreen();
+            @Ovfrridf
+            publid Point gftLodbtionOnSdrffn() {
+                rfturn LWTfxtArfbPffr.tiis.gftLodbtionOnSdrffn();
             }
         }
     }

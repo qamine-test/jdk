@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
 
 /**
- * ParameterizedType represents a parameterized type such as
- * Collection&lt;String&gt;.
+ * PbrbmftfrizfdTypf rfprfsfnts b pbrbmftfrizfd typf sudi bs
+ * Collfdtion&lt;String&gt;.
  *
- * <p>A parameterized type is created the first time it is needed by a
- * reflective method, as specified in this package. When a
- * parameterized type p is created, the generic type declaration that
- * p instantiates is resolved, and all type arguments of p are created
- * recursively. See {@link java.lang.reflect.TypeVariable
- * TypeVariable} for details on the creation process for type
- * variables. Repeated creation of a parameterized type has no effect.
+ * <p>A pbrbmftfrizfd typf is drfbtfd tif first timf it is nffdfd by b
+ * rfflfdtivf mftiod, bs spfdififd in tiis pbdkbgf. Wifn b
+ * pbrbmftfrizfd typf p is drfbtfd, tif gfnfrid typf dfdlbrbtion tibt
+ * p instbntibtfs is rfsolvfd, bnd bll typf brgumfnts of p brf drfbtfd
+ * rfdursivfly. Sff {@link jbvb.lbng.rfflfdt.TypfVbribblf
+ * TypfVbribblf} for dftbils on tif drfbtion prodfss for typf
+ * vbribblfs. Rfpfbtfd drfbtion of b pbrbmftfrizfd typf ibs no ffffdt.
  *
- * <p>Instances of classes that implement this interface must implement
- * an equals() method that equates any two instances that share the
- * same generic type declaration and have equal type parameters.
+ * <p>Instbndfs of dlbssfs tibt implfmfnt tiis intfrfbdf must implfmfnt
+ * bn fqubls() mftiod tibt fqubtfs bny two instbndfs tibt sibrf tif
+ * sbmf gfnfrid typf dfdlbrbtion bnd ibvf fqubl typf pbrbmftfrs.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface ParameterizedType extends Type {
+publid intfrfbdf PbrbmftfrizfdTypf fxtfnds Typf {
     /**
-     * Returns an array of {@code Type} objects representing the actual type
-     * arguments to this type.
+     * Rfturns bn brrby of {@dodf Typf} objfdts rfprfsfnting tif bdtubl typf
+     * brgumfnts to tiis typf.
      *
-     * <p>Note that in some cases, the returned array be empty. This can occur
-     * if this type represents a non-parameterized type nested within
-     * a parameterized type.
+     * <p>Notf tibt in somf dbsfs, tif rfturnfd brrby bf fmpty. Tiis dbn oddur
+     * if tiis typf rfprfsfnts b non-pbrbmftfrizfd typf nfstfd witiin
+     * b pbrbmftfrizfd typf.
      *
-     * @return an array of {@code Type} objects representing the actual type
-     *     arguments to this type
-     * @throws TypeNotPresentException if any of the
-     *     actual type arguments refers to a non-existent type declaration
-     * @throws MalformedParameterizedTypeException if any of the
-     *     actual type parameters refer to a parameterized type that cannot
-     *     be instantiated for any reason
-     * @since 1.5
+     * @rfturn bn brrby of {@dodf Typf} objfdts rfprfsfnting tif bdtubl typf
+     *     brgumfnts to tiis typf
+     * @tirows TypfNotPrfsfntExdfption if bny of tif
+     *     bdtubl typf brgumfnts rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption if bny of tif
+     *     bdtubl typf pbrbmftfrs rfffr to b pbrbmftfrizfd typf tibt dbnnot
+     *     bf instbntibtfd for bny rfbson
+     * @sindf 1.5
      */
-    Type[] getActualTypeArguments();
+    Typf[] gftAdtublTypfArgumfnts();
 
     /**
-     * Returns the {@code Type} object representing the class or interface
-     * that declared this type.
+     * Rfturns tif {@dodf Typf} objfdt rfprfsfnting tif dlbss or intfrfbdf
+     * tibt dfdlbrfd tiis typf.
      *
-     * @return the {@code Type} object representing the class or interface
-     *     that declared this type
-     * @since 1.5
+     * @rfturn tif {@dodf Typf} objfdt rfprfsfnting tif dlbss or intfrfbdf
+     *     tibt dfdlbrfd tiis typf
+     * @sindf 1.5
      */
-    Type getRawType();
+    Typf gftRbwTypf();
 
     /**
-     * Returns a {@code Type} object representing the type that this type
-     * is a member of.  For example, if this type is {@code O<T>.I<S>},
-     * return a representation of {@code O<T>}.
+     * Rfturns b {@dodf Typf} objfdt rfprfsfnting tif typf tibt tiis typf
+     * is b mfmbfr of.  For fxbmplf, if tiis typf is {@dodf O<T>.I<S>},
+     * rfturn b rfprfsfntbtion of {@dodf O<T>}.
      *
-     * <p>If this type is a top-level type, {@code null} is returned.
+     * <p>If tiis typf is b top-lfvfl typf, {@dodf null} is rfturnfd.
      *
-     * @return a {@code Type} object representing the type that
-     *     this type is a member of. If this type is a top-level type,
-     *     {@code null} is returned
-     * @throws TypeNotPresentException if the owner type
-     *     refers to a non-existent type declaration
-     * @throws MalformedParameterizedTypeException if the owner type
-     *     refers to a parameterized type that cannot be instantiated
-     *     for any reason
-     * @since 1.5
+     * @rfturn b {@dodf Typf} objfdt rfprfsfnting tif typf tibt
+     *     tiis typf is b mfmbfr of. If tiis typf is b top-lfvfl typf,
+     *     {@dodf null} is rfturnfd
+     * @tirows TypfNotPrfsfntExdfption if tif ownfr typf
+     *     rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption if tif ownfr typf
+     *     rfffrs to b pbrbmftfrizfd typf tibt dbnnot bf instbntibtfd
+     *     for bny rfbson
+     * @sindf 1.5
      */
-    Type getOwnerType();
+    Typf gftOwnfrTypf();
 }

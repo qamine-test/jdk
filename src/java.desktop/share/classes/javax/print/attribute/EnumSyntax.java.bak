@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.print.attribute;
+pbdkbgf jbvbx.print.bttributf;
 
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * Class EnumSyntax is an abstract base class providing the common
- * implementation of all "type safe enumeration" objects. An enumeration class
- * (which extends class EnumSyntax) provides a group of enumeration values
- * (objects) that are singleton instances of the enumeration class; for example:
+ * Clbss EnumSyntbx is bn bbstrbdt bbsf dlbss providing tif dommon
+ * implfmfntbtion of bll "typf sbff fnumfrbtion" objfdts. An fnumfrbtion dlbss
+ * (wiidi fxtfnds dlbss EnumSyntbx) providfs b group of fnumfrbtion vblufs
+ * (objfdts) tibt brf singlfton instbndfs of tif fnumfrbtion dlbss; for fxbmplf:
  * <PRE>
- *     public class Bach extends EnumSyntax {
- *         public static final Bach JOHANN_SEBASTIAN     = new Bach(0);
- *         public static final Bach WILHELM_FRIEDEMANN   = new Bach(1);
- *         public static final Bach CARL_PHILIP_EMMANUEL = new Bach(2);
- *         public static final Bach JOHANN_CHRISTIAN     = new Bach(3);
- *         public static final Bach P_D_Q                = new Bach(4);
+ *     publid dlbss Bbdi fxtfnds EnumSyntbx {
+ *         publid stbtid finbl Bbdi JOHANN_SEBASTIAN     = nfw Bbdi(0);
+ *         publid stbtid finbl Bbdi WILHELM_FRIEDEMANN   = nfw Bbdi(1);
+ *         publid stbtid finbl Bbdi CARL_PHILIP_EMMANUEL = nfw Bbdi(2);
+ *         publid stbtid finbl Bbdi JOHANN_CHRISTIAN     = nfw Bbdi(3);
+ *         publid stbtid finbl Bbdi P_D_Q                = nfw Bbdi(4);
  *
- *         private static final String[] stringTable = {
- *             "Johann Sebastian Bach",
- *              "Wilhelm Friedemann Bach",
- *              "Carl Philip Emmanuel Bach",
- *              "Johann Christian Bach",
- *              "P.D.Q. Bach"
+ *         privbtf stbtid finbl String[] stringTbblf = {
+ *             "Joibnn Sfbbstibn Bbdi",
+ *              "Wiliflm Frifdfmbnn Bbdi",
+ *              "Cbrl Piilip Emmbnufl Bbdi",
+ *              "Joibnn Ciristibn Bbdi",
+ *              "P.D.Q. Bbdi"
  *         };
  *
- *         protected String[] getStringTable() {
- *             return stringTable;
+ *         protfdtfd String[] gftStringTbblf() {
+ *             rfturn stringTbblf;
  *         }
  *
- *         private static final Bach[] enumValueTable = {
+ *         privbtf stbtid finbl Bbdi[] fnumVblufTbblf = {
  *             JOHANN_SEBASTIAN,
  *              WILHELM_FRIEDEMANN,
  *              CARL_PHILIP_EMMANUEL,
@@ -63,218 +63,218 @@ import java.io.Serializable;
  *              P_D_Q
  *         };
  *
- *         protected EnumSyntax[] getEnumValueTable() {
- *             return enumValueTable;
+ *         protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+ *             rfturn fnumVblufTbblf;
  *         }
  *     }
  * </PRE>
- * You can then write code that uses the <CODE>==</CODE> and <CODE>!=</CODE>
- * operators to test enumeration values; for example:
+ * You dbn tifn writf dodf tibt usfs tif <CODE>==</CODE> bnd <CODE>!=</CODE>
+ * opfrbtors to tfst fnumfrbtion vblufs; for fxbmplf:
  * <PRE>
- *     Bach theComposer;
+ *     Bbdi tifComposfr;
  *     . . .
- *     if (theComposer == Bach.JOHANN_SEBASTIAN) {
- *         System.out.println ("The greatest composer of all time!");
+ *     if (tifComposfr == Bbdi.JOHANN_SEBASTIAN) {
+ *         Systfm.out.println ("Tif grfbtfst domposfr of bll timf!");
  *     }
  * </PRE>
- * The <CODE>equals()</CODE> method for an enumeration class just does a test
- * for identical objects (<CODE>==</CODE>).
+ * Tif <CODE>fqubls()</CODE> mftiod for bn fnumfrbtion dlbss just dofs b tfst
+ * for idfntidbl objfdts (<CODE>==</CODE>).
  * <P>
- * You can convert an enumeration value to a string by calling {@link
- * #toString() toString()}. The string is obtained from a table
- * supplied by the enumeration class.
+ * You dbn donvfrt bn fnumfrbtion vbluf to b string by dblling {@link
+ * #toString() toString()}. Tif string is obtbinfd from b tbblf
+ * supplifd by tif fnumfrbtion dlbss.
  * <P>
- * Under the hood, an enumeration value is just an integer, a different integer
- * for each enumeration value within an enumeration class. You can get an
- * enumeration value's integer value by calling {@link #getValue()
- * getValue()}. An enumeration value's integer value is established
- * when it is constructed (see {@link #EnumSyntax(int)
- * EnumSyntax(int)}). Since the constructor is protected, the only
- * possible enumeration values are the singleton objects declared in the
- * enumeration class; additional enumeration values cannot be created at run
- * time.
+ * Undfr tif iood, bn fnumfrbtion vbluf is just bn intfgfr, b difffrfnt intfgfr
+ * for fbdi fnumfrbtion vbluf witiin bn fnumfrbtion dlbss. You dbn gft bn
+ * fnumfrbtion vbluf's intfgfr vbluf by dblling {@link #gftVbluf()
+ * gftVbluf()}. An fnumfrbtion vbluf's intfgfr vbluf is fstbblisifd
+ * wifn it is donstrudtfd (sff {@link #EnumSyntbx(int)
+ * EnumSyntbx(int)}). Sindf tif donstrudtor is protfdtfd, tif only
+ * possiblf fnumfrbtion vblufs brf tif singlfton objfdts dfdlbrfd in tif
+ * fnumfrbtion dlbss; bdditionbl fnumfrbtion vblufs dbnnot bf drfbtfd bt run
+ * timf.
  * <P>
- * You can define a subclass of an enumeration class that extends it with
- * additional enumeration values. The subclass's enumeration values' integer
- * values need not be distinct from the superclass's enumeration values' integer
- * values; the <CODE>==</CODE>, <CODE>!=</CODE>, <CODE>equals()</CODE>, and
- * <CODE>toString()</CODE> methods will still work properly even if the subclass
- * uses some of the same integer values as the superclass. However, the
- * application in which the enumeration class and subclass are used may need to
- * have distinct integer values in the superclass and subclass.
+ * You dbn dffinf b subdlbss of bn fnumfrbtion dlbss tibt fxtfnds it witi
+ * bdditionbl fnumfrbtion vblufs. Tif subdlbss's fnumfrbtion vblufs' intfgfr
+ * vblufs nffd not bf distindt from tif supfrdlbss's fnumfrbtion vblufs' intfgfr
+ * vblufs; tif <CODE>==</CODE>, <CODE>!=</CODE>, <CODE>fqubls()</CODE>, bnd
+ * <CODE>toString()</CODE> mftiods will still work propfrly fvfn if tif subdlbss
+ * usfs somf of tif sbmf intfgfr vblufs bs tif supfrdlbss. Howfvfr, tif
+ * bpplidbtion in wiidi tif fnumfrbtion dlbss bnd subdlbss brf usfd mby nffd to
+ * ibvf distindt intfgfr vblufs in tif supfrdlbss bnd subdlbss.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @butior  Dbvid Mfndfnibll
+ * @butior  Albn Kbminsky
  */
-public abstract class EnumSyntax implements Serializable, Cloneable {
+publid bbstrbdt dlbss EnumSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
 
-    private static final long serialVersionUID = -2739521845085831642L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2739521845085831642L;
 
     /**
-     * This enumeration value's integer value.
-     * @serial
+     * Tiis fnumfrbtion vbluf's intfgfr vbluf.
+     * @sfribl
      */
-    private int value;
+    privbtf int vbluf;
 
     /**
-     * Construct a new enumeration value with the given integer value.
+     * Construdt b nfw fnumfrbtion vbluf witi tif givfn intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected EnumSyntax(int value) {
-        this.value = value;
+    protfdtfd EnumSyntbx(int vbluf) {
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Returns this enumeration value's integer value.
-     * @return the value
+     * Rfturns tiis fnumfrbtion vbluf's intfgfr vbluf.
+     * @rfturn tif vbluf
      */
-    public int getValue() {
-        return value;
+    publid int gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Returns a clone of this enumeration value, which to preserve the
-     * semantics of enumeration values is the same object as this enumeration
-     * value.
+     * Rfturns b dlonf of tiis fnumfrbtion vbluf, wiidi to prfsfrvf tif
+     * sfmbntids of fnumfrbtion vblufs is tif sbmf objfdt bs tiis fnumfrbtion
+     * vbluf.
      */
-    public Object clone() {
-        return this;
+    publid Objfdt dlonf() {
+        rfturn tiis;
     }
 
     /**
-     * Returns a hash code value for this enumeration value. The hash code is
-     * just this enumeration value's integer value.
+     * Rfturns b ibsi dodf vbluf for tiis fnumfrbtion vbluf. Tif ibsi dodf is
+     * just tiis fnumfrbtion vbluf's intfgfr vbluf.
      */
-    public int hashCode() {
-        return value;
+    publid int ibsiCodf() {
+        rfturn vbluf;
     }
 
     /**
-     * Returns a string value corresponding to this enumeration value.
+     * Rfturns b string vbluf dorrfsponding to tiis fnumfrbtion vbluf.
      */
-    public String toString() {
+    publid String toString() {
 
-        String[] theTable = getStringTable();
-        int theIndex = value - getOffset();
-        return
-            theTable != null && theIndex >= 0 && theIndex < theTable.length ?
-            theTable[theIndex] :
-            Integer.toString (value);
+        String[] tifTbblf = gftStringTbblf();
+        int tifIndfx = vbluf - gftOffsft();
+        rfturn
+            tifTbblf != null && tifIndfx >= 0 && tifIndfx < tifTbblf.lfngti ?
+            tifTbblf[tifIndfx] :
+            Intfgfr.toString (vbluf);
     }
 
     /**
-     * During object input, convert this deserialized enumeration instance to
-     * the proper enumeration value defined in the enumeration attribute class.
+     * During objfdt input, donvfrt tiis dfsfriblizfd fnumfrbtion instbndf to
+     * tif propfr fnumfrbtion vbluf dffinfd in tif fnumfrbtion bttributf dlbss.
      *
-     * @return  The enumeration singleton value stored at index
-     *          <I>i</I>-<I>L</I> in the enumeration value table returned by
-     *          {@link #getEnumValueTable() getEnumValueTable()},
-     *          where <I>i</I> is this enumeration value's integer value and
-     *          <I>L</I> is the value returned by {@link #getOffset()
-     *          getOffset()}.
+     * @rfturn  Tif fnumfrbtion singlfton vbluf storfd bt indfx
+     *          <I>i</I>-<I>L</I> in tif fnumfrbtion vbluf tbblf rfturnfd by
+     *          {@link #gftEnumVblufTbblf() gftEnumVblufTbblf()},
+     *          wifrf <I>i</I> is tiis fnumfrbtion vbluf's intfgfr vbluf bnd
+     *          <I>L</I> is tif vbluf rfturnfd by {@link #gftOffsft()
+     *          gftOffsft()}.
      *
-     * @throws ObjectStreamException if the stream can't be deserialised
-     * @throws  InvalidObjectException
-     *     Thrown if the enumeration value table is null, this enumeration
-     *     value's integer value does not correspond to an element in the
-     *     enumeration value table, or the corresponding element in the
-     *     enumeration value table is null. (Note: {@link
-     *     java.io.InvalidObjectException InvalidObjectException} is a subclass
-     *     of {@link java.io.ObjectStreamException ObjectStreamException}, which
-     *     <CODE>readResolve()</CODE> is declared to throw.)
+     * @tirows ObjfdtStrfbmExdfption if tif strfbm dbn't bf dfsfriblisfd
+     * @tirows  InvblidObjfdtExdfption
+     *     Tirown if tif fnumfrbtion vbluf tbblf is null, tiis fnumfrbtion
+     *     vbluf's intfgfr vbluf dofs not dorrfspond to bn flfmfnt in tif
+     *     fnumfrbtion vbluf tbblf, or tif dorrfsponding flfmfnt in tif
+     *     fnumfrbtion vbluf tbblf is null. (Notf: {@link
+     *     jbvb.io.InvblidObjfdtExdfption InvblidObjfdtExdfption} is b subdlbss
+     *     of {@link jbvb.io.ObjfdtStrfbmExdfption ObjfdtStrfbmExdfption}, wiidi
+     *     <CODE>rfbdRfsolvf()</CODE> is dfdlbrfd to tirow.)
      */
-    protected Object readResolve() throws ObjectStreamException {
+    protfdtfd Objfdt rfbdRfsolvf() tirows ObjfdtStrfbmExdfption {
 
-        EnumSyntax[] theTable = getEnumValueTable();
+        EnumSyntbx[] tifTbblf = gftEnumVblufTbblf();
 
-        if (theTable == null) {
-            throw new InvalidObjectException(
-                                "Null enumeration value table for class " +
-                                getClass());
+        if (tifTbblf == null) {
+            tirow nfw InvblidObjfdtExdfption(
+                                "Null fnumfrbtion vbluf tbblf for dlbss " +
+                                gftClbss());
         }
 
-        int theOffset = getOffset();
-        int theIndex = value - theOffset;
+        int tifOffsft = gftOffsft();
+        int tifIndfx = vbluf - tifOffsft;
 
-        if (0 > theIndex || theIndex >= theTable.length) {
-            throw new InvalidObjectException
-                ("Integer value = " +  value + " not in valid range " +
-                 theOffset + ".." + (theOffset + theTable.length - 1) +
-                 "for class " + getClass());
+        if (0 > tifIndfx || tifIndfx >= tifTbblf.lfngti) {
+            tirow nfw InvblidObjfdtExdfption
+                ("Intfgfr vbluf = " +  vbluf + " not in vblid rbngf " +
+                 tifOffsft + ".." + (tifOffsft + tifTbblf.lfngti - 1) +
+                 "for dlbss " + gftClbss());
         }
 
-        EnumSyntax result = theTable[theIndex];
-        if (result == null) {
-            throw new InvalidObjectException
-                ("No enumeration value for integer value = " +
-                 value + "for class " + getClass());
+        EnumSyntbx rfsult = tifTbblf[tifIndfx];
+        if (rfsult == null) {
+            tirow nfw InvblidObjfdtExdfption
+                ("No fnumfrbtion vbluf for intfgfr vbluf = " +
+                 vbluf + "for dlbss " + gftClbss());
         }
-        return result;
+        rfturn rfsult;
     }
 
-    // Hidden operations to be implemented in a subclass.
+    // Hiddfn opfrbtions to bf implfmfntfd in b subdlbss.
 
     /**
-     * Returns the string table for this enumeration value's enumeration class.
-     * The enumeration class's integer values are assumed to lie in the range
-     * <I>L</I>..<I>L</I>+<I>N</I>-1, where <I>L</I> is the value returned by
-     * {@link #getOffset() getOffset()} and <I>N</I> is the length
-     * of the string table. The element in the string table at index
-     * <I>i</I>-<I>L</I> is the value returned by {@link #toString()
-     * toString()} for the enumeration value whose integer value
-     * is <I>i</I>. If an integer within the above range is not used by any
-     * enumeration value, leave the corresponding table element null.
+     * Rfturns tif string tbblf for tiis fnumfrbtion vbluf's fnumfrbtion dlbss.
+     * Tif fnumfrbtion dlbss's intfgfr vblufs brf bssumfd to lif in tif rbngf
+     * <I>L</I>..<I>L</I>+<I>N</I>-1, wifrf <I>L</I> is tif vbluf rfturnfd by
+     * {@link #gftOffsft() gftOffsft()} bnd <I>N</I> is tif lfngti
+     * of tif string tbblf. Tif flfmfnt in tif string tbblf bt indfx
+     * <I>i</I>-<I>L</I> is tif vbluf rfturnfd by {@link #toString()
+     * toString()} for tif fnumfrbtion vbluf wiosf intfgfr vbluf
+     * is <I>i</I>. If bn intfgfr witiin tif bbovf rbngf is not usfd by bny
+     * fnumfrbtion vbluf, lfbvf tif dorrfsponding tbblf flfmfnt null.
      * <P>
-     * The default implementation returns null. If the enumeration class (a
-     * subclass of class EnumSyntax) does not override this method to return a
-     * non-null string table, and the subclass does not override the {@link
-     * #toString() toString()} method, the base class {@link
-     * #toString() toString()} method will return just a string
-     * representation of this enumeration value's integer value.
-     * @return the string table
+     * Tif dffbult implfmfntbtion rfturns null. If tif fnumfrbtion dlbss (b
+     * subdlbss of dlbss EnumSyntbx) dofs not ovfrridf tiis mftiod to rfturn b
+     * non-null string tbblf, bnd tif subdlbss dofs not ovfrridf tif {@link
+     * #toString() toString()} mftiod, tif bbsf dlbss {@link
+     * #toString() toString()} mftiod will rfturn just b string
+     * rfprfsfntbtion of tiis fnumfrbtion vbluf's intfgfr vbluf.
+     * @rfturn tif string tbblf
      */
-    protected String[] getStringTable() {
-        return null;
-    }
-
-    /**
-     * Returns the enumeration value table for this enumeration value's
-     * enumeration class. The enumeration class's integer values are assumed to
-     * lie in the range <I>L</I>..<I>L</I>+<I>N</I>-1, where <I>L</I> is the
-     * value returned by {@link #getOffset() getOffset()} and
-     * <I>N</I> is the length of the enumeration value table. The element in the
-     * enumeration value table at index <I>i</I>-<I>L</I> is the enumeration
-     * value object whose integer value is <I>i</I>; the {@link #readResolve()
-     * readResolve()} method needs this to preserve singleton
-     * semantics during deserialization of an enumeration instance. If an
-     * integer within the above range is not used by any enumeration value,
-     * leave the corresponding table element null.
-     * <P>
-     * The default implementation returns null. If the enumeration class (a
-     * subclass of class EnumSyntax) does not override this method to return
-     * a non-null enumeration value table, and the subclass does not override
-     * the {@link #readResolve() readResolve()} method, the base
-     * class {@link #readResolve() readResolve()} method will throw
-     * an exception whenever an enumeration instance is deserialized from an
-     * object input stream.
-     * @return the value table
-     */
-    protected EnumSyntax[] getEnumValueTable() {
-        return null;
+    protfdtfd String[] gftStringTbblf() {
+        rfturn null;
     }
 
     /**
-     * Returns the lowest integer value used by this enumeration value's
-     * enumeration class.
+     * Rfturns tif fnumfrbtion vbluf tbblf for tiis fnumfrbtion vbluf's
+     * fnumfrbtion dlbss. Tif fnumfrbtion dlbss's intfgfr vblufs brf bssumfd to
+     * lif in tif rbngf <I>L</I>..<I>L</I>+<I>N</I>-1, wifrf <I>L</I> is tif
+     * vbluf rfturnfd by {@link #gftOffsft() gftOffsft()} bnd
+     * <I>N</I> is tif lfngti of tif fnumfrbtion vbluf tbblf. Tif flfmfnt in tif
+     * fnumfrbtion vbluf tbblf bt indfx <I>i</I>-<I>L</I> is tif fnumfrbtion
+     * vbluf objfdt wiosf intfgfr vbluf is <I>i</I>; tif {@link #rfbdRfsolvf()
+     * rfbdRfsolvf()} mftiod nffds tiis to prfsfrvf singlfton
+     * sfmbntids during dfsfriblizbtion of bn fnumfrbtion instbndf. If bn
+     * intfgfr witiin tif bbovf rbngf is not usfd by bny fnumfrbtion vbluf,
+     * lfbvf tif dorrfsponding tbblf flfmfnt null.
      * <P>
-     * The default implementation returns 0. If the enumeration class (a
-     * subclass of class EnumSyntax) uses integer values starting at other than
-     * 0, override this method in the subclass.
-     * @return the offset of the lowest enumeration value.
+     * Tif dffbult implfmfntbtion rfturns null. If tif fnumfrbtion dlbss (b
+     * subdlbss of dlbss EnumSyntbx) dofs not ovfrridf tiis mftiod to rfturn
+     * b non-null fnumfrbtion vbluf tbblf, bnd tif subdlbss dofs not ovfrridf
+     * tif {@link #rfbdRfsolvf() rfbdRfsolvf()} mftiod, tif bbsf
+     * dlbss {@link #rfbdRfsolvf() rfbdRfsolvf()} mftiod will tirow
+     * bn fxdfption wifnfvfr bn fnumfrbtion instbndf is dfsfriblizfd from bn
+     * objfdt input strfbm.
+     * @rfturn tif vbluf tbblf
      */
-    protected int getOffset() {
-        return 0;
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns tif lowfst intfgfr vbluf usfd by tiis fnumfrbtion vbluf's
+     * fnumfrbtion dlbss.
+     * <P>
+     * Tif dffbult implfmfntbtion rfturns 0. If tif fnumfrbtion dlbss (b
+     * subdlbss of dlbss EnumSyntbx) usfs intfgfr vblufs stbrting bt otifr tibn
+     * 0, ovfrridf tiis mftiod in tif subdlbss.
+     * @rfturn tif offsft of tif lowfst fnumfrbtion vbluf.
+     */
+    protfdtfd int gftOffsft() {
+        rfturn 0;
     }
 
 }

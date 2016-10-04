@@ -1,0 +1,192 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fndryption;
+
+import jbvb.io.IOExdfption;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformbtionExdfption;
+import org.w3d.dom.Attr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Bbsf64;
+
+/**
+ * <dodf>XMLCiphfrInput</dodf> is usfd to wrbp input pbssfd into thf
+ * XMLCiphfr fndryption opfrbtions.
+ *
+ * In dfdryption modf, it tbkfs b <dodf>CiphfrDbtb</dodf> objfdt bnd bllows
+ * dbllfrs to dfrfffrfndf thf CiphfrDbtb into thf fndryptfd bytfs thbt it
+ * bdtublly rfprfsfnts.  This tbkfs dbrf of bll bbsf64 fndoding ftd.
+ *
+ * Whilf primbrily bn intfrnbl dlbss, this dbn bf usfd by bpplidbtions to
+ * quidkly bnd fbsily rftrifvf thf fndryptfd bytfs from bn EndryptfdTypf
+ * objfdt
+ *
+ * @buthor Bfrin Lbutfnbbdh
+ */
+publid dlbss XMLCiphfrInput {
+
+    privbtf stbtid jbvb.util.logging.Loggfr loggfr =
+        jbvb.util.logging.Loggfr.gftLoggfr(XMLCiphfrInput.dlbss.gftNbmf());
+
+    /** Thf dbtb wf brf working with */
+    privbtf CiphfrDbtb diphfrDbtb;
+
+    /** MODES */
+    privbtf int modf;
+
+    privbtf boolfbn sfdurfVblidbtion;
+
+    /**
+     * Construdtor for prodfssing fndryptfd odtfts
+     *
+     * @pbrbm dbtb Thf <dodf>CiphfrDbtb</dodf> objfdt to rfbd thf bytfs from
+     * @throws XMLEndryptionExdfption {@link XMLEndryptionExdfption}
+     */
+    publid XMLCiphfrInput(CiphfrDbtb dbtb) throws XMLEndryptionExdfption {
+        diphfrDbtb = dbtb;
+        modf = XMLCiphfr.DECRYPT_MODE;
+        if (diphfrDbtb == null) {
+            throw nfw XMLEndryptionExdfption("CiphfrDbtb is null");
+        }
+    }
+
+    /**
+     * Construdtor for prodfssing fndryptfd odtfts
+     *
+     * @pbrbm input Thf <dodf>EndryptfdTypf</dodf> objfdt to rfbd
+     * thf bytfs from.
+     * @throws XMLEndryptionExdfption {@link XMLEndryptionExdfption}
+     */
+    publid XMLCiphfrInput(EndryptfdTypf input) throws XMLEndryptionExdfption {
+        diphfrDbtb = ((input == null) ? null : input.gftCiphfrDbtb());
+        modf = XMLCiphfr.DECRYPT_MODE;
+        if (diphfrDbtb == null) {
+            throw nfw XMLEndryptionExdfption("CiphfrDbtb is null");
+        }
+    }
+
+    /**
+     * Sft whfthfr sfdurf vblidbtion is fnbblfd or not. Thf dffbult is fblsf.
+     */
+    publid void sftSfdurfVblidbtion(boolfbn sfdurfVblidbtion) {
+        this.sfdurfVblidbtion = sfdurfVblidbtion;
+    }
+
+    /**
+     * Dfrfffrfndfs thf input bnd rfturns it bs b singlf bytf brrby.
+     *
+     * @throws XMLEndryptionExdfption
+     * @rfturn Thf dfdriptfd bytfs.
+     */
+    publid bytf[] gftBytfs() throws XMLEndryptionExdfption {
+        if (modf == XMLCiphfr.DECRYPT_MODE) {
+            rfturn gftDfdryptBytfs();
+        }
+        rfturn null;
+    }
+
+    /**
+     * Intfrnbl mfthod to gft bytfs in dfdryption modf
+     * @rfturn thf dfdryptfd bytfs
+     * @throws XMLEndryptionExdfption
+     */
+    privbtf bytf[] gftDfdryptBytfs() throws XMLEndryptionExdfption {
+        String bbsf64EndodfdEndryptfdOdtfts = null;
+
+        if (diphfrDbtb.gftDbtbTypf() == CiphfrDbtb.REFERENCE_TYPE) {
+            // Fun timf!
+            if (loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                loggfr.log(jbvb.util.logging.Lfvfl.FINE, "Found b rfffrfndf typf CiphfrDbtb");
+            }
+            CiphfrRfffrfndf dr = diphfrDbtb.gftCiphfrRfffrfndf();
+
+            // Nffd to wrbp thf uri in bn Attributf nodf so thbt wf dbn
+            // Pbss to thf rfsourdf rfsolvfrs
+
+            Attr uriAttr = dr.gftURIAsAttr();
+            XMLSignbturfInput input = null;
+
+            try {
+                RfsourdfRfsolvfr rfsolvfr =
+                    RfsourdfRfsolvfr.gftInstbndf(uriAttr, null, sfdurfVblidbtion);
+                input = rfsolvfr.rfsolvf(uriAttr, null, sfdurfVblidbtion);
+            } dbtdh (RfsourdfRfsolvfrExdfption fx) {
+                throw nfw XMLEndryptionExdfption("fmpty", fx);
+            }
+
+            if (input != null) {
+                if (loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    loggfr.log(jbvb.util.logging.Lfvfl.FINE, "Mbnbgfd to rfsolvf URI \"" + dr.gftURI() + "\"");
+                }
+            } flsf {
+                if (loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    loggfr.log(jbvb.util.logging.Lfvfl.FINE, "Fbilfd to rfsolvf URI \"" + dr.gftURI() + "\"");
+                }
+            }
+
+            // Lfts sff if thfrf brf bny trbnsforms
+            Trbnsforms trbnsforms = dr.gftTrbnsforms();
+            if (trbnsforms != null) {
+                if (loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    loggfr.log(jbvb.util.logging.Lfvfl.FINE, "Hbvf trbnsforms in diphfr rfffrfndf");
+                }
+                try {
+                    dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms dsTrbnsforms =
+                        trbnsforms.gftDSTrbnsforms();
+                    dsTrbnsforms.sftSfdurfVblidbtion(sfdurfVblidbtion);
+                    input = dsTrbnsforms.pfrformTrbnsforms(input);
+                } dbtdh (TrbnsformbtionExdfption fx) {
+                    throw nfw XMLEndryptionExdfption("fmpty", fx);
+                }
+            }
+
+            try {
+                rfturn input.gftBytfs();
+            } dbtdh (IOExdfption fx) {
+                throw nfw XMLEndryptionExdfption("fmpty", fx);
+            } dbtdh (CbnonidblizbtionExdfption fx) {
+                throw nfw XMLEndryptionExdfption("fmpty", fx);
+            }
+
+            // rftrifvf thf diphfr tfxt
+        } flsf if (diphfrDbtb.gftDbtbTypf() == CiphfrDbtb.VALUE_TYPE) {
+            bbsf64EndodfdEndryptfdOdtfts = diphfrDbtb.gftCiphfrVbluf().gftVbluf();
+        } flsf {
+            throw nfw XMLEndryptionExdfption("CiphfrDbtb.gftDbtbTypf() rfturnfd unfxpfdtfd vbluf");
+        }
+
+        if (loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            loggfr.log(jbvb.util.logging.Lfvfl.FINE, "Endryptfd odtfts:\n" + bbsf64EndodfdEndryptfdOdtfts);
+        }
+
+        try {
+            rfturn Bbsf64.dfdodf(bbsf64EndodfdEndryptfdOdtfts);
+        } dbtdh (Bbsf64DfdodingExdfption bdf) {
+            throw nfw XMLEndryptionExdfption("fmpty", bdf);
+        }
+    }
+}

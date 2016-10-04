@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.Vector;
-import java.awt.*;
-import javax.swing.plaf.*;
-import javax.swing.*;
+import jbvb.util.Vfdtor;
+import jbvb.bwt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
 
 /**
- * Implements the Highlighter interfaces.  Implements a simple highlight
- * painter that renders in a solid color.
+ * Implfmfnts tif Higiligitfr intfrfbdfs.  Implfmfnts b simplf iigiligit
+ * pbintfr tibt rfndfrs in b solid dolor.
  *
- * @author  Timothy Prinzing
- * @see     Highlighter
+ * @butior  Timotiy Prinzing
+ * @sff     Higiligitfr
  */
-public class DefaultHighlighter extends LayeredHighlighter {
+publid dlbss DffbultHigiligitfr fxtfnds LbyfrfdHigiligitfr {
 
     /**
-     * Creates a new DefaultHighlighther object.
+     * Crfbtfs b nfw DffbultHigiligitifr objfdt.
      */
-    public DefaultHighlighter() {
-        drawsLayeredHighlights = true;
+    publid DffbultHigiligitfr() {
+        drbwsLbyfrfdHigiligits = truf;
     }
 
-    // ---- Highlighter methods ----------------------------------------------
+    // ---- Higiligitfr mftiods ----------------------------------------------
 
     /**
-     * Renders the highlights.
+     * Rfndfrs tif iigiligits.
      *
-     * @param g the graphics context
+     * @pbrbm g tif grbpiids dontfxt
      */
-    public void paint(Graphics g) {
-        // PENDING(prinz) - should cull ranges not visible
-        int len = highlights.size();
-        for (int i = 0; i < len; i++) {
-            HighlightInfo info = highlights.elementAt(i);
-            if (!(info instanceof LayeredHighlightInfo)) {
-                // Avoid allocing unless we need it.
-                Rectangle a = component.getBounds();
-                Insets insets = component.getInsets();
-                a.x = insets.left;
-                a.y = insets.top;
-                a.width -= insets.left + insets.right;
-                a.height -= insets.top + insets.bottom;
-                for (; i < len; i++) {
-                    info = highlights.elementAt(i);
-                    if (!(info instanceof LayeredHighlightInfo)) {
-                        Highlighter.HighlightPainter p = info.getPainter();
-                        p.paint(g, info.getStartOffset(), info.getEndOffset(),
-                                a, component);
+    publid void pbint(Grbpiids g) {
+        // PENDING(prinz) - siould dull rbngfs not visiblf
+        int lfn = iigiligits.sizf();
+        for (int i = 0; i < lfn; i++) {
+            HigiligitInfo info = iigiligits.flfmfntAt(i);
+            if (!(info instbndfof LbyfrfdHigiligitInfo)) {
+                // Avoid blloding unlfss wf nffd it.
+                Rfdtbnglf b = domponfnt.gftBounds();
+                Insfts insfts = domponfnt.gftInsfts();
+                b.x = insfts.lfft;
+                b.y = insfts.top;
+                b.widti -= insfts.lfft + insfts.rigit;
+                b.ifigit -= insfts.top + insfts.bottom;
+                for (; i < lfn; i++) {
+                    info = iigiligits.flfmfntAt(i);
+                    if (!(info instbndfof LbyfrfdHigiligitInfo)) {
+                        Higiligitfr.HigiligitPbintfr p = info.gftPbintfr();
+                        p.pbint(g, info.gftStbrtOffsft(), info.gftEndOffsft(),
+                                b, domponfnt);
                     }
                 }
             }
@@ -78,576 +78,576 @@ public class DefaultHighlighter extends LayeredHighlighter {
     }
 
     /**
-     * Called when the UI is being installed into the
-     * interface of a JTextComponent.  Installs the editor, and
-     * removes any existing highlights.
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * intfrfbdf of b JTfxtComponfnt.  Instblls tif fditor, bnd
+     * rfmovfs bny fxisting iigiligits.
      *
-     * @param c the editor component
-     * @see Highlighter#install
+     * @pbrbm d tif fditor domponfnt
+     * @sff Higiligitfr#instbll
      */
-    public void install(JTextComponent c) {
-        component = c;
-        removeAllHighlights();
+    publid void instbll(JTfxtComponfnt d) {
+        domponfnt = d;
+        rfmovfAllHigiligits();
     }
 
     /**
-     * Called when the UI is being removed from the interface of
-     * a JTextComponent.
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif intfrfbdf of
+     * b JTfxtComponfnt.
      *
-     * @param c the component
-     * @see Highlighter#deinstall
+     * @pbrbm d tif domponfnt
+     * @sff Higiligitfr#dfinstbll
      */
-    public void deinstall(JTextComponent c) {
-        component = null;
+    publid void dfinstbll(JTfxtComponfnt d) {
+        domponfnt = null;
     }
 
     /**
-     * Adds a highlight to the view.  Returns a tag that can be used
-     * to refer to the highlight.
+     * Adds b iigiligit to tif vifw.  Rfturns b tbg tibt dbn bf usfd
+     * to rfffr to tif iigiligit.
      *
-     * @param p0   the start offset of the range to highlight &gt;= 0
-     * @param p1   the end offset of the range to highlight &gt;= p0
-     * @param p    the painter to use to actually render the highlight
-     * @return     an object that can be used as a tag
-     *   to refer to the highlight
-     * @exception BadLocationException if the specified location is invalid
+     * @pbrbm p0   tif stbrt offsft of tif rbngf to iigiligit &gt;= 0
+     * @pbrbm p1   tif fnd offsft of tif rbngf to iigiligit &gt;= p0
+     * @pbrbm p    tif pbintfr to usf to bdtublly rfndfr tif iigiligit
+     * @rfturn     bn objfdt tibt dbn bf usfd bs b tbg
+     *   to rfffr to tif iigiligit
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd lodbtion is invblid
      */
-    public Object addHighlight(int p0, int p1, Highlighter.HighlightPainter p) throws BadLocationException {
+    publid Objfdt bddHigiligit(int p0, int p1, Higiligitfr.HigiligitPbintfr p) tirows BbdLodbtionExdfption {
         if (p0 < 0) {
-            throw new BadLocationException("Invalid start offset", p0);
+            tirow nfw BbdLodbtionExdfption("Invblid stbrt offsft", p0);
         }
 
         if (p1 < p0) {
-            throw new BadLocationException("Invalid end offset", p1);
+            tirow nfw BbdLodbtionExdfption("Invblid fnd offsft", p1);
         }
 
-        Document doc = component.getDocument();
-        HighlightInfo i = (getDrawsLayeredHighlights() &&
-                           (p instanceof LayeredHighlighter.LayerPainter)) ?
-                          new LayeredHighlightInfo() : new HighlightInfo();
-        i.painter = p;
-        i.p0 = doc.createPosition(p0);
-        i.p1 = doc.createPosition(p1);
-        highlights.addElement(i);
-        safeDamageRange(p0, p1);
-        return i;
+        Dodumfnt dod = domponfnt.gftDodumfnt();
+        HigiligitInfo i = (gftDrbwsLbyfrfdHigiligits() &&
+                           (p instbndfof LbyfrfdHigiligitfr.LbyfrPbintfr)) ?
+                          nfw LbyfrfdHigiligitInfo() : nfw HigiligitInfo();
+        i.pbintfr = p;
+        i.p0 = dod.drfbtfPosition(p0);
+        i.p1 = dod.drfbtfPosition(p1);
+        iigiligits.bddElfmfnt(i);
+        sbffDbmbgfRbngf(p0, p1);
+        rfturn i;
     }
 
     /**
-     * Removes a highlight from the view.
+     * Rfmovfs b iigiligit from tif vifw.
      *
-     * @param tag the reference to the highlight
+     * @pbrbm tbg tif rfffrfndf to tif iigiligit
      */
-    public void removeHighlight(Object tag) {
-        if (tag instanceof LayeredHighlightInfo) {
-            LayeredHighlightInfo lhi = (LayeredHighlightInfo)tag;
-            if (lhi.width > 0 && lhi.height > 0) {
-                component.repaint(lhi.x, lhi.y, lhi.width, lhi.height);
+    publid void rfmovfHigiligit(Objfdt tbg) {
+        if (tbg instbndfof LbyfrfdHigiligitInfo) {
+            LbyfrfdHigiligitInfo lii = (LbyfrfdHigiligitInfo)tbg;
+            if (lii.widti > 0 && lii.ifigit > 0) {
+                domponfnt.rfpbint(lii.x, lii.y, lii.widti, lii.ifigit);
             }
         }
-        else {
-            HighlightInfo info = (HighlightInfo) tag;
-            safeDamageRange(info.p0, info.p1);
+        flsf {
+            HigiligitInfo info = (HigiligitInfo) tbg;
+            sbffDbmbgfRbngf(info.p0, info.p1);
         }
-        highlights.removeElement(tag);
+        iigiligits.rfmovfElfmfnt(tbg);
     }
 
     /**
-     * Removes all highlights.
+     * Rfmovfs bll iigiligits.
      */
-    public void removeAllHighlights() {
-        TextUI mapper = component.getUI();
-        if (getDrawsLayeredHighlights()) {
-            int len = highlights.size();
-            if (len != 0) {
+    publid void rfmovfAllHigiligits() {
+        TfxtUI mbppfr = domponfnt.gftUI();
+        if (gftDrbwsLbyfrfdHigiligits()) {
+            int lfn = iigiligits.sizf();
+            if (lfn != 0) {
                 int minX = 0;
                 int minY = 0;
-                int maxX = 0;
-                int maxY = 0;
+                int mbxX = 0;
+                int mbxY = 0;
                 int p0 = -1;
                 int p1 = -1;
-                for (int i = 0; i < len; i++) {
-                    HighlightInfo hi = highlights.elementAt(i);
-                    if (hi instanceof LayeredHighlightInfo) {
-                        LayeredHighlightInfo info = (LayeredHighlightInfo)hi;
-                        minX = Math.min(minX, info.x);
-                        minY = Math.min(minY, info.y);
-                        maxX = Math.max(maxX, info.x + info.width);
-                        maxY = Math.max(maxY, info.y + info.height);
+                for (int i = 0; i < lfn; i++) {
+                    HigiligitInfo ii = iigiligits.flfmfntAt(i);
+                    if (ii instbndfof LbyfrfdHigiligitInfo) {
+                        LbyfrfdHigiligitInfo info = (LbyfrfdHigiligitInfo)ii;
+                        minX = Mbti.min(minX, info.x);
+                        minY = Mbti.min(minY, info.y);
+                        mbxX = Mbti.mbx(mbxX, info.x + info.widti);
+                        mbxY = Mbti.mbx(mbxY, info.y + info.ifigit);
                     }
-                    else {
+                    flsf {
                         if (p0 == -1) {
-                            p0 = hi.p0.getOffset();
-                            p1 = hi.p1.getOffset();
+                            p0 = ii.p0.gftOffsft();
+                            p1 = ii.p1.gftOffsft();
                         }
-                        else {
-                            p0 = Math.min(p0, hi.p0.getOffset());
-                            p1 = Math.max(p1, hi.p1.getOffset());
+                        flsf {
+                            p0 = Mbti.min(p0, ii.p0.gftOffsft());
+                            p1 = Mbti.mbx(p1, ii.p1.gftOffsft());
                         }
                     }
                 }
-                if (minX != maxX && minY != maxY) {
-                    component.repaint(minX, minY, maxX - minX, maxY - minY);
+                if (minX != mbxX && minY != mbxY) {
+                    domponfnt.rfpbint(minX, minY, mbxX - minX, mbxY - minY);
                 }
                 if (p0 != -1) {
                     try {
-                        safeDamageRange(p0, p1);
-                    } catch (BadLocationException e) {}
+                        sbffDbmbgfRbngf(p0, p1);
+                    } dbtdi (BbdLodbtionExdfption f) {}
                 }
-                highlights.removeAllElements();
+                iigiligits.rfmovfAllElfmfnts();
             }
         }
-        else if (mapper != null) {
-            int len = highlights.size();
-            if (len != 0) {
-                int p0 = Integer.MAX_VALUE;
+        flsf if (mbppfr != null) {
+            int lfn = iigiligits.sizf();
+            if (lfn != 0) {
+                int p0 = Intfgfr.MAX_VALUE;
                 int p1 = 0;
-                for (int i = 0; i < len; i++) {
-                    HighlightInfo info = highlights.elementAt(i);
-                    p0 = Math.min(p0, info.p0.getOffset());
-                    p1 = Math.max(p1, info.p1.getOffset());
+                for (int i = 0; i < lfn; i++) {
+                    HigiligitInfo info = iigiligits.flfmfntAt(i);
+                    p0 = Mbti.min(p0, info.p0.gftOffsft());
+                    p1 = Mbti.mbx(p1, info.p1.gftOffsft());
                 }
                 try {
-                    safeDamageRange(p0, p1);
-                } catch (BadLocationException e) {}
+                    sbffDbmbgfRbngf(p0, p1);
+                } dbtdi (BbdLodbtionExdfption f) {}
 
-                highlights.removeAllElements();
+                iigiligits.rfmovfAllElfmfnts();
             }
         }
     }
 
     /**
-     * Changes a highlight.
+     * Cibngfs b iigiligit.
      *
-     * @param tag the highlight tag
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
-     * @exception BadLocationException if the specified location is invalid
+     * @pbrbm tbg tif iigiligit tbg
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd lodbtion is invblid
      */
-    public void changeHighlight(Object tag, int p0, int p1) throws BadLocationException {
+    publid void dibngfHigiligit(Objfdt tbg, int p0, int p1) tirows BbdLodbtionExdfption {
         if (p0 < 0) {
-            throw new BadLocationException("Invalid beginning of the range", p0);
+            tirow nfw BbdLodbtionExdfption("Invblid bfginning of tif rbngf", p0);
         }
 
         if (p1 < p0) {
-            throw new BadLocationException("Invalid end of the range", p1);
+            tirow nfw BbdLodbtionExdfption("Invblid fnd of tif rbngf", p1);
         }
 
-        Document doc = component.getDocument();
-        if (tag instanceof LayeredHighlightInfo) {
-            LayeredHighlightInfo lhi = (LayeredHighlightInfo)tag;
-            if (lhi.width > 0 && lhi.height > 0) {
-                component.repaint(lhi.x, lhi.y, lhi.width, lhi.height);
+        Dodumfnt dod = domponfnt.gftDodumfnt();
+        if (tbg instbndfof LbyfrfdHigiligitInfo) {
+            LbyfrfdHigiligitInfo lii = (LbyfrfdHigiligitInfo)tbg;
+            if (lii.widti > 0 && lii.ifigit > 0) {
+                domponfnt.rfpbint(lii.x, lii.y, lii.widti, lii.ifigit);
             }
-            // Mark the highlights region as invalid, it will reset itself
-            // next time asked to paint.
-            lhi.width = lhi.height = 0;
-            lhi.p0 = doc.createPosition(p0);
-            lhi.p1 = doc.createPosition(p1);
-            safeDamageRange(Math.min(p0, p1), Math.max(p0, p1));
+            // Mbrk tif iigiligits rfgion bs invblid, it will rfsft itsflf
+            // nfxt timf bskfd to pbint.
+            lii.widti = lii.ifigit = 0;
+            lii.p0 = dod.drfbtfPosition(p0);
+            lii.p1 = dod.drfbtfPosition(p1);
+            sbffDbmbgfRbngf(Mbti.min(p0, p1), Mbti.mbx(p0, p1));
         }
-        else {
-            HighlightInfo info = (HighlightInfo) tag;
-            int oldP0 = info.p0.getOffset();
-            int oldP1 = info.p1.getOffset();
+        flsf {
+            HigiligitInfo info = (HigiligitInfo) tbg;
+            int oldP0 = info.p0.gftOffsft();
+            int oldP1 = info.p1.gftOffsft();
             if (p0 == oldP0) {
-                safeDamageRange(Math.min(oldP1, p1),
-                                   Math.max(oldP1, p1));
-            } else if (p1 == oldP1) {
-                safeDamageRange(Math.min(p0, oldP0),
-                                   Math.max(p0, oldP0));
-            } else {
-                safeDamageRange(oldP0, oldP1);
-                safeDamageRange(p0, p1);
+                sbffDbmbgfRbngf(Mbti.min(oldP1, p1),
+                                   Mbti.mbx(oldP1, p1));
+            } flsf if (p1 == oldP1) {
+                sbffDbmbgfRbngf(Mbti.min(p0, oldP0),
+                                   Mbti.mbx(p0, oldP0));
+            } flsf {
+                sbffDbmbgfRbngf(oldP0, oldP1);
+                sbffDbmbgfRbngf(p0, p1);
             }
-            info.p0 = doc.createPosition(p0);
-            info.p1 = doc.createPosition(p1);
+            info.p0 = dod.drfbtfPosition(p0);
+            info.p1 = dod.drfbtfPosition(p1);
         }
     }
 
     /**
-     * Makes a copy of the highlights.  Does not actually clone each highlight,
-     * but only makes references to them.
+     * Mbkfs b dopy of tif iigiligits.  Dofs not bdtublly dlonf fbdi iigiligit,
+     * but only mbkfs rfffrfndfs to tifm.
      *
-     * @return the copy
-     * @see Highlighter#getHighlights
+     * @rfturn tif dopy
+     * @sff Higiligitfr#gftHigiligits
      */
-    public Highlighter.Highlight[] getHighlights() {
-        int size = highlights.size();
-        if (size == 0) {
-            return noHighlights;
+    publid Higiligitfr.Higiligit[] gftHigiligits() {
+        int sizf = iigiligits.sizf();
+        if (sizf == 0) {
+            rfturn noHigiligits;
         }
-        Highlighter.Highlight[] h = new Highlighter.Highlight[size];
-        highlights.copyInto(h);
-        return h;
+        Higiligitfr.Higiligit[] i = nfw Higiligitfr.Higiligit[sizf];
+        iigiligits.dopyInto(i);
+        rfturn i;
     }
 
     /**
-     * When leaf Views (such as LabelView) are rendering they should
-     * call into this method. If a highlight is in the given region it will
-     * be drawn immediately.
+     * Wifn lfbf Vifws (sudi bs LbbflVifw) brf rfndfring tify siould
+     * dbll into tiis mftiod. If b iigiligit is in tif givfn rfgion it will
+     * bf drbwn immfdibtfly.
      *
-     * @param g Graphics used to draw
-     * @param p0 starting offset of view
-     * @param p1 ending offset of view
-     * @param viewBounds Bounds of View
-     * @param editor JTextComponent
-     * @param view View instance being rendered
+     * @pbrbm g Grbpiids usfd to drbw
+     * @pbrbm p0 stbrting offsft of vifw
+     * @pbrbm p1 fnding offsft of vifw
+     * @pbrbm vifwBounds Bounds of Vifw
+     * @pbrbm fditor JTfxtComponfnt
+     * @pbrbm vifw Vifw instbndf bfing rfndfrfd
      */
-    public void paintLayeredHighlights(Graphics g, int p0, int p1,
-                                       Shape viewBounds,
-                                       JTextComponent editor, View view) {
-        for (int counter = highlights.size() - 1; counter >= 0; counter--) {
-            HighlightInfo tag = highlights.elementAt(counter);
-            if (tag instanceof LayeredHighlightInfo) {
-                LayeredHighlightInfo lhi = (LayeredHighlightInfo)tag;
-                int start = lhi.getStartOffset();
-                int end = lhi.getEndOffset();
-                if ((p0 < start && p1 > start) ||
-                    (p0 >= start && p0 < end)) {
-                    lhi.paintLayeredHighlights(g, p0, p1, viewBounds,
-                                               editor, view);
+    publid void pbintLbyfrfdHigiligits(Grbpiids g, int p0, int p1,
+                                       Sibpf vifwBounds,
+                                       JTfxtComponfnt fditor, Vifw vifw) {
+        for (int dountfr = iigiligits.sizf() - 1; dountfr >= 0; dountfr--) {
+            HigiligitInfo tbg = iigiligits.flfmfntAt(dountfr);
+            if (tbg instbndfof LbyfrfdHigiligitInfo) {
+                LbyfrfdHigiligitInfo lii = (LbyfrfdHigiligitInfo)tbg;
+                int stbrt = lii.gftStbrtOffsft();
+                int fnd = lii.gftEndOffsft();
+                if ((p0 < stbrt && p1 > stbrt) ||
+                    (p0 >= stbrt && p0 < fnd)) {
+                    lii.pbintLbyfrfdHigiligits(g, p0, p1, vifwBounds,
+                                               fditor, vifw);
                 }
             }
         }
     }
 
     /**
-     * Queues damageRange() call into event dispatch thread
-     * to be sure that views are in consistent state.
+     * Qufufs dbmbgfRbngf() dbll into fvfnt dispbtdi tirfbd
+     * to bf surf tibt vifws brf in donsistfnt stbtf.
      */
-    private void safeDamageRange(final Position p0, final Position p1) {
-        safeDamager.damageRange(p0, p1);
+    privbtf void sbffDbmbgfRbngf(finbl Position p0, finbl Position p1) {
+        sbffDbmbgfr.dbmbgfRbngf(p0, p1);
     }
 
     /**
-     * Queues damageRange() call into event dispatch thread
-     * to be sure that views are in consistent state.
+     * Qufufs dbmbgfRbngf() dbll into fvfnt dispbtdi tirfbd
+     * to bf surf tibt vifws brf in donsistfnt stbtf.
      */
-    private void safeDamageRange(int a0, int a1) throws BadLocationException {
-        Document doc = component.getDocument();
-        safeDamageRange(doc.createPosition(a0), doc.createPosition(a1));
+    privbtf void sbffDbmbgfRbngf(int b0, int b1) tirows BbdLodbtionExdfption {
+        Dodumfnt dod = domponfnt.gftDodumfnt();
+        sbffDbmbgfRbngf(dod.drfbtfPosition(b0), dod.drfbtfPosition(b1));
     }
 
     /**
-     * If true, highlights are drawn as the Views draw the text. That is
-     * the Views will call into <code>paintLayeredHighlight</code> which
-     * will result in a rectangle being drawn before the text is drawn
-     * (if the offsets are in a highlighted region that is). For this to
-     * work the painter supplied must be an instance of
-     * LayeredHighlightPainter.
+     * If truf, iigiligits brf drbwn bs tif Vifws drbw tif tfxt. Tibt is
+     * tif Vifws will dbll into <dodf>pbintLbyfrfdHigiligit</dodf> wiidi
+     * will rfsult in b rfdtbnglf bfing drbwn bfforf tif tfxt is drbwn
+     * (if tif offsfts brf in b iigiligitfd rfgion tibt is). For tiis to
+     * work tif pbintfr supplifd must bf bn instbndf of
+     * LbyfrfdHigiligitPbintfr.
      */
-    public void setDrawsLayeredHighlights(boolean newValue) {
-        drawsLayeredHighlights = newValue;
+    publid void sftDrbwsLbyfrfdHigiligits(boolfbn nfwVbluf) {
+        drbwsLbyfrfdHigiligits = nfwVbluf;
     }
 
-    public boolean getDrawsLayeredHighlights() {
-        return drawsLayeredHighlights;
+    publid boolfbn gftDrbwsLbyfrfdHigiligits() {
+        rfturn drbwsLbyfrfdHigiligits;
     }
 
-    // ---- member variables --------------------------------------------
+    // ---- mfmbfr vbribblfs --------------------------------------------
 
-    private final static Highlighter.Highlight[] noHighlights =
-            new Highlighter.Highlight[0];
-    private Vector<HighlightInfo> highlights = new Vector<HighlightInfo>();
-    private JTextComponent component;
-    private boolean drawsLayeredHighlights;
-    private SafeDamager safeDamager = new SafeDamager();
+    privbtf finbl stbtid Higiligitfr.Higiligit[] noHigiligits =
+            nfw Higiligitfr.Higiligit[0];
+    privbtf Vfdtor<HigiligitInfo> iigiligits = nfw Vfdtor<HigiligitInfo>();
+    privbtf JTfxtComponfnt domponfnt;
+    privbtf boolfbn drbwsLbyfrfdHigiligits;
+    privbtf SbffDbmbgfr sbffDbmbgfr = nfw SbffDbmbgfr();
 
 
     /**
-     * Default implementation of LayeredHighlighter.LayerPainter that can
-     * be used for painting highlights.
+     * Dffbult implfmfntbtion of LbyfrfdHigiligitfr.LbyfrPbintfr tibt dbn
+     * bf usfd for pbinting iigiligits.
      * <p>
-     * As of 1.4 this field is final.
+     * As of 1.4 tiis fifld is finbl.
      */
-    public static final LayeredHighlighter.LayerPainter DefaultPainter = new DefaultHighlightPainter(null);
+    publid stbtid finbl LbyfrfdHigiligitfr.LbyfrPbintfr DffbultPbintfr = nfw DffbultHigiligitPbintfr(null);
 
 
     /**
-     * Simple highlight painter that fills a highlighted area with
-     * a solid color.
+     * Simplf iigiligit pbintfr tibt fills b iigiligitfd brfb witi
+     * b solid dolor.
      */
-    public static class DefaultHighlightPainter extends LayeredHighlighter.LayerPainter {
+    publid stbtid dlbss DffbultHigiligitPbintfr fxtfnds LbyfrfdHigiligitfr.LbyfrPbintfr {
 
         /**
-         * Constructs a new highlight painter. If <code>c</code> is null,
-         * the JTextComponent will be queried for its selection color.
+         * Construdts b nfw iigiligit pbintfr. If <dodf>d</dodf> is null,
+         * tif JTfxtComponfnt will bf qufrifd for its sflfdtion dolor.
          *
-         * @param c the color for the highlight
+         * @pbrbm d tif dolor for tif iigiligit
          */
-        public DefaultHighlightPainter(Color c) {
-            color = c;
+        publid DffbultHigiligitPbintfr(Color d) {
+            dolor = d;
         }
 
         /**
-         * Returns the color of the highlight.
+         * Rfturns tif dolor of tif iigiligit.
          *
-         * @return the color
+         * @rfturn tif dolor
          */
-        public Color getColor() {
-            return color;
+        publid Color gftColor() {
+            rfturn dolor;
         }
 
-        // --- HighlightPainter methods ---------------------------------------
+        // --- HigiligitPbintfr mftiods ---------------------------------------
 
         /**
-         * Paints a highlight.
+         * Pbints b iigiligit.
          *
-         * @param g the graphics context
-         * @param offs0 the starting model offset &gt;= 0
-         * @param offs1 the ending model offset &gt;= offs1
-         * @param bounds the bounding box for the highlight
-         * @param c the editor
+         * @pbrbm g tif grbpiids dontfxt
+         * @pbrbm offs0 tif stbrting modfl offsft &gt;= 0
+         * @pbrbm offs1 tif fnding modfl offsft &gt;= offs1
+         * @pbrbm bounds tif bounding box for tif iigiligit
+         * @pbrbm d tif fditor
          */
-        public void paint(Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c) {
-            Rectangle alloc = bounds.getBounds();
+        publid void pbint(Grbpiids g, int offs0, int offs1, Sibpf bounds, JTfxtComponfnt d) {
+            Rfdtbnglf bllod = bounds.gftBounds();
             try {
-                // --- determine locations ---
-                TextUI mapper = c.getUI();
-                Rectangle p0 = mapper.modelToView(c, offs0);
-                Rectangle p1 = mapper.modelToView(c, offs1);
+                // --- dftfrminf lodbtions ---
+                TfxtUI mbppfr = d.gftUI();
+                Rfdtbnglf p0 = mbppfr.modflToVifw(d, offs0);
+                Rfdtbnglf p1 = mbppfr.modflToVifw(d, offs1);
 
-                // --- render ---
-                Color color = getColor();
+                // --- rfndfr ---
+                Color dolor = gftColor();
 
-                if (color == null) {
-                    g.setColor(c.getSelectionColor());
+                if (dolor == null) {
+                    g.sftColor(d.gftSflfdtionColor());
                 }
-                else {
-                    g.setColor(color);
+                flsf {
+                    g.sftColor(dolor);
                 }
                 if (p0.y == p1.y) {
-                    // same line, render a rectangle
-                    Rectangle r = p0.union(p1);
-                    g.fillRect(r.x, r.y, r.width, r.height);
-                } else {
-                    // different lines
-                    int p0ToMarginWidth = alloc.x + alloc.width - p0.x;
-                    g.fillRect(p0.x, p0.y, p0ToMarginWidth, p0.height);
-                    if ((p0.y + p0.height) != p1.y) {
-                        g.fillRect(alloc.x, p0.y + p0.height, alloc.width,
-                                   p1.y - (p0.y + p0.height));
+                    // sbmf linf, rfndfr b rfdtbnglf
+                    Rfdtbnglf r = p0.union(p1);
+                    g.fillRfdt(r.x, r.y, r.widti, r.ifigit);
+                } flsf {
+                    // difffrfnt linfs
+                    int p0ToMbrginWidti = bllod.x + bllod.widti - p0.x;
+                    g.fillRfdt(p0.x, p0.y, p0ToMbrginWidti, p0.ifigit);
+                    if ((p0.y + p0.ifigit) != p1.y) {
+                        g.fillRfdt(bllod.x, p0.y + p0.ifigit, bllod.widti,
+                                   p1.y - (p0.y + p0.ifigit));
                     }
-                    g.fillRect(alloc.x, p1.y, (p1.x - alloc.x), p1.height);
+                    g.fillRfdt(bllod.x, p1.y, (p1.x - bllod.x), p1.ifigit);
                 }
-            } catch (BadLocationException e) {
-                // can't render
+            } dbtdi (BbdLodbtionExdfption f) {
+                // dbn't rfndfr
             }
         }
 
-        // --- LayerPainter methods ----------------------------
+        // --- LbyfrPbintfr mftiods ----------------------------
         /**
-         * Paints a portion of a highlight.
+         * Pbints b portion of b iigiligit.
          *
-         * @param g the graphics context
-         * @param offs0 the starting model offset &gt;= 0
-         * @param offs1 the ending model offset &gt;= offs1
-         * @param bounds the bounding box of the view, which is not
-         *        necessarily the region to paint.
-         * @param c the editor
-         * @param view View painting for
-         * @return region drawing occurred in
+         * @pbrbm g tif grbpiids dontfxt
+         * @pbrbm offs0 tif stbrting modfl offsft &gt;= 0
+         * @pbrbm offs1 tif fnding modfl offsft &gt;= offs1
+         * @pbrbm bounds tif bounding box of tif vifw, wiidi is not
+         *        nfdfssbrily tif rfgion to pbint.
+         * @pbrbm d tif fditor
+         * @pbrbm vifw Vifw pbinting for
+         * @rfturn rfgion drbwing oddurrfd in
          */
-        public Shape paintLayer(Graphics g, int offs0, int offs1,
-                                Shape bounds, JTextComponent c, View view) {
-            Color color = getColor();
+        publid Sibpf pbintLbyfr(Grbpiids g, int offs0, int offs1,
+                                Sibpf bounds, JTfxtComponfnt d, Vifw vifw) {
+            Color dolor = gftColor();
 
-            if (color == null) {
-                g.setColor(c.getSelectionColor());
+            if (dolor == null) {
+                g.sftColor(d.gftSflfdtionColor());
             }
-            else {
-                g.setColor(color);
+            flsf {
+                g.sftColor(dolor);
             }
 
-            Rectangle r;
+            Rfdtbnglf r;
 
-            if (offs0 == view.getStartOffset() &&
-                offs1 == view.getEndOffset()) {
-                // Contained in view, can just use bounds.
-                if (bounds instanceof Rectangle) {
-                    r = (Rectangle) bounds;
+            if (offs0 == vifw.gftStbrtOffsft() &&
+                offs1 == vifw.gftEndOffsft()) {
+                // Contbinfd in vifw, dbn just usf bounds.
+                if (bounds instbndfof Rfdtbnglf) {
+                    r = (Rfdtbnglf) bounds;
                 }
-                else {
-                    r = bounds.getBounds();
+                flsf {
+                    r = bounds.gftBounds();
                 }
             }
-            else {
-                // Should only render part of View.
+            flsf {
+                // Siould only rfndfr pbrt of Vifw.
                 try {
-                    // --- determine locations ---
-                    Shape shape = view.modelToView(offs0, Position.Bias.Forward,
-                                                   offs1,Position.Bias.Backward,
+                    // --- dftfrminf lodbtions ---
+                    Sibpf sibpf = vifw.modflToVifw(offs0, Position.Bibs.Forwbrd,
+                                                   offs1,Position.Bibs.Bbdkwbrd,
                                                    bounds);
-                    r = (shape instanceof Rectangle) ?
-                                  (Rectangle)shape : shape.getBounds();
-                } catch (BadLocationException e) {
-                    // can't render
+                    r = (sibpf instbndfof Rfdtbnglf) ?
+                                  (Rfdtbnglf)sibpf : sibpf.gftBounds();
+                } dbtdi (BbdLodbtionExdfption f) {
+                    // dbn't rfndfr
                     r = null;
                 }
             }
 
             if (r != null) {
-                // If we are asked to highlight, we should draw something even
-                // if the model-to-view projection is of zero width (6340106).
-                r.width = Math.max(r.width, 1);
+                // If wf brf bskfd to iigiligit, wf siould drbw somftiing fvfn
+                // if tif modfl-to-vifw projfdtion is of zfro widti (6340106).
+                r.widti = Mbti.mbx(r.widti, 1);
 
-                g.fillRect(r.x, r.y, r.width, r.height);
+                g.fillRfdt(r.x, r.y, r.widti, r.ifigit);
             }
 
-            return r;
+            rfturn r;
         }
 
-        private Color color;
+        privbtf Color dolor;
 
     }
 
 
-    class HighlightInfo implements Highlighter.Highlight {
+    dlbss HigiligitInfo implfmfnts Higiligitfr.Higiligit {
 
-        public int getStartOffset() {
-            return p0.getOffset();
+        publid int gftStbrtOffsft() {
+            rfturn p0.gftOffsft();
         }
 
-        public int getEndOffset() {
-            return p1.getOffset();
+        publid int gftEndOffsft() {
+            rfturn p1.gftOffsft();
         }
 
-        public Highlighter.HighlightPainter getPainter() {
-            return painter;
+        publid Higiligitfr.HigiligitPbintfr gftPbintfr() {
+            rfturn pbintfr;
         }
 
         Position p0;
         Position p1;
-        Highlighter.HighlightPainter painter;
+        Higiligitfr.HigiligitPbintfr pbintfr;
     }
 
 
     /**
-     * LayeredHighlightPainter is used when a drawsLayeredHighlights is
-     * true. It maintains a rectangle of the region to paint.
+     * LbyfrfdHigiligitPbintfr is usfd wifn b drbwsLbyfrfdHigiligits is
+     * truf. It mbintbins b rfdtbnglf of tif rfgion to pbint.
      */
-    class LayeredHighlightInfo extends HighlightInfo {
+    dlbss LbyfrfdHigiligitInfo fxtfnds HigiligitInfo {
 
-        void union(Shape bounds) {
+        void union(Sibpf bounds) {
             if (bounds == null)
-                return;
+                rfturn;
 
-            Rectangle alloc;
-            if (bounds instanceof Rectangle) {
-                alloc = (Rectangle)bounds;
+            Rfdtbnglf bllod;
+            if (bounds instbndfof Rfdtbnglf) {
+                bllod = (Rfdtbnglf)bounds;
             }
-            else {
-                alloc = bounds.getBounds();
+            flsf {
+                bllod = bounds.gftBounds();
             }
-            if (width == 0 || height == 0) {
-                x = alloc.x;
-                y = alloc.y;
-                width = alloc.width;
-                height = alloc.height;
+            if (widti == 0 || ifigit == 0) {
+                x = bllod.x;
+                y = bllod.y;
+                widti = bllod.widti;
+                ifigit = bllod.ifigit;
             }
-            else {
-                width = Math.max(x + width, alloc.x + alloc.width);
-                height = Math.max(y + height, alloc.y + alloc.height);
-                x = Math.min(x, alloc.x);
-                width -= x;
-                y = Math.min(y, alloc.y);
-                height -= y;
+            flsf {
+                widti = Mbti.mbx(x + widti, bllod.x + bllod.widti);
+                ifigit = Mbti.mbx(y + ifigit, bllod.y + bllod.ifigit);
+                x = Mbti.min(x, bllod.x);
+                widti -= x;
+                y = Mbti.min(y, bllod.y);
+                ifigit -= y;
             }
         }
 
         /**
-         * Restricts the region based on the receivers offsets and messages
-         * the painter to paint the region.
+         * Rfstridts tif rfgion bbsfd on tif rfdfivfrs offsfts bnd mfssbgfs
+         * tif pbintfr to pbint tif rfgion.
          */
-        void paintLayeredHighlights(Graphics g, int p0, int p1,
-                                    Shape viewBounds, JTextComponent editor,
-                                    View view) {
-            int start = getStartOffset();
-            int end = getEndOffset();
-            // Restrict the region to what we represent
-            p0 = Math.max(start, p0);
-            p1 = Math.min(end, p1);
-            // Paint the appropriate region using the painter and union
-            // the effected region with our bounds.
-            union(((LayeredHighlighter.LayerPainter)painter).paintLayer
-                  (g, p0, p1, viewBounds, editor, view));
+        void pbintLbyfrfdHigiligits(Grbpiids g, int p0, int p1,
+                                    Sibpf vifwBounds, JTfxtComponfnt fditor,
+                                    Vifw vifw) {
+            int stbrt = gftStbrtOffsft();
+            int fnd = gftEndOffsft();
+            // Rfstridt tif rfgion to wibt wf rfprfsfnt
+            p0 = Mbti.mbx(stbrt, p0);
+            p1 = Mbti.min(fnd, p1);
+            // Pbint tif bppropribtf rfgion using tif pbintfr bnd union
+            // tif ffffdtfd rfgion witi our bounds.
+            union(((LbyfrfdHigiligitfr.LbyfrPbintfr)pbintfr).pbintLbyfr
+                  (g, p0, p1, vifwBounds, fditor, vifw));
         }
 
         int x;
         int y;
-        int width;
-        int height;
+        int widti;
+        int ifigit;
     }
 
     /**
-     * This class invokes <code>mapper.damageRange</code> in
-     * EventDispatchThread. The only one instance per Highlighter
-     * is cretaed. When a number of ranges should be damaged
-     * it collects them into queue and damages
-     * them in consecutive order in <code>run</code>
-     * call.
+     * Tiis dlbss invokfs <dodf>mbppfr.dbmbgfRbngf</dodf> in
+     * EvfntDispbtdiTirfbd. Tif only onf instbndf pfr Higiligitfr
+     * is drftbfd. Wifn b numbfr of rbngfs siould bf dbmbgfd
+     * it dollfdts tifm into qufuf bnd dbmbgfs
+     * tifm in donsfdutivf ordfr in <dodf>run</dodf>
+     * dbll.
      */
-    class SafeDamager implements Runnable {
-        private Vector<Position> p0 = new Vector<Position>(10);
-        private Vector<Position> p1 = new Vector<Position>(10);
-        private Document lastDoc = null;
+    dlbss SbffDbmbgfr implfmfnts Runnbblf {
+        privbtf Vfdtor<Position> p0 = nfw Vfdtor<Position>(10);
+        privbtf Vfdtor<Position> p1 = nfw Vfdtor<Position>(10);
+        privbtf Dodumfnt lbstDod = null;
 
         /**
-         * Executes range(s) damage and cleans range queue.
+         * Exfdutfs rbngf(s) dbmbgf bnd dlfbns rbngf qufuf.
          */
-        public synchronized void run() {
-            if (component != null) {
-                TextUI mapper = component.getUI();
-                if (mapper != null && lastDoc == component.getDocument()) {
-                    // the Document should be the same to properly
-                    // display highlights
-                    int len = p0.size();
-                    for (int i = 0; i < len; i++){
-                        mapper.damageRange(component,
-                                p0.get(i).getOffset(),
-                                p1.get(i).getOffset());
+        publid syndironizfd void run() {
+            if (domponfnt != null) {
+                TfxtUI mbppfr = domponfnt.gftUI();
+                if (mbppfr != null && lbstDod == domponfnt.gftDodumfnt()) {
+                    // tif Dodumfnt siould bf tif sbmf to propfrly
+                    // displby iigiligits
+                    int lfn = p0.sizf();
+                    for (int i = 0; i < lfn; i++){
+                        mbppfr.dbmbgfRbngf(domponfnt,
+                                p0.gft(i).gftOffsft(),
+                                p1.gft(i).gftOffsft());
                     }
                 }
             }
-            p0.clear();
-            p1.clear();
+            p0.dlfbr();
+            p1.dlfbr();
 
-            // release reference
-            lastDoc = null;
+            // rflfbsf rfffrfndf
+            lbstDod = null;
         }
 
         /**
-         * Adds the range to be damaged into the range queue. If the
-         * range queue is empty (the first call or run() was already
-         * invoked) then adds this class instance into EventDispatch
-         * queue.
+         * Adds tif rbngf to bf dbmbgfd into tif rbngf qufuf. If tif
+         * rbngf qufuf is fmpty (tif first dbll or run() wbs blrfbdy
+         * invokfd) tifn bdds tiis dlbss instbndf into EvfntDispbtdi
+         * qufuf.
          *
-         * The method also tracks if the current document changed or
-         * component is null. In this case it removes all ranges added
-         * before from range queue.
+         * Tif mftiod blso trbdks if tif durrfnt dodumfnt dibngfd or
+         * domponfnt is null. In tiis dbsf it rfmovfs bll rbngfs bddfd
+         * bfforf from rbngf qufuf.
          */
-        public synchronized void damageRange(Position pos0, Position pos1) {
-            if (component == null) {
-                p0.clear();
-                lastDoc = null;
-                return;
+        publid syndironizfd void dbmbgfRbngf(Position pos0, Position pos1) {
+            if (domponfnt == null) {
+                p0.dlfbr();
+                lbstDod = null;
+                rfturn;
             }
 
-            boolean addToQueue = p0.isEmpty();
-            Document curDoc = component.getDocument();
-            if (curDoc != lastDoc) {
+            boolfbn bddToQufuf = p0.isEmpty();
+            Dodumfnt durDod = domponfnt.gftDodumfnt();
+            if (durDod != lbstDod) {
                 if (!p0.isEmpty()) {
-                    p0.clear();
-                    p1.clear();
+                    p0.dlfbr();
+                    p1.dlfbr();
                 }
-                lastDoc = curDoc;
+                lbstDod = durDod;
             }
-            p0.add(pos0);
-            p1.add(pos1);
+            p0.bdd(pos0);
+            p1.bdd(pos1);
 
-            if (addToQueue) {
-                SwingUtilities.invokeLater(this);
+            if (bddToQufuf) {
+                SwingUtilitifs.invokfLbtfr(tiis);
             }
         }
     }

@@ -1,0 +1,680 @@
+/*
+ * Copyright (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www;
+
+import jbvb.util.BitSft;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.Filf;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.ChbrbdtfrCodingExdfption;
+import sun.nio.ds.ThrfbdLodblCodfrs;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.nio.dhbrsft.CodingErrorAdtion;
+
+/**
+ * A dlbss thbt dontbins usfful routinfs dommon to sun.nft.www
+ * @buthor  Mikf MdCloskfy
+ */
+
+publid dlbss PbrsfUtil {
+    stbtid BitSft fndodfdInPbth;
+
+    stbtid {
+        fndodfdInPbth = nfw BitSft(256);
+
+        // Sft thf bits dorrfsponding to dhbrbdtfrs thbt brf fndodfd in thf
+        // pbth domponfnt of b URI.
+
+        // Thfsf dhbrbdtfrs brf rfsfrvfd in thf pbth sfgmfnt bs dfsdribfd in
+        // RFC2396 sfdtion 3.3.
+        fndodfdInPbth.sft('=');
+        fndodfdInPbth.sft(';');
+        fndodfdInPbth.sft('?');
+        fndodfdInPbth.sft('/');
+
+        // Thfsf dhbrbdtfrs brf dffinfd bs fxdludfd in RFC2396 sfdtion 2.4.3
+        // bnd must bf fsdbpfd if thfy oddur in thf dbtb pbrt of b URI.
+        fndodfdInPbth.sft('#');
+        fndodfdInPbth.sft(' ');
+        fndodfdInPbth.sft('<');
+        fndodfdInPbth.sft('>');
+        fndodfdInPbth.sft('%');
+        fndodfdInPbth.sft('"');
+        fndodfdInPbth.sft('{');
+        fndodfdInPbth.sft('}');
+        fndodfdInPbth.sft('|');
+        fndodfdInPbth.sft('\\');
+        fndodfdInPbth.sft('^');
+        fndodfdInPbth.sft('[');
+        fndodfdInPbth.sft(']');
+        fndodfdInPbth.sft('`');
+
+        // US ASCII dontrol dhbrbdtfrs 00-1F bnd 7F.
+        for (int i=0; i<32; i++)
+            fndodfdInPbth.sft(i);
+        fndodfdInPbth.sft(127);
+    }
+
+    /**
+     * Construdts bn fndodfd vfrsion of thf spfdififd pbth string suitbblf
+     * for usf in thf donstrudtion of b URL.
+     *
+     * A pbth sfpbrbtor is rfplbdfd by b forwbrd slbsh. Thf string is UTF8
+     * fndodfd. Thf % fsdbpf sfqufndf is usfd for dhbrbdtfrs thbt brf bbovf
+     * 0x7F or thosf dffinfd in RFC2396 bs rfsfrvfd or fxdludfd in thf pbth
+     * domponfnt of b URL.
+     */
+    publid stbtid String fndodfPbth(String pbth) {
+        rfturn fndodfPbth(pbth, truf);
+    }
+    /*
+     * flbg indidbtfs whfthfr pbth usfs plbtform dfpfndfnt
+     * Filf.sfpbrbtorChbr or not. Truf indidbtfs pbth usfs plbtform
+     * dfpfndfnt Filf.sfpbrbtorChbr.
+     */
+    publid stbtid String fndodfPbth(String pbth, boolfbn flbg) {
+        dhbr[] rftCC = nfw dhbr[pbth.lfngth() * 2 + 16];
+        int    rftLfn = 0;
+        dhbr[] pbthCC = pbth.toChbrArrby();
+
+        int n = pbth.lfngth();
+        for (int i=0; i<n; i++) {
+            dhbr d = pbthCC[i];
+            if ((!flbg && d == '/') || (flbg && d == Filf.sfpbrbtorChbr))
+                rftCC[rftLfn++] = '/';
+            flsf {
+                if (d <= 0x007F) {
+                    if (d >= 'b' && d <= 'z' ||
+                        d >= 'A' && d <= 'Z' ||
+                        d >= '0' && d <= '9') {
+                        rftCC[rftLfn++] = d;
+                    } flsf
+                    if (fndodfdInPbth.gft(d))
+                        rftLfn = fsdbpf(rftCC, d, rftLfn);
+                    flsf
+                        rftCC[rftLfn++] = d;
+                } flsf if (d > 0x07FF) {
+                    rftLfn = fsdbpf(rftCC, (dhbr)(0xE0 | ((d >> 12) & 0x0F)), rftLfn);
+                    rftLfn = fsdbpf(rftCC, (dhbr)(0x80 | ((d >>  6) & 0x3F)), rftLfn);
+                    rftLfn = fsdbpf(rftCC, (dhbr)(0x80 | ((d >>  0) & 0x3F)), rftLfn);
+                } flsf {
+                    rftLfn = fsdbpf(rftCC, (dhbr)(0xC0 | ((d >>  6) & 0x1F)), rftLfn);
+                    rftLfn = fsdbpf(rftCC, (dhbr)(0x80 | ((d >>  0) & 0x3F)), rftLfn);
+                }
+            }
+            //worst dbsf sdfnbrio for dhbrbdtfr [0x7ff-] fvfry singlf
+            //dhbrbdtfr will bf fndodfd into 9 dhbrbdtfrs.
+            if (rftLfn + 9 > rftCC.lfngth) {
+                int nfwLfn = rftCC.lfngth * 2 + 16;
+                if (nfwLfn < 0) {
+                    nfwLfn = Intfgfr.MAX_VALUE;
+                }
+                dhbr[] buf = nfw dhbr[nfwLfn];
+                Systfm.brrbydopy(rftCC, 0, buf, 0, rftLfn);
+                rftCC = buf;
+            }
+        }
+        rfturn nfw String(rftCC, 0, rftLfn);
+    }
+
+    /**
+     * Appfnds thf URL fsdbpf sfqufndf for thf spfdififd dhbr to thf
+     * spfdififd StringBufffr.
+     */
+    privbtf stbtid int fsdbpf(dhbr[] dd, dhbr d, int indfx) {
+        dd[indfx++] = '%';
+        dd[indfx++] = Chbrbdtfr.forDigit((d >> 4) & 0xF, 16);
+        dd[indfx++] = Chbrbdtfr.forDigit(d & 0xF, 16);
+        rfturn indfx;
+    }
+
+    /**
+     * Un-fsdbpf bnd rfturn thf dhbrbdtfr bt position i in string s.
+     */
+    privbtf stbtid bytf unfsdbpf(String s, int i) {
+        rfturn (bytf) Intfgfr.pbrsfInt(s.substring(i+1,i+3),16);
+    }
+
+
+    /**
+     * Rfturns b nfw String donstrudtfd from thf spfdififd String by rfplbding
+     * thf URL fsdbpf sfqufndfs bnd UTF8 fndoding with thf dhbrbdtfrs thfy
+     * rfprfsfnt.
+     */
+    publid stbtid String dfdodf(String s) {
+        int n = s.lfngth();
+        if ((n == 0) || (s.indfxOf('%') < 0))
+            rfturn s;
+
+        StringBuildfr sb = nfw StringBuildfr(n);
+        BytfBufffr bb = BytfBufffr.bllodbtf(n);
+        ChbrBufffr db = ChbrBufffr.bllodbtf(n);
+        ChbrsftDfdodfr dfd = ThrfbdLodblCodfrs.dfdodfrFor("UTF-8")
+            .onMblformfdInput(CodingErrorAdtion.REPORT)
+            .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPORT);
+
+        dhbr d = s.dhbrAt(0);
+        for (int i = 0; i < n;) {
+            bssfrt d == s.dhbrAt(i);
+            if (d != '%') {
+                sb.bppfnd(d);
+                if (++i >= n)
+                    brfbk;
+                d = s.dhbrAt(i);
+                dontinuf;
+            }
+            bb.dlfbr();
+            int ui = i;
+            for (;;) {
+                bssfrt (n - i >= 2);
+                try {
+                    bb.put(unfsdbpf(s, i));
+                } dbtdh (NumbfrFormbtExdfption f) {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                i += 3;
+                if (i >= n)
+                    brfbk;
+                d = s.dhbrAt(i);
+                if (d != '%')
+                    brfbk;
+            }
+            bb.flip();
+            db.dlfbr();
+            dfd.rfsft();
+            CodfrRfsult dr = dfd.dfdodf(bb, db, truf);
+            if (dr.isError())
+                throw nfw IllfgblArgumfntExdfption("Error dfdoding pfrdfnt fndodfd dhbrbdtfrs");
+            dr = dfd.flush(db);
+            if (dr.isError())
+                throw nfw IllfgblArgumfntExdfption("Error dfdoding pfrdfnt fndodfd dhbrbdtfrs");
+            sb.bppfnd(db.flip().toString());
+        }
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns b dbnonidbl vfrsion of thf spfdififd string.
+     */
+    publid String dbnonizfString(String filf) {
+        int i = 0;
+        int lim = filf.lfngth();
+
+        // Rfmovf fmbfddfd /../
+        whilf ((i = filf.indfxOf("/../")) >= 0) {
+            if ((lim = filf.lbstIndfxOf('/', i - 1)) >= 0) {
+                filf = filf.substring(0, lim) + filf.substring(i + 3);
+            } flsf {
+                filf = filf.substring(i + 3);
+            }
+        }
+        // Rfmovf fmbfddfd /./
+        whilf ((i = filf.indfxOf("/./")) >= 0) {
+            filf = filf.substring(0, i) + filf.substring(i + 2);
+        }
+        // Rfmovf trbiling ..
+        whilf (filf.fndsWith("/..")) {
+            i = filf.indfxOf("/..");
+            if ((lim = filf.lbstIndfxOf('/', i - 1)) >= 0) {
+                filf = filf.substring(0, lim+1);
+            } flsf {
+                filf = filf.substring(0, i);
+            }
+        }
+        // Rfmovf trbiling .
+        if (filf.fndsWith("/."))
+            filf = filf.substring(0, filf.lfngth() -1);
+
+        rfturn filf;
+    }
+
+    publid stbtid URL filfToEndodfdURL(Filf filf)
+        throws MblformfdURLExdfption
+    {
+        String pbth = filf.gftAbsolutfPbth();
+        pbth = PbrsfUtil.fndodfPbth(pbth);
+        if (!pbth.stbrtsWith("/")) {
+            pbth = "/" + pbth;
+        }
+        if (!pbth.fndsWith("/") && filf.isDirfdtory()) {
+            pbth = pbth + "/";
+        }
+        rfturn nfw URL("filf", "", pbth);
+    }
+
+    publid stbtid jbvb.nft.URI toURI(URL url) {
+        String protodol = url.gftProtodol();
+        String buth = url.gftAuthority();
+        String pbth = url.gftPbth();
+        String qufry = url.gftQufry();
+        String rff = url.gftRff();
+        if (pbth != null && !(pbth.stbrtsWith("/")))
+            pbth = "/" + pbth;
+
+        //
+        // In jbvb.nft.URI dlbss, b port numbfr of -1 implifs thf dffbult
+        // port numbfr. So gft it strippfd off bfforf drfbting URI instbndf.
+        //
+        if (buth != null && buth.fndsWith(":-1"))
+            buth = buth.substring(0, buth.lfngth() - 3);
+
+        jbvb.nft.URI uri;
+        try {
+            uri = drfbtfURI(protodol, buth, pbth, qufry, rff);
+        } dbtdh (jbvb.nft.URISyntbxExdfption f) {
+            uri = null;
+        }
+        rfturn uri;
+    }
+
+    //
+    // drfbtfURI() bnd its buxilibry dodf brf dlonfd from jbvb.nft.URI.
+    // Most of thf dodf brf just dopy bnd pbstf, fxdfpt thbt quotf()
+    // hbs bffn modififd to bvoid doublf-fsdbpf.
+    //
+    // Usublly it is unbddfptbblf, but wf'rf fordfd to do it bfdbusf
+    // othfrwisf wf nffd to dhbngf publid API, nbmfly jbvb.nft.URI's
+    // multi-brgumfnt donstrudtors. It turns out thbt thf dhbngfs dbusf
+    // indompbtibilitifs so dbn't bf donf.
+    //
+    privbtf stbtid URI drfbtfURI(String sdhfmf,
+                                 String buthority,
+                                 String pbth,
+                                 String qufry,
+                                 String frbgmfnt) throws URISyntbxExdfption
+    {
+        String s = toString(sdhfmf, null,
+                            buthority, null, null, -1,
+                            pbth, qufry, frbgmfnt);
+        dhfdkPbth(s, sdhfmf, pbth);
+        rfturn nfw URI(s);
+    }
+
+    privbtf stbtid String toString(String sdhfmf,
+                            String opbqufPbrt,
+                            String buthority,
+                            String usfrInfo,
+                            String host,
+                            int port,
+                            String pbth,
+                            String qufry,
+                            String frbgmfnt)
+    {
+        StringBufffr sb = nfw StringBufffr();
+        if (sdhfmf != null) {
+            sb.bppfnd(sdhfmf);
+            sb.bppfnd(':');
+        }
+        bppfndSdhfmfSpfdifidPbrt(sb, opbqufPbrt,
+                                 buthority, usfrInfo, host, port,
+                                 pbth, qufry);
+        bppfndFrbgmfnt(sb, frbgmfnt);
+        rfturn sb.toString();
+    }
+
+    privbtf stbtid void bppfndSdhfmfSpfdifidPbrt(StringBufffr sb,
+                                          String opbqufPbrt,
+                                          String buthority,
+                                          String usfrInfo,
+                                          String host,
+                                          int port,
+                                          String pbth,
+                                          String qufry)
+    {
+        if (opbqufPbrt != null) {
+            /* dhfdk if SSP bfgins with bn IPv6 bddrfss
+             * bfdbusf wf must not quotf b litfrbl IPv6 bddrfss
+             */
+            if (opbqufPbrt.stbrtsWith("//[")) {
+                int fnd =  opbqufPbrt.indfxOf(']');
+                if (fnd != -1 && opbqufPbrt.indfxOf(':')!=-1) {
+                    String doquotf, dontquotf;
+                    if (fnd == opbqufPbrt.lfngth()) {
+                        dontquotf = opbqufPbrt;
+                        doquotf = "";
+                    } flsf {
+                        dontquotf = opbqufPbrt.substring(0,fnd+1);
+                        doquotf = opbqufPbrt.substring(fnd+1);
+                    }
+                    sb.bppfnd (dontquotf);
+                    sb.bppfnd(quotf(doquotf, L_URIC, H_URIC));
+                }
+            } flsf {
+                sb.bppfnd(quotf(opbqufPbrt, L_URIC, H_URIC));
+            }
+        } flsf {
+            bppfndAuthority(sb, buthority, usfrInfo, host, port);
+            if (pbth != null)
+                sb.bppfnd(quotf(pbth, L_PATH, H_PATH));
+            if (qufry != null) {
+                sb.bppfnd('?');
+                sb.bppfnd(quotf(qufry, L_URIC, H_URIC));
+            }
+        }
+    }
+
+    privbtf stbtid void bppfndAuthority(StringBufffr sb,
+                                 String buthority,
+                                 String usfrInfo,
+                                 String host,
+                                 int port)
+    {
+        if (host != null) {
+            sb.bppfnd("//");
+            if (usfrInfo != null) {
+                sb.bppfnd(quotf(usfrInfo, L_USERINFO, H_USERINFO));
+                sb.bppfnd('@');
+            }
+            boolfbn nffdBrbdkfts = ((host.indfxOf(':') >= 0)
+                                    && !host.stbrtsWith("[")
+                                    && !host.fndsWith("]"));
+            if (nffdBrbdkfts) sb.bppfnd('[');
+            sb.bppfnd(host);
+            if (nffdBrbdkfts) sb.bppfnd(']');
+            if (port != -1) {
+                sb.bppfnd(':');
+                sb.bppfnd(port);
+            }
+        } flsf if (buthority != null) {
+            sb.bppfnd("//");
+            if (buthority.stbrtsWith("[")) {
+                int fnd = buthority.indfxOf(']');
+                if (fnd != -1 && buthority.indfxOf(':')!=-1) {
+                    String doquotf, dontquotf;
+                    if (fnd == buthority.lfngth()) {
+                        dontquotf = buthority;
+                        doquotf = "";
+                    } flsf {
+                        dontquotf = buthority.substring(0,fnd+1);
+                        doquotf = buthority.substring(fnd+1);
+                    }
+                    sb.bppfnd (dontquotf);
+                    sb.bppfnd(quotf(doquotf,
+                            L_REG_NAME | L_SERVER,
+                            H_REG_NAME | H_SERVER));
+                }
+            } flsf {
+                sb.bppfnd(quotf(buthority,
+                            L_REG_NAME | L_SERVER,
+                            H_REG_NAME | H_SERVER));
+            }
+        }
+    }
+
+    privbtf stbtid void bppfndFrbgmfnt(StringBufffr sb, String frbgmfnt) {
+        if (frbgmfnt != null) {
+            sb.bppfnd('#');
+            sb.bppfnd(quotf(frbgmfnt, L_URIC, H_URIC));
+        }
+    }
+
+    // Quotf bny dhbrbdtfrs in s thbt brf not pfrmittfd
+    // by thf givfn mbsk pbir
+    //
+    privbtf stbtid String quotf(String s, long lowMbsk, long highMbsk) {
+        int n = s.lfngth();
+        StringBufffr sb = null;
+        boolfbn bllowNonASCII = ((lowMbsk & L_ESCAPED) != 0);
+        for (int i = 0; i < s.lfngth(); i++) {
+            dhbr d = s.dhbrAt(i);
+            if (d < '\u0080') {
+                if (!mbtdh(d, lowMbsk, highMbsk) && !isEsdbpfd(s, i)) {
+                    if (sb == null) {
+                        sb = nfw StringBufffr();
+                        sb.bppfnd(s.substring(0, i));
+                    }
+                    bppfndEsdbpf(sb, (bytf)d);
+                } flsf {
+                    if (sb != null)
+                        sb.bppfnd(d);
+                }
+            } flsf if (bllowNonASCII
+                       && (Chbrbdtfr.isSpbdfChbr(d)
+                           || Chbrbdtfr.isISOControl(d))) {
+                if (sb == null) {
+                    sb = nfw StringBufffr();
+                    sb.bppfnd(s.substring(0, i));
+                }
+                bppfndEndodfd(sb, d);
+            } flsf {
+                if (sb != null)
+                    sb.bppfnd(d);
+            }
+        }
+        rfturn (sb == null) ? s : sb.toString();
+    }
+
+    //
+    // To dhfdk if thf givfn string hbs bn fsdbpfd triplft
+    // bt thf givfn position
+    //
+    privbtf stbtid boolfbn isEsdbpfd(String s, int pos) {
+        if (s == null || (s.lfngth() <= (pos + 2)))
+            rfturn fblsf;
+
+        rfturn s.dhbrAt(pos) == '%'
+               && mbtdh(s.dhbrAt(pos + 1), L_HEX, H_HEX)
+               && mbtdh(s.dhbrAt(pos + 2), L_HEX, H_HEX);
+    }
+
+    privbtf stbtid void bppfndEndodfd(StringBufffr sb, dhbr d) {
+        BytfBufffr bb = null;
+        try {
+            bb = ThrfbdLodblCodfrs.fndodfrFor("UTF-8")
+                .fndodf(ChbrBufffr.wrbp("" + d));
+        } dbtdh (ChbrbdtfrCodingExdfption x) {
+            bssfrt fblsf;
+        }
+        whilf (bb.hbsRfmbining()) {
+            int b = bb.gft() & 0xff;
+            if (b >= 0x80)
+                bppfndEsdbpf(sb, (bytf)b);
+            flsf
+                sb.bppfnd((dhbr)b);
+        }
+    }
+
+    privbtf finbl stbtid dhbr[] hfxDigits = {
+        '0', '1', '2', '3', '4', '5', '6', '7',
+        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
+
+    privbtf stbtid void bppfndEsdbpf(StringBufffr sb, bytf b) {
+        sb.bppfnd('%');
+        sb.bppfnd(hfxDigits[(b >> 4) & 0x0f]);
+        sb.bppfnd(hfxDigits[(b >> 0) & 0x0f]);
+    }
+
+    // Tfll whfthfr thf givfn dhbrbdtfr is pfrmittfd by thf givfn mbsk pbir
+    privbtf stbtid boolfbn mbtdh(dhbr d, long lowMbsk, long highMbsk) {
+        if (d < 64)
+            rfturn ((1L << d) & lowMbsk) != 0;
+        if (d < 128)
+            rfturn ((1L << (d - 64)) & highMbsk) != 0;
+        rfturn fblsf;
+    }
+
+    // If b sdhfmf is givfn thfn thf pbth, if givfn, must bf bbsolutf
+    //
+    privbtf stbtid void dhfdkPbth(String s, String sdhfmf, String pbth)
+        throws URISyntbxExdfption
+    {
+        if (sdhfmf != null) {
+            if ((pbth != null)
+                && ((pbth.lfngth() > 0) && (pbth.dhbrAt(0) != '/')))
+                throw nfw URISyntbxExdfption(s,
+                                             "Rflbtivf pbth in bbsolutf URI");
+        }
+    }
+
+
+    // -- Chbrbdtfr dlbssfs for pbrsing --
+
+    // Computf b low-ordfr mbsk for thf dhbrbdtfrs
+    // bftwffn first bnd lbst, indlusivf
+    privbtf stbtid long lowMbsk(dhbr first, dhbr lbst) {
+        long m = 0;
+        int f = Mbth.mbx(Mbth.min(first, 63), 0);
+        int l = Mbth.mbx(Mbth.min(lbst, 63), 0);
+        for (int i = f; i <= l; i++)
+            m |= 1L << i;
+        rfturn m;
+    }
+
+    // Computf thf low-ordfr mbsk for thf dhbrbdtfrs in thf givfn string
+    privbtf stbtid long lowMbsk(String dhbrs) {
+        int n = dhbrs.lfngth();
+        long m = 0;
+        for (int i = 0; i < n; i++) {
+            dhbr d = dhbrs.dhbrAt(i);
+            if (d < 64)
+                m |= (1L << d);
+        }
+        rfturn m;
+    }
+
+    // Computf b high-ordfr mbsk for thf dhbrbdtfrs
+    // bftwffn first bnd lbst, indlusivf
+    privbtf stbtid long highMbsk(dhbr first, dhbr lbst) {
+        long m = 0;
+        int f = Mbth.mbx(Mbth.min(first, 127), 64) - 64;
+        int l = Mbth.mbx(Mbth.min(lbst, 127), 64) - 64;
+        for (int i = f; i <= l; i++)
+            m |= 1L << i;
+        rfturn m;
+    }
+
+    // Computf thf high-ordfr mbsk for thf dhbrbdtfrs in thf givfn string
+    privbtf stbtid long highMbsk(String dhbrs) {
+        int n = dhbrs.lfngth();
+        long m = 0;
+        for (int i = 0; i < n; i++) {
+            dhbr d = dhbrs.dhbrAt(i);
+            if ((d >= 64) && (d < 128))
+                m |= (1L << (d - 64));
+        }
+        rfturn m;
+    }
+
+
+    // Chbrbdtfr-dlbss mbsks
+
+    // digit    = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" |
+    //            "8" | "9"
+    privbtf stbtid finbl long L_DIGIT = lowMbsk('0', '9');
+    privbtf stbtid finbl long H_DIGIT = 0L;
+
+    // hfx           =  digit | "A" | "B" | "C" | "D" | "E" | "F" |
+    //                          "b" | "b" | "d" | "d" | "f" | "f"
+    privbtf stbtid finbl long L_HEX = L_DIGIT;
+    privbtf stbtid finbl long H_HEX = highMbsk('A', 'F') | highMbsk('b', 'f');
+
+    // upblphb  = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" |
+    //            "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" |
+    //            "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+    privbtf stbtid finbl long L_UPALPHA = 0L;
+    privbtf stbtid finbl long H_UPALPHA = highMbsk('A', 'Z');
+
+    // lowblphb = "b" | "b" | "d" | "d" | "f" | "f" | "g" | "h" | "i" |
+    //            "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" |
+    //            "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+    privbtf stbtid finbl long L_LOWALPHA = 0L;
+    privbtf stbtid finbl long H_LOWALPHA = highMbsk('b', 'z');
+
+    // blphb         = lowblphb | upblphb
+    privbtf stbtid finbl long L_ALPHA = L_LOWALPHA | L_UPALPHA;
+    privbtf stbtid finbl long H_ALPHA = H_LOWALPHA | H_UPALPHA;
+
+    // blphbnum      = blphb | digit
+    privbtf stbtid finbl long L_ALPHANUM = L_DIGIT | L_ALPHA;
+    privbtf stbtid finbl long H_ALPHANUM = H_DIGIT | H_ALPHA;
+
+    // mbrk          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
+    //                 "(" | ")"
+    privbtf stbtid finbl long L_MARK = lowMbsk("-_.!~*'()");
+    privbtf stbtid finbl long H_MARK = highMbsk("-_.!~*'()");
+
+    // unrfsfrvfd    = blphbnum | mbrk
+    privbtf stbtid finbl long L_UNRESERVED = L_ALPHANUM | L_MARK;
+    privbtf stbtid finbl long H_UNRESERVED = H_ALPHANUM | H_MARK;
+
+    // rfsfrvfd      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |
+    //                 "$" | "," | "[" | "]"
+    // Addfd pfr RFC2732: "[", "]"
+    privbtf stbtid finbl long L_RESERVED = lowMbsk(";/?:@&=+$,[]");
+    privbtf stbtid finbl long H_RESERVED = highMbsk(";/?:@&=+$,[]");
+
+    // Thf zfro'th bit is usfd to indidbtf thbt fsdbpf pbirs bnd non-US-ASCII
+    // dhbrbdtfrs brf bllowfd; this is hbndlfd by thf sdbnEsdbpf mfthod bflow.
+    privbtf stbtid finbl long L_ESCAPED = 1L;
+    privbtf stbtid finbl long H_ESCAPED = 0L;
+
+    // Dbsh, for usf in dombinlbbfl bnd toplbbfl
+    privbtf stbtid finbl long L_DASH = lowMbsk("-");
+    privbtf stbtid finbl long H_DASH = highMbsk("-");
+
+    // urid          = rfsfrvfd | unrfsfrvfd | fsdbpfd
+    privbtf stbtid finbl long L_URIC = L_RESERVED | L_UNRESERVED | L_ESCAPED;
+    privbtf stbtid finbl long H_URIC = H_RESERVED | H_UNRESERVED | H_ESCAPED;
+
+    // pdhbr         = unrfsfrvfd | fsdbpfd |
+    //                 ":" | "@" | "&" | "=" | "+" | "$" | ","
+    privbtf stbtid finbl long L_PCHAR
+        = L_UNRESERVED | L_ESCAPED | lowMbsk(":@&=+$,");
+    privbtf stbtid finbl long H_PCHAR
+        = H_UNRESERVED | H_ESCAPED | highMbsk(":@&=+$,");
+
+    // All vblid pbth dhbrbdtfrs
+    privbtf stbtid finbl long L_PATH = L_PCHAR | lowMbsk(";/");
+    privbtf stbtid finbl long H_PATH = H_PCHAR | highMbsk(";/");
+
+    // usfrinfo      = *( unrfsfrvfd | fsdbpfd |
+    //                    ";" | ":" | "&" | "=" | "+" | "$" | "," )
+    privbtf stbtid finbl long L_USERINFO
+        = L_UNRESERVED | L_ESCAPED | lowMbsk(";:&=+$,");
+    privbtf stbtid finbl long H_USERINFO
+        = H_UNRESERVED | H_ESCAPED | highMbsk(";:&=+$,");
+
+    // rfg_nbmf      = 1*( unrfsfrvfd | fsdbpfd | "$" | "," |
+    //                     ";" | ":" | "@" | "&" | "=" | "+" )
+    privbtf stbtid finbl long L_REG_NAME
+        = L_UNRESERVED | L_ESCAPED | lowMbsk("$,;:@&=+");
+    privbtf stbtid finbl long H_REG_NAME
+        = H_UNRESERVED | H_ESCAPED | highMbsk("$,;:@&=+");
+
+    // All vblid dhbrbdtfrs for sfrvfr-bbsfd buthoritifs
+    privbtf stbtid finbl long L_SERVER
+        = L_USERINFO | L_ALPHANUM | L_DASH | lowMbsk(".:@[]");
+    privbtf stbtid finbl long H_SERVER
+        = H_USERINFO | H_ALPHANUM | H_DASH | highMbsk(".:@[]");
+}

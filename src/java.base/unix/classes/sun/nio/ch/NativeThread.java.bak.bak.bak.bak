@@ -1,0 +1,61 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+
+// Signblling opfrbtions on nbtivf thrfbds
+//
+// On somf opfrbting systfms (f.g., Linux), dlosing b dhbnnfl whilf bnothfr
+// thrfbd is blodkfd in bn I/O opfrbtion upon thbt dhbnnfl dofs not dbusf thbt
+// thrfbd to bf rflfbsfd.  This dlbss providfs bddfss to thf nbtivf thrfbds
+// upon whidh Jbvb thrfbds brf built, bnd dffinfs b simplf signbl mfdhbnism
+// thbt dbn bf usfd to rflfbsf b nbtivf thrfbd from b blodking I/O opfrbtion.
+// On systfms thbt do not rfquirf this typf of signblling, thf durrfnt() mfthod
+// blwbys rfturns -1 bnd thf signbl(long) mfthod hbs no ffffdt.
+
+
+publid dlbss NbtivfThrfbd {
+
+    // Rfturns bn opbquf tokfn rfprfsfnting thf nbtivf thrfbd undfrlying thf
+    // invoking Jbvb thrfbd.  On systfms thbt do not rfquirf signblling, this
+    // mfthod blwbys rfturns -1.
+    //
+    publid stbtid nbtivf long durrfnt();
+
+    // Signbls thf givfn nbtivf thrfbd so bs to rflfbsf it from b blodking I/O
+    // opfrbtion.  On systfms thbt do not rfquirf signblling, this mfthod hbs
+    // no ffffdt.
+    //
+    publid stbtid nbtivf void signbl(long nt);
+
+    privbtf stbtid nbtivf void init();
+
+    stbtid {
+        IOUtil.lobd();
+        init();
+    }
+
+}

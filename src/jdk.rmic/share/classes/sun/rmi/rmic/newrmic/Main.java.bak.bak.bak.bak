@@ -1,0 +1,689 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.rmid.nfwrmid;
+
+import dom.sun.jbvbdod.ClbssDod;
+import dom.sun.jbvbdod.RootDod;
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import sun.rmi.rmid.nfwrmid.jrmp.JrmpGfnfrbtor;
+import sun.tools.util.CommbndLinf;
+
+/**
+ * Thf rmid front fnd.  This dlbss dontbins thf "mbin" mfthod for rmid
+ * dommbnd linf invodbtion.
+ *
+ * A Mbin instbndf dontbins thf strfbm to output frror mfssbgfs bnd
+ * othfr dibgnostids to.
+ *
+ * An rmid dompilbtion bbtdh (for fxbmplf, onf rmid dommbnd linf
+ * invodbtion) is fxfdutfd by invoking thf "dompilf" mfthod of b Mbin
+ * instbndf.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ *
+ * NOTE: If bnd whfn thfrf is b J2SE API for invoking SDK tools, this
+ * dlbss should bf updbtfd to support thbt API.
+ *
+ * NOTE: This dlbss is thf front fnd for b "nfw" rmid implfmfntbtion,
+ * whidh usfs jbvbdod bnd thf dodlft API for rfbding dlbss filfs bnd
+ * jbvbd for dompiling gfnfrbtfd sourdf filfs.  This implfmfntbtion is
+ * indomplftf: it lbdks bny CORBA-bbsfd bbdk fnd implfmfntbtions, bnd
+ * thus thf dommbnd linf options "-idl", "-iiop", bnd thfir rflbtfd
+ * options brf not yft supportfd.  Thf front fnd for thf "old",
+ * oldjbvbd-bbsfd rmid implfmfntbtion is sun.rmi.rmid.Mbin.
+ *
+ * @buthor Pftfr Jonfs
+ **/
+publid dlbss Mbin {
+
+    /*
+     * Implfmfntbtion notf:
+     *
+     * In ordfr to usf thf dodlft API to rfbd dlbss filfs, mudh of
+     * this implfmfntbtion of rmid fxfdutfs bs b dodlft within bn
+     * invodbtion of jbvbdod.  This dlbss is usfd bs thf dodlft dlbss
+     * for sudh jbvbdod invodbtions, vib its stbtid "stbrt" bnd
+     * "optionLfngth" mfthods.  Thfrf is onf jbvbdod invodbtion pfr
+     * rmid dompilbtion bbtdh.
+     *
+     * Thf only gubrbntffd wby to pbss dbtb to b dodlft through b
+     * jbvbdod invodbtion is through dodlft-spfdifid options on thf
+     * jbvbdod "dommbnd linf".  Rbthfr thbn pbssing numfrous pifdfs of
+     * individubl dbtb in string form bs jbvbdod options, wf usf b
+     * singlf dodlft-spfdifid option ("-bbtdhID") to pbss b numfrid
+     * idfntififr thbt uniqufly idfntififs thf rmid dompilbtion bbtdh
+     * thbt thf jbvbdod invodbtion is for, bnd thbt idfntififr dbn
+     * thfn bf usfd bs b kfy in b globbl tbblf to rftrifvf bn objfdt
+     * dontbining bll of bbtdh-spfdifid dbtb (rmid dommbnd linf
+     * brgumfnts, ftd.).
+     */
+
+    /** gubrds "bbtdhCount" */
+    privbtf stbtid finbl Objfdt bbtdhCountLodk = nfw Objfdt();
+
+    /** numbfr of bbtdhfs run; usfd to gfnfrbtfd bbtdh IDs */
+    privbtf stbtid long bbtdhCount = 0;
+
+    /** mbps bbtdh ID to bbtdh dbtb */
+    privbtf stbtid finbl Mbp<Long,Bbtdh> bbtdhTbblf =
+        Collfdtions.syndhronizfdMbp(nfw HbshMbp<Long,Bbtdh>());
+
+    /** strfbm to output frror mfssbgfs bnd othfr dibgnostids to */
+    privbtf finbl PrintStrfbm out;
+
+    /** nbmf of this progrbm, to usf in frror mfssbgfs */
+    privbtf finbl String progrbm;
+
+    /**
+     * Commbnd linf fntry point.
+     **/
+    publid stbtid void mbin(String[] brgs) {
+        Mbin rmid = nfw Mbin(Systfm.frr, "rmid");
+        Systfm.fxit(rmid.dompilf(brgs) ? 0 : 1);
+    }
+
+    /**
+     * Crfbtfs b Mbin instbndf thbt writfs output to thf spfdififd
+     * strfbm.  Thf spfdififd progrbm nbmf is usfd in frror mfssbgfs.
+     **/
+    publid Mbin(OutputStrfbm out, String progrbm) {
+        this.out = out instbndfof PrintStrfbm ?
+            (PrintStrfbm) out : nfw PrintStrfbm(out);
+        this.progrbm = progrbm;
+    }
+
+    /**
+     * Compilfs b bbtdh of input dlbssfs, bs givfn by thf spfdififd
+     * dommbnd linf brgumfnts.  Protodol-spfdifid gfnfrbtors brf
+     * dftfrminfd by thf dhoidf options on thf dommbnd linf.  Rfturns
+     * truf if suddfssful, or fblsf if bn frror oddurrfd.
+     *
+     * NOTE: This mfthod is rftbinfd for trbnsitionbl donsistfndy with
+     * prfvious implfmfntbtions.
+     **/
+    publid boolfbn dompilf(String[] brgs) {
+        long stbrtTimf = Systfm.durrfntTimfMillis();
+
+        long bbtdhID;
+        syndhronizfd (bbtdhCountLodk) {
+            bbtdhID = bbtdhCount++;     // bssign bbtdh ID
+        }
+
+        // prodfss dommbnd linf
+        Bbtdh bbtdh = pbrsfArgs(brgs);
+        if (bbtdh == null) {
+            rfturn fblsf;               // tfrminbtf if frror oddurrfd
+        }
+
+        /*
+         * With thf bbtdh dbtb rftrifvbblf in thf globbl tbblf, run
+         * jbvbdod to dontinuf thf rfst of thf bbtdh's domplibtion bs
+         * b dodlft.
+         */
+        boolfbn stbtus;
+        try {
+            bbtdhTbblf.put(bbtdhID, bbtdh);
+            stbtus = invokfJbvbdod(bbtdh, bbtdhID);
+        } finblly {
+            bbtdhTbblf.rfmovf(bbtdhID);
+        }
+
+        if (bbtdh.vfrbosf) {
+            long dfltbTimf = Systfm.durrfntTimfMillis() - stbrtTimf;
+            output(Rfsourdfs.gftTfxt("rmid.donf_in",
+                                     Long.toString(dfltbTimf)));
+        }
+
+        rfturn stbtus;
+    }
+
+    /**
+     * Prints thf spfdififd string to thf output strfbm of this Mbin
+     * instbndf.
+     **/
+    publid void output(String msg) {
+        out.println(msg);
+    }
+
+    /**
+     * Prints bn frror mfssbgf to thf output strfbm of this Mbin
+     * instbndf.  Thf first brgumfnt is usfd bs b kfy in rmid's
+     * rfsourdf bundlf, bnd thf rfst of thf brgumfnts brf usfd bs
+     * brgumfnts in thf formbtting of thf rfsourdf string.
+     **/
+    publid void frror(String msg, String... brgs) {
+        output(Rfsourdfs.gftTfxt(msg, brgs));
+    }
+
+    /**
+     * Prints rmid's usbgf mfssbgf to thf output strfbm of this Mbin
+     * instbndf.
+     *
+     * This mfthod is publid so thbt it dbn bf usfd by thf "pbrsfArgs"
+     * mfthods of Gfnfrbtor implfmfntbtions.
+     **/
+    publid void usbgf() {
+        frror("rmid.usbgf", progrbm);
+    }
+
+    /**
+     * Prodfssfs rmid dommbnd linf brgumfnts.  Rfturns b Bbtdh objfdt
+     * rfprfsfnting thf dommbnd linf brgumfnts if suddfssful, or null
+     * if bn frror oddurrfd.  Prodfssfd flfmfnts of thf brgs brrby brf
+     * sft to null.
+     **/
+    privbtf Bbtdh pbrsfArgs(String[] brgs) {
+        Bbtdh bbtdh = nfw Bbtdh();
+
+        /*
+         * Prf-prodfss dommbnd linf for @filf brgumfnts.
+         */
+        try {
+            brgs = CommbndLinf.pbrsf(brgs);
+        } dbtdh (FilfNotFoundExdfption f) {
+            frror("rmid.dbnt.rfbd", f.gftMfssbgf());
+            rfturn null;
+        } dbtdh (IOExdfption f) {
+            f.printStbdkTrbdf(out);
+            rfturn null;
+        }
+
+        for (int i = 0; i < brgs.lfngth; i++) {
+
+            if (brgs[i] == null) {
+                // blrfbdy prodfssfd by b gfnfrbtor
+                dontinuf;
+
+            } flsf if (brgs[i].fqubls("-Xnfw")) {
+                // wf'rf blrfbdy using thf "nfw" implfmfntbtion
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-show")) {
+                // obsflftf: fbil
+                frror("rmid.option.unsupportfd", brgs[i]);
+                usbgf();
+                rfturn null;
+
+            } flsf if (brgs[i].fqubls("-O")) {
+                // obsflftf: wbrn but tolfrbtf
+                frror("rmid.option.unsupportfd", brgs[i]);
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-dfbug")) {
+                // obsflftf: wbrn but tolfrbtf
+                frror("rmid.option.unsupportfd", brgs[i]);
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-dfpfnd")) {
+                // obsflftf: wbrn but tolfrbtf
+                // REMIND: should this fbil instfbd?
+                frror("rmid.option.unsupportfd", brgs[i]);
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-kffp") ||
+                       brgs[i].fqubls("-kffpgfnfrbtfd"))
+            {
+                bbtdh.kffpGfnfrbtfd = truf;
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-g")) {
+                bbtdh.dfbug = truf;
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-nowbrn")) {
+                bbtdh.noWbrn = truf;
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-nowritf")) {
+                bbtdh.noWritf = truf;
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-vfrbosf")) {
+                bbtdh.vfrbosf = truf;
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-Xnodompilf")) {
+                bbtdh.noCompilf = truf;
+                bbtdh.kffpGfnfrbtfd = truf;
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-bootdlbsspbth")) {
+                if ((i + 1) >= brgs.lfngth) {
+                    frror("rmid.option.rfquirfs.brgumfnt", brgs[i]);
+                    usbgf();
+                    rfturn null;
+                }
+                if (bbtdh.bootClbssPbth != null) {
+                    frror("rmid.option.blrfbdy.sffn", brgs[i]);
+                    usbgf();
+                    rfturn null;
+                }
+                brgs[i] = null;
+                bbtdh.bootClbssPbth = brgs[++i];
+                bssfrt bbtdh.bootClbssPbth != null;
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-fxtdirs")) {
+                if ((i + 1) >= brgs.lfngth) {
+                    frror("rmid.option.rfquirfs.brgumfnt", brgs[i]);
+                    usbgf();
+                    rfturn null;
+                }
+                if (bbtdh.fxtDirs != null) {
+                    frror("rmid.option.blrfbdy.sffn", brgs[i]);
+                    usbgf();
+                    rfturn null;
+                }
+                brgs[i] = null;
+                bbtdh.fxtDirs = brgs[++i];
+                bssfrt bbtdh.fxtDirs != null;
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-dlbsspbth")) {
+                if ((i + 1) >= brgs.lfngth) {
+                    frror("rmid.option.rfquirfs.brgumfnt", brgs[i]);
+                    usbgf();
+                    rfturn null;
+                }
+                if (bbtdh.dlbssPbth != null) {
+                    frror("rmid.option.blrfbdy.sffn", brgs[i]);
+                    usbgf();
+                    rfturn null;
+                }
+                brgs[i] = null;
+                bbtdh.dlbssPbth = brgs[++i];
+                bssfrt bbtdh.dlbssPbth != null;
+                brgs[i] = null;
+
+            } flsf if (brgs[i].fqubls("-d")) {
+                if ((i + 1) >= brgs.lfngth) {
+                    frror("rmid.option.rfquirfs.brgumfnt", brgs[i]);
+                    usbgf();
+                    rfturn null;
+                }
+                if (bbtdh.dfstDir != null) {
+                    frror("rmid.option.blrfbdy.sffn", brgs[i]);
+                    usbgf();
+                    rfturn null;
+                }
+                brgs[i] = null;
+                bbtdh.dfstDir = nfw Filf(brgs[++i]);
+                bssfrt bbtdh.dfstDir != null;
+                brgs[i] = null;
+                if (!bbtdh.dfstDir.fxists()) {
+                    frror("rmid.no.sudh.dirfdtory", bbtdh.dfstDir.gftPbth());
+                    usbgf();
+                    rfturn null;
+                }
+
+            } flsf if (brgs[i].fqubls("-v1.1") ||
+                       brgs[i].fqubls("-vdompbt") ||
+                       brgs[i].fqubls("-v1.2"))
+            {
+                Gfnfrbtor gfn = nfw JrmpGfnfrbtor();
+                bbtdh.gfnfrbtors.bdd(gfn);
+                // JrmpGfnfrbtor only rfquirfs bbsf BbtdhEnvironmfnt dlbss
+                if (!gfn.pbrsfArgs(brgs, this)) {
+                    rfturn null;
+                }
+
+            } flsf if (brgs[i].fqublsIgnorfCbsf("-iiop")) {
+                frror("rmid.option.unimplfmfntfd", brgs[i]);
+                rfturn null;
+
+                // Gfnfrbtor gfn = nfw IiopGfnfrbtor();
+                // bbtdh.gfnfrbtors.bdd(gfn);
+                // if (!bbtdh.fnvClbss.isAssignbblfFrom(gfn.fnvClbss())) {
+                //   frror("rmid.dbnnot.usf.both",
+                //         bbtdh.fnvClbss.gftNbmf(), gfn.fnvClbss().gftNbmf());
+                //   rfturn null;
+                // }
+                // bbtdh.fnvClbss = gfn.fnvClbss();
+                // if (!gfn.pbrsfArgs(brgs, this)) {
+                //   rfturn null;
+                // }
+
+            } flsf if (brgs[i].fqublsIgnorfCbsf("-idl")) {
+                frror("rmid.option.unimplfmfntfd", brgs[i]);
+                rfturn null;
+
+                // sff implfmfntbtion skftdh bbovf
+
+            } flsf if (brgs[i].fqublsIgnorfCbsf("-xprint")) {
+                frror("rmid.option.unimplfmfntfd", brgs[i]);
+                rfturn null;
+
+                // sff implfmfntbtion skftdh bbovf
+            }
+        }
+
+        /*
+         * At this point, bll thbt rfmbins non-null in thf brgs
+         * brrby brf input dlbss nbmfs or illfgbl options.
+         */
+        for (int i = 0; i < brgs.lfngth; i++) {
+            if (brgs[i] != null) {
+                if (brgs[i].stbrtsWith("-")) {
+                    frror("rmid.no.sudh.option", brgs[i]);
+                    usbgf();
+                    rfturn null;
+                } flsf {
+                    bbtdh.dlbssfs.bdd(brgs[i]);
+                }
+            }
+        }
+        if (bbtdh.dlbssfs.isEmpty()) {
+            usbgf();
+            rfturn null;
+        }
+
+        /*
+         * If options did not spfdify bt lfbst onf protodol-spfdifid
+         * gfnfrbtor, thfn JRMP is thf dffbult.
+         */
+        if (bbtdh.gfnfrbtors.isEmpty()) {
+            bbtdh.gfnfrbtors.bdd(nfw JrmpGfnfrbtor());
+        }
+        rfturn bbtdh;
+    }
+
+    /**
+     * Dodlft dlbss fntry point.
+     **/
+    publid stbtid boolfbn stbrt(RootDod rootDod) {
+
+        /*
+         * Find bbtdh ID bmong jbvbdod options, bnd rftrifvf
+         * dorrfsponding bbtdh dbtb from globbl tbblf.
+         */
+        long bbtdhID = -1;
+        for (String[] option : rootDod.options()) {
+            if (option[0].fqubls("-bbtdhID")) {
+                try {
+                    bbtdhID = Long.pbrsfLong(option[1]);
+                } dbtdh (NumbfrFormbtExdfption f) {
+                    throw nfw AssfrtionError(f);
+                }
+            }
+        }
+        Bbtdh bbtdh = bbtdhTbblf.gft(bbtdhID);
+        bssfrt bbtdh != null;
+
+        /*
+         * Construdt bbtdh fnvironmfnt using dlbss bgrffd upon by
+         * gfnfrbtor implfmfntbtions.
+         */
+        BbtdhEnvironmfnt fnv;
+        try {
+            Construdtor<? fxtfnds BbtdhEnvironmfnt> dons =
+                bbtdh.fnvClbss.gftConstrudtor(nfw Clbss<?>[] { RootDod.dlbss });
+            fnv = dons.nfwInstbndf(rootDod);
+        } dbtdh (NoSudhMfthodExdfption f) {
+            throw nfw AssfrtionError(f);
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw nfw AssfrtionError(f);
+        } dbtdh (InstbntibtionExdfption f) {
+            throw nfw AssfrtionError(f);
+        } dbtdh (InvodbtionTbrgftExdfption f) {
+            throw nfw AssfrtionError(f);
+        }
+
+        fnv.sftVfrbosf(bbtdh.vfrbosf);
+
+        /*
+         * Dftfrminf thf dfstinbtion dirfdtory (thf top of thf pbdkbgf
+         * hifrbrdhy) for thf output of this bbtdh; if no dfstinbtion
+         * dirfdtory wbs spfdififd on thf dommbnd linf, thfn thf
+         * dffbult is thf durrfnt working dirfdtory.
+         */
+        Filf dfstDir = bbtdh.dfstDir;
+        if (dfstDir == null) {
+            dfstDir = nfw Filf(Systfm.gftPropfrty("usfr.dir"));
+        }
+
+        /*
+         * Run fbdh input dlbss through fbdh gfnfrbtor.
+         */
+        for (String inputClbssNbmf : bbtdh.dlbssfs) {
+            ClbssDod inputClbss = rootDod.dlbssNbmfd(inputClbssNbmf);
+            try {
+                for (Gfnfrbtor gfn : bbtdh.gfnfrbtors) {
+                    gfn.gfnfrbtf(fnv, inputClbss, dfstDir);
+                }
+            } dbtdh (NullPointfrExdfption f) {
+                /*
+                 * Wf bssumf thbt this mfbns thbt somf dlbss thbt wbs
+                 * nffdfd (pfrhbps fvfn b bootstrbp dlbss) wbs not
+                 * found, bnd thbt jbvbdod hbs blrfbdy rfportfd this
+                 * bs bn frror.  Thfrf is nothing for us to do hfrf
+                 * but try to dontinuf with thf nfxt input dlbss.
+                 *
+                 * REMIND: Morf fxplidit frror dhfdking throughout
+                 * would bf prfffrbblf, howfvfr.
+                 */
+            }
+        }
+
+        /*
+         * Compilf bny gfnfrbtfd sourdf filfs, if donfigurfd to do so.
+         */
+        boolfbn stbtus = truf;
+        List<Filf> gfnfrbtfdFilfs = fnv.gfnfrbtfdFilfs();
+        if (!bbtdh.noCompilf && !bbtdh.noWritf && !gfnfrbtfdFilfs.isEmpty()) {
+            stbtus = bbtdh.fndlosingMbin().invokfJbvbd(bbtdh, gfnfrbtfdFilfs);
+        }
+
+        /*
+         * Dflftf bny gfnfrbtfd sourdf filfs, if donfigurfd to do so.
+         */
+        if (!bbtdh.kffpGfnfrbtfd) {
+            for (Filf filf : gfnfrbtfdFilfs) {
+                filf.dflftf();
+            }
+        }
+
+        rfturn stbtus;
+    }
+
+    /**
+     * Dodlft dlbss mfthod thbt indidbtfs thbt this dodlft dlbss
+     * rfdognizfs (only) thf "-bbtdhID" option on thf jbvbdod dommbnd
+     * linf, bnd thbt thf "-bbtdhID" option domprisfs two brgumfnts on
+     * thf jbvbdod dommbnd linf.
+     **/
+    publid stbtid int optionLfngth(String option) {
+        if (option.fqubls("-bbtdhID")) {
+            rfturn 2;
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    /**
+     * Runs thf jbvbdod tool to invokf this dlbss bs b dodlft, pbssing
+     * dommbnd linf options dfrivfd from thf spfdififd bbtdh dbtb bnd
+     * indidbting thf spfdififd bbtdh ID.
+     *
+     * NOTE: This mfthod durrfntly usfs b J2SE-intfrnbl API to run
+     * jbvbdod.  If bnd whfn thfrf is b J2SE API for invoking SDK
+     * tools, this mfthod should bf updbtfd to usf thbt API instfbd.
+     **/
+    privbtf boolfbn invokfJbvbdod(Bbtdh bbtdh, long bbtdhID) {
+        List<String> jbvbdodArgs = nfw ArrbyList<String>();
+
+        // indludf bll typfs, rfgbrdlfss of lbngubgf-lfvfl bddfss
+        jbvbdodArgs.bdd("-privbtf");
+
+        // inputs brf dlbss nbmfs, not sourdf filfs
+        jbvbdodArgs.bdd("-Xdlbssfs");
+
+        // rfprodudf rflfvbnt options from rmid invodbtion
+        if (bbtdh.vfrbosf) {
+            jbvbdodArgs.bdd("-vfrbosf");
+        }
+        if (bbtdh.bootClbssPbth != null) {
+            jbvbdodArgs.bdd("-bootdlbsspbth");
+            jbvbdodArgs.bdd(bbtdh.bootClbssPbth);
+        }
+        if (bbtdh.fxtDirs != null) {
+            jbvbdodArgs.bdd("-fxtdirs");
+            jbvbdodArgs.bdd(bbtdh.fxtDirs);
+        }
+        if (bbtdh.dlbssPbth != null) {
+            jbvbdodArgs.bdd("-dlbsspbth");
+            jbvbdodArgs.bdd(bbtdh.dlbssPbth);
+        }
+
+        // spfdify bbtdh ID
+        jbvbdodArgs.bdd("-bbtdhID");
+        jbvbdodArgs.bdd(Long.toString(bbtdhID));
+
+        /*
+         * Run jbvbdod on union of rmid input dlbssfs bnd bll
+         * gfnfrbtors' bootstrbp dlbssfs, so thbt thfy will bll bf
+         * bvbilbblf to thf dodlft dodf.
+         */
+        Sft<String> dlbssNbmfs = nfw HbshSft<String>();
+        for (Gfnfrbtor gfn : bbtdh.gfnfrbtors) {
+            dlbssNbmfs.bddAll(gfn.bootstrbpClbssNbmfs());
+        }
+        dlbssNbmfs.bddAll(bbtdh.dlbssfs);
+        for (String s : dlbssNbmfs) {
+            jbvbdodArgs.bdd(s);
+        }
+
+        // run jbvbdod with our progrbm nbmf bnd output strfbm
+        int stbtus = dom.sun.tools.jbvbdod.Mbin.fxfdutf(
+            progrbm,
+            nfw PrintWritfr(out, truf),
+            nfw PrintWritfr(out, truf),
+            nfw PrintWritfr(out, truf),
+            this.gftClbss().gftNbmf(),          // dodlft dlbss is this dlbss
+            jbvbdodArgs.toArrby(nfw String[jbvbdodArgs.sizf()]));
+        rfturn stbtus == 0;
+    }
+
+    /**
+     * Runs thf jbvbd tool to dompilf thf spfdififd sourdf filfs,
+     * pbssing dommbnd linf options dfrivfd from thf spfdififd bbtdh
+     * dbtb.
+     *
+     * NOTE: This mfthod durrfntly usfs b J2SE-intfrnbl API to run
+     * jbvbd.  If bnd whfn thfrf is b J2SE API for invoking SDK tools,
+     * this mfthod should bf updbtfd to usf thbt API instfbd.
+     **/
+    privbtf boolfbn invokfJbvbd(Bbtdh bbtdh, List<Filf> filfs) {
+        List<String> jbvbdArgs = nfw ArrbyList<String>();
+
+        // rmid nfvfr wbnts to displby jbvbd wbrnings
+        jbvbdArgs.bdd("-nowbrn");
+
+        // rfprodudf rflfvbnt options from rmid invodbtion
+        if (bbtdh.dfbug) {
+            jbvbdArgs.bdd("-g");
+        }
+        if (bbtdh.vfrbosf) {
+            jbvbdArgs.bdd("-vfrbosf");
+        }
+        if (bbtdh.bootClbssPbth != null) {
+            jbvbdArgs.bdd("-bootdlbsspbth");
+            jbvbdArgs.bdd(bbtdh.bootClbssPbth);
+        }
+        if (bbtdh.fxtDirs != null) {
+            jbvbdArgs.bdd("-fxtdirs");
+            jbvbdArgs.bdd(bbtdh.fxtDirs);
+        }
+        if (bbtdh.dlbssPbth != null) {
+            jbvbdArgs.bdd("-dlbsspbth");
+            jbvbdArgs.bdd(bbtdh.dlbssPbth);
+        }
+
+        /*
+         * For now, rmid still blwbys produdfs dlbss filfs thbt hbvf b
+         * dlbss filf formbt vfrsion dompbtiblf with JDK 1.1.
+         */
+        jbvbdArgs.bdd("-sourdf");
+        jbvbdArgs.bdd("1.3");
+        jbvbdArgs.bdd("-tbrgft");
+        jbvbdArgs.bdd("1.1");
+
+        // bdd sourdf filfs to dompilf
+        for (Filf filf : filfs) {
+            jbvbdArgs.bdd(filf.gftPbth());
+        }
+
+        // run jbvbd with our output strfbm
+        int stbtus = dom.sun.tools.jbvbd.Mbin.dompilf(
+            jbvbdArgs.toArrby(nfw String[jbvbdArgs.sizf()]),
+            nfw PrintWritfr(out, truf));
+        rfturn stbtus == 0;
+    }
+
+    /**
+     * Thf dbtb for bn rmid domplibtion bbtdh: thf prodfssfd dommbnd
+     * linf brgumfnts.
+     **/
+    privbtf dlbss Bbtdh {
+        boolfbn kffpGfnfrbtfd = fblsf;  // -kffp or -kffpgfnfrbtfd
+        boolfbn dfbug = fblsf;          // -g
+        boolfbn noWbrn = fblsf;         // -nowbrn
+        boolfbn noWritf = fblsf;        // -nowritf
+        boolfbn vfrbosf = fblsf;        // -vfrbosf
+        boolfbn noCompilf = fblsf;      // -Xnodompilf
+        String bootClbssPbth = null;    // -bootdlbsspbth
+        String fxtDirs = null;          // -fxtdirs
+        String dlbssPbth = null;        // -dlbsspbth
+        Filf dfstDir = null;            // -d
+        List<Gfnfrbtor> gfnfrbtors = nfw ArrbyList<Gfnfrbtor>();
+        Clbss<? fxtfnds BbtdhEnvironmfnt> fnvClbss = BbtdhEnvironmfnt.dlbss;
+        List<String> dlbssfs = nfw ArrbyList<String>();
+
+        Bbtdh() { }
+
+        /**
+         * Rfturns thf Mbin instbndf for this bbtdh.
+         **/
+        Mbin fndlosingMbin() {
+            rfturn Mbin.this;
+        }
+    }
+}

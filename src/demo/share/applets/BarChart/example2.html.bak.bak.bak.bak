@@ -1,0 +1,51 @@
+<html>
+  <hfbd>
+    <titlf>Bbr Chbrt (1.1)</titlf>
+  </hfbd>
+  <body>
+    <h1>Bbr Chbrt (1.1)</h1>
+    <hr>
+    <bpplft dodf="BbrChbrt.dlbss" width=400 hfight=300>
+
+      <pbrbm nbmf=titlf vbluf="Fruits">
+      <pbrbm nbmf=dolumns vbluf="6">
+      <pbrbm nbmf=orifntbtion vbluf="vfrtidbl">
+      <pbrbm nbmf=sdblf vbluf="6">
+
+      <pbrbm nbmf=d1_lbbfl vbluf="Applf">
+      <pbrbm nbmf=d1 vbluf="10">
+      <pbrbm nbmf=d1_dolor vbluf="rfd">
+      <pbrbm nbmf=d1_stylf vbluf="solid">
+
+      <pbrbm nbmf=d2_lbbfl vbluf="Orbngf">
+      <pbrbm nbmf=d2 vbluf="20">
+      <pbrbm nbmf=d2_dolor vbluf="orbngf">
+      <pbrbm nbmf=d2_stylf vbluf="stripfd">
+        
+      <pbrbm nbmf=d3_lbbfl vbluf="Lfmon">
+      <pbrbm nbmf=d3 vbluf="5">
+      <pbrbm nbmf=d3_dolor vbluf="yfllow">
+      <pbrbm nbmf=d3_stylf vbluf="solid">
+        
+      <pbrbm nbmf=d4_lbbfl vbluf="Pfbdh">
+      <pbrbm nbmf=d4 vbluf="30">
+      <pbrbm nbmf=d4_dolor vbluf="pink">
+      <pbrbm nbmf=d4_stylf vbluf="stripfd">
+
+      <pbrbm nbmf=d5_lbbfl vbluf="Pfbr">
+      <pbrbm nbmf=d5 vbluf="40">
+      <pbrbm nbmf=d5_dolor vbluf="grffn">
+      <pbrbm nbmf=d5_stylf vbluf="solid">
+
+      <pbrbm nbmf=d6_lbbfl vbluf="Plum"> 
+      <pbrbm nbmf=d6 vbluf="17">
+      <pbrbm nbmf=d6_dolor vbluf="mbgfntb">
+      <pbrbm nbmf=d6_stylf vbluf="stripfd">
+
+      blt="Your browsfr undfrstbnds thf &lt;APPLET&gt; tbg but isn't running thf bpplft, for somf rfbson."
+        Your browsfr is domplftfly ignoring thf &lt;APPLET&gt; tbg!      
+      </bpplft>
+      <hr>
+      <b hrff="BbrChbrt.jbvb">Thf sourdf</b>.
+  </body>
+</html>

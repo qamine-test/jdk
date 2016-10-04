@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth;
+
+/**
+ * This dlbss is for buthfntidbtion pfrmissions.
+ * An AuthPfrmission dontbins b nbmf
+ * (blso rfffrrfd to bs b "tbrgft nbmf")
+ * but no bdtions list; you fithfr hbvf thf nbmfd pfrmission
+ * or you don't.
+ *
+ * <p> Thf tbrgft nbmf is thf nbmf of b sfdurity donfigurbtion pbrbmftfr
+ * (sff bflow).  Currfntly thf AuthPfrmission objfdt is usfd to
+ * gubrd bddfss to thf Polidy, Subjfdt, LoginContfxt,
+ * bnd Configurbtion objfdts.
+ *
+ * <p> Thf possiblf tbrgft nbmfs for bn Authfntidbtion Pfrmission brf:
+ *
+ * <prf>
+ *      doAs -                  bllow thf dbllfr to invokf thf
+ *                              {@dodf Subjfdt.doAs} mfthods.
+ *
+ *      doAsPrivilfgfd -        bllow thf dbllfr to invokf thf
+ *                              {@dodf Subjfdt.doAsPrivilfgfd} mfthods.
+ *
+ *      gftSubjfdt -            bllow for thf rftrifvbl of thf
+ *                              Subjfdt(s) bssodibtfd with thf
+ *                              durrfnt Thrfbd.
+ *
+ *      gftSubjfdtFromDombinCombinfr -  bllow for thf rftrifvbl of thf
+ *                              Subjfdt bssodibtfd with thf
+ *                              b {@dodf SubjfdtDombinCombinfr}.
+ *
+ *      sftRfbdOnly -           bllow thf dbllfr to sft b Subjfdt
+ *                              to bf rfbd-only.
+ *
+ *      modifyPrindipbls -      bllow thf dbllfr to modify thf {@dodf Sft}
+ *                              of Prindipbls bssodibtfd with b
+ *                              {@dodf Subjfdt}
+ *
+ *      modifyPublidCrfdfntibls - bllow thf dbllfr to modify thf
+ *                              {@dodf Sft} of publid drfdfntibls
+ *                              bssodibtfd with b {@dodf Subjfdt}
+ *
+ *      modifyPrivbtfCrfdfntibls - bllow thf dbllfr to modify thf
+ *                              {@dodf Sft} of privbtf drfdfntibls
+ *                              bssodibtfd with b {@dodf Subjfdt}
+ *
+ *      rffrfshCrfdfntibl -     bllow dodf to invokf thf {@dodf rffrfsh}
+ *                              mfthod on b drfdfntibl whidh implfmfnts
+ *                              thf {@dodf Rffrfshbblf} intfrfbdf.
+ *
+ *      dfstroyCrfdfntibl -     bllow dodf to invokf thf {@dodf dfstroy}
+ *                              mfthod on b drfdfntibl {@dodf objfdt}
+ *                              whidh implfmfnts thf {@dodf Dfstroybblf}
+ *                              intfrfbdf.
+ *
+ *      drfbtfLoginContfxt.{nbmf} -  bllow dodf to instbntibtf b
+ *                              {@dodf LoginContfxt} with thf
+ *                              spfdififd <i>nbmf</i>.  <i>nbmf</i>
+ *                              is usfd bs thf indfx into thf instbllfd login
+ *                              {@dodf Configurbtion}
+ *                              (thbt rfturnfd by
+ *                              {@dodf Configurbtion.gftConfigurbtion()}).
+ *                              <i>nbmf</i> dbn bf wilddbrdfd (sft to '*')
+ *                              to bllow for bny nbmf.
+ *
+ *      gftLoginConfigurbtion - bllow for thf rftrifvbl of thf systfm-widf
+ *                              login Configurbtion.
+ *
+ *      drfbtfLoginConfigurbtion.{typf} - bllow dodf to obtbin b Configurbtion
+ *                              objfdt vib
+ *                              {@dodf Configurbtion.gftInstbndf}.
+ *
+ *      sftLoginConfigurbtion - bllow for thf sftting of thf systfm-widf
+ *                              login Configurbtion.
+ *
+ *      rffrfshLoginConfigurbtion - bllow for thf rffrfshing of thf systfm-widf
+ *                              login Configurbtion.
+ * </prf>
+ *
+ * <p> Thf following tbrgft nbmf hbs bffn dfprfdbtfd in fbvor of
+ * {@dodf drfbtfLoginContfxt.{nbmf}}.
+ *
+ * <prf>
+ *      drfbtfLoginContfxt -    bllow dodf to instbntibtf b
+ *                              {@dodf LoginContfxt}.
+ * </prf>
+ *
+ * <p> {@dodf jbvbx.sfdurity.buth.Polidy} hbs bffn
+ * dfprfdbtfd in fbvor of {@dodf jbvb.sfdurity.Polidy}.
+ * Thfrfforf, thf following tbrgft nbmfs hbvf blso bffn dfprfdbtfd:
+ *
+ * <prf>
+ *      gftPolidy -             bllow thf dbllfr to rftrifvf thf systfm-widf
+ *                              Subjfdt-bbsfd bddfss dontrol polidy.
+ *
+ *      sftPolidy -             bllow thf dbllfr to sft thf systfm-widf
+ *                              Subjfdt-bbsfd bddfss dontrol polidy.
+ *
+ *      rffrfshPolidy -         bllow thf dbllfr to rffrfsh thf systfm-widf
+ *                              Subjfdt-bbsfd bddfss dontrol polidy.
+ * </prf>
+ *
+ */
+publid finbl dlbss AuthPfrmission fxtfnds
+jbvb.sfdurity.BbsidPfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 5806031445061587174L;
+
+    /**
+     * Crfbtfs b nfw AuthPfrmission with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf AuthPfrmission.
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf nbmf of thf AuthPfrmission
+     *
+     * @throws NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
+     */
+    publid AuthPfrmission(String nbmf) {
+        // for bbdkwbrds dompbtibility --
+        // drfbtfLoginContfxt is dfprfdbtfd in fbvor of drfbtfLoginContfxt.*
+        supfr("drfbtfLoginContfxt".fqubls(nbmf) ?
+                "drfbtfLoginContfxt.*" : nbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw AuthPfrmission objfdt with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf AuthPfrmission, bnd thf
+     * bdtions String is durrfntly unusfd bnd should bf null.
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf nbmf of thf AuthPfrmission <p>
+     *
+     * @pbrbm bdtions should bf null.
+     *
+     * @throws NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
+     */
+    publid AuthPfrmission(String nbmf, String bdtions) {
+        // for bbdkwbrds dompbtibility --
+        // drfbtfLoginContfxt is dfprfdbtfd in fbvor of drfbtfLoginContfxt.*
+        supfr("drfbtfLoginContfxt".fqubls(nbmf) ?
+                "drfbtfLoginContfxt.*" : nbmf, bdtions);
+    }
+}

@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import sun.misc.Perf;
-import sun.management.counter.*;
-import sun.management.counter.perf.*;
-import java.nio.ByteBuffer;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Arrays;
-import java.util.Collections;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import sun.misd.Pfrf;
+import sun.mbnbgfmfnt.dountfr.*;
+import sun.mbnbgfmfnt.dountfr.pfrf.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.List;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * Implementation of VMManagement interface that accesses the management
- * attributes and operations locally within the same Java virtual
- * machine.
+ * Implfmfntbtion of VMMbnbgfmfnt intfrfbdf tibt bddfssfs tif mbnbgfmfnt
+ * bttributfs bnd opfrbtions lodblly witiin tif sbmf Jbvb virtubl
+ * mbdiinf.
  */
-class VMManagementImpl implements VMManagement {
+dlbss VMMbnbgfmfntImpl implfmfnts VMMbnbgfmfnt {
 
-    private static String version;
+    privbtf stbtid String vfrsion;
 
-    private static boolean compTimeMonitoringSupport;
-    private static boolean threadContentionMonitoringSupport;
-    private static boolean currentThreadCpuTimeSupport;
-    private static boolean otherThreadCpuTimeSupport;
-    private static boolean bootClassPathSupport;
-    private static boolean objectMonitorUsageSupport;
-    private static boolean synchronizerUsageSupport;
-    private static boolean threadAllocatedMemorySupport;
-    private static boolean gcNotificationSupport;
-    private static boolean remoteDiagnosticCommandsSupport;
+    privbtf stbtid boolfbn dompTimfMonitoringSupport;
+    privbtf stbtid boolfbn tirfbdContfntionMonitoringSupport;
+    privbtf stbtid boolfbn durrfntTirfbdCpuTimfSupport;
+    privbtf stbtid boolfbn otifrTirfbdCpuTimfSupport;
+    privbtf stbtid boolfbn bootClbssPbtiSupport;
+    privbtf stbtid boolfbn objfdtMonitorUsbgfSupport;
+    privbtf stbtid boolfbn syndironizfrUsbgfSupport;
+    privbtf stbtid boolfbn tirfbdAllodbtfdMfmorySupport;
+    privbtf stbtid boolfbn gdNotifidbtionSupport;
+    privbtf stbtid boolfbn rfmotfDibgnostidCommbndsSupport;
 
 
-    static {
-        version = getVersion0();
-        if (version == null) {
-            throw new AssertionError("Invalid Management Version");
+    stbtid {
+        vfrsion = gftVfrsion0();
+        if (vfrsion == null) {
+            tirow nfw AssfrtionError("Invblid Mbnbgfmfnt Vfrsion");
         }
-        initOptionalSupportFields();
+        initOptionblSupportFiflds();
     }
-    private native static String getVersion0();
-    private native static void initOptionalSupportFields();
+    privbtf nbtivf stbtid String gftVfrsion0();
+    privbtf nbtivf stbtid void initOptionblSupportFiflds();
 
-    // Optional supports
-    public boolean isCompilationTimeMonitoringSupported() {
-        return compTimeMonitoringSupport;
-    }
-
-    public boolean isThreadContentionMonitoringSupported() {
-        return threadContentionMonitoringSupport;
+    // Optionbl supports
+    publid boolfbn isCompilbtionTimfMonitoringSupportfd() {
+        rfturn dompTimfMonitoringSupport;
     }
 
-    public boolean isCurrentThreadCpuTimeSupported() {
-        return currentThreadCpuTimeSupport;
+    publid boolfbn isTirfbdContfntionMonitoringSupportfd() {
+        rfturn tirfbdContfntionMonitoringSupport;
     }
 
-    public boolean isOtherThreadCpuTimeSupported() {
-        return otherThreadCpuTimeSupport;
+    publid boolfbn isCurrfntTirfbdCpuTimfSupportfd() {
+        rfturn durrfntTirfbdCpuTimfSupport;
     }
 
-    public boolean isBootClassPathSupported() {
-        return bootClassPathSupport;
+    publid boolfbn isOtifrTirfbdCpuTimfSupportfd() {
+        rfturn otifrTirfbdCpuTimfSupport;
     }
 
-    public boolean isObjectMonitorUsageSupported() {
-        return objectMonitorUsageSupport;
+    publid boolfbn isBootClbssPbtiSupportfd() {
+        rfturn bootClbssPbtiSupport;
     }
 
-    public boolean isSynchronizerUsageSupported() {
-        return synchronizerUsageSupport;
+    publid boolfbn isObjfdtMonitorUsbgfSupportfd() {
+        rfturn objfdtMonitorUsbgfSupport;
     }
 
-    public boolean isThreadAllocatedMemorySupported() {
-        return threadAllocatedMemorySupport;
+    publid boolfbn isSyndironizfrUsbgfSupportfd() {
+        rfturn syndironizfrUsbgfSupport;
     }
 
-    public boolean isGcNotificationSupported() {
-        return gcNotificationSupport;
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd() {
+        rfturn tirfbdAllodbtfdMfmorySupport;
     }
 
-    public boolean isRemoteDiagnosticCommandsSupported() {
-        return remoteDiagnosticCommandsSupport;
+    publid boolfbn isGdNotifidbtionSupportfd() {
+        rfturn gdNotifidbtionSupport;
     }
 
-    public native boolean isThreadContentionMonitoringEnabled();
-    public native boolean isThreadCpuTimeEnabled();
-    public native boolean isThreadAllocatedMemoryEnabled();
-
-    // Class Loading Subsystem
-    public int    getLoadedClassCount() {
-        long count = getTotalClassCount() - getUnloadedClassCount();
-        return (int) count;
-    }
-    public native long getTotalClassCount();
-    public native long getUnloadedClassCount();
-
-    public native boolean getVerboseClass();
-
-    // Memory Subsystem
-    public native boolean getVerboseGC();
-
-    // Runtime Subsystem
-    public String   getManagementVersion() {
-        return version;
+    publid boolfbn isRfmotfDibgnostidCommbndsSupportfd() {
+        rfturn rfmotfDibgnostidCommbndsSupport;
     }
 
-    public String getVmId() {
-        int pid = getProcessId();
-        String hostname = "localhost";
+    publid nbtivf boolfbn isTirfbdContfntionMonitoringEnbblfd();
+    publid nbtivf boolfbn isTirfbdCpuTimfEnbblfd();
+    publid nbtivf boolfbn isTirfbdAllodbtfdMfmoryEnbblfd();
+
+    // Clbss Lobding Subsystfm
+    publid int    gftLobdfdClbssCount() {
+        long dount = gftTotblClbssCount() - gftUnlobdfdClbssCount();
+        rfturn (int) dount;
+    }
+    publid nbtivf long gftTotblClbssCount();
+    publid nbtivf long gftUnlobdfdClbssCount();
+
+    publid nbtivf boolfbn gftVfrbosfClbss();
+
+    // Mfmory Subsystfm
+    publid nbtivf boolfbn gftVfrbosfGC();
+
+    // Runtimf Subsystfm
+    publid String   gftMbnbgfmfntVfrsion() {
+        rfturn vfrsion;
+    }
+
+    publid String gftVmId() {
+        int pid = gftProdfssId();
+        String iostnbmf = "lodbliost";
         try {
-            hostname = InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-            // ignore
+            iostnbmf = InftAddrfss.gftLodblHost().gftHostNbmf();
+        } dbtdi (UnknownHostExdfption f) {
+            // ignorf
         }
 
-        return pid + "@" + hostname;
+        rfturn pid + "@" + iostnbmf;
     }
-    private native int getProcessId();
+    privbtf nbtivf int gftProdfssId();
 
-    public String   getVmName() {
-        return System.getProperty("java.vm.name");
-    }
-
-    public String   getVmVendor() {
-        return System.getProperty("java.vm.vendor");
-    }
-    public String   getVmVersion() {
-        return System.getProperty("java.vm.version");
-    }
-    public String   getVmSpecName()  {
-        return System.getProperty("java.vm.specification.name");
-    }
-    public String   getVmSpecVendor() {
-        return System.getProperty("java.vm.specification.vendor");
-    }
-    public String   getVmSpecVersion() {
-        return System.getProperty("java.vm.specification.version");
-    }
-    public String   getClassPath() {
-        return System.getProperty("java.class.path");
-    }
-    public String   getLibraryPath()  {
-        return System.getProperty("java.library.path");
+    publid String   gftVmNbmf() {
+        rfturn Systfm.gftPropfrty("jbvb.vm.nbmf");
     }
 
-    public String   getBootClassPath( ) {
-        return AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.boot.class.path"));
+    publid String   gftVmVfndor() {
+        rfturn Systfm.gftPropfrty("jbvb.vm.vfndor");
+    }
+    publid String   gftVmVfrsion() {
+        rfturn Systfm.gftPropfrty("jbvb.vm.vfrsion");
+    }
+    publid String   gftVmSpfdNbmf()  {
+        rfturn Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.nbmf");
+    }
+    publid String   gftVmSpfdVfndor() {
+        rfturn Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfndor");
+    }
+    publid String   gftVmSpfdVfrsion() {
+        rfturn Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfrsion");
+    }
+    publid String   gftClbssPbti() {
+        rfturn Systfm.gftPropfrty("jbvb.dlbss.pbti");
+    }
+    publid String   gftLibrbryPbti()  {
+        rfturn Systfm.gftPropfrty("jbvb.librbry.pbti");
     }
 
-    public long getUptime() {
-        return getUptime0();
+    publid String   gftBootClbssPbti( ) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.boot.dlbss.pbti"));
     }
 
-    private List<String> vmArgs = null;
-    public synchronized List<String> getVmArguments() {
+    publid long gftUptimf() {
+        rfturn gftUptimf0();
+    }
+
+    privbtf List<String> vmArgs = null;
+    publid syndironizfd List<String> gftVmArgumfnts() {
         if (vmArgs == null) {
-            String[] args = getVmArguments0();
-            List<String> l = ((args != null && args.length != 0) ? Arrays.asList(args) :
-                                        Collections.<String>emptyList());
-            vmArgs = Collections.unmodifiableList(l);
+            String[] brgs = gftVmArgumfnts0();
+            List<String> l = ((brgs != null && brgs.lfngti != 0) ? Arrbys.bsList(brgs) :
+                                        Collfdtions.<String>fmptyList());
+            vmArgs = Collfdtions.unmodifibblfList(l);
         }
-        return vmArgs;
+        rfturn vmArgs;
     }
-    public native String[] getVmArguments0();
+    publid nbtivf String[] gftVmArgumfnts0();
 
-    public native long getStartupTime();
-    private native long getUptime0();
-    public native int getAvailableProcessors();
+    publid nbtivf long gftStbrtupTimf();
+    privbtf nbtivf long gftUptimf0();
+    publid nbtivf int gftAvbilbblfProdfssors();
 
-    // Compilation Subsystem
-    public String   getCompilerName() {
-        String name =  AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-                public String run() {
-                    return System.getProperty("sun.management.compiler");
+    // Compilbtion Subsystfm
+    publid String   gftCompilfrNbmf() {
+        String nbmf =  AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Systfm.gftPropfrty("sun.mbnbgfmfnt.dompilfr");
                 }
             });
-        return name;
+        rfturn nbmf;
     }
-    public native long getTotalCompileTime();
+    publid nbtivf long gftTotblCompilfTimf();
 
-    // Thread Subsystem
-    public native long getTotalThreadCount();
-    public native int  getLiveThreadCount();
-    public native int  getPeakThreadCount();
-    public native int  getDaemonThreadCount();
+    // Tirfbd Subsystfm
+    publid nbtivf long gftTotblTirfbdCount();
+    publid nbtivf int  gftLivfTirfbdCount();
+    publid nbtivf int  gftPfbkTirfbdCount();
+    publid nbtivf int  gftDbfmonTirfbdCount();
 
-    // Operating System
-    public String getOsName() {
-        return System.getProperty("os.name");
+    // Opfrbting Systfm
+    publid String gftOsNbmf() {
+        rfturn Systfm.gftPropfrty("os.nbmf");
     }
-    public String getOsArch() {
-        return System.getProperty("os.arch");
+    publid String gftOsArdi() {
+        rfturn Systfm.gftPropfrty("os.brdi");
     }
-    public String getOsVersion() {
-        return System.getProperty("os.version");
+    publid String gftOsVfrsion() {
+        rfturn Systfm.gftPropfrty("os.vfrsion");
     }
 
-    // Hotspot-specific runtime support
-    public native long getSafepointCount();
-    public native long getTotalSafepointTime();
-    public native long getSafepointSyncTime();
-    public native long getTotalApplicationNonStoppedTime();
+    // Hotspot-spfdifid runtimf support
+    publid nbtivf long gftSbffpointCount();
+    publid nbtivf long gftTotblSbffpointTimf();
+    publid nbtivf long gftSbffpointSyndTimf();
+    publid nbtivf long gftTotblApplidbtionNonStoppfdTimf();
 
-    public native long getLoadedClassSize();
-    public native long getUnloadedClassSize();
-    public native long getClassLoadingTime();
-    public native long getMethodDataSize();
-    public native long getInitializedClassCount();
-    public native long getClassInitializationTime();
-    public native long getClassVerificationTime();
+    publid nbtivf long gftLobdfdClbssSizf();
+    publid nbtivf long gftUnlobdfdClbssSizf();
+    publid nbtivf long gftClbssLobdingTimf();
+    publid nbtivf long gftMftiodDbtbSizf();
+    publid nbtivf long gftInitiblizfdClbssCount();
+    publid nbtivf long gftClbssInitiblizbtionTimf();
+    publid nbtivf long gftClbssVfrifidbtionTimf();
 
-    // Performance Counter Support
-    private PerfInstrumentation perfInstr = null;
-    private boolean noPerfData = false;
+    // Pfrformbndf Countfr Support
+    privbtf PfrfInstrumfntbtion pfrfInstr = null;
+    privbtf boolfbn noPfrfDbtb = fblsf;
 
-    private synchronized PerfInstrumentation getPerfInstrumentation() {
-        if (noPerfData || perfInstr != null) {
-             return perfInstr;
+    privbtf syndironizfd PfrfInstrumfntbtion gftPfrfInstrumfntbtion() {
+        if (noPfrfDbtb || pfrfInstr != null) {
+             rfturn pfrfInstr;
         }
 
-        // construct PerfInstrumentation object
-        Perf perf =  AccessController.doPrivileged(new Perf.GetPerfAction());
+        // donstrudt PfrfInstrumfntbtion objfdt
+        Pfrf pfrf =  AddfssControllfr.doPrivilfgfd(nfw Pfrf.GftPfrfAdtion());
         try {
-            ByteBuffer bb = perf.attach(0, "r");
-            if (bb.capacity() == 0) {
-                noPerfData = true;
-                return null;
+            BytfBufffr bb = pfrf.bttbdi(0, "r");
+            if (bb.dbpbdity() == 0) {
+                noPfrfDbtb = truf;
+                rfturn null;
             }
-            perfInstr = new PerfInstrumentation(bb);
-        } catch (IllegalArgumentException e) {
-            // If the shared memory doesn't exist e.g. if -XX:-UsePerfData
-            // was set
-            noPerfData = true;
-        } catch (IOException e) {
-            throw new AssertionError(e);
+            pfrfInstr = nfw PfrfInstrumfntbtion(bb);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            // If tif sibrfd mfmory dofsn't fxist f.g. if -XX:-UsfPfrfDbtb
+            // wbs sft
+            noPfrfDbtb = truf;
+        } dbtdi (IOExdfption f) {
+            tirow nfw AssfrtionError(f);
         }
-        return perfInstr;
+        rfturn pfrfInstr;
     }
 
-    public List<Counter> getInternalCounters(String pattern) {
-        PerfInstrumentation perf = getPerfInstrumentation();
-        if (perf != null) {
-            return perf.findByPattern(pattern);
-        } else {
-            return Collections.emptyList();
+    publid List<Countfr> gftIntfrnblCountfrs(String pbttfrn) {
+        PfrfInstrumfntbtion pfrf = gftPfrfInstrumfntbtion();
+        if (pfrf != null) {
+            rfturn pfrf.findByPbttfrn(pbttfrn);
+        } flsf {
+            rfturn Collfdtions.fmptyList();
         }
     }
 }

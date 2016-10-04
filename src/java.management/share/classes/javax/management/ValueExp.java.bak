@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 /**
- * Represents values that can be passed as arguments to
- * relational expressions. Strings, numbers, attributes are valid values
- * and should be represented by implementations of <CODE>ValueExp</CODE>.
+ * Rfprfsfnts vblufs tibt dbn bf pbssfd bs brgumfnts to
+ * rflbtionbl fxprfssions. Strings, numbfrs, bttributfs brf vblid vblufs
+ * bnd siould bf rfprfsfntfd by implfmfntbtions of <CODE>VblufExp</CODE>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
 /*
-  We considered generifying this interface as ValueExp<T>, where T is
-  the Java type that this expression generates.  This allows some additional
-  checking in the various methods of the Query class, but in practice
-  not much.  Typically you have something like
-  Query.lt(Query.attr("A"), Query.value(5)).  We can arrange for Query.value
-  to have type ValueExp<Integer> (or maybe ValueExp<Long> or ValueExp<Number>)
-  but for Query.attr we can't do better than ValueExp<?> or plain ValueExp.
-  So even though we could define Query.lt as:
-  QueryExp <T> lt(ValueExp<T> v1, ValueExp<T> v2)
-  and thus prevent comparing a
-  number against a string, in practice the first ValueExp will almost always
-  be a Query.attr so this check serves no purpose.  You would have to
-  write Query.<Number>attr("A"), for example, which would be awful.  And,
-  if you wrote Query.<Integer>attr("A") you would then discover that you
-  couldn't compare it against Query.value(5) if the latter is defined as
-  ValueExp<Number>, or against Query.value(5L) if it is defined as
-  ValueExp<Integer>.
+  Wf donsidfrfd gfnfrifying tiis intfrfbdf bs VblufExp<T>, wifrf T is
+  tif Jbvb typf tibt tiis fxprfssion gfnfrbtfs.  Tiis bllows somf bdditionbl
+  difdking in tif vbrious mftiods of tif Qufry dlbss, but in prbdtidf
+  not mudi.  Typidblly you ibvf somftiing likf
+  Qufry.lt(Qufry.bttr("A"), Qufry.vbluf(5)).  Wf dbn brrbngf for Qufry.vbluf
+  to ibvf typf VblufExp<Intfgfr> (or mbybf VblufExp<Long> or VblufExp<Numbfr>)
+  but for Qufry.bttr wf dbn't do bfttfr tibn VblufExp<?> or plbin VblufExp.
+  So fvfn tiougi wf dould dffinf Qufry.lt bs:
+  QufryExp <T> lt(VblufExp<T> v1, VblufExp<T> v2)
+  bnd tius prfvfnt dompbring b
+  numbfr bgbinst b string, in prbdtidf tif first VblufExp will blmost blwbys
+  bf b Qufry.bttr so tiis difdk sfrvfs no purposf.  You would ibvf to
+  writf Qufry.<Numbfr>bttr("A"), for fxbmplf, wiidi would bf bwful.  And,
+  if you wrotf Qufry.<Intfgfr>bttr("A") you would tifn disdovfr tibt you
+  douldn't dompbrf it bgbinst Qufry.vbluf(5) if tif lbttfr is dffinfd bs
+  VblufExp<Numbfr>, or bgbinst Qufry.vbluf(5L) if it is dffinfd bs
+  VblufExp<Intfgfr>.
 
-  Worse, for Query.in we would like to define:
-  QueryExp <T> in(ValueExp<T> val, ValueExp<T>[] valueList)
-  but this is unusable because you cannot write
-  "new ValueExp<Integer>[] {...}" (the compiler forbids it).
+  Worsf, for Qufry.in wf would likf to dffinf:
+  QufryExp <T> in(VblufExp<T> vbl, VblufExp<T>[] vblufList)
+  but tiis is unusbblf bfdbusf you dbnnot writf
+  "nfw VblufExp<Intfgfr>[] {...}" (tif dompilfr forbids it).
 
-  The few mistakes you might catch with this generification certainly
-  wouldn't justify the hassle of modifying user code to get the checks
-  to be made and the "unchecked" warnings that would arise if it
-  wasn't so modified.
+  Tif ffw mistbkfs you migit dbtdi witi tiis gfnfrifidbtion dfrtbinly
+  wouldn't justify tif ibsslf of modifying usfr dodf to gft tif difdks
+  to bf mbdf bnd tif "undifdkfd" wbrnings tibt would brisf if it
+  wbsn't so modififd.
 
-  We could reconsider this if the Query methods were augmented, for example
-  with:
-  AttributeValueExp<Number> numberAttr(String name);
-  AttributeValueExp<String> stringAttr(String name);
-  AttributeValueExp<Boolean> booleanAttr(String name);
-  QueryExp <T> in(ValueExp<T> val, Set<ValueExp<T>> valueSet).
-  But it's not really clear what numberAttr should do if it finds that the
-  attribute is not in fact a Number.
+  Wf dould rfdonsidfr tiis if tif Qufry mftiods wfrf bugmfntfd, for fxbmplf
+  witi:
+  AttributfVblufExp<Numbfr> numbfrAttr(String nbmf);
+  AttributfVblufExp<String> stringAttr(String nbmf);
+  AttributfVblufExp<Boolfbn> boolfbnAttr(String nbmf);
+  QufryExp <T> in(VblufExp<T> vbl, Sft<VblufExp<T>> vblufSft).
+  But it's not rfblly dlfbr wibt numbfrAttr siould do if it finds tibt tif
+  bttributf is not in fbdt b Numbfr.
  */
-public interface ValueExp extends java.io.Serializable {
+publid intfrfbdf VblufExp fxtfnds jbvb.io.Sfriblizbblf {
 
     /**
-     * Applies the ValueExp on a MBean.
+     * Applifs tif VblufExp on b MBfbn.
      *
-     * @param name The name of the MBean on which the ValueExp will be applied.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif VblufExp will bf bpplifd.
      *
-     * @return  The <CODE>ValueExp</CODE>.
+     * @rfturn  Tif <CODE>VblufExp</CODE>.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
      */
-    public ValueExp apply(ObjectName name)
-            throws BadStringOperationException, BadBinaryOpValueExpException,
-                   BadAttributeValueExpException, InvalidApplicationException;
+    publid VblufExp bpply(ObjfdtNbmf nbmf)
+            tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+                   BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption;
 
     /**
-     * Sets the MBean server on which the query is to be performed.
+     * Sfts tif MBfbn sfrvfr on wiidi tif qufry is to bf pfrformfd.
      *
-     * @param s The MBean server on which the query is to be performed.
+     * @pbrbm s Tif MBfbn sfrvfr on wiidi tif qufry is to bf pfrformfd.
      *
-     * @deprecated This method is not needed because a
-     * <code>ValueExp</code> can access the MBean server in which it
-     * is being evaluated by using {@link QueryEval#getMBeanServer()}.
+     * @dfprfdbtfd Tiis mftiod is not nffdfd bfdbusf b
+     * <dodf>VblufExp</dodf> dbn bddfss tif MBfbn sfrvfr in wiidi it
+     * is bfing fvblubtfd by using {@link QufryEvbl#gftMBfbnSfrvfr()}.
      */
-    @Deprecated
-    public  void setMBeanServer(MBeanServer s) ;
+    @Dfprfdbtfd
+    publid  void sftMBfbnSfrvfr(MBfbnSfrvfr s) ;
 }

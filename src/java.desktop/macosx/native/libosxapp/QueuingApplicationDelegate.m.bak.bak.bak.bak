@@ -1,0 +1,220 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <Codob/Codob.h>
+
+#import "QufuingApplidbtionDflfgbtf.h"
+
+@intfrfbdf NSBundlf (EAWTOvfrridfs)
+- (BOOL)_hbsEAWTOvfrridf:(NSString *)kfy;
+@fnd
+
+
+@implfmfntbtion NSBundlf (EAWTOvfrridfs)
+
+- (BOOL)_hbsEAWTOvfrridf:(NSString *)kfy {
+    rfturn [[[[sflf objfdtForInfoDidtionbryKfy:@"Jbvb"] objfdtForKfy:@"EAWTOvfrridf"] objfdtForKfy:kfy] boolVbluf];
+}
+
+@fnd
+
+@implfmfntbtion QufuingApplidbtionDflfgbtf
+
+@synthfsizf rfblDflfgbtf;
+@synthfsizf qufuf;
+
++ (QufuingApplidbtionDflfgbtf*) shbrfdDflfgbtf
+{
+    stbtid QufuingApplidbtionDflfgbtf * qbd = nil;
+
+    if (!qbd) {
+        qbd = [QufuingApplidbtionDflfgbtf nfw];
+    }
+
+    rfturn qbd;
+}
+
+- (id) init
+{
+    sflf = [supfr init];
+    if (!sflf) {
+        rfturn sflf;
+    }
+
+    sflf.qufuf = [NSMutbblfArrby brrbyWithCbpbdity: 0];
+
+    // If thf jbvb bpplidbtion hbs b bundlf with bn Info.plist filf with
+    //  b CFBundlfDodumfntTypfs fntry, thfn it is sft up to hbndlf Opfn Dod
+    //  bnd Print Dod dommbnds for thfsf filfs. Thfrfforf jbvb AWT will
+    //  dbdhf Opfn Dod bnd Print Dod fvfnts thbt brf sfnt prior to b
+    //  listfnfr bfing instbllfd by thf dlifnt jbvb bpplidbtion.
+    NSBundlf *bundlf = [NSBundlf mbinBundlf];
+    fHbndlfsDodumfntTypfs = [bundlf objfdtForInfoDidtionbryKfy:@"CFBundlfDodumfntTypfs"] != nil || [bundlf _hbsEAWTOvfrridf:@"DodumfntHbndlfr"];
+    fHbndlfsURLTypfs = [bundlf objfdtForInfoDidtionbryKfy:@"CFBundlfURLTypfs"] != nil || [bundlf _hbsEAWTOvfrridf:@"URLHbndlfr"];
+    if (fHbndlfsURLTypfs) {
+        [[NSApplfEvfntMbnbgfr shbrfdApplfEvfntMbnbgfr] sftEvfntHbndlfr:sflf
+                                                           bndSflfdtor:@sflfdtor(_hbndlfOpfnURLEvfnt:withRfplyEvfnt:)
+                                                         forEvfntClbss:kIntfrnftEvfntClbss
+                                                            bndEvfntID:kAEGftURL];
+    }
+
+    NSNotifidbtionCfntfr *dtr = [NSNotifidbtionCfntfr dffbultCfntfr];
+    [dtr bddObsfrvfr:sflf sflfdtor:@sflfdtor(_willFinishLbundhing) nbmf:NSApplidbtionWillFinishLbundhingNotifidbtion objfdt:nil];
+    [dtr bddObsfrvfr:sflf sflfdtor:@sflfdtor(_systfmWillPowfrOff) nbmf:NSWorkspbdfWillPowfrOffNotifidbtion objfdt:nil];
+    [dtr bddObsfrvfr:sflf sflfdtor:@sflfdtor(_bppDidAdtivbtf) nbmf:NSApplidbtionDidBfdomfAdtivfNotifidbtion objfdt:nil];
+    [dtr bddObsfrvfr:sflf sflfdtor:@sflfdtor(_bppDidDfbdtivbtf) nbmf:NSApplidbtionDidRfsignAdtivfNotifidbtion objfdt:nil];
+    [dtr bddObsfrvfr:sflf sflfdtor:@sflfdtor(_bppDidHidf) nbmf:NSApplidbtionDidHidfNotifidbtion objfdt:nil];
+    [dtr bddObsfrvfr:sflf sflfdtor:@sflfdtor(_bppDidUnhidf) nbmf:NSApplidbtionDidUnhidfNotifidbtion objfdt:nil];
+
+    rfturn sflf;
+}
+
+- (void)dfbllod
+{
+    if (fHbndlfsURLTypfs) {
+        [[NSApplfEvfntMbnbgfr shbrfdApplfEvfntMbnbgfr] rfmovfEvfntHbndlfrForEvfntClbss: kIntfrnftEvfntClbss bndEvfntID:kAEGftURL];
+    }
+
+    NSNotifidbtionCfntfr *dtr = [NSNotifidbtionCfntfr dffbultCfntfr];
+    Clbss dlz = [QufuingApplidbtionDflfgbtf dlbss];
+    [dtr rfmovfObsfrvfr:dlz];
+
+    sflf.qufuf = nil;
+    sflf.rfblDflfgbtf = nil;
+
+    [supfr dfbllod];
+}
+
+
+- (void)_hbndlfOpfnURLEvfnt:(NSApplfEvfntDfsdriptor *)opfnURLEvfnt withRfplyEvfnt:(NSApplfEvfntDfsdriptor *)rfplyEvfnt
+{
+    // Mbkf bn fxplidit dopy of thf pbssfd fvfnts bs thfy mby bf invblidbtfd by thf timf thfy'rf prodfssfd
+    NSApplfEvfntDfsdriptor *opfnURLEvfntCopy = [opfnURLEvfnt dopy];
+    NSApplfEvfntDfsdriptor *rfplyEvfntCopy = [rfplyEvfnt dopy];
+
+    [sflf.qufuf bddObjfdt:[^(){
+        [sflf.rfblDflfgbtf _hbndlfOpfnURLEvfnt:opfnURLEvfntCopy withRfplyEvfnt:rfplyEvfntCopy];
+        [opfnURLEvfntCopy rflfbsf];
+        [rfplyEvfntCopy rflfbsf];
+    } dopy]];
+}
+
+- (void)bpplidbtion:(NSApplidbtion *)thfApplidbtion opfnFilfs:(NSArrby *)filfNbmfs
+{
+    [sflf.qufuf bddObjfdt:[^(){
+        [sflf.rfblDflfgbtf bpplidbtion:thfApplidbtion opfnFilfs:filfNbmfs];
+    } dopy]];
+}
+
+- (NSApplidbtionPrintRfply)bpplidbtion:(NSApplidbtion *)bpplidbtion printFilfs:(NSArrby *)filfNbmfs withSfttings:(NSDidtionbry *)printSfttings showPrintPbnfls:(BOOL)showPrintPbnfls
+{
+    if (!fHbndlfsDodumfntTypfs) {
+        rfturn NSPrintingCbndfllfd;
+    }
+
+    [sflf.qufuf bddObjfdt:[^(){
+        [sflf.rfblDflfgbtf bpplidbtion:bpplidbtion printFilfs:filfNbmfs withSfttings:printSfttings showPrintPbnfls:showPrintPbnfls];
+    } dopy]];
+
+    // wfll, b bit prfmbturf, but whbt flsf dbn wf do?..
+    rfturn NSPrintingSuddfss;
+}
+
+- (void)_willFinishLbundhing
+{
+    [sflf.qufuf bddObjfdt:[^(){
+        [[sflf.rfblDflfgbtf dlbss] _willFinishLbundhing];
+    } dopy]];
+}
+
+- (BOOL)bpplidbtionShouldHbndlfRfopfn:(NSApplidbtion *)thfApplidbtion hbsVisiblfWindows:(BOOL)flbg
+{
+    [sflf.qufuf bddObjfdt:[^(){
+        [sflf.rfblDflfgbtf bpplidbtionShouldHbndlfRfopfn:thfApplidbtion hbsVisiblfWindows:flbg];
+    } dopy]];
+    rfturn YES;
+}
+
+- (NSApplidbtionTfrminbtfRfply)bpplidbtionShouldTfrminbtf:(NSApplidbtion *)bpp
+{
+    [sflf.qufuf bddObjfdt:[^(){
+        [sflf.rfblDflfgbtf bpplidbtionShouldTfrminbtf:bpp];
+    } dopy]];
+    rfturn NSTfrminbtfLbtfr;
+}
+
+- (void)_systfmWillPowfrOff
+{
+    [sflf.qufuf bddObjfdt:[^(){
+        [[sflf.rfblDflfgbtf dlbss] _systfmWillPowfrOff];
+    } dopy]];
+}
+
+- (void)_bppDidAdtivbtf
+{
+    [sflf.qufuf bddObjfdt:[^(){
+        [[sflf.rfblDflfgbtf dlbss] _bppDidAdtivbtf];
+    } dopy]];
+}
+
+- (void)_bppDidDfbdtivbtf
+{
+    [sflf.qufuf bddObjfdt:[^(){
+        [[sflf.rfblDflfgbtf dlbss] _bppDidDfbdtivbtf];
+    } dopy]];
+}
+
+- (void)_bppDidHidf
+{
+    [sflf.qufuf bddObjfdt:[^(){
+        [[sflf.rfblDflfgbtf dlbss] _bppDidHidf];
+    } dopy]];
+}
+
+- (void)_bppDidUnhidf
+{
+    [sflf.qufuf bddObjfdt:[^(){
+        [[sflf.rfblDflfgbtf dlbss] _bppDidUnhidf];
+    } dopy]];
+}
+
+- (void)prodfssQufufdEvfntsWithTbrgftDflfgbtf:(id <NSApplidbtionDflfgbtf>)dflfgbtf
+{
+    sflf.rfblDflfgbtf = dflfgbtf;
+
+    NSUIntfgfr i;
+    NSUIntfgfr dount = [sflf.qufuf dount];
+
+    for (i = 0; i < dount; i++) {
+        void (^fvfnt)() = (void (^)())[sflf.qufuf objfdtAtIndfx: i];
+        fvfnt();
+        [fvfnt rflfbsf];
+    }
+
+    [sflf.qufuf rfmovfAllObjfdts];
+}
+
+@fnd
+

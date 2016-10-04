@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.KeyRep;
-import java.security.InvalidKeyException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.DESKeySpec;
+import jbvb.sfdurity.KfyRfp;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.DESKfySpfd;
 
 /**
- * This class represents a DES key.
+ * Tiis dlbss rfprfsfnts b DES kfy.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  */
 
-final class DESKey implements SecretKey {
+finbl dlbss DESKfy implfmfnts SfdrftKfy {
 
-    static final long serialVersionUID = 7724971015953279128L;
+    stbtid finbl long sfriblVfrsionUID = 7724971015953279128L;
 
-    private byte[] key;
+    privbtf bytf[] kfy;
 
     /**
-     * Uses the first 8 bytes of the given key as the DES key.
+     * Usfs tif first 8 bytfs of tif givfn kfy bs tif DES kfy.
      *
-     * @param key the buffer with the DES key bytes.
+     * @pbrbm kfy tif bufffr witi tif DES kfy bytfs.
      *
-     * @exception InvalidKeyException if less than 8 bytes are available for
-     * the key.
+     * @fxdfption InvblidKfyExdfption if lfss tibn 8 bytfs brf bvbilbblf for
+     * tif kfy.
      */
-    DESKey(byte[] key) throws InvalidKeyException {
-        this(key, 0);
+    DESKfy(bytf[] kfy) tirows InvblidKfyExdfption {
+        tiis(kfy, 0);
     }
 
     /**
-     * Uses the first 8 bytes in <code>key</code>, beginning at
-     * <code>offset</code>, as the DES key
+     * Usfs tif first 8 bytfs in <dodf>kfy</dodf>, bfginning bt
+     * <dodf>offsft</dodf>, bs tif DES kfy
      *
-     * @param key the buffer with the DES key bytes.
-     * @param offset the offset in <code>key</code>, where the DES key bytes
-     * start.
+     * @pbrbm kfy tif bufffr witi tif DES kfy bytfs.
+     * @pbrbm offsft tif offsft in <dodf>kfy</dodf>, wifrf tif DES kfy bytfs
+     * stbrt.
      *
-     * @exception InvalidKeyException if less than 8 bytes are available for
-     * the key.
+     * @fxdfption InvblidKfyExdfption if lfss tibn 8 bytfs brf bvbilbblf for
+     * tif kfy.
      */
-    DESKey(byte[] key, int offset) throws InvalidKeyException {
-        if (key == null || key.length - offset < DESKeySpec.DES_KEY_LEN) {
-            throw new InvalidKeyException("Wrong key size");
+    DESKfy(bytf[] kfy, int offsft) tirows InvblidKfyExdfption {
+        if (kfy == null || kfy.lfngti - offsft < DESKfySpfd.DES_KEY_LEN) {
+            tirow nfw InvblidKfyExdfption("Wrong kfy sizf");
         }
-        this.key = new byte[DESKeySpec.DES_KEY_LEN];
-        System.arraycopy(key, offset, this.key, 0, DESKeySpec.DES_KEY_LEN);
-        DESKeyGenerator.setParityBit(this.key, 0);
+        tiis.kfy = nfw bytf[DESKfySpfd.DES_KEY_LEN];
+        Systfm.brrbydopy(kfy, offsft, tiis.kfy, 0, DESKfySpfd.DES_KEY_LEN);
+        DESKfyGfnfrbtor.sftPbrityBit(tiis.kfy, 0);
     }
 
-    public byte[] getEncoded() {
-        // Return a copy of the key, rather than a reference,
-        // so that the key data cannot be modified from outside
-        return this.key.clone();
+    publid bytf[] gftEndodfd() {
+        // Rfturn b dopy of tif kfy, rbtifr tibn b rfffrfndf,
+        // so tibt tif kfy dbtb dbnnot bf modififd from outsidf
+        rfturn tiis.kfy.dlonf();
     }
 
-    public String getAlgorithm() {
-        return "DES";
+    publid String gftAlgoritim() {
+        rfturn "DES";
     }
 
-    public String getFormat() {
-        return "RAW";
+    publid String gftFormbt() {
+        rfturn "RAW";
     }
 
     /**
-     * Calculates a hash code value for the object.
-     * Objects that are equal will also have the same hashcode.
+     * Cbldulbtfs b ibsi dodf vbluf for tif objfdt.
+     * Objfdts tibt brf fqubl will blso ibvf tif sbmf ibsidodf.
      */
-    public int hashCode() {
-        int retval = 0;
-        for (int i = 1; i < this.key.length; i++) {
-            retval += this.key[i] * i;
+    publid int ibsiCodf() {
+        int rftvbl = 0;
+        for (int i = 1; i < tiis.kfy.lfngti; i++) {
+            rftvbl += tiis.kfy[i] * i;
         }
-        return(retval ^= "des".hashCode());
+        rfturn(rftvbl ^= "dfs".ibsiCodf());
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj)
+            rfturn truf;
 
-        if (!(obj instanceof SecretKey))
-            return false;
+        if (!(obj instbndfof SfdrftKfy))
+            rfturn fblsf;
 
-        String thatAlg = ((SecretKey)obj).getAlgorithm();
-        if (!(thatAlg.equalsIgnoreCase("DES")))
-            return false;
+        String tibtAlg = ((SfdrftKfy)obj).gftAlgoritim();
+        if (!(tibtAlg.fqublsIgnorfCbsf("DES")))
+            rfturn fblsf;
 
-        byte[] thatKey = ((SecretKey)obj).getEncoded();
-        boolean ret = java.util.Arrays.equals(this.key, thatKey);
-        java.util.Arrays.fill(thatKey, (byte)0x00);
-        return ret;
+        bytf[] tibtKfy = ((SfdrftKfy)obj).gftEndodfd();
+        boolfbn rft = jbvb.util.Arrbys.fqubls(tiis.kfy, tibtKfy);
+        jbvb.util.Arrbys.fill(tibtKfy, (bytf)0x00);
+        rfturn rft;
     }
 
     /**
-     * readObject is called to restore the state of this key from
-     * a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tiis kfy from
+     * b strfbm.
      */
-    private void readObject(java.io.ObjectInputStream s)
-         throws java.io.IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption
     {
-        s.defaultReadObject();
-        key = key.clone();
+        s.dffbultRfbdObjfdt();
+        kfy = kfy.dlonf();
     }
 
     /**
-     * Replace the DES key to be serialized.
+     * Rfplbdf tif DES kfy to bf sfriblizfd.
      *
-     * @return the standard KeyRep object to be serialized
+     * @rfturn tif stbndbrd KfyRfp objfdt to bf sfriblizfd
      *
-     * @throws java.io.ObjectStreamException if a new object representing
-     * this DES key could not be created
+     * @tirows jbvb.io.ObjfdtStrfbmExdfption if b nfw objfdt rfprfsfnting
+     * tiis DES kfy dould not bf drfbtfd
      */
-    private Object writeReplace() throws java.io.ObjectStreamException {
-        return new KeyRep(KeyRep.Type.SECRET,
-                        getAlgorithm(),
-                        getFormat(),
-                        getEncoded());
+    privbtf Objfdt writfRfplbdf() tirows jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw KfyRfp(KfyRfp.Typf.SECRET,
+                        gftAlgoritim(),
+                        gftFormbt(),
+                        gftEndodfd());
     }
 
     /**
-     * Ensures that the bytes of this key are
-     * set to zero when there are no more references to it.
+     * Ensurfs tibt tif bytfs of tiis kfy brf
+     * sft to zfro wifn tifrf brf no morf rfffrfndfs to it.
      */
-    protected void finalize() throws Throwable {
+    protfdtfd void finblizf() tirows Tirowbblf {
         try {
-            if (this.key != null) {
-                java.util.Arrays.fill(this.key, (byte)0x00);
-                this.key = null;
+            if (tiis.kfy != null) {
+                jbvb.util.Arrbys.fill(tiis.kfy, (bytf)0x00);
+                tiis.kfy = null;
             }
-        } finally {
-            super.finalize();
+        } finblly {
+            supfr.finblizf();
         }
     }
 }

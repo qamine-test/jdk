@@ -1,82 +1,82 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp.  and others 1998-2013 - All Rights Reserved
+ * (C) Copyrigit IBM Corp.  bnd otifrs 1998-2013 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "MorphTables.h"
-#include "SubtableProcessor2.h"
-#include "NonContextualGlyphSubst.h"
-#include "NonContextualGlyphSubstProc2.h"
-#include "SegmentArrayProcessor2.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "SubtbblfProdfssor2.i"
+#indludf "NonContfxtublGlypiSubst.i"
+#indludf "NonContfxtublGlypiSubstProd2.i"
+#indludf "SfgmfntArrbyProdfssor2.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(SegmentArrayProcessor2)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(SfgmfntArrbyProdfssor2)
 
-SegmentArrayProcessor2::SegmentArrayProcessor2()
+SfgmfntArrbyProdfssor2::SfgmfntArrbyProdfssor2()
 {
 }
 
-SegmentArrayProcessor2::SegmentArrayProcessor2(const LEReferenceTo<MorphSubtableHeader2> &morphSubtableHeader, LEErrorCode &success)
-  : NonContextualGlyphSubstitutionProcessor2(morphSubtableHeader, success)
+SfgmfntArrbyProdfssor2::SfgmfntArrbyProdfssor2(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr2> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : NonContfxtublGlypiSubstitutionProdfssor2(morpiSubtbblfHfbdfr, suddfss)
 {
-  const LEReferenceTo<NonContextualGlyphSubstitutionHeader2> header(morphSubtableHeader, success);
-  segmentArrayLookupTable = LEReferenceTo<SegmentArrayLookupTable>(morphSubtableHeader,  success, &header->table); // don't parent to 'header' as it is on the stack
+  donst LERfffrfndfTo<NonContfxtublGlypiSubstitutionHfbdfr2> ifbdfr(morpiSubtbblfHfbdfr, suddfss);
+  sfgmfntArrbyLookupTbblf = LERfffrfndfTo<SfgmfntArrbyLookupTbblf>(morpiSubtbblfHfbdfr,  suddfss, &ifbdfr->tbblf); // don't pbrfnt to 'ifbdfr' bs it is on tif stbdk
 }
 
-SegmentArrayProcessor2::~SegmentArrayProcessor2()
+SfgmfntArrbyProdfssor2::~SfgmfntArrbyProdfssor2()
 {
 }
 
-void SegmentArrayProcessor2::process(LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void SfgmfntArrbyProdfssor2::prodfss(LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    const LookupSegment *segments = segmentArrayLookupTable->segments;
-    le_int32 glyphCount = glyphStorage.getGlyphCount();
-    le_int32 glyph;
+    donst LookupSfgmfnt *sfgmfnts = sfgmfntArrbyLookupTbblf->sfgmfnts;
+    lf_int32 glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 glypi;
 
-    for (glyph = 0; glyph < glyphCount; glyph += 1) {
-        LEGlyphID thisGlyph = glyphStorage[glyph];
-        // lookupSegment already range checked by lookupSegment() function.
-        const LookupSegment *lookupSegment = segmentArrayLookupTable->lookupSegment(segmentArrayLookupTable, segments, thisGlyph, success);
+    for (glypi = 0; glypi < glypiCount; glypi += 1) {
+        LEGlypiID tiisGlypi = glypiStorbgf[glypi];
+        // lookupSfgmfnt blrfbdy rbngf difdkfd by lookupSfgmfnt() fundtion.
+        donst LookupSfgmfnt *lookupSfgmfnt = sfgmfntArrbyLookupTbblf->lookupSfgmfnt(sfgmfntArrbyLookupTbblf, sfgmfnts, tiisGlypi, suddfss);
 
-        if (lookupSegment != NULL&& LE_SUCCESS(success))  {
-            TTGlyphID firstGlyph = SWAPW(lookupSegment->firstGlyph);
-            TTGlyphID lastGlyph = SWAPW(lookupSegment->lastGlyph);
-            le_int16  offset = SWAPW(lookupSegment->value);
-            TTGlyphID thisGlyphId=  LE_GET_GLYPH(thisGlyph);
-            LEReferenceToArrayOf<TTGlyphID> glyphArray(subtableHeader, success, offset, lastGlyph - firstGlyph + 1);
-            if (offset != 0 && thisGlyphId <= lastGlyph && thisGlyphId >= firstGlyph && LE_SUCCESS(success) ) {
-              TTGlyphID   newGlyph   = SWAPW(glyphArray[thisGlyphId]);
-              glyphStorage[glyph] = LE_SET_GLYPH(thisGlyph, newGlyph);
+        if (lookupSfgmfnt != NULL&& LE_SUCCESS(suddfss))  {
+            TTGlypiID firstGlypi = SWAPW(lookupSfgmfnt->firstGlypi);
+            TTGlypiID lbstGlypi = SWAPW(lookupSfgmfnt->lbstGlypi);
+            lf_int16  offsft = SWAPW(lookupSfgmfnt->vbluf);
+            TTGlypiID tiisGlypiId=  LE_GET_GLYPH(tiisGlypi);
+            LERfffrfndfToArrbyOf<TTGlypiID> glypiArrby(subtbblfHfbdfr, suddfss, offsft, lbstGlypi - firstGlypi + 1);
+            if (offsft != 0 && tiisGlypiId <= lbstGlypi && tiisGlypiId >= firstGlypi && LE_SUCCESS(suddfss) ) {
+              TTGlypiID   nfwGlypi   = SWAPW(glypiArrby[tiisGlypiId]);
+              glypiStorbgf[glypi] = LE_SET_GLYPH(tiisGlypi, nfwGlypi);
             }
         }
     }

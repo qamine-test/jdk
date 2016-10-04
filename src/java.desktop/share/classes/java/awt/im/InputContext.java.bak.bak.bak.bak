@@ -1,0 +1,338 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.im;
+
+import jbvb.bwt.Componfnt;
+import jbvb.util.Lodblf;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bfbns.Trbnsifnt;
+import jbvb.lbng.Chbrbdtfr.Subsft;
+import sun.bwt.im.InputMfthodContfxt;
+
+/**
+ * Providfs mfthods to dontrol tfxt input fbdilitifs sudh bs input
+ * mfthods bnd kfybobrd lbyouts.
+ * Two mfthods hbndlf both input mfthods bnd kfybobrd lbyouts: sflfdtInputMfthod
+ * lfts b dlifnt domponfnt sflfdt bn input mfthod or kfybobrd lbyout by lodblf,
+ * gftLodblf lfts b dlifnt domponfnt obtbin thf lodblf of thf durrfnt input mfthod
+ * or kfybobrd lbyout.
+ * Thf othfr mfthods morf spfdifidblly support intfrbdtion with input mfthods:
+ * Thfy lft dlifnt domponfnts dontrol thf bfhbvior of input mfthods, bnd
+ * dispbtdh fvfnts from thf dlifnt domponfnt to thf input mfthod.
+ *
+ * <p>
+ * By dffbult, onf InputContfxt instbndf is drfbtfd pfr Window instbndf,
+ * bnd this input dontfxt is shbrfd by bll domponfnts within thf window's
+ * dontbinfr hifrbrdhy. Howfvfr, this mfbns thbt only onf tfxt input
+ * opfrbtion is possiblf bt bny onf timf within b window, bnd thbt thf
+ * tfxt nffds to bf dommittfd whfn moving thf fodus from onf tfxt domponfnt
+ * to bnothfr. If this is not dfsirfd, tfxt domponfnts dbn drfbtf thfir
+ * own input dontfxt instbndfs.
+ *
+ * <p>
+ * Thf Jbvb Plbtform supports input mfthods thbt hbvf bffn dfvflopfd in thf Jbvb
+ * progrbmming lbngubgf, using thf intfrfbdfs in thf {@link jbvb.bwt.im.spi} pbdkbgf,
+ * bnd instbllfd into b Jbvb SE Runtimf Environmfnt bs fxtfnsions. Implfmfntbtions
+ * mby blso support using thf nbtivf input mfthods of thf plbtforms thfy run on;
+ * howfvfr, not bll plbtforms bnd lodblfs providf input mfthods. Kfybobrd lbyouts
+ * brf providfd by thf host plbtform.
+ *
+ * <p>
+ * Input mfthods brf <fm>unbvbilbblf</fm> if (b) no input mfthod writtfn
+ * in thf Jbvb progrbmming lbngubgf hbs bffn instbllfd bnd (b) thf Jbvb Plbtform implfmfntbtion
+ * or thf undfrlying plbtform dofs not support nbtivf input mfthods. In this dbsf,
+ * input dontfxts dbn still bf drfbtfd bnd usfd; thfir bfhbvior is spfdififd with
+ * thf individubl mfthods bflow.
+ *
+ * @sff jbvb.bwt.Componfnt#gftInputContfxt
+ * @sff jbvb.bwt.Componfnt#fnbblfInputMfthods
+ * @buthor JbvbSoft Asib/Pbdifid
+ * @sindf 1.2
+ */
+
+publid dlbss InputContfxt {
+
+    /**
+     * Construdts bn InputContfxt.
+     * This mfthod is protfdtfd so dlifnts dbnnot instbntibtf
+     * InputContfxt dirfdtly. Input dontfxts brf obtbinfd by
+     * dblling {@link #gftInstbndf}.
+     */
+    protfdtfd InputContfxt() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+    }
+
+    /**
+     * Rfturns b nfw InputContfxt instbndf.
+     * @rfturn b nfw InputContfxt instbndf
+     */
+    publid stbtid InputContfxt gftInstbndf() {
+        rfturn nfw sun.bwt.im.InputMfthodContfxt();
+    }
+
+    /**
+     * Attfmpts to sflfdt bn input mfthod or kfybobrd lbyout thbt
+     * supports thf givfn lodblf, bnd rfturns b vbluf indidbting whfthfr sudh
+     * bn input mfthod or kfybobrd lbyout hbs bffn suddfssfully sflfdtfd. Thf
+     * following stfps brf tbkfn until bn input mfthod hbs bffn sflfdtfd:
+     *
+     * <ul>
+     * <li>
+     * If thf durrfntly sflfdtfd input mfthod or kfybobrd lbyout supports thf
+     * rfqufstfd lodblf, it rfmbins sflfdtfd.</li>
+     *
+     * <li>
+     * If thfrf is no input mfthod or kfybobrd lbyout bvbilbblf thbt supports
+     * thf rfqufstfd lodblf, thf durrfnt input mfthod or kfybobrd lbyout rfmbins
+     * sflfdtfd.</li>
+     *
+     * <li>
+     * If thf usfr hbs prfviously sflfdtfd bn input mfthod or kfybobrd lbyout
+     * for thf rfqufstfd lodblf from thf usfr intfrfbdf, thfn thf most rfdfntly
+     * sflfdtfd sudh input mfthod or kfybobrd lbyout is rfsflfdtfd.</li>
+     *
+     * <li>
+     * Othfrwisf, bn input mfthod or kfybobrd lbyout thbt supports thf rfqufstfd
+     * lodblf is sflfdtfd in bn implfmfntbtion dfpfndfnt wby.</li>
+     *
+     * </ul>
+     * Bfforf switdhing bwby from bn input mfthod, bny durrfntly undommittfd tfxt
+     * is dommittfd. If no input mfthod or kfybobrd lbyout supporting thf rfqufstfd
+     * lodblf is bvbilbblf, thfn fblsf is rfturnfd.
+     *
+     * <p>
+     * Not bll host opfrbting systfms providf API to dftfrminf thf lodblf of
+     * thf durrfntly sflfdtfd nbtivf input mfthod or kfybobrd lbyout, bnd to
+     * sflfdt b nbtivf input mfthod or kfybobrd lbyout by lodblf.
+     * For host opfrbting systfms thbt don't providf sudh API,
+     * <dodf>sflfdtInputMfthod</dodf> bssumfs thbt nbtivf input mfthods or
+     * kfybobrd lbyouts providfd by thf host opfrbting systfm support only thf
+     * systfm's dffbult lodblf.
+     *
+     * <p>
+     * A tfxt fditing domponfnt mby dbll this mfthod, for fxbmplf, whfn
+     * thf usfr dhbngfs thf insfrtion point, so thbt thf usfr dbn
+     * immfdibtfly dontinuf typing in thf lbngubgf of thf surrounding tfxt.
+     *
+     * @pbrbm lodblf Thf dfsirfd nfw lodblf.
+     * @rfturn truf if thf input mfthod or kfybobrd lbyout thbt's bdtivf bftfr
+     *         this dbll supports thf dfsirfd lodblf.
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     */
+    publid boolfbn sflfdtInputMfthod(Lodblf lodblf) {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf durrfnt lodblf of thf durrfnt input mfthod or kfybobrd
+     * lbyout.
+     * Rfturns null if thf input dontfxt dofs not hbvf b durrfnt input mfthod
+     * or kfybobrd lbyout or if thf durrfnt input mfthod's
+     * {@link jbvb.bwt.im.spi.InputMfthod#gftLodblf()} mfthod rfturns null.
+     *
+     * <p>
+     * Not bll host opfrbting systfms providf API to dftfrminf thf lodblf of
+     * thf durrfntly sflfdtfd nbtivf input mfthod or kfybobrd lbyout.
+     * For host opfrbting systfms thbt don't providf sudh API,
+     * <dodf>gftLodblf</dodf> bssumfs thbt thf durrfnt lodblf of bll nbtivf
+     * input mfthods or kfybobrd lbyouts providfd by thf host opfrbting systfm
+     * is thf systfm's dffbult lodblf.
+     *
+     * @rfturn thf durrfnt lodblf of thf durrfnt input mfthod or kfybobrd lbyout
+     * @sindf 1.3
+     */
+    publid Lodblf gftLodblf() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+        rfturn null;
+    }
+
+    /**
+     * Sfts thf subsfts of thf Unidodf dhbrbdtfr sft thbt input mfthods of this input
+     * dontfxt should bf bllowfd to input. Null mby bf pbssfd in to
+     * indidbtf thbt bll dhbrbdtfrs brf bllowfd. Thf initibl vbluf
+     * is null. Thf sftting bpplifs to thf durrfnt input mfthod bs wfll
+     * bs input mfthods sflfdtfd bftfr this dbll is mbdf. Howfvfr,
+     * bpplidbtions dbnnot rfly on this dbll hbving thf dfsirfd ffffdt,
+     * sindf this sftting dbnnot bf pbssfd on to bll host input mfthods -
+     * bpplidbtions still nffd to bpply thfir own dhbrbdtfr vblidbtion.
+     * If no input mfthods brf bvbilbblf, thfn this mfthod hbs no ffffdt.
+     *
+     * @pbrbm subsfts Thf subsfts of thf Unidodf dhbrbdtfr sft from whidh dhbrbdtfrs mby bf input
+     */
+    publid void sftChbrbdtfrSubsfts(Subsft[] subsfts) {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+    }
+
+    /**
+     * Enbblfs or disbblfs thf durrfnt input mfthod for domposition,
+     * dfpfnding on thf vbluf of thf pbrbmftfr <dodf>fnbblf</dodf>.
+     * <p>
+     * An input mfthod thbt is fnbblfd for domposition intfrprfts indoming
+     * fvfnts for both domposition bnd dontrol purposfs, whilf b
+     * disbblfd input mfthod dofs not intfrprft fvfnts for domposition.
+     * Notf howfvfr thbt fvfnts brf pbssfd on to thf input mfthod rfgbrdlfss
+     * whfthfr it is fnbblfd or not, bnd thbt bn input mfthod thbt is disbblfd
+     * for domposition mby still intfrprft fvfnts for dontrol purposfs,
+     * indluding to fnbblf or disbblf itsflf for domposition.
+     * <p>
+     * For input mfthods providfd by host opfrbting systfms, it is not blwbys possiblf to
+     * dftfrminf whfthfr this opfrbtion is supportfd. For fxbmplf, bn input mfthod mby fnbblf
+     * domposition only for somf lodblfs, bnd do nothing for othfr lodblfs. For sudh input
+     * mfthods, it is possiblf thbt this mfthod dofs not throw
+     * {@link jbvb.lbng.UnsupportfdOpfrbtionExdfption UnsupportfdOpfrbtionExdfption},
+     * but blso dofs not bfffdt whfthfr domposition is fnbblfd.
+     *
+     * @pbrbm fnbblf whfthfr to fnbblf thf durrfnt input mfthod for domposition
+     * @throws UnsupportfdOpfrbtionExdfption if thfrf is no durrfnt input
+     * mfthod bvbilbblf or thf durrfnt input mfthod dofs not support
+     * thf fnbbling/disbbling opfrbtion
+     * @sff #isCompositionEnbblfd
+     * @sindf 1.3
+     */
+    publid void sftCompositionEnbblfd(boolfbn fnbblf) {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf durrfnt input mfthod is fnbblfd for domposition.
+     * An input mfthod thbt is fnbblfd for domposition intfrprfts indoming
+     * fvfnts for both domposition bnd dontrol purposfs, whilf b
+     * disbblfd input mfthod dofs not intfrprft fvfnts for domposition.
+     *
+     * @rfturn <dodf>truf</dodf> if thf durrfnt input mfthod is fnbblfd for
+     * domposition; <dodf>fblsf</dodf> othfrwisf
+     * @throws UnsupportfdOpfrbtionExdfption if thfrf is no durrfnt input
+     * mfthod bvbilbblf or thf durrfnt input mfthod dofs not support
+     * dhfdking whfthfr it is fnbblfd for domposition
+     * @sff #sftCompositionEnbblfd
+     * @sindf 1.3
+     */
+    @Trbnsifnt
+    publid boolfbn isCompositionEnbblfd() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+        rfturn fblsf;
+    }
+
+    /**
+     * Asks thf durrfnt input mfthod to rfdonvfrt tfxt from thf
+     * durrfnt dlifnt domponfnt. Thf input mfthod obtbins thf tfxt to
+     * bf rfdonvfrtfd from thf dlifnt domponfnt using thf
+     * {@link InputMfthodRfqufsts#gftSflfdtfdTfxt InputMfthodRfqufsts.gftSflfdtfdTfxt}
+     * mfthod. Thf othfr <dodf>InputMfthodRfqufsts</dodf> mfthods
+     * must bf prfpbrfd to dfbl with furthfr informbtion rfqufsts by
+     * thf input mfthod. Thf domposfd bnd/or dommittfd tfxt will bf
+     * sfnt to thf dlifnt domponfnt bs b sfqufndf of
+     * <dodf>InputMfthodEvfnt</dodf>s. If thf input mfthod dbnnot
+     * rfdonvfrt thf givfn tfxt, thf tfxt is rfturnfd bs dommittfd
+     * tfxt in bn <dodf>InputMfthodEvfnt</dodf>.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thfrf is no durrfnt input
+     * mfthod bvbilbblf or thf durrfnt input mfthod dofs not support
+     * thf rfdonvfrsion opfrbtion.
+     *
+     * @sindf 1.3
+     */
+    publid void rfdonvfrt() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+    }
+
+    /**
+     * Dispbtdhfs bn fvfnt to thf bdtivf input mfthod. Cbllfd by AWT.
+     * If no input mfthod is bvbilbblf, thfn thf fvfnt will nfvfr bf donsumfd.
+     *
+     * @pbrbm fvfnt Thf fvfnt
+     * @fxdfption NullPointfrExdfption if <dodf>fvfnt</dodf> is null
+     */
+    publid void dispbtdhEvfnt(AWTEvfnt fvfnt) {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+    }
+
+    /**
+     * Notififs thf input dontfxt thbt b dlifnt domponfnt hbs bffn
+     * rfmovfd from its dontbinmfnt hifrbrdhy, or thbt input mfthod
+     * support hbs bffn disbblfd for thf domponfnt. This mfthod is
+     * usublly dbllfd from thf dlifnt domponfnt's
+     * {@link jbvb.bwt.Componfnt#rfmovfNotify() Componfnt.rfmovfNotify}
+     * mfthod. Potfntiblly pfnding input from input mfthods
+     * for this domponfnt is disdbrdfd.
+     * If no input mfthods brf bvbilbblf, thfn this mfthod hbs no ffffdt.
+     *
+     * @pbrbm dlifnt Clifnt domponfnt
+     * @fxdfption NullPointfrExdfption if <dodf>dlifnt</dodf> is null
+     */
+    publid void rfmovfNotify(Componfnt dlifnt) {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+    }
+
+    /**
+     * Ends bny input domposition thbt mby durrfntly bf going on in this
+     * dontfxt. Dfpfnding on thf plbtform bnd possibly usfr prfffrfndfs,
+     * this mby dommit or dflftf undommittfd tfxt. Any dhbngfs to thf tfxt
+     * brf dommunidbtfd to thf bdtivf domponfnt using bn input mfthod fvfnt.
+     * If no input mfthods brf bvbilbblf, thfn this mfthod hbs no ffffdt.
+     *
+     * <p>
+     * A tfxt fditing domponfnt mby dbll this in b vbrifty of situbtions,
+     * for fxbmplf, whfn thf usfr movfs thf insfrtion point within thf tfxt
+     * (but outsidf thf domposfd tfxt), or whfn thf domponfnt's tfxt is
+     * sbvfd to b filf or dopifd to thf dlipbobrd.
+     *
+     */
+    publid void fndComposition() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+    }
+
+    /**
+     * Rflfbsfs thf rfsourdfs usfd by this input dontfxt.
+     * Cbllfd by AWT for thf dffbult input dontfxt of fbdh Window.
+     * If no input mfthods brf bvbilbblf, thfn this mfthod
+     * hbs no ffffdt.
+     */
+    publid void disposf() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+    }
+
+    /**
+     * Rfturns b dontrol objfdt from thf durrfnt input mfthod, or null. A
+     * dontrol objfdt providfs mfthods thbt dontrol thf bfhbvior of thf
+     * input mfthod or obtbin informbtion from thf input mfthod. Thf typf
+     * of thf objfdt is bn input mfthod spfdifid dlbss. Clifnts hbvf to
+     * dompbrf thf rfsult bgbinst known input mfthod dontrol objfdt
+     * dlbssfs bnd dbst to thf bppropribtf dlbss to invokf thf mfthods
+     * providfd.
+     * <p>
+     * If no input mfthods brf bvbilbblf or thf durrfnt input mfthod dofs
+     * not providf bn input mfthod dontrol objfdt, thfn null is rfturnfd.
+     *
+     * @rfturn A dontrol objfdt from thf durrfnt input mfthod, or null.
+     */
+    publid Objfdt gftInputMfthodControlObjfdt() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+        rfturn null;
+    }
+
+}

@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _JDGADEVICE_H_
-#define _JDGADEVICE_H_
+#ifndff _JDGADEVICE_H_
+#dffinf _JDGADEVICE_H_
 
 /*
- *   Interface for Supporting DGA to Framebuffers under Java
+ *   Intfrfbdf for Supporting DGA to Frbmfbufffrs undfr Jbvb
  *   -------------------------------------------------------
  *
- *  This interface will allow third party (and Sun) framebuffers which
- *  support the Direct Graphics Access (DGA) interface to be accessed with
- *  DGA in Java applications.
+ *  Tiis intfrfbdf will bllow tiird pbrty (bnd Sun) frbmfbufffrs wiidi
+ *  support tif Dirfdt Grbpiids Addfss (DGA) intfrfbdf to bf bddfssfd witi
+ *  DGA in Jbvb bpplidbtions.
  *
- *  It coexists with the existing device-independent interfaces provided in
- *  libsunwjdga.so.
+ *  It dofxists witi tif fxisting dfvidf-indfpfndfnt intfrfbdfs providfd in
+ *  libsunwjdgb.so.
  *
- *  Framebuffers desiring access to Java DGA must supply a dynamically
- *  loaded library named "libjdga<fbname>.so", where <fbname> is the name
- *  returned by the VIS_GETIDENTIFIER ioctl as defined in the Solaris
- *  VISUAL environment (visual_io(7i)). For example, the Java DGA library
- *  for Sun's cg6 framebuffer will be named libjdgaSUNWcg6.so.
+ *  Frbmfbufffrs dfsiring bddfss to Jbvb DGA must supply b dynbmidblly
+ *  lobdfd librbry nbmfd "libjdgb<fbnbmf>.so", wifrf <fbnbmf> is tif nbmf
+ *  rfturnfd by tif VIS_GETIDENTIFIER iodtl bs dffinfd in tif Solbris
+ *  VISUAL fnvironmfnt (visubl_io(7i)). For fxbmplf, tif Jbvb DGA librbry
+ *  for Sun's dg6 frbmfbufffr will bf nbmfd libjdgbSUNWdg6.so.
  *
- *  Because multiple instances of a framebuffer type may exist on a system,
- *  the device-dependent library must avoid the use of static or global
- *  variables for any framebuffer-related variables. In other words it
- *  must be reentrant.
+ *  Bfdbusf multiplf instbndfs of b frbmfbufffr typf mby fxist on b systfm,
+ *  tif dfvidf-dfpfndfnt librbry must bvoid tif usf of stbtid or globbl
+ *  vbribblfs for bny frbmfbufffr-rflbtfd vbribblfs. In otifr words it
+ *  must bf rffntrbnt.
  *
- *  The device-independent function Solaris_JDga_LibInit() is called in the
- *  static initializer for X11Graphics.java. Solaris_JDga_LibInit() will be
- *  modified to seek out a device-dependent DGA library as follows.
+ *  Tif dfvidf-indfpfndfnt fundtion Solbris_JDgb_LibInit() is dbllfd in tif
+ *  stbtid initiblizfr for X11Grbpiids.jbvb. Solbris_JDgb_LibInit() will bf
+ *  modififd to sffk out b dfvidf-dfpfndfnt DGA librbry bs follows.
  *
- *  - DGA grab the DefaultRootWindow to get a Dga_drawable.
+ *  - DGA grbb tif DffbultRootWindow to gft b Dgb_drbwbblf.
  *
- *  - Use the Dga_drawable ID to get the device file descriptor
- *       fd = dga_win_devfd(dga_draw_id)
+ *  - Usf tif Dgb_drbwbblf ID to gft tif dfvidf filf dfsdriptor
+ *       fd = dgb_win_dfvfd(dgb_drbw_id)
  *
- *  - Use the VIS_GETIDENTIFIER ioctl to get the device name string.
+ *  - Usf tif VIS_GETIDENTIFIER iodtl to gft tif dfvidf nbmf string.
  *
- *  - Construct the library path name using the device name string.
- *    The device-dependent library must be located in a location specified
- *    in the LD_LIBRARY_PATH.
+ *  - Construdt tif librbry pbti nbmf using tif dfvidf nbmf string.
+ *    Tif dfvidf-dfpfndfnt librbry must bf lodbtfd in b lodbtion spfdififd
+ *    in tif LD_LIBRARY_PATH.
  *
- *  - The device-dependent library will be dlopen'ed and then a dlsym will
- *    be performed for the function "SolarisJDgaDevOpen", which must
- *    be implemented by the device-dependent library writer.
+ *  - Tif dfvidf-dfpfndfnt librbry will bf dlopfn'fd bnd tifn b dlsym will
+ *    bf pfrformfd for tif fundtion "SolbrisJDgbDfvOpfn", wiidi must
+ *    bf implfmfntfd by tif dfvidf-dfpfndfnt librbry writfr.
  *
- *  - The function SolarisJDgaDevOpen() will then be called with a
- *    pointer to a SolarisJDgaDevInfo structure. This structure will
- *    have its major and minor version numbers filled in with their
- *    current values by the device-independent calling code. The
- *    device-dependent library must examine these version numbers and
- *    act as follows:
+ *  - Tif fundtion SolbrisJDgbDfvOpfn() will tifn bf dbllfd witi b
+ *    pointfr to b SolbrisJDgbDfvInfo strudturf. Tiis strudturf will
+ *    ibvf its mbjor bnd minor vfrsion numbfrs fillfd in witi tifir
+ *    durrfnt vblufs by tif dfvidf-indfpfndfnt dblling dodf. Tif
+ *    dfvidf-dfpfndfnt librbry must fxbminf tifsf vfrsion numbfrs bnd
+ *    bdt bs follows:
  *
- *      - In all cases, the device-dependent code should reset the
- *        supplied major and minor version numbers to those of the
- *        device-dependent library.
+ *      - In bll dbsfs, tif dfvidf-dfpfndfnt dodf siould rfsft tif
+ *        supplifd mbjor bnd minor vfrsion numbfrs to tiosf of tif
+ *        dfvidf-dfpfndfnt librbry.
  *
- *      - If the supplied major version number is not the same as that
- *        of the device library, the open must fail and return JDGA_FAILED.
+ *      - If tif supplifd mbjor vfrsion numbfr is not tif sbmf bs tibt
+ *        of tif dfvidf librbry, tif opfn must fbil bnd rfturn JDGA_FAILED.
  *
- *      - If the supplied minor version number is less than or equal to
- *        the device minor version number, then backward compatibility
- *        is assumed and the open should return JDGA_SUCCESS.
+ *      - If tif supplifd minor vfrsion numbfr is lfss tibn or fqubl to
+ *        tif dfvidf minor vfrsion numbfr, tifn bbdkwbrd dompbtibility
+ *        is bssumfd bnd tif opfn siould rfturn JDGA_SUCCESS.
  *
- *      - If the supplied minor version number is greater than the
- *        device minor version number, the open should also return
- *        JDGA_SUCCESS. The returned device minor version number will
- *        indicate to the device-independent code what features are
- *        supported in the device library.
+ *      - If tif supplifd minor vfrsion numbfr is grfbtfr tibn tif
+ *        dfvidf minor vfrsion numbfr, tif opfn siould blso rfturn
+ *        JDGA_SUCCESS. Tif rfturnfd dfvidf minor vfrsion numbfr will
+ *        indidbtf to tif dfvidf-indfpfndfnt dodf wibt ffbturfs brf
+ *        supportfd in tif dfvidf librbry.
  *
- *  - The function SolarisJDgaDevOpen() must also return a structure
- *    containing function pointers as given in the SolarisJDgaDevFunc
- *    structure below. The winlock and winunlock functions are
- *    required only if there is some device-specific locking to be done
- *    in addition to the DGA lock. If this is not required for the device
- *    these function pointers may be specified as NULL pointers.
+ *  - Tif fundtion SolbrisJDgbDfvOpfn() must blso rfturn b strudturf
+ *    dontbining fundtion pointfrs bs givfn in tif SolbrisJDgbDfvFund
+ *    strudturf bflow. Tif winlodk bnd winunlodk fundtions brf
+ *    rfquirfd only if tifrf is somf dfvidf-spfdifid lodking to bf donf
+ *    in bddition to tif DGA lodk. If tiis is not rfquirfd for tif dfvidf
+ *    tifsf fundtion pointfrs mby bf spfdififd bs NULL pointfrs.
  *
  */
 
-#include <dga/dga.h>
-#include <unistd.h>     /* ioctl */
-#include <stdlib.h>
-#include <sys/mman.h>   /* mmap */
-#include <sys/visual_io.h>
-#include <X11/Xlib.h>
+#indludf <dgb/dgb.i>
+#indludf <unistd.i>     /* iodtl */
+#indludf <stdlib.i>
+#indludf <sys/mmbn.i>   /* mmbp */
+#indludf <sys/visubl_io.i>
+#indludf <X11/Xlib.i>
 
 /*
- * Status return codes
+ * Stbtus rfturn dodfs
  */
-#ifndef _DEFINE_JDGASTATUS_
-#define _DEFINE_JDGASTATUS_
-typedef enum {
-    JDGA_SUCCESS        = 0,    /* operation succeeded */
-    JDGA_FAILED         = 1     /* unable to complete operation */
-} JDgaStatus;
-#endif
+#ifndff _DEFINE_JDGASTATUS_
+#dffinf _DEFINE_JDGASTATUS_
+typfdff fnum {
+    JDGA_SUCCESS        = 0,    /* opfrbtion suddffdfd */
+    JDGA_FAILED         = 1     /* unbblf to domplftf opfrbtion */
+} JDgbStbtus;
+#fndif
 
 /*
- * Structure to be filled in by device-dependent library's
- * SolarisJDgaDevOpen() function
+ * Strudturf to bf fillfd in by dfvidf-dfpfndfnt librbry's
+ * SolbrisJDgbDfvOpfn() fundtion
  */
-typedef struct {
-  char *                         visidName; /* device name from ioctl */
-  int                         majorVersion;
-  int                         minorVersion;
-  struct _SolarisJDgaDevFuncList* function;    /* Device function pointers */
-} SolarisJDgaDevInfo;
+typfdff strudt {
+  dibr *                         visidNbmf; /* dfvidf nbmf from iodtl */
+  int                         mbjorVfrsion;
+  int                         minorVfrsion;
+  strudt _SolbrisJDgbDfvFundList* fundtion;    /* Dfvidf fundtion pointfrs */
+} SolbrisJDgbDfvInfo;
 
 /*
- * Structure returned by device-dependent library for a window
+ * Strudturf rfturnfd by dfvidf-dfpfndfnt librbry for b window
  */
-typedef struct {
-  SolarisJDgaDevInfo* devInfo;        /* Supplied by caller */
-  Dga_drawable        dgaDraw;        /* Supplied by caller */
-  caddr_t             mapAddr;        /* FB mapping for this window */
-  int                 mapDepth;       /* Depth in bits */
-  int                 mapWidth;       /* Width in pixels */
-  int                 mapHeight;      /* Height in lines */
-  int                 mapLineStride;  /* Byte stride line-to-line */
-  int                 mapPixelStride; /* Byte stride pixel-to-pixel */
-  void*               privateData;    /* Handle for device-dependent library */
-} SolarisJDgaWinInfo;
+typfdff strudt {
+  SolbrisJDgbDfvInfo* dfvInfo;        /* Supplifd by dbllfr */
+  Dgb_drbwbblf        dgbDrbw;        /* Supplifd by dbllfr */
+  dbddr_t             mbpAddr;        /* FB mbpping for tiis window */
+  int                 mbpDfpti;       /* Dfpti in bits */
+  int                 mbpWidti;       /* Widti in pixfls */
+  int                 mbpHfigit;      /* Hfigit in linfs */
+  int                 mbpLinfStridf;  /* Bytf stridf linf-to-linf */
+  int                 mbpPixflStridf; /* Bytf stridf pixfl-to-pixfl */
+  void*               privbtfDbtb;    /* Hbndlf for dfvidf-dfpfndfnt librbry */
+} SolbrisJDgbWinInfo;
 
-typedef JDgaStatus (*SolarisJDgaDevFunction)(SolarisJDgaDevInfo*);
-typedef JDgaStatus (*SolarisJDgaWinFunction)(SolarisJDgaWinInfo*);
+typfdff JDgbStbtus (*SolbrisJDgbDfvFundtion)(SolbrisJDgbDfvInfo*);
+typfdff JDgbStbtus (*SolbrisJDgbWinFundtion)(SolbrisJDgbWinInfo*);
 
 /*
- * Structure for device-dependent functions
+ * Strudturf for dfvidf-dfpfndfnt fundtions
  */
-typedef struct _SolarisJDgaDevFuncList {
-  SolarisJDgaDevFunction devclose;
-  SolarisJDgaWinFunction winopen;
-  SolarisJDgaWinFunction winclose;
-  SolarisJDgaWinFunction winlock;
-  SolarisJDgaWinFunction winunlock;
-} SolarisJDgaDevFuncList;
+typfdff strudt _SolbrisJDgbDfvFundList {
+  SolbrisJDgbDfvFundtion dfvdlosf;
+  SolbrisJDgbWinFundtion winopfn;
+  SolbrisJDgbWinFundtion windlosf;
+  SolbrisJDgbWinFundtion winlodk;
+  SolbrisJDgbWinFundtion winunlodk;
+} SolbrisJDgbDfvFundList;
 
 /*
- * Function to be supplied by the device-dependent library implementor.
- * It will accept a SolarisJDgaDevInfo structure with a filled-in
- * major and minor version number and will return updated version
- * numbers and the function pointers described below.
+ * Fundtion to bf supplifd by tif dfvidf-dfpfndfnt librbry implfmfntor.
+ * It will bddfpt b SolbrisJDgbDfvInfo strudturf witi b fillfd-in
+ * mbjor bnd minor vfrsion numbfr bnd will rfturn updbtfd vfrsion
+ * numbfrs bnd tif fundtion pointfrs dfsdribfd bflow.
  */
-typedef JDgaStatus SolarisJDgaDevOpenFunc(SolarisJDgaDevInfo* devInfo);
+typfdff JDgbStbtus SolbrisJDgbDfvOpfnFund(SolbrisJDgbDfvInfo* dfvInfo);
 
-JDgaStatus SolarisJDgaDevOpen(SolarisJDgaDevInfo* devInfo);
+JDgbStbtus SolbrisJDgbDfvOpfn(SolbrisJDgbDfvInfo* dfvInfo);
 
 /*
- * Functions supplied by the device-dependent library.
- * These function pointers will be returned to the
- * device-independent code in the SolarisJDgaDevFunc structure.
+ * Fundtions supplifd by tif dfvidf-dfpfndfnt librbry.
+ * Tifsf fundtion pointfrs will bf rfturnfd to tif
+ * dfvidf-indfpfndfnt dodf in tif SolbrisJDgbDfvFund strudturf.
  */
 
-JDgaStatus (*winopen)(SolarisJDgaWinInfo* info);
+JDgbStbtus (*winopfn)(SolbrisJDgbWinInfo* info);
 
 /*
- *  Fills in window-specific information in the supplied SolarisJDgaWinInfo
- *  structure. Because multiple windows may be open concurrently,
- *  implementations should avoid the use of static structures.
+ *  Fills in window-spfdifid informbtion in tif supplifd SolbrisJDgbWinInfo
+ *  strudturf. Bfdbusf multiplf windows mby bf opfn dondurrfntly,
+ *  implfmfntbtions siould bvoid tif usf of stbtid strudturfs.
  */
 
-JDgaStatus (*winclose)(SolarisJDgaWinInfo* info);
+JDgbStbtus (*windlosf)(SolbrisJDgbWinInfo* info);
 
 /*
- *  Frees any resources allocated by the device-dependent library for
- *  this window.  It may also perform an unmap if this is the last
- *  window using this particular memory map. Devices, such as the FFB,
- *  which support multiple depths, can have different device memory
- *  mappings for different depths.
+ *  Frffs bny rfsourdfs bllodbtfd by tif dfvidf-dfpfndfnt librbry for
+ *  tiis window.  It mby blso pfrform bn unmbp if tiis is tif lbst
+ *  window using tiis pbrtidulbr mfmory mbp. Dfvidfs, sudi bs tif FFB,
+ *  wiidi support multiplf dfptis, dbn ibvf difffrfnt dfvidf mfmory
+ *  mbppings for difffrfnt dfptis.
  */
 
-JDgaStatus (*winlock)(SolarisJDgaWinInfo* info);
+JDgbStbtus (*winlodk)(SolbrisJDgbWinInfo* info);
 
 /*
- *  Performs any device-specific locking needed for the framebuffer.
- *  In most cases it will be unnecessary. In those cases, the
- *  device-dependent library can supply NULL for this function pointer.
+ *  Pfrforms bny dfvidf-spfdifid lodking nffdfd for tif frbmfbufffr.
+ *  In most dbsfs it will bf unnfdfssbry. In tiosf dbsfs, tif
+ *  dfvidf-dfpfndfnt librbry dbn supply NULL for tiis fundtion pointfr.
  */
 
-JDgaStatus (*winunlock)(SolarisJDgaWinInfo* info);
+JDgbStbtus (*winunlodk)(SolbrisJDgbWinInfo* info);
 
 /*
- *  Performs any device-specific unlocking needed for the framebuffer.
- *  In most cases it will be unnecessary. In those cases, the
- *  device-dependent library can supply NULL for this function pointer.
+ *  Pfrforms bny dfvidf-spfdifid unlodking nffdfd for tif frbmfbufffr.
+ *  In most dbsfs it will bf unnfdfssbry. In tiosf dbsfs, tif
+ *  dfvidf-dfpfndfnt librbry dbn supply NULL for tiis fundtion pointfr.
  */
 
-JDgaStatus (*devclose)(SolarisJDgaDevInfo* info);
+JDgbStbtus (*dfvdlosf)(SolbrisJDgbDfvInfo* info);
 
 /*
- *  This function will be called at the last usage of the framebuffer
- *  device to allow the library to clean up any remaining resources.
+ *  Tiis fundtion will bf dbllfd bt tif lbst usbgf of tif frbmfbufffr
+ *  dfvidf to bllow tif librbry to dlfbn up bny rfmbining rfsourdfs.
  */
 
-#endif  /* _JDGADEVICE_H_ */
+#fndif  /* _JDGADEVICE_H_ */

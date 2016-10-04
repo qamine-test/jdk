@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.PrintJobAttributf;
 
 /**
- * JobState is a printing attribute class, an enumeration, that identifies
- * the current state of a print job. Class JobState defines standard job state
- * values. A  Print Service implementation only needs to report those job
- * states which are appropriate for the particular implementation; it does not
- * have to report every defined job state. The {@link JobStateReasons
- * JobStateReasons} attribute augments the JobState attribute to give more
- * detailed information about the job in the given job state.
+ * JobStbtf is b printing bttributf dlbss, bn fnumfrbtion, tibt idfntififs
+ * tif durrfnt stbtf of b print job. Clbss JobStbtf dffinfs stbndbrd job stbtf
+ * vblufs. A  Print Sfrvidf implfmfntbtion only nffds to rfport tiosf job
+ * stbtfs wiidi brf bppropribtf for tif pbrtidulbr implfmfntbtion; it dofs not
+ * ibvf to rfport fvfry dffinfd job stbtf. Tif {@link JobStbtfRfbsons
+ * JobStbtfRfbsons} bttributf bugmfnts tif JobStbtf bttributf to givf morf
+ * dftbilfd informbtion bbout tif job in tif givfn job stbtf.
  * <P>
- * <B>IPP Compatibility:</B> The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is tif IPP bttributf nbmf.  Tif fnumfrbtion's
+ * intfgfr vbluf is tif IPP fnum vbluf.  Tif <dodf>toString()</dodf> mftiod
+ * rfturns tif IPP string rfprfsfntbtion of tif bttributf vbluf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
 
-public class JobState extends EnumSyntax implements PrintJobAttribute {
+publid dlbss JobStbtf fxtfnds EnumSyntbx implfmfnts PrintJobAttributf {
 
-    private static final long serialVersionUID = 400465010094018920L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 400465010094018920L;
 
     /**
-     * The job state is unknown.
+     * Tif job stbtf is unknown.
      */
-    public static final JobState UNKNOWN = new JobState(0);
+    publid stbtid finbl JobStbtf UNKNOWN = nfw JobStbtf(0);
 
     /**
-     * The job is a candidate to start processing, but is not yet processing.
+     * Tif job is b dbndidbtf to stbrt prodfssing, but is not yft prodfssing.
      */
-    public static final JobState PENDING = new JobState(3);
+    publid stbtid finbl JobStbtf PENDING = nfw JobStbtf(3);
 
     /**
-     * The job is not a candidate for processing for any number of reasons but
-     * will return to the PENDING state as soon as the reasons are no longer
-     * present. The job's {@link JobStateReasons JobStateReasons} attribute must
-     * indicate why the job is no longer a candidate for processing.
+     * Tif job is not b dbndidbtf for prodfssing for bny numbfr of rfbsons but
+     * will rfturn to tif PENDING stbtf bs soon bs tif rfbsons brf no longfr
+     * prfsfnt. Tif job's {@link JobStbtfRfbsons JobStbtfRfbsons} bttributf must
+     * indidbtf wiy tif job is no longfr b dbndidbtf for prodfssing.
      */
-    public static final JobState PENDING_HELD = new JobState(4);
+    publid stbtid finbl JobStbtf PENDING_HELD = nfw JobStbtf(4);
 
     /**
-     * The job is processing. One or more of the following activities is
-     * occurring:
+     * Tif job is prodfssing. Onf or morf of tif following bdtivitifs is
+     * oddurring:
      * <OL TYPE=1>
      * <LI>
-     * The job is using, or is attempting to use, one or more purely software
-     * processes that are analyzing, creating, or interpreting a PDL, etc.
+     * Tif job is using, or is bttfmpting to usf, onf or morf purfly softwbrf
+     * prodfssfs tibt brf bnblyzing, drfbting, or intfrprfting b PDL, ftd.
      *
      * <LI>
-     * The job is using, or is attempting to use, one or more hardware
-     * devices that are interpreting a PDL, making marks on a medium, and/or
-     * performing finishing, such as stapling, etc.
+     * Tif job is using, or is bttfmpting to usf, onf or morf ibrdwbrf
+     * dfvidfs tibt brf intfrprfting b PDL, mbking mbrks on b mfdium, bnd/or
+     * pfrforming finisiing, sudi bs stbpling, ftd.
      *
      * <LI>
-     * The printer has made the job ready for printing, but the output
-     * device is not yet printing it, either because the job hasn't reached the
-     * output device or because the job is queued in the output device or some
-     * other spooler, awaiting the output device to print it.
+     * Tif printfr ibs mbdf tif job rfbdy for printing, but tif output
+     * dfvidf is not yft printing it, fitifr bfdbusf tif job ibsn't rfbdifd tif
+     * output dfvidf or bfdbusf tif job is qufufd in tif output dfvidf or somf
+     * otifr spoolfr, bwbiting tif output dfvidf to print it.
      * </OL>
      * <P>
-     * When the job is in the PROCESSING state, the entire job state includes
-     * the detailed status represented in the printer's {@link PrinterState
-     * PrinterState} and {@link PrinterStateReasons PrinterStateReasons}
-     * attributes.
+     * Wifn tif job is in tif PROCESSING stbtf, tif fntirf job stbtf indludfs
+     * tif dftbilfd stbtus rfprfsfntfd in tif printfr's {@link PrintfrStbtf
+     * PrintfrStbtf} bnd {@link PrintfrStbtfRfbsons PrintfrStbtfRfbsons}
+     * bttributfs.
      * <P>
-     * Implementations may, though they need not, include additional values in
-     * the job's {@link JobStateReasons JobStateReasons} attribute to indicate
-     * the progress of the job, such as adding the JOB_PRINTING value to
-     * indicate when the output device is actually making marks on paper and/or
-     * the PROCESSING_TO_STOP_POINT value to indicate that the printer is in the
-     * process of canceling or aborting the job.
+     * Implfmfntbtions mby, tiougi tify nffd not, indludf bdditionbl vblufs in
+     * tif job's {@link JobStbtfRfbsons JobStbtfRfbsons} bttributf to indidbtf
+     * tif progrfss of tif job, sudi bs bdding tif JOB_PRINTING vbluf to
+     * indidbtf wifn tif output dfvidf is bdtublly mbking mbrks on pbpfr bnd/or
+     * tif PROCESSING_TO_STOP_POINT vbluf to indidbtf tibt tif printfr is in tif
+     * prodfss of dbndfling or bborting tif job.
      */
-    public static final JobState PROCESSING = new JobState (5);
+    publid stbtid finbl JobStbtf PROCESSING = nfw JobStbtf (5);
 
     /**
-     * The job has stopped while processing for any number of reasons and will
-     * return to the PROCESSING state as soon as the reasons are no longer
-     * present.
+     * Tif job ibs stoppfd wiilf prodfssing for bny numbfr of rfbsons bnd will
+     * rfturn to tif PROCESSING stbtf bs soon bs tif rfbsons brf no longfr
+     * prfsfnt.
      * <P>
-     * The job's {@link JobStateReasons JobStateReasons} attribute may indicate
-     * why the job has stopped processing. For example, if the output device is
-     * stopped, the PRINTER_STOPPED value may be included in the job's {@link
-     * JobStateReasons JobStateReasons} attribute.
+     * Tif job's {@link JobStbtfRfbsons JobStbtfRfbsons} bttributf mby indidbtf
+     * wiy tif job ibs stoppfd prodfssing. For fxbmplf, if tif output dfvidf is
+     * stoppfd, tif PRINTER_STOPPED vbluf mby bf indludfd in tif job's {@link
+     * JobStbtfRfbsons JobStbtfRfbsons} bttributf.
      * <P>
-     * <I>Note:</I> When an output device is stopped, the device usually
-     * indicates its condition in human readable form locally at the device. A
-     * client can obtain more complete device status remotely by querying the
-     * printer's {@link PrinterState PrinterState} and {@link
-     * PrinterStateReasons PrinterStateReasons} attributes.
+     * <I>Notf:</I> Wifn bn output dfvidf is stoppfd, tif dfvidf usublly
+     * indidbtfs its dondition in iumbn rfbdbblf form lodblly bt tif dfvidf. A
+     * dlifnt dbn obtbin morf domplftf dfvidf stbtus rfmotfly by qufrying tif
+     * printfr's {@link PrintfrStbtf PrintfrStbtf} bnd {@link
+     * PrintfrStbtfRfbsons PrintfrStbtfRfbsons} bttributfs.
      */
-    public static final JobState PROCESSING_STOPPED = new JobState (6);
+    publid stbtid finbl JobStbtf PROCESSING_STOPPED = nfw JobStbtf (6);
 
     /**
-     * The job has been canceled by some human agency, the printer has completed
-     * canceling the job, and all job status attributes have reached their final
-     * values for the job. While the printer is canceling the job, the job
-     * remains in its current state, but the job's {@link JobStateReasons
-     * JobStateReasons} attribute should contain the PROCESSING_TO_STOP_POINT
-     * value and one of the CANCELED_BY_USER, CANCELED_BY_OPERATOR, or
-     * CANCELED_AT_DEVICE values. When the job moves to the CANCELED state, the
-     * PROCESSING_TO_STOP_POINT value, if present, must be removed, but the
-     * CANCELED_BY_<I>xxx</I> value, if present, must remain.
+     * Tif job ibs bffn dbndflfd by somf iumbn bgfndy, tif printfr ibs domplftfd
+     * dbndfling tif job, bnd bll job stbtus bttributfs ibvf rfbdifd tifir finbl
+     * vblufs for tif job. Wiilf tif printfr is dbndfling tif job, tif job
+     * rfmbins in its durrfnt stbtf, but tif job's {@link JobStbtfRfbsons
+     * JobStbtfRfbsons} bttributf siould dontbin tif PROCESSING_TO_STOP_POINT
+     * vbluf bnd onf of tif CANCELED_BY_USER, CANCELED_BY_OPERATOR, or
+     * CANCELED_AT_DEVICE vblufs. Wifn tif job movfs to tif CANCELED stbtf, tif
+     * PROCESSING_TO_STOP_POINT vbluf, if prfsfnt, must bf rfmovfd, but tif
+     * CANCELED_BY_<I>xxx</I> vbluf, if prfsfnt, must rfmbin.
      */
-    public static final JobState CANCELED = new JobState (7);
+    publid stbtid finbl JobStbtf CANCELED = nfw JobStbtf (7);
 
     /**
-     * The job has been aborted by the system (usually while the job was in the
-     * PROCESSING or PROCESSING_STOPPED state), the printer has completed
-     * aborting the job, and all job status attributes have reached their final
-     * values for the job. While the printer is aborting the job, the job
-     * remains in its current state, but the job's {@link JobStateReasons
-     * JobStateReasons} attribute should contain the PROCESSING_TO_STOP_POINT
-     * and ABORTED_BY_SYSTEM values. When the job moves to the ABORTED state,
-     * the PROCESSING_TO_STOP_POINT value, if present, must be removed, but the
-     * ABORTED_BY_SYSTEM value, if present, must remain.
+     * Tif job ibs bffn bbortfd by tif systfm (usublly wiilf tif job wbs in tif
+     * PROCESSING or PROCESSING_STOPPED stbtf), tif printfr ibs domplftfd
+     * bborting tif job, bnd bll job stbtus bttributfs ibvf rfbdifd tifir finbl
+     * vblufs for tif job. Wiilf tif printfr is bborting tif job, tif job
+     * rfmbins in its durrfnt stbtf, but tif job's {@link JobStbtfRfbsons
+     * JobStbtfRfbsons} bttributf siould dontbin tif PROCESSING_TO_STOP_POINT
+     * bnd ABORTED_BY_SYSTEM vblufs. Wifn tif job movfs to tif ABORTED stbtf,
+     * tif PROCESSING_TO_STOP_POINT vbluf, if prfsfnt, must bf rfmovfd, but tif
+     * ABORTED_BY_SYSTEM vbluf, if prfsfnt, must rfmbin.
      */
-    public static final JobState ABORTED = new JobState (8);
+    publid stbtid finbl JobStbtf ABORTED = nfw JobStbtf (8);
 
     /**
-     * The job has completed successfully or with warnings or errors after
-     * processing, all of the job media sheets have been successfully stacked in
-     * the appropriate output bin(s), and all job status attributes have reached
-     * their final values for the job. The job's {@link JobStateReasons
-     * JobStateReasons} attribute should contain one of these values:
+     * Tif job ibs domplftfd suddfssfully or witi wbrnings or frrors bftfr
+     * prodfssing, bll of tif job mfdib siffts ibvf bffn suddfssfully stbdkfd in
+     * tif bppropribtf output bin(s), bnd bll job stbtus bttributfs ibvf rfbdifd
+     * tifir finbl vblufs for tif job. Tif job's {@link JobStbtfRfbsons
+     * JobStbtfRfbsons} bttributf siould dontbin onf of tifsf vblufs:
      * COMPLETED_SUCCESSFULLY, COMPLETED_WITH_WARNINGS, or
      * COMPLETED_WITH_ERRORS.
      */
-    public static final JobState COMPLETED = new JobState (9);
+    publid stbtid finbl JobStbtf COMPLETED = nfw JobStbtf (9);
 
-    // Hidden constructors.
+    // Hiddfn donstrudtors.
 
     /**
-     * Construct a new job state enumeration value with the given integer value.
+     * Construdt b nfw job stbtf fnumfrbtion vbluf witi tif givfn intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected JobState(int value) {
-        super (value);
+    protfdtfd JobStbtf(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable =
+    privbtf stbtid finbl String[] myStringTbblf =
     {"unknown",
      null,
      null,
-     "pending",
-     "pending-held",
-     "processing",
-     "processing-stopped",
-     "canceled",
-     "aborted",
-     "completed"};
+     "pfnding",
+     "pfnding-ifld",
+     "prodfssing",
+     "prodfssing-stoppfd",
+     "dbndflfd",
+     "bbortfd",
+     "domplftfd"};
 
-    private static final JobState[] myEnumValueTable =
+    privbtf stbtid finbl JobStbtf[] myEnumVblufTbblf =
     {UNKNOWN,
      null,
      null,
@@ -193,44 +193,44 @@ public class JobState extends EnumSyntax implements PrintJobAttribute {
      COMPLETED};
 
     /**
-     * Returns the string table for class JobState.
+     * Rfturns tif string tbblf for dlbss JobStbtf.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf;
     }
 
     /**
-     * Returns the enumeration value table for class JobState.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss JobStbtf.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn myEnumVblufTbblf;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class JobState and any vendor-defined subclasses, the category is
-     * class JobState itself.
+     * For dlbss JobStbtf bnd bny vfndor-dffinfd subdlbssfs, tif dbtfgory is
+     * dlbss JobStbtf itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobState.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobStbtf.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class JobState and any vendor-defined subclasses, the category
-     * name is <CODE>"job-state"</CODE>.
+     * For dlbss JobStbtf bnd bny vfndor-dffinfd subdlbssfs, tif dbtfgory
+     * nbmf is <CODE>"job-stbtf"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "job-state";
+    publid finbl String gftNbmf() {
+        rfturn "job-stbtf";
     }
 
 }

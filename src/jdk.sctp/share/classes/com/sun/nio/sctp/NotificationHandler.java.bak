@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.nio.sctp;
+pbdkbgf dom.sun.nio.sdtp;
 
 /**
- * A handler for consuming notifications from the SCTP stack.
+ * A ibndlfr for donsuming notifidbtions from tif SCTP stbdk.
  *
- * <P> The SCTP channels defined in this package allow a notification handler to
- * be specified to consume notifications from the SCTP stack. When a
- * notification is received the {@linkplain #handleNotification
- * handleNotification} method of the handler is invoked to handle that
- * notification.
+ * <P> Tif SCTP dibnnfls dffinfd in tiis pbdkbgf bllow b notifidbtion ibndlfr to
+ * bf spfdififd to donsumf notifidbtions from tif SCTP stbdk. Wifn b
+ * notifidbtion is rfdfivfd tif {@linkplbin #ibndlfNotifidbtion
+ * ibndlfNotifidbtion} mftiod of tif ibndlfr is invokfd to ibndlf tibt
+ * notifidbtion.
  *
- * <P> Additionally, an attachment object can be attached to the {@code receive}
- * operation to provide context when consuming the notification. The
- * attachment is important for cases where a <i>state-less</i> {@code
- * NotificationHandler} is used to consume the result of many {@code receive}
- * operations.
+ * <P> Additionblly, bn bttbdimfnt objfdt dbn bf bttbdifd to tif {@dodf rfdfivf}
+ * opfrbtion to providf dontfxt wifn donsuming tif notifidbtion. Tif
+ * bttbdimfnt is importbnt for dbsfs wifrf b <i>stbtf-lfss</i> {@dodf
+ * NotifidbtionHbndlfr} is usfd to donsumf tif rfsult of mbny {@dodf rfdfivf}
+ * opfrbtions.
  *
- * <P> Handler implementations are encouraged to extend the {@link
- * AbstractNotificationHandler} class which implements this interface and
- * provide notification specific methods. However, an API should generally use
- * this handler interface as the type for parameters, return type, etc. rather
- * than the abstract class.
+ * <P> Hbndlfr implfmfntbtions brf fndourbgfd to fxtfnd tif {@link
+ * AbstrbdtNotifidbtionHbndlfr} dlbss wiidi implfmfnts tiis intfrfbdf bnd
+ * providf notifidbtion spfdifid mftiods. Howfvfr, bn API siould gfnfrblly usf
+ * tiis ibndlfr intfrfbdf bs tif typf for pbrbmftfrs, rfturn typf, ftd. rbtifr
+ * tibn tif bbstrbdt dlbss.
  *
- * @param  T  The type of the object attached to the receive operation
+ * @pbrbm  T  Tif typf of tif objfdt bttbdifd to tif rfdfivf opfrbtion
  *
- * @since 1.7
+ * @sindf 1.7
  */
-@jdk.Exported
-public interface NotificationHandler<T> {
+@jdk.Exportfd
+publid intfrfbdf NotifidbtionHbndlfr<T> {
     /**
-     * Invoked when a notification is received from the SCTP stack.
+     * Invokfd wifn b notifidbtion is rfdfivfd from tif SCTP stbdk.
      *
-     * @param  notification
-     *         The notification
+     * @pbrbm  notifidbtion
+     *         Tif notifidbtion
      *
-     * @param  attachment
-     *         The object attached to the receive operation when it was initiated.
+     * @pbrbm  bttbdimfnt
+     *         Tif objfdt bttbdifd to tif rfdfivf opfrbtion wifn it wbs initibtfd.
      *
-     * @return  The handler result
+     * @rfturn  Tif ibndlfr rfsult
      */
-    HandlerResult handleNotification(Notification notification, T attachment);
+    HbndlfrRfsult ibndlfNotifidbtion(Notifidbtion notifidbtion, T bttbdimfnt);
 }

@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 1994, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thrown to indidbtf somf unfxpfdtfd intfrnbl frror hbs oddurrfd in
+ * thf Jbvb Virtubl Mbdhinf.
+ *
+ * @buthor  unbsdribfd
+ * @sindf   1.0
+ */
+publid dlbss IntfrnblError fxtfnds VirtublMbdhinfError {
+    privbtf stbtid finbl long sfriblVfrsionUID = -9062593416125562365L;
+
+    /**
+     * Construdts bn <dodf>IntfrnblError</dodf> with no dftbil mfssbgf.
+     */
+    publid IntfrnblError() {
+        supfr();
+    }
+
+    /**
+     * Construdts bn <dodf>IntfrnblError</dodf> with thf spfdififd
+     * dftbil mfssbgf.
+     *
+     * @pbrbm   mfssbgf   thf dftbil mfssbgf.
+     */
+    publid IntfrnblError(String mfssbgf) {
+        supfr(mfssbgf);
+    }
+
+
+    /**
+     * Construdts bn {@dodf IntfrnblError} with thf spfdififd dftbil
+     * mfssbgf bnd dbusf.  <p>Notf thbt thf dftbil mfssbgf bssodibtfd
+     * with {@dodf dbusf} is <i>not</i> butombtidblly indorporbtfd in
+     * this frror's dftbil mfssbgf.
+     *
+     * @pbrbm  mfssbgf thf dftbil mfssbgf (whidh is sbvfd for lbtfr rftrifvbl
+     *         by thf {@link #gftMfssbgf()} mfthod).
+     * @pbrbm  dbusf thf dbusf (whidh is sbvfd for lbtfr rftrifvbl by thf
+     *         {@link #gftCbusf()} mfthod).  (A {@dodf null} vbluf is
+     *         pfrmittfd, bnd indidbtfs thbt thf dbusf is nonfxistfnt or
+     *         unknown.)
+     * @sindf  1.8
+     */
+    publid IntfrnblError(String mfssbgf, Throwbblf dbusf) {
+        supfr(mfssbgf, dbusf);
+    }
+
+    /**
+     * Construdts bn {@dodf IntfrnblError} with thf spfdififd dbusf
+     * bnd b dftbil mfssbgf of {@dodf (dbusf==null ? null :
+     * dbusf.toString())} (whidh typidblly dontbins thf dlbss bnd
+     * dftbil mfssbgf of {@dodf dbusf}).
+     *
+     * @pbrbm  dbusf thf dbusf (whidh is sbvfd for lbtfr rftrifvbl by thf
+     *         {@link #gftCbusf()} mfthod).  (A {@dodf null} vbluf is
+     *         pfrmittfd, bnd indidbtfs thbt thf dbusf is nonfxistfnt or
+     *         unknown.)
+     * @sindf  1.8
+     */
+    publid IntfrnblError(Throwbblf dbusf) {
+        supfr(dbusf);
+    }
+
+}

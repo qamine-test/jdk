@@ -1,968 +1,968 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset.spi;
+pbdkbgf jbvbx.sql.rowsft.spi;
 
-import java.util.logging.*;
-import java.util.*;
+import jbvb.util.logging.*;
+import jbvb.util.*;
 
-import java.sql.*;
-import javax.sql.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
 
-import javax.naming.*;
-import sun.reflect.misc.ReflectUtil;
+import jbvbx.nbming.*;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * The Service Provider Interface (SPI) mechanism that generates <code>SyncProvider</code>
- * instances to be used by disconnected <code>RowSet</code> objects.
- * The <code>SyncProvider</code> instances in turn provide the
- * <code>javax.sql.RowSetReader</code> object the <code>RowSet</code> object
- * needs to populate itself with data and the
- * <code>javax.sql.RowSetWriter</code> object it needs to
- * propagate changes to its
- * data back to the underlying data source.
+ * Tif Sfrvidf Providfr Intfrfbdf (SPI) mfdibnism tibt gfnfrbtfs <dodf>SyndProvidfr</dodf>
+ * instbndfs to bf usfd by disdonnfdtfd <dodf>RowSft</dodf> objfdts.
+ * Tif <dodf>SyndProvidfr</dodf> instbndfs in turn providf tif
+ * <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt tif <dodf>RowSft</dodf> objfdt
+ * nffds to populbtf itsflf witi dbtb bnd tif
+ * <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt it nffds to
+ * propbgbtf dibngfs to its
+ * dbtb bbdk to tif undfrlying dbtb sourdf.
  * <P>
- * Because the methods in the <code>SyncFactory</code> class are all static,
- * there is only one <code>SyncFactory</code> object
- * per Java VM at any one time. This ensures that there is a single source from which a
- * <code>RowSet</code> implementation can obtain its <code>SyncProvider</code>
- * implementation.
+ * Bfdbusf tif mftiods in tif <dodf>SyndFbdtory</dodf> dlbss brf bll stbtid,
+ * tifrf is only onf <dodf>SyndFbdtory</dodf> objfdt
+ * pfr Jbvb VM bt bny onf timf. Tiis fnsurfs tibt tifrf is b singlf sourdf from wiidi b
+ * <dodf>RowSft</dodf> implfmfntbtion dbn obtbin its <dodf>SyndProvidfr</dodf>
+ * implfmfntbtion.
  *
- * <h3>1.0 Overview</h3>
- * The <code>SyncFactory</code> class provides an internal registry of available
- * synchronization provider implementations (<code>SyncProvider</code> objects).
- * This registry may be queried to determine which
- * synchronization providers are available.
- * The following line of code gets an enumeration of the providers currently registered.
+ * <i3>1.0 Ovfrvifw</i3>
+ * Tif <dodf>SyndFbdtory</dodf> dlbss providfs bn intfrnbl rfgistry of bvbilbblf
+ * syndironizbtion providfr implfmfntbtions (<dodf>SyndProvidfr</dodf> objfdts).
+ * Tiis rfgistry mby bf qufrifd to dftfrminf wiidi
+ * syndironizbtion providfrs brf bvbilbblf.
+ * Tif following linf of dodf gfts bn fnumfrbtion of tif providfrs durrfntly rfgistfrfd.
  * <PRE>
- *     java.util.Enumeration e = SyncFactory.getRegisteredProviders();
+ *     jbvb.util.Enumfrbtion f = SyndFbdtory.gftRfgistfrfdProvidfrs();
  * </PRE>
- * All standard <code>RowSet</code> implementations must provide at least two providers:
+ * All stbndbrd <dodf>RowSft</dodf> implfmfntbtions must providf bt lfbst two providfrs:
  * <UL>
- *  <LI>an optimistic provider for use with a <code>CachedRowSet</code> implementation
- *     or an implementation derived from it
- *  <LI>an XML provider, which is used for reading and writing XML, such as with
- *       <code>WebRowSet</code> objects
+ *  <LI>bn optimistid providfr for usf witi b <dodf>CbdifdRowSft</dodf> implfmfntbtion
+ *     or bn implfmfntbtion dfrivfd from it
+ *  <LI>bn XML providfr, wiidi is usfd for rfbding bnd writing XML, sudi bs witi
+ *       <dodf>WfbRowSft</dodf> objfdts
  * </UL>
- * Note that the JDBC RowSet Implementations include the <code>SyncProvider</code>
- * implementations <code>RIOptimisticProvider</code> and <code>RIXmlProvider</code>,
- * which satisfy this requirement.
+ * Notf tibt tif JDBC RowSft Implfmfntbtions indludf tif <dodf>SyndProvidfr</dodf>
+ * implfmfntbtions <dodf>RIOptimistidProvidfr</dodf> bnd <dodf>RIXmlProvidfr</dodf>,
+ * wiidi sbtisfy tiis rfquirfmfnt.
  * <P>
- * The <code>SyncFactory</code> class provides accessor methods to assist
- * applications in determining which synchronization providers are currently
- * registered with the <code>SyncFactory</code>.
+ * Tif <dodf>SyndFbdtory</dodf> dlbss providfs bddfssor mftiods to bssist
+ * bpplidbtions in dftfrmining wiidi syndironizbtion providfrs brf durrfntly
+ * rfgistfrfd witi tif <dodf>SyndFbdtory</dodf>.
  * <p>
- * Other methods let <code>RowSet</code> persistence providers be
- * registered or de-registered with the factory mechanism. This
- * allows additional synchronization provider implementations to be made
- * available to <code>RowSet</code> objects at run time.
+ * Otifr mftiods lft <dodf>RowSft</dodf> pfrsistfndf providfrs bf
+ * rfgistfrfd or df-rfgistfrfd witi tif fbdtory mfdibnism. Tiis
+ * bllows bdditionbl syndironizbtion providfr implfmfntbtions to bf mbdf
+ * bvbilbblf to <dodf>RowSft</dodf> objfdts bt run timf.
  * <p>
- * Applications can apply a degree of filtering to determine the level of
- * synchronization that a <code>SyncProvider</code> implementation offers.
- * The following criteria determine whether a provider is
- * made available to a <code>RowSet</code> object:
+ * Applidbtions dbn bpply b dfgrff of filtfring to dftfrminf tif lfvfl of
+ * syndironizbtion tibt b <dodf>SyndProvidfr</dodf> implfmfntbtion offfrs.
+ * Tif following dritfrib dftfrminf wiftifr b providfr is
+ * mbdf bvbilbblf to b <dodf>RowSft</dodf> objfdt:
  * <ol>
- * <li>If a particular provider is specified by a <code>RowSet</code> object, and
- * the <code>SyncFactory</code> does not contain a reference to this provider,
- * a <code>SyncFactoryException</code> is thrown stating that the synchronization
- * provider could not be found.
+ * <li>If b pbrtidulbr providfr is spfdififd by b <dodf>RowSft</dodf> objfdt, bnd
+ * tif <dodf>SyndFbdtory</dodf> dofs not dontbin b rfffrfndf to tiis providfr,
+ * b <dodf>SyndFbdtoryExdfption</dodf> is tirown stbting tibt tif syndironizbtion
+ * providfr dould not bf found.
  *
- * <li>If a <code>RowSet</code> implementation is instantiated with a specified
- * provider and the specified provider has been properly registered, the
- * requested provider is supplied. Otherwise a <code>SyncFactoryException</code>
- * is thrown.
+ * <li>If b <dodf>RowSft</dodf> implfmfntbtion is instbntibtfd witi b spfdififd
+ * providfr bnd tif spfdififd providfr ibs bffn propfrly rfgistfrfd, tif
+ * rfqufstfd providfr is supplifd. Otifrwisf b <dodf>SyndFbdtoryExdfption</dodf>
+ * is tirown.
  *
- * <li>If a <code>RowSet</code> object does not specify a
- * <code>SyncProvider</code> implementation and no additional
- * <code>SyncProvider</code> implementations are available, the reference
- * implementation providers are supplied.
+ * <li>If b <dodf>RowSft</dodf> objfdt dofs not spfdify b
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion bnd no bdditionbl
+ * <dodf>SyndProvidfr</dodf> implfmfntbtions brf bvbilbblf, tif rfffrfndf
+ * implfmfntbtion providfrs brf supplifd.
  * </ol>
- * <h3>2.0 Registering <code>SyncProvider</code> Implementations</h3>
+ * <i3>2.0 Rfgistfring <dodf>SyndProvidfr</dodf> Implfmfntbtions</i3>
  * <p>
- * Both vendors and developers can register <code>SyncProvider</code>
- * implementations using one of the following mechanisms.
+ * Boti vfndors bnd dfvflopfrs dbn rfgistfr <dodf>SyndProvidfr</dodf>
+ * implfmfntbtions using onf of tif following mfdibnisms.
  * <ul>
- * <LI><B>Using the command line</B><BR>
- * The name of the provider is supplied on the command line, which will add
- * the provider to the system properties.
- * For example:
+ * <LI><B>Using tif dommbnd linf</B><BR>
+ * Tif nbmf of tif providfr is supplifd on tif dommbnd linf, wiidi will bdd
+ * tif providfr to tif systfm propfrtifs.
+ * For fxbmplf:
  * <PRE>
- *    -Drowset.provider.classname=com.fred.providers.HighAvailabilityProvider
+ *    -Drowsft.providfr.dlbssnbmf=dom.frfd.providfrs.HigiAvbilbbilityProvidfr
  * </PRE>
- * <li><b>Using the Standard Properties File</b><BR>
- * The reference implementation is targeted
- * to ship with J2SE 1.5, which will include an additional resource file
- * that may be edited by hand. Here is an example of the properties file
- * included in the reference implementation:
+ * <li><b>Using tif Stbndbrd Propfrtifs Filf</b><BR>
+ * Tif rfffrfndf implfmfntbtion is tbrgftfd
+ * to siip witi J2SE 1.5, wiidi will indludf bn bdditionbl rfsourdf filf
+ * tibt mby bf fditfd by ibnd. Hfrf is bn fxbmplf of tif propfrtifs filf
+ * indludfd in tif rfffrfndf implfmfntbtion:
  * <PRE>
- *   #Default JDBC RowSet sync providers listing
+ *   #Dffbult JDBC RowSft synd providfrs listing
  *   #
  *
- *   # Optimistic synchronization provider
- *   rowset.provider.classname.0=com.sun.rowset.providers.RIOptimisticProvider
- *   rowset.provider.vendor.0=Oracle Corporation
- *   rowset.provider.version.0=1.0
+ *   # Optimistid syndironizbtion providfr
+ *   rowsft.providfr.dlbssnbmf.0=dom.sun.rowsft.providfrs.RIOptimistidProvidfr
+ *   rowsft.providfr.vfndor.0=Orbdlf Corporbtion
+ *   rowsft.providfr.vfrsion.0=1.0
  *
- *   # XML Provider using standard XML schema
- *   rowset.provider.classname.1=com.sun.rowset.providers.RIXMLProvider
- *   rowset.provider.vendor.1=Oracle Corporation
- *   rowset.provider.version.1=1.0
+ *   # XML Providfr using stbndbrd XML sdifmb
+ *   rowsft.providfr.dlbssnbmf.1=dom.sun.rowsft.providfrs.RIXMLProvidfr
+ *   rowsft.providfr.vfndor.1=Orbdlf Corporbtion
+ *   rowsft.providfr.vfrsion.1=1.0
  * </PRE>
- * The <code>SyncFactory</code> checks this file and registers the
- * <code>SyncProvider</code> implementations that it contains. A
- * developer or vendor can add other implementations to this file.
- * For example, here is a possible addition:
+ * Tif <dodf>SyndFbdtory</dodf> difdks tiis filf bnd rfgistfrs tif
+ * <dodf>SyndProvidfr</dodf> implfmfntbtions tibt it dontbins. A
+ * dfvflopfr or vfndor dbn bdd otifr implfmfntbtions to tiis filf.
+ * For fxbmplf, ifrf is b possiblf bddition:
  * <PRE>
- *     rowset.provider.classname.2=com.fred.providers.HighAvailabilityProvider
- *     rowset.provider.vendor.2=Fred, Inc.
- *     rowset.provider.version.2=1.0
+ *     rowsft.providfr.dlbssnbmf.2=dom.frfd.providfrs.HigiAvbilbbilityProvidfr
+ *     rowsft.providfr.vfndor.2=Frfd, Ind.
+ *     rowsft.providfr.vfrsion.2=1.0
  * </PRE>
  *
- * <li><b>Using a JNDI Context</b><BR>
- * Available providers can be registered on a JNDI
- * context, and the <code>SyncFactory</code> will attempt to load
- * <code>SyncProvider</code> implementations from that JNDI context.
- * For example, the following code fragment registers a provider implementation
- * on a JNDI context.  This is something a deployer would normally do. In this
- * example, <code>MyProvider</code> is being registered on a CosNaming
- * namespace, which is the namespace used by J2EE resources.
+ * <li><b>Using b JNDI Contfxt</b><BR>
+ * Avbilbblf providfrs dbn bf rfgistfrfd on b JNDI
+ * dontfxt, bnd tif <dodf>SyndFbdtory</dodf> will bttfmpt to lobd
+ * <dodf>SyndProvidfr</dodf> implfmfntbtions from tibt JNDI dontfxt.
+ * For fxbmplf, tif following dodf frbgmfnt rfgistfrs b providfr implfmfntbtion
+ * on b JNDI dontfxt.  Tiis is somftiing b dfployfr would normblly do. In tiis
+ * fxbmplf, <dodf>MyProvidfr</dodf> is bfing rfgistfrfd on b CosNbming
+ * nbmfspbdf, wiidi is tif nbmfspbdf usfd by J2EE rfsourdfs.
  * <PRE>
- *    import javax.naming.*;
+ *    import jbvbx.nbming.*;
  *
- *    Hashtable svrEnv = new  Hashtable();
- *    srvEnv.put(Context.INITIAL_CONTEXT_FACTORY, "CosNaming");
+ *    Hbsitbblf svrEnv = nfw  Hbsitbblf();
+ *    srvEnv.put(Contfxt.INITIAL_CONTEXT_FACTORY, "CosNbming");
  *
- *    Context ctx = new InitialContext(svrEnv);
- *    com.fred.providers.MyProvider = new MyProvider();
- *    ctx.rebind("providers/MyProvider", syncProvider);
+ *    Contfxt dtx = nfw InitiblContfxt(svrEnv);
+ *    dom.frfd.providfrs.MyProvidfr = nfw MyProvidfr();
+ *    dtx.rfbind("providfrs/MyProvidfr", syndProvidfr);
  * </PRE>
  * </ul>
- * Next, an application will register the JNDI context with the
- * <code>SyncFactory</code> instance.  This allows the <code>SyncFactory</code>
- * to browse within the JNDI context looking for <code>SyncProvider</code>
- * implementations.
+ * Nfxt, bn bpplidbtion will rfgistfr tif JNDI dontfxt witi tif
+ * <dodf>SyndFbdtory</dodf> instbndf.  Tiis bllows tif <dodf>SyndFbdtory</dodf>
+ * to browsf witiin tif JNDI dontfxt looking for <dodf>SyndProvidfr</dodf>
+ * implfmfntbtions.
  * <PRE>
- *    Hashtable appEnv = new Hashtable();
- *    appEnv.put(Context.INITIAL_CONTEXT_FACTORY, "CosNaming");
- *    appEnv.put(Context.PROVIDER_URL, "iiop://hostname/providers");
- *    Context ctx = new InitialContext(appEnv);
+ *    Hbsitbblf bppEnv = nfw Hbsitbblf();
+ *    bppEnv.put(Contfxt.INITIAL_CONTEXT_FACTORY, "CosNbming");
+ *    bppEnv.put(Contfxt.PROVIDER_URL, "iiop://iostnbmf/providfrs");
+ *    Contfxt dtx = nfw InitiblContfxt(bppEnv);
  *
- *    SyncFactory.registerJNDIContext(ctx);
+ *    SyndFbdtory.rfgistfrJNDIContfxt(dtx);
  * </PRE>
- * If a <code>RowSet</code> object attempts to obtain a <code>MyProvider</code>
- * object, the <code>SyncFactory</code> will try to locate it. First it searches
- * for it in the system properties, then it looks in the resource files, and
- * finally it checks the JNDI context that has been set. The <code>SyncFactory</code>
- * instance verifies that the requested provider is a valid extension of the
- * <code>SyncProvider</code> abstract class and then gives it to the
- * <code>RowSet</code> object. In the following code fragment, a new
- * <code>CachedRowSet</code> object is created and initialized with
- * <i>env</i>, which contains the binding to <code>MyProvider</code>.
+ * If b <dodf>RowSft</dodf> objfdt bttfmpts to obtbin b <dodf>MyProvidfr</dodf>
+ * objfdt, tif <dodf>SyndFbdtory</dodf> will try to lodbtf it. First it sfbrdifs
+ * for it in tif systfm propfrtifs, tifn it looks in tif rfsourdf filfs, bnd
+ * finblly it difdks tif JNDI dontfxt tibt ibs bffn sft. Tif <dodf>SyndFbdtory</dodf>
+ * instbndf vfrififs tibt tif rfqufstfd providfr is b vblid fxtfnsion of tif
+ * <dodf>SyndProvidfr</dodf> bbstrbdt dlbss bnd tifn givfs it to tif
+ * <dodf>RowSft</dodf> objfdt. In tif following dodf frbgmfnt, b nfw
+ * <dodf>CbdifdRowSft</dodf> objfdt is drfbtfd bnd initiblizfd witi
+ * <i>fnv</i>, wiidi dontbins tif binding to <dodf>MyProvidfr</dodf>.
  * <PRE>
- *    Hashtable env = new Hashtable();
- *    env.put(SyncFactory.ROWSET_SYNC_PROVIDER, "com.fred.providers.MyProvider");
- *    CachedRowSet crs = new com.sun.rowset.CachedRowSetImpl(env);
+ *    Hbsitbblf fnv = nfw Hbsitbblf();
+ *    fnv.put(SyndFbdtory.ROWSET_SYNC_PROVIDER, "dom.frfd.providfrs.MyProvidfr");
+ *    CbdifdRowSft drs = nfw dom.sun.rowsft.CbdifdRowSftImpl(fnv);
  * </PRE>
- * Further details on these mechanisms are available in the
- * <code>javax.sql.rowset.spi</code> package specification.
+ * Furtifr dftbils on tifsf mfdibnisms brf bvbilbblf in tif
+ * <dodf>jbvbx.sql.rowsft.spi</dodf> pbdkbgf spfdifidbtion.
  *
- * @author  Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncProvider
- * @see javax.sql.rowset.spi.SyncFactoryException
- * @since 1.5
+ * @butior  Jonbtibn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
+ * @sindf 1.5
  */
-public class SyncFactory {
+publid dlbss SyndFbdtory {
 
     /**
-     * Creates a new <code>SyncFactory</code> object, which is the singleton
-     * instance.
-     * Having a private constructor guarantees that no more than
-     * one <code>SyncProvider</code> object can exist at a time.
+     * Crfbtfs b nfw <dodf>SyndFbdtory</dodf> objfdt, wiidi is tif singlfton
+     * instbndf.
+     * Hbving b privbtf donstrudtor gubrbntffs tibt no morf tibn
+     * onf <dodf>SyndProvidfr</dodf> objfdt dbn fxist bt b timf.
      */
-    private SyncFactory() {
+    privbtf SyndFbdtory() {
     }
 
     /**
-     * The standard property-id for a synchronization provider implementation
-     * name.
+     * Tif stbndbrd propfrty-id for b syndironizbtion providfr implfmfntbtion
+     * nbmf.
      */
-    public static final String ROWSET_SYNC_PROVIDER =
-            "rowset.provider.classname";
+    publid stbtid finbl String ROWSET_SYNC_PROVIDER =
+            "rowsft.providfr.dlbssnbmf";
     /**
-     * The standard property-id for a synchronization provider implementation
-     * vendor name.
+     * Tif stbndbrd propfrty-id for b syndironizbtion providfr implfmfntbtion
+     * vfndor nbmf.
      */
-    public static final String ROWSET_SYNC_VENDOR =
-            "rowset.provider.vendor";
+    publid stbtid finbl String ROWSET_SYNC_VENDOR =
+            "rowsft.providfr.vfndor";
     /**
-     * The standard property-id for a synchronization provider implementation
-     * version tag.
+     * Tif stbndbrd propfrty-id for b syndironizbtion providfr implfmfntbtion
+     * vfrsion tbg.
      */
-    public static final String ROWSET_SYNC_PROVIDER_VERSION =
-            "rowset.provider.version";
+    publid stbtid finbl String ROWSET_SYNC_PROVIDER_VERSION =
+            "rowsft.providfr.vfrsion";
     /**
-     * The standard resource file name.
+     * Tif stbndbrd rfsourdf filf nbmf.
      */
-    private static String ROWSET_PROPERTIES = "rowset.properties";
+    privbtf stbtid String ROWSET_PROPERTIES = "rowsft.propfrtifs";
 
     /**
-     *  Permission required to invoke setJNDIContext and setLogger
+     *  Pfrmission rfquirfd to invokf sftJNDIContfxt bnd sftLoggfr
      */
-    private static final SQLPermission SET_SYNCFACTORY_PERMISSION =
-            new SQLPermission("setSyncFactory");
+    privbtf stbtid finbl SQLPfrmission SET_SYNCFACTORY_PERMISSION =
+            nfw SQLPfrmission("sftSyndFbdtory");
     /**
-     * The initial JNDI context where <code>SyncProvider</code> implementations can
-     * be stored and from which they can be invoked.
+     * Tif initibl JNDI dontfxt wifrf <dodf>SyndProvidfr</dodf> implfmfntbtions dbn
+     * bf storfd bnd from wiidi tify dbn bf invokfd.
      */
-    private static Context ic;
+    privbtf stbtid Contfxt id;
     /**
-     * The <code>Logger</code> object to be used by the <code>SyncFactory</code>.
+     * Tif <dodf>Loggfr</dodf> objfdt to bf usfd by tif <dodf>SyndFbdtory</dodf>.
      */
-    private static volatile Logger rsLogger;
+    privbtf stbtid volbtilf Loggfr rsLoggfr;
 
     /**
-     * The registry of available <code>SyncProvider</code> implementations.
-     * See section 2.0 of the class comment for <code>SyncFactory</code> for an
-     * explanation of how a provider can be added to this registry.
+     * Tif rfgistry of bvbilbblf <dodf>SyndProvidfr</dodf> implfmfntbtions.
+     * Sff sfdtion 2.0 of tif dlbss dommfnt for <dodf>SyndFbdtory</dodf> for bn
+     * fxplbnbtion of iow b providfr dbn bf bddfd to tiis rfgistry.
      */
-    private static Hashtable<String, SyncProvider> implementations;
+    privbtf stbtid Hbsitbblf<String, SyndProvidfr> implfmfntbtions;
 
     /**
-     * Adds the the given synchronization provider to the factory register. Guidelines
-     * are provided in the <code>SyncProvider</code> specification for the
-     * required naming conventions for <code>SyncProvider</code>
-     * implementations.
+     * Adds tif tif givfn syndironizbtion providfr to tif fbdtory rfgistfr. Guidflinfs
+     * brf providfd in tif <dodf>SyndProvidfr</dodf> spfdifidbtion for tif
+     * rfquirfd nbming donvfntions for <dodf>SyndProvidfr</dodf>
+     * implfmfntbtions.
      * <p>
-     * Synchronization providers bound to a JNDI context can be
-     * registered by binding a SyncProvider instance to a JNDI namespace.
+     * Syndironizbtion providfrs bound to b JNDI dontfxt dbn bf
+     * rfgistfrfd by binding b SyndProvidfr instbndf to b JNDI nbmfspbdf.
      *
-     * <pre>
-     * {@code
-     * SyncProvider p = new MySyncProvider();
-     * InitialContext ic = new InitialContext();
-     * ic.bind ("jdbc/rowset/MySyncProvider", p);
-     * } </pre>
+     * <prf>
+     * {@dodf
+     * SyndProvidfr p = nfw MySyndProvidfr();
+     * InitiblContfxt id = nfw InitiblContfxt();
+     * id.bind ("jdbd/rowsft/MySyndProvidfr", p);
+     * } </prf>
      *
-     * Furthermore, an initial JNDI context should be set with the
-     * <code>SyncFactory</code> using the <code>setJNDIContext</code> method.
-     * The <code>SyncFactory</code> leverages this context to search for
-     * available <code>SyncProvider</code> objects bound to the JNDI
-     * context and its child nodes.
+     * Furtifrmorf, bn initibl JNDI dontfxt siould bf sft witi tif
+     * <dodf>SyndFbdtory</dodf> using tif <dodf>sftJNDIContfxt</dodf> mftiod.
+     * Tif <dodf>SyndFbdtory</dodf> lfvfrbgfs tiis dontfxt to sfbrdi for
+     * bvbilbblf <dodf>SyndProvidfr</dodf> objfdts bound to tif JNDI
+     * dontfxt bnd its diild nodfs.
      *
-     * @param providerID A <code>String</code> object with the unique ID of the
-     *             synchronization provider being registered
-     * @throws SyncFactoryException if an attempt is made to supply an empty
-     *         or null provider name
-     * @see #setJNDIContext
+     * @pbrbm providfrID A <dodf>String</dodf> objfdt witi tif uniquf ID of tif
+     *             syndironizbtion providfr bfing rfgistfrfd
+     * @tirows SyndFbdtoryExdfption if bn bttfmpt is mbdf to supply bn fmpty
+     *         or null providfr nbmf
+     * @sff #sftJNDIContfxt
      */
-    public static synchronized void registerProvider(String providerID)
-            throws SyncFactoryException {
+    publid stbtid syndironizfd void rfgistfrProvidfr(String providfrID)
+            tirows SyndFbdtoryExdfption {
 
-        ProviderImpl impl = new ProviderImpl();
-        impl.setClassname(providerID);
-        initMapIfNecessary();
-        implementations.put(providerID, impl);
+        ProvidfrImpl impl = nfw ProvidfrImpl();
+        impl.sftClbssnbmf(providfrID);
+        initMbpIfNfdfssbry();
+        implfmfntbtions.put(providfrID, impl);
 
     }
 
     /**
-     * Returns the <code>SyncFactory</code> singleton.
+     * Rfturns tif <dodf>SyndFbdtory</dodf> singlfton.
      *
-     * @return the <code>SyncFactory</code> instance
+     * @rfturn tif <dodf>SyndFbdtory</dodf> instbndf
      */
-    public static SyncFactory getSyncFactory() {
+    publid stbtid SyndFbdtory gftSyndFbdtory() {
         /*
-         * Using Initialization on Demand Holder idiom as
-         * Effective Java 2nd Edition,ITEM 71, indicates it is more performant
-         * than the Double-Check Locking idiom.
+         * Using Initiblizbtion on Dfmbnd Holdfr idiom bs
+         * Efffdtivf Jbvb 2nd Edition,ITEM 71, indidbtfs it is morf pfrformbnt
+         * tibn tif Doublf-Cifdk Lodking idiom.
          */
-        return SyncFactoryHolder.factory;
+        rfturn SyndFbdtoryHoldfr.fbdtory;
     }
 
     /**
-     * Removes the designated currently registered synchronization provider from the
-     * Factory SPI register.
+     * Rfmovfs tif dfsignbtfd durrfntly rfgistfrfd syndironizbtion providfr from tif
+     * Fbdtory SPI rfgistfr.
      *
-     * @param providerID The unique-id of the synchronization provider
-     * @throws SyncFactoryException If an attempt is made to
-     * unregister a SyncProvider implementation that was not registered.
+     * @pbrbm providfrID Tif uniquf-id of tif syndironizbtion providfr
+     * @tirows SyndFbdtoryExdfption If bn bttfmpt is mbdf to
+     * unrfgistfr b SyndProvidfr implfmfntbtion tibt wbs not rfgistfrfd.
      */
-    public static synchronized void unregisterProvider(String providerID)
-            throws SyncFactoryException {
-        initMapIfNecessary();
-        if (implementations.containsKey(providerID)) {
-            implementations.remove(providerID);
+    publid stbtid syndironizfd void unrfgistfrProvidfr(String providfrID)
+            tirows SyndFbdtoryExdfption {
+        initMbpIfNfdfssbry();
+        if (implfmfntbtions.dontbinsKfy(providfrID)) {
+            implfmfntbtions.rfmovf(providfrID);
         }
     }
-    private static String colon = ":";
-    private static String strFileSep = "/";
+    privbtf stbtid String dolon = ":";
+    privbtf stbtid String strFilfSfp = "/";
 
-    private static synchronized void initMapIfNecessary() throws SyncFactoryException {
+    privbtf stbtid syndironizfd void initMbpIfNfdfssbry() tirows SyndFbdtoryExdfption {
 
-        // Local implementation class names and keys from Properties
-        // file, translate names into Class objects using Class.forName
-        // and store mappings
-        final Properties properties = new Properties();
+        // Lodbl implfmfntbtion dlbss nbmfs bnd kfys from Propfrtifs
+        // filf, trbnslbtf nbmfs into Clbss objfdts using Clbss.forNbmf
+        // bnd storf mbppings
+        finbl Propfrtifs propfrtifs = nfw Propfrtifs();
 
-        if (implementations == null) {
-            implementations = new Hashtable<>();
+        if (implfmfntbtions == null) {
+            implfmfntbtions = nfw Hbsitbblf<>();
 
             try {
 
-                // check if user is supplying his Synchronisation Provider
-                // Implementation if not using Oracle's implementation.
-                // properties.load(new FileInputStream(ROWSET_PROPERTIES));
+                // difdk if usfr is supplying iis Syndironisbtion Providfr
+                // Implfmfntbtion if not using Orbdlf's implfmfntbtion.
+                // propfrtifs.lobd(nfw FilfInputStrfbm(ROWSET_PROPERTIES));
 
-                // The rowset.properties needs to be in jdk/jre/lib when
-                // integrated with jdk.
-                // else it should be picked from -D option from command line.
+                // Tif rowsft.propfrtifs nffds to bf in jdk/jrf/lib wifn
+                // intfgrbtfd witi jdk.
+                // flsf it siould bf pidkfd from -D option from dommbnd linf.
 
-                // -Drowset.properties will add to standard properties. Similar
-                // keys will over-write
+                // -Drowsft.propfrtifs will bdd to stbndbrd propfrtifs. Similbr
+                // kfys will ovfr-writf
 
                 /*
-                 * Dependent on application
+                 * Dfpfndfnt on bpplidbtion
                  */
-                String strRowsetProperties;
+                String strRowsftPropfrtifs;
                 try {
-                    strRowsetProperties = AccessController.doPrivileged(new PrivilegedAction<String>() {
-                        public String run() {
-                            return System.getProperty("rowset.properties");
+                    strRowsftPropfrtifs = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+                        publid String run() {
+                            rfturn Systfm.gftPropfrty("rowsft.propfrtifs");
                         }
-                    }, null, new PropertyPermission("rowset.properties", "read"));
-                } catch (Exception ex) {
-                    System.out.println("errorget rowset.properties: " + ex);
-                    strRowsetProperties = null;
+                    }, null, nfw PropfrtyPfrmission("rowsft.propfrtifs", "rfbd"));
+                } dbtdi (Exdfption fx) {
+                    Systfm.out.println("frrorgft rowsft.propfrtifs: " + fx);
+                    strRowsftPropfrtifs = null;
                 };
 
-                if (strRowsetProperties != null) {
-                    // Load user's implementation of SyncProvider
-                    // here. -Drowset.properties=/abc/def/pqr.txt
-                    ROWSET_PROPERTIES = strRowsetProperties;
-                    try (FileInputStream fis = new FileInputStream(ROWSET_PROPERTIES)) {
-                        properties.load(fis);
+                if (strRowsftPropfrtifs != null) {
+                    // Lobd usfr's implfmfntbtion of SyndProvidfr
+                    // ifrf. -Drowsft.propfrtifs=/bbd/dff/pqr.txt
+                    ROWSET_PROPERTIES = strRowsftPropfrtifs;
+                    try (FilfInputStrfbm fis = nfw FilfInputStrfbm(ROWSET_PROPERTIES)) {
+                        propfrtifs.lobd(fis);
                     }
-                    parseProperties(properties);
+                    pbrsfPropfrtifs(propfrtifs);
                 }
 
                 /*
-                 * Always available
+                 * Alwbys bvbilbblf
                  */
-                ROWSET_PROPERTIES = "javax" + strFileSep + "sql" +
-                        strFileSep + "rowset" + strFileSep +
-                        "rowset.properties";
+                ROWSET_PROPERTIES = "jbvbx" + strFilfSfp + "sql" +
+                        strFilfSfp + "rowsft" + strFilfSfp +
+                        "rowsft.propfrtifs";
 
-                ClassLoader cl = Thread.currentThread().getContextClassLoader();
+                ClbssLobdfr dl = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
 
                 try {
-                    AccessController.doPrivileged((PrivilegedExceptionAction<Void>) () -> {
-                        try (InputStream stream = (cl == null) ?
-                                ClassLoader.getSystemResourceAsStream(ROWSET_PROPERTIES)
-                                : cl.getResourceAsStream(ROWSET_PROPERTIES)) {
-                            if (stream == null) {
-                                throw new SyncFactoryException("Resource " + ROWSET_PROPERTIES + " not found");
+                    AddfssControllfr.doPrivilfgfd((PrivilfgfdExdfptionAdtion<Void>) () -> {
+                        try (InputStrfbm strfbm = (dl == null) ?
+                                ClbssLobdfr.gftSystfmRfsourdfAsStrfbm(ROWSET_PROPERTIES)
+                                : dl.gftRfsourdfAsStrfbm(ROWSET_PROPERTIES)) {
+                            if (strfbm == null) {
+                                tirow nfw SyndFbdtoryExdfption("Rfsourdf " + ROWSET_PROPERTIES + " not found");
                             }
-                            properties.load(stream);
+                            propfrtifs.lobd(strfbm);
                         }
-                        return null;
+                        rfturn null;
                     });
-                } catch (PrivilegedActionException ex) {
-                    Throwable e = ex.getException();
-                    if (e instanceof SyncFactoryException) {
-                      throw (SyncFactoryException) e;
-                    } else {
-                        SyncFactoryException sfe = new SyncFactoryException();
-                        sfe.initCause(ex.getException());
-                        throw sfe;
+                } dbtdi (PrivilfgfdAdtionExdfption fx) {
+                    Tirowbblf f = fx.gftExdfption();
+                    if (f instbndfof SyndFbdtoryExdfption) {
+                      tirow (SyndFbdtoryExdfption) f;
+                    } flsf {
+                        SyndFbdtoryExdfption sff = nfw SyndFbdtoryExdfption();
+                        sff.initCbusf(fx.gftExdfption());
+                        tirow sff;
                     }
                 }
 
-                parseProperties(properties);
+                pbrsfPropfrtifs(propfrtifs);
 
-            // removed else, has properties should sum together
+            // rfmovfd flsf, ibs propfrtifs siould sum togftifr
 
-            } catch (FileNotFoundException e) {
-                throw new SyncFactoryException("Cannot locate properties file: " + e);
-            } catch (IOException e) {
-                throw new SyncFactoryException("IOException: " + e);
+            } dbtdi (FilfNotFoundExdfption f) {
+                tirow nfw SyndFbdtoryExdfption("Cbnnot lodbtf propfrtifs filf: " + f);
+            } dbtdi (IOExdfption f) {
+                tirow nfw SyndFbdtoryExdfption("IOExdfption: " + f);
             }
 
             /*
-             * Now deal with -Drowset.provider.classname
-             * load additional properties from -D command line
+             * Now dfbl witi -Drowsft.providfr.dlbssnbmf
+             * lobd bdditionbl propfrtifs from -D dommbnd linf
              */
-            properties.clear();
-            String providerImpls;
+            propfrtifs.dlfbr();
+            String providfrImpls;
             try {
-                providerImpls = AccessController.doPrivileged(new PrivilegedAction<String>() {
-                    public String run() {
-                        return System.getProperty(ROWSET_SYNC_PROVIDER);
+                providfrImpls = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+                    publid String run() {
+                        rfturn Systfm.gftPropfrty(ROWSET_SYNC_PROVIDER);
                     }
-                }, null, new PropertyPermission(ROWSET_SYNC_PROVIDER, "read"));
-            } catch (Exception ex) {
-                providerImpls = null;
+                }, null, nfw PropfrtyPfrmission(ROWSET_SYNC_PROVIDER, "rfbd"));
+            } dbtdi (Exdfption fx) {
+                providfrImpls = null;
             }
 
-            if (providerImpls != null) {
+            if (providfrImpls != null) {
                 int i = 0;
-                if (providerImpls.indexOf(colon) > 0) {
-                    StringTokenizer tokenizer = new StringTokenizer(providerImpls, colon);
-                    while (tokenizer.hasMoreElements()) {
-                        properties.put(ROWSET_SYNC_PROVIDER + "." + i, tokenizer.nextToken());
+                if (providfrImpls.indfxOf(dolon) > 0) {
+                    StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(providfrImpls, dolon);
+                    wiilf (tokfnizfr.ibsMorfElfmfnts()) {
+                        propfrtifs.put(ROWSET_SYNC_PROVIDER + "." + i, tokfnizfr.nfxtTokfn());
                         i++;
                     }
-                } else {
-                    properties.put(ROWSET_SYNC_PROVIDER, providerImpls);
+                } flsf {
+                    propfrtifs.put(ROWSET_SYNC_PROVIDER, providfrImpls);
                 }
-                parseProperties(properties);
+                pbrsfPropfrtifs(propfrtifs);
             }
         }
     }
 
     /**
-     * The internal debug switch.
+     * Tif intfrnbl dfbug switdi.
      */
-    private static boolean debug = false;
+    privbtf stbtid boolfbn dfbug = fblsf;
     /**
-     * Internal registry count for the number of providers contained in the
-     * registry.
+     * Intfrnbl rfgistry dount for tif numbfr of providfrs dontbinfd in tif
+     * rfgistry.
      */
-    private static int providerImplIndex = 0;
+    privbtf stbtid int providfrImplIndfx = 0;
 
     /**
-     * Internal handler for all standard property parsing. Parses standard
-     * ROWSET properties and stores lazy references into the the internal registry.
+     * Intfrnbl ibndlfr for bll stbndbrd propfrty pbrsing. Pbrsfs stbndbrd
+     * ROWSET propfrtifs bnd storfs lbzy rfffrfndfs into tif tif intfrnbl rfgistry.
      */
-    private static void parseProperties(Properties p) {
+    privbtf stbtid void pbrsfPropfrtifs(Propfrtifs p) {
 
-        ProviderImpl impl = null;
-        String key = null;
-        String[] propertyNames = null;
+        ProvidfrImpl impl = null;
+        String kfy = null;
+        String[] propfrtyNbmfs = null;
 
-        for (Enumeration<?> e = p.propertyNames(); e.hasMoreElements();) {
+        for (Enumfrbtion<?> f = p.propfrtyNbmfs(); f.ibsMorfElfmfnts();) {
 
-            String str = (String) e.nextElement();
+            String str = (String) f.nfxtElfmfnt();
 
-            int w = str.length();
+            int w = str.lfngti();
 
-            if (str.startsWith(SyncFactory.ROWSET_SYNC_PROVIDER)) {
+            if (str.stbrtsWiti(SyndFbdtory.ROWSET_SYNC_PROVIDER)) {
 
-                impl = new ProviderImpl();
-                impl.setIndex(providerImplIndex++);
+                impl = nfw ProvidfrImpl();
+                impl.sftIndfx(providfrImplIndfx++);
 
-                if (w == (SyncFactory.ROWSET_SYNC_PROVIDER).length()) {
-                    // no property index has been set.
-                    propertyNames = getPropertyNames(false);
-                } else {
-                    // property index has been set.
-                    propertyNames = getPropertyNames(true, str.substring(w - 1));
+                if (w == (SyndFbdtory.ROWSET_SYNC_PROVIDER).lfngti()) {
+                    // no propfrty indfx ibs bffn sft.
+                    propfrtyNbmfs = gftPropfrtyNbmfs(fblsf);
+                } flsf {
+                    // propfrty indfx ibs bffn sft.
+                    propfrtyNbmfs = gftPropfrtyNbmfs(truf, str.substring(w - 1));
                 }
 
-                key = p.getProperty(propertyNames[0]);
-                impl.setClassname(key);
-                impl.setVendor(p.getProperty(propertyNames[1]));
-                impl.setVersion(p.getProperty(propertyNames[2]));
-                implementations.put(key, impl);
+                kfy = p.gftPropfrty(propfrtyNbmfs[0]);
+                impl.sftClbssnbmf(kfy);
+                impl.sftVfndor(p.gftPropfrty(propfrtyNbmfs[1]));
+                impl.sftVfrsion(p.gftPropfrty(propfrtyNbmfs[2]));
+                implfmfntbtions.put(kfy, impl);
             }
         }
     }
 
     /**
-     * Used by the parseProperties methods to disassemble each property tuple.
+     * Usfd by tif pbrsfPropfrtifs mftiods to disbssfmblf fbdi propfrty tuplf.
      */
-    private static String[] getPropertyNames(boolean append) {
-        return getPropertyNames(append, null);
+    privbtf stbtid String[] gftPropfrtyNbmfs(boolfbn bppfnd) {
+        rfturn gftPropfrtyNbmfs(bppfnd, null);
     }
 
     /**
-     * Disassembles each property and its associated value. Also handles
-     * overloaded property names that contain indexes.
+     * Disbssfmblfs fbdi propfrty bnd its bssodibtfd vbluf. Also ibndlfs
+     * ovfrlobdfd propfrty nbmfs tibt dontbin indfxfs.
      */
-    private static String[] getPropertyNames(boolean append,
-            String propertyIndex) {
+    privbtf stbtid String[] gftPropfrtyNbmfs(boolfbn bppfnd,
+            String propfrtyIndfx) {
         String dot = ".";
-        String[] propertyNames =
-                new String[]{SyncFactory.ROWSET_SYNC_PROVIDER,
-            SyncFactory.ROWSET_SYNC_VENDOR,
-            SyncFactory.ROWSET_SYNC_PROVIDER_VERSION};
-        if (append) {
-            for (int i = 0; i < propertyNames.length; i++) {
-                propertyNames[i] = propertyNames[i] +
+        String[] propfrtyNbmfs =
+                nfw String[]{SyndFbdtory.ROWSET_SYNC_PROVIDER,
+            SyndFbdtory.ROWSET_SYNC_VENDOR,
+            SyndFbdtory.ROWSET_SYNC_PROVIDER_VERSION};
+        if (bppfnd) {
+            for (int i = 0; i < propfrtyNbmfs.lfngti; i++) {
+                propfrtyNbmfs[i] = propfrtyNbmfs[i] +
                         dot +
-                        propertyIndex;
+                        propfrtyIndfx;
             }
-            return propertyNames;
-        } else {
-            return propertyNames;
+            rfturn propfrtyNbmfs;
+        } flsf {
+            rfturn propfrtyNbmfs;
         }
     }
 
     /**
-     * Internal debug method that outputs the registry contents.
+     * Intfrnbl dfbug mftiod tibt outputs tif rfgistry dontfnts.
      */
-    private static void showImpl(ProviderImpl impl) {
-        System.out.println("Provider implementation:");
-        System.out.println("Classname: " + impl.getClassname());
-        System.out.println("Vendor: " + impl.getVendor());
-        System.out.println("Version: " + impl.getVersion());
-        System.out.println("Impl index: " + impl.getIndex());
+    privbtf stbtid void siowImpl(ProvidfrImpl impl) {
+        Systfm.out.println("Providfr implfmfntbtion:");
+        Systfm.out.println("Clbssnbmf: " + impl.gftClbssnbmf());
+        Systfm.out.println("Vfndor: " + impl.gftVfndor());
+        Systfm.out.println("Vfrsion: " + impl.gftVfrsion());
+        Systfm.out.println("Impl indfx: " + impl.gftIndfx());
     }
 
     /**
-     * Returns the <code>SyncProvider</code> instance identified by <i>providerID</i>.
+     * Rfturns tif <dodf>SyndProvidfr</dodf> instbndf idfntififd by <i>providfrID</i>.
      *
-     * @param providerID the unique identifier of the provider
-     * @return a <code>SyncProvider</code> implementation
-     * @throws SyncFactoryException If the SyncProvider cannot be found,
-     * the providerID is {@code null}, or
-     * some error was encountered when trying to invoke this provider.
+     * @pbrbm providfrID tif uniquf idfntififr of tif providfr
+     * @rfturn b <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * @tirows SyndFbdtoryExdfption If tif SyndProvidfr dbnnot bf found,
+     * tif providfrID is {@dodf null}, or
+     * somf frror wbs fndountfrfd wifn trying to invokf tiis providfr.
      */
-    public static SyncProvider getInstance(String providerID)
-            throws SyncFactoryException {
+    publid stbtid SyndProvidfr gftInstbndf(String providfrID)
+            tirows SyndFbdtoryExdfption {
 
-        if(providerID == null) {
-            throw new SyncFactoryException("The providerID cannot be null");
+        if(providfrID == null) {
+            tirow nfw SyndFbdtoryExdfption("Tif providfrID dbnnot bf null");
         }
 
-        initMapIfNecessary(); // populate HashTable
-        initJNDIContext();    // check JNDI context for any additional bindings
+        initMbpIfNfdfssbry(); // populbtf HbsiTbblf
+        initJNDIContfxt();    // difdk JNDI dontfxt for bny bdditionbl bindings
 
-        ProviderImpl impl = (ProviderImpl) implementations.get(providerID);
+        ProvidfrImpl impl = (ProvidfrImpl) implfmfntbtions.gft(providfrID);
 
         if (impl == null) {
-            // Requested SyncProvider is unavailable. Return default provider.
-            return new com.sun.rowset.providers.RIOptimisticProvider();
+            // Rfqufstfd SyndProvidfr is unbvbilbblf. Rfturn dffbult providfr.
+            rfturn nfw dom.sun.rowsft.providfrs.RIOptimistidProvidfr();
         }
 
         try {
-            ReflectUtil.checkPackageAccess(providerID);
-        } catch (java.security.AccessControlException e) {
-            SyncFactoryException sfe = new SyncFactoryException();
-            sfe.initCause(e);
-            throw sfe;
+            RfflfdtUtil.difdkPbdkbgfAddfss(providfrID);
+        } dbtdi (jbvb.sfdurity.AddfssControlExdfption f) {
+            SyndFbdtoryExdfption sff = nfw SyndFbdtoryExdfption();
+            sff.initCbusf(f);
+            tirow sff;
         }
 
-        // Attempt to invoke classname from registered SyncProvider list
-        Class<?> c = null;
+        // Attfmpt to invokf dlbssnbmf from rfgistfrfd SyndProvidfr list
+        Clbss<?> d = null;
         try {
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
+            ClbssLobdfr dl = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
 
             /**
-             * The SyncProvider implementation of the user will be in
-             * the classpath. We need to find the ClassLoader which loads
-             * this SyncFactory and try to load the SyncProvider class from
-             * there.
+             * Tif SyndProvidfr implfmfntbtion of tif usfr will bf in
+             * tif dlbsspbti. Wf nffd to find tif ClbssLobdfr wiidi lobds
+             * tiis SyndFbdtory bnd try to lobd tif SyndProvidfr dlbss from
+             * tifrf.
              **/
-            c = Class.forName(providerID, true, cl);
+            d = Clbss.forNbmf(providfrID, truf, dl);
 
-            if (c != null) {
-                return (SyncProvider) c.newInstance();
-            } else {
-                return new com.sun.rowset.providers.RIOptimisticProvider();
+            if (d != null) {
+                rfturn (SyndProvidfr) d.nfwInstbndf();
+            } flsf {
+                rfturn nfw dom.sun.rowsft.providfrs.RIOptimistidProvidfr();
             }
 
-        } catch (IllegalAccessException e) {
-            throw new SyncFactoryException("IllegalAccessException: " + e.getMessage());
-        } catch (InstantiationException e) {
-            throw new SyncFactoryException("InstantiationException: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new SyncFactoryException("ClassNotFoundException: " + e.getMessage());
+        } dbtdi (IllfgblAddfssExdfption f) {
+            tirow nfw SyndFbdtoryExdfption("IllfgblAddfssExdfption: " + f.gftMfssbgf());
+        } dbtdi (InstbntibtionExdfption f) {
+            tirow nfw SyndFbdtoryExdfption("InstbntibtionExdfption: " + f.gftMfssbgf());
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw SyndFbdtoryExdfption("ClbssNotFoundExdfption: " + f.gftMfssbgf());
         }
     }
 
     /**
-     * Returns an Enumeration of currently registered synchronization
-     * providers.  A <code>RowSet</code> implementation may use any provider in
-     * the enumeration as its <code>SyncProvider</code> object.
+     * Rfturns bn Enumfrbtion of durrfntly rfgistfrfd syndironizbtion
+     * providfrs.  A <dodf>RowSft</dodf> implfmfntbtion mby usf bny providfr in
+     * tif fnumfrbtion bs its <dodf>SyndProvidfr</dodf> objfdt.
      * <p>
-     * At a minimum, the reference synchronization provider allowing
-     * RowSet content data to be stored using a JDBC driver should be
-     * possible.
+     * At b minimum, tif rfffrfndf syndironizbtion providfr bllowing
+     * RowSft dontfnt dbtb to bf storfd using b JDBC drivfr siould bf
+     * possiblf.
      *
-     * @return Enumeration  A enumeration of available synchronization
-     * providers that are registered with this Factory
-     * @throws SyncFactoryException If an error occurs obtaining the registered
-     * providers
+     * @rfturn Enumfrbtion  A fnumfrbtion of bvbilbblf syndironizbtion
+     * providfrs tibt brf rfgistfrfd witi tiis Fbdtory
+     * @tirows SyndFbdtoryExdfption If bn frror oddurs obtbining tif rfgistfrfd
+     * providfrs
      */
-    public static Enumeration<SyncProvider> getRegisteredProviders()
-            throws SyncFactoryException {
-        initMapIfNecessary();
-        // return a collection of classnames
-        // of type SyncProvider
-        return implementations.elements();
+    publid stbtid Enumfrbtion<SyndProvidfr> gftRfgistfrfdProvidfrs()
+            tirows SyndFbdtoryExdfption {
+        initMbpIfNfdfssbry();
+        // rfturn b dollfdtion of dlbssnbmfs
+        // of typf SyndProvidfr
+        rfturn implfmfntbtions.flfmfnts();
     }
 
     /**
-     * Sets the logging object to be used by the <code>SyncProvider</code>
-     * implementation provided by the <code>SyncFactory</code>. All
-     * <code>SyncProvider</code> implementations can log their events to
-     * this object and the application can retrieve a handle to this
-     * object using the <code>getLogger</code> method.
+     * Sfts tif logging objfdt to bf usfd by tif <dodf>SyndProvidfr</dodf>
+     * implfmfntbtion providfd by tif <dodf>SyndFbdtory</dodf>. All
+     * <dodf>SyndProvidfr</dodf> implfmfntbtions dbn log tifir fvfnts to
+     * tiis objfdt bnd tif bpplidbtion dbn rftrifvf b ibndlf to tiis
+     * objfdt using tif <dodf>gftLoggfr</dodf> mftiod.
      * <p>
-     * This method checks to see that there is an {@code SQLPermission}
-     * object  which grants the permission {@code setSyncFactory}
-     * before allowing the method to succeed.  If a
-     * {@code SecurityManager} exists and its
-     * {@code checkPermission} method denies calling {@code setLogger},
-     * this method throws a
-     * {@code java.lang.SecurityException}.
+     * Tiis mftiod difdks to sff tibt tifrf is bn {@dodf SQLPfrmission}
+     * objfdt  wiidi grbnts tif pfrmission {@dodf sftSyndFbdtory}
+     * bfforf bllowing tif mftiod to suddffd.  If b
+     * {@dodf SfdurityMbnbgfr} fxists bnd its
+     * {@dodf difdkPfrmission} mftiod dfnifs dblling {@dodf sftLoggfr},
+     * tiis mftiod tirows b
+     * {@dodf jbvb.lbng.SfdurityExdfption}.
      *
-     * @param logger A Logger object instance
-     * @throws java.lang.SecurityException if a security manager exists and its
-     *   {@code checkPermission} method denies calling {@code setLogger}
-     * @throws NullPointerException if the logger is null
-     * @see SecurityManager#checkPermission
+     * @pbrbm loggfr A Loggfr objfdt instbndf
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *   {@dodf difdkPfrmission} mftiod dfnifs dblling {@dodf sftLoggfr}
+     * @tirows NullPointfrExdfption if tif loggfr is null
+     * @sff SfdurityMbnbgfr#difdkPfrmission
      */
-    public static void setLogger(Logger logger) {
+    publid stbtid void sftLoggfr(Loggfr loggfr) {
 
-        SecurityManager sec = System.getSecurityManager();
-        if (sec != null) {
-            sec.checkPermission(SET_SYNCFACTORY_PERMISSION);
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            sfd.difdkPfrmission(SET_SYNCFACTORY_PERMISSION);
         }
 
-        if(logger == null){
-            throw new NullPointerException("You must provide a Logger");
+        if(loggfr == null){
+            tirow nfw NullPointfrExdfption("You must providf b Loggfr");
         }
-        rsLogger = logger;
+        rsLoggfr = loggfr;
     }
 
     /**
-     * Sets the logging object that is used by <code>SyncProvider</code>
-     * implementations provided by the <code>SyncFactory</code> SPI. All
-     * <code>SyncProvider</code> implementations can log their events
-     * to this object and the application can retrieve a handle to this
-     * object using the <code>getLogger</code> method.
+     * Sfts tif logging objfdt tibt is usfd by <dodf>SyndProvidfr</dodf>
+     * implfmfntbtions providfd by tif <dodf>SyndFbdtory</dodf> SPI. All
+     * <dodf>SyndProvidfr</dodf> implfmfntbtions dbn log tifir fvfnts
+     * to tiis objfdt bnd tif bpplidbtion dbn rftrifvf b ibndlf to tiis
+     * objfdt using tif <dodf>gftLoggfr</dodf> mftiod.
      * <p>
-     * This method checks to see that there is an {@code SQLPermission}
-     * object  which grants the permission {@code setSyncFactory}
-     * before allowing the method to succeed.  If a
-     * {@code SecurityManager} exists and its
-     * {@code checkPermission} method denies calling {@code setLogger},
-     * this method throws a
-     * {@code java.lang.SecurityException}.
+     * Tiis mftiod difdks to sff tibt tifrf is bn {@dodf SQLPfrmission}
+     * objfdt  wiidi grbnts tif pfrmission {@dodf sftSyndFbdtory}
+     * bfforf bllowing tif mftiod to suddffd.  If b
+     * {@dodf SfdurityMbnbgfr} fxists bnd its
+     * {@dodf difdkPfrmission} mftiod dfnifs dblling {@dodf sftLoggfr},
+     * tiis mftiod tirows b
+     * {@dodf jbvb.lbng.SfdurityExdfption}.
      *
-     * @param logger a Logger object instance
-     * @param level a Level object instance indicating the degree of logging
-     * required
-     * @throws java.lang.SecurityException if a security manager exists and its
-     *   {@code checkPermission} method denies calling {@code setLogger}
-     * @throws NullPointerException if the logger is null
-     * @see SecurityManager#checkPermission
-     * @see LoggingPermission
+     * @pbrbm loggfr b Loggfr objfdt instbndf
+     * @pbrbm lfvfl b Lfvfl objfdt instbndf indidbting tif dfgrff of logging
+     * rfquirfd
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *   {@dodf difdkPfrmission} mftiod dfnifs dblling {@dodf sftLoggfr}
+     * @tirows NullPointfrExdfption if tif loggfr is null
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff LoggingPfrmission
      */
-    public static void setLogger(Logger logger, Level level) {
-        // singleton
-        SecurityManager sec = System.getSecurityManager();
-        if (sec != null) {
-            sec.checkPermission(SET_SYNCFACTORY_PERMISSION);
+    publid stbtid void sftLoggfr(Loggfr loggfr, Lfvfl lfvfl) {
+        // singlfton
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            sfd.difdkPfrmission(SET_SYNCFACTORY_PERMISSION);
         }
 
-        if(logger == null){
-            throw new NullPointerException("You must provide a Logger");
+        if(loggfr == null){
+            tirow nfw NullPointfrExdfption("You must providf b Loggfr");
         }
-        logger.setLevel(level);
-        rsLogger = logger;
+        loggfr.sftLfvfl(lfvfl);
+        rsLoggfr = loggfr;
     }
 
     /**
-     * Returns the logging object for applications to retrieve
-     * synchronization events posted by SyncProvider implementations.
-     * @return The {@code Logger} that has been specified for use by
-     * {@code SyncProvider} implementations
-     * @throws SyncFactoryException if no logging object has been set.
+     * Rfturns tif logging objfdt for bpplidbtions to rftrifvf
+     * syndironizbtion fvfnts postfd by SyndProvidfr implfmfntbtions.
+     * @rfturn Tif {@dodf Loggfr} tibt ibs bffn spfdififd for usf by
+     * {@dodf SyndProvidfr} implfmfntbtions
+     * @tirows SyndFbdtoryExdfption if no logging objfdt ibs bffn sft.
      */
-    public static Logger getLogger() throws SyncFactoryException {
+    publid stbtid Loggfr gftLoggfr() tirows SyndFbdtoryExdfption {
 
-        Logger result = rsLogger;
-        // only one logger per session
-        if (result == null) {
-            throw new SyncFactoryException("(SyncFactory) : No logger has been set");
+        Loggfr rfsult = rsLoggfr;
+        // only onf loggfr pfr sfssion
+        if (rfsult == null) {
+            tirow nfw SyndFbdtoryExdfption("(SyndFbdtory) : No loggfr ibs bffn sft");
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Sets the initial JNDI context from which SyncProvider implementations
-     * can be retrieved from a JNDI namespace
+     * Sfts tif initibl JNDI dontfxt from wiidi SyndProvidfr implfmfntbtions
+     * dbn bf rftrifvfd from b JNDI nbmfspbdf
      * <p>
-     *  This method checks to see that there is an {@code SQLPermission}
-     * object  which grants the permission {@code setSyncFactory}
-     * before allowing the method to succeed.  If a
-     * {@code SecurityManager} exists and its
-     * {@code checkPermission} method denies calling {@code setJNDIContext},
-     * this method throws a
-     * {@code java.lang.SecurityException}.
+     *  Tiis mftiod difdks to sff tibt tifrf is bn {@dodf SQLPfrmission}
+     * objfdt  wiidi grbnts tif pfrmission {@dodf sftSyndFbdtory}
+     * bfforf bllowing tif mftiod to suddffd.  If b
+     * {@dodf SfdurityMbnbgfr} fxists bnd its
+     * {@dodf difdkPfrmission} mftiod dfnifs dblling {@dodf sftJNDIContfxt},
+     * tiis mftiod tirows b
+     * {@dodf jbvb.lbng.SfdurityExdfption}.
      *
-     * @param ctx a valid JNDI context
-     * @throws SyncFactoryException if the supplied JNDI context is null
-     * @throws java.lang.SecurityException if a security manager exists and its
-     *  {@code checkPermission} method denies calling {@code setJNDIContext}
-     * @see SecurityManager#checkPermission
+     * @pbrbm dtx b vblid JNDI dontfxt
+     * @tirows SyndFbdtoryExdfption if tif supplifd JNDI dontfxt is null
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *  {@dodf difdkPfrmission} mftiod dfnifs dblling {@dodf sftJNDIContfxt}
+     * @sff SfdurityMbnbgfr#difdkPfrmission
      */
-    public static synchronized void setJNDIContext(javax.naming.Context ctx)
-            throws SyncFactoryException {
-        SecurityManager sec = System.getSecurityManager();
-        if (sec != null) {
-            sec.checkPermission(SET_SYNCFACTORY_PERMISSION);
+    publid stbtid syndironizfd void sftJNDIContfxt(jbvbx.nbming.Contfxt dtx)
+            tirows SyndFbdtoryExdfption {
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            sfd.difdkPfrmission(SET_SYNCFACTORY_PERMISSION);
         }
-        if (ctx == null) {
-            throw new SyncFactoryException("Invalid JNDI context supplied");
+        if (dtx == null) {
+            tirow nfw SyndFbdtoryExdfption("Invblid JNDI dontfxt supplifd");
         }
-        ic = ctx;
+        id = dtx;
     }
 
     /**
-     * Controls JNDI context initialization.
+     * Controls JNDI dontfxt initiblizbtion.
      *
-     * @throws SyncFactoryException if an error occurs parsing the JNDI context
+     * @tirows SyndFbdtoryExdfption if bn frror oddurs pbrsing tif JNDI dontfxt
      */
-    private static synchronized void initJNDIContext() throws SyncFactoryException {
+    privbtf stbtid syndironizfd void initJNDIContfxt() tirows SyndFbdtoryExdfption {
 
-        if ((ic != null) && (lazyJNDICtxRefresh == false)) {
+        if ((id != null) && (lbzyJNDICtxRffrfsi == fblsf)) {
             try {
-                parseProperties(parseJNDIContext());
-                lazyJNDICtxRefresh = true; // touch JNDI namespace once.
-            } catch (NamingException e) {
-                e.printStackTrace();
-                throw new SyncFactoryException("SPI: NamingException: " + e.getExplanation());
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new SyncFactoryException("SPI: Exception: " + e.getMessage());
+                pbrsfPropfrtifs(pbrsfJNDIContfxt());
+                lbzyJNDICtxRffrfsi = truf; // toudi JNDI nbmfspbdf ondf.
+            } dbtdi (NbmingExdfption f) {
+                f.printStbdkTrbdf();
+                tirow nfw SyndFbdtoryExdfption("SPI: NbmingExdfption: " + f.gftExplbnbtion());
+            } dbtdi (Exdfption f) {
+                f.printStbdkTrbdf();
+                tirow nfw SyndFbdtoryExdfption("SPI: Exdfption: " + f.gftMfssbgf());
             }
         }
     }
     /**
-     * Internal switch indicating whether the JNDI namespace should be re-read.
+     * Intfrnbl switdi indidbting wiftifr tif JNDI nbmfspbdf siould bf rf-rfbd.
      */
-    private static boolean lazyJNDICtxRefresh = false;
+    privbtf stbtid boolfbn lbzyJNDICtxRffrfsi = fblsf;
 
     /**
-     * Parses the set JNDI Context and passes bindings to the enumerateBindings
-     * method when complete.
+     * Pbrsfs tif sft JNDI Contfxt bnd pbssfs bindings to tif fnumfrbtfBindings
+     * mftiod wifn domplftf.
      */
-    private static Properties parseJNDIContext() throws NamingException {
+    privbtf stbtid Propfrtifs pbrsfJNDIContfxt() tirows NbmingExdfption {
 
-        NamingEnumeration<?> bindings = ic.listBindings("");
-        Properties properties = new Properties();
+        NbmingEnumfrbtion<?> bindings = id.listBindings("");
+        Propfrtifs propfrtifs = nfw Propfrtifs();
 
-        // Hunt one level below context for available SyncProvider objects
-        enumerateBindings(bindings, properties);
+        // Hunt onf lfvfl bflow dontfxt for bvbilbblf SyndProvidfr objfdts
+        fnumfrbtfBindings(bindings, propfrtifs);
 
-        return properties;
+        rfturn propfrtifs;
     }
 
     /**
-     * Scans each binding on JNDI context and determines if any binding is an
-     * instance of SyncProvider, if so, add this to the registry and continue to
-     * scan the current context using a re-entrant call to this method until all
-     * bindings have been enumerated.
+     * Sdbns fbdi binding on JNDI dontfxt bnd dftfrminfs if bny binding is bn
+     * instbndf of SyndProvidfr, if so, bdd tiis to tif rfgistry bnd dontinuf to
+     * sdbn tif durrfnt dontfxt using b rf-fntrbnt dbll to tiis mftiod until bll
+     * bindings ibvf bffn fnumfrbtfd.
      */
-    private static void enumerateBindings(NamingEnumeration<?> bindings,
-            Properties properties) throws NamingException {
+    privbtf stbtid void fnumfrbtfBindings(NbmingEnumfrbtion<?> bindings,
+            Propfrtifs propfrtifs) tirows NbmingExdfption {
 
-        boolean syncProviderObj = false; // move to parameters ?
+        boolfbn syndProvidfrObj = fblsf; // movf to pbrbmftfrs ?
 
         try {
             Binding bd = null;
-            Object elementObj = null;
-            String element = null;
-            while (bindings.hasMore()) {
-                bd = (Binding) bindings.next();
-                element = bd.getName();
-                elementObj = bd.getObject();
+            Objfdt flfmfntObj = null;
+            String flfmfnt = null;
+            wiilf (bindings.ibsMorf()) {
+                bd = (Binding) bindings.nfxt();
+                flfmfnt = bd.gftNbmf();
+                flfmfntObj = bd.gftObjfdt();
 
-                if (!(ic.lookup(element) instanceof Context)) {
-                    // skip directories/sub-contexts
-                    if (ic.lookup(element) instanceof SyncProvider) {
-                        syncProviderObj = true;
+                if (!(id.lookup(flfmfnt) instbndfof Contfxt)) {
+                    // skip dirfdtorifs/sub-dontfxts
+                    if (id.lookup(flfmfnt) instbndfof SyndProvidfr) {
+                        syndProvidfrObj = truf;
                     }
                 }
 
-                if (syncProviderObj) {
-                    SyncProvider sync = (SyncProvider) elementObj;
-                    properties.put(SyncFactory.ROWSET_SYNC_PROVIDER,
-                            sync.getProviderID());
-                    syncProviderObj = false; // reset
+                if (syndProvidfrObj) {
+                    SyndProvidfr synd = (SyndProvidfr) flfmfntObj;
+                    propfrtifs.put(SyndFbdtory.ROWSET_SYNC_PROVIDER,
+                            synd.gftProvidfrID());
+                    syndProvidfrObj = fblsf; // rfsft
                 }
 
             }
-        } catch (javax.naming.NotContextException e) {
-            bindings.next();
-            // Re-entrant call into method
-            enumerateBindings(bindings, properties);
+        } dbtdi (jbvbx.nbming.NotContfxtExdfption f) {
+            bindings.nfxt();
+            // Rf-fntrbnt dbll into mftiod
+            fnumfrbtfBindings(bindings, propfrtifs);
         }
     }
 
     /**
-     * Lazy initialization Holder class used by {@code getSyncFactory}
+     * Lbzy initiblizbtion Holdfr dlbss usfd by {@dodf gftSyndFbdtory}
      */
-    private static class SyncFactoryHolder {
-        static final SyncFactory factory = new SyncFactory();
+    privbtf stbtid dlbss SyndFbdtoryHoldfr {
+        stbtid finbl SyndFbdtory fbdtory = nfw SyndFbdtory();
     }
 }
 
 /**
- * Internal class that defines the lazy reference construct for each registered
- * SyncProvider implementation.
+ * Intfrnbl dlbss tibt dffinfs tif lbzy rfffrfndf donstrudt for fbdi rfgistfrfd
+ * SyndProvidfr implfmfntbtion.
  */
-class ProviderImpl extends SyncProvider {
+dlbss ProvidfrImpl fxtfnds SyndProvidfr {
 
-    private String className = null;
-    private String vendorName = null;
-    private String ver = null;
-    private int index;
+    privbtf String dlbssNbmf = null;
+    privbtf String vfndorNbmf = null;
+    privbtf String vfr = null;
+    privbtf int indfx;
 
-    public void setClassname(String classname) {
-        className = classname;
+    publid void sftClbssnbmf(String dlbssnbmf) {
+        dlbssNbmf = dlbssnbmf;
     }
 
-    public String getClassname() {
-        return className;
+    publid String gftClbssnbmf() {
+        rfturn dlbssNbmf;
     }
 
-    public void setVendor(String vendor) {
-        vendorName = vendor;
+    publid void sftVfndor(String vfndor) {
+        vfndorNbmf = vfndor;
     }
 
-    public String getVendor() {
-        return vendorName;
+    publid String gftVfndor() {
+        rfturn vfndorNbmf;
     }
 
-    public void setVersion(String providerVer) {
-        ver = providerVer;
+    publid void sftVfrsion(String providfrVfr) {
+        vfr = providfrVfr;
     }
 
-    public String getVersion() {
-        return ver;
+    publid String gftVfrsion() {
+        rfturn vfr;
     }
 
-    public void setIndex(int i) {
-        index = i;
+    publid void sftIndfx(int i) {
+        indfx = i;
     }
 
-    public int getIndex() {
-        return index;
+    publid int gftIndfx() {
+        rfturn indfx;
     }
 
-    public int getDataSourceLock() throws SyncProviderException {
+    publid int gftDbtbSourdfLodk() tirows SyndProvidfrExdfption {
 
-        int dsLock = 0;
+        int dsLodk = 0;
         try {
-            dsLock = SyncFactory.getInstance(className).getDataSourceLock();
-        } catch (SyncFactoryException sfEx) {
+            dsLodk = SyndFbdtory.gftInstbndf(dlbssNbmf).gftDbtbSourdfLodk();
+        } dbtdi (SyndFbdtoryExdfption sfEx) {
 
-            throw new SyncProviderException(sfEx.getMessage());
+            tirow nfw SyndProvidfrExdfption(sfEx.gftMfssbgf());
         }
 
-        return dsLock;
+        rfturn dsLodk;
     }
 
-    public int getProviderGrade() {
+    publid int gftProvidfrGrbdf() {
 
-        int grade = 0;
+        int grbdf = 0;
 
         try {
-            grade = SyncFactory.getInstance(className).getProviderGrade();
-        } catch (SyncFactoryException sfEx) {
+            grbdf = SyndFbdtory.gftInstbndf(dlbssNbmf).gftProvidfrGrbdf();
+        } dbtdi (SyndFbdtoryExdfption sfEx) {
             //
         }
 
-        return grade;
+        rfturn grbdf;
     }
 
-    public String getProviderID() {
-        return className;
+    publid String gftProvidfrID() {
+        rfturn dlbssNbmf;
     }
 
     /*
-    public javax.sql.RowSetInternal getRowSetInternal() {
+    publid jbvbx.sql.RowSftIntfrnbl gftRowSftIntfrnbl() {
     try
     {
-    return SyncFactory.getInstance(className).getRowSetInternal();
-    } catch(SyncFactoryException sfEx) {
+    rfturn SyndFbdtory.gftInstbndf(dlbssNbmf).gftRowSftIntfrnbl();
+    } dbtdi(SyndFbdtoryExdfption sfEx) {
     //
     }
     }
      */
-    public javax.sql.RowSetReader getRowSetReader() {
+    publid jbvbx.sql.RowSftRfbdfr gftRowSftRfbdfr() {
 
-        RowSetReader rsReader = null;
+        RowSftRfbdfr rsRfbdfr = null;
 
         try {
-            rsReader = SyncFactory.getInstance(className).getRowSetReader();
-        } catch (SyncFactoryException sfEx) {
+            rsRfbdfr = SyndFbdtory.gftInstbndf(dlbssNbmf).gftRowSftRfbdfr();
+        } dbtdi (SyndFbdtoryExdfption sfEx) {
             //
         }
 
-        return rsReader;
+        rfturn rsRfbdfr;
 
     }
 
-    public javax.sql.RowSetWriter getRowSetWriter() {
+    publid jbvbx.sql.RowSftWritfr gftRowSftWritfr() {
 
-        RowSetWriter rsWriter = null;
+        RowSftWritfr rsWritfr = null;
         try {
-            rsWriter = SyncFactory.getInstance(className).getRowSetWriter();
-        } catch (SyncFactoryException sfEx) {
+            rsWritfr = SyndFbdtory.gftInstbndf(dlbssNbmf).gftRowSftWritfr();
+        } dbtdi (SyndFbdtoryExdfption sfEx) {
             //
         }
 
-        return rsWriter;
+        rfturn rsWritfr;
     }
 
-    public void setDataSourceLock(int param)
-            throws SyncProviderException {
+    publid void sftDbtbSourdfLodk(int pbrbm)
+            tirows SyndProvidfrExdfption {
 
         try {
-            SyncFactory.getInstance(className).setDataSourceLock(param);
-        } catch (SyncFactoryException sfEx) {
+            SyndFbdtory.gftInstbndf(dlbssNbmf).sftDbtbSourdfLodk(pbrbm);
+        } dbtdi (SyndFbdtoryExdfption sfEx) {
 
-            throw new SyncProviderException(sfEx.getMessage());
+            tirow nfw SyndProvidfrExdfption(sfEx.gftMfssbgf());
         }
     }
 
-    public int supportsUpdatableView() {
+    publid int supportsUpdbtbblfVifw() {
 
-        int view = 0;
+        int vifw = 0;
 
         try {
-            view = SyncFactory.getInstance(className).supportsUpdatableView();
-        } catch (SyncFactoryException sfEx) {
+            vifw = SyndFbdtory.gftInstbndf(dlbssNbmf).supportsUpdbtbblfVifw();
+        } dbtdi (SyndFbdtoryExdfption sfEx) {
             //
         }
 
-        return view;
+        rfturn vifw;
     }
 }

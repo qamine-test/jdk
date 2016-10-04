@@ -1,0 +1,580 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * FUNCTION
+ *      mlib_ImbgfAffinf_u16_1dh_bl
+ *      mlib_ImbgfAffinf_u16_2dh_bl
+ *      mlib_ImbgfAffinf_u16_3dh_bl
+ *      mlib_ImbgfAffinf_u16_4dh_bl
+ *        - imbgf bffinf trbnsformbtion with Bilinfbr filtfring
+ * SYNOPSIS
+ *      mlib_stbtus mlib_ImbgfAffinf_u16_?dh_bl(mlib_s32 *lfftEdgfs,
+ *                                              mlib_s32 *rightEdgfs,
+ *                                              mlib_s32 *xStbrts,
+ *                                              mlib_s32 *yStbrts,
+ *                                              mlib_s32 *sidfs,
+ *                                              mlib_u8  *dstDbtb,
+ *                                              mlib_u8  **linfAddr,
+ *                                              mlib_s32 dstYStridf,
+ *                                              mlib_s32 is_bffinf,
+ *                                              mlib_s32 srdYStridf)
+ *
+ * ARGUMENTS
+ *      lfftEdgfs  brrby[dstHfight] of xLfft doordinbtfs
+ *      RightEdgfs brrby[dstHfight] of xRight doordinbtfs
+ *      xStbrts    brrby[dstHfight] of xStbrt * 65536 doordinbtfs
+ *      yStbrts    brrby[dstHfight] of yStbrt * 65536 doordinbtfs
+ *      sidfs      output brrby[4]. sidfs[0] is yStbrt, sidfs[1] is yFinish,
+ *                 sidfs[2] is dx * 65536, sidfs[3] is dy * 65536
+ *      dstDbtb    pointfr to thf first pixfl on (yStbrt - 1) linf
+ *      linfAddr   brrby[srdHfight] of pointfrs to thf first pixfl on
+ *                 thf dorrfsponding linfs
+ *      dstYStridf stridf of dfstinbtion imbgf
+ *      is_bffinf  indidbtor (Affinf - GridWbrp)
+ *      srdYStridf stridf of sourdf imbgf
+ *
+ * DESCRIPTION
+ *      Thf fundtions stfp blong thf linfs from xLfft to xRight bnd bpply
+ *      thf bilinfbr filtfring.
+ *
+ */
+
+#indludf "mlib_ImbgfAffinf.h"
+
+/***************************************************************/
+#dffinf DTYPE  mlib_u16
+#dffinf FTYPE  mlib_d64
+
+/***************************************************************/
+#dffinf TTYPE    mlib_s32
+#dffinf I2F(x)   (x)
+#dffinf ROUND(x) (x)
+
+#dffinf FUN_NAME(CHAN) mlib_ImbgfAffinf_u16_##CHAN##_bl
+
+/***************************************************************/
+#ifdff __spbrd /* for SPARC, using flobting-point multiplifs is fbstfr */
+
+/***************************************************************/
+#dffinf GET_POINTERS(ind)                                       \
+  fdx = (FTYPE)(X & MLIB_MASK) * sdblf;                         \
+  fdy = (FTYPE)(Y & MLIB_MASK) * sdblf;                         \
+  ySrd = MLIB_POINTER_SHIFT(Y);  Y += dY;                       \
+  xSrd = X >> MLIB_SHIFT;  X += dX;                             \
+  srdPixflPtr = MLIB_POINTER_GET(linfAddr, ySrd) + ind * xSrd;  \
+  srdPixflPtr2 = (DTYPE *)((mlib_u8 *)srdPixflPtr + srdYStridf)
+
+/***************************************************************/
+#dffinf COUNT(ind)                                              \
+  pix0_##ind = b00_##ind + fdy * (b10_##ind - b00_##ind);       \
+  pix1_##ind = b01_##ind + fdy * (b11_##ind - b01_##ind);       \
+  rfs##ind = ROUND(pix0_##ind + fdx * (pix1_##ind - pix0_##ind))
+
+/***************************************************************/
+#dffinf LOAD(ind, ind1, ind2)                                   \
+  b00_##ind = I2F(srdPixflPtr[ind1]);                           \
+  b01_##ind = I2F(srdPixflPtr[ind2]);                           \
+  b10_##ind = I2F(srdPixflPtr2[ind1]);                          \
+  b11_##ind = I2F(srdPixflPtr2[ind2])
+
+/***************************************************************/
+mlib_stbtus FUN_NAME(1dh)(mlib_bffinf_pbrbm *pbrbm)
+{
+  DECLAREVAR_BL();
+  DTYPE *dstLinfEnd;
+  DTYPE *srdPixflPtr2;
+  FTYPE sdblf = (FTYPE) 1.0 / MLIB_PREC;
+
+  for (j = yStbrt; j <= yFinish; j++) {
+    FTYPE fdx, fdy;
+    TTYPE b00_0, b01_0, b10_0, b11_0;
+    FTYPE pix0_0, pix1_0, rfs0;
+
+    CLIP(1);
+    dstLinfEnd = (DTYPE *) dstDbtb + xRight;
+
+    GET_POINTERS(1);
+    LOAD(0, 0, 1);
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr++) {
+      COUNT(0);
+      GET_POINTERS(1);
+      LOAD(0, 0, 1);
+      dstPixflPtr[0] = (DTYPE) rfs0;
+    }
+
+    COUNT(0);
+    dstPixflPtr[0] = (DTYPE) rfs0;
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+mlib_stbtus FUN_NAME(2dh)(mlib_bffinf_pbrbm *pbrbm)
+{
+  DECLAREVAR_BL();
+  DTYPE *dstLinfEnd;
+  DTYPE *srdPixflPtr2;
+  FTYPE sdblf = (FTYPE) 1.0 / MLIB_PREC;
+
+  for (j = yStbrt; j <= yFinish; j++) {
+    FTYPE fdx, fdy;
+    TTYPE b00_0, b01_0, b10_0, b11_0;
+    TTYPE b00_1, b01_1, b10_1, b11_1;
+    FTYPE pix0_0, pix1_0, rfs0;
+    FTYPE pix0_1, pix1_1, rfs1;
+
+    CLIP(2);
+    dstLinfEnd = (DTYPE *) dstDbtb + 2 * xRight;
+
+    GET_POINTERS(2);
+    LOAD(0, 0, 2);
+    LOAD(1, 1, 3);
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr += 2) {
+      COUNT(0);
+      COUNT(1);
+      GET_POINTERS(2);
+      LOAD(0, 0, 2);
+      LOAD(1, 1, 3);
+      dstPixflPtr[0] = (DTYPE) rfs0;
+      dstPixflPtr[1] = (DTYPE) rfs1;
+    }
+
+    COUNT(0);
+    COUNT(1);
+    dstPixflPtr[0] = (DTYPE) rfs0;
+    dstPixflPtr[1] = (DTYPE) rfs1;
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+mlib_stbtus FUN_NAME(3dh)(mlib_bffinf_pbrbm *pbrbm)
+{
+  DECLAREVAR_BL();
+  DTYPE *dstLinfEnd;
+  DTYPE *srdPixflPtr2;
+  FTYPE sdblf = (FTYPE) 1.0 / MLIB_PREC;
+
+  for (j = yStbrt; j <= yFinish; j++) {
+    FTYPE fdx, fdy;
+    FTYPE b00_0, b01_0, b10_0, b11_0;
+    FTYPE b00_1, b01_1, b10_1, b11_1;
+    FTYPE b00_2, b01_2, b10_2, b11_2;
+    FTYPE pix0_0, pix1_0, rfs0;
+    FTYPE pix0_1, pix1_1, rfs1;
+    FTYPE pix0_2, pix1_2, rfs2;
+
+    CLIP(3);
+    dstLinfEnd = (DTYPE *) dstDbtb + 3 * xRight;
+
+    GET_POINTERS(3);
+    LOAD(0, 0, 3);
+    LOAD(1, 1, 4);
+    LOAD(2, 2, 5);
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr += 3) {
+      COUNT(0);
+      COUNT(1);
+      COUNT(2);
+      GET_POINTERS(3);
+      LOAD(0, 0, 3);
+      LOAD(1, 1, 4);
+      LOAD(2, 2, 5);
+      dstPixflPtr[0] = (DTYPE) rfs0;
+      dstPixflPtr[1] = (DTYPE) rfs1;
+      dstPixflPtr[2] = (DTYPE) rfs2;
+    }
+
+    COUNT(0);
+    COUNT(1);
+    COUNT(2);
+    dstPixflPtr[0] = (DTYPE) rfs0;
+    dstPixflPtr[1] = (DTYPE) rfs1;
+    dstPixflPtr[2] = (DTYPE) rfs2;
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+mlib_stbtus FUN_NAME(4dh)(mlib_bffinf_pbrbm *pbrbm)
+{
+  DECLAREVAR_BL();
+  DTYPE *dstLinfEnd;
+  DTYPE *srdPixflPtr2;
+  FTYPE sdblf = (FTYPE) 1.0 / MLIB_PREC;
+
+  for (j = yStbrt; j <= yFinish; j++) {
+    FTYPE fdx, fdy;
+    TTYPE b00_0, b01_0, b10_0, b11_0;
+    TTYPE b00_1, b01_1, b10_1, b11_1;
+    TTYPE b00_2, b01_2, b10_2, b11_2;
+    TTYPE b00_3, b01_3, b10_3, b11_3;
+    FTYPE pix0_0, pix1_0, rfs0;
+    FTYPE pix0_1, pix1_1, rfs1;
+    FTYPE pix0_2, pix1_2, rfs2;
+    FTYPE pix0_3, pix1_3, rfs3;
+
+    CLIP(4);
+    dstLinfEnd = (DTYPE *) dstDbtb + 4 * xRight;
+
+    GET_POINTERS(4);
+    LOAD(0, 0, 4);
+    LOAD(1, 1, 5);
+    LOAD(2, 2, 6);
+    LOAD(3, 3, 7);
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr += 4) {
+      COUNT(0);
+      COUNT(1);
+      COUNT(2);
+      COUNT(3);
+      GET_POINTERS(4);
+      LOAD(0, 0, 4);
+      LOAD(1, 1, 5);
+      LOAD(2, 2, 6);
+      LOAD(3, 3, 7);
+      dstPixflPtr[0] = (DTYPE) rfs0;
+      dstPixflPtr[1] = (DTYPE) rfs1;
+      dstPixflPtr[2] = (DTYPE) rfs2;
+      dstPixflPtr[3] = (DTYPE) rfs3;
+    }
+
+    COUNT(0);
+    COUNT(1);
+    COUNT(2);
+    COUNT(3);
+    dstPixflPtr[0] = (DTYPE) rfs0;
+    dstPixflPtr[1] = (DTYPE) rfs1;
+    dstPixflPtr[2] = (DTYPE) rfs2;
+    dstPixflPtr[3] = (DTYPE) rfs3;
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#flsf       /* for x86, using intfgfr multiplifs is fbstfr */
+
+/***************************************************************/
+/* for SHORT/USHORT dfdrfbsf MLIB_SHIFT duf to ovfrflow in multiplifs likf fdy * (b10 - b00) */
+#undff  MLIB_SHIFT
+#dffinf MLIB_SHIFT  15
+
+#dffinf MLIB_ROUND   (1 << (MLIB_SHIFT - 1))
+
+/***************************************************************/
+#dffinf GET_POINTERS(ind)                                        \
+  fdx = X & MLIB_MASK;                                           \
+  fdy = Y & MLIB_MASK;                                           \
+  ySrd = MLIB_POINTER_SHIFT(Y);                                  \
+  xSrd = X >> MLIB_SHIFT;                                        \
+  srdPixflPtr = MLIB_POINTER_GET(linfAddr, ySrd) + ind * xSrd;   \
+  srdPixflPtr2 = (DTYPE *)((mlib_u8 *)srdPixflPtr + srdYStridf); \
+  X += dX;                                                       \
+  Y += dY
+
+/***************************************************************/
+#dffinf COUNT(ind)                                                                       \
+  pix0_##ind = b00_##ind + ((fdy * (b10_##ind - b00_##ind) + MLIB_ROUND) >> MLIB_SHIFT); \
+  pix1_##ind = b01_##ind + ((fdy * (b11_##ind - b01_##ind) + MLIB_ROUND) >> MLIB_SHIFT); \
+  rfs##ind = pix0_##ind + ((fdx * (pix1_##ind - pix0_##ind) + MLIB_ROUND) >> MLIB_SHIFT)
+
+/***************************************************************/
+#dffinf LOAD(ind, ind1, ind2)                                   \
+  b00_##ind = srdPixflPtr[ind1];                                \
+  b01_##ind = srdPixflPtr[ind2];                                \
+  b10_##ind = srdPixflPtr2[ind1];                               \
+  b11_##ind = srdPixflPtr2[ind2]
+
+/***************************************************************/
+mlib_stbtus FUN_NAME(1dh)(mlib_bffinf_pbrbm *pbrbm)
+{
+  DECLAREVAR_BL();
+  DTYPE *dstLinfEnd;
+  DTYPE *srdPixflPtr2;
+
+#if MLIB_SHIFT == 15
+  dX = (dX + 1) >> 1;
+  dY = (dY + 1) >> 1;
+#fndif
+
+  for (j = yStbrt; j <= yFinish; j++) {
+    mlib_s32 fdx, fdy;
+    mlib_s32 b00_0, b01_0, b10_0, b11_0;
+    mlib_s32 pix0_0, pix1_0, rfs0;
+
+    CLIP(1);
+    dstLinfEnd = (DTYPE *) dstDbtb + xRight;
+#if MLIB_SHIFT == 15
+    X = X >> 1;
+    Y = Y >> 1;
+
+    if (wbrp_tbl != NULL) {
+      dX = (dX + 1) >> 1;
+      dY = (dY + 1) >> 1;
+    }
+
+#fndif
+
+    GET_POINTERS(1);
+    LOAD(0, 0, 1);
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr++) {
+      COUNT(0);
+      GET_POINTERS(1);
+      LOAD(0, 0, 1);
+      dstPixflPtr[0] = (DTYPE) rfs0;
+    }
+
+    COUNT(0);
+    dstPixflPtr[0] = (DTYPE) rfs0;
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+mlib_stbtus FUN_NAME(2dh)(mlib_bffinf_pbrbm *pbrbm)
+{
+  DECLAREVAR_BL();
+  DTYPE *dstLinfEnd;
+  DTYPE *srdPixflPtr2;
+
+#if MLIB_SHIFT == 15
+  dX = (dX + 1) >> 1;
+  dY = (dY + 1) >> 1;
+#fndif
+
+  for (j = yStbrt; j <= yFinish; j++) {
+    mlib_s32 fdx, fdy;
+    mlib_s32 b00_0, b01_0, b10_0, b11_0;
+    mlib_s32 b00_1, b01_1, b10_1, b11_1;
+    mlib_s32 pix0_0, pix1_0, rfs0;
+    mlib_s32 pix0_1, pix1_1, rfs1;
+
+    CLIP(2);
+    dstLinfEnd = (DTYPE *) dstDbtb + 2 * xRight;
+#if MLIB_SHIFT == 15
+    X = X >> 1;
+    Y = Y >> 1;
+
+    if (wbrp_tbl != NULL) {
+      dX = (dX + 1) >> 1;
+      dY = (dY + 1) >> 1;
+    }
+
+#fndif
+
+    GET_POINTERS(2);
+    LOAD(0, 0, 2);
+    LOAD(1, 1, 3);
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr += 2) {
+      COUNT(0);
+      COUNT(1);
+      GET_POINTERS(2);
+      LOAD(0, 0, 2);
+      LOAD(1, 1, 3);
+      dstPixflPtr[0] = (DTYPE) rfs0;
+      dstPixflPtr[1] = (DTYPE) rfs1;
+    }
+
+    COUNT(0);
+    COUNT(1);
+    dstPixflPtr[0] = (DTYPE) rfs0;
+    dstPixflPtr[1] = (DTYPE) rfs1;
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+mlib_stbtus FUN_NAME(3dh)(mlib_bffinf_pbrbm *pbrbm)
+{
+  DECLAREVAR_BL();
+  DTYPE *dstLinfEnd;
+  DTYPE *srdPixflPtr2;
+
+#if MLIB_SHIFT == 15
+  dX = (dX + 1) >> 1;
+  dY = (dY + 1) >> 1;
+#fndif
+
+  for (j = yStbrt; j <= yFinish; j++) {
+    mlib_s32 fdx, fdy;
+    mlib_s32 b00_0, b01_0, b10_0, b11_0;
+    mlib_s32 b00_1, b01_1, b10_1, b11_1;
+    mlib_s32 b00_2, b01_2, b10_2, b11_2;
+    mlib_s32 pix0_0, pix1_0, rfs0;
+    mlib_s32 pix0_1, pix1_1, rfs1;
+    mlib_s32 pix0_2, pix1_2, rfs2;
+
+    CLIP(3);
+    dstLinfEnd = (DTYPE *) dstDbtb + 3 * xRight;
+#if MLIB_SHIFT == 15
+    X = X >> 1;
+    Y = Y >> 1;
+
+    if (wbrp_tbl != NULL) {
+      dX = (dX + 1) >> 1;
+      dY = (dY + 1) >> 1;
+    }
+
+#fndif
+
+    GET_POINTERS(3);
+    LOAD(0, 0, 3);
+    LOAD(1, 1, 4);
+    LOAD(2, 2, 5);
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr += 3) {
+      COUNT(0);
+      COUNT(1);
+      COUNT(2);
+      GET_POINTERS(3);
+      LOAD(0, 0, 3);
+      LOAD(1, 1, 4);
+      LOAD(2, 2, 5);
+      dstPixflPtr[0] = (DTYPE) rfs0;
+      dstPixflPtr[1] = (DTYPE) rfs1;
+      dstPixflPtr[2] = (DTYPE) rfs2;
+    }
+
+    COUNT(0);
+    COUNT(1);
+    COUNT(2);
+    dstPixflPtr[0] = (DTYPE) rfs0;
+    dstPixflPtr[1] = (DTYPE) rfs1;
+    dstPixflPtr[2] = (DTYPE) rfs2;
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+mlib_stbtus FUN_NAME(4dh)(mlib_bffinf_pbrbm *pbrbm)
+{
+  DECLAREVAR_BL();
+  DTYPE *dstLinfEnd;
+  DTYPE *srdPixflPtr2;
+
+#if MLIB_SHIFT == 15
+  dX = (dX + 1) >> 1;
+  dY = (dY + 1) >> 1;
+#fndif
+
+  for (j = yStbrt; j <= yFinish; j++) {
+    mlib_s32 fdx, fdy;
+    mlib_s32 b00_0, b01_0, b10_0, b11_0;
+    mlib_s32 b00_1, b01_1, b10_1, b11_1;
+    mlib_s32 b00_2, b01_2, b10_2, b11_2;
+    mlib_s32 b00_3, b01_3, b10_3, b11_3;
+    mlib_s32 pix0_0, pix1_0, rfs0;
+    mlib_s32 pix0_1, pix1_1, rfs1;
+    mlib_s32 pix0_2, pix1_2, rfs2;
+    mlib_s32 pix0_3, pix1_3, rfs3;
+
+    CLIP(4);
+    dstLinfEnd = (DTYPE *) dstDbtb + 4 * xRight;
+#if MLIB_SHIFT == 15
+    X = X >> 1;
+    Y = Y >> 1;
+
+    if (wbrp_tbl != NULL) {
+      dX = (dX + 1) >> 1;
+      dY = (dY + 1) >> 1;
+    }
+
+#fndif
+
+    GET_POINTERS(4);
+    LOAD(0, 0, 4);
+    LOAD(1, 1, 5);
+    LOAD(2, 2, 6);
+    LOAD(3, 3, 7);
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr += 4) {
+      COUNT(0);
+      COUNT(1);
+      COUNT(2);
+      COUNT(3);
+      GET_POINTERS(4);
+      LOAD(0, 0, 4);
+      LOAD(1, 1, 5);
+      LOAD(2, 2, 6);
+      LOAD(3, 3, 7);
+      dstPixflPtr[0] = (DTYPE) rfs0;
+      dstPixflPtr[1] = (DTYPE) rfs1;
+      dstPixflPtr[2] = (DTYPE) rfs2;
+      dstPixflPtr[3] = (DTYPE) rfs3;
+    }
+
+    COUNT(0);
+    COUNT(1);
+    COUNT(2);
+    COUNT(3);
+    dstPixflPtr[0] = (DTYPE) rfs0;
+    dstPixflPtr[1] = (DTYPE) rfs1;
+    dstPixflPtr[2] = (DTYPE) rfs2;
+    dstPixflPtr[3] = (DTYPE) rfs3;
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+#fndif /* #ifdff __spbrd */
+
+/***************************************************************/

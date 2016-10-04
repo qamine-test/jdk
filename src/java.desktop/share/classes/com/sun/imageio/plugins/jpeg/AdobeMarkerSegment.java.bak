@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
 
-import javax.imageio.IIOException;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NamedNodeMap;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NbmfdNodfMbp;
 
 /**
- * An Adobe APP14 (Application-Specific) marker segment.
+ * An Adobf APP14 (Applidbtion-Spfdifid) mbrkfr sfgmfnt.
  */
-class AdobeMarkerSegment extends MarkerSegment {
-    int version;
-    int flags0;
-    int flags1;
-    int transform;
-    private static final int ID_SIZE = 5;
+dlbss AdobfMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+    int vfrsion;
+    int flbgs0;
+    int flbgs1;
+    int trbnsform;
+    privbtf stbtid finbl int ID_SIZE = 5;
 
-    AdobeMarkerSegment(int transform) {
-        super(JPEG.APP14);
-        version = 101;
-        flags0 = 0;
-        flags1 = 0;
-        this.transform = transform;
+    AdobfMbrkfrSfgmfnt(int trbnsform) {
+        supfr(JPEG.APP14);
+        vfrsion = 101;
+        flbgs0 = 0;
+        flbgs1 = 0;
+        tiis.trbnsform = trbnsform;
     }
 
-    AdobeMarkerSegment(JPEGBuffer buffer) throws IOException {
-        super(buffer);
-        buffer.bufPtr += ID_SIZE; // Skip the id
-        version = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
-        version |= buffer.buf[buffer.bufPtr++] & 0xff;
-        flags0 = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
-        flags0 |= buffer.buf[buffer.bufPtr++] & 0xff;
-        flags1 = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
-        flags1 |= buffer.buf[buffer.bufPtr++] & 0xff;
-        transform = buffer.buf[buffer.bufPtr++] & 0xff;
-        buffer.bufAvail -= length;
+    AdobfMbrkfrSfgmfnt(JPEGBufffr bufffr) tirows IOExdfption {
+        supfr(bufffr);
+        bufffr.bufPtr += ID_SIZE; // Skip tif id
+        vfrsion = (bufffr.buf[bufffr.bufPtr++] & 0xff) << 8;
+        vfrsion |= bufffr.buf[bufffr.bufPtr++] & 0xff;
+        flbgs0 = (bufffr.buf[bufffr.bufPtr++] & 0xff) << 8;
+        flbgs0 |= bufffr.buf[bufffr.bufPtr++] & 0xff;
+        flbgs1 = (bufffr.buf[bufffr.bufPtr++] & 0xff) << 8;
+        flbgs1 |= bufffr.buf[bufffr.bufPtr++] & 0xff;
+        trbnsform = bufffr.buf[bufffr.bufPtr++] & 0xff;
+        bufffr.bufAvbil -= lfngti;
     }
 
-    AdobeMarkerSegment(Node node) throws IIOInvalidTreeException {
-        this(0); // default transform will be changed
-        updateFromNativeNode(node, true);
+    AdobfMbrkfrSfgmfnt(Nodf nodf) tirows IIOInvblidTrffExdfption {
+        tiis(0); // dffbult trbnsform will bf dibngfd
+        updbtfFromNbtivfNodf(nodf, truf);
     }
 
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("app14Adobe");
-        node.setAttribute("version", Integer.toString(version));
-        node.setAttribute("flags0", Integer.toString(flags0));
-        node.setAttribute("flags1", Integer.toString(flags1));
-        node.setAttribute("transform", Integer.toString(transform));
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("bpp14Adobf");
+        nodf.sftAttributf("vfrsion", Intfgfr.toString(vfrsion));
+        nodf.sftAttributf("flbgs0", Intfgfr.toString(flbgs0));
+        nodf.sftAttributf("flbgs1", Intfgfr.toString(flbgs1));
+        nodf.sftAttributf("trbnsform", Intfgfr.toString(trbnsform));
 
-        return node;
+        rfturn nodf;
     }
 
-    void updateFromNativeNode(Node node, boolean fromScratch)
-        throws IIOInvalidTreeException {
-        // Only the transform is required
-        NamedNodeMap attrs = node.getAttributes();
-        transform = getAttributeValue(node, attrs, "transform", 0, 2, true);
-        int count = attrs.getLength();
-        if (count > 4) {
-            throw new IIOInvalidTreeException
-                ("Adobe APP14 node cannot have > 4 attributes", node);
+    void updbtfFromNbtivfNodf(Nodf nodf, boolfbn fromSdrbtdi)
+        tirows IIOInvblidTrffExdfption {
+        // Only tif trbnsform is rfquirfd
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        trbnsform = gftAttributfVbluf(nodf, bttrs, "trbnsform", 0, 2, truf);
+        int dount = bttrs.gftLfngti();
+        if (dount > 4) {
+            tirow nfw IIOInvblidTrffExdfption
+                ("Adobf APP14 nodf dbnnot ibvf > 4 bttributfs", nodf);
         }
-        if (count > 1) {
-            int value = getAttributeValue(node, attrs, "version",
-                                          100, 255, false);
-            version = (value != -1) ? value : version;
-            value = getAttributeValue(node, attrs, "flags0", 0, 65535, false);
-            flags0 = (value != -1) ? value : flags0;
-            value = getAttributeValue(node, attrs, "flags1", 0, 65535, false);
-            flags1 = (value != -1) ? value : flags1;
+        if (dount > 1) {
+            int vbluf = gftAttributfVbluf(nodf, bttrs, "vfrsion",
+                                          100, 255, fblsf);
+            vfrsion = (vbluf != -1) ? vbluf : vfrsion;
+            vbluf = gftAttributfVbluf(nodf, bttrs, "flbgs0", 0, 65535, fblsf);
+            flbgs0 = (vbluf != -1) ? vbluf : flbgs0;
+            vbluf = gftAttributfVbluf(nodf, bttrs, "flbgs1", 0, 65535, fblsf);
+            flbgs1 = (vbluf != -1) ? vbluf : flbgs1;
         }
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.
+     * Writfs tif dbtb for tiis sfgmfnt to tif strfbm in
+     * vblid JPEG formbt.
      */
-    void write(ImageOutputStream ios) throws IOException {
-        length = 14;
-        writeTag(ios);
-        byte [] id = {0x41, 0x64, 0x6F, 0x62, 0x65};
-        ios.write(id);
-        write2bytes(ios, version);
-        write2bytes(ios, flags0);
-        write2bytes(ios, flags1);
-        ios.write(transform);
+    void writf(ImbgfOutputStrfbm ios) tirows IOExdfption {
+        lfngti = 14;
+        writfTbg(ios);
+        bytf [] id = {0x41, 0x64, 0x6F, 0x62, 0x65};
+        ios.writf(id);
+        writf2bytfs(ios, vfrsion);
+        writf2bytfs(ios, flbgs0);
+        writf2bytfs(ios, flbgs1);
+        ios.writf(trbnsform);
     }
 
-    static void writeAdobeSegment(ImageOutputStream ios, int transform)
-        throws IOException {
-        (new AdobeMarkerSegment(transform)).write(ios);
+    stbtid void writfAdobfSfgmfnt(ImbgfOutputStrfbm ios, int trbnsform)
+        tirows IOExdfption {
+        (nfw AdobfMbrkfrSfgmfnt(trbnsform)).writf(ios);
     }
 
     void print () {
-        printTag("Adobe APP14");
-        System.out.print("Version: ");
-        System.out.println(version);
-        System.out.print("Flags0: 0x");
-        System.out.println(Integer.toHexString(flags0));
-        System.out.print("Flags1: 0x");
-        System.out.println(Integer.toHexString(flags1));
-        System.out.print("Transform: ");
-        System.out.println(transform);
+        printTbg("Adobf APP14");
+        Systfm.out.print("Vfrsion: ");
+        Systfm.out.println(vfrsion);
+        Systfm.out.print("Flbgs0: 0x");
+        Systfm.out.println(Intfgfr.toHfxString(flbgs0));
+        Systfm.out.print("Flbgs1: 0x");
+        Systfm.out.println(Intfgfr.toHfxString(flbgs1));
+        Systfm.out.print("Trbnsform: ");
+        Systfm.out.println(trbnsform);
     }
 }

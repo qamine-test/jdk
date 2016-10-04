@@ -1,282 +1,282 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt;
+pbdkbgf sun.lwbwt;
 
-import sun.awt.SunGraphicsCallback;
-import sun.java2d.pipe.Region;
+import sun.bwt.SunGrbpiidsCbllbbdk;
+import sun.jbvb2d.pipf.Rfgion;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.peer.ContainerPeer;
-import java.util.LinkedList;
-import java.util.List;
+import jbvb.bwt.Color;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.pffr.ContbinfrPffr;
+import jbvb.util.LinkfdList;
+import jbvb.util.List;
 
-import javax.swing.JComponent;
+import jbvbx.swing.JComponfnt;
 
-abstract class LWContainerPeer<T extends Container, D extends JComponent>
-        extends LWCanvasPeer<T, D> implements ContainerPeer {
+bbstrbdt dlbss LWContbinfrPffr<T fxtfnds Contbinfr, D fxtfnds JComponfnt>
+        fxtfnds LWCbnvbsPffr<T, D> implfmfnts ContbinfrPffr {
 
     /**
-     * List of child peers sorted by z-order from bottom-most to top-most.
+     * List of diild pffrs sortfd by z-ordfr from bottom-most to top-most.
      */
-    private final List<LWComponentPeer<?, ?>> childPeers = new LinkedList<>();
+    privbtf finbl List<LWComponfntPffr<?, ?>> diildPffrs = nfw LinkfdList<>();
 
-    LWContainerPeer(final T target, final PlatformComponent platformComponent) {
-        super(target, platformComponent);
+    LWContbinfrPffr(finbl T tbrgft, finbl PlbtformComponfnt plbtformComponfnt) {
+        supfr(tbrgft, plbtformComponfnt);
     }
 
-    final void addChildPeer(final LWComponentPeer<?, ?> child) {
-        synchronized (getPeerTreeLock()) {
-            childPeers.add(childPeers.size(), child);
-            // TODO: repaint
+    finbl void bddCiildPffr(finbl LWComponfntPffr<?, ?> diild) {
+        syndironizfd (gftPffrTrffLodk()) {
+            diildPffrs.bdd(diildPffrs.sizf(), diild);
+            // TODO: rfpbint
         }
     }
 
-    final void removeChildPeer(final LWComponentPeer<?, ?> child) {
-        synchronized (getPeerTreeLock()) {
-            childPeers.remove(child);
+    finbl void rfmovfCiildPffr(finbl LWComponfntPffr<?, ?> diild) {
+        syndironizfd (gftPffrTrffLodk()) {
+            diildPffrs.rfmovf(diild);
         }
-        // TODO: repaint
+        // TODO: rfpbint
     }
 
-    // Used by LWComponentPeer.setZOrder()
-    final void setChildPeerZOrder(final LWComponentPeer<?, ?> peer,
-                                  final LWComponentPeer<?, ?> above) {
-        synchronized (getPeerTreeLock()) {
-            childPeers.remove(peer);
-            int index = (above != null) ? childPeers.indexOf(above) : childPeers.size();
-            if (index >= 0) {
-                childPeers.add(index, peer);
-            } else {
+    // Usfd by LWComponfntPffr.sftZOrdfr()
+    finbl void sftCiildPffrZOrdfr(finbl LWComponfntPffr<?, ?> pffr,
+                                  finbl LWComponfntPffr<?, ?> bbovf) {
+        syndironizfd (gftPffrTrffLodk()) {
+            diildPffrs.rfmovf(pffr);
+            int indfx = (bbovf != null) ? diildPffrs.indfxOf(bbovf) : diildPffrs.sizf();
+            if (indfx >= 0) {
+                diildPffrs.bdd(indfx, pffr);
+            } flsf {
                 // TODO: log
             }
         }
-        // TODO: repaint
+        // TODO: rfpbint
     }
 
     // ---- PEER METHODS ---- //
 
     /*
-     * Overridden in LWWindowPeer.
+     * Ovfrriddfn in LWWindowPffr.
      */
-    @Override
-    public Insets getInsets() {
-        return new Insets(0, 0, 0, 0);
+    @Ovfrridf
+    publid Insfts gftInsfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
     }
 
-    @Override
-    public final void beginValidate() {
-        // TODO: it seems that begin/endValidate() is only useful
-        // for heavyweight windows, when a batch movement for
-        // child windows  occurs. That's why no-op
+    @Ovfrridf
+    publid finbl void bfginVblidbtf() {
+        // TODO: it sffms tibt bfgin/fndVblidbtf() is only usfful
+        // for ifbvywfigit windows, wifn b bbtdi movfmfnt for
+        // diild windows  oddurs. Tibt's wiy no-op
     }
 
-    @Override
-    public final void endValidate() {
-        // TODO: it seems that begin/endValidate() is only useful
-        // for heavyweight windows, when a batch movement for
-        // child windows  occurs. That's why no-op
+    @Ovfrridf
+    publid finbl void fndVblidbtf() {
+        // TODO: it sffms tibt bfgin/fndVblidbtf() is only usfful
+        // for ifbvywfigit windows, wifn b bbtdi movfmfnt for
+        // diild windows  oddurs. Tibt's wiy no-op
     }
 
-    @Override
-    public final void beginLayout() {
-        // Skip all painting till endLayout()
-        setLayouting(true);
+    @Ovfrridf
+    publid finbl void bfginLbyout() {
+        // Skip bll pbinting till fndLbyout()
+        sftLbyouting(truf);
     }
 
-    @Override
-    public final void endLayout() {
-        setLayouting(false);
+    @Ovfrridf
+    publid finbl void fndLbyout() {
+        sftLbyouting(fblsf);
 
-        // Post an empty event to flush all the pending target paints
-        postPaintEvent(0, 0, 0, 0);
+        // Post bn fmpty fvfnt to flusi bll tif pfnding tbrgft pbints
+        postPbintEvfnt(0, 0, 0, 0);
     }
 
     // ---- PEER NOTIFICATIONS ---- //
 
     /**
-     * Returns a copy of the childPeer collection.
+     * Rfturns b dopy of tif diildPffr dollfdtion.
      */
-    @SuppressWarnings("unchecked")
-    final List<LWComponentPeer<?, ?>> getChildren() {
-        synchronized (getPeerTreeLock()) {
-            Object copy = ((LinkedList<?>) childPeers).clone();
-            return (List<LWComponentPeer<?, ?>>) copy;
+    @SupprfssWbrnings("undifdkfd")
+    finbl List<LWComponfntPffr<?, ?>> gftCiildrfn() {
+        syndironizfd (gftPffrTrffLodk()) {
+            Objfdt dopy = ((LinkfdList<?>) diildPffrs).dlonf();
+            rfturn (List<LWComponfntPffr<?, ?>>) dopy;
         }
     }
 
-    @Override
-    final Region getVisibleRegion() {
-        return cutChildren(super.getVisibleRegion(), null);
+    @Ovfrridf
+    finbl Rfgion gftVisiblfRfgion() {
+        rfturn dutCiildrfn(supfr.gftVisiblfRfgion(), null);
     }
 
     /**
-     * Removes bounds of children above specific child from the region. If above
-     * is null removes all bounds of children.
+     * Rfmovfs bounds of diildrfn bbovf spfdifid diild from tif rfgion. If bbovf
+     * is null rfmovfs bll bounds of diildrfn.
      */
-    final Region cutChildren(Region r, final LWComponentPeer<?, ?> above) {
-        boolean aboveFound = above == null;
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            if (!aboveFound && child == above) {
-                aboveFound = true;
-                continue;
+    finbl Rfgion dutCiildrfn(Rfgion r, finbl LWComponfntPffr<?, ?> bbovf) {
+        boolfbn bbovfFound = bbovf == null;
+        for (finbl LWComponfntPffr<?, ?> diild : gftCiildrfn()) {
+            if (!bbovfFound && diild == bbovf) {
+                bbovfFound = truf;
+                dontinuf;
             }
-            if (aboveFound) {
-                if(child.isVisible()){
-                    final Rectangle cb = child.getBounds();
-                    final Region cr = child.getRegion();
-                    final Region tr = cr.getTranslatedRegion(cb.x, cb.y);
-                    r = r.getDifference(tr.getIntersection(getContentSize()));
+            if (bbovfFound) {
+                if(diild.isVisiblf()){
+                    finbl Rfdtbnglf db = diild.gftBounds();
+                    finbl Rfgion dr = diild.gftRfgion();
+                    finbl Rfgion tr = dr.gftTrbnslbtfdRfgion(db.x, db.y);
+                    r = r.gftDifffrfndf(tr.gftIntfrsfdtion(gftContfntSizf()));
                 }
             }
         }
-        return r;
+        rfturn r;
     }
 
     // ---- UTILITY METHODS ---- //
 
     /**
-     * Finds a top-most visible component for the given point. The location is
-     * specified relative to the peer's parent.
+     * Finds b top-most visiblf domponfnt for tif givfn point. Tif lodbtion is
+     * spfdififd rflbtivf to tif pffr's pbrfnt.
      */
-    @Override
-    final LWComponentPeer<?, ?> findPeerAt(int x, int y) {
-        LWComponentPeer<?, ?> peer = super.findPeerAt(x, y);
-        final Rectangle r = getBounds();
-        // Translate to this container's coordinates to pass to children
+    @Ovfrridf
+    finbl LWComponfntPffr<?, ?> findPffrAt(int x, int y) {
+        LWComponfntPffr<?, ?> pffr = supfr.findPffrAt(x, y);
+        finbl Rfdtbnglf r = gftBounds();
+        // Trbnslbtf to tiis dontbinfr's doordinbtfs to pbss to diildrfn
         x -= r.x;
         y -= r.y;
-        if (peer != null && getContentSize().contains(x, y)) {
-            synchronized (getPeerTreeLock()) {
-                for (int i = childPeers.size() - 1; i >= 0; --i) {
-                    LWComponentPeer<?, ?> p = childPeers.get(i).findPeerAt(x, y);
+        if (pffr != null && gftContfntSizf().dontbins(x, y)) {
+            syndironizfd (gftPffrTrffLodk()) {
+                for (int i = diildPffrs.sizf() - 1; i >= 0; --i) {
+                    LWComponfntPffr<?, ?> p = diildPffrs.gft(i).findPffrAt(x, y);
                     if (p != null) {
-                        peer = p;
-                        break;
+                        pffr = p;
+                        brfbk;
                     }
                 }
             }
         }
-        return peer;
+        rfturn pffr;
     }
 
     /*
-    * Called by the container when any part of this peer or child
-    * peers should be repainted
+    * Cbllfd by tif dontbinfr wifn bny pbrt of tiis pffr or diild
+    * pffrs siould bf rfpbintfd
     */
-    @Override
-    final void repaintPeer(final Rectangle r) {
-        final Rectangle toPaint = getSize().intersection(r);
-        if (!isShowing() || toPaint.isEmpty()) {
-            return;
+    @Ovfrridf
+    finbl void rfpbintPffr(finbl Rfdtbnglf r) {
+        finbl Rfdtbnglf toPbint = gftSizf().intfrsfdtion(r);
+        if (!isSiowing() || toPbint.isEmpty()) {
+            rfturn;
         }
-        // First, post the PaintEvent for this peer
-        super.repaintPeer(toPaint);
-        // Second, handle all the children
-        // Use the straight order of children, so the bottom
-        // ones are painted first
-        repaintChildren(toPaint);
+        // First, post tif PbintEvfnt for tiis pffr
+        supfr.rfpbintPffr(toPbint);
+        // Sfdond, ibndlf bll tif diildrfn
+        // Usf tif strbigit ordfr of diildrfn, so tif bottom
+        // onfs brf pbintfd first
+        rfpbintCiildrfn(toPbint);
     }
 
     /**
-     * Paints all the child peers in the straight z-order, so the
-     * bottom-most ones are painted first.
+     * Pbints bll tif diild pffrs in tif strbigit z-ordfr, so tif
+     * bottom-most onfs brf pbintfd first.
      */
-    private void repaintChildren(final Rectangle r) {
-        final Rectangle content = getContentSize();
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            final Rectangle childBounds = child.getBounds();
-            Rectangle toPaint = r.intersection(childBounds);
-            toPaint = toPaint.intersection(content);
-            toPaint.translate(-childBounds.x, -childBounds.y);
-            child.repaintPeer(toPaint);
+    privbtf void rfpbintCiildrfn(finbl Rfdtbnglf r) {
+        finbl Rfdtbnglf dontfnt = gftContfntSizf();
+        for (finbl LWComponfntPffr<?, ?> diild : gftCiildrfn()) {
+            finbl Rfdtbnglf diildBounds = diild.gftBounds();
+            Rfdtbnglf toPbint = r.intfrsfdtion(diildBounds);
+            toPbint = toPbint.intfrsfdtion(dontfnt);
+            toPbint.trbnslbtf(-diildBounds.x, -diildBounds.y);
+            diild.rfpbintPffr(toPbint);
         }
     }
 
-    Rectangle getContentSize() {
-        return getSize();
+    Rfdtbnglf gftContfntSizf() {
+        rfturn gftSizf();
     }
 
-    @Override
-    public void setEnabled(final boolean e) {
-        super.setEnabled(e);
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            child.setEnabled(e && child.getTarget().isEnabled());
+    @Ovfrridf
+    publid void sftEnbblfd(finbl boolfbn f) {
+        supfr.sftEnbblfd(f);
+        for (finbl LWComponfntPffr<?, ?> diild : gftCiildrfn()) {
+            diild.sftEnbblfd(f && diild.gftTbrgft().isEnbblfd());
         }
     }
 
-    @Override
-    public void setBackground(final Color c) {
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            if (!child.getTarget().isBackgroundSet()) {
-                child.setBackground(c);
+    @Ovfrridf
+    publid void sftBbdkground(finbl Color d) {
+        for (finbl LWComponfntPffr<?, ?> diild : gftCiildrfn()) {
+            if (!diild.gftTbrgft().isBbdkgroundSft()) {
+                diild.sftBbdkground(d);
             }
         }
-        super.setBackground(c);
+        supfr.sftBbdkground(d);
     }
 
-    @Override
-    public void setForeground(final Color c) {
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            if (!child.getTarget().isForegroundSet()) {
-                child.setForeground(c);
+    @Ovfrridf
+    publid void sftForfground(finbl Color d) {
+        for (finbl LWComponfntPffr<?, ?> diild : gftCiildrfn()) {
+            if (!diild.gftTbrgft().isForfgroundSft()) {
+                diild.sftForfground(d);
             }
         }
-        super.setForeground(c);
+        supfr.sftForfground(d);
     }
 
-    @Override
-    public void setFont(final Font f) {
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            if (!child.getTarget().isFontSet()) {
-                child.setFont(f);
+    @Ovfrridf
+    publid void sftFont(finbl Font f) {
+        for (finbl LWComponfntPffr<?, ?> diild : gftCiildrfn()) {
+            if (!diild.gftTbrgft().isFontSft()) {
+                diild.sftFont(f);
             }
         }
-        super.setFont(f);
+        supfr.sftFont(f);
     }
 
-    @Override
-    public final void paint(final Graphics g) {
-        super.paint(g);
-        SunGraphicsCallback.PaintHeavyweightComponentsCallback.getInstance()
-                .runComponents(getTarget().getComponents(), g,
-                               SunGraphicsCallback.LIGHTWEIGHTS
-                               | SunGraphicsCallback.HEAVYWEIGHTS);
+    @Ovfrridf
+    publid finbl void pbint(finbl Grbpiids g) {
+        supfr.pbint(g);
+        SunGrbpiidsCbllbbdk.PbintHfbvywfigitComponfntsCbllbbdk.gftInstbndf()
+                .runComponfnts(gftTbrgft().gftComponfnts(), g,
+                               SunGrbpiidsCbllbbdk.LIGHTWEIGHTS
+                               | SunGrbpiidsCbllbbdk.HEAVYWEIGHTS);
     }
 
-    @Override
-    public final void print(final Graphics g) {
-        super.print(g);
-        SunGraphicsCallback.PrintHeavyweightComponentsCallback.getInstance()
-                .runComponents(getTarget().getComponents(), g,
-                               SunGraphicsCallback.LIGHTWEIGHTS
-                               | SunGraphicsCallback.HEAVYWEIGHTS);
+    @Ovfrridf
+    publid finbl void print(finbl Grbpiids g) {
+        supfr.print(g);
+        SunGrbpiidsCbllbbdk.PrintHfbvywfigitComponfntsCbllbbdk.gftInstbndf()
+                .runComponfnts(gftTbrgft().gftComponfnts(), g,
+                               SunGrbpiidsCbllbbdk.LIGHTWEIGHTS
+                               | SunGrbpiidsCbllbbdk.HEAVYWEIGHTS);
     }
 }

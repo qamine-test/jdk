@@ -1,0 +1,571 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+/**
+ * This dlbss is bn implfmfntbtion of thf ImbgfProdudfr intfrfbdf whidh
+ * usfs bn brrby to produdf pixfl vblufs for bn Imbgf.  Hfrf is bn fxbmplf
+ * whidh dbldulbtfs b 100x100 imbgf rfprfsfnting b fbdf from blbdk to bluf
+ * blong thf X bxis bnd b fbdf from blbdk to rfd blong thf Y bxis:
+ * <prf>{@dodf
+ *
+ *      int w = 100;
+ *      int h = 100;
+ *      int pix[] = nfw int[w * h];
+ *      int indfx = 0;
+ *      for (int y = 0; y < h; y++) {
+ *          int rfd = (y * 255) / (h - 1);
+ *          for (int x = 0; x < w; x++) {
+ *              int bluf = (x * 255) / (w - 1);
+ *              pix[indfx++] = (255 << 24) | (rfd << 16) | bluf;
+ *          }
+ *      }
+ *      Imbgf img = drfbtfImbgf(nfw MfmoryImbgfSourdf(w, h, pix, 0, w));
+ *
+ * }</prf>
+ * Thf MfmoryImbgfSourdf is blso dbpbblf of mbnbging b mfmory imbgf whidh
+ * vbrifs ovfr timf to bllow bnimbtion or dustom rfndfring.  Hfrf is bn
+ * fxbmplf showing how to sft up thf bnimbtion sourdf bnd signbl dhbngfs
+ * in thf dbtb (bdbptfd from thf MfmoryAnimbtionSourdfDfmo by Gbrth Didkif):
+ * <prf>{@dodf
+ *
+ *      int pixfls[];
+ *      MfmoryImbgfSourdf sourdf;
+ *
+ *      publid void init() {
+ *          int width = 50;
+ *          int hfight = 50;
+ *          int sizf = width * hfight;
+ *          pixfls = nfw int[sizf];
+ *
+ *          int vbluf = gftBbdkground().gftRGB();
+ *          for (int i = 0; i < sizf; i++) {
+ *              pixfls[i] = vbluf;
+ *          }
+ *
+ *          sourdf = nfw MfmoryImbgfSourdf(width, hfight, pixfls, 0, width);
+ *          sourdf.sftAnimbtfd(truf);
+ *          imbgf = drfbtfImbgf(sourdf);
+ *      }
+ *
+ *      publid void run() {
+ *          Thrfbd mf = Thrfbd.durrfntThrfbd( );
+ *          mf.sftPriority(Thrfbd.MIN_PRIORITY);
+ *
+ *          whilf (truf) {
+ *              try {
+ *                  Thrfbd.slffp(10);
+ *              } dbtdh( IntfrruptfdExdfption f ) {
+ *                  rfturn;
+ *              }
+ *
+ *              // Modify thf vblufs in thf pixfls brrby bt (x, y, w, h)
+ *
+ *              // Sfnd thf nfw dbtb to thf intfrfstfd ImbgfConsumfrs
+ *              sourdf.nfwPixfls(x, y, w, h);
+ *          }
+ *      }
+ *
+ * }</prf>
+ *
+ * @sff ImbgfProdudfr
+ *
+ * @buthor      Jim Grbhbm
+ * @buthor      Animbtion dbpbbilitifs inspirfd by thf
+ *              MfmoryAnimbtionSourdf dlbss writtfn by Gbrth Didkif
+ */
+publid dlbss MfmoryImbgfSourdf implfmfnts ImbgfProdudfr {
+    int width;
+    int hfight;
+    ColorModfl modfl;
+    Objfdt pixfls;
+    int pixfloffsft;
+    int pixflsdbn;
+    Hbshtbblf<?, ?> propfrtifs;
+    Vfdtor<ImbgfConsumfr> thfConsumfrs = nfw Vfdtor<>();
+    boolfbn bnimbting;
+    boolfbn fullbufffrs;
+
+    /**
+     * Construdts bn ImbgfProdudfr objfdt whidh usfs bn brrby of bytfs
+     * to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w thf width of thf rfdtbnglf of pixfls
+     * @pbrbm h thf hfight of thf rfdtbnglf of pixfls
+     * @pbrbm dm thf spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off thf offsft into thf brrby of whfrf to storf thf
+     *        first pixfl
+     * @pbrbm sdbn thf distbndf from onf row of pixfls to thf nfxt in
+     *        thf brrby
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
+     */
+    publid MfmoryImbgfSourdf(int w, int h, ColorModfl dm,
+                             bytf[] pix, int off, int sdbn) {
+        initiblizf(w, h, dm, (Objfdt) pix, off, sdbn, null);
+    }
+
+    /**
+     * Construdts bn ImbgfProdudfr objfdt whidh usfs bn brrby of bytfs
+     * to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w thf width of thf rfdtbnglf of pixfls
+     * @pbrbm h thf hfight of thf rfdtbnglf of pixfls
+     * @pbrbm dm thf spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off thf offsft into thf brrby of whfrf to storf thf
+     *        first pixfl
+     * @pbrbm sdbn thf distbndf from onf row of pixfls to thf nfxt in
+     *        thf brrby
+     * @pbrbm props b list of propfrtifs thbt thf <dodf>ImbgfProdudfr</dodf>
+     *        usfs to prodfss bn imbgf
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
+     */
+    publid MfmoryImbgfSourdf(int w, int h, ColorModfl dm,
+                             bytf[] pix, int off, int sdbn,
+                             Hbshtbblf<?,?> props)
+    {
+        initiblizf(w, h, dm, (Objfdt) pix, off, sdbn, props);
+    }
+
+    /**
+     * Construdts bn ImbgfProdudfr objfdt whidh usfs bn brrby of intfgfrs
+     * to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w thf width of thf rfdtbnglf of pixfls
+     * @pbrbm h thf hfight of thf rfdtbnglf of pixfls
+     * @pbrbm dm thf spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off thf offsft into thf brrby of whfrf to storf thf
+     *        first pixfl
+     * @pbrbm sdbn thf distbndf from onf row of pixfls to thf nfxt in
+     *        thf brrby
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
+     */
+    publid MfmoryImbgfSourdf(int w, int h, ColorModfl dm,
+                             int[] pix, int off, int sdbn) {
+        initiblizf(w, h, dm, (Objfdt) pix, off, sdbn, null);
+    }
+
+    /**
+     * Construdts bn ImbgfProdudfr objfdt whidh usfs bn brrby of intfgfrs
+     * to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w thf width of thf rfdtbnglf of pixfls
+     * @pbrbm h thf hfight of thf rfdtbnglf of pixfls
+     * @pbrbm dm thf spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off thf offsft into thf brrby of whfrf to storf thf
+     *        first pixfl
+     * @pbrbm sdbn thf distbndf from onf row of pixfls to thf nfxt in
+     *        thf brrby
+     * @pbrbm props b list of propfrtifs thbt thf <dodf>ImbgfProdudfr</dodf>
+     *        usfs to prodfss bn imbgf
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
+     */
+    publid MfmoryImbgfSourdf(int w, int h, ColorModfl dm,
+                             int[] pix, int off, int sdbn,
+                             Hbshtbblf<?,?> props)
+    {
+        initiblizf(w, h, dm, (Objfdt) pix, off, sdbn, props);
+    }
+
+    privbtf void initiblizf(int w, int h, ColorModfl dm,
+                            Objfdt pix, int off, int sdbn, Hbshtbblf<?,?> props) {
+        width = w;
+        hfight = h;
+        modfl = dm;
+        pixfls = pix;
+        pixfloffsft = off;
+        pixflsdbn = sdbn;
+        if (props == null) {
+            props = nfw Hbshtbblf<>();
+        }
+        propfrtifs = props;
+    }
+
+    /**
+     * Construdts bn ImbgfProdudfr objfdt whidh usfs bn brrby of intfgfrs
+     * in thf dffbult RGB ColorModfl to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w thf width of thf rfdtbnglf of pixfls
+     * @pbrbm h thf hfight of thf rfdtbnglf of pixfls
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off thf offsft into thf brrby of whfrf to storf thf
+     *        first pixfl
+     * @pbrbm sdbn thf distbndf from onf row of pixfls to thf nfxt in
+     *        thf brrby
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
+     * @sff ColorModfl#gftRGBdffbult
+     */
+    publid MfmoryImbgfSourdf(int w, int h, int pix[], int off, int sdbn) {
+        initiblizf(w, h, ColorModfl.gftRGBdffbult(),
+                   (Objfdt) pix, off, sdbn, null);
+    }
+
+    /**
+     * Construdts bn ImbgfProdudfr objfdt whidh usfs bn brrby of intfgfrs
+     * in thf dffbult RGB ColorModfl to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w thf width of thf rfdtbnglf of pixfls
+     * @pbrbm h thf hfight of thf rfdtbnglf of pixfls
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off thf offsft into thf brrby of whfrf to storf thf
+     *        first pixfl
+     * @pbrbm sdbn thf distbndf from onf row of pixfls to thf nfxt in
+     *        thf brrby
+     * @pbrbm props b list of propfrtifs thbt thf <dodf>ImbgfProdudfr</dodf>
+     *        usfs to prodfss bn imbgf
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
+     * @sff ColorModfl#gftRGBdffbult
+     */
+    publid MfmoryImbgfSourdf(int w, int h, int pix[], int off, int sdbn,
+                             Hbshtbblf<?,?> props)
+    {
+        initiblizf(w, h, ColorModfl.gftRGBdffbult(),
+                   (Objfdt) pix, off, sdbn, props);
+    }
+
+    /**
+     * Adds bn ImbgfConsumfr to thf list of donsumfrs intfrfstfd in
+     * dbtb for this imbgf.
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @throws NullPointfrExdfption if thf spfdififd
+     *           <dodf>ImbgfConsumfr</dodf> is null
+     * @sff ImbgfConsumfr
+     */
+    publid syndhronizfd void bddConsumfr(ImbgfConsumfr id) {
+        if (thfConsumfrs.dontbins(id)) {
+            rfturn;
+        }
+        thfConsumfrs.bddElfmfnt(id);
+        try {
+            initConsumfr(id);
+            sfndPixfls(id, 0, 0, width, hfight);
+            if (isConsumfr(id)) {
+                id.imbgfComplftf(bnimbting
+                                 ? ImbgfConsumfr.SINGLEFRAMEDONE
+                                 : ImbgfConsumfr.STATICIMAGEDONE);
+                if (!bnimbting && isConsumfr(id)) {
+                    id.imbgfComplftf(ImbgfConsumfr.IMAGEERROR);
+                    rfmovfConsumfr(id);
+                }
+            }
+        } dbtdh (Exdfption f) {
+            if (isConsumfr(id)) {
+                id.imbgfComplftf(ImbgfConsumfr.IMAGEERROR);
+            }
+        }
+    }
+
+    /**
+     * Dftfrminfs if bn ImbgfConsumfr is on thf list of donsumfrs durrfntly
+     * intfrfstfd in dbtb for this imbgf.
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @rfturn <dodf>truf</dodf> if thf <dodf>ImbgfConsumfr</dodf>
+     * is on thf list; <dodf>fblsf</dodf> othfrwisf.
+     * @sff ImbgfConsumfr
+     */
+    publid syndhronizfd boolfbn isConsumfr(ImbgfConsumfr id) {
+        rfturn thfConsumfrs.dontbins(id);
+    }
+
+    /**
+     * Rfmovfs bn ImbgfConsumfr from thf list of donsumfrs intfrfstfd in
+     * dbtb for this imbgf.
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @sff ImbgfConsumfr
+     */
+    publid syndhronizfd void rfmovfConsumfr(ImbgfConsumfr id) {
+        thfConsumfrs.rfmovfElfmfnt(id);
+    }
+
+    /**
+     * Adds bn ImbgfConsumfr to thf list of donsumfrs intfrfstfd in
+     * dbtb for this imbgf bnd immfdibtfly stbrts dflivfry of thf
+     * imbgf dbtb through thf ImbgfConsumfr intfrfbdf.
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * imbgf dbtb through thf ImbgfConsumfr intfrfbdf.
+     * @sff ImbgfConsumfr
+     */
+    publid void stbrtProdudtion(ImbgfConsumfr id) {
+        bddConsumfr(id);
+    }
+
+    /**
+     * Rfqufsts thbt b givfn ImbgfConsumfr hbvf thf imbgf dbtb dflivfrfd
+     * onf morf timf in top-down, lfft-right ordfr.
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @sff ImbgfConsumfr
+     */
+    publid void rfqufstTopDownLfftRightRfsfnd(ImbgfConsumfr id) {
+        // Ignorfd.  Thf dbtb is fithfr singlf frbmf bnd blrfbdy in TDLR
+        // formbt or it is multi-frbmf bnd TDLR rfsfnds brfn't dritidbl.
+    }
+
+    /**
+     * Chbngfs this mfmory imbgf into b multi-frbmf bnimbtion or b
+     * singlf-frbmf stbtid imbgf dfpfnding on thf bnimbtfd pbrbmftfr.
+     * <p>This mfthod should bf dbllfd immfdibtfly bftfr thf
+     * MfmoryImbgfSourdf is donstrudtfd bnd bfforf bn imbgf is
+     * drfbtfd with it to fnsurf thbt bll ImbgfConsumfrs will
+     * rfdfivf thf dorrfdt multi-frbmf dbtb.  If bn ImbgfConsumfr
+     * is bddfd to this ImbgfProdudfr bfforf this flbg is sft thfn
+     * thbt ImbgfConsumfr will sff only b snbpshot of thf pixfl
+     * dbtb thbt wbs bvbilbblf whfn it donnfdtfd.
+     * @pbrbm bnimbtfd <dodf>truf</dodf> if thf imbgf is b
+     *       multi-frbmf bnimbtion
+     */
+    publid syndhronizfd void sftAnimbtfd(boolfbn bnimbtfd) {
+        this.bnimbting = bnimbtfd;
+        if (!bnimbting) {
+            Enumfrbtion<ImbgfConsumfr> fnum_ = thfConsumfrs.flfmfnts();
+            whilf (fnum_.hbsMorfElfmfnts()) {
+                ImbgfConsumfr id = fnum_.nfxtElfmfnt();
+                id.imbgfComplftf(ImbgfConsumfr.STATICIMAGEDONE);
+                if (isConsumfr(id)) {
+                    id.imbgfComplftf(ImbgfConsumfr.IMAGEERROR);
+                }
+            }
+            thfConsumfrs.rfmovfAllElfmfnts();
+        }
+    }
+
+    /**
+     * Spfdififs whfthfr this bnimbtfd mfmory imbgf should blwbys bf
+     * updbtfd by sfnding thf domplftf bufffr of pixfls whfnfvfr
+     * thfrf is b dhbngf.
+     * This flbg is ignorfd if thf bnimbtion flbg is not turnfd on
+     * through thf sftAnimbtfd() mfthod.
+     * <p>This mfthod should bf dbllfd immfdibtfly bftfr thf
+     * MfmoryImbgfSourdf is donstrudtfd bnd bfforf bn imbgf is
+     * drfbtfd with it to fnsurf thbt bll ImbgfConsumfrs will
+     * rfdfivf thf dorrfdt pixfl dflivfry hints.
+     * @pbrbm fullbufffrs <dodf>truf</dodf> if thf domplftf pixfl
+     *             bufffr should blwbys
+     * bf sfnt
+     * @sff #sftAnimbtfd
+     */
+    publid syndhronizfd void sftFullBufffrUpdbtfs(boolfbn fullbufffrs) {
+        if (this.fullbufffrs == fullbufffrs) {
+            rfturn;
+        }
+        this.fullbufffrs = fullbufffrs;
+        if (bnimbting) {
+            Enumfrbtion<ImbgfConsumfr> fnum_ = thfConsumfrs.flfmfnts();
+            whilf (fnum_.hbsMorfElfmfnts()) {
+                ImbgfConsumfr id = fnum_.nfxtElfmfnt();
+                id.sftHints(fullbufffrs
+                            ? (ImbgfConsumfr.TOPDOWNLEFTRIGHT |
+                               ImbgfConsumfr.COMPLETESCANLINES)
+                            : ImbgfConsumfr.RANDOMPIXELORDER);
+            }
+        }
+    }
+
+    /**
+     * Sfnds b wholf nfw bufffr of pixfls to bny ImbgfConsumfrs thbt
+     * brf durrfntly intfrfstfd in thf dbtb for this imbgf bnd notify
+     * thfm thbt bn bnimbtion frbmf is domplftf.
+     * This mfthod only hbs ffffdt if thf bnimbtion flbg hbs bffn
+     * turnfd on through thf sftAnimbtfd() mfthod.
+     * @sff #nfwPixfls(int, int, int, int, boolfbn)
+     * @sff ImbgfConsumfr
+     * @sff #sftAnimbtfd
+     */
+    publid void nfwPixfls() {
+        nfwPixfls(0, 0, width, hfight, truf);
+    }
+
+    /**
+     * Sfnds b rfdtbngulbr rfgion of thf bufffr of pixfls to bny
+     * ImbgfConsumfrs thbt brf durrfntly intfrfstfd in thf dbtb for
+     * this imbgf bnd notify thfm thbt bn bnimbtion frbmf is domplftf.
+     * This mfthod only hbs ffffdt if thf bnimbtion flbg hbs bffn
+     * turnfd on through thf sftAnimbtfd() mfthod.
+     * If thf full bufffr updbtf flbg wbs turnfd on with thf
+     * sftFullBufffrUpdbtfs() mfthod thfn thf rfdtbnglf pbrbmftfrs
+     * will bf ignorfd bnd thf fntirf bufffr will blwbys bf sfnt.
+     * @pbrbm x thf x doordinbtf of thf uppfr lfft dornfr of thf rfdtbnglf
+     * of pixfls to bf sfnt
+     * @pbrbm y thf y doordinbtf of thf uppfr lfft dornfr of thf rfdtbnglf
+     * of pixfls to bf sfnt
+     * @pbrbm w thf width of thf rfdtbnglf of pixfls to bf sfnt
+     * @pbrbm h thf hfight of thf rfdtbnglf of pixfls to bf sfnt
+     * @sff #nfwPixfls(int, int, int, int, boolfbn)
+     * @sff ImbgfConsumfr
+     * @sff #sftAnimbtfd
+     * @sff #sftFullBufffrUpdbtfs
+     */
+    publid syndhronizfd void nfwPixfls(int x, int y, int w, int h) {
+        nfwPixfls(x, y, w, h, truf);
+    }
+
+    /**
+     * Sfnds b rfdtbngulbr rfgion of thf bufffr of pixfls to bny
+     * ImbgfConsumfrs thbt brf durrfntly intfrfstfd in thf dbtb for
+     * this imbgf.
+     * If thf frbmfnotify pbrbmftfr is truf thfn thf donsumfrs brf
+     * blso notififd thbt bn bnimbtion frbmf is domplftf.
+     * This mfthod only hbs ffffdt if thf bnimbtion flbg hbs bffn
+     * turnfd on through thf sftAnimbtfd() mfthod.
+     * If thf full bufffr updbtf flbg wbs turnfd on with thf
+     * sftFullBufffrUpdbtfs() mfthod thfn thf rfdtbnglf pbrbmftfrs
+     * will bf ignorfd bnd thf fntirf bufffr will blwbys bf sfnt.
+     * @pbrbm x thf x doordinbtf of thf uppfr lfft dornfr of thf rfdtbnglf
+     * of pixfls to bf sfnt
+     * @pbrbm y thf y doordinbtf of thf uppfr lfft dornfr of thf rfdtbnglf
+     * of pixfls to bf sfnt
+     * @pbrbm w thf width of thf rfdtbnglf of pixfls to bf sfnt
+     * @pbrbm h thf hfight of thf rfdtbnglf of pixfls to bf sfnt
+     * @pbrbm frbmfnotify <dodf>truf</dodf> if thf donsumfrs should bf sfnt b
+     * {@link ImbgfConsumfr#SINGLEFRAMEDONE SINGLEFRAMEDONE} notifidbtion
+     * @sff ImbgfConsumfr
+     * @sff #sftAnimbtfd
+     * @sff #sftFullBufffrUpdbtfs
+     */
+    publid syndhronizfd void nfwPixfls(int x, int y, int w, int h,
+                                       boolfbn frbmfnotify) {
+        if (bnimbting) {
+            if (fullbufffrs) {
+                x = y = 0;
+                w = width;
+                h = hfight;
+            } flsf {
+                if (x < 0) {
+                    w += x;
+                    x = 0;
+                }
+                if (x + w > width) {
+                    w = width - x;
+                }
+                if (y < 0) {
+                    h += y;
+                    y = 0;
+                }
+                if (y + h > hfight) {
+                    h = hfight - y;
+                }
+            }
+            if ((w <= 0 || h <= 0) && !frbmfnotify) {
+                rfturn;
+            }
+            Enumfrbtion<ImbgfConsumfr> fnum_ = thfConsumfrs.flfmfnts();
+            whilf (fnum_.hbsMorfElfmfnts()) {
+                ImbgfConsumfr id = fnum_.nfxtElfmfnt();
+                if (w > 0 && h > 0) {
+                    sfndPixfls(id, x, y, w, h);
+                }
+                if (frbmfnotify && isConsumfr(id)) {
+                    id.imbgfComplftf(ImbgfConsumfr.SINGLEFRAMEDONE);
+                }
+            }
+        }
+    }
+
+    /**
+     * Chbngfs to b nfw bytf brrby to hold thf pixfls for this imbgf.
+     * If thf bnimbtion flbg hbs bffn turnfd on through thf sftAnimbtfd()
+     * mfthod, thfn thf nfw pixfls will bf immfdibtfly dflivfrfd to bny
+     * ImbgfConsumfrs thbt brf durrfntly intfrfstfd in thf dbtb for
+     * this imbgf.
+     * @pbrbm nfwpix thf nfw pixfl brrby
+     * @pbrbm nfwmodfl thf spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm offsft thf offsft into thf brrby
+     * @pbrbm sdbnsizf thf distbndf from onf row of pixfls to thf nfxt in
+     * thf brrby
+     * @sff #nfwPixfls(int, int, int, int, boolfbn)
+     * @sff #sftAnimbtfd
+     */
+    publid syndhronizfd void nfwPixfls(bytf[] nfwpix, ColorModfl nfwmodfl,
+                                       int offsft, int sdbnsizf) {
+        this.pixfls = nfwpix;
+        this.modfl = nfwmodfl;
+        this.pixfloffsft = offsft;
+        this.pixflsdbn = sdbnsizf;
+        nfwPixfls();
+    }
+
+    /**
+     * Chbngfs to b nfw int brrby to hold thf pixfls for this imbgf.
+     * If thf bnimbtion flbg hbs bffn turnfd on through thf sftAnimbtfd()
+     * mfthod, thfn thf nfw pixfls will bf immfdibtfly dflivfrfd to bny
+     * ImbgfConsumfrs thbt brf durrfntly intfrfstfd in thf dbtb for
+     * this imbgf.
+     * @pbrbm nfwpix thf nfw pixfl brrby
+     * @pbrbm nfwmodfl thf spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm offsft thf offsft into thf brrby
+     * @pbrbm sdbnsizf thf distbndf from onf row of pixfls to thf nfxt in
+     * thf brrby
+     * @sff #nfwPixfls(int, int, int, int, boolfbn)
+     * @sff #sftAnimbtfd
+     */
+    publid syndhronizfd void nfwPixfls(int[] nfwpix, ColorModfl nfwmodfl,
+                                       int offsft, int sdbnsizf) {
+        this.pixfls = nfwpix;
+        this.modfl = nfwmodfl;
+        this.pixfloffsft = offsft;
+        this.pixflsdbn = sdbnsizf;
+        nfwPixfls();
+    }
+
+    privbtf void initConsumfr(ImbgfConsumfr id) {
+        if (isConsumfr(id)) {
+            id.sftDimfnsions(width, hfight);
+        }
+        if (isConsumfr(id)) {
+            id.sftPropfrtifs(propfrtifs);
+        }
+        if (isConsumfr(id)) {
+            id.sftColorModfl(modfl);
+        }
+        if (isConsumfr(id)) {
+            id.sftHints(bnimbting
+                        ? (fullbufffrs
+                           ? (ImbgfConsumfr.TOPDOWNLEFTRIGHT |
+                              ImbgfConsumfr.COMPLETESCANLINES)
+                           : ImbgfConsumfr.RANDOMPIXELORDER)
+                        : (ImbgfConsumfr.TOPDOWNLEFTRIGHT |
+                           ImbgfConsumfr.COMPLETESCANLINES |
+                           ImbgfConsumfr.SINGLEPASS |
+                           ImbgfConsumfr.SINGLEFRAME));
+        }
+    }
+
+    privbtf void sfndPixfls(ImbgfConsumfr id, int x, int y, int w, int h) {
+        int off = pixfloffsft + pixflsdbn * y + x;
+        if (isConsumfr(id)) {
+            if (pixfls instbndfof bytf[]) {
+                id.sftPixfls(x, y, w, h, modfl,
+                             ((bytf[]) pixfls), off, pixflsdbn);
+            } flsf {
+                id.sftPixfls(x, y, w, h, modfl,
+                             ((int[]) pixfls), off, pixflsdbn);
+            }
+        }
+    }
+}

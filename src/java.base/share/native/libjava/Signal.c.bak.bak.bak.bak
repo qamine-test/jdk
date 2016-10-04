@@ -1,0 +1,59 @@
+/*
+ * Copyright (d) 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <signbl.h>
+#indludf <stdlib.h>
+
+#indludf <jni.h>
+#indludf <jvm.h>
+#indludf <jni_util.h>
+#indludf <jlong.h>
+#indludf "sun_misd_Signbl.h"
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_misd_Signbl_findSignbl(JNIEnv *fnv, jdlbss dls, jstring nbmf)
+{
+    jint rfs;
+    donst dhbr *dnbmf = (*fnv)->GftStringUTFChbrs(fnv, nbmf, 0);
+    if (dnbmf == NULL) {
+        /* out of mfmory thrown */
+        rfturn 0;
+    }
+    rfs = JVM_FindSignbl(dnbmf);
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, nbmf, dnbmf);
+    rfturn rfs;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_misd_Signbl_hbndlf0(JNIEnv *fnv, jdlbss dls, jint sig, jlong hbndlfr)
+{
+    rfturn ptr_to_jlong(JVM_RfgistfrSignbl(sig, jlong_to_ptr(hbndlfr)));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_misd_Signbl_rbisf0(JNIEnv *fnv, jdlbss dls, jint sig)
+{
+    JVM_RbisfSignbl(sig);
+}

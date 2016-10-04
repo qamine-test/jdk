@@ -1,464 +1,464 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "StackFrameImpl.h"
-#include "inStream.h"
-#include "outStream.h"
-#include "threadControl.h"
-#include "FrameID.h"
+#indludf "util.i"
+#indludf "StbdkFrbmfImpl.i"
+#indludf "inStrfbm.i"
+#indludf "outStrfbm.i"
+#indludf "tirfbdControl.i"
+#indludf "FrbmfID.i"
 
-static jdwpError
-validateThreadFrame(jthread thread, FrameID frame)
+stbtid jdwpError
+vblidbtfTirfbdFrbmf(jtirfbd tirfbd, FrbmfID frbmf)
 {
-    jvmtiError error;
-    jdwpError  serror;
-    jint count;
-    error = threadControl_suspendCount(thread, &count);
-    if ( error == JVMTI_ERROR_NONE ) {
-        if ( count > 0 ) {
-            serror = validateFrameID(thread, frame);
-        } else {
-            serror = JDWP_ERROR(THREAD_NOT_SUSPENDED);
+    jvmtiError frror;
+    jdwpError  sfrror;
+    jint dount;
+    frror = tirfbdControl_suspfndCount(tirfbd, &dount);
+    if ( frror == JVMTI_ERROR_NONE ) {
+        if ( dount > 0 ) {
+            sfrror = vblidbtfFrbmfID(tirfbd, frbmf);
+        } flsf {
+            sfrror = JDWP_ERROR(THREAD_NOT_SUSPENDED);
         }
-    } else {
-        serror =  map2jdwpError(error);
+    } flsf {
+        sfrror =  mbp2jdwpError(frror);
     }
-    return serror;
+    rfturn sfrror;
 }
 
-static jdwpError
-writeVariableValue(JNIEnv *env, PacketOutputStream *out, jthread thread,
-                   FrameNumber fnum, jint slot, jbyte typeKey)
+stbtid jdwpError
+writfVbribblfVbluf(JNIEnv *fnv, PbdkftOutputStrfbm *out, jtirfbd tirfbd,
+                   FrbmfNumbfr fnum, jint slot, jbytf typfKfy)
 {
-    jvmtiError error;
-    jvalue value;
+    jvmtiError frror;
+    jvbluf vbluf;
 
-    if (isObjectTag(typeKey)) {
+    if (isObjfdtTbg(typfKfy)) {
 
-        WITH_LOCAL_REFS(env, 1) {
+        WITH_LOCAL_REFS(fnv, 1) {
 
-            error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalObject)
-                        (gdata->jvmti, thread, fnum, slot, &value.l);
+            frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblObjfdt)
+                        (gdbtb->jvmti, tirfbd, fnum, slot, &vbluf.l);
 
-            if (error != JVMTI_ERROR_NONE) {
-                outStream_setError(out, map2jdwpError(error));
-            } else {
-                (void)outStream_writeByte(out, specificTypeKey(env, value.l));
-                (void)outStream_writeObjectRef(env, out, value.l);
+            if (frror != JVMTI_ERROR_NONE) {
+                outStrfbm_sftError(out, mbp2jdwpError(frror));
+            } flsf {
+                (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, vbluf.l));
+                (void)outStrfbm_writfObjfdtRff(fnv, out, vbluf.l);
             }
 
-        } END_WITH_LOCAL_REFS(env);
+        } END_WITH_LOCAL_REFS(fnv);
 
-    } else {
+    } flsf {
         /*
-         * For primitive types, the type key is bounced back as is.
+         * For primitivf typfs, tif typf kfy is boundfd bbdk bs is.
          */
-        (void)outStream_writeByte(out, typeKey);
-        switch (typeKey) {
-            case JDWP_TAG(BYTE): {
-                    jint intValue;
-                    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, &intValue);
-                    (void)outStream_writeByte(out, (jbyte)intValue);
-                    break;
+        (void)outStrfbm_writfBytf(out, typfKfy);
+        switdi (typfKfy) {
+            dbsf JDWP_TAG(BYTE): {
+                    jint intVbluf;
+                    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblInt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, &intVbluf);
+                    (void)outStrfbm_writfBytf(out, (jbytf)intVbluf);
+                    brfbk;
                 }
 
-            case JDWP_TAG(CHAR): {
-                    jint intValue;
-                    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, &intValue);
-                    (void)outStream_writeChar(out, (jchar)intValue);
-                    break;
+            dbsf JDWP_TAG(CHAR): {
+                    jint intVbluf;
+                    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblInt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, &intVbluf);
+                    (void)outStrfbm_writfCibr(out, (jdibr)intVbluf);
+                    brfbk;
                 }
 
-            case JDWP_TAG(FLOAT):
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalFloat)
-                                (gdata->jvmti, thread, fnum, slot, &value.f);
-                (void)outStream_writeFloat(out, value.f);
-                break;
+            dbsf JDWP_TAG(FLOAT):
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblFlobt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, &vbluf.f);
+                (void)outStrfbm_writfFlobt(out, vbluf.f);
+                brfbk;
 
-            case JDWP_TAG(DOUBLE):
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalDouble)
-                                (gdata->jvmti, thread, fnum, slot, &value.d);
-                (void)outStream_writeDouble(out, value.d);
-                break;
+            dbsf JDWP_TAG(DOUBLE):
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblDoublf)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, &vbluf.d);
+                (void)outStrfbm_writfDoublf(out, vbluf.d);
+                brfbk;
 
-            case JDWP_TAG(INT):
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, &value.i);
-                (void)outStream_writeInt(out, value.i);
-                break;
+            dbsf JDWP_TAG(INT):
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblInt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, &vbluf.i);
+                (void)outStrfbm_writfInt(out, vbluf.i);
+                brfbk;
 
-            case JDWP_TAG(LONG):
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalLong)
-                                (gdata->jvmti, thread, fnum, slot, &value.j);
-                (void)outStream_writeLong(out, value.j);
-                break;
+            dbsf JDWP_TAG(LONG):
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblLong)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, &vbluf.j);
+                (void)outStrfbm_writfLong(out, vbluf.j);
+                brfbk;
 
-            case JDWP_TAG(SHORT): {
-                jint intValue;
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, &intValue);
-                (void)outStream_writeShort(out, (jshort)intValue);
-                break;
+            dbsf JDWP_TAG(SHORT): {
+                jint intVbluf;
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblInt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, &intVbluf);
+                (void)outStrfbm_writfSiort(out, (jsiort)intVbluf);
+                brfbk;
             }
 
-            case JDWP_TAG(BOOLEAN):{
-                jint intValue;
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, &intValue);
-                (void)outStream_writeBoolean(out, (jboolean)intValue);
-                break;
+            dbsf JDWP_TAG(BOOLEAN):{
+                jint intVbluf;
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblInt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, &intVbluf);
+                (void)outStrfbm_writfBoolfbn(out, (jboolfbn)intVbluf);
+                brfbk;
             }
 
-            default:
-                return JDWP_ERROR(INVALID_TAG);
+            dffbult:
+                rfturn JDWP_ERROR(INVALID_TAG);
         }
     }
 
-    return map2jdwpError(error);
+    rfturn mbp2jdwpError(frror);
 }
 
-static jdwpError
-readVariableValue(JNIEnv *env, PacketInputStream *in, jthread thread,
-                  FrameNumber fnum, jint slot, jbyte typeKey)
+stbtid jdwpError
+rfbdVbribblfVbluf(JNIEnv *fnv, PbdkftInputStrfbm *in, jtirfbd tirfbd,
+                  FrbmfNumbfr fnum, jint slot, jbytf typfKfy)
 {
-    jvmtiError error;
-    jvalue value;
+    jvmtiError frror;
+    jvbluf vbluf;
 
-    if (isObjectTag(typeKey)) {
+    if (isObjfdtTbg(typfKfy)) {
 
-        value.l = inStream_readObjectRef(env, in);
+        vbluf.l = inStrfbm_rfbdObjfdtRff(fnv, in);
 
-        error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalObject)
-                        (gdata->jvmti, thread, fnum, slot, value.l);
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblObjfdt)
+                        (gdbtb->jvmti, tirfbd, fnum, slot, vbluf.l);
 
-    } else {
-        switch (typeKey) {
-            case JDWP_TAG(BYTE):
-                value.b = inStream_readByte(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, value.b);
-                break;
+    } flsf {
+        switdi (typfKfy) {
+            dbsf JDWP_TAG(BYTE):
+                vbluf.b = inStrfbm_rfbdBytf(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblInt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, vbluf.b);
+                brfbk;
 
-            case JDWP_TAG(CHAR):
-                value.c = inStream_readChar(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, value.c);
-                break;
+            dbsf JDWP_TAG(CHAR):
+                vbluf.d = inStrfbm_rfbdCibr(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblInt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, vbluf.d);
+                brfbk;
 
-            case JDWP_TAG(FLOAT):
-                value.f = inStream_readFloat(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalFloat)
-                                (gdata->jvmti, thread, fnum, slot, value.f);
-                break;
+            dbsf JDWP_TAG(FLOAT):
+                vbluf.f = inStrfbm_rfbdFlobt(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblFlobt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, vbluf.f);
+                brfbk;
 
-            case JDWP_TAG(DOUBLE):
-                value.d = inStream_readDouble(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalDouble)
-                                (gdata->jvmti, thread, fnum, slot, value.d);
-                break;
+            dbsf JDWP_TAG(DOUBLE):
+                vbluf.d = inStrfbm_rfbdDoublf(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblDoublf)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, vbluf.d);
+                brfbk;
 
-            case JDWP_TAG(INT):
-                value.i = inStream_readInt(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, value.i);
-                break;
+            dbsf JDWP_TAG(INT):
+                vbluf.i = inStrfbm_rfbdInt(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblInt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, vbluf.i);
+                brfbk;
 
-            case JDWP_TAG(LONG):
-                value.j = inStream_readLong(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalLong)
-                                (gdata->jvmti, thread, fnum, slot, value.j);
-                break;
+            dbsf JDWP_TAG(LONG):
+                vbluf.j = inStrfbm_rfbdLong(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblLong)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, vbluf.j);
+                brfbk;
 
-            case JDWP_TAG(SHORT):
-                value.s = inStream_readShort(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, value.s);
-                break;
+            dbsf JDWP_TAG(SHORT):
+                vbluf.s = inStrfbm_rfbdSiort(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblInt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, vbluf.s);
+                brfbk;
 
-            case JDWP_TAG(BOOLEAN):
-                value.z = inStream_readBoolean(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, value.z);
-                break;
+            dbsf JDWP_TAG(BOOLEAN):
+                vbluf.z = inStrfbm_rfbdBoolfbn(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblInt)
+                                (gdbtb->jvmti, tirfbd, fnum, slot, vbluf.z);
+                brfbk;
 
-            default:
-                return JDWP_ERROR(INVALID_TAG);
+            dffbult:
+                rfturn JDWP_ERROR(INVALID_TAG);
         }
     }
 
-    return map2jdwpError(error);
+    rfturn mbp2jdwpError(frror);
 }
 
-static jboolean
-getValues(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+gftVblufs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env;
+    JNIEnv *fnv;
     int i;
-    jdwpError serror;
-    jthread thread;
-    FrameID frame;
-    jint variableCount;
+    jdwpError sfrror;
+    jtirfbd tirfbd;
+    FrbmfID frbmf;
+    jint vbribblfCount;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    thread = inStream_readThreadRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    tirfbd = inStrfbm_rfbdTirfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    frame = inStream_readFrameID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    frbmf = inStrfbm_rfbdFrbmfID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    variableCount = inStream_readInt(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    vbribblfCount = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
     /*
-     * Validate the frame id
+     * Vblidbtf tif frbmf id
      */
-    serror = validateThreadFrame(thread, frame);
-    if (serror != JDWP_ERROR(NONE)) {
-        outStream_setError(out, serror);
-        return JNI_TRUE;
+    sfrror = vblidbtfTirfbdFrbmf(tirfbd, frbmf);
+    if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
+        rfturn JNI_TRUE;
     }
 
-    (void)outStream_writeInt(out, variableCount);
-    for (i = 0; (i < variableCount) && !outStream_error(out); i++) {
+    (void)outStrfbm_writfInt(out, vbribblfCount);
+    for (i = 0; (i < vbribblfCount) && !outStrfbm_frror(out); i++) {
         jint slot;
-        jbyte typeKey;
-        FrameNumber fnum;
+        jbytf typfKfy;
+        FrbmfNumbfr fnum;
 
-        slot = inStream_readInt(in);
-        if (inStream_error(in))
-            break;
-        typeKey = inStream_readByte(in);
-        if (inStream_error(in))
-            break;
+        slot = inStrfbm_rfbdInt(in);
+        if (inStrfbm_frror(in))
+            brfbk;
+        typfKfy = inStrfbm_rfbdBytf(in);
+        if (inStrfbm_frror(in))
+            brfbk;
 
-        fnum = getFrameNumber(frame);
-        serror = writeVariableValue(env, out, thread, fnum, slot, typeKey);
-        if (serror != JDWP_ERROR(NONE)) {
-            outStream_setError(out, serror);
-            break;
+        fnum = gftFrbmfNumbfr(frbmf);
+        sfrror = writfVbribblfVbluf(fnv, out, tirfbd, fnum, slot, typfKfy);
+        if (sfrror != JDWP_ERROR(NONE)) {
+            outStrfbm_sftError(out, sfrror);
+            brfbk;
         }
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-setValues(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+sftVblufs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env;
+    JNIEnv *fnv;
     jint i;
-    jdwpError serror;
-    jthread thread;
-    FrameID frame;
-    jint variableCount;
+    jdwpError sfrror;
+    jtirfbd tirfbd;
+    FrbmfID frbmf;
+    jint vbribblfCount;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    thread = inStream_readThreadRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    tirfbd = inStrfbm_rfbdTirfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    frame = inStream_readFrameID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    frbmf = inStrfbm_rfbdFrbmfID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    variableCount = inStream_readInt(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    vbribblfCount = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
     /*
-     * Validate the frame id
+     * Vblidbtf tif frbmf id
      */
-    serror = validateThreadFrame(thread, frame);
-    if (serror != JDWP_ERROR(NONE)) {
-        outStream_setError(out, serror);
-        return JNI_TRUE;
+    sfrror = vblidbtfTirfbdFrbmf(tirfbd, frbmf);
+    if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
+        rfturn JNI_TRUE;
     }
 
-    for (i = 0; (i < variableCount) && !inStream_error(in); i++) {
+    for (i = 0; (i < vbribblfCount) && !inStrfbm_frror(in); i++) {
 
         jint slot;
-        jbyte typeKey;
-        FrameNumber fnum;
+        jbytf typfKfy;
+        FrbmfNumbfr fnum;
 
-        slot = inStream_readInt(in);
-        if (inStream_error(in)) {
-            return JNI_TRUE;
+        slot = inStrfbm_rfbdInt(in);
+        if (inStrfbm_frror(in)) {
+            rfturn JNI_TRUE;
         }
-        typeKey = inStream_readByte(in);
-        if (inStream_error(in)) {
-            return JNI_TRUE;
+        typfKfy = inStrfbm_rfbdBytf(in);
+        if (inStrfbm_frror(in)) {
+            rfturn JNI_TRUE;
         }
 
-        fnum = getFrameNumber(frame);
-        serror = readVariableValue(env, in, thread, fnum, slot, typeKey);
-        if (serror != JDWP_ERROR(NONE))
-            break;
+        fnum = gftFrbmfNumbfr(frbmf);
+        sfrror = rfbdVbribblfVbluf(fnv, in, tirfbd, fnum, slot, typfKfy);
+        if (sfrror != JDWP_ERROR(NONE))
+            brfbk;
     }
 
-    if (serror != JDWP_ERROR(NONE)) {
-        outStream_setError(out, serror);
+    if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-thisObject(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+tiisObjfdt(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env;
-    jdwpError serror;
-    jthread thread;
-    FrameID frame;
+    JNIEnv *fnv;
+    jdwpError sfrror;
+    jtirfbd tirfbd;
+    FrbmfID frbmf;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    thread = inStream_readThreadRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    tirfbd = inStrfbm_rfbdTirfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    frame = inStream_readFrameID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    frbmf = inStrfbm_rfbdFrbmfID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
     /*
-     * Validate the frame id
+     * Vblidbtf tif frbmf id
      */
-    serror = validateThreadFrame(thread, frame);
-    if (serror != JDWP_ERROR(NONE)) {
-        outStream_setError(out, serror);
-        return JNI_TRUE;
+    sfrror = vblidbtfTirfbdFrbmf(tirfbd, frbmf);
+    if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 2) {
+    WITH_LOCAL_REFS(fnv, 2) {
 
-        jvmtiError error;
-        jmethodID method;
-        jlocation location;
-        FrameNumber fnum;
+        jvmtiError frror;
+        jmftiodID mftiod;
+        jlodbtion lodbtion;
+        FrbmfNumbfr fnum;
 
         /*
-         * Find out if the given frame is for a static or native method.
+         * Find out if tif givfn frbmf is for b stbtid or nbtivf mftiod.
          */
-        fnum = getFrameNumber(frame);
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetFrameLocation)
-                (gdata->jvmti, thread, fnum, &method, &location);
-        if (error == JVMTI_ERROR_NONE) {
+        fnum = gftFrbmfNumbfr(frbmf);
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfLodbtion)
+                (gdbtb->jvmti, tirfbd, fnum, &mftiod, &lodbtion);
+        if (frror == JVMTI_ERROR_NONE) {
 
-            jint modifiers;
+            jint modififrs;
 
-            error = methodModifiers(method, &modifiers);
-            if (error == JVMTI_ERROR_NONE) {
+            frror = mftiodModififrs(mftiod, &modififrs);
+            if (frror == JVMTI_ERROR_NONE) {
 
-                jobject this_object;
+                jobjfdt tiis_objfdt;
 
                 /*
-                 * Return null for static or native methods; otherwise, the JVM
-                 * spec guarantees that "this" is in slot 0
+                 * Rfturn null for stbtid or nbtivf mftiods; otifrwisf, tif JVM
+                 * spfd gubrbntffs tibt "tiis" is in slot 0
                  */
-                if (modifiers & (MOD_STATIC | MOD_NATIVE)) {
-                    this_object = NULL;
-                    (void)outStream_writeByte(out, specificTypeKey(env, this_object));
-                    (void)outStream_writeObjectRef(env, out, this_object);
-                } else {
-                    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalObject)
-                                (gdata->jvmti, thread, fnum, 0, &this_object);
-                    if (error == JVMTI_ERROR_NONE) {
-                        (void)outStream_writeByte(out, specificTypeKey(env, this_object));
-                        (void)outStream_writeObjectRef(env, out, this_object);
+                if (modififrs & (MOD_STATIC | MOD_NATIVE)) {
+                    tiis_objfdt = NULL;
+                    (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, tiis_objfdt));
+                    (void)outStrfbm_writfObjfdtRff(fnv, out, tiis_objfdt);
+                } flsf {
+                    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblObjfdt)
+                                (gdbtb->jvmti, tirfbd, fnum, 0, &tiis_objfdt);
+                    if (frror == JVMTI_ERROR_NONE) {
+                        (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, tiis_objfdt));
+                        (void)outStrfbm_writfObjfdtRff(fnv, out, tiis_objfdt);
                     }
                 }
 
             }
         }
-        serror = map2jdwpError(error);
+        sfrror = mbp2jdwpError(frror);
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    if (serror != JDWP_ERROR(NONE))
-        outStream_setError(out, serror);
+    if (sfrror != JDWP_ERROR(NONE))
+        outStrfbm_sftError(out, sfrror);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-popFrames(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+popFrbmfs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jvmtiError error;
-    jdwpError serror;
-    jthread thread;
-    FrameID frame;
-    FrameNumber fnum;
+    jvmtiError frror;
+    jdwpError sfrror;
+    jtirfbd tirfbd;
+    FrbmfID frbmf;
+    FrbmfNumbfr fnum;
 
-    thread = inStream_readThreadRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    tirfbd = inStrfbm_rfbdTirfbdRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    frame = inStream_readFrameID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    frbmf = inStrfbm_rfbdFrbmfID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
     /*
-     * Validate the frame id
+     * Vblidbtf tif frbmf id
      */
-    serror = validateThreadFrame(thread, frame);
-    if (serror != JDWP_ERROR(NONE)) {
-        outStream_setError(out, serror);
-        return JNI_TRUE;
+    sfrror = vblidbtfTirfbdFrbmf(tirfbd, frbmf);
+    if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
+        rfturn JNI_TRUE;
     }
 
-    if (threadControl_isDebugThread(thread)) {
-        outStream_setError(out, JDWP_ERROR(INVALID_THREAD));
-        return JNI_TRUE;
+    if (tirfbdControl_isDfbugTirfbd(tirfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
     }
 
-    fnum = getFrameNumber(frame);
-    error = threadControl_popFrames(thread, fnum);
-    if (error != JVMTI_ERROR_NONE) {
-        serror = map2jdwpError(error);
-        outStream_setError(out, serror);
+    fnum = gftFrbmfNumbfr(frbmf);
+    frror = tirfbdControl_popFrbmfs(tirfbd, fnum);
+    if (frror != JVMTI_ERROR_NONE) {
+        sfrror = mbp2jdwpError(frror);
+        outStrfbm_sftError(out, sfrror);
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-void *StackFrame_Cmds[] = { (void *)0x4
-    ,(void *)getValues
-    ,(void *)setValues
-    ,(void *)thisObject
-    ,(void *)popFrames
+void *StbdkFrbmf_Cmds[] = { (void *)0x4
+    ,(void *)gftVblufs
+    ,(void *)sftVblufs
+    ,(void *)tiisObjfdt
+    ,(void *)popFrbmfs
 };

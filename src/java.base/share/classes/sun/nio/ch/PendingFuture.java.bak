@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.*;
-import java.util.concurrent.*;
-import java.io.IOException;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.io.IOExdfption;
 
 /**
- * A Future for a pending I/O operation. A PendingFuture allows for the
- * attachment of an additional arbitrary context object and a timer task.
+ * A Futurf for b pfnding I/O opfrbtion. A PfndingFuturf bllows for tif
+ * bttbdimfnt of bn bdditionbl brbitrbry dontfxt objfdt bnd b timfr tbsk.
  */
 
-final class PendingFuture<V,A> implements Future<V> {
+finbl dlbss PfndingFuturf<V,A> implfmfnts Futurf<V> {
 
-    private final AsynchronousChannel channel;
-    private final CompletionHandler<V,? super A> handler;
-    private final A attachment;
+    privbtf finbl AsyndironousCibnnfl dibnnfl;
+    privbtf finbl ComplftionHbndlfr<V,? supfr A> ibndlfr;
+    privbtf finbl A bttbdimfnt;
 
-    // true if result (or exception) is available
-    private volatile boolean haveResult;
-    private volatile V result;
-    private volatile Throwable exc;
+    // truf if rfsult (or fxdfption) is bvbilbblf
+    privbtf volbtilf boolfbn ibvfRfsult;
+    privbtf volbtilf V rfsult;
+    privbtf volbtilf Tirowbblf fxd;
 
-    // latch for waiting (created lazily if needed)
-    private CountDownLatch latch;
+    // lbtdi for wbiting (drfbtfd lbzily if nffdfd)
+    privbtf CountDownLbtdi lbtdi;
 
-    // optional timer task that is cancelled when result becomes available
-    private Future<?> timeoutTask;
+    // optionbl timfr tbsk tibt is dbndfllfd wifn rfsult bfdomfs bvbilbblf
+    privbtf Futurf<?> timfoutTbsk;
 
-    // optional context object
-    private volatile Object context;
+    // optionbl dontfxt objfdt
+    privbtf volbtilf Objfdt dontfxt;
 
-    PendingFuture(AsynchronousChannel channel,
-                  CompletionHandler<V,? super A> handler,
-                  A attachment,
-                  Object context)
+    PfndingFuturf(AsyndironousCibnnfl dibnnfl,
+                  ComplftionHbndlfr<V,? supfr A> ibndlfr,
+                  A bttbdimfnt,
+                  Objfdt dontfxt)
     {
-        this.channel = channel;
-        this.handler = handler;
-        this.attachment = attachment;
-        this.context = context;
+        tiis.dibnnfl = dibnnfl;
+        tiis.ibndlfr = ibndlfr;
+        tiis.bttbdimfnt = bttbdimfnt;
+        tiis.dontfxt = dontfxt;
     }
 
-    PendingFuture(AsynchronousChannel channel,
-                  CompletionHandler<V,? super A> handler,
-                  A attachment)
+    PfndingFuturf(AsyndironousCibnnfl dibnnfl,
+                  ComplftionHbndlfr<V,? supfr A> ibndlfr,
+                  A bttbdimfnt)
     {
-        this.channel = channel;
-        this.handler = handler;
-        this.attachment = attachment;
+        tiis.dibnnfl = dibnnfl;
+        tiis.ibndlfr = ibndlfr;
+        tiis.bttbdimfnt = bttbdimfnt;
     }
 
-    PendingFuture(AsynchronousChannel channel) {
-        this(channel, null, null);
+    PfndingFuturf(AsyndironousCibnnfl dibnnfl) {
+        tiis(dibnnfl, null, null);
     }
 
-    PendingFuture(AsynchronousChannel channel, Object context) {
-        this(channel, null, null, context);
+    PfndingFuturf(AsyndironousCibnnfl dibnnfl, Objfdt dontfxt) {
+        tiis(dibnnfl, null, null, dontfxt);
     }
 
-    AsynchronousChannel channel() {
-        return channel;
+    AsyndironousCibnnfl dibnnfl() {
+        rfturn dibnnfl;
     }
 
-    CompletionHandler<V,? super A> handler() {
-        return handler;
+    ComplftionHbndlfr<V,? supfr A> ibndlfr() {
+        rfturn ibndlfr;
     }
 
-    A attachment() {
-        return attachment;
+    A bttbdimfnt() {
+        rfturn bttbdimfnt;
     }
 
-    void setContext(Object context) {
-        this.context = context;
+    void sftContfxt(Objfdt dontfxt) {
+        tiis.dontfxt = dontfxt;
     }
 
-    Object getContext() {
-        return context;
+    Objfdt gftContfxt() {
+        rfturn dontfxt;
     }
 
-    void setTimeoutTask(Future<?> task) {
-        synchronized (this) {
-            if (haveResult) {
-                task.cancel(false);
-            } else {
-                this.timeoutTask = task;
+    void sftTimfoutTbsk(Futurf<?> tbsk) {
+        syndironizfd (tiis) {
+            if (ibvfRfsult) {
+                tbsk.dbndfl(fblsf);
+            } flsf {
+                tiis.timfoutTbsk = tbsk;
             }
         }
     }
 
-    // creates latch if required; return true if caller needs to wait
-    private boolean prepareForWait() {
-        synchronized (this) {
-            if (haveResult) {
-                return false;
-            } else {
-                if (latch == null)
-                    latch = new CountDownLatch(1);
-                return true;
+    // drfbtfs lbtdi if rfquirfd; rfturn truf if dbllfr nffds to wbit
+    privbtf boolfbn prfpbrfForWbit() {
+        syndironizfd (tiis) {
+            if (ibvfRfsult) {
+                rfturn fblsf;
+            } flsf {
+                if (lbtdi == null)
+                    lbtdi = nfw CountDownLbtdi(1);
+                rfturn truf;
             }
         }
     }
 
     /**
-     * Sets the result, or a no-op if the result or exception is already set.
+     * Sfts tif rfsult, or b no-op if tif rfsult or fxdfption is blrfbdy sft.
      */
-    void setResult(V res) {
-        synchronized (this) {
-            if (haveResult)
-                return;
-            result = res;
-            haveResult = true;
-            if (timeoutTask != null)
-                timeoutTask.cancel(false);
-            if (latch != null)
-                latch.countDown();
+    void sftRfsult(V rfs) {
+        syndironizfd (tiis) {
+            if (ibvfRfsult)
+                rfturn;
+            rfsult = rfs;
+            ibvfRfsult = truf;
+            if (timfoutTbsk != null)
+                timfoutTbsk.dbndfl(fblsf);
+            if (lbtdi != null)
+                lbtdi.dountDown();
         }
     }
 
     /**
-     * Sets the result, or a no-op if the result or exception is already set.
+     * Sfts tif rfsult, or b no-op if tif rfsult or fxdfption is blrfbdy sft.
      */
-    void setFailure(Throwable x) {
-        if (!(x instanceof IOException) && !(x instanceof SecurityException))
-            x = new IOException(x);
-        synchronized (this) {
-            if (haveResult)
-                return;
-            exc = x;
-            haveResult = true;
-            if (timeoutTask != null)
-                timeoutTask.cancel(false);
-            if (latch != null)
-                latch.countDown();
+    void sftFbilurf(Tirowbblf x) {
+        if (!(x instbndfof IOExdfption) && !(x instbndfof SfdurityExdfption))
+            x = nfw IOExdfption(x);
+        syndironizfd (tiis) {
+            if (ibvfRfsult)
+                rfturn;
+            fxd = x;
+            ibvfRfsult = truf;
+            if (timfoutTbsk != null)
+                timfoutTbsk.dbndfl(fblsf);
+            if (lbtdi != null)
+                lbtdi.dountDown();
         }
     }
 
     /**
-     * Sets the result
+     * Sfts tif rfsult
      */
-    void setResult(V res, Throwable x) {
+    void sftRfsult(V rfs, Tirowbblf x) {
         if (x == null) {
-            setResult(res);
-        } else {
-            setFailure(x);
+            sftRfsult(rfs);
+        } flsf {
+            sftFbilurf(x);
         }
     }
 
-    @Override
-    public V get() throws ExecutionException, InterruptedException {
-        if (!haveResult) {
-            boolean needToWait = prepareForWait();
-            if (needToWait)
-                latch.await();
+    @Ovfrridf
+    publid V gft() tirows ExfdutionExdfption, IntfrruptfdExdfption {
+        if (!ibvfRfsult) {
+            boolfbn nffdToWbit = prfpbrfForWbit();
+            if (nffdToWbit)
+                lbtdi.bwbit();
         }
-        if (exc != null) {
-            if (exc instanceof CancellationException)
-                throw new CancellationException();
-            throw new ExecutionException(exc);
+        if (fxd != null) {
+            if (fxd instbndfof CbndfllbtionExdfption)
+                tirow nfw CbndfllbtionExdfption();
+            tirow nfw ExfdutionExdfption(fxd);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    @Override
-    public V get(long timeout, TimeUnit unit)
-        throws ExecutionException, InterruptedException, TimeoutException
+    @Ovfrridf
+    publid V gft(long timfout, TimfUnit unit)
+        tirows ExfdutionExdfption, IntfrruptfdExdfption, TimfoutExdfption
     {
-        if (!haveResult) {
-            boolean needToWait = prepareForWait();
-            if (needToWait)
-                if (!latch.await(timeout, unit)) throw new TimeoutException();
+        if (!ibvfRfsult) {
+            boolfbn nffdToWbit = prfpbrfForWbit();
+            if (nffdToWbit)
+                if (!lbtdi.bwbit(timfout, unit)) tirow nfw TimfoutExdfption();
         }
-        if (exc != null) {
-            if (exc instanceof CancellationException)
-                throw new CancellationException();
-            throw new ExecutionException(exc);
+        if (fxd != null) {
+            if (fxd instbndfof CbndfllbtionExdfption)
+                tirow nfw CbndfllbtionExdfption();
+            tirow nfw ExfdutionExdfption(fxd);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    Throwable exception() {
-        return (exc instanceof CancellationException) ? null : exc;
+    Tirowbblf fxdfption() {
+        rfturn (fxd instbndfof CbndfllbtionExdfption) ? null : fxd;
     }
 
-    V value() {
-        return result;
+    V vbluf() {
+        rfturn rfsult;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return (exc instanceof CancellationException);
+    @Ovfrridf
+    publid boolfbn isCbndfllfd() {
+        rfturn (fxd instbndfof CbndfllbtionExdfption);
     }
 
-    @Override
-    public boolean isDone() {
-        return haveResult;
+    @Ovfrridf
+    publid boolfbn isDonf() {
+        rfturn ibvfRfsult;
     }
 
-    @Override
-    public boolean cancel(boolean mayInterruptIfRunning) {
-        synchronized (this) {
-            if (haveResult)
-                return false;    // already completed
+    @Ovfrridf
+    publid boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning) {
+        syndironizfd (tiis) {
+            if (ibvfRfsult)
+                rfturn fblsf;    // blrfbdy domplftfd
 
-            // notify channel
-            if (channel() instanceof Cancellable)
-                ((Cancellable)channel()).onCancel(this);
+            // notify dibnnfl
+            if (dibnnfl() instbndfof Cbndfllbblf)
+                ((Cbndfllbblf)dibnnfl()).onCbndfl(tiis);
 
-            // set result and cancel timer
-            exc = new CancellationException();
-            haveResult = true;
-            if (timeoutTask != null)
-                timeoutTask.cancel(false);
+            // sft rfsult bnd dbndfl timfr
+            fxd = nfw CbndfllbtionExdfption();
+            ibvfRfsult = truf;
+            if (timfoutTbsk != null)
+                timfoutTbsk.dbndfl(fblsf);
         }
 
-        // close channel if forceful cancel
-        if (mayInterruptIfRunning) {
+        // dlosf dibnnfl if fordfful dbndfl
+        if (mbyIntfrruptIfRunning) {
             try {
-                channel().close();
-            } catch (IOException ignore) { }
+                dibnnfl().dlosf();
+            } dbtdi (IOExdfption ignorf) { }
         }
 
-        // release waiters
-        if (latch != null)
-            latch.countDown();
-        return true;
+        // rflfbsf wbitfrs
+        if (lbtdi != null)
+            lbtdi.dountDown();
+        rfturn truf;
     }
 }

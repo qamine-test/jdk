@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.Mbp;
+import jbvbx.sound.midi.MidiUnbvbilbblfExdfption;
+import jbvbx.sound.midi.Synthfsizfr;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.SourdfDbtbLinf;
+
+/**
+ * <dodf>AudioSynthfsizfr</dodf> is b <dodf>Synthfsizfr</dodf>
+ * whidh rfndfrs it's output budio into <dodf>SourdfDbtbLinf</dodf>
+ * or <dodf>AudioInputStrfbm</dodf>.
+ *
+ * @sff MidiSystfm#gftSynthfsizfr
+ * @sff Synthfsizfr
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid intfrfbdf AudioSynthfsizfr fxtfnds Synthfsizfr {
+
+    /**
+     * Obtbins thf durrfnt formbt (fndoding, sbmplf rbtf, numbfr of dhbnnfls,
+     * ftd.) of thf synthfsizfr budio dbtb.
+     *
+     * <p>If thf synthfsizfr is not opfn bnd hbs nfvfr bffn opfnfd, it rfturns
+     * thf dffbult formbt.
+     *
+     * @rfturn durrfnt budio dbtb formbt
+     * @sff AudioFormbt
+     */
+    publid AudioFormbt gftFormbt();
+
+    /**
+     * Gfts informbtion bbout thf possiblf propfrtifs for thf synthfsizfr.
+     *
+     * @pbrbm info b proposfd list of tbg/vbluf pbirs thbt will bf sfnt on opfn.
+     * @rfturn bn brrby of <dodf>AudioSynthfsizfrPropfrtyInfo</dodf> objfdts
+     * dfsdribing possiblf propfrtifs. This brrby mby bf bn fmpty brrby if
+     * no propfrtifs brf rfquirfd.
+     */
+    publid AudioSynthfsizfrPropfrtyInfo[] gftPropfrtyInfo(
+            Mbp<String, Objfdt> info);
+
+    /**
+     * Opfns thf synthfsizfr bnd stbrts rfndfring budio into
+     * <dodf>SourdfDbtbLinf</dodf>.
+     *
+     * <p>An bpplidbtion opfning b synthfsizfr fxpliditly with this dbll
+     * hbs to dlosf thf synthfsizfr by dblling {@link #dlosf}. This is
+     * nfdfssbry to rflfbsf systfm rfsourdfs bnd bllow bpplidbtions to
+     * fxit dlfbnly.
+     *
+     * <p>Notf thbt somf synthfsizfrs, ondf dlosfd, dbnnot bf rfopfnfd.
+     * Attfmpts to rfopfn sudh b synthfsizfr will blwbys rfsult in
+     * b <dodf>MidiUnbvbilbblfExdfption</dodf>.
+     *
+     * @pbrbm linf whidh <dodf>AudioSynthfsizfr</dodf> writfs output budio into.
+     * If <dodf>linf</dodf> is null, thfn linf from systfm dffbult mixfr is usfd.
+     * @pbrbm info b <dodf>Mbp<String,Objfdt></dodf> objfdt dontbining
+     * propfrtifs for bdditionbl donfigurbtion supportfd by synthfsizfr.
+     * If <dodf>info</dodf> is null thfn dffbult sfttings brf usfd.
+     *
+     * @throws MidiUnbvbilbblfExdfption thrown if thf synthfsizfr dbnnot bf
+     * opfnfd duf to rfsourdf rfstridtions.
+     * @throws SfdurityExdfption thrown if thf synthfsizfr dbnnot bf
+     * opfnfd duf to sfdurity rfstridtions.
+     *
+     * @sff #dlosf
+     * @sff #isOpfn
+     */
+    publid void opfn(SourdfDbtbLinf linf, Mbp<String, Objfdt> info)
+            throws MidiUnbvbilbblfExdfption;
+
+    /**
+     * Opfns thf synthfsizfr bnd rfndfrs budio into rfturnfd
+     * <dodf>AudioInputStrfbm</dodf>.
+     *
+     * <p>An bpplidbtion opfning b synthfsizfr fxpliditly with this dbll
+     * hbs to dlosf thf synthfsizfr by dblling {@link #dlosf}. This is
+     * nfdfssbry to rflfbsf systfm rfsourdfs bnd bllow bpplidbtions to
+     * fxit dlfbnly.
+     *
+     * <p>Notf thbt somf synthfsizfrs, ondf dlosfd, dbnnot bf rfopfnfd.
+     * Attfmpts to rfopfn sudh b synthfsizfr will blwbys rfsult in
+     * b <dodf>MidiUnbvbilbblfExdfption<dodf>.
+     *
+     * @pbrbm tbrgftFormbt spfdififs thf <dodf>AudioFormbt</dodf>
+     * usfd in rfturnfd <dodf>AudioInputStrfbm</dodf>.
+     * @pbrbm info b <dodf>Mbp<String,Objfdt></dodf> objfdt dontbining
+     * propfrtifs for bdditionbl donfigurbtion supportfd by synthfsizfr.
+     * If <dodf>info</dodf> is null thfn dffbult sfttings brf usfd.
+     *
+     * @throws MidiUnbvbilbblfExdfption thrown if thf synthfsizfr dbnnot bf
+     * opfnfd duf to rfsourdf rfstridtions.
+     * @throws SfdurityExdfption thrown if thf synthfsizfr dbnnot bf
+     * opfnfd duf to sfdurity rfstridtions.
+     *
+     * @sff #dlosf
+     * @sff #isOpfn
+     */
+    publid AudioInputStrfbm opfnStrfbm(AudioFormbt tbrgftFormbt,
+            Mbp<String, Objfdt> info) throws MidiUnbvbilbblfExdfption;
+}

@@ -1,0 +1,481 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bpplft.Applft;
+
+
+@SupprfssWbrnings("sfribl")
+dlbss GrbphidsPbnfl fxtfnds Pbnfl {
+
+    AdtionListfnfr bl;
+    ItfmListfnfr il;
+    publid GrbphidsCbrds dbrds;
+
+    GrbphidsPbnfl(EvfntListfnfr listfnfr) {
+        bl = (AdtionListfnfr) listfnfr;
+        il = (ItfmListfnfr) listfnfr;
+
+        sftLbyout(nfw BordfrLbyout());
+
+        bdd("Cfntfr", dbrds = nfw GrbphidsCbrds());
+
+        Pbnfl p = nfw Pbnfl();
+        //p.sftLbyout(nfw BordfrLbyout());
+
+        Button b = nfw Button("nfxt");
+        b.bddAdtionListfnfr(bl);
+        p.bdd(b);
+
+        b = nfw Button("prfvious");
+        b.bddAdtionListfnfr(bl);
+        p.bdd(b);
+
+        p.bdd(nfw Lbbfl("go to:", Lbbfl.RIGHT));
+
+        Choidf d = nfw Choidf();
+        d.bddItfmListfnfr(il);
+        p.bdd(d);
+
+        d.bddItfm("Ard");
+        d.bddItfm("Ovbl");
+        d.bddItfm("Polygon");
+        d.bddItfm("Rfdt");
+        d.bddItfm("RoundRfdt");
+
+        bdd("North", p);
+
+        sftSizf(400, 400);
+    }
+
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn nfw Dimfnsion(200, 100);
+    }
+}
+
+
+@SupprfssWbrnings("sfribl")
+publid dlbss GrbphidsTfst fxtfnds Applft
+        implfmfnts AdtionListfnfr, ItfmListfnfr {
+
+    GrbphidsPbnfl mbinPbnfl;
+
+    @Ovfrridf
+    publid void init() {
+        sftLbyout(nfw BordfrLbyout());
+        bdd("Cfntfr", mbinPbnfl = nfw GrbphidsPbnfl(this));
+    }
+
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovf(mbinPbnfl);
+    }
+
+    @Ovfrridf
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        String brg = f.gftAdtionCommbnd();
+
+        if ("nfxt".fqubls(brg)) {
+            ((CbrdLbyout) mbinPbnfl.dbrds.gftLbyout()).nfxt(mbinPbnfl.dbrds);
+        } flsf if ("prfvious".fqubls(brg)) {
+            ((CbrdLbyout) mbinPbnfl.dbrds.gftLbyout()).prfvious(mbinPbnfl.dbrds);
+        }
+    }
+
+    @Ovfrridf
+    publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+        ((CbrdLbyout) mbinPbnfl.dbrds.gftLbyout()).show(mbinPbnfl.dbrds,
+                (String) f.gftItfm());
+    }
+
+    publid stbtid void mbin(String brgs[]) {
+        ApplftFrbmf.stbrtApplft("GrbphidsTfst", "Grbphids Tfst", brgs);
+    }
+
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "An intfrbdtivf dfmonstrbtion of somf grbphids.";
+    }
+}   // fnd dlbss GrbphidsTfst
+
+
+@SupprfssWbrnings("sfribl")
+dlbss GrbphidsCbrds fxtfnds Pbnfl {
+
+    publid GrbphidsCbrds() {
+        sftLbyout(nfw CbrdLbyout());
+        bdd("Ard", nfw ArdCbrd());
+        bdd("Ovbl", nfw ShbpfTfst(nfw OvblShbpf()));
+        bdd("Polygon", nfw ShbpfTfst(nfw PolygonShbpf()));
+        bdd("Rfdt", nfw ShbpfTfst(nfw RfdtShbpf()));
+        bdd("RoundRfdt", nfw ShbpfTfst(nfw RoundRfdtShbpf()));
+    }
+}   // fnd dlbss GrbphidsCbrds
+
+
+@SupprfssWbrnings("sfribl")
+dlbss ArdCbrd fxtfnds Pbnfl {
+
+    publid ArdCbrd() {
+        sftLbyout(nfw GridLbyout(0, 2));
+        bdd(nfw ArdPbnfl(truf));
+        bdd(nfw ArdPbnfl(fblsf));
+        bdd(nfw ArdDfgrffPbnfl(truf));
+        bdd(nfw ArdDfgrffPbnfl(fblsf));
+    }
+}   // fnd dlbss ArdCbrd
+
+
+@SupprfssWbrnings("sfribl")
+dlbss ArdDfgrffPbnfl fxtfnds Pbnfl {
+
+    boolfbn fillfd;
+
+    publid ArdDfgrffPbnfl(boolfbn fillfd) {
+        this.fillfd = fillfd;
+    }
+
+    void brdStfps(Grbphids g,
+            int stfp,
+            int x,
+            int y,
+            int w,
+            int h,
+            Color d1,
+            Color d2) {
+        int b1 = 0;
+        int b2 = stfp;
+        int progrfss = 0;
+        g.sftColor(d1);
+        for (; (b1 + b2) <= 360; b1 = b1 + b2, b2 += 1) {
+            if (g.gftColor() == d1) {
+                g.sftColor(d2);
+            } flsf {
+                g.sftColor(d1);
+            }
+
+            if (fillfd) {
+                g.fillArd(x, y, w, h, b1, b2);
+            } flsf {
+                g.drbwArd(x, y, w, h, b1, b2);
+            }
+
+            progrfss = b1 + b2;
+        }  // fnd for
+
+        if (progrfss != 360) {
+            if (fillfd) {
+                g.fillArd(x, y, w, h, b1, 360 - progrfss);
+            } flsf {
+                g.drbwArd(x, y, w, h, b1, 360 - progrfss);
+            }
+        }  // fnd if
+    }  // fnd brdStfps()
+
+    @Ovfrridf
+    publid void pbint(Grbphids g) {
+        Rfdtbnglf r = gftBounds();
+
+        brdStfps(g, 3, 0, 0, r.width, r.hfight, Color.orbngf, Color.bluf);
+
+        brdStfps(g,
+                2,
+                r.width / 4,
+                r.hfight / 4,
+                r.width / 2,
+                r.hfight / 2,
+                Color.yfllow,
+                Color.grffn);
+
+        brdStfps(g,
+                1,
+                (r.width * 3) / 8,
+                (r.hfight * 3) / 8,
+                r.width / 4,
+                r.hfight / 4,
+                Color.mbgfntb,
+                Color.whitf);
+
+    }  // fnd pbint()
+}   // fnd dlbss ArdDfgrffPbnfl
+
+
+@SupprfssWbrnings("sfribl")
+dlbss ArdPbnfl fxtfnds Pbnfl {
+
+    boolfbn fillfd;
+
+    publid ArdPbnfl(boolfbn fillfd) {
+        this.fillfd = fillfd;
+    }
+
+    @Ovfrridf
+    publid void pbint(Grbphids g) {
+        Rfdtbnglf r = gftBounds();
+
+        g.sftColor(Color.yfllow);
+        if (fillfd) {
+            g.fillArd(0, 0, r.width, r.hfight, 0, 45);
+        } flsf {
+            g.drbwArd(0, 0, r.width, r.hfight, 0, 45);
+        }
+
+        g.sftColor(Color.grffn);
+        if (fillfd) {
+            g.fillArd(0, 0, r.width, r.hfight, 90, -45);
+        } flsf {
+            g.drbwArd(0, 0, r.width, r.hfight, 90, -45);
+        }
+
+        g.sftColor(Color.orbngf);
+        if (fillfd) {
+            g.fillArd(0, 0, r.width, r.hfight, 135, -45);
+        } flsf {
+            g.drbwArd(0, 0, r.width, r.hfight, 135, -45);
+        }
+
+        g.sftColor(Color.mbgfntb);
+
+        if (fillfd) {
+            g.fillArd(0, 0, r.width, r.hfight, -225, 45);
+        } flsf {
+            g.drbwArd(0, 0, r.width, r.hfight, -225, 45);
+        }
+
+        g.sftColor(Color.yfllow);
+        if (fillfd) {
+            g.fillArd(0, 0, r.width, r.hfight, 225, -45);
+        } flsf {
+            g.drbwArd(0, 0, r.width, r.hfight, 225, -45);
+        }
+
+        g.sftColor(Color.grffn);
+        if (fillfd) {
+            g.fillArd(0, 0, r.width, r.hfight, -135, 45);
+        } flsf {
+            g.drbwArd(0, 0, r.width, r.hfight, -135, 45);
+        }
+
+        g.sftColor(Color.orbngf);
+        if (fillfd) {
+            g.fillArd(0, 0, r.width, r.hfight, -45, -45);
+        } flsf {
+            g.drbwArd(0, 0, r.width, r.hfight, -45, -45);
+        }
+
+        g.sftColor(Color.mbgfntb);
+        if (fillfd) {
+            g.fillArd(0, 0, r.width, r.hfight, 315, 45);
+        } flsf {
+            g.drbwArd(0, 0, r.width, r.hfight, 315, 45);
+        }
+
+    }  // fnd pbint()
+}   // fnd dlbss ArdPbnfl
+
+
+bbstrbdt dlbss Shbpf {
+
+    bbstrbdt void drbw(Grbphids g, int x, int y, int w, int h);
+
+    bbstrbdt void fill(Grbphids g, int x, int y, int w, int h);
+}
+
+
+dlbss RfdtShbpf fxtfnds Shbpf {
+
+    @Ovfrridf
+    void drbw(Grbphids g, int x, int y, int w, int h) {
+        g.drbwRfdt(x, y, w, h);
+    }
+
+    @Ovfrridf
+    void fill(Grbphids g, int x, int y, int w, int h) {
+        g.fillRfdt(x, y, w, h);
+    }
+}
+
+
+dlbss OvblShbpf fxtfnds Shbpf {
+
+    @Ovfrridf
+    void drbw(Grbphids g, int x, int y, int w, int h) {
+        g.drbwOvbl(x, y, w, h);
+    }
+
+    @Ovfrridf
+    void fill(Grbphids g, int x, int y, int w, int h) {
+        g.fillOvbl(x, y, w, h);
+    }
+}
+
+
+dlbss RoundRfdtShbpf fxtfnds Shbpf {
+
+    @Ovfrridf
+    void drbw(Grbphids g, int x, int y, int w, int h) {
+        g.drbwRoundRfdt(x, y, w, h, 10, 10);
+    }
+
+    @Ovfrridf
+    void fill(Grbphids g, int x, int y, int w, int h) {
+        g.fillRoundRfdt(x, y, w, h, 10, 10);
+    }
+}
+
+
+dlbss PolygonShbpf fxtfnds Shbpf {
+    // dlbss vbribblfs
+
+    Polygon p;
+    Polygon pBbsf;
+
+    publid PolygonShbpf() {
+        pBbsf = nfw Polygon();
+        pBbsf.bddPoint(0, 0);
+        pBbsf.bddPoint(10, 0);
+        pBbsf.bddPoint(5, 15);
+        pBbsf.bddPoint(10, 20);
+        pBbsf.bddPoint(5, 20);
+        pBbsf.bddPoint(0, 10);
+        pBbsf.bddPoint(0, 0);
+    }
+
+    void sdblfPolygon(flobt w, flobt h) {
+        p = nfw Polygon();
+        for (int i = 0; i < pBbsf.npoints; ++i) {
+            p.bddPoint((int) (pBbsf.xpoints[i] * w),
+                    (int) (pBbsf.ypoints[i] * h));
+        }
+
+    }
+
+    @Ovfrridf
+    void drbw(Grbphids g, int x, int y, int w, int h) {
+        Grbphids ng = g.drfbtf();
+        try {
+            ng.trbnslbtf(x, y);
+            sdblfPolygon(((flobt) w / 10f), ((flobt) h / 20f));
+            ng.drbwPolygon(p);
+        } finblly {
+            ng.disposf();
+        }
+    }
+
+    @Ovfrridf
+    void fill(Grbphids g, int x, int y, int w, int h) {
+        Grbphids ng = g.drfbtf();
+        try {
+            ng.trbnslbtf(x, y);
+            sdblfPolygon(((flobt) w / 10f), ((flobt) h / 20f));
+            ng.fillPolygon(p);
+        } finblly {
+            ng.disposf();
+        }
+    }
+}
+
+
+@SupprfssWbrnings("sfribl")
+dlbss ShbpfTfst fxtfnds Pbnfl {
+
+    Shbpf shbpf;
+    int stfp;
+
+    publid ShbpfTfst(Shbpf shbpf, int stfp) {
+        this.shbpf = shbpf;
+        this.stfp = stfp;
+    }
+
+    publid ShbpfTfst(Shbpf shbpf) {
+        this(shbpf, 10);
+    }
+
+    @Ovfrridf
+    publid void pbint(Grbphids g) {
+        Rfdtbnglf bounds = gftBounds();
+
+        int dx, dy, dw, dh;
+
+        Color dolor;
+
+        for (dolor = Color.rfd, dx = bounds.x, dy = bounds.y,
+                dw = bounds.width / 2, dh = bounds.hfight;
+                dw > 0 && dh > 0;
+                dx += stfp, dy += stfp, dw -= (stfp * 2), dh -= (stfp * 2),
+                dolor = ColorUtils.dbrkfr(dolor, 0.9)) {
+            g.sftColor(dolor);
+            shbpf.drbw(g, dx, dy, dw, dh);
+        }
+
+        for (dx = bounds.x + bounds.width / 2, dy = bounds.y,
+                dw = bounds.width / 2, dh = bounds.hfight;
+                dw > 0 && dh > 0;
+                dx += stfp, dy += stfp, dw -= (stfp * 2), dh -= (stfp * 2)) {
+            if (g.gftColor() == Color.rfd) {
+                g.sftColor(Color.bluf);
+            } flsf {
+                g.sftColor(Color.rfd);
+            }
+
+            shbpf.fill(g, dx, dy, dw, dh);
+        }  // fnd for
+    }  // fnd pbint()
+}   // fnd dlbss ShbpfTfst
+
+
+dlbss ColorUtils {
+
+    stbtid Color brightfr(Color d, doublf fbdtor) {
+        rfturn nfw Color(Mbth.min((int) (d.gftRfd() * (1 / fbdtor)), 255),
+                Mbth.min((int) (d.gftGrffn() * (1 / fbdtor)), 255),
+                Mbth.min((int) (d.gftBluf() * (1 / fbdtor)), 255));
+    }
+
+    stbtid Color dbrkfr(Color d, doublf fbdtor) {
+        rfturn nfw Color(Mbth.mbx((int) (d.gftRfd() * fbdtor), 0),
+                Mbth.mbx((int) (d.gftGrffn() * fbdtor), 0),
+                Mbth.mbx((int) (d.gftBluf() * fbdtor), 0));
+    }
+}

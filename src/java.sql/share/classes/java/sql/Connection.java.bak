@@ -1,1485 +1,1485 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
-import java.util.Properties;
-import java.util.concurrent.Executor;
+import jbvb.util.Propfrtifs;
+import jbvb.util.dondurrfnt.Exfdutor;
 
 /**
- * <P>A connection (session) with a specific
- * database. SQL statements are executed and results are returned
- * within the context of a connection.
+ * <P>A donnfdtion (sfssion) witi b spfdifid
+ * dbtbbbsf. SQL stbtfmfnts brf fxfdutfd bnd rfsults brf rfturnfd
+ * witiin tif dontfxt of b donnfdtion.
  * <P>
- * A <code>Connection</code> object's database is able to provide information
- * describing its tables, its supported SQL grammar, its stored
- * procedures, the capabilities of this connection, and so on. This
- * information is obtained with the <code>getMetaData</code> method.
+ * A <dodf>Connfdtion</dodf> objfdt's dbtbbbsf is bblf to providf informbtion
+ * dfsdribing its tbblfs, its supportfd SQL grbmmbr, its storfd
+ * prodfdurfs, tif dbpbbilitifs of tiis donnfdtion, bnd so on. Tiis
+ * informbtion is obtbinfd witi tif <dodf>gftMftbDbtb</dodf> mftiod.
  *
- * <P><B>Note:</B> When configuring a <code>Connection</code>, JDBC applications
- *  should use the appropriate <code>Connection</code> method such as
- *  <code>setAutoCommit</code> or <code>setTransactionIsolation</code>.
- *  Applications should not invoke SQL commands directly to change the connection's
- *   configuration when there is a JDBC method available.  By default a <code>Connection</code> object is in
- * auto-commit mode, which means that it automatically commits changes
- * after executing each statement. If auto-commit mode has been
- * disabled, the method <code>commit</code> must be called explicitly in
- * order to commit changes; otherwise, database changes will not be saved.
+ * <P><B>Notf:</B> Wifn donfiguring b <dodf>Connfdtion</dodf>, JDBC bpplidbtions
+ *  siould usf tif bppropribtf <dodf>Connfdtion</dodf> mftiod sudi bs
+ *  <dodf>sftAutoCommit</dodf> or <dodf>sftTrbnsbdtionIsolbtion</dodf>.
+ *  Applidbtions siould not invokf SQL dommbnds dirfdtly to dibngf tif donnfdtion's
+ *   donfigurbtion wifn tifrf is b JDBC mftiod bvbilbblf.  By dffbult b <dodf>Connfdtion</dodf> objfdt is in
+ * buto-dommit modf, wiidi mfbns tibt it butombtidblly dommits dibngfs
+ * bftfr fxfduting fbdi stbtfmfnt. If buto-dommit modf ibs bffn
+ * disbblfd, tif mftiod <dodf>dommit</dodf> must bf dbllfd fxpliditly in
+ * ordfr to dommit dibngfs; otifrwisf, dbtbbbsf dibngfs will not bf sbvfd.
  * <P>
- * A new <code>Connection</code> object created using the JDBC 2.1 core API
- * has an initially empty type map associated with it. A user may enter a
- * custom mapping for a UDT in this type map.
- * When a UDT is retrieved from a data source with the
- * method <code>ResultSet.getObject</code>, the <code>getObject</code> method
- * will check the connection's type map to see if there is an entry for that
- * UDT.  If so, the <code>getObject</code> method will map the UDT to the
- * class indicated.  If there is no entry, the UDT will be mapped using the
- * standard mapping.
+ * A nfw <dodf>Connfdtion</dodf> objfdt drfbtfd using tif JDBC 2.1 dorf API
+ * ibs bn initiblly fmpty typf mbp bssodibtfd witi it. A usfr mby fntfr b
+ * dustom mbpping for b UDT in tiis typf mbp.
+ * Wifn b UDT is rftrifvfd from b dbtb sourdf witi tif
+ * mftiod <dodf>RfsultSft.gftObjfdt</dodf>, tif <dodf>gftObjfdt</dodf> mftiod
+ * will difdk tif donnfdtion's typf mbp to sff if tifrf is bn fntry for tibt
+ * UDT.  If so, tif <dodf>gftObjfdt</dodf> mftiod will mbp tif UDT to tif
+ * dlbss indidbtfd.  If tifrf is no fntry, tif UDT will bf mbppfd using tif
+ * stbndbrd mbpping.
  * <p>
- * A user may create a new type map, which is a <code>java.util.Map</code>
- * object, make an entry in it, and pass it to the <code>java.sql</code>
- * methods that can perform custom mapping.  In this case, the method
- * will use the given type map instead of the one associated with
- * the connection.
+ * A usfr mby drfbtf b nfw typf mbp, wiidi is b <dodf>jbvb.util.Mbp</dodf>
+ * objfdt, mbkf bn fntry in it, bnd pbss it to tif <dodf>jbvb.sql</dodf>
+ * mftiods tibt dbn pfrform dustom mbpping.  In tiis dbsf, tif mftiod
+ * will usf tif givfn typf mbp instfbd of tif onf bssodibtfd witi
+ * tif donnfdtion.
  * <p>
- * For example, the following code fragment specifies that the SQL
- * type <code>ATHLETES</code> will be mapped to the class
- * <code>Athletes</code> in the Java programming language.
- * The code fragment retrieves the type map for the <code>Connection
- * </code> object <code>con</code>, inserts the entry into it, and then sets
- * the type map with the new entry as the connection's type map.
- * <pre>
- *      java.util.Map map = con.getTypeMap();
- *      map.put("mySchemaName.ATHLETES", Class.forName("Athletes"));
- *      con.setTypeMap(map);
- * </pre>
+ * For fxbmplf, tif following dodf frbgmfnt spfdififs tibt tif SQL
+ * typf <dodf>ATHLETES</dodf> will bf mbppfd to tif dlbss
+ * <dodf>Atilftfs</dodf> in tif Jbvb progrbmming lbngubgf.
+ * Tif dodf frbgmfnt rftrifvfs tif typf mbp for tif <dodf>Connfdtion
+ * </dodf> objfdt <dodf>don</dodf>, insfrts tif fntry into it, bnd tifn sfts
+ * tif typf mbp witi tif nfw fntry bs tif donnfdtion's typf mbp.
+ * <prf>
+ *      jbvb.util.Mbp mbp = don.gftTypfMbp();
+ *      mbp.put("mySdifmbNbmf.ATHLETES", Clbss.forNbmf("Atilftfs"));
+ *      don.sftTypfMbp(mbp);
+ * </prf>
  *
- * @see DriverManager#getConnection
- * @see Statement
- * @see ResultSet
- * @see DatabaseMetaData
+ * @sff DrivfrMbnbgfr#gftConnfdtion
+ * @sff Stbtfmfnt
+ * @sff RfsultSft
+ * @sff DbtbbbsfMftbDbtb
  */
-public interface Connection  extends Wrapper, AutoCloseable {
+publid intfrfbdf Connfdtion  fxtfnds Wrbppfr, AutoClosfbblf {
 
     /**
-     * Creates a <code>Statement</code> object for sending
-     * SQL statements to the database.
-     * SQL statements without parameters are normally
-     * executed using <code>Statement</code> objects. If the same SQL statement
-     * is executed many times, it may be more efficient to use a
-     * <code>PreparedStatement</code> object.
+     * Crfbtfs b <dodf>Stbtfmfnt</dodf> objfdt for sfnding
+     * SQL stbtfmfnts to tif dbtbbbsf.
+     * SQL stbtfmfnts witiout pbrbmftfrs brf normblly
+     * fxfdutfd using <dodf>Stbtfmfnt</dodf> objfdts. If tif sbmf SQL stbtfmfnt
+     * is fxfdutfd mbny timfs, it mby bf morf fffidifnt to usf b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt.
      * <P>
-     * Result sets created using the returned <code>Statement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Rfsult sfts drfbtfd using tif rfturnfd <dodf>Stbtfmfnt</dodf>
+     * objfdt will by dffbult bf typf <dodf>TYPE_FORWARD_ONLY</dodf>
+     * bnd ibvf b dondurrfndy lfvfl of <dodf>CONCUR_READ_ONLY</dodf>.
+     * Tif ioldbbility of tif drfbtfd rfsult sfts dbn bf dftfrminfd by
+     * dblling {@link #gftHoldbbility}.
      *
-     * @return a new default <code>Statement</code> object
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @rfturn b nfw dffbult <dodf>Stbtfmfnt</dodf> objfdt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
      */
-    Statement createStatement() throws SQLException;
+    Stbtfmfnt drfbtfStbtfmfnt() tirows SQLExdfption;
 
     /**
-     * Creates a <code>PreparedStatement</code> object for sending
-     * parameterized SQL statements to the database.
+     * Crfbtfs b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt for sfnding
+     * pbrbmftfrizfd SQL stbtfmfnts to tif dbtbbbsf.
      * <P>
-     * A SQL statement with or without IN parameters can be
-     * pre-compiled and stored in a <code>PreparedStatement</code> object. This
-     * object can then be used to efficiently execute this statement
-     * multiple times.
+     * A SQL stbtfmfnt witi or witiout IN pbrbmftfrs dbn bf
+     * prf-dompilfd bnd storfd in b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt. Tiis
+     * objfdt dbn tifn bf usfd to fffidifntly fxfdutf tiis stbtfmfnt
+     * multiplf timfs.
      *
-     * <P><B>Note:</B> This method is optimized for handling
-     * parametric SQL statements that benefit from precompilation. If
-     * the driver supports precompilation,
-     * the method <code>prepareStatement</code> will send
-     * the statement to the database for precompilation. Some drivers
-     * may not support precompilation. In this case, the statement may
-     * not be sent to the database until the <code>PreparedStatement</code>
-     * object is executed.  This has no direct effect on users; however, it does
-     * affect which methods throw certain <code>SQLException</code> objects.
+     * <P><B>Notf:</B> Tiis mftiod is optimizfd for ibndling
+     * pbrbmftrid SQL stbtfmfnts tibt bfnffit from prfdompilbtion. If
+     * tif drivfr supports prfdompilbtion,
+     * tif mftiod <dodf>prfpbrfStbtfmfnt</dodf> will sfnd
+     * tif stbtfmfnt to tif dbtbbbsf for prfdompilbtion. Somf drivfrs
+     * mby not support prfdompilbtion. In tiis dbsf, tif stbtfmfnt mby
+     * not bf sfnt to tif dbtbbbsf until tif <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt is fxfdutfd.  Tiis ibs no dirfdt ffffdt on usfrs; iowfvfr, it dofs
+     * bfffdt wiidi mftiods tirow dfrtbin <dodf>SQLExdfption</dodf> objfdts.
      * <P>
-     * Result sets created using the returned <code>PreparedStatement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Rfsult sfts drfbtfd using tif rfturnfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt will by dffbult bf typf <dodf>TYPE_FORWARD_ONLY</dodf>
+     * bnd ibvf b dondurrfndy lfvfl of <dodf>CONCUR_READ_ONLY</dodf>.
+     * Tif ioldbbility of tif drfbtfd rfsult sfts dbn bf dftfrminfd by
+     * dblling {@link #gftHoldbbility}.
      *
-     * @param sql an SQL statement that may contain one or more '?' IN
-     * parameter placeholders
-     * @return a new default <code>PreparedStatement</code> object containing the
-     * pre-compiled SQL statement
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @pbrbm sql bn SQL stbtfmfnt tibt mby dontbin onf or morf '?' IN
+     * pbrbmftfr plbdfioldfrs
+     * @rfturn b nfw dffbult <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt dontbining tif
+     * prf-dompilfd SQL stbtfmfnt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
      */
-    PreparedStatement prepareStatement(String sql)
-        throws SQLException;
+    PrfpbrfdStbtfmfnt prfpbrfStbtfmfnt(String sql)
+        tirows SQLExdfption;
 
     /**
-     * Creates a <code>CallableStatement</code> object for calling
-     * database stored procedures.
-     * The <code>CallableStatement</code> object provides
-     * methods for setting up its IN and OUT parameters, and
-     * methods for executing the call to a stored procedure.
+     * Crfbtfs b <dodf>CbllbblfStbtfmfnt</dodf> objfdt for dblling
+     * dbtbbbsf storfd prodfdurfs.
+     * Tif <dodf>CbllbblfStbtfmfnt</dodf> objfdt providfs
+     * mftiods for sftting up its IN bnd OUT pbrbmftfrs, bnd
+     * mftiods for fxfduting tif dbll to b storfd prodfdurf.
      *
-     * <P><B>Note:</B> This method is optimized for handling stored
-     * procedure call statements. Some drivers may send the call
-     * statement to the database when the method <code>prepareCall</code>
-     * is done; others
-     * may wait until the <code>CallableStatement</code> object
-     * is executed. This has no
-     * direct effect on users; however, it does affect which method
-     * throws certain SQLExceptions.
+     * <P><B>Notf:</B> Tiis mftiod is optimizfd for ibndling storfd
+     * prodfdurf dbll stbtfmfnts. Somf drivfrs mby sfnd tif dbll
+     * stbtfmfnt to tif dbtbbbsf wifn tif mftiod <dodf>prfpbrfCbll</dodf>
+     * is donf; otifrs
+     * mby wbit until tif <dodf>CbllbblfStbtfmfnt</dodf> objfdt
+     * is fxfdutfd. Tiis ibs no
+     * dirfdt ffffdt on usfrs; iowfvfr, it dofs bfffdt wiidi mftiod
+     * tirows dfrtbin SQLExdfptions.
      * <P>
-     * Result sets created using the returned <code>CallableStatement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Rfsult sfts drfbtfd using tif rfturnfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * objfdt will by dffbult bf typf <dodf>TYPE_FORWARD_ONLY</dodf>
+     * bnd ibvf b dondurrfndy lfvfl of <dodf>CONCUR_READ_ONLY</dodf>.
+     * Tif ioldbbility of tif drfbtfd rfsult sfts dbn bf dftfrminfd by
+     * dblling {@link #gftHoldbbility}.
      *
-     * @param sql an SQL statement that may contain one or more '?'
-     * parameter placeholders. Typically this statement is specified using JDBC
-     * call escape syntax.
-     * @return a new default <code>CallableStatement</code> object containing the
-     * pre-compiled SQL statement
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @pbrbm sql bn SQL stbtfmfnt tibt mby dontbin onf or morf '?'
+     * pbrbmftfr plbdfioldfrs. Typidblly tiis stbtfmfnt is spfdififd using JDBC
+     * dbll fsdbpf syntbx.
+     * @rfturn b nfw dffbult <dodf>CbllbblfStbtfmfnt</dodf> objfdt dontbining tif
+     * prf-dompilfd SQL stbtfmfnt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
      */
-    CallableStatement prepareCall(String sql) throws SQLException;
+    CbllbblfStbtfmfnt prfpbrfCbll(String sql) tirows SQLExdfption;
 
     /**
-     * Converts the given SQL statement into the system's native SQL grammar.
-     * A driver may convert the JDBC SQL grammar into its system's
-     * native SQL grammar prior to sending it. This method returns the
-     * native form of the statement that the driver would have sent.
+     * Convfrts tif givfn SQL stbtfmfnt into tif systfm's nbtivf SQL grbmmbr.
+     * A drivfr mby donvfrt tif JDBC SQL grbmmbr into its systfm's
+     * nbtivf SQL grbmmbr prior to sfnding it. Tiis mftiod rfturns tif
+     * nbtivf form of tif stbtfmfnt tibt tif drivfr would ibvf sfnt.
      *
-     * @param sql an SQL statement that may contain one or more '?'
-     * parameter placeholders
-     * @return the native form of this statement
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @pbrbm sql bn SQL stbtfmfnt tibt mby dontbin onf or morf '?'
+     * pbrbmftfr plbdfioldfrs
+     * @rfturn tif nbtivf form of tiis stbtfmfnt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
      */
-    String nativeSQL(String sql) throws SQLException;
+    String nbtivfSQL(String sql) tirows SQLExdfption;
 
     /**
-     * Sets this connection's auto-commit mode to the given state.
-     * If a connection is in auto-commit mode, then all its SQL
-     * statements will be executed and committed as individual
-     * transactions.  Otherwise, its SQL statements are grouped into
-     * transactions that are terminated by a call to either
-     * the method <code>commit</code> or the method <code>rollback</code>.
-     * By default, new connections are in auto-commit
-     * mode.
+     * Sfts tiis donnfdtion's buto-dommit modf to tif givfn stbtf.
+     * If b donnfdtion is in buto-dommit modf, tifn bll its SQL
+     * stbtfmfnts will bf fxfdutfd bnd dommittfd bs individubl
+     * trbnsbdtions.  Otifrwisf, its SQL stbtfmfnts brf groupfd into
+     * trbnsbdtions tibt brf tfrminbtfd by b dbll to fitifr
+     * tif mftiod <dodf>dommit</dodf> or tif mftiod <dodf>rollbbdk</dodf>.
+     * By dffbult, nfw donnfdtions brf in buto-dommit
+     * modf.
      * <P>
-     * The commit occurs when the statement completes. The time when the statement
-     * completes depends on the type of SQL Statement:
+     * Tif dommit oddurs wifn tif stbtfmfnt domplftfs. Tif timf wifn tif stbtfmfnt
+     * domplftfs dfpfnds on tif typf of SQL Stbtfmfnt:
      * <ul>
-     * <li>For DML statements, such as Insert, Update or Delete, and DDL statements,
-     * the statement is complete as soon as it has finished executing.
-     * <li>For Select statements, the statement is complete when the associated result
-     * set is closed.
-     * <li>For <code>CallableStatement</code> objects or for statements that return
-     * multiple results, the statement is complete
-     * when all of the associated result sets have been closed, and all update
-     * counts and output parameters have been retrieved.
+     * <li>For DML stbtfmfnts, sudi bs Insfrt, Updbtf or Dflftf, bnd DDL stbtfmfnts,
+     * tif stbtfmfnt is domplftf bs soon bs it ibs finisifd fxfduting.
+     * <li>For Sflfdt stbtfmfnts, tif stbtfmfnt is domplftf wifn tif bssodibtfd rfsult
+     * sft is dlosfd.
+     * <li>For <dodf>CbllbblfStbtfmfnt</dodf> objfdts or for stbtfmfnts tibt rfturn
+     * multiplf rfsults, tif stbtfmfnt is domplftf
+     * wifn bll of tif bssodibtfd rfsult sfts ibvf bffn dlosfd, bnd bll updbtf
+     * dounts bnd output pbrbmftfrs ibvf bffn rftrifvfd.
      *</ul>
      * <P>
-     * <B>NOTE:</B>  If this method is called during a transaction and the
-     * auto-commit mode is changed, the transaction is committed.  If
-     * <code>setAutoCommit</code> is called and the auto-commit mode is
-     * not changed, the call is a no-op.
+     * <B>NOTE:</B>  If tiis mftiod is dbllfd during b trbnsbdtion bnd tif
+     * buto-dommit modf is dibngfd, tif trbnsbdtion is dommittfd.  If
+     * <dodf>sftAutoCommit</dodf> is dbllfd bnd tif buto-dommit modf is
+     * not dibngfd, tif dbll is b no-op.
      *
-     * @param autoCommit <code>true</code> to enable auto-commit mode;
-     *         <code>false</code> to disable it
-     * @exception SQLException if a database access error occurs,
-     *  setAutoCommit(true) is called while participating in a distributed transaction,
-     * or this method is called on a closed connection
-     * @see #getAutoCommit
+     * @pbrbm butoCommit <dodf>truf</dodf> to fnbblf buto-dommit modf;
+     *         <dodf>fblsf</dodf> to disbblf it
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *  sftAutoCommit(truf) is dbllfd wiilf pbrtidipbting in b distributfd trbnsbdtion,
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @sff #gftAutoCommit
      */
-    void setAutoCommit(boolean autoCommit) throws SQLException;
+    void sftAutoCommit(boolfbn butoCommit) tirows SQLExdfption;
 
     /**
-     * Retrieves the current auto-commit mode for this <code>Connection</code>
-     * object.
+     * Rftrifvfs tif durrfnt buto-dommit modf for tiis <dodf>Connfdtion</dodf>
+     * objfdt.
      *
-     * @return the current state of this <code>Connection</code> object's
-     *         auto-commit mode
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #setAutoCommit
+     * @rfturn tif durrfnt stbtf of tiis <dodf>Connfdtion</dodf> objfdt's
+     *         buto-dommit modf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @sff #sftAutoCommit
      */
-    boolean getAutoCommit() throws SQLException;
+    boolfbn gftAutoCommit() tirows SQLExdfption;
 
     /**
-     * Makes all changes made since the previous
-     * commit/rollback permanent and releases any database locks
-     * currently held by this <code>Connection</code> object.
-     * This method should be
-     * used only when auto-commit mode has been disabled.
+     * Mbkfs bll dibngfs mbdf sindf tif prfvious
+     * dommit/rollbbdk pfrmbnfnt bnd rflfbsfs bny dbtbbbsf lodks
+     * durrfntly ifld by tiis <dodf>Connfdtion</dodf> objfdt.
+     * Tiis mftiod siould bf
+     * usfd only wifn buto-dommit modf ibs bffn disbblfd.
      *
-     * @exception SQLException if a database access error occurs,
-     * this method is called while participating in a distributed transaction,
-     * if this method is called on a closed connection or this
-     *            <code>Connection</code> object is in auto-commit mode
-     * @see #setAutoCommit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * tiis mftiod is dbllfd wiilf pbrtidipbting in b distributfd trbnsbdtion,
+     * if tiis mftiod is dbllfd on b dlosfd donnfdtion or tiis
+     *            <dodf>Connfdtion</dodf> objfdt is in buto-dommit modf
+     * @sff #sftAutoCommit
      */
-    void commit() throws SQLException;
+    void dommit() tirows SQLExdfption;
 
     /**
-     * Undoes all changes made in the current transaction
-     * and releases any database locks currently held
-     * by this <code>Connection</code> object. This method should be
-     * used only when auto-commit mode has been disabled.
+     * Undofs bll dibngfs mbdf in tif durrfnt trbnsbdtion
+     * bnd rflfbsfs bny dbtbbbsf lodks durrfntly ifld
+     * by tiis <dodf>Connfdtion</dodf> objfdt. Tiis mftiod siould bf
+     * usfd only wifn buto-dommit modf ibs bffn disbblfd.
      *
-     * @exception SQLException if a database access error occurs,
-     * this method is called while participating in a distributed transaction,
-     * this method is called on a closed connection or this
-     *            <code>Connection</code> object is in auto-commit mode
-     * @see #setAutoCommit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * tiis mftiod is dbllfd wiilf pbrtidipbting in b distributfd trbnsbdtion,
+     * tiis mftiod is dbllfd on b dlosfd donnfdtion or tiis
+     *            <dodf>Connfdtion</dodf> objfdt is in buto-dommit modf
+     * @sff #sftAutoCommit
      */
-    void rollback() throws SQLException;
+    void rollbbdk() tirows SQLExdfption;
 
     /**
-     * Releases this <code>Connection</code> object's database and JDBC resources
-     * immediately instead of waiting for them to be automatically released.
+     * Rflfbsfs tiis <dodf>Connfdtion</dodf> objfdt's dbtbbbsf bnd JDBC rfsourdfs
+     * immfdibtfly instfbd of wbiting for tifm to bf butombtidblly rflfbsfd.
      * <P>
-     * Calling the method <code>close</code> on a <code>Connection</code>
-     * object that is already closed is a no-op.
+     * Cblling tif mftiod <dodf>dlosf</dodf> on b <dodf>Connfdtion</dodf>
+     * objfdt tibt is blrfbdy dlosfd is b no-op.
      * <P>
-     * It is <b>strongly recommended</b> that an application explicitly
-     * commits or rolls back an active transaction prior to calling the
-     * <code>close</code> method.  If the <code>close</code> method is called
-     * and there is an active transaction, the results are implementation-defined.
+     * It is <b>strongly rfdommfndfd</b> tibt bn bpplidbtion fxpliditly
+     * dommits or rolls bbdk bn bdtivf trbnsbdtion prior to dblling tif
+     * <dodf>dlosf</dodf> mftiod.  If tif <dodf>dlosf</dodf> mftiod is dbllfd
+     * bnd tifrf is bn bdtivf trbnsbdtion, tif rfsults brf implfmfntbtion-dffinfd.
      *
-     * @exception SQLException SQLException if a database access error occurs
+     * @fxdfption SQLExdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    void close() throws SQLException;
+    void dlosf() tirows SQLExdfption;
 
     /**
-     * Retrieves whether this <code>Connection</code> object has been
-     * closed.  A connection is closed if the method <code>close</code>
-     * has been called on it or if certain fatal errors have occurred.
-     * This method is guaranteed to return <code>true</code> only when
-     * it is called after the method <code>Connection.close</code> has
-     * been called.
+     * Rftrifvfs wiftifr tiis <dodf>Connfdtion</dodf> objfdt ibs bffn
+     * dlosfd.  A donnfdtion is dlosfd if tif mftiod <dodf>dlosf</dodf>
+     * ibs bffn dbllfd on it or if dfrtbin fbtbl frrors ibvf oddurrfd.
+     * Tiis mftiod is gubrbntffd to rfturn <dodf>truf</dodf> only wifn
+     * it is dbllfd bftfr tif mftiod <dodf>Connfdtion.dlosf</dodf> ibs
+     * bffn dbllfd.
      * <P>
-     * This method generally cannot be called to determine whether a
-     * connection to a database is valid or invalid.  A typical client
-     * can determine that a connection is invalid by catching any
-     * exceptions that might be thrown when an operation is attempted.
+     * Tiis mftiod gfnfrblly dbnnot bf dbllfd to dftfrminf wiftifr b
+     * donnfdtion to b dbtbbbsf is vblid or invblid.  A typidbl dlifnt
+     * dbn dftfrminf tibt b donnfdtion is invblid by dbtdiing bny
+     * fxdfptions tibt migit bf tirown wifn bn opfrbtion is bttfmptfd.
      *
-     * @return <code>true</code> if this <code>Connection</code> object
-     *         is closed; <code>false</code> if it is still open
-     * @exception SQLException if a database access error occurs
+     * @rfturn <dodf>truf</dodf> if tiis <dodf>Connfdtion</dodf> objfdt
+     *         is dlosfd; <dodf>fblsf</dodf> if it is still opfn
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    boolean isClosed() throws SQLException;
+    boolfbn isClosfd() tirows SQLExdfption;
 
     //======================================================================
-    // Advanced features:
+    // Advbndfd ffbturfs:
 
     /**
-     * Retrieves a <code>DatabaseMetaData</code> object that contains
-     * metadata about the database to which this
-     * <code>Connection</code> object represents a connection.
-     * The metadata includes information about the database's
-     * tables, its supported SQL grammar, its stored
-     * procedures, the capabilities of this connection, and so on.
+     * Rftrifvfs b <dodf>DbtbbbsfMftbDbtb</dodf> objfdt tibt dontbins
+     * mftbdbtb bbout tif dbtbbbsf to wiidi tiis
+     * <dodf>Connfdtion</dodf> objfdt rfprfsfnts b donnfdtion.
+     * Tif mftbdbtb indludfs informbtion bbout tif dbtbbbsf's
+     * tbblfs, its supportfd SQL grbmmbr, its storfd
+     * prodfdurfs, tif dbpbbilitifs of tiis donnfdtion, bnd so on.
      *
-     * @return a <code>DatabaseMetaData</code> object for this
-     *         <code>Connection</code> object
-     * @exception  SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @rfturn b <dodf>DbtbbbsfMftbDbtb</dodf> objfdt for tiis
+     *         <dodf>Connfdtion</dodf> objfdt
+     * @fxdfption  SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
      */
-    DatabaseMetaData getMetaData() throws SQLException;
+    DbtbbbsfMftbDbtb gftMftbDbtb() tirows SQLExdfption;
 
     /**
-     * Puts this connection in read-only mode as a hint to the driver to enable
-     * database optimizations.
+     * Puts tiis donnfdtion in rfbd-only modf bs b iint to tif drivfr to fnbblf
+     * dbtbbbsf optimizbtions.
      *
-     * <P><B>Note:</B> This method cannot be called during a transaction.
+     * <P><B>Notf:</B> Tiis mftiod dbnnot bf dbllfd during b trbnsbdtion.
      *
-     * @param readOnly <code>true</code> enables read-only mode;
-     *        <code>false</code> disables it
-     * @exception SQLException if a database access error occurs, this
-     *  method is called on a closed connection or this
-     *            method is called during a transaction
+     * @pbrbm rfbdOnly <dodf>truf</dodf> fnbblfs rfbd-only modf;
+     *        <dodf>fblsf</dodf> disbblfs it
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     *  mftiod is dbllfd on b dlosfd donnfdtion or tiis
+     *            mftiod is dbllfd during b trbnsbdtion
      */
-    void setReadOnly(boolean readOnly) throws SQLException;
+    void sftRfbdOnly(boolfbn rfbdOnly) tirows SQLExdfption;
 
     /**
-     * Retrieves whether this <code>Connection</code>
-     * object is in read-only mode.
+     * Rftrifvfs wiftifr tiis <dodf>Connfdtion</dodf>
+     * objfdt is in rfbd-only modf.
      *
-     * @return <code>true</code> if this <code>Connection</code> object
-     *         is read-only; <code>false</code> otherwise
-     * @exception SQLException SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @rfturn <dodf>truf</dodf> if tiis <dodf>Connfdtion</dodf> objfdt
+     *         is rfbd-only; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
      */
-    boolean isReadOnly() throws SQLException;
+    boolfbn isRfbdOnly() tirows SQLExdfption;
 
     /**
-     * Sets the given catalog name in order to select
-     * a subspace of this <code>Connection</code> object's database
-     * in which to work.
+     * Sfts tif givfn dbtblog nbmf in ordfr to sflfdt
+     * b subspbdf of tiis <dodf>Connfdtion</dodf> objfdt's dbtbbbsf
+     * in wiidi to work.
      * <P>
-     * If the driver does not support catalogs, it will
-     * silently ignore this request.
+     * If tif drivfr dofs not support dbtblogs, it will
+     * silfntly ignorf tiis rfqufst.
      * <p>
-     * Calling {@code setCatalog} has no effect on previously created or prepared
-     * {@code Statement} objects. It is implementation defined whether a DBMS
-     * prepare operation takes place immediately when the {@code Connection}
-     * method {@code prepareStatement} or {@code prepareCall} is invoked.
-     * For maximum portability, {@code setCatalog} should be called before a
-     * {@code Statement} is created or prepared.
+     * Cblling {@dodf sftCbtblog} ibs no ffffdt on prfviously drfbtfd or prfpbrfd
+     * {@dodf Stbtfmfnt} objfdts. It is implfmfntbtion dffinfd wiftifr b DBMS
+     * prfpbrf opfrbtion tbkfs plbdf immfdibtfly wifn tif {@dodf Connfdtion}
+     * mftiod {@dodf prfpbrfStbtfmfnt} or {@dodf prfpbrfCbll} is invokfd.
+     * For mbximum portbbility, {@dodf sftCbtblog} siould bf dbllfd bfforf b
+     * {@dodf Stbtfmfnt} is drfbtfd or prfpbrfd.
      *
-     * @param catalog the name of a catalog (subspace in this
-     *        <code>Connection</code> object's database) in which to work
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #getCatalog
+     * @pbrbm dbtblog tif nbmf of b dbtblog (subspbdf in tiis
+     *        <dodf>Connfdtion</dodf> objfdt's dbtbbbsf) in wiidi to work
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @sff #gftCbtblog
      */
-    void setCatalog(String catalog) throws SQLException;
+    void sftCbtblog(String dbtblog) tirows SQLExdfption;
 
     /**
-     * Retrieves this <code>Connection</code> object's current catalog name.
+     * Rftrifvfs tiis <dodf>Connfdtion</dodf> objfdt's durrfnt dbtblog nbmf.
      *
-     * @return the current catalog name or <code>null</code> if there is none
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #setCatalog
+     * @rfturn tif durrfnt dbtblog nbmf or <dodf>null</dodf> if tifrf is nonf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @sff #sftCbtblog
      */
-    String getCatalog() throws SQLException;
+    String gftCbtblog() tirows SQLExdfption;
 
     /**
-     * A constant indicating that transactions are not supported.
+     * A donstbnt indidbting tibt trbnsbdtions brf not supportfd.
      */
     int TRANSACTION_NONE             = 0;
 
     /**
-     * A constant indicating that
-     * dirty reads, non-repeatable reads and phantom reads can occur.
-     * This level allows a row changed by one transaction to be read
-     * by another transaction before any changes in that row have been
-     * committed (a "dirty read").  If any of the changes are rolled back,
-     * the second transaction will have retrieved an invalid row.
+     * A donstbnt indidbting tibt
+     * dirty rfbds, non-rfpfbtbblf rfbds bnd pibntom rfbds dbn oddur.
+     * Tiis lfvfl bllows b row dibngfd by onf trbnsbdtion to bf rfbd
+     * by bnotifr trbnsbdtion bfforf bny dibngfs in tibt row ibvf bffn
+     * dommittfd (b "dirty rfbd").  If bny of tif dibngfs brf rollfd bbdk,
+     * tif sfdond trbnsbdtion will ibvf rftrifvfd bn invblid row.
      */
     int TRANSACTION_READ_UNCOMMITTED = 1;
 
     /**
-     * A constant indicating that
-     * dirty reads are prevented; non-repeatable reads and phantom
-     * reads can occur.  This level only prohibits a transaction
-     * from reading a row with uncommitted changes in it.
+     * A donstbnt indidbting tibt
+     * dirty rfbds brf prfvfntfd; non-rfpfbtbblf rfbds bnd pibntom
+     * rfbds dbn oddur.  Tiis lfvfl only proiibits b trbnsbdtion
+     * from rfbding b row witi undommittfd dibngfs in it.
      */
     int TRANSACTION_READ_COMMITTED   = 2;
 
     /**
-     * A constant indicating that
-     * dirty reads and non-repeatable reads are prevented; phantom
-     * reads can occur.  This level prohibits a transaction from
-     * reading a row with uncommitted changes in it, and it also
-     * prohibits the situation where one transaction reads a row,
-     * a second transaction alters the row, and the first transaction
-     * rereads the row, getting different values the second time
-     * (a "non-repeatable read").
+     * A donstbnt indidbting tibt
+     * dirty rfbds bnd non-rfpfbtbblf rfbds brf prfvfntfd; pibntom
+     * rfbds dbn oddur.  Tiis lfvfl proiibits b trbnsbdtion from
+     * rfbding b row witi undommittfd dibngfs in it, bnd it blso
+     * proiibits tif situbtion wifrf onf trbnsbdtion rfbds b row,
+     * b sfdond trbnsbdtion bltfrs tif row, bnd tif first trbnsbdtion
+     * rfrfbds tif row, gftting difffrfnt vblufs tif sfdond timf
+     * (b "non-rfpfbtbblf rfbd").
      */
     int TRANSACTION_REPEATABLE_READ  = 4;
 
     /**
-     * A constant indicating that
-     * dirty reads, non-repeatable reads and phantom reads are prevented.
-     * This level includes the prohibitions in
-     * <code>TRANSACTION_REPEATABLE_READ</code> and further prohibits the
-     * situation where one transaction reads all rows that satisfy
-     * a <code>WHERE</code> condition, a second transaction inserts a row that
-     * satisfies that <code>WHERE</code> condition, and the first transaction
-     * rereads for the same condition, retrieving the additional
-     * "phantom" row in the second read.
+     * A donstbnt indidbting tibt
+     * dirty rfbds, non-rfpfbtbblf rfbds bnd pibntom rfbds brf prfvfntfd.
+     * Tiis lfvfl indludfs tif proiibitions in
+     * <dodf>TRANSACTION_REPEATABLE_READ</dodf> bnd furtifr proiibits tif
+     * situbtion wifrf onf trbnsbdtion rfbds bll rows tibt sbtisfy
+     * b <dodf>WHERE</dodf> dondition, b sfdond trbnsbdtion insfrts b row tibt
+     * sbtisfifs tibt <dodf>WHERE</dodf> dondition, bnd tif first trbnsbdtion
+     * rfrfbds for tif sbmf dondition, rftrifving tif bdditionbl
+     * "pibntom" row in tif sfdond rfbd.
      */
     int TRANSACTION_SERIALIZABLE     = 8;
 
     /**
-     * Attempts to change the transaction isolation level for this
-     * <code>Connection</code> object to the one given.
-     * The constants defined in the interface <code>Connection</code>
-     * are the possible transaction isolation levels.
+     * Attfmpts to dibngf tif trbnsbdtion isolbtion lfvfl for tiis
+     * <dodf>Connfdtion</dodf> objfdt to tif onf givfn.
+     * Tif donstbnts dffinfd in tif intfrfbdf <dodf>Connfdtion</dodf>
+     * brf tif possiblf trbnsbdtion isolbtion lfvfls.
      * <P>
-     * <B>Note:</B> If this method is called during a transaction, the result
-     * is implementation-defined.
+     * <B>Notf:</B> If tiis mftiod is dbllfd during b trbnsbdtion, tif rfsult
+     * is implfmfntbtion-dffinfd.
      *
-     * @param level one of the following <code>Connection</code> constants:
-     *        <code>Connection.TRANSACTION_READ_UNCOMMITTED</code>,
-     *        <code>Connection.TRANSACTION_READ_COMMITTED</code>,
-     *        <code>Connection.TRANSACTION_REPEATABLE_READ</code>, or
-     *        <code>Connection.TRANSACTION_SERIALIZABLE</code>.
-     *        (Note that <code>Connection.TRANSACTION_NONE</code> cannot be used
-     *        because it specifies that transactions are not supported.)
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *            or the given parameter is not one of the <code>Connection</code>
-     *            constants
-     * @see DatabaseMetaData#supportsTransactionIsolationLevel
-     * @see #getTransactionIsolation
+     * @pbrbm lfvfl onf of tif following <dodf>Connfdtion</dodf> donstbnts:
+     *        <dodf>Connfdtion.TRANSACTION_READ_UNCOMMITTED</dodf>,
+     *        <dodf>Connfdtion.TRANSACTION_READ_COMMITTED</dodf>,
+     *        <dodf>Connfdtion.TRANSACTION_REPEATABLE_READ</dodf>, or
+     *        <dodf>Connfdtion.TRANSACTION_SERIALIZABLE</dodf>.
+     *        (Notf tibt <dodf>Connfdtion.TRANSACTION_NONE</dodf> dbnnot bf usfd
+     *        bfdbusf it spfdififs tibt trbnsbdtions brf not supportfd.)
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     * mftiod is dbllfd on b dlosfd donnfdtion
+     *            or tif givfn pbrbmftfr is not onf of tif <dodf>Connfdtion</dodf>
+     *            donstbnts
+     * @sff DbtbbbsfMftbDbtb#supportsTrbnsbdtionIsolbtionLfvfl
+     * @sff #gftTrbnsbdtionIsolbtion
      */
-    void setTransactionIsolation(int level) throws SQLException;
+    void sftTrbnsbdtionIsolbtion(int lfvfl) tirows SQLExdfption;
 
     /**
-     * Retrieves this <code>Connection</code> object's current
-     * transaction isolation level.
+     * Rftrifvfs tiis <dodf>Connfdtion</dodf> objfdt's durrfnt
+     * trbnsbdtion isolbtion lfvfl.
      *
-     * @return the current transaction isolation level, which will be one
-     *         of the following constants:
-     *        <code>Connection.TRANSACTION_READ_UNCOMMITTED</code>,
-     *        <code>Connection.TRANSACTION_READ_COMMITTED</code>,
-     *        <code>Connection.TRANSACTION_REPEATABLE_READ</code>,
-     *        <code>Connection.TRANSACTION_SERIALIZABLE</code>, or
-     *        <code>Connection.TRANSACTION_NONE</code>.
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #setTransactionIsolation
+     * @rfturn tif durrfnt trbnsbdtion isolbtion lfvfl, wiidi will bf onf
+     *         of tif following donstbnts:
+     *        <dodf>Connfdtion.TRANSACTION_READ_UNCOMMITTED</dodf>,
+     *        <dodf>Connfdtion.TRANSACTION_READ_COMMITTED</dodf>,
+     *        <dodf>Connfdtion.TRANSACTION_REPEATABLE_READ</dodf>,
+     *        <dodf>Connfdtion.TRANSACTION_SERIALIZABLE</dodf>, or
+     *        <dodf>Connfdtion.TRANSACTION_NONE</dodf>.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @sff #sftTrbnsbdtionIsolbtion
      */
-    int getTransactionIsolation() throws SQLException;
+    int gftTrbnsbdtionIsolbtion() tirows SQLExdfption;
 
     /**
-     * Retrieves the first warning reported by calls on this
-     * <code>Connection</code> object.  If there is more than one
-     * warning, subsequent warnings will be chained to the first one
-     * and can be retrieved by calling the method
-     * <code>SQLWarning.getNextWarning</code> on the warning
-     * that was retrieved previously.
+     * Rftrifvfs tif first wbrning rfportfd by dblls on tiis
+     * <dodf>Connfdtion</dodf> objfdt.  If tifrf is morf tibn onf
+     * wbrning, subsfqufnt wbrnings will bf dibinfd to tif first onf
+     * bnd dbn bf rftrifvfd by dblling tif mftiod
+     * <dodf>SQLWbrning.gftNfxtWbrning</dodf> on tif wbrning
+     * tibt wbs rftrifvfd prfviously.
      * <P>
-     * This method may not be
-     * called on a closed connection; doing so will cause an
-     * <code>SQLException</code> to be thrown.
+     * Tiis mftiod mby not bf
+     * dbllfd on b dlosfd donnfdtion; doing so will dbusf bn
+     * <dodf>SQLExdfption</dodf> to bf tirown.
      *
-     * <P><B>Note:</B> Subsequent warnings will be chained to this
-     * SQLWarning.
+     * <P><B>Notf:</B> Subsfqufnt wbrnings will bf dibinfd to tiis
+     * SQLWbrning.
      *
-     * @return the first <code>SQLWarning</code> object or <code>null</code>
-     *         if there are none
-     * @exception SQLException if a database access error occurs or
-     *            this method is called on a closed connection
-     * @see SQLWarning
+     * @rfturn tif first <dodf>SQLWbrning</dodf> objfdt or <dodf>null</dodf>
+     *         if tifrf brf nonf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     *            tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @sff SQLWbrning
      */
-    SQLWarning getWarnings() throws SQLException;
+    SQLWbrning gftWbrnings() tirows SQLExdfption;
 
     /**
-     * Clears all warnings reported for this <code>Connection</code> object.
-     * After a call to this method, the method <code>getWarnings</code>
-     * returns <code>null</code> until a new warning is
-     * reported for this <code>Connection</code> object.
+     * Clfbrs bll wbrnings rfportfd for tiis <dodf>Connfdtion</dodf> objfdt.
+     * Aftfr b dbll to tiis mftiod, tif mftiod <dodf>gftWbrnings</dodf>
+     * rfturns <dodf>null</dodf> until b nfw wbrning is
+     * rfportfd for tiis <dodf>Connfdtion</dodf> objfdt.
      *
-     * @exception SQLException SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @fxdfption SQLExdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
      */
-    void clearWarnings() throws SQLException;
+    void dlfbrWbrnings() tirows SQLExdfption;
 
 
     //--------------------------JDBC 2.0-----------------------------
 
     /**
-     * Creates a <code>Statement</code> object that will generate
-     * <code>ResultSet</code> objects with the given type and concurrency.
-     * This method is the same as the <code>createStatement</code> method
-     * above, but it allows the default result set
-     * type and concurrency to be overridden.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Crfbtfs b <dodf>Stbtfmfnt</dodf> objfdt tibt will gfnfrbtf
+     * <dodf>RfsultSft</dodf> objfdts witi tif givfn typf bnd dondurrfndy.
+     * Tiis mftiod is tif sbmf bs tif <dodf>drfbtfStbtfmfnt</dodf> mftiod
+     * bbovf, but it bllows tif dffbult rfsult sft
+     * typf bnd dondurrfndy to bf ovfrriddfn.
+     * Tif ioldbbility of tif drfbtfd rfsult sfts dbn bf dftfrminfd by
+     * dblling {@link #gftHoldbbility}.
      *
-     * @param resultSetType a result set type; one of
-     *        <code>ResultSet.TYPE_FORWARD_ONLY</code>,
-     *        <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
-     *        <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency a concurrency type; one of
-     *        <code>ResultSet.CONCUR_READ_ONLY</code> or
-     *        <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @return a new <code>Statement</code> object that will generate
-     *         <code>ResultSet</code> objects with the given type and
-     *         concurrency
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *         or the given parameters are not <code>ResultSet</code>
-     *         constants indicating type and concurrency
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method or this method is not supported for the specified result
-     * set type and result set concurrency.
-     * @since 1.2
+     * @pbrbm rfsultSftTypf b rfsult sft typf; onf of
+     *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @pbrbm rfsultSftCondurrfndy b dondurrfndy typf; onf of
+     *        <dodf>RfsultSft.CONCUR_READ_ONLY</dodf> or
+     *        <dodf>RfsultSft.CONCUR_UPDATABLE</dodf>
+     * @rfturn b nfw <dodf>Stbtfmfnt</dodf> objfdt tibt will gfnfrbtf
+     *         <dodf>RfsultSft</dodf> objfdts witi tif givfn typf bnd
+     *         dondurrfndy
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     * mftiod is dbllfd on b dlosfd donnfdtion
+     *         or tif givfn pbrbmftfrs brf not <dodf>RfsultSft</dodf>
+     *         donstbnts indidbting typf bnd dondurrfndy
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod or tiis mftiod is not supportfd for tif spfdififd rfsult
+     * sft typf bnd rfsult sft dondurrfndy.
+     * @sindf 1.2
      */
-    Statement createStatement(int resultSetType, int resultSetConcurrency)
-        throws SQLException;
+    Stbtfmfnt drfbtfStbtfmfnt(int rfsultSftTypf, int rfsultSftCondurrfndy)
+        tirows SQLExdfption;
 
     /**
      *
-     * Creates a <code>PreparedStatement</code> object that will generate
-     * <code>ResultSet</code> objects with the given type and concurrency.
-     * This method is the same as the <code>prepareStatement</code> method
-     * above, but it allows the default result set
-     * type and concurrency to be overridden.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Crfbtfs b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt tibt will gfnfrbtf
+     * <dodf>RfsultSft</dodf> objfdts witi tif givfn typf bnd dondurrfndy.
+     * Tiis mftiod is tif sbmf bs tif <dodf>prfpbrfStbtfmfnt</dodf> mftiod
+     * bbovf, but it bllows tif dffbult rfsult sft
+     * typf bnd dondurrfndy to bf ovfrriddfn.
+     * Tif ioldbbility of tif drfbtfd rfsult sfts dbn bf dftfrminfd by
+     * dblling {@link #gftHoldbbility}.
      *
-     * @param sql a <code>String</code> object that is the SQL statement to
-     *            be sent to the database; may contain one or more '?' IN
-     *            parameters
-     * @param resultSetType a result set type; one of
-     *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
-     *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
-     *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency a concurrency type; one of
-     *         <code>ResultSet.CONCUR_READ_ONLY</code> or
-     *         <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @return a new PreparedStatement object containing the
-     * pre-compiled SQL statement that will produce <code>ResultSet</code>
-     * objects with the given type and concurrency
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *         or the given parameters are not <code>ResultSet</code>
-     *         constants indicating type and concurrency
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method or this method is not supported for the specified result
-     * set type and result set concurrency.
-     * @since 1.2
+     * @pbrbm sql b <dodf>String</dodf> objfdt tibt is tif SQL stbtfmfnt to
+     *            bf sfnt to tif dbtbbbsf; mby dontbin onf or morf '?' IN
+     *            pbrbmftfrs
+     * @pbrbm rfsultSftTypf b rfsult sft typf; onf of
+     *         <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *         <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *         <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @pbrbm rfsultSftCondurrfndy b dondurrfndy typf; onf of
+     *         <dodf>RfsultSft.CONCUR_READ_ONLY</dodf> or
+     *         <dodf>RfsultSft.CONCUR_UPDATABLE</dodf>
+     * @rfturn b nfw PrfpbrfdStbtfmfnt objfdt dontbining tif
+     * prf-dompilfd SQL stbtfmfnt tibt will produdf <dodf>RfsultSft</dodf>
+     * objfdts witi tif givfn typf bnd dondurrfndy
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     * mftiod is dbllfd on b dlosfd donnfdtion
+     *         or tif givfn pbrbmftfrs brf not <dodf>RfsultSft</dodf>
+     *         donstbnts indidbting typf bnd dondurrfndy
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod or tiis mftiod is not supportfd for tif spfdififd rfsult
+     * sft typf bnd rfsult sft dondurrfndy.
+     * @sindf 1.2
      */
-    PreparedStatement prepareStatement(String sql, int resultSetType,
-                                       int resultSetConcurrency)
-        throws SQLException;
+    PrfpbrfdStbtfmfnt prfpbrfStbtfmfnt(String sql, int rfsultSftTypf,
+                                       int rfsultSftCondurrfndy)
+        tirows SQLExdfption;
 
     /**
-     * Creates a <code>CallableStatement</code> object that will generate
-     * <code>ResultSet</code> objects with the given type and concurrency.
-     * This method is the same as the <code>prepareCall</code> method
-     * above, but it allows the default result set
-     * type and concurrency to be overridden.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Crfbtfs b <dodf>CbllbblfStbtfmfnt</dodf> objfdt tibt will gfnfrbtf
+     * <dodf>RfsultSft</dodf> objfdts witi tif givfn typf bnd dondurrfndy.
+     * Tiis mftiod is tif sbmf bs tif <dodf>prfpbrfCbll</dodf> mftiod
+     * bbovf, but it bllows tif dffbult rfsult sft
+     * typf bnd dondurrfndy to bf ovfrriddfn.
+     * Tif ioldbbility of tif drfbtfd rfsult sfts dbn bf dftfrminfd by
+     * dblling {@link #gftHoldbbility}.
      *
-     * @param sql a <code>String</code> object that is the SQL statement to
-     *            be sent to the database; may contain on or more '?' parameters
-     * @param resultSetType a result set type; one of
-     *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
-     *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
-     *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency a concurrency type; one of
-     *         <code>ResultSet.CONCUR_READ_ONLY</code> or
-     *         <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @return a new <code>CallableStatement</code> object containing the
-     * pre-compiled SQL statement that will produce <code>ResultSet</code>
-     * objects with the given type and concurrency
-     * @exception SQLException if a database access error occurs, this method
-     * is called on a closed connection
-     *         or the given parameters are not <code>ResultSet</code>
-     *         constants indicating type and concurrency
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method or this method is not supported for the specified result
-     * set type and result set concurrency.
-     * @since 1.2
+     * @pbrbm sql b <dodf>String</dodf> objfdt tibt is tif SQL stbtfmfnt to
+     *            bf sfnt to tif dbtbbbsf; mby dontbin on or morf '?' pbrbmftfrs
+     * @pbrbm rfsultSftTypf b rfsult sft typf; onf of
+     *         <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *         <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *         <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @pbrbm rfsultSftCondurrfndy b dondurrfndy typf; onf of
+     *         <dodf>RfsultSft.CONCUR_READ_ONLY</dodf> or
+     *         <dodf>RfsultSft.CONCUR_UPDATABLE</dodf>
+     * @rfturn b nfw <dodf>CbllbblfStbtfmfnt</dodf> objfdt dontbining tif
+     * prf-dompilfd SQL stbtfmfnt tibt will produdf <dodf>RfsultSft</dodf>
+     * objfdts witi tif givfn typf bnd dondurrfndy
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis mftiod
+     * is dbllfd on b dlosfd donnfdtion
+     *         or tif givfn pbrbmftfrs brf not <dodf>RfsultSft</dodf>
+     *         donstbnts indidbting typf bnd dondurrfndy
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod or tiis mftiod is not supportfd for tif spfdififd rfsult
+     * sft typf bnd rfsult sft dondurrfndy.
+     * @sindf 1.2
      */
-    CallableStatement prepareCall(String sql, int resultSetType,
-                                  int resultSetConcurrency) throws SQLException;
+    CbllbblfStbtfmfnt prfpbrfCbll(String sql, int rfsultSftTypf,
+                                  int rfsultSftCondurrfndy) tirows SQLExdfption;
 
     /**
-     * Retrieves the <code>Map</code> object associated with this
-     * <code>Connection</code> object.
-     * Unless the application has added an entry, the type map returned
-     * will be empty.
+     * Rftrifvfs tif <dodf>Mbp</dodf> objfdt bssodibtfd witi tiis
+     * <dodf>Connfdtion</dodf> objfdt.
+     * Unlfss tif bpplidbtion ibs bddfd bn fntry, tif typf mbp rfturnfd
+     * will bf fmpty.
      * <p>
-     * You must invoke <code>setTypeMap</code> after making changes to the
-     * <code>Map</code> object returned from
-     *  <code>getTypeMap</code> as a JDBC driver may create an internal
-     * copy of the <code>Map</code> object passed to <code>setTypeMap</code>:
+     * You must invokf <dodf>sftTypfMbp</dodf> bftfr mbking dibngfs to tif
+     * <dodf>Mbp</dodf> objfdt rfturnfd from
+     *  <dodf>gftTypfMbp</dodf> bs b JDBC drivfr mby drfbtf bn intfrnbl
+     * dopy of tif <dodf>Mbp</dodf> objfdt pbssfd to <dodf>sftTypfMbp</dodf>:
      *
-     * <pre>
-     *      Map&lt;String,Class&lt;?&gt;&gt; myMap = con.getTypeMap();
-     *      myMap.put("mySchemaName.ATHLETES", Athletes.class);
-     *      con.setTypeMap(myMap);
-     * </pre>
-     * @return the <code>java.util.Map</code> object associated
-     *         with this <code>Connection</code> object
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
-     * @see #setTypeMap
+     * <prf>
+     *      Mbp&lt;String,Clbss&lt;?&gt;&gt; myMbp = don.gftTypfMbp();
+     *      myMbp.put("mySdifmbNbmf.ATHLETES", Atilftfs.dlbss);
+     *      don.sftTypfMbp(myMbp);
+     * </prf>
+     * @rfturn tif <dodf>jbvb.util.Mbp</dodf> objfdt bssodibtfd
+     *         witi tiis <dodf>Connfdtion</dodf> objfdt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
+     * @sff #sftTypfMbp
      */
-    java.util.Map<String,Class<?>> getTypeMap() throws SQLException;
+    jbvb.util.Mbp<String,Clbss<?>> gftTypfMbp() tirows SQLExdfption;
 
     /**
-     * Installs the given <code>TypeMap</code> object as the type map for
-     * this <code>Connection</code> object.  The type map will be used for the
-     * custom mapping of SQL structured types and distinct types.
+     * Instblls tif givfn <dodf>TypfMbp</dodf> objfdt bs tif typf mbp for
+     * tiis <dodf>Connfdtion</dodf> objfdt.  Tif typf mbp will bf usfd for tif
+     * dustom mbpping of SQL strudturfd typfs bnd distindt typfs.
      * <p>
-     * You must set the the values for the <code>TypeMap</code> prior to
-     * callng <code>setMap</code> as a JDBC driver may create an internal copy
-     * of the <code>TypeMap</code>:
+     * You must sft tif tif vblufs for tif <dodf>TypfMbp</dodf> prior to
+     * dbllng <dodf>sftMbp</dodf> bs b JDBC drivfr mby drfbtf bn intfrnbl dopy
+     * of tif <dodf>TypfMbp</dodf>:
      *
-     * <pre>
-     *      Map myMap&lt;String,Class&lt;?&gt;&gt; = new HashMap&lt;String,Class&lt;?&gt;&gt;();
-     *      myMap.put("mySchemaName.ATHLETES", Athletes.class);
-     *      con.setTypeMap(myMap);
-     * </pre>
-     * @param map the <code>java.util.Map</code> object to install
-     *        as the replacement for this <code>Connection</code>
-     *        object's default type map
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection or
-     *        the given parameter is not a <code>java.util.Map</code>
-     *        object
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
-     * @see #getTypeMap
+     * <prf>
+     *      Mbp myMbp&lt;String,Clbss&lt;?&gt;&gt; = nfw HbsiMbp&lt;String,Clbss&lt;?&gt;&gt;();
+     *      myMbp.put("mySdifmbNbmf.ATHLETES", Atilftfs.dlbss);
+     *      don.sftTypfMbp(myMbp);
+     * </prf>
+     * @pbrbm mbp tif <dodf>jbvb.util.Mbp</dodf> objfdt to instbll
+     *        bs tif rfplbdfmfnt for tiis <dodf>Connfdtion</dodf>
+     *        objfdt's dffbult typf mbp
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     * mftiod is dbllfd on b dlosfd donnfdtion or
+     *        tif givfn pbrbmftfr is not b <dodf>jbvb.util.Mbp</dodf>
+     *        objfdt
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
+     * @sff #gftTypfMbp
      */
-    void setTypeMap(java.util.Map<String,Class<?>> map) throws SQLException;
+    void sftTypfMbp(jbvb.util.Mbp<String,Clbss<?>> mbp) tirows SQLExdfption;
 
     //--------------------------JDBC 3.0-----------------------------
 
 
     /**
-     * Changes the default holdability of <code>ResultSet</code> objects
-     * created using this <code>Connection</code> object to the given
-     * holdability.  The default holdability of <code>ResultSet</code> objects
-     * can be be determined by invoking
-     * {@link DatabaseMetaData#getResultSetHoldability}.
+     * Cibngfs tif dffbult ioldbbility of <dodf>RfsultSft</dodf> objfdts
+     * drfbtfd using tiis <dodf>Connfdtion</dodf> objfdt to tif givfn
+     * ioldbbility.  Tif dffbult ioldbbility of <dodf>RfsultSft</dodf> objfdts
+     * dbn bf bf dftfrminfd by invoking
+     * {@link DbtbbbsfMftbDbtb#gftRfsultSftHoldbbility}.
      *
-     * @param holdability a <code>ResultSet</code> holdability constant; one of
-     *        <code>ResultSet.HOLD_CURSORS_OVER_COMMIT</code> or
-     *        <code>ResultSet.CLOSE_CURSORS_AT_COMMIT</code>
-     * @throws SQLException if a database access occurs, this method is called
-     * on a closed connection, or the given parameter
-     *         is not a <code>ResultSet</code> constant indicating holdability
-     * @exception SQLFeatureNotSupportedException if the given holdability is not supported
-     * @see #getHoldability
-     * @see DatabaseMetaData#getResultSetHoldability
-     * @see ResultSet
-     * @since 1.4
+     * @pbrbm ioldbbility b <dodf>RfsultSft</dodf> ioldbbility donstbnt; onf of
+     *        <dodf>RfsultSft.HOLD_CURSORS_OVER_COMMIT</dodf> or
+     *        <dodf>RfsultSft.CLOSE_CURSORS_AT_COMMIT</dodf>
+     * @tirows SQLExdfption if b dbtbbbsf bddfss oddurs, tiis mftiod is dbllfd
+     * on b dlosfd donnfdtion, or tif givfn pbrbmftfr
+     *         is not b <dodf>RfsultSft</dodf> donstbnt indidbting ioldbbility
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif givfn ioldbbility is not supportfd
+     * @sff #gftHoldbbility
+     * @sff DbtbbbsfMftbDbtb#gftRfsultSftHoldbbility
+     * @sff RfsultSft
+     * @sindf 1.4
      */
-    void setHoldability(int holdability) throws SQLException;
+    void sftHoldbbility(int ioldbbility) tirows SQLExdfption;
 
     /**
-     * Retrieves the current holdability of <code>ResultSet</code> objects
-     * created using this <code>Connection</code> object.
+     * Rftrifvfs tif durrfnt ioldbbility of <dodf>RfsultSft</dodf> objfdts
+     * drfbtfd using tiis <dodf>Connfdtion</dodf> objfdt.
      *
-     * @return the holdability, one of
-     *        <code>ResultSet.HOLD_CURSORS_OVER_COMMIT</code> or
-     *        <code>ResultSet.CLOSE_CURSORS_AT_COMMIT</code>
-     * @throws SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #setHoldability
-     * @see DatabaseMetaData#getResultSetHoldability
-     * @see ResultSet
-     * @since 1.4
+     * @rfturn tif ioldbbility, onf of
+     *        <dodf>RfsultSft.HOLD_CURSORS_OVER_COMMIT</dodf> or
+     *        <dodf>RfsultSft.CLOSE_CURSORS_AT_COMMIT</dodf>
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @sff #sftHoldbbility
+     * @sff DbtbbbsfMftbDbtb#gftRfsultSftHoldbbility
+     * @sff RfsultSft
+     * @sindf 1.4
      */
-    int getHoldability() throws SQLException;
+    int gftHoldbbility() tirows SQLExdfption;
 
     /**
-     * Creates an unnamed savepoint in the current transaction and
-     * returns the new <code>Savepoint</code> object that represents it.
+     * Crfbtfs bn unnbmfd sbvfpoint in tif durrfnt trbnsbdtion bnd
+     * rfturns tif nfw <dodf>Sbvfpoint</dodf> objfdt tibt rfprfsfnts it.
      *
-     *<p> if setSavepoint is invoked outside of an active transaction, a transaction will be started at this newly created
-     *savepoint.
+     *<p> if sftSbvfpoint is invokfd outsidf of bn bdtivf trbnsbdtion, b trbnsbdtion will bf stbrtfd bt tiis nfwly drfbtfd
+     *sbvfpoint.
      *
-     * @return the new <code>Savepoint</code> object
-     * @exception SQLException if a database access error occurs,
-     * this method is called while participating in a distributed transaction,
-     * this method is called on a closed connection
-     *            or this <code>Connection</code> object is currently in
-     *            auto-commit mode
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @see Savepoint
-     * @since 1.4
+     * @rfturn tif nfw <dodf>Sbvfpoint</dodf> objfdt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * tiis mftiod is dbllfd wiilf pbrtidipbting in b distributfd trbnsbdtion,
+     * tiis mftiod is dbllfd on b dlosfd donnfdtion
+     *            or tiis <dodf>Connfdtion</dodf> objfdt is durrfntly in
+     *            buto-dommit modf
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff Sbvfpoint
+     * @sindf 1.4
      */
-    Savepoint setSavepoint() throws SQLException;
+    Sbvfpoint sftSbvfpoint() tirows SQLExdfption;
 
     /**
-     * Creates a savepoint with the given name in the current transaction
-     * and returns the new <code>Savepoint</code> object that represents it.
+     * Crfbtfs b sbvfpoint witi tif givfn nbmf in tif durrfnt trbnsbdtion
+     * bnd rfturns tif nfw <dodf>Sbvfpoint</dodf> objfdt tibt rfprfsfnts it.
      *
-     * <p> if setSavepoint is invoked outside of an active transaction, a transaction will be started at this newly created
-     *savepoint.
+     * <p> if sftSbvfpoint is invokfd outsidf of bn bdtivf trbnsbdtion, b trbnsbdtion will bf stbrtfd bt tiis nfwly drfbtfd
+     *sbvfpoint.
      *
-     * @param name a <code>String</code> containing the name of the savepoint
-     * @return the new <code>Savepoint</code> object
-     * @exception SQLException if a database access error occurs,
-          * this method is called while participating in a distributed transaction,
-     * this method is called on a closed connection
-     *            or this <code>Connection</code> object is currently in
-     *            auto-commit mode
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @see Savepoint
-     * @since 1.4
+     * @pbrbm nbmf b <dodf>String</dodf> dontbining tif nbmf of tif sbvfpoint
+     * @rfturn tif nfw <dodf>Sbvfpoint</dodf> objfdt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+          * tiis mftiod is dbllfd wiilf pbrtidipbting in b distributfd trbnsbdtion,
+     * tiis mftiod is dbllfd on b dlosfd donnfdtion
+     *            or tiis <dodf>Connfdtion</dodf> objfdt is durrfntly in
+     *            buto-dommit modf
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff Sbvfpoint
+     * @sindf 1.4
      */
-    Savepoint setSavepoint(String name) throws SQLException;
+    Sbvfpoint sftSbvfpoint(String nbmf) tirows SQLExdfption;
 
     /**
-     * Undoes all changes made after the given <code>Savepoint</code> object
-     * was set.
+     * Undofs bll dibngfs mbdf bftfr tif givfn <dodf>Sbvfpoint</dodf> objfdt
+     * wbs sft.
      * <P>
-     * This method should be used only when auto-commit has been disabled.
+     * Tiis mftiod siould bf usfd only wifn buto-dommit ibs bffn disbblfd.
      *
-     * @param savepoint the <code>Savepoint</code> object to roll back to
-     * @exception SQLException if a database access error occurs,
-     * this method is called while participating in a distributed transaction,
-     * this method is called on a closed connection,
-     *            the <code>Savepoint</code> object is no longer valid,
-     *            or this <code>Connection</code> object is currently in
-     *            auto-commit mode
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @see Savepoint
-     * @see #rollback
-     * @since 1.4
+     * @pbrbm sbvfpoint tif <dodf>Sbvfpoint</dodf> objfdt to roll bbdk to
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * tiis mftiod is dbllfd wiilf pbrtidipbting in b distributfd trbnsbdtion,
+     * tiis mftiod is dbllfd on b dlosfd donnfdtion,
+     *            tif <dodf>Sbvfpoint</dodf> objfdt is no longfr vblid,
+     *            or tiis <dodf>Connfdtion</dodf> objfdt is durrfntly in
+     *            buto-dommit modf
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff Sbvfpoint
+     * @sff #rollbbdk
+     * @sindf 1.4
      */
-    void rollback(Savepoint savepoint) throws SQLException;
+    void rollbbdk(Sbvfpoint sbvfpoint) tirows SQLExdfption;
 
     /**
-     * Removes the specified <code>Savepoint</code>  and subsequent <code>Savepoint</code> objects from the current
-     * transaction. Any reference to the savepoint after it have been removed
-     * will cause an <code>SQLException</code> to be thrown.
+     * Rfmovfs tif spfdififd <dodf>Sbvfpoint</dodf>  bnd subsfqufnt <dodf>Sbvfpoint</dodf> objfdts from tif durrfnt
+     * trbnsbdtion. Any rfffrfndf to tif sbvfpoint bftfr it ibvf bffn rfmovfd
+     * will dbusf bn <dodf>SQLExdfption</dodf> to bf tirown.
      *
-     * @param savepoint the <code>Savepoint</code> object to be removed
-     * @exception SQLException if a database access error occurs, this
-     *  method is called on a closed connection or
-     *            the given <code>Savepoint</code> object is not a valid
-     *            savepoint in the current transaction
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.4
+     * @pbrbm sbvfpoint tif <dodf>Sbvfpoint</dodf> objfdt to bf rfmovfd
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     *  mftiod is dbllfd on b dlosfd donnfdtion or
+     *            tif givfn <dodf>Sbvfpoint</dodf> objfdt is not b vblid
+     *            sbvfpoint in tif durrfnt trbnsbdtion
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
      */
-    void releaseSavepoint(Savepoint savepoint) throws SQLException;
+    void rflfbsfSbvfpoint(Sbvfpoint sbvfpoint) tirows SQLExdfption;
 
     /**
-     * Creates a <code>Statement</code> object that will generate
-     * <code>ResultSet</code> objects with the given type, concurrency,
-     * and holdability.
-     * This method is the same as the <code>createStatement</code> method
-     * above, but it allows the default result set
-     * type, concurrency, and holdability to be overridden.
+     * Crfbtfs b <dodf>Stbtfmfnt</dodf> objfdt tibt will gfnfrbtf
+     * <dodf>RfsultSft</dodf> objfdts witi tif givfn typf, dondurrfndy,
+     * bnd ioldbbility.
+     * Tiis mftiod is tif sbmf bs tif <dodf>drfbtfStbtfmfnt</dodf> mftiod
+     * bbovf, but it bllows tif dffbult rfsult sft
+     * typf, dondurrfndy, bnd ioldbbility to bf ovfrriddfn.
      *
-     * @param resultSetType one of the following <code>ResultSet</code>
-     *        constants:
-     *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
-     *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
-     *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency one of the following <code>ResultSet</code>
-     *        constants:
-     *         <code>ResultSet.CONCUR_READ_ONLY</code> or
-     *         <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @param resultSetHoldability one of the following <code>ResultSet</code>
-     *        constants:
-     *         <code>ResultSet.HOLD_CURSORS_OVER_COMMIT</code> or
-     *         <code>ResultSet.CLOSE_CURSORS_AT_COMMIT</code>
-     * @return a new <code>Statement</code> object that will generate
-     *         <code>ResultSet</code> objects with the given type,
-     *         concurrency, and holdability
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *            or the given parameters are not <code>ResultSet</code>
-     *            constants indicating type, concurrency, and holdability
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method or this method is not supported for the specified result
-     * set type, result set holdability and result set concurrency.
-     * @see ResultSet
-     * @since 1.4
+     * @pbrbm rfsultSftTypf onf of tif following <dodf>RfsultSft</dodf>
+     *        donstbnts:
+     *         <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *         <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *         <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @pbrbm rfsultSftCondurrfndy onf of tif following <dodf>RfsultSft</dodf>
+     *        donstbnts:
+     *         <dodf>RfsultSft.CONCUR_READ_ONLY</dodf> or
+     *         <dodf>RfsultSft.CONCUR_UPDATABLE</dodf>
+     * @pbrbm rfsultSftHoldbbility onf of tif following <dodf>RfsultSft</dodf>
+     *        donstbnts:
+     *         <dodf>RfsultSft.HOLD_CURSORS_OVER_COMMIT</dodf> or
+     *         <dodf>RfsultSft.CLOSE_CURSORS_AT_COMMIT</dodf>
+     * @rfturn b nfw <dodf>Stbtfmfnt</dodf> objfdt tibt will gfnfrbtf
+     *         <dodf>RfsultSft</dodf> objfdts witi tif givfn typf,
+     *         dondurrfndy, bnd ioldbbility
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     * mftiod is dbllfd on b dlosfd donnfdtion
+     *            or tif givfn pbrbmftfrs brf not <dodf>RfsultSft</dodf>
+     *            donstbnts indidbting typf, dondurrfndy, bnd ioldbbility
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod or tiis mftiod is not supportfd for tif spfdififd rfsult
+     * sft typf, rfsult sft ioldbbility bnd rfsult sft dondurrfndy.
+     * @sff RfsultSft
+     * @sindf 1.4
      */
-    Statement createStatement(int resultSetType, int resultSetConcurrency,
-                              int resultSetHoldability) throws SQLException;
+    Stbtfmfnt drfbtfStbtfmfnt(int rfsultSftTypf, int rfsultSftCondurrfndy,
+                              int rfsultSftHoldbbility) tirows SQLExdfption;
 
     /**
-     * Creates a <code>PreparedStatement</code> object that will generate
-     * <code>ResultSet</code> objects with the given type, concurrency,
-     * and holdability.
+     * Crfbtfs b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt tibt will gfnfrbtf
+     * <dodf>RfsultSft</dodf> objfdts witi tif givfn typf, dondurrfndy,
+     * bnd ioldbbility.
      * <P>
-     * This method is the same as the <code>prepareStatement</code> method
-     * above, but it allows the default result set
-     * type, concurrency, and holdability to be overridden.
+     * Tiis mftiod is tif sbmf bs tif <dodf>prfpbrfStbtfmfnt</dodf> mftiod
+     * bbovf, but it bllows tif dffbult rfsult sft
+     * typf, dondurrfndy, bnd ioldbbility to bf ovfrriddfn.
      *
-     * @param sql a <code>String</code> object that is the SQL statement to
-     *            be sent to the database; may contain one or more '?' IN
-     *            parameters
-     * @param resultSetType one of the following <code>ResultSet</code>
-     *        constants:
-     *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
-     *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
-     *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency one of the following <code>ResultSet</code>
-     *        constants:
-     *         <code>ResultSet.CONCUR_READ_ONLY</code> or
-     *         <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @param resultSetHoldability one of the following <code>ResultSet</code>
-     *        constants:
-     *         <code>ResultSet.HOLD_CURSORS_OVER_COMMIT</code> or
-     *         <code>ResultSet.CLOSE_CURSORS_AT_COMMIT</code>
-     * @return a new <code>PreparedStatement</code> object, containing the
-     *         pre-compiled SQL statement, that will generate
-     *         <code>ResultSet</code> objects with the given type,
-     *         concurrency, and holdability
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *            or the given parameters are not <code>ResultSet</code>
-     *            constants indicating type, concurrency, and holdability
-      * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method or this method is not supported for the specified result
-     * set type, result set holdability and result set concurrency.
-     * @see ResultSet
-     * @since 1.4
+     * @pbrbm sql b <dodf>String</dodf> objfdt tibt is tif SQL stbtfmfnt to
+     *            bf sfnt to tif dbtbbbsf; mby dontbin onf or morf '?' IN
+     *            pbrbmftfrs
+     * @pbrbm rfsultSftTypf onf of tif following <dodf>RfsultSft</dodf>
+     *        donstbnts:
+     *         <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *         <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *         <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @pbrbm rfsultSftCondurrfndy onf of tif following <dodf>RfsultSft</dodf>
+     *        donstbnts:
+     *         <dodf>RfsultSft.CONCUR_READ_ONLY</dodf> or
+     *         <dodf>RfsultSft.CONCUR_UPDATABLE</dodf>
+     * @pbrbm rfsultSftHoldbbility onf of tif following <dodf>RfsultSft</dodf>
+     *        donstbnts:
+     *         <dodf>RfsultSft.HOLD_CURSORS_OVER_COMMIT</dodf> or
+     *         <dodf>RfsultSft.CLOSE_CURSORS_AT_COMMIT</dodf>
+     * @rfturn b nfw <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt, dontbining tif
+     *         prf-dompilfd SQL stbtfmfnt, tibt will gfnfrbtf
+     *         <dodf>RfsultSft</dodf> objfdts witi tif givfn typf,
+     *         dondurrfndy, bnd ioldbbility
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     * mftiod is dbllfd on b dlosfd donnfdtion
+     *            or tif givfn pbrbmftfrs brf not <dodf>RfsultSft</dodf>
+     *            donstbnts indidbting typf, dondurrfndy, bnd ioldbbility
+      * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod or tiis mftiod is not supportfd for tif spfdififd rfsult
+     * sft typf, rfsult sft ioldbbility bnd rfsult sft dondurrfndy.
+     * @sff RfsultSft
+     * @sindf 1.4
      */
-    PreparedStatement prepareStatement(String sql, int resultSetType,
-                                       int resultSetConcurrency, int resultSetHoldability)
-        throws SQLException;
+    PrfpbrfdStbtfmfnt prfpbrfStbtfmfnt(String sql, int rfsultSftTypf,
+                                       int rfsultSftCondurrfndy, int rfsultSftHoldbbility)
+        tirows SQLExdfption;
 
     /**
-     * Creates a <code>CallableStatement</code> object that will generate
-     * <code>ResultSet</code> objects with the given type and concurrency.
-     * This method is the same as the <code>prepareCall</code> method
-     * above, but it allows the default result set
-     * type, result set concurrency type and holdability to be overridden.
+     * Crfbtfs b <dodf>CbllbblfStbtfmfnt</dodf> objfdt tibt will gfnfrbtf
+     * <dodf>RfsultSft</dodf> objfdts witi tif givfn typf bnd dondurrfndy.
+     * Tiis mftiod is tif sbmf bs tif <dodf>prfpbrfCbll</dodf> mftiod
+     * bbovf, but it bllows tif dffbult rfsult sft
+     * typf, rfsult sft dondurrfndy typf bnd ioldbbility to bf ovfrriddfn.
      *
-     * @param sql a <code>String</code> object that is the SQL statement to
-     *            be sent to the database; may contain on or more '?' parameters
-     * @param resultSetType one of the following <code>ResultSet</code>
-     *        constants:
-     *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
-     *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
-     *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency one of the following <code>ResultSet</code>
-     *        constants:
-     *         <code>ResultSet.CONCUR_READ_ONLY</code> or
-     *         <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @param resultSetHoldability one of the following <code>ResultSet</code>
-     *        constants:
-     *         <code>ResultSet.HOLD_CURSORS_OVER_COMMIT</code> or
-     *         <code>ResultSet.CLOSE_CURSORS_AT_COMMIT</code>
-     * @return a new <code>CallableStatement</code> object, containing the
-     *         pre-compiled SQL statement, that will generate
-     *         <code>ResultSet</code> objects with the given type,
-     *         concurrency, and holdability
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *            or the given parameters are not <code>ResultSet</code>
-     *            constants indicating type, concurrency, and holdability
-      * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method or this method is not supported for the specified result
-     * set type, result set holdability and result set concurrency.
-     * @see ResultSet
-     * @since 1.4
+     * @pbrbm sql b <dodf>String</dodf> objfdt tibt is tif SQL stbtfmfnt to
+     *            bf sfnt to tif dbtbbbsf; mby dontbin on or morf '?' pbrbmftfrs
+     * @pbrbm rfsultSftTypf onf of tif following <dodf>RfsultSft</dodf>
+     *        donstbnts:
+     *         <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *         <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *         <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @pbrbm rfsultSftCondurrfndy onf of tif following <dodf>RfsultSft</dodf>
+     *        donstbnts:
+     *         <dodf>RfsultSft.CONCUR_READ_ONLY</dodf> or
+     *         <dodf>RfsultSft.CONCUR_UPDATABLE</dodf>
+     * @pbrbm rfsultSftHoldbbility onf of tif following <dodf>RfsultSft</dodf>
+     *        donstbnts:
+     *         <dodf>RfsultSft.HOLD_CURSORS_OVER_COMMIT</dodf> or
+     *         <dodf>RfsultSft.CLOSE_CURSORS_AT_COMMIT</dodf>
+     * @rfturn b nfw <dodf>CbllbblfStbtfmfnt</dodf> objfdt, dontbining tif
+     *         prf-dompilfd SQL stbtfmfnt, tibt will gfnfrbtf
+     *         <dodf>RfsultSft</dodf> objfdts witi tif givfn typf,
+     *         dondurrfndy, bnd ioldbbility
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     * mftiod is dbllfd on b dlosfd donnfdtion
+     *            or tif givfn pbrbmftfrs brf not <dodf>RfsultSft</dodf>
+     *            donstbnts indidbting typf, dondurrfndy, bnd ioldbbility
+      * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod or tiis mftiod is not supportfd for tif spfdififd rfsult
+     * sft typf, rfsult sft ioldbbility bnd rfsult sft dondurrfndy.
+     * @sff RfsultSft
+     * @sindf 1.4
      */
-    CallableStatement prepareCall(String sql, int resultSetType,
-                                  int resultSetConcurrency,
-                                  int resultSetHoldability) throws SQLException;
+    CbllbblfStbtfmfnt prfpbrfCbll(String sql, int rfsultSftTypf,
+                                  int rfsultSftCondurrfndy,
+                                  int rfsultSftHoldbbility) tirows SQLExdfption;
 
 
     /**
-     * Creates a default <code>PreparedStatement</code> object that has
-     * the capability to retrieve auto-generated keys. The given constant
-     * tells the driver whether it should make auto-generated keys
-     * available for retrieval.  This parameter is ignored if the SQL statement
-     * is not an <code>INSERT</code> statement, or an SQL statement able to return
-     * auto-generated keys (the list of such statements is vendor-specific).
+     * Crfbtfs b dffbult <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt tibt ibs
+     * tif dbpbbility to rftrifvf buto-gfnfrbtfd kfys. Tif givfn donstbnt
+     * tflls tif drivfr wiftifr it siould mbkf buto-gfnfrbtfd kfys
+     * bvbilbblf for rftrifvbl.  Tiis pbrbmftfr is ignorfd if tif SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (tif list of sudi stbtfmfnts is vfndor-spfdifid).
      * <P>
-     * <B>Note:</B> This method is optimized for handling
-     * parametric SQL statements that benefit from precompilation. If
-     * the driver supports precompilation,
-     * the method <code>prepareStatement</code> will send
-     * the statement to the database for precompilation. Some drivers
-     * may not support precompilation. In this case, the statement may
-     * not be sent to the database until the <code>PreparedStatement</code>
-     * object is executed.  This has no direct effect on users; however, it does
-     * affect which methods throw certain SQLExceptions.
+     * <B>Notf:</B> Tiis mftiod is optimizfd for ibndling
+     * pbrbmftrid SQL stbtfmfnts tibt bfnffit from prfdompilbtion. If
+     * tif drivfr supports prfdompilbtion,
+     * tif mftiod <dodf>prfpbrfStbtfmfnt</dodf> will sfnd
+     * tif stbtfmfnt to tif dbtbbbsf for prfdompilbtion. Somf drivfrs
+     * mby not support prfdompilbtion. In tiis dbsf, tif stbtfmfnt mby
+     * not bf sfnt to tif dbtbbbsf until tif <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt is fxfdutfd.  Tiis ibs no dirfdt ffffdt on usfrs; iowfvfr, it dofs
+     * bfffdt wiidi mftiods tirow dfrtbin SQLExdfptions.
      * <P>
-     * Result sets created using the returned <code>PreparedStatement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Rfsult sfts drfbtfd using tif rfturnfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt will by dffbult bf typf <dodf>TYPE_FORWARD_ONLY</dodf>
+     * bnd ibvf b dondurrfndy lfvfl of <dodf>CONCUR_READ_ONLY</dodf>.
+     * Tif ioldbbility of tif drfbtfd rfsult sfts dbn bf dftfrminfd by
+     * dblling {@link #gftHoldbbility}.
      *
-     * @param sql an SQL statement that may contain one or more '?' IN
-     *        parameter placeholders
-     * @param autoGeneratedKeys a flag indicating whether auto-generated keys
-     *        should be returned; one of
-     *        <code>Statement.RETURN_GENERATED_KEYS</code> or
-     *        <code>Statement.NO_GENERATED_KEYS</code>
-     * @return a new <code>PreparedStatement</code> object, containing the
-     *         pre-compiled SQL statement, that will have the capability of
-     *         returning auto-generated keys
-     * @exception SQLException if a database access error occurs, this
-     *  method is called on a closed connection
-     *         or the given parameter is not a <code>Statement</code>
-     *         constant indicating whether auto-generated keys should be
-     *         returned
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method with a constant of Statement.RETURN_GENERATED_KEYS
-     * @since 1.4
+     * @pbrbm sql bn SQL stbtfmfnt tibt mby dontbin onf or morf '?' IN
+     *        pbrbmftfr plbdfioldfrs
+     * @pbrbm butoGfnfrbtfdKfys b flbg indidbting wiftifr buto-gfnfrbtfd kfys
+     *        siould bf rfturnfd; onf of
+     *        <dodf>Stbtfmfnt.RETURN_GENERATED_KEYS</dodf> or
+     *        <dodf>Stbtfmfnt.NO_GENERATED_KEYS</dodf>
+     * @rfturn b nfw <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt, dontbining tif
+     *         prf-dompilfd SQL stbtfmfnt, tibt will ibvf tif dbpbbility of
+     *         rfturning buto-gfnfrbtfd kfys
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     *  mftiod is dbllfd on b dlosfd donnfdtion
+     *         or tif givfn pbrbmftfr is not b <dodf>Stbtfmfnt</dodf>
+     *         donstbnt indidbting wiftifr buto-gfnfrbtfd kfys siould bf
+     *         rfturnfd
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod witi b donstbnt of Stbtfmfnt.RETURN_GENERATED_KEYS
+     * @sindf 1.4
      */
-    PreparedStatement prepareStatement(String sql, int autoGeneratedKeys)
-        throws SQLException;
+    PrfpbrfdStbtfmfnt prfpbrfStbtfmfnt(String sql, int butoGfnfrbtfdKfys)
+        tirows SQLExdfption;
 
     /**
-     * Creates a default <code>PreparedStatement</code> object capable
-     * of returning the auto-generated keys designated by the given array.
-     * This array contains the indexes of the columns in the target
-     * table that contain the auto-generated keys that should be made
-     * available.  The driver will ignore the array if the SQL statement
-     * is not an <code>INSERT</code> statement, or an SQL statement able to return
-     * auto-generated keys (the list of such statements is vendor-specific).
+     * Crfbtfs b dffbult <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt dbpbblf
+     * of rfturning tif buto-gfnfrbtfd kfys dfsignbtfd by tif givfn brrby.
+     * Tiis brrby dontbins tif indfxfs of tif dolumns in tif tbrgft
+     * tbblf tibt dontbin tif buto-gfnfrbtfd kfys tibt siould bf mbdf
+     * bvbilbblf.  Tif drivfr will ignorf tif brrby if tif SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (tif list of sudi stbtfmfnts is vfndor-spfdifid).
      *<p>
-     * An SQL statement with or without IN parameters can be
-     * pre-compiled and stored in a <code>PreparedStatement</code> object. This
-     * object can then be used to efficiently execute this statement
-     * multiple times.
+     * An SQL stbtfmfnt witi or witiout IN pbrbmftfrs dbn bf
+     * prf-dompilfd bnd storfd in b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt. Tiis
+     * objfdt dbn tifn bf usfd to fffidifntly fxfdutf tiis stbtfmfnt
+     * multiplf timfs.
      * <P>
-     * <B>Note:</B> This method is optimized for handling
-     * parametric SQL statements that benefit from precompilation. If
-     * the driver supports precompilation,
-     * the method <code>prepareStatement</code> will send
-     * the statement to the database for precompilation. Some drivers
-     * may not support precompilation. In this case, the statement may
-     * not be sent to the database until the <code>PreparedStatement</code>
-     * object is executed.  This has no direct effect on users; however, it does
-     * affect which methods throw certain SQLExceptions.
+     * <B>Notf:</B> Tiis mftiod is optimizfd for ibndling
+     * pbrbmftrid SQL stbtfmfnts tibt bfnffit from prfdompilbtion. If
+     * tif drivfr supports prfdompilbtion,
+     * tif mftiod <dodf>prfpbrfStbtfmfnt</dodf> will sfnd
+     * tif stbtfmfnt to tif dbtbbbsf for prfdompilbtion. Somf drivfrs
+     * mby not support prfdompilbtion. In tiis dbsf, tif stbtfmfnt mby
+     * not bf sfnt to tif dbtbbbsf until tif <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt is fxfdutfd.  Tiis ibs no dirfdt ffffdt on usfrs; iowfvfr, it dofs
+     * bfffdt wiidi mftiods tirow dfrtbin SQLExdfptions.
      * <P>
-     * Result sets created using the returned <code>PreparedStatement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Rfsult sfts drfbtfd using tif rfturnfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt will by dffbult bf typf <dodf>TYPE_FORWARD_ONLY</dodf>
+     * bnd ibvf b dondurrfndy lfvfl of <dodf>CONCUR_READ_ONLY</dodf>.
+     * Tif ioldbbility of tif drfbtfd rfsult sfts dbn bf dftfrminfd by
+     * dblling {@link #gftHoldbbility}.
      *
-     * @param sql an SQL statement that may contain one or more '?' IN
-     *        parameter placeholders
-     * @param columnIndexes an array of column indexes indicating the columns
-     *        that should be returned from the inserted row or rows
-     * @return a new <code>PreparedStatement</code> object, containing the
-     *         pre-compiled statement, that is capable of returning the
-     *         auto-generated keys designated by the given array of column
-     *         indexes
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
+     * @pbrbm sql bn SQL stbtfmfnt tibt mby dontbin onf or morf '?' IN
+     *        pbrbmftfr plbdfioldfrs
+     * @pbrbm dolumnIndfxfs bn brrby of dolumn indfxfs indidbting tif dolumns
+     *        tibt siould bf rfturnfd from tif insfrtfd row or rows
+     * @rfturn b nfw <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt, dontbining tif
+     *         prf-dompilfd stbtfmfnt, tibt is dbpbblf of rfturning tif
+     *         buto-gfnfrbtfd kfys dfsignbtfd by tif givfn brrby of dolumn
+     *         indfxfs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    PreparedStatement prepareStatement(String sql, int columnIndexes[])
-        throws SQLException;
+    PrfpbrfdStbtfmfnt prfpbrfStbtfmfnt(String sql, int dolumnIndfxfs[])
+        tirows SQLExdfption;
 
     /**
-     * Creates a default <code>PreparedStatement</code> object capable
-     * of returning the auto-generated keys designated by the given array.
-     * This array contains the names of the columns in the target
-     * table that contain the auto-generated keys that should be returned.
-     * The driver will ignore the array if the SQL statement
-     * is not an <code>INSERT</code> statement, or an SQL statement able to return
-     * auto-generated keys (the list of such statements is vendor-specific).
+     * Crfbtfs b dffbult <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt dbpbblf
+     * of rfturning tif buto-gfnfrbtfd kfys dfsignbtfd by tif givfn brrby.
+     * Tiis brrby dontbins tif nbmfs of tif dolumns in tif tbrgft
+     * tbblf tibt dontbin tif buto-gfnfrbtfd kfys tibt siould bf rfturnfd.
+     * Tif drivfr will ignorf tif brrby if tif SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (tif list of sudi stbtfmfnts is vfndor-spfdifid).
      * <P>
-     * An SQL statement with or without IN parameters can be
-     * pre-compiled and stored in a <code>PreparedStatement</code> object. This
-     * object can then be used to efficiently execute this statement
-     * multiple times.
+     * An SQL stbtfmfnt witi or witiout IN pbrbmftfrs dbn bf
+     * prf-dompilfd bnd storfd in b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt. Tiis
+     * objfdt dbn tifn bf usfd to fffidifntly fxfdutf tiis stbtfmfnt
+     * multiplf timfs.
      * <P>
-     * <B>Note:</B> This method is optimized for handling
-     * parametric SQL statements that benefit from precompilation. If
-     * the driver supports precompilation,
-     * the method <code>prepareStatement</code> will send
-     * the statement to the database for precompilation. Some drivers
-     * may not support precompilation. In this case, the statement may
-     * not be sent to the database until the <code>PreparedStatement</code>
-     * object is executed.  This has no direct effect on users; however, it does
-     * affect which methods throw certain SQLExceptions.
+     * <B>Notf:</B> Tiis mftiod is optimizfd for ibndling
+     * pbrbmftrid SQL stbtfmfnts tibt bfnffit from prfdompilbtion. If
+     * tif drivfr supports prfdompilbtion,
+     * tif mftiod <dodf>prfpbrfStbtfmfnt</dodf> will sfnd
+     * tif stbtfmfnt to tif dbtbbbsf for prfdompilbtion. Somf drivfrs
+     * mby not support prfdompilbtion. In tiis dbsf, tif stbtfmfnt mby
+     * not bf sfnt to tif dbtbbbsf until tif <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt is fxfdutfd.  Tiis ibs no dirfdt ffffdt on usfrs; iowfvfr, it dofs
+     * bfffdt wiidi mftiods tirow dfrtbin SQLExdfptions.
      * <P>
-     * Result sets created using the returned <code>PreparedStatement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Rfsult sfts drfbtfd using tif rfturnfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt will by dffbult bf typf <dodf>TYPE_FORWARD_ONLY</dodf>
+     * bnd ibvf b dondurrfndy lfvfl of <dodf>CONCUR_READ_ONLY</dodf>.
+     * Tif ioldbbility of tif drfbtfd rfsult sfts dbn bf dftfrminfd by
+     * dblling {@link #gftHoldbbility}.
      *
-     * @param sql an SQL statement that may contain one or more '?' IN
-     *        parameter placeholders
-     * @param columnNames an array of column names indicating the columns
-     *        that should be returned from the inserted row or rows
-     * @return a new <code>PreparedStatement</code> object, containing the
-     *         pre-compiled statement, that is capable of returning the
-     *         auto-generated keys designated by the given array of column
-     *         names
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
+     * @pbrbm sql bn SQL stbtfmfnt tibt mby dontbin onf or morf '?' IN
+     *        pbrbmftfr plbdfioldfrs
+     * @pbrbm dolumnNbmfs bn brrby of dolumn nbmfs indidbting tif dolumns
+     *        tibt siould bf rfturnfd from tif insfrtfd row or rows
+     * @rfturn b nfw <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt, dontbining tif
+     *         prf-dompilfd stbtfmfnt, tibt is dbpbblf of rfturning tif
+     *         buto-gfnfrbtfd kfys dfsignbtfd by tif givfn brrby of dolumn
+     *         nbmfs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    PreparedStatement prepareStatement(String sql, String columnNames[])
-        throws SQLException;
+    PrfpbrfdStbtfmfnt prfpbrfStbtfmfnt(String sql, String dolumnNbmfs[])
+        tirows SQLExdfption;
 
     /**
-     * Constructs an object that implements the <code>Clob</code> interface. The object
-     * returned initially contains no data.  The <code>setAsciiStream</code>,
-     * <code>setCharacterStream</code> and <code>setString</code> methods of
-     * the <code>Clob</code> interface may be used to add data to the <code>Clob</code>.
-     * @return An object that implements the <code>Clob</code> interface
-     * @throws SQLException if an object that implements the
-     * <code>Clob</code> interface can not be constructed, this method is
-     * called on a closed connection or a database access error occurs.
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this data type
+     * Construdts bn objfdt tibt implfmfnts tif <dodf>Clob</dodf> intfrfbdf. Tif objfdt
+     * rfturnfd initiblly dontbins no dbtb.  Tif <dodf>sftAsdiiStrfbm</dodf>,
+     * <dodf>sftCibrbdtfrStrfbm</dodf> bnd <dodf>sftString</dodf> mftiods of
+     * tif <dodf>Clob</dodf> intfrfbdf mby bf usfd to bdd dbtb to tif <dodf>Clob</dodf>.
+     * @rfturn An objfdt tibt implfmfnts tif <dodf>Clob</dodf> intfrfbdf
+     * @tirows SQLExdfption if bn objfdt tibt implfmfnts tif
+     * <dodf>Clob</dodf> intfrfbdf dbn not bf donstrudtfd, tiis mftiod is
+     * dbllfd on b dlosfd donnfdtion or b dbtbbbsf bddfss frror oddurs.
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis dbtb typf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    Clob createClob() throws SQLException;
+    Clob drfbtfClob() tirows SQLExdfption;
 
     /**
-     * Constructs an object that implements the <code>Blob</code> interface. The object
-     * returned initially contains no data.  The <code>setBinaryStream</code> and
-     * <code>setBytes</code> methods of the <code>Blob</code> interface may be used to add data to
-     * the <code>Blob</code>.
-     * @return  An object that implements the <code>Blob</code> interface
-     * @throws SQLException if an object that implements the
-     * <code>Blob</code> interface can not be constructed, this method is
-     * called on a closed connection or a database access error occurs.
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this data type
+     * Construdts bn objfdt tibt implfmfnts tif <dodf>Blob</dodf> intfrfbdf. Tif objfdt
+     * rfturnfd initiblly dontbins no dbtb.  Tif <dodf>sftBinbryStrfbm</dodf> bnd
+     * <dodf>sftBytfs</dodf> mftiods of tif <dodf>Blob</dodf> intfrfbdf mby bf usfd to bdd dbtb to
+     * tif <dodf>Blob</dodf>.
+     * @rfturn  An objfdt tibt implfmfnts tif <dodf>Blob</dodf> intfrfbdf
+     * @tirows SQLExdfption if bn objfdt tibt implfmfnts tif
+     * <dodf>Blob</dodf> intfrfbdf dbn not bf donstrudtfd, tiis mftiod is
+     * dbllfd on b dlosfd donnfdtion or b dbtbbbsf bddfss frror oddurs.
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis dbtb typf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    Blob createBlob() throws SQLException;
+    Blob drfbtfBlob() tirows SQLExdfption;
 
     /**
-     * Constructs an object that implements the <code>NClob</code> interface. The object
-     * returned initially contains no data.  The <code>setAsciiStream</code>,
-     * <code>setCharacterStream</code> and <code>setString</code> methods of the <code>NClob</code> interface may
-     * be used to add data to the <code>NClob</code>.
-     * @return An object that implements the <code>NClob</code> interface
-     * @throws SQLException if an object that implements the
-     * <code>NClob</code> interface can not be constructed, this method is
-     * called on a closed connection or a database access error occurs.
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this data type
+     * Construdts bn objfdt tibt implfmfnts tif <dodf>NClob</dodf> intfrfbdf. Tif objfdt
+     * rfturnfd initiblly dontbins no dbtb.  Tif <dodf>sftAsdiiStrfbm</dodf>,
+     * <dodf>sftCibrbdtfrStrfbm</dodf> bnd <dodf>sftString</dodf> mftiods of tif <dodf>NClob</dodf> intfrfbdf mby
+     * bf usfd to bdd dbtb to tif <dodf>NClob</dodf>.
+     * @rfturn An objfdt tibt implfmfnts tif <dodf>NClob</dodf> intfrfbdf
+     * @tirows SQLExdfption if bn objfdt tibt implfmfnts tif
+     * <dodf>NClob</dodf> intfrfbdf dbn not bf donstrudtfd, tiis mftiod is
+     * dbllfd on b dlosfd donnfdtion or b dbtbbbsf bddfss frror oddurs.
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis dbtb typf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    NClob createNClob() throws SQLException;
+    NClob drfbtfNClob() tirows SQLExdfption;
 
     /**
-     * Constructs an object that implements the <code>SQLXML</code> interface. The object
-     * returned initially contains no data. The <code>createXmlStreamWriter</code> object and
-     * <code>setString</code> method of the <code>SQLXML</code> interface may be used to add data to the <code>SQLXML</code>
-     * object.
-     * @return An object that implements the <code>SQLXML</code> interface
-     * @throws SQLException if an object that implements the <code>SQLXML</code> interface can not
-     * be constructed, this method is
-     * called on a closed connection or a database access error occurs.
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this data type
-     * @since 1.6
+     * Construdts bn objfdt tibt implfmfnts tif <dodf>SQLXML</dodf> intfrfbdf. Tif objfdt
+     * rfturnfd initiblly dontbins no dbtb. Tif <dodf>drfbtfXmlStrfbmWritfr</dodf> objfdt bnd
+     * <dodf>sftString</dodf> mftiod of tif <dodf>SQLXML</dodf> intfrfbdf mby bf usfd to bdd dbtb to tif <dodf>SQLXML</dodf>
+     * objfdt.
+     * @rfturn An objfdt tibt implfmfnts tif <dodf>SQLXML</dodf> intfrfbdf
+     * @tirows SQLExdfption if bn objfdt tibt implfmfnts tif <dodf>SQLXML</dodf> intfrfbdf dbn not
+     * bf donstrudtfd, tiis mftiod is
+     * dbllfd on b dlosfd donnfdtion or b dbtbbbsf bddfss frror oddurs.
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis dbtb typf
+     * @sindf 1.6
      */
-    SQLXML createSQLXML() throws SQLException;
+    SQLXML drfbtfSQLXML() tirows SQLExdfption;
 
         /**
-         * Returns true if the connection has not been closed and is still valid.
-         * The driver shall submit a query on the connection or use some other
-         * mechanism that positively verifies the connection is still valid when
-         * this method is called.
+         * Rfturns truf if tif donnfdtion ibs not bffn dlosfd bnd is still vblid.
+         * Tif drivfr sibll submit b qufry on tif donnfdtion or usf somf otifr
+         * mfdibnism tibt positivfly vfrififs tif donnfdtion is still vblid wifn
+         * tiis mftiod is dbllfd.
          * <p>
-         * The query submitted by the driver to validate the connection shall be
-         * executed in the context of the current transaction.
+         * Tif qufry submittfd by tif drivfr to vblidbtf tif donnfdtion sibll bf
+         * fxfdutfd in tif dontfxt of tif durrfnt trbnsbdtion.
          *
-         * @param timeout -             The time in seconds to wait for the database operation
-         *                                              used to validate the connection to complete.  If
-         *                                              the timeout period expires before the operation
-         *                                              completes, this method returns false.  A value of
-         *                                              0 indicates a timeout is not applied to the
-         *                                              database operation.
+         * @pbrbm timfout -             Tif timf in sfdonds to wbit for tif dbtbbbsf opfrbtion
+         *                                              usfd to vblidbtf tif donnfdtion to domplftf.  If
+         *                                              tif timfout pfriod fxpirfs bfforf tif opfrbtion
+         *                                              domplftfs, tiis mftiod rfturns fblsf.  A vbluf of
+         *                                              0 indidbtfs b timfout is not bpplifd to tif
+         *                                              dbtbbbsf opfrbtion.
          *
-         * @return true if the connection is valid, false otherwise
-         * @exception SQLException if the value supplied for <code>timeout</code>
-         * is less then 0
-         * @since 1.6
+         * @rfturn truf if tif donnfdtion is vblid, fblsf otifrwisf
+         * @fxdfption SQLExdfption if tif vbluf supplifd for <dodf>timfout</dodf>
+         * is lfss tifn 0
+         * @sindf 1.6
          *
-         * @see java.sql.DatabaseMetaData#getClientInfoProperties
+         * @sff jbvb.sql.DbtbbbsfMftbDbtb#gftClifntInfoPropfrtifs
          */
-         boolean isValid(int timeout) throws SQLException;
+         boolfbn isVblid(int timfout) tirows SQLExdfption;
 
         /**
-         * Sets the value of the client info property specified by name to the
-         * value specified by value.
+         * Sfts tif vbluf of tif dlifnt info propfrty spfdififd by nbmf to tif
+         * vbluf spfdififd by vbluf.
          * <p>
-         * Applications may use the <code>DatabaseMetaData.getClientInfoProperties</code>
-         * method to determine the client info properties supported by the driver
-         * and the maximum length that may be specified for each property.
+         * Applidbtions mby usf tif <dodf>DbtbbbsfMftbDbtb.gftClifntInfoPropfrtifs</dodf>
+         * mftiod to dftfrminf tif dlifnt info propfrtifs supportfd by tif drivfr
+         * bnd tif mbximum lfngti tibt mby bf spfdififd for fbdi propfrty.
          * <p>
-         * The driver stores the value specified in a suitable location in the
-         * database.  For example in a special register, session parameter, or
-         * system table column.  For efficiency the driver may defer setting the
-         * value in the database until the next time a statement is executed or
-         * prepared.  Other than storing the client information in the appropriate
-         * place in the database, these methods shall not alter the behavior of
-         * the connection in anyway.  The values supplied to these methods are
-         * used for accounting, diagnostics and debugging purposes only.
+         * Tif drivfr storfs tif vbluf spfdififd in b suitbblf lodbtion in tif
+         * dbtbbbsf.  For fxbmplf in b spfdibl rfgistfr, sfssion pbrbmftfr, or
+         * systfm tbblf dolumn.  For fffidifndy tif drivfr mby dfffr sftting tif
+         * vbluf in tif dbtbbbsf until tif nfxt timf b stbtfmfnt is fxfdutfd or
+         * prfpbrfd.  Otifr tibn storing tif dlifnt informbtion in tif bppropribtf
+         * plbdf in tif dbtbbbsf, tifsf mftiods sibll not bltfr tif bfibvior of
+         * tif donnfdtion in bnywby.  Tif vblufs supplifd to tifsf mftiods brf
+         * usfd for bddounting, dibgnostids bnd dfbugging purposfs only.
          * <p>
-         * The driver shall generate a warning if the client info name specified
-         * is not recognized by the driver.
+         * Tif drivfr sibll gfnfrbtf b wbrning if tif dlifnt info nbmf spfdififd
+         * is not rfdognizfd by tif drivfr.
          * <p>
-         * If the value specified to this method is greater than the maximum
-         * length for the property the driver may either truncate the value and
-         * generate a warning or generate a <code>SQLClientInfoException</code>.  If the driver
-         * generates a <code>SQLClientInfoException</code>, the value specified was not set on the
-         * connection.
+         * If tif vbluf spfdififd to tiis mftiod is grfbtfr tibn tif mbximum
+         * lfngti for tif propfrty tif drivfr mby fitifr trundbtf tif vbluf bnd
+         * gfnfrbtf b wbrning or gfnfrbtf b <dodf>SQLClifntInfoExdfption</dodf>.  If tif drivfr
+         * gfnfrbtfs b <dodf>SQLClifntInfoExdfption</dodf>, tif vbluf spfdififd wbs not sft on tif
+         * donnfdtion.
          * <p>
-         * The following are standard client info properties.  Drivers are not
-         * required to support these properties however if the driver supports a
-         * client info property that can be described by one of the standard
-         * properties, the standard property name should be used.
+         * Tif following brf stbndbrd dlifnt info propfrtifs.  Drivfrs brf not
+         * rfquirfd to support tifsf propfrtifs iowfvfr if tif drivfr supports b
+         * dlifnt info propfrty tibt dbn bf dfsdribfd by onf of tif stbndbrd
+         * propfrtifs, tif stbndbrd propfrty nbmf siould bf usfd.
          *
          * <ul>
-         * <li>ApplicationName  -       The name of the application currently utilizing
-         *                                                      the connection</li>
-         * <li>ClientUser               -       The name of the user that the application using
-         *                                                      the connection is performing work for.  This may
-         *                                                      not be the same as the user name that was used
-         *                                                      in establishing the connection.</li>
-         * <li>ClientHostname   -       The hostname of the computer the application
-         *                                                      using the connection is running on.</li>
+         * <li>ApplidbtionNbmf  -       Tif nbmf of tif bpplidbtion durrfntly utilizing
+         *                                                      tif donnfdtion</li>
+         * <li>ClifntUsfr               -       Tif nbmf of tif usfr tibt tif bpplidbtion using
+         *                                                      tif donnfdtion is pfrforming work for.  Tiis mby
+         *                                                      not bf tif sbmf bs tif usfr nbmf tibt wbs usfd
+         *                                                      in fstbblisiing tif donnfdtion.</li>
+         * <li>ClifntHostnbmf   -       Tif iostnbmf of tif domputfr tif bpplidbtion
+         *                                                      using tif donnfdtion is running on.</li>
          * </ul>
          *
-         * @param name          The name of the client info property to set
-         * @param value         The value to set the client info property to.  If the
-         *                                      value is null, the current value of the specified
-         *                                      property is cleared.
+         * @pbrbm nbmf          Tif nbmf of tif dlifnt info propfrty to sft
+         * @pbrbm vbluf         Tif vbluf to sft tif dlifnt info propfrty to.  If tif
+         *                                      vbluf is null, tif durrfnt vbluf of tif spfdififd
+         *                                      propfrty is dlfbrfd.
          *
-         * @throws      SQLClientInfoException if the database server returns an error while
-         *                      setting the client info value on the database server or this method
-         * is called on a closed connection
+         * @tirows      SQLClifntInfoExdfption if tif dbtbbbsf sfrvfr rfturns bn frror wiilf
+         *                      sftting tif dlifnt info vbluf on tif dbtbbbsf sfrvfr or tiis mftiod
+         * is dbllfd on b dlosfd donnfdtion
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-         void setClientInfo(String name, String value)
-                throws SQLClientInfoException;
+         void sftClifntInfo(String nbmf, String vbluf)
+                tirows SQLClifntInfoExdfption;
 
         /**
-     * Sets the value of the connection's client info properties.  The
-     * <code>Properties</code> object contains the names and values of the client info
-     * properties to be set.  The set of client info properties contained in
-     * the properties list replaces the current set of client info properties
-     * on the connection.  If a property that is currently set on the
-     * connection is not present in the properties list, that property is
-     * cleared.  Specifying an empty properties list will clear all of the
-     * properties on the connection.  See <code>setClientInfo (String, String)</code> for
-     * more information.
+     * Sfts tif vbluf of tif donnfdtion's dlifnt info propfrtifs.  Tif
+     * <dodf>Propfrtifs</dodf> objfdt dontbins tif nbmfs bnd vblufs of tif dlifnt info
+     * propfrtifs to bf sft.  Tif sft of dlifnt info propfrtifs dontbinfd in
+     * tif propfrtifs list rfplbdfs tif durrfnt sft of dlifnt info propfrtifs
+     * on tif donnfdtion.  If b propfrty tibt is durrfntly sft on tif
+     * donnfdtion is not prfsfnt in tif propfrtifs list, tibt propfrty is
+     * dlfbrfd.  Spfdifying bn fmpty propfrtifs list will dlfbr bll of tif
+     * propfrtifs on tif donnfdtion.  Sff <dodf>sftClifntInfo (String, String)</dodf> for
+     * morf informbtion.
      * <p>
-     * If an error occurs in setting any of the client info properties, a
-     * <code>SQLClientInfoException</code> is thrown. The <code>SQLClientInfoException</code>
-     * contains information indicating which client info properties were not set.
-     * The state of the client information is unknown because
-     * some databases do not allow multiple client info properties to be set
-     * atomically.  For those databases, one or more properties may have been
-     * set before the error occurred.
+     * If bn frror oddurs in sftting bny of tif dlifnt info propfrtifs, b
+     * <dodf>SQLClifntInfoExdfption</dodf> is tirown. Tif <dodf>SQLClifntInfoExdfption</dodf>
+     * dontbins informbtion indidbting wiidi dlifnt info propfrtifs wfrf not sft.
+     * Tif stbtf of tif dlifnt informbtion is unknown bfdbusf
+     * somf dbtbbbsfs do not bllow multiplf dlifnt info propfrtifs to bf sft
+     * btomidblly.  For tiosf dbtbbbsfs, onf or morf propfrtifs mby ibvf bffn
+     * sft bfforf tif frror oddurrfd.
      *
      *
-     * @param properties                the list of client info properties to set
+     * @pbrbm propfrtifs                tif list of dlifnt info propfrtifs to sft
      *
-     * @see java.sql.Connection#setClientInfo(String, String) setClientInfo(String, String)
-     * @since 1.6
+     * @sff jbvb.sql.Connfdtion#sftClifntInfo(String, String) sftClifntInfo(String, String)
+     * @sindf 1.6
      *
-     * @throws SQLClientInfoException if the database server returns an error while
-     *                  setting the clientInfo values on the database server or this method
-     * is called on a closed connection
+     * @tirows SQLClifntInfoExdfption if tif dbtbbbsf sfrvfr rfturns bn frror wiilf
+     *                  sftting tif dlifntInfo vblufs on tif dbtbbbsf sfrvfr or tiis mftiod
+     * is dbllfd on b dlosfd donnfdtion
      *
      */
-         void setClientInfo(Properties properties)
-                throws SQLClientInfoException;
+         void sftClifntInfo(Propfrtifs propfrtifs)
+                tirows SQLClifntInfoExdfption;
 
         /**
-         * Returns the value of the client info property specified by name.  This
-         * method may return null if the specified client info property has not
-         * been set and does not have a default value.  This method will also
-         * return null if the specified client info property name is not supported
-         * by the driver.
+         * Rfturns tif vbluf of tif dlifnt info propfrty spfdififd by nbmf.  Tiis
+         * mftiod mby rfturn null if tif spfdififd dlifnt info propfrty ibs not
+         * bffn sft bnd dofs not ibvf b dffbult vbluf.  Tiis mftiod will blso
+         * rfturn null if tif spfdififd dlifnt info propfrty nbmf is not supportfd
+         * by tif drivfr.
          * <p>
-         * Applications may use the <code>DatabaseMetaData.getClientInfoProperties</code>
-         * method to determine the client info properties supported by the driver.
+         * Applidbtions mby usf tif <dodf>DbtbbbsfMftbDbtb.gftClifntInfoPropfrtifs</dodf>
+         * mftiod to dftfrminf tif dlifnt info propfrtifs supportfd by tif drivfr.
          *
-         * @param name          The name of the client info property to retrieve
+         * @pbrbm nbmf          Tif nbmf of tif dlifnt info propfrty to rftrifvf
          *
-         * @return                      The value of the client info property specified
+         * @rfturn                      Tif vbluf of tif dlifnt info propfrty spfdififd
          *
-         * @throws SQLException         if the database server returns an error when
-         *                              fetching the client info value from the database
-         *                              or this method is called on a closed connection
+         * @tirows SQLExdfption         if tif dbtbbbsf sfrvfr rfturns bn frror wifn
+         *                              fftdiing tif dlifnt info vbluf from tif dbtbbbsf
+         *                              or tiis mftiod is dbllfd on b dlosfd donnfdtion
          *
-         * @since 1.6
+         * @sindf 1.6
          *
-         * @see java.sql.DatabaseMetaData#getClientInfoProperties
+         * @sff jbvb.sql.DbtbbbsfMftbDbtb#gftClifntInfoPropfrtifs
          */
-         String getClientInfo(String name)
-                throws SQLException;
+         String gftClifntInfo(String nbmf)
+                tirows SQLExdfption;
 
         /**
-         * Returns a list containing the name and current value of each client info
-         * property supported by the driver.  The value of a client info property
-         * may be null if the property has not been set and does not have a
-         * default value.
+         * Rfturns b list dontbining tif nbmf bnd durrfnt vbluf of fbdi dlifnt info
+         * propfrty supportfd by tif drivfr.  Tif vbluf of b dlifnt info propfrty
+         * mby bf null if tif propfrty ibs not bffn sft bnd dofs not ibvf b
+         * dffbult vbluf.
          *
-         * @return      A <code>Properties</code> object that contains the name and current value of
-         *                      each of the client info properties supported by the driver.
+         * @rfturn      A <dodf>Propfrtifs</dodf> objfdt tibt dontbins tif nbmf bnd durrfnt vbluf of
+         *                      fbdi of tif dlifnt info propfrtifs supportfd by tif drivfr.
          *
-         * @throws      SQLException if the database server returns an error when
-         *                      fetching the client info values from the database
-         * or this method is called on a closed connection
+         * @tirows      SQLExdfption if tif dbtbbbsf sfrvfr rfturns bn frror wifn
+         *                      fftdiing tif dlifnt info vblufs from tif dbtbbbsf
+         * or tiis mftiod is dbllfd on b dlosfd donnfdtion
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-         Properties getClientInfo()
-                throws SQLException;
+         Propfrtifs gftClifntInfo()
+                tirows SQLExdfption;
 
 /**
-  * Factory method for creating Array objects.
+  * Fbdtory mftiod for drfbting Arrby objfdts.
   *<p>
-  * <b>Note: </b>When <code>createArrayOf</code> is used to create an array object
-  * that maps to a primitive data type, then it is implementation-defined
-  * whether the <code>Array</code> object is an array of that primitive
-  * data type or an array of <code>Object</code>.
+  * <b>Notf: </b>Wifn <dodf>drfbtfArrbyOf</dodf> is usfd to drfbtf bn brrby objfdt
+  * tibt mbps to b primitivf dbtb typf, tifn it is implfmfntbtion-dffinfd
+  * wiftifr tif <dodf>Arrby</dodf> objfdt is bn brrby of tibt primitivf
+  * dbtb typf or bn brrby of <dodf>Objfdt</dodf>.
   * <p>
-  * <b>Note: </b>The JDBC driver is responsible for mapping the elements
-  * <code>Object</code> array to the default JDBC SQL type defined in
-  * java.sql.Types for the given class of <code>Object</code>. The default
-  * mapping is specified in Appendix B of the JDBC specification.  If the
-  * resulting JDBC type is not the appropriate type for the given typeName then
-  * it is implementation defined whether an <code>SQLException</code> is
-  * thrown or the driver supports the resulting conversion.
+  * <b>Notf: </b>Tif JDBC drivfr is rfsponsiblf for mbpping tif flfmfnts
+  * <dodf>Objfdt</dodf> brrby to tif dffbult JDBC SQL typf dffinfd in
+  * jbvb.sql.Typfs for tif givfn dlbss of <dodf>Objfdt</dodf>. Tif dffbult
+  * mbpping is spfdififd in Appfndix B of tif JDBC spfdifidbtion.  If tif
+  * rfsulting JDBC typf is not tif bppropribtf typf for tif givfn typfNbmf tifn
+  * it is implfmfntbtion dffinfd wiftifr bn <dodf>SQLExdfption</dodf> is
+  * tirown or tif drivfr supports tif rfsulting donvfrsion.
   *
-  * @param typeName the SQL name of the type the elements of the array map to. The typeName is a
-  * database-specific name which may be the name of a built-in type, a user-defined type or a standard  SQL type supported by this database. This
-  *  is the value returned by <code>Array.getBaseTypeName</code>
-  * @param elements the elements that populate the returned object
-  * @return an Array object whose elements map to the specified SQL type
-  * @throws SQLException if a database error occurs, the JDBC type is not
-  *  appropriate for the typeName and the conversion is not supported, the typeName is null or this method is called on a closed connection
-  * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this data type
-  * @since 1.6
+  * @pbrbm typfNbmf tif SQL nbmf of tif typf tif flfmfnts of tif brrby mbp to. Tif typfNbmf is b
+  * dbtbbbsf-spfdifid nbmf wiidi mby bf tif nbmf of b built-in typf, b usfr-dffinfd typf or b stbndbrd  SQL typf supportfd by tiis dbtbbbsf. Tiis
+  *  is tif vbluf rfturnfd by <dodf>Arrby.gftBbsfTypfNbmf</dodf>
+  * @pbrbm flfmfnts tif flfmfnts tibt populbtf tif rfturnfd objfdt
+  * @rfturn bn Arrby objfdt wiosf flfmfnts mbp to tif spfdififd SQL typf
+  * @tirows SQLExdfption if b dbtbbbsf frror oddurs, tif JDBC typf is not
+  *  bppropribtf for tif typfNbmf bnd tif donvfrsion is not supportfd, tif typfNbmf is null or tiis mftiod is dbllfd on b dlosfd donnfdtion
+  * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis dbtb typf
+  * @sindf 1.6
   */
- Array createArrayOf(String typeName, Object[] elements) throws
-SQLException;
+ Arrby drfbtfArrbyOf(String typfNbmf, Objfdt[] flfmfnts) tirows
+SQLExdfption;
 
 /**
-  * Factory method for creating Struct objects.
+  * Fbdtory mftiod for drfbting Strudt objfdts.
   *
-  * @param typeName the SQL type name of the SQL structured type that this <code>Struct</code>
-  * object maps to. The typeName is the name of  a user-defined type that
-  * has been defined for this database. It is the value returned by
-  * <code>Struct.getSQLTypeName</code>.
+  * @pbrbm typfNbmf tif SQL typf nbmf of tif SQL strudturfd typf tibt tiis <dodf>Strudt</dodf>
+  * objfdt mbps to. Tif typfNbmf is tif nbmf of  b usfr-dffinfd typf tibt
+  * ibs bffn dffinfd for tiis dbtbbbsf. It is tif vbluf rfturnfd by
+  * <dodf>Strudt.gftSQLTypfNbmf</dodf>.
 
-  * @param attributes the attributes that populate the returned object
-  * @return a Struct object that maps to the given SQL type and is populated with the given attributes
-  * @throws SQLException if a database error occurs, the typeName is null or this method is called on a closed connection
-  * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this data type
-  * @since 1.6
+  * @pbrbm bttributfs tif bttributfs tibt populbtf tif rfturnfd objfdt
+  * @rfturn b Strudt objfdt tibt mbps to tif givfn SQL typf bnd is populbtfd witi tif givfn bttributfs
+  * @tirows SQLExdfption if b dbtbbbsf frror oddurs, tif typfNbmf is null or tiis mftiod is dbllfd on b dlosfd donnfdtion
+  * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis dbtb typf
+  * @sindf 1.6
   */
- Struct createStruct(String typeName, Object[] attributes)
-throws SQLException;
+ Strudt drfbtfStrudt(String typfNbmf, Objfdt[] bttributfs)
+tirows SQLExdfption;
 
    //--------------------------JDBC 4.1 -----------------------------
 
    /**
-    * Sets the given schema name to access.
+    * Sfts tif givfn sdifmb nbmf to bddfss.
     * <P>
-    * If the driver does not support schemas, it will
-    * silently ignore this request.
+    * If tif drivfr dofs not support sdifmbs, it will
+    * silfntly ignorf tiis rfqufst.
     * <p>
-    * Calling {@code setSchema} has no effect on previously created or prepared
-    * {@code Statement} objects. It is implementation defined whether a DBMS
-    * prepare operation takes place immediately when the {@code Connection}
-    * method {@code prepareStatement} or {@code prepareCall} is invoked.
-    * For maximum portability, {@code setSchema} should be called before a
-    * {@code Statement} is created or prepared.
+    * Cblling {@dodf sftSdifmb} ibs no ffffdt on prfviously drfbtfd or prfpbrfd
+    * {@dodf Stbtfmfnt} objfdts. It is implfmfntbtion dffinfd wiftifr b DBMS
+    * prfpbrf opfrbtion tbkfs plbdf immfdibtfly wifn tif {@dodf Connfdtion}
+    * mftiod {@dodf prfpbrfStbtfmfnt} or {@dodf prfpbrfCbll} is invokfd.
+    * For mbximum portbbility, {@dodf sftSdifmb} siould bf dbllfd bfforf b
+    * {@dodf Stbtfmfnt} is drfbtfd or prfpbrfd.
     *
-    * @param schema the name of a schema  in which to work
-    * @exception SQLException if a database access error occurs
-    * or this method is called on a closed connection
-    * @see #getSchema
-    * @since 1.7
+    * @pbrbm sdifmb tif nbmf of b sdifmb  in wiidi to work
+    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+    * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+    * @sff #gftSdifmb
+    * @sindf 1.7
     */
-    void setSchema(String schema) throws SQLException;
+    void sftSdifmb(String sdifmb) tirows SQLExdfption;
 
     /**
-     * Retrieves this <code>Connection</code> object's current schema name.
+     * Rftrifvfs tiis <dodf>Connfdtion</dodf> objfdt's durrfnt sdifmb nbmf.
      *
-     * @return the current schema name or <code>null</code> if there is none
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #setSchema
-     * @since 1.7
+     * @rfturn tif durrfnt sdifmb nbmf or <dodf>null</dodf> if tifrf is nonf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd donnfdtion
+     * @sff #sftSdifmb
+     * @sindf 1.7
      */
-    String getSchema() throws SQLException;
+    String gftSdifmb() tirows SQLExdfption;
 
     /**
-     * Terminates an open connection.  Calling <code>abort</code> results in:
+     * Tfrminbtfs bn opfn donnfdtion.  Cblling <dodf>bbort</dodf> rfsults in:
      * <ul>
-     * <li>The connection marked as closed
-     * <li>Closes any physical connection to the database
-     * <li>Releases resources used by the connection
-     * <li>Insures that any thread that is currently accessing the connection
-     * will either progress to completion or throw an <code>SQLException</code>.
+     * <li>Tif donnfdtion mbrkfd bs dlosfd
+     * <li>Closfs bny piysidbl donnfdtion to tif dbtbbbsf
+     * <li>Rflfbsfs rfsourdfs usfd by tif donnfdtion
+     * <li>Insurfs tibt bny tirfbd tibt is durrfntly bddfssing tif donnfdtion
+     * will fitifr progrfss to domplftion or tirow bn <dodf>SQLExdfption</dodf>.
      * </ul>
      * <p>
-     * Calling <code>abort</code> marks the connection closed and releases any
-     * resources. Calling <code>abort</code> on a closed connection is a
+     * Cblling <dodf>bbort</dodf> mbrks tif donnfdtion dlosfd bnd rflfbsfs bny
+     * rfsourdfs. Cblling <dodf>bbort</dodf> on b dlosfd donnfdtion is b
      * no-op.
      * <p>
-     * It is possible that the aborting and releasing of the resources that are
-     * held by the connection can take an extended period of time.  When the
-     * <code>abort</code> method returns, the connection will have been marked as
-     * closed and the <code>Executor</code> that was passed as a parameter to abort
-     * may still be executing tasks to release resources.
+     * It is possiblf tibt tif bborting bnd rflfbsing of tif rfsourdfs tibt brf
+     * ifld by tif donnfdtion dbn tbkf bn fxtfndfd pfriod of timf.  Wifn tif
+     * <dodf>bbort</dodf> mftiod rfturns, tif donnfdtion will ibvf bffn mbrkfd bs
+     * dlosfd bnd tif <dodf>Exfdutor</dodf> tibt wbs pbssfd bs b pbrbmftfr to bbort
+     * mby still bf fxfduting tbsks to rflfbsf rfsourdfs.
      * <p>
-     * This method checks to see that there is an <code>SQLPermission</code>
-     * object before allowing the method to proceed.  If a
-     * <code>SecurityManager</code> exists and its
-     * <code>checkPermission</code> method denies calling <code>abort</code>,
-     * this method throws a
-     * <code>java.lang.SecurityException</code>.
-     * @param executor  The <code>Executor</code>  implementation which will
-     * be used by <code>abort</code>.
-     * @throws java.sql.SQLException if a database access error occurs or
-     * the {@code executor} is {@code null},
-     * @throws java.lang.SecurityException if a security manager exists and its
-     *    <code>checkPermission</code> method denies calling <code>abort</code>
-     * @see SecurityManager#checkPermission
-     * @see Executor
-     * @since 1.7
+     * Tiis mftiod difdks to sff tibt tifrf is bn <dodf>SQLPfrmission</dodf>
+     * objfdt bfforf bllowing tif mftiod to prodffd.  If b
+     * <dodf>SfdurityMbnbgfr</dodf> fxists bnd its
+     * <dodf>difdkPfrmission</dodf> mftiod dfnifs dblling <dodf>bbort</dodf>,
+     * tiis mftiod tirows b
+     * <dodf>jbvb.lbng.SfdurityExdfption</dodf>.
+     * @pbrbm fxfdutor  Tif <dodf>Exfdutor</dodf>  implfmfntbtion wiidi will
+     * bf usfd by <dodf>bbort</dodf>.
+     * @tirows jbvb.sql.SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tif {@dodf fxfdutor} is {@dodf null},
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *    <dodf>difdkPfrmission</dodf> mftiod dfnifs dblling <dodf>bbort</dodf>
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff Exfdutor
+     * @sindf 1.7
      */
-    void abort(Executor executor) throws SQLException;
+    void bbort(Exfdutor fxfdutor) tirows SQLExdfption;
 
     /**
      *
-     * Sets the maximum period a <code>Connection</code> or
-     * objects created from the <code>Connection</code>
-     * will wait for the database to reply to any one request. If any
-     *  request remains unanswered, the waiting method will
-     * return with a <code>SQLException</code>, and the <code>Connection</code>
-     * or objects created from the <code>Connection</code>  will be marked as
-     * closed. Any subsequent use of
-     * the objects, with the exception of the <code>close</code>,
-     * <code>isClosed</code> or <code>Connection.isValid</code>
-     * methods, will result in  a <code>SQLException</code>.
+     * Sfts tif mbximum pfriod b <dodf>Connfdtion</dodf> or
+     * objfdts drfbtfd from tif <dodf>Connfdtion</dodf>
+     * will wbit for tif dbtbbbsf to rfply to bny onf rfqufst. If bny
+     *  rfqufst rfmbins unbnswfrfd, tif wbiting mftiod will
+     * rfturn witi b <dodf>SQLExdfption</dodf>, bnd tif <dodf>Connfdtion</dodf>
+     * or objfdts drfbtfd from tif <dodf>Connfdtion</dodf>  will bf mbrkfd bs
+     * dlosfd. Any subsfqufnt usf of
+     * tif objfdts, witi tif fxdfption of tif <dodf>dlosf</dodf>,
+     * <dodf>isClosfd</dodf> or <dodf>Connfdtion.isVblid</dodf>
+     * mftiods, will rfsult in  b <dodf>SQLExdfption</dodf>.
      * <p>
-     * <b>Note</b>: This method is intended to address a rare but serious
-     * condition where network partitions can cause threads issuing JDBC calls
-     * to hang uninterruptedly in socket reads, until the OS TCP-TIMEOUT
-     * (typically 10 minutes). This method is related to the
-     * {@link #abort abort() } method which provides an administrator
-     * thread a means to free any such threads in cases where the
-     * JDBC connection is accessible to the administrator thread.
-     * The <code>setNetworkTimeout</code> method will cover cases where
-     * there is no administrator thread, or it has no access to the
-     * connection. This method is severe in it's effects, and should be
-     * given a high enough value so it is never triggered before any more
-     * normal timeouts, such as transaction timeouts.
+     * <b>Notf</b>: Tiis mftiod is intfndfd to bddrfss b rbrf but sfrious
+     * dondition wifrf nftwork pbrtitions dbn dbusf tirfbds issuing JDBC dblls
+     * to ibng unintfrruptfdly in sodkft rfbds, until tif OS TCP-TIMEOUT
+     * (typidblly 10 minutfs). Tiis mftiod is rflbtfd to tif
+     * {@link #bbort bbort() } mftiod wiidi providfs bn bdministrbtor
+     * tirfbd b mfbns to frff bny sudi tirfbds in dbsfs wifrf tif
+     * JDBC donnfdtion is bddfssiblf to tif bdministrbtor tirfbd.
+     * Tif <dodf>sftNftworkTimfout</dodf> mftiod will dovfr dbsfs wifrf
+     * tifrf is no bdministrbtor tirfbd, or it ibs no bddfss to tif
+     * donnfdtion. Tiis mftiod is sfvfrf in it's ffffdts, bnd siould bf
+     * givfn b iigi fnougi vbluf so it is nfvfr triggfrfd bfforf bny morf
+     * normbl timfouts, sudi bs trbnsbdtion timfouts.
      * <p>
-     * JDBC driver implementations  may also choose to support the
-     * {@code setNetworkTimeout} method to impose a limit on database
-     * response time, in environments where no network is present.
+     * JDBC drivfr implfmfntbtions  mby blso dioosf to support tif
+     * {@dodf sftNftworkTimfout} mftiod to imposf b limit on dbtbbbsf
+     * rfsponsf timf, in fnvironmfnts wifrf no nftwork is prfsfnt.
      * <p>
-     * Drivers may internally implement some or all of their API calls with
-     * multiple internal driver-database transmissions, and it is left to the
-     * driver implementation to determine whether the limit will be
-     * applied always to the response to the API call, or to any
-     * single  request made during the API call.
-     * <p>
-     *
-     * This method can be invoked more than once, such as to set a limit for an
-     * area of JDBC code, and to reset to the default on exit from this area.
-     * Invocation of this method has no impact on already outstanding
-     * requests.
-     * <p>
-     * The {@code Statement.setQueryTimeout()} timeout value is independent of the
-     * timeout value specified in {@code setNetworkTimeout}. If the query timeout
-     * expires  before the network timeout then the
-     * statement execution will be canceled. If the network is still
-     * active the result will be that both the statement and connection
-     * are still usable. However if the network timeout expires before
-     * the query timeout or if the statement timeout fails due to network
-     * problems, the connection will be marked as closed, any resources held by
-     * the connection will be released and both the connection and
-     * statement will be unusable.
-     * <p>
-     * When the driver determines that the {@code setNetworkTimeout} timeout
-     * value has expired, the JDBC driver marks the connection
-     * closed and releases any resources held by the connection.
+     * Drivfrs mby intfrnblly implfmfnt somf or bll of tifir API dblls witi
+     * multiplf intfrnbl drivfr-dbtbbbsf trbnsmissions, bnd it is lfft to tif
+     * drivfr implfmfntbtion to dftfrminf wiftifr tif limit will bf
+     * bpplifd blwbys to tif rfsponsf to tif API dbll, or to bny
+     * singlf  rfqufst mbdf during tif API dbll.
      * <p>
      *
-     * This method checks to see that there is an <code>SQLPermission</code>
-     * object before allowing the method to proceed.  If a
-     * <code>SecurityManager</code> exists and its
-     * <code>checkPermission</code> method denies calling
-     * <code>setNetworkTimeout</code>, this method throws a
-     * <code>java.lang.SecurityException</code>.
+     * Tiis mftiod dbn bf invokfd morf tibn ondf, sudi bs to sft b limit for bn
+     * brfb of JDBC dodf, bnd to rfsft to tif dffbult on fxit from tiis brfb.
+     * Invodbtion of tiis mftiod ibs no impbdt on blrfbdy outstbnding
+     * rfqufsts.
+     * <p>
+     * Tif {@dodf Stbtfmfnt.sftQufryTimfout()} timfout vbluf is indfpfndfnt of tif
+     * timfout vbluf spfdififd in {@dodf sftNftworkTimfout}. If tif qufry timfout
+     * fxpirfs  bfforf tif nftwork timfout tifn tif
+     * stbtfmfnt fxfdution will bf dbndflfd. If tif nftwork is still
+     * bdtivf tif rfsult will bf tibt boti tif stbtfmfnt bnd donnfdtion
+     * brf still usbblf. Howfvfr if tif nftwork timfout fxpirfs bfforf
+     * tif qufry timfout or if tif stbtfmfnt timfout fbils duf to nftwork
+     * problfms, tif donnfdtion will bf mbrkfd bs dlosfd, bny rfsourdfs ifld by
+     * tif donnfdtion will bf rflfbsfd bnd boti tif donnfdtion bnd
+     * stbtfmfnt will bf unusbblf.
+     * <p>
+     * Wifn tif drivfr dftfrminfs tibt tif {@dodf sftNftworkTimfout} timfout
+     * vbluf ibs fxpirfd, tif JDBC drivfr mbrks tif donnfdtion
+     * dlosfd bnd rflfbsfs bny rfsourdfs ifld by tif donnfdtion.
+     * <p>
      *
-     * @param executor  The <code>Executor</code>  implementation which will
-     * be used by <code>setNetworkTimeout</code>.
-     * @param milliseconds The time in milliseconds to wait for the database
-     * operation
-     *  to complete.  If the JDBC driver does not support milliseconds, the
-     * JDBC driver will round the value up to the nearest second.  If the
-     * timeout period expires before the operation
-     * completes, a SQLException will be thrown.
-     * A value of 0 indicates that there is not timeout for database operations.
-     * @throws java.sql.SQLException if a database access error occurs, this
-     * method is called on a closed connection,
-     * the {@code executor} is {@code null},
-     * or the value specified for <code>seconds</code> is less than 0.
-     * @throws java.lang.SecurityException if a security manager exists and its
-     *    <code>checkPermission</code> method denies calling
-     * <code>setNetworkTimeout</code>.
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @see SecurityManager#checkPermission
-     * @see Statement#setQueryTimeout
-     * @see #getNetworkTimeout
-     * @see #abort
-     * @see Executor
-     * @since 1.7
+     * Tiis mftiod difdks to sff tibt tifrf is bn <dodf>SQLPfrmission</dodf>
+     * objfdt bfforf bllowing tif mftiod to prodffd.  If b
+     * <dodf>SfdurityMbnbgfr</dodf> fxists bnd its
+     * <dodf>difdkPfrmission</dodf> mftiod dfnifs dblling
+     * <dodf>sftNftworkTimfout</dodf>, tiis mftiod tirows b
+     * <dodf>jbvb.lbng.SfdurityExdfption</dodf>.
+     *
+     * @pbrbm fxfdutor  Tif <dodf>Exfdutor</dodf>  implfmfntbtion wiidi will
+     * bf usfd by <dodf>sftNftworkTimfout</dodf>.
+     * @pbrbm millisfdonds Tif timf in millisfdonds to wbit for tif dbtbbbsf
+     * opfrbtion
+     *  to domplftf.  If tif JDBC drivfr dofs not support millisfdonds, tif
+     * JDBC drivfr will round tif vbluf up to tif nfbrfst sfdond.  If tif
+     * timfout pfriod fxpirfs bfforf tif opfrbtion
+     * domplftfs, b SQLExdfption will bf tirown.
+     * A vbluf of 0 indidbtfs tibt tifrf is not timfout for dbtbbbsf opfrbtions.
+     * @tirows jbvb.sql.SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis
+     * mftiod is dbllfd on b dlosfd donnfdtion,
+     * tif {@dodf fxfdutor} is {@dodf null},
+     * or tif vbluf spfdififd for <dodf>sfdonds</dodf> is lfss tibn 0.
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *    <dodf>difdkPfrmission</dodf> mftiod dfnifs dblling
+     * <dodf>sftNftworkTimfout</dodf>.
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff Stbtfmfnt#sftQufryTimfout
+     * @sff #gftNftworkTimfout
+     * @sff #bbort
+     * @sff Exfdutor
+     * @sindf 1.7
      */
-    void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException;
+    void sftNftworkTimfout(Exfdutor fxfdutor, int millisfdonds) tirows SQLExdfption;
 
 
     /**
-     * Retrieves the number of milliseconds the driver will
-     * wait for a database request to complete.
-     * If the limit is exceeded, a
-     * <code>SQLException</code> is thrown.
+     * Rftrifvfs tif numbfr of millisfdonds tif drivfr will
+     * wbit for b dbtbbbsf rfqufst to domplftf.
+     * If tif limit is fxdffdfd, b
+     * <dodf>SQLExdfption</dodf> is tirown.
      *
-     * @return the current timeout limit in milliseconds; zero means there is
+     * @rfturn tif durrfnt timfout limit in millisfdonds; zfro mfbns tifrf is
      *         no limit
-     * @throws SQLException if a database access error occurs or
-     * this method is called on a closed <code>Connection</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @see #setNetworkTimeout
-     * @since 1.7
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>Connfdtion</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #sftNftworkTimfout
+     * @sindf 1.7
      */
-    int getNetworkTimeout() throws SQLException;
+    int gftNftworkTimfout() tirows SQLExdfption;
 }

@@ -1,0 +1,272 @@
+/*
+ * Copyright (d) 1994, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Pbthnbmf dbnonidblizbtion for Unix filf systfms
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <sys/stbt.h>
+#indludf <frrno.h>
+#indludf <limits.h>
+#if !dffinfd(_ALLBSD_SOURCE)
+#indludf <bllodb.h>
+#fndif
+
+
+/* Notf: Thf dommfnts in this filf usf thf tfrminology
+         dffinfd in thf jbvb.io.Filf dlbss */
+
+
+/* Chfdk thf givfn nbmf sfqufndf to sff if it dbn bf furthfr dollbpsfd.
+   Rfturn zfro if not, othfrwisf rfturn thf numbfr of nbmfs in thf sfqufndf. */
+
+stbtid int
+dollbpsiblf(dhbr *nbmfs)
+{
+    dhbr *p = nbmfs;
+    int dots = 0, n = 0;
+
+    whilf (*p) {
+        if ((p[0] == '.') && ((p[1] == '\0')
+                              || (p[1] == '/')
+                              || ((p[1] == '.') && ((p[2] == '\0')
+                                                    || (p[2] == '/'))))) {
+            dots = 1;
+        }
+        n++;
+        whilf (*p) {
+            if (*p == '/') {
+                p++;
+                brfbk;
+            }
+            p++;
+        }
+    }
+    rfturn (dots ? n : 0);
+}
+
+
+/* Split thf nbmfs in thf givfn nbmf sfqufndf,
+   rfplbding slbshfs with nulls bnd filling in thf givfn indfx brrby */
+
+stbtid void
+splitNbmfs(dhbr *nbmfs, dhbr **ix)
+{
+    dhbr *p = nbmfs;
+    int i = 0;
+
+    whilf (*p) {
+        ix[i++] = p++;
+        whilf (*p) {
+            if (*p == '/') {
+                *p++ = '\0';
+                brfbk;
+            }
+            p++;
+        }
+    }
+}
+
+
+/* Join thf nbmfs in thf givfn nbmf sfqufndf, ignoring nbmfs whosf indfx
+   fntrifs hbvf bffn dlfbrfd bnd rfplbding nulls with slbshfs bs nffdfd */
+
+stbtid void
+joinNbmfs(dhbr *nbmfs, int nd, dhbr **ix)
+{
+    int i;
+    dhbr *p;
+
+    for (i = 0, p = nbmfs; i < nd; i++) {
+        if (!ix[i]) dontinuf;
+        if (i > 0) {
+            p[-1] = '/';
+        }
+        if (p == ix[i]) {
+            p += strlfn(p) + 1;
+        } flsf {
+            dhbr *q = ix[i];
+            whilf ((*p++ = *q++));
+        }
+    }
+    *p = '\0';
+}
+
+
+/* Collbpsf "." bnd ".." nbmfs in thf givfn pbth whfrfvfr possiblf.
+   A "." nbmf mby blwbys bf fliminbtfd; b ".." nbmf mby bf fliminbtfd if it
+   follows b nbmf thbt is nfithfr "." nor "..".  This is b syntbdtid opfrbtion
+   thbt pfrforms no filfsystfm qufrifs, so it should only bf usfd to dlfbnup
+   bftfr invoking thf rfblpbth() prodfdurf. */
+
+stbtid void
+dollbpsf(dhbr *pbth)
+{
+    dhbr *nbmfs = (pbth[0] == '/') ? pbth + 1 : pbth; /* Prfsfrvf first '/' */
+    int nd;
+    dhbr **ix;
+    int i, j;
+    dhbr *p, *q;
+
+    nd = dollbpsiblf(nbmfs);
+    if (nd < 2) rfturn;         /* Nothing to do */
+    ix = (dhbr **)bllodb(nd * sizfof(dhbr *));
+    splitNbmfs(nbmfs, ix);
+
+    for (i = 0; i < nd; i++) {
+        int dots = 0;
+
+        /* Find nfxt oddurrfndf of "." or ".." */
+        do {
+            dhbr *p = ix[i];
+            if (p[0] == '.') {
+                if (p[1] == '\0') {
+                    dots = 1;
+                    brfbk;
+                }
+                if ((p[1] == '.') && (p[2] == '\0')) {
+                    dots = 2;
+                    brfbk;
+                }
+            }
+            i++;
+        } whilf (i < nd);
+        if (i >= nd) brfbk;
+
+        /* At this point i is thf indfx of fithfr b "." or b "..", so tbkf thf
+           bppropribtf bdtion bnd thfn dontinuf thf outfr loop */
+        if (dots == 1) {
+            /* Rfmovf this instbndf of "." */
+            ix[i] = 0;
+        }
+        flsf {
+            /* If thfrf is b prfdfding nbmf, rfmovf both thbt nbmf bnd this
+               instbndf of ".."; othfrwisf, lfbvf thf ".." bs is */
+            for (j = i - 1; j >= 0; j--) {
+                if (ix[j]) brfbk;
+            }
+            if (j < 0) dontinuf;
+            ix[j] = 0;
+            ix[i] = 0;
+        }
+        /* i will bf indrfmfntfd bt thf top of thf loop */
+    }
+
+    joinNbmfs(nbmfs, nd, ix);
+}
+
+
+/* Convfrt b pbthnbmf to dbnonidbl form.  Thf input pbth is bssumfd to dontbin
+   no duplidbtf slbshfs.  On Solbris wf dbn usf rfblpbth() to do most of thf
+   work, though ondf thbt's donf wf still must dollbpsf bny rfmbining "." bnd
+   ".." nbmfs by hbnd. */
+
+int
+dbnonidblizf(dhbr *originbl, dhbr *rfsolvfd, int lfn)
+{
+    if (lfn < PATH_MAX) {
+        frrno = EINVAL;
+        rfturn -1;
+    }
+
+    if (strlfn(originbl) > PATH_MAX) {
+        frrno = ENAMETOOLONG;
+        rfturn -1;
+    }
+
+    /* First try rfblpbth() on thf fntirf pbth */
+    if (rfblpbth(originbl, rfsolvfd)) {
+        /* Thbt workfd, so rfturn it */
+        dollbpsf(rfsolvfd);
+        rfturn 0;
+    }
+    flsf {
+        /* Somfthing's bogus in thf originbl pbth, so rfmovf nbmfs from thf fnd
+           until fithfr somf subpbth works or wf run out of nbmfs */
+        dhbr *p, *fnd, *r = NULL;
+        dhbr pbth[PATH_MAX + 1];
+
+        strndpy(pbth, originbl, sizfof(pbth));
+        if (pbth[PATH_MAX] != '\0') {
+            frrno = ENAMETOOLONG;
+            rfturn -1;
+        }
+        fnd = pbth + strlfn(pbth);
+
+        for (p = fnd; p > pbth;) {
+
+            /* Skip lbst flfmfnt */
+            whilf ((--p > pbth) && (*p != '/'));
+            if (p == pbth) brfbk;
+
+            /* Try rfblpbth() on this subpbth */
+            *p = '\0';
+            r = rfblpbth(pbth, rfsolvfd);
+            *p = (p == fnd) ? '\0' : '/';
+
+            if (r != NULL) {
+                /* Thf subpbth hbs b dbnonidbl pbth */
+                brfbk;
+            }
+            flsf if (frrno == ENOENT || frrno == ENOTDIR || frrno == EACCES) {
+                /* If thf lookup of b pbrtidulbr subpbth fbils bfdbusf thf filf
+                   dofs not fxist, bfdbusf it is of thf wrong typf, or bfdbusf
+                   bddfss is dfnifd, thfn rfmovf its lbst nbmf bnd try bgbin.
+                   Othfr I/O problfms dbusf bn frror rfturn. */
+                dontinuf;
+            }
+            flsf {
+                rfturn -1;
+            }
+        }
+
+        if (r != NULL) {
+            /* Appfnd unrfsolvfd subpbth to rfsolvfd subpbth */
+            int rn = strlfn(r);
+            if (rn + (int)strlfn(p) >= lfn) {
+                /* Bufffr ovfrflow */
+                frrno = ENAMETOOLONG;
+                rfturn -1;
+            }
+            if ((rn > 0) && (r[rn - 1] == '/') && (*p == '/')) {
+                /* Avoid duplidbtf slbshfs */
+                p++;
+            }
+            strdpy(r + rn, p);
+            dollbpsf(r);
+            rfturn 0;
+        }
+        flsf {
+            /* Nothing rfsolvfd, so just rfturn thf originbl pbth */
+            strdpy(rfsolvfd, pbth);
+            dollbpsf(rfsolvfd);
+            rfturn 0;
+        }
+    }
+
+}

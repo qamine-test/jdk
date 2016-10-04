@@ -1,351 +1,351 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.java;
+pbdkbgf sun.tools.jbvb;
 
-import java.io.IOException;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.util.Vector;
-import java.util.Hashtable;
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
 
 /**
- * This class is used to represent a constant table once
- * it is read from a class file.
+ * Tiis dlbss is usfd to rfprfsfnt b donstbnt tbblf ondf
+ * it is rfbd from b dlbss filf.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public final
-class BinaryConstantPool implements Constants {
-    private byte types[];
-    private Object cpool[];
+publid finbl
+dlbss BinbryConstbntPool implfmfnts Constbnts {
+    privbtf bytf typfs[];
+    privbtf Objfdt dpool[];
 
     /**
-     * Constructor
+     * Construdtor
      */
-    BinaryConstantPool(DataInputStream in) throws IOException {
-        // JVM 4.1 ClassFile.constant_pool_count
-        types = new byte[in.readUnsignedShort()];
-        cpool = new Object[types.length];
-        for (int i = 1 ; i < cpool.length ; i++) {
+    BinbryConstbntPool(DbtbInputStrfbm in) tirows IOExdfption {
+        // JVM 4.1 ClbssFilf.donstbnt_pool_dount
+        typfs = nfw bytf[in.rfbdUnsignfdSiort()];
+        dpool = nfw Objfdt[typfs.lfngti];
+        for (int i = 1 ; i < dpool.lfngti ; i++) {
             int j = i;
-            // JVM 4.4 cp_info.tag
-            switch(types[i] = in.readByte()) {
-              case CONSTANT_UTF8:
-                cpool[i] = in.readUTF();
-                break;
+            // JVM 4.4 dp_info.tbg
+            switdi(typfs[i] = in.rfbdBytf()) {
+              dbsf CONSTANT_UTF8:
+                dpool[i] = in.rfbdUTF();
+                brfbk;
 
-              case CONSTANT_INTEGER:
-                cpool[i] = in.readInt();
-                break;
-              case CONSTANT_FLOAT:
-                cpool[i] = new Float(in.readFloat());
-                break;
-              case CONSTANT_LONG:
-                cpool[i++] = in.readLong();
-                break;
-              case CONSTANT_DOUBLE:
-                cpool[i++] = new Double(in.readDouble());
-                break;
+              dbsf CONSTANT_INTEGER:
+                dpool[i] = in.rfbdInt();
+                brfbk;
+              dbsf CONSTANT_FLOAT:
+                dpool[i] = nfw Flobt(in.rfbdFlobt());
+                brfbk;
+              dbsf CONSTANT_LONG:
+                dpool[i++] = in.rfbdLong();
+                brfbk;
+              dbsf CONSTANT_DOUBLE:
+                dpool[i++] = nfw Doublf(in.rfbdDoublf());
+                brfbk;
 
-              case CONSTANT_CLASS:
-              case CONSTANT_STRING:
-                // JVM 4.4.3 CONSTANT_String_info.string_index
-                // or JVM 4.4.1 CONSTANT_Class_info.name_index
-                cpool[i] =in.readUnsignedShort();
-                break;
+              dbsf CONSTANT_CLASS:
+              dbsf CONSTANT_STRING:
+                // JVM 4.4.3 CONSTANT_String_info.string_indfx
+                // or JVM 4.4.1 CONSTANT_Clbss_info.nbmf_indfx
+                dpool[i] =in.rfbdUnsignfdSiort();
+                brfbk;
 
-              case CONSTANT_FIELD:
-              case CONSTANT_METHOD:
-              case CONSTANT_INTERFACEMETHOD:
-              case CONSTANT_NAMEANDTYPE:
-                // JVM 4.4.2 CONSTANT_*ref_info.class_index & name_and_type_index
-                cpool[i] = (in.readUnsignedShort() << 16) | in.readUnsignedShort();
-                break;
+              dbsf CONSTANT_FIELD:
+              dbsf CONSTANT_METHOD:
+              dbsf CONSTANT_INTERFACEMETHOD:
+              dbsf CONSTANT_NAMEANDTYPE:
+                // JVM 4.4.2 CONSTANT_*rff_info.dlbss_indfx & nbmf_bnd_typf_indfx
+                dpool[i] = (in.rfbdUnsignfdSiort() << 16) | in.rfbdUnsignfdSiort();
+                brfbk;
 
-              case CONSTANT_METHODHANDLE:
-                cpool[i] = readBytes(in, 3);
-                break;
-              case CONSTANT_METHODTYPE:
-                cpool[i] = readBytes(in, 2);
-                break;
-              case CONSTANT_INVOKEDYNAMIC:
-                cpool[i] = readBytes(in, 4);
-                break;
+              dbsf CONSTANT_METHODHANDLE:
+                dpool[i] = rfbdBytfs(in, 3);
+                brfbk;
+              dbsf CONSTANT_METHODTYPE:
+                dpool[i] = rfbdBytfs(in, 2);
+                brfbk;
+              dbsf CONSTANT_INVOKEDYNAMIC:
+                dpool[i] = rfbdBytfs(in, 4);
+                brfbk;
 
-              case 0:
-              default:
-                throw new ClassFormatError("invalid constant type: " + (int)types[i]);
+              dbsf 0:
+              dffbult:
+                tirow nfw ClbssFormbtError("invblid donstbnt typf: " + (int)typfs[i]);
             }
         }
     }
 
-    private byte[] readBytes(DataInputStream in, int cnt) throws IOException {
-        byte[] b = new byte[cnt];
-        in.readFully(b);
-        return b;
+    privbtf bytf[] rfbdBytfs(DbtbInputStrfbm in, int dnt) tirows IOExdfption {
+        bytf[] b = nfw bytf[dnt];
+        in.rfbdFully(b);
+        rfturn b;
     }
 
     /**
-     * get a integer
+     * gft b intfgfr
      */
-    public int getInteger(int n) {
-        return (n == 0) ? 0 : ((Number)cpool[n]).intValue();
+    publid int gftIntfgfr(int n) {
+        rfturn (n == 0) ? 0 : ((Numbfr)dpool[n]).intVbluf();
     }
 
     /**
-     * get a value
+     * gft b vbluf
      */
-    public Object getValue(int n) {
-        return (n == 0) ? null : cpool[n];
+    publid Objfdt gftVbluf(int n) {
+        rfturn (n == 0) ? null : dpool[n];
     }
 
     /**
-     * get a string
+     * gft b string
      */
-    public String getString(int n) {
-        return (n == 0) ? null : (String)cpool[n];
+    publid String gftString(int n) {
+        rfturn (n == 0) ? null : (String)dpool[n];
     }
 
     /**
-     * get an identifier
+     * gft bn idfntififr
      */
-    public Identifier getIdentifier(int n) {
-        return (n == 0) ? null : Identifier.lookup(getString(n));
+    publid Idfntififr gftIdfntififr(int n) {
+        rfturn (n == 0) ? null : Idfntififr.lookup(gftString(n));
     }
 
     /**
-     * get class declaration
+     * gft dlbss dfdlbrbtion
      */
-    public ClassDeclaration getDeclarationFromName(Environment env, int n) {
-        return (n == 0) ? null : env.getClassDeclaration(Identifier.lookup(getString(n).replace('/','.')));
+    publid ClbssDfdlbrbtion gftDfdlbrbtionFromNbmf(Environmfnt fnv, int n) {
+        rfturn (n == 0) ? null : fnv.gftClbssDfdlbrbtion(Idfntififr.lookup(gftString(n).rfplbdf('/','.')));
     }
 
     /**
-     * get class declaration
+     * gft dlbss dfdlbrbtion
      */
-    public ClassDeclaration getDeclaration(Environment env, int n) {
-        return (n == 0) ? null : getDeclarationFromName(env, getInteger(n));
+    publid ClbssDfdlbrbtion gftDfdlbrbtion(Environmfnt fnv, int n) {
+        rfturn (n == 0) ? null : gftDfdlbrbtionFromNbmf(fnv, gftIntfgfr(n));
     }
 
     /**
-     * get a type from a type signature
+     * gft b typf from b typf signbturf
      */
-    public Type getType(int n) {
-        return Type.tType(getString(n));
+    publid Typf gftTypf(int n) {
+        rfturn Typf.tTypf(gftString(n));
     }
 
     /**
-     * get the type of constant given an index
+     * gft tif typf of donstbnt givfn bn indfx
      */
-    public int getConstantType(int n) {
-        return types[n];
+    publid int gftConstbntTypf(int n) {
+        rfturn typfs[n];
     }
 
     /**
-     * get the n-th constant from the constant pool
+     * gft tif n-ti donstbnt from tif donstbnt pool
      */
-    public Object getConstant(int n, Environment env) {
-        int constant_type = getConstantType(n);
-        switch (constant_type) {
-            case CONSTANT_INTEGER:
-            case CONSTANT_FLOAT:
-            case CONSTANT_LONG:
-            case CONSTANT_DOUBLE:
-            case CONSTANT_METHODHANDLE:
-            case CONSTANT_METHODTYPE:
-            case CONSTANT_INVOKEDYNAMIC:
-                return getValue(n);
+    publid Objfdt gftConstbnt(int n, Environmfnt fnv) {
+        int donstbnt_typf = gftConstbntTypf(n);
+        switdi (donstbnt_typf) {
+            dbsf CONSTANT_INTEGER:
+            dbsf CONSTANT_FLOAT:
+            dbsf CONSTANT_LONG:
+            dbsf CONSTANT_DOUBLE:
+            dbsf CONSTANT_METHODHANDLE:
+            dbsf CONSTANT_METHODTYPE:
+            dbsf CONSTANT_INVOKEDYNAMIC:
+                rfturn gftVbluf(n);
 
-            case CONSTANT_CLASS:
-                return getDeclaration(env, n);
+            dbsf CONSTANT_CLASS:
+                rfturn gftDfdlbrbtion(fnv, n);
 
-            case CONSTANT_STRING:
-                return getString(getInteger(n));
+            dbsf CONSTANT_STRING:
+                rfturn gftString(gftIntfgfr(n));
 
-            case CONSTANT_FIELD:
-            case CONSTANT_METHOD:
-            case CONSTANT_INTERFACEMETHOD:
+            dbsf CONSTANT_FIELD:
+            dbsf CONSTANT_METHOD:
+            dbsf CONSTANT_INTERFACEMETHOD:
                 try {
-                    int key = getInteger(n);
-                    ClassDefinition clazz =
-                        getDeclaration(env, key >> 16).getClassDefinition(env);
-                    int name_and_type = getInteger(key & 0xFFFF);
-                    Identifier id = getIdentifier(name_and_type >> 16);
-                    Type type = getType(name_and_type & 0xFFFF);
+                    int kfy = gftIntfgfr(n);
+                    ClbssDffinition dlbzz =
+                        gftDfdlbrbtion(fnv, kfy >> 16).gftClbssDffinition(fnv);
+                    int nbmf_bnd_typf = gftIntfgfr(kfy & 0xFFFF);
+                    Idfntififr id = gftIdfntififr(nbmf_bnd_typf >> 16);
+                    Typf typf = gftTypf(nbmf_bnd_typf & 0xFFFF);
 
-                    for (MemberDefinition field = clazz.getFirstMatch(id);
-                         field != null;
-                         field = field.getNextMatch()) {
-                        Type field_type = field.getType();
-                        if ((constant_type == CONSTANT_FIELD)
-                            ? (field_type == type)
-                            : (field_type.equalArguments(type)))
-                            return field;
+                    for (MfmbfrDffinition fifld = dlbzz.gftFirstMbtdi(id);
+                         fifld != null;
+                         fifld = fifld.gftNfxtMbtdi()) {
+                        Typf fifld_typf = fifld.gftTypf();
+                        if ((donstbnt_typf == CONSTANT_FIELD)
+                            ? (fifld_typf == typf)
+                            : (fifld_typf.fqublArgumfnts(typf)))
+                            rfturn fifld;
                     }
-                } catch (ClassNotFound e) {
+                } dbtdi (ClbssNotFound f) {
                 }
-                return null;
+                rfturn null;
 
-            default:
-                throw new ClassFormatError("invalid constant type: " +
-                                              constant_type);
+            dffbult:
+                tirow nfw ClbssFormbtError("invblid donstbnt typf: " +
+                                              donstbnt_typf);
         }
     }
 
 
     /**
-     * Get a list of dependencies, ie: all the classes referenced in this
-     * constant pool.
+     * Gft b list of dfpfndfndifs, if: bll tif dlbssfs rfffrfndfd in tiis
+     * donstbnt pool.
      */
-    public Vector<ClassDeclaration> getDependencies(Environment env) {
-        Vector<ClassDeclaration> v = new Vector<>();
-        for (int i = 1 ; i < cpool.length ; i++) {
-            switch(types[i]) {
-              case CONSTANT_CLASS:
-                v.addElement(getDeclarationFromName(env, getInteger(i)));
-                break;
+    publid Vfdtor<ClbssDfdlbrbtion> gftDfpfndfndifs(Environmfnt fnv) {
+        Vfdtor<ClbssDfdlbrbtion> v = nfw Vfdtor<>();
+        for (int i = 1 ; i < dpool.lfngti ; i++) {
+            switdi(typfs[i]) {
+              dbsf CONSTANT_CLASS:
+                v.bddElfmfnt(gftDfdlbrbtionFromNbmf(fnv, gftIntfgfr(i)));
+                brfbk;
             }
         }
-        return v;
+        rfturn v;
     }
 
-    Hashtable<Object, Integer> indexHashObject;
-    Hashtable<Object, Integer> indexHashAscii;
-    Vector<String> MoreStuff;
+    Hbsitbblf<Objfdt, Intfgfr> indfxHbsiObjfdt;
+    Hbsitbblf<Objfdt, Intfgfr> indfxHbsiAsdii;
+    Vfdtor<String> MorfStuff;
 
     /**
-     * Find the index of an Object in the constant pool
+     * Find tif indfx of bn Objfdt in tif donstbnt pool
      */
-    public int indexObject(Object obj, Environment env) {
-        if (indexHashObject == null)
-            createIndexHash(env);
-        Integer result = indexHashObject.get(obj);
-        if (result == null)
-            throw new IndexOutOfBoundsException("Cannot find object " + obj + " of type " +
-                                obj.getClass() + " in constant pool");
-        return result.intValue();
+    publid int indfxObjfdt(Objfdt obj, Environmfnt fnv) {
+        if (indfxHbsiObjfdt == null)
+            drfbtfIndfxHbsi(fnv);
+        Intfgfr rfsult = indfxHbsiObjfdt.gft(obj);
+        if (rfsult == null)
+            tirow nfw IndfxOutOfBoundsExdfption("Cbnnot find objfdt " + obj + " of typf " +
+                                obj.gftClbss() + " in donstbnt pool");
+        rfturn rfsult.intVbluf();
     }
 
     /**
-     * Find the index of an ascii string in the constant pool.  If it's not in
-     * the constant pool, then add it at the end.
+     * Find tif indfx of bn bsdii string in tif donstbnt pool.  If it's not in
+     * tif donstbnt pool, tifn bdd it bt tif fnd.
      */
-    public int indexString(String string, Environment env) {
-        if (indexHashObject == null)
-            createIndexHash(env);
-        Integer result = indexHashAscii.get(string);
-        if (result == null) {
-            if (MoreStuff == null) MoreStuff = new Vector<>();
-            result = cpool.length + MoreStuff.size();
-            MoreStuff.addElement(string);
-            indexHashAscii.put(string, result);
+    publid int indfxString(String string, Environmfnt fnv) {
+        if (indfxHbsiObjfdt == null)
+            drfbtfIndfxHbsi(fnv);
+        Intfgfr rfsult = indfxHbsiAsdii.gft(string);
+        if (rfsult == null) {
+            if (MorfStuff == null) MorfStuff = nfw Vfdtor<>();
+            rfsult = dpool.lfngti + MorfStuff.sizf();
+            MorfStuff.bddElfmfnt(string);
+            indfxHbsiAsdii.put(string, rfsult);
         }
-        return result.intValue();
+        rfturn rfsult.intVbluf();
     }
 
     /**
-     * Create a hash table of all the items in the constant pool that could
-     * possibly be referenced from the outside.
+     * Crfbtf b ibsi tbblf of bll tif itfms in tif donstbnt pool tibt dould
+     * possibly bf rfffrfndfd from tif outsidf.
      */
 
-    public void createIndexHash(Environment env) {
-        indexHashObject = new Hashtable<>();
-        indexHashAscii = new Hashtable<>();
-        for (int i = 1; i < cpool.length; i++) {
-            if (types[i] == CONSTANT_UTF8) {
-                indexHashAscii.put(cpool[i], i);
-            } else {
+    publid void drfbtfIndfxHbsi(Environmfnt fnv) {
+        indfxHbsiObjfdt = nfw Hbsitbblf<>();
+        indfxHbsiAsdii = nfw Hbsitbblf<>();
+        for (int i = 1; i < dpool.lfngti; i++) {
+            if (typfs[i] == CONSTANT_UTF8) {
+                indfxHbsiAsdii.put(dpool[i], i);
+            } flsf {
                 try {
-                    indexHashObject.put(getConstant(i, env), i);
-                } catch (ClassFormatError e) { }
+                    indfxHbsiObjfdt.put(gftConstbnt(i, fnv), i);
+                } dbtdi (ClbssFormbtError f) { }
             }
         }
     }
 
 
     /**
-     * Write out the contents of the constant pool, including any additions
-     * that have been added.
+     * Writf out tif dontfnts of tif donstbnt pool, indluding bny bdditions
+     * tibt ibvf bffn bddfd.
      */
-    public void write(DataOutputStream out, Environment env) throws IOException {
-        int length = cpool.length;
-        if (MoreStuff != null)
-            length += MoreStuff.size();
-        out.writeShort(length);
-        for (int i = 1 ; i < cpool.length; i++) {
-            int type = types[i];
-            Object x = cpool[i];
-            out.writeByte(type);
-            switch (type) {
-                case CONSTANT_UTF8:
-                    out.writeUTF((String) x);
-                    break;
-                case CONSTANT_INTEGER:
-                    out.writeInt(((Number)x).intValue());
-                    break;
-                case CONSTANT_FLOAT:
-                    out.writeFloat(((Number)x).floatValue());
-                    break;
-                case CONSTANT_LONG:
-                    out.writeLong(((Number)x).longValue());
+    publid void writf(DbtbOutputStrfbm out, Environmfnt fnv) tirows IOExdfption {
+        int lfngti = dpool.lfngti;
+        if (MorfStuff != null)
+            lfngti += MorfStuff.sizf();
+        out.writfSiort(lfngti);
+        for (int i = 1 ; i < dpool.lfngti; i++) {
+            int typf = typfs[i];
+            Objfdt x = dpool[i];
+            out.writfBytf(typf);
+            switdi (typf) {
+                dbsf CONSTANT_UTF8:
+                    out.writfUTF((String) x);
+                    brfbk;
+                dbsf CONSTANT_INTEGER:
+                    out.writfInt(((Numbfr)x).intVbluf());
+                    brfbk;
+                dbsf CONSTANT_FLOAT:
+                    out.writfFlobt(((Numbfr)x).flobtVbluf());
+                    brfbk;
+                dbsf CONSTANT_LONG:
+                    out.writfLong(((Numbfr)x).longVbluf());
                     i++;
-                    break;
-                case CONSTANT_DOUBLE:
-                    out.writeDouble(((Number)x).doubleValue());
+                    brfbk;
+                dbsf CONSTANT_DOUBLE:
+                    out.writfDoublf(((Numbfr)x).doublfVbluf());
                     i++;
-                    break;
-                case CONSTANT_CLASS:
-                case CONSTANT_STRING:
-                    out.writeShort(((Number)x).intValue());
-                    break;
-                case CONSTANT_FIELD:
-                case CONSTANT_METHOD:
-                case CONSTANT_INTERFACEMETHOD:
-                case CONSTANT_NAMEANDTYPE: {
-                    int value = ((Number)x).intValue();
-                    out.writeShort(value >> 16);
-                    out.writeShort(value & 0xFFFF);
-                    break;
+                    brfbk;
+                dbsf CONSTANT_CLASS:
+                dbsf CONSTANT_STRING:
+                    out.writfSiort(((Numbfr)x).intVbluf());
+                    brfbk;
+                dbsf CONSTANT_FIELD:
+                dbsf CONSTANT_METHOD:
+                dbsf CONSTANT_INTERFACEMETHOD:
+                dbsf CONSTANT_NAMEANDTYPE: {
+                    int vbluf = ((Numbfr)x).intVbluf();
+                    out.writfSiort(vbluf >> 16);
+                    out.writfSiort(vbluf & 0xFFFF);
+                    brfbk;
                 }
-                case CONSTANT_METHODHANDLE:
-                case CONSTANT_METHODTYPE:
-                case CONSTANT_INVOKEDYNAMIC:
-                    out.write((byte[])x, 0, ((byte[])x).length);
-                    break;
-                default:
-                     throw new ClassFormatError("invalid constant type: "
-                                                   + (int)types[i]);
+                dbsf CONSTANT_METHODHANDLE:
+                dbsf CONSTANT_METHODTYPE:
+                dbsf CONSTANT_INVOKEDYNAMIC:
+                    out.writf((bytf[])x, 0, ((bytf[])x).lfngti);
+                    brfbk;
+                dffbult:
+                     tirow nfw ClbssFormbtError("invblid donstbnt typf: "
+                                                   + (int)typfs[i]);
             }
         }
-        for (int i = cpool.length; i < length; i++) {
-            String string = MoreStuff.elementAt(i - cpool.length);
-            out.writeByte(CONSTANT_UTF8);
-            out.writeUTF(string);
+        for (int i = dpool.lfngti; i < lfngti; i++) {
+            String string = MorfStuff.flfmfntAt(i - dpool.lfngti);
+            out.writfBytf(CONSTANT_UTF8);
+            out.writfUTF(string);
         }
     }
 

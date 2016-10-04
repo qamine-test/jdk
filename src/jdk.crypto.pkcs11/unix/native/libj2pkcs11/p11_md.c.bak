@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -46,138 +46,138 @@
  */
 
 /*
- * pkcs11wrapper.c
+ * pkds11wrbppfr.d
  * 18.05.2001
  *
- * This module contains the native functions of the Java to PKCS#11 interface
- * which are platform dependent. This includes loading a dynamic link libary,
- * retrieving the function list and unloading the dynamic link library.
+ * Tiis modulf dontbins tif nbtivf fundtions of tif Jbvb to PKCS#11 intfrfbdf
+ * wiidi brf plbtform dfpfndfnt. Tiis indludfs lobding b dynbmid link libbry,
+ * rftrifving tif fundtion list bnd unlobding tif dynbmid link librbry.
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
+ * @butior Kbrl Sdifibflioffr <Kbrl.Sdifibflioffr@ibik.bt>
  */
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-#include <dlfcn.h>
+#indludf <dlfdn.i>
 
-#include <jni.h>
+#indludf <jni.i>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.i"
 
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    connect
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    donnfdt
+ * Signbturf: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_connect
-    (JNIEnv *env, jobject obj, jstring jPkcs11ModulePath, jstring jGetFunctionList)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_donnfdt
+    (JNIEnv *fnv, jobjfdt obj, jstring jPkds11ModulfPbti, jstring jGftFundtionList)
 {
-    void *hModule;
-    char *error;
-    CK_C_GetFunctionList C_GetFunctionList=NULL;
+    void *iModulf;
+    dibr *frror;
+    CK_C_GftFundtionList C_GftFundtionList=NULL;
     CK_RV rv;
-    ModuleData *moduleData;
-    jobject globalPKCS11ImplementationReference;
-    char *systemErrorMessage;
-    char *exceptionMessage;
-    const char *getFunctionListStr;
+    ModulfDbtb *modulfDbtb;
+    jobjfdt globblPKCS11ImplfmfntbtionRfffrfndf;
+    dibr *systfmErrorMfssbgf;
+    dibr *fxdfptionMfssbgf;
+    donst dibr *gftFundtionListStr;
 
-    const char *libraryNameStr = (*env)->GetStringUTFChars(env, jPkcs11ModulePath, 0);
-    if (libraryNameStr == NULL) {
-        return;
+    donst dibr *librbryNbmfStr = (*fnv)->GftStringUTFCibrs(fnv, jPkds11ModulfPbti, 0);
+    if (librbryNbmfStr == NULL) {
+        rfturn;
     }
-    TRACE1("DEBUG: connect to PKCS#11 module: %s ... ", libraryNameStr);
+    TRACE1("DEBUG: donnfdt to PKCS#11 modulf: %s ... ", librbryNbmfStr);
 
 
     /*
-     * Load the PKCS #11 DLL
+     * Lobd tif PKCS #11 DLL
      */
-    dlerror(); /* clear any old error message not fetched */
-#ifdef DEBUG
-    hModule = dlopen(libraryNameStr, RTLD_NOW);
-#else
-    hModule = dlopen(libraryNameStr, RTLD_LAZY);
-#endif /* DEBUG */
+    dlfrror(); /* dlfbr bny old frror mfssbgf not fftdifd */
+#ifdff DEBUG
+    iModulf = dlopfn(librbryNbmfStr, RTLD_NOW);
+#flsf
+    iModulf = dlopfn(librbryNbmfStr, RTLD_LAZY);
+#fndif /* DEBUG */
 
-    if (hModule == NULL) {
-        systemErrorMessage = dlerror();
-        exceptionMessage = (char *) malloc(sizeof(char) * (strlen(systemErrorMessage) + strlen(libraryNameStr) + 1));
-        if (exceptionMessage == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+    if (iModulf == NULL) {
+        systfmErrorMfssbgf = dlfrror();
+        fxdfptionMfssbgf = (dibr *) mbllod(sizfof(dibr) * (strlfn(systfmErrorMfssbgf) + strlfn(librbryNbmfStr) + 1));
+        if (fxdfptionMfssbgf == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
-        strcpy(exceptionMessage, systemErrorMessage);
-        strcat(exceptionMessage, libraryNameStr);
-        throwIOException(env, exceptionMessage);
-        (*env)->ReleaseStringUTFChars(env, jPkcs11ModulePath, libraryNameStr);
-        free(exceptionMessage);
-        return;
+        strdpy(fxdfptionMfssbgf, systfmErrorMfssbgf);
+        strdbt(fxdfptionMfssbgf, librbryNbmfStr);
+        tirowIOExdfption(fnv, fxdfptionMfssbgf);
+        (*fnv)->RflfbsfStringUTFCibrs(fnv, jPkds11ModulfPbti, librbryNbmfStr);
+        frff(fxdfptionMfssbgf);
+        rfturn;
     }
 
     /*
-     * Get function pointer to C_GetFunctionList
+     * Gft fundtion pointfr to C_GftFundtionList
      */
-    dlerror(); /* clear any old error message not fetched */
-    // with the old JAR file jGetFunctionList is null, temporarily check for that
-    if (jGetFunctionList != NULL) {
-        getFunctionListStr = (*env)->GetStringUTFChars(env, jGetFunctionList, 0);
-        if (getFunctionListStr == NULL) {
-            return;
+    dlfrror(); /* dlfbr bny old frror mfssbgf not fftdifd */
+    // witi tif old JAR filf jGftFundtionList is null, tfmporbrily difdk for tibt
+    if (jGftFundtionList != NULL) {
+        gftFundtionListStr = (*fnv)->GftStringUTFCibrs(fnv, jGftFundtionList, 0);
+        if (gftFundtionListStr == NULL) {
+            rfturn;
         }
-        C_GetFunctionList = (CK_C_GetFunctionList) dlsym(hModule, getFunctionListStr);
-        (*env)->ReleaseStringUTFChars(env, jGetFunctionList, getFunctionListStr);
+        C_GftFundtionList = (CK_C_GftFundtionList) dlsym(iModulf, gftFundtionListStr);
+        (*fnv)->RflfbsfStringUTFCibrs(fnv, jGftFundtionList, gftFundtionListStr);
     }
-    if (C_GetFunctionList == NULL) {
-        throwIOException(env, "ERROR: C_GetFunctionList == NULL");
-        return;
-    } else if ( (systemErrorMessage = dlerror()) != NULL ){
-        throwIOException(env, systemErrorMessage);
-        return;
+    if (C_GftFundtionList == NULL) {
+        tirowIOExdfption(fnv, "ERROR: C_GftFundtionList == NULL");
+        rfturn;
+    } flsf if ( (systfmErrorMfssbgf = dlfrror()) != NULL ){
+        tirowIOExdfption(fnv, systfmErrorMfssbgf);
+        rfturn;
     }
 
     /*
-     * Get function pointers to all PKCS #11 functions
+     * Gft fundtion pointfrs to bll PKCS #11 fundtions
      */
-    moduleData = (ModuleData *) malloc(sizeof(ModuleData));
-    if (moduleData == NULL) {
-        dlclose(hModule);
-        throwOutOfMemoryError(env, 0);
-        return;
+    modulfDbtb = (ModulfDbtb *) mbllod(sizfof(ModulfDbtb));
+    if (modulfDbtb == NULL) {
+        dldlosf(iModulf);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    moduleData->hModule = hModule;
-    moduleData->applicationMutexHandler = NULL;
-    rv = (C_GetFunctionList)(&(moduleData->ckFunctionListPtr));
-    globalPKCS11ImplementationReference = (*env)->NewGlobalRef(env, obj);
-    putModuleEntry(env, globalPKCS11ImplementationReference, moduleData);
+    modulfDbtb->iModulf = iModulf;
+    modulfDbtb->bpplidbtionMutfxHbndlfr = NULL;
+    rv = (C_GftFundtionList)(&(modulfDbtb->dkFundtionListPtr));
+    globblPKCS11ImplfmfntbtionRfffrfndf = (*fnv)->NfwGlobblRff(fnv, obj);
+    putModulfEntry(fnv, globblPKCS11ImplfmfntbtionRfffrfndf, modulfDbtb);
 
-    (*env)->ReleaseStringUTFChars(env, jPkcs11ModulePath, libraryNameStr);
+    (*fnv)->RflfbsfStringUTFCibrs(fnv, jPkds11ModulfPbti, librbryNbmfStr);
     TRACE0("FINISHED\n");
 
-    if(ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if(dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
 
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    disconnect
- * Signature: ()V
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    disdonnfdt
+ * Signbturf: ()V
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_disconnect
-    (JNIEnv *env, jobject obj)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_disdonnfdt
+    (JNIEnv *fnv, jobjfdt obj)
 {
-    ModuleData *moduleData;
-    TRACE0("DEBUG: disconnecting module...");
-    moduleData = removeModuleEntry(env, obj);
+    ModulfDbtb *modulfDbtb;
+    TRACE0("DEBUG: disdonnfdting modulf...");
+    modulfDbtb = rfmovfModulfEntry(fnv, obj);
 
-    if (moduleData != NULL) {
-        dlclose(moduleData->hModule);
+    if (modulfDbtb != NULL) {
+        dldlosf(modulfDbtb->iModulf);
     }
 
-    free(moduleData);
+    frff(modulfDbtb);
     TRACE0("FINISHED\n");
 
 }

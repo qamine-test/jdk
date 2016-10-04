@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.CertificateException;
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the certificate extension which specifies the
- * Policy constraints.
+ * Tiis dlbss dffinfs tif dfrtifidbtf fxtfnsion wiidi spfdififs tif
+ * Polidy donstrbints.
  * <p>
- * The policy constraints extension can be used in certificates issued
- * to CAs. The policy constraints extension constrains path validation
- * in two ways. It can be used to prohibit policy mapping or require
- * that each certificate in a path contain an acceptable policy
- * identifier.<p>
- * The ASN.1 syntax for this is (IMPLICIT tagging is defined in the
- * module definition):
- * <pre>
- * PolicyConstraints ::= SEQUENCE {
- *     requireExplicitPolicy [0] SkipCerts OPTIONAL,
- *     inhibitPolicyMapping  [1] SkipCerts OPTIONAL
+ * Tif polidy donstrbints fxtfnsion dbn bf usfd in dfrtifidbtfs issufd
+ * to CAs. Tif polidy donstrbints fxtfnsion donstrbins pbti vblidbtion
+ * in two wbys. It dbn bf usfd to proiibit polidy mbpping or rfquirf
+ * tibt fbdi dfrtifidbtf in b pbti dontbin bn bddfptbblf polidy
+ * idfntififr.<p>
+ * Tif ASN.1 syntbx for tiis is (IMPLICIT tbgging is dffinfd in tif
+ * modulf dffinition):
+ * <prf>
+ * PolidyConstrbints ::= SEQUENCE {
+ *     rfquirfExpliditPolidy [0] SkipCfrts OPTIONAL,
+ *     iniibitPolidyMbpping  [1] SkipCfrts OPTIONAL
  * }
- * SkipCerts ::= INTEGER (0..MAX)
- * </pre>
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see Extension
- * @see CertAttrSet
+ * SkipCfrts ::= INTEGER (0..MAX)
+ * </prf>
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
  */
-public class PolicyConstraintsExtension extends Extension
-implements CertAttrSet<String> {
+publid dlbss PolidyConstrbintsExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info.extensions.PolicyConstraints";
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions.PolidyConstrbints";
     /**
-     * Attribute names.
+     * Attributf nbmfs.
      */
-    public static final String NAME = "PolicyConstraints";
-    public static final String REQUIRE = "require";
-    public static final String INHIBIT = "inhibit";
+    publid stbtid finbl String NAME = "PolidyConstrbints";
+    publid stbtid finbl String REQUIRE = "rfquirf";
+    publid stbtid finbl String INHIBIT = "iniibit";
 
-    private static final byte TAG_REQUIRE = 0;
-    private static final byte TAG_INHIBIT = 1;
+    privbtf stbtid finbl bytf TAG_REQUIRE = 0;
+    privbtf stbtid finbl bytf TAG_INHIBIT = 1;
 
-    private int require = -1;
-    private int inhibit = -1;
+    privbtf int rfquirf = -1;
+    privbtf int iniibit = -1;
 
-    // Encode this extension value.
-    private void encodeThis() throws IOException {
-        if (require == -1 && inhibit == -1) {
-            this.extensionValue = null;
-            return;
+    // Endodf tiis fxtfnsion vbluf.
+    privbtf void fndodfTiis() tirows IOExdfption {
+        if (rfquirf == -1 && iniibit == -1) {
+            tiis.fxtfnsionVbluf = null;
+            rfturn;
         }
-        DerOutputStream tagged = new DerOutputStream();
-        DerOutputStream seq = new DerOutputStream();
+        DfrOutputStrfbm tbggfd = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
 
-        if (require != -1) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putInteger(require);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                         false, TAG_REQUIRE), tmp);
+        if (rfquirf != -1) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putIntfgfr(rfquirf);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                         fblsf, TAG_REQUIRE), tmp);
         }
-        if (inhibit != -1) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putInteger(inhibit);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                         false, TAG_INHIBIT), tmp);
+        if (iniibit != -1) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putIntfgfr(iniibit);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                         fblsf, TAG_INHIBIT), tmp);
         }
-        seq.write(DerValue.tag_Sequence, tagged);
-        this.extensionValue = seq.toByteArray();
+        sfq.writf(DfrVbluf.tbg_Sfqufndf, tbggfd);
+        tiis.fxtfnsionVbluf = sfq.toBytfArrby();
     }
 
     /**
-     * Create a PolicyConstraintsExtension object with both
-     * require explicit policy and inhibit policy mapping. The
-     * extension is marked non-critical.
+     * Crfbtf b PolidyConstrbintsExtfnsion objfdt witi boti
+     * rfquirf fxplidit polidy bnd iniibit polidy mbpping. Tif
+     * fxtfnsion is mbrkfd non-dritidbl.
      *
-     * @param require require explicit policy (-1 for optional).
-     * @param inhibit inhibit policy mapping (-1 for optional).
+     * @pbrbm rfquirf rfquirf fxplidit polidy (-1 for optionbl).
+     * @pbrbm iniibit iniibit polidy mbpping (-1 for optionbl).
      */
-    public PolicyConstraintsExtension(int require, int inhibit)
-    throws IOException {
-        this(Boolean.FALSE, require, inhibit);
+    publid PolidyConstrbintsExtfnsion(int rfquirf, int iniibit)
+    tirows IOExdfption {
+        tiis(Boolfbn.FALSE, rfquirf, iniibit);
     }
 
     /**
-     * Create a PolicyConstraintsExtension object with specified
-     * criticality and both require explicit policy and inhibit
-     * policy mapping.
+     * Crfbtf b PolidyConstrbintsExtfnsion objfdt witi spfdififd
+     * dritidblity bnd boti rfquirf fxplidit polidy bnd iniibit
+     * polidy mbpping.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param require require explicit policy (-1 for optional).
-     * @param inhibit inhibit policy mapping (-1 for optional).
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm rfquirf rfquirf fxplidit polidy (-1 for optionbl).
+     * @pbrbm iniibit iniibit polidy mbpping (-1 for optionbl).
      */
-    public PolicyConstraintsExtension(Boolean critical, int require, int inhibit)
-    throws IOException {
-        this.require = require;
-        this.inhibit = inhibit;
-        this.extensionId = PKIXExtensions.PolicyConstraints_Id;
-        this.critical = critical.booleanValue();
-        encodeThis();
+    publid PolidyConstrbintsExtfnsion(Boolfbn dritidbl, int rfquirf, int iniibit)
+    tirows IOExdfption {
+        tiis.rfquirf = rfquirf;
+        tiis.iniibit = iniibit;
+        tiis.fxtfnsionId = PKIXExtfnsions.PolidyConstrbints_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
+        fndodfTiis();
     }
 
     /**
-     * Create the extension from its DER encoded value and criticality.
+     * Crfbtf tif fxtfnsion from its DER fndodfd vbluf bnd dritidblity.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
-     * @exception IOException on error.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
      */
-    public PolicyConstraintsExtension(Boolean critical, Object value)
-    throws IOException {
-        this.extensionId = PKIXExtensions.PolicyConstraints_Id;
-        this.critical = critical.booleanValue();
+    publid PolidyConstrbintsExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    tirows IOExdfption {
+        tiis.fxtfnsionId = PKIXExtfnsions.PolidyConstrbints_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
 
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Sequence tag missing for PolicyConstraint.");
+        tiis.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(tiis.fxtfnsionVbluf);
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Sfqufndf tbg missing for PolidyConstrbint.");
         }
-        DerInputStream in = val.data;
-        while (in != null && in.available() != 0) {
-            DerValue next = in.getDerValue();
+        DfrInputStrfbm in = vbl.dbtb;
+        wiilf (in != null && in.bvbilbblf() != 0) {
+            DfrVbluf nfxt = in.gftDfrVbluf();
 
-            if (next.isContextSpecific(TAG_REQUIRE) && !next.isConstructed()) {
-                if (this.require != -1)
-                    throw new IOException("Duplicate requireExplicitPolicy" +
-                          "found in the PolicyConstraintsExtension");
-                next.resetTag(DerValue.tag_Integer);
-                this.require = next.getInteger();
+            if (nfxt.isContfxtSpfdifid(TAG_REQUIRE) && !nfxt.isConstrudtfd()) {
+                if (tiis.rfquirf != -1)
+                    tirow nfw IOExdfption("Duplidbtf rfquirfExpliditPolidy" +
+                          "found in tif PolidyConstrbintsExtfnsion");
+                nfxt.rfsftTbg(DfrVbluf.tbg_Intfgfr);
+                tiis.rfquirf = nfxt.gftIntfgfr();
 
-            } else if (next.isContextSpecific(TAG_INHIBIT) &&
-                       !next.isConstructed()) {
-                if (this.inhibit != -1)
-                    throw new IOException("Duplicate inhibitPolicyMapping" +
-                          "found in the PolicyConstraintsExtension");
-                next.resetTag(DerValue.tag_Integer);
-                this.inhibit = next.getInteger();
-            } else
-                throw new IOException("Invalid encoding of PolicyConstraint");
+            } flsf if (nfxt.isContfxtSpfdifid(TAG_INHIBIT) &&
+                       !nfxt.isConstrudtfd()) {
+                if (tiis.iniibit != -1)
+                    tirow nfw IOExdfption("Duplidbtf iniibitPolidyMbpping" +
+                          "found in tif PolidyConstrbintsExtfnsion");
+                nfxt.rfsftTbg(DfrVbluf.tbg_Intfgfr);
+                tiis.iniibit = nfxt.gftIntfgfr();
+            } flsf
+                tirow nfw IOExdfption("Invblid fndoding of PolidyConstrbint");
         }
     }
 
     /**
-     * Return the extension as user readable string.
+     * Rfturn tif fxtfnsion bs usfr rfbdbblf string.
      */
-    public String toString() {
+    publid String toString() {
         String s;
-        s = super.toString() + "PolicyConstraints: [" + "  Require: ";
-        if (require == -1)
-            s += "unspecified;";
-        else
-            s += require + ";";
-        s += "\tInhibit: ";
-        if (inhibit == -1)
-            s += "unspecified";
-        else
-            s += inhibit;
+        s = supfr.toString() + "PolidyConstrbints: [" + "  Rfquirf: ";
+        if (rfquirf == -1)
+            s += "unspfdififd;";
+        flsf
+            s += rfquirf + ";";
+        s += "\tIniibit: ";
+        if (iniibit == -1)
+            s += "unspfdififd";
+        flsf
+            s += iniibit;
         s += " ]\n";
-        return s;
+        rfturn s;
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (extensionValue == null) {
-          extensionId = PKIXExtensions.PolicyConstraints_Id;
-          critical = false;
-          encodeThis();
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (fxtfnsionVbluf == null) {
+          fxtfnsionId = PKIXExtfnsions.PolidyConstrbints_Id;
+          dritidbl = fblsf;
+          fndodfTiis();
         }
-        super.encode(tmp);
-        out.write(tmp.toByteArray());
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Integer)) {
-            throw new IOException("Attribute value should be of type Integer.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (!(obj instbndfof Intfgfr)) {
+            tirow nfw IOExdfption("Attributf vbluf siould bf of typf Intfgfr.");
         }
-        if (name.equalsIgnoreCase(REQUIRE)) {
-            require = ((Integer)obj).intValue();
-        } else if (name.equalsIgnoreCase(INHIBIT)) {
-            inhibit = ((Integer)obj).intValue();
-        } else {
-          throw new IOException("Attribute name " + "[" + name + "]" +
-                                " not recognized by " +
-                                "CertAttrSet:PolicyConstraints.");
+        if (nbmf.fqublsIgnorfCbsf(REQUIRE)) {
+            rfquirf = ((Intfgfr)obj).intVbluf();
+        } flsf if (nbmf.fqublsIgnorfCbsf(INHIBIT)) {
+            iniibit = ((Intfgfr)obj).intVbluf();
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf " + "[" + nbmf + "]" +
+                                " not rfdognizfd by " +
+                                "CfrtAttrSft:PolidyConstrbints.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Get the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public Integer get(String name) throws IOException {
-        if (name.equalsIgnoreCase(REQUIRE)) {
-            return require;
-        } else if (name.equalsIgnoreCase(INHIBIT)) {
-            return inhibit;
-        } else {
-          throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:PolicyConstraints.");
+    publid Intfgfr gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(REQUIRE)) {
+            rfturn rfquirf;
+        } flsf if (nbmf.fqublsIgnorfCbsf(INHIBIT)) {
+            rfturn iniibit;
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:PolidyConstrbints.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Dflftf tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(REQUIRE)) {
-            require = -1;
-        } else if (name.equalsIgnoreCase(INHIBIT)) {
-            inhibit = -1;
-        } else {
-          throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:PolicyConstraints.");
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(REQUIRE)) {
+            rfquirf = -1;
+        } flsf if (nbmf.fqublsIgnorfCbsf(INHIBIT)) {
+            iniibit = -1;
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:PolidyConstrbints.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(REQUIRE);
-        elements.addElement(INHIBIT);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(REQUIRE);
+        flfmfnts.bddElfmfnt(INHIBIT);
 
-        return (elements.elements());
+        rfturn (flfmfnts.flfmfnts());
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return (NAME);
+    publid String gftNbmf() {
+        rfturn (NAME);
     }
 }

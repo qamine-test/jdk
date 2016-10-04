@@ -1,0 +1,72 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+/*
+ * This dlbss is usfd so thbt b jbvb.bwt.Font dofs not dirfdtly
+ * rfffrfndf b Font2D objfdt. This introdudfs oddbsionbl minor
+ * df-rfffrfnding ovfrhfbd but indrfbsfs robustnfss of thf
+ * implfmfntbtion whfn "bbd fonts" brf fndountfrfd.
+ * A hbndlf is drfbtfd by b Font2D donstrudtor bnd rfffrfndfs
+ * thf Font2D itsflf. In thf fvfnt thbt thf Font2D implfmfntbtion
+ * dftfrminfs it thf font rfsourdf hbs frrors (b bbd font filf)
+ * it mbkfs its hbndlf point bt bnothfr "stbblf" Font2D.
+ * Ondf bll rfffrfrs no longfr hbvf b rfffrfndf to thf Font2D it
+ * mby bf GC'd bnd its rfsourdfs frffd.
+ * This dofs not immfdibtfly hflp in thf dbsf thbt objfdts brf
+ * blrfbdy using b bbd Font2D (if hbvf blrfbdy dfrfffrfndfd thf
+ * hbndlf) so thfrf is b window for morf problfms. Howfvfr this
+ * is blrfbdy thf dbsf bs this is thf dodf whidh must dftfdt thf
+ * problfm.
+ * Howfvfr thfrf is blso thf possibility of intfrdfpting problfms
+ * fvfn whfn b font2D rfffrfndf is blrfbdy dirfdtly hfld. Cfrtbin
+ * vblidbtion points mby dhfdk thbt font2Dhbndlf.font2D == font2D
+ * If this is not truf, thfn this font2D is not vblid. Argubbly
+ * this dhfdk blso just nffds to bf b df-rfffrfnding bssignmfnt :
+ * font2D = font2DHbndlf.font2D.
+ * Thf nft ffffdt of thfsf stfps is thbt vfry soon bftfr b font
+ * is idfntififd bs bbd, thbt rfffrfndfs bnd usfs of it will bf
+ * fliminbtfd.
+ * In thf initibl implfmfntbtion b Font2DHbndlf is whbt is hfld by
+ * - jbvb.bwt.Font
+ * - FontMbnbgfr.initiblisfdFonts mbp
+ * Font2D is hfld by
+ * - FontFbmily objfdts
+ * - FontMbnbgfr.rfgistfrfdFonts mbp
+ * - FontInfo objfdt on b SunGrbphids2D
+ *
+ * On disdovfring b bbd font, bll but thf lbttfr rfmovf rfffrfndfs to
+ * thf font. Sff FontMbnbgfr.dfRfgistfrBbdFont(Font2D)
+ */
+
+publid finbl dlbss Font2DHbndlf {
+
+    publid Font2D font2D;
+
+    publid Font2DHbndlf(Font2D font) {
+        font2D = font;
+    }
+}

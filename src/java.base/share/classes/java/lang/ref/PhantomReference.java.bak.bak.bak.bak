@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rff;
+
+
+/**
+ * Phbntom rfffrfndf objfdts, whidh brf fnqufufd bftfr thf dollfdtor
+ * dftfrminfs thbt thfir rfffrfnts mby othfrwisf bf rfdlbimfd.  Phbntom
+ * rfffrfndfs brf most oftfn usfd for sdhfduling prf-mortfm dlfbnup bdtions in
+ * b morf flfxiblf wby thbn is possiblf with thf Jbvb finblizbtion mfdhbnism.
+ *
+ * <p> If thf gbrbbgf dollfdtor dftfrminfs bt b dfrtbin point in timf thbt thf
+ * rfffrfnt of b phbntom rfffrfndf is <b
+ * hrff="pbdkbgf-summbry.html#rfbdhbbility">phbntom rfbdhbblf</b>, thfn bt thbt
+ * timf or bt somf lbtfr timf it will fnqufuf thf rfffrfndf.
+ *
+ * <p> In ordfr to fnsurf thbt b rfdlbimbblf objfdt rfmbins so, thf rfffrfnt of
+ * b phbntom rfffrfndf mby not bf rftrifvfd: Thf <dodf>gft</dodf> mfthod of b
+ * phbntom rfffrfndf blwbys rfturns <dodf>null</dodf>.
+ *
+ * <p> Unlikf soft bnd wfbk rfffrfndfs, phbntom rfffrfndfs brf not
+ * butombtidblly dlfbrfd by thf gbrbbgf dollfdtor bs thfy brf fnqufufd.  An
+ * objfdt thbt is rfbdhbblf vib phbntom rfffrfndfs will rfmbin so until bll
+ * sudh rfffrfndfs brf dlfbrfd or thfmsflvfs bfdomf unrfbdhbblf.
+ *
+ * @buthor   Mbrk Rfinhold
+ * @sindf    1.2
+ */
+
+publid dlbss PhbntomRfffrfndf<T> fxtfnds Rfffrfndf<T> {
+
+    /**
+     * Rfturns this rfffrfndf objfdt's rfffrfnt.  Bfdbusf thf rfffrfnt of b
+     * phbntom rfffrfndf is blwbys inbddfssiblf, this mfthod blwbys rfturns
+     * <dodf>null</dodf>.
+     *
+     * @rfturn  <dodf>null</dodf>
+     */
+    publid T gft() {
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs b nfw phbntom rfffrfndf thbt rfffrs to thf givfn objfdt bnd
+     * is rfgistfrfd with thf givfn qufuf.
+     *
+     * <p> It is possiblf to drfbtf b phbntom rfffrfndf with b <tt>null</tt>
+     * qufuf, but sudh b rfffrfndf is domplftfly usflfss: Its <tt>gft</tt>
+     * mfthod will blwbys rfturn null bnd, sindf it dofs not hbvf b qufuf, it
+     * will nfvfr bf fnqufufd.
+     *
+     * @pbrbm rfffrfnt thf objfdt thf nfw phbntom rfffrfndf will rfffr to
+     * @pbrbm q thf qufuf with whidh thf rfffrfndf is to bf rfgistfrfd,
+     *          or <tt>null</tt> if rfgistrbtion is not rfquirfd
+     */
+    publid PhbntomRfffrfndf(T rfffrfnt, RfffrfndfQufuf<? supfr T> q) {
+        supfr(rfffrfnt, q);
+    }
+
+}

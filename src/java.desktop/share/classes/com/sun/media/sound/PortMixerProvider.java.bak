@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.spi.MixerProvider;
+import jbvbx.sound.sbmplfd.Mixfr;
+import jbvbx.sound.sbmplfd.spi.MixfrProvidfr;
 
 
 /**
- * Port provider.
+ * Port providfr.
  *
- * @author Florian Bomers
+ * @butior Floribn Bomfrs
  */
-public final class PortMixerProvider extends MixerProvider {
+publid finbl dlbss PortMixfrProvidfr fxtfnds MixfrProvidfr {
 
     // STATIC VARIABLES
 
     /**
-     * Set of info objects for all port input devices on the system.
+     * Sft of info objfdts for bll port input dfvidfs on tif systfm.
      */
-    private static PortMixerInfo[] infos;
+    privbtf stbtid PortMixfrInfo[] infos;
 
     /**
-     * Set of all port input devices on the system.
+     * Sft of bll port input dfvidfs on tif systfm.
      */
-    private static PortMixer[] devices;
+    privbtf stbtid PortMixfr[] dfvidfs;
 
 
     // STATIC
 
-    static {
-        // initialize
-        Platform.initialize();
+    stbtid {
+        // initiblizf
+        Plbtform.initiblizf();
     }
 
 
@@ -61,91 +61,91 @@ public final class PortMixerProvider extends MixerProvider {
 
 
     /**
-     * Required public no-arg constructor.
+     * Rfquirfd publid no-brg donstrudtor.
      */
-    public PortMixerProvider() {
-        synchronized (PortMixerProvider.class) {
-            if (Platform.isPortsEnabled()) {
+    publid PortMixfrProvidfr() {
+        syndironizfd (PortMixfrProvidfr.dlbss) {
+            if (Plbtform.isPortsEnbblfd()) {
                 init();
-            } else {
-                infos = new PortMixerInfo[0];
-                devices = new PortMixer[0];
+            } flsf {
+                infos = nfw PortMixfrInfo[0];
+                dfvidfs = nfw PortMixfr[0];
             }
         }
     }
 
-    private static void init() {
-        // get the number of input devices
-        int numDevices = nGetNumDevices();
+    privbtf stbtid void init() {
+        // gft tif numbfr of input dfvidfs
+        int numDfvidfs = nGftNumDfvidfs();
 
-        if (infos == null || infos.length != numDevices) {
-            if (Printer.trace) Printer.trace("PortMixerProvider: init()");
-            // initialize the arrays
-            infos = new PortMixerInfo[numDevices];
-            devices = new PortMixer[numDevices];
+        if (infos == null || infos.lfngti != numDfvidfs) {
+            if (Printfr.trbdf) Printfr.trbdf("PortMixfrProvidfr: init()");
+            // initiblizf tif brrbys
+            infos = nfw PortMixfrInfo[numDfvidfs];
+            dfvidfs = nfw PortMixfr[numDfvidfs];
 
-            // fill in the info objects now.
-            // we'll fill in the device objects as they're requested.
-            for (int i = 0; i < infos.length; i++) {
-                infos[i] = nNewPortMixerInfo(i);
+            // fill in tif info objfdts now.
+            // wf'll fill in tif dfvidf objfdts bs tify'rf rfqufstfd.
+            for (int i = 0; i < infos.lfngti; i++) {
+                infos[i] = nNfwPortMixfrInfo(i);
             }
-            if (Printer.trace) Printer.trace("PortMixerProvider: init(): found numDevices: " + numDevices);
+            if (Printfr.trbdf) Printfr.trbdf("PortMixfrProvidfr: init(): found numDfvidfs: " + numDfvidfs);
         }
     }
 
-    public Mixer.Info[] getMixerInfo() {
-        synchronized (PortMixerProvider.class) {
-            Mixer.Info[] localArray = new Mixer.Info[infos.length];
-            System.arraycopy(infos, 0, localArray, 0, infos.length);
-            return localArray;
+    publid Mixfr.Info[] gftMixfrInfo() {
+        syndironizfd (PortMixfrProvidfr.dlbss) {
+            Mixfr.Info[] lodblArrby = nfw Mixfr.Info[infos.lfngti];
+            Systfm.brrbydopy(infos, 0, lodblArrby, 0, infos.lfngti);
+            rfturn lodblArrby;
         }
     }
 
 
-    public Mixer getMixer(Mixer.Info info) {
-        synchronized (PortMixerProvider.class) {
-            for (int i = 0; i < infos.length; i++) {
-                if (infos[i].equals(info)) {
-                    return getDevice(infos[i]);
+    publid Mixfr gftMixfr(Mixfr.Info info) {
+        syndironizfd (PortMixfrProvidfr.dlbss) {
+            for (int i = 0; i < infos.lfngti; i++) {
+                if (infos[i].fqubls(info)) {
+                    rfturn gftDfvidf(infos[i]);
                 }
             }
         }
-        throw new IllegalArgumentException("Mixer " + info.toString()
-                                           + " not supported by this provider.");
+        tirow nfw IllfgblArgumfntExdfption("Mixfr " + info.toString()
+                                           + " not supportfd by tiis providfr.");
     }
 
 
-    private static Mixer getDevice(PortMixerInfo info) {
-        int index = info.getIndex();
-        if (devices[index] == null) {
-            devices[index] = new PortMixer(info);
+    privbtf stbtid Mixfr gftDfvidf(PortMixfrInfo info) {
+        int indfx = info.gftIndfx();
+        if (dfvidfs[indfx] == null) {
+            dfvidfs[indfx] = nfw PortMixfr(info);
         }
-        return devices[index];
+        rfturn dfvidfs[indfx];
     }
 
     // INNER CLASSES
 
 
     /**
-     * Info class for PortMixers.  Adds an index value for
-     * making native references to a particular device.
-     * This constructor is called from native.
+     * Info dlbss for PortMixfrs.  Adds bn indfx vbluf for
+     * mbking nbtivf rfffrfndfs to b pbrtidulbr dfvidf.
+     * Tiis donstrudtor is dbllfd from nbtivf.
      */
-    static final class PortMixerInfo extends Mixer.Info {
-        private final int index;
+    stbtid finbl dlbss PortMixfrInfo fxtfnds Mixfr.Info {
+        privbtf finbl int indfx;
 
-        private PortMixerInfo(int index, String name, String vendor, String description, String version) {
-            super("Port " + name, vendor, description, version);
-            this.index = index;
+        privbtf PortMixfrInfo(int indfx, String nbmf, String vfndor, String dfsdription, String vfrsion) {
+            supfr("Port " + nbmf, vfndor, dfsdription, vfrsion);
+            tiis.indfx = indfx;
         }
 
-        int getIndex() {
-            return index;
+        int gftIndfx() {
+            rfturn indfx;
         }
 
-    } // class PortMixerInfo
+    } // dlbss PortMixfrInfo
 
     // NATIVE METHODS
-    private static native int nGetNumDevices();
-    private static native PortMixerInfo nNewPortMixerInfo(int mixerIndex);
+    privbtf stbtid nbtivf int nGftNumDfvidfs();
+    privbtf stbtid nbtivf PortMixfrInfo nNfwPortMixfrInfo(int mixfrIndfx);
 }

@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.image.Raster;
-import sun.awt.image.IntegerComponentRaster;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.geom.Point2D;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.lang.ref.WeakReference;
+import jbvb.bwt.imbgf.Rbstfr;
+import sun.bwt.imbgf.IntfgfrComponfntRbstfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
-class GradientPaintContext implements PaintContext {
-    static ColorModel xrgbmodel =
-        new DirectColorModel(24, 0x00ff0000, 0x0000ff00, 0x000000ff);
-    static ColorModel xbgrmodel =
-        new DirectColorModel(24, 0x000000ff, 0x0000ff00, 0x00ff0000);
+dlbss GrbdifntPbintContfxt implfmfnts PbintContfxt {
+    stbtid ColorModfl xrgbmodfl =
+        nfw DirfdtColorModfl(24, 0x00ff0000, 0x0000ff00, 0x000000ff);
+    stbtid ColorModfl xbgrmodfl =
+        nfw DirfdtColorModfl(24, 0x000000ff, 0x0000ff00, 0x00ff0000);
 
-    static ColorModel cachedModel;
-    static WeakReference<Raster> cached;
+    stbtid ColorModfl dbdifdModfl;
+    stbtid WfbkRfffrfndf<Rbstfr> dbdifd;
 
-    static synchronized Raster getCachedRaster(ColorModel cm, int w, int h) {
-        if (cm == cachedModel) {
-            if (cached != null) {
-                Raster ras = cached.get();
-                if (ras != null &&
-                    ras.getWidth() >= w &&
-                    ras.getHeight() >= h)
+    stbtid syndironizfd Rbstfr gftCbdifdRbstfr(ColorModfl dm, int w, int i) {
+        if (dm == dbdifdModfl) {
+            if (dbdifd != null) {
+                Rbstfr rbs = dbdifd.gft();
+                if (rbs != null &&
+                    rbs.gftWidti() >= w &&
+                    rbs.gftHfigit() >= i)
                 {
-                    cached = null;
-                    return ras;
+                    dbdifd = null;
+                    rfturn rbs;
                 }
             }
         }
-        return cm.createCompatibleWritableRaster(w, h);
+        rfturn dm.drfbtfCompbtiblfWritbblfRbstfr(w, i);
     }
 
-    static synchronized void putCachedRaster(ColorModel cm, Raster ras) {
-        if (cached != null) {
-            Raster cras = cached.get();
-            if (cras != null) {
-                int cw = cras.getWidth();
-                int ch = cras.getHeight();
-                int iw = ras.getWidth();
-                int ih = ras.getHeight();
-                if (cw >= iw && ch >= ih) {
-                    return;
+    stbtid syndironizfd void putCbdifdRbstfr(ColorModfl dm, Rbstfr rbs) {
+        if (dbdifd != null) {
+            Rbstfr drbs = dbdifd.gft();
+            if (drbs != null) {
+                int dw = drbs.gftWidti();
+                int di = drbs.gftHfigit();
+                int iw = rbs.gftWidti();
+                int ii = rbs.gftHfigit();
+                if (dw >= iw && di >= ii) {
+                    rfturn;
                 }
-                if (cw * ch >= iw * ih) {
-                    return;
+                if (dw * di >= iw * ii) {
+                    rfturn;
                 }
             }
         }
-        cachedModel = cm;
-        cached = new WeakReference<>(ras);
+        dbdifdModfl = dm;
+        dbdifd = nfw WfbkRfffrfndf<>(rbs);
     }
 
-    double x1;
-    double y1;
-    double dx;
-    double dy;
-    boolean cyclic;
-    int interp[];
-    Raster saved;
-    ColorModel model;
+    doublf x1;
+    doublf y1;
+    doublf dx;
+    doublf dy;
+    boolfbn dydlid;
+    int intfrp[];
+    Rbstfr sbvfd;
+    ColorModfl modfl;
 
-    public GradientPaintContext(ColorModel cm,
-                                Point2D p1, Point2D p2, AffineTransform xform,
-                                Color c1, Color c2, boolean cyclic) {
-        // First calculate the distance moved in user space when
-        // we move a single unit along the X & Y axes in device space.
-        Point2D xvec = new Point2D.Double(1, 0);
-        Point2D yvec = new Point2D.Double(0, 1);
+    publid GrbdifntPbintContfxt(ColorModfl dm,
+                                Point2D p1, Point2D p2, AffinfTrbnsform xform,
+                                Color d1, Color d2, boolfbn dydlid) {
+        // First dbldulbtf tif distbndf movfd in usfr spbdf wifn
+        // wf movf b singlf unit blong tif X & Y bxfs in dfvidf spbdf.
+        Point2D xvfd = nfw Point2D.Doublf(1, 0);
+        Point2D yvfd = nfw Point2D.Doublf(0, 1);
         try {
-            AffineTransform inverse = xform.createInverse();
-            inverse.deltaTransform(xvec, xvec);
-            inverse.deltaTransform(yvec, yvec);
-        } catch (NoninvertibleTransformException e) {
-            xvec.setLocation(0, 0);
-            yvec.setLocation(0, 0);
+            AffinfTrbnsform invfrsf = xform.drfbtfInvfrsf();
+            invfrsf.dfltbTrbnsform(xvfd, xvfd);
+            invfrsf.dfltbTrbnsform(yvfd, yvfd);
+        } dbtdi (NoninvfrtiblfTrbnsformExdfption f) {
+            xvfd.sftLodbtion(0, 0);
+            yvfd.sftLodbtion(0, 0);
         }
 
-        // Now calculate the (square of the) user space distance
-        // between the anchor points. This value equals:
-        //     (UserVec . UserVec)
-        double udx = p2.getX() - p1.getX();
-        double udy = p2.getY() - p1.getY();
-        double ulenSq = udx * udx + udy * udy;
+        // Now dbldulbtf tif (squbrf of tif) usfr spbdf distbndf
+        // bftwffn tif bndior points. Tiis vbluf fqubls:
+        //     (UsfrVfd . UsfrVfd)
+        doublf udx = p2.gftX() - p1.gftX();
+        doublf udy = p2.gftY() - p1.gftY();
+        doublf ulfnSq = udx * udx + udy * udy;
 
-        if (ulenSq <= Double.MIN_VALUE) {
+        if (ulfnSq <= Doublf.MIN_VALUE) {
             dx = 0;
             dy = 0;
-        } else {
-            // Now calculate the proportional distance moved along the
-            // vector from p1 to p2 when we move a unit along X & Y in
-            // device space.
+        } flsf {
+            // Now dbldulbtf tif proportionbl distbndf movfd blong tif
+            // vfdtor from p1 to p2 wifn wf movf b unit blong X & Y in
+            // dfvidf spbdf.
             //
-            // The length of the projection of the Device Axis Vector is
-            // its dot product with the Unit User Vector:
-            //     (DevAxisVec . (UserVec / Len(UserVec))
+            // Tif lfngti of tif projfdtion of tif Dfvidf Axis Vfdtor is
+            // its dot produdt witi tif Unit Usfr Vfdtor:
+            //     (DfvAxisVfd . (UsfrVfd / Lfn(UsfrVfd))
             //
-            // The "proportional" length is that length divided again
-            // by the length of the User Vector:
-            //     (DevAxisVec . (UserVec / Len(UserVec))) / Len(UserVec)
-            // which simplifies to:
-            //     ((DevAxisVec . UserVec) / Len(UserVec)) / Len(UserVec)
-            // which simplifies to:
-            //     (DevAxisVec . UserVec) / LenSquared(UserVec)
-            dx = (xvec.getX() * udx + xvec.getY() * udy) / ulenSq;
-            dy = (yvec.getX() * udx + yvec.getY() * udy) / ulenSq;
+            // Tif "proportionbl" lfngti is tibt lfngti dividfd bgbin
+            // by tif lfngti of tif Usfr Vfdtor:
+            //     (DfvAxisVfd . (UsfrVfd / Lfn(UsfrVfd))) / Lfn(UsfrVfd)
+            // wiidi simplififs to:
+            //     ((DfvAxisVfd . UsfrVfd) / Lfn(UsfrVfd)) / Lfn(UsfrVfd)
+            // wiidi simplififs to:
+            //     (DfvAxisVfd . UsfrVfd) / LfnSqubrfd(UsfrVfd)
+            dx = (xvfd.gftX() * udx + xvfd.gftY() * udy) / ulfnSq;
+            dy = (yvfd.gftX() * udx + yvfd.gftY() * udy) / ulfnSq;
 
-            if (cyclic) {
+            if (dydlid) {
                 dx = dx % 1.0;
                 dy = dy % 1.0;
-            } else {
-                // We are acyclic
+            } flsf {
+                // Wf brf bdydlid
                 if (dx < 0) {
-                    // If we are using the acyclic form below, we need
-                    // dx to be non-negative for simplicity of scanning
-                    // across the scan lines for the transition points.
-                    // To ensure that constraint, we negate the dx/dy
-                    // values and swap the points and colors.
+                    // If wf brf using tif bdydlid form bflow, wf nffd
+                    // dx to bf non-nfgbtivf for simplidity of sdbnning
+                    // bdross tif sdbn linfs for tif trbnsition points.
+                    // To fnsurf tibt donstrbint, wf nfgbtf tif dx/dy
+                    // vblufs bnd swbp tif points bnd dolors.
                     Point2D p = p1; p1 = p2; p2 = p;
-                    Color c = c1; c1 = c2; c2 = c;
+                    Color d = d1; d1 = d2; d2 = d;
                     dx = -dx;
                     dy = -dy;
                 }
             }
         }
 
-        Point2D dp1 = xform.transform(p1, null);
-        this.x1 = dp1.getX();
-        this.y1 = dp1.getY();
+        Point2D dp1 = xform.trbnsform(p1, null);
+        tiis.x1 = dp1.gftX();
+        tiis.y1 = dp1.gftY();
 
-        this.cyclic = cyclic;
-        int rgb1 = c1.getRGB();
-        int rgb2 = c2.getRGB();
-        int a1 = (rgb1 >> 24) & 0xff;
+        tiis.dydlid = dydlid;
+        int rgb1 = d1.gftRGB();
+        int rgb2 = d2.gftRGB();
+        int b1 = (rgb1 >> 24) & 0xff;
         int r1 = (rgb1 >> 16) & 0xff;
         int g1 = (rgb1 >>  8) & 0xff;
         int b1 = (rgb1      ) & 0xff;
-        int da = ((rgb2 >> 24) & 0xff) - a1;
+        int db = ((rgb2 >> 24) & 0xff) - b1;
         int dr = ((rgb2 >> 16) & 0xff) - r1;
         int dg = ((rgb2 >>  8) & 0xff) - g1;
         int db = ((rgb2      ) & 0xff) - b1;
-        if (a1 == 0xff && da == 0) {
-            model = xrgbmodel;
-            if (cm instanceof DirectColorModel) {
-                DirectColorModel dcm = (DirectColorModel) cm;
-                int tmp = dcm.getAlphaMask();
+        if (b1 == 0xff && db == 0) {
+            modfl = xrgbmodfl;
+            if (dm instbndfof DirfdtColorModfl) {
+                DirfdtColorModfl ddm = (DirfdtColorModfl) dm;
+                int tmp = ddm.gftAlpibMbsk();
                 if ((tmp == 0 || tmp == 0xff) &&
-                    dcm.getRedMask() == 0xff &&
-                    dcm.getGreenMask() == 0xff00 &&
-                    dcm.getBlueMask() == 0xff0000)
+                    ddm.gftRfdMbsk() == 0xff &&
+                    ddm.gftGrffnMbsk() == 0xff00 &&
+                    ddm.gftBlufMbsk() == 0xff0000)
                 {
-                    model = xbgrmodel;
+                    modfl = xbgrmodfl;
                     tmp = r1; r1 = b1; b1 = tmp;
                     tmp = dr; dr = db; db = tmp;
                 }
             }
-        } else {
-            model = ColorModel.getRGBdefault();
+        } flsf {
+            modfl = ColorModfl.gftRGBdffbult();
         }
-        interp = new int[cyclic ? 513 : 257];
+        intfrp = nfw int[dydlid ? 513 : 257];
         for (int i = 0; i <= 256; i++) {
-            float rel = i / 256.0f;
+            flobt rfl = i / 256.0f;
             int rgb =
-                (((int) (a1 + da * rel)) << 24) |
-                (((int) (r1 + dr * rel)) << 16) |
-                (((int) (g1 + dg * rel)) <<  8) |
-                (((int) (b1 + db * rel))      );
-            interp[i] = rgb;
-            if (cyclic) {
-                interp[512 - i] = rgb;
+                (((int) (b1 + db * rfl)) << 24) |
+                (((int) (r1 + dr * rfl)) << 16) |
+                (((int) (g1 + dg * rfl)) <<  8) |
+                (((int) (b1 + db * rfl))      );
+            intfrp[i] = rgb;
+            if (dydlid) {
+                intfrp[512 - i] = rgb;
             }
         }
     }
 
     /**
-     * Release the resources allocated for the operation.
+     * Rflfbsf tif rfsourdfs bllodbtfd for tif opfrbtion.
      */
-    public void dispose() {
-        if (saved != null) {
-            putCachedRaster(model, saved);
-            saved = null;
+    publid void disposf() {
+        if (sbvfd != null) {
+            putCbdifdRbstfr(modfl, sbvfd);
+            sbvfd = null;
         }
     }
 
     /**
-     * Return the ColorModel of the output.
+     * Rfturn tif ColorModfl of tif output.
      */
-    public ColorModel getColorModel() {
-        return model;
+    publid ColorModfl gftColorModfl() {
+        rfturn modfl;
     }
 
     /**
-     * Return a Raster containing the colors generated for the graphics
-     * operation.
-     * @param x,y,w,h The area in device space for which colors are
-     * generated.
+     * Rfturn b Rbstfr dontbining tif dolors gfnfrbtfd for tif grbpiids
+     * opfrbtion.
+     * @pbrbm x,y,w,i Tif brfb in dfvidf spbdf for wiidi dolors brf
+     * gfnfrbtfd.
      */
-    public Raster getRaster(int x, int y, int w, int h) {
-        double rowrel = (x - x1) * dx + (y - y1) * dy;
+    publid Rbstfr gftRbstfr(int x, int y, int w, int i) {
+        doublf rowrfl = (x - x1) * dx + (y - y1) * dy;
 
-        Raster rast = saved;
-        if (rast == null || rast.getWidth() < w || rast.getHeight() < h) {
-            rast = getCachedRaster(model, w, h);
-            saved = rast;
+        Rbstfr rbst = sbvfd;
+        if (rbst == null || rbst.gftWidti() < w || rbst.gftHfigit() < i) {
+            rbst = gftCbdifdRbstfr(modfl, w, i);
+            sbvfd = rbst;
         }
-        IntegerComponentRaster irast = (IntegerComponentRaster) rast;
-        int off = irast.getDataOffset(0);
-        int adjust = irast.getScanlineStride() - w;
-        int[] pixels = irast.getDataStorage();
+        IntfgfrComponfntRbstfr irbst = (IntfgfrComponfntRbstfr) rbst;
+        int off = irbst.gftDbtbOffsft(0);
+        int bdjust = irbst.gftSdbnlinfStridf() - w;
+        int[] pixfls = irbst.gftDbtbStorbgf();
 
-        if (cyclic) {
-            cycleFillRaster(pixels, off, adjust, w, h, rowrel, dx, dy);
-        } else {
-            clipFillRaster(pixels, off, adjust, w, h, rowrel, dx, dy);
+        if (dydlid) {
+            dydlfFillRbstfr(pixfls, off, bdjust, w, i, rowrfl, dx, dy);
+        } flsf {
+            dlipFillRbstfr(pixfls, off, bdjust, w, i, rowrfl, dx, dy);
         }
 
-        irast.markDirty();
+        irbst.mbrkDirty();
 
-        return rast;
+        rfturn rbst;
     }
 
-    void cycleFillRaster(int[] pixels, int off, int adjust, int w, int h,
-                         double rowrel, double dx, double dy) {
-        rowrel = rowrel % 2.0;
-        int irowrel = ((int) (rowrel * (1 << 30))) << 1;
+    void dydlfFillRbstfr(int[] pixfls, int off, int bdjust, int w, int i,
+                         doublf rowrfl, doublf dx, doublf dy) {
+        rowrfl = rowrfl % 2.0;
+        int irowrfl = ((int) (rowrfl * (1 << 30))) << 1;
         int idx = (int) (-dx * (1 << 31));
         int idy = (int) (-dy * (1 << 31));
-        while (--h >= 0) {
-            int icolrel = irowrel;
+        wiilf (--i >= 0) {
+            int idolrfl = irowrfl;
             for (int j = w; j > 0; j--) {
-                pixels[off++] = interp[icolrel >>> 23];
-                icolrel += idx;
+                pixfls[off++] = intfrp[idolrfl >>> 23];
+                idolrfl += idx;
             }
 
-            off += adjust;
-            irowrel += idy;
+            off += bdjust;
+            irowrfl += idy;
         }
     }
 
-    void clipFillRaster(int[] pixels, int off, int adjust, int w, int h,
-                        double rowrel, double dx, double dy) {
-        while (--h >= 0) {
-            double colrel = rowrel;
+    void dlipFillRbstfr(int[] pixfls, int off, int bdjust, int w, int i,
+                        doublf rowrfl, doublf dx, doublf dy) {
+        wiilf (--i >= 0) {
+            doublf dolrfl = rowrfl;
             int j = w;
-            if (colrel <= 0.0) {
-                int rgb = interp[0];
+            if (dolrfl <= 0.0) {
+                int rgb = intfrp[0];
                 do {
-                    pixels[off++] = rgb;
-                    colrel += dx;
-                } while (--j > 0 && colrel <= 0.0);
+                    pixfls[off++] = rgb;
+                    dolrfl += dx;
+                } wiilf (--j > 0 && dolrfl <= 0.0);
             }
-            while (colrel < 1.0 && --j >= 0) {
-                pixels[off++] = interp[(int) (colrel * 256)];
-                colrel += dx;
+            wiilf (dolrfl < 1.0 && --j >= 0) {
+                pixfls[off++] = intfrp[(int) (dolrfl * 256)];
+                dolrfl += dx;
             }
             if (j > 0) {
-                int rgb = interp[256];
+                int rgb = intfrp[256];
                 do {
-                    pixels[off++] = rgb;
-                } while (--j > 0);
+                    pixfls[off++] = rgb;
+                } wiilf (--j > 0);
             }
 
-            off += adjust;
-            rowrel += dy;
+            off += bdjust;
+            rowrfl += dy;
         }
     }
 }

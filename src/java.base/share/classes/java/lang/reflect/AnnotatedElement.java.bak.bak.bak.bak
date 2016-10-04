@@ -1,0 +1,450 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.AnnotbtionFormbtError;
+import jbvb.lbng.bnnotbtion.Rfpfbtbblf;
+import jbvb.util.Arrbys;
+import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.strfbm.Collfdtors;
+import sun.rfflfdt.bnnotbtion.AnnotbtionSupport;
+import sun.rfflfdt.bnnotbtion.AnnotbtionTypf;
+
+/**
+ * Rfprfsfnts bn bnnotbtfd flfmfnt of thf progrbm durrfntly running in this
+ * VM.  This intfrfbdf bllows bnnotbtions to bf rfbd rfflfdtivfly.  All
+ * bnnotbtions rfturnfd by mfthods in this intfrfbdf brf immutbblf bnd
+ * sfriblizbblf. Thf brrbys rfturnfd by mfthods of this intfrfbdf mby bf modififd
+ * by dbllfrs without bfffdting thf brrbys rfturnfd to othfr dbllfrs.
+ *
+ * <p>Thf {@link #gftAnnotbtionsByTypf(Clbss)} bnd {@link
+ * #gftDfdlbrfdAnnotbtionsByTypf(Clbss)} mfthods support multiplf
+ * bnnotbtions of thf sbmf typf on bn flfmfnt. If thf brgumfnt to
+ * fithfr mfthod is b rfpfbtbblf bnnotbtion typf (JLS 9.6), thfn thf
+ * mfthod will "look through" b dontbinfr bnnotbtion (JLS 9.7), if
+ * prfsfnt, bnd rfturn bny bnnotbtions insidf thf dontbinfr. Contbinfr
+ * bnnotbtions mby bf gfnfrbtfd bt dompilf-timf to wrbp multiplf
+ * bnnotbtions of thf brgumfnt typf.
+ *
+ * <p>Thf tfrms <fm>dirfdtly prfsfnt</fm>, <fm>indirfdtly prfsfnt</fm>,
+ * <fm>prfsfnt</fm>, bnd <fm>bssodibtfd</fm> brf usfd throughout this
+ * intfrfbdf to dfsdribf prfdisfly whidh bnnotbtions brf rfturnfd by
+ * mfthods:
+ *
+ * <ul>
+ *
+ * <li> An bnnotbtion <i>A</i> is <fm>dirfdtly prfsfnt</fm> on bn
+ * flfmfnt <i>E</i> if <i>E</i> hbs b {@dodf
+ * RuntimfVisiblfAnnotbtions} or {@dodf
+ * RuntimfVisiblfPbrbmftfrAnnotbtions} or {@dodf
+ * RuntimfVisiblfTypfAnnotbtions} bttributf, bnd thf bttributf
+ * dontbins <i>A</i>.
+ *
+ * <li>An bnnotbtion <i>A</i> is <fm>indirfdtly prfsfnt</fm> on bn
+ * flfmfnt <i>E</i> if <i>E</i> hbs b {@dodf RuntimfVisiblfAnnotbtions} or
+ * {@dodf RuntimfVisiblfPbrbmftfrAnnotbtions} or {@dodf RuntimfVisiblfTypfAnnotbtions}
+ * bttributf, bnd <i>A</i> 's typf is rfpfbtbblf, bnd thf bttributf dontbins
+ * fxbdtly onf bnnotbtion whosf vbluf flfmfnt dontbins <i>A</i> bnd whosf
+ * typf is thf dontbining bnnotbtion typf of <i>A</i> 's typf.
+ *
+ * <li>An bnnotbtion <i>A</i> is prfsfnt on bn flfmfnt <i>E</i> if fithfr:
+ *
+ * <ul>
+ *
+ * <li><i>A</i> is dirfdtly prfsfnt on <i>E</i>; or
+ *
+ * <li>No bnnotbtion of <i>A</i> 's typf is dirfdtly prfsfnt on
+ * <i>E</i>, bnd <i>E</i> is b dlbss, bnd <i>A</i> 's typf is
+ * inhfritbblf, bnd <i>A</i> is prfsfnt on thf supfrdlbss of <i>E</i>.
+ *
+ * </ul>
+ *
+ * <li>An bnnotbtion <i>A</i> is <fm>bssodibtfd</fm> with bn flfmfnt <i>E</i>
+ * if fithfr:
+ *
+ * <ul>
+ *
+ * <li><i>A</i> is dirfdtly or indirfdtly prfsfnt on <i>E</i>; or
+ *
+ * <li>No bnnotbtion of <i>A</i> 's typf is dirfdtly or indirfdtly
+ * prfsfnt on <i>E</i>, bnd <i>E</i> is b dlbss, bnd <i>A</i>'s typf
+ * is inhfritbblf, bnd <i>A</i> is bssodibtfd with thf supfrdlbss of
+ * <i>E</i>.
+ *
+ * </ul>
+ *
+ * </ul>
+ *
+ * <p>Thf tbblf bflow summbrizfs whidh kind of bnnotbtion prfsfndf
+ * difffrfnt mfthods in this intfrfbdf fxbminf.
+ *
+ * <tbblf bordfr>
+ * <dbption>Ovfrvifw of kind of prfsfndf dftfdtfd by difffrfnt AnnotbtfdElfmfnt mfthods</dbption>
+ * <tr><th dolspbn=2></th><th dolspbn=4>Kind of Prfsfndf</th>
+ * <tr><th dolspbn=2>Mfthod</th><th>Dirfdtly Prfsfnt</th><th>Indirfdtly Prfsfnt</th><th>Prfsfnt</th><th>Assodibtfd</th>
+ * <tr><td blign=right>{@dodf T}</td><td>{@link #gftAnnotbtion(Clbss) gftAnnotbtion(Clbss&lt;T&gt;)}
+ * <td></td><td></td><td>X</td><td></td>
+ * </tr>
+ * <tr><td blign=right>{@dodf Annotbtion[]}</td><td>{@link #gftAnnotbtions gftAnnotbtions()}
+ * <td></td><td></td><td>X</td><td></td>
+ * </tr>
+ * <tr><td blign=right>{@dodf T[]}</td><td>{@link #gftAnnotbtionsByTypf(Clbss) gftAnnotbtionsByTypf(Clbss&lt;T&gt;)}
+ * <td></td><td></td><td></td><td>X</td>
+ * </tr>
+ * <tr><td blign=right>{@dodf T}</td><td>{@link #gftDfdlbrfdAnnotbtion(Clbss) gftDfdlbrfdAnnotbtion(Clbss&lt;T&gt;)}
+ * <td>X</td><td></td><td></td><td></td>
+ * </tr>
+ * <tr><td blign=right>{@dodf Annotbtion[]}</td><td>{@link #gftDfdlbrfdAnnotbtions gftDfdlbrfdAnnotbtions()}
+ * <td>X</td><td></td><td></td><td></td>
+ * </tr>
+ * <tr><td blign=right>{@dodf T[]}</td><td>{@link #gftDfdlbrfdAnnotbtionsByTypf(Clbss) gftDfdlbrfdAnnotbtionsByTypf(Clbss&lt;T&gt;)}
+ * <td>X</td><td>X</td><td></td><td></td>
+ * </tr>
+ * </tbblf>
+ *
+ * <p>For bn invodbtion of {@dodf gft[Dfdlbrfd]AnnotbtionsByTypf( Clbss <
+ * T >)}, thf ordfr of bnnotbtions whidh brf dirfdtly or indirfdtly
+ * prfsfnt on bn flfmfnt <i>E</i> is domputfd bs if indirfdtly prfsfnt
+ * bnnotbtions on <i>E</i> brf dirfdtly prfsfnt on <i>E</i> in plbdf
+ * of thfir dontbinfr bnnotbtion, in thf ordfr in whidh thfy bppfbr in
+ * thf vbluf flfmfnt of thf dontbinfr bnnotbtion.
+ *
+ * <p>Thfrf brf sfvfrbl dompbtibility dondfrns to kffp in mind if bn
+ * bnnotbtion typf <i>T</i> is originblly <fm>not</fm> rfpfbtbblf bnd
+ * lbtfr modififd to bf rfpfbtbblf.
+ *
+ * Thf dontbining bnnotbtion typf for <i>T</i> is <i>TC</i>.
+ *
+ * <ul>
+ *
+ * <li>Modifying <i>T</i> to bf rfpfbtbblf is sourdf bnd binbry
+ * dompbtiblf with fxisting usfs of <i>T</i> bnd with fxisting usfs
+ * of <i>TC</i>.
+ *
+ * Thbt is, for sourdf dompbtibility, sourdf dodf with bnnotbtions of
+ * typf <i>T</i> or of typf <i>TC</i> will still dompilf. For binbry
+ * dompbtibility, dlbss filfs with bnnotbtions of typf <i>T</i> or of
+ * typf <i>TC</i> (or with othfr kinds of usfs of typf <i>T</i> or of
+ * typf <i>TC</i>) will link bgbinst thf modififd vfrsion of <i>T</i>
+ * if thfy linkfd bgbinst thf fbrlifr vfrsion.
+ *
+ * (An bnnotbtion typf <i>TC</i> mby informblly sfrvf bs bn bdting
+ * dontbining bnnotbtion typf bfforf <i>T</i> is modififd to bf
+ * formblly rfpfbtbblf. Altfrnbtivfly, whfn <i>T</i> is mbdf
+ * rfpfbtbblf, <i>TC</i> dbn bf introdudfd bs b nfw typf.)
+ *
+ * <li>If bn bnnotbtion typf <i>TC</i> is prfsfnt on bn flfmfnt, bnd
+ * <i>T</i> is modififd to bf rfpfbtbblf with <i>TC</i> bs its
+ * dontbining bnnotbtion typf thfn:
+ *
+ * <ul>
+ *
+ * <li>Thf dhbngf to <i>T</i> is bfhbviorblly dompbtiblf with rfspfdt
+ * to thf {@dodf gft[Dfdlbrfd]Annotbtion(Clbss<T>)} (dbllfd with bn
+ * brgumfnt of <i>T</i> or <i>TC</i>) bnd {@dodf
+ * gft[Dfdlbrfd]Annotbtions()} mfthods bfdbusf thf rfsults of thf
+ * mfthods will not dhbngf duf to <i>TC</i> bfdoming thf dontbining
+ * bnnotbtion typf for <i>T</i>.
+ *
+ * <li>Thf dhbngf to <i>T</i> dhbngfs thf rfsults of thf {@dodf
+ * gft[Dfdlbrfd]AnnotbtionsByTypf(Clbss<T>)} mfthods dbllfd with bn
+ * brgumfnt of <i>T</i>, bfdbusf thosf mfthods will now rfdognizf bn
+ * bnnotbtion of typf <i>TC</i> bs b dontbinfr bnnotbtion for <i>T</i>
+ * bnd will "look through" it to fxposf bnnotbtions of typf <i>T</i>.
+ *
+ * </ul>
+ *
+ * <li>If bn bnnotbtion of typf <i>T</i> is prfsfnt on bn
+ * flfmfnt bnd <i>T</i> is mbdf rfpfbtbblf bnd morf bnnotbtions of
+ * typf <i>T</i> brf bddfd to thf flfmfnt:
+ *
+ * <ul>
+ *
+ * <li> Thf bddition of thf bnnotbtions of typf <i>T</i> is both
+ * sourdf dompbtiblf bnd binbry dompbtiblf.
+ *
+ * <li>Thf bddition of thf bnnotbtions of typf <i>T</i> dhbngfs thf rfsults
+ * of thf {@dodf gft[Dfdlbrfd]Annotbtion(Clbss<T>)} mfthods bnd {@dodf
+ * gft[Dfdlbrfd]Annotbtions()} mfthods, bfdbusf thosf mfthods will now
+ * only sff b dontbinfr bnnotbtion on thf flfmfnt bnd not sff bn
+ * bnnotbtion of typf <i>T</i>.
+ *
+ * <li>Thf bddition of thf bnnotbtions of typf <i>T</i> dhbngfs thf
+ * rfsults of thf {@dodf gft[Dfdlbrfd]AnnotbtionsByTypf(Clbss<T>)}
+ * mfthods, bfdbusf thfir rfsults will fxposf thf bdditionbl
+ * bnnotbtions of typf <i>T</i> whfrfbs prfviously thfy fxposfd only b
+ * singlf bnnotbtion of typf <i>T</i>.
+ *
+ * </ul>
+ *
+ * </ul>
+ *
+ * <p>If bn bnnotbtion rfturnfd by b mfthod in this intfrfbdf dontbins
+ * (dirfdtly or indirfdtly) b {@link Clbss}-vblufd mfmbfr rfffrring to
+ * b dlbss thbt is not bddfssiblf in this VM, bttfmpting to rfbd thf dlbss
+ * by dblling thf rflfvbnt Clbss-rfturning mfthod on thf rfturnfd bnnotbtion
+ * will rfsult in b {@link TypfNotPrfsfntExdfption}.
+ *
+ * <p>Similbrly, bttfmpting to rfbd bn fnum-vblufd mfmbfr will rfsult in
+ * b {@link EnumConstbntNotPrfsfntExdfption} if thf fnum donstbnt in thf
+ * bnnotbtion is no longfr prfsfnt in thf fnum typf.
+ *
+ * <p>If bn bnnotbtion typf <i>T</i> is (mftb-)bnnotbtfd with bn
+ * {@dodf @Rfpfbtbblf} bnnotbtion whosf vbluf flfmfnt indidbtfs b typf
+ * <i>TC</i>, but <i>TC</i> dofs not dfdlbrf b {@dodf vbluf()} mfthod
+ * with b rfturn typf of <i>T</i>{@dodf []}, thfn bn fxdfption of typf
+ * {@link jbvb.lbng.bnnotbtion.AnnotbtionFormbtError} is thrown.
+ *
+ * <p>Finblly, bttfmpting to rfbd b mfmbfr whosf dffinition hbs fvolvfd
+ * indompbtibly will rfsult in b {@link
+ * jbvb.lbng.bnnotbtion.AnnotbtionTypfMismbtdhExdfption} or bn
+ * {@link jbvb.lbng.bnnotbtion.IndomplftfAnnotbtionExdfption}.
+ *
+ * @sff jbvb.lbng.EnumConstbntNotPrfsfntExdfption
+ * @sff jbvb.lbng.TypfNotPrfsfntExdfption
+ * @sff AnnotbtionFormbtError
+ * @sff jbvb.lbng.bnnotbtion.AnnotbtionTypfMismbtdhExdfption
+ * @sff jbvb.lbng.bnnotbtion.IndomplftfAnnotbtionExdfption
+ * @sindf 1.5
+ * @buthor Josh Blodh
+ */
+publid intfrfbdf AnnotbtfdElfmfnt {
+    /**
+     * Rfturns truf if bn bnnotbtion for thf spfdififd typf
+     * is <fm>prfsfnt</fm> on this flfmfnt, flsf fblsf.  This mfthod
+     * is dfsignfd primbrily for donvfnifnt bddfss to mbrkfr bnnotbtions.
+     *
+     * <p>Thf truth vbluf rfturnfd by this mfthod is fquivblfnt to:
+     * {@dodf gftAnnotbtion(bnnotbtionClbss) != null}
+     *
+     * <p>Thf body of thf dffbult mfthod is spfdififd to bf thf dodf
+     * bbovf.
+     *
+     * @pbrbm bnnotbtionClbss thf Clbss objfdt dorrfsponding to thf
+     *        bnnotbtion typf
+     * @rfturn truf if bn bnnotbtion for thf spfdififd bnnotbtion
+     *     typf is prfsfnt on this flfmfnt, flsf fblsf
+     * @throws NullPointfrExdfption if thf givfn bnnotbtion dlbss is null
+     * @sindf 1.5
+     */
+    dffbult boolfbn isAnnotbtionPrfsfnt(Clbss<? fxtfnds Annotbtion> bnnotbtionClbss) {
+        rfturn gftAnnotbtion(bnnotbtionClbss) != null;
+    }
+
+   /**
+     * Rfturns this flfmfnt's bnnotbtion for thf spfdififd typf if
+     * sudh bn bnnotbtion is <fm>prfsfnt</fm>, flsf null.
+     *
+     * @pbrbm <T> thf typf of thf bnnotbtion to qufry for bnd rfturn if prfsfnt
+     * @pbrbm bnnotbtionClbss thf Clbss objfdt dorrfsponding to thf
+     *        bnnotbtion typf
+     * @rfturn this flfmfnt's bnnotbtion for thf spfdififd bnnotbtion typf if
+     *     prfsfnt on this flfmfnt, flsf null
+     * @throws NullPointfrExdfption if thf givfn bnnotbtion dlbss is null
+     * @sindf 1.5
+     */
+    <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss);
+
+    /**
+     * Rfturns bnnotbtions thbt brf <fm>prfsfnt</fm> on this flfmfnt.
+     *
+     * If thfrf brf no bnnotbtions <fm>prfsfnt</fm> on this flfmfnt, thf rfturn
+     * vbluf is bn brrby of lfngth 0.
+     *
+     * Thf dbllfr of this mfthod is frff to modify thf rfturnfd brrby; it will
+     * hbvf no ffffdt on thf brrbys rfturnfd to othfr dbllfrs.
+     *
+     * @rfturn bnnotbtions prfsfnt on this flfmfnt
+     * @sindf 1.5
+     */
+    Annotbtion[] gftAnnotbtions();
+
+    /**
+     * Rfturns bnnotbtions thbt brf <fm>bssodibtfd</fm> with this flfmfnt.
+     *
+     * If thfrf brf no bnnotbtions <fm>bssodibtfd</fm> with this flfmfnt, thf rfturn
+     * vbluf is bn brrby of lfngth 0.
+     *
+     * Thf difffrfndf bftwffn this mfthod bnd {@link #gftAnnotbtion(Clbss)}
+     * is thbt this mfthod dftfdts if its brgumfnt is b <fm>rfpfbtbblf
+     * bnnotbtion typf</fm> (JLS 9.6), bnd if so, bttfmpts to find onf or
+     * morf bnnotbtions of thbt typf by "looking through" b dontbinfr
+     * bnnotbtion.
+     *
+     * Thf dbllfr of this mfthod is frff to modify thf rfturnfd brrby; it will
+     * hbvf no ffffdt on thf brrbys rfturnfd to othfr dbllfrs.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion first dblls {@link
+     * #gftDfdlbrfdAnnotbtionsByTypf(Clbss)} pbssing {@dodf
+     * bnnotbtionClbss} bs thf brgumfnt. If thf rfturnfd brrby hbs
+     * lfngth grfbtfr thbn zfro, thf brrby is rfturnfd. If thf rfturnfd
+     * brrby is zfro-lfngth bnd this {@dodf AnnotbtfdElfmfnt} is b
+     * dlbss bnd thf brgumfnt typf is bn inhfritbblf bnnotbtion typf,
+     * bnd thf supfrdlbss of this {@dodf AnnotbtfdElfmfnt} is non-null,
+     * thfn thf rfturnfd rfsult is thf rfsult of dblling {@link
+     * #gftAnnotbtionsByTypf(Clbss)} on thf supfrdlbss with {@dodf
+     * bnnotbtionClbss} bs thf brgumfnt. Othfrwisf, b zfro-lfngth
+     * brrby is rfturnfd.
+     *
+     * @pbrbm <T> thf typf of thf bnnotbtion to qufry for bnd rfturn if prfsfnt
+     * @pbrbm bnnotbtionClbss thf Clbss objfdt dorrfsponding to thf
+     *        bnnotbtion typf
+     * @rfturn bll this flfmfnt's bnnotbtions for thf spfdififd bnnotbtion typf if
+     *     bssodibtfd with this flfmfnt, flsf bn brrby of lfngth zfro
+     * @throws NullPointfrExdfption if thf givfn bnnotbtion dlbss is null
+     * @sindf 1.8
+     */
+    dffbult <T fxtfnds Annotbtion> T[] gftAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+         /*
+          * Dffinition of bssodibtfd: dirfdtly or indirfdtly prfsfnt OR
+          * nfithfr dirfdtly nor indirfdtly prfsfnt AND thf flfmfnt is
+          * b Clbss, thf bnnotbtion typf is inhfritbblf, bnd thf
+          * bnnotbtion typf is bssodibtfd with thf supfrdlbss of thf
+          * flfmfnt.
+          */
+         T[] rfsult = gftDfdlbrfdAnnotbtionsByTypf(bnnotbtionClbss);
+
+         if (rfsult.lfngth == 0 && // Nfithfr dirfdtly nor indirfdtly prfsfnt
+             this instbndfof Clbss && // thf flfmfnt is b dlbss
+             AnnotbtionTypf.gftInstbndf(bnnotbtionClbss).isInhfritfd()) { // Inhfritbblf
+             Clbss<?> supfrClbss = ((Clbss<?>) this).gftSupfrdlbss();
+             if (supfrClbss != null) {
+                 // Dftfrminf if thf bnnotbtion is bssodibtfd with thf
+                 // supfrdlbss
+                 rfsult = supfrClbss.gftAnnotbtionsByTypf(bnnotbtionClbss);
+             }
+         }
+
+         rfturn rfsult;
+     }
+
+    /**
+     * Rfturns this flfmfnt's bnnotbtion for thf spfdififd typf if
+     * sudh bn bnnotbtion is <fm>dirfdtly prfsfnt</fm>, flsf null.
+     *
+     * This mfthod ignorfs inhfritfd bnnotbtions. (Rfturns null if no
+     * bnnotbtions brf dirfdtly prfsfnt on this flfmfnt.)
+     *
+     * @implSpfd Thf dffbult implfmfntbtion first pfrforms b null dhfdk
+     * bnd thfn loops ovfr thf rfsults of {@link
+     * #gftDfdlbrfdAnnotbtions} rfturning thf first bnnotbtion whosf
+     * bnnotbtion typf mbtdhfs thf brgumfnt typf.
+     *
+     * @pbrbm <T> thf typf of thf bnnotbtion to qufry for bnd rfturn if dirfdtly prfsfnt
+     * @pbrbm bnnotbtionClbss thf Clbss objfdt dorrfsponding to thf
+     *        bnnotbtion typf
+     * @rfturn this flfmfnt's bnnotbtion for thf spfdififd bnnotbtion typf if
+     *     dirfdtly prfsfnt on this flfmfnt, flsf null
+     * @throws NullPointfrExdfption if thf givfn bnnotbtion dlbss is null
+     * @sindf 1.8
+     */
+    dffbult <T fxtfnds Annotbtion> T gftDfdlbrfdAnnotbtion(Clbss<T> bnnotbtionClbss) {
+         Objfdts.rfquirfNonNull(bnnotbtionClbss);
+         // Loop ovfr bll dirfdtly-prfsfnt bnnotbtions looking for b mbtdhing onf
+         for (Annotbtion bnnotbtion : gftDfdlbrfdAnnotbtions()) {
+             if (bnnotbtionClbss.fqubls(bnnotbtion.bnnotbtionTypf())) {
+                 // Morf robust to do b dynbmid dbst bt runtimf instfbd
+                 // of dompilf-timf only.
+                 rfturn bnnotbtionClbss.dbst(bnnotbtion);
+             }
+         }
+         rfturn null;
+     }
+
+    /**
+     * Rfturns this flfmfnt's bnnotbtion(s) for thf spfdififd typf if
+     * sudh bnnotbtions brf fithfr <fm>dirfdtly prfsfnt</fm> or
+     * <fm>indirfdtly prfsfnt</fm>. This mfthod ignorfs inhfritfd
+     * bnnotbtions.
+     *
+     * If thfrf brf no spfdififd bnnotbtions dirfdtly or indirfdtly
+     * prfsfnt on this flfmfnt, thf rfturn vbluf is bn brrby of lfngth
+     * 0.
+     *
+     * Thf difffrfndf bftwffn this mfthod bnd {@link
+     * #gftDfdlbrfdAnnotbtion(Clbss)} is thbt this mfthod dftfdts if its
+     * brgumfnt is b <fm>rfpfbtbblf bnnotbtion typf</fm> (JLS 9.6), bnd if so,
+     * bttfmpts to find onf or morf bnnotbtions of thbt typf by "looking
+     * through" b dontbinfr bnnotbtion if onf is prfsfnt.
+     *
+     * Thf dbllfr of this mfthod is frff to modify thf rfturnfd brrby; it will
+     * hbvf no ffffdt on thf brrbys rfturnfd to othfr dbllfrs.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion mby dbll {@link
+     * #gftDfdlbrfdAnnotbtion(Clbss)} onf or morf timfs to find b
+     * dirfdtly prfsfnt bnnotbtion bnd, if thf bnnotbtion typf is
+     * rfpfbtbblf, to find b dontbinfr bnnotbtion. If bnnotbtions of
+     * thf bnnotbtion typf {@dodf bnnotbtionClbss} brf found to bf both
+     * dirfdtly bnd indirfdtly prfsfnt, thfn {@link
+     * #gftDfdlbrfdAnnotbtions()} will gft dbllfd to dftfrminf thf
+     * ordfr of thf flfmfnts in thf rfturnfd brrby.
+     *
+     * <p>Altfrnbtivfly, thf dffbult implfmfntbtion mby dbll {@link
+     * #gftDfdlbrfdAnnotbtions()} b singlf timf bnd thf rfturnfd brrby
+     * fxbminfd for both dirfdtly bnd indirfdtly prfsfnt
+     * bnnotbtions. Thf rfsults of dblling {@link
+     * #gftDfdlbrfdAnnotbtions()} brf bssumfd to bf donsistfnt with thf
+     * rfsults of dblling {@link #gftDfdlbrfdAnnotbtion(Clbss)}.
+     *
+     * @pbrbm <T> thf typf of thf bnnotbtion to qufry for bnd rfturn
+     * if dirfdtly or indirfdtly prfsfnt
+     * @pbrbm bnnotbtionClbss thf Clbss objfdt dorrfsponding to thf
+     *        bnnotbtion typf
+     * @rfturn bll this flfmfnt's bnnotbtions for thf spfdififd bnnotbtion typf if
+     *     dirfdtly or indirfdtly prfsfnt on this flfmfnt, flsf bn brrby of lfngth zfro
+     * @throws NullPointfrExdfption if thf givfn bnnotbtion dlbss is null
+     * @sindf 1.8
+     */
+    dffbult <T fxtfnds Annotbtion> T[] gftDfdlbrfdAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
+        rfturn AnnotbtionSupport.
+            gftDirfdtlyAndIndirfdtlyPrfsfnt(Arrbys.strfbm(gftDfdlbrfdAnnotbtions()).
+                                            dollfdt(Collfdtors.toMbp(Annotbtion::bnnotbtionTypf,
+                                                                     Fundtion.idfntity(),
+                                                                     ((first,sfdond) -> first),
+                                                                     LinkfdHbshMbp::nfw)),
+                                            bnnotbtionClbss);
+    }
+
+    /**
+     * Rfturns bnnotbtions thbt brf <fm>dirfdtly prfsfnt</fm> on this flfmfnt.
+     * This mfthod ignorfs inhfritfd bnnotbtions.
+     *
+     * If thfrf brf no bnnotbtions <fm>dirfdtly prfsfnt</fm> on this flfmfnt,
+     * thf rfturn vbluf is bn brrby of lfngth 0.
+     *
+     * Thf dbllfr of this mfthod is frff to modify thf rfturnfd brrby; it will
+     * hbvf no ffffdt on thf brrbys rfturnfd to othfr dbllfrs.
+     *
+     * @rfturn bnnotbtions dirfdtly prfsfnt on this flfmfnt
+     * @sindf 1.5
+     */
+    Annotbtion[] gftDfdlbrfdAnnotbtions();
+}

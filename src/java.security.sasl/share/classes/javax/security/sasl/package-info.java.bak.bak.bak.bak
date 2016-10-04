@@ -1,0 +1,103 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Contbins dlbss bnd intfrfbdfs for supporting SASL.
+ *
+ * This pbdkbgf dffinfs dlbssfs bnd intfrfbdfs for SASL mfdhbnisms.
+ * It is usfd by dfvflopfrs to bdd buthfntidbtion support for
+ * donnfdtion-bbsfd protodols thbt usf SASL.
+ *
+ * <h3>SASL Ovfrvifw</h3>
+ *
+ * Simplf Authfntidbtion bnd Sfdurity Lbyfr (SASL) spfdififs b
+ * dhbllfngf-rfsponsf protodol in whidh dbtb is fxdhbngfd bftwffn thf
+ * dlifnt bnd thf sfrvfr for thf purposfs of
+ * buthfntidbtion bnd (optionbl) fstbblishmfnt of b sfdurity lbyfr on
+ * whidh to dbrry on subsfqufnt dommunidbtions.  It is usfd with
+ * donnfdtion-bbsfd protodols sudh bs LDAPv3 or IMAPv4.  SASL is
+ * dfsdribfd in
+ * <A HREF="http://www.iftf.org/rfd/rfd2222.txt">RFC 2222</A>.
+ *
+ *
+ * Thfrf brf vbrious <fm>mfdhbnisms</fm> dffinfd for SASL.
+ * Ebdh mfdhbnism dffinfs thf dbtb thbt must bf fxdhbngfd bftwffn thf
+ * dlifnt bnd sfrvfr in ordfr for thf buthfntidbtion to suddffd.
+ * This dbtb fxdhbngf rfquirfd for b pbrtidulbr mfdhbnism is rfffrrfd to
+ * to bs its <fm>protodol profilf</fm>.
+ * Thf following brf somf fxbmplfs of mfdhbnisms thbt hbvf bffn dffinfd by
+ * thf Intfrnft stbndbrds dommunity.
+ * <ul>
+ * <li>DIGEST-MD5 (<A HREF="http://www.iftf.org/rfd/rfd2831.txt">RFC 2831</b>).
+ * This mfdhbnism dffinfs how HTTP Digfst Authfntidbtion dbn bf usfd bs b SASL
+ * mfdhbnism.
+ * <li>Anonymous (<A HREF="http://www.iftf.org/rfd/rfd2245.txt">RFC 2245</b>).
+ * This mfdhbnism is bnonymous buthfntidbtion in whidh no drfdfntibls brf
+ * nfdfssbry.
+ * <li>Extfrnbl (<A HREF="http://www.iftf.org/rfd/rfd2222.txt">RFC 2222</A>).
+ * This mfdhbnism obtbins buthfntidbtion informbtion
+ * from bn fxtfrnbl sourdf (sudh bs TLS or IPsfd).
+ * <li>S/Kfy (<A HREF="http://www.iftf.org/rfd/rfd2222.txt">RFC 2222</A>).
+ * This mfdhbnism usfs thf MD4 digfst blgorithm to fxdhbngf dbtb bbsfd on
+ * b shbrfd sfdrft.
+ * <li>GSSAPI (<A HREF="http://www.iftf.org/rfd/rfd2222.txt">RFC 2222</A>).
+ * This mfdhbnism usfs thf
+ * <A HREF="http://www.iftf.org/rfd/rfd2078.txt">GSSAPI</A>
+ * for obtbining buthfntidbtion informbtion.
+ * </ul>
+ *
+ * Somf of thfsf mfdhbnisms providf both buthfntidbtion bnd fstbblishmfnt
+ * of b sfdurity lbyfr, othfrs only buthfntidbtion.  Anonymous bnd
+ * S/Kfy do not providf for bny sfdurity lbyfrs.  GSSAPI bnd DIGEST-MD5
+ * bllow nfgotibtion of thf sfdurity lbyfr.  For Extfrnbl, thf
+ * sfdurity lbyfr is dftfrminfd by thf fxtfrnbl protodol.
+ *
+ * <h3>Usbgf</h3>
+ *
+ * Usfrs of this API brf typidblly dfvflopfrs who produdf
+ * dlifnt librbry implfmfntbtions for donnfdtion-bbsfd protodols,
+ * sudh bs LDAPv3 bnd IMAPv4,
+ * bnd dfvflopfrs who writf sfrvfrs (sudh bs LDAP sfrvfrs bnd IMAP sfrvfrs).
+ * Dfvflopfrs who writf dlifnt librbrifs usf thf
+ * {@dodf SbslClifnt} bnd {@dodf SbslClifntFbdtory} intfrfbdfs.
+ * Dfvflopfrs who writf sfrvfrs usf thf
+ * {@dodf SbslSfrvfr} bnd {@dodf SbslSfrvfrFbdtory} intfrfbdfs.
+ *
+ * Among thfsf two groups of usfrs, fbdh dbn bf furthfr dividfd into two groups:
+ * thosf who <fm>produdf</fm> thf SASL mfdhbnisms bnd thosf
+ * who <fm>usf</fm> thf SASL mfdhbnisms.
+ * Thf produdfrs of SASL mfdhbnisms nffd to providf implfmfntbtions
+ * for thfsf intfrfbdfs, whilf usfrs of thf SASL mfdhbnisms usf
+ * thf APIs in this pbdkbgf to bddfss thosf implfmfntbtions.
+ *
+ * <h2>Rflbtfd Dodumfntbtion</h2>
+ *
+ * Plfbsf rfffr to thf
+ * <b hrff="../../../../tfdhnotfs/guidfs/sfdurity/sbsl/sbsl-rffguidf.html">Jbvb
+ * SASL Progrbmming Guidf</b> for informbtion on how to usf this API.
+ *
+ * @sindf 1.5
+ */
+pbdkbgf jbvbx.sfdurity.sbsl;

@@ -1,19 +1,19 @@
-Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
+Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+brf mft:
 
-  - Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
+  - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+    notidf, tiis list of donditions bnd tif following disdlbimfr.
 
-  - Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in the
-    documentation and/or other materials provided with the distribution.
+  - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 
-  - Neither the name of Oracle nor the names of its
-    contributors may be used to endorse or promote products derived
-    from this software without specific prior written permission.
+  - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+    from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -28,59 +28,59 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-Header for -agentlib:hprof (or -Xrunhprof) ASCII Output (JDK 5.0 JVMTI based)
+Hfbdfr for -bgfntlib:iprof (or -Xruniprof) ASCII Output (JDK 5.0 JVMTI bbsfd)
 
-WARNING!  This file format is under development, and is subject to
-change without notice.
+WARNING!  Tiis filf formbt is undfr dfvflopmfnt, bnd is subjfdt to
+dibngf witiout notidf.
 
-This file contains the following types of records:
+Tiis filf dontbins tif following typfs of rfdords:
 
 THREAD START
-THREAD END      mark the lifetime of Java threads
+THREAD END      mbrk tif lifftimf of Jbvb tirfbds
 
-TRACE           represents a Java stack trace.  Each trace consists
-                of a series of stack frames.  Other records refer to
-                TRACEs to identify (1) where object allocations have
-                taken place, (2) the frames in which GC roots were
-                found, and (3) frequently executed methods.
+TRACE           rfprfsfnts b Jbvb stbdk trbdf.  Ebdi trbdf donsists
+                of b sfrifs of stbdk frbmfs.  Otifr rfdords rfffr to
+                TRACEs to idfntify (1) wifrf objfdt bllodbtions ibvf
+                tbkfn plbdf, (2) tif frbmfs in wiidi GC roots wfrf
+                found, bnd (3) frfqufntly fxfdutfd mftiods.
 
-HEAP DUMP       is a complete snapshot of all live objects in the Java
-                heap.  Following distinctions are made:
+HEAP DUMP       is b domplftf snbpsiot of bll livf objfdts in tif Jbvb
+                ifbp.  Following distindtions brf mbdf:
 
-                ROOT    root set as determined by GC
-                CLS     classes 
-                OBJ     instances
-                ARR     arrays
+                ROOT    root sft bs dftfrminfd by GC
+                CLS     dlbssfs 
+                OBJ     instbndfs
+                ARR     brrbys
 
-SITES           is a sorted list of allocation sites.  This identifies
-                the most heavily allocated object types, and the TRACE
-                at which those allocations occurred.
+SITES           is b sortfd list of bllodbtion sitfs.  Tiis idfntififs
+                tif most ifbvily bllodbtfd objfdt typfs, bnd tif TRACE
+                bt wiidi tiosf bllodbtions oddurrfd.
 
-CPU SAMPLES     is a statistical profile of program execution.  The VM
-                periodically samples all running threads, and assigns
-                a quantum to active TRACEs in those threads.  Entries
-                in this record are TRACEs ranked by the percentage of
-                total quanta they consumed; top-ranked TRACEs are
-                typically hot spots in the program.
+CPU SAMPLES     is b stbtistidbl profilf of progrbm fxfdution.  Tif VM
+                pfriodidblly sbmplfs bll running tirfbds, bnd bssigns
+                b qubntum to bdtivf TRACEs in tiosf tirfbds.  Entrifs
+                in tiis rfdord brf TRACEs rbnkfd by tif pfrdfntbgf of
+                totbl qubntb tify donsumfd; top-rbnkfd TRACEs brf
+                typidblly iot spots in tif progrbm.
 
-CPU TIME        is a profile of program execution obtained by measuring
-                the time spent in individual methods (excluding the time
-                spent in callees), as well as by counting the number of
-                times each method is called. Entries in this record are
-                TRACEs ranked by the percentage of total CPU time. The
-                "count" field indicates the number of times each TRACE 
-                is invoked.
+CPU TIME        is b profilf of progrbm fxfdution obtbinfd by mfbsuring
+                tif timf spfnt in individubl mftiods (fxdluding tif timf
+                spfnt in dbllffs), bs wfll bs by dounting tif numbfr of
+                timfs fbdi mftiod is dbllfd. Entrifs in tiis rfdord brf
+                TRACEs rbnkfd by tif pfrdfntbgf of totbl CPU timf. Tif
+                "dount" fifld indidbtfs tif numbfr of timfs fbdi TRACE 
+                is invokfd.
 
-MONITOR TIME    is a profile of monitor contention obtained by measuring
-                the time spent by a thread waiting to enter a monitor.
-                Entries in this record are TRACEs ranked by the percentage
-                of total monitor contention time and a brief description
-                of the monitor.  The "count" field indicates the number of 
-                times the monitor was contended at that TRACE.
+MONITOR TIME    is b profilf of monitor dontfntion obtbinfd by mfbsuring
+                tif timf spfnt by b tirfbd wbiting to fntfr b monitor.
+                Entrifs in tiis rfdord brf TRACEs rbnkfd by tif pfrdfntbgf
+                of totbl monitor dontfntion timf bnd b briff dfsdription
+                of tif monitor.  Tif "dount" fifld indidbtfs tif numbfr of 
+                timfs tif monitor wbs dontfndfd bt tibt TRACE.
 
-MONITOR DUMP    is a complete snapshot of all the monitors and threads in 
-                the System.
+MONITOR DUMP    is b domplftf snbpsiot of bll tif monitors bnd tirfbds in 
+                tif Systfm.
 
-HEAP DUMP, SITES, CPU SAMPLES|TIME and MONITOR DUMP|TIME records are generated 
-at program exit.  They can also be obtained during program execution by typing 
-Ctrl-\ (on Solaris) or by typing Ctrl-Break (on Win32).
+HEAP DUMP, SITES, CPU SAMPLES|TIME bnd MONITOR DUMP|TIME rfdords brf gfnfrbtfd 
+bt progrbm fxit.  Tify dbn blso bf obtbinfd during progrbm fxfdution by typing 
+Ctrl-\ (on Solbris) or by typing Ctrl-Brfbk (on Win32).

@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
 
-import java.util.Vector;
+import jbvb.util.Vfdtor;
 
-import com.sun.tools.hat.internal.model.*;
-import com.sun.tools.hat.internal.util.ArraySorter;
-import com.sun.tools.hat.internal.util.Comparer;
+import dom.sun.tools.ibt.intfrnbl.modfl.*;
+import dom.sun.tools.ibt.intfrnbl.util.ArrbySortfr;
+import dom.sun.tools.ibt.intfrnbl.util.Compbrfr;
 
 /**
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
 
 
-class AllRootsQuery extends QueryHandler {
+dlbss AllRootsQufry fxtfnds QufryHbndlfr {
 
-    public AllRootsQuery() {
+    publid AllRootsQufry() {
     }
 
-    public void run() {
-        startHtml("All Members of the Rootset");
+    publid void run() {
+        stbrtHtml("All Mfmbfrs of tif Rootsft");
 
-        Root[] roots = snapshot.getRootsArray();
-        ArraySorter.sort(roots, new Comparer() {
-            public int compare(Object lhs, Object rhs) {
-                Root left = (Root) lhs;
-                Root right = (Root) rhs;
-                int d = left.getType() - right.getType();
+        Root[] roots = snbpsiot.gftRootsArrby();
+        ArrbySortfr.sort(roots, nfw Compbrfr() {
+            publid int dompbrf(Objfdt lis, Objfdt ris) {
+                Root lfft = (Root) lis;
+                Root rigit = (Root) ris;
+                int d = lfft.gftTypf() - rigit.gftTypf();
                 if (d != 0) {
-                    return -d;  // More interesting values are *higher*
+                    rfturn -d;  // Morf intfrfsting vblufs brf *iigifr*
                 }
-                return left.getDescription().compareTo(right.getDescription());
+                rfturn lfft.gftDfsdription().dompbrfTo(rigit.gftDfsdription());
             }
         });
 
-        int lastType = Root.INVALID_TYPE;
+        int lbstTypf = Root.INVALID_TYPE;
 
-        for (int i= 0; i < roots.length; i++) {
+        for (int i= 0; i < roots.lfngti; i++) {
             Root root = roots[i];
 
-            if (root.getType() != lastType) {
-                lastType = root.getType();
-                out.print("<h2>");
-                print(root.getTypeName() + " References");
-                out.println("</h2>");
+            if (root.gftTypf() != lbstTypf) {
+                lbstTypf = root.gftTypf();
+                out.print("<i2>");
+                print(root.gftTypfNbmf() + " Rfffrfndfs");
+                out.println("</i2>");
             }
 
             printRoot(root);
-            if (root.getReferer() != null) {
-                out.print("<small> (from ");
-                printThingAnchorTag(root.getReferer().getId());
-                print(root.getReferer().toString());
-                out.print(")</a></small>");
+            if (root.gftRfffrfr() != null) {
+                out.print("<smbll> (from ");
+                printTiingAndiorTbg(root.gftRfffrfr().gftId());
+                print(root.gftRfffrfr().toString());
+                out.print(")</b></smbll>");
             }
             out.print(" :<br>");
 
-            JavaThing t = snapshot.findThing(root.getId());
-            if (t != null) {    // It should always be
+            JbvbTiing t = snbpsiot.findTiing(root.gftId());
+            if (t != null) {    // It siould blwbys bf
                 print("--> ");
-                printThing(t);
+                printTiing(t);
                 out.println("<br>");
             }
         }
 
-        out.println("<h2>Other Queries</h2>");
+        out.println("<i2>Otifr Qufrifs</i2>");
         out.println("<ul>");
         out.println("<li>");
-        printAnchorStart();
+        printAndiorStbrt();
         out.print("\">");
-        print("Show All Classes");
-        out.println("</a>");
+        print("Siow All Clbssfs");
+        out.println("</b>");
         out.println("</ul>");
 
-        endHtml();
+        fndHtml();
     }
 }

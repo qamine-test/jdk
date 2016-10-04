@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+
+
+// jbvb import
+//
+
+
+// jmx import
+//
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
+
+
+/**
+ * <p>Dfsdribfs b donstrudtor of bn Opfn MBfbn.</p>
+ *
+ * <p>This intfrfbdf dfdlbrfs thf sbmf mfthods bs thf dlbss {@link
+ * jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo}.  A dlbss implfmfnting this
+ * intfrfbdf (typidblly {@link OpfnMBfbnConstrudtorInfoSupport})
+ * should fxtfnd {@link jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo}.</p>
+ *
+ * <p>Thf {@link #gftSignbturf()} mfthod should rfturn bt runtimf bn
+ * brrby of instbndfs of b subdlbss of {@link MBfbnPbrbmftfrInfo}
+ * whidh implfmfnts thf {@link OpfnMBfbnPbrbmftfrInfo} intfrfbdf
+ * (typidblly {@link OpfnMBfbnPbrbmftfrInfoSupport}).</p>
+ *
+ *
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf OpfnMBfbnConstrudtorInfo {
+
+    // Rf-dfdlbrfs thf mfthods thbt brf in dlbss MBfbnConstrudtorInfo of JMX 1.0
+    // (mfthods will bf rfmovfd whfn MBfbnConstrudtorInfo is mbdf b pbrfnt intfrfbdf of this intfrfbdf)
+
+    /**
+     * Rfturns b humbn rfbdbblf dfsdription of thf donstrudtor
+     * dfsdribfd by this <tt>OpfnMBfbnConstrudtorInfo</tt> instbndf.
+     *
+     * @rfturn thf dfsdription.
+     */
+    publid String gftDfsdription() ;
+
+    /**
+     * Rfturns thf nbmf of thf donstrudtor
+     * dfsdribfd by this <tt>OpfnMBfbnConstrudtorInfo</tt> instbndf.
+     *
+     * @rfturn thf nbmf.
+     */
+    publid String gftNbmf() ;
+
+    /**
+     * Rfturns bn brrby of <tt>OpfnMBfbnPbrbmftfrInfo</tt> instbndfs
+     * dfsdribing fbdh pbrbmftfr in thf signbturf of thf donstrudtor
+     * dfsdribfd by this <tt>OpfnMBfbnConstrudtorInfo</tt> instbndf.
+     *
+     * @rfturn thf signbturf.
+     */
+    publid MBfbnPbrbmftfrInfo[] gftSignbturf() ;
+
+
+    // dommodity mfthods
+    //
+
+    /**
+     * Compbrfs thf spfdififd <vbr>obj</vbr> pbrbmftfr with this <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf for fqublity.
+     * <p>
+     * Rfturns <tt>truf</tt> if bnd only if bll of thf following stbtfmfnts brf truf:
+     * <ul>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implfmfnts thf <dodf>OpfnMBfbnConstrudtorInfo</dodf> intfrfbdf,</li>
+     * <li>thfir nbmfs brf fqubl</li>
+     * <li>thfir signbturfs brf fqubl.</li>
+     * </ul>
+     * This fnsurfs thbt this <tt>fqubls</tt> mfthod works propfrly for <vbr>obj</vbr> pbrbmftfrs whidh brf
+     * difffrfnt implfmfntbtions of thf <dodf>OpfnMBfbnConstrudtorInfo</dodf> intfrfbdf.
+     * <br>&nbsp;
+     * @pbrbm  obj  thf objfdt to bf dompbrfd for fqublity with this <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf;
+     *
+     * @rfturn  <dodf>truf</dodf> if thf spfdififd objfdt is fqubl to this <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf.
+     */
+    publid boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf.
+     * <p>
+     * Thf hbsh dodf of bn <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf is thf sum of thf hbsh dodfs
+     * of bll flfmfnts of informbtion usfd in <dodf>fqubls</dodf> dompbrisons
+     * (if: its nbmf bnd signbturf, whfrf thf signbturf hbshCodf is dbldulbtfd by b dbll to
+     *  <tt>jbvb.util.Arrbys.bsList(this.gftSignbturf).hbshCodf()</tt>).
+     * <p>
+     * This fnsurfs thbt <dodf> t1.fqubls(t2) </dodf> implifs thbt <dodf> t1.hbshCodf()==t2.hbshCodf() </dodf>
+     * for bny two <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by thf gfnfrbl dontrbdt of thf mfthod
+     * {@link Objfdt#hbshCodf() Objfdt.hbshCodf()}.
+     *
+     * @rfturn  thf hbsh dodf vbluf for this <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf
+     */
+    publid int hbshCodf();
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf.
+     * <p>
+     * Thf string rfprfsfntbtion donsists of thf nbmf of this dlbss (if <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfo</dodf>),
+     * bnd thf nbmf bnd signbturf of thf dfsdribfd donstrudtor.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>OpfnMBfbnConstrudtorInfo</dodf> instbndf
+     */
+    publid String toString();
+
+}

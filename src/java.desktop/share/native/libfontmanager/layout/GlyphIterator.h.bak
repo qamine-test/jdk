@@ -1,135 +1,135 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __GLYPHITERATOR_H
-#define __GLYPHITERATOR_H
+#ifndff __GLYPHITERATOR_H
+#dffinf __GLYPHITERATOR_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "GlyphDefinitionTables.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "GlypiDffinitionTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-class LEGlyphStorage;
-class GlyphPositionAdjustments;
+dlbss LEGlypiStorbgf;
+dlbss GlypiPositionAdjustmfnts;
 
-class GlyphIterator : public UMemory {
-public:
-    GlyphIterator(LEGlyphStorage &theGlyphStorage, GlyphPositionAdjustments *theGlyphPositionAdjustments, le_bool rightToLeft, le_uint16 theLookupFlags,
-                  FeatureMask theFeatureMask, const LEReferenceTo<GlyphDefinitionTableHeader> &theGlyphDefinitionTableHeader, LEErrorCode &success);
+dlbss GlypiItfrbtor : publid UMfmory {
+publid:
+    GlypiItfrbtor(LEGlypiStorbgf &tifGlypiStorbgf, GlypiPositionAdjustmfnts *tifGlypiPositionAdjustmfnts, lf_bool rigitToLfft, lf_uint16 tifLookupFlbgs,
+                  FfbturfMbsk tifFfbturfMbsk, donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &tifGlypiDffinitionTbblfHfbdfr, LEErrorCodf &suddfss);
 
-    GlyphIterator(GlyphIterator &that);
+    GlypiItfrbtor(GlypiItfrbtor &tibt);
 
-    GlyphIterator(GlyphIterator &that, FeatureMask newFeatureMask);
+    GlypiItfrbtor(GlypiItfrbtor &tibt, FfbturfMbsk nfwFfbturfMbsk);
 
-    GlyphIterator(GlyphIterator &that, le_uint16 newLookupFlags);
+    GlypiItfrbtor(GlypiItfrbtor &tibt, lf_uint16 nfwLookupFlbgs);
 
-    virtual ~GlyphIterator();
+    virtubl ~GlypiItfrbtor();
 
-    void reset(le_uint16 newLookupFlags, LETag newFeatureTag);
+    void rfsft(lf_uint16 nfwLookupFlbgs, LETbg nfwFfbturfTbg);
 
-    le_bool next(le_uint32 delta = 1);
-    le_bool prev(le_uint32 delta = 1);
-    le_bool findFeatureTag();
+    lf_bool nfxt(lf_uint32 dfltb = 1);
+    lf_bool prfv(lf_uint32 dfltb = 1);
+    lf_bool findFfbturfTbg();
 
-    le_bool isRightToLeft() const;
-    le_bool ignoresMarks() const;
+    lf_bool isRigitToLfft() donst;
+    lf_bool ignorfsMbrks() donst;
 
-    le_bool baselineIsLogicalEnd() const;
+    lf_bool bbsflinfIsLogidblEnd() donst;
 
-    LEGlyphID getCurrGlyphID() const;
-    le_int32  getCurrStreamPosition() const;
+    LEGlypiID gftCurrGlypiID() donst;
+    lf_int32  gftCurrStrfbmPosition() donst;
 
-    le_int32  getMarkComponent(le_int32 markPosition) const;
-    le_bool   findMark2Glyph();
+    lf_int32  gftMbrkComponfnt(lf_int32 mbrkPosition) donst;
+    lf_bool   findMbrk2Glypi();
 
-    void getCursiveEntryPoint(LEPoint &entryPoint) const;
-    void getCursiveExitPoint(LEPoint &exitPoint) const;
+    void gftCursivfEntryPoint(LEPoint &fntryPoint) donst;
+    void gftCursivfExitPoint(LEPoint &fxitPoint) donst;
 
-    void setCurrGlyphID(TTGlyphID glyphID);
-    void setCurrStreamPosition(le_int32 position);
-    void setCurrGlyphBaseOffset(le_int32 baseOffset);
-    void adjustCurrGlyphPositionAdjustment(float xPlacementAdjust, float yPlacementAdjust,
-                                           float xAdvanceAdjust,   float yAdvanceAdjust);
+    void sftCurrGlypiID(TTGlypiID glypiID);
+    void sftCurrStrfbmPosition(lf_int32 position);
+    void sftCurrGlypiBbsfOffsft(lf_int32 bbsfOffsft);
+    void bdjustCurrGlypiPositionAdjustmfnt(flobt xPlbdfmfntAdjust, flobt yPlbdfmfntAdjust,
+                                           flobt xAdvbndfAdjust,   flobt yAdvbndfAdjust);
 
-    void setCurrGlyphPositionAdjustment(float xPlacementAdjust, float yPlacementAdjust,
-                                        float xAdvanceAdjust,   float yAdvanceAdjust);
+    void sftCurrGlypiPositionAdjustmfnt(flobt xPlbdfmfntAdjust, flobt yPlbdfmfntAdjust,
+                                        flobt xAdvbndfAdjust,   flobt yAdvbndfAdjust);
 
-    void clearCursiveEntryPoint();
-    void clearCursiveExitPoint();
-    void setCursiveEntryPoint(LEPoint &entryPoint);
-    void setCursiveExitPoint(LEPoint &exitPoint);
-    void setCursiveGlyph();
+    void dlfbrCursivfEntryPoint();
+    void dlfbrCursivfExitPoint();
+    void sftCursivfEntryPoint(LEPoint &fntryPoint);
+    void sftCursivfExitPoint(LEPoint &fxitPoint);
+    void sftCursivfGlypi();
 
-    LEGlyphID *insertGlyphs(le_int32 count, LEErrorCode& success);
-    le_int32 applyInsertions();
+    LEGlypiID *insfrtGlypis(lf_int32 dount, LEErrorCodf& suddfss);
+    lf_int32 bpplyInsfrtions();
 
-private:
-    le_bool filterGlyph(le_uint32 index);
-    le_bool hasFeatureTag(le_bool matchGroup) const;
-    le_bool nextInternal(le_uint32 delta = 1);
-    le_bool prevInternal(le_uint32 delta = 1);
+privbtf:
+    lf_bool filtfrGlypi(lf_uint32 indfx);
+    lf_bool ibsFfbturfTbg(lf_bool mbtdiGroup) donst;
+    lf_bool nfxtIntfrnbl(lf_uint32 dfltb = 1);
+    lf_bool prfvIntfrnbl(lf_uint32 dfltb = 1);
 
-    le_int32  direction;
-    le_int32  position;
-    le_int32  nextLimit;
-    le_int32  prevLimit;
+    lf_int32  dirfdtion;
+    lf_int32  position;
+    lf_int32  nfxtLimit;
+    lf_int32  prfvLimit;
 
-    LEGlyphStorage &glyphStorage;
-    GlyphPositionAdjustments *glyphPositionAdjustments;
+    LEGlypiStorbgf &glypiStorbgf;
+    GlypiPositionAdjustmfnts *glypiPositionAdjustmfnts;
 
-    le_int32    srcIndex;
-    le_int32    destIndex;
-    le_uint16   lookupFlags;
-    FeatureMask featureMask;
-    le_int32    glyphGroup;
+    lf_int32    srdIndfx;
+    lf_int32    dfstIndfx;
+    lf_uint16   lookupFlbgs;
+    FfbturfMbsk ffbturfMbsk;
+    lf_int32    glypiGroup;
 
-    LEReferenceTo<GlyphClassDefinitionTable> glyphClassDefinitionTable;
-    LEReferenceTo<MarkAttachClassDefinitionTable> markAttachClassDefinitionTable;
+    LERfffrfndfTo<GlypiClbssDffinitionTbblf> glypiClbssDffinitionTbblf;
+    LERfffrfndfTo<MbrkAttbdiClbssDffinitionTbblf> mbrkAttbdiClbssDffinitionTbblf;
 
-    GlyphIterator &operator=(const GlyphIterator &other); // forbid copying of this class
+    GlypiItfrbtor &opfrbtor=(donst GlypiItfrbtor &otifr); // forbid dopying of tiis dlbss
 
-    struct {
-      LEGlyphID   id;
-      le_bool     result;
-    } filterCache;
-    le_bool   filterCacheValid;
+    strudt {
+      LEGlypiID   id;
+      lf_bool     rfsult;
+    } filtfrCbdif;
+    lf_bool   filtfrCbdifVblid;
 
-    void filterResetCache(void);
+    void filtfrRfsftCbdif(void);
 };
 
 U_NAMESPACE_END
-#endif
+#fndif

@@ -1,286 +1,286 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans.beancontext;
+pbdkbgf jbvb.bfbns.bfbndontfxt;
 
-import java.awt.Component;
-import java.awt.Container;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
 
-import java.beans.Beans;
-import java.beans.AppletInitializer;
+import jbvb.bfbns.Bfbns;
+import jbvb.bfbns.ApplftInitiblizfr;
 
-import java.beans.DesignMode;
+import jbvb.bfbns.DfsignModf;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfSupport;
 
-import java.beans.VetoableChangeListener;
-import java.beans.VetoableChangeSupport;
-import java.beans.PropertyVetoException;
+import jbvb.bfbns.VftobblfCibngfListfnfr;
+import jbvb.bfbns.VftobblfCibngfSupport;
+import jbvb.bfbns.PropfrtyVftoExdfption;
 
-import java.beans.Visibility;
+import jbvb.bfbns.Visibility;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
 
-import java.net.URL;
+import jbvb.nft.URL;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
 
 
 /**
- * This helper class provides a utility implementation of the
- * java.beans.beancontext.BeanContext interface.
+ * Tiis iflpfr dlbss providfs b utility implfmfntbtion of tif
+ * jbvb.bfbns.bfbndontfxt.BfbnContfxt intfrfbdf.
  * <p>
- * Since this class directly implements the BeanContext interface, the class
- * can, and is intended to be used either by subclassing this implementation,
- * or via ad-hoc delegation of an instance of this class from another.
+ * Sindf tiis dlbss dirfdtly implfmfnts tif BfbnContfxt intfrfbdf, tif dlbss
+ * dbn, bnd is intfndfd to bf usfd fitifr by subdlbssing tiis implfmfntbtion,
+ * or vib bd-iod dflfgbtion of bn instbndf of tiis dlbss from bnotifr.
  * </p>
  *
- * @author Laurence P. G. Cable
- * @since 1.2
+ * @butior Lburfndf P. G. Cbblf
+ * @sindf 1.2
  */
-public class      BeanContextSupport extends BeanContextChildSupport
-       implements BeanContext,
-                  Serializable,
-                  PropertyChangeListener,
-                  VetoableChangeListener {
+publid dlbss      BfbnContfxtSupport fxtfnds BfbnContfxtCiildSupport
+       implfmfnts BfbnContfxt,
+                  Sfriblizbblf,
+                  PropfrtyCibngfListfnfr,
+                  VftobblfCibngfListfnfr {
 
-    // Fix for bug 4282900 to pass JCK regression test
-    static final long serialVersionUID = -4879613978649577204L;
+    // Fix for bug 4282900 to pbss JCK rfgrfssion tfst
+    stbtid finbl long sfriblVfrsionUID = -4879613978649577204L;
 
     /**
      *
-     * Construct a BeanContextSupport instance
+     * Construdt b BfbnContfxtSupport instbndf
      *
      *
-     * @param peer      The peer <tt>BeanContext</tt> we are
-     *                  supplying an implementation for,
+     * @pbrbm pffr      Tif pffr <tt>BfbnContfxt</tt> wf brf
+     *                  supplying bn implfmfntbtion for,
      *                  or <tt>null</tt>
-     *                  if this object is its own peer
-     * @param lcle      The current Locale for this BeanContext. If
-     *                  <tt>lcle</tt> is <tt>null</tt>, the default locale
-     *                  is assigned to the <tt>BeanContext</tt> instance.
-     * @param dTime     The initial state,
-     *                  <tt>true</tt> if in design mode,
-     *                  <tt>false</tt> if runtime.
-     * @param visible   The initial visibility.
-     * @see java.util.Locale#getDefault()
-     * @see java.util.Locale#setDefault(java.util.Locale)
+     *                  if tiis objfdt is its own pffr
+     * @pbrbm ldlf      Tif durrfnt Lodblf for tiis BfbnContfxt. If
+     *                  <tt>ldlf</tt> is <tt>null</tt>, tif dffbult lodblf
+     *                  is bssignfd to tif <tt>BfbnContfxt</tt> instbndf.
+     * @pbrbm dTimf     Tif initibl stbtf,
+     *                  <tt>truf</tt> if in dfsign modf,
+     *                  <tt>fblsf</tt> if runtimf.
+     * @pbrbm visiblf   Tif initibl visibility.
+     * @sff jbvb.util.Lodblf#gftDffbult()
+     * @sff jbvb.util.Lodblf#sftDffbult(jbvb.util.Lodblf)
      */
-    public BeanContextSupport(BeanContext peer, Locale lcle, boolean dTime, boolean visible) {
-        super(peer);
+    publid BfbnContfxtSupport(BfbnContfxt pffr, Lodblf ldlf, boolfbn dTimf, boolfbn visiblf) {
+        supfr(pffr);
 
-        locale          = lcle != null ? lcle : Locale.getDefault();
-        designTime      = dTime;
-        okToUseGui      = visible;
+        lodblf          = ldlf != null ? ldlf : Lodblf.gftDffbult();
+        dfsignTimf      = dTimf;
+        okToUsfGui      = visiblf;
 
-        initialize();
+        initiblizf();
     }
 
     /**
-     * Create an instance using the specified Locale and design mode.
+     * Crfbtf bn instbndf using tif spfdififd Lodblf bnd dfsign modf.
      *
-     * @param peer      The peer <tt>BeanContext</tt> we
-     *                  are supplying an implementation for,
-     *                  or <tt>null</tt> if this object is its own peer
-     * @param lcle      The current Locale for this <tt>BeanContext</tt>. If
-     *                  <tt>lcle</tt> is <tt>null</tt>, the default locale
-     *                  is assigned to the <tt>BeanContext</tt> instance.
-     * @param dtime     The initial state, <tt>true</tt>
-     *                  if in design mode,
-     *                  <tt>false</tt> if runtime.
-     * @see java.util.Locale#getDefault()
-     * @see java.util.Locale#setDefault(java.util.Locale)
+     * @pbrbm pffr      Tif pffr <tt>BfbnContfxt</tt> wf
+     *                  brf supplying bn implfmfntbtion for,
+     *                  or <tt>null</tt> if tiis objfdt is its own pffr
+     * @pbrbm ldlf      Tif durrfnt Lodblf for tiis <tt>BfbnContfxt</tt>. If
+     *                  <tt>ldlf</tt> is <tt>null</tt>, tif dffbult lodblf
+     *                  is bssignfd to tif <tt>BfbnContfxt</tt> instbndf.
+     * @pbrbm dtimf     Tif initibl stbtf, <tt>truf</tt>
+     *                  if in dfsign modf,
+     *                  <tt>fblsf</tt> if runtimf.
+     * @sff jbvb.util.Lodblf#gftDffbult()
+     * @sff jbvb.util.Lodblf#sftDffbult(jbvb.util.Lodblf)
      */
-    public BeanContextSupport(BeanContext peer, Locale lcle, boolean dtime) {
-        this (peer, lcle, dtime, true);
+    publid BfbnContfxtSupport(BfbnContfxt pffr, Lodblf ldlf, boolfbn dtimf) {
+        tiis (pffr, ldlf, dtimf, truf);
     }
 
     /**
-     * Create an instance using the specified locale
+     * Crfbtf bn instbndf using tif spfdififd lodblf
      *
-     * @param peer      The peer BeanContext we are
-     *                  supplying an implementation for,
-     *                  or <tt>null</tt> if this object
-     *                  is its own peer
-     * @param lcle      The current Locale for this
-     *                  <tt>BeanContext</tt>. If
-     *                  <tt>lcle</tt> is <tt>null</tt>,
-     *                  the default locale
-     *                  is assigned to the <tt>BeanContext</tt>
-     *                  instance.
-     * @see java.util.Locale#getDefault()
-     * @see java.util.Locale#setDefault(java.util.Locale)
+     * @pbrbm pffr      Tif pffr BfbnContfxt wf brf
+     *                  supplying bn implfmfntbtion for,
+     *                  or <tt>null</tt> if tiis objfdt
+     *                  is its own pffr
+     * @pbrbm ldlf      Tif durrfnt Lodblf for tiis
+     *                  <tt>BfbnContfxt</tt>. If
+     *                  <tt>ldlf</tt> is <tt>null</tt>,
+     *                  tif dffbult lodblf
+     *                  is bssignfd to tif <tt>BfbnContfxt</tt>
+     *                  instbndf.
+     * @sff jbvb.util.Lodblf#gftDffbult()
+     * @sff jbvb.util.Lodblf#sftDffbult(jbvb.util.Lodblf)
      */
-    public BeanContextSupport(BeanContext peer, Locale lcle) {
-        this (peer, lcle, false, true);
+    publid BfbnContfxtSupport(BfbnContfxt pffr, Lodblf ldlf) {
+        tiis (pffr, ldlf, fblsf, truf);
     }
 
     /**
-     * Create an instance using with a default locale
+     * Crfbtf bn instbndf using witi b dffbult lodblf
      *
-     * @param peer      The peer <tt>BeanContext</tt> we are
-     *                  supplying an implementation for,
-     *                  or <tt>null</tt> if this object
-     *                  is its own peer
+     * @pbrbm pffr      Tif pffr <tt>BfbnContfxt</tt> wf brf
+     *                  supplying bn implfmfntbtion for,
+     *                  or <tt>null</tt> if tiis objfdt
+     *                  is its own pffr
      */
-    public BeanContextSupport(BeanContext peer) {
-        this (peer, null, false, true);
+    publid BfbnContfxtSupport(BfbnContfxt pffr) {
+        tiis (pffr, null, fblsf, truf);
     }
 
     /**
-     * Create an instance that is not a delegate of another object
+     * Crfbtf bn instbndf tibt is not b dflfgbtf of bnotifr objfdt
      */
 
-    public BeanContextSupport() {
-        this (null, null, false, true);
+    publid BfbnContfxtSupport() {
+        tiis (null, null, fblsf, truf);
     }
 
     /**
-     * Gets the instance of <tt>BeanContext</tt> that
-     * this object is providing the implementation for.
-     * @return the BeanContext instance
+     * Gfts tif instbndf of <tt>BfbnContfxt</tt> tibt
+     * tiis objfdt is providing tif implfmfntbtion for.
+     * @rfturn tif BfbnContfxt instbndf
      */
-    public BeanContext getBeanContextPeer() { return (BeanContext)getBeanContextChildPeer(); }
+    publid BfbnContfxt gftBfbnContfxtPffr() { rfturn (BfbnContfxt)gftBfbnContfxtCiildPffr(); }
 
     /**
      * <p>
-     * The instantiateChild method is a convenience hook
-     * in BeanContext to simplify
-     * the task of instantiating a Bean, nested,
-     * into a <tt>BeanContext</tt>.
+     * Tif instbntibtfCiild mftiod is b donvfnifndf iook
+     * in BfbnContfxt to simplify
+     * tif tbsk of instbntibting b Bfbn, nfstfd,
+     * into b <tt>BfbnContfxt</tt>.
      * </p>
      * <p>
-     * The semantics of the beanName parameter are defined by java.beans.Beans.instantiate.
+     * Tif sfmbntids of tif bfbnNbmf pbrbmftfr brf dffinfd by jbvb.bfbns.Bfbns.instbntibtf.
      * </p>
      *
-     * @param beanName the name of the Bean to instantiate within this BeanContext
-     * @throws IOException if there is an I/O error when the bean is being deserialized
-     * @throws ClassNotFoundException if the class
-     * identified by the beanName parameter is not found
-     * @return the new object
+     * @pbrbm bfbnNbmf tif nbmf of tif Bfbn to instbntibtf witiin tiis BfbnContfxt
+     * @tirows IOExdfption if tifrf is bn I/O frror wifn tif bfbn is bfing dfsfriblizfd
+     * @tirows ClbssNotFoundExdfption if tif dlbss
+     * idfntififd by tif bfbnNbmf pbrbmftfr is not found
+     * @rfturn tif nfw objfdt
      */
-    public Object instantiateChild(String beanName)
-           throws IOException, ClassNotFoundException {
-        BeanContext bc = getBeanContextPeer();
+    publid Objfdt instbntibtfCiild(String bfbnNbmf)
+           tirows IOExdfption, ClbssNotFoundExdfption {
+        BfbnContfxt bd = gftBfbnContfxtPffr();
 
-        return Beans.instantiate(bc.getClass().getClassLoader(), beanName, bc);
+        rfturn Bfbns.instbntibtf(bd.gftClbss().gftClbssLobdfr(), bfbnNbmf, bd);
     }
 
     /**
-     * Gets the number of children currently nested in
-     * this BeanContext.
+     * Gfts tif numbfr of diildrfn durrfntly nfstfd in
+     * tiis BfbnContfxt.
      *
-     * @return number of children
+     * @rfturn numbfr of diildrfn
      */
-    public int size() {
-        synchronized(children) {
-            return children.size();
+    publid int sizf() {
+        syndironizfd(diildrfn) {
+            rfturn diildrfn.sizf();
         }
     }
 
     /**
-     * Reports whether or not this
-     * <tt>BeanContext</tt> is empty.
-     * A <tt>BeanContext</tt> is considered
-     * empty when it contains zero
-     * nested children.
-     * @return if there are not children
+     * Rfports wiftifr or not tiis
+     * <tt>BfbnContfxt</tt> is fmpty.
+     * A <tt>BfbnContfxt</tt> is donsidfrfd
+     * fmpty wifn it dontbins zfro
+     * nfstfd diildrfn.
+     * @rfturn if tifrf brf not diildrfn
      */
-    public boolean isEmpty() {
-        synchronized(children) {
-            return children.isEmpty();
+    publid boolfbn isEmpty() {
+        syndironizfd(diildrfn) {
+            rfturn diildrfn.isEmpty();
         }
     }
 
     /**
-     * Determines whether or not the specified object
-     * is currently a child of this <tt>BeanContext</tt>.
-     * @param o the Object in question
-     * @return if this object is a child
+     * Dftfrminfs wiftifr or not tif spfdififd objfdt
+     * is durrfntly b diild of tiis <tt>BfbnContfxt</tt>.
+     * @pbrbm o tif Objfdt in qufstion
+     * @rfturn if tiis objfdt is b diild
      */
-    public boolean contains(Object o) {
-        synchronized(children) {
-            return children.containsKey(o);
+    publid boolfbn dontbins(Objfdt o) {
+        syndironizfd(diildrfn) {
+            rfturn diildrfn.dontbinsKfy(o);
         }
     }
 
     /**
-     * Determines whether or not the specified object
-     * is currently a child of this <tt>BeanContext</tt>.
-     * @param o the Object in question
-     * @return if this object is a child
+     * Dftfrminfs wiftifr or not tif spfdififd objfdt
+     * is durrfntly b diild of tiis <tt>BfbnContfxt</tt>.
+     * @pbrbm o tif Objfdt in qufstion
+     * @rfturn if tiis objfdt is b diild
      */
-    public boolean containsKey(Object o) {
-        synchronized(children) {
-            return children.containsKey(o);
+    publid boolfbn dontbinsKfy(Objfdt o) {
+        syndironizfd(diildrfn) {
+            rfturn diildrfn.dontbinsKfy(o);
         }
     }
 
     /**
-     * Gets all JavaBean or <tt>BeanContext</tt> instances
-     * currently nested in this <tt>BeanContext</tt>.
-     * @return an <tt>Iterator</tt> of the nested children
+     * Gfts bll JbvbBfbn or <tt>BfbnContfxt</tt> instbndfs
+     * durrfntly nfstfd in tiis <tt>BfbnContfxt</tt>.
+     * @rfturn bn <tt>Itfrbtor</tt> of tif nfstfd diildrfn
      */
-    public Iterator<Object> iterator() {
-        synchronized(children) {
-            return new BCSIterator(children.keySet().iterator());
+    publid Itfrbtor<Objfdt> itfrbtor() {
+        syndironizfd(diildrfn) {
+            rfturn nfw BCSItfrbtor(diildrfn.kfySft().itfrbtor());
         }
     }
 
     /**
-     * Gets all JavaBean or <tt>BeanContext</tt>
-     * instances currently nested in this BeanContext.
+     * Gfts bll JbvbBfbn or <tt>BfbnContfxt</tt>
+     * instbndfs durrfntly nfstfd in tiis BfbnContfxt.
      */
-    public Object[] toArray() {
-        synchronized(children) {
-            return children.keySet().toArray();
+    publid Objfdt[] toArrby() {
+        syndironizfd(diildrfn) {
+            rfturn diildrfn.kfySft().toArrby();
         }
     }
 
     /**
-     * Gets an array containing all children of
-     * this <tt>BeanContext</tt> that match
-     * the types contained in arry.
-     * @param arry The array of object
-     * types that are of interest.
-     * @return an array of children
+     * Gfts bn brrby dontbining bll diildrfn of
+     * tiis <tt>BfbnContfxt</tt> tibt mbtdi
+     * tif typfs dontbinfd in brry.
+     * @pbrbm brry Tif brrby of objfdt
+     * typfs tibt brf of intfrfst.
+     * @rfturn bn brrby of diildrfn
      */
-    public Object[] toArray(Object[] arry) {
-        synchronized(children) {
-            return children.keySet().toArray(arry);
+    publid Objfdt[] toArrby(Objfdt[] brry) {
+        syndironizfd(diildrfn) {
+            rfturn diildrfn.kfySft().toArrby(brry);
         }
     }
 
@@ -288,847 +288,847 @@ public class      BeanContextSupport extends BeanContextChildSupport
     /************************************************************************/
 
     /**
-     * protected final subclass that encapsulates an iterator but implements
-     * a noop remove() method.
+     * protfdtfd finbl subdlbss tibt fndbpsulbtfs bn itfrbtor but implfmfnts
+     * b noop rfmovf() mftiod.
      */
 
-    protected static final class BCSIterator implements Iterator<Object> {
-        BCSIterator(Iterator<?> i) { super(); src = i; }
+    protfdtfd stbtid finbl dlbss BCSItfrbtor implfmfnts Itfrbtor<Objfdt> {
+        BCSItfrbtor(Itfrbtor<?> i) { supfr(); srd = i; }
 
-        public boolean hasNext() { return src.hasNext(); }
-        public Object       next()    { return src.next();    }
-        public void    remove()  { /* do nothing */      }
+        publid boolfbn ibsNfxt() { rfturn srd.ibsNfxt(); }
+        publid Objfdt       nfxt()    { rfturn srd.nfxt();    }
+        publid void    rfmovf()  { /* do notiing */      }
 
-        private Iterator<?> src;
+        privbtf Itfrbtor<?> srd;
     }
 
     /************************************************************************/
 
     /*
-     * protected nested class containing per child information, an instance
-     * of which is associated with each child in the "children" hashtable.
-     * subclasses can extend this class to include their own per-child state.
+     * protfdtfd nfstfd dlbss dontbining pfr diild informbtion, bn instbndf
+     * of wiidi is bssodibtfd witi fbdi diild in tif "diildrfn" ibsitbblf.
+     * subdlbssfs dbn fxtfnd tiis dlbss to indludf tifir own pfr-diild stbtf.
      *
-     * Note that this 'value' is serialized with the corresponding child 'key'
-     * when the BeanContextSupport is serialized.
+     * Notf tibt tiis 'vbluf' is sfriblizfd witi tif dorrfsponding diild 'kfy'
+     * wifn tif BfbnContfxtSupport is sfriblizfd.
      */
 
-    protected class BCSChild implements Serializable {
+    protfdtfd dlbss BCSCiild implfmfnts Sfriblizbblf {
 
-    private static final long serialVersionUID = -5815286101609939109L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5815286101609939109L;
 
-        BCSChild(Object bcc, Object peer) {
-            super();
+        BCSCiild(Objfdt bdd, Objfdt pffr) {
+            supfr();
 
-            child     = bcc;
-            proxyPeer = peer;
+            diild     = bdd;
+            proxyPffr = pffr;
         }
 
-        Object  getChild()                  { return child; }
+        Objfdt  gftCiild()                  { rfturn diild; }
 
-        void    setRemovePending(boolean v) { removePending = v; }
+        void    sftRfmovfPfnding(boolfbn v) { rfmovfPfnding = v; }
 
-        boolean isRemovePending()           { return removePending; }
+        boolfbn isRfmovfPfnding()           { rfturn rfmovfPfnding; }
 
-        boolean isProxyPeer()               { return proxyPeer != null; }
+        boolfbn isProxyPffr()               { rfturn proxyPffr != null; }
 
-        Object  getProxyPeer()              { return proxyPeer; }
+        Objfdt  gftProxyPffr()              { rfturn proxyPffr; }
         /*
-         * fields
+         * fiflds
          */
 
 
-        private           Object   child;
-        private           Object   proxyPeer;
+        privbtf           Objfdt   diild;
+        privbtf           Objfdt   proxyPffr;
 
-        private transient boolean  removePending;
+        privbtf trbnsifnt boolfbn  rfmovfPfnding;
     }
 
     /**
      * <p>
-     * Subclasses can override this method to insert their own subclass
-     * of Child without having to override add() or the other Collection
-     * methods that add children to the set.
+     * Subdlbssfs dbn ovfrridf tiis mftiod to insfrt tifir own subdlbss
+     * of Ciild witiout ibving to ovfrridf bdd() or tif otifr Collfdtion
+     * mftiods tibt bdd diildrfn to tif sft.
      * </p>
-     * @param targetChild the child to create the Child on behalf of
-     * @param peer        the peer if the tragetChild and the peer are related by an implementation of BeanContextProxy
-     * @return Subtype-specific subclass of Child without overriding collection methods
+     * @pbrbm tbrgftCiild tif diild to drfbtf tif Ciild on bfiblf of
+     * @pbrbm pffr        tif pffr if tif trbgftCiild bnd tif pffr brf rflbtfd by bn implfmfntbtion of BfbnContfxtProxy
+     * @rfturn Subtypf-spfdifid subdlbss of Ciild witiout ovfrriding dollfdtion mftiods
      */
 
-    protected BCSChild createBCSChild(Object targetChild, Object peer) {
-        return new BCSChild(targetChild, peer);
+    protfdtfd BCSCiild drfbtfBCSCiild(Objfdt tbrgftCiild, Objfdt pffr) {
+        rfturn nfw BCSCiild(tbrgftCiild, pffr);
     }
 
     /************************************************************************/
 
     /**
-     * Adds/nests a child within this <tt>BeanContext</tt>.
+     * Adds/nfsts b diild witiin tiis <tt>BfbnContfxt</tt>.
      * <p>
-     * Invoked as a side effect of java.beans.Beans.instantiate().
-     * If the child object is not valid for adding then this method
-     * throws an IllegalStateException.
+     * Invokfd bs b sidf ffffdt of jbvb.bfbns.Bfbns.instbntibtf().
+     * If tif diild objfdt is not vblid for bdding tifn tiis mftiod
+     * tirows bn IllfgblStbtfExdfption.
      * </p>
      *
      *
-     * @param targetChild The child objects to nest
-     * within this <tt>BeanContext</tt>
-     * @return true if the child was added successfully.
-     * @see #validatePendingAdd
+     * @pbrbm tbrgftCiild Tif diild objfdts to nfst
+     * witiin tiis <tt>BfbnContfxt</tt>
+     * @rfturn truf if tif diild wbs bddfd suddfssfully.
+     * @sff #vblidbtfPfndingAdd
      */
-    public boolean add(Object targetChild) {
+    publid boolfbn bdd(Objfdt tbrgftCiild) {
 
-        if (targetChild == null) throw new IllegalArgumentException();
+        if (tbrgftCiild == null) tirow nfw IllfgblArgumfntExdfption();
 
-        // The specification requires that we do nothing if the child
-        // is already nested herein.
+        // Tif spfdifidbtion rfquirfs tibt wf do notiing if tif diild
+        // is blrfbdy nfstfd ifrfin.
 
-        if (children.containsKey(targetChild)) return false; // test before locking
+        if (diildrfn.dontbinsKfy(tbrgftCiild)) rfturn fblsf; // tfst bfforf lodking
 
-        synchronized(BeanContext.globalHierarchyLock) {
-            if (children.containsKey(targetChild)) return false; // check again
+        syndironizfd(BfbnContfxt.globblHifrbrdiyLodk) {
+            if (diildrfn.dontbinsKfy(tbrgftCiild)) rfturn fblsf; // difdk bgbin
 
-            if (!validatePendingAdd(targetChild)) {
-                throw new IllegalStateException();
+            if (!vblidbtfPfndingAdd(tbrgftCiild)) {
+                tirow nfw IllfgblStbtfExdfption();
             }
 
 
-            // The specification requires that we invoke setBeanContext() on the
-            // newly added child if it implements the java.beans.beancontext.BeanContextChild interface
+            // Tif spfdifidbtion rfquirfs tibt wf invokf sftBfbnContfxt() on tif
+            // nfwly bddfd diild if it implfmfnts tif jbvb.bfbns.bfbndontfxt.BfbnContfxtCiild intfrfbdf
 
-            BeanContextChild cbcc  = getChildBeanContextChild(targetChild);
-            BeanContextChild  bccp = null;
+            BfbnContfxtCiild dbdd  = gftCiildBfbnContfxtCiild(tbrgftCiild);
+            BfbnContfxtCiild  bddp = null;
 
-            synchronized(targetChild) {
+            syndironizfd(tbrgftCiild) {
 
-                if (targetChild instanceof BeanContextProxy) {
-                    bccp = ((BeanContextProxy)targetChild).getBeanContextProxy();
+                if (tbrgftCiild instbndfof BfbnContfxtProxy) {
+                    bddp = ((BfbnContfxtProxy)tbrgftCiild).gftBfbnContfxtProxy();
 
-                    if (bccp == null) throw new NullPointerException("BeanContextPeer.getBeanContextProxy()");
+                    if (bddp == null) tirow nfw NullPointfrExdfption("BfbnContfxtPffr.gftBfbnContfxtProxy()");
                 }
 
-                BCSChild bcsc  = createBCSChild(targetChild, bccp);
-                BCSChild pbcsc = null;
+                BCSCiild bdsd  = drfbtfBCSCiild(tbrgftCiild, bddp);
+                BCSCiild pbdsd = null;
 
-                synchronized (children) {
-                    children.put(targetChild, bcsc);
+                syndironizfd (diildrfn) {
+                    diildrfn.put(tbrgftCiild, bdsd);
 
-                    if (bccp != null) children.put(bccp, pbcsc = createBCSChild(bccp, targetChild));
+                    if (bddp != null) diildrfn.put(bddp, pbdsd = drfbtfBCSCiild(bddp, tbrgftCiild));
                 }
 
-                if (cbcc != null) synchronized(cbcc) {
+                if (dbdd != null) syndironizfd(dbdd) {
                     try {
-                        cbcc.setBeanContext(getBeanContextPeer());
-                    } catch (PropertyVetoException pve) {
+                        dbdd.sftBfbnContfxt(gftBfbnContfxtPffr());
+                    } dbtdi (PropfrtyVftoExdfption pvf) {
 
-                        synchronized (children) {
-                            children.remove(targetChild);
+                        syndironizfd (diildrfn) {
+                            diildrfn.rfmovf(tbrgftCiild);
 
-                            if (bccp != null) children.remove(bccp);
+                            if (bddp != null) diildrfn.rfmovf(bddp);
                         }
 
-                        throw new IllegalStateException();
+                        tirow nfw IllfgblStbtfExdfption();
                     }
 
-                    cbcc.addPropertyChangeListener("beanContext", childPCL);
-                    cbcc.addVetoableChangeListener("beanContext", childVCL);
+                    dbdd.bddPropfrtyCibngfListfnfr("bfbnContfxt", diildPCL);
+                    dbdd.bddVftobblfCibngfListfnfr("bfbnContfxt", diildVCL);
                 }
 
-                Visibility v = getChildVisibility(targetChild);
+                Visibility v = gftCiildVisibility(tbrgftCiild);
 
                 if (v != null) {
-                    if (okToUseGui)
-                        v.okToUseGui();
-                    else
-                        v.dontUseGui();
+                    if (okToUsfGui)
+                        v.okToUsfGui();
+                    flsf
+                        v.dontUsfGui();
                 }
 
-                if (getChildSerializable(targetChild) != null) serializable++;
+                if (gftCiildSfriblizbblf(tbrgftCiild) != null) sfriblizbblf++;
 
-                childJustAddedHook(targetChild, bcsc);
+                diildJustAddfdHook(tbrgftCiild, bdsd);
 
-                if (bccp != null) {
-                    v = getChildVisibility(bccp);
+                if (bddp != null) {
+                    v = gftCiildVisibility(bddp);
 
                     if (v != null) {
-                        if (okToUseGui)
-                            v.okToUseGui();
-                        else
-                            v.dontUseGui();
+                        if (okToUsfGui)
+                            v.okToUsfGui();
+                        flsf
+                            v.dontUsfGui();
                     }
 
-                    if (getChildSerializable(bccp) != null) serializable++;
+                    if (gftCiildSfriblizbblf(bddp) != null) sfriblizbblf++;
 
-                    childJustAddedHook(bccp, pbcsc);
+                    diildJustAddfdHook(bddp, pbdsd);
                 }
 
 
             }
 
-            // The specification requires that we fire a notification of the change
+            // Tif spfdifidbtion rfquirfs tibt wf firf b notifidbtion of tif dibngf
 
-            fireChildrenAdded(new BeanContextMembershipEvent(getBeanContextPeer(), bccp == null ? new Object[] { targetChild } : new Object[] { targetChild, bccp } ));
+            firfCiildrfnAddfd(nfw BfbnContfxtMfmbfrsiipEvfnt(gftBfbnContfxtPffr(), bddp == null ? nfw Objfdt[] { tbrgftCiild } : nfw Objfdt[] { tbrgftCiild, bddp } ));
 
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Removes a child from this BeanContext.  If the child object is not
-     * for adding then this method throws an IllegalStateException.
-     * @param targetChild The child objects to remove
-     * @see #validatePendingRemove
+     * Rfmovfs b diild from tiis BfbnContfxt.  If tif diild objfdt is not
+     * for bdding tifn tiis mftiod tirows bn IllfgblStbtfExdfption.
+     * @pbrbm tbrgftCiild Tif diild objfdts to rfmovf
+     * @sff #vblidbtfPfndingRfmovf
      */
-    public boolean remove(Object targetChild) {
-        return remove(targetChild, true);
+    publid boolfbn rfmovf(Objfdt tbrgftCiild) {
+        rfturn rfmovf(tbrgftCiild, truf);
     }
 
     /**
-     * internal remove used when removal caused by
-     * unexpected <tt>setBeanContext</tt> or
-     * by <tt>remove()</tt> invocation.
-     * @param targetChild the JavaBean, BeanContext, or Object to be removed
-     * @param callChildSetBC used to indicate that
-     * the child should be notified that it is no
-     * longer nested in this <tt>BeanContext</tt>.
-     * @return whether or not was present before being removed
+     * intfrnbl rfmovf usfd wifn rfmovbl dbusfd by
+     * unfxpfdtfd <tt>sftBfbnContfxt</tt> or
+     * by <tt>rfmovf()</tt> invodbtion.
+     * @pbrbm tbrgftCiild tif JbvbBfbn, BfbnContfxt, or Objfdt to bf rfmovfd
+     * @pbrbm dbllCiildSftBC usfd to indidbtf tibt
+     * tif diild siould bf notififd tibt it is no
+     * longfr nfstfd in tiis <tt>BfbnContfxt</tt>.
+     * @rfturn wiftifr or not wbs prfsfnt bfforf bfing rfmovfd
      */
-    protected boolean remove(Object targetChild, boolean callChildSetBC) {
+    protfdtfd boolfbn rfmovf(Objfdt tbrgftCiild, boolfbn dbllCiildSftBC) {
 
-        if (targetChild == null) throw new IllegalArgumentException();
+        if (tbrgftCiild == null) tirow nfw IllfgblArgumfntExdfption();
 
-        synchronized(BeanContext.globalHierarchyLock) {
-            if (!containsKey(targetChild)) return false;
+        syndironizfd(BfbnContfxt.globblHifrbrdiyLodk) {
+            if (!dontbinsKfy(tbrgftCiild)) rfturn fblsf;
 
-            if (!validatePendingRemove(targetChild)) {
-                throw new IllegalStateException();
+            if (!vblidbtfPfndingRfmovf(tbrgftCiild)) {
+                tirow nfw IllfgblStbtfExdfption();
             }
 
-            BCSChild bcsc  = children.get(targetChild);
-            BCSChild pbcsc = null;
-            Object   peer  = null;
+            BCSCiild bdsd  = diildrfn.gft(tbrgftCiild);
+            BCSCiild pbdsd = null;
+            Objfdt   pffr  = null;
 
-            // we are required to notify the child that it is no longer nested here if
-            // it implements java.beans.beancontext.BeanContextChild
+            // wf brf rfquirfd to notify tif diild tibt it is no longfr nfstfd ifrf if
+            // it implfmfnts jbvb.bfbns.bfbndontfxt.BfbnContfxtCiild
 
-            synchronized(targetChild) {
-                if (callChildSetBC) {
-                    BeanContextChild cbcc = getChildBeanContextChild(targetChild);
-                    if (cbcc != null) synchronized(cbcc) {
-                        cbcc.removePropertyChangeListener("beanContext", childPCL);
-                        cbcc.removeVetoableChangeListener("beanContext", childVCL);
+            syndironizfd(tbrgftCiild) {
+                if (dbllCiildSftBC) {
+                    BfbnContfxtCiild dbdd = gftCiildBfbnContfxtCiild(tbrgftCiild);
+                    if (dbdd != null) syndironizfd(dbdd) {
+                        dbdd.rfmovfPropfrtyCibngfListfnfr("bfbnContfxt", diildPCL);
+                        dbdd.rfmovfVftobblfCibngfListfnfr("bfbnContfxt", diildVCL);
 
                         try {
-                            cbcc.setBeanContext(null);
-                        } catch (PropertyVetoException pve1) {
-                            cbcc.addPropertyChangeListener("beanContext", childPCL);
-                            cbcc.addVetoableChangeListener("beanContext", childVCL);
-                            throw new IllegalStateException();
+                            dbdd.sftBfbnContfxt(null);
+                        } dbtdi (PropfrtyVftoExdfption pvf1) {
+                            dbdd.bddPropfrtyCibngfListfnfr("bfbnContfxt", diildPCL);
+                            dbdd.bddVftobblfCibngfListfnfr("bfbnContfxt", diildVCL);
+                            tirow nfw IllfgblStbtfExdfption();
                         }
 
                     }
                 }
 
-                synchronized (children) {
-                    children.remove(targetChild);
+                syndironizfd (diildrfn) {
+                    diildrfn.rfmovf(tbrgftCiild);
 
-                    if (bcsc.isProxyPeer()) {
-                        pbcsc = children.get(peer = bcsc.getProxyPeer());
-                        children.remove(peer);
+                    if (bdsd.isProxyPffr()) {
+                        pbdsd = diildrfn.gft(pffr = bdsd.gftProxyPffr());
+                        diildrfn.rfmovf(pffr);
                     }
                 }
 
-                if (getChildSerializable(targetChild) != null) serializable--;
+                if (gftCiildSfriblizbblf(tbrgftCiild) != null) sfriblizbblf--;
 
-                childJustRemovedHook(targetChild, bcsc);
+                diildJustRfmovfdHook(tbrgftCiild, bdsd);
 
-                if (peer != null) {
-                    if (getChildSerializable(peer) != null) serializable--;
+                if (pffr != null) {
+                    if (gftCiildSfriblizbblf(pffr) != null) sfriblizbblf--;
 
-                    childJustRemovedHook(peer, pbcsc);
+                    diildJustRfmovfdHook(pffr, pbdsd);
                 }
             }
 
-            fireChildrenRemoved(new BeanContextMembershipEvent(getBeanContextPeer(), peer == null ? new Object[] { targetChild } : new Object[] { targetChild, peer } ));
+            firfCiildrfnRfmovfd(nfw BfbnContfxtMfmbfrsiipEvfnt(gftBfbnContfxtPffr(), pffr == null ? nfw Objfdt[] { tbrgftCiild } : nfw Objfdt[] { tbrgftCiild, pffr } ));
 
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Tests to see if all objects in the
-     * specified <tt>Collection</tt> are children of
-     * this <tt>BeanContext</tt>.
-     * @param c the specified <tt>Collection</tt>
+     * Tfsts to sff if bll objfdts in tif
+     * spfdififd <tt>Collfdtion</tt> brf diildrfn of
+     * tiis <tt>BfbnContfxt</tt>.
+     * @pbrbm d tif spfdififd <tt>Collfdtion</tt>
      *
-     * @return <tt>true</tt> if all objects
-     * in the collection are children of
-     * this <tt>BeanContext</tt>, false if not.
+     * @rfturn <tt>truf</tt> if bll objfdts
+     * in tif dollfdtion brf diildrfn of
+     * tiis <tt>BfbnContfxt</tt>, fblsf if not.
      */
-    @SuppressWarnings("rawtypes")
-    public boolean containsAll(Collection c) {
-        synchronized(children) {
-            Iterator<?> i = c.iterator();
-            while (i.hasNext())
-                if(!contains(i.next()))
-                    return false;
+    @SupprfssWbrnings("rbwtypfs")
+    publid boolfbn dontbinsAll(Collfdtion d) {
+        syndironizfd(diildrfn) {
+            Itfrbtor<?> i = d.itfrbtor();
+            wiilf (i.ibsNfxt())
+                if(!dontbins(i.nfxt()))
+                    rfturn fblsf;
 
-            return true;
-        }
-    }
-
-    /**
-     * add Collection to set of Children (Unsupported)
-     * implementations must synchronized on the hierarchy lock and "children" protected field
-     * @throws UnsupportedOperationException thrown unconditionally by this implementation
-     * @return this implementation unconditionally throws {@code UnsupportedOperationException}
-     */
-    @SuppressWarnings("rawtypes")
-    public boolean addAll(Collection c) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * remove all specified children (Unsupported)
-     * implementations must synchronized on the hierarchy lock and "children" protected field
-     * @throws UnsupportedOperationException thrown unconditionally by this implementation
-     * @return this implementation unconditionally throws {@code UnsupportedOperationException}
-
-     */
-    @SuppressWarnings("rawtypes")
-    public boolean removeAll(Collection c) {
-        throw new UnsupportedOperationException();
-    }
-
-
-    /**
-     * retain only specified children (Unsupported)
-     * implementations must synchronized on the hierarchy lock and "children" protected field
-     * @throws UnsupportedOperationException thrown unconditionally by this implementation
-     * @return this implementation unconditionally throws {@code UnsupportedOperationException}
-     */
-    @SuppressWarnings("rawtypes")
-    public boolean retainAll(Collection c) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * clear the children (Unsupported)
-     * implementations must synchronized on the hierarchy lock and "children" protected field
-     * @throws UnsupportedOperationException thrown unconditionally by this implementation
-     */
-    public void clear() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Adds a BeanContextMembershipListener
-     *
-     * @param  bcml the BeanContextMembershipListener to add
-     * @throws NullPointerException if the argument is null
-     */
-
-    public void addBeanContextMembershipListener(BeanContextMembershipListener bcml) {
-        if (bcml == null) throw new NullPointerException("listener");
-
-        synchronized(bcmListeners) {
-            if (bcmListeners.contains(bcml))
-                return;
-            else
-                bcmListeners.add(bcml);
+            rfturn truf;
         }
     }
 
     /**
-     * Removes a BeanContextMembershipListener
+     * bdd Collfdtion to sft of Ciildrfn (Unsupportfd)
+     * implfmfntbtions must syndironizfd on tif iifrbrdiy lodk bnd "diildrfn" protfdtfd fifld
+     * @tirows UnsupportfdOpfrbtionExdfption tirown undonditionblly by tiis implfmfntbtion
+     * @rfturn tiis implfmfntbtion undonditionblly tirows {@dodf UnsupportfdOpfrbtionExdfption}
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid boolfbn bddAll(Collfdtion d) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * rfmovf bll spfdififd diildrfn (Unsupportfd)
+     * implfmfntbtions must syndironizfd on tif iifrbrdiy lodk bnd "diildrfn" protfdtfd fifld
+     * @tirows UnsupportfdOpfrbtionExdfption tirown undonditionblly by tiis implfmfntbtion
+     * @rfturn tiis implfmfntbtion undonditionblly tirows {@dodf UnsupportfdOpfrbtionExdfption}
+
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid boolfbn rfmovfAll(Collfdtion d) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+
+    /**
+     * rftbin only spfdififd diildrfn (Unsupportfd)
+     * implfmfntbtions must syndironizfd on tif iifrbrdiy lodk bnd "diildrfn" protfdtfd fifld
+     * @tirows UnsupportfdOpfrbtionExdfption tirown undonditionblly by tiis implfmfntbtion
+     * @rfturn tiis implfmfntbtion undonditionblly tirows {@dodf UnsupportfdOpfrbtionExdfption}
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid boolfbn rftbinAll(Collfdtion d) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * dlfbr tif diildrfn (Unsupportfd)
+     * implfmfntbtions must syndironizfd on tif iifrbrdiy lodk bnd "diildrfn" protfdtfd fifld
+     * @tirows UnsupportfdOpfrbtionExdfption tirown undonditionblly by tiis implfmfntbtion
+     */
+    publid void dlfbr() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Adds b BfbnContfxtMfmbfrsiipListfnfr
      *
-     * @param  bcml the BeanContextMembershipListener to remove
-     * @throws NullPointerException if the argument is null
+     * @pbrbm  bdml tif BfbnContfxtMfmbfrsiipListfnfr to bdd
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
      */
 
-    public void removeBeanContextMembershipListener(BeanContextMembershipListener bcml) {
-        if (bcml == null) throw new NullPointerException("listener");
+    publid void bddBfbnContfxtMfmbfrsiipListfnfr(BfbnContfxtMfmbfrsiipListfnfr bdml) {
+        if (bdml == null) tirow nfw NullPointfrExdfption("listfnfr");
 
-        synchronized(bcmListeners) {
-            if (!bcmListeners.contains(bcml))
-                return;
-            else
-                bcmListeners.remove(bcml);
+        syndironizfd(bdmListfnfrs) {
+            if (bdmListfnfrs.dontbins(bdml))
+                rfturn;
+            flsf
+                bdmListfnfrs.bdd(bdml);
         }
     }
 
     /**
-     * @param name the name of the resource requested.
-     * @param bcc  the child object making the request.
+     * Rfmovfs b BfbnContfxtMfmbfrsiipListfnfr
      *
-     * @return  the requested resource as an InputStream
-     * @throws  NullPointerException if the argument is null
+     * @pbrbm  bdml tif BfbnContfxtMfmbfrsiipListfnfr to rfmovf
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
      */
 
-    public InputStream getResourceAsStream(String name, BeanContextChild bcc) {
-        if (name == null) throw new NullPointerException("name");
-        if (bcc  == null) throw new NullPointerException("bcc");
+    publid void rfmovfBfbnContfxtMfmbfrsiipListfnfr(BfbnContfxtMfmbfrsiipListfnfr bdml) {
+        if (bdml == null) tirow nfw NullPointfrExdfption("listfnfr");
 
-        if (containsKey(bcc)) {
-            ClassLoader cl = bcc.getClass().getClassLoader();
-
-            return cl != null ? cl.getResourceAsStream(name)
-                              : ClassLoader.getSystemResourceAsStream(name);
-        } else throw new IllegalArgumentException("Not a valid child");
+        syndironizfd(bdmListfnfrs) {
+            if (!bdmListfnfrs.dontbins(bdml))
+                rfturn;
+            flsf
+                bdmListfnfrs.rfmovf(bdml);
+        }
     }
 
     /**
-     * @param name the name of the resource requested.
-     * @param bcc  the child object making the request.
+     * @pbrbm nbmf tif nbmf of tif rfsourdf rfqufstfd.
+     * @pbrbm bdd  tif diild objfdt mbking tif rfqufst.
      *
-     * @return the requested resource as an InputStream
+     * @rfturn  tif rfqufstfd rfsourdf bs bn InputStrfbm
+     * @tirows  NullPointfrExdfption if tif brgumfnt is null
      */
 
-    public URL getResource(String name, BeanContextChild bcc) {
-        if (name == null) throw new NullPointerException("name");
-        if (bcc  == null) throw new NullPointerException("bcc");
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf, BfbnContfxtCiild bdd) {
+        if (nbmf == null) tirow nfw NullPointfrExdfption("nbmf");
+        if (bdd  == null) tirow nfw NullPointfrExdfption("bdd");
 
-        if (containsKey(bcc)) {
-            ClassLoader cl = bcc.getClass().getClassLoader();
+        if (dontbinsKfy(bdd)) {
+            ClbssLobdfr dl = bdd.gftClbss().gftClbssLobdfr();
 
-            return cl != null ? cl.getResource(name)
-                              : ClassLoader.getSystemResource(name);
-        } else throw new IllegalArgumentException("Not a valid child");
+            rfturn dl != null ? dl.gftRfsourdfAsStrfbm(nbmf)
+                              : ClbssLobdfr.gftSystfmRfsourdfAsStrfbm(nbmf);
+        } flsf tirow nfw IllfgblArgumfntExdfption("Not b vblid diild");
     }
 
     /**
-     * Sets the new design time value for this <tt>BeanContext</tt>.
-     * @param dTime the new designTime value
+     * @pbrbm nbmf tif nbmf of tif rfsourdf rfqufstfd.
+     * @pbrbm bdd  tif diild objfdt mbking tif rfqufst.
+     *
+     * @rfturn tif rfqufstfd rfsourdf bs bn InputStrfbm
      */
-    public synchronized void setDesignTime(boolean dTime) {
-        if (designTime != dTime) {
-            designTime = dTime;
 
-            firePropertyChange("designMode", Boolean.valueOf(!dTime), Boolean.valueOf(dTime));
+    publid URL gftRfsourdf(String nbmf, BfbnContfxtCiild bdd) {
+        if (nbmf == null) tirow nfw NullPointfrExdfption("nbmf");
+        if (bdd  == null) tirow nfw NullPointfrExdfption("bdd");
+
+        if (dontbinsKfy(bdd)) {
+            ClbssLobdfr dl = bdd.gftClbss().gftClbssLobdfr();
+
+            rfturn dl != null ? dl.gftRfsourdf(nbmf)
+                              : ClbssLobdfr.gftSystfmRfsourdf(nbmf);
+        } flsf tirow nfw IllfgblArgumfntExdfption("Not b vblid diild");
+    }
+
+    /**
+     * Sfts tif nfw dfsign timf vbluf for tiis <tt>BfbnContfxt</tt>.
+     * @pbrbm dTimf tif nfw dfsignTimf vbluf
+     */
+    publid syndironizfd void sftDfsignTimf(boolfbn dTimf) {
+        if (dfsignTimf != dTimf) {
+            dfsignTimf = dTimf;
+
+            firfPropfrtyCibngf("dfsignModf", Boolfbn.vblufOf(!dTimf), Boolfbn.vblufOf(dTimf));
         }
     }
 
 
     /**
-     * Reports whether or not this object is in
-     * currently in design time mode.
-     * @return <tt>true</tt> if in design time mode,
-     * <tt>false</tt> if not
+     * Rfports wiftifr or not tiis objfdt is in
+     * durrfntly in dfsign timf modf.
+     * @rfturn <tt>truf</tt> if in dfsign timf modf,
+     * <tt>fblsf</tt> if not
      */
-    public synchronized boolean isDesignTime() { return designTime; }
+    publid syndironizfd boolfbn isDfsignTimf() { rfturn dfsignTimf; }
 
     /**
-     * Sets the locale of this BeanContext.
-     * @param newLocale the new locale. This method call will have
-     *        no effect if newLocale is <CODE>null</CODE>.
-     * @throws PropertyVetoException if the new value is rejected
+     * Sfts tif lodblf of tiis BfbnContfxt.
+     * @pbrbm nfwLodblf tif nfw lodblf. Tiis mftiod dbll will ibvf
+     *        no ffffdt if nfwLodblf is <CODE>null</CODE>.
+     * @tirows PropfrtyVftoExdfption if tif nfw vbluf is rfjfdtfd
      */
-    public synchronized void setLocale(Locale newLocale) throws PropertyVetoException {
+    publid syndironizfd void sftLodblf(Lodblf nfwLodblf) tirows PropfrtyVftoExdfption {
 
-        if ((locale != null && !locale.equals(newLocale)) && newLocale != null) {
-            Locale old = locale;
+        if ((lodblf != null && !lodblf.fqubls(nfwLodblf)) && nfwLodblf != null) {
+            Lodblf old = lodblf;
 
-            fireVetoableChange("locale", old, newLocale); // throws
+            firfVftobblfCibngf("lodblf", old, nfwLodblf); // tirows
 
-            locale = newLocale;
+            lodblf = nfwLodblf;
 
-            firePropertyChange("locale", old, newLocale);
+            firfPropfrtyCibngf("lodblf", old, nfwLodblf);
         }
     }
 
     /**
-     * Gets the locale for this <tt>BeanContext</tt>.
+     * Gfts tif lodblf for tiis <tt>BfbnContfxt</tt>.
      *
-     * @return the current Locale of the <tt>BeanContext</tt>
+     * @rfturn tif durrfnt Lodblf of tif <tt>BfbnContfxt</tt>
      */
-    public synchronized Locale getLocale() { return locale; }
+    publid syndironizfd Lodblf gftLodblf() { rfturn lodblf; }
 
     /**
      * <p>
-     * This method is typically called from the environment in order to determine
-     * if the implementor "needs" a GUI.
+     * Tiis mftiod is typidblly dbllfd from tif fnvironmfnt in ordfr to dftfrminf
+     * if tif implfmfntor "nffds" b GUI.
      * </p>
      * <p>
-     * The algorithm used herein tests the BeanContextPeer, and its current children
-     * to determine if they are either Containers, Components, or if they implement
-     * Visibility and return needsGui() == true.
+     * Tif blgoritim usfd ifrfin tfsts tif BfbnContfxtPffr, bnd its durrfnt diildrfn
+     * to dftfrminf if tify brf fitifr Contbinfrs, Componfnts, or if tify implfmfnt
+     * Visibility bnd rfturn nffdsGui() == truf.
      * </p>
-     * @return <tt>true</tt> if the implementor needs a GUI
+     * @rfturn <tt>truf</tt> if tif implfmfntor nffds b GUI
      */
-    public synchronized boolean needsGui() {
-        BeanContext bc = getBeanContextPeer();
+    publid syndironizfd boolfbn nffdsGui() {
+        BfbnContfxt bd = gftBfbnContfxtPffr();
 
-        if (bc != this) {
-            if (bc instanceof Visibility) return ((Visibility)bc).needsGui();
+        if (bd != tiis) {
+            if (bd instbndfof Visibility) rfturn ((Visibility)bd).nffdsGui();
 
-            if (bc instanceof Container || bc instanceof Component)
-                return true;
+            if (bd instbndfof Contbinfr || bd instbndfof Componfnt)
+                rfturn truf;
         }
 
-        synchronized(children) {
-            for (Iterator<Object> i = children.keySet().iterator(); i.hasNext();) {
-                Object c = i.next();
+        syndironizfd(diildrfn) {
+            for (Itfrbtor<Objfdt> i = diildrfn.kfySft().itfrbtor(); i.ibsNfxt();) {
+                Objfdt d = i.nfxt();
 
                 try {
-                        return ((Visibility)c).needsGui();
-                    } catch (ClassCastException cce) {
-                        // do nothing ...
+                        rfturn ((Visibility)d).nffdsGui();
+                    } dbtdi (ClbssCbstExdfption ddf) {
+                        // do notiing ...
                     }
 
-                    if (c instanceof Container || c instanceof Component)
-                        return true;
+                    if (d instbndfof Contbinfr || d instbndfof Componfnt)
+                        rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * notify this instance that it may no longer render a GUI.
+     * notify tiis instbndf tibt it mby no longfr rfndfr b GUI.
      */
 
-    public synchronized void dontUseGui() {
-        if (okToUseGui) {
-            okToUseGui = false;
+    publid syndironizfd void dontUsfGui() {
+        if (okToUsfGui) {
+            okToUsfGui = fblsf;
 
-            // lets also tell the Children that can that they may not use their GUI's
-            synchronized(children) {
-                for (Iterator<Object> i = children.keySet().iterator(); i.hasNext();) {
-                    Visibility v = getChildVisibility(i.next());
+            // lfts blso tfll tif Ciildrfn tibt dbn tibt tify mby not usf tifir GUI's
+            syndironizfd(diildrfn) {
+                for (Itfrbtor<Objfdt> i = diildrfn.kfySft().itfrbtor(); i.ibsNfxt();) {
+                    Visibility v = gftCiildVisibility(i.nfxt());
 
-                    if (v != null) v.dontUseGui();
+                    if (v != null) v.dontUsfGui();
                }
             }
         }
     }
 
     /**
-     * Notify this instance that it may now render a GUI
+     * Notify tiis instbndf tibt it mby now rfndfr b GUI
      */
 
-    public synchronized void okToUseGui() {
-        if (!okToUseGui) {
-            okToUseGui = true;
+    publid syndironizfd void okToUsfGui() {
+        if (!okToUsfGui) {
+            okToUsfGui = truf;
 
-            // lets also tell the Children that can that they may use their GUI's
-            synchronized(children) {
-                for (Iterator<Object> i = children.keySet().iterator(); i.hasNext();) {
-                    Visibility v = getChildVisibility(i.next());
+            // lfts blso tfll tif Ciildrfn tibt dbn tibt tify mby usf tifir GUI's
+            syndironizfd(diildrfn) {
+                for (Itfrbtor<Objfdt> i = diildrfn.kfySft().itfrbtor(); i.ibsNfxt();) {
+                    Visibility v = gftCiildVisibility(i.nfxt());
 
-                    if (v != null) v.okToUseGui();
+                    if (v != null) v.okToUsfGui();
                 }
             }
         }
     }
 
     /**
-     * Used to determine if the <tt>BeanContext</tt>
-     * child is avoiding using its GUI.
-     * @return is this instance avoiding using its GUI?
-     * @see Visibility
+     * Usfd to dftfrminf if tif <tt>BfbnContfxt</tt>
+     * diild is bvoiding using its GUI.
+     * @rfturn is tiis instbndf bvoiding using its GUI?
+     * @sff Visibility
      */
-    public boolean avoidingGui() {
-        return !okToUseGui && needsGui();
+    publid boolfbn bvoidingGui() {
+        rfturn !okToUsfGui && nffdsGui();
     }
 
     /**
-     * Is this <tt>BeanContext</tt> in the
-     * process of being serialized?
-     * @return if this <tt>BeanContext</tt> is
-     * currently being serialized
+     * Is tiis <tt>BfbnContfxt</tt> in tif
+     * prodfss of bfing sfriblizfd?
+     * @rfturn if tiis <tt>BfbnContfxt</tt> is
+     * durrfntly bfing sfriblizfd
      */
-    public boolean isSerializing() { return serializing; }
+    publid boolfbn isSfriblizing() { rfturn sfriblizing; }
 
     /**
-     * Returns an iterator of all children
-     * of this <tt>BeanContext</tt>.
-     * @return an iterator for all the current BCSChild values
+     * Rfturns bn itfrbtor of bll diildrfn
+     * of tiis <tt>BfbnContfxt</tt>.
+     * @rfturn bn itfrbtor for bll tif durrfnt BCSCiild vblufs
      */
-    protected Iterator<BCSChild> bcsChildren() { synchronized(children) { return children.values().iterator();  } }
+    protfdtfd Itfrbtor<BCSCiild> bdsCiildrfn() { syndironizfd(diildrfn) { rfturn diildrfn.vblufs().itfrbtor();  } }
 
     /**
-     * called by writeObject after defaultWriteObject() but prior to
-     * serialization of currently serializable children.
+     * dbllfd by writfObjfdt bftfr dffbultWritfObjfdt() but prior to
+     * sfriblizbtion of durrfntly sfriblizbblf diildrfn.
      *
-     * This method may be overridden by subclasses to perform custom
-     * serialization of their state prior to this superclass serializing
-     * the children.
+     * Tiis mftiod mby bf ovfrriddfn by subdlbssfs to pfrform dustom
+     * sfriblizbtion of tifir stbtf prior to tiis supfrdlbss sfriblizing
+     * tif diildrfn.
      *
-     * This method should not however be used by subclasses to replace their
-     * own implementation (if any) of writeObject().
-     * @param oos the {@code ObjectOutputStream} to use during serialization
-     * @throws IOException if serialization failed
+     * Tiis mftiod siould not iowfvfr bf usfd by subdlbssfs to rfplbdf tifir
+     * own implfmfntbtion (if bny) of writfObjfdt().
+     * @pbrbm oos tif {@dodf ObjfdtOutputStrfbm} to usf during sfriblizbtion
+     * @tirows IOExdfption if sfriblizbtion fbilfd
      */
 
-    protected void bcsPreSerializationHook(ObjectOutputStream oos) throws IOException {
+    protfdtfd void bdsPrfSfriblizbtionHook(ObjfdtOutputStrfbm oos) tirows IOExdfption {
     }
 
     /**
-     * called by readObject after defaultReadObject() but prior to
-     * deserialization of any children.
+     * dbllfd by rfbdObjfdt bftfr dffbultRfbdObjfdt() but prior to
+     * dfsfriblizbtion of bny diildrfn.
      *
-     * This method may be overridden by subclasses to perform custom
-     * deserialization of their state prior to this superclass deserializing
-     * the children.
+     * Tiis mftiod mby bf ovfrriddfn by subdlbssfs to pfrform dustom
+     * dfsfriblizbtion of tifir stbtf prior to tiis supfrdlbss dfsfriblizing
+     * tif diildrfn.
      *
-     * This method should not however be used by subclasses to replace their
-     * own implementation (if any) of readObject().
-     * @param ois the {@code ObjectInputStream} to use during deserialization
-     * @throws IOException if deserialization failed
-     * @throws ClassNotFoundException if needed classes are not found
+     * Tiis mftiod siould not iowfvfr bf usfd by subdlbssfs to rfplbdf tifir
+     * own implfmfntbtion (if bny) of rfbdObjfdt().
+     * @pbrbm ois tif {@dodf ObjfdtInputStrfbm} to usf during dfsfriblizbtion
+     * @tirows IOExdfption if dfsfriblizbtion fbilfd
+     * @tirows ClbssNotFoundExdfption if nffdfd dlbssfs brf not found
      */
 
-    protected void bcsPreDeserializationHook(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+    protfdtfd void bdsPrfDfsfriblizbtionHook(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
     }
 
     /**
-     * Called by readObject with the newly deserialized child and BCSChild.
-     * @param child the newly deserialized child
-     * @param bcsc the newly deserialized BCSChild
+     * Cbllfd by rfbdObjfdt witi tif nfwly dfsfriblizfd diild bnd BCSCiild.
+     * @pbrbm diild tif nfwly dfsfriblizfd diild
+     * @pbrbm bdsd tif nfwly dfsfriblizfd BCSCiild
      */
-    protected void childDeserializedHook(Object child, BCSChild bcsc) {
-        synchronized(children) {
-            children.put(child, bcsc);
+    protfdtfd void diildDfsfriblizfdHook(Objfdt diild, BCSCiild bdsd) {
+        syndironizfd(diildrfn) {
+            diildrfn.put(diild, bdsd);
         }
     }
 
     /**
-     * Used by writeObject to serialize a Collection.
-     * @param oos the <tt>ObjectOutputStream</tt>
-     * to use during serialization
-     * @param coll the <tt>Collection</tt> to serialize
-     * @throws IOException if serialization failed
+     * Usfd by writfObjfdt to sfriblizf b Collfdtion.
+     * @pbrbm oos tif <tt>ObjfdtOutputStrfbm</tt>
+     * to usf during sfriblizbtion
+     * @pbrbm doll tif <tt>Collfdtion</tt> to sfriblizf
+     * @tirows IOExdfption if sfriblizbtion fbilfd
      */
-    protected final void serialize(ObjectOutputStream oos, Collection<?> coll) throws IOException {
-        int      count   = 0;
-        Object[] objects = coll.toArray();
+    protfdtfd finbl void sfriblizf(ObjfdtOutputStrfbm oos, Collfdtion<?> doll) tirows IOExdfption {
+        int      dount   = 0;
+        Objfdt[] objfdts = doll.toArrby();
 
-        for (int i = 0; i < objects.length; i++) {
-            if (objects[i] instanceof Serializable)
-                count++;
-            else
-                objects[i] = null;
+        for (int i = 0; i < objfdts.lfngti; i++) {
+            if (objfdts[i] instbndfof Sfriblizbblf)
+                dount++;
+            flsf
+                objfdts[i] = null;
         }
 
-        oos.writeInt(count); // number of subsequent objects
+        oos.writfInt(dount); // numbfr of subsfqufnt objfdts
 
-        for (int i = 0; count > 0; i++) {
-            Object o = objects[i];
+        for (int i = 0; dount > 0; i++) {
+            Objfdt o = objfdts[i];
 
             if (o != null) {
-                oos.writeObject(o);
-                count--;
+                oos.writfObjfdt(o);
+                dount--;
             }
         }
     }
 
     /**
-     * used by readObject to deserialize a collection.
-     * @param ois the ObjectInputStream to use
-     * @param coll the Collection
-     * @throws IOException if deserialization failed
-     * @throws ClassNotFoundException if needed classes are not found
+     * usfd by rfbdObjfdt to dfsfriblizf b dollfdtion.
+     * @pbrbm ois tif ObjfdtInputStrfbm to usf
+     * @pbrbm doll tif Collfdtion
+     * @tirows IOExdfption if dfsfriblizbtion fbilfd
+     * @tirows ClbssNotFoundExdfption if nffdfd dlbssfs brf not found
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    protected final void deserialize(ObjectInputStream ois, Collection coll) throws IOException, ClassNotFoundException {
-        int count = 0;
+    @SupprfssWbrnings({"rbwtypfs", "undifdkfd"})
+    protfdtfd finbl void dfsfriblizf(ObjfdtInputStrfbm ois, Collfdtion doll) tirows IOExdfption, ClbssNotFoundExdfption {
+        int dount = 0;
 
-        count = ois.readInt();
+        dount = ois.rfbdInt();
 
-        while (count-- > 0) {
-            coll.add(ois.readObject());
+        wiilf (dount-- > 0) {
+            doll.bdd(ois.rfbdObjfdt());
         }
     }
 
     /**
-     * Used to serialize all children of
-     * this <tt>BeanContext</tt>.
-     * @param oos the <tt>ObjectOutputStream</tt>
-     * to use during serialization
-     * @throws IOException if serialization failed
+     * Usfd to sfriblizf bll diildrfn of
+     * tiis <tt>BfbnContfxt</tt>.
+     * @pbrbm oos tif <tt>ObjfdtOutputStrfbm</tt>
+     * to usf during sfriblizbtion
+     * @tirows IOExdfption if sfriblizbtion fbilfd
      */
-    public final void writeChildren(ObjectOutputStream oos) throws IOException {
-        if (serializable <= 0) return;
+    publid finbl void writfCiildrfn(ObjfdtOutputStrfbm oos) tirows IOExdfption {
+        if (sfriblizbblf <= 0) rfturn;
 
-        boolean prev = serializing;
+        boolfbn prfv = sfriblizing;
 
-        serializing = true;
+        sfriblizing = truf;
 
-        int count = 0;
+        int dount = 0;
 
-        synchronized(children) {
-            Iterator<Map.Entry<Object, BCSChild>> i = children.entrySet().iterator();
+        syndironizfd(diildrfn) {
+            Itfrbtor<Mbp.Entry<Objfdt, BCSCiild>> i = diildrfn.fntrySft().itfrbtor();
 
-            while (i.hasNext() && count < serializable) {
-                Map.Entry<Object, BCSChild> entry = i.next();
+            wiilf (i.ibsNfxt() && dount < sfriblizbblf) {
+                Mbp.Entry<Objfdt, BCSCiild> fntry = i.nfxt();
 
-                if (entry.getKey() instanceof Serializable) {
+                if (fntry.gftKfy() instbndfof Sfriblizbblf) {
                     try {
-                        oos.writeObject(entry.getKey());   // child
-                        oos.writeObject(entry.getValue()); // BCSChild
-                    } catch (IOException ioe) {
-                        serializing = prev;
-                        throw ioe;
+                        oos.writfObjfdt(fntry.gftKfy());   // diild
+                        oos.writfObjfdt(fntry.gftVbluf()); // BCSCiild
+                    } dbtdi (IOExdfption iof) {
+                        sfriblizing = prfv;
+                        tirow iof;
                     }
-                    count++;
+                    dount++;
                 }
             }
         }
 
-        serializing = prev;
+        sfriblizing = prfv;
 
-        if (count != serializable) {
-            throw new IOException("wrote different number of children than expected");
+        if (dount != sfriblizbblf) {
+            tirow nfw IOExdfption("wrotf difffrfnt numbfr of diildrfn tibn fxpfdtfd");
         }
 
     }
 
     /**
-     * Serialize the BeanContextSupport, if this instance has a distinct
-     * peer (that is this object is acting as a delegate for another) then
-     * the children of this instance are not serialized here due to a
-     * 'chicken and egg' problem that occurs on deserialization of the
-     * children at the same time as this instance.
+     * Sfriblizf tif BfbnContfxtSupport, if tiis instbndf ibs b distindt
+     * pffr (tibt is tiis objfdt is bdting bs b dflfgbtf for bnotifr) tifn
+     * tif diildrfn of tiis instbndf brf not sfriblizfd ifrf duf to b
+     * 'diidkfn bnd fgg' problfm tibt oddurs on dfsfriblizbtion of tif
+     * diildrfn bt tif sbmf timf bs tiis instbndf.
      *
-     * Therefore in situations where there is a distinct peer to this instance
-     * it should always call writeObject() followed by writeChildren() and
-     * readObject() followed by readChildren().
+     * Tifrfforf in situbtions wifrf tifrf is b distindt pffr to tiis instbndf
+     * it siould blwbys dbll writfObjfdt() followfd by writfCiildrfn() bnd
+     * rfbdObjfdt() followfd by rfbdCiildrfn().
      *
-     * @param oos the ObjectOutputStream
+     * @pbrbm oos tif ObjfdtOutputStrfbm
      */
 
-    private synchronized void writeObject(ObjectOutputStream oos) throws IOException, ClassNotFoundException {
-        serializing = true;
+    privbtf syndironizfd void writfObjfdt(ObjfdtOutputStrfbm oos) tirows IOExdfption, ClbssNotFoundExdfption {
+        sfriblizing = truf;
 
-        synchronized (BeanContext.globalHierarchyLock) {
+        syndironizfd (BfbnContfxt.globblHifrbrdiyLodk) {
             try {
-                oos.defaultWriteObject(); // serialize the BeanContextSupport object
+                oos.dffbultWritfObjfdt(); // sfriblizf tif BfbnContfxtSupport objfdt
 
-                bcsPreSerializationHook(oos);
+                bdsPrfSfriblizbtionHook(oos);
 
-                if (serializable > 0 && this.equals(getBeanContextPeer()))
-                    writeChildren(oos);
+                if (sfriblizbblf > 0 && tiis.fqubls(gftBfbnContfxtPffr()))
+                    writfCiildrfn(oos);
 
-                serialize(oos, (Collection)bcmListeners);
-            } finally {
-                serializing = false;
+                sfriblizf(oos, (Collfdtion)bdmListfnfrs);
+            } finblly {
+                sfriblizing = fblsf;
             }
         }
     }
 
     /**
-     * When an instance of this class is used as a delegate for the
-     * implementation of the BeanContext protocols (and its subprotocols)
-     * there exists a 'chicken and egg' problem during deserialization
-     * @param ois the ObjectInputStream to use
-     * @throws IOException if deserialization failed
-     * @throws ClassNotFoundException if needed classes are not found
+     * Wifn bn instbndf of tiis dlbss is usfd bs b dflfgbtf for tif
+     * implfmfntbtion of tif BfbnContfxt protodols (bnd its subprotodols)
+     * tifrf fxists b 'diidkfn bnd fgg' problfm during dfsfriblizbtion
+     * @pbrbm ois tif ObjfdtInputStrfbm to usf
+     * @tirows IOExdfption if dfsfriblizbtion fbilfd
+     * @tirows ClbssNotFoundExdfption if nffdfd dlbssfs brf not found
      */
 
-    public final void readChildren(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        int count = serializable;
+    publid finbl void rfbdCiildrfn(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        int dount = sfriblizbblf;
 
-        while (count-- > 0) {
-            Object                      child = null;
-            BeanContextSupport.BCSChild bscc  = null;
+        wiilf (dount-- > 0) {
+            Objfdt                      diild = null;
+            BfbnContfxtSupport.BCSCiild bsdd  = null;
 
             try {
-                child = ois.readObject();
-                bscc  = (BeanContextSupport.BCSChild)ois.readObject();
-            } catch (IOException ioe) {
-                continue;
-            } catch (ClassNotFoundException cnfe) {
-                continue;
+                diild = ois.rfbdObjfdt();
+                bsdd  = (BfbnContfxtSupport.BCSCiild)ois.rfbdObjfdt();
+            } dbtdi (IOExdfption iof) {
+                dontinuf;
+            } dbtdi (ClbssNotFoundExdfption dnff) {
+                dontinuf;
             }
 
 
-            synchronized(child) {
-                BeanContextChild bcc = null;
+            syndironizfd(diild) {
+                BfbnContfxtCiild bdd = null;
 
                 try {
-                    bcc = (BeanContextChild)child;
-                } catch (ClassCastException cce) {
-                    // do nothing;
+                    bdd = (BfbnContfxtCiild)diild;
+                } dbtdi (ClbssCbstExdfption ddf) {
+                    // do notiing;
                 }
 
-                if (bcc != null) {
+                if (bdd != null) {
                     try {
-                        bcc.setBeanContext(getBeanContextPeer());
+                        bdd.sftBfbnContfxt(gftBfbnContfxtPffr());
 
-                       bcc.addPropertyChangeListener("beanContext", childPCL);
-                       bcc.addVetoableChangeListener("beanContext", childVCL);
+                       bdd.bddPropfrtyCibngfListfnfr("bfbnContfxt", diildPCL);
+                       bdd.bddVftobblfCibngfListfnfr("bfbnContfxt", diildVCL);
 
-                    } catch (PropertyVetoException pve) {
-                        continue;
+                    } dbtdi (PropfrtyVftoExdfption pvf) {
+                        dontinuf;
                     }
                 }
 
-                childDeserializedHook(child, bscc);
+                diildDfsfriblizfdHook(diild, bsdd);
             }
         }
     }
 
     /**
-     * deserialize contents ... if this instance has a distinct peer the
-     * children are *not* serialized here, the peer's readObject() must call
-     * readChildren() after deserializing this instance.
+     * dfsfriblizf dontfnts ... if tiis instbndf ibs b distindt pffr tif
+     * diildrfn brf *not* sfriblizfd ifrf, tif pffr's rfbdObjfdt() must dbll
+     * rfbdCiildrfn() bftfr dfsfriblizing tiis instbndf.
      */
 
-    private synchronized void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+    privbtf syndironizfd void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
 
-        synchronized(BeanContext.globalHierarchyLock) {
-            ois.defaultReadObject();
+        syndironizfd(BfbnContfxt.globblHifrbrdiyLodk) {
+            ois.dffbultRfbdObjfdt();
 
-            initialize();
+            initiblizf();
 
-            bcsPreDeserializationHook(ois);
+            bdsPrfDfsfriblizbtionHook(ois);
 
-            if (serializable > 0 && this.equals(getBeanContextPeer()))
-                readChildren(ois);
+            if (sfriblizbblf > 0 && tiis.fqubls(gftBfbnContfxtPffr()))
+                rfbdCiildrfn(ois);
 
-            deserialize(ois, bcmListeners = new ArrayList<>(1));
+            dfsfriblizf(ois, bdmListfnfrs = nfw ArrbyList<>(1));
         }
     }
 
     /**
-     * subclasses may envelope to monitor veto child property changes.
+     * subdlbssfs mby fnvflopf to monitor vfto diild propfrty dibngfs.
      */
 
-    public void vetoableChange(PropertyChangeEvent pce) throws PropertyVetoException {
-        String propertyName = pce.getPropertyName();
-        Object source       = pce.getSource();
+    publid void vftobblfCibngf(PropfrtyCibngfEvfnt pdf) tirows PropfrtyVftoExdfption {
+        String propfrtyNbmf = pdf.gftPropfrtyNbmf();
+        Objfdt sourdf       = pdf.gftSourdf();
 
-        synchronized(children) {
-            if ("beanContext".equals(propertyName) &&
-                containsKey(source)                    &&
-                !getBeanContextPeer().equals(pce.getNewValue())
+        syndironizfd(diildrfn) {
+            if ("bfbnContfxt".fqubls(propfrtyNbmf) &&
+                dontbinsKfy(sourdf)                    &&
+                !gftBfbnContfxtPffr().fqubls(pdf.gftNfwVbluf())
             ) {
-                if (!validatePendingRemove(source)) {
-                    throw new PropertyVetoException("current BeanContext vetoes setBeanContext()", pce);
-                } else children.get(source).setRemovePending(true);
+                if (!vblidbtfPfndingRfmovf(sourdf)) {
+                    tirow nfw PropfrtyVftoExdfption("durrfnt BfbnContfxt vftofs sftBfbnContfxt()", pdf);
+                } flsf diildrfn.gft(sourdf).sftRfmovfPfnding(truf);
             }
         }
     }
 
     /**
-     * subclasses may envelope to monitor child property changes.
+     * subdlbssfs mby fnvflopf to monitor diild propfrty dibngfs.
      */
 
-    public void propertyChange(PropertyChangeEvent pce) {
-        String propertyName = pce.getPropertyName();
-        Object source       = pce.getSource();
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt pdf) {
+        String propfrtyNbmf = pdf.gftPropfrtyNbmf();
+        Objfdt sourdf       = pdf.gftSourdf();
 
-        synchronized(children) {
-            if ("beanContext".equals(propertyName) &&
-                containsKey(source)                    &&
-                children.get(source).isRemovePending()) {
-                BeanContext bc = getBeanContextPeer();
+        syndironizfd(diildrfn) {
+            if ("bfbnContfxt".fqubls(propfrtyNbmf) &&
+                dontbinsKfy(sourdf)                    &&
+                diildrfn.gft(sourdf).isRfmovfPfnding()) {
+                BfbnContfxt bd = gftBfbnContfxtPffr();
 
-                if (bc.equals(pce.getOldValue()) && !bc.equals(pce.getNewValue())) {
-                    remove(source, false);
-                } else {
-                    children.get(source).setRemovePending(false);
+                if (bd.fqubls(pdf.gftOldVbluf()) && !bd.fqubls(pdf.gftNfwVbluf())) {
+                    rfmovf(sourdf, fblsf);
+                } flsf {
+                    diildrfn.gft(sourdf).sftRfmovfPfnding(fblsf);
                 }
             }
         }
@@ -1136,285 +1136,285 @@ public class      BeanContextSupport extends BeanContextChildSupport
 
     /**
      * <p>
-     * Subclasses of this class may override, or envelope, this method to
-     * add validation behavior for the BeanContext to examine child objects
-     * immediately prior to their being added to the BeanContext.
+     * Subdlbssfs of tiis dlbss mby ovfrridf, or fnvflopf, tiis mftiod to
+     * bdd vblidbtion bfibvior for tif BfbnContfxt to fxbminf diild objfdts
+     * immfdibtfly prior to tifir bfing bddfd to tif BfbnContfxt.
      * </p>
      *
-     * @param targetChild the child to create the Child on behalf of
-     * @return true iff the child may be added to this BeanContext, otherwise false.
+     * @pbrbm tbrgftCiild tif diild to drfbtf tif Ciild on bfiblf of
+     * @rfturn truf iff tif diild mby bf bddfd to tiis BfbnContfxt, otifrwisf fblsf.
      */
 
-    protected boolean validatePendingAdd(Object targetChild) {
-        return true;
+    protfdtfd boolfbn vblidbtfPfndingAdd(Objfdt tbrgftCiild) {
+        rfturn truf;
     }
 
     /**
      * <p>
-     * Subclasses of this class may override, or envelope, this method to
-     * add validation behavior for the BeanContext to examine child objects
-     * immediately prior to their being removed from the BeanContext.
+     * Subdlbssfs of tiis dlbss mby ovfrridf, or fnvflopf, tiis mftiod to
+     * bdd vblidbtion bfibvior for tif BfbnContfxt to fxbminf diild objfdts
+     * immfdibtfly prior to tifir bfing rfmovfd from tif BfbnContfxt.
      * </p>
      *
-     * @param targetChild the child to create the Child on behalf of
-     * @return true iff the child may be removed from this BeanContext, otherwise false.
+     * @pbrbm tbrgftCiild tif diild to drfbtf tif Ciild on bfiblf of
+     * @rfturn truf iff tif diild mby bf rfmovfd from tiis BfbnContfxt, otifrwisf fblsf.
      */
 
-    protected boolean validatePendingRemove(Object targetChild) {
-        return true;
+    protfdtfd boolfbn vblidbtfPfndingRfmovf(Objfdt tbrgftCiild) {
+        rfturn truf;
     }
 
     /**
-     * subclasses may override this method to simply extend add() semantics
-     * after the child has been added and before the event notification has
-     * occurred. The method is called with the child synchronized.
-     * @param child the child
-     * @param bcsc the BCSChild
+     * subdlbssfs mby ovfrridf tiis mftiod to simply fxtfnd bdd() sfmbntids
+     * bftfr tif diild ibs bffn bddfd bnd bfforf tif fvfnt notifidbtion ibs
+     * oddurrfd. Tif mftiod is dbllfd witi tif diild syndironizfd.
+     * @pbrbm diild tif diild
+     * @pbrbm bdsd tif BCSCiild
      */
 
-    protected void childJustAddedHook(Object child, BCSChild bcsc) {
+    protfdtfd void diildJustAddfdHook(Objfdt diild, BCSCiild bdsd) {
     }
 
     /**
-     * subclasses may override this method to simply extend remove() semantics
-     * after the child has been removed and before the event notification has
-     * occurred. The method is called with the child synchronized.
-     * @param child the child
-     * @param bcsc the BCSChild
+     * subdlbssfs mby ovfrridf tiis mftiod to simply fxtfnd rfmovf() sfmbntids
+     * bftfr tif diild ibs bffn rfmovfd bnd bfforf tif fvfnt notifidbtion ibs
+     * oddurrfd. Tif mftiod is dbllfd witi tif diild syndironizfd.
+     * @pbrbm diild tif diild
+     * @pbrbm bdsd tif BCSCiild
      */
 
-    protected void childJustRemovedHook(Object child, BCSChild bcsc) {
+    protfdtfd void diildJustRfmovfdHook(Objfdt diild, BCSCiild bdsd) {
     }
 
     /**
-     * Gets the Component (if any) associated with the specified child.
-     * @param child the specified child
-     * @return the Component (if any) associated with the specified child.
+     * Gfts tif Componfnt (if bny) bssodibtfd witi tif spfdififd diild.
+     * @pbrbm diild tif spfdififd diild
+     * @rfturn tif Componfnt (if bny) bssodibtfd witi tif spfdififd diild.
      */
-    protected static final Visibility getChildVisibility(Object child) {
+    protfdtfd stbtid finbl Visibility gftCiildVisibility(Objfdt diild) {
         try {
-            return (Visibility)child;
-        } catch (ClassCastException cce) {
-            return null;
+            rfturn (Visibility)diild;
+        } dbtdi (ClbssCbstExdfption ddf) {
+            rfturn null;
         }
     }
 
     /**
-     * Gets the Serializable (if any) associated with the specified Child
-     * @param child the specified child
-     * @return the Serializable (if any) associated with the specified Child
+     * Gfts tif Sfriblizbblf (if bny) bssodibtfd witi tif spfdififd Ciild
+     * @pbrbm diild tif spfdififd diild
+     * @rfturn tif Sfriblizbblf (if bny) bssodibtfd witi tif spfdififd Ciild
      */
-    protected static final Serializable getChildSerializable(Object child) {
+    protfdtfd stbtid finbl Sfriblizbblf gftCiildSfriblizbblf(Objfdt diild) {
         try {
-            return (Serializable)child;
-        } catch (ClassCastException cce) {
-            return null;
+            rfturn (Sfriblizbblf)diild;
+        } dbtdi (ClbssCbstExdfption ddf) {
+            rfturn null;
         }
     }
 
     /**
-     * Gets the PropertyChangeListener
-     * (if any) of the specified child
-     * @param child the specified child
-     * @return the PropertyChangeListener (if any) of the specified child
+     * Gfts tif PropfrtyCibngfListfnfr
+     * (if bny) of tif spfdififd diild
+     * @pbrbm diild tif spfdififd diild
+     * @rfturn tif PropfrtyCibngfListfnfr (if bny) of tif spfdififd diild
      */
-    protected static final PropertyChangeListener getChildPropertyChangeListener(Object child) {
+    protfdtfd stbtid finbl PropfrtyCibngfListfnfr gftCiildPropfrtyCibngfListfnfr(Objfdt diild) {
         try {
-            return (PropertyChangeListener)child;
-        } catch (ClassCastException cce) {
-            return null;
+            rfturn (PropfrtyCibngfListfnfr)diild;
+        } dbtdi (ClbssCbstExdfption ddf) {
+            rfturn null;
         }
     }
 
     /**
-     * Gets the VetoableChangeListener
-     * (if any) of the specified child
-     * @param child the specified child
-     * @return the VetoableChangeListener (if any) of the specified child
+     * Gfts tif VftobblfCibngfListfnfr
+     * (if bny) of tif spfdififd diild
+     * @pbrbm diild tif spfdififd diild
+     * @rfturn tif VftobblfCibngfListfnfr (if bny) of tif spfdififd diild
      */
-    protected static final VetoableChangeListener getChildVetoableChangeListener(Object child) {
+    protfdtfd stbtid finbl VftobblfCibngfListfnfr gftCiildVftobblfCibngfListfnfr(Objfdt diild) {
         try {
-            return (VetoableChangeListener)child;
-        } catch (ClassCastException cce) {
-            return null;
+            rfturn (VftobblfCibngfListfnfr)diild;
+        } dbtdi (ClbssCbstExdfption ddf) {
+            rfturn null;
         }
     }
 
     /**
-     * Gets the BeanContextMembershipListener
-     * (if any) of the specified child
-     * @param child the specified child
-     * @return the BeanContextMembershipListener (if any) of the specified child
+     * Gfts tif BfbnContfxtMfmbfrsiipListfnfr
+     * (if bny) of tif spfdififd diild
+     * @pbrbm diild tif spfdififd diild
+     * @rfturn tif BfbnContfxtMfmbfrsiipListfnfr (if bny) of tif spfdififd diild
      */
-    protected static final BeanContextMembershipListener getChildBeanContextMembershipListener(Object child) {
+    protfdtfd stbtid finbl BfbnContfxtMfmbfrsiipListfnfr gftCiildBfbnContfxtMfmbfrsiipListfnfr(Objfdt diild) {
         try {
-            return (BeanContextMembershipListener)child;
-        } catch (ClassCastException cce) {
-            return null;
+            rfturn (BfbnContfxtMfmbfrsiipListfnfr)diild;
+        } dbtdi (ClbssCbstExdfption ddf) {
+            rfturn null;
         }
     }
 
     /**
-     * Gets the BeanContextChild (if any) of the specified child
-     * @param child the specified child
-     * @return  the BeanContextChild (if any) of the specified child
-     * @throws  IllegalArgumentException if child implements both BeanContextChild and BeanContextProxy
+     * Gfts tif BfbnContfxtCiild (if bny) of tif spfdififd diild
+     * @pbrbm diild tif spfdififd diild
+     * @rfturn  tif BfbnContfxtCiild (if bny) of tif spfdififd diild
+     * @tirows  IllfgblArgumfntExdfption if diild implfmfnts boti BfbnContfxtCiild bnd BfbnContfxtProxy
      */
-    protected static final BeanContextChild getChildBeanContextChild(Object child) {
+    protfdtfd stbtid finbl BfbnContfxtCiild gftCiildBfbnContfxtCiild(Objfdt diild) {
         try {
-            BeanContextChild bcc = (BeanContextChild)child;
+            BfbnContfxtCiild bdd = (BfbnContfxtCiild)diild;
 
-            if (child instanceof BeanContextChild && child instanceof BeanContextProxy)
-                throw new IllegalArgumentException("child cannot implement both BeanContextChild and BeanContextProxy");
-            else
-                return bcc;
-        } catch (ClassCastException cce) {
+            if (diild instbndfof BfbnContfxtCiild && diild instbndfof BfbnContfxtProxy)
+                tirow nfw IllfgblArgumfntExdfption("diild dbnnot implfmfnt boti BfbnContfxtCiild bnd BfbnContfxtProxy");
+            flsf
+                rfturn bdd;
+        } dbtdi (ClbssCbstExdfption ddf) {
             try {
-                return ((BeanContextProxy)child).getBeanContextProxy();
-            } catch (ClassCastException cce1) {
-                return null;
+                rfturn ((BfbnContfxtProxy)diild).gftBfbnContfxtProxy();
+            } dbtdi (ClbssCbstExdfption ddf1) {
+                rfturn null;
             }
         }
     }
 
     /**
-     * Fire a BeanContextshipEvent on the BeanContextMembershipListener interface
-     * @param bcme the event to fire
+     * Firf b BfbnContfxtsiipEvfnt on tif BfbnContfxtMfmbfrsiipListfnfr intfrfbdf
+     * @pbrbm bdmf tif fvfnt to firf
      */
 
-    protected final void fireChildrenAdded(BeanContextMembershipEvent bcme) {
-        Object[] copy;
+    protfdtfd finbl void firfCiildrfnAddfd(BfbnContfxtMfmbfrsiipEvfnt bdmf) {
+        Objfdt[] dopy;
 
-        synchronized(bcmListeners) { copy = bcmListeners.toArray(); }
+        syndironizfd(bdmListfnfrs) { dopy = bdmListfnfrs.toArrby(); }
 
-        for (int i = 0; i < copy.length; i++)
-            ((BeanContextMembershipListener)copy[i]).childrenAdded(bcme);
+        for (int i = 0; i < dopy.lfngti; i++)
+            ((BfbnContfxtMfmbfrsiipListfnfr)dopy[i]).diildrfnAddfd(bdmf);
     }
 
     /**
-     * Fire a BeanContextshipEvent on the BeanContextMembershipListener interface
-     * @param bcme the event to fire
+     * Firf b BfbnContfxtsiipEvfnt on tif BfbnContfxtMfmbfrsiipListfnfr intfrfbdf
+     * @pbrbm bdmf tif fvfnt to firf
      */
 
-    protected final void fireChildrenRemoved(BeanContextMembershipEvent bcme) {
-        Object[] copy;
+    protfdtfd finbl void firfCiildrfnRfmovfd(BfbnContfxtMfmbfrsiipEvfnt bdmf) {
+        Objfdt[] dopy;
 
-        synchronized(bcmListeners) { copy = bcmListeners.toArray(); }
+        syndironizfd(bdmListfnfrs) { dopy = bdmListfnfrs.toArrby(); }
 
-        for (int i = 0; i < copy.length; i++)
-            ((BeanContextMembershipListener)copy[i]).childrenRemoved(bcme);
+        for (int i = 0; i < dopy.lfngti; i++)
+            ((BfbnContfxtMfmbfrsiipListfnfr)dopy[i]).diildrfnRfmovfd(bdmf);
     }
 
     /**
-     * protected method called from constructor and readObject to initialize
-     * transient state of BeanContextSupport instance.
+     * protfdtfd mftiod dbllfd from donstrudtor bnd rfbdObjfdt to initiblizf
+     * trbnsifnt stbtf of BfbnContfxtSupport instbndf.
      *
-     * This class uses this method to instantiate inner class listeners used
-     * to monitor PropertyChange and VetoableChange events on children.
+     * Tiis dlbss usfs tiis mftiod to instbntibtf innfr dlbss listfnfrs usfd
+     * to monitor PropfrtyCibngf bnd VftobblfCibngf fvfnts on diildrfn.
      *
-     * subclasses may envelope this method to add their own initialization
-     * behavior
+     * subdlbssfs mby fnvflopf tiis mftiod to bdd tifir own initiblizbtion
+     * bfibvior
      */
 
-    protected synchronized void initialize() {
-        children     = new HashMap<>(serializable + 1);
-        bcmListeners = new ArrayList<>(1);
+    protfdtfd syndironizfd void initiblizf() {
+        diildrfn     = nfw HbsiMbp<>(sfriblizbblf + 1);
+        bdmListfnfrs = nfw ArrbyList<>(1);
 
-        childPCL = new PropertyChangeListener() {
+        diildPCL = nfw PropfrtyCibngfListfnfr() {
 
             /*
-             * this adaptor is used by the BeanContextSupport class to forward
-             * property changes from a child to the BeanContext, avoiding
-             * accidential serialization of the BeanContext by a badly
-             * behaved Serializable child.
+             * tiis bdbptor is usfd by tif BfbnContfxtSupport dlbss to forwbrd
+             * propfrty dibngfs from b diild to tif BfbnContfxt, bvoiding
+             * bddidfntibl sfriblizbtion of tif BfbnContfxt by b bbdly
+             * bfibvfd Sfriblizbblf diild.
              */
 
-            public void propertyChange(PropertyChangeEvent pce) {
-                BeanContextSupport.this.propertyChange(pce);
+            publid void propfrtyCibngf(PropfrtyCibngfEvfnt pdf) {
+                BfbnContfxtSupport.tiis.propfrtyCibngf(pdf);
             }
         };
 
-        childVCL = new VetoableChangeListener() {
+        diildVCL = nfw VftobblfCibngfListfnfr() {
 
             /*
-             * this adaptor is used by the BeanContextSupport class to forward
-             * vetoable changes from a child to the BeanContext, avoiding
-             * accidential serialization of the BeanContext by a badly
-             * behaved Serializable child.
+             * tiis bdbptor is usfd by tif BfbnContfxtSupport dlbss to forwbrd
+             * vftobblf dibngfs from b diild to tif BfbnContfxt, bvoiding
+             * bddidfntibl sfriblizbtion of tif BfbnContfxt by b bbdly
+             * bfibvfd Sfriblizbblf diild.
              */
 
-            public void vetoableChange(PropertyChangeEvent pce) throws PropertyVetoException {
-                BeanContextSupport.this.vetoableChange(pce);
+            publid void vftobblfCibngf(PropfrtyCibngfEvfnt pdf) tirows PropfrtyVftoExdfption {
+                BfbnContfxtSupport.tiis.vftobblfCibngf(pdf);
              }
         };
     }
 
     /**
-     * Gets a copy of the this BeanContext's children.
-     * @return a copy of the current nested children
+     * Gfts b dopy of tif tiis BfbnContfxt's diildrfn.
+     * @rfturn b dopy of tif durrfnt nfstfd diildrfn
      */
-    protected final Object[] copyChildren() {
-        synchronized(children) { return children.keySet().toArray(); }
+    protfdtfd finbl Objfdt[] dopyCiildrfn() {
+        syndironizfd(diildrfn) { rfturn diildrfn.kfySft().toArrby(); }
     }
 
     /**
-     * Tests to see if two class objects,
-     * or their names are equal.
-     * @param first the first object
-     * @param second the second object
-     * @return true if equal, false if not
+     * Tfsts to sff if two dlbss objfdts,
+     * or tifir nbmfs brf fqubl.
+     * @pbrbm first tif first objfdt
+     * @pbrbm sfdond tif sfdond objfdt
+     * @rfturn truf if fqubl, fblsf if not
      */
-    protected static final boolean classEquals(Class<?> first, Class<?> second) {
-        return first.equals(second) || first.getName().equals(second.getName());
+    protfdtfd stbtid finbl boolfbn dlbssEqubls(Clbss<?> first, Clbss<?> sfdond) {
+        rfturn first.fqubls(sfdond) || first.gftNbmf().fqubls(sfdond.gftNbmf());
     }
 
 
     /*
-     * fields
+     * fiflds
      */
 
 
     /**
-     * all accesses to the <code> protected HashMap children </code> field
-     * shall be synchronized on that object.
+     * bll bddfssfs to tif <dodf> protfdtfd HbsiMbp diildrfn </dodf> fifld
+     * sibll bf syndironizfd on tibt objfdt.
      */
-    protected transient HashMap<Object, BCSChild>         children;
+    protfdtfd trbnsifnt HbsiMbp<Objfdt, BCSCiild>         diildrfn;
 
-    private             int             serializable  = 0; // children serializable
+    privbtf             int             sfriblizbblf  = 0; // diildrfn sfriblizbblf
 
     /**
-     * all accesses to the <code> protected ArrayList bcmListeners </code> field
-     * shall be synchronized on that object.
+     * bll bddfssfs to tif <dodf> protfdtfd ArrbyList bdmListfnfrs </dodf> fifld
+     * sibll bf syndironizfd on tibt objfdt.
      */
-    protected transient ArrayList<BeanContextMembershipListener> bcmListeners;
+    protfdtfd trbnsifnt ArrbyList<BfbnContfxtMfmbfrsiipListfnfr> bdmListfnfrs;
 
     //
 
     /**
-     * The current locale of this BeanContext.
+     * Tif durrfnt lodblf of tiis BfbnContfxt.
      */
-    protected           Locale          locale;
+    protfdtfd           Lodblf          lodblf;
 
     /**
-     * A <tt>boolean</tt> indicating if this
-     * instance may now render a GUI.
+     * A <tt>boolfbn</tt> indidbting if tiis
+     * instbndf mby now rfndfr b GUI.
      */
-    protected           boolean         okToUseGui;
+    protfdtfd           boolfbn         okToUsfGui;
 
 
     /**
-     * A <tt>boolean</tt> indicating whether or not
-     * this object is currently in design time mode.
+     * A <tt>boolfbn</tt> indidbting wiftifr or not
+     * tiis objfdt is durrfntly in dfsign timf modf.
      */
-    protected           boolean         designTime;
+    protfdtfd           boolfbn         dfsignTimf;
 
     /*
-     * transient
+     * trbnsifnt
      */
 
-    private transient PropertyChangeListener childPCL;
+    privbtf trbnsifnt PropfrtyCibngfListfnfr diildPCL;
 
-    private transient VetoableChangeListener childVCL;
+    privbtf trbnsifnt VftobblfCibngfListfnfr diildVCL;
 
-    private transient boolean                serializing;
+    privbtf trbnsifnt boolfbn                sfriblizing;
 }

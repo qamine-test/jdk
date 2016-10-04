@@ -1,831 +1,831 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * The type of an object in a target VM. ReferenceType encompasses
- * classes, interfaces, and array types as defined in
- * <cite>The Java&trade; Language Specification</cite>.
- * All ReferenceType objects belong to one of the following
- * subinterfaces:
- * {@link ClassType} for classes,
- * {@link InterfaceType} for interfaces, and
- * {@link ArrayType} for arrays.
- * Note that primitive classes (for example, the
- * {@link ClassObjectReference#reflectedType() reflected type} of
- * {@link java.lang.Integer#TYPE Integer.TYPE})
- * are represented as ClassType.
- * The VM creates Class objects for all three, so from the VM perspective,
- * each ReferenceType maps to a distinct Class object.
+ * Tif typf of bn objfdt in b tbrgft VM. RfffrfndfTypf fndompbssfs
+ * dlbssfs, intfrfbdfs, bnd brrby typfs bs dffinfd in
+ * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+ * All RfffrfndfTypf objfdts bflong to onf of tif following
+ * subintfrfbdfs:
+ * {@link ClbssTypf} for dlbssfs,
+ * {@link IntfrfbdfTypf} for intfrfbdfs, bnd
+ * {@link ArrbyTypf} for brrbys.
+ * Notf tibt primitivf dlbssfs (for fxbmplf, tif
+ * {@link ClbssObjfdtRfffrfndf#rfflfdtfdTypf() rfflfdtfd typf} of
+ * {@link jbvb.lbng.Intfgfr#TYPE Intfgfr.TYPE})
+ * brf rfprfsfntfd bs ClbssTypf.
+ * Tif VM drfbtfs Clbss objfdts for bll tirff, so from tif VM pfrspfdtivf,
+ * fbdi RfffrfndfTypf mbps to b distindt Clbss objfdt.
  * <p>
- * ReferenceTypes can
- * be obtained by querying a particular {@link ObjectReference} for its
- * type or by getting a list of all reference types from the
- * {@link VirtualMachine}.
+ * RfffrfndfTypfs dbn
+ * bf obtbinfd by qufrying b pbrtidulbr {@link ObjfdtRfffrfndf} for its
+ * typf or by gftting b list of bll rfffrfndf typfs from tif
+ * {@link VirtublMbdiinf}.
  * <p>
- * ReferenceType provides access to static type information such as
- * methods and fields and provides access to dynamic type
- * information such as the corresponding Class object and the classloader.
+ * RfffrfndfTypf providfs bddfss to stbtid typf informbtion sudi bs
+ * mftiods bnd fiflds bnd providfs bddfss to dynbmid typf
+ * informbtion sudi bs tif dorrfsponding Clbss objfdt bnd tif dlbsslobdfr.
  * <p>
- * Any method on <code>ReferenceType</code> which directly or
- * indirectly takes <code>ReferenceType</code> as an parameter may throw
- * {@link com.sun.jdi.VMDisconnectedException} if the target VM is
- * disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is
- * available to be read from the {@link com.sun.jdi.event.EventQueue}.
+ * Any mftiod on <dodf>RfffrfndfTypf</dodf> wiidi dirfdtly or
+ * indirfdtly tbkfs <dodf>RfffrfndfTypf</dodf> bs bn pbrbmftfr mby tirow
+ * {@link dom.sun.jdi.VMDisdonnfdtfdExdfption} if tif tbrgft VM is
+ * disdonnfdtfd bnd tif {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} ibs bffn or is
+ * bvbilbblf to bf rfbd from tif {@link dom.sun.jdi.fvfnt.EvfntQufuf}.
  * <p>
- * Any method on <code>ReferenceType</code> which directly or
- * indirectly takes <code>ReferenceType</code> as an parameter may throw
- * {@link com.sun.jdi.VMOutOfMemoryException} if the target VM has run out of memory.
+ * Any mftiod on <dodf>RfffrfndfTypf</dodf> wiidi dirfdtly or
+ * indirfdtly tbkfs <dodf>RfffrfndfTypf</dodf> bs bn pbrbmftfr mby tirow
+ * {@link dom.sun.jdi.VMOutOfMfmoryExdfption} if tif tbrgft VM ibs run out of mfmory.
  * <p>
- * Any method on <code>ReferenceType</code> or which directly or indirectly takes
- * <code>ReferenceType</code> as parameter may throw
- * {@link com.sun.jdi.ObjectCollectedException} if the mirrored type has been unloaded.
+ * Any mftiod on <dodf>RfffrfndfTypf</dodf> or wiidi dirfdtly or indirfdtly tbkfs
+ * <dodf>RfffrfndfTypf</dodf> bs pbrbmftfr mby tirow
+ * {@link dom.sun.jdi.ObjfdtCollfdtfdExdfption} if tif mirrorfd typf ibs bffn unlobdfd.
  *
- * @see ObjectReference
- * @see ObjectReference#referenceType
- * @see VirtualMachine
- * @see VirtualMachine#allClasses
+ * @sff ObjfdtRfffrfndf
+ * @sff ObjfdtRfffrfndf#rfffrfndfTypf
+ * @sff VirtublMbdiinf
+ * @sff VirtublMbdiinf#bllClbssfs
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface ReferenceType
-    extends Type, Comparable<ReferenceType>, Accessible
+@jdk.Exportfd
+publid intfrfbdf RfffrfndfTypf
+    fxtfnds Typf, Compbrbblf<RfffrfndfTypf>, Addfssiblf
 {
 
     /**
-     * Gets the fully qualified name of this type. The returned name
-     * is formatted as it might appear in a Java programming langauge
-     * declaration for objects of this type.
+     * Gfts tif fully qublififd nbmf of tiis typf. Tif rfturnfd nbmf
+     * is formbttfd bs it migit bppfbr in b Jbvb progrbmming lbngbugf
+     * dfdlbrbtion for objfdts of tiis typf.
      * <p>
-     * For primitive classes
-     * the returned name is the name of the corresponding primitive
-     * type; for example, "int" is returned as the name of the class
-     * represented by {@link java.lang.Integer#TYPE Integer.TYPE}.
-     * @return a string containing the type name.
+     * For primitivf dlbssfs
+     * tif rfturnfd nbmf is tif nbmf of tif dorrfsponding primitivf
+     * typf; for fxbmplf, "int" is rfturnfd bs tif nbmf of tif dlbss
+     * rfprfsfntfd by {@link jbvb.lbng.Intfgfr#TYPE Intfgfr.TYPE}.
+     * @rfturn b string dontbining tif typf nbmf.
      */
-    String name();
+    String nbmf();
 
     /**
-     * Gets the generic signature for this type if there is one.
-     * Generic signatures are described in the
-     * <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * Gfts tif gfnfrid signbturf for tiis typf if tifrf is onf.
+     * Gfnfrid signbturfs brf dfsdribfd in tif
+     * <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
      *
-     * @return a string containing the generic signature, or <code>null</code>
-     * if there is no generic signature.
+     * @rfturn b string dontbining tif gfnfrid signbturf, or <dodf>null</dodf>
+     * if tifrf is no gfnfrid signbturf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    String genericSignature();
+    String gfnfridSignbturf();
 
     /**
-     * Gets the classloader object which loaded the class corresponding
-     * to this type.
+     * Gfts tif dlbsslobdfr objfdt wiidi lobdfd tif dlbss dorrfsponding
+     * to tiis typf.
      *
-     * @return a {@link ClassLoaderReference} which mirrors the classloader,
-     * or <code>null</code> if the class was loaded through the bootstrap class
-     * loader.
+     * @rfturn b {@link ClbssLobdfrRfffrfndf} wiidi mirrors tif dlbsslobdfr,
+     * or <dodf>null</dodf> if tif dlbss wbs lobdfd tirougi tif bootstrbp dlbss
+     * lobdfr.
      */
-    ClassLoaderReference classLoader();
+    ClbssLobdfrRfffrfndf dlbssLobdfr();
 
     /**
-     * Gets an identifying name for the source corresponding to the
-     * declaration of this type. Interpretation of this string is
-     * the responsibility of the source repository mechanism.
+     * Gfts bn idfntifying nbmf for tif sourdf dorrfsponding to tif
+     * dfdlbrbtion of tiis typf. Intfrprftbtion of tiis string is
+     * tif rfsponsibility of tif sourdf rfpository mfdibnism.
      * <P>
-     * The returned name is dependent on VM's default stratum
-     * ({@link VirtualMachine#getDefaultStratum()}).
-     * In the reference implementation, when using the base stratum,
-     * the returned string is the
-     * unqualified name of the source file containing the declaration
-     * of this type.  In other strata the returned source name is
-     * the first source name for that stratum.  Since other languages
-     * may have more than one source name for a reference type,
-     * the use of {@link Location#sourceName()} or
-     * {@link #sourceNames(String)} is preferred.
+     * Tif rfturnfd nbmf is dfpfndfnt on VM's dffbult strbtum
+     * ({@link VirtublMbdiinf#gftDffbultStrbtum()}).
+     * In tif rfffrfndf implfmfntbtion, wifn using tif bbsf strbtum,
+     * tif rfturnfd string is tif
+     * unqublififd nbmf of tif sourdf filf dontbining tif dfdlbrbtion
+     * of tiis typf.  In otifr strbtb tif rfturnfd sourdf nbmf is
+     * tif first sourdf nbmf for tibt strbtum.  Sindf otifr lbngubgfs
+     * mby ibvf morf tibn onf sourdf nbmf for b rfffrfndf typf,
+     * tif usf of {@link Lodbtion#sourdfNbmf()} or
+     * {@link #sourdfNbmfs(String)} is prfffrrfd.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * AbsentInformationException is always thrown.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * AbsfntInformbtionExdfption is blwbys tirown.
      *
-     * @return the string source file name
-     * @throws AbsentInformationException if the source name is not
+     * @rfturn tif string sourdf filf nbmf
+     * @tirows AbsfntInformbtionExdfption if tif sourdf nbmf is not
      * known
      */
-    String sourceName() throws AbsentInformationException;
+    String sourdfNbmf() tirows AbsfntInformbtionExdfption;
 
     /**
-     * Gets the identifying names for all the source corresponding to the
-     * declaration of this type. Interpretation of these names is
-     * the responsibility of the source repository mechanism.
+     * Gfts tif idfntifying nbmfs for bll tif sourdf dorrfsponding to tif
+     * dfdlbrbtion of tiis typf. Intfrprftbtion of tifsf nbmfs is
+     * tif rfsponsibility of tif sourdf rfpository mfdibnism.
      * <P>
-     * The returned names are for the specified stratum
-     * (see {@link Location} for a description of strata).
-     * In the reference implementation, when using the Java
-     * programming language stratum,
-     * the returned List contains one element: a String which is the
-     * unqualified name of the source file containing the declaration
-     * of this type.  In other strata the returned source names are
-     * all the source names defined for that stratum.
+     * Tif rfturnfd nbmfs brf for tif spfdififd strbtum
+     * (sff {@link Lodbtion} for b dfsdription of strbtb).
+     * In tif rfffrfndf implfmfntbtion, wifn using tif Jbvb
+     * progrbmming lbngubgf strbtum,
+     * tif rfturnfd List dontbins onf flfmfnt: b String wiidi is tif
+     * unqublififd nbmf of tif sourdf filf dontbining tif dfdlbrbtion
+     * of tiis typf.  In otifr strbtb tif rfturnfd sourdf nbmfs brf
+     * bll tif sourdf nbmfs dffinfd for tibt strbtum.
      *
-     * @param stratum The stratum to retrieve information from
-     * or <code>null</code> for the declaring type's
-     * default stratum.
+     * @pbrbm strbtum Tif strbtum to rftrifvf informbtion from
+     * or <dodf>null</dodf> for tif dfdlbring typf's
+     * dffbult strbtum.
      *
-     * @return a List of String objects each representing a source name
+     * @rfturn b List of String objfdts fbdi rfprfsfnting b sourdf nbmf
      *
-     * @throws AbsentInformationException if the source names are not
+     * @tirows AbsfntInformbtionExdfption if tif sourdf nbmfs brf not
      * known.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * AbsentInformationException is always thrown.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * AbsfntInformbtionExdfption is blwbys tirown.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    List<String> sourceNames(String stratum) throws AbsentInformationException;
+    List<String> sourdfNbmfs(String strbtum) tirows AbsfntInformbtionExdfption;
 
     /**
-     * Gets the paths to the source corresponding to the
-     * declaration of this type. Interpretation of these paths is
-     * the responsibility of the source repository mechanism.
+     * Gfts tif pbtis to tif sourdf dorrfsponding to tif
+     * dfdlbrbtion of tiis typf. Intfrprftbtion of tifsf pbtis is
+     * tif rfsponsibility of tif sourdf rfpository mfdibnism.
      * <P>
-     * The returned paths are for the specified stratum
-     * (see {@link Location} for a description of strata).
-     * In the reference implementation, for strata which
-     * do not explicitly specify source path (the Java
-     * programming language stratum never does), the returned
-     * strings are the {@link #sourceNames(String)} prefixed by
-     * the package name of this ReferenceType
-     * converted to a platform dependent path.
-     * For example, on a Windows platform,
-     * <CODE>java.lang.Thread</CODE>
-     * would return a List containing one element:
-     * <CODE>"java\lang\Thread.java"</CODE>.
+     * Tif rfturnfd pbtis brf for tif spfdififd strbtum
+     * (sff {@link Lodbtion} for b dfsdription of strbtb).
+     * In tif rfffrfndf implfmfntbtion, for strbtb wiidi
+     * do not fxpliditly spfdify sourdf pbti (tif Jbvb
+     * progrbmming lbngubgf strbtum nfvfr dofs), tif rfturnfd
+     * strings brf tif {@link #sourdfNbmfs(String)} prffixfd by
+     * tif pbdkbgf nbmf of tiis RfffrfndfTypf
+     * donvfrtfd to b plbtform dfpfndfnt pbti.
+     * For fxbmplf, on b Windows plbtform,
+     * <CODE>jbvb.lbng.Tirfbd</CODE>
+     * would rfturn b List dontbining onf flfmfnt:
+     * <CODE>"jbvb\lbng\Tirfbd.jbvb"</CODE>.
      *
-     * @param stratum The stratum to retrieve information from
-     * or <code>null</code> for the declaring type's
-     * default stratum.
+     * @pbrbm strbtum Tif strbtum to rftrifvf informbtion from
+     * or <dodf>null</dodf> for tif dfdlbring typf's
+     * dffbult strbtum.
      *
-     * @return a List of String objects each representing a source path
+     * @rfturn b List of String objfdts fbdi rfprfsfnting b sourdf pbti
      *
-     * @throws AbsentInformationException if the source names are not
+     * @tirows AbsfntInformbtionExdfption if tif sourdf nbmfs brf not
      * known.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * AbsentInformationException is always thrown.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * AbsfntInformbtionExdfption is blwbys tirown.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    List<String> sourcePaths(String stratum) throws AbsentInformationException;
+    List<String> sourdfPbtis(String strbtum) tirows AbsfntInformbtionExdfption;
 
     /**
-     * Get the source debug extension of this type.
+     * Gft tif sourdf dfbug fxtfnsion of tiis typf.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use
-     * {@link VirtualMachine#canGetSourceDebugExtension() canGetSourceDebugExtension()}
-     * to determine if the operation is supported.
-     * @return as a string the source debug extension attribute
-     * @throws AbsentInformationException if the extension is not
-     * specified
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetSourceDebugExtension() canGetSourceDebugExtension()},
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf
+     * {@link VirtublMbdiinf#dbnGftSourdfDfbugExtfnsion() dbnGftSourdfDfbugExtfnsion()}
+     * to dftfrminf if tif opfrbtion is supportfd.
+     * @rfturn bs b string tif sourdf dfbug fxtfnsion bttributf
+     * @tirows AbsfntInformbtionExdfption if tif fxtfnsion is not
+     * spfdififd
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion - sff
+     * {@link VirtublMbdiinf#dbnGftSourdfDfbugExtfnsion() dbnGftSourdfDfbugExtfnsion()},
      */
-    String sourceDebugExtension() throws AbsentInformationException;
+    String sourdfDfbugExtfnsion() tirows AbsfntInformbtionExdfption;
 
     /**
-     * Determines if this type was declared static. Only nested types,
-     * can be declared static, so <code>false</code> is returned
-     * for any package-level type, array type, or primitive class.
+     * Dftfrminfs if tiis typf wbs dfdlbrfd stbtid. Only nfstfd typfs,
+     * dbn bf dfdlbrfd stbtid, so <dodf>fblsf</dodf> is rfturnfd
+     * for bny pbdkbgf-lfvfl typf, brrby typf, or primitivf dlbss.
      *
-     * @return <code>true</code> if this type is static; false otherwise.
+     * @rfturn <dodf>truf</dodf> if tiis typf is stbtid; fblsf otifrwisf.
      */
-    boolean isStatic();
+    boolfbn isStbtid();
 
     /**
-     * Determines if this type was declared abstract.
+     * Dftfrminfs if tiis typf wbs dfdlbrfd bbstrbdt.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is undefined.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * tif rfturn vbluf is undffinfd.
      *
-     * @return <code>true</code> if this type is abstract; false otherwise.
+     * @rfturn <dodf>truf</dodf> if tiis typf is bbstrbdt; fblsf otifrwisf.
      */
-    boolean isAbstract();
+    boolfbn isAbstrbdt();
 
     /**
-     * Determines if this type was declared final.
+     * Dftfrminfs if tiis typf wbs dfdlbrfd finbl.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is always true.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * tif rfturn vbluf is blwbys truf.
      *
-     * @return <code>true</code> if this type is final; false otherwise.
+     * @rfturn <dodf>truf</dodf> if tiis typf is finbl; fblsf otifrwisf.
      */
-    boolean isFinal();
+    boolfbn isFinbl();
 
     /**
-     * Determines if this type has been prepared. See the JVM
-     * specification for a definition of class preparation.
+     * Dftfrminfs if tiis typf ibs bffn prfpbrfd. Sff tif JVM
+     * spfdifidbtion for b dffinition of dlbss prfpbrbtion.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is undefined.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * tif rfturn vbluf is undffinfd.
      *
-     * @return <code>true</code> if this type is prepared; false otherwise.
+     * @rfturn <dodf>truf</dodf> if tiis typf is prfpbrfd; fblsf otifrwisf.
      */
-    boolean isPrepared();
+    boolfbn isPrfpbrfd();
 
     /**
-     * Determines if this type has been verified. See the JVM
-     * specification for a definition of class verification.
+     * Dftfrminfs if tiis typf ibs bffn vfrififd. Sff tif JVM
+     * spfdifidbtion for b dffinition of dlbss vfrifidbtion.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is undefined.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * tif rfturn vbluf is undffinfd.
      *
-     * @return <code>true</code> if this type is verified; false otherwise.
+     * @rfturn <dodf>truf</dodf> if tiis typf is vfrififd; fblsf otifrwisf.
      */
-    boolean isVerified();
+    boolfbn isVfrififd();
 
     /**
-     * Determines if this type has been initialized. See the JVM
-     * specification for a definition of class verification.
-     * For {@link InterfaceType}, this method always returns the
-     * same value as {@link #isPrepared()}.
+     * Dftfrminfs if tiis typf ibs bffn initiblizfd. Sff tif JVM
+     * spfdifidbtion for b dffinition of dlbss vfrifidbtion.
+     * For {@link IntfrfbdfTypf}, tiis mftiod blwbys rfturns tif
+     * sbmf vbluf bs {@link #isPrfpbrfd()}.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is undefined.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * tif rfturn vbluf is undffinfd.
      *
-     * @return <code>true</code> if this type is initialized; false otherwise.
+     * @rfturn <dodf>truf</dodf> if tiis typf is initiblizfd; fblsf otifrwisf.
      */
-    boolean isInitialized();
+    boolfbn isInitiblizfd();
 
     /**
-     * Determines if initialization failed for this class. See the JVM
-     * specification for details on class initialization.
+     * Dftfrminfs if initiblizbtion fbilfd for tiis dlbss. Sff tif JVM
+     * spfdifidbtion for dftbils on dlbss initiblizbtion.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is undefined.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * tif rfturn vbluf is undffinfd.
      *
-     * @return <code>true</code> if initialization was attempted and
-     * failed; false otherwise.
+     * @rfturn <dodf>truf</dodf> if initiblizbtion wbs bttfmptfd bnd
+     * fbilfd; fblsf otifrwisf.
      */
-    boolean failedToInitialize();
+    boolfbn fbilfdToInitiblizf();
 
     /**
-     * Returns a list containing each {@link Field} declared in this type.
-     * Inherited fields are not included. Any synthetic fields created
-     * by the compiler are included in the list.
+     * Rfturns b list dontbining fbdi {@link Fifld} dfdlbrfd in tiis typf.
+     * Inifritfd fiflds brf not indludfd. Any syntiftid fiflds drfbtfd
+     * by tif dompilfr brf indludfd in tif list.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif rfturnfd
+     * list is blwbys fmpty.
      *
-     * @return a list {@link Field} objects; the list has length 0
-     * if no fields exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @rfturn b list {@link Fifld} objfdts; tif list ibs lfngti 0
+     * if no fiflds fxist.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft bffn
+     * prfpbrfd.
      */
-    List<Field> fields();
+    List<Fifld> fiflds();
 
     /**
-     * Returns a list containing each unhidden and unambiguous {@link Field}
-     * in this type.
-     * Each field that can be accessed from the class
-     * or its instances with its simple name is included. Fields that
-     * are ambiguously multiply inherited or fields that are hidden by
-     * fields with the same name in a more recently inherited class
-     * cannot be accessed
-     * by their simple names and are not included in the returned
-     * list. All other inherited fields are included.
-     * See JLS section 8.3 for details.
+     * Rfturns b list dontbining fbdi uniiddfn bnd unbmbiguous {@link Fifld}
+     * in tiis typf.
+     * Ebdi fifld tibt dbn bf bddfssfd from tif dlbss
+     * or its instbndfs witi its simplf nbmf is indludfd. Fiflds tibt
+     * brf bmbiguously multiply inifritfd or fiflds tibt brf iiddfn by
+     * fiflds witi tif sbmf nbmf in b morf rfdfntly inifritfd dlbss
+     * dbnnot bf bddfssfd
+     * by tifir simplf nbmfs bnd brf not indludfd in tif rfturnfd
+     * list. All otifr inifritfd fiflds brf indludfd.
+     * Sff JLS sfdtion 8.3 for dftbils.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif rfturnfd
+     * list is blwbys fmpty.
      *
-     * @return a List of {@link Field} objects; the list has length
-     * 0 if no visible fields exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @rfturn b List of {@link Fifld} objfdts; tif list ibs lfngti
+     * 0 if no visiblf fiflds fxist.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft bffn
+     * prfpbrfd.
      */
-    List<Field> visibleFields();
+    List<Fifld> visiblfFiflds();
 
     /**
-     * Returns a list containing each {@link Field} declared in this type,
-     * and its superclasses, implemented interfaces, and/or superinterfaces.
-     * All declared and inherited
-     * fields are included, regardless of whether they are hidden or
-     * multiply inherited.
+     * Rfturns b list dontbining fbdi {@link Fifld} dfdlbrfd in tiis typf,
+     * bnd its supfrdlbssfs, implfmfntfd intfrfbdfs, bnd/or supfrintfrfbdfs.
+     * All dfdlbrfd bnd inifritfd
+     * fiflds brf indludfd, rfgbrdlfss of wiftifr tify brf iiddfn or
+     * multiply inifritfd.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif rfturnfd
+     * list is blwbys fmpty.
      *
-     * @return a List of {@link Field} objects; the list has length
-     * 0 if no fields exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @rfturn b List of {@link Fifld} objfdts; tif list ibs lfngti
+     * 0 if no fiflds fxist.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft bffn
+     * prfpbrfd.
      */
-    List<Field> allFields();
+    List<Fifld> bllFiflds();
 
     /**
-     * Finds the visible {@link Field} with the given
-     * non-ambiguous name. This method follows the
-     * inheritance rules specified in the JLS (8.3.3) to determine
+     * Finds tif visiblf {@link Fifld} witi tif givfn
+     * non-bmbiguous nbmf. Tiis mftiod follows tif
+     * inifritbndf rulfs spfdififd in tif JLS (8.3.3) to dftfrminf
      * visibility.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * value is always null.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif rfturnfd
+     * vbluf is blwbys null.
      *
-     * @param fieldName a String containing the name of desired field.
-     * @return a {@link Field} object which mirrors the found field, or
-     * null if there is no field with the given name or if the given
-     * name is ambiguous.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @pbrbm fifldNbmf b String dontbining tif nbmf of dfsirfd fifld.
+     * @rfturn b {@link Fifld} objfdt wiidi mirrors tif found fifld, or
+     * null if tifrf is no fifld witi tif givfn nbmf or if tif givfn
+     * nbmf is bmbiguous.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft bffn
+     * prfpbrfd.
      */
-    Field fieldByName(String fieldName);
+    Fifld fifldByNbmf(String fifldNbmf);
 
     /**
-     * Returns a list containing each {@link Method} declared
-     * directly in this type.
-     * Inherited methods are not included. Constructors,
-     * the initialization method if any, and any synthetic methods created
-     * by the compiler are included in the list.
+     * Rfturns b list dontbining fbdi {@link Mftiod} dfdlbrfd
+     * dirfdtly in tiis typf.
+     * Inifritfd mftiods brf not indludfd. Construdtors,
+     * tif initiblizbtion mftiod if bny, bnd bny syntiftid mftiods drfbtfd
+     * by tif dompilfr brf indludfd in tif list.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif rfturnfd
+     * list is blwbys fmpty.
      *
-     * @return a list {@link Method} objects; the list has length 0
-     * if no methods exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @rfturn b list {@link Mftiod} objfdts; tif list ibs lfngti 0
+     * if no mftiods fxist.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft bffn
+     * prfpbrfd.
      */
-    List<Method> methods();
+    List<Mftiod> mftiods();
 
     /**
-     * Returns a list containing each {@link Method}
-     * declared or inherited by this type. Methods from superclasses
-     * or superinterfaces that that have been hidden or overridden
-     * are not included.
+     * Rfturns b list dontbining fbdi {@link Mftiod}
+     * dfdlbrfd or inifritfd by tiis typf. Mftiods from supfrdlbssfs
+     * or supfrintfrfbdfs tibt tibt ibvf bffn iiddfn or ovfrriddfn
+     * brf not indludfd.
      * <p>
-     * Note that despite this exclusion, multiple inherited methods
-     * with the same signature can be present in the returned list, but
-     * at most one can be a member of a {@link ClassType}.
-     * See JLS section 8.4.6 for details.
+     * Notf tibt dfspitf tiis fxdlusion, multiplf inifritfd mftiods
+     * witi tif sbmf signbturf dbn bf prfsfnt in tif rfturnfd list, but
+     * bt most onf dbn bf b mfmbfr of b {@link ClbssTypf}.
+     * Sff JLS sfdtion 8.4.6 for dftbils.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif rfturnfd
+     * list is blwbys fmpty.
      *
-     * @return a List of {@link Method} objects; the list has length
-     * 0 if no visible methods exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @rfturn b List of {@link Mftiod} objfdts; tif list ibs lfngti
+     * 0 if no visiblf mftiods fxist.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft bffn
+     * prfpbrfd.
      */
-    List<Method> visibleMethods();
+    List<Mftiod> visiblfMftiods();
 
     /**
-     * Returns a list containing each {@link Method} declared in this type,
-     * and its superclasses, implemented interfaces, and/or superinterfaces.
-     * All declared and inherited
-     * methods are included, regardless of whether they are hidden or
-     * overridden.
+     * Rfturns b list dontbining fbdi {@link Mftiod} dfdlbrfd in tiis typf,
+     * bnd its supfrdlbssfs, implfmfntfd intfrfbdfs, bnd/or supfrintfrfbdfs.
+     * All dfdlbrfd bnd inifritfd
+     * mftiods brf indludfd, rfgbrdlfss of wiftifr tify brf iiddfn or
+     * ovfrriddfn.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif rfturnfd
+     * list is blwbys fmpty.
      *
-     * @return a List of {@link Method} objects; the list has length
-     * 0 if no methods exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @rfturn b List of {@link Mftiod} objfdts; tif list ibs lfngti
+     * 0 if no mftiods fxist.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft bffn
+     * prfpbrfd.
      */
-    List<Method> allMethods();
+    List<Mftiod> bllMftiods();
 
     /**
-     * Returns a List containing each visible {@link Method} that
-     * has the given name.  This is most commonly used to
-     * find overloaded methods.
+     * Rfturns b List dontbining fbdi visiblf {@link Mftiod} tibt
+     * ibs tif givfn nbmf.  Tiis is most dommonly usfd to
+     * find ovfrlobdfd mftiods.
      * <p>
-     * Overridden and hidden methods are not included.
-     * See JLS (8.4.6) for details.
+     * Ovfrriddfn bnd iiddfn mftiods brf not indludfd.
+     * Sff JLS (8.4.6) for dftbils.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif rfturnfd
+     * list is blwbys fmpty.
      *
-     * @param name the name of the method to find.
-     * @return a List of {@link Method} objects that match the given
-     * name; the list has length 0 if no matching methods are found.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @pbrbm nbmf tif nbmf of tif mftiod to find.
+     * @rfturn b List of {@link Mftiod} objfdts tibt mbtdi tif givfn
+     * nbmf; tif list ibs lfngti 0 if no mbtdiing mftiods brf found.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft bffn
+     * prfpbrfd.
      */
-    List<Method> methodsByName(String name);
+    List<Mftiod> mftiodsByNbmf(String nbmf);
 
     /**
-     * Returns a List containing each visible {@link Method} that
-     * has the given name and signature.
-     * The signature string is the
-     * JNI signature for the target method:
+     * Rfturns b List dontbining fbdi visiblf {@link Mftiod} tibt
+     * ibs tif givfn nbmf bnd signbturf.
+     * Tif signbturf string is tif
+     * JNI signbturf for tif tbrgft mftiod:
      * <ul>
-     * <li><code>()V</code>
-     * <li><code>([Ljava/lang/String;)V</code>
-     * <li><code>(IIII)Z</code>
+     * <li><dodf>()V</dodf>
+     * <li><dodf>([Ljbvb/lbng/String;)V</dodf>
+     * <li><dodf>(IIII)Z</dodf>
      * </ul>
-     * This method follows the inheritance rules specified
-     * in the JLS (8.4.6) to determine visibility.
+     * Tiis mftiod follows tif inifritbndf rulfs spfdififd
+     * in tif JLS (8.4.6) to dftfrminf visibility.
      * <p>
-     * At most one method in the list is a concrete method and a
-     * component of {@link ClassType}; any other methods in the list
-     * are abstract. Use {@link ClassType#concreteMethodByName} to
-     * retrieve only the matching concrete method.
+     * At most onf mftiod in tif list is b dondrftf mftiod bnd b
+     * domponfnt of {@link ClbssTypf}; bny otifr mftiods in tif list
+     * brf bbstrbdt. Usf {@link ClbssTypf#dondrftfMftiodByNbmf} to
+     * rftrifvf only tif mbtdiing dondrftf mftiod.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif rfturnfd
+     * list is blwbys fmpty.
      *
-     * @param name the name of the method to find.
-     * @param signature the signature of the method to find
-     * @return a List of {@link Method} objects that match the given
-     * name and signature; the list has length 0 if no matching methods
-     * are found.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @pbrbm nbmf tif nbmf of tif mftiod to find.
+     * @pbrbm signbturf tif signbturf of tif mftiod to find
+     * @rfturn b List of {@link Mftiod} objfdts tibt mbtdi tif givfn
+     * nbmf bnd signbturf; tif list ibs lfngti 0 if no mbtdiing mftiods
+     * brf found.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft bffn
+     * prfpbrfd.
      */
-    List<Method> methodsByName(String name, String signature);
+    List<Mftiod> mftiodsByNbmf(String nbmf, String signbturf);
 
     /**
-     * Returns a List containing {@link ReferenceType} objects that are
-     * declared within this type and are currently loaded into the Virtual
-     * Machine.  Both static nested types and non-static nested
-     * types (that is, inner types) are included. Local inner types
-     * (declared within a code block somewhere in this reference type) are
-     * also included in the returned list.
+     * Rfturns b List dontbining {@link RfffrfndfTypf} objfdts tibt brf
+     * dfdlbrfd witiin tiis typf bnd brf durrfntly lobdfd into tif Virtubl
+     * Mbdiinf.  Boti stbtid nfstfd typfs bnd non-stbtid nfstfd
+     * typfs (tibt is, innfr typfs) brf indludfd. Lodbl innfr typfs
+     * (dfdlbrfd witiin b dodf blodk somfwifrf in tiis rfffrfndf typf) brf
+     * blso indludfd in tif rfturnfd list.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif rfturnfd
+     * list is blwbys fmpty.
      *
-     * @return a List of nested {@link ReferenceType} objects; the list
-     * has 0 length if there are no nested types.
+     * @rfturn b List of nfstfd {@link RfffrfndfTypf} objfdts; tif list
+     * ibs 0 lfngti if tifrf brf no nfstfd typfs.
      */
-    List<ReferenceType> nestedTypes();
+    List<RfffrfndfTypf> nfstfdTypfs();
 
     /**
-     * Gets the {@link Value} of a given static {@link Field} in this type.
-     * The Field must be valid for this type;
-     * that is, it must be declared in this type, a superclass, a
-     * superinterface, or an implemented interface.
+     * Gfts tif {@link Vbluf} of b givfn stbtid {@link Fifld} in tiis typf.
+     * Tif Fifld must bf vblid for tiis typf;
+     * tibt is, it must bf dfdlbrfd in tiis typf, b supfrdlbss, b
+     * supfrintfrfbdf, or bn implfmfntfd intfrfbdf.
      *
-     * @param field the field containing the requested value
-     * @return the {@link Value} of the instance field.
-     * @throws java.lang.IllegalArgumentException if the field is not valid for
-     * this object's class.
+     * @pbrbm fifld tif fifld dontbining tif rfqufstfd vbluf
+     * @rfturn tif {@link Vbluf} of tif instbndf fifld.
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if tif fifld is not vblid for
+     * tiis objfdt's dlbss.
      */
-    Value getValue(Field field);
+    Vbluf gftVbluf(Fifld fifld);
 
     /**
-     * Returns a map containing the {@link Value} of each
-     * static {@link Field} in the given list.
-     * The Fields must be valid for this type;
-     * that is, they must be declared in this type, a superclass, a
-     * superinterface, or an implemented interface.
+     * Rfturns b mbp dontbining tif {@link Vbluf} of fbdi
+     * stbtid {@link Fifld} in tif givfn list.
+     * Tif Fiflds must bf vblid for tiis typf;
+     * tibt is, tify must bf dfdlbrfd in tiis typf, b supfrdlbss, b
+     * supfrintfrfbdf, or bn implfmfntfd intfrfbdf.
      *
-     * @param fields a list of {@link Field} objects containing the
-     * requested values.
-     * @return a Map of the requested {@link Field} objects with
-     * their {@link Value}.
-     * @throws java.lang.IllegalArgumentException if any field is not valid for
-     * this object's class.
-     * @throws VMMismatchException if a {@link Mirror} argument and this mirror
-     * do not belong to the same {@link VirtualMachine}.
+     * @pbrbm fiflds b list of {@link Fifld} objfdts dontbining tif
+     * rfqufstfd vblufs.
+     * @rfturn b Mbp of tif rfqufstfd {@link Fifld} objfdts witi
+     * tifir {@link Vbluf}.
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if bny fifld is not vblid for
+     * tiis objfdt's dlbss.
+     * @tirows VMMismbtdiExdfption if b {@link Mirror} brgumfnt bnd tiis mirror
+     * do not bflong to tif sbmf {@link VirtublMbdiinf}.
      */
-    Map<Field,Value> getValues(List<? extends Field> fields);
+    Mbp<Fifld,Vbluf> gftVblufs(List<? fxtfnds Fifld> fiflds);
 
     /**
-     * Returns the class object that corresponds to this type in the
-     * target VM. The VM creates class objects for every kind of
-     * ReferenceType: classes, interfaces, and array types.
-     * @return the {@link ClassObjectReference} for this reference type
-     * in the target VM.
+     * Rfturns tif dlbss objfdt tibt dorrfsponds to tiis typf in tif
+     * tbrgft VM. Tif VM drfbtfs dlbss objfdts for fvfry kind of
+     * RfffrfndfTypf: dlbssfs, intfrfbdfs, bnd brrby typfs.
+     * @rfturn tif {@link ClbssObjfdtRfffrfndf} for tiis rfffrfndf typf
+     * in tif tbrgft VM.
      */
-    ClassObjectReference classObject();
+    ClbssObjfdtRfffrfndf dlbssObjfdt();
 
     /**
-     * Returns a list containing a {@link Location} object
-     * for each executable source line in this reference type.
+     * Rfturns b list dontbining b {@link Lodbtion} objfdt
+     * for fbdi fxfdutbblf sourdf linf in tiis rfffrfndf typf.
      * <P>
-     * This method is equivalent to
-     * <code>allLineLocations(vm.getDefaultStratum(),null)</code> -
-     * see {@link #allLineLocations(String,String)}
-     * for more information.
+     * Tiis mftiod is fquivblfnt to
+     * <dodf>bllLinfLodbtions(vm.gftDffbultStrbtum(),null)</dodf> -
+     * sff {@link #bllLinfLodbtions(String,String)}
+     * for morf informbtion.
      *
-     * @throws AbsentInformationException if there is no line
-     * number information for this class and there are non-native,
-     * non-abstract executable members of this class.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no linf
+     * numbfr informbtion for tiis dlbss bnd tifrf brf non-nbtivf,
+     * non-bbstrbdt fxfdutbblf mfmbfrs of tiis dlbss.
      *
-     * @throws ClassNotPreparedException if this class not yet
-     * been prepared.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft
+     * bffn prfpbrfd.
      */
-    List<Location> allLineLocations() throws AbsentInformationException;
+    List<Lodbtion> bllLinfLodbtions() tirows AbsfntInformbtionExdfption;
 
     /**
-     * Returns a list containing a {@link Location} object
-     * for each executable source line in this reference type.
-     * Each location maps a source line to a range of code
-     * indices.
-     * The beginning of the range can be determined through
-     * {@link Location#codeIndex}.  The returned list may contain
-     * multiple locations for a particular line number, if the
-     * compiler and/or VM has mapped that line to two or more
-     * disjoint code index ranges.  Note that it is possible for
-     * the same source line to represent different code index
-     * ranges in <i>different</i> methods.
+     * Rfturns b list dontbining b {@link Lodbtion} objfdt
+     * for fbdi fxfdutbblf sourdf linf in tiis rfffrfndf typf.
+     * Ebdi lodbtion mbps b sourdf linf to b rbngf of dodf
+     * indidfs.
+     * Tif bfginning of tif rbngf dbn bf dftfrminfd tirougi
+     * {@link Lodbtion#dodfIndfx}.  Tif rfturnfd list mby dontbin
+     * multiplf lodbtions for b pbrtidulbr linf numbfr, if tif
+     * dompilfr bnd/or VM ibs mbppfd tibt linf to two or morf
+     * disjoint dodf indfx rbngfs.  Notf tibt it is possiblf for
+     * tif sbmf sourdf linf to rfprfsfnt difffrfnt dodf indfx
+     * rbngfs in <i>difffrfnt</i> mftiods.
      * <P>
-     * For arrays ({@link ArrayType}) and primitive classes, the
-     * returned list is always empty.  For interfaces ({@link
-     * InterfaceType}), the returned list will be non-empty only
-     * if the interface has executable code in its class
-     * initialization.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif
+     * rfturnfd list is blwbys fmpty.  For intfrfbdfs ({@link
+     * IntfrfbdfTypf}), tif rfturnfd list will bf non-fmpty only
+     * if tif intfrfbdf ibs fxfdutbblf dodf in its dlbss
+     * initiblizbtion.
      * <P>
-     * Returned list is for the specified <i>stratum</i>
-     * (see {@link Location} for a description of strata).
+     * Rfturnfd list is for tif spfdififd <i>strbtum</i>
+     * (sff {@link Lodbtion} for b dfsdription of strbtb).
      *
-     * @param stratum The stratum to retrieve information from
-     * or <code>null</code> for the {@link #defaultStratum()}.
+     * @pbrbm strbtum Tif strbtum to rftrifvf informbtion from
+     * or <dodf>null</dodf> for tif {@link #dffbultStrbtum()}.
      *
-     * @param sourceName Return locations only within this
-     * source file or <code>null</code> to return locations.
+     * @pbrbm sourdfNbmf Rfturn lodbtions only witiin tiis
+     * sourdf filf or <dodf>null</dodf> to rfturn lodbtions.
      *
-     * @return a List of all source line {@link Location} objects.
+     * @rfturn b List of bll sourdf linf {@link Lodbtion} objfdts.
      *
-     * @throws AbsentInformationException if there is no line
-     * number information for this class and there are non-native,
-     * non-abstract executable members of this class.
-     * Or if <i>sourceName</i> is non-<code>null</code>
-     * and source name information is not present.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no linf
+     * numbfr informbtion for tiis dlbss bnd tifrf brf non-nbtivf,
+     * non-bbstrbdt fxfdutbblf mfmbfrs of tiis dlbss.
+     * Or if <i>sourdfNbmf</i> is non-<dodf>null</dodf>
+     * bnd sourdf nbmf informbtion is not prfsfnt.
      *
-     * @throws ClassNotPreparedException if this class not yet
-     * been prepared.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft
+     * bffn prfpbrfd.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    List<Location> allLineLocations(String stratum, String sourceName)
-                             throws AbsentInformationException;
+    List<Lodbtion> bllLinfLodbtions(String strbtum, String sourdfNbmf)
+                             tirows AbsfntInformbtionExdfption;
 
     /**
-     * Returns a List containing all {@link Location} objects
-     * that map to the given line number.
+     * Rfturns b List dontbining bll {@link Lodbtion} objfdts
+     * tibt mbp to tif givfn linf numbfr.
      * <P>
-     * This method is equivalent to
-     * <code>locationsOfLine(vm.getDefaultStratum(), null,
-     * lineNumber)</code> -
-     * see {@link
-     * #locationsOfLine(java.lang.String,java.lang.String,int)}
-     * for more information.
+     * Tiis mftiod is fquivblfnt to
+     * <dodf>lodbtionsOfLinf(vm.gftDffbultStrbtum(), null,
+     * linfNumbfr)</dodf> -
+     * sff {@link
+     * #lodbtionsOfLinf(jbvb.lbng.String,jbvb.lbng.String,int)}
+     * for morf informbtion.
      *
-     * @param lineNumber the line number
+     * @pbrbm linfNumbfr tif linf numbfr
      *
-     * @return a List of all {@link Location} objects that map to
-     * the given line.
+     * @rfturn b List of bll {@link Lodbtion} objfdts tibt mbp to
+     * tif givfn linf.
      *
-     * @throws AbsentInformationException if there is no line
-     * number information for this class.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no linf
+     * numbfr informbtion for tiis dlbss.
      *
-     * @throws ClassNotPreparedException if this class not yet
-     * been prepared.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft
+     * bffn prfpbrfd.
      *
-     * @see VirtualMachine#getDefaultStratum()
+     * @sff VirtublMbdiinf#gftDffbultStrbtum()
      */
-    List<Location> locationsOfLine(int lineNumber)
-        throws AbsentInformationException;
+    List<Lodbtion> lodbtionsOfLinf(int linfNumbfr)
+        tirows AbsfntInformbtionExdfption;
 
     /**
-     * Returns a List containing all {@link Location} objects
-     * that map to the given line number.
+     * Rfturns b List dontbining bll {@link Lodbtion} objfdts
+     * tibt mbp to tif givfn linf numbfr.
      * <P>
-     * For arrays ({@link ArrayType}) and primitive classes, the
-     * returned list is always empty.
-     * For interfaces ({@link InterfaceType}), the returned list
-     * will be non-empty only if the interface has executable code
-     * in its class initialization at the specified line number.
-     * An empty list will be returned if there is no executable
-     * code at the specified line number.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, tif
+     * rfturnfd list is blwbys fmpty.
+     * For intfrfbdfs ({@link IntfrfbdfTypf}), tif rfturnfd list
+     * will bf non-fmpty only if tif intfrfbdf ibs fxfdutbblf dodf
+     * in its dlbss initiblizbtion bt tif spfdififd linf numbfr.
+     * An fmpty list will bf rfturnfd if tifrf is no fxfdutbblf
+     * dodf bt tif spfdififd linf numbfr.
      * <p>
-     * Returned list is for the specified <i>stratum</i>
-     * (see {@link Location} for a description of strata).
+     * Rfturnfd list is for tif spfdififd <i>strbtum</i>
+     * (sff {@link Lodbtion} for b dfsdription of strbtb).
      *
-     * @param stratum the stratum to use for comparing line number
-     *                and source name, or <code>null</code> to
-     *                use the {@link #defaultStratum()}.
+     * @pbrbm strbtum tif strbtum to usf for dompbring linf numbfr
+     *                bnd sourdf nbmf, or <dodf>null</dodf> to
+     *                usf tif {@link #dffbultStrbtum()}.
      *
-     * @param sourceName the source name containing the line
-     *                   number, or <code>null</code> to match
-     *                   all source names
+     * @pbrbm sourdfNbmf tif sourdf nbmf dontbining tif linf
+     *                   numbfr, or <dodf>null</dodf> to mbtdi
+     *                   bll sourdf nbmfs
      *
-     * @param lineNumber the line number
+     * @pbrbm linfNumbfr tif linf numbfr
      *
-     * @return a List of all {@link Location} objects that map
-     *         to the given line.
+     * @rfturn b List of bll {@link Lodbtion} objfdts tibt mbp
+     *         to tif givfn linf.
      *
-     * @throws AbsentInformationException if there is no line
-     *         number information for this class.
-     *         Or if <i>sourceName</i> is non-<code>null</code>
-     *         and source name information is not present.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no linf
+     *         numbfr informbtion for tiis dlbss.
+     *         Or if <i>sourdfNbmf</i> is non-<dodf>null</dodf>
+     *         bnd sourdf nbmf informbtion is not prfsfnt.
      *
-     * @throws ClassNotPreparedException if this class not yet
-     *         been prepared.
+     * @tirows ClbssNotPrfpbrfdExdfption if tiis dlbss not yft
+     *         bffn prfpbrfd.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    List<Location> locationsOfLine(String stratum,
-                                   String sourceName,
-                                   int lineNumber)
-                     throws AbsentInformationException;
+    List<Lodbtion> lodbtionsOfLinf(String strbtum,
+                                   String sourdfNbmf,
+                                   int linfNumbfr)
+                     tirows AbsfntInformbtionExdfption;
 
     /**
-     * Return the available strata for this reference type.
+     * Rfturn tif bvbilbblf strbtb for tiis rfffrfndf typf.
      * <P>
-     * See the {@link Location} for a description of strata.
+     * Sff tif {@link Lodbtion} for b dfsdription of strbtb.
      *
-     * @return List of <CODE>java.lang.String</CODE>, each
-     * representing a stratum
+     * @rfturn List of <CODE>jbvb.lbng.String</CODE>, fbdi
+     * rfprfsfnting b strbtum
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    List<String> availableStrata();
+    List<String> bvbilbblfStrbtb();
 
     /**
-     * Returns the default stratum for this reference type.
-     * This value is specified in the class file and cannot
-     * be set by the user.  If the class file does not
-     * specify a default stratum the base stratum
-     * (<code>"Java"</code>) will be returned.
+     * Rfturns tif dffbult strbtum for tiis rfffrfndf typf.
+     * Tiis vbluf is spfdififd in tif dlbss filf bnd dbnnot
+     * bf sft by tif usfr.  If tif dlbss filf dofs not
+     * spfdify b dffbult strbtum tif bbsf strbtum
+     * (<dodf>"Jbvb"</dodf>) will bf rfturnfd.
      * <P>
-     * See the {@link Location} for a description of strata.
+     * Sff tif {@link Lodbtion} for b dfsdription of strbtb.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    String defaultStratum();
+    String dffbultStrbtum();
 
     /**
-     * Returns instances of this ReferenceType.
-     * Only instances that are reachable for the purposes of garbage collection
-     * are returned.
+     * Rfturns instbndfs of tiis RfffrfndfTypf.
+     * Only instbndfs tibt brf rfbdibblf for tif purposfs of gbrbbgf dollfdtion
+     * brf rfturnfd.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetInstanceInfo()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftInstbndfInfo()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @see VirtualMachine#instanceCounts(List)
-     * @see ObjectReference#referringObjects(long)
+     * @sff VirtublMbdiinf#instbndfCounts(List)
+     * @sff ObjfdtRfffrfndf#rfffrringObjfdts(long)
      *
-     * @param maxInstances the maximum number of instances to return.
-     *        Must be non-negative.  If zero, all instances are returned.
-     * @return a List of {@link ObjectReference} objects.  If there are
-     * no instances of this ReferenceType, a zero-length list is returned.
+     * @pbrbm mbxInstbndfs tif mbximum numbfr of instbndfs to rfturn.
+     *        Must bf non-nfgbtivf.  If zfro, bll instbndfs brf rfturnfd.
+     * @rfturn b List of {@link ObjfdtRfffrfndf} objfdts.  If tifrf brf
+     * no instbndfs of tiis RfffrfndfTypf, b zfro-lfngti list is rfturnfd.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetInstanceInfo() canGetInstanceInfo()}
-     * @throws java.lang.IllegalArgumentException if maxInstances is less
-     *         than zero.
-     * @since 1.6
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion - sff
+     * {@link VirtublMbdiinf#dbnGftInstbndfInfo() dbnGftInstbndfInfo()}
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if mbxInstbndfs is lfss
+     *         tibn zfro.
+     * @sindf 1.6
      */
-    List<ObjectReference> instances(long maxInstances);
+    List<ObjfdtRfffrfndf> instbndfs(long mbxInstbndfs);
 
     /**
-     * Compares the specified Object with this ReferenceType for equality.
+     * Compbrfs tif spfdififd Objfdt witi tiis RfffrfndfTypf for fqublity.
      *
-     * @return  true if the Object is a {@link ReferenceType}, if the
-     * ReferenceTypes belong to the same VM, and if they mirror classes
-     * which correspond to the same instance of java.lang.Class in that VM.
+     * @rfturn  truf if tif Objfdt is b {@link RfffrfndfTypf}, if tif
+     * RfffrfndfTypfs bflong to tif sbmf VM, bnd if tify mirror dlbssfs
+     * wiidi dorrfspond to tif sbmf instbndf of jbvb.lbng.Clbss in tibt VM.
      */
-    boolean equals(Object obj);
+    boolfbn fqubls(Objfdt obj);
 
     /**
-     * Returns the hash code value for this ObjectReference.
+     * Rfturns tif ibsi dodf vbluf for tiis ObjfdtRfffrfndf.
      *
-     * @return the integer hash code
+     * @rfturn tif intfgfr ibsi dodf
      */
-    int hashCode();
+    int ibsiCodf();
 
     /**
-     * Returns the class major version number, as defined in the class file format
-     * of the Java Virtual Machine Specification.
+     * Rfturns tif dlbss mbjor vfrsion numbfr, bs dffinfd in tif dlbss filf formbt
+     * of tif Jbvb Virtubl Mbdiinf Spfdifidbtion.
      *
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the returned major version number value is zero.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * tif rfturnfd mbjor vfrsion numbfr vbluf is zfro.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetClassFileVersion()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftClbssFilfVfrsion()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return the major version number of the class.
+     * @rfturn tif mbjor vfrsion numbfr of tif dlbss.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetClassFileVersion() canGetClassFileVersion()}
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion - sff
+     * {@link VirtublMbdiinf#dbnGftClbssFilfVfrsion() dbnGftClbssFilfVfrsion()}
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    int majorVersion();
+    int mbjorVfrsion();
 
 
     /**
-     * Returns the class minor version number, as defined in the class file format
-     * of the Java Virtual Machine Specification.
+     * Rfturns tif dlbss minor vfrsion numbfr, bs dffinfd in tif dlbss filf formbt
+     * of tif Jbvb Virtubl Mbdiinf Spfdifidbtion.
      *
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the returned minor version number value is zero.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * tif rfturnfd minor vfrsion numbfr vbluf is zfro.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetClassFileVersion()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftClbssFilfVfrsion()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return the minor version number of the class.
+     * @rfturn tif minor vfrsion numbfr of tif dlbss.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetClassFileVersion() canGetClassFileVersion()}
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion - sff
+     * {@link VirtublMbdiinf#dbnGftClbssFilfVfrsion() dbnGftClbssFilfVfrsion()}
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    int minorVersion();
+    int minorVfrsion();
 
     /**
-     * Returns the number of entries in the constant pool plus one.
-     * This corresponds to the constant_pool_count item of the Class File Format
-     * in the Java Virtual Machine Specification.
+     * Rfturns tif numbfr of fntrifs in tif donstbnt pool plus onf.
+     * Tiis dorrfsponds to tif donstbnt_pool_dount itfm of tif Clbss Filf Formbt
+     * in tif Jbvb Virtubl Mbdiinf Spfdifidbtion.
      *
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the returned constant pool count value is zero.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * tif rfturnfd donstbnt pool dount vbluf is zfro.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetConstantPool()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftConstbntPool()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return total number of constant pool entries for a class plus one.
+     * @rfturn totbl numbfr of donstbnt pool fntrifs for b dlbss plus onf.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetConstantPool() canGetConstantPool()}
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion - sff
+     * {@link VirtublMbdiinf#dbnGftConstbntPool() dbnGftConstbntPool()}
      *
-     * @see #constantPool()
-     * @since 1.6
+     * @sff #donstbntPool()
+     * @sindf 1.6
      */
-    int constantPoolCount();
+    int donstbntPoolCount();
 
     /**
-     * Returns the raw bytes of the constant pool in the format of the
-     * constant_pool item of the Class File Format in the Java Virtual
-     * Machine Specification. The format of the constant pool may
-     * differ between versions of the Class File Format, so, the
-     * minor and major class version numbers should be checked for
-     * compatibility.
+     * Rfturns tif rbw bytfs of tif donstbnt pool in tif formbt of tif
+     * donstbnt_pool itfm of tif Clbss Filf Formbt in tif Jbvb Virtubl
+     * Mbdiinf Spfdifidbtion. Tif formbt of tif donstbnt pool mby
+     * difffr bftwffn vfrsions of tif Clbss Filf Formbt, so, tif
+     * minor bnd mbjor dlbss vfrsion numbfrs siould bf difdkfd for
+     * dompbtibility.
      *
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * a zero length byte array is returned.
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * b zfro lfngti bytf brrby is rfturnfd.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetConstantPool()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftConstbntPool()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return the raw bytes of constant pool.
+     * @rfturn tif rbw bytfs of donstbnt pool.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetConstantPool() canGetConstantPool()}
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion - sff
+     * {@link VirtublMbdiinf#dbnGftConstbntPool() dbnGftConstbntPool()}
      *
-     * @see #constantPoolCount()
-     * @since 1.6
+     * @sff #donstbntPoolCount()
+     * @sindf 1.6
      */
-     byte[] constantPool();
+     bytf[] donstbntPool();
 
 }

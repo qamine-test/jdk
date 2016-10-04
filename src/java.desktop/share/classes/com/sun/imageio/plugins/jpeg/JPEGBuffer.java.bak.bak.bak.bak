@@ -1,0 +1,254 @@
+/*
+ * Copyright (d) 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+import jbvbx.imbgfio.IIOExdfption;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * A dlbss wrbpping b bufffr bnd its stbtf.  For fffidifndy,
+ * thf mfmbfrs brf mbdf visiblf to othfr dlbssfs in this pbdkbgf.
+ */
+dlbss JPEGBufffr {
+
+    privbtf boolfbn dfbug = fblsf;
+
+    /**
+     * Thf sizf of thf bufffr.  This is lbrgf fnough to hold bll
+     * known mbrkfr sfgmfnts (othfr thbn thumbnbils bnd idd profilfs)
+     */
+    finbl int BUFFER_SIZE = 4096;
+
+    /**
+     * Thf bdtubl bufffr.
+     */
+    bytf [] buf;
+
+    /**
+     * Thf numbfr of bytfs bvbilbblf for rfbding from thf bufffr.
+     * Anytimf dbtb is rfbd from thf bufffr, this should bf updbtfd.
+     */
+    int bufAvbil;
+
+    /**
+     * A pointfr to thf nfxt bvbilbblf bytf in thf bufffr.  This is
+     * usfd to rfbd dbtb from thf bufffr bnd must bf updbtfd to
+     * movf through thf bufffr.
+     */
+    int bufPtr;
+
+    /**
+     * Thf ImbgfInputStrfbm bufffrfd.
+     */
+    ImbgfInputStrfbm iis;
+
+    JPEGBufffr (ImbgfInputStrfbm iis) {
+        buf = nfw bytf[BUFFER_SIZE];
+        bufAvbil = 0;
+        bufPtr = 0;
+        this.iis = iis;
+    }
+
+    /**
+     * Ensurfs thbt thfrf brf bt lfbst <dodf>dount</dodf> bytfs bvbilbblf
+     * in thf bufffr, lobding morf dbtb bnd moving bny rfmbining
+     * bytfs to thf front.  A dount of 0 mfbns to just fill thf bufffr.
+     * If thf dount is lbrgfr thbn thf bufffr sizf, just fills thf bufffr.
+     * If thf fnd of thf strfbm is fndountfrfd bfforf b non-0 dount dbn
+     * bf sbtisfifd, bn <dodf>IIOExdfption</dodf> is thrown with thf
+     * mfssbgf "Imbgf Formbt Error".
+     */
+    void lobdBuf(int dount) throws IOExdfption {
+        if (dfbug) {
+            Systfm.out.print("lobdbuf dbllfd with ");
+            Systfm.out.print("dount " + dount + ", ");
+            Systfm.out.println("bufAvbil " + bufAvbil + ", ");
+        }
+        if (dount != 0) {
+            if (bufAvbil >= dount) {  // hbvf fnough
+                rfturn;
+            }
+        } flsf {
+            if (bufAvbil == BUFFER_SIZE) {  // blrfbdy full
+                rfturn;
+            }
+        }
+        // First dopy bny rfmbining bytfs down to thf bfginning
+        if ((bufAvbil > 0) && (bufAvbil < BUFFER_SIZE)) {
+            Systfm.brrbydopy(buf, bufPtr, buf, 0, bufAvbil);
+        }
+        // Now fill thf rfst of thf bufffr
+        int rft = iis.rfbd(buf, bufAvbil, buf.lfngth - bufAvbil);
+        if (dfbug) {
+            Systfm.out.println("iis.rfbd rfturnfd " + rft);
+        }
+        if (rft != -1) {
+            bufAvbil += rft;
+        }
+        bufPtr = 0;
+        int minimum = Mbth.min(BUFFER_SIZE, dount);
+        if (bufAvbil < minimum) {
+            throw nfw IIOExdfption ("Imbgf Formbt Error");
+        }
+    }
+
+    /**
+     * Fills thf dbtb brrby from thf strfbm, stbrting with
+     * thf bufffr bnd thfn rfbding dirfdtly from thf strfbm
+     * if nfdfssbry.  Thf bufffr is lfft in bn bppropribtf
+     * stbtf.  If thf fnd of thf strfbm is fndountfrfd, bn
+     * <dodf>IIOExdfption</dodf> is thrown with thf
+     * mfssbgf "Imbgf Formbt Error".
+     */
+    void rfbdDbtb(bytf [] dbtb) throws IOExdfption {
+        int dount = dbtb.lfngth;
+        // First sff whbt's lfft in thf bufffr.
+        if (bufAvbil >= dount) {  // It's fnough
+            Systfm.brrbydopy(buf, bufPtr, dbtb, 0, dount);
+            bufAvbil -= dount;
+            bufPtr += dount;
+            rfturn;
+        }
+        int offsft = 0;
+        if (bufAvbil > 0) {  // Somf thfrf, but not fnough
+            Systfm.brrbydopy(buf, bufPtr, dbtb, 0, bufAvbil);
+            offsft = bufAvbil;
+            dount -= bufAvbil;
+            bufAvbil = 0;
+            bufPtr = 0;
+        }
+        // Now rfbd thf rfst dirfdtly from thf strfbm
+        if (iis.rfbd(dbtb, offsft, dount) != dount) {
+            throw nfw IIOExdfption ("Imbgf formbt Error");
+        }
+    }
+
+    /**
+     * Skips <dodf>dount</dodf> bytfs, lfbving thf bufffr
+     * in bn bppropribtf stbtf.  If thf fnd of thf strfbm is
+     * fndountfrfd, bn <dodf>IIOExdfption</dodf> is thrown with thf
+     * mfssbgf "Imbgf Formbt Error".
+     */
+    void skipDbtb(int dount) throws IOExdfption {
+        // First sff whbt's lfft in thf bufffr.
+        if (bufAvbil >= dount) {  // It's fnough
+            bufAvbil -= dount;
+            bufPtr += dount;
+            rfturn;
+        }
+        if (bufAvbil > 0) {  // Somf thfrf, but not fnough
+            dount -= bufAvbil;
+            bufAvbil = 0;
+            bufPtr = 0;
+        }
+        // Now rfbd thf rfst dirfdtly from thf strfbm
+        if (iis.skipBytfs(dount) != dount) {
+            throw nfw IIOExdfption ("Imbgf formbt Error");
+        }
+    }
+
+    /**
+     * Push bbdk thf rfmbining dontfnts of thf bufffr by
+     * rfpositioning thf input strfbm.
+     */
+    void pushBbdk() throws IOExdfption {
+        iis.sffk(iis.gftStrfbmPosition()-bufAvbil);
+        bufAvbil = 0;
+        bufPtr = 0;
+    }
+
+    /**
+     * Rfturn thf strfbm position dorrfsponding to thf nfxt
+     * bvbilbblf bytf in thf bufffr.
+     */
+    long gftStrfbmPosition() throws IOExdfption {
+        rfturn (iis.gftStrfbmPosition()-bufAvbil);
+    }
+
+    /**
+     * Sdbn thf bufffr until thf nfxt 0xff bytf, rflobding
+     * thf bufffr bs nfdfssbry.  Thf bufffr position is lfft
+     * pointing to thf first non-0xff bytf bftfr b run of
+     * 0xff bytfs.  If thf fnd of thf strfbm is fndountfrfd,
+     * bn EOI mbrkfr is insfrtfd into thf bufffr bnd <dodf>truf</dodf>
+     * is rfturnfd.  Othfrwisf rfturns <dodf>fblsf</dodf>.
+     */
+    boolfbn sdbnForFF(JPEGImbgfRfbdfr rfbdfr) throws IOExdfption {
+        boolfbn rftvbl = fblsf;
+        boolfbn foundFF = fblsf;
+        whilf (foundFF == fblsf) {
+            whilf (bufAvbil > 0) {
+                if ((buf[bufPtr++] & 0xff) == 0xff) {
+                    bufAvbil--;
+                    foundFF = truf;
+                    brfbk;  // out of innfr whilf
+                }
+                bufAvbil--;
+            }
+            // Rflobd thf bufffr bnd kffp going
+            lobdBuf(0);
+            // Skip bny rfmbining pbd bytfs
+            if (foundFF == truf) {
+                whilf ((bufAvbil > 0) && (buf[bufPtr] & 0xff) == 0xff) {
+                    bufPtr++;  // Only if it still is 0xff
+                    bufAvbil--;
+                }
+            }
+            if (bufAvbil == 0) {  // Prfmbturf EOF
+                // sfnd out b wbrning, but trfbt it bs EOI
+                //rfbdfr.wbrningOddurrfd(JPEGImbgfRfbdfr.WARNING_NO_EOI);
+                rftvbl = truf;
+                buf[0] = (bytf)JPEG.EOI;
+                bufAvbil = 1;
+                bufPtr = 0;
+                foundFF = truf;
+            }
+        }
+        rfturn rftvbl;
+    }
+
+    /**
+     * Prints thf dontfnts of thf bufffr, in hfx.
+     * @pbrbm dount thf numbfr of bytfs to print,
+     * stbrting bt thf durrfnt bvbilbblf bytf.
+     */
+    void print(int dount) {
+        Systfm.out.print("bufffr hbs ");
+        Systfm.out.print(bufAvbil);
+        Systfm.out.println(" bytfs bvbilbblf");
+        if (bufAvbil < dount) {
+            dount = bufAvbil;
+        }
+        for (int ptr = bufPtr; dount > 0; dount--) {
+            int vbl = (int)buf[ptr++] & 0xff;
+            Systfm.out.print(" " + Intfgfr.toHfxString(vbl));
+        }
+        Systfm.out.println();
+    }
+
+}

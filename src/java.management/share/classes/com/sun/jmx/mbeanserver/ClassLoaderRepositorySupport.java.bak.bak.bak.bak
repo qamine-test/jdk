@@ -1,0 +1,320 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MBEANSERVER_LOGGER;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.MBfbnPfrmission;
+
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.lobding.PrivbtfClbssLobdfr;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * This dlbss kffps thf list of Clbss Lobdfrs rfgistfrfd in thf MBfbn Sfrvfr.
+ * It providfs thf nfdfssbry mfthods to lobd dlbssfs using thf
+ * rfgistfrfd Clbss Lobdfrs.
+ *
+ * @sindf 1.5
+ */
+finbl dlbss ClbssLobdfrRfpositorySupport
+    implfmfnts ModifibblfClbssLobdfrRfpository {
+
+    /* Wf bssodibtf bn optionbl ObjfdtNbmf with fbdh fntry so thbt
+       wf dbn rfmovf thf dorrfdt fntry whfn unrfgistfring bn MBfbn
+       thbt is b ClbssLobdfr.  Thf sbmf objfdt dould bf rfgistfrfd
+       undfr two difffrfnt nbmfs (fvfn though this is not rfdommfndfd)
+       so if wf did not do this wf dould disturb thf dffinfd
+       sfmbntids for thf ordfr of ClbssLobdfrs in thf rfpository.  */
+    privbtf stbtid dlbss LobdfrEntry {
+        ObjfdtNbmf nbmf; // dbn bf null
+        ClbssLobdfr lobdfr;
+
+        LobdfrEntry(ObjfdtNbmf nbmf,  ClbssLobdfr lobdfr) {
+            this.nbmf = nbmf;
+            this.lobdfr = lobdfr;
+        }
+    }
+
+    privbtf stbtid finbl LobdfrEntry[] EMPTY_LOADER_ARRAY = nfw LobdfrEntry[0];
+
+    /**
+     * List of dlbss lobdfrs
+     * Only rfbd-only bdtions should bf pfrformfd on this objfdt.
+     *
+     * Wf do O(n) opfrbtions on this brrby, f.g. whfn rfmoving
+     * b ClbssLobdfr.  Thf bssumption is thbt thf numbfr of flfmfnts
+     * is smbll, probbbly lfss thbn tfn, bnd thbt thf vbst mbjority
+     * of opfrbtions brf sfbrdhfs (lobdClbss) whidh brf by dffinition
+     * linfbr.
+     */
+    privbtf LobdfrEntry[] lobdfrs = EMPTY_LOADER_ARRAY;
+
+    /**
+     * Sbmf bfhbvior bs bdd(Objfdt o) in {@link jbvb.util.List}.
+     * Rfplbdf thf lobdfr list with b nfw onf in whidh thf nfw
+     * lobdfr hbs bffn bddfd.
+     **/
+    privbtf syndhronizfd boolfbn bdd(ObjfdtNbmf nbmf, ClbssLobdfr dl) {
+        List<LobdfrEntry> l =
+            nfw ArrbyList<LobdfrEntry>(Arrbys.bsList(lobdfrs));
+        l.bdd(nfw LobdfrEntry(nbmf, dl));
+        lobdfrs = l.toArrby(EMPTY_LOADER_ARRAY);
+        rfturn truf;
+    }
+
+    /**
+     * Sbmf bfhbvior bs rfmovf(Objfdt o) in {@link jbvb.util.List}.
+     * Rfplbdf thf lobdfr list with b nfw onf in whidh thf old lobdfr
+     * hbs bffn rfmovfd.
+     *
+     * Thf ObjfdtNbmf mby bf null, in whidh dbsf thf fntry to
+     * bf rfmovfd must blso hbvf b null ObjfdtNbmf bnd thf ClbssLobdfr
+     * vblufs must mbtdh.  If thf ObjfdtNbmf is not null, thfn
+     * thf first fntry with b mbtdhing ObjfdtNbmf is rfmovfd,
+     * rfgbrdlfss of whfthfr ClbssLobdfr vblufs mbtdh.  (In fbdt,
+     * thf ClbssLobdfr pbrbmftfr will usublly bf null in this dbsf.)
+     **/
+    privbtf syndhronizfd boolfbn rfmovf(ObjfdtNbmf nbmf, ClbssLobdfr dl) {
+        finbl int sizf = lobdfrs.lfngth;
+        for (int i = 0; i < sizf; i++) {
+            LobdfrEntry fntry = lobdfrs[i];
+            boolfbn mbtdh =
+                (nbmf == null) ?
+                dl == fntry.lobdfr :
+                nbmf.fqubls(fntry.nbmf);
+            if (mbtdh) {
+                LobdfrEntry[] nfwlobdfrs = nfw LobdfrEntry[sizf - 1];
+                Systfm.brrbydopy(lobdfrs, 0, nfwlobdfrs, 0, i);
+                Systfm.brrbydopy(lobdfrs, i + 1, nfwlobdfrs, i,
+                                 sizf - 1 - i);
+                lobdfrs = nfwlobdfrs;
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+
+    /**
+     * List of vblid sfbrdh
+     */
+    privbtf finbl Mbp<String,List<ClbssLobdfr>> sfbrdh =
+        nfw Hbshtbblf<String,List<ClbssLobdfr>>(10);
+
+    /**
+     * List of nbmfd dlbss lobdfrs.
+     */
+    privbtf finbl Mbp<ObjfdtNbmf,ClbssLobdfr> lobdfrsWithNbmfs =
+        nfw Hbshtbblf<ObjfdtNbmf,ClbssLobdfr>(10);
+
+    // from jbvbx.mbnbgfmfnt.lobding.DffbultLobdfrRfpository
+    publid finbl Clbss<?> lobdClbss(String dlbssNbmf)
+        throws ClbssNotFoundExdfption {
+        rfturn  lobdClbss(lobdfrs, dlbssNbmf, null, null);
+    }
+
+
+    // from jbvbx.mbnbgfmfnt.lobding.DffbultLobdfrRfpository
+    publid finbl Clbss<?> lobdClbssWithout(ClbssLobdfr without, String dlbssNbmf)
+            throws ClbssNotFoundExdfption {
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                    "lobdClbssWithout", dlbssNbmf + " without " + without);
+        }
+
+        // without is null => just bfhbvf bs lobdClbss
+        //
+        if (without == null)
+            rfturn lobdClbss(lobdfrs, dlbssNbmf, null, null);
+
+        // Wf must try to lobd thf dlbss without thf givfn lobdfr.
+        //
+        stbrtVblidSfbrdh(without, dlbssNbmf);
+        try {
+            rfturn lobdClbss(lobdfrs, dlbssNbmf, without, null);
+        } finblly {
+            stopVblidSfbrdh(without, dlbssNbmf);
+        }
+    }
+
+
+    publid finbl Clbss<?> lobdClbssBfforf(ClbssLobdfr stop, String dlbssNbmf)
+            throws ClbssNotFoundExdfption {
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                    "lobdClbssBfforf", dlbssNbmf + " bfforf " + stop);
+        }
+
+        if (stop == null)
+            rfturn lobdClbss(lobdfrs, dlbssNbmf, null, null);
+
+        stbrtVblidSfbrdh(stop, dlbssNbmf);
+        try {
+            rfturn lobdClbss(lobdfrs, dlbssNbmf, null, stop);
+        } finblly {
+            stopVblidSfbrdh(stop, dlbssNbmf);
+        }
+    }
+
+
+    privbtf Clbss<?> lobdClbss(finbl LobdfrEntry list[],
+                               finbl String dlbssNbmf,
+                               finbl ClbssLobdfr without,
+                               finbl ClbssLobdfr stop)
+            throws ClbssNotFoundExdfption {
+        RfflfdtUtil.dhfdkPbdkbgfAddfss(dlbssNbmf);
+        finbl int sizf = list.lfngth;
+        for(int i=0; i<sizf; i++) {
+            try {
+                finbl ClbssLobdfr dl = list[i].lobdfr;
+                if (dl == null) // bootstrbp dlbss lobdfr
+                    rfturn Clbss.forNbmf(dlbssNbmf, fblsf, null);
+                if (dl == without)
+                    dontinuf;
+                if (dl == stop)
+                    brfbk;
+                if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                            ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                            "lobdClbss", "Trying lobdfr = " + dl);
+                }
+                /* Wf usfd to hbvf b spfdibl dbsf for "instbndfof
+                   MLft" hfrf, whfrf wf invokfd thf mfthod
+                   lobdClbss(dlbssNbmf, null) to prfvfnt infinitf
+                   rfdursion.  But thf rulf whfrfby thf MLft only
+                   donsults lobdfrs thbt prfdfdf it in thf CLR (vib
+                   lobdClbssBfforf) mfbns thbt thf rfdursion dbn't
+                   hbppfn, bnd thf tfst hfrf dbusfd somf lfgitimbtf
+                   dlbsslobding to fbil.  For fxbmplf, if you hbvf
+                   dfpfndfndifs C->D->E with lobdfrs {E D C} in thf
+                   CLR in thbt ordfr, you would fxpfdt to bf bblf to
+                   lobd C.  Thf problfm is thbt whilf rfsolving D, CLR
+                   dflfgbtion is disbblfd, so it dbn't find E.  */
+                rfturn Clbss.forNbmf(dlbssNbmf, fblsf, dl);
+            } dbtdh (ClbssNotFoundExdfption f) {
+                // OK: dontinuf with nfxt dlbss
+            }
+        }
+
+        throw nfw ClbssNotFoundExdfption(dlbssNbmf);
+    }
+
+    privbtf syndhronizfd void stbrtVblidSfbrdh(ClbssLobdfr blobdfr,
+                                               String dlbssNbmf)
+        throws ClbssNotFoundExdfption {
+        // Chfdk if wf hbvf sudh b durrfnt sfbrdh
+        //
+        List<ClbssLobdfr> fxdludfd = sfbrdh.gft(dlbssNbmf);
+        if ((fxdludfd!= null) && (fxdludfd.dontbins(blobdfr))) {
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                        ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                        "stbrtVblidSfbrdh", "Alrfbdy rfqufstfd lobdfr = " +
+                        blobdfr + " dlbss = " + dlbssNbmf);
+            }
+            throw nfw ClbssNotFoundExdfption(dlbssNbmf);
+        }
+
+        // Add bn fntry
+        //
+        if (fxdludfd == null) {
+            fxdludfd = nfw ArrbyList<ClbssLobdfr>(1);
+            sfbrdh.put(dlbssNbmf, fxdludfd);
+        }
+        fxdludfd.bdd(blobdfr);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                    "stbrtVblidSfbrdh",
+                    "lobdfr = " + blobdfr + " dlbss = " + dlbssNbmf);
+        }
+    }
+
+    privbtf syndhronizfd void stopVblidSfbrdh(ClbssLobdfr blobdfr,
+                                              String dlbssNbmf) {
+
+        // Rftrifvf thf sfbrdh.
+        //
+        List<ClbssLobdfr> fxdludfd = sfbrdh.gft(dlbssNbmf);
+        if (fxdludfd != null) {
+            fxdludfd.rfmovf(blobdfr);
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                        ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                        "stopVblidSfbrdh",
+                        "lobdfr = " + blobdfr + " dlbss = " + dlbssNbmf);
+            }
+        }
+    }
+
+    publid finbl void bddClbssLobdfr(ClbssLobdfr lobdfr) {
+        bdd(null, lobdfr);
+    }
+
+    publid finbl void rfmovfClbssLobdfr(ClbssLobdfr lobdfr) {
+        rfmovf(null, lobdfr);
+    }
+
+    publid finbl syndhronizfd void bddClbssLobdfr(ObjfdtNbmf nbmf,
+                                                  ClbssLobdfr lobdfr) {
+        lobdfrsWithNbmfs.put(nbmf, lobdfr);
+        if (!(lobdfr instbndfof PrivbtfClbssLobdfr))
+            bdd(nbmf, lobdfr);
+    }
+
+    publid finbl syndhronizfd void rfmovfClbssLobdfr(ObjfdtNbmf nbmf) {
+        ClbssLobdfr lobdfr = lobdfrsWithNbmfs.rfmovf(nbmf);
+        if (!(lobdfr instbndfof PrivbtfClbssLobdfr))
+            rfmovf(nbmf, lobdfr);
+    }
+
+    publid finbl ClbssLobdfr gftClbssLobdfr(ObjfdtNbmf nbmf) {
+        ClbssLobdfr instbndf = lobdfrsWithNbmfs.gft(nbmf);
+        if (instbndf != null) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                Pfrmission pfrm =
+                        nfw MBfbnPfrmission(instbndf.gftClbss().gftNbmf(),
+                        null,
+                        nbmf,
+                        "gftClbssLobdfr");
+                sm.dhfdkPfrmission(pfrm);
+            }
+        }
+        rfturn instbndf;
+    }
+
+}

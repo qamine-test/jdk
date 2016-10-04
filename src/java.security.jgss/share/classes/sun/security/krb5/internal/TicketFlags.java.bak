@@ -1,190 +1,190 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.Asn1Exception;
-import sun.security.krb5.internal.util.KerberosFlags;
-import sun.security.util.*;
-import java.io.IOException;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosFlbgs;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
 
 /**
- * Implements the ASN.1TicketFlags type.
+ * Implfmfnts tif ASN.1TidkftFlbgs typf.
  *
- *    TicketFlags ::= BIT STRING
+ *    TidkftFlbgs ::= BIT STRING
  *                  {
- *                   reserved(0),
- *                   forwardable(1),
- *                   forwarded(2),
- *                   proxiable(3),
+ *                   rfsfrvfd(0),
+ *                   forwbrdbblf(1),
+ *                   forwbrdfd(2),
+ *                   proxibblf(3),
  *                   proxy(4),
- *                   may-postdate(5),
- *                   postdated(6),
- *                   invalid(7),
- *                   renewable(8),
- *                   initial(9),
- *                   pre-authent(10),
- *                   hw-authent(11)
+ *                   mby-postdbtf(5),
+ *                   postdbtfd(6),
+ *                   invblid(7),
+ *                   rfnfwbblf(8),
+ *                   initibl(9),
+ *                   prf-butifnt(10),
+ *                   iw-butifnt(11)
  *                  }
  */
-public class TicketFlags extends KerberosFlags {
-    public TicketFlags() {
-        super(Krb5.TKT_OPTS_MAX + 1);
+publid dlbss TidkftFlbgs fxtfnds KfrbfrosFlbgs {
+    publid TidkftFlbgs() {
+        supfr(Krb5.TKT_OPTS_MAX + 1);
     }
 
-    public TicketFlags (boolean[] flags) throws Asn1Exception {
-        super(flags);
-        if (flags.length > Krb5.TKT_OPTS_MAX + 1) {
-            throw new Asn1Exception(Krb5.BITSTRING_BAD_LENGTH);
+    publid TidkftFlbgs (boolfbn[] flbgs) tirows Asn1Exdfption {
+        supfr(flbgs);
+        if (flbgs.lfngti > Krb5.TKT_OPTS_MAX + 1) {
+            tirow nfw Asn1Exdfption(Krb5.BITSTRING_BAD_LENGTH);
         }
     }
 
-    public TicketFlags(int size, byte[] data) throws Asn1Exception {
-        super(size, data);
-        if ((size > data.length * BITS_PER_UNIT) || (size > Krb5.TKT_OPTS_MAX + 1))
-            throw new Asn1Exception(Krb5.BITSTRING_BAD_LENGTH);
+    publid TidkftFlbgs(int sizf, bytf[] dbtb) tirows Asn1Exdfption {
+        supfr(sizf, dbtb);
+        if ((sizf > dbtb.lfngti * BITS_PER_UNIT) || (sizf > Krb5.TKT_OPTS_MAX + 1))
+            tirow nfw Asn1Exdfption(Krb5.BITSTRING_BAD_LENGTH);
     }
 
-    public TicketFlags(DerValue encoding) throws IOException, Asn1Exception {
-        this(encoding.getUnalignedBitString(true).toBooleanArray());
+    publid TidkftFlbgs(DfrVbluf fndoding) tirows IOExdfption, Asn1Exdfption {
+        tiis(fndoding.gftUnblignfdBitString(truf).toBoolfbnArrby());
     }
 
     /**
-     * Parse (unmarshal) a ticket flag from a DER input stream.  This form
-     * parsing might be used when expanding a value which is part of
-     * a constructed sequence and uses explicitly tagged type.
+     * Pbrsf (unmbrsibl) b tidkft flbg from b DER input strfbm.  Tiis form
+     * pbrsing migit bf usfd wifn fxpbnding b vbluf wiidi is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
      *
-     * @exception Asn1Exception on error.
-     * @param data the Der input stream value, which contains one or more marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicate if this data field is optional
-     * @return an instance of TicketFlags.
+     * @fxdfption Asn1Exdfption on frror.
+     * @pbrbm dbtb tif Dfr input strfbm vbluf, wiidi dontbins onf or morf mbrsiblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtf if tiis dbtb fifld is optionbl
+     * @rfturn bn instbndf of TidkftFlbgs.
      *
      */
-    public static TicketFlags parse(DerInputStream data, byte explicitTag, boolean optional) throws Asn1Exception, IOException {
-        if ((optional) && (((byte)data.peekByte() & (byte)0x1F) != explicitTag))
-            return null;
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F))  {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+    publid stbtid TidkftFlbgs pbrsf(DfrInputStrfbm dbtb, bytf fxpliditTbg, boolfbn optionbl) tirows Asn1Exdfption, IOExdfption {
+        if ((optionbl) && (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        else {
-            DerValue subDer = der.getData().getDerValue();
-            return new TicketFlags(subDer);
+        flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw TidkftFlbgs(subDfr);
         }
     }
 
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return new TicketFlags(this.toBooleanArray());
+            rfturn nfw TidkftFlbgs(tiis.toBoolfbnArrby());
         }
-        catch (Exception e) {
-            return null;
+        dbtdi (Exdfption f) {
+            rfturn null;
         }
     }
 
-    public boolean match(LoginOptions options) {
-        boolean matched = false;
-        //We currently only consider if forwardable renewable and proxiable are match
-        if (this.get(Krb5.TKT_OPTS_FORWARDABLE) == (options.get(KDCOptions.FORWARDABLE))) {
-            if (this.get(Krb5.TKT_OPTS_PROXIABLE) == (options.get(KDCOptions.PROXIABLE))) {
-                if (this.get(Krb5.TKT_OPTS_RENEWABLE) == (options.get(KDCOptions.RENEWABLE))) {
-                    matched = true;
+    publid boolfbn mbtdi(LoginOptions options) {
+        boolfbn mbtdifd = fblsf;
+        //Wf durrfntly only donsidfr if forwbrdbblf rfnfwbblf bnd proxibblf brf mbtdi
+        if (tiis.gft(Krb5.TKT_OPTS_FORWARDABLE) == (options.gft(KDCOptions.FORWARDABLE))) {
+            if (tiis.gft(Krb5.TKT_OPTS_PROXIABLE) == (options.gft(KDCOptions.PROXIABLE))) {
+                if (tiis.gft(Krb5.TKT_OPTS_RENEWABLE) == (options.gft(KDCOptions.RENEWABLE))) {
+                    mbtdifd = truf;
                 }
             }
         }
-        return matched;
+        rfturn mbtdifd;
     }
-    public boolean match(TicketFlags flags) {
-        boolean matched = true;
+    publid boolfbn mbtdi(TidkftFlbgs flbgs) {
+        boolfbn mbtdifd = truf;
         for (int i = 0; i <= Krb5.TKT_OPTS_MAX; i++) {
-            if (this.get(i) != flags.get(i)) {
-                return false;
+            if (tiis.gft(i) != flbgs.gft(i)) {
+                rfturn fblsf;
             }
         }
-        return matched;
+        rfturn mbtdifd;
     }
 
 
     /**
-     * Returns the string representative of ticket flags.
+     * Rfturns tif string rfprfsfntbtivf of tidkft flbgs.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        boolean[] flags = toBooleanArray();
-        for (int i = 0; i < flags.length; i++) {
-            if (flags[i] == true) {
-                switch (i) {
-                case 0:
-                    sb.append("RESERVED;");
-                    break;
-                case 1:
-                    sb.append("FORWARDABLE;");
-                    break;
-                case 2:
-                    sb.append("FORWARDED;");
-                    break;
-                case 3:
-                    sb.append("PROXIABLE;");
-                    break;
-                case 4:
-                    sb.append("PROXY;");
-                    break;
-                case 5:
-                    sb.append("MAY-POSTDATE;");
-                    break;
-                case 6:
-                    sb.append("POSTDATED;");
-                    break;
-                case 7:
-                    sb.append("INVALID;");
-                    break;
-                case 8:
-                    sb.append("RENEWABLE;");
-                    break;
-                case 9:
-                    sb.append("INITIAL;");
-                    break;
-                case 10:
-                    sb.append("PRE-AUTHENT;");
-                    break;
-                case 11:
-                    sb.append("HW-AUTHENT;");
-                    break;
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        boolfbn[] flbgs = toBoolfbnArrby();
+        for (int i = 0; i < flbgs.lfngti; i++) {
+            if (flbgs[i] == truf) {
+                switdi (i) {
+                dbsf 0:
+                    sb.bppfnd("RESERVED;");
+                    brfbk;
+                dbsf 1:
+                    sb.bppfnd("FORWARDABLE;");
+                    brfbk;
+                dbsf 2:
+                    sb.bppfnd("FORWARDED;");
+                    brfbk;
+                dbsf 3:
+                    sb.bppfnd("PROXIABLE;");
+                    brfbk;
+                dbsf 4:
+                    sb.bppfnd("PROXY;");
+                    brfbk;
+                dbsf 5:
+                    sb.bppfnd("MAY-POSTDATE;");
+                    brfbk;
+                dbsf 6:
+                    sb.bppfnd("POSTDATED;");
+                    brfbk;
+                dbsf 7:
+                    sb.bppfnd("INVALID;");
+                    brfbk;
+                dbsf 8:
+                    sb.bppfnd("RENEWABLE;");
+                    brfbk;
+                dbsf 9:
+                    sb.bppfnd("INITIAL;");
+                    brfbk;
+                dbsf 10:
+                    sb.bppfnd("PRE-AUTHENT;");
+                    brfbk;
+                dbsf 11:
+                    sb.bppfnd("HW-AUTHENT;");
+                    brfbk;
                 }
             }
         }
-        String result = sb.toString();
-        if (result.length() > 0) {
-            result = result.substring(0, result.length() - 1);
+        String rfsult = sb.toString();
+        if (rfsult.lfngti() > 0) {
+            rfsult = rfsult.substring(0, rfsult.lfngti() - 1);
         }
-        return result;
+        rfturn rfsult;
     }
 }

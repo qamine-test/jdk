@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor.v1_0;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.v1_0;
 
 /**
- * A typesafe enumeration for describing Java basic types.
+ * A typfsbff fnumfrbtion for dfsdribing Jbvb bbsid typfs.
  *
- * <p> The enumeration values for this typesafe enumeration must be
- * kept in synchronization with the BasicType enum in the
- * globalsDefinitions.hpp file in the HotSpot source base.</p>
+ * <p> Tif fnumfrbtion vblufs for tiis typfsbff fnumfrbtion must bf
+ * kfpt in syndironizbtion witi tif BbsidTypf fnum in tif
+ * globblsDffinitions.ipp filf in tif HotSpot sourdf bbsf.</p>
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class BasicType {
+publid dlbss BbsidTypf {
 
-    private final String name;
-    private final int value;
+    privbtf finbl String nbmf;
+    privbtf finbl int vbluf;
 
-    public static final BasicType BOOLEAN = new BasicType("boolean",  4);
-    public static final BasicType CHAR    = new BasicType("char",     5);
-    public static final BasicType FLOAT   = new BasicType("float",    6);
-    public static final BasicType DOUBLE  = new BasicType("double",   7);
-    public static final BasicType BYTE    = new BasicType("byte",     8);
-    public static final BasicType SHORT   = new BasicType("short",    9);
-    public static final BasicType INT     = new BasicType("int",     10);
-    public static final BasicType LONG    = new BasicType("long",    11);
-    public static final BasicType OBJECT  = new BasicType("object",  12);
-    public static final BasicType ARRAY   = new BasicType("array",   13);
-    public static final BasicType VOID    = new BasicType("void",    14);
-    public static final BasicType ADDRESS = new BasicType("address", 15);
-    public static final BasicType ILLEGAL = new BasicType("illegal", 99);
+    publid stbtid finbl BbsidTypf BOOLEAN = nfw BbsidTypf("boolfbn",  4);
+    publid stbtid finbl BbsidTypf CHAR    = nfw BbsidTypf("dibr",     5);
+    publid stbtid finbl BbsidTypf FLOAT   = nfw BbsidTypf("flobt",    6);
+    publid stbtid finbl BbsidTypf DOUBLE  = nfw BbsidTypf("doublf",   7);
+    publid stbtid finbl BbsidTypf BYTE    = nfw BbsidTypf("bytf",     8);
+    publid stbtid finbl BbsidTypf SHORT   = nfw BbsidTypf("siort",    9);
+    publid stbtid finbl BbsidTypf INT     = nfw BbsidTypf("int",     10);
+    publid stbtid finbl BbsidTypf LONG    = nfw BbsidTypf("long",    11);
+    publid stbtid finbl BbsidTypf OBJECT  = nfw BbsidTypf("objfdt",  12);
+    publid stbtid finbl BbsidTypf ARRAY   = nfw BbsidTypf("brrby",   13);
+    publid stbtid finbl BbsidTypf VOID    = nfw BbsidTypf("void",    14);
+    publid stbtid finbl BbsidTypf ADDRESS = nfw BbsidTypf("bddrfss", 15);
+    publid stbtid finbl BbsidTypf ILLEGAL = nfw BbsidTypf("illfgbl", 99);
 
-    private static BasicType basicTypes[] = {
+    privbtf stbtid BbsidTypf bbsidTypfs[] = {
         BOOLEAN, CHAR, FLOAT, DOUBLE, BYTE, SHORT, INT, LONG, OBJECT,
         ARRAY, VOID, ADDRESS, ILLEGAL
     };
 
     /**
-     * Convert enumeration value to a String.
+     * Convfrt fnumfrbtion vbluf to b String.
      *
-     * @return String - the string representation for the enumeration.
+     * @rfturn String - tif string rfprfsfntbtion for tif fnumfrbtion.
      */
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 
     /**
-     * Convert enumeration to an integer value.
+     * Convfrt fnumfrbtion to bn intfgfr vbluf.
      *
-     * @return int - the integer representation for the enumeration.
+     * @rfturn int - tif intfgfr rfprfsfntbtion for tif fnumfrbtion.
      */
-    public int intValue() {
-        return value;
+    publid int intVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Map an integer value to its corresponding BasicType object.
+     * Mbp bn intfgfr vbluf to its dorrfsponding BbsidTypf objfdt.
      *
-     * @param i an integer representation of a BasicType
-     * @return BasicType - The BasicType enumeration object matching
-     *                     the value of <code>i</code>
+     * @pbrbm i bn intfgfr rfprfsfntbtion of b BbsidTypf
+     * @rfturn BbsidTypf - Tif BbsidTypf fnumfrbtion objfdt mbtdiing
+     *                     tif vbluf of <dodf>i</dodf>
      */
-    public static BasicType toBasicType(int i) {
-        for (int j = 0; j < basicTypes.length; j++) {
-            if (basicTypes[j].intValue() == j) {
-                return (basicTypes[j]);
+    publid stbtid BbsidTypf toBbsidTypf(int i) {
+        for (int j = 0; j < bbsidTypfs.lfngti; j++) {
+            if (bbsidTypfs[j].intVbluf() == j) {
+                rfturn (bbsidTypfs[j]);
             }
         }
-        return ILLEGAL;
+        rfturn ILLEGAL;
     }
 
-    private BasicType(String name, int value) {
-        this.name = name;
-        this.value = value;
+    privbtf BbsidTypf(String nbmf, int vbluf) {
+        tiis.nbmf = nbmf;
+        tiis.vbluf = vbluf;
     }
 }

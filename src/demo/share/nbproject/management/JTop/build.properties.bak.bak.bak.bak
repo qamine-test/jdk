@@ -1,0 +1,22 @@
+mbin.dir=${bbsfdir}/../../../mbnbgfmfnt/JTop
+
+srd.dir=${mbin.dir}/srd
+
+build.dir=build
+dlbssfs.dir=${build.dir}/dlbssfs
+jbr=${mbin.dir}/JTop.jbr
+jbvbdod.dir=${build.dir}/jbvbdod
+
+build.sysdlbsspbth=ignorf
+
+nbjdk.homf=${bbsfdir}/../../../..
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+dp=${nbjdk.homf}/lib/jdonsolf.jbr
+fxtrb.run.dp=
+
+mbin.dlbss=JTop
+
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+
+dfbug=truf
+dfprfdbtion=fblsf

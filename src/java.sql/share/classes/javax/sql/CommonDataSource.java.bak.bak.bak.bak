@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+import jbvb.sql.SQLExdfption;
+import jbvb.io.PrintWritfr;
+import jbvb.sql.SQLFfbturfNotSupportfdExdfption;
+import jbvb.util.logging.Loggfr;
+
+/**
+ * Intfrfbdf thbt dffinfs thf mfthods whidh brf dommon bftwffn <dodf>DbtbSourdf</dodf>,
+ * <dodf>XADbtbSourdf</dodf> bnd <dodf>ConnfdtionPoolDbtbSourdf</dodf>.
+ *
+ * @sindf 1.6
+ */
+publid intfrfbdf CommonDbtbSourdf {
+
+    /**
+     * <p>Rftrifvfs thf log writfr for this <dodf>DbtbSourdf</dodf>
+     * objfdt.
+     *
+     * <p>Thf log writfr is b dhbrbdtfr output strfbm to whidh bll logging
+     * bnd trbding mfssbgfs for this dbtb sourdf will bf
+     * printfd.  This indludfs mfssbgfs printfd by thf mfthods of this
+     * objfdt, mfssbgfs printfd by mfthods of othfr objfdts mbnufbdturfd
+     * by this objfdt, bnd so on.  Mfssbgfs printfd to b dbtb sourdf
+     * spfdifid log writfr brf not printfd to thf log writfr bssodibtfd
+     * with thf <dodf>jbvb.sql.DrivfrMbnbgfr</dodf> dlbss.  Whfn b
+     * <dodf>DbtbSourdf</dodf> objfdt is
+     * drfbtfd, thf log writfr is initiblly null; in othfr words, thf
+     * dffbult is for logging to bf disbblfd.
+     *
+     * @rfturn thf log writfr for this dbtb sourdf or null if
+     *        logging is disbblfd
+     * @fxdfption jbvb.sql.SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #sftLogWritfr
+     * @sindf 1.4
+     */
+    jbvb.io.PrintWritfr gftLogWritfr() throws SQLExdfption;
+
+    /**
+     * <p>Sfts thf log writfr for this <dodf>DbtbSourdf</dodf>
+     * objfdt to thf givfn <dodf>jbvb.io.PrintWritfr</dodf> objfdt.
+     *
+     * <p>Thf log writfr is b dhbrbdtfr output strfbm to whidh bll logging
+     * bnd trbding mfssbgfs for this dbtb sourdf will bf
+     * printfd.  This indludfs mfssbgfs printfd by thf mfthods of this
+     * objfdt, mfssbgfs printfd by mfthods of othfr objfdts mbnufbdturfd
+     * by this objfdt, bnd so on.  Mfssbgfs printfd to b dbtb sourdf-
+     * spfdifid log writfr brf not printfd to thf log writfr bssodibtfd
+     * with thf <dodf>jbvb.sql.DrivfrMbnbgfr</dodf> dlbss. Whfn b
+     * <dodf>DbtbSourdf</dodf> objfdt is drfbtfd thf log writfr is
+     * initiblly null; in othfr words, thf dffbult is for logging to bf
+     * disbblfd.
+     *
+     * @pbrbm out thf nfw log writfr; to disbblf logging, sft to null
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftLogWritfr
+     * @sindf 1.4
+     */
+    void sftLogWritfr(jbvb.io.PrintWritfr out) throws SQLExdfption;
+
+    /**
+     * <p>Sfts thf mbximum timf in sfdonds thbt this dbtb sourdf will wbit
+     * whilf bttfmpting to donnfdt to b dbtbbbsf.  A vbluf of zfro
+     * spfdififs thbt thf timfout is thf dffbult systfm timfout
+     * if thfrf is onf; othfrwisf, it spfdififs thbt thfrf is no timfout.
+     * Whfn b <dodf>DbtbSourdf</dodf> objfdt is drfbtfd, thf login timfout is
+     * initiblly zfro.
+     *
+     * @pbrbm sfdonds thf dbtb sourdf login timf limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs.
+     * @sff #gftLoginTimfout
+     * @sindf 1.4
+     */
+    void sftLoginTimfout(int sfdonds) throws SQLExdfption;
+
+    /**
+     * Gfts thf mbximum timf in sfdonds thbt this dbtb sourdf dbn wbit
+     * whilf bttfmpting to donnfdt to b dbtbbbsf.  A vbluf of zfro
+     * mfbns thbt thf timfout is thf dffbult systfm timfout
+     * if thfrf is onf; othfrwisf, it mfbns thbt thfrf is no timfout.
+     * Whfn b <dodf>DbtbSourdf</dodf> objfdt is drfbtfd, thf login timfout is
+     * initiblly zfro.
+     *
+     * @rfturn thf dbtb sourdf login timf limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs.
+     * @sff #sftLoginTimfout
+     * @sindf 1.4
+     */
+    int gftLoginTimfout() throws SQLExdfption;
+
+    //------------------------- JDBC 4.1 -----------------------------------
+
+    /**
+     * Rfturn thf pbrfnt Loggfr of bll thf Loggfrs usfd by this dbtb sourdf. This
+     * should bf thf Loggfr fbrthfst from thf root Loggfr thbt is
+     * still bn bndfstor of bll of thf Loggfrs usfd by this dbtb sourdf. Configuring
+     * this Loggfr will bfffdt bll of thf log mfssbgfs gfnfrbtfd by thf dbtb sourdf.
+     * In thf worst dbsf, this mby bf thf root Loggfr.
+     *
+     * @rfturn thf pbrfnt Loggfr for this dbtb sourdf
+     * @throws SQLFfbturfNotSupportfdExdfption if thf dbtb sourdf dofs not usf
+     * {@dodf jbvb.util.logging}
+     * @sindf 1.7
+     */
+    publid Loggfr gftPbrfntLoggfr() throws SQLFfbturfNotSupportfdExdfption;
+}

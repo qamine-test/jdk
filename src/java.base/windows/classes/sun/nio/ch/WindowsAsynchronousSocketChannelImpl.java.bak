@@ -1,946 +1,946 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.*;
-import java.nio.ByteBuffer;
-import java.nio.BufferOverflowException;
-import java.net.*;
-import java.util.concurrent.*;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import sun.misc.Unsafe;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BufffrOvfrflowExdfption;
+import jbvb.nft.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import sun.misd.Unsbff;
 
 /**
- * Windows implementation of AsynchronousSocketChannel using overlapped I/O.
+ * Windows implfmfntbtion of AsyndironousSodkftCibnnfl using ovfrlbppfd I/O.
  */
 
-class WindowsAsynchronousSocketChannelImpl
-    extends AsynchronousSocketChannelImpl implements Iocp.OverlappedChannel
+dlbss WindowsAsyndironousSodkftCibnnflImpl
+    fxtfnds AsyndironousSodkftCibnnflImpl implfmfnts Iodp.OvfrlbppfdCibnnfl
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static int addressSize = unsafe.addressSize();
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid int bddrfssSizf = unsbff.bddrfssSizf();
 
-    private static int dependsArch(int value32, int value64) {
-        return (addressSize == 4) ? value32 : value64;
+    privbtf stbtid int dfpfndsArdi(int vbluf32, int vbluf64) {
+        rfturn (bddrfssSizf == 4) ? vbluf32 : vbluf64;
     }
 
     /*
-     * typedef struct _WSABUF {
-     *     u_long      len;
-     *     char FAR *  buf;
+     * typfdff strudt _WSABUF {
+     *     u_long      lfn;
+     *     dibr FAR *  buf;
      * } WSABUF;
      */
-    private static final int SIZEOF_WSABUF  = dependsArch(8, 16);
-    private static final int OFFSETOF_LEN   = 0;
-    private static final int OFFSETOF_BUF   = dependsArch(4, 8);
+    privbtf stbtid finbl int SIZEOF_WSABUF  = dfpfndsArdi(8, 16);
+    privbtf stbtid finbl int OFFSETOF_LEN   = 0;
+    privbtf stbtid finbl int OFFSETOF_BUF   = dfpfndsArdi(4, 8);
 
-    // maximum vector size for scatter/gather I/O
-    private static final int MAX_WSABUF     = 16;
+    // mbximum vfdtor sizf for sdbttfr/gbtifr I/O
+    privbtf stbtid finbl int MAX_WSABUF     = 16;
 
-    private static final int SIZEOF_WSABUFARRAY = MAX_WSABUF * SIZEOF_WSABUF;
-
-
-    // socket handle. Use begin()/end() around each usage of this handle.
-    final long handle;
-
-    // I/O completion port that the socket is associated with
-    private final Iocp iocp;
-
-    // completion key to identify channel when I/O completes
-    private final int completionKey;
-
-    // Pending I/O operations are tied to an OVERLAPPED structure that can only
-    // be released when the I/O completion event is posted to the completion
-    // port. Where I/O operations complete immediately then it is possible
-    // there may be more than two OVERLAPPED structures in use.
-    private final PendingIoCache ioCache;
-
-    // per-channel arrays of WSABUF structures
-    private final long readBufferArray;
-    private final long writeBufferArray;
+    privbtf stbtid finbl int SIZEOF_WSABUFARRAY = MAX_WSABUF * SIZEOF_WSABUF;
 
 
-    WindowsAsynchronousSocketChannelImpl(Iocp iocp, boolean failIfGroupShutdown)
-        throws IOException
+    // sodkft ibndlf. Usf bfgin()/fnd() bround fbdi usbgf of tiis ibndlf.
+    finbl long ibndlf;
+
+    // I/O domplftion port tibt tif sodkft is bssodibtfd witi
+    privbtf finbl Iodp iodp;
+
+    // domplftion kfy to idfntify dibnnfl wifn I/O domplftfs
+    privbtf finbl int domplftionKfy;
+
+    // Pfnding I/O opfrbtions brf tifd to bn OVERLAPPED strudturf tibt dbn only
+    // bf rflfbsfd wifn tif I/O domplftion fvfnt is postfd to tif domplftion
+    // port. Wifrf I/O opfrbtions domplftf immfdibtfly tifn it is possiblf
+    // tifrf mby bf morf tibn two OVERLAPPED strudturfs in usf.
+    privbtf finbl PfndingIoCbdif ioCbdif;
+
+    // pfr-dibnnfl brrbys of WSABUF strudturfs
+    privbtf finbl long rfbdBufffrArrby;
+    privbtf finbl long writfBufffrArrby;
+
+
+    WindowsAsyndironousSodkftCibnnflImpl(Iodp iodp, boolfbn fbilIfGroupSiutdown)
+        tirows IOExdfption
     {
-        super(iocp);
+        supfr(iodp);
 
-        // associate socket with default completion port
-        long h = IOUtil.fdVal(fd);
-        int key = 0;
+        // bssodibtf sodkft witi dffbult domplftion port
+        long i = IOUtil.fdVbl(fd);
+        int kfy = 0;
         try {
-            key = iocp.associate(this, h);
-        } catch (ShutdownChannelGroupException x) {
-            if (failIfGroupShutdown) {
-                closesocket0(h);
-                throw x;
+            kfy = iodp.bssodibtf(tiis, i);
+        } dbtdi (SiutdownCibnnflGroupExdfption x) {
+            if (fbilIfGroupSiutdown) {
+                dlosfsodkft0(i);
+                tirow x;
             }
-        } catch (IOException x) {
-            closesocket0(h);
-            throw x;
+        } dbtdi (IOExdfption x) {
+            dlosfsodkft0(i);
+            tirow x;
         }
 
-        this.handle = h;
-        this.iocp = iocp;
-        this.completionKey = key;
-        this.ioCache = new PendingIoCache();
+        tiis.ibndlf = i;
+        tiis.iodp = iodp;
+        tiis.domplftionKfy = kfy;
+        tiis.ioCbdif = nfw PfndingIoCbdif();
 
-        // allocate WSABUF arrays
-        this.readBufferArray = unsafe.allocateMemory(SIZEOF_WSABUFARRAY);
-        this.writeBufferArray = unsafe.allocateMemory(SIZEOF_WSABUFARRAY);
+        // bllodbtf WSABUF brrbys
+        tiis.rfbdBufffrArrby = unsbff.bllodbtfMfmory(SIZEOF_WSABUFARRAY);
+        tiis.writfBufffrArrby = unsbff.bllodbtfMfmory(SIZEOF_WSABUFARRAY);
     }
 
-    WindowsAsynchronousSocketChannelImpl(Iocp iocp) throws IOException {
-        this(iocp, true);
+    WindowsAsyndironousSodkftCibnnflImpl(Iodp iodp) tirows IOExdfption {
+        tiis(iodp, truf);
     }
 
-    @Override
-    public AsynchronousChannelGroupImpl group() {
-        return iocp;
+    @Ovfrridf
+    publid AsyndironousCibnnflGroupImpl group() {
+        rfturn iodp;
     }
 
     /**
-     * Invoked by Iocp when an I/O operation competes.
+     * Invokfd by Iodp wifn bn I/O opfrbtion dompftfs.
      */
-    @Override
-    public <V,A> PendingFuture<V,A> getByOverlapped(long overlapped) {
-        return ioCache.remove(overlapped);
+    @Ovfrridf
+    publid <V,A> PfndingFuturf<V,A> gftByOvfrlbppfd(long ovfrlbppfd) {
+        rfturn ioCbdif.rfmovf(ovfrlbppfd);
     }
 
-    // invoked by WindowsAsynchronousServerSocketChannelImpl
-    long handle() {
-        return handle;
+    // invokfd by WindowsAsyndironousSfrvfrSodkftCibnnflImpl
+    long ibndlf() {
+        rfturn ibndlf;
     }
 
-    // invoked by WindowsAsynchronousServerSocketChannelImpl when new connection
-    // accept
-    void setConnected(InetSocketAddress localAddress,
-                      InetSocketAddress remoteAddress)
+    // invokfd by WindowsAsyndironousSfrvfrSodkftCibnnflImpl wifn nfw donnfdtion
+    // bddfpt
+    void sftConnfdtfd(InftSodkftAddrfss lodblAddrfss,
+                      InftSodkftAddrfss rfmotfAddrfss)
     {
-        synchronized (stateLock) {
-            state = ST_CONNECTED;
-            this.localAddress = localAddress;
-            this.remoteAddress = remoteAddress;
+        syndironizfd (stbtfLodk) {
+            stbtf = ST_CONNECTED;
+            tiis.lodblAddrfss = lodblAddrfss;
+            tiis.rfmotfAddrfss = rfmotfAddrfss;
         }
     }
 
-    @Override
-    void implClose() throws IOException {
-        // close socket (may cause outstanding async I/O operations to fail).
-        closesocket0(handle);
+    @Ovfrridf
+    void implClosf() tirows IOExdfption {
+        // dlosf sodkft (mby dbusf outstbnding bsynd I/O opfrbtions to fbil).
+        dlosfsodkft0(ibndlf);
 
-        // waits until all I/O operations have completed
-        ioCache.close();
+        // wbits until bll I/O opfrbtions ibvf domplftfd
+        ioCbdif.dlosf();
 
-        // release arrays of WSABUF structures
-        unsafe.freeMemory(readBufferArray);
-        unsafe.freeMemory(writeBufferArray);
+        // rflfbsf brrbys of WSABUF strudturfs
+        unsbff.frffMfmory(rfbdBufffrArrby);
+        unsbff.frffMfmory(writfBufffrArrby);
 
-        // finally disassociate from the completion port (key can be 0 if
-        // channel created when group is shutdown)
-        if (completionKey != 0)
-            iocp.disassociate(completionKey);
+        // finblly disbssodibtf from tif domplftion port (kfy dbn bf 0 if
+        // dibnnfl drfbtfd wifn group is siutdown)
+        if (domplftionKfy != 0)
+            iodp.disbssodibtf(domplftionKfy);
     }
 
-    @Override
-    public void onCancel(PendingFuture<?,?> task) {
-        if (task.getContext() instanceof ConnectTask)
-            killConnect();
-        if (task.getContext() instanceof ReadTask)
-            killReading();
-        if (task.getContext() instanceof WriteTask)
+    @Ovfrridf
+    publid void onCbndfl(PfndingFuturf<?,?> tbsk) {
+        if (tbsk.gftContfxt() instbndfof ConnfdtTbsk)
+            killConnfdt();
+        if (tbsk.gftContfxt() instbndfof RfbdTbsk)
+            killRfbding();
+        if (tbsk.gftContfxt() instbndfof WritfTbsk)
             killWriting();
     }
 
     /**
-     * Implements the task to initiate a connection and the handler to
-     * consume the result when the connection is established (or fails).
+     * Implfmfnts tif tbsk to initibtf b donnfdtion bnd tif ibndlfr to
+     * donsumf tif rfsult wifn tif donnfdtion is fstbblisifd (or fbils).
      */
-    private class ConnectTask<A> implements Runnable, Iocp.ResultHandler {
-        private final InetSocketAddress remote;
-        private final PendingFuture<Void,A> result;
+    privbtf dlbss ConnfdtTbsk<A> implfmfnts Runnbblf, Iodp.RfsultHbndlfr {
+        privbtf finbl InftSodkftAddrfss rfmotf;
+        privbtf finbl PfndingFuturf<Void,A> rfsult;
 
-        ConnectTask(InetSocketAddress remote, PendingFuture<Void,A> result) {
-            this.remote = remote;
-            this.result = result;
+        ConnfdtTbsk(InftSodkftAddrfss rfmotf, PfndingFuturf<Void,A> rfsult) {
+            tiis.rfmotf = rfmotf;
+            tiis.rfsult = rfsult;
         }
 
-        private void closeChannel() {
+        privbtf void dlosfCibnnfl() {
             try {
-                close();
-            } catch (IOException ignore) { }
+                dlosf();
+            } dbtdi (IOExdfption ignorf) { }
         }
 
-        private IOException toIOException(Throwable x) {
-            if (x instanceof IOException) {
-                if (x instanceof ClosedChannelException)
-                    x = new AsynchronousCloseException();
-                return (IOException)x;
+        privbtf IOExdfption toIOExdfption(Tirowbblf x) {
+            if (x instbndfof IOExdfption) {
+                if (x instbndfof ClosfdCibnnflExdfption)
+                    x = nfw AsyndironousClosfExdfption();
+                rfturn (IOExdfption)x;
             }
-            return new IOException(x);
+            rfturn nfw IOExdfption(x);
         }
 
         /**
-         * Invoke after a connection is successfully established.
+         * Invokf bftfr b donnfdtion is suddfssfully fstbblisifd.
          */
-        private void afterConnect() throws IOException {
-            updateConnectContext(handle);
-            synchronized (stateLock) {
-                state = ST_CONNECTED;
-                remoteAddress = remote;
+        privbtf void bftfrConnfdt() tirows IOExdfption {
+            updbtfConnfdtContfxt(ibndlf);
+            syndironizfd (stbtfLodk) {
+                stbtf = ST_CONNECTED;
+                rfmotfAddrfss = rfmotf;
             }
         }
 
         /**
-         * Task to initiate a connection.
+         * Tbsk to initibtf b donnfdtion.
          */
-        @Override
-        public void run() {
-            long overlapped = 0L;
-            Throwable exc = null;
+        @Ovfrridf
+        publid void run() {
+            long ovfrlbppfd = 0L;
+            Tirowbblf fxd = null;
             try {
-                begin();
+                bfgin();
 
-                // synchronize on result to allow this thread handle the case
-                // where the connection is established immediately.
-                synchronized (result) {
-                    overlapped = ioCache.add(result);
-                    // initiate the connection
-                    int n = connect0(handle, Net.isIPv6Available(), remote.getAddress(),
-                                     remote.getPort(), overlapped);
-                    if (n == IOStatus.UNAVAILABLE) {
-                        // connection is pending
-                        return;
+                // syndironizf on rfsult to bllow tiis tirfbd ibndlf tif dbsf
+                // wifrf tif donnfdtion is fstbblisifd immfdibtfly.
+                syndironizfd (rfsult) {
+                    ovfrlbppfd = ioCbdif.bdd(rfsult);
+                    // initibtf tif donnfdtion
+                    int n = donnfdt0(ibndlf, Nft.isIPv6Avbilbblf(), rfmotf.gftAddrfss(),
+                                     rfmotf.gftPort(), ovfrlbppfd);
+                    if (n == IOStbtus.UNAVAILABLE) {
+                        // donnfdtion is pfnding
+                        rfturn;
                     }
 
-                    // connection established immediately
-                    afterConnect();
-                    result.setResult(null);
+                    // donnfdtion fstbblisifd immfdibtfly
+                    bftfrConnfdt();
+                    rfsult.sftRfsult(null);
                 }
-            } catch (Throwable x) {
-                if (overlapped != 0L)
-                    ioCache.remove(overlapped);
-                exc = x;
-            } finally {
-                end();
+            } dbtdi (Tirowbblf x) {
+                if (ovfrlbppfd != 0L)
+                    ioCbdif.rfmovf(ovfrlbppfd);
+                fxd = x;
+            } finblly {
+                fnd();
             }
 
-            if (exc != null) {
-                closeChannel();
-                result.setFailure(toIOException(exc));
+            if (fxd != null) {
+                dlosfCibnnfl();
+                rfsult.sftFbilurf(toIOExdfption(fxd));
             }
-            Invoker.invoke(result);
+            Invokfr.invokf(rfsult);
         }
 
         /**
-         * Invoked by handler thread when connection established.
+         * Invokfd by ibndlfr tirfbd wifn donnfdtion fstbblisifd.
          */
-        @Override
-        public void completed(int bytesTransferred, boolean canInvokeDirect) {
-            Throwable exc = null;
+        @Ovfrridf
+        publid void domplftfd(int bytfsTrbnsffrrfd, boolfbn dbnInvokfDirfdt) {
+            Tirowbblf fxd = null;
             try {
-                begin();
-                afterConnect();
-                result.setResult(null);
-            } catch (Throwable x) {
-                // channel is closed or unable to finish connect
-                exc = x;
-            } finally {
-                end();
+                bfgin();
+                bftfrConnfdt();
+                rfsult.sftRfsult(null);
+            } dbtdi (Tirowbblf x) {
+                // dibnnfl is dlosfd or unbblf to finisi donnfdt
+                fxd = x;
+            } finblly {
+                fnd();
             }
 
-            // can't close channel while in begin/end block
-            if (exc != null) {
-                closeChannel();
-                result.setFailure(toIOException(exc));
+            // dbn't dlosf dibnnfl wiilf in bfgin/fnd blodk
+            if (fxd != null) {
+                dlosfCibnnfl();
+                rfsult.sftFbilurf(toIOExdfption(fxd));
             }
 
-            if (canInvokeDirect) {
-                Invoker.invokeUnchecked(result);
-            } else {
-                Invoker.invoke(result);
+            if (dbnInvokfDirfdt) {
+                Invokfr.invokfUndifdkfd(rfsult);
+            } flsf {
+                Invokfr.invokf(rfsult);
             }
         }
 
         /**
-         * Invoked by handler thread when failed to establish connection.
+         * Invokfd by ibndlfr tirfbd wifn fbilfd to fstbblisi donnfdtion.
          */
-        @Override
-        public void failed(int error, IOException x) {
-            if (isOpen()) {
-                closeChannel();
-                result.setFailure(x);
-            } else {
-                result.setFailure(new AsynchronousCloseException());
+        @Ovfrridf
+        publid void fbilfd(int frror, IOExdfption x) {
+            if (isOpfn()) {
+                dlosfCibnnfl();
+                rfsult.sftFbilurf(x);
+            } flsf {
+                rfsult.sftFbilurf(nfw AsyndironousClosfExdfption());
             }
-            Invoker.invoke(result);
+            Invokfr.invokf(rfsult);
         }
     }
 
-    private void doPrivilegedBind(final SocketAddress sa) throws IOException {
+    privbtf void doPrivilfgfdBind(finbl SodkftAddrfss sb) tirows IOExdfption {
         try {
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
-                public Void run() throws IOException {
-                    bind(sa);
-                    return null;
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() tirows IOExdfption {
+                    bind(sb);
+                    rfturn null;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            throw (IOException) e.getException();
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow (IOExdfption) f.gftExdfption();
         }
     }
 
-    @Override
-    <A> Future<Void> implConnect(SocketAddress remote,
-                                 A attachment,
-                                 CompletionHandler<Void,? super A> handler)
+    @Ovfrridf
+    <A> Futurf<Void> implConnfdt(SodkftAddrfss rfmotf,
+                                 A bttbdimfnt,
+                                 ComplftionHbndlfr<Void,? supfr A> ibndlfr)
     {
-        if (!isOpen()) {
-            Throwable exc = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(exc);
-            Invoker.invoke(this, handler, attachment, null, exc);
-            return null;
+        if (!isOpfn()) {
+            Tirowbblf fxd = nfw ClosfdCibnnflExdfption();
+            if (ibndlfr == null)
+                rfturn ComplftfdFuturf.witiFbilurf(fxd);
+            Invokfr.invokf(tiis, ibndlfr, bttbdimfnt, null, fxd);
+            rfturn null;
         }
 
-        InetSocketAddress isa = Net.checkAddress(remote);
+        InftSodkftAddrfss isb = Nft.difdkAddrfss(rfmotf);
 
-        // permission check
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null)
-            sm.checkConnect(isa.getAddress().getHostAddress(), isa.getPort());
+            sm.difdkConnfdt(isb.gftAddrfss().gftHostAddrfss(), isb.gftPort());
 
-        // check and update state
-        // ConnectEx requires the socket to be bound to a local address
-        IOException bindException = null;
-        synchronized (stateLock) {
-            if (state == ST_CONNECTED)
-                throw new AlreadyConnectedException();
-            if (state == ST_PENDING)
-                throw new ConnectionPendingException();
-            if (localAddress == null) {
+        // difdk bnd updbtf stbtf
+        // ConnfdtEx rfquirfs tif sodkft to bf bound to b lodbl bddrfss
+        IOExdfption bindExdfption = null;
+        syndironizfd (stbtfLodk) {
+            if (stbtf == ST_CONNECTED)
+                tirow nfw AlrfbdyConnfdtfdExdfption();
+            if (stbtf == ST_PENDING)
+                tirow nfw ConnfdtionPfndingExdfption();
+            if (lodblAddrfss == null) {
                 try {
-                    SocketAddress any = new InetSocketAddress(0);
+                    SodkftAddrfss bny = nfw InftSodkftAddrfss(0);
                     if (sm == null) {
-                        bind(any);
-                    } else {
-                        doPrivilegedBind(any);
+                        bind(bny);
+                    } flsf {
+                        doPrivilfgfdBind(bny);
                     }
-                } catch (IOException x) {
-                    bindException = x;
+                } dbtdi (IOExdfption x) {
+                    bindExdfption = x;
                 }
             }
-            if (bindException == null)
-                state = ST_PENDING;
+            if (bindExdfption == null)
+                stbtf = ST_PENDING;
         }
 
-        // handle bind failure
-        if (bindException != null) {
+        // ibndlf bind fbilurf
+        if (bindExdfption != null) {
             try {
-                close();
-            } catch (IOException ignore) { }
-            if (handler == null)
-                return CompletedFuture.withFailure(bindException);
-            Invoker.invoke(this, handler, attachment, null, bindException);
-            return null;
+                dlosf();
+            } dbtdi (IOExdfption ignorf) { }
+            if (ibndlfr == null)
+                rfturn ComplftfdFuturf.witiFbilurf(bindExdfption);
+            Invokfr.invokf(tiis, ibndlfr, bttbdimfnt, null, bindExdfption);
+            rfturn null;
         }
 
-        // setup task
-        PendingFuture<Void,A> result =
-            new PendingFuture<Void,A>(this, handler, attachment);
-        ConnectTask<A> task = new ConnectTask<A>(isa, result);
-        result.setContext(task);
+        // sftup tbsk
+        PfndingFuturf<Void,A> rfsult =
+            nfw PfndingFuturf<Void,A>(tiis, ibndlfr, bttbdimfnt);
+        ConnfdtTbsk<A> tbsk = nfw ConnfdtTbsk<A>(isb, rfsult);
+        rfsult.sftContfxt(tbsk);
 
-        // initiate I/O
-        if (Iocp.supportsThreadAgnosticIo()) {
-            task.run();
-        } else {
-            Invoker.invokeOnThreadInThreadPool(this, task);
+        // initibtf I/O
+        if (Iodp.supportsTirfbdAgnostidIo()) {
+            tbsk.run();
+        } flsf {
+            Invokfr.invokfOnTirfbdInTirfbdPool(tiis, tbsk);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Implements the task to initiate a read and the handler to consume the
-     * result when the read completes.
+     * Implfmfnts tif tbsk to initibtf b rfbd bnd tif ibndlfr to donsumf tif
+     * rfsult wifn tif rfbd domplftfs.
      */
-    private class ReadTask<V,A> implements Runnable, Iocp.ResultHandler {
-        private final ByteBuffer[] bufs;
-        private final int numBufs;
-        private final boolean scatteringRead;
-        private final PendingFuture<V,A> result;
+    privbtf dlbss RfbdTbsk<V,A> implfmfnts Runnbblf, Iodp.RfsultHbndlfr {
+        privbtf finbl BytfBufffr[] bufs;
+        privbtf finbl int numBufs;
+        privbtf finbl boolfbn sdbttfringRfbd;
+        privbtf finbl PfndingFuturf<V,A> rfsult;
 
-        // set by run method
-        private ByteBuffer[] shadow;
+        // sft by run mftiod
+        privbtf BytfBufffr[] sibdow;
 
-        ReadTask(ByteBuffer[] bufs,
-                 boolean scatteringRead,
-                 PendingFuture<V,A> result)
+        RfbdTbsk(BytfBufffr[] bufs,
+                 boolfbn sdbttfringRfbd,
+                 PfndingFuturf<V,A> rfsult)
         {
-            this.bufs = bufs;
-            this.numBufs = (bufs.length > MAX_WSABUF) ? MAX_WSABUF : bufs.length;
-            this.scatteringRead = scatteringRead;
-            this.result = result;
+            tiis.bufs = bufs;
+            tiis.numBufs = (bufs.lfngti > MAX_WSABUF) ? MAX_WSABUF : bufs.lfngti;
+            tiis.sdbttfringRfbd = sdbttfringRfbd;
+            tiis.rfsult = rfsult;
         }
 
         /**
-         * Invoked prior to read to prepare the WSABUF array. Where necessary,
-         * it substitutes non-direct buffers with direct buffers.
+         * Invokfd prior to rfbd to prfpbrf tif WSABUF brrby. Wifrf nfdfssbry,
+         * it substitutfs non-dirfdt bufffrs witi dirfdt bufffrs.
          */
-        void prepareBuffers() {
-            shadow = new ByteBuffer[numBufs];
-            long address = readBufferArray;
+        void prfpbrfBufffrs() {
+            sibdow = nfw BytfBufffr[numBufs];
+            long bddrfss = rfbdBufffrArrby;
             for (int i=0; i<numBufs; i++) {
-                ByteBuffer dst = bufs[i];
+                BytfBufffr dst = bufs[i];
                 int pos = dst.position();
                 int lim = dst.limit();
-                assert (pos <= lim);
-                int rem = (pos <= lim ? lim - pos : 0);
-                long a;
-                if (!(dst instanceof DirectBuffer)) {
-                    // substitute with direct buffer
-                    ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
-                    shadow[i] = bb;
-                    a = ((DirectBuffer)bb).address();
-                } else {
-                    shadow[i] = dst;
-                    a = ((DirectBuffer)dst).address() + pos;
+                bssfrt (pos <= lim);
+                int rfm = (pos <= lim ? lim - pos : 0);
+                long b;
+                if (!(dst instbndfof DirfdtBufffr)) {
+                    // substitutf witi dirfdt bufffr
+                    BytfBufffr bb = Util.gftTfmporbryDirfdtBufffr(rfm);
+                    sibdow[i] = bb;
+                    b = ((DirfdtBufffr)bb).bddrfss();
+                } flsf {
+                    sibdow[i] = dst;
+                    b = ((DirfdtBufffr)dst).bddrfss() + pos;
                 }
-                unsafe.putAddress(address + OFFSETOF_BUF, a);
-                unsafe.putInt(address + OFFSETOF_LEN, rem);
-                address += SIZEOF_WSABUF;
+                unsbff.putAddrfss(bddrfss + OFFSETOF_BUF, b);
+                unsbff.putInt(bddrfss + OFFSETOF_LEN, rfm);
+                bddrfss += SIZEOF_WSABUF;
             }
         }
 
         /**
-         * Invoked after a read has completed to update the buffer positions
-         * and release any substituted buffers.
+         * Invokfd bftfr b rfbd ibs domplftfd to updbtf tif bufffr positions
+         * bnd rflfbsf bny substitutfd bufffrs.
          */
-        void updateBuffers(int bytesRead) {
+        void updbtfBufffrs(int bytfsRfbd) {
             for (int i=0; i<numBufs; i++) {
-                ByteBuffer nextBuffer = shadow[i];
-                int pos = nextBuffer.position();
-                int len = nextBuffer.remaining();
-                if (bytesRead >= len) {
-                    bytesRead -= len;
-                    int newPosition = pos + len;
+                BytfBufffr nfxtBufffr = sibdow[i];
+                int pos = nfxtBufffr.position();
+                int lfn = nfxtBufffr.rfmbining();
+                if (bytfsRfbd >= lfn) {
+                    bytfsRfbd -= lfn;
+                    int nfwPosition = pos + lfn;
                     try {
-                        nextBuffer.position(newPosition);
-                    } catch (IllegalArgumentException x) {
-                        // position changed by another
+                        nfxtBufffr.position(nfwPosition);
+                    } dbtdi (IllfgblArgumfntExdfption x) {
+                        // position dibngfd by bnotifr
                     }
-                } else { // Buffers not completely filled
-                    if (bytesRead > 0) {
-                        assert(pos + bytesRead < (long)Integer.MAX_VALUE);
-                        int newPosition = pos + bytesRead;
+                } flsf { // Bufffrs not domplftfly fillfd
+                    if (bytfsRfbd > 0) {
+                        bssfrt(pos + bytfsRfbd < (long)Intfgfr.MAX_VALUE);
+                        int nfwPosition = pos + bytfsRfbd;
                         try {
-                            nextBuffer.position(newPosition);
-                        } catch (IllegalArgumentException x) {
-                            // position changed by another
+                            nfxtBufffr.position(nfwPosition);
+                        } dbtdi (IllfgblArgumfntExdfption x) {
+                            // position dibngfd by bnotifr
                         }
                     }
-                    break;
+                    brfbk;
                 }
             }
 
-            // Put results from shadow into the slow buffers
+            // Put rfsults from sibdow into tif slow bufffrs
             for (int i=0; i<numBufs; i++) {
-                if (!(bufs[i] instanceof DirectBuffer)) {
-                    shadow[i].flip();
+                if (!(bufs[i] instbndfof DirfdtBufffr)) {
+                    sibdow[i].flip();
                     try {
-                        bufs[i].put(shadow[i]);
-                    } catch (BufferOverflowException x) {
-                        // position changed by another
+                        bufs[i].put(sibdow[i]);
+                    } dbtdi (BufffrOvfrflowExdfption x) {
+                        // position dibngfd by bnotifr
                     }
                 }
             }
         }
 
-        void releaseBuffers() {
+        void rflfbsfBufffrs() {
             for (int i=0; i<numBufs; i++) {
-                if (!(bufs[i] instanceof DirectBuffer)) {
-                    Util.releaseTemporaryDirectBuffer(shadow[i]);
+                if (!(bufs[i] instbndfof DirfdtBufffr)) {
+                    Util.rflfbsfTfmporbryDirfdtBufffr(sibdow[i]);
                 }
             }
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public void run() {
-            long overlapped = 0L;
-            boolean prepared = false;
-            boolean pending = false;
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid void run() {
+            long ovfrlbppfd = 0L;
+            boolfbn prfpbrfd = fblsf;
+            boolfbn pfnding = fblsf;
 
             try {
-                begin();
+                bfgin();
 
-                // substitute non-direct buffers
-                prepareBuffers();
-                prepared = true;
+                // substitutf non-dirfdt bufffrs
+                prfpbrfBufffrs();
+                prfpbrfd = truf;
 
-                // get an OVERLAPPED structure (from the cache or allocate)
-                overlapped = ioCache.add(result);
+                // gft bn OVERLAPPED strudturf (from tif dbdif or bllodbtf)
+                ovfrlbppfd = ioCbdif.bdd(rfsult);
 
-                // initiate read
-                int n = read0(handle, numBufs, readBufferArray, overlapped);
-                if (n == IOStatus.UNAVAILABLE) {
-                    // I/O is pending
-                    pending = true;
-                    return;
+                // initibtf rfbd
+                int n = rfbd0(ibndlf, numBufs, rfbdBufffrArrby, ovfrlbppfd);
+                if (n == IOStbtus.UNAVAILABLE) {
+                    // I/O is pfnding
+                    pfnding = truf;
+                    rfturn;
                 }
-                if (n == IOStatus.EOF) {
-                    // input shutdown
-                    enableReading();
-                    if (scatteringRead) {
-                        result.setResult((V)Long.valueOf(-1L));
-                    } else {
-                        result.setResult((V)Integer.valueOf(-1));
+                if (n == IOStbtus.EOF) {
+                    // input siutdown
+                    fnbblfRfbding();
+                    if (sdbttfringRfbd) {
+                        rfsult.sftRfsult((V)Long.vblufOf(-1L));
+                    } flsf {
+                        rfsult.sftRfsult((V)Intfgfr.vblufOf(-1));
                     }
-                } else {
-                    throw new InternalError("Read completed immediately");
+                } flsf {
+                    tirow nfw IntfrnblError("Rfbd domplftfd immfdibtfly");
                 }
-            } catch (Throwable x) {
-                // failed to initiate read
-                // reset read flag before releasing waiters
-                enableReading();
-                if (x instanceof ClosedChannelException)
-                    x = new AsynchronousCloseException();
-                if (!(x instanceof IOException))
-                    x = new IOException(x);
-                result.setFailure(x);
-            } finally {
-                // release resources if I/O not pending
-                if (!pending) {
-                    if (overlapped != 0L)
-                        ioCache.remove(overlapped);
-                    if (prepared)
-                        releaseBuffers();
+            } dbtdi (Tirowbblf x) {
+                // fbilfd to initibtf rfbd
+                // rfsft rfbd flbg bfforf rflfbsing wbitfrs
+                fnbblfRfbding();
+                if (x instbndfof ClosfdCibnnflExdfption)
+                    x = nfw AsyndironousClosfExdfption();
+                if (!(x instbndfof IOExdfption))
+                    x = nfw IOExdfption(x);
+                rfsult.sftFbilurf(x);
+            } finblly {
+                // rflfbsf rfsourdfs if I/O not pfnding
+                if (!pfnding) {
+                    if (ovfrlbppfd != 0L)
+                        ioCbdif.rfmovf(ovfrlbppfd);
+                    if (prfpbrfd)
+                        rflfbsfBufffrs();
                 }
-                end();
+                fnd();
             }
 
-            // invoke completion handler
-            Invoker.invoke(result);
+            // invokf domplftion ibndlfr
+            Invokfr.invokf(rfsult);
         }
 
         /**
-         * Executed when the I/O has completed
+         * Exfdutfd wifn tif I/O ibs domplftfd
          */
-        @Override
-        @SuppressWarnings("unchecked")
-        public void completed(int bytesTransferred, boolean canInvokeDirect) {
-            if (bytesTransferred == 0) {
-                bytesTransferred = -1;  // EOF
-            } else {
-                updateBuffers(bytesTransferred);
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid void domplftfd(int bytfsTrbnsffrrfd, boolfbn dbnInvokfDirfdt) {
+            if (bytfsTrbnsffrrfd == 0) {
+                bytfsTrbnsffrrfd = -1;  // EOF
+            } flsf {
+                updbtfBufffrs(bytfsTrbnsffrrfd);
             }
 
-            // return direct buffer to cache if substituted
-            releaseBuffers();
+            // rfturn dirfdt bufffr to dbdif if substitutfd
+            rflfbsfBufffrs();
 
-            // release waiters if not already released by timeout
-            synchronized (result) {
-                if (result.isDone())
-                    return;
-                enableReading();
-                if (scatteringRead) {
-                    result.setResult((V)Long.valueOf(bytesTransferred));
-                } else {
-                    result.setResult((V)Integer.valueOf(bytesTransferred));
+            // rflfbsf wbitfrs if not blrfbdy rflfbsfd by timfout
+            syndironizfd (rfsult) {
+                if (rfsult.isDonf())
+                    rfturn;
+                fnbblfRfbding();
+                if (sdbttfringRfbd) {
+                    rfsult.sftRfsult((V)Long.vblufOf(bytfsTrbnsffrrfd));
+                } flsf {
+                    rfsult.sftRfsult((V)Intfgfr.vblufOf(bytfsTrbnsffrrfd));
                 }
             }
-            if (canInvokeDirect) {
-                Invoker.invokeUnchecked(result);
-            } else {
-                Invoker.invoke(result);
+            if (dbnInvokfDirfdt) {
+                Invokfr.invokfUndifdkfd(rfsult);
+            } flsf {
+                Invokfr.invokf(rfsult);
             }
         }
 
-        @Override
-        public void failed(int error, IOException x) {
-            // return direct buffer to cache if substituted
-            releaseBuffers();
+        @Ovfrridf
+        publid void fbilfd(int frror, IOExdfption x) {
+            // rfturn dirfdt bufffr to dbdif if substitutfd
+            rflfbsfBufffrs();
 
-            // release waiters if not already released by timeout
-            if (!isOpen())
-                x = new AsynchronousCloseException();
+            // rflfbsf wbitfrs if not blrfbdy rflfbsfd by timfout
+            if (!isOpfn())
+                x = nfw AsyndironousClosfExdfption();
 
-            synchronized (result) {
-                if (result.isDone())
-                    return;
-                enableReading();
-                result.setFailure(x);
+            syndironizfd (rfsult) {
+                if (rfsult.isDonf())
+                    rfturn;
+                fnbblfRfbding();
+                rfsult.sftFbilurf(x);
             }
-            Invoker.invoke(result);
+            Invokfr.invokf(rfsult);
         }
 
         /**
-         * Invoked if timeout expires before it is cancelled
+         * Invokfd if timfout fxpirfs bfforf it is dbndfllfd
          */
-        void timeout() {
-            // synchronize on result as the I/O could complete/fail
-            synchronized (result) {
-                if (result.isDone())
-                    return;
+        void timfout() {
+            // syndironizf on rfsult bs tif I/O dould domplftf/fbil
+            syndironizfd (rfsult) {
+                if (rfsult.isDonf())
+                    rfturn;
 
-                // kill further reading before releasing waiters
-                enableReading(true);
-                result.setFailure(new InterruptedByTimeoutException());
+                // kill furtifr rfbding bfforf rflfbsing wbitfrs
+                fnbblfRfbding(truf);
+                rfsult.sftFbilurf(nfw IntfrruptfdByTimfoutExdfption());
             }
 
-            // invoke handler without any locks
-            Invoker.invoke(result);
+            // invokf ibndlfr witiout bny lodks
+            Invokfr.invokf(rfsult);
         }
     }
 
-    @Override
-    <V extends Number,A> Future<V> implRead(boolean isScatteringRead,
-                                            ByteBuffer dst,
-                                            ByteBuffer[] dsts,
-                                            long timeout,
-                                            TimeUnit unit,
-                                            A attachment,
-                                            CompletionHandler<V,? super A> handler)
+    @Ovfrridf
+    <V fxtfnds Numbfr,A> Futurf<V> implRfbd(boolfbn isSdbttfringRfbd,
+                                            BytfBufffr dst,
+                                            BytfBufffr[] dsts,
+                                            long timfout,
+                                            TimfUnit unit,
+                                            A bttbdimfnt,
+                                            ComplftionHbndlfr<V,? supfr A> ibndlfr)
     {
-        // setup task
-        PendingFuture<V,A> result =
-            new PendingFuture<V,A>(this, handler, attachment);
-        ByteBuffer[] bufs;
-        if (isScatteringRead) {
+        // sftup tbsk
+        PfndingFuturf<V,A> rfsult =
+            nfw PfndingFuturf<V,A>(tiis, ibndlfr, bttbdimfnt);
+        BytfBufffr[] bufs;
+        if (isSdbttfringRfbd) {
             bufs = dsts;
-        } else {
-            bufs = new ByteBuffer[1];
+        } flsf {
+            bufs = nfw BytfBufffr[1];
             bufs[0] = dst;
         }
-        final ReadTask<V,A> readTask =
-                new ReadTask<V,A>(bufs, isScatteringRead, result);
-        result.setContext(readTask);
+        finbl RfbdTbsk<V,A> rfbdTbsk =
+                nfw RfbdTbsk<V,A>(bufs, isSdbttfringRfbd, rfsult);
+        rfsult.sftContfxt(rfbdTbsk);
 
-        // schedule timeout
-        if (timeout > 0L) {
-            Future<?> timeoutTask = iocp.schedule(new Runnable() {
-                public void run() {
-                    readTask.timeout();
+        // sdifdulf timfout
+        if (timfout > 0L) {
+            Futurf<?> timfoutTbsk = iodp.sdifdulf(nfw Runnbblf() {
+                publid void run() {
+                    rfbdTbsk.timfout();
                 }
-            }, timeout, unit);
-            result.setTimeoutTask(timeoutTask);
+            }, timfout, unit);
+            rfsult.sftTimfoutTbsk(timfoutTbsk);
         }
 
-        // initiate I/O
-        if (Iocp.supportsThreadAgnosticIo()) {
-            readTask.run();
-        } else {
-            Invoker.invokeOnThreadInThreadPool(this, readTask);
+        // initibtf I/O
+        if (Iodp.supportsTirfbdAgnostidIo()) {
+            rfbdTbsk.run();
+        } flsf {
+            Invokfr.invokfOnTirfbdInTirfbdPool(tiis, rfbdTbsk);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Implements the task to initiate a write and the handler to consume the
-     * result when the write completes.
+     * Implfmfnts tif tbsk to initibtf b writf bnd tif ibndlfr to donsumf tif
+     * rfsult wifn tif writf domplftfs.
      */
-    private class WriteTask<V,A> implements Runnable, Iocp.ResultHandler {
-        private final ByteBuffer[] bufs;
-        private final int numBufs;
-        private final boolean gatheringWrite;
-        private final PendingFuture<V,A> result;
+    privbtf dlbss WritfTbsk<V,A> implfmfnts Runnbblf, Iodp.RfsultHbndlfr {
+        privbtf finbl BytfBufffr[] bufs;
+        privbtf finbl int numBufs;
+        privbtf finbl boolfbn gbtifringWritf;
+        privbtf finbl PfndingFuturf<V,A> rfsult;
 
-        // set by run method
-        private ByteBuffer[] shadow;
+        // sft by run mftiod
+        privbtf BytfBufffr[] sibdow;
 
-        WriteTask(ByteBuffer[] bufs,
-                  boolean gatheringWrite,
-                  PendingFuture<V,A> result)
+        WritfTbsk(BytfBufffr[] bufs,
+                  boolfbn gbtifringWritf,
+                  PfndingFuturf<V,A> rfsult)
         {
-            this.bufs = bufs;
-            this.numBufs = (bufs.length > MAX_WSABUF) ? MAX_WSABUF : bufs.length;
-            this.gatheringWrite = gatheringWrite;
-            this.result = result;
+            tiis.bufs = bufs;
+            tiis.numBufs = (bufs.lfngti > MAX_WSABUF) ? MAX_WSABUF : bufs.lfngti;
+            tiis.gbtifringWritf = gbtifringWritf;
+            tiis.rfsult = rfsult;
         }
 
         /**
-         * Invoked prior to write to prepare the WSABUF array. Where necessary,
-         * it substitutes non-direct buffers with direct buffers.
+         * Invokfd prior to writf to prfpbrf tif WSABUF brrby. Wifrf nfdfssbry,
+         * it substitutfs non-dirfdt bufffrs witi dirfdt bufffrs.
          */
-        void prepareBuffers() {
-            shadow = new ByteBuffer[numBufs];
-            long address = writeBufferArray;
+        void prfpbrfBufffrs() {
+            sibdow = nfw BytfBufffr[numBufs];
+            long bddrfss = writfBufffrArrby;
             for (int i=0; i<numBufs; i++) {
-                ByteBuffer src = bufs[i];
-                int pos = src.position();
-                int lim = src.limit();
-                assert (pos <= lim);
-                int rem = (pos <= lim ? lim - pos : 0);
-                long a;
-                if (!(src instanceof DirectBuffer)) {
-                    // substitute with direct buffer
-                    ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
-                    bb.put(src);
+                BytfBufffr srd = bufs[i];
+                int pos = srd.position();
+                int lim = srd.limit();
+                bssfrt (pos <= lim);
+                int rfm = (pos <= lim ? lim - pos : 0);
+                long b;
+                if (!(srd instbndfof DirfdtBufffr)) {
+                    // substitutf witi dirfdt bufffr
+                    BytfBufffr bb = Util.gftTfmporbryDirfdtBufffr(rfm);
+                    bb.put(srd);
                     bb.flip();
-                    src.position(pos);  // leave heap buffer untouched for now
-                    shadow[i] = bb;
-                    a = ((DirectBuffer)bb).address();
-                } else {
-                    shadow[i] = src;
-                    a = ((DirectBuffer)src).address() + pos;
+                    srd.position(pos);  // lfbvf ifbp bufffr untoudifd for now
+                    sibdow[i] = bb;
+                    b = ((DirfdtBufffr)bb).bddrfss();
+                } flsf {
+                    sibdow[i] = srd;
+                    b = ((DirfdtBufffr)srd).bddrfss() + pos;
                 }
-                unsafe.putAddress(address + OFFSETOF_BUF, a);
-                unsafe.putInt(address + OFFSETOF_LEN, rem);
-                address += SIZEOF_WSABUF;
+                unsbff.putAddrfss(bddrfss + OFFSETOF_BUF, b);
+                unsbff.putInt(bddrfss + OFFSETOF_LEN, rfm);
+                bddrfss += SIZEOF_WSABUF;
             }
         }
 
         /**
-         * Invoked after a write has completed to update the buffer positions
-         * and release any substituted buffers.
+         * Invokfd bftfr b writf ibs domplftfd to updbtf tif bufffr positions
+         * bnd rflfbsf bny substitutfd bufffrs.
          */
-        void updateBuffers(int bytesWritten) {
-            // Notify the buffers how many bytes were taken
+        void updbtfBufffrs(int bytfsWrittfn) {
+            // Notify tif bufffrs iow mbny bytfs wfrf tbkfn
             for (int i=0; i<numBufs; i++) {
-                ByteBuffer nextBuffer = bufs[i];
-                int pos = nextBuffer.position();
-                int lim = nextBuffer.limit();
-                int len = (pos <= lim ? lim - pos : lim);
-                if (bytesWritten >= len) {
-                    bytesWritten -= len;
-                    int newPosition = pos + len;
+                BytfBufffr nfxtBufffr = bufs[i];
+                int pos = nfxtBufffr.position();
+                int lim = nfxtBufffr.limit();
+                int lfn = (pos <= lim ? lim - pos : lim);
+                if (bytfsWrittfn >= lfn) {
+                    bytfsWrittfn -= lfn;
+                    int nfwPosition = pos + lfn;
                     try {
-                        nextBuffer.position(newPosition);
-                    } catch (IllegalArgumentException x) {
-                        // position changed by someone else
+                        nfxtBufffr.position(nfwPosition);
+                    } dbtdi (IllfgblArgumfntExdfption x) {
+                        // position dibngfd by somfonf flsf
                     }
-                } else { // Buffers not completely filled
-                    if (bytesWritten > 0) {
-                        assert(pos + bytesWritten < (long)Integer.MAX_VALUE);
-                        int newPosition = pos + bytesWritten;
+                } flsf { // Bufffrs not domplftfly fillfd
+                    if (bytfsWrittfn > 0) {
+                        bssfrt(pos + bytfsWrittfn < (long)Intfgfr.MAX_VALUE);
+                        int nfwPosition = pos + bytfsWrittfn;
                         try {
-                            nextBuffer.position(newPosition);
-                        } catch (IllegalArgumentException x) {
-                            // position changed by someone else
+                            nfxtBufffr.position(nfwPosition);
+                        } dbtdi (IllfgblArgumfntExdfption x) {
+                            // position dibngfd by somfonf flsf
                         }
                     }
-                    break;
+                    brfbk;
                 }
             }
         }
 
-        void releaseBuffers() {
+        void rflfbsfBufffrs() {
             for (int i=0; i<numBufs; i++) {
-                if (!(bufs[i] instanceof DirectBuffer)) {
-                    Util.releaseTemporaryDirectBuffer(shadow[i]);
+                if (!(bufs[i] instbndfof DirfdtBufffr)) {
+                    Util.rflfbsfTfmporbryDirfdtBufffr(sibdow[i]);
                 }
             }
         }
 
-        @Override
-        //@SuppressWarnings("unchecked")
-        public void run() {
-            long overlapped = 0L;
-            boolean prepared = false;
-            boolean pending = false;
-            boolean shutdown = false;
+        @Ovfrridf
+        //@SupprfssWbrnings("undifdkfd")
+        publid void run() {
+            long ovfrlbppfd = 0L;
+            boolfbn prfpbrfd = fblsf;
+            boolfbn pfnding = fblsf;
+            boolfbn siutdown = fblsf;
 
             try {
-                begin();
+                bfgin();
 
-                // substitute non-direct buffers
-                prepareBuffers();
-                prepared = true;
+                // substitutf non-dirfdt bufffrs
+                prfpbrfBufffrs();
+                prfpbrfd = truf;
 
-                // get an OVERLAPPED structure (from the cache or allocate)
-                overlapped = ioCache.add(result);
-                int n = write0(handle, numBufs, writeBufferArray, overlapped);
-                if (n == IOStatus.UNAVAILABLE) {
-                    // I/O is pending
-                    pending = true;
-                    return;
+                // gft bn OVERLAPPED strudturf (from tif dbdif or bllodbtf)
+                ovfrlbppfd = ioCbdif.bdd(rfsult);
+                int n = writf0(ibndlf, numBufs, writfBufffrArrby, ovfrlbppfd);
+                if (n == IOStbtus.UNAVAILABLE) {
+                    // I/O is pfnding
+                    pfnding = truf;
+                    rfturn;
                 }
-                if (n == IOStatus.EOF) {
-                    // special case for shutdown output
-                    shutdown = true;
-                    throw new ClosedChannelException();
+                if (n == IOStbtus.EOF) {
+                    // spfdibl dbsf for siutdown output
+                    siutdown = truf;
+                    tirow nfw ClosfdCibnnflExdfption();
                 }
-                // write completed immediately
-                throw new InternalError("Write completed immediately");
-            } catch (Throwable x) {
-                // write failed. Enable writing before releasing waiters.
-                enableWriting();
-                if (!shutdown && (x instanceof ClosedChannelException))
-                    x = new AsynchronousCloseException();
-                if (!(x instanceof IOException))
-                    x = new IOException(x);
-                result.setFailure(x);
-            } finally {
-                // release resources if I/O not pending
-                if (!pending) {
-                    if (overlapped != 0L)
-                        ioCache.remove(overlapped);
-                    if (prepared)
-                        releaseBuffers();
+                // writf domplftfd immfdibtfly
+                tirow nfw IntfrnblError("Writf domplftfd immfdibtfly");
+            } dbtdi (Tirowbblf x) {
+                // writf fbilfd. Enbblf writing bfforf rflfbsing wbitfrs.
+                fnbblfWriting();
+                if (!siutdown && (x instbndfof ClosfdCibnnflExdfption))
+                    x = nfw AsyndironousClosfExdfption();
+                if (!(x instbndfof IOExdfption))
+                    x = nfw IOExdfption(x);
+                rfsult.sftFbilurf(x);
+            } finblly {
+                // rflfbsf rfsourdfs if I/O not pfnding
+                if (!pfnding) {
+                    if (ovfrlbppfd != 0L)
+                        ioCbdif.rfmovf(ovfrlbppfd);
+                    if (prfpbrfd)
+                        rflfbsfBufffrs();
                 }
-                end();
+                fnd();
             }
 
-            // invoke completion handler
-            Invoker.invoke(result);
+            // invokf domplftion ibndlfr
+            Invokfr.invokf(rfsult);
         }
 
         /**
-         * Executed when the I/O has completed
+         * Exfdutfd wifn tif I/O ibs domplftfd
          */
-        @Override
-        @SuppressWarnings("unchecked")
-        public void completed(int bytesTransferred, boolean canInvokeDirect) {
-            updateBuffers(bytesTransferred);
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid void domplftfd(int bytfsTrbnsffrrfd, boolfbn dbnInvokfDirfdt) {
+            updbtfBufffrs(bytfsTrbnsffrrfd);
 
-            // return direct buffer to cache if substituted
-            releaseBuffers();
+            // rfturn dirfdt bufffr to dbdif if substitutfd
+            rflfbsfBufffrs();
 
-            // release waiters if not already released by timeout
-            synchronized (result) {
-                if (result.isDone())
-                    return;
-                enableWriting();
-                if (gatheringWrite) {
-                    result.setResult((V)Long.valueOf(bytesTransferred));
-                } else {
-                    result.setResult((V)Integer.valueOf(bytesTransferred));
+            // rflfbsf wbitfrs if not blrfbdy rflfbsfd by timfout
+            syndironizfd (rfsult) {
+                if (rfsult.isDonf())
+                    rfturn;
+                fnbblfWriting();
+                if (gbtifringWritf) {
+                    rfsult.sftRfsult((V)Long.vblufOf(bytfsTrbnsffrrfd));
+                } flsf {
+                    rfsult.sftRfsult((V)Intfgfr.vblufOf(bytfsTrbnsffrrfd));
                 }
             }
-            if (canInvokeDirect) {
-                Invoker.invokeUnchecked(result);
-            } else {
-                Invoker.invoke(result);
+            if (dbnInvokfDirfdt) {
+                Invokfr.invokfUndifdkfd(rfsult);
+            } flsf {
+                Invokfr.invokf(rfsult);
             }
         }
 
-        @Override
-        public void failed(int error, IOException x) {
-            // return direct buffer to cache if substituted
-            releaseBuffers();
+        @Ovfrridf
+        publid void fbilfd(int frror, IOExdfption x) {
+            // rfturn dirfdt bufffr to dbdif if substitutfd
+            rflfbsfBufffrs();
 
-            // release waiters if not already released by timeout
-            if (!isOpen())
-                x = new AsynchronousCloseException();
+            // rflfbsf wbitfrs if not blrfbdy rflfbsfd by timfout
+            if (!isOpfn())
+                x = nfw AsyndironousClosfExdfption();
 
-            synchronized (result) {
-                if (result.isDone())
-                    return;
-                enableWriting();
-                result.setFailure(x);
+            syndironizfd (rfsult) {
+                if (rfsult.isDonf())
+                    rfturn;
+                fnbblfWriting();
+                rfsult.sftFbilurf(x);
             }
-            Invoker.invoke(result);
+            Invokfr.invokf(rfsult);
         }
 
         /**
-         * Invoked if timeout expires before it is cancelled
+         * Invokfd if timfout fxpirfs bfforf it is dbndfllfd
          */
-        void timeout() {
-            // synchronize on result as the I/O could complete/fail
-            synchronized (result) {
-                if (result.isDone())
-                    return;
+        void timfout() {
+            // syndironizf on rfsult bs tif I/O dould domplftf/fbil
+            syndironizfd (rfsult) {
+                if (rfsult.isDonf())
+                    rfturn;
 
-                // kill further writing before releasing waiters
-                enableWriting(true);
-                result.setFailure(new InterruptedByTimeoutException());
+                // kill furtifr writing bfforf rflfbsing wbitfrs
+                fnbblfWriting(truf);
+                rfsult.sftFbilurf(nfw IntfrruptfdByTimfoutExdfption());
             }
 
-            // invoke handler without any locks
-            Invoker.invoke(result);
+            // invokf ibndlfr witiout bny lodks
+            Invokfr.invokf(rfsult);
         }
     }
 
-    @Override
-    <V extends Number,A> Future<V> implWrite(boolean gatheringWrite,
-                                             ByteBuffer src,
-                                             ByteBuffer[] srcs,
-                                             long timeout,
-                                             TimeUnit unit,
-                                             A attachment,
-                                             CompletionHandler<V,? super A> handler)
+    @Ovfrridf
+    <V fxtfnds Numbfr,A> Futurf<V> implWritf(boolfbn gbtifringWritf,
+                                             BytfBufffr srd,
+                                             BytfBufffr[] srds,
+                                             long timfout,
+                                             TimfUnit unit,
+                                             A bttbdimfnt,
+                                             ComplftionHbndlfr<V,? supfr A> ibndlfr)
     {
-        // setup task
-        PendingFuture<V,A> result =
-            new PendingFuture<V,A>(this, handler, attachment);
-        ByteBuffer[] bufs;
-        if (gatheringWrite) {
-            bufs = srcs;
-        } else {
-            bufs = new ByteBuffer[1];
-            bufs[0] = src;
+        // sftup tbsk
+        PfndingFuturf<V,A> rfsult =
+            nfw PfndingFuturf<V,A>(tiis, ibndlfr, bttbdimfnt);
+        BytfBufffr[] bufs;
+        if (gbtifringWritf) {
+            bufs = srds;
+        } flsf {
+            bufs = nfw BytfBufffr[1];
+            bufs[0] = srd;
         }
-        final WriteTask<V,A> writeTask =
-                new WriteTask<V,A>(bufs, gatheringWrite, result);
-        result.setContext(writeTask);
+        finbl WritfTbsk<V,A> writfTbsk =
+                nfw WritfTbsk<V,A>(bufs, gbtifringWritf, rfsult);
+        rfsult.sftContfxt(writfTbsk);
 
-        // schedule timeout
-        if (timeout > 0L) {
-            Future<?> timeoutTask = iocp.schedule(new Runnable() {
-                public void run() {
-                    writeTask.timeout();
+        // sdifdulf timfout
+        if (timfout > 0L) {
+            Futurf<?> timfoutTbsk = iodp.sdifdulf(nfw Runnbblf() {
+                publid void run() {
+                    writfTbsk.timfout();
                 }
-            }, timeout, unit);
-            result.setTimeoutTask(timeoutTask);
+            }, timfout, unit);
+            rfsult.sftTimfoutTbsk(timfoutTbsk);
         }
 
-        // initiate I/O (can only be done from thread in thread pool)
-        // initiate I/O
-        if (Iocp.supportsThreadAgnosticIo()) {
-            writeTask.run();
-        } else {
-            Invoker.invokeOnThreadInThreadPool(this, writeTask);
+        // initibtf I/O (dbn only bf donf from tirfbd in tirfbd pool)
+        // initibtf I/O
+        if (Iodp.supportsTirfbdAgnostidIo()) {
+            writfTbsk.run();
+        } flsf {
+            Invokfr.invokfOnTirfbdInTirfbdPool(tiis, writfTbsk);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    // -- Native methods --
+    // -- Nbtivf mftiods --
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    private static native int connect0(long socket, boolean preferIPv6,
-        InetAddress remote, int remotePort, long overlapped) throws IOException;
+    privbtf stbtid nbtivf int donnfdt0(long sodkft, boolfbn prfffrIPv6,
+        InftAddrfss rfmotf, int rfmotfPort, long ovfrlbppfd) tirows IOExdfption;
 
-    private static native void updateConnectContext(long socket) throws IOException;
+    privbtf stbtid nbtivf void updbtfConnfdtContfxt(long sodkft) tirows IOExdfption;
 
-    private static native int read0(long socket, int count, long addres, long overlapped)
-        throws IOException;
+    privbtf stbtid nbtivf int rfbd0(long sodkft, int dount, long bddrfs, long ovfrlbppfd)
+        tirows IOExdfption;
 
-    private static native int write0(long socket, int count, long address,
-        long overlapped) throws IOException;
+    privbtf stbtid nbtivf int writf0(long sodkft, int dount, long bddrfss,
+        long ovfrlbppfd) tirows IOExdfption;
 
-    private static native void shutdown0(long socket, int how) throws IOException;
+    privbtf stbtid nbtivf void siutdown0(long sodkft, int iow) tirows IOExdfption;
 
-    private static native void closesocket0(long socket) throws IOException;
+    privbtf stbtid nbtivf void dlosfsodkft0(long sodkft) tirows IOExdfption;
 
-    static {
-        IOUtil.load();
+    stbtid {
+        IOUtil.lobd();
         initIDs();
     }
 }

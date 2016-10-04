@@ -1,0 +1,923 @@
+/*
+ * Copyright (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbth;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.DoublfSummbryStbtistids;
+import jbvb.util.Objfdts;
+import jbvb.util.OptionblDoublf;
+import jbvb.util.PrimitivfItfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.DoublfBinbryOpfrbtor;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.DoublfFundtion;
+import jbvb.util.fundtion.DoublfPrfdidbtf;
+import jbvb.util.fundtion.DoublfSupplifr;
+import jbvb.util.fundtion.DoublfToIntFundtion;
+import jbvb.util.fundtion.DoublfToLongFundtion;
+import jbvb.util.fundtion.DoublfUnbryOpfrbtor;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.ObjDoublfConsumfr;
+import jbvb.util.fundtion.Supplifr;
+
+/**
+ * A sfqufndf of primitivf doublf-vblufd flfmfnts supporting sfqufntibl bnd pbrbllfl
+ * bggrfgbtf opfrbtions.  This is thf {@dodf doublf} primitivf spfdiblizbtion of
+ * {@link Strfbm}.
+ *
+ * <p>Thf following fxbmplf illustrbtfs bn bggrfgbtf opfrbtion using
+ * {@link Strfbm} bnd {@link DoublfStrfbm}, domputing thf sum of thf wfights of thf
+ * rfd widgfts:
+ *
+ * <prf>{@dodf
+ *     doublf sum = widgfts.strfbm()
+ *                         .filtfr(w -> w.gftColor() == RED)
+ *                         .mbpToDoublf(w -> w.gftWfight())
+ *                         .sum();
+ * }</prf>
+ *
+ * Sff thf dlbss dodumfntbtion for {@link Strfbm} bnd thf pbdkbgf dodumfntbtion
+ * for <b hrff="pbdkbgf-summbry.html">jbvb.util.strfbm</b> for bdditionbl
+ * spfdifidbtion of strfbms, strfbm opfrbtions, strfbm pipflinfs, bnd
+ * pbrbllflism.
+ *
+ * @sindf 1.8
+ * @sff Strfbm
+ * @sff <b hrff="pbdkbgf-summbry.html">jbvb.util.strfbm</b>
+ */
+publid intfrfbdf DoublfStrfbm fxtfnds BbsfStrfbm<Doublf, DoublfStrfbm> {
+
+    /**
+     * Rfturns b strfbm donsisting of thf flfmfnts of this strfbm thbt mbtdh
+     * thf givfn prfdidbtf.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * @pbrbm prfdidbtf b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to fbdh flfmfnt to dftfrminf if it
+     *                  should bf indludfd
+     * @rfturn thf nfw strfbm
+     */
+    DoublfStrfbm filtfr(DoublfPrfdidbtf prfdidbtf);
+
+    /**
+     * Rfturns b strfbm donsisting of thf rfsults of bpplying thf givfn
+     * fundtion to thf flfmfnts of this strfbm.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * @pbrbm mbppfr b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdh flfmfnt
+     * @rfturn thf nfw strfbm
+     */
+    DoublfStrfbm mbp(DoublfUnbryOpfrbtor mbppfr);
+
+    /**
+     * Rfturns bn objfdt-vblufd {@dodf Strfbm} donsisting of thf rfsults of
+     * bpplying thf givfn fundtion to thf flfmfnts of this strfbm.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">
+     *     intfrmfdibtf opfrbtion</b>.
+     *
+     * @pbrbm <U> thf flfmfnt typf of thf nfw strfbm
+     * @pbrbm mbppfr b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdh flfmfnt
+     * @rfturn thf nfw strfbm
+     */
+    <U> Strfbm<U> mbpToObj(DoublfFundtion<? fxtfnds U> mbppfr);
+
+    /**
+     * Rfturns bn {@dodf IntStrfbm} donsisting of thf rfsults of bpplying thf
+     * givfn fundtion to thf flfmfnts of this strfbm.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * @pbrbm mbppfr b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdh flfmfnt
+     * @rfturn thf nfw strfbm
+     */
+    IntStrfbm mbpToInt(DoublfToIntFundtion mbppfr);
+
+    /**
+     * Rfturns b {@dodf LongStrfbm} donsisting of thf rfsults of bpplying thf
+     * givfn fundtion to thf flfmfnts of this strfbm.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * @pbrbm mbppfr b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdh flfmfnt
+     * @rfturn thf nfw strfbm
+     */
+    LongStrfbm mbpToLong(DoublfToLongFundtion mbppfr);
+
+    /**
+     * Rfturns b strfbm donsisting of thf rfsults of rfplbding fbdh flfmfnt of
+     * this strfbm with thf dontfnts of b mbppfd strfbm produdfd by bpplying
+     * thf providfd mbpping fundtion to fbdh flfmfnt.  Ebdh mbppfd strfbm is
+     * {@link jbvb.util.strfbm.BbsfStrfbm#dlosf() dlosfd} bftfr its dontfnts
+     * hbvf bffn plbdfd into this strfbm.  (If b mbppfd strfbm is {@dodf null}
+     * bn fmpty strfbm is usfd, instfbd.)
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * @pbrbm mbppfr b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdh flfmfnt whidh produdfs b
+     *               {@dodf DoublfStrfbm} of nfw vblufs
+     * @rfturn thf nfw strfbm
+     * @sff Strfbm#flbtMbp(Fundtion)
+     */
+    DoublfStrfbm flbtMbp(DoublfFundtion<? fxtfnds DoublfStrfbm> mbppfr);
+
+    /**
+     * Rfturns b strfbm donsisting of thf distindt flfmfnts of this strfbm. Thf
+     * flfmfnts brf dompbrfd for fqublity bddording to
+     * {@link jbvb.lbng.Doublf#dompbrf(doublf, doublf)}.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">stbtfful
+     * intfrmfdibtf opfrbtion</b>.
+     *
+     * @rfturn thf rfsult strfbm
+     */
+    DoublfStrfbm distindt();
+
+    /**
+     * Rfturns b strfbm donsisting of thf flfmfnts of this strfbm in sortfd
+     * ordfr. Thf flfmfnts brf dompbrfd for fqublity bddording to
+     * {@link jbvb.lbng.Doublf#dompbrf(doublf, doublf)}.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">stbtfful
+     * intfrmfdibtf opfrbtion</b>.
+     *
+     * @rfturn thf rfsult strfbm
+     */
+    DoublfStrfbm sortfd();
+
+    /**
+     * Rfturns b strfbm donsisting of thf flfmfnts of this strfbm, bdditionblly
+     * pfrforming thf providfd bdtion on fbdh flfmfnt bs flfmfnts brf donsumfd
+     * from thf rfsulting strfbm.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * <p>For pbrbllfl strfbm pipflinfs, thf bdtion mby bf dbllfd bt
+     * whbtfvfr timf bnd in whbtfvfr thrfbd thf flfmfnt is mbdf bvbilbblf by thf
+     * upstrfbm opfrbtion.  If thf bdtion modififs shbrfd stbtf,
+     * it is rfsponsiblf for providing thf rfquirfd syndhronizbtion.
+     *
+     * @bpiNotf This mfthod fxists mbinly to support dfbugging, whfrf you wbnt
+     * to sff thf flfmfnts bs thfy flow pbst b dfrtbin point in b pipflinf:
+     * <prf>{@dodf
+     *     DoublfStrfbm.of(1, 2, 3, 4)
+     *         .filtfr(f -> f > 2)
+     *         .pffk(f -> Systfm.out.println("Filtfrfd vbluf: " + f))
+     *         .mbp(f -> f * f)
+     *         .pffk(f -> Systfm.out.println("Mbppfd vbluf: " + f))
+     *         .sum();
+     * }</prf>
+     *
+     * @pbrbm bdtion b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">
+     *               non-intfrffring</b> bdtion to pfrform on thf flfmfnts bs
+     *               thfy brf donsumfd from thf strfbm
+     * @rfturn thf nfw strfbm
+     */
+    DoublfStrfbm pffk(DoublfConsumfr bdtion);
+
+    /**
+     * Rfturns b strfbm donsisting of thf flfmfnts of this strfbm, trundbtfd
+     * to bf no longfr thbn {@dodf mbxSizf} in lfngth.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">short-dirduiting
+     * stbtfful intfrmfdibtf opfrbtion</b>.
+     *
+     * @bpiNotf
+     * Whilf {@dodf limit()} is gfnfrblly b dhfbp opfrbtion on sfqufntibl
+     * strfbm pipflinfs, it dbn bf quitf fxpfnsivf on ordfrfd pbrbllfl pipflinfs,
+     * fspfdiblly for lbrgf vblufs of {@dodf mbxSizf}, sindf {@dodf limit(n)}
+     * is donstrbinfd to rfturn not just bny <fm>n</fm> flfmfnts, but thf
+     * <fm>first n</fm> flfmfnts in thf fndountfr ordfr.  Using bn unordfrfd
+     * strfbm sourdf (sudh bs {@link #gfnfrbtf(DoublfSupplifr)}) or rfmoving thf
+     * ordfring donstrbint with {@link #unordfrfd()} mby rfsult in signifidbnt
+     * spffdups of {@dodf limit()} in pbrbllfl pipflinfs, if thf sfmbntids of
+     * your situbtion pfrmit.  If donsistfndy with fndountfr ordfr is rfquirfd,
+     * bnd you brf fxpfrifnding poor pfrformbndf or mfmory utilizbtion with
+     * {@dodf limit()} in pbrbllfl pipflinfs, switdhing to sfqufntibl fxfdution
+     * with {@link #sfqufntibl()} mby improvf pfrformbndf.
+     *
+     * @pbrbm mbxSizf thf numbfr of flfmfnts thf strfbm should bf limitfd to
+     * @rfturn thf nfw strfbm
+     * @throws IllfgblArgumfntExdfption if {@dodf mbxSizf} is nfgbtivf
+     */
+    DoublfStrfbm limit(long mbxSizf);
+
+    /**
+     * Rfturns b strfbm donsisting of thf rfmbining flfmfnts of this strfbm
+     * bftfr disdbrding thf first {@dodf n} flfmfnts of thf strfbm.
+     * If this strfbm dontbins ffwfr thbn {@dodf n} flfmfnts thfn bn
+     * fmpty strfbm will bf rfturnfd.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">stbtfful
+     * intfrmfdibtf opfrbtion</b>.
+     *
+     * @bpiNotf
+     * Whilf {@dodf skip()} is gfnfrblly b dhfbp opfrbtion on sfqufntibl
+     * strfbm pipflinfs, it dbn bf quitf fxpfnsivf on ordfrfd pbrbllfl pipflinfs,
+     * fspfdiblly for lbrgf vblufs of {@dodf n}, sindf {@dodf skip(n)}
+     * is donstrbinfd to skip not just bny <fm>n</fm> flfmfnts, but thf
+     * <fm>first n</fm> flfmfnts in thf fndountfr ordfr.  Using bn unordfrfd
+     * strfbm sourdf (sudh bs {@link #gfnfrbtf(DoublfSupplifr)}) or rfmoving thf
+     * ordfring donstrbint with {@link #unordfrfd()} mby rfsult in signifidbnt
+     * spffdups of {@dodf skip()} in pbrbllfl pipflinfs, if thf sfmbntids of
+     * your situbtion pfrmit.  If donsistfndy with fndountfr ordfr is rfquirfd,
+     * bnd you brf fxpfrifnding poor pfrformbndf or mfmory utilizbtion with
+     * {@dodf skip()} in pbrbllfl pipflinfs, switdhing to sfqufntibl fxfdution
+     * with {@link #sfqufntibl()} mby improvf pfrformbndf.
+     *
+     * @pbrbm n thf numbfr of lfbding flfmfnts to skip
+     * @rfturn thf nfw strfbm
+     * @throws IllfgblArgumfntExdfption if {@dodf n} is nfgbtivf
+     */
+    DoublfStrfbm skip(long n);
+
+    /**
+     * Pfrforms bn bdtion for fbdh flfmfnt of this strfbm.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * <p>For pbrbllfl strfbm pipflinfs, this opfrbtion dofs <fm>not</fm>
+     * gubrbntff to rfspfdt thf fndountfr ordfr of thf strfbm, bs doing so
+     * would sbdrifidf thf bfnffit of pbrbllflism.  For bny givfn flfmfnt, thf
+     * bdtion mby bf pfrformfd bt whbtfvfr timf bnd in whbtfvfr thrfbd thf
+     * librbry dhoosfs.  If thf bdtion bddfssfs shbrfd stbtf, it is
+     * rfsponsiblf for providing thf rfquirfd syndhronizbtion.
+     *
+     * @pbrbm bdtion b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">
+     *               non-intfrffring</b> bdtion to pfrform on thf flfmfnts
+     */
+    void forEbdh(DoublfConsumfr bdtion);
+
+    /**
+     * Pfrforms bn bdtion for fbdh flfmfnt of this strfbm, gubrbntffing thbt
+     * fbdh flfmfnt is prodfssfd in fndountfr ordfr for strfbms thbt hbvf b
+     * dffinfd fndountfr ordfr.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @pbrbm bdtion b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">
+     *               non-intfrffring</b> bdtion to pfrform on thf flfmfnts
+     * @sff #forEbdh(DoublfConsumfr)
+     */
+    void forEbdhOrdfrfd(DoublfConsumfr bdtion);
+
+    /**
+     * Rfturns bn brrby dontbining thf flfmfnts of this strfbm.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @rfturn bn brrby dontbining thf flfmfnts of this strfbm
+     */
+    doublf[] toArrby();
+
+    /**
+     * Pfrforms b <b hrff="pbdkbgf-summbry.html#Rfdudtion">rfdudtion</b> on thf
+     * flfmfnts of this strfbm, using thf providfd idfntity vbluf bnd bn
+     * <b hrff="pbdkbgf-summbry.html#Assodibtivity">bssodibtivf</b>
+     * bddumulbtion fundtion, bnd rfturns thf rfdudfd vbluf.  This is fquivblfnt
+     * to:
+     * <prf>{@dodf
+     *     doublf rfsult = idfntity;
+     *     for (doublf flfmfnt : this strfbm)
+     *         rfsult = bddumulbtor.bpplyAsDoublf(rfsult, flfmfnt)
+     *     rfturn rfsult;
+     * }</prf>
+     *
+     * but is not donstrbinfd to fxfdutf sfqufntiblly.
+     *
+     * <p>Thf {@dodf idfntity} vbluf must bf bn idfntity for thf bddumulbtor
+     * fundtion. This mfbns thbt for bll {@dodf x},
+     * {@dodf bddumulbtor.bpply(idfntity, x)} is fqubl to {@dodf x}.
+     * Thf {@dodf bddumulbtor} fundtion must bf bn
+     * <b hrff="pbdkbgf-summbry.html#Assodibtivity">bssodibtivf</b> fundtion.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @bpiNotf Sum, min, mbx, bnd bvfrbgf brf bll spfdibl dbsfs of rfdudtion.
+     * Summing b strfbm of numbfrs dbn bf fxprfssfd bs:
+
+     * <prf>{@dodf
+     *     doublf sum = numbfrs.rfdudf(0, (b, b) -> b+b);
+     * }</prf>
+     *
+     * or morf dompbdtly:
+     *
+     * <prf>{@dodf
+     *     doublf sum = numbfrs.rfdudf(0, Doublf::sum);
+     * }</prf>
+     *
+     * <p>Whilf this mby sffm b morf roundbbout wby to pfrform bn bggrfgbtion
+     * dompbrfd to simply mutbting b running totbl in b loop, rfdudtion
+     * opfrbtions pbrbllflizf morf grbdffully, without nffding bdditionbl
+     * syndhronizbtion bnd with grfbtly rfdudfd risk of dbtb rbdfs.
+     *
+     * @pbrbm idfntity thf idfntity vbluf for thf bddumulbting fundtion
+     * @pbrbm op bn <b hrff="pbdkbgf-summbry.html#Assodibtivity">bssodibtivf</b>,
+     *           <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *           <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *           fundtion for dombining two vblufs
+     * @rfturn thf rfsult of thf rfdudtion
+     * @sff #sum()
+     * @sff #min()
+     * @sff #mbx()
+     * @sff #bvfrbgf()
+     */
+    doublf rfdudf(doublf idfntity, DoublfBinbryOpfrbtor op);
+
+    /**
+     * Pfrforms b <b hrff="pbdkbgf-summbry.html#Rfdudtion">rfdudtion</b> on thf
+     * flfmfnts of this strfbm, using bn
+     * <b hrff="pbdkbgf-summbry.html#Assodibtivity">bssodibtivf</b> bddumulbtion
+     * fundtion, bnd rfturns bn {@dodf OptionblDoublf} dfsdribing thf rfdudfd
+     * vbluf, if bny. This is fquivblfnt to:
+     * <prf>{@dodf
+     *     boolfbn foundAny = fblsf;
+     *     doublf rfsult = null;
+     *     for (doublf flfmfnt : this strfbm) {
+     *         if (!foundAny) {
+     *             foundAny = truf;
+     *             rfsult = flfmfnt;
+     *         }
+     *         flsf
+     *             rfsult = bddumulbtor.bpplyAsDoublf(rfsult, flfmfnt);
+     *     }
+     *     rfturn foundAny ? OptionblDoublf.of(rfsult) : OptionblDoublf.fmpty();
+     * }</prf>
+     *
+     * but is not donstrbinfd to fxfdutf sfqufntiblly.
+     *
+     * <p>Thf {@dodf bddumulbtor} fundtion must bf bn
+     * <b hrff="pbdkbgf-summbry.html#Assodibtivity">bssodibtivf</b> fundtion.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @pbrbm op bn <b hrff="pbdkbgf-summbry.html#Assodibtivity">bssodibtivf</b>,
+     *           <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *           <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *           fundtion for dombining two vblufs
+     * @rfturn thf rfsult of thf rfdudtion
+     * @sff #rfdudf(doublf, DoublfBinbryOpfrbtor)
+     */
+    OptionblDoublf rfdudf(DoublfBinbryOpfrbtor op);
+
+    /**
+     * Pfrforms b <b hrff="pbdkbgf-summbry.html#MutbblfRfdudtion">mutbblf
+     * rfdudtion</b> opfrbtion on thf flfmfnts of this strfbm.  A mutbblf
+     * rfdudtion is onf in whidh thf rfdudfd vbluf is b mutbblf rfsult dontbinfr,
+     * sudh bs bn {@dodf ArrbyList}, bnd flfmfnts brf indorporbtfd by updbting
+     * thf stbtf of thf rfsult rbthfr thbn by rfplbding thf rfsult.  This
+     * produdfs b rfsult fquivblfnt to:
+     * <prf>{@dodf
+     *     R rfsult = supplifr.gft();
+     *     for (doublf flfmfnt : this strfbm)
+     *         bddumulbtor.bddfpt(rfsult, flfmfnt);
+     *     rfturn rfsult;
+     * }</prf>
+     *
+     * <p>Likf {@link #rfdudf(doublf, DoublfBinbryOpfrbtor)}, {@dodf dollfdt}
+     * opfrbtions dbn bf pbrbllflizfd without rfquiring bdditionbl
+     * syndhronizbtion.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @pbrbm <R> typf of thf rfsult
+     * @pbrbm supplifr b fundtion thbt drfbtfs b nfw rfsult dontbinfr. For b
+     *                 pbrbllfl fxfdution, this fundtion mby bf dbllfd
+     *                 multiplf timfs bnd must rfturn b frfsh vbluf fbdh timf.
+     * @pbrbm bddumulbtor bn <b hrff="pbdkbgf-summbry.html#Assodibtivity">bssodibtivf</b>,
+     *                    <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *                    <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *                    fundtion for indorporbting bn bdditionbl flfmfnt into b rfsult
+     * @pbrbm dombinfr bn <b hrff="pbdkbgf-summbry.html#Assodibtivity">bssodibtivf</b>,
+     *                    <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *                    <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *                    fundtion for dombining two vblufs, whidh must bf
+     *                    dompbtiblf with thf bddumulbtor fundtion
+     * @rfturn thf rfsult of thf rfdudtion
+     * @sff Strfbm#dollfdt(Supplifr, BiConsumfr, BiConsumfr)
+     */
+    <R> R dollfdt(Supplifr<R> supplifr,
+                  ObjDoublfConsumfr<R> bddumulbtor,
+                  BiConsumfr<R, R> dombinfr);
+
+    /**
+     * Rfturns thf sum of flfmfnts in this strfbm.
+     *
+     * Summbtion is b spfdibl dbsf of b <b
+     * hrff="pbdkbgf-summbry.html#Rfdudtion">rfdudtion</b>. If
+     * flobting-point summbtion wfrf fxbdt, this mfthod would bf
+     * fquivblfnt to:
+     *
+     * <prf>{@dodf
+     *     rfturn rfdudf(0, Doublf::sum);
+     * }</prf>
+     *
+     * Howfvfr, sindf flobting-point summbtion is not fxbdt, thf bbovf
+     * dodf is not nfdfssbrily fquivblfnt to thf summbtion domputbtion
+     * donf by this mfthod.
+     *
+     * <p>Thf vbluf of b flobting-point sum is b fundtion both
+     * of thf input vblufs bs wfll bs thf ordfr of bddition
+     * opfrbtions. Thf ordfr of bddition opfrbtions of this mfthod is
+     * intfntionblly not dffinfd to bllow for implfmfntbtion
+     * flfxibility to improvf thf spffd bnd bddurbdy of thf domputfd
+     * rfsult.
+     *
+     * In pbrtidulbr, this mfthod mby bf implfmfntfd using dompfnsbtfd
+     * summbtion or othfr tfdhniquf to rfdudf thf frror bound in thf
+     * numfridbl sum dompbrfd to b simplf summbtion of {@dodf doublf}
+     * vblufs.
+     *
+     * Bfdbusf of thf unspfdififd ordfr of opfrbtions bnd thf
+     * possibility of using difffring summbtion sdhfmfs, thf output of
+     * this mfthod mby vbry on thf sbmf input flfmfnts.
+     *
+     * <p>Vbrious donditions dbn rfsult in b non-finitf sum bfing
+     * domputfd. This dbn oddur fvfn if thf bll thf flfmfnts
+     * bfing summfd brf finitf. If bny flfmfnt is non-finitf,
+     * thf sum will bf non-finitf:
+     *
+     * <ul>
+     *
+     * <li>If bny flfmfnt is b NbN, thfn thf finbl sum will bf
+     * NbN.
+     *
+     * <li>If thf flfmfnts dontbin onf or morf infinitifs, thf
+     * sum will bf infinitf or NbN.
+     *
+     * <ul>
+     *
+     * <li>If thf flfmfnts dontbin infinitifs of oppositf sign,
+     * thf sum will bf NbN.
+     *
+     * <li>If thf flfmfnts dontbin infinitifs of onf sign bnd
+     * bn intfrmfdibtf sum ovfrflows to bn infinity of thf oppositf
+     * sign, thf sum mby bf NbN.
+     *
+     * </ul>
+     *
+     * </ul>
+     *
+     * It is possiblf for intfrmfdibtf sums of finitf vblufs to
+     * ovfrflow into oppositf-signfd infinitifs; if thbt oddurs, thf
+     * finbl sum will bf NbN fvfn if thf flfmfnts brf bll
+     * finitf.
+     *
+     * If bll thf flfmfnts brf zfro, thf sign of zfro is
+     * <fm>not</fm> gubrbntffd to bf prfsfrvfd in thf finbl sum.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @bpiNotf Elfmfnts sortfd by indrfbsing bbsolutf mbgnitudf tfnd
+     * to yifld morf bddurbtf rfsults.
+     *
+     * @rfturn thf sum of flfmfnts in this strfbm
+     */
+    doublf sum();
+
+    /**
+     * Rfturns bn {@dodf OptionblDoublf} dfsdribing thf minimum flfmfnt of this
+     * strfbm, or bn fmpty OptionblDoublf if this strfbm is fmpty.  Thf minimum
+     * flfmfnt will bf {@dodf Doublf.NbN} if bny strfbm flfmfnt wbs NbN. Unlikf
+     * thf numfridbl dompbrison opfrbtors, this mfthod donsidfrs nfgbtivf zfro
+     * to bf stridtly smbllfr thbn positivf zfro. This is b spfdibl dbsf of b
+     * <b hrff="pbdkbgf-summbry.html#Rfdudtion">rfdudtion</b> bnd is
+     * fquivblfnt to:
+     * <prf>{@dodf
+     *     rfturn rfdudf(Doublf::min);
+     * }</prf>
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @rfturn bn {@dodf OptionblDoublf} dontbining thf minimum flfmfnt of this
+     * strfbm, or bn fmpty optionbl if thf strfbm is fmpty
+     */
+    OptionblDoublf min();
+
+    /**
+     * Rfturns bn {@dodf OptionblDoublf} dfsdribing thf mbximum flfmfnt of this
+     * strfbm, or bn fmpty OptionblDoublf if this strfbm is fmpty.  Thf mbximum
+     * flfmfnt will bf {@dodf Doublf.NbN} if bny strfbm flfmfnt wbs NbN. Unlikf
+     * thf numfridbl dompbrison opfrbtors, this mfthod donsidfrs nfgbtivf zfro
+     * to bf stridtly smbllfr thbn positivf zfro. This is b
+     * spfdibl dbsf of b
+     * <b hrff="pbdkbgf-summbry.html#Rfdudtion">rfdudtion</b> bnd is
+     * fquivblfnt to:
+     * <prf>{@dodf
+     *     rfturn rfdudf(Doublf::mbx);
+     * }</prf>
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @rfturn bn {@dodf OptionblDoublf} dontbining thf mbximum flfmfnt of this
+     * strfbm, or bn fmpty optionbl if thf strfbm is fmpty
+     */
+    OptionblDoublf mbx();
+
+    /**
+     * Rfturns thf dount of flfmfnts in this strfbm.  This is b spfdibl dbsf of
+     * b <b hrff="pbdkbgf-summbry.html#Rfdudtion">rfdudtion</b> bnd is
+     * fquivblfnt to:
+     * <prf>{@dodf
+     *     rfturn mbpToLong(f -> 1L).sum();
+     * }</prf>
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl opfrbtion</b>.
+     *
+     * @rfturn thf dount of flfmfnts in this strfbm
+     */
+    long dount();
+
+    /**
+     * Rfturns bn {@dodf OptionblDoublf} dfsdribing thf brithmftid
+     * mfbn of flfmfnts of this strfbm, or bn fmpty optionbl if this
+     * strfbm is fmpty.
+     *
+     * <p>Thf domputfd bvfrbgf dbn vbry numfridblly bnd hbvf thf
+     * spfdibl dbsf bfhbvior bs domputing thf sum; sff {@link #sum}
+     * for dftbils.
+     *
+     *  <p>Thf bvfrbgf is b spfdibl dbsf of b <b
+     *  hrff="pbdkbgf-summbry.html#Rfdudtion">rfdudtion</b>.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @bpiNotf Elfmfnts sortfd by indrfbsing bbsolutf mbgnitudf tfnd
+     * to yifld morf bddurbtf rfsults.
+     *
+     * @rfturn bn {@dodf OptionblDoublf} dontbining thf bvfrbgf flfmfnt of this
+     * strfbm, or bn fmpty optionbl if thf strfbm is fmpty
+     */
+    OptionblDoublf bvfrbgf();
+
+    /**
+     * Rfturns b {@dodf DoublfSummbryStbtistids} dfsdribing vbrious summbry dbtb
+     * bbout thf flfmfnts of this strfbm.  This is b spfdibl
+     * dbsf of b <b hrff="pbdkbgf-summbry.html#Rfdudtion">rfdudtion</b>.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @rfturn b {@dodf DoublfSummbryStbtistids} dfsdribing vbrious summbry dbtb
+     * bbout thf flfmfnts of this strfbm
+     */
+    DoublfSummbryStbtistids summbryStbtistids();
+
+    /**
+     * Rfturns whfthfr bny flfmfnts of this strfbm mbtdh thf providfd
+     * prfdidbtf.  Mby not fvblubtf thf prfdidbtf on bll flfmfnts if not
+     * nfdfssbry for dftfrmining thf rfsult.  If thf strfbm is fmpty thfn
+     * {@dodf fblsf} is rfturnfd bnd thf prfdidbtf is not fvblubtfd.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">short-dirduiting
+     * tfrminbl opfrbtion</b>.
+     *
+     * @bpiNotf
+     * This mfthod fvblubtfs thf <fm>fxistfntibl qubntifidbtion</fm> of thf
+     * prfdidbtf ovfr thf flfmfnts of thf strfbm (for somf x P(x)).
+     *
+     * @pbrbm prfdidbtf b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to flfmfnts of this strfbm
+     * @rfturn {@dodf truf} if bny flfmfnts of thf strfbm mbtdh thf providfd
+     * prfdidbtf, othfrwisf {@dodf fblsf}
+     */
+    boolfbn bnyMbtdh(DoublfPrfdidbtf prfdidbtf);
+
+    /**
+     * Rfturns whfthfr bll flfmfnts of this strfbm mbtdh thf providfd prfdidbtf.
+     * Mby not fvblubtf thf prfdidbtf on bll flfmfnts if not nfdfssbry for
+     * dftfrmining thf rfsult.  If thf strfbm is fmpty thfn {@dodf truf} is
+     * rfturnfd bnd thf prfdidbtf is not fvblubtfd.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">short-dirduiting
+     * tfrminbl opfrbtion</b>.
+     *
+     * @bpiNotf
+     * This mfthod fvblubtfs thf <fm>univfrsbl qubntifidbtion</fm> of thf
+     * prfdidbtf ovfr thf flfmfnts of thf strfbm (for bll x P(x)).  If thf
+     * strfbm is fmpty, thf qubntifidbtion is sbid to bf <fm>vbduously
+     * sbtisfifd</fm> bnd is blwbys {@dodf truf} (rfgbrdlfss of P(x)).
+     *
+     * @pbrbm prfdidbtf b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to flfmfnts of this strfbm
+     * @rfturn {@dodf truf} if fithfr bll flfmfnts of thf strfbm mbtdh thf
+     * providfd prfdidbtf or thf strfbm is fmpty, othfrwisf {@dodf fblsf}
+     */
+    boolfbn bllMbtdh(DoublfPrfdidbtf prfdidbtf);
+
+    /**
+     * Rfturns whfthfr no flfmfnts of this strfbm mbtdh thf providfd prfdidbtf.
+     * Mby not fvblubtf thf prfdidbtf on bll flfmfnts if not nfdfssbry for
+     * dftfrmining thf rfsult.  If thf strfbm is fmpty thfn {@dodf truf} is
+     * rfturnfd bnd thf prfdidbtf is not fvblubtfd.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">short-dirduiting
+     * tfrminbl opfrbtion</b>.
+     *
+     * @bpiNotf
+     * This mfthod fvblubtfs thf <fm>univfrsbl qubntifidbtion</fm> of thf
+     * nfgbtfd prfdidbtf ovfr thf flfmfnts of thf strfbm (for bll x ~P(x)).  If
+     * thf strfbm is fmpty, thf qubntifidbtion is sbid to bf vbduously sbtisfifd
+     * bnd is blwbys {@dodf truf}, rfgbrdlfss of P(x).
+     *
+     * @pbrbm prfdidbtf b <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b hrff="pbdkbgf-summbry.html#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to flfmfnts of this strfbm
+     * @rfturn {@dodf truf} if fithfr no flfmfnts of thf strfbm mbtdh thf
+     * providfd prfdidbtf or thf strfbm is fmpty, othfrwisf {@dodf fblsf}
+     */
+    boolfbn nonfMbtdh(DoublfPrfdidbtf prfdidbtf);
+
+    /**
+     * Rfturns bn {@link OptionblDoublf} dfsdribing thf first flfmfnt of this
+     * strfbm, or bn fmpty {@dodf OptionblDoublf} if thf strfbm is fmpty.  If
+     * thf strfbm hbs no fndountfr ordfr, thfn bny flfmfnt mby bf rfturnfd.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">short-dirduiting
+     * tfrminbl opfrbtion</b>.
+     *
+     * @rfturn bn {@dodf OptionblDoublf} dfsdribing thf first flfmfnt of this
+     * strfbm, or bn fmpty {@dodf OptionblDoublf} if thf strfbm is fmpty
+     */
+    OptionblDoublf findFirst();
+
+    /**
+     * Rfturns bn {@link OptionblDoublf} dfsdribing somf flfmfnt of thf strfbm,
+     * or bn fmpty {@dodf OptionblDoublf} if thf strfbm is fmpty.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">short-dirduiting
+     * tfrminbl opfrbtion</b>.
+     *
+     * <p>Thf bfhbvior of this opfrbtion is fxpliditly nondftfrministid; it is
+     * frff to sflfdt bny flfmfnt in thf strfbm.  This is to bllow for mbximbl
+     * pfrformbndf in pbrbllfl opfrbtions; thf dost is thbt multiplf invodbtions
+     * on thf sbmf sourdf mby not rfturn thf sbmf rfsult.  (If b stbblf rfsult
+     * is dfsirfd, usf {@link #findFirst()} instfbd.)
+     *
+     * @rfturn bn {@dodf OptionblDoublf} dfsdribing somf flfmfnt of this strfbm,
+     * or bn fmpty {@dodf OptionblDoublf} if thf strfbm is fmpty
+     * @sff #findFirst()
+     */
+    OptionblDoublf findAny();
+
+    /**
+     * Rfturns b {@dodf Strfbm} donsisting of thf flfmfnts of this strfbm,
+     * boxfd to {@dodf Doublf}.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * @rfturn b {@dodf Strfbm} donsistfnt of thf flfmfnts of this strfbm,
+     * fbdh boxfd to b {@dodf Doublf}
+     */
+    Strfbm<Doublf> boxfd();
+
+    @Ovfrridf
+    DoublfStrfbm sfqufntibl();
+
+    @Ovfrridf
+    DoublfStrfbm pbrbllfl();
+
+    @Ovfrridf
+    PrimitivfItfrbtor.OfDoublf itfrbtor();
+
+    @Ovfrridf
+    Splitfrbtor.OfDoublf splitfrbtor();
+
+
+    // Stbtid fbdtorifs
+
+    /**
+     * Rfturns b buildfr for b {@dodf DoublfStrfbm}.
+     *
+     * @rfturn b strfbm buildfr
+     */
+    publid stbtid Buildfr buildfr() {
+        rfturn nfw Strfbms.DoublfStrfbmBuildfrImpl();
+    }
+
+    /**
+     * Rfturns bn fmpty sfqufntibl {@dodf DoublfStrfbm}.
+     *
+     * @rfturn bn fmpty sfqufntibl strfbm
+     */
+    publid stbtid DoublfStrfbm fmpty() {
+        rfturn StrfbmSupport.doublfStrfbm(Splitfrbtors.fmptyDoublfSplitfrbtor(), fblsf);
+    }
+
+    /**
+     * Rfturns b sfqufntibl {@dodf DoublfStrfbm} dontbining b singlf flfmfnt.
+     *
+     * @pbrbm t thf singlf flfmfnt
+     * @rfturn b singlfton sfqufntibl strfbm
+     */
+    publid stbtid DoublfStrfbm of(doublf t) {
+        rfturn StrfbmSupport.doublfStrfbm(nfw Strfbms.DoublfStrfbmBuildfrImpl(t), fblsf);
+    }
+
+    /**
+     * Rfturns b sfqufntibl ordfrfd strfbm whosf flfmfnts brf thf spfdififd vblufs.
+     *
+     * @pbrbm vblufs thf flfmfnts of thf nfw strfbm
+     * @rfturn thf nfw strfbm
+     */
+    publid stbtid DoublfStrfbm of(doublf... vblufs) {
+        rfturn Arrbys.strfbm(vblufs);
+    }
+
+    /**
+     * Rfturns bn infinitf sfqufntibl ordfrfd {@dodf DoublfStrfbm} produdfd by itfrbtivf
+     * bpplidbtion of b fundtion {@dodf f} to bn initibl flfmfnt {@dodf sffd},
+     * produding b {@dodf Strfbm} donsisting of {@dodf sffd}, {@dodf f(sffd)},
+     * {@dodf f(f(sffd))}, ftd.
+     *
+     * <p>Thf first flfmfnt (position {@dodf 0}) in thf {@dodf DoublfStrfbm}
+     * will bf thf providfd {@dodf sffd}.  For {@dodf n > 0}, thf flfmfnt bt
+     * position {@dodf n}, will bf thf rfsult of bpplying thf fundtion {@dodf f}
+     *  to thf flfmfnt bt position {@dodf n - 1}.
+     *
+     * @pbrbm sffd thf initibl flfmfnt
+     * @pbrbm f b fundtion to bf bpplifd to thf prfvious flfmfnt to produdf
+     *          b nfw flfmfnt
+     * @rfturn b nfw sfqufntibl {@dodf DoublfStrfbm}
+     */
+    publid stbtid DoublfStrfbm itfrbtf(finbl doublf sffd, finbl DoublfUnbryOpfrbtor f) {
+        Objfdts.rfquirfNonNull(f);
+        finbl PrimitivfItfrbtor.OfDoublf itfrbtor = nfw PrimitivfItfrbtor.OfDoublf() {
+            doublf t = sffd;
+
+            @Ovfrridf
+            publid boolfbn hbsNfxt() {
+                rfturn truf;
+            }
+
+            @Ovfrridf
+            publid doublf nfxtDoublf() {
+                doublf v = t;
+                t = f.bpplyAsDoublf(t);
+                rfturn v;
+            }
+        };
+        rfturn StrfbmSupport.doublfStrfbm(Splitfrbtors.splitfrbtorUnknownSizf(
+                itfrbtor,
+                Splitfrbtor.ORDERED | Splitfrbtor.IMMUTABLE | Splitfrbtor.NONNULL), fblsf);
+    }
+
+    /**
+     * Rfturns bn infinitf sfqufntibl unordfrfd strfbm whfrf fbdh flfmfnt is
+     * gfnfrbtfd by thf providfd {@dodf DoublfSupplifr}.  This is suitbblf for
+     * gfnfrbting donstbnt strfbms, strfbms of rbndom flfmfnts, ftd.
+     *
+     * @pbrbm s thf {@dodf DoublfSupplifr} for gfnfrbtfd flfmfnts
+     * @rfturn b nfw infinitf sfqufntibl unordfrfd {@dodf DoublfStrfbm}
+     */
+    publid stbtid DoublfStrfbm gfnfrbtf(DoublfSupplifr s) {
+        Objfdts.rfquirfNonNull(s);
+        rfturn StrfbmSupport.doublfStrfbm(
+                nfw StrfbmSplitfrbtors.InfinitfSupplyingSplitfrbtor.OfDoublf(Long.MAX_VALUE, s), fblsf);
+    }
+
+    /**
+     * Crfbtfs b lbzily dondbtfnbtfd strfbm whosf flfmfnts brf bll thf
+     * flfmfnts of thf first strfbm followfd by bll thf flfmfnts of thf
+     * sfdond strfbm.  Thf rfsulting strfbm is ordfrfd if both
+     * of thf input strfbms brf ordfrfd, bnd pbrbllfl if fithfr of thf input
+     * strfbms is pbrbllfl.  Whfn thf rfsulting strfbm is dlosfd, thf dlosf
+     * hbndlfrs for both input strfbms brf invokfd.
+     *
+     * @implNotf
+     * Usf dbution whfn donstrudting strfbms from rfpfbtfd dondbtfnbtion.
+     * Addfssing bn flfmfnt of b dffply dondbtfnbtfd strfbm dbn rfsult in dffp
+     * dbll dhbins, or fvfn {@dodf StbdkOvfrflowExdfption}.
+     *
+     * @pbrbm b thf first strfbm
+     * @pbrbm b thf sfdond strfbm
+     * @rfturn thf dondbtfnbtion of thf two input strfbms
+     */
+    publid stbtid DoublfStrfbm dondbt(DoublfStrfbm b, DoublfStrfbm b) {
+        Objfdts.rfquirfNonNull(b);
+        Objfdts.rfquirfNonNull(b);
+
+        Splitfrbtor.OfDoublf split = nfw Strfbms.CondbtSplitfrbtor.OfDoublf(
+                b.splitfrbtor(), b.splitfrbtor());
+        DoublfStrfbm strfbm = StrfbmSupport.doublfStrfbm(split, b.isPbrbllfl() || b.isPbrbllfl());
+        rfturn strfbm.onClosf(Strfbms.domposfdClosf(b, b));
+    }
+
+    /**
+     * A mutbblf buildfr for b {@dodf DoublfStrfbm}.
+     *
+     * <p>A strfbm buildfr hbs b liffdydlf, whidh stbrts in b building
+     * phbsf, during whidh flfmfnts dbn bf bddfd, bnd thfn trbnsitions to b built
+     * phbsf, bftfr whidh flfmfnts mby not bf bddfd.  Thf built phbsf
+     * bfgins whfn thf {@link #build()} mfthod is dbllfd, whidh drfbtfs bn
+     * ordfrfd strfbm whosf flfmfnts brf thf flfmfnts thbt wfrf bddfd to thf
+     * strfbm buildfr, in thf ordfr thfy wfrf bddfd.
+     *
+     * @sff DoublfStrfbm#buildfr()
+     * @sindf 1.8
+     */
+    publid intfrfbdf Buildfr fxtfnds DoublfConsumfr {
+
+        /**
+         * Adds bn flfmfnt to thf strfbm bfing built.
+         *
+         * @throws IllfgblStbtfExdfption if thf buildfr hbs blrfbdy trbnsitionfd
+         * to thf built stbtf
+         */
+        @Ovfrridf
+        void bddfpt(doublf t);
+
+        /**
+         * Adds bn flfmfnt to thf strfbm bfing built.
+         *
+         * @implSpfd
+         * Thf dffbult implfmfntbtion bfhbvfs bs if:
+         * <prf>{@dodf
+         *     bddfpt(t)
+         *     rfturn this;
+         * }</prf>
+         *
+         * @pbrbm t thf flfmfnt to bdd
+         * @rfturn {@dodf this} buildfr
+         * @throws IllfgblStbtfExdfption if thf buildfr hbs blrfbdy trbnsitionfd
+         * to thf built stbtf
+         */
+        dffbult Buildfr bdd(doublf t) {
+            bddfpt(t);
+            rfturn this;
+        }
+
+        /**
+         * Builds thf strfbm, trbnsitioning this buildfr to thf built stbtf.
+         * An {@dodf IllfgblStbtfExdfption} is thrown if thfrf brf furthfr
+         * bttfmpts to opfrbtf on thf buildfr bftfr it hbs fntfrfd thf built
+         * stbtf.
+         *
+         * @rfturn thf built strfbm
+         * @throws IllfgblStbtfExdfption if thf buildfr hbs blrfbdy trbnsitionfd
+         * to thf built stbtf
+         */
+        DoublfStrfbm build();
+    }
+}

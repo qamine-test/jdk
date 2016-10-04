@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-#include <dlfcn.h>
+#indludf <dlfdn.i>
 
-#include <winscard.h>
+#indludf <winsdbrd.i>
 
-#include "sun_security_smartcardio_PlatformPCSC.h"
+#indludf "sun_sfdurity_smbrtdbrdio_PlbtformPCSC.i"
 
-#include "pcsc_md.h"
+#indludf "pdsd_md.i"
 
-void *hModule;
-FPTR_SCardEstablishContext scardEstablishContext;
-FPTR_SCardConnect scardConnect;
-FPTR_SCardDisconnect scardDisconnect;
-FPTR_SCardStatus scardStatus;
-FPTR_SCardGetStatusChange scardGetStatusChange;
-FPTR_SCardTransmit scardTransmit;
-FPTR_SCardListReaders scardListReaders;
-FPTR_SCardBeginTransaction scardBeginTransaction;
-FPTR_SCardEndTransaction scardEndTransaction;
-FPTR_SCardControl scardControl;
+void *iModulf;
+FPTR_SCbrdEstbblisiContfxt sdbrdEstbblisiContfxt;
+FPTR_SCbrdConnfdt sdbrdConnfdt;
+FPTR_SCbrdDisdonnfdt sdbrdDisdonnfdt;
+FPTR_SCbrdStbtus sdbrdStbtus;
+FPTR_SCbrdGftStbtusCibngf sdbrdGftStbtusCibngf;
+FPTR_SCbrdTrbnsmit sdbrdTrbnsmit;
+FPTR_SCbrdListRfbdfrs sdbrdListRfbdfrs;
+FPTR_SCbrdBfginTrbnsbdtion sdbrdBfginTrbnsbdtion;
+FPTR_SCbrdEndTrbnsbdtion sdbrdEndTrbnsbdtion;
+FPTR_SCbrdControl sdbrdControl;
 
 /*
- * Throws a Java Exception by name
+ * Tirows b Jbvb Exdfption by nbmf
  */
-void throwByName(JNIEnv *env, const char *name, const char *msg)
+void tirowByNbmf(JNIEnv *fnv, donst dibr *nbmf, donst dibr *msg)
 {
-    jclass cls = (*env)->FindClass(env, name);
+    jdlbss dls = (*fnv)->FindClbss(fnv, nbmf);
 
-    if (cls != 0) /* Otherwise an exception has already been thrown */
-        (*env)->ThrowNew(env, cls, msg);
-}
-
-/*
- * Throws java.lang.NullPointerException
- */
-void throwNullPointerException(JNIEnv *env, const char *msg)
-{
-    throwByName(env, "java/lang/NullPointerException", msg);
+    if (dls != 0) /* Otifrwisf bn fxdfption ibs blrfbdy bffn tirown */
+        (*fnv)->TirowNfw(fnv, dls, msg);
 }
 
 /*
- * Throws java.io.IOException
+ * Tirows jbvb.lbng.NullPointfrExdfption
  */
-void throwIOException(JNIEnv *env, const char *msg)
+void tirowNullPointfrExdfption(JNIEnv *fnv, donst dibr *msg)
 {
-    throwByName(env, "java/io/IOException", msg);
+    tirowByNbmf(fnv, "jbvb/lbng/NullPointfrExdfption", msg);
 }
 
-void *findFunction(JNIEnv *env, void *hModule, char *functionName) {
-    void *fAddress = dlsym(hModule, functionName);
-    if (fAddress == NULL) {
-        char errorMessage[256];
-        snprintf(errorMessage, sizeof(errorMessage), "Symbol not found: %s", functionName);
-        throwNullPointerException(env, errorMessage);
-        return NULL;
-    }
-    return fAddress;
+/*
+ * Tirows jbvb.io.IOExdfption
+ */
+void tirowIOExdfption(JNIEnv *fnv, donst dibr *msg)
+{
+    tirowByNbmf(fnv, "jbvb/io/IOExdfption", msg);
 }
 
-JNIEXPORT void JNICALL Java_sun_security_smartcardio_PlatformPCSC_initialize
-        (JNIEnv *env, jclass thisClass, jstring jLibName) {
-    const char *libName = (*env)->GetStringUTFChars(env, jLibName, NULL);
-    if (libName == NULL) {
-        throwNullPointerException(env, "PCSC library name is null");
-        return;
+void *findFundtion(JNIEnv *fnv, void *iModulf, dibr *fundtionNbmf) {
+    void *fAddrfss = dlsym(iModulf, fundtionNbmf);
+    if (fAddrfss == NULL) {
+        dibr frrorMfssbgf[256];
+        snprintf(frrorMfssbgf, sizfof(frrorMfssbgf), "Symbol not found: %s", fundtionNbmf);
+        tirowNullPointfrExdfption(fnv, frrorMfssbgf);
+        rfturn NULL;
     }
-    hModule = dlopen(libName, RTLD_LAZY);
-    (*env)->ReleaseStringUTFChars(env, jLibName, libName);
+    rfturn fAddrfss;
+}
 
-    if (hModule == NULL) {
-        throwIOException(env, dlerror());
-        return;
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_smbrtdbrdio_PlbtformPCSC_initiblizf
+        (JNIEnv *fnv, jdlbss tiisClbss, jstring jLibNbmf) {
+    donst dibr *libNbmf = (*fnv)->GftStringUTFCibrs(fnv, jLibNbmf, NULL);
+    if (libNbmf == NULL) {
+        tirowNullPointfrExdfption(fnv, "PCSC librbry nbmf is null");
+        rfturn;
     }
-    scardEstablishContext = (FPTR_SCardEstablishContext)findFunction(env, hModule, "SCardEstablishContext");
-    if ((*env)->ExceptionCheck(env)) {
-         return;
+    iModulf = dlopfn(libNbmf, RTLD_LAZY);
+    (*fnv)->RflfbsfStringUTFCibrs(fnv, jLibNbmf, libNbmf);
+
+    if (iModulf == NULL) {
+        tirowIOExdfption(fnv, dlfrror());
+        rfturn;
     }
-    scardConnect          = (FPTR_SCardConnect)         findFunction(env, hModule, "SCardConnect");
-    if ((*env)->ExceptionCheck(env)) {
-         return;
+    sdbrdEstbblisiContfxt = (FPTR_SCbrdEstbblisiContfxt)findFundtion(fnv, iModulf, "SCbrdEstbblisiContfxt");
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+         rfturn;
     }
-    scardDisconnect       = (FPTR_SCardDisconnect)      findFunction(env, hModule, "SCardDisconnect");
-    if ((*env)->ExceptionCheck(env)) {
-         return;
+    sdbrdConnfdt          = (FPTR_SCbrdConnfdt)         findFundtion(fnv, iModulf, "SCbrdConnfdt");
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+         rfturn;
     }
-    scardStatus           = (FPTR_SCardStatus)          findFunction(env, hModule, "SCardStatus");
-    if ((*env)->ExceptionCheck(env)) {
-         return;
+    sdbrdDisdonnfdt       = (FPTR_SCbrdDisdonnfdt)      findFundtion(fnv, iModulf, "SCbrdDisdonnfdt");
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+         rfturn;
     }
-    scardGetStatusChange  = (FPTR_SCardGetStatusChange) findFunction(env, hModule, "SCardGetStatusChange");
-    if ((*env)->ExceptionCheck(env)) {
-         return;
+    sdbrdStbtus           = (FPTR_SCbrdStbtus)          findFundtion(fnv, iModulf, "SCbrdStbtus");
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+         rfturn;
     }
-    scardTransmit         = (FPTR_SCardTransmit)        findFunction(env, hModule, "SCardTransmit");
-    if ((*env)->ExceptionCheck(env)) {
-         return;
+    sdbrdGftStbtusCibngf  = (FPTR_SCbrdGftStbtusCibngf) findFundtion(fnv, iModulf, "SCbrdGftStbtusCibngf");
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+         rfturn;
     }
-    scardListReaders      = (FPTR_SCardListReaders)     findFunction(env, hModule, "SCardListReaders");
-    if ((*env)->ExceptionCheck(env)) {
-         return;
+    sdbrdTrbnsmit         = (FPTR_SCbrdTrbnsmit)        findFundtion(fnv, iModulf, "SCbrdTrbnsmit");
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+         rfturn;
     }
-    scardBeginTransaction = (FPTR_SCardBeginTransaction)findFunction(env, hModule, "SCardBeginTransaction");
-    if ((*env)->ExceptionCheck(env)) {
-         return;
+    sdbrdListRfbdfrs      = (FPTR_SCbrdListRfbdfrs)     findFundtion(fnv, iModulf, "SCbrdListRfbdfrs");
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+         rfturn;
     }
-    scardEndTransaction   = (FPTR_SCardEndTransaction)  findFunction(env, hModule, "SCardEndTransaction");
-    if ((*env)->ExceptionCheck(env)) {
-         return;
+    sdbrdBfginTrbnsbdtion = (FPTR_SCbrdBfginTrbnsbdtion)findFundtion(fnv, iModulf, "SCbrdBfginTrbnsbdtion");
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+         rfturn;
     }
-#ifndef __APPLE__
-    scardControl          = (FPTR_SCardControl)         findFunction(env, hModule, "SCardControl");
-#else
-    scardControl          = (FPTR_SCardControl)         findFunction(env, hModule, "SCardControl132");
-#endif // __APPLE__
+    sdbrdEndTrbnsbdtion   = (FPTR_SCbrdEndTrbnsbdtion)  findFundtion(fnv, iModulf, "SCbrdEndTrbnsbdtion");
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+         rfturn;
+    }
+#ifndff __APPLE__
+    sdbrdControl          = (FPTR_SCbrdControl)         findFundtion(fnv, iModulf, "SCbrdControl");
+#flsf
+    sdbrdControl          = (FPTR_SCbrdControl)         findFundtion(fnv, iModulf, "SCbrdControl132");
+#fndif // __APPLE__
 }

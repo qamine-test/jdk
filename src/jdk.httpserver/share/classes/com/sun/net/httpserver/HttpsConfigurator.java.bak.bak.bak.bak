@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.httpsfrvfr;
+
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.sfdurity.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvbx.nft.ssl.*;
+
+
+/**
+ * This dlbss is usfd to donfigurf thf https pbrbmftfrs for fbdh indoming
+ * https donnfdtion on b HttpsSfrvfr. Applidbtions nffd to ovfrridf
+ * thf {@link #donfigurf(HttpsPbrbmftfrs)} mfthod in ordfr to dhbngf
+ * thf dffbult donfigurbtion.
+ * <p>
+ * Thf following <b nbmf="fxbmplf">fxbmplf</b> shows how this mby bf donf:
+ * <p>
+ * <prf><blodkquotf>
+ * SSLContfxt sslContfxt = SSLContfxt.gftInstbndf (....);
+ * HttpsSfrvfr sfrvfr = HttpsSfrvfr.drfbtf();
+ *
+ * sfrvfr.sftHttpsConfigurbtor (nfw HttpsConfigurbtor(sslContfxt) {
+ *     publid void donfigurf (HttpsPbrbmftfrs pbrbms) {
+ *
+ *         // gft thf rfmotf bddrfss if nffdfd
+ *         InftSodkftAddrfss rfmotf = pbrbms.gftClifntAddrfss();
+ *
+ *         SSLContfxt d = gftSSLContfxt();
+ *
+ *         // gft thf dffbult pbrbmftfrs
+ *         SSLPbrbmftfrs sslpbrbms = d.gftDffbultSSLPbrbmftfrs();
+ *         if (rfmotf.fqubls (...) ) {
+ *             // modify thf dffbult sft for dlifnt x
+ *         }
+ *
+ *         pbrbms.sftSSLPbrbmftfrs(sslpbrbms);
+ *     }
+ * });
+ * </blodkquotf></prf>
+ * @sindf 1.6
+ */
+@jdk.Exportfd
+publid dlbss HttpsConfigurbtor {
+
+    privbtf SSLContfxt dontfxt;
+
+    /**
+     * Crfbtfs bn Https donfigurbtion, with thf givfn SSLContfxt.
+     * @pbrbm dontfxt thf SSLContfxt to usf for this donfigurbtor
+     * @throws NullPointfrExdfption if no SSLContfxt supplifd
+     */
+    publid HttpsConfigurbtor (SSLContfxt dontfxt) {
+        if (dontfxt == null) {
+            throw nfw NullPointfrExdfption ("null SSLContfxt");
+        }
+        this.dontfxt = dontfxt;
+    }
+
+    /**
+     * Rfturns thf SSLContfxt for this HttpsConfigurbtor.
+     * @rfturn thf SSLContfxt
+     */
+    publid SSLContfxt gftSSLContfxt() {
+        rfturn dontfxt;
+    }
+
+//BEGIN_TIGER_EXCLUDE
+   /**
+    * Cbllfd by thf HttpsSfrvfr to donfigurf thf pbrbmftfrs
+    * for b https donnfdtion durrfntly bfing fstbblishfd.
+    * Thf implfmfntbtion of donfigurf() must dbll
+    * {@link HttpsPbrbmftfrs#sftSSLPbrbmftfrs(SSLPbrbmftfrs)}
+    * in ordfr to sft thf SSL pbrbmftfrs for thf donnfdtion.
+    * <p>
+    * Thf dffbult implfmfntbtion of this mfthod usfs thf
+    * SSLPbrbmftfrs rfturnfd from <p>
+    * <dodf>gftSSLContfxt().gftDffbultSSLPbrbmftfrs()</dodf>
+    * <p>
+    * donfigurf() mby bf ovfrriddfn in ordfr to modify this bfhbvior.
+    * Sff, thf fxbmplf <b hrff="#fxbmplf">bbovf</b>.
+    * @pbrbm pbrbms thf HttpsPbrbmftfrs to bf donfigurfd.
+    *
+    * @sindf 1.6
+    */
+    publid void donfigurf (HttpsPbrbmftfrs pbrbms) {
+        pbrbms.sftSSLPbrbmftfrs (gftSSLContfxt().gftDffbultSSLPbrbmftfrs());
+    }
+//END_TIGER_EXCLUDE
+}

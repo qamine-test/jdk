@@ -1,0 +1,2630 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.im.InputMfthodHighlight;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.dbtbtrbnsffr.Clipbobrd;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.DrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.DrbgGfsturfEvfnt;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
+import jbvb.bwt.dnd.pffr.DrbgSourdfContfxtPffr;
+import jbvb.nft.URL;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+
+import jbvb.util.*;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfSupport;
+import sun.bwt.AppContfxt;
+
+import sun.bwt.HfbdlfssToolkit;
+import sun.bwt.NullComponfntPffr;
+import sun.bwt.PffrEvfnt;
+import sun.bwt.SunToolkit;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTPfrmissions;
+
+import sun.util.CorfRfsourdfBundlfControl;
+
+/**
+ * This dlbss is thf bbstrbdt supfrdlbss of bll bdtubl
+ * implfmfntbtions of thf Abstrbdt Window Toolkit. Subdlbssfs of
+ * thf <dodf>Toolkit</dodf> dlbss brf usfd to bind thf vbrious domponfnts
+ * to pbrtidulbr nbtivf toolkit implfmfntbtions.
+ * <p>
+ * Mbny GUI fvfnts mby bf dflivfrfd to usfr
+ * bsyndhronously, if thf oppositf is not spfdififd fxpliditly.
+ * As wfll bs
+ * mbny GUI opfrbtions mby bf pfrformfd bsyndhronously.
+ * This fbdt mfbns thbt if thf stbtf of b domponfnt is sft, bnd thfn
+ * thf stbtf immfdibtfly qufrifd, thf rfturnfd vbluf mby not yft
+ * rfflfdt thf rfqufstfd dhbngf.  This bfhbvior indludfs, but is not
+ * limitfd to:
+ * <ul>
+ * <li>Sdrolling to b spfdififd position.
+ * <br>For fxbmplf, dblling <dodf>SdrollPbnf.sftSdrollPosition</dodf>
+ *     bnd thfn <dodf>gftSdrollPosition</dodf> mby rfturn bn indorrfdt
+ *     vbluf if thf originbl rfqufst hbs not yft bffn prodfssfd.
+ *
+ * <li>Moving thf fodus from onf domponfnt to bnothfr.
+ * <br>For morf informbtion, sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/fodus.html#trbnsffrTiming">Timing
+ * Fodus Trbnsffrs</b>, b sfdtion in
+ * <b hrff="http://jbvb.sun.dom/dods/books/tutoribl/uiswing/">Thf Swing
+ * Tutoribl</b>.
+ *
+ * <li>Mbking b top-lfvfl dontbinfr visiblf.
+ * <br>Cblling <dodf>sftVisiblf(truf)</dodf> on b <dodf>Window</dodf>,
+ *     <dodf>Frbmf</dodf> or <dodf>Diblog</dodf> mby oddur
+ *     bsyndhronously.
+ *
+ * <li>Sftting thf sizf or lodbtion of b top-lfvfl dontbinfr.
+ * <br>Cblls to <dodf>sftSizf</dodf>, <dodf>sftBounds</dodf> or
+ *     <dodf>sftLodbtion</dodf> on b <dodf>Window</dodf>,
+ *     <dodf>Frbmf</dodf> or <dodf>Diblog</dodf> brf forwbrdfd
+ *     to thf undfrlying window mbnbgfmfnt systfm bnd mby bf
+ *     ignorfd or modififd.  Sff {@link jbvb.bwt.Window} for
+ *     morf informbtion.
+ * </ul>
+ * <p>
+ * Most bpplidbtions should not dbll bny of thf mfthods in this
+ * dlbss dirfdtly. Thf mfthods dffinfd by <dodf>Toolkit</dodf> brf
+ * thf "gluf" thbt joins thf plbtform-indfpfndfnt dlbssfs in thf
+ * <dodf>jbvb.bwt</dodf> pbdkbgf with thfir dountfrpbrts in
+ * <dodf>jbvb.bwt.pffr</dodf>. Somf mfthods dffinfd by
+ * <dodf>Toolkit</dodf> qufry thf nbtivf opfrbting systfm dirfdtly.
+ *
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
+ * @buthor      Frfd Edks
+ * @sindf       1.0
+ */
+publid bbstrbdt dlbss Toolkit {
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of thf <dodf>Dfsktop</dodf>
+     * using thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf dfsktop to bf implfmfntfd
+     * @rfturn    this toolkit's implfmfntbtion of thf <dodf>Dfsktop</dodf>
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.Dfsktop
+     * @sff       jbvb.bwt.pffr.DfsktopPffr
+     * @sindf 1.6
+     */
+    protfdtfd bbstrbdt DfsktopPffr drfbtfDfsktopPffr(Dfsktop tbrgft)
+      throws HfbdlfssExdfption;
+
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Button</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf button to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Button</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.Button
+     * @sff       jbvb.bwt.pffr.ButtonPffr
+     */
+    protfdtfd bbstrbdt ButtonPffr drfbtfButton(Button tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>TfxtFifld</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf tfxt fifld to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>TfxtFifld</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.TfxtFifld
+     * @sff       jbvb.bwt.pffr.TfxtFifldPffr
+     */
+    protfdtfd bbstrbdt TfxtFifldPffr drfbtfTfxtFifld(TfxtFifld tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Lbbfl</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf lbbfl to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Lbbfl</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.Lbbfl
+     * @sff       jbvb.bwt.pffr.LbbflPffr
+     */
+    protfdtfd bbstrbdt LbbflPffr drfbtfLbbfl(Lbbfl tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>List</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf list to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>List</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.List
+     * @sff       jbvb.bwt.pffr.ListPffr
+     */
+    protfdtfd bbstrbdt ListPffr drfbtfList(jbvb.bwt.List tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Chfdkbox</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf dhfdk box to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Chfdkbox</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.Chfdkbox
+     * @sff       jbvb.bwt.pffr.ChfdkboxPffr
+     */
+    protfdtfd bbstrbdt ChfdkboxPffr drfbtfChfdkbox(Chfdkbox tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Sdrollbbr</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf sdroll bbr to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Sdrollbbr</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.Sdrollbbr
+     * @sff       jbvb.bwt.pffr.SdrollbbrPffr
+     */
+    protfdtfd bbstrbdt SdrollbbrPffr drfbtfSdrollbbr(Sdrollbbr tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>SdrollPbnf</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf sdroll pbnf to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>SdrollPbnf</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.SdrollPbnf
+     * @sff       jbvb.bwt.pffr.SdrollPbnfPffr
+     * @sindf     1.1
+     */
+    protfdtfd bbstrbdt SdrollPbnfPffr drfbtfSdrollPbnf(SdrollPbnf tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>TfxtArfb</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf tfxt brfb to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>TfxtArfb</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.TfxtArfb
+     * @sff       jbvb.bwt.pffr.TfxtArfbPffr
+     */
+    protfdtfd bbstrbdt TfxtArfbPffr drfbtfTfxtArfb(TfxtArfb tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Choidf</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf dhoidf to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Choidf</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.Choidf
+     * @sff       jbvb.bwt.pffr.ChoidfPffr
+     */
+    protfdtfd bbstrbdt ChoidfPffr drfbtfChoidf(Choidf tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Frbmf</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf frbmf to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Frbmf</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.Frbmf
+     * @sff       jbvb.bwt.pffr.FrbmfPffr
+     */
+    protfdtfd bbstrbdt FrbmfPffr drfbtfFrbmf(Frbmf tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Cbnvbs</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf dbnvbs to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Cbnvbs</dodf>.
+     * @sff       jbvb.bwt.Cbnvbs
+     * @sff       jbvb.bwt.pffr.CbnvbsPffr
+     */
+    protfdtfd bbstrbdt CbnvbsPffr       drfbtfCbnvbs(Cbnvbs tbrgft);
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Pbnfl</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf pbnfl to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Pbnfl</dodf>.
+     * @sff       jbvb.bwt.Pbnfl
+     * @sff       jbvb.bwt.pffr.PbnflPffr
+     */
+    protfdtfd bbstrbdt PbnflPffr        drfbtfPbnfl(Pbnfl tbrgft);
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Window</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf window to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Window</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.Window
+     * @sff       jbvb.bwt.pffr.WindowPffr
+     */
+    protfdtfd bbstrbdt WindowPffr drfbtfWindow(Window tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Diblog</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf diblog to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Diblog</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.Diblog
+     * @sff       jbvb.bwt.pffr.DiblogPffr
+     */
+    protfdtfd bbstrbdt DiblogPffr drfbtfDiblog(Diblog tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>MfnuBbr</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf mfnu bbr to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>MfnuBbr</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.MfnuBbr
+     * @sff       jbvb.bwt.pffr.MfnuBbrPffr
+     */
+    protfdtfd bbstrbdt MfnuBbrPffr drfbtfMfnuBbr(MfnuBbr tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Mfnu</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf mfnu to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Mfnu</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.Mfnu
+     * @sff       jbvb.bwt.pffr.MfnuPffr
+     */
+    protfdtfd bbstrbdt MfnuPffr drfbtfMfnu(Mfnu tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>PopupMfnu</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf popup mfnu to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>PopupMfnu</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.PopupMfnu
+     * @sff       jbvb.bwt.pffr.PopupMfnuPffr
+     * @sindf     1.1
+     */
+    protfdtfd bbstrbdt PopupMfnuPffr drfbtfPopupMfnu(PopupMfnu tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>MfnuItfm</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf mfnu itfm to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>MfnuItfm</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.MfnuItfm
+     * @sff       jbvb.bwt.pffr.MfnuItfmPffr
+     */
+    protfdtfd bbstrbdt MfnuItfmPffr drfbtfMfnuItfm(MfnuItfm tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>FilfDiblog</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf filf diblog to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>FilfDiblog</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.FilfDiblog
+     * @sff       jbvb.bwt.pffr.FilfDiblogPffr
+     */
+    protfdtfd bbstrbdt FilfDiblogPffr drfbtfFilfDiblog(FilfDiblog tbrgft)
+        throws HfbdlfssExdfption;
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>ChfdkboxMfnuItfm</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     tbrgft thf dhfdkbox mfnu itfm to bf implfmfntfd.
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>ChfdkboxMfnuItfm</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.ChfdkboxMfnuItfm
+     * @sff       jbvb.bwt.pffr.ChfdkboxMfnuItfmPffr
+     */
+    protfdtfd bbstrbdt ChfdkboxMfnuItfmPffr drfbtfChfdkboxMfnuItfm(
+        ChfdkboxMfnuItfm tbrgft) throws HfbdlfssExdfption;
+
+    /**
+     * Obtbins this toolkit's implfmfntbtion of hflpfr dlbss for
+     * <dodf>MousfInfo</dodf> opfrbtions.
+     * @rfturn    this toolkit's implfmfntbtion of  hflpfr for <dodf>MousfInfo</dodf>
+     * @throws    UnsupportfdOpfrbtionExdfption if this opfrbtion is not implfmfntfd
+     * @sff       jbvb.bwt.pffr.MousfInfoPffr
+     * @sff       jbvb.bwt.MousfInfo
+     * @sindf 1.5
+     */
+    protfdtfd MousfInfoPffr gftMousfInfoPffr() {
+        throw nfw UnsupportfdOpfrbtionExdfption("Not implfmfntfd");
+    }
+
+    privbtf stbtid LightwfightPffr lightwfightMbrkfr;
+
+    /**
+     * Crfbtfs b pffr for b domponfnt or dontbinfr.  This pffr is windowlfss
+     * bnd bllows thf Componfnt bnd Contbinfr dlbssfs to bf fxtfndfd dirfdtly
+     * to drfbtf windowlfss domponfnts thbt brf dffinfd fntirfly in jbvb.
+     *
+     * @pbrbm  tbrgft Thf Componfnt to bf drfbtfd.
+     * @rfturn thf pffr for thf spfdififd domponfnt
+     */
+    protfdtfd LightwfightPffr drfbtfComponfnt(Componfnt tbrgft) {
+        if (lightwfightMbrkfr == null) {
+            lightwfightMbrkfr = nfw NullComponfntPffr();
+        }
+        rfturn lightwfightMbrkfr;
+    }
+
+    /**
+     * Crfbtfs this toolkit's implfmfntbtion of <dodf>Font</dodf> using
+     * thf spfdififd pffr intfrfbdf.
+     * @pbrbm     nbmf thf font to bf implfmfntfd
+     * @pbrbm     stylf thf stylf of thf font, sudh bs <dodf>PLAIN</dodf>,
+     *            <dodf>BOLD</dodf>, <dodf>ITALIC</dodf>, or b dombinbtion
+     * @rfturn    this toolkit's implfmfntbtion of <dodf>Font</dodf>
+     * @sff       jbvb.bwt.Font
+     * @sff       jbvb.bwt.pffr.FontPffr
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#gftAllFonts
+     * @dfprfdbtfd  sff jbvb.bwt.GrbphidsEnvironmfnt#gftAllFonts
+     */
+    @Dfprfdbtfd
+    protfdtfd bbstrbdt FontPffr gftFontPffr(String nbmf, int stylf);
+
+    // Thf following mfthod is dbllfd by thf privbtf mfthod
+    // <dodf>updbtfSystfmColors</dodf> in <dodf>SystfmColor</dodf>.
+
+    /**
+     * Fills in thf intfgfr brrby thbt is supplifd bs bn brgumfnt
+     * with thf durrfnt systfm dolor vblufs.
+     *
+     * @pbrbm     systfmColors bn intfgfr brrby.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.1
+     */
+    protfdtfd void lobdSystfmColors(int[] systfmColors)
+        throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+    }
+
+    /**
+     * Controls whfthfr thf lbyout of Contbinfrs is vblidbtfd dynbmidblly
+     * during rfsizing, or stbtidblly, bftfr rfsizing is domplftf.
+     * Usf {@dodf isDynbmidLbyoutAdtivf()} to dftfdt if this ffbturf fnbblfd
+     * in this progrbm bnd is supportfd by this opfrbting systfm
+     * bnd/or window mbnbgfr.
+     * Notf thbt this ffbturf is supportfd not on bll plbtforms, bnd
+     * donvfrsfly, thbt this ffbturf dbnnot bf turnfd off on somf plbtforms.
+     * On thfsf plbtforms whfrf dynbmid lbyout during rfsizing is not supportfd
+     * (or is blwbys supportfd), sftting this propfrty hbs no ffffdt.
+     * Notf thbt this ffbturf dbn bf sft or unsft bs b propfrty of thf
+     * opfrbting systfm or window mbnbgfr on somf plbtforms.  On sudh
+     * plbtforms, thf dynbmid rfsizf propfrty must bf sft bt thf opfrbting
+     * systfm or window mbnbgfr lfvfl bfforf this mfthod dbn tbkf ffffdt.
+     * This mfthod dofs not dhbngf support or sfttings of thf undfrlying
+     * opfrbting systfm or
+     * window mbnbgfr.  Thf OS/WM support dbn bf
+     * qufrifd using gftDfsktopPropfrty("bwt.dynbmidLbyoutSupportfd") mfthod.
+     *
+     * @pbrbm     dynbmid  If truf, Contbinfrs should rf-lbyout thfir
+     *            domponfnts bs thf Contbinfr is bfing rfsizfd.  If fblsf,
+     *            thf lbyout will bf vblidbtfd bftfr rfsizing is domplftfd.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff       #isDynbmidLbyoutSft()
+     * @sff       #isDynbmidLbyoutAdtivf()
+     * @sff       #gftDfsktopPropfrty(String propfrtyNbmf)
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.4
+     */
+    publid void sftDynbmidLbyout(finbl boolfbn dynbmid)
+        throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+        if (this != gftDffbultToolkit()) {
+            gftDffbultToolkit().sftDynbmidLbyout(dynbmid);
+        }
+    }
+
+    /**
+     * Rfturns whfthfr thf lbyout of Contbinfrs is vblidbtfd dynbmidblly
+     * during rfsizing, or stbtidblly, bftfr rfsizing is domplftf.
+     * Notf: this mfthod rfturns thf vbluf thbt wbs sft progrbmmbtidblly;
+     * it dofs not rfflfdt support bt thf lfvfl of thf opfrbting systfm
+     * or window mbnbgfr for dynbmid lbyout on rfsizing, or thf durrfnt
+     * opfrbting systfm or window mbnbgfr sfttings.  Thf OS/WM support dbn
+     * bf qufrifd using gftDfsktopPropfrty("bwt.dynbmidLbyoutSupportfd").
+     *
+     * @rfturn    truf if vblidbtion of Contbinfrs is donf dynbmidblly,
+     *            fblsf if vblidbtion is donf bftfr rfsizing is finishfd.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff       #sftDynbmidLbyout(boolfbn dynbmid)
+     * @sff       #isDynbmidLbyoutAdtivf()
+     * @sff       #gftDfsktopPropfrty(String propfrtyNbmf)
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.4
+     */
+    protfdtfd boolfbn isDynbmidLbyoutSft()
+        throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        if (this != Toolkit.gftDffbultToolkit()) {
+            rfturn Toolkit.gftDffbultToolkit().isDynbmidLbyoutSft();
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns whfthfr dynbmid lbyout of Contbinfrs on rfsizf is
+     * durrfntly bdtivf (both sft in progrbm
+     *( {@dodf isDynbmidLbyoutSft()} )
+     *, bnd supportfd
+     * by thf undfrlying opfrbting systfm bnd/or window mbnbgfr).
+     * If dynbmid lbyout is durrfntly inbdtivf thfn Contbinfrs
+     * rf-lbyout thfir domponfnts whfn rfsizing is domplftfd. As b rfsult
+     * thf {@dodf Componfnt.vblidbtf()} mfthod will bf invokfd only
+     * ondf pfr rfsizf.
+     * If dynbmid lbyout is durrfntly bdtivf thfn Contbinfrs
+     * rf-lbyout thfir domponfnts on fvfry nbtivf rfsizf fvfnt bnd
+     * thf {@dodf vblidbtf()} mfthod will bf invokfd fbdh timf.
+     * Thf OS/WM support dbn bf qufrifd using
+     * thf gftDfsktopPropfrty("bwt.dynbmidLbyoutSupportfd") mfthod.
+     *
+     * @rfturn    truf if dynbmid lbyout of Contbinfrs on rfsizf is
+     *            durrfntly bdtivf, fblsf othfrwisf.
+     * @fxdfption HfbdlfssExdfption if thf GrbphidsEnvironmfnt.isHfbdlfss()
+     *            mfthod rfturns truf
+     * @sff       #sftDynbmidLbyout(boolfbn dynbmid)
+     * @sff       #isDynbmidLbyoutSft()
+     * @sff       #gftDfsktopPropfrty(String propfrtyNbmf)
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.4
+     */
+    publid boolfbn isDynbmidLbyoutAdtivf()
+        throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        if (this != Toolkit.gftDffbultToolkit()) {
+            rfturn Toolkit.gftDffbultToolkit().isDynbmidLbyoutAdtivf();
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Gfts thf sizf of thf sdrffn.  On systfms with multiplf displbys, thf
+     * primbry displby is usfd.  Multi-sdrffn bwbrf displby dimfnsions brf
+     * bvbilbblf from <dodf>GrbphidsConfigurbtion</dodf> bnd
+     * <dodf>GrbphidsDfvidf</dodf>.
+     * @rfturn    thf sizf of this toolkit's sdrffn, in pixfls.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsConfigurbtion#gftBounds
+     * @sff       jbvb.bwt.GrbphidsDfvidf#gftDisplbyModf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid bbstrbdt Dimfnsion gftSdrffnSizf()
+        throws HfbdlfssExdfption;
+
+    /**
+     * Rfturns thf sdrffn rfsolution in dots-pfr-indh.
+     * @rfturn    this toolkit's sdrffn rfsolution, in dots-pfr-indh.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid bbstrbdt int gftSdrffnRfsolution()
+        throws HfbdlfssExdfption;
+
+    /**
+     * Gfts thf insfts of thf sdrffn.
+     * @pbrbm     gd b <dodf>GrbphidsConfigurbtion</dodf>
+     * @rfturn    thf insfts of this toolkit's sdrffn, in pixfls.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.4
+     */
+    publid Insfts gftSdrffnInsfts(GrbphidsConfigurbtion gd)
+        throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+        if (this != Toolkit.gftDffbultToolkit()) {
+            rfturn Toolkit.gftDffbultToolkit().gftSdrffnInsfts(gd);
+        } flsf {
+            rfturn nfw Insfts(0, 0, 0, 0);
+        }
+    }
+
+    /**
+     * Dftfrminfs thf dolor modfl of this toolkit's sdrffn.
+     * <p>
+     * <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss thbt
+     * fndbpsulbtfs thf bbility to trbnslbtf bftwffn thf
+     * pixfl vblufs of bn imbgf bnd its rfd, grffn, bluf,
+     * bnd blphb domponfnts.
+     * <p>
+     * This toolkit mfthod is dbllfd by thf
+     * <dodf>gftColorModfl</dodf> mfthod
+     * of thf <dodf>Componfnt</dodf> dlbss.
+     * @rfturn    thf dolor modfl of this toolkit's sdrffn.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.imbgf.ColorModfl
+     * @sff       jbvb.bwt.Componfnt#gftColorModfl
+     */
+    publid bbstrbdt ColorModfl gftColorModfl()
+        throws HfbdlfssExdfption;
+
+    /**
+     * Rfturns thf nbmfs of thf bvbilbblf fonts in this toolkit.<p>
+     * For 1.1, thf following font nbmfs brf dfprfdbtfd (thf rfplbdfmfnt
+     * nbmf follows):
+     * <ul>
+     * <li>TimfsRombn (usf Sfrif)
+     * <li>Hflvftidb (usf SbnsSfrif)
+     * <li>Courifr (usf Monospbdfd)
+     * </ul><p>
+     * Thf ZbpfDingbbts fontnbmf is blso dfprfdbtfd in 1.1 but thf dhbrbdtfrs
+     * brf dffinfd in Unidodf stbrting bt 0x2700, bnd bs of 1.1 Jbvb supports
+     * thosf dhbrbdtfrs.
+     * @rfturn    thf nbmfs of thf bvbilbblf fonts in this toolkit.
+     * @dfprfdbtfd sff {@link jbvb.bwt.GrbphidsEnvironmfnt#gftAvbilbblfFontFbmilyNbmfs()}
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#gftAvbilbblfFontFbmilyNbmfs()
+     */
+    @Dfprfdbtfd
+    publid bbstrbdt String[] gftFontList();
+
+    /**
+     * Gfts thf sdrffn dfvidf mftrids for rfndfring of thf font.
+     * @pbrbm     font   b font
+     * @rfturn    thf sdrffn mftrids of thf spfdififd font in this toolkit
+     * @dfprfdbtfd  As of JDK vfrsion 1.2, rfplbdfd by thf <dodf>Font</dodf>
+     *          mfthod <dodf>gftLinfMftrids</dodf>.
+     * @sff jbvb.bwt.font.LinfMftrids
+     * @sff jbvb.bwt.Font#gftLinfMftrids
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#gftSdrffnDfvidfs
+     */
+    @Dfprfdbtfd
+    publid bbstrbdt FontMftrids gftFontMftrids(Font font);
+
+    /**
+     * Syndhronizfs this toolkit's grbphids stbtf. Somf window systfms
+     * mby do bufffring of grbphids fvfnts.
+     * <p>
+     * This mfthod fnsurfs thbt thf displby is up-to-dbtf. It is usfful
+     * for bnimbtion.
+     */
+    publid bbstrbdt void synd();
+
+    /**
+     * Thf dffbult toolkit.
+     */
+    privbtf stbtid Toolkit toolkit;
+
+    /**
+     * Usfd intfrnblly by thf bssistivf tfdhnologifs fundtions; sft bt
+     * init timf bnd usfd bt lobd timf
+     */
+    privbtf stbtid String btNbmfs;
+
+    /**
+     * Initiblizfs propfrtifs rflbtfd to bssistivf tfdhnologifs.
+     * Thfsf propfrtifs brf usfd both in thf lobdAssistivfPropfrtifs()
+     * fundtion bflow, bs wfll bs othfr dlbssfs in thf jdk thbt dfpfnd
+     * on thf propfrtifs (sudh bs thf usf of thf sdrffn_mbgnififr_prfsfnt
+     * propfrty in Jbvb2D hbrdwbrf bddflfrbtion initiblizbtion).  Thf
+     * initiblizbtion of thf propfrtifs must bf donf bfforf thf plbtform-
+     * spfdifid Toolkit dlbss is instbntibtfd so thbt bll nfdfssbry
+     * propfrtifs brf sft up propfrly bfforf bny dlbssfs dfpfndfnt upon thfm
+     * brf initiblizfd.
+     */
+    privbtf stbtid void initAssistivfTfdhnologifs() {
+
+        // Gft bddfssibility propfrtifs
+        finbl String sfp = Filf.sfpbrbtor;
+        finbl Propfrtifs propfrtifs = nfw Propfrtifs();
+
+
+        btNbmfs = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+            publid String run() {
+
+                // Try lobding thf pfr-usfr bddfssibility propfrtifs filf.
+                try {
+                    Filf propsFilf = nfw Filf(
+                      Systfm.gftPropfrty("usfr.homf") +
+                      sfp + ".bddfssibility.propfrtifs");
+                    FilfInputStrfbm in =
+                        nfw FilfInputStrfbm(propsFilf);
+
+                    // Inputstrfbm hbs bffn bufffrfd in Propfrtifs dlbss
+                    propfrtifs.lobd(in);
+                    in.dlosf();
+                } dbtdh (Exdfption f) {
+                    // Pfr-usfr bddfssibility propfrtifs filf dofs not fxist
+                }
+
+                // Try lobding thf systfm-widf bddfssibility propfrtifs
+                // filf only if b pfr-usfr bddfssibility propfrtifs
+                // filf dofs not fxist or is fmpty.
+                if (propfrtifs.sizf() == 0) {
+                    try {
+                        Filf propsFilf = nfw Filf(
+                            Systfm.gftPropfrty("jbvb.homf") + sfp + "lib" +
+                            sfp + "bddfssibility.propfrtifs");
+                        FilfInputStrfbm in =
+                            nfw FilfInputStrfbm(propsFilf);
+
+                        // Inputstrfbm hbs bffn bufffrfd in Propfrtifs dlbss
+                        propfrtifs.lobd(in);
+                        in.dlosf();
+                    } dbtdh (Exdfption f) {
+                        // Systfm-widf bddfssibility propfrtifs filf dofs
+                        // not fxist;
+                    }
+                }
+
+                // Gft whfthfr b sdrffn mbgnififr is prfsfnt.  First dhfdk
+                // thf systfm propfrty bnd thfn dhfdk thf propfrtifs filf.
+                String mbgPrfsfnt = Systfm.gftPropfrty("jbvbx.bddfssibility.sdrffn_mbgnififr_prfsfnt");
+                if (mbgPrfsfnt == null) {
+                    mbgPrfsfnt = propfrtifs.gftPropfrty("sdrffn_mbgnififr_prfsfnt", null);
+                    if (mbgPrfsfnt != null) {
+                        Systfm.sftPropfrty("jbvbx.bddfssibility.sdrffn_mbgnififr_prfsfnt", mbgPrfsfnt);
+                    }
+                }
+
+                // Gft thf nbmfs of bny bssistivf tfdhnolgifs to lobd.  First
+                // dhfdk thf systfm propfrty bnd thfn dhfdk thf propfrtifs
+                // filf.
+                String dlbssNbmfs = Systfm.gftPropfrty("jbvbx.bddfssibility.bssistivf_tfdhnologifs");
+                if (dlbssNbmfs == null) {
+                    dlbssNbmfs = propfrtifs.gftPropfrty("bssistivf_tfdhnologifs", null);
+                    if (dlbssNbmfs != null) {
+                        Systfm.sftPropfrty("jbvbx.bddfssibility.bssistivf_tfdhnologifs", dlbssNbmfs);
+                    }
+                }
+                rfturn dlbssNbmfs;
+            }
+        });
+    }
+
+    /**
+     * Lobds bdditionbl dlbssfs into thf VM, using thf propfrty
+     * 'bssistivf_tfdhnologifs' spfdififd in thf Sun rfffrfndf
+     * implfmfntbtion by b linf in thf 'bddfssibility.propfrtifs'
+     * filf.  Thf form is "bssistivf_tfdhnologifs=..." whfrf
+     * thf "..." is b dommb-sfpbrbtfd list of bssistivf tfdhnology
+     * dlbssfs to lobd.  Ebdh dlbss is lobdfd in thf ordfr givfn
+     * bnd b singlf instbndf of fbdh is drfbtfd using
+     * Clbss.forNbmf(dlbss).nfwInstbndf().  All frrors brf hbndlfd
+     * vib bn AWTError fxdfption.
+     *
+     * <p>Thf bssumption is mbdf thbt bssistivf tfdhnology dlbssfs brf supplifd
+     * bs pbrt of INSTALLED (bs opposfd to: BUNDLED) fxtfnsions or spfdififd
+     * on thf dlbss pbth
+     * (bnd thfrfforf dbn bf lobdfd using thf dlbss lobdfr rfturnfd by
+     * b dbll to <dodf>ClbssLobdfr.gftSystfmClbssLobdfr</dodf>, whosf
+     * dflfgbtion pbrfnt is thf fxtfnsion dlbss lobdfr for instbllfd
+     * fxtfnsions).
+     */
+    privbtf stbtid void lobdAssistivfTfdhnologifs() {
+        // Lobd bny bssistivf tfdhnologifs
+        if (btNbmfs != null) {
+            ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+            StringTokfnizfr pbrsfr = nfw StringTokfnizfr(btNbmfs," ,");
+            String btNbmf;
+            whilf (pbrsfr.hbsMorfTokfns()) {
+                btNbmf = pbrsfr.nfxtTokfn();
+                try {
+                    Clbss<?> dlbzz;
+                    if (dl != null) {
+                        dlbzz = dl.lobdClbss(btNbmf);
+                    } flsf {
+                        dlbzz = Clbss.forNbmf(btNbmf);
+                    }
+                    dlbzz.nfwInstbndf();
+                } dbtdh (ClbssNotFoundExdfption f) {
+                    throw nfw AWTError("Assistivf Tfdhnology not found: "
+                            + btNbmf);
+                } dbtdh (InstbntibtionExdfption f) {
+                    throw nfw AWTError("Could not instbntibtf Assistivf"
+                            + " Tfdhnology: " + btNbmf);
+                } dbtdh (IllfgblAddfssExdfption f) {
+                    throw nfw AWTError("Could not bddfss Assistivf"
+                            + " Tfdhnology: " + btNbmf);
+                } dbtdh (Exdfption f) {
+                    throw nfw AWTError("Error trying to instbll Assistivf"
+                            + " Tfdhnology: " + btNbmf + " " + f);
+                }
+            }
+        }
+    }
+
+    /**
+     * Gfts thf dffbult toolkit.
+     * <p>
+     * If b systfm propfrty nbmfd <dodf>"jbvb.bwt.hfbdlfss"</dodf> is sft
+     * to <dodf>truf</dodf> thfn thf hfbdlfss implfmfntbtion
+     * of <dodf>Toolkit</dodf> is usfd.
+     * <p>
+     * If thfrf is no <dodf>"jbvb.bwt.hfbdlfss"</dodf> or it is sft to
+     * <dodf>fblsf</dodf> bnd thfrf is b systfm propfrty nbmfd
+     * <dodf>"bwt.toolkit"</dodf>,
+     * thbt propfrty is trfbtfd bs thf nbmf of b dlbss thbt is b subdlbss
+     * of <dodf>Toolkit</dodf>;
+     * othfrwisf thf dffbult plbtform-spfdifid implfmfntbtion of
+     * <dodf>Toolkit</dodf> is usfd.
+     * <p>
+     * Also lobds bdditionbl dlbssfs into thf VM, using thf propfrty
+     * 'bssistivf_tfdhnologifs' spfdififd in thf Sun rfffrfndf
+     * implfmfntbtion by b linf in thf 'bddfssibility.propfrtifs'
+     * filf.  Thf form is "bssistivf_tfdhnologifs=..." whfrf
+     * thf "..." is b dommb-sfpbrbtfd list of bssistivf tfdhnology
+     * dlbssfs to lobd.  Ebdh dlbss is lobdfd in thf ordfr givfn
+     * bnd b singlf instbndf of fbdh is drfbtfd using
+     * Clbss.forNbmf(dlbss).nfwInstbndf().  This is donf just bftfr
+     * thf AWT toolkit is drfbtfd.  All frrors brf hbndlfd vib bn
+     * AWTError fxdfption.
+     * @rfturn    thf dffbult toolkit.
+     * @fxdfption  AWTError  if b toolkit dould not bf found, or
+     *                 if onf dould not bf bddfssfd or instbntibtfd.
+     */
+    publid stbtid syndhronizfd Toolkit gftDffbultToolkit() {
+        if (toolkit == null) {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Clbss<?> dls = null;
+                    String nm = Systfm.gftPropfrty("bwt.toolkit");
+                    try {
+                        dls = Clbss.forNbmf(nm);
+                    } dbtdh (ClbssNotFoundExdfption f) {
+                        ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                        if (dl != null) {
+                            try {
+                                dls = dl.lobdClbss(nm);
+                            } dbtdh (finbl ClbssNotFoundExdfption ignorfd) {
+                                throw nfw AWTError("Toolkit not found: " + nm);
+                            }
+                        }
+                    }
+                    try {
+                        if (dls != null) {
+                            toolkit = (Toolkit)dls.nfwInstbndf();
+                            if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+                                toolkit = nfw HfbdlfssToolkit(toolkit);
+                            }
+                        }
+                    } dbtdh (finbl InstbntibtionExdfption ignorfd) {
+                        throw nfw AWTError("Could not instbntibtf Toolkit: " + nm);
+                    } dbtdh (finbl IllfgblAddfssExdfption ignorfd) {
+                        throw nfw AWTError("Could not bddfss Toolkit: " + nm);
+                    }
+                    rfturn null;
+                }
+            });
+            lobdAssistivfTfdhnologifs();
+        }
+        rfturn toolkit;
+    }
+
+    /**
+     * Rfturns bn imbgf whidh gfts pixfl dbtb from thf spfdififd filf,
+     * whosf formbt dbn bf fithfr GIF, JPEG or PNG.
+     * Thf undfrlying toolkit bttfmpts to rfsolvf multiplf rfqufsts
+     * with thf sbmf filfnbmf to thf sbmf rfturnfd Imbgf.
+     * <p>
+     * Sindf thf mfdhbnism rfquirfd to fbdilitbtf this shbring of
+     * <dodf>Imbgf</dodf> objfdts mby dontinuf to hold onto imbgfs
+     * thbt brf no longfr in usf for bn indffinitf pfriod of timf,
+     * dfvflopfrs brf fndourbgfd to implfmfnt thfir own dbdhing of
+     * imbgfs by using thf {@link #drfbtfImbgf(jbvb.lbng.String) drfbtfImbgf}
+     * vbribnt whfrfvfr bvbilbblf.
+     * If thf imbgf dbtb dontbinfd in thf spfdififd filf dhbngfs,
+     * thf <dodf>Imbgf</dodf> objfdt rfturnfd from this mfthod mby
+     * still dontbin stblf informbtion whidh wbs lobdfd from thf
+     * filf bftfr b prior dbll.
+     * Prfviously lobdfd imbgf dbtb dbn bf mbnublly disdbrdfd by
+     * dblling thf {@link Imbgf#flush flush} mfthod on thf
+     * rfturnfd <dodf>Imbgf</dodf>.
+     * <p>
+     * This mfthod first dhfdks if thfrf is b sfdurity mbnbgfr instbllfd.
+     * If so, thf mfthod dblls thf sfdurity mbnbgfr's
+     * <dodf>dhfdkRfbd</dodf> mfthod with thf filf spfdififd to fnsurf
+     * thbt thf bddfss to thf imbgf is bllowfd.
+     * @pbrbm     filfnbmf   thf nbmf of b filf dontbining pixfl dbtb
+     *                         in b rfdognizfd filf formbt.
+     * @rfturn    bn imbgf whidh gfts its pixfl dbtb from
+     *                         thf spfdififd filf.
+     * @throws SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *                            dhfdkRfbd mfthod dofsn't bllow thf opfrbtion.
+     * @sff #drfbtfImbgf(jbvb.lbng.String)
+     */
+    publid bbstrbdt Imbgf gftImbgf(String filfnbmf);
+
+    /**
+     * Rfturns bn imbgf whidh gfts pixfl dbtb from thf spfdififd URL.
+     * Thf pixfl dbtb rfffrfndfd by thf spfdififd URL must bf in onf
+     * of thf following formbts: GIF, JPEG or PNG.
+     * Thf undfrlying toolkit bttfmpts to rfsolvf multiplf rfqufsts
+     * with thf sbmf URL to thf sbmf rfturnfd Imbgf.
+     * <p>
+     * Sindf thf mfdhbnism rfquirfd to fbdilitbtf this shbring of
+     * <dodf>Imbgf</dodf> objfdts mby dontinuf to hold onto imbgfs
+     * thbt brf no longfr in usf for bn indffinitf pfriod of timf,
+     * dfvflopfrs brf fndourbgfd to implfmfnt thfir own dbdhing of
+     * imbgfs by using thf {@link #drfbtfImbgf(jbvb.nft.URL) drfbtfImbgf}
+     * vbribnt whfrfvfr bvbilbblf.
+     * If thf imbgf dbtb storfd bt thf spfdififd URL dhbngfs,
+     * thf <dodf>Imbgf</dodf> objfdt rfturnfd from this mfthod mby
+     * still dontbin stblf informbtion whidh wbs fftdhfd from thf
+     * URL bftfr b prior dbll.
+     * Prfviously lobdfd imbgf dbtb dbn bf mbnublly disdbrdfd by
+     * dblling thf {@link Imbgf#flush flush} mfthod on thf
+     * rfturnfd <dodf>Imbgf</dodf>.
+     * <p>
+     * This mfthod first dhfdks if thfrf is b sfdurity mbnbgfr instbllfd.
+     * If so, thf mfthod dblls thf sfdurity mbnbgfr's
+     * <dodf>dhfdkPfrmission</dodf> mfthod with thf
+     * url.opfnConnfdtion().gftPfrmission() pfrmission to fnsurf
+     * thbt thf bddfss to thf imbgf is bllowfd. For dompbtibility
+     * with prf-1.2 sfdurity mbnbgfrs, if thf bddfss is dfnifd with
+     * <dodf>FilfPfrmission</dodf> or <dodf>SodkftPfrmission</dodf>,
+     * thf mfthod throws thf <dodf>SfdurityExdfption</dodf>
+     * if thf dorrfsponding 1.1-stylf SfdurityMbnbgfr.dhfdkXXX mfthod
+     * blso dfnifs pfrmission.
+     * @pbrbm     url   thf URL to usf in fftdhing thf pixfl dbtb.
+     * @rfturn    bn imbgf whidh gfts its pixfl dbtb from
+     *                         thf spfdififd URL.
+     * @throws SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *                            dhfdkPfrmission mfthod dofsn't bllow
+     *                            thf opfrbtion.
+     * @sff #drfbtfImbgf(jbvb.nft.URL)
+     */
+    publid bbstrbdt Imbgf gftImbgf(URL url);
+
+    /**
+     * Rfturns bn imbgf whidh gfts pixfl dbtb from thf spfdififd filf.
+     * Thf rfturnfd Imbgf is b nfw objfdt whidh will not bf shbrfd
+     * with bny othfr dbllfr of this mfthod or its gftImbgf vbribnt.
+     * <p>
+     * This mfthod first dhfdks if thfrf is b sfdurity mbnbgfr instbllfd.
+     * If so, thf mfthod dblls thf sfdurity mbnbgfr's
+     * <dodf>dhfdkRfbd</dodf> mfthod with thf spfdififd filf to fnsurf
+     * thbt thf imbgf drfbtion is bllowfd.
+     * @pbrbm     filfnbmf   thf nbmf of b filf dontbining pixfl dbtb
+     *                         in b rfdognizfd filf formbt.
+     * @rfturn    bn imbgf whidh gfts its pixfl dbtb from
+     *                         thf spfdififd filf.
+     * @throws SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *                            dhfdkRfbd mfthod dofsn't bllow thf opfrbtion.
+     * @sff #gftImbgf(jbvb.lbng.String)
+     */
+    publid bbstrbdt Imbgf drfbtfImbgf(String filfnbmf);
+
+    /**
+     * Rfturns bn imbgf whidh gfts pixfl dbtb from thf spfdififd URL.
+     * Thf rfturnfd Imbgf is b nfw objfdt whidh will not bf shbrfd
+     * with bny othfr dbllfr of this mfthod or its gftImbgf vbribnt.
+     * <p>
+     * This mfthod first dhfdks if thfrf is b sfdurity mbnbgfr instbllfd.
+     * If so, thf mfthod dblls thf sfdurity mbnbgfr's
+     * <dodf>dhfdkPfrmission</dodf> mfthod with thf
+     * url.opfnConnfdtion().gftPfrmission() pfrmission to fnsurf
+     * thbt thf imbgf drfbtion is bllowfd. For dompbtibility
+     * with prf-1.2 sfdurity mbnbgfrs, if thf bddfss is dfnifd with
+     * <dodf>FilfPfrmission</dodf> or <dodf>SodkftPfrmission</dodf>,
+     * thf mfthod throws <dodf>SfdurityExdfption</dodf>
+     * if thf dorrfsponding 1.1-stylf SfdurityMbnbgfr.dhfdkXXX mfthod
+     * blso dfnifs pfrmission.
+     * @pbrbm     url   thf URL to usf in fftdhing thf pixfl dbtb.
+     * @rfturn    bn imbgf whidh gfts its pixfl dbtb from
+     *                         thf spfdififd URL.
+     * @throws SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *                            dhfdkPfrmission mfthod dofsn't bllow
+     *                            thf opfrbtion.
+     * @sff #gftImbgf(jbvb.nft.URL)
+     */
+    publid bbstrbdt Imbgf drfbtfImbgf(URL url);
+
+    /**
+     * Prfpbrfs bn imbgf for rfndfring.
+     * <p>
+     * If thf vblufs of thf width bnd hfight brgumfnts brf both
+     * <dodf>-1</dodf>, this mfthod prfpbrfs thf imbgf for rfndfring
+     * on thf dffbult sdrffn; othfrwisf, this mfthod prfpbrfs bn imbgf
+     * for rfndfring on thf dffbult sdrffn bt thf spfdififd width bnd hfight.
+     * <p>
+     * Thf imbgf dbtb is downlobdfd bsyndhronously in bnothfr thrfbd,
+     * bnd bn bppropribtfly sdblfd sdrffn rfprfsfntbtion of thf imbgf is
+     * gfnfrbtfd.
+     * <p>
+     * This mfthod is dbllfd by domponfnts <dodf>prfpbrfImbgf</dodf>
+     * mfthods.
+     * <p>
+     * Informbtion on thf flbgs rfturnfd by this mfthod dbn bf found
+     * with thf dffinition of thf <dodf>ImbgfObsfrvfr</dodf> intfrfbdf.
+
+     * @pbrbm     imbgf      thf imbgf for whidh to prfpbrf b
+     *                           sdrffn rfprfsfntbtion.
+     * @pbrbm     width      thf width of thf dfsirfd sdrffn
+     *                           rfprfsfntbtion, or <dodf>-1</dodf>.
+     * @pbrbm     hfight     thf hfight of thf dfsirfd sdrffn
+     *                           rfprfsfntbtion, or <dodf>-1</dodf>.
+     * @pbrbm     obsfrvfr   thf <dodf>ImbgfObsfrvfr</dodf>
+     *                           objfdt to bf notififd bs thf
+     *                           imbgf is bfing prfpbrfd.
+     * @rfturn    <dodf>truf</dodf> if thf imbgf hbs blrfbdy bffn
+     *                 fully prfpbrfd; <dodf>fblsf</dodf> othfrwisf.
+     * @sff       jbvb.bwt.Componfnt#prfpbrfImbgf(jbvb.bwt.Imbgf,
+     *                 jbvb.bwt.imbgf.ImbgfObsfrvfr)
+     * @sff       jbvb.bwt.Componfnt#prfpbrfImbgf(jbvb.bwt.Imbgf,
+     *                 int, int, jbvb.bwt.imbgf.ImbgfObsfrvfr)
+     * @sff       jbvb.bwt.imbgf.ImbgfObsfrvfr
+     */
+    publid bbstrbdt boolfbn prfpbrfImbgf(Imbgf imbgf, int width, int hfight,
+                                         ImbgfObsfrvfr obsfrvfr);
+
+    /**
+     * Indidbtfs thf donstrudtion stbtus of b spfdififd imbgf thbt is
+     * bfing prfpbrfd for displby.
+     * <p>
+     * If thf vblufs of thf width bnd hfight brgumfnts brf both
+     * <dodf>-1</dodf>, this mfthod rfturns thf donstrudtion stbtus of
+     * b sdrffn rfprfsfntbtion of thf spfdififd imbgf in this toolkit.
+     * Othfrwisf, this mfthod rfturns thf donstrudtion stbtus of b
+     * sdblfd rfprfsfntbtion of thf imbgf bt thf spfdififd width
+     * bnd hfight.
+     * <p>
+     * This mfthod dofs not dbusf thf imbgf to bfgin lobding.
+     * An bpplidbtion must dbll <dodf>prfpbrfImbgf</dodf> to fordf
+     * thf lobding of bn imbgf.
+     * <p>
+     * This mfthod is dbllfd by thf domponfnt's <dodf>dhfdkImbgf</dodf>
+     * mfthods.
+     * <p>
+     * Informbtion on thf flbgs rfturnfd by this mfthod dbn bf found
+     * with thf dffinition of thf <dodf>ImbgfObsfrvfr</dodf> intfrfbdf.
+     * @pbrbm     imbgf   thf imbgf whosf stbtus is bfing dhfdkfd.
+     * @pbrbm     width   thf width of thf sdblfd vfrsion whosf stbtus is
+     *                 bfing dhfdkfd, or <dodf>-1</dodf>.
+     * @pbrbm     hfight  thf hfight of thf sdblfd vfrsion whosf stbtus
+     *                 is bfing dhfdkfd, or <dodf>-1</dodf>.
+     * @pbrbm     obsfrvfr   thf <dodf>ImbgfObsfrvfr</dodf> objfdt to bf
+     *                 notififd bs thf imbgf is bfing prfpbrfd.
+     * @rfturn    thf bitwisf indlusivf <strong>OR</strong> of thf
+     *                 <dodf>ImbgfObsfrvfr</dodf> flbgs for thf
+     *                 imbgf dbtb thbt is durrfntly bvbilbblf.
+     * @sff       jbvb.bwt.Toolkit#prfpbrfImbgf(jbvb.bwt.Imbgf,
+     *                 int, int, jbvb.bwt.imbgf.ImbgfObsfrvfr)
+     * @sff       jbvb.bwt.Componfnt#dhfdkImbgf(jbvb.bwt.Imbgf,
+     *                 jbvb.bwt.imbgf.ImbgfObsfrvfr)
+     * @sff       jbvb.bwt.Componfnt#dhfdkImbgf(jbvb.bwt.Imbgf,
+     *                 int, int, jbvb.bwt.imbgf.ImbgfObsfrvfr)
+     * @sff       jbvb.bwt.imbgf.ImbgfObsfrvfr
+     */
+    publid bbstrbdt int dhfdkImbgf(Imbgf imbgf, int width, int hfight,
+                                   ImbgfObsfrvfr obsfrvfr);
+
+    /**
+     * Crfbtfs bn imbgf with thf spfdififd imbgf produdfr.
+     * @pbrbm     produdfr thf imbgf produdfr to bf usfd.
+     * @rfturn    bn imbgf with thf spfdififd imbgf produdfr.
+     * @sff       jbvb.bwt.Imbgf
+     * @sff       jbvb.bwt.imbgf.ImbgfProdudfr
+     * @sff       jbvb.bwt.Componfnt#drfbtfImbgf(jbvb.bwt.imbgf.ImbgfProdudfr)
+     */
+    publid bbstrbdt Imbgf drfbtfImbgf(ImbgfProdudfr produdfr);
+
+    /**
+     * Crfbtfs bn imbgf whidh dfdodfs thf imbgf storfd in thf spfdififd
+     * bytf brrby.
+     * <p>
+     * Thf dbtb must bf in somf imbgf formbt, sudh bs GIF or JPEG,
+     * thbt is supportfd by this toolkit.
+     * @pbrbm     imbgfdbtb   bn brrby of bytfs, rfprfsfnting
+     *                         imbgf dbtb in b supportfd imbgf formbt.
+     * @rfturn    bn imbgf.
+     * @sindf     1.1
+     */
+    publid Imbgf drfbtfImbgf(bytf[] imbgfdbtb) {
+        rfturn drfbtfImbgf(imbgfdbtb, 0, imbgfdbtb.lfngth);
+    }
+
+    /**
+     * Crfbtfs bn imbgf whidh dfdodfs thf imbgf storfd in thf spfdififd
+     * bytf brrby, bnd bt thf spfdififd offsft bnd lfngth.
+     * Thf dbtb must bf in somf imbgf formbt, sudh bs GIF or JPEG,
+     * thbt is supportfd by this toolkit.
+     * @pbrbm     imbgfdbtb   bn brrby of bytfs, rfprfsfnting
+     *                         imbgf dbtb in b supportfd imbgf formbt.
+     * @pbrbm     imbgfoffsft  thf offsft of thf bfginning
+     *                         of thf dbtb in thf brrby.
+     * @pbrbm     imbgflfngth  thf lfngth of thf dbtb in thf brrby.
+     * @rfturn    bn imbgf.
+     * @sindf     1.1
+     */
+    publid bbstrbdt Imbgf drfbtfImbgf(bytf[] imbgfdbtb,
+                                      int imbgfoffsft,
+                                      int imbgflfngth);
+
+    /**
+     * Gfts b <dodf>PrintJob</dodf> objfdt whidh is thf rfsult of initibting
+     * b print opfrbtion on thf toolkit's plbtform.
+     * <p>
+     * Ebdh bdtubl implfmfntbtion of this mfthod should first dhfdk if thfrf
+     * is b sfdurity mbnbgfr instbllfd. If thfrf is, thf mfthod should dbll
+     * thf sfdurity mbnbgfr's <dodf>dhfdkPrintJobAddfss</dodf> mfthod to
+     * fnsurf initibtion of b print opfrbtion is bllowfd. If thf dffbult
+     * implfmfntbtion of <dodf>dhfdkPrintJobAddfss</dodf> is usfd (thbt is,
+     * thbt mfthod is not ovfrridfn), thfn this rfsults in b dbll to thf
+     * sfdurity mbnbgfr's <dodf>dhfdkPfrmission</dodf> mfthod with b <dodf>
+     * RuntimfPfrmission("qufufPrintJob")</dodf> pfrmission.
+     *
+     * @pbrbm   frbmf thf pbrfnt of thf print diblog. Mby not bf null.
+     * @pbrbm   jobtitlf thf titlf of thf PrintJob. A null titlf is fquivblfnt
+     *          to "".
+     * @pbrbm   props b Propfrtifs objfdt dontbining zfro or morf propfrtifs.
+     *          Propfrtifs brf not stbndbrdizfd bnd brf not donsistfnt bdross
+     *          implfmfntbtions. Bfdbusf of this, PrintJobs whidh rfquirf job
+     *          bnd pbgf dontrol should usf thf vfrsion of this fundtion whidh
+     *          tbkfs JobAttributfs bnd PbgfAttributfs objfdts. This objfdt
+     *          mby bf updbtfd to rfflfdt thf usfr's job dhoidfs on fxit. Mby
+     *          bf null.
+     * @rfturn  b <dodf>PrintJob</dodf> objfdt, or <dodf>null</dodf> if thf
+     *          usfr dbndfllfd thf print job.
+     * @throws  NullPointfrExdfption if frbmf is null
+     * @throws  SfdurityExdfption if this thrfbd is not bllowfd to initibtf b
+     *          print job rfqufst
+     * @sff     jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff     jbvb.bwt.PrintJob
+     * @sff     jbvb.lbng.RuntimfPfrmission
+     * @sindf   1.1
+     */
+    publid bbstrbdt PrintJob gftPrintJob(Frbmf frbmf, String jobtitlf,
+                                         Propfrtifs props);
+
+    /**
+     * Gfts b <dodf>PrintJob</dodf> objfdt whidh is thf rfsult of initibting
+     * b print opfrbtion on thf toolkit's plbtform.
+     * <p>
+     * Ebdh bdtubl implfmfntbtion of this mfthod should first dhfdk if thfrf
+     * is b sfdurity mbnbgfr instbllfd. If thfrf is, thf mfthod should dbll
+     * thf sfdurity mbnbgfr's <dodf>dhfdkPrintJobAddfss</dodf> mfthod to
+     * fnsurf initibtion of b print opfrbtion is bllowfd. If thf dffbult
+     * implfmfntbtion of <dodf>dhfdkPrintJobAddfss</dodf> is usfd (thbt is,
+     * thbt mfthod is not ovfrridfn), thfn this rfsults in b dbll to thf
+     * sfdurity mbnbgfr's <dodf>dhfdkPfrmission</dodf> mfthod with b <dodf>
+     * RuntimfPfrmission("qufufPrintJob")</dodf> pfrmission.
+     *
+     * @pbrbm   frbmf thf pbrfnt of thf print diblog. Mby not bf null.
+     * @pbrbm   jobtitlf thf titlf of thf PrintJob. A null titlf is fquivblfnt
+     *          to "".
+     * @pbrbm   jobAttributfs b sft of job bttributfs whidh will dontrol thf
+     *          PrintJob. Thf bttributfs will bf updbtfd to rfflfdt thf usfr's
+     *          dhoidfs bs outlinfd in thf JobAttributfs dodumfntbtion. Mby bf
+     *          null.
+     * @pbrbm   pbgfAttributfs b sft of pbgf bttributfs whidh will dontrol thf
+     *          PrintJob. Thf bttributfs will bf bpplifd to fvfry pbgf in thf
+     *          job. Thf bttributfs will bf updbtfd to rfflfdt thf usfr's
+     *          dhoidfs bs outlinfd in thf PbgfAttributfs dodumfntbtion. Mby bf
+     *          null.
+     * @rfturn  b <dodf>PrintJob</dodf> objfdt, or <dodf>null</dodf> if thf
+     *          usfr dbndfllfd thf print job.
+     * @throws  NullPointfrExdfption if frbmf is null
+     * @throws  IllfgblArgumfntExdfption if pbgfAttributfs spfdififs difffring
+     *          dross fffd bnd fffd rfsolutions. Also if this thrfbd hbs
+     *          bddfss to thf filf systfm bnd jobAttributfs spfdififs
+     *          print to filf, bnd thf spfdififd dfstinbtion filf fxists but
+     *          is b dirfdtory rbthfr thbn b rfgulbr filf, dofs not fxist but
+     *          dbnnot bf drfbtfd, or dbnnot bf opfnfd for bny othfr rfbson.
+     *          Howfvfr in thf dbsf of print to filf, if b diblog is blso
+     *          rfqufstfd to bf displbyfd thfn thf usfr will bf givfn bn
+     *          opportunity to sflfdt b filf bnd prodffd with printing.
+     *          Thf diblog will fnsurf thbt thf sflfdtfd output filf
+     *          is vblid bfforf rfturning from this mfthod.
+     * @throws  SfdurityExdfption if this thrfbd is not bllowfd to initibtf b
+     *          print job rfqufst, or if jobAttributfs spfdififs print to filf,
+     *          bnd this thrfbd is not bllowfd to bddfss thf filf systfm
+     * @sff     jbvb.bwt.PrintJob
+     * @sff     jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff     jbvb.lbng.RuntimfPfrmission
+     * @sff     jbvb.bwt.JobAttributfs
+     * @sff     jbvb.bwt.PbgfAttributfs
+     * @sindf   1.3
+     */
+    publid PrintJob gftPrintJob(Frbmf frbmf, String jobtitlf,
+                                JobAttributfs jobAttributfs,
+                                PbgfAttributfs pbgfAttributfs) {
+        // Ovfrridf to bdd printing support with nfw job/pbgf dontrol dlbssfs
+
+        if (this != Toolkit.gftDffbultToolkit()) {
+            rfturn Toolkit.gftDffbultToolkit().gftPrintJob(frbmf, jobtitlf,
+                                                           jobAttributfs,
+                                                           pbgfAttributfs);
+        } flsf {
+            rfturn gftPrintJob(frbmf, jobtitlf, null);
+        }
+    }
+
+    /**
+     * Emits bn budio bffp dfpfnding on nbtivf systfm sfttings bnd hbrdwbrf
+     * dbpbbilitifs.
+     * @sindf     1.1
+     */
+    publid bbstrbdt void bffp();
+
+    /**
+     * Gfts thf singlfton instbndf of thf systfm Clipbobrd whidh intfrfbdfs
+     * with dlipbobrd fbdilitifs providfd by thf nbtivf plbtform. This
+     * dlipbobrd fnbblfs dbtb trbnsffr bftwffn Jbvb progrbms bnd nbtivf
+     * bpplidbtions whidh usf nbtivf dlipbobrd fbdilitifs.
+     * <p>
+     * In bddition to bny bnd bll dffbult formbts tfxt rfturnfd by thf systfm
+     * Clipbobrd's <dodf>gftTrbnsffrDbtb()</dodf> mfthod is bvbilbblf in thf
+     * following flbvors:
+     * <ul>
+     * <li>DbtbFlbvor.stringFlbvor</li>
+     * <li>DbtbFlbvor.plbinTfxtFlbvor (<b>dfprfdbtfd</b>)</li>
+     * </ul>
+     * As with <dodf>jbvb.bwt.dbtbtrbnsffr.StringSflfdtion</dodf>, if thf
+     * rfqufstfd flbvor is <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>, or bn
+     * fquivblfnt flbvor, b Rfbdfr is rfturnfd. <b>Notf:</b> Thf bfhbvior of
+     * thf systfm Clipbobrd's <dodf>gftTrbnsffrDbtb()</dodf> mfthod for <dodf>
+     * DbtbFlbvor.plbinTfxtFlbvor</dodf>, bnd fquivblfnt DbtbFlbvors, is
+     * indonsistfnt with thf dffinition of <dodf>DbtbFlbvor.plbinTfxtFlbvor
+     * </dodf>. Bfdbusf of this, support for <dodf>
+     * DbtbFlbvor.plbinTfxtFlbvor</dodf>, bnd fquivblfnt flbvors, is
+     * <b>dfprfdbtfd</b>.
+     * <p>
+     * Ebdh bdtubl implfmfntbtion of this mfthod should first dhfdk if thfrf
+     * is b sfdurity mbnbgfr instbllfd. If thfrf is, thf mfthod should dbll
+     * thf sfdurity mbnbgfr's {@link SfdurityMbnbgfr#dhfdkPfrmission
+     * dhfdkPfrmission} mfthod to dhfdk {@dodf AWTPfrmission("bddfssClipbobrd")}.
+     *
+     * @rfturn    thf systfm Clipbobrd
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.dbtbtrbnsffr.Clipbobrd
+     * @sff       jbvb.bwt.dbtbtrbnsffr.StringSflfdtion
+     * @sff       jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor#stringFlbvor
+     * @sff       jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor#plbinTfxtFlbvor
+     * @sff       jbvb.io.Rfbdfr
+     * @sff       jbvb.bwt.AWTPfrmission
+     * @sindf     1.1
+     */
+    publid bbstrbdt Clipbobrd gftSystfmClipbobrd()
+        throws HfbdlfssExdfption;
+
+    /**
+     * Gfts thf singlfton instbndf of thf systfm sflfdtion bs b
+     * <dodf>Clipbobrd</dodf> objfdt. This bllows bn bpplidbtion to rfbd bnd
+     * modify thf durrfnt, systfm-widf sflfdtion.
+     * <p>
+     * An bpplidbtion is rfsponsiblf for updbting thf systfm sflfdtion whfnfvfr
+     * thf usfr sflfdts tfxt, using fithfr thf mousf or thf kfybobrd.
+     * Typidblly, this is implfmfntfd by instblling b
+     * <dodf>FodusListfnfr</dodf> on bll <dodf>Componfnt</dodf>s whidh support
+     * tfxt sflfdtion, bnd, bftwffn <dodf>FOCUS_GAINED</dodf> bnd
+     * <dodf>FOCUS_LOST</dodf> fvfnts dflivfrfd to thbt <dodf>Componfnt</dodf>,
+     * updbting thf systfm sflfdtion <dodf>Clipbobrd</dodf> whfn thf sflfdtion
+     * dhbngfs insidf thf <dodf>Componfnt</dodf>. Propfrly updbting thf systfm
+     * sflfdtion fnsurfs thbt b Jbvb bpplidbtion will intfrbdt dorrfdtly with
+     * nbtivf bpplidbtions bnd othfr Jbvb bpplidbtions running simultbnfously
+     * on thf systfm. Notf thbt <dodf>jbvb.bwt.TfxtComponfnt</dodf> bnd
+     * <dodf>jbvbx.swing.tfxt.JTfxtComponfnt</dodf> blrfbdy bdhfrf to this
+     * polidy. Whfn using thfsf dlbssfs, bnd thfir subdlbssfs, dfvflopfrs nffd
+     * not writf bny bdditionbl dodf.
+     * <p>
+     * Somf plbtforms do not support b systfm sflfdtion <dodf>Clipbobrd</dodf>.
+     * On thosf plbtforms, this mfthod will rfturn <dodf>null</dodf>. In sudh b
+     * dbsf, bn bpplidbtion is bbsolvfd from its rfsponsibility to updbtf thf
+     * systfm sflfdtion <dodf>Clipbobrd</dodf> bs dfsdribfd bbovf.
+     * <p>
+     * Ebdh bdtubl implfmfntbtion of this mfthod should first dhfdk if thfrf
+     * is b sfdurity mbnbgfr instbllfd. If thfrf is, thf mfthod should dbll
+     * thf sfdurity mbnbgfr's {@link SfdurityMbnbgfr#dhfdkPfrmission
+     * dhfdkPfrmission} mfthod to dhfdk {@dodf AWTPfrmission("bddfssClipbobrd")}.
+     *
+     * @rfturn thf systfm sflfdtion bs b <dodf>Clipbobrd</dodf>, or
+     *         <dodf>null</dodf> if thf nbtivf plbtform dofs not support b
+     *         systfm sflfdtion <dodf>Clipbobrd</dodf>
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     *
+     * @sff jbvb.bwt.dbtbtrbnsffr.Clipbobrd
+     * @sff jbvb.bwt.fvfnt.FodusListfnfr
+     * @sff jbvb.bwt.fvfnt.FodusEvfnt#FOCUS_GAINED
+     * @sff jbvb.bwt.fvfnt.FodusEvfnt#FOCUS_LOST
+     * @sff TfxtComponfnt
+     * @sff jbvbx.swing.tfxt.JTfxtComponfnt
+     * @sff AWTPfrmission
+     * @sff GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.4
+     */
+    publid Clipbobrd gftSystfmSflfdtion() throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        if (this != Toolkit.gftDffbultToolkit()) {
+            rfturn Toolkit.gftDffbultToolkit().gftSystfmSflfdtion();
+        } flsf {
+            GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+            rfturn null;
+        }
+    }
+
+    /**
+     * Dftfrminfs whidh modififr kfy is thf bppropribtf bddflfrbtor
+     * kfy for mfnu shortduts.
+     * <p>
+     * Mfnu shortduts, whidh brf fmbodifd in thf
+     * <dodf>MfnuShortdut</dodf> dlbss, brf hbndlfd by thf
+     * <dodf>MfnuBbr</dodf> dlbss.
+     * <p>
+     * By dffbult, this mfthod rfturns <dodf>Evfnt.CTRL_MASK</dodf>.
+     * Toolkit implfmfntbtions should ovfrridf this mfthod if thf
+     * <b>Control</b> kfy isn't thf dorrfdt kfy for bddflfrbtors.
+     * @rfturn    thf modififr mbsk on thf <dodf>Evfnt</dodf> dlbss
+     *                 thbt is usfd for mfnu shortduts on this toolkit.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.MfnuBbr
+     * @sff       jbvb.bwt.MfnuShortdut
+     * @sindf     1.1
+     */
+    publid int gftMfnuShortdutKfyMbsk() throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        rfturn Evfnt.CTRL_MASK;
+    }
+
+    /**
+     * Rfturns whfthfr thf givfn lodking kfy on thf kfybobrd is durrfntly in
+     * its "on" stbtf.
+     * Vblid kfy dodfs brf
+     * {@link jbvb.bwt.fvfnt.KfyEvfnt#VK_CAPS_LOCK VK_CAPS_LOCK},
+     * {@link jbvb.bwt.fvfnt.KfyEvfnt#VK_NUM_LOCK VK_NUM_LOCK},
+     * {@link jbvb.bwt.fvfnt.KfyEvfnt#VK_SCROLL_LOCK VK_SCROLL_LOCK}, bnd
+     * {@link jbvb.bwt.fvfnt.KfyEvfnt#VK_KANA_LOCK VK_KANA_LOCK}.
+     *
+     * @pbrbm  kfyCodf thf kfy dodf
+     * @rfturn {@dodf truf} if thf givfn kfy is durrfntly in its "on" stbtf;
+     *          othfrwisf {@dodf fblsf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>kfyCodf</dodf>
+     * is not onf of thf vblid kfy dodfs
+     * @fxdfption jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf host systfm dofsn't
+     * bllow gftting thf stbtf of this kfy progrbmmbtidblly, or if thf kfybobrd
+     * dofsn't hbvf this kfy
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.3
+     */
+    publid boolfbn gftLodkingKfyStbtf(int kfyCodf)
+        throws UnsupportfdOpfrbtionExdfption
+    {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        if (! (kfyCodf == KfyEvfnt.VK_CAPS_LOCK || kfyCodf == KfyEvfnt.VK_NUM_LOCK ||
+               kfyCodf == KfyEvfnt.VK_SCROLL_LOCK || kfyCodf == KfyEvfnt.VK_KANA_LOCK)) {
+            throw nfw IllfgblArgumfntExdfption("invblid kfy for Toolkit.gftLodkingKfyStbtf");
+        }
+        throw nfw UnsupportfdOpfrbtionExdfption("Toolkit.gftLodkingKfyStbtf");
+    }
+
+    /**
+     * Sfts thf stbtf of thf givfn lodking kfy on thf kfybobrd.
+     * Vblid kfy dodfs brf
+     * {@link jbvb.bwt.fvfnt.KfyEvfnt#VK_CAPS_LOCK VK_CAPS_LOCK},
+     * {@link jbvb.bwt.fvfnt.KfyEvfnt#VK_NUM_LOCK VK_NUM_LOCK},
+     * {@link jbvb.bwt.fvfnt.KfyEvfnt#VK_SCROLL_LOCK VK_SCROLL_LOCK}, bnd
+     * {@link jbvb.bwt.fvfnt.KfyEvfnt#VK_KANA_LOCK VK_KANA_LOCK}.
+     * <p>
+     * Dfpfnding on thf plbtform, sftting thf stbtf of b lodking kfy mby
+     * involvf fvfnt prodfssing bnd thfrfforf mby not bf immfdibtfly
+     * obsfrvbblf through gftLodkingKfyStbtf.
+     *
+     * @pbrbm  kfyCodf thf kfy dodf
+     * @pbrbm  on thf stbtf of thf kfy
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>kfyCodf</dodf>
+     * is not onf of thf vblid kfy dodfs
+     * @fxdfption jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf host systfm dofsn't
+     * bllow sftting thf stbtf of this kfy progrbmmbtidblly, or if thf kfybobrd
+     * dofsn't hbvf this kfy
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.3
+     */
+    publid void sftLodkingKfyStbtf(int kfyCodf, boolfbn on)
+        throws UnsupportfdOpfrbtionExdfption
+    {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        if (! (kfyCodf == KfyEvfnt.VK_CAPS_LOCK || kfyCodf == KfyEvfnt.VK_NUM_LOCK ||
+               kfyCodf == KfyEvfnt.VK_SCROLL_LOCK || kfyCodf == KfyEvfnt.VK_KANA_LOCK)) {
+            throw nfw IllfgblArgumfntExdfption("invblid kfy for Toolkit.sftLodkingKfyStbtf");
+        }
+        throw nfw UnsupportfdOpfrbtionExdfption("Toolkit.sftLodkingKfyStbtf");
+    }
+
+    /**
+     * Givf nbtivf pffrs thf bbility to qufry thf nbtivf dontbinfr
+     * givfn b nbtivf domponfnt (fg thf dirfdt pbrfnt mby bf lightwfight).
+     *
+     * @pbrbm  d thf domponfnt to fftdh thf dontbinfr for
+     * @rfturn thf nbtivf dontbinfr objfdt for thf domponfnt
+     */
+    protfdtfd stbtid Contbinfr gftNbtivfContbinfr(Componfnt d) {
+        rfturn d.gftNbtivfContbinfr();
+    }
+
+    /**
+     * Crfbtfs b nfw dustom dursor objfdt.
+     * If thf imbgf to displby is invblid, thf dursor will bf hiddfn (mbdf
+     * domplftfly trbnspbrfnt), bnd thf hotspot will bf sft to (0, 0).
+     *
+     * <p>Notf thbt multi-frbmf imbgfs brf invblid bnd mby dbusf this
+     * mfthod to hbng.
+     *
+     * @pbrbm dursor thf imbgf to displby whfn thf dursor is bdtivbtfd
+     * @pbrbm hotSpot thf X bnd Y of thf lbrgf dursor's hot spot; thf
+     *   hotSpot vblufs must bf lfss thbn thf Dimfnsion rfturnfd by
+     *   <dodf>gftBfstCursorSizf</dodf>
+     * @pbrbm     nbmf b lodblizfd dfsdription of thf dursor, for Jbvb Addfssibility usf
+     * @fxdfption IndfxOutOfBoundsExdfption if thf hotSpot vblufs brf outsidf
+     *   thf bounds of thf dursor
+     * @rfturn thf dursor drfbtfd
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.2
+     */
+    publid Cursor drfbtfCustomCursor(Imbgf dursor, Point hotSpot, String nbmf)
+        throws IndfxOutOfBoundsExdfption, HfbdlfssExdfption
+    {
+        // Ovfrridf to implfmfnt dustom dursor support.
+        if (this != Toolkit.gftDffbultToolkit()) {
+            rfturn Toolkit.gftDffbultToolkit().
+                drfbtfCustomCursor(dursor, hotSpot, nbmf);
+        } flsf {
+            rfturn nfw Cursor(Cursor.DEFAULT_CURSOR);
+        }
+    }
+
+    /**
+     * Rfturns thf supportfd dursor dimfnsion whidh is dlosfst to thf dfsirfd
+     * sizfs.  Systfms whidh only support b singlf dursor sizf will rfturn thbt
+     * sizf rfgbrdlfss of thf dfsirfd sizfs.  Systfms whidh don't support dustom
+     * dursors will rfturn b dimfnsion of 0, 0. <p>
+     * Notf:  if bn imbgf is usfd whosf dimfnsions don't mbtdh b supportfd sizf
+     * (bs rfturnfd by this mfthod), thf Toolkit implfmfntbtion will bttfmpt to
+     * rfsizf thf imbgf to b supportfd sizf.
+     * Sindf donvfrting low-rfsolution imbgfs is diffidult,
+     * no gubrbntffs brf mbdf bs to thf qublity of b dursor imbgf whidh isn't b
+     * supportfd sizf.  It is thfrfforf rfdommfndfd thbt this mfthod
+     * bf dbllfd bnd bn bppropribtf imbgf usfd so no imbgf donvfrsion is mbdf.
+     *
+     * @pbrbm     prfffrrfdWidth thf prfffrrfd dursor width thf domponfnt would likf
+     * to usf.
+     * @pbrbm     prfffrrfdHfight thf prfffrrfd dursor hfight thf domponfnt would likf
+     * to usf.
+     * @rfturn    thf dlosfst mbtdhing supportfd dursor sizf, or b dimfnsion of 0,0 if
+     * thf Toolkit implfmfntbtion dofsn't support dustom dursors.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.2
+     */
+    publid Dimfnsion gftBfstCursorSizf(int prfffrrfdWidth,
+        int prfffrrfdHfight) throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        // Ovfrridf to implfmfnt dustom dursor support.
+        if (this != Toolkit.gftDffbultToolkit()) {
+            rfturn Toolkit.gftDffbultToolkit().
+                gftBfstCursorSizf(prfffrrfdWidth, prfffrrfdHfight);
+        } flsf {
+            rfturn nfw Dimfnsion(0, 0);
+        }
+    }
+
+    /**
+     * Rfturns thf mbximum numbfr of dolors thf Toolkit supports in b dustom dursor
+     * pblfttf.<p>
+     * Notf: if bn imbgf is usfd whidh hbs morf dolors in its pblfttf thbn
+     * thf supportfd mbximum, thf Toolkit implfmfntbtion will bttfmpt to flbttfn thf
+     * pblfttf to thf mbximum.  Sindf donvfrting low-rfsolution imbgfs is diffidult,
+     * no gubrbntffs brf mbdf bs to thf qublity of b dursor imbgf whidh hbs morf
+     * dolors thbn thf systfm supports.  It is thfrfforf rfdommfndfd thbt this mfthod
+     * bf dbllfd bnd bn bppropribtf imbgf usfd so no imbgf donvfrsion is mbdf.
+     *
+     * @rfturn    thf mbximum numbfr of dolors, or zfro if dustom dursors brf not
+     * supportfd by this Toolkit implfmfntbtion.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.2
+     */
+    publid int gftMbximumCursorColors() throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        // Ovfrridf to implfmfnt dustom dursor support.
+        if (this != Toolkit.gftDffbultToolkit()) {
+            rfturn Toolkit.gftDffbultToolkit().gftMbximumCursorColors();
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    /**
+     * Rfturns whfthfr Toolkit supports this stbtf for
+     * <dodf>Frbmf</dodf>s.  This mfthod tflls whfthfr thf <fm>UI
+     * dondfpt</fm> of, sby, mbximizbtion or idonifidbtion is
+     * supportfd.  It will blwbys rfturn fblsf for "dompound" stbtfs
+     * likf <dodf>Frbmf.ICONIFIED|Frbmf.MAXIMIZED_VERT</dodf>.
+     * In othfr words, thf rulf of thumb is thbt only qufrifs with b
+     * singlf frbmf stbtf donstbnt bs bn brgumfnt brf mfbningful.
+     * <p>Notf thbt supporting b givfn dondfpt is b plbtform-
+     * dfpfndfnt ffbturf. Duf to nbtivf limitbtions thf Toolkit
+     * objfdt mby rfport b pbrtidulbr stbtf bs supportfd, howfvfr bt
+     * thf sbmf timf thf Toolkit objfdt will bf unbblf to bpply thf
+     * stbtf to b givfn frbmf.  This dirdumstbndf hbs two following
+     * donsfqufndfs:
+     * <ul>
+     * <li>Only thf rfturn vbluf of {@dodf fblsf} for thf prfsfnt
+     * mfthod bdtublly indidbtfs thbt thf givfn stbtf is not
+     * supportfd. If thf mfthod rfturns {@dodf truf} thf givfn stbtf
+     * mby still bf unsupportfd bnd/or unbvbilbblf for b pbrtidulbr
+     * frbmf.
+     * <li>Thf dfvflopfr should donsidfr fxbmining thf vbluf of thf
+     * {@link jbvb.bwt.fvfnt.WindowEvfnt#gftNfwStbtf} mfthod of thf
+     * {@dodf WindowEvfnt} rfdfivfd through thf {@link
+     * jbvb.bwt.fvfnt.WindowStbtfListfnfr}, rbthfr thbn bssuming
+     * thbt thf stbtf givfn to thf {@dodf sftExtfndfdStbtf()} mfthod
+     * will bf dffinitfly bpplifd. For morf informbtion sff thf
+     * dodumfntbtion for thf {@link Frbmf#sftExtfndfdStbtf} mfthod.
+     * </ul>
+     *
+     * @pbrbm stbtf onf of nbmfd frbmf stbtf donstbnts.
+     * @rfturn <dodf>truf</dodf> is this frbmf stbtf is supportfd by
+     *     this Toolkit implfmfntbtion, <dodf>fblsf</dodf> othfrwisf.
+     * @fxdfption HfbdlfssExdfption
+     *     if <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf>
+     *     rfturns <dodf>truf</dodf>.
+     * @sff jbvb.bwt.Window#bddWindowStbtfListfnfr
+     * @sindf   1.4
+     */
+    publid boolfbn isFrbmfStbtfSupportfd(int stbtf)
+        throws HfbdlfssExdfption
+    {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        if (this != Toolkit.gftDffbultToolkit()) {
+            rfturn Toolkit.gftDffbultToolkit().
+                isFrbmfStbtfSupportfd(stbtf);
+        } flsf {
+            rfturn (stbtf == Frbmf.NORMAL); // othfrs brf not gubrbntffd
+        }
+    }
+
+    /**
+     * Support for I18N: bny visiblf strings should bf storfd in
+     * sun.bwt.rfsourdfs.bwt.propfrtifs.  Thf RfsourdfBundlf is storfd
+     * hfrf, so thbt only onf dopy is mbintbinfd.
+     */
+    privbtf stbtid RfsourdfBundlf rfsourdfs;
+    privbtf stbtid RfsourdfBundlf plbtformRfsourdfs;
+
+    // dbllfd by plbtform toolkit
+    privbtf stbtid void sftPlbtformRfsourdfs(RfsourdfBundlf bundlf) {
+        plbtformRfsourdfs = bundlf;
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod ids
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    /**
+     * WARNING: This is b tfmporbry workbround for b problfm in thf
+     * wby thf AWT lobds nbtivf librbrifs. A numbfr of dlbssfs in thf
+     * AWT pbdkbgf hbvf b nbtivf mfthod, initIDs(), whidh initiblizfs
+     * thf JNI fifld bnd mfthod ids usfd in thf nbtivf portion of
+     * thfir implfmfntbtion.
+     *
+     * Sindf thf usf bnd storbgf of thfsf ids is donf by thf
+     * implfmfntbtion librbrifs, thf implfmfntbtion of thfsf mfthod is
+     * providfd by thf pbrtidulbr AWT implfmfntbtions (for fxbmplf,
+     * "Toolkit"s/Pffr), sudh bs Motif, Midrosoft Windows, or Tiny. Thf
+     * problfm is thbt this mfbns thbt thf nbtivf librbrifs must bf
+     * lobdfd by thf jbvb.* dlbssfs, whidh do not nfdfssbrily know thf
+     * nbmfs of thf librbrifs to lobd. A bfttfr wby of doing this
+     * would bf to providf b sfpbrbtf librbry whidh dffinfs jbvb.bwt.*
+     * initIDs, bnd fxports thf rflfvbnt symbols out to thf
+     * implfmfntbtion librbrifs.
+     *
+     * For now, wf know it's donf by thf implfmfntbtion, bnd wf bssumf
+     * thbt thf nbmf of thf librbry is "bwt".  -br.
+     *
+     * If you dhbngf lobdLibrbrifs(), plfbsf bdd thf dhbngf to
+     * jbvb.bwt.imbgf.ColorModfl.lobdLibrbrifs(). Unfortunbtfly,
+     * dlbssfs dbn bf lobdfd in jbvb.bwt.imbgf thbt dfpfnd on
+     * libbwt bnd thfrf is no wby to dbll Toolkit.lobdLibrbrifs()
+     * dirfdtly.  -hung
+     */
+    privbtf stbtid boolfbn lobdfd = fblsf;
+    stbtid void lobdLibrbrifs() {
+        if (!lobdfd) {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        Systfm.lobdLibrbry("bwt");
+                        rfturn null;
+                    }
+                });
+            lobdfd = truf;
+        }
+    }
+
+    stbtid {
+        AWTAddfssor.sftToolkitAddfssor(
+                nfw AWTAddfssor.ToolkitAddfssor() {
+                    @Ovfrridf
+                    publid void sftPlbtformRfsourdfs(RfsourdfBundlf bundlf) {
+                        Toolkit.sftPlbtformRfsourdfs(bundlf);
+                    }
+                });
+
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                                 nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                try {
+                    rfsourdfs =
+                        RfsourdfBundlf.gftBundlf("sun.bwt.rfsourdfs.bwt",
+                                                 CorfRfsourdfBundlfControl.gftRBControlInstbndf());
+                } dbtdh (MissingRfsourdfExdfption f) {
+                    // No rfsourdf filf; dffbults will bf usfd.
+                }
+                rfturn null;
+            }
+        });
+
+        // fnsurf thbt thf propfr librbrifs brf lobdfd
+        lobdLibrbrifs();
+        initAssistivfTfdhnologifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Gfts b propfrty with thf spfdififd kfy bnd dffbult.
+     * This mfthod rfturns dffbultVbluf if thf propfrty is not found.
+     *
+     * @pbrbm  kfy thf kfy
+     * @pbrbm  dffbultVbluf thf dffbult vbluf
+     * @rfturn thf vbluf of thf propfrty or thf dffbult vbluf
+     *         if thf propfrty wbs not found
+     */
+    publid stbtid String gftPropfrty(String kfy, String dffbultVbluf) {
+        // first try plbtform spfdifid bundlf
+        if (plbtformRfsourdfs != null) {
+            try {
+                rfturn plbtformRfsourdfs.gftString(kfy);
+            }
+            dbtdh (MissingRfsourdfExdfption f) {}
+        }
+
+        // thfn shbrfd onf
+        if (rfsourdfs != null) {
+            try {
+                rfturn rfsourdfs.gftString(kfy);
+            }
+            dbtdh (MissingRfsourdfExdfption f) {}
+        }
+
+        rfturn dffbultVbluf;
+    }
+
+    /**
+     * Gft thf bpplidbtion's or bpplft's EvfntQufuf instbndf.
+     * Dfpfnding on thf Toolkit implfmfntbtion, difffrfnt EvfntQufufs
+     * mby bf rfturnfd for difffrfnt bpplfts.  Applfts should
+     * thfrfforf not bssumf thbt thf EvfntQufuf instbndf rfturnfd
+     * by this mfthod will bf shbrfd by othfr bpplfts or thf systfm.
+     *
+     * <p> If thfrf is b sfdurity mbnbgfr thfn its
+     * {@link SfdurityMbnbgfr#dhfdkPfrmission dhfdkPfrmission} mfthod
+     * is dbllfd to dhfdk {@dodf AWTPfrmission("bddfssEvfntQufuf")}.
+     *
+     * @rfturn    thf <dodf>EvfntQufuf</dodf> objfdt
+     * @throws  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is sft bnd it dfnifs bddfss to
+     *          thf {@dodf EvfntQufuf}
+     * @sff     jbvb.bwt.AWTPfrmission
+    */
+    publid finbl EvfntQufuf gftSystfmEvfntQufuf() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(AWTPfrmissions.CHECK_AWT_EVENTQUEUE_PERMISSION);
+        }
+        rfturn gftSystfmEvfntQufufImpl();
+    }
+
+    /**
+     * Gfts thf bpplidbtion's or bpplft's <dodf>EvfntQufuf</dodf>
+     * instbndf, without dhfdking bddfss.  For sfdurity rfbsons,
+     * this dbn only bf dbllfd from b <dodf>Toolkit</dodf> subdlbss.
+     * @rfturn thf <dodf>EvfntQufuf</dodf> objfdt
+     */
+    protfdtfd bbstrbdt EvfntQufuf gftSystfmEvfntQufufImpl();
+
+    /* Addfssor mfthod for usf by AWT pbdkbgf routinfs. */
+    stbtid EvfntQufuf gftEvfntQufuf() {
+        rfturn gftDffbultToolkit().gftSystfmEvfntQufufImpl();
+    }
+
+    /**
+     * Crfbtfs thf pffr for b DrbgSourdfContfxt.
+     * Alwbys throws InvblidDndOpfrbtionExdfption if
+     * GrbphidsEnvironmfnt.isHfbdlfss() rfturns truf.
+     *
+     * @pbrbm  dgf thf {@dodf DrbgGfsturfEvfnt}
+     * @rfturn thf pffr drfbtfd
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid bbstrbdt DrbgSourdfContfxtPffr drfbtfDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) throws InvblidDnDOpfrbtionExdfption;
+
+    /**
+     * Crfbtfs b dondrftf, plbtform dfpfndfnt, subdlbss of thf bbstrbdt
+     * DrbgGfsturfRfdognizfr dlbss rfqufstfd, bnd bssodibtfs it with thf
+     * DrbgSourdf, Componfnt bnd DrbgGfsturfListfnfr spfdififd.
+     *
+     * subdlbssfs should ovfrridf this to providf thfir own implfmfntbtion
+     *
+     * @pbrbm bbstrbdtRfdognizfrClbss Thf bbstrbdt dlbss of thf rfquirfd rfdognizfr
+     * @pbrbm ds                      Thf DrbgSourdf
+     * @pbrbm d                       Thf Componfnt tbrgft for thf DrbgGfsturfRfdognizfr
+     * @pbrbm srdAdtions              Thf bdtions pfrmittfd for thf gfsturf
+     * @pbrbm dgl                     Thf DrbgGfsturfListfnfr
+     *
+     * @rfturn thf nfw objfdt or null.  Alwbys rfturns null if
+     * GrbphidsEnvironmfnt.isHfbdlfss() rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid <T fxtfnds DrbgGfsturfRfdognizfr> T
+        drfbtfDrbgGfsturfRfdognizfr(Clbss<T> bbstrbdtRfdognizfrClbss,
+                                    DrbgSourdf ds, Componfnt d, int srdAdtions,
+                                    DrbgGfsturfListfnfr dgl)
+    {
+        rfturn null;
+    }
+
+    /**
+     * Obtbins b vbluf for thf spfdififd dfsktop propfrty.
+     *
+     * A dfsktop propfrty is b uniqufly nbmfd vbluf for b rfsourdf thbt
+     * is Toolkit globbl in nbturf. Usublly it blso is bn bbstrbdt
+     * rfprfsfntbtion for bn undfrlying plbtform dfpfndfnt dfsktop sftting.
+     * For morf informbtion on dfsktop propfrtifs supportfd by thf AWT sff
+     * <b hrff="dod-filfs/DfsktopPropfrtifs.html">AWT Dfsktop Propfrtifs</b>.
+     *
+     * @pbrbm  propfrtyNbmf thf propfrty nbmf
+     * @rfturn thf vbluf for thf spfdififd dfsktop propfrty
+     */
+    publid finbl syndhronizfd Objfdt gftDfsktopPropfrty(String propfrtyNbmf) {
+        // This is b workbround for hfbdlfss toolkits.  It would bf
+        // bfttfr to ovfrridf this mfthod but it is dfdlbrfd finbl.
+        // "this instbndfof" syntbx dfffbts polymorphism.
+        // --mm, 03/03/00
+        if (this instbndfof HfbdlfssToolkit) {
+            rfturn ((HfbdlfssToolkit)this).gftUndfrlyingToolkit()
+                .gftDfsktopPropfrty(propfrtyNbmf);
+        }
+
+        if (dfsktopPropfrtifs.isEmpty()) {
+            initiblizfDfsktopPropfrtifs();
+        }
+
+        Objfdt vbluf;
+
+        // This propfrty should nfvfr bf dbdhfd
+        if (propfrtyNbmf.fqubls("bwt.dynbmidLbyoutSupportfd")) {
+            rfturn gftDffbultToolkit().lbzilyLobdDfsktopPropfrty(propfrtyNbmf);
+        }
+
+        vbluf = dfsktopPropfrtifs.gft(propfrtyNbmf);
+
+        if (vbluf == null) {
+            vbluf = lbzilyLobdDfsktopPropfrty(propfrtyNbmf);
+
+            if (vbluf != null) {
+                sftDfsktopPropfrty(propfrtyNbmf, vbluf);
+            }
+        }
+
+        /* for propfrty "bwt.font.dfsktophints" */
+        if (vbluf instbndfof RfndfringHints) {
+            vbluf = ((RfndfringHints)vbluf).dlonf();
+        }
+
+        rfturn vbluf;
+    }
+
+    /**
+     * Sfts thf nbmfd dfsktop propfrty to thf spfdififd vbluf bnd firfs b
+     * propfrty dhbngf fvfnt to notify bny listfnfrs thbt thf vbluf hbs dhbngfd.
+     *
+     * @pbrbm  nbmf thf propfrty nbmf
+     * @pbrbm  nfwVbluf thf nfw propfrty vbluf
+     */
+    protfdtfd finbl void sftDfsktopPropfrty(String nbmf, Objfdt nfwVbluf) {
+        // This is b workbround for hfbdlfss toolkits.  It would bf
+        // bfttfr to ovfrridf this mfthod but it is dfdlbrfd finbl.
+        // "this instbndfof" syntbx dfffbts polymorphism.
+        // --mm, 03/03/00
+        if (this instbndfof HfbdlfssToolkit) {
+            ((HfbdlfssToolkit)this).gftUndfrlyingToolkit()
+                .sftDfsktopPropfrty(nbmf, nfwVbluf);
+            rfturn;
+        }
+        Objfdt oldVbluf;
+
+        syndhronizfd (this) {
+            oldVbluf = dfsktopPropfrtifs.gft(nbmf);
+            dfsktopPropfrtifs.put(nbmf, nfwVbluf);
+        }
+
+        // Don't firf dhbngf fvfnt if old bnd nfw vblufs brf null.
+        // It hflps to bvoid rfdursivf rfsfnding of WM_THEMECHANGED
+        if (oldVbluf != null || nfwVbluf != null) {
+            dfsktopPropsSupport.firfPropfrtyChbngf(nbmf, oldVbluf, nfwVbluf);
+        }
+    }
+
+    /**
+     * bn opportunity to lbzily fvblubtf dfsktop propfrty vblufs.
+     */
+    protfdtfd Objfdt lbzilyLobdDfsktopPropfrty(String nbmf) {
+        rfturn null;
+    }
+
+    /**
+     * initiblizfDfsktopPropfrtifs
+     */
+    protfdtfd void initiblizfDfsktopPropfrtifs() {
+    }
+
+    /**
+     * Adds thf spfdififd propfrty dhbngf listfnfr for thf nbmfd dfsktop
+     * propfrty. Whfn b {@link jbvb.bfbns.PropfrtyChbngfListfnfrProxy} objfdt is bddfd,
+     * its propfrty nbmf is ignorfd, bnd thf wrbppfd listfnfr is bddfd.
+     * If {@dodf nbmf} is {@dodf null} or {@dodf pdl} is {@dodf null},
+     * no fxdfption is thrown bnd no bdtion is pfrformfd.
+     *
+     * @pbrbm   nbmf Thf nbmf of thf propfrty to listfn for
+     * @pbrbm   pdl Thf propfrty dhbngf listfnfr
+     * @sff PropfrtyChbngfSupport#bddPropfrtyChbngfListfnfr(String,
+                PropfrtyChbngfListfnfr)
+     * @sindf   1.2
+     */
+    publid void bddPropfrtyChbngfListfnfr(String nbmf, PropfrtyChbngfListfnfr pdl) {
+        dfsktopPropsSupport.bddPropfrtyChbngfListfnfr(nbmf, pdl);
+    }
+
+    /**
+     * Rfmovfs thf spfdififd propfrty dhbngf listfnfr for thf nbmfd
+     * dfsktop propfrty. Whfn b {@link jbvb.bfbns.PropfrtyChbngfListfnfrProxy} objfdt
+     * is rfmovfd, its propfrty nbmf is ignorfd, bnd
+     * thf wrbppfd listfnfr is rfmovfd.
+     * If {@dodf nbmf} is {@dodf null} or {@dodf pdl} is {@dodf null},
+     * no fxdfption is thrown bnd no bdtion is pfrformfd.
+     *
+     * @pbrbm   nbmf Thf nbmf of thf propfrty to rfmovf
+     * @pbrbm   pdl Thf propfrty dhbngf listfnfr
+     * @sff PropfrtyChbngfSupport#rfmovfPropfrtyChbngfListfnfr(String,
+                PropfrtyChbngfListfnfr)
+     * @sindf   1.2
+     */
+    publid void rfmovfPropfrtyChbngfListfnfr(String nbmf, PropfrtyChbngfListfnfr pdl) {
+        dfsktopPropsSupport.rfmovfPropfrtyChbngfListfnfr(nbmf, pdl);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf propfrty dhbngf listfnfrs
+     * rfgistfrfd on this toolkit. Thf rfturnfd brrby
+     * dontbins {@link jbvb.bfbns.PropfrtyChbngfListfnfrProxy} objfdts
+     * thbt bssodibtf listfnfrs with thf nbmfs of dfsktop propfrtifs.
+     *
+     * @rfturn bll of this toolkit's {@link PropfrtyChbngfListfnfr}
+     *         objfdts wrbppfd in {@dodf jbvb.bfbns.PropfrtyChbngfListfnfrProxy} objfdts
+     *         or bn fmpty brrby  if no listfnfrs brf bddfd
+     *
+     * @sff PropfrtyChbngfSupport#gftPropfrtyChbngfListfnfrs()
+     * @sindf 1.4
+     */
+    publid PropfrtyChbngfListfnfr[] gftPropfrtyChbngfListfnfrs() {
+        rfturn dfsktopPropsSupport.gftPropfrtyChbngfListfnfrs();
+    }
+
+    /**
+     * Rfturns bn brrby of bll propfrty dhbngf listfnfrs
+     * bssodibtfd with thf spfdififd nbmf of b dfsktop propfrty.
+     *
+     * @pbrbm  propfrtyNbmf thf nbmfd propfrty
+     * @rfturn bll of thf {@dodf PropfrtyChbngfListfnfr} objfdts
+     *         bssodibtfd with thf spfdififd nbmf of b dfsktop propfrty
+     *         or bn fmpty brrby if no sudh listfnfrs brf bddfd
+     *
+     * @sff PropfrtyChbngfSupport#gftPropfrtyChbngfListfnfrs(String)
+     * @sindf 1.4
+     */
+    publid PropfrtyChbngfListfnfr[] gftPropfrtyChbngfListfnfrs(String propfrtyNbmf) {
+        rfturn dfsktopPropsSupport.gftPropfrtyChbngfListfnfrs(propfrtyNbmf);
+    }
+
+    protfdtfd finbl Mbp<String,Objfdt> dfsktopPropfrtifs =
+            nfw HbshMbp<String,Objfdt>();
+    protfdtfd finbl PropfrtyChbngfSupport dfsktopPropsSupport =
+            Toolkit.drfbtfPropfrtyChbngfSupport(this);
+
+    /**
+     * Rfturns whfthfr thf blwbys-on-top modf is supportfd by this toolkit.
+     * To dftfdt whfthfr thf blwbys-on-top modf is supportfd for b
+     * pbrtidulbr Window, usf {@link Window#isAlwbysOnTopSupportfd}.
+     * @rfturn <dodf>truf</dodf>, if durrfnt toolkit supports thf blwbys-on-top modf,
+     *     othfrwisf rfturns <dodf>fblsf</dodf>
+     * @sff Window#isAlwbysOnTopSupportfd
+     * @sff Window#sftAlwbysOnTop(boolfbn)
+     * @sindf 1.6
+     */
+    publid boolfbn isAlwbysOnTopSupportfd() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns whfthfr thf givfn modblity typf is supportfd by this toolkit. If
+     * b diblog with unsupportfd modblity typf is drfbtfd, thfn
+     * <dodf>Diblog.ModblityTypf.MODELESS</dodf> is usfd instfbd.
+     *
+     * @pbrbm modblityTypf modblity typf to bf dhfdkfd for support by this toolkit
+     *
+     * @rfturn <dodf>truf</dodf>, if durrfnt toolkit supports givfn modblity
+     *     typf, <dodf>fblsf</dodf> othfrwisf
+     *
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#gftModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     *
+     * @sindf 1.6
+     */
+    publid bbstrbdt boolfbn isModblityTypfSupportfd(Diblog.ModblityTypf modblityTypf);
+
+    /**
+     * Rfturns whfthfr thf givfn modbl fxdlusion typf is supportfd by this
+     * toolkit. If bn unsupportfd modbl fxdlusion typf propfrty is sft on b window,
+     * thfn <dodf>Diblog.ModblExdlusionTypf.NO_EXCLUDE</dodf> is usfd instfbd.
+     *
+     * @pbrbm modblExdlusionTypf modbl fxdlusion typf to bf dhfdkfd for support by this toolkit
+     *
+     * @rfturn <dodf>truf</dodf>, if durrfnt toolkit supports givfn modbl fxdlusion
+     *     typf, <dodf>fblsf</dodf> othfrwisf
+     *
+     * @sff jbvb.bwt.Diblog.ModblExdlusionTypf
+     * @sff jbvb.bwt.Window#gftModblExdlusionTypf
+     * @sff jbvb.bwt.Window#sftModblExdlusionTypf
+     *
+     * @sindf 1.6
+     */
+    publid bbstrbdt boolfbn isModblExdlusionTypfSupportfd(Diblog.ModblExdlusionTypf modblExdlusionTypf);
+
+    // 8014718: logging hbs bffn rfmovfd from SunToolkit
+
+    privbtf stbtid finbl int LONG_BITS = 64;
+    privbtf int[] dblls = nfw int[LONG_BITS];
+    privbtf stbtid volbtilf long fnbblfdOnToolkitMbsk;
+    privbtf AWTEvfntListfnfr fvfntListfnfr = null;
+    privbtf WfbkHbshMbp<AWTEvfntListfnfr, SflfdtivfAWTEvfntListfnfr> listfnfr2SflfdtivfListfnfr = nfw WfbkHbshMbp<>();
+
+    /*
+     * Extrbdts b "purf" AWTEvfntListfnfr from b AWTEvfntListfnfrProxy,
+     * if thf listfnfr is proxifd.
+     */
+    stbtid privbtf AWTEvfntListfnfr dfProxyAWTEvfntListfnfr(AWTEvfntListfnfr l)
+    {
+        AWTEvfntListfnfr lodblL = l;
+
+        if (lodblL == null) {
+            rfturn null;
+        }
+        // if usfr pbssfd in b AWTEvfntListfnfrProxy objfdt, fxtrbdt
+        // thf listfnfr
+        if (l instbndfof AWTEvfntListfnfrProxy) {
+            lodblL = ((AWTEvfntListfnfrProxy)l).gftListfnfr();
+        }
+        rfturn lodblL;
+    }
+
+    /**
+     * Adds bn AWTEvfntListfnfr to rfdfivf bll AWTEvfnts dispbtdhfd
+     * systfm-widf thbt donform to thf givfn <dodf>fvfntMbsk</dodf>.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkPfrmission</dodf>
+     * mfthod is dbllfd with bn
+     * <dodf>AWTPfrmission("listfnToAllAWTEvfnts")</dodf> pfrmission.
+     * This mby rfsult in b SfdurityExdfption.
+     * <p>
+     * <dodf>fvfntMbsk</dodf> is b bitmbsk of fvfnt typfs to rfdfivf.
+     * It is donstrudtfd by bitwisf OR-ing togfthfr thf fvfnt mbsks
+     * dffinfd in <dodf>AWTEvfnt</dodf>.
+     * <p>
+     * Notf:  fvfnt listfnfr usf is not rfdommfndfd for normbl
+     * bpplidbtion usf, but brf intfndfd solfly to support spfdibl
+     * purposf fbdilitifs indluding support for bddfssibility,
+     * fvfnt rfdord/plbybbdk, bnd dibgnostid trbding.
+     *
+     * If listfnfr is null, no fxdfption is thrown bnd no bdtion is pfrformfd.
+     *
+     * @pbrbm    listfnfr   thf fvfnt listfnfr.
+     * @pbrbm    fvfntMbsk  thf bitmbsk of fvfnt typfs to rfdfivf
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <dodf>dhfdkPfrmission</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @sff      #rfmovfAWTEvfntListfnfr
+     * @sff      #gftAWTEvfntListfnfrs
+     * @sff      SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff      jbvb.bwt.AWTEvfnt
+     * @sff      jbvb.bwt.AWTPfrmission
+     * @sff      jbvb.bwt.fvfnt.AWTEvfntListfnfr
+     * @sff      jbvb.bwt.fvfnt.AWTEvfntListfnfrProxy
+     * @sindf    1.2
+     */
+    publid void bddAWTEvfntListfnfr(AWTEvfntListfnfr listfnfr, long fvfntMbsk) {
+        AWTEvfntListfnfr lodblL = dfProxyAWTEvfntListfnfr(listfnfr);
+
+        if (lodblL == null) {
+            rfturn;
+        }
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+          sfdurity.dhfdkPfrmission(AWTPfrmissions.ALL_AWT_EVENTS_PERMISSION);
+        }
+        syndhronizfd (this) {
+            SflfdtivfAWTEvfntListfnfr sflfdtivfListfnfr =
+                listfnfr2SflfdtivfListfnfr.gft(lodblL);
+
+            if (sflfdtivfListfnfr == null) {
+                // Crfbtf b nfw sflfdtivfListfnfr.
+                sflfdtivfListfnfr = nfw SflfdtivfAWTEvfntListfnfr(lodblL,
+                                                                 fvfntMbsk);
+                listfnfr2SflfdtivfListfnfr.put(lodblL, sflfdtivfListfnfr);
+                fvfntListfnfr = ToolkitEvfntMultidbstfr.bdd(fvfntListfnfr,
+                                                            sflfdtivfListfnfr);
+            }
+            // OR thf fvfntMbsk into thf sflfdtivfListfnfr's fvfnt mbsk.
+            sflfdtivfListfnfr.orEvfntMbsks(fvfntMbsk);
+
+            fnbblfdOnToolkitMbsk |= fvfntMbsk;
+
+            long mbsk = fvfntMbsk;
+            for (int i=0; i<LONG_BITS; i++) {
+                // If no bits brf sft, brfbk out of loop.
+                if (mbsk == 0) {
+                    brfbk;
+                }
+                if ((mbsk & 1L) != 0) {  // Alwbys tfst bit 0.
+                    dblls[i]++;
+                }
+                mbsk >>>= 1;  // Right shift, fill with zfros on lfft.
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs bn AWTEvfntListfnfr from rfdfiving dispbtdhfd AWTEvfnts.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkPfrmission</dodf>
+     * mfthod is dbllfd with bn
+     * <dodf>AWTPfrmission("listfnToAllAWTEvfnts")</dodf> pfrmission.
+     * This mby rfsult in b SfdurityExdfption.
+     * <p>
+     * Notf:  fvfnt listfnfr usf is not rfdommfndfd for normbl
+     * bpplidbtion usf, but brf intfndfd solfly to support spfdibl
+     * purposf fbdilitifs indluding support for bddfssibility,
+     * fvfnt rfdord/plbybbdk, bnd dibgnostid trbding.
+     *
+     * If listfnfr is null, no fxdfption is thrown bnd no bdtion is pfrformfd.
+     *
+     * @pbrbm    listfnfr   thf fvfnt listfnfr.
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <dodf>dhfdkPfrmission</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @sff      #bddAWTEvfntListfnfr
+     * @sff      #gftAWTEvfntListfnfrs
+     * @sff      SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff      jbvb.bwt.AWTEvfnt
+     * @sff      jbvb.bwt.AWTPfrmission
+     * @sff      jbvb.bwt.fvfnt.AWTEvfntListfnfr
+     * @sff      jbvb.bwt.fvfnt.AWTEvfntListfnfrProxy
+     * @sindf    1.2
+     */
+    publid void rfmovfAWTEvfntListfnfr(AWTEvfntListfnfr listfnfr) {
+        AWTEvfntListfnfr lodblL = dfProxyAWTEvfntListfnfr(listfnfr);
+
+        if (listfnfr == null) {
+            rfturn;
+        }
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(AWTPfrmissions.ALL_AWT_EVENTS_PERMISSION);
+        }
+
+        syndhronizfd (this) {
+            SflfdtivfAWTEvfntListfnfr sflfdtivfListfnfr =
+                listfnfr2SflfdtivfListfnfr.gft(lodblL);
+
+            if (sflfdtivfListfnfr != null) {
+                listfnfr2SflfdtivfListfnfr.rfmovf(lodblL);
+                int[] listfnfrCblls = sflfdtivfListfnfr.gftCblls();
+                for (int i=0; i<LONG_BITS; i++) {
+                    dblls[i] -= listfnfrCblls[i];
+                    bssfrt dblls[i] >= 0: "Nfgbtivf Listfnfrs dount";
+
+                    if (dblls[i] == 0) {
+                        fnbblfdOnToolkitMbsk &= ~(1L<<i);
+                    }
+                }
+            }
+            fvfntListfnfr = ToolkitEvfntMultidbstfr.rfmovf(fvfntListfnfr,
+            (sflfdtivfListfnfr == null) ? lodblL : sflfdtivfListfnfr);
+        }
+    }
+
+    stbtid boolfbn fnbblfdOnToolkit(long fvfntMbsk) {
+        rfturn (fnbblfdOnToolkitMbsk & fvfntMbsk) != 0;
+        }
+
+    syndhronizfd int dountAWTEvfntListfnfrs(long fvfntMbsk) {
+        int di = 0;
+        for (; fvfntMbsk != 0; fvfntMbsk >>>= 1, di++) {
+        }
+        di--;
+        rfturn dblls[di];
+    }
+    /**
+     * Rfturns bn brrby of bll thf <dodf>AWTEvfntListfnfr</dodf>s
+     * rfgistfrfd on this toolkit.
+     * If thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkPfrmission}
+     * mfthod is dbllfd with bn
+     * {@dodf AWTPfrmission("listfnToAllAWTEvfnts")} pfrmission.
+     * This mby rfsult in b SfdurityExdfption.
+     * Listfnfrs dbn bf rfturnfd
+     * within <dodf>AWTEvfntListfnfrProxy</dodf> objfdts, whidh blso dontbin
+     * thf fvfnt mbsk for thf givfn listfnfr.
+     * Notf thbt listfnfr objfdts
+     * bddfd multiplf timfs bppfbr only ondf in thf rfturnfd brrby.
+     *
+     * @rfturn bll of thf <dodf>AWTEvfntListfnfr</dodf>s or bn fmpty
+     *         brrby if no listfnfrs brf durrfntly rfgistfrfd
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <dodf>dhfdkPfrmission</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @sff      #bddAWTEvfntListfnfr
+     * @sff      #rfmovfAWTEvfntListfnfr
+     * @sff      SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff      jbvb.bwt.AWTEvfnt
+     * @sff      jbvb.bwt.AWTPfrmission
+     * @sff      jbvb.bwt.fvfnt.AWTEvfntListfnfr
+     * @sff      jbvb.bwt.fvfnt.AWTEvfntListfnfrProxy
+     * @sindf 1.4
+     */
+    publid AWTEvfntListfnfr[] gftAWTEvfntListfnfrs() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(AWTPfrmissions.ALL_AWT_EVENTS_PERMISSION);
+        }
+        syndhronizfd (this) {
+            EvfntListfnfr[] lb = ToolkitEvfntMultidbstfr.gftListfnfrs(fvfntListfnfr,AWTEvfntListfnfr.dlbss);
+
+            AWTEvfntListfnfr[] rft = nfw AWTEvfntListfnfr[lb.lfngth];
+            for (int i = 0; i < lb.lfngth; i++) {
+                SflfdtivfAWTEvfntListfnfr sbfl = (SflfdtivfAWTEvfntListfnfr)lb[i];
+                AWTEvfntListfnfr tfmpL = sbfl.gftListfnfr();
+                //bssfrt tfmpL is not bn AWTEvfntListfnfrProxy - wf should
+                // hbvf wffdfd thfm bll out
+                // don't wbnt to wrbp b proxy insidf b proxy
+                rft[i] = nfw AWTEvfntListfnfrProxy(sbfl.gftEvfntMbsk(), tfmpL);
+            }
+            rfturn rft;
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf <dodf>AWTEvfntListfnfr</dodf>s
+     * rfgistfrfd on this toolkit whidh listfn to bll of thf fvfnt
+     * typfs spfdififd in thf {@dodf fvfntMbsk} brgumfnt.
+     * If thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkPfrmission}
+     * mfthod is dbllfd with bn
+     * {@dodf AWTPfrmission("listfnToAllAWTEvfnts")} pfrmission.
+     * This mby rfsult in b SfdurityExdfption.
+     * Listfnfrs dbn bf rfturnfd
+     * within <dodf>AWTEvfntListfnfrProxy</dodf> objfdts, whidh blso dontbin
+     * thf fvfnt mbsk for thf givfn listfnfr.
+     * Notf thbt listfnfr objfdts
+     * bddfd multiplf timfs bppfbr only ondf in thf rfturnfd brrby.
+     *
+     * @pbrbm  fvfntMbsk thf bitmbsk of fvfnt typfs to listfn for
+     * @rfturn bll of thf <dodf>AWTEvfntListfnfr</dodf>s rfgistfrfd
+     *         on this toolkit for thf spfdififd
+     *         fvfnt typfs, or bn fmpty brrby if no sudh listfnfrs
+     *         brf durrfntly rfgistfrfd
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <dodf>dhfdkPfrmission</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @sff      #bddAWTEvfntListfnfr
+     * @sff      #rfmovfAWTEvfntListfnfr
+     * @sff      SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff      jbvb.bwt.AWTEvfnt
+     * @sff      jbvb.bwt.AWTPfrmission
+     * @sff      jbvb.bwt.fvfnt.AWTEvfntListfnfr
+     * @sff      jbvb.bwt.fvfnt.AWTEvfntListfnfrProxy
+     * @sindf 1.4
+     */
+    publid AWTEvfntListfnfr[] gftAWTEvfntListfnfrs(long fvfntMbsk) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(AWTPfrmissions.ALL_AWT_EVENTS_PERMISSION);
+        }
+        syndhronizfd (this) {
+            EvfntListfnfr[] lb = ToolkitEvfntMultidbstfr.gftListfnfrs(fvfntListfnfr,AWTEvfntListfnfr.dlbss);
+
+            jbvb.util.List<AWTEvfntListfnfrProxy> list = nfw ArrbyList<>(lb.lfngth);
+
+            for (int i = 0; i < lb.lfngth; i++) {
+                SflfdtivfAWTEvfntListfnfr sbfl = (SflfdtivfAWTEvfntListfnfr)lb[i];
+                if ((sbfl.gftEvfntMbsk() & fvfntMbsk) == fvfntMbsk) {
+                    //AWTEvfntListfnfr tfmpL = sbfl.gftListfnfr();
+                    list.bdd(nfw AWTEvfntListfnfrProxy(sbfl.gftEvfntMbsk(),
+                                                       sbfl.gftListfnfr()));
+                }
+            }
+            rfturn list.toArrby(nfw AWTEvfntListfnfr[0]);
+        }
+    }
+
+    /*
+     * This mfthod notififs bny AWTEvfntListfnfrs thbt bn fvfnt
+     * is bbout to bf dispbtdhfd.
+     *
+     * @pbrbm thfEvfnt thf fvfnt whidh will bf dispbtdhfd.
+     */
+    void notifyAWTEvfntListfnfrs(AWTEvfnt thfEvfnt) {
+        // This is b workbround for hfbdlfss toolkits.  It would bf
+        // bfttfr to ovfrridf this mfthod but it is dfdlbrfd pbdkbgf privbtf.
+        // "this instbndfof" syntbx dfffbts polymorphism.
+        // --mm, 03/03/00
+        if (this instbndfof HfbdlfssToolkit) {
+            ((HfbdlfssToolkit)this).gftUndfrlyingToolkit()
+                .notifyAWTEvfntListfnfrs(thfEvfnt);
+            rfturn;
+        }
+
+        AWTEvfntListfnfr fvfntListfnfr = this.fvfntListfnfr;
+        if (fvfntListfnfr != null) {
+            fvfntListfnfr.fvfntDispbtdhfd(thfEvfnt);
+        }
+    }
+
+    stbtid privbtf dlbss ToolkitEvfntMultidbstfr fxtfnds AWTEvfntMultidbstfr
+        implfmfnts AWTEvfntListfnfr {
+        // Implfmfntbtion dlonfd from AWTEvfntMultidbstfr.
+
+        ToolkitEvfntMultidbstfr(AWTEvfntListfnfr b, AWTEvfntListfnfr b) {
+            supfr(b, b);
+        }
+
+        @SupprfssWbrnings("ovfrlobds")
+        stbtid AWTEvfntListfnfr bdd(AWTEvfntListfnfr b,
+                                    AWTEvfntListfnfr b) {
+            if (b == null)  rfturn b;
+            if (b == null)  rfturn b;
+            rfturn nfw ToolkitEvfntMultidbstfr(b, b);
+        }
+
+        @SupprfssWbrnings("ovfrlobds")
+        stbtid AWTEvfntListfnfr rfmovf(AWTEvfntListfnfr l,
+                                       AWTEvfntListfnfr oldl) {
+            rfturn (AWTEvfntListfnfr) rfmovfIntfrnbl(l, oldl);
+        }
+
+        // #4178589: must ovfrlobd rfmovf(EvfntListfnfr) to dbll our bdd()
+        // instfbd of thf stbtid bddIntfrnbl() so wf bllodbtf b
+        // ToolkitEvfntMultidbstfr instfbd of bn AWTEvfntMultidbstfr.
+        // Notf: this mfthod is dbllfd by AWTEvfntListfnfr.rfmovfIntfrnbl(),
+        // so its mfthod signbturf must mbtdh AWTEvfntListfnfr.rfmovf().
+        protfdtfd EvfntListfnfr rfmovf(EvfntListfnfr oldl) {
+            if (oldl == b)  rfturn b;
+            if (oldl == b)  rfturn b;
+            AWTEvfntListfnfr b2 = (AWTEvfntListfnfr)rfmovfIntfrnbl(b, oldl);
+            AWTEvfntListfnfr b2 = (AWTEvfntListfnfr)rfmovfIntfrnbl(b, oldl);
+            if (b2 == b && b2 == b) {
+                rfturn this;    // it's not hfrf
+            }
+            rfturn bdd(b2, b2);
+        }
+
+        publid void fvfntDispbtdhfd(AWTEvfnt fvfnt) {
+            ((AWTEvfntListfnfr)b).fvfntDispbtdhfd(fvfnt);
+            ((AWTEvfntListfnfr)b).fvfntDispbtdhfd(fvfnt);
+        }
+    }
+
+    privbtf dlbss SflfdtivfAWTEvfntListfnfr implfmfnts AWTEvfntListfnfr {
+        AWTEvfntListfnfr listfnfr;
+        privbtf long fvfntMbsk;
+        // This brrby dontbins thf numbfr of timfs to dbll thf fvfntlistfnfr
+        // for fbdh fvfnt typf.
+        int[] dblls = nfw int[Toolkit.LONG_BITS];
+
+        publid AWTEvfntListfnfr gftListfnfr() {rfturn listfnfr;}
+        publid long gftEvfntMbsk() {rfturn fvfntMbsk;}
+        publid int[] gftCblls() {rfturn dblls;}
+
+        publid void orEvfntMbsks(long mbsk) {
+            fvfntMbsk |= mbsk;
+            // For fbdh fvfnt bit sft in mbsk, indrfmfnt its dbll dount.
+            for (int i=0; i<Toolkit.LONG_BITS; i++) {
+                // If no bits brf sft, brfbk out of loop.
+                if (mbsk == 0) {
+                    brfbk;
+                }
+                if ((mbsk & 1L) != 0) {  // Alwbys tfst bit 0.
+                    dblls[i]++;
+                }
+                mbsk >>>= 1;  // Right shift, fill with zfros on lfft.
+            }
+        }
+
+        SflfdtivfAWTEvfntListfnfr(AWTEvfntListfnfr l, long mbsk) {
+            listfnfr = l;
+            fvfntMbsk = mbsk;
+        }
+
+        publid void fvfntDispbtdhfd(AWTEvfnt fvfnt) {
+            long fvfntBit = 0; // Usfd to sbvf thf bit of thf fvfnt typf.
+            if (((fvfntBit = fvfntMbsk & AWTEvfnt.COMPONENT_EVENT_MASK) != 0 &&
+                 fvfnt.id >= ComponfntEvfnt.COMPONENT_FIRST &&
+                 fvfnt.id <= ComponfntEvfnt.COMPONENT_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.CONTAINER_EVENT_MASK) != 0 &&
+                 fvfnt.id >= ContbinfrEvfnt.CONTAINER_FIRST &&
+                 fvfnt.id <= ContbinfrEvfnt.CONTAINER_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.FOCUS_EVENT_MASK) != 0 &&
+                 fvfnt.id >= FodusEvfnt.FOCUS_FIRST &&
+                 fvfnt.id <= FodusEvfnt.FOCUS_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.KEY_EVENT_MASK) != 0 &&
+                 fvfnt.id >= KfyEvfnt.KEY_FIRST &&
+                 fvfnt.id <= KfyEvfnt.KEY_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.MOUSE_WHEEL_EVENT_MASK) != 0 &&
+                 fvfnt.id == MousfEvfnt.MOUSE_WHEEL)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.MOUSE_MOTION_EVENT_MASK) != 0 &&
+                 (fvfnt.id == MousfEvfnt.MOUSE_MOVED ||
+                  fvfnt.id == MousfEvfnt.MOUSE_DRAGGED))
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.MOUSE_EVENT_MASK) != 0 &&
+                 fvfnt.id != MousfEvfnt.MOUSE_MOVED &&
+                 fvfnt.id != MousfEvfnt.MOUSE_DRAGGED &&
+                 fvfnt.id != MousfEvfnt.MOUSE_WHEEL &&
+                 fvfnt.id >= MousfEvfnt.MOUSE_FIRST &&
+                 fvfnt.id <= MousfEvfnt.MOUSE_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.WINDOW_EVENT_MASK) != 0 &&
+                 (fvfnt.id >= WindowEvfnt.WINDOW_FIRST &&
+                 fvfnt.id <= WindowEvfnt.WINDOW_LAST))
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.ACTION_EVENT_MASK) != 0 &&
+                 fvfnt.id >= AdtionEvfnt.ACTION_FIRST &&
+                 fvfnt.id <= AdtionEvfnt.ACTION_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.ADJUSTMENT_EVENT_MASK) != 0 &&
+                 fvfnt.id >= AdjustmfntEvfnt.ADJUSTMENT_FIRST &&
+                 fvfnt.id <= AdjustmfntEvfnt.ADJUSTMENT_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.ITEM_EVENT_MASK) != 0 &&
+                 fvfnt.id >= ItfmEvfnt.ITEM_FIRST &&
+                 fvfnt.id <= ItfmEvfnt.ITEM_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.TEXT_EVENT_MASK) != 0 &&
+                 fvfnt.id >= TfxtEvfnt.TEXT_FIRST &&
+                 fvfnt.id <= TfxtEvfnt.TEXT_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.INPUT_METHOD_EVENT_MASK) != 0 &&
+                 fvfnt.id >= InputMfthodEvfnt.INPUT_METHOD_FIRST &&
+                 fvfnt.id <= InputMfthodEvfnt.INPUT_METHOD_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.PAINT_EVENT_MASK) != 0 &&
+                 fvfnt.id >= PbintEvfnt.PAINT_FIRST &&
+                 fvfnt.id <= PbintEvfnt.PAINT_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.INVOCATION_EVENT_MASK) != 0 &&
+                 fvfnt.id >= InvodbtionEvfnt.INVOCATION_FIRST &&
+                 fvfnt.id <= InvodbtionEvfnt.INVOCATION_LAST)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.HIERARCHY_EVENT_MASK) != 0 &&
+                 fvfnt.id == HifrbrdhyEvfnt.HIERARCHY_CHANGED)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.HIERARCHY_BOUNDS_EVENT_MASK) != 0 &&
+                 (fvfnt.id == HifrbrdhyEvfnt.ANCESTOR_MOVED ||
+                  fvfnt.id == HifrbrdhyEvfnt.ANCESTOR_RESIZED))
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.WINDOW_STATE_EVENT_MASK) != 0 &&
+                 fvfnt.id == WindowEvfnt.WINDOW_STATE_CHANGED)
+             || ((fvfntBit = fvfntMbsk & AWTEvfnt.WINDOW_FOCUS_EVENT_MASK) != 0 &&
+                 (fvfnt.id == WindowEvfnt.WINDOW_GAINED_FOCUS ||
+                  fvfnt.id == WindowEvfnt.WINDOW_LOST_FOCUS))
+                || ((fvfntBit = fvfntMbsk & sun.bwt.SunToolkit.GRAB_EVENT_MASK) != 0 &&
+                    (fvfnt instbndfof sun.bwt.UngrbbEvfnt))) {
+                // Gft thf indfx of thf dbll dount for this fvfnt typf.
+                // Instfbd of using Mbth.log(...) wf will dbldulbtf it with
+                // bit shifts. Thbt's whbt prfvious implfmfntbtion lookfd likf:
+                //
+                // int di = (int) (Mbth.log(fvfntBit)/Mbth.log(2));
+                int di = 0;
+                for (long fMbsk = fvfntBit; fMbsk != 0; fMbsk >>>= 1, di++) {
+                }
+                di--;
+                // Cbll thf listfnfr bs mbny timfs bs it wbs bddfd for this
+                // fvfnt typf.
+                for (int i=0; i<dblls[di]; i++) {
+                    listfnfr.fvfntDispbtdhfd(fvfnt);
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns b mbp of visubl bttributfs for thf bbstrbdt lfvfl dfsdription
+     * of thf givfn input mfthod highlight, or null if no mbpping is found.
+     * Thf stylf fifld of thf input mfthod highlight is ignorfd. Thf mbp
+     * rfturnfd is unmodifibblf.
+     * @pbrbm highlight input mfthod highlight
+     * @rfturn stylf bttributf mbp, or <dodf>null</dodf>
+     * @fxdfption HfbdlfssExdfption if
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.3
+     */
+    publid bbstrbdt Mbp<jbvb.bwt.font.TfxtAttributf,?>
+        mbpInputMfthodHighlight(InputMfthodHighlight highlight)
+        throws HfbdlfssExdfption;
+
+    privbtf stbtid PropfrtyChbngfSupport drfbtfPropfrtyChbngfSupport(Toolkit toolkit) {
+        if (toolkit instbndfof SunToolkit || toolkit instbndfof HfbdlfssToolkit) {
+            rfturn nfw DfsktopPropfrtyChbngfSupport(toolkit);
+        } flsf {
+            rfturn nfw PropfrtyChbngfSupport(toolkit);
+        }
+    }
+
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid dlbss DfsktopPropfrtyChbngfSupport fxtfnds PropfrtyChbngfSupport {
+
+        privbtf stbtid finbl StringBuildfr PROP_CHANGE_SUPPORT_KEY =
+                nfw StringBuildfr("dfsktop propfrty dhbngf support kfy");
+        privbtf finbl Objfdt sourdf;
+
+        publid DfsktopPropfrtyChbngfSupport(Objfdt sourdfBfbn) {
+            supfr(sourdfBfbn);
+            sourdf = sourdfBfbn;
+        }
+
+        @Ovfrridf
+        publid syndhronizfd void bddPropfrtyChbngfListfnfr(
+                String propfrtyNbmf,
+                PropfrtyChbngfListfnfr listfnfr)
+        {
+            PropfrtyChbngfSupport pds = (PropfrtyChbngfSupport)
+                    AppContfxt.gftAppContfxt().gft(PROP_CHANGE_SUPPORT_KEY);
+            if (null == pds) {
+                pds = nfw PropfrtyChbngfSupport(sourdf);
+                AppContfxt.gftAppContfxt().put(PROP_CHANGE_SUPPORT_KEY, pds);
+            }
+            pds.bddPropfrtyChbngfListfnfr(propfrtyNbmf, listfnfr);
+        }
+
+        @Ovfrridf
+        publid syndhronizfd void rfmovfPropfrtyChbngfListfnfr(
+                String propfrtyNbmf,
+                PropfrtyChbngfListfnfr listfnfr)
+        {
+            PropfrtyChbngfSupport pds = (PropfrtyChbngfSupport)
+                    AppContfxt.gftAppContfxt().gft(PROP_CHANGE_SUPPORT_KEY);
+            if (null != pds) {
+                pds.rfmovfPropfrtyChbngfListfnfr(propfrtyNbmf, listfnfr);
+            }
+        }
+
+        @Ovfrridf
+        publid syndhronizfd PropfrtyChbngfListfnfr[] gftPropfrtyChbngfListfnfrs()
+        {
+            PropfrtyChbngfSupport pds = (PropfrtyChbngfSupport)
+                    AppContfxt.gftAppContfxt().gft(PROP_CHANGE_SUPPORT_KEY);
+            if (null != pds) {
+                rfturn pds.gftPropfrtyChbngfListfnfrs();
+            } flsf {
+                rfturn nfw PropfrtyChbngfListfnfr[0];
+            }
+        }
+
+        @Ovfrridf
+        publid syndhronizfd PropfrtyChbngfListfnfr[] gftPropfrtyChbngfListfnfrs(String propfrtyNbmf)
+        {
+            PropfrtyChbngfSupport pds = (PropfrtyChbngfSupport)
+                    AppContfxt.gftAppContfxt().gft(PROP_CHANGE_SUPPORT_KEY);
+            if (null != pds) {
+                rfturn pds.gftPropfrtyChbngfListfnfrs(propfrtyNbmf);
+            } flsf {
+                rfturn nfw PropfrtyChbngfListfnfr[0];
+            }
+        }
+
+        @Ovfrridf
+        publid syndhronizfd void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr) {
+            PropfrtyChbngfSupport pds = (PropfrtyChbngfSupport)
+                    AppContfxt.gftAppContfxt().gft(PROP_CHANGE_SUPPORT_KEY);
+            if (null == pds) {
+                pds = nfw PropfrtyChbngfSupport(sourdf);
+                AppContfxt.gftAppContfxt().put(PROP_CHANGE_SUPPORT_KEY, pds);
+            }
+            pds.bddPropfrtyChbngfListfnfr(listfnfr);
+        }
+
+        @Ovfrridf
+        publid syndhronizfd void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr) {
+            PropfrtyChbngfSupport pds = (PropfrtyChbngfSupport)
+                    AppContfxt.gftAppContfxt().gft(PROP_CHANGE_SUPPORT_KEY);
+            if (null != pds) {
+                pds.rfmovfPropfrtyChbngfListfnfr(listfnfr);
+            }
+        }
+
+        /*
+         * wf do fxpfdt thbt bll othfr firfXXX() mfthods of jbvb.bfbns.PropfrtyChbngfSupport
+         * usf this mfthod.  If this will bf dhbngfd wf will nffd to dhbngf this dlbss.
+         */
+        @Ovfrridf
+        publid void firfPropfrtyChbngf(finbl PropfrtyChbngfEvfnt fvt) {
+            Objfdt oldVbluf = fvt.gftOldVbluf();
+            Objfdt nfwVbluf = fvt.gftNfwVbluf();
+            String propfrtyNbmf = fvt.gftPropfrtyNbmf();
+            if (oldVbluf != null && nfwVbluf != null && oldVbluf.fqubls(nfwVbluf)) {
+                rfturn;
+            }
+            Runnbblf updbtfr = nfw Runnbblf() {
+                publid void run() {
+                    PropfrtyChbngfSupport pds = (PropfrtyChbngfSupport)
+                            AppContfxt.gftAppContfxt().gft(PROP_CHANGE_SUPPORT_KEY);
+                    if (null != pds) {
+                        pds.firfPropfrtyChbngf(fvt);
+                    }
+                }
+            };
+            finbl AppContfxt durrfntAppContfxt = AppContfxt.gftAppContfxt();
+            for (AppContfxt bppContfxt : AppContfxt.gftAppContfxts()) {
+                if (null == bppContfxt || bppContfxt.isDisposfd()) {
+                    dontinuf;
+                }
+                if (durrfntAppContfxt == bppContfxt) {
+                    updbtfr.run();
+                } flsf {
+                    finbl PffrEvfnt f = nfw PffrEvfnt(sourdf, updbtfr, PffrEvfnt.ULTIMATE_PRIORITY_EVENT);
+                    SunToolkit.postEvfnt(bppContfxt, f);
+                }
+            }
+        }
+    }
+
+    /**
+    * Rfports whfthfr fvfnts from fxtrb mousf buttons brf bllowfd to bf prodfssfd bnd postfd into
+    * {@dodf EvfntQufuf}.
+    * <br>
+    * To dhbngf thf rfturnfd vbluf it is nfdfssbry to sft thf {@dodf sun.bwt.fnbblfExtrbMousfButtons}
+    * propfrty bfforf thf {@dodf Toolkit} dlbss initiblizbtion. This sftting dould bf donf on thf bpplidbtion
+    * stbrtup by thf following dommbnd:
+    * <prf>
+    * jbvb -Dsun.bwt.fnbblfExtrbMousfButtons=fblsf Applidbtion
+    * </prf>
+    * Altfrnbtivfly, thf propfrty dould bf sft in thf bpplidbtion by using thf following dodf:
+    * <prf>
+    * Systfm.sftPropfrty("sun.bwt.fnbblfExtrbMousfButtons", "truf");
+    * </prf>
+    * bfforf thf {@dodf Toolkit} dlbss initiblizbtion.
+    * If not sft by thf timf of thf {@dodf Toolkit} dlbss initiblizbtion, this propfrty will bf
+    * initiblizfd with {@dodf truf}.
+    * Chbnging this vbluf bftfr thf {@dodf Toolkit} dlbss initiblizbtion will hbvf no ffffdt.
+    *
+    * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss() rfturns truf
+    * @rfturn {@dodf truf} if fvfnts from fxtrb mousf buttons brf bllowfd to bf prodfssfd bnd postfd;
+    *         {@dodf fblsf} othfrwisf
+    * @sff Systfm#gftPropfrty(String propfrtyNbmf)
+    * @sff Systfm#sftPropfrty(String propfrtyNbmf, String vbluf)
+    * @sff jbvb.bwt.EvfntQufuf
+    * @sindf 1.7
+     */
+    publid boolfbn brfExtrbMousfButtonsEnbblfd() throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        rfturn Toolkit.gftDffbultToolkit().brfExtrbMousfButtonsEnbblfd();
+    }
+}

@@ -1,169 +1,169 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
 /**
- * A {@code Future} represents the result of an asynchronous
- * computation.  Methods are provided to check if the computation is
- * complete, to wait for its completion, and to retrieve the result of
- * the computation.  The result can only be retrieved using method
- * {@code get} when the computation has completed, blocking if
- * necessary until it is ready.  Cancellation is performed by the
- * {@code cancel} method.  Additional methods are provided to
- * determine if the task completed normally or was cancelled. Once a
- * computation has completed, the computation cannot be cancelled.
- * If you would like to use a {@code Future} for the sake
- * of cancellability but not provide a usable result, you can
- * declare types of the form {@code Future<?>} and
- * return {@code null} as a result of the underlying task.
+ * A {@dodf Futurf} rfprfsfnts tif rfsult of bn bsyndironous
+ * domputbtion.  Mftiods brf providfd to difdk if tif domputbtion is
+ * domplftf, to wbit for its domplftion, bnd to rftrifvf tif rfsult of
+ * tif domputbtion.  Tif rfsult dbn only bf rftrifvfd using mftiod
+ * {@dodf gft} wifn tif domputbtion ibs domplftfd, blodking if
+ * nfdfssbry until it is rfbdy.  Cbndfllbtion is pfrformfd by tif
+ * {@dodf dbndfl} mftiod.  Additionbl mftiods brf providfd to
+ * dftfrminf if tif tbsk domplftfd normblly or wbs dbndfllfd. Ondf b
+ * domputbtion ibs domplftfd, tif domputbtion dbnnot bf dbndfllfd.
+ * If you would likf to usf b {@dodf Futurf} for tif sbkf
+ * of dbndfllbbility but not providf b usbblf rfsult, you dbn
+ * dfdlbrf typfs of tif form {@dodf Futurf<?>} bnd
+ * rfturn {@dodf null} bs b rfsult of tif undfrlying tbsk.
  *
  * <p>
- * <b>Sample Usage</b> (Note that the following classes are all
- * made-up.)
- * <pre> {@code
- * interface ArchiveSearcher { String search(String target); }
- * class App {
- *   ExecutorService executor = ...
- *   ArchiveSearcher searcher = ...
- *   void showSearch(final String target)
- *       throws InterruptedException {
- *     Future<String> future
- *       = executor.submit(new Callable<String>() {
- *         public String call() {
- *             return searcher.search(target);
+ * <b>Sbmplf Usbgf</b> (Notf tibt tif following dlbssfs brf bll
+ * mbdf-up.)
+ * <prf> {@dodf
+ * intfrfbdf ArdiivfSfbrdifr { String sfbrdi(String tbrgft); }
+ * dlbss App {
+ *   ExfdutorSfrvidf fxfdutor = ...
+ *   ArdiivfSfbrdifr sfbrdifr = ...
+ *   void siowSfbrdi(finbl String tbrgft)
+ *       tirows IntfrruptfdExdfption {
+ *     Futurf<String> futurf
+ *       = fxfdutor.submit(nfw Cbllbblf<String>() {
+ *         publid String dbll() {
+ *             rfturn sfbrdifr.sfbrdi(tbrgft);
  *         }});
- *     displayOtherThings(); // do other things while searching
+ *     displbyOtifrTiings(); // do otifr tiings wiilf sfbrdiing
  *     try {
- *       displayText(future.get()); // use future
- *     } catch (ExecutionException ex) { cleanup(); return; }
+ *       displbyTfxt(futurf.gft()); // usf futurf
+ *     } dbtdi (ExfdutionExdfption fx) { dlfbnup(); rfturn; }
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * The {@link FutureTask} class is an implementation of {@code Future} that
- * implements {@code Runnable}, and so may be executed by an {@code Executor}.
- * For example, the above construction with {@code submit} could be replaced by:
- *  <pre> {@code
- * FutureTask<String> future =
- *   new FutureTask<String>(new Callable<String>() {
- *     public String call() {
- *       return searcher.search(target);
+ * Tif {@link FuturfTbsk} dlbss is bn implfmfntbtion of {@dodf Futurf} tibt
+ * implfmfnts {@dodf Runnbblf}, bnd so mby bf fxfdutfd by bn {@dodf Exfdutor}.
+ * For fxbmplf, tif bbovf donstrudtion witi {@dodf submit} dould bf rfplbdfd by:
+ *  <prf> {@dodf
+ * FuturfTbsk<String> futurf =
+ *   nfw FuturfTbsk<String>(nfw Cbllbblf<String>() {
+ *     publid String dbll() {
+ *       rfturn sfbrdifr.sfbrdi(tbrgft);
  *   }});
- * executor.execute(future);}</pre>
+ * fxfdutor.fxfdutf(futurf);}</prf>
  *
- * <p>Memory consistency effects: Actions taken by the asynchronous computation
- * <a href="package-summary.html#MemoryVisibility"> <i>happen-before</i></a>
- * actions following the corresponding {@code Future.get()} in another thread.
+ * <p>Mfmory donsistfndy ffffdts: Adtions tbkfn by tif bsyndironous domputbtion
+ * <b irff="pbdkbgf-summbry.itml#MfmoryVisibility"> <i>ibppfn-bfforf</i></b>
+ * bdtions following tif dorrfsponding {@dodf Futurf.gft()} in bnotifr tirfbd.
  *
- * @see FutureTask
- * @see Executor
- * @since 1.5
- * @author Doug Lea
- * @param <V> The result type returned by this Future's {@code get} method
+ * @sff FuturfTbsk
+ * @sff Exfdutor
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <V> Tif rfsult typf rfturnfd by tiis Futurf's {@dodf gft} mftiod
  */
-public interface Future<V> {
+publid intfrfbdf Futurf<V> {
 
     /**
-     * Attempts to cancel execution of this task.  This attempt will
-     * fail if the task has already completed, has already been cancelled,
-     * or could not be cancelled for some other reason. If successful,
-     * and this task has not started when {@code cancel} is called,
-     * this task should never run.  If the task has already started,
-     * then the {@code mayInterruptIfRunning} parameter determines
-     * whether the thread executing this task should be interrupted in
-     * an attempt to stop the task.
+     * Attfmpts to dbndfl fxfdution of tiis tbsk.  Tiis bttfmpt will
+     * fbil if tif tbsk ibs blrfbdy domplftfd, ibs blrfbdy bffn dbndfllfd,
+     * or dould not bf dbndfllfd for somf otifr rfbson. If suddfssful,
+     * bnd tiis tbsk ibs not stbrtfd wifn {@dodf dbndfl} is dbllfd,
+     * tiis tbsk siould nfvfr run.  If tif tbsk ibs blrfbdy stbrtfd,
+     * tifn tif {@dodf mbyIntfrruptIfRunning} pbrbmftfr dftfrminfs
+     * wiftifr tif tirfbd fxfduting tiis tbsk siould bf intfrruptfd in
+     * bn bttfmpt to stop tif tbsk.
      *
-     * <p>After this method returns, subsequent calls to {@link #isDone} will
-     * always return {@code true}.  Subsequent calls to {@link #isCancelled}
-     * will always return {@code true} if this method returned {@code true}.
+     * <p>Aftfr tiis mftiod rfturns, subsfqufnt dblls to {@link #isDonf} will
+     * blwbys rfturn {@dodf truf}.  Subsfqufnt dblls to {@link #isCbndfllfd}
+     * will blwbys rfturn {@dodf truf} if tiis mftiod rfturnfd {@dodf truf}.
      *
-     * @param mayInterruptIfRunning {@code true} if the thread executing this
-     * task should be interrupted; otherwise, in-progress tasks are allowed
-     * to complete
-     * @return {@code false} if the task could not be cancelled,
-     * typically because it has already completed normally;
-     * {@code true} otherwise
+     * @pbrbm mbyIntfrruptIfRunning {@dodf truf} if tif tirfbd fxfduting tiis
+     * tbsk siould bf intfrruptfd; otifrwisf, in-progrfss tbsks brf bllowfd
+     * to domplftf
+     * @rfturn {@dodf fblsf} if tif tbsk dould not bf dbndfllfd,
+     * typidblly bfdbusf it ibs blrfbdy domplftfd normblly;
+     * {@dodf truf} otifrwisf
      */
-    boolean cancel(boolean mayInterruptIfRunning);
+    boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning);
 
     /**
-     * Returns {@code true} if this task was cancelled before it completed
-     * normally.
+     * Rfturns {@dodf truf} if tiis tbsk wbs dbndfllfd bfforf it domplftfd
+     * normblly.
      *
-     * @return {@code true} if this task was cancelled before it completed
+     * @rfturn {@dodf truf} if tiis tbsk wbs dbndfllfd bfforf it domplftfd
      */
-    boolean isCancelled();
+    boolfbn isCbndfllfd();
 
     /**
-     * Returns {@code true} if this task completed.
+     * Rfturns {@dodf truf} if tiis tbsk domplftfd.
      *
-     * Completion may be due to normal termination, an exception, or
-     * cancellation -- in all of these cases, this method will return
-     * {@code true}.
+     * Complftion mby bf duf to normbl tfrminbtion, bn fxdfption, or
+     * dbndfllbtion -- in bll of tifsf dbsfs, tiis mftiod will rfturn
+     * {@dodf truf}.
      *
-     * @return {@code true} if this task completed
+     * @rfturn {@dodf truf} if tiis tbsk domplftfd
      */
-    boolean isDone();
+    boolfbn isDonf();
 
     /**
-     * Waits if necessary for the computation to complete, and then
-     * retrieves its result.
+     * Wbits if nfdfssbry for tif domputbtion to domplftf, bnd tifn
+     * rftrifvfs its rfsult.
      *
-     * @return the computed result
-     * @throws CancellationException if the computation was cancelled
-     * @throws ExecutionException if the computation threw an
-     * exception
-     * @throws InterruptedException if the current thread was interrupted
-     * while waiting
+     * @rfturn tif domputfd rfsult
+     * @tirows CbndfllbtionExdfption if tif domputbtion wbs dbndfllfd
+     * @tirows ExfdutionExdfption if tif domputbtion tirfw bn
+     * fxdfption
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd wbs intfrruptfd
+     * wiilf wbiting
      */
-    V get() throws InterruptedException, ExecutionException;
+    V gft() tirows IntfrruptfdExdfption, ExfdutionExdfption;
 
     /**
-     * Waits if necessary for at most the given time for the computation
-     * to complete, and then retrieves its result, if available.
+     * Wbits if nfdfssbry for bt most tif givfn timf for tif domputbtion
+     * to domplftf, bnd tifn rftrifvfs its rfsult, if bvbilbblf.
      *
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the timeout argument
-     * @return the computed result
-     * @throws CancellationException if the computation was cancelled
-     * @throws ExecutionException if the computation threw an
-     * exception
-     * @throws InterruptedException if the current thread was interrupted
-     * while waiting
-     * @throws TimeoutException if the wait timed out
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm unit tif timf unit of tif timfout brgumfnt
+     * @rfturn tif domputfd rfsult
+     * @tirows CbndfllbtionExdfption if tif domputbtion wbs dbndfllfd
+     * @tirows ExfdutionExdfption if tif domputbtion tirfw bn
+     * fxdfption
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd wbs intfrruptfd
+     * wiilf wbiting
+     * @tirows TimfoutExdfption if tif wbit timfd out
      */
-    V get(long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException;
+    V gft(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption;
 }

@@ -1,0 +1,365 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.print;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * Thf <dodf>PbgfFormbt</dodf> dlbss dfsdribfs thf sizf bnd
+ * orifntbtion of b pbgf to bf printfd.
+ */
+publid dlbss PbgfFormbt implfmfnts Clonfbblf
+{
+
+ /* Clbss Constbnts */
+
+    /**
+     *  Thf origin is bt thf bottom lfft of thf pbpfr with
+     *  x running bottom to top bnd y running lfft to right.
+     *  Notf thbt this is not thf Mbdintosh lbndsdbpf but
+     *  is thf Window's bnd PostSdript lbndsdbpf.
+     */
+    @Nbtivf publid stbtid finbl int LANDSCAPE = 0;
+
+    /**
+     *  Thf origin is bt thf top lfft of thf pbpfr with
+     *  x running to thf right bnd y running down thf
+     *  pbpfr.
+     */
+    @Nbtivf publid stbtid finbl int PORTRAIT = 1;
+
+    /**
+     *  Thf origin is bt thf top right of thf pbpfr with x
+     *  running top to bottom bnd y running right to lfft.
+     *  Notf thbt this is thf Mbdintosh lbndsdbpf.
+     */
+    @Nbtivf publid stbtid finbl int REVERSE_LANDSCAPE = 2;
+
+ /* Instbndf Vbribblfs */
+
+    /**
+     * A dfsdription of thf physidbl pifdf of pbpfr.
+     */
+    privbtf Pbpfr mPbpfr;
+
+    /**
+     * Thf orifntbtion of thf durrfnt pbgf. This will bf
+     * onf of thf donstbnts: PORTRIAT, LANDSCAPE, or
+     * REVERSE_LANDSCAPE,
+     */
+    privbtf int mOrifntbtion = PORTRAIT;
+
+ /* Construdtors */
+
+    /**
+     * Crfbtfs b dffbult, portrbit-orifntfd
+     * <dodf>PbgfFormbt</dodf>.
+     */
+    publid PbgfFormbt()
+    {
+        mPbpfr = nfw Pbpfr();
+    }
+
+ /* Instbndf Mfthods */
+
+    /**
+     * Mbkfs b dopy of this <dodf>PbgfFormbt</dodf> with thf sbmf
+     * dontfnts bs this <dodf>PbgfFormbt</dodf>.
+     * @rfturn b dopy of this <dodf>PbgfFormbt</dodf>.
+     */
+    publid Objfdt dlonf() {
+        PbgfFormbt nfwPbgf;
+
+        try {
+            nfwPbgf = (PbgfFormbt) supfr.dlonf();
+            nfwPbgf.mPbpfr = (Pbpfr)mPbpfr.dlonf();
+
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            f.printStbdkTrbdf();
+            nfwPbgf = null;     // should nfvfr hbppfn.
+        }
+
+        rfturn nfwPbgf;
+    }
+
+
+    /**
+     * Rfturns thf width, in 1/72nds of bn indh, of thf pbgf.
+     * This mfthod tbkfs into bddount thf orifntbtion of thf
+     * pbgf whfn dftfrmining thf width.
+     * @rfturn thf width of thf pbgf.
+     */
+    publid doublf gftWidth() {
+        doublf width;
+        int orifntbtion = gftOrifntbtion();
+
+        if (orifntbtion == PORTRAIT) {
+            width = mPbpfr.gftWidth();
+        } flsf {
+            width = mPbpfr.gftHfight();
+        }
+
+        rfturn width;
+    }
+
+    /**
+     * Rfturns thf hfight, in 1/72nds of bn indh, of thf pbgf.
+     * This mfthod tbkfs into bddount thf orifntbtion of thf
+     * pbgf whfn dftfrmining thf hfight.
+     * @rfturn thf hfight of thf pbgf.
+     */
+    publid doublf gftHfight() {
+        doublf hfight;
+        int orifntbtion = gftOrifntbtion();
+
+        if (orifntbtion == PORTRAIT) {
+            hfight = mPbpfr.gftHfight();
+        } flsf {
+            hfight = mPbpfr.gftWidth();
+        }
+
+        rfturn hfight;
+    }
+
+    /**
+     * Rfturns thf x doordinbtf of thf uppfr lfft point of thf
+     * imbgfbblf brfb of thf <dodf>Pbpfr</dodf> objfdt
+     * bssodibtfd with this <dodf>PbgfFormbt</dodf>.
+     * This mfthod tbkfs into bddount thf
+     * orifntbtion of thf pbgf.
+     * @rfturn thf x doordinbtf of thf uppfr lfft point of thf
+     * imbgfbblf brfb of thf <dodf>Pbpfr</dodf> objfdt
+     * bssodibtfd with this <dodf>PbgfFormbt</dodf>.
+     */
+    publid doublf gftImbgfbblfX() {
+        doublf x;
+
+        switdh (gftOrifntbtion()) {
+
+        dbsf LANDSCAPE:
+            x = mPbpfr.gftHfight()
+                - (mPbpfr.gftImbgfbblfY() + mPbpfr.gftImbgfbblfHfight());
+            brfbk;
+
+        dbsf PORTRAIT:
+            x = mPbpfr.gftImbgfbblfX();
+            brfbk;
+
+        dbsf REVERSE_LANDSCAPE:
+            x = mPbpfr.gftImbgfbblfY();
+            brfbk;
+
+        dffbult:
+            /* This should nfvfr hbppfn sindf it signififs thbt thf
+             * PbgfFormbt is in bn invblid orifntbtion.
+             */
+            throw nfw IntfrnblError("unrfdognizfd orifntbtion");
+
+        }
+
+        rfturn x;
+    }
+
+    /**
+     * Rfturns thf y doordinbtf of thf uppfr lfft point of thf
+     * imbgfbblf brfb of thf <dodf>Pbpfr</dodf> objfdt
+     * bssodibtfd with this <dodf>PbgfFormbt</dodf>.
+     * This mfthod tbkfs into bddount thf
+     * orifntbtion of thf pbgf.
+     * @rfturn thf y doordinbtf of thf uppfr lfft point of thf
+     * imbgfbblf brfb of thf <dodf>Pbpfr</dodf> objfdt
+     * bssodibtfd with this <dodf>PbgfFormbt</dodf>.
+     */
+    publid doublf gftImbgfbblfY() {
+        doublf y;
+
+        switdh (gftOrifntbtion()) {
+
+        dbsf LANDSCAPE:
+            y = mPbpfr.gftImbgfbblfX();
+            brfbk;
+
+        dbsf PORTRAIT:
+            y = mPbpfr.gftImbgfbblfY();
+            brfbk;
+
+        dbsf REVERSE_LANDSCAPE:
+            y = mPbpfr.gftWidth()
+                - (mPbpfr.gftImbgfbblfX() + mPbpfr.gftImbgfbblfWidth());
+            brfbk;
+
+        dffbult:
+            /* This should nfvfr hbppfn sindf it signififs thbt thf
+             * PbgfFormbt is in bn invblid orifntbtion.
+             */
+            throw nfw IntfrnblError("unrfdognizfd orifntbtion");
+
+        }
+
+        rfturn y;
+    }
+
+    /**
+     * Rfturns thf width, in 1/72nds of bn indh, of thf imbgfbblf
+     * brfb of thf pbgf. This mfthod tbkfs into bddount thf orifntbtion
+     * of thf pbgf.
+     * @rfturn thf width of thf pbgf.
+     */
+    publid doublf gftImbgfbblfWidth() {
+        doublf width;
+
+        if (gftOrifntbtion() == PORTRAIT) {
+            width = mPbpfr.gftImbgfbblfWidth();
+        } flsf {
+            width = mPbpfr.gftImbgfbblfHfight();
+        }
+
+        rfturn width;
+    }
+
+    /**
+     * Rfturn thf hfight, in 1/72nds of bn indh, of thf imbgfbblf
+     * brfb of thf pbgf. This mfthod tbkfs into bddount thf orifntbtion
+     * of thf pbgf.
+     * @rfturn thf hfight of thf pbgf.
+     */
+    publid doublf gftImbgfbblfHfight() {
+        doublf hfight;
+
+        if (gftOrifntbtion() == PORTRAIT) {
+            hfight = mPbpfr.gftImbgfbblfHfight();
+        } flsf {
+            hfight = mPbpfr.gftImbgfbblfWidth();
+        }
+
+        rfturn hfight;
+    }
+
+
+    /**
+     * Rfturns b dopy of thf {@link Pbpfr} objfdt bssodibtfd
+     * with this <dodf>PbgfFormbt</dodf>.  Chbngfs mbdf to thf
+     * <dodf>Pbpfr</dodf> objfdt rfturnfd from this mfthod do not
+     * bfffdt thf <dodf>Pbpfr</dodf> objfdt of this
+     * <dodf>PbgfFormbt</dodf>.  To updbtf thf <dodf>Pbpfr</dodf>
+     * objfdt of this <dodf>PbgfFormbt</dodf>, drfbtf b nfw
+     * <dodf>Pbpfr</dodf> objfdt bnd sft it into this
+     * <dodf>PbgfFormbt</dodf> by using thf {@link #sftPbpfr(Pbpfr)}
+     * mfthod.
+     * @rfturn b dopy of thf <dodf>Pbpfr</dodf> objfdt bssodibtfd
+     *          with this <dodf>PbgfFormbt</dodf>.
+     * @sff #sftPbpfr
+     */
+    publid Pbpfr gftPbpfr() {
+        rfturn (Pbpfr)mPbpfr.dlonf();
+    }
+
+    /**
+     * Sfts thf <dodf>Pbpfr</dodf> objfdt for this
+     * <dodf>PbgfFormbt</dodf>.
+     * @pbrbm pbpfr thf <dodf>Pbpfr</dodf> objfdt to whidh to sft
+     * thf <dodf>Pbpfr</dodf> objfdt for this <dodf>PbgfFormbt</dodf>.
+     * @fxdfption NullPointfrExdfption
+     *              b null pbpfr instbndf wbs pbssfd bs b pbrbmftfr.
+     * @sff #gftPbpfr
+     */
+     publid void sftPbpfr(Pbpfr pbpfr) {
+         mPbpfr = (Pbpfr)pbpfr.dlonf();
+     }
+
+    /**
+     * Sfts thf pbgf orifntbtion. <dodf>orifntbtion</dodf> must bf
+     * onf of thf donstbnts: PORTRAIT, LANDSCAPE,
+     * or REVERSE_LANDSCAPE.
+     * @pbrbm orifntbtion thf nfw orifntbtion for thf pbgf
+     * @throws IllfgblArgumfntExdfption if
+     *          bn unknown orifntbtion wbs rfqufstfd
+     * @sff #gftOrifntbtion
+     */
+    publid void sftOrifntbtion(int orifntbtion) throws IllfgblArgumfntExdfption
+    {
+        if (0 <= orifntbtion && orifntbtion <= REVERSE_LANDSCAPE) {
+            mOrifntbtion = orifntbtion;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+    }
+
+    /**
+     * Rfturns thf orifntbtion of this <dodf>PbgfFormbt</dodf>.
+     * @rfturn this <dodf>PbgfFormbt</dodf> objfdt's orifntbtion.
+     * @sff #sftOrifntbtion
+     */
+    publid int gftOrifntbtion() {
+        rfturn mOrifntbtion;
+    }
+
+    /**
+     * Rfturns b trbnsformbtion mbtrix thbt trbnslbtfs usfr
+     * spbdf rfndfring to thf rfqufstfd orifntbtion
+     * of thf pbgf.  Thf vblufs brf plbdfd into thf
+     * brrby bs
+     * {&nbsp;m00,&nbsp;m10,&nbsp;m01,&nbsp;m11,&nbsp;m02,&nbsp;m12} in
+     * thf form rfquirfd by thf {@link AffinfTrbnsform}
+     * donstrudtor.
+     * @rfturn thf mbtrix usfd to trbnslbtf usfr spbdf rfndfring
+     * to thf orifntbtion of thf pbgf.
+     * @sff jbvb.bwt.gfom.AffinfTrbnsform
+     */
+    publid doublf[] gftMbtrix() {
+        doublf[] mbtrix = nfw doublf[6];
+
+        switdh (mOrifntbtion) {
+
+        dbsf LANDSCAPE:
+            mbtrix[0] =  0;     mbtrix[1] = -1;
+            mbtrix[2] =  1;     mbtrix[3] =  0;
+            mbtrix[4] =  0;     mbtrix[5] =  mPbpfr.gftHfight();
+            brfbk;
+
+        dbsf PORTRAIT:
+            mbtrix[0] =  1;     mbtrix[1] =  0;
+            mbtrix[2] =  0;     mbtrix[3] =  1;
+            mbtrix[4] =  0;     mbtrix[5] =  0;
+            brfbk;
+
+        dbsf REVERSE_LANDSCAPE:
+            mbtrix[0] =  0;                     mbtrix[1] =  1;
+            mbtrix[2] = -1;                     mbtrix[3] =  0;
+            mbtrix[4] =  mPbpfr.gftWidth();     mbtrix[5] =  0;
+            brfbk;
+
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        rfturn mbtrix;
+    }
+}

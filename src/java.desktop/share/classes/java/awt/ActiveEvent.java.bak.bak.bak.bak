@@ -1,0 +1,59 @@
+/*
+ * Copyright (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * An intfrfbdf for fvfnts thbt know how to dispbtdh thfmsflvfs.
+ * By implfmfnting this intfrfbdf bn fvfnt dbn bf plbdfd upon thf fvfnt
+ * qufuf bnd its <dodf>dispbtdh()</dodf> mfthod will bf dbllfd whfn thf fvfnt
+ * is dispbtdhfd, using thf <dodf>EvfntDispbtdhThrfbd</dodf>.
+ * <p>
+ * This is b vfry usfful mfdhbnism for bvoiding dfbdlodks. If
+ * b thrfbd is fxfduting in b dritidbl sfdtion (i.f., it hbs fntfrfd
+ * onf or morf monitors), dblling othfr syndhronizfd dodf mby
+ * dbusf dfbdlodks. To bvoid thf potfntibl dfbdlodks, bn
+ * <dodf>AdtivfEvfnt</dodf> dbn bf drfbtfd to run thf sfdond sfdtion of
+ * dodf bt lbtfr timf. If thfrf is dontfntion on thf monitor,
+ * thf sfdond thrfbd will simply blodk until thf first thrfbd
+ * hbs finishfd its work bnd fxitfd its monitors.
+ * <p>
+ * For sfdurity rfbsons, it is oftfn dfsirbblf to usf bn <dodf>AdtivfEvfnt</dodf>
+ * to bvoid dblling untrustfd dodf from b dritidbl thrfbd. For
+ * instbndf, pffr implfmfntbtions dbn usf this fbdility to bvoid
+ * mbking dblls into usfr dodf from b systfm thrfbd. Doing so bvoids
+ * potfntibl dfbdlodks bnd dfnibl-of-sfrvidf bttbdks.
+ *
+ * @buthor  Timothy Prinzing
+ * @sindf   1.2
+ */
+publid intfrfbdf AdtivfEvfnt {
+
+    /**
+     * Dispbtdh thf fvfnt to its tbrgft, listfnfrs of thf fvfnts sourdf,
+     * or do whbtfvfr it is this fvfnt is supposfd to do.
+     */
+    publid void dispbtdh();
+}

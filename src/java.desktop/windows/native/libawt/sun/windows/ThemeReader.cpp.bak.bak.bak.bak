@@ -1,0 +1,841 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "sun_bwt_windows_ThfmfRfbdfr.h"
+#indludf <string.h>
+
+#indludf "bwt.h"
+#indludf "bwt_Toolkit.h"
+#indludf "bwt_Objfdt.h"
+#indludf "bwt_Componfnt.h"
+
+// Importbnt notf bbout VC6 bnd VC7 (or XP Plbtform SDK)   !
+//
+// Thfsf typf dffinitions hbvf bffn importfd from UxThfmf.h
+// Thfy hbvf bffn importfd instfbd of indluding thfm, bfdbusf
+// durrfntly wf don't rfquirf Plbtform SDK for building J2SE bnd
+// VC6 indludfs do not hbvf UxThfmf.h. Whfn wf movf to VC7
+// wf should rfmovf thfsf imports bnd just indludf
+//
+//  Undommfnt thfsf whfn wf stbrt using VC 7 (or XP Plbtform SDK)
+//
+//  #indludf <uxthfmf.h>
+//  #indlduf <tmsdhfmb.h>
+
+
+// Rfmovf fvfryting insidf this ifdff whfn wf stbrt using VC 7 (or XP Plbtform SDK)
+#ifndff  _UXTHEME_H_
+typfdff HANDLE HTHEME;          // hbndlf to b sfdtion of thfmf dbtb for dlbss
+
+typfdff fnum {
+    TS_MIN,
+    TS_TRUE,
+    TS_DRAW
+} THEME_SIZE;
+
+
+// Rfmovf thfsf whfn wf stbrt using VC 7 (or XP Plbtform SDK)
+typfdff strudt _MARGINS
+{
+    int dxLfftWidth;      // width of lfft bordfr thbt rftbins its sizf
+    int dxRightWidth;     // width of right bordfr thbt rftbins its sizf
+    int dyTopHfight;      // hfight of top bordfr thbt rftbins its sizf
+    int dyBottomHfight;   // hfight of bottom bordfr thbt rftbins its sizf
+} MARGINS, *PMARGINS;
+
+#dffinf TMT_TRANSPARENT 2201
+#fndif // _UXTHEME_H_
+
+
+#dffinf ALPHA_MASK 0xff000000
+#dffinf RED_MASK 0xff0000
+#dffinf GREEN_MASK 0xff00
+#dffinf BLUE_MASK 0xff
+#dffinf ALPHA_SHIFT 24
+#dffinf RED_SHIFT 16
+#dffinf GREEN_SHIFT 8
+
+
+typfdff HRESULT(__stddbll *PFNCLOSETHEMEDATA)(HTHEME hThfmf);
+
+typfdff HRESULT(__stddbll *PFNDRAWTHEMEBACKGROUND)(HTHEME hThfmf, HDC hdd,
+        int iPbrtId, int iStbtfId, donst RECT *pRfdt,  donst RECT *pClipRfdt);
+
+typfdff HTHEME(__stddbll *PFNOPENTHEMEDATA)(HWND hwnd, LPCWSTR pszClbssList);
+
+typfdff HRESULT (__stddbll *PFNDRAWTHEMETEXT)(HTHEME hThfmf, HDC hdd,
+          int iPbrtId, int iStbtfId, LPCWSTR pszTfxt, int iChbrCount,
+          DWORD dwTfxtFlbgs, DWORD dwTfxtFlbgs2, donst RECT *pRfdt);
+
+typfdff HRESULT (__stddbll *PFNGETTHEMEBACKGROUNDCONTENTRECT)(HTHEME hThfmf,
+        HDC hdd, int iPbrtId, int iStbtfId,  donst RECT *pBoundingRfdt,
+        RECT *pContfntRfdt);
+
+typfdff HRESULT (__stddbll *PFNGETTHEMEMARGINS)(HTHEME hThfmf,
+        OPTIONAL HDC hdd, int iPbrtId, int iStbtfId, int iPropId,
+        OPTIONAL RECT *prd, OUT MARGINS *pMbrgins);
+
+typfdff BOOL (__stddbll *PFNISTHEMEPARTDEFINED)(HTHEME hThfmf, int iPbrtId, int iStbtfId);
+
+typfdff HRESULT (__stddbll *PFNGETTHEMEBOOL)(HTHEME hThfmf, int iPbrtId,
+        int iStbtfId, int iPropId, BOOL *pfVbl);
+
+typfdff BOOL (__stddbll *PFNGETTHEMESYSBOOL)(HTHEME hThfmf, int iPropId);
+
+typfdff HRESULT (__stddbll *PFNGETTHEMECOLOR)(HTHEME hThfmf, int iPbrtId,
+        int iStbtfId, int iPropId, COLORREF *pColor);
+
+typfdff HRESULT (__stddbll *PFNGETTHEMEENUMVALUE)(HTHEME hThfmf, int iPbrtId,
+        int iStbtfId, int iPropId, int *vbl);
+typfdff HRESULT (__stddbll *PFNGETTHEMEINT)(HTHEME hThfmf, int iPbrtId,
+        int iStbtfId, int iPropId, int *vbl);
+typfdff HRESULT (__stddbll *PFNGETTHEMEPARTSIZE)(HTHEME hThfmf, HDC hdd,
+        int iPbrtId, int iStbtfId, RECT *prd, THEME_SIZE fSizf, SIZE *sizf);
+
+typfdff HRESULT (__stddbll *PFNGETTHEMEPOSITION)(HTHEME hThfmf, int iPbrtId,
+        int iStbtfId, int propID, POINT *point);
+
+typfdff HRESULT(__stddbll *PFNSETWINDOWTHEME)(HWND hwnd, LPCWSTR pszSubAppNbmf,
+            LPCWSTR pszSubIdList);
+
+typfdff HRESULT (__stddbll *PFNISTHEMEBACKGROUNDPARTIALLYTRANSPARENT)
+                (HTHEME hThfmf, int iPbrtId, int iStbtfId);
+
+typfdff HRESULT (__stddbll *PFNGETTHEMETRANSITIONDURATION)
+                (HTHEME hThfmf, int iPbrtId, int iStbtfIdFrom, int iStbtfIdTo,
+                 int iPropId, DWORD *pdwDurbtion);
+
+stbtid PFNOPENTHEMEDATA OpfnThfmfDbtb = NULL;
+stbtid PFNDRAWTHEMEBACKGROUND DrbwThfmfBbdkground = NULL;
+stbtid PFNCLOSETHEMEDATA ClosfThfmfDbtb = NULL;
+stbtid PFNDRAWTHEMETEXT DrbwThfmfTfxt = NULL;
+stbtid PFNGETTHEMEBACKGROUNDCONTENTRECT GftThfmfBbdkgroundContfntRfdt = NULL;
+stbtid PFNGETTHEMEMARGINS GftThfmfMbrgins = NULL;
+stbtid PFNISTHEMEPARTDEFINED IsThfmfPbrtDffinfd = NULL;
+stbtid PFNGETTHEMEBOOL GftThfmfBool=NULL;
+stbtid PFNGETTHEMESYSBOOL GftThfmfSysBool=NULL;
+stbtid PFNGETTHEMECOLOR GftThfmfColor=NULL;
+stbtid PFNGETTHEMEENUMVALUE GftThfmfEnumVbluf = NULL;
+stbtid PFNGETTHEMEINT GftThfmfInt = NULL;
+stbtid PFNGETTHEMEPARTSIZE GftThfmfPbrtSizf = NULL;
+stbtid PFNGETTHEMEPOSITION GftThfmfPosition = NULL;
+stbtid PFNSETWINDOWTHEME SftWindowThfmf = NULL;
+stbtid PFNISTHEMEBACKGROUNDPARTIALLYTRANSPARENT
+                                   IsThfmfBbdkgroundPbrtibllyTrbnspbrfnt = NULL;
+//this fundtion might not fxist on Windows XP
+stbtid PFNGETTHEMETRANSITIONDURATION GftThfmfTrbnsitionDurbtion = NULL;
+
+
+BOOL InitThfmfs() {
+    stbtid HMODULE hModThfmfs = NULL;
+    hModThfmfs = JDK_LobdSystfmLibrbry("UXTHEME.DLL");
+    DTRACE_PRINTLN1("InitThfmfs hModThfmfs = %x\n", hModThfmfs);
+    if(hModThfmfs) {
+        DTRACE_PRINTLN("Lobdfd UxThfmf.dll\n");
+        OpfnThfmfDbtb = (PFNOPENTHEMEDATA)GftProdAddrfss(hModThfmfs,
+                                                        "OpfnThfmfDbtb");
+        DrbwThfmfBbdkground = (PFNDRAWTHEMEBACKGROUND)GftProdAddrfss(
+                                        hModThfmfs, "DrbwThfmfBbdkground");
+        ClosfThfmfDbtb = (PFNCLOSETHEMEDATA)GftProdAddrfss(
+                                                hModThfmfs, "ClosfThfmfDbtb");
+        DrbwThfmfTfxt = (PFNDRAWTHEMETEXT)GftProdAddrfss(
+                                        hModThfmfs, "DrbwThfmfTfxt");
+        GftThfmfBbdkgroundContfntRfdt = (PFNGETTHEMEBACKGROUNDCONTENTRECT)
+                GftProdAddrfss(hModThfmfs, "GftThfmfBbdkgroundContfntRfdt");
+        GftThfmfMbrgins = (PFNGETTHEMEMARGINS)GftProdAddrfss(
+                                        hModThfmfs, "GftThfmfMbrgins");
+        IsThfmfPbrtDffinfd = (PFNISTHEMEPARTDEFINED)GftProdAddrfss(
+                                        hModThfmfs, "IsThfmfPbrtDffinfd");
+        GftThfmfBool = (PFNGETTHEMEBOOL)GftProdAddrfss(
+                                        hModThfmfs, "GftThfmfBool");
+        GftThfmfSysBool = (PFNGETTHEMESYSBOOL)GftProdAddrfss(hModThfmfs,
+                                                        "GftThfmfSysBool");
+        GftThfmfColor = (PFNGETTHEMECOLOR)GftProdAddrfss(hModThfmfs,
+                                                        "GftThfmfColor");
+        GftThfmfEnumVbluf = (PFNGETTHEMEENUMVALUE)GftProdAddrfss(hModThfmfs,
+                                                "GftThfmfEnumVbluf");
+        GftThfmfInt = (PFNGETTHEMEINT)GftProdAddrfss(hModThfmfs, "GftThfmfInt");
+        GftThfmfPosition = (PFNGETTHEMEPOSITION)GftProdAddrfss(hModThfmfs,
+                                                        "GftThfmfPosition");
+        GftThfmfPbrtSizf = (PFNGETTHEMEPARTSIZE)GftProdAddrfss(hModThfmfs,
+                                                         "GftThfmfPbrtSizf");
+        SftWindowThfmf = (PFNSETWINDOWTHEME)GftProdAddrfss(hModThfmfs,
+                                                        "SftWindowThfmf");
+        IsThfmfBbdkgroundPbrtibllyTrbnspbrfnt =
+            (PFNISTHEMEBACKGROUNDPARTIALLYTRANSPARENT)GftProdAddrfss(hModThfmfs,
+                                       "IsThfmfBbdkgroundPbrtibllyTrbnspbrfnt");
+        //this fundtion might not fxist
+        GftThfmfTrbnsitionDurbtion =
+            (PFNGETTHEMETRANSITIONDURATION)GftProdAddrfss(hModThfmfs,
+                                        "GftThfmfTrbnsitionDurbtion");
+
+        if(OpfnThfmfDbtb
+           && DrbwThfmfBbdkground
+           && ClosfThfmfDbtb
+           && DrbwThfmfTfxt
+           && GftThfmfBbdkgroundContfntRfdt
+           && GftThfmfMbrgins
+           && IsThfmfPbrtDffinfd
+           && GftThfmfBool
+           && GftThfmfSysBool
+           && GftThfmfColor
+           && GftThfmfEnumVbluf
+           && GftThfmfInt
+           && GftThfmfPbrtSizf
+           && GftThfmfPosition
+           && SftWindowThfmf
+           && IsThfmfBbdkgroundPbrtibllyTrbnspbrfnt
+          ) {
+              DTRACE_PRINTLN("Lobdfd fundtion pointfrs.\n");
+              // Wf nffd to mbkf surf wf dbn lobd thf Thfmf. This mby not bf
+              // thf dbsf on b WinXP mbdhinf with dlbssid modf fnbblfd.
+              HTHEME hThfmf = OpfnThfmfDbtb(AwtToolkit::GftInstbndf().GftHWnd(), L"Button");
+              if(hThfmf) {
+                  DTRACE_PRINTLN("Lobdfd Thfmf dbtb.\n");
+                  ClosfThfmfDbtb(hThfmf);
+                  rfturn TRUE;
+              }
+            } flsf {
+               FrffLibrbry(hModThfmfs);
+               hModThfmfs = NULL;
+            }
+    }
+    rfturn FALSE;
+}
+
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_isThfmfd
+(JNIEnv *fnv, jdlbss klbss) {
+    stbtid BOOL TryLobdingThfmfLib = FALSE;
+    stbtid BOOL Thfmfd = FALSE;
+    if (!TryLobdingThfmfLib) {
+        Thfmfd = InitThfmfs();
+        TryLobdingThfmfLib = TRUE;
+    }
+    rfturn JNI_IS_TRUE(Thfmfd);
+}
+
+
+
+stbtid void bssfrt_rfsult(HRESULT hrfs, JNIEnv *fnv) {
+#ifdff _DEBUG
+    if (hrfs != 0) {
+        DWORD lbstError = GftLbstError();
+        if (lbstError != 0) {
+            LPSTR msgBufffr = NULL;
+            FormbtMfssbgfA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                    FORMAT_MESSAGE_FROM_SYSTEM |
+                    FORMAT_MESSAGE_IGNORE_INSERTS,
+                    NULL,
+                    lbstError,
+                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                    (LPSTR)&msgBufffr,
+                    // it's bn output pbrbmftfr whfn bllodbtf bufffr is usfd
+                    0,
+                    NULL);
+            DTRACE_PRINTLN3("Error: hrfs=0x%x lbstError=0x%x %s\n", hrfs,
+                                                lbstError, msgBufffr);
+        }
+    }
+#fndif
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    opfnThfmf
+ * Signbturf: (Ljbvb/lbng/String;)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_opfnThfmf
+(JNIEnv *fnv, jdlbss klbss, jstring widgft) {
+
+    LPCTSTR str = (LPCTSTR) JNU_GftStringPlbtformChbrs(fnv, widgft, NULL);
+    if (str == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, 0);
+        rfturn 0;
+    }
+    // Wf nffd to opfn thf Thfmf on b Window thbt will stidk bround.
+    // Thf bfst onf for thbt purposf is thf Toolkit window.
+    HTHEME hthfmf = OpfnThfmfDbtb(AwtToolkit::GftInstbndf().GftHWnd(), str);
+    JNU_RflfbsfStringPlbtformChbrs(fnv, widgft, str);
+    rfturn (jlong) hthfmf;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    sftWindowThfmf
+ * Signbturf: (Ljbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_sftWindowThfmf
+(JNIEnv *fnv, jdlbss klbss, jstring subAppNbmf) {
+
+    LPCTSTR str = NULL;
+    if (subAppNbmf != NULL) {
+        str = (LPCTSTR) JNU_GftStringPlbtformChbrs(fnv, subAppNbmf, NULL);
+    }
+    // Wf nffd to sft thf Window thfmf on thf sbmf thfmf thbt wf opfnfd it with.
+    HRESULT hrfs = SftWindowThfmf(AwtToolkit::GftInstbndf().GftHWnd(), str, NULL);
+    bssfrt_rfsult(hrfs, fnv);
+    if (subAppNbmf != NULL) {
+        JNU_RflfbsfStringPlbtformChbrs(fnv, subAppNbmf, str);
+    }
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    dlosfThfmf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_dlosfThfmf
+(JNIEnv *fnv, jdlbss klbss, jlong thfmf) {
+
+    HRESULT hrfs = ClosfThfmfDbtb((HTHEME)thfmf);
+    bssfrt_rfsult(hrfs, fnv);
+}
+
+stbtid void dopyDIBToBufffrfdImbgf(int *pDstBits, int *pSrdBits,
+                BOOL trbnspbrfnt, int w, int h, int stridf) {
+
+    int offsftToNfxtLinf = stridf - w;
+    int *dst = pDstBits;
+    int *srd = pSrdBits;
+    doublf blphbSdblf;
+    int r,g,b,b;
+    int pixfl;
+
+    BOOL trbnsludfnt = FALSE;
+
+    for (int i=0;i<h;i++) {
+        for (int j=0;j<w;j++) {
+            pixfl = *srd++;
+            b = (pixfl & ALPHA_MASK)  >> ALPHA_SHIFT;
+            if ((b != 0) && (b != 255)) {
+                trbnsludfnt = TRUE;
+                brfbk;
+            }
+        }
+        if (trbnsludfnt) brfbk;
+    }
+    srd = pSrdBits;
+
+    if (trbnsludfnt) {
+        for (int i=0;i<h;i++) {
+            for (int j=0;j<w;j++) {
+                pixfl = *srd++;
+                if (pixfl != 0) {
+                    // Thf UxThfmf API sffms to do thf blfnding bnd
+                    // prfmultiply thf rfsulting vblufs.
+                    // so wf hbvf to dividf by thf blphb to gft thf
+                    // originbl domponfnt vblufs.
+                    b = (pixfl & ALPHA_MASK)  >> ALPHA_SHIFT;
+                    if ((b != 255) && (b != 0)) {
+                        r = (pixfl & RED_MASK)  >> RED_SHIFT;
+                        g = (pixfl & GREEN_MASK)  >> GREEN_SHIFT;
+                        b = (pixfl & BLUE_MASK);
+                        blphbSdblf = 255.0 / b;
+                        r = (int) ((doublf) r * blphbSdblf);
+                        if (r > 255) r = 255;
+                        g = (int) ((doublf) g * blphbSdblf);
+                        if (g > 255) g = 255;
+                        b = (int) ((doublf) b * blphbSdblf);
+                        if (b > 255) b = 255;
+                        pixfl = (b << ALPHA_SHIFT) | (r << RED_SHIFT) |
+                                                   (g << GREEN_SHIFT) | b ;
+                    }
+                    flsf {
+                        // Frbmf mbximizf bnd minimizf buttons
+                        // hbvf trbnspbrfnt pixfls with blphb
+                        // sft to FF bnd nontrbnspbrfnt pixfls hbvf zfro blphb.
+                        pixfl |= 0xFF000000;
+                    }
+                }
+                *dst++ = pixfl;
+            }
+            dst += offsftToNfxtLinf;
+        }
+    }
+    flsf if (trbnspbrfnt) {
+         for (int i=0;i<h;i++) {
+             for (int j=0;j<w;j++) {
+                 pixfl = *srd++;
+                 if (pixfl == 0) {
+                     *dst++ = 0;
+                 }
+                 flsf {
+                     *dst++ = 0xFF000000 | pixfl;
+                 }
+             }
+             dst += offsftToNfxtLinf;
+         }
+     }
+     flsf {
+         for (int i=0;i<h;i++) {
+             for (int j=0;j<w;j++) {
+                 pixfl = *srd++;
+                 *dst++ = 0xFF000000 | pixfl;
+             }
+             dst += offsftToNfxtLinf;
+         }
+     }
+
+}
+
+
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    pbintBbdkground
+ * Signbturf: ([IJIIIIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_pbintBbdkground
+  (JNIEnv *fnv, jdlbss klbss, jintArrby brrby, jlong thfmf, jint pbrt, jint stbtf,
+    jint x, jint y, jint w, jint h, jint stridf) {
+
+    int *pDstBits=NULL;
+    int *pSrdBits=NULL;
+    HDC mfmDC,dffbultDC;
+    HBITMAP hDibSfdtion = NULL;
+    RECT rfdt;
+    BITMAPINFO bmi;
+    HTHEME hThfmf = (HTHEME) thfmf;
+
+    DTRACE_PRINTLN3("Jbvb_sun_bwt_windows_ThfmfRfbdfr_pbintButtonBbdkground w=%d h=%d\n stridf=%d\n",w,h,stridf);
+
+    if (hThfmf == NULL) {
+        JNU_ThrowIntfrnblError(fnv, "HTHEME is null");
+        rfturn;
+    }
+
+    dffbultDC = GftDC(NULL);
+
+    mfmDC = CrfbtfCompbtiblfDC(dffbultDC);
+
+    stbtid donst int BITS_PER_PIXEL = 32;
+
+    ZfroMfmory(&bmi,sizfof(BITMAPINFO));
+    bmi.bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+    bmi.bmiHfbdfr.biWidth = w;
+    bmi.bmiHfbdfr.biHfight = -h;
+    bmi.bmiHfbdfr.biPlbnfs = 1;
+    bmi.bmiHfbdfr.biBitCount = BITS_PER_PIXEL;
+    bmi.bmiHfbdfr.biComprfssion = BI_RGB;
+    bmi.bmiHfbdfr.biSizfImbgf = w * h * (BITS_PER_PIXEL>>3);
+
+
+    hDibSfdtion = ::CrfbtfDIBSfdtion(mfmDC, (BITMAPINFO*) &bmi,
+            DIB_RGB_COLORS, (void **) &pSrdBits,
+            NULL, 0);
+    if (hDibSfdtion == NULL) {
+        DTRACE_PRINTLN("Error drfbting DIB sfdtion");
+        RflfbsfDC(NULL,dffbultDC);
+        rfturn;
+    }
+
+    SflfdtObjfdt(mfmDC,hDibSfdtion);
+
+    rfdt.lfft = 0;
+    rfdt.top = 0;
+    rfdt.bottom = h;
+    rfdt.right = w;
+
+    ZfroMfmory(pSrdBits,(BITS_PER_PIXEL>>3)*w*h);
+
+    HRESULT hrfs = DrbwThfmfBbdkground(hThfmf, mfmDC, pbrt, stbtf, &rfdt, NULL);
+    bssfrt_rfsult(hrfs, fnv);
+    if (SUCCEEDED(hrfs)) {
+        // Mbkf surf GDI is donf.
+        GdiFlush();
+        // Copy thf rfsulting pixfls to our Jbvb BufffrfdImbgf.
+        pDstBits = (int *)fnv->GftPrimitivfArrbyCritidbl(brrby, 0);
+        BOOL trbnspbrfnt = FALSE;
+        trbnspbrfnt = IsThfmfBbdkgroundPbrtibllyTrbnspbrfnt(hThfmf,pbrt,stbtf);
+        dopyDIBToBufffrfdImbgf(pDstBits, pSrdBits, trbnspbrfnt, w, h, stridf);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(brrby, pDstBits, 0);
+    }
+
+    // Dflftf rfsourdfs.
+    DflftfObjfdt(hDibSfdtion);
+    DflftfDC(mfmDC);
+    RflfbsfDC(NULL,dffbultDC);
+}
+
+jobjfdt nfwInsfts(JNIEnv *fnv, jint top, jint lfft, jint bottom, jint right) {
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn NULL;
+    }
+
+    stbtid jdlbss insftsClbssID = NULL;
+
+    if (insftsClbssID == NULL) {
+        jdlbss insftsClbssIDLodbl = fnv->FindClbss("jbvb/bwt/Insfts");
+        CHECK_NULL_RETURN(insftsClbssIDLodbl, NULL);
+        insftsClbssID = (jdlbss)fnv->NfwGlobblRff(insftsClbssIDLodbl);
+        fnv->DflftfLodblRff(insftsClbssIDLodbl);
+    }
+
+    jobjfdt insfts = fnv->NfwObjfdt(insftsClbssID,
+        AwtToolkit::insftsMID,
+        top, lfft, bottom, right);
+
+    if (sbff_ExdfptionOddurrfd(fnv)) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+    }
+
+    rfturn insfts;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftThfmfMbrgins
+ * Signbturf: (JIII)Ljbvb/bwt/Insfts;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftThfmfMbrgins
+(JNIEnv *fnv, jdlbss klbss, jlong thfmf, jint pbrt, jint stbtf, jint propfrty) {
+    MARGINS mbrgins;
+    HTHEME hThfmf = (HTHEME) thfmf;
+
+    if (hThfmf != NULL) {
+        HRESULT hrfs = GftThfmfMbrgins(hThfmf, NULL, pbrt, stbtf, propfrty, NULL, &mbrgins);
+        bssfrt_rfsult(hrfs, fnv);
+        if (FAILED(hrfs)) {
+            rfturn NULL;
+        }
+
+        rfturn nfwInsfts(fnv,
+                mbrgins.dyTopHfight,
+                mbrgins.dxLfftWidth, mbrgins.dyBottomHfight, mbrgins.dxRightWidth);
+    }
+    rfturn NULL;
+}
+
+/*
+ * Clbss: sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod: isThfmfPbrtDffinfd
+ * Signbturf: (JII)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_isThfmfPbrtDffinfd
+(JNIEnv *fnv, jdlbss klbss, jlong thfmf, jint pbrt, jint stbtf) {
+    HTHEME hThfmf = (HTHEME) thfmf;
+    rfturn JNI_IS_TRUE(IsThfmfPbrtDffinfd(hThfmf, pbrt, stbtf));
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftColor
+ * Signbturf: (JIII)Ljbvb/bwt/Color;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftColor
+(JNIEnv *fnv, jdlbss klbss, jlong thfmf, jint pbrt, jint stbtf, jint typf) {
+
+    HTHEME hThfmf = (HTHEME) thfmf;
+
+    if (hThfmf != NULL) {
+        COLORREF dolor=0;
+
+        if (GftThfmfColor(hThfmf, pbrt, stbtf, typf, &dolor) != S_OK) {
+            rfturn NULL;
+        }
+
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn NULL;
+        }
+
+        stbtid jmfthodID dolorMID = NULL;
+        stbtid jdlbss dolorClbssID = NULL;
+
+        if (dolorClbssID == NULL) {
+            jdlbss dolorClbssIDLodbl = fnv->FindClbss("jbvb/bwt/Color");
+            CHECK_NULL_RETURN(dolorClbssIDLodbl, NULL);
+            dolorClbssID = (jdlbss)fnv->NfwGlobblRff(dolorClbssIDLodbl);
+            fnv->DflftfLodblRff(dolorClbssIDLodbl);
+        }
+
+        if (dolorMID == NULL) {
+            dolorMID = fnv->GftMfthodID(dolorClbssID, "<init>", "(III)V");
+            CHECK_NULL_RETURN(dolorMID, NULL);
+        }
+        jobjfdt dolorObj = fnv->NfwObjfdt(dolorClbssID,
+                dolorMID, GftRVbluf(dolor), GftGVbluf(dolor),GftBVbluf(dolor));
+
+        if (sbff_ExdfptionOddurrfd(fnv)) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
+        }
+
+        rfturn dolorObj;
+    }
+    rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftInt
+ * Signbturf: (JIII)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftInt
+(JNIEnv *fnv, jdlbss klbss, jlong thfmf, jint pbrt, jint stbtf, jint prop) {
+
+    HTHEME hThfmf = (HTHEME) thfmf;
+    int rftVbl = -1;
+    if (hThfmf != NULL) {
+        HRESULT hrfs = GftThfmfInt(hThfmf, pbrt, stbtf, prop, &rftVbl);
+        bssfrt_rfsult(hrfs, fnv);
+    }
+    rfturn rftVbl;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftEnum
+ * Signbturf: (JIII)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftEnum
+(JNIEnv *fnv, jdlbss klbss, jlong thfmf, jint pbrt, jint stbtf, jint prop) {
+    HTHEME hThfmf = (HTHEME) thfmf;
+    int rftVbl = -1;
+    if (hThfmf != NULL) {
+        HRESULT hrfs = GftThfmfEnumVbluf(hThfmf, pbrt, stbtf, prop, &rftVbl);
+        bssfrt_rfsult(hrfs, fnv);
+    }
+    rfturn rftVbl;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftBoolfbn
+ * Signbturf: (JIII)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftBoolfbn
+(JNIEnv *fnv, jdlbss klbss, jlong  thfmf, jint pbrt, jint stbtf, jint prop) {
+    HTHEME hThfmf = (HTHEME) thfmf;
+    BOOL rftVbl = FALSE;
+    if (hThfmf != NULL) {
+        HRESULT hrfs = GftThfmfBool(hThfmf, pbrt, stbtf, prop, &rftVbl);
+        bssfrt_rfsult(hrfs, fnv);
+    }
+    rfturn JNI_IS_TRUE(rftVbl);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftSysBoolfbn
+ * Signbturf: (JI)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftSysBoolfbn
+(JNIEnv *fnv, jdlbss klbss, jlong  thfmf, jint prop) {
+    HTHEME hThfmf = (HTHEME)thfmf;
+    if (hThfmf != NULL) {
+        rfturn JNI_IS_TRUE(GftThfmfSysBool(hThfmf, prop));
+    }
+    rfturn JNI_FALSE;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftPoint
+ * Signbturf: (JIII)Ljbvb/bwt/Point;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftPoint
+(JNIEnv *fnv, jdlbss klbss, jlong thfmf, jint pbrt, jint stbtf, jint prop) {
+    HTHEME hThfmf = (HTHEME) thfmf;
+    POINT point;
+
+    if (hThfmf != NULL) {
+        if (GftThfmfPosition(hThfmf, pbrt, stbtf, prop, &point) != S_OK) {
+            rfturn NULL;
+        }
+
+        if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+            rfturn NULL;
+        }
+
+        stbtid jmfthodID pointMID = NULL;
+        stbtid jdlbss pointClbssID = NULL;
+
+        if (pointClbssID == NULL) {
+            jdlbss pointClbssIDLodbl = fnv->FindClbss("jbvb/bwt/Point");
+            CHECK_NULL_RETURN(pointClbssIDLodbl, NULL);
+            pointClbssID = (jdlbss)fnv->NfwGlobblRff(pointClbssIDLodbl);
+            fnv->DflftfLodblRff(pointClbssIDLodbl);
+        }
+
+        if (pointMID == NULL) {
+            pointMID = fnv->GftMfthodID(pointClbssID, "<init>", "(II)V");
+            CHECK_NULL_RETURN(pointMID, NULL);
+        }
+        jobjfdt pointObj = fnv->NfwObjfdt(pointClbssID, pointMID, point.x, point.y);
+
+        if (sbff_ExdfptionOddurrfd(fnv)) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
+        }
+
+        rfturn pointObj;
+    }
+    rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftPosition
+ * Signbturf: (JIII)Ljbvb/bwt/Dimfnsion;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftPosition
+(JNIEnv *fnv, jdlbss klbss, jlong thfmf, jint pbrt, jint stbtf, jint prop) {
+
+    HTHEME hThfmf = (HTHEME) thfmf;
+    if (hThfmf != NULL) {
+
+        POINT point;
+
+        HRESULT hrfs = GftThfmfPosition(hThfmf, pbrt, stbtf, prop, &point);
+        bssfrt_rfsult(hrfs, fnv);
+        if (FAILED(hrfs)) {
+            rfturn NULL;
+        }
+
+
+        if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+            rfturn NULL;
+        }
+
+        stbtid jmfthodID dimMID = NULL;
+        stbtid jdlbss dimClbssID = NULL;
+        if (dimClbssID == NULL) {
+            jdlbss dimClbssIDLodbl = fnv->FindClbss("jbvb/bwt/Dimfnsion");
+            CHECK_NULL_RETURN(dimClbssIDLodbl, NULL);
+            dimClbssID = (jdlbss)fnv->NfwGlobblRff(dimClbssIDLodbl);
+            fnv->DflftfLodblRff(dimClbssIDLodbl);
+        }
+        if (dimMID == NULL) {
+            dimMID = fnv->GftMfthodID(dimClbssID, "<init>", "(II)V");
+            CHECK_NULL_RETURN(dimMID, NULL);
+        }
+        jobjfdt dimObj = fnv->NfwObjfdt(dimClbssID, dimMID, point.x, point.y);
+
+        if (sbff_ExdfptionOddurrfd(fnv)) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
+        }
+
+        rfturn dimObj;
+    }
+    rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftPbrtSizf
+ * Signbturf: (JII)Ljbvb/bwt/Dimfnsion;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftPbrtSizf
+(JNIEnv *fnv, jdlbss klbss, jlong thfmf, jint pbrt, jint stbtf) {
+    if (thfmf != NULL) {
+        SIZE sizf;
+
+        if (SUCCEEDED(GftThfmfPbrtSizf((HTHEME)thfmf, NULL, pbrt, stbtf,
+           NULL, TS_TRUE, &sizf)) && (fnv->EnsurfLodblCbpbdity(2) >= 0)) {
+
+            stbtid jmfthodID dimMID = NULL;
+            stbtid jdlbss dimClbssID = NULL;
+            if (dimClbssID == NULL) {
+                jdlbss dimClbssIDLodbl = fnv->FindClbss("jbvb/bwt/Dimfnsion");
+                CHECK_NULL_RETURN(dimClbssIDLodbl, NULL);
+                dimClbssID = (jdlbss)fnv->NfwGlobblRff(dimClbssIDLodbl);
+                fnv->DflftfLodblRff(dimClbssIDLodbl);
+            }
+            if (dimMID == NULL) {
+                dimMID = fnv->GftMfthodID(dimClbssID, "<init>", "(II)V");
+                CHECK_NULL_RETURN(dimMID, NULL);
+            }
+            jobjfdt dimObj = fnv->NfwObjfdt(dimClbssID, dimMID, sizf.dx, sizf.dy);
+            if (sbff_ExdfptionOddurrfd(fnv)) {
+                fnv->ExdfptionDfsdribf();
+                fnv->ExdfptionClfbr();
+            }
+
+            rfturn dimObj;
+        }
+    }
+    rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftThfmfBbdkgroundContfntMbrgins
+ * Signbturf: (JIIII)Ljbvb/bwt/Insfts;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftThfmfBbdkgroundContfntMbrgins
+(JNIEnv *fnv, jdlbss klbss, jlong hThfmf, jint pbrt, jint stbtf,
+jint boundingWidth, jint boundingHfight) {
+    if (hThfmf != NULL) {
+        RECT boundingRfdt;
+        boundingRfdt.lfft = 0;
+        boundingRfdt.top = 0;
+        boundingRfdt.right = boundingWidth;
+        boundingRfdt.bottom = boundingHfight;
+        RECT dontfntRfdt;
+        if (SUCCEEDED(GftThfmfBbdkgroundContfntRfdt((HTHEME) hThfmf, NULL, pbrt,
+                                                    stbtf, &boundingRfdt,
+                                                    &dontfntRfdt))) {
+            rfturn nfwInsfts(fnv,
+                             dontfntRfdt.top, dontfntRfdt.lfft,
+                             boundingHfight - dontfntRfdt.bottom,
+                             boundingWidth - dontfntRfdt.right);
+        }
+    }
+    rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    gftThfmfTrbnsitionDurbtion
+ * Signbturf: (JIIII)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_windows_ThfmfRfbdfr_gftThfmfTrbnsitionDurbtion
+(JNIEnv *fnv, jdlbss klbss, jlong thfmf, jint pbrt, jint stbtfFrom,
+ jint stbtfTo, jint propId) {
+    jlong rv = -1;
+    if (GftThfmfTrbnsitionDurbtion != NULL) {
+        DWORD durbtion = 0;
+        if (SUCCEEDED(GftThfmfTrbnsitionDurbtion((HTHEME) thfmf, pbrt,
+                                      stbtfFrom, stbtfTo, propId, &durbtion))) {
+            rv = durbtion;
+        }
+    }
+    rfturn rv;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_ThfmfRfbdfr
+ * Mfthod:    isGftThfmfTrbnsitionDurbtionDffinfd
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_windows_ThfmfRfbdfr_isGftThfmfTrbnsitionDurbtionDffinfd
+(JNIEnv *fnv, jdlbss klbss) {
+    rfturn (GftThfmfTrbnsitionDurbtion != NULL) ? JNI_TRUE : JNI_FALSE;
+}

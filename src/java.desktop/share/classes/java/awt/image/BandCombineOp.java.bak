@@ -1,289 +1,289 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.GraphicsEnvironment;
-import java.awt.color.ICC_Profile;
-import java.awt.geom.Rectangle2D;
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
-import java.awt.RenderingHints;
-import sun.awt.image.ImagingLib;
-import java.util.Arrays;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.RfndfringHints;
+import sun.bwt.imbgf.ImbgingLib;
+import jbvb.util.Arrbys;
 
 /**
- * This class performs an arbitrary linear combination of the bands
- * in a <CODE>Raster</CODE>, using a specified matrix.
+ * Tiis dlbss pfrforms bn brbitrbry linfbr dombinbtion of tif bbnds
+ * in b <CODE>Rbstfr</CODE>, using b spfdififd mbtrix.
  * <p>
- * The width of the matrix must be equal to the number of bands in the
- * source <CODE>Raster</CODE>, optionally plus one.  If there is one more
- * column in the matrix than the number of bands, there is an implied 1 at the
- * end of the vector of band samples representing a pixel.  The height
- * of the matrix must be equal to the number of bands in the destination.
+ * Tif widti of tif mbtrix must bf fqubl to tif numbfr of bbnds in tif
+ * sourdf <CODE>Rbstfr</CODE>, optionblly plus onf.  If tifrf is onf morf
+ * dolumn in tif mbtrix tibn tif numbfr of bbnds, tifrf is bn implifd 1 bt tif
+ * fnd of tif vfdtor of bbnd sbmplfs rfprfsfnting b pixfl.  Tif ifigit
+ * of tif mbtrix must bf fqubl to tif numbfr of bbnds in tif dfstinbtion.
  * <p>
- * For example, a 3-banded <CODE>Raster</CODE> might have the following
- * transformation applied to each pixel in order to invert the second band of
- * the <CODE>Raster</CODE>.
- * <pre>
+ * For fxbmplf, b 3-bbndfd <CODE>Rbstfr</CODE> migit ibvf tif following
+ * trbnsformbtion bpplifd to fbdi pixfl in ordfr to invfrt tif sfdond bbnd of
+ * tif <CODE>Rbstfr</CODE>.
+ * <prf>
  *   [ 1.0   0.0   0.0    0.0  ]     [ b1 ]
  *   [ 0.0  -1.0   0.0  255.0  ]  x  [ b2 ]
  *   [ 0.0   0.0   1.0    0.0  ]     [ b3 ]
  *                                   [ 1 ]
- * </pre>
+ * </prf>
  *
  * <p>
- * Note that the source and destination can be the same object.
+ * Notf tibt tif sourdf bnd dfstinbtion dbn bf tif sbmf objfdt.
  */
-public class BandCombineOp implements  RasterOp {
-    float[][] matrix;
+publid dlbss BbndCombinfOp implfmfnts  RbstfrOp {
+    flobt[][] mbtrix;
     int nrows = 0;
-    int ncols = 0;
-    RenderingHints hints;
+    int ndols = 0;
+    RfndfringHints iints;
 
     /**
-     * Constructs a <CODE>BandCombineOp</CODE> with the specified matrix.
-     * The width of the matrix must be equal to the number of bands in
-     * the source <CODE>Raster</CODE>, optionally plus one.  If there is one
-     * more column in the matrix than the number of bands, there is an implied
-     * 1 at the end of the vector of band samples representing a pixel.  The
-     * height of the matrix must be equal to the number of bands in the
-     * destination.
+     * Construdts b <CODE>BbndCombinfOp</CODE> witi tif spfdififd mbtrix.
+     * Tif widti of tif mbtrix must bf fqubl to tif numbfr of bbnds in
+     * tif sourdf <CODE>Rbstfr</CODE>, optionblly plus onf.  If tifrf is onf
+     * morf dolumn in tif mbtrix tibn tif numbfr of bbnds, tifrf is bn implifd
+     * 1 bt tif fnd of tif vfdtor of bbnd sbmplfs rfprfsfnting b pixfl.  Tif
+     * ifigit of tif mbtrix must bf fqubl to tif numbfr of bbnds in tif
+     * dfstinbtion.
      * <p>
-     * The first subscript is the row index and the second
-     * is the column index.  This operation uses none of the currently
-     * defined rendering hints; the <CODE>RenderingHints</CODE> argument can be
+     * Tif first subsdript is tif row indfx bnd tif sfdond
+     * is tif dolumn indfx.  Tiis opfrbtion usfs nonf of tif durrfntly
+     * dffinfd rfndfring iints; tif <CODE>RfndfringHints</CODE> brgumfnt dbn bf
      * null.
      *
-     * @param matrix The matrix to use for the band combine operation.
-     * @param hints The <CODE>RenderingHints</CODE> object for this operation.
-     * Not currently used so it can be null.
+     * @pbrbm mbtrix Tif mbtrix to usf for tif bbnd dombinf opfrbtion.
+     * @pbrbm iints Tif <CODE>RfndfringHints</CODE> objfdt for tiis opfrbtion.
+     * Not durrfntly usfd so it dbn bf null.
      */
-    public BandCombineOp (float[][] matrix, RenderingHints hints) {
-        nrows = matrix.length;
-        ncols = matrix[0].length;
-        this.matrix = new float[nrows][];
+    publid BbndCombinfOp (flobt[][] mbtrix, RfndfringHints iints) {
+        nrows = mbtrix.lfngti;
+        ndols = mbtrix[0].lfngti;
+        tiis.mbtrix = nfw flobt[nrows][];
         for (int i=0; i < nrows; i++) {
-            /* Arrays.copyOf is forgiving of the source array being
-             * too short, but it is also faster than other cloning
-             * methods, so we provide our own protection for short
-             * matrix rows.
+            /* Arrbys.dopyOf is forgiving of tif sourdf brrby bfing
+             * too siort, but it is blso fbstfr tibn otifr dloning
+             * mftiods, so wf providf our own protfdtion for siort
+             * mbtrix rows.
              */
-            if (ncols > matrix[i].length) {
-                throw new IndexOutOfBoundsException("row "+i+" too short");
+            if (ndols > mbtrix[i].lfngti) {
+                tirow nfw IndfxOutOfBoundsExdfption("row "+i+" too siort");
             }
-            this.matrix[i] = Arrays.copyOf(matrix[i], ncols);
+            tiis.mbtrix[i] = Arrbys.dopyOf(mbtrix[i], ndols);
         }
-        this.hints  = hints;
+        tiis.iints  = iints;
     }
 
     /**
-     * Returns a copy of the linear combination matrix.
+     * Rfturns b dopy of tif linfbr dombinbtion mbtrix.
      *
-     * @return The matrix associated with this band combine operation.
+     * @rfturn Tif mbtrix bssodibtfd witi tiis bbnd dombinf opfrbtion.
      */
-    public final float[][] getMatrix() {
-        float[][] ret = new float[nrows][];
+    publid finbl flobt[][] gftMbtrix() {
+        flobt[][] rft = nfw flobt[nrows][];
         for (int i = 0; i < nrows; i++) {
-            ret[i] = Arrays.copyOf(matrix[i], ncols);
+            rft[i] = Arrbys.dopyOf(mbtrix[i], ndols);
         }
-        return ret;
+        rfturn rft;
     }
 
     /**
-     * Transforms the <CODE>Raster</CODE> using the matrix specified in the
-     * constructor. An <CODE>IllegalArgumentException</CODE> may be thrown if
-     * the number of bands in the source or destination is incompatible with
-     * the matrix.  See the class comments for more details.
+     * Trbnsforms tif <CODE>Rbstfr</CODE> using tif mbtrix spfdififd in tif
+     * donstrudtor. An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if
+     * tif numbfr of bbnds in tif sourdf or dfstinbtion is indompbtiblf witi
+     * tif mbtrix.  Sff tif dlbss dommfnts for morf dftbils.
      * <p>
-     * If the destination is null, it will be created with a number of bands
-     * equalling the number of rows in the matrix. No exception is thrown
-     * if the operation causes a data overflow.
+     * If tif dfstinbtion is null, it will bf drfbtfd witi b numbfr of bbnds
+     * fqublling tif numbfr of rows in tif mbtrix. No fxdfption is tirown
+     * if tif opfrbtion dbusfs b dbtb ovfrflow.
      *
-     * @param src The <CODE>Raster</CODE> to be filtered.
-     * @param dst The <CODE>Raster</CODE> in which to store the results
-     * of the filter operation.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf filtfrfd.
+     * @pbrbm dst Tif <CODE>Rbstfr</CODE> in wiidi to storf tif rfsults
+     * of tif filtfr opfrbtion.
      *
-     * @return The filtered <CODE>Raster</CODE>.
+     * @rfturn Tif filtfrfd <CODE>Rbstfr</CODE>.
      *
-     * @throws IllegalArgumentException If the number of bands in the
-     * source or destination is incompatible with the matrix.
+     * @tirows IllfgblArgumfntExdfption If tif numbfr of bbnds in tif
+     * sourdf or dfstinbtion is indompbtiblf witi tif mbtrix.
      */
-    public WritableRaster filter(Raster src, WritableRaster dst) {
-        int nBands = src.getNumBands();
-        if (ncols != nBands && ncols != (nBands+1)) {
-            throw new IllegalArgumentException("Number of columns in the "+
-                                               "matrix ("+ncols+
-                                               ") must be equal to the number"+
-                                               " of bands ([+1]) in src ("+
-                                               nBands+").");
+    publid WritbblfRbstfr filtfr(Rbstfr srd, WritbblfRbstfr dst) {
+        int nBbnds = srd.gftNumBbnds();
+        if (ndols != nBbnds && ndols != (nBbnds+1)) {
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of dolumns in tif "+
+                                               "mbtrix ("+ndols+
+                                               ") must bf fqubl to tif numbfr"+
+                                               " of bbnds ([+1]) in srd ("+
+                                               nBbnds+").");
         }
         if (dst == null) {
-            dst = createCompatibleDestRaster(src);
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
         }
-        else if (nrows != dst.getNumBands()) {
-            throw new IllegalArgumentException("Number of rows in the "+
-                                               "matrix ("+nrows+
-                                               ") must be equal to the number"+
-                                               " of bands ([+1]) in dst ("+
-                                               nBands+").");
-        }
-
-        if (ImagingLib.filter(this, src, dst) != null) {
-            return dst;
+        flsf if (nrows != dst.gftNumBbnds()) {
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of rows in tif "+
+                                               "mbtrix ("+nrows+
+                                               ") must bf fqubl to tif numbfr"+
+                                               " of bbnds ([+1]) in dst ("+
+                                               nBbnds+").");
         }
 
-        int[] pixel = null;
-        int[] dstPixel = new int[dst.getNumBands()];
-        float accum;
-        int sminX = src.getMinX();
-        int sY = src.getMinY();
-        int dminX = dst.getMinX();
-        int dY = dst.getMinY();
+        if (ImbgingLib.filtfr(tiis, srd, dst) != null) {
+            rfturn dst;
+        }
+
+        int[] pixfl = null;
+        int[] dstPixfl = nfw int[dst.gftNumBbnds()];
+        flobt bddum;
+        int sminX = srd.gftMinX();
+        int sY = srd.gftMinY();
+        int dminX = dst.gftMinX();
+        int dY = dst.gftMinY();
         int sX;
         int dX;
-        if (ncols == nBands) {
-            for (int y=0; y < src.getHeight(); y++, sY++, dY++) {
+        if (ndols == nBbnds) {
+            for (int y=0; y < srd.gftHfigit(); y++, sY++, dY++) {
                 dX = dminX;
                 sX = sminX;
-                for (int x=0; x < src.getWidth(); x++, sX++, dX++) {
-                    pixel = src.getPixel(sX, sY, pixel);
+                for (int x=0; x < srd.gftWidti(); x++, sX++, dX++) {
+                    pixfl = srd.gftPixfl(sX, sY, pixfl);
                     for (int r=0; r < nrows; r++) {
-                        accum = 0.f;
-                        for (int c=0; c < ncols; c++) {
-                            accum += matrix[r][c]*pixel[c];
+                        bddum = 0.f;
+                        for (int d=0; d < ndols; d++) {
+                            bddum += mbtrix[r][d]*pixfl[d];
                         }
-                        dstPixel[r] = (int) accum;
+                        dstPixfl[r] = (int) bddum;
                     }
-                    dst.setPixel(dX, dY, dstPixel);
+                    dst.sftPixfl(dX, dY, dstPixfl);
                 }
             }
         }
-        else {
-            // Need to add constant
-            for (int y=0; y < src.getHeight(); y++, sY++, dY++) {
+        flsf {
+            // Nffd to bdd donstbnt
+            for (int y=0; y < srd.gftHfigit(); y++, sY++, dY++) {
                 dX = dminX;
                 sX = sminX;
-                for (int x=0; x < src.getWidth(); x++, sX++, dX++) {
-                    pixel = src.getPixel(sX, sY, pixel);
+                for (int x=0; x < srd.gftWidti(); x++, sX++, dX++) {
+                    pixfl = srd.gftPixfl(sX, sY, pixfl);
                     for (int r=0; r < nrows; r++) {
-                        accum = 0.f;
-                        for (int c=0; c < nBands; c++) {
-                            accum += matrix[r][c]*pixel[c];
+                        bddum = 0.f;
+                        for (int d=0; d < nBbnds; d++) {
+                            bddum += mbtrix[r][d]*pixfl[d];
                         }
-                        dstPixel[r] = (int) (accum+matrix[r][nBands]);
+                        dstPixfl[r] = (int) (bddum+mbtrix[r][nBbnds]);
                     }
-                    dst.setPixel(dX, dY, dstPixel);
+                    dst.sftPixfl(dX, dY, dstPixfl);
                 }
             }
         }
 
-        return dst;
+        rfturn dst;
     }
 
     /**
-     * Returns the bounding box of the transformed destination.  Since
-     * this is not a geometric operation, the bounding box is the same for
-     * the source and destination.
-     * An <CODE>IllegalArgumentException</CODE> may be thrown if the number of
-     * bands in the source is incompatible with the matrix.  See
-     * the class comments for more details.
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Sindf
+     * tiis is not b gfomftrid opfrbtion, tif bounding box is tif sbmf for
+     * tif sourdf bnd dfstinbtion.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif numbfr of
+     * bbnds in tif sourdf is indompbtiblf witi tif mbtrix.  Sff
+     * tif dlbss dommfnts for morf dftbils.
      *
-     * @param src The <CODE>Raster</CODE> to be filtered.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf filtfrfd.
      *
-     * @return The <CODE>Rectangle2D</CODE> representing the destination
-     * image's bounding box.
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion
+     * imbgf's bounding box.
      *
-     * @throws IllegalArgumentException If the number of bands in the source
-     * is incompatible with the matrix.
+     * @tirows IllfgblArgumfntExdfption If tif numbfr of bbnds in tif sourdf
+     * is indompbtiblf witi tif mbtrix.
      */
-    public final Rectangle2D getBounds2D (Raster src) {
-        return src.getBounds();
+    publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
+        rfturn srd.gftBounds();
     }
 
 
     /**
-     * Creates a zeroed destination <CODE>Raster</CODE> with the correct size
-     * and number of bands.
-     * An <CODE>IllegalArgumentException</CODE> may be thrown if the number of
-     * bands in the source is incompatible with the matrix.  See
-     * the class comments for more details.
+     * Crfbtfs b zfrofd dfstinbtion <CODE>Rbstfr</CODE> witi tif dorrfdt sizf
+     * bnd numbfr of bbnds.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif numbfr of
+     * bbnds in tif sourdf is indompbtiblf witi tif mbtrix.  Sff
+     * tif dlbss dommfnts for morf dftbils.
      *
-     * @param src The <CODE>Raster</CODE> to be filtered.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf filtfrfd.
      *
-     * @return The zeroed destination <CODE>Raster</CODE>.
+     * @rfturn Tif zfrofd dfstinbtion <CODE>Rbstfr</CODE>.
      */
-    public WritableRaster createCompatibleDestRaster (Raster src) {
-        int nBands = src.getNumBands();
-        if ((ncols != nBands) && (ncols != (nBands+1))) {
-            throw new IllegalArgumentException("Number of columns in the "+
-                                               "matrix ("+ncols+
-                                               ") must be equal to the number"+
-                                               " of bands ([+1]) in src ("+
-                                               nBands+").");
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+        int nBbnds = srd.gftNumBbnds();
+        if ((ndols != nBbnds) && (ndols != (nBbnds+1))) {
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of dolumns in tif "+
+                                               "mbtrix ("+ndols+
+                                               ") must bf fqubl to tif numbfr"+
+                                               " of bbnds ([+1]) in srd ("+
+                                               nBbnds+").");
         }
-        if (src.getNumBands() == nrows) {
-            return src.createCompatibleWritableRaster();
+        if (srd.gftNumBbnds() == nrows) {
+            rfturn srd.drfbtfCompbtiblfWritbblfRbstfr();
         }
-        else {
-            throw new IllegalArgumentException("Don't know how to create a "+
-                                               " compatible Raster with "+
-                                               nrows+" bands.");
+        flsf {
+            tirow nfw IllfgblArgumfntExdfption("Don't know iow to drfbtf b "+
+                                               " dompbtiblf Rbstfr witi "+
+                                               nrows+" bbnds.");
         }
     }
 
     /**
-     * Returns the location of the corresponding destination point given a
-     * point in the source <CODE>Raster</CODE>.  If <CODE>dstPt</CODE> is
-     * specified, it is used to hold the return value.
-     * Since this is not a geometric operation, the point returned
-     * is the same as the specified <CODE>srcPt</CODE>.
+     * Rfturns tif lodbtion of tif dorrfsponding dfstinbtion point givfn b
+     * point in tif sourdf <CODE>Rbstfr</CODE>.  If <CODE>dstPt</CODE> is
+     * spfdififd, it is usfd to iold tif rfturn vbluf.
+     * Sindf tiis is not b gfomftrid opfrbtion, tif point rfturnfd
+     * is tif sbmf bs tif spfdififd <CODE>srdPt</CODE>.
      *
-     * @param srcPt The <code>Point2D</code> that represents the point in
-     *              the source <code>Raster</code>
-     * @param dstPt The <CODE>Point2D</CODE> in which to store the result.
+     * @pbrbm srdPt Tif <dodf>Point2D</dodf> tibt rfprfsfnts tif point in
+     *              tif sourdf <dodf>Rbstfr</dodf>
+     * @pbrbm dstPt Tif <CODE>Point2D</CODE> in wiidi to storf tif rfsult.
      *
-     * @return The <CODE>Point2D</CODE> in the destination image that
-     * corresponds to the specified point in the source image.
+     * @rfturn Tif <CODE>Point2D</CODE> in tif dfstinbtion imbgf tibt
+     * dorrfsponds to tif spfdififd point in tif sourdf imbgf.
      */
-    public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
+    publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
         if (dstPt == null) {
-            dstPt = new Point2D.Float();
+            dstPt = nfw Point2D.Flobt();
         }
-        dstPt.setLocation(srcPt.getX(), srcPt.getY());
+        dstPt.sftLodbtion(srdPt.gftX(), srdPt.gftY());
 
-        return dstPt;
+        rfturn dstPt;
     }
 
     /**
-     * Returns the rendering hints for this operation.
+     * Rfturns tif rfndfring iints for tiis opfrbtion.
      *
-     * @return The <CODE>RenderingHints</CODE> object associated with this
-     * operation.  Returns null if no hints have been set.
+     * @rfturn Tif <CODE>RfndfringHints</CODE> objfdt bssodibtfd witi tiis
+     * opfrbtion.  Rfturns null if no iints ibvf bffn sft.
      */
-    public final RenderingHints getRenderingHints() {
-        return hints;
+    publid finbl RfndfringHints gftRfndfringHints() {
+        rfturn iints;
     }
 }

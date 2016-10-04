@@ -1,232 +1,232 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
-import java.util.Hashtable;
+pbdkbgf sun.misd;
+import jbvb.util.Hbsitbblf;
 
 /**
- * This class provides ANSI/ISO C signal support. A Java program can register
- * signal handlers for the current process. There are two restrictions:
+ * Tiis dlbss providfs ANSI/ISO C signbl support. A Jbvb progrbm dbn rfgistfr
+ * signbl ibndlfrs for tif durrfnt prodfss. Tifrf brf two rfstridtions:
  * <ul>
  * <li>
- * Java code cannot register a handler for signals that are already used
- * by the Java VM implementation. The <code>Signal.handle</code>
- * function raises an <code>IllegalArgumentException</code> if such an attempt
- * is made.
+ * Jbvb dodf dbnnot rfgistfr b ibndlfr for signbls tibt brf blrfbdy usfd
+ * by tif Jbvb VM implfmfntbtion. Tif <dodf>Signbl.ibndlf</dodf>
+ * fundtion rbisfs bn <dodf>IllfgblArgumfntExdfption</dodf> if sudi bn bttfmpt
+ * is mbdf.
  * <li>
- * When <code>Signal.handle</code> is called, the VM internally registers a
- * special C signal handler. There is no way to force the Java signal handler
- * to run synchronously before the C signal handler returns. Instead, when the
- * VM receives a signal, the special C signal handler creates a new thread
- * (at priority <code>Thread.MAX_PRIORITY</code>) to
- * run the registered Java signal handler. The C signal handler immediately
- * returns. Note that because the Java signal handler runs in a newly created
- * thread, it may not actually be executed until some time after the C signal
- * handler returns.
+ * Wifn <dodf>Signbl.ibndlf</dodf> is dbllfd, tif VM intfrnblly rfgistfrs b
+ * spfdibl C signbl ibndlfr. Tifrf is no wby to fordf tif Jbvb signbl ibndlfr
+ * to run syndironously bfforf tif C signbl ibndlfr rfturns. Instfbd, wifn tif
+ * VM rfdfivfs b signbl, tif spfdibl C signbl ibndlfr drfbtfs b nfw tirfbd
+ * (bt priority <dodf>Tirfbd.MAX_PRIORITY</dodf>) to
+ * run tif rfgistfrfd Jbvb signbl ibndlfr. Tif C signbl ibndlfr immfdibtfly
+ * rfturns. Notf tibt bfdbusf tif Jbvb signbl ibndlfr runs in b nfwly drfbtfd
+ * tirfbd, it mby not bdtublly bf fxfdutfd until somf timf bftfr tif C signbl
+ * ibndlfr rfturns.
  * </ul>
  * <p>
- * Signal objects are created based on their names. For example:
- * <blockquote><pre>
- * new Signal("INT");
- * </blockquote></pre>
- * constructs a signal object corresponding to <code>SIGINT</code>, which is
- * typically produced when the user presses <code>Ctrl-C</code> at the command line.
- * The <code>Signal</code> constructor throws <code>IllegalArgumentException</code>
- * when it is passed an unknown signal.
+ * Signbl objfdts brf drfbtfd bbsfd on tifir nbmfs. For fxbmplf:
+ * <blodkquotf><prf>
+ * nfw Signbl("INT");
+ * </blodkquotf></prf>
+ * donstrudts b signbl objfdt dorrfsponding to <dodf>SIGINT</dodf>, wiidi is
+ * typidblly produdfd wifn tif usfr prfssfs <dodf>Ctrl-C</dodf> bt tif dommbnd linf.
+ * Tif <dodf>Signbl</dodf> donstrudtor tirows <dodf>IllfgblArgumfntExdfption</dodf>
+ * wifn it is pbssfd bn unknown signbl.
  * <p>
- * This is an example of how Java code handles <code>SIGINT</code>:
- * <blockquote><pre>
- * SignalHandler handler = new SignalHandler () {
- *     public void handle(Signal sig) {
- *       ... // handle SIGINT
+ * Tiis is bn fxbmplf of iow Jbvb dodf ibndlfs <dodf>SIGINT</dodf>:
+ * <blodkquotf><prf>
+ * SignblHbndlfr ibndlfr = nfw SignblHbndlfr () {
+ *     publid void ibndlf(Signbl sig) {
+ *       ... // ibndlf SIGINT
  *     }
  * };
- * Signal.handle(new Signal("INT"), handler);
- * </blockquote></pre>
+ * Signbl.ibndlf(nfw Signbl("INT"), ibndlfr);
+ * </blodkquotf></prf>
  *
- * @author   Sheng Liang
- * @author   Bill Shannon
- * @see      sun.misc.SignalHandler
- * @since    1.2
+ * @butior   Sifng Libng
+ * @butior   Bill Sibnnon
+ * @sff      sun.misd.SignblHbndlfr
+ * @sindf    1.2
  */
-public final class Signal {
-    private static Hashtable<Signal,SignalHandler> handlers = new Hashtable<>(4);
-    private static Hashtable<Integer,Signal> signals = new Hashtable<>(4);
+publid finbl dlbss Signbl {
+    privbtf stbtid Hbsitbblf<Signbl,SignblHbndlfr> ibndlfrs = nfw Hbsitbblf<>(4);
+    privbtf stbtid Hbsitbblf<Intfgfr,Signbl> signbls = nfw Hbsitbblf<>(4);
 
-    private int number;
-    private String name;
+    privbtf int numbfr;
+    privbtf String nbmf;
 
-    /* Returns the signal number */
-    public int getNumber() {
-        return number;
+    /* Rfturns tif signbl numbfr */
+    publid int gftNumbfr() {
+        rfturn numbfr;
     }
 
     /**
-     * Returns the signal name.
+     * Rfturns tif signbl nbmf.
      *
-     * @return the name of the signal.
-     * @see sun.misc.Signal#Signal(String name)
+     * @rfturn tif nbmf of tif signbl.
+     * @sff sun.misd.Signbl#Signbl(String nbmf)
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Compares the equality of two <code>Signal</code> objects.
+     * Compbrfs tif fqublity of two <dodf>Signbl</dodf> objfdts.
      *
-     * @param other the object to compare with.
-     * @return whether two <code>Signal</code> objects are equal.
+     * @pbrbm otifr tif objfdt to dompbrf witi.
+     * @rfturn wiftifr two <dodf>Signbl</dodf> objfdts brf fqubl.
      */
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
         }
-        if (other == null || !(other instanceof Signal)) {
-            return false;
+        if (otifr == null || !(otifr instbndfof Signbl)) {
+            rfturn fblsf;
         }
-        Signal other1 = (Signal)other;
-        return name.equals(other1.name) && (number == other1.number);
+        Signbl otifr1 = (Signbl)otifr;
+        rfturn nbmf.fqubls(otifr1.nbmf) && (numbfr == otifr1.numbfr);
     }
 
     /**
-     * Returns a hashcode for this Signal.
+     * Rfturns b ibsidodf for tiis Signbl.
      *
-     * @return  a hash code value for this object.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-        return number;
+    publid int ibsiCodf() {
+        rfturn numbfr;
     }
 
     /**
-     * Returns a string representation of this signal. For example, "SIGINT"
-     * for an object constructed using <code>new Signal ("INT")</code>.
+     * Rfturns b string rfprfsfntbtion of tiis signbl. For fxbmplf, "SIGINT"
+     * for bn objfdt donstrudtfd using <dodf>nfw Signbl ("INT")</dodf>.
      *
-     * @return a string representation of the signal
+     * @rfturn b string rfprfsfntbtion of tif signbl
      */
-    public String toString() {
-        return "SIG" + name;
+    publid String toString() {
+        rfturn "SIG" + nbmf;
     }
 
     /**
-     * Constructs a signal from its name.
+     * Construdts b signbl from its nbmf.
      *
-     * @param name the name of the signal.
-     * @exception IllegalArgumentException unknown signal
-     * @see sun.misc.Signal#getName()
+     * @pbrbm nbmf tif nbmf of tif signbl.
+     * @fxdfption IllfgblArgumfntExdfption unknown signbl
+     * @sff sun.misd.Signbl#gftNbmf()
      */
-    public Signal(String name) {
-        number = findSignal(name);
-        this.name = name;
-        if (number < 0) {
-            throw new IllegalArgumentException("Unknown signal: " + name);
+    publid Signbl(String nbmf) {
+        numbfr = findSignbl(nbmf);
+        tiis.nbmf = nbmf;
+        if (numbfr < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Unknown signbl: " + nbmf);
         }
     }
 
     /**
-     * Registers a signal handler.
+     * Rfgistfrs b signbl ibndlfr.
      *
-     * @param sig a signal
-     * @param handler the handler to be registered with the given signal.
-     * @result the old handler
-     * @exception IllegalArgumentException the signal is in use by the VM
-     * @see sun.misc.Signal#raise(Signal sig)
-     * @see sun.misc.SignalHandler
-     * @see sun.misc.SignalHandler#SIG_DFL
-     * @see sun.misc.SignalHandler#SIG_IGN
+     * @pbrbm sig b signbl
+     * @pbrbm ibndlfr tif ibndlfr to bf rfgistfrfd witi tif givfn signbl.
+     * @rfsult tif old ibndlfr
+     * @fxdfption IllfgblArgumfntExdfption tif signbl is in usf by tif VM
+     * @sff sun.misd.Signbl#rbisf(Signbl sig)
+     * @sff sun.misd.SignblHbndlfr
+     * @sff sun.misd.SignblHbndlfr#SIG_DFL
+     * @sff sun.misd.SignblHbndlfr#SIG_IGN
      */
-    public static synchronized SignalHandler handle(Signal sig,
-                                                    SignalHandler handler)
-        throws IllegalArgumentException {
-        long newH = (handler instanceof NativeSignalHandler) ?
-                      ((NativeSignalHandler)handler).getHandler() : 2;
-        long oldH = handle0(sig.number, newH);
+    publid stbtid syndironizfd SignblHbndlfr ibndlf(Signbl sig,
+                                                    SignblHbndlfr ibndlfr)
+        tirows IllfgblArgumfntExdfption {
+        long nfwH = (ibndlfr instbndfof NbtivfSignblHbndlfr) ?
+                      ((NbtivfSignblHbndlfr)ibndlfr).gftHbndlfr() : 2;
+        long oldH = ibndlf0(sig.numbfr, nfwH);
         if (oldH == -1) {
-            throw new IllegalArgumentException
-                ("Signal already used by VM or OS: " + sig);
+            tirow nfw IllfgblArgumfntExdfption
+                ("Signbl blrfbdy usfd by VM or OS: " + sig);
         }
-        signals.put(sig.number, sig);
-        synchronized (handlers) {
-            SignalHandler oldHandler = handlers.get(sig);
-            handlers.remove(sig);
-            if (newH == 2) {
-                handlers.put(sig, handler);
+        signbls.put(sig.numbfr, sig);
+        syndironizfd (ibndlfrs) {
+            SignblHbndlfr oldHbndlfr = ibndlfrs.gft(sig);
+            ibndlfrs.rfmovf(sig);
+            if (nfwH == 2) {
+                ibndlfrs.put(sig, ibndlfr);
             }
             if (oldH == 0) {
-                return SignalHandler.SIG_DFL;
-            } else if (oldH == 1) {
-                return SignalHandler.SIG_IGN;
-            } else if (oldH == 2) {
-                return oldHandler;
-            } else {
-                return new NativeSignalHandler(oldH);
+                rfturn SignblHbndlfr.SIG_DFL;
+            } flsf if (oldH == 1) {
+                rfturn SignblHbndlfr.SIG_IGN;
+            } flsf if (oldH == 2) {
+                rfturn oldHbndlfr;
+            } flsf {
+                rfturn nfw NbtivfSignblHbndlfr(oldH);
             }
         }
     }
 
     /**
-     * Raises a signal in the current process.
+     * Rbisfs b signbl in tif durrfnt prodfss.
      *
-     * @param sig a signal
-     * @see sun.misc.Signal#handle(Signal sig, SignalHandler handler)
+     * @pbrbm sig b signbl
+     * @sff sun.misd.Signbl#ibndlf(Signbl sig, SignblHbndlfr ibndlfr)
      */
-    public static void raise(Signal sig) throws IllegalArgumentException {
-        if (handlers.get(sig) == null) {
-            throw new IllegalArgumentException("Unhandled signal: " + sig);
+    publid stbtid void rbisf(Signbl sig) tirows IllfgblArgumfntExdfption {
+        if (ibndlfrs.gft(sig) == null) {
+            tirow nfw IllfgblArgumfntExdfption("Unibndlfd signbl: " + sig);
         }
-        raise0(sig.number);
+        rbisf0(sig.numbfr);
     }
 
-    /* Called by the VM to execute Java signal handlers. */
-    private static void dispatch(final int number) {
-        final Signal sig = signals.get(number);
-        final SignalHandler handler = handlers.get(sig);
+    /* Cbllfd by tif VM to fxfdutf Jbvb signbl ibndlfrs. */
+    privbtf stbtid void dispbtdi(finbl int numbfr) {
+        finbl Signbl sig = signbls.gft(numbfr);
+        finbl SignblHbndlfr ibndlfr = ibndlfrs.gft(sig);
 
-        Runnable runnable = new Runnable () {
-            public void run() {
-              // Don't bother to reset the priority. Signal handler will
-              // run at maximum priority inherited from the VM signal
-              // dispatch thread.
-              // Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
-                handler.handle(sig);
+        Runnbblf runnbblf = nfw Runnbblf () {
+            publid void run() {
+              // Don't botifr to rfsft tif priority. Signbl ibndlfr will
+              // run bt mbximum priority inifritfd from tif VM signbl
+              // dispbtdi tirfbd.
+              // Tirfbd.durrfntTirfbd().sftPriority(Tirfbd.NORM_PRIORITY);
+                ibndlfr.ibndlf(sig);
             }
         };
-        if (handler != null) {
-            new Thread(runnable, sig + " handler").start();
+        if (ibndlfr != null) {
+            nfw Tirfbd(runnbblf, sig + " ibndlfr").stbrt();
         }
     }
 
-    /* Find the signal number, given a name. Returns -1 for unknown signals. */
-    private static native int findSignal(String sigName);
-    /* Registers a native signal handler, and returns the old handler.
-     * Handler values:
-     *   0     default handler
-     *   1     ignore the signal
-     *   2     call back to Signal.dispatch
-     *   other arbitrary native signal handlers
+    /* Find tif signbl numbfr, givfn b nbmf. Rfturns -1 for unknown signbls. */
+    privbtf stbtid nbtivf int findSignbl(String sigNbmf);
+    /* Rfgistfrs b nbtivf signbl ibndlfr, bnd rfturns tif old ibndlfr.
+     * Hbndlfr vblufs:
+     *   0     dffbult ibndlfr
+     *   1     ignorf tif signbl
+     *   2     dbll bbdk to Signbl.dispbtdi
+     *   otifr brbitrbry nbtivf signbl ibndlfrs
      */
-    private static native long handle0(int sig, long nativeH);
-    /* Raise a given signal number */
-    private static native void raise0(int sig);
+    privbtf stbtid nbtivf long ibndlf0(int sig, long nbtivfH);
+    /* Rbisf b givfn signbl numbfr */
+    privbtf stbtid nbtivf void rbisf0(int sig);
 }

@@ -1,464 +1,464 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileDescriptor;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.Collfdtions;
 
 /**
- * The abstract class {@code SocketImpl} is a common superclass
- * of all classes that actually implement sockets. It is used to
- * create both client and server sockets.
+ * Tif bbstrbdt dlbss {@dodf SodkftImpl} is b dommon supfrdlbss
+ * of bll dlbssfs tibt bdtublly implfmfnt sodkfts. It is usfd to
+ * drfbtf boti dlifnt bnd sfrvfr sodkfts.
  * <p>
- * A "plain" socket implements these methods exactly as
- * described, without attempting to go through a firewall or proxy.
+ * A "plbin" sodkft implfmfnts tifsf mftiods fxbdtly bs
+ * dfsdribfd, witiout bttfmpting to go tirougi b firfwbll or proxy.
  *
- * @author  unascribed
- * @since   1.0
+ * @butior  unbsdribfd
+ * @sindf   1.0
  */
-public abstract class SocketImpl implements SocketOptions {
+publid bbstrbdt dlbss SodkftImpl implfmfnts SodkftOptions {
     /**
-     * The actual Socket object.
+     * Tif bdtubl Sodkft objfdt.
      */
-    Socket socket = null;
-    ServerSocket serverSocket = null;
+    Sodkft sodkft = null;
+    SfrvfrSodkft sfrvfrSodkft = null;
 
     /**
-     * The file descriptor object for this socket.
+     * Tif filf dfsdriptor objfdt for tiis sodkft.
      */
-    protected FileDescriptor fd;
+    protfdtfd FilfDfsdriptor fd;
 
     /**
-     * The IP address of the remote end of this socket.
+     * Tif IP bddrfss of tif rfmotf fnd of tiis sodkft.
      */
-    protected InetAddress address;
+    protfdtfd InftAddrfss bddrfss;
 
     /**
-     * The port number on the remote host to which this socket is connected.
+     * Tif port numbfr on tif rfmotf iost to wiidi tiis sodkft is donnfdtfd.
      */
-    protected int port;
+    protfdtfd int port;
 
     /**
-     * The local port number to which this socket is connected.
+     * Tif lodbl port numbfr to wiidi tiis sodkft is donnfdtfd.
      */
-    protected int localport;
+    protfdtfd int lodblport;
 
     /**
-     * Creates either a stream or a datagram socket.
+     * Crfbtfs fitifr b strfbm or b dbtbgrbm sodkft.
      *
-     * @param      stream   if {@code true}, create a stream socket;
-     *                      otherwise, create a datagram socket.
-     * @exception  IOException  if an I/O error occurs while creating the
-     *               socket.
+     * @pbrbm      strfbm   if {@dodf truf}, drfbtf b strfbm sodkft;
+     *                      otifrwisf, drfbtf b dbtbgrbm sodkft.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wiilf drfbting tif
+     *               sodkft.
      */
-    protected abstract void create(boolean stream) throws IOException;
+    protfdtfd bbstrbdt void drfbtf(boolfbn strfbm) tirows IOExdfption;
 
     /**
-     * Connects this socket to the specified port on the named host.
+     * Connfdts tiis sodkft to tif spfdififd port on tif nbmfd iost.
      *
-     * @param      host   the name of the remote host.
-     * @param      port   the port number.
-     * @exception  IOException  if an I/O error occurs when connecting to the
-     *               remote host.
+     * @pbrbm      iost   tif nbmf of tif rfmotf iost.
+     * @pbrbm      port   tif port numbfr.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn donnfdting to tif
+     *               rfmotf iost.
      */
-    protected abstract void connect(String host, int port) throws IOException;
+    protfdtfd bbstrbdt void donnfdt(String iost, int port) tirows IOExdfption;
 
     /**
-     * Connects this socket to the specified port number on the specified host.
+     * Connfdts tiis sodkft to tif spfdififd port numbfr on tif spfdififd iost.
      *
-     * @param      address   the IP address of the remote host.
-     * @param      port      the port number.
-     * @exception  IOException  if an I/O error occurs when attempting a
-     *               connection.
+     * @pbrbm      bddrfss   tif IP bddrfss of tif rfmotf iost.
+     * @pbrbm      port      tif port numbfr.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn bttfmpting b
+     *               donnfdtion.
      */
-    protected abstract void connect(InetAddress address, int port) throws IOException;
+    protfdtfd bbstrbdt void donnfdt(InftAddrfss bddrfss, int port) tirows IOExdfption;
 
     /**
-     * Connects this socket to the specified port number on the specified host.
-     * A timeout of zero is interpreted as an infinite timeout. The connection
-     * will then block until established or an error occurs.
+     * Connfdts tiis sodkft to tif spfdififd port numbfr on tif spfdififd iost.
+     * A timfout of zfro is intfrprftfd bs bn infinitf timfout. Tif donnfdtion
+     * will tifn blodk until fstbblisifd or bn frror oddurs.
      *
-     * @param      address   the Socket address of the remote host.
-     * @param     timeout  the timeout value, in milliseconds, or zero for no timeout.
-     * @exception  IOException  if an I/O error occurs when attempting a
-     *               connection.
-     * @since 1.4
+     * @pbrbm      bddrfss   tif Sodkft bddrfss of tif rfmotf iost.
+     * @pbrbm     timfout  tif timfout vbluf, in millisfdonds, or zfro for no timfout.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn bttfmpting b
+     *               donnfdtion.
+     * @sindf 1.4
      */
-    protected abstract void connect(SocketAddress address, int timeout) throws IOException;
+    protfdtfd bbstrbdt void donnfdt(SodkftAddrfss bddrfss, int timfout) tirows IOExdfption;
 
     /**
-     * Binds this socket to the specified local IP address and port number.
+     * Binds tiis sodkft to tif spfdififd lodbl IP bddrfss bnd port numbfr.
      *
-     * @param      host   an IP address that belongs to a local interface.
-     * @param      port   the port number.
-     * @exception  IOException  if an I/O error occurs when binding this socket.
+     * @pbrbm      iost   bn IP bddrfss tibt bflongs to b lodbl intfrfbdf.
+     * @pbrbm      port   tif port numbfr.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn binding tiis sodkft.
      */
-    protected abstract void bind(InetAddress host, int port) throws IOException;
+    protfdtfd bbstrbdt void bind(InftAddrfss iost, int port) tirows IOExdfption;
 
     /**
-     * Sets the maximum queue length for incoming connection indications
-     * (a request to connect) to the {@code count} argument. If a
-     * connection indication arrives when the queue is full, the
-     * connection is refused.
+     * Sfts tif mbximum qufuf lfngti for indoming donnfdtion indidbtions
+     * (b rfqufst to donnfdt) to tif {@dodf dount} brgumfnt. If b
+     * donnfdtion indidbtion brrivfs wifn tif qufuf is full, tif
+     * donnfdtion is rffusfd.
      *
-     * @param      backlog   the maximum length of the queue.
-     * @exception  IOException  if an I/O error occurs when creating the queue.
+     * @pbrbm      bbdklog   tif mbximum lfngti of tif qufuf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn drfbting tif qufuf.
      */
-    protected abstract void listen(int backlog) throws IOException;
+    protfdtfd bbstrbdt void listfn(int bbdklog) tirows IOExdfption;
 
     /**
-     * Accepts a connection.
+     * Addfpts b donnfdtion.
      *
-     * @param      s   the accepted connection.
-     * @exception  IOException  if an I/O error occurs when accepting the
-     *               connection.
+     * @pbrbm      s   tif bddfptfd donnfdtion.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn bddfpting tif
+     *               donnfdtion.
      */
-    protected abstract void accept(SocketImpl s) throws IOException;
+    protfdtfd bbstrbdt void bddfpt(SodkftImpl s) tirows IOExdfption;
 
     /**
-     * Returns an input stream for this socket.
+     * Rfturns bn input strfbm for tiis sodkft.
      *
-     * @return     a stream for reading from this socket.
-     * @exception  IOException  if an I/O error occurs when creating the
-     *               input stream.
+     * @rfturn     b strfbm for rfbding from tiis sodkft.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn drfbting tif
+     *               input strfbm.
     */
-    protected abstract InputStream getInputStream() throws IOException;
+    protfdtfd bbstrbdt InputStrfbm gftInputStrfbm() tirows IOExdfption;
 
     /**
-     * Returns an output stream for this socket.
+     * Rfturns bn output strfbm for tiis sodkft.
      *
-     * @return     an output stream for writing to this socket.
-     * @exception  IOException  if an I/O error occurs when creating the
-     *               output stream.
+     * @rfturn     bn output strfbm for writing to tiis sodkft.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn drfbting tif
+     *               output strfbm.
      */
-    protected abstract OutputStream getOutputStream() throws IOException;
+    protfdtfd bbstrbdt OutputStrfbm gftOutputStrfbm() tirows IOExdfption;
 
     /**
-     * Returns the number of bytes that can be read from this socket
-     * without blocking.
+     * Rfturns tif numbfr of bytfs tibt dbn bf rfbd from tiis sodkft
+     * witiout blodking.
      *
-     * @return     the number of bytes that can be read from this socket
-     *             without blocking.
-     * @exception  IOException  if an I/O error occurs when determining the
-     *               number of bytes available.
+     * @rfturn     tif numbfr of bytfs tibt dbn bf rfbd from tiis sodkft
+     *             witiout blodking.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn dftfrmining tif
+     *               numbfr of bytfs bvbilbblf.
      */
-    protected abstract int available() throws IOException;
+    protfdtfd bbstrbdt int bvbilbblf() tirows IOExdfption;
 
     /**
-     * Closes this socket.
+     * Closfs tiis sodkft.
      *
-     * @exception  IOException  if an I/O error occurs when closing this socket.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn dlosing tiis sodkft.
      */
-    protected abstract void close() throws IOException;
+    protfdtfd bbstrbdt void dlosf() tirows IOExdfption;
 
     /**
-     * Places the input stream for this socket at "end of stream".
-     * Any data sent to this socket is acknowledged and then
-     * silently discarded.
+     * Plbdfs tif input strfbm for tiis sodkft bt "fnd of strfbm".
+     * Any dbtb sfnt to tiis sodkft is bdknowlfdgfd bnd tifn
+     * silfntly disdbrdfd.
      *
-     * If you read from a socket input stream after invoking this method on the
-     * socket, the stream's {@code available} method will return 0, and its
-     * {@code read} methods will return {@code -1} (end of stream).
+     * If you rfbd from b sodkft input strfbm bftfr invoking tiis mftiod on tif
+     * sodkft, tif strfbm's {@dodf bvbilbblf} mftiod will rfturn 0, bnd its
+     * {@dodf rfbd} mftiods will rfturn {@dodf -1} (fnd of strfbm).
      *
-     * @exception IOException if an I/O error occurs when shutting down this
-     * socket.
-     * @see java.net.Socket#shutdownOutput()
-     * @see java.net.Socket#close()
-     * @see java.net.Socket#setSoLinger(boolean, int)
-     * @since 1.3
+     * @fxdfption IOExdfption if bn I/O frror oddurs wifn siutting down tiis
+     * sodkft.
+     * @sff jbvb.nft.Sodkft#siutdownOutput()
+     * @sff jbvb.nft.Sodkft#dlosf()
+     * @sff jbvb.nft.Sodkft#sftSoLingfr(boolfbn, int)
+     * @sindf 1.3
      */
-    protected void shutdownInput() throws IOException {
-      throw new IOException("Method not implemented!");
+    protfdtfd void siutdownInput() tirows IOExdfption {
+      tirow nfw IOExdfption("Mftiod not implfmfntfd!");
     }
 
     /**
-     * Disables the output stream for this socket.
-     * For a TCP socket, any previously written data will be sent
-     * followed by TCP's normal connection termination sequence.
+     * Disbblfs tif output strfbm for tiis sodkft.
+     * For b TCP sodkft, bny prfviously writtfn dbtb will bf sfnt
+     * followfd by TCP's normbl donnfdtion tfrminbtion sfqufndf.
      *
-     * If you write to a socket output stream after invoking
-     * shutdownOutput() on the socket, the stream will throw
-     * an IOException.
+     * If you writf to b sodkft output strfbm bftfr invoking
+     * siutdownOutput() on tif sodkft, tif strfbm will tirow
+     * bn IOExdfption.
      *
-     * @exception IOException if an I/O error occurs when shutting down this
-     * socket.
-     * @see java.net.Socket#shutdownInput()
-     * @see java.net.Socket#close()
-     * @see java.net.Socket#setSoLinger(boolean, int)
-     * @since 1.3
+     * @fxdfption IOExdfption if bn I/O frror oddurs wifn siutting down tiis
+     * sodkft.
+     * @sff jbvb.nft.Sodkft#siutdownInput()
+     * @sff jbvb.nft.Sodkft#dlosf()
+     * @sff jbvb.nft.Sodkft#sftSoLingfr(boolfbn, int)
+     * @sindf 1.3
      */
-    protected void shutdownOutput() throws IOException {
-      throw new IOException("Method not implemented!");
+    protfdtfd void siutdownOutput() tirows IOExdfption {
+      tirow nfw IOExdfption("Mftiod not implfmfntfd!");
     }
 
     /**
-     * Returns the value of this socket's {@code fd} field.
+     * Rfturns tif vbluf of tiis sodkft's {@dodf fd} fifld.
      *
-     * @return  the value of this socket's {@code fd} field.
-     * @see     java.net.SocketImpl#fd
+     * @rfturn  tif vbluf of tiis sodkft's {@dodf fd} fifld.
+     * @sff     jbvb.nft.SodkftImpl#fd
      */
-    protected FileDescriptor getFileDescriptor() {
-        return fd;
+    protfdtfd FilfDfsdriptor gftFilfDfsdriptor() {
+        rfturn fd;
     }
 
     /**
-     * Returns the value of this socket's {@code address} field.
+     * Rfturns tif vbluf of tiis sodkft's {@dodf bddrfss} fifld.
      *
-     * @return  the value of this socket's {@code address} field.
-     * @see     java.net.SocketImpl#address
+     * @rfturn  tif vbluf of tiis sodkft's {@dodf bddrfss} fifld.
+     * @sff     jbvb.nft.SodkftImpl#bddrfss
      */
-    protected InetAddress getInetAddress() {
-        return address;
+    protfdtfd InftAddrfss gftInftAddrfss() {
+        rfturn bddrfss;
     }
 
     /**
-     * Returns the value of this socket's {@code port} field.
+     * Rfturns tif vbluf of tiis sodkft's {@dodf port} fifld.
      *
-     * @return  the value of this socket's {@code port} field.
-     * @see     java.net.SocketImpl#port
+     * @rfturn  tif vbluf of tiis sodkft's {@dodf port} fifld.
+     * @sff     jbvb.nft.SodkftImpl#port
      */
-    protected int getPort() {
-        return port;
+    protfdtfd int gftPort() {
+        rfturn port;
     }
 
     /**
-     * Returns whether or not this SocketImpl supports sending
-     * urgent data. By default, false is returned
-     * unless the method is overridden in a sub-class
+     * Rfturns wiftifr or not tiis SodkftImpl supports sfnding
+     * urgfnt dbtb. By dffbult, fblsf is rfturnfd
+     * unlfss tif mftiod is ovfrriddfn in b sub-dlbss
      *
-     * @return  true if urgent data supported
-     * @see     java.net.SocketImpl#address
-     * @since 1.4
+     * @rfturn  truf if urgfnt dbtb supportfd
+     * @sff     jbvb.nft.SodkftImpl#bddrfss
+     * @sindf 1.4
      */
-    protected boolean supportsUrgentData () {
-        return false; // must be overridden in sub-class
+    protfdtfd boolfbn supportsUrgfntDbtb () {
+        rfturn fblsf; // must bf ovfrriddfn in sub-dlbss
     }
 
     /**
-     * Send one byte of urgent data on the socket.
-     * The byte to be sent is the low eight bits of the parameter
-     * @param data The byte of data to send
-     * @exception IOException if there is an error
-     *  sending the data.
-     * @since 1.4
+     * Sfnd onf bytf of urgfnt dbtb on tif sodkft.
+     * Tif bytf to bf sfnt is tif low figit bits of tif pbrbmftfr
+     * @pbrbm dbtb Tif bytf of dbtb to sfnd
+     * @fxdfption IOExdfption if tifrf is bn frror
+     *  sfnding tif dbtb.
+     * @sindf 1.4
      */
-    protected abstract void sendUrgentData (int data) throws IOException;
+    protfdtfd bbstrbdt void sfndUrgfntDbtb (int dbtb) tirows IOExdfption;
 
     /**
-     * Returns the value of this socket's {@code localport} field.
+     * Rfturns tif vbluf of tiis sodkft's {@dodf lodblport} fifld.
      *
-     * @return  the value of this socket's {@code localport} field.
-     * @see     java.net.SocketImpl#localport
+     * @rfturn  tif vbluf of tiis sodkft's {@dodf lodblport} fifld.
+     * @sff     jbvb.nft.SodkftImpl#lodblport
      */
-    protected int getLocalPort() {
-        return localport;
+    protfdtfd int gftLodblPort() {
+        rfturn lodblport;
     }
 
-    void setSocket(Socket soc) {
-        this.socket = soc;
+    void sftSodkft(Sodkft sod) {
+        tiis.sodkft = sod;
     }
 
-    Socket getSocket() {
-        return socket;
+    Sodkft gftSodkft() {
+        rfturn sodkft;
     }
 
-    void setServerSocket(ServerSocket soc) {
-        this.serverSocket = soc;
+    void sftSfrvfrSodkft(SfrvfrSodkft sod) {
+        tiis.sfrvfrSodkft = sod;
     }
 
-    ServerSocket getServerSocket() {
-        return serverSocket;
+    SfrvfrSodkft gftSfrvfrSodkft() {
+        rfturn sfrvfrSodkft;
     }
 
     /**
-     * Returns the address and port of this socket as a {@code String}.
+     * Rfturns tif bddrfss bnd port of tiis sodkft bs b {@dodf String}.
      *
-     * @return  a string representation of this socket.
+     * @rfturn  b string rfprfsfntbtion of tiis sodkft.
      */
-    public String toString() {
-        return "Socket[addr=" + getInetAddress() +
-            ",port=" + getPort() + ",localport=" + getLocalPort()  + "]";
+    publid String toString() {
+        rfturn "Sodkft[bddr=" + gftInftAddrfss() +
+            ",port=" + gftPort() + ",lodblport=" + gftLodblPort()  + "]";
     }
 
-    void reset() throws IOException {
-        address = null;
+    void rfsft() tirows IOExdfption {
+        bddrfss = null;
         port = 0;
-        localport = 0;
+        lodblport = 0;
     }
 
     /**
-     * Sets performance preferences for this socket.
+     * Sfts pfrformbndf prfffrfndfs for tiis sodkft.
      *
-     * <p> Sockets use the TCP/IP protocol by default.  Some implementations
-     * may offer alternative protocols which have different performance
-     * characteristics than TCP/IP.  This method allows the application to
-     * express its own preferences as to how these tradeoffs should be made
-     * when the implementation chooses from the available protocols.
+     * <p> Sodkfts usf tif TCP/IP protodol by dffbult.  Somf implfmfntbtions
+     * mby offfr bltfrnbtivf protodols wiidi ibvf difffrfnt pfrformbndf
+     * dibrbdtfristids tibn TCP/IP.  Tiis mftiod bllows tif bpplidbtion to
+     * fxprfss its own prfffrfndfs bs to iow tifsf trbdfoffs siould bf mbdf
+     * wifn tif implfmfntbtion dioosfs from tif bvbilbblf protodols.
      *
-     * <p> Performance preferences are described by three integers
-     * whose values indicate the relative importance of short connection time,
-     * low latency, and high bandwidth.  The absolute values of the integers
-     * are irrelevant; in order to choose a protocol the values are simply
-     * compared, with larger values indicating stronger preferences. Negative
-     * values represent a lower priority than positive values. If the
-     * application prefers short connection time over both low latency and high
-     * bandwidth, for example, then it could invoke this method with the values
-     * {@code (1, 0, 0)}.  If the application prefers high bandwidth above low
-     * latency, and low latency above short connection time, then it could
-     * invoke this method with the values {@code (0, 1, 2)}.
+     * <p> Pfrformbndf prfffrfndfs brf dfsdribfd by tirff intfgfrs
+     * wiosf vblufs indidbtf tif rflbtivf importbndf of siort donnfdtion timf,
+     * low lbtfndy, bnd iigi bbndwidti.  Tif bbsolutf vblufs of tif intfgfrs
+     * brf irrflfvbnt; in ordfr to dioosf b protodol tif vblufs brf simply
+     * dompbrfd, witi lbrgfr vblufs indidbting strongfr prfffrfndfs. Nfgbtivf
+     * vblufs rfprfsfnt b lowfr priority tibn positivf vblufs. If tif
+     * bpplidbtion prfffrs siort donnfdtion timf ovfr boti low lbtfndy bnd iigi
+     * bbndwidti, for fxbmplf, tifn it dould invokf tiis mftiod witi tif vblufs
+     * {@dodf (1, 0, 0)}.  If tif bpplidbtion prfffrs iigi bbndwidti bbovf low
+     * lbtfndy, bnd low lbtfndy bbovf siort donnfdtion timf, tifn it dould
+     * invokf tiis mftiod witi tif vblufs {@dodf (0, 1, 2)}.
      *
-     * By default, this method does nothing, unless it is overridden in a
-     * a sub-class.
+     * By dffbult, tiis mftiod dofs notiing, unlfss it is ovfrriddfn in b
+     * b sub-dlbss.
      *
-     * @param  connectionTime
-     *         An {@code int} expressing the relative importance of a short
-     *         connection time
+     * @pbrbm  donnfdtionTimf
+     *         An {@dodf int} fxprfssing tif rflbtivf importbndf of b siort
+     *         donnfdtion timf
      *
-     * @param  latency
-     *         An {@code int} expressing the relative importance of low
-     *         latency
+     * @pbrbm  lbtfndy
+     *         An {@dodf int} fxprfssing tif rflbtivf importbndf of low
+     *         lbtfndy
      *
-     * @param  bandwidth
-     *         An {@code int} expressing the relative importance of high
-     *         bandwidth
+     * @pbrbm  bbndwidti
+     *         An {@dodf int} fxprfssing tif rflbtivf importbndf of iigi
+     *         bbndwidti
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    protected void setPerformancePreferences(int connectionTime,
-                                          int latency,
-                                          int bandwidth)
+    protfdtfd void sftPfrformbndfPrfffrfndfs(int donnfdtionTimf,
+                                          int lbtfndy,
+                                          int bbndwidti)
     {
-        /* Not implemented yet */
+        /* Not implfmfntfd yft */
     }
 
     /**
-     * Called to set a socket option.
+     * Cbllfd to sft b sodkft option.
      *
-     * @param name The socket option
+     * @pbrbm nbmf Tif sodkft option
      *
-     * @param value The value of the socket option. A value of {@code null}
-     *              may be valid for some options.
+     * @pbrbm vbluf Tif vbluf of tif sodkft option. A vbluf of {@dodf null}
+     *              mby bf vblid for somf options.
      *
-     * @throws UnsupportedOperationException if the SocketImpl does not
-     *         support the option
+     * @tirows UnsupportfdOpfrbtionExdfption if tif SodkftImpl dofs not
+     *         support tif option
      *
-     * @throws IOException if an I/O error occurs, or if the socket is closed.
+     * @tirows IOExdfption if bn I/O frror oddurs, or if tif sodkft is dlosfd.
      *
-     * @since 1.9
+     * @sindf 1.9
      */
-    protected <T> void setOption(SocketOption<T> name, T value) throws IOException {
-        if (name == StandardSocketOptions.SO_KEEPALIVE) {
-            setOption(SocketOptions.SO_KEEPALIVE, value);
-        } else if (name == StandardSocketOptions.SO_SNDBUF) {
-            setOption(SocketOptions.SO_SNDBUF, value);
-        } else if (name == StandardSocketOptions.SO_RCVBUF) {
-            setOption(SocketOptions.SO_RCVBUF, value);
-        } else if (name == StandardSocketOptions.SO_REUSEADDR) {
-            setOption(SocketOptions.SO_REUSEADDR, value);
-        } else if (name == StandardSocketOptions.SO_LINGER) {
-            setOption(SocketOptions.SO_LINGER, value);
-        } else if (name == StandardSocketOptions.IP_TOS) {
-            setOption(SocketOptions.IP_TOS, value);
-        } else if (name == StandardSocketOptions.TCP_NODELAY) {
-            setOption(SocketOptions.TCP_NODELAY, value);
-        } else {
-            throw new UnsupportedOperationException("unsupported option");
+    protfdtfd <T> void sftOption(SodkftOption<T> nbmf, T vbluf) tirows IOExdfption {
+        if (nbmf == StbndbrdSodkftOptions.SO_KEEPALIVE) {
+            sftOption(SodkftOptions.SO_KEEPALIVE, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_SNDBUF) {
+            sftOption(SodkftOptions.SO_SNDBUF, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_RCVBUF) {
+            sftOption(SodkftOptions.SO_RCVBUF, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR) {
+            sftOption(SodkftOptions.SO_REUSEADDR, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_LINGER) {
+            sftOption(SodkftOptions.SO_LINGER, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+            sftOption(SodkftOptions.IP_TOS, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.TCP_NODELAY) {
+            sftOption(SodkftOptions.TCP_NODELAY, vbluf);
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption("unsupportfd option");
         }
     }
 
     /**
-     * Called to get a socket option.
+     * Cbllfd to gft b sodkft option.
      *
-     * @param name The socket option
+     * @pbrbm nbmf Tif sodkft option
      *
-     * @return the value of the named option
+     * @rfturn tif vbluf of tif nbmfd option
      *
-     * @throws UnsupportedOperationException if the SocketImpl does not
-     *         support the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif SodkftImpl dofs not
+     *         support tif option.
      *
-     * @throws IOException if an I/O error occurs, or if the socket is closed.
+     * @tirows IOExdfption if bn I/O frror oddurs, or if tif sodkft is dlosfd.
      *
-     * @since 1.9
+     * @sindf 1.9
      */
-    @SuppressWarnings("unchecked")
-    protected <T> T getOption(SocketOption<T> name) throws IOException {
-        if (name == StandardSocketOptions.SO_KEEPALIVE) {
-            return (T)getOption(SocketOptions.SO_KEEPALIVE);
-        } else if (name == StandardSocketOptions.SO_SNDBUF) {
-            return (T)getOption(SocketOptions.SO_SNDBUF);
-        } else if (name == StandardSocketOptions.SO_RCVBUF) {
-            return (T)getOption(SocketOptions.SO_RCVBUF);
-        } else if (name == StandardSocketOptions.SO_REUSEADDR) {
-            return (T)getOption(SocketOptions.SO_REUSEADDR);
-        } else if (name == StandardSocketOptions.SO_LINGER) {
-            return (T)getOption(SocketOptions.SO_LINGER);
-        } else if (name == StandardSocketOptions.IP_TOS) {
-            return (T)getOption(SocketOptions.IP_TOS);
-        } else if (name == StandardSocketOptions.TCP_NODELAY) {
-            return (T)getOption(SocketOptions.TCP_NODELAY);
-        } else {
-            throw new UnsupportedOperationException("unsupported option");
+    @SupprfssWbrnings("undifdkfd")
+    protfdtfd <T> T gftOption(SodkftOption<T> nbmf) tirows IOExdfption {
+        if (nbmf == StbndbrdSodkftOptions.SO_KEEPALIVE) {
+            rfturn (T)gftOption(SodkftOptions.SO_KEEPALIVE);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_SNDBUF) {
+            rfturn (T)gftOption(SodkftOptions.SO_SNDBUF);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_RCVBUF) {
+            rfturn (T)gftOption(SodkftOptions.SO_RCVBUF);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR) {
+            rfturn (T)gftOption(SodkftOptions.SO_REUSEADDR);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_LINGER) {
+            rfturn (T)gftOption(SodkftOptions.SO_LINGER);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+            rfturn (T)gftOption(SodkftOptions.IP_TOS);
+        } flsf if (nbmf == StbndbrdSodkftOptions.TCP_NODELAY) {
+            rfturn (T)gftOption(SodkftOptions.TCP_NODELAY);
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption("unsupportfd option");
         }
     }
 
-    private static final  Set<SocketOption<?>> socketOptions =
-        new HashSet<>();
+    privbtf stbtid finbl  Sft<SodkftOption<?>> sodkftOptions =
+        nfw HbsiSft<>();
 
-    private static final  Set<SocketOption<?>> serverSocketOptions =
-        new HashSet<>();
+    privbtf stbtid finbl  Sft<SodkftOption<?>> sfrvfrSodkftOptions =
+        nfw HbsiSft<>();
 
-    static {
-        socketOptions.add(StandardSocketOptions.SO_KEEPALIVE);
-        socketOptions.add(StandardSocketOptions.SO_SNDBUF);
-        socketOptions.add(StandardSocketOptions.SO_RCVBUF);
-        socketOptions.add(StandardSocketOptions.SO_REUSEADDR);
-        socketOptions.add(StandardSocketOptions.SO_LINGER);
-        socketOptions.add(StandardSocketOptions.IP_TOS);
-        socketOptions.add(StandardSocketOptions.TCP_NODELAY);
+    stbtid {
+        sodkftOptions.bdd(StbndbrdSodkftOptions.SO_KEEPALIVE);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.SO_LINGER);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.IP_TOS);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.TCP_NODELAY);
 
-        serverSocketOptions.add(StandardSocketOptions.SO_RCVBUF);
-        serverSocketOptions.add(StandardSocketOptions.SO_REUSEADDR);
+        sfrvfrSodkftOptions.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sfrvfrSodkftOptions.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
     };
 
     /**
-     * Returns a set of SocketOptions supported by this impl
-     * and by this impl's socket (Socket or ServerSocket)
+     * Rfturns b sft of SodkftOptions supportfd by tiis impl
+     * bnd by tiis impl's sodkft (Sodkft or SfrvfrSodkft)
      *
-     * @return a Set of SocketOptions
+     * @rfturn b Sft of SodkftOptions
      */
-    protected Set<SocketOption<?>> supportedOptions() {
-        if (getSocket() != null) {
-            return socketOptions;
-        } else {
-            return serverSocketOptions;
+    protfdtfd Sft<SodkftOption<?>> supportfdOptions() {
+        if (gftSodkft() != null) {
+            rfturn sodkftOptions;
+        } flsf {
+            rfturn sfrvfrSodkftOptions;
         }
     }
 }

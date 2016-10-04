@@ -1,591 +1,591 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DirectColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.peer.RobotPeer;
-import java.lang.reflect.InvocationTargetException;
-import sun.awt.AWTPermissions;
-import sun.awt.ComponentFactory;
-import sun.awt.SunToolkit;
-import sun.awt.image.SunWritableRaster;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.pffr.RobotPffr;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import sun.bwt.AWTPfrmissions;
+import sun.bwt.ComponfntFbdtory;
+import sun.bwt.SunToolkit;
+import sun.bwt.imbgf.SunWritbblfRbstfr;
 
 /**
- * This class is used to generate native system input events
- * for the purposes of test automation, self-running demos, and
- * other applications where control of the mouse and keyboard
- * is needed. The primary purpose of Robot is to facilitate
- * automated testing of Java platform implementations.
+ * Tiis dlbss is usfd to gfnfrbtf nbtivf systfm input fvfnts
+ * for tif purposfs of tfst butombtion, sflf-running dfmos, bnd
+ * otifr bpplidbtions wifrf dontrol of tif mousf bnd kfybobrd
+ * is nffdfd. Tif primbry purposf of Robot is to fbdilitbtf
+ * butombtfd tfsting of Jbvb plbtform implfmfntbtions.
  * <p>
- * Using the class to generate input events differs from posting
- * events to the AWT event queue or AWT components in that the
- * events are generated in the platform's native input
- * queue. For example, <code>Robot.mouseMove</code> will actually move
- * the mouse cursor instead of just generating mouse move events.
+ * Using tif dlbss to gfnfrbtf input fvfnts difffrs from posting
+ * fvfnts to tif AWT fvfnt qufuf or AWT domponfnts in tibt tif
+ * fvfnts brf gfnfrbtfd in tif plbtform's nbtivf input
+ * qufuf. For fxbmplf, <dodf>Robot.mousfMovf</dodf> will bdtublly movf
+ * tif mousf dursor instfbd of just gfnfrbting mousf movf fvfnts.
  * <p>
- * Note that some platforms require special privileges or extensions
- * to access low-level input control. If the current platform configuration
- * does not allow input control, an <code>AWTException</code> will be thrown
- * when trying to construct Robot objects. For example, X-Window systems
- * will throw the exception if the XTEST 2.2 standard extension is not supported
- * (or not enabled) by the X server.
+ * Notf tibt somf plbtforms rfquirf spfdibl privilfgfs or fxtfnsions
+ * to bddfss low-lfvfl input dontrol. If tif durrfnt plbtform donfigurbtion
+ * dofs not bllow input dontrol, bn <dodf>AWTExdfption</dodf> will bf tirown
+ * wifn trying to donstrudt Robot objfdts. For fxbmplf, X-Window systfms
+ * will tirow tif fxdfption if tif XTEST 2.2 stbndbrd fxtfnsion is not supportfd
+ * (or not fnbblfd) by tif X sfrvfr.
  * <p>
- * Applications that use Robot for purposes other than self-testing should
- * handle these error conditions gracefully.
+ * Applidbtions tibt usf Robot for purposfs otifr tibn sflf-tfsting siould
+ * ibndlf tifsf frror donditions grbdffully.
  *
- * @author      Robi Khan
- * @since       1.3
+ * @butior      Robi Kibn
+ * @sindf       1.3
  */
-public class Robot {
-    private static final int MAX_DELAY = 60000;
-    private RobotPeer peer;
-    private boolean isAutoWaitForIdle = false;
-    private int autoDelay = 0;
-    private static int LEGAL_BUTTON_MASK = 0;
+publid dlbss Robot {
+    privbtf stbtid finbl int MAX_DELAY = 60000;
+    privbtf RobotPffr pffr;
+    privbtf boolfbn isAutoWbitForIdlf = fblsf;
+    privbtf int butoDflby = 0;
+    privbtf stbtid int LEGAL_BUTTON_MASK = 0;
 
-    private DirectColorModel screenCapCM = null;
+    privbtf DirfdtColorModfl sdrffnCbpCM = null;
 
     /**
-     * Constructs a Robot object in the coordinate system of the primary screen.
+     * Construdts b Robot objfdt in tif doordinbtf systfm of tif primbry sdrffn.
      *
-     * @throws  AWTException if the platform configuration does not allow
-     * low-level input control.  This exception is always thrown when
-     * GraphicsEnvironment.isHeadless() returns true
-     * @throws  SecurityException if <code>createRobot</code> permission is not granted
-     * @see     java.awt.GraphicsEnvironment#isHeadless
-     * @see     SecurityManager#checkPermission
-     * @see     AWTPermission
+     * @tirows  AWTExdfption if tif plbtform donfigurbtion dofs not bllow
+     * low-lfvfl input dontrol.  Tiis fxdfption is blwbys tirown wifn
+     * GrbpiidsEnvironmfnt.isHfbdlfss() rfturns truf
+     * @tirows  SfdurityExdfption if <dodf>drfbtfRobot</dodf> pfrmission is not grbntfd
+     * @sff     jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff     SfdurityMbnbgfr#difdkPfrmission
+     * @sff     AWTPfrmission
      */
-    public Robot() throws AWTException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new AWTException("headless environment");
+    publid Robot() tirows AWTExdfption {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw AWTExdfption("ifbdlfss fnvironmfnt");
         }
-        init(GraphicsEnvironment.getLocalGraphicsEnvironment()
-            .getDefaultScreenDevice());
+        init(GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt()
+            .gftDffbultSdrffnDfvidf());
     }
 
     /**
-     * Creates a Robot for the given screen device. Coordinates passed
-     * to Robot method calls like mouseMove and createScreenCapture will
-     * be interpreted as being in the same coordinate system as the
-     * specified screen. Note that depending on the platform configuration,
-     * multiple screens may either:
+     * Crfbtfs b Robot for tif givfn sdrffn dfvidf. Coordinbtfs pbssfd
+     * to Robot mftiod dblls likf mousfMovf bnd drfbtfSdrffnCbpturf will
+     * bf intfrprftfd bs bfing in tif sbmf doordinbtf systfm bs tif
+     * spfdififd sdrffn. Notf tibt dfpfnding on tif plbtform donfigurbtion,
+     * multiplf sdrffns mby fitifr:
      * <ul>
-     * <li>share the same coordinate system to form a combined virtual screen</li>
-     * <li>use different coordinate systems to act as independent screens</li>
+     * <li>sibrf tif sbmf doordinbtf systfm to form b dombinfd virtubl sdrffn</li>
+     * <li>usf difffrfnt doordinbtf systfms to bdt bs indfpfndfnt sdrffns</li>
      * </ul>
-     * This constructor is meant for the latter case.
+     * Tiis donstrudtor is mfbnt for tif lbttfr dbsf.
      * <p>
-     * If screen devices are reconfigured such that the coordinate system is
-     * affected, the behavior of existing Robot objects is undefined.
+     * If sdrffn dfvidfs brf rfdonfigurfd sudi tibt tif doordinbtf systfm is
+     * bfffdtfd, tif bfibvior of fxisting Robot objfdts is undffinfd.
      *
-     * @param screen    A screen GraphicsDevice indicating the coordinate
-     *                  system the Robot will operate in.
-     * @throws  AWTException if the platform configuration does not allow
-     * low-level input control.  This exception is always thrown when
-     * GraphicsEnvironment.isHeadless() returns true.
-     * @throws  IllegalArgumentException if <code>screen</code> is not a screen
-     *          GraphicsDevice.
-     * @throws  SecurityException if <code>createRobot</code> permission is not granted
-     * @see     java.awt.GraphicsEnvironment#isHeadless
-     * @see     GraphicsDevice
-     * @see     SecurityManager#checkPermission
-     * @see     AWTPermission
+     * @pbrbm sdrffn    A sdrffn GrbpiidsDfvidf indidbting tif doordinbtf
+     *                  systfm tif Robot will opfrbtf in.
+     * @tirows  AWTExdfption if tif plbtform donfigurbtion dofs not bllow
+     * low-lfvfl input dontrol.  Tiis fxdfption is blwbys tirown wifn
+     * GrbpiidsEnvironmfnt.isHfbdlfss() rfturns truf.
+     * @tirows  IllfgblArgumfntExdfption if <dodf>sdrffn</dodf> is not b sdrffn
+     *          GrbpiidsDfvidf.
+     * @tirows  SfdurityExdfption if <dodf>drfbtfRobot</dodf> pfrmission is not grbntfd
+     * @sff     jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff     GrbpiidsDfvidf
+     * @sff     SfdurityMbnbgfr#difdkPfrmission
+     * @sff     AWTPfrmission
      */
-    public Robot(GraphicsDevice screen) throws AWTException {
-        checkIsScreenDevice(screen);
-        init(screen);
+    publid Robot(GrbpiidsDfvidf sdrffn) tirows AWTExdfption {
+        difdkIsSdrffnDfvidf(sdrffn);
+        init(sdrffn);
     }
 
-    private void init(GraphicsDevice screen) throws AWTException {
-        checkRobotAllowed();
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        if (toolkit instanceof ComponentFactory) {
-            peer = ((ComponentFactory)toolkit).createRobot(this, screen);
-            disposer = new RobotDisposer(peer);
-            sun.java2d.Disposer.addRecord(anchor, disposer);
+    privbtf void init(GrbpiidsDfvidf sdrffn) tirows AWTExdfption {
+        difdkRobotAllowfd();
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+        if (toolkit instbndfof ComponfntFbdtory) {
+            pffr = ((ComponfntFbdtory)toolkit).drfbtfRobot(tiis, sdrffn);
+            disposfr = nfw RobotDisposfr(pffr);
+            sun.jbvb2d.Disposfr.bddRfdord(bndior, disposfr);
         }
-        initLegalButtonMask();
+        initLfgblButtonMbsk();
     }
 
-    private static synchronized void initLegalButtonMask() {
-        if (LEGAL_BUTTON_MASK != 0) return;
+    privbtf stbtid syndironizfd void initLfgblButtonMbsk() {
+        if (LEGAL_BUTTON_MASK != 0) rfturn;
 
-        int tmpMask = 0;
-        if (Toolkit.getDefaultToolkit().areExtraMouseButtonsEnabled()){
-            if (Toolkit.getDefaultToolkit() instanceof SunToolkit) {
-                final int buttonsNumber = ((SunToolkit)(Toolkit.getDefaultToolkit())).getNumberOfButtons();
-                for (int i = 0; i < buttonsNumber; i++){
-                    tmpMask |= InputEvent.getMaskForButton(i+1);
+        int tmpMbsk = 0;
+        if (Toolkit.gftDffbultToolkit().brfExtrbMousfButtonsEnbblfd()){
+            if (Toolkit.gftDffbultToolkit() instbndfof SunToolkit) {
+                finbl int buttonsNumbfr = ((SunToolkit)(Toolkit.gftDffbultToolkit())).gftNumbfrOfButtons();
+                for (int i = 0; i < buttonsNumbfr; i++){
+                    tmpMbsk |= InputEvfnt.gftMbskForButton(i+1);
                 }
             }
         }
-        tmpMask |= InputEvent.BUTTON1_MASK|
-            InputEvent.BUTTON2_MASK|
-            InputEvent.BUTTON3_MASK|
-            InputEvent.BUTTON1_DOWN_MASK|
-            InputEvent.BUTTON2_DOWN_MASK|
-            InputEvent.BUTTON3_DOWN_MASK;
-        LEGAL_BUTTON_MASK = tmpMask;
+        tmpMbsk |= InputEvfnt.BUTTON1_MASK|
+            InputEvfnt.BUTTON2_MASK|
+            InputEvfnt.BUTTON3_MASK|
+            InputEvfnt.BUTTON1_DOWN_MASK|
+            InputEvfnt.BUTTON2_DOWN_MASK|
+            InputEvfnt.BUTTON3_DOWN_MASK;
+        LEGAL_BUTTON_MASK = tmpMbsk;
     }
 
-    /* determine if the security policy allows Robot's to be created */
-    private void checkRobotAllowed() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(AWTPermissions.CREATE_ROBOT_PERMISSION);
+    /* dftfrminf if tif sfdurity polidy bllows Robot's to bf drfbtfd */
+    privbtf void difdkRobotAllowfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(AWTPfrmissions.CREATE_ROBOT_PERMISSION);
         }
     }
 
-    /* check if the given device is a screen device */
-    private void checkIsScreenDevice(GraphicsDevice device) {
-        if (device == null || device.getType() != GraphicsDevice.TYPE_RASTER_SCREEN) {
-            throw new IllegalArgumentException("not a valid screen device");
+    /* difdk if tif givfn dfvidf is b sdrffn dfvidf */
+    privbtf void difdkIsSdrffnDfvidf(GrbpiidsDfvidf dfvidf) {
+        if (dfvidf == null || dfvidf.gftTypf() != GrbpiidsDfvidf.TYPE_RASTER_SCREEN) {
+            tirow nfw IllfgblArgumfntExdfption("not b vblid sdrffn dfvidf");
         }
     }
 
-    private transient Object anchor = new Object();
+    privbtf trbnsifnt Objfdt bndior = nfw Objfdt();
 
-    static class RobotDisposer implements sun.java2d.DisposerRecord {
-        private final RobotPeer peer;
-        public RobotDisposer(RobotPeer peer) {
-            this.peer = peer;
+    stbtid dlbss RobotDisposfr implfmfnts sun.jbvb2d.DisposfrRfdord {
+        privbtf finbl RobotPffr pffr;
+        publid RobotDisposfr(RobotPffr pffr) {
+            tiis.pffr = pffr;
         }
-        public void dispose() {
-            if (peer != null) {
-                peer.dispose();
+        publid void disposf() {
+            if (pffr != null) {
+                pffr.disposf();
             }
         }
     }
 
-    private transient RobotDisposer disposer;
+    privbtf trbnsifnt RobotDisposfr disposfr;
 
     /**
-     * Moves mouse pointer to given screen coordinates.
-     * @param x         X position
-     * @param y         Y position
+     * Movfs mousf pointfr to givfn sdrffn doordinbtfs.
+     * @pbrbm x         X position
+     * @pbrbm y         Y position
      */
-    public synchronized void mouseMove(int x, int y) {
-        peer.mouseMove(x, y);
-        afterEvent();
+    publid syndironizfd void mousfMovf(int x, int y) {
+        pffr.mousfMovf(x, y);
+        bftfrEvfnt();
     }
 
     /**
-     * Presses one or more mouse buttons.  The mouse buttons should
-     * be released using the {@link #mouseRelease(int)} method.
+     * Prfssfs onf or morf mousf buttons.  Tif mousf buttons siould
+     * bf rflfbsfd using tif {@link #mousfRflfbsf(int)} mftiod.
      *
-     * @param buttons the Button mask; a combination of one or more
-     * mouse button masks.
+     * @pbrbm buttons tif Button mbsk; b dombinbtion of onf or morf
+     * mousf button mbsks.
      * <p>
-     * It is allowed to use only a combination of valid values as a {@code buttons} parameter.
-     * A valid combination consists of {@code InputEvent.BUTTON1_DOWN_MASK},
-     * {@code InputEvent.BUTTON2_DOWN_MASK}, {@code InputEvent.BUTTON3_DOWN_MASK}
-     * and values returned by the
-     * {@link InputEvent#getMaskForButton(int) InputEvent.getMaskForButton(button)} method.
+     * It is bllowfd to usf only b dombinbtion of vblid vblufs bs b {@dodf buttons} pbrbmftfr.
+     * A vblid dombinbtion donsists of {@dodf InputEvfnt.BUTTON1_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON2_DOWN_MASK}, {@dodf InputEvfnt.BUTTON3_DOWN_MASK}
+     * bnd vblufs rfturnfd by tif
+     * {@link InputEvfnt#gftMbskForButton(int) InputEvfnt.gftMbskForButton(button)} mftiod.
      *
-     * The valid combination also depends on a
-     * {@link Toolkit#areExtraMouseButtonsEnabled() Toolkit.areExtraMouseButtonsEnabled()} value as follows:
+     * Tif vblid dombinbtion blso dfpfnds on b
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() Toolkit.brfExtrbMousfButtonsEnbblfd()} vbluf bs follows:
      * <ul>
-     * <li> If support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * then it is allowed to use only the following standard button masks:
-     * {@code InputEvent.BUTTON1_DOWN_MASK}, {@code InputEvent.BUTTON2_DOWN_MASK},
-     * {@code InputEvent.BUTTON3_DOWN_MASK}.
-     * <li> If support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * then it is allowed to use the standard button masks
-     * and masks for existing extended mouse buttons, if the mouse has more then three buttons.
-     * In that way, it is allowed to use the button masks corresponding to the buttons
-     * in the range from 1 to {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}.
+     * <li> If support for fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * tifn it is bllowfd to usf only tif following stbndbrd button mbsks:
+     * {@dodf InputEvfnt.BUTTON1_DOWN_MASK}, {@dodf InputEvfnt.BUTTON2_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON3_DOWN_MASK}.
+     * <li> If support for fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb
+     * tifn it is bllowfd to usf tif stbndbrd button mbsks
+     * bnd mbsks for fxisting fxtfndfd mousf buttons, if tif mousf ibs morf tifn tirff buttons.
+     * In tibt wby, it is bllowfd to usf tif button mbsks dorrfsponding to tif buttons
+     * in tif rbngf from 1 to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()}.
      * <br>
-     * It is recommended to use the {@link InputEvent#getMaskForButton(int) InputEvent.getMaskForButton(button)}
-     * method to obtain the mask for any mouse button by its number.
+     * It is rfdommfndfd to usf tif {@link InputEvfnt#gftMbskForButton(int) InputEvfnt.gftMbskForButton(button)}
+     * mftiod to obtbin tif mbsk for bny mousf button by its numbfr.
      * </ul>
      * <p>
-     * The following standard button masks are also accepted:
+     * Tif following stbndbrd button mbsks brf blso bddfptfd:
      * <ul>
-     * <li>{@code InputEvent.BUTTON1_MASK}
-     * <li>{@code InputEvent.BUTTON2_MASK}
-     * <li>{@code InputEvent.BUTTON3_MASK}
+     * <li>{@dodf InputEvfnt.BUTTON1_MASK}
+     * <li>{@dodf InputEvfnt.BUTTON2_MASK}
+     * <li>{@dodf InputEvfnt.BUTTON3_MASK}
      * </ul>
-     * However, it is recommended to use {@code InputEvent.BUTTON1_DOWN_MASK},
-     * {@code InputEvent.BUTTON2_DOWN_MASK},  {@code InputEvent.BUTTON3_DOWN_MASK} instead.
-     * Either extended {@code _DOWN_MASK} or old {@code _MASK} values
-     * should be used, but both those models should not be mixed.
-     * @throws IllegalArgumentException if the {@code buttons} mask contains the mask for extra mouse button
-     *         and support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * @throws IllegalArgumentException if the {@code buttons} mask contains the mask for extra mouse button
-     *         that does not exist on the mouse and support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * @see #mouseRelease(int)
-     * @see InputEvent#getMaskForButton(int)
-     * @see Toolkit#areExtraMouseButtonsEnabled()
-     * @see java.awt.MouseInfo#getNumberOfButtons()
-     * @see java.awt.event.MouseEvent
+     * Howfvfr, it is rfdommfndfd to usf {@dodf InputEvfnt.BUTTON1_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON2_DOWN_MASK},  {@dodf InputEvfnt.BUTTON3_DOWN_MASK} instfbd.
+     * Eitifr fxtfndfd {@dodf _DOWN_MASK} or old {@dodf _MASK} vblufs
+     * siould bf usfd, but boti tiosf modfls siould not bf mixfd.
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf buttons} mbsk dontbins tif mbsk for fxtrb mousf button
+     *         bnd support for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf buttons} mbsk dontbins tif mbsk for fxtrb mousf button
+     *         tibt dofs not fxist on tif mousf bnd support for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb
+     * @sff #mousfRflfbsf(int)
+     * @sff InputEvfnt#gftMbskForButton(int)
+     * @sff Toolkit#brfExtrbMousfButtonsEnbblfd()
+     * @sff jbvb.bwt.MousfInfo#gftNumbfrOfButtons()
+     * @sff jbvb.bwt.fvfnt.MousfEvfnt
      */
-    public synchronized void mousePress(int buttons) {
-        checkButtonsArgument(buttons);
-        peer.mousePress(buttons);
-        afterEvent();
+    publid syndironizfd void mousfPrfss(int buttons) {
+        difdkButtonsArgumfnt(buttons);
+        pffr.mousfPrfss(buttons);
+        bftfrEvfnt();
     }
 
     /**
-     * Releases one or more mouse buttons.
+     * Rflfbsfs onf or morf mousf buttons.
      *
-     * @param buttons the Button mask; a combination of one or more
-     * mouse button masks.
+     * @pbrbm buttons tif Button mbsk; b dombinbtion of onf or morf
+     * mousf button mbsks.
      * <p>
-     * It is allowed to use only a combination of valid values as a {@code buttons} parameter.
-     * A valid combination consists of {@code InputEvent.BUTTON1_DOWN_MASK},
-     * {@code InputEvent.BUTTON2_DOWN_MASK}, {@code InputEvent.BUTTON3_DOWN_MASK}
-     * and values returned by the
-     * {@link InputEvent#getMaskForButton(int) InputEvent.getMaskForButton(button)} method.
+     * It is bllowfd to usf only b dombinbtion of vblid vblufs bs b {@dodf buttons} pbrbmftfr.
+     * A vblid dombinbtion donsists of {@dodf InputEvfnt.BUTTON1_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON2_DOWN_MASK}, {@dodf InputEvfnt.BUTTON3_DOWN_MASK}
+     * bnd vblufs rfturnfd by tif
+     * {@link InputEvfnt#gftMbskForButton(int) InputEvfnt.gftMbskForButton(button)} mftiod.
      *
-     * The valid combination also depends on a
-     * {@link Toolkit#areExtraMouseButtonsEnabled() Toolkit.areExtraMouseButtonsEnabled()} value as follows:
+     * Tif vblid dombinbtion blso dfpfnds on b
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() Toolkit.brfExtrbMousfButtonsEnbblfd()} vbluf bs follows:
      * <ul>
-     * <li> If the support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * then it is allowed to use only the following standard button masks:
-     * {@code InputEvent.BUTTON1_DOWN_MASK}, {@code InputEvent.BUTTON2_DOWN_MASK},
-     * {@code InputEvent.BUTTON3_DOWN_MASK}.
-     * <li> If the support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * then it is allowed to use the standard button masks
-     * and masks for existing extended mouse buttons, if the mouse has more then three buttons.
-     * In that way, it is allowed to use the button masks corresponding to the buttons
-     * in the range from 1 to {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}.
+     * <li> If tif support for fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * tifn it is bllowfd to usf only tif following stbndbrd button mbsks:
+     * {@dodf InputEvfnt.BUTTON1_DOWN_MASK}, {@dodf InputEvfnt.BUTTON2_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON3_DOWN_MASK}.
+     * <li> If tif support for fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb
+     * tifn it is bllowfd to usf tif stbndbrd button mbsks
+     * bnd mbsks for fxisting fxtfndfd mousf buttons, if tif mousf ibs morf tifn tirff buttons.
+     * In tibt wby, it is bllowfd to usf tif button mbsks dorrfsponding to tif buttons
+     * in tif rbngf from 1 to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()}.
      * <br>
-     * It is recommended to use the {@link InputEvent#getMaskForButton(int) InputEvent.getMaskForButton(button)}
-     * method to obtain the mask for any mouse button by its number.
+     * It is rfdommfndfd to usf tif {@link InputEvfnt#gftMbskForButton(int) InputEvfnt.gftMbskForButton(button)}
+     * mftiod to obtbin tif mbsk for bny mousf button by its numbfr.
      * </ul>
      * <p>
-     * The following standard button masks are also accepted:
+     * Tif following stbndbrd button mbsks brf blso bddfptfd:
      * <ul>
-     * <li>{@code InputEvent.BUTTON1_MASK}
-     * <li>{@code InputEvent.BUTTON2_MASK}
-     * <li>{@code InputEvent.BUTTON3_MASK}
+     * <li>{@dodf InputEvfnt.BUTTON1_MASK}
+     * <li>{@dodf InputEvfnt.BUTTON2_MASK}
+     * <li>{@dodf InputEvfnt.BUTTON3_MASK}
      * </ul>
-     * However, it is recommended to use {@code InputEvent.BUTTON1_DOWN_MASK},
-     * {@code InputEvent.BUTTON2_DOWN_MASK},  {@code InputEvent.BUTTON3_DOWN_MASK} instead.
-     * Either extended {@code _DOWN_MASK} or old {@code _MASK} values
-     * should be used, but both those models should not be mixed.
-     * @throws IllegalArgumentException if the {@code buttons} mask contains the mask for extra mouse button
-     *         and support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * @throws IllegalArgumentException if the {@code buttons} mask contains the mask for extra mouse button
-     *         that does not exist on the mouse and support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * @see #mousePress(int)
-     * @see InputEvent#getMaskForButton(int)
-     * @see Toolkit#areExtraMouseButtonsEnabled()
-     * @see java.awt.MouseInfo#getNumberOfButtons()
-     * @see java.awt.event.MouseEvent
+     * Howfvfr, it is rfdommfndfd to usf {@dodf InputEvfnt.BUTTON1_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON2_DOWN_MASK},  {@dodf InputEvfnt.BUTTON3_DOWN_MASK} instfbd.
+     * Eitifr fxtfndfd {@dodf _DOWN_MASK} or old {@dodf _MASK} vblufs
+     * siould bf usfd, but boti tiosf modfls siould not bf mixfd.
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf buttons} mbsk dontbins tif mbsk for fxtrb mousf button
+     *         bnd support for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf buttons} mbsk dontbins tif mbsk for fxtrb mousf button
+     *         tibt dofs not fxist on tif mousf bnd support for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb
+     * @sff #mousfPrfss(int)
+     * @sff InputEvfnt#gftMbskForButton(int)
+     * @sff Toolkit#brfExtrbMousfButtonsEnbblfd()
+     * @sff jbvb.bwt.MousfInfo#gftNumbfrOfButtons()
+     * @sff jbvb.bwt.fvfnt.MousfEvfnt
      */
-    public synchronized void mouseRelease(int buttons) {
-        checkButtonsArgument(buttons);
-        peer.mouseRelease(buttons);
-        afterEvent();
+    publid syndironizfd void mousfRflfbsf(int buttons) {
+        difdkButtonsArgumfnt(buttons);
+        pffr.mousfRflfbsf(buttons);
+        bftfrEvfnt();
     }
 
-    private void checkButtonsArgument(int buttons) {
+    privbtf void difdkButtonsArgumfnt(int buttons) {
         if ( (buttons|LEGAL_BUTTON_MASK) != LEGAL_BUTTON_MASK ) {
-            throw new IllegalArgumentException("Invalid combination of button flags");
+            tirow nfw IllfgblArgumfntExdfption("Invblid dombinbtion of button flbgs");
         }
     }
 
     /**
-     * Rotates the scroll wheel on wheel-equipped mice.
+     * Rotbtfs tif sdroll wiffl on wiffl-fquippfd midf.
      *
-     * @param wheelAmt  number of "notches" to move the mouse wheel
-     *                  Negative values indicate movement up/away from the user,
-     *                  positive values indicate movement down/towards the user.
+     * @pbrbm wifflAmt  numbfr of "notdifs" to movf tif mousf wiffl
+     *                  Nfgbtivf vblufs indidbtf movfmfnt up/bwby from tif usfr,
+     *                  positivf vblufs indidbtf movfmfnt down/towbrds tif usfr.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public synchronized void mouseWheel(int wheelAmt) {
-        peer.mouseWheel(wheelAmt);
-        afterEvent();
+    publid syndironizfd void mousfWiffl(int wifflAmt) {
+        pffr.mousfWiffl(wifflAmt);
+        bftfrEvfnt();
     }
 
     /**
-     * Presses a given key.  The key should be released using the
-     * <code>keyRelease</code> method.
+     * Prfssfs b givfn kfy.  Tif kfy siould bf rflfbsfd using tif
+     * <dodf>kfyRflfbsf</dodf> mftiod.
      * <p>
-     * Key codes that have more than one physical key associated with them
-     * (e.g. <code>KeyEvent.VK_SHIFT</code> could mean either the
-     * left or right shift key) will map to the left key.
+     * Kfy dodfs tibt ibvf morf tibn onf piysidbl kfy bssodibtfd witi tifm
+     * (f.g. <dodf>KfyEvfnt.VK_SHIFT</dodf> dould mfbn fitifr tif
+     * lfft or rigit siift kfy) will mbp to tif lfft kfy.
      *
-     * @param   keycode Key to press (e.g. <code>KeyEvent.VK_A</code>)
-     * @throws  IllegalArgumentException if <code>keycode</code> is not
-     *          a valid key
-     * @see     #keyRelease(int)
-     * @see     java.awt.event.KeyEvent
+     * @pbrbm   kfydodf Kfy to prfss (f.g. <dodf>KfyEvfnt.VK_A</dodf>)
+     * @tirows  IllfgblArgumfntExdfption if <dodf>kfydodf</dodf> is not
+     *          b vblid kfy
+     * @sff     #kfyRflfbsf(int)
+     * @sff     jbvb.bwt.fvfnt.KfyEvfnt
      */
-    public synchronized void keyPress(int keycode) {
-        checkKeycodeArgument(keycode);
-        peer.keyPress(keycode);
-        afterEvent();
+    publid syndironizfd void kfyPrfss(int kfydodf) {
+        difdkKfydodfArgumfnt(kfydodf);
+        pffr.kfyPrfss(kfydodf);
+        bftfrEvfnt();
     }
 
     /**
-     * Releases a given key.
+     * Rflfbsfs b givfn kfy.
      * <p>
-     * Key codes that have more than one physical key associated with them
-     * (e.g. <code>KeyEvent.VK_SHIFT</code> could mean either the
-     * left or right shift key) will map to the left key.
+     * Kfy dodfs tibt ibvf morf tibn onf piysidbl kfy bssodibtfd witi tifm
+     * (f.g. <dodf>KfyEvfnt.VK_SHIFT</dodf> dould mfbn fitifr tif
+     * lfft or rigit siift kfy) will mbp to tif lfft kfy.
      *
-     * @param   keycode Key to release (e.g. <code>KeyEvent.VK_A</code>)
-     * @throws  IllegalArgumentException if <code>keycode</code> is not a
-     *          valid key
-     * @see  #keyPress(int)
-     * @see     java.awt.event.KeyEvent
+     * @pbrbm   kfydodf Kfy to rflfbsf (f.g. <dodf>KfyEvfnt.VK_A</dodf>)
+     * @tirows  IllfgblArgumfntExdfption if <dodf>kfydodf</dodf> is not b
+     *          vblid kfy
+     * @sff  #kfyPrfss(int)
+     * @sff     jbvb.bwt.fvfnt.KfyEvfnt
      */
-    public synchronized void keyRelease(int keycode) {
-        checkKeycodeArgument(keycode);
-        peer.keyRelease(keycode);
-        afterEvent();
+    publid syndironizfd void kfyRflfbsf(int kfydodf) {
+        difdkKfydodfArgumfnt(kfydodf);
+        pffr.kfyRflfbsf(kfydodf);
+        bftfrEvfnt();
     }
 
-    private void checkKeycodeArgument(int keycode) {
-        // rather than build a big table or switch statement here, we'll
-        // just check that the key isn't VK_UNDEFINED and assume that the
-        // peer implementations will throw an exception for other bogus
-        // values e.g. -1, 999999
-        if (keycode == KeyEvent.VK_UNDEFINED) {
-            throw new IllegalArgumentException("Invalid key code");
+    privbtf void difdkKfydodfArgumfnt(int kfydodf) {
+        // rbtifr tibn build b big tbblf or switdi stbtfmfnt ifrf, wf'll
+        // just difdk tibt tif kfy isn't VK_UNDEFINED bnd bssumf tibt tif
+        // pffr implfmfntbtions will tirow bn fxdfption for otifr bogus
+        // vblufs f.g. -1, 999999
+        if (kfydodf == KfyEvfnt.VK_UNDEFINED) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid kfy dodf");
         }
     }
 
     /**
-     * Returns the color of a pixel at the given screen coordinates.
-     * @param   x       X position of pixel
-     * @param   y       Y position of pixel
-     * @return  Color of the pixel
+     * Rfturns tif dolor of b pixfl bt tif givfn sdrffn doordinbtfs.
+     * @pbrbm   x       X position of pixfl
+     * @pbrbm   y       Y position of pixfl
+     * @rfturn  Color of tif pixfl
      */
-    public synchronized Color getPixelColor(int x, int y) {
-        Color color = new Color(peer.getRGBPixel(x, y));
-        return color;
+    publid syndironizfd Color gftPixflColor(int x, int y) {
+        Color dolor = nfw Color(pffr.gftRGBPixfl(x, y));
+        rfturn dolor;
     }
 
     /**
-     * Creates an image containing pixels read from the screen.  This image does
-     * not include the mouse cursor.
-     * @param   screenRect      Rect to capture in screen coordinates
-     * @return  The captured image
-     * @throws  IllegalArgumentException if <code>screenRect</code> width and height are not greater than zero
-     * @throws  SecurityException if <code>readDisplayPixels</code> permission is not granted
-     * @see     SecurityManager#checkPermission
-     * @see     AWTPermission
+     * Crfbtfs bn imbgf dontbining pixfls rfbd from tif sdrffn.  Tiis imbgf dofs
+     * not indludf tif mousf dursor.
+     * @pbrbm   sdrffnRfdt      Rfdt to dbpturf in sdrffn doordinbtfs
+     * @rfturn  Tif dbpturfd imbgf
+     * @tirows  IllfgblArgumfntExdfption if <dodf>sdrffnRfdt</dodf> widti bnd ifigit brf not grfbtfr tibn zfro
+     * @tirows  SfdurityExdfption if <dodf>rfbdDisplbyPixfls</dodf> pfrmission is not grbntfd
+     * @sff     SfdurityMbnbgfr#difdkPfrmission
+     * @sff     AWTPfrmission
      */
-    public synchronized BufferedImage createScreenCapture(Rectangle screenRect) {
-        checkScreenCaptureAllowed();
+    publid syndironizfd BufffrfdImbgf drfbtfSdrffnCbpturf(Rfdtbnglf sdrffnRfdt) {
+        difdkSdrffnCbpturfAllowfd();
 
-        checkValidRect(screenRect);
+        difdkVblidRfdt(sdrffnRfdt);
 
-        BufferedImage image;
-        DataBufferInt buffer;
-        WritableRaster raster;
+        BufffrfdImbgf imbgf;
+        DbtbBufffrInt bufffr;
+        WritbblfRbstfr rbstfr;
 
-        if (screenCapCM == null) {
+        if (sdrffnCbpCM == null) {
             /*
              * Fix for 4285201
-             * Create a DirectColorModel equivalent to the default RGB ColorModel,
-             * except with no Alpha component.
+             * Crfbtf b DirfdtColorModfl fquivblfnt to tif dffbult RGB ColorModfl,
+             * fxdfpt witi no Alpib domponfnt.
              */
 
-            screenCapCM = new DirectColorModel(24,
-                                               /* red mask */    0x00FF0000,
-                                               /* green mask */  0x0000FF00,
-                                               /* blue mask */   0x000000FF);
+            sdrffnCbpCM = nfw DirfdtColorModfl(24,
+                                               /* rfd mbsk */    0x00FF0000,
+                                               /* grffn mbsk */  0x0000FF00,
+                                               /* bluf mbsk */   0x000000FF);
         }
 
-        // need to sync the toolkit prior to grabbing the pixels since in some
-        // cases rendering to the screen may be delayed
-        Toolkit.getDefaultToolkit().sync();
+        // nffd to synd tif toolkit prior to grbbbing tif pixfls sindf in somf
+        // dbsfs rfndfring to tif sdrffn mby bf dflbyfd
+        Toolkit.gftDffbultToolkit().synd();
 
-        int pixels[];
-        int[] bandmasks = new int[3];
+        int pixfls[];
+        int[] bbndmbsks = nfw int[3];
 
-        pixels = peer.getRGBPixels(screenRect);
-        buffer = new DataBufferInt(pixels, pixels.length);
+        pixfls = pffr.gftRGBPixfls(sdrffnRfdt);
+        bufffr = nfw DbtbBufffrInt(pixfls, pixfls.lfngti);
 
-        bandmasks[0] = screenCapCM.getRedMask();
-        bandmasks[1] = screenCapCM.getGreenMask();
-        bandmasks[2] = screenCapCM.getBlueMask();
+        bbndmbsks[0] = sdrffnCbpCM.gftRfdMbsk();
+        bbndmbsks[1] = sdrffnCbpCM.gftGrffnMbsk();
+        bbndmbsks[2] = sdrffnCbpCM.gftBlufMbsk();
 
-        raster = Raster.createPackedRaster(buffer, screenRect.width, screenRect.height, screenRect.width, bandmasks, null);
-        SunWritableRaster.makeTrackable(buffer);
+        rbstfr = Rbstfr.drfbtfPbdkfdRbstfr(bufffr, sdrffnRfdt.widti, sdrffnRfdt.ifigit, sdrffnRfdt.widti, bbndmbsks, null);
+        SunWritbblfRbstfr.mbkfTrbdkbblf(bufffr);
 
-        image = new BufferedImage(screenCapCM, raster, false, null);
+        imbgf = nfw BufffrfdImbgf(sdrffnCbpCM, rbstfr, fblsf, null);
 
-        return image;
+        rfturn imbgf;
     }
 
-    private static void checkValidRect(Rectangle rect) {
-        if (rect.width <= 0 || rect.height <= 0) {
-            throw new IllegalArgumentException("Rectangle width and height must be > 0");
+    privbtf stbtid void difdkVblidRfdt(Rfdtbnglf rfdt) {
+        if (rfdt.widti <= 0 || rfdt.ifigit <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Rfdtbnglf widti bnd ifigit must bf > 0");
         }
     }
 
-    private static void checkScreenCaptureAllowed() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(AWTPermissions.READ_DISPLAY_PIXELS_PERMISSION);
+    privbtf stbtid void difdkSdrffnCbpturfAllowfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(AWTPfrmissions.READ_DISPLAY_PIXELS_PERMISSION);
         }
     }
 
     /*
-     * Called after an event is generated
+     * Cbllfd bftfr bn fvfnt is gfnfrbtfd
      */
-    private void afterEvent() {
-        autoWaitForIdle();
-        autoDelay();
+    privbtf void bftfrEvfnt() {
+        butoWbitForIdlf();
+        butoDflby();
     }
 
     /**
-     * Returns whether this Robot automatically invokes <code>waitForIdle</code>
-     * after generating an event.
-     * @return Whether <code>waitForIdle</code> is automatically called
+     * Rfturns wiftifr tiis Robot butombtidblly invokfs <dodf>wbitForIdlf</dodf>
+     * bftfr gfnfrbting bn fvfnt.
+     * @rfturn Wiftifr <dodf>wbitForIdlf</dodf> is butombtidblly dbllfd
      */
-    public synchronized boolean isAutoWaitForIdle() {
-        return isAutoWaitForIdle;
+    publid syndironizfd boolfbn isAutoWbitForIdlf() {
+        rfturn isAutoWbitForIdlf;
     }
 
     /**
-     * Sets whether this Robot automatically invokes <code>waitForIdle</code>
-     * after generating an event.
-     * @param   isOn    Whether <code>waitForIdle</code> is automatically invoked
+     * Sfts wiftifr tiis Robot butombtidblly invokfs <dodf>wbitForIdlf</dodf>
+     * bftfr gfnfrbting bn fvfnt.
+     * @pbrbm   isOn    Wiftifr <dodf>wbitForIdlf</dodf> is butombtidblly invokfd
      */
-    public synchronized void setAutoWaitForIdle(boolean isOn) {
-        isAutoWaitForIdle = isOn;
+    publid syndironizfd void sftAutoWbitForIdlf(boolfbn isOn) {
+        isAutoWbitForIdlf = isOn;
     }
 
     /*
-     * Calls waitForIdle after every event if so desired.
+     * Cblls wbitForIdlf bftfr fvfry fvfnt if so dfsirfd.
      */
-    private void autoWaitForIdle() {
-        if (isAutoWaitForIdle) {
-            waitForIdle();
+    privbtf void butoWbitForIdlf() {
+        if (isAutoWbitForIdlf) {
+            wbitForIdlf();
         }
     }
 
     /**
-     * Returns the number of milliseconds this Robot sleeps after generating an event.
+     * Rfturns tif numbfr of millisfdonds tiis Robot slffps bftfr gfnfrbting bn fvfnt.
      *
-     * @return the delay duration in milliseconds
+     * @rfturn tif dflby durbtion in millisfdonds
      */
-    public synchronized int getAutoDelay() {
-        return autoDelay;
+    publid syndironizfd int gftAutoDflby() {
+        rfturn butoDflby;
     }
 
     /**
-     * Sets the number of milliseconds this Robot sleeps after generating an event.
+     * Sfts tif numbfr of millisfdonds tiis Robot slffps bftfr gfnfrbting bn fvfnt.
      *
-     * @param  ms the delay duration in milliseconds
-     * @throws IllegalArgumentException If {@code ms}
-     *         is not between 0 and 60,000 milliseconds inclusive
+     * @pbrbm  ms tif dflby durbtion in millisfdonds
+     * @tirows IllfgblArgumfntExdfption If {@dodf ms}
+     *         is not bftwffn 0 bnd 60,000 millisfdonds indlusivf
      */
-    public synchronized void setAutoDelay(int ms) {
-        checkDelayArgument(ms);
-        autoDelay = ms;
+    publid syndironizfd void sftAutoDflby(int ms) {
+        difdkDflbyArgumfnt(ms);
+        butoDflby = ms;
     }
 
     /*
-     * Automatically sleeps for the specified interval after event generated.
+     * Autombtidblly slffps for tif spfdififd intfrvbl bftfr fvfnt gfnfrbtfd.
      */
-    private void autoDelay() {
-        delay(autoDelay);
+    privbtf void butoDflby() {
+        dflby(butoDflby);
     }
 
     /**
-     * Sleeps for the specified time.
-     * To catch any <code>InterruptedException</code>s that occur,
-     * <code>Thread.sleep()</code> may be used instead.
+     * Slffps for tif spfdififd timf.
+     * To dbtdi bny <dodf>IntfrruptfdExdfption</dodf>s tibt oddur,
+     * <dodf>Tirfbd.slffp()</dodf> mby bf usfd instfbd.
      *
-     * @param  ms time to sleep in milliseconds
-     * @throws IllegalArgumentException if {@code ms}
-     *         is not between 0 and 60,000 milliseconds inclusive
-     * @see java.lang.Thread#sleep
+     * @pbrbm  ms timf to slffp in millisfdonds
+     * @tirows IllfgblArgumfntExdfption if {@dodf ms}
+     *         is not bftwffn 0 bnd 60,000 millisfdonds indlusivf
+     * @sff jbvb.lbng.Tirfbd#slffp
      */
-    public synchronized void delay(int ms) {
-        checkDelayArgument(ms);
+    publid syndironizfd void dflby(int ms) {
+        difdkDflbyArgumfnt(ms);
         try {
-            Thread.sleep(ms);
-        } catch(InterruptedException ite) {
-            ite.printStackTrace();
+            Tirfbd.slffp(ms);
+        } dbtdi(IntfrruptfdExdfption itf) {
+            itf.printStbdkTrbdf();
         }
     }
 
-    private void checkDelayArgument(int ms) {
+    privbtf void difdkDflbyArgumfnt(int ms) {
         if (ms < 0 || ms > MAX_DELAY) {
-            throw new IllegalArgumentException("Delay must be to 0 to 60,000ms");
+            tirow nfw IllfgblArgumfntExdfption("Dflby must bf to 0 to 60,000ms");
         }
     }
 
     /**
-     * Waits until all events currently on the event queue have been processed.
-     * @throws  IllegalThreadStateException if called on the AWT event dispatching thread
+     * Wbits until bll fvfnts durrfntly on tif fvfnt qufuf ibvf bffn prodfssfd.
+     * @tirows  IllfgblTirfbdStbtfExdfption if dbllfd on tif AWT fvfnt dispbtdiing tirfbd
      */
-    public synchronized void waitForIdle() {
-        checkNotDispatchThread();
-        // post a dummy event to the queue so we know when
-        // all the events before it have been processed
+    publid syndironizfd void wbitForIdlf() {
+        difdkNotDispbtdiTirfbd();
+        // post b dummy fvfnt to tif qufuf so wf know wifn
+        // bll tif fvfnts bfforf it ibvf bffn prodfssfd
         try {
-            SunToolkit.flushPendingEvents();
-            EventQueue.invokeAndWait( new Runnable() {
-                                            public void run() {
-                                                // dummy implementation
+            SunToolkit.flusiPfndingEvfnts();
+            EvfntQufuf.invokfAndWbit( nfw Runnbblf() {
+                                            publid void run() {
+                                                // dummy implfmfntbtion
                                             }
                                         } );
-        } catch(InterruptedException ite) {
-            System.err.println("Robot.waitForIdle, non-fatal exception caught:");
-            ite.printStackTrace();
-        } catch(InvocationTargetException ine) {
-            System.err.println("Robot.waitForIdle, non-fatal exception caught:");
-            ine.printStackTrace();
+        } dbtdi(IntfrruptfdExdfption itf) {
+            Systfm.frr.println("Robot.wbitForIdlf, non-fbtbl fxdfption dbugit:");
+            itf.printStbdkTrbdf();
+        } dbtdi(InvodbtionTbrgftExdfption inf) {
+            Systfm.frr.println("Robot.wbitForIdlf, non-fbtbl fxdfption dbugit:");
+            inf.printStbdkTrbdf();
         }
     }
 
-    private void checkNotDispatchThread() {
-        if (EventQueue.isDispatchThread()) {
-            throw new IllegalThreadStateException("Cannot call method from the event dispatcher thread");
+    privbtf void difdkNotDispbtdiTirfbd() {
+        if (EvfntQufuf.isDispbtdiTirfbd()) {
+            tirow nfw IllfgblTirfbdStbtfExdfption("Cbnnot dbll mftiod from tif fvfnt dispbtdifr tirfbd");
         }
     }
 
     /**
-     * Returns a string representation of this Robot.
+     * Rfturns b string rfprfsfntbtion of tiis Robot.
      *
-     * @return  the string representation.
+     * @rfturn  tif string rfprfsfntbtion.
      */
-    public synchronized String toString() {
-        String params = "autoDelay = "+getAutoDelay()+", "+"autoWaitForIdle = "+isAutoWaitForIdle();
-        return getClass().getName() + "[ " + params + " ]";
+    publid syndironizfd String toString() {
+        String pbrbms = "butoDflby = "+gftAutoDflby()+", "+"butoWbitForIdlf = "+isAutoWbitForIdlf();
+        rfturn gftClbss().gftNbmf() + "[ " + pbrbms + " ]";
     }
 }

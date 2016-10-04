@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-//#define USE_ERROR
-//#define USE_TRACE
+//#dffinf USE_ERROR
+//#dffinf USE_TRACE
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE __FILE__
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
 
 #if USE_PLATFORM_MIDI_OUT == TRUE
 
-#include "PLATFORM_API_MacOSX_MidiUtils.h"
+#indludf "PLATFORM_API_MbdOSX_MidiUtils.i"
 
-char* MIDI_OUT_GetErrorStr(INT32 err) {
-    return (char *) MIDI_Utils_GetErrorMsg((int) err);
+dibr* MIDI_OUT_GftErrorStr(INT32 frr) {
+    rfturn (dibr *) MIDI_Utils_GftErrorMsg((int) frr);
 }
 
 
-INT32 MIDI_OUT_GetNumDevices() {
-    return MIDI_Utils_GetNumDevices(MIDI_OUT);
+INT32 MIDI_OUT_GftNumDfvidfs() {
+    rfturn MIDI_Utils_GftNumDfvidfs(MIDI_OUT);
 }
 
 
-INT32 MIDI_OUT_GetDeviceName(INT32 deviceID, char *name, UINT32 nameLength) {
-    return MIDI_Utils_GetDeviceName(MIDI_OUT, deviceID, name, nameLength);
+INT32 MIDI_OUT_GftDfvidfNbmf(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti) {
+    rfturn MIDI_Utils_GftDfvidfNbmf(MIDI_OUT, dfvidfID, nbmf, nbmfLfngti);
 }
 
 
-INT32 MIDI_OUT_GetDeviceVendor(INT32 deviceID, char *name, UINT32 nameLength) {
-    return MIDI_Utils_GetDeviceVendor(MIDI_OUT, deviceID, name, nameLength);
+INT32 MIDI_OUT_GftDfvidfVfndor(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti) {
+    rfturn MIDI_Utils_GftDfvidfVfndor(MIDI_OUT, dfvidfID, nbmf, nbmfLfngti);
 }
 
 
-INT32 MIDI_OUT_GetDeviceDescription(INT32 deviceID, char *name, UINT32 nameLength) {
-    return MIDI_Utils_GetDeviceDescription(MIDI_OUT, deviceID, name, nameLength);
+INT32 MIDI_OUT_GftDfvidfDfsdription(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti) {
+    rfturn MIDI_Utils_GftDfvidfDfsdription(MIDI_OUT, dfvidfID, nbmf, nbmfLfngti);
 }
 
 
-INT32 MIDI_OUT_GetDeviceVersion(INT32 deviceID, char *name, UINT32 nameLength) {
-    return MIDI_Utils_GetDeviceVersion(MIDI_OUT, deviceID, name, nameLength);
+INT32 MIDI_OUT_GftDfvidfVfrsion(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti) {
+    rfturn MIDI_Utils_GftDfvidfVfrsion(MIDI_OUT, dfvidfID, nbmf, nbmfLfngti);
 }
 
 
-/* *************************** MidiOutDevice implementation ***************************************** */
+/* *************************** MidiOutDfvidf implfmfntbtion ***************************************** */
 
-INT32 MIDI_OUT_OpenDevice(INT32 deviceID, MidiDeviceHandle** handle) {
-    TRACE1("MIDI_OUT_OpenDevice: deviceID: %d\n", (int) deviceID);
-    /* queue sizes are ignored for MIDI_OUT only (uses STREAMS) */
-    return MIDI_Utils_OpenDevice(MIDI_OUT, deviceID, (MacMidiDeviceHandle**) handle, 0, 0, 0);
+INT32 MIDI_OUT_OpfnDfvidf(INT32 dfvidfID, MidiDfvidfHbndlf** ibndlf) {
+    TRACE1("MIDI_OUT_OpfnDfvidf: dfvidfID: %d\n", (int) dfvidfID);
+    /* qufuf sizfs brf ignorfd for MIDI_OUT only (usfs STREAMS) */
+    rfturn MIDI_Utils_OpfnDfvidf(MIDI_OUT, dfvidfID, (MbdMidiDfvidfHbndlf**) ibndlf, 0, 0, 0);
 }
 
-INT32 MIDI_OUT_CloseDevice(MidiDeviceHandle* handle) {
-    TRACE0("MIDI_OUT_CloseDevice\n");
+INT32 MIDI_OUT_ClosfDfvidf(MidiDfvidfHbndlf* ibndlf) {
+    TRACE0("MIDI_OUT_ClosfDfvidf\n");
 
-    // issue a "SUSTAIN OFF" message to each MIDI channel, 0 to 15.
-    // "CONTROL CHANGE" is 176, "SUSTAIN CONTROLLER" is 64, and the value is 0.
-    // $$fb 2002-04-04: It is responsability of the application developer to
-    // leave the device in a consistent state. So I put this in comments
+    // issuf b "SUSTAIN OFF" mfssbgf to fbdi MIDI dibnnfl, 0 to 15.
+    // "CONTROL CHANGE" is 176, "SUSTAIN CONTROLLER" is 64, bnd tif vbluf is 0.
+    // $$fb 2002-04-04: It is rfsponsbbility of tif bpplidbtion dfvflopfr to
+    // lfbvf tif dfvidf in b donsistfnt stbtf. So I put tiis in dommfnts
     /*
-      for (channel = 0; channel < 16; channel++)
-      MIDI_OUT_SendShortMessage(deviceHandle, (unsigned char)(176 + channel),
-      (unsigned char)64, (unsigned char)0, (UINT32)-1);
+      for (dibnnfl = 0; dibnnfl < 16; dibnnfl++)
+      MIDI_OUT_SfndSiortMfssbgf(dfvidfHbndlf, (unsignfd dibr)(176 + dibnnfl),
+      (unsignfd dibr)64, (unsignfd dibr)0, (UINT32)-1);
     */
-    return MIDI_Utils_CloseDevice((MacMidiDeviceHandle*) handle);
+    rfturn MIDI_Utils_ClosfDfvidf((MbdMidiDfvidfHbndlf*) ibndlf);
 }
 
 
-INT64 MIDI_OUT_GetTimeStamp(MidiDeviceHandle* handle) {
-    return MIDI_Utils_GetTimeStamp((MacMidiDeviceHandle*) handle);
+INT64 MIDI_OUT_GftTimfStbmp(MidiDfvidfHbndlf* ibndlf) {
+    rfturn MIDI_Utils_GftTimfStbmp((MbdMidiDfvidfHbndlf*) ibndlf);
 }
 
 
-INT32 MIDI_OUT_SendShortMessage(MidiDeviceHandle* handle, UINT32 packedMsg, UINT32 timestamp) {
-    OSStatus err = noErr;
+INT32 MIDI_OUT_SfndSiortMfssbgf(MidiDfvidfHbndlf* ibndlf, UINT32 pbdkfdMsg, UINT32 timfstbmp) {
+    OSStbtus frr = noErr;
 
-    TRACE2("> MIDI_OUT_SendShortMessage %x, time: %d\n", (uint) packedMsg, (int) timestamp);
-    if (!handle) {
-        ERROR0("< ERROR: MIDI_OUT_SendShortMessage: handle is NULL\n");
-        return MIDI_INVALID_HANDLE;
+    TRACE2("> MIDI_OUT_SfndSiortMfssbgf %x, timf: %d\n", (uint) pbdkfdMsg, (int) timfstbmp);
+    if (!ibndlf) {
+        ERROR0("< ERROR: MIDI_OUT_SfndSiortMfssbgf: ibndlf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
 
-    MacMidiDeviceHandle* macHandle = (MacMidiDeviceHandle*) handle;
-    UInt8 mBuffers[100];
-    MIDIPacketList* packetList = (MIDIPacketList*) mBuffers;
-    MIDIPacket* packet;
-    UINT32 nData;
-    Byte data[3] = {packedMsg & 0xFF, (packedMsg >> 8) & 0xFF, (packedMsg >> 16) & 0xFF};
-    bool byteIsInvalid = FALSE;
+    MbdMidiDfvidfHbndlf* mbdHbndlf = (MbdMidiDfvidfHbndlf*) ibndlf;
+    UInt8 mBufffrs[100];
+    MIDIPbdkftList* pbdkftList = (MIDIPbdkftList*) mBufffrs;
+    MIDIPbdkft* pbdkft;
+    UINT32 nDbtb;
+    Bytf dbtb[3] = {pbdkfdMsg & 0xFF, (pbdkfdMsg >> 8) & 0xFF, (pbdkfdMsg >> 16) & 0xFF};
+    bool bytfIsInvblid = FALSE;
 
-    packet = MIDIPacketListInit(packetList);
-    switch (data[0] & 0xF0) {
-        case 0x80:    // Note off
-        case 0x90:    // Note on
-        case 0xA0:    // Aftertouch
-        case 0xB0:    // Controller
-        case 0xE0:    // Pitch wheel
-            nData = 3;
-            break;
+    pbdkft = MIDIPbdkftListInit(pbdkftList);
+    switdi (dbtb[0] & 0xF0) {
+        dbsf 0x80:    // Notf off
+        dbsf 0x90:    // Notf on
+        dbsf 0xA0:    // Aftfrtoudi
+        dbsf 0xB0:    // Controllfr
+        dbsf 0xE0:    // Pitdi wiffl
+            nDbtb = 3;
+            brfbk;
 
-        case 0xC0:    // Program change
-        case 0xD0:    // Channel pressure
-            nData = 2;
-            break;
+        dbsf 0xC0:    // Progrbm dibngf
+        dbsf 0xD0:    // Cibnnfl prfssurf
+            nDbtb = 2;
+            brfbk;
 
-        case 0xF0: {
-            // System common message
-            switch (data[0]) {
-                case 0xF0:
-                case 0xF7:
-                    // System exclusive
-                    fprintf(stderr, "%s: %d->internal error: sysex message status=0x%X while sending short message\n",
-                            THIS_FILE, __LINE__, data[0]);
-                    byteIsInvalid = TRUE;
-                    break;
+        dbsf 0xF0: {
+            // Systfm dommon mfssbgf
+            switdi (dbtb[0]) {
+                dbsf 0xF0:
+                dbsf 0xF7:
+                    // Systfm fxdlusivf
+                    fprintf(stdfrr, "%s: %d->intfrnbl frror: sysfx mfssbgf stbtus=0x%X wiilf sfnding siort mfssbgf\n",
+                            THIS_FILE, __LINE__, dbtb[0]);
+                    bytfIsInvblid = TRUE;
+                    brfbk;
 
-                case 0xF1:    // MTC quarter frame message
-                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessage: MTC quarter frame message....\n");
-                    nData = 2;
-                    break;
-                case 0xF3:    // Song select
-                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessage: Song select....\n");
-                    nData = 2;
-                    break;
+                dbsf 0xF1:    // MTC qubrtfr frbmf mfssbgf
+                    //fprintf(stdfrr, ">>>MIDI_OUT_SfndSiortMfssbgf: MTC qubrtfr frbmf mfssbgf....\n");
+                    nDbtb = 2;
+                    brfbk;
+                dbsf 0xF3:    // Song sflfdt
+                    //fprintf(stdfrr, ">>>MIDI_OUT_SfndSiortMfssbgf: Song sflfdt....\n");
+                    nDbtb = 2;
+                    brfbk;
 
-                case 0xF2:    // Song position pointer
-                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessage: Song position pointer....\n");
-                    nData = 3;
-                    break;
+                dbsf 0xF2:    // Song position pointfr
+                    //fprintf(stdfrr, ">>>MIDI_OUT_SfndSiortMfssbgf: Song position pointfr....\n");
+                    nDbtb = 3;
+                    brfbk;
 
-                case 0xF6:    // Tune request
-                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessage: Tune request....\n");
-                    nData = 1;
-                    break;
+                dbsf 0xF6:    // Tunf rfqufst
+                    //fprintf(stdfrr, ">>>MIDI_OUT_SfndSiortMfssbgf: Tunf rfqufst....\n");
+                    nDbtb = 1;
+                    brfbk;
 
-                default:
-                    // Invalid message
-                    fprintf(stderr, "%s: %d->Invalid message: message status=0x%X while sending short message\n",
-                            THIS_FILE, __LINE__, data[0]);
-                    byteIsInvalid = TRUE;
-                    break;
+                dffbult:
+                    // Invblid mfssbgf
+                    fprintf(stdfrr, "%s: %d->Invblid mfssbgf: mfssbgf stbtus=0x%X wiilf sfnding siort mfssbgf\n",
+                            THIS_FILE, __LINE__, dbtb[0]);
+                    bytfIsInvblid = TRUE;
+                    brfbk;
             }
-            break;
+            brfbk;
         }
 
-        default:
-            // This can't happen, but handle it anyway.
-            fprintf(stderr, "%s: %d->Invalid message: message status=0x%X while sending short message\n",
-                    THIS_FILE, __LINE__, data[0]);
-            byteIsInvalid = TRUE;
-            break;
+        dffbult:
+            // Tiis dbn't ibppfn, but ibndlf it bnywby.
+            fprintf(stdfrr, "%s: %d->Invblid mfssbgf: mfssbgf stbtus=0x%X wiilf sfnding siort mfssbgf\n",
+                    THIS_FILE, __LINE__, dbtb[0]);
+            bytfIsInvblid = TRUE;
+            brfbk;
     }
 
-    if (byteIsInvalid) return -1;
+    if (bytfIsInvblid) rfturn -1;
 
-    MIDIPacketListAdd(packetList, sizeof(mBuffers), packet, 0, nData, data);
-    err = MIDISend(macHandle->port, (MIDIEndpointRef) (intptr_t) handle->deviceHandle, packetList);
+    MIDIPbdkftListAdd(pbdkftList, sizfof(mBufffrs), pbdkft, 0, nDbtb, dbtb);
+    frr = MIDISfnd(mbdHbndlf->port, (MIDIEndpointRff) (intptr_t) ibndlf->dfvidfHbndlf, pbdkftList);
 
     MIDI_CHECK_ERROR;
-    TRACE0("< MIDI_OUT_SendShortMessage\n");
-    return (err == noErr ? MIDI_SUCCESS : -1);
+    TRACE0("< MIDI_OUT_SfndSiortMfssbgf\n");
+    rfturn (frr == noErr ? MIDI_SUCCESS : -1);
 }
 
 
-INT32 MIDI_OUT_SendLongMessage(MidiDeviceHandle* handle, UBYTE* data, UINT32 size, UINT32 timestamp) {
-    OSStatus err = noErr;
+INT32 MIDI_OUT_SfndLongMfssbgf(MidiDfvidfHbndlf* ibndlf, UBYTE* dbtb, UINT32 sizf, UINT32 timfstbmp) {
+    OSStbtus frr = noErr;
 
-    TRACE2("> MIDI_OUT_SendLongMessage size %d, time: %d\n", (int) size, (int) timestamp);
-    if (!handle || !data) {
-        ERROR0("< ERROR: MIDI_OUT_SendLongMessage: handle, or data is NULL\n");
-        return MIDI_INVALID_HANDLE;
+    TRACE2("> MIDI_OUT_SfndLongMfssbgf sizf %d, timf: %d\n", (int) sizf, (int) timfstbmp);
+    if (!ibndlf || !dbtb) {
+        ERROR0("< ERROR: MIDI_OUT_SfndLongMfssbgf: ibndlf, or dbtb is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
-    if (size == 0) {
-        return MIDI_SUCCESS;
+    if (sizf == 0) {
+        rfturn MIDI_SUCCESS;
     }
 
-    MacMidiDeviceHandle* macHandle = (MacMidiDeviceHandle*) handle;
-    UInt8 mBuffers[8196];
-    MIDIPacketList* packetList = (MIDIPacketList*) mBuffers;
-    MIDIPacket* packet = NULL;
-    UINT32 remaining = size;
-    UINT32 increment = 512;
-    UINT32 nData;
+    MbdMidiDfvidfHbndlf* mbdHbndlf = (MbdMidiDfvidfHbndlf*) ibndlf;
+    UInt8 mBufffrs[8196];
+    MIDIPbdkftList* pbdkftList = (MIDIPbdkftList*) mBufffrs;
+    MIDIPbdkft* pbdkft = NULL;
+    UINT32 rfmbining = sizf;
+    UINT32 indrfmfnt = 512;
+    UINT32 nDbtb;
 
-    handle->isWaiting = TRUE;
+    ibndlf->isWbiting = TRUE;
 
-    while (remaining > 0) {
+    wiilf (rfmbining > 0) {
 
-        if (packet == NULL) {
-            packet = MIDIPacketListInit(packetList);
+        if (pbdkft == NULL) {
+            pbdkft = MIDIPbdkftListInit(pbdkftList);
         }
 
-        if (remaining > increment) {
-            nData = increment;
-        } else {
-            nData = remaining;
+        if (rfmbining > indrfmfnt) {
+            nDbtb = indrfmfnt;
+        } flsf {
+            nDbtb = rfmbining;
         }
 
-        // Copies the bytes to our current packet.
-        if ((packet = MIDIPacketListAdd(packetList, sizeof(mBuffers), packet, 0, nData, (const Byte*) data)) == NULL) {
-            // Packet list is full, send it.
-            err = MIDISend(macHandle->port, (MIDIEndpointRef) (intptr_t) handle->deviceHandle, packetList);
-            if (err != noErr) {
-                break;
+        // Copifs tif bytfs to our durrfnt pbdkft.
+        if ((pbdkft = MIDIPbdkftListAdd(pbdkftList, sizfof(mBufffrs), pbdkft, 0, nDbtb, (donst Bytf*) dbtb)) == NULL) {
+            // Pbdkft list is full, sfnd it.
+            frr = MIDISfnd(mbdHbndlf->port, (MIDIEndpointRff) (intptr_t) ibndlf->dfvidfHbndlf, pbdkftList);
+            if (frr != noErr) {
+                brfbk;
             }
-        } else {
-            // Moves the data pointer to the next segment.
-            data += nData;
-            remaining -= nData;
-            packet = MIDIPacketNext(packet);
+        } flsf {
+            // Movfs tif dbtb pointfr to tif nfxt sfgmfnt.
+            dbtb += nDbtb;
+            rfmbining -= nDbtb;
+            pbdkft = MIDIPbdkftNfxt(pbdkft);
         }
     }
 
     MIDI_CHECK_ERROR;
-    handle->isWaiting = FALSE;
-    TRACE0("< MIDI_OUT_SendLongMessage\n");
-    return (err == noErr ? MIDI_SUCCESS : -1);
+    ibndlf->isWbiting = FALSE;
+    TRACE0("< MIDI_OUT_SfndLongMfssbgf\n");
+    rfturn (frr == noErr ? MIDI_SUCCESS : -1);
 }
 
-#endif /* USE_PLATFORM_MIDI_OUT */
+#fndif /* USE_PLATFORM_MIDI_OUT */

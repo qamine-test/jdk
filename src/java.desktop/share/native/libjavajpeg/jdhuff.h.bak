@@ -1,205 +1,205 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jdhuff.h
+ * jdiuff.i
  *
- * Copyright (C) 1991-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1991-1997, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains declarations for Huffman entropy decoding routines
- * that are shared between the sequential decoder (jdhuff.c) and the
- * progressive decoder (jdphuff.c).  No other modules need to see these.
+ * Tiis filf dontbins dfdlbrbtions for Huffmbn fntropy dfdoding routinfs
+ * tibt brf sibrfd bftwffn tif sfqufntibl dfdodfr (jdiuff.d) bnd tif
+ * progrfssivf dfdodfr (jdpiuff.d).  No otifr modulfs nffd to sff tifsf.
  */
 
-/* Short forms of external names for systems with brain-damaged linkers. */
+/* Siort forms of fxtfrnbl nbmfs for systfms witi brbin-dbmbgfd linkfrs. */
 
-#ifdef NEED_SHORT_EXTERNAL_NAMES
-#define jpeg_make_d_derived_tbl jMkDDerived
-#define jpeg_fill_bit_buffer    jFilBitBuf
-#define jpeg_huff_decode        jHufDecode
-#endif /* NEED_SHORT_EXTERNAL_NAMES */
+#ifdff NEED_SHORT_EXTERNAL_NAMES
+#dffinf jpfg_mbkf_d_dfrivfd_tbl jMkDDfrivfd
+#dffinf jpfg_fill_bit_bufffr    jFilBitBuf
+#dffinf jpfg_iuff_dfdodf        jHufDfdodf
+#fndif /* NEED_SHORT_EXTERNAL_NAMES */
 
 
-/* Derived data constructed for each Huffman table */
+/* Dfrivfd dbtb donstrudtfd for fbdi Huffmbn tbblf */
 
-#define HUFF_LOOKAHEAD  8       /* # of bits of lookahead */
+#dffinf HUFF_LOOKAHEAD  8       /* # of bits of lookbifbd */
 
-typedef struct {
-  /* Basic tables: (element [0] of each array is unused) */
-  INT32 maxcode[18];            /* largest code of length k (-1 if none) */
-  /* (maxcode[17] is a sentinel to ensure jpeg_huff_decode terminates) */
-  INT32 valoffset[17];          /* huffval[] offset for codes of length k */
-  /* valoffset[k] = huffval[] index of 1st symbol of code length k, less
-   * the smallest code of length k; so given a code of length k, the
-   * corresponding symbol is huffval[code + valoffset[k]]
+typfdff strudt {
+  /* Bbsid tbblfs: (flfmfnt [0] of fbdi brrby is unusfd) */
+  INT32 mbxdodf[18];            /* lbrgfst dodf of lfngti k (-1 if nonf) */
+  /* (mbxdodf[17] is b sfntinfl to fnsurf jpfg_iuff_dfdodf tfrminbtfs) */
+  INT32 vbloffsft[17];          /* iuffvbl[] offsft for dodfs of lfngti k */
+  /* vbloffsft[k] = iuffvbl[] indfx of 1st symbol of dodf lfngti k, lfss
+   * tif smbllfst dodf of lfngti k; so givfn b dodf of lfngti k, tif
+   * dorrfsponding symbol is iuffvbl[dodf + vbloffsft[k]]
    */
 
-  /* Link to public Huffman table (needed only in jpeg_huff_decode) */
+  /* Link to publid Huffmbn tbblf (nffdfd only in jpfg_iuff_dfdodf) */
   JHUFF_TBL *pub;
 
-  /* Lookahead tables: indexed by the next HUFF_LOOKAHEAD bits of
-   * the input data stream.  If the next Huffman code is no more
-   * than HUFF_LOOKAHEAD bits long, we can obtain its length and
-   * the corresponding symbol directly from these tables.
+  /* Lookbifbd tbblfs: indfxfd by tif nfxt HUFF_LOOKAHEAD bits of
+   * tif input dbtb strfbm.  If tif nfxt Huffmbn dodf is no morf
+   * tibn HUFF_LOOKAHEAD bits long, wf dbn obtbin its lfngti bnd
+   * tif dorrfsponding symbol dirfdtly from tifsf tbblfs.
    */
   int look_nbits[1<<HUFF_LOOKAHEAD]; /* # bits, or 0 if too long */
-  UINT8 look_sym[1<<HUFF_LOOKAHEAD]; /* symbol, or unused */
-} d_derived_tbl;
+  UINT8 look_sym[1<<HUFF_LOOKAHEAD]; /* symbol, or unusfd */
+} d_dfrivfd_tbl;
 
-/* Expand a Huffman table definition into the derived format */
-EXTERN(void) jpeg_make_d_derived_tbl
-        JPP((j_decompress_ptr cinfo, boolean isDC, int tblno,
-             d_derived_tbl ** pdtbl));
+/* Expbnd b Huffmbn tbblf dffinition into tif dfrivfd formbt */
+EXTERN(void) jpfg_mbkf_d_dfrivfd_tbl
+        JPP((j_dfdomprfss_ptr dinfo, boolfbn isDC, int tblno,
+             d_dfrivfd_tbl ** pdtbl));
 
 
 /*
- * Fetching the next N bits from the input stream is a time-critical operation
- * for the Huffman decoders.  We implement it with a combination of inline
- * macros and out-of-line subroutines.  Note that N (the number of bits
- * demanded at one time) never exceeds 15 for JPEG use.
+ * Fftdiing tif nfxt N bits from tif input strfbm is b timf-dritidbl opfrbtion
+ * for tif Huffmbn dfdodfrs.  Wf implfmfnt it witi b dombinbtion of inlinf
+ * mbdros bnd out-of-linf subroutinfs.  Notf tibt N (tif numbfr of bits
+ * dfmbndfd bt onf timf) nfvfr fxdffds 15 for JPEG usf.
  *
- * We read source bytes into get_buffer and dole out bits as needed.
- * If get_buffer already contains enough bits, they are fetched in-line
- * by the macros CHECK_BIT_BUFFER and GET_BITS.  When there aren't enough
- * bits, jpeg_fill_bit_buffer is called; it will attempt to fill get_buffer
- * as full as possible (not just to the number of bits needed; this
- * prefetching reduces the overhead cost of calling jpeg_fill_bit_buffer).
- * Note that jpeg_fill_bit_buffer may return FALSE to indicate suspension.
- * On TRUE return, jpeg_fill_bit_buffer guarantees that get_buffer contains
- * at least the requested number of bits --- dummy zeroes are inserted if
- * necessary.
+ * Wf rfbd sourdf bytfs into gft_bufffr bnd dolf out bits bs nffdfd.
+ * If gft_bufffr blrfbdy dontbins fnougi bits, tify brf fftdifd in-linf
+ * by tif mbdros CHECK_BIT_BUFFER bnd GET_BITS.  Wifn tifrf brfn't fnougi
+ * bits, jpfg_fill_bit_bufffr is dbllfd; it will bttfmpt to fill gft_bufffr
+ * bs full bs possiblf (not just to tif numbfr of bits nffdfd; tiis
+ * prffftdiing rfdudfs tif ovfrifbd dost of dblling jpfg_fill_bit_bufffr).
+ * Notf tibt jpfg_fill_bit_bufffr mby rfturn FALSE to indidbtf suspfnsion.
+ * On TRUE rfturn, jpfg_fill_bit_bufffr gubrbntffs tibt gft_bufffr dontbins
+ * bt lfbst tif rfqufstfd numbfr of bits --- dummy zfrofs brf insfrtfd if
+ * nfdfssbry.
  */
 
-typedef INT32 bit_buf_type;     /* type of bit-extraction buffer */
-#define BIT_BUF_SIZE  32        /* size of buffer in bits */
+typfdff INT32 bit_buf_typf;     /* typf of bit-fxtrbdtion bufffr */
+#dffinf BIT_BUF_SIZE  32        /* sizf of bufffr in bits */
 
-/* If long is > 32 bits on your machine, and shifting/masking longs is
- * reasonably fast, making bit_buf_type be long and setting BIT_BUF_SIZE
- * appropriately should be a win.  Unfortunately we can't define the size
- * with something like  #define BIT_BUF_SIZE (sizeof(bit_buf_type)*8)
- * because not all machines measure sizeof in 8-bit bytes.
+/* If long is > 32 bits on your mbdiinf, bnd siifting/mbsking longs is
+ * rfbsonbbly fbst, mbking bit_buf_typf bf long bnd sftting BIT_BUF_SIZE
+ * bppropribtfly siould bf b win.  Unfortunbtfly wf dbn't dffinf tif sizf
+ * witi somftiing likf  #dffinf BIT_BUF_SIZE (sizfof(bit_buf_typf)*8)
+ * bfdbusf not bll mbdiinfs mfbsurf sizfof in 8-bit bytfs.
  */
 
-typedef struct {                /* Bitreading state saved across MCUs */
-  bit_buf_type get_buffer;      /* current bit-extraction buffer */
-  int bits_left;                /* # of unused bits in it */
-} bitread_perm_state;
+typfdff strudt {                /* Bitrfbding stbtf sbvfd bdross MCUs */
+  bit_buf_typf gft_bufffr;      /* durrfnt bit-fxtrbdtion bufffr */
+  int bits_lfft;                /* # of unusfd bits in it */
+} bitrfbd_pfrm_stbtf;
 
-typedef struct {                /* Bitreading working state within an MCU */
-  /* Current data source location */
-  /* We need a copy, rather than munging the original, in case of suspension */
-  const JOCTET * next_input_byte; /* => next byte to read from source */
-  size_t bytes_in_buffer;       /* # of bytes remaining in source buffer */
-  /* Bit input buffer --- note these values are kept in register variables,
-   * not in this struct, inside the inner loops.
+typfdff strudt {                /* Bitrfbding working stbtf witiin bn MCU */
+  /* Currfnt dbtb sourdf lodbtion */
+  /* Wf nffd b dopy, rbtifr tibn munging tif originbl, in dbsf of suspfnsion */
+  donst JOCTET * nfxt_input_bytf; /* => nfxt bytf to rfbd from sourdf */
+  sizf_t bytfs_in_bufffr;       /* # of bytfs rfmbining in sourdf bufffr */
+  /* Bit input bufffr --- notf tifsf vblufs brf kfpt in rfgistfr vbribblfs,
+   * not in tiis strudt, insidf tif innfr loops.
    */
-  bit_buf_type get_buffer;      /* current bit-extraction buffer */
-  int bits_left;                /* # of unused bits in it */
-  /* Pointer needed by jpeg_fill_bit_buffer. */
-  j_decompress_ptr cinfo;       /* back link to decompress master record */
-} bitread_working_state;
+  bit_buf_typf gft_bufffr;      /* durrfnt bit-fxtrbdtion bufffr */
+  int bits_lfft;                /* # of unusfd bits in it */
+  /* Pointfr nffdfd by jpfg_fill_bit_bufffr. */
+  j_dfdomprfss_ptr dinfo;       /* bbdk link to dfdomprfss mbstfr rfdord */
+} bitrfbd_working_stbtf;
 
-/* Macros to declare and load/save bitread local variables. */
-#define BITREAD_STATE_VARS  \
-        register bit_buf_type get_buffer;  \
-        register int bits_left;  \
-        bitread_working_state br_state
+/* Mbdros to dfdlbrf bnd lobd/sbvf bitrfbd lodbl vbribblfs. */
+#dffinf BITREAD_STATE_VARS  \
+        rfgistfr bit_buf_typf gft_bufffr;  \
+        rfgistfr int bits_lfft;  \
+        bitrfbd_working_stbtf br_stbtf
 
-#define BITREAD_LOAD_STATE(cinfop,permstate)  \
-        br_state.cinfo = cinfop; \
-        br_state.next_input_byte = cinfop->src->next_input_byte; \
-        br_state.bytes_in_buffer = cinfop->src->bytes_in_buffer; \
-        get_buffer = permstate.get_buffer; \
-        bits_left = permstate.bits_left;
+#dffinf BITREAD_LOAD_STATE(dinfop,pfrmstbtf)  \
+        br_stbtf.dinfo = dinfop; \
+        br_stbtf.nfxt_input_bytf = dinfop->srd->nfxt_input_bytf; \
+        br_stbtf.bytfs_in_bufffr = dinfop->srd->bytfs_in_bufffr; \
+        gft_bufffr = pfrmstbtf.gft_bufffr; \
+        bits_lfft = pfrmstbtf.bits_lfft;
 
-#define BITREAD_SAVE_STATE(cinfop,permstate)  \
-        cinfop->src->next_input_byte = br_state.next_input_byte; \
-        cinfop->src->bytes_in_buffer = br_state.bytes_in_buffer; \
-        permstate.get_buffer = get_buffer; \
-        permstate.bits_left = bits_left
+#dffinf BITREAD_SAVE_STATE(dinfop,pfrmstbtf)  \
+        dinfop->srd->nfxt_input_bytf = br_stbtf.nfxt_input_bytf; \
+        dinfop->srd->bytfs_in_bufffr = br_stbtf.bytfs_in_bufffr; \
+        pfrmstbtf.gft_bufffr = gft_bufffr; \
+        pfrmstbtf.bits_lfft = bits_lfft
 
 /*
- * These macros provide the in-line portion of bit fetching.
- * Use CHECK_BIT_BUFFER to ensure there are N bits in get_buffer
- * before using GET_BITS, PEEK_BITS, or DROP_BITS.
- * The variables get_buffer and bits_left are assumed to be locals,
- * but the state struct might not be (jpeg_huff_decode needs this).
- *      CHECK_BIT_BUFFER(state,n,action);
- *              Ensure there are N bits in get_buffer; if suspend, take action.
- *      val = GET_BITS(n);
- *              Fetch next N bits.
- *      val = PEEK_BITS(n);
- *              Fetch next N bits without removing them from the buffer.
+ * Tifsf mbdros providf tif in-linf portion of bit fftdiing.
+ * Usf CHECK_BIT_BUFFER to fnsurf tifrf brf N bits in gft_bufffr
+ * bfforf using GET_BITS, PEEK_BITS, or DROP_BITS.
+ * Tif vbribblfs gft_bufffr bnd bits_lfft brf bssumfd to bf lodbls,
+ * but tif stbtf strudt migit not bf (jpfg_iuff_dfdodf nffds tiis).
+ *      CHECK_BIT_BUFFER(stbtf,n,bdtion);
+ *              Ensurf tifrf brf N bits in gft_bufffr; if suspfnd, tbkf bdtion.
+ *      vbl = GET_BITS(n);
+ *              Fftdi nfxt N bits.
+ *      vbl = PEEK_BITS(n);
+ *              Fftdi nfxt N bits witiout rfmoving tifm from tif bufffr.
  *      DROP_BITS(n);
- *              Discard next N bits.
- * The value N should be a simple variable, not an expression, because it
- * is evaluated multiple times.
+ *              Disdbrd nfxt N bits.
+ * Tif vbluf N siould bf b simplf vbribblf, not bn fxprfssion, bfdbusf it
+ * is fvblubtfd multiplf timfs.
  */
 
-#define CHECK_BIT_BUFFER(state,nbits,action) \
-        { if (bits_left < (nbits)) {  \
-            if (! jpeg_fill_bit_buffer(&(state),get_buffer,bits_left,nbits))  \
-              { action; }  \
-            get_buffer = (state).get_buffer; bits_left = (state).bits_left; } }
+#dffinf CHECK_BIT_BUFFER(stbtf,nbits,bdtion) \
+        { if (bits_lfft < (nbits)) {  \
+            if (! jpfg_fill_bit_bufffr(&(stbtf),gft_bufffr,bits_lfft,nbits))  \
+              { bdtion; }  \
+            gft_bufffr = (stbtf).gft_bufffr; bits_lfft = (stbtf).bits_lfft; } }
 
-#define GET_BITS(nbits) \
-        (((int) (get_buffer >> (bits_left -= (nbits)))) & ((1<<(nbits))-1))
+#dffinf GET_BITS(nbits) \
+        (((int) (gft_bufffr >> (bits_lfft -= (nbits)))) & ((1<<(nbits))-1))
 
-#define PEEK_BITS(nbits) \
-        (((int) (get_buffer >> (bits_left -  (nbits)))) & ((1<<(nbits))-1))
+#dffinf PEEK_BITS(nbits) \
+        (((int) (gft_bufffr >> (bits_lfft -  (nbits)))) & ((1<<(nbits))-1))
 
-#define DROP_BITS(nbits) \
-        (bits_left -= (nbits))
+#dffinf DROP_BITS(nbits) \
+        (bits_lfft -= (nbits))
 
-/* Load up the bit buffer to a depth of at least nbits */
-EXTERN(boolean) jpeg_fill_bit_buffer
-        JPP((bitread_working_state * state, register bit_buf_type get_buffer,
-             register int bits_left, int nbits));
+/* Lobd up tif bit bufffr to b dfpti of bt lfbst nbits */
+EXTERN(boolfbn) jpfg_fill_bit_bufffr
+        JPP((bitrfbd_working_stbtf * stbtf, rfgistfr bit_buf_typf gft_bufffr,
+             rfgistfr int bits_lfft, int nbits));
 
 
 /*
- * Code for extracting next Huffman-coded symbol from input bit stream.
- * Again, this is time-critical and we make the main paths be macros.
+ * Codf for fxtrbdting nfxt Huffmbn-dodfd symbol from input bit strfbm.
+ * Agbin, tiis is timf-dritidbl bnd wf mbkf tif mbin pbtis bf mbdros.
  *
- * We use a lookahead table to process codes of up to HUFF_LOOKAHEAD bits
- * without looping.  Usually, more than 95% of the Huffman codes will be 8
- * or fewer bits long.  The few overlength codes are handled with a loop,
- * which need not be inline code.
+ * Wf usf b lookbifbd tbblf to prodfss dodfs of up to HUFF_LOOKAHEAD bits
+ * witiout looping.  Usublly, morf tibn 95% of tif Huffmbn dodfs will bf 8
+ * or ffwfr bits long.  Tif ffw ovfrlfngti dodfs brf ibndlfd witi b loop,
+ * wiidi nffd not bf inlinf dodf.
  *
- * Notes about the HUFF_DECODE macro:
- * 1. Near the end of the data segment, we may fail to get enough bits
- *    for a lookahead.  In that case, we do it the hard way.
- * 2. If the lookahead table contains no entry, the next code must be
- *    more than HUFF_LOOKAHEAD bits long.
- * 3. jpeg_huff_decode returns -1 if forced to suspend.
+ * Notfs bbout tif HUFF_DECODE mbdro:
+ * 1. Nfbr tif fnd of tif dbtb sfgmfnt, wf mby fbil to gft fnougi bits
+ *    for b lookbifbd.  In tibt dbsf, wf do it tif ibrd wby.
+ * 2. If tif lookbifbd tbblf dontbins no fntry, tif nfxt dodf must bf
+ *    morf tibn HUFF_LOOKAHEAD bits long.
+ * 3. jpfg_iuff_dfdodf rfturns -1 if fordfd to suspfnd.
  */
 
-#define HUFF_DECODE(result,state,htbl,failaction,slowlabel) \
-{ register int nb, look; \
-  if (bits_left < HUFF_LOOKAHEAD) { \
-    if (! jpeg_fill_bit_buffer(&state,get_buffer,bits_left, 0)) {failaction;} \
-    get_buffer = state.get_buffer; bits_left = state.bits_left; \
-    if (bits_left < HUFF_LOOKAHEAD) { \
-      nb = 1; goto slowlabel; \
+#dffinf HUFF_DECODE(rfsult,stbtf,itbl,fbilbdtion,slowlbbfl) \
+{ rfgistfr int nb, look; \
+  if (bits_lfft < HUFF_LOOKAHEAD) { \
+    if (! jpfg_fill_bit_bufffr(&stbtf,gft_bufffr,bits_lfft, 0)) {fbilbdtion;} \
+    gft_bufffr = stbtf.gft_bufffr; bits_lfft = stbtf.bits_lfft; \
+    if (bits_lfft < HUFF_LOOKAHEAD) { \
+      nb = 1; goto slowlbbfl; \
     } \
   } \
   look = PEEK_BITS(HUFF_LOOKAHEAD); \
-  if ((nb = htbl->look_nbits[look]) != 0) { \
+  if ((nb = itbl->look_nbits[look]) != 0) { \
     DROP_BITS(nb); \
-    result = htbl->look_sym[look]; \
-  } else { \
+    rfsult = itbl->look_sym[look]; \
+  } flsf { \
     nb = HUFF_LOOKAHEAD+1; \
-slowlabel: \
-    if ((result=jpeg_huff_decode(&state,get_buffer,bits_left,htbl,nb)) < 0) \
-        { failaction; } \
-    get_buffer = state.get_buffer; bits_left = state.bits_left; \
+slowlbbfl: \
+    if ((rfsult=jpfg_iuff_dfdodf(&stbtf,gft_bufffr,bits_lfft,itbl,nb)) < 0) \
+        { fbilbdtion; } \
+    gft_bufffr = stbtf.gft_bufffr; bits_lfft = stbtf.bits_lfft; \
   } \
 }
 
-/* Out-of-line case for Huffman code fetching */
-EXTERN(int) jpeg_huff_decode
-        JPP((bitread_working_state * state, register bit_buf_type get_buffer,
-             register int bits_left, d_derived_tbl * htbl, int min_bits));
+/* Out-of-linf dbsf for Huffmbn dodf fftdiing */
+EXTERN(int) jpfg_iuff_dfdodf
+        JPP((bitrfbd_working_stbtf * stbtf, rfgistfr bit_buf_typf gft_bufffr,
+             rfgistfr int bits_lfft, d_dfrivfd_tbl * itbl, int min_bits));

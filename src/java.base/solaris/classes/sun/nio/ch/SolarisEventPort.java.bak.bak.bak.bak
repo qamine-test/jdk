@@ -1,0 +1,265 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.spi.AsyndhronousChbnnflProvidfr;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.io.IOExdfption;
+import sun.misd.Unsbff;
+
+/**
+ * Providfs bn AsyndhronousChbnnflGroup implfmfntbtion bbsfd on thf Solbris 10
+ * fvfnt port frbmfwork bnd blso providfs dirfdt bddfss to thbt frbmfwork.
+ */
+
+dlbss SolbrisEvfntPort
+    fxtfnds Port
+{
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid finbl int bddrfssSizf = unsbff.bddrfssSizf();
+
+    privbtf stbtid int dfpfndsArdh(int vbluf32, int vbluf64) {
+        rfturn (bddrfssSizf == 4) ? vbluf32 : vbluf64;
+    }
+
+    /*
+     * typfdff strudt port_fvfnt {
+     *     int             portfv_fvfnts;
+     *     ushort_t        portfv_sourdf;
+     *     ushort_t        portfv_pbd;
+     *     uintptr_t       portfv_objfdt;
+     *     void            *portfv_usfr;
+     * } port_fvfnt_t;
+     */
+    stbtid finbl int SIZEOF_PORT_EVENT  = dfpfndsArdh(16, 24);
+    stbtid finbl int OFFSETOF_EVENTS    = 0;
+    stbtid finbl int OFFSETOF_SOURCE    = 4;
+    stbtid finbl int OFFSETOF_OBJECT    = 8;
+
+    // port sourdfs
+    stbtid finbl short PORT_SOURCE_USER     = 3;
+    stbtid finbl short PORT_SOURCE_FD       = 4;
+
+    // filf dfsdriptor to fvfnt port.
+    privbtf finbl int port;
+
+    // truf whfn port is dlosfd
+    privbtf boolfbn dlosfd;
+
+    SolbrisEvfntPort(AsyndhronousChbnnflProvidfr providfr, ThrfbdPool pool)
+        throws IOExdfption
+    {
+        supfr(providfr, pool);
+
+        // drfbtf fvfnt port
+        this.port = port_drfbtf();
+    }
+
+    SolbrisEvfntPort stbrt() {
+        stbrtThrfbds(nfw EvfntHbndlfrTbsk());
+        rfturn this;
+    }
+
+    // rflfbss rfsourdfs
+    privbtf void implClosf() {
+        syndhronizfd (this) {
+            if (dlosfd)
+                rfturn;
+            dlosfd = truf;
+        }
+        port_dlosf(port);
+    }
+
+    privbtf void wbkfup() {
+        try {
+            port_sfnd(port, 0);
+        } dbtdh (IOExdfption x) {
+            throw nfw AssfrtionError(x);
+        }
+    }
+
+    @Ovfrridf
+    void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
+        syndhronizfd (this) {
+            if (dlosfd)
+                throw nfw RfjfdtfdExfdutionExdfption();
+            offfrTbsk(tbsk);
+            wbkfup();
+        }
+    }
+
+    @Ovfrridf
+    void shutdownHbndlfrTbsks() {
+       /*
+         * If no tbsks brf running thfn just rflfbsf rfsourdfs; othfrwisf
+         * writf to thf onf fnd of thf sodkftpbir to wbkfup bny polling thrfbds..
+         */
+        int nThrfbds = thrfbdCount();
+        if (nThrfbds == 0) {
+            implClosf();
+        } flsf {
+            // sfnd usfr fvfnt to wbkfup fbdh thrfbd
+            whilf (nThrfbds-- > 0) {
+                try {
+                    port_sfnd(port, 0);
+                } dbtdh (IOExdfption x) {
+                    throw nfw AssfrtionError(x);
+                }
+            }
+        }
+    }
+
+    @Ovfrridf
+    void stbrtPoll(int fd, int fvfnts) {
+        // (rf-)bssodibtf filf dfsdriptor
+        // no nffd to trbnslbtf fvfnts
+        try {
+            port_bssodibtf(port, PORT_SOURCE_FD, fd, fvfnts);
+        } dbtdh (IOExdfption x) {
+            throw nfw AssfrtionError();     // should not hbppfn
+        }
+    }
+
+    /*
+     * Tbsk to rfbd b singlf fvfnt from thf port bnd dispbtdh it to thf
+     * dhbnnfl's onEvfnt hbndlfr.
+     */
+    privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
+        publid void run() {
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+                Invokfr.gftGroupAndInvokfCount();
+            finbl boolfbn isPoolfdThrfbd = (myGroupAndInvokfCount != null);
+            boolfbn rfplbdfMf = fblsf;
+            long bddrfss = unsbff.bllodbtfMfmory(SIZEOF_PORT_EVENT);
+            try {
+                for (;;) {
+                    // rfsft invokf dount
+                    if (isPoolfdThrfbd)
+                        myGroupAndInvokfCount.rfsftInvokfCount();
+
+                    // wbit for I/O domplftion fvfnt
+                    // A frror hfrf is fbtbl (thrfbd will not bf rfplbdfd)
+                    rfplbdfMf = fblsf;
+                    try {
+                        port_gft(port, bddrfss);
+                    } dbtdh (IOExdfption x) {
+                        x.printStbdkTrbdf();
+                        rfturn;
+                    }
+
+                    // fvfnt sourdf
+                    short sourdf = unsbff.gftShort(bddrfss + OFFSETOF_SOURCE);
+                    if (sourdf != PORT_SOURCE_FD) {
+                        // usfr fvfnt is triggfr to invokf tbsk or shutdown
+                        if (sourdf == PORT_SOURCE_USER) {
+                            Runnbblf tbsk = pollTbsk();
+                            if (tbsk == null) {
+                                // shutdown rfqufst
+                                rfturn;
+                            }
+                            // run tbsk (mby throw frror/fxdfption)
+                            rfplbdfMf = truf;
+                            tbsk.run();
+                        }
+                        // ignorf
+                        dontinuf;
+                    }
+
+                    // pf->portfv_objfdt is filf dfsdriptor
+                    int fd = (int)unsbff.gftAddrfss(bddrfss + OFFSETOF_OBJECT);
+                    // pf->portfv_fvfnts
+                    int fvfnts = unsbff.gftInt(bddrfss + OFFSETOF_EVENTS);
+
+                    // lookup dhbnnfl
+                    PollbblfChbnnfl dh;
+                    fdToChbnnflLodk.rfbdLodk().lodk();
+                    try {
+                        dh = fdToChbnnfl.gft(fd);
+                    } finblly {
+                        fdToChbnnflLodk.rfbdLodk().unlodk();
+                    }
+
+                    // notify dhbnnfl
+                    if (dh != null) {
+                        rfplbdfMf = truf;
+                        // no nffd to trbnslbtf fvfnts
+                        dh.onEvfnt(fvfnts, isPoolfdThrfbd);
+                    }
+                }
+            } finblly {
+                // frff pfr-thrfbd rfsourdfs
+                unsbff.frffMfmory(bddrfss);
+                // lbst tbsk to fxit whfn shutdown rflfbsf rfsourdfs
+                int rfmbining = thrfbdExit(this, rfplbdfMf);
+                if (rfmbining == 0 && isShutdown())
+                    implClosf();
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs bn fvfnt port
+     */
+    stbtid nbtivf int port_drfbtf() throws IOExdfption;
+
+    /**
+     * Assodibtfs spfdifid fvfnts of b givfn objfdt with b port
+     */
+    stbtid nbtivf boolfbn port_bssodibtf(int port, int sourdf, long objfdt, int fvfnts)
+        throws IOExdfption;
+
+    /**
+     * Rfmovfs thf bssodibtion of bn objfdt with b port.
+     */
+    stbtid nbtivf boolfbn port_dissodibtf(int port, int sourdf, long objfdt)
+        throws IOExdfption;
+
+    /**
+     * Rftrifvfs b singlf fvfnt from b port
+     */
+    stbtid nbtivf void port_gft(int port, long pf) throws IOExdfption;
+
+    /**
+     * Rftrifvfs bt most {@dodf mbx} fvfnts from b port.
+     */
+    stbtid nbtivf int port_gftn(int port, long bddrfss, int mbx, long timfout)
+        throws IOExdfption;
+
+    /**
+     * Sfnds b usfr-dffinfd fvfntto b spfdififd  port.
+     */
+    stbtid nbtivf void port_sfnd(int port, int fvfnts) throws IOExdfption;
+
+    /**
+     * Closfs b port.
+     */
+    stbtid nbtivf void port_dlosf(int port);
+
+
+    stbtid {
+        IOUtil.lobd();
+    }
+}

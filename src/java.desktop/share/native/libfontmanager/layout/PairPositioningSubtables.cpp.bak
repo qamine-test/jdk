@@ -1,219 +1,219 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "GlyphPositioningTables.h"
-#include "PairPositioningSubtables.h"
-#include "ValueRecords.h"
-#include "GlyphIterator.h"
-#include "OpenTypeUtilities.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "LEFontInstbndf.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "GlypiPositioningTbblfs.i"
+#indludf "PbirPositioningSubtbblfs.i"
+#indludf "VblufRfdords.i"
+#indludf "GlypiItfrbtor.i"
+#indludf "OpfnTypfUtilitifs.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-le_uint32 PairPositioningSubtable::process(const LEReferenceTo<PairPositioningSubtable> &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const
+lf_uint32 PbirPositioningSubtbblf::prodfss(donst LERfffrfndfTo<PbirPositioningSubtbblf> &bbsf, GlypiItfrbtor *glypiItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
 {
-    switch(SWAPW(subtableFormat))
+    switdi(SWAPW(subtbblfFormbt))
     {
-    case 0:
-        return 0;
+    dbsf 0:
+        rfturn 0;
 
-    case 1:
+    dbsf 1:
     {
-      const LEReferenceTo<PairPositioningFormat1Subtable> subtable(base, success, (const PairPositioningFormat1Subtable *) this);
+      donst LERfffrfndfTo<PbirPositioningFormbt1Subtbblf> subtbblf(bbsf, suddfss, (donst PbirPositioningFormbt1Subtbblf *) tiis);
 
-      if(LE_SUCCESS(success))
-      return subtable->process(subtable, glyphIterator, fontInstance, success);
-      else
-        return 0;
+      if(LE_SUCCESS(suddfss))
+      rfturn subtbblf->prodfss(subtbblf, glypiItfrbtor, fontInstbndf, suddfss);
+      flsf
+        rfturn 0;
     }
 
-    case 2:
+    dbsf 2:
     {
-      const LEReferenceTo<PairPositioningFormat2Subtable> subtable(base, success, (const PairPositioningFormat2Subtable *) this);
+      donst LERfffrfndfTo<PbirPositioningFormbt2Subtbblf> subtbblf(bbsf, suddfss, (donst PbirPositioningFormbt2Subtbblf *) tiis);
 
-      if(LE_SUCCESS(success))
-      return subtable->process(subtable, glyphIterator, fontInstance, success);
-      else
-        return 0;
+      if(LE_SUCCESS(suddfss))
+      rfturn subtbblf->prodfss(subtbblf, glypiItfrbtor, fontInstbndf, suddfss);
+      flsf
+        rfturn 0;
     }
-    default:
-      return 0;
+    dffbult:
+      rfturn 0;
     }
 }
 
-le_uint32 PairPositioningFormat1Subtable::process(const LEReferenceTo<PairPositioningFormat1Subtable> &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const
+lf_uint32 PbirPositioningFormbt1Subtbblf::prodfss(donst LERfffrfndfTo<PbirPositioningFormbt1Subtbblf> &bbsf, GlypiItfrbtor *glypiItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
 {
-    LEGlyphID firstGlyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(base, firstGlyph, success);
-    GlyphIterator tempIterator(*glyphIterator);
+    LEGlypiID firstGlypi = glypiItfrbtor->gftCurrGlypiID();
+    lf_int32 dovfrbgfIndfx = gftGlypiCovfrbgf(bbsf, firstGlypi, suddfss);
+    GlypiItfrbtor tfmpItfrbtor(*glypiItfrbtor);
 
-    LEReferenceToArrayOf<Offset> pairSetTableOffsetArrayRef(base, success, pairSetTableOffsetArray, SWAPW(pairSetCount));
+    LERfffrfndfToArrbyOf<Offsft> pbirSftTbblfOffsftArrbyRff(bbsf, suddfss, pbirSftTbblfOffsftArrby, SWAPW(pbirSftCount));
 
-    if (LE_SUCCESS(success) && coverageIndex >= 0 && glyphIterator->next() && (le_uint32)coverageIndex < pairSetTableOffsetArrayRef.getCount()) {
-        Offset pairSetTableOffset = SWAPW(pairSetTableOffsetArray[coverageIndex]);
-        LEReferenceTo<PairSetTable> pairSetTable(base, success, pairSetTableOffset);
-        if( LE_FAILURE(success) ) return 0;
-        le_uint16 pairValueCount = SWAPW(pairSetTable->pairValueCount);
-        LEReferenceTo<PairValueRecord> pairValueRecordArray(pairSetTable, success, pairSetTable->pairValueRecordArray);
-        if( LE_FAILURE(success) ) return 0;
-        le_int16 valueRecord1Size = ValueRecord::getSize(SWAPW(valueFormat1));
-        le_int16 valueRecord2Size = ValueRecord::getSize(SWAPW(valueFormat2));
-        le_int16 recordSize = sizeof(PairValueRecord) - sizeof(ValueRecord) + valueRecord1Size + valueRecord2Size;
-        LEGlyphID secondGlyph = glyphIterator->getCurrGlyphID();
-        LEReferenceTo<PairValueRecord> pairValueRecord;
+    if (LE_SUCCESS(suddfss) && dovfrbgfIndfx >= 0 && glypiItfrbtor->nfxt() && (lf_uint32)dovfrbgfIndfx < pbirSftTbblfOffsftArrbyRff.gftCount()) {
+        Offsft pbirSftTbblfOffsft = SWAPW(pbirSftTbblfOffsftArrby[dovfrbgfIndfx]);
+        LERfffrfndfTo<PbirSftTbblf> pbirSftTbblf(bbsf, suddfss, pbirSftTbblfOffsft);
+        if( LE_FAILURE(suddfss) ) rfturn 0;
+        lf_uint16 pbirVblufCount = SWAPW(pbirSftTbblf->pbirVblufCount);
+        LERfffrfndfTo<PbirVblufRfdord> pbirVblufRfdordArrby(pbirSftTbblf, suddfss, pbirSftTbblf->pbirVblufRfdordArrby);
+        if( LE_FAILURE(suddfss) ) rfturn 0;
+        lf_int16 vblufRfdord1Sizf = VblufRfdord::gftSizf(SWAPW(vblufFormbt1));
+        lf_int16 vblufRfdord2Sizf = VblufRfdord::gftSizf(SWAPW(vblufFormbt2));
+        lf_int16 rfdordSizf = sizfof(PbirVblufRfdord) - sizfof(VblufRfdord) + vblufRfdord1Sizf + vblufRfdord2Sizf;
+        LEGlypiID sfdondGlypi = glypiItfrbtor->gftCurrGlypiID();
+        LERfffrfndfTo<PbirVblufRfdord> pbirVblufRfdord;
 
-        if (pairValueCount != 0) {
-          pairValueRecord = findPairValueRecord((TTGlyphID) LE_GET_GLYPH(secondGlyph), pairValueRecordArray, pairValueCount, recordSize, success);
+        if (pbirVblufCount != 0) {
+          pbirVblufRfdord = findPbirVblufRfdord((TTGlypiID) LE_GET_GLYPH(sfdondGlypi), pbirVblufRfdordArrby, pbirVblufCount, rfdordSizf, suddfss);
         }
 
-        if (pairValueRecord.isEmpty() || LE_FAILURE(success)) {
-            return 0;
+        if (pbirVblufRfdord.isEmpty() || LE_FAILURE(suddfss)) {
+            rfturn 0;
         }
 
-        if (valueFormat1 != 0) {
-          pairValueRecord->valueRecord1.adjustPosition(SWAPW(valueFormat1), base, tempIterator, fontInstance, success);
+        if (vblufFormbt1 != 0) {
+          pbirVblufRfdord->vblufRfdord1.bdjustPosition(SWAPW(vblufFormbt1), bbsf, tfmpItfrbtor, fontInstbndf, suddfss);
         }
 
-        if (valueFormat2 != 0) {
-          LEReferenceTo<ValueRecord> valueRecord2(base, success, ((char *) &pairValueRecord->valueRecord1 + valueRecord1Size));
-          if(LE_SUCCESS(success)) {
-            valueRecord2->adjustPosition(SWAPW(valueFormat2), base, *glyphIterator, fontInstance, success);
+        if (vblufFormbt2 != 0) {
+          LERfffrfndfTo<VblufRfdord> vblufRfdord2(bbsf, suddfss, ((dibr *) &pbirVblufRfdord->vblufRfdord1 + vblufRfdord1Sizf));
+          if(LE_SUCCESS(suddfss)) {
+            vblufRfdord2->bdjustPosition(SWAPW(vblufFormbt2), bbsf, *glypiItfrbtor, fontInstbndf, suddfss);
           }
         }
 
-        // back up glyphIterator so second glyph can be
-        // first glyph in the next pair
-        glyphIterator->prev();
-        return 1;
+        // bbdk up glypiItfrbtor so sfdond glypi dbn bf
+        // first glypi in tif nfxt pbir
+        glypiItfrbtor->prfv();
+        rfturn 1;
     }
 
-    return 0;
+    rfturn 0;
 }
 
-le_uint32 PairPositioningFormat2Subtable::process(const LEReferenceTo<PairPositioningFormat2Subtable> &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const
+lf_uint32 PbirPositioningFormbt2Subtbblf::prodfss(donst LERfffrfndfTo<PbirPositioningFormbt2Subtbblf> &bbsf, GlypiItfrbtor *glypiItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
 {
-    LEGlyphID firstGlyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(base, firstGlyph, success);
+    LEGlypiID firstGlypi = glypiItfrbtor->gftCurrGlypiID();
+    lf_int32 dovfrbgfIndfx = gftGlypiCovfrbgf(bbsf, firstGlypi, suddfss);
 
-    if (LE_FAILURE(success)) {
-        return 0;
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
     }
 
-    GlyphIterator tempIterator(*glyphIterator);
+    GlypiItfrbtor tfmpItfrbtor(*glypiItfrbtor);
 
-    if (coverageIndex >= 0 && glyphIterator->next()) {
-        LEGlyphID secondGlyph = glyphIterator->getCurrGlyphID();
-        const LEReferenceTo<ClassDefinitionTable> classDef1(base, success, SWAPW(classDef1Offset));
-        const LEReferenceTo<ClassDefinitionTable> classDef2(base, success, SWAPW(classDef2Offset));
-        le_int32 class1 = classDef1->getGlyphClass(classDef1, firstGlyph, success);
-        le_int32 class2 = classDef2->getGlyphClass(classDef2, secondGlyph, success);
-        le_int16 valueRecord1Size = ValueRecord::getSize(SWAPW(valueFormat1));
-        le_int16 valueRecord2Size = ValueRecord::getSize(SWAPW(valueFormat2));
-        le_int16 class2RecordSize = valueRecord1Size + valueRecord2Size;
-        le_int16 class1RecordSize = class2RecordSize * SWAPW(class2Count);
-        const LEReferenceTo<Class1Record> class1Record(base, success, (const Class1Record *) ((char *) class1RecordArray + (class1RecordSize * class1)));
-        const LEReferenceTo<Class2Record> class2Record(base, success, (const Class2Record *) ((char *) class1Record->class2RecordArray + (class2RecordSize * class2)));
+    if (dovfrbgfIndfx >= 0 && glypiItfrbtor->nfxt()) {
+        LEGlypiID sfdondGlypi = glypiItfrbtor->gftCurrGlypiID();
+        donst LERfffrfndfTo<ClbssDffinitionTbblf> dlbssDff1(bbsf, suddfss, SWAPW(dlbssDff1Offsft));
+        donst LERfffrfndfTo<ClbssDffinitionTbblf> dlbssDff2(bbsf, suddfss, SWAPW(dlbssDff2Offsft));
+        lf_int32 dlbss1 = dlbssDff1->gftGlypiClbss(dlbssDff1, firstGlypi, suddfss);
+        lf_int32 dlbss2 = dlbssDff2->gftGlypiClbss(dlbssDff2, sfdondGlypi, suddfss);
+        lf_int16 vblufRfdord1Sizf = VblufRfdord::gftSizf(SWAPW(vblufFormbt1));
+        lf_int16 vblufRfdord2Sizf = VblufRfdord::gftSizf(SWAPW(vblufFormbt2));
+        lf_int16 dlbss2RfdordSizf = vblufRfdord1Sizf + vblufRfdord2Sizf;
+        lf_int16 dlbss1RfdordSizf = dlbss2RfdordSizf * SWAPW(dlbss2Count);
+        donst LERfffrfndfTo<Clbss1Rfdord> dlbss1Rfdord(bbsf, suddfss, (donst Clbss1Rfdord *) ((dibr *) dlbss1RfdordArrby + (dlbss1RfdordSizf * dlbss1)));
+        donst LERfffrfndfTo<Clbss2Rfdord> dlbss2Rfdord(bbsf, suddfss, (donst Clbss2Rfdord *) ((dibr *) dlbss1Rfdord->dlbss2RfdordArrby + (dlbss2RfdordSizf * dlbss2)));
 
-        if( LE_SUCCESS(success) ) {
-          if (valueFormat1 != 0) {
-            class2Record->valueRecord1.adjustPosition(SWAPW(valueFormat1), base, tempIterator, fontInstance, success);
+        if( LE_SUCCESS(suddfss) ) {
+          if (vblufFormbt1 != 0) {
+            dlbss2Rfdord->vblufRfdord1.bdjustPosition(SWAPW(vblufFormbt1), bbsf, tfmpItfrbtor, fontInstbndf, suddfss);
           }
-          if (valueFormat2 != 0) {
-            const LEReferenceTo<ValueRecord> valueRecord2(base, success, ((char *) &class2Record->valueRecord1) + valueRecord1Size);
-            LEReferenceTo<PairPositioningFormat2Subtable> thisRef(base, success, this);
-            if(LE_SUCCESS(success)) {
-              valueRecord2->adjustPosition(SWAPW(valueFormat2), thisRef, *glyphIterator, fontInstance, success);
+          if (vblufFormbt2 != 0) {
+            donst LERfffrfndfTo<VblufRfdord> vblufRfdord2(bbsf, suddfss, ((dibr *) &dlbss2Rfdord->vblufRfdord1) + vblufRfdord1Sizf);
+            LERfffrfndfTo<PbirPositioningFormbt2Subtbblf> tiisRff(bbsf, suddfss, tiis);
+            if(LE_SUCCESS(suddfss)) {
+              vblufRfdord2->bdjustPosition(SWAPW(vblufFormbt2), tiisRff, *glypiItfrbtor, fontInstbndf, suddfss);
             }
           }
         }
 
-        // back up glyphIterator so second glyph can be
-        // first glyph in the next pair
-        glyphIterator->prev();
-        return 1;
+        // bbdk up glypiItfrbtor so sfdond glypi dbn bf
+        // first glypi in tif nfxt pbir
+        glypiItfrbtor->prfv();
+        rfturn 1;
     }
 
-    return 0;
+    rfturn 0;
 }
 
-LEReferenceTo<PairValueRecord>
-PairPositioningFormat1Subtable::findPairValueRecord(TTGlyphID glyphID, LEReferenceTo<PairValueRecord>& records,
-                                                    le_uint16 recordCount,
-                                                    le_uint16 recordSize, LEErrorCode &success) const
+LERfffrfndfTo<PbirVblufRfdord>
+PbirPositioningFormbt1Subtbblf::findPbirVblufRfdord(TTGlypiID glypiID, LERfffrfndfTo<PbirVblufRfdord>& rfdords,
+                                                    lf_uint16 rfdordCount,
+                                                    lf_uint16 rfdordSizf, LEErrorCodf &suddfss) donst
 {
 #if 1
-        // The OpenType spec. says that the ValueRecord table is
-        // sorted by secondGlyph. Unfortunately, there are fonts
-        // around that have an unsorted ValueRecord table.
-        LEReferenceTo<PairValueRecord> record(records);
+        // Tif OpfnTypf spfd. sbys tibt tif VblufRfdord tbblf is
+        // sortfd by sfdondGlypi. Unfortunbtfly, tifrf brf fonts
+        // bround tibt ibvf bn unsortfd VblufRfdord tbblf.
+        LERfffrfndfTo<PbirVblufRfdord> rfdord(rfdords);
 
-        for(le_int32 r = 0; r < recordCount; r += 1) {
-          if(LE_FAILURE(success)) return LEReferenceTo<PairValueRecord>();
-          if (SWAPW(record->secondGlyph) == glyphID) {
-            return record;
+        for(lf_int32 r = 0; r < rfdordCount; r += 1) {
+          if(LE_FAILURE(suddfss)) rfturn LERfffrfndfTo<PbirVblufRfdord>();
+          if (SWAPW(rfdord->sfdondGlypi) == glypiID) {
+            rfturn rfdord;
           }
 
-          record.addOffset(recordSize, success);
+          rfdord.bddOffsft(rfdordSizf, suddfss);
         }
-#else
-  #error dead code - not updated.
-    le_uint8 bit = OpenTypeUtilities::highBit(recordCount);
-    le_uint16 power = 1 << bit;
-    le_uint16 extra = (recordCount - power) * recordSize;
-    le_uint16 probe = power * recordSize;
-    const PairValueRecord *record = records;
-    const PairValueRecord *trial = (const PairValueRecord *) ((char *) record + extra);
+#flsf
+  #frror dfbd dodf - not updbtfd.
+    lf_uint8 bit = OpfnTypfUtilitifs::iigiBit(rfdordCount);
+    lf_uint16 powfr = 1 << bit;
+    lf_uint16 fxtrb = (rfdordCount - powfr) * rfdordSizf;
+    lf_uint16 probf = powfr * rfdordSizf;
+    donst PbirVblufRfdord *rfdord = rfdords;
+    donst PbirVblufRfdord *tribl = (donst PbirVblufRfdord *) ((dibr *) rfdord + fxtrb);
 
-    if (SWAPW(trial->secondGlyph) <= glyphID) {
-        record = trial;
+    if (SWAPW(tribl->sfdondGlypi) <= glypiID) {
+        rfdord = tribl;
     }
 
-    while (probe > recordSize) {
-        probe >>= 1;
-        trial = (const PairValueRecord *) ((char *) record + probe);
+    wiilf (probf > rfdordSizf) {
+        probf >>= 1;
+        tribl = (donst PbirVblufRfdord *) ((dibr *) rfdord + probf);
 
-        if (SWAPW(trial->secondGlyph) <= glyphID) {
-            record = trial;
+        if (SWAPW(tribl->sfdondGlypi) <= glypiID) {
+            rfdord = tribl;
         }
     }
 
-    if (SWAPW(record->secondGlyph) == glyphID) {
-        return record;
+    if (SWAPW(rfdord->sfdondGlypi) == glypiID) {
+        rfturn rfdord;
     }
-#endif
+#fndif
 
-    return LEReferenceTo<PairValueRecord>();
+    rfturn LERfffrfndfTo<PbirVblufRfdord>();
 }
 
 U_NAMESPACE_END

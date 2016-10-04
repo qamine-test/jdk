@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.Spliterator;
-import java.util.concurrent.CountedCompleter;
-import java.util.function.IntFunction;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CountfdComplftfr;
+import jbvb.util.fundtion.IntFundtion;
 
 /**
- * Factory for instances of a short-circuiting stateful intermediate operations
- * that produce subsequences of their input stream.
+ * Fbdtory for instbndfs of b siort-dirduiting stbtfful intfrmfdibtf opfrbtions
+ * tibt produdf subsfqufndfs of tifir input strfbm.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class SliceOps {
+finbl dlbss SlidfOps {
 
-    // No instances
-    private SliceOps() { }
+    // No instbndfs
+    privbtf SlidfOps() { }
 
     /**
-     * Calculates the sliced size given the current size, number of elements
-     * skip, and the number of elements to limit.
+     * Cbldulbtfs tif slidfd sizf givfn tif durrfnt sizf, numbfr of flfmfnts
+     * skip, bnd tif numbfr of flfmfnts to limit.
      *
-     * @param size the current size
-     * @param skip the number of elements to skip, assumed to be >= 0
-     * @param limit the number of elements to limit, assumed to be >= 0, with
-     *        a value of {@code Long.MAX_VALUE} if there is no limit
-     * @return the sliced size
+     * @pbrbm sizf tif durrfnt sizf
+     * @pbrbm skip tif numbfr of flfmfnts to skip, bssumfd to bf >= 0
+     * @pbrbm limit tif numbfr of flfmfnts to limit, bssumfd to bf >= 0, witi
+     *        b vbluf of {@dodf Long.MAX_VALUE} if tifrf is no limit
+     * @rfturn tif slidfd sizf
      */
-    private static long calcSize(long size, long skip, long limit) {
-        return size >= 0 ? Math.max(-1, Math.min(size - skip, limit)) : -1;
+    privbtf stbtid long dbldSizf(long sizf, long skip, long limit) {
+        rfturn sizf >= 0 ? Mbti.mbx(-1, Mbti.min(sizf - skip, limit)) : -1;
     }
 
     /**
-     * Calculates the slice fence, which is one past the index of the slice
-     * range
-     * @param skip the number of elements to skip, assumed to be >= 0
-     * @param limit the number of elements to limit, assumed to be >= 0, with
-     *        a value of {@code Long.MAX_VALUE} if there is no limit
-     * @return the slice fence.
+     * Cbldulbtfs tif slidf ffndf, wiidi is onf pbst tif indfx of tif slidf
+     * rbngf
+     * @pbrbm skip tif numbfr of flfmfnts to skip, bssumfd to bf >= 0
+     * @pbrbm limit tif numbfr of flfmfnts to limit, bssumfd to bf >= 0, witi
+     *        b vbluf of {@dodf Long.MAX_VALUE} if tifrf is no limit
+     * @rfturn tif slidf ffndf.
      */
-    private static long calcSliceFence(long skip, long limit) {
-        long sliceFence = limit >= 0 ? skip + limit : Long.MAX_VALUE;
-        // Check for overflow
-        return (sliceFence >= 0) ? sliceFence : Long.MAX_VALUE;
+    privbtf stbtid long dbldSlidfFfndf(long skip, long limit) {
+        long slidfFfndf = limit >= 0 ? skip + limit : Long.MAX_VALUE;
+        // Cifdk for ovfrflow
+        rfturn (slidfFfndf >= 0) ? slidfFfndf : Long.MAX_VALUE;
     }
 
     /**
-     * Creates a slice spliterator given a stream shape governing the
-     * spliterator type.  Requires that the underlying Spliterator
-     * be SUBSIZED.
+     * Crfbtfs b slidf splitfrbtor givfn b strfbm sibpf govfrning tif
+     * splitfrbtor typf.  Rfquirfs tibt tif undfrlying Splitfrbtor
+     * bf SUBSIZED.
      */
-    @SuppressWarnings("unchecked")
-    private static <P_IN> Spliterator<P_IN> sliceSpliterator(StreamShape shape,
-                                                             Spliterator<P_IN> s,
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid <P_IN> Splitfrbtor<P_IN> slidfSplitfrbtor(StrfbmSibpf sibpf,
+                                                             Splitfrbtor<P_IN> s,
                                                              long skip, long limit) {
-        assert s.hasCharacteristics(Spliterator.SUBSIZED);
-        long sliceFence = calcSliceFence(skip, limit);
-        switch (shape) {
-            case REFERENCE:
-                return new StreamSpliterators
-                        .SliceSpliterator.OfRef<>(s, skip, sliceFence);
-            case INT_VALUE:
-                return (Spliterator<P_IN>) new StreamSpliterators
-                        .SliceSpliterator.OfInt((Spliterator.OfInt) s, skip, sliceFence);
-            case LONG_VALUE:
-                return (Spliterator<P_IN>) new StreamSpliterators
-                        .SliceSpliterator.OfLong((Spliterator.OfLong) s, skip, sliceFence);
-            case DOUBLE_VALUE:
-                return (Spliterator<P_IN>) new StreamSpliterators
-                        .SliceSpliterator.OfDouble((Spliterator.OfDouble) s, skip, sliceFence);
-            default:
-                throw new IllegalStateException("Unknown shape " + shape);
+        bssfrt s.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED);
+        long slidfFfndf = dbldSlidfFfndf(skip, limit);
+        switdi (sibpf) {
+            dbsf REFERENCE:
+                rfturn nfw StrfbmSplitfrbtors
+                        .SlidfSplitfrbtor.OfRff<>(s, skip, slidfFfndf);
+            dbsf INT_VALUE:
+                rfturn (Splitfrbtor<P_IN>) nfw StrfbmSplitfrbtors
+                        .SlidfSplitfrbtor.OfInt((Splitfrbtor.OfInt) s, skip, slidfFfndf);
+            dbsf LONG_VALUE:
+                rfturn (Splitfrbtor<P_IN>) nfw StrfbmSplitfrbtors
+                        .SlidfSplitfrbtor.OfLong((Splitfrbtor.OfLong) s, skip, slidfFfndf);
+            dbsf DOUBLE_VALUE:
+                rfturn (Splitfrbtor<P_IN>) nfw StrfbmSplitfrbtors
+                        .SlidfSplitfrbtor.OfDoublf((Splitfrbtor.OfDoublf) s, skip, slidfFfndf);
+            dffbult:
+                tirow nfw IllfgblStbtfExdfption("Unknown sibpf " + sibpf);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private static <T> IntFunction<T[]> castingArray() {
-        return size -> (T[]) new Object[size];
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid <T> IntFundtion<T[]> dbstingArrby() {
+        rfturn sizf -> (T[]) nfw Objfdt[sizf];
     }
 
     /**
-     * Appends a "slice" operation to the provided stream.  The slice operation
-     * may be may be skip-only, limit-only, or skip-and-limit.
+     * Appfnds b "slidf" opfrbtion to tif providfd strfbm.  Tif slidf opfrbtion
+     * mby bf mby bf skip-only, limit-only, or skip-bnd-limit.
      *
-     * @param <T> the type of both input and output elements
-     * @param upstream a reference stream with element type T
-     * @param skip the number of elements to skip.  Must be >= 0.
-     * @param limit the maximum size of the resulting stream, or -1 if no limit
-     *        is to be imposed
+     * @pbrbm <T> tif typf of boti input bnd output flfmfnts
+     * @pbrbm upstrfbm b rfffrfndf strfbm witi flfmfnt typf T
+     * @pbrbm skip tif numbfr of flfmfnts to skip.  Must bf >= 0.
+     * @pbrbm limit tif mbximum sizf of tif rfsulting strfbm, or -1 if no limit
+     *        is to bf imposfd
      */
-    public static <T> Stream<T> makeRef(AbstractPipeline<?, T, ?> upstream,
+    publid stbtid <T> Strfbm<T> mbkfRff(AbstrbdtPipflinf<?, T, ?> upstrfbm,
                                         long skip, long limit) {
         if (skip < 0)
-            throw new IllegalArgumentException("Skip must be non-negative: " + skip);
+            tirow nfw IllfgblArgumfntExdfption("Skip must bf non-nfgbtivf: " + skip);
 
-        return new ReferencePipeline.StatefulOp<T, T>(upstream, StreamShape.REFERENCE,
-                                                      flags(limit)) {
-            Spliterator<T> unorderedSkipLimitSpliterator(Spliterator<T> s,
-                                                         long skip, long limit, long sizeIfKnown) {
-                if (skip <= sizeIfKnown) {
-                    // Use just the limit if the number of elements
-                    // to skip is <= the known pipeline size
-                    limit = limit >= 0 ? Math.min(limit, sizeIfKnown - skip) : sizeIfKnown - skip;
+        rfturn nfw RfffrfndfPipflinf.StbtffulOp<T, T>(upstrfbm, StrfbmSibpf.REFERENCE,
+                                                      flbgs(limit)) {
+            Splitfrbtor<T> unordfrfdSkipLimitSplitfrbtor(Splitfrbtor<T> s,
+                                                         long skip, long limit, long sizfIfKnown) {
+                if (skip <= sizfIfKnown) {
+                    // Usf just tif limit if tif numbfr of flfmfnts
+                    // to skip is <= tif known pipflinf sizf
+                    limit = limit >= 0 ? Mbti.min(limit, sizfIfKnown - skip) : sizfIfKnown - skip;
                     skip = 0;
                 }
-                return new StreamSpliterators.UnorderedSliceSpliterator.OfRef<>(s, skip, limit);
+                rfturn nfw StrfbmSplitfrbtors.UnordfrfdSlidfSplitfrbtor.OfRff<>(s, skip, limit);
             }
 
-            @Override
-            <P_IN> Spliterator<T> opEvaluateParallelLazy(PipelineHelper<T> helper, Spliterator<P_IN> spliterator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    return new StreamSpliterators.SliceSpliterator.OfRef<>(
-                            helper.wrapSpliterator(spliterator),
+            @Ovfrridf
+            <P_IN> Splitfrbtor<T> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<T> iflpfr, Splitfrbtor<P_IN> splitfrbtor) {
+                long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    rfturn nfw StrfbmSplitfrbtors.SlidfSplitfrbtor.OfRff<>(
+                            iflpfr.wrbpSplitfrbtor(splitfrbtor),
                             skip,
-                            calcSliceFence(skip, limit));
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    return unorderedSkipLimitSpliterator(
-                            helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
+                            dbldSlidfFfndf(skip, limit));
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(iflpfr.gftStrfbmAndOpFlbgs())) {
+                    rfturn unordfrfdSkipLimitSplitfrbtor(
+                            iflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
                 }
-                else {
-                    // @@@ OOMEs will occur for LongStream.longs().filter(i -> true).limit(n)
-                    //     regardless of the value of n
-                    //     Need to adjust the target size of splitting for the
-                    //     SliceTask from say (size / k) to say min(size / k, 1 << 14)
-                    //     This will limit the size of the buffers created at the leaf nodes
-                    //     cancellation will be more aggressive cancelling later tasks
-                    //     if the target slice size has been reached from a given task,
-                    //     cancellation should also clear local results if any
-                    return new SliceTask<>(this, helper, spliterator, castingArray(), skip, limit).
-                            invoke().spliterator();
-                }
-            }
-
-            @Override
-            <P_IN> Node<T> opEvaluateParallel(PipelineHelper<T> helper,
-                                              Spliterator<P_IN> spliterator,
-                                              IntFunction<T[]> generator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    // Because the pipeline is SIZED the slice spliterator
-                    // can be created from the source, this requires matching
-                    // to shape of the source, and is potentially more efficient
-                    // than creating the slice spliterator from the pipeline
-                    // wrapping spliterator
-                    Spliterator<P_IN> s = sliceSpliterator(helper.getSourceShape(), spliterator, skip, limit);
-                    return Nodes.collect(helper, s, true, generator);
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    Spliterator<T> s =  unorderedSkipLimitSpliterator(
-                            helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
-                    // Collect using this pipeline, which is empty and therefore
-                    // can be used with the pipeline wrapping spliterator
-                    // Note that we cannot create a slice spliterator from
-                    // the source spliterator if the pipeline is not SIZED
-                    return Nodes.collect(this, s, true, generator);
-                }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, generator, skip, limit).
-                            invoke();
+                flsf {
+                    // @@@ OOMEs will oddur for LongStrfbm.longs().filtfr(i -> truf).limit(n)
+                    //     rfgbrdlfss of tif vbluf of n
+                    //     Nffd to bdjust tif tbrgft sizf of splitting for tif
+                    //     SlidfTbsk from sby (sizf / k) to sby min(sizf / k, 1 << 14)
+                    //     Tiis will limit tif sizf of tif bufffrs drfbtfd bt tif lfbf nodfs
+                    //     dbndfllbtion will bf morf bggrfssivf dbndflling lbtfr tbsks
+                    //     if tif tbrgft slidf sizf ibs bffn rfbdifd from b givfn tbsk,
+                    //     dbndfllbtion siould blso dlfbr lodbl rfsults if bny
+                    rfturn nfw SlidfTbsk<>(tiis, iflpfr, splitfrbtor, dbstingArrby(), skip, limit).
+                            invokf().splitfrbtor();
                 }
             }
 
-            @Override
-            Sink<T> opWrapSink(int flags, Sink<T> sink) {
-                return new Sink.ChainedReference<T, T>(sink) {
+            @Ovfrridf
+            <P_IN> Nodf<T> opEvblubtfPbrbllfl(PipflinfHflpfr<T> iflpfr,
+                                              Splitfrbtor<P_IN> splitfrbtor,
+                                              IntFundtion<T[]> gfnfrbtor) {
+                long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    // Bfdbusf tif pipflinf is SIZED tif slidf splitfrbtor
+                    // dbn bf drfbtfd from tif sourdf, tiis rfquirfs mbtdiing
+                    // to sibpf of tif sourdf, bnd is potfntiblly morf fffidifnt
+                    // tibn drfbting tif slidf splitfrbtor from tif pipflinf
+                    // wrbpping splitfrbtor
+                    Splitfrbtor<P_IN> s = slidfSplitfrbtor(iflpfr.gftSourdfSibpf(), splitfrbtor, skip, limit);
+                    rfturn Nodfs.dollfdt(iflpfr, s, truf, gfnfrbtor);
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(iflpfr.gftStrfbmAndOpFlbgs())) {
+                    Splitfrbtor<T> s =  unordfrfdSkipLimitSplitfrbtor(
+                            iflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                    // Collfdt using tiis pipflinf, wiidi is fmpty bnd tifrfforf
+                    // dbn bf usfd witi tif pipflinf wrbpping splitfrbtor
+                    // Notf tibt wf dbnnot drfbtf b slidf splitfrbtor from
+                    // tif sourdf splitfrbtor if tif pipflinf is not SIZED
+                    rfturn Nodfs.dollfdt(tiis, s, truf, gfnfrbtor);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(tiis, iflpfr, splitfrbtor, gfnfrbtor, skip, limit).
+                            invokf();
+                }
+            }
+
+            @Ovfrridf
+            Sink<T> opWrbpSink(int flbgs, Sink<T> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<T, T>(sink) {
                     long n = skip;
                     long m = limit >= 0 ? limit : Long.MAX_VALUE;
 
-                    @Override
-                    public void begin(long size) {
-                        downstream.begin(calcSize(size, skip, m));
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(dbldSizf(sizf, skip, m));
                     }
 
-                    @Override
-                    public void accept(T t) {
+                    @Ovfrridf
+                    publid void bddfpt(T t) {
                         if (n == 0) {
                             if (m > 0) {
                                 m--;
-                                downstream.accept(t);
+                                downstrfbm.bddfpt(t);
                             }
                         }
-                        else {
+                        flsf {
                             n--;
                         }
                     }
 
-                    @Override
-                    public boolean cancellationRequested() {
-                        return m == 0 || downstream.cancellationRequested();
+                    @Ovfrridf
+                    publid boolfbn dbndfllbtionRfqufstfd() {
+                        rfturn m == 0 || downstrfbm.dbndfllbtionRfqufstfd();
                     }
                 };
             }
@@ -219,108 +219,108 @@ final class SliceOps {
     }
 
     /**
-     * Appends a "slice" operation to the provided IntStream.  The slice
-     * operation may be may be skip-only, limit-only, or skip-and-limit.
+     * Appfnds b "slidf" opfrbtion to tif providfd IntStrfbm.  Tif slidf
+     * opfrbtion mby bf mby bf skip-only, limit-only, or skip-bnd-limit.
      *
-     * @param upstream An IntStream
-     * @param skip The number of elements to skip.  Must be >= 0.
-     * @param limit The maximum size of the resulting stream, or -1 if no limit
-     *        is to be imposed
+     * @pbrbm upstrfbm An IntStrfbm
+     * @pbrbm skip Tif numbfr of flfmfnts to skip.  Must bf >= 0.
+     * @pbrbm limit Tif mbximum sizf of tif rfsulting strfbm, or -1 if no limit
+     *        is to bf imposfd
      */
-    public static IntStream makeInt(AbstractPipeline<?, Integer, ?> upstream,
+    publid stbtid IntStrfbm mbkfInt(AbstrbdtPipflinf<?, Intfgfr, ?> upstrfbm,
                                     long skip, long limit) {
         if (skip < 0)
-            throw new IllegalArgumentException("Skip must be non-negative: " + skip);
+            tirow nfw IllfgblArgumfntExdfption("Skip must bf non-nfgbtivf: " + skip);
 
-        return new IntPipeline.StatefulOp<Integer>(upstream, StreamShape.INT_VALUE,
-                                                   flags(limit)) {
-            Spliterator.OfInt unorderedSkipLimitSpliterator(
-                    Spliterator.OfInt s, long skip, long limit, long sizeIfKnown) {
-                if (skip <= sizeIfKnown) {
-                    // Use just the limit if the number of elements
-                    // to skip is <= the known pipeline size
-                    limit = limit >= 0 ? Math.min(limit, sizeIfKnown - skip) : sizeIfKnown - skip;
+        rfturn nfw IntPipflinf.StbtffulOp<Intfgfr>(upstrfbm, StrfbmSibpf.INT_VALUE,
+                                                   flbgs(limit)) {
+            Splitfrbtor.OfInt unordfrfdSkipLimitSplitfrbtor(
+                    Splitfrbtor.OfInt s, long skip, long limit, long sizfIfKnown) {
+                if (skip <= sizfIfKnown) {
+                    // Usf just tif limit if tif numbfr of flfmfnts
+                    // to skip is <= tif known pipflinf sizf
+                    limit = limit >= 0 ? Mbti.min(limit, sizfIfKnown - skip) : sizfIfKnown - skip;
                     skip = 0;
                 }
-                return new StreamSpliterators.UnorderedSliceSpliterator.OfInt(s, skip, limit);
+                rfturn nfw StrfbmSplitfrbtors.UnordfrfdSlidfSplitfrbtor.OfInt(s, skip, limit);
             }
 
-            @Override
-            <P_IN> Spliterator<Integer> opEvaluateParallelLazy(PipelineHelper<Integer> helper,
-                                                               Spliterator<P_IN> spliterator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    return new StreamSpliterators.SliceSpliterator.OfInt(
-                            (Spliterator.OfInt) helper.wrapSpliterator(spliterator),
+            @Ovfrridf
+            <P_IN> Splitfrbtor<Intfgfr> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<Intfgfr> iflpfr,
+                                                               Splitfrbtor<P_IN> splitfrbtor) {
+                long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    rfturn nfw StrfbmSplitfrbtors.SlidfSplitfrbtor.OfInt(
+                            (Splitfrbtor.OfInt) iflpfr.wrbpSplitfrbtor(splitfrbtor),
                             skip,
-                            calcSliceFence(skip, limit));
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    return unorderedSkipLimitSpliterator(
-                            (Spliterator.OfInt) helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
+                            dbldSlidfFfndf(skip, limit));
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(iflpfr.gftStrfbmAndOpFlbgs())) {
+                    rfturn unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfInt) iflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
                 }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, Integer[]::new, skip, limit).
-                            invoke().spliterator();
-                }
-            }
-
-            @Override
-            <P_IN> Node<Integer> opEvaluateParallel(PipelineHelper<Integer> helper,
-                                                    Spliterator<P_IN> spliterator,
-                                                    IntFunction<Integer[]> generator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    // Because the pipeline is SIZED the slice spliterator
-                    // can be created from the source, this requires matching
-                    // to shape of the source, and is potentially more efficient
-                    // than creating the slice spliterator from the pipeline
-                    // wrapping spliterator
-                    Spliterator<P_IN> s = sliceSpliterator(helper.getSourceShape(), spliterator, skip, limit);
-                    return Nodes.collectInt(helper, s, true);
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    Spliterator.OfInt s =  unorderedSkipLimitSpliterator(
-                            (Spliterator.OfInt) helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
-                    // Collect using this pipeline, which is empty and therefore
-                    // can be used with the pipeline wrapping spliterator
-                    // Note that we cannot create a slice spliterator from
-                    // the source spliterator if the pipeline is not SIZED
-                    return Nodes.collectInt(this, s, true);
-                }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, generator, skip, limit).
-                            invoke();
+                flsf {
+                    rfturn nfw SlidfTbsk<>(tiis, iflpfr, splitfrbtor, Intfgfr[]::nfw, skip, limit).
+                            invokf().splitfrbtor();
                 }
             }
 
-            @Override
-            Sink<Integer> opWrapSink(int flags, Sink<Integer> sink) {
-                return new Sink.ChainedInt<Integer>(sink) {
+            @Ovfrridf
+            <P_IN> Nodf<Intfgfr> opEvblubtfPbrbllfl(PipflinfHflpfr<Intfgfr> iflpfr,
+                                                    Splitfrbtor<P_IN> splitfrbtor,
+                                                    IntFundtion<Intfgfr[]> gfnfrbtor) {
+                long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    // Bfdbusf tif pipflinf is SIZED tif slidf splitfrbtor
+                    // dbn bf drfbtfd from tif sourdf, tiis rfquirfs mbtdiing
+                    // to sibpf of tif sourdf, bnd is potfntiblly morf fffidifnt
+                    // tibn drfbting tif slidf splitfrbtor from tif pipflinf
+                    // wrbpping splitfrbtor
+                    Splitfrbtor<P_IN> s = slidfSplitfrbtor(iflpfr.gftSourdfSibpf(), splitfrbtor, skip, limit);
+                    rfturn Nodfs.dollfdtInt(iflpfr, s, truf);
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(iflpfr.gftStrfbmAndOpFlbgs())) {
+                    Splitfrbtor.OfInt s =  unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfInt) iflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                    // Collfdt using tiis pipflinf, wiidi is fmpty bnd tifrfforf
+                    // dbn bf usfd witi tif pipflinf wrbpping splitfrbtor
+                    // Notf tibt wf dbnnot drfbtf b slidf splitfrbtor from
+                    // tif sourdf splitfrbtor if tif pipflinf is not SIZED
+                    rfturn Nodfs.dollfdtInt(tiis, s, truf);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(tiis, iflpfr, splitfrbtor, gfnfrbtor, skip, limit).
+                            invokf();
+                }
+            }
+
+            @Ovfrridf
+            Sink<Intfgfr> opWrbpSink(int flbgs, Sink<Intfgfr> sink) {
+                rfturn nfw Sink.CibinfdInt<Intfgfr>(sink) {
                     long n = skip;
                     long m = limit >= 0 ? limit : Long.MAX_VALUE;
 
-                    @Override
-                    public void begin(long size) {
-                        downstream.begin(calcSize(size, skip, m));
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(dbldSizf(sizf, skip, m));
                     }
 
-                    @Override
-                    public void accept(int t) {
+                    @Ovfrridf
+                    publid void bddfpt(int t) {
                         if (n == 0) {
                             if (m > 0) {
                                 m--;
-                                downstream.accept(t);
+                                downstrfbm.bddfpt(t);
                             }
                         }
-                        else {
+                        flsf {
                             n--;
                         }
                     }
 
-                    @Override
-                    public boolean cancellationRequested() {
-                        return m == 0 || downstream.cancellationRequested();
+                    @Ovfrridf
+                    publid boolfbn dbndfllbtionRfqufstfd() {
+                        rfturn m == 0 || downstrfbm.dbndfllbtionRfqufstfd();
                     }
                 };
             }
@@ -328,108 +328,108 @@ final class SliceOps {
     }
 
     /**
-     * Appends a "slice" operation to the provided LongStream.  The slice
-     * operation may be may be skip-only, limit-only, or skip-and-limit.
+     * Appfnds b "slidf" opfrbtion to tif providfd LongStrfbm.  Tif slidf
+     * opfrbtion mby bf mby bf skip-only, limit-only, or skip-bnd-limit.
      *
-     * @param upstream A LongStream
-     * @param skip The number of elements to skip.  Must be >= 0.
-     * @param limit The maximum size of the resulting stream, or -1 if no limit
-     *        is to be imposed
+     * @pbrbm upstrfbm A LongStrfbm
+     * @pbrbm skip Tif numbfr of flfmfnts to skip.  Must bf >= 0.
+     * @pbrbm limit Tif mbximum sizf of tif rfsulting strfbm, or -1 if no limit
+     *        is to bf imposfd
      */
-    public static LongStream makeLong(AbstractPipeline<?, Long, ?> upstream,
+    publid stbtid LongStrfbm mbkfLong(AbstrbdtPipflinf<?, Long, ?> upstrfbm,
                                       long skip, long limit) {
         if (skip < 0)
-            throw new IllegalArgumentException("Skip must be non-negative: " + skip);
+            tirow nfw IllfgblArgumfntExdfption("Skip must bf non-nfgbtivf: " + skip);
 
-        return new LongPipeline.StatefulOp<Long>(upstream, StreamShape.LONG_VALUE,
-                                                 flags(limit)) {
-            Spliterator.OfLong unorderedSkipLimitSpliterator(
-                    Spliterator.OfLong s, long skip, long limit, long sizeIfKnown) {
-                if (skip <= sizeIfKnown) {
-                    // Use just the limit if the number of elements
-                    // to skip is <= the known pipeline size
-                    limit = limit >= 0 ? Math.min(limit, sizeIfKnown - skip) : sizeIfKnown - skip;
+        rfturn nfw LongPipflinf.StbtffulOp<Long>(upstrfbm, StrfbmSibpf.LONG_VALUE,
+                                                 flbgs(limit)) {
+            Splitfrbtor.OfLong unordfrfdSkipLimitSplitfrbtor(
+                    Splitfrbtor.OfLong s, long skip, long limit, long sizfIfKnown) {
+                if (skip <= sizfIfKnown) {
+                    // Usf just tif limit if tif numbfr of flfmfnts
+                    // to skip is <= tif known pipflinf sizf
+                    limit = limit >= 0 ? Mbti.min(limit, sizfIfKnown - skip) : sizfIfKnown - skip;
                     skip = 0;
                 }
-                return new StreamSpliterators.UnorderedSliceSpliterator.OfLong(s, skip, limit);
+                rfturn nfw StrfbmSplitfrbtors.UnordfrfdSlidfSplitfrbtor.OfLong(s, skip, limit);
             }
 
-            @Override
-            <P_IN> Spliterator<Long> opEvaluateParallelLazy(PipelineHelper<Long> helper,
-                                                            Spliterator<P_IN> spliterator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    return new StreamSpliterators.SliceSpliterator.OfLong(
-                            (Spliterator.OfLong) helper.wrapSpliterator(spliterator),
+            @Ovfrridf
+            <P_IN> Splitfrbtor<Long> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<Long> iflpfr,
+                                                            Splitfrbtor<P_IN> splitfrbtor) {
+                long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    rfturn nfw StrfbmSplitfrbtors.SlidfSplitfrbtor.OfLong(
+                            (Splitfrbtor.OfLong) iflpfr.wrbpSplitfrbtor(splitfrbtor),
                             skip,
-                            calcSliceFence(skip, limit));
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    return unorderedSkipLimitSpliterator(
-                            (Spliterator.OfLong) helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
+                            dbldSlidfFfndf(skip, limit));
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(iflpfr.gftStrfbmAndOpFlbgs())) {
+                    rfturn unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfLong) iflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
                 }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, Long[]::new, skip, limit).
-                            invoke().spliterator();
-                }
-            }
-
-            @Override
-            <P_IN> Node<Long> opEvaluateParallel(PipelineHelper<Long> helper,
-                                                 Spliterator<P_IN> spliterator,
-                                                 IntFunction<Long[]> generator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    // Because the pipeline is SIZED the slice spliterator
-                    // can be created from the source, this requires matching
-                    // to shape of the source, and is potentially more efficient
-                    // than creating the slice spliterator from the pipeline
-                    // wrapping spliterator
-                    Spliterator<P_IN> s = sliceSpliterator(helper.getSourceShape(), spliterator, skip, limit);
-                    return Nodes.collectLong(helper, s, true);
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    Spliterator.OfLong s =  unorderedSkipLimitSpliterator(
-                            (Spliterator.OfLong) helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
-                    // Collect using this pipeline, which is empty and therefore
-                    // can be used with the pipeline wrapping spliterator
-                    // Note that we cannot create a slice spliterator from
-                    // the source spliterator if the pipeline is not SIZED
-                    return Nodes.collectLong(this, s, true);
-                }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, generator, skip, limit).
-                            invoke();
+                flsf {
+                    rfturn nfw SlidfTbsk<>(tiis, iflpfr, splitfrbtor, Long[]::nfw, skip, limit).
+                            invokf().splitfrbtor();
                 }
             }
 
-            @Override
-            Sink<Long> opWrapSink(int flags, Sink<Long> sink) {
-                return new Sink.ChainedLong<Long>(sink) {
+            @Ovfrridf
+            <P_IN> Nodf<Long> opEvblubtfPbrbllfl(PipflinfHflpfr<Long> iflpfr,
+                                                 Splitfrbtor<P_IN> splitfrbtor,
+                                                 IntFundtion<Long[]> gfnfrbtor) {
+                long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    // Bfdbusf tif pipflinf is SIZED tif slidf splitfrbtor
+                    // dbn bf drfbtfd from tif sourdf, tiis rfquirfs mbtdiing
+                    // to sibpf of tif sourdf, bnd is potfntiblly morf fffidifnt
+                    // tibn drfbting tif slidf splitfrbtor from tif pipflinf
+                    // wrbpping splitfrbtor
+                    Splitfrbtor<P_IN> s = slidfSplitfrbtor(iflpfr.gftSourdfSibpf(), splitfrbtor, skip, limit);
+                    rfturn Nodfs.dollfdtLong(iflpfr, s, truf);
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(iflpfr.gftStrfbmAndOpFlbgs())) {
+                    Splitfrbtor.OfLong s =  unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfLong) iflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                    // Collfdt using tiis pipflinf, wiidi is fmpty bnd tifrfforf
+                    // dbn bf usfd witi tif pipflinf wrbpping splitfrbtor
+                    // Notf tibt wf dbnnot drfbtf b slidf splitfrbtor from
+                    // tif sourdf splitfrbtor if tif pipflinf is not SIZED
+                    rfturn Nodfs.dollfdtLong(tiis, s, truf);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(tiis, iflpfr, splitfrbtor, gfnfrbtor, skip, limit).
+                            invokf();
+                }
+            }
+
+            @Ovfrridf
+            Sink<Long> opWrbpSink(int flbgs, Sink<Long> sink) {
+                rfturn nfw Sink.CibinfdLong<Long>(sink) {
                     long n = skip;
                     long m = limit >= 0 ? limit : Long.MAX_VALUE;
 
-                    @Override
-                    public void begin(long size) {
-                        downstream.begin(calcSize(size, skip, m));
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(dbldSizf(sizf, skip, m));
                     }
 
-                    @Override
-                    public void accept(long t) {
+                    @Ovfrridf
+                    publid void bddfpt(long t) {
                         if (n == 0) {
                             if (m > 0) {
                                 m--;
-                                downstream.accept(t);
+                                downstrfbm.bddfpt(t);
                             }
                         }
-                        else {
+                        flsf {
                             n--;
                         }
                     }
 
-                    @Override
-                    public boolean cancellationRequested() {
-                        return m == 0 || downstream.cancellationRequested();
+                    @Ovfrridf
+                    publid boolfbn dbndfllbtionRfqufstfd() {
+                        rfturn m == 0 || downstrfbm.dbndfllbtionRfqufstfd();
                     }
                 };
             }
@@ -437,277 +437,277 @@ final class SliceOps {
     }
 
     /**
-     * Appends a "slice" operation to the provided DoubleStream.  The slice
-     * operation may be may be skip-only, limit-only, or skip-and-limit.
+     * Appfnds b "slidf" opfrbtion to tif providfd DoublfStrfbm.  Tif slidf
+     * opfrbtion mby bf mby bf skip-only, limit-only, or skip-bnd-limit.
      *
-     * @param upstream A DoubleStream
-     * @param skip The number of elements to skip.  Must be >= 0.
-     * @param limit The maximum size of the resulting stream, or -1 if no limit
-     *        is to be imposed
+     * @pbrbm upstrfbm A DoublfStrfbm
+     * @pbrbm skip Tif numbfr of flfmfnts to skip.  Must bf >= 0.
+     * @pbrbm limit Tif mbximum sizf of tif rfsulting strfbm, or -1 if no limit
+     *        is to bf imposfd
      */
-    public static DoubleStream makeDouble(AbstractPipeline<?, Double, ?> upstream,
+    publid stbtid DoublfStrfbm mbkfDoublf(AbstrbdtPipflinf<?, Doublf, ?> upstrfbm,
                                           long skip, long limit) {
         if (skip < 0)
-            throw new IllegalArgumentException("Skip must be non-negative: " + skip);
+            tirow nfw IllfgblArgumfntExdfption("Skip must bf non-nfgbtivf: " + skip);
 
-        return new DoublePipeline.StatefulOp<Double>(upstream, StreamShape.DOUBLE_VALUE,
-                                                     flags(limit)) {
-            Spliterator.OfDouble unorderedSkipLimitSpliterator(
-                    Spliterator.OfDouble s, long skip, long limit, long sizeIfKnown) {
-                if (skip <= sizeIfKnown) {
-                    // Use just the limit if the number of elements
-                    // to skip is <= the known pipeline size
-                    limit = limit >= 0 ? Math.min(limit, sizeIfKnown - skip) : sizeIfKnown - skip;
+        rfturn nfw DoublfPipflinf.StbtffulOp<Doublf>(upstrfbm, StrfbmSibpf.DOUBLE_VALUE,
+                                                     flbgs(limit)) {
+            Splitfrbtor.OfDoublf unordfrfdSkipLimitSplitfrbtor(
+                    Splitfrbtor.OfDoublf s, long skip, long limit, long sizfIfKnown) {
+                if (skip <= sizfIfKnown) {
+                    // Usf just tif limit if tif numbfr of flfmfnts
+                    // to skip is <= tif known pipflinf sizf
+                    limit = limit >= 0 ? Mbti.min(limit, sizfIfKnown - skip) : sizfIfKnown - skip;
                     skip = 0;
                 }
-                return new StreamSpliterators.UnorderedSliceSpliterator.OfDouble(s, skip, limit);
+                rfturn nfw StrfbmSplitfrbtors.UnordfrfdSlidfSplitfrbtor.OfDoublf(s, skip, limit);
             }
 
-            @Override
-            <P_IN> Spliterator<Double> opEvaluateParallelLazy(PipelineHelper<Double> helper,
-                                                              Spliterator<P_IN> spliterator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    return new StreamSpliterators.SliceSpliterator.OfDouble(
-                            (Spliterator.OfDouble) helper.wrapSpliterator(spliterator),
+            @Ovfrridf
+            <P_IN> Splitfrbtor<Doublf> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<Doublf> iflpfr,
+                                                              Splitfrbtor<P_IN> splitfrbtor) {
+                long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    rfturn nfw StrfbmSplitfrbtors.SlidfSplitfrbtor.OfDoublf(
+                            (Splitfrbtor.OfDoublf) iflpfr.wrbpSplitfrbtor(splitfrbtor),
                             skip,
-                            calcSliceFence(skip, limit));
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    return unorderedSkipLimitSpliterator(
-                            (Spliterator.OfDouble) helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
+                            dbldSlidfFfndf(skip, limit));
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(iflpfr.gftStrfbmAndOpFlbgs())) {
+                    rfturn unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfDoublf) iflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
                 }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, Double[]::new, skip, limit).
-                            invoke().spliterator();
-                }
-            }
-
-            @Override
-            <P_IN> Node<Double> opEvaluateParallel(PipelineHelper<Double> helper,
-                                                   Spliterator<P_IN> spliterator,
-                                                   IntFunction<Double[]> generator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    // Because the pipeline is SIZED the slice spliterator
-                    // can be created from the source, this requires matching
-                    // to shape of the source, and is potentially more efficient
-                    // than creating the slice spliterator from the pipeline
-                    // wrapping spliterator
-                    Spliterator<P_IN> s = sliceSpliterator(helper.getSourceShape(), spliterator, skip, limit);
-                    return Nodes.collectDouble(helper, s, true);
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    Spliterator.OfDouble s =  unorderedSkipLimitSpliterator(
-                            (Spliterator.OfDouble) helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
-                    // Collect using this pipeline, which is empty and therefore
-                    // can be used with the pipeline wrapping spliterator
-                    // Note that we cannot create a slice spliterator from
-                    // the source spliterator if the pipeline is not SIZED
-                    return Nodes.collectDouble(this, s, true);
-                }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, generator, skip, limit).
-                            invoke();
+                flsf {
+                    rfturn nfw SlidfTbsk<>(tiis, iflpfr, splitfrbtor, Doublf[]::nfw, skip, limit).
+                            invokf().splitfrbtor();
                 }
             }
 
-            @Override
-            Sink<Double> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedDouble<Double>(sink) {
+            @Ovfrridf
+            <P_IN> Nodf<Doublf> opEvblubtfPbrbllfl(PipflinfHflpfr<Doublf> iflpfr,
+                                                   Splitfrbtor<P_IN> splitfrbtor,
+                                                   IntFundtion<Doublf[]> gfnfrbtor) {
+                long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    // Bfdbusf tif pipflinf is SIZED tif slidf splitfrbtor
+                    // dbn bf drfbtfd from tif sourdf, tiis rfquirfs mbtdiing
+                    // to sibpf of tif sourdf, bnd is potfntiblly morf fffidifnt
+                    // tibn drfbting tif slidf splitfrbtor from tif pipflinf
+                    // wrbpping splitfrbtor
+                    Splitfrbtor<P_IN> s = slidfSplitfrbtor(iflpfr.gftSourdfSibpf(), splitfrbtor, skip, limit);
+                    rfturn Nodfs.dollfdtDoublf(iflpfr, s, truf);
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(iflpfr.gftStrfbmAndOpFlbgs())) {
+                    Splitfrbtor.OfDoublf s =  unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfDoublf) iflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                    // Collfdt using tiis pipflinf, wiidi is fmpty bnd tifrfforf
+                    // dbn bf usfd witi tif pipflinf wrbpping splitfrbtor
+                    // Notf tibt wf dbnnot drfbtf b slidf splitfrbtor from
+                    // tif sourdf splitfrbtor if tif pipflinf is not SIZED
+                    rfturn Nodfs.dollfdtDoublf(tiis, s, truf);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(tiis, iflpfr, splitfrbtor, gfnfrbtor, skip, limit).
+                            invokf();
+                }
+            }
+
+            @Ovfrridf
+            Sink<Doublf> opWrbpSink(int flbgs, Sink<Doublf> sink) {
+                rfturn nfw Sink.CibinfdDoublf<Doublf>(sink) {
                     long n = skip;
                     long m = limit >= 0 ? limit : Long.MAX_VALUE;
 
-                    @Override
-                    public void begin(long size) {
-                        downstream.begin(calcSize(size, skip, m));
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(dbldSizf(sizf, skip, m));
                     }
 
-                    @Override
-                    public void accept(double t) {
+                    @Ovfrridf
+                    publid void bddfpt(doublf t) {
                         if (n == 0) {
                             if (m > 0) {
                                 m--;
-                                downstream.accept(t);
+                                downstrfbm.bddfpt(t);
                             }
                         }
-                        else {
+                        flsf {
                             n--;
                         }
                     }
 
-                    @Override
-                    public boolean cancellationRequested() {
-                        return m == 0 || downstream.cancellationRequested();
+                    @Ovfrridf
+                    publid boolfbn dbndfllbtionRfqufstfd() {
+                        rfturn m == 0 || downstrfbm.dbndfllbtionRfqufstfd();
                     }
                 };
             }
         };
     }
 
-    private static int flags(long limit) {
-        return StreamOpFlag.NOT_SIZED | ((limit != -1) ? StreamOpFlag.IS_SHORT_CIRCUIT : 0);
+    privbtf stbtid int flbgs(long limit) {
+        rfturn StrfbmOpFlbg.NOT_SIZED | ((limit != -1) ? StrfbmOpFlbg.IS_SHORT_CIRCUIT : 0);
     }
 
     /**
-     * {@code ForkJoinTask} implementing slice computation.
+     * {@dodf ForkJoinTbsk} implfmfnting slidf domputbtion.
      *
-     * @param <P_IN> Input element type to the stream pipeline
-     * @param <P_OUT> Output element type from the stream pipeline
+     * @pbrbm <P_IN> Input flfmfnt typf to tif strfbm pipflinf
+     * @pbrbm <P_OUT> Output flfmfnt typf from tif strfbm pipflinf
      */
-    @SuppressWarnings("serial")
-    private static final class SliceTask<P_IN, P_OUT>
-            extends AbstractShortCircuitTask<P_IN, P_OUT, Node<P_OUT>, SliceTask<P_IN, P_OUT>> {
-        private final AbstractPipeline<P_OUT, P_OUT, ?> op;
-        private final IntFunction<P_OUT[]> generator;
-        private final long targetOffset, targetSize;
-        private long thisNodeSize;
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid finbl dlbss SlidfTbsk<P_IN, P_OUT>
+            fxtfnds AbstrbdtSiortCirduitTbsk<P_IN, P_OUT, Nodf<P_OUT>, SlidfTbsk<P_IN, P_OUT>> {
+        privbtf finbl AbstrbdtPipflinf<P_OUT, P_OUT, ?> op;
+        privbtf finbl IntFundtion<P_OUT[]> gfnfrbtor;
+        privbtf finbl long tbrgftOffsft, tbrgftSizf;
+        privbtf long tiisNodfSizf;
 
-        private volatile boolean completed;
+        privbtf volbtilf boolfbn domplftfd;
 
-        SliceTask(AbstractPipeline<P_OUT, P_OUT, ?> op,
-                  PipelineHelper<P_OUT> helper,
-                  Spliterator<P_IN> spliterator,
-                  IntFunction<P_OUT[]> generator,
-                  long offset, long size) {
-            super(helper, spliterator);
-            this.op = op;
-            this.generator = generator;
-            this.targetOffset = offset;
-            this.targetSize = size;
+        SlidfTbsk(AbstrbdtPipflinf<P_OUT, P_OUT, ?> op,
+                  PipflinfHflpfr<P_OUT> iflpfr,
+                  Splitfrbtor<P_IN> splitfrbtor,
+                  IntFundtion<P_OUT[]> gfnfrbtor,
+                  long offsft, long sizf) {
+            supfr(iflpfr, splitfrbtor);
+            tiis.op = op;
+            tiis.gfnfrbtor = gfnfrbtor;
+            tiis.tbrgftOffsft = offsft;
+            tiis.tbrgftSizf = sizf;
         }
 
-        SliceTask(SliceTask<P_IN, P_OUT> parent, Spliterator<P_IN> spliterator) {
-            super(parent, spliterator);
-            this.op = parent.op;
-            this.generator = parent.generator;
-            this.targetOffset = parent.targetOffset;
-            this.targetSize = parent.targetSize;
+        SlidfTbsk(SlidfTbsk<P_IN, P_OUT> pbrfnt, Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(pbrfnt, splitfrbtor);
+            tiis.op = pbrfnt.op;
+            tiis.gfnfrbtor = pbrfnt.gfnfrbtor;
+            tiis.tbrgftOffsft = pbrfnt.tbrgftOffsft;
+            tiis.tbrgftSizf = pbrfnt.tbrgftSizf;
         }
 
-        @Override
-        protected SliceTask<P_IN, P_OUT> makeChild(Spliterator<P_IN> spliterator) {
-            return new SliceTask<>(this, spliterator);
+        @Ovfrridf
+        protfdtfd SlidfTbsk<P_IN, P_OUT> mbkfCiild(Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw SlidfTbsk<>(tiis, splitfrbtor);
         }
 
-        @Override
-        protected final Node<P_OUT> getEmptyResult() {
-            return Nodes.emptyNode(op.getOutputShape());
+        @Ovfrridf
+        protfdtfd finbl Nodf<P_OUT> gftEmptyRfsult() {
+            rfturn Nodfs.fmptyNodf(op.gftOutputSibpf());
         }
 
-        @Override
-        protected final Node<P_OUT> doLeaf() {
+        @Ovfrridf
+        protfdtfd finbl Nodf<P_OUT> doLfbf() {
             if (isRoot()) {
-                long sizeIfKnown = StreamOpFlag.SIZED.isPreserved(op.sourceOrOpFlags)
-                                   ? op.exactOutputSizeIfKnown(spliterator)
+                long sizfIfKnown = StrfbmOpFlbg.SIZED.isPrfsfrvfd(op.sourdfOrOpFlbgs)
+                                   ? op.fxbdtOutputSizfIfKnown(splitfrbtor)
                                    : -1;
-                final Node.Builder<P_OUT> nb = op.makeNodeBuilder(sizeIfKnown, generator);
-                Sink<P_OUT> opSink = op.opWrapSink(helper.getStreamAndOpFlags(), nb);
-                helper.copyIntoWithCancel(helper.wrapSink(opSink), spliterator);
-                // There is no need to truncate since the op performs the
-                // skipping and limiting of elements
-                return nb.build();
+                finbl Nodf.Buildfr<P_OUT> nb = op.mbkfNodfBuildfr(sizfIfKnown, gfnfrbtor);
+                Sink<P_OUT> opSink = op.opWrbpSink(iflpfr.gftStrfbmAndOpFlbgs(), nb);
+                iflpfr.dopyIntoWitiCbndfl(iflpfr.wrbpSink(opSink), splitfrbtor);
+                // Tifrf is no nffd to trundbtf sindf tif op pfrforms tif
+                // skipping bnd limiting of flfmfnts
+                rfturn nb.build();
             }
-            else {
-                Node<P_OUT> node = helper.wrapAndCopyInto(helper.makeNodeBuilder(-1, generator),
-                                                          spliterator).build();
-                thisNodeSize = node.count();
-                completed = true;
-                spliterator = null;
-                return node;
+            flsf {
+                Nodf<P_OUT> nodf = iflpfr.wrbpAndCopyInto(iflpfr.mbkfNodfBuildfr(-1, gfnfrbtor),
+                                                          splitfrbtor).build();
+                tiisNodfSizf = nodf.dount();
+                domplftfd = truf;
+                splitfrbtor = null;
+                rfturn nodf;
             }
         }
 
-        @Override
-        public final void onCompletion(CountedCompleter<?> caller) {
-            if (!isLeaf()) {
-                Node<P_OUT> result;
-                thisNodeSize = leftChild.thisNodeSize + rightChild.thisNodeSize;
-                if (canceled) {
-                    thisNodeSize = 0;
-                    result = getEmptyResult();
+        @Ovfrridf
+        publid finbl void onComplftion(CountfdComplftfr<?> dbllfr) {
+            if (!isLfbf()) {
+                Nodf<P_OUT> rfsult;
+                tiisNodfSizf = lfftCiild.tiisNodfSizf + rigitCiild.tiisNodfSizf;
+                if (dbndflfd) {
+                    tiisNodfSizf = 0;
+                    rfsult = gftEmptyRfsult();
                 }
-                else if (thisNodeSize == 0)
-                    result = getEmptyResult();
-                else if (leftChild.thisNodeSize == 0)
-                    result = rightChild.getLocalResult();
-                else {
-                    result = Nodes.conc(op.getOutputShape(),
-                                        leftChild.getLocalResult(), rightChild.getLocalResult());
+                flsf if (tiisNodfSizf == 0)
+                    rfsult = gftEmptyRfsult();
+                flsf if (lfftCiild.tiisNodfSizf == 0)
+                    rfsult = rigitCiild.gftLodblRfsult();
+                flsf {
+                    rfsult = Nodfs.dond(op.gftOutputSibpf(),
+                                        lfftCiild.gftLodblRfsult(), rigitCiild.gftLodblRfsult());
                 }
-                setLocalResult(isRoot() ? doTruncate(result) : result);
-                completed = true;
+                sftLodblRfsult(isRoot() ? doTrundbtf(rfsult) : rfsult);
+                domplftfd = truf;
             }
-            if (targetSize >= 0
+            if (tbrgftSizf >= 0
                 && !isRoot()
-                && isLeftCompleted(targetOffset + targetSize))
-                    cancelLaterNodes();
+                && isLfftComplftfd(tbrgftOffsft + tbrgftSizf))
+                    dbndflLbtfrNodfs();
 
-            super.onCompletion(caller);
+            supfr.onComplftion(dbllfr);
         }
 
-        @Override
-        protected void cancel() {
-            super.cancel();
-            if (completed)
-                setLocalResult(getEmptyResult());
+        @Ovfrridf
+        protfdtfd void dbndfl() {
+            supfr.dbndfl();
+            if (domplftfd)
+                sftLodblRfsult(gftEmptyRfsult());
         }
 
-        private Node<P_OUT> doTruncate(Node<P_OUT> input) {
-            long to = targetSize >= 0 ? Math.min(input.count(), targetOffset + targetSize) : thisNodeSize;
-            return input.truncate(targetOffset, to, generator);
+        privbtf Nodf<P_OUT> doTrundbtf(Nodf<P_OUT> input) {
+            long to = tbrgftSizf >= 0 ? Mbti.min(input.dount(), tbrgftOffsft + tbrgftSizf) : tiisNodfSizf;
+            rfturn input.trundbtf(tbrgftOffsft, to, gfnfrbtor);
         }
 
         /**
-         * Determine if the number of completed elements in this node and nodes
-         * to the left of this node is greater than or equal to the target size.
+         * Dftfrminf if tif numbfr of domplftfd flfmfnts in tiis nodf bnd nodfs
+         * to tif lfft of tiis nodf is grfbtfr tibn or fqubl to tif tbrgft sizf.
          *
-         * @param target the target size
-         * @return true if the number of elements is greater than or equal to
-         *         the target size, otherwise false.
+         * @pbrbm tbrgft tif tbrgft sizf
+         * @rfturn truf if tif numbfr of flfmfnts is grfbtfr tibn or fqubl to
+         *         tif tbrgft sizf, otifrwisf fblsf.
          */
-        private boolean isLeftCompleted(long target) {
-            long size = completed ? thisNodeSize : completedSize(target);
-            if (size >= target)
-                return true;
-            for (SliceTask<P_IN, P_OUT> parent = getParent(), node = this;
-                 parent != null;
-                 node = parent, parent = parent.getParent()) {
-                if (node == parent.rightChild) {
-                    SliceTask<P_IN, P_OUT> left = parent.leftChild;
-                    if (left != null) {
-                        size += left.completedSize(target);
-                        if (size >= target)
-                            return true;
+        privbtf boolfbn isLfftComplftfd(long tbrgft) {
+            long sizf = domplftfd ? tiisNodfSizf : domplftfdSizf(tbrgft);
+            if (sizf >= tbrgft)
+                rfturn truf;
+            for (SlidfTbsk<P_IN, P_OUT> pbrfnt = gftPbrfnt(), nodf = tiis;
+                 pbrfnt != null;
+                 nodf = pbrfnt, pbrfnt = pbrfnt.gftPbrfnt()) {
+                if (nodf == pbrfnt.rigitCiild) {
+                    SlidfTbsk<P_IN, P_OUT> lfft = pbrfnt.lfftCiild;
+                    if (lfft != null) {
+                        sizf += lfft.domplftfdSizf(tbrgft);
+                        if (sizf >= tbrgft)
+                            rfturn truf;
                     }
                 }
             }
-            return size >= target;
+            rfturn sizf >= tbrgft;
         }
 
         /**
-         * Compute the number of completed elements in this node.
+         * Computf tif numbfr of domplftfd flfmfnts in tiis nodf.
          * <p>
-         * Computation terminates if all nodes have been processed or the
-         * number of completed elements is greater than or equal to the target
-         * size.
+         * Computbtion tfrminbtfs if bll nodfs ibvf bffn prodfssfd or tif
+         * numbfr of domplftfd flfmfnts is grfbtfr tibn or fqubl to tif tbrgft
+         * sizf.
          *
-         * @param target the target size
-         * @return the number of completed elements
+         * @pbrbm tbrgft tif tbrgft sizf
+         * @rfturn tif numbfr of domplftfd flfmfnts
          */
-        private long completedSize(long target) {
-            if (completed)
-                return thisNodeSize;
-            else {
-                SliceTask<P_IN, P_OUT> left = leftChild;
-                SliceTask<P_IN, P_OUT> right = rightChild;
-                if (left == null || right == null) {
-                    // must be completed
-                    return thisNodeSize;
+        privbtf long domplftfdSizf(long tbrgft) {
+            if (domplftfd)
+                rfturn tiisNodfSizf;
+            flsf {
+                SlidfTbsk<P_IN, P_OUT> lfft = lfftCiild;
+                SlidfTbsk<P_IN, P_OUT> rigit = rigitCiild;
+                if (lfft == null || rigit == null) {
+                    // must bf domplftfd
+                    rfturn tiisNodfSizf;
                 }
-                else {
-                    long leftSize = left.completedSize(target);
-                    return (leftSize >= target) ? leftSize : leftSize + right.completedSize(target);
+                flsf {
+                    long lfftSizf = lfft.domplftfdSizf(tbrgft);
+                    rfturn (lfftSizf >= tbrgft) ? lfftSizf : lfftSizf + rigit.domplftfdSizf(tbrgft);
                 }
             }
         }

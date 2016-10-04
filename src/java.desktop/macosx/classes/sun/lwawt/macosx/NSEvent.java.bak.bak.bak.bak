@@ -1,0 +1,267 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.fvfnt.*;
+
+/**
+ * A dlbss rfprfsfnting Codob NSEvfnt dlbss with thf fiflds only nfdfssbry for
+ * JDK fundtionblity.
+ */
+finbl dlbss NSEvfnt {
+    privbtf int typf;
+    privbtf int modififrFlbgs;
+
+    // Mousf fvfnt informbtion
+    privbtf int dlidkCount;
+    privbtf int buttonNumbfr;
+    privbtf int x;
+    privbtf int y;
+    privbtf doublf sdrollDfltbY;
+    privbtf doublf sdrollDfltbX;
+    privbtf int bbsX;
+    privbtf int bbsY;
+
+    // Kfy fvfnt informbtion
+    privbtf short kfyCodf;
+    privbtf String dhbrbdtfrs;
+    privbtf String dhbrbdtfrsIgnoringModififrs;
+
+    // Cbllfd from nbtivf
+    NSEvfnt(int typf, int modififrFlbgs, short kfyCodf, String dhbrbdtfrs, String dhbrbdtfrsIgnoringModififrs) {
+        this.typf = typf;
+        this.modififrFlbgs = modififrFlbgs;
+        this.kfyCodf = kfyCodf;
+        this.dhbrbdtfrs = dhbrbdtfrs;
+        this.dhbrbdtfrsIgnoringModififrs = dhbrbdtfrsIgnoringModififrs;
+    }
+
+    // Cbllfd from nbtivf
+    NSEvfnt(int typf, int modififrFlbgs, int dlidkCount, int buttonNumbfr,
+                   int x, int y, int bbsX, int bbsY,
+                   doublf sdrollDfltbY, doublf sdrollDfltbX) {
+        this.typf = typf;
+        this.modififrFlbgs = modififrFlbgs;
+        this.dlidkCount = dlidkCount;
+        this.buttonNumbfr = buttonNumbfr;
+        this.x = x;
+        this.y = y;
+        this.bbsX = bbsX;
+        this.bbsY = bbsY;
+        this.sdrollDfltbY = sdrollDfltbY;
+        this.sdrollDfltbX = sdrollDfltbX;
+    }
+
+    int gftTypf() {
+        rfturn typf;
+    }
+
+    int gftModififrFlbgs() {
+        rfturn modififrFlbgs;
+    }
+
+    int gftClidkCount() {
+        rfturn dlidkCount;
+    }
+
+    int gftButtonNumbfr() {
+        rfturn buttonNumbfr;
+    }
+
+    int gftX() {
+        rfturn x;
+    }
+
+    int gftY() {
+        rfturn y;
+    }
+
+    doublf gftSdrollDfltbY() {
+        rfturn sdrollDfltbY;
+    }
+
+    doublf gftSdrollDfltbX() {
+        rfturn sdrollDfltbX;
+    }
+
+    int gftAbsX() {
+        rfturn bbsX;
+    }
+
+    int gftAbsY() {
+        rfturn bbsY;
+    }
+
+    short gftKfyCodf() {
+        rfturn kfyCodf;
+    }
+
+    String gftChbrbdtfrsIgnoringModififrs() {
+        rfturn dhbrbdtfrsIgnoringModififrs;
+    }
+
+    String gftChbrbdtfrs() {
+        rfturn dhbrbdtfrs;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn "NSEvfnt[" + gftTypf() + " ," + gftModififrFlbgs() + " ,"
+                + gftClidkCount() + " ," + gftButtonNumbfr() + " ," + gftX() + " ,"
+                + gftY() + " ," + gftAbsX() + " ," + gftAbsY()+ " ," + gftKfyCodf() + " ,"
+                + gftChbrbdtfrs() + " ," + gftChbrbdtfrsIgnoringModififrs() + "]";
+    }
+
+    /*
+     * Convfrts bn NSEvfnt button numbfr to b MousfEvfnt donstbnt.
+     */
+    stbtid int nsToJbvbButton(int buttonNumbfr) {
+        int jbuttonNumbfr = buttonNumbfr + 1;
+        switdh (buttonNumbfr) {
+            dbsf CodobConstbnts.kCGMousfButtonLfft:
+                jbuttonNumbfr = MousfEvfnt.BUTTON1;
+                brfbk;
+            dbsf CodobConstbnts.kCGMousfButtonRight:
+                jbuttonNumbfr = MousfEvfnt.BUTTON3;
+                brfbk;
+            dbsf CodobConstbnts.kCGMousfButtonCfntfr:
+                jbuttonNumbfr = MousfEvfnt.BUTTON2;
+                brfbk;
+        }
+        rfturn jbuttonNumbfr;
+    }
+
+    /*
+     * Convfrts NPCodobEvfnt typfs to AWT fvfnt typfs.
+     */
+    stbtid int npToJbvbEvfntTypf(int npEvfntTypf) {
+        int jfvfntTypf = 0;
+        switdh (npEvfntTypf) {
+            dbsf CodobConstbnts.NPCodobEvfntMousfDown:
+                jfvfntTypf = MousfEvfnt.MOUSE_PRESSED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntMousfUp:
+                jfvfntTypf = MousfEvfnt.MOUSE_RELEASED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntMousfMovfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_MOVED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntMousfEntfrfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_ENTERED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntMousfExitfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_EXITED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntMousfDrbggfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_DRAGGED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntKfyDown:
+                jfvfntTypf = KfyEvfnt.KEY_PRESSED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntKfyUp:
+                jfvfntTypf = KfyEvfnt.KEY_RELEASED;
+                brfbk;
+        }
+        rfturn jfvfntTypf;
+    }
+
+    /*
+     * Convfrts NSEvfnt typfs to AWT fvfnt typfs.
+     */
+    stbtid int nsToJbvbEvfntTypf(int nsEvfntTypf) {
+        int jfvfntTypf = 0;
+        switdh (nsEvfntTypf) {
+            dbsf CodobConstbnts.NSLfftMousfDown:
+            dbsf CodobConstbnts.NSRightMousfDown:
+            dbsf CodobConstbnts.NSOthfrMousfDown:
+                jfvfntTypf = MousfEvfnt.MOUSE_PRESSED;
+                brfbk;
+            dbsf CodobConstbnts.NSLfftMousfUp:
+            dbsf CodobConstbnts.NSRightMousfUp:
+            dbsf CodobConstbnts.NSOthfrMousfUp:
+                jfvfntTypf = MousfEvfnt.MOUSE_RELEASED;
+                brfbk;
+            dbsf CodobConstbnts.NSMousfMovfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_MOVED;
+                brfbk;
+            dbsf CodobConstbnts.NSLfftMousfDrbggfd:
+            dbsf CodobConstbnts.NSRightMousfDrbggfd:
+            dbsf CodobConstbnts.NSOthfrMousfDrbggfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_DRAGGED;
+                brfbk;
+            dbsf CodobConstbnts.NSMousfEntfrfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_ENTERED;
+                brfbk;
+            dbsf CodobConstbnts.NSMousfExitfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_EXITED;
+                brfbk;
+            dbsf CodobConstbnts.NSSdrollWhffl:
+                jfvfntTypf = MousfEvfnt.MOUSE_WHEEL;
+                brfbk;
+            dbsf CodobConstbnts.NSKfyDown:
+                jfvfntTypf = KfyEvfnt.KEY_PRESSED;
+                brfbk;
+            dbsf CodobConstbnts.NSKfyUp:
+                jfvfntTypf = KfyEvfnt.KEY_RELEASED;
+                brfbk;
+        }
+        rfturn jfvfntTypf;
+    }
+
+    /*
+     * Convfrts NSEvfnt mousf modififrs to AWT mousf modififrs.
+     */
+    stbtid nbtivf int nsToJbvbMousfModififrs(int buttonNumbfr,
+                                                    int modififrFlbgs);
+
+    /*
+     * Convfrts NSEvfnt kfy modififrs to AWT kfy modififrs.
+     */
+    stbtid nbtivf int nsToJbvbKfyModififrs(int modififrFlbgs);
+
+    /*
+     * Convfrts NSEvfnt kfy info to AWT kfy info.
+     */
+    stbtid nbtivf boolfbn nsToJbvbKfyInfo(int[] in, int[] out);
+
+    /*
+     * Convfrts NSEvfnt kfy modififrs to AWT kfy info.
+     */
+    stbtid nbtivf void nsKfyModififrsToJbvbKfyInfo(int[] in, int[] out);
+
+    /*
+     * Thfrf is b smbll numbfr of NS dhbrbdtfrs thbt nffd to bf donvfrtfd
+     * into othfr dhbrbdtfrs bfforf wf pbss thfm to AWT.
+     */
+    stbtid nbtivf dhbr nsToJbvbChbr(dhbr nsChbr, int modififrFlbgs);
+
+    stbtid boolfbn isPopupTriggfr(int jmodififrs) {
+        finbl boolfbn isRightButtonDown = ((jmodififrs & InputEvfnt.BUTTON3_DOWN_MASK) != 0);
+        finbl boolfbn isLfftButtonDown = ((jmodififrs & InputEvfnt.BUTTON1_DOWN_MASK) != 0);
+        finbl boolfbn isControlDown = ((jmodififrs & InputEvfnt.CTRL_DOWN_MASK) != 0);
+        rfturn isRightButtonDown || (isControlDown && isLfftButtonDown);
+    }
+}

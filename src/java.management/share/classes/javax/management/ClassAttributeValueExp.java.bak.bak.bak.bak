@@ -1,0 +1,142 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.sfdurity.AddfssControllfr;
+
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+
+/**
+ * This dlbss rfprfsfnts thf nbmf of thf Jbvb implfmfntbtion dlbss of
+ * thf MBfbn. It is usfd for pfrforming qufrifs bbsfd on thf dlbss of
+ * thf MBfbn.
+ * @sfribl indludf
+ *
+ * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is <dodf>-1081892073854801359L</dodf>.
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID is not donstbnt
+dlbss ClbssAttributfVblufExp fxtfnds AttributfVblufExp {
+
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in this dlbss. Thf sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
+    //  - "1.0" for JMX 1.0
+    //  - bny othfr vbluf for JMX 1.1 bnd highfr
+    //
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -2212731951078526753L;
+    //
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -1081892073854801359L;
+
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    stbtid {
+        boolfbn dompbt = fblsf;
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdh (Exdfption f) {
+            // OK: fxdfption mfbns no dompbt with 1.0, too bbd
+        }
+        if (dompbt)
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        flsf
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
+    }
+
+    /**
+     * @sfribl Thf nbmf of thf bttributf
+     *
+     * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is <dodf>-1081892073854801359L</dodf>.
+     */
+    privbtf String bttr;
+
+    /**
+     * Bbsid Construdtor.
+     */
+    publid ClbssAttributfVblufExp() {
+        /* Compbtibility: wf hbvf bn bttr fifld thbt wf must hold on to
+           for sfribl dompbtibility, fvfn though our pbrfnt hbs onf too.  */
+        supfr("Clbss");
+        bttr = "Clbss";
+    }
+
+
+    /**
+     * Applifs thf ClbssAttributfVblufExp on bn MBfbn. Rfturns thf nbmf of
+     * thf Jbvb implfmfntbtion dlbss of thf MBfbn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf ClbssAttributfVblufExp will bf bpplifd.
+     *
+     * @rfturn  Thf VblufExp.
+     *
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
+     */
+    publid VblufExp bpply(ObjfdtNbmf nbmf)
+            throws BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+                   BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption {
+        // gftAttributf(nbmf);
+        Objfdt rfsult = gftVbluf(nbmf);
+        if  (rfsult instbndfof String) {
+            rfturn nfw StringVblufExp((String)rfsult);
+        } flsf {
+            throw nfw BbdAttributfVblufExpExdfption(rfsult);
+        }
+    }
+
+    /**
+     * Rfturns thf string "Clbss" rfprfsfnting its vbluf
+     */
+    publid String toString()  {
+        rfturn bttr;
+    }
+
+
+    protfdtfd Objfdt gftVbluf(ObjfdtNbmf nbmf) {
+        try {
+            // Gft thf dlbss of thf objfdt
+            MBfbnSfrvfr sfrvfr = QufryEvbl.gftMBfbnSfrvfr();
+            rfturn sfrvfr.gftObjfdtInstbndf(nbmf).gftClbssNbmf();
+        } dbtdh (Exdfption rf) {
+            rfturn null;
+            /* In prindiplf thf MBfbn dofs fxist bfdbusf othfrwisf wf
+               wouldn't bf fvblubting thf qufry on it.  But it dould
+               potfntiblly hbvf disbppfbrfd in bftwffn thf timf wf
+               disdovfrfd it bnd thf timf thf qufry is fvblubtfd.
+
+               Also, thf fxdfption dould bf b SfdurityExdfption.
+
+               Rfturning null from hfrf will dbusf
+               BbdAttributfVblufExpExdfption, whidh will in turn dbusf
+               this MBfbn to bf omittfd from thf qufry rfsult.  */
+        }
+    }
+
+}

@@ -1,332 +1,332 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.motif;
+pbdkbgf sun.bwt.motif;
 
-import sun.awt.FontConfiguration;
-import sun.awt.X11FontManager;
-import sun.font.FontUtilities;
-import sun.font.SunFontManager;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.FontConfigurbtion;
+import sun.bwt.X11FontMbnbgfr;
+import sun.font.FontUtilitifs;
+import sun.font.SunFontMbnbgfr;
+import sun.util.logging.PlbtformLoggfr;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Scanner;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sdbnnfr;
 
-public class MFontConfiguration extends FontConfiguration {
+publid dlbss MFontConfigurbtion fxtfnds FontConfigurbtion {
 
-    private static FontConfiguration fontConfig = null;
-    private static PlatformLogger logger;
+    privbtf stbtid FontConfigurbtion fontConfig = null;
+    privbtf stbtid PlbtformLoggfr loggfr;
 
-    public MFontConfiguration(SunFontManager fm) {
-        super(fm);
-        if (FontUtilities.debugFonts()) {
-            logger = PlatformLogger.getLogger("sun.awt.FontConfiguration");
+    publid MFontConfigurbtion(SunFontMbnbgfr fm) {
+        supfr(fm);
+        if (FontUtilitifs.dfbugFonts()) {
+            loggfr = PlbtformLoggfr.gftLoggfr("sun.bwt.FontConfigurbtion");
         }
-        initTables();
+        initTbblfs();
     }
 
 
-    public MFontConfiguration(SunFontManager fm,
-                              boolean preferLocaleFonts,
-                              boolean preferPropFonts) {
-        super(fm, preferLocaleFonts, preferPropFonts);
-        if (FontUtilities.debugFonts()) {
-            logger = PlatformLogger.getLogger("sun.awt.FontConfiguration");
+    publid MFontConfigurbtion(SunFontMbnbgfr fm,
+                              boolfbn prfffrLodblfFonts,
+                              boolfbn prfffrPropFonts) {
+        supfr(fm, prfffrLodblfFonts, prfffrPropFonts);
+        if (FontUtilitifs.dfbugFonts()) {
+            loggfr = PlbtformLoggfr.gftLoggfr("sun.bwt.FontConfigurbtion");
         }
-        initTables();
+        initTbblfs();
     }
 
-    /* Needs to be kept in sync with updates in the languages used in
-     * the fontconfig files.
+    /* Nffds to bf kfpt in synd witi updbtfs in tif lbngubgfs usfd in
+     * tif fontdonfig filfs.
      */
-    protected void initReorderMap() {
-        reorderMap = new HashMap<>();
-        if (osName == null) {  /* null means SunOS */
-            initReorderMapForSolaris();
-        } else {
-            initReorderMapForLinux();
+    protfdtfd void initRfordfrMbp() {
+        rfordfrMbp = nfw HbsiMbp<>();
+        if (osNbmf == null) {  /* null mfbns SunOS */
+            initRfordfrMbpForSolbris();
+        } flsf {
+            initRfordfrMbpForLinux();
         }
     }
 
-    private void initReorderMapForSolaris() {
-        /* Don't create a no-op entry, so we can optimize this case
-         * i.e. we don't need to do anything so can avoid slower paths in
-         * the code.
+    privbtf void initRfordfrMbpForSolbris() {
+        /* Don't drfbtf b no-op fntry, so wf dbn optimizf tiis dbsf
+         * i.f. wf don't nffd to do bnytiing so dbn bvoid slowfr pbtis in
+         * tif dodf.
          */
-//      reorderMap.put("UTF-8", "latin-1");
-        reorderMap.put("UTF-8.hi", "devanagari"); // NB is in Lucida.
-        reorderMap.put("UTF-8.ja",
-                       split("japanese-x0201,japanese-x0208,japanese-x0212"));
-        reorderMap.put("UTF-8.ko", "korean-johab");
-        reorderMap.put("UTF-8.th", "thai");
-        reorderMap.put("UTF-8.zh.TW", "chinese-big5");
-        reorderMap.put("UTF-8.zh.HK", split("chinese-big5,chinese-hkscs"));
-        if (FontUtilities.isSolaris8) {
-            reorderMap.put("UTF-8.zh.CN", split("chinese-gb2312,chinese-big5"));
-        } else {
-            reorderMap.put("UTF-8.zh.CN",
-                           split("chinese-gb18030-0,chinese-gb18030-1"));
+//      rfordfrMbp.put("UTF-8", "lbtin-1");
+        rfordfrMbp.put("UTF-8.ii", "dfvbnbgbri"); // NB is in Ludidb.
+        rfordfrMbp.put("UTF-8.jb",
+                       split("jbpbnfsf-x0201,jbpbnfsf-x0208,jbpbnfsf-x0212"));
+        rfordfrMbp.put("UTF-8.ko", "korfbn-joibb");
+        rfordfrMbp.put("UTF-8.ti", "tibi");
+        rfordfrMbp.put("UTF-8.zi.TW", "diinfsf-big5");
+        rfordfrMbp.put("UTF-8.zi.HK", split("diinfsf-big5,diinfsf-iksds"));
+        if (FontUtilitifs.isSolbris8) {
+            rfordfrMbp.put("UTF-8.zi.CN", split("diinfsf-gb2312,diinfsf-big5"));
+        } flsf {
+            rfordfrMbp.put("UTF-8.zi.CN",
+                           split("diinfsf-gb18030-0,diinfsf-gb18030-1"));
         }
-        reorderMap.put("UTF-8.zh",
-                       split("chinese-big5,chinese-hkscs,chinese-gb18030-0,chinese-gb18030-1"));
-        reorderMap.put("Big5", "chinese-big5");
-        reorderMap.put("Big5-HKSCS", split("chinese-big5,chinese-hkscs"));
-        if (! FontUtilities.isSolaris8 && ! FontUtilities.isSolaris9) {
-            reorderMap.put("GB2312", split("chinese-gbk,chinese-gb2312"));
-        } else {
-            reorderMap.put("GB2312","chinese-gb2312");
+        rfordfrMbp.put("UTF-8.zi",
+                       split("diinfsf-big5,diinfsf-iksds,diinfsf-gb18030-0,diinfsf-gb18030-1"));
+        rfordfrMbp.put("Big5", "diinfsf-big5");
+        rfordfrMbp.put("Big5-HKSCS", split("diinfsf-big5,diinfsf-iksds"));
+        if (! FontUtilitifs.isSolbris8 && ! FontUtilitifs.isSolbris9) {
+            rfordfrMbp.put("GB2312", split("diinfsf-gbk,diinfsf-gb2312"));
+        } flsf {
+            rfordfrMbp.put("GB2312","diinfsf-gb2312");
         }
-        reorderMap.put("x-EUC-TW",
-            split("chinese-cns11643-1,chinese-cns11643-2,chinese-cns11643-3"));
-        reorderMap.put("GBK", "chinese-gbk");
-        reorderMap.put("GB18030",split("chinese-gb18030-0,chinese-gb18030-1"));
+        rfordfrMbp.put("x-EUC-TW",
+            split("diinfsf-dns11643-1,diinfsf-dns11643-2,diinfsf-dns11643-3"));
+        rfordfrMbp.put("GBK", "diinfsf-gbk");
+        rfordfrMbp.put("GB18030",split("diinfsf-gb18030-0,diinfsf-gb18030-1"));
 
-        reorderMap.put("TIS-620", "thai");
-        reorderMap.put("x-PCK",
-                       split("japanese-x0201,japanese-x0208,japanese-x0212"));
-        reorderMap.put("x-eucJP-Open",
-                       split("japanese-x0201,japanese-x0208,japanese-x0212"));
-        reorderMap.put("EUC-KR", "korean");
-        /* Don't create a no-op entry, so we can optimize this case */
-//      reorderMap.put("ISO-8859-1", "latin-1");
-        reorderMap.put("ISO-8859-2", "latin-2");
-        reorderMap.put("ISO-8859-5", "cyrillic-iso8859-5");
-        reorderMap.put("windows-1251", "cyrillic-cp1251");
-        reorderMap.put("KOI8-R", "cyrillic-koi8-r");
-        reorderMap.put("ISO-8859-6", "arabic");
-        reorderMap.put("ISO-8859-7", "greek");
-        reorderMap.put("ISO-8859-8", "hebrew");
-        reorderMap.put("ISO-8859-9", "latin-5");
-        reorderMap.put("ISO-8859-13", "latin-7");
-        reorderMap.put("ISO-8859-15", "latin-9");
+        rfordfrMbp.put("TIS-620", "tibi");
+        rfordfrMbp.put("x-PCK",
+                       split("jbpbnfsf-x0201,jbpbnfsf-x0208,jbpbnfsf-x0212"));
+        rfordfrMbp.put("x-fudJP-Opfn",
+                       split("jbpbnfsf-x0201,jbpbnfsf-x0208,jbpbnfsf-x0212"));
+        rfordfrMbp.put("EUC-KR", "korfbn");
+        /* Don't drfbtf b no-op fntry, so wf dbn optimizf tiis dbsf */
+//      rfordfrMbp.put("ISO-8859-1", "lbtin-1");
+        rfordfrMbp.put("ISO-8859-2", "lbtin-2");
+        rfordfrMbp.put("ISO-8859-5", "dyrillid-iso8859-5");
+        rfordfrMbp.put("windows-1251", "dyrillid-dp1251");
+        rfordfrMbp.put("KOI8-R", "dyrillid-koi8-r");
+        rfordfrMbp.put("ISO-8859-6", "brbbid");
+        rfordfrMbp.put("ISO-8859-7", "grffk");
+        rfordfrMbp.put("ISO-8859-8", "ifbrfw");
+        rfordfrMbp.put("ISO-8859-9", "lbtin-5");
+        rfordfrMbp.put("ISO-8859-13", "lbtin-7");
+        rfordfrMbp.put("ISO-8859-15", "lbtin-9");
     }
 
-    private void initReorderMapForLinux() {
-        reorderMap.put("UTF-8.ja.JP", "japanese-iso10646");
-        reorderMap.put("UTF-8.ko.KR", "korean-iso10646");
-        reorderMap.put("UTF-8.zh.TW", "chinese-tw-iso10646");
-        reorderMap.put("UTF-8.zh.HK", "chinese-tw-iso10646");
-        reorderMap.put("UTF-8.zh.CN", "chinese-cn-iso10646");
-        reorderMap.put("x-euc-jp-linux",
-                        split("japanese-x0201,japanese-x0208"));
-        reorderMap.put("GB2312", "chinese-gb18030");
-        reorderMap.put("Big5", "chinese-big5");
-        reorderMap.put("EUC-KR", "korean");
-        if (osName.equals("Sun")){
-            reorderMap.put("GB18030", "chinese-cn-iso10646");
+    privbtf void initRfordfrMbpForLinux() {
+        rfordfrMbp.put("UTF-8.jb.JP", "jbpbnfsf-iso10646");
+        rfordfrMbp.put("UTF-8.ko.KR", "korfbn-iso10646");
+        rfordfrMbp.put("UTF-8.zi.TW", "diinfsf-tw-iso10646");
+        rfordfrMbp.put("UTF-8.zi.HK", "diinfsf-tw-iso10646");
+        rfordfrMbp.put("UTF-8.zi.CN", "diinfsf-dn-iso10646");
+        rfordfrMbp.put("x-fud-jp-linux",
+                        split("jbpbnfsf-x0201,jbpbnfsf-x0208"));
+        rfordfrMbp.put("GB2312", "diinfsf-gb18030");
+        rfordfrMbp.put("Big5", "diinfsf-big5");
+        rfordfrMbp.put("EUC-KR", "korfbn");
+        if (osNbmf.fqubls("Sun")){
+            rfordfrMbp.put("GB18030", "diinfsf-dn-iso10646");
         }
-        else {
-            reorderMap.put("GB18030", "chinese-gb18030");
+        flsf {
+            rfordfrMbp.put("GB18030", "diinfsf-gb18030");
         }
     }
 
     /**
-     * Sets the OS name and version from environment information.
+     * Sfts tif OS nbmf bnd vfrsion from fnvironmfnt informbtion.
      */
-    protected void setOsNameAndVersion(){
-        super.setOsNameAndVersion();
+    protfdtfd void sftOsNbmfAndVfrsion(){
+        supfr.sftOsNbmfAndVfrsion();
 
-        if (osName.equals("SunOS")) {
-            //don't care os name on Solaris
-            osName = null;
-        } else if (osName.equals("Linux")) {
+        if (osNbmf.fqubls("SunOS")) {
+            //don't dbrf os nbmf on Solbris
+            osNbmf = null;
+        } flsf if (osNbmf.fqubls("Linux")) {
             try {
-                File f;
-                if ((f = new File("/etc/fedora-release")).canRead()) {
-                    osName = "Fedora";
-                    osVersion = getVersionString(f);
-                } else if ((f = new File("/etc/redhat-release")).canRead()) {
-                    osName = "RedHat";
-                    osVersion = getVersionString(f);
-                } else if ((f = new File("/etc/turbolinux-release")).canRead()) {
-                    osName = "Turbo";
-                    osVersion = getVersionString(f);
-                } else if ((f = new File("/etc/SuSE-release")).canRead()) {
-                    osName = "SuSE";
-                    osVersion = getVersionString(f);
-                } else if ((f = new File("/etc/lsb-release")).canRead()) {
-                    /* Ubuntu and (perhaps others) use only lsb-release.
-                     * Syntax and encoding is compatible with java properties.
-                     * For Ubuntu the ID is "Ubuntu".
+                Filf f;
+                if ((f = nfw Filf("/ftd/ffdorb-rflfbsf")).dbnRfbd()) {
+                    osNbmf = "Ffdorb";
+                    osVfrsion = gftVfrsionString(f);
+                } flsf if ((f = nfw Filf("/ftd/rfdibt-rflfbsf")).dbnRfbd()) {
+                    osNbmf = "RfdHbt";
+                    osVfrsion = gftVfrsionString(f);
+                } flsf if ((f = nfw Filf("/ftd/turbolinux-rflfbsf")).dbnRfbd()) {
+                    osNbmf = "Turbo";
+                    osVfrsion = gftVfrsionString(f);
+                } flsf if ((f = nfw Filf("/ftd/SuSE-rflfbsf")).dbnRfbd()) {
+                    osNbmf = "SuSE";
+                    osVfrsion = gftVfrsionString(f);
+                } flsf if ((f = nfw Filf("/ftd/lsb-rflfbsf")).dbnRfbd()) {
+                    /* Ubuntu bnd (pfribps otifrs) usf only lsb-rflfbsf.
+                     * Syntbx bnd fndoding is dompbtiblf witi jbvb propfrtifs.
+                     * For Ubuntu tif ID is "Ubuntu".
                      */
-                    Properties props = new Properties();
-                    props.load(new FileInputStream(f));
-                    osName = props.getProperty("DISTRIB_ID");
-                    osVersion =  props.getProperty("DISTRIB_RELEASE");
+                    Propfrtifs props = nfw Propfrtifs();
+                    props.lobd(nfw FilfInputStrfbm(f));
+                    osNbmf = props.gftPropfrty("DISTRIB_ID");
+                    osVfrsion =  props.gftPropfrty("DISTRIB_RELEASE");
                 }
-            } catch (Exception e) {
+            } dbtdi (Exdfption f) {
             }
         }
-        return;
+        rfturn;
     }
 
     /**
-     * Gets the OS version string from a Linux release-specific file.
+     * Gfts tif OS vfrsion string from b Linux rflfbsf-spfdifid filf.
      */
-    private String getVersionString(File f){
+    privbtf String gftVfrsionString(Filf f){
         try {
-            Scanner sc  = new Scanner(f);
-            return sc.findInLine("(\\d)+((\\.)(\\d)+)*");
+            Sdbnnfr sd  = nfw Sdbnnfr(f);
+            rfturn sd.findInLinf("(\\d)+((\\.)(\\d)+)*");
         }
-        catch (Exception e){
+        dbtdi (Exdfption f){
         }
-        return null;
+        rfturn null;
     }
 
-    private static final String fontsDirPrefix = "$JRE_LIB_FONTS";
+    privbtf stbtid finbl String fontsDirPrffix = "$JRE_LIB_FONTS";
 
-    protected String mapFileName(String fileName) {
-        if (fileName != null && fileName.startsWith(fontsDirPrefix)) {
-            return SunFontManager.jreFontDirName
-                    + fileName.substring(fontsDirPrefix.length());
+    protfdtfd String mbpFilfNbmf(String filfNbmf) {
+        if (filfNbmf != null && filfNbmf.stbrtsWiti(fontsDirPrffix)) {
+            rfturn SunFontMbnbgfr.jrfFontDirNbmf
+                    + filfNbmf.substring(fontsDirPrffix.lfngti());
         }
-        return fileName;
+        rfturn filfNbmf;
     }
 
-    // overrides FontConfiguration.getFallbackFamilyName
-    public String getFallbackFamilyName(String fontName, String defaultFallback) {
-        // maintain compatibility with old font.properties files, which
-        // either had aliases for TimesRoman & Co. or defined mappings for them.
-        String compatibilityName = getCompatibilityFamilyName(fontName);
-        if (compatibilityName != null) {
-            return compatibilityName;
+    // ovfrridfs FontConfigurbtion.gftFbllbbdkFbmilyNbmf
+    publid String gftFbllbbdkFbmilyNbmf(String fontNbmf, String dffbultFbllbbdk) {
+        // mbintbin dompbtibility witi old font.propfrtifs filfs, wiidi
+        // fitifr ibd blibsfs for TimfsRombn & Co. or dffinfd mbppings for tifm.
+        String dompbtibilityNbmf = gftCompbtibilityFbmilyNbmf(fontNbmf);
+        if (dompbtibilityNbmf != null) {
+            rfturn dompbtibilityNbmf;
         }
-        return defaultFallback;
+        rfturn dffbultFbllbbdk;
     }
 
-    protected String getEncoding(String awtFontName,
-            String characterSubsetName) {
-        // extract encoding field from XLFD
-        int beginIndex = 0;
-        int fieldNum = 13; // charset registry field
-        while (fieldNum-- > 0 && beginIndex >= 0) {
-            beginIndex = awtFontName.indexOf("-", beginIndex) + 1;
+    protfdtfd String gftEndoding(String bwtFontNbmf,
+            String dibrbdtfrSubsftNbmf) {
+        // fxtrbdt fndoding fifld from XLFD
+        int bfginIndfx = 0;
+        int fifldNum = 13; // dibrsft rfgistry fifld
+        wiilf (fifldNum-- > 0 && bfginIndfx >= 0) {
+            bfginIndfx = bwtFontNbmf.indfxOf("-", bfginIndfx) + 1;
         }
-        if (beginIndex == -1) {
-            return "default";
+        if (bfginIndfx == -1) {
+            rfturn "dffbult";
         }
-        String xlfdEncoding = awtFontName.substring(beginIndex);
-        if (xlfdEncoding.indexOf("fontspecific") > 0) {
-            if (awtFontName.indexOf("dingbats") > 0) {
-                return "sun.awt.motif.X11Dingbats";
-            } else if (awtFontName.indexOf("symbol") > 0) {
-                return "sun.awt.Symbol";
+        String xlfdEndoding = bwtFontNbmf.substring(bfginIndfx);
+        if (xlfdEndoding.indfxOf("fontspfdifid") > 0) {
+            if (bwtFontNbmf.indfxOf("dingbbts") > 0) {
+                rfturn "sun.bwt.motif.X11Dingbbts";
+            } flsf if (bwtFontNbmf.indfxOf("symbol") > 0) {
+                rfturn "sun.bwt.Symbol";
             }
         }
-        String encoding = encodingMap.get(xlfdEncoding);
-        if (encoding == null) {
-            encoding = "default";
+        String fndoding = fndodingMbp.gft(xlfdEndoding);
+        if (fndoding == null) {
+            fndoding = "dffbult";
         }
-        return encoding;
+        rfturn fndoding;
     }
 
-    protected Charset getDefaultFontCharset(String fontName) {
-        return Charset.forName("ISO8859_1");
+    protfdtfd Cibrsft gftDffbultFontCibrsft(String fontNbmf) {
+        rfturn Cibrsft.forNbmf("ISO8859_1");
     }
 
-    protected String getFaceNameFromComponentFontName(String componentFontName) {
-        return null;
+    protfdtfd String gftFbdfNbmfFromComponfntFontNbmf(String domponfntFontNbmf) {
+        rfturn null;
     }
 
-    protected String getFileNameFromComponentFontName(String componentFontName) {
-        // for X11, component font name is XLFD
-        // if we have a file name already, just use it; otherwise let's see
-        // what the graphics environment can provide
-        String fileName = getFileNameFromPlatformName(componentFontName);
-        if (fileName != null && fileName.charAt(0) == '/' &&
-            !needToSearchForFile(fileName)) {
-            return fileName;
+    protfdtfd String gftFilfNbmfFromComponfntFontNbmf(String domponfntFontNbmf) {
+        // for X11, domponfnt font nbmf is XLFD
+        // if wf ibvf b filf nbmf blrfbdy, just usf it; otifrwisf lft's sff
+        // wibt tif grbpiids fnvironmfnt dbn providf
+        String filfNbmf = gftFilfNbmfFromPlbtformNbmf(domponfntFontNbmf);
+        if (filfNbmf != null && filfNbmf.dibrAt(0) == '/' &&
+            !nffdToSfbrdiForFilf(filfNbmf)) {
+            rfturn filfNbmf;
         }
-        return ((X11FontManager) fontManager).getFileNameFromXLFD(componentFontName);
+        rfturn ((X11FontMbnbgfr) fontMbnbgfr).gftFilfNbmfFromXLFD(domponfntFontNbmf);
     }
 
-    public HashSet<String> getAWTFontPathSet() {
-        HashSet<String> fontDirs = new HashSet<String>();
-        short[] scripts = getCoreScripts(0);
-        for (int i = 0; i< scripts.length; i++) {
-            String path = getString(table_awtfontpaths[scripts[i]]);
-            if (path != null) {
-                int start = 0;
-                int colon = path.indexOf(':');
-                while (colon >= 0) {
-                    fontDirs.add(path.substring(start, colon));
-                    start = colon + 1;
-                    colon = path.indexOf(':', start);
+    publid HbsiSft<String> gftAWTFontPbtiSft() {
+        HbsiSft<String> fontDirs = nfw HbsiSft<String>();
+        siort[] sdripts = gftCorfSdripts(0);
+        for (int i = 0; i< sdripts.lfngti; i++) {
+            String pbti = gftString(tbblf_bwtfontpbtis[sdripts[i]]);
+            if (pbti != null) {
+                int stbrt = 0;
+                int dolon = pbti.indfxOf(':');
+                wiilf (dolon >= 0) {
+                    fontDirs.bdd(pbti.substring(stbrt, dolon));
+                    stbrt = dolon + 1;
+                    dolon = pbti.indfxOf(':', stbrt);
                 }
-                fontDirs.add((start == 0) ? path : path.substring(start));
+                fontDirs.bdd((stbrt == 0) ? pbti : pbti.substring(stbrt));
             }
         }
-        return fontDirs;
+        rfturn fontDirs;
     }
 
-    /* methods for table setup ***********************************************/
+    /* mftiods for tbblf sftup ***********************************************/
 
-    private static HashMap<String, String> encodingMap = new HashMap<>();
+    privbtf stbtid HbsiMbp<String, String> fndodingMbp = nfw HbsiMbp<>();
 
-    private void initTables() {
-        // encodingMap maps XLFD encoding component to
-        // name of corresponding java.nio charset
-        encodingMap.put("iso8859-1", "ISO-8859-1");
-        encodingMap.put("iso8859-2", "ISO-8859-2");
-        encodingMap.put("iso8859-4", "ISO-8859-4");
-        encodingMap.put("iso8859-5", "ISO-8859-5");
-        encodingMap.put("iso8859-6", "ISO-8859-6");
-        encodingMap.put("iso8859-7", "ISO-8859-7");
-        encodingMap.put("iso8859-8", "ISO-8859-8");
-        encodingMap.put("iso8859-9", "ISO-8859-9");
-        encodingMap.put("iso8859-13", "ISO-8859-13");
-        encodingMap.put("iso8859-15", "ISO-8859-15");
-        encodingMap.put("gb2312.1980-0", "sun.awt.motif.X11GB2312");
-        if (osName == null) {
-            // use standard converter on Solaris
-            encodingMap.put("gbk-0", "GBK");
-        } else {
-            encodingMap.put("gbk-0", "sun.awt.motif.X11GBK");
+    privbtf void initTbblfs() {
+        // fndodingMbp mbps XLFD fndoding domponfnt to
+        // nbmf of dorrfsponding jbvb.nio dibrsft
+        fndodingMbp.put("iso8859-1", "ISO-8859-1");
+        fndodingMbp.put("iso8859-2", "ISO-8859-2");
+        fndodingMbp.put("iso8859-4", "ISO-8859-4");
+        fndodingMbp.put("iso8859-5", "ISO-8859-5");
+        fndodingMbp.put("iso8859-6", "ISO-8859-6");
+        fndodingMbp.put("iso8859-7", "ISO-8859-7");
+        fndodingMbp.put("iso8859-8", "ISO-8859-8");
+        fndodingMbp.put("iso8859-9", "ISO-8859-9");
+        fndodingMbp.put("iso8859-13", "ISO-8859-13");
+        fndodingMbp.put("iso8859-15", "ISO-8859-15");
+        fndodingMbp.put("gb2312.1980-0", "sun.bwt.motif.X11GB2312");
+        if (osNbmf == null) {
+            // usf stbndbrd donvfrtfr on Solbris
+            fndodingMbp.put("gbk-0", "GBK");
+        } flsf {
+            fndodingMbp.put("gbk-0", "sun.bwt.motif.X11GBK");
         }
-        encodingMap.put("gb18030.2000-0", "sun.awt.motif.X11GB18030_0");
-        encodingMap.put("gb18030.2000-1", "sun.awt.motif.X11GB18030_1");
-        encodingMap.put("cns11643-1", "sun.awt.motif.X11CNS11643P1");
-        encodingMap.put("cns11643-2", "sun.awt.motif.X11CNS11643P2");
-        encodingMap.put("cns11643-3", "sun.awt.motif.X11CNS11643P3");
-        encodingMap.put("big5-1", "Big5");
-        encodingMap.put("big5-0", "Big5");
-        encodingMap.put("hkscs-1", "Big5-HKSCS");
-        encodingMap.put("ansi-1251", "windows-1251");
-        encodingMap.put("koi8-r", "KOI8-R");
-        encodingMap.put("jisx0201.1976-0", "sun.awt.motif.X11JIS0201");
-        encodingMap.put("jisx0208.1983-0", "sun.awt.motif.X11JIS0208");
-        encodingMap.put("jisx0212.1990-0", "sun.awt.motif.X11JIS0212");
-        encodingMap.put("ksc5601.1987-0", "sun.awt.motif.X11KSC5601");
-        encodingMap.put("ksc5601.1992-3", "sun.awt.motif.X11Johab");
-        encodingMap.put("tis620.2533-0", "TIS-620");
-        encodingMap.put("iso10646-1", "UTF-16BE");
+        fndodingMbp.put("gb18030.2000-0", "sun.bwt.motif.X11GB18030_0");
+        fndodingMbp.put("gb18030.2000-1", "sun.bwt.motif.X11GB18030_1");
+        fndodingMbp.put("dns11643-1", "sun.bwt.motif.X11CNS11643P1");
+        fndodingMbp.put("dns11643-2", "sun.bwt.motif.X11CNS11643P2");
+        fndodingMbp.put("dns11643-3", "sun.bwt.motif.X11CNS11643P3");
+        fndodingMbp.put("big5-1", "Big5");
+        fndodingMbp.put("big5-0", "Big5");
+        fndodingMbp.put("iksds-1", "Big5-HKSCS");
+        fndodingMbp.put("bnsi-1251", "windows-1251");
+        fndodingMbp.put("koi8-r", "KOI8-R");
+        fndodingMbp.put("jisx0201.1976-0", "sun.bwt.motif.X11JIS0201");
+        fndodingMbp.put("jisx0208.1983-0", "sun.bwt.motif.X11JIS0208");
+        fndodingMbp.put("jisx0212.1990-0", "sun.bwt.motif.X11JIS0212");
+        fndodingMbp.put("ksd5601.1987-0", "sun.bwt.motif.X11KSC5601");
+        fndodingMbp.put("ksd5601.1992-3", "sun.bwt.motif.X11Joibb");
+        fndodingMbp.put("tis620.2533-0", "TIS-620");
+        fndodingMbp.put("iso10646-1", "UTF-16BE");
     }
 
 }

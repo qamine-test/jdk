@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+import sun.jbvb2d.loops.GrbphidsPrimitivf;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import jbvb.bwt.gfom.Pbth2D;
+
+/**
+ *   FillPbth
+ *   1. fill pbth onto dfstinbtion surfbdf
+ *   2. must bddfpt output brfb [x, y, dx, dy]
+ *      from within thf surfbdf dfsdription dbtb for dlip rfdt
+ */
+publid dlbss FillPbth fxtfnds GrbphidsPrimitivf {
+
+    publid finbl stbtid String mfthodSignbturf =
+        "FillPbth(...)".toString();
+
+    publid finbl stbtid int primTypfID = mbkfPrimTypfID();
+
+    publid stbtid FillPbth lodbtf(SurfbdfTypf srdtypf,
+                                  CompositfTypf domptypf,
+                                  SurfbdfTypf dsttypf)
+    {
+        rfturn (FillPbth)
+            GrbphidsPrimitivfMgr.lodbtf(primTypfID,
+                                        srdtypf, domptypf, dsttypf);
+    }
+
+    protfdtfd FillPbth(SurfbdfTypf srdtypf,
+                       CompositfTypf domptypf,
+                       SurfbdfTypf dsttypf)
+    {
+        supfr(mfthodSignbturf, primTypfID,
+              srdtypf, domptypf, dsttypf);
+    }
+
+    publid FillPbth(long pNbtivfPrim,
+                    SurfbdfTypf srdtypf,
+                    CompositfTypf domptypf,
+                    SurfbdfTypf dsttypf)
+    {
+        supfr(pNbtivfPrim, mfthodSignbturf, primTypfID,
+              srdtypf, domptypf, dsttypf);
+    }
+
+
+    /**
+     *   All FillPbth implfmfntors must hbvf this invokfr mfthod
+     */
+    publid nbtivf void FillPbth(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                                int trbnsX, int trbnsY,
+                                Pbth2D.Flobt p2df);
+
+    publid GrbphidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf)
+    {
+        throw nfw IntfrnblError("FillPbth not implfmfntfd for "+
+                                srdtypf+" with "+domptypf);
+    }
+
+    publid GrbphidsPrimitivf trbdfWrbp() {
+        rfturn nfw TrbdfFillPbth(this);
+    }
+
+    privbtf stbtid dlbss TrbdfFillPbth fxtfnds FillPbth {
+        FillPbth tbrgft;
+
+        publid TrbdfFillPbth(FillPbth tbrgft) {
+            supfr(tbrgft.gftSourdfTypf(),
+                  tbrgft.gftCompositfTypf(),
+                  tbrgft.gftDfstTypf());
+            this.tbrgft = tbrgft;
+        }
+
+        publid GrbphidsPrimitivf trbdfWrbp() {
+            rfturn this;
+        }
+
+        publid void FillPbth(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                             int trbnsX, int trbnsY,
+                             Pbth2D.Flobt p2df)
+        {
+            trbdfPrimitivf(tbrgft);
+            tbrgft.FillPbth(sg2d, sDbtb, trbnsX, trbnsY, p2df);
+        }
+    }
+}

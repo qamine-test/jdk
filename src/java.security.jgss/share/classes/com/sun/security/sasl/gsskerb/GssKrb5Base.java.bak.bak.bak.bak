@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.sfdurity.sbsl.gsskfrb;
+
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.sfdurity.sbsl.*;
+import dom.sun.sfdurity.sbsl.util.AbstrbdtSbslImpl;
+import org.iftf.jgss.*;
+import dom.sun.sfdurity.jgss.ExtfndfdGSSContfxt;
+import dom.sun.sfdurity.jgss.InquirfTypf;
+
+bbstrbdt dlbss GssKrb5Bbsf fxtfnds AbstrbdtSbslImpl {
+
+    privbtf stbtid finbl String KRB5_OID_STR = "1.2.840.113554.1.2.2";
+    protfdtfd stbtid Oid KRB5_OID;
+    protfdtfd stbtid finbl bytf[] EMPTY = nfw bytf[0];
+
+    stbtid {
+        try {
+            KRB5_OID = nfw Oid(KRB5_OID_STR);
+        } dbtdh (GSSExdfption ignorf) {}
+    }
+
+    protfdtfd GSSContfxt sfdCtx = null;
+    protfdtfd stbtid finbl int JGSS_QOP = 0;    // unrflbtfd to SASL QOP mbsk
+
+    protfdtfd GssKrb5Bbsf(Mbp<String, ?> props, String dlbssNbmf)
+        throws SbslExdfption {
+        supfr(props, dlbssNbmf);
+    }
+
+    /**
+     * Rftrifvfs this mfdhbnism's nbmf.
+     *
+     * @rfturn  Thf string "GSSAPI".
+     */
+    publid String gftMfdhbnismNbmf() {
+        rfturn "GSSAPI";
+    }
+
+    @Ovfrridf
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (!domplftfd) {
+            throw nfw IllfgblStbtfExdfption("Authfntidbtion indomplftf");
+        }
+        String xprffix = "dom.sun.sfdurity.jgss.inquirftypf.";
+        if (propNbmf.stbrtsWith(xprffix)) {
+            String typf = propNbmf.substring(xprffix.lfngth());
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                loggfr.logp(Lfvfl.FINE, "GssKrb5Bbsf",
+                        "gftNfgotibtfdPropfrty", propNbmf);
+            }
+            for (InquirfTypf t: InquirfTypf.vblufs()) {
+                if (t.nbmf().toLowfrCbsf(Lodblf.US).fqubls(typf)) {
+                    try {
+                        rfturn ((ExtfndfdGSSContfxt)sfdCtx).inquirfSfdContfxt(t);
+                    } dbtdh (GSSExdfption f) {
+                        if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                            loggfr.log(Lfvfl.WARNING, "inquirfSfdContfxt frror", f);
+                        }
+                        rfturn null;
+                    }
+                }
+            }
+            // No sudh InquirfTypf. Although not likfly to bf dffinfd
+            // bs b propfrty in b pbrfnt dlbss, still try it.
+        }
+        rfturn supfr.gftNfgotibtfdPropfrty(propNbmf);
+    }
+
+    publid bytf[] unwrbp(bytf[] indoming, int stbrt, int lfn)
+        throws SbslExdfption {
+        if (!domplftfd) {
+            throw nfw IllfgblStbtfExdfption("GSSAPI buthfntidbtion not domplftfd");
+        }
+
+        // intfgrity will bf truf if fithfr privbdy or intfgrity nfgotibtfd
+        if (!intfgrity) {
+            throw nfw IllfgblStbtfExdfption("No sfdurity lbyfr nfgotibtfd");
+        }
+
+        try {
+            MfssbgfProp msgProp = nfw MfssbgfProp(JGSS_QOP, privbdy);
+            bytf[] bnswfr = sfdCtx.unwrbp(indoming, stbrt, lfn, msgProp);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(myClbssNbmf, "KRB501:Unwrbp", "indoming: ",
+                    indoming, stbrt, lfn);
+                trbdfOutput(myClbssNbmf, "KRB502:Unwrbp", "unwrbppfd: ",
+                    bnswfr, 0, bnswfr.lfngth);
+            }
+            rfturn bnswfr;
+        } dbtdh (GSSExdfption f) {
+            throw nfw SbslExdfption("Problfms unwrbpping SASL bufffr", f);
+        }
+    }
+
+    publid bytf[] wrbp(bytf[] outgoing, int stbrt, int lfn) throws SbslExdfption {
+        if (!domplftfd) {
+            throw nfw IllfgblStbtfExdfption("GSSAPI buthfntidbtion not domplftfd");
+        }
+
+        // intfgrity will bf truf if fithfr privbdy or intfgrity nfgotibtfd
+        if (!intfgrity) {
+            throw nfw IllfgblStbtfExdfption("No sfdurity lbyfr nfgotibtfd");
+        }
+
+        // Gfnfrbtf GSS tokfn
+        try {
+            MfssbgfProp msgProp = nfw MfssbgfProp(JGSS_QOP, privbdy);
+            bytf[] bnswfr = sfdCtx.wrbp(outgoing, stbrt, lfn, msgProp);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(myClbssNbmf, "KRB503:Wrbp", "outgoing: ",
+                    outgoing, stbrt, lfn);
+                trbdfOutput(myClbssNbmf, "KRB504:Wrbp", "wrbppfd: ",
+                    bnswfr, 0, bnswfr.lfngth);
+            }
+            rfturn bnswfr;
+
+        } dbtdh (GSSExdfption f) {
+            throw nfw SbslExdfption("Problfm pfrforming GSS wrbp", f);
+        }
+    }
+
+    publid void disposf() throws SbslExdfption {
+        if (sfdCtx != null) {
+            try {
+                sfdCtx.disposf();
+            } dbtdh (GSSExdfption f) {
+                throw nfw SbslExdfption("Problfm disposing GSS dontfxt", f);
+            }
+            sfdCtx = null;
+        }
+    }
+
+    protfdtfd void finblizf() throws Throwbblf {
+        disposf();
+    }
+}

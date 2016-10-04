@@ -1,0 +1,179 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * A visitor to visit b Jbvb fifld. Thf mfthods of this dlbss must bf dbllfd in
+ * thf following ordfr: ( <tt>visitAnnotbtion</tt> |
+ * <tt>visitTypfAnnotbtion</tt> | <tt>visitAttributf</tt> )* <tt>visitEnd</tt>.
+ *
+ * @buthor Erid Brunfton
+ */
+publid bbstrbdt dlbss FifldVisitor {
+
+    /**
+     * Thf ASM API vfrsion implfmfntfd by this visitor. Thf vbluf of this fifld
+     * must bf onf of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     */
+    protfdtfd finbl int bpi;
+
+    /**
+     * Thf fifld visitor to whidh this visitor must dflfgbtf mfthod dblls. Mby
+     * bf null.
+     */
+    protfdtfd FifldVisitor fv;
+
+    /**
+     * Construdts b nfw {@link FifldVisitor}.
+     *
+     * @pbrbm bpi
+     *            thf ASM API vfrsion implfmfntfd by this visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     */
+    publid FifldVisitor(finbl int bpi) {
+        this(bpi, null);
+    }
+
+    /**
+     * Construdts b nfw {@link FifldVisitor}.
+     *
+     * @pbrbm bpi
+     *            thf ASM API vfrsion implfmfntfd by this visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm fv
+     *            thf fifld visitor to whidh this visitor must dflfgbtf mfthod
+     *            dblls. Mby bf null.
+     */
+    publid FifldVisitor(finbl int bpi, finbl FifldVisitor fv) {
+        if (bpi != Opdodfs.ASM4 && bpi != Opdodfs.ASM5) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        this.bpi = bpi;
+        this.fv = fv;
+    }
+
+    /**
+     * Visits bn bnnotbtion of thf fifld.
+     *
+     * @pbrbm dfsd
+     *            thf dlbss dfsdriptor of thf bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if thf bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit thf bnnotbtion vblufs, or <tt>null</tt> if
+     *         this visitor is not intfrfstfd in visiting this bnnotbtion.
+     */
+    publid AnnotbtionVisitor visitAnnotbtion(String dfsd, boolfbn visiblf) {
+        if (fv != null) {
+            rfturn fv.visitAnnotbtion(dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits bn bnnotbtion on thf typf of thf fifld.
+     *
+     * @pbrbm typfRff
+     *            b rfffrfndf to thf bnnotbtfd typf. Thf sort of this typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#FIELD FIELD}. Sff
+     *            {@link TypfRfffrfndf}.
+     * @pbrbm typfPbth
+     *            thf pbth to thf bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf within 'typfRff'. Mby bf
+     *            <tt>null</tt> if thf bnnotbtion tbrgfts 'typfRff' bs b wholf.
+     * @pbrbm dfsd
+     *            thf dlbss dfsdriptor of thf bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if thf bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit thf bnnotbtion vblufs, or <tt>null</tt> if
+     *         this visitor is not intfrfstfd in visiting this bnnotbtion.
+     */
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbth typfPbth, String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            throw nfw RuntimfExdfption();
+        }
+        if (fv != null) {
+            rfturn fv.visitTypfAnnotbtion(typfRff, typfPbth, dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits b non stbndbrd bttributf of thf fifld.
+     *
+     * @pbrbm bttr
+     *            bn bttributf.
+     */
+    publid void visitAttributf(Attributf bttr) {
+        if (fv != null) {
+            fv.visitAttributf(bttr);
+        }
+    }
+
+    /**
+     * Visits thf fnd of thf fifld. This mfthod, whidh is thf lbst onf to bf
+     * dbllfd, is usfd to inform thf visitor thbt bll thf bnnotbtions bnd
+     * bttributfs of thf fifld hbvf bffn visitfd.
+     */
+    publid void visitEnd() {
+        if (fv != null) {
+            fv.visitEnd();
+        }
+    }
+}

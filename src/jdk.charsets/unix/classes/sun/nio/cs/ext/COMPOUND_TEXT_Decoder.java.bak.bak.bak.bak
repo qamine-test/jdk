@@ -1,0 +1,714 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.*;
+
+/**
+ * An blgorithmid donvfrsion from COMPOUND_TEXT to Unidodf.
+ */
+
+publid dlbss COMPOUND_TEXT_Dfdodfr fxtfnds ChbrsftDfdodfr {
+
+    privbtf stbtid finbl int NORMAL_BYTES             =  0;
+    privbtf stbtid finbl int NONSTANDARD_BYTES        =  1;
+    privbtf stbtid finbl int VERSION_SEQUENCE_V       =  2;
+    privbtf stbtid finbl int VERSION_SEQUENCE_TERM    =  3;
+    privbtf stbtid finbl int ESCAPE_SEQUENCE          =  4;
+    privbtf stbtid finbl int CHARSET_NGIIF            =  5;
+    privbtf stbtid finbl int CHARSET_NLIIF            =  6;
+    privbtf stbtid finbl int CHARSET_NLIF             =  7;
+    privbtf stbtid finbl int CHARSET_NRIIF            =  8;
+    privbtf stbtid finbl int CHARSET_NRIF             =  9;
+    privbtf stbtid finbl int CHARSET_NONSTANDARD_FOML = 10;
+    privbtf stbtid finbl int CHARSET_NONSTANDARD_OML  = 11;
+    privbtf stbtid finbl int CHARSET_NONSTANDARD_ML   = 12;
+    privbtf stbtid finbl int CHARSET_NONSTANDARD_L    = 13;
+    privbtf stbtid finbl int CHARSET_NONSTANDARD      = 14;
+    privbtf stbtid finbl int CHARSET_LIIF             = 15;
+    privbtf stbtid finbl int CHARSET_LIF              = 16;
+    privbtf stbtid finbl int CHARSET_RIIF             = 17;
+    privbtf stbtid finbl int CHARSET_RIF              = 18;
+    privbtf stbtid finbl int CONTROL_SEQUENCE_PIF     = 19;
+    privbtf stbtid finbl int CONTROL_SEQUENCE_IF      = 20;
+    privbtf stbtid finbl int EXTENSION_ML             = 21;
+    privbtf stbtid finbl int EXTENSION_L              = 22;
+    privbtf stbtid finbl int EXTENSION                = 23;
+    privbtf stbtid finbl int ESCAPE_SEQUENCE_OTHER    = 24;
+
+    privbtf stbtid finbl String ERR_LATIN1 = "ISO8859_1 unsupportfd";
+    privbtf stbtid finbl String ERR_ILLSTATE = "Illfgbl stbtf";
+    privbtf stbtid finbl String ERR_ESCBYTE =
+        "Illfgbl bytf in 0x1B fsdbpf sfqufndf";
+    privbtf stbtid finbl String ERR_ENCODINGBYTE =
+        "Illfgbl bytf in non-stbndbrd dhbrbdtfr sft nbmf";
+    privbtf stbtid finbl String ERR_CTRLBYTE =
+        "Illfgbl bytf in 0x9B dontrol sfqufndf";
+    privbtf stbtid finbl String ERR_CTRLPI =
+        "P following I in 0x9B dontrol sfqufndf";
+    privbtf stbtid finbl String ERR_VERSTART =
+        "Vfrsioning fsdbpf sfqufndf dbn only bppfbr bt stbrt of bytf strfbm";
+    privbtf stbtid finbl String ERR_VERMANDATORY =
+        "Cbnnot pbrsf mbndbtory fxtfnsions";
+    privbtf stbtid finbl String ERR_ENCODING = "Unknown fndoding: ";
+    privbtf stbtid finbl String ERR_FLUSH =
+        "Esdbpf sfqufndf, dontrol sfqufndf, or ML fxtfnsion not tfrminbtfd";
+
+    privbtf int stbtf = NORMAL_BYTES ;
+    privbtf int fxt_dount, fxt_offsft;
+    privbtf boolfbn vfrsionSfqufndfAllowfd = truf;
+    privbtf bytf[] bytfBuf = nfw bytf[1];
+    privbtf BytfBufffr inBB = BytfBufffr.bllodbtf(16);
+    privbtf BytfArrbyOutputStrfbm qufuf = nfw BytfArrbyOutputStrfbm(),
+        fndodingQufuf = nfw BytfArrbyOutputStrfbm();
+
+    privbtf ChbrsftDfdodfr glDfdodfr, grDfdodfr, nonStbndbrdDfdodfr,
+        lbstDfdodfr;
+    privbtf boolfbn glHigh = fblsf, grHigh = truf;
+
+
+    publid COMPOUND_TEXT_Dfdodfr(Chbrsft ds) {
+        supfr(ds, 1.0f, 1.0f);
+        try {
+            // Initibl stbtf in ISO 2022 dfsignbtfs Lbtin-1 dhbrsft.
+            glDfdodfr = Chbrsft.forNbmf("ASCII").nfwDfdodfr();
+            grDfdodfr = Chbrsft.forNbmf("ISO8859_1").nfwDfdodfr();
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            frror(ERR_LATIN1);
+        }
+        initDfdodfr(glDfdodfr);
+        initDfdodfr(grDfdodfr);
+    }
+
+    protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd, ChbrBufffr dfs) {
+        CodfrRfsult dr = CodfrRfsult.UNDERFLOW;
+        bytf[] input = srd.brrby();
+        int inOff = srd.brrbyOffsft() + srd.position();
+        int inEnd = srd.brrbyOffsft() + srd.limit();
+
+        try {
+            whilf (inOff < inEnd && dr.isUndfrflow()) {
+                // Bytf pbrsing is donf with shorts instfbd of bytfs bfdbusf
+                // Jbvb bytfs brf signfd, whilf COMPOUND_TEXT bytfs brf not. If
+                // wf usfd thf Jbvb bytf typf, thf > bnd < tfsts during pbrsing
+                // would not work dorrfdtly.
+                dr = hbndlfBytf((short)(input[inOff] & 0xFF), dfs);
+                inOff++;
+            }
+            rfturn dr;
+        } finblly {
+            srd.position(inOff - srd.brrbyOffsft());
+        }
+    }
+
+    privbtf CodfrRfsult hbndlfBytf(short nfwBytf, ChbrBufffr db) {
+        CodfrRfsult dr = CodfrRfsult.UNDERFLOW;
+        switdh (stbtf) {
+        dbsf NORMAL_BYTES:
+            dr= normblBytfs(nfwBytf, db);
+            brfbk;
+        dbsf NONSTANDARD_BYTES:
+            dr = nonStbndbrdBytfs(nfwBytf, db);
+            brfbk;
+        dbsf VERSION_SEQUENCE_V:
+        dbsf VERSION_SEQUENCE_TERM:
+            dr = vfrsionSfqufndf(nfwBytf);
+            brfbk;
+        dbsf ESCAPE_SEQUENCE:
+            dr = fsdbpfSfqufndf(nfwBytf);
+            brfbk;
+        dbsf CHARSET_NGIIF:
+            dr = dhbrsft94N(nfwBytf);
+            brfbk;
+        dbsf CHARSET_NLIIF:
+        dbsf CHARSET_NLIF:
+            dr = dhbrsft94NL(nfwBytf, db);
+            brfbk;
+        dbsf CHARSET_NRIIF:
+        dbsf CHARSET_NRIF:
+            dr = dhbrsft94NR(nfwBytf, db);
+            brfbk;
+        dbsf CHARSET_NONSTANDARD_FOML:
+        dbsf CHARSET_NONSTANDARD_OML:
+        dbsf CHARSET_NONSTANDARD_ML:
+        dbsf CHARSET_NONSTANDARD_L:
+        dbsf CHARSET_NONSTANDARD:
+            dr = dhbrsftNonStbndbrd(nfwBytf, db);
+            brfbk;
+        dbsf CHARSET_LIIF:
+        dbsf CHARSET_LIF:
+            dr = dhbrsft9496L(nfwBytf, db);
+            brfbk;
+        dbsf CHARSET_RIIF:
+        dbsf CHARSET_RIF:
+            dr = dhbrsft9496R(nfwBytf, db);
+            brfbk;
+        dbsf CONTROL_SEQUENCE_PIF:
+        dbsf CONTROL_SEQUENCE_IF:
+            dr = dontrolSfqufndf(nfwBytf);
+            brfbk;
+        dbsf EXTENSION_ML:
+        dbsf EXTENSION_L:
+        dbsf EXTENSION:
+            dr = fxtfnsion(nfwBytf);
+            brfbk;
+        dbsf ESCAPE_SEQUENCE_OTHER:
+            dr = fsdbpfSfqufndfOthfr(nfwBytf);
+            brfbk;
+        dffbult:
+            frror(ERR_ILLSTATE);
+        }
+        rfturn dr;
+    }
+
+    privbtf CodfrRfsult normblBytfs(short nfwBytf, ChbrBufffr db) {
+        CodfrRfsult dr = CodfrRfsult.UNDERFLOW;
+        if ((nfwBytf >= 0x00 && nfwBytf <= 0x1F) || // C0
+            (nfwBytf >= 0x80 && nfwBytf <= 0x9F)) { // C1
+            dhbr nfwChbr;
+
+            switdh (nfwBytf) {
+            dbsf 0x1B:
+                stbtf = ESCAPE_SEQUENCE;
+                qufuf.writf(nfwBytf);
+                rfturn dr;
+            dbsf 0x9B:
+                stbtf = CONTROL_SEQUENCE_PIF;
+                vfrsionSfqufndfAllowfd = fblsf;
+                qufuf.writf(nfwBytf);
+                rfturn dr;
+            dbsf 0x09:
+                vfrsionSfqufndfAllowfd = fblsf;
+                nfwChbr = '\t';
+                brfbk;
+            dbsf 0x0A:
+                vfrsionSfqufndfAllowfd = fblsf;
+                nfwChbr = '\n';
+                brfbk;
+            dffbult:
+                vfrsionSfqufndfAllowfd = fblsf;
+                rfturn dr;
+            }
+            if (!db.hbsRfmbining())
+                rfturn CodfrRfsult.OVERFLOW;
+            flsf
+                db.put(nfwChbr);
+        } flsf {
+            ChbrsftDfdodfr dfdodfr;
+            boolfbn high;
+            vfrsionSfqufndfAllowfd = fblsf;
+
+            if (nfwBytf >= 0x20 && nfwBytf <= 0x7F) {
+                dfdodfr = glDfdodfr;
+                high = glHigh;
+            } flsf /* if (nfwBytf >= 0xA0 && nfwBytf <= 0xFF) */ {
+                dfdodfr = grDfdodfr;
+                high = grHigh;
+            }
+            if (lbstDfdodfr != null && dfdodfr != lbstDfdodfr) {
+                dr = flushDfdodfr(lbstDfdodfr, db);
+            }
+            lbstDfdodfr = dfdodfr;
+
+            if (dfdodfr != null) {
+                bytf b = (bytf)nfwBytf;
+                if (high) {
+                    b |= 0x80;
+                } flsf {
+                    b &= 0x7F;
+                }
+                inBB.put(b);
+                inBB.flip();
+                dr = dfdodfr.dfdodf(inBB, db, fblsf);
+                if (!inBB.hbsRfmbining() || dr.isMblformfd()) {
+                    inBB.dlfbr();
+                } flsf {
+                  int pos = inBB.limit();
+                  inBB.dlfbr();
+                  inBB.position(pos);
+                }
+            } flsf if (db.rfmbining() < rfplbdfmfnt().lfngth()) {
+                db.put(rfplbdfmfnt());
+            } flsf {
+                rfturn CodfrRfsult.OVERFLOW;
+            }
+        }
+        rfturn dr;
+    }
+
+    privbtf CodfrRfsult nonStbndbrdBytfs(short nfwBytf, ChbrBufffr db)
+    {
+        CodfrRfsult dr = CodfrRfsult.UNDERFLOW;
+        if (nonStbndbrdDfdodfr != null) {
+            //bytfBuf[0] = (bytf)nfwBytf;
+            inBB.put((bytf)nfwBytf);
+            inBB.flip();
+            dr = nonStbndbrdDfdodfr.dfdodf(inBB, db, fblsf);
+            if (!inBB.hbsRfmbining()) {
+                inBB.dlfbr();
+            } flsf {
+                int pos = inBB.limit();
+                inBB.dlfbr();
+                inBB.position(pos);
+            }
+        } flsf if (db.rfmbining() < rfplbdfmfnt().lfngth()) {
+            db.put(rfplbdfmfnt());
+        } flsf {
+            rfturn CodfrRfsult.OVERFLOW;
+        }
+
+        fxt_offsft++;
+        if (fxt_offsft >= fxt_dount) {
+            fxt_offsft = fxt_dount = 0;
+            stbtf = NORMAL_BYTES;
+            dr = flushDfdodfr(nonStbndbrdDfdodfr, db);
+            nonStbndbrdDfdodfr = null;
+        }
+        rfturn dr;
+    }
+
+    privbtf CodfrRfsult fsdbpfSfqufndf(short nfwBytf) {
+        switdh (nfwBytf) {
+        dbsf 0x23:
+            stbtf = VERSION_SEQUENCE_V;
+            brfbk;
+        dbsf 0x24:
+            stbtf = CHARSET_NGIIF;
+            vfrsionSfqufndfAllowfd = fblsf;
+            brfbk;
+        dbsf 0x25:
+            stbtf = CHARSET_NONSTANDARD_FOML;
+            vfrsionSfqufndfAllowfd = fblsf;
+            brfbk;
+        dbsf 0x28:
+            stbtf = CHARSET_LIIF;
+            vfrsionSfqufndfAllowfd = fblsf;
+            brfbk;
+        dbsf 0x29:
+        dbsf 0x2D:
+            stbtf = CHARSET_RIIF;
+            vfrsionSfqufndfAllowfd = fblsf;
+            brfbk;
+        dffbult:
+            // fsdbpfSfqufndfOthfr will writf to qufuf if bppropribtf
+            rfturn fsdbpfSfqufndfOthfr(nfwBytf);
+        }
+
+        qufuf.writf(nfwBytf);
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    /**
+     * Tfst for unknown, but vblid, fsdbpf sfqufndfs.
+     */
+    privbtf CodfrRfsult fsdbpfSfqufndfOthfr(short nfwBytf) {
+        if (nfwBytf >= 0x20 && nfwBytf <= 0x2F) {
+            // {I}
+            stbtf = ESCAPE_SEQUENCE_OTHER;
+            vfrsionSfqufndfAllowfd = fblsf;
+            qufuf.writf(nfwBytf);
+        } flsf if (nfwBytf >= 0x30 && nfwBytf <= 0x7E) {
+            // F -- fnd of sfqufndf
+            stbtf = NORMAL_BYTES;
+            vfrsionSfqufndfAllowfd = fblsf;
+            qufuf.rfsft();
+        } flsf {
+            rfturn mblformfdInput(ERR_ESCBYTE);
+        }
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    /**
+     * Pbrsfs dirfdtionblity, bs wfll bs unknown, but vblid, dontrol sfqufndfs.
+     */
+    privbtf CodfrRfsult dontrolSfqufndf(short nfwBytf) {
+        if (nfwBytf >= 0x30 && nfwBytf <= 0x3F) {
+            // {P}
+            if (stbtf == CONTROL_SEQUENCE_IF) {
+                // P no longfr bllowfd
+                rfturn mblformfdInput(ERR_CTRLPI);
+            }
+            qufuf.writf(nfwBytf);
+        } flsf if (nfwBytf >= 0x20 && nfwBytf <= 0x2F) {
+            // {I}
+            stbtf = CONTROL_SEQUENCE_IF;
+            qufuf.writf(nfwBytf);
+        } flsf if (nfwBytf >= 0x40 && nfwBytf <= 0x7E) {
+            // F -- fnd of sfqufndf
+            stbtf = NORMAL_BYTES;
+            qufuf.rfsft();
+        } flsf {
+            rfturn mblformfdInput(ERR_CTRLBYTE);
+        }
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    privbtf CodfrRfsult vfrsionSfqufndf(short nfwBytf) {
+        if (stbtf == VERSION_SEQUENCE_V) {
+            if (nfwBytf >= 0x20 && nfwBytf <= 0x2F) {
+                stbtf = VERSION_SEQUENCE_TERM;
+                qufuf.writf(nfwBytf);
+            } flsf {
+                rfturn fsdbpfSfqufndfOthfr(nfwBytf);
+            }
+        } flsf /* if (stbtf == VERSION_SEQUENCE_TERM) */ {
+            switdh (nfwBytf) {
+            dbsf 0x30:
+                if (!vfrsionSfqufndfAllowfd) {
+                    rfturn mblformfdInput(ERR_VERSTART);
+                }
+
+                // OK to ignorf fxtfnsions
+                vfrsionSfqufndfAllowfd = fblsf;
+                stbtf = NORMAL_BYTES;
+                qufuf.rfsft();
+                brfbk;
+            dbsf 0x31:
+                rfturn mblformfdInput((vfrsionSfqufndfAllowfd)
+                               ? ERR_VERMANDATORY : ERR_VERSTART);
+            dffbult:
+                rfturn fsdbpfSfqufndfOthfr(nfwBytf);
+            }
+        }
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    privbtf CodfrRfsult dhbrsft94N(short nfwBytf) {
+        switdh (nfwBytf) {
+        dbsf 0x28:
+            stbtf = CHARSET_NLIIF;
+            brfbk;
+        dbsf 0x29:
+            stbtf = CHARSET_NRIIF;
+            brfbk;
+        dffbult:
+            // fsdbpfSfqufndfOthfr will writf bytf if bppropribtf
+            rfturn fsdbpfSfqufndfOthfr(nfwBytf);
+        }
+
+        qufuf.writf(nfwBytf);
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    privbtf CodfrRfsult dhbrsft94NL(short nfwBytf, ChbrBufffr db) {
+        if (nfwBytf >= 0x21 &&
+            nfwBytf <= (stbtf == CHARSET_NLIIF ? 0x23 : 0x2F)) {
+            // {I}
+            stbtf = CHARSET_NLIF;
+            qufuf.writf(nfwBytf);
+        } flsf if (nfwBytf >= 0x40 && nfwBytf <= 0x7E) {
+            // F
+            rfturn switdhDfdodfr(nfwBytf, db);
+        } flsf {
+            rfturn fsdbpfSfqufndfOthfr(nfwBytf);
+        }
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    privbtf CodfrRfsult dhbrsft94NR(short nfwBytf, ChbrBufffr db)
+    {
+        if (nfwBytf >= 0x21 &&
+            nfwBytf <= (stbtf == CHARSET_NRIIF ? 0x23 : 0x2F)) {
+            // {I}
+            stbtf = CHARSET_NRIF;
+            qufuf.writf(nfwBytf);
+        } flsf if (nfwBytf >= 0x40 && nfwBytf <= 0x7E) {
+            // F
+            rfturn switdhDfdodfr(nfwBytf, db);
+        } flsf {
+            rfturn fsdbpfSfqufndfOthfr(nfwBytf);
+        }
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    privbtf CodfrRfsult dhbrsft9496L(short nfwBytf, ChbrBufffr db) {
+        if (nfwBytf >= 0x21 &&
+            nfwBytf <= (stbtf == CHARSET_LIIF ? 0x23 : 0x2F)) {
+            // {I}
+            stbtf = CHARSET_LIF;
+            qufuf.writf(nfwBytf);
+            rfturn CodfrRfsult.UNDERFLOW;
+        } flsf if (nfwBytf >= 0x40 && nfwBytf <= 0x7E) {
+            // F
+            rfturn switdhDfdodfr(nfwBytf, db);
+        } flsf {
+            rfturn fsdbpfSfqufndfOthfr(nfwBytf);
+        }
+    }
+
+    privbtf CodfrRfsult dhbrsft9496R(short nfwBytf, ChbrBufffr db) {
+        if (nfwBytf >= 0x21 &&
+            nfwBytf <= (stbtf == CHARSET_RIIF ? 0x23 : 0x2F)) {
+            // {I}
+            stbtf = CHARSET_RIF;
+            qufuf.writf(nfwBytf);
+            rfturn CodfrRfsult.UNDERFLOW;
+        } flsf if (nfwBytf >= 0x40 && nfwBytf <= 0x7E) {
+            // F
+            rfturn switdhDfdodfr(nfwBytf, db);
+        } flsf {
+            rfturn fsdbpfSfqufndfOthfr(nfwBytf);
+        }
+    }
+
+    privbtf CodfrRfsult dhbrsftNonStbndbrd(short nfwBytf, ChbrBufffr db) {
+        switdh (stbtf) {
+        dbsf CHARSET_NONSTANDARD_FOML:
+            if (nfwBytf == 0x2F) {
+                stbtf = CHARSET_NONSTANDARD_OML;
+                qufuf.writf(nfwBytf);
+            } flsf {
+                rfturn fsdbpfSfqufndfOthfr(nfwBytf);
+            }
+            brfbk;
+        dbsf CHARSET_NONSTANDARD_OML:
+            if (nfwBytf >= 0x30 && nfwBytf <= 0x34) {
+                stbtf = CHARSET_NONSTANDARD_ML;
+                qufuf.writf(nfwBytf);
+            } flsf if (nfwBytf >= 0x35 && nfwBytf <= 0x3F) {
+                stbtf = EXTENSION_ML;
+                qufuf.writf(nfwBytf);
+            } flsf {
+                rfturn fsdbpfSfqufndfOthfr(nfwBytf);
+            }
+            brfbk;
+        dbsf CHARSET_NONSTANDARD_ML:
+            fxt_dount = (nfwBytf & 0x7F) * 0x80;
+            stbtf = CHARSET_NONSTANDARD_L;
+            brfbk;
+        dbsf CHARSET_NONSTANDARD_L:
+            fxt_dount = fxt_dount + (nfwBytf & 0x7F);
+            stbtf = (fxt_dount > 0) ? CHARSET_NONSTANDARD : NORMAL_BYTES;
+            brfbk;
+        dbsf CHARSET_NONSTANDARD:
+            if (nfwBytf == 0x3F || nfwBytf == 0x2A) {
+                qufuf.rfsft(); // In this dbsf, only durrfnt bytf is bbd.
+                rfturn mblformfdInput(ERR_ENCODINGBYTE);
+            }
+            fxt_offsft++;
+            if (fxt_offsft >= fxt_dount) {
+                fxt_offsft = fxt_dount = 0;
+                stbtf = NORMAL_BYTES;
+                qufuf.rfsft();
+                fndodingQufuf.rfsft();
+            } flsf if (nfwBytf == 0x02) {
+                // fndoding nbmf tfrminbtor
+                rfturn switdhDfdodfr((short)0, db);
+            } flsf {
+                fndodingQufuf.writf(nfwBytf);
+            }
+            brfbk;
+        dffbult:
+            frror(ERR_ILLSTATE);
+        }
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    privbtf CodfrRfsult fxtfnsion(short nfwBytf) {
+        switdh (stbtf) {
+        dbsf EXTENSION_ML:
+            fxt_dount = (nfwBytf & 0x7F) * 0x80;
+            stbtf = EXTENSION_L;
+            brfbk;
+        dbsf EXTENSION_L:
+            fxt_dount = fxt_dount + (nfwBytf & 0x7F);
+            stbtf = (fxt_dount > 0) ? EXTENSION : NORMAL_BYTES;
+            brfbk;
+        dbsf EXTENSION:
+            // Consumf 'dount' bytfs. Don't bothfr putting thfm on thf qufuf.
+            // Thfrf mby bf too mbny bnd wf dbn't do bnything with thfm bnywby.
+            fxt_offsft++;
+            if (fxt_offsft >= fxt_dount) {
+                fxt_offsft = fxt_dount = 0;
+                stbtf = NORMAL_BYTES;
+                qufuf.rfsft();
+            }
+            brfbk;
+        dffbult:
+            frror(ERR_ILLSTATE);
+        }
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    /**
+     * Prfdonditions:
+     *   1. 'qufuf' dontbins ControlSfqufndf.fsdSfqufndf
+     *   2. 'fndodingQufuf' dontbins ControlSfqufndf.fndoding
+     */
+    privbtf CodfrRfsult switdhDfdodfr(short lbstBytf, ChbrBufffr db) {
+        CodfrRfsult dr = CodfrRfsult.UNDERFLOW;
+        ChbrsftDfdodfr dfdodfr = null;
+        boolfbn high = fblsf;
+        bytf[] fsdSfqufndf;
+        bytf[] fndoding = null;
+
+        if (lbstBytf != 0) {
+            qufuf.writf(lbstBytf);
+        }
+
+        fsdSfqufndf = qufuf.toBytfArrby();
+        qufuf.rfsft();
+
+        if (stbtf == CHARSET_NONSTANDARD) {
+            fndoding = fndodingQufuf.toBytfArrby();
+            fndodingQufuf.rfsft();
+            dfdodfr = CompoundTfxtSupport.
+                gftNonStbndbrdDfdodfr(fsdSfqufndf, fndoding);
+        } flsf {
+            dfdodfr = CompoundTfxtSupport.gftStbndbrdDfdodfr(fsdSfqufndf);
+            high = CompoundTfxtSupport.gftHighBit(fsdSfqufndf);
+        }
+        if (dfdodfr != null) {
+            initDfdodfr(dfdodfr);
+        } flsf if (unmbppbblfChbrbdtfrAdtion() == CodingErrorAdtion.REPORT) {
+            int bbdInputLfngth = 1;
+            if (fndoding != null) {
+                bbdInputLfngth = fndoding.lfngth;
+            } flsf if (fsdSfqufndf.lfngth > 0) {
+                bbdInputLfngth = fsdSfqufndf.lfngth;
+            }
+            rfturn CodfrRfsult.unmbppbblfForLfngth(bbdInputLfngth);
+        }
+
+        if (stbtf == CHARSET_NLIIF || stbtf == CHARSET_NLIF ||
+            stbtf == CHARSET_LIIF || stbtf == CHARSET_LIF)
+        {
+            if (lbstDfdodfr == glDfdodfr) {
+                dr = flushDfdodfr(glDfdodfr, db);
+            }
+            glDfdodfr = lbstDfdodfr = dfdodfr;
+            glHigh = high;
+            stbtf = NORMAL_BYTES;
+        } flsf if (stbtf == CHARSET_NRIIF || stbtf == CHARSET_NRIF ||
+                   stbtf == CHARSET_RIIF || stbtf == CHARSET_RIF) {
+            if (lbstDfdodfr == grDfdodfr) {
+                dr = flushDfdodfr(grDfdodfr, db);
+            }
+            grDfdodfr = lbstDfdodfr = dfdodfr;
+            grHigh = high;
+            stbtf = NORMAL_BYTES;
+        } flsf if (stbtf == CHARSET_NONSTANDARD) {
+            if (lbstDfdodfr != null) {
+                dr = flushDfdodfr(lbstDfdodfr, db);
+                lbstDfdodfr = null;
+            }
+            nonStbndbrdDfdodfr = dfdodfr;
+            stbtf = NONSTANDARD_BYTES;
+        } flsf {
+            frror(ERR_ILLSTATE);
+        }
+        rfturn dr;
+    }
+
+    privbtf BytfBufffr fbb= BytfBufffr.bllodbtf(0);
+    privbtf CodfrRfsult flushDfdodfr(ChbrsftDfdodfr dfd, ChbrBufffr db) {
+        dfd.dfdodf(fbb, db, truf);
+        CodfrRfsult dr = dfd.flush(db);
+        dfd.rfsft();  //rfusf
+        rfturn dr;
+    }
+
+    privbtf CodfrRfsult mblformfdInput(String msg) {
+        int bbdInputLfngth = qufuf.sizf() + 1 /* durrfnt bytf */ ;
+        qufuf.rfsft();
+        //TBD: nowhfrf to put thf msg in CodfrRfsult
+        rfturn CodfrRfsult.mblformfdForLfngth(bbdInputLfngth);
+    }
+
+    privbtf void frror(String msg) {
+        // For now, throw IntfrnblError. Convfrt to 'bssfrt' kfyword lbtfr.
+        throw nfw IntfrnblError(msg);
+    }
+
+    protfdtfd CodfrRfsult implFlush(ChbrBufffr out) {
+        CodfrRfsult dr = CodfrRfsult.UNDERFLOW;
+        if (lbstDfdodfr != null)
+          dr = flushDfdodfr(lbstDfdodfr, out);
+        if (stbtf != NORMAL_BYTES)
+            //TBD mfssbgf ERR_FLUSH;
+            dr = CodfrRfsult.mblformfdForLfngth(0);
+        rfsft();
+        rfturn dr;
+    }
+
+    /**
+     * Rfsfts thf dfdodfr.
+     * Cbll this mfthod to rfsft thf dfdodfr to its initibl stbtf
+     */
+    protfdtfd void implRfsft() {
+        stbtf = NORMAL_BYTES;
+        fxt_dount = fxt_offsft = 0;
+        vfrsionSfqufndfAllowfd = truf;
+        qufuf.rfsft();
+        fndodingQufuf.rfsft();
+        nonStbndbrdDfdodfr = lbstDfdodfr = null;
+        glHigh = fblsf;
+        grHigh = truf;
+        try {
+            // Initibl stbtf in ISO 2022 dfsignbtfs Lbtin-1 dhbrsft.
+            glDfdodfr = Chbrsft.forNbmf("ASCII").nfwDfdodfr();
+            grDfdodfr = Chbrsft.forNbmf("ISO8859_1").nfwDfdodfr();
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            frror(ERR_LATIN1);
+        }
+        initDfdodfr(glDfdodfr);
+        initDfdodfr(grDfdodfr);
+    }
+
+    protfdtfd void implOnMblformfdInput(CodingErrorAdtion nfwAdtion) {
+        if (glDfdodfr != null)
+            glDfdodfr.onMblformfdInput(nfwAdtion);
+        if (grDfdodfr != null)
+            grDfdodfr.onMblformfdInput(nfwAdtion);
+        if (nonStbndbrdDfdodfr != null)
+            nonStbndbrdDfdodfr.onMblformfdInput(nfwAdtion);
+    }
+
+    protfdtfd void implOnUnmbppbblfChbrbdtfr(CodingErrorAdtion nfwAdtion) {
+        if (glDfdodfr != null)
+            glDfdodfr.onUnmbppbblfChbrbdtfr(nfwAdtion);
+        if (grDfdodfr != null)
+            grDfdodfr.onUnmbppbblfChbrbdtfr(nfwAdtion);
+        if (nonStbndbrdDfdodfr != null)
+            nonStbndbrdDfdodfr.onUnmbppbblfChbrbdtfr(nfwAdtion);
+    }
+
+    protfdtfd void implRfplbdfWith(String nfwRfplbdfmfnt) {
+        if (glDfdodfr != null)
+            glDfdodfr.rfplbdfWith(nfwRfplbdfmfnt);
+        if (grDfdodfr != null)
+            grDfdodfr.rfplbdfWith(nfwRfplbdfmfnt);
+        if (nonStbndbrdDfdodfr != null)
+            nonStbndbrdDfdodfr.rfplbdfWith(nfwRfplbdfmfnt);
+    }
+
+    privbtf void initDfdodfr(ChbrsftDfdodfr dfd) {
+        dfd.onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE)
+            .rfplbdfWith(rfplbdfmfnt());
+    }
+}

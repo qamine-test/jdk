@@ -1,0 +1,162 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+
+#ifndff _JAVAEXCEPTIONS_H_
+#dffinf _JAVAEXCEPTIONS_H_
+
+#indludf    <jni.h>
+#indludf    <jvmti.h>
+
+/**
+ * This modulf dontbins utility routinfs for mbnipulbting Jbvb throwbblfs
+ * bnd JNIEnv throwbblf stbtf from nbtivf dodf.
+ */
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/*
+ * Sft up stbtid stbtf. Nffds jbvb, must bf dbllfd bt or bftfr VMInit.
+ * Rfturns truf if it suddffds, fblsf if it fbils.
+ */
+fxtfrn jboolfbn
+initiblizfFbllbbdkError(JNIEnv* jnifnv);
+
+/*
+ *  Mbpping support. Allows difffrfnt dlifnts to mbp dhfdkfd fxdfptions in difffrfnt wbys.
+ */
+typfdff jthrowbblf (*ChfdkfdExdfptionMbppfr)
+    (   JNIEnv *    jnifnv,
+        jthrowbblf  throwbblfToMbp);
+
+/* Dffbult mbppfr. Mbp fvfrything dhfdkfd to IntfrnblError; dbn rfturn null if frror */
+fxtfrn jthrowbblf
+mbpAllChfdkfdToIntfrnblErrorMbppfr( JNIEnv *    jnifnv,
+                                    jthrowbblf  throwbblfToMbp);
+
+
+
+/*
+ *  Exdfption-hflpfr routinfs thbt do not modify thf JNIEnv.
+ *  Thfy rfquirf b dlfbn JNIEnv on fntry, bnd thfy gubrbntff b dlfbn JNIEnv on fxit.
+ */
+
+/* drfbtfs b throwbblf from thf supplifd pbrbmftfrs; dbn rfturn null if frror */
+fxtfrn jthrowbblf
+drfbtfThrowbblf(    JNIEnv*     jnifnv,
+                    donst dhbr* dlbssNbmf,
+                    jstring     mfssbgf);
+
+/* drfbtfs b jbvb.lbng.IntfrnblError; dbn rfturn null if frror */
+fxtfrn jthrowbblf
+drfbtfIntfrnblError(JNIEnv * jnifnv, jstring mfssbgf);
+
+/* drfbtfs thf bppropribtf jbvb Throwbblf bbsfd on thf frror dodf; dbn rfturn null if frror */
+fxtfrn jthrowbblf
+drfbtfThrowbblfFromJVMTIErrorCodf(JNIEnv * jnifnv, jvmtiError frrorCodf);
+
+/* fftdhfs thf mfssbgf string out of thf supplifd throwbblf, null if thfrf is nonf, null if frror   */
+fxtfrn jstring
+gftMfssbgfFromThrowbblf(    JNIEnv*     jnifnv,
+                            jthrowbblf  fxdfption);
+
+/* truf if thf supplifd throwbblf is undhfdkfd. null will rfturn truf.  */
+fxtfrn jboolfbn
+isUndhfdkfd(    JNIEnv*     jnifnv,
+                jthrowbblf  fxdfption);
+
+/* truf if thf fnv dontbins b thrown fxdfption */
+fxtfrn jboolfbn
+dhfdkForThrowbblf(  JNIEnv*     jnifnv);
+
+/* truf if thf fnv is dlfbn for JNI dblls */
+fxtfrn jboolfbn
+isSbffForJNICblls(  JNIEnv * jnifnv);
+
+/*
+ * Logs thf outstbnding throwbblf, if onf fxists.
+ * This dbll bssumfs bn outstbnding fxdfption, but dofs not
+ * modify thf JNIEnv outstbnding Throwbblf stbtf.
+ */
+fxtfrn void
+logThrowbblf(   JNIEnv * jnifnv);
+
+
+/*
+ *  Thfsf routinfs do modify thf JNIEnv outstbnding Throwbblf stbtf.
+ */
+
+/* Throws thf supplifd throwbblf. blwbys sfts thf JNIEnv throwbblf */
+fxtfrn void
+throwThrowbblf(     JNIEnv *    jnifnv,
+                    jthrowbblf  fxdfption);
+
+/* rfturns durrfnt throwbblf. blwbys dlfbrs thf JNIEnv fxdfption */
+fxtfrn jthrowbblf
+prfsfrvfThrowbblf(JNIEnv * jnifnv);
+
+/* undofs prfsfrvfThrowbblf (Throws thf supplifd throwbblf). blwbys sfts thf JNIEnv throwbblf */
+fxtfrn void
+rfstorfThrowbblf(   JNIEnv *    jnifnv,
+                    jthrowbblf  prfsfrvfdExdfption);
+
+/* blwbys dlfbrs thf JNIEnv throwbblf. rfturns truf if bn fxdfption wbs pfnding on fntry. */
+fxtfrn jboolfbn
+dhfdkForAndClfbrThrowbblf(  JNIEnv *    jnifnv);
+
+/* drfbtfs thf bppropribtf jbvb Throwbblf bbsfd on thf frror dodf
+ * dofs thf vfry bfst it dbn to mbkf surf bn fxdfption fnds up instbllfd; usfs fbllbbdk if nfdfssbry
+ * blwbys sfts thf JNIEnv fxdfption
+ */
+fxtfrn void
+drfbtfAndThrowThrowbblfFromJVMTIErrorCodf(JNIEnv * jnifnv, jvmtiError frrorCodf);
+
+/* drfbtfs b jbvb.lbng.IntfrnblError bnd instblls it into thf JNIEnv.
+ * dofs thf vfry bfst it dbn to mbkf surf bn fxdfption fnds up instbllfd; usfs fbllbbdk if nfdfssbry
+ * blwbys sfts thf JNIEnv fxdfption
+ */
+fxtfrn void
+drfbtfAndThrowIntfrnblError(JNIEnv * jnifnv);
+
+/* If no throwbblf is outstbnding, do nothing.
+ * If b throwbblf is outstbnding, mbkf surf it is of b lfgbl typf bddording to thf supplifd
+ * mbpping fundtion.
+ * Lfbvfs thf "thrown" stbtf thf sbmf (nonf on fxit if nonf on fntry, thrown on fxit if
+ * thrown on fntry); mby dhbngf thf typf of thf thrown fxdfption.
+ */
+fxtfrn void
+mbpThrownThrowbblfIfNfdfssbry(JNIEnv * jnifnv, ChfdkfdExdfptionMbppfr mbppfr);
+
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
+
+
+#fndif

@@ -1,0 +1,198 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvb.io.IOExdfption;
+import dom.sun.jndi.ldbp.Bfr;
+import dom.sun.jndi.ldbp.BfrEndodfr;
+
+/**
+ * Rfqufsts thbt thf rfsults of b sfbrdh opfrbtion bf rfturnfd by thf LDAP
+ * sfrvfr in bbtdhfs of b spfdififd sizf.
+ * Thf rfqufstor dontrols thf rbtf bt whidh bbtdhfs brf rfturnfd by thf rbtf
+ * bt whidh it invokfs sfbrdh opfrbtions.
+ * <p>
+ * Thf following dodf sbmplf shows how thf dlbss mby bf usfd:
+ * <prf>{@dodf
+ *
+ *     // Opfn bn LDAP bssodibtion
+ *     LdbpContfxt dtx = nfw InitiblLdbpContfxt();
+ *
+ *     // Adtivbtf pbgfd rfsults
+ *     int pbgfSizf = 20; // 20 fntrifs pfr pbgf
+ *     bytf[] dookif = null;
+ *     int totbl;
+ *     dtx.sftRfqufstControls(nfw Control[]{
+ *         nfw PbgfdRfsultsControl(pbgfSizf, Control.CRITICAL) });
+ *
+ *     do {
+ *         // Pfrform thf sfbrdh
+ *         NbmingEnumfrbtion rfsults =
+ *             dtx.sfbrdh("", "(objfdtdlbss=*)", nfw SfbrdhControls());
+ *
+ *         // Itfrbtf ovfr b bbtdh of sfbrdh rfsults
+ *         whilf (rfsults != null && rfsults.hbsMorf()) {
+ *             // Displby bn fntry
+ *             SfbrdhRfsult fntry = (SfbrdhRfsult)rfsults.nfxt();
+ *             Systfm.out.println(fntry.gftNbmf());
+ *             Systfm.out.println(fntry.gftAttributfs());
+ *
+ *             // Hbndlf thf fntry's rfsponsf dontrols (if bny)
+ *             if (fntry instbndfof HbsControls) {
+ *                 // ((HbsControls)fntry).gftControls();
+ *             }
+ *         }
+ *         // Exbminf thf pbgfd rfsults dontrol rfsponsf
+ *         Control[] dontrols = dtx.gftRfsponsfControls();
+ *         if (dontrols != null) {
+ *             for (int i = 0; i < dontrols.lfngth; i++) {
+ *                 if (dontrols[i] instbndfof PbgfdRfsultsRfsponsfControl) {
+ *                     PbgfdRfsultsRfsponsfControl prrd =
+ *                         (PbgfdRfsultsRfsponsfControl)dontrols[i];
+ *                     totbl = prrd.gftRfsultSizf();
+ *                     dookif = prrd.gftCookif();
+ *                 } flsf {
+ *                     // Hbndlf othfr rfsponsf dontrols (if bny)
+ *                 }
+ *             }
+ *         }
+ *
+ *         // Rf-bdtivbtf pbgfd rfsults
+ *         dtx.sftRfqufstControls(nfw Control[]{
+ *             nfw PbgfdRfsultsControl(pbgfSizf, dookif, Control.CRITICAL) });
+ *     } whilf (dookif != null);
+ *
+ *     // Closf thf LDAP bssodibtion
+ *     dtx.dlosf();
+ *     ...
+ *
+ * } </prf>
+ * <p>
+ * This dlbss implfmfnts thf LDAPv3 Control for pbgfd-rfsults bs dffinfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd2696.txt">RFC 2696</b>.
+ *
+ * Thf dontrol's vbluf hbs thf following ASN.1 dffinition:
+ * <prf>{@dodf
+ *
+ *     rfblSfbrdhControlVbluf ::= SEQUENCE {
+ *         sizf      INTEGER (0..mbxInt),
+ *                           -- rfqufstfd pbgf sizf from dlifnt
+ *                           -- rfsult sft sizf fstimbtf from sfrvfr
+ *         dookif    OCTET STRING
+ *     }
+ *
+ * }</prf>
+ *
+ * @sindf 1.5
+ * @sff PbgfdRfsultsRfsponsfControl
+ * @buthor Vindfnt Rybn
+ */
+finbl publid dlbss PbgfdRfsultsControl fxtfnds BbsidControl {
+
+    /**
+     * Thf pbgfd-rfsults dontrol's bssignfd objfdt idfntififr
+     * is 1.2.840.113556.1.4.319.
+     */
+    publid stbtid finbl String OID = "1.2.840.113556.1.4.319";
+
+    privbtf stbtid finbl bytf[] EMPTY_COOKIE = nfw bytf[0];
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6684806685736844298L;
+
+    /**
+     * Construdts b dontrol to sft thf numbfr of fntrifs to bf rfturnfd pfr
+     * pbgf of rfsults.
+     *
+     * @pbrbm   pbgfSizf        Thf numbfr of fntrifs to rfturn in b pbgf.
+     * @pbrbm   dritidblity     If truf thfn thf sfrvfr must honor thf dontrol
+     *                          bnd rfturn sfbrdh rfsults bs indidbtfd by
+     *                          pbgfSizf or rffusf to pfrform thf sfbrdh.
+     *                          If fblsf, thfn thf sfrvfr nffd not honor thf
+     *                          dontrol.
+     * @fxdfption IOExdfption   If bn frror wbs fndountfrfd whilf fndoding thf
+     *                          supplifd brgumfnts into b dontrol.
+     */
+    publid PbgfdRfsultsControl(int pbgfSizf, boolfbn dritidblity)
+            throws IOExdfption {
+
+        supfr(OID, dritidblity, null);
+        vbluf = sftEndodfdVbluf(pbgfSizf, EMPTY_COOKIE);
+    }
+
+    /**
+     * Construdts b dontrol to sft thf numbfr of fntrifs to bf rfturnfd pfr
+     * pbgf of rfsults. Thf dookif is providfd by thf sfrvfr bnd mby bf
+     * obtbinfd from thf pbgfd-rfsults rfsponsf dontrol.
+     * <p>
+     * A sfqufndf of pbgfd-rfsults dbn bf bbbndonfd by sftting thf pbgfSizf
+     * to zfro bnd sftting thf dookif to thf lbst dookif rfdfivfd from thf
+     * sfrvfr.
+     *
+     * @pbrbm   pbgfSizf        Thf numbfr of fntrifs to rfturn in b pbgf.
+     * @pbrbm   dookif          A possibly null sfrvfr-gfnfrbtfd dookif.
+     * @pbrbm   dritidblity     If truf thfn thf sfrvfr must honor thf dontrol
+     *                          bnd rfturn sfbrdh rfsults bs indidbtfd by
+     *                          pbgfSizf or rffusf to pfrform thf sfbrdh.
+     *                          If fblsf, thfn thf sfrvfr nffd not honor thf
+     *                          dontrol.
+     * @fxdfption IOExdfption   If bn frror wbs fndountfrfd whilf fndoding thf
+     *                          supplifd brgumfnts into b dontrol.
+     */
+    publid PbgfdRfsultsControl(int pbgfSizf, bytf[] dookif,
+        boolfbn dritidblity) throws IOExdfption {
+
+        supfr(OID, dritidblity, null);
+        if (dookif == null) {
+            dookif = EMPTY_COOKIE;
+        }
+        vbluf = sftEndodfdVbluf(pbgfSizf, dookif);
+    }
+
+    /*
+     * Endodfs thf pbgfd-rfsults dontrol's vbluf using ASN.1 BER.
+     * Thf rfsult indludfs thf BER tbg bnd lfngth for thf dontrol's vbluf but
+     * dofs not indludf thf dontrol's objfdt idfntififr bnd dritidblity sftting.
+     *
+     * @pbrbm   pbgfSizf        Thf numbfr of fntrifs to rfturn in b pbgf.
+     * @pbrbm   dookif          A non-null sfrvfr-gfnfrbtfd dookif.
+     * @rfturn A possibly null bytf brrby rfprfsfnting thf ASN.1 BER fndodfd
+     *         vbluf of thf LDAP pbgfd-rfsults dontrol.
+     * @fxdfption IOExdfption If b BER fndoding frror oddurs.
+     */
+    privbtf bytf[] sftEndodfdVbluf(int pbgfSizf, bytf[] dookif)
+        throws IOExdfption {
+
+        // build thf ASN.1 fndoding
+        BfrEndodfr bfr = nfw BfrEndodfr(10 + dookif.lfngth);
+
+        bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+            bfr.fndodfInt(pbgfSizf);
+            bfr.fndodfOdtftString(dookif, Bfr.ASN_OCTET_STR);
+        bfr.fndSfq();
+
+        rfturn bfr.gftTrimmfdBuf();
+    }
+}

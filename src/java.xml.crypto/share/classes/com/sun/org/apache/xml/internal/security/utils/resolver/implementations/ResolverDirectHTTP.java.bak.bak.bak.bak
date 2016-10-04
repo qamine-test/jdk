@@ -1,0 +1,284 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.Proxy;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Bbsf64;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrContfxt;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrSpi;
+
+/**
+ * A simplf RfsourdfRfsolvfr for HTTP rfqufsts. This dlbss hbndlfs only 'purf'
+ * HTTP URIs whidh mfbns without b frbgmfnt. Thf Frbgmfnt hbndling is donf by thf
+ * {@link RfsolvfrFrbgmfnt} dlbss.
+ * <BR>
+ * If thf usfr hbs b dorporbtf HTTP proxy whidh is to bf usfd, thf usbgf dbn bf
+ * switdhfd on by sftting propfrtifs for thf rfsolvfr:
+ * <PRE>
+ * rfsourdfRfsolvfr.sftPropfrty("http.proxy.host", "proxy.dompbny.dom");
+ * rfsourdfRfsolvfr.sftPropfrty("http.proxy.port", "8080");
+ *
+ * // if wf nffd b pbssword for thf proxy
+ * rfsourdfRfsolvfr.sftPropfrty("http.proxy.usfrnbmf", "proxyusfr3");
+ * rfsourdfRfsolvfr.sftPropfrty("http.proxy.pbssword", "sfdrftdb");
+ * </PRE>
+ *
+ * @sff <A HREF="http://www.jbvbworld.dom/jbvbworld/jbvbtips/jw-jbvbtip42_p.html">Jbvb Tip 42: Writf Jbvb bpps thbt work with proxy-bbsfd firfwblls</A>
+ * @sff <A HREF="http://dods.orbdlf.dom/jbvbsf/1.4.2/dods/guidf/nft/propfrtifs.html">SUN J2SE dods for nftwork propfrtifs</A>
+ * @sff <A HREF="http://mftblbb.und.fdu/jbvbfbq/jbvbfbq.html#proxy">Thf JAVA FAQ Qufstion 9.5: How do I mbkf Jbvb work with b proxy sfrvfr?</A>
+ */
+publid dlbss RfsolvfrDirfdtHTTP fxtfnds RfsourdfRfsolvfrSpi {
+
+    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(RfsolvfrDirfdtHTTP.dlbss.gftNbmf());
+
+    /** Fifld propfrtifs[] */
+    privbtf stbtid finbl String propfrtifs[] = {
+                                                 "http.proxy.host", "http.proxy.port",
+                                                 "http.proxy.usfrnbmf", "http.proxy.pbssword",
+                                                 "http.bbsid.usfrnbmf", "http.bbsid.pbssword"
+                                               };
+
+    /** Fifld HttpProxyHost */
+    privbtf stbtid finbl int HttpProxyHost = 0;
+
+    /** Fifld HttpProxyPort */
+    privbtf stbtid finbl int HttpProxyPort = 1;
+
+    /** Fifld HttpProxyUsfr */
+    privbtf stbtid finbl int HttpProxyUsfr = 2;
+
+    /** Fifld HttpProxyPbss */
+    privbtf stbtid finbl int HttpProxyPbss = 3;
+
+    /** Fifld HttpProxyUsfr */
+    privbtf stbtid finbl int HttpBbsidUsfr = 4;
+
+    /** Fifld HttpProxyPbss */
+    privbtf stbtid finbl int HttpBbsidPbss = 5;
+
+    @Ovfrridf
+    publid boolfbn fnginfIsThrfbdSbff() {
+        rfturn truf;
+    }
+
+    /**
+     * Mfthod rfsolvf
+     *
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     *
+     * @throws RfsourdfRfsolvfrExdfption
+     * @rfturn
+     * $todo$ dbldulbtf thf dorrfdt URI from thf bttributf bnd thf bbsfURI
+     */
+    @Ovfrridf
+    publid XMLSignbturfInput fnginfRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt)
+        throws RfsourdfRfsolvfrExdfption {
+        InputStrfbm inputStrfbm = null;
+        try {
+
+            // dbldulbtf nfw URI
+            URI uriNfw = gftNfwURI(dontfxt.uriToRfsolvf, dontfxt.bbsfUri);
+            URL url = uriNfw.toURL();
+            URLConnfdtion urlConnfdtion;
+            urlConnfdtion = opfnConnfdtion(url);
+
+            // dhfdk if Bbsid buthfntidbtion is rfquirfd
+            String buth = urlConnfdtion.gftHfbdfrFifld("WWW-Authfntidbtf");
+
+            if (buth != null && buth.stbrtsWith("Bbsid")) {
+                // do http bbsid buthfntidbtion
+                String usfr =
+                    fnginfGftPropfrty(RfsolvfrDirfdtHTTP.propfrtifs[RfsolvfrDirfdtHTTP.HttpBbsidUsfr]);
+                String pbss =
+                    fnginfGftPropfrty(RfsolvfrDirfdtHTTP.propfrtifs[RfsolvfrDirfdtHTTP.HttpBbsidPbss]);
+
+                if ((usfr != null) && (pbss != null)) {
+                    urlConnfdtion = opfnConnfdtion(url);
+
+                    String pbssword = usfr + ":" + pbss;
+                    String fndodfdPbssword = Bbsf64.fndodf(pbssword.gftBytfs("ISO-8859-1"));
+
+                    // sft buthfntidbtion propfrty in thf http hfbdfr
+                    urlConnfdtion.sftRfqufstPropfrty("Authorizbtion",
+                                                     "Bbsid " + fndodfdPbssword);
+                }
+            }
+
+            String mimfTypf = urlConnfdtion.gftHfbdfrFifld("Contfnt-Typf");
+            inputStrfbm = urlConnfdtion.gftInputStrfbm();
+            BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+            bytf buf[] = nfw bytf[4096];
+            int rfbd = 0;
+            int summbrizfd = 0;
+
+            whilf ((rfbd = inputStrfbm.rfbd(buf)) >= 0) {
+                bbos.writf(buf, 0, rfbd);
+                summbrizfd += rfbd;
+            }
+
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Fftdhfd " + summbrizfd + " bytfs from URI " + uriNfw.toString());
+            }
+
+            XMLSignbturfInput rfsult = nfw XMLSignbturfInput(bbos.toBytfArrby());
+
+            rfsult.sftSourdfURI(uriNfw.toString());
+            rfsult.sftMIMETypf(mimfTypf);
+
+            rfturn rfsult;
+        } dbtdh (URISyntbxExdfption fx) {
+            throw nfw RfsourdfRfsolvfrExdfption("gfnfrid.EmptyMfssbgf", fx, dontfxt.bttr, dontfxt.bbsfUri);
+        } dbtdh (MblformfdURLExdfption fx) {
+            throw nfw RfsourdfRfsolvfrExdfption("gfnfrid.EmptyMfssbgf", fx, dontfxt.bttr, dontfxt.bbsfUri);
+        } dbtdh (IOExdfption fx) {
+            throw nfw RfsourdfRfsolvfrExdfption("gfnfrid.EmptyMfssbgf", fx, dontfxt.bttr, dontfxt.bbsfUri);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            throw nfw RfsourdfRfsolvfrExdfption("gfnfrid.EmptyMfssbgf", f, dontfxt.bttr, dontfxt.bbsfUri);
+        } finblly {
+            if (inputStrfbm != null) {
+                try {
+                    inputStrfbm.dlosf();
+                } dbtdh (IOExdfption f) {
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        log.log(jbvb.util.logging.Lfvfl.FINE, f.gftMfssbgf(), f);
+                    }
+                }
+            }
+        }
+    }
+
+    privbtf URLConnfdtion opfnConnfdtion(URL url) throws IOExdfption {
+
+        String proxyHostProp =
+                fnginfGftPropfrty(RfsolvfrDirfdtHTTP.propfrtifs[RfsolvfrDirfdtHTTP.HttpProxyHost]);
+        String proxyPortProp =
+                fnginfGftPropfrty(RfsolvfrDirfdtHTTP.propfrtifs[RfsolvfrDirfdtHTTP.HttpProxyPort]);
+        String proxyUsfr =
+                fnginfGftPropfrty(RfsolvfrDirfdtHTTP.propfrtifs[RfsolvfrDirfdtHTTP.HttpProxyUsfr]);
+        String proxyPbss =
+                fnginfGftPropfrty(RfsolvfrDirfdtHTTP.propfrtifs[RfsolvfrDirfdtHTTP.HttpProxyPbss]);
+
+        Proxy proxy = null;
+        if ((proxyHostProp != null) && (proxyPortProp != null)) {
+            int port = Intfgfr.pbrsfInt(proxyPortProp);
+            proxy = nfw Proxy(Proxy.Typf.HTTP, nfw InftSodkftAddrfss(proxyHostProp, port));
+        }
+
+        URLConnfdtion urlConnfdtion;
+        if (proxy != null) {
+            urlConnfdtion = url.opfnConnfdtion(proxy);
+
+            if ((proxyUsfr != null) && (proxyPbss != null)) {
+                String pbssword = proxyUsfr + ":" + proxyPbss;
+                String buthString = "Bbsid " + Bbsf64.fndodf(pbssword.gftBytfs("ISO-8859-1"));
+
+                urlConnfdtion.sftRfqufstPropfrty("Proxy-Authorizbtion", buthString);
+            }
+        } flsf {
+            urlConnfdtion = url.opfnConnfdtion();
+        }
+
+        rfturn urlConnfdtion;
+    }
+
+    /**
+     * Wf rfsolvf http URIs <I>without</I> frbgmfnt...
+     *
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @rfturn truf if dbn bf rfsolvfd
+     */
+    publid boolfbn fnginfCbnRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt) {
+        if (dontfxt.uriToRfsolvf == null) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "quidk fbil, uri == null");
+            }
+            rfturn fblsf;
+        }
+
+        if (dontfxt.uriToRfsolvf.fqubls("") || (dontfxt.uriToRfsolvf.dhbrAt(0)=='#')) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "quidk fbil for fmpty URIs bnd lodbl onfs");
+            }
+            rfturn fblsf;
+        }
+
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "I wbs bskfd whfthfr I dbn rfsolvf " + dontfxt.uriToRfsolvf);
+        }
+
+        if (dontfxt.uriToRfsolvf.stbrtsWith("http:") ||
+            (dontfxt.bbsfUri != null && dontfxt.bbsfUri.stbrtsWith("http:") )) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "I stbtf thbt I dbn rfsolvf " + dontfxt.uriToRfsolvf);
+            }
+            rfturn truf;
+        }
+
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "I stbtf thbt I dbn't rfsolvf " + dontfxt.uriToRfsolvf);
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * @inhfritDod
+     */
+    publid String[] fnginfGftPropfrtyKfys() {
+        rfturn RfsolvfrDirfdtHTTP.propfrtifs.dlonf();
+    }
+
+    privbtf stbtid URI gftNfwURI(String uri, String bbsfURI) throws URISyntbxExdfption {
+        URI nfwUri = null;
+        if (bbsfURI == null || "".fqubls(bbsfURI)) {
+            nfwUri = nfw URI(uri);
+        } flsf {
+            nfwUri = nfw URI(bbsfURI).rfsolvf(uri);
+        }
+
+        // if thf URI dontbins b frbgmfnt, ignorf it
+        if (nfwUri.gftFrbgmfnt() != null) {
+            URI uriNfwNoFrbg =
+                nfw URI(nfwUri.gftSdhfmf(), nfwUri.gftSdhfmfSpfdifidPbrt(), null);
+            rfturn uriNfwNoFrbg;
+        }
+        rfturn nfwUri;
+    }
+
+}

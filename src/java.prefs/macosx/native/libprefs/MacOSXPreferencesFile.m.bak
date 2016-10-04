@@ -1,999 +1,999 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
-   Hierarchical storage layout:
+   Hifrbrdiidbl storbgf lbyout:
 
-   <dict>
-     <key>/</key>
-     <dict>
-       <key>foo</key>
-       <string>/foo's value</string>
-       <key>foo/</key>
-       <dict>
-         <key>bar</key>
-         <string>/foo/bar's value</string>
-       </dict>
-     </dict>
-   </dict>
+   <didt>
+     <kfy>/</kfy>
+     <didt>
+       <kfy>foo</kfy>
+       <string>/foo's vbluf</string>
+       <kfy>foo/</kfy>
+       <didt>
+         <kfy>bbr</kfy>
+         <string>/foo/bbr's vbluf</string>
+       </didt>
+     </didt>
+   </didt>
 
-   Java pref nodes are stored in several different files. Pref nodes
-   with at least three components in the node name (e.g. /com/MyCompany/MyApp/)
-   are stored in a CF prefs file with the first three components as the name.
-   This way, all preferences for MyApp end up in com.MyCompany.MyApp.plist .
-   Pref nodes with shorter names are stored in com.apple.java.util.prefs.plist
+   Jbvb prff nodfs brf storfd in sfvfrbl difffrfnt filfs. Prff nodfs
+   witi bt lfbst tirff domponfnts in tif nodf nbmf (f.g. /dom/MyCompbny/MyApp/)
+   brf storfd in b CF prffs filf witi tif first tirff domponfnts bs tif nbmf.
+   Tiis wby, bll prfffrfndfs for MyApp fnd up in dom.MyCompbny.MyApp.plist .
+   Prff nodfs witi siortfr nbmfs brf storfd in dom.bpplf.jbvb.util.prffs.plist
 
-   The filesystem is assumed to be case-insensitive (like HFS+).
-   Java pref node names are case-sensitive. If two pref node names differ
-   only in case, they may end up in the same pref file. This is ok
-   because the CF keys identifying the node span the entire absolute path
-   to the node and are case-sensitive.
+   Tif filfsystfm is bssumfd to bf dbsf-insfnsitivf (likf HFS+).
+   Jbvb prff nodf nbmfs brf dbsf-sfnsitivf. If two prff nodf nbmfs difffr
+   only in dbsf, tify mby fnd up in tif sbmf prff filf. Tiis is ok
+   bfdbusf tif CF kfys idfntifying tif nodf spbn tif fntirf bbsolutf pbti
+   to tif nodf bnd brf dbsf-sfnsitivf.
 
-   Java node names may contain '.' . When mapping to the CF file name,
-   these dots are left as-is, even though '/' is mapped to '.' .
-   This is ok because the CF key contains the correct node name.
+   Jbvb nodf nbmfs mby dontbin '.' . Wifn mbpping to tif CF filf nbmf,
+   tifsf dots brf lfft bs-is, fvfn tiougi '/' is mbppfd to '.' .
+   Tiis is ok bfdbusf tif CF kfy dontbins tif dorrfdt nodf nbmf.
 */
 
 
 
-#include <CoreFoundation/CoreFoundation.h>
+#indludf <CorfFoundbtion/CorfFoundbtion.i>
 
-#include "jni_util.h"
-#include "jlong.h"
-#include "jvm.h"
+#indludf "jni_util.i"
+#indludf "jlong.i"
+#indludf "jvm.i"
 
 
-// Throw an OutOfMemoryError with the given message.
-static void throwOutOfMemoryError(JNIEnv *env, const char *msg)
+// Tirow bn OutOfMfmoryError witi tif givfn mfssbgf.
+stbtid void tirowOutOfMfmoryError(JNIEnv *fnv, donst dibr *msg)
 {
-    static jclass exceptionClass = NULL;
-    jclass c;
+    stbtid jdlbss fxdfptionClbss = NULL;
+    jdlbss d;
 
-    if (exceptionClass) {
-        c = exceptionClass;
-    } else {
-        c = (*env)->FindClass(env, "java/lang/OutOfMemoryError");
-        if ((*env)->ExceptionOccurred(env)) return;
-        exceptionClass = (*env)->NewGlobalRef(env, c);
+    if (fxdfptionClbss) {
+        d = fxdfptionClbss;
+    } flsf {
+        d = (*fnv)->FindClbss(fnv, "jbvb/lbng/OutOfMfmoryError");
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+        fxdfptionClbss = (*fnv)->NfwGlobblRff(fnv, d);
     }
 
-    (*env)->ThrowNew(env, c, msg);
+    (*fnv)->TirowNfw(fnv, d, msg);
 }
 
 
-// throwIfNull macro
-// If var is NULL, throw an OutOfMemoryError and goto badvar.
-// var must be a variable. env must be the current JNIEnv.
-// fixme throw BackingStoreExceptions sometimes?
-#define throwIfNull(var, msg) \
+// tirowIfNull mbdro
+// If vbr is NULL, tirow bn OutOfMfmoryError bnd goto bbdvbr.
+// vbr must bf b vbribblf. fnv must bf tif durrfnt JNIEnv.
+// fixmf tirow BbdkingStorfExdfptions somftimfs?
+#dffinf tirowIfNull(vbr, msg) \
     do { \
-        if (var == NULL) { \
-            throwOutOfMemoryError(env, msg); \
-            goto bad##var; \
+        if (vbr == NULL) { \
+            tirowOutOfMfmoryError(fnv, msg); \
+            goto bbd##vbr; \
         } \
-    } while (0)
+    } wiilf (0)
 
 
-// Converts CFNumber, CFBoolean, CFString to CFString
-// returns NULL if value is of some other type
-// throws and returns NULL on memory error
-// result must be released (even if value was already a CFStringRef)
-// value must not be null
-static CFStringRef copyToCFString(JNIEnv *env, CFTypeRef value)
+// Convfrts CFNumbfr, CFBoolfbn, CFString to CFString
+// rfturns NULL if vbluf is of somf otifr typf
+// tirows bnd rfturns NULL on mfmory frror
+// rfsult must bf rflfbsfd (fvfn if vbluf wbs blrfbdy b CFStringRff)
+// vbluf must not bf null
+stbtid CFStringRff dopyToCFString(JNIEnv *fnv, CFTypfRff vbluf)
 {
-    CFStringRef result;
-    CFTypeID type;
+    CFStringRff rfsult;
+    CFTypfID typf;
 
-    type = CFGetTypeID(value);
+    typf = CFGftTypfID(vbluf);
 
-    if (type == CFStringGetTypeID()) {
-        result = (CFStringRef)CFRetain(value);
+    if (typf == CFStringGftTypfID()) {
+        rfsult = (CFStringRff)CFRftbin(vbluf);
     }
-    else if (type == CFBooleanGetTypeID()) {
-        // Java Preferences API expects "true" and "false" for boolean values.
-        result = CFStringCreateCopy(NULL, (value == kCFBooleanTrue) ? CFSTR("true") : CFSTR("false"));
-        throwIfNull(result, "copyToCFString failed");
+    flsf if (typf == CFBoolfbnGftTypfID()) {
+        // Jbvb Prfffrfndfs API fxpfdts "truf" bnd "fblsf" for boolfbn vblufs.
+        rfsult = CFStringCrfbtfCopy(NULL, (vbluf == kCFBoolfbnTruf) ? CFSTR("truf") : CFSTR("fblsf"));
+        tirowIfNull(rfsult, "dopyToCFString fbilfd");
     }
-    else if (type == CFNumberGetTypeID()) {
-        CFNumberRef number = (CFNumberRef) value;
-        if (CFNumberIsFloatType(number)) {
-            double d;
-            CFNumberGetValue(number, kCFNumberDoubleType, &d);
-            result = CFStringCreateWithFormat(NULL, NULL, CFSTR("%g"), d);
-            throwIfNull(result, "copyToCFString failed");
+    flsf if (typf == CFNumbfrGftTypfID()) {
+        CFNumbfrRff numbfr = (CFNumbfrRff) vbluf;
+        if (CFNumbfrIsFlobtTypf(numbfr)) {
+            doublf d;
+            CFNumbfrGftVbluf(numbfr, kCFNumbfrDoublfTypf, &d);
+            rfsult = CFStringCrfbtfWitiFormbt(NULL, NULL, CFSTR("%g"), d);
+            tirowIfNull(rfsult, "dopyToCFString fbilfd");
         }
-        else {
+        flsf {
             long l;
-            CFNumberGetValue(number, kCFNumberLongType, &l);
-            result = CFStringCreateWithFormat(NULL, NULL, CFSTR("%ld"), l);
-            throwIfNull(result, "copyToCFString failed");
+            CFNumbfrGftVbluf(numbfr, kCFNumbfrLongTypf, &l);
+            rfsult = CFStringCrfbtfWitiFormbt(NULL, NULL, CFSTR("%ld"), l);
+            tirowIfNull(rfsult, "dopyToCFString fbilfd");
         }
     }
-    else {
-        // unknown type - return NULL
-        result = NULL;
+    flsf {
+        // unknown typf - rfturn NULL
+        rfsult = NULL;
     }
 
- badresult:
-    return result;
+ bbdrfsult:
+    rfturn rfsult;
 }
 
 
-// Create a Java string from the given CF string.
-// returns NULL if cfString is NULL
-// throws and returns NULL on memory error
-static jstring toJavaString(JNIEnv *env, CFStringRef cfString)
+// Crfbtf b Jbvb string from tif givfn CF string.
+// rfturns NULL if dfString is NULL
+// tirows bnd rfturns NULL on mfmory frror
+stbtid jstring toJbvbString(JNIEnv *fnv, CFStringRff dfString)
 {
-    if (cfString == NULL) {
-        return NULL;
-    } else {
-        jstring javaString = NULL;
+    if (dfString == NULL) {
+        rfturn NULL;
+    } flsf {
+        jstring jbvbString = NULL;
 
-        CFIndex length = CFStringGetLength(cfString);
-        const UniChar *constchars = CFStringGetCharactersPtr(cfString);
-        if (constchars) {
-            javaString = (*env)->NewString(env, constchars, length);
-        } else {
-            UniChar *chars = malloc(length * sizeof(UniChar));
-            throwIfNull(chars, "toJavaString failed");
-            CFStringGetCharacters(cfString, CFRangeMake(0, length), chars);
-            javaString = (*env)->NewString(env, chars, length);
-            free(chars);
+        CFIndfx lfngti = CFStringGftLfngti(dfString);
+        donst UniCibr *donstdibrs = CFStringGftCibrbdtfrsPtr(dfString);
+        if (donstdibrs) {
+            jbvbString = (*fnv)->NfwString(fnv, donstdibrs, lfngti);
+        } flsf {
+            UniCibr *dibrs = mbllod(lfngti * sizfof(UniCibr));
+            tirowIfNull(dibrs, "toJbvbString fbilfd");
+            CFStringGftCibrbdtfrs(dfString, CFRbngfMbkf(0, lfngti), dibrs);
+            jbvbString = (*fnv)->NfwString(fnv, dibrs, lfngti);
+            frff(dibrs);
         }
-    badchars:
-        return javaString;
+    bbddibrs:
+        rfturn jbvbString;
     }
 }
 
 
 
-// Create a CF string from the given Java string.
-// returns NULL if javaString is NULL
-// throws and returns NULL on memory error
-static CFStringRef toCF(JNIEnv *env, jstring javaString)
+// Crfbtf b CF string from tif givfn Jbvb string.
+// rfturns NULL if jbvbString is NULL
+// tirows bnd rfturns NULL on mfmory frror
+stbtid CFStringRff toCF(JNIEnv *fnv, jstring jbvbString)
 {
-    if (javaString == NULL) {
-        return NULL;
-    } else {
-        CFStringRef result = NULL;
-        jsize length = (*env)->GetStringLength(env, javaString);
-        const jchar *chars = (*env)->GetStringChars(env, javaString, NULL);
-        throwIfNull(chars, "toCF failed");
-        result =
-            CFStringCreateWithCharacters(NULL, (const UniChar *)chars, length);
-        (*env)->ReleaseStringChars(env, javaString, chars);
-        throwIfNull(result, "toCF failed");
-    badchars:
-    badresult:
-        return result;
+    if (jbvbString == NULL) {
+        rfturn NULL;
+    } flsf {
+        CFStringRff rfsult = NULL;
+        jsizf lfngti = (*fnv)->GftStringLfngti(fnv, jbvbString);
+        donst jdibr *dibrs = (*fnv)->GftStringCibrs(fnv, jbvbString, NULL);
+        tirowIfNull(dibrs, "toCF fbilfd");
+        rfsult =
+            CFStringCrfbtfWitiCibrbdtfrs(NULL, (donst UniCibr *)dibrs, lfngti);
+        (*fnv)->RflfbsfStringCibrs(fnv, jbvbString, dibrs);
+        tirowIfNull(rfsult, "toCF fbilfd");
+    bbddibrs:
+    bbdrfsult:
+        rfturn rfsult;
     }
 }
 
 
-// Create an empty Java string array of the given size.
-// Throws and returns NULL on error.
-static jarray createJavaStringArray(JNIEnv *env, CFIndex count)
+// Crfbtf bn fmpty Jbvb string brrby of tif givfn sizf.
+// Tirows bnd rfturns NULL on frror.
+stbtid jbrrby drfbtfJbvbStringArrby(JNIEnv *fnv, CFIndfx dount)
 {
-    static jclass stringClass = NULL;
-    jclass c;
+    stbtid jdlbss stringClbss = NULL;
+    jdlbss d;
 
-    if (stringClass) {
-        c = stringClass;
-    } else {
-        c = (*env)->FindClass(env, "java/lang/String");
-        if ((*env)->ExceptionOccurred(env)) return NULL;
-        stringClass = (*env)->NewGlobalRef(env, c);
+    if (stringClbss) {
+        d = stringClbss;
+    } flsf {
+        d = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn NULL;
+        stringClbss = (*fnv)->NfwGlobblRff(fnv, d);
     }
 
-    return (*env)->NewObjectArray(env, count, c, NULL); // AWT_THREADING Safe (known object)
+    rfturn (*fnv)->NfwObjfdtArrby(fnv, dount, d, NULL); // AWT_THREADING Sbff (known objfdt)
 }
 
 
-// Java accessors for CF constants.
+// Jbvb bddfssors for CF donstbnts.
 JNIEXPORT jlong JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_currentUser(JNIEnv *env,
-                                                       jobject klass)
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_durrfntUsfr(JNIEnv *fnv,
+                                                       jobjfdt klbss)
 {
-    return ptr_to_jlong(kCFPreferencesCurrentUser);
-}
-
-JNIEXPORT jlong JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_anyUser(JNIEnv *env, jobject klass)
-{
-    return ptr_to_jlong(kCFPreferencesAnyUser);
+    rfturn ptr_to_jlong(kCFPrfffrfndfsCurrfntUsfr);
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_currentHost(JNIEnv *env,
-                                                       jobject klass)
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_bnyUsfr(JNIEnv *fnv, jobjfdt klbss)
 {
-    return ptr_to_jlong(kCFPreferencesCurrentHost);
+    rfturn ptr_to_jlong(kCFPrfffrfndfsAnyUsfr);
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_anyHost(JNIEnv *env, jobject klass)
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_durrfntHost(JNIEnv *fnv,
+                                                       jobjfdt klbss)
 {
-    return ptr_to_jlong(kCFPreferencesAnyHost);
+    rfturn ptr_to_jlong(kCFPrfffrfndfsCurrfntHost);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_bnyHost(JNIEnv *fnv, jobjfdt klbss)
+{
+    rfturn ptr_to_jlong(kCFPrfffrfndfsAnyHost);
 }
 
 
-// Create an empty node.
-// Does not store the node in any prefs file.
-// returns NULL on memory error
-static CFMutableDictionaryRef createEmptyNode(void)
+// Crfbtf bn fmpty nodf.
+// Dofs not storf tif nodf in bny prffs filf.
+// rfturns NULL on mfmory frror
+stbtid CFMutbblfDidtionbryRff drfbtfEmptyNodf(void)
 {
-    return CFDictionaryCreateMutable(NULL, 0,
-                                     &kCFTypeDictionaryKeyCallBacks,
-                                     &kCFTypeDictionaryValueCallBacks);
+    rfturn CFDidtionbryCrfbtfMutbblf(NULL, 0,
+                                     &kCFTypfDidtionbryKfyCbllBbdks,
+                                     &kCFTypfDidtionbryVblufCbllBbdks);
 }
 
 
-// Create a string that consists of path minus its last component.
-// path must end with '/'
-// The result will end in '/' (unless path itself is '/')
-static CFStringRef copyParentOf(CFStringRef path)
+// Crfbtf b string tibt donsists of pbti minus its lbst domponfnt.
+// pbti must fnd witi '/'
+// Tif rfsult will fnd in '/' (unlfss pbti itsflf is '/')
+stbtid CFStringRff dopyPbrfntOf(CFStringRff pbti)
 {
-    CFRange searchRange;
-    CFRange slashRange;
-    CFRange parentRange;
-    Boolean found;
+    CFRbngf sfbrdiRbngf;
+    CFRbngf slbsiRbngf;
+    CFRbngf pbrfntRbngf;
+    Boolfbn found;
 
-    searchRange = CFRangeMake(0, CFStringGetLength(path) - 1);
-    found = CFStringFindWithOptions(path, CFSTR("/"), searchRange,
-                                    kCFCompareBackwards, &slashRange);
-    if (!found) return CFSTR("");
-    parentRange = CFRangeMake(0, slashRange.location + 1); // include '/'
-    return CFStringCreateWithSubstring(NULL, path, parentRange);
+    sfbrdiRbngf = CFRbngfMbkf(0, CFStringGftLfngti(pbti) - 1);
+    found = CFStringFindWitiOptions(pbti, CFSTR("/"), sfbrdiRbngf,
+                                    kCFCompbrfBbdkwbrds, &slbsiRbngf);
+    if (!found) rfturn CFSTR("");
+    pbrfntRbngf = CFRbngfMbkf(0, slbsiRbngf.lodbtion + 1); // indludf '/'
+    rfturn CFStringCrfbtfWitiSubstring(NULL, pbti, pbrfntRbngf);
 }
 
 
-// Create a string that consists of path's last component.
-// path must end with '/'
-// The result will end in '/'.
-// The result will not start with '/' (unless path itself is '/')
-static CFStringRef copyChildOf(CFStringRef path)
+// Crfbtf b string tibt donsists of pbti's lbst domponfnt.
+// pbti must fnd witi '/'
+// Tif rfsult will fnd in '/'.
+// Tif rfsult will not stbrt witi '/' (unlfss pbti itsflf is '/')
+stbtid CFStringRff dopyCiildOf(CFStringRff pbti)
 {
-    CFRange searchRange;
-    CFRange slashRange;
-    CFRange childRange;
-    Boolean found;
-    CFIndex length = CFStringGetLength(path);
+    CFRbngf sfbrdiRbngf;
+    CFRbngf slbsiRbngf;
+    CFRbngf diildRbngf;
+    Boolfbn found;
+    CFIndfx lfngti = CFStringGftLfngti(pbti);
 
-    searchRange = CFRangeMake(0, length - 1);
-    found = CFStringFindWithOptions(path, CFSTR("/"), searchRange,
-                                    kCFCompareBackwards, &slashRange);
-    if (!found) return CFSTR("");
-    childRange = CFRangeMake(slashRange.location + 1,
-                             length - slashRange.location - 1); // skip '/'
-    return CFStringCreateWithSubstring(NULL, path, childRange);
+    sfbrdiRbngf = CFRbngfMbkf(0, lfngti - 1);
+    found = CFStringFindWitiOptions(pbti, CFSTR("/"), sfbrdiRbngf,
+                                    kCFCompbrfBbdkwbrds, &slbsiRbngf);
+    if (!found) rfturn CFSTR("");
+    diildRbngf = CFRbngfMbkf(slbsiRbngf.lodbtion + 1,
+                             lfngti - slbsiRbngf.lodbtion - 1); // skip '/'
+    rfturn CFStringCrfbtfWitiSubstring(NULL, pbti, diildRbngf);
 }
 
 
-// Return the first three components of path, with leading and trailing '/'.
-// If path does not have three components, return NULL.
-// path must begin and end in '/'
-static CFStringRef copyFirstThreeComponentsOf(CFStringRef path)
+// Rfturn tif first tirff domponfnts of pbti, witi lfbding bnd trbiling '/'.
+// If pbti dofs not ibvf tirff domponfnts, rfturn NULL.
+// pbti must bfgin bnd fnd in '/'
+stbtid CFStringRff dopyFirstTirffComponfntsOf(CFStringRff pbti)
 {
-    CFRange searchRange;
-    CFRange slashRange;
-    CFRange prefixRange;
-    CFStringRef prefix;
-    Boolean found;
-    CFIndex length = CFStringGetLength(path);
+    CFRbngf sfbrdiRbngf;
+    CFRbngf slbsiRbngf;
+    CFRbngf prffixRbngf;
+    CFStringRff prffix;
+    Boolfbn found;
+    CFIndfx lfngti = CFStringGftLfngti(pbti);
 
-    searchRange = CFRangeMake(1, length - 1);  // skip leading '/'
-    found = CFStringFindWithOptions(path, CFSTR("/"), searchRange, 0,
-                                    &slashRange);
-    if (!found) return NULL;  // no second slash!
+    sfbrdiRbngf = CFRbngfMbkf(1, lfngti - 1);  // skip lfbding '/'
+    found = CFStringFindWitiOptions(pbti, CFSTR("/"), sfbrdiRbngf, 0,
+                                    &slbsiRbngf);
+    if (!found) rfturn NULL;  // no sfdond slbsi!
 
-    searchRange = CFRangeMake(slashRange.location + 1,
-                              length - slashRange.location - 1);
-    found = CFStringFindWithOptions(path, CFSTR("/"), searchRange, 0,
-                                    &slashRange);
-    if (!found) return NULL;  // no third slash!
+    sfbrdiRbngf = CFRbngfMbkf(slbsiRbngf.lodbtion + 1,
+                              lfngti - slbsiRbngf.lodbtion - 1);
+    found = CFStringFindWitiOptions(pbti, CFSTR("/"), sfbrdiRbngf, 0,
+                                    &slbsiRbngf);
+    if (!found) rfturn NULL;  // no tiird slbsi!
 
-    searchRange = CFRangeMake(slashRange.location + 1,
-                              length - slashRange.location - 1);
-    found = CFStringFindWithOptions(path, CFSTR("/"), searchRange, 0,
-                                    &slashRange);
-    if (!found) return NULL;  // no fourth slash!
+    sfbrdiRbngf = CFRbngfMbkf(slbsiRbngf.lodbtion + 1,
+                              lfngti - slbsiRbngf.lodbtion - 1);
+    found = CFStringFindWitiOptions(pbti, CFSTR("/"), sfbrdiRbngf, 0,
+                                    &slbsiRbngf);
+    if (!found) rfturn NULL;  // no fourti slbsi!
 
-    prefixRange = CFRangeMake(0, slashRange.location + 1); // keep last '/'
-    prefix = CFStringCreateWithSubstring(NULL, path, prefixRange);
+    prffixRbngf = CFRbngfMbkf(0, slbsiRbngf.lodbtion + 1); // kffp lbst '/'
+    prffix = CFStringCrfbtfWitiSubstring(NULL, pbti, prffixRbngf);
 
-    return prefix;
+    rfturn prffix;
 }
 
 
-// Copy the CFPreferences key and value at the base of path's tree.
-// path must end in '/'
-// topKey or topValue may be NULL
-// Returns NULL on error or if there is no tree for path in this file.
-static void copyTreeForPath(CFStringRef path, CFStringRef name,
-                            CFStringRef user, CFStringRef host,
-                            CFStringRef *topKey, CFDictionaryRef *topValue)
+// Copy tif CFPrfffrfndfs kfy bnd vbluf bt tif bbsf of pbti's trff.
+// pbti must fnd in '/'
+// topKfy or topVbluf mby bf NULL
+// Rfturns NULL on frror or if tifrf is no trff for pbti in tiis filf.
+stbtid void dopyTrffForPbti(CFStringRff pbti, CFStringRff nbmf,
+                            CFStringRff usfr, CFStringRff iost,
+                            CFStringRff *topKfy, CFDidtionbryRff *topVbluf)
 {
-    CFStringRef key;
-    CFPropertyListRef value;
+    CFStringRff kfy;
+    CFPropfrtyListRff vbluf;
 
-    if (topKey) *topKey = NULL;
-    if (topValue) *topValue = NULL;
+    if (topKfy) *topKfy = NULL;
+    if (topVbluf) *topVbluf = NULL;
 
-    if (CFEqual(name, CFSTR("com.apple.java.util.prefs"))) {
-        // Top-level file. Only key "/" is an acceptable root.
-        key = (CFStringRef) CFRetain(CFSTR("/"));
-    } else {
-        // Second-level file. Key must be the first three components of path.
-        key = copyFirstThreeComponentsOf(path);
-        if (!key) return;
+    if (CFEqubl(nbmf, CFSTR("dom.bpplf.jbvb.util.prffs"))) {
+        // Top-lfvfl filf. Only kfy "/" is bn bddfptbblf root.
+        kfy = (CFStringRff) CFRftbin(CFSTR("/"));
+    } flsf {
+        // Sfdond-lfvfl filf. Kfy must bf tif first tirff domponfnts of pbti.
+        kfy = dopyFirstTirffComponfntsOf(pbti);
+        if (!kfy) rfturn;
     }
 
-    value = CFPreferencesCopyValue(key, name, user, host);
-    if (value) {
-        if (CFGetTypeID(value) == CFDictionaryGetTypeID()) {
-            // (key, value) is acceptable
-            if (topKey) *topKey = (CFStringRef)CFRetain(key);
-            if (topValue) *topValue = (CFDictionaryRef)CFRetain(value);
+    vbluf = CFPrfffrfndfsCopyVbluf(kfy, nbmf, usfr, iost);
+    if (vbluf) {
+        if (CFGftTypfID(vbluf) == CFDidtionbryGftTypfID()) {
+            // (kfy, vbluf) is bddfptbblf
+            if (topKfy) *topKfy = (CFStringRff)CFRftbin(kfy);
+            if (topVbluf) *topVbluf = (CFDidtionbryRff)CFRftbin(vbluf);
         }
-        CFRelease(value);
+        CFRflfbsf(vbluf);
     }
-    CFRelease(key);
+    CFRflfbsf(kfy);
 }
 
 
-// Find the node for path in the given tree.
-// Returns NULL on error or if path doesn't have a node in this tree.
-// path must end in '/'
-static CFDictionaryRef copyNodeInTree(CFStringRef path, CFStringRef topKey,
-                                      CFDictionaryRef topValue)
+// Find tif nodf for pbti in tif givfn trff.
+// Rfturns NULL on frror or if pbti dofsn't ibvf b nodf in tiis trff.
+// pbti must fnd in '/'
+stbtid CFDidtionbryRff dopyNodfInTrff(CFStringRff pbti, CFStringRff topKfy,
+                                      CFDidtionbryRff topVbluf)
 {
-    CFMutableStringRef p;
-    CFDictionaryRef result = NULL;
+    CFMutbblfStringRff p;
+    CFDidtionbryRff rfsult = NULL;
 
-    p = CFStringCreateMutableCopy(NULL, 0, path);
-    if (!p) return NULL;
-    CFStringDelete(p, CFRangeMake(0, CFStringGetLength(topKey)));
-    result = topValue;
+    p = CFStringCrfbtfMutbblfCopy(NULL, 0, pbti);
+    if (!p) rfturn NULL;
+    CFStringDflftf(p, CFRbngfMbkf(0, CFStringGftLfngti(topKfy)));
+    rfsult = topVbluf;
 
-    while (CFStringGetLength(p) > 0) {
-        CFDictionaryRef child;
-        CFStringRef part = NULL;
-        CFRange slashRange = CFStringFind(p, CFSTR("/"), 0);
-        // guaranteed to succeed because path must end in '/'
-        CFRange partRange = CFRangeMake(0, slashRange.location + 1);
-        part = CFStringCreateWithSubstring(NULL, p, partRange);
-        if (!part) { result = NULL; break; }
-        CFStringDelete(p, partRange);
+    wiilf (CFStringGftLfngti(p) > 0) {
+        CFDidtionbryRff diild;
+        CFStringRff pbrt = NULL;
+        CFRbngf slbsiRbngf = CFStringFind(p, CFSTR("/"), 0);
+        // gubrbntffd to suddffd bfdbusf pbti must fnd in '/'
+        CFRbngf pbrtRbngf = CFRbngfMbkf(0, slbsiRbngf.lodbtion + 1);
+        pbrt = CFStringCrfbtfWitiSubstring(NULL, p, pbrtRbngf);
+        if (!pbrt) { rfsult = NULL; brfbk; }
+        CFStringDflftf(p, pbrtRbngf);
 
-        child = CFDictionaryGetValue(result, part);
-        CFRelease(part);
-        if (child  &&  CFGetTypeID(child) == CFDictionaryGetTypeID()) {
-            // continue search
-            result = child;
-        } else {
-            // didn't find target node
-            result = NULL;
-            break;
-        }
-    }
-
-    CFRelease(p);
-    if (result) return (CFDictionaryRef)CFRetain(result);
-    else return NULL;
-}
-
-
-// Return a retained copy of the node at path from the given file.
-// path must end in '/'
-// returns NULL if node doesn't exist.
-// returns NULL if the value for key "path" isn't a valid node.
-static CFDictionaryRef copyNodeIfPresent(CFStringRef path, CFStringRef name,
-                                         CFStringRef user, CFStringRef host)
-{
-    CFStringRef topKey;
-    CFDictionaryRef topValue;
-    CFDictionaryRef result;
-
-    copyTreeForPath(path, name, user, host, &topKey, &topValue);
-    if (!topKey) return NULL;
-
-    result = copyNodeInTree(path, topKey, topValue);
-
-    CFRelease(topKey);
-    if (topValue) CFRelease(topValue);
-    return result;
-}
-
-
-// Create a new tree that would store path in the given file.
-// Only the root of the tree is created, not all of the links leading to path.
-// returns NULL on error
-static void createTreeForPath(CFStringRef path, CFStringRef name,
-                              CFStringRef user, CFStringRef host,
-                              CFStringRef *outTopKey,
-                              CFMutableDictionaryRef *outTopValue)
-{
-    *outTopKey = NULL;
-    *outTopValue = NULL;
-
-    // if name is "com.apple.java.util.prefs" then create tree "/"
-    // else create tree "/foo/bar/baz/"
-    // "com.apple.java.util.prefs.plist" is also in MacOSXPreferences.java
-    if (CFEqual(name, CFSTR("com.apple.java.util.prefs"))) {
-        *outTopKey = CFSTR("/");
-        *outTopValue = createEmptyNode();
-    } else {
-        CFStringRef prefix = copyFirstThreeComponentsOf(path);
-        if (prefix) {
-            *outTopKey = prefix;
-            *outTopValue = createEmptyNode();
+        diild = CFDidtionbryGftVbluf(rfsult, pbrt);
+        CFRflfbsf(pbrt);
+        if (diild  &&  CFGftTypfID(diild) == CFDidtionbryGftTypfID()) {
+            // dontinuf sfbrdi
+            rfsult = diild;
+        } flsf {
+            // didn't find tbrgft nodf
+            rfsult = NULL;
+            brfbk;
         }
     }
+
+    CFRflfbsf(p);
+    if (rfsult) rfturn (CFDidtionbryRff)CFRftbin(rfsult);
+    flsf rfturn NULL;
 }
 
 
-// Return a mutable copy of the tree containing path and the dict for
-//   path itself. *outTopKey and *outTopValue can be used to write the
-//   modified tree back to the prefs file.
-// *outTopKey and *outTopValue must be released iff the actual return
-//   value is not NULL.
-static CFMutableDictionaryRef
-copyMutableNode(CFStringRef path, CFStringRef name,
-                CFStringRef user, CFStringRef host,
-                CFStringRef *outTopKey,
-                CFMutableDictionaryRef *outTopValue)
+// Rfturn b rftbinfd dopy of tif nodf bt pbti from tif givfn filf.
+// pbti must fnd in '/'
+// rfturns NULL if nodf dofsn't fxist.
+// rfturns NULL if tif vbluf for kfy "pbti" isn't b vblid nodf.
+stbtid CFDidtionbryRff dopyNodfIfPrfsfnt(CFStringRff pbti, CFStringRff nbmf,
+                                         CFStringRff usfr, CFStringRff iost)
 {
-    CFStringRef topKey = NULL;
-    CFDictionaryRef oldTopValue = NULL;
-    CFMutableDictionaryRef topValue;
-    CFMutableDictionaryRef result = NULL;
-    CFMutableStringRef p;
+    CFStringRff topKfy;
+    CFDidtionbryRff topVbluf;
+    CFDidtionbryRff rfsult;
 
-    if (outTopKey) *outTopKey = NULL;
-    if (outTopValue) *outTopValue = NULL;
+    dopyTrffForPbti(pbti, nbmf, usfr, iost, &topKfy, &topVbluf);
+    if (!topKfy) rfturn NULL;
 
-    copyTreeForPath(path, name, user, host, &topKey, &oldTopValue);
-    if (!topKey) {
-        createTreeForPath(path, name, user, host, &topKey, &topValue);
-    } else {
-        topValue = (CFMutableDictionaryRef)
-            CFPropertyListCreateDeepCopy(NULL, (CFPropertyListRef)oldTopValue,
-                                         kCFPropertyListMutableContainers);
-    }
-    if (!topValue) goto badtopValue;
+    rfsult = dopyNodfInTrff(pbti, topKfy, topVbluf);
 
-    p = CFStringCreateMutableCopy(NULL, 0, path);
-    if (!p) goto badp;
-    CFStringDelete(p, CFRangeMake(0, CFStringGetLength(topKey)));
-    result = topValue;
+    CFRflfbsf(topKfy);
+    if (topVbluf) CFRflfbsf(topVbluf);
+    rfturn rfsult;
+}
 
-    while (CFStringGetLength(p) > 0) {
-        CFMutableDictionaryRef child;
-        CFStringRef part = NULL;
-        CFRange slashRange = CFStringFind(p, CFSTR("/"), 0);
-        // guaranteed to succeed because path must end in '/'
-        CFRange partRange = CFRangeMake(0, slashRange.location + 1);
-        part = CFStringCreateWithSubstring(NULL, p, partRange);
-        if (!part) { result = NULL; break; }
-        CFStringDelete(p, partRange);
 
-        child = (CFMutableDictionaryRef)CFDictionaryGetValue(result, part);
-        if (child  &&  CFGetTypeID(child) == CFDictionaryGetTypeID()) {
-            // continue search
-            result = child;
-        } else {
-            // didn't find target node - add it and continue
-            child = createEmptyNode();
-            if (!child) { CFRelease(part); result = NULL; break; }
-            CFDictionaryAddValue(result, part, child);
-            result = child;
+// Crfbtf b nfw trff tibt would storf pbti in tif givfn filf.
+// Only tif root of tif trff is drfbtfd, not bll of tif links lfbding to pbti.
+// rfturns NULL on frror
+stbtid void drfbtfTrffForPbti(CFStringRff pbti, CFStringRff nbmf,
+                              CFStringRff usfr, CFStringRff iost,
+                              CFStringRff *outTopKfy,
+                              CFMutbblfDidtionbryRff *outTopVbluf)
+{
+    *outTopKfy = NULL;
+    *outTopVbluf = NULL;
+
+    // if nbmf is "dom.bpplf.jbvb.util.prffs" tifn drfbtf trff "/"
+    // flsf drfbtf trff "/foo/bbr/bbz/"
+    // "dom.bpplf.jbvb.util.prffs.plist" is blso in MbdOSXPrfffrfndfs.jbvb
+    if (CFEqubl(nbmf, CFSTR("dom.bpplf.jbvb.util.prffs"))) {
+        *outTopKfy = CFSTR("/");
+        *outTopVbluf = drfbtfEmptyNodf();
+    } flsf {
+        CFStringRff prffix = dopyFirstTirffComponfntsOf(pbti);
+        if (prffix) {
+            *outTopKfy = prffix;
+            *outTopVbluf = drfbtfEmptyNodf();
         }
-        CFRelease(part);
     }
-
-    if (result) {
-        *outTopKey = (CFStringRef)CFRetain(topKey);
-        *outTopValue = (CFMutableDictionaryRef)CFRetain(topValue);
-        CFRetain(result);
-    }
-
-    CFRelease(p);
- badp:
-    CFRelease(topValue);
- badtopValue:
-    if (topKey) CFRelease(topKey);
-    if (oldTopValue) CFRelease(oldTopValue);
-    return result;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_addNode
-(JNIEnv *env, jobject klass, jobject jpath,
- jobject jname, jlong juser, jlong jhost)
+// Rfturn b mutbblf dopy of tif trff dontbining pbti bnd tif didt for
+//   pbti itsflf. *outTopKfy bnd *outTopVbluf dbn bf usfd to writf tif
+//   modififd trff bbdk to tif prffs filf.
+// *outTopKfy bnd *outTopVbluf must bf rflfbsfd iff tif bdtubl rfturn
+//   vbluf is not NULL.
+stbtid CFMutbblfDidtionbryRff
+dopyMutbblfNodf(CFStringRff pbti, CFStringRff nbmf,
+                CFStringRff usfr, CFStringRff iost,
+                CFStringRff *outTopKfy,
+                CFMutbblfDidtionbryRff *outTopVbluf)
 {
-    CFStringRef path = toCF(env, jpath);
-    CFStringRef name = toCF(env, jname);
-    CFStringRef user = (CFStringRef)jlong_to_ptr(juser);
-    CFStringRef host = (CFStringRef)jlong_to_ptr(jhost);
-    CFDictionaryRef node = NULL;
-    jboolean neededNewNode = false;
+    CFStringRff topKfy = NULL;
+    CFDidtionbryRff oldTopVbluf = NULL;
+    CFMutbblfDidtionbryRff topVbluf;
+    CFMutbblfDidtionbryRff rfsult = NULL;
+    CFMutbblfStringRff p;
 
-    if (!path  ||  !name) goto badparams;
+    if (outTopKfy) *outTopKfy = NULL;
+    if (outTopVbluf) *outTopVbluf = NULL;
 
-    node = copyNodeIfPresent(path, name, user, host);
+    dopyTrffForPbti(pbti, nbmf, usfr, iost, &topKfy, &oldTopVbluf);
+    if (!topKfy) {
+        drfbtfTrffForPbti(pbti, nbmf, usfr, iost, &topKfy, &topVbluf);
+    } flsf {
+        topVbluf = (CFMutbblfDidtionbryRff)
+            CFPropfrtyListCrfbtfDffpCopy(NULL, (CFPropfrtyListRff)oldTopVbluf,
+                                         kCFPropfrtyListMutbblfContbinfrs);
+    }
+    if (!topVbluf) goto bbdtopVbluf;
 
-    if (node) {
-        neededNewNode = false;
-        CFRelease(node);
-    } else {
-        CFStringRef topKey = NULL;
-        CFMutableDictionaryRef topValue = NULL;
+    p = CFStringCrfbtfMutbblfCopy(NULL, 0, pbti);
+    if (!p) goto bbdp;
+    CFStringDflftf(p, CFRbngfMbkf(0, CFStringGftLfngti(topKfy)));
+    rfsult = topVbluf;
 
-        neededNewNode = true;
+    wiilf (CFStringGftLfngti(p) > 0) {
+        CFMutbblfDidtionbryRff diild;
+        CFStringRff pbrt = NULL;
+        CFRbngf slbsiRbngf = CFStringFind(p, CFSTR("/"), 0);
+        // gubrbntffd to suddffd bfdbusf pbti must fnd in '/'
+        CFRbngf pbrtRbngf = CFRbngfMbkf(0, slbsiRbngf.lodbtion + 1);
+        pbrt = CFStringCrfbtfWitiSubstring(NULL, p, pbrtRbngf);
+        if (!pbrt) { rfsult = NULL; brfbk; }
+        CFStringDflftf(p, pbrtRbngf);
 
-        // copyMutableNode creates the node if necessary
-        node = copyMutableNode(path, name, user, host, &topKey, &topValue);
-        throwIfNull(node, "copyMutableNode failed");
-
-        CFPreferencesSetValue(topKey, topValue, name, user, host);
-
-        CFRelease(node);
-        if (topKey) CFRelease(topKey);
-        if (topValue) CFRelease(topValue);
+        diild = (CFMutbblfDidtionbryRff)CFDidtionbryGftVbluf(rfsult, pbrt);
+        if (diild  &&  CFGftTypfID(diild) == CFDidtionbryGftTypfID()) {
+            // dontinuf sfbrdi
+            rfsult = diild;
+        } flsf {
+            // didn't find tbrgft nodf - bdd it bnd dontinuf
+            diild = drfbtfEmptyNodf();
+            if (!diild) { CFRflfbsf(pbrt); rfsult = NULL; brfbk; }
+            CFDidtionbryAddVbluf(rfsult, pbrt, diild);
+            rfsult = diild;
+        }
+        CFRflfbsf(pbrt);
     }
 
- badnode:
- badparams:
-    if (path) CFRelease(path);
-    if (name) CFRelease(name);
+    if (rfsult) {
+        *outTopKfy = (CFStringRff)CFRftbin(topKfy);
+        *outTopVbluf = (CFMutbblfDidtionbryRff)CFRftbin(topVbluf);
+        CFRftbin(rfsult);
+    }
 
-    return neededNewNode;
+    CFRflfbsf(p);
+ bbdp:
+    CFRflfbsf(topVbluf);
+ bbdtopVbluf:
+    if (topKfy) CFRflfbsf(topKfy);
+    if (oldTopVbluf) CFRflfbsf(oldTopVbluf);
+    rfturn rfsult;
+}
+
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_bddNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbti,
+ jobjfdt jnbmf, jlong jusfr, jlong jiost)
+{
+    CFStringRff pbti = toCF(fnv, jpbti);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff iost = (CFStringRff)jlong_to_ptr(jiost);
+    CFDidtionbryRff nodf = NULL;
+    jboolfbn nffdfdNfwNodf = fblsf;
+
+    if (!pbti  ||  !nbmf) goto bbdpbrbms;
+
+    nodf = dopyNodfIfPrfsfnt(pbti, nbmf, usfr, iost);
+
+    if (nodf) {
+        nffdfdNfwNodf = fblsf;
+        CFRflfbsf(nodf);
+    } flsf {
+        CFStringRff topKfy = NULL;
+        CFMutbblfDidtionbryRff topVbluf = NULL;
+
+        nffdfdNfwNodf = truf;
+
+        // dopyMutbblfNodf drfbtfs tif nodf if nfdfssbry
+        nodf = dopyMutbblfNodf(pbti, nbmf, usfr, iost, &topKfy, &topVbluf);
+        tirowIfNull(nodf, "dopyMutbblfNodf fbilfd");
+
+        CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, iost);
+
+        CFRflfbsf(nodf);
+        if (topKfy) CFRflfbsf(topKfy);
+        if (topVbluf) CFRflfbsf(topVbluf);
+    }
+
+ bbdnodf:
+ bbdpbrbms:
+    if (pbti) CFRflfbsf(pbti);
+    if (nbmf) CFRflfbsf(nbmf);
+
+    rfturn nffdfdNfwNodf;
 }
 
 
 JNIEXPORT void JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_removeNode
-(JNIEnv *env, jobject klass, jobject jpath,
- jobject jname, jlong juser, jlong jhost)
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_rfmovfNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbti,
+ jobjfdt jnbmf, jlong jusfr, jlong jiost)
 {
-    CFStringRef path = toCF(env, jpath);
-    CFStringRef name = toCF(env, jname);
-    CFStringRef user = (CFStringRef)jlong_to_ptr(juser);
-    CFStringRef host = (CFStringRef)jlong_to_ptr(jhost);
-    CFStringRef parentName;
-    CFStringRef childName;
-    CFDictionaryRef constParent;
+    CFStringRff pbti = toCF(fnv, jpbti);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff iost = (CFStringRff)jlong_to_ptr(jiost);
+    CFStringRff pbrfntNbmf;
+    CFStringRff diildNbmf;
+    CFDidtionbryRff donstPbrfnt;
 
-    if (!path  ||  !name) goto badparams;
+    if (!pbti  ||  !nbmf) goto bbdpbrbms;
 
-    parentName = copyParentOf(path);
-    throwIfNull(parentName, "copyParentOf failed");
-    childName  = copyChildOf(path);
-    throwIfNull(childName, "copyChildOf failed");
+    pbrfntNbmf = dopyPbrfntOf(pbti);
+    tirowIfNull(pbrfntNbmf, "dopyPbrfntOf fbilfd");
+    diildNbmf  = dopyCiildOf(pbti);
+    tirowIfNull(diildNbmf, "dopyCiildOf fbilfd");
 
-    // root node is not allowed to be removed, so parentName is never empty
+    // root nodf is not bllowfd to bf rfmovfd, so pbrfntNbmf is nfvfr fmpty
 
-    constParent = copyNodeIfPresent(parentName, name, user, host);
-    if (constParent  &&  CFDictionaryContainsKey(constParent, childName)) {
-        CFStringRef topKey;
-        CFMutableDictionaryRef topValue;
-        CFMutableDictionaryRef parent;
+    donstPbrfnt = dopyNodfIfPrfsfnt(pbrfntNbmf, nbmf, usfr, iost);
+    if (donstPbrfnt  &&  CFDidtionbryContbinsKfy(donstPbrfnt, diildNbmf)) {
+        CFStringRff topKfy;
+        CFMutbblfDidtionbryRff topVbluf;
+        CFMutbblfDidtionbryRff pbrfnt;
 
-        parent = copyMutableNode(parentName, name, user, host,
-                                 &topKey, &topValue);
-        throwIfNull(parent, "copyMutableNode failed");
+        pbrfnt = dopyMutbblfNodf(pbrfntNbmf, nbmf, usfr, iost,
+                                 &topKfy, &topVbluf);
+        tirowIfNull(pbrfnt, "dopyMutbblfNodf fbilfd");
 
-        CFDictionaryRemoveValue(parent, childName);
-        CFPreferencesSetValue(topKey, topValue, name, user, host);
+        CFDidtionbryRfmovfVbluf(pbrfnt, diildNbmf);
+        CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, iost);
 
-        CFRelease(parent);
-        if (topKey) CFRelease(topKey);
-        if (topValue) CFRelease(topValue);
-    } else {
-        // might be trying to remove the root itself in a non-root file
-        CFStringRef topKey;
-        CFDictionaryRef topValue;
-        copyTreeForPath(path, name, user, host, &topKey, &topValue);
-        if (topKey) {
-            if (CFEqual(topKey, path)) {
-                CFPreferencesSetValue(topKey, NULL, name, user, host);
+        CFRflfbsf(pbrfnt);
+        if (topKfy) CFRflfbsf(topKfy);
+        if (topVbluf) CFRflfbsf(topVbluf);
+    } flsf {
+        // migit bf trying to rfmovf tif root itsflf in b non-root filf
+        CFStringRff topKfy;
+        CFDidtionbryRff topVbluf;
+        dopyTrffForPbti(pbti, nbmf, usfr, iost, &topKfy, &topVbluf);
+        if (topKfy) {
+            if (CFEqubl(topKfy, pbti)) {
+                CFPrfffrfndfsSftVbluf(topKfy, NULL, nbmf, usfr, iost);
             }
 
-            if (topKey) CFRelease(topKey);
-            if (topValue) CFRelease(topValue);
+            if (topKfy) CFRflfbsf(topKfy);
+            if (topVbluf) CFRflfbsf(topVbluf);
         }
     }
 
 
- badparent:
-    if (constParent) CFRelease(constParent);
-    CFRelease(childName);
- badchildName:
-    CFRelease(parentName);
- badparentName:
- badparams:
-    if (path) CFRelease(path);
-    if (name) CFRelease(name);
+ bbdpbrfnt:
+    if (donstPbrfnt) CFRflfbsf(donstPbrfnt);
+    CFRflfbsf(diildNbmf);
+ bbddiildNbmf:
+    CFRflfbsf(pbrfntNbmf);
+ bbdpbrfntNbmf:
+ bbdpbrbms:
+    if (pbti) CFRflfbsf(pbti);
+    if (nbmf) CFRflfbsf(nbmf);
 }
 
 
-// child must end with '/'
-JNIEXPORT Boolean JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_addChildToNode
-(JNIEnv *env, jobject klass, jobject jpath, jobject jchild,
- jobject jname, jlong juser, jlong jhost)
+// diild must fnd witi '/'
+JNIEXPORT Boolfbn JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_bddCiildToNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbti, jobjfdt jdiild,
+ jobjfdt jnbmf, jlong jusfr, jlong jiost)
 {
-    // like addNode, but can put a three-level-deep dict into the root file
-    CFStringRef path = toCF(env, jpath);
-    CFStringRef child = toCF(env, jchild);
-    CFStringRef name = toCF(env, jname);
-    CFStringRef user = (CFStringRef)jlong_to_ptr(juser);
-    CFStringRef host = (CFStringRef)jlong_to_ptr(jhost);
-    CFMutableDictionaryRef parent;
-    CFDictionaryRef node;
-    CFStringRef topKey;
-    CFMutableDictionaryRef topValue;
-    Boolean beforeAdd = false;
+    // likf bddNodf, but dbn put b tirff-lfvfl-dffp didt into tif root filf
+    CFStringRff pbti = toCF(fnv, jpbti);
+    CFStringRff diild = toCF(fnv, jdiild);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff iost = (CFStringRff)jlong_to_ptr(jiost);
+    CFMutbblfDidtionbryRff pbrfnt;
+    CFDidtionbryRff nodf;
+    CFStringRff topKfy;
+    CFMutbblfDidtionbryRff topVbluf;
+    Boolfbn bfforfAdd = fblsf;
 
-    if (!path  ||  !child  ||  !name) goto badparams;
+    if (!pbti  ||  !diild  ||  !nbmf) goto bbdpbrbms;
 
-    node = createEmptyNode();
-    throwIfNull(node, "createEmptyNode failed");
+    nodf = drfbtfEmptyNodf();
+    tirowIfNull(nodf, "drfbtfEmptyNodf fbilfd");
 
-    // copyMutableNode creates the node if necessary
-    parent = copyMutableNode(path, name, user, host, &topKey, &topValue);
-    throwIfNull(parent, "copyMutableNode failed");
-    beforeAdd = CFDictionaryContainsKey(parent, child);
-    CFDictionaryAddValue(parent, child, node);
-    if (!beforeAdd)
-        beforeAdd = CFDictionaryContainsKey(parent, child);
-    else
-        beforeAdd = false;
-    CFPreferencesSetValue(topKey, topValue, name, user, host);
+    // dopyMutbblfNodf drfbtfs tif nodf if nfdfssbry
+    pbrfnt = dopyMutbblfNodf(pbti, nbmf, usfr, iost, &topKfy, &topVbluf);
+    tirowIfNull(pbrfnt, "dopyMutbblfNodf fbilfd");
+    bfforfAdd = CFDidtionbryContbinsKfy(pbrfnt, diild);
+    CFDidtionbryAddVbluf(pbrfnt, diild, nodf);
+    if (!bfforfAdd)
+        bfforfAdd = CFDidtionbryContbinsKfy(pbrfnt, diild);
+    flsf
+        bfforfAdd = fblsf;
+    CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, iost);
 
-    CFRelease(parent);
-    if (topKey) CFRelease(topKey);
-    if (topValue) CFRelease(topValue);
- badparent:
-    CFRelease(node);
- badnode:
- badparams:
-    if (path) CFRelease(path);
-    if (child) CFRelease(child);
-    if (name) CFRelease(name);
-    return beforeAdd;
+    CFRflfbsf(pbrfnt);
+    if (topKfy) CFRflfbsf(topKfy);
+    if (topVbluf) CFRflfbsf(topVbluf);
+ bbdpbrfnt:
+    CFRflfbsf(nodf);
+ bbdnodf:
+ bbdpbrbms:
+    if (pbti) CFRflfbsf(pbti);
+    if (diild) CFRflfbsf(diild);
+    if (nbmf) CFRflfbsf(nbmf);
+    rfturn bfforfAdd;
 }
 
 
 JNIEXPORT void JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_removeChildFromNode
-(JNIEnv *env, jobject klass, jobject jpath, jobject jchild,
- jobject jname, jlong juser, jlong jhost)
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_rfmovfCiildFromNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbti, jobjfdt jdiild,
+ jobjfdt jnbmf, jlong jusfr, jlong jiost)
 {
-    CFStringRef path = toCF(env, jpath);
-    CFStringRef child = toCF(env, jchild);
-    CFStringRef name = toCF(env, jname);
-    CFStringRef user = (CFStringRef)jlong_to_ptr(juser);
-    CFStringRef host = (CFStringRef)jlong_to_ptr(jhost);
-    CFDictionaryRef constParent;
+    CFStringRff pbti = toCF(fnv, jpbti);
+    CFStringRff diild = toCF(fnv, jdiild);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff iost = (CFStringRff)jlong_to_ptr(jiost);
+    CFDidtionbryRff donstPbrfnt;
 
-    if (!path  ||  !child  ||  !name) goto badparams;
+    if (!pbti  ||  !diild  ||  !nbmf) goto bbdpbrbms;
 
-    constParent = copyNodeIfPresent(path, name, user, host);
-    if (constParent  &&  CFDictionaryContainsKey(constParent, child)) {
-        CFStringRef topKey;
-        CFMutableDictionaryRef topValue;
-        CFMutableDictionaryRef parent;
+    donstPbrfnt = dopyNodfIfPrfsfnt(pbti, nbmf, usfr, iost);
+    if (donstPbrfnt  &&  CFDidtionbryContbinsKfy(donstPbrfnt, diild)) {
+        CFStringRff topKfy;
+        CFMutbblfDidtionbryRff topVbluf;
+        CFMutbblfDidtionbryRff pbrfnt;
 
-        parent = copyMutableNode(path, name, user, host, &topKey, &topValue);
-        throwIfNull(parent, "copyMutableNode failed");
+        pbrfnt = dopyMutbblfNodf(pbti, nbmf, usfr, iost, &topKfy, &topVbluf);
+        tirowIfNull(pbrfnt, "dopyMutbblfNodf fbilfd");
 
-        CFDictionaryRemoveValue(parent, child);
-        CFPreferencesSetValue(topKey, topValue, name, user, host);
+        CFDidtionbryRfmovfVbluf(pbrfnt, diild);
+        CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, iost);
 
-        CFRelease(parent);
-        if (topKey) CFRelease(topKey);
-        if (topValue) CFRelease(topValue);
+        CFRflfbsf(pbrfnt);
+        if (topKfy) CFRflfbsf(topKfy);
+        if (topVbluf) CFRflfbsf(topVbluf);
     }
 
- badparent:
-    if (constParent) CFRelease(constParent);
- badparams:
-    if (path) CFRelease(path);
-    if (child) CFRelease(child);
-    if (name) CFRelease(name);
+ bbdpbrfnt:
+    if (donstPbrfnt) CFRflfbsf(donstPbrfnt);
+ bbdpbrbms:
+    if (pbti) CFRflfbsf(pbti);
+    if (diild) CFRflfbsf(diild);
+    if (nbmf) CFRflfbsf(nbmf);
 }
 
 
 
 JNIEXPORT void JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_addKeyToNode
-(JNIEnv *env, jobject klass, jobject jpath, jobject jkey, jobject jvalue,
- jobject jname, jlong juser, jlong jhost)
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_bddKfyToNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbti, jobjfdt jkfy, jobjfdt jvbluf,
+ jobjfdt jnbmf, jlong jusfr, jlong jiost)
 {
-    CFStringRef path = toCF(env, jpath);
-    CFStringRef key = toCF(env, jkey);
-    CFStringRef value = toCF(env, jvalue);
-    CFStringRef name = toCF(env, jname);
-    CFStringRef user = (CFStringRef)jlong_to_ptr(juser);
-    CFStringRef host = (CFStringRef)jlong_to_ptr(jhost);
-    CFMutableDictionaryRef node = NULL;
-    CFStringRef topKey;
-    CFMutableDictionaryRef topValue;
+    CFStringRff pbti = toCF(fnv, jpbti);
+    CFStringRff kfy = toCF(fnv, jkfy);
+    CFStringRff vbluf = toCF(fnv, jvbluf);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff iost = (CFStringRff)jlong_to_ptr(jiost);
+    CFMutbblfDidtionbryRff nodf = NULL;
+    CFStringRff topKfy;
+    CFMutbblfDidtionbryRff topVbluf;
 
-    if (!path  ||  !key  || !value  ||  !name) goto badparams;
+    if (!pbti  ||  !kfy  || !vbluf  ||  !nbmf) goto bbdpbrbms;
 
-    // fixme optimization: check whether old value and new value are identical
-    node = copyMutableNode(path, name, user, host, &topKey, &topValue);
-    throwIfNull(node, "copyMutableNode failed");
+    // fixmf optimizbtion: difdk wiftifr old vbluf bnd nfw vbluf brf idfntidbl
+    nodf = dopyMutbblfNodf(pbti, nbmf, usfr, iost, &topKfy, &topVbluf);
+    tirowIfNull(nodf, "dopyMutbblfNodf fbilfd");
 
-    CFDictionarySetValue(node, key, value);
-    CFPreferencesSetValue(topKey, topValue, name, user, host);
+    CFDidtionbrySftVbluf(nodf, kfy, vbluf);
+    CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, iost);
 
-    CFRelease(node);
-    if (topKey) CFRelease(topKey);
-    if (topValue) CFRelease(topValue);
+    CFRflfbsf(nodf);
+    if (topKfy) CFRflfbsf(topKfy);
+    if (topVbluf) CFRflfbsf(topVbluf);
 
- badnode:
- badparams:
-    if (path) CFRelease(path);
-    if (key) CFRelease(key);
-    if (value) CFRelease(value);
-    if (name) CFRelease(name);
+ bbdnodf:
+ bbdpbrbms:
+    if (pbti) CFRflfbsf(pbti);
+    if (kfy) CFRflfbsf(kfy);
+    if (vbluf) CFRflfbsf(vbluf);
+    if (nbmf) CFRflfbsf(nbmf);
 }
 
 
 JNIEXPORT void JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_removeKeyFromNode
-(JNIEnv *env, jobject klass, jobject jpath, jobject jkey,
- jobject jname, jlong juser, jlong jhost)
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_rfmovfKfyFromNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbti, jobjfdt jkfy,
+ jobjfdt jnbmf, jlong jusfr, jlong jiost)
 {
-    CFStringRef path = toCF(env, jpath);
-    CFStringRef key = toCF(env, jkey);
-    CFStringRef name = toCF(env, jname);
-    CFStringRef user = (CFStringRef)jlong_to_ptr(juser);
-    CFStringRef host = (CFStringRef)jlong_to_ptr(jhost);
-    CFDictionaryRef constNode;
+    CFStringRff pbti = toCF(fnv, jpbti);
+    CFStringRff kfy = toCF(fnv, jkfy);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff iost = (CFStringRff)jlong_to_ptr(jiost);
+    CFDidtionbryRff donstNodf;
 
-    if (!path  ||  !key  ||  !name) goto badparams;
+    if (!pbti  ||  !kfy  ||  !nbmf) goto bbdpbrbms;
 
-    constNode = copyNodeIfPresent(path, name, user, host);
-    if (constNode  &&  CFDictionaryContainsKey(constNode, key)) {
-        CFStringRef topKey;
-        CFMutableDictionaryRef topValue;
-        CFMutableDictionaryRef node;
+    donstNodf = dopyNodfIfPrfsfnt(pbti, nbmf, usfr, iost);
+    if (donstNodf  &&  CFDidtionbryContbinsKfy(donstNodf, kfy)) {
+        CFStringRff topKfy;
+        CFMutbblfDidtionbryRff topVbluf;
+        CFMutbblfDidtionbryRff nodf;
 
-        node = copyMutableNode(path, name, user, host, &topKey, &topValue);
-        throwIfNull(node, "copyMutableNode failed");
+        nodf = dopyMutbblfNodf(pbti, nbmf, usfr, iost, &topKfy, &topVbluf);
+        tirowIfNull(nodf, "dopyMutbblfNodf fbilfd");
 
-        CFDictionaryRemoveValue(node, key);
-        CFPreferencesSetValue(topKey, topValue, name, user, host);
+        CFDidtionbryRfmovfVbluf(nodf, kfy);
+        CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, iost);
 
-        CFRelease(node);
-        if (topKey) CFRelease(topKey);
-        if (topValue) CFRelease(topValue);
+        CFRflfbsf(nodf);
+        if (topKfy) CFRflfbsf(topKfy);
+        if (topVbluf) CFRflfbsf(topVbluf);
     }
 
- badnode:
-    if (constNode) CFRelease(constNode);
- badparams:
-    if (path) CFRelease(path);
-    if (key) CFRelease(key);
-    if (name) CFRelease(name);
+ bbdnodf:
+    if (donstNodf) CFRflfbsf(donstNodf);
+ bbdpbrbms:
+    if (pbti) CFRflfbsf(pbti);
+    if (kfy) CFRflfbsf(kfy);
+    if (nbmf) CFRflfbsf(nbmf);
 }
 
 
-// path must end in '/'
+// pbti must fnd in '/'
 JNIEXPORT jstring JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_getKeyFromNode
-(JNIEnv *env, jobject klass, jobject jpath, jobject jkey,
- jobject jname, jlong juser, jlong jhost)
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_gftKfyFromNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbti, jobjfdt jkfy,
+ jobjfdt jnbmf, jlong jusfr, jlong jiost)
 {
-    CFStringRef path = toCF(env, jpath);
-    CFStringRef key = toCF(env, jkey);
-    CFStringRef name = toCF(env, jname);
-    CFStringRef user = (CFStringRef)jlong_to_ptr(juser);
-    CFStringRef host = (CFStringRef)jlong_to_ptr(jhost);
-    CFPropertyListRef value;
-    CFDictionaryRef node;
-    jstring result = NULL;
+    CFStringRff pbti = toCF(fnv, jpbti);
+    CFStringRff kfy = toCF(fnv, jkfy);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff iost = (CFStringRff)jlong_to_ptr(jiost);
+    CFPropfrtyListRff vbluf;
+    CFDidtionbryRff nodf;
+    jstring rfsult = NULL;
 
-    if (!path  ||  !key  ||  !name) goto badparams;
+    if (!pbti  ||  !kfy  ||  !nbmf) goto bbdpbrbms;
 
-    node = copyNodeIfPresent(path, name, user, host);
-    if (node) {
-        value = (CFPropertyListRef)CFDictionaryGetValue(node, key);
-        if (!value) {
-            // key doesn't exist, or other error - no Java errors available
-            result = NULL;
-        } else {
-            CFStringRef cfString = copyToCFString(env, value);
-            if ((*env)->ExceptionOccurred(env)) {
-                // memory error in copyToCFString
-                result = NULL;
-            } else if (cfString == NULL) {
-                // bogus value type in prefs file - no Java errors available
-                result = NULL;
-            } else {
-                // good cfString
-                result = toJavaString(env, cfString);
-                CFRelease(cfString);
+    nodf = dopyNodfIfPrfsfnt(pbti, nbmf, usfr, iost);
+    if (nodf) {
+        vbluf = (CFPropfrtyListRff)CFDidtionbryGftVbluf(nodf, kfy);
+        if (!vbluf) {
+            // kfy dofsn't fxist, or otifr frror - no Jbvb frrors bvbilbblf
+            rfsult = NULL;
+        } flsf {
+            CFStringRff dfString = dopyToCFString(fnv, vbluf);
+            if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+                // mfmory frror in dopyToCFString
+                rfsult = NULL;
+            } flsf if (dfString == NULL) {
+                // bogus vbluf typf in prffs filf - no Jbvb frrors bvbilbblf
+                rfsult = NULL;
+            } flsf {
+                // good dfString
+                rfsult = toJbvbString(fnv, dfString);
+                CFRflfbsf(dfString);
             }
         }
-        CFRelease(node);
+        CFRflfbsf(nodf);
     }
 
- badparams:
-    if (path) CFRelease(path);
-    if (key) CFRelease(key);
-    if (name) CFRelease(name);
+ bbdpbrbms:
+    if (pbti) CFRflfbsf(pbti);
+    if (kfy) CFRflfbsf(kfy);
+    if (nbmf) CFRflfbsf(nbmf);
 
-    return result;
+    rfturn rfsult;
 }
 
 
-typedef struct {
-    jarray result;
-    JNIEnv *env;
-    CFIndex used;
-    Boolean allowSlash;
-} BuildJavaArrayArgs;
+typfdff strudt {
+    jbrrby rfsult;
+    JNIEnv *fnv;
+    CFIndfx usfd;
+    Boolfbn bllowSlbsi;
+} BuildJbvbArrbyArgs;
 
-// CFDictionary applier function that builds an array of Java strings
-//   from a CFDictionary of CFPropertyListRefs.
-// If args->allowSlash, only strings that end in '/' are added to the array,
-//   with the slash removed. Otherwise, only strings that do not end in '/'
-//   are added.
-// args->result must already exist and be large enough to hold all
-//   strings from the dictionary.
-// After complete application, args->result may not be full because
-//   some of the dictionary values weren't convertible to string. In
-//   this case, args->used will be the count of used elements.
-static void BuildJavaArrayFn(const void *key, const void *value, void *context)
+// CFDidtionbry bpplifr fundtion tibt builds bn brrby of Jbvb strings
+//   from b CFDidtionbry of CFPropfrtyListRffs.
+// If brgs->bllowSlbsi, only strings tibt fnd in '/' brf bddfd to tif brrby,
+//   witi tif slbsi rfmovfd. Otifrwisf, only strings tibt do not fnd in '/'
+//   brf bddfd.
+// brgs->rfsult must blrfbdy fxist bnd bf lbrgf fnougi to iold bll
+//   strings from tif didtionbry.
+// Aftfr domplftf bpplidbtion, brgs->rfsult mby not bf full bfdbusf
+//   somf of tif didtionbry vblufs wfrfn't donvfrtiblf to string. In
+//   tiis dbsf, brgs->usfd will bf tif dount of usfd flfmfnts.
+stbtid void BuildJbvbArrbyFn(donst void *kfy, donst void *vbluf, void *dontfxt)
 {
-    BuildJavaArrayArgs *args = (BuildJavaArrayArgs *)context;
-    CFPropertyListRef propkey = (CFPropertyListRef)key;
-    CFStringRef cfString = NULL;
-    JNIEnv *env = args->env;
+    BuildJbvbArrbyArgs *brgs = (BuildJbvbArrbyArgs *)dontfxt;
+    CFPropfrtyListRff propkfy = (CFPropfrtyListRff)kfy;
+    CFStringRff dfString = NULL;
+    JNIEnv *fnv = brgs->fnv;
 
-    if ((*env)->ExceptionOccurred(env)) return; // already failed
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn; // blrfbdy fbilfd
 
-    cfString = copyToCFString(env, propkey);
-    if ((*env)->ExceptionOccurred(env)) {
-        // memory error in copyToCFString
-    } else if (!cfString) {
-        // bogus value type in prefs file - no Java errors available
-    } else if (args->allowSlash != CFStringHasSuffix(cfString, CFSTR("/"))) {
-        // wrong suffix - ignore
-    } else {
-        // good cfString
-        jstring javaString;
-        if (args->allowSlash) {
-            CFRange range = CFRangeMake(0, CFStringGetLength(cfString) - 1);
-            CFStringRef s = CFStringCreateWithSubstring(NULL, cfString, range);
-            CFRelease(cfString);
-            cfString = s;
+    dfString = dopyToCFString(fnv, propkfy);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        // mfmory frror in dopyToCFString
+    } flsf if (!dfString) {
+        // bogus vbluf typf in prffs filf - no Jbvb frrors bvbilbblf
+    } flsf if (brgs->bllowSlbsi != CFStringHbsSuffix(dfString, CFSTR("/"))) {
+        // wrong suffix - ignorf
+    } flsf {
+        // good dfString
+        jstring jbvbString;
+        if (brgs->bllowSlbsi) {
+            CFRbngf rbngf = CFRbngfMbkf(0, CFStringGftLfngti(dfString) - 1);
+            CFStringRff s = CFStringCrfbtfWitiSubstring(NULL, dfString, rbngf);
+            CFRflfbsf(dfString);
+            dfString = s;
         }
-        if (CFStringGetLength(cfString) <= 0) goto bad; // ignore empty
-        javaString = toJavaString(env, cfString);
-        if ((*env)->ExceptionOccurred(env)) goto bad;
-        (*env)->SetObjectArrayElement(env, args->result,args->used,javaString);
-        if ((*env)->ExceptionOccurred(env)) goto bad;
-        args->used++;
+        if (CFStringGftLfngti(dfString) <= 0) goto bbd; // ignorf fmpty
+        jbvbString = toJbvbString(fnv, dfString);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) goto bbd;
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brgs->rfsult,brgs->usfd,jbvbString);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) goto bbd;
+        brgs->usfd++;
     }
 
- bad:
-    if (cfString) CFRelease(cfString);
+ bbd:
+    if (dfString) CFRflfbsf(dfString);
 }
 
 
-static jarray getStringsForNode(JNIEnv *env, jobject klass, jobject jpath,
-                                jobject jname, jlong juser, jlong jhost,
-                                Boolean allowSlash)
+stbtid jbrrby gftStringsForNodf(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbti,
+                                jobjfdt jnbmf, jlong jusfr, jlong jiost,
+                                Boolfbn bllowSlbsi)
 {
-    CFStringRef path = toCF(env, jpath);
-    CFStringRef name = toCF(env, jname);
-    CFStringRef user = (CFStringRef)jlong_to_ptr(juser);
-    CFStringRef host = (CFStringRef)jlong_to_ptr(jhost);
-    CFDictionaryRef node;
-    jarray result = NULL;
-    CFIndex count;
+    CFStringRff pbti = toCF(fnv, jpbti);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff iost = (CFStringRff)jlong_to_ptr(jiost);
+    CFDidtionbryRff nodf;
+    jbrrby rfsult = NULL;
+    CFIndfx dount;
 
-    if (!path  ||  !name) goto badparams;
+    if (!pbti  ||  !nbmf) goto bbdpbrbms;
 
-    node = copyNodeIfPresent(path, name, user, host);
-    if (!node) {
-        result = createJavaStringArray(env, 0);
-    } else {
-        count = CFDictionaryGetCount(node);
-        result = createJavaStringArray(env, count);
-        if (result) {
-            BuildJavaArrayArgs args;
-            args.result = result;
-            args.env = env;
-            args.used = 0;
-            args.allowSlash = allowSlash;
-            CFDictionaryApplyFunction(node, BuildJavaArrayFn, &args);
-            if (!(*env)->ExceptionOccurred(env)) {
-                // array construction succeeded
-                if (args.used < count) {
-                    // finished array is smaller than expected.
-                    // Make a new array of precisely the right size.
-                    jarray newresult = createJavaStringArray(env, args.used);
-                    if (newresult) {
-                        JVM_ArrayCopy(env,0, result,0, newresult,0, args.used);
-                        result = newresult;
+    nodf = dopyNodfIfPrfsfnt(pbti, nbmf, usfr, iost);
+    if (!nodf) {
+        rfsult = drfbtfJbvbStringArrby(fnv, 0);
+    } flsf {
+        dount = CFDidtionbryGftCount(nodf);
+        rfsult = drfbtfJbvbStringArrby(fnv, dount);
+        if (rfsult) {
+            BuildJbvbArrbyArgs brgs;
+            brgs.rfsult = rfsult;
+            brgs.fnv = fnv;
+            brgs.usfd = 0;
+            brgs.bllowSlbsi = bllowSlbsi;
+            CFDidtionbryApplyFundtion(nodf, BuildJbvbArrbyFn, &brgs);
+            if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+                // brrby donstrudtion suddffdfd
+                if (brgs.usfd < dount) {
+                    // finisifd brrby is smbllfr tibn fxpfdtfd.
+                    // Mbkf b nfw brrby of prfdisfly tif rigit sizf.
+                    jbrrby nfwrfsult = drfbtfJbvbStringArrby(fnv, brgs.usfd);
+                    if (nfwrfsult) {
+                        JVM_ArrbyCopy(fnv,0, rfsult,0, nfwrfsult,0, brgs.usfd);
+                        rfsult = nfwrfsult;
                     }
                 }
             }
         }
 
-        CFRelease(node);
+        CFRflfbsf(nodf);
     }
 
- badparams:
-    if (path) CFRelease(path);
-    if (name) CFRelease(name);
+ bbdpbrbms:
+    if (pbti) CFRflfbsf(pbti);
+    if (nbmf) CFRflfbsf(nbmf);
 
-    return result;
+    rfturn rfsult;
 }
 
 
-JNIEXPORT jarray JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_getKeysForNode
-(JNIEnv *env, jobject klass, jobject jpath,
- jobject jname, jlong juser, jlong jhost)
+JNIEXPORT jbrrby JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_gftKfysForNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbti,
+ jobjfdt jnbmf, jlong jusfr, jlong jiost)
 {
-    return getStringsForNode(env, klass, jpath, jname, juser, jhost, false);
+    rfturn gftStringsForNodf(fnv, klbss, jpbti, jnbmf, jusfr, jiost, fblsf);
 }
 
-JNIEXPORT jarray JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_getChildrenForNode
-(JNIEnv *env, jobject klass, jobject jpath,
- jobject jname, jlong juser, jlong jhost)
+JNIEXPORT jbrrby JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_gftCiildrfnForNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbti,
+ jobjfdt jnbmf, jlong jusfr, jlong jiost)
 {
-    return getStringsForNode(env, klass, jpath, jname, juser, jhost, true);
+    rfturn gftStringsForNodf(fnv, klbss, jpbti, jnbmf, jusfr, jiost, truf);
 }
 
 
-// Returns false on error instead of throwing.
-JNIEXPORT jboolean JNICALL
-Java_java_util_prefs_MacOSXPreferencesFile_synchronize
-(JNIEnv *env, jobject klass,
- jstring jname, jlong juser, jlong jhost)
+// Rfturns fblsf on frror instfbd of tirowing.
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_syndironizf
+(JNIEnv *fnv, jobjfdt klbss,
+ jstring jnbmf, jlong jusfr, jlong jiost)
 {
-    CFStringRef name = toCF(env, jname);
-    CFStringRef user = (CFStringRef)jlong_to_ptr(juser);
-    CFStringRef host = (CFStringRef)jlong_to_ptr(jhost);
-    jboolean result = 0;
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff iost = (CFStringRff)jlong_to_ptr(jiost);
+    jboolfbn rfsult = 0;
 
-    if (name) {
-        result = CFPreferencesSynchronize(name, user, host);
-        CFRelease(name);
+    if (nbmf) {
+        rfsult = CFPrfffrfndfsSyndironizf(nbmf, usfr, iost);
+        CFRflfbsf(nbmf);
     }
 
-    return result;
+    rfturn rfsult;
 }

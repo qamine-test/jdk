@@ -1,631 +1,631 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.wrapper;
+pbdkbgf sun.sfdurity.jgss.wrbppfr;
 
-import org.ietf.jgss.*;
-import java.security.Provider;
-import sun.security.jgss.GSSHeader;
-import sun.security.jgss.GSSUtil;
-import sun.security.jgss.GSSExceptionImpl;
-import sun.security.jgss.spi.*;
-import sun.security.util.DerValue;
-import sun.security.util.ObjectIdentifier;
-import sun.security.jgss.spnego.NegTokenInit;
-import sun.security.jgss.spnego.NegTokenTarg;
-import javax.security.auth.kerberos.DelegationPermission;
-import com.sun.security.jgss.InquireType;
-import java.io.*;
+import org.iftf.jgss.*;
+import jbvb.sfdurity.Providfr;
+import sun.sfdurity.jgss.GSSHfbdfr;
+import sun.sfdurity.jgss.GSSUtil;
+import sun.sfdurity.jgss.GSSExdfptionImpl;
+import sun.sfdurity.jgss.spi.*;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+import sun.sfdurity.jgss.spnfgo.NfgTokfnInit;
+import sun.sfdurity.jgss.spnfgo.NfgTokfnTbrg;
+import jbvbx.sfdurity.buti.kfrbfros.DflfgbtionPfrmission;
+import dom.sun.sfdurity.jgss.InquirfTypf;
+import jbvb.io.*;
 
 
 /**
- * This class is essentially a wrapper class for the gss_ctx_id_t
- * structure of the native GSS library.
- * @author Valerie Peng
- * @since 1.6
+ * Tiis dlbss is fssfntiblly b wrbppfr dlbss for tif gss_dtx_id_t
+ * strudturf of tif nbtivf GSS librbry.
+ * @butior Vblfrif Pfng
+ * @sindf 1.6
  */
-class NativeGSSContext implements GSSContextSpi {
+dlbss NbtivfGSSContfxt implfmfnts GSSContfxtSpi {
 
-    private static final int GSS_C_DELEG_FLAG = 1;
-    private static final int GSS_C_MUTUAL_FLAG = 2;
-    private static final int GSS_C_REPLAY_FLAG = 4;
-    private static final int GSS_C_SEQUENCE_FLAG = 8;
-    private static final int GSS_C_CONF_FLAG = 16;
-    private static final int GSS_C_INTEG_FLAG = 32;
-    private static final int GSS_C_ANON_FLAG = 64;
-    private static final int GSS_C_PROT_READY_FLAG = 128;
-    private static final int GSS_C_TRANS_FLAG = 256;
+    privbtf stbtid finbl int GSS_C_DELEG_FLAG = 1;
+    privbtf stbtid finbl int GSS_C_MUTUAL_FLAG = 2;
+    privbtf stbtid finbl int GSS_C_REPLAY_FLAG = 4;
+    privbtf stbtid finbl int GSS_C_SEQUENCE_FLAG = 8;
+    privbtf stbtid finbl int GSS_C_CONF_FLAG = 16;
+    privbtf stbtid finbl int GSS_C_INTEG_FLAG = 32;
+    privbtf stbtid finbl int GSS_C_ANON_FLAG = 64;
+    privbtf stbtid finbl int GSS_C_PROT_READY_FLAG = 128;
+    privbtf stbtid finbl int GSS_C_TRANS_FLAG = 256;
 
-    private static final int NUM_OF_INQUIRE_VALUES = 6;
+    privbtf stbtid finbl int NUM_OF_INQUIRE_VALUES = 6;
 
-    private long pContext = 0; // Pointer to the gss_ctx_id_t structure
-    private GSSNameElement srcName;
-    private GSSNameElement targetName;
-    private GSSCredElement cred;
-    private boolean isInitiator;
-    private boolean isEstablished;
-    private Oid actualMech; // Assigned during context establishment
+    privbtf long pContfxt = 0; // Pointfr to tif gss_dtx_id_t strudturf
+    privbtf GSSNbmfElfmfnt srdNbmf;
+    privbtf GSSNbmfElfmfnt tbrgftNbmf;
+    privbtf GSSCrfdElfmfnt drfd;
+    privbtf boolfbn isInitibtor;
+    privbtf boolfbn isEstbblisifd;
+    privbtf Oid bdtublMfdi; // Assignfd during dontfxt fstbblisimfnt
 
-    private ChannelBinding cb;
-    private GSSCredElement delegatedCred;
-    private int flags;
-    private int lifetime = GSSCredential.DEFAULT_LIFETIME;
-    private final GSSLibStub cStub;
+    privbtf CibnnflBinding db;
+    privbtf GSSCrfdElfmfnt dflfgbtfdCrfd;
+    privbtf int flbgs;
+    privbtf int lifftimf = GSSCrfdfntibl.DEFAULT_LIFETIME;
+    privbtf finbl GSSLibStub dStub;
 
-    private boolean skipDelegPermCheck;
-    private boolean skipServicePermCheck;
+    privbtf boolfbn skipDflfgPfrmCifdk;
+    privbtf boolfbn skipSfrvidfPfrmCifdk;
 
-    // Retrieve the (preferred) mech out of SPNEGO tokens, i.e.
-    // NegTokenInit & NegTokenTarg
-    private static Oid getMechFromSpNegoToken(byte[] token,
-                                              boolean isInitiator)
-        throws GSSException {
-        Oid mech = null;
-        if (isInitiator) {
-            GSSHeader header = null;
+    // Rftrifvf tif (prfffrrfd) mfdi out of SPNEGO tokfns, i.f.
+    // NfgTokfnInit & NfgTokfnTbrg
+    privbtf stbtid Oid gftMfdiFromSpNfgoTokfn(bytf[] tokfn,
+                                              boolfbn isInitibtor)
+        tirows GSSExdfption {
+        Oid mfdi = null;
+        if (isInitibtor) {
+            GSSHfbdfr ifbdfr = null;
             try {
-                header = new GSSHeader(new ByteArrayInputStream(token));
-            } catch (IOException ioe) {
-                throw new GSSExceptionImpl(GSSException.FAILURE, ioe);
+                ifbdfr = nfw GSSHfbdfr(nfw BytfArrbyInputStrfbm(tokfn));
+            } dbtdi (IOExdfption iof) {
+                tirow nfw GSSExdfptionImpl(GSSExdfption.FAILURE, iof);
             }
-            int negTokenLen = header.getMechTokenLength();
-            byte[] negToken = new byte[negTokenLen];
-            System.arraycopy(token, token.length-negTokenLen,
-                             negToken, 0, negToken.length);
+            int nfgTokfnLfn = ifbdfr.gftMfdiTokfnLfngti();
+            bytf[] nfgTokfn = nfw bytf[nfgTokfnLfn];
+            Systfm.brrbydopy(tokfn, tokfn.lfngti-nfgTokfnLfn,
+                             nfgTokfn, 0, nfgTokfn.lfngti);
 
-            NegTokenInit ntok = new NegTokenInit(negToken);
-            if (ntok.getMechToken() != null) {
-                Oid[] mechList = ntok.getMechTypeList();
-                mech = mechList[0];
+            NfgTokfnInit ntok = nfw NfgTokfnInit(nfgTokfn);
+            if (ntok.gftMfdiTokfn() != null) {
+                Oid[] mfdiList = ntok.gftMfdiTypfList();
+                mfdi = mfdiList[0];
             }
-        } else {
-            NegTokenTarg ntok = new NegTokenTarg(token);
-            mech = ntok.getSupportedMech();
+        } flsf {
+            NfgTokfnTbrg ntok = nfw NfgTokfnTbrg(tokfn);
+            mfdi = ntok.gftSupportfdMfdi();
         }
-        return mech;
+        rfturn mfdi;
     }
 
-    // Perform the Service permission check
-    private void doServicePermCheck() throws GSSException {
-        if (System.getSecurityManager() != null) {
-            String action = (isInitiator? "initiate" : "accept");
-            // Need to check Service permission for accessing
-            // initiator cred for SPNEGO during context establishment
-            if (GSSUtil.isSpNegoMech(cStub.getMech()) && isInitiator
-                && !isEstablished) {
-                if (srcName == null) {
-                    // Check by creating default initiator KRB5 cred
-                    GSSCredElement tempCred =
-                        new GSSCredElement(null, lifetime,
-                                           GSSCredential.INITIATE_ONLY,
-                                           GSSLibStub.getInstance(GSSUtil.GSS_KRB5_MECH_OID));
-                    tempCred.dispose();
-                } else {
-                    String tgsName = Krb5Util.getTGSName(srcName);
-                    Krb5Util.checkServicePermission(tgsName, action);
+    // Pfrform tif Sfrvidf pfrmission difdk
+    privbtf void doSfrvidfPfrmCifdk() tirows GSSExdfption {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            String bdtion = (isInitibtor? "initibtf" : "bddfpt");
+            // Nffd to difdk Sfrvidf pfrmission for bddfssing
+            // initibtor drfd for SPNEGO during dontfxt fstbblisimfnt
+            if (GSSUtil.isSpNfgoMfdi(dStub.gftMfdi()) && isInitibtor
+                && !isEstbblisifd) {
+                if (srdNbmf == null) {
+                    // Cifdk by drfbting dffbult initibtor KRB5 drfd
+                    GSSCrfdElfmfnt tfmpCrfd =
+                        nfw GSSCrfdElfmfnt(null, lifftimf,
+                                           GSSCrfdfntibl.INITIATE_ONLY,
+                                           GSSLibStub.gftInstbndf(GSSUtil.GSS_KRB5_MECH_OID));
+                    tfmpCrfd.disposf();
+                } flsf {
+                    String tgsNbmf = Krb5Util.gftTGSNbmf(srdNbmf);
+                    Krb5Util.difdkSfrvidfPfrmission(tgsNbmf, bdtion);
                 }
             }
-            String targetStr = targetName.getKrbName();
-            Krb5Util.checkServicePermission(targetStr, action);
-            skipServicePermCheck = true;
+            String tbrgftStr = tbrgftNbmf.gftKrbNbmf();
+            Krb5Util.difdkSfrvidfPfrmission(tbrgftStr, bdtion);
+            skipSfrvidfPfrmCifdk = truf;
         }
     }
 
-    // Perform the Delegation permission check
-    private void doDelegPermCheck() throws GSSException {
-        SecurityManager sm = System.getSecurityManager();
+    // Pfrform tif Dflfgbtion pfrmission difdk
+    privbtf void doDflfgPfrmCifdk() tirows GSSExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            String targetStr = targetName.getKrbName();
-            String tgsStr = Krb5Util.getTGSName(targetName);
-            StringBuilder sb = new StringBuilder("\"");
-            sb.append(targetStr).append("\" \"");
-            sb.append(tgsStr).append('\"');
-            String krbPrincPair = sb.toString();
-            SunNativeProvider.debug("Checking DelegationPermission (" +
-                                    krbPrincPair + ")");
-            DelegationPermission perm =
-                new DelegationPermission(krbPrincPair);
-            sm.checkPermission(perm);
-            skipDelegPermCheck = true;
+            String tbrgftStr = tbrgftNbmf.gftKrbNbmf();
+            String tgsStr = Krb5Util.gftTGSNbmf(tbrgftNbmf);
+            StringBuildfr sb = nfw StringBuildfr("\"");
+            sb.bppfnd(tbrgftStr).bppfnd("\" \"");
+            sb.bppfnd(tgsStr).bppfnd('\"');
+            String krbPrindPbir = sb.toString();
+            SunNbtivfProvidfr.dfbug("Cifdking DflfgbtionPfrmission (" +
+                                    krbPrindPbir + ")");
+            DflfgbtionPfrmission pfrm =
+                nfw DflfgbtionPfrmission(krbPrindPbir);
+            sm.difdkPfrmission(pfrm);
+            skipDflfgPfrmCifdk = truf;
         }
     }
 
-    private byte[] retrieveToken(InputStream is, int mechTokenLen)
-        throws GSSException {
+    privbtf bytf[] rftrifvfTokfn(InputStrfbm is, int mfdiTokfnLfn)
+        tirows GSSExdfption {
         try {
-            byte[] result = null;
-            if (mechTokenLen != -1) {
-                // Need to add back the GSS header for a complete GSS token
-                SunNativeProvider.debug("Precomputed mechToken length: " +
-                                         mechTokenLen);
-                GSSHeader gssHeader = new GSSHeader
-                    (new ObjectIdentifier(cStub.getMech().toString()),
-                     mechTokenLen);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream(600);
+            bytf[] rfsult = null;
+            if (mfdiTokfnLfn != -1) {
+                // Nffd to bdd bbdk tif GSS ifbdfr for b domplftf GSS tokfn
+                SunNbtivfProvidfr.dfbug("Prfdomputfd mfdiTokfn lfngti: " +
+                                         mfdiTokfnLfn);
+                GSSHfbdfr gssHfbdfr = nfw GSSHfbdfr
+                    (nfw ObjfdtIdfntififr(dStub.gftMfdi().toString()),
+                     mfdiTokfnLfn);
+                BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm(600);
 
-                byte[] mechToken = new byte[mechTokenLen];
-                int len = is.read(mechToken);
-                assert(mechTokenLen == len);
-                gssHeader.encode(baos);
-                baos.write(mechToken);
-                result = baos.toByteArray();
-            } else {
-                // Must be unparsed GSS token or SPNEGO's NegTokenTarg token
-                assert(mechTokenLen == -1);
-                DerValue dv = new DerValue(is);
-                result = dv.toByteArray();
+                bytf[] mfdiTokfn = nfw bytf[mfdiTokfnLfn];
+                int lfn = is.rfbd(mfdiTokfn);
+                bssfrt(mfdiTokfnLfn == lfn);
+                gssHfbdfr.fndodf(bbos);
+                bbos.writf(mfdiTokfn);
+                rfsult = bbos.toBytfArrby();
+            } flsf {
+                // Must bf unpbrsfd GSS tokfn or SPNEGO's NfgTokfnTbrg tokfn
+                bssfrt(mfdiTokfnLfn == -1);
+                DfrVbluf dv = nfw DfrVbluf(is);
+                rfsult = dv.toBytfArrby();
             }
-            SunNativeProvider.debug("Complete Token length: " +
-                                    result.length);
-            return result;
-        } catch (IOException ioe) {
-            throw new GSSExceptionImpl(GSSException.FAILURE, ioe);
+            SunNbtivfProvidfr.dfbug("Complftf Tokfn lfngti: " +
+                                    rfsult.lfngti);
+            rfturn rfsult;
+        } dbtdi (IOExdfption iof) {
+            tirow nfw GSSExdfptionImpl(GSSExdfption.FAILURE, iof);
         }
     }
 
-    // Constructor for context initiator
-    NativeGSSContext(GSSNameElement peer, GSSCredElement myCred,
-                     int time, GSSLibStub stub) throws GSSException {
-        if (peer == null) {
-            throw new GSSException(GSSException.FAILURE, 1, "null peer");
+    // Construdtor for dontfxt initibtor
+    NbtivfGSSContfxt(GSSNbmfElfmfnt pffr, GSSCrfdElfmfnt myCrfd,
+                     int timf, GSSLibStub stub) tirows GSSExdfption {
+        if (pffr == null) {
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, 1, "null pffr");
         }
-        cStub = stub;
-        cred = myCred;
-        targetName = peer;
-        isInitiator = true;
-        lifetime = time;
+        dStub = stub;
+        drfd = myCrfd;
+        tbrgftNbmf = pffr;
+        isInitibtor = truf;
+        lifftimf = timf;
 
-        if (GSSUtil.isKerberosMech(cStub.getMech())) {
-            doServicePermCheck();
-            if (cred == null) {
-                cred = new GSSCredElement(null, lifetime,
-                                          GSSCredential.INITIATE_ONLY, cStub);
+        if (GSSUtil.isKfrbfrosMfdi(dStub.gftMfdi())) {
+            doSfrvidfPfrmCifdk();
+            if (drfd == null) {
+                drfd = nfw GSSCrfdElfmfnt(null, lifftimf,
+                                          GSSCrfdfntibl.INITIATE_ONLY, dStub);
             }
-            srcName = cred.getName();
+            srdNbmf = drfd.gftNbmf();
         }
     }
 
-    // Constructor for context acceptor
-    NativeGSSContext(GSSCredElement myCred, GSSLibStub stub)
-        throws GSSException {
-        cStub = stub;
-        cred = myCred;
+    // Construdtor for dontfxt bddfptor
+    NbtivfGSSContfxt(GSSCrfdElfmfnt myCrfd, GSSLibStub stub)
+        tirows GSSExdfption {
+        dStub = stub;
+        drfd = myCrfd;
 
-        if (cred != null) targetName = cred.getName();
+        if (drfd != null) tbrgftNbmf = drfd.gftNbmf();
 
-        isInitiator = false;
-        // Defer Service permission check for default acceptor cred
-        // to acceptSecContext()
-        if (GSSUtil.isKerberosMech(cStub.getMech()) && targetName != null) {
-            doServicePermCheck();
+        isInitibtor = fblsf;
+        // Dfffr Sfrvidf pfrmission difdk for dffbult bddfptor drfd
+        // to bddfptSfdContfxt()
+        if (GSSUtil.isKfrbfrosMfdi(dStub.gftMfdi()) && tbrgftNbmf != null) {
+            doSfrvidfPfrmCifdk();
         }
 
-        // srcName and potentially targetName (when myCred is null)
-        // will be set in GSSLibStub.acceptContext(...)
+        // srdNbmf bnd potfntiblly tbrgftNbmf (wifn myCrfd is null)
+        // will bf sft in GSSLibStub.bddfptContfxt(...)
     }
 
-    // Constructor for imported context
-    NativeGSSContext(long pCtxt, GSSLibStub stub) throws GSSException {
-        assert(pContext != 0);
-        pContext = pCtxt;
-        cStub = stub;
+    // Construdtor for importfd dontfxt
+    NbtivfGSSContfxt(long pCtxt, GSSLibStub stub) tirows GSSExdfption {
+        bssfrt(pContfxt != 0);
+        pContfxt = pCtxt;
+        dStub = stub;
 
-        // Set everything except cred, cb, delegatedCred
-        long[] info = cStub.inquireContext(pContext);
-        if (info.length != NUM_OF_INQUIRE_VALUES) {
-            throw new RuntimeException("Bug w/ GSSLibStub.inquireContext()");
+        // Sft fvfrytiing fxdfpt drfd, db, dflfgbtfdCrfd
+        long[] info = dStub.inquirfContfxt(pContfxt);
+        if (info.lfngti != NUM_OF_INQUIRE_VALUES) {
+            tirow nfw RuntimfExdfption("Bug w/ GSSLibStub.inquirfContfxt()");
         }
-        srcName = new GSSNameElement(info[0], cStub);
-        targetName = new GSSNameElement(info[1], cStub);
-        isInitiator = (info[2] != 0);
-        isEstablished = (info[3] != 0);
-        flags = (int) info[4];
-        lifetime = (int) info[5];
+        srdNbmf = nfw GSSNbmfElfmfnt(info[0], dStub);
+        tbrgftNbmf = nfw GSSNbmfElfmfnt(info[1], dStub);
+        isInitibtor = (info[2] != 0);
+        isEstbblisifd = (info[3] != 0);
+        flbgs = (int) info[4];
+        lifftimf = (int) info[5];
 
-        // Do Service Permission check when importing SPNEGO context
-        // just to be safe
-        Oid mech = cStub.getMech();
-        if (GSSUtil.isSpNegoMech(mech) || GSSUtil.isKerberosMech(mech)) {
-            doServicePermCheck();
+        // Do Sfrvidf Pfrmission difdk wifn importing SPNEGO dontfxt
+        // just to bf sbff
+        Oid mfdi = dStub.gftMfdi();
+        if (GSSUtil.isSpNfgoMfdi(mfdi) || GSSUtil.isKfrbfrosMfdi(mfdi)) {
+            doSfrvidfPfrmCifdk();
         }
     }
 
-    public Provider getProvider() {
-        return SunNativeProvider.INSTANCE;
+    publid Providfr gftProvidfr() {
+        rfturn SunNbtivfProvidfr.INSTANCE;
     }
 
-    public byte[] initSecContext(InputStream is, int mechTokenLen)
-        throws GSSException {
-        byte[] outToken = null;
-        if ((!isEstablished) && (isInitiator)) {
-            byte[] inToken = null;
-            // Ignore the specified input stream on the first call
-            if (pContext != 0) {
-                inToken = retrieveToken(is, mechTokenLen);
-                SunNativeProvider.debug("initSecContext=> inToken len=" +
-                    inToken.length);
-            }
-
-            if (!getCredDelegState()) skipDelegPermCheck = true;
-
-            if (GSSUtil.isKerberosMech(cStub.getMech()) && !skipDelegPermCheck) {
-                doDelegPermCheck();
+    publid bytf[] initSfdContfxt(InputStrfbm is, int mfdiTokfnLfn)
+        tirows GSSExdfption {
+        bytf[] outTokfn = null;
+        if ((!isEstbblisifd) && (isInitibtor)) {
+            bytf[] inTokfn = null;
+            // Ignorf tif spfdififd input strfbm on tif first dbll
+            if (pContfxt != 0) {
+                inTokfn = rftrifvfTokfn(is, mfdiTokfnLfn);
+                SunNbtivfProvidfr.dfbug("initSfdContfxt=> inTokfn lfn=" +
+                    inTokfn.lfngti);
             }
 
-            long pCred = (cred == null? 0 : cred.pCred);
-            outToken = cStub.initContext(pCred, targetName.pName,
-                                         cb, inToken, this);
-            SunNativeProvider.debug("initSecContext=> outToken len=" +
-                (outToken == null ? 0 : outToken.length));
+            if (!gftCrfdDflfgStbtf()) skipDflfgPfrmCifdk = truf;
 
-            // Only inspect the token when the permission check
-            // has not been performed
-            if (GSSUtil.isSpNegoMech(cStub.getMech()) && outToken != null) {
+            if (GSSUtil.isKfrbfrosMfdi(dStub.gftMfdi()) && !skipDflfgPfrmCifdk) {
+                doDflfgPfrmCifdk();
+            }
+
+            long pCrfd = (drfd == null? 0 : drfd.pCrfd);
+            outTokfn = dStub.initContfxt(pCrfd, tbrgftNbmf.pNbmf,
+                                         db, inTokfn, tiis);
+            SunNbtivfProvidfr.dfbug("initSfdContfxt=> outTokfn lfn=" +
+                (outTokfn == null ? 0 : outTokfn.lfngti));
+
+            // Only inspfdt tif tokfn wifn tif pfrmission difdk
+            // ibs not bffn pfrformfd
+            if (GSSUtil.isSpNfgoMfdi(dStub.gftMfdi()) && outTokfn != null) {
                 // WORKAROUND for SEAM bug#6287358
-                actualMech = getMechFromSpNegoToken(outToken, true);
+                bdtublMfdi = gftMfdiFromSpNfgoTokfn(outTokfn, truf);
 
-                if (GSSUtil.isKerberosMech(actualMech)) {
-                    if (!skipServicePermCheck) doServicePermCheck();
-                    if (!skipDelegPermCheck) doDelegPermCheck();
+                if (GSSUtil.isKfrbfrosMfdi(bdtublMfdi)) {
+                    if (!skipSfrvidfPfrmCifdk) doSfrvidfPfrmCifdk();
+                    if (!skipDflfgPfrmCifdk) doDflfgPfrmCifdk();
                 }
             }
 
-            if (isEstablished) {
-                if (srcName == null) {
-                    srcName = new GSSNameElement
-                        (cStub.getContextName(pContext, true), cStub);
+            if (isEstbblisifd) {
+                if (srdNbmf == null) {
+                    srdNbmf = nfw GSSNbmfElfmfnt
+                        (dStub.gftContfxtNbmf(pContfxt, truf), dStub);
                 }
-                if (cred == null) {
-                    cred = new GSSCredElement(srcName, lifetime,
-                                              GSSCredential.INITIATE_ONLY,
-                                              cStub);
-                }
-            }
-        }
-        return outToken;
-    }
-
-    public byte[] acceptSecContext(InputStream is, int mechTokenLen)
-        throws GSSException {
-        byte[] outToken = null;
-        if ((!isEstablished) && (!isInitiator)) {
-            byte[] inToken = retrieveToken(is, mechTokenLen);
-            SunNativeProvider.debug("acceptSecContext=> inToken len=" +
-                                    inToken.length);
-            long pCred = (cred == null? 0 : cred.pCred);
-            outToken = cStub.acceptContext(pCred, cb, inToken, this);
-            SunNativeProvider.debug("acceptSecContext=> outToken len=" +
-                                    (outToken == null? 0 : outToken.length));
-
-            if (targetName == null) {
-                targetName = new GSSNameElement
-                    (cStub.getContextName(pContext, false), cStub);
-                // Replace the current default acceptor cred now that
-                // the context acceptor name is available
-                if (cred != null) cred.dispose();
-                cred = new GSSCredElement(targetName, lifetime,
-                                          GSSCredential.ACCEPT_ONLY, cStub);
-            }
-
-            // Only inspect token when the permission check has not
-            // been performed
-            if (GSSUtil.isSpNegoMech(cStub.getMech()) &&
-                (outToken != null) && !skipServicePermCheck) {
-                if (GSSUtil.isKerberosMech(getMechFromSpNegoToken
-                                           (outToken, false))) {
-                    doServicePermCheck();
+                if (drfd == null) {
+                    drfd = nfw GSSCrfdElfmfnt(srdNbmf, lifftimf,
+                                              GSSCrfdfntibl.INITIATE_ONLY,
+                                              dStub);
                 }
             }
         }
-        return outToken;
+        rfturn outTokfn;
     }
 
-    public boolean isEstablished() {
-        return isEstablished;
-    }
+    publid bytf[] bddfptSfdContfxt(InputStrfbm is, int mfdiTokfnLfn)
+        tirows GSSExdfption {
+        bytf[] outTokfn = null;
+        if ((!isEstbblisifd) && (!isInitibtor)) {
+            bytf[] inTokfn = rftrifvfTokfn(is, mfdiTokfnLfn);
+            SunNbtivfProvidfr.dfbug("bddfptSfdContfxt=> inTokfn lfn=" +
+                                    inTokfn.lfngti);
+            long pCrfd = (drfd == null? 0 : drfd.pCrfd);
+            outTokfn = dStub.bddfptContfxt(pCrfd, db, inTokfn, tiis);
+            SunNbtivfProvidfr.dfbug("bddfptSfdContfxt=> outTokfn lfn=" +
+                                    (outTokfn == null? 0 : outTokfn.lfngti));
 
-    public void dispose() throws GSSException {
-        srcName = null;
-        targetName = null;
-        cred = null;
-        delegatedCred = null;
-        if (pContext != 0) {
-            pContext = cStub.deleteContext(pContext);
-            pContext = 0;
-        }
-    }
-
-    public int getWrapSizeLimit(int qop, boolean confReq,
-                                int maxTokenSize)
-        throws GSSException {
-        return cStub.wrapSizeLimit(pContext, (confReq? 1:0), qop,
-                                   maxTokenSize);
-    }
-
-    public byte[] wrap(byte[] inBuf, int offset, int len,
-                       MessageProp msgProp) throws GSSException {
-        byte[] data = inBuf;
-        if ((offset != 0) || (len != inBuf.length)) {
-            data = new byte[len];
-            System.arraycopy(inBuf, offset, data, 0, len);
-        }
-        return cStub.wrap(pContext, data, msgProp);
-    }
-    public void wrap(byte inBuf[], int offset, int len,
-                     OutputStream os, MessageProp msgProp)
-        throws GSSException {
-        try {
-        byte[] result = wrap(inBuf, offset, len, msgProp);
-        os.write(result);
-        } catch (IOException ioe) {
-            throw new GSSExceptionImpl(GSSException.FAILURE, ioe);
-        }
-    }
-    public int wrap(byte[] inBuf, int inOffset, int len, byte[] outBuf,
-                    int outOffset, MessageProp msgProp)
-        throws GSSException {
-        byte[] result = wrap(inBuf, inOffset, len, msgProp);
-        System.arraycopy(result, 0, outBuf, outOffset, result.length);
-        return result.length;
-    }
-    public void wrap(InputStream inStream, OutputStream outStream,
-                     MessageProp msgProp) throws GSSException {
-        try {
-            byte[] data = new byte[inStream.available()];
-            int length = inStream.read(data);
-            byte[] token = wrap(data, 0, length, msgProp);
-            outStream.write(token);
-        } catch (IOException ioe) {
-            throw new GSSExceptionImpl(GSSException.FAILURE, ioe);
-        }
-    }
-
-    public byte[] unwrap(byte[] inBuf, int offset, int len,
-                         MessageProp msgProp)
-        throws GSSException {
-        if ((offset != 0) || (len != inBuf.length)) {
-            byte[] temp = new byte[len];
-            System.arraycopy(inBuf, offset, temp, 0, len);
-            return cStub.unwrap(pContext, temp, msgProp);
-        } else {
-            return cStub.unwrap(pContext, inBuf, msgProp);
-        }
-    }
-    public int unwrap(byte[] inBuf, int inOffset, int len,
-                      byte[] outBuf, int outOffset,
-                      MessageProp msgProp) throws GSSException {
-        byte[] result = null;
-        if ((inOffset != 0) || (len != inBuf.length)) {
-            byte[] temp = new byte[len];
-            System.arraycopy(inBuf, inOffset, temp, 0, len);
-            result = cStub.unwrap(pContext, temp, msgProp);
-        } else {
-            result = cStub.unwrap(pContext, inBuf, msgProp);
-        }
-        System.arraycopy(result, 0, outBuf, outOffset, result.length);
-        return result.length;
-    }
-    public void unwrap(InputStream inStream, OutputStream outStream,
-                       MessageProp msgProp) throws GSSException {
-        try {
-            byte[] wrapped = new byte[inStream.available()];
-            int wLength = inStream.read(wrapped);
-            byte[] data = unwrap(wrapped, 0, wLength, msgProp);
-            outStream.write(data);
-            outStream.flush();
-        } catch (IOException ioe) {
-            throw new GSSExceptionImpl(GSSException.FAILURE, ioe);
-        }
-    }
-
-    public int unwrap(InputStream inStream,
-                      byte[] outBuf, int outOffset,
-                      MessageProp msgProp) throws GSSException {
-        byte[] wrapped = null;
-        int wLength = 0;
-        try {
-            wrapped = new byte[inStream.available()];
-            wLength = inStream.read(wrapped);
-            byte[] result = unwrap(wrapped, 0, wLength, msgProp);
-        } catch (IOException ioe) {
-            throw new GSSExceptionImpl(GSSException.FAILURE, ioe);
-        }
-        byte[] result = unwrap(wrapped, 0, wLength, msgProp);
-        System.arraycopy(result, 0, outBuf, outOffset, result.length);
-        return result.length;
-    }
-
-    public byte[] getMIC(byte[] in, int offset, int len,
-                         MessageProp msgProp) throws GSSException {
-        int qop = (msgProp == null? 0:msgProp.getQOP());
-        byte[] inMsg = in;
-        if ((offset != 0) || (len != in.length)) {
-            inMsg = new byte[len];
-            System.arraycopy(in, offset, inMsg, 0, len);
-        }
-        return cStub.getMic(pContext, qop, inMsg);
-    }
-
-    public void getMIC(InputStream inStream, OutputStream outStream,
-                       MessageProp msgProp) throws GSSException {
-        try {
-            int length = 0;
-            byte[] msg = new byte[inStream.available()];
-            length = inStream.read(msg);
-
-            byte[] msgToken = getMIC(msg, 0, length, msgProp);
-            if ((msgToken != null) && msgToken.length != 0) {
-                outStream.write(msgToken);
+            if (tbrgftNbmf == null) {
+                tbrgftNbmf = nfw GSSNbmfElfmfnt
+                    (dStub.gftContfxtNbmf(pContfxt, fblsf), dStub);
+                // Rfplbdf tif durrfnt dffbult bddfptor drfd now tibt
+                // tif dontfxt bddfptor nbmf is bvbilbblf
+                if (drfd != null) drfd.disposf();
+                drfd = nfw GSSCrfdElfmfnt(tbrgftNbmf, lifftimf,
+                                          GSSCrfdfntibl.ACCEPT_ONLY, dStub);
             }
-        } catch (IOException ioe) {
-            throw new GSSExceptionImpl(GSSException.FAILURE, ioe);
-        }
-    }
 
-    public void verifyMIC(byte[] inToken, int tOffset, int tLen,
-                          byte[] inMsg, int mOffset, int mLen,
-                          MessageProp msgProp) throws GSSException {
-        byte[] token = inToken;
-        byte[] msg = inMsg;
-        if ((tOffset != 0) || (tLen != inToken.length)) {
-            token = new byte[tLen];
-            System.arraycopy(inToken, tOffset, token, 0, tLen);
-        }
-        if ((mOffset != 0) || (mLen != inMsg.length)) {
-            msg = new byte[mLen];
-            System.arraycopy(inMsg, mOffset, msg, 0, mLen);
-        }
-        cStub.verifyMic(pContext, token, msg, msgProp);
-    }
-
-    public void verifyMIC(InputStream tokStream, InputStream msgStream,
-                          MessageProp msgProp) throws GSSException {
-        try {
-            byte[] msg = new byte[msgStream.available()];
-            int mLength = msgStream.read(msg);
-            byte[] tok = new byte[tokStream.available()];
-            int tLength = tokStream.read(tok);
-            verifyMIC(tok, 0, tLength, msg, 0, mLength, msgProp);
-        } catch (IOException ioe) {
-            throw new GSSExceptionImpl(GSSException.FAILURE, ioe);
-        }
-    }
-
-    public byte[] export() throws GSSException {
-        byte[] result = cStub.exportContext(pContext);
-        pContext = 0;
-        return result;
-    }
-
-    private void changeFlags(int flagMask, boolean isEnable) {
-        if (isInitiator && pContext == 0) {
-            if (isEnable) {
-                flags |= flagMask;
-            } else {
-                flags &= ~flagMask;
+            // Only inspfdt tokfn wifn tif pfrmission difdk ibs not
+            // bffn pfrformfd
+            if (GSSUtil.isSpNfgoMfdi(dStub.gftMfdi()) &&
+                (outTokfn != null) && !skipSfrvidfPfrmCifdk) {
+                if (GSSUtil.isKfrbfrosMfdi(gftMfdiFromSpNfgoTokfn
+                                           (outTokfn, fblsf))) {
+                    doSfrvidfPfrmCifdk();
+                }
             }
         }
+        rfturn outTokfn;
     }
-    public void requestMutualAuth(boolean state) throws GSSException {
-        changeFlags(GSS_C_MUTUAL_FLAG, state);
+
+    publid boolfbn isEstbblisifd() {
+        rfturn isEstbblisifd;
     }
-    public void requestReplayDet(boolean state) throws GSSException {
-        changeFlags(GSS_C_REPLAY_FLAG, state);
-    }
-    public void requestSequenceDet(boolean state) throws GSSException {
-        changeFlags(GSS_C_SEQUENCE_FLAG, state);
-    }
-    public void requestCredDeleg(boolean state) throws GSSException {
-        changeFlags(GSS_C_DELEG_FLAG, state);
-    }
-    public void requestAnonymity(boolean state) throws GSSException {
-        changeFlags(GSS_C_ANON_FLAG, state);
-    }
-    public void requestConf(boolean state) throws GSSException {
-        changeFlags(GSS_C_CONF_FLAG, state);
-    }
-    public void requestInteg(boolean state) throws GSSException {
-        changeFlags(GSS_C_INTEG_FLAG, state);
-    }
-    public void requestDelegPolicy(boolean state) throws GSSException {
-        // Not supported, ignore
-    }
-    public void requestLifetime(int lifetime) throws GSSException {
-        if (isInitiator && pContext == 0) {
-            this.lifetime = lifetime;
-        }
-    }
-    public void setChannelBinding(ChannelBinding cb) throws GSSException {
-        if (pContext == 0) {
-            this.cb = cb;
+
+    publid void disposf() tirows GSSExdfption {
+        srdNbmf = null;
+        tbrgftNbmf = null;
+        drfd = null;
+        dflfgbtfdCrfd = null;
+        if (pContfxt != 0) {
+            pContfxt = dStub.dflftfContfxt(pContfxt);
+            pContfxt = 0;
         }
     }
 
-    private boolean checkFlags(int flagMask) {
-        return ((flags & flagMask) != 0);
+    publid int gftWrbpSizfLimit(int qop, boolfbn donfRfq,
+                                int mbxTokfnSizf)
+        tirows GSSExdfption {
+        rfturn dStub.wrbpSizfLimit(pContfxt, (donfRfq? 1:0), qop,
+                                   mbxTokfnSizf);
     }
-    public boolean getCredDelegState() {
-        return checkFlags(GSS_C_DELEG_FLAG);
+
+    publid bytf[] wrbp(bytf[] inBuf, int offsft, int lfn,
+                       MfssbgfProp msgProp) tirows GSSExdfption {
+        bytf[] dbtb = inBuf;
+        if ((offsft != 0) || (lfn != inBuf.lfngti)) {
+            dbtb = nfw bytf[lfn];
+            Systfm.brrbydopy(inBuf, offsft, dbtb, 0, lfn);
+        }
+        rfturn dStub.wrbp(pContfxt, dbtb, msgProp);
     }
-    public boolean getMutualAuthState() {
-        return checkFlags(GSS_C_MUTUAL_FLAG);
-    }
-    public boolean getReplayDetState() {
-        return checkFlags(GSS_C_REPLAY_FLAG);
-    }
-    public boolean getSequenceDetState() {
-        return checkFlags(GSS_C_SEQUENCE_FLAG);
-    }
-    public boolean getAnonymityState() {
-        return checkFlags(GSS_C_ANON_FLAG);
-    }
-    public boolean isTransferable() throws GSSException {
-        return checkFlags(GSS_C_TRANS_FLAG);
-    }
-    public boolean isProtReady() {
-        return checkFlags(GSS_C_PROT_READY_FLAG);
-    }
-    public boolean getConfState() {
-        return checkFlags(GSS_C_CONF_FLAG);
-    }
-    public boolean getIntegState() {
-        return checkFlags(GSS_C_INTEG_FLAG);
-    }
-    public boolean getDelegPolicyState() {
-        return false;
-    }
-    public int getLifetime() {
-        return cStub.getContextTime(pContext);
-    }
-    public GSSNameSpi getSrcName() throws GSSException {
-        return srcName;
-    }
-    public GSSNameSpi getTargName() throws GSSException {
-        return targetName;
-    }
-    public Oid getMech() throws GSSException {
-        if (isEstablished && actualMech != null) {
-            return actualMech;
-        } else {
-            return cStub.getMech();
+    publid void wrbp(bytf inBuf[], int offsft, int lfn,
+                     OutputStrfbm os, MfssbgfProp msgProp)
+        tirows GSSExdfption {
+        try {
+        bytf[] rfsult = wrbp(inBuf, offsft, lfn, msgProp);
+        os.writf(rfsult);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw GSSExdfptionImpl(GSSExdfption.FAILURE, iof);
         }
     }
-    public GSSCredentialSpi getDelegCred() throws GSSException {
-        return delegatedCred;
+    publid int wrbp(bytf[] inBuf, int inOffsft, int lfn, bytf[] outBuf,
+                    int outOffsft, MfssbgfProp msgProp)
+        tirows GSSExdfption {
+        bytf[] rfsult = wrbp(inBuf, inOffsft, lfn, msgProp);
+        Systfm.brrbydopy(rfsult, 0, outBuf, outOffsft, rfsult.lfngti);
+        rfturn rfsult.lfngti;
     }
-    public boolean isInitiator() {
-        return isInitiator;
+    publid void wrbp(InputStrfbm inStrfbm, OutputStrfbm outStrfbm,
+                     MfssbgfProp msgProp) tirows GSSExdfption {
+        try {
+            bytf[] dbtb = nfw bytf[inStrfbm.bvbilbblf()];
+            int lfngti = inStrfbm.rfbd(dbtb);
+            bytf[] tokfn = wrbp(dbtb, 0, lfngti, msgProp);
+            outStrfbm.writf(tokfn);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw GSSExdfptionImpl(GSSExdfption.FAILURE, iof);
+        }
     }
 
-    protected void finalize() throws Throwable {
-        dispose();
+    publid bytf[] unwrbp(bytf[] inBuf, int offsft, int lfn,
+                         MfssbgfProp msgProp)
+        tirows GSSExdfption {
+        if ((offsft != 0) || (lfn != inBuf.lfngti)) {
+            bytf[] tfmp = nfw bytf[lfn];
+            Systfm.brrbydopy(inBuf, offsft, tfmp, 0, lfn);
+            rfturn dStub.unwrbp(pContfxt, tfmp, msgProp);
+        } flsf {
+            rfturn dStub.unwrbp(pContfxt, inBuf, msgProp);
+        }
+    }
+    publid int unwrbp(bytf[] inBuf, int inOffsft, int lfn,
+                      bytf[] outBuf, int outOffsft,
+                      MfssbgfProp msgProp) tirows GSSExdfption {
+        bytf[] rfsult = null;
+        if ((inOffsft != 0) || (lfn != inBuf.lfngti)) {
+            bytf[] tfmp = nfw bytf[lfn];
+            Systfm.brrbydopy(inBuf, inOffsft, tfmp, 0, lfn);
+            rfsult = dStub.unwrbp(pContfxt, tfmp, msgProp);
+        } flsf {
+            rfsult = dStub.unwrbp(pContfxt, inBuf, msgProp);
+        }
+        Systfm.brrbydopy(rfsult, 0, outBuf, outOffsft, rfsult.lfngti);
+        rfturn rfsult.lfngti;
+    }
+    publid void unwrbp(InputStrfbm inStrfbm, OutputStrfbm outStrfbm,
+                       MfssbgfProp msgProp) tirows GSSExdfption {
+        try {
+            bytf[] wrbppfd = nfw bytf[inStrfbm.bvbilbblf()];
+            int wLfngti = inStrfbm.rfbd(wrbppfd);
+            bytf[] dbtb = unwrbp(wrbppfd, 0, wLfngti, msgProp);
+            outStrfbm.writf(dbtb);
+            outStrfbm.flusi();
+        } dbtdi (IOExdfption iof) {
+            tirow nfw GSSExdfptionImpl(GSSExdfption.FAILURE, iof);
+        }
     }
 
-    public Object inquireSecContext(InquireType type)
-            throws GSSException {
-        throw new GSSException(GSSException.UNAVAILABLE, -1,
-                "Inquire type not supported.");
+    publid int unwrbp(InputStrfbm inStrfbm,
+                      bytf[] outBuf, int outOffsft,
+                      MfssbgfProp msgProp) tirows GSSExdfption {
+        bytf[] wrbppfd = null;
+        int wLfngti = 0;
+        try {
+            wrbppfd = nfw bytf[inStrfbm.bvbilbblf()];
+            wLfngti = inStrfbm.rfbd(wrbppfd);
+            bytf[] rfsult = unwrbp(wrbppfd, 0, wLfngti, msgProp);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw GSSExdfptionImpl(GSSExdfption.FAILURE, iof);
+        }
+        bytf[] rfsult = unwrbp(wrbppfd, 0, wLfngti, msgProp);
+        Systfm.brrbydopy(rfsult, 0, outBuf, outOffsft, rfsult.lfngti);
+        rfturn rfsult.lfngti;
+    }
+
+    publid bytf[] gftMIC(bytf[] in, int offsft, int lfn,
+                         MfssbgfProp msgProp) tirows GSSExdfption {
+        int qop = (msgProp == null? 0:msgProp.gftQOP());
+        bytf[] inMsg = in;
+        if ((offsft != 0) || (lfn != in.lfngti)) {
+            inMsg = nfw bytf[lfn];
+            Systfm.brrbydopy(in, offsft, inMsg, 0, lfn);
+        }
+        rfturn dStub.gftMid(pContfxt, qop, inMsg);
+    }
+
+    publid void gftMIC(InputStrfbm inStrfbm, OutputStrfbm outStrfbm,
+                       MfssbgfProp msgProp) tirows GSSExdfption {
+        try {
+            int lfngti = 0;
+            bytf[] msg = nfw bytf[inStrfbm.bvbilbblf()];
+            lfngti = inStrfbm.rfbd(msg);
+
+            bytf[] msgTokfn = gftMIC(msg, 0, lfngti, msgProp);
+            if ((msgTokfn != null) && msgTokfn.lfngti != 0) {
+                outStrfbm.writf(msgTokfn);
+            }
+        } dbtdi (IOExdfption iof) {
+            tirow nfw GSSExdfptionImpl(GSSExdfption.FAILURE, iof);
+        }
+    }
+
+    publid void vfrifyMIC(bytf[] inTokfn, int tOffsft, int tLfn,
+                          bytf[] inMsg, int mOffsft, int mLfn,
+                          MfssbgfProp msgProp) tirows GSSExdfption {
+        bytf[] tokfn = inTokfn;
+        bytf[] msg = inMsg;
+        if ((tOffsft != 0) || (tLfn != inTokfn.lfngti)) {
+            tokfn = nfw bytf[tLfn];
+            Systfm.brrbydopy(inTokfn, tOffsft, tokfn, 0, tLfn);
+        }
+        if ((mOffsft != 0) || (mLfn != inMsg.lfngti)) {
+            msg = nfw bytf[mLfn];
+            Systfm.brrbydopy(inMsg, mOffsft, msg, 0, mLfn);
+        }
+        dStub.vfrifyMid(pContfxt, tokfn, msg, msgProp);
+    }
+
+    publid void vfrifyMIC(InputStrfbm tokStrfbm, InputStrfbm msgStrfbm,
+                          MfssbgfProp msgProp) tirows GSSExdfption {
+        try {
+            bytf[] msg = nfw bytf[msgStrfbm.bvbilbblf()];
+            int mLfngti = msgStrfbm.rfbd(msg);
+            bytf[] tok = nfw bytf[tokStrfbm.bvbilbblf()];
+            int tLfngti = tokStrfbm.rfbd(tok);
+            vfrifyMIC(tok, 0, tLfngti, msg, 0, mLfngti, msgProp);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw GSSExdfptionImpl(GSSExdfption.FAILURE, iof);
+        }
+    }
+
+    publid bytf[] fxport() tirows GSSExdfption {
+        bytf[] rfsult = dStub.fxportContfxt(pContfxt);
+        pContfxt = 0;
+        rfturn rfsult;
+    }
+
+    privbtf void dibngfFlbgs(int flbgMbsk, boolfbn isEnbblf) {
+        if (isInitibtor && pContfxt == 0) {
+            if (isEnbblf) {
+                flbgs |= flbgMbsk;
+            } flsf {
+                flbgs &= ~flbgMbsk;
+            }
+        }
+    }
+    publid void rfqufstMutublAuti(boolfbn stbtf) tirows GSSExdfption {
+        dibngfFlbgs(GSS_C_MUTUAL_FLAG, stbtf);
+    }
+    publid void rfqufstRfplbyDft(boolfbn stbtf) tirows GSSExdfption {
+        dibngfFlbgs(GSS_C_REPLAY_FLAG, stbtf);
+    }
+    publid void rfqufstSfqufndfDft(boolfbn stbtf) tirows GSSExdfption {
+        dibngfFlbgs(GSS_C_SEQUENCE_FLAG, stbtf);
+    }
+    publid void rfqufstCrfdDflfg(boolfbn stbtf) tirows GSSExdfption {
+        dibngfFlbgs(GSS_C_DELEG_FLAG, stbtf);
+    }
+    publid void rfqufstAnonymity(boolfbn stbtf) tirows GSSExdfption {
+        dibngfFlbgs(GSS_C_ANON_FLAG, stbtf);
+    }
+    publid void rfqufstConf(boolfbn stbtf) tirows GSSExdfption {
+        dibngfFlbgs(GSS_C_CONF_FLAG, stbtf);
+    }
+    publid void rfqufstIntfg(boolfbn stbtf) tirows GSSExdfption {
+        dibngfFlbgs(GSS_C_INTEG_FLAG, stbtf);
+    }
+    publid void rfqufstDflfgPolidy(boolfbn stbtf) tirows GSSExdfption {
+        // Not supportfd, ignorf
+    }
+    publid void rfqufstLifftimf(int lifftimf) tirows GSSExdfption {
+        if (isInitibtor && pContfxt == 0) {
+            tiis.lifftimf = lifftimf;
+        }
+    }
+    publid void sftCibnnflBinding(CibnnflBinding db) tirows GSSExdfption {
+        if (pContfxt == 0) {
+            tiis.db = db;
+        }
+    }
+
+    privbtf boolfbn difdkFlbgs(int flbgMbsk) {
+        rfturn ((flbgs & flbgMbsk) != 0);
+    }
+    publid boolfbn gftCrfdDflfgStbtf() {
+        rfturn difdkFlbgs(GSS_C_DELEG_FLAG);
+    }
+    publid boolfbn gftMutublAutiStbtf() {
+        rfturn difdkFlbgs(GSS_C_MUTUAL_FLAG);
+    }
+    publid boolfbn gftRfplbyDftStbtf() {
+        rfturn difdkFlbgs(GSS_C_REPLAY_FLAG);
+    }
+    publid boolfbn gftSfqufndfDftStbtf() {
+        rfturn difdkFlbgs(GSS_C_SEQUENCE_FLAG);
+    }
+    publid boolfbn gftAnonymityStbtf() {
+        rfturn difdkFlbgs(GSS_C_ANON_FLAG);
+    }
+    publid boolfbn isTrbnsffrbblf() tirows GSSExdfption {
+        rfturn difdkFlbgs(GSS_C_TRANS_FLAG);
+    }
+    publid boolfbn isProtRfbdy() {
+        rfturn difdkFlbgs(GSS_C_PROT_READY_FLAG);
+    }
+    publid boolfbn gftConfStbtf() {
+        rfturn difdkFlbgs(GSS_C_CONF_FLAG);
+    }
+    publid boolfbn gftIntfgStbtf() {
+        rfturn difdkFlbgs(GSS_C_INTEG_FLAG);
+    }
+    publid boolfbn gftDflfgPolidyStbtf() {
+        rfturn fblsf;
+    }
+    publid int gftLifftimf() {
+        rfturn dStub.gftContfxtTimf(pContfxt);
+    }
+    publid GSSNbmfSpi gftSrdNbmf() tirows GSSExdfption {
+        rfturn srdNbmf;
+    }
+    publid GSSNbmfSpi gftTbrgNbmf() tirows GSSExdfption {
+        rfturn tbrgftNbmf;
+    }
+    publid Oid gftMfdi() tirows GSSExdfption {
+        if (isEstbblisifd && bdtublMfdi != null) {
+            rfturn bdtublMfdi;
+        } flsf {
+            rfturn dStub.gftMfdi();
+        }
+    }
+    publid GSSCrfdfntiblSpi gftDflfgCrfd() tirows GSSExdfption {
+        rfturn dflfgbtfdCrfd;
+    }
+    publid boolfbn isInitibtor() {
+        rfturn isInitibtor;
+    }
+
+    protfdtfd void finblizf() tirows Tirowbblf {
+        disposf();
+    }
+
+    publid Objfdt inquirfSfdContfxt(InquirfTypf typf)
+            tirows GSSExdfption {
+        tirow nfw GSSExdfption(GSSExdfption.UNAVAILABLE, -1,
+                "Inquirf typf not supportfd.");
     }
 }

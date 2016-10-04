@@ -1,436 +1,436 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import com.sun.jmx.mbeanserver.Introspector;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import sun.reflect.misc.ReflectUtil;
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Proxy;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * Static methods from the JMX API.  There are no instances of this class.
+ * Stbtid mftiods from tif JMX API.  Tifrf brf no instbndfs of tiis dlbss.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public class JMX {
-    /* Code within this package can prove that by providing this instance of
-     * this class.
+publid dlbss JMX {
+    /* Codf witiin tiis pbdkbgf dbn provf tibt by providing tiis instbndf of
+     * tiis dlbss.
      */
-    static final JMX proof = new JMX();
+    stbtid finbl JMX proof = nfw JMX();
 
-    private JMX() {}
+    privbtf JMX() {}
 
     /**
-     * The name of the <a href="Descriptor.html#defaultValue">{@code
-     * defaultValue}</a> field.
+     * Tif nbmf of tif <b irff="Dfsdriptor.itml#dffbultVbluf">{@dodf
+     * dffbultVbluf}</b> fifld.
      */
-    public static final String DEFAULT_VALUE_FIELD = "defaultValue";
+    publid stbtid finbl String DEFAULT_VALUE_FIELD = "dffbultVbluf";
 
     /**
-     * The name of the <a href="Descriptor.html#immutableInfo">{@code
-     * immutableInfo}</a> field.
+     * Tif nbmf of tif <b irff="Dfsdriptor.itml#immutbblfInfo">{@dodf
+     * immutbblfInfo}</b> fifld.
      */
-    public static final String IMMUTABLE_INFO_FIELD = "immutableInfo";
+    publid stbtid finbl String IMMUTABLE_INFO_FIELD = "immutbblfInfo";
 
     /**
-     * The name of the <a href="Descriptor.html#interfaceClassName">{@code
-     * interfaceClassName}</a> field.
+     * Tif nbmf of tif <b irff="Dfsdriptor.itml#intfrfbdfClbssNbmf">{@dodf
+     * intfrfbdfClbssNbmf}</b> fifld.
      */
-    public static final String INTERFACE_CLASS_NAME_FIELD = "interfaceClassName";
+    publid stbtid finbl String INTERFACE_CLASS_NAME_FIELD = "intfrfbdfClbssNbmf";
 
     /**
-     * The name of the <a href="Descriptor.html#legalValues">{@code
-     * legalValues}</a> field.
+     * Tif nbmf of tif <b irff="Dfsdriptor.itml#lfgblVblufs">{@dodf
+     * lfgblVblufs}</b> fifld.
      */
-    public static final String LEGAL_VALUES_FIELD = "legalValues";
+    publid stbtid finbl String LEGAL_VALUES_FIELD = "lfgblVblufs";
 
     /**
-     * The name of the <a href="Descriptor.html#maxValue">{@code
-     * maxValue}</a> field.
+     * Tif nbmf of tif <b irff="Dfsdriptor.itml#mbxVbluf">{@dodf
+     * mbxVbluf}</b> fifld.
      */
-    public static final String MAX_VALUE_FIELD = "maxValue";
+    publid stbtid finbl String MAX_VALUE_FIELD = "mbxVbluf";
 
     /**
-     * The name of the <a href="Descriptor.html#minValue">{@code
-     * minValue}</a> field.
+     * Tif nbmf of tif <b irff="Dfsdriptor.itml#minVbluf">{@dodf
+     * minVbluf}</b> fifld.
      */
-    public static final String MIN_VALUE_FIELD = "minValue";
+    publid stbtid finbl String MIN_VALUE_FIELD = "minVbluf";
 
     /**
-     * The name of the <a href="Descriptor.html#mxbean">{@code
-     * mxbean}</a> field.
+     * Tif nbmf of tif <b irff="Dfsdriptor.itml#mxbfbn">{@dodf
+     * mxbfbn}</b> fifld.
      */
-    public static final String MXBEAN_FIELD = "mxbean";
+    publid stbtid finbl String MXBEAN_FIELD = "mxbfbn";
 
     /**
-     * The name of the <a href="Descriptor.html#openType">{@code
-     * openType}</a> field.
+     * Tif nbmf of tif <b irff="Dfsdriptor.itml#opfnTypf">{@dodf
+     * opfnTypf}</b> fifld.
      */
-    public static final String OPEN_TYPE_FIELD = "openType";
+    publid stbtid finbl String OPEN_TYPE_FIELD = "opfnTypf";
 
     /**
-     * The name of the <a href="Descriptor.html#originalType">{@code
-     * originalType}</a> field.
+     * Tif nbmf of tif <b irff="Dfsdriptor.itml#originblTypf">{@dodf
+     * originblTypf}</b> fifld.
      */
-    public static final String ORIGINAL_TYPE_FIELD = "originalType";
+    publid stbtid finbl String ORIGINAL_TYPE_FIELD = "originblTypf";
 
     /**
-     * <p>Make a proxy for a Standard MBean in a local or remote
-     * MBean Server.</p>
+     * <p>Mbkf b proxy for b Stbndbrd MBfbn in b lodbl or rfmotf
+     * MBfbn Sfrvfr.</p>
      *
-     * <p>If you have an MBean Server {@code mbs} containing an MBean
-     * with {@link ObjectName} {@code name}, and if the MBean's
-     * management interface is described by the Java interface
-     * {@code MyMBean}, you can construct a proxy for the MBean like
-     * this:</p>
+     * <p>If you ibvf bn MBfbn Sfrvfr {@dodf mbs} dontbining bn MBfbn
+     * witi {@link ObjfdtNbmf} {@dodf nbmf}, bnd if tif MBfbn's
+     * mbnbgfmfnt intfrfbdf is dfsdribfd by tif Jbvb intfrfbdf
+     * {@dodf MyMBfbn}, you dbn donstrudt b proxy for tif MBfbn likf
+     * tiis:</p>
      *
-     * <pre>
-     * MyMBean proxy = JMX.newMBeanProxy(mbs, name, MyMBean.class);
-     * </pre>
+     * <prf>
+     * MyMBfbn proxy = JMX.nfwMBfbnProxy(mbs, nbmf, MyMBfbn.dlbss);
+     * </prf>
      *
-     * <p>Suppose, for example, {@code MyMBean} looks like this:</p>
+     * <p>Supposf, for fxbmplf, {@dodf MyMBfbn} looks likf tiis:</p>
      *
-     * <pre>
-     * public interface MyMBean {
-     *     public String getSomeAttribute();
-     *     public void setSomeAttribute(String value);
-     *     public void someOperation(String param1, int param2);
+     * <prf>
+     * publid intfrfbdf MyMBfbn {
+     *     publid String gftSomfAttributf();
+     *     publid void sftSomfAttributf(String vbluf);
+     *     publid void somfOpfrbtion(String pbrbm1, int pbrbm2);
      * }
-     * </pre>
+     * </prf>
      *
-     * <p>Then you can execute:</p>
+     * <p>Tifn you dbn fxfdutf:</p>
      *
      * <ul>
      *
-     * <li>{@code proxy.getSomeAttribute()} which will result in a
-     * call to {@code mbs.}{@link MBeanServerConnection#getAttribute
-     * getAttribute}{@code (name, "SomeAttribute")}.
+     * <li>{@dodf proxy.gftSomfAttributf()} wiidi will rfsult in b
+     * dbll to {@dodf mbs.}{@link MBfbnSfrvfrConnfdtion#gftAttributf
+     * gftAttributf}{@dodf (nbmf, "SomfAttributf")}.
      *
-     * <li>{@code proxy.setSomeAttribute("whatever")} which will result
-     * in a call to {@code mbs.}{@link MBeanServerConnection#setAttribute
-     * setAttribute}{@code (name, new Attribute("SomeAttribute", "whatever"))}.
+     * <li>{@dodf proxy.sftSomfAttributf("wibtfvfr")} wiidi will rfsult
+     * in b dbll to {@dodf mbs.}{@link MBfbnSfrvfrConnfdtion#sftAttributf
+     * sftAttributf}{@dodf (nbmf, nfw Attributf("SomfAttributf", "wibtfvfr"))}.
      *
-     * <li>{@code proxy.someOperation("param1", 2)} which will be
-     * translated into a call to {@code mbs.}{@link
-     * MBeanServerConnection#invoke invoke}{@code (name, "someOperation", <etc>)}.
+     * <li>{@dodf proxy.somfOpfrbtion("pbrbm1", 2)} wiidi will bf
+     * trbnslbtfd into b dbll to {@dodf mbs.}{@link
+     * MBfbnSfrvfrConnfdtion#invokf invokf}{@dodf (nbmf, "somfOpfrbtion", <ftd>)}.
      *
      * </ul>
      *
-     * <p>The object returned by this method is a
-     * {@link Proxy} whose {@code InvocationHandler} is an
-     * {@link MBeanServerInvocationHandler}.</p>
+     * <p>Tif objfdt rfturnfd by tiis mftiod is b
+     * {@link Proxy} wiosf {@dodf InvodbtionHbndlfr} is bn
+     * {@link MBfbnSfrvfrInvodbtionHbndlfr}.</p>
      *
-     * <p>This method is equivalent to {@link
-     * #newMBeanProxy(MBeanServerConnection, ObjectName, Class,
-     * boolean) newMBeanProxy(connection, objectName, interfaceClass,
-     * false)}.</p>
+     * <p>Tiis mftiod is fquivblfnt to {@link
+     * #nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss,
+     * boolfbn) nfwMBfbnProxy(donnfdtion, objfdtNbmf, intfrfbdfClbss,
+     * fblsf)}.</p>
      *
-     * @param connection the MBean server to forward to.
-     * @param objectName the name of the MBean within
-     * {@code connection} to forward to.
-     * @param interfaceClass the management interface that the MBean
-     * exports, which will also be implemented by the returned proxy.
+     * @pbrbm donnfdtion tif MBfbn sfrvfr to forwbrd to.
+     * @pbrbm objfdtNbmf tif nbmf of tif MBfbn witiin
+     * {@dodf donnfdtion} to forwbrd to.
+     * @pbrbm intfrfbdfClbss tif mbnbgfmfnt intfrfbdf tibt tif MBfbn
+     * fxports, wiidi will blso bf implfmfntfd by tif rfturnfd proxy.
      *
-     * @param <T> allows the compiler to know that if the {@code
-     * interfaceClass} parameter is {@code MyMBean.class}, for
-     * example, then the return type is {@code MyMBean}.
+     * @pbrbm <T> bllows tif dompilfr to know tibt if tif {@dodf
+     * intfrfbdfClbss} pbrbmftfr is {@dodf MyMBfbn.dlbss}, for
+     * fxbmplf, tifn tif rfturn typf is {@dodf MyMBfbn}.
      *
-     * @return the new proxy instance.
+     * @rfturn tif nfw proxy instbndf.
      *
-     * @throws IllegalArgumentException if {@code interfaceClass} is not
-     * a <a href="package-summary.html#mgIface">compliant MBean
-     * interface</a>
+     * @tirows IllfgblArgumfntExdfption if {@dodf intfrfbdfClbss} is not
+     * b <b irff="pbdkbgf-summbry.itml#mgIfbdf">domplibnt MBfbn
+     * intfrfbdf</b>
      */
-    public static <T> T newMBeanProxy(MBeanServerConnection connection,
-                                      ObjectName objectName,
-                                      Class<T> interfaceClass) {
-        return newMBeanProxy(connection, objectName, interfaceClass, false);
+    publid stbtid <T> T nfwMBfbnProxy(MBfbnSfrvfrConnfdtion donnfdtion,
+                                      ObjfdtNbmf objfdtNbmf,
+                                      Clbss<T> intfrfbdfClbss) {
+        rfturn nfwMBfbnProxy(donnfdtion, objfdtNbmf, intfrfbdfClbss, fblsf);
     }
 
     /**
-     * <p>Make a proxy for a Standard MBean in a local or remote MBean
-     * Server that may also support the methods of {@link
-     * NotificationEmitter}.</p>
+     * <p>Mbkf b proxy for b Stbndbrd MBfbn in b lodbl or rfmotf MBfbn
+     * Sfrvfr tibt mby blso support tif mftiods of {@link
+     * NotifidbtionEmittfr}.</p>
      *
-     * <p>This method behaves the same as {@link
-     * #newMBeanProxy(MBeanServerConnection, ObjectName, Class)}, but
-     * additionally, if {@code notificationEmitter} is {@code
-     * true}, then the MBean is assumed to be a {@link
-     * NotificationBroadcaster} or {@link NotificationEmitter} and the
-     * returned proxy will implement {@link NotificationEmitter} as
-     * well as {@code interfaceClass}.  A call to {@link
-     * NotificationBroadcaster#addNotificationListener} on the proxy
-     * will result in a call to {@link
-     * MBeanServerConnection#addNotificationListener(ObjectName,
-     * NotificationListener, NotificationFilter, Object)}, and
-     * likewise for the other methods of {@link
-     * NotificationBroadcaster} and {@link NotificationEmitter}.</p>
+     * <p>Tiis mftiod bfibvfs tif sbmf bs {@link
+     * #nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)}, but
+     * bdditionblly, if {@dodf notifidbtionEmittfr} is {@dodf
+     * truf}, tifn tif MBfbn is bssumfd to bf b {@link
+     * NotifidbtionBrobddbstfr} or {@link NotifidbtionEmittfr} bnd tif
+     * rfturnfd proxy will implfmfnt {@link NotifidbtionEmittfr} bs
+     * wfll bs {@dodf intfrfbdfClbss}.  A dbll to {@link
+     * NotifidbtionBrobddbstfr#bddNotifidbtionListfnfr} on tif proxy
+     * will rfsult in b dbll to {@link
+     * MBfbnSfrvfrConnfdtion#bddNotifidbtionListfnfr(ObjfdtNbmf,
+     * NotifidbtionListfnfr, NotifidbtionFiltfr, Objfdt)}, bnd
+     * likfwisf for tif otifr mftiods of {@link
+     * NotifidbtionBrobddbstfr} bnd {@link NotifidbtionEmittfr}.</p>
      *
-     * @param connection the MBean server to forward to.
-     * @param objectName the name of the MBean within
-     * {@code connection} to forward to.
-     * @param interfaceClass the management interface that the MBean
-     * exports, which will also be implemented by the returned proxy.
-     * @param notificationEmitter make the returned proxy
-     * implement {@link NotificationEmitter} by forwarding its methods
-     * via {@code connection}.
+     * @pbrbm donnfdtion tif MBfbn sfrvfr to forwbrd to.
+     * @pbrbm objfdtNbmf tif nbmf of tif MBfbn witiin
+     * {@dodf donnfdtion} to forwbrd to.
+     * @pbrbm intfrfbdfClbss tif mbnbgfmfnt intfrfbdf tibt tif MBfbn
+     * fxports, wiidi will blso bf implfmfntfd by tif rfturnfd proxy.
+     * @pbrbm notifidbtionEmittfr mbkf tif rfturnfd proxy
+     * implfmfnt {@link NotifidbtionEmittfr} by forwbrding its mftiods
+     * vib {@dodf donnfdtion}.
      *
-     * @param <T> allows the compiler to know that if the {@code
-     * interfaceClass} parameter is {@code MyMBean.class}, for
-     * example, then the return type is {@code MyMBean}.
+     * @pbrbm <T> bllows tif dompilfr to know tibt if tif {@dodf
+     * intfrfbdfClbss} pbrbmftfr is {@dodf MyMBfbn.dlbss}, for
+     * fxbmplf, tifn tif rfturn typf is {@dodf MyMBfbn}.
      *
-     * @return the new proxy instance.
+     * @rfturn tif nfw proxy instbndf.
      *
-     * @throws IllegalArgumentException if {@code interfaceClass} is not
-     * a <a href="package-summary.html#mgIface">compliant MBean
-     * interface</a>
+     * @tirows IllfgblArgumfntExdfption if {@dodf intfrfbdfClbss} is not
+     * b <b irff="pbdkbgf-summbry.itml#mgIfbdf">domplibnt MBfbn
+     * intfrfbdf</b>
      */
-    public static <T> T newMBeanProxy(MBeanServerConnection connection,
-                                      ObjectName objectName,
-                                      Class<T> interfaceClass,
-                                      boolean notificationEmitter) {
-        return createProxy(connection, objectName, interfaceClass, notificationEmitter, false);
+    publid stbtid <T> T nfwMBfbnProxy(MBfbnSfrvfrConnfdtion donnfdtion,
+                                      ObjfdtNbmf objfdtNbmf,
+                                      Clbss<T> intfrfbdfClbss,
+                                      boolfbn notifidbtionEmittfr) {
+        rfturn drfbtfProxy(donnfdtion, objfdtNbmf, intfrfbdfClbss, notifidbtionEmittfr, fblsf);
     }
 
     /**
-     * Make a proxy for an MXBean in a local or remote MBean Server.
+     * Mbkf b proxy for bn MXBfbn in b lodbl or rfmotf MBfbn Sfrvfr.
      *
-     * <p>If you have an MBean Server {@code mbs} containing an
-     * MXBean with {@link ObjectName} {@code name}, and if the
-     * MXBean's management interface is described by the Java
-     * interface {@code MyMXBean}, you can construct a proxy for
-     * the MXBean like this:</p>
+     * <p>If you ibvf bn MBfbn Sfrvfr {@dodf mbs} dontbining bn
+     * MXBfbn witi {@link ObjfdtNbmf} {@dodf nbmf}, bnd if tif
+     * MXBfbn's mbnbgfmfnt intfrfbdf is dfsdribfd by tif Jbvb
+     * intfrfbdf {@dodf MyMXBfbn}, you dbn donstrudt b proxy for
+     * tif MXBfbn likf tiis:</p>
      *
-     * <pre>
-     * MyMXBean proxy = JMX.newMXBeanProxy(mbs, name, MyMXBean.class);
-     * </pre>
+     * <prf>
+     * MyMXBfbn proxy = JMX.nfwMXBfbnProxy(mbs, nbmf, MyMXBfbn.dlbss);
+     * </prf>
      *
-     * <p>Suppose, for example, {@code MyMXBean} looks like this:</p>
+     * <p>Supposf, for fxbmplf, {@dodf MyMXBfbn} looks likf tiis:</p>
      *
-     * <pre>
-     * public interface MyMXBean {
-     *     public String getSimpleAttribute();
-     *     public void setSimpleAttribute(String value);
-     *     public {@link java.lang.management.MemoryUsage} getMappedAttribute();
-     *     public void setMappedAttribute(MemoryUsage memoryUsage);
-     *     public MemoryUsage someOperation(String param1, MemoryUsage param2);
+     * <prf>
+     * publid intfrfbdf MyMXBfbn {
+     *     publid String gftSimplfAttributf();
+     *     publid void sftSimplfAttributf(String vbluf);
+     *     publid {@link jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf} gftMbppfdAttributf();
+     *     publid void sftMbppfdAttributf(MfmoryUsbgf mfmoryUsbgf);
+     *     publid MfmoryUsbgf somfOpfrbtion(String pbrbm1, MfmoryUsbgf pbrbm2);
      * }
-     * </pre>
+     * </prf>
      *
-     * <p>Then:</p>
+     * <p>Tifn:</p>
      *
      * <ul>
      *
-     * <li><p>{@code proxy.getSimpleAttribute()} will result in a
-     * call to {@code mbs.}{@link MBeanServerConnection#getAttribute
-     * getAttribute}{@code (name, "SimpleAttribute")}.</p>
+     * <li><p>{@dodf proxy.gftSimplfAttributf()} will rfsult in b
+     * dbll to {@dodf mbs.}{@link MBfbnSfrvfrConnfdtion#gftAttributf
+     * gftAttributf}{@dodf (nbmf, "SimplfAttributf")}.</p>
      *
-     * <li><p>{@code proxy.setSimpleAttribute("whatever")} will result
-     * in a call to {@code mbs.}{@link
-     * MBeanServerConnection#setAttribute setAttribute}<code>(name,
-     * new Attribute("SimpleAttribute", "whatever"))</code>.</p>
+     * <li><p>{@dodf proxy.sftSimplfAttributf("wibtfvfr")} will rfsult
+     * in b dbll to {@dodf mbs.}{@link
+     * MBfbnSfrvfrConnfdtion#sftAttributf sftAttributf}<dodf>(nbmf,
+     * nfw Attributf("SimplfAttributf", "wibtfvfr"))</dodf>.</p>
      *
-     *     <p>Because {@code String} is a <em>simple type</em>, in the
-     *     sense of {@link javax.management.openmbean.SimpleType}, it
-     *     is not changed in the context of an MXBean.  The MXBean
-     *     proxy behaves the same as a Standard MBean proxy (see
-     *     {@link #newMBeanProxy(MBeanServerConnection, ObjectName,
-     *     Class) newMBeanProxy}) for the attribute {@code
-     *     SimpleAttribute}.</p>
+     *     <p>Bfdbusf {@dodf String} is b <fm>simplf typf</fm>, in tif
+     *     sfnsf of {@link jbvbx.mbnbgfmfnt.opfnmbfbn.SimplfTypf}, it
+     *     is not dibngfd in tif dontfxt of bn MXBfbn.  Tif MXBfbn
+     *     proxy bfibvfs tif sbmf bs b Stbndbrd MBfbn proxy (sff
+     *     {@link #nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf,
+     *     Clbss) nfwMBfbnProxy}) for tif bttributf {@dodf
+     *     SimplfAttributf}.</p>
      *
-     * <li><p>{@code proxy.getMappedAttribute()} will result in a call
-     * to {@code mbs.getAttribute("MappedAttribute")}.  The MXBean
-     * mapping rules mean that the actual type of the attribute {@code
-     * MappedAttribute} will be {@link
-     * javax.management.openmbean.CompositeData CompositeData} and
-     * that is what the {@code mbs.getAttribute} call will return.
-     * The proxy will then convert the {@code CompositeData} back into
-     * the expected type {@code MemoryUsage} using the MXBean mapping
-     * rules.</p>
+     * <li><p>{@dodf proxy.gftMbppfdAttributf()} will rfsult in b dbll
+     * to {@dodf mbs.gftAttributf("MbppfdAttributf")}.  Tif MXBfbn
+     * mbpping rulfs mfbn tibt tif bdtubl typf of tif bttributf {@dodf
+     * MbppfdAttributf} will bf {@link
+     * jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb CompositfDbtb} bnd
+     * tibt is wibt tif {@dodf mbs.gftAttributf} dbll will rfturn.
+     * Tif proxy will tifn donvfrt tif {@dodf CompositfDbtb} bbdk into
+     * tif fxpfdtfd typf {@dodf MfmoryUsbgf} using tif MXBfbn mbpping
+     * rulfs.</p>
      *
-     * <li><p>Similarly, {@code proxy.setMappedAttribute(memoryUsage)}
-     * will convert the {@code MemoryUsage} argument into a {@code
-     * CompositeData} before calling {@code mbs.setAttribute}.</p>
+     * <li><p>Similbrly, {@dodf proxy.sftMbppfdAttributf(mfmoryUsbgf)}
+     * will donvfrt tif {@dodf MfmoryUsbgf} brgumfnt into b {@dodf
+     * CompositfDbtb} bfforf dblling {@dodf mbs.sftAttributf}.</p>
      *
-     * <li><p>{@code proxy.someOperation("whatever", memoryUsage)}
-     * will convert the {@code MemoryUsage} argument into a {@code
-     * CompositeData} and call {@code mbs.invoke}.  The value returned
-     * by {@code mbs.invoke} will be also be a {@code CompositeData},
-     * and the proxy will convert this into the expected type {@code
-     * MemoryUsage} using the MXBean mapping rules.</p>
+     * <li><p>{@dodf proxy.somfOpfrbtion("wibtfvfr", mfmoryUsbgf)}
+     * will donvfrt tif {@dodf MfmoryUsbgf} brgumfnt into b {@dodf
+     * CompositfDbtb} bnd dbll {@dodf mbs.invokf}.  Tif vbluf rfturnfd
+     * by {@dodf mbs.invokf} will bf blso bf b {@dodf CompositfDbtb},
+     * bnd tif proxy will donvfrt tiis into tif fxpfdtfd typf {@dodf
+     * MfmoryUsbgf} using tif MXBfbn mbpping rulfs.</p>
      *
      * </ul>
      *
-     * <p>The object returned by this method is a
-     * {@link Proxy} whose {@code InvocationHandler} is an
-     * {@link MBeanServerInvocationHandler}.</p>
+     * <p>Tif objfdt rfturnfd by tiis mftiod is b
+     * {@link Proxy} wiosf {@dodf InvodbtionHbndlfr} is bn
+     * {@link MBfbnSfrvfrInvodbtionHbndlfr}.</p>
      *
-     * <p>This method is equivalent to {@link
-     * #newMXBeanProxy(MBeanServerConnection, ObjectName, Class,
-     * boolean) newMXBeanProxy(connection, objectName, interfaceClass,
-     * false)}.</p>
+     * <p>Tiis mftiod is fquivblfnt to {@link
+     * #nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss,
+     * boolfbn) nfwMXBfbnProxy(donnfdtion, objfdtNbmf, intfrfbdfClbss,
+     * fblsf)}.</p>
      *
-     * @param connection the MBean server to forward to.
-     * @param objectName the name of the MBean within
-     * {@code connection} to forward to.
-     * @param interfaceClass the MXBean interface,
-     * which will also be implemented by the returned proxy.
+     * @pbrbm donnfdtion tif MBfbn sfrvfr to forwbrd to.
+     * @pbrbm objfdtNbmf tif nbmf of tif MBfbn witiin
+     * {@dodf donnfdtion} to forwbrd to.
+     * @pbrbm intfrfbdfClbss tif MXBfbn intfrfbdf,
+     * wiidi will blso bf implfmfntfd by tif rfturnfd proxy.
      *
-     * @param <T> allows the compiler to know that if the {@code
-     * interfaceClass} parameter is {@code MyMXBean.class}, for
-     * example, then the return type is {@code MyMXBean}.
+     * @pbrbm <T> bllows tif dompilfr to know tibt if tif {@dodf
+     * intfrfbdfClbss} pbrbmftfr is {@dodf MyMXBfbn.dlbss}, for
+     * fxbmplf, tifn tif rfturn typf is {@dodf MyMXBfbn}.
      *
-     * @return the new proxy instance.
+     * @rfturn tif nfw proxy instbndf.
      *
-     * @throws IllegalArgumentException if {@code interfaceClass} is not
-     * a {@link javax.management.MXBean compliant MXBean interface}
+     * @tirows IllfgblArgumfntExdfption if {@dodf intfrfbdfClbss} is not
+     * b {@link jbvbx.mbnbgfmfnt.MXBfbn domplibnt MXBfbn intfrfbdf}
      */
-    public static <T> T newMXBeanProxy(MBeanServerConnection connection,
-                                       ObjectName objectName,
-                                       Class<T> interfaceClass) {
-        return newMXBeanProxy(connection, objectName, interfaceClass, false);
+    publid stbtid <T> T nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion donnfdtion,
+                                       ObjfdtNbmf objfdtNbmf,
+                                       Clbss<T> intfrfbdfClbss) {
+        rfturn nfwMXBfbnProxy(donnfdtion, objfdtNbmf, intfrfbdfClbss, fblsf);
     }
 
     /**
-     * <p>Make a proxy for an MXBean in a local or remote MBean
-     * Server that may also support the methods of {@link
-     * NotificationEmitter}.</p>
+     * <p>Mbkf b proxy for bn MXBfbn in b lodbl or rfmotf MBfbn
+     * Sfrvfr tibt mby blso support tif mftiods of {@link
+     * NotifidbtionEmittfr}.</p>
      *
-     * <p>This method behaves the same as {@link
-     * #newMXBeanProxy(MBeanServerConnection, ObjectName, Class)}, but
-     * additionally, if {@code notificationEmitter} is {@code
-     * true}, then the MXBean is assumed to be a {@link
-     * NotificationBroadcaster} or {@link NotificationEmitter} and the
-     * returned proxy will implement {@link NotificationEmitter} as
-     * well as {@code interfaceClass}.  A call to {@link
-     * NotificationBroadcaster#addNotificationListener} on the proxy
-     * will result in a call to {@link
-     * MBeanServerConnection#addNotificationListener(ObjectName,
-     * NotificationListener, NotificationFilter, Object)}, and
-     * likewise for the other methods of {@link
-     * NotificationBroadcaster} and {@link NotificationEmitter}.</p>
+     * <p>Tiis mftiod bfibvfs tif sbmf bs {@link
+     * #nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)}, but
+     * bdditionblly, if {@dodf notifidbtionEmittfr} is {@dodf
+     * truf}, tifn tif MXBfbn is bssumfd to bf b {@link
+     * NotifidbtionBrobddbstfr} or {@link NotifidbtionEmittfr} bnd tif
+     * rfturnfd proxy will implfmfnt {@link NotifidbtionEmittfr} bs
+     * wfll bs {@dodf intfrfbdfClbss}.  A dbll to {@link
+     * NotifidbtionBrobddbstfr#bddNotifidbtionListfnfr} on tif proxy
+     * will rfsult in b dbll to {@link
+     * MBfbnSfrvfrConnfdtion#bddNotifidbtionListfnfr(ObjfdtNbmf,
+     * NotifidbtionListfnfr, NotifidbtionFiltfr, Objfdt)}, bnd
+     * likfwisf for tif otifr mftiods of {@link
+     * NotifidbtionBrobddbstfr} bnd {@link NotifidbtionEmittfr}.</p>
      *
-     * @param connection the MBean server to forward to.
-     * @param objectName the name of the MBean within
-     * {@code connection} to forward to.
-     * @param interfaceClass the MXBean interface,
-     * which will also be implemented by the returned proxy.
-     * @param notificationEmitter make the returned proxy
-     * implement {@link NotificationEmitter} by forwarding its methods
-     * via {@code connection}.
+     * @pbrbm donnfdtion tif MBfbn sfrvfr to forwbrd to.
+     * @pbrbm objfdtNbmf tif nbmf of tif MBfbn witiin
+     * {@dodf donnfdtion} to forwbrd to.
+     * @pbrbm intfrfbdfClbss tif MXBfbn intfrfbdf,
+     * wiidi will blso bf implfmfntfd by tif rfturnfd proxy.
+     * @pbrbm notifidbtionEmittfr mbkf tif rfturnfd proxy
+     * implfmfnt {@link NotifidbtionEmittfr} by forwbrding its mftiods
+     * vib {@dodf donnfdtion}.
      *
-     * @param <T> allows the compiler to know that if the {@code
-     * interfaceClass} parameter is {@code MyMXBean.class}, for
-     * example, then the return type is {@code MyMXBean}.
+     * @pbrbm <T> bllows tif dompilfr to know tibt if tif {@dodf
+     * intfrfbdfClbss} pbrbmftfr is {@dodf MyMXBfbn.dlbss}, for
+     * fxbmplf, tifn tif rfturn typf is {@dodf MyMXBfbn}.
      *
-     * @return the new proxy instance.
+     * @rfturn tif nfw proxy instbndf.
      *
-     * @throws IllegalArgumentException if {@code interfaceClass} is not
-     * a {@link javax.management.MXBean compliant MXBean interface}
+     * @tirows IllfgblArgumfntExdfption if {@dodf intfrfbdfClbss} is not
+     * b {@link jbvbx.mbnbgfmfnt.MXBfbn domplibnt MXBfbn intfrfbdf}
      */
-    public static <T> T newMXBeanProxy(MBeanServerConnection connection,
-                                       ObjectName objectName,
-                                       Class<T> interfaceClass,
-                                       boolean notificationEmitter) {
-        return createProxy(connection, objectName, interfaceClass, notificationEmitter, true);
+    publid stbtid <T> T nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion donnfdtion,
+                                       ObjfdtNbmf objfdtNbmf,
+                                       Clbss<T> intfrfbdfClbss,
+                                       boolfbn notifidbtionEmittfr) {
+        rfturn drfbtfProxy(donnfdtion, objfdtNbmf, intfrfbdfClbss, notifidbtionEmittfr, truf);
     }
 
     /**
-     * <p>Test whether an interface is an MXBean interface.
-     * An interface is an MXBean interface if it is public,
-     * annotated {@link MXBean &#64;MXBean} or {@code @MXBean(true)}
-     * or if it does not have an {@code @MXBean} annotation
-     * and its name ends with "{@code MXBean}".</p>
+     * <p>Tfst wiftifr bn intfrfbdf is bn MXBfbn intfrfbdf.
+     * An intfrfbdf is bn MXBfbn intfrfbdf if it is publid,
+     * bnnotbtfd {@link MXBfbn &#64;MXBfbn} or {@dodf @MXBfbn(truf)}
+     * or if it dofs not ibvf bn {@dodf @MXBfbn} bnnotbtion
+     * bnd its nbmf fnds witi "{@dodf MXBfbn}".</p>
      *
-     * @param interfaceClass The candidate interface.
+     * @pbrbm intfrfbdfClbss Tif dbndidbtf intfrfbdf.
      *
-     * @return true if {@code interfaceClass} is a
-     * {@link javax.management.MXBean compliant MXBean interface}
+     * @rfturn truf if {@dodf intfrfbdfClbss} is b
+     * {@link jbvbx.mbnbgfmfnt.MXBfbn domplibnt MXBfbn intfrfbdf}
      *
-     * @throws NullPointerException if {@code interfaceClass} is null.
+     * @tirows NullPointfrExdfption if {@dodf intfrfbdfClbss} is null.
      */
-    public static boolean isMXBeanInterface(Class<?> interfaceClass) {
-        if (!interfaceClass.isInterface())
-            return false;
-        if (!Modifier.isPublic(interfaceClass.getModifiers()) &&
-            !Introspector.ALLOW_NONPUBLIC_MBEAN) {
-            return false;
+    publid stbtid boolfbn isMXBfbnIntfrfbdf(Clbss<?> intfrfbdfClbss) {
+        if (!intfrfbdfClbss.isIntfrfbdf())
+            rfturn fblsf;
+        if (!Modififr.isPublid(intfrfbdfClbss.gftModififrs()) &&
+            !Introspfdtor.ALLOW_NONPUBLIC_MBEAN) {
+            rfturn fblsf;
         }
-        MXBean a = interfaceClass.getAnnotation(MXBean.class);
-        if (a != null)
-            return a.value();
-        return interfaceClass.getName().endsWith("MXBean");
-        // We don't bother excluding the case where the name is
-        // exactly the string "MXBean" since that would mean there
-        // was no package name, which is pretty unlikely in practice.
+        MXBfbn b = intfrfbdfClbss.gftAnnotbtion(MXBfbn.dlbss);
+        if (b != null)
+            rfturn b.vbluf();
+        rfturn intfrfbdfClbss.gftNbmf().fndsWiti("MXBfbn");
+        // Wf don't botifr fxdluding tif dbsf wifrf tif nbmf is
+        // fxbdtly tif string "MXBfbn" sindf tibt would mfbn tifrf
+        // wbs no pbdkbgf nbmf, wiidi is prftty unlikfly in prbdtidf.
     }
 
     /**
-     * Centralised M(X)Bean proxy creation code
-     * @param connection {@linkplain MBeanServerConnection} to use
-     * @param objectName M(X)Bean object name
-     * @param interfaceClass M(X)Bean interface class
-     * @param notificationEmitter Is a notification emitter?
-     * @param isMXBean Is an MXBean?
-     * @return Returns an M(X)Bean proxy generated for the provided interface class
-     * @throws SecurityException
-     * @throws IllegalArgumentException
+     * Cfntrblisfd M(X)Bfbn proxy drfbtion dodf
+     * @pbrbm donnfdtion {@linkplbin MBfbnSfrvfrConnfdtion} to usf
+     * @pbrbm objfdtNbmf M(X)Bfbn objfdt nbmf
+     * @pbrbm intfrfbdfClbss M(X)Bfbn intfrfbdf dlbss
+     * @pbrbm notifidbtionEmittfr Is b notifidbtion fmittfr?
+     * @pbrbm isMXBfbn Is bn MXBfbn?
+     * @rfturn Rfturns bn M(X)Bfbn proxy gfnfrbtfd for tif providfd intfrfbdf dlbss
+     * @tirows SfdurityExdfption
+     * @tirows IllfgblArgumfntExdfption
      */
-    private static <T> T createProxy(MBeanServerConnection connection,
-                                     ObjectName objectName,
-                                     Class<T> interfaceClass,
-                                     boolean notificationEmitter,
-                                     boolean isMXBean) {
+    privbtf stbtid <T> T drfbtfProxy(MBfbnSfrvfrConnfdtion donnfdtion,
+                                     ObjfdtNbmf objfdtNbmf,
+                                     Clbss<T> intfrfbdfClbss,
+                                     boolfbn notifidbtionEmittfr,
+                                     boolfbn isMXBfbn) {
 
         try {
-            if (isMXBean) {
-                // Check interface for MXBean compliance
-                Introspector.testComplianceMXBeanInterface(interfaceClass);
-            } else {
-                // Check interface for MBean compliance
-                Introspector.testComplianceMBeanInterface(interfaceClass);
+            if (isMXBfbn) {
+                // Cifdk intfrfbdf for MXBfbn domplibndf
+                Introspfdtor.tfstComplibndfMXBfbnIntfrfbdf(intfrfbdfClbss);
+            } flsf {
+                // Cifdk intfrfbdf for MBfbn domplibndf
+                Introspfdtor.tfstComplibndfMBfbnIntfrfbdf(intfrfbdfClbss);
             }
-        } catch (NotCompliantMBeanException e) {
-            throw new IllegalArgumentException(e);
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
         }
 
-        InvocationHandler handler = new MBeanServerInvocationHandler(
-                connection, objectName, isMXBean);
-        final Class<?>[] interfaces;
-        if (notificationEmitter) {
-            interfaces =
-                new Class<?>[] {interfaceClass, NotificationEmitter.class};
-        } else
-            interfaces = new Class<?>[] {interfaceClass};
+        InvodbtionHbndlfr ibndlfr = nfw MBfbnSfrvfrInvodbtionHbndlfr(
+                donnfdtion, objfdtNbmf, isMXBfbn);
+        finbl Clbss<?>[] intfrfbdfs;
+        if (notifidbtionEmittfr) {
+            intfrfbdfs =
+                nfw Clbss<?>[] {intfrfbdfClbss, NotifidbtionEmittfr.dlbss};
+        } flsf
+            intfrfbdfs = nfw Clbss<?>[] {intfrfbdfClbss};
 
-        Object proxy = Proxy.newProxyInstance(
-                interfaceClass.getClassLoader(),
-                interfaces,
-                handler);
-        return interfaceClass.cast(proxy);
+        Objfdt proxy = Proxy.nfwProxyInstbndf(
+                intfrfbdfClbss.gftClbssLobdfr(),
+                intfrfbdfs,
+                ibndlfr);
+        rfturn intfrfbdfClbss.dbst(proxy);
     }
 }

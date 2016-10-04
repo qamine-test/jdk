@@ -1,90 +1,90 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
-/**@deprecated*/
-@Deprecated
-public abstract class ElementCheckerImpl implements ElementChecker {
+/**@dfprfdbtfd*/
+@Dfprfdbtfd
+publid bbstrbdt dlbss ElfmfntCifdkfrImpl implfmfnts ElfmfntCifdkfr {
 
-    public boolean isNamespaceElement(Node el, String type, String ns) {
-        if ((el == null) ||
-            ns != el.getNamespaceURI() || !el.getLocalName().equals(type)){
-            return false;
+    publid boolfbn isNbmfspbdfElfmfnt(Nodf fl, String typf, String ns) {
+        if ((fl == null) ||
+            ns != fl.gftNbmfspbdfURI() || !fl.gftLodblNbmf().fqubls(typf)){
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
-    /** A checker for DOM that interns NS */
-    public static class InternedNsChecker extends ElementCheckerImpl {
-        public void guaranteeThatElementInCorrectSpace(
-            ElementProxy expected, Element actual
-        ) throws XMLSecurityException {
+    /** A difdkfr for DOM tibt intfrns NS */
+    publid stbtid dlbss IntfrnfdNsCifdkfr fxtfnds ElfmfntCifdkfrImpl {
+        publid void gubrbntffTibtElfmfntInCorrfdtSpbdf(
+            ElfmfntProxy fxpfdtfd, Elfmfnt bdtubl
+        ) tirows XMLSfdurityExdfption {
 
-            String expectedLocalname = expected.getBaseLocalName();
-            String expectedNamespace = expected.getBaseNamespace();
+            String fxpfdtfdLodblnbmf = fxpfdtfd.gftBbsfLodblNbmf();
+            String fxpfdtfdNbmfspbdf = fxpfdtfd.gftBbsfNbmfspbdf();
 
-            String localnameIS = actual.getLocalName();
-            String namespaceIS = actual.getNamespaceURI();
-            if ((expectedNamespace != namespaceIS) ||
-                !expectedLocalname.equals(localnameIS)) {
-                Object exArgs[] = { namespaceIS + ":" + localnameIS,
-                                    expectedNamespace + ":" + expectedLocalname};
-                throw new XMLSecurityException("xml.WrongElement", exArgs);
+            String lodblnbmfIS = bdtubl.gftLodblNbmf();
+            String nbmfspbdfIS = bdtubl.gftNbmfspbdfURI();
+            if ((fxpfdtfdNbmfspbdf != nbmfspbdfIS) ||
+                !fxpfdtfdLodblnbmf.fqubls(lodblnbmfIS)) {
+                Objfdt fxArgs[] = { nbmfspbdfIS + ":" + lodblnbmfIS,
+                                    fxpfdtfdNbmfspbdf + ":" + fxpfdtfdLodblnbmf};
+                tirow nfw XMLSfdurityExdfption("xml.WrongElfmfnt", fxArgs);
             }
         }
     }
 
-    /** A checker for DOM that interns NS */
-    public static class FullChecker extends ElementCheckerImpl {
+    /** A difdkfr for DOM tibt intfrns NS */
+    publid stbtid dlbss FullCifdkfr fxtfnds ElfmfntCifdkfrImpl {
 
-        public void guaranteeThatElementInCorrectSpace(
-            ElementProxy expected, Element actual
-        ) throws XMLSecurityException {
-            String expectedLocalname = expected.getBaseLocalName();
-            String expectedNamespace = expected.getBaseNamespace();
+        publid void gubrbntffTibtElfmfntInCorrfdtSpbdf(
+            ElfmfntProxy fxpfdtfd, Elfmfnt bdtubl
+        ) tirows XMLSfdurityExdfption {
+            String fxpfdtfdLodblnbmf = fxpfdtfd.gftBbsfLodblNbmf();
+            String fxpfdtfdNbmfspbdf = fxpfdtfd.gftBbsfNbmfspbdf();
 
-            String localnameIS = actual.getLocalName();
-            String namespaceIS = actual.getNamespaceURI();
-            if ((!expectedNamespace.equals(namespaceIS)) ||
-                !expectedLocalname.equals(localnameIS) ) {
-                Object exArgs[] = { namespaceIS + ":" + localnameIS,
-                                    expectedNamespace + ":" + expectedLocalname};
-                throw new XMLSecurityException("xml.WrongElement", exArgs);
+            String lodblnbmfIS = bdtubl.gftLodblNbmf();
+            String nbmfspbdfIS = bdtubl.gftNbmfspbdfURI();
+            if ((!fxpfdtfdNbmfspbdf.fqubls(nbmfspbdfIS)) ||
+                !fxpfdtfdLodblnbmf.fqubls(lodblnbmfIS) ) {
+                Objfdt fxArgs[] = { nbmfspbdfIS + ":" + lodblnbmfIS,
+                                    fxpfdtfdNbmfspbdf + ":" + fxpfdtfdLodblnbmf};
+                tirow nfw XMLSfdurityExdfption("xml.WrongElfmfnt", fxArgs);
             }
         }
     }
 
-    /** An empty checker if schema checking is used */
-    public static class EmptyChecker extends ElementCheckerImpl {
-        public void guaranteeThatElementInCorrectSpace(
-            ElementProxy expected, Element actual
-        ) throws XMLSecurityException {
-            // empty
+    /** An fmpty difdkfr if sdifmb difdking is usfd */
+    publid stbtid dlbss EmptyCifdkfr fxtfnds ElfmfntCifdkfrImpl {
+        publid void gubrbntffTibtElfmfntInCorrfdtSpbdf(
+            ElfmfntProxy fxpfdtfd, Elfmfnt bdtubl
+        ) tirows XMLSfdurityExdfption {
+            // fmpty
         }
     }
 }

@@ -1,618 +1,618 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import java.lang.ref.SoftReference;
-import java.text.spi.BreakIteratorProvider;
-import java.util.Locale;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleServiceProviderPool;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.tfxt.spi.BrfbkItfrbtorProvidfr;
+import jbvb.util.Lodblf;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
 
 
 /**
- * The <code>BreakIterator</code> class implements methods for finding
- * the location of boundaries in text. Instances of <code>BreakIterator</code>
- * maintain a current position and scan over text
- * returning the index of characters where boundaries occur.
- * Internally, <code>BreakIterator</code> scans text using a
- * <code>CharacterIterator</code>, and is thus able to scan text held
- * by any object implementing that protocol. A <code>StringCharacterIterator</code>
- * is used to scan <code>String</code> objects passed to <code>setText</code>.
+ * Tif <dodf>BrfbkItfrbtor</dodf> dlbss implfmfnts mftiods for finding
+ * tif lodbtion of boundbrifs in tfxt. Instbndfs of <dodf>BrfbkItfrbtor</dodf>
+ * mbintbin b durrfnt position bnd sdbn ovfr tfxt
+ * rfturning tif indfx of dibrbdtfrs wifrf boundbrifs oddur.
+ * Intfrnblly, <dodf>BrfbkItfrbtor</dodf> sdbns tfxt using b
+ * <dodf>CibrbdtfrItfrbtor</dodf>, bnd is tius bblf to sdbn tfxt ifld
+ * by bny objfdt implfmfnting tibt protodol. A <dodf>StringCibrbdtfrItfrbtor</dodf>
+ * is usfd to sdbn <dodf>String</dodf> objfdts pbssfd to <dodf>sftTfxt</dodf>.
  *
  * <p>
- * You use the factory methods provided by this class to create
- * instances of various types of break iterators. In particular,
- * use <code>getWordInstance</code>, <code>getLineInstance</code>,
- * <code>getSentenceInstance</code>, and <code>getCharacterInstance</code>
- * to create <code>BreakIterator</code>s that perform
- * word, line, sentence, and character boundary analysis respectively.
- * A single <code>BreakIterator</code> can work only on one unit
- * (word, line, sentence, and so on). You must use a different iterator
- * for each unit boundary analysis you wish to perform.
+ * You usf tif fbdtory mftiods providfd by tiis dlbss to drfbtf
+ * instbndfs of vbrious typfs of brfbk itfrbtors. In pbrtidulbr,
+ * usf <dodf>gftWordInstbndf</dodf>, <dodf>gftLinfInstbndf</dodf>,
+ * <dodf>gftSfntfndfInstbndf</dodf>, bnd <dodf>gftCibrbdtfrInstbndf</dodf>
+ * to drfbtf <dodf>BrfbkItfrbtor</dodf>s tibt pfrform
+ * word, linf, sfntfndf, bnd dibrbdtfr boundbry bnblysis rfspfdtivfly.
+ * A singlf <dodf>BrfbkItfrbtor</dodf> dbn work only on onf unit
+ * (word, linf, sfntfndf, bnd so on). You must usf b difffrfnt itfrbtor
+ * for fbdi unit boundbry bnblysis you wisi to pfrform.
  *
- * <p><a name="line"></a>
- * Line boundary analysis determines where a text string can be
- * broken when line-wrapping. The mechanism correctly handles
- * punctuation and hyphenated words. Actual line breaking needs
- * to also consider the available line width and is handled by
- * higher-level software.
+ * <p><b nbmf="linf"></b>
+ * Linf boundbry bnblysis dftfrminfs wifrf b tfxt string dbn bf
+ * brokfn wifn linf-wrbpping. Tif mfdibnism dorrfdtly ibndlfs
+ * pundtubtion bnd iypifnbtfd words. Adtubl linf brfbking nffds
+ * to blso donsidfr tif bvbilbblf linf widti bnd is ibndlfd by
+ * iigifr-lfvfl softwbrf.
  *
- * <p><a name="sentence"></a>
- * Sentence boundary analysis allows selection with correct interpretation
- * of periods within numbers and abbreviations, and trailing punctuation
- * marks such as quotation marks and parentheses.
+ * <p><b nbmf="sfntfndf"></b>
+ * Sfntfndf boundbry bnblysis bllows sflfdtion witi dorrfdt intfrprftbtion
+ * of pfriods witiin numbfrs bnd bbbrfvibtions, bnd trbiling pundtubtion
+ * mbrks sudi bs quotbtion mbrks bnd pbrfntifsfs.
  *
- * <p><a name="word"></a>
- * Word boundary analysis is used by search and replace functions, as
- * well as within text editing applications that allow the user to
- * select words with a double click. Word selection provides correct
- * interpretation of punctuation marks within and following
- * words. Characters that are not part of a word, such as symbols
- * or punctuation marks, have word-breaks on both sides.
+ * <p><b nbmf="word"></b>
+ * Word boundbry bnblysis is usfd by sfbrdi bnd rfplbdf fundtions, bs
+ * wfll bs witiin tfxt fditing bpplidbtions tibt bllow tif usfr to
+ * sflfdt words witi b doublf dlidk. Word sflfdtion providfs dorrfdt
+ * intfrprftbtion of pundtubtion mbrks witiin bnd following
+ * words. Cibrbdtfrs tibt brf not pbrt of b word, sudi bs symbols
+ * or pundtubtion mbrks, ibvf word-brfbks on boti sidfs.
  *
- * <p><a name="character"></a>
- * Character boundary analysis allows users to interact with characters
- * as they expect to, for example, when moving the cursor through a text
- * string. Character boundary analysis provides correct navigation
- * through character strings, regardless of how the character is stored.
- * The boundaries returned may be those of supplementary characters,
- * combining character sequences, or ligature clusters.
- * For example, an accented character might be stored as a base character
- * and a diacritical mark. What users consider to be a character can
- * differ between languages.
+ * <p><b nbmf="dibrbdtfr"></b>
+ * Cibrbdtfr boundbry bnblysis bllows usfrs to intfrbdt witi dibrbdtfrs
+ * bs tify fxpfdt to, for fxbmplf, wifn moving tif dursor tirougi b tfxt
+ * string. Cibrbdtfr boundbry bnblysis providfs dorrfdt nbvigbtion
+ * tirougi dibrbdtfr strings, rfgbrdlfss of iow tif dibrbdtfr is storfd.
+ * Tif boundbrifs rfturnfd mby bf tiosf of supplfmfntbry dibrbdtfrs,
+ * dombining dibrbdtfr sfqufndfs, or ligbturf dlustfrs.
+ * For fxbmplf, bn bddfntfd dibrbdtfr migit bf storfd bs b bbsf dibrbdtfr
+ * bnd b dibdritidbl mbrk. Wibt usfrs donsidfr to bf b dibrbdtfr dbn
+ * difffr bftwffn lbngubgfs.
  *
  * <p>
- * The <code>BreakIterator</code> instances returned by the factory methods
- * of this class are intended for use with natural languages only, not for
- * programming language text. It is however possible to define subclasses
- * that tokenize a programming language.
+ * Tif <dodf>BrfbkItfrbtor</dodf> instbndfs rfturnfd by tif fbdtory mftiods
+ * of tiis dlbss brf intfndfd for usf witi nbturbl lbngubgfs only, not for
+ * progrbmming lbngubgf tfxt. It is iowfvfr possiblf to dffinf subdlbssfs
+ * tibt tokfnizf b progrbmming lbngubgf.
  *
  * <P>
- * <strong>Examples</strong>:<P>
- * Creating and using text boundaries:
- * <blockquote>
- * <pre>
- * public static void main(String args[]) {
- *      if (args.length == 1) {
- *          String stringToExamine = args[0];
- *          //print each word in order
- *          BreakIterator boundary = BreakIterator.getWordInstance();
- *          boundary.setText(stringToExamine);
- *          printEachForward(boundary, stringToExamine);
- *          //print each sentence in reverse order
- *          boundary = BreakIterator.getSentenceInstance(Locale.US);
- *          boundary.setText(stringToExamine);
- *          printEachBackward(boundary, stringToExamine);
- *          printFirst(boundary, stringToExamine);
- *          printLast(boundary, stringToExamine);
+ * <strong>Exbmplfs</strong>:<P>
+ * Crfbting bnd using tfxt boundbrifs:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void mbin(String brgs[]) {
+ *      if (brgs.lfngti == 1) {
+ *          String stringToExbminf = brgs[0];
+ *          //print fbdi word in ordfr
+ *          BrfbkItfrbtor boundbry = BrfbkItfrbtor.gftWordInstbndf();
+ *          boundbry.sftTfxt(stringToExbminf);
+ *          printEbdiForwbrd(boundbry, stringToExbminf);
+ *          //print fbdi sfntfndf in rfvfrsf ordfr
+ *          boundbry = BrfbkItfrbtor.gftSfntfndfInstbndf(Lodblf.US);
+ *          boundbry.sftTfxt(stringToExbminf);
+ *          printEbdiBbdkwbrd(boundbry, stringToExbminf);
+ *          printFirst(boundbry, stringToExbminf);
+ *          printLbst(boundbry, stringToExbminf);
  *      }
  * }
- * </pre>
- * </blockquote>
+ * </prf>
+ * </blodkquotf>
  *
- * Print each element in order:
- * <blockquote>
- * <pre>
- * public static void printEachForward(BreakIterator boundary, String source) {
- *     int start = boundary.first();
- *     for (int end = boundary.next();
- *          end != BreakIterator.DONE;
- *          start = end, end = boundary.next()) {
- *          System.out.println(source.substring(start,end));
+ * Print fbdi flfmfnt in ordfr:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void printEbdiForwbrd(BrfbkItfrbtor boundbry, String sourdf) {
+ *     int stbrt = boundbry.first();
+ *     for (int fnd = boundbry.nfxt();
+ *          fnd != BrfbkItfrbtor.DONE;
+ *          stbrt = fnd, fnd = boundbry.nfxt()) {
+ *          Systfm.out.println(sourdf.substring(stbrt,fnd));
  *     }
  * }
- * </pre>
- * </blockquote>
+ * </prf>
+ * </blodkquotf>
  *
- * Print each element in reverse order:
- * <blockquote>
- * <pre>
- * public static void printEachBackward(BreakIterator boundary, String source) {
- *     int end = boundary.last();
- *     for (int start = boundary.previous();
- *          start != BreakIterator.DONE;
- *          end = start, start = boundary.previous()) {
- *         System.out.println(source.substring(start,end));
+ * Print fbdi flfmfnt in rfvfrsf ordfr:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void printEbdiBbdkwbrd(BrfbkItfrbtor boundbry, String sourdf) {
+ *     int fnd = boundbry.lbst();
+ *     for (int stbrt = boundbry.prfvious();
+ *          stbrt != BrfbkItfrbtor.DONE;
+ *          fnd = stbrt, stbrt = boundbry.prfvious()) {
+ *         Systfm.out.println(sourdf.substring(stbrt,fnd));
  *     }
  * }
- * </pre>
- * </blockquote>
+ * </prf>
+ * </blodkquotf>
  *
- * Print first element:
- * <blockquote>
- * <pre>
- * public static void printFirst(BreakIterator boundary, String source) {
- *     int start = boundary.first();
- *     int end = boundary.next();
- *     System.out.println(source.substring(start,end));
+ * Print first flfmfnt:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void printFirst(BrfbkItfrbtor boundbry, String sourdf) {
+ *     int stbrt = boundbry.first();
+ *     int fnd = boundbry.nfxt();
+ *     Systfm.out.println(sourdf.substring(stbrt,fnd));
  * }
- * </pre>
- * </blockquote>
+ * </prf>
+ * </blodkquotf>
  *
- * Print last element:
- * <blockquote>
- * <pre>
- * public static void printLast(BreakIterator boundary, String source) {
- *     int end = boundary.last();
- *     int start = boundary.previous();
- *     System.out.println(source.substring(start,end));
+ * Print lbst flfmfnt:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void printLbst(BrfbkItfrbtor boundbry, String sourdf) {
+ *     int fnd = boundbry.lbst();
+ *     int stbrt = boundbry.prfvious();
+ *     Systfm.out.println(sourdf.substring(stbrt,fnd));
  * }
- * </pre>
- * </blockquote>
+ * </prf>
+ * </blodkquotf>
  *
- * Print the element at a specified position:
- * <blockquote>
- * <pre>
- * public static void printAt(BreakIterator boundary, int pos, String source) {
- *     int end = boundary.following(pos);
- *     int start = boundary.previous();
- *     System.out.println(source.substring(start,end));
+ * Print tif flfmfnt bt b spfdififd position:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void printAt(BrfbkItfrbtor boundbry, int pos, String sourdf) {
+ *     int fnd = boundbry.following(pos);
+ *     int stbrt = boundbry.prfvious();
+ *     Systfm.out.println(sourdf.substring(stbrt,fnd));
  * }
- * </pre>
- * </blockquote>
+ * </prf>
+ * </blodkquotf>
  *
- * Find the next word:
- * <blockquote>
- * <pre>{@code
- * public static int nextWordStartAfter(int pos, String text) {
- *     BreakIterator wb = BreakIterator.getWordInstance();
- *     wb.setText(text);
- *     int last = wb.following(pos);
- *     int current = wb.next();
- *     while (current != BreakIterator.DONE) {
- *         for (int p = last; p < current; p++) {
- *             if (Character.isLetter(text.codePointAt(p)))
- *                 return last;
+ * Find tif nfxt word:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * publid stbtid int nfxtWordStbrtAftfr(int pos, String tfxt) {
+ *     BrfbkItfrbtor wb = BrfbkItfrbtor.gftWordInstbndf();
+ *     wb.sftTfxt(tfxt);
+ *     int lbst = wb.following(pos);
+ *     int durrfnt = wb.nfxt();
+ *     wiilf (durrfnt != BrfbkItfrbtor.DONE) {
+ *         for (int p = lbst; p < durrfnt; p++) {
+ *             if (Cibrbdtfr.isLfttfr(tfxt.dodfPointAt(p)))
+ *                 rfturn lbst;
  *         }
- *         last = current;
- *         current = wb.next();
+ *         lbst = durrfnt;
+ *         durrfnt = wb.nfxt();
  *     }
- *     return BreakIterator.DONE;
+ *     rfturn BrfbkItfrbtor.DONE;
  * }
- * }</pre>
- * (The iterator returned by BreakIterator.getWordInstance() is unique in that
- * the break positions it returns don't represent both the start and end of the
- * thing being iterated over.  That is, a sentence-break iterator returns breaks
- * that each represent the end of one sentence and the beginning of the next.
- * With the word-break iterator, the characters between two boundaries might be a
- * word, or they might be the punctuation or whitespace between two words.  The
- * above code uses a simple heuristic to determine which boundary is the beginning
- * of a word: If the characters between this boundary and the next boundary
- * include at least one letter (this can be an alphabetical letter, a CJK ideograph,
- * a Hangul syllable, a Kana character, etc.), then the text between this boundary
- * and the next is a word; otherwise, it's the material between words.)
- * </blockquote>
+ * }</prf>
+ * (Tif itfrbtor rfturnfd by BrfbkItfrbtor.gftWordInstbndf() is uniquf in tibt
+ * tif brfbk positions it rfturns don't rfprfsfnt boti tif stbrt bnd fnd of tif
+ * tiing bfing itfrbtfd ovfr.  Tibt is, b sfntfndf-brfbk itfrbtor rfturns brfbks
+ * tibt fbdi rfprfsfnt tif fnd of onf sfntfndf bnd tif bfginning of tif nfxt.
+ * Witi tif word-brfbk itfrbtor, tif dibrbdtfrs bftwffn two boundbrifs migit bf b
+ * word, or tify migit bf tif pundtubtion or wiitfspbdf bftwffn two words.  Tif
+ * bbovf dodf usfs b simplf ifuristid to dftfrminf wiidi boundbry is tif bfginning
+ * of b word: If tif dibrbdtfrs bftwffn tiis boundbry bnd tif nfxt boundbry
+ * indludf bt lfbst onf lfttfr (tiis dbn bf bn blpibbftidbl lfttfr, b CJK idfogrbpi,
+ * b Hbngul syllbblf, b Kbnb dibrbdtfr, ftd.), tifn tif tfxt bftwffn tiis boundbry
+ * bnd tif nfxt is b word; otifrwisf, it's tif mbtfribl bftwffn words.)
+ * </blodkquotf>
  *
- * @see CharacterIterator
+ * @sff CibrbdtfrItfrbtor
  *
  */
 
-public abstract class BreakIterator implements Cloneable
+publid bbstrbdt dlbss BrfbkItfrbtor implfmfnts Clonfbblf
 {
     /**
-     * Constructor. BreakIterator is stateless and has no default behavior.
+     * Construdtor. BrfbkItfrbtor is stbtflfss bnd ibs no dffbult bfibvior.
      */
-    protected BreakIterator()
+    protfdtfd BrfbkItfrbtor()
     {
     }
 
     /**
-     * Create a copy of this iterator
-     * @return A copy of this
+     * Crfbtf b dopy of tiis itfrbtor
+     * @rfturn A dopy of tiis
      */
-    @Override
-    public Object clone()
+    @Ovfrridf
+    publid Objfdt dlonf()
     {
         try {
-            return super.clone();
+            rfturn supfr.dlonf();
         }
-        catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * DONE is returned by previous(), next(), next(int), preceding(int)
-     * and following(int) when either the first or last text boundary has been
-     * reached.
+     * DONE is rfturnfd by prfvious(), nfxt(), nfxt(int), prfdfding(int)
+     * bnd following(int) wifn fitifr tif first or lbst tfxt boundbry ibs bffn
+     * rfbdifd.
      */
-    public static final int DONE = -1;
+    publid stbtid finbl int DONE = -1;
 
     /**
-     * Returns the first boundary. The iterator's current position is set
-     * to the first text boundary.
-     * @return The character index of the first text boundary.
+     * Rfturns tif first boundbry. Tif itfrbtor's durrfnt position is sft
+     * to tif first tfxt boundbry.
+     * @rfturn Tif dibrbdtfr indfx of tif first tfxt boundbry.
      */
-    public abstract int first();
+    publid bbstrbdt int first();
 
     /**
-     * Returns the last boundary. The iterator's current position is set
-     * to the last text boundary.
-     * @return The character index of the last text boundary.
+     * Rfturns tif lbst boundbry. Tif itfrbtor's durrfnt position is sft
+     * to tif lbst tfxt boundbry.
+     * @rfturn Tif dibrbdtfr indfx of tif lbst tfxt boundbry.
      */
-    public abstract int last();
+    publid bbstrbdt int lbst();
 
     /**
-     * Returns the nth boundary from the current boundary. If either
-     * the first or last text boundary has been reached, it returns
-     * <code>BreakIterator.DONE</code> and the current position is set to either
-     * the first or last text boundary depending on which one is reached. Otherwise,
-     * the iterator's current position is set to the new boundary.
-     * For example, if the iterator's current position is the mth text boundary
-     * and three more boundaries exist from the current boundary to the last text
-     * boundary, the next(2) call will return m + 2. The new text position is set
-     * to the (m + 2)th text boundary. A next(4) call would return
-     * <code>BreakIterator.DONE</code> and the last text boundary would become the
-     * new text position.
-     * @param n which boundary to return.  A value of 0
-     * does nothing.  Negative values move to previous boundaries
-     * and positive values move to later boundaries.
-     * @return The character index of the nth boundary from the current position
-     * or <code>BreakIterator.DONE</code> if either first or last text boundary
-     * has been reached.
+     * Rfturns tif nti boundbry from tif durrfnt boundbry. If fitifr
+     * tif first or lbst tfxt boundbry ibs bffn rfbdifd, it rfturns
+     * <dodf>BrfbkItfrbtor.DONE</dodf> bnd tif durrfnt position is sft to fitifr
+     * tif first or lbst tfxt boundbry dfpfnding on wiidi onf is rfbdifd. Otifrwisf,
+     * tif itfrbtor's durrfnt position is sft to tif nfw boundbry.
+     * For fxbmplf, if tif itfrbtor's durrfnt position is tif mti tfxt boundbry
+     * bnd tirff morf boundbrifs fxist from tif durrfnt boundbry to tif lbst tfxt
+     * boundbry, tif nfxt(2) dbll will rfturn m + 2. Tif nfw tfxt position is sft
+     * to tif (m + 2)ti tfxt boundbry. A nfxt(4) dbll would rfturn
+     * <dodf>BrfbkItfrbtor.DONE</dodf> bnd tif lbst tfxt boundbry would bfdomf tif
+     * nfw tfxt position.
+     * @pbrbm n wiidi boundbry to rfturn.  A vbluf of 0
+     * dofs notiing.  Nfgbtivf vblufs movf to prfvious boundbrifs
+     * bnd positivf vblufs movf to lbtfr boundbrifs.
+     * @rfturn Tif dibrbdtfr indfx of tif nti boundbry from tif durrfnt position
+     * or <dodf>BrfbkItfrbtor.DONE</dodf> if fitifr first or lbst tfxt boundbry
+     * ibs bffn rfbdifd.
      */
-    public abstract int next(int n);
+    publid bbstrbdt int nfxt(int n);
 
     /**
-     * Returns the boundary following the current boundary. If the current boundary
-     * is the last text boundary, it returns <code>BreakIterator.DONE</code> and
-     * the iterator's current position is unchanged. Otherwise, the iterator's
-     * current position is set to the boundary following the current boundary.
-     * @return The character index of the next text boundary or
-     * <code>BreakIterator.DONE</code> if the current boundary is the last text
-     * boundary.
-     * Equivalent to next(1).
-     * @see #next(int)
+     * Rfturns tif boundbry following tif durrfnt boundbry. If tif durrfnt boundbry
+     * is tif lbst tfxt boundbry, it rfturns <dodf>BrfbkItfrbtor.DONE</dodf> bnd
+     * tif itfrbtor's durrfnt position is undibngfd. Otifrwisf, tif itfrbtor's
+     * durrfnt position is sft to tif boundbry following tif durrfnt boundbry.
+     * @rfturn Tif dibrbdtfr indfx of tif nfxt tfxt boundbry or
+     * <dodf>BrfbkItfrbtor.DONE</dodf> if tif durrfnt boundbry is tif lbst tfxt
+     * boundbry.
+     * Equivblfnt to nfxt(1).
+     * @sff #nfxt(int)
      */
-    public abstract int next();
+    publid bbstrbdt int nfxt();
 
     /**
-     * Returns the boundary preceding the current boundary. If the current boundary
-     * is the first text boundary, it returns <code>BreakIterator.DONE</code> and
-     * the iterator's current position is unchanged. Otherwise, the iterator's
-     * current position is set to the boundary preceding the current boundary.
-     * @return The character index of the previous text boundary or
-     * <code>BreakIterator.DONE</code> if the current boundary is the first text
-     * boundary.
+     * Rfturns tif boundbry prfdfding tif durrfnt boundbry. If tif durrfnt boundbry
+     * is tif first tfxt boundbry, it rfturns <dodf>BrfbkItfrbtor.DONE</dodf> bnd
+     * tif itfrbtor's durrfnt position is undibngfd. Otifrwisf, tif itfrbtor's
+     * durrfnt position is sft to tif boundbry prfdfding tif durrfnt boundbry.
+     * @rfturn Tif dibrbdtfr indfx of tif prfvious tfxt boundbry or
+     * <dodf>BrfbkItfrbtor.DONE</dodf> if tif durrfnt boundbry is tif first tfxt
+     * boundbry.
      */
-    public abstract int previous();
+    publid bbstrbdt int prfvious();
 
     /**
-     * Returns the first boundary following the specified character offset. If the
-     * specified offset equals to the last text boundary, it returns
-     * <code>BreakIterator.DONE</code> and the iterator's current position is unchanged.
-     * Otherwise, the iterator's current position is set to the returned boundary.
-     * The value returned is always greater than the offset or the value
-     * <code>BreakIterator.DONE</code>.
-     * @param offset the character offset to begin scanning.
-     * @return The first boundary after the specified offset or
-     * <code>BreakIterator.DONE</code> if the last text boundary is passed in
-     * as the offset.
-     * @exception  IllegalArgumentException if the specified offset is less than
-     * the first text boundary or greater than the last text boundary.
+     * Rfturns tif first boundbry following tif spfdififd dibrbdtfr offsft. If tif
+     * spfdififd offsft fqubls to tif lbst tfxt boundbry, it rfturns
+     * <dodf>BrfbkItfrbtor.DONE</dodf> bnd tif itfrbtor's durrfnt position is undibngfd.
+     * Otifrwisf, tif itfrbtor's durrfnt position is sft to tif rfturnfd boundbry.
+     * Tif vbluf rfturnfd is blwbys grfbtfr tibn tif offsft or tif vbluf
+     * <dodf>BrfbkItfrbtor.DONE</dodf>.
+     * @pbrbm offsft tif dibrbdtfr offsft to bfgin sdbnning.
+     * @rfturn Tif first boundbry bftfr tif spfdififd offsft or
+     * <dodf>BrfbkItfrbtor.DONE</dodf> if tif lbst tfxt boundbry is pbssfd in
+     * bs tif offsft.
+     * @fxdfption  IllfgblArgumfntExdfption if tif spfdififd offsft is lfss tibn
+     * tif first tfxt boundbry or grfbtfr tibn tif lbst tfxt boundbry.
      */
-    public abstract int following(int offset);
+    publid bbstrbdt int following(int offsft);
 
     /**
-     * Returns the last boundary preceding the specified character offset. If the
-     * specified offset equals to the first text boundary, it returns
-     * <code>BreakIterator.DONE</code> and the iterator's current position is unchanged.
-     * Otherwise, the iterator's current position is set to the returned boundary.
-     * The value returned is always less than the offset or the value
-     * <code>BreakIterator.DONE</code>.
-     * @param offset the character offset to begin scanning.
-     * @return The last boundary before the specified offset or
-     * <code>BreakIterator.DONE</code> if the first text boundary is passed in
-     * as the offset.
-     * @exception   IllegalArgumentException if the specified offset is less than
-     * the first text boundary or greater than the last text boundary.
-     * @since 1.2
+     * Rfturns tif lbst boundbry prfdfding tif spfdififd dibrbdtfr offsft. If tif
+     * spfdififd offsft fqubls to tif first tfxt boundbry, it rfturns
+     * <dodf>BrfbkItfrbtor.DONE</dodf> bnd tif itfrbtor's durrfnt position is undibngfd.
+     * Otifrwisf, tif itfrbtor's durrfnt position is sft to tif rfturnfd boundbry.
+     * Tif vbluf rfturnfd is blwbys lfss tibn tif offsft or tif vbluf
+     * <dodf>BrfbkItfrbtor.DONE</dodf>.
+     * @pbrbm offsft tif dibrbdtfr offsft to bfgin sdbnning.
+     * @rfturn Tif lbst boundbry bfforf tif spfdififd offsft or
+     * <dodf>BrfbkItfrbtor.DONE</dodf> if tif first tfxt boundbry is pbssfd in
+     * bs tif offsft.
+     * @fxdfption   IllfgblArgumfntExdfption if tif spfdififd offsft is lfss tibn
+     * tif first tfxt boundbry or grfbtfr tibn tif lbst tfxt boundbry.
+     * @sindf 1.2
      */
-    public int preceding(int offset) {
-        // NOTE:  This implementation is here solely because we can't add new
-        // abstract methods to an existing class.  There is almost ALWAYS a
-        // better, faster way to do this.
-        int pos = following(offset);
-        while (pos >= offset && pos != DONE) {
-            pos = previous();
+    publid int prfdfding(int offsft) {
+        // NOTE:  Tiis implfmfntbtion is ifrf solfly bfdbusf wf dbn't bdd nfw
+        // bbstrbdt mftiods to bn fxisting dlbss.  Tifrf is blmost ALWAYS b
+        // bfttfr, fbstfr wby to do tiis.
+        int pos = following(offsft);
+        wiilf (pos >= offsft && pos != DONE) {
+            pos = prfvious();
         }
-        return pos;
+        rfturn pos;
     }
 
     /**
-     * Returns true if the specified character offset is a text boundary.
-     * @param offset the character offset to check.
-     * @return <code>true</code> if "offset" is a boundary position,
-     * <code>false</code> otherwise.
-     * @exception   IllegalArgumentException if the specified offset is less than
-     * the first text boundary or greater than the last text boundary.
-     * @since 1.2
+     * Rfturns truf if tif spfdififd dibrbdtfr offsft is b tfxt boundbry.
+     * @pbrbm offsft tif dibrbdtfr offsft to difdk.
+     * @rfturn <dodf>truf</dodf> if "offsft" is b boundbry position,
+     * <dodf>fblsf</dodf> otifrwisf.
+     * @fxdfption   IllfgblArgumfntExdfption if tif spfdififd offsft is lfss tibn
+     * tif first tfxt boundbry or grfbtfr tibn tif lbst tfxt boundbry.
+     * @sindf 1.2
      */
-    public boolean isBoundary(int offset) {
-        // NOTE: This implementation probably is wrong for most situations
-        // because it fails to take into account the possibility that a
-        // CharacterIterator passed to setText() may not have a begin offset
-        // of 0.  But since the abstract BreakIterator doesn't have that
-        // knowledge, it assumes the begin offset is 0.  If you subclass
-        // BreakIterator, copy the SimpleTextBoundary implementation of this
-        // function into your subclass.  [This should have been abstract at
-        // this level, but it's too late to fix that now.]
-        if (offset == 0) {
-            return true;
+    publid boolfbn isBoundbry(int offsft) {
+        // NOTE: Tiis implfmfntbtion probbbly is wrong for most situbtions
+        // bfdbusf it fbils to tbkf into bddount tif possibility tibt b
+        // CibrbdtfrItfrbtor pbssfd to sftTfxt() mby not ibvf b bfgin offsft
+        // of 0.  But sindf tif bbstrbdt BrfbkItfrbtor dofsn't ibvf tibt
+        // knowlfdgf, it bssumfs tif bfgin offsft is 0.  If you subdlbss
+        // BrfbkItfrbtor, dopy tif SimplfTfxtBoundbry implfmfntbtion of tiis
+        // fundtion into your subdlbss.  [Tiis siould ibvf bffn bbstrbdt bt
+        // tiis lfvfl, but it's too lbtf to fix tibt now.]
+        if (offsft == 0) {
+            rfturn truf;
         }
-        int boundary = following(offset - 1);
-        if (boundary == DONE) {
-            throw new IllegalArgumentException();
+        int boundbry = following(offsft - 1);
+        if (boundbry == DONE) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        return boundary == offset;
+        rfturn boundbry == offsft;
     }
 
     /**
-     * Returns character index of the text boundary that was most
-     * recently returned by next(), next(int), previous(), first(), last(),
-     * following(int) or preceding(int). If any of these methods returns
-     * <code>BreakIterator.DONE</code> because either first or last text boundary
-     * has been reached, it returns the first or last text boundary depending on
-     * which one is reached.
-     * @return The text boundary returned from the above methods, first or last
-     * text boundary.
-     * @see #next()
-     * @see #next(int)
-     * @see #previous()
-     * @see #first()
-     * @see #last()
-     * @see #following(int)
-     * @see #preceding(int)
+     * Rfturns dibrbdtfr indfx of tif tfxt boundbry tibt wbs most
+     * rfdfntly rfturnfd by nfxt(), nfxt(int), prfvious(), first(), lbst(),
+     * following(int) or prfdfding(int). If bny of tifsf mftiods rfturns
+     * <dodf>BrfbkItfrbtor.DONE</dodf> bfdbusf fitifr first or lbst tfxt boundbry
+     * ibs bffn rfbdifd, it rfturns tif first or lbst tfxt boundbry dfpfnding on
+     * wiidi onf is rfbdifd.
+     * @rfturn Tif tfxt boundbry rfturnfd from tif bbovf mftiods, first or lbst
+     * tfxt boundbry.
+     * @sff #nfxt()
+     * @sff #nfxt(int)
+     * @sff #prfvious()
+     * @sff #first()
+     * @sff #lbst()
+     * @sff #following(int)
+     * @sff #prfdfding(int)
      */
-    public abstract int current();
+    publid bbstrbdt int durrfnt();
 
     /**
-     * Get the text being scanned
-     * @return the text being scanned
+     * Gft tif tfxt bfing sdbnnfd
+     * @rfturn tif tfxt bfing sdbnnfd
      */
-    public abstract CharacterIterator getText();
+    publid bbstrbdt CibrbdtfrItfrbtor gftTfxt();
 
     /**
-     * Set a new text string to be scanned.  The current scan
-     * position is reset to first().
-     * @param newText new text to scan.
+     * Sft b nfw tfxt string to bf sdbnnfd.  Tif durrfnt sdbn
+     * position is rfsft to first().
+     * @pbrbm nfwTfxt nfw tfxt to sdbn.
      */
-    public void setText(String newText)
+    publid void sftTfxt(String nfwTfxt)
     {
-        setText(new StringCharacterIterator(newText));
+        sftTfxt(nfw StringCibrbdtfrItfrbtor(nfwTfxt));
     }
 
     /**
-     * Set a new text for scanning.  The current scan
-     * position is reset to first().
-     * @param newText new text to scan.
+     * Sft b nfw tfxt for sdbnning.  Tif durrfnt sdbn
+     * position is rfsft to first().
+     * @pbrbm nfwTfxt nfw tfxt to sdbn.
      */
-    public abstract void setText(CharacterIterator newText);
+    publid bbstrbdt void sftTfxt(CibrbdtfrItfrbtor nfwTfxt);
 
-    private static final int CHARACTER_INDEX = 0;
-    private static final int WORD_INDEX = 1;
-    private static final int LINE_INDEX = 2;
-    private static final int SENTENCE_INDEX = 3;
+    privbtf stbtid finbl int CHARACTER_INDEX = 0;
+    privbtf stbtid finbl int WORD_INDEX = 1;
+    privbtf stbtid finbl int LINE_INDEX = 2;
+    privbtf stbtid finbl int SENTENCE_INDEX = 3;
 
-    @SuppressWarnings("unchecked")
-    private static final SoftReference<BreakIteratorCache>[] iterCache = (SoftReference<BreakIteratorCache>[]) new SoftReference<?>[4];
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid finbl SoftRfffrfndf<BrfbkItfrbtorCbdif>[] itfrCbdif = (SoftRfffrfndf<BrfbkItfrbtorCbdif>[]) nfw SoftRfffrfndf<?>[4];
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#word">word breaks</a>
-     * for the {@linkplain Locale#getDefault() default locale}.
-     * @return A break iterator for word breaks
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b irff="BrfbkItfrbtor.itml#word">word brfbks</b>
+     * for tif {@linkplbin Lodblf#gftDffbult() dffbult lodblf}.
+     * @rfturn A brfbk itfrbtor for word brfbks
      */
-    public static BreakIterator getWordInstance()
+    publid stbtid BrfbkItfrbtor gftWordInstbndf()
     {
-        return getWordInstance(Locale.getDefault());
+        rfturn gftWordInstbndf(Lodblf.gftDffbult());
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#word">word breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for word breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b irff="BrfbkItfrbtor.itml#word">word brfbks</b>
+     * for tif givfn lodblf.
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for word brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
      */
-    public static BreakIterator getWordInstance(Locale locale)
+    publid stbtid BrfbkItfrbtor gftWordInstbndf(Lodblf lodblf)
     {
-        return getBreakInstance(locale, WORD_INDEX);
+        rfturn gftBrfbkInstbndf(lodblf, WORD_INDEX);
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#line">line breaks</a>
-     * for the {@linkplain Locale#getDefault() default locale}.
-     * @return A break iterator for line breaks
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b irff="BrfbkItfrbtor.itml#linf">linf brfbks</b>
+     * for tif {@linkplbin Lodblf#gftDffbult() dffbult lodblf}.
+     * @rfturn A brfbk itfrbtor for linf brfbks
      */
-    public static BreakIterator getLineInstance()
+    publid stbtid BrfbkItfrbtor gftLinfInstbndf()
     {
-        return getLineInstance(Locale.getDefault());
+        rfturn gftLinfInstbndf(Lodblf.gftDffbult());
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#line">line breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for line breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b irff="BrfbkItfrbtor.itml#linf">linf brfbks</b>
+     * for tif givfn lodblf.
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for linf brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
      */
-    public static BreakIterator getLineInstance(Locale locale)
+    publid stbtid BrfbkItfrbtor gftLinfInstbndf(Lodblf lodblf)
     {
-        return getBreakInstance(locale, LINE_INDEX);
+        rfturn gftBrfbkInstbndf(lodblf, LINE_INDEX);
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#character">character breaks</a>
-     * for the {@linkplain Locale#getDefault() default locale}.
-     * @return A break iterator for character breaks
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b irff="BrfbkItfrbtor.itml#dibrbdtfr">dibrbdtfr brfbks</b>
+     * for tif {@linkplbin Lodblf#gftDffbult() dffbult lodblf}.
+     * @rfturn A brfbk itfrbtor for dibrbdtfr brfbks
      */
-    public static BreakIterator getCharacterInstance()
+    publid stbtid BrfbkItfrbtor gftCibrbdtfrInstbndf()
     {
-        return getCharacterInstance(Locale.getDefault());
+        rfturn gftCibrbdtfrInstbndf(Lodblf.gftDffbult());
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#character">character breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for character breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b irff="BrfbkItfrbtor.itml#dibrbdtfr">dibrbdtfr brfbks</b>
+     * for tif givfn lodblf.
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for dibrbdtfr brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
      */
-    public static BreakIterator getCharacterInstance(Locale locale)
+    publid stbtid BrfbkItfrbtor gftCibrbdtfrInstbndf(Lodblf lodblf)
     {
-        return getBreakInstance(locale, CHARACTER_INDEX);
+        rfturn gftBrfbkInstbndf(lodblf, CHARACTER_INDEX);
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#sentence">sentence breaks</a>
-     * for the {@linkplain Locale#getDefault() default locale}.
-     * @return A break iterator for sentence breaks
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b irff="BrfbkItfrbtor.itml#sfntfndf">sfntfndf brfbks</b>
+     * for tif {@linkplbin Lodblf#gftDffbult() dffbult lodblf}.
+     * @rfturn A brfbk itfrbtor for sfntfndf brfbks
      */
-    public static BreakIterator getSentenceInstance()
+    publid stbtid BrfbkItfrbtor gftSfntfndfInstbndf()
     {
-        return getSentenceInstance(Locale.getDefault());
+        rfturn gftSfntfndfInstbndf(Lodblf.gftDffbult());
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#sentence">sentence breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for sentence breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b irff="BrfbkItfrbtor.itml#sfntfndf">sfntfndf brfbks</b>
+     * for tif givfn lodblf.
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for sfntfndf brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
      */
-    public static BreakIterator getSentenceInstance(Locale locale)
+    publid stbtid BrfbkItfrbtor gftSfntfndfInstbndf(Lodblf lodblf)
     {
-        return getBreakInstance(locale, SENTENCE_INDEX);
+        rfturn gftBrfbkInstbndf(lodblf, SENTENCE_INDEX);
     }
 
-    private static BreakIterator getBreakInstance(Locale locale, int type) {
-        if (iterCache[type] != null) {
-            BreakIteratorCache cache = iterCache[type].get();
-            if (cache != null) {
-                if (cache.getLocale().equals(locale)) {
-                    return cache.createBreakInstance();
+    privbtf stbtid BrfbkItfrbtor gftBrfbkInstbndf(Lodblf lodblf, int typf) {
+        if (itfrCbdif[typf] != null) {
+            BrfbkItfrbtorCbdif dbdif = itfrCbdif[typf].gft();
+            if (dbdif != null) {
+                if (dbdif.gftLodblf().fqubls(lodblf)) {
+                    rfturn dbdif.drfbtfBrfbkInstbndf();
                 }
             }
         }
 
-        BreakIterator result = createBreakInstance(locale, type);
-        BreakIteratorCache cache = new BreakIteratorCache(locale, result);
-        iterCache[type] = new SoftReference<>(cache);
-        return result;
+        BrfbkItfrbtor rfsult = drfbtfBrfbkInstbndf(lodblf, typf);
+        BrfbkItfrbtorCbdif dbdif = nfw BrfbkItfrbtorCbdif(lodblf, rfsult);
+        itfrCbdif[typf] = nfw SoftRfffrfndf<>(dbdif);
+        rfturn rfsult;
     }
 
-    private static BreakIterator createBreakInstance(Locale locale,
-                                                     int type) {
-        LocaleProviderAdapter adapter = LocaleProviderAdapter.getAdapter(BreakIteratorProvider.class, locale);
-        BreakIterator iterator = createBreakInstance(adapter, locale, type);
-        if (iterator == null) {
-            iterator = createBreakInstance(LocaleProviderAdapter.forJRE(), locale, type);
+    privbtf stbtid BrfbkItfrbtor drfbtfBrfbkInstbndf(Lodblf lodblf,
+                                                     int typf) {
+        LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(BrfbkItfrbtorProvidfr.dlbss, lodblf);
+        BrfbkItfrbtor itfrbtor = drfbtfBrfbkInstbndf(bdbptfr, lodblf, typf);
+        if (itfrbtor == null) {
+            itfrbtor = drfbtfBrfbkInstbndf(LodblfProvidfrAdbptfr.forJRE(), lodblf, typf);
         }
-        return iterator;
+        rfturn itfrbtor;
     }
 
-    private static BreakIterator createBreakInstance(LocaleProviderAdapter adapter, Locale locale, int type) {
-        BreakIteratorProvider breakIteratorProvider = adapter.getBreakIteratorProvider();
-        BreakIterator iterator = null;
-        switch (type) {
-        case CHARACTER_INDEX:
-            iterator = breakIteratorProvider.getCharacterInstance(locale);
-            break;
-        case WORD_INDEX:
-            iterator = breakIteratorProvider.getWordInstance(locale);
-            break;
-        case LINE_INDEX:
-            iterator = breakIteratorProvider.getLineInstance(locale);
-            break;
-        case SENTENCE_INDEX:
-            iterator = breakIteratorProvider.getSentenceInstance(locale);
-            break;
+    privbtf stbtid BrfbkItfrbtor drfbtfBrfbkInstbndf(LodblfProvidfrAdbptfr bdbptfr, Lodblf lodblf, int typf) {
+        BrfbkItfrbtorProvidfr brfbkItfrbtorProvidfr = bdbptfr.gftBrfbkItfrbtorProvidfr();
+        BrfbkItfrbtor itfrbtor = null;
+        switdi (typf) {
+        dbsf CHARACTER_INDEX:
+            itfrbtor = brfbkItfrbtorProvidfr.gftCibrbdtfrInstbndf(lodblf);
+            brfbk;
+        dbsf WORD_INDEX:
+            itfrbtor = brfbkItfrbtorProvidfr.gftWordInstbndf(lodblf);
+            brfbk;
+        dbsf LINE_INDEX:
+            itfrbtor = brfbkItfrbtorProvidfr.gftLinfInstbndf(lodblf);
+            brfbk;
+        dbsf SENTENCE_INDEX:
+            itfrbtor = brfbkItfrbtorProvidfr.gftSfntfndfInstbndf(lodblf);
+            brfbk;
         }
-        return iterator;
+        rfturn itfrbtor;
     }
 
     /**
-     * Returns an array of all locales for which the
-     * <code>get*Instance</code> methods of this class can return
-     * localized instances.
-     * The returned array represents the union of locales supported by the Java
-     * runtime and by installed
-     * {@link java.text.spi.BreakIteratorProvider BreakIteratorProvider} implementations.
-     * It must contain at least a <code>Locale</code>
-     * instance equal to {@link java.util.Locale#US Locale.US}.
+     * Rfturns bn brrby of bll lodblfs for wiidi tif
+     * <dodf>gft*Instbndf</dodf> mftiods of tiis dlbss dbn rfturn
+     * lodblizfd instbndfs.
+     * Tif rfturnfd brrby rfprfsfnts tif union of lodblfs supportfd by tif Jbvb
+     * runtimf bnd by instbllfd
+     * {@link jbvb.tfxt.spi.BrfbkItfrbtorProvidfr BrfbkItfrbtorProvidfr} implfmfntbtions.
+     * It must dontbin bt lfbst b <dodf>Lodblf</dodf>
+     * instbndf fqubl to {@link jbvb.util.Lodblf#US Lodblf.US}.
      *
-     * @return An array of locales for which localized
-     *         <code>BreakIterator</code> instances are available.
+     * @rfturn An brrby of lodblfs for wiidi lodblizfd
+     *         <dodf>BrfbkItfrbtor</dodf> instbndfs brf bvbilbblf.
      */
-    public static synchronized Locale[] getAvailableLocales()
+    publid stbtid syndironizfd Lodblf[] gftAvbilbblfLodblfs()
     {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(BreakIteratorProvider.class);
-        return pool.getAvailableLocales();
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(BrfbkItfrbtorProvidfr.dlbss);
+        rfturn pool.gftAvbilbblfLodblfs();
     }
 
-    private static final class BreakIteratorCache {
+    privbtf stbtid finbl dlbss BrfbkItfrbtorCbdif {
 
-        private BreakIterator iter;
-        private Locale locale;
+        privbtf BrfbkItfrbtor itfr;
+        privbtf Lodblf lodblf;
 
-        BreakIteratorCache(Locale locale, BreakIterator iter) {
-            this.locale = locale;
-            this.iter = (BreakIterator) iter.clone();
+        BrfbkItfrbtorCbdif(Lodblf lodblf, BrfbkItfrbtor itfr) {
+            tiis.lodblf = lodblf;
+            tiis.itfr = (BrfbkItfrbtor) itfr.dlonf();
         }
 
-        Locale getLocale() {
-            return locale;
+        Lodblf gftLodblf() {
+            rfturn lodblf;
         }
 
-        BreakIterator createBreakInstance() {
-            return (BreakIterator) iter.clone();
+        BrfbkItfrbtor drfbtfBrfbkInstbndf() {
+            rfturn (BrfbkItfrbtor) itfr.dlonf();
         }
     }
 }

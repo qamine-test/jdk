@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1995, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Posix-compatible directory access routines
+ * Posix-dompbtiblf dirfdtory bddfss routinfs
  */
 
-#include <windows.h>
-#include <direct.h>                    /* For _getdrive() */
-#include <errno.h>
-#include <assert.h>
+#indludf <windows.i>
+#indludf <dirfdt.i>                    /* For _gftdrivf() */
+#indludf <frrno.i>
+#indludf <bssfrt.i>
 
-#include "dirent_md.h"
+#indludf "dirfnt_md.i"
 
 
-/* Caller must have already run dirname through JVM_NativePath, which removes
-   duplicate slashes and converts all instances of '/' into '\\'. */
+/* Cbllfr must ibvf blrfbdy run dirnbmf tirougi JVM_NbtivfPbti, wiidi rfmovfs
+   duplidbtf slbsifs bnd donvfrts bll instbndfs of '/' into '\\'. */
 
 DIR *
-opendir(const char *dirname)
+opfndir(donst dibr *dirnbmf)
 {
-    DIR *dirp = (DIR *)malloc(sizeof(DIR));
-    DWORD fattr;
-    char alt_dirname[4] = { 0, 0, 0, 0 };
+    DIR *dirp = (DIR *)mbllod(sizfof(DIR));
+    DWORD fbttr;
+    dibr blt_dirnbmf[4] = { 0, 0, 0, 0 };
 
     if (dirp == 0) {
-        errno = ENOMEM;
-        return 0;
+        frrno = ENOMEM;
+        rfturn 0;
     }
 
     /*
-     * Win32 accepts "\" in its POSIX stat(), but refuses to treat it
-     * as a directory in FindFirstFile().  We detect this case here and
-     * prepend the current drive name.
+     * Win32 bddfpts "\" in its POSIX stbt(), but rffusfs to trfbt it
+     * bs b dirfdtory in FindFirstFilf().  Wf dftfdt tiis dbsf ifrf bnd
+     * prfpfnd tif durrfnt drivf nbmf.
      */
-    if (dirname[1] == '\0' && dirname[0] == '\\') {
-        alt_dirname[0] = _getdrive() + 'A' - 1;
-        alt_dirname[1] = ':';
-        alt_dirname[2] = '\\';
-        alt_dirname[3] = '\0';
-        dirname = alt_dirname;
+    if (dirnbmf[1] == '\0' && dirnbmf[0] == '\\') {
+        blt_dirnbmf[0] = _gftdrivf() + 'A' - 1;
+        blt_dirnbmf[1] = ':';
+        blt_dirnbmf[2] = '\\';
+        blt_dirnbmf[3] = '\0';
+        dirnbmf = blt_dirnbmf;
     }
 
-    dirp->path = (char *)malloc(strlen(dirname) + 5);
-    if (dirp->path == 0) {
-        free(dirp);
-        errno = ENOMEM;
-        return 0;
+    dirp->pbti = (dibr *)mbllod(strlfn(dirnbmf) + 5);
+    if (dirp->pbti == 0) {
+        frff(dirp);
+        frrno = ENOMEM;
+        rfturn 0;
     }
-    strcpy(dirp->path, dirname);
+    strdpy(dirp->pbti, dirnbmf);
 
-    fattr = GetFileAttributes(dirp->path);
-    if (fattr == ((DWORD)-1)) {
-        free(dirp->path);
-        free(dirp);
-        errno = ENOENT;
-        return 0;
-    } else if ((fattr & FILE_ATTRIBUTE_DIRECTORY) == 0) {
-        free(dirp->path);
-        free(dirp);
-        errno = ENOTDIR;
-        return 0;
-    }
-
-    /* Append "*.*", or possibly "\\*.*", to path */
-    if (dirp->path[1] == ':'
-        && (dirp->path[2] == '\0'
-            || (dirp->path[2] == '\\' && dirp->path[3] == '\0'))) {
-        /* No '\\' needed for cases like "Z:" or "Z:\" */
-        strcat(dirp->path, "*.*");
-    } else {
-        strcat(dirp->path, "\\*.*");
+    fbttr = GftFilfAttributfs(dirp->pbti);
+    if (fbttr == ((DWORD)-1)) {
+        frff(dirp->pbti);
+        frff(dirp);
+        frrno = ENOENT;
+        rfturn 0;
+    } flsf if ((fbttr & FILE_ATTRIBUTE_DIRECTORY) == 0) {
+        frff(dirp->pbti);
+        frff(dirp);
+        frrno = ENOTDIR;
+        rfturn 0;
     }
 
-    dirp->handle = FindFirstFile(dirp->path, &dirp->find_data);
-    if (dirp->handle == INVALID_HANDLE_VALUE) {
-        if (GetLastError() != ERROR_FILE_NOT_FOUND) {
-            free(dirp->path);
-            free(dirp);
-            errno = EACCES;
-            return 0;
+    /* Appfnd "*.*", or possibly "\\*.*", to pbti */
+    if (dirp->pbti[1] == ':'
+        && (dirp->pbti[2] == '\0'
+            || (dirp->pbti[2] == '\\' && dirp->pbti[3] == '\0'))) {
+        /* No '\\' nffdfd for dbsfs likf "Z:" or "Z:\" */
+        strdbt(dirp->pbti, "*.*");
+    } flsf {
+        strdbt(dirp->pbti, "\\*.*");
+    }
+
+    dirp->ibndlf = FindFirstFilf(dirp->pbti, &dirp->find_dbtb);
+    if (dirp->ibndlf == INVALID_HANDLE_VALUE) {
+        if (GftLbstError() != ERROR_FILE_NOT_FOUND) {
+            frff(dirp->pbti);
+            frff(dirp);
+            frrno = EACCES;
+            rfturn 0;
         }
     }
-    return dirp;
+    rfturn dirp;
 }
 
-struct dirent *
-readdir(DIR *dirp)
+strudt dirfnt *
+rfbddir(DIR *dirp)
 {
-    if (dirp->handle == INVALID_HANDLE_VALUE) {
-        return 0;
+    if (dirp->ibndlf == INVALID_HANDLE_VALUE) {
+        rfturn 0;
     }
 
-    strcpy(dirp->dirent.d_name, dirp->find_data.cFileName);
+    strdpy(dirp->dirfnt.d_nbmf, dirp->find_dbtb.dFilfNbmf);
 
-    if (!FindNextFile(dirp->handle, &dirp->find_data)) {
-        if (GetLastError() == ERROR_INVALID_HANDLE) {
-            errno = EBADF;
-            return 0;
+    if (!FindNfxtFilf(dirp->ibndlf, &dirp->find_dbtb)) {
+        if (GftLbstError() == ERROR_INVALID_HANDLE) {
+            frrno = EBADF;
+            rfturn 0;
         }
-        FindClose(dirp->handle);
-        dirp->handle = INVALID_HANDLE_VALUE;
+        FindClosf(dirp->ibndlf);
+        dirp->ibndlf = INVALID_HANDLE_VALUE;
     }
 
-    return &dirp->dirent;
+    rfturn &dirp->dirfnt;
 }
 
 int
-closedir(DIR *dirp)
+dlosfdir(DIR *dirp)
 {
-    if (dirp->handle != INVALID_HANDLE_VALUE) {
-        if (!FindClose(dirp->handle)) {
-            errno = EBADF;
-            return -1;
+    if (dirp->ibndlf != INVALID_HANDLE_VALUE) {
+        if (!FindClosf(dirp->ibndlf)) {
+            frrno = EBADF;
+            rfturn -1;
         }
-        dirp->handle = INVALID_HANDLE_VALUE;
+        dirp->ibndlf = INVALID_HANDLE_VALUE;
     }
-    free(dirp->path);
-    free(dirp);
-    return 0;
+    frff(dirp->pbti);
+    frff(dirp);
+    rfturn 0;
 }
 
 void
-rewinddir(DIR *dirp)
+rfwinddir(DIR *dirp)
 {
-    if (dirp->handle != INVALID_HANDLE_VALUE) {
-        FindClose(dirp->handle);
+    if (dirp->ibndlf != INVALID_HANDLE_VALUE) {
+        FindClosf(dirp->ibndlf);
     }
-    dirp->handle = FindFirstFile(dirp->path, &dirp->find_data);
+    dirp->ibndlf = FindFirstFilf(dirp->pbti, &dirp->find_dbtb);
 }

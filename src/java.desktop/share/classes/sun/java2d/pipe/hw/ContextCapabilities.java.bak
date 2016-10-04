@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe.hw;
+pbdkbgf sun.jbvb2d.pipf.iw;
 
 
 /**
- * Represents a set of capabilities of a BufferedContext and associated
- * AccelGraphicsConfig.
+ * Rfprfsfnts b sft of dbpbbilitifs of b BufffrfdContfxt bnd bssodibtfd
+ * AddflGrbpiidsConfig.
  *
- * @see AccelGraphicsConfig
+ * @sff AddflGrbpiidsConfig
  */
-public class ContextCapabilities {
-    /** Indicates that the context has no capabilities. */
-    public static final int CAPS_EMPTY             = (0 << 0);
-    /** Indicates that the context supports RT surfaces with alpha channel. */
-    public static final int CAPS_RT_PLAIN_ALPHA    = (1 << 1);
-    /** Indicates that the context supports RT textures with alpha channel. */
-    public static final int CAPS_RT_TEXTURE_ALPHA  = (1 << 2);
-    /** Indicates that the context supports opaque RT textures. */
-    public static final int CAPS_RT_TEXTURE_OPAQUE = (1 << 3);
-    /** Indicates that the context supports multitexturing. */
-    public static final int CAPS_MULTITEXTURE      = (1 << 4);
-    /** Indicates that the context supports non-pow2 texture dimensions. */
-    public static final int CAPS_TEXNONPOW2        = (1 << 5);
-    /** Indicates that the context supports non-square textures. */
-    public static final int CAPS_TEXNONSQUARE      = (1 << 6);
-    /** Indicates that the context supports pixel shader 2.0 or better. */
-    public static final int CAPS_PS20              = (1 << 7);
-    /** Indicates that the context supports pixel shader 3.0 or better. */
-    public static final int CAPS_PS30              = (1 << 8);
+publid dlbss ContfxtCbpbbilitifs {
+    /** Indidbtfs tibt tif dontfxt ibs no dbpbbilitifs. */
+    publid stbtid finbl int CAPS_EMPTY             = (0 << 0);
+    /** Indidbtfs tibt tif dontfxt supports RT surfbdfs witi blpib dibnnfl. */
+    publid stbtid finbl int CAPS_RT_PLAIN_ALPHA    = (1 << 1);
+    /** Indidbtfs tibt tif dontfxt supports RT tfxturfs witi blpib dibnnfl. */
+    publid stbtid finbl int CAPS_RT_TEXTURE_ALPHA  = (1 << 2);
+    /** Indidbtfs tibt tif dontfxt supports opbquf RT tfxturfs. */
+    publid stbtid finbl int CAPS_RT_TEXTURE_OPAQUE = (1 << 3);
+    /** Indidbtfs tibt tif dontfxt supports multitfxturing. */
+    publid stbtid finbl int CAPS_MULTITEXTURE      = (1 << 4);
+    /** Indidbtfs tibt tif dontfxt supports non-pow2 tfxturf dimfnsions. */
+    publid stbtid finbl int CAPS_TEXNONPOW2        = (1 << 5);
+    /** Indidbtfs tibt tif dontfxt supports non-squbrf tfxturfs. */
+    publid stbtid finbl int CAPS_TEXNONSQUARE      = (1 << 6);
+    /** Indidbtfs tibt tif dontfxt supports pixfl sibdfr 2.0 or bfttfr. */
+    publid stbtid finbl int CAPS_PS20              = (1 << 7);
+    /** Indidbtfs tibt tif dontfxt supports pixfl sibdfr 3.0 or bfttfr. */
+    publid stbtid finbl int CAPS_PS30              = (1 << 8);
     /*
-     *  Pipeline contexts should use this for defining pipeline-specific
-     *  capabilities, for example:
+     *  Pipflinf dontfxts siould usf tiis for dffining pipflinf-spfdifid
+     *  dbpbbilitifs, for fxbmplf:
      *    int CAPS_D3D_1 = (FIRST_PRIVATE_CAP << 0);
      *    int CAPS_D3D_2 = (FIRST_PRIVATE_CAP << 1);
      */
-    protected static final int FIRST_PRIVATE_CAP   = (1 << 16);
+    protfdtfd stbtid finbl int FIRST_PRIVATE_CAP   = (1 << 16);
 
-    protected final int caps;
-    protected final String adapterId;
+    protfdtfd finbl int dbps;
+    protfdtfd finbl String bdbptfrId;
 
     /**
-     * Constructs a {@code ContextCapabilities} object.
-     * @param caps an {@code int} representing the capabilities
-     * @param a {@code String} representing the name of the adapter, or null,
-     * in which case the adapterId will be set to "unknown adapter".
+     * Construdts b {@dodf ContfxtCbpbbilitifs} objfdt.
+     * @pbrbm dbps bn {@dodf int} rfprfsfnting tif dbpbbilitifs
+     * @pbrbm b {@dodf String} rfprfsfnting tif nbmf of tif bdbptfr, or null,
+     * in wiidi dbsf tif bdbptfrId will bf sft to "unknown bdbptfr".
      */
-    protected ContextCapabilities(int caps, String adapterId) {
-        this.caps = caps;
-        this.adapterId = adapterId != null ? adapterId : "unknown adapter";
+    protfdtfd ContfxtCbpbbilitifs(int dbps, String bdbptfrId) {
+        tiis.dbps = dbps;
+        tiis.bdbptfrId = bdbptfrId != null ? bdbptfrId : "unknown bdbptfr";
     }
 
     /**
-     * Returns a string representing the name of the graphics adapter if such
-     * could be determined. It is guaranteed to never return {@code null}.
-     * @return string representing adapter id
+     * Rfturns b string rfprfsfnting tif nbmf of tif grbpiids bdbptfr if sudi
+     * dould bf dftfrminfd. It is gubrbntffd to nfvfr rfturn {@dodf null}.
+     * @rfturn string rfprfsfnting bdbptfr id
      */
-    public String getAdapterId() {
-        return adapterId;
+    publid String gftAdbptfrId() {
+        rfturn bdbptfrId;
     }
 
     /**
-     * Returns an {@code int} with capabilities (OR-ed constants defined in
-     * this class and its pipeline-specific subclasses).
-     * @return capabilities as {@code int}
+     * Rfturns bn {@dodf int} witi dbpbbilitifs (OR-fd donstbnts dffinfd in
+     * tiis dlbss bnd its pipflinf-spfdifid subdlbssfs).
+     * @rfturn dbpbbilitifs bs {@dodf int}
      */
-    public int getCaps() {
-        return caps;
+    publid int gftCbps() {
+        rfturn dbps;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb =
-            new StringBuilder("ContextCapabilities: adapter=" +
-                             adapterId+", caps=");
-        if (caps == CAPS_EMPTY) {
-            sb.append("CAPS_EMPTY");
-        } else {
-            if ((caps & CAPS_RT_PLAIN_ALPHA) != 0) {
-                sb.append("CAPS_RT_PLAIN_ALPHA|");
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb =
+            nfw StringBuildfr("ContfxtCbpbbilitifs: bdbptfr=" +
+                             bdbptfrId+", dbps=");
+        if (dbps == CAPS_EMPTY) {
+            sb.bppfnd("CAPS_EMPTY");
+        } flsf {
+            if ((dbps & CAPS_RT_PLAIN_ALPHA) != 0) {
+                sb.bppfnd("CAPS_RT_PLAIN_ALPHA|");
             }
-            if ((caps & CAPS_RT_TEXTURE_ALPHA) != 0) {
-                sb.append("CAPS_RT_TEXTURE_ALPHA|");
+            if ((dbps & CAPS_RT_TEXTURE_ALPHA) != 0) {
+                sb.bppfnd("CAPS_RT_TEXTURE_ALPHA|");
             }
-            if ((caps & CAPS_RT_TEXTURE_OPAQUE) != 0) {
-                sb.append("CAPS_RT_TEXTURE_OPAQUE|");
+            if ((dbps & CAPS_RT_TEXTURE_OPAQUE) != 0) {
+                sb.bppfnd("CAPS_RT_TEXTURE_OPAQUE|");
             }
-            if ((caps & CAPS_MULTITEXTURE) != 0) {
-                sb.append("CAPS_MULTITEXTURE|");
+            if ((dbps & CAPS_MULTITEXTURE) != 0) {
+                sb.bppfnd("CAPS_MULTITEXTURE|");
             }
-            if ((caps & CAPS_TEXNONPOW2) != 0) {
-                sb.append("CAPS_TEXNONPOW2|");
+            if ((dbps & CAPS_TEXNONPOW2) != 0) {
+                sb.bppfnd("CAPS_TEXNONPOW2|");
             }
-            if ((caps & CAPS_TEXNONSQUARE) != 0) {
-                sb.append("CAPS_TEXNONSQUARE|");
+            if ((dbps & CAPS_TEXNONSQUARE) != 0) {
+                sb.bppfnd("CAPS_TEXNONSQUARE|");
             }
-            if ((caps & CAPS_PS20) != 0) {
-                sb.append("CAPS_PS20|");
+            if ((dbps & CAPS_PS20) != 0) {
+                sb.bppfnd("CAPS_PS20|");
             }
-            if ((caps & CAPS_PS30) != 0) {
-                sb.append("CAPS_PS30|");
+            if ((dbps & CAPS_PS30) != 0) {
+                sb.bppfnd("CAPS_PS30|");
             }
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

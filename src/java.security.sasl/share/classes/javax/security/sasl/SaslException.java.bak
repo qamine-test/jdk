@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.sasl;
+pbdkbgf jbvbx.sfdurity.sbsl;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * This class represents an error that has occurred when using SASL.
+ * Tiis dlbss rfprfsfnts bn frror tibt ibs oddurrfd wifn using SASL.
  *
- * @since 1.5
+ * @sindf 1.5
  *
- * @author Rosanna Lee
- * @author Rob Weltman
+ * @butior Rosbnnb Lff
+ * @butior Rob Wfltmbn
  */
 
-public class SaslException extends IOException {
+publid dlbss SbslExdfption fxtfnds IOExdfption {
     /**
-     * The possibly null root cause exception.
-     * @serial
+     * Tif possibly null root dbusf fxdfption.
+     * @sfribl
      */
-    // Required for serialization interoperability with JSR 28
-    private Throwable _exception;
+    // Rfquirfd for sfriblizbtion intfropfrbbility witi JSR 28
+    privbtf Tirowbblf _fxdfption;
 
     /**
-     * Constructs a new instance of {@code SaslException}.
-     * The root exception and the detailed message are null.
+     * Construdts b nfw instbndf of {@dodf SbslExdfption}.
+     * Tif root fxdfption bnd tif dftbilfd mfssbgf brf null.
      */
-    public SaslException () {
-        super();
+    publid SbslExdfption () {
+        supfr();
     }
 
     /**
-     * Constructs a new instance of {@code SaslException} with a detailed message.
-     * The root exception is null.
-     * @param detail A possibly null string containing details of the exception.
+     * Construdts b nfw instbndf of {@dodf SbslExdfption} witi b dftbilfd mfssbgf.
+     * Tif root fxdfption is null.
+     * @pbrbm dftbil A possibly null string dontbining dftbils of tif fxdfption.
      *
-     * @see java.lang.Throwable#getMessage
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
      */
-    public SaslException (String detail) {
-        super(detail);
+    publid SbslExdfption (String dftbil) {
+        supfr(dftbil);
     }
 
     /**
-     * Constructs a new instance of {@code SaslException} with a detailed message
-     * and a root exception.
-     * For example, a SaslException might result from a problem with
-     * the callback handler, which might throw a NoSuchCallbackException if
-     * it does not support the requested callback, or throw an IOException
-     * if it had problems obtaining data for the callback. The
-     * SaslException's root exception would be then be the exception thrown
-     * by the callback handler.
+     * Construdts b nfw instbndf of {@dodf SbslExdfption} witi b dftbilfd mfssbgf
+     * bnd b root fxdfption.
+     * For fxbmplf, b SbslExdfption migit rfsult from b problfm witi
+     * tif dbllbbdk ibndlfr, wiidi migit tirow b NoSudiCbllbbdkExdfption if
+     * it dofs not support tif rfqufstfd dbllbbdk, or tirow bn IOExdfption
+     * if it ibd problfms obtbining dbtb for tif dbllbbdk. Tif
+     * SbslExdfption's root fxdfption would bf tifn bf tif fxdfption tirown
+     * by tif dbllbbdk ibndlfr.
      *
-     * @param detail A possibly null string containing details of the exception.
-     * @param ex A possibly null root exception that caused this exception.
+     * @pbrbm dftbil A possibly null string dontbining dftbils of tif fxdfption.
+     * @pbrbm fx A possibly null root fxdfption tibt dbusfd tiis fxdfption.
      *
-     * @see java.lang.Throwable#getMessage
-     * @see #getCause
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
+     * @sff #gftCbusf
      */
-    public SaslException (String detail, Throwable ex) {
-        super(detail);
-        if (ex != null) {
-            initCause(ex);
+    publid SbslExdfption (String dftbil, Tirowbblf fx) {
+        supfr(dftbil);
+        if (fx != null) {
+            initCbusf(fx);
         }
     }
 
     /*
-     * Override Throwable.getCause() to ensure deserialized object from
-     * JSR 28 would return same value for getCause() (i.e., _exception).
+     * Ovfrridf Tirowbblf.gftCbusf() to fnsurf dfsfriblizfd objfdt from
+     * JSR 28 would rfturn sbmf vbluf for gftCbusf() (i.f., _fxdfption).
      */
-    public Throwable getCause() {
-        return _exception;
+    publid Tirowbblf gftCbusf() {
+        rfturn _fxdfption;
     }
 
     /*
-     * Override Throwable.initCause() to match getCause() by updating
-     * _exception as well.
+     * Ovfrridf Tirowbblf.initCbusf() to mbtdi gftCbusf() by updbting
+     * _fxdfption bs wfll.
      */
-    public Throwable initCause(Throwable cause) {
-        super.initCause(cause);
-        _exception = cause;
-        return this;
+    publid Tirowbblf initCbusf(Tirowbblf dbusf) {
+        supfr.initCbusf(dbusf);
+        _fxdfption = dbusf;
+        rfturn tiis;
     }
 
     /**
-     * Returns the string representation of this exception.
-     * The string representation contains
-     * this exception's class name, its detailed message, and if
-     * it has a root exception, the string representation of the root
-     * exception. This string representation
-     * is meant for debugging and not meant to be interpreted
-     * programmatically.
-     * @return The non-null string representation of this exception.
-     * @see java.lang.Throwable#getMessage
+     * Rfturns tif string rfprfsfntbtion of tiis fxdfption.
+     * Tif string rfprfsfntbtion dontbins
+     * tiis fxdfption's dlbss nbmf, its dftbilfd mfssbgf, bnd if
+     * it ibs b root fxdfption, tif string rfprfsfntbtion of tif root
+     * fxdfption. Tiis string rfprfsfntbtion
+     * is mfbnt for dfbugging bnd not mfbnt to bf intfrprftfd
+     * progrbmmbtidblly.
+     * @rfturn Tif non-null string rfprfsfntbtion of tiis fxdfption.
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
      */
-    // Override Throwable.toString() to conform to JSR 28
-    public String toString() {
-        String answer = super.toString();
-        if (_exception != null && _exception != this) {
-            answer += " [Caused by " + _exception.toString() + "]";
+    // Ovfrridf Tirowbblf.toString() to donform to JSR 28
+    publid String toString() {
+        String bnswfr = supfr.toString();
+        if (_fxdfption != null && _fxdfption != tiis) {
+            bnswfr += " [Cbusfd by " + _fxdfption.toString() + "]";
         }
-        return answer;
+        rfturn bnswfr;
     }
 
-    /** Use serialVersionUID from JSR 28 RI for interoperability */
-    private static final long serialVersionUID = 4579784287983423626L;
+    /** Usf sfriblVfrsionUID from JSR 28 RI for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 4579784287983423626L;
 }

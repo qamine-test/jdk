@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.dffbults;
+
+// jbvb import
+//
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Enumfrbtion;
+
+/**
+ * This dlbss rfbds b filf dontbining thf propfrty list dffinfd for Jbvb DMK
+ * bnd bdds bll thf rfbd propfrtifs to thf list of systfm propfrtifs.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ *
+ * @sindf 1.5
+ */
+publid dlbss SnmpPropfrtifs {
+
+    // privbtf donstrudtor dffinfd to "hidf" thf dffbult publid donstrudtor
+    privbtf SnmpPropfrtifs() {
+    }
+
+    // PUBLIC STATIC METHODS
+    //----------------------
+
+    /**
+     * Rfbds thf Jbvb DMK propfrty list from b filf bnd
+     * bdds thf rfbd propfrtifs bs systfm propfrtifs.
+     */
+    publid stbtid void lobd(String filf) throws IOExdfption {
+        Propfrtifs props = nfw Propfrtifs();
+        InputStrfbm is = nfw FilfInputStrfbm(filf);
+        props.lobd(is);
+        is.dlosf();
+        for (finbl Enumfrbtion<?> f = props.kfys(); f.hbsMorfElfmfnts() ; ) {
+            finbl String kfy = (String) f.nfxtElfmfnt();
+            Systfm.sftPropfrty(kfy,props.gftPropfrty(kfy));
+        }
+    }
+
+    // PUBLIC STATIC VARIABLES
+    //------------------------
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf dirfdtory whfrf
+     * thf nbtivf librbrifs will bf storfd bfforf thf MLft Sfrvidf
+     * lobds thfm into mfmory.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.mlft.librbry.dir</B>
+     */
+    publid stbtid finbl String MLET_LIB_DIR = "jmx.mlft.librbry.dir";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf ACL filf
+     * usfd by thf SNMP protodol bdbptor.
+     * <p>
+     * Propfrty Nbmf: <B>jdmk.bdl.filf</B>
+     */
+    publid stbtid finbl String ACL_FILE = "jdmk.bdl.filf";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf Sfdurity filf
+     * usfd by thf SNMP protodol bdbptor.
+     * <p>
+     * Propfrty Nbmf: <B>jdmk.sfdurity.filf</B>
+     */
+    publid stbtid finbl String SECURITY_FILE = "jdmk.sfdurity.filf";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf Usfr ACL filf
+     * usfd by thf SNMP protodol bdbptor.
+     * <p>
+     * Propfrty Nbmf: <B>jdmk.ubdl.filf</B>
+     */
+    publid stbtid finbl String UACL_FILE = "jdmk.ubdl.filf";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf dffbult mib_dorf filf
+     * usfd by thf mibgfn dompilfr.
+     * <p>
+     * Propfrty Nbmf: <B>mibdorf.filf</B>
+     */
+    publid stbtid finbl String MIB_CORE_FILE = "mibdorf.filf";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf full nbmf of thf JMX
+     * spfdifidbtion implfmfntfd by this produdt.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.spfdifidbtion.nbmf</B>
+     */
+     publid stbtid finbl String JMX_SPEC_NAME = "jmx.spfdifidbtion.nbmf";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf vfrsion of thf JMX
+     * spfdifidbtion implfmfntfd by this produdt.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.spfdifidbtion.vfrsion</B>
+     */
+     publid stbtid finbl String JMX_SPEC_VERSION = "jmx.spfdifidbtion.vfrsion";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf vfndor of thf JMX
+     * spfdifidbtion implfmfntfd by this produdt.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.spfdifidbtion.vfndor</B>
+     */
+     publid stbtid finbl String JMX_SPEC_VENDOR = "jmx.spfdifidbtion.vfndor";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf full nbmf of this produdt
+     * implfmfnting thf  JMX spfdifidbtion.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.implfmfntbtion.nbmf</B>
+     */
+    publid stbtid finbl String JMX_IMPL_NAME = "jmx.implfmfntbtion.nbmf";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf nbmf of thf vfndor of this produdt
+     * implfmfnting thf  JMX spfdifidbtion.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.implfmfntbtion.vfndor</B>
+     */
+    publid stbtid finbl String JMX_IMPL_VENDOR = "jmx.implfmfntbtion.vfndor";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf vfrsion of this produdt
+     * implfmfnting thf  JMX spfdifidbtion.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.implfmfntbtion.vfrsion</B>
+     */
+    publid stbtid finbl String JMX_IMPL_VERSION = "jmx.implfmfntbtion.vfrsion";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf SSL diphfr suitfs to
+     * bf fnbblfd by thf HTTP/SSL donnfdtor.
+     * <p>
+     * Propfrty Nbmf: <B>jdmk.ssl.diphfr.suitf.</B>
+     * <p>
+     * Thf list of SSL diphfr suitfs is spfdififd in thf formbt:
+     * <p>
+     * <DD><B>jdmk.ssl.diphfr.suitf.</B>&lt;n&gt;<B>=</B>&lt;diphfr suitf nbmf&gt;</DD>
+     * <p>
+     * For fxbmplf:
+     * <p>
+     * <DD>jdmk.ssl.diphfr.suitf.1=SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA</DD>
+     * <DD>jdmk.ssl.diphfr.suitf.2=SSL_RSA_EXPORT_WITH_RC4_40_MD5</DD>
+     * <DD>. . .</DD>
+     */
+    publid stbtid finbl String SSL_CIPHER_SUITE = "jdmk.ssl.diphfr.suitf.";
+}

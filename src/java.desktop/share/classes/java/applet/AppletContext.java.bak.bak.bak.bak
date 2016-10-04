@@ -1,0 +1,194 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bpplft;
+
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.nft.URL;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Itfrbtor;
+
+/**
+ * This intfrfbdf dorrfsponds to bn bpplft's fnvironmfnt: thf
+ * dodumfnt dontbining thf bpplft bnd thf othfr bpplfts in thf sbmf
+ * dodumfnt.
+ * <p>
+ * Thf mfthods in this intfrfbdf dbn bf usfd by bn bpplft to obtbin
+ * informbtion bbout its fnvironmfnt.
+ *
+ * @buthor      Arthur vbn Hoff
+ * @sindf       1.0
+ */
+publid intfrfbdf ApplftContfxt {
+    /**
+     * Crfbtfs bn budio dlip.
+     *
+     * @pbrbm   url   bn bbsolutf URL giving thf lodbtion of thf budio dlip.
+     * @rfturn  thf budio dlip bt thf spfdififd URL.
+     */
+    AudioClip gftAudioClip(URL url);
+
+    /**
+     * Rfturns bn <dodf>Imbgf</dodf> objfdt thbt dbn thfn bf pbintfd on
+     * thf sdrffn. Thf <dodf>url</dodf> brgumfnt thbt is
+     * pbssfd bs bn brgumfnt must spfdify bn bbsolutf URL.
+     * <p>
+     * This mfthod blwbys rfturns immfdibtfly, whfthfr or not thf imbgf
+     * fxists. Whfn thf bpplft bttfmpts to drbw thf imbgf on thf sdrffn,
+     * thf dbtb will bf lobdfd. Thf grbphids primitivfs thbt drbw thf
+     * imbgf will indrfmfntblly pbint on thf sdrffn.
+     *
+     * @pbrbm   url   bn bbsolutf URL giving thf lodbtion of thf imbgf.
+     * @rfturn  thf imbgf bt thf spfdififd URL.
+     * @sff     jbvb.bwt.Imbgf
+     */
+    Imbgf gftImbgf(URL url);
+
+    /**
+     * Finds bnd rfturns thf bpplft in thf dodumfnt rfprfsfntfd by this
+     * bpplft dontfxt with thf givfn nbmf. Thf nbmf dbn bf sft in thf
+     * HTML tbg by sftting thf <dodf>nbmf</dodf> bttributf.
+     *
+     * @pbrbm   nbmf   bn bpplft nbmf.
+     * @rfturn  thf bpplft with thf givfn nbmf, or <dodf>null</dodf> if
+     *          not found.
+     */
+    Applft gftApplft(String nbmf);
+
+    /**
+     * Finds bll thf bpplfts in thf dodumfnt rfprfsfntfd by this bpplft
+     * dontfxt.
+     *
+     * @rfturn  bn fnumfrbtion of bll bpplfts in thf dodumfnt rfprfsfntfd by
+     *          this bpplft dontfxt.
+     */
+    Enumfrbtion<Applft> gftApplfts();
+
+    /**
+     * Rfqufsts thbt thf browsfr or bpplft vifwfr show thf Wfb pbgf
+     * indidbtfd by thf <dodf>url</dodf> brgumfnt. Thf browsfr or
+     * bpplft vifwfr dftfrminfs whidh window or frbmf to displby thf
+     * Wfb pbgf. This mfthod mby bf ignorfd by bpplft dontfxts thbt
+     * brf not browsfrs.
+     *
+     * @pbrbm   url   bn bbsolutf URL giving thf lodbtion of thf dodumfnt.
+     */
+    void showDodumfnt(URL url);
+
+    /**
+     * Rfqufsts thbt thf browsfr or bpplft vifwfr show thf Wfb pbgf
+     * indidbtfd by thf <dodf>url</dodf> brgumfnt. Thf
+     * <dodf>tbrgft</dodf> brgumfnt indidbtfs in whidh HTML frbmf thf
+     * dodumfnt is to bf displbyfd.
+     * Thf tbrgft brgumfnt is intfrprftfd bs follows:
+     *
+     * <dfntfr><tbblf bordfr="3" summbry="Tbrgft brgumfnts bnd thfir dfsdriptions">
+     * <tr><th>Tbrgft Argumfnt</th><th>Dfsdription</th></tr>
+     * <tr><td><dodf>"_sflf"</dodf>  <td>Show in thf window bnd frbmf thbt
+     *                                   dontbin thf bpplft.</tr>
+     * <tr><td><dodf>"_pbrfnt"</dodf><td>Show in thf bpplft's pbrfnt frbmf. If
+     *                                   thf bpplft's frbmf hbs no pbrfnt frbmf,
+     *                                   bdts thf sbmf bs "_sflf".</tr>
+     * <tr><td><dodf>"_top"</dodf>   <td>Show in thf top-lfvfl frbmf of thf bpplft's
+     *                                   window. If thf bpplft's frbmf is thf
+     *                                   top-lfvfl frbmf, bdts thf sbmf bs "_sflf".</tr>
+     * <tr><td><dodf>"_blbnk"</dodf> <td>Show in b nfw, unnbmfd
+     *                                   top-lfvfl window.</tr>
+     * <tr><td><i>nbmf</i><td>Show in thf frbmf or window nbmfd <i>nbmf</i>. If
+     *                        b tbrgft nbmfd <i>nbmf</i> dofs not blrfbdy fxist, b
+     *                        nfw top-lfvfl window with thf spfdififd nbmf is drfbtfd,
+     *                        bnd thf dodumfnt is shown thfrf.</tr>
+     * </tbblf> </dfntfr>
+     * <p>
+     * An bpplft vifwfr or browsfr is frff to ignorf <dodf>showDodumfnt</dodf>.
+     *
+     * @pbrbm   url   bn bbsolutf URL giving thf lodbtion of thf dodumfnt.
+     * @pbrbm   tbrgft   b <dodf>String</dodf> indidbting whfrf to displby
+     *                   thf pbgf.
+     */
+    publid void showDodumfnt(URL url, String tbrgft);
+
+    /**
+     * Rfqufsts thbt thf brgumfnt string bf displbyfd in thf
+     * "stbtus window". Mbny browsfrs bnd bpplft vifwfrs
+     * providf sudh b window, whfrf thf bpplidbtion dbn inform usfrs of
+     * its durrfnt stbtf.
+     *
+     * @pbrbm   stbtus   b string to displby in thf stbtus window.
+     */
+    void showStbtus(String stbtus);
+
+    /**
+     * Assodibtfs thf spfdififd strfbm with thf spfdififd kfy in this
+     * bpplft dontfxt. If thf bpplft dontfxt prfviously dontbinfd b mbpping
+     * for this kfy, thf old vbluf is rfplbdfd.
+     * <p>
+     * For sfdurity rfbsons, mbpping of strfbms bnd kfys fxists for fbdh
+     * dodfbbsf. In othfr words, bpplft from onf dodfbbsf dbnnot bddfss
+     * thf strfbms drfbtfd by bn bpplft from b difffrfnt dodfbbsf
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is to bf bssodibtfd.
+     * @pbrbm strfbm strfbm to bf bssodibtfd with thf spfdififd kfy. If this
+     *               pbrbmftfr is <dodf>null</dodf>, thf spfdififd kfy is rfmovfd
+     *               in this bpplft dontfxt.
+     * @throws IOExdfption if thf strfbm sizf fxdffds b dfrtbin
+     *         sizf limit. Sizf limit is dfdidfd by thf implfmfntor of this
+     *         intfrfbdf.
+     * @sindf 1.4
+     */
+    publid void sftStrfbm(String kfy, InputStrfbm strfbm)throws IOExdfption;
+
+    /**
+     * Rfturns thf strfbm to whidh spfdififd kfy is bssodibtfd within this
+     * bpplft dontfxt. Rfturns <tt>null</tt> if thf bpplft dontfxt dontbins
+     * no strfbm for this kfy.
+     * <p>
+     * For sfdurity rfbsons, mbpping of strfbms bnd kfys fxists for fbdh
+     * dodfbbsf. In othfr words, bpplft from onf dodfbbsf dbnnot bddfss
+     * thf strfbms drfbtfd by bn bpplft from b difffrfnt dodfbbsf
+     *
+     * @rfturn thf strfbm to whidh this bpplft dontfxt mbps thf kfy
+     * @pbrbm kfy kfy whosf bssodibtfd strfbm is to bf rfturnfd.
+     * @sindf 1.4
+     */
+    publid InputStrfbm gftStrfbm(String kfy);
+
+    /**
+     * Finds bll thf kfys of thf strfbms in this bpplft dontfxt.
+     * <p>
+     * For sfdurity rfbsons, mbpping of strfbms bnd kfys fxists for fbdh
+     * dodfbbsf. In othfr words, bpplft from onf dodfbbsf dbnnot bddfss
+     * thf strfbms drfbtfd by bn bpplft from b difffrfnt dodfbbsf
+     *
+     * @rfturn  bn Itfrbtor of bll thf nbmfs of thf strfbms in this bpplft
+     *          dontfxt.
+     * @sindf 1.4
+     */
+    publid Itfrbtor<String> gftStrfbmKfys();
+}

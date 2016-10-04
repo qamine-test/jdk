@@ -1,998 +1,998 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * (C) Copyright IBM Corp. 2005, All Rights Reserved.
+ * (C) Copyrigit IBM Corp. 2005, All Rigits Rfsfrvfd.
  */
-package sun.font;
+pbdkbgf sun.font;
 
 //
-// This is the 'simple' mapping implementation.  It does things the most
-// straightforward way even if that is a bit slow.  It won't
-// handle complex paths efficiently, and doesn't handle closed paths.
+// Tiis is tif 'simplf' mbpping implfmfntbtion.  It dofs tiings tif most
+// strbigitforwbrd wby fvfn if tibt is b bit slow.  It won't
+// ibndlf domplfx pbtis fffidifntly, bnd dofsn't ibndlf dlosfd pbtis.
 //
 
-import java.awt.Shape;
-import java.awt.font.LayoutPath;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.util.Formatter;
-import java.util.ArrayList;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.font.LbyoutPbti;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.util.Formbttfr;
+import jbvb.util.ArrbyList;
 
-import static java.awt.geom.PathIterator.*;
-import static java.lang.Math.abs;
-import static java.lang.Math.sqrt;
+import stbtid jbvb.bwt.gfom.PbtiItfrbtor.*;
+import stbtid jbvb.lbng.Mbti.bbs;
+import stbtid jbvb.lbng.Mbti.sqrt;
 
-public abstract class LayoutPathImpl extends LayoutPath {
+publid bbstrbdt dlbss LbyoutPbtiImpl fxtfnds LbyoutPbti {
 
     //
-    // Convenience APIs
+    // Convfnifndf APIs
     //
 
-    public Point2D pointToPath(double x, double y) {
-        Point2D.Double pt = new Point2D.Double(x, y);
-        pointToPath(pt, pt);
-        return pt;
+    publid Point2D pointToPbti(doublf x, doublf y) {
+        Point2D.Doublf pt = nfw Point2D.Doublf(x, y);
+        pointToPbti(pt, pt);
+        rfturn pt;
     }
 
-    public Point2D pathToPoint(double a, double o, boolean preceding) {
-        Point2D.Double pt = new Point2D.Double(a, o);
-        pathToPoint(pt, preceding, pt);
-        return pt;
+    publid Point2D pbtiToPoint(doublf b, doublf o, boolfbn prfdfding) {
+        Point2D.Doublf pt = nfw Point2D.Doublf(b, o);
+        pbtiToPoint(pt, prfdfding, pt);
+        rfturn pt;
     }
 
-    public void pointToPath(double x, double y, Point2D pt) {
-        pt.setLocation(x, y);
-        pointToPath(pt, pt);
+    publid void pointToPbti(doublf x, doublf y, Point2D pt) {
+        pt.sftLodbtion(x, y);
+        pointToPbti(pt, pt);
     }
 
-    public void pathToPoint(double a, double o, boolean preceding, Point2D pt) {
-        pt.setLocation(a, o);
-        pathToPoint(pt, preceding, pt);
+    publid void pbtiToPoint(doublf b, doublf o, boolfbn prfdfding, Point2D pt) {
+        pt.sftLodbtion(b, o);
+        pbtiToPoint(pt, prfdfding, pt);
     }
 
     //
-    // extra utility APIs
+    // fxtrb utility APIs
     //
 
-    public abstract double start();
-    public abstract double end();
-    public abstract double length();
-    public abstract Shape mapShape(Shape s);
+    publid bbstrbdt doublf stbrt();
+    publid bbstrbdt doublf fnd();
+    publid bbstrbdt doublf lfngti();
+    publid bbstrbdt Sibpf mbpSibpf(Sibpf s);
 
     //
-    // debugging flags
+    // dfbugging flbgs
     //
 
-    private static final boolean LOGMAP = false;
-    private static final Formatter LOG = new Formatter(System.out);
+    privbtf stbtid finbl boolfbn LOGMAP = fblsf;
+    privbtf stbtid finbl Formbttfr LOG = nfw Formbttfr(Systfm.out);
 
     /**
-     * Indicate how positions past the start and limit of the
-     * path are treated.  PINNED adjusts these positions so
-     * as to be within start and limit.  EXTENDED ignores the
-     * start and limit and effectively extends the first and
-     * last segments of the path 'infinitely'.  CLOSED wraps
-     * positions around the ends of the path.
+     * Indidbtf iow positions pbst tif stbrt bnd limit of tif
+     * pbti brf trfbtfd.  PINNED bdjusts tifsf positions so
+     * bs to bf witiin stbrt bnd limit.  EXTENDED ignorfs tif
+     * stbrt bnd limit bnd ffffdtivfly fxtfnds tif first bnd
+     * lbst sfgmfnts of tif pbti 'infinitfly'.  CLOSED wrbps
+     * positions bround tif fnds of tif pbti.
      */
-    public static enum EndType {
+    publid stbtid fnum EndTypf {
         PINNED, EXTENDED, CLOSED;
-        public boolean isPinned() { return this == PINNED; }
-        public boolean isExtended() { return this == EXTENDED; }
-        public boolean isClosed() { return this == CLOSED; }
+        publid boolfbn isPinnfd() { rfturn tiis == PINNED; }
+        publid boolfbn isExtfndfd() { rfturn tiis == EXTENDED; }
+        publid boolfbn isClosfd() { rfturn tiis == CLOSED; }
     };
 
     //
-    // Top level construction.
+    // Top lfvfl donstrudtion.
     //
 
     /**
-     * Return a path representing the path from the origin through the points in order.
+     * Rfturn b pbti rfprfsfnting tif pbti from tif origin tirougi tif points in ordfr.
      */
-    public static LayoutPathImpl getPath(EndType etype, double ... coords) {
-        if ((coords.length & 0x1) != 0) {
-            throw new IllegalArgumentException("odd number of points not allowed");
+    publid stbtid LbyoutPbtiImpl gftPbti(EndTypf ftypf, doublf ... doords) {
+        if ((doords.lfngti & 0x1) != 0) {
+            tirow nfw IllfgblArgumfntExdfption("odd numbfr of points not bllowfd");
         }
 
-        return SegmentPath.get(etype, coords);
+        rfturn SfgmfntPbti.gft(ftypf, doords);
     }
 
     /**
-     * Use to build a SegmentPath.  This takes the data and preanalyzes it for
-     * information that the SegmentPath needs, then constructs a SegmentPath
-     * from that.  Mainly, this lets SegmentPath cache the lengths along
-     * the path to each line segment, and so avoid calculating them over and over.
+     * Usf to build b SfgmfntPbti.  Tiis tbkfs tif dbtb bnd prfbnblyzfs it for
+     * informbtion tibt tif SfgmfntPbti nffds, tifn donstrudts b SfgmfntPbti
+     * from tibt.  Mbinly, tiis lfts SfgmfntPbti dbdif tif lfngtis blong
+     * tif pbti to fbdi linf sfgmfnt, bnd so bvoid dbldulbting tifm ovfr bnd ovfr.
      */
-    public static final class SegmentPathBuilder {
-        private double[] data;
-        private int w;
-        private double px;
-        private double py;
-        private double a;
-        private boolean pconnect;
+    publid stbtid finbl dlbss SfgmfntPbtiBuildfr {
+        privbtf doublf[] dbtb;
+        privbtf int w;
+        privbtf doublf px;
+        privbtf doublf py;
+        privbtf doublf b;
+        privbtf boolfbn pdonnfdt;
 
         /**
-         * Construct a SegmentPathBuilder.
+         * Construdt b SfgmfntPbtiBuildfr.
          */
-        public SegmentPathBuilder() {
+        publid SfgmfntPbtiBuildfr() {
         }
 
         /**
-         * Reset the builder for a new path.  Datalen is a hint of how many
-         * points will be in the path, and the working buffer will be sized
-         * to accommodate at least this number of points.  If datalen is zero,
-         * the working buffer is freed (it will be allocated on first use).
+         * Rfsft tif buildfr for b nfw pbti.  Dbtblfn is b iint of iow mbny
+         * points will bf in tif pbti, bnd tif working bufffr will bf sizfd
+         * to bddommodbtf bt lfbst tiis numbfr of points.  If dbtblfn is zfro,
+         * tif working bufffr is frffd (it will bf bllodbtfd on first usf).
          */
-        public void reset(int datalen) {
-            if (data == null || datalen > data.length) {
-                data = new double[datalen];
-            } else if (datalen == 0) {
-                data = null;
+        publid void rfsft(int dbtblfn) {
+            if (dbtb == null || dbtblfn > dbtb.lfngti) {
+                dbtb = nfw doublf[dbtblfn];
+            } flsf if (dbtblfn == 0) {
+                dbtb = null;
             }
             w = 0;
             px = py = 0;
-            pconnect = false;
+            pdonnfdt = fblsf;
         }
 
         /**
-         * Automatically build from a list of points represented by pairs of
-         * doubles.  Initial advance is zero.
+         * Autombtidblly build from b list of points rfprfsfntfd by pbirs of
+         * doublfs.  Initibl bdvbndf is zfro.
          */
-        public SegmentPath build(EndType etype, double... pts) {
-            assert(pts.length % 2 == 0);
+        publid SfgmfntPbti build(EndTypf ftypf, doublf... pts) {
+            bssfrt(pts.lfngti % 2 == 0);
 
-            reset(pts.length / 2 * 3);
+            rfsft(pts.lfngti / 2 * 3);
 
-            for (int i = 0; i < pts.length; i += 2) {
-                nextPoint(pts[i], pts[i+1], i != 0);
+            for (int i = 0; i < pts.lfngti; i += 2) {
+                nfxtPoint(pts[i], pts[i+1], i != 0);
             }
 
-            return complete(etype);
+            rfturn domplftf(ftypf);
         }
 
         /**
-         * Move to a new point.  If there is no data, this will become the
-         * first point.  If there is data, and the previous call was a lineTo, this
-         * point is checked against the previous point, and if different, this
-         * starts a new segment at the same advance as the end of the last
-         * segment.  If there is data, and the previous call was a moveTo, this
-         * replaces the point used for that previous call.
+         * Movf to b nfw point.  If tifrf is no dbtb, tiis will bfdomf tif
+         * first point.  If tifrf is dbtb, bnd tif prfvious dbll wbs b linfTo, tiis
+         * point is difdkfd bgbinst tif prfvious point, bnd if difffrfnt, tiis
+         * stbrts b nfw sfgmfnt bt tif sbmf bdvbndf bs tif fnd of tif lbst
+         * sfgmfnt.  If tifrf is dbtb, bnd tif prfvious dbll wbs b movfTo, tiis
+         * rfplbdfs tif point usfd for tibt prfvious dbll.
          *
-         * Calling this is optional, lineTo will suffice and the initial point
-         * will be set to 0, 0.
+         * Cblling tiis is optionbl, linfTo will suffidf bnd tif initibl point
+         * will bf sft to 0, 0.
          */
-        public void moveTo(double x, double y) {
-            nextPoint(x, y, false);
+        publid void movfTo(doublf x, doublf y) {
+            nfxtPoint(x, y, fblsf);
         }
 
         /**
-         * Connect to a new point.  If there is no data, the previous point
-         * is presumed to be 0, 0.  This point is checked against
-         * the previous point, and if different, this point is added to
-         * the path and the advance extended.  If this point is the same as the
-         * previous point, the path remains unchanged.
+         * Connfdt to b nfw point.  If tifrf is no dbtb, tif prfvious point
+         * is prfsumfd to bf 0, 0.  Tiis point is difdkfd bgbinst
+         * tif prfvious point, bnd if difffrfnt, tiis point is bddfd to
+         * tif pbti bnd tif bdvbndf fxtfndfd.  If tiis point is tif sbmf bs tif
+         * prfvious point, tif pbti rfmbins undibngfd.
          */
-        public void lineTo(double x, double y) {
-            nextPoint(x, y, true);
+        publid void linfTo(doublf x, doublf y) {
+            nfxtPoint(x, y, truf);
         }
 
         /**
-         * Add a new point, and increment advance if connect is true.
+         * Add b nfw point, bnd indrfmfnt bdvbndf if donnfdt is truf.
          *
-         * This automatically rejects duplicate points and multiple disconnected points.
+         * Tiis butombtidblly rfjfdts duplidbtf points bnd multiplf disdonnfdtfd points.
          */
-        private void nextPoint(double x, double y, boolean connect) {
+        privbtf void nfxtPoint(doublf x, doublf y, boolfbn donnfdt) {
 
-            // if zero length move or line, ignore
+            // if zfro lfngti movf or linf, ignorf
             if (x == px && y == py) {
-                return;
+                rfturn;
             }
 
-            if (w == 0) { // this is the first point, make sure we have space
-                if (data == null) {
-                    data = new double[6];
+            if (w == 0) { // tiis is tif first point, mbkf surf wf ibvf spbdf
+                if (dbtb == null) {
+                    dbtb = nfw doublf[6];
                 }
-                if (connect) {
-                    w = 3; // default first point to 0, 0
+                if (donnfdt) {
+                    w = 3; // dffbult first point to 0, 0
                 }
             }
 
-            // if multiple disconnected move, just update position, leave advance alone
-            if (w != 0 && !connect && !pconnect) {
-                data[w-3] = px = x;
-                data[w-2] = py = y;
-                return;
+            // if multiplf disdonnfdtfd movf, just updbtf position, lfbvf bdvbndf blonf
+            if (w != 0 && !donnfdt && !pdonnfdt) {
+                dbtb[w-3] = px = x;
+                dbtb[w-2] = py = y;
+                rfturn;
             }
 
-            // grow data to deal with new point
-            if (w == data.length) {
-                double[] t = new double[w * 2];
-                System.arraycopy(data, 0, t, 0, w);
-                data = t;
+            // grow dbtb to dfbl witi nfw point
+            if (w == dbtb.lfngti) {
+                doublf[] t = nfw doublf[w * 2];
+                Systfm.brrbydopy(dbtb, 0, t, 0, w);
+                dbtb = t;
             }
 
-            if (connect) {
-                double dx = x - px;
-                double dy = y - py;
-                a += sqrt(dx * dx + dy * dy);
+            if (donnfdt) {
+                doublf dx = x - px;
+                doublf dy = y - py;
+                b += sqrt(dx * dx + dy * dy);
             }
 
-            // update data
-            data[w++] = x;
-            data[w++] = y;
-            data[w++] = a;
+            // updbtf dbtb
+            dbtb[w++] = x;
+            dbtb[w++] = y;
+            dbtb[w++] = b;
 
-            // update state
+            // updbtf stbtf
             px = x;
             py = y;
-            pconnect = connect;
+            pdonnfdt = donnfdt;
         }
 
-        public SegmentPath complete() {
-            return complete(EndType.EXTENDED);
+        publid SfgmfntPbti domplftf() {
+            rfturn domplftf(EndTypf.EXTENDED);
         }
 
         /**
-         * Complete building a SegmentPath.  Once this is called, the builder is restored
-         * to its initial state and information about the previous path is released.  The
-         * end type indicates whether to treat the path as closed, extended, or pinned.
+         * Complftf building b SfgmfntPbti.  Ondf tiis is dbllfd, tif buildfr is rfstorfd
+         * to its initibl stbtf bnd informbtion bbout tif prfvious pbti is rflfbsfd.  Tif
+         * fnd typf indidbtfs wiftifr to trfbt tif pbti bs dlosfd, fxtfndfd, or pinnfd.
          */
-        public SegmentPath complete(EndType etype) {
-            SegmentPath result;
+        publid SfgmfntPbti domplftf(EndTypf ftypf) {
+            SfgmfntPbti rfsult;
 
-            if (data == null || w < 6) {
-                return null;
+            if (dbtb == null || w < 6) {
+                rfturn null;
             }
 
-            if (w == data.length) {
-                result = new SegmentPath(data, etype);
-                reset(0); // releases pointer to data
-            } else {
-                double[] dataToAdopt = new double[w];
-                System.arraycopy(data, 0, dataToAdopt, 0, w);
-                result = new SegmentPath(dataToAdopt, etype);
-                reset(2); // reuses data, since we held on to it
+            if (w == dbtb.lfngti) {
+                rfsult = nfw SfgmfntPbti(dbtb, ftypf);
+                rfsft(0); // rflfbsfs pointfr to dbtb
+            } flsf {
+                doublf[] dbtbToAdopt = nfw doublf[w];
+                Systfm.brrbydopy(dbtb, 0, dbtbToAdopt, 0, w);
+                rfsult = nfw SfgmfntPbti(dbtbToAdopt, ftypf);
+                rfsft(2); // rfusfs dbtb, sindf wf ifld on to it
             }
 
-            return result;
+            rfturn rfsult;
         }
     }
 
     /**
-     * Represents a path built from segments.  Each segment is
-     * represented by a triple: x, y, and cumulative advance.
-     * These represent the end point of the segment.  The start
-     * point of the first segment is represented by the triple
-     * at position 0.
+     * Rfprfsfnts b pbti built from sfgmfnts.  Ebdi sfgmfnt is
+     * rfprfsfntfd by b triplf: x, y, bnd dumulbtivf bdvbndf.
+     * Tifsf rfprfsfnt tif fnd point of tif sfgmfnt.  Tif stbrt
+     * point of tif first sfgmfnt is rfprfsfntfd by tif triplf
+     * bt position 0.
      *
-     * The path might have breaks in it, e.g. it is not connected.
-     * These will be represented by pairs of triplets that share the
-     * same advance.
+     * Tif pbti migit ibvf brfbks in it, f.g. it is not donnfdtfd.
+     * Tifsf will bf rfprfsfntfd by pbirs of triplfts tibt sibrf tif
+     * sbmf bdvbndf.
      *
-     * The path might be extended, pinned, or closed.  If extended,
-     * the initial and final segments are considered to extend
-     * 'indefinitely' past the bounds of the advance.  If pinned,
-     * they end at the bounds of the advance.  If closed,
-     * advances before the start or after the end 'wrap around' the
-     * path.
+     * Tif pbti migit bf fxtfndfd, pinnfd, or dlosfd.  If fxtfndfd,
+     * tif initibl bnd finbl sfgmfnts brf donsidfrfd to fxtfnd
+     * 'indffinitfly' pbst tif bounds of tif bdvbndf.  If pinnfd,
+     * tify fnd bt tif bounds of tif bdvbndf.  If dlosfd,
+     * bdvbndfs bfforf tif stbrt or bftfr tif fnd 'wrbp bround' tif
+     * pbti.
      *
-     * The start of the path is the initial triple.  This provides
-     * the nominal advance at the given x, y position (typically
-     * zero).  The end of the path is the final triple.  This provides
-     * the advance at the end, the total length of the path is
-     * thus the ending advance minus the starting advance.
+     * Tif stbrt of tif pbti is tif initibl triplf.  Tiis providfs
+     * tif nominbl bdvbndf bt tif givfn x, y position (typidblly
+     * zfro).  Tif fnd of tif pbti is tif finbl triplf.  Tiis providfs
+     * tif bdvbndf bt tif fnd, tif totbl lfngti of tif pbti is
+     * tius tif fnding bdvbndf minus tif stbrting bdvbndf.
      *
-     * Note: We might want to cache more auxiliary data than the
-     * advance, but this seems adequate for now.
+     * Notf: Wf migit wbnt to dbdif morf buxilibry dbtb tibn tif
+     * bdvbndf, but tiis sffms bdfqubtf for now.
      */
-    public static final class SegmentPath extends LayoutPathImpl {
-        private double[] data; // triplets x, y, a
-        EndType etype;
+    publid stbtid finbl dlbss SfgmfntPbti fxtfnds LbyoutPbtiImpl {
+        privbtf doublf[] dbtb; // triplfts x, y, b
+        EndTypf ftypf;
 
-        public static SegmentPath get(EndType etype, double... pts) {
-            return new SegmentPathBuilder().build(etype, pts);
+        publid stbtid SfgmfntPbti gft(EndTypf ftypf, doublf... pts) {
+            rfturn nfw SfgmfntPbtiBuildfr().build(ftypf, pts);
         }
 
         /**
-         * Internal, use SegmentPathBuilder or one of the static
-         * helper functions to construct a SegmentPath.
+         * Intfrnbl, usf SfgmfntPbtiBuildfr or onf of tif stbtid
+         * iflpfr fundtions to donstrudt b SfgmfntPbti.
          */
-        SegmentPath(double[] data, EndType etype) {
-            this.data = data;
-            this.etype = etype;
+        SfgmfntPbti(doublf[] dbtb, EndTypf ftypf) {
+            tiis.dbtb = dbtb;
+            tiis.ftypf = ftypf;
         }
 
         //
-        // LayoutPath API
+        // LbyoutPbti API
         //
 
-        public void pathToPoint(Point2D location, boolean preceding, Point2D point) {
-            locateAndGetIndex(location, preceding, point);
+        publid void pbtiToPoint(Point2D lodbtion, boolfbn prfdfding, Point2D point) {
+            lodbtfAndGftIndfx(lodbtion, prfdfding, point);
         }
 
-        // the path consists of line segments, which i'll call
-        // 'path vectors'.  call each run of path vectors a 'path segment'.
-        // no path vector in a path segment is zero length (in the
-        // data, such vectors start a new path segment).
+        // tif pbti donsists of linf sfgmfnts, wiidi i'll dbll
+        // 'pbti vfdtors'.  dbll fbdi run of pbti vfdtors b 'pbti sfgmfnt'.
+        // no pbti vfdtor in b pbti sfgmfnt is zfro lfngti (in tif
+        // dbtb, sudi vfdtors stbrt b nfw pbti sfgmfnt).
         //
-        // for each path segment...
+        // for fbdi pbti sfgmfnt...
         //
-        // for each path vector...
+        // for fbdi pbti vfdtor...
         //
-        // we look at the dot product of the path vector and the vector from the
-        // origin of the path vector to the test point.  if <0 (case
-        // A), the projection of the test point is before the start of
-        // the path vector.  if > the square of the length of the path vector
-        // (case B), the projection is past the end point of the
-        // path vector.  otherwise (case C), it lies on the path vector.
-        // determine the closeset point on the path vector.  if case A, it
-        // is the start of the path vector.  if case B and this is the last
-        // path vector in the path segment, it is the end of the path vector.  If
-        // case C, it is the projection onto the path vector.  Otherwise
-        // there is no closest point.
+        // wf look bt tif dot produdt of tif pbti vfdtor bnd tif vfdtor from tif
+        // origin of tif pbti vfdtor to tif tfst point.  if <0 (dbsf
+        // A), tif projfdtion of tif tfst point is bfforf tif stbrt of
+        // tif pbti vfdtor.  if > tif squbrf of tif lfngti of tif pbti vfdtor
+        // (dbsf B), tif projfdtion is pbst tif fnd point of tif
+        // pbti vfdtor.  otifrwisf (dbsf C), it lifs on tif pbti vfdtor.
+        // dftfrminf tif dlosfsft point on tif pbti vfdtor.  if dbsf A, it
+        // is tif stbrt of tif pbti vfdtor.  if dbsf B bnd tiis is tif lbst
+        // pbti vfdtor in tif pbti sfgmfnt, it is tif fnd of tif pbti vfdtor.  If
+        // dbsf C, it is tif projfdtion onto tif pbti vfdtor.  Otifrwisf
+        // tifrf is no dlosfst point.
         //
-        // if we have a closest point, compare the distance from it to
-        // the test point against our current closest distance.
-        // (culling should be fast, currently i am using distance
-        // squared, but there's probably better ways).  if we're
-        // closer, save the new point as the current closest point,
-        // and record the path vector index so we can determine the final
-        // info if this turns out to be the closest point in the end.
+        // if wf ibvf b dlosfst point, dompbrf tif distbndf from it to
+        // tif tfst point bgbinst our durrfnt dlosfst distbndf.
+        // (dulling siould bf fbst, durrfntly i bm using distbndf
+        // squbrfd, but tifrf's probbbly bfttfr wbys).  if wf'rf
+        // dlosfr, sbvf tif nfw point bs tif durrfnt dlosfst point,
+        // bnd rfdord tif pbti vfdtor indfx so wf dbn dftfrminf tif finbl
+        // info if tiis turns out to bf tif dlosfst point in tif fnd.
         //
-        // after we have processed all the segments we will have
-        // tested each path vector and each endpoint.  if our point is not on
-        // an endpoint, we're done; we can compute the position and
-        // offset again, or if we saved it off we can just use it.  if
-        // we're on an endpoint we need to see which path vector we should
-        // associate with.  if we're at the start or end of a path segment,
-        // we're done-- the first or last vector of the segment is the
-        // one we associate with.  we project against that vector to
-        // get the offset, and pin to that vector to get the length.
+        // bftfr wf ibvf prodfssfd bll tif sfgmfnts wf will ibvf
+        // tfstfd fbdi pbti vfdtor bnd fbdi fndpoint.  if our point is not on
+        // bn fndpoint, wf'rf donf; wf dbn domputf tif position bnd
+        // offsft bgbin, or if wf sbvfd it off wf dbn just usf it.  if
+        // wf'rf on bn fndpoint wf nffd to sff wiidi pbti vfdtor wf siould
+        // bssodibtf witi.  if wf'rf bt tif stbrt or fnd of b pbti sfgmfnt,
+        // wf'rf donf-- tif first or lbst vfdtor of tif sfgmfnt is tif
+        // onf wf bssodibtf witi.  wf projfdt bgbinst tibt vfdtor to
+        // gft tif offsft, bnd pin to tibt vfdtor to gft tif lfngti.
         //
-        // otherwise, we compute the information as follows.  if the
-        // dot product (see above) with the following vector is zero,
-        // we associate with that vector.  otherwise, if the dot
-        // product with the previous vector is zero, we associate with
-        // that vector.  otherwise we're beyond the end of the
-        // previous vector and before the start of the current vector.
-        // we project against both vectors and get the distance from
-        // the test point to the projection (this will be the offset).
-        // if they are the same, we take the following vector.
-        // otherwise use the vector from which the test point is the
-        // _farthest_ (this is because the point lies most clearly in
-        // the half of the plane defined by extending that vector).
+        // otifrwisf, wf domputf tif informbtion bs follows.  if tif
+        // dot produdt (sff bbovf) witi tif following vfdtor is zfro,
+        // wf bssodibtf witi tibt vfdtor.  otifrwisf, if tif dot
+        // produdt witi tif prfvious vfdtor is zfro, wf bssodibtf witi
+        // tibt vfdtor.  otifrwisf wf'rf bfyond tif fnd of tif
+        // prfvious vfdtor bnd bfforf tif stbrt of tif durrfnt vfdtor.
+        // wf projfdt bgbinst boti vfdtors bnd gft tif distbndf from
+        // tif tfst point to tif projfdtion (tiis will bf tif offsft).
+        // if tify brf tif sbmf, wf tbkf tif following vfdtor.
+        // otifrwisf usf tif vfdtor from wiidi tif tfst point is tif
+        // _fbrtifst_ (tiis is bfdbusf tif point lifs most dlfbrly in
+        // tif iblf of tif plbnf dffinfd by fxtfnding tibt vfdtor).
         //
-        // the returned position is the path length to the (possibly
-        // pinned) point, the offset is the projection onto the line
-        // along the vector, and we have a boolean flag which if false
-        // indicates that we associate with the previous vector at a
-        // junction (which is necessary when projecting such a
-        // location back to a point).
+        // tif rfturnfd position is tif pbti lfngti to tif (possibly
+        // pinnfd) point, tif offsft is tif projfdtion onto tif linf
+        // blong tif vfdtor, bnd wf ibvf b boolfbn flbg wiidi if fblsf
+        // indidbtfs tibt wf bssodibtf witi tif prfvious vfdtor bt b
+        // jundtion (wiidi is nfdfssbry wifn projfdting sudi b
+        // lodbtion bbdk to b point).
 
-        public boolean pointToPath(Point2D pt, Point2D result) {
-            double x = pt.getX();               // test point
-            double y = pt.getY();
+        publid boolfbn pointToPbti(Point2D pt, Point2D rfsult) {
+            doublf x = pt.gftX();               // tfst point
+            doublf y = pt.gftY();
 
-            double bx = data[0];                // previous point
-            double by = data[1];
-            double bl = data[2];
+            doublf bx = dbtb[0];                // prfvious point
+            doublf by = dbtb[1];
+            doublf bl = dbtb[2];
 
-            // start with defaults
-            double cd2 = Double.MAX_VALUE;       // current best distance from path, squared
-            double cx = 0;                       // current best x
-            double cy = 0;                       // current best y
-            double cl = 0;                       // current best position along path
-            int ci = 0;                          // current best index into data
+            // stbrt witi dffbults
+            doublf dd2 = Doublf.MAX_VALUE;       // durrfnt bfst distbndf from pbti, squbrfd
+            doublf dx = 0;                       // durrfnt bfst x
+            doublf dy = 0;                       // durrfnt bfst y
+            doublf dl = 0;                       // durrfnt bfst position blong pbti
+            int di = 0;                          // durrfnt bfst indfx into dbtb
 
-            for (int i = 3; i < data.length; i += 3) {
-                double nx = data[i];             // current end point
-                double ny = data[i+1];
-                double nl = data[i+2];
+            for (int i = 3; i < dbtb.lfngti; i += 3) {
+                doublf nx = dbtb[i];             // durrfnt fnd point
+                doublf ny = dbtb[i+1];
+                doublf nl = dbtb[i+2];
 
-                double dx = nx - bx;             // vector from previous to current
-                double dy = ny - by;
-                double dl = nl - bl;
+                doublf dx = nx - bx;             // vfdtor from prfvious to durrfnt
+                doublf dy = ny - by;
+                doublf dl = nl - bl;
 
-                double px = x - bx;              // vector from previous to test point
-                double py = y - by;
+                doublf px = x - bx;              // vfdtor from prfvious to tfst point
+                doublf py = y - by;
 
-                // determine sign of dot product of vectors from bx, by
-                // if < 0, we're before the start of this vector
+                // dftfrminf sign of dot produdt of vfdtors from bx, by
+                // if < 0, wf'rf bfforf tif stbrt of tiis vfdtor
 
-                double dot = dx * px + dy * py;      // dot product
-                double vcx, vcy, vcl;                // hold closest point on vector as x, y, l
-                int vi;                              // hold index of line, is data.length if last point on path
-                do {                                 // use break below, lets us avoid initializing vcx, vcy...
-                    if (dl == 0 ||                   // moveto, or
-                        (dot < 0 &&                  // before path vector and
-                         (!etype.isExtended() ||
-                          i != 3))) {                // closest point is start of vector
-                        vcx = bx;
-                        vcy = by;
-                        vcl = bl;
+                doublf dot = dx * px + dy * py;      // dot produdt
+                doublf vdx, vdy, vdl;                // iold dlosfst point on vfdtor bs x, y, l
+                int vi;                              // iold indfx of linf, is dbtb.lfngti if lbst point on pbti
+                do {                                 // usf brfbk bflow, lfts us bvoid initiblizing vdx, vdy...
+                    if (dl == 0 ||                   // movfto, or
+                        (dot < 0 &&                  // bfforf pbti vfdtor bnd
+                         (!ftypf.isExtfndfd() ||
+                          i != 3))) {                // dlosfst point is stbrt of vfdtor
+                        vdx = bx;
+                        vdy = by;
+                        vdl = bl;
                         vi = i;
-                    } else {
-                        double l2 = dl * dl;         // aka dx * dx + dy * dy, square of length
-                        if (dot <= l2 ||             // closest point is not past end of vector, or
-                            (etype.isExtended() &&   // we're extended and at the last segment
-                             i == data.length - 3)) {
-                            double p = dot / l2;     // get parametric along segment
-                            vcx = bx + p * dx;       // compute closest point
-                            vcy = by + p * dy;
-                            vcl = bl + p * dl;
+                    } flsf {
+                        doublf l2 = dl * dl;         // bkb dx * dx + dy * dy, squbrf of lfngti
+                        if (dot <= l2 ||             // dlosfst point is not pbst fnd of vfdtor, or
+                            (ftypf.isExtfndfd() &&   // wf'rf fxtfndfd bnd bt tif lbst sfgmfnt
+                             i == dbtb.lfngti - 3)) {
+                            doublf p = dot / l2;     // gft pbrbmftrid blong sfgmfnt
+                            vdx = bx + p * dx;       // domputf dlosfst point
+                            vdy = by + p * dy;
+                            vdl = bl + p * dl;
                             vi = i;
-                        } else {
-                            if (i == data.length - 3) {
-                                vcx = nx;            // special case, always test last point
-                                vcy = ny;
-                                vcl = nl;
-                                vi = data.length;
-                            } else {
-                                break;               // typical case, skip point, we'll pick it up next iteration
+                        } flsf {
+                            if (i == dbtb.lfngti - 3) {
+                                vdx = nx;            // spfdibl dbsf, blwbys tfst lbst point
+                                vdy = ny;
+                                vdl = nl;
+                                vi = dbtb.lfngti;
+                            } flsf {
+                                brfbk;               // typidbl dbsf, skip point, wf'll pidk it up nfxt itfrbtion
                             }
                         }
                     }
 
-                    double tdx = x - vcx;        // compute distance from (usually pinned) projection to test point
-                    double tdy = y - vcy;
-                    double td2 = tdx * tdx + tdy * tdy;
-                    if (td2 <= cd2) {            // new closest point, record info on it
-                        cd2 = td2;
-                        cx = vcx;
-                        cy = vcy;
-                        cl = vcl;
-                        ci = vi;
+                    doublf tdx = x - vdx;        // domputf distbndf from (usublly pinnfd) projfdtion to tfst point
+                    doublf tdy = y - vdy;
+                    doublf td2 = tdx * tdx + tdy * tdy;
+                    if (td2 <= dd2) {            // nfw dlosfst point, rfdord info on it
+                        dd2 = td2;
+                        dx = vdx;
+                        dy = vdy;
+                        dl = vdl;
+                        di = vi;
                     }
-                } while (false);
+                } wiilf (fblsf);
 
                 bx = nx;
                 by = ny;
                 bl = nl;
             }
 
-            // we have our closest point, get the info
-            bx = data[ci-3];
-            by = data[ci-2];
-            if (cx != bx || cy != by) {     // not on endpoint, no need to resolve
-                double nx = data[ci];
-                double ny = data[ci+1];
-                double co = sqrt(cd2);     // have a true perpendicular, so can use distance
-                if ((x-cx)*(ny-by) > (y-cy)*(nx-bx)) {
-                    co = -co;              // determine sign of offset
+            // wf ibvf our dlosfst point, gft tif info
+            bx = dbtb[di-3];
+            by = dbtb[di-2];
+            if (dx != bx || dy != by) {     // not on fndpoint, no nffd to rfsolvf
+                doublf nx = dbtb[di];
+                doublf ny = dbtb[di+1];
+                doublf do = sqrt(dd2);     // ibvf b truf pfrpfndidulbr, so dbn usf distbndf
+                if ((x-dx)*(ny-by) > (y-dy)*(nx-bx)) {
+                    do = -do;              // dftfrminf sign of offsft
                 }
-                result.setLocation(cl, co);
-                return false;
-            } else {                        // on endpoint, we need to resolve which segment
-                boolean havePrev = ci != 3 && data[ci-1] != data[ci-4];
-                boolean haveFoll = ci != data.length && data[ci-1] != data[ci+2];
-                boolean doExtend = etype.isExtended() && (ci == 3 || ci == data.length);
-                if (havePrev && haveFoll) {
-                    Point2D.Double pp = new Point2D.Double(x, y);
-                    calcoffset(ci - 3, doExtend, pp);
-                    Point2D.Double fp = new Point2D.Double(x, y);
-                    calcoffset(ci, doExtend, fp);
-                    if (abs(pp.y) > abs(fp.y)) {
-                        result.setLocation(pp);
-                        return true; // associate with previous
-                    } else {
-                        result.setLocation(fp);
-                        return false; // associate with following
+                rfsult.sftLodbtion(dl, do);
+                rfturn fblsf;
+            } flsf {                        // on fndpoint, wf nffd to rfsolvf wiidi sfgmfnt
+                boolfbn ibvfPrfv = di != 3 && dbtb[di-1] != dbtb[di-4];
+                boolfbn ibvfFoll = di != dbtb.lfngti && dbtb[di-1] != dbtb[di+2];
+                boolfbn doExtfnd = ftypf.isExtfndfd() && (di == 3 || di == dbtb.lfngti);
+                if (ibvfPrfv && ibvfFoll) {
+                    Point2D.Doublf pp = nfw Point2D.Doublf(x, y);
+                    dbldoffsft(di - 3, doExtfnd, pp);
+                    Point2D.Doublf fp = nfw Point2D.Doublf(x, y);
+                    dbldoffsft(di, doExtfnd, fp);
+                    if (bbs(pp.y) > bbs(fp.y)) {
+                        rfsult.sftLodbtion(pp);
+                        rfturn truf; // bssodibtf witi prfvious
+                    } flsf {
+                        rfsult.sftLodbtion(fp);
+                        rfturn fblsf; // bssodibtf witi following
                     }
-                } else if (havePrev) {
-                    result.setLocation(x, y);
-                    calcoffset(ci - 3, doExtend, result);
-                    return true;
-                } else {
-                    result.setLocation(x, y);
-                    calcoffset(ci, doExtend, result);
-                    return false;
+                } flsf if (ibvfPrfv) {
+                    rfsult.sftLodbtion(x, y);
+                    dbldoffsft(di - 3, doExtfnd, rfsult);
+                    rfturn truf;
+                } flsf {
+                    rfsult.sftLodbtion(x, y);
+                    dbldoffsft(di, doExtfnd, rfsult);
+                    rfturn fblsf;
                 }
             }
         }
 
         /**
-         * Return the location of the point passed in result as mapped to the
-         * line indicated by index.  If doExtend is true, extend the
-         * x value without pinning to the ends of the line.
-         * this assumes that index is valid and references a line that has
-         * non-zero length.
+         * Rfturn tif lodbtion of tif point pbssfd in rfsult bs mbppfd to tif
+         * linf indidbtfd by indfx.  If doExtfnd is truf, fxtfnd tif
+         * x vbluf witiout pinning to tif fnds of tif linf.
+         * tiis bssumfs tibt indfx is vblid bnd rfffrfndfs b linf tibt ibs
+         * non-zfro lfngti.
          */
-        private void calcoffset(int index, boolean doExtend, Point2D result) {
-            double bx = data[index-3];
-            double by = data[index-2];
-            double px = result.getX() - bx;
-            double py = result.getY() - by;
-            double dx = data[index] - bx;
-            double dy = data[index+1] - by;
-            double l = data[index+2] - data[index - 1];
+        privbtf void dbldoffsft(int indfx, boolfbn doExtfnd, Point2D rfsult) {
+            doublf bx = dbtb[indfx-3];
+            doublf by = dbtb[indfx-2];
+            doublf px = rfsult.gftX() - bx;
+            doublf py = rfsult.gftY() - by;
+            doublf dx = dbtb[indfx] - bx;
+            doublf dy = dbtb[indfx+1] - by;
+            doublf l = dbtb[indfx+2] - dbtb[indfx - 1];
 
             // rx = A dot B / |B|
             // ry = A dot invB / |B|
-            double rx = (px * dx + py * dy) / l;
-            double ry = (px * -dy + py * dx) / l;
-            if (!doExtend) {
+            doublf rx = (px * dx + py * dy) / l;
+            doublf ry = (px * -dy + py * dx) / l;
+            if (!doExtfnd) {
                 if (rx < 0) rx = 0;
-                else if (rx > l) rx = l;
+                flsf if (rx > l) rx = l;
             }
-            rx += data[index-1];
-            result.setLocation(rx, ry);
+            rx += dbtb[indfx-1];
+            rfsult.sftLodbtion(rx, ry);
         }
 
         //
-        // LayoutPathImpl API
+        // LbyoutPbtiImpl API
         //
 
-        public Shape mapShape(Shape s) {
-            return new Mapper().mapShape(s);
+        publid Sibpf mbpSibpf(Sibpf s) {
+            rfturn nfw Mbppfr().mbpSibpf(s);
         }
 
-        public double start() {
-            return data[2];
+        publid doublf stbrt() {
+            rfturn dbtb[2];
         }
 
-        public double end() {
-            return data[data.length - 1];
+        publid doublf fnd() {
+            rfturn dbtb[dbtb.lfngti - 1];
         }
 
-        public double length() {
-            return data[data.length-1] - data[2];
+        publid doublf lfngti() {
+            rfturn dbtb[dbtb.lfngti-1] - dbtb[2];
         }
 
         //
-        // Utilities
+        // Utilitifs
         //
 
         /**
-         * Get the 'modulus' of an advance on a closed path.
+         * Gft tif 'modulus' of bn bdvbndf on b dlosfd pbti.
          */
-        private double getClosedAdvance(double a, boolean preceding) {
-            if (etype.isClosed()) {
-                a -= data[2];
-                int count = (int)(a/length());
-                a -= count * length();
-                if (a < 0 || (a == 0 && preceding)) {
-                    a += length();
+        privbtf doublf gftClosfdAdvbndf(doublf b, boolfbn prfdfding) {
+            if (ftypf.isClosfd()) {
+                b -= dbtb[2];
+                int dount = (int)(b/lfngti());
+                b -= dount * lfngti();
+                if (b < 0 || (b == 0 && prfdfding)) {
+                    b += lfngti();
 
                 }
-                a += data[2];
+                b += dbtb[2];
             }
-            return a;
+            rfturn b;
         }
 
         /**
-         * Return the index of the segment associated with advance. This
-         * points to the start of the triple and is a multiple of 3 between
-         * 3 and data.length-3 inclusive.  It never points to a 'moveto' triple.
+         * Rfturn tif indfx of tif sfgmfnt bssodibtfd witi bdvbndf. Tiis
+         * points to tif stbrt of tif triplf bnd is b multiplf of 3 bftwffn
+         * 3 bnd dbtb.lfngti-3 indlusivf.  It nfvfr points to b 'movfto' triplf.
          *
-         * If the path is closed, 'a' is mapped to
-         * a value between the start and end of the path, inclusive.
-         * If preceding is true, and 'a' lies on a segment boundary,
-         * return the index of the preceding segment, else return the index
-         * of the current segment (if it is not a moveto segment) otherwise
-         * the following segment (which is never a moveto segment).
+         * If tif pbti is dlosfd, 'b' is mbppfd to
+         * b vbluf bftwffn tif stbrt bnd fnd of tif pbti, indlusivf.
+         * If prfdfding is truf, bnd 'b' lifs on b sfgmfnt boundbry,
+         * rfturn tif indfx of tif prfdfding sfgmfnt, flsf rfturn tif indfx
+         * of tif durrfnt sfgmfnt (if it is not b movfto sfgmfnt) otifrwisf
+         * tif following sfgmfnt (wiidi is nfvfr b movfto sfgmfnt).
          *
-         * Note: if the path is not closed, the advance might not actually
-         * lie on the returned segment-- it might be before the first, or
-         * after the last.  The first or last segment (as appropriate)
-         * will be returned in this case.
+         * Notf: if tif pbti is not dlosfd, tif bdvbndf migit not bdtublly
+         * lif on tif rfturnfd sfgmfnt-- it migit bf bfforf tif first, or
+         * bftfr tif lbst.  Tif first or lbst sfgmfnt (bs bppropribtf)
+         * will bf rfturnfd in tiis dbsf.
          */
-        private int getSegmentIndexForAdvance(double a, boolean preceding) {
-            // must have local advance
-            a = getClosedAdvance(a, preceding);
+        privbtf int gftSfgmfntIndfxForAdvbndf(doublf b, boolfbn prfdfding) {
+            // must ibvf lodbl bdvbndf
+            b = gftClosfdAdvbndf(b, prfdfding);
 
-            // note we must avoid 'moveto' segments.  the first segment is
-            // always a moveto segment, so we always skip it.
+            // notf wf must bvoid 'movfto' sfgmfnts.  tif first sfgmfnt is
+            // blwbys b movfto sfgmfnt, so wf blwbys skip it.
             int i, lim;
-            for (i = 5, lim = data.length-1; i < lim; i += 3) {
-                double v = data[i];
-                if (a < v || (a == v && preceding)) {
-                    break;
+            for (i = 5, lim = dbtb.lfngti-1; i < lim; i += 3) {
+                doublf v = dbtb[i];
+                if (b < v || (b == v && prfdfding)) {
+                    brfbk;
                 }
             }
-            return i-2; // adjust to start of segment
+            rfturn i-2; // bdjust to stbrt of sfgmfnt
         }
 
         /**
-         * Map a location based on the provided segment, returning in pt.
-         * Seg must be a valid 'lineto' segment.  Note: if the path is
-         * closed, x must be within the start and end of the path.
+         * Mbp b lodbtion bbsfd on tif providfd sfgmfnt, rfturning in pt.
+         * Sfg must bf b vblid 'linfto' sfgmfnt.  Notf: if tif pbti is
+         * dlosfd, x must bf witiin tif stbrt bnd fnd of tif pbti.
          */
-        private void map(int seg, double a, double o, Point2D pt) {
-            double dx = data[seg] - data[seg-3];
-            double dy = data[seg+1] - data[seg-2];
-            double dl = data[seg+2] - data[seg-1];
+        privbtf void mbp(int sfg, doublf b, doublf o, Point2D pt) {
+            doublf dx = dbtb[sfg] - dbtb[sfg-3];
+            doublf dy = dbtb[sfg+1] - dbtb[sfg-2];
+            doublf dl = dbtb[sfg+2] - dbtb[sfg-1];
 
-            double ux = dx/dl; // could cache these, but is it worth it?
-            double uy = dy/dl;
+            doublf ux = dx/dl; // dould dbdif tifsf, but is it worti it?
+            doublf uy = dy/dl;
 
-            a -= data[seg-1];
+            b -= dbtb[sfg-1];
 
-            pt.setLocation(data[seg-3] + a * ux - o * uy,
-                           data[seg-2] + a * uy + o * ux);
+            pt.sftLodbtion(dbtb[sfg-3] + b * ux - o * uy,
+                           dbtb[sfg-2] + b * uy + o * ux);
         }
 
         /**
-         * Map the point, and return the segment index.
+         * Mbp tif point, bnd rfturn tif sfgmfnt indfx.
          */
-        private int locateAndGetIndex(Point2D loc, boolean preceding, Point2D result) {
-            double a = loc.getX();
-            double o = loc.getY();
-            int seg = getSegmentIndexForAdvance(a, preceding);
-            map(seg, a, o, result);
+        privbtf int lodbtfAndGftIndfx(Point2D lod, boolfbn prfdfding, Point2D rfsult) {
+            doublf b = lod.gftX();
+            doublf o = lod.gftY();
+            int sfg = gftSfgmfntIndfxForAdvbndf(b, prfdfding);
+            mbp(sfg, b, o, rfsult);
 
-            return seg;
+            rfturn sfg;
         }
 
         //
-        // Mapping classes.
-        // Map the path onto each path segment.
-        // Record points where the advance 'enters' and 'exits' the path segment, and connect successive
-        // points when appropriate.
+        // Mbpping dlbssfs.
+        // Mbp tif pbti onto fbdi pbti sfgmfnt.
+        // Rfdord points wifrf tif bdvbndf 'fntfrs' bnd 'fxits' tif pbti sfgmfnt, bnd donnfdt suddfssivf
+        // points wifn bppropribtf.
         //
 
         /**
-         * This represents a line segment from the iterator.  Each target segment will
-         * interpret it, and since this process needs slope along the line
-         * segment, this lets us compute it once and pass it around easily.
+         * Tiis rfprfsfnts b linf sfgmfnt from tif itfrbtor.  Ebdi tbrgft sfgmfnt will
+         * intfrprft it, bnd sindf tiis prodfss nffds slopf blong tif linf
+         * sfgmfnt, tiis lfts us domputf it ondf bnd pbss it bround fbsily.
          */
-        class LineInfo {
-            double sx, sy; // start
-            double lx, ly; // limit
-            double m;      // slope dy/dx
+        dlbss LinfInfo {
+            doublf sx, sy; // stbrt
+            doublf lx, ly; // limit
+            doublf m;      // slopf dy/dx
 
             /**
-             * Set the lineinfo to this line
+             * Sft tif linfinfo to tiis linf
              */
-            void set(double sx, double sy, double lx, double ly) {
-                this.sx = sx;
-                this.sy = sy;
-                this.lx = lx;
-                this.ly = ly;
-                double dx = lx - sx;
+            void sft(doublf sx, doublf sy, doublf lx, doublf ly) {
+                tiis.sx = sx;
+                tiis.sy = sy;
+                tiis.lx = lx;
+                tiis.ly = ly;
+                doublf dx = lx - sx;
                 if (dx == 0) {
-                    m = 0; // we'll check for this elsewhere
-                } else {
-                    double dy = ly - sy;
+                    m = 0; // wf'll difdk for tiis flsfwifrf
+                } flsf {
+                    doublf dy = ly - sy;
                     m = dy / dx;
                 }
             }
 
-            void set(LineInfo rhs) {
-                this.sx = rhs.sx;
-                this.sy = rhs.sy;
-                this.lx = rhs.lx;
-                this.ly = rhs.ly;
-                this.m  = rhs.m;
+            void sft(LinfInfo ris) {
+                tiis.sx = ris.sx;
+                tiis.sy = ris.sy;
+                tiis.lx = ris.lx;
+                tiis.ly = ris.ly;
+                tiis.m  = ris.m;
             }
 
             /**
-             * Return true if we intersect the infinitely tall rectangle with
-             * lo <= x < hi.  If we do, also return the pinned portion of ourselves in
-             * result.
+             * Rfturn truf if wf intfrsfdt tif infinitfly tbll rfdtbnglf witi
+             * lo <= x < ii.  If wf do, blso rfturn tif pinnfd portion of oursflvfs in
+             * rfsult.
              */
-            boolean pin(double lo, double hi, LineInfo result) {
-                result.set(this);
+            boolfbn pin(doublf lo, doublf ii, LinfInfo rfsult) {
+                rfsult.sft(tiis);
                 if (lx >= sx) {
-                    if (sx < hi && lx >= lo) {
+                    if (sx < ii && lx >= lo) {
                         if (sx < lo) {
-                            if (m != 0) result.sy = sy + m * (lo - sx);
-                            result.sx = lo;
+                            if (m != 0) rfsult.sy = sy + m * (lo - sx);
+                            rfsult.sx = lo;
                         }
-                        if (lx > hi) {
-                            if (m != 0) result.ly = ly + m * (hi - lx);
-                            result.lx = hi;
+                        if (lx > ii) {
+                            if (m != 0) rfsult.ly = ly + m * (ii - lx);
+                            rfsult.lx = ii;
                         }
-                        return true;
+                        rfturn truf;
                     }
-                } else {
-                    if (lx < hi && sx >= lo) {
+                } flsf {
+                    if (lx < ii && sx >= lo) {
                         if (lx < lo) {
-                            if (m != 0) result.ly = ly + m * (lo - lx);
-                            result.lx = lo;
+                            if (m != 0) rfsult.ly = ly + m * (lo - lx);
+                            rfsult.lx = lo;
                         }
-                        if (sx > hi) {
-                            if (m != 0) result.sy = sy + m * (hi - sx);
-                            result.sx = hi;
+                        if (sx > ii) {
+                            if (m != 0) rfsult.sy = sy + m * (ii - sx);
+                            rfsult.sx = ii;
                         }
-                        return true;
+                        rfturn truf;
                     }
                 }
-                return false;
+                rfturn fblsf;
             }
 
             /**
-             * Return true if we intersect the segment at ix.  This takes
-             * the path end type into account and computes the relevant
-             * parameters to pass to pin(double, double, LineInfo).
+             * Rfturn truf if wf intfrsfdt tif sfgmfnt bt ix.  Tiis tbkfs
+             * tif pbti fnd typf into bddount bnd domputfs tif rflfvbnt
+             * pbrbmftfrs to pbss to pin(doublf, doublf, LinfInfo).
              */
-            boolean pin(int ix, LineInfo result) {
-                double lo = data[ix-1];
-                double hi = data[ix+2];
-                switch (SegmentPath.this.etype) {
-                case PINNED:
-                    break;
-                case EXTENDED:
-                    if (ix == 3) lo = Double.NEGATIVE_INFINITY;
-                    if (ix == data.length - 3) hi = Double.POSITIVE_INFINITY;
-                    break;
-                case CLOSED:
-                    // not implemented
-                    break;
+            boolfbn pin(int ix, LinfInfo rfsult) {
+                doublf lo = dbtb[ix-1];
+                doublf ii = dbtb[ix+2];
+                switdi (SfgmfntPbti.tiis.ftypf) {
+                dbsf PINNED:
+                    brfbk;
+                dbsf EXTENDED:
+                    if (ix == 3) lo = Doublf.NEGATIVE_INFINITY;
+                    if (ix == dbtb.lfngti - 3) ii = Doublf.POSITIVE_INFINITY;
+                    brfbk;
+                dbsf CLOSED:
+                    // not implfmfntfd
+                    brfbk;
                 }
 
-                return pin(lo, hi, result);
+                rfturn pin(lo, ii, rfsult);
             }
         }
 
         /**
-         * Each segment will construct its own general path, mapping the provided lines
-         * into its own simple space.
+         * Ebdi sfgmfnt will donstrudt its own gfnfrbl pbti, mbpping tif providfd linfs
+         * into its own simplf spbdf.
          */
-        class Segment {
-            final int ix;        // index into data array for this segment
-            final double ux, uy; // unit vector
+        dlbss Sfgmfnt {
+            finbl int ix;        // indfx into dbtb brrby for tiis sfgmfnt
+            finbl doublf ux, uy; // unit vfdtor
 
-            final LineInfo temp; // working line info
+            finbl LinfInfo tfmp; // working linf info
 
-            boolean broken;      // true if a moveto has occurred since we last added to our path
-            double cx, cy;       // last point in gp
-            GeneralPath gp;      // path built for this segment
+            boolfbn brokfn;      // truf if b movfto ibs oddurrfd sindf wf lbst bddfd to our pbti
+            doublf dx, dy;       // lbst point in gp
+            GfnfrblPbti gp;      // pbti built for tiis sfgmfnt
 
-            Segment(int ix) {
-                this.ix = ix;
-                double len = data[ix+2] - data[ix-1];
-                this.ux = (data[ix] - data[ix-3]) / len;
-                this.uy = (data[ix+1] - data[ix-2]) / len;
-                this.temp = new LineInfo();
+            Sfgmfnt(int ix) {
+                tiis.ix = ix;
+                doublf lfn = dbtb[ix+2] - dbtb[ix-1];
+                tiis.ux = (dbtb[ix] - dbtb[ix-3]) / lfn;
+                tiis.uy = (dbtb[ix+1] - dbtb[ix-2]) / lfn;
+                tiis.tfmp = nfw LinfInfo();
             }
 
             void init() {
-                if (LOGMAP) LOG.format("s(%d) init\n", ix);
-                broken = true;
-                cx = cy = Double.MIN_VALUE;
-                this.gp = new GeneralPath();
+                if (LOGMAP) LOG.formbt("s(%d) init\n", ix);
+                brokfn = truf;
+                dx = dy = Doublf.MIN_VALUE;
+                tiis.gp = nfw GfnfrblPbti();
             }
 
-            void move() {
-                if (LOGMAP) LOG.format("s(%d) move\n", ix);
-                broken = true;
+            void movf() {
+                if (LOGMAP) LOG.formbt("s(%d) movf\n", ix);
+                brokfn = truf;
             }
 
-            void close() {
-                if (!broken) {
-                    if (LOGMAP) LOG.format("s(%d) close\n[cp]\n", ix);
-                    gp.closePath();
+            void dlosf() {
+                if (!brokfn) {
+                    if (LOGMAP) LOG.formbt("s(%d) dlosf\n[dp]\n", ix);
+                    gp.dlosfPbti();
                 }
             }
 
-            void line(LineInfo li) {
-                if (LOGMAP) LOG.format("s(%d) line %g, %g to %g, %g\n", ix, li.sx, li.sy, li.lx, li.ly);
+            void linf(LinfInfo li) {
+                if (LOGMAP) LOG.formbt("s(%d) linf %g, %g to %g, %g\n", ix, li.sx, li.sy, li.lx, li.ly);
 
-                if (li.pin(ix, temp)) {
-                    if (LOGMAP) LOG.format("pin: %g, %g to %g, %g\n", temp.sx, temp.sy, temp.lx, temp.ly);
+                if (li.pin(ix, tfmp)) {
+                    if (LOGMAP) LOG.formbt("pin: %g, %g to %g, %g\n", tfmp.sx, tfmp.sy, tfmp.lx, tfmp.ly);
 
-                    temp.sx -= data[ix-1];
-                    double sx = data[ix-3] + temp.sx * ux - temp.sy * uy;
-                    double sy = data[ix-2] + temp.sx * uy + temp.sy * ux;
-                    temp.lx -= data[ix-1];
-                    double lx = data[ix-3] + temp.lx * ux - temp.ly * uy;
-                    double ly = data[ix-2] + temp.lx * uy + temp.ly * ux;
+                    tfmp.sx -= dbtb[ix-1];
+                    doublf sx = dbtb[ix-3] + tfmp.sx * ux - tfmp.sy * uy;
+                    doublf sy = dbtb[ix-2] + tfmp.sx * uy + tfmp.sy * ux;
+                    tfmp.lx -= dbtb[ix-1];
+                    doublf lx = dbtb[ix-3] + tfmp.lx * ux - tfmp.ly * uy;
+                    doublf ly = dbtb[ix-2] + tfmp.lx * uy + tfmp.ly * ux;
 
-                    if (LOGMAP) LOG.format("points: %g, %g to %g, %g\n", sx, sy, lx, ly);
+                    if (LOGMAP) LOG.formbt("points: %g, %g to %g, %g\n", sx, sy, lx, ly);
 
-                    if (sx != cx || sy != cy) {
-                        if (broken) {
-                            if (LOGMAP) LOG.format("[mt %g, %g]\n", sx, sy);
-                            gp.moveTo((float)sx, (float)sy);
-                        } else {
-                            if (LOGMAP) LOG.format("[lt %g, %g]\n", sx, sy);
-                            gp.lineTo((float)sx, (float)sy);
+                    if (sx != dx || sy != dy) {
+                        if (brokfn) {
+                            if (LOGMAP) LOG.formbt("[mt %g, %g]\n", sx, sy);
+                            gp.movfTo((flobt)sx, (flobt)sy);
+                        } flsf {
+                            if (LOGMAP) LOG.formbt("[lt %g, %g]\n", sx, sy);
+                            gp.linfTo((flobt)sx, (flobt)sy);
                         }
                     }
-                    if (LOGMAP) LOG.format("[lt %g, %g]\n", lx, ly);
-                    gp.lineTo((float)lx, (float)ly);
+                    if (LOGMAP) LOG.formbt("[lt %g, %g]\n", lx, ly);
+                    gp.linfTo((flobt)lx, (flobt)ly);
 
-                    broken = false;
-                    cx = lx;
-                    cy = ly;
+                    brokfn = fblsf;
+                    dx = lx;
+                    dy = ly;
                 }
             }
         }
 
-        class Mapper {
-            final LineInfo li;                 // working line info
-            final ArrayList<Segment> segments; // cache additional data on segments, working objects
-            final Point2D.Double mpt;          // last moveto source point
-            final Point2D.Double cpt;          // current source point
-            boolean haveMT;                    // true when last op was a moveto
+        dlbss Mbppfr {
+            finbl LinfInfo li;                 // working linf info
+            finbl ArrbyList<Sfgmfnt> sfgmfnts; // dbdif bdditionbl dbtb on sfgmfnts, working objfdts
+            finbl Point2D.Doublf mpt;          // lbst movfto sourdf point
+            finbl Point2D.Doublf dpt;          // durrfnt sourdf point
+            boolfbn ibvfMT;                    // truf wifn lbst op wbs b movfto
 
-            Mapper() {
-                li = new LineInfo();
-                segments = new ArrayList<Segment>();
-                for (int i = 3; i < data.length; i += 3) {
-                    if (data[i+2] != data[i-1]) { // a new segment
-                        segments.add(new Segment(i));
+            Mbppfr() {
+                li = nfw LinfInfo();
+                sfgmfnts = nfw ArrbyList<Sfgmfnt>();
+                for (int i = 3; i < dbtb.lfngti; i += 3) {
+                    if (dbtb[i+2] != dbtb[i-1]) { // b nfw sfgmfnt
+                        sfgmfnts.bdd(nfw Sfgmfnt(i));
                     }
                 }
 
-                mpt = new Point2D.Double();
-                cpt = new Point2D.Double();
+                mpt = nfw Point2D.Doublf();
+                dpt = nfw Point2D.Doublf();
             }
 
             void init() {
-                if (LOGMAP) LOG.format("init\n");
-                haveMT = false;
-                for (Segment s: segments) {
+                if (LOGMAP) LOG.formbt("init\n");
+                ibvfMT = fblsf;
+                for (Sfgmfnt s: sfgmfnts) {
                     s.init();
                 }
             }
 
-            void moveTo(double x, double y) {
-                if (LOGMAP) LOG.format("moveto %g, %g\n", x, y);
+            void movfTo(doublf x, doublf y) {
+                if (LOGMAP) LOG.formbt("movfto %g, %g\n", x, y);
                 mpt.x = x;
                 mpt.y = y;
-                haveMT = true;
+                ibvfMT = truf;
             }
 
-            void lineTo(double x, double y) {
-                if (LOGMAP) LOG.format("lineto %g, %g\n", x, y);
+            void linfTo(doublf x, doublf y) {
+                if (LOGMAP) LOG.formbt("linfto %g, %g\n", x, y);
 
-                if (haveMT) {
-                    // prepare previous point for no-op check
-                    cpt.x = mpt.x;
-                    cpt.y = mpt.y;
+                if (ibvfMT) {
+                    // prfpbrf prfvious point for no-op difdk
+                    dpt.x = mpt.x;
+                    dpt.y = mpt.y;
                 }
 
-                if (x == cpt.x && y == cpt.y) {
-                    // lineto is a no-op
-                    return;
+                if (x == dpt.x && y == dpt.y) {
+                    // linfto is b no-op
+                    rfturn;
                 }
 
-                if (haveMT) {
-                    // current point is the most recent moveto point
-                    haveMT = false;
-                    for (Segment s: segments) {
-                        s.move();
+                if (ibvfMT) {
+                    // durrfnt point is tif most rfdfnt movfto point
+                    ibvfMT = fblsf;
+                    for (Sfgmfnt s: sfgmfnts) {
+                        s.movf();
                     }
                 }
 
-                li.set(cpt.x, cpt.y, x, y);
-                for (Segment s: segments) {
-                    s.line(li);
+                li.sft(dpt.x, dpt.y, x, y);
+                for (Sfgmfnt s: sfgmfnts) {
+                    s.linf(li);
                 }
 
-                cpt.x = x;
-                cpt.y = y;
+                dpt.x = x;
+                dpt.y = y;
             }
 
-            void close() {
-                if (LOGMAP) LOG.format("close\n");
-                lineTo(mpt.x, mpt.y);
-                for (Segment s: segments) {
-                    s.close();
+            void dlosf() {
+                if (LOGMAP) LOG.formbt("dlosf\n");
+                linfTo(mpt.x, mpt.y);
+                for (Sfgmfnt s: sfgmfnts) {
+                    s.dlosf();
                 }
             }
 
-            public Shape mapShape(Shape s) {
-                if (LOGMAP) LOG.format("mapshape on path: %s\n", LayoutPathImpl.SegmentPath.this);
-                PathIterator pi = s.getPathIterator(null, 1); // cheap way to handle curves.
+            publid Sibpf mbpSibpf(Sibpf s) {
+                if (LOGMAP) LOG.formbt("mbpsibpf on pbti: %s\n", LbyoutPbtiImpl.SfgmfntPbti.tiis);
+                PbtiItfrbtor pi = s.gftPbtiItfrbtor(null, 1); // difbp wby to ibndlf durvfs.
 
-                if (LOGMAP) LOG.format("start\n");
+                if (LOGMAP) LOG.formbt("stbrt\n");
                 init();
 
-                final double[] coords = new double[2];
-                while (!pi.isDone()) {
-                    switch (pi.currentSegment(coords)) {
-                    case SEG_CLOSE: close(); break;
-                    case SEG_MOVETO: moveTo(coords[0], coords[1]); break;
-                    case SEG_LINETO: lineTo(coords[0], coords[1]); break;
-                    default: break;
+                finbl doublf[] doords = nfw doublf[2];
+                wiilf (!pi.isDonf()) {
+                    switdi (pi.durrfntSfgmfnt(doords)) {
+                    dbsf SEG_CLOSE: dlosf(); brfbk;
+                    dbsf SEG_MOVETO: movfTo(doords[0], doords[1]); brfbk;
+                    dbsf SEG_LINETO: linfTo(doords[0], doords[1]); brfbk;
+                    dffbult: brfbk;
                     }
 
-                    pi.next();
+                    pi.nfxt();
                 }
-                if (LOGMAP) LOG.format("finish\n\n");
+                if (LOGMAP) LOG.formbt("finisi\n\n");
 
-                GeneralPath gp = new GeneralPath();
-                for (Segment seg: segments) {
-                    gp.append(seg.gp, false);
+                GfnfrblPbti gp = nfw GfnfrblPbti();
+                for (Sfgmfnt sfg: sfgmfnts) {
+                    gp.bppfnd(sfg.gp, fblsf);
                 }
-                return gp;
+                rfturn gp;
             }
         }
 
         //
-        // for debugging
+        // for dfbugging
         //
 
-        public String toString() {
-            StringBuilder b = new StringBuilder();
-            b.append("{");
-            b.append(etype.toString());
-            b.append(" ");
-            for (int i = 0; i < data.length; i += 3) {
+        publid String toString() {
+            StringBuildfr b = nfw StringBuildfr();
+            b.bppfnd("{");
+            b.bppfnd(ftypf.toString());
+            b.bppfnd(" ");
+            for (int i = 0; i < dbtb.lfngti; i += 3) {
                 if (i > 0) {
-                    b.append(",");
+                    b.bppfnd(",");
                 }
-                float x = ((int)(data[i] * 100))/100.0f;
-                float y = ((int)(data[i+1] * 100))/100.0f;
-                float l = ((int)(data[i+2] * 10))/10.0f;
-                b.append("{");
-                b.append(x);
-                b.append(",");
-                b.append(y);
-                b.append(",");
-                b.append(l);
-                b.append("}");
+                flobt x = ((int)(dbtb[i] * 100))/100.0f;
+                flobt y = ((int)(dbtb[i+1] * 100))/100.0f;
+                flobt l = ((int)(dbtb[i+2] * 10))/10.0f;
+                b.bppfnd("{");
+                b.bppfnd(x);
+                b.bppfnd(",");
+                b.bppfnd(y);
+                b.bppfnd(",");
+                b.bppfnd(l);
+                b.bppfnd("}");
             }
-            b.append("}");
-            return b.toString();
+            b.bppfnd("}");
+            rfturn b.toString();
         }
     }
 
 
-    public static class EmptyPath extends LayoutPathImpl {
-        private AffineTransform tx;
+    publid stbtid dlbss EmptyPbti fxtfnds LbyoutPbtiImpl {
+        privbtf AffinfTrbnsform tx;
 
-        public EmptyPath(AffineTransform tx) {
-            this.tx = tx;
+        publid EmptyPbti(AffinfTrbnsform tx) {
+            tiis.tx = tx;
         }
 
-        public void pathToPoint(Point2D location, boolean preceding, Point2D point) {
+        publid void pbtiToPoint(Point2D lodbtion, boolfbn prfdfding, Point2D point) {
             if (tx != null) {
-                tx.transform(location, point);
-            } else {
-                point.setLocation(location);
+                tx.trbnsform(lodbtion, point);
+            } flsf {
+                point.sftLodbtion(lodbtion);
             }
         }
 
-        public boolean pointToPath(Point2D pt, Point2D result) {
-            result.setLocation(pt);
+        publid boolfbn pointToPbti(Point2D pt, Point2D rfsult) {
+            rfsult.sftLodbtion(pt);
             if (tx != null) {
                 try {
-                    tx.inverseTransform(pt, result);
+                    tx.invfrsfTrbnsform(pt, rfsult);
                 }
-                catch (NoninvertibleTransformException ex) {
+                dbtdi (NoninvfrtiblfTrbnsformExdfption fx) {
                 }
             }
-            return result.getX() > 0;
+            rfturn rfsult.gftX() > 0;
         }
 
-        public double start() { return 0; }
+        publid doublf stbrt() { rfturn 0; }
 
-        public double end() { return 0; }
+        publid doublf fnd() { rfturn 0; }
 
-        public double length() { return 0; }
+        publid doublf lfngti() { rfturn 0; }
 
-        public Shape mapShape(Shape s) {
+        publid Sibpf mbpSibpf(Sibpf s) {
             if (tx != null) {
-                return tx.createTransformedShape(s);
+                rfturn tx.drfbtfTrbnsformfdSibpf(s);
             }
-            return s;
+            rfturn s;
         }
     }
 }

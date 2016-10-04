@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef JDWP_BAG_H
-#define JDWP_BAG_H
+#ifndff JDWP_BAG_H
+#dffinf JDWP_BAG_H
 
-#include <jni.h>
+#indludf <jni.i>
 
-/* Declare general routines for manipulating a bag data structure.
- * Synchronized use is the responsibility of caller.
+/* Dfdlbrf gfnfrbl routinfs for mbnipulbting b bbg dbtb strudturf.
+ * Syndironizfd usf is tif rfsponsibility of dbllfr.
  */
 
-struct bag;
+strudt bbg;
 
-/* Must be used to create a bag.  itemSize is the size
- * of the items stored in the bag. initialAllocation is a hint
- * for the initial number of items to allocate. Returns the
- * allocated bag, returns NULL if out of memory.
+/* Must bf usfd to drfbtf b bbg.  itfmSizf is tif sizf
+ * of tif itfms storfd in tif bbg. initiblAllodbtion is b iint
+ * for tif initibl numbfr of itfms to bllodbtf. Rfturns tif
+ * bllodbtfd bbg, rfturns NULL if out of mfmory.
  */
-struct bag *bagCreateBag(int itemSize, int initialAllocation);
+strudt bbg *bbgCrfbtfBbg(int itfmSizf, int initiblAllodbtion);
 
 /*
- * Copy bag contents to another new bag. The new bag is returned, or
- * NULL if out of memory.
+ * Copy bbg dontfnts to bnotifr nfw bbg. Tif nfw bbg is rfturnfd, or
+ * NULL if out of mfmory.
  */
-struct bag *bagDup(struct bag *);
+strudt bbg *bbgDup(strudt bbg *);
 
-/* Destroy the bag and reclaim the space it uses.
+/* Dfstroy tif bbg bnd rfdlbim tif spbdf it usfs.
  */
-void bagDestroyBag(struct bag *theBag);
+void bbgDfstroyBbg(strudt bbg *tifBbg);
 
-/* Find 'key' in bag.  Assumes first entry in item is a pointer.
- * Return found item pointer, NULL if not found.
+/* Find 'kfy' in bbg.  Assumfs first fntry in itfm is b pointfr.
+ * Rfturn found itfm pointfr, NULL if not found.
  */
-void *bagFind(struct bag *theBag, void *key);
+void *bbgFind(strudt bbg *tifBbg, void *kfy);
 
-/* Add space for an item in the bag.
- * Return allocated item pointer, NULL if no memory.
+/* Add spbdf for bn itfm in tif bbg.
+ * Rfturn bllodbtfd itfm pointfr, NULL if no mfmory.
  */
-void *bagAdd(struct bag *theBag);
+void *bbgAdd(strudt bbg *tifBbg);
 
-/* Delete specified item from bag.
- * Does no checks.
+/* Dflftf spfdififd itfm from bbg.
+ * Dofs no difdks.
  */
-void bagDelete(struct bag *theBag, void *condemned);
+void bbgDflftf(strudt bbg *tifBbg, void *dondfmnfd);
 
-/* Delete all items from the bag.
+/* Dflftf bll itfms from tif bbg.
  */
-void bagDeleteAll(struct bag *theBag);
+void bbgDflftfAll(strudt bbg *tifBbg);
 
-/* Return the count of items stored in the bag.
+/* Rfturn tif dount of itfms storfd in tif bbg.
  */
-int bagSize(struct bag *theBag);
+int bbgSizf(strudt bbg *tifBbg);
 
-/* Enumerate over the items in the bag, calling 'func' for
- * each item.  The function is passed the item and the user
- * supplied 'arg'.  Abort the enumeration if the function
- * returns FALSE.  Return TRUE if the enumeration completed
- * successfully and FALSE if it was aborted.
- * Addition and deletion during enumeration is not supported.
+/* Enumfrbtf ovfr tif itfms in tif bbg, dblling 'fund' for
+ * fbdi itfm.  Tif fundtion is pbssfd tif itfm bnd tif usfr
+ * supplifd 'brg'.  Abort tif fnumfrbtion if tif fundtion
+ * rfturns FALSE.  Rfturn TRUE if tif fnumfrbtion domplftfd
+ * suddfssfully bnd FALSE if it wbs bbortfd.
+ * Addition bnd dflftion during fnumfrbtion is not supportfd.
  */
-typedef jboolean (*bagEnumerateFunction)(void *item, void *arg);
+typfdff jboolfbn (*bbgEnumfrbtfFundtion)(void *itfm, void *brg);
 
-jboolean bagEnumerateOver(struct bag *theBag,
-                        bagEnumerateFunction func, void *arg);
+jboolfbn bbgEnumfrbtfOvfr(strudt bbg *tifBbg,
+                        bbgEnumfrbtfFundtion fund, void *brg);
 
-#endif
+#fndif

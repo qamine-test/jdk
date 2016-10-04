@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.proxy;
+
+import jbvb.io.*;
+import jbvb.nft.Sodkft;
+import jbvb.nft.InftAddrfss;
+
+/**
+ * Thf HttpRfdfivfSodkft dlbss fxtfnds thf WrbppfdSodkft dlbss
+ * by rfmoving thf HTTP protodol pbdkbging from thf input strfbm bnd
+ * formbtting thf output strfbm bs bn HTTP rfsponsf.
+ *
+ * NOTES:
+ *
+ * Thf output strfbm must bf fxpliditly dlosfd for thf output to bf
+ * sfnt, sindf thf HttpRfsponsfOutputStrfbm nffds to bufffr thf fntirf
+ * trbnsmission to bf bblf to fill in thf dontfnt-lfngth fifld of
+ * thf HTTP hfbdfr.  Closing this sodkft will do this.
+ *
+ * Thf donstrudtor blodks until thf HTTP protodol hfbdfr
+ * is rfdfivfd.  This dould bf fixfd, but I don't think it should bf b
+ * problfm bfdbusf this objfdt would not bf drfbtfd unlfss thf
+ * HttpAwbrfSfrvfrSodkft hbs dftfdtfd thf bfginning of thf hfbdfr
+ * bnywby, so thf rfst should bf thfrf.
+ *
+ * This sodkft dbn only bf usfd to prodfss onf POST bnd rfply to it.
+ * Anothfr mfssbgf would bf rfdfivfd on b nfwly bddfptfd sodkft bnywby.
+ */
+publid dlbss HttpRfdfivfSodkft fxtfnds WrbppfdSodkft implfmfnts RMISodkftInfo {
+
+    /** truf if thf HTTP hfbdfr hbs pushfd through thf output strfbm yft */
+    privbtf boolfbn hfbdfrSfnt = fblsf;
+
+    /**
+     * Lbyfr on top of b prf-fxisting Sodkft objfdt, bnd usf spfdififd
+     * input bnd output strfbms.
+     * @pbrbm sodkft thf prf-fxisting sodkft to usf
+     * @pbrbm in thf InputStrfbm to usf for this sodkft (dbn bf null)
+     * @pbrbm out thf OutputStrfbm to usf for this sodkft (dbn bf null)
+     */
+    publid HttpRfdfivfSodkft(Sodkft sodkft, InputStrfbm in, OutputStrfbm out)
+        throws IOExdfption
+    {
+        supfr(sodkft, in, out);
+
+        this.in = nfw HttpInputStrfbm(in != null ? in :
+                                                   sodkft.gftInputStrfbm());
+        this.out = (out != null ? out :
+                    sodkft.gftOutputStrfbm());
+    }
+
+    /**
+     * Indidbtf thbt this sodkft is not rfusbblf.
+     */
+    publid boolfbn isRfusbblf()
+    {
+        rfturn fblsf;
+    }
+
+    /**
+     * Gft thf bddrfss to whidh this sodkft is donnfdtfd.  "null" is blwbys
+     * rfturnfd (to indidbtf bn unknown bddrfss) bfdbusf thf originbting
+     * host's IP bddrfss dbnnot bf rflibbly dftfrminfd: both bfdbusf thf
+     * rfqufst probbbly wfnt through b proxy sfrvfr, bnd bfdbusf if it wbs
+     * dflivfrfd by b lodbl forwbrdfr (CGI sdript or sfrvlft), wf do NOT
+     * wbnt it to bppfbr bs if thf dbll is doming from thf lodbl host (in
+     * dbsf thf rfmotf objfdt mbkfs bddfss dontrol dfdisions bbsfd on thf
+     * "dlifnt host" of b rfmotf dbll; sff bugid 4399040).
+     */
+    publid InftAddrfss gftInftAddrfss() {
+        rfturn null;
+    }
+
+    /**
+     * Gft bn OutputStrfbm for this sodkft.
+     */
+    publid OutputStrfbm gftOutputStrfbm() throws IOExdfption
+    {
+        if (!hfbdfrSfnt) { // dould this bf donf in donstrudtor??
+            DbtbOutputStrfbm dos = nfw DbtbOutputStrfbm(out);
+            dos.writfBytfs("HTTP/1.0 200 OK\r\n");
+            dos.flush();
+            hfbdfrSfnt = truf;
+            out = nfw HttpOutputStrfbm(out);
+        }
+        rfturn out;
+    }
+
+    /**
+     * Closf thf sodkft.
+     */
+    publid syndhronizfd void dlosf() throws IOExdfption
+    {
+        gftOutputStrfbm().dlosf(); // mbkf surf rfsponsf is sfnt
+        sodkft.dlosf();
+    }
+
+    /**
+     * Rfturn string rfprfsfntbtion of thf sodkft.
+     */
+    publid String toString()
+    {
+        rfturn "HttpRfdfivf" + sodkft.toString();
+    }
+}

@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * A {@link Set} that further provides a <i>total ordering</i> on its elements.
- * The elements are ordered using their {@linkplain Comparable natural
- * ordering}, or by a {@link Comparator} typically provided at sorted
- * set creation time.  The set's iterator will traverse the set in
- * ascending element order. Several additional operations are provided
- * to take advantage of the ordering.  (This interface is the set
- * analogue of {@link SortedMap}.)
+ * A {@link Sft} tibt furtifr providfs b <i>totbl ordfring</i> on its flfmfnts.
+ * Tif flfmfnts brf ordfrfd using tifir {@linkplbin Compbrbblf nbturbl
+ * ordfring}, or by b {@link Compbrbtor} typidblly providfd bt sortfd
+ * sft drfbtion timf.  Tif sft's itfrbtor will trbvfrsf tif sft in
+ * bsdfnding flfmfnt ordfr. Sfvfrbl bdditionbl opfrbtions brf providfd
+ * to tbkf bdvbntbgf of tif ordfring.  (Tiis intfrfbdf is tif sft
+ * bnbloguf of {@link SortfdMbp}.)
  *
- * <p>All elements inserted into a sorted set must implement the <tt>Comparable</tt>
- * interface (or be accepted by the specified comparator).  Furthermore, all
- * such elements must be <i>mutually comparable</i>: <tt>e1.compareTo(e2)</tt>
- * (or <tt>comparator.compare(e1, e2)</tt>) must not throw a
- * <tt>ClassCastException</tt> for any elements <tt>e1</tt> and <tt>e2</tt> in
- * the sorted set.  Attempts to violate this restriction will cause the
- * offending method or constructor invocation to throw a
- * <tt>ClassCastException</tt>.
+ * <p>All flfmfnts insfrtfd into b sortfd sft must implfmfnt tif <tt>Compbrbblf</tt>
+ * intfrfbdf (or bf bddfptfd by tif spfdififd dompbrbtor).  Furtifrmorf, bll
+ * sudi flfmfnts must bf <i>mutublly dompbrbblf</i>: <tt>f1.dompbrfTo(f2)</tt>
+ * (or <tt>dompbrbtor.dompbrf(f1, f2)</tt>) must not tirow b
+ * <tt>ClbssCbstExdfption</tt> for bny flfmfnts <tt>f1</tt> bnd <tt>f2</tt> in
+ * tif sortfd sft.  Attfmpts to violbtf tiis rfstridtion will dbusf tif
+ * offfnding mftiod or donstrudtor invodbtion to tirow b
+ * <tt>ClbssCbstExdfption</tt>.
  *
- * <p>Note that the ordering maintained by a sorted set (whether or not an
- * explicit comparator is provided) must be <i>consistent with equals</i> if
- * the sorted set is to correctly implement the <tt>Set</tt> interface.  (See
- * the <tt>Comparable</tt> interface or <tt>Comparator</tt> interface for a
- * precise definition of <i>consistent with equals</i>.)  This is so because
- * the <tt>Set</tt> interface is defined in terms of the <tt>equals</tt>
- * operation, but a sorted set performs all element comparisons using its
- * <tt>compareTo</tt> (or <tt>compare</tt>) method, so two elements that are
- * deemed equal by this method are, from the standpoint of the sorted set,
- * equal.  The behavior of a sorted set <i>is</i> well-defined even if its
- * ordering is inconsistent with equals; it just fails to obey the general
- * contract of the <tt>Set</tt> interface.
+ * <p>Notf tibt tif ordfring mbintbinfd by b sortfd sft (wiftifr or not bn
+ * fxplidit dompbrbtor is providfd) must bf <i>donsistfnt witi fqubls</i> if
+ * tif sortfd sft is to dorrfdtly implfmfnt tif <tt>Sft</tt> intfrfbdf.  (Sff
+ * tif <tt>Compbrbblf</tt> intfrfbdf or <tt>Compbrbtor</tt> intfrfbdf for b
+ * prfdisf dffinition of <i>donsistfnt witi fqubls</i>.)  Tiis is so bfdbusf
+ * tif <tt>Sft</tt> intfrfbdf is dffinfd in tfrms of tif <tt>fqubls</tt>
+ * opfrbtion, but b sortfd sft pfrforms bll flfmfnt dompbrisons using its
+ * <tt>dompbrfTo</tt> (or <tt>dompbrf</tt>) mftiod, so two flfmfnts tibt brf
+ * dffmfd fqubl by tiis mftiod brf, from tif stbndpoint of tif sortfd sft,
+ * fqubl.  Tif bfibvior of b sortfd sft <i>is</i> wfll-dffinfd fvfn if its
+ * ordfring is indonsistfnt witi fqubls; it just fbils to obfy tif gfnfrbl
+ * dontrbdt of tif <tt>Sft</tt> intfrfbdf.
  *
- * <p>All general-purpose sorted set implementation classes should
- * provide four "standard" constructors: 1) A void (no arguments)
- * constructor, which creates an empty sorted set sorted according to
- * the natural ordering of its elements.  2) A constructor with a
- * single argument of type <tt>Comparator</tt>, which creates an empty
- * sorted set sorted according to the specified comparator.  3) A
- * constructor with a single argument of type <tt>Collection</tt>,
- * which creates a new sorted set with the same elements as its
- * argument, sorted according to the natural ordering of the elements.
- * 4) A constructor with a single argument of type <tt>SortedSet</tt>,
- * which creates a new sorted set with the same elements and the same
- * ordering as the input sorted set.  There is no way to enforce this
- * recommendation, as interfaces cannot contain constructors.
+ * <p>All gfnfrbl-purposf sortfd sft implfmfntbtion dlbssfs siould
+ * providf four "stbndbrd" donstrudtors: 1) A void (no brgumfnts)
+ * donstrudtor, wiidi drfbtfs bn fmpty sortfd sft sortfd bddording to
+ * tif nbturbl ordfring of its flfmfnts.  2) A donstrudtor witi b
+ * singlf brgumfnt of typf <tt>Compbrbtor</tt>, wiidi drfbtfs bn fmpty
+ * sortfd sft sortfd bddording to tif spfdififd dompbrbtor.  3) A
+ * donstrudtor witi b singlf brgumfnt of typf <tt>Collfdtion</tt>,
+ * wiidi drfbtfs b nfw sortfd sft witi tif sbmf flfmfnts bs its
+ * brgumfnt, sortfd bddording to tif nbturbl ordfring of tif flfmfnts.
+ * 4) A donstrudtor witi b singlf brgumfnt of typf <tt>SortfdSft</tt>,
+ * wiidi drfbtfs b nfw sortfd sft witi tif sbmf flfmfnts bnd tif sbmf
+ * ordfring bs tif input sortfd sft.  Tifrf is no wby to fnfordf tiis
+ * rfdommfndbtion, bs intfrfbdfs dbnnot dontbin donstrudtors.
  *
- * <p>Note: several methods return subsets with restricted ranges.
- * Such ranges are <i>half-open</i>, that is, they include their low
- * endpoint but not their high endpoint (where applicable).
- * If you need a <i>closed range</i> (which includes both endpoints), and
- * the element type allows for calculation of the successor of a given
- * value, merely request the subrange from <tt>lowEndpoint</tt> to
- * <tt>successor(highEndpoint)</tt>.  For example, suppose that <tt>s</tt>
- * is a sorted set of strings.  The following idiom obtains a view
- * containing all of the strings in <tt>s</tt> from <tt>low</tt> to
- * <tt>high</tt>, inclusive:<pre>
- *   SortedSet&lt;String&gt; sub = s.subSet(low, high+"\0");</pre>
+ * <p>Notf: sfvfrbl mftiods rfturn subsfts witi rfstridtfd rbngfs.
+ * Sudi rbngfs brf <i>iblf-opfn</i>, tibt is, tify indludf tifir low
+ * fndpoint but not tifir iigi fndpoint (wifrf bpplidbblf).
+ * If you nffd b <i>dlosfd rbngf</i> (wiidi indludfs boti fndpoints), bnd
+ * tif flfmfnt typf bllows for dbldulbtion of tif suddfssor of b givfn
+ * vbluf, mfrfly rfqufst tif subrbngf from <tt>lowEndpoint</tt> to
+ * <tt>suddfssor(iigiEndpoint)</tt>.  For fxbmplf, supposf tibt <tt>s</tt>
+ * is b sortfd sft of strings.  Tif following idiom obtbins b vifw
+ * dontbining bll of tif strings in <tt>s</tt> from <tt>low</tt> to
+ * <tt>iigi</tt>, indlusivf:<prf>
+ *   SortfdSft&lt;String&gt; sub = s.subSft(low, iigi+"\0");</prf>
  *
- * A similar technique can be used to generate an <i>open range</i> (which
- * contains neither endpoint).  The following idiom obtains a view
- * containing all of the Strings in <tt>s</tt> from <tt>low</tt> to
- * <tt>high</tt>, exclusive:<pre>
- *   SortedSet&lt;String&gt; sub = s.subSet(low+"\0", high);</pre>
+ * A similbr tfdiniquf dbn bf usfd to gfnfrbtf bn <i>opfn rbngf</i> (wiidi
+ * dontbins nfitifr fndpoint).  Tif following idiom obtbins b vifw
+ * dontbining bll of tif Strings in <tt>s</tt> from <tt>low</tt> to
+ * <tt>iigi</tt>, fxdlusivf:<prf>
+ *   SortfdSft&lt;String&gt; sub = s.subSft(low+"\0", iigi);</prf>
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @param <E> the type of elements maintained by this set
+ * @pbrbm <E> tif typf of flfmfnts mbintbinfd by tiis sft
  *
- * @author  Josh Bloch
- * @see Set
- * @see TreeSet
- * @see SortedMap
- * @see Collection
- * @see Comparable
- * @see Comparator
- * @see ClassCastException
- * @since 1.2
+ * @butior  Josi Blodi
+ * @sff Sft
+ * @sff TrffSft
+ * @sff SortfdMbp
+ * @sff Collfdtion
+ * @sff Compbrbblf
+ * @sff Compbrbtor
+ * @sff ClbssCbstExdfption
+ * @sindf 1.2
  */
 
-public interface SortedSet<E> extends Set<E> {
+publid intfrfbdf SortfdSft<E> fxtfnds Sft<E> {
     /**
-     * Returns the comparator used to order the elements in this set,
-     * or <tt>null</tt> if this set uses the {@linkplain Comparable
-     * natural ordering} of its elements.
+     * Rfturns tif dompbrbtor usfd to ordfr tif flfmfnts in tiis sft,
+     * or <tt>null</tt> if tiis sft usfs tif {@linkplbin Compbrbblf
+     * nbturbl ordfring} of its flfmfnts.
      *
-     * @return the comparator used to order the elements in this set,
-     *         or <tt>null</tt> if this set uses the natural ordering
-     *         of its elements
+     * @rfturn tif dompbrbtor usfd to ordfr tif flfmfnts in tiis sft,
+     *         or <tt>null</tt> if tiis sft usfs tif nbturbl ordfring
+     *         of its flfmfnts
      */
-    Comparator<? super E> comparator();
+    Compbrbtor<? supfr E> dompbrbtor();
 
     /**
-     * Returns a view of the portion of this set whose elements range
-     * from <tt>fromElement</tt>, inclusive, to <tt>toElement</tt>,
-     * exclusive.  (If <tt>fromElement</tt> and <tt>toElement</tt> are
-     * equal, the returned set is empty.)  The returned set is backed
-     * by this set, so changes in the returned set are reflected in
-     * this set, and vice-versa.  The returned set supports all
-     * optional set operations that this set supports.
+     * Rfturns b vifw of tif portion of tiis sft wiosf flfmfnts rbngf
+     * from <tt>fromElfmfnt</tt>, indlusivf, to <tt>toElfmfnt</tt>,
+     * fxdlusivf.  (If <tt>fromElfmfnt</tt> bnd <tt>toElfmfnt</tt> brf
+     * fqubl, tif rfturnfd sft is fmpty.)  Tif rfturnfd sft is bbdkfd
+     * by tiis sft, so dibngfs in tif rfturnfd sft brf rfflfdtfd in
+     * tiis sft, bnd vidf-vfrsb.  Tif rfturnfd sft supports bll
+     * optionbl sft opfrbtions tibt tiis sft supports.
      *
-     * <p>The returned set will throw an <tt>IllegalArgumentException</tt>
-     * on an attempt to insert an element outside its range.
+     * <p>Tif rfturnfd sft will tirow bn <tt>IllfgblArgumfntExdfption</tt>
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
      *
-     * @param fromElement low endpoint (inclusive) of the returned set
-     * @param toElement high endpoint (exclusive) of the returned set
-     * @return a view of the portion of this set whose elements range from
-     *         <tt>fromElement</tt>, inclusive, to <tt>toElement</tt>, exclusive
-     * @throws ClassCastException if <tt>fromElement</tt> and
-     *         <tt>toElement</tt> cannot be compared to one another using this
-     *         set's comparator (or, if the set has no comparator, using
-     *         natural ordering).  Implementations may, but are not required
-     *         to, throw this exception if <tt>fromElement</tt> or
-     *         <tt>toElement</tt> cannot be compared to elements currently in
-     *         the set.
-     * @throws NullPointerException if <tt>fromElement</tt> or
-     *         <tt>toElement</tt> is null and this set does not permit null
-     *         elements
-     * @throws IllegalArgumentException if <tt>fromElement</tt> is
-     *         greater than <tt>toElement</tt>; or if this set itself
-     *         has a restricted range, and <tt>fromElement</tt> or
-     *         <tt>toElement</tt> lies outside the bounds of the range
+     * @pbrbm fromElfmfnt low fndpoint (indlusivf) of tif rfturnfd sft
+     * @pbrbm toElfmfnt iigi fndpoint (fxdlusivf) of tif rfturnfd sft
+     * @rfturn b vifw of tif portion of tiis sft wiosf flfmfnts rbngf from
+     *         <tt>fromElfmfnt</tt>, indlusivf, to <tt>toElfmfnt</tt>, fxdlusivf
+     * @tirows ClbssCbstExdfption if <tt>fromElfmfnt</tt> bnd
+     *         <tt>toElfmfnt</tt> dbnnot bf dompbrfd to onf bnotifr using tiis
+     *         sft's dompbrbtor (or, if tif sft ibs no dompbrbtor, using
+     *         nbturbl ordfring).  Implfmfntbtions mby, but brf not rfquirfd
+     *         to, tirow tiis fxdfption if <tt>fromElfmfnt</tt> or
+     *         <tt>toElfmfnt</tt> dbnnot bf dompbrfd to flfmfnts durrfntly in
+     *         tif sft.
+     * @tirows NullPointfrExdfption if <tt>fromElfmfnt</tt> or
+     *         <tt>toElfmfnt</tt> is null bnd tiis sft dofs not pfrmit null
+     *         flfmfnts
+     * @tirows IllfgblArgumfntExdfption if <tt>fromElfmfnt</tt> is
+     *         grfbtfr tibn <tt>toElfmfnt</tt>; or if tiis sft itsflf
+     *         ibs b rfstridtfd rbngf, bnd <tt>fromElfmfnt</tt> or
+     *         <tt>toElfmfnt</tt> lifs outsidf tif bounds of tif rbngf
      */
-    SortedSet<E> subSet(E fromElement, E toElement);
+    SortfdSft<E> subSft(E fromElfmfnt, E toElfmfnt);
 
     /**
-     * Returns a view of the portion of this set whose elements are
-     * strictly less than <tt>toElement</tt>.  The returned set is
-     * backed by this set, so changes in the returned set are
-     * reflected in this set, and vice-versa.  The returned set
-     * supports all optional set operations that this set supports.
+     * Rfturns b vifw of tif portion of tiis sft wiosf flfmfnts brf
+     * stridtly lfss tibn <tt>toElfmfnt</tt>.  Tif rfturnfd sft is
+     * bbdkfd by tiis sft, so dibngfs in tif rfturnfd sft brf
+     * rfflfdtfd in tiis sft, bnd vidf-vfrsb.  Tif rfturnfd sft
+     * supports bll optionbl sft opfrbtions tibt tiis sft supports.
      *
-     * <p>The returned set will throw an <tt>IllegalArgumentException</tt>
-     * on an attempt to insert an element outside its range.
+     * <p>Tif rfturnfd sft will tirow bn <tt>IllfgblArgumfntExdfption</tt>
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
      *
-     * @param toElement high endpoint (exclusive) of the returned set
-     * @return a view of the portion of this set whose elements are strictly
-     *         less than <tt>toElement</tt>
-     * @throws ClassCastException if <tt>toElement</tt> is not compatible
-     *         with this set's comparator (or, if the set has no comparator,
-     *         if <tt>toElement</tt> does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if <tt>toElement</tt> cannot be compared to elements
-     *         currently in the set.
-     * @throws NullPointerException if <tt>toElement</tt> is null and
-     *         this set does not permit null elements
-     * @throws IllegalArgumentException if this set itself has a
-     *         restricted range, and <tt>toElement</tt> lies outside the
-     *         bounds of the range
+     * @pbrbm toElfmfnt iigi fndpoint (fxdlusivf) of tif rfturnfd sft
+     * @rfturn b vifw of tif portion of tiis sft wiosf flfmfnts brf stridtly
+     *         lfss tibn <tt>toElfmfnt</tt>
+     * @tirows ClbssCbstExdfption if <tt>toElfmfnt</tt> is not dompbtiblf
+     *         witi tiis sft's dompbrbtor (or, if tif sft ibs no dompbrbtor,
+     *         if <tt>toElfmfnt</tt> dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, tirow tiis
+     *         fxdfption if <tt>toElfmfnt</tt> dbnnot bf dompbrfd to flfmfnts
+     *         durrfntly in tif sft.
+     * @tirows NullPointfrExdfption if <tt>toElfmfnt</tt> is null bnd
+     *         tiis sft dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if tiis sft itsflf ibs b
+     *         rfstridtfd rbngf, bnd <tt>toElfmfnt</tt> lifs outsidf tif
+     *         bounds of tif rbngf
      */
-    SortedSet<E> headSet(E toElement);
+    SortfdSft<E> ifbdSft(E toElfmfnt);
 
     /**
-     * Returns a view of the portion of this set whose elements are
-     * greater than or equal to <tt>fromElement</tt>.  The returned
-     * set is backed by this set, so changes in the returned set are
-     * reflected in this set, and vice-versa.  The returned set
-     * supports all optional set operations that this set supports.
+     * Rfturns b vifw of tif portion of tiis sft wiosf flfmfnts brf
+     * grfbtfr tibn or fqubl to <tt>fromElfmfnt</tt>.  Tif rfturnfd
+     * sft is bbdkfd by tiis sft, so dibngfs in tif rfturnfd sft brf
+     * rfflfdtfd in tiis sft, bnd vidf-vfrsb.  Tif rfturnfd sft
+     * supports bll optionbl sft opfrbtions tibt tiis sft supports.
      *
-     * <p>The returned set will throw an <tt>IllegalArgumentException</tt>
-     * on an attempt to insert an element outside its range.
+     * <p>Tif rfturnfd sft will tirow bn <tt>IllfgblArgumfntExdfption</tt>
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
      *
-     * @param fromElement low endpoint (inclusive) of the returned set
-     * @return a view of the portion of this set whose elements are greater
-     *         than or equal to <tt>fromElement</tt>
-     * @throws ClassCastException if <tt>fromElement</tt> is not compatible
-     *         with this set's comparator (or, if the set has no comparator,
-     *         if <tt>fromElement</tt> does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if <tt>fromElement</tt> cannot be compared to elements
-     *         currently in the set.
-     * @throws NullPointerException if <tt>fromElement</tt> is null
-     *         and this set does not permit null elements
-     * @throws IllegalArgumentException if this set itself has a
-     *         restricted range, and <tt>fromElement</tt> lies outside the
-     *         bounds of the range
+     * @pbrbm fromElfmfnt low fndpoint (indlusivf) of tif rfturnfd sft
+     * @rfturn b vifw of tif portion of tiis sft wiosf flfmfnts brf grfbtfr
+     *         tibn or fqubl to <tt>fromElfmfnt</tt>
+     * @tirows ClbssCbstExdfption if <tt>fromElfmfnt</tt> is not dompbtiblf
+     *         witi tiis sft's dompbrbtor (or, if tif sft ibs no dompbrbtor,
+     *         if <tt>fromElfmfnt</tt> dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, tirow tiis
+     *         fxdfption if <tt>fromElfmfnt</tt> dbnnot bf dompbrfd to flfmfnts
+     *         durrfntly in tif sft.
+     * @tirows NullPointfrExdfption if <tt>fromElfmfnt</tt> is null
+     *         bnd tiis sft dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if tiis sft itsflf ibs b
+     *         rfstridtfd rbngf, bnd <tt>fromElfmfnt</tt> lifs outsidf tif
+     *         bounds of tif rbngf
      */
-    SortedSet<E> tailSet(E fromElement);
+    SortfdSft<E> tbilSft(E fromElfmfnt);
 
     /**
-     * Returns the first (lowest) element currently in this set.
+     * Rfturns tif first (lowfst) flfmfnt durrfntly in tiis sft.
      *
-     * @return the first (lowest) element currently in this set
-     * @throws NoSuchElementException if this set is empty
+     * @rfturn tif first (lowfst) flfmfnt durrfntly in tiis sft
+     * @tirows NoSudiElfmfntExdfption if tiis sft is fmpty
      */
     E first();
 
     /**
-     * Returns the last (highest) element currently in this set.
+     * Rfturns tif lbst (iigifst) flfmfnt durrfntly in tiis sft.
      *
-     * @return the last (highest) element currently in this set
-     * @throws NoSuchElementException if this set is empty
+     * @rfturn tif lbst (iigifst) flfmfnt durrfntly in tiis sft
+     * @tirows NoSudiElfmfntExdfption if tiis sft is fmpty
      */
-    E last();
+    E lbst();
 
     /**
-     * Creates a {@code Spliterator} over the elements in this sorted set.
+     * Crfbtfs b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis sortfd sft.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#DISTINCT},
-     * {@link Spliterator#SORTED} and {@link Spliterator#ORDERED}.
-     * Implementations should document the reporting of additional
-     * characteristic values.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#DISTINCT},
+     * {@link Splitfrbtor#SORTED} bnd {@link Splitfrbtor#ORDERED}.
+     * Implfmfntbtions siould dodumfnt tif rfporting of bdditionbl
+     * dibrbdtfristid vblufs.
      *
-     * <p>The spliterator's comparator (see
-     * {@link java.util.Spliterator#getComparator()}) must be {@code null} if
-     * the sorted set's comparator (see {@link #comparator()}) is {@code null}.
-     * Otherwise, the spliterator's comparator must be the same as or impose the
-     * same total ordering as the sorted set's comparator.
+     * <p>Tif splitfrbtor's dompbrbtor (sff
+     * {@link jbvb.util.Splitfrbtor#gftCompbrbtor()}) must bf {@dodf null} if
+     * tif sortfd sft's dompbrbtor (sff {@link #dompbrbtor()}) is {@dodf null}.
+     * Otifrwisf, tif splitfrbtor's dompbrbtor must bf tif sbmf bs or imposf tif
+     * sbmf totbl ordfring bs tif sortfd sft's dompbrbtor.
      *
-     * @implSpec
-     * The default implementation creates a
-     * <em><a href="Spliterator.html#binding">late-binding</a></em> spliterator
-     * from the sorted set's {@code Iterator}.  The spliterator inherits the
-     * <em>fail-fast</em> properties of the set's iterator.  The
-     * spliterator's comparator is the same as the sorted set's comparator.
+     * @implSpfd
+     * Tif dffbult implfmfntbtion drfbtfs b
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm> splitfrbtor
+     * from tif sortfd sft's {@dodf Itfrbtor}.  Tif splitfrbtor inifrits tif
+     * <fm>fbil-fbst</fm> propfrtifs of tif sft's itfrbtor.  Tif
+     * splitfrbtor's dompbrbtor is tif sbmf bs tif sortfd sft's dompbrbtor.
      * <p>
-     * The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SIZED}.
+     * Tif drfbtfd {@dodf Splitfrbtor} bdditionblly rfports
+     * {@link Splitfrbtor#SIZED}.
      *
-     * @implNote
-     * The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SUBSIZED}.
+     * @implNotf
+     * Tif drfbtfd {@dodf Splitfrbtor} bdditionblly rfports
+     * {@link Splitfrbtor#SUBSIZED}.
      *
-     * @return a {@code Spliterator} over the elements in this sorted set
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis sortfd sft
+     * @sindf 1.8
      */
-    @Override
-    default Spliterator<E> spliterator() {
-        return new Spliterators.IteratorSpliterator<E>(
-                this, Spliterator.DISTINCT | Spliterator.SORTED | Spliterator.ORDERED) {
-            @Override
-            public Comparator<? super E> getComparator() {
-                return SortedSet.this.comparator();
+    @Ovfrridf
+    dffbult Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw Splitfrbtors.ItfrbtorSplitfrbtor<E>(
+                tiis, Splitfrbtor.DISTINCT | Splitfrbtor.SORTED | Splitfrbtor.ORDERED) {
+            @Ovfrridf
+            publid Compbrbtor<? supfr E> gftCompbrbtor() {
+                rfturn SortfdSft.tiis.dompbrbtor();
             }
         };
     }

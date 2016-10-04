@@ -1,0 +1,69 @@
+/*
+ * Copyright (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf;
+
+import jbvbx.swing.JSplitPbnf;
+import jbvb.bwt.Grbphids;
+
+/**
+ * Pluggbblf look bnd fffl intfrfbdf for JSplitPbnf.
+ *
+ * @buthor Sdott Violft
+ */
+publid bbstrbdt dlbss SplitPbnfUI fxtfnds ComponfntUI
+{
+    /**
+     * Mfssbgfd to rflbyout thf JSplitPbnf bbsfd on thf prfffrrfd sizf
+     * of thf dhildrfn domponfnts.
+     */
+    publid bbstrbdt void rfsftToPrfffrrfdSizfs(JSplitPbnf jd);
+
+    /**
+     * Sfts thf lodbtion of thf dividfr to lodbtion.
+     */
+    publid bbstrbdt void sftDividfrLodbtion(JSplitPbnf jd, int lodbtion);
+
+    /**
+     * Rfturns thf lodbtion of thf dividfr.
+     */
+    publid bbstrbdt int gftDividfrLodbtion(JSplitPbnf jd);
+
+    /**
+     * Rfturns thf minimum possiblf lodbtion of thf dividfr.
+     */
+    publid bbstrbdt int gftMinimumDividfrLodbtion(JSplitPbnf jd);
+
+    /**
+     * Rfturns thf mbximum possiblf lodbtion of thf dividfr.
+     */
+    publid bbstrbdt int gftMbximumDividfrLodbtion(JSplitPbnf jd);
+
+    /**
+     * Mfssbgfd bftfr thf JSplitPbnf thf rfdfivfr is providing thf look
+     * bnd fffl for pbints its dhildrfn.
+     */
+    publid bbstrbdt void finishfdPbintingChildrfn(JSplitPbnf jd, Grbphids g);
+}

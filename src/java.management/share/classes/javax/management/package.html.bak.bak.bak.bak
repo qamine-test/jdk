@@ -1,0 +1,402 @@
+<html>
+    <hfbd>
+        <titlf>jbvbx.mbnbgfmfnt pbdkbgf</titlf>
+        <!--
+Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+        -->
+    </hfbd>
+    <body bgdolor="whitf">
+        <p>Providfs thf dorf dlbssfs for thf Jbvb Mbnbgfmfnt Extfnsions.</p>
+
+        <p>Thf Jbvb Mbnbgfmfnt Extfnsions
+            (JMX<sup><font sizf="-1">TM</font></sup>) API is b stbndbrd
+        API for mbnbgfmfnt bnd monitoring.  Typidbl usfs indludf:</p>
+
+        <ul>
+            <li>donsulting bnd dhbnging bpplidbtion donfigurbtion</li>
+
+            <li>bddumulbting stbtistids bbout bpplidbtion bfhbvior bnd
+            mbking thfm bvbilbblf</li>
+
+            <li>notifying of stbtf dhbngfs bnd frronfous donditions.</li>
+        </ul>
+
+        <p>Thf JMX API dbn blso bf usfd bs pbrt of b solution for
+        mbnbging systfms, nftworks, bnd so on.</p>
+
+        <p>Thf API indludfs rfmotf bddfss, so b rfmotf mbnbgfmfnt
+            progrbm dbn intfrbdt with b running bpplidbtion for thfsf
+        purposfs.</p>
+
+        <h2>MBfbns</h2>
+
+        <p>Thf fundbmfntbl notion of thf JMX API is thf <fm>MBfbn</fm>.
+            An MBfbn is b nbmfd <fm>mbnbgfd objfdt</fm> rfprfsfnting b
+            rfsourdf.  It hbs b <fm id="mgIfbdf">mbnbgfmfnt intfrfbdf</fm>
+            whidh must bf <fm>publid</fm> bnd donsist of:</p>
+
+        <ul>
+            <li>nbmfd bnd typfd bttributfs thbt dbn bf rfbd bnd/or
+            writtfn</li>
+
+            <li>nbmfd bnd typfd opfrbtions thbt dbn bf invokfd</li>
+
+            <li>typfd notifidbtions thbt dbn bf fmittfd by thf MBfbn.</li>
+        </ul>
+
+        <p>For fxbmplf, bn MBfbn rfprfsfnting bn bpplidbtion's
+            donfigurbtion dould hbvf bttributfs rfprfsfnting thf difffrfnt
+            donfigurbtion itfms.  Rfbding thf <dodf>CbdhfSizf</dodf>
+            bttributf would rfturn thf durrfnt vbluf of thbt itfm.
+            Writing it would updbtf thf itfm, potfntiblly dhbnging thf
+            bfhbvior of thf running bpplidbtion.  An opfrbtion sudh bs
+            <dodf>sbvf</dodf> dould storf thf durrfnt donfigurbtion
+            pfrsistfntly.  A notifidbtion sudh bs
+            <dodf>ConfigurbtionChbngfdNotifidbtion</dodf> dould bf sfnt
+        fvfry timf thf donfigurbtion is dhbngfd.</p>
+
+        <p>In thf stbndbrd usbgf of thf JMX API, MBfbns brf implfmfntfd
+            bs Jbvb objfdts.  Howfvfr, bs fxplbinfd bflow, thfsf objfdts brf
+        not usublly rfffrfndfd dirfdtly.</p>
+
+
+        <h3>Stbndbrd MBfbns</h3>
+
+        <p>To mbkf MBfbn implfmfntbtion simplf, thf JMX API indludfs thf
+            notion of <fm>Stbndbrd MBfbns</fm>.  A Stbndbrd MBfbn is onf
+            whosf bttributfs bnd opfrbtions brf dfdudfd from b Jbvb
+            intfrfbdf using dfrtbin nbming pbttfrns, similbr to thosf usfd
+            by JbvbBfbns<sup><font sizf="-1">TM</font></sup>.  For
+        fxbmplf, donsidfr bn intfrfbdf likf this:</p>
+
+        <prf>
+    publid intfrfbdf ConfigurbtionMBfbn {
+         publid int gftCbdhfSizf();
+         publid void sftCbdhfSizf(int sizf);
+         publid long gftLbstChbngfdTimf();
+         publid void sbvf();
+    }
+        </prf>
+
+        <p>Thf mfthods <dodf>gftCbdhfSizf</dodf> bnd
+            <dodf>sftCbdhfSizf</dodf> dffinf b rfbd-writf bttributf of
+            typf <dodf>int</dodf> dbllfd <dodf>CbdhfSizf</dodf> (with bn
+        initibl dbpitbl, unlikf thf JbvbBfbns donvfntion).</p>
+
+        <p>Thf mfthod <dodf>gftLbstChbngfdTimf</dodf> dffinfs bn
+            bttributf of typf <dodf>long</dodf> dbllfd
+            <dodf>LbstChbngfdTimf</dodf>.  This is b rfbd-only bttributf,
+        sindf thfrf is no mfthod <dodf>sftLbstChbngfdTimf</dodf>.</p>
+
+        <p>Thf mfthod <dodf>sbvf</dodf> dffinfs bn opfrbtion dbllfd
+            <dodf>sbvf</dodf>.  It is not bn bttributf, sindf its nbmf
+            dofs not bfgin with <dodf>gft</dodf>, <dodf>sft</dodf>, or
+        <dodf>is</dodf>.</p>
+
+        <p>Thf fxbdt nbming pbttfrns for Stbndbrd MBfbns brf dftbilfd in
+        thf <b hrff="#spfd">JMX Spfdifidbtion</b>.</p>
+
+        <p>Thfrf brf two wbys to mbkf b Jbvb objfdt thbt is bn MBfbn
+            with this mbnbgfmfnt intfrfbdf.  Onf is for thf objfdt to bf
+            of b dlbss thbt hbs fxbdtly thf sbmf nbmf bs thf Jbvb
+            intfrfbdf but without thf <dodf>MBfbn</dodf> suffix.  So in
+            thf fxbmplf thf objfdt would bf of thf dlbss
+            <dodf>Configurbtion</dodf>, in thf sbmf Jbvb pbdkbgf bs
+            <dodf>ConfigurbtionMBfbn</dodf>.  Thf sfdond wby is to usf thf
+            {@link jbvbx.mbnbgfmfnt.StbndbrdMBfbn StbndbrdMBfbn}
+        dlbss.</p>
+
+
+        <h3>MXBfbns</h3>
+
+        <p>An <fm>MXBfbn</fm> is b vbribnt of Stbndbrd MBfbn whfrf domplfx
+            typfs brf mbppfd to b stbndbrd sft of typfs dffinfd in thf
+            {@link jbvbx.mbnbgfmfnt.opfnmbfbn} pbdkbgf.  MXBfbns brf bppropribtf
+            if you would othfrwisf nffd to rfffrfndf bpplidbtion-spfdifid
+            dlbssfs in your MBfbn intfrfbdf.  Thfy brf dfsdribfd in dftbil
+        in thf spfdifidbtion for {@link jbvbx.mbnbgfmfnt.MXBfbn MXBfbn}.</p>
+
+
+        <h3>Dynbmid MBfbns</h3>
+
+        <p>A <fm>Dynbmid MBfbn</fm> is bn MBfbn thbt dffinfs its
+            mbnbgfmfnt intfrfbdf bt run-timf.  For fxbmplf, b donfigurbtion
+            MBfbn dould dftfrminf thf nbmfs bnd typfs of thf bttributfs it
+        fxposfs by pbrsing bn XML filf.</p>
+
+        <p>Any Jbvb objfdt of b dlbss thbt implfmfnts thf {@link
+            jbvbx.mbnbgfmfnt.DynbmidMBfbn DynbmidMBfbn} intfrfbdf is b
+        Dynbmid MBfbn.</p>
+
+
+        <h3>Opfn MBfbns</h3>
+
+        <p>An <fm>Opfn MBfbn</fm> is b kind of Dynbmid MBfbn whfrf thf
+            typfs of bttributfs bnd of opfrbtion pbrbmftfrs bnd rfturn
+            vblufs brf built using b smbll sft of prfdffinfd Jbvb dlbssfs.
+            Opfn MBfbns fbdilitbtf opfrbtion with rfmotf mbnbgfmfnt progrbms
+            thbt do not nfdfssbrily hbvf bddfss to bpplidbtion-spfdifid
+            typfs, indluding non-Jbvb progrbms.  Opfn MBfbns brf dffinfd by
+            thf pbdkbgf <b hrff="opfnmbfbn/pbdkbgf-summbry.html"><dodf>
+        jbvbx.mbnbgfmfnt.opfnmbfbn</dodf></b>.</p>
+
+
+        <h3>Modfl MBfbns</h3>
+
+        <p>A <fm>Modfl MBfbn</fm> is b kind of Dynbmid MBfbn thbt bdts
+            bs b bridgf bftwffn thf mbnbgfmfnt intfrfbdf bnd thf
+            undfrlying mbnbgfd rfsourdf.  Both thf mbnbgfmfnt intfrfbdf bnd
+            thf mbnbgfd rfsourdf brf spfdififd bs Jbvb objfdts.  Thf sbmf
+            Modfl MBfbn implfmfntbtion dbn bf rfusfd mbny timfs with
+            difffrfnt mbnbgfmfnt intfrfbdfs bnd mbnbgfd rfsourdfs, bnd it dbn
+            providf dommon fundtionblity sudh bs pfrsistfndf bnd dbdhing.
+            Modfl MBfbns brf dffinfd by thf pbdkbgf
+            <b hrff="modflmbfbn/pbdkbgf-summbry.html"><dodf>
+        jbvbx.mbnbgfmfnt.modflmbfbn</dodf></b>.</p>
+
+
+        <h2>MBfbn Sfrvfr</h2>
+
+        <p>To bf usfful, bn MBfbn must bf rfgistfrfd in bn <fm>MBfbn
+            Sfrvfr</fm>.  An MBfbn Sfrvfr is b rfpository of MBfbns.
+            Usublly thf only bddfss to thf MBfbns is through thf MBfbn
+            Sfrvfr.  In othfr words, dodf no longfr bddfssfs thf Jbvb
+            objfdt implfmfnting thf MBfbn dirfdtly, but instfbd bddfssfs
+            thf MBfbn by nbmf through thf MBfbn Sfrvfr.  Ebdh MBfbn hbs b
+            uniquf nbmf within thf MBfbn Sfrvfr, dffinfd by thf {@link
+        jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf} dlbss.</p>
+
+        <p>An MBfbn Sfrvfr is bn objfdt implfmfnting thf intfrfbdf
+            {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr MBfbnSfrvfr}.
+            Thf most donvfnifnt MBfbn Sfrvfr to usf is thf
+            <fm>Plbtform MBfbn Sfrvfr</fm>.  This is b
+            singlf MBfbn Sfrvfr thbt dbn bf shbrfd by difffrfnt mbnbgfd
+            domponfnts running within thf sbmf Jbvb Virtubl Mbdhinf.  Thf
+            Plbtform MBfbn Sfrvfr is bddfssfd with thf mfthod {@link
+        jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr()}.</p>
+
+        <p>Applidbtion dodf dbn blso drfbtf b nfw MBfbn Sfrvfr, or
+            bddfss blrfbdy-drfbtfd MBfbn Sfrvfrs, using thf {@link
+        jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory MBfbnSfrvfrFbdtory} dlbss.</p>
+
+
+        <h3>Crfbting MBfbns in thf MBfbn Sfrvfr</h3>
+
+        <p>Thfrf brf two wbys to drfbtf bn MBfbn.  Onf is to donstrudt b
+            Jbvb objfdt thbt will bf thf MBfbn, thfn usf thf {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfr#rfgistfrMBfbn rfgistfrMBfbn}
+            mfthod to rfgistfr it in thf MBfbn Sfrvfr.  Thf othfr is to
+            drfbtf bnd rfgistfr thf MBfbn in b singlf opfrbtion using onf
+            of thf {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr#drfbtfMBfbn(String,
+        jbvbx.mbnbgfmfnt.ObjfdtNbmf) drfbtfMBfbn} mfthods.</p>
+
+        <p>Thf <dodf>rfgistfrMBfbn</dodf> mfthod is simplfr for lodbl
+            usf, but dbnnot bf usfd rfmotfly.  Thf
+            <dodf>drfbtfMBfbn</dodf> mfthod dbn bf usfd rfmotfly, but
+        somftimfs rfquirfs bttfntion to dlbss lobding issufs.</p>
+
+        <p>An MBfbn dbn pfrform bdtions whfn it is rfgistfrfd in or
+            unrfgistfrfd from bn MBfbn Sfrvfr if it implfmfnts thf {@link
+            jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion MBfbnRfgistrbtion}
+        intfrfbdf.</p>
+
+
+        <h3>Addfssing MBfbns in thf MBfbn Sfrvfr</h3>
+
+        <p>Givfn bn <dodf>ObjfdtNbmf</dodf> <dodf>nbmf</dodf> bnd bn
+            <dodf>MBfbnSfrvfr</dodf> <dodf>mbs</dodf>, you dbn bddfss
+        bttributfs bnd opfrbtions bs in this fxbmplf:</p>
+
+        <prf>
+    int dbdhfSizf = mbs.gftAttributf(nbmf, "CbdhfSizf");
+    {@link jbvbx.mbnbgfmfnt.Attributf Attributf} nfwCbdhfSizf =
+         nfw Attributf("CbdhfSizf", nfw Intfgfr(2000));
+    mbs.sftAttributf(nbmf, nfwCbdhfSizf);
+    mbs.invokf(nbmf, "sbvf", nfw Objfdt[0], nfw Clbss[0]);
+        </prf>
+
+        <p id="proxy">Altfrnbtivfly, if you hbvf b Jbvb intfrfbdf thbt
+            dorrfsponds to thf mbnbgfmfnt intfrfbdf for thf MBfbn, you dbn usf bn
+        <fm>MBfbn proxy</fm> likf this:</p>
+
+        <prf>
+    ConfigurbtionMBfbn donf =
+        {@link jbvbx.mbnbgfmfnt.JMX#nfwMBfbnProxy
+            JMX.nfwMBfbnProxy}(mbs, nbmf, ConfigurbtionMBfbn.dlbss);
+    int dbdhfSizf = donf.gftCbdhfSizf();
+    donf.sftCbdhfSizf(2000);
+    donf.sbvf();
+        </prf>
+
+        <p>Using bn MBfbn proxy is just b donvfnifndf.  Thf sfdond
+            fxbmplf fnds up dblling thf sbmf <dodf>MBfbnSfrvfr</dodf>
+        opfrbtions bs thf first onf.</p>
+
+        <p>An MBfbn Sfrvfr dbn bf qufrifd for MBfbns whosf nbmfs mbtdh
+            dfrtbin pbttfrns bnd/or whosf bttributfs mfft dfrtbin
+            donstrbints.  Nbmf pbttfrns brf donstrudtfd using thf {@link
+            jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf} dlbss bnd donstrbints
+            brf donstrudtfd using thf {@link jbvbx.mbnbgfmfnt.Qufry Qufry}
+            dlbss.  Thf mfthods {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfr#qufryNbmfs qufryNbmfs} bnd {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfr#qufryMBfbns qufryMBfbns} thfn
+        pfrform thf qufry.</p>
+
+
+        <h3>MBfbn liffdydlf</h3>
+
+        <p>An MBfbn dbn implfmfnt thf {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion
+            MBfbnRfgistrbtion} intfrfbdf in ordfr to bf told whfn it is rfgistfrfd
+            bnd unrfgistfrfd in thf MBfbn Sfrvfr. Additionblly, thf {@link
+            jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion#prfRfgistfr prfRfgistfr} mfthod
+            bllows thf MBfbn to gft b rfffrfndf to thf <dodf>MBfbnSfrvfr</dodf>
+            objfdt bnd to gft its <dodf>ObjfdtNbmf</dodf> within thf MBfbn
+        Sfrvfr.</p>
+
+
+        <h2>Notifidbtions</h2>
+
+        <p>A <fm>notifidbtion</fm> is bn instbndf of thf {@link
+            jbvbx.mbnbgfmfnt.Notifidbtion Notifidbtion} dlbss or b
+            subdlbss.  In bddition to its Jbvb dlbss, it hbs b
+            <fm>typf</fm> string thbt dbn distinguish it from othfr
+        notifidbtions of thf sbmf dlbss.</p>
+
+        <p>An MBfbn thbt will fmit notifidbtions must implfmfnt thf
+            {@link jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr
+            NotifidbtionBrobddbstfr} or {@link
+            jbvbx.mbnbgfmfnt.NotifidbtionEmittfr NotifidbtionEmittfr}
+            intfrfbdf.  Usublly, it dofs this by subdlbssing
+            {@link jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport
+            NotifidbtionBrobddbstfrSupport} or dflfgbting to bn instbndf of
+        thbt dlbss. Hfrf is bn fxbmplf:</p>
+
+        <prf>
+    publid dlbss Configurbtion <b>fxtfnds NotifidbtionBrobddbstfrSupport</b>
+            implfmfnts ConfigurbtionMBfbn {
+        ...
+        privbtf void updbtfd() {
+            Notifidbtion n = nfw Notifidbtion(...);
+            <b>{@link jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport#sfndNotifidbtion
+            sfndNotifidbtion}(n)</b>;
+        }
+    }
+        </prf>
+
+
+        <p>Notifidbtions dbn bf rfdfivfd by b <fm>listfnfr</fm>, whidh
+            is bn objfdt thbt implfmfnts thf {@link
+            jbvbx.mbnbgfmfnt.NotifidbtionListfnfr NotifidbtionListfnfr}
+            intfrfbdf.  You dbn bdd b listfnfr to bn MBfbn with thf mfthod
+            {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfr#bddNotifidbtionListfnfr(ObjfdtNbmf,
+            NotifidbtionListfnfr, NotifidbtionFiltfr, Objfdt)}.
+            You dbn optionblly supply b <fm>filtfr</fm> to this mfthod, to
+            sflfdt only notifidbtions of intfrfst.  A filtfr is bn objfdt
+            thbt implfmfnts thf {@link jbvbx.mbnbgfmfnt.NotifidbtionFiltfr
+        NotifidbtionFiltfr} intfrfbdf.</p>
+
+        <p>An MBfbn dbn bf b listfnfr for notifidbtions fmittfd by othfr
+            MBfbns in thf sbmf MBfbn Sfrvfr.  In this dbsf, it implfmfnts
+            {@link jbvbx.mbnbgfmfnt.NotifidbtionListfnfr
+            NotifidbtionListfnfr} bnd thf mfthod {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfr#bddNotifidbtionListfnfr(ObjfdtNbmf,
+        ObjfdtNbmf, NotifidbtionFiltfr, Objfdt)} is usfd to listfn.</p>
+
+
+        <h2>Rfmotf Addfss to MBfbns</h2>
+
+        <p>An MBfbn Sfrvfr dbn bf bddfssfd rfmotfly through b
+            <fm>donnfdtor</fm>.  A donnfdtor bllows b rfmotf Jbvb
+            bpplidbtion to bddfss bn MBfbn Sfrvfr in fssfntiblly thf sbmf
+            wby bs b lodbl onf.  Thf pbdkbgf
+            <b hrff="rfmotf/pbdkbgf-summbry.html"><dodf>
+        jbvbx.mbnbgfmfnt.rfmotf</dodf></b> dffinfs donnfdtors.</p>
+
+        <p>Thf JMX spfdifidbtion blso dffinfs thf notion of bn
+            <fm>bdbptor</fm>.  An bdbptor trbnslbtfs bftwffn rfqufsts in b
+            protodol sudh bs SNMP or HTML bnd bddfssfs to bn MBfbn Sfrvfr.
+            So for fxbmplf bn SNMP GET opfrbtion might rfsult in b
+        <dodf>gftAttributf</dodf> on thf MBfbn Sfrvfr.</p>
+
+	<h3 id="intfrop">Intfropfrbbility bftwffn vfrsions of thf JMX
+	  spfdifidbtion</h3>
+
+        <p>Whfn b dlifnt donnfdts to b sfrvfr using thf JMX Rfmotf
+            API, it is possiblf thbt thfy do not hbvf thf sbmf vfrsion
+            of thf JMX spfdifidbtion.  Thf vfrsion of thf JMX
+            spfdifidbtion dfsdribfd hfrf is vfrsion 1.4.  Prfvious
+            vfrsions wfrf 1.0, 1.1, bnd 1.2.  (Thfrf wbs no 1.3.)
+            Thf stbndbrd JMX Rfmotf API is dffinfd to work with vfrsion
+            1.2 onwbrds, so in stbndbrds-bbsfd dfploymfnt thf only
+            intfropfrbbility qufstions thbt brisf dondfrn vfrsion 1.2
+        onwbrds.</p>
+
+        <p>Evfry vfrsion of thf JMX spfdifidbtion dontinufs to
+            implfmfnt thf ffbturfs of prfvious vfrsions.  So whfn thf
+            dlifnt is running bn fbrlifr vfrsion thbn thf sfrvfr, thfrf
+            should not bf bny intfropfrbbility dondfrns.</p>
+
+        <p>Whfn thf dlifnt is running b lbtfr vfrsion thbn thf sfrvfr,
+            dfrtbin nfwfr ffbturfs mby not bf bvbilbblf, bs dftbilfd in
+            thf nfxt sfdtions.  Thf dlifnt dbn dftfrminf thf sfrvfr's
+            vfrsion by fxbmining thf {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtfMBfbn#gftSpfdifidbtionVfrsion
+            SpfdifidbtionVfrsion} bttributf of thf {@dodf
+        MBfbnSfrvfrDflfgbtf}.</p>
+
+        <h4 id="intfrop-1.2">If thf rfmotf MBfbn Sfrvfr is 1.2</h4>
+
+	<ul>
+
+            <li><p>You dbnnot usf wilddbrds in b kfy propfrty of bn
+                {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf}, for
+                fxbmplf {@dodf dombin:typf=Foo,nbmf=*}. Wilddbrds thbt
+                mbtdh wholf propfrtifs brf still bllowfd, for fxbmplf
+            {@dodf *:*} or {@dodf *:typf=Foo,*}.</p>
+
+            <li><p>You dbnnot usf {@link
+                jbvbx.mbnbgfmfnt.Qufry#isInstbndfOf Qufry.isInstbndfOf}
+            in b qufry.</p>
+
+            <li><p>You dbnnot usf dot syntbx sudh bs {@dodf
+                HfbpMfmoryUsbgf.usfd} in thf {@linkplbin
+                jbvbx.mbnbgfmfnt.monitor.Monitor#sftObsfrvfdAttributf
+                obsfrvfd bttributf} of b monitor, bs dfsdribfd in thf
+                dodumfntbtion for thf {@link jbvbx.mbnbgfmfnt.monitor}
+            pbdkbgf.</p>
+
+        </ul>
+
+        <p id="spfd">
+        @sff <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/indfx.html">
+        Jbvb Plbtform dodumfntbtion on JMX tfdhnology</b>
+        in pbrtidulbr thf
+        <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+        JMX Spfdifidbtion, vfrsion 1.4(pdf).</b>
+
+        @sindf 1.5
+
+    </body>
+</html>

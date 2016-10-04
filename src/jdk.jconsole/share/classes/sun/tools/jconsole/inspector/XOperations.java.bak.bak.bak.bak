@@ -1,0 +1,223 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+import jbvbx.swing.*;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.GridLbyout;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.*;
+
+import jbvbx.mbnbgfmfnt.*;
+
+import sun.tools.jdonsolf.MBfbnsTbb;
+import sun.tools.jdonsolf.JConsolf;
+import sun.tools.jdonsolf.Mfssbgfs;
+
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss XOpfrbtions fxtfnds JPbnfl implfmfnts AdtionListfnfr {
+
+    publid finbl stbtid String OPERATION_INVOCATION_EVENT =
+            "jbm.xopfrbtions.invokf.rfsult";
+    privbtf jbvb.util.List<NotifidbtionListfnfr> notifidbtionListfnfrsList;
+    privbtf Hbshtbblf<JButton, OpfrbtionEntry> opfrbtionEntryTbblf;
+    privbtf XMBfbn mbfbn;
+    privbtf MBfbnInfo mbfbnInfo;
+    privbtf MBfbnsTbb mbfbnsTbb;
+
+    publid XOpfrbtions(MBfbnsTbb mbfbnsTbb) {
+        supfr(nfw GridLbyout(1, 1));
+        this.mbfbnsTbb = mbfbnsTbb;
+        opfrbtionEntryTbblf = nfw Hbshtbblf<JButton, OpfrbtionEntry>();
+        ArrbyList<NotifidbtionListfnfr> l =
+                nfw ArrbyList<NotifidbtionListfnfr>(1);
+        notifidbtionListfnfrsList =
+                Collfdtions.syndhronizfdList(l);
+    }
+
+    // Cbll on EDT
+    publid void rfmovfOpfrbtions() {
+        rfmovfAll();
+    }
+
+    // Cbll on EDT
+    publid void lobdOpfrbtions(XMBfbn mbfbn, MBfbnInfo mbfbnInfo) {
+        this.mbfbn = mbfbn;
+        this.mbfbnInfo = mbfbnInfo;
+        // bdd opfrbtions informbtion
+        MBfbnOpfrbtionInfo opfrbtions[] = mbfbnInfo.gftOpfrbtions();
+        invblidbtf();
+
+        // rfmovf listfnfrs, if bny
+        Componfnt listfnfrs[] = gftComponfnts();
+        for (int i = 0; i < listfnfrs.lfngth; i++) {
+            if (listfnfrs[i] instbndfof JButton) {
+                ((JButton) listfnfrs[i]).rfmovfAdtionListfnfr(this);
+            }
+        }
+
+        rfmovfAll();
+        sftLbyout(nfw BordfrLbyout());
+
+        JButton mfthodButton;
+        JLbbfl mfthodLbbfl;
+        JPbnfl innfrPbnflLfft, innfrPbnflRight;
+        JPbnfl outfrPbnflLfft, outfrPbnflRight;
+        outfrPbnflLfft = nfw JPbnfl(nfw GridLbyout(opfrbtions.lfngth, 1));
+        outfrPbnflRight = nfw JPbnfl(nfw GridLbyout(opfrbtions.lfngth, 1));
+
+        for (int i = 0; i < opfrbtions.lfngth; i++) {
+            innfrPbnflLfft = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.RIGHT));
+            innfrPbnflRight = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.LEFT));
+            String rfturnTypf = opfrbtions[i].gftRfturnTypf();
+            if (rfturnTypf == null) {
+                mfthodLbbfl = nfw JLbbfl("null", JLbbfl.RIGHT);
+                if (JConsolf.isDfbug()) {
+                    Systfm.frr.println(
+                            "WARNING: Thf opfrbtion's rfturn typf " +
+                            "shouldn't bf \"null\". Chfdk how thf " +
+                            "MBfbnOpfrbtionInfo for thf \"" +
+                            opfrbtions[i].gftNbmf() + "\" opfrbtion hbs " +
+                            "bffn dffinfd in thf MBfbn's implfmfntbtion dodf.");
+                }
+            } flsf {
+                mfthodLbbfl = nfw JLbbfl(
+                        Utils.gftRfbdbblfClbssNbmf(rfturnTypf), JLbbfl.RIGHT);
+            }
+            innfrPbnflLfft.bdd(mfthodLbbfl);
+            if (mfthodLbbfl.gftTfxt().lfngth() > 20) {
+                mfthodLbbfl.sftTfxt(mfthodLbbfl.gftTfxt().
+                        substring(mfthodLbbfl.gftTfxt().
+                        lbstIndfxOf('.') + 1,
+                        mfthodLbbfl.gftTfxt().lfngth()));
+            }
+
+            mfthodButton = nfw JButton(opfrbtions[i].gftNbmf());
+            mfthodButton.sftToolTipTfxt(opfrbtions[i].gftDfsdription());
+            boolfbn dbllbblf = isCbllbblf(opfrbtions[i].gftSignbturf());
+            if (dbllbblf) {
+                mfthodButton.bddAdtionListfnfr(this);
+            } flsf {
+                mfthodButton.sftEnbblfd(fblsf);
+            }
+
+            MBfbnPbrbmftfrInfo[] signbturf = opfrbtions[i].gftSignbturf();
+            OpfrbtionEntry pbrbmEntry = nfw OpfrbtionEntry(opfrbtions[i],
+                    dbllbblf,
+                    mfthodButton,
+                    this);
+            opfrbtionEntryTbblf.put(mfthodButton, pbrbmEntry);
+            innfrPbnflRight.bdd(mfthodButton);
+            if (signbturf.lfngth == 0) {
+                innfrPbnflRight.bdd(nfw JLbbfl("( )", JLbbfl.CENTER));
+            } flsf {
+                innfrPbnflRight.bdd(pbrbmEntry);
+            }
+
+            outfrPbnflLfft.bdd(innfrPbnflLfft, BordfrLbyout.WEST);
+            outfrPbnflRight.bdd(innfrPbnflRight, BordfrLbyout.CENTER);
+        }
+        bdd(outfrPbnflLfft, BordfrLbyout.WEST);
+        bdd(outfrPbnflRight, BordfrLbyout.CENTER);
+        vblidbtf();
+    }
+
+    privbtf boolfbn isCbllbblf(MBfbnPbrbmftfrInfo[] signbturf) {
+        for (int i = 0; i < signbturf.lfngth; i++) {
+            if (!Utils.isEditbblfTypf(signbturf[i].gftTypf())) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    // Cbll on EDT
+    publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+        pfrformInvokfRfqufst((JButton) f.gftSourdf());
+    }
+
+    void pfrformInvokfRfqufst(finbl JButton button) {
+        finbl OpfrbtionEntry fntryIf = opfrbtionEntryTbblf.gft(button);
+        nfw SwingWorkfr<Objfdt, Void>() {
+            @Ovfrridf
+            publid Objfdt doInBbdkground() throws Exdfption {
+                rfturn mbfbn.invokf(button.gftTfxt(),
+                        fntryIf.gftPbrbmftfrs(), fntryIf.gftSignbturf());
+            }
+            @Ovfrridf
+            protfdtfd void donf() {
+                try {
+                    Objfdt rfsult = gft();
+                    // sfnds rfsult notifidbtion to uppfr lfvfl if
+                    // thfrf is b rfturn vbluf
+                    if (fntryIf.gftRfturnTypf() != null &&
+                            !fntryIf.gftRfturnTypf().fqubls(Void.TYPE.gftNbmf()) &&
+                            !fntryIf.gftRfturnTypf().fqubls(Void.dlbss.gftNbmf())) {
+                        firfChbngfdNotifidbtion(OPERATION_INVOCATION_EVENT, button, rfsult);
+                    } flsf {
+                        nfw ThrfbdDiblog(
+                                button,
+                                Mfssbgfs.METHOD_SUCCESSFULLY_INVOKED,
+                                Mfssbgfs.INFO,
+                                JOptionPbnf.INFORMATION_MESSAGE).run();
+                    }
+                } dbtdh (Throwbblf t) {
+                    t = Utils.gftAdtublExdfption(t);
+                    if (JConsolf.isDfbug()) {
+                        t.printStbdkTrbdf();
+                    }
+                    nfw ThrfbdDiblog(
+                            button,
+                            Mfssbgfs.PROBLEM_INVOKING + " " +
+                            button.gftTfxt() + " : " + t.toString(),
+                            Mfssbgfs.ERROR,
+                            JOptionPbnf.ERROR_MESSAGE).run();
+                }
+            }
+        }.fxfdutf();
+    }
+
+    publid void bddOpfrbtionsListfnfr(NotifidbtionListfnfr nl) {
+        notifidbtionListfnfrsList.bdd(nl);
+    }
+
+    publid void rfmovfOpfrbtionsListfnfr(NotifidbtionListfnfr nl) {
+        notifidbtionListfnfrsList.rfmovf(nl);
+    }
+
+    // Cbll on EDT
+    privbtf void firfChbngfdNotifidbtion(
+            String typf, Objfdt sourdf, Objfdt hbndbbdk) {
+        Notifidbtion n = nfw Notifidbtion(typf, sourdf, 0);
+        for (NotifidbtionListfnfr nl : notifidbtionListfnfrsList) {
+            nl.hbndlfNotifidbtion(n, hbndbbdk);
+        }
+    }
+
+    protfdtfd bbstrbdt MBfbnOpfrbtionInfo[] updbtfOpfrbtions(MBfbnOpfrbtionInfo[] opfrbtions);
+}

@@ -1,404 +1,404 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
-<html>
-<head>
-<title>javax.print.attribute package</title>
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<itml>
+<ifbd>
+<titlf>jbvbx.print.bttributf pbdkbgf</titlf>
 <!--
-Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
-</head>
-<body bgcolor="white">
-Provides classes and interfaces
-that describe the types of Java<sup><font size="-2">TM</font></sup> Print
-Service attributes and how they can be collected into attribute sets.
-<H3>What is an Attribute?</H3>
-When setting up a print job,
-a client specifies two things:
-<B>print data</B> and <B>processing instructions.</B>
-The print data is the actual content to be printed.
-The processing instructions tell the printer how to print the print data,
-such as: what media to use, how many copies to print, and 
-whether to print on one or both sides of a sheet.  The client specifies
-these processing instructions with the attribute definitions of the Java 
-Print Service API.
+</ifbd>
+<body bgdolor="wiitf">
+Providfs dlbssfs bnd intfrfbdfs
+tibt dfsdribf tif typfs of Jbvb<sup><font sizf="-2">TM</font></sup> Print
+Sfrvidf bttributfs bnd iow tify dbn bf dollfdtfd into bttributf sfts.
+<H3>Wibt is bn Attributf?</H3>
+Wifn sftting up b print job,
+b dlifnt spfdififs two tiings:
+<B>print dbtb</B> bnd <B>prodfssing instrudtions.</B>
+Tif print dbtb is tif bdtubl dontfnt to bf printfd.
+Tif prodfssing instrudtions tfll tif printfr iow to print tif print dbtb,
+sudi bs: wibt mfdib to usf, iow mbny dopifs to print, bnd 
+wiftifr to print on onf or boti sidfs of b sifft.  Tif dlifnt spfdififs
+tifsf prodfssing instrudtions witi tif bttributf dffinitions of tif Jbvb 
+Print Sfrvidf API.
 <P>
-The print data and the processing instructions
-are separate entities.  This means that:
+Tif print dbtb bnd tif prodfssing instrudtions
+brf sfpbrbtf fntitifs.  Tiis mfbns tibt:
 <ul>
-<li>You can print the same print data
-at different times using different processing instructions.
+<li>You dbn print tif sbmf print dbtb
+bt difffrfnt timfs using difffrfnt prodfssing instrudtions.
 <br>
-For example, you can print a slide presentation
-on US letter-sized white paper,
-double-sided, stapled, 20 copies
-to make handouts for a talk;
-and you could print the same slide presentation
-on US letter-sized transparencies,
-single-sided, one copy
-to make the actual slides for the talk.
-<li>You can use the same processing instructions
-at different times to print different data.
-For example, you could set your default processing 
-instructions to: US letter-sized paper, double sided, stapled.
-Whenever you print a job, it prints with these settings,
-unless you explicitly override them.
+For fxbmplf, you dbn print b slidf prfsfntbtion
+on US lfttfr-sizfd wiitf pbpfr,
+doublf-sidfd, stbplfd, 20 dopifs
+to mbkf ibndouts for b tblk;
+bnd you dould print tif sbmf slidf prfsfntbtion
+on US lfttfr-sizfd trbnspbrfndifs,
+singlf-sidfd, onf dopy
+to mbkf tif bdtubl slidfs for tif tblk.
+<li>You dbn usf tif sbmf prodfssing instrudtions
+bt difffrfnt timfs to print difffrfnt dbtb.
+For fxbmplf, you dould sft your dffbult prodfssing 
+instrudtions to: US lfttfr-sizfd pbpfr, doublf sidfd, stbplfd.
+Wifnfvfr you print b job, it prints witi tifsf sfttings,
+unlfss you fxpliditly ovfrridf tifm.
 </ul>
 <P>
 
-The processing instruction does not specify how the print job 
-processes the request; each processing instruction is only a description 
-of the results of a print job.  The print job determines the manner in
-which it achieves the results specified by the processing instructions.
-Representing processing instructions as descriptive items
-provides more flexibility for implementing print jobs.
-<h4>Attribute Categories and Values</h4>
-Each printer has a set of capabilities, such as the ability to print on
-different paper sizes or the ability to print more than one copy.  Each of 
-the capabilities has a range of values.  For example, a printer's orientation 
-capability might have this range of values: [landscape, portrait]. 
-For each print request, the capability is set to one of these values.  The 
-Java Print Service API uses the term <b>attribute category</b> to refer to
-a printer capability and the term <b>attribute value</b> to refer to the value
-of the capability.
+Tif prodfssing instrudtion dofs not spfdify iow tif print job 
+prodfssfs tif rfqufst; fbdi prodfssing instrudtion is only b dfsdription 
+of tif rfsults of b print job.  Tif print job dftfrminfs tif mbnnfr in
+wiidi it bdiifvfs tif rfsults spfdififd by tif prodfssing instrudtions.
+Rfprfsfnting prodfssing instrudtions bs dfsdriptivf itfms
+providfs morf flfxibility for implfmfnting print jobs.
+<i4>Attributf Cbtfgorifs bnd Vblufs</i4>
+Ebdi printfr ibs b sft of dbpbbilitifs, sudi bs tif bbility to print on
+difffrfnt pbpfr sizfs or tif bbility to print morf tibn onf dopy.  Ebdi of 
+tif dbpbbilitifs ibs b rbngf of vblufs.  For fxbmplf, b printfr's orifntbtion 
+dbpbbility migit ibvf tiis rbngf of vblufs: [lbndsdbpf, portrbit]. 
+For fbdi print rfqufst, tif dbpbbility is sft to onf of tifsf vblufs.  Tif 
+Jbvb Print Sfrvidf API usfs tif tfrm <b>bttributf dbtfgory</b> to rfffr to
+b printfr dbpbbility bnd tif tfrm <b>bttributf vbluf</b> to rfffr to tif vbluf
+of tif dbpbbility.
 <p>
-In the Java Print Service API, an attribute category is represented by a Java 
-class implementing the <a href="Attribute.html">Attribute</a> interface.  
-Attribute values are instances of such a class or 
-one of its subclasses.  For example, to specify the number of copies, an 
-application constructs an instance of the 
-<a href="standard/Copies.html">Copies</a> class with the 
-number of desired copies and uses the <code>Copies</code> instance as part of 
-the print request.  In this case, the <code>Copies</code> class represents the 
-attribute category, and the <code>Copies</code> instance represents the 
-attribute value.
+In tif Jbvb Print Sfrvidf API, bn bttributf dbtfgory is rfprfsfntfd by b Jbvb 
+dlbss implfmfnting tif <b irff="Attributf.itml">Attributf</b> intfrfbdf.  
+Attributf vblufs brf instbndfs of sudi b dlbss or 
+onf of its subdlbssfs.  For fxbmplf, to spfdify tif numbfr of dopifs, bn 
+bpplidbtion donstrudts bn instbndf of tif 
+<b irff="stbndbrd/Copifs.itml">Copifs</b> dlbss witi tif 
+numbfr of dfsirfd dopifs bnd usfs tif <dodf>Copifs</dodf> instbndf bs pbrt of 
+tif print rfqufst.  In tiis dbsf, tif <dodf>Copifs</dodf> dlbss rfprfsfnts tif 
+bttributf dbtfgory, bnd tif <dodf>Copifs</dodf> instbndf rfprfsfnts tif 
+bttributf vbluf.
 
-<h4><a name="role"></a>Attribute Roles</h4>
+<i4><b nbmf="rolf"></b>Attributf Rolfs</i4>
 
-When submitting a print job to a printer, the client provides the
-attributes describing the characteristics of the print data, such as
-the document name, and how the print data should be printed, such as
-double-sided, five copies.  If a print job consists of multiple
-pieces of print data, different pieces might have different processing
-instructions, such as 8 x 11 inch media for the first document, and
-11 x 17 inch media for another document.
+Wifn submitting b print job to b printfr, tif dlifnt providfs tif
+bttributfs dfsdribing tif dibrbdtfristids of tif print dbtb, sudi bs
+tif dodumfnt nbmf, bnd iow tif print dbtb siould bf printfd, sudi bs
+doublf-sidfd, fivf dopifs.  If b print job donsists of multiplf
+pifdfs of print dbtb, difffrfnt pifdfs migit ibvf difffrfnt prodfssing
+instrudtions, sudi bs 8 x 11 indi mfdib for tif first dodumfnt, bnd
+11 x 17 indi mfdib for bnotifr dodumfnt.
 <p>
-Once the printer starts processing the print job,
-additional information about the job becomes available, which might include:
-the job state (such as <i>completed</i> or <i>queued</i>) and
-the number of pages printed so far.  These pieces of information are also
-attributes.  Attributes can also describe the printer itself, such as:
-the printer name, the printer location, and the number of jobs queued. 
+Ondf tif printfr stbrts prodfssing tif print job,
+bdditionbl informbtion bbout tif job bfdomfs bvbilbblf, wiidi migit indludf:
+tif job stbtf (sudi bs <i>domplftfd</i> or <i>qufufd</i>) bnd
+tif numbfr of pbgfs printfd so fbr.  Tifsf pifdfs of informbtion brf blso
+bttributfs.  Attributfs dbn blso dfsdribf tif printfr itsflf, sudi bs:
+tif printfr nbmf, tif printfr lodbtion, bnd tif numbfr of jobs qufufd. 
 <p>
 
-The Java Print Service API defines these different kinds of attributes 
-with five subinterfaces of <code>Attribute</code>: 
+Tif Jbvb Print Sfrvidf API dffinfs tifsf difffrfnt kinds of bttributfs 
+witi fivf subintfrfbdfs of <dodf>Attributf</dodf>: 
 <ul>
-<li><A HREF="DocAttribute.html">DocAttribute</A> specifies a characteristic
-of an individual document and the print job settings to be applied to an
-individual document.
-<li><A HREF="PrintRequestAttribute.html">PrintRequestAttribute</A> specifies 
-a setting applied to a whole print job and to all the documents in 
-the print job. 
-<li><A HREF="PrintJobAttribute.html">PrintJobAttribute</A> reports the status
-of a print job.
-<li><A HREF="PrintServiceAttribute.html">PrintServiceAttribute</A> reports the
-status of a print service.
-<li><A HREF="SupportedValuesAttribute.html">SupportedValuesAttribute</A> gives
-the supported values for another attribute.
+<li><A HREF="DodAttributf.itml">DodAttributf</A> spfdififs b dibrbdtfristid
+of bn individubl dodumfnt bnd tif print job sfttings to bf bpplifd to bn
+individubl dodumfnt.
+<li><A HREF="PrintRfqufstAttributf.itml">PrintRfqufstAttributf</A> spfdififs 
+b sftting bpplifd to b wiolf print job bnd to bll tif dodumfnts in 
+tif print job. 
+<li><A HREF="PrintJobAttributf.itml">PrintJobAttributf</A> rfports tif stbtus
+of b print job.
+<li><A HREF="PrintSfrvidfAttributf.itml">PrintSfrvidfAttributf</A> rfports tif
+stbtus of b print sfrvidf.
+<li><A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A> givfs
+tif supportfd vblufs for bnotifr bttributf.
 </ul>
-Each attribute class
-implements one or more of these tagging subinterfaces
-to indicate where the attribute can be used in the API.
-If an attribute class implements multiple tagging subinterfaces,
-the attribute can be used in multiple contexts.  For example, the media
-attribute can apply to one document in a print job as a <code>DocAttribute</code>
-or to an entire print job as a <code>PrintRequestAttribute</code>.
-Certain low-level attributes
-are never used on their own
-but are always aggregated into higher-level attributes.
-These low-level attribute classes only
-implement interface <A HREF="Attribute.html">Attribute</A>,
-not any of the tagging subinterfaces.
+Ebdi bttributf dlbss
+implfmfnts onf or morf of tifsf tbgging subintfrfbdfs
+to indidbtf wifrf tif bttributf dbn bf usfd in tif API.
+If bn bttributf dlbss implfmfnts multiplf tbgging subintfrfbdfs,
+tif bttributf dbn bf usfd in multiplf dontfxts.  For fxbmplf, tif mfdib
+bttributf dbn bpply to onf dodumfnt in b print job bs b <dodf>DodAttributf</dodf>
+or to bn fntirf print job bs b <dodf>PrintRfqufstAttributf</dodf>.
+Cfrtbin low-lfvfl bttributfs
+brf nfvfr usfd on tifir own
+but brf blwbys bggrfgbtfd into iigifr-lfvfl bttributfs.
+Tifsf low-lfvfl bttributf dlbssfs only
+implfmfnt intfrfbdf <A HREF="Attributf.itml">Attributf</A>,
+not bny of tif tbgging subintfrfbdfs.
 <P>
-The Java Print Service API defines a group of
-standard attribute classes modeled upon the attributes in
-the Internet Printing Protocol (IPP) version 1.1. The
-standard attribute classes are in the subpackage
-javax.print.attribute.standard to keep the actual
-attribute classes conceptually separate from the generic
-apparatus defined in package javax.print.attribute. 
+Tif Jbvb Print Sfrvidf API dffinfs b group of
+stbndbrd bttributf dlbssfs modflfd upon tif bttributfs in
+tif Intfrnft Printing Protodol (IPP) vfrsion 1.1. Tif
+stbndbrd bttributf dlbssfs brf in tif subpbdkbgf
+jbvbx.print.bttributf.stbndbrd to kffp tif bdtubl
+bttributf dlbssfs dondfptublly sfpbrbtf from tif gfnfrid
+bppbrbtus dffinfd in pbdkbgf jbvbx.print.bttributf. 
 
-<H3>Attribute Sets</H3>
-A client usually needs to provide more than one processing 
-instruction when submitting a print job.  For example, the client might need to
-specify a media size of A4 and a landscape orientation.  To send more than one
-processing instruction, the client collects the attributes into an 
-attribute set, which the Java Print Service API represents with the 
-<a href="AttributeSet.html">AttributeSet</a>
- interface.
+<H3>Attributf Sfts</H3>
+A dlifnt usublly nffds to providf morf tibn onf prodfssing 
+instrudtion wifn submitting b print job.  For fxbmplf, tif dlifnt migit nffd to
+spfdify b mfdib sizf of A4 bnd b lbndsdbpf orifntbtion.  To sfnd morf tibn onf
+prodfssing instrudtion, tif dlifnt dollfdts tif bttributfs into bn 
+bttributf sft, wiidi tif Jbvb Print Sfrvidf API rfprfsfnts witi tif 
+<b irff="AttributfSft.itml">AttributfSft</b>
+ intfrfbdf.
 <p>
-The <code>AttributeSet</code> interface is similar to the 
-<a href="../../../java/util/Map.html">Map</a> interface: it provides a map of 
-key to values, in which each key is unique and can contain no more than one 
-value.  However, the <code>AttributeSet</code> interface is designed to 
-specifically support the needs of the Java Print Service API.  An 
-<code>AttributeSet</code> requires that:
+Tif <dodf>AttributfSft</dodf> intfrfbdf is similbr to tif 
+<b irff="../../../jbvb/util/Mbp.itml">Mbp</b> intfrfbdf: it providfs b mbp of 
+kfy to vblufs, in wiidi fbdi kfy is uniquf bnd dbn dontbin no morf tibn onf 
+vbluf.  Howfvfr, tif <dodf>AttributfSft</dodf> intfrfbdf is dfsignfd to 
+spfdifidblly support tif nffds of tif Jbvb Print Sfrvidf API.  An 
+<dodf>AttributfSft</dodf> rfquirfs tibt:
 <OL TYPE=1>
-<LI>Each key in an <code>AttributeSet</code> corresponds to a category, and
-the value of the key can only be one of the attribute values that belong
-to the category represented by the key.  Thus, unlike a <code>Map</code>, an 
-<code>AttributeSet</code> restricts the possible values of a key: an 
-attribute category cannot be set to an attribute value that does not belong to
-that category.
-<LI>No two attributes from the same category can exist in the same set.
-For example, an attribute collection
-must not contain both a "one-sided" attribute and a "two-sided" attribute
-because these two attributes give the printer conflicting instructions.
-<LI>Only attributes implementing the <code>Attribute</code> interface can
-be added to the set.
+<LI>Ebdi kfy in bn <dodf>AttributfSft</dodf> dorrfsponds to b dbtfgory, bnd
+tif vbluf of tif kfy dbn only bf onf of tif bttributf vblufs tibt bflong
+to tif dbtfgory rfprfsfntfd by tif kfy.  Tius, unlikf b <dodf>Mbp</dodf>, bn 
+<dodf>AttributfSft</dodf> rfstridts tif possiblf vblufs of b kfy: bn 
+bttributf dbtfgory dbnnot bf sft to bn bttributf vbluf tibt dofs not bflong to
+tibt dbtfgory.
+<LI>No two bttributfs from tif sbmf dbtfgory dbn fxist in tif sbmf sft.
+For fxbmplf, bn bttributf dollfdtion
+must not dontbin boti b "onf-sidfd" bttributf bnd b "two-sidfd" bttributf
+bfdbusf tifsf two bttributfs givf tif printfr donflidting instrudtions.
+<LI>Only bttributfs implfmfnting tif <dodf>Attributf</dodf> intfrfbdf dbn
+bf bddfd to tif sft.
 </OL>
 
 <P>
-The javax.print.attribute package includes 
-<A HREF="HashAttributeSet.html">HashAttributeSet</A>
-as a concrete implementation of the attribute set interface.
-<code>HashAttributeSet</code> provides an attribute set based on a hash map.
-You can use this implementation or provide your own implementation
-of interface <code>AttributeSet</code>.
+Tif jbvbx.print.bttributf pbdkbgf indludfs 
+<A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+bs b dondrftf implfmfntbtion of tif bttributf sft intfrfbdf.
+<dodf>HbsiAttributfSft</dodf> providfs bn bttributf sft bbsfd on b ibsi mbp.
+You dbn usf tiis implfmfntbtion or providf your own implfmfntbtion
+of intfrfbdf <dodf>AttributfSft</dodf>.
 <p>
-The Java Print Service API provides four specializations of an attribute set 
-that are restricted to contain just one of the four kinds of attributes, 
-as discussed in the <a href="#role">Attribute Roles</a> section:
+Tif Jbvb Print Sfrvidf API providfs four spfdiblizbtions of bn bttributf sft 
+tibt brf rfstridtfd to dontbin just onf of tif four kinds of bttributfs, 
+bs disdussfd in tif <b irff="#rolf">Attributf Rolfs</b> sfdtion:
 <ul>
-<li><A HREF="DocAttributeSet.html">DocAttributeSet</A>
-<li><A HREF="PrintRequestAttributeSet.html">PrintRequestAttributeSet</A>
-<li><A HREF="PrintJobAttributeSet.html">PrintJobAttributeSet</A>
-<li><A HREF="PrintServiceAttributeSet.html">PrintServiceAttributeSet</A>
+<li><A HREF="DodAttributfSft.itml">DodAttributfSft</A>
+<li><A HREF="PrintRfqufstAttributfSft.itml">PrintRfqufstAttributfSft</A>
+<li><A HREF="PrintJobAttributfSft.itml">PrintJobAttributfSft</A>
+<li><A HREF="PrintSfrvidfAttributfSft.itml">PrintSfrvidfAttributfSft</A>
 </ul>
-Notice that only four kinds of attribute sets are listed here, but there are
-five kinds of attributes.  Interface 
-<A HREF="SupportedValuesAttribute.html">SupportedValuesAttribute</A>
-denotes an attribute that gives the supported values for another attribute.
-Supported-values attributes are never aggregated into attribute sets,
-so there is no attribute set subinterface defined for them.
+Notidf tibt only four kinds of bttributf sfts brf listfd ifrf, but tifrf brf
+fivf kinds of bttributfs.  Intfrfbdf 
+<A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A>
+dfnotfs bn bttributf tibt givfs tif supportfd vblufs for bnotifr bttributf.
+Supportfd-vblufs bttributfs brf nfvfr bggrfgbtfd into bttributf sfts,
+so tifrf is no bttributf sft subintfrfbdf dffinfd for tifm.
 
 <P>
-In some contexts, an attribute set is read-only, which means that the 
-client is only allowed to examine an attribute set's 
-contents but not change them. In other contexts, the attribute set is read-write,
-which means that the client is allowed both to examine and to change an 
-attribute set's contents. For a read-only attribute set, calling a mutating 
-operation throws an <code>UnmodifiableSetException</code>. 
+In somf dontfxts, bn bttributf sft is rfbd-only, wiidi mfbns tibt tif 
+dlifnt is only bllowfd to fxbminf bn bttributf sft's 
+dontfnts but not dibngf tifm. In otifr dontfxts, tif bttributf sft is rfbd-writf,
+wiidi mfbns tibt tif dlifnt is bllowfd boti to fxbminf bnd to dibngf bn 
+bttributf sft's dontfnts. For b rfbd-only bttributf sft, dblling b mutbting 
+opfrbtion tirows bn <dodf>UnmodifibblfSftExdfption</dodf>. 
 <P>
-Package javax.print.attribute includes
-one concrete implementation of each of the attribute set subinterfaces:
+Pbdkbgf jbvbx.print.bttributf indludfs
+onf dondrftf implfmfntbtion of fbdi of tif bttributf sft subintfrfbdfs:
 <ul>
-<li><A HREF="HashDocAttributeSet.html">HashDocAttributeSet</A>
-<li><A HREF="HashPrintRequestAttributeSet.html">HashPrintRequestAttributeSet</A>,
-<li><A HREF="HashPrintJobAttributeSet.html">HashPrintJobAttributeSet</A>,
-<li><A HREF="HashPrintServiceAttributeSet.html">HashPrintServiceAttributeSet</A>.
+<li><A HREF="HbsiDodAttributfSft.itml">HbsiDodAttributfSft</A>
+<li><A HREF="HbsiPrintRfqufstAttributfSft.itml">HbsiPrintRfqufstAttributfSft</A>,
+<li><A HREF="HbsiPrintJobAttributfSft.itml">HbsiPrintJobAttributfSft</A>,
+<li><A HREF="HbsiPrintSfrvidfAttributfSft.itml">HbsiPrintSfrvidfAttributfSft</A>.
 </ul>
-All of these classes extend <A HREF="HashAttributeSet.html">HashAttributeSet</A>
-and enforce the restriction that the attribute set is only allowed to contain
-the corresponding kind of attribute.
-<H3>Attribute Class Design</H3>
-An attribute value is a small, atomic data item,
-such as an integer or an enumerated value.  The Java Print Service API 
-does not use primitive data types, such as int, to represent attribute 
-values for these reasons:
+All of tifsf dlbssfs fxtfnd <A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+bnd fnfordf tif rfstridtion tibt tif bttributf sft is only bllowfd to dontbin
+tif dorrfsponding kind of bttributf.
+<H3>Attributf Clbss Dfsign</H3>
+An bttributf vbluf is b smbll, btomid dbtb itfm,
+sudi bs bn intfgfr or bn fnumfrbtfd vbluf.  Tif Jbvb Print Sfrvidf API 
+dofs not usf primitivf dbtb typfs, sudi bs int, to rfprfsfnt bttributf 
+vblufs for tifsf rfbsons:
 <ul>
-<li>Primitive data types are not type-safe.  For example, a compiler
-should not allow a "copies" attribute value to 
-be used for a "sides" attribute. 
-<li>Some attributes must be represented as a record of several
-values.  One example is printer resolution, which requires two 
-numbers, such as 600 and 300 representing 600 x 300 dpi.
+<li>Primitivf dbtb typfs brf not typf-sbff.  For fxbmplf, b dompilfr
+siould not bllow b "dopifs" bttributf vbluf to 
+bf usfd for b "sidfs" bttributf. 
+<li>Somf bttributfs must bf rfprfsfntfd bs b rfdord of sfvfrbl
+vblufs.  Onf fxbmplf is printfr rfsolution, wiidi rfquirfs two 
+numbfrs, sudi bs 600 bnd 300 rfprfsfnting 600 x 300 dpi.
 </ul>
-For type-safety and to represent all attributes uniformly, the Java 
-Print Service API defines each attribute category as a class, such as 
-class <code>Copies</code>, class <a href="standard/Sides.html">Sides</a>, and class 
-<a href="standard/PrinterResolution.html">PrinterResolution</a>.  Each 
-attribute class wraps one or more primitive data items containing the 
-attribute's value.  Attribute set operations perform frequent
-comparisons between attribute category objects when adding attributes,
-finding existing attributes in the same category, and looking
-up an attribute given its category.  Because an attribute category is 
-represented by a class, fast attribute-value comparisons can be performed 
-with the <code>Class.equals</code> method.
+For typf-sbffty bnd to rfprfsfnt bll bttributfs uniformly, tif Jbvb 
+Print Sfrvidf API dffinfs fbdi bttributf dbtfgory bs b dlbss, sudi bs 
+dlbss <dodf>Copifs</dodf>, dlbss <b irff="stbndbrd/Sidfs.itml">Sidfs</b>, bnd dlbss 
+<b irff="stbndbrd/PrintfrRfsolution.itml">PrintfrRfsolution</b>.  Ebdi 
+bttributf dlbss wrbps onf or morf primitivf dbtb itfms dontbining tif 
+bttributf's vbluf.  Attributf sft opfrbtions pfrform frfqufnt
+dompbrisons bftwffn bttributf dbtfgory objfdts wifn bdding bttributfs,
+finding fxisting bttributfs in tif sbmf dbtfgory, bnd looking
+up bn bttributf givfn its dbtfgory.  Bfdbusf bn bttributf dbtfgory is 
+rfprfsfntfd by b dlbss, fbst bttributf-vbluf dompbrisons dbn bf pfrformfd 
+witi tif <dodf>Clbss.fqubls</dodf> mftiod.
 <p>
-Even though the Java Print Service API includes a large number of
-different attribute categories, there are only a few different types
-of attribute values.  Most attributes can be represented by a small
-number of data types, such as: integer values, integer ranges, text,
-or an enumeration of integer values.  The type of the attribute value that
-a category accepts is called the attribute's abstract syntax.  To
-provide consistency and reduce code duplication, the Java Print Service
-API defines abstract syntax classes to represent each 
-abstract syntax, and these classes are used as the parent of standard
-attributes whenever possible.  The abstract syntax classes are:
+Evfn tiougi tif Jbvb Print Sfrvidf API indludfs b lbrgf numbfr of
+difffrfnt bttributf dbtfgorifs, tifrf brf only b ffw difffrfnt typfs
+of bttributf vblufs.  Most bttributfs dbn bf rfprfsfntfd by b smbll
+numbfr of dbtb typfs, sudi bs: intfgfr vblufs, intfgfr rbngfs, tfxt,
+or bn fnumfrbtion of intfgfr vblufs.  Tif typf of tif bttributf vbluf tibt
+b dbtfgory bddfpts is dbllfd tif bttributf's bbstrbdt syntbx.  To
+providf donsistfndy bnd rfdudf dodf duplidbtion, tif Jbvb Print Sfrvidf
+API dffinfs bbstrbdt syntbx dlbssfs to rfprfsfnt fbdi 
+bbstrbdt syntbx, bnd tifsf dlbssfs brf usfd bs tif pbrfnt of stbndbrd
+bttributfs wifnfvfr possiblf.  Tif bbstrbdt syntbx dlbssfs brf:
 <ul>
-<li><a href="EnumSyntax.html">EnumSyntax</a> 
-provides a type-safe enumeration in which enumerated
-values are represented as singleton objects.  Each enumeration 
-singleton is an instance of the enumeration class that wraps a hidden
-int value.
-<li><a href="IntegerSyntax.html">IntegerSyntax</a>
- is the abstract syntax for integer-valued attributes.
-<li><a href="TextSyntax.html">TextSyntax</a> is 
-the abstract syntax for text-valued attributes, and
-includes a locale giving the text string's natural language.
-<li><a href="SetOfIntegerSyntax.html">SetOfIntegerSyntax</a>
- is the abstract syntax for attributes 
-representing a range or set of integers
-<li><a href="ResolutionSyntax.html">ResolutionSyntax</a>
- is the abstract syntax for attributes representing
- resolution values, such as 600x300 dpi.
-<li><a href="Size2DSyntax.html">Size2DSyntax</a>
- is the abstract syntax for attributes representing a 
-two-dimensional size, such as a paper size of 8.5 x 11 inches.
-<li><a href="DateTimeSyntax.html">DateTimeSyntax</a>
- is the abstract syntax for attributes whose value is a date and time.
-<li><a href="URISyntax.html">URISyntax</a> is the 
-abstract syntax for attributes whose value is a Uniform Resource
-Indicator.
+<li><b irff="EnumSyntbx.itml">EnumSyntbx</b> 
+providfs b typf-sbff fnumfrbtion in wiidi fnumfrbtfd
+vblufs brf rfprfsfntfd bs singlfton objfdts.  Ebdi fnumfrbtion 
+singlfton is bn instbndf of tif fnumfrbtion dlbss tibt wrbps b iiddfn
+int vbluf.
+<li><b irff="IntfgfrSyntbx.itml">IntfgfrSyntbx</b>
+ is tif bbstrbdt syntbx for intfgfr-vblufd bttributfs.
+<li><b irff="TfxtSyntbx.itml">TfxtSyntbx</b> is 
+tif bbstrbdt syntbx for tfxt-vblufd bttributfs, bnd
+indludfs b lodblf giving tif tfxt string's nbturbl lbngubgf.
+<li><b irff="SftOfIntfgfrSyntbx.itml">SftOfIntfgfrSyntbx</b>
+ is tif bbstrbdt syntbx for bttributfs 
+rfprfsfnting b rbngf or sft of intfgfrs
+<li><b irff="RfsolutionSyntbx.itml">RfsolutionSyntbx</b>
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting
+ rfsolution vblufs, sudi bs 600x300 dpi.
+<li><b irff="Sizf2DSyntbx.itml">Sizf2DSyntbx</b>
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting b 
+two-dimfnsionbl sizf, sudi bs b pbpfr sizf of 8.5 x 11 indifs.
+<li><b irff="DbtfTimfSyntbx.itml">DbtfTimfSyntbx</b>
+ is tif bbstrbdt syntbx for bttributfs wiosf vbluf is b dbtf bnd timf.
+<li><b irff="URISyntbx.itml">URISyntbx</b> is tif 
+bbstrbdt syntbx for bttributfs wiosf vbluf is b Uniform Rfsourdf
+Indidbtor.
 </ul>
-The abstract syntax classes are independent of the attributes that
-use them.  In fact, applications that have nothing to do with
-printing can use the abstract syntax classes.  Although most of the
-standard attribute classes extend one of the abstract syntax classes, 
-no attribute class is required to extend one of these classes.  The 
-abstract syntax classes merely provide a convenient implementation that
-can be shared by many attribute classes.
+Tif bbstrbdt syntbx dlbssfs brf indfpfndfnt of tif bttributfs tibt
+usf tifm.  In fbdt, bpplidbtions tibt ibvf notiing to do witi
+printing dbn usf tif bbstrbdt syntbx dlbssfs.  Altiougi most of tif
+stbndbrd bttributf dlbssfs fxtfnd onf of tif bbstrbdt syntbx dlbssfs, 
+no bttributf dlbss is rfquirfd to fxtfnd onf of tifsf dlbssfs.  Tif 
+bbstrbdt syntbx dlbssfs mfrfly providf b donvfnifnt implfmfntbtion tibt
+dbn bf sibrfd by mbny bttributf dlbssfs.
 <p>
-Each attribute class implements the <code>Attribute</code> interface, either
-directly or indirectly, to mark it as a printing attribute.  An
-attribute class that can appear in restricted attribute sets in
-certain contexts also implements one or more subinterfaces of 
-<code>Attribute</code>.  Most attribute classes also extend the appropriate 
-abstract syntax class to get the implementation.  Consider the 
-<code>Sides</code> attribute class:
-<blockquote>
-<pre>
-public class Sides
-  extends EnumSyntax
-  implements DocAttribute, PrintRequestAttribute, PrintJobAttribute
+Ebdi bttributf dlbss implfmfnts tif <dodf>Attributf</dodf> intfrfbdf, fitifr
+dirfdtly or indirfdtly, to mbrk it bs b printing bttributf.  An
+bttributf dlbss tibt dbn bppfbr in rfstridtfd bttributf sfts in
+dfrtbin dontfxts blso implfmfnts onf or morf subintfrfbdfs of 
+<dodf>Attributf</dodf>.  Most bttributf dlbssfs blso fxtfnd tif bppropribtf 
+bbstrbdt syntbx dlbss to gft tif implfmfntbtion.  Considfr tif 
+<dodf>Sidfs</dodf> bttributf dlbss:
+<blodkquotf>
+<prf>
+publid dlbss Sidfs
+  fxtfnds EnumSyntbx
+  implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf
   {
-  public final Object getCategory()
+  publid finbl Objfdt gftCbtfgory()
     {
-    return Sides.class;
+    rfturn Sidfs.dlbss;
     }
   ...
   }
-</pre>
-</blockquote>  
+</prf>
+</blodkquotf>  
 <p>
-Since every attribute class implements <code>Attribute</code>, every attribute
-class must provide an implementation for the 
-{@link javax.print.attribute.Attribute#getCategory() getCategory} method,
-which returns the attribute category.  In the case of <code>Sides</code>, the
-<code>getCategory</code> method returns <code>Sides.class</code>.  The 
-<code>getCategory</code> method is final to ensure that any vendor-defined 
-subclasses of a standard attribute class appear in the same category.  
-Every attribute object is immutable once constructed so that attribute object 
-references can be passed around freely.  To get a different attribute 
-value, construct a different attribute object.  
+Sindf fvfry bttributf dlbss implfmfnts <dodf>Attributf</dodf>, fvfry bttributf
+dlbss must providf bn implfmfntbtion for tif 
+{@link jbvbx.print.bttributf.Attributf#gftCbtfgory() gftCbtfgory} mftiod,
+wiidi rfturns tif bttributf dbtfgory.  In tif dbsf of <dodf>Sidfs</dodf>, tif
+<dodf>gftCbtfgory</dodf> mftiod rfturns <dodf>Sidfs.dlbss</dodf>.  Tif 
+<dodf>gftCbtfgory</dodf> mftiod is finbl to fnsurf tibt bny vfndor-dffinfd 
+subdlbssfs of b stbndbrd bttributf dlbss bppfbr in tif sbmf dbtfgory.  
+Evfry bttributf objfdt is immutbblf ondf donstrudtfd so tibt bttributf objfdt 
+rfffrfndfs dbn bf pbssfd bround frffly.  To gft b difffrfnt bttributf 
+vbluf, donstrudt b difffrfnt bttributf objfdt.  
 
-<h3>Attribute Vendors</h3>
+<i3>Attributf Vfndors</i3>
 
-The Java Print Service API is designed so that vendors can:
+Tif Jbvb Print Sfrvidf API is dfsignfd so tibt vfndors dbn:
 <ul>
-<li>define new vendor-specific values for any standard attribute 
-defined in <a href="standard/package-summary.html">
-javax.print.attribute.standard</a>.
-<li>define new attribute categories representing the vendor printer's
-proprietary capabilities not already supported by the standard
-attributes.
+<li>dffinf nfw vfndor-spfdifid vblufs for bny stbndbrd bttributf 
+dffinfd in <b irff="stbndbrd/pbdkbgf-summbry.itml">
+jbvbx.print.bttributf.stbndbrd</b>.
+<li>dffinf nfw bttributf dbtfgorifs rfprfsfnting tif vfndor printfr's
+propriftbry dbpbbilitifs not blrfbdy supportfd by tif stbndbrd
+bttributfs.
 </ul>
-To define a new value for an attribute, a client can construct 
-instances of such attributes with arbitrary values at runtime.
-However, an enumerated attribute using an abstract syntax class
-of <code>EnumSyntax</code> specifies all the possible attribute values 
-at compile time as singleton instances of the attribute class.  This 
-means that new enumerated values cannot be constructed at run time.  
-To define new vendor-specific values for a standard enumerated 
-attribute, the vendor must define a new attribute class specifying 
-the new singleton instances.  To ensure that the new attribute values 
-fall in the same category as the standard attribute values, the new 
-attribute class must be a subclass of the standard attribute class.
+To dffinf b nfw vbluf for bn bttributf, b dlifnt dbn donstrudt 
+instbndfs of sudi bttributfs witi brbitrbry vblufs bt runtimf.
+Howfvfr, bn fnumfrbtfd bttributf using bn bbstrbdt syntbx dlbss
+of <dodf>EnumSyntbx</dodf> spfdififs bll tif possiblf bttributf vblufs 
+bt dompilf timf bs singlfton instbndfs of tif bttributf dlbss.  Tiis 
+mfbns tibt nfw fnumfrbtfd vblufs dbnnot bf donstrudtfd bt run timf.  
+To dffinf nfw vfndor-spfdifid vblufs for b stbndbrd fnumfrbtfd 
+bttributf, tif vfndor must dffinf b nfw bttributf dlbss spfdifying 
+tif nfw singlfton instbndfs.  To fnsurf tibt tif nfw bttributf vblufs 
+fbll in tif sbmf dbtfgory bs tif stbndbrd bttributf vblufs, tif nfw 
+bttributf dlbss must bf b subdlbss of tif stbndbrd bttributf dlbss.
 <p>
-To define a new attribute category, a vendor defines a new attribute
-class.  This attribute class, like the standard attribute classes, 
-implements <code>Attribute</code> or one of its subinterfaces and extends an
-abstract syntax class.  The vendor can either use an existing 
-abstract syntax class or define a new one.  The new vendor-defined
-attribute can be used wherever an <code>Attribute</code> is used, such as in an
-<code>AttributeSet</code>.
+To dffinf b nfw bttributf dbtfgory, b vfndor dffinfs b nfw bttributf
+dlbss.  Tiis bttributf dlbss, likf tif stbndbrd bttributf dlbssfs, 
+implfmfnts <dodf>Attributf</dodf> or onf of its subintfrfbdfs bnd fxtfnds bn
+bbstrbdt syntbx dlbss.  Tif vfndor dbn fitifr usf bn fxisting 
+bbstrbdt syntbx dlbss or dffinf b nfw onf.  Tif nfw vfndor-dffinfd
+bttributf dbn bf usfd wifrfvfr bn <dodf>Attributf</dodf> is usfd, sudi bs in bn
+<dodf>AttributfSft</dodf>.
 
-<h3>Using Attributes</h3>
+<i3>Using Attributfs</i3>
 
-A typical printing application uses the <code>PrintRequestAttributeSet</code>
-because print-request attributes are the types of attributes that
-client usually specifies.  This example demonstrates creating an attribute
-set of print-request attributes and locating a printer that can
-print the document according to the specified attributes:
-<blockquote>
-<pre>
+A typidbl printing bpplidbtion usfs tif <dodf>PrintRfqufstAttributfSft</dodf>
+bfdbusf print-rfqufst bttributfs brf tif typfs of bttributfs tibt
+dlifnt usublly spfdififs.  Tiis fxbmplf dfmonstrbtfs drfbting bn bttributf
+sft of print-rfqufst bttributfs bnd lodbting b printfr tibt dbn
+print tif dodumfnt bddording to tif spfdififd bttributfs:
+<blodkquotf>
+<prf>
 
-FileInputStream psStream;
+FilfInputStrfbm psStrfbm;
 try {
-   psstream = new FileInputStream("file.ps");
-} catch (FileNotFoundException ffne) {
+   psstrfbm = nfw FilfInputStrfbm("filf.ps");
+} dbtdi (FilfNotFoundExdfption ffnf) {
 }
-if (psstream == null) {
-    return;
+if (psstrfbm == null) {
+    rfturn;
 }
-//Set the document type.  See the DocFlavor documentation for
-//more information.
-DocFlavor psInFormat = DocFlavor.INPUT_STREAM.POSTSCRIPT;
-Doc myDoc = new SimpleDoc(pstream, psInFormat, null);  
-PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-aset.add(new Copies(5));
-aset.add(MediaSize.A4);
-aset.add(Sides.DUPLEX);
+//Sft tif dodumfnt typf.  Sff tif DodFlbvor dodumfntbtion for
+//morf informbtion.
+DodFlbvor psInFormbt = DodFlbvor.INPUT_STREAM.POSTSCRIPT;
+Dod myDod = nfw SimplfDod(pstrfbm, psInFormbt, null);  
+PrintRfqufstAttributfSft bsft = nfw HbsiPrintRfqufstAttributfSft();
+bsft.bdd(nfw Copifs(5));
+bsft.bdd(MfdibSizf.A4);
+bsft.bdd(Sidfs.DUPLEX);
 
-PrintService[] services = 
-		PrintServiceLookup.lookupPrintServices(psInFormat, aset);
-if (services.length > 0) {
-   DocPrintJob job = services[0].createPrintJob();
+PrintSfrvidf[] sfrvidfs = 
+		PrintSfrvidfLookup.lookupPrintSfrvidfs(psInFormbt, bsft);
+if (sfrvidfs.lfngti > 0) {
+   DodPrintJob job = sfrvidfs[0].drfbtfPrintJob();
    try {
-	job.print(myDoc, aset);
-   } catch (PrintException pe) {}
+	job.print(myDod, bsft);
+   } dbtdi (PrintExdfption pf) {}
 }
-</pre>
-</blockquote>
+</prf>
+</blodkquotf>
 <P>
-Please note: In the javax.print APIs, a null reference parameter to methods 
-is incorrect unless explicitly documented on the method as having a meaningful
-interpretation. Usage to the contrary is incorrect coding and may result
-in a run time exception either immediately or at some later time.
-IllegalArgumentException and NullPointerException are examples of
-typical and acceptable run time exceptions for such cases.
+Plfbsf notf: In tif jbvbx.print APIs, b null rfffrfndf pbrbmftfr to mftiods 
+is indorrfdt unlfss fxpliditly dodumfntfd on tif mftiod bs ibving b mfbningful
+intfrprftbtion. Usbgf to tif dontrbry is indorrfdt doding bnd mby rfsult
+in b run timf fxdfption fitifr immfdibtfly or bt somf lbtfr timf.
+IllfgblArgumfntExdfption bnd NullPointfrExdfption brf fxbmplfs of
+typidbl bnd bddfptbblf run timf fxdfptions for sudi dbsfs.
 
-@since 1.4
+@sindf 1.4
 </body>
-</html>
+</itml>

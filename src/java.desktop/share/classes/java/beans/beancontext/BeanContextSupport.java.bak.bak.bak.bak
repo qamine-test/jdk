@@ -1,0 +1,1420 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns.bfbndontfxt;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+
+import jbvb.bfbns.Bfbns;
+import jbvb.bfbns.ApplftInitiblizfr;
+
+import jbvb.bfbns.DfsignModf;
+
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfSupport;
+
+import jbvb.bfbns.VftobblfChbngfListfnfr;
+import jbvb.bfbns.VftobblfChbngfSupport;
+import jbvb.bfbns.PropfrtyVftoExdfption;
+
+import jbvb.bfbns.Visibility;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.nft.URL;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+
+
+/**
+ * This hflpfr dlbss providfs b utility implfmfntbtion of thf
+ * jbvb.bfbns.bfbndontfxt.BfbnContfxt intfrfbdf.
+ * <p>
+ * Sindf this dlbss dirfdtly implfmfnts thf BfbnContfxt intfrfbdf, thf dlbss
+ * dbn, bnd is intfndfd to bf usfd fithfr by subdlbssing this implfmfntbtion,
+ * or vib bd-hod dflfgbtion of bn instbndf of this dlbss from bnothfr.
+ * </p>
+ *
+ * @buthor Lburfndf P. G. Cbblf
+ * @sindf 1.2
+ */
+publid dlbss      BfbnContfxtSupport fxtfnds BfbnContfxtChildSupport
+       implfmfnts BfbnContfxt,
+                  Sfriblizbblf,
+                  PropfrtyChbngfListfnfr,
+                  VftobblfChbngfListfnfr {
+
+    // Fix for bug 4282900 to pbss JCK rfgrfssion tfst
+    stbtid finbl long sfriblVfrsionUID = -4879613978649577204L;
+
+    /**
+     *
+     * Construdt b BfbnContfxtSupport instbndf
+     *
+     *
+     * @pbrbm pffr      Thf pffr <tt>BfbnContfxt</tt> wf brf
+     *                  supplying bn implfmfntbtion for,
+     *                  or <tt>null</tt>
+     *                  if this objfdt is its own pffr
+     * @pbrbm ldlf      Thf durrfnt Lodblf for this BfbnContfxt. If
+     *                  <tt>ldlf</tt> is <tt>null</tt>, thf dffbult lodblf
+     *                  is bssignfd to thf <tt>BfbnContfxt</tt> instbndf.
+     * @pbrbm dTimf     Thf initibl stbtf,
+     *                  <tt>truf</tt> if in dfsign modf,
+     *                  <tt>fblsf</tt> if runtimf.
+     * @pbrbm visiblf   Thf initibl visibility.
+     * @sff jbvb.util.Lodblf#gftDffbult()
+     * @sff jbvb.util.Lodblf#sftDffbult(jbvb.util.Lodblf)
+     */
+    publid BfbnContfxtSupport(BfbnContfxt pffr, Lodblf ldlf, boolfbn dTimf, boolfbn visiblf) {
+        supfr(pffr);
+
+        lodblf          = ldlf != null ? ldlf : Lodblf.gftDffbult();
+        dfsignTimf      = dTimf;
+        okToUsfGui      = visiblf;
+
+        initiblizf();
+    }
+
+    /**
+     * Crfbtf bn instbndf using thf spfdififd Lodblf bnd dfsign modf.
+     *
+     * @pbrbm pffr      Thf pffr <tt>BfbnContfxt</tt> wf
+     *                  brf supplying bn implfmfntbtion for,
+     *                  or <tt>null</tt> if this objfdt is its own pffr
+     * @pbrbm ldlf      Thf durrfnt Lodblf for this <tt>BfbnContfxt</tt>. If
+     *                  <tt>ldlf</tt> is <tt>null</tt>, thf dffbult lodblf
+     *                  is bssignfd to thf <tt>BfbnContfxt</tt> instbndf.
+     * @pbrbm dtimf     Thf initibl stbtf, <tt>truf</tt>
+     *                  if in dfsign modf,
+     *                  <tt>fblsf</tt> if runtimf.
+     * @sff jbvb.util.Lodblf#gftDffbult()
+     * @sff jbvb.util.Lodblf#sftDffbult(jbvb.util.Lodblf)
+     */
+    publid BfbnContfxtSupport(BfbnContfxt pffr, Lodblf ldlf, boolfbn dtimf) {
+        this (pffr, ldlf, dtimf, truf);
+    }
+
+    /**
+     * Crfbtf bn instbndf using thf spfdififd lodblf
+     *
+     * @pbrbm pffr      Thf pffr BfbnContfxt wf brf
+     *                  supplying bn implfmfntbtion for,
+     *                  or <tt>null</tt> if this objfdt
+     *                  is its own pffr
+     * @pbrbm ldlf      Thf durrfnt Lodblf for this
+     *                  <tt>BfbnContfxt</tt>. If
+     *                  <tt>ldlf</tt> is <tt>null</tt>,
+     *                  thf dffbult lodblf
+     *                  is bssignfd to thf <tt>BfbnContfxt</tt>
+     *                  instbndf.
+     * @sff jbvb.util.Lodblf#gftDffbult()
+     * @sff jbvb.util.Lodblf#sftDffbult(jbvb.util.Lodblf)
+     */
+    publid BfbnContfxtSupport(BfbnContfxt pffr, Lodblf ldlf) {
+        this (pffr, ldlf, fblsf, truf);
+    }
+
+    /**
+     * Crfbtf bn instbndf using with b dffbult lodblf
+     *
+     * @pbrbm pffr      Thf pffr <tt>BfbnContfxt</tt> wf brf
+     *                  supplying bn implfmfntbtion for,
+     *                  or <tt>null</tt> if this objfdt
+     *                  is its own pffr
+     */
+    publid BfbnContfxtSupport(BfbnContfxt pffr) {
+        this (pffr, null, fblsf, truf);
+    }
+
+    /**
+     * Crfbtf bn instbndf thbt is not b dflfgbtf of bnothfr objfdt
+     */
+
+    publid BfbnContfxtSupport() {
+        this (null, null, fblsf, truf);
+    }
+
+    /**
+     * Gfts thf instbndf of <tt>BfbnContfxt</tt> thbt
+     * this objfdt is providing thf implfmfntbtion for.
+     * @rfturn thf BfbnContfxt instbndf
+     */
+    publid BfbnContfxt gftBfbnContfxtPffr() { rfturn (BfbnContfxt)gftBfbnContfxtChildPffr(); }
+
+    /**
+     * <p>
+     * Thf instbntibtfChild mfthod is b donvfnifndf hook
+     * in BfbnContfxt to simplify
+     * thf tbsk of instbntibting b Bfbn, nfstfd,
+     * into b <tt>BfbnContfxt</tt>.
+     * </p>
+     * <p>
+     * Thf sfmbntids of thf bfbnNbmf pbrbmftfr brf dffinfd by jbvb.bfbns.Bfbns.instbntibtf.
+     * </p>
+     *
+     * @pbrbm bfbnNbmf thf nbmf of thf Bfbn to instbntibtf within this BfbnContfxt
+     * @throws IOExdfption if thfrf is bn I/O frror whfn thf bfbn is bfing dfsfriblizfd
+     * @throws ClbssNotFoundExdfption if thf dlbss
+     * idfntififd by thf bfbnNbmf pbrbmftfr is not found
+     * @rfturn thf nfw objfdt
+     */
+    publid Objfdt instbntibtfChild(String bfbnNbmf)
+           throws IOExdfption, ClbssNotFoundExdfption {
+        BfbnContfxt bd = gftBfbnContfxtPffr();
+
+        rfturn Bfbns.instbntibtf(bd.gftClbss().gftClbssLobdfr(), bfbnNbmf, bd);
+    }
+
+    /**
+     * Gfts thf numbfr of dhildrfn durrfntly nfstfd in
+     * this BfbnContfxt.
+     *
+     * @rfturn numbfr of dhildrfn
+     */
+    publid int sizf() {
+        syndhronizfd(dhildrfn) {
+            rfturn dhildrfn.sizf();
+        }
+    }
+
+    /**
+     * Rfports whfthfr or not this
+     * <tt>BfbnContfxt</tt> is fmpty.
+     * A <tt>BfbnContfxt</tt> is donsidfrfd
+     * fmpty whfn it dontbins zfro
+     * nfstfd dhildrfn.
+     * @rfturn if thfrf brf not dhildrfn
+     */
+    publid boolfbn isEmpty() {
+        syndhronizfd(dhildrfn) {
+            rfturn dhildrfn.isEmpty();
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf spfdififd objfdt
+     * is durrfntly b dhild of this <tt>BfbnContfxt</tt>.
+     * @pbrbm o thf Objfdt in qufstion
+     * @rfturn if this objfdt is b dhild
+     */
+    publid boolfbn dontbins(Objfdt o) {
+        syndhronizfd(dhildrfn) {
+            rfturn dhildrfn.dontbinsKfy(o);
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf spfdififd objfdt
+     * is durrfntly b dhild of this <tt>BfbnContfxt</tt>.
+     * @pbrbm o thf Objfdt in qufstion
+     * @rfturn if this objfdt is b dhild
+     */
+    publid boolfbn dontbinsKfy(Objfdt o) {
+        syndhronizfd(dhildrfn) {
+            rfturn dhildrfn.dontbinsKfy(o);
+        }
+    }
+
+    /**
+     * Gfts bll JbvbBfbn or <tt>BfbnContfxt</tt> instbndfs
+     * durrfntly nfstfd in this <tt>BfbnContfxt</tt>.
+     * @rfturn bn <tt>Itfrbtor</tt> of thf nfstfd dhildrfn
+     */
+    publid Itfrbtor<Objfdt> itfrbtor() {
+        syndhronizfd(dhildrfn) {
+            rfturn nfw BCSItfrbtor(dhildrfn.kfySft().itfrbtor());
+        }
+    }
+
+    /**
+     * Gfts bll JbvbBfbn or <tt>BfbnContfxt</tt>
+     * instbndfs durrfntly nfstfd in this BfbnContfxt.
+     */
+    publid Objfdt[] toArrby() {
+        syndhronizfd(dhildrfn) {
+            rfturn dhildrfn.kfySft().toArrby();
+        }
+    }
+
+    /**
+     * Gfts bn brrby dontbining bll dhildrfn of
+     * this <tt>BfbnContfxt</tt> thbt mbtdh
+     * thf typfs dontbinfd in brry.
+     * @pbrbm brry Thf brrby of objfdt
+     * typfs thbt brf of intfrfst.
+     * @rfturn bn brrby of dhildrfn
+     */
+    publid Objfdt[] toArrby(Objfdt[] brry) {
+        syndhronizfd(dhildrfn) {
+            rfturn dhildrfn.kfySft().toArrby(brry);
+        }
+    }
+
+
+    /************************************************************************/
+
+    /**
+     * protfdtfd finbl subdlbss thbt fndbpsulbtfs bn itfrbtor but implfmfnts
+     * b noop rfmovf() mfthod.
+     */
+
+    protfdtfd stbtid finbl dlbss BCSItfrbtor implfmfnts Itfrbtor<Objfdt> {
+        BCSItfrbtor(Itfrbtor<?> i) { supfr(); srd = i; }
+
+        publid boolfbn hbsNfxt() { rfturn srd.hbsNfxt(); }
+        publid Objfdt       nfxt()    { rfturn srd.nfxt();    }
+        publid void    rfmovf()  { /* do nothing */      }
+
+        privbtf Itfrbtor<?> srd;
+    }
+
+    /************************************************************************/
+
+    /*
+     * protfdtfd nfstfd dlbss dontbining pfr dhild informbtion, bn instbndf
+     * of whidh is bssodibtfd with fbdh dhild in thf "dhildrfn" hbshtbblf.
+     * subdlbssfs dbn fxtfnd this dlbss to indludf thfir own pfr-dhild stbtf.
+     *
+     * Notf thbt this 'vbluf' is sfriblizfd with thf dorrfsponding dhild 'kfy'
+     * whfn thf BfbnContfxtSupport is sfriblizfd.
+     */
+
+    protfdtfd dlbss BCSChild implfmfnts Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -5815286101609939109L;
+
+        BCSChild(Objfdt bdd, Objfdt pffr) {
+            supfr();
+
+            dhild     = bdd;
+            proxyPffr = pffr;
+        }
+
+        Objfdt  gftChild()                  { rfturn dhild; }
+
+        void    sftRfmovfPfnding(boolfbn v) { rfmovfPfnding = v; }
+
+        boolfbn isRfmovfPfnding()           { rfturn rfmovfPfnding; }
+
+        boolfbn isProxyPffr()               { rfturn proxyPffr != null; }
+
+        Objfdt  gftProxyPffr()              { rfturn proxyPffr; }
+        /*
+         * fiflds
+         */
+
+
+        privbtf           Objfdt   dhild;
+        privbtf           Objfdt   proxyPffr;
+
+        privbtf trbnsifnt boolfbn  rfmovfPfnding;
+    }
+
+    /**
+     * <p>
+     * Subdlbssfs dbn ovfrridf this mfthod to insfrt thfir own subdlbss
+     * of Child without hbving to ovfrridf bdd() or thf othfr Collfdtion
+     * mfthods thbt bdd dhildrfn to thf sft.
+     * </p>
+     * @pbrbm tbrgftChild thf dhild to drfbtf thf Child on bfhblf of
+     * @pbrbm pffr        thf pffr if thf trbgftChild bnd thf pffr brf rflbtfd by bn implfmfntbtion of BfbnContfxtProxy
+     * @rfturn Subtypf-spfdifid subdlbss of Child without ovfrriding dollfdtion mfthods
+     */
+
+    protfdtfd BCSChild drfbtfBCSChild(Objfdt tbrgftChild, Objfdt pffr) {
+        rfturn nfw BCSChild(tbrgftChild, pffr);
+    }
+
+    /************************************************************************/
+
+    /**
+     * Adds/nfsts b dhild within this <tt>BfbnContfxt</tt>.
+     * <p>
+     * Invokfd bs b sidf ffffdt of jbvb.bfbns.Bfbns.instbntibtf().
+     * If thf dhild objfdt is not vblid for bdding thfn this mfthod
+     * throws bn IllfgblStbtfExdfption.
+     * </p>
+     *
+     *
+     * @pbrbm tbrgftChild Thf dhild objfdts to nfst
+     * within this <tt>BfbnContfxt</tt>
+     * @rfturn truf if thf dhild wbs bddfd suddfssfully.
+     * @sff #vblidbtfPfndingAdd
+     */
+    publid boolfbn bdd(Objfdt tbrgftChild) {
+
+        if (tbrgftChild == null) throw nfw IllfgblArgumfntExdfption();
+
+        // Thf spfdifidbtion rfquirfs thbt wf do nothing if thf dhild
+        // is blrfbdy nfstfd hfrfin.
+
+        if (dhildrfn.dontbinsKfy(tbrgftChild)) rfturn fblsf; // tfst bfforf lodking
+
+        syndhronizfd(BfbnContfxt.globblHifrbrdhyLodk) {
+            if (dhildrfn.dontbinsKfy(tbrgftChild)) rfturn fblsf; // dhfdk bgbin
+
+            if (!vblidbtfPfndingAdd(tbrgftChild)) {
+                throw nfw IllfgblStbtfExdfption();
+            }
+
+
+            // Thf spfdifidbtion rfquirfs thbt wf invokf sftBfbnContfxt() on thf
+            // nfwly bddfd dhild if it implfmfnts thf jbvb.bfbns.bfbndontfxt.BfbnContfxtChild intfrfbdf
+
+            BfbnContfxtChild dbdd  = gftChildBfbnContfxtChild(tbrgftChild);
+            BfbnContfxtChild  bddp = null;
+
+            syndhronizfd(tbrgftChild) {
+
+                if (tbrgftChild instbndfof BfbnContfxtProxy) {
+                    bddp = ((BfbnContfxtProxy)tbrgftChild).gftBfbnContfxtProxy();
+
+                    if (bddp == null) throw nfw NullPointfrExdfption("BfbnContfxtPffr.gftBfbnContfxtProxy()");
+                }
+
+                BCSChild bdsd  = drfbtfBCSChild(tbrgftChild, bddp);
+                BCSChild pbdsd = null;
+
+                syndhronizfd (dhildrfn) {
+                    dhildrfn.put(tbrgftChild, bdsd);
+
+                    if (bddp != null) dhildrfn.put(bddp, pbdsd = drfbtfBCSChild(bddp, tbrgftChild));
+                }
+
+                if (dbdd != null) syndhronizfd(dbdd) {
+                    try {
+                        dbdd.sftBfbnContfxt(gftBfbnContfxtPffr());
+                    } dbtdh (PropfrtyVftoExdfption pvf) {
+
+                        syndhronizfd (dhildrfn) {
+                            dhildrfn.rfmovf(tbrgftChild);
+
+                            if (bddp != null) dhildrfn.rfmovf(bddp);
+                        }
+
+                        throw nfw IllfgblStbtfExdfption();
+                    }
+
+                    dbdd.bddPropfrtyChbngfListfnfr("bfbnContfxt", dhildPCL);
+                    dbdd.bddVftobblfChbngfListfnfr("bfbnContfxt", dhildVCL);
+                }
+
+                Visibility v = gftChildVisibility(tbrgftChild);
+
+                if (v != null) {
+                    if (okToUsfGui)
+                        v.okToUsfGui();
+                    flsf
+                        v.dontUsfGui();
+                }
+
+                if (gftChildSfriblizbblf(tbrgftChild) != null) sfriblizbblf++;
+
+                dhildJustAddfdHook(tbrgftChild, bdsd);
+
+                if (bddp != null) {
+                    v = gftChildVisibility(bddp);
+
+                    if (v != null) {
+                        if (okToUsfGui)
+                            v.okToUsfGui();
+                        flsf
+                            v.dontUsfGui();
+                    }
+
+                    if (gftChildSfriblizbblf(bddp) != null) sfriblizbblf++;
+
+                    dhildJustAddfdHook(bddp, pbdsd);
+                }
+
+
+            }
+
+            // Thf spfdifidbtion rfquirfs thbt wf firf b notifidbtion of thf dhbngf
+
+            firfChildrfnAddfd(nfw BfbnContfxtMfmbfrshipEvfnt(gftBfbnContfxtPffr(), bddp == null ? nfw Objfdt[] { tbrgftChild } : nfw Objfdt[] { tbrgftChild, bddp } ));
+
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Rfmovfs b dhild from this BfbnContfxt.  If thf dhild objfdt is not
+     * for bdding thfn this mfthod throws bn IllfgblStbtfExdfption.
+     * @pbrbm tbrgftChild Thf dhild objfdts to rfmovf
+     * @sff #vblidbtfPfndingRfmovf
+     */
+    publid boolfbn rfmovf(Objfdt tbrgftChild) {
+        rfturn rfmovf(tbrgftChild, truf);
+    }
+
+    /**
+     * intfrnbl rfmovf usfd whfn rfmovbl dbusfd by
+     * unfxpfdtfd <tt>sftBfbnContfxt</tt> or
+     * by <tt>rfmovf()</tt> invodbtion.
+     * @pbrbm tbrgftChild thf JbvbBfbn, BfbnContfxt, or Objfdt to bf rfmovfd
+     * @pbrbm dbllChildSftBC usfd to indidbtf thbt
+     * thf dhild should bf notififd thbt it is no
+     * longfr nfstfd in this <tt>BfbnContfxt</tt>.
+     * @rfturn whfthfr or not wbs prfsfnt bfforf bfing rfmovfd
+     */
+    protfdtfd boolfbn rfmovf(Objfdt tbrgftChild, boolfbn dbllChildSftBC) {
+
+        if (tbrgftChild == null) throw nfw IllfgblArgumfntExdfption();
+
+        syndhronizfd(BfbnContfxt.globblHifrbrdhyLodk) {
+            if (!dontbinsKfy(tbrgftChild)) rfturn fblsf;
+
+            if (!vblidbtfPfndingRfmovf(tbrgftChild)) {
+                throw nfw IllfgblStbtfExdfption();
+            }
+
+            BCSChild bdsd  = dhildrfn.gft(tbrgftChild);
+            BCSChild pbdsd = null;
+            Objfdt   pffr  = null;
+
+            // wf brf rfquirfd to notify thf dhild thbt it is no longfr nfstfd hfrf if
+            // it implfmfnts jbvb.bfbns.bfbndontfxt.BfbnContfxtChild
+
+            syndhronizfd(tbrgftChild) {
+                if (dbllChildSftBC) {
+                    BfbnContfxtChild dbdd = gftChildBfbnContfxtChild(tbrgftChild);
+                    if (dbdd != null) syndhronizfd(dbdd) {
+                        dbdd.rfmovfPropfrtyChbngfListfnfr("bfbnContfxt", dhildPCL);
+                        dbdd.rfmovfVftobblfChbngfListfnfr("bfbnContfxt", dhildVCL);
+
+                        try {
+                            dbdd.sftBfbnContfxt(null);
+                        } dbtdh (PropfrtyVftoExdfption pvf1) {
+                            dbdd.bddPropfrtyChbngfListfnfr("bfbnContfxt", dhildPCL);
+                            dbdd.bddVftobblfChbngfListfnfr("bfbnContfxt", dhildVCL);
+                            throw nfw IllfgblStbtfExdfption();
+                        }
+
+                    }
+                }
+
+                syndhronizfd (dhildrfn) {
+                    dhildrfn.rfmovf(tbrgftChild);
+
+                    if (bdsd.isProxyPffr()) {
+                        pbdsd = dhildrfn.gft(pffr = bdsd.gftProxyPffr());
+                        dhildrfn.rfmovf(pffr);
+                    }
+                }
+
+                if (gftChildSfriblizbblf(tbrgftChild) != null) sfriblizbblf--;
+
+                dhildJustRfmovfdHook(tbrgftChild, bdsd);
+
+                if (pffr != null) {
+                    if (gftChildSfriblizbblf(pffr) != null) sfriblizbblf--;
+
+                    dhildJustRfmovfdHook(pffr, pbdsd);
+                }
+            }
+
+            firfChildrfnRfmovfd(nfw BfbnContfxtMfmbfrshipEvfnt(gftBfbnContfxtPffr(), pffr == null ? nfw Objfdt[] { tbrgftChild } : nfw Objfdt[] { tbrgftChild, pffr } ));
+
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Tfsts to sff if bll objfdts in thf
+     * spfdififd <tt>Collfdtion</tt> brf dhildrfn of
+     * this <tt>BfbnContfxt</tt>.
+     * @pbrbm d thf spfdififd <tt>Collfdtion</tt>
+     *
+     * @rfturn <tt>truf</tt> if bll objfdts
+     * in thf dollfdtion brf dhildrfn of
+     * this <tt>BfbnContfxt</tt>, fblsf if not.
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid boolfbn dontbinsAll(Collfdtion d) {
+        syndhronizfd(dhildrfn) {
+            Itfrbtor<?> i = d.itfrbtor();
+            whilf (i.hbsNfxt())
+                if(!dontbins(i.nfxt()))
+                    rfturn fblsf;
+
+            rfturn truf;
+        }
+    }
+
+    /**
+     * bdd Collfdtion to sft of Childrfn (Unsupportfd)
+     * implfmfntbtions must syndhronizfd on thf hifrbrdhy lodk bnd "dhildrfn" protfdtfd fifld
+     * @throws UnsupportfdOpfrbtionExdfption thrown undonditionblly by this implfmfntbtion
+     * @rfturn this implfmfntbtion undonditionblly throws {@dodf UnsupportfdOpfrbtionExdfption}
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid boolfbn bddAll(Collfdtion d) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * rfmovf bll spfdififd dhildrfn (Unsupportfd)
+     * implfmfntbtions must syndhronizfd on thf hifrbrdhy lodk bnd "dhildrfn" protfdtfd fifld
+     * @throws UnsupportfdOpfrbtionExdfption thrown undonditionblly by this implfmfntbtion
+     * @rfturn this implfmfntbtion undonditionblly throws {@dodf UnsupportfdOpfrbtionExdfption}
+
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid boolfbn rfmovfAll(Collfdtion d) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+
+    /**
+     * rftbin only spfdififd dhildrfn (Unsupportfd)
+     * implfmfntbtions must syndhronizfd on thf hifrbrdhy lodk bnd "dhildrfn" protfdtfd fifld
+     * @throws UnsupportfdOpfrbtionExdfption thrown undonditionblly by this implfmfntbtion
+     * @rfturn this implfmfntbtion undonditionblly throws {@dodf UnsupportfdOpfrbtionExdfption}
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid boolfbn rftbinAll(Collfdtion d) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * dlfbr thf dhildrfn (Unsupportfd)
+     * implfmfntbtions must syndhronizfd on thf hifrbrdhy lodk bnd "dhildrfn" protfdtfd fifld
+     * @throws UnsupportfdOpfrbtionExdfption thrown undonditionblly by this implfmfntbtion
+     */
+    publid void dlfbr() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Adds b BfbnContfxtMfmbfrshipListfnfr
+     *
+     * @pbrbm  bdml thf BfbnContfxtMfmbfrshipListfnfr to bdd
+     * @throws NullPointfrExdfption if thf brgumfnt is null
+     */
+
+    publid void bddBfbnContfxtMfmbfrshipListfnfr(BfbnContfxtMfmbfrshipListfnfr bdml) {
+        if (bdml == null) throw nfw NullPointfrExdfption("listfnfr");
+
+        syndhronizfd(bdmListfnfrs) {
+            if (bdmListfnfrs.dontbins(bdml))
+                rfturn;
+            flsf
+                bdmListfnfrs.bdd(bdml);
+        }
+    }
+
+    /**
+     * Rfmovfs b BfbnContfxtMfmbfrshipListfnfr
+     *
+     * @pbrbm  bdml thf BfbnContfxtMfmbfrshipListfnfr to rfmovf
+     * @throws NullPointfrExdfption if thf brgumfnt is null
+     */
+
+    publid void rfmovfBfbnContfxtMfmbfrshipListfnfr(BfbnContfxtMfmbfrshipListfnfr bdml) {
+        if (bdml == null) throw nfw NullPointfrExdfption("listfnfr");
+
+        syndhronizfd(bdmListfnfrs) {
+            if (!bdmListfnfrs.dontbins(bdml))
+                rfturn;
+            flsf
+                bdmListfnfrs.rfmovf(bdml);
+        }
+    }
+
+    /**
+     * @pbrbm nbmf thf nbmf of thf rfsourdf rfqufstfd.
+     * @pbrbm bdd  thf dhild objfdt mbking thf rfqufst.
+     *
+     * @rfturn  thf rfqufstfd rfsourdf bs bn InputStrfbm
+     * @throws  NullPointfrExdfption if thf brgumfnt is null
+     */
+
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf, BfbnContfxtChild bdd) {
+        if (nbmf == null) throw nfw NullPointfrExdfption("nbmf");
+        if (bdd  == null) throw nfw NullPointfrExdfption("bdd");
+
+        if (dontbinsKfy(bdd)) {
+            ClbssLobdfr dl = bdd.gftClbss().gftClbssLobdfr();
+
+            rfturn dl != null ? dl.gftRfsourdfAsStrfbm(nbmf)
+                              : ClbssLobdfr.gftSystfmRfsourdfAsStrfbm(nbmf);
+        } flsf throw nfw IllfgblArgumfntExdfption("Not b vblid dhild");
+    }
+
+    /**
+     * @pbrbm nbmf thf nbmf of thf rfsourdf rfqufstfd.
+     * @pbrbm bdd  thf dhild objfdt mbking thf rfqufst.
+     *
+     * @rfturn thf rfqufstfd rfsourdf bs bn InputStrfbm
+     */
+
+    publid URL gftRfsourdf(String nbmf, BfbnContfxtChild bdd) {
+        if (nbmf == null) throw nfw NullPointfrExdfption("nbmf");
+        if (bdd  == null) throw nfw NullPointfrExdfption("bdd");
+
+        if (dontbinsKfy(bdd)) {
+            ClbssLobdfr dl = bdd.gftClbss().gftClbssLobdfr();
+
+            rfturn dl != null ? dl.gftRfsourdf(nbmf)
+                              : ClbssLobdfr.gftSystfmRfsourdf(nbmf);
+        } flsf throw nfw IllfgblArgumfntExdfption("Not b vblid dhild");
+    }
+
+    /**
+     * Sfts thf nfw dfsign timf vbluf for this <tt>BfbnContfxt</tt>.
+     * @pbrbm dTimf thf nfw dfsignTimf vbluf
+     */
+    publid syndhronizfd void sftDfsignTimf(boolfbn dTimf) {
+        if (dfsignTimf != dTimf) {
+            dfsignTimf = dTimf;
+
+            firfPropfrtyChbngf("dfsignModf", Boolfbn.vblufOf(!dTimf), Boolfbn.vblufOf(dTimf));
+        }
+    }
+
+
+    /**
+     * Rfports whfthfr or not this objfdt is in
+     * durrfntly in dfsign timf modf.
+     * @rfturn <tt>truf</tt> if in dfsign timf modf,
+     * <tt>fblsf</tt> if not
+     */
+    publid syndhronizfd boolfbn isDfsignTimf() { rfturn dfsignTimf; }
+
+    /**
+     * Sfts thf lodblf of this BfbnContfxt.
+     * @pbrbm nfwLodblf thf nfw lodblf. This mfthod dbll will hbvf
+     *        no ffffdt if nfwLodblf is <CODE>null</CODE>.
+     * @throws PropfrtyVftoExdfption if thf nfw vbluf is rfjfdtfd
+     */
+    publid syndhronizfd void sftLodblf(Lodblf nfwLodblf) throws PropfrtyVftoExdfption {
+
+        if ((lodblf != null && !lodblf.fqubls(nfwLodblf)) && nfwLodblf != null) {
+            Lodblf old = lodblf;
+
+            firfVftobblfChbngf("lodblf", old, nfwLodblf); // throws
+
+            lodblf = nfwLodblf;
+
+            firfPropfrtyChbngf("lodblf", old, nfwLodblf);
+        }
+    }
+
+    /**
+     * Gfts thf lodblf for this <tt>BfbnContfxt</tt>.
+     *
+     * @rfturn thf durrfnt Lodblf of thf <tt>BfbnContfxt</tt>
+     */
+    publid syndhronizfd Lodblf gftLodblf() { rfturn lodblf; }
+
+    /**
+     * <p>
+     * This mfthod is typidblly dbllfd from thf fnvironmfnt in ordfr to dftfrminf
+     * if thf implfmfntor "nffds" b GUI.
+     * </p>
+     * <p>
+     * Thf blgorithm usfd hfrfin tfsts thf BfbnContfxtPffr, bnd its durrfnt dhildrfn
+     * to dftfrminf if thfy brf fithfr Contbinfrs, Componfnts, or if thfy implfmfnt
+     * Visibility bnd rfturn nffdsGui() == truf.
+     * </p>
+     * @rfturn <tt>truf</tt> if thf implfmfntor nffds b GUI
+     */
+    publid syndhronizfd boolfbn nffdsGui() {
+        BfbnContfxt bd = gftBfbnContfxtPffr();
+
+        if (bd != this) {
+            if (bd instbndfof Visibility) rfturn ((Visibility)bd).nffdsGui();
+
+            if (bd instbndfof Contbinfr || bd instbndfof Componfnt)
+                rfturn truf;
+        }
+
+        syndhronizfd(dhildrfn) {
+            for (Itfrbtor<Objfdt> i = dhildrfn.kfySft().itfrbtor(); i.hbsNfxt();) {
+                Objfdt d = i.nfxt();
+
+                try {
+                        rfturn ((Visibility)d).nffdsGui();
+                    } dbtdh (ClbssCbstExdfption ddf) {
+                        // do nothing ...
+                    }
+
+                    if (d instbndfof Contbinfr || d instbndfof Componfnt)
+                        rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * notify this instbndf thbt it mby no longfr rfndfr b GUI.
+     */
+
+    publid syndhronizfd void dontUsfGui() {
+        if (okToUsfGui) {
+            okToUsfGui = fblsf;
+
+            // lfts blso tfll thf Childrfn thbt dbn thbt thfy mby not usf thfir GUI's
+            syndhronizfd(dhildrfn) {
+                for (Itfrbtor<Objfdt> i = dhildrfn.kfySft().itfrbtor(); i.hbsNfxt();) {
+                    Visibility v = gftChildVisibility(i.nfxt());
+
+                    if (v != null) v.dontUsfGui();
+               }
+            }
+        }
+    }
+
+    /**
+     * Notify this instbndf thbt it mby now rfndfr b GUI
+     */
+
+    publid syndhronizfd void okToUsfGui() {
+        if (!okToUsfGui) {
+            okToUsfGui = truf;
+
+            // lfts blso tfll thf Childrfn thbt dbn thbt thfy mby usf thfir GUI's
+            syndhronizfd(dhildrfn) {
+                for (Itfrbtor<Objfdt> i = dhildrfn.kfySft().itfrbtor(); i.hbsNfxt();) {
+                    Visibility v = gftChildVisibility(i.nfxt());
+
+                    if (v != null) v.okToUsfGui();
+                }
+            }
+        }
+    }
+
+    /**
+     * Usfd to dftfrminf if thf <tt>BfbnContfxt</tt>
+     * dhild is bvoiding using its GUI.
+     * @rfturn is this instbndf bvoiding using its GUI?
+     * @sff Visibility
+     */
+    publid boolfbn bvoidingGui() {
+        rfturn !okToUsfGui && nffdsGui();
+    }
+
+    /**
+     * Is this <tt>BfbnContfxt</tt> in thf
+     * prodfss of bfing sfriblizfd?
+     * @rfturn if this <tt>BfbnContfxt</tt> is
+     * durrfntly bfing sfriblizfd
+     */
+    publid boolfbn isSfriblizing() { rfturn sfriblizing; }
+
+    /**
+     * Rfturns bn itfrbtor of bll dhildrfn
+     * of this <tt>BfbnContfxt</tt>.
+     * @rfturn bn itfrbtor for bll thf durrfnt BCSChild vblufs
+     */
+    protfdtfd Itfrbtor<BCSChild> bdsChildrfn() { syndhronizfd(dhildrfn) { rfturn dhildrfn.vblufs().itfrbtor();  } }
+
+    /**
+     * dbllfd by writfObjfdt bftfr dffbultWritfObjfdt() but prior to
+     * sfriblizbtion of durrfntly sfriblizbblf dhildrfn.
+     *
+     * This mfthod mby bf ovfrriddfn by subdlbssfs to pfrform dustom
+     * sfriblizbtion of thfir stbtf prior to this supfrdlbss sfriblizing
+     * thf dhildrfn.
+     *
+     * This mfthod should not howfvfr bf usfd by subdlbssfs to rfplbdf thfir
+     * own implfmfntbtion (if bny) of writfObjfdt().
+     * @pbrbm oos thf {@dodf ObjfdtOutputStrfbm} to usf during sfriblizbtion
+     * @throws IOExdfption if sfriblizbtion fbilfd
+     */
+
+    protfdtfd void bdsPrfSfriblizbtionHook(ObjfdtOutputStrfbm oos) throws IOExdfption {
+    }
+
+    /**
+     * dbllfd by rfbdObjfdt bftfr dffbultRfbdObjfdt() but prior to
+     * dfsfriblizbtion of bny dhildrfn.
+     *
+     * This mfthod mby bf ovfrriddfn by subdlbssfs to pfrform dustom
+     * dfsfriblizbtion of thfir stbtf prior to this supfrdlbss dfsfriblizing
+     * thf dhildrfn.
+     *
+     * This mfthod should not howfvfr bf usfd by subdlbssfs to rfplbdf thfir
+     * own implfmfntbtion (if bny) of rfbdObjfdt().
+     * @pbrbm ois thf {@dodf ObjfdtInputStrfbm} to usf during dfsfriblizbtion
+     * @throws IOExdfption if dfsfriblizbtion fbilfd
+     * @throws ClbssNotFoundExdfption if nffdfd dlbssfs brf not found
+     */
+
+    protfdtfd void bdsPrfDfsfriblizbtionHook(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+    }
+
+    /**
+     * Cbllfd by rfbdObjfdt with thf nfwly dfsfriblizfd dhild bnd BCSChild.
+     * @pbrbm dhild thf nfwly dfsfriblizfd dhild
+     * @pbrbm bdsd thf nfwly dfsfriblizfd BCSChild
+     */
+    protfdtfd void dhildDfsfriblizfdHook(Objfdt dhild, BCSChild bdsd) {
+        syndhronizfd(dhildrfn) {
+            dhildrfn.put(dhild, bdsd);
+        }
+    }
+
+    /**
+     * Usfd by writfObjfdt to sfriblizf b Collfdtion.
+     * @pbrbm oos thf <tt>ObjfdtOutputStrfbm</tt>
+     * to usf during sfriblizbtion
+     * @pbrbm doll thf <tt>Collfdtion</tt> to sfriblizf
+     * @throws IOExdfption if sfriblizbtion fbilfd
+     */
+    protfdtfd finbl void sfriblizf(ObjfdtOutputStrfbm oos, Collfdtion<?> doll) throws IOExdfption {
+        int      dount   = 0;
+        Objfdt[] objfdts = doll.toArrby();
+
+        for (int i = 0; i < objfdts.lfngth; i++) {
+            if (objfdts[i] instbndfof Sfriblizbblf)
+                dount++;
+            flsf
+                objfdts[i] = null;
+        }
+
+        oos.writfInt(dount); // numbfr of subsfqufnt objfdts
+
+        for (int i = 0; dount > 0; i++) {
+            Objfdt o = objfdts[i];
+
+            if (o != null) {
+                oos.writfObjfdt(o);
+                dount--;
+            }
+        }
+    }
+
+    /**
+     * usfd by rfbdObjfdt to dfsfriblizf b dollfdtion.
+     * @pbrbm ois thf ObjfdtInputStrfbm to usf
+     * @pbrbm doll thf Collfdtion
+     * @throws IOExdfption if dfsfriblizbtion fbilfd
+     * @throws ClbssNotFoundExdfption if nffdfd dlbssfs brf not found
+     */
+    @SupprfssWbrnings({"rbwtypfs", "undhfdkfd"})
+    protfdtfd finbl void dfsfriblizf(ObjfdtInputStrfbm ois, Collfdtion doll) throws IOExdfption, ClbssNotFoundExdfption {
+        int dount = 0;
+
+        dount = ois.rfbdInt();
+
+        whilf (dount-- > 0) {
+            doll.bdd(ois.rfbdObjfdt());
+        }
+    }
+
+    /**
+     * Usfd to sfriblizf bll dhildrfn of
+     * this <tt>BfbnContfxt</tt>.
+     * @pbrbm oos thf <tt>ObjfdtOutputStrfbm</tt>
+     * to usf during sfriblizbtion
+     * @throws IOExdfption if sfriblizbtion fbilfd
+     */
+    publid finbl void writfChildrfn(ObjfdtOutputStrfbm oos) throws IOExdfption {
+        if (sfriblizbblf <= 0) rfturn;
+
+        boolfbn prfv = sfriblizing;
+
+        sfriblizing = truf;
+
+        int dount = 0;
+
+        syndhronizfd(dhildrfn) {
+            Itfrbtor<Mbp.Entry<Objfdt, BCSChild>> i = dhildrfn.fntrySft().itfrbtor();
+
+            whilf (i.hbsNfxt() && dount < sfriblizbblf) {
+                Mbp.Entry<Objfdt, BCSChild> fntry = i.nfxt();
+
+                if (fntry.gftKfy() instbndfof Sfriblizbblf) {
+                    try {
+                        oos.writfObjfdt(fntry.gftKfy());   // dhild
+                        oos.writfObjfdt(fntry.gftVbluf()); // BCSChild
+                    } dbtdh (IOExdfption iof) {
+                        sfriblizing = prfv;
+                        throw iof;
+                    }
+                    dount++;
+                }
+            }
+        }
+
+        sfriblizing = prfv;
+
+        if (dount != sfriblizbblf) {
+            throw nfw IOExdfption("wrotf difffrfnt numbfr of dhildrfn thbn fxpfdtfd");
+        }
+
+    }
+
+    /**
+     * Sfriblizf thf BfbnContfxtSupport, if this instbndf hbs b distindt
+     * pffr (thbt is this objfdt is bdting bs b dflfgbtf for bnothfr) thfn
+     * thf dhildrfn of this instbndf brf not sfriblizfd hfrf duf to b
+     * 'dhidkfn bnd fgg' problfm thbt oddurs on dfsfriblizbtion of thf
+     * dhildrfn bt thf sbmf timf bs this instbndf.
+     *
+     * Thfrfforf in situbtions whfrf thfrf is b distindt pffr to this instbndf
+     * it should blwbys dbll writfObjfdt() followfd by writfChildrfn() bnd
+     * rfbdObjfdt() followfd by rfbdChildrfn().
+     *
+     * @pbrbm oos thf ObjfdtOutputStrfbm
+     */
+
+    privbtf syndhronizfd void writfObjfdt(ObjfdtOutputStrfbm oos) throws IOExdfption, ClbssNotFoundExdfption {
+        sfriblizing = truf;
+
+        syndhronizfd (BfbnContfxt.globblHifrbrdhyLodk) {
+            try {
+                oos.dffbultWritfObjfdt(); // sfriblizf thf BfbnContfxtSupport objfdt
+
+                bdsPrfSfriblizbtionHook(oos);
+
+                if (sfriblizbblf > 0 && this.fqubls(gftBfbnContfxtPffr()))
+                    writfChildrfn(oos);
+
+                sfriblizf(oos, (Collfdtion)bdmListfnfrs);
+            } finblly {
+                sfriblizing = fblsf;
+            }
+        }
+    }
+
+    /**
+     * Whfn bn instbndf of this dlbss is usfd bs b dflfgbtf for thf
+     * implfmfntbtion of thf BfbnContfxt protodols (bnd its subprotodols)
+     * thfrf fxists b 'dhidkfn bnd fgg' problfm during dfsfriblizbtion
+     * @pbrbm ois thf ObjfdtInputStrfbm to usf
+     * @throws IOExdfption if dfsfriblizbtion fbilfd
+     * @throws ClbssNotFoundExdfption if nffdfd dlbssfs brf not found
+     */
+
+    publid finbl void rfbdChildrfn(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+        int dount = sfriblizbblf;
+
+        whilf (dount-- > 0) {
+            Objfdt                      dhild = null;
+            BfbnContfxtSupport.BCSChild bsdd  = null;
+
+            try {
+                dhild = ois.rfbdObjfdt();
+                bsdd  = (BfbnContfxtSupport.BCSChild)ois.rfbdObjfdt();
+            } dbtdh (IOExdfption iof) {
+                dontinuf;
+            } dbtdh (ClbssNotFoundExdfption dnff) {
+                dontinuf;
+            }
+
+
+            syndhronizfd(dhild) {
+                BfbnContfxtChild bdd = null;
+
+                try {
+                    bdd = (BfbnContfxtChild)dhild;
+                } dbtdh (ClbssCbstExdfption ddf) {
+                    // do nothing;
+                }
+
+                if (bdd != null) {
+                    try {
+                        bdd.sftBfbnContfxt(gftBfbnContfxtPffr());
+
+                       bdd.bddPropfrtyChbngfListfnfr("bfbnContfxt", dhildPCL);
+                       bdd.bddVftobblfChbngfListfnfr("bfbnContfxt", dhildVCL);
+
+                    } dbtdh (PropfrtyVftoExdfption pvf) {
+                        dontinuf;
+                    }
+                }
+
+                dhildDfsfriblizfdHook(dhild, bsdd);
+            }
+        }
+    }
+
+    /**
+     * dfsfriblizf dontfnts ... if this instbndf hbs b distindt pffr thf
+     * dhildrfn brf *not* sfriblizfd hfrf, thf pffr's rfbdObjfdt() must dbll
+     * rfbdChildrfn() bftfr dfsfriblizing this instbndf.
+     */
+
+    privbtf syndhronizfd void rfbdObjfdt(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+
+        syndhronizfd(BfbnContfxt.globblHifrbrdhyLodk) {
+            ois.dffbultRfbdObjfdt();
+
+            initiblizf();
+
+            bdsPrfDfsfriblizbtionHook(ois);
+
+            if (sfriblizbblf > 0 && this.fqubls(gftBfbnContfxtPffr()))
+                rfbdChildrfn(ois);
+
+            dfsfriblizf(ois, bdmListfnfrs = nfw ArrbyList<>(1));
+        }
+    }
+
+    /**
+     * subdlbssfs mby fnvflopf to monitor vfto dhild propfrty dhbngfs.
+     */
+
+    publid void vftobblfChbngf(PropfrtyChbngfEvfnt pdf) throws PropfrtyVftoExdfption {
+        String propfrtyNbmf = pdf.gftPropfrtyNbmf();
+        Objfdt sourdf       = pdf.gftSourdf();
+
+        syndhronizfd(dhildrfn) {
+            if ("bfbnContfxt".fqubls(propfrtyNbmf) &&
+                dontbinsKfy(sourdf)                    &&
+                !gftBfbnContfxtPffr().fqubls(pdf.gftNfwVbluf())
+            ) {
+                if (!vblidbtfPfndingRfmovf(sourdf)) {
+                    throw nfw PropfrtyVftoExdfption("durrfnt BfbnContfxt vftofs sftBfbnContfxt()", pdf);
+                } flsf dhildrfn.gft(sourdf).sftRfmovfPfnding(truf);
+            }
+        }
+    }
+
+    /**
+     * subdlbssfs mby fnvflopf to monitor dhild propfrty dhbngfs.
+     */
+
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt pdf) {
+        String propfrtyNbmf = pdf.gftPropfrtyNbmf();
+        Objfdt sourdf       = pdf.gftSourdf();
+
+        syndhronizfd(dhildrfn) {
+            if ("bfbnContfxt".fqubls(propfrtyNbmf) &&
+                dontbinsKfy(sourdf)                    &&
+                dhildrfn.gft(sourdf).isRfmovfPfnding()) {
+                BfbnContfxt bd = gftBfbnContfxtPffr();
+
+                if (bd.fqubls(pdf.gftOldVbluf()) && !bd.fqubls(pdf.gftNfwVbluf())) {
+                    rfmovf(sourdf, fblsf);
+                } flsf {
+                    dhildrfn.gft(sourdf).sftRfmovfPfnding(fblsf);
+                }
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Subdlbssfs of this dlbss mby ovfrridf, or fnvflopf, this mfthod to
+     * bdd vblidbtion bfhbvior for thf BfbnContfxt to fxbminf dhild objfdts
+     * immfdibtfly prior to thfir bfing bddfd to thf BfbnContfxt.
+     * </p>
+     *
+     * @pbrbm tbrgftChild thf dhild to drfbtf thf Child on bfhblf of
+     * @rfturn truf iff thf dhild mby bf bddfd to this BfbnContfxt, othfrwisf fblsf.
+     */
+
+    protfdtfd boolfbn vblidbtfPfndingAdd(Objfdt tbrgftChild) {
+        rfturn truf;
+    }
+
+    /**
+     * <p>
+     * Subdlbssfs of this dlbss mby ovfrridf, or fnvflopf, this mfthod to
+     * bdd vblidbtion bfhbvior for thf BfbnContfxt to fxbminf dhild objfdts
+     * immfdibtfly prior to thfir bfing rfmovfd from thf BfbnContfxt.
+     * </p>
+     *
+     * @pbrbm tbrgftChild thf dhild to drfbtf thf Child on bfhblf of
+     * @rfturn truf iff thf dhild mby bf rfmovfd from this BfbnContfxt, othfrwisf fblsf.
+     */
+
+    protfdtfd boolfbn vblidbtfPfndingRfmovf(Objfdt tbrgftChild) {
+        rfturn truf;
+    }
+
+    /**
+     * subdlbssfs mby ovfrridf this mfthod to simply fxtfnd bdd() sfmbntids
+     * bftfr thf dhild hbs bffn bddfd bnd bfforf thf fvfnt notifidbtion hbs
+     * oddurrfd. Thf mfthod is dbllfd with thf dhild syndhronizfd.
+     * @pbrbm dhild thf dhild
+     * @pbrbm bdsd thf BCSChild
+     */
+
+    protfdtfd void dhildJustAddfdHook(Objfdt dhild, BCSChild bdsd) {
+    }
+
+    /**
+     * subdlbssfs mby ovfrridf this mfthod to simply fxtfnd rfmovf() sfmbntids
+     * bftfr thf dhild hbs bffn rfmovfd bnd bfforf thf fvfnt notifidbtion hbs
+     * oddurrfd. Thf mfthod is dbllfd with thf dhild syndhronizfd.
+     * @pbrbm dhild thf dhild
+     * @pbrbm bdsd thf BCSChild
+     */
+
+    protfdtfd void dhildJustRfmovfdHook(Objfdt dhild, BCSChild bdsd) {
+    }
+
+    /**
+     * Gfts thf Componfnt (if bny) bssodibtfd with thf spfdififd dhild.
+     * @pbrbm dhild thf spfdififd dhild
+     * @rfturn thf Componfnt (if bny) bssodibtfd with thf spfdififd dhild.
+     */
+    protfdtfd stbtid finbl Visibility gftChildVisibility(Objfdt dhild) {
+        try {
+            rfturn (Visibility)dhild;
+        } dbtdh (ClbssCbstExdfption ddf) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gfts thf Sfriblizbblf (if bny) bssodibtfd with thf spfdififd Child
+     * @pbrbm dhild thf spfdififd dhild
+     * @rfturn thf Sfriblizbblf (if bny) bssodibtfd with thf spfdififd Child
+     */
+    protfdtfd stbtid finbl Sfriblizbblf gftChildSfriblizbblf(Objfdt dhild) {
+        try {
+            rfturn (Sfriblizbblf)dhild;
+        } dbtdh (ClbssCbstExdfption ddf) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gfts thf PropfrtyChbngfListfnfr
+     * (if bny) of thf spfdififd dhild
+     * @pbrbm dhild thf spfdififd dhild
+     * @rfturn thf PropfrtyChbngfListfnfr (if bny) of thf spfdififd dhild
+     */
+    protfdtfd stbtid finbl PropfrtyChbngfListfnfr gftChildPropfrtyChbngfListfnfr(Objfdt dhild) {
+        try {
+            rfturn (PropfrtyChbngfListfnfr)dhild;
+        } dbtdh (ClbssCbstExdfption ddf) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gfts thf VftobblfChbngfListfnfr
+     * (if bny) of thf spfdififd dhild
+     * @pbrbm dhild thf spfdififd dhild
+     * @rfturn thf VftobblfChbngfListfnfr (if bny) of thf spfdififd dhild
+     */
+    protfdtfd stbtid finbl VftobblfChbngfListfnfr gftChildVftobblfChbngfListfnfr(Objfdt dhild) {
+        try {
+            rfturn (VftobblfChbngfListfnfr)dhild;
+        } dbtdh (ClbssCbstExdfption ddf) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gfts thf BfbnContfxtMfmbfrshipListfnfr
+     * (if bny) of thf spfdififd dhild
+     * @pbrbm dhild thf spfdififd dhild
+     * @rfturn thf BfbnContfxtMfmbfrshipListfnfr (if bny) of thf spfdififd dhild
+     */
+    protfdtfd stbtid finbl BfbnContfxtMfmbfrshipListfnfr gftChildBfbnContfxtMfmbfrshipListfnfr(Objfdt dhild) {
+        try {
+            rfturn (BfbnContfxtMfmbfrshipListfnfr)dhild;
+        } dbtdh (ClbssCbstExdfption ddf) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gfts thf BfbnContfxtChild (if bny) of thf spfdififd dhild
+     * @pbrbm dhild thf spfdififd dhild
+     * @rfturn  thf BfbnContfxtChild (if bny) of thf spfdififd dhild
+     * @throws  IllfgblArgumfntExdfption if dhild implfmfnts both BfbnContfxtChild bnd BfbnContfxtProxy
+     */
+    protfdtfd stbtid finbl BfbnContfxtChild gftChildBfbnContfxtChild(Objfdt dhild) {
+        try {
+            BfbnContfxtChild bdd = (BfbnContfxtChild)dhild;
+
+            if (dhild instbndfof BfbnContfxtChild && dhild instbndfof BfbnContfxtProxy)
+                throw nfw IllfgblArgumfntExdfption("dhild dbnnot implfmfnt both BfbnContfxtChild bnd BfbnContfxtProxy");
+            flsf
+                rfturn bdd;
+        } dbtdh (ClbssCbstExdfption ddf) {
+            try {
+                rfturn ((BfbnContfxtProxy)dhild).gftBfbnContfxtProxy();
+            } dbtdh (ClbssCbstExdfption ddf1) {
+                rfturn null;
+            }
+        }
+    }
+
+    /**
+     * Firf b BfbnContfxtshipEvfnt on thf BfbnContfxtMfmbfrshipListfnfr intfrfbdf
+     * @pbrbm bdmf thf fvfnt to firf
+     */
+
+    protfdtfd finbl void firfChildrfnAddfd(BfbnContfxtMfmbfrshipEvfnt bdmf) {
+        Objfdt[] dopy;
+
+        syndhronizfd(bdmListfnfrs) { dopy = bdmListfnfrs.toArrby(); }
+
+        for (int i = 0; i < dopy.lfngth; i++)
+            ((BfbnContfxtMfmbfrshipListfnfr)dopy[i]).dhildrfnAddfd(bdmf);
+    }
+
+    /**
+     * Firf b BfbnContfxtshipEvfnt on thf BfbnContfxtMfmbfrshipListfnfr intfrfbdf
+     * @pbrbm bdmf thf fvfnt to firf
+     */
+
+    protfdtfd finbl void firfChildrfnRfmovfd(BfbnContfxtMfmbfrshipEvfnt bdmf) {
+        Objfdt[] dopy;
+
+        syndhronizfd(bdmListfnfrs) { dopy = bdmListfnfrs.toArrby(); }
+
+        for (int i = 0; i < dopy.lfngth; i++)
+            ((BfbnContfxtMfmbfrshipListfnfr)dopy[i]).dhildrfnRfmovfd(bdmf);
+    }
+
+    /**
+     * protfdtfd mfthod dbllfd from donstrudtor bnd rfbdObjfdt to initiblizf
+     * trbnsifnt stbtf of BfbnContfxtSupport instbndf.
+     *
+     * This dlbss usfs this mfthod to instbntibtf innfr dlbss listfnfrs usfd
+     * to monitor PropfrtyChbngf bnd VftobblfChbngf fvfnts on dhildrfn.
+     *
+     * subdlbssfs mby fnvflopf this mfthod to bdd thfir own initiblizbtion
+     * bfhbvior
+     */
+
+    protfdtfd syndhronizfd void initiblizf() {
+        dhildrfn     = nfw HbshMbp<>(sfriblizbblf + 1);
+        bdmListfnfrs = nfw ArrbyList<>(1);
+
+        dhildPCL = nfw PropfrtyChbngfListfnfr() {
+
+            /*
+             * this bdbptor is usfd by thf BfbnContfxtSupport dlbss to forwbrd
+             * propfrty dhbngfs from b dhild to thf BfbnContfxt, bvoiding
+             * bddidfntibl sfriblizbtion of thf BfbnContfxt by b bbdly
+             * bfhbvfd Sfriblizbblf dhild.
+             */
+
+            publid void propfrtyChbngf(PropfrtyChbngfEvfnt pdf) {
+                BfbnContfxtSupport.this.propfrtyChbngf(pdf);
+            }
+        };
+
+        dhildVCL = nfw VftobblfChbngfListfnfr() {
+
+            /*
+             * this bdbptor is usfd by thf BfbnContfxtSupport dlbss to forwbrd
+             * vftobblf dhbngfs from b dhild to thf BfbnContfxt, bvoiding
+             * bddidfntibl sfriblizbtion of thf BfbnContfxt by b bbdly
+             * bfhbvfd Sfriblizbblf dhild.
+             */
+
+            publid void vftobblfChbngf(PropfrtyChbngfEvfnt pdf) throws PropfrtyVftoExdfption {
+                BfbnContfxtSupport.this.vftobblfChbngf(pdf);
+             }
+        };
+    }
+
+    /**
+     * Gfts b dopy of thf this BfbnContfxt's dhildrfn.
+     * @rfturn b dopy of thf durrfnt nfstfd dhildrfn
+     */
+    protfdtfd finbl Objfdt[] dopyChildrfn() {
+        syndhronizfd(dhildrfn) { rfturn dhildrfn.kfySft().toArrby(); }
+    }
+
+    /**
+     * Tfsts to sff if two dlbss objfdts,
+     * or thfir nbmfs brf fqubl.
+     * @pbrbm first thf first objfdt
+     * @pbrbm sfdond thf sfdond objfdt
+     * @rfturn truf if fqubl, fblsf if not
+     */
+    protfdtfd stbtid finbl boolfbn dlbssEqubls(Clbss<?> first, Clbss<?> sfdond) {
+        rfturn first.fqubls(sfdond) || first.gftNbmf().fqubls(sfdond.gftNbmf());
+    }
+
+
+    /*
+     * fiflds
+     */
+
+
+    /**
+     * bll bddfssfs to thf <dodf> protfdtfd HbshMbp dhildrfn </dodf> fifld
+     * shbll bf syndhronizfd on thbt objfdt.
+     */
+    protfdtfd trbnsifnt HbshMbp<Objfdt, BCSChild>         dhildrfn;
+
+    privbtf             int             sfriblizbblf  = 0; // dhildrfn sfriblizbblf
+
+    /**
+     * bll bddfssfs to thf <dodf> protfdtfd ArrbyList bdmListfnfrs </dodf> fifld
+     * shbll bf syndhronizfd on thbt objfdt.
+     */
+    protfdtfd trbnsifnt ArrbyList<BfbnContfxtMfmbfrshipListfnfr> bdmListfnfrs;
+
+    //
+
+    /**
+     * Thf durrfnt lodblf of this BfbnContfxt.
+     */
+    protfdtfd           Lodblf          lodblf;
+
+    /**
+     * A <tt>boolfbn</tt> indidbting if this
+     * instbndf mby now rfndfr b GUI.
+     */
+    protfdtfd           boolfbn         okToUsfGui;
+
+
+    /**
+     * A <tt>boolfbn</tt> indidbting whfthfr or not
+     * this objfdt is durrfntly in dfsign timf modf.
+     */
+    protfdtfd           boolfbn         dfsignTimf;
+
+    /*
+     * trbnsifnt
+     */
+
+    privbtf trbnsifnt PropfrtyChbngfListfnfr dhildPCL;
+
+    privbtf trbnsifnt VftobblfChbngfListfnfr dhildVCL;
+
+    privbtf trbnsifnt boolfbn                sfriblizing;
+}

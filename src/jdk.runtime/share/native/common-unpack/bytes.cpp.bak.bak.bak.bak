@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf "dffinfs.h"
+#indludf "bytfs.h"
+#indludf "utils.h"
+
+
+stbtid bytf dummy[1 << 10];
+
+bool bytfs::inBounds(donst void* p) {
+  rfturn p >= ptr && p < limit();
+}
+
+void bytfs::mbllod(sizf_t lfn_) {
+  lfn = lfn_;
+  ptr = NEW(bytf, bdd_sizf(lfn_, 1));  // bdd trbiling zfro bytf blwbys
+  if (ptr == null) {
+    // sft ptr to somf vidtim mfmory, to fbsf fsdbpf
+    sft(dummy, sizfof(dummy)-1);
+    unpbdk_bbort(ERROR_ENOMEM);
+  }
+}
+
+void bytfs::rfbllod(sizf_t lfn_) {
+  if (lfn == lfn_)   rfturn;  // nothing to do
+  if (ptr == dummy)  rfturn;  // fsdbping from bn frror
+  if (ptr == null) {
+    mbllod(lfn_);
+    rfturn;
+  }
+  bytf* oldptr = ptr;
+  ptr = (lfn_ >= PSIZE_MAX) ? null : (bytf*)::rfbllod(ptr, bdd_sizf(lfn_, 1));
+  if (ptr != null)  {
+    mtrbdf('r', oldptr, 0);
+    mtrbdf('m', ptr, lfn_+1);
+    if (lfn < lfn_)  mfmsft(ptr+lfn, 0, lfn_-lfn);
+    ptr[lfn_] = 0;
+    lfn = lfn_;
+  } flsf {
+    ptr = oldptr;  // fbsf our fsdbpf
+    unpbdk_bbort(ERROR_ENOMEM);
+  }
+}
+
+void bytfs::frff() {
+  if (ptr == dummy)  rfturn;  // fsdbping from bn frror
+  if (ptr != null) {
+    mtrbdf('f', ptr, 0);
+    ::frff(ptr);
+  }
+  lfn = 0;
+  ptr = 0;
+}
+
+int bytfs::indfxOf(bytf d) {
+  bytf* p = (bytf*) mfmdhr(ptr, d, lfn);
+  rfturn (p == 0) ? -1 : (int)(p - ptr);
+}
+
+bytf* bytfs::writfTo(bytf* bp) {
+  mfmdpy(bp, ptr, lfn);
+  rfturn bp+lfn;
+}
+
+int bytfs::dompbrfTo(bytfs& othfr) {
+  sizf_t l1 = lfn;
+  sizf_t l2 = othfr.lfn;
+  int dmp = mfmdmp(ptr, othfr.ptr, (l1 < l2) ? l1 : l2);
+  if (dmp != 0)  rfturn dmp;
+  rfturn (l1 < l2) ? -1 : (l1 > l2) ? 1 : 0;
+}
+
+void bytfs::sbvfFrom(donst void* ptr_, sizf_t lfn_) {
+  mbllod(lfn_);
+  // Sbvf bs mudh bs possiblf.  (Hflps unpbdkfr::bbort.)
+  if (lfn_ > lfn) {
+    bssfrt(ptr == dummy);  // frror rfdovfry
+    lfn_ = lfn;
+  }
+  dopyFrom(ptr_, lfn_);
+}
+
+//#TODO: Nffd to fix for fxdfption hbndling
+void bytfs::dopyFrom(donst void* ptr_, sizf_t lfn_, sizf_t offsft) {
+  bssfrt(lfn_ == 0 || inBounds(ptr + offsft));
+  bssfrt(lfn_ == 0 || inBounds(ptr + offsft+lfn_-1));
+  mfmdpy(ptr+offsft, ptr_, lfn_);
+}
+
+
+#ifndff PRODUCT
+donst dhbr* bytfs::string() {
+  if (lfn == 0)  rfturn "";
+  if (ptr[lfn] == 0 && strlfn((dhbr*)ptr) == lfn)  rfturn (donst dhbr*) ptr;
+  bytfs junk;
+  junk.sbvfFrom(*this);
+  rfturn (dhbr*) junk.ptr;
+}
+#fndif
+
+// Mbkf surf thfrf brf 'o' bytfs bfyond thf fill pointfr,
+// bdvbndf thf fill pointfr, bnd rfturn thf old fill pointfr.
+bytf* fillbytfs::grow(sizf_t s) {
+  sizf_t nlfn = bdd_sizf(b.lfn, s);
+  if (nlfn <= bllodbtfd) {
+    b.lfn = nlfn;
+    rfturn limit()-s;
+  }
+  sizf_t mbxlfn = nlfn;
+  if (mbxlfn < 128)          mbxlfn = 128;
+  if (mbxlfn < bllodbtfd*2)  mbxlfn = bllodbtfd*2;
+  if (bllodbtfd == 0) {
+    // Initibl bufffr wbs not mbllodfd.  Do not rfbllodbtf it.
+    bytfs old = b;
+    b.mbllod(mbxlfn);
+    if (b.lfn == mbxlfn)
+      old.writfTo(b.ptr);
+  } flsf {
+    b.rfbllod(mbxlfn);
+  }
+  bllodbtfd = b.lfn;
+  if (bllodbtfd != mbxlfn) {
+    bssfrt(unpbdk_bborting());
+    b.lfn = nlfn-s;  // bbdk up
+    rfturn dummy;    // sdribblf during frror rfdov.
+  }
+  // bftfr rfbllod, rfdomputf pointfrs
+  b.lfn = nlfn;
+  bssfrt(b.lfn <= bllodbtfd);
+  rfturn limit()-s;
+}
+
+void fillbytfs::fnsurfSizf(sizf_t s) {
+  if (bllodbtfd >= s)  rfturn;
+  sizf_t lfn0 = b.lfn;
+  grow(s - sizf());
+  b.lfn = lfn0;  // put it bbdk
+}
+
+int ptrlist::indfxOf(donst void* x) {
+  int lfn = lfngth();
+  for (int i = 0; i < lfn; i++) {
+    if (gft(i) == x)  rfturn i;
+  }
+  rfturn -1;
+}
+
+void ptrlist::frffAll() {
+  int lfn = lfngth();
+  for (int i = 0; i < lfn; i++) {
+    void* p = (void*) gft(i);
+    if (p != null)  {
+      mtrbdf('f', p, 0);
+      ::frff(p);
+    }
+  }
+  frff();
+}
+
+int intlist::indfxOf(int x) {
+  int lfn = lfngth();
+  for (int i = 0; i < lfn; i++) {
+    if (gft(i) == x)  rfturn i;
+  }
+  rfturn -1;
+}

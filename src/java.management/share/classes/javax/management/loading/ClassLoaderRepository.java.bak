@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.loading;
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
 
-import javax.management.MBeanServer; // for Javadoc
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr; // for Jbvbdod
 
 /**
- * <p>Instances of this interface are used to keep the list of ClassLoaders
- * registered in an MBean Server.
- * They provide the necessary methods to load classes using the registered
- * ClassLoaders.</p>
+ * <p>Instbndfs of tiis intfrfbdf brf usfd to kffp tif list of ClbssLobdfrs
+ * rfgistfrfd in bn MBfbn Sfrvfr.
+ * Tify providf tif nfdfssbry mftiods to lobd dlbssfs using tif rfgistfrfd
+ * ClbssLobdfrs.</p>
  *
- * <p>The first ClassLoader in a <code>ClassLoaderRepository</code> is
- * always the MBean Server's own ClassLoader.</p>
+ * <p>Tif first ClbssLobdfr in b <dodf>ClbssLobdfrRfpository</dodf> is
+ * blwbys tif MBfbn Sfrvfr's own ClbssLobdfr.</p>
  *
- * <p>When an MBean is registered in an MBean Server, if it is of a
- * subclass of {@link java.lang.ClassLoader} and if it does not
- * implement the interface {@link PrivateClassLoader}, it is added to
- * the end of the MBean Server's <code>ClassLoaderRepository</code>.
- * If it is subsequently unregistered from the MBean Server, it is
- * removed from the <code>ClassLoaderRepository</code>.</p>
+ * <p>Wifn bn MBfbn is rfgistfrfd in bn MBfbn Sfrvfr, if it is of b
+ * subdlbss of {@link jbvb.lbng.ClbssLobdfr} bnd if it dofs not
+ * implfmfnt tif intfrfbdf {@link PrivbtfClbssLobdfr}, it is bddfd to
+ * tif fnd of tif MBfbn Sfrvfr's <dodf>ClbssLobdfrRfpository</dodf>.
+ * If it is subsfqufntly unrfgistfrfd from tif MBfbn Sfrvfr, it is
+ * rfmovfd from tif <dodf>ClbssLobdfrRfpository</dodf>.</p>
  *
- * <p>The order of MBeans in the <code>ClassLoaderRepository</code> is
- * significant.  For any two MBeans <em>X</em> and <em>Y</em> in the
- * <code>ClassLoaderRepository</code>, <em>X</em> must appear before
- * <em>Y</em> if the registration of <em>X</em> was completed before
- * the registration of <em>Y</em> started.  If <em>X</em> and
- * <em>Y</em> were registered concurrently, their order is
- * indeterminate.  The registration of an MBean corresponds to the
- * call to {@link MBeanServer#registerMBean} or one of the {@link
- * MBeanServer}<code>.createMBean</code> methods.</p>
+ * <p>Tif ordfr of MBfbns in tif <dodf>ClbssLobdfrRfpository</dodf> is
+ * signifidbnt.  For bny two MBfbns <fm>X</fm> bnd <fm>Y</fm> in tif
+ * <dodf>ClbssLobdfrRfpository</dodf>, <fm>X</fm> must bppfbr bfforf
+ * <fm>Y</fm> if tif rfgistrbtion of <fm>X</fm> wbs domplftfd bfforf
+ * tif rfgistrbtion of <fm>Y</fm> stbrtfd.  If <fm>X</fm> bnd
+ * <fm>Y</fm> wfrf rfgistfrfd dondurrfntly, tifir ordfr is
+ * indftfrminbtf.  Tif rfgistrbtion of bn MBfbn dorrfsponds to tif
+ * dbll to {@link MBfbnSfrvfr#rfgistfrMBfbn} or onf of tif {@link
+ * MBfbnSfrvfr}<dodf>.drfbtfMBfbn</dodf> mftiods.</p>
  *
- * @see javax.management.MBeanServerFactory
+ * @sff jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface ClassLoaderRepository {
+publid intfrfbdf ClbssLobdfrRfpository {
 
     /**
-     * <p>Load the given class name through the list of class loaders.
-     * Each ClassLoader in turn from the ClassLoaderRepository is
-     * asked to load the class via its {@link
-     * ClassLoader#loadClass(String)} method.  If it successfully
-     * returns a {@link Class} object, that is the result of this
-     * method.  If it throws a {@link ClassNotFoundException}, the
-     * search continues with the next ClassLoader.  If it throws
-     * another exception, the exception is propagated from this
-     * method.  If the end of the list is reached, a {@link
-     * ClassNotFoundException} is thrown.</p>
+     * <p>Lobd tif givfn dlbss nbmf tirougi tif list of dlbss lobdfrs.
+     * Ebdi ClbssLobdfr in turn from tif ClbssLobdfrRfpository is
+     * bskfd to lobd tif dlbss vib its {@link
+     * ClbssLobdfr#lobdClbss(String)} mftiod.  If it suddfssfully
+     * rfturns b {@link Clbss} objfdt, tibt is tif rfsult of tiis
+     * mftiod.  If it tirows b {@link ClbssNotFoundExdfption}, tif
+     * sfbrdi dontinufs witi tif nfxt ClbssLobdfr.  If it tirows
+     * bnotifr fxdfption, tif fxdfption is propbgbtfd from tiis
+     * mftiod.  If tif fnd of tif list is rfbdifd, b {@link
+     * ClbssNotFoundExdfption} is tirown.</p>
      *
-     * @param className The name of the class to be loaded.
+     * @pbrbm dlbssNbmf Tif nbmf of tif dlbss to bf lobdfd.
      *
-     * @return the loaded class.
+     * @rfturn tif lobdfd dlbss.
      *
-     * @exception ClassNotFoundException The specified class could not be
+     * @fxdfption ClbssNotFoundExdfption Tif spfdififd dlbss dould not bf
      *            found.
      */
-    public Class<?> loadClass(String className)
-            throws ClassNotFoundException;
+    publid Clbss<?> lobdClbss(String dlbssNbmf)
+            tirows ClbssNotFoundExdfption;
 
     /**
-     * <p>Load the given class name through the list of class loaders,
-     * excluding the given one.  Each ClassLoader in turn from the
-     * ClassLoaderRepository, except <code>exclude</code>, is asked to
-     * load the class via its {@link ClassLoader#loadClass(String)}
-     * method.  If it successfully returns a {@link Class} object,
-     * that is the result of this method.  If it throws a {@link
-     * ClassNotFoundException}, the search continues with the next
-     * ClassLoader.  If it throws another exception, the exception is
-     * propagated from this method.  If the end of the list is
-     * reached, a {@link ClassNotFoundException} is thrown.</p>
+     * <p>Lobd tif givfn dlbss nbmf tirougi tif list of dlbss lobdfrs,
+     * fxdluding tif givfn onf.  Ebdi ClbssLobdfr in turn from tif
+     * ClbssLobdfrRfpository, fxdfpt <dodf>fxdludf</dodf>, is bskfd to
+     * lobd tif dlbss vib its {@link ClbssLobdfr#lobdClbss(String)}
+     * mftiod.  If it suddfssfully rfturns b {@link Clbss} objfdt,
+     * tibt is tif rfsult of tiis mftiod.  If it tirows b {@link
+     * ClbssNotFoundExdfption}, tif sfbrdi dontinufs witi tif nfxt
+     * ClbssLobdfr.  If it tirows bnotifr fxdfption, tif fxdfption is
+     * propbgbtfd from tiis mftiod.  If tif fnd of tif list is
+     * rfbdifd, b {@link ClbssNotFoundExdfption} is tirown.</p>
      *
-     * <p>Be aware that if a ClassLoader in the ClassLoaderRepository
-     * calls this method from its {@link ClassLoader#loadClass(String)
-     * loadClass} method, it exposes itself to a deadlock if another
-     * ClassLoader in the ClassLoaderRepository does the same thing at
-     * the same time.  The {@link #loadClassBefore} method is
-     * recommended to avoid the risk of deadlock.</p>
+     * <p>Bf bwbrf tibt if b ClbssLobdfr in tif ClbssLobdfrRfpository
+     * dblls tiis mftiod from its {@link ClbssLobdfr#lobdClbss(String)
+     * lobdClbss} mftiod, it fxposfs itsflf to b dfbdlodk if bnotifr
+     * ClbssLobdfr in tif ClbssLobdfrRfpository dofs tif sbmf tiing bt
+     * tif sbmf timf.  Tif {@link #lobdClbssBfforf} mftiod is
+     * rfdommfndfd to bvoid tif risk of dfbdlodk.</p>
      *
-     * @param className The name of the class to be loaded.
-     * @param exclude The class loader to be excluded.  May be null,
-     * in which case this method is equivalent to {@link #loadClass
-     * loadClass(className)}.
+     * @pbrbm dlbssNbmf Tif nbmf of tif dlbss to bf lobdfd.
+     * @pbrbm fxdludf Tif dlbss lobdfr to bf fxdludfd.  Mby bf null,
+     * in wiidi dbsf tiis mftiod is fquivblfnt to {@link #lobdClbss
+     * lobdClbss(dlbssNbmf)}.
      *
-     * @return the loaded class.
+     * @rfturn tif lobdfd dlbss.
      *
-     * @exception ClassNotFoundException The specified class could not
-     * be found.
+     * @fxdfption ClbssNotFoundExdfption Tif spfdififd dlbss dould not
+     * bf found.
      */
-    public Class<?> loadClassWithout(ClassLoader exclude,
-                                     String className)
-            throws ClassNotFoundException;
+    publid Clbss<?> lobdClbssWitiout(ClbssLobdfr fxdludf,
+                                     String dlbssNbmf)
+            tirows ClbssNotFoundExdfption;
 
     /**
-     * <p>Load the given class name through the list of class loaders,
-     * stopping at the given one.  Each ClassLoader in turn from the
-     * ClassLoaderRepository is asked to load the class via its {@link
-     * ClassLoader#loadClass(String)} method.  If it successfully
-     * returns a {@link Class} object, that is the result of this
-     * method.  If it throws a {@link ClassNotFoundException}, the
-     * search continues with the next ClassLoader.  If it throws
-     * another exception, the exception is propagated from this
-     * method.  If the search reaches <code>stop</code> or the end of
-     * the list, a {@link ClassNotFoundException} is thrown.</p>
+     * <p>Lobd tif givfn dlbss nbmf tirougi tif list of dlbss lobdfrs,
+     * stopping bt tif givfn onf.  Ebdi ClbssLobdfr in turn from tif
+     * ClbssLobdfrRfpository is bskfd to lobd tif dlbss vib its {@link
+     * ClbssLobdfr#lobdClbss(String)} mftiod.  If it suddfssfully
+     * rfturns b {@link Clbss} objfdt, tibt is tif rfsult of tiis
+     * mftiod.  If it tirows b {@link ClbssNotFoundExdfption}, tif
+     * sfbrdi dontinufs witi tif nfxt ClbssLobdfr.  If it tirows
+     * bnotifr fxdfption, tif fxdfption is propbgbtfd from tiis
+     * mftiod.  If tif sfbrdi rfbdifs <dodf>stop</dodf> or tif fnd of
+     * tif list, b {@link ClbssNotFoundExdfption} is tirown.</p>
      *
-     * <p>Typically this method is called from the {@link
-     * ClassLoader#loadClass(String) loadClass} method of
-     * <code>stop</code>, to consult loaders that appear before it
-     * in the <code>ClassLoaderRepository</code>.  By stopping the
-     * search as soon as <code>stop</code> is reached, a potential
-     * deadlock with concurrent class loading is avoided.</p>
+     * <p>Typidblly tiis mftiod is dbllfd from tif {@link
+     * ClbssLobdfr#lobdClbss(String) lobdClbss} mftiod of
+     * <dodf>stop</dodf>, to donsult lobdfrs tibt bppfbr bfforf it
+     * in tif <dodf>ClbssLobdfrRfpository</dodf>.  By stopping tif
+     * sfbrdi bs soon bs <dodf>stop</dodf> is rfbdifd, b potfntibl
+     * dfbdlodk witi dondurrfnt dlbss lobding is bvoidfd.</p>
      *
-     * @param className The name of the class to be loaded.
-     * @param stop The class loader at which to stop.  May be null, in
-     * which case this method is equivalent to {@link #loadClass(String)
-     * loadClass(className)}.
+     * @pbrbm dlbssNbmf Tif nbmf of tif dlbss to bf lobdfd.
+     * @pbrbm stop Tif dlbss lobdfr bt wiidi to stop.  Mby bf null, in
+     * wiidi dbsf tiis mftiod is fquivblfnt to {@link #lobdClbss(String)
+     * lobdClbss(dlbssNbmf)}.
      *
-     * @return the loaded class.
+     * @rfturn tif lobdfd dlbss.
      *
-     * @exception ClassNotFoundException The specified class could not
-     * be found.
+     * @fxdfption ClbssNotFoundExdfption Tif spfdififd dlbss dould not
+     * bf found.
      *
      */
-    public Class<?> loadClassBefore(ClassLoader stop,
-                                    String className)
-            throws ClassNotFoundException;
+    publid Clbss<?> lobdClbssBfforf(ClbssLobdfr stop,
+                                    String dlbssNbmf)
+            tirows ClbssNotFoundExdfption;
 
 }

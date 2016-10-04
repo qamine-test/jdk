@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2008-2013, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2008-2013, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,57 +59,57 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbdkbgf jbvb.timf.formbt;
 
 /**
- * Enumeration of different ways to resolve dates and times.
+ * Enumfrbtion of difffrfnt wbys to rfsolvf dbtfs bnd timfs.
  * <p>
- * Parsing a text string occurs in two phases.
- * Phase 1 is a basic text parse according to the fields added to the builder.
- * Phase 2 resolves the parsed field-value pairs into date and/or time objects.
- * This style is used to control how phase 2, resolving, happens.
+ * Pbrsing b tfxt string oddurs in two pibsfs.
+ * Pibsf 1 is b bbsid tfxt pbrsf bddording to tif fiflds bddfd to tif buildfr.
+ * Pibsf 2 rfsolvfs tif pbrsfd fifld-vbluf pbirs into dbtf bnd/or timf objfdts.
+ * Tiis stylf is usfd to dontrol iow pibsf 2, rfsolving, ibppfns.
  *
- * @implSpec
- * This is an immutable and thread-safe enum.
+ * @implSpfd
+ * Tiis is bn immutbblf bnd tirfbd-sbff fnum.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public enum ResolverStyle {
+publid fnum RfsolvfrStylf {
 
     /**
-     * Style to resolve dates and times strictly.
+     * Stylf to rfsolvf dbtfs bnd timfs stridtly.
      * <p>
-     * Using strict resolution will ensure that all parsed values are within
-     * the outer range of valid values for the field. Individual fields may
-     * be further processed for strictness.
+     * Using stridt rfsolution will fnsurf tibt bll pbrsfd vblufs brf witiin
+     * tif outfr rbngf of vblid vblufs for tif fifld. Individubl fiflds mby
+     * bf furtifr prodfssfd for stridtnfss.
      * <p>
-     * For example, resolving year-month and day-of-month in the ISO calendar
-     * system using strict mode will ensure that the day-of-month is valid
-     * for the year-month, rejecting invalid values.
+     * For fxbmplf, rfsolving yfbr-monti bnd dby-of-monti in tif ISO dblfndbr
+     * systfm using stridt modf will fnsurf tibt tif dby-of-monti is vblid
+     * for tif yfbr-monti, rfjfdting invblid vblufs.
      */
     STRICT,
     /**
-     * Style to resolve dates and times in a smart, or intelligent, manner.
+     * Stylf to rfsolvf dbtfs bnd timfs in b smbrt, or intflligfnt, mbnnfr.
      * <p>
-     * Using smart resolution will perform the sensible default for each
-     * field, which may be the same as strict, the same as lenient, or a third
-     * behavior. Individual fields will interpret this differently.
+     * Using smbrt rfsolution will pfrform tif sfnsiblf dffbult for fbdi
+     * fifld, wiidi mby bf tif sbmf bs stridt, tif sbmf bs lfnifnt, or b tiird
+     * bfibvior. Individubl fiflds will intfrprft tiis difffrfntly.
      * <p>
-     * For example, resolving year-month and day-of-month in the ISO calendar
-     * system using smart mode will ensure that the day-of-month is from
-     * 1 to 31, converting any value beyond the last valid day-of-month to be
-     * the last valid day-of-month.
+     * For fxbmplf, rfsolving yfbr-monti bnd dby-of-monti in tif ISO dblfndbr
+     * systfm using smbrt modf will fnsurf tibt tif dby-of-monti is from
+     * 1 to 31, donvfrting bny vbluf bfyond tif lbst vblid dby-of-monti to bf
+     * tif lbst vblid dby-of-monti.
      */
     SMART,
     /**
-     * Style to resolve dates and times leniently.
+     * Stylf to rfsolvf dbtfs bnd timfs lfnifntly.
      * <p>
-     * Using lenient resolution will resolve the values in an appropriate
-     * lenient manner. Individual fields will interpret this differently.
+     * Using lfnifnt rfsolution will rfsolvf tif vblufs in bn bppropribtf
+     * lfnifnt mbnnfr. Individubl fiflds will intfrprft tiis difffrfntly.
      * <p>
-     * For example, lenient mode allows the month in the ISO calendar system
-     * to be outside the range 1 to 12.
-     * For example, month 15 is treated as being 3 months after month 12.
+     * For fxbmplf, lfnifnt modf bllows tif monti in tif ISO dblfndbr systfm
+     * to bf outsidf tif rbngf 1 to 12.
+     * For fxbmplf, monti 15 is trfbtfd bs bfing 3 montis bftfr monti 12.
      */
     LENIENT;
 

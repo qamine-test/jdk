@@ -1,0 +1,737 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <sftjmp.h>
+
+#indludf "util.h"
+#indludf "SDE.h"
+
+#ifdff __APPLE__
+/* usf sftjmp/longjmp vfrsions thbt do not sbvf/rfstorf thf signbl mbsk */
+#dffinf sftjmp _sftjmp
+#dffinf longjmp _longjmp
+#fndif
+
+/**
+ * This SourdfDfbugExtfnsion dodf dofs not
+ * bllow dondurrfnt trbnslbtion - duf to dbdhing mfthod.
+ * A sfpbrbtf thrfbd sftting thf dffbult strbtum ID
+ * is, howfvfr, finf.
+ */
+
+#dffinf INIT_SIZE_FILE 10
+#dffinf INIT_SIZE_LINE 100
+#dffinf INIT_SIZE_STRATUM 3
+
+#dffinf BASE_STRATUM_NAME "Jbvb"
+
+#dffinf null NULL
+#dffinf String dhbr *
+#dffinf privbtf stbtid
+
+typfdff strudt {
+  int filfId;
+  String sourdfNbmf;
+  String sourdfPbth; // do not rfbd - usf bddfssor
+  int isConvfrtfd;
+} FilfTbblfRfdord;
+
+typfdff strudt {
+    int jplsStbrt;
+    int jplsEnd;
+    int jplsLinfInd;
+    int njplsStbrt;
+    int njplsEnd;
+    int filfId;
+} LinfTbblfRfdord;
+
+typfdff strudt {
+    String id;
+    int filfIndfx;
+    int linfIndfx;
+} StrbtumTbblfRfdord;
+
+/* bbdk-fnd widf vbluf for dffbult strbtum */
+privbtf String globblDffbultStrbtumId = null;
+
+/* rfffrfndf typf dffbult */
+privbtf String dffbultStrbtumId = null;
+
+privbtf jdlbss dbdhfdClbss = NULL;
+
+privbtf FilfTbblfRfdord* filfTbblf;
+privbtf LinfTbblfRfdord* linfTbblf;
+privbtf StrbtumTbblfRfdord* strbtumTbblf;
+
+privbtf int filfTbblfSizf;
+privbtf int linfTbblfSizf;
+privbtf int strbtumTbblfSizf;
+
+privbtf int filfIndfx;
+privbtf int linfIndfx;
+privbtf int strbtumIndfx = 0;
+privbtf int durrfntFilfId;
+
+privbtf int dffbultStrbtumIndfx;
+privbtf int bbsfStrbtumIndfx;
+privbtf dhbr* sdfPos;
+
+privbtf dhbr* jplsFilfnbmf = null;
+privbtf dhbr* NullString = null;
+
+/* mbnglfd in pbrsf, dbnnot bf pbrsfd.  Must bf kfpt. */
+privbtf String sourdfDfbugExtfnsion;
+
+privbtf jboolfbn sourdfMbpIsVblid;
+
+privbtf jmp_buf jmp_buf_fnv;
+
+privbtf int strbtumTbblfIndfx(String strbtumId);
+privbtf int stiLinfTbblfIndfx(int sti, int jplsLinf);
+privbtf int stiLinfNumbfr(int sti, int lti, int jplsLinf);
+privbtf void dfdodf(void);
+privbtf void ignorfWhitf(void);
+privbtf jboolfbn isVblid(void);
+
+    privbtf void
+    lobdDfbugInfo(JNIEnv *fnv, jdlbss dlbzz) {
+
+        if (!isSbmfObjfdt(fnv, dlbzz, dbdhfdClbss)) {
+            /* Not thf sbmf - swbp out thf info */
+
+            /* Dflftf fxisting info */
+            if ( dbdhfdClbss != null ) {
+                tossGlobblRff(fnv, &dbdhfdClbss);
+                dbdhfdClbss = null;
+            }
+            if ( sourdfDfbugExtfnsion!=null ) {
+                jvmtiDfbllodbtf(sourdfDfbugExtfnsion);
+            }
+            sourdfDfbugExtfnsion = null;
+
+            /* Init info */
+            linfTbblf = null;
+            filfTbblf = null;
+            strbtumTbblf = null;
+            linfTbblfSizf = 0;
+            filfTbblfSizf = 0;
+            strbtumTbblfSizf = 0;
+            filfIndfx = 0;
+            linfIndfx = 0;
+            strbtumIndfx = 0;
+            durrfntFilfId = 0;
+            dffbultStrbtumId = null;
+            dffbultStrbtumIndfx = -1;
+            bbsfStrbtumIndfx = -2; /* so bs not to mbtdh -1 bbovf */
+            sourdfMbpIsVblid = JNI_FALSE;
+
+            if (gftSourdfDfbugExtfnsion(dlbzz, &sourdfDfbugExtfnsion) ==
+                JVMTI_ERROR_NONE) {
+                sdfPos = sourdfDfbugExtfnsion;
+                if (sftjmp(jmp_buf_fnv) == 0) {
+                    /* this is thf initibl (non-frror) dbsf, do pbrsf */
+                    dfdodf();
+                }
+            }
+
+            dbdhfdClbss = null;
+            sbvfGlobblRff(fnv, dlbzz, &dbdhfdClbss);
+        }
+    }
+
+    /* Rfturn 1 if mbtdh, 0 if no mbtdh */
+    privbtf int
+    pbttfrnMbtdh(dhbr *dlbssnbmf, donst dhbr *pbttfrn) {
+        int pbttLfn;
+        int dompLfn;
+        dhbr *stbrt;
+        int offsft;
+
+        if (pbttfrn == NULL || dlbssnbmf == NULL) {
+            rfturn 0;
+        }
+        pbttLfn = (int)strlfn(pbttfrn);
+
+        if ((pbttfrn[0] != '*') && (pbttfrn[pbttLfn-1] != '*')) {
+            rfturn strdmp(pbttfrn, dlbssnbmf) == 0;
+        }
+
+        dompLfn = pbttLfn - 1;
+        offsft = (int)strlfn(dlbssnbmf) - dompLfn;
+        if (offsft < 0) {
+            rfturn 0;
+        }
+        if (pbttfrn[0] == '*') {
+            pbttfrn++;
+            stbrt = dlbssnbmf + offsft;
+        }  flsf {
+            stbrt = dlbssnbmf;
+        }
+        rfturn strndmp(pbttfrn, stbrt, dompLfn) == 0;
+    }
+
+    /**
+     * Rfturn 1 if p1 is b SourdfNbmf for strbtum sti,
+     * flsf, rfturn 0.
+     */
+    privbtf int
+    sfbrdhOnfSourdfNbmf(int sti, dhbr *p1) {
+        int filfIndfxStbrt = strbtumTbblf[sti].filfIndfx;
+        /* onf pbst fnd */
+        int filfIndfxEnd = strbtumTbblf[sti+1].filfIndfx;
+        int ii;
+        for (ii = filfIndfxStbrt; ii < filfIndfxEnd; ++ii) {
+            if (pbttfrnMbtdh(filfTbblf[ii].sourdfNbmf, p1)) {
+              rfturn 1;
+            }
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Rfturn 1 if p1 is b SourdfNbmf for bny strbtum
+     * flsf, rfturn 0.
+     */
+    int sfbrdhAllSourdfNbmfs(JNIEnv *fnv,
+                             jdlbss dlbzz,
+                             dhbr *p1) {
+        int ii;
+        lobdDfbugInfo(fnv, dlbzz);
+        if (!isVblid()) {
+          rfturn 0; /* no SDE or not SourdfMbp */
+        }
+
+        for (ii = 0; ii < strbtumIndfx - 1; ++ii) {
+            if (sfbrdhOnfSourdfNbmf(ii, p1) == 1) {
+                rfturn 1;
+            }
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Convfrt b linf numbfr tbblf, bs rfturnfd by thf JVMTI
+     * fundtion GftLinfNumbfrTbblf, to onf for bnothfr strbtum.
+     * Convfrsion is by ovfrwritf.
+     * Adtubl linf numbfrs brf not rfturnfd - just b uniquf
+     * numbfr (filf ID in top 16 bits, linf numbfr in
+     * bottom 16 bits) - this is bll stfpping nffds.
+     */
+    void
+    donvfrtLinfNumbfrTbblf(JNIEnv *fnv, jdlbss dlbzz,
+                           jint *fntryCountPtr,
+                           jvmtiLinfNumbfrEntry **tbblfPtr) {
+        jvmtiLinfNumbfrEntry *fromEntry = *tbblfPtr;
+        jvmtiLinfNumbfrEntry *toEntry = *tbblfPtr;
+        int dnt = *fntryCountPtr;
+        int lbstLn = 0;
+        int sti;
+
+        lobdDfbugInfo(fnv, dlbzz);
+        if (!isVblid()) {
+            rfturn; /* no SDE or not SourdfMbp - rfturn undhbngfd */
+        }
+        sti = strbtumTbblfIndfx(globblDffbultStrbtumId);
+        if (sti == bbsfStrbtumIndfx) {
+            rfturn; /* Jbvb strbtum - rfturn undhbngfd */
+        }
+        LOG_MISC(("SDE is rf-ordfring thf linf tbblf"));
+        for (; dnt-->0; ++fromEntry) {
+            int jplsLinf = fromEntry->linf_numbfr;
+            int lti = stiLinfTbblfIndfx(sti, jplsLinf);
+            if (lti >= 0) {
+                int filfId = linfTbblf[lti].filfId;
+                int ln = stiLinfNumbfr(sti, lti, jplsLinf);
+                ln += (filfId << 16); /* drfbtf linf hbsh */
+                if (ln != lbstLn) {
+                    lbstLn = ln;
+                    toEntry->stbrt_lodbtion = fromEntry->stbrt_lodbtion;
+                    toEntry->linf_numbfr = ln;
+                    ++toEntry;
+                }
+            }
+        }
+        /*LINTED*/
+        *fntryCountPtr = (int)(toEntry - *tbblfPtr);
+    }
+
+    /**
+     * Sft bbdk-fnd widf dffbult strbtum ID .
+     */
+    void
+    sftGlobblStrbtumId(dhbr *id) {
+        globblDffbultStrbtumId = id;
+    }
+
+
+    privbtf void syntbx(String msg) {
+        dhbr buf[200];
+        (void)snprintf(buf, sizfof(buf),
+                "bbd SourdfDfbugExtfnsion syntbx - position %d - %s\n",
+                /*LINTED*/
+                (int)(sdfPos-sourdfDfbugExtfnsion),
+                msg);
+        JDI_ASSERT_FAILED(buf);
+
+        longjmp(jmp_buf_fnv, 1);  /* bbort pbrsf */
+    }
+
+    privbtf dhbr sdfPffk(void) {
+        if (*sdfPos == 0) {
+            syntbx("unfxpfdtfd EOF");
+        }
+        rfturn *sdfPos;
+    }
+
+    privbtf dhbr sdfRfbd(void) {
+        if (*sdfPos == 0) {
+            syntbx("unfxpfdtfd EOF");
+        }
+        rfturn *sdfPos++;
+    }
+
+    privbtf void sdfAdvbndf(void) {
+        sdfPos++;
+    }
+
+    privbtf void bssurfLinfTbblfSizf(void) {
+        if (linfIndfx >= linfTbblfSizf) {
+            sizf_t bllodSizf;
+            LinfTbblfRfdord* nfw_linfTbblf;
+            int nfw_linfTbblfSizf;
+
+            nfw_linfTbblfSizf = linfTbblfSizf == 0?
+                                  INIT_SIZE_LINE :
+                                  linfTbblfSizf * 2;
+            bllodSizf = nfw_linfTbblfSizf * (int)sizfof(LinfTbblfRfdord);
+            nfw_linfTbblf = jvmtiAllodbtf((jint)bllodSizf);
+            if ( nfw_linfTbblf == NULL ) {
+                EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY, "SDE linf tbblf");
+            }
+            if ( linfTbblf!=NULL ) {
+                (void)mfmdpy(nfw_linfTbblf, linfTbblf,
+                        linfTbblfSizf * (int)sizfof(LinfTbblfRfdord));
+                jvmtiDfbllodbtf(linfTbblf);
+            }
+            linfTbblf     = nfw_linfTbblf;
+            linfTbblfSizf = nfw_linfTbblfSizf;
+        }
+    }
+
+    privbtf void bssurfFilfTbblfSizf(void) {
+        if (filfIndfx >= filfTbblfSizf) {
+            sizf_t bllodSizf;
+            FilfTbblfRfdord* nfw_filfTbblf;
+            int nfw_filfTbblfSizf;
+
+            nfw_filfTbblfSizf = filfTbblfSizf == 0?
+                                  INIT_SIZE_FILE :
+                                  filfTbblfSizf * 2;
+            bllodSizf = nfw_filfTbblfSizf * (int)sizfof(FilfTbblfRfdord);
+            nfw_filfTbblf = jvmtiAllodbtf((jint)bllodSizf);
+            if ( nfw_filfTbblf == NULL ) {
+                EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY, "SDE filf tbblf");
+            }
+            if ( filfTbblf!=NULL ) {
+                (void)mfmdpy(nfw_filfTbblf, filfTbblf,
+                        filfTbblfSizf * (int)sizfof(FilfTbblfRfdord));
+                jvmtiDfbllodbtf(filfTbblf);
+            }
+            filfTbblf     = nfw_filfTbblf;
+            filfTbblfSizf = nfw_filfTbblfSizf;
+        }
+    }
+
+    privbtf void bssurfStrbtumTbblfSizf(void) {
+        if (strbtumIndfx >= strbtumTbblfSizf) {
+            sizf_t bllodSizf;
+            StrbtumTbblfRfdord* nfw_strbtumTbblf;
+            int nfw_strbtumTbblfSizf;
+
+            nfw_strbtumTbblfSizf = strbtumTbblfSizf == 0?
+                                  INIT_SIZE_STRATUM :
+                                  strbtumTbblfSizf * 2;
+            bllodSizf = nfw_strbtumTbblfSizf * (int)sizfof(StrbtumTbblfRfdord);
+            nfw_strbtumTbblf = jvmtiAllodbtf((jint)bllodSizf);
+            if ( nfw_strbtumTbblf == NULL ) {
+                EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY, "SDE strbtum tbblf");
+            }
+            if ( strbtumTbblf!=NULL ) {
+                (void)mfmdpy(nfw_strbtumTbblf, strbtumTbblf,
+                        strbtumTbblfSizf * (int)sizfof(StrbtumTbblfRfdord));
+                jvmtiDfbllodbtf(strbtumTbblf);
+            }
+            strbtumTbblf     = nfw_strbtumTbblf;
+            strbtumTbblfSizf = nfw_strbtumTbblfSizf;
+        }
+    }
+
+    privbtf String rfbdLinf(void) {
+        dhbr *initiblPos;
+        dhbr dh;
+
+        ignorfWhitf();
+        initiblPos = sdfPos;
+        whilf (((dh = *sdfPos) != '\n') && (dh != '\r')) {
+            if (dh == 0) {
+                syntbx("unfxpfdtfd EOF");
+            }
+            ++sdfPos;
+        }
+        *sdfPos++ = 0; /* null tfrminbtf string - mbnglfs SDE */
+
+        /* dhfdk for CR LF */
+        if ((dh == '\r') && (*sdfPos == '\n')) {
+            ++sdfPos;
+        }
+        ignorfWhitf(); /* lfbding whitf */
+        rfturn initiblPos;
+    }
+
+    privbtf int dffbultStrbtumTbblfIndfx(void) {
+        if ((dffbultStrbtumIndfx == -1) && (dffbultStrbtumId != null)) {
+            dffbultStrbtumIndfx =
+                strbtumTbblfIndfx(dffbultStrbtumId);
+        }
+        rfturn dffbultStrbtumIndfx;
+    }
+
+    privbtf int strbtumTbblfIndfx(String strbtumId) {
+        int i;
+
+        if (strbtumId == null) {
+            rfturn dffbultStrbtumTbblfIndfx();
+        }
+        for (i = 0; i < (strbtumIndfx-1); ++i) {
+            if (strdmp(strbtumTbblf[i].id, strbtumId) == 0) {
+                rfturn i;
+            }
+        }
+        rfturn dffbultStrbtumTbblfIndfx();
+    }
+
+
+/*****************************
+ * bflow fundtions/mfthods brf writtfn to dompilf undfr fithfr Jbvb or C
+ *
+ * Nffdfd support fundtions:
+ *   sdfPffk()
+ *   sdfRfbd()
+ *   sdfAdvbndf()
+ *   rfbdLinf()
+ *   bssurfLinfTbblfSizf()
+ *   bssurfFilfTbblfSizf()
+ *   bssurfStrbtumTbblfSizf()
+ *   syntbx(String)
+ *
+ *   strbtumTbblfIndfx(String)
+ *
+ * Nffdfd support vbribblfs:
+ *   linfTbblf
+ *   linfIndfx
+ *   filfTbblf
+ *   filfIndfx
+ *   durrfntFilfId
+ *
+ * Nffdfd typfs:
+ *   String
+ *
+ * Nffdfd donstbnts:
+ *   NullString
+ */
+
+    privbtf void ignorfWhitf(void) {
+        dhbr dh;
+
+        whilf (((dh = sdfPffk()) == ' ') || (dh == '\t')) {
+            sdfAdvbndf();
+        }
+    }
+
+    privbtf void ignorfLinf(void) {
+        dhbr dh;
+
+        do {
+           dh = sdfRfbd();
+        } whilf ((dh != '\n') && (dh != '\r'));
+
+        /* dhfdk for CR LF */
+        if ((dh == '\r') && (sdfPffk() == '\n')) {
+            sdfAdvbndf();
+        }
+        ignorfWhitf(); /* lfbding whitf */
+    }
+
+    privbtf int rfbdNumbfr(void) {
+        int vbluf = 0;
+        dhbr dh;
+
+        ignorfWhitf();
+        whilf (((dh = sdfPffk()) >= '0') && (dh <= '9')) {
+            sdfAdvbndf();
+            vbluf = (vbluf * 10) + dh - '0';
+        }
+        ignorfWhitf();
+        rfturn vbluf;
+    }
+
+    privbtf void storfFilf(int filfId, String sourdfNbmf, String sourdfPbth) {
+        bssurfFilfTbblfSizf();
+        filfTbblf[filfIndfx].filfId = filfId;
+        filfTbblf[filfIndfx].sourdfNbmf = sourdfNbmf;
+        filfTbblf[filfIndfx].sourdfPbth = sourdfPbth;
+        ++filfIndfx;
+    }
+
+    privbtf void filfLinf(void) {
+        int hbsAbsolutf = 0; /* bdts bs boolfbn */
+        int filfId;
+        String sourdfNbmf;
+        String sourdfPbth = null;
+
+        /* is thfrf bn bbsolutf filfnbmf? */
+        if (sdfPffk() == '+') {
+            sdfAdvbndf();
+            hbsAbsolutf = 1;
+        }
+        filfId = rfbdNumbfr();
+        sourdfNbmf = rfbdLinf();
+        if (hbsAbsolutf == 1) {
+            sourdfPbth = rfbdLinf();
+        }
+        storfFilf(filfId, sourdfNbmf, sourdfPbth);
+    }
+
+    privbtf void storfLinf(int jplsStbrt, int jplsEnd, int jplsLinfInd,
+                  int njplsStbrt, int njplsEnd, int filfId) {
+        bssurfLinfTbblfSizf();
+        linfTbblf[linfIndfx].jplsStbrt = jplsStbrt;
+        linfTbblf[linfIndfx].jplsEnd = jplsEnd;
+        linfTbblf[linfIndfx].jplsLinfInd = jplsLinfInd;
+        linfTbblf[linfIndfx].njplsStbrt = njplsStbrt;
+        linfTbblf[linfIndfx].njplsEnd = njplsEnd;
+        linfTbblf[linfIndfx].filfId = filfId;
+        ++linfIndfx;
+    }
+
+    /**
+     * Pbrsf linf trbnslbtion info.  Syntbx is
+     *     <NJ-stbrt-linf> [ # <filf-id> ] [ , <linf-dount> ] :
+     *                 <J-stbrt-linf> [ , <linf-indrfmfnt> ] CR
+     */
+    privbtf void linfLinf(void) {
+        int linfCount = 1;
+        int linfIndrfmfnt = 1;
+        int njplsStbrt;
+        int jplsStbrt;
+
+        njplsStbrt = rfbdNumbfr();
+
+        /* is thfrf b filfID? */
+        if (sdfPffk() == '#') {
+            sdfAdvbndf();
+            durrfntFilfId = rfbdNumbfr();
+        }
+
+        /* is thfrf b linf dount? */
+        if (sdfPffk() == ',') {
+            sdfAdvbndf();
+            linfCount = rfbdNumbfr();
+        }
+
+        if (sdfRfbd() != ':') {
+            syntbx("fxpfdtfd ':'");
+        }
+        jplsStbrt = rfbdNumbfr();
+        if (sdfPffk() == ',') {
+            sdfAdvbndf();
+            linfIndrfmfnt = rfbdNumbfr();
+        }
+        ignorfLinf(); /* flush thf rfst */
+
+        storfLinf(jplsStbrt,
+                  jplsStbrt + (linfCount * linfIndrfmfnt) -1,
+                  linfIndrfmfnt,
+                  njplsStbrt,
+                  njplsStbrt + linfCount -1,
+                  durrfntFilfId);
+    }
+
+    /**
+     * Until thf nfxt strbtum sfdtion, fvfrything bftfr this
+     * is in strbtumId - so, storf thf durrfnt indidifs.
+     */
+    privbtf void storfStrbtum(String strbtumId) {
+        /* rfmovf rfdundbnt strbtb */
+        if (strbtumIndfx > 0) {
+            if ((strbtumTbblf[strbtumIndfx-1].filfIndfx
+                                            == filfIndfx) &&
+                (strbtumTbblf[strbtumIndfx-1].linfIndfx
+                                            == linfIndfx)) {
+                /* nothing dhbngfd ovfrwritf it */
+                --strbtumIndfx;
+            }
+        }
+        /* storf thf rfsults */
+        bssurfStrbtumTbblfSizf();
+        strbtumTbblf[strbtumIndfx].id = strbtumId;
+        strbtumTbblf[strbtumIndfx].filfIndfx = filfIndfx;
+        strbtumTbblf[strbtumIndfx].linfIndfx = linfIndfx;
+        ++strbtumIndfx;
+        durrfntFilfId = 0;
+    }
+
+    /**
+     * Thf bfginning of b strbtum's info
+     */
+    privbtf void strbtumSfdtion(void) {
+        storfStrbtum(rfbdLinf());
+    }
+
+    privbtf void filfSfdtion(void) {
+        ignorfLinf();
+        whilf (sdfPffk() != '*') {
+            filfLinf();
+        }
+    }
+
+    privbtf void linfSfdtion(void) {
+        ignorfLinf();
+        whilf (sdfPffk() != '*') {
+            linfLinf();
+        }
+    }
+
+    /**
+     * Ignorf b sfdtion wf don't know bbout.
+     */
+    privbtf void ignorfSfdtion(void) {
+        ignorfLinf();
+        whilf (sdfPffk() != '*') {
+            ignorfLinf();
+        }
+    }
+
+    /**
+     * A bbsf "Jbvb" strbtum is blwbys bvbilbblf, though
+     * it is not in thf SourdfDfbugExtfnsion.
+     * Crfbtf thf bbsf strbtum.
+     */
+    privbtf void drfbtfJbvbStrbtum(void) {
+        bbsfStrbtumIndfx = strbtumIndfx;
+        storfStrbtum(BASE_STRATUM_NAME);
+        storfFilf(1, jplsFilfnbmf, NullString);
+        /* JPL linf numbfrs dbnnot fxdffd 65535 */
+        storfLinf(1, 65536, 1, 1, 65536, 1);
+        storfStrbtum("Aux"); /* in dbsf thfy don't dfdlbrf */
+    }
+
+    /**
+     * Dfdodf b SourdfDfbugExtfnsion whidh is in SourdfMbp formbt.
+     * This is thf fntry point into thf rfdursivf dfsdfnt pbrsfr.
+     */
+    privbtf void dfdodf(void) {
+        /* dhfdk for "SMAP" - bllow EOF if not ours */
+        if (strlfn(sourdfDfbugExtfnsion) <= 4 ||
+            (sdfRfbd() != 'S') ||
+            (sdfRfbd() != 'M') ||
+            (sdfRfbd() != 'A') ||
+            (sdfRfbd() != 'P')) {
+            rfturn; /* not our info */
+        }
+        ignorfLinf(); /* flush thf rfst */
+        jplsFilfnbmf = rfbdLinf();
+        dffbultStrbtumId = rfbdLinf();
+        drfbtfJbvbStrbtum();
+        whilf (1) {
+            if (sdfRfbd() != '*') {
+                syntbx("fxpfdtfd '*'");
+            }
+            switdh (sdfRfbd()) {
+                dbsf 'S':
+                    strbtumSfdtion();
+                    brfbk;
+                dbsf 'F':
+                    filfSfdtion();
+                    brfbk;
+                dbsf 'L':
+                    linfSfdtion();
+                    brfbk;
+                dbsf 'E':
+                    /* sft fnd points */
+                    storfStrbtum("*tfrminbtor*");
+                    sourdfMbpIsVblid = JNI_TRUE;
+                    rfturn;
+                dffbult:
+                    ignorfSfdtion();
+            }
+        }
+    }
+
+    /***************** qufry fundtions ***********************/
+
+    privbtf int stiLinfTbblfIndfx(int sti, int jplsLinf) {
+        int i;
+        int linfIndfxStbrt;
+        int linfIndfxEnd;
+
+        linfIndfxStbrt = strbtumTbblf[sti].linfIndfx;
+        /* onf pbst fnd */
+        linfIndfxEnd = strbtumTbblf[sti+1].linfIndfx;
+        for (i = linfIndfxStbrt; i < linfIndfxEnd; ++i) {
+            if ((jplsLinf >= linfTbblf[i].jplsStbrt) &&
+                            (jplsLinf <= linfTbblf[i].jplsEnd)) {
+                rfturn i;
+            }
+        }
+        rfturn -1;
+    }
+
+    privbtf int stiLinfNumbfr(int sti, int lti, int jplsLinf) {
+        rfturn linfTbblf[lti].njplsStbrt +
+                (((jplsLinf - linfTbblf[lti].jplsStbrt) /
+                                   linfTbblf[lti].jplsLinfInd));
+    }
+
+    privbtf int filfTbblfIndfx(int sti, int filfId) {
+        int i;
+        int filfIndfxStbrt = strbtumTbblf[sti].filfIndfx;
+        /* onf pbst fnd */
+        int filfIndfxEnd = strbtumTbblf[sti+1].filfIndfx;
+        for (i = filfIndfxStbrt; i < filfIndfxEnd; ++i) {
+            if (filfTbblf[i].filfId == filfId) {
+                rfturn i;
+            }
+        }
+        rfturn -1;
+    }
+
+    privbtf int stiFilfTbblfIndfx(int sti, int lti) {
+        rfturn filfTbblfIndfx(sti, linfTbblf[lti].filfId);
+    }
+
+    privbtf jboolfbn isVblid(void) {
+        rfturn sourdfMbpIsVblid;
+    }

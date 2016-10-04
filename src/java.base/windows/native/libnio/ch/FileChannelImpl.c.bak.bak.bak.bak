@@ -1,0 +1,182 @@
+/*
+ * Copyright (d) 2000, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+#indludf <io.h>
+#indludf "nio.h"
+#indludf "nio_util.h"
+#indludf "sun_nio_dh_FilfChbnnflImpl.h"
+
+stbtid jfifldID dhbn_fd; /* id for jobjfdt 'fd' in jbvb.io.FilfChbnnfl */
+
+/**************************************************************
+ * stbtid mfthod to storf fifld ID's in initiblizfrs
+ * bnd rftrifvf thf bllodbtion grbnulbrity
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_initIDs(JNIEnv *fnv, jdlbss dlbzz)
+{
+    SYSTEM_INFO si;
+    jint blign;
+    GftSystfmInfo(&si);
+    blign = si.dwAllodbtionGrbnulbrity;
+    dhbn_fd = (*fnv)->GftFifldID(fnv, dlbzz, "fd", "Ljbvb/io/FilfDfsdriptor;");
+    rfturn blign;
+}
+
+
+/**************************************************************
+ * Chbnnfl
+ */
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_mbp0(JNIEnv *fnv, jobjfdt this,
+                               jint prot, jlong off, jlong lfn)
+{
+    void *mbpAddrfss = 0;
+    jint lowOffsft = (jint)off;
+    jint highOffsft = (jint)(off >> 32);
+    jlong mbxSizf = off + lfn;
+    jint lowLfn = (jint)(mbxSizf);
+    jint highLfn = (jint)(mbxSizf >> 32);
+    jobjfdt fdo = (*fnv)->GftObjfdtFifld(fnv, this, dhbn_fd);
+    HANDLE filfHbndlf = (HANDLE)(hbndlfvbl(fnv, fdo));
+    HANDLE mbpping;
+    DWORD mbpAddfss = FILE_MAP_READ;
+    DWORD filfProtfdt = PAGE_READONLY;
+    DWORD mbpError;
+    BOOL rfsult;
+
+    if (prot == sun_nio_dh_FilfChbnnflImpl_MAP_RO) {
+        filfProtfdt = PAGE_READONLY;
+        mbpAddfss = FILE_MAP_READ;
+    } flsf if (prot == sun_nio_dh_FilfChbnnflImpl_MAP_RW) {
+        filfProtfdt = PAGE_READWRITE;
+        mbpAddfss = FILE_MAP_WRITE;
+    } flsf if (prot == sun_nio_dh_FilfChbnnflImpl_MAP_PV) {
+        filfProtfdt = PAGE_WRITECOPY;
+        mbpAddfss = FILE_MAP_COPY;
+    }
+
+    mbpping = CrfbtfFilfMbpping(
+        filfHbndlf,      /* Hbndlf of filf */
+        NULL,            /* Not inhfritbblf */
+        filfProtfdt,     /* Rfbd bnd writf */
+        highLfn,         /* High word of mbx sizf */
+        lowLfn,          /* Low word of mbx sizf */
+        NULL);           /* No nbmf for objfdt */
+
+    if (mbpping == NULL) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Mbp fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    mbpAddrfss = MbpVifwOfFilf(
+        mbpping,             /* Hbndlf of filf mbpping objfdt */
+        mbpAddfss,           /* Rfbd bnd writf bddfss */
+        highOffsft,          /* High word of offsft */
+        lowOffsft,           /* Low word of offsft */
+        (DWORD)lfn);         /* Numbfr of bytfs to mbp */
+    mbpError = GftLbstError();
+
+    rfsult = ClosfHbndlf(mbpping);
+    if (rfsult == 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Mbp fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    if (mbpAddrfss == NULL) {
+        if (mbpError == ERROR_NOT_ENOUGH_MEMORY)
+            JNU_ThrowOutOfMfmoryError(fnv, "Mbp fbilfd");
+        flsf
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Mbp fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    rfturn ptr_to_jlong(mbpAddrfss);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_unmbp0(JNIEnv *fnv, jobjfdt this,
+                                 jlong bddrfss, jlong lfn)
+{
+    BOOL rfsult;
+    void *b = (void *) jlong_to_ptr(bddrfss);
+
+    rfsult = UnmbpVifwOfFilf(b);
+    if (rfsult == 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Unmbp fbilfd");
+        rfturn IOS_THROWN;
+    }
+    rfturn 0;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_position0(JNIEnv *fnv, jobjfdt this,
+                                          jobjfdt fdo, jlong offsft)
+{
+    DWORD lowPos = 0;
+    long highPos = 0;
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+
+    if (offsft < 0) {
+        lowPos = SftFilfPointfr(h, 0, &highPos, FILE_CURRENT);
+    } flsf {
+        lowPos = (DWORD)offsft;
+        highPos = (long)(offsft >> 32);
+        lowPos = SftFilfPointfr(h, lowPos, &highPos, FILE_BEGIN);
+    }
+    if (lowPos == ((DWORD)-1)) {
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
+        }
+    }
+    rfturn (((jlong)highPos) << 32) | lowPos;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_dlosf0(JNIEnv *fnv, jobjfdt this, jobjfdt fdo)
+{
+    HANDLE h = (HANDLE)(hbndlfvbl(fnv, fdo));
+    if (h != INVALID_HANDLE_VALUE) {
+        jint rfsult = ClosfHbndlf(h);
+        if (rfsult < 0) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Closf fbilfd");
+        }
+    }
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_trbnsffrTo0(JNIEnv *fnv, jobjfdt this,
+                                            jint srdFD,
+                                            jlong position, jlong dount,
+                                            jint dstFD)
+{
+    rfturn IOS_UNSUPPORTED;
+}

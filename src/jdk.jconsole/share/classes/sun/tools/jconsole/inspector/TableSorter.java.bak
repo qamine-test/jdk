@@ -1,292 +1,292 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
 
-// Imports for picking up mouse events from the JTable.
+// Imports for pidking up mousf fvfnts from tif JTbblf.
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Vector;
-import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
-import sun.tools.jconsole.JConsole;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.util.Vfdtor;
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.fvfnt.TbblfModflEvfnt;
+import jbvbx.swing.fvfnt.TbblfModflListfnfr;
+import jbvbx.swing.tbblf.DffbultTbblfModfl;
+import jbvbx.swing.tbblf.JTbblfHfbdfr;
+import jbvbx.swing.tbblf.TbblfColumnModfl;
+import sun.tools.jdonsolf.JConsolf;
 
-@SuppressWarnings("serial")
-public class TableSorter extends DefaultTableModel implements MouseListener {
-    private boolean ascending = true;
-    private TableColumnModel columnModel;
-    private JTable tableView;
-    private Vector<TableModelListener> evtListenerList;
-    private int sortColumn = 0;
+@SupprfssWbrnings("sfribl")
+publid dlbss TbblfSortfr fxtfnds DffbultTbblfModfl implfmfnts MousfListfnfr {
+    privbtf boolfbn bsdfnding = truf;
+    privbtf TbblfColumnModfl dolumnModfl;
+    privbtf JTbblf tbblfVifw;
+    privbtf Vfdtor<TbblfModflListfnfr> fvtListfnfrList;
+    privbtf int sortColumn = 0;
 
-    private int[] invertedIndex;
+    privbtf int[] invfrtfdIndfx;
 
-    public TableSorter() {
-        super();
-        evtListenerList = new Vector<TableModelListener>();
+    publid TbblfSortfr() {
+        supfr();
+        fvtListfnfrList = nfw Vfdtor<TbblfModflListfnfr>();
     }
 
-    public TableSorter(Object[] columnNames, int numRows) {
-        super(columnNames,numRows);
-        evtListenerList = new Vector<TableModelListener>();
+    publid TbblfSortfr(Objfdt[] dolumnNbmfs, int numRows) {
+        supfr(dolumnNbmfs,numRows);
+        fvtListfnfrList = nfw Vfdtor<TbblfModflListfnfr>();
     }
 
-    @Override
-    public void newDataAvailable(TableModelEvent e) {
-        super.newDataAvailable(e);
-        invertedIndex = new int[getRowCount()];
-        for (int i = 0; i < invertedIndex.length; i++) {
-            invertedIndex[i] = i;
+    @Ovfrridf
+    publid void nfwDbtbAvbilbblf(TbblfModflEvfnt f) {
+        supfr.nfwDbtbAvbilbblf(f);
+        invfrtfdIndfx = nfw int[gftRowCount()];
+        for (int i = 0; i < invfrtfdIndfx.lfngti; i++) {
+            invfrtfdIndfx[i] = i;
         }
-        sort(this.sortColumn, this.ascending);
+        sort(tiis.sortColumn, tiis.bsdfnding);
     }
 
-    @Override
-    public void addTableModelListener(TableModelListener l) {
-        evtListenerList.add(l);
-        super.addTableModelListener(l);
+    @Ovfrridf
+    publid void bddTbblfModflListfnfr(TbblfModflListfnfr l) {
+        fvtListfnfrList.bdd(l);
+        supfr.bddTbblfModflListfnfr(l);
     }
 
-    @Override
-    public void removeTableModelListener(TableModelListener l) {
-        evtListenerList.remove(l);
-        super.removeTableModelListener(l);
+    @Ovfrridf
+    publid void rfmovfTbblfModflListfnfr(TbblfModflListfnfr l) {
+        fvtListfnfrList.rfmovf(l);
+        supfr.rfmovfTbblfModflListfnfr(l);
     }
 
-    private void removeListeners() {
-        for(TableModelListener tnl : evtListenerList)
-            super.removeTableModelListener(tnl);
+    privbtf void rfmovfListfnfrs() {
+        for(TbblfModflListfnfr tnl : fvtListfnfrList)
+            supfr.rfmovfTbblfModflListfnfr(tnl);
     }
 
-    private void restoreListeners() {
-        for(TableModelListener tnl : evtListenerList)
-            super.addTableModelListener(tnl);
+    privbtf void rfstorfListfnfrs() {
+        for(TbblfModflListfnfr tnl : fvtListfnfrList)
+            supfr.bddTbblfModflListfnfr(tnl);
     }
 
-    @SuppressWarnings("unchecked")
-    private int compare(Object o1, Object o2) {
-        // take care of the case where both o1 & o2 are null. Needed to keep
-        // the method symmetric. Without this quickSort gives surprising results.
+    @SupprfssWbrnings("undifdkfd")
+    privbtf int dompbrf(Objfdt o1, Objfdt o2) {
+        // tbkf dbrf of tif dbsf wifrf boti o1 & o2 brf null. Nffdfd to kffp
+        // tif mftiod symmftrid. Witiout tiis quidkSort givfs surprising rfsults.
         if (o1 == o2)
-            return 0;
+            rfturn 0;
         if (o1==null)
-            return 1;
+            rfturn 1;
         if (o2==null)
-            return -1;
-        //two object of the same class and that are comparable
-        else if ((o1.getClass().equals(o2.getClass())) &&
-                 (o1 instanceof Comparable)) {
-            return (((Comparable) o1).compareTo(o2));
+            rfturn -1;
+        //two objfdt of tif sbmf dlbss bnd tibt brf dompbrbblf
+        flsf if ((o1.gftClbss().fqubls(o2.gftClbss())) &&
+                 (o1 instbndfof Compbrbblf)) {
+            rfturn (((Compbrbblf) o1).dompbrfTo(o2));
         }
-        else {
-            return o1.toString().compareTo(o2.toString());
+        flsf {
+            rfturn o1.toString().dompbrfTo(o2.toString());
         }
     }
 
-    private void sort(int column, boolean isAscending) {
-        final XMBeanAttributes attrs =
-                (tableView instanceof XMBeanAttributes)
-                ?(XMBeanAttributes) tableView
+    privbtf void sort(int dolumn, boolfbn isAsdfnding) {
+        finbl XMBfbnAttributfs bttrs =
+                (tbblfVifw instbndfof XMBfbnAttributfs)
+                ?(XMBfbnAttributfs) tbblfVifw
                 :null;
 
-        // We cannot sort rows when a cell is being
-        // edited - so we're going to cancel cell editing here if needed.
-        // This might happen when the user is editing a row, and clicks on
-        // another row without validating. In that case there are two events
-        // that compete: one is the validation of the value that was previously
-        // edited, the other is the mouse click that opens the new editor.
+        // Wf dbnnot sort rows wifn b dfll is bfing
+        // fditfd - so wf'rf going to dbndfl dfll fditing ifrf if nffdfd.
+        // Tiis migit ibppfn wifn tif usfr is fditing b row, bnd dlidks on
+        // bnotifr row witiout vblidbting. In tibt dbsf tifrf brf two fvfnts
+        // tibt dompftf: onf is tif vblidbtion of tif vbluf tibt wbs prfviously
+        // fditfd, tif otifr is tif mousf dlidk tibt opfns tif nfw fditor.
         //
-        // When we reach here the previous value is already validated, and the
-        // old editor is closed, but the new editor might have opened.
-        // It's this new editor that wil be cancelled here, if needed.
+        // Wifn wf rfbdi ifrf tif prfvious vbluf is blrfbdy vblidbtfd, bnd tif
+        // old fditor is dlosfd, but tif nfw fditor migit ibvf opfnfd.
+        // It's tiis nfw fditor tibt wil bf dbndfllfd ifrf, if nffdfd.
         //
-        if (attrs != null && attrs.isEditing())
-            attrs.cancelCellEditing();
+        if (bttrs != null && bttrs.isEditing())
+            bttrs.dbndflCfllEditing();
 
-        // remove registered listeners
-        removeListeners();
-        // do the sort
+        // rfmovf rfgistfrfd listfnfrs
+        rfmovfListfnfrs();
+        // do tif sort
 
-        if (JConsole.isDebug()) {
-            System.err.println("sorting table against column="+column
-                    +" ascending="+isAscending);
+        if (JConsolf.isDfbug()) {
+            Systfm.frr.println("sorting tbblf bgbinst dolumn="+dolumn
+                    +" bsdfnding="+isAsdfnding);
         }
-        quickSort(0,getRowCount()-1,column,isAscending);
-        // restore registered listeners
-        restoreListeners();
+        quidkSort(0,gftRowCount()-1,dolumn,isAsdfnding);
+        // rfstorf rfgistfrfd listfnfrs
+        rfstorfListfnfrs();
 
-        // update row heights in XMBeanAttributes (required by expandable cells)
-        if (attrs != null) {
-            for (int i = 0; i < getRowCount(); i++) {
-                Vector<?> data = (Vector) dataVector.elementAt(i);
-                attrs.updateRowHeight(data.elementAt(1), i);
+        // updbtf row ifigits in XMBfbnAttributfs (rfquirfd by fxpbndbblf dflls)
+        if (bttrs != null) {
+            for (int i = 0; i < gftRowCount(); i++) {
+                Vfdtor<?> dbtb = (Vfdtor) dbtbVfdtor.flfmfntAt(i);
+                bttrs.updbtfRowHfigit(dbtb.flfmfntAt(1), i);
             }
         }
     }
 
-    private boolean compareS(Object s1, Object s2, boolean isAscending) {
-        if (isAscending)
-            return (compare(s1,s2) > 0);
-        else
-            return (compare(s1,s2) < 0);
+    privbtf boolfbn dompbrfS(Objfdt s1, Objfdt s2, boolfbn isAsdfnding) {
+        if (isAsdfnding)
+            rfturn (dompbrf(s1,s2) > 0);
+        flsf
+            rfturn (dompbrf(s1,s2) < 0);
     }
 
-    private boolean compareG(Object s1, Object s2, boolean isAscending) {
-        if (isAscending)
-            return (compare(s1,s2) < 0);
-        else
-            return (compare(s1,s2) > 0);
+    privbtf boolfbn dompbrfG(Objfdt s1, Objfdt s2, boolfbn isAsdfnding) {
+        if (isAsdfnding)
+            rfturn (dompbrf(s1,s2) < 0);
+        flsf
+            rfturn (dompbrf(s1,s2) > 0);
     }
 
-    private void quickSort(int lo0,int hi0, int key, boolean isAscending) {
+    privbtf void quidkSort(int lo0,int ii0, int kfy, boolfbn isAsdfnding) {
         int lo = lo0;
-        int hi = hi0;
-        Object mid;
+        int ii = ii0;
+        Objfdt mid;
 
-        if ( hi0 > lo0)
+        if ( ii0 > lo0)
             {
-                mid = getValueAt( ( lo0 + hi0 ) / 2 , key);
+                mid = gftVblufAt( ( lo0 + ii0 ) / 2 , kfy);
 
-                while( lo <= hi )
+                wiilf( lo <= ii )
                     {
-                        /* find the first element that is greater than
-                         * or equal to the partition element starting
-                         * from the left Index.
+                        /* find tif first flfmfnt tibt is grfbtfr tibn
+                         * or fqubl to tif pbrtition flfmfnt stbrting
+                         * from tif lfft Indfx.
                          */
-                        while( ( lo < hi0 ) &&
-                               ( compareS(mid,getValueAt(lo,key), isAscending) ))
+                        wiilf( ( lo < ii0 ) &&
+                               ( dompbrfS(mid,gftVblufAt(lo,kfy), isAsdfnding) ))
                             ++lo;
 
-                        /* find an element that is smaller than or equal to
-                         * the partition element starting from the right Index.
+                        /* find bn flfmfnt tibt is smbllfr tibn or fqubl to
+                         * tif pbrtition flfmfnt stbrting from tif rigit Indfx.
                          */
-                        while( ( hi > lo0 ) &&
-                               ( compareG(mid,getValueAt(hi,key), isAscending) ))
-                            --hi;
+                        wiilf( ( ii > lo0 ) &&
+                               ( dompbrfG(mid,gftVblufAt(ii,kfy), isAsdfnding) ))
+                            --ii;
 
-                        // if the indexes have not crossed, swap
-                        if( lo <= hi )
+                        // if tif indfxfs ibvf not drossfd, swbp
+                        if( lo <= ii )
                             {
-                                swap(lo, hi, key);
+                                swbp(lo, ii, kfy);
                                 ++lo;
-                                --hi;
+                                --ii;
                             }
                     }
 
-                                /* If the right index has not reached the
-                                 * left side of array
-                                 * must now sort the left partition.
+                                /* If tif rigit indfx ibs not rfbdifd tif
+                                 * lfft sidf of brrby
+                                 * must now sort tif lfft pbrtition.
                                  */
-                if( lo0 < hi )
-                    quickSort(lo0, hi , key, isAscending);
+                if( lo0 < ii )
+                    quidkSort(lo0, ii , kfy, isAsdfnding);
 
-                                /* If the left index has not reached the right
-                                 * side of array
-                                 * must now sort the right partition.
+                                /* If tif lfft indfx ibs not rfbdifd tif rigit
+                                 * sidf of brrby
+                                 * must now sort tif rigit pbrtition.
                                  */
-                if( lo <= hi0 )
-                    quickSort(lo, hi0 , key, isAscending);
+                if( lo <= ii0 )
+                    quidkSort(lo, ii0 , kfy, isAsdfnding);
             }
     }
 
-    private Vector<Object> getRow(int row) {
-        return dataVector.elementAt(row);
+    privbtf Vfdtor<Objfdt> gftRow(int row) {
+        rfturn dbtbVfdtor.flfmfntAt(row);
     }
 
-    @SuppressWarnings("unchecked")
-    private void setRow(Vector<Object> data, int row) {
-        dataVector.setElementAt(data,row);
+    @SupprfssWbrnings("undifdkfd")
+    privbtf void sftRow(Vfdtor<Objfdt> dbtb, int row) {
+        dbtbVfdtor.sftElfmfntAt(dbtb,row);
     }
 
-    private void swap(int i, int j, int column) {
-        Vector<Object> data = getRow(i);
-        setRow(getRow(j),i);
-        setRow(data,j);
+    privbtf void swbp(int i, int j, int dolumn) {
+        Vfdtor<Objfdt> dbtb = gftRow(i);
+        sftRow(gftRow(j),i);
+        sftRow(dbtb,j);
 
-        int a = invertedIndex[i];
-        invertedIndex[i] = invertedIndex[j];
-        invertedIndex[j] = a;
+        int b = invfrtfdIndfx[i];
+        invfrtfdIndfx[i] = invfrtfdIndfx[j];
+        invfrtfdIndfx[j] = b;
     }
 
-    public void sortByColumn(int column) {
-        sortByColumn(column, !ascending);
+    publid void sortByColumn(int dolumn) {
+        sortByColumn(dolumn, !bsdfnding);
     }
 
-    public void sortByColumn(int column, boolean ascending) {
-        this.ascending = ascending;
-        this.sortColumn = column;
-        sort(column,ascending);
+    publid void sortByColumn(int dolumn, boolfbn bsdfnding) {
+        tiis.bsdfnding = bsdfnding;
+        tiis.sortColumn = dolumn;
+        sort(dolumn,bsdfnding);
     }
 
-    public int getIndexOfRow(int row) {
-        return invertedIndex[row];
+    publid int gftIndfxOfRow(int row) {
+        rfturn invfrtfdIndfx[row];
     }
 
-    // Add a mouse listener to the Table to trigger a table sort
-    // when a column heading is clicked in the JTable.
-    public void addMouseListenerToHeaderInTable(JTable table) {
-        tableView = table;
-        columnModel = tableView.getColumnModel();
-        JTableHeader th = tableView.getTableHeader();
-        th.addMouseListener(this);
+    // Add b mousf listfnfr to tif Tbblf to triggfr b tbblf sort
+    // wifn b dolumn ifbding is dlidkfd in tif JTbblf.
+    publid void bddMousfListfnfrToHfbdfrInTbblf(JTbblf tbblf) {
+        tbblfVifw = tbblf;
+        dolumnModfl = tbblfVifw.gftColumnModfl();
+        JTbblfHfbdfr ti = tbblfVifw.gftTbblfHfbdfr();
+        ti.bddMousfListfnfr(tiis);
     }
 
-    public void mouseClicked(MouseEvent e) {
-        int viewColumn = columnModel.getColumnIndexAtX(e.getX());
-        int column = tableView.convertColumnIndexToModel(viewColumn);
-        if (e.getClickCount() == 1 && column != -1) {
-            if (tableView instanceof XTable) {
-                XTable attrs = (XTable) tableView;
-                // inform the table view that the rows are going to be sorted
-                // against the values in a given column. This gives the
-                // chance to the table view to close its editor - if needed.
+    publid void mousfClidkfd(MousfEvfnt f) {
+        int vifwColumn = dolumnModfl.gftColumnIndfxAtX(f.gftX());
+        int dolumn = tbblfVifw.donvfrtColumnIndfxToModfl(vifwColumn);
+        if (f.gftClidkCount() == 1 && dolumn != -1) {
+            if (tbblfVifw instbndfof XTbblf) {
+                XTbblf bttrs = (XTbblf) tbblfVifw;
+                // inform tif tbblf vifw tibt tif rows brf going to bf sortfd
+                // bgbinst tif vblufs in b givfn dolumn. Tiis givfs tif
+                // dibndf to tif tbblf vifw to dlosf its fditor - if nffdfd.
                 //
-                attrs.sortRequested(column);
+                bttrs.sortRfqufstfd(dolumn);
             }
-            tableView.invalidate();
-            sortByColumn(column);
-            tableView.validate();
-            tableView.repaint();
+            tbblfVifw.invblidbtf();
+            sortByColumn(dolumn);
+            tbblfVifw.vblidbtf();
+            tbblfVifw.rfpbint();
         }
     }
 
-    public void mousePressed(MouseEvent e) {
+    publid void mousfPrfssfd(MousfEvfnt f) {
     }
 
-    public void mouseEntered(MouseEvent e) {
+    publid void mousfEntfrfd(MousfEvfnt f) {
     }
 
-    public void mouseExited(MouseEvent e) {
+    publid void mousfExitfd(MousfEvfnt f) {
     }
 
-    public void mouseReleased(MouseEvent e) {
+    publid void mousfRflfbsfd(MousfEvfnt f) {
     }
 }

@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -46,444 +46,444 @@
  * ===========================================================================
  */
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.i"
 
-#ifdef P11_ENABLE_C_ENCRYPTINIT
+#ifdff P11_ENABLE_C_ENCRYPTINIT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_EncryptInit
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
- * @param   jlong jKeyHandle            CK_OBJECT_HANDLE hKey
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_EndryptInit
+ * Signbturf: (JLsun/sfdurity/pkds11/wrbppfr/CK_MECHANISM;J)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jobjfdt jMfdibnism          CK_MECHANISM_PTR pMfdibnism
+ * @pbrbm   jlong jKfyHbndlf            CK_OBJECT_HANDLE iKfy
  */
 JNIEXPORT void JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1EncryptInit
-(JNIEnv *env, jobject obj, jlong jSessionHandle,
- jobject jMechanism, jlong jKeyHandle)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1EndryptInit
+(JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf,
+ jobjfdt jMfdibnism, jlong jKfyHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_OBJECT_HANDLE ckKeyHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_MECHANISM dkMfdibnism;
+    CK_OBJECT_HANDLE dkKfyHbndlf;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    ckKeyHandle = jLongToCKULong(jKeyHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
-    if ((*env)->ExceptionCheck(env)) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkKfyHbndlf = jLongToCKULong(jKfyHbndlf);
+    jMfdibnismToCKMfdibnism(fnv, jMfdibnism, &dkMfdibnism);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
 
-    rv = (*ckpFunctions->C_EncryptInit)(ckSessionHandle, &ckMechanism,
-                                        ckKeyHandle);
+    rv = (*dkpFundtions->C_EndryptInit)(dkSfssionHbndlf, &dkMfdibnism,
+                                        dkKfyHbndlf);
 
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdibnism.pPbrbmftfr);
     }
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_ENCRYPT
+#ifdff P11_ENABLE_C_ENCRYPT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_Encrypt
- * Signature: (J[BII[BII)I
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jData            CK_BYTE_PTR pData
- *                                      CK_ULONG ulDataLen
- * @return  jbyteArray jEncryptedData   CK_BYTE_PTR pEncryptedData
- *                                      CK_ULONG_PTR pulEncryptedDataLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_Endrypt
+ * Signbturf: (J[BII[BII)I
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jDbtb            CK_BYTE_PTR pDbtb
+ *                                      CK_ULONG ulDbtbLfn
+ * @rfturn  jbytfArrby jEndryptfdDbtb   CK_BYTE_PTR pEndryptfdDbtb
+ *                                      CK_ULONG_PTR pulEndryptfdDbtbLfn
  */
 JNIEXPORT jint JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1Encrypt
-(JNIEnv *env, jobject obj, jlong jSessionHandle,
- jbyteArray jIn, jint jInOfs, jint jInLen,
- jbyteArray jOut, jint jOutOfs, jint jOutLen)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1Endrypt
+(JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf,
+ jbytfArrby jIn, jint jInOfs, jint jInLfn,
+ jbytfArrby jOut, jint jOutOfs, jint jOutLfn)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
 
     CK_BYTE_PTR inBufP;
     CK_BYTE_PTR outBufP;
-    CK_ULONG ckEncryptedPartLen;
+    CK_ULONG dkEndryptfdPbrtLfn;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    inBufP = (*env)->GetPrimitiveArrayCritical(env, jIn, NULL);
-    if (inBufP == NULL) { return 0; }
+    inBufP = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jIn, NULL);
+    if (inBufP == NULL) { rfturn 0; }
 
-    outBufP = (*env)->GetPrimitiveArrayCritical(env, jOut, NULL);
+    outBufP = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jOut, NULL);
     if (outBufP == NULL) {
-        // Make sure to release inBufP
-        (*env)->ReleasePrimitiveArrayCritical(env, jIn, inBufP, JNI_ABORT);
-        return 0;
+        // Mbkf surf to rflfbsf inBufP
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jIn, inBufP, JNI_ABORT);
+        rfturn 0;
     }
 
-    ckEncryptedPartLen = jOutLen;
+    dkEndryptfdPbrtLfn = jOutLfn;
 
-    rv = (*ckpFunctions->C_Encrypt)(ckSessionHandle,
-                                    (CK_BYTE_PTR)(inBufP + jInOfs), jInLen,
+    rv = (*dkpFundtions->C_Endrypt)(dkSfssionHbndlf,
+                                    (CK_BYTE_PTR)(inBufP + jInOfs), jInLfn,
                                     (CK_BYTE_PTR)(outBufP + jOutOfs),
-                                    &ckEncryptedPartLen);
+                                    &dkEndryptfdPbrtLfn);
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jOut, outBufP, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, jIn, inBufP, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jOut, outBufP, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jIn, inBufP, JNI_ABORT);
 
-    ckAssertReturnValueOK(env, rv);
-    return ckEncryptedPartLen;
+    dkAssfrtRfturnVblufOK(fnv, rv);
+    rfturn dkEndryptfdPbrtLfn;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_ENCRYPTUPDATE
+#ifdff P11_ENABLE_C_ENCRYPTUPDATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_EncryptUpdate
- * Signature: (J[BII[BII)I
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jPart            CK_BYTE_PTR pPart
- *                                      CK_ULONG ulPartLen
- * @return  jbyteArray jEncryptedPart   CK_BYTE_PTR pEncryptedPart
- *                                      CK_ULONG_PTR pulEncryptedPartLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_EndryptUpdbtf
+ * Signbturf: (J[BII[BII)I
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG ulPbrtLfn
+ * @rfturn  jbytfArrby jEndryptfdPbrt   CK_BYTE_PTR pEndryptfdPbrt
+ *                                      CK_ULONG_PTR pulEndryptfdPbrtLfn
  */
 JNIEXPORT jint JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1EncryptUpdate
-(JNIEnv *env, jobject obj, jlong jSessionHandle,
- jlong directIn, jbyteArray jIn, jint jInOfs, jint jInLen,
- jlong directOut, jbyteArray jOut, jint jOutOfs, jint jOutLen)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1EndryptUpdbtf
+(JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf,
+ jlong dirfdtIn, jbytfArrby jIn, jint jInOfs, jint jInLfn,
+ jlong dirfdtOut, jbytfArrby jOut, jint jOutOfs, jint jOutLfn)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
 
     CK_BYTE_PTR inBufP;
     CK_BYTE_PTR outBufP;
-    CK_ULONG ckEncryptedPartLen;
+    CK_ULONG dkEndryptfdPbrtLfn;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    if (directIn != 0) {
-      inBufP = (CK_BYTE_PTR) jlong_to_ptr(directIn);
-    } else {
-      inBufP = (*env)->GetPrimitiveArrayCritical(env, jIn, NULL);
-      if (inBufP == NULL) { return 0; }
+    if (dirfdtIn != 0) {
+      inBufP = (CK_BYTE_PTR) jlong_to_ptr(dirfdtIn);
+    } flsf {
+      inBufP = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jIn, NULL);
+      if (inBufP == NULL) { rfturn 0; }
     }
 
-    if (directOut != 0) {
-      outBufP = (CK_BYTE_PTR) jlong_to_ptr(directOut);
-    } else {
-      outBufP = (*env)->GetPrimitiveArrayCritical(env, jOut, NULL);
+    if (dirfdtOut != 0) {
+      outBufP = (CK_BYTE_PTR) jlong_to_ptr(dirfdtOut);
+    } flsf {
+      outBufP = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jOut, NULL);
       if (outBufP == NULL) {
-          // Make sure to release inBufP
-          (*env)->ReleasePrimitiveArrayCritical(env, jIn, inBufP, JNI_ABORT);
-          return 0;
+          // Mbkf surf to rflfbsf inBufP
+          (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jIn, inBufP, JNI_ABORT);
+          rfturn 0;
       }
     }
 
-    ckEncryptedPartLen = jOutLen;
+    dkEndryptfdPbrtLfn = jOutLfn;
 
-    //printf("EU: inBufP=%i, jInOfs=%i, jInLen=%i, outBufP=%i\n",
-    //       inBufP, jInOfs, jInLen, outBufP);
+    //printf("EU: inBufP=%i, jInOfs=%i, jInLfn=%i, outBufP=%i\n",
+    //       inBufP, jInOfs, jInLfn, outBufP);
 
-    rv = (*ckpFunctions->C_EncryptUpdate)(ckSessionHandle,
-                                          (CK_BYTE_PTR)(inBufP + jInOfs), jInLen,
+    rv = (*dkpFundtions->C_EndryptUpdbtf)(dkSfssionHbndlf,
+                                          (CK_BYTE_PTR)(inBufP + jInOfs), jInLfn,
                                           (CK_BYTE_PTR)(outBufP + jOutOfs),
-                                          &ckEncryptedPartLen);
+                                          &dkEndryptfdPbrtLfn);
 
-    //printf("EU: ckEncryptedPartLen=%i\n", ckEncryptedPartLen);
+    //printf("EU: dkEndryptfdPbrtLfn=%i\n", dkEndryptfdPbrtLfn);
 
-    if (directIn == 0) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jIn, inBufP, JNI_ABORT);
+    if (dirfdtIn == 0) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jIn, inBufP, JNI_ABORT);
     }
 
-    if (directOut == 0) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jOut, outBufP, JNI_ABORT);
+    if (dirfdtOut == 0) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jOut, outBufP, JNI_ABORT);
     }
 
-    ckAssertReturnValueOK(env, rv);
+    dkAssfrtRfturnVblufOK(fnv, rv);
 
-    return ckEncryptedPartLen;
+    rfturn dkEndryptfdPbrtLfn;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_ENCRYPTFINAL
+#ifdff P11_ENABLE_C_ENCRYPTFINAL
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_EncryptFinal
- * Signature: (J[BII)I
- * Parametermapping:                        *PKCS11*
- * @param   jlong jSessionHandle            CK_SESSION_HANDLE hSession
- * @return  jbyteArray jLastEncryptedPart   CK_BYTE_PTR pLastEncryptedDataPart
- *                                          CK_ULONG_PTR pulLastEncryptedDataPartLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_EndryptFinbl
+ * Signbturf: (J[BII)I
+ * Pbrbmftfrmbpping:                        *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf            CK_SESSION_HANDLE iSfssion
+ * @rfturn  jbytfArrby jLbstEndryptfdPbrt   CK_BYTE_PTR pLbstEndryptfdDbtbPbrt
+ *                                          CK_ULONG_PTR pulLbstEndryptfdDbtbPbrtLfn
  */
 JNIEXPORT jint JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1EncryptFinal
-(JNIEnv *env, jobject obj, jlong jSessionHandle,
- jlong directOut, jbyteArray jOut, jint jOutOfs, jint jOutLen)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1EndryptFinbl
+(JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf,
+ jlong dirfdtOut, jbytfArrby jOut, jint jOutOfs, jint jOutLfn)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
     CK_BYTE_PTR outBufP;
-    CK_ULONG ckLastEncryptedPartLen;
+    CK_ULONG dkLbstEndryptfdPbrtLfn;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    if (directOut != 0) {
-      outBufP = (CK_BYTE_PTR) jlong_to_ptr(directOut);
-    } else {
-      outBufP = (*env)->GetPrimitiveArrayCritical(env, jOut, NULL);
-      if (outBufP == NULL) { return 0; }
+    if (dirfdtOut != 0) {
+      outBufP = (CK_BYTE_PTR) jlong_to_ptr(dirfdtOut);
+    } flsf {
+      outBufP = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jOut, NULL);
+      if (outBufP == NULL) { rfturn 0; }
     }
 
-    ckLastEncryptedPartLen = jOutLen;
+    dkLbstEndryptfdPbrtLfn = jOutLfn;
 
     //printf("EF: outBufP=%i\n", outBufP);
 
-    rv = (*ckpFunctions->C_EncryptFinal)(ckSessionHandle,
+    rv = (*dkpFundtions->C_EndryptFinbl)(dkSfssionHbndlf,
                                          (CK_BYTE_PTR)(outBufP + jOutOfs),
-                                         &ckLastEncryptedPartLen);
+                                         &dkLbstEndryptfdPbrtLfn);
 
-    //printf("EF: ckLastEncryptedPartLen=%i", ckLastEncryptedPartLen);
+    //printf("EF: dkLbstEndryptfdPbrtLfn=%i", dkLbstEndryptfdPbrtLfn);
 
-    if (directOut == 0) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jOut, outBufP, JNI_ABORT);
+    if (dirfdtOut == 0) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jOut, outBufP, JNI_ABORT);
     }
 
-    ckAssertReturnValueOK(env, rv);
+    dkAssfrtRfturnVblufOK(fnv, rv);
 
-    return ckLastEncryptedPartLen;
+    rfturn dkLbstEndryptfdPbrtLfn;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DECRYPTINIT
+#ifdff P11_ENABLE_C_DECRYPTINIT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DecryptInit
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
- * @param   jlong jKeyHandle            CK_OBJECT_HANDLE hKey
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DfdryptInit
+ * Signbturf: (JLsun/sfdurity/pkds11/wrbppfr/CK_MECHANISM;J)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jobjfdt jMfdibnism          CK_MECHANISM_PTR pMfdibnism
+ * @pbrbm   jlong jKfyHbndlf            CK_OBJECT_HANDLE iKfy
  */
 JNIEXPORT void JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1DecryptInit
-(JNIEnv *env, jobject obj, jlong jSessionHandle,
- jobject jMechanism, jlong jKeyHandle)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DfdryptInit
+(JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf,
+ jobjfdt jMfdibnism, jlong jKfyHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_OBJECT_HANDLE ckKeyHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_MECHANISM dkMfdibnism;
+    CK_OBJECT_HANDLE dkKfyHbndlf;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    ckKeyHandle = jLongToCKULong(jKeyHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
-    if ((*env)->ExceptionCheck(env)) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkKfyHbndlf = jLongToCKULong(jKfyHbndlf);
+    jMfdibnismToCKMfdibnism(fnv, jMfdibnism, &dkMfdibnism);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
 
-    rv = (*ckpFunctions->C_DecryptInit)(ckSessionHandle, &ckMechanism,
-                                        ckKeyHandle);
+    rv = (*dkpFundtions->C_DfdryptInit)(dkSfssionHbndlf, &dkMfdibnism,
+                                        dkKfyHbndlf);
 
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdibnism.pPbrbmftfr);
     }
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DECRYPT
+#ifdff P11_ENABLE_C_DECRYPT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_Decrypt
- * Signature: (J[BII[BII)I
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jEncryptedData   CK_BYTE_PTR pEncryptedData
- *                                      CK_ULONG ulEncryptedDataLen
- * @return  jbyteArray jData            CK_BYTE_PTR pData
- *                                      CK_ULONG_PTR pulDataLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_Dfdrypt
+ * Signbturf: (J[BII[BII)I
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jEndryptfdDbtb   CK_BYTE_PTR pEndryptfdDbtb
+ *                                      CK_ULONG ulEndryptfdDbtbLfn
+ * @rfturn  jbytfArrby jDbtb            CK_BYTE_PTR pDbtb
+ *                                      CK_ULONG_PTR pulDbtbLfn
  */
 JNIEXPORT jint JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1Decrypt
-(JNIEnv *env, jobject obj, jlong jSessionHandle,
- jbyteArray jIn, jint jInOfs, jint jInLen,
- jbyteArray jOut, jint jOutOfs, jint jOutLen)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1Dfdrypt
+(JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf,
+ jbytfArrby jIn, jint jInOfs, jint jInLfn,
+ jbytfArrby jOut, jint jOutOfs, jint jOutLfn)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
 
     CK_BYTE_PTR inBufP;
     CK_BYTE_PTR outBufP;
-    CK_ULONG ckPartLen;
+    CK_ULONG dkPbrtLfn;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    inBufP = (*env)->GetPrimitiveArrayCritical(env, jIn, NULL);
-    if (inBufP == NULL) { return 0; }
+    inBufP = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jIn, NULL);
+    if (inBufP == NULL) { rfturn 0; }
 
-    outBufP = (*env)->GetPrimitiveArrayCritical(env, jOut, NULL);
+    outBufP = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jOut, NULL);
     if (outBufP == NULL) {
-        // Make sure to release inBufP
-        (*env)->ReleasePrimitiveArrayCritical(env, jIn, inBufP, JNI_ABORT);
-        return 0;
+        // Mbkf surf to rflfbsf inBufP
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jIn, inBufP, JNI_ABORT);
+        rfturn 0;
     }
 
-    ckPartLen = jOutLen;
+    dkPbrtLfn = jOutLfn;
 
-    rv = (*ckpFunctions->C_Decrypt)(ckSessionHandle,
-                                    (CK_BYTE_PTR)(inBufP + jInOfs), jInLen,
+    rv = (*dkpFundtions->C_Dfdrypt)(dkSfssionHbndlf,
+                                    (CK_BYTE_PTR)(inBufP + jInOfs), jInLfn,
                                     (CK_BYTE_PTR)(outBufP + jOutOfs),
-                                    &ckPartLen);
+                                    &dkPbrtLfn);
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jOut, outBufP, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, jIn, inBufP, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jOut, outBufP, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jIn, inBufP, JNI_ABORT);
 
-    ckAssertReturnValueOK(env, rv);
+    dkAssfrtRfturnVblufOK(fnv, rv);
 
-    return ckPartLen;
+    rfturn dkPbrtLfn;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DECRYPTUPDATE
+#ifdff P11_ENABLE_C_DECRYPTUPDATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DecryptUpdate
- * Signature: (J[BII[BII)I
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jEncryptedPart   CK_BYTE_PTR pEncryptedPart
- *                                      CK_ULONG ulEncryptedPartLen
- * @return  jbyteArray jPart            CK_BYTE_PTR pPart
- *                                      CK_ULONG_PTR pulPartLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DfdryptUpdbtf
+ * Signbturf: (J[BII[BII)I
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jEndryptfdPbrt   CK_BYTE_PTR pEndryptfdPbrt
+ *                                      CK_ULONG ulEndryptfdPbrtLfn
+ * @rfturn  jbytfArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG_PTR pulPbrtLfn
  */
 JNIEXPORT jint JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1DecryptUpdate
-(JNIEnv *env, jobject obj, jlong jSessionHandle,
- jlong directIn, jbyteArray jIn, jint jInOfs, jint jInLen,
- jlong directOut, jbyteArray jOut, jint jOutOfs, jint jOutLen)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DfdryptUpdbtf
+(JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf,
+ jlong dirfdtIn, jbytfArrby jIn, jint jInOfs, jint jInLfn,
+ jlong dirfdtOut, jbytfArrby jOut, jint jOutOfs, jint jOutLfn)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
 
     CK_BYTE_PTR inBufP;
     CK_BYTE_PTR outBufP;
-    CK_ULONG ckDecryptedPartLen;
+    CK_ULONG dkDfdryptfdPbrtLfn;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    if (directIn != 0) {
-      inBufP = (CK_BYTE_PTR) jlong_to_ptr(directIn);
-    } else {
-      inBufP = (*env)->GetPrimitiveArrayCritical(env, jIn, NULL);
-      if (inBufP == NULL) { return 0; }
+    if (dirfdtIn != 0) {
+      inBufP = (CK_BYTE_PTR) jlong_to_ptr(dirfdtIn);
+    } flsf {
+      inBufP = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jIn, NULL);
+      if (inBufP == NULL) { rfturn 0; }
     }
 
-    if (directOut != 0) {
-      outBufP = (CK_BYTE_PTR) jlong_to_ptr(directOut);
-    } else {
-      outBufP = (*env)->GetPrimitiveArrayCritical(env, jOut, NULL);
+    if (dirfdtOut != 0) {
+      outBufP = (CK_BYTE_PTR) jlong_to_ptr(dirfdtOut);
+    } flsf {
+      outBufP = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jOut, NULL);
       if (outBufP == NULL) {
-          // Make sure to release inBufP
-          (*env)->ReleasePrimitiveArrayCritical(env, jIn, inBufP, JNI_ABORT);
-          return 0;
+          // Mbkf surf to rflfbsf inBufP
+          (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jIn, inBufP, JNI_ABORT);
+          rfturn 0;
       }
     }
 
-    ckDecryptedPartLen = jOutLen;
+    dkDfdryptfdPbrtLfn = jOutLfn;
 
-    rv = (*ckpFunctions->C_DecryptUpdate)(ckSessionHandle,
-                                          (CK_BYTE_PTR)(inBufP + jInOfs), jInLen,
+    rv = (*dkpFundtions->C_DfdryptUpdbtf)(dkSfssionHbndlf,
+                                          (CK_BYTE_PTR)(inBufP + jInOfs), jInLfn,
                                           (CK_BYTE_PTR)(outBufP + jOutOfs),
-                                          &ckDecryptedPartLen);
-    if (directIn == 0) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jIn, inBufP, JNI_ABORT);
+                                          &dkDfdryptfdPbrtLfn);
+    if (dirfdtIn == 0) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jIn, inBufP, JNI_ABORT);
     }
 
-    if (directOut == 0) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jOut, outBufP, JNI_ABORT);
+    if (dirfdtOut == 0) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jOut, outBufP, JNI_ABORT);
     }
 
-    ckAssertReturnValueOK(env, rv);
+    dkAssfrtRfturnVblufOK(fnv, rv);
 
-    return ckDecryptedPartLen;
+    rfturn dkDfdryptfdPbrtLfn;
 }
 
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DECRYPTFINAL
+#ifdff P11_ENABLE_C_DECRYPTFINAL
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DecryptFinal
- * Signature: (J[BII)I
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @return  jbyteArray jLastPart        CK_BYTE_PTR pLastPart
- *                                      CK_ULONG_PTR pulLastPartLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DfdryptFinbl
+ * Signbturf: (J[BII)I
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @rfturn  jbytfArrby jLbstPbrt        CK_BYTE_PTR pLbstPbrt
+ *                                      CK_ULONG_PTR pulLbstPbrtLfn
  */
 JNIEXPORT jint JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1DecryptFinal
-(JNIEnv *env, jobject obj, jlong jSessionHandle,
- jlong directOut, jbyteArray jOut, jint jOutOfs, jint jOutLen)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DfdryptFinbl
+(JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf,
+ jlong dirfdtOut, jbytfArrby jOut, jint jOutOfs, jint jOutLfn)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
     CK_BYTE_PTR outBufP;
-    CK_ULONG ckLastPartLen;
+    CK_ULONG dkLbstPbrtLfn;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    if (directOut != 0) {
-      outBufP = (CK_BYTE_PTR) jlong_to_ptr(directOut);
-    } else {
-      outBufP = (*env)->GetPrimitiveArrayCritical(env, jOut, NULL);
-      if (outBufP == NULL) { return 0; }
+    if (dirfdtOut != 0) {
+      outBufP = (CK_BYTE_PTR) jlong_to_ptr(dirfdtOut);
+    } flsf {
+      outBufP = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jOut, NULL);
+      if (outBufP == NULL) { rfturn 0; }
     }
 
-    ckLastPartLen = jOutLen;
+    dkLbstPbrtLfn = jOutLfn;
 
-    rv = (*ckpFunctions->C_DecryptFinal)(ckSessionHandle,
+    rv = (*dkpFundtions->C_DfdryptFinbl)(dkSfssionHbndlf,
                                          (CK_BYTE_PTR)(outBufP + jOutOfs),
-                                         &ckLastPartLen);
+                                         &dkLbstPbrtLfn);
 
-    if (directOut == 0) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jOut, outBufP, JNI_ABORT);
+    if (dirfdtOut == 0) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jOut, outBufP, JNI_ABORT);
 
     }
 
-    ckAssertReturnValueOK(env, rv);
+    dkAssfrtRfturnVblufOK(fnv, rv);
 
-    return ckLastPartLen;
+    rfturn dkLbstPbrtLfn;
 }
-#endif
+#fndif

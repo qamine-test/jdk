@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
 /**
- * The <code>DragSourceDropEvent</code> is delivered
- * from the <code>DragSourceContextPeer</code>,
- * via the <code>DragSourceContext</code>, to the <code>dragDropEnd</code>
- * method of <code>DragSourceListener</code>s registered with that
- * <code>DragSourceContext</code> and with its associated
- * <code>DragSource</code>.
- * It contains sufficient information for the
- * originator of the operation
- * to provide appropriate feedback to the end user
- * when the operation completes.
+ * Tif <dodf>DrbgSourdfDropEvfnt</dodf> is dflivfrfd
+ * from tif <dodf>DrbgSourdfContfxtPffr</dodf>,
+ * vib tif <dodf>DrbgSourdfContfxt</dodf>, to tif <dodf>drbgDropEnd</dodf>
+ * mftiod of <dodf>DrbgSourdfListfnfr</dodf>s rfgistfrfd witi tibt
+ * <dodf>DrbgSourdfContfxt</dodf> bnd witi its bssodibtfd
+ * <dodf>DrbgSourdf</dodf>.
+ * It dontbins suffidifnt informbtion for tif
+ * originbtor of tif opfrbtion
+ * to providf bppropribtf fffdbbdk to tif fnd usfr
+ * wifn tif opfrbtion domplftfs.
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public class DragSourceDropEvent extends DragSourceEvent {
+publid dlbss DrbgSourdfDropEvfnt fxtfnds DrbgSourdfEvfnt {
 
-    private static final long serialVersionUID = -5571321229470821891L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5571321229470821891L;
 
     /**
-     * Construct a <code>DragSourceDropEvent</code> for a drop,
-     * given the
-     * <code>DragSourceContext</code>, the drop action,
-     * and a <code>boolean</code> indicating if the drop was successful.
-     * The coordinates for this <code>DragSourceDropEvent</code>
-     * are not specified, so <code>getLocation</code> will return
-     * <code>null</code> for this event.
+     * Construdt b <dodf>DrbgSourdfDropEvfnt</dodf> for b drop,
+     * givfn tif
+     * <dodf>DrbgSourdfContfxt</dodf>, tif drop bdtion,
+     * bnd b <dodf>boolfbn</dodf> indidbting if tif drop wbs suddfssful.
+     * Tif doordinbtfs for tiis <dodf>DrbgSourdfDropEvfnt</dodf>
+     * brf not spfdififd, so <dodf>gftLodbtion</dodf> will rfturn
+     * <dodf>null</dodf> for tiis fvfnt.
      * <p>
-     * The argument <code>action</code> should be one of <code>DnDConstants</code>
-     * that represents a single action.
-     * This constructor does not throw any exception for invalid <code>action</code>.
+     * Tif brgumfnt <dodf>bdtion</dodf> siould bf onf of <dodf>DnDConstbnts</dodf>
+     * tibt rfprfsfnts b singlf bdtion.
+     * Tiis donstrudtor dofs not tirow bny fxdfption for invblid <dodf>bdtion</dodf>.
      *
-     * @param dsc the <code>DragSourceContext</code>
-     * associated with this <code>DragSourceDropEvent</code>
-     * @param action the drop action
-     * @param success a boolean indicating if the drop was successful
+     * @pbrbm dsd tif <dodf>DrbgSourdfContfxt</dodf>
+     * bssodibtfd witi tiis <dodf>DrbgSourdfDropEvfnt</dodf>
+     * @pbrbm bdtion tif drop bdtion
+     * @pbrbm suddfss b boolfbn indidbting if tif drop wbs suddfssful
      *
-     * @throws IllegalArgumentException if <code>dsc</code> is <code>null</code>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>dsd</dodf> is <dodf>null</dodf>.
      *
-     * @see DragSourceEvent#getLocation
+     * @sff DrbgSourdfEvfnt#gftLodbtion
      */
 
-    public DragSourceDropEvent(DragSourceContext dsc, int action, boolean success) {
-        super(dsc);
+    publid DrbgSourdfDropEvfnt(DrbgSourdfContfxt dsd, int bdtion, boolfbn suddfss) {
+        supfr(dsd);
 
-        dropSuccess = success;
-        dropAction  = action;
+        dropSuddfss = suddfss;
+        dropAdtion  = bdtion;
     }
 
     /**
-     * Construct a <code>DragSourceDropEvent</code> for a drop, given the
-     * <code>DragSourceContext</code>, the drop action, a <code>boolean</code>
-     * indicating if the drop was successful, and coordinates.
+     * Construdt b <dodf>DrbgSourdfDropEvfnt</dodf> for b drop, givfn tif
+     * <dodf>DrbgSourdfContfxt</dodf>, tif drop bdtion, b <dodf>boolfbn</dodf>
+     * indidbting if tif drop wbs suddfssful, bnd doordinbtfs.
      * <p>
-     * The argument <code>action</code> should be one of <code>DnDConstants</code>
-     * that represents a single action.
-     * This constructor does not throw any exception for invalid <code>action</code>.
+     * Tif brgumfnt <dodf>bdtion</dodf> siould bf onf of <dodf>DnDConstbnts</dodf>
+     * tibt rfprfsfnts b singlf bdtion.
+     * Tiis donstrudtor dofs not tirow bny fxdfption for invblid <dodf>bdtion</dodf>.
      *
-     * @param dsc the <code>DragSourceContext</code>
-     * associated with this <code>DragSourceDropEvent</code>
-     * @param action the drop action
-     * @param success a boolean indicating if the drop was successful
-     * @param x   the horizontal coordinate for the cursor location
-     * @param y   the vertical coordinate for the cursor location
+     * @pbrbm dsd tif <dodf>DrbgSourdfContfxt</dodf>
+     * bssodibtfd witi tiis <dodf>DrbgSourdfDropEvfnt</dodf>
+     * @pbrbm bdtion tif drop bdtion
+     * @pbrbm suddfss b boolfbn indidbting if tif drop wbs suddfssful
+     * @pbrbm x   tif iorizontbl doordinbtf for tif dursor lodbtion
+     * @pbrbm y   tif vfrtidbl doordinbtf for tif dursor lodbtion
      *
-     * @throws IllegalArgumentException if <code>dsc</code> is <code>null</code>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>dsd</dodf> is <dodf>null</dodf>.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public DragSourceDropEvent(DragSourceContext dsc, int action,
-                               boolean success, int x, int y) {
-        super(dsc, x, y);
+    publid DrbgSourdfDropEvfnt(DrbgSourdfContfxt dsd, int bdtion,
+                               boolfbn suddfss, int x, int y) {
+        supfr(dsd, x, y);
 
-        dropSuccess = success;
-        dropAction  = action;
+        dropSuddfss = suddfss;
+        dropAdtion  = bdtion;
     }
 
     /**
-     * Construct a <code>DragSourceDropEvent</code>
-     * for a drag that does not result in a drop.
-     * The coordinates for this <code>DragSourceDropEvent</code>
-     * are not specified, so <code>getLocation</code> will return
-     * <code>null</code> for this event.
+     * Construdt b <dodf>DrbgSourdfDropEvfnt</dodf>
+     * for b drbg tibt dofs not rfsult in b drop.
+     * Tif doordinbtfs for tiis <dodf>DrbgSourdfDropEvfnt</dodf>
+     * brf not spfdififd, so <dodf>gftLodbtion</dodf> will rfturn
+     * <dodf>null</dodf> for tiis fvfnt.
      *
-     * @param dsc the <code>DragSourceContext</code>
+     * @pbrbm dsd tif <dodf>DrbgSourdfContfxt</dodf>
      *
-     * @throws IllegalArgumentException if <code>dsc</code> is <code>null</code>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>dsd</dodf> is <dodf>null</dodf>.
      *
-     * @see DragSourceEvent#getLocation
+     * @sff DrbgSourdfEvfnt#gftLodbtion
      */
 
-    public DragSourceDropEvent(DragSourceContext dsc) {
-        super(dsc);
+    publid DrbgSourdfDropEvfnt(DrbgSourdfContfxt dsd) {
+        supfr(dsd);
 
-        dropSuccess = false;
+        dropSuddfss = fblsf;
     }
 
     /**
-     * This method returns a <code>boolean</code> indicating
-     * if the drop was successful.
+     * Tiis mftiod rfturns b <dodf>boolfbn</dodf> indidbting
+     * if tif drop wbs suddfssful.
      *
-     * @return <code>true</code> if the drop target accepted the drop and
-     *         successfully performed a drop action;
-     *         <code>false</code> if the drop target rejected the drop or
-     *         if the drop target accepted the drop, but failed to perform
-     *         a drop action.
+     * @rfturn <dodf>truf</dodf> if tif drop tbrgft bddfptfd tif drop bnd
+     *         suddfssfully pfrformfd b drop bdtion;
+     *         <dodf>fblsf</dodf> if tif drop tbrgft rfjfdtfd tif drop or
+     *         if tif drop tbrgft bddfptfd tif drop, but fbilfd to pfrform
+     *         b drop bdtion.
      */
 
-    public boolean getDropSuccess() { return dropSuccess; }
+    publid boolfbn gftDropSuddfss() { rfturn dropSuddfss; }
 
     /**
-     * This method returns an <code>int</code> representing
-     * the action performed by the target on the subject of the drop.
+     * Tiis mftiod rfturns bn <dodf>int</dodf> rfprfsfnting
+     * tif bdtion pfrformfd by tif tbrgft on tif subjfdt of tif drop.
      *
-     * @return the action performed by the target on the subject of the drop
-     *         if the drop target accepted the drop and the target drop action
-     *         is supported by the drag source; otherwise,
-     *         <code>DnDConstants.ACTION_NONE</code>.
+     * @rfturn tif bdtion pfrformfd by tif tbrgft on tif subjfdt of tif drop
+     *         if tif drop tbrgft bddfptfd tif drop bnd tif tbrgft drop bdtion
+     *         is supportfd by tif drbg sourdf; otifrwisf,
+     *         <dodf>DnDConstbnts.ACTION_NONE</dodf>.
      */
 
-    public int getDropAction() { return dropAction; }
+    publid int gftDropAdtion() { rfturn dropAdtion; }
 
     /*
-     * fields
+     * fiflds
      */
 
     /**
-     * <code>true</code> if the drop was successful.
+     * <dodf>truf</dodf> if tif drop wbs suddfssful.
      *
-     * @serial
+     * @sfribl
      */
-    private boolean dropSuccess;
+    privbtf boolfbn dropSuddfss;
 
     /**
-     * The drop action.
+     * Tif drop bdtion.
      *
-     * @serial
+     * @sfribl
      */
-    private int     dropAction   = DnDConstants.ACTION_NONE;
+    privbtf int     dropAdtion   = DnDConstbnts.ACTION_NONE;
 }

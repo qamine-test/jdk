@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
 /**
- * The AccessibleIcon interface should be supported by any object
- * that has an associated icon (e.g., buttons). This interface
- * provides the standard mechanism for an assistive technology
- * to get descriptive information about icons.
- * Applications can determine
- * if an object supports the AccessibleIcon interface by first
- * obtaining its AccessibleContext (see
- * {@link Accessible}) and then calling the
- * {@link AccessibleContext#getAccessibleIcon} method.
- * If the return value is not null, the object supports this interface.
+ * Tif AddfssiblfIdon intfrfbdf siould bf supportfd by bny objfdt
+ * tibt ibs bn bssodibtfd idon (f.g., buttons). Tiis intfrfbdf
+ * providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology
+ * to gft dfsdriptivf informbtion bbout idons.
+ * Applidbtions dbn dftfrminf
+ * if bn objfdt supports tif AddfssiblfIdon intfrfbdf by first
+ * obtbining its AddfssiblfContfxt (sff
+ * {@link Addfssiblf}) bnd tifn dblling tif
+ * {@link AddfssiblfContfxt#gftAddfssiblfIdon} mftiod.
+ * If tif rfturn vbluf is not null, tif objfdt supports tiis intfrfbdf.
  *
- * @see Accessible
- * @see AccessibleContext
+ * @sff Addfssiblf
+ * @sff AddfssiblfContfxt
  *
- * @author      Lynn Monsanto
- * @since 1.3
+ * @butior      Lynn Monsbnto
+ * @sindf 1.3
  */
-public interface AccessibleIcon {
+publid intfrfbdf AddfssiblfIdon {
 
     /**
-     * Gets the description of the icon.  This is meant to be a brief
-     * textual description of the object.  For example, it might be
-     * presented to a blind user to give an indication of the purpose
-     * of the icon.
+     * Gfts tif dfsdription of tif idon.  Tiis is mfbnt to bf b briff
+     * tfxtubl dfsdription of tif objfdt.  For fxbmplf, it migit bf
+     * prfsfntfd to b blind usfr to givf bn indidbtion of tif purposf
+     * of tif idon.
      *
-     * @return the description of the icon
+     * @rfturn tif dfsdription of tif idon
      */
-    public String getAccessibleIconDescription();
+    publid String gftAddfssiblfIdonDfsdription();
 
     /**
-     * Sets the description of the icon.  This is meant to be a brief
-     * textual description of the object.  For example, it might be
-     * presented to a blind user to give an indication of the purpose
-     * of the icon.
+     * Sfts tif dfsdription of tif idon.  Tiis is mfbnt to bf b briff
+     * tfxtubl dfsdription of tif objfdt.  For fxbmplf, it migit bf
+     * prfsfntfd to b blind usfr to givf bn indidbtion of tif purposf
+     * of tif idon.
      *
-     * @param description the description of the icon
+     * @pbrbm dfsdription tif dfsdription of tif idon
      */
-    public void setAccessibleIconDescription(String description);
+    publid void sftAddfssiblfIdonDfsdription(String dfsdription);
 
     /**
-     * Gets the width of the icon
+     * Gfts tif widti of tif idon
      *
-     * @return the width of the icon.
+     * @rfturn tif widti of tif idon.
      */
-    public int getAccessibleIconWidth();
+    publid int gftAddfssiblfIdonWidti();
 
     /**
-     * Gets the height of the icon
+     * Gfts tif ifigit of tif idon
      *
-     * @return the height of the icon.
+     * @rfturn tif ifigit of tif idon.
      */
-    public int getAccessibleIconHeight();
+    publid int gftAddfssiblfIdonHfigit();
 
 }

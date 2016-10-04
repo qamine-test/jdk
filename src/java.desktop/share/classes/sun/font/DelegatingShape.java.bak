@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
 /**
- * To avoid people downcasting Shape to a known mutable subclass and
- * mucking with its internals, we need to interpose a subclass that
- * cannot be mutated or downcasted.
+ * To bvoid pfoplf downdbsting Sibpf to b known mutbblf subdlbss bnd
+ * mudking witi its intfrnbls, wf nffd to intfrposf b subdlbss tibt
+ * dbnnot bf mutbtfd or downdbstfd.
  */
-public final class DelegatingShape implements Shape {
-    Shape delegate;
+publid finbl dlbss DflfgbtingSibpf implfmfnts Sibpf {
+    Sibpf dflfgbtf;
 
-    public DelegatingShape(Shape delegate) {
-        this.delegate = delegate;
+    publid DflfgbtingSibpf(Sibpf dflfgbtf) {
+        tiis.dflfgbtf = dflfgbtf;
     }
 
-    public Rectangle getBounds() {
-        return delegate.getBounds(); // assumes all delegates are immutable via the returned Rectangle
+    publid Rfdtbnglf gftBounds() {
+        rfturn dflfgbtf.gftBounds(); // bssumfs bll dflfgbtfs brf immutbblf vib tif rfturnfd Rfdtbnglf
     }
 
-    public Rectangle2D getBounds2D() {
-        return delegate.getBounds2D();  // assumes all delegates are immutable via the returned Rectangle2D
+    publid Rfdtbnglf2D gftBounds2D() {
+        rfturn dflfgbtf.gftBounds2D();  // bssumfs bll dflfgbtfs brf immutbblf vib tif rfturnfd Rfdtbnglf2D
     }
 
-    public boolean contains(double x, double y) {
-        return delegate.contains(x, y);
+    publid boolfbn dontbins(doublf x, doublf y) {
+        rfturn dflfgbtf.dontbins(x, y);
     }
 
-    public boolean contains(Point2D p) {
-        return delegate.contains(p);
+    publid boolfbn dontbins(Point2D p) {
+        rfturn dflfgbtf.dontbins(p);
     }
 
-    public boolean intersects(double x, double y, double w, double h) {
-        return delegate.intersects(x, y, w, h);
+    publid boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf i) {
+        rfturn dflfgbtf.intfrsfdts(x, y, w, i);
     }
 
-    public boolean intersects(Rectangle2D r) {
-        return delegate.intersects(r);
+    publid boolfbn intfrsfdts(Rfdtbnglf2D r) {
+        rfturn dflfgbtf.intfrsfdts(r);
     }
 
-    public boolean contains(double x, double y, double w, double h) {
-        return delegate.contains(x, y, w, h);
+    publid boolfbn dontbins(doublf x, doublf y, doublf w, doublf i) {
+        rfturn dflfgbtf.dontbins(x, y, w, i);
     }
 
-    public boolean contains(Rectangle2D r) {
-        return delegate.contains(r);
+    publid boolfbn dontbins(Rfdtbnglf2D r) {
+        rfturn dflfgbtf.dontbins(r);
     }
 
-    public PathIterator getPathIterator(AffineTransform at) {
-        return delegate.getPathIterator(at);
+    publid PbtiItfrbtor gftPbtiItfrbtor(AffinfTrbnsform bt) {
+        rfturn dflfgbtf.gftPbtiItfrbtor(bt);
     }
 
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        return delegate.getPathIterator(at, flatness);
+    publid PbtiItfrbtor gftPbtiItfrbtor(AffinfTrbnsform bt, doublf flbtnfss) {
+        rfturn dflfgbtf.gftPbtiItfrbtor(bt, flbtnfss);
     }
 }

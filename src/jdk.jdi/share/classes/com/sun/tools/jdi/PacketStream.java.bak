@@ -1,289 +1,289 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import java.util.*;
-import java.io.ByteArrayOutputStream;
+import dom.sun.jdi.*;
+import jbvb.util.*;
+import jbvb.io.BytfArrbyOutputStrfbm;
 
-class PacketStream {
-    final VirtualMachineImpl vm;
-    private int inCursor = 0;
-    final Packet pkt;
-    private ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-    private boolean isCommitted = false;
+dlbss PbdkftStrfbm {
+    finbl VirtublMbdiinfImpl vm;
+    privbtf int inCursor = 0;
+    finbl Pbdkft pkt;
+    privbtf BytfArrbyOutputStrfbm dbtbStrfbm = nfw BytfArrbyOutputStrfbm();
+    privbtf boolfbn isCommittfd = fblsf;
 
-    PacketStream(VirtualMachineImpl vm, int cmdSet, int cmd) {
-        this.vm = vm;
-        this.pkt = new Packet();
-        pkt.cmdSet = (short)cmdSet;
-        pkt.cmd = (short)cmd;
+    PbdkftStrfbm(VirtublMbdiinfImpl vm, int dmdSft, int dmd) {
+        tiis.vm = vm;
+        tiis.pkt = nfw Pbdkft();
+        pkt.dmdSft = (siort)dmdSft;
+        pkt.dmd = (siort)dmd;
     }
 
-    PacketStream(VirtualMachineImpl vm, Packet pkt) {
-        this.vm = vm;
-        this.pkt = pkt;
-        this.isCommitted = true; /* read only stream */
+    PbdkftStrfbm(VirtublMbdiinfImpl vm, Pbdkft pkt) {
+        tiis.vm = vm;
+        tiis.pkt = pkt;
+        tiis.isCommittfd = truf; /* rfbd only strfbm */
     }
 
     int id() {
-        return pkt.id;
+        rfturn pkt.id;
     }
 
-    void send() {
-        if (!isCommitted) {
-            pkt.data = dataStream.toByteArray();
-            vm.sendToTarget(pkt);
-            isCommitted = true;
+    void sfnd() {
+        if (!isCommittfd) {
+            pkt.dbtb = dbtbStrfbm.toBytfArrby();
+            vm.sfndToTbrgft(pkt);
+            isCommittfd = truf;
         }
     }
 
-    void waitForReply() throws JDWPException {
-        if (!isCommitted) {
-            throw new InternalException("waitForReply without send");
+    void wbitForRfply() tirows JDWPExdfption {
+        if (!isCommittfd) {
+            tirow nfw IntfrnblExdfption("wbitForRfply witiout sfnd");
         }
 
-        vm.waitForTargetReply(pkt);
+        vm.wbitForTbrgftRfply(pkt);
 
-        if (pkt.errorCode != Packet.ReplyNoError) {
-            throw new JDWPException(pkt.errorCode);
-        }
-    }
-
-    void writeBoolean(boolean data) {
-        if(data) {
-            dataStream.write( 1 );
-        } else {
-            dataStream.write( 0 );
+        if (pkt.frrorCodf != Pbdkft.RfplyNoError) {
+            tirow nfw JDWPExdfption(pkt.frrorCodf);
         }
     }
 
-    void writeByte(byte data) {
-        dataStream.write( data );
-    }
-
-    void writeChar(char data) {
-        dataStream.write( (byte)((data >>> 8) & 0xFF) );
-        dataStream.write( (byte)((data >>> 0) & 0xFF) );
-    }
-
-    void writeShort(short data) {
-        dataStream.write( (byte)((data >>> 8) & 0xFF) );
-        dataStream.write( (byte)((data >>> 0) & 0xFF) );
-    }
-
-    void writeInt(int data) {
-        dataStream.write( (byte)((data >>> 24) & 0xFF) );
-        dataStream.write( (byte)((data >>> 16) & 0xFF) );
-        dataStream.write( (byte)((data >>> 8) & 0xFF) );
-        dataStream.write( (byte)((data >>> 0) & 0xFF) );
-    }
-
-    void writeLong(long data) {
-        dataStream.write( (byte)((data >>> 56) & 0xFF) );
-        dataStream.write( (byte)((data >>> 48) & 0xFF) );
-        dataStream.write( (byte)((data >>> 40) & 0xFF) );
-        dataStream.write( (byte)((data >>> 32) & 0xFF) );
-
-        dataStream.write( (byte)((data >>> 24) & 0xFF) );
-        dataStream.write( (byte)((data >>> 16) & 0xFF) );
-        dataStream.write( (byte)((data >>> 8) & 0xFF) );
-        dataStream.write( (byte)((data >>> 0) & 0xFF) );
-    }
-
-    void writeFloat(float data) {
-        writeInt(Float.floatToIntBits(data));
-    }
-
-    void writeDouble(double data) {
-        writeLong(Double.doubleToLongBits(data));
-    }
-
-    void writeID(int size, long data) {
-        switch (size) {
-            case 8:
-                writeLong(data);
-                break;
-            case 4:
-                writeInt((int)data);
-                break;
-            case 2:
-                writeShort((short)data);
-                break;
-            default:
-                throw new UnsupportedOperationException("JDWP: ID size not supported: " + size);
+    void writfBoolfbn(boolfbn dbtb) {
+        if(dbtb) {
+            dbtbStrfbm.writf( 1 );
+        } flsf {
+            dbtbStrfbm.writf( 0 );
         }
     }
 
-    void writeNullObjectRef() {
-        writeObjectRef(0);
+    void writfBytf(bytf dbtb) {
+        dbtbStrfbm.writf( dbtb );
     }
 
-    void writeObjectRef(long data) {
-        writeID(vm.sizeofObjectRef, data);
+    void writfCibr(dibr dbtb) {
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 8) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 0) & 0xFF) );
     }
 
-    void writeClassRef(long data) {
-        writeID(vm.sizeofClassRef, data);
+    void writfSiort(siort dbtb) {
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 8) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 0) & 0xFF) );
     }
 
-    void writeMethodRef(long data) {
-        writeID(vm.sizeofMethodRef, data);
+    void writfInt(int dbtb) {
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 24) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 16) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 8) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 0) & 0xFF) );
     }
 
-    void writeFieldRef(long data) {
-        writeID(vm.sizeofFieldRef, data);
+    void writfLong(long dbtb) {
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 56) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 48) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 40) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 32) & 0xFF) );
+
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 24) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 16) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 8) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 0) & 0xFF) );
     }
 
-    void writeFrameRef(long data) {
-        writeID(vm.sizeofFrameRef, data);
+    void writfFlobt(flobt dbtb) {
+        writfInt(Flobt.flobtToIntBits(dbtb));
     }
 
-    void writeByteArray(byte[] data) {
-        dataStream.write(data, 0, data.length);
+    void writfDoublf(doublf dbtb) {
+        writfLong(Doublf.doublfToLongBits(dbtb));
     }
 
-    void writeString(String string) {
+    void writfID(int sizf, long dbtb) {
+        switdi (sizf) {
+            dbsf 8:
+                writfLong(dbtb);
+                brfbk;
+            dbsf 4:
+                writfInt((int)dbtb);
+                brfbk;
+            dbsf 2:
+                writfSiort((siort)dbtb);
+                brfbk;
+            dffbult:
+                tirow nfw UnsupportfdOpfrbtionExdfption("JDWP: ID sizf not supportfd: " + sizf);
+        }
+    }
+
+    void writfNullObjfdtRff() {
+        writfObjfdtRff(0);
+    }
+
+    void writfObjfdtRff(long dbtb) {
+        writfID(vm.sizfofObjfdtRff, dbtb);
+    }
+
+    void writfClbssRff(long dbtb) {
+        writfID(vm.sizfofClbssRff, dbtb);
+    }
+
+    void writfMftiodRff(long dbtb) {
+        writfID(vm.sizfofMftiodRff, dbtb);
+    }
+
+    void writfFifldRff(long dbtb) {
+        writfID(vm.sizfofFifldRff, dbtb);
+    }
+
+    void writfFrbmfRff(long dbtb) {
+        writfID(vm.sizfofFrbmfRff, dbtb);
+    }
+
+    void writfBytfArrby(bytf[] dbtb) {
+        dbtbStrfbm.writf(dbtb, 0, dbtb.lfngti);
+    }
+
+    void writfString(String string) {
         try {
-            byte[] stringBytes = string.getBytes("UTF8");
-            writeInt(stringBytes.length);
-            writeByteArray(stringBytes);
-        } catch (java.io.UnsupportedEncodingException e) {
-            throw new InternalException("Cannot convert string to UTF8 bytes");
+            bytf[] stringBytfs = string.gftBytfs("UTF8");
+            writfInt(stringBytfs.lfngti);
+            writfBytfArrby(stringBytfs);
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+            tirow nfw IntfrnblExdfption("Cbnnot donvfrt string to UTF8 bytfs");
         }
     }
 
-    void writeLocation(Location location) {
-        ReferenceTypeImpl refType = (ReferenceTypeImpl)location.declaringType();
-        byte tag;
-        if (refType instanceof ClassType) {
-            tag = JDWP.TypeTag.CLASS;
-        } else if (refType instanceof InterfaceType) {
-            // It's possible to have executable code in an interface
-            tag = JDWP.TypeTag.INTERFACE;
-        } else {
-            throw new InternalException("Invalid Location");
+    void writfLodbtion(Lodbtion lodbtion) {
+        RfffrfndfTypfImpl rffTypf = (RfffrfndfTypfImpl)lodbtion.dfdlbringTypf();
+        bytf tbg;
+        if (rffTypf instbndfof ClbssTypf) {
+            tbg = JDWP.TypfTbg.CLASS;
+        } flsf if (rffTypf instbndfof IntfrfbdfTypf) {
+            // It's possiblf to ibvf fxfdutbblf dodf in bn intfrfbdf
+            tbg = JDWP.TypfTbg.INTERFACE;
+        } flsf {
+            tirow nfw IntfrnblExdfption("Invblid Lodbtion");
         }
-        writeByte(tag);
-        writeClassRef(refType.ref());
-        writeMethodRef(((MethodImpl)location.method()).ref());
-        writeLong(location.codeIndex());
+        writfBytf(tbg);
+        writfClbssRff(rffTypf.rff());
+        writfMftiodRff(((MftiodImpl)lodbtion.mftiod()).rff());
+        writfLong(lodbtion.dodfIndfx());
     }
 
-    void writeValue(Value val) {
+    void writfVbluf(Vbluf vbl) {
         try {
-            writeValueChecked(val);
-        } catch (InvalidTypeException exc) {  // should never happen
-            throw new RuntimeException(
-                "Internal error: Invalid Tag/Type pair");
+            writfVblufCifdkfd(vbl);
+        } dbtdi (InvblidTypfExdfption fxd) {  // siould nfvfr ibppfn
+            tirow nfw RuntimfExdfption(
+                "Intfrnbl frror: Invblid Tbg/Typf pbir");
         }
     }
 
-    void writeValueChecked(Value val) throws InvalidTypeException {
-        writeByte(ValueImpl.typeValueKey(val));
-        writeUntaggedValue(val);
+    void writfVblufCifdkfd(Vbluf vbl) tirows InvblidTypfExdfption {
+        writfBytf(VblufImpl.typfVblufKfy(vbl));
+        writfUntbggfdVbluf(vbl);
     }
 
-    void writeUntaggedValue(Value val) {
+    void writfUntbggfdVbluf(Vbluf vbl) {
         try {
-            writeUntaggedValueChecked(val);
-        } catch (InvalidTypeException exc) {  // should never happen
-            throw new RuntimeException(
-                "Internal error: Invalid Tag/Type pair");
+            writfUntbggfdVblufCifdkfd(vbl);
+        } dbtdi (InvblidTypfExdfption fxd) {  // siould nfvfr ibppfn
+            tirow nfw RuntimfExdfption(
+                "Intfrnbl frror: Invblid Tbg/Typf pbir");
         }
     }
 
-    void writeUntaggedValueChecked(Value val) throws InvalidTypeException {
-        byte tag = ValueImpl.typeValueKey(val);
-        if (isObjectTag(tag)) {
-            if (val == null) {
-                 writeObjectRef(0);
-            } else {
-                if (!(val instanceof ObjectReference)) {
-                    throw new InvalidTypeException();
+    void writfUntbggfdVblufCifdkfd(Vbluf vbl) tirows InvblidTypfExdfption {
+        bytf tbg = VblufImpl.typfVblufKfy(vbl);
+        if (isObjfdtTbg(tbg)) {
+            if (vbl == null) {
+                 writfObjfdtRff(0);
+            } flsf {
+                if (!(vbl instbndfof ObjfdtRfffrfndf)) {
+                    tirow nfw InvblidTypfExdfption();
                 }
-                writeObjectRef(((ObjectReferenceImpl)val).ref());
+                writfObjfdtRff(((ObjfdtRfffrfndfImpl)vbl).rff());
             }
-        } else {
-            switch (tag) {
-                case JDWP.Tag.BYTE:
-                    if(!(val instanceof ByteValue))
-                        throw new InvalidTypeException();
+        } flsf {
+            switdi (tbg) {
+                dbsf JDWP.Tbg.BYTE:
+                    if(!(vbl instbndfof BytfVbluf))
+                        tirow nfw InvblidTypfExdfption();
 
-                    writeByte(((PrimitiveValue)val).byteValue());
-                    break;
+                    writfBytf(((PrimitivfVbluf)vbl).bytfVbluf());
+                    brfbk;
 
-                case JDWP.Tag.CHAR:
-                    if(!(val instanceof CharValue))
-                        throw new InvalidTypeException();
+                dbsf JDWP.Tbg.CHAR:
+                    if(!(vbl instbndfof CibrVbluf))
+                        tirow nfw InvblidTypfExdfption();
 
-                    writeChar(((PrimitiveValue)val).charValue());
-                    break;
+                    writfCibr(((PrimitivfVbluf)vbl).dibrVbluf());
+                    brfbk;
 
-                case JDWP.Tag.FLOAT:
-                    if(!(val instanceof FloatValue))
-                        throw new InvalidTypeException();
+                dbsf JDWP.Tbg.FLOAT:
+                    if(!(vbl instbndfof FlobtVbluf))
+                        tirow nfw InvblidTypfExdfption();
 
-                    writeFloat(((PrimitiveValue)val).floatValue());
-                    break;
+                    writfFlobt(((PrimitivfVbluf)vbl).flobtVbluf());
+                    brfbk;
 
-                case JDWP.Tag.DOUBLE:
-                    if(!(val instanceof DoubleValue))
-                        throw new InvalidTypeException();
+                dbsf JDWP.Tbg.DOUBLE:
+                    if(!(vbl instbndfof DoublfVbluf))
+                        tirow nfw InvblidTypfExdfption();
 
-                    writeDouble(((PrimitiveValue)val).doubleValue());
-                    break;
+                    writfDoublf(((PrimitivfVbluf)vbl).doublfVbluf());
+                    brfbk;
 
-                case JDWP.Tag.INT:
-                    if(!(val instanceof IntegerValue))
-                        throw new InvalidTypeException();
+                dbsf JDWP.Tbg.INT:
+                    if(!(vbl instbndfof IntfgfrVbluf))
+                        tirow nfw InvblidTypfExdfption();
 
-                    writeInt(((PrimitiveValue)val).intValue());
-                    break;
+                    writfInt(((PrimitivfVbluf)vbl).intVbluf());
+                    brfbk;
 
-                case JDWP.Tag.LONG:
-                    if(!(val instanceof LongValue))
-                        throw new InvalidTypeException();
+                dbsf JDWP.Tbg.LONG:
+                    if(!(vbl instbndfof LongVbluf))
+                        tirow nfw InvblidTypfExdfption();
 
-                    writeLong(((PrimitiveValue)val).longValue());
-                    break;
+                    writfLong(((PrimitivfVbluf)vbl).longVbluf());
+                    brfbk;
 
-                case JDWP.Tag.SHORT:
-                    if(!(val instanceof ShortValue))
-                        throw new InvalidTypeException();
+                dbsf JDWP.Tbg.SHORT:
+                    if(!(vbl instbndfof SiortVbluf))
+                        tirow nfw InvblidTypfExdfption();
 
-                    writeShort(((PrimitiveValue)val).shortValue());
-                    break;
+                    writfSiort(((PrimitivfVbluf)vbl).siortVbluf());
+                    brfbk;
 
-                case JDWP.Tag.BOOLEAN:
-                    if(!(val instanceof BooleanValue))
-                        throw new InvalidTypeException();
+                dbsf JDWP.Tbg.BOOLEAN:
+                    if(!(vbl instbndfof BoolfbnVbluf))
+                        tirow nfw InvblidTypfExdfption();
 
-                    writeBoolean(((PrimitiveValue)val).booleanValue());
-                    break;
+                    writfBoolfbn(((PrimitivfVbluf)vbl).boolfbnVbluf());
+                    brfbk;
             }
         }
     }
@@ -291,338 +291,338 @@ class PacketStream {
 
 
     /**
-     * Read byte represented as one bytes.
+     * Rfbd bytf rfprfsfntfd bs onf bytfs.
      */
-    byte readByte() {
-        byte ret = pkt.data[inCursor];
+    bytf rfbdBytf() {
+        bytf rft = pkt.dbtb[inCursor];
         inCursor += 1;
-        return ret;
+        rfturn rft;
     }
 
     /**
-     * Read boolean represented as one byte.
+     * Rfbd boolfbn rfprfsfntfd bs onf bytf.
      */
-    boolean readBoolean() {
-        byte ret = readByte();
-        return (ret != 0);
+    boolfbn rfbdBoolfbn() {
+        bytf rft = rfbdBytf();
+        rfturn (rft != 0);
     }
 
     /**
-     * Read char represented as two bytes.
+     * Rfbd dibr rfprfsfntfd bs two bytfs.
      */
-    char readChar() {
+    dibr rfbdCibr() {
         int b1, b2;
 
-        b1 = pkt.data[inCursor++] & 0xff;
-        b2 = pkt.data[inCursor++] & 0xff;
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
 
-        return (char)((b1 << 8) + b2);
+        rfturn (dibr)((b1 << 8) + b2);
     }
 
     /**
-     * Read short represented as two bytes.
+     * Rfbd siort rfprfsfntfd bs two bytfs.
      */
-    short readShort() {
+    siort rfbdSiort() {
         int b1, b2;
 
-        b1 = pkt.data[inCursor++] & 0xff;
-        b2 = pkt.data[inCursor++] & 0xff;
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
 
-        return (short)((b1 << 8) + b2);
+        rfturn (siort)((b1 << 8) + b2);
     }
 
     /**
-     * Read int represented as four bytes.
+     * Rfbd int rfprfsfntfd bs four bytfs.
      */
-    int readInt() {
+    int rfbdInt() {
         int b1,b2,b3,b4;
 
-        b1 = pkt.data[inCursor++] & 0xff;
-        b2 = pkt.data[inCursor++] & 0xff;
-        b3 = pkt.data[inCursor++] & 0xff;
-        b4 = pkt.data[inCursor++] & 0xff;
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
+        b3 = pkt.dbtb[inCursor++] & 0xff;
+        b4 = pkt.dbtb[inCursor++] & 0xff;
 
-        return ((b1 << 24) + (b2 << 16) + (b3 << 8) + b4);
+        rfturn ((b1 << 24) + (b2 << 16) + (b3 << 8) + b4);
     }
 
     /**
-     * Read long represented as eight bytes.
+     * Rfbd long rfprfsfntfd bs figit bytfs.
      */
-    long readLong() {
+    long rfbdLong() {
         long b1,b2,b3,b4;
         long b5,b6,b7,b8;
 
-        b1 = pkt.data[inCursor++] & 0xff;
-        b2 = pkt.data[inCursor++] & 0xff;
-        b3 = pkt.data[inCursor++] & 0xff;
-        b4 = pkt.data[inCursor++] & 0xff;
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
+        b3 = pkt.dbtb[inCursor++] & 0xff;
+        b4 = pkt.dbtb[inCursor++] & 0xff;
 
-        b5 = pkt.data[inCursor++] & 0xff;
-        b6 = pkt.data[inCursor++] & 0xff;
-        b7 = pkt.data[inCursor++] & 0xff;
-        b8 = pkt.data[inCursor++] & 0xff;
+        b5 = pkt.dbtb[inCursor++] & 0xff;
+        b6 = pkt.dbtb[inCursor++] & 0xff;
+        b7 = pkt.dbtb[inCursor++] & 0xff;
+        b8 = pkt.dbtb[inCursor++] & 0xff;
 
-        return ((b1 << 56) + (b2 << 48) + (b3 << 40) + (b4 << 32)
+        rfturn ((b1 << 56) + (b2 << 48) + (b3 << 40) + (b4 << 32)
                 + (b5 << 24) + (b6 << 16) + (b7 << 8) + b8);
     }
 
     /**
-     * Read float represented as four bytes.
+     * Rfbd flobt rfprfsfntfd bs four bytfs.
      */
-    float readFloat() {
-        return Float.intBitsToFloat(readInt());
+    flobt rfbdFlobt() {
+        rfturn Flobt.intBitsToFlobt(rfbdInt());
     }
 
     /**
-     * Read double represented as eight bytes.
+     * Rfbd doublf rfprfsfntfd bs figit bytfs.
      */
-    double readDouble() {
-        return Double.longBitsToDouble(readLong());
+    doublf rfbdDoublf() {
+        rfturn Doublf.longBitsToDoublf(rfbdLong());
     }
 
     /**
-     * Read string represented as four byte length followed by
-     * characters of the string.
+     * Rfbd string rfprfsfntfd bs four bytf lfngti followfd by
+     * dibrbdtfrs of tif string.
      */
-    String readString() {
-        String ret;
-        int len = readInt();
+    String rfbdString() {
+        String rft;
+        int lfn = rfbdInt();
 
         try {
-            ret = new String(pkt.data, inCursor, len, "UTF8");
-        } catch(java.io.UnsupportedEncodingException e) {
-            System.err.println(e);
-            ret = "Conversion error!";
+            rft = nfw String(pkt.dbtb, inCursor, lfn, "UTF8");
+        } dbtdi(jbvb.io.UnsupportfdEndodingExdfption f) {
+            Systfm.frr.println(f);
+            rft = "Convfrsion frror!";
         }
-        inCursor += len;
-        return ret;
+        inCursor += lfn;
+        rfturn rft;
     }
 
-    private long readID(int size) {
-        switch (size) {
-          case 8:
-              return readLong();
-          case 4:
-              return (long)readInt();
-          case 2:
-              return (long)readShort();
-          default:
-              throw new UnsupportedOperationException("JDWP: ID size not supported: " + size);
+    privbtf long rfbdID(int sizf) {
+        switdi (sizf) {
+          dbsf 8:
+              rfturn rfbdLong();
+          dbsf 4:
+              rfturn (long)rfbdInt();
+          dbsf 2:
+              rfturn (long)rfbdSiort();
+          dffbult:
+              tirow nfw UnsupportfdOpfrbtionExdfption("JDWP: ID sizf not supportfd: " + sizf);
         }
     }
 
     /**
-     * Read object represented as vm specific byte sequence.
+     * Rfbd objfdt rfprfsfntfd bs vm spfdifid bytf sfqufndf.
      */
-    long readObjectRef() {
-        return readID(vm.sizeofObjectRef);
+    long rfbdObjfdtRff() {
+        rfturn rfbdID(vm.sizfofObjfdtRff);
     }
 
-    long readClassRef() {
-        return readID(vm.sizeofClassRef);
+    long rfbdClbssRff() {
+        rfturn rfbdID(vm.sizfofClbssRff);
     }
 
-    ObjectReferenceImpl readTaggedObjectReference() {
-        byte typeKey = readByte();
-        return vm.objectMirror(readObjectRef(), typeKey);
+    ObjfdtRfffrfndfImpl rfbdTbggfdObjfdtRfffrfndf() {
+        bytf typfKfy = rfbdBytf();
+        rfturn vm.objfdtMirror(rfbdObjfdtRff(), typfKfy);
     }
 
-    ObjectReferenceImpl readObjectReference() {
-        return vm.objectMirror(readObjectRef());
+    ObjfdtRfffrfndfImpl rfbdObjfdtRfffrfndf() {
+        rfturn vm.objfdtMirror(rfbdObjfdtRff());
     }
 
-    StringReferenceImpl readStringReference() {
-        long ref = readObjectRef();
-        return vm.stringMirror(ref);
+    StringRfffrfndfImpl rfbdStringRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.stringMirror(rff);
     }
 
-    ArrayReferenceImpl readArrayReference() {
-        long ref = readObjectRef();
-        return vm.arrayMirror(ref);
+    ArrbyRfffrfndfImpl rfbdArrbyRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.brrbyMirror(rff);
     }
 
-    ThreadReferenceImpl readThreadReference() {
-        long ref = readObjectRef();
-        return vm.threadMirror(ref);
+    TirfbdRfffrfndfImpl rfbdTirfbdRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.tirfbdMirror(rff);
     }
 
-    ThreadGroupReferenceImpl readThreadGroupReference() {
-        long ref = readObjectRef();
-        return vm.threadGroupMirror(ref);
+    TirfbdGroupRfffrfndfImpl rfbdTirfbdGroupRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.tirfbdGroupMirror(rff);
     }
 
-    ClassLoaderReferenceImpl readClassLoaderReference() {
-        long ref = readObjectRef();
-        return vm.classLoaderMirror(ref);
+    ClbssLobdfrRfffrfndfImpl rfbdClbssLobdfrRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.dlbssLobdfrMirror(rff);
     }
 
-    ClassObjectReferenceImpl readClassObjectReference() {
-        long ref = readObjectRef();
-        return vm.classObjectMirror(ref);
+    ClbssObjfdtRfffrfndfImpl rfbdClbssObjfdtRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.dlbssObjfdtMirror(rff);
     }
 
-    ReferenceTypeImpl readReferenceType() {
-        byte tag = readByte();
-        long ref = readObjectRef();
-        return vm.referenceType(ref, tag);
+    RfffrfndfTypfImpl rfbdRfffrfndfTypf() {
+        bytf tbg = rfbdBytf();
+        long rff = rfbdObjfdtRff();
+        rfturn vm.rfffrfndfTypf(rff, tbg);
     }
 
     /**
-     * Read method reference represented as vm specific byte sequence.
+     * Rfbd mftiod rfffrfndf rfprfsfntfd bs vm spfdifid bytf sfqufndf.
      */
-    long readMethodRef() {
-        return readID(vm.sizeofMethodRef);
+    long rfbdMftiodRff() {
+        rfturn rfbdID(vm.sizfofMftiodRff);
     }
 
     /**
-     * Read field reference represented as vm specific byte sequence.
+     * Rfbd fifld rfffrfndf rfprfsfntfd bs vm spfdifid bytf sfqufndf.
      */
-    long readFieldRef() {
-        return readID(vm.sizeofFieldRef);
+    long rfbdFifldRff() {
+        rfturn rfbdID(vm.sizfofFifldRff);
     }
 
     /**
-     * Read field represented as vm specific byte sequence.
+     * Rfbd fifld rfprfsfntfd bs vm spfdifid bytf sfqufndf.
      */
-    Field readField() {
-        ReferenceTypeImpl refType = readReferenceType();
-        long fieldRef = readFieldRef();
-        return refType.getFieldMirror(fieldRef);
+    Fifld rfbdFifld() {
+        RfffrfndfTypfImpl rffTypf = rfbdRfffrfndfTypf();
+        long fifldRff = rfbdFifldRff();
+        rfturn rffTypf.gftFifldMirror(fifldRff);
     }
 
     /**
-     * Read frame represented as vm specific byte sequence.
+     * Rfbd frbmf rfprfsfntfd bs vm spfdifid bytf sfqufndf.
      */
-    long readFrameRef() {
-        return readID(vm.sizeofFrameRef);
+    long rfbdFrbmfRff() {
+        rfturn rfbdID(vm.sizfofFrbmfRff);
     }
 
     /**
-     * Read a value, first byte describes type of value to read.
+     * Rfbd b vbluf, first bytf dfsdribfs typf of vbluf to rfbd.
      */
-    ValueImpl readValue() {
-        byte typeKey = readByte();
-        return readUntaggedValue(typeKey);
+    VblufImpl rfbdVbluf() {
+        bytf typfKfy = rfbdBytf();
+        rfturn rfbdUntbggfdVbluf(typfKfy);
     }
 
-    ValueImpl readUntaggedValue(byte typeKey) {
-        ValueImpl val = null;
+    VblufImpl rfbdUntbggfdVbluf(bytf typfKfy) {
+        VblufImpl vbl = null;
 
-        if (isObjectTag(typeKey)) {
-            val = vm.objectMirror(readObjectRef(), typeKey);
-        } else {
-            switch(typeKey) {
-                case JDWP.Tag.BYTE:
-                    val = new ByteValueImpl(vm, readByte());
-                    break;
+        if (isObjfdtTbg(typfKfy)) {
+            vbl = vm.objfdtMirror(rfbdObjfdtRff(), typfKfy);
+        } flsf {
+            switdi(typfKfy) {
+                dbsf JDWP.Tbg.BYTE:
+                    vbl = nfw BytfVblufImpl(vm, rfbdBytf());
+                    brfbk;
 
-                case JDWP.Tag.CHAR:
-                    val = new CharValueImpl(vm, readChar());
-                    break;
+                dbsf JDWP.Tbg.CHAR:
+                    vbl = nfw CibrVblufImpl(vm, rfbdCibr());
+                    brfbk;
 
-                case JDWP.Tag.FLOAT:
-                    val = new FloatValueImpl(vm, readFloat());
-                    break;
+                dbsf JDWP.Tbg.FLOAT:
+                    vbl = nfw FlobtVblufImpl(vm, rfbdFlobt());
+                    brfbk;
 
-                case JDWP.Tag.DOUBLE:
-                    val = new DoubleValueImpl(vm, readDouble());
-                    break;
+                dbsf JDWP.Tbg.DOUBLE:
+                    vbl = nfw DoublfVblufImpl(vm, rfbdDoublf());
+                    brfbk;
 
-                case JDWP.Tag.INT:
-                    val = new IntegerValueImpl(vm, readInt());
-                    break;
+                dbsf JDWP.Tbg.INT:
+                    vbl = nfw IntfgfrVblufImpl(vm, rfbdInt());
+                    brfbk;
 
-                case JDWP.Tag.LONG:
-                    val = new LongValueImpl(vm, readLong());
-                    break;
+                dbsf JDWP.Tbg.LONG:
+                    vbl = nfw LongVblufImpl(vm, rfbdLong());
+                    brfbk;
 
-                case JDWP.Tag.SHORT:
-                    val = new ShortValueImpl(vm, readShort());
-                    break;
+                dbsf JDWP.Tbg.SHORT:
+                    vbl = nfw SiortVblufImpl(vm, rfbdSiort());
+                    brfbk;
 
-                case JDWP.Tag.BOOLEAN:
-                    val = new BooleanValueImpl(vm, readBoolean());
-                    break;
+                dbsf JDWP.Tbg.BOOLEAN:
+                    vbl = nfw BoolfbnVblufImpl(vm, rfbdBoolfbn());
+                    brfbk;
 
-                case JDWP.Tag.VOID:
-                    val = new VoidValueImpl(vm);
-                    break;
+                dbsf JDWP.Tbg.VOID:
+                    vbl = nfw VoidVblufImpl(vm);
+                    brfbk;
             }
         }
-        return val;
+        rfturn vbl;
     }
 
     /**
-     * Read location represented as vm specific byte sequence.
+     * Rfbd lodbtion rfprfsfntfd bs vm spfdifid bytf sfqufndf.
      */
-    Location readLocation() {
-        byte tag = readByte();
-        long classRef = readObjectRef();
-        long methodRef = readMethodRef();
-        long codeIndex = readLong();
-        if (classRef != 0) {
-            /* Valid location */
-            ReferenceTypeImpl refType = vm.referenceType(classRef, tag);
-            return new LocationImpl(vm, refType, methodRef, codeIndex);
-        } else {
-            /* Null location (example: uncaught exception) */
-           return null;
+    Lodbtion rfbdLodbtion() {
+        bytf tbg = rfbdBytf();
+        long dlbssRff = rfbdObjfdtRff();
+        long mftiodRff = rfbdMftiodRff();
+        long dodfIndfx = rfbdLong();
+        if (dlbssRff != 0) {
+            /* Vblid lodbtion */
+            RfffrfndfTypfImpl rffTypf = vm.rfffrfndfTypf(dlbssRff, tbg);
+            rfturn nfw LodbtionImpl(vm, rffTypf, mftiodRff, dodfIndfx);
+        } flsf {
+            /* Null lodbtion (fxbmplf: undbugit fxdfption) */
+           rfturn null;
         }
     }
 
-    byte[] readByteArray(int length) {
-        byte[] array = new byte[length];
-        System.arraycopy(pkt.data, inCursor, array, 0, length);
-        inCursor += length;
-        return array;
+    bytf[] rfbdBytfArrby(int lfngti) {
+        bytf[] brrby = nfw bytf[lfngti];
+        Systfm.brrbydopy(pkt.dbtb, inCursor, brrby, 0, lfngti);
+        inCursor += lfngti;
+        rfturn brrby;
     }
 
-    List<Value> readArrayRegion() {
-        byte typeKey = readByte();
-        int length = readInt();
-        List<Value> list = new ArrayList<Value>(length);
-        boolean gettingObjects = isObjectTag(typeKey);
-        for (int i = 0; i < length; i++) {
+    List<Vbluf> rfbdArrbyRfgion() {
+        bytf typfKfy = rfbdBytf();
+        int lfngti = rfbdInt();
+        List<Vbluf> list = nfw ArrbyList<Vbluf>(lfngti);
+        boolfbn gfttingObjfdts = isObjfdtTbg(typfKfy);
+        for (int i = 0; i < lfngti; i++) {
             /*
-             * Each object comes back with a type key which might
-             * identify a more specific type than the type key we
-             * passed in, so we use it in the decodeValue call.
-             * (For primitives, we just use the original one)
+             * Ebdi objfdt domfs bbdk witi b typf kfy wiidi migit
+             * idfntify b morf spfdifid typf tibn tif typf kfy wf
+             * pbssfd in, so wf usf it in tif dfdodfVbluf dbll.
+             * (For primitivfs, wf just usf tif originbl onf)
              */
-            if (gettingObjects) {
-                typeKey = readByte();
+            if (gfttingObjfdts) {
+                typfKfy = rfbdBytf();
             }
-            Value value = readUntaggedValue(typeKey);
-            list.add(value);
+            Vbluf vbluf = rfbdUntbggfdVbluf(typfKfy);
+            list.bdd(vbluf);
         }
 
-        return list;
+        rfturn list;
     }
 
-    void writeArrayRegion(List<Value> srcValues) {
-        writeInt(srcValues.size());
-        for (int i = 0; i < srcValues.size(); i++) {
-            Value value = srcValues.get(i);
-            writeUntaggedValue(value);
+    void writfArrbyRfgion(List<Vbluf> srdVblufs) {
+        writfInt(srdVblufs.sizf());
+        for (int i = 0; i < srdVblufs.sizf(); i++) {
+            Vbluf vbluf = srdVblufs.gft(i);
+            writfUntbggfdVbluf(vbluf);
         }
     }
 
-    int skipBytes(int n) {
+    int skipBytfs(int n) {
         inCursor += n;
-        return n;
+        rfturn n;
     }
 
-    byte command() {
-        return (byte)pkt.cmd;
+    bytf dommbnd() {
+        rfturn (bytf)pkt.dmd;
     }
 
-    static boolean isObjectTag(byte tag) {
-        return (tag == JDWP.Tag.OBJECT) ||
-               (tag == JDWP.Tag.ARRAY) ||
-               (tag == JDWP.Tag.STRING) ||
-               (tag == JDWP.Tag.THREAD) ||
-               (tag == JDWP.Tag.THREAD_GROUP) ||
-               (tag == JDWP.Tag.CLASS_LOADER) ||
-               (tag == JDWP.Tag.CLASS_OBJECT);
+    stbtid boolfbn isObjfdtTbg(bytf tbg) {
+        rfturn (tbg == JDWP.Tbg.OBJECT) ||
+               (tbg == JDWP.Tbg.ARRAY) ||
+               (tbg == JDWP.Tbg.STRING) ||
+               (tbg == JDWP.Tbg.THREAD) ||
+               (tbg == JDWP.Tbg.THREAD_GROUP) ||
+               (tbg == JDWP.Tbg.CLASS_LOADER) ||
+               (tbg == JDWP.Tbg.CLASS_OBJECT);
     }
 }

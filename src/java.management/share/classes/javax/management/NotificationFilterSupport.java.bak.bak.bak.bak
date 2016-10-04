@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+import jbvb.util.List;
+import jbvb.util.Vfdtor;
+
+/**
+ * Providfs bn implfmfntbtion of thf {@link jbvbx.mbnbgfmfnt.NotifidbtionFiltfr} intfrfbdf.
+ * Thf filtfring is pfrformfd on thf notifidbtion typf bttributf.
+ * <P>
+ * Mbnbgfs b list of fnbblfd notifidbtion typfs.
+ * A mfthod bllows usfrs to fnbblf/disbblf bs mbny notifidbtion typfs bs rfquirfd.
+ * <P>
+ * Thfn, bfforf sfnding b notifidbtion to b listfnfr rfgistfrfd with b filtfr,
+ * thf notifidbtion brobddbstfr dompbrfs this notifidbtion typf with bll notifidbtion typfs
+ * fnbblfd by thf filtfr. Thf notifidbtion will bf sfnt to thf listfnfr
+ * only if its filtfr fnbblfs this notifidbtion typf.
+ * <P>
+ * Exbmplf:
+ * <BLOCKQUOTE>
+ * <PRE>
+ * NotifidbtionFiltfrSupport myFiltfr = nfw NotifidbtionFiltfrSupport();
+ * myFiltfr.fnbblfTypf("my_fxbmplf.my_typf");
+ * myBrobddbstfr.bddListfnfr(myListfnfr, myFiltfr, null);
+ * </PRE>
+ * </BLOCKQUOTE>
+ * Thf listfnfr <CODE>myListfnfr</CODE> will only rfdfivf notifidbtions thf typf of whidh fqubls/stbrts with "my_fxbmplf.my_typf".
+ *
+ * @sff jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr#bddNotifidbtionListfnfr
+ *
+ * @sindf 1.5
+ */
+publid dlbss NotifidbtionFiltfrSupport implfmfnts NotifidbtionFiltfr {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 6579080007561786969L;
+
+    /**
+     * @sfribl {@link Vfdtor} thbt dontbins thf fnbblfd notifidbtion typfs.
+     *         Thf dffbult vbluf is bn fmpty vfdtor.
+     */
+    privbtf List<String> fnbblfdTypfs = nfw Vfdtor<String>();
+
+
+    /**
+     * Invokfd bfforf sfnding thf spfdififd notifidbtion to thf listfnfr.
+     * <BR>This filtfr dompbrfs thf typf of thf spfdififd notifidbtion with fbdh fnbblfd typf.
+     * If thf notifidbtion typf mbtdhfs onf of thf fnbblfd typfs,
+     * thf notifidbtion should bf sfnt to thf listfnfr bnd this mfthod rfturns <CODE>truf</CODE>.
+     *
+     * @pbrbm notifidbtion Thf notifidbtion to bf sfnt.
+     * @rfturn <CODE>truf</CODE> if thf notifidbtion should bf sfnt to thf listfnfr, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid syndhronizfd boolfbn isNotifidbtionEnbblfd(Notifidbtion notifidbtion) {
+
+        String typf = notifidbtion.gftTypf();
+
+        if (typf == null) {
+            rfturn fblsf;
+        }
+        try {
+            for (String prffix : fnbblfdTypfs) {
+                if (typf.stbrtsWith(prffix)) {
+                    rfturn truf;
+                }
+            }
+        } dbtdh (jbvb.lbng.NullPointfrExdfption f) {
+            // Should nfvfr oddurs...
+            rfturn fblsf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Enbblfs bll thf notifidbtions thf typf of whidh stbrts with thf spfdififd prffix
+     * to bf sfnt to thf listfnfr.
+     * <BR>If thf spfdififd prffix is blrfbdy in thf list of fnbblfd notifidbtion typfs,
+     * this mfthod hbs no ffffdt.
+     * <P>
+     * Exbmplf:
+     * <BLOCKQUOTE>
+     * <PRE>
+     * // Enbblfs bll notifidbtions thf typf of whidh stbrts with "my_fxbmplf" to bf sfnt.
+     * myFiltfr.fnbblfTypf("my_fxbmplf");
+     * // Enbblfs bll notifidbtions thf typf of whidh is "my_fxbmplf.my_typf" to bf sfnt.
+     * myFiltfr.fnbblfTypf("my_fxbmplf.my_typf");
+     * </PRE>
+     * </BLOCKQUOTE>
+     *
+     * Notf thbt:
+     * <BLOCKQUOTE><CODE>
+     * myFiltfr.fnbblfTypf("my_fxbmplf.*");
+     * </CODE></BLOCKQUOTE>
+     * will no mbtdh bny notifidbtion typf.
+     *
+     * @pbrbm prffix Thf prffix.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf prffix pbrbmftfr is null.
+     */
+    publid syndhronizfd void fnbblfTypf(String prffix)
+            throws IllfgblArgumfntExdfption {
+
+        if (prffix == null) {
+            throw nfw IllfgblArgumfntExdfption("Thf prffix dbnnot bf null.");
+        }
+        if (!fnbblfdTypfs.dontbins(prffix)) {
+            fnbblfdTypfs.bdd(prffix);
+        }
+    }
+
+    /**
+     * Rfmovfs thf givfn prffix from thf prffix list.
+     * <BR>If thf spfdififd prffix is not in thf list of fnbblfd notifidbtion typfs,
+     * this mfthod hbs no ffffdt.
+     *
+     * @pbrbm prffix Thf prffix.
+     */
+    publid syndhronizfd void disbblfTypf(String prffix) {
+        fnbblfdTypfs.rfmovf(prffix);
+    }
+
+    /**
+     * Disbblfs bll notifidbtion typfs.
+     */
+    publid syndhronizfd void disbblfAllTypfs() {
+        fnbblfdTypfs.dlfbr();
+    }
+
+
+    /**
+     * Gfts bll thf fnbblfd notifidbtion typfs for this filtfr.
+     *
+     * @rfturn Thf list dontbining bll thf fnbblfd notifidbtion typfs.
+     */
+    publid syndhronizfd Vfdtor<String> gftEnbblfdTypfs() {
+        rfturn (Vfdtor<String>)fnbblfdTypfs;
+    }
+
+}

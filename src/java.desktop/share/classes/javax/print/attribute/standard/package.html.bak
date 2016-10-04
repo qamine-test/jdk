@@ -1,292 +1,292 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>javax.print.attribute.standard package</title>
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<itml>
+<ifbd>
+<titlf>jbvbx.print.bttributf.stbndbrd pbdkbgf</titlf>
 <!--
-Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
-</head>
-<body bgcolor="white">
-Package javax.print.attribute.standard
-contains classes for specific printing attributes.
-The parent package,
-<A HREF="../package-summary.html">
-javax.print.attribute</A>,
-provides classes and interfaces that describe the types of Java
-Print Service attributes and how they can be collected into attribute
-sets.
+</ifbd>
+<body bgdolor="wiitf">
+Pbdkbgf jbvbx.print.bttributf.stbndbrd
+dontbins dlbssfs for spfdifid printing bttributfs.
+Tif pbrfnt pbdkbgf,
+<A HREF="../pbdkbgf-summbry.itml">
+jbvbx.print.bttributf</A>,
+providfs dlbssfs bnd intfrfbdfs tibt dfsdribf tif typfs of Jbvb
+Print Sfrvidf bttributfs bnd iow tify dbn bf dollfdtfd into bttributf
+sfts.
 <P>
-An attribute represents a printing feature
-that a print service can provide.
-For each attribute,
-a print service either does or does not support the attribute.
-For each possible value of a supported attribute,
-a print service either does or does not support the value.
+An bttributf rfprfsfnts b printing ffbturf
+tibt b print sfrvidf dbn providf.
+For fbdi bttributf,
+b print sfrvidf fitifr dofs or dofs not support tif bttributf.
+For fbdi possiblf vbluf of b supportfd bttributf,
+b print sfrvidf fitifr dofs or dofs not support tif vbluf.
 <P>
-The API requires every print service
-to support certain attributes;
-other attributes are optional
-and the service can choose whether or not to support them.
-Each attribute has a set of values that it accepts.  The API 
-requires every print service to support certain values for
-certain attributes;
-other attribute values are optional
-and the service can choose whether or not to support them.
-These support requirements are recorded in the documentation
-for each attribute class.
+Tif API rfquirfs fvfry print sfrvidf
+to support dfrtbin bttributfs;
+otifr bttributfs brf optionbl
+bnd tif sfrvidf dbn dioosf wiftifr or not to support tifm.
+Ebdi bttributf ibs b sft of vblufs tibt it bddfpts.  Tif API 
+rfquirfs fvfry print sfrvidf to support dfrtbin vblufs for
+dfrtbin bttributfs;
+otifr bttributf vblufs brf optionbl
+bnd tif sfrvidf dbn dioosf wiftifr or not to support tifm.
+Tifsf support rfquirfmfnts brf rfdordfd in tif dodumfntbtion
+for fbdi bttributf dlbss.
 <P>
-Package javax.print.attribute.standard
-contains standard printing attributes
-and standard printing attribute values
-that are widely used in the printing domain.
-A print service vendor
-can provide new vendor-specific printing attributes
-in addition to the standard ones.
-A vendor can also provide
-vendor-specific extensions (subclasses)
-of the standard printing attributes --
-for example,
-to provide additional vendor-specific values
-for an existing standard attribute.
-Of course,
-if a vendor wants clients
-to be able to use any added or extended attributes,
-the vendor must publish the new attribute classes.
+Pbdkbgf jbvbx.print.bttributf.stbndbrd
+dontbins stbndbrd printing bttributfs
+bnd stbndbrd printing bttributf vblufs
+tibt brf widfly usfd in tif printing dombin.
+A print sfrvidf vfndor
+dbn providf nfw vfndor-spfdifid printing bttributfs
+in bddition to tif stbndbrd onfs.
+A vfndor dbn blso providf
+vfndor-spfdifid fxtfnsions (subdlbssfs)
+of tif stbndbrd printing bttributfs --
+for fxbmplf,
+to providf bdditionbl vfndor-spfdifid vblufs
+for bn fxisting stbndbrd bttributf.
+Of doursf,
+if b vfndor wbnts dlifnts
+to bf bblf to usf bny bddfd or fxtfndfd bttributfs,
+tif vfndor must publisi tif nfw bttributf dlbssfs.
 <P>
-Many of the standard attribute classes extend one of 
-the abstract syntax classes of the javax.print.attribute package.
-These abstract syntax classes each represent a 
-different type.  The <a href="../EnumSyntax.html">
-EnumSyntax</a> class, for example, represents a type-safe
-enumeration.  The abstract syntax class provides a wrapper for the attribute 
-value.  
+Mbny of tif stbndbrd bttributf dlbssfs fxtfnd onf of 
+tif bbstrbdt syntbx dlbssfs of tif jbvbx.print.bttributf pbdkbgf.
+Tifsf bbstrbdt syntbx dlbssfs fbdi rfprfsfnt b 
+difffrfnt typf.  Tif <b irff="../EnumSyntbx.itml">
+EnumSyntbx</b> dlbss, for fxbmplf, rfprfsfnts b typf-sbff
+fnumfrbtion.  Tif bbstrbdt syntbx dlbss providfs b wrbppfr for tif bttributf 
+vbluf.  
 <p>
-If an attribute class extends <code>EnumSyntax</code>, and the value of the 
-attribute is an IPP-compatible value, the attribute's <code>toString</code> 
-method returns the IPP string representation of the attribute value, such as
-"processing-stopped" for the 
-<a href="JobState.html">JobState</a> attribute.  However, because the 
-<code>EnumSyntax</code> class is extensible, vendors can define their own 
-attribute values.  If an attribute uses the <code>EnumSyntax</code> class 
-and is set to one of these vendor-defined values then the <code>toString</code>
- method will not return the IPP string representation of the value.
+If bn bttributf dlbss fxtfnds <dodf>EnumSyntbx</dodf>, bnd tif vbluf of tif 
+bttributf is bn IPP-dompbtiblf vbluf, tif bttributf's <dodf>toString</dodf> 
+mftiod rfturns tif IPP string rfprfsfntbtion of tif bttributf vbluf, sudi bs
+"prodfssing-stoppfd" for tif 
+<b irff="JobStbtf.itml">JobStbtf</b> bttributf.  Howfvfr, bfdbusf tif 
+<dodf>EnumSyntbx</dodf> dlbss is fxtfnsiblf, vfndors dbn dffinf tifir own 
+bttributf vblufs.  If bn bttributf usfs tif <dodf>EnumSyntbx</dodf> dlbss 
+bnd is sft to onf of tifsf vfndor-dffinfd vblufs tifn tif <dodf>toString</dodf>
+ mftiod will not rfturn tif IPP string rfprfsfntbtion of tif vbluf.
 <p>
-A printing client application
-will typically not need to use
-all the printing attribute classes
-in package javax.print.attribute.standard,
-just the ones that pertain to the application.
+A printing dlifnt bpplidbtion
+will typidblly not nffd to usf
+bll tif printing bttributf dlbssfs
+in pbdkbgf jbvbx.print.bttributf.stbndbrd,
+just tif onfs tibt pfrtbin to tif bpplidbtion.
 <P>
-The attribute classes in package javax.print.attribute.standard
-are based on the Internet Printing Protocol (IPP) attributes
-as defined in the Internet RFC document,
-<I>RFC 2911 Internet Printing Protocol/1.1: Model and Semantics</I>
-dated September 2000.
-See <a HREF="http://www.ietf.org/rfc/rfc2911.txt">RFC 2911</a>
-for more information.
-The descriptive text for each attribute class
-was taken largely from the above documents.
-The above authors' contribution to the API
-is gratefully acknowledged.
+Tif bttributf dlbssfs in pbdkbgf jbvbx.print.bttributf.stbndbrd
+brf bbsfd on tif Intfrnft Printing Protodol (IPP) bttributfs
+bs dffinfd in tif Intfrnft RFC dodumfnt,
+<I>RFC 2911 Intfrnft Printing Protodol/1.1: Modfl bnd Sfmbntids</I>
+dbtfd Sfptfmbfr 2000.
+Sff <b HREF="ittp://www.iftf.org/rfd/rfd2911.txt">RFC 2911</b>
+for morf informbtion.
+Tif dfsdriptivf tfxt for fbdi bttributf dlbss
+wbs tbkfn lbrgfly from tif bbovf dodumfnts.
+Tif bbovf butiors' dontribution to tif API
+is grbtffully bdknowlfdgfd.
 
-<H3>Attribute Organization</H3>
-There are five kinds of printing attributes:
-doc attributes,
-print request attributes,
-print job attributes,
-print service attributes,
-and supported-values attributes.
+<H3>Attributf Orgbnizbtion</H3>
+Tifrf brf fivf kinds of printing bttributfs:
+dod bttributfs,
+print rfqufst bttributfs,
+print job bttributfs,
+print sfrvidf bttributfs,
+bnd supportfd-vblufs bttributfs.
 
-<H4>Doc Attributes</H4>
-Doc attributes specify the characteristics of an individual doc
-and the print job settings to be applied to an individual doc.
-A doc attribute class implements interface
-<A HREF="../DocAttribute.html">DocAttribute</A>.
-A doc attribute can appear in a 
-<a href="../DocAttributeSet.html">
-DocAttributeSet</a>.
+<H4>Dod Attributfs</H4>
+Dod bttributfs spfdify tif dibrbdtfristids of bn individubl dod
+bnd tif print job sfttings to bf bpplifd to bn individubl dod.
+A dod bttributf dlbss implfmfnts intfrfbdf
+<A HREF="../DodAttributf.itml">DodAttributf</A>.
+A dod bttributf dbn bppfbr in b 
+<b irff="../DodAttributfSft.itml">
+DodAttributfSft</b>.
 
-<H4>Print Request Attributes</H4>
-Print request attributes
-specify the settings to be applied to a whole print job
-and to all the docs in the print job. 
-A print request attribute class implements interface
-<A HREF="../PrintRequestAttribute.html">
-PrintRequestAttribute</A>.
-A print request attribute can appear in a   
-<a href="../PrintRequestAttributeSet.html">
-PrintRequestAttributeSet</a>.
+<H4>Print Rfqufst Attributfs</H4>
+Print rfqufst bttributfs
+spfdify tif sfttings to bf bpplifd to b wiolf print job
+bnd to bll tif dods in tif print job. 
+A print rfqufst bttributf dlbss implfmfnts intfrfbdf
+<A HREF="../PrintRfqufstAttributf.itml">
+PrintRfqufstAttributf</A>.
+A print rfqufst bttributf dbn bppfbr in b   
+<b irff="../PrintRfqufstAttributfSft.itml">
+PrintRfqufstAttributfSft</b>.
 
 <P>
-Some attributes are doc attributes
-but not print request attributes
-and may only be specified at the doc level.
-Some attributes are print request attributes
-but not doc attributes
-and may only be specified at the Print Request level.
-Some attributes are both doc attributes
-and print request attributes
-and may be specified either at the doc level
-or at the Print Request level.
+Somf bttributfs brf dod bttributfs
+but not print rfqufst bttributfs
+bnd mby only bf spfdififd bt tif dod lfvfl.
+Somf bttributfs brf print rfqufst bttributfs
+but not dod bttributfs
+bnd mby only bf spfdififd bt tif Print Rfqufst lfvfl.
+Somf bttributfs brf boti dod bttributfs
+bnd print rfqufst bttributfs
+bnd mby bf spfdififd fitifr bt tif dod lfvfl
+or bt tif Print Rfqufst lfvfl.
 <P>
-When specified at the doc level,
-an attribute applies just to that one doc.
-When specified at the Print Request level,
-an attribute applies to the whole job,
-including all the docs in the job.
-However, an attribute specified at the doc level
-overrides an attribute in the same category
-specified at the Print Request level.
+Wifn spfdififd bt tif dod lfvfl,
+bn bttributf bpplifs just to tibt onf dod.
+Wifn spfdififd bt tif Print Rfqufst lfvfl,
+bn bttributf bpplifs to tif wiolf job,
+indluding bll tif dods in tif job.
+Howfvfr, bn bttributf spfdififd bt tif dod lfvfl
+ovfrridfs bn bttributf in tif sbmf dbtfgory
+spfdififd bt tif Print Rfqufst lfvfl.
 
-<H4>Print Job Attributes</H4>
-Print job attributes report the status of a Print Job.
-A print job attribute class implements interface
-<A HREF="../PrintJobAttribute.html">PrintJobAttribute</A>.
-A print job attribute
-can appear in a <A HREF="../PrintJobAttributeSet.html">
-PrintJobAttributeSet</A>.
+<H4>Print Job Attributfs</H4>
+Print job bttributfs rfport tif stbtus of b Print Job.
+A print job bttributf dlbss implfmfnts intfrfbdf
+<A HREF="../PrintJobAttributf.itml">PrintJobAttributf</A>.
+A print job bttributf
+dbn bppfbr in b <A HREF="../PrintJobAttributfSft.itml">
+PrintJobAttributfSft</A>.
 <P>
-Some attributes are both print request attributes
-and print job attributes;
-a client may include such attributes in a Print Request
-to specify characteristics for the ensuing Print Job,
-and those attributes then also appear
-in the Print Job's attribute set.
-Some attributes are print job attributes
-but not print request attributes;
-the print service itself
-adds these attributes to the Print Job's attribute set.
+Somf bttributfs brf boti print rfqufst bttributfs
+bnd print job bttributfs;
+b dlifnt mby indludf sudi bttributfs in b Print Rfqufst
+to spfdify dibrbdtfristids for tif fnsuing Print Job,
+bnd tiosf bttributfs tifn blso bppfbr
+in tif Print Job's bttributf sft.
+Somf bttributfs brf print job bttributfs
+but not print rfqufst bttributfs;
+tif print sfrvidf itsflf
+bdds tifsf bttributfs to tif Print Job's bttributf sft.
 
-<H4>Print Service Attributes</H4>
-Print service attributes report the status
-of a print service.
-A print service attribute class implements interface
-<A HREF="../PrintServiceAttribute.html">
-PrintServiceAttribute</A>.
-A print service attribute
-can appear in a <A HREF="../PrintServiceAttributeSet.html">
-PrintServiceAttributeSet</A>.
+<H4>Print Sfrvidf Attributfs</H4>
+Print sfrvidf bttributfs rfport tif stbtus
+of b print sfrvidf.
+A print sfrvidf bttributf dlbss implfmfnts intfrfbdf
+<A HREF="../PrintSfrvidfAttributf.itml">
+PrintSfrvidfAttributf</A>.
+A print sfrvidf bttributf
+dbn bppfbr in b <A HREF="../PrintSfrvidfAttributfSft.itml">
+PrintSfrvidfAttributfSft</A>.
 
-<H4>Supported-Values Attributes</H4>
-A supported-value attribute
-indicates the legal values for another attribute
-that a print service supports.
-A supported-values attribute class implements interface
-<A HREF="../SupportedValuesAttribute.html">
-SupportedValuesAttribute</A>.
-However, supported-values attributes
-never appear in attribute sets,
-so there is no restricted <A HREF="../AttributeSet.html">
-AttributeSet</A>
-subinterface for them.
+<H4>Supportfd-Vblufs Attributfs</H4>
+A supportfd-vbluf bttributf
+indidbtfs tif lfgbl vblufs for bnotifr bttributf
+tibt b print sfrvidf supports.
+A supportfd-vblufs bttributf dlbss implfmfnts intfrfbdf
+<A HREF="../SupportfdVblufsAttributf.itml">
+SupportfdVblufsAttributf</A>.
+Howfvfr, supportfd-vblufs bttributfs
+nfvfr bppfbr in bttributf sfts,
+so tifrf is no rfstridtfd <A HREF="../AttributfSft.itml">
+AttributfSft</A>
+subintfrfbdf for tifm.
 
-<H4>Attribute Table</H4>
-The table below lists all the printing attributes.
-The table shows the tagging interfaces
-each attribute class implements
-in addition to interface <A HREF="../Attribute.html">
-Attribute</A>,
-thus indicating how each attribute is used in the API.
-For each doc attribute and print request attribute,
-the column marked "SupportedValuesAttribute"
-lists the supported-values attribute class, if any,
-with which a print service 
-indicates the supported values for that attribute category.
-<TABLE BORDER=1 CELLPADDING=2 CELLSPACING=1 SUMMARY="Lists all printing attributes as described in above text">
+<H4>Attributf Tbblf</H4>
+Tif tbblf bflow lists bll tif printing bttributfs.
+Tif tbblf siows tif tbgging intfrfbdfs
+fbdi bttributf dlbss implfmfnts
+in bddition to intfrfbdf <A HREF="../Attributf.itml">
+Attributf</A>,
+tius indidbting iow fbdi bttributf is usfd in tif API.
+For fbdi dod bttributf bnd print rfqufst bttributf,
+tif dolumn mbrkfd "SupportfdVblufsAttributf"
+lists tif supportfd-vblufs bttributf dlbss, if bny,
+witi wiidi b print sfrvidf 
+indidbtfs tif supportfd vblufs for tibt bttributf dbtfgory.
+<TABLE BORDER=1 CELLPADDING=2 CELLSPACING=1 SUMMARY="Lists bll printing bttributfs bs dfsdribfd in bbovf tfxt">
 <TR BGCOLOR="#E5E5E5">
-<TH VALIGN="bottom">Attribute Class</TH>
-<TH VALIGN="bottom">Doc<BR>Attribute</TH>
-<TH VALIGN="bottom">Print<BR>Request<BR>Attribute</TH>
-<TH VALIGN="bottom">Print<BR>Job<BR>Attribute</TH>
-<TH VALIGN="bottom">Print<BR>Service<BR>Attribute</TH>
-<TH VALIGN="bottom">SupportedValuesAttribute</TH>
+<TH VALIGN="bottom">Attributf Clbss</TH>
+<TH VALIGN="bottom">Dod<BR>Attributf</TH>
+<TH VALIGN="bottom">Print<BR>Rfqufst<BR>Attributf</TH>
+<TH VALIGN="bottom">Print<BR>Job<BR>Attributf</TH>
+<TH VALIGN="bottom">Print<BR>Sfrvidf<BR>Attributf</TH>
+<TH VALIGN="bottom">SupportfdVblufsAttributf</TH>
 </TR>
-<TR><TD><A HREF="Compression.html">Compression</A></TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="DocumentName.html">DocumentName</A></TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="Chromaticity.html">Chromaticity</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="Copies.html">Copies</A></TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD><A HREF="CopiesSupported.html">CopiesSupported</A></TD></TR>
-<TR><TD><A HREF="Finishings.html">Finishings</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="JobHoldUntil.html">JobHoldUntil</A></TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="JobImpressions.html">JobImpressions</A></TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD><A HREF="JobImpressionsSupported.html">JobImpressionsSupported</A></TD></TR>
-<TR><TD><A HREF="JobKOctets.html">JobKOctets</A></TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD><A HREF="JobKOctetsSupported.html">JobKOctetsSupported</A></TD></TR>
-<TR><TD><A HREF="JobMediaSheets.html">JobMediaSheets</A></TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD><A HREF="JobMediaSheetsSupported.html">JobMediaSheetsSupported</A></TD></TR>
-<TR><TD><A HREF="JobName.html">JobName</A></TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="JobPriority.html">JobPriority</A></TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD><A HREF="JobPrioritySupported.html">JobPrioritySupported</A></TD></TR>
-<TR><TD><A HREF="JobSheets.html">JobSheets</A></TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="Media.html">Media</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="MediaSize.html">MediaSize</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="MultipleDocumentHandling.html">MultipleDocumentHandling</A></TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="NumberUp.html">NumberUp</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD><A HREF="NumberUpSupported.html">NumberUpSupported</A></TD></TR>
-<TR><TD><A HREF="OrientationRequested.html">OrientationRequested</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PageRanges.html">PageRanges</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PresentationDirection.html">PresentationDirection</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterResolution.html">PrinterResolution</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrintQuality.html">PrintQuality</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="RequestingUserName.html">RequestingUserName</A></TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="SheetCollate.html">SheetCollate</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="Sides.html">Sides</A></TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="DateTimeAtCompleted.html">DateTimeAtCompleted</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="DateTimeAtCreation.html">DateTimeAtCreation</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="DateTimeAtProcessing.html">DateTimeAtProcessing</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="JobImpressionsCompleted.html">JobImpressionsCompleted</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="JobKOctetsProcessed.html">JobKOctetsProcessed</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="JobMediaSheetsCompleted.html">JobMediaSheetsCompleted</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="JobMessageFromOperator.html">JobMessageFromOperator</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="JobOriginatingUserName.html">JobOriginatingUserName</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="JobState.html">JobState</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="JobStateReasons.html">JobStateReasons</A><BR>Contains zero or more --</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD>-- <A HREF="JobStateReason.html">JobStateReason</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="NumberOfDocuments.html">NumberOfDocuments</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="NumberOfInterveningJobs.html">NumberOfInterveningJobs</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="OutputDeviceAssigned.html">OutputDeviceAssigned</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="ColorSupported.html">ColorSupported</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PagesPerMinute.html">PagesPerMinute</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PagesPerMinuteColor.html">PagesPerMinuteColor</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PDLOverrideSupported.html">PDLOverrideSupported</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterIsAcceptingJobs.html">PrinterIsAcceptingJobs</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterInfo.html">PrinterInfo</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterLocation.html">PrinterLocation</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterMessageFromOperator.html">PrinterMessageFromOperator</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterMakeAndModel.html">PrinterMakeAndModel</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterMoreInfo.html">PrinterMoreInfo</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterMoreInfoManufacturer.html">PrinterMoreInfoManufacturer</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterName.html">PrinterName</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterState.html">PrinterState</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="PrinterStateReasons.html">PrinterStateReasons</A><BR>Contains zero or more --</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD>-- <A HREF="PrinterStateReason.html">PrinterStateReason</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD>-- <A HREF="Severity.html">Severity</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="QueuedJobCount.html">QueuedJobCount</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="center">X</TD><TD>&nbsp;</TD></TR>
-<TR><TD><A HREF="ReferenceUriSchemesSupported.html">ReferenceUriSchemesSupported</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="Comprfssion.itml">Comprfssion</A></TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="DodumfntNbmf.itml">DodumfntNbmf</A></TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="Cirombtidity.itml">Cirombtidity</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="Copifs.itml">Copifs</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="CopifsSupportfd.itml">CopifsSupportfd</A></TD></TR>
+<TR><TD><A HREF="Finisiings.itml">Finisiings</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobHoldUntil.itml">JobHoldUntil</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobImprfssions.itml">JobImprfssions</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="JobImprfssionsSupportfd.itml">JobImprfssionsSupportfd</A></TD></TR>
+<TR><TD><A HREF="JobKOdtfts.itml">JobKOdtfts</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="JobKOdtftsSupportfd.itml">JobKOdtftsSupportfd</A></TD></TR>
+<TR><TD><A HREF="JobMfdibSiffts.itml">JobMfdibSiffts</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="JobMfdibSifftsSupportfd.itml">JobMfdibSifftsSupportfd</A></TD></TR>
+<TR><TD><A HREF="JobNbmf.itml">JobNbmf</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobPriority.itml">JobPriority</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="JobPrioritySupportfd.itml">JobPrioritySupportfd</A></TD></TR>
+<TR><TD><A HREF="JobSiffts.itml">JobSiffts</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="Mfdib.itml">Mfdib</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="MfdibSizf.itml">MfdibSizf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="MultiplfDodumfntHbndling.itml">MultiplfDodumfntHbndling</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="NumbfrUp.itml">NumbfrUp</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="NumbfrUpSupportfd.itml">NumbfrUpSupportfd</A></TD></TR>
+<TR><TD><A HREF="OrifntbtionRfqufstfd.itml">OrifntbtionRfqufstfd</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PbgfRbngfs.itml">PbgfRbngfs</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrfsfntbtionDirfdtion.itml">PrfsfntbtionDirfdtion</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrRfsolution.itml">PrintfrRfsolution</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintQublity.itml">PrintQublity</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="RfqufstingUsfrNbmf.itml">RfqufstingUsfrNbmf</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="SifftCollbtf.itml">SifftCollbtf</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="Sidfs.itml">Sidfs</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="DbtfTimfAtComplftfd.itml">DbtfTimfAtComplftfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="DbtfTimfAtCrfbtion.itml">DbtfTimfAtCrfbtion</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="DbtfTimfAtProdfssing.itml">DbtfTimfAtProdfssing</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobImprfssionsComplftfd.itml">JobImprfssionsComplftfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobKOdtftsProdfssfd.itml">JobKOdtftsProdfssfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobMfdibSifftsComplftfd.itml">JobMfdibSifftsComplftfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobMfssbgfFromOpfrbtor.itml">JobMfssbgfFromOpfrbtor</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobOriginbtingUsfrNbmf.itml">JobOriginbtingUsfrNbmf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobStbtf.itml">JobStbtf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobStbtfRfbsons.itml">JobStbtfRfbsons</A><BR>Contbins zfro or morf --</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD>-- <A HREF="JobStbtfRfbson.itml">JobStbtfRfbson</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="NumbfrOfDodumfnts.itml">NumbfrOfDodumfnts</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="NumbfrOfIntfrvfningJobs.itml">NumbfrOfIntfrvfningJobs</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="OutputDfvidfAssignfd.itml">OutputDfvidfAssignfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="ColorSupportfd.itml">ColorSupportfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PbgfsPfrMinutf.itml">PbgfsPfrMinutf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PbgfsPfrMinutfColor.itml">PbgfsPfrMinutfColor</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PDLOvfrridfSupportfd.itml">PDLOvfrridfSupportfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrIsAddfptingJobs.itml">PrintfrIsAddfptingJobs</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrInfo.itml">PrintfrInfo</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrLodbtion.itml">PrintfrLodbtion</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrMfssbgfFromOpfrbtor.itml">PrintfrMfssbgfFromOpfrbtor</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrMbkfAndModfl.itml">PrintfrMbkfAndModfl</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrMorfInfo.itml">PrintfrMorfInfo</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrMorfInfoMbnufbdturfr.itml">PrintfrMorfInfoMbnufbdturfr</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrNbmf.itml">PrintfrNbmf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrStbtf.itml">PrintfrStbtf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrStbtfRfbsons.itml">PrintfrStbtfRfbsons</A><BR>Contbins zfro or morf --</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD>-- <A HREF="PrintfrStbtfRfbson.itml">PrintfrStbtfRfbson</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD>-- <A HREF="Sfvfrity.itml">Sfvfrity</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="QufufdJobCount.itml">QufufdJobCount</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="RfffrfndfUriSdifmfsSupportfd.itml">RfffrfndfUriSdifmfsSupportfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
 </TABLE>
 <P>
-Please note: In the javax.print APIs, a null reference parameter to methods 
-is incorrect unless explicitly documented on the method as having a meaningful
-interpretation. Usage to the contrary is incorrect coding and may result
-in a run time exception either immediately or at some later time.
-IllegalArgumentException and NullPointerException are examples of
-typical and acceptable run time exceptions for such cases.
+Plfbsf notf: In tif jbvbx.print APIs, b null rfffrfndf pbrbmftfr to mftiods 
+is indorrfdt unlfss fxpliditly dodumfntfd on tif mftiod bs ibving b mfbningful
+intfrprftbtion. Usbgf to tif dontrbry is indorrfdt doding bnd mby rfsult
+in b run timf fxdfption fitifr immfdibtfly or bt somf lbtfr timf.
+IllfgblArgumfntExdfption bnd NullPointfrExdfption brf fxbmplfs of
+typidbl bnd bddfptbblf run timf fxdfptions for sudi dbsfs.
 
-@since 1.4
+@sindf 1.4
 </body>
-</html>
+</itml>

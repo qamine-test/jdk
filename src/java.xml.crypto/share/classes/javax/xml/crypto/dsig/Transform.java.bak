@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: Transform.java,v 1.5 2005/05/10 16:03:48 mullan Exp $
+ * $Id: Trbnsform.jbvb,v 1.5 2005/05/10 16:03:48 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
 
-import java.io.OutputStream;
-import java.security.spec.AlgorithmParameterSpec;
-import javax.xml.crypto.AlgorithmMethod;
-import javax.xml.crypto.Data;
-import javax.xml.crypto.OctetStreamData;
-import javax.xml.crypto.XMLCryptoContext;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvbx.xml.drypto.AlgoritimMftiod;
+import jbvbx.xml.drypto.Dbtb;
+import jbvbx.xml.drypto.OdtftStrfbmDbtb;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
 
 /**
- * A representation of the XML <code>Transform</code> element as
- * defined in the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * The XML Schema Definition is defined as:
+ * A rfprfsfntbtion of tif XML <dodf>Trbnsform</dodf> flfmfnt bs
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Tif XML Sdifmb Dffinition is dffinfd bs:
  *
- * <pre>
- * &lt;element name="Transform" type="ds:TransformType"/&gt;
- *   &lt;complexType name="TransformType" mixed="true"&gt;
- *     &lt;choice minOccurs="0" maxOccurs="unbounded"&gt;
- *       &lt;any namespace="##other" processContents="lax"/&gt;
- *       &lt;!-- (1,1) elements from (0,unbounded) namespaces --&gt;
- *       &lt;element name="XPath" type="string"/&gt;
- *     &lt;/choice&gt;
- *     &lt;attribute name="Algorithm" type="anyURI" use="required"/&gt;
- *   &lt;/complexType&gt;
- * </pre>
+ * <prf>
+ * &lt;flfmfnt nbmf="Trbnsform" typf="ds:TrbnsformTypf"/&gt;
+ *   &lt;domplfxTypf nbmf="TrbnsformTypf" mixfd="truf"&gt;
+ *     &lt;dioidf minOddurs="0" mbxOddurs="unboundfd"&gt;
+ *       &lt;bny nbmfspbdf="##otifr" prodfssContfnts="lbx"/&gt;
+ *       &lt;!-- (1,1) flfmfnts from (0,unboundfd) nbmfspbdfs --&gt;
+ *       &lt;flfmfnt nbmf="XPbti" typf="string"/&gt;
+ *     &lt;/dioidf&gt;
+ *     &lt;bttributf nbmf="Algoritim" typf="bnyURI" usf="rfquirfd"/&gt;
+ *   &lt;/domplfxTypf&gt;
+ * </prf>
  *
- * A <code>Transform</code> instance may be created by invoking the
- * {@link XMLSignatureFactory#newTransform newTransform} method
- * of the {@link XMLSignatureFactory} class.
+ * A <dodf>Trbnsform</dodf> instbndf mby bf drfbtfd by invoking tif
+ * {@link XMLSignbturfFbdtory#nfwTrbnsform nfwTrbnsform} mftiod
+ * of tif {@link XMLSignbturfFbdtory} dlbss.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see XMLSignatureFactory#newTransform(String, TransformParameterSpec)
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#nfwTrbnsform(String, TrbnsformPbrbmftfrSpfd)
  */
-public interface Transform extends XMLStructure, AlgorithmMethod {
+publid intfrfbdf Trbnsform fxtfnds XMLStrudturf, AlgoritimMftiod {
 
     /**
-     * The <a href="http://www.w3.org/2000/09/xmldsig#base64">Base64</a>
-     * transform algorithm URI.
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#bbsf64">Bbsf64</b>
+     * trbnsform blgoritim URI.
      */
-    final static String BASE64 = "http://www.w3.org/2000/09/xmldsig#base64";
+    finbl stbtid String BASE64 = "ittp://www.w3.org/2000/09/xmldsig#bbsf64";
 
     /**
-     * The <a href="http://www.w3.org/2000/09/xmldsig#enveloped-signature">
-     * Enveloped Signature</a> transform algorithm URI.
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf">
+     * Envflopfd Signbturf</b> trbnsform blgoritim URI.
      */
-    final static String ENVELOPED =
-        "http://www.w3.org/2000/09/xmldsig#enveloped-signature";
+    finbl stbtid String ENVELOPED =
+        "ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf";
 
     /**
-     * The <a href="http://www.w3.org/TR/1999/REC-xpath-19991116">XPath</a>
-     * transform algorithm URI.
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xpbti-19991116">XPbti</b>
+     * trbnsform blgoritim URI.
      */
-    final static String XPATH = "http://www.w3.org/TR/1999/REC-xpath-19991116";
+    finbl stbtid String XPATH = "ittp://www.w3.org/TR/1999/REC-xpbti-19991116";
 
     /**
-     * The <a href="http://www.w3.org/2002/06/xmldsig-filter2">
-     * XPath Filter 2</a> transform algorithm URI.
+     * Tif <b irff="ittp://www.w3.org/2002/06/xmldsig-filtfr2">
+     * XPbti Filtfr 2</b> trbnsform blgoritim URI.
      */
-    final static String XPATH2 = "http://www.w3.org/2002/06/xmldsig-filter2";
+    finbl stbtid String XPATH2 = "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
 
     /**
-     * The <a href="http://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</a>
-     * transform algorithm URI.
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</b>
+     * trbnsform blgoritim URI.
      */
-    final static String XSLT = "http://www.w3.org/TR/1999/REC-xslt-19991116";
+    finbl stbtid String XSLT = "ittp://www.w3.org/TR/1999/REC-xslt-19991116";
 
     /**
-     * Returns the algorithm-specific input parameters associated with this
-     * <code>Transform</code>.
+     * Rfturns tif blgoritim-spfdifid input pbrbmftfrs bssodibtfd witi tiis
+     * <dodf>Trbnsform</dodf>.
      * <p>
-     * The returned parameters can be typecast to a
-     * {@link TransformParameterSpec} object.
+     * Tif rfturnfd pbrbmftfrs dbn bf typfdbst to b
+     * {@link TrbnsformPbrbmftfrSpfd} objfdt.
      *
-     * @return the algorithm-specific input parameters (may be <code>null</code>
-     *    if not specified)
+     * @rfturn tif blgoritim-spfdifid input pbrbmftfrs (mby bf <dodf>null</dodf>
+     *    if not spfdififd)
      */
-    AlgorithmParameterSpec getParameterSpec();
+    AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd();
 
     /**
-     * Transforms the specified data using the underlying transform algorithm.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
      *
-     * @param data the data to be transformed
-     * @param context the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @return the transformed data
-     * @throws NullPointerException if <code>data</code> is <code>null</code>
-     * @throws TransformException if an error occurs while executing the
-     *    transform
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @rfturn tif trbnsformfd dbtb
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     *    trbnsform
      */
-    public abstract Data transform(Data data, XMLCryptoContext context)
-        throws TransformException;
+    publid bbstrbdt Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt dontfxt)
+        tirows TrbnsformExdfption;
 
     /**
-     * Transforms the specified data using the underlying transform algorithm.
-     * If the output of this transform is an <code>OctetStreamData</code>, then
-     * this method returns <code>null</code> and the bytes are written to the
-     * specified <code>OutputStream</code>. Otherwise, the
-     * <code>OutputStream</code> is ignored and the method behaves as if
-     * {@link #transform(Data, XMLCryptoContext)} were invoked.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * If tif output of tiis trbnsform is bn <dodf>OdtftStrfbmDbtb</dodf>, tifn
+     * tiis mftiod rfturns <dodf>null</dodf> bnd tif bytfs brf writtfn to tif
+     * spfdififd <dodf>OutputStrfbm</dodf>. Otifrwisf, tif
+     * <dodf>OutputStrfbm</dodf> is ignorfd bnd tif mftiod bfibvfs bs if
+     * {@link #trbnsform(Dbtb, XMLCryptoContfxt)} wfrf invokfd.
      *
-     * @param data the data to be transformed
-     * @param context the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @param os the <code>OutputStream</code> that should be used to write
-     *    the transformed data to
-     * @return the transformed data (or <code>null</code> if the data was
-     *    written to the <code>OutputStream</code> parameter)
-     * @throws NullPointerException if <code>data</code> or <code>os</code>
-     *    is <code>null</code>
-     * @throws TransformException if an error occurs while executing the
-     *    transform
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     *    tif trbnsformfd dbtb to
+     * @rfturn tif trbnsformfd dbtb (or <dodf>null</dodf> if tif dbtb wbs
+     *    writtfn to tif <dodf>OutputStrfbm</dodf> pbrbmftfr)
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>os</dodf>
+     *    is <dodf>null</dodf>
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     *    trbnsform
      */
-    public abstract Data transform
-        (Data data, XMLCryptoContext context, OutputStream os)
-        throws TransformException;
+    publid bbstrbdt Dbtb trbnsform
+        (Dbtb dbtb, XMLCryptoContfxt dontfxt, OutputStrfbm os)
+        tirows TrbnsformExdfption;
 }

@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
+
+
+import dom.sun.jmx.snmp.mpm.SnmpMsgTrbnslbtor;
+
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
+import dom.sun.jmx.snmp.SnmpSfdurityPbrbmftfrs;
+
+import dom.sun.jmx.snmp.SnmpPbrbms;
+/**
+ * Thf mfssbgf prodfssing modfl intfrfbdf. Any mfssbgf prodfssing modfl must implfmfnt this intfrfbdf in ordfr to bf intfgrbtfd in thf fnginf frbmfwork.
+ * Thf modfl is dbllfd by thf dispbtdhfr whfn b dbll is rfdfivfd or whfn b dbll is sfnt.
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid intfrfbdf SnmpMsgProdfssingModfl fxtfnds SnmpModfl {
+    /**
+     * This mfthod is dbllfd whfn b dbll is to bf sfnt to thf nftwork.
+     * @pbrbm fbdtory Thf pdu fbdtory to usf to fndodf bnd dfdodf pdu.
+     * @rfturn Thf objfdt thbt will hbndlf fvfry stfps of thf sfnding (mbinly mbrshblling bnd sfdurity).
+     */
+    publid SnmpOutgoingRfqufst gftOutgoingRfqufst(SnmpPduFbdtory fbdtory);
+    /**
+     * This mfthod is dbllfd whfn b dbll is rfdfivfd from thf nftwork.
+     * @pbrbm fbdtory Thf pdu fbdtory to usf to fndodf bnd dfdodf pdu.
+     * @rfturn Thf objfdt thbt will hbndlf fvfry stfps of thf rfdfiving (mbinly unmbrshblling bnd sfdurity).
+     */
+    publid SnmpIndomingRfqufst gftIndomingRfqufst(SnmpPduFbdtory fbdtory);
+
+     /**
+     * This mfthod is dbllfd whfn b rfsponsf is rfdfivfd from thf nftwork.
+     * @pbrbm fbdtory Thf pdu fbdtory to usf to fndodf bnd dfdodf pdu.
+     * @rfturn Thf objfdt thbt will hbndlf fvfry stfps of thf rfdfiving (mbinly unmbrshblling bnd sfdurity).
+     */
+    publid SnmpIndomingRfsponsf gftIndomingRfsponsf(SnmpPduFbdtory fbdtory);
+    /**
+     * This mfthod is dbllfd to instbntibtf b pdu bddording to thf pbssfd pdu typf bnd pbrbmftfrs.
+     * @pbrbm p Thf rfqufst pbrbmftfrs.
+     * @pbrbm typf Thf pdu typf.
+     * @rfturn Thf pdu.
+     */
+    publid SnmpPdu gftRfqufstPdu(SnmpPbrbms p, int typf) throws SnmpStbtusExdfption;
+
+    /**
+     * This mfthod is dbllfd to fndodf b full sdopfd pdu thbt hbs not bffn fndryptfd. <CODE>dontfxtNbmf</CODE>, <CODE>dontfxtEnginfID</CODE> bnd dbtb brf known.
+     * <BR>Thf spfdififd pbrbmftfrs brf dffinfd in RFC 2572 (sff blso thf {@link dom.sun.jmx.snmp.SnmpV3Mfssbgf} dlbss).
+     * @pbrbm vfrsion Thf SNMP protodol vfrsion.
+     * @pbrbm msgID Thf SNMP mfssbgf ID.
+     * @pbrbm msgMbxSizf Thf mbx mfssbgf sizf.
+     * @pbrbm msgFlbgs Thf mfssbgf flbgs.
+     * @pbrbm msgSfdurityModfl Thf mfssbgf sfdurity modfl.
+     * @pbrbm pbrbms Thf sfdurity pbrbmftfrs.
+     * @pbrbm dontfxtEnginfID Thf dontfxt fnginf ID.
+     * @pbrbm dontfxtNbmf Thf dontfxt nbmf.
+     * @pbrbm dbtb Thf fndodfd dbtb.
+     * @pbrbm dbtbLfngth Thf fndodfd dbtb lfngth.
+     * @pbrbm outputBytfs Thf bufffr dontbining thf fndodfd mfssbgf.
+     * @rfturn Thf fndodfd bytfs numbfr.
+     */
+    publid int fndodf(int vfrsion,
+                      int msgID,
+                      int msgMbxSizf,
+                      bytf msgFlbgs,
+                      int msgSfdurityModfl,
+                      SnmpSfdurityPbrbmftfrs pbrbms,
+                      bytf[] dontfxtEnginfID,
+                      bytf[] dontfxtNbmf,
+                      bytf[] dbtb,
+                      int dbtbLfngth,
+                      bytf[] outputBytfs) throws SnmpTooBigExdfption;
+    /**
+     * This mfthod is dbllfd to fndodf b full sdopfd pdu thbt bs bffn fndryptfd. <CODE>dontfxtNbmf</CODE>, <CODE>dontfxtEnginfID</CODE> bnd dbtb brf known.
+     * <BR>Thf spfdififd pbrbmftfrs brf dffinfd in RFC 2572 (sff blso thf {@link dom.sun.jmx.snmp.SnmpV3Mfssbgf} dlbss).
+     * @pbrbm vfrsion Thf SNMP protodol vfrsion.
+     * @pbrbm msgID Thf SNMP mfssbgf ID.
+     * @pbrbm msgMbxSizf Thf mbx mfssbgf sizf.
+     * @pbrbm msgFlbgs Thf mfssbgf flbgs.
+     * @pbrbm msgSfdurityModfl Thf mfssbgf sfdurity modfl.
+     * @pbrbm pbrbms Thf sfdurity pbrbmftfrs.
+     * @pbrbm fndryptfdPdu Thf fndryptfd pdu.
+     * @pbrbm outputBytfs Thf bufffr dontbining thf fndodfd mfssbgf.
+     * @rfturn Thf fndodfd bytfs numbfr.
+     */
+    publid int fndodfPriv(int vfrsion,
+                          int msgID,
+                          int msgMbxSizf,
+                          bytf msgFlbgs,
+                          int msgSfdurityModfl,
+                          SnmpSfdurityPbrbmftfrs pbrbms,
+                          bytf[] fndryptfdPdu,
+                          bytf[] outputBytfs) throws SnmpTooBigExdfption;
+     /**
+     * This mfthod rfturns b dfdodfd sdopfd pdu. This mfthod dfdodfs only thf <CODE>dontfxtEnginfID</CODE>, <CODE>dontfxtNbmf</CODE> bnd dbtb. It is nffdfd by thf <CODE>SnmpSfdurityModfl</CODE> bftfr dfdryption.
+     * @pbrbm pdu Thf fndodfd pdu.
+     * @rfturn Thf pbrtibly sdopfd pdu.
+     */
+    publid SnmpDfdryptfdPdu dfdodf(bytf[] pdu) throws SnmpStbtusExdfption;
+
+    /**
+     * This mfthod rfturns bn fndodfd sdopfd pdu. This mfthod fndodf only thf <CODE>dontfxtEnginfID</CODE>, <CODE>dontfxtNbmf</CODE> bnd dbtb. It is nffdfd by thf <CODE>SnmpSfdurityModfl</CODE> for dfdryption.
+     * @pbrbm pdu Thf pdu to fndodf.
+     * @pbrbm outputBytfs Thf pbrtibly sdopfd pdu.
+     * @rfturn Thf fndodfd bytfs numbfr.
+     */
+    publid int fndodf(SnmpDfdryptfdPdu pdu,
+                      bytf[] outputBytfs) throws SnmpTooBigExdfption;
+
+    /**
+     * In ordfr to dhbngf thf bfhbvior of thf trbnslbtor, sft it.
+     * @pbrbm trbnslbtor Thf trbnslbtor thbt will bf usfd.
+     */
+    publid void sftMsgTrbnslbtor(SnmpMsgTrbnslbtor trbnslbtor);
+
+    /**
+     * Rfturns thf durrfnt trbnslbtor.
+     * @rfturn Thf durrfnt trbnslbtor.
+     */
+    publid SnmpMsgTrbnslbtor gftMsgTrbnslbtor();
+}

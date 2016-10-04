@@ -1,0 +1,442 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.toolkit.dtx;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.RfsolvfRfsult;
+import jbvb.util.Hbshtbblf;
+
+/**
+  * This dlbss dontbins informbtion rfquirfd to dontinuf
+  * thf mfthod (plbdf whfrf it lfft off, bnd rfmbining nbmf to
+  * dontinuf).
+  *
+  * @buthor Rosbnnb Lff
+  */
+
+publid dlbss Continubtion fxtfnds RfsolvfRfsult {
+    /**
+     * Thf nbmf thbt wf stbrtfd out with. It is initiblizfd by thf donstrudtor
+     * bnd usfd to dbldulbtf to "rfsolvfd nbmf" in NbmingExdfption in
+     * fillInExdfption().
+     * %%% Notf thbt this bpprobdh dofs not blwbys do thf dbldulbtion
+     * dorrfdtly with rfspfdt to bbsfndf or prfsfndf of thf trbiling slbsh
+     * for rfsolvfd nbmf.
+     */
+    protfdtfd Nbmf stbrtfr;
+
+    /**
+     * Whfthfr links wfrf fndountfrfd.
+     */
+    protfdtfd Objfdt followingLink = null;
+
+    /**
+     * Thf fnvironmfnt usfd by thf dbllfr. Initiblizfd by donstrudtor bnd
+     * usfd whfn filling out b CbnnotProdffdExdfption.
+     */
+    protfdtfd Hbshtbblf<?,?> fnvironmfnt = null;
+
+    /**
+     * Indidbtfs whfthfr thf Continubtion instbndf indidbtfs thbt thf opfrbtion
+     * should bf dontinufd using thf dbtb in thf Continubtion.
+     * Typidblly, this is only fblsf if bn frror hbs bffn fndountfrfd or if
+     * thf opfrbtion hbs suddffdfd.
+     */
+    protfdtfd boolfbn dontinuing = fblsf;
+
+    /**
+     * Thf lbst rfsolvfd dontfxt. Usfd to sft thf "AltNbmfCtx" in b
+     * CbnnotProdffdExdfption.
+     */
+    protfdtfd Contfxt rfsolvfdContfxt = null;
+
+    /**
+     * Thf rfsolvfd nbmf rflbtivf to rfsolvfdContfxt. Usfd to sft thf
+     * "AltNbmf" in b CbnnotProdffdExdfption.
+     */
+    protfdtfd Nbmf rflbtivfRfsolvfdNbmf = null;
+
+    /**
+     * Construdts b nfw instbndf of Continubtion.
+     * Usfd bs dummy for dontfxts thbt do not do ffdfrbtion (f.g. for sdhfmb ops)
+     */
+    publid Continubtion() {
+    }
+
+    /**
+     * Construdts b nfw instbndf of Continubtion.
+     * @pbrbm top Thf nbmf of thf objfdt thbt is to bf rfsolvfd/opfrbtfd upon.
+     *          This bfdomfs thf Continubtion's 'stbrtfr' bnd is usfd to
+     *          dbldulbtf thf "rfsolvfd nbmf" whfn filling in b NbmingExdfption.
+     * @pbrbm fnvironmfnt Thf fnvironmfnt usfd by thf dbllfr. It is usfd
+     *          whfn sftting thf "fnvironmfnt" of b CbnnotProdffdExdfption.
+     */
+    @SupprfssWbrnings("undhfdkfd")  // For Hbshtbblf dlonf: fnvironmfnt.dlonf()
+    publid Continubtion(Nbmf top, Hbshtbblf<?,?> fnvironmfnt) {
+        supfr();
+        stbrtfr = top;
+        this.fnvironmfnt = (Hbshtbblf<?,?>)
+                ((fnvironmfnt == null) ? null : fnvironmfnt.dlonf());
+    }
+
+    /**
+     * Dftfrminfs whfthfr this Continubtion dontbins dbtb thbt should bf
+     * usfd to dontinuf thf opfrbtion.
+     *
+     * @rfturn truf if opfrbtion should dontinuf; fblsf if opfrbtion hbs
+     * domplftfd (suddfssfully or unsuddfssfully).
+     */
+    publid boolfbn isContinuf() {
+        rfturn dontinuing;
+    }
+
+    /**
+     * Sfts this Continubtion to indidbtf suddfssful domplftion.
+     * Subsfqufnt dblls to isContinuf() will rfturn fblsf.
+     * This mfthod is difffrfnt from thf sftError() mfthods only from
+     * thf stbndpoint thbt this mfthod dofs not sft bny of thf othfr
+     * fiflds sudh bs rfsolvfd objfdt or rfsolvfd dontfxt. This is bfdbusf
+     * this mfthod is typidblly dbllfd whfn thf dontfxt rfdognizfs thbt
+     * thf opfrbtion hbs suddfssfully domplftfd bnd thbt thf dontinubtion
+     * blrfbdy dontbins thf bppropribtfly sft fiflds.
+     * @sff sftError
+     * @sff sftErrorNNS
+     */
+    publid void sftSuddfss() {
+        dontinuing = fblsf;
+    }
+
+    /**
+     * Fills in bn fxdfption's fiflds using dbtb from this Continubtion.
+     * Thf rfsolvfd nbmf is sft by subtrbdting rfmbiningNbmf from stbrtfr.
+     * %%% This might not not blwbys produdf thf dorrfdt bnswfr wrt trbiling "/".
+     * If thf fxdfption is b CbnnotProdffdExdfption, its fnvironmfnt,
+     * bltNbmf, bnd bltNbmfCtx fiflds brf sft using this dontinubtion's
+     * fnvironmfnt, rflbtivfRfsolvfdNbmf, bnd rfsolvfdContfxt.
+     *
+     * @pbrbm f Thf non-null nbming fxdfption to fill.
+     * @rfturn Thf non-null nbming fxdfption with its fiflds sft using
+     * dbtb from this Continubtion.
+     */
+    publid NbmingExdfption fillInExdfption(NbmingExdfption f) {
+        f.sftRfmbiningNbmf(rfmbiningNbmf);
+        f.sftRfsolvfdObj(rfsolvfdObj);
+
+        if (stbrtfr == null || stbrtfr.isEmpty())
+            f.sftRfsolvfdNbmf(null);
+        flsf if (rfmbiningNbmf == null)
+            f.sftRfsolvfdNbmf(stbrtfr);
+        flsf
+            f.sftRfsolvfdNbmf(
+                stbrtfr.gftPrffix(stbrtfr.sizf() -
+                                  rfmbiningNbmf.sizf()));
+
+        if ((f instbndfof CbnnotProdffdExdfption)) {
+            CbnnotProdffdExdfption dpf = (CbnnotProdffdExdfption)f;
+            Hbshtbblf<?,?> fnv = (fnvironmfnt == null ?
+                nfw Hbshtbblf<>(11) : (Hbshtbblf<?,?>)fnvironmfnt.dlonf());
+            dpf.sftEnvironmfnt(fnv);
+            dpf.sftAltNbmfCtx(rfsolvfdContfxt);
+            dpf.sftAltNbmf(rflbtivfRfsolvfdNbmf);
+        }
+
+        rfturn f;
+    }
+
+    /**
+     * Sfts this Continubtion to indidbtfd thbt bn frror hbs oddurrfd,
+     * bnd thbt thf rfmbining nbmf is rfnbmf + "/".
+     *
+     * This mfthod is typidblly dbllfd by _nns mfthods thbt hbvf bffn
+     * givfn b nbmf to prodfss. It might prodfss pbrt of thbt nbmf but
+     * fndountfrfd somf frror. Consfqufntly, it would dbll sftErrorNNS()
+     * with thf rfmbining nbmf. Sindf thf _nns mfthod wbs fxpfdtfd to
+     * opfrbtf upon thf "nns" of thf originbl nbmf, thf rfmbining nbmf
+     * must indludf thf "nns". Thbt's why this mfthod bdds b trbiling "/".
+     *<p>
+     * Aftfr this mfthod is dbllfd, isContinuing() rfturns fblsf.
+     *
+     * @pbrbm rfsObj Thf possibly null objfdt thbt wbs rfsolvfd to.
+     * @pbrbm rfmbin Thf non-null rfmbining nbmf.
+     */
+    publid void sftErrorNNS(Objfdt rfsObj, Nbmf rfmbin) {
+        Nbmf nm = (Nbmf)(rfmbin.dlonf());
+        try {
+            nm.bdd("");
+        } dbtdh (InvblidNbmfExdfption f) {
+            // ignorf; dbn't hbppfn for dompositf nbmf
+        }
+        sftErrorAux(rfsObj, nm);
+    }
+
+    /**
+     * Form thbt bddfpts b String nbmf instfbd of b Nbmf nbmf.
+
+     * @pbrbm rfsObj Thf possibly null objfdt thbt wbs rfsolvfd to.
+     * @pbrbm rfmbin Thf possibly String rfmbining nbmf.
+     *
+     * @sff #sftErrorNNS(jbvb.lbng.Objfdt, jbvbx.nbming.Nbmf)
+     */
+    publid void sftErrorNNS(Objfdt rfsObj, String rfmbin) {
+        CompositfNbmf rnbmf = nfw CompositfNbmf();
+        try {
+            if (rfmbin != null && !rfmbin.fqubls(""))
+                rnbmf.bdd(rfmbin);
+
+            rnbmf.bdd("");
+        } dbtdh (InvblidNbmfExdfption f) {
+            // ignorf, dbn't hbppfn for dompositf nbmf
+        }
+        sftErrorAux(rfsObj, rnbmf);
+    }
+
+    /**
+     * Sfts this Continubtion to indidbtfd thbt bn frror hbs oddurrfd
+     * bnd supply rfsolvfd informbtion.
+     *
+     * This mfthod is typidblly dbllfd by mfthods thbt hbvf bffn
+     * givfn b nbmf to prodfss. It might prodfss pbrt of thbt nbmf but
+     * fndountfrfd somf frror. Consfqufntly, it would dbll sftError()
+     * with thf rfsolvfd objfdt bnd thf rfmbining nbmf.
+     *<p>
+     * Aftfr this mfthod is dbllfd, isContinuing() rfturns fblsf.
+     *
+     * @pbrbm rfsObj Thf possibly null objfdt thbt wbs rfsolvfd to.
+     * @pbrbm rfmbin Thf possibly null rfmbining nbmf.
+     */
+    publid void sftError(Objfdt rfsObj, Nbmf rfmbin) {
+        if (rfmbin != null)
+            rfmbiningNbmf = (Nbmf)(rfmbin.dlonf());
+        flsf
+            rfmbiningNbmf = null;
+
+        sftErrorAux(rfsObj, rfmbiningNbmf);
+    }
+
+
+    /**
+     * Form thbt bddfpts b String nbmf instfbd of b Nbmf nbmf.
+
+     * @pbrbm rfsObj Thf possibly null objfdt thbt wbs rfsolvfd to.
+     * @pbrbm rfmbin Thf possibly String rfmbining nbmf.
+     *
+     * @sff #sftError(jbvb.lbng.Objfdt, jbvbx.nbming.Nbmf)
+     */
+    publid void sftError(Objfdt rfsObj, String rfmbin) {
+        CompositfNbmf rnbmf = nfw CompositfNbmf();
+        if (rfmbin != null && !rfmbin.fqubls("")) {
+            try {
+                rnbmf.bdd(rfmbin);
+            } dbtdh (InvblidNbmfExdfption f) {
+                // ignorf; dbn't hbppfn for dompositf nbmf
+            }
+        }
+        sftErrorAux(rfsObj, rnbmf);
+    }
+
+    privbtf void sftErrorAux(Objfdt rfsObj, Nbmf rnbmf) {
+        rfmbiningNbmf = rnbmf;
+        rfsolvfdObj = rfsObj;
+        dontinuing = fblsf;
+    }
+
+    privbtf void sftContinufAux(Objfdt rfsObj,
+        Nbmf rflRfsNbmf, Contfxt durrCtx,  Nbmf rfmbin) {
+        if (rfsObj instbndfof LinkRff) {
+            sftContinufLink(rfsObj, rflRfsNbmf, durrCtx, rfmbin);
+        } flsf {
+            rfmbiningNbmf = rfmbin;
+            rfsolvfdObj = rfsObj;
+
+            rflbtivfRfsolvfdNbmf = rflRfsNbmf;
+            rfsolvfdContfxt = durrCtx;
+
+            dontinuing = truf;
+        }
+    }
+
+    /**
+     * Sfts this Continubtion with thf supplifd dbtb, bnd sft rfmbining nbmf
+     * to bf "/".
+     * This mfthod is typidblly dbllfd by _nns mfthods thbt hbvf bffn
+     * givfn b nbmf to prodfss. It might thf nbmf (without thf nns) bnd
+     * dontinuf prodfss of thf nns flsfwhfrf.
+     * Consfqufntly, it would dbll this form of thf sftContinufNNS().
+     * This mfthod supplifs "/" bs thf rfmbining nbmf.
+     *<p>
+     * Aftfr this mfthod is dbllfd, isContinuing() rfturns truf.
+     *
+     * @pbrbm rfsObj Thf possibly null rfsolvfd objfdt.
+     * @pbrbm rflRfsNbmf Thf non-null rfsolvfd nbmf rflbtivf to durrCtx.
+     * @pbrbm durrCtx Thf non-null dontfxt from whidh rflRfsNbmf is to bf rfsolvfd.
+     */
+    publid void sftContinufNNS(Objfdt rfsObj, Nbmf rflRfsNbmf, Contfxt durrCtx) {
+        CompositfNbmf rnbmf = nfw CompositfNbmf();
+
+        sftContinuf(rfsObj, rflRfsNbmf, durrCtx, PbrtiblCompositfContfxt._NNS_NAME);
+    }
+
+    /**
+     * Ovfrlobdfd form thbt bddfssfs String nbmfs.
+     *
+     * @pbrbm rfsObj Thf possibly null rfsolvfd objfdt.
+     * @pbrbm rflRfsNbmf Thf non-null rfsolvfd nbmf rflbtivf to durrCtx.
+     * @pbrbm durrCtx Thf non-null dontfxt from whidh rflRfsNbmf is to bf rfsolvfd.
+     * @sff #sftContinufNNS(jbvb.lbng.Objfdt, jbvbx.nbming.Nbmf, jbvbx.nbming.Contfxt)
+     */
+    publid void sftContinufNNS(Objfdt rfsObj, String rflRfsNbmf, Contfxt durrCtx) {
+        CompositfNbmf rflnbmf = nfw CompositfNbmf();
+        try {
+            rflnbmf.bdd(rflRfsNbmf);
+        } dbtdh (NbmingExdfption f) {}
+
+        sftContinuf(rfsObj, rflnbmf, durrCtx, PbrtiblCompositfContfxt._NNS_NAME);
+    }
+
+
+    /**
+     * Sfts this Continubtion with thf supplifd dbtb, bnd sft rfmbining nbmf
+     * to bf thf fmpty nbmf.
+     * This mfthod is typidblly dbllfd by list-stylf mfthods
+     * in whidh thf tbrgft dontfxt implfmfnting list() fxpfdts bn
+     * fmpty nbmf. For fxbmplf whfn d_list() is givfn b non-fmpty nbmf to
+     * prodfss, it would rfsolvf thbt nbmf, bnd thfn dbll sftContinuf()
+     * with thf rfsolvfd objfdt so thbt thf tbrgft dontfxt to bf listfd
+     * would bf dbllfd with thf fmpty nbmf (i.f. list thf tbrgft dontfxt itsflf).
+     *<p>
+     * Aftfr this mfthod is dbllfd, isContinuing() rfturns truf.
+     *
+     * @pbrbm rfsObj Thf possibly null rfsolvfd objfdt.
+     * @pbrbm rflRfsNbmf Thf non-null rfsolvfd nbmf rflbtivf to durrCtx.
+     * @pbrbm durrCtx Thf non-null dontfxt from whidh rflRfsNbmf is to bf rfsolvfd.
+     */
+    publid void sftContinuf(Objfdt obj, Nbmf rflRfsNbmf, Contfxt durrCtx) {
+        sftContinufAux(obj, rflRfsNbmf, durrCtx,
+            (Nbmf)PbrtiblCompositfContfxt._EMPTY_NAME.dlonf());
+    }
+
+    /**
+     * Sfts this Continubtion with thf supplifd dbtb.
+
+     * This mfthod is typidblly dbllfd by b mfthod thbt hbs bffn bskfd
+     * to opfrbtf on b nbmf. Thf mfthod rfsolvfs pbrt of thf nbmf
+     * (rflRfsNbmf) to obj bnd sfts thf unprodfssfd pbrt to rfnbmf.
+     * It dblls sftContinuf() so thbt thf opfrbtion dbn bf dontinufd
+     * using this dbtb.
+     *<p>
+     * Aftfr this mfthod is dbllfd, isContinuing() rfturns truf.
+     *
+     * @pbrbm rfsObj Thf possibly null rfsolvfd objfdt.
+     * @pbrbm rflRfsNbmf Thf non-null rfsolvfd nbmf rflbtivf to durrCtx.
+     * @pbrbm durrCtx Thf non-null dontfxt from whidh rflRfsNbmf is to bf rfsolvfd.
+     * @pbrbm rfmbin Thf non-null rfmbining nbmf.
+     */
+    publid void sftContinuf(Objfdt obj, Nbmf rflRfsNbmf, Contfxt durrCtx, Nbmf rfmbin) {
+        if (rfmbin != null)
+            this.rfmbiningNbmf = (Nbmf)(rfmbin.dlonf());
+        flsf
+            this.rfmbiningNbmf = nfw CompositfNbmf();
+
+        sftContinufAux(obj, rflRfsNbmf, durrCtx, rfmbiningNbmf);
+    }
+
+    /**
+     * String ovfrlobd.
+     *
+     * @pbrbm rfsObj Thf possibly null rfsolvfd objfdt.
+     * @pbrbm rflRfsNbmf Thf non-null rfsolvfd nbmf rflbtivf to durrCtx.
+     * @pbrbm durrCtx Thf non-null dontfxt from whidh rflRfsNbmf is to bf rfsolvfd.
+     * @pbrbm rfmbin Thf non-null rfmbining nbmf.
+     * @sff #sftContinuf(jbvb.lbng.Objfdt, jbvb.lbng.String, jbvbx.nbming.Contfxt, jbvb.lbng.String)
+     */
+    publid void sftContinuf(Objfdt obj, String rflRfsNbmf,
+        Contfxt durrCtx, String rfmbin) {
+        CompositfNbmf rflnbmf = nfw CompositfNbmf();
+        if (!rflRfsNbmf.fqubls("")) {
+            try {
+                rflnbmf.bdd(rflRfsNbmf);
+            } dbtdh (NbmingExdfption f){}
+        }
+
+        CompositfNbmf rnbmf = nfw CompositfNbmf();
+        if (!rfmbin.fqubls("")) {
+            try {
+                rnbmf.bdd(rfmbin);
+            } dbtdh (NbmingExdfption f) {
+            }
+        }
+
+        sftContinufAux(obj, rflnbmf, durrCtx, rnbmf);
+    }
+
+    /**
+     * %%% This mfthod is kfpt only for bbdkwbrd dompbtibility. Dflftf whfn
+     * old implfmfntbtions updbtfd.
+     *
+     * Rfplbdfd by sftContinuf(obj, rflRfsNbmf, (Contfxt)durrCtx);
+     *
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    publid void sftContinuf(Objfdt obj, Objfdt durrCtx) {
+        sftContinuf(obj, null, (Contfxt)durrCtx);
+    }
+
+
+    /**
+     * Sfts this Continubtion to prodfss b linkRff.
+     * %%% Not working yft.
+     */
+    privbtf void sftContinufLink(Objfdt linkRff, Nbmf rflRfsNbmf,
+        Contfxt rfsolvfdCtx, Nbmf rnbmf) {
+        this.followingLink = linkRff;
+
+        this.rfmbiningNbmf = rnbmf;
+        this.rfsolvfdObj = rfsolvfdCtx;
+
+        this.rflbtivfRfsolvfdNbmf = PbrtiblCompositfContfxt._EMPTY_NAME;
+        this.rfsolvfdContfxt = rfsolvfdCtx;
+
+        this.dontinuing = truf;
+    }
+
+    publid String toString() {
+        if (rfmbiningNbmf != null)
+            rfturn stbrtfr.toString() + "; rfmbiningNbmf: '" + rfmbiningNbmf + "'";
+        flsf
+            rfturn stbrtfr.toString();
+    }
+
+    publid String toString(boolfbn dftbil) {
+        if (!dftbil || this.rfsolvfdObj == null)
+                rfturn this.toString();
+        rfturn this.toString() + "; rfsolvfdObj: " + this.rfsolvfdObj +
+            "; rflbtivfRfsolvfdNbmf: " + rflbtivfRfsolvfdNbmf +
+            "; rfsolvfdContfxt: " + rfsolvfdContfxt;
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8162530656132624308L;
+}

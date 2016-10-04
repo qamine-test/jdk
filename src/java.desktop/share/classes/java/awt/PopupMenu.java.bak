@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.peer.PopupMenuPeer;
-import javax.accessibility.*;
+import jbvb.bwt.pffr.PopupMfnuPffr;
+import jbvbx.bddfssibility.*;
 
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAddfssor;
 
 /**
- * A class that implements a menu which can be dynamically popped up
- * at a specified position within a component.
+ * A dlbss tibt implfmfnts b mfnu wiidi dbn bf dynbmidblly poppfd up
+ * bt b spfdififd position witiin b domponfnt.
  * <p>
- * As the inheritance hierarchy implies, a <code>PopupMenu</code>
- *  can be used anywhere a <code>Menu</code> can be used.
- * However, if you use a <code>PopupMenu</code> like a <code>Menu</code>
- * (e.g., you add it to a <code>MenuBar</code>), then you <b>cannot</b>
- * call <code>show</code> on that <code>PopupMenu</code>.
+ * As tif inifritbndf iifrbrdiy implifs, b <dodf>PopupMfnu</dodf>
+ *  dbn bf usfd bnywifrf b <dodf>Mfnu</dodf> dbn bf usfd.
+ * Howfvfr, if you usf b <dodf>PopupMfnu</dodf> likf b <dodf>Mfnu</dodf>
+ * (f.g., you bdd it to b <dodf>MfnuBbr</dodf>), tifn you <b>dbnnot</b>
+ * dbll <dodf>siow</dodf> on tibt <dodf>PopupMfnu</dodf>.
  *
- * @author      Amy Fowler
+ * @butior      Amy Fowlfr
  */
-public class PopupMenu extends Menu {
+publid dlbss PopupMfnu fxtfnds Mfnu {
 
-    private static final String base = "popup";
-    static int nameCounter = 0;
+    privbtf stbtid finbl String bbsf = "popup";
+    stbtid int nbmfCountfr = 0;
 
-    transient boolean isTrayIconPopup = false;
+    trbnsifnt boolfbn isTrbyIdonPopup = fblsf;
 
-    static {
-        AWTAccessor.setPopupMenuAccessor(
-            new AWTAccessor.PopupMenuAccessor() {
-                public boolean isTrayIconPopup(PopupMenu popupMenu) {
-                    return popupMenu.isTrayIconPopup;
+    stbtid {
+        AWTAddfssor.sftPopupMfnuAddfssor(
+            nfw AWTAddfssor.PopupMfnuAddfssor() {
+                publid boolfbn isTrbyIdonPopup(PopupMfnu popupMfnu) {
+                    rfturn popupMfnu.isTrbyIdonPopup;
                 }
             });
     }
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -4620452533522760060L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4620452533522760060L;
 
     /**
-     * Creates a new popup menu with an empty name.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Crfbtfs b nfw popup mfnu witi bn fmpty nbmf.
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public PopupMenu() throws HeadlessException {
-        this("");
+    publid PopupMfnu() tirows HfbdlfssExdfption {
+        tiis("");
     }
 
     /**
-     * Creates a new popup menu with the specified name.
+     * Crfbtfs b nfw popup mfnu witi tif spfdififd nbmf.
      *
-     * @param label a non-<code>null</code> string specifying
-     *                the popup menu's label
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm lbbfl b non-<dodf>null</dodf> string spfdifying
+     *                tif popup mfnu's lbbfl
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public PopupMenu(String label) throws HeadlessException {
-        super(label);
+    publid PopupMfnu(String lbbfl) tirows HfbdlfssExdfption {
+        supfr(lbbfl);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public MenuContainer getParent() {
-        if (isTrayIconPopup) {
-            return null;
+    publid MfnuContbinfr gftPbrfnt() {
+        if (isTrbyIdonPopup) {
+            rfturn null;
         }
-        return super.getParent();
+        rfturn supfr.gftPbrfnt();
     }
 
     /**
-     * Constructs a name for this <code>MenuComponent</code>.
-     * Called by <code>getName</code> when the name is <code>null</code>.
+     * Construdts b nbmf for tiis <dodf>MfnuComponfnt</dodf>.
+     * Cbllfd by <dodf>gftNbmf</dodf> wifn tif nbmf is <dodf>null</dodf>.
      */
-    String constructComponentName() {
-        synchronized (PopupMenu.class) {
-            return base + nameCounter++;
+    String donstrudtComponfntNbmf() {
+        syndironizfd (PopupMfnu.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
         }
     }
 
     /**
-     * Creates the popup menu's peer.
-     * The peer allows us to change the appearance of the popup menu without
-     * changing any of the popup menu's functionality.
+     * Crfbtfs tif popup mfnu's pffr.
+     * Tif pffr bllows us to dibngf tif bppfbrbndf of tif popup mfnu witiout
+     * dibnging bny of tif popup mfnu's fundtionblity.
      */
-    public void addNotify() {
-        synchronized (getTreeLock()) {
-            // If our parent is not a Component, then this PopupMenu is
-            // really just a plain, old Menu.
-            if (parent != null && !(parent instanceof Component)) {
-                super.addNotify();
+    publid void bddNotify() {
+        syndironizfd (gftTrffLodk()) {
+            // If our pbrfnt is not b Componfnt, tifn tiis PopupMfnu is
+            // rfblly just b plbin, old Mfnu.
+            if (pbrfnt != null && !(pbrfnt instbndfof Componfnt)) {
+                supfr.bddNotify();
             }
-            else {
-                if (peer == null)
-                    peer = Toolkit.getDefaultToolkit().createPopupMenu(this);
-                int nitems = getItemCount();
-                for (int i = 0 ; i < nitems ; i++) {
-                    MenuItem mi = getItem(i);
-                    mi.parent = this;
-                    mi.addNotify();
+            flsf {
+                if (pffr == null)
+                    pffr = Toolkit.gftDffbultToolkit().drfbtfPopupMfnu(tiis);
+                int nitfms = gftItfmCount();
+                for (int i = 0 ; i < nitfms ; i++) {
+                    MfnuItfm mi = gftItfm(i);
+                    mi.pbrfnt = tiis;
+                    mi.bddNotify();
                 }
             }
         }
     }
 
    /**
-     * Shows the popup menu at the x, y position relative to an origin
-     * component.
-     * The origin component must be contained within the component
-     * hierarchy of the popup menu's parent.  Both the origin and the parent
-     * must be showing on the screen for this method to be valid.
+     * Siows tif popup mfnu bt tif x, y position rflbtivf to bn origin
+     * domponfnt.
+     * Tif origin domponfnt must bf dontbinfd witiin tif domponfnt
+     * iifrbrdiy of tif popup mfnu's pbrfnt.  Boti tif origin bnd tif pbrfnt
+     * must bf siowing on tif sdrffn for tiis mftiod to bf vblid.
      * <p>
-     * If this <code>PopupMenu</code> is being used as a <code>Menu</code>
-     * (i.e., it has a non-<code>Component</code> parent),
-     * then you cannot call this method on the <code>PopupMenu</code>.
+     * If tiis <dodf>PopupMfnu</dodf> is bfing usfd bs b <dodf>Mfnu</dodf>
+     * (i.f., it ibs b non-<dodf>Componfnt</dodf> pbrfnt),
+     * tifn you dbnnot dbll tiis mftiod on tif <dodf>PopupMfnu</dodf>.
      *
-     * @param origin the component which defines the coordinate space
-     * @param x the x coordinate position to popup the menu
-     * @param y the y coordinate position to popup the menu
-     * @exception NullPointerException  if the parent is <code>null</code>
-     * @exception IllegalArgumentException  if this <code>PopupMenu</code>
-     *                has a non-<code>Component</code> parent
-     * @exception IllegalArgumentException if the origin is not in the
-     *                parent's hierarchy
-     * @exception RuntimeException if the parent is not showing on screen
+     * @pbrbm origin tif domponfnt wiidi dffinfs tif doordinbtf spbdf
+     * @pbrbm x tif x doordinbtf position to popup tif mfnu
+     * @pbrbm y tif y doordinbtf position to popup tif mfnu
+     * @fxdfption NullPointfrExdfption  if tif pbrfnt is <dodf>null</dodf>
+     * @fxdfption IllfgblArgumfntExdfption  if tiis <dodf>PopupMfnu</dodf>
+     *                ibs b non-<dodf>Componfnt</dodf> pbrfnt
+     * @fxdfption IllfgblArgumfntExdfption if tif origin is not in tif
+     *                pbrfnt's iifrbrdiy
+     * @fxdfption RuntimfExdfption if tif pbrfnt is not siowing on sdrffn
      */
-    public void show(Component origin, int x, int y) {
-        // Use localParent for thread safety.
-        MenuContainer localParent = parent;
-        if (localParent == null) {
-            throw new NullPointerException("parent is null");
+    publid void siow(Componfnt origin, int x, int y) {
+        // Usf lodblPbrfnt for tirfbd sbffty.
+        MfnuContbinfr lodblPbrfnt = pbrfnt;
+        if (lodblPbrfnt == null) {
+            tirow nfw NullPointfrExdfption("pbrfnt is null");
         }
-        if (!(localParent instanceof Component)) {
-            throw new IllegalArgumentException(
-                "PopupMenus with non-Component parents cannot be shown");
+        if (!(lodblPbrfnt instbndfof Componfnt)) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "PopupMfnus witi non-Componfnt pbrfnts dbnnot bf siown");
         }
-        Component compParent = (Component)localParent;
-        //Fixed 6278745: Incorrect exception throwing in PopupMenu.show() method
-        //Exception was not thrown if compParent was not equal to origin and
-        //was not Container
-        if (compParent != origin) {
-            if (compParent instanceof Container) {
-                if (!((Container)compParent).isAncestorOf(origin)) {
-                    throw new IllegalArgumentException("origin not in parent's hierarchy");
+        Componfnt dompPbrfnt = (Componfnt)lodblPbrfnt;
+        //Fixfd 6278745: Indorrfdt fxdfption tirowing in PopupMfnu.siow() mftiod
+        //Exdfption wbs not tirown if dompPbrfnt wbs not fqubl to origin bnd
+        //wbs not Contbinfr
+        if (dompPbrfnt != origin) {
+            if (dompPbrfnt instbndfof Contbinfr) {
+                if (!((Contbinfr)dompPbrfnt).isAndfstorOf(origin)) {
+                    tirow nfw IllfgblArgumfntExdfption("origin not in pbrfnt's iifrbrdiy");
                 }
-            } else {
-                throw new IllegalArgumentException("origin not in parent's hierarchy");
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("origin not in pbrfnt's iifrbrdiy");
             }
         }
-        if (compParent.getPeer() == null || !compParent.isShowing()) {
-            throw new RuntimeException("parent not showing on screen");
+        if (dompPbrfnt.gftPffr() == null || !dompPbrfnt.isSiowing()) {
+            tirow nfw RuntimfExdfption("pbrfnt not siowing on sdrffn");
         }
-        if (peer == null) {
-            addNotify();
+        if (pffr == null) {
+            bddNotify();
         }
-        synchronized (getTreeLock()) {
-            if (peer != null) {
-                ((PopupMenuPeer)peer).show(
-                    new Event(origin, 0, Event.MOUSE_DOWN, x, y, 0, 0));
+        syndironizfd (gftTrffLodk()) {
+            if (pffr != null) {
+                ((PopupMfnuPffr)pffr).siow(
+                    nfw Evfnt(origin, 0, Evfnt.MOUSE_DOWN, x, y, 0, 0));
             }
         }
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>PopupMenu</code>.
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi tiis
+     * <dodf>PopupMfnu</dodf>.
      *
-     * @return the <code>AccessibleContext</code> of this
-     *                <code>PopupMenu</code>
-     * @since 1.3
+     * @rfturn tif <dodf>AddfssiblfContfxt</dodf> of tiis
+     *                <dodf>PopupMfnu</dodf>
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTPopupMenu();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTPopupMfnu();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * Inner class of PopupMenu used to provide default support for
-     * accessibility.  This class is not meant to be used directly by
-     * application developers, but is instead meant only to be
-     * subclassed by menu component developers.
+     * Innfr dlbss of PopupMfnu usfd to providf dffbult support for
+     * bddfssibility.  Tiis dlbss is not mfbnt to bf usfd dirfdtly by
+     * bpplidbtion dfvflopfrs, but is instfbd mfbnt only to bf
+     * subdlbssfd by mfnu domponfnt dfvflopfrs.
      * <p>
-     * The class used to obtain the accessible role for this object.
-     * @since 1.3
+     * Tif dlbss usfd to obtbin tif bddfssiblf rolf for tiis objfdt.
+     * @sindf 1.3
      */
-    protected class AccessibleAWTPopupMenu extends AccessibleAWTMenu
+    protfdtfd dlbss AddfssiblfAWTPopupMfnu fxtfnds AddfssiblfAWTMfnu
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = -4282044795947239955L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -4282044795947239955L;
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.POPUP_MENU;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.POPUP_MENU;
         }
 
-    } // class AccessibleAWTPopupMenu
+    } // dlbss AddfssiblfAWTPopupMfnu
 
 }

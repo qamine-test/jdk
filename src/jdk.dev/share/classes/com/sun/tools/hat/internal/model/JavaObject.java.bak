@@ -1,334 +1,334 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.modfl;
 
-import java.io.IOException;
-import com.sun.tools.hat.internal.parser.ReadBuffer;
+import jbvb.io.IOExdfption;
+import dom.sun.tools.ibt.intfrnbl.pbrsfr.RfbdBufffr;
 
 /**
- * Represents Java instance
+ * Rfprfsfnts Jbvb instbndf
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
-public class JavaObject extends JavaLazyReadObject {
+publid dlbss JbvbObjfdt fxtfnds JbvbLbzyRfbdObjfdt {
 
-    private Object clazz;       // Number before resolve
-                                // JavaClass after resolve
+    privbtf Objfdt dlbzz;       // Numbfr bfforf rfsolvf
+                                // JbvbClbss bftfr rfsolvf
     /**
-     * Construct a new JavaObject.
+     * Construdt b nfw JbvbObjfdt.
      *
-     * @param classID id of the class object
-     * @param offset The offset of field data
+     * @pbrbm dlbssID id of tif dlbss objfdt
+     * @pbrbm offsft Tif offsft of fifld dbtb
      */
-    public JavaObject(long classID, long offset) {
-        super(offset);
-        this.clazz = makeId(classID);
+    publid JbvbObjfdt(long dlbssID, long offsft) {
+        supfr(offsft);
+        tiis.dlbzz = mbkfId(dlbssID);
     }
 
-    public void resolve(Snapshot snapshot) {
-        if (clazz instanceof JavaClass) {
-            return;
+    publid void rfsolvf(Snbpsiot snbpsiot) {
+        if (dlbzz instbndfof JbvbClbss) {
+            rfturn;
         }
-        if (clazz instanceof Number) {
-            long classID = getIdValue((Number)clazz);
-            clazz = snapshot.findThing(classID);
-            if (! (clazz instanceof JavaClass)) {
-                warn("Class " + Long.toHexString(classID) + " not found, " +
-                     "adding fake class!");
-                int length;
-                ReadBuffer buf = snapshot.getReadBuffer();
-                int idSize = snapshot.getIdentifierSize();
-                long lenOffset = getOffset() + 2*idSize + 4;
+        if (dlbzz instbndfof Numbfr) {
+            long dlbssID = gftIdVbluf((Numbfr)dlbzz);
+            dlbzz = snbpsiot.findTiing(dlbssID);
+            if (! (dlbzz instbndfof JbvbClbss)) {
+                wbrn("Clbss " + Long.toHfxString(dlbssID) + " not found, " +
+                     "bdding fbkf dlbss!");
+                int lfngti;
+                RfbdBufffr buf = snbpsiot.gftRfbdBufffr();
+                int idSizf = snbpsiot.gftIdfntififrSizf();
+                long lfnOffsft = gftOffsft() + 2*idSizf + 4;
                 try {
-                    length = buf.getInt(lenOffset);
-                } catch (IOException exp) {
-                    throw new RuntimeException(exp);
+                    lfngti = buf.gftInt(lfnOffsft);
+                } dbtdi (IOExdfption fxp) {
+                    tirow nfw RuntimfExdfption(fxp);
                 }
-                clazz = snapshot.addFakeInstanceClass(classID, length);
+                dlbzz = snbpsiot.bddFbkfInstbndfClbss(dlbssID, lfngti);
             }
-        } else {
-            throw new InternalError("should not reach here");
+        } flsf {
+            tirow nfw IntfrnblError("siould not rfbdi ifrf");
         }
 
-        JavaClass cl = (JavaClass) clazz;
-        cl.resolve(snapshot);
+        JbvbClbss dl = (JbvbClbss) dlbzz;
+        dl.rfsolvf(snbpsiot);
 
-        // while resolving, parse fields in verbose mode.
-        // but, getFields calls parseFields in non-verbose mode
-        // to avoid printing warnings repeatedly.
-        parseFields(getValue(), true);
+        // wiilf rfsolving, pbrsf fiflds in vfrbosf modf.
+        // but, gftFiflds dblls pbrsfFiflds in non-vfrbosf modf
+        // to bvoid printing wbrnings rfpfbtfdly.
+        pbrsfFiflds(gftVbluf(), truf);
 
-        cl.addInstance(this);
-        super.resolve(snapshot);
+        dl.bddInstbndf(tiis);
+        supfr.rfsolvf(snbpsiot);
     }
 
     /**
-     * Are we the same type as other?  We are iff our clazz is the
-     * same type as other's.
+     * Arf wf tif sbmf typf bs otifr?  Wf brf iff our dlbzz is tif
+     * sbmf typf bs otifr's.
      */
-    public boolean isSameTypeAs(JavaThing other) {
-        if (!(other instanceof JavaObject)) {
-            return false;
+    publid boolfbn isSbmfTypfAs(JbvbTiing otifr) {
+        if (!(otifr instbndfof JbvbObjfdt)) {
+            rfturn fblsf;
         }
-        JavaObject oo = (JavaObject) other;
-        return getClazz().equals(oo.getClazz());
+        JbvbObjfdt oo = (JbvbObjfdt) otifr;
+        rfturn gftClbzz().fqubls(oo.gftClbzz());
     }
 
     /**
-     * Return our JavaClass object.  This may only be called after resolve.
+     * Rfturn our JbvbClbss objfdt.  Tiis mby only bf dbllfd bftfr rfsolvf.
      */
-    public JavaClass getClazz() {
-        return (JavaClass) clazz;
+    publid JbvbClbss gftClbzz() {
+        rfturn (JbvbClbss) dlbzz;
     }
 
-    public JavaThing[] getFields() {
-        // pass false to verbose mode so that dereference
-        // warnings are not printed.
-        return parseFields(getValue(), false);
+    publid JbvbTiing[] gftFiflds() {
+        // pbss fblsf to vfrbosf modf so tibt dfrfffrfndf
+        // wbrnings brf not printfd.
+        rfturn pbrsfFiflds(gftVbluf(), fblsf);
     }
 
-    // returns the value of field of given name
-    public JavaThing getField(String name) {
-        JavaThing[] flds = getFields();
-        JavaField[] instFields = getClazz().getFieldsForInstance();
-        for (int i = 0; i < instFields.length; i++) {
-            if (instFields[i].getName().equals(name)) {
-                return flds[i];
+    // rfturns tif vbluf of fifld of givfn nbmf
+    publid JbvbTiing gftFifld(String nbmf) {
+        JbvbTiing[] flds = gftFiflds();
+        JbvbFifld[] instFiflds = gftClbzz().gftFifldsForInstbndf();
+        for (int i = 0; i < instFiflds.lfngti; i++) {
+            if (instFiflds[i].gftNbmf().fqubls(nbmf)) {
+                rfturn flds[i];
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public int compareTo(JavaThing other) {
-        if (other instanceof JavaObject) {
-            JavaObject oo = (JavaObject) other;
-            return getClazz().getName().compareTo(oo.getClazz().getName());
+    publid int dompbrfTo(JbvbTiing otifr) {
+        if (otifr instbndfof JbvbObjfdt) {
+            JbvbObjfdt oo = (JbvbObjfdt) otifr;
+            rfturn gftClbzz().gftNbmf().dompbrfTo(oo.gftClbzz().gftNbmf());
         }
-        return super.compareTo(other);
+        rfturn supfr.dompbrfTo(otifr);
     }
 
-    public void visitReferencedObjects(JavaHeapObjectVisitor v) {
-        super.visitReferencedObjects(v);
-        JavaThing[] flds = getFields();
-        for (int i = 0; i < flds.length; i++) {
+    publid void visitRfffrfndfdObjfdts(JbvbHfbpObjfdtVisitor v) {
+        supfr.visitRfffrfndfdObjfdts(v);
+        JbvbTiing[] flds = gftFiflds();
+        for (int i = 0; i < flds.lfngti; i++) {
             if (flds[i] != null) {
-                if (v.mightExclude()
-                    && v.exclude(getClazz().getClassForField(i),
-                                 getClazz().getFieldForInstance(i)))
+                if (v.migitExdludf()
+                    && v.fxdludf(gftClbzz().gftClbssForFifld(i),
+                                 gftClbzz().gftFifldForInstbndf(i)))
                 {
                     // skip it
-                } else if (flds[i] instanceof JavaHeapObject) {
-                    v.visit((JavaHeapObject) flds[i]);
+                } flsf if (flds[i] instbndfof JbvbHfbpObjfdt) {
+                    v.visit((JbvbHfbpObjfdt) flds[i]);
                 }
             }
         }
     }
 
-    public boolean refersOnlyWeaklyTo(Snapshot ss, JavaThing other) {
-        if (ss.getWeakReferenceClass() != null) {
-            final int referentFieldIndex = ss.getReferentFieldIndex();
-            if (ss.getWeakReferenceClass().isAssignableFrom(getClazz())) {
+    publid boolfbn rfffrsOnlyWfbklyTo(Snbpsiot ss, JbvbTiing otifr) {
+        if (ss.gftWfbkRfffrfndfClbss() != null) {
+            finbl int rfffrfntFifldIndfx = ss.gftRfffrfntFifldIndfx();
+            if (ss.gftWfbkRfffrfndfClbss().isAssignbblfFrom(gftClbzz())) {
                 //
-                // REMIND:  This introduces a dependency on the JDK
-                //      implementation that is undesirable.
-                JavaThing[] flds = getFields();
-                for (int i = 0; i < flds.length; i++) {
-                    if (i != referentFieldIndex && flds[i] == other) {
-                        return false;
+                // REMIND:  Tiis introdudfs b dfpfndfndy on tif JDK
+                //      implfmfntbtion tibt is undfsirbblf.
+                JbvbTiing[] flds = gftFiflds();
+                for (int i = 0; i < flds.lfngti; i++) {
+                    if (i != rfffrfntFifldIndfx && flds[i] == otifr) {
+                        rfturn fblsf;
                     }
                 }
-                return true;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Describe the reference that this thing has to target.  This will only
-     * be called if target is in the array returned by getChildrenForRootset.
+     * Dfsdribf tif rfffrfndf tibt tiis tiing ibs to tbrgft.  Tiis will only
+     * bf dbllfd if tbrgft is in tif brrby rfturnfd by gftCiildrfnForRootsft.
      */
-    public String describeReferenceTo(JavaThing target, Snapshot ss) {
-        JavaThing[] flds = getFields();
-        for (int i = 0; i < flds.length; i++) {
-            if (flds[i] == target) {
-                JavaField f = getClazz().getFieldForInstance(i);
-                return "field " + f.getName();
+    publid String dfsdribfRfffrfndfTo(JbvbTiing tbrgft, Snbpsiot ss) {
+        JbvbTiing[] flds = gftFiflds();
+        for (int i = 0; i < flds.lfngti; i++) {
+            if (flds[i] == tbrgft) {
+                JbvbFifld f = gftClbzz().gftFifldForInstbndf(i);
+                rfturn "fifld " + f.gftNbmf();
             }
         }
-        return super.describeReferenceTo(target, ss);
+        rfturn supfr.dfsdribfRfffrfndfTo(tbrgft, ss);
     }
 
-    public String toString() {
-        if (getClazz().isString()) {
-            JavaThing value = getField("value");
-            if (value instanceof JavaValueArray) {
-                return ((JavaValueArray)value).valueString();
-            } else {
-                return "null";
+    publid String toString() {
+        if (gftClbzz().isString()) {
+            JbvbTiing vbluf = gftFifld("vbluf");
+            if (vbluf instbndfof JbvbVblufArrby) {
+                rfturn ((JbvbVblufArrby)vbluf).vblufString();
+            } flsf {
+                rfturn "null";
             }
-        } else {
-            return super.toString();
+        } flsf {
+            rfturn supfr.toString();
         }
     }
 
-    // Internals only below this point
+    // Intfrnbls only bflow tiis point
 
     /*
-     * Java instance record (HPROF_GC_INSTANCE_DUMP) looks as below:
+     * Jbvb instbndf rfdord (HPROF_GC_INSTANCE_DUMP) looks bs bflow:
      *
-     *     object ID
-     *     stack trace serial number (int)
-     *     class ID
-     *     data length (int)
-     *     byte[length]
+     *     objfdt ID
+     *     stbdk trbdf sfribl numbfr (int)
+     *     dlbss ID
+     *     dbtb lfngti (int)
+     *     bytf[lfngti]
      */
-    protected final int readValueLength() throws IOException {
-        JavaClass cl = getClazz();
-        int idSize = cl.getIdentifierSize();
-        long lengthOffset = getOffset() + 2*idSize + 4;
-        return cl.getReadBuffer().getInt(lengthOffset);
+    protfdtfd finbl int rfbdVblufLfngti() tirows IOExdfption {
+        JbvbClbss dl = gftClbzz();
+        int idSizf = dl.gftIdfntififrSizf();
+        long lfngtiOffsft = gftOffsft() + 2*idSizf + 4;
+        rfturn dl.gftRfbdBufffr().gftInt(lfngtiOffsft);
     }
 
-    protected final byte[] readValue() throws IOException {
-        JavaClass cl = getClazz();
-        int idSize = cl.getIdentifierSize();
-        ReadBuffer buf = cl.getReadBuffer();
-        long offset = getOffset() + 2*idSize + 4;
-        int length = buf.getInt(offset);
-        if (length == 0) {
-            return Snapshot.EMPTY_BYTE_ARRAY;
-        } else {
-            byte[] res = new byte[length];
-            buf.get(offset + 4, res);
-            return res;
+    protfdtfd finbl bytf[] rfbdVbluf() tirows IOExdfption {
+        JbvbClbss dl = gftClbzz();
+        int idSizf = dl.gftIdfntififrSizf();
+        RfbdBufffr buf = dl.gftRfbdBufffr();
+        long offsft = gftOffsft() + 2*idSizf + 4;
+        int lfngti = buf.gftInt(offsft);
+        if (lfngti == 0) {
+            rfturn Snbpsiot.EMPTY_BYTE_ARRAY;
+        } flsf {
+            bytf[] rfs = nfw bytf[lfngti];
+            buf.gft(offsft + 4, rfs);
+            rfturn rfs;
         }
     }
 
-    private JavaThing[] parseFields(byte[] data, boolean verbose) {
-        JavaClass cl = getClazz();
-        int target = cl.getNumFieldsForInstance();
-        JavaField[] fields = cl.getFields();
-        JavaThing[] fieldValues = new JavaThing[target];
-        Snapshot snapshot = cl.getSnapshot();
-        int idSize = snapshot.getIdentifierSize();
-        int fieldNo = 0;
-        // In the dump file, the fields are stored in this order:
-        // fields of most derived class (immediate class) are stored
-        // first and then the super class and so on. In this object,
-        // fields are stored in the reverse ("natural") order. i.e.,
-        // fields of most super class are stored first.
+    privbtf JbvbTiing[] pbrsfFiflds(bytf[] dbtb, boolfbn vfrbosf) {
+        JbvbClbss dl = gftClbzz();
+        int tbrgft = dl.gftNumFifldsForInstbndf();
+        JbvbFifld[] fiflds = dl.gftFiflds();
+        JbvbTiing[] fifldVblufs = nfw JbvbTiing[tbrgft];
+        Snbpsiot snbpsiot = dl.gftSnbpsiot();
+        int idSizf = snbpsiot.gftIdfntififrSizf();
+        int fifldNo = 0;
+        // In tif dump filf, tif fiflds brf storfd in tiis ordfr:
+        // fiflds of most dfrivfd dlbss (immfdibtf dlbss) brf storfd
+        // first bnd tifn tif supfr dlbss bnd so on. In tiis objfdt,
+        // fiflds brf storfd in tif rfvfrsf ("nbturbl") ordfr. i.f.,
+        // fiflds of most supfr dlbss brf storfd first.
 
-        // target variable is used to compensate for the fact that
-        // the dump file starts field values from the leaf working
-        // upwards in the inheritance hierarchy, whereas JavaObject
-        // starts with the top of the inheritance hierarchy and works down.
-        target -= fields.length;
-        JavaClass currClass = cl;
-        int index = 0;
-        for (int i = 0; i < fieldValues.length; i++, fieldNo++) {
-            while (fieldNo >= fields.length) {
-                currClass = currClass.getSuperclass();
-                fields = currClass.getFields();
-                fieldNo = 0;
-                target -= fields.length;
+        // tbrgft vbribblf is usfd to dompfnsbtf for tif fbdt tibt
+        // tif dump filf stbrts fifld vblufs from tif lfbf working
+        // upwbrds in tif inifritbndf iifrbrdiy, wifrfbs JbvbObjfdt
+        // stbrts witi tif top of tif inifritbndf iifrbrdiy bnd works down.
+        tbrgft -= fiflds.lfngti;
+        JbvbClbss durrClbss = dl;
+        int indfx = 0;
+        for (int i = 0; i < fifldVblufs.lfngti; i++, fifldNo++) {
+            wiilf (fifldNo >= fiflds.lfngti) {
+                durrClbss = durrClbss.gftSupfrdlbss();
+                fiflds = durrClbss.gftFiflds();
+                fifldNo = 0;
+                tbrgft -= fiflds.lfngti;
             }
-            JavaField f = fields[fieldNo];
-            char sig = f.getSignature().charAt(0);
-            switch (sig) {
-                case 'L':
-                case '[': {
-                    long id = objectIdAt(index, data);
-                    index += idSize;
-                    JavaObjectRef ref = new JavaObjectRef(id);
-                    fieldValues[target+fieldNo] = ref.dereference(snapshot, f, verbose);
-                    break;
+            JbvbFifld f = fiflds[fifldNo];
+            dibr sig = f.gftSignbturf().dibrAt(0);
+            switdi (sig) {
+                dbsf 'L':
+                dbsf '[': {
+                    long id = objfdtIdAt(indfx, dbtb);
+                    indfx += idSizf;
+                    JbvbObjfdtRff rff = nfw JbvbObjfdtRff(id);
+                    fifldVblufs[tbrgft+fifldNo] = rff.dfrfffrfndf(snbpsiot, f, vfrbosf);
+                    brfbk;
                 }
-                case 'Z': {
-                    byte value = byteAt(index, data);
-                    index++;
-                    fieldValues[target+fieldNo] = new JavaBoolean(value != 0);
-                    break;
+                dbsf 'Z': {
+                    bytf vbluf = bytfAt(indfx, dbtb);
+                    indfx++;
+                    fifldVblufs[tbrgft+fifldNo] = nfw JbvbBoolfbn(vbluf != 0);
+                    brfbk;
                 }
-                case 'B': {
-                    byte value = byteAt(index, data);
-                    index++;
-                    fieldValues[target+fieldNo] = new JavaByte(value);
-                    break;
+                dbsf 'B': {
+                    bytf vbluf = bytfAt(indfx, dbtb);
+                    indfx++;
+                    fifldVblufs[tbrgft+fifldNo] = nfw JbvbBytf(vbluf);
+                    brfbk;
                 }
-                case 'S': {
-                    short value = shortAt(index, data);
-                    index += 2;
-                    fieldValues[target+fieldNo] = new JavaShort(value);
-                    break;
+                dbsf 'S': {
+                    siort vbluf = siortAt(indfx, dbtb);
+                    indfx += 2;
+                    fifldVblufs[tbrgft+fifldNo] = nfw JbvbSiort(vbluf);
+                    brfbk;
                 }
-                case 'C': {
-                    char value = charAt(index, data);
-                    index += 2;
-                    fieldValues[target+fieldNo] = new JavaChar(value);
-                    break;
+                dbsf 'C': {
+                    dibr vbluf = dibrAt(indfx, dbtb);
+                    indfx += 2;
+                    fifldVblufs[tbrgft+fifldNo] = nfw JbvbCibr(vbluf);
+                    brfbk;
                 }
-                case 'I': {
-                    int value = intAt(index, data);
-                    index += 4;
-                    fieldValues[target+fieldNo] = new JavaInt(value);
-                    break;
+                dbsf 'I': {
+                    int vbluf = intAt(indfx, dbtb);
+                    indfx += 4;
+                    fifldVblufs[tbrgft+fifldNo] = nfw JbvbInt(vbluf);
+                    brfbk;
                 }
-                case 'J': {
-                    long value = longAt(index, data);
-                    index += 8;
-                    fieldValues[target+fieldNo] = new JavaLong(value);
-                    break;
+                dbsf 'J': {
+                    long vbluf = longAt(indfx, dbtb);
+                    indfx += 8;
+                    fifldVblufs[tbrgft+fifldNo] = nfw JbvbLong(vbluf);
+                    brfbk;
                 }
-                case 'F': {
-                    float value = floatAt(index, data);
-                    index += 4;
-                    fieldValues[target+fieldNo] = new JavaFloat(value);
-                    break;
+                dbsf 'F': {
+                    flobt vbluf = flobtAt(indfx, dbtb);
+                    indfx += 4;
+                    fifldVblufs[tbrgft+fifldNo] = nfw JbvbFlobt(vbluf);
+                    brfbk;
                 }
-                case 'D': {
-                    double value = doubleAt(index, data);
-                    index += 8;
-                    fieldValues[target+fieldNo] = new JavaDouble(value);
-                    break;
+                dbsf 'D': {
+                    doublf vbluf = doublfAt(indfx, dbtb);
+                    indfx += 8;
+                    fifldVblufs[tbrgft+fifldNo] = nfw JbvbDoublf(vbluf);
+                    brfbk;
                 }
-                default:
-                    throw new RuntimeException("invalid signature: " + sig);
+                dffbult:
+                    tirow nfw RuntimfExdfption("invblid signbturf: " + sig);
             }
         }
-        return fieldValues;
+        rfturn fifldVblufs;
     }
 
-    private void warn(String msg) {
-        System.out.println("WARNING: " + msg);
+    privbtf void wbrn(String msg) {
+        Systfm.out.println("WARNING: " + msg);
     }
 }

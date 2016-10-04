@@ -1,0 +1,355 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor;
+
+/**
+ * A nodf thbt rfprfsfnts b bytfdodf instrudtion. <i>An instrudtion dbn bppfbr
+ * bt most ondf in bt most onf {@link InsnList} bt b timf</i>.
+ *
+ * @buthor Erid Brunfton
+ */
+publid bbstrbdt dlbss AbstrbdtInsnNodf {
+
+    /**
+     * Thf typf of {@link InsnNodf} instrudtions.
+     */
+    publid stbtid finbl int INSN = 0;
+
+    /**
+     * Thf typf of {@link IntInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int INT_INSN = 1;
+
+    /**
+     * Thf typf of {@link VbrInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int VAR_INSN = 2;
+
+    /**
+     * Thf typf of {@link TypfInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int TYPE_INSN = 3;
+
+    /**
+     * Thf typf of {@link FifldInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int FIELD_INSN = 4;
+
+    /**
+     * Thf typf of {@link MfthodInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int METHOD_INSN = 5;
+
+    /**
+     * Thf typf of {@link InvokfDynbmidInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int INVOKE_DYNAMIC_INSN = 6;
+
+    /**
+     * Thf typf of {@link JumpInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int JUMP_INSN = 7;
+
+    /**
+     * Thf typf of {@link LbbflNodf} "instrudtions".
+     */
+    publid stbtid finbl int LABEL = 8;
+
+    /**
+     * Thf typf of {@link LddInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int LDC_INSN = 9;
+
+    /**
+     * Thf typf of {@link IindInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int IINC_INSN = 10;
+
+    /**
+     * Thf typf of {@link TbblfSwitdhInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int TABLESWITCH_INSN = 11;
+
+    /**
+     * Thf typf of {@link LookupSwitdhInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int LOOKUPSWITCH_INSN = 12;
+
+    /**
+     * Thf typf of {@link MultiANfwArrbyInsnNodf} instrudtions.
+     */
+    publid stbtid finbl int MULTIANEWARRAY_INSN = 13;
+
+    /**
+     * Thf typf of {@link FrbmfNodf} "instrudtions".
+     */
+    publid stbtid finbl int FRAME = 14;
+
+    /**
+     * Thf typf of {@link LinfNumbfrNodf} "instrudtions".
+     */
+    publid stbtid finbl int LINE = 15;
+
+    /**
+     * Thf opdodf of this instrudtion.
+     */
+    protfdtfd int opdodf;
+
+    /**
+     * Thf runtimf visiblf typf bnnotbtions of this instrudtion. This fifld is
+     * only usfd for rfbl instrudtions (i.f. not for lbbfls, frbmfs, or linf
+     * numbfr nodfs). This list is b list of {@link TypfAnnotbtionNodf} objfdts.
+     * Mby bf <tt>null</tt>.
+     *
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl visiblf
+     */
+    publid List<TypfAnnotbtionNodf> visiblfTypfAnnotbtions;
+
+    /**
+     * Thf runtimf invisiblf typf bnnotbtions of this instrudtion. This fifld is
+     * only usfd for rfbl instrudtions (i.f. not for lbbfls, frbmfs, or linf
+     * numbfr nodfs). This list is b list of {@link TypfAnnotbtionNodf} objfdts.
+     * Mby bf <tt>null</tt>.
+     *
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl invisiblf
+     */
+    publid List<TypfAnnotbtionNodf> invisiblfTypfAnnotbtions;
+
+    /**
+     * Prfvious instrudtion in thf list to whidh this instrudtion bflongs.
+     */
+    AbstrbdtInsnNodf prfv;
+
+    /**
+     * Nfxt instrudtion in thf list to whidh this instrudtion bflongs.
+     */
+    AbstrbdtInsnNodf nfxt;
+
+    /**
+     * Indfx of this instrudtion in thf list to whidh it bflongs. Thf vbluf of
+     * this fifld is dorrfdt only whfn {@link InsnList#dbdhf} is not null. A
+     * vbluf of -1 indidbtfs thbt this instrudtion dofs not bflong to bny
+     * {@link InsnList}.
+     */
+    int indfx;
+
+    /**
+     * Construdts b nfw {@link AbstrbdtInsnNodf}.
+     *
+     * @pbrbm opdodf
+     *            thf opdodf of thf instrudtion to bf donstrudtfd.
+     */
+    protfdtfd AbstrbdtInsnNodf(finbl int opdodf) {
+        this.opdodf = opdodf;
+        this.indfx = -1;
+    }
+
+    /**
+     * Rfturns thf opdodf of this instrudtion.
+     *
+     * @rfturn thf opdodf of this instrudtion.
+     */
+    publid int gftOpdodf() {
+        rfturn opdodf;
+    }
+
+    /**
+     * Rfturns thf typf of this instrudtion.
+     *
+     * @rfturn thf typf of this instrudtion, i.f. onf thf donstbnts dffinfd in
+     *         this dlbss.
+     */
+    publid bbstrbdt int gftTypf();
+
+    /**
+     * Rfturns thf prfvious instrudtion in thf list to whidh this instrudtion
+     * bflongs, if bny.
+     *
+     * @rfturn thf prfvious instrudtion in thf list to whidh this instrudtion
+     *         bflongs, if bny. Mby bf <tt>null</tt>.
+     */
+    publid AbstrbdtInsnNodf gftPrfvious() {
+        rfturn prfv;
+    }
+
+    /**
+     * Rfturns thf nfxt instrudtion in thf list to whidh this instrudtion
+     * bflongs, if bny.
+     *
+     * @rfturn thf nfxt instrudtion in thf list to whidh this instrudtion
+     *         bflongs, if bny. Mby bf <tt>null</tt>.
+     */
+    publid AbstrbdtInsnNodf gftNfxt() {
+        rfturn nfxt;
+    }
+
+    /**
+     * Mbkfs thf givfn dodf visitor visit this instrudtion.
+     *
+     * @pbrbm dv
+     *            b dodf visitor.
+     */
+    publid bbstrbdt void bddfpt(finbl MfthodVisitor dv);
+
+    /**
+     * Mbkfs thf givfn visitor visit thf bnnotbtions of this instrudtion.
+     *
+     * @pbrbm mv
+     *            b mfthod visitor.
+     */
+    protfdtfd finbl void bddfptAnnotbtions(finbl MfthodVisitor mv) {
+        int n = visiblfTypfAnnotbtions == null ? 0 : visiblfTypfAnnotbtions
+                .sizf();
+        for (int i = 0; i < n; ++i) {
+            TypfAnnotbtionNodf bn = visiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(mv.visitInsnAnnotbtion(bn.typfRff, bn.typfPbth, bn.dfsd,
+                    truf));
+        }
+        n = invisiblfTypfAnnotbtions == null ? 0 : invisiblfTypfAnnotbtions
+                .sizf();
+        for (int i = 0; i < n; ++i) {
+            TypfAnnotbtionNodf bn = invisiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(mv.visitInsnAnnotbtion(bn.typfRff, bn.typfPbth, bn.dfsd,
+                    fblsf));
+        }
+    }
+
+    /**
+     * Rfturns b dopy of this instrudtion.
+     *
+     * @pbrbm lbbfls
+     *            b mbp from LbbflNodfs to dlonfd LbbflNodfs.
+     * @rfturn b dopy of this instrudtion. Thf rfturnfd instrudtion dofs not
+     *         bflong to bny {@link InsnList}.
+     */
+    publid bbstrbdt AbstrbdtInsnNodf dlonf(
+            finbl Mbp<LbbflNodf, LbbflNodf> lbbfls);
+
+    /**
+     * Rfturns thf dlonf of thf givfn lbbfl.
+     *
+     * @pbrbm lbbfl
+     *            b lbbfl.
+     * @pbrbm mbp
+     *            b mbp from LbbflNodfs to dlonfd LbbflNodfs.
+     * @rfturn thf dlonf of thf givfn lbbfl.
+     */
+    stbtid LbbflNodf dlonf(finbl LbbflNodf lbbfl,
+            finbl Mbp<LbbflNodf, LbbflNodf> mbp) {
+        rfturn mbp.gft(lbbfl);
+    }
+
+    /**
+     * Rfturns thf dlonfs of thf givfn lbbfls.
+     *
+     * @pbrbm lbbfls
+     *            b list of lbbfls.
+     * @pbrbm mbp
+     *            b mbp from LbbflNodfs to dlonfd LbbflNodfs.
+     * @rfturn thf dlonfs of thf givfn lbbfls.
+     */
+    stbtid LbbflNodf[] dlonf(finbl List<LbbflNodf> lbbfls,
+            finbl Mbp<LbbflNodf, LbbflNodf> mbp) {
+        LbbflNodf[] dlonfs = nfw LbbflNodf[lbbfls.sizf()];
+        for (int i = 0; i < dlonfs.lfngth; ++i) {
+            dlonfs[i] = mbp.gft(lbbfls.gft(i));
+        }
+        rfturn dlonfs;
+    }
+
+    /**
+     * Clonfs thf bnnotbtions of thf givfn instrudtion into this instrudtion.
+     *
+     * @pbrbm insn
+     *            thf sourdf instrudtion.
+     * @rfturn this instrudtion.
+     */
+    protfdtfd finbl AbstrbdtInsnNodf dlonfAnnotbtions(
+            finbl AbstrbdtInsnNodf insn) {
+        if (insn.visiblfTypfAnnotbtions != null) {
+            this.visiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>();
+            for (int i = 0; i < insn.visiblfTypfAnnotbtions.sizf(); ++i) {
+                TypfAnnotbtionNodf srd = insn.visiblfTypfAnnotbtions.gft(i);
+                TypfAnnotbtionNodf bnn = nfw TypfAnnotbtionNodf(srd.typfRff,
+                        srd.typfPbth, srd.dfsd);
+                srd.bddfpt(bnn);
+                this.visiblfTypfAnnotbtions.bdd(bnn);
+            }
+        }
+        if (insn.invisiblfTypfAnnotbtions != null) {
+            this.invisiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>();
+            for (int i = 0; i < insn.invisiblfTypfAnnotbtions.sizf(); ++i) {
+                TypfAnnotbtionNodf srd = insn.invisiblfTypfAnnotbtions.gft(i);
+                TypfAnnotbtionNodf bnn = nfw TypfAnnotbtionNodf(srd.typfRff,
+                        srd.typfPbth, srd.dfsd);
+                srd.bddfpt(bnn);
+                this.invisiblfTypfAnnotbtions.bdd(bnn);
+            }
+        }
+        rfturn this;
+    }
+}

@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#wbrn This filf is prfprodfssfd bfforf bfing dompilfd
+
+dlbss XXX {
+
+#bfgin
+
+    /**
+     * Rflbtivf <i>gft</i> mfthod for rfbding $b$ $typf$ vbluf.
+     *
+     * <p> Rfbds thf nfxt $nbytfs$ bytfs bt this bufffr's durrfnt position,
+     * domposing thfm into $b$ $typf$ vbluf bddording to thf durrfnt bytf ordfr,
+     * bnd thfn indrfmfnts thf position by $nbytfs$.  </p>
+     *
+     * @rfturn  Thf $typf$ vbluf bt thf bufffr's durrfnt position
+     *
+     * @throws  BufffrUndfrflowExdfption
+     *          If thfrf brf ffwfr thbn $nbytfs$ bytfs
+     *          rfmbining in this bufffr
+     */
+    publid bbstrbdt $typf$ gft$Typf$();
+
+    /**
+     * Rflbtivf <i>put</i> mfthod for writing $b$ $typf$
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> Writfs $nbytfs$ bytfs dontbining thf givfn $typf$ vbluf, in thf
+     * durrfnt bytf ordfr, into this bufffr bt thf durrfnt position, bnd thfn
+     * indrfmfnts thf position by $nbytfs$.  </p>
+     *
+     * @pbrbm  vbluf
+     *         Thf $typf$ vbluf to bf writtfn
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If thfrf brf ffwfr thbn $nbytfs$ bytfs
+     *          rfmbining in this bufffr
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     */
+    publid bbstrbdt BytfBufffr put$Typf$($typf$ vbluf);
+
+    /**
+     * Absolutf <i>gft</i> mfthod for rfbding $b$ $typf$ vbluf.
+     *
+     * <p> Rfbds $nbytfs$ bytfs bt thf givfn indfx, domposing thfm into b
+     * $typf$ vbluf bddording to thf durrfnt bytf ordfr.  </p>
+     *
+     * @pbrbm  indfx
+     *         Thf indfx from whidh thf bytfs will bf rfbd
+     *
+     * @rfturn  Thf $typf$ vbluf bt thf givfn indfx
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          or not smbllfr thbn thf bufffr's limit,
+     *          minus $nbytfsButOnf$
+     */
+    publid bbstrbdt $typf$ gft$Typf$(int indfx);
+
+    /**
+     * Absolutf <i>put</i> mfthod for writing $b$ $typf$
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> Writfs $nbytfs$ bytfs dontbining thf givfn $typf$ vbluf, in thf
+     * durrfnt bytf ordfr, into this bufffr bt thf givfn indfx.  </p>
+     *
+     * @pbrbm  indfx
+     *         Thf indfx bt whidh thf bytfs will bf writtfn
+     *
+     * @pbrbm  vbluf
+     *         Thf $typf$ vbluf to bf writtfn
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          or not smbllfr thbn thf bufffr's limit,
+     *          minus $nbytfsButOnf$
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     */
+    publid bbstrbdt BytfBufffr put$Typf$(int indfx, $typf$ vbluf);
+
+    /**
+     * Crfbtfs b vifw of this bytf bufffr bs $b$ $typf$ bufffr.
+     *
+     * <p> Thf dontfnt of thf nfw bufffr will stbrt bt this bufffr's durrfnt
+     * position.  Chbngfs to this bufffr's dontfnt will bf visiblf in thf nfw
+     * bufffr, bnd vidf vfrsb; thf two bufffrs' position, limit, bnd mbrk
+     * vblufs will bf indfpfndfnt.
+     *
+     * <p> Thf nfw bufffr's position will bf zfro, its dbpbdity bnd its limit
+     * will bf thf numbfr of bytfs rfmbining in this bufffr dividfd by
+     * $nbytfs$, bnd its mbrk will bf undffinfd.  Thf nfw bufffr will bf dirfdt
+     * if, bnd only if, this bufffr is dirfdt, bnd it will bf rfbd-only if, bnd
+     * only if, this bufffr is rfbd-only.  </p>
+     *
+     * @rfturn  A nfw $typf$ bufffr
+     */
+    publid bbstrbdt $Typf$Bufffr bs$Typf$Bufffr();
+
+#fnd
+
+}

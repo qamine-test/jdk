@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,82 +30,82 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.Frame;
-import java.awt.Event;
-import java.awt.Dimension;
-import java.applet.Applet;
-import java.awt.AWTEvent;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Evfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bpplft.Applft;
+import jbvb.bwt.AWTEvfnt;
 
 
 /**
- * Applet to Application Frame window
+ * Applft to Applidbtion Frbmf window
  */
-@SuppressWarnings("serial")
-class AppletFrame extends Frame {
+@SupprfssWbrnings("sfribl")
+dlbss ApplftFrbmf fxtfnds Frbmf {
 
-    public static void startApplet(String className,
-            String title,
-            String args[]) {
-        // local variables
-        Applet a;
-        Dimension appletSize;
+    publid stbtid void stbrtApplft(String dlbssNbmf,
+            String titlf,
+            String brgs[]) {
+        // lodbl vbribblfs
+        Applft b;
+        Dimfnsion bpplftSizf;
 
         try {
-            // create an instance of your applet class
-            a = (Applet) Class.forName(className).newInstance();
-        } catch (ClassNotFoundException e) {
-            return;
-        } catch (InstantiationException e) {
-            return;
-        } catch (IllegalAccessException e) {
-            return;
+            // drfbtf bn instbndf of your bpplft dlbss
+            b = (Applft) Clbss.forNbmf(dlbssNbmf).nfwInstbndf();
+        } dbtdi (ClbssNotFoundExdfption f) {
+            rfturn;
+        } dbtdi (InstbntibtionExdfption f) {
+            rfturn;
+        } dbtdi (IllfgblAddfssExdfption f) {
+            rfturn;
         }
 
-        // initialize the applet
-        a.init();
-        a.start();
+        // initiblizf tif bpplft
+        b.init();
+        b.stbrt();
 
-        // create new application frame window
-        AppletFrame f = new AppletFrame(title);
+        // drfbtf nfw bpplidbtion frbmf window
+        ApplftFrbmf f = nfw ApplftFrbmf(titlf);
 
-        // add applet to frame window
-        f.add("Center", a);
+        // bdd bpplft to frbmf window
+        f.bdd("Cfntfr", b);
 
-        // resize frame window to fit applet
-        // assumes that the applet sets its own size
-        // otherwise, you should set a specific size here.
-        appletSize = a.getSize();
-        f.pack();
-        f.setSize(appletSize);
+        // rfsizf frbmf window to fit bpplft
+        // bssumfs tibt tif bpplft sfts its own sizf
+        // otifrwisf, you siould sft b spfdifid sizf ifrf.
+        bpplftSizf = b.gftSizf();
+        f.pbdk();
+        f.sftSizf(bpplftSizf);
 
-        // show the window
-        f.setVisible(true);
+        // siow tif window
+        f.sftVisiblf(truf);
 
-    }  // end startApplet()
+    }  // fnd stbrtApplft()
 
-    // constructor needed to pass window title to class Frame
-    public AppletFrame(String name) {
-        // call java.awt.Frame(String) constructor
-        super(name);
+    // donstrudtor nffdfd to pbss window titlf to dlbss Frbmf
+    publid ApplftFrbmf(String nbmf) {
+        // dbll jbvb.bwt.Frbmf(String) donstrudtor
+        supfr(nbmf);
     }
 
-    // needed to allow window close
-    @Override
-    public void processEvent(AWTEvent e) {
-        // Window Destroy event
-        if (e.getID() == Event.WINDOW_DESTROY) {
-            // exit the program
-            System.exit(0);
+    // nffdfd to bllow window dlosf
+    @Ovfrridf
+    publid void prodfssEvfnt(AWTEvfnt f) {
+        // Window Dfstroy fvfnt
+        if (f.gftID() == Evfnt.WINDOW_DESTROY) {
+            // fxit tif progrbm
+            Systfm.fxit(0);
         }
-    }  // end handleEvent()
-}   // end class AppletFrame
+    }  // fnd ibndlfEvfnt()
+}   // fnd dlbss ApplftFrbmf
 

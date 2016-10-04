@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.xr;
+
+import stbtid sun.jbvb2d.loops.CompositfTypf.SrdNoEb;
+
+import stbtid sun.jbvb2d.loops.CompositfTypf.SrdOvfr;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.AnyColor;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.GrbdifntPbint;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.LinfbrGrbdifntPbint;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.OpbqufColor;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.OpbqufGrbdifntPbint;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.OpbqufLinfbrGrbdifntPbint;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.OpbqufRbdiblGrbdifntPbint;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.OpbqufTfxturfPbint;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.RbdiblGrbdifntPbint;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.TfxturfPbint;
+
+import jbvb.bwt.*;
+import sun.bwt.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.*;
+
+publid dlbss XRMbskFill fxtfnds MbskFill {
+    stbtid void rfgistfr() {
+        GrbphidsPrimitivf[] primitivfs = {
+                nfw XRMbskFill(AnyColor, SrdOvfr, XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskFill(OpbqufColor, SrdNoEb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskFill(GrbdifntPbint, SrdOvfr, XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskFill(OpbqufGrbdifntPbint, SrdNoEb,
+                        XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskFill(LinfbrGrbdifntPbint, SrdOvfr,
+                        XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskFill(OpbqufLinfbrGrbdifntPbint, SrdNoEb,
+                        XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskFill(RbdiblGrbdifntPbint, SrdOvfr,
+                        XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskFill(OpbqufRbdiblGrbdifntPbint, SrdNoEb,
+                        XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskFill(TfxturfPbint, SrdOvfr, XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskFill(OpbqufTfxturfPbint, SrdNoEb,
+                        XRSurfbdfDbtb.IntRgbX11),
+
+                nfw XRMbskFill(AnyColor, SrdOvfr, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRMbskFill(OpbqufColor, SrdNoEb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRMbskFill(GrbdifntPbint, SrdOvfr, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRMbskFill(OpbqufGrbdifntPbint, SrdNoEb,
+                        XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRMbskFill(LinfbrGrbdifntPbint, SrdOvfr,
+                        XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRMbskFill(OpbqufLinfbrGrbdifntPbint, SrdNoEb,
+                        XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRMbskFill(RbdiblGrbdifntPbint, SrdOvfr,
+                        XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRMbskFill(OpbqufRbdiblGrbdifntPbint, SrdNoEb,
+                        XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRMbskFill(TfxturfPbint, SrdOvfr, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRMbskFill(OpbqufTfxturfPbint, SrdNoEb,
+                        XRSurfbdfDbtb.IntArgbPrfX11)
+                };
+
+        GrbphidsPrimitivfMgr.rfgistfr(primitivfs);
+    }
+
+    protfdtfd XRMbskFill(SurfbdfTypf srdTypf, CompositfTypf dompTypf,
+            SurfbdfTypf surfbdfTypf) {
+        supfr(srdTypf, dompTypf, surfbdfTypf);
+    }
+
+    protfdtfd nbtivf void mbskFill(long xsdo, int x, int y, int w, int h,
+            int mbskoff, int mbsksdbn, int mbsklfn, bytf[] mbsk);
+
+    publid void MbskFill(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb, Compositf domp,
+            finbl int x, finbl int y, finbl int w, finbl int h,
+            finbl bytf[] mbsk, finbl int mbskoff, finbl int mbsksdbn) {
+        try {
+            SunToolkit.bwtLodk();
+
+            XRSurfbdfDbtb x11sd = (XRSurfbdfDbtb) sDbtb;
+            x11sd.vblidbtfAsDfstinbtion(null, sg2d.gftCompClip());
+
+            XRCompositfMbnbgfr mbskBufffr = x11sd.mbskBufffr;
+            mbskBufffr.vblidbtfCompositfStbtf(domp, sg2d.trbnsform, sg2d.pbint, sg2d);
+
+            int mbskPidt = mbskBufffr.gftMbskBufffr().uplobdMbsk(w, h, mbsksdbn, mbskoff, mbsk);
+            mbskBufffr.XRCompositf(XRUtils.Nonf, mbskPidt, x11sd.pidturf, x, y, 0, 0, x, y, w, h);
+            mbskBufffr.gftMbskBufffr().dlfbrUplobdMbsk(mbskPidt, w, h);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+}

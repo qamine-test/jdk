@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
-/* Returned instead of a NativeStrike.
- * It can intercept any request it wants, but mostly
- * passes them on to its delegate strike. It is important that
- * it override all the inherited FontStrike methods to delegate them
- * appropriately.
+/* Rfturnfd instfbd of b NbtivfStrikf.
+ * It dbn intfrdfpt bny rfqufst it wbnts, but mostly
+ * pbssfs tifm on to its dflfgbtf strikf. It is importbnt tibt
+ * it ovfrridf bll tif inifritfd FontStrikf mftiods to dflfgbtf tifm
+ * bppropribtfly.
  */
 
-class DelegateStrike extends NativeStrike {
+dlbss DflfgbtfStrikf fxtfnds NbtivfStrikf {
 
-    private FontStrike delegateStrike;
+    privbtf FontStrikf dflfgbtfStrikf;
 
-    DelegateStrike(NativeFont nativeFont, FontStrikeDesc desc,
-                   FontStrike delegate) {
-        super(nativeFont, desc);
-        this.delegateStrike = delegate;
+    DflfgbtfStrikf(NbtivfFont nbtivfFont, FontStrikfDfsd dfsd,
+                   FontStrikf dflfgbtf) {
+        supfr(nbtivfFont, dfsd);
+        tiis.dflfgbtfStrikf = dflfgbtf;
     }
 
-    /* We want the native font to be responsible for reporting the
-     * font metrics, even if it often delegates to another font.
-     * The code here isn't yet implementing exactly that. If the glyph
-     * transform was something native couldn't handle, there's no native
-     * context from which to obtain metrics. Need to revise this to obtain
-     * the metrics and transform them. But currently in such a case it
-     * gets the metrics from a different font - its glyph delegate font.
+    /* Wf wbnt tif nbtivf font to bf rfsponsiblf for rfporting tif
+     * font mftrids, fvfn if it oftfn dflfgbtfs to bnotifr font.
+     * Tif dodf ifrf isn't yft implfmfnting fxbdtly tibt. If tif glypi
+     * trbnsform wbs somftiing nbtivf douldn't ibndlf, tifrf's no nbtivf
+     * dontfxt from wiidi to obtbin mftrids. Nffd to rfvisf tiis to obtbin
+     * tif mftrids bnd trbnsform tifm. But durrfntly in sudi b dbsf it
+     * gfts tif mftrids from b difffrfnt font - its glypi dflfgbtf font.
      */
-   StrikeMetrics getFontMetrics() {
-       if (strikeMetrics == null) {
-           if (pScalerContext != 0) {
-               strikeMetrics = super.getFontMetrics();
+   StrikfMftrids gftFontMftrids() {
+       if (strikfMftrids == null) {
+           if (pSdblfrContfxt != 0) {
+               strikfMftrids = supfr.gftFontMftrids();
            }
-            if (strikeMetrics == null) {
-                strikeMetrics = delegateStrike.getFontMetrics();
+            if (strikfMftrids == null) {
+                strikfMftrids = dflfgbtfStrikf.gftFontMftrids();
             }
         }
-        return strikeMetrics;
+        rfturn strikfMftrids;
     }
 
-    void getGlyphImagePtrs(int[] glyphCodes, long[] images,int  len) {
-        delegateStrike.getGlyphImagePtrs(glyphCodes, images, len);
+    void gftGlypiImbgfPtrs(int[] glypiCodfs, long[] imbgfs,int  lfn) {
+        dflfgbtfStrikf.gftGlypiImbgfPtrs(glypiCodfs, imbgfs, lfn);
     }
 
-    long getGlyphImagePtr(int glyphCode) {
-        return delegateStrike.getGlyphImagePtr(glyphCode);
+    long gftGlypiImbgfPtr(int glypiCodf) {
+        rfturn dflfgbtfStrikf.gftGlypiImbgfPtr(glypiCodf);
     }
 
-    void getGlyphImageBounds(int glyphCode,
-                             Point2D.Float pt, Rectangle result) {
-        delegateStrike.getGlyphImageBounds(glyphCode, pt, result);
+    void gftGlypiImbgfBounds(int glypiCodf,
+                             Point2D.Flobt pt, Rfdtbnglf rfsult) {
+        dflfgbtfStrikf.gftGlypiImbgfBounds(glypiCodf, pt, rfsult);
     }
 
-    Point2D.Float getGlyphMetrics(int glyphCode) {
-        return delegateStrike.getGlyphMetrics(glyphCode);
+    Point2D.Flobt gftGlypiMftrids(int glypiCodf) {
+        rfturn dflfgbtfStrikf.gftGlypiMftrids(glypiCodf);
     }
 
-    float getGlyphAdvance(int glyphCode) {
-        return delegateStrike.getGlyphAdvance(glyphCode);
+    flobt gftGlypiAdvbndf(int glypiCodf) {
+        rfturn dflfgbtfStrikf.gftGlypiAdvbndf(glypiCodf);
     }
 
-     Point2D.Float getCharMetrics(char ch) {
-        return delegateStrike.getCharMetrics(ch);
+     Point2D.Flobt gftCibrMftrids(dibr di) {
+        rfturn dflfgbtfStrikf.gftCibrMftrids(di);
     }
 
-    float getCodePointAdvance(int cp) {
-        if (cp < 0 || cp >= 0x10000) {
-            cp = 0xffff;
+    flobt gftCodfPointAdvbndf(int dp) {
+        if (dp < 0 || dp >= 0x10000) {
+            dp = 0xffff;
         }
-        return delegateStrike.getGlyphAdvance(cp);
+        rfturn dflfgbtfStrikf.gftGlypiAdvbndf(dp);
     }
 
-    Rectangle2D.Float getGlyphOutlineBounds(int glyphCode) {
-        return delegateStrike.getGlyphOutlineBounds(glyphCode);
+    Rfdtbnglf2D.Flobt gftGlypiOutlinfBounds(int glypiCodf) {
+        rfturn dflfgbtfStrikf.gftGlypiOutlinfBounds(glypiCodf);
     }
 
-    GeneralPath getGlyphOutline(int glyphCode, float x, float y) {
-        return delegateStrike.getGlyphOutline(glyphCode, x, y);
+    GfnfrblPbti gftGlypiOutlinf(int glypiCodf, flobt x, flobt y) {
+        rfturn dflfgbtfStrikf.gftGlypiOutlinf(glypiCodf, x, y);
     }
 
-    GeneralPath getGlyphVectorOutline(int[] glyphs, float x, float y) {
-        return delegateStrike.getGlyphVectorOutline(glyphs, x, y);
+    GfnfrblPbti gftGlypiVfdtorOutlinf(int[] glypis, flobt x, flobt y) {
+        rfturn dflfgbtfStrikf.gftGlypiVfdtorOutlinf(glypis, x, y);
     }
 
 }

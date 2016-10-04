@@ -1,169 +1,169 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 2003 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 2003 - All Rigits Rfsfrvfd
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
 /**
- * Iterates over runs of fonts in a CompositeFont, optionally taking script runs into account.
+ * Itfrbtfs ovfr runs of fonts in b CompositfFont, optionblly tbking sdript runs into bddount.
  */
-public final class FontRunIterator {
-    CompositeFont font;
-    char[] text;
-    int start;
+publid finbl dlbss FontRunItfrbtor {
+    CompositfFont font;
+    dibr[] tfxt;
+    int stbrt;
     int limit;
 
-    CompositeGlyphMapper mapper; // handy cache
+    CompositfGlypiMbppfr mbppfr; // ibndy dbdif
 
     int slot = -1;
     int pos;
 
-    public void init(CompositeFont font, char[] text, int start, int limit) {
-        if (font == null || text == null || start < 0 || limit < start || limit > text.length) {
-            throw new IllegalArgumentException();
+    publid void init(CompositfFont font, dibr[] tfxt, int stbrt, int limit) {
+        if (font == null || tfxt == null || stbrt < 0 || limit < stbrt || limit > tfxt.lfngti) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        this.font = font;
-        this.text = text;
-        this.start = start;
-        this.limit = limit;
+        tiis.font = font;
+        tiis.tfxt = tfxt;
+        tiis.stbrt = stbrt;
+        tiis.limit = limit;
 
-        this.mapper = (CompositeGlyphMapper)font.getMapper();
-        this.slot = -1;
-        this.pos = start;
+        tiis.mbppfr = (CompositfGlypiMbppfr)font.gftMbppfr();
+        tiis.slot = -1;
+        tiis.pos = stbrt;
     }
 
-    public PhysicalFont getFont() {
-        return slot == -1 ? null : font.getSlotFont(slot);
+    publid PiysidblFont gftFont() {
+        rfturn slot == -1 ? null : font.gftSlotFont(slot);
     }
 
-    public int getGlyphMask() {
-        return slot << 24;
+    publid int gftGlypiMbsk() {
+        rfturn slot << 24;
     }
 
-    public int getPos() {
-        return pos;
+    publid int gftPos() {
+        rfturn pos;
     }
 
     /*
-     * characters that are in the 'common' script become part of the
-     * surrounding script run.  we want to fetch these from the same font
-     * used to get surrounding characters, where possible.  but we don't
-     * want to force non-common characters to come from other than their
-     * standard font.
+     * dibrbdtfrs tibt brf in tif 'dommon' sdript bfdomf pbrt of tif
+     * surrounding sdript run.  wf wbnt to fftdi tifsf from tif sbmf font
+     * usfd to gft surrounding dibrbdtfrs, wifrf possiblf.  but wf don't
+     * wbnt to fordf non-dommon dibrbdtfrs to domf from otifr tibn tifir
+     * stbndbrd font.
      *
-     * what we really want to do is this:
-     * 1) fetch a code point from the text.
-     * 2) get its 'native' script code
-     * 3) determine its 'resolved' script code
-     * 4) if its native script is COMMON, and its resolved script is the same as the previous
-     *    code point's, then see if the previous font supports this code point.  if so, use it.
-     * 5) otherwise resolve the font as usual
-     * 6) break the run when either the physical font or the resolved script changes.
+     * wibt wf rfblly wbnt to do is tiis:
+     * 1) fftdi b dodf point from tif tfxt.
+     * 2) gft its 'nbtivf' sdript dodf
+     * 3) dftfrminf its 'rfsolvfd' sdript dodf
+     * 4) if its nbtivf sdript is COMMON, bnd its rfsolvfd sdript is tif sbmf bs tif prfvious
+     *    dodf point's, tifn sff if tif prfvious font supports tiis dodf point.  if so, usf it.
+     * 5) otifrwisf rfsolvf tif font bs usubl
+     * 6) brfbk tif run wifn fitifr tif piysidbl font or tif rfsolvfd sdript dibngfs.
      *
-     * problems: we optimize latin-1 and cjk text assuming a fixed
-     * width for each character.  since latin-1 digits and punctuation
-     * are common, following this algorithm they will change to match
-     * the fonts used for the preceding text, and potentially change metrics.
+     * problfms: wf optimizf lbtin-1 bnd djk tfxt bssuming b fixfd
+     * widti for fbdi dibrbdtfr.  sindf lbtin-1 digits bnd pundtubtion
+     * brf dommon, following tiis blgoritim tify will dibngf to mbtdi
+     * tif fonts usfd for tif prfdfding tfxt, bnd potfntiblly dibngf mftrids.
      *
-     * this also seems to have the potential for changing arbitrary runs of text, e.g.
-     * any number of digits and spaces can change depending on the preceding (or following!)
-     * non-COMMON character's font assignment.  this is not good.
+     * tiis blso sffms to ibvf tif potfntibl for dibnging brbitrbry runs of tfxt, f.g.
+     * bny numbfr of digits bnd spbdfs dbn dibngf dfpfnding on tif prfdfding (or following!)
+     * non-COMMON dibrbdtfr's font bssignmfnt.  tiis is not good.
      *
-     * since the goal is to enable layout to be performed using as few physical fonts as
-     * possible, and the primary cause of switching fonts is to handle spaces, perhaps
-     * we should just special-case spaces and assign them from the current font, whatever
-     * it may be.
+     * sindf tif gobl is to fnbblf lbyout to bf pfrformfd using bs ffw piysidbl fonts bs
+     * possiblf, bnd tif primbry dbusf of switdiing fonts is to ibndlf spbdfs, pfribps
+     * wf siould just spfdibl-dbsf spbdfs bnd bssign tifm from tif durrfnt font, wibtfvfr
+     * it mby bf.
      *
-     * One could also argue that the job of the composite font is to assign physical fonts
-     * to text runs, however it wishes.  we don't necessarily have to provide script info
-     * to let it do this.  it can determine based on whatever.  so having a special 'next'
-     * function that takes script (and limit) is redundant.  It can fetch the script again
-     * if need be.
+     * Onf dould blso brguf tibt tif job of tif dompositf font is to bssign piysidbl fonts
+     * to tfxt runs, iowfvfr it wisifs.  wf don't nfdfssbrily ibvf to providf sdript info
+     * to lft it do tiis.  it dbn dftfrminf bbsfd on wibtfvfr.  so ibving b spfdibl 'nfxt'
+     * fundtion tibt tbkfs sdript (bnd limit) is rfdundbnt.  It dbn fftdi tif sdript bgbin
+     * if nffd bf.
      *
-     * both this and the script iterator are turning char sequences into code point
-     * sequences.  maybe it would be better to feed a single code point into each iterator-- push
-     * the data instead of pull it?
+     * boti tiis bnd tif sdript itfrbtor brf turning dibr sfqufndfs into dodf point
+     * sfqufndfs.  mbybf it would bf bfttfr to fffd b singlf dodf point into fbdi itfrbtor-- pusi
+     * tif dbtb instfbd of pull it?
      */
 
-    public boolean next(int script, int lim) {
+    publid boolfbn nfxt(int sdript, int lim) {
         if (pos == lim) {
-            return false;
+            rfturn fblsf;
         }
 
-        int ch = nextCodePoint(lim);
-        int sl = mapper.charToGlyph(ch) & CompositeGlyphMapper.SLOTMASK;
+        int di = nfxtCodfPoint(lim);
+        int sl = mbppfr.dibrToGlypi(di) & CompositfGlypiMbppfr.SLOTMASK;
         slot = sl >>> 24;
-        while ((ch = nextCodePoint(lim)) != DONE && (mapper.charToGlyph(ch) & CompositeGlyphMapper.SLOTMASK) == sl);
-        pushback(ch);
+        wiilf ((di = nfxtCodfPoint(lim)) != DONE && (mbppfr.dibrToGlypi(di) & CompositfGlypiMbppfr.SLOTMASK) == sl);
+        pusibbdk(di);
 
-        return true;
+        rfturn truf;
     }
 
-    public boolean next() {
-        return next(Script.COMMON, limit);
+    publid boolfbn nfxt() {
+        rfturn nfxt(Sdript.COMMON, limit);
     }
 
-    static final int SURROGATE_START = 0x10000;
-    static final int LEAD_START = 0xd800;
-    static final int LEAD_LIMIT = 0xdc00;
-    static final int TAIL_START = 0xdc00;
-    static final int TAIL_LIMIT = 0xe000;
-    static final int LEAD_SURROGATE_SHIFT = 10;
-    static final int SURROGATE_OFFSET = SURROGATE_START - (LEAD_START << LEAD_SURROGATE_SHIFT) - TAIL_START;
+    stbtid finbl int SURROGATE_START = 0x10000;
+    stbtid finbl int LEAD_START = 0xd800;
+    stbtid finbl int LEAD_LIMIT = 0xdd00;
+    stbtid finbl int TAIL_START = 0xdd00;
+    stbtid finbl int TAIL_LIMIT = 0xf000;
+    stbtid finbl int LEAD_SURROGATE_SHIFT = 10;
+    stbtid finbl int SURROGATE_OFFSET = SURROGATE_START - (LEAD_START << LEAD_SURROGATE_SHIFT) - TAIL_START;
 
-    static final int DONE = -1;
+    stbtid finbl int DONE = -1;
 
-    final int nextCodePoint() {
-        return nextCodePoint(limit);
+    finbl int nfxtCodfPoint() {
+        rfturn nfxtCodfPoint(limit);
     }
 
-    final int nextCodePoint(int lim) {
+    finbl int nfxtCodfPoint(int lim) {
         if (pos >= lim) {
-            return DONE;
+            rfturn DONE;
         }
-        int ch = text[pos++];
-        if (ch >= LEAD_START && ch < LEAD_LIMIT && pos < lim) {
-            int nch = text[pos];
-            if (nch >= TAIL_START && nch < TAIL_LIMIT) {
+        int di = tfxt[pos++];
+        if (di >= LEAD_START && di < LEAD_LIMIT && pos < lim) {
+            int ndi = tfxt[pos];
+            if (ndi >= TAIL_START && ndi < TAIL_LIMIT) {
                 ++pos;
-                ch = (ch << LEAD_SURROGATE_SHIFT) + nch + SURROGATE_OFFSET;
+                di = (di << LEAD_SURROGATE_SHIFT) + ndi + SURROGATE_OFFSET;
             }
         }
-        return ch;
+        rfturn di;
     }
 
-    final void pushback(int ch) {
-        if (ch >= 0) {
-            if (ch >= 0x10000) {
+    finbl void pusibbdk(int di) {
+        if (di >= 0) {
+            if (di >= 0x10000) {
                 pos -= 2;
-            } else {
+            } flsf {
                 pos -= 1;
             }
         }

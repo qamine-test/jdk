@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-@SuppressWarnings("serial")
-public class LabeledComponent extends JPanel {
-    JPanel rightPanel;
-    String labelStr, valueLabelStr, compoundStr;
-    JLabel label;
-    JComponent comp;
+@SupprfssWbrnings("sfribl")
+publid dlbss LbbflfdComponfnt fxtfnds JPbnfl {
+    JPbnfl rigitPbnfl;
+    String lbbflStr, vblufLbbflStr, dompoundStr;
+    JLbbfl lbbfl;
+    JComponfnt domp;
 
-    public LabeledComponent(String text, JComponent comp) {
-        this(text, 0, comp);
+    publid LbbflfdComponfnt(String tfxt, JComponfnt domp) {
+        tiis(tfxt, 0, domp);
     }
 
-    public LabeledComponent(String text, int mnemonic, JComponent comp) {
-        super(new BorderLayout(6, 6));
+    publid LbbflfdComponfnt(String tfxt, int mnfmonid, JComponfnt domp) {
+        supfr(nfw BordfrLbyout(6, 6));
 
-        this.labelStr = text;
-        this.label = new JLabel(text, JLabel.RIGHT);
-        this.comp = comp;
+        tiis.lbbflStr = tfxt;
+        tiis.lbbfl = nfw JLbbfl(tfxt, JLbbfl.RIGHT);
+        tiis.domp = domp;
 
-        label.setLabelFor(comp);
-        if (mnemonic > 0) {
-            label.setDisplayedMnemonic(mnemonic);
+        lbbfl.sftLbbflFor(domp);
+        if (mnfmonid > 0) {
+            lbbfl.sftDisplbyfdMnfmonid(mnfmonid);
         }
 
-        add(label, BorderLayout.WEST);
-        add(comp,  BorderLayout.CENTER);
+        bdd(lbbfl, BordfrLbyout.WEST);
+        bdd(domp,  BordfrLbyout.CENTER);
     }
 
-    public void setLabel(String str) {
-        this.labelStr = str;
-        updateLabel();
+    publid void sftLbbfl(String str) {
+        tiis.lbbflStr = str;
+        updbtfLbbfl();
     }
 
-    public void setValueLabel(String str) {
-        this.valueLabelStr = str;
-        updateLabel();
+    publid void sftVblufLbbfl(String str) {
+        tiis.vblufLbbflStr = str;
+        updbtfLbbfl();
     }
 
-    private void updateLabel() {
-        String str = labelStr;
-        label.setText(str);
-        this.compoundStr = str;
-        JComponent container = (JComponent)getParent();
-        LabeledComponent.layout(container);
+    privbtf void updbtfLbbfl() {
+        String str = lbbflStr;
+        lbbfl.sftTfxt(str);
+        tiis.dompoundStr = str;
+        JComponfnt dontbinfr = (JComponfnt)gftPbrfnt();
+        LbbflfdComponfnt.lbyout(dontbinfr);
     }
 
-    public static void layout(Container container) {
-        int wMax = 0;
+    publid stbtid void lbyout(Contbinfr dontbinfr) {
+        int wMbx = 0;
 
-        for (Component c : container.getComponents()) {
-            if (c instanceof LabeledComponent) {
-                LabeledComponent lc = (LabeledComponent)c;
-lc.label.setPreferredSize(null);
-//              int w = lc.label.getMinimumSize().width;
-int w = lc.label.getPreferredSize().width;
-                if (w > wMax) {
-                    wMax = w;
+        for (Componfnt d : dontbinfr.gftComponfnts()) {
+            if (d instbndfof LbbflfdComponfnt) {
+                LbbflfdComponfnt ld = (LbbflfdComponfnt)d;
+ld.lbbfl.sftPrfffrrfdSizf(null);
+//              int w = ld.lbbfl.gftMinimumSizf().widti;
+int w = ld.lbbfl.gftPrfffrrfdSizf().widti;
+                if (w > wMbx) {
+                    wMbx = w;
                 }
             }
         }
 
-        for (Component c : container.getComponents()) {
-            if (c instanceof LabeledComponent) {
-                LabeledComponent lc = (LabeledComponent)c;
-                JLabel label = lc.label;
-                int h = label.getPreferredSize().height;
+        for (Componfnt d : dontbinfr.gftComponfnts()) {
+            if (d instbndfof LbbflfdComponfnt) {
+                LbbflfdComponfnt ld = (LbbflfdComponfnt)d;
+                JLbbfl lbbfl = ld.lbbfl;
+                int i = lbbfl.gftPrfffrrfdSizf().ifigit;
 
-                label.setPreferredSize(new Dimension(wMax, h));
-                label.setHorizontalAlignment(JLabel.RIGHT);
+                lbbfl.sftPrfffrrfdSizf(nfw Dimfnsion(wMbx, i));
+                lbbfl.sftHorizontblAlignmfnt(JLbbfl.RIGHT);
             }
         }
     }

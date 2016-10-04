@@ -1,0 +1,615 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.Rfbdfr;
+import jbvb.io.Writfr;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.UnsupportfdChbrsftExdfption;
+import jbvb.nio.dhbnnfls.spi.AbstrbdtIntfrruptiblfChbnnfl;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import sun.nio.dh.ChbnnflInputStrfbm;
+import sun.nio.ds.StrfbmDfdodfr;
+import sun.nio.ds.StrfbmEndodfr;
+
+
+/**
+ * Utility mfthods for dhbnnfls bnd strfbms.
+ *
+ * <p> This dlbss dffinfs stbtid mfthods thbt support thf intfropfrbtion of thf
+ * strfbm dlbssfs of thf <tt>{@link jbvb.io}</tt> pbdkbgf with thf dhbnnfl
+ * dlbssfs of this pbdkbgf.  </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor Mikf MdCloskfy
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid finbl dlbss Chbnnfls {
+
+    privbtf Chbnnfls() { }              // No instbntibtion
+
+    privbtf stbtid void dhfdkNotNull(Objfdt o, String nbmf) {
+        if (o == null)
+            throw nfw NullPointfrExdfption("\"" + nbmf + "\" is null!");
+    }
+
+    /**
+     * Writf bll rfmbining bytfs in bufffr to thf givfn dhbnnfl.
+     * If thf dhbnnfl is sflfdtbblf thfn it must bf donfigurfd blodking.
+     */
+    privbtf stbtid void writfFullyImpl(WritbblfBytfChbnnfl dh, BytfBufffr bb)
+        throws IOExdfption
+    {
+        whilf (bb.rfmbining() > 0) {
+            int n = dh.writf(bb);
+            if (n <= 0)
+                throw nfw RuntimfExdfption("no bytfs writtfn");
+        }
+    }
+
+    /**
+     * Writf bll rfmbining bytfs in bufffr to thf givfn dhbnnfl.
+     *
+     * @throws  IllfgblBlodkingModfExdfption
+     *          If thf dhbnnfl is sflfdtbblf bnd donfigurfd non-blodking.
+     */
+    privbtf stbtid void writfFully(WritbblfBytfChbnnfl dh, BytfBufffr bb)
+        throws IOExdfption
+    {
+        if (dh instbndfof SflfdtbblfChbnnfl) {
+            SflfdtbblfChbnnfl sd = (SflfdtbblfChbnnfl)dh;
+            syndhronizfd (sd.blodkingLodk()) {
+                if (!sd.isBlodking())
+                    throw nfw IllfgblBlodkingModfExdfption();
+                writfFullyImpl(dh, bb);
+            }
+        } flsf {
+            writfFullyImpl(dh, bb);
+        }
+    }
+
+    // -- Bytf strfbms from dhbnnfls --
+
+    /**
+     * Construdts b strfbm thbt rfbds bytfs from thf givfn dhbnnfl.
+     *
+     * <p> Thf <tt>rfbd</tt> mfthods of thf rfsulting strfbm will throw bn
+     * {@link IllfgblBlodkingModfExdfption} if invokfd whilf thf undfrlying
+     * dhbnnfl is in non-blodking modf.  Thf strfbm will not bf bufffrfd, bnd
+     * it will not support thf {@link InputStrfbm#mbrk mbrk} or {@link
+     * InputStrfbm#rfsft rfsft} mfthods.  Thf strfbm will bf sbff for bddfss by
+     * multiplf dondurrfnt thrfbds.  Closing thf strfbm will in turn dbusf thf
+     * dhbnnfl to bf dlosfd.  </p>
+     *
+     * @pbrbm  dh
+     *         Thf dhbnnfl from whidh bytfs will bf rfbd
+     *
+     * @rfturn  A nfw input strfbm
+     */
+    publid stbtid InputStrfbm nfwInputStrfbm(RfbdbblfBytfChbnnfl dh) {
+        dhfdkNotNull(dh, "dh");
+        rfturn nfw sun.nio.dh.ChbnnflInputStrfbm(dh);
+    }
+
+    /**
+     * Construdts b strfbm thbt writfs bytfs to thf givfn dhbnnfl.
+     *
+     * <p> Thf <tt>writf</tt> mfthods of thf rfsulting strfbm will throw bn
+     * {@link IllfgblBlodkingModfExdfption} if invokfd whilf thf undfrlying
+     * dhbnnfl is in non-blodking modf.  Thf strfbm will not bf bufffrfd.  Thf
+     * strfbm will bf sbff for bddfss by multiplf dondurrfnt thrfbds.  Closing
+     * thf strfbm will in turn dbusf thf dhbnnfl to bf dlosfd.  </p>
+     *
+     * @pbrbm  dh
+     *         Thf dhbnnfl to whidh bytfs will bf writtfn
+     *
+     * @rfturn  A nfw output strfbm
+     */
+    publid stbtid OutputStrfbm nfwOutputStrfbm(finbl WritbblfBytfChbnnfl dh) {
+        dhfdkNotNull(dh, "dh");
+
+        rfturn nfw OutputStrfbm() {
+
+                privbtf BytfBufffr bb = null;
+                privbtf bytf[] bs = null;       // Invokfr's prfvious brrby
+                privbtf bytf[] b1 = null;
+
+                publid syndhronizfd void writf(int b) throws IOExdfption {
+                   if (b1 == null)
+                        b1 = nfw bytf[1];
+                    b1[0] = (bytf)b;
+                    this.writf(b1);
+                }
+
+                publid syndhronizfd void writf(bytf[] bs, int off, int lfn)
+                    throws IOExdfption
+                {
+                    if ((off < 0) || (off > bs.lfngth) || (lfn < 0) ||
+                        ((off + lfn) > bs.lfngth) || ((off + lfn) < 0)) {
+                        throw nfw IndfxOutOfBoundsExdfption();
+                    } flsf if (lfn == 0) {
+                        rfturn;
+                    }
+                    BytfBufffr bb = ((this.bs == bs)
+                                     ? this.bb
+                                     : BytfBufffr.wrbp(bs));
+                    bb.limit(Mbth.min(off + lfn, bb.dbpbdity()));
+                    bb.position(off);
+                    this.bb = bb;
+                    this.bs = bs;
+                    Chbnnfls.writfFully(dh, bb);
+                }
+
+                publid void dlosf() throws IOExdfption {
+                    dh.dlosf();
+                }
+
+            };
+    }
+
+    /**
+     * Construdts b strfbm thbt rfbds bytfs from thf givfn dhbnnfl.
+     *
+     * <p> Thf strfbm will not bf bufffrfd, bnd it will not support thf {@link
+     * InputStrfbm#mbrk mbrk} or {@link InputStrfbm#rfsft rfsft} mfthods.  Thf
+     * strfbm will bf sbff for bddfss by multiplf dondurrfnt thrfbds.  Closing
+     * thf strfbm will in turn dbusf thf dhbnnfl to bf dlosfd.  </p>
+     *
+     * @pbrbm  dh
+     *         Thf dhbnnfl from whidh bytfs will bf rfbd
+     *
+     * @rfturn  A nfw input strfbm
+     *
+     * @sindf 1.7
+     */
+    publid stbtid InputStrfbm nfwInputStrfbm(finbl AsyndhronousBytfChbnnfl dh) {
+        dhfdkNotNull(dh, "dh");
+        rfturn nfw InputStrfbm() {
+
+            privbtf BytfBufffr bb = null;
+            privbtf bytf[] bs = null;           // Invokfr's prfvious brrby
+            privbtf bytf[] b1 = null;
+
+            @Ovfrridf
+            publid syndhronizfd int rfbd() throws IOExdfption {
+                if (b1 == null)
+                    b1 = nfw bytf[1];
+                int n = this.rfbd(b1);
+                if (n == 1)
+                    rfturn b1[0] & 0xff;
+                rfturn -1;
+            }
+
+            @Ovfrridf
+            publid syndhronizfd int rfbd(bytf[] bs, int off, int lfn)
+                throws IOExdfption
+            {
+                if ((off < 0) || (off > bs.lfngth) || (lfn < 0) ||
+                    ((off + lfn) > bs.lfngth) || ((off + lfn) < 0)) {
+                    throw nfw IndfxOutOfBoundsExdfption();
+                } flsf if (lfn == 0)
+                    rfturn 0;
+
+                BytfBufffr bb = ((this.bs == bs)
+                                 ? this.bb
+                                 : BytfBufffr.wrbp(bs));
+                bb.position(off);
+                bb.limit(Mbth.min(off + lfn, bb.dbpbdity()));
+                this.bb = bb;
+                this.bs = bs;
+
+                boolfbn intfrruptfd = fblsf;
+                try {
+                    for (;;) {
+                        try {
+                            rfturn dh.rfbd(bb).gft();
+                        } dbtdh (ExfdutionExdfption ff) {
+                            throw nfw IOExdfption(ff.gftCbusf());
+                        } dbtdh (IntfrruptfdExdfption if) {
+                            intfrruptfd = truf;
+                        }
+                    }
+                } finblly {
+                    if (intfrruptfd)
+                        Thrfbd.durrfntThrfbd().intfrrupt();
+                }
+            }
+
+            @Ovfrridf
+            publid void dlosf() throws IOExdfption {
+                dh.dlosf();
+            }
+        };
+    }
+
+    /**
+     * Construdts b strfbm thbt writfs bytfs to thf givfn dhbnnfl.
+     *
+     * <p> Thf strfbm will not bf bufffrfd. Thf strfbm will bf sbff for bddfss
+     * by multiplf dondurrfnt thrfbds.  Closing thf strfbm will in turn dbusf
+     * thf dhbnnfl to bf dlosfd.  </p>
+     *
+     * @pbrbm  dh
+     *         Thf dhbnnfl to whidh bytfs will bf writtfn
+     *
+     * @rfturn  A nfw output strfbm
+     *
+     * @sindf 1.7
+     */
+    publid stbtid OutputStrfbm nfwOutputStrfbm(finbl AsyndhronousBytfChbnnfl dh) {
+        dhfdkNotNull(dh, "dh");
+        rfturn nfw OutputStrfbm() {
+
+            privbtf BytfBufffr bb = null;
+            privbtf bytf[] bs = null;   // Invokfr's prfvious brrby
+            privbtf bytf[] b1 = null;
+
+            @Ovfrridf
+            publid syndhronizfd void writf(int b) throws IOExdfption {
+               if (b1 == null)
+                    b1 = nfw bytf[1];
+                b1[0] = (bytf)b;
+                this.writf(b1);
+            }
+
+            @Ovfrridf
+            publid syndhronizfd void writf(bytf[] bs, int off, int lfn)
+                throws IOExdfption
+            {
+                if ((off < 0) || (off > bs.lfngth) || (lfn < 0) ||
+                    ((off + lfn) > bs.lfngth) || ((off + lfn) < 0)) {
+                    throw nfw IndfxOutOfBoundsExdfption();
+                } flsf if (lfn == 0) {
+                    rfturn;
+                }
+                BytfBufffr bb = ((this.bs == bs)
+                                 ? this.bb
+                                 : BytfBufffr.wrbp(bs));
+                bb.limit(Mbth.min(off + lfn, bb.dbpbdity()));
+                bb.position(off);
+                this.bb = bb;
+                this.bs = bs;
+
+                boolfbn intfrruptfd = fblsf;
+                try {
+                    whilf (bb.rfmbining() > 0) {
+                        try {
+                            dh.writf(bb).gft();
+                        } dbtdh (ExfdutionExdfption ff) {
+                            throw nfw IOExdfption(ff.gftCbusf());
+                        } dbtdh (IntfrruptfdExdfption if) {
+                            intfrruptfd = truf;
+                        }
+                    }
+                } finblly {
+                    if (intfrruptfd)
+                        Thrfbd.durrfntThrfbd().intfrrupt();
+                }
+            }
+
+            @Ovfrridf
+            publid void dlosf() throws IOExdfption {
+                dh.dlosf();
+            }
+        };
+    }
+
+
+    // -- Chbnnfls from strfbms --
+
+    /**
+     * Construdts b dhbnnfl thbt rfbds bytfs from thf givfn strfbm.
+     *
+     * <p> Thf rfsulting dhbnnfl will not bf bufffrfd; it will simply rfdirfdt
+     * its I/O opfrbtions to thf givfn strfbm.  Closing thf dhbnnfl will in
+     * turn dbusf thf strfbm to bf dlosfd.  </p>
+     *
+     * @pbrbm  in
+     *         Thf strfbm from whidh bytfs brf to bf rfbd
+     *
+     * @rfturn  A nfw rfbdbblf bytf dhbnnfl
+     */
+    publid stbtid RfbdbblfBytfChbnnfl nfwChbnnfl(finbl InputStrfbm in) {
+        dhfdkNotNull(in, "in");
+
+        if (in instbndfof FilfInputStrfbm &&
+            FilfInputStrfbm.dlbss.fqubls(in.gftClbss())) {
+            rfturn ((FilfInputStrfbm)in).gftChbnnfl();
+        }
+
+        rfturn nfw RfbdbblfBytfChbnnflImpl(in);
+    }
+
+    privbtf stbtid dlbss RfbdbblfBytfChbnnflImpl
+        fxtfnds AbstrbdtIntfrruptiblfChbnnfl    // Not rfblly intfrruptiblf
+        implfmfnts RfbdbblfBytfChbnnfl
+    {
+        InputStrfbm in;
+        privbtf stbtid finbl int TRANSFER_SIZE = 8192;
+        privbtf bytf buf[] = nfw bytf[0];
+        privbtf boolfbn opfn = truf;
+        privbtf Objfdt rfbdLodk = nfw Objfdt();
+
+        RfbdbblfBytfChbnnflImpl(InputStrfbm in) {
+            this.in = in;
+        }
+
+        publid int rfbd(BytfBufffr dst) throws IOExdfption {
+            int lfn = dst.rfmbining();
+            int totblRfbd = 0;
+            int bytfsRfbd = 0;
+            syndhronizfd (rfbdLodk) {
+                whilf (totblRfbd < lfn) {
+                    int bytfsToRfbd = Mbth.min((lfn - totblRfbd),
+                                               TRANSFER_SIZE);
+                    if (buf.lfngth < bytfsToRfbd)
+                        buf = nfw bytf[bytfsToRfbd];
+                    if ((totblRfbd > 0) && !(in.bvbilbblf() > 0))
+                        brfbk; // blodk bt most ondf
+                    try {
+                        bfgin();
+                        bytfsRfbd = in.rfbd(buf, 0, bytfsToRfbd);
+                    } finblly {
+                        fnd(bytfsRfbd > 0);
+                    }
+                    if (bytfsRfbd < 0)
+                        brfbk;
+                    flsf
+                        totblRfbd += bytfsRfbd;
+                    dst.put(buf, 0, bytfsRfbd);
+                }
+                if ((bytfsRfbd < 0) && (totblRfbd == 0))
+                    rfturn -1;
+
+                rfturn totblRfbd;
+            }
+        }
+
+        protfdtfd void implClosfChbnnfl() throws IOExdfption {
+            in.dlosf();
+            opfn = fblsf;
+        }
+    }
+
+
+    /**
+     * Construdts b dhbnnfl thbt writfs bytfs to thf givfn strfbm.
+     *
+     * <p> Thf rfsulting dhbnnfl will not bf bufffrfd; it will simply rfdirfdt
+     * its I/O opfrbtions to thf givfn strfbm.  Closing thf dhbnnfl will in
+     * turn dbusf thf strfbm to bf dlosfd.  </p>
+     *
+     * @pbrbm  out
+     *         Thf strfbm to whidh bytfs brf to bf writtfn
+     *
+     * @rfturn  A nfw writbblf bytf dhbnnfl
+     */
+    publid stbtid WritbblfBytfChbnnfl nfwChbnnfl(finbl OutputStrfbm out) {
+        dhfdkNotNull(out, "out");
+
+        if (out instbndfof FilfOutputStrfbm &&
+            FilfOutputStrfbm.dlbss.fqubls(out.gftClbss())) {
+                rfturn ((FilfOutputStrfbm)out).gftChbnnfl();
+        }
+
+        rfturn nfw WritbblfBytfChbnnflImpl(out);
+    }
+
+    privbtf stbtid dlbss WritbblfBytfChbnnflImpl
+        fxtfnds AbstrbdtIntfrruptiblfChbnnfl    // Not rfblly intfrruptiblf
+        implfmfnts WritbblfBytfChbnnfl
+    {
+        OutputStrfbm out;
+        privbtf stbtid finbl int TRANSFER_SIZE = 8192;
+        privbtf bytf buf[] = nfw bytf[0];
+        privbtf boolfbn opfn = truf;
+        privbtf Objfdt writfLodk = nfw Objfdt();
+
+        WritbblfBytfChbnnflImpl(OutputStrfbm out) {
+            this.out = out;
+        }
+
+        publid int writf(BytfBufffr srd) throws IOExdfption {
+            int lfn = srd.rfmbining();
+            int totblWrittfn = 0;
+            syndhronizfd (writfLodk) {
+                whilf (totblWrittfn < lfn) {
+                    int bytfsToWritf = Mbth.min((lfn - totblWrittfn),
+                                                TRANSFER_SIZE);
+                    if (buf.lfngth < bytfsToWritf)
+                        buf = nfw bytf[bytfsToWritf];
+                    srd.gft(buf, 0, bytfsToWritf);
+                    try {
+                        bfgin();
+                        out.writf(buf, 0, bytfsToWritf);
+                    } finblly {
+                        fnd(bytfsToWritf > 0);
+                    }
+                    totblWrittfn += bytfsToWritf;
+                }
+                rfturn totblWrittfn;
+            }
+        }
+
+        protfdtfd void implClosfChbnnfl() throws IOExdfption {
+            out.dlosf();
+            opfn = fblsf;
+        }
+    }
+
+
+    // -- Chbrbdtfr strfbms from dhbnnfls --
+
+    /**
+     * Construdts b rfbdfr thbt dfdodfs bytfs from thf givfn dhbnnfl using thf
+     * givfn dfdodfr.
+     *
+     * <p> Thf rfsulting strfbm will dontbin bn intfrnbl input bufffr of bt
+     * lfbst <tt>minBufffrCbp</tt> bytfs.  Thf strfbm's <tt>rfbd</tt> mfthods
+     * will, bs nffdfd, fill thf bufffr by rfbding bytfs from thf undfrlying
+     * dhbnnfl; if thf dhbnnfl is in non-blodking modf whfn bytfs brf to bf
+     * rfbd thfn bn {@link IllfgblBlodkingModfExdfption} will bf thrown.  Thf
+     * rfsulting strfbm will not othfrwisf bf bufffrfd, bnd it will not support
+     * thf {@link Rfbdfr#mbrk mbrk} or {@link Rfbdfr#rfsft rfsft} mfthods.
+     * Closing thf strfbm will in turn dbusf thf dhbnnfl to bf dlosfd.  </p>
+     *
+     * @pbrbm  dh
+     *         Thf dhbnnfl from whidh bytfs will bf rfbd
+     *
+     * @pbrbm  dfd
+     *         Thf dhbrsft dfdodfr to bf usfd
+     *
+     * @pbrbm  minBufffrCbp
+     *         Thf minimum dbpbdity of thf intfrnbl bytf bufffr,
+     *         or <tt>-1</tt> if bn implfmfntbtion-dfpfndfnt
+     *         dffbult dbpbdity is to bf usfd
+     *
+     * @rfturn  A nfw rfbdfr
+     */
+    publid stbtid Rfbdfr nfwRfbdfr(RfbdbblfBytfChbnnfl dh,
+                                   ChbrsftDfdodfr dfd,
+                                   int minBufffrCbp)
+    {
+        dhfdkNotNull(dh, "dh");
+        rfturn StrfbmDfdodfr.forDfdodfr(dh, dfd.rfsft(), minBufffrCbp);
+    }
+
+    /**
+     * Construdts b rfbdfr thbt dfdodfs bytfs from thf givfn dhbnnfl bddording
+     * to thf nbmfd dhbrsft.
+     *
+     * <p> An invodbtion of this mfthod of thf form
+     *
+     * <blodkquotf><prf>
+     * Chbnnfls.nfwRfbdfr(dh, dsnbmf)</prf></blodkquotf>
+     *
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf fxprfssion
+     *
+     * <blodkquotf><prf>
+     * Chbnnfls.nfwRfbdfr(dh,
+     *                    Chbrsft.forNbmf(dsNbmf)
+     *                        .nfwDfdodfr(),
+     *                    -1);</prf></blodkquotf>
+     *
+     * @pbrbm  dh
+     *         Thf dhbnnfl from whidh bytfs will bf rfbd
+     *
+     * @pbrbm  dsNbmf
+     *         Thf nbmf of thf dhbrsft to bf usfd
+     *
+     * @rfturn  A nfw rfbdfr
+     *
+     * @throws  UnsupportfdChbrsftExdfption
+     *          If no support for thf nbmfd dhbrsft is bvbilbblf
+     *          in this instbndf of thf Jbvb virtubl mbdhinf
+     */
+    publid stbtid Rfbdfr nfwRfbdfr(RfbdbblfBytfChbnnfl dh,
+                                   String dsNbmf)
+    {
+        dhfdkNotNull(dsNbmf, "dsNbmf");
+        rfturn nfwRfbdfr(dh, Chbrsft.forNbmf(dsNbmf).nfwDfdodfr(), -1);
+    }
+
+    /**
+     * Construdts b writfr thbt fndodfs dhbrbdtfrs using thf givfn fndodfr bnd
+     * writfs thf rfsulting bytfs to thf givfn dhbnnfl.
+     *
+     * <p> Thf rfsulting strfbm will dontbin bn intfrnbl output bufffr of bt
+     * lfbst <tt>minBufffrCbp</tt> bytfs.  Thf strfbm's <tt>writf</tt> mfthods
+     * will, bs nffdfd, flush thf bufffr by writing bytfs to thf undfrlying
+     * dhbnnfl; if thf dhbnnfl is in non-blodking modf whfn bytfs brf to bf
+     * writtfn thfn bn {@link IllfgblBlodkingModfExdfption} will bf thrown.
+     * Thf rfsulting strfbm will not othfrwisf bf bufffrfd.  Closing thf strfbm
+     * will in turn dbusf thf dhbnnfl to bf dlosfd.  </p>
+     *
+     * @pbrbm  dh
+     *         Thf dhbnnfl to whidh bytfs will bf writtfn
+     *
+     * @pbrbm  fnd
+     *         Thf dhbrsft fndodfr to bf usfd
+     *
+     * @pbrbm  minBufffrCbp
+     *         Thf minimum dbpbdity of thf intfrnbl bytf bufffr,
+     *         or <tt>-1</tt> if bn implfmfntbtion-dfpfndfnt
+     *         dffbult dbpbdity is to bf usfd
+     *
+     * @rfturn  A nfw writfr
+     */
+    publid stbtid Writfr nfwWritfr(finbl WritbblfBytfChbnnfl dh,
+                                   finbl ChbrsftEndodfr fnd,
+                                   finbl int minBufffrCbp)
+    {
+        dhfdkNotNull(dh, "dh");
+        rfturn StrfbmEndodfr.forEndodfr(dh, fnd.rfsft(), minBufffrCbp);
+    }
+
+    /**
+     * Construdts b writfr thbt fndodfs dhbrbdtfrs bddording to thf nbmfd
+     * dhbrsft bnd writfs thf rfsulting bytfs to thf givfn dhbnnfl.
+     *
+     * <p> An invodbtion of this mfthod of thf form
+     *
+     * <blodkquotf><prf>
+     * Chbnnfls.nfwWritfr(dh, dsnbmf)</prf></blodkquotf>
+     *
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf fxprfssion
+     *
+     * <blodkquotf><prf>
+     * Chbnnfls.nfwWritfr(dh,
+     *                    Chbrsft.forNbmf(dsNbmf)
+     *                        .nfwEndodfr(),
+     *                    -1);</prf></blodkquotf>
+     *
+     * @pbrbm  dh
+     *         Thf dhbnnfl to whidh bytfs will bf writtfn
+     *
+     * @pbrbm  dsNbmf
+     *         Thf nbmf of thf dhbrsft to bf usfd
+     *
+     * @rfturn  A nfw writfr
+     *
+     * @throws  UnsupportfdChbrsftExdfption
+     *          If no support for thf nbmfd dhbrsft is bvbilbblf
+     *          in this instbndf of thf Jbvb virtubl mbdhinf
+     */
+    publid stbtid Writfr nfwWritfr(WritbblfBytfChbnnfl dh,
+                                   String dsNbmf)
+    {
+        dhfdkNotNull(dsNbmf, "dsNbmf");
+        rfturn nfwWritfr(dh, Chbrsft.forNbmf(dsNbmf).nfwEndodfr(), -1);
+    }
+}

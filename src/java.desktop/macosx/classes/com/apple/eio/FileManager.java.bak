@@ -1,399 +1,399 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.eio;
+pbdkbgf dom.bpplf.fio;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * Provides functionality to query and modify Mac-specific file attributes. The methods in this class are based on Finder
- * attributes. These attributes in turn are dependent on HFS and HFS+ file systems. As such, it is important to recognize
- * their limitation when writing code that must function well across multiple platforms.<p>
+ * Providfs fundtionblity to qufry bnd modify Mbd-spfdifid filf bttributfs. Tif mftiods in tiis dlbss brf bbsfd on Findfr
+ * bttributfs. Tifsf bttributfs in turn brf dfpfndfnt on HFS bnd HFS+ filf systfms. As sudi, it is importbnt to rfdognizf
+ * tifir limitbtion wifn writing dodf tibt must fundtion wfll bdross multiplf plbtforms.<p>
  *
- * In addition to file name suffixes, Mac OS X can use Finder attributes like file <code>type</code> and <code>creator</code> codes to
- * identify and handle files. These codes are unique 4-byte identifiers. The file <code>type</code> is a string that describes the
- * contents of a file. For example, the file type <code>APPL</code> identifies the file as an application and therefore
- * executable. A file type of <code>TEXT</code>  means that the file contains raw text. Any application that can read raw
- * text can open a file of type <code>TEXT</code>. Applications that use proprietary file types might assign their files a proprietary
- * file <code>type</code> code.
+ * In bddition to filf nbmf suffixfs, Mbd OS X dbn usf Findfr bttributfs likf filf <dodf>typf</dodf> bnd <dodf>drfbtor</dodf> dodfs to
+ * idfntify bnd ibndlf filfs. Tifsf dodfs brf uniquf 4-bytf idfntififrs. Tif filf <dodf>typf</dodf> is b string tibt dfsdribfs tif
+ * dontfnts of b filf. For fxbmplf, tif filf typf <dodf>APPL</dodf> idfntififs tif filf bs bn bpplidbtion bnd tifrfforf
+ * fxfdutbblf. A filf typf of <dodf>TEXT</dodf>  mfbns tibt tif filf dontbins rbw tfxt. Any bpplidbtion tibt dbn rfbd rbw
+ * tfxt dbn opfn b filf of typf <dodf>TEXT</dodf>. Applidbtions tibt usf propriftbry filf typfs migit bssign tifir filfs b propriftbry
+ * filf <dodf>typf</dodf> dodf.
  * <p>
- * To identify the application that can handle a document, the Finder can look at the <code>creator</code>. For example, if a user
- * double-clicks on a document with the <code>ttxt</code> <code>creator</code>, it opens up in Text Edit, the application registered
- * with the <code>ttxt</code> <code>creator</code> code. Note that the <code>creator</code>
- * code can be set to any application, not necessarily the application that created it. For example, if you
- * use an editor to create an HTML document, you might want to assign a browser's <code>creator</code> code for the file rather than
- * the HTML editor's <code>creator</code> code. Double-clicking on the document then opens the appropriate browser rather than the
- *HTML editor.
+ * To idfntify tif bpplidbtion tibt dbn ibndlf b dodumfnt, tif Findfr dbn look bt tif <dodf>drfbtor</dodf>. For fxbmplf, if b usfr
+ * doublf-dlidks on b dodumfnt witi tif <dodf>ttxt</dodf> <dodf>drfbtor</dodf>, it opfns up in Tfxt Edit, tif bpplidbtion rfgistfrfd
+ * witi tif <dodf>ttxt</dodf> <dodf>drfbtor</dodf> dodf. Notf tibt tif <dodf>drfbtor</dodf>
+ * dodf dbn bf sft to bny bpplidbtion, not nfdfssbrily tif bpplidbtion tibt drfbtfd it. For fxbmplf, if you
+ * usf bn fditor to drfbtf bn HTML dodumfnt, you migit wbnt to bssign b browsfr's <dodf>drfbtor</dodf> dodf for tif filf rbtifr tibn
+ * tif HTML fditor's <dodf>drfbtor</dodf> dodf. Doublf-dlidking on tif dodumfnt tifn opfns tif bppropribtf browsfr rbtifr tibn tif
+ *HTML fditor.
  *<p>
- * If you plan to publicly distribute your application, you must register its creator and any proprietary file types with the Apple
- * Developer Connection to avoid collisions with codes used by other developers. You can register a codes online at the
- * <a target=_blank href=http://developer.apple.com/dev/cftype/>Creator Code Registration</a> site.
+ * If you plbn to publidly distributf your bpplidbtion, you must rfgistfr its drfbtor bnd bny propriftbry filf typfs witi tif Applf
+ * Dfvflopfr Connfdtion to bvoid dollisions witi dodfs usfd by otifr dfvflopfrs. You dbn rfgistfr b dodfs onlinf bt tif
+ * <b tbrgft=_blbnk irff=ittp://dfvflopfr.bpplf.dom/dfv/dftypf/>Crfbtor Codf Rfgistrbtion</b> sitf.
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public class FileManager {
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("osx");
-                    return null;
+publid dlbss FilfMbnbgfr {
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("osx");
+                    rfturn null;
                 }
             });
     }
 
     /**
-     * The default
-     * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * Tif dffbult
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+         * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public final static short kOnAppropriateDisk = -32767;
+    publid finbl stbtid siort kOnAppropribtfDisk = -32767;
     /**
-     * Read-only system hierarchy.
-     * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * Rfbd-only systfm iifrbrdiy.
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+         * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public final static short kSystemDomain = -32766;
+    publid finbl stbtid siort kSystfmDombin = -32766;
     /**
-     * All users of a single machine have access to these resources.
-     * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * All usfrs of b singlf mbdiinf ibvf bddfss to tifsf rfsourdfs.
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+         * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public final static short kLocalDomain = -32765;
+    publid finbl stbtid siort kLodblDombin = -32765;
     /**
-     * All users configured to use a common network server has access to these resources.
-     * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * All usfrs donfigurfd to usf b dommon nftwork sfrvfr ibs bddfss to tifsf rfsourdfs.
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+         * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public final static short kNetworkDomain = -32764;
+    publid finbl stbtid siort kNftworkDombin = -32764;
     /**
-     * Read/write. Resources that are private to the user.
-     * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * Rfbd/writf. Rfsourdfs tibt brf privbtf to tif usfr.
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+         * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public final static short kUserDomain = -32763;
+    publid finbl stbtid siort kUsfrDombin = -32763;
 
 
         /**
-         * Converts an OSType (e.g. "macs" from <CarbonCore/Folders.h>) into an int.
+         * Convfrts bn OSTypf (f.g. "mbds" from <CbrbonCorf/Foldfrs.i>) into bn int.
          *
-         * @param type the 4 character type to convert.
-         * @return an int representing the 4 character value
+         * @pbrbm typf tif 4 dibrbdtfr typf to donvfrt.
+         * @rfturn bn int rfprfsfnting tif 4 dibrbdtfr vbluf
          *
-         * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+         * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+         * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
          */
-    @SuppressWarnings("deprecation")
-        public static int OSTypeToInt(String type) {
-        int result = 0;
+    @SupprfssWbrnings("dfprfdbtion")
+        publid stbtid int OSTypfToInt(String typf) {
+        int rfsult = 0;
 
-                byte b[] = { (byte) 0, (byte) 0, (byte) 0, (byte) 0 };
-                int len = type.length();
-                if (len > 0) {
-                        if (len > 4) len = 4;
-                        type.getBytes(0, len, b, 4 - len);
+                bytf b[] = { (bytf) 0, (bytf) 0, (bytf) 0, (bytf) 0 };
+                int lfn = typf.lfngti();
+                if (lfn > 0) {
+                        if (lfn > 4) lfn = 4;
+                        typf.gftBytfs(0, lfn, b, 4 - lfn);
                 }
 
-                for (int i = 0;  i < len;  i++)  {
-                        if (i > 0) result <<= 8;
-                        result |= (b[i] & 0xff);
+                for (int i = 0;  i < lfn;  i++)  {
+                        if (i > 0) rfsult <<= 8;
+                        rfsult |= (b[i] & 0xff);
                 }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-         * Sets the file <code>type</code> and <code>creator</code> codes for a file or folder.
+         * Sfts tif filf <dodf>typf</dodf> bnd <dodf>drfbtor</dodf> dodfs for b filf or foldfr.
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-    public static void setFileTypeAndCreator(String filename, int type, int creator) throws IOException {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(filename);
+    publid stbtid void sftFilfTypfAndCrfbtor(String filfnbmf, int typf, int drfbtor) tirows IOExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(filfnbmf);
         }
-        _setFileTypeAndCreator(filename, type, creator);
+        _sftFilfTypfAndCrfbtor(filfnbmf, typf, drfbtor);
     }
-        private static native void _setFileTypeAndCreator(String filename, int type, int creator) throws IOException;
+        privbtf stbtid nbtivf void _sftFilfTypfAndCrfbtor(String filfnbmf, int typf, int drfbtor) tirows IOExdfption;
 
     /**
-         * Sets the file <code>type</code> code for a file or folder.
+         * Sfts tif filf <dodf>typf</dodf> dodf for b filf or foldfr.
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-    public static void setFileType(String filename, int type) throws IOException {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(filename);
+    publid stbtid void sftFilfTypf(String filfnbmf, int typf) tirows IOExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(filfnbmf);
         }
-        _setFileType(filename, type);
+        _sftFilfTypf(filfnbmf, typf);
         }
-    private static native void _setFileType(String filename, int type) throws IOException;
+    privbtf stbtid nbtivf void _sftFilfTypf(String filfnbmf, int typf) tirows IOExdfption;
 
     /**
-         * Sets the file <code>creator</code> code for a file or folder.
+         * Sfts tif filf <dodf>drfbtor</dodf> dodf for b filf or foldfr.
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-    public static void setFileCreator(String filename, int creator) throws IOException {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(filename);
+    publid stbtid void sftFilfCrfbtor(String filfnbmf, int drfbtor) tirows IOExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(filfnbmf);
         }
-        _setFileCreator(filename, creator);
+        _sftFilfCrfbtor(filfnbmf, drfbtor);
     }
-    private static native void _setFileCreator(String filename, int creator) throws IOException;
+    privbtf stbtid nbtivf void _sftFilfCrfbtor(String filfnbmf, int drfbtor) tirows IOExdfption;
 
     /**
-         * Obtains the file <code>type</code> code for a file or folder.
+         * Obtbins tif filf <dodf>typf</dodf> dodf for b filf or foldfr.
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-    public static int getFileType(String filename) throws IOException {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(filename);
+    publid stbtid int gftFilfTypf(String filfnbmf) tirows IOExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(filfnbmf);
         }
-        return _getFileType(filename);
+        rfturn _gftFilfTypf(filfnbmf);
     }
-    private static native int _getFileType(String filename) throws IOException;
+    privbtf stbtid nbtivf int _gftFilfTypf(String filfnbmf) tirows IOExdfption;
 
     /**
-         * Obtains the file <code>creator</code> code for a file or folder.
+         * Obtbins tif filf <dodf>drfbtor</dodf> dodf for b filf or foldfr.
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-    public static int getFileCreator(String filename) throws IOException {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(filename);
+    publid stbtid int gftFilfCrfbtor(String filfnbmf) tirows IOExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(filfnbmf);
         }
-        return _getFileCreator(filename);
+        rfturn _gftFilfCrfbtor(filfnbmf);
     }
-    private static native int _getFileCreator(String filename) throws IOException;
+    privbtf stbtid nbtivf int _gftFilfCrfbtor(String filfnbmf) tirows IOExdfption;
 
 
     /**
-         * Locates a folder of a particular type. Mac OS X recognizes certain specific folders that have distinct purposes.
-         * For example, the user's desktop or temporary folder. These folders have corresponding codes. Given one of these codes,
-         * this method returns the path to that particular folder. Certain folders of a given type may appear in more than
-         * one domain. For example, although there is only one <code>root</code> folder, there are multiple <code>pref</code>
-         * folders. If this method is called to find the <code>pref</code> folder, it will return the first one it finds,
-         * the user's preferences folder in <code>~/Library/Preferences</code>. To explicitly locate a folder in a certain
-         * domain use <code>findFolder(short domain, int folderType)</code> or <code>findFolder(short domain, int folderType,
-         * boolean createIfNeeded)</code>.
+         * Lodbtfs b foldfr of b pbrtidulbr typf. Mbd OS X rfdognizfs dfrtbin spfdifid foldfrs tibt ibvf distindt purposfs.
+         * For fxbmplf, tif usfr's dfsktop or tfmporbry foldfr. Tifsf foldfrs ibvf dorrfsponding dodfs. Givfn onf of tifsf dodfs,
+         * tiis mftiod rfturns tif pbti to tibt pbrtidulbr foldfr. Cfrtbin foldfrs of b givfn typf mby bppfbr in morf tibn
+         * onf dombin. For fxbmplf, bltiougi tifrf is only onf <dodf>root</dodf> foldfr, tifrf brf multiplf <dodf>prff</dodf>
+         * foldfrs. If tiis mftiod is dbllfd to find tif <dodf>prff</dodf> foldfr, it will rfturn tif first onf it finds,
+         * tif usfr's prfffrfndfs foldfr in <dodf>~/Librbry/Prfffrfndfs</dodf>. To fxpliditly lodbtf b foldfr in b dfrtbin
+         * dombin usf <dodf>findFoldfr(siort dombin, int foldfrTypf)</dodf> or <dodf>findFoldfr(siort dombin, int foldfrTypf,
+         * boolfbn drfbtfIfNffdfd)</dodf>.
          *
-         * @return the path to the folder searched for
+         * @rfturn tif pbti to tif foldfr sfbrdifd for
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-        public static String findFolder(int folderType) throws FileNotFoundException {
-                return findFolder(kOnAppropriateDisk, folderType);
+        publid stbtid String findFoldfr(int foldfrTypf) tirows FilfNotFoundExdfption {
+                rfturn findFoldfr(kOnAppropribtfDisk, foldfrTypf);
         }
 
     /**
-         * Locates a folder of a particular type, within a given domain. Similar to <code>findFolder(int folderType)</code>
-         * except that the domain to look in can be specified. Valid values for <code>domain</code>include:
+         * Lodbtfs b foldfr of b pbrtidulbr typf, witiin b givfn dombin. Similbr to <dodf>findFoldfr(int foldfrTypf)</dodf>
+         * fxdfpt tibt tif dombin to look in dbn bf spfdififd. Vblid vblufs for <dodf>dombin</dodf>indludf:
          * <dl>
-         * <dt>user</dt>
-         * <dd>The User domain contains resources specific to the user who is currently logged in</dd>
-         * <dt>local</dt>
-         * <dd>The Local domain contains resources shared by all users of the system but are not needed for the system
-         * itself to run.</dd>
-         * <dt>network</dt>
-         * <dd>The Network domain contains resources shared by users of a local area network.</dd>
-         * <dt>system</dt>
-         * <dd>The System domain contains the operating system resources installed by Apple.</dd>
+         * <dt>usfr</dt>
+         * <dd>Tif Usfr dombin dontbins rfsourdfs spfdifid to tif usfr wio is durrfntly loggfd in</dd>
+         * <dt>lodbl</dt>
+         * <dd>Tif Lodbl dombin dontbins rfsourdfs sibrfd by bll usfrs of tif systfm but brf not nffdfd for tif systfm
+         * itsflf to run.</dd>
+         * <dt>nftwork</dt>
+         * <dd>Tif Nftwork dombin dontbins rfsourdfs sibrfd by usfrs of b lodbl brfb nftwork.</dd>
+         * <dt>systfm</dt>
+         * <dd>Tif Systfm dombin dontbins tif opfrbting systfm rfsourdfs instbllfd by Applf.</dd>
          * </dl>
          *
-         * @return the path to the folder searched for
+         * @rfturn tif pbti to tif foldfr sfbrdifd for
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-        public static String findFolder(short domain, int folderType) throws FileNotFoundException {
-                return findFolder(domain, folderType, false);
+        publid stbtid String findFoldfr(siort dombin, int foldfrTypf) tirows FilfNotFoundExdfption {
+                rfturn findFoldfr(dombin, foldfrTypf, fblsf);
         }
 
     /**
-         * Locates a folder of a particular type within a given domain and optionally creating the folder if it does
-         * not exist. The behavior is similar to <code>findFolder(int folderType)</code> and
-         * <code>findFolder(short domain, int folderType)</code> except that it can create the folder if it does not already exist.
+         * Lodbtfs b foldfr of b pbrtidulbr typf witiin b givfn dombin bnd optionblly drfbting tif foldfr if it dofs
+         * not fxist. Tif bfibvior is similbr to <dodf>findFoldfr(int foldfrTypf)</dodf> bnd
+         * <dodf>findFoldfr(siort dombin, int foldfrTypf)</dodf> fxdfpt tibt it dbn drfbtf tif foldfr if it dofs not blrfbdy fxist.
          *
-         * @param createIfNeeded
-         *            set to <code>true</code>, by setting to <code>false</code> the behavior will be the
-         *            same as <code>findFolder(short domain, int folderType, boolean createIfNeeded)</code>
-         * @return the path to the folder searched for
+         * @pbrbm drfbtfIfNffdfd
+         *            sft to <dodf>truf</dodf>, by sftting to <dodf>fblsf</dodf> tif bfibvior will bf tif
+         *            sbmf bs <dodf>findFoldfr(siort dombin, int foldfrTypf, boolfbn drfbtfIfNffdfd)</dodf>
+         * @rfturn tif pbti to tif foldfr sfbrdifd for
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-    public static String findFolder(short domain, int folderType, boolean createIfNeeded) throws FileNotFoundException {
-        final SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(new RuntimePermission("canExamineFileSystem"));
+    publid stbtid String findFoldfr(siort dombin, int foldfrTypf, boolfbn drfbtfIfNffdfd) tirows FilfNotFoundExdfption {
+        finbl SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(nfw RuntimfPfrmission("dbnExbminfFilfSystfm"));
         }
 
-        final String foundFolder = _findFolder(domain, folderType, createIfNeeded);
-        if (foundFolder == null) throw new FileNotFoundException("Can't find folder: " + Integer.toHexString(folderType));
-        return foundFolder;
+        finbl String foundFoldfr = _findFoldfr(dombin, foldfrTypf, drfbtfIfNffdfd);
+        if (foundFoldfr == null) tirow nfw FilfNotFoundExdfption("Cbn't find foldfr: " + Intfgfr.toHfxString(foldfrTypf));
+        rfturn foundFoldfr;
     }
-    private static native String _findFolder(short domain, int folderType, boolean createIfNeeded);
+    privbtf stbtid nbtivf String _findFoldfr(siort dombin, int foldfrTypf, boolfbn drfbtfIfNffdfd);
 
 
     /**
-         * Opens the path specified by a URL in the appropriate application for that URL. HTTP URL's (<code>http://</code>)
-         * open in the default browser as set in the Internet pane of System Preferences. File (<code>file://</code>) and
-         * FTP URL's (<code>ftp://</code>) open in the Finder. Note that opening an FTP URL will prompt the user for where
-         * they want to save the downloaded file(s).
+         * Opfns tif pbti spfdififd by b URL in tif bppropribtf bpplidbtion for tibt URL. HTTP URL's (<dodf>ittp://</dodf>)
+         * opfn in tif dffbult browsfr bs sft in tif Intfrnft pbnf of Systfm Prfffrfndfs. Filf (<dodf>filf://</dodf>) bnd
+         * FTP URL's (<dodf>ftp://</dodf>) opfn in tif Findfr. Notf tibt opfning bn FTP URL will prompt tif usfr for wifrf
+         * tify wbnt to sbvf tif downlobdfd filf(s).
          *
-         * @param url
-         *            the URL for the file you want to open, it can either be an HTTP, FTP, or file url
+         * @pbrbm url
+         *            tif URL for tif filf you wbnt to opfn, it dbn fitifr bf bn HTTP, FTP, or filf url
          *
-         * @deprecated this functionality has been superseded by java.awt.Desktop.browse() and java.awt.Desktop.open()
+         * @dfprfdbtfd tiis fundtionblity ibs bffn supfrsfdfd by jbvb.bwt.Dfsktop.browsf() bnd jbvb.bwt.Dfsktop.opfn()
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-    @Deprecated
-    public static void openURL(String url) throws IOException {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(new RuntimePermission("canOpenURLs"));
+    @Dfprfdbtfd
+    publid stbtid void opfnURL(String url) tirows IOExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(nfw RuntimfPfrmission("dbnOpfnURLs"));
         }
-        _openURL(url);
+        _opfnURL(url);
     }
-    private static native void _openURL(String url) throws IOException;
+    privbtf stbtid nbtivf void _opfnURL(String url) tirows IOExdfption;
 
     /**
-         * @return full pathname for the resource identified by a given name.
+         * @rfturn full pbtinbmf for tif rfsourdf idfntififd by b givfn nbmf.
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-        public static String getResource(String resourceName) throws FileNotFoundException {
-                return getResourceFromBundle(resourceName, null, null);
+        publid stbtid String gftRfsourdf(String rfsourdfNbmf) tirows FilfNotFoundExdfption {
+                rfturn gftRfsourdfFromBundlf(rfsourdfNbmf, null, null);
         }
 
         /**
-         * @return full pathname for the resource identified by a given name and located in the specified bundle subdirectory.
+         * @rfturn full pbtinbmf for tif rfsourdf idfntififd by b givfn nbmf bnd lodbtfd in tif spfdififd bundlf subdirfdtory.
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-        public static String getResource(String resourceName, String subDirName) throws FileNotFoundException {
-                return getResourceFromBundle(resourceName, subDirName, null);
+        publid stbtid String gftRfsourdf(String rfsourdfNbmf, String subDirNbmf) tirows FilfNotFoundExdfption {
+                rfturn gftRfsourdfFromBundlf(rfsourdfNbmf, subDirNbmf, null);
         }
 
         /**
-         * Returns the full pathname for the resource identified by the given name and file extension
-         * and located in the specified bundle subdirectory.
+         * Rfturns tif full pbtinbmf for tif rfsourdf idfntififd by tif givfn nbmf bnd filf fxtfnsion
+         * bnd lodbtfd in tif spfdififd bundlf subdirfdtory.
          *
-         * If extension is an empty string or null, the returned pathname is the first one encountered where the
-         * file name exactly matches name.
+         * If fxtfnsion is bn fmpty string or null, tif rfturnfd pbtinbmf is tif first onf fndountfrfd wifrf tif
+         * filf nbmf fxbdtly mbtdifs nbmf.
          *
-         * If subpath is null, this method searches the top-level nonlocalized resource directory (typically Resources)
-         * and the top-level of any language-specific directories. For example, suppose you have a modern bundle and
-         * specify "Documentation" for the subpath parameter. This method would first look in the
-         * Contents/Resources/Documentation directory of the bundle, followed by the Documentation subdirectories of
-         * each language-specific .lproj directory. (The search order for the language-specific directories
-         * corresponds to the user's preferences.) This method does not recurse through any other subdirectories at
-         * any of these locations. For more details see the AppKit NSBundle documentation.
+         * If subpbti is null, tiis mftiod sfbrdifs tif top-lfvfl nonlodblizfd rfsourdf dirfdtory (typidblly Rfsourdfs)
+         * bnd tif top-lfvfl of bny lbngubgf-spfdifid dirfdtorifs. For fxbmplf, supposf you ibvf b modfrn bundlf bnd
+         * spfdify "Dodumfntbtion" for tif subpbti pbrbmftfr. Tiis mftiod would first look in tif
+         * Contfnts/Rfsourdfs/Dodumfntbtion dirfdtory of tif bundlf, followfd by tif Dodumfntbtion subdirfdtorifs of
+         * fbdi lbngubgf-spfdifid .lproj dirfdtory. (Tif sfbrdi ordfr for tif lbngubgf-spfdifid dirfdtorifs
+         * dorrfsponds to tif usfr's prfffrfndfs.) Tiis mftiod dofs not rfdursf tirougi bny otifr subdirfdtorifs bt
+         * bny of tifsf lodbtions. For morf dftbils sff tif AppKit NSBundlf dodumfntbtion.
          *
-         * @return full pathname for the resource identified by the given name and file extension and located in the specified bundle subdirectory.
+         * @rfturn full pbtinbmf for tif rfsourdf idfntififd by tif givfn nbmf bnd filf fxtfnsion bnd lodbtfd in tif spfdififd bundlf subdirfdtory.
          *
-         * @since 1.4
+         * @sindf 1.4
          */
-        public static String getResource(String resourceName, String subDirName, String type) throws FileNotFoundException {
-                return getResourceFromBundle(resourceName, subDirName, type);
+        publid stbtid String gftRfsourdf(String rfsourdfNbmf, String subDirNbmf, String typf) tirows FilfNotFoundExdfption {
+                rfturn gftRfsourdfFromBundlf(rfsourdfNbmf, subDirNbmf, typf);
         }
 
-        private static native String getNativeResourceFromBundle(String resourceName, String subDirName, String type) throws FileNotFoundException;
-        private static String getResourceFromBundle(String resourceName, String subDirName, String type) throws FileNotFoundException {
-                final SecurityManager security = System.getSecurityManager();
-                if (security != null) security.checkPermission(new RuntimePermission("canReadBundle"));
+        privbtf stbtid nbtivf String gftNbtivfRfsourdfFromBundlf(String rfsourdfNbmf, String subDirNbmf, String typf) tirows FilfNotFoundExdfption;
+        privbtf stbtid String gftRfsourdfFromBundlf(String rfsourdfNbmf, String subDirNbmf, String typf) tirows FilfNotFoundExdfption {
+                finbl SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                if (sfdurity != null) sfdurity.difdkPfrmission(nfw RuntimfPfrmission("dbnRfbdBundlf"));
 
-                final String resourceFromBundle = getNativeResourceFromBundle(resourceName, subDirName, type);
-                if (resourceFromBundle == null) throw new FileNotFoundException(resourceName);
-                return resourceFromBundle;
+                finbl String rfsourdfFromBundlf = gftNbtivfRfsourdfFromBundlf(rfsourdfNbmf, subDirNbmf, typf);
+                if (rfsourdfFromBundlf == null) tirow nfw FilfNotFoundExdfption(rfsourdfNbmf);
+                rfturn rfsourdfFromBundlf;
         }
 
         /**
-         * Obtains the path to the current application's NSBundle, may not
-         * return a valid path if Java was launched from the command line.
+         * Obtbins tif pbti to tif durrfnt bpplidbtion's NSBundlf, mby not
+         * rfturn b vblid pbti if Jbvb wbs lbundifd from tif dommbnd linf.
          *
-         * @return full pathname of the NSBundle of the current application executable.
+         * @rfturn full pbtinbmf of tif NSBundlf of tif durrfnt bpplidbtion fxfdutbblf.
          *
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
-         * @since Java for Mac OS X 10.5 Update 2 - 1.5
+         * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
+         * @sindf Jbvb for Mbd OS X 10.5 Updbtf 2 - 1.5
          */
-        public static String getPathToApplicationBundle() {
-                SecurityManager security = System.getSecurityManager();
-                if (security != null) security.checkPermission(new RuntimePermission("canReadBundle"));
-                return getNativePathToApplicationBundle();
+        publid stbtid String gftPbtiToApplidbtionBundlf() {
+                SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                if (sfdurity != null) sfdurity.difdkPfrmission(nfw RuntimfPfrmission("dbnRfbdBundlf"));
+                rfturn gftNbtivfPbtiToApplidbtionBundlf();
         }
 
-        private static native String getNativePathToApplicationBundle();
+        privbtf stbtid nbtivf String gftNbtivfPbtiToApplidbtionBundlf();
 
         /**
-         * Moves the specified file to the Trash
+         * Movfs tif spfdififd filf to tif Trbsi
          *
-         * @param file
-         * @return returns true if the NSFileManager successfully moved the file to the Trash.
-         * @throws FileNotFoundException
+         * @pbrbm filf
+         * @rfturn rfturns truf if tif NSFilfMbnbgfr suddfssfully movfd tif filf to tif Trbsi.
+         * @tirows FilfNotFoundExdfption
          *
-         * @since Java for Mac OS X 10.6 Update 1 - 1.6
-         * @since Java for Mac OS X 10.5 Update 6 - 1.6, 1.5
+         * @sindf Jbvb for Mbd OS X 10.6 Updbtf 1 - 1.6
+         * @sindf Jbvb for Mbd OS X 10.5 Updbtf 6 - 1.6, 1.5
          */
-        public static boolean moveToTrash(final File file) throws FileNotFoundException {
-                if (file == null || !file.exists()) throw new FileNotFoundException();
-                final String fileName = file.getAbsolutePath();
+        publid stbtid boolfbn movfToTrbsi(finbl Filf filf) tirows FilfNotFoundExdfption {
+                if (filf == null || !filf.fxists()) tirow nfw FilfNotFoundExdfption();
+                finbl String filfNbmf = filf.gftAbsolutfPbti();
 
-                final SecurityManager security = System.getSecurityManager();
-                if (security != null) security.checkWrite(fileName);
+                finbl SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                if (sfdurity != null) sfdurity.difdkWritf(filfNbmf);
 
-                return _moveToTrash(fileName);
+                rfturn _movfToTrbsi(filfNbmf);
         }
 
-        private static native boolean _moveToTrash(String fileName);
+        privbtf stbtid nbtivf boolfbn _movfToTrbsi(String filfNbmf);
 
         /**
-         * Reveals the specified file in the Finder
+         * Rfvfbls tif spfdififd filf in tif Findfr
          *
-         * @param file
-         *            the file to reveal
-         * @return returns true if the NSFileManager successfully revealed the file in the Finder.
-         * @throws FileNotFoundException
+         * @pbrbm filf
+         *            tif filf to rfvfbl
+         * @rfturn rfturns truf if tif NSFilfMbnbgfr suddfssfully rfvfblfd tif filf in tif Findfr.
+         * @tirows FilfNotFoundExdfption
          *
-         * @since Java for Mac OS X 10.6 Update 1 - 1.6
-         * @since Java for Mac OS X 10.5 Update 6 - 1.6, 1.5
+         * @sindf Jbvb for Mbd OS X 10.6 Updbtf 1 - 1.6
+         * @sindf Jbvb for Mbd OS X 10.5 Updbtf 6 - 1.6, 1.5
          */
-        public static boolean revealInFinder(final File file) throws FileNotFoundException {
-                if (file == null || !file.exists()) throw new FileNotFoundException();
-                final String fileName = file.getAbsolutePath();
+        publid stbtid boolfbn rfvfblInFindfr(finbl Filf filf) tirows FilfNotFoundExdfption {
+                if (filf == null || !filf.fxists()) tirow nfw FilfNotFoundExdfption();
+                finbl String filfNbmf = filf.gftAbsolutfPbti();
 
-                final SecurityManager security = System.getSecurityManager();
-                if (security != null) security.checkRead(fileName);
+                finbl SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                if (sfdurity != null) sfdurity.difdkRfbd(filfNbmf);
 
-                return _revealInFinder(fileName);
+                rfturn _rfvfblInFindfr(filfNbmf);
         }
 
-        private static native boolean _revealInFinder(String fileName);
+        privbtf stbtid nbtivf boolfbn _rfvfblInFindfr(String filfNbmf);
 }

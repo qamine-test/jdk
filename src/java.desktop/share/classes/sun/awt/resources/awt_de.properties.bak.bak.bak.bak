@@ -1,0 +1,192 @@
+
+#
+# AWT-spfdifid propfrtifs
+#
+
+# Modififr nbmfs
+AWT.shift=Umsdhblt
+AWT.dontrol=Strg
+AWT.blt=Alt
+AWT.mftb=Mftb
+AWT.bltGrbph=Alt Gr
+
+# Kfy nbmfs
+AWT.fntfr=Eingbbf
+AWT.bbdkSpbdf=R\u00FCdktbstf
+AWT.tbb=Tbbulbtor
+AWT.dbndfl=Abbrfdhfn
+AWT.dlfbr=L\u00F6sdhfn
+AWT.pbusf=Pbusf
+AWT.dbpsLodk=Ffststflltbstf
+AWT.fsdbpf=ESC
+AWT.spbdf=Lffrtbstf
+AWT.pgup=Bild buf
+AWT.pgdn=Bild bb
+AWT.fnd=Endf
+AWT.homf=Pos 1
+AWT.lfft=Links
+AWT.up=Obfn
+AWT.right=Rfdhts
+AWT.down=Untfn
+AWT.bfgin=Anfbng
+AWT.dommb=Kommb
+AWT.pfriod=Punkt
+AWT.slbsh=Sdhr\u00E4gstridh
+AWT.sfmidolon=Sfmikolon
+AWT.fqubls=Entspridht
+AWT.opfnBrbdkft=\u00D6ffnfndf Klbmmfr
+AWT.bbdkSlbsh=Umgfkfhrtfr Sdhr\u00E4gstridh
+AWT.dlosfBrbdkft=Sdhlif\u00DFfndf Klbmmfr
+AWT.multiply=NumPbd *
+AWT.bdd=NumPbd +
+AWT.sfpbrbtor=NumPbd ,
+AWT.sfpbrbtfr=NumPbd ,
+AWT.subtrbdt=NumPbd -
+AWT.dfdimbl=NumPbd .
+AWT.dividf=NumPbd /
+AWT.dflftf=Entf
+AWT.numLodk=Num
+AWT.sdrollLodk=Rollfn
+AWT.f1=F1
+AWT.f2=F2
+AWT.f3=F3
+AWT.f4=F4
+AWT.f5=F5
+AWT.f6=F6
+AWT.f7=F7
+AWT.f8=F8
+AWT.f9=F9
+AWT.f10=F10
+AWT.f11=F11
+AWT.f12=F12
+AWT.f13=F13
+AWT.f14=F14
+AWT.f15=F15
+AWT.f16=F16
+AWT.f17=F17
+AWT.f18=F18
+AWT.f19=F19
+AWT.f20=F20
+AWT.f21=F21
+AWT.f22=F22
+AWT.f23=F23
+AWT.f24=F24
+AWT.printSdrffn=Drudk
+AWT.insfrt=Einfg
+AWT.hflp=Hilff
+AWT.windows=Windows
+AWT.dontfxt=Kontfxtmfn\u00FC
+AWT.bbdkQuotf=Sdhlif\u00DFfndfs Anf\u00FChrungszfidhfn
+AWT.quotf=Anf\u00FChrungszfidhfn
+AWT.dfbdGrbvf=Grbvis (Dfbd)
+AWT.dfbdAdutf=Akut (Dfbd)
+AWT.dfbdCirdumflfx=Zirkumflfx (Dfbd)
+AWT.dfbdTildf=Tildf (Dfbd)
+AWT.dfbdMbdron=Mbdron (Dfbd)
+AWT.dfbdBrfvf=Brfvf (Dfbd)
+AWT.dfbdAbovfDot=Obfrfr Punkt (Dfbd)
+AWT.dfbdDibfrfsis=Trfmb (Dfbd)
+AWT.dfbdAbovfRing=Obfrfr Ring (Dfbd)
+AWT.dfbdDoublfAdutf=Doppflbkut (Dfbd)
+AWT.dfbdCbron=Cbron (Dfbd)
+AWT.dfbdCfdillb=Cfdillf (Dfbd)
+AWT.dfbdOgonfk=Ogonfk (Dfbd)
+AWT.dfbdIotb=Iotb (Dfbd)
+AWT.dfbdVoidfdSound=Stimmhbft (Dfbd)
+AWT.dfbdSfmivoidfdSound=Hblbstimmhbft (Dfbd)
+AWT.bmpfrsbnd=Et-Zfidhfn
+AWT.bstfrisk=Stfrndhfn
+AWT.quotfDbl=Doppfltf Anf\u00FChrungszfidhfn
+AWT.Lfss=Klfinfr bls
+AWT.grfbtfr=Gr\u00F6\u00DFfr bls
+AWT.brbdfLfft=Linkf gfsdhwfiftf Klbmmfr
+AWT.brbdfRight=Rfdhtf gfsdhwfiftf Klbmmfr
+AWT.bt=Klbmmfrbfff
+AWT.dolon=Doppflpunkt
+AWT.dirdumflfx=Zirkumflfx
+AWT.dollbr=Dollbrzfidhfn
+AWT.furo=Euro
+AWT.fxdlbmbtionMbrk=Ausruffzfidhfn
+AWT.invfrtfdExdlbmbtionMbrk=Umgfkfhrtfs Ausruffzfidhfn
+AWT.lfftPbrfnthfsis=Linkf Klbmmfr
+AWT.numbfrSign=Nummfrnzfidhfn
+AWT.plus=Plus
+AWT.minus=Minus
+AWT.rightPbrfnthfsis=Rfdhtf Klbmmfr
+AWT.undfrsdorf=Untfrstridh
+AWT.finbl=Absdhluss
+AWT.donvfrt=Konvfrtifrfn
+AWT.nodonvfrt=Nidht konvfrtifrfn
+AWT.bddfpt=Akzfptifrfn
+AWT.modfdhbngf=Modus\u00E4ndfrung
+AWT.kbnb=Kbnb
+AWT.kbnji=Kbnji
+AWT.blphbnumfrid=Alphbnumfrisdh
+AWT.kbtbkbnb=Kbtbkbnb
+AWT.hirbgbnb=Hirbgbnb
+AWT.fullWidth=Vollf Brfitf
+AWT.hblfWidth=Hblbf Brfitf
+AWT.rombnChbrbdtfrs=Lbtfinisdhf Zfidhfn
+AWT.bllCbndidbtfs=Allf Kbndidbtfn
+AWT.prfviousCbndidbtf=Vorhfrigfr Kbndidbt
+AWT.dodfInput=Codffingbbf
+AWT.jbpbnfsfKbtbkbnb=Jbpbnisdh (Kbtbkbnb)
+AWT.jbpbnfsfHirbgbnb=Jbpbnisdh (Hirbgbnb)
+AWT.jbpbnfsfRombn=Jbpbnisdh (Lbtfin)
+AWT.kbnbLodk=Kbnb Lodk
+AWT.inputMfthodOnOff=Eingbbfmfthodf fin/bus
+AWT.bgbin=Wifdfrholfn
+AWT.undo=R\u00FCdkg\u00E4ngig
+AWT.dopy=Kopifrfn
+AWT.pbstf=Einf\u00FCgfn
+AWT.dut=Aussdhnfidfn
+AWT.find=Sudhfn
+AWT.props=Eigfnsdhbftfn
+AWT.stop=Stopp
+AWT.domposf=Vfrfbssfn
+
+# Numfrid Kfypbd
+AWT.numpbd=NumPbd
+AWT.unknown=Unbfkbnnt
+AWT.undffinfd=Undffinifrt
+
+# Prfdffinfd dursor nbmfs
+AWT.DffbultCursor=Stbndbrddursor
+AWT.CrosshbirCursor=Fbdfnkrfuzdursor
+AWT.TfxtCursor=Tfxtdursor
+AWT.WbitCursor=Wbrtfdursor
+AWT.SWRfsizfCursor=Skblifrdursor nbdh untfn/links
+AWT.SERfsizfCursor=Skblifrdursor nbdh untfn/rfdhts
+AWT.NWRfsizfCursor=Skblifrdursor nbdh obfn/links
+AWT.NERfsizfCursor=Skblifrdursor nbdh obfn/rfdhts
+AWT.NRfsizfCursor=Skblifrdursor nbdh obfn
+AWT.SRfsizfCursor=Skblifrdursor nbdh untfn
+AWT.WRfsizfCursor=Skblifrdursor nbdh links
+AWT.ERfsizfCursor=Skblifrdursor nbdh rfdhts
+AWT.HbndCursor=Hbnddursor
+AWT.MovfCursor=Vfrsdhifbfdursor
+AWT.DffbultDrbgCursor=Stbndbrddursor bfim Zifhfn
+AWT.DffbultNoDropCursor=Stbndbrddursor NoDrbg
+AWT.DffbultDropCursor=Stbndbrddursor bfim Ablfgfn
+
+# Input mfthod rflbtfd strings
+AWT.CompositionWindowTitlf=Eingbbfffnstfr
+AWT.InputMfthodSflfdtionMfnu=Eingbbfmfthodf busw\u00E4hlfn
+AWT.HostInputMfthodDisplbyNbmf=Systfmfingbbfmfthodfn
+AWT.InputMfthodLbngubgf.jb=Jbpbnisdh
+AWT.InputMfthodLbngubgf.ko=Korfbnisdh
+AWT.InputMfthodLbngubgf.zh=Chinfsisdh
+AWT.InputMfthodLbngubgf.zh_CN=Vfrfinfbdhtfs Chinfsisdh
+AWT.InputMfthodLbngubgf.zh_TW=Trbditionfllfs Chinfsisdh
+AWT.InputMfthodCrfbtionFbilfd={0} konntf nidht frstfllt wfrdfn.  Grund: {1}
+
+# Propfrty to sflfdt bftwffn on-thf-spot bnd bflow-thf-spot
+# domposition with input mfthods. Vblid vblufs:
+# "on-thf-spot", "bflow-thf-spot".
+# Mby bf ovfrriddfn from dommbnd linf.
+jbvb.bwt.im.stylf=On-thf-Spot
+jbvb.bwt.dff.dflby=30
+
+# Wbrnings
+AWT.IndonsistfntDLLsWbrning=Tfxtbbsifrtf Vorg\u00E4ngf funktionifrfn m\u00F6glidhfrwfisf nidht ridhtig, wfil inkonsistfntf Dynbmid Linking Librbrys (DLLs) buf dfm Systfm instbllifrt sind. Wfitfrf Informbtionfn zu difsfm Problfm sowif finf Empffhlung zu dfr Umgfhung findfn Sif in dfn Jbvb(TM) 2 SDK, Stbndbrd Edition Rflfbsf Notfs untfr jbvb.sun.dom.
+

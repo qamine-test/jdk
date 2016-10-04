@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import sun.bwt.*;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.pipf.GlyphListPipf;
+import sun.jbvb2d.xr.*;
+
+/**
+ * A dflfgbtf pipf of SG2D for drbwing bny tfxt to b XRfndfr surfbdf
+ *
+ * @buthor Clfmfns Eissfrfr
+ */
+publid dlbss XRTfxtRfndfrfr fxtfnds GlyphListPipf {
+    // Workbrround for b bug in libXrfndfr.
+    // In dbsf thf numbfr of glyphs of bn ELT is b multiplf of 254,
+    // b ffw gbrbbgf bytfs brf sfnt to thf XSfrvfr dbusing hbngs.
+    stbtid finbl int MAX_ELT_GLYPH_COUNT = 253;
+
+    XRGlyphCbdhf glyphCbdhf;
+    XRCompositfMbnbgfr mbskBufffr;
+    XRBbdkfnd bbdkfnd;
+
+    GrowbblfEltArrby fltList;
+
+    publid XRTfxtRfndfrfr(XRCompositfMbnbgfr bufffr) {
+        glyphCbdhf = nfw XRGlyphCbdhf(bufffr);
+        mbskBufffr = bufffr;
+        bbdkfnd = bufffr.gftBbdkfnd();
+        fltList = nfw GrowbblfEltArrby(64);
+    }
+
+    protfdtfd void drbwGlyphList(SunGrbphids2D sg2d, GlyphList gl) {
+        if (gl.gftNumGlyphs() == 0) {
+            rfturn;
+        }
+
+        try {
+            SunToolkit.bwtLodk();
+
+            XRSurfbdfDbtb x11sd = (XRSurfbdfDbtb) sg2d.surfbdfDbtb;
+            x11sd.vblidbtfAsDfstinbtion(null, sg2d.gftCompClip());
+            x11sd.mbskBufffr.vblidbtfCompositfStbtf(sg2d.dompositf, sg2d.trbnsform, sg2d.pbint, sg2d);
+
+            flobt bdvX = gl.gftX();
+            flobt bdvY = gl.gftY();
+            int oldPosX = 0, oldPosY = 0;
+
+            if (gl.isSubPixPos()) {
+                bdvX += 0.1666667f;
+                bdvY += 0.1666667f;
+            } flsf {
+                bdvX += 0.5f;
+                bdvY += 0.5f;
+            }
+
+            XRGlyphCbdhfEntry[] dbdhfdGlyphs = glyphCbdhf.dbdhfGlyphs(gl);
+            boolfbn dontbinsLCDGlyphs = fblsf;
+            int bdtivfGlyphSft = dbdhfdGlyphs[0].gftGlyphSft();
+
+            int fltIndfx = -1;
+            gl.gftBounds();
+            flobt[] positions = gl.gftPositions();
+            for (int i = 0; i < gl.gftNumGlyphs(); i++) {
+                gl.sftGlyphIndfx(i);
+                XRGlyphCbdhfEntry dbdhfEntry = dbdhfdGlyphs[i];
+
+                fltList.gftGlyphs().bddInt(dbdhfEntry.gftGlyphID());
+                int glyphSft = dbdhfEntry.gftGlyphSft();
+
+                dontbinsLCDGlyphs |= (glyphSft == glyphCbdhf.lddGlyphSft);
+
+                int posX = 0, posY = 0;
+                if (gl.usfPositions()
+                        || dbdhfEntry.gftXAdvbndf() != ((flobt) dbdhfEntry.gftXOff())
+                        || dbdhfEntry.gftYAdvbndf() != ((flobt) dbdhfEntry.gftYOff())
+                        || glyphSft != bdtivfGlyphSft
+                        || fltIndfx < 0
+                        || fltList.gftChbrCnt(fltIndfx) == MAX_ELT_GLYPH_COUNT) {
+
+                    fltIndfx = fltList.gftNfxtIndfx();
+                    fltList.sftChbrCnt(fltIndfx, 1);
+                    bdtivfGlyphSft = glyphSft;
+                    fltList.sftGlyphSft(fltIndfx, glyphSft);
+
+                    if (gl.usfPositions()) {
+                        // In this dbsf bdvX only storfs rounding frrors
+                        flobt x = positions[i * 2] + bdvX;
+                        flobt y = positions[i * 2 + 1] + bdvY;
+                        posX = (int) Mbth.floor(x);
+                        posY = (int) Mbth.floor(y);
+                        bdvX -= dbdhfEntry.gftXOff();
+                        bdvY -= dbdhfEntry.gftYOff();
+                    } flsf {
+                        /*
+                         * Cbldulbtf nfxt glyph's position in thf dbsf of
+                         * rflbtivf positioning. In XRfndfr wf dbn only position
+                         * glyphs using intfgfr doordinbtfs, thfrffor wf sum bll
+                         * thf bdvbndfs up bs flobt, bnd donvfrt thfm to intfgfr
+                         * lbtfr. This wby rounding-frror dbn bf dorrfdtfd, bnd
+                         * is rfquirfd to bf donsistfnt with thf softwbrf loops.
+                         */
+                        posX = (int) Mbth.floor(bdvX);
+                        posY = (int) Mbth.floor(bdvY);
+
+                        // Advbndf of ELT = difffrfndf bftwffn storfd rflbtivf
+                        // positioning informbtion bnd rfquirfd flobt.
+                        bdvX += (dbdhfEntry.gftXAdvbndf() - dbdhfEntry.gftXOff());
+                        bdvY += (dbdhfEntry.gftYAdvbndf() - dbdhfEntry.gftYOff());
+                    }
+
+                    // Offsft of thf durrfnt glyph is thf difffrfndf
+                    // to thf lbst glyph bnd this onf
+                    fltList.sftXOff(fltIndfx, (posX - oldPosX));
+                    fltList.sftYOff(fltIndfx, (posY - oldPosY));
+
+                    oldPosX = posX;
+                    oldPosY = posY;
+
+                } flsf {
+                    fltList.sftChbrCnt(fltIndfx, fltList.gftChbrCnt(fltIndfx) + 1);
+                }
+            }
+
+            int mbskFormbt = dontbinsLCDGlyphs ? XRUtils.PidtStbndbrdARGB32 : XRUtils.PidtStbndbrdA8;
+            mbskBufffr.dompositfTfxt(x11sd, (int) gl.gftX(), (int) gl.gftY(), 0, mbskFormbt, fltList);
+
+            fltList.dlfbr();
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+}

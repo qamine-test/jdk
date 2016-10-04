@@ -1,0 +1,601 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* gzwritf.d -- zlib fundtions for writing gzip filfs
+ * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyright notidf in zlib.h
+ */
+
+#indludf "gzguts.h"
+
+/* Lodbl fundtions */
+lodbl int gz_init OF((gz_stbtfp));
+lodbl int gz_domp OF((gz_stbtfp, int));
+lodbl int gz_zfro OF((gz_stbtfp, z_off64_t));
+
+/* Initiblizf stbtf for writing b gzip filf.  Mbrk initiblizbtion by sftting
+   stbtf->sizf to non-zfro.  Rfturn -1 on fbilurf or 0 on suddfss. */
+lodbl int gz_init(stbtf)
+    gz_stbtfp stbtf;
+{
+    int rft;
+    z_strfbmp strm = &(stbtf->strm);
+
+    /* bllodbtf input bufffr */
+    stbtf->in = (unsignfd dhbr *)mbllod(stbtf->wbnt);
+    if (stbtf->in == NULL) {
+        gz_frror(stbtf, Z_MEM_ERROR, "out of mfmory");
+        rfturn -1;
+    }
+
+    /* only nffd output bufffr bnd dfflbtf stbtf if domprfssing */
+    if (!stbtf->dirfdt) {
+        /* bllodbtf output bufffr */
+        stbtf->out = (unsignfd dhbr *)mbllod(stbtf->wbnt);
+        if (stbtf->out == NULL) {
+            frff(stbtf->in);
+            gz_frror(stbtf, Z_MEM_ERROR, "out of mfmory");
+            rfturn -1;
+        }
+
+        /* bllodbtf dfflbtf mfmory, sft up for gzip domprfssion */
+        strm->zbllod = Z_NULL;
+        strm->zfrff = Z_NULL;
+        strm->opbquf = Z_NULL;
+        rft = dfflbtfInit2(strm, stbtf->lfvfl, Z_DEFLATED,
+                           MAX_WBITS + 16, DEF_MEM_LEVEL, stbtf->strbtfgy);
+        if (rft != Z_OK) {
+            frff(stbtf->out);
+            frff(stbtf->in);
+            gz_frror(stbtf, Z_MEM_ERROR, "out of mfmory");
+            rfturn -1;
+        }
+    }
+
+    /* mbrk stbtf bs initiblizfd */
+    stbtf->sizf = stbtf->wbnt;
+
+    /* initiblizf writf bufffr if domprfssing */
+    if (!stbtf->dirfdt) {
+        strm->bvbil_out = stbtf->sizf;
+        strm->nfxt_out = stbtf->out;
+        stbtf->x.nfxt = strm->nfxt_out;
+    }
+    rfturn 0;
+}
+
+/* Comprfss whbtfvfr is bt bvbil_in bnd nfxt_in bnd writf to thf output filf.
+   Rfturn -1 if thfrf is bn frror writing to thf output filf, othfrwisf 0.
+   flush is bssumfd to bf b vblid dfflbtf() flush vbluf.  If flush is Z_FINISH,
+   thfn thf dfflbtf() stbtf is rfsft to stbrt b nfw gzip strfbm.  If gz->dirfdt
+   is truf, thfn simply writf to thf output filf without domprfssing, bnd
+   ignorf flush. */
+lodbl int gz_domp(stbtf, flush)
+    gz_stbtfp stbtf;
+    int flush;
+{
+    int rft, got;
+    unsignfd hbvf;
+    z_strfbmp strm = &(stbtf->strm);
+
+    /* bllodbtf mfmory if this is thf first timf through */
+    if (stbtf->sizf == 0 && gz_init(stbtf) == -1)
+        rfturn -1;
+
+    /* writf dirfdtly if rfqufstfd */
+    if (stbtf->dirfdt) {
+        got = writf(stbtf->fd, strm->nfxt_in, strm->bvbil_in);
+        if (got < 0 || (unsignfd)got != strm->bvbil_in) {
+            gz_frror(stbtf, Z_ERRNO, zstrfrror());
+            rfturn -1;
+        }
+        strm->bvbil_in = 0;
+        rfturn 0;
+    }
+
+    /* run dfflbtf() on providfd input until it produdfs no morf output */
+    rft = Z_OK;
+    do {
+        /* writf out durrfnt bufffr dontfnts if full, or if flushing, but if
+           doing Z_FINISH thfn don't writf until wf gft to Z_STREAM_END */
+        if (strm->bvbil_out == 0 || (flush != Z_NO_FLUSH &&
+            (flush != Z_FINISH || rft == Z_STREAM_END))) {
+            hbvf = (unsignfd)(strm->nfxt_out - stbtf->x.nfxt);
+            if (hbvf && ((got = writf(stbtf->fd, stbtf->x.nfxt, hbvf)) < 0 ||
+                         (unsignfd)got != hbvf)) {
+                gz_frror(stbtf, Z_ERRNO, zstrfrror());
+                rfturn -1;
+            }
+            if (strm->bvbil_out == 0) {
+                strm->bvbil_out = stbtf->sizf;
+                strm->nfxt_out = stbtf->out;
+            }
+            stbtf->x.nfxt = strm->nfxt_out;
+        }
+
+        /* domprfss */
+        hbvf = strm->bvbil_out;
+        rft = dfflbtf(strm, flush);
+        if (rft == Z_STREAM_ERROR) {
+            gz_frror(stbtf, Z_STREAM_ERROR,
+                      "intfrnbl frror: dfflbtf strfbm dorrupt");
+            rfturn -1;
+        }
+        hbvf -= strm->bvbil_out;
+    } whilf (hbvf);
+
+    /* if thbt domplftfd b dfflbtf strfbm, bllow bnothfr to stbrt */
+    if (flush == Z_FINISH)
+        dfflbtfRfsft(strm);
+
+    /* bll donf, no frrors */
+    rfturn 0;
+}
+
+/* Comprfss lfn zfros to output.  Rfturn -1 on frror, 0 on suddfss. */
+lodbl int gz_zfro(stbtf, lfn)
+    gz_stbtfp stbtf;
+    z_off64_t lfn;
+{
+    int first;
+    unsignfd n;
+    z_strfbmp strm = &(stbtf->strm);
+
+    /* donsumf whbtfvfr's lfft in thf input bufffr */
+    if (strm->bvbil_in && gz_domp(stbtf, Z_NO_FLUSH) == -1)
+        rfturn -1;
+
+    /* domprfss lfn zfros (lfn gubrbntffd > 0) */
+    first = 1;
+    whilf (lfn) {
+        n = GT_OFF(stbtf->sizf) || (z_off64_t)stbtf->sizf > lfn ?
+            (unsignfd)lfn : stbtf->sizf;
+        if (first) {
+            mfmsft(stbtf->in, 0, n);
+            first = 0;
+        }
+        strm->bvbil_in = n;
+        strm->nfxt_in = stbtf->in;
+        stbtf->x.pos += n;
+        if (gz_domp(stbtf, Z_NO_FLUSH) == -1)
+            rfturn -1;
+        lfn -= n;
+    }
+    rfturn 0;
+}
+
+/* -- sff zlib.h -- */
+int ZEXPORT gzwritf(filf, buf, lfn)
+    gzFilf filf;
+    voidpd buf;
+    unsignfd lfn;
+{
+    unsignfd put = lfn;
+    gz_stbtfp stbtf;
+    z_strfbmp strm;
+
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn 0;
+    stbtf = (gz_stbtfp)filf;
+    strm = &(stbtf->strm);
+
+    /* dhfdk thbt wf'rf writing bnd thbt thfrf's no frror */
+    if (stbtf->modf != GZ_WRITE || stbtf->frr != Z_OK)
+        rfturn 0;
+
+    /* sindf bn int is rfturnfd, mbkf surf lfn fits in onf, othfrwisf rfturn
+       with bn frror (this bvoids thf flbw in thf intfrfbdf) */
+    if ((int)lfn < 0) {
+        gz_frror(stbtf, Z_DATA_ERROR, "rfqufstfd lfngth dofs not fit in int");
+        rfturn 0;
+    }
+
+    /* if lfn is zfro, bvoid unnfdfssbry opfrbtions */
+    if (lfn == 0)
+        rfturn 0;
+
+    /* bllodbtf mfmory if this is thf first timf through */
+    if (stbtf->sizf == 0 && gz_init(stbtf) == -1)
+        rfturn 0;
+
+    /* dhfdk for sffk rfqufst */
+    if (stbtf->sffk) {
+        stbtf->sffk = 0;
+        if (gz_zfro(stbtf, stbtf->skip) == -1)
+            rfturn 0;
+    }
+
+    /* for smbll lfn, dopy to input bufffr, othfrwisf domprfss dirfdtly */
+    if (lfn < stbtf->sizf) {
+        /* dopy to input bufffr, domprfss whfn full */
+        do {
+            unsignfd hbvf, dopy;
+
+            if (strm->bvbil_in == 0)
+                strm->nfxt_in = stbtf->in;
+            hbvf = (unsignfd)((strm->nfxt_in + strm->bvbil_in) - stbtf->in);
+            dopy = stbtf->sizf - hbvf;
+            if (dopy > lfn)
+                dopy = lfn;
+            mfmdpy(stbtf->in + hbvf, buf, dopy);
+            strm->bvbil_in += dopy;
+            stbtf->x.pos += dopy;
+            buf = (donst dhbr *)buf + dopy;
+            lfn -= dopy;
+            if (lfn && gz_domp(stbtf, Z_NO_FLUSH) == -1)
+                rfturn 0;
+        } whilf (lfn);
+    }
+    flsf {
+        /* donsumf whbtfvfr's lfft in thf input bufffr */
+        if (strm->bvbil_in && gz_domp(stbtf, Z_NO_FLUSH) == -1)
+            rfturn 0;
+
+        /* dirfdtly domprfss usfr bufffr to filf */
+        strm->bvbil_in = lfn;
+        strm->nfxt_in = (z_donst Bytff *)buf;
+        stbtf->x.pos += lfn;
+        if (gz_domp(stbtf, Z_NO_FLUSH) == -1)
+            rfturn 0;
+    }
+
+    /* input wbs bll bufffrfd or domprfssfd (put will fit in int) */
+    rfturn (int)put;
+}
+
+/* -- sff zlib.h -- */
+int ZEXPORT gzputd(filf, d)
+    gzFilf filf;
+    int d;
+{
+    unsignfd hbvf;
+    unsignfd dhbr buf[1];
+    gz_stbtfp stbtf;
+    z_strfbmp strm;
+
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn -1;
+    stbtf = (gz_stbtfp)filf;
+    strm = &(stbtf->strm);
+
+    /* dhfdk thbt wf'rf writing bnd thbt thfrf's no frror */
+    if (stbtf->modf != GZ_WRITE || stbtf->frr != Z_OK)
+        rfturn -1;
+
+    /* dhfdk for sffk rfqufst */
+    if (stbtf->sffk) {
+        stbtf->sffk = 0;
+        if (gz_zfro(stbtf, stbtf->skip) == -1)
+            rfturn -1;
+    }
+
+    /* try writing to input bufffr for spffd (stbtf->sizf == 0 if bufffr not
+       initiblizfd) */
+    if (stbtf->sizf) {
+        if (strm->bvbil_in == 0)
+            strm->nfxt_in = stbtf->in;
+        hbvf = (unsignfd)((strm->nfxt_in + strm->bvbil_in) - stbtf->in);
+        if (hbvf < stbtf->sizf) {
+            stbtf->in[hbvf] = d;
+            strm->bvbil_in++;
+            stbtf->x.pos++;
+            rfturn d & 0xff;
+        }
+    }
+
+    /* no room in bufffr or not initiblizfd, usf gz_writf() */
+    buf[0] = d;
+    if (gzwritf(filf, buf, 1) != 1)
+        rfturn -1;
+    rfturn d & 0xff;
+}
+
+/* -- sff zlib.h -- */
+int ZEXPORT gzputs(filf, str)
+    gzFilf filf;
+    donst dhbr *str;
+{
+    int rft;
+    unsignfd lfn;
+
+    /* writf string */
+    lfn = (unsignfd)strlfn(str);
+    rft = gzwritf(filf, str, lfn);
+    rfturn rft == 0 && lfn != 0 ? -1 : rft;
+}
+
+#if dffinfd(STDC) || dffinfd(Z_HAVE_STDARG_H)
+#indludf <stdbrg.h>
+
+/* -- sff zlib.h -- */
+int ZEXPORTVA gzvprintf(gzFilf filf, donst dhbr *formbt, vb_list vb)
+{
+    int sizf, lfn;
+    gz_stbtfp stbtf;
+    z_strfbmp strm;
+
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn -1;
+    stbtf = (gz_stbtfp)filf;
+    strm = &(stbtf->strm);
+
+    /* dhfdk thbt wf'rf writing bnd thbt thfrf's no frror */
+    if (stbtf->modf != GZ_WRITE || stbtf->frr != Z_OK)
+        rfturn 0;
+
+    /* mbkf surf wf hbvf somf bufffr spbdf */
+    if (stbtf->sizf == 0 && gz_init(stbtf) == -1)
+        rfturn 0;
+
+    /* dhfdk for sffk rfqufst */
+    if (stbtf->sffk) {
+        stbtf->sffk = 0;
+        if (gz_zfro(stbtf, stbtf->skip) == -1)
+            rfturn 0;
+    }
+
+    /* donsumf whbtfvfr's lfft in thf input bufffr */
+    if (strm->bvbil_in && gz_domp(stbtf, Z_NO_FLUSH) == -1)
+        rfturn 0;
+
+    /* do thf printf() into thf input bufffr, put lfngth in lfn */
+    sizf = (int)(stbtf->sizf);
+    stbtf->in[sizf - 1] = 0;
+#ifdff NO_vsnprintf
+#  ifdff HAS_vsprintf_void
+    (void)vsprintf((dhbr *)(stbtf->in), formbt, vb);
+    for (lfn = 0; lfn < sizf; lfn++)
+        if (stbtf->in[lfn] == 0) brfbk;
+#  flsf
+    lfn = vsprintf((dhbr *)(stbtf->in), formbt, vb);
+#  fndif
+#flsf
+#  ifdff HAS_vsnprintf_void
+    (void)vsnprintf((dhbr *)(stbtf->in), sizf, formbt, vb);
+    lfn = strlfn((dhbr *)(stbtf->in));
+#  flsf
+    lfn = vsnprintf((dhbr *)(stbtf->in), sizf, formbt, vb);
+#  fndif
+#fndif
+
+    /* dhfdk thbt printf() rfsults fit in bufffr */
+    if (lfn <= 0 || lfn >= (int)sizf || stbtf->in[sizf - 1] != 0)
+        rfturn 0;
+
+    /* updbtf bufffr bnd position, dfffr domprfssion until nffdfd */
+    strm->bvbil_in = (unsignfd)lfn;
+    strm->nfxt_in = stbtf->in;
+    stbtf->x.pos += lfn;
+    rfturn lfn;
+}
+
+int ZEXPORTVA gzprintf(gzFilf filf, donst dhbr *formbt, ...)
+{
+    vb_list vb;
+    int rft;
+
+    vb_stbrt(vb, formbt);
+    rft = gzvprintf(filf, formbt, vb);
+    vb_fnd(vb);
+    rfturn rft;
+}
+
+#flsf /* !STDC && !Z_HAVE_STDARG_H */
+
+/* -- sff zlib.h -- */
+int ZEXPORTVA gzprintf (filf, formbt, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10,
+                       b11, b12, b13, b14, b15, b16, b17, b18, b19, b20)
+    gzFilf filf;
+    donst dhbr *formbt;
+    int b1, b2, b3, b4, b5, b6, b7, b8, b9, b10,
+        b11, b12, b13, b14, b15, b16, b17, b18, b19, b20;
+{
+    int sizf, lfn;
+    gz_stbtfp stbtf;
+    z_strfbmp strm;
+
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn -1;
+    stbtf = (gz_stbtfp)filf;
+    strm = &(stbtf->strm);
+
+    /* dhfdk thbt dbn rfblly pbss pointfr in ints */
+    if (sizfof(int) != sizfof(void *))
+        rfturn 0;
+
+    /* dhfdk thbt wf'rf writing bnd thbt thfrf's no frror */
+    if (stbtf->modf != GZ_WRITE || stbtf->frr != Z_OK)
+        rfturn 0;
+
+    /* mbkf surf wf hbvf somf bufffr spbdf */
+    if (stbtf->sizf == 0 && gz_init(stbtf) == -1)
+        rfturn 0;
+
+    /* dhfdk for sffk rfqufst */
+    if (stbtf->sffk) {
+        stbtf->sffk = 0;
+        if (gz_zfro(stbtf, stbtf->skip) == -1)
+            rfturn 0;
+    }
+
+    /* donsumf whbtfvfr's lfft in thf input bufffr */
+    if (strm->bvbil_in && gz_domp(stbtf, Z_NO_FLUSH) == -1)
+        rfturn 0;
+
+    /* do thf printf() into thf input bufffr, put lfngth in lfn */
+    sizf = (int)(stbtf->sizf);
+    stbtf->in[sizf - 1] = 0;
+#ifdff NO_snprintf
+#  ifdff HAS_sprintf_void
+    sprintf((dhbr *)(stbtf->in), formbt, b1, b2, b3, b4, b5, b6, b7, b8,
+            b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20);
+    for (lfn = 0; lfn < sizf; lfn++)
+        if (stbtf->in[lfn] == 0) brfbk;
+#  flsf
+    lfn = sprintf((dhbr *)(stbtf->in), formbt, b1, b2, b3, b4, b5, b6, b7, b8,
+                  b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20);
+#  fndif
+#flsf
+#  ifdff HAS_snprintf_void
+    snprintf((dhbr *)(stbtf->in), sizf, formbt, b1, b2, b3, b4, b5, b6, b7, b8,
+             b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20);
+    lfn = strlfn((dhbr *)(stbtf->in));
+#  flsf
+    lfn = snprintf((dhbr *)(stbtf->in), sizf, formbt, b1, b2, b3, b4, b5, b6,
+                   b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18,
+                   b19, b20);
+#  fndif
+#fndif
+
+    /* dhfdk thbt printf() rfsults fit in bufffr */
+    if (lfn <= 0 || lfn >= (int)sizf || stbtf->in[sizf - 1] != 0)
+        rfturn 0;
+
+    /* updbtf bufffr bnd position, dfffr domprfssion until nffdfd */
+    strm->bvbil_in = (unsignfd)lfn;
+    strm->nfxt_in = stbtf->in;
+    stbtf->x.pos += lfn;
+    rfturn lfn;
+}
+
+#fndif
+
+/* -- sff zlib.h -- */
+int ZEXPORT gzflush(filf, flush)
+    gzFilf filf;
+    int flush;
+{
+    gz_stbtfp stbtf;
+
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn -1;
+    stbtf = (gz_stbtfp)filf;
+
+    /* dhfdk thbt wf'rf writing bnd thbt thfrf's no frror */
+    if (stbtf->modf != GZ_WRITE || stbtf->frr != Z_OK)
+        rfturn Z_STREAM_ERROR;
+
+    /* dhfdk flush pbrbmftfr */
+    if (flush < 0 || flush > Z_FINISH)
+        rfturn Z_STREAM_ERROR;
+
+    /* dhfdk for sffk rfqufst */
+    if (stbtf->sffk) {
+        stbtf->sffk = 0;
+        if (gz_zfro(stbtf, stbtf->skip) == -1)
+            rfturn -1;
+    }
+
+    /* domprfss rfmbining dbtb with rfqufstfd flush */
+    gz_domp(stbtf, flush);
+    rfturn stbtf->frr;
+}
+
+/* -- sff zlib.h -- */
+int ZEXPORT gzsftpbrbms(filf, lfvfl, strbtfgy)
+    gzFilf filf;
+    int lfvfl;
+    int strbtfgy;
+{
+    gz_stbtfp stbtf;
+    z_strfbmp strm;
+
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn Z_STREAM_ERROR;
+    stbtf = (gz_stbtfp)filf;
+    strm = &(stbtf->strm);
+
+    /* dhfdk thbt wf'rf writing bnd thbt thfrf's no frror */
+    if (stbtf->modf != GZ_WRITE || stbtf->frr != Z_OK)
+        rfturn Z_STREAM_ERROR;
+
+    /* if no dhbngf is rfqufstfd, thfn do nothing */
+    if (lfvfl == stbtf->lfvfl && strbtfgy == stbtf->strbtfgy)
+        rfturn Z_OK;
+
+    /* dhfdk for sffk rfqufst */
+    if (stbtf->sffk) {
+        stbtf->sffk = 0;
+        if (gz_zfro(stbtf, stbtf->skip) == -1)
+            rfturn -1;
+    }
+
+    /* dhbngf domprfssion pbrbmftfrs for subsfqufnt input */
+    if (stbtf->sizf) {
+        /* flush prfvious input with prfvious pbrbmftfrs bfforf dhbnging */
+        if (strm->bvbil_in && gz_domp(stbtf, Z_PARTIAL_FLUSH) == -1)
+            rfturn stbtf->frr;
+        dfflbtfPbrbms(strm, lfvfl, strbtfgy);
+    }
+    stbtf->lfvfl = lfvfl;
+    stbtf->strbtfgy = strbtfgy;
+    rfturn Z_OK;
+}
+
+/* -- sff zlib.h -- */
+int ZEXPORT gzdlosf_w(filf)
+    gzFilf filf;
+{
+    int rft = Z_OK;
+    gz_stbtfp stbtf;
+
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn Z_STREAM_ERROR;
+    stbtf = (gz_stbtfp)filf;
+
+    /* dhfdk thbt wf'rf writing */
+    if (stbtf->modf != GZ_WRITE)
+        rfturn Z_STREAM_ERROR;
+
+    /* dhfdk for sffk rfqufst */
+    if (stbtf->sffk) {
+        stbtf->sffk = 0;
+        if (gz_zfro(stbtf, stbtf->skip) == -1)
+            rft = stbtf->frr;
+    }
+
+    /* flush, frff mfmory, bnd dlosf filf */
+    if (gz_domp(stbtf, Z_FINISH) == -1)
+        rft = stbtf->frr;
+    if (stbtf->sizf) {
+        if (!stbtf->dirfdt) {
+            (void)dfflbtfEnd(&(stbtf->strm));
+            frff(stbtf->out);
+        }
+        frff(stbtf->in);
+    }
+    gz_frror(stbtf, Z_OK, NULL);
+    frff(stbtf->pbth);
+    if (dlosf(stbtf->fd) == -1)
+        rft = Z_ERRNO;
+    frff(stbtf);
+    rfturn rft;
+}

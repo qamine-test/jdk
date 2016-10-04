@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf "gssbpi.h"
+
+#ifndff _Indludfd_NATIVE_Util
+#dffinf _Indludfd_NATIVE_Util
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+  fxtfrn jint gftJbvbTimf(OM_uint32);
+  fxtfrn OM_uint32 gftGSSTimf(jint);
+  fxtfrn void dhfdkStbtus(JNIEnv *, jobjfdt, OM_uint32, OM_uint32, dhbr*);
+  fxtfrn jint dhfdkTimf(OM_uint32);
+  fxtfrn void throwOutOfMfmoryError(JNIEnv *, donst dhbr*);
+  fxtfrn void initGSSBufffr(JNIEnv *, jbytfArrby, gss_bufffr_t);
+  fxtfrn void rfsftGSSBufffr(gss_bufffr_t);
+
+  fxtfrn gss_OID nfwGSSOID(JNIEnv *, jobjfdt);
+  fxtfrn void dflftfGSSOID(gss_OID);
+  fxtfrn gss_OID_sft nfwGSSOIDSft(gss_OID);
+  fxtfrn void dflftfGSSOIDSft(gss_OID_sft);
+
+  fxtfrn jbytfArrby gftJbvbBufffr(JNIEnv *, gss_bufffr_t);
+  fxtfrn jstring gftJbvbString(JNIEnv *, gss_bufffr_t);
+  fxtfrn jobjfdt gftJbvbOID(JNIEnv *, gss_OID);
+  fxtfrn jobjfdtArrby gftJbvbOIDArrby(JNIEnv *, gss_OID_sft);
+
+  fxtfrn jstring gftMinorMfssbgf(JNIEnv *, jobjfdt, OM_uint32);
+  fxtfrn int sbmfMfdh(gss_OID, gss_OID);
+
+  JNIEXPORT jint JNICALL JNI_OnLobd(JbvbVM *, void *);
+  JNIEXPORT void JNICALL JNI_OnUnlobd(JbvbVM *, void *);
+
+  fxtfrn int JGSS_DEBUG;
+
+  fxtfrn jdlbss CLS_Objfdt;
+  fxtfrn jdlbss CLS_GSSNbmfElfmfnt;
+  fxtfrn jdlbss CLS_GSSCrfdElfmfnt;
+  fxtfrn jdlbss CLS_NbtivfGSSContfxt;
+  fxtfrn jmfthodID MID_MfssbgfProp_gftPrivbdy;
+  fxtfrn jmfthodID MID_MfssbgfProp_gftQOP;
+  fxtfrn jmfthodID MID_MfssbgfProp_sftPrivbdy;
+  fxtfrn jmfthodID MID_MfssbgfProp_sftQOP;
+  fxtfrn jmfthodID MID_MfssbgfProp_sftSupplfmfntbryStbtfs;
+  fxtfrn jmfthodID MID_ChbnnflBinding_gftInitibtorAddr;
+  fxtfrn jmfthodID MID_ChbnnflBinding_gftAddfptorAddr;
+  fxtfrn jmfthodID MID_ChbnnflBinding_gftAppDbtb;
+  fxtfrn jmfthodID MID_InftAddrfss_gftAddr;
+  fxtfrn jmfthodID MID_GSSNbmfElfmfnt_dtor;
+  fxtfrn jmfthodID MID_GSSCrfdElfmfnt_dtor;
+  fxtfrn jmfthodID MID_NbtivfGSSContfxt_dtor;
+  fxtfrn jfifldID FID_GSSLibStub_pMfdh;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_pContfxt;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_srdNbmf;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_tbrgftNbmf;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_isInitibtor;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_isEstbblishfd;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_dflfgbtfdCrfd;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_flbgs;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_lifftimf;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_bdtublMfdh;
+  #dffinf TRACE0(s) { if (JGSS_DEBUG) { puts(s); fflush(stdout); }}
+  #dffinf TRACE1(s, p1) { if (JGSS_DEBUG) { printf(s"\n", p1); fflush(stdout); }}
+  #dffinf TRACE2(s, p1, p2) { if (JGSS_DEBUG) { printf(s"\n", p1, p2); fflush(stdout); }}
+  #dffinf TRACE3(s, p1, p2, p3) { if (JGSS_DEBUG) { printf(s"\n", p1, p2, p3); fflush(stdout); }}
+
+
+#ifdff __dplusplus
+}
+#fndif
+#fndif

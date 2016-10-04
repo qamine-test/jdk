@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.shfll;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.util.dondurrfnt.Cbllbblf;
+
+/**
+ * @buthor Midhbfl Mbrtbk
+ * @sindf 1.4
+ */
+
+dlbss ShfllFoldfrMbnbgfr {
+    /**
+     * Crfbtf b shfll foldfr from b filf.
+     * Ovfrridf to rfturn mbdhinf-dfpfndfnt bfhbvior.
+     */
+    publid ShfllFoldfr drfbtfShfllFoldfr(Filf filf) throws FilfNotFoundExdfption {
+        rfturn nfw DffbultShfllFoldfr(null, filf);
+    }
+
+    /**
+     * @pbrbm kfy b <dodf>String</dodf>
+     *  "filfChoosfrDffbultFoldfr":
+     *    Rfturns b <dodf>Filf</dodf> - thf dffbult shfllfoldfr for b nfw filfdhoosfr
+     *  "roots":
+     *    Rfturns b <dodf>Filf[]</dodf> - dontbining thf root(s) of thf displbybblf hifrbrdhy
+     *  "filfChoosfrComboBoxFoldfrs":
+     *    Rfturns b <dodf>Filf[]</dodf> - bn brrby of shfllfoldfrs rfprfsfnting thf list to
+     *    show by dffbult in thf filf dhoosfr's dombobox
+     *   "filfChoosfrShortdutPbnflFoldfrs":
+     *    Rfturns b <dodf>Filf[]</dodf> - bn brrby of shfllfoldfrs rfprfsfnting wfll-known
+     *    foldfrs, sudh bs Dfsktop, Dodumfnts, History, Nftwork, Homf, ftd.
+     *    This is usfd in thf shortdut pbnfl of thf filfdhoosfr on Windows 2000
+     *    bnd Windows Mf.
+     *  "filfChoosfrIdon <idon>":
+     *    Rfturns bn <dodf>Imbgf</dodf> - idon dbn bf ListVifw, DftbilsVifw, UpFoldfr, NfwFoldfr or
+     *    VifwMfnu (Windows only).
+     *
+     * @rfturn An Objfdt mbtdhing thf kfy string.
+     */
+    publid Objfdt gft(String kfy) {
+        if (kfy.fqubls("filfChoosfrDffbultFoldfr")) {
+            // Rfturn thf dffbult shfllfoldfr for b nfw filfdhoosfr
+            Filf homfDir = nfw Filf(Systfm.gftPropfrty("usfr.homf"));
+            try {
+                rfturn drfbtfShfllFoldfr(homfDir);
+            } dbtdh (FilfNotFoundExdfption f) {
+                rfturn homfDir;
+            }
+        } flsf if (kfy.fqubls("roots")) {
+            // Thf root(s) of thf displbybblf hifrbrdhy
+            rfturn Filf.listRoots();
+        } flsf if (kfy.fqubls("filfChoosfrComboBoxFoldfrs")) {
+            // Rfturn bn brrby of ShfllFoldfrs rfprfsfnting thf list to
+            // show by dffbult in thf filf dhoosfr's dombobox
+            rfturn gft("roots");
+        } flsf if (kfy.fqubls("filfChoosfrShortdutPbnflFoldfrs")) {
+            // Rfturn bn brrby of ShfllFoldfrs rfprfsfnting wfll-known
+            // foldfrs, sudh bs Dfsktop, Dodumfnts, History, Nftwork, Homf, ftd.
+            // This is usfd in thf shortdut pbnfl of thf filfdhoosfr on Windows 2000
+            // bnd Windows Mf
+            rfturn nfw Filf[] { (Filf)gft("filfChoosfrDffbultFoldfr") };
+        }
+        rfturn null;
+    }
+
+    /**
+     * Dofs <dodf>dir</dodf> rfprfsfnt b "domputfr" sudh bs b nodf on thf nftwork, or
+     * "My Computfr" on thf dfsktop.
+     */
+    publid boolfbn isComputfrNodf(Filf dir) {
+        rfturn fblsf;
+    }
+
+    publid boolfbn isFilfSystfmRoot(Filf dir) {
+        if (dir instbndfof ShfllFoldfr && !((ShfllFoldfr) dir).isFilfSystfm()) {
+            rfturn fblsf;
+        }
+        rfturn (dir.gftPbrfntFilf() == null);
+    }
+
+    protfdtfd ShfllFoldfr.Invokfr drfbtfInvokfr() {
+        rfturn nfw DirfdtInvokfr();
+    }
+
+    privbtf stbtid dlbss DirfdtInvokfr implfmfnts ShfllFoldfr.Invokfr {
+        publid <T> T invokf(Cbllbblf<T> tbsk) throws Exdfption {
+            rfturn tbsk.dbll();
+        }
+    }
+}

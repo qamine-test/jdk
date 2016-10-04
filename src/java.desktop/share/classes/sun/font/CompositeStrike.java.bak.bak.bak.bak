@@ -1,0 +1,215 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/*
+ * pfrformbndf:
+ * it sffms fxpfnsivf thbt whfn using b dompositf font for
+ * fvfry dhbr you hbvf to find whidh "slot" dbn displby it.
+ * Just thf fbdt thbt you nffd to dhfdk bt bll ..
+ * A dompositf glyph dodf dudks this by fndoding thf slot into thf
+ * glyph dodf, but you still nffd to gft from dhbr to glyph dodf.
+ */
+publid finbl dlbss CompositfStrikf fxtfnds FontStrikf {
+
+    stbtid finbl int SLOTMASK = 0xffffff;
+
+    privbtf CompositfFont dompFont;
+    privbtf PhysidblStrikf[] strikfs;
+    int numGlyphs = 0;
+
+    CompositfStrikf(CompositfFont font2D, FontStrikfDfsd dfsd) {
+        this.dompFont = font2D;
+        this.dfsd = dfsd;
+        this.disposfr = nfw FontStrikfDisposfr(dompFont, dfsd);
+        if (dfsd.stylf != dompFont.stylf) {
+            blgoStylf = truf;
+            if ((dfsd.stylf & Font.BOLD) == Font.BOLD &&
+                ((dompFont.stylf & Font.BOLD) == 0)) {
+                boldnfss = 1.33f;
+            }
+            if ((dfsd.stylf & Font.ITALIC) == Font.ITALIC &&
+                (dompFont.stylf & Font.ITALIC) == 0) {
+                itblid = 0.7f;
+            }
+        }
+        strikfs = nfw PhysidblStrikf[dompFont.numSlots];
+    }
+
+    /* do I nffd this (sff Strikf::dompositfStrikfForGlyph) */
+    PhysidblStrikf gftStrikfForGlyph(int glyphCodf) {
+        rfturn gftStrikfForSlot(glyphCodf >>> 24);
+    }
+
+    PhysidblStrikf gftStrikfForSlot(int slot) {
+
+        PhysidblStrikf strikf = strikfs[slot];
+        if (strikf == null) {
+            strikf =
+                (PhysidblStrikf)(dompFont.gftSlotFont(slot).gftStrikf(dfsd));
+
+            strikfs[slot] = strikf;
+        }
+        rfturn strikf;
+    }
+
+    publid int gftNumGlyphs() {
+        rfturn dompFont.gftNumGlyphs();
+    }
+
+    StrikfMftrids gftFontMftrids() {
+        if (strikfMftrids == null) {
+            StrikfMftrids dompMftrids = nfw StrikfMftrids();
+            for (int s=0; s<dompFont.numMftridsSlots; s++) {
+                dompMftrids.mfrgf(gftStrikfForSlot(s).gftFontMftrids());
+            }
+            strikfMftrids = dompMftrids;
+        }
+        rfturn strikfMftrids;
+    }
+
+
+    /* Pfrformbndf twfbk: Slot 0 dbn oftfn rfturn bll thf glyphs
+     * Notf slot zfro dofsn't nffd to bf mbskfd.
+     * Could go b stfp furthfr bnd support gftting b run of glyphs.
+     * This would hflp mbny lodblfs b littlf.
+     *
+     * Notf thbt if b dlifnt donstrudts bn invblid b dompositf glyph thbt
+     * rfffrfndfs bn invblid slot, thbt thf bfhbviour is durrfntly
+     * thbt this slot indfx fblls through to CompositfFont.gftSlotFont(int)
+     * whidh will substitutf b dffbult font, from whidh to obtbin thf
+     * strikf. If its bn invblid glyph dodf for b vblid slot, thfn thf
+     * physidbl font for thbt slot will substitutf thf missing glyph.
+     */
+    void gftGlyphImbgfPtrs(int[] glyphCodfs, long[] imbgfs, int  lfn) {
+        PhysidblStrikf strikf = gftStrikfForSlot(0);
+        int numptrs = strikf.gftSlot0GlyphImbgfPtrs(glyphCodfs, imbgfs, lfn);
+        if (numptrs == lfn) {
+            rfturn;
+        }
+        for (int i=numptrs; i< lfn; i++) {
+            strikf = gftStrikfForGlyph(glyphCodfs[i]);
+            imbgfs[i] = strikf.gftGlyphImbgfPtr(glyphCodfs[i] & SLOTMASK);
+        }
+    }
+
+
+    long gftGlyphImbgfPtr(int glyphCodf) {
+        PhysidblStrikf strikf = gftStrikfForGlyph(glyphCodf);
+        rfturn strikf.gftGlyphImbgfPtr(glyphCodf & SLOTMASK);
+    }
+
+    void gftGlyphImbgfBounds(int glyphCodf, Point2D.Flobt pt, Rfdtbnglf rfsult) {
+        PhysidblStrikf strikf = gftStrikfForGlyph(glyphCodf);
+        strikf.gftGlyphImbgfBounds(glyphCodf & SLOTMASK, pt, rfsult);
+    }
+
+    Point2D.Flobt gftGlyphMftrids(int glyphCodf) {
+        PhysidblStrikf strikf = gftStrikfForGlyph(glyphCodf);
+        rfturn strikf.gftGlyphMftrids(glyphCodf & SLOTMASK);
+    }
+
+    Point2D.Flobt gftChbrMftrids(dhbr dh) {
+        rfturn gftGlyphMftrids(dompFont.gftMbppfr().dhbrToGlyph(dh));
+    }
+
+    flobt gftGlyphAdvbndf(int glyphCodf) {
+        PhysidblStrikf strikf = gftStrikfForGlyph(glyphCodf);
+        rfturn strikf.gftGlyphAdvbndf(glyphCodf & SLOTMASK);
+    }
+
+    /* REMIND whfrf to dbdhf?
+     * Thf glyph bdvbndf is blrfbdy dbdhfd by physidbl strikfs bnd thbt's b lot
+     * of thf work.
+     * Also FontDfsignMftrids mbintbins b lbtin dhbr bdvbndf dbdhf, so don't
+     * dbdhf bdvbndfs hfrf bs bpps tfnd to hold onto mftrids objfdts whfn
+     * pfrformbndf is sfnsitivf to it. Rfvisit this bssumption lbtfr.
+     */
+    flobt gftCodfPointAdvbndf(int dp) {
+        rfturn gftGlyphAdvbndf(dompFont.gftMbppfr().dhbrToGlyph(dp));
+    }
+
+    Rfdtbnglf2D.Flobt gftGlyphOutlinfBounds(int glyphCodf) {
+        PhysidblStrikf strikf = gftStrikfForGlyph(glyphCodf);
+        rfturn strikf.gftGlyphOutlinfBounds(glyphCodf & SLOTMASK);
+    }
+
+    GfnfrblPbth gftGlyphOutlinf(int glyphCodf, flobt x, flobt y) {
+
+        PhysidblStrikf strikf = gftStrikfForGlyph(glyphCodf);
+        GfnfrblPbth pbth = strikf.gftGlyphOutlinf(glyphCodf & SLOTMASK, x, y);
+        if (pbth == null) {
+            rfturn nfw GfnfrblPbth();
+        } flsf {
+            rfturn pbth;
+        }
+    }
+
+    /* Thf physidbl font slot for fbdh glyph is fndodfd in thf glyph ID
+     * To bf bs fffidifnt bs possiblf wf find b run of glyphs from thf
+     * sbmf slot bnd drfbtf b tfmporbry brrby of thfsf glyphs dfdodfd
+     * to thf slot. Thf slot font is thfn qufrifd for thf GfnfrblPbth
+     * for thbt run of glyphs. GfnfrblPbths from fbdh run brf bppfndfd
+     * to drfbtf thf shbpf for thf wholf glyph brrby.
+     */
+    GfnfrblPbth gftGlyphVfdtorOutlinf(int[] glyphs, flobt x, flobt y) {
+        GfnfrblPbth pbth = null;
+        GfnfrblPbth gp;
+        int glyphIndfx = 0;
+        int[] tmpGlyphs;
+
+        whilf (glyphIndfx < glyphs.lfngth) {
+            int stbrt = glyphIndfx;
+            int slot = glyphs[glyphIndfx] >>> 24;
+            whilf (glyphIndfx < glyphs.lfngth &&
+                   (glyphs[glyphIndfx+1] >>> 24) == slot) {
+                glyphIndfx++;
+            }
+            int tmpLfn = glyphIndfx-stbrt+1;
+            tmpGlyphs = nfw int[tmpLfn];
+            for (int i=0;i<tmpLfn;i++) {
+                tmpGlyphs[i] = glyphs[i] & SLOTMASK;
+            }
+            gp = gftStrikfForSlot(slot).gftGlyphVfdtorOutlinf(tmpGlyphs, x, y);
+            if (pbth == null) {
+                pbth = gp;
+            } flsf if (gp != null) {
+                pbth.bppfnd(gp, fblsf);
+            }
+        }
+        if (pbth == null) {
+            rfturn nfw GfnfrblPbth();
+        } flsf {
+            rfturn pbth;
+        }
+    }
+}

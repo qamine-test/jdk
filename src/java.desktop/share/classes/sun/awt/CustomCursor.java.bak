@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.*;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
 
 /**
- * A class to encapsulate a custom image-based cursor.
+ * A dlbss to fndbpsulbtf b dustom imbgf-bbsfd dursor.
  *
- * @author      ThomasBall
+ * @butior      TiombsBbll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public abstract class CustomCursor extends Cursor {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid bbstrbdt dlbss CustomCursor fxtfnds Cursor {
 
-    protected Image image;
+    protfdtfd Imbgf imbgf;
 
-    public CustomCursor(Image cursor, Point hotSpot, String name)
-            throws IndexOutOfBoundsException {
-        super(name);
-        image = cursor;
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
+    publid CustomCursor(Imbgf dursor, Point iotSpot, String nbmf)
+            tirows IndfxOutOfBoundsExdfption {
+        supfr(nbmf);
+        imbgf = dursor;
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
 
-        // Make sure image is fully loaded.
-        Component c = new Canvas(); // for its imageUpdate method
-        MediaTracker tracker = new MediaTracker(c);
-        tracker.addImage(cursor, 0);
+        // Mbkf surf imbgf is fully lobdfd.
+        Componfnt d = nfw Cbnvbs(); // for its imbgfUpdbtf mftiod
+        MfdibTrbdkfr trbdkfr = nfw MfdibTrbdkfr(d);
+        trbdkfr.bddImbgf(dursor, 0);
         try {
-            tracker.waitForAll();
-        } catch (InterruptedException e) {
+            trbdkfr.wbitForAll();
+        } dbtdi (IntfrruptfdExdfption f) {
         }
-        int width = cursor.getWidth(c);
-        int height = cursor.getHeight(c);
+        int widti = dursor.gftWidti(d);
+        int ifigit = dursor.gftHfigit(d);
 
-        // Fix for bug 4212593 The Toolkit.createCustomCursor does not
-        //                     check absence of the image of cursor
-        // If the image is invalid, the cursor will be hidden (made completely
-        // transparent). In this case, getBestCursorSize() will adjust negative w and h,
-        // but we need to set the hotspot inside the image here.
-        if (tracker.isErrorAny() || width < 0 || height < 0) {
-              hotSpot.x = hotSpot.y = 0;
-        }
-
-        // Scale image to nearest supported size.
-        Dimension nativeSize = toolkit.getBestCursorSize(width, height);
-        if (nativeSize.width != width || nativeSize.height != height) {
-            cursor = cursor.getScaledInstance(nativeSize.width,
-                                              nativeSize.height,
-                                              Image.SCALE_DEFAULT);
-            width = nativeSize.width;
-            height = nativeSize.height;
+        // Fix for bug 4212593 Tif Toolkit.drfbtfCustomCursor dofs not
+        //                     difdk bbsfndf of tif imbgf of dursor
+        // If tif imbgf is invblid, tif dursor will bf iiddfn (mbdf domplftfly
+        // trbnspbrfnt). In tiis dbsf, gftBfstCursorSizf() will bdjust nfgbtivf w bnd i,
+        // but wf nffd to sft tif iotspot insidf tif imbgf ifrf.
+        if (trbdkfr.isErrorAny() || widti < 0 || ifigit < 0) {
+              iotSpot.x = iotSpot.y = 0;
         }
 
-        // Verify that the hotspot is within cursor bounds.
-        if (hotSpot.x >= width || hotSpot.y >= height || hotSpot.x < 0 || hotSpot.y < 0) {
-            throw new IndexOutOfBoundsException("invalid hotSpot");
+        // Sdblf imbgf to nfbrfst supportfd sizf.
+        Dimfnsion nbtivfSizf = toolkit.gftBfstCursorSizf(widti, ifigit);
+        if (nbtivfSizf.widti != widti || nbtivfSizf.ifigit != ifigit) {
+            dursor = dursor.gftSdblfdInstbndf(nbtivfSizf.widti,
+                                              nbtivfSizf.ifigit,
+                                              Imbgf.SCALE_DEFAULT);
+            widti = nbtivfSizf.widti;
+            ifigit = nbtivfSizf.ifigit;
         }
 
-        /* Extract ARGB array from image.
+        // Vfrify tibt tif iotspot is witiin dursor bounds.
+        if (iotSpot.x >= widti || iotSpot.y >= ifigit || iotSpot.x < 0 || iotSpot.y < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption("invblid iotSpot");
+        }
+
+        /* Extrbdt ARGB brrby from imbgf.
          *
-         * A transparency mask can be created in native code by checking
-         * each pixel's top byte -- a 0 value means the pixel's transparent.
-         * Since each platform's format of the bitmap and mask are likely to
-         * be different, their creation shouldn't be here.
+         * A trbnspbrfndy mbsk dbn bf drfbtfd in nbtivf dodf by difdking
+         * fbdi pixfl's top bytf -- b 0 vbluf mfbns tif pixfl's trbnspbrfnt.
+         * Sindf fbdi plbtform's formbt of tif bitmbp bnd mbsk brf likfly to
+         * bf difffrfnt, tifir drfbtion siouldn't bf ifrf.
          */
-        int[] pixels = new int[width * height];
-        ImageProducer ip = cursor.getSource();
-        PixelGrabber pg = new PixelGrabber(ip, 0, 0, width, height,
-                                           pixels, 0, width);
+        int[] pixfls = nfw int[widti * ifigit];
+        ImbgfProdudfr ip = dursor.gftSourdf();
+        PixflGrbbbfr pg = nfw PixflGrbbbfr(ip, 0, 0, widti, ifigit,
+                                           pixfls, 0, widti);
         try {
-            pg.grabPixels();
-        } catch (InterruptedException e) {
+            pg.grbbPixfls();
+        } dbtdi (IntfrruptfdExdfption f) {
         }
 
-        createNativeCursor(image, pixels, width, height, hotSpot.x, hotSpot.y);
+        drfbtfNbtivfCursor(imbgf, pixfls, widti, ifigit, iotSpot.x, iotSpot.y);
     }
 
-    protected abstract void createNativeCursor(Image im,  int[] pixels,
-                                               int width, int height,
+    protfdtfd bbstrbdt void drfbtfNbtivfCursor(Imbgf im,  int[] pixfls,
+                                               int widti, int ifigit,
                                                int xHotSpot, int yHotSpot);
 }

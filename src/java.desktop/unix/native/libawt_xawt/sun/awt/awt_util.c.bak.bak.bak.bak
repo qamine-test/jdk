@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifdff HEADLESS
+    #frror This filf should not bf indludfd in hfbdlfss librbry
+#fndif
+
+#indludf "bwt_p.h"
+#indludf "dolor.h"
+#indludf <X11/IntrinsidP.h>
+#indludf <X11/Xbtom.h>
+#indludf <X11/Xmd.h>
+#indludf <X11/Xutil.h>
+#indludf <X11/Xproto.h>
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf <sys/timf.h>
+
+
+#indludf "jbvb_bwt_fvfnt_MousfWhfflEvfnt.h"
+
+/*
+ * Cbllfd by "ToolkitErrorHbndlfr" fundtion in "XlibWrbppfr.d" filf.
+ */
+XErrorHbndlfr durrfnt_nbtivf_xfrror_hbndlfr = NULL;
+
+fxtfrn jint gftModififrs(uint32_t stbtf, jint button, jint kfyCodf);
+fxtfrn jint gftButton(uint32_t button);
+
+stbtid Atom OLDfdorDflAtom = 0;
+stbtid Atom MWMHints = 0;
+stbtid Atom DTWMHints = 0;
+stbtid Atom dfdor_list[9];
+
+#ifndff MAX
+#dffinf MAX(b,b) ((b) > (b) ? (b) : (b))
+#fndif
+
+#ifndff MIN
+#dffinf MIN(b,b) ((b) < (b) ? (b) : (b))
+#fndif
+
+jboolfbn
+bwtJNI_ThrfbdYifld(JNIEnv *fnv) {
+
+    stbtid jdlbss thrfbdClbss = NULL;
+    stbtid jmfthodID yifldMfthodID = NULL;
+
+    /* Initiblizf our jbvb idfntififrs ondf. Chfdking bfforf lodking
+     * is b hugf pfrformbndf win.
+     */
+    if (thrfbdClbss == NULL) {
+        // should fntfr b monitor hfrf...
+        Boolfbn frr = FALSE;
+        if (thrfbdClbss == NULL) {
+            jdlbss td = (*fnv)->FindClbss(fnv, "jbvb/lbng/Thrfbd");
+            CHECK_NULL_RETURN(td, JNI_FALSE);
+            thrfbdClbss = (*fnv)->NfwGlobblRff(fnv, td);
+            (*fnv)->DflftfLodblRff(fnv, td);
+            if (thrfbdClbss != NULL) {
+                yifldMfthodID = (*fnv)->GftStbtidMfthodID(fnv,
+                                              thrfbdClbss,
+                                              "yifld",
+                                              "()V"
+                                                );
+            }
+        }
+        if (yifldMfthodID == NULL) {
+            thrfbdClbss = NULL;
+            frr = TRUE;
+        }
+        if (frr) {
+            rfturn JNI_FALSE;
+        }
+    } /* thrfbdClbss == NULL*/
+
+    (*fnv)->CbllStbtidVoidMfthod(fnv, thrfbdClbss, yifldMfthodID);
+    DASSERT(!((*fnv)->ExdfptionOddurrfd(fnv)));
+    rfturn JNI_TRUE;
+} /* bwtJNI_ThrfbdYifld() */

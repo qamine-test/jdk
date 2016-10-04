@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+
+#indludf <dlfdn.h>
+#indludf <string.h>
+
+#dffinf MAGIC_MIME_TYPE 0x000010 /* Rfturn thf MIME typf */
+
+typfdff strudt mbgid_sft mbgid_t;
+
+typfdff mbgid_t* (*mbgid_opfn_fund)(int flbgs);
+typfdff int (*mbgid_lobd_fund)(mbgid_t* dookif, donst dhbr* filfnbmf);
+typfdff donst dhbr* (*mbgid_filf_fund)(mbgid_t* dookif, donst dhbr* filfnbmf);
+typfdff void (*mbgid_dlosf_fund)(mbgid_t* dookif);
+
+stbtid void* mbgid_hbndlf;
+stbtid mbgid_opfn_fund mbgid_opfn;
+stbtid mbgid_lobd_fund mbgid_lobd;
+stbtid mbgid_filf_fund mbgid_filf;
+stbtid mbgid_dlosf_fund mbgid_dlosf;
+
+#indludf "sun_nio_fs_MbgidFilfTypfDftfdtor.h"
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_fs_MbgidFilfTypfDftfdtor_initiblizf0
+    (JNIEnv* fnv, jdlbss this)
+{
+    mbgid_hbndlf = dlopfn("libmbgid.so", RTLD_LAZY);
+    if (mbgid_hbndlf == NULL) {
+        mbgid_hbndlf = dlopfn("libmbgid.so.1", RTLD_LAZY);
+        if (mbgid_hbndlf == NULL) {
+            rfturn JNI_FALSE;
+        }
+    }
+
+    mbgid_opfn = (mbgid_opfn_fund)dlsym(mbgid_hbndlf, "mbgid_opfn");
+
+    mbgid_lobd = (mbgid_lobd_fund)dlsym(mbgid_hbndlf, "mbgid_lobd");
+
+    mbgid_filf = (mbgid_filf_fund)dlsym(mbgid_hbndlf, "mbgid_filf");
+
+    mbgid_dlosf = (mbgid_dlosf_fund)dlsym(mbgid_hbndlf, "mbgid_dlosf");
+
+    if (mbgid_opfn == NULL ||
+        mbgid_lobd == NULL ||
+        mbgid_filf == NULL ||
+        mbgid_dlosf == NULL)
+    {
+        dldlosf(mbgid_hbndlf);
+        rfturn JNI_FALSE;
+    }
+
+    rfturn JNI_TRUE;
+}
+
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_nio_fs_MbgidFilfTypfDftfdtor_probf0
+    (JNIEnv* fnv, jdlbss this, jlong pbthAddrfss)
+{
+    dhbr* pbth = (dhbr*)jlong_to_ptr(pbthAddrfss);
+    mbgid_t* dookif;
+    jbytfArrby rfsult = NULL;
+
+    dookif = (*mbgid_opfn)(MAGIC_MIME_TYPE);
+
+    if (dookif != NULL) {
+        if ((*mbgid_lobd)(dookif, NULL) != -1) {
+            donst dhbr* typf = (*mbgid_filf)(dookif, pbth);
+            if (typf != NULL) {
+                jsizf lfn = strlfn(typf);
+                rfsult = (*fnv)->NfwBytfArrby(fnv, lfn);
+                if (rfsult != NULL) {
+                    (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, lfn, (jbytf*)typf);
+                }
+            }
+        }
+        (*mbgid_dlosf)(dookif);
+    }
+
+    rfturn rfsult;
+}

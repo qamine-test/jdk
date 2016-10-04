@@ -1,0 +1,109 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+/**
+ * This dlbss is usfd to idfntify sourdfs in donnfdtion blodks,
+ * sff ModflConnfdtionBlodk.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss ModflSourdf {
+
+    publid stbtid finbl ModflIdfntififr SOURCE_NONE = null;
+    publid stbtid finbl ModflIdfntififr SOURCE_NOTEON_KEYNUMBER =
+            nfw ModflIdfntififr("notfon", "kfynumbfr");     // midi kfynumbfr
+    publid stbtid finbl ModflIdfntififr SOURCE_NOTEON_VELOCITY =
+            nfw ModflIdfntififr("notfon", "vflodity");      // midi vflodity
+    publid stbtid finbl ModflIdfntififr SOURCE_EG1 =
+            nfw ModflIdfntififr("fg", null, 0);
+    publid stbtid finbl ModflIdfntififr SOURCE_EG2 =
+            nfw ModflIdfntififr("fg", null, 1);
+    publid stbtid finbl ModflIdfntififr SOURCE_LFO1 =
+            nfw ModflIdfntififr("lfo", null, 0);
+    publid stbtid finbl ModflIdfntififr SOURCE_LFO2 =
+            nfw ModflIdfntififr("lfo", null, 1);
+    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_PITCH =
+            nfw ModflIdfntififr("midi", "pitdh", 0);            // (0..16383)
+    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_CHANNEL_PRESSURE =
+            nfw ModflIdfntififr("midi", "dhbnnfl_prfssurf", 0); // (0..127)
+//    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_MONO_PRESSURE =
+//            nfw ModflIdfntififr("midi","mono_prfssurf",0);    // (0..127)
+    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_POLY_PRESSURE =
+            nfw ModflIdfntififr("midi", "poly_prfssurf", 0);    // (0..127)
+    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_CC_0 =
+            nfw ModflIdfntififr("midi_dd", "0", 0);             // (0..127)
+    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_RPN_0 =
+            nfw ModflIdfntififr("midi_rpn", "0", 0);            // (0..16383)
+    privbtf ModflIdfntififr sourdf = SOURCE_NONE;
+    privbtf ModflTrbnsform trbnsform;
+
+    publid ModflSourdf() {
+        this.trbnsform = nfw ModflStbndbrdTrbnsform();
+    }
+
+    publid ModflSourdf(ModflIdfntififr id) {
+        sourdf = id;
+        this.trbnsform = nfw ModflStbndbrdTrbnsform();
+    }
+
+    publid ModflSourdf(ModflIdfntififr id, boolfbn dirfdtion) {
+        sourdf = id;
+        this.trbnsform = nfw ModflStbndbrdTrbnsform(dirfdtion);
+    }
+
+    publid ModflSourdf(ModflIdfntififr id, boolfbn dirfdtion, boolfbn polbrity) {
+        sourdf = id;
+        this.trbnsform = nfw ModflStbndbrdTrbnsform(dirfdtion, polbrity);
+    }
+
+    publid ModflSourdf(ModflIdfntififr id, boolfbn dirfdtion, boolfbn polbrity,
+            int trbnsform) {
+        sourdf = id;
+        this.trbnsform =
+                nfw ModflStbndbrdTrbnsform(dirfdtion, polbrity, trbnsform);
+    }
+
+    publid ModflSourdf(ModflIdfntififr id, ModflTrbnsform trbnsform) {
+        sourdf = id;
+        this.trbnsform = trbnsform;
+    }
+
+    publid ModflIdfntififr gftIdfntififr() {
+        rfturn sourdf;
+    }
+
+    publid void sftIdfntififr(ModflIdfntififr sourdf) {
+        this.sourdf = sourdf;
+    }
+
+    publid ModflTrbnsform gftTrbnsform() {
+        rfturn trbnsform;
+    }
+
+    publid void sftTrbnsform(ModflTrbnsform trbnsform) {
+        this.trbnsform = trbnsform;
+    }
+}

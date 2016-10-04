@@ -1,0 +1,230 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.MfnuComponfntPffr;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ButtonUI;
+
+import dom.bpplf.lbf.AqubMfnuItfmUI.IndftfrminbtfListfnfr;
+
+import sun.lwbwt.mbdosx.*;
+
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+finbl dlbss SdrffnMfnuItfmChfdkbox fxtfnds ChfdkboxMfnuItfm implfmfnts AdtionListfnfr, ComponfntListfnfr, SdrffnMfnuPropfrtyHbndlfr, ItfmListfnfr {
+    JMfnuItfm fMfnuItfm;
+    MfnuContbinfr fPbrfnt;
+
+    SdrffnMfnuItfmChfdkbox(finbl JChfdkBoxMfnuItfm mi) {
+        supfr(mi.gftTfxt(), mi.gftStbtf());
+        init(mi);
+    }
+
+    SdrffnMfnuItfmChfdkbox(finbl JRbdioButtonMfnuItfm mi) {
+        supfr(mi.gftTfxt(), mi.gftModfl().isSflfdtfd());
+        init(mi);
+    }
+
+    publid void init(finbl JMfnuItfm mi) {
+        fMfnuItfm = mi;
+        sftEnbblfd(fMfnuItfm.isEnbblfd());
+    }
+
+    SdrffnMfnuPropfrtyListfnfr fPropfrtyListfnfr;
+    publid void bddNotify() {
+        supfr.bddNotify();
+
+        // Avoid thf Auto togglf bfhbvior of AWT ChfdkBoxMfnuItfm
+        CChfdkboxMfnuItfm ddb = (CChfdkboxMfnuItfm) gftPffr();
+        ddb.sftAutoTogglf(fblsf);
+
+        fMfnuItfm.bddComponfntListfnfr(this);
+        fPropfrtyListfnfr = nfw SdrffnMfnuPropfrtyListfnfr(this);
+        fMfnuItfm.bddPropfrtyChbngfListfnfr(fPropfrtyListfnfr);
+        bddAdtionListfnfr(this);
+        bddItfmListfnfr(this);
+        fMfnuItfm.bddItfmListfnfr(this);
+        sftIndftfrminbtf(IndftfrminbtfListfnfr.isIndftfrminbtf(fMfnuItfm));
+
+        // dbn't sftStbtf or sftAddflfrbtor or sftIdon till wf hbvf b pffr
+        sftAddflfrbtor(fMfnuItfm.gftAddflfrbtor());
+
+        finbl Idon idon = fMfnuItfm.gftIdon();
+        if (idon != null) {
+            this.sftIdon(idon);
+        }
+
+        finbl String tooltipTfxt = fMfnuItfm.gftToolTipTfxt();
+        if (tooltipTfxt != null) {
+            this.sftToolTipTfxt(tooltipTfxt);
+        }
+
+        // sjb fix is this nffdfd?
+        fMfnuItfm.bddItfmListfnfr(this);
+
+        finbl ButtonUI ui = fMfnuItfm.gftUI();
+        if (ui instbndfof SdrffnMfnuItfmUI) {
+            ((SdrffnMfnuItfmUI)ui).updbtfListfnfrsForSdrffnMfnuItfm();
+        }
+
+        if (fMfnuItfm instbndfof JChfdkBoxMfnuItfm) {
+            fordfSftStbtf(fMfnuItfm.isSflfdtfd());
+        } flsf {
+            fordfSftStbtf(fMfnuItfm.gftModfl().isSflfdtfd());
+        }
+    }
+
+    publid void rfmovfNotify() {
+        fMfnuItfm.rfmovfComponfntListfnfr(this);
+        fMfnuItfm.rfmovfPropfrtyChbngfListfnfr(fPropfrtyListfnfr);
+        fPropfrtyListfnfr = null;
+        rfmovfAdtionListfnfr(this);
+        rfmovfItfmListfnfr(this);
+        fMfnuItfm.rfmovfItfmListfnfr(this);
+
+        supfr.rfmovfNotify();
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void sftLbbfl(finbl String lbbfl) {
+        SdrffnMfnuItfm.syndLbbflAndKS(this, lbbfl, fMfnuItfm.gftAddflfrbtor());
+    }
+
+    @Ovfrridf
+    publid void sftAddflfrbtor(finbl KfyStrokf ks) {
+        SdrffnMfnuItfm.syndLbbflAndKS(this, fMfnuItfm.gftTfxt(), ks);
+    }
+
+    publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+        fMfnuItfm.doClidk(0); // This tbkfs dbrf of bll thf difffrfnt fvfnts
+    }
+
+    /**
+     * Invokfd whfn thf domponfnt's sizf dhbngfs.
+     */
+    publid void domponfntRfsizfd(finbl ComponfntEvfnt f) {}
+
+    /**
+     * Invokfd whfn thf domponfnt's position dhbngfs.
+     */
+    publid void domponfntMovfd(finbl ComponfntEvfnt f) {}
+
+    /**
+     * Invokfd whfn thf domponfnt hbs bffn mbdf visiblf.
+     * Sff domponfntHiddfn - wf should still hbvf b MfnuItfm
+     * it just isn't insfrtfd
+     */
+    publid void domponfntShown(finbl ComponfntEvfnt f) {
+        sftVisiblf(truf);
+    }
+
+    /**
+     * Invokfd whfn thf domponfnt hbs bffn mbdf invisiblf.
+     * MfnuComponfnt.sftVisiblf dofs nothing,
+     * so wf rfmovf thf SdrffnMfnuItfm from thf SdrffnMfnu
+     * but lfbvf it in fItfms
+     */
+    publid void domponfntHiddfn(finbl ComponfntEvfnt f) {
+        sftVisiblf(fblsf);
+    }
+
+    publid void sftToolTipTfxt(finbl String tfxt) {
+        finbl MfnuComponfntPffr pffr = gftPffr();
+        if (!(pffr instbndfof CMfnuItfm)) rfturn;
+
+        ((CMfnuItfm)pffr).sftToolTipTfxt(tfxt);
+    }
+
+    publid void sftIdon(finbl Idon i) {
+        finbl MfnuComponfntPffr pffr = gftPffr();
+        if (!(pffr instbndfof CMfnuItfm)) rfturn;
+
+        finbl CMfnuItfm dmi = (CMfnuItfm)pffr;
+        Imbgf img = null;
+
+        if (i != null) {
+            if (i.gftIdonWidth() > 0 && i.gftIdonHfight() > 0) {
+                img = AqubIdon.gftImbgfForIdon(i);
+            }
+        }
+        dmi.sftImbgf(img);
+    }
+
+    publid void sftVisiblf(finbl boolfbn b) {
+        // Tfll our pbrfnt to bdd/rfmovf us
+        // Hbng on to our pbrfnt
+        if (fPbrfnt == null) fPbrfnt = gftPbrfnt();
+        ((SdrffnMfnuPropfrtyHbndlfr)fPbrfnt).sftChildVisiblf(fMfnuItfm, b);
+    }
+
+    // wf hbvf no dhildrfn
+    publid void sftChildVisiblf(finbl JMfnuItfm dhild, finbl boolfbn b) {}
+
+    /**
+     * Invokfd whfn bn itfm's stbtf hbs bffn dhbngfd.
+     */
+    publid void itfmStbtfChbngfd(finbl ItfmEvfnt f) {
+        if (f.gftSourdf() == this) {
+            fMfnuItfm.doClidk(0);
+            rfturn;
+        }
+
+            switdh (f.gftStbtfChbngf()) {
+                dbsf ItfmEvfnt.SELECTED:
+                    fordfSftStbtf(truf);
+                    brfbk;
+                dbsf ItfmEvfnt.DESELECTED:
+                    fordfSftStbtf(fblsf);
+                    brfbk;
+            }
+        }
+
+    publid void sftIndftfrminbtf(finbl boolfbn indftfrminbtf) {
+        finbl MfnuComponfntPffr pffr = gftPffr();
+        if (pffr instbndfof CChfdkboxMfnuItfm) {
+            ((CChfdkboxMfnuItfm)pffr).sftIsIndftfrminbtf(indftfrminbtf);
+        }
+    }
+
+    /*
+     * Thf CChfdkboxMfnuItfm pffr is dblling sftStbtf undonditionblly fvfry timf usfr dlidks thf mfnu
+     * Howfvfr for Swing dontrols in thf sdrffn mfnu bbr it is wrong - thf stbtf should bf dhbngfd only
+     * in rfsponsf to thf ITEM_STATE_CHANGED fvfnt. So thf sftStbtf is ovfrriddfn to no-op bnd bll thf
+     * dorrfdt stbtf dhbngfs brf mbdf with fordfSftStbtf
+     */
+
+    @Ovfrridf
+    publid syndhronizfd void sftStbtf(boolfbn b) {
+        // No Op
+    }
+
+    privbtf void fordfSftStbtf(boolfbn b) {
+        supfr.sftStbtf(b);
+    }
+}

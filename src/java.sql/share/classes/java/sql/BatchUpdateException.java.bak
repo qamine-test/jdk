@@ -1,563 +1,563 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Arrays;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.util.Arrbys;
 
 /**
- * The subclass of {@link SQLException} thrown when an error
- * occurs during a batch update operation.  In addition to the
- * information provided by {@link SQLException}, a
- * <code>BatchUpdateException</code> provides the update
- * counts for all commands that were executed successfully during the
- * batch update, that is, all commands that were executed before the error
- * occurred.  The order of elements in an array of update counts
- * corresponds to the order in which commands were added to the batch.
+ * Tif subdlbss of {@link SQLExdfption} tirown wifn bn frror
+ * oddurs during b bbtdi updbtf opfrbtion.  In bddition to tif
+ * informbtion providfd by {@link SQLExdfption}, b
+ * <dodf>BbtdiUpdbtfExdfption</dodf> providfs tif updbtf
+ * dounts for bll dommbnds tibt wfrf fxfdutfd suddfssfully during tif
+ * bbtdi updbtf, tibt is, bll dommbnds tibt wfrf fxfdutfd bfforf tif frror
+ * oddurrfd.  Tif ordfr of flfmfnts in bn brrby of updbtf dounts
+ * dorrfsponds to tif ordfr in wiidi dommbnds wfrf bddfd to tif bbtdi.
  * <P>
- * After a command in a batch update fails to execute properly
- * and a <code>BatchUpdateException</code> is thrown, the driver
- * may or may not continue to process the remaining commands in
- * the batch.  If the driver continues processing after a failure,
- * the array returned by the method
- * <code>BatchUpdateException.getUpdateCounts</code> will have
- * an element for every command in the batch rather than only
- * elements for the commands that executed successfully before
- * the error.  In the case where the driver continues processing
- * commands, the array element for any command
- * that failed is <code>Statement.EXECUTE_FAILED</code>.
+ * Aftfr b dommbnd in b bbtdi updbtf fbils to fxfdutf propfrly
+ * bnd b <dodf>BbtdiUpdbtfExdfption</dodf> is tirown, tif drivfr
+ * mby or mby not dontinuf to prodfss tif rfmbining dommbnds in
+ * tif bbtdi.  If tif drivfr dontinufs prodfssing bftfr b fbilurf,
+ * tif brrby rfturnfd by tif mftiod
+ * <dodf>BbtdiUpdbtfExdfption.gftUpdbtfCounts</dodf> will ibvf
+ * bn flfmfnt for fvfry dommbnd in tif bbtdi rbtifr tibn only
+ * flfmfnts for tif dommbnds tibt fxfdutfd suddfssfully bfforf
+ * tif frror.  In tif dbsf wifrf tif drivfr dontinufs prodfssing
+ * dommbnds, tif brrby flfmfnt for bny dommbnd
+ * tibt fbilfd is <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf>.
  * <P>
- * A JDBC driver implementation should use
- * the constructor {@code BatchUpdateException(String reason, String SQLState,
- * int vendorCode, long []updateCounts,Throwable cause) } instead of
- * constructors that take {@code int[]} for the update counts to avoid the
- * possibility of overflow.
+ * A JDBC drivfr implfmfntbtion siould usf
+ * tif donstrudtor {@dodf BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+ * int vfndorCodf, long []updbtfCounts,Tirowbblf dbusf) } instfbd of
+ * donstrudtors tibt tbkf {@dodf int[]} for tif updbtf dounts to bvoid tif
+ * possibility of ovfrflow.
  * <p>
- * If {@code Statement.executeLargeBatch} method is invoked it is recommended that
- * {@code getLargeUpdateCounts} be called instead of {@code getUpdateCounts}
- * in order to avoid a possible overflow of the integer update count.
- * @since 1.2
+ * If {@dodf Stbtfmfnt.fxfdutfLbrgfBbtdi} mftiod is invokfd it is rfdommfndfd tibt
+ * {@dodf gftLbrgfUpdbtfCounts} bf dbllfd instfbd of {@dodf gftUpdbtfCounts}
+ * in ordfr to bvoid b possiblf ovfrflow of tif intfgfr updbtf dount.
+ * @sindf 1.2
  */
 
-public class BatchUpdateException extends SQLException {
+publid dlbss BbtdiUpdbtfExdfption fxtfnds SQLExdfption {
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with a given
-   * <code>reason</code>, <code>SQLState</code>, <code>vendorCode</code> and
-   * <code>updateCounts</code>.
-   * The <code>cause</code> is not initialized, and may subsequently be
-   * initialized by a call to the
-   * {@link Throwable#initCause(java.lang.Throwable)} method.
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt initiblizfd witi b givfn
+   * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf> bnd
+   * <dodf>updbtfCounts</dodf>.
+   * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+   * initiblizfd by b dbll to tif
+   * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Notf:</strong> Tifrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of tiis it is rfdommfndfd tibt you usf tif donstrudtor
+   * {@dodf BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Tirowbblf dbusf) }.
    * </p>
-   * @param reason a description of the error
-   * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-   * @param vendorCode an exception code used by a particular
-   * database vendor
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
-   * @since 1.2
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @pbrbm rfbson b dfsdription of tif frror
+   * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+   * @pbrbm vfndorCodf bn fxdfption dodf usfd by b pbrtidulbr
+   * dbtbbbsf vfndor
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, witi fbdi flfmfnt
+   * indidbting tif updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdi SQL dommbnd in
+   * tif bbtdi for JDBC drivfrs tibt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdi SQL dommbnd in tif bbtdi
+   * prior to tif fbilurf for JDBC drivfrs tibt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @sindf 1.2
+   * @sff #BbtdiUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Tirowbblf)
    */
-  public BatchUpdateException( String reason, String SQLState, int vendorCode,
-                               int[] updateCounts ) {
-      super(reason, SQLState, vendorCode);
-      this.updateCounts  = (updateCounts == null) ? null : Arrays.copyOf(updateCounts, updateCounts.length);
-      this.longUpdateCounts = (updateCounts == null) ? null : copyUpdateCount(updateCounts);
+  publid BbtdiUpdbtfExdfption( String rfbson, String SQLStbtf, int vfndorCodf,
+                               int[] updbtfCounts ) {
+      supfr(rfbson, SQLStbtf, vfndorCodf);
+      tiis.updbtfCounts  = (updbtfCounts == null) ? null : Arrbys.dopyOf(updbtfCounts, updbtfCounts.lfngti);
+      tiis.longUpdbtfCounts = (updbtfCounts == null) ? null : dopyUpdbtfCount(updbtfCounts);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with a given
-   * <code>reason</code>, <code>SQLState</code> and
-   * <code>updateCounts</code>.
-   * The <code>cause</code> is not initialized, and may subsequently be
-   * initialized by a call to the
-   * {@link Throwable#initCause(java.lang.Throwable)} method. The vendor code
-   * is initialized to 0.
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt initiblizfd witi b givfn
+   * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> bnd
+   * <dodf>updbtfCounts</dodf>.
+   * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+   * initiblizfd by b dbll to tif
+   * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod. Tif vfndor dodf
+   * is initiblizfd to 0.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Notf:</strong> Tifrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of tiis it is rfdommfndfd tibt you usf tif donstrudtor
+   * {@dodf BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Tirowbblf dbusf) }.
    * </p>
-   * @param reason a description of the exception
-   * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
-   * @since 1.2
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @pbrbm rfbson b dfsdription of tif fxdfption
+   * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, witi fbdi flfmfnt
+   * indidbting tif updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdi SQL dommbnd in
+   * tif bbtdi for JDBC drivfrs tibt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdi SQL dommbnd in tif bbtdi
+   * prior to tif fbilurf for JDBC drivfrs tibt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @sindf 1.2
+   * @sff #BbtdiUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Tirowbblf)
    */
-  public BatchUpdateException(String reason, String SQLState,
-                              int[] updateCounts) {
-      this(reason, SQLState, 0, updateCounts);
+  publid BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+                              int[] updbtfCounts) {
+      tiis(rfbson, SQLStbtf, 0, updbtfCounts);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with a given
-   * <code>reason</code> and <code>updateCounts</code>.
-   * The <code>cause</code> is not initialized, and may subsequently be
-   * initialized by a call to the
-   * {@link Throwable#initCause(java.lang.Throwable)} method.  The
-   * <code>SQLState</code> is initialized to <code>null</code>
-   * and the vendor code is initialized to 0.
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt initiblizfd witi b givfn
+   * <dodf>rfbson</dodf> bnd <dodf>updbtfCounts</dodf>.
+   * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+   * initiblizfd by b dbll to tif
+   * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.  Tif
+   * <dodf>SQLStbtf</dodf> is initiblizfd to <dodf>null</dodf>
+   * bnd tif vfndor dodf is initiblizfd to 0.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Notf:</strong> Tifrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of tiis it is rfdommfndfd tibt you usf tif donstrudtor
+   * {@dodf BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Tirowbblf dbusf) }.
    * </p>
-   * @param reason a description of the exception
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
-   * @since 1.2
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @pbrbm rfbson b dfsdription of tif fxdfption
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, witi fbdi flfmfnt
+   * indidbting tif updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdi SQL dommbnd in
+   * tif bbtdi for JDBC drivfrs tibt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdi SQL dommbnd in tif bbtdi
+   * prior to tif fbilurf for JDBC drivfrs tibt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @sindf 1.2
+   * @sff #BbtdiUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Tirowbblf)
    */
-  public  BatchUpdateException(String reason, int[] updateCounts) {
-      this(reason, null, 0, updateCounts);
+  publid  BbtdiUpdbtfExdfption(String rfbson, int[] updbtfCounts) {
+      tiis(rfbson, null, 0, updbtfCounts);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with a given
-   * <code>updateCounts</code>.
-   * initialized by a call to the
-   * {@link Throwable#initCause(java.lang.Throwable)} method. The  <code>reason</code>
-   * and <code>SQLState</code> are initialized to null and the vendor code
-   * is initialized to 0.
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt initiblizfd witi b givfn
+   * <dodf>updbtfCounts</dodf>.
+   * initiblizfd by b dbll to tif
+   * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod. Tif  <dodf>rfbson</dodf>
+   * bnd <dodf>SQLStbtf</dodf> brf initiblizfd to null bnd tif vfndor dodf
+   * is initiblizfd to 0.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Notf:</strong> Tifrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of tiis it is rfdommfndfd tibt you usf tif donstrudtor
+   * {@dodf BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Tirowbblf dbusf) }.
    * </p>
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
-   * @since 1.2
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, witi fbdi flfmfnt
+   * indidbting tif updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdi SQL dommbnd in
+   * tif bbtdi for JDBC drivfrs tibt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdi SQL dommbnd in tif bbtdi
+   * prior to tif fbilurf for JDBC drivfrs tibt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @sindf 1.2
+   * @sff #BbtdiUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Tirowbblf)
    */
-  public BatchUpdateException(int[] updateCounts) {
-      this(null, null, 0, updateCounts);
+  publid BbtdiUpdbtfExdfption(int[] updbtfCounts) {
+      tiis(null, null, 0, updbtfCounts);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object.
-   * The <code>reason</code>, <code>SQLState</code> and <code>updateCounts</code>
-   *  are initialized to <code>null</code> and the vendor code is initialized to 0.
-   * The <code>cause</code> is not initialized, and may subsequently be
-   * initialized by a call to the
-   * {@link Throwable#initCause(java.lang.Throwable)} method.
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt.
+   * Tif <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> bnd <dodf>updbtfCounts</dodf>
+   *  brf initiblizfd to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
+   * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+   * initiblizfd by b dbll to tif
+   * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
    *
-   * @since 1.2
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @sindf 1.2
+   * @sff #BbtdiUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Tirowbblf)
    */
-  public BatchUpdateException() {
-        this(null, null, 0, null);
+  publid BbtdiUpdbtfExdfption() {
+        tiis(null, null, 0, null);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with
-   *  a given <code>cause</code>.
-   * The <code>SQLState</code> and <code>updateCounts</code>
-   * are initialized
-   * to <code>null</code> and the vendor code is initialized to 0.
-   * The <code>reason</code>  is initialized to <code>null</code> if
-   * <code>cause==null</code> or to <code>cause.toString()</code> if
-   *  <code>cause!=null</code>.
-   * @param cause the underlying reason for this <code>SQLException</code>
-   * (which is saved for later retrieval by the <code>getCause()</code> method);
-   * may be null indicating the cause is non-existent or unknown.
-   * @since 1.6
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt initiblizfd witi
+   *  b givfn <dodf>dbusf</dodf>.
+   * Tif <dodf>SQLStbtf</dodf> bnd <dodf>updbtfCounts</dodf>
+   * brf initiblizfd
+   * to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
+   * Tif <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+   * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+   *  <dodf>dbusf!=null</dodf>.
+   * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf>
+   * (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod);
+   * mby bf null indidbting tif dbusf is non-fxistfnt or unknown.
+   * @sindf 1.6
+   * @sff #BbtdiUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Tirowbblf)
    */
-  public BatchUpdateException(Throwable cause) {
-      this((cause == null ? null : cause.toString()), null, 0, (int[])null, cause);
+  publid BbtdiUpdbtfExdfption(Tirowbblf dbusf) {
+      tiis((dbusf == null ? null : dbusf.toString()), null, 0, (int[])null, dbusf);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with a
-   * given <code>cause</code> and <code>updateCounts</code>.
-   * The <code>SQLState</code> is initialized
-   * to <code>null</code> and the vendor code is initialized to 0.
-   * The <code>reason</code>  is initialized to <code>null</code> if
-   * <code>cause==null</code> or to <code>cause.toString()</code> if
-   * <code>cause!=null</code>.
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt initiblizfd witi b
+   * givfn <dodf>dbusf</dodf> bnd <dodf>updbtfCounts</dodf>.
+   * Tif <dodf>SQLStbtf</dodf> is initiblizfd
+   * to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
+   * Tif <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+   * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+   * <dodf>dbusf!=null</dodf>.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Notf:</strong> Tifrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of tiis it is rfdommfndfd tibt you usf tif donstrudtor
+   * {@dodf BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Tirowbblf dbusf) }.
    * </p>
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
-   * @param cause the underlying reason for this <code>SQLException</code>
-   * (which is saved for later retrieval by the <code>getCause()</code> method); may be null indicating
-   * the cause is non-existent or unknown.
-   * @since 1.6
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, witi fbdi flfmfnt
+   * indidbting tif updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdi SQL dommbnd in
+   * tif bbtdi for JDBC drivfrs tibt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdi SQL dommbnd in tif bbtdi
+   * prior to tif fbilurf for JDBC drivfrs tibt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf>
+   * (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod); mby bf null indidbting
+   * tif dbusf is non-fxistfnt or unknown.
+   * @sindf 1.6
+   * @sff #BbtdiUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Tirowbblf)
    */
-  public BatchUpdateException(int []updateCounts , Throwable cause) {
-      this((cause == null ? null : cause.toString()), null, 0, updateCounts, cause);
+  publid BbtdiUpdbtfExdfption(int []updbtfCounts , Tirowbblf dbusf) {
+      tiis((dbusf == null ? null : dbusf.toString()), null, 0, updbtfCounts, dbusf);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with
-   * a given <code>reason</code>, <code>cause</code>
-   * and <code>updateCounts</code>. The <code>SQLState</code> is initialized
-   * to <code>null</code> and the vendor code is initialized to 0.
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt initiblizfd witi
+   * b givfn <dodf>rfbson</dodf>, <dodf>dbusf</dodf>
+   * bnd <dodf>updbtfCounts</dodf>. Tif <dodf>SQLStbtf</dodf> is initiblizfd
+   * to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Notf:</strong> Tifrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of tiis it is rfdommfndfd tibt you usf tif donstrudtor
+   * {@dodf BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Tirowbblf dbusf) }.
    * </p>
-   * @param reason a description of the exception
-   * @param updateCounts an array of <code>int</code>, with each element
-   *indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
-   * @param cause the underlying reason for this <code>SQLException</code> (which is saved for later retrieval by the <code>getCause()</code> method);
-   * may be null indicating
-   * the cause is non-existent or unknown.
-   * @since 1.6
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @pbrbm rfbson b dfsdription of tif fxdfption
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, witi fbdi flfmfnt
+   *indidbting tif updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdi SQL dommbnd in
+   * tif bbtdi for JDBC drivfrs tibt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdi SQL dommbnd in tif bbtdi
+   * prior to tif fbilurf for JDBC drivfrs tibt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf> (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod);
+   * mby bf null indidbting
+   * tif dbusf is non-fxistfnt or unknown.
+   * @sindf 1.6
+   * @sff #BbtdiUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Tirowbblf)
    */
-  public BatchUpdateException(String reason, int []updateCounts, Throwable cause) {
-      this(reason, null, 0, updateCounts, cause);
+  publid BbtdiUpdbtfExdfption(String rfbson, int []updbtfCounts, Tirowbblf dbusf) {
+      tiis(rfbson, null, 0, updbtfCounts, dbusf);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with
-   * a given <code>reason</code>, <code>SQLState</code>,<code>cause</code>, and
-   * <code>updateCounts</code>. The vendor code is initialized to 0.
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt initiblizfd witi
+   * b givfn <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>,<dodf>dbusf</dodf>, bnd
+   * <dodf>updbtfCounts</dodf>. Tif vfndor dodf is initiblizfd to 0.
    *
-   * @param reason a description of the exception
-   * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
+   * @pbrbm rfbson b dfsdription of tif fxdfption
+   * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, witi fbdi flfmfnt
+   * indidbting tif updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdi SQL dommbnd in
+   * tif bbtdi for JDBC drivfrs tibt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdi SQL dommbnd in tif bbtdi
+   * prior to tif fbilurf for JDBC drivfrs tibt stop prodfssing bftfr b dommbnd
+   * fbilurf
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Notf:</strong> Tifrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of tiis it is rfdommfndfd tibt you usf tif donstrudtor
+   * {@dodf BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Tirowbblf dbusf) }.
    * </p>
-   * @param cause the underlying reason for this <code>SQLException</code>
-   * (which is saved for later retrieval by the <code>getCause()</code> method);
-   * may be null indicating
-   * the cause is non-existent or unknown.
-   * @since 1.6
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf>
+   * (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod);
+   * mby bf null indidbting
+   * tif dbusf is non-fxistfnt or unknown.
+   * @sindf 1.6
+   * @sff #BbtdiUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Tirowbblf)
    */
-  public BatchUpdateException(String reason, String SQLState,
-          int []updateCounts, Throwable cause) {
-      this(reason, SQLState, 0, updateCounts, cause);
+  publid BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+          int []updbtfCounts, Tirowbblf dbusf) {
+      tiis(rfbson, SQLStbtf, 0, updbtfCounts, dbusf);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with
-   * a given <code>reason</code>, <code>SQLState</code>, <code>vendorCode</code>
-   * <code>cause</code> and <code>updateCounts</code>.
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt initiblizfd witi
+   * b givfn <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf>
+   * <dodf>dbusf</dodf> bnd <dodf>updbtfCounts</dodf>.
    *
-   * @param reason a description of the error
-   * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-   * @param vendorCode an exception code used by a particular
-   * database vendor
-   * @param updateCounts an array of <code>int</code>, with each element
-   *indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
+   * @pbrbm rfbson b dfsdription of tif frror
+   * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+   * @pbrbm vfndorCodf bn fxdfption dodf usfd by b pbrtidulbr
+   * dbtbbbsf vfndor
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, witi fbdi flfmfnt
+   *indidbting tif updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdi SQL dommbnd in
+   * tif bbtdi for JDBC drivfrs tibt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdi SQL dommbnd in tif bbtdi
+   * prior to tif fbilurf for JDBC drivfrs tibt stop prodfssing bftfr b dommbnd
+   * fbilurf
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Notf:</strong> Tifrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of tiis it is rfdommfndfd tibt you usf tif donstrudtor
+   * {@dodf BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Tirowbblf dbusf) }.
    * </p>
-   * @param cause the underlying reason for this <code>SQLException</code> (which is saved for later retrieval by the <code>getCause()</code> method);
-   * may be null indicating
-   * the cause is non-existent or unknown.
-   * @since 1.6
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf> (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod);
+   * mby bf null indidbting
+   * tif dbusf is non-fxistfnt or unknown.
+   * @sindf 1.6
+   * @sff #BbtdiUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Tirowbblf)
    */
-  public BatchUpdateException(String reason, String SQLState, int vendorCode,
-                                int []updateCounts,Throwable cause) {
-        super(reason, SQLState, vendorCode, cause);
-        this.updateCounts  = (updateCounts == null) ? null : Arrays.copyOf(updateCounts, updateCounts.length);
-        this.longUpdateCounts = (updateCounts == null) ? null : copyUpdateCount(updateCounts);
+  publid BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf, int vfndorCodf,
+                                int []updbtfCounts,Tirowbblf dbusf) {
+        supfr(rfbson, SQLStbtf, vfndorCodf, dbusf);
+        tiis.updbtfCounts  = (updbtfCounts == null) ? null : Arrbys.dopyOf(updbtfCounts, updbtfCounts.lfngti);
+        tiis.longUpdbtfCounts = (updbtfCounts == null) ? null : dopyUpdbtfCount(updbtfCounts);
   }
 
   /**
-   * Retrieves the update count for each update statement in the batch
-   * update that executed successfully before this exception occurred.
-   * A driver that implements batch updates may or may not continue to
-   * process the remaining commands in a batch when one of the commands
-   * fails to execute properly. If the driver continues processing commands,
-   * the array returned by this method will have as many elements as
-   * there are commands in the batch; otherwise, it will contain an
-   * update count for each command that executed successfully before
-   * the <code>BatchUpdateException</code> was thrown.
+   * Rftrifvfs tif updbtf dount for fbdi updbtf stbtfmfnt in tif bbtdi
+   * updbtf tibt fxfdutfd suddfssfully bfforf tiis fxdfption oddurrfd.
+   * A drivfr tibt implfmfnts bbtdi updbtfs mby or mby not dontinuf to
+   * prodfss tif rfmbining dommbnds in b bbtdi wifn onf of tif dommbnds
+   * fbils to fxfdutf propfrly. If tif drivfr dontinufs prodfssing dommbnds,
+   * tif brrby rfturnfd by tiis mftiod will ibvf bs mbny flfmfnts bs
+   * tifrf brf dommbnds in tif bbtdi; otifrwisf, it will dontbin bn
+   * updbtf dount for fbdi dommbnd tibt fxfdutfd suddfssfully bfforf
+   * tif <dodf>BbtdiUpdbtfExdfption</dodf> wbs tirown.
    * <P>
-   * The possible return values for this method were modified for
-   * the Java 2 SDK, Standard Edition, version 1.3.  This was done to
-   * accommodate the new option of continuing to process commands
-   * in a batch update after a <code>BatchUpdateException</code> object
-   * has been thrown.
+   * Tif possiblf rfturn vblufs for tiis mftiod wfrf modififd for
+   * tif Jbvb 2 SDK, Stbndbrd Edition, vfrsion 1.3.  Tiis wbs donf to
+   * bddommodbtf tif nfw option of dontinuing to prodfss dommbnds
+   * in b bbtdi updbtf bftfr b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt
+   * ibs bffn tirown.
    *
-   * @return an array of <code>int</code> containing the update counts
-   * for the updates that were executed successfully before this error
-   * occurred.  Or, if the driver continues to process commands after an
-   * error, one of the following for every command in the batch:
+   * @rfturn bn brrby of <dodf>int</dodf> dontbining tif updbtf dounts
+   * for tif updbtfs tibt wfrf fxfdutfd suddfssfully bfforf tiis frror
+   * oddurrfd.  Or, if tif drivfr dontinufs to prodfss dommbnds bftfr bn
+   * frror, onf of tif following for fvfry dommbnd in tif bbtdi:
    * <OL>
-   * <LI>an update count
-   *  <LI><code>Statement.SUCCESS_NO_INFO</code> to indicate that the command
-   *     executed successfully but the number of rows affected is unknown
-   *  <LI><code>Statement.EXECUTE_FAILED</code> to indicate that the command
-   *     failed to execute successfully
+   * <LI>bn updbtf dount
+   *  <LI><dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> to indidbtf tibt tif dommbnd
+   *     fxfdutfd suddfssfully but tif numbfr of rows bfffdtfd is unknown
+   *  <LI><dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> to indidbtf tibt tif dommbnd
+   *     fbilfd to fxfdutf suddfssfully
    * </OL>
-   * @since 1.3
-   * @see #getLargeUpdateCounts()
+   * @sindf 1.3
+   * @sff #gftLbrgfUpdbtfCounts()
    */
-  public int[] getUpdateCounts() {
-      return (updateCounts == null) ? null : Arrays.copyOf(updateCounts, updateCounts.length);
+  publid int[] gftUpdbtfCounts() {
+      rfturn (updbtfCounts == null) ? null : Arrbys.dopyOf(updbtfCounts, updbtfCounts.lfngti);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with
-   * a given <code>reason</code>, <code>SQLState</code>, <code>vendorCode</code>
-   * <code>cause</code> and <code>updateCounts</code>.
+   * Construdts b <dodf>BbtdiUpdbtfExdfption</dodf> objfdt initiblizfd witi
+   * b givfn <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf>
+   * <dodf>dbusf</dodf> bnd <dodf>updbtfCounts</dodf>.
    * <p>
-   * This constructor should be used when the returned update count may exceed
-   * {@link Integer#MAX_VALUE}.
+   * Tiis donstrudtor siould bf usfd wifn tif rfturnfd updbtf dount mby fxdffd
+   * {@link Intfgfr#MAX_VALUE}.
    *
-   * @param reason a description of the error
-   * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-   * @param vendorCode an exception code used by a particular
-   * database vendor
-   * @param updateCounts an array of <code>long</code>, with each element
-   *indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
-   * @param cause the underlying reason for this <code>SQLException</code>
-   * (which is saved for later retrieval by the <code>getCause()</code> method);
-   * may be null indicating the cause is non-existent or unknown.
-   * @since 1.8
+   * @pbrbm rfbson b dfsdription of tif frror
+   * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+   * @pbrbm vfndorCodf bn fxdfption dodf usfd by b pbrtidulbr
+   * dbtbbbsf vfndor
+   * @pbrbm updbtfCounts bn brrby of <dodf>long</dodf>, witi fbdi flfmfnt
+   *indidbting tif updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdi SQL dommbnd in
+   * tif bbtdi for JDBC drivfrs tibt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdi SQL dommbnd in tif bbtdi
+   * prior to tif fbilurf for JDBC drivfrs tibt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf>
+   * (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod);
+   * mby bf null indidbting tif dbusf is non-fxistfnt or unknown.
+   * @sindf 1.8
    */
-  public BatchUpdateException(String reason, String SQLState, int vendorCode,
-          long []updateCounts,Throwable cause) {
-      super(reason, SQLState, vendorCode, cause);
-      this.longUpdateCounts  = (updateCounts == null) ? null : Arrays.copyOf(updateCounts, updateCounts.length);
-      this.updateCounts = (longUpdateCounts == null) ? null : copyUpdateCount(longUpdateCounts);
+  publid BbtdiUpdbtfExdfption(String rfbson, String SQLStbtf, int vfndorCodf,
+          long []updbtfCounts,Tirowbblf dbusf) {
+      supfr(rfbson, SQLStbtf, vfndorCodf, dbusf);
+      tiis.longUpdbtfCounts  = (updbtfCounts == null) ? null : Arrbys.dopyOf(updbtfCounts, updbtfCounts.lfngti);
+      tiis.updbtfCounts = (longUpdbtfCounts == null) ? null : dopyUpdbtfCount(longUpdbtfCounts);
   }
 
   /**
-   * Retrieves the update count for each update statement in the batch
-   * update that executed successfully before this exception occurred.
-   * A driver that implements batch updates may or may not continue to
-   * process the remaining commands in a batch when one of the commands
-   * fails to execute properly. If the driver continues processing commands,
-   * the array returned by this method will have as many elements as
-   * there are commands in the batch; otherwise, it will contain an
-   * update count for each command that executed successfully before
-   * the <code>BatchUpdateException</code> was thrown.
+   * Rftrifvfs tif updbtf dount for fbdi updbtf stbtfmfnt in tif bbtdi
+   * updbtf tibt fxfdutfd suddfssfully bfforf tiis fxdfption oddurrfd.
+   * A drivfr tibt implfmfnts bbtdi updbtfs mby or mby not dontinuf to
+   * prodfss tif rfmbining dommbnds in b bbtdi wifn onf of tif dommbnds
+   * fbils to fxfdutf propfrly. If tif drivfr dontinufs prodfssing dommbnds,
+   * tif brrby rfturnfd by tiis mftiod will ibvf bs mbny flfmfnts bs
+   * tifrf brf dommbnds in tif bbtdi; otifrwisf, it will dontbin bn
+   * updbtf dount for fbdi dommbnd tibt fxfdutfd suddfssfully bfforf
+   * tif <dodf>BbtdiUpdbtfExdfption</dodf> wbs tirown.
    * <p>
-   * This method should be used when {@code Statement.executeLargeBatch} is
-   * invoked and the returned update count may exceed {@link Integer#MAX_VALUE}.
+   * Tiis mftiod siould bf usfd wifn {@dodf Stbtfmfnt.fxfdutfLbrgfBbtdi} is
+   * invokfd bnd tif rfturnfd updbtf dount mby fxdffd {@link Intfgfr#MAX_VALUE}.
    *
-   * @return an array of <code>long</code> containing the update counts
-   * for the updates that were executed successfully before this error
-   * occurred.  Or, if the driver continues to process commands after an
-   * error, one of the following for every command in the batch:
+   * @rfturn bn brrby of <dodf>long</dodf> dontbining tif updbtf dounts
+   * for tif updbtfs tibt wfrf fxfdutfd suddfssfully bfforf tiis frror
+   * oddurrfd.  Or, if tif drivfr dontinufs to prodfss dommbnds bftfr bn
+   * frror, onf of tif following for fvfry dommbnd in tif bbtdi:
    * <OL>
-   * <LI>an update count
-   *  <LI><code>Statement.SUCCESS_NO_INFO</code> to indicate that the command
-   *     executed successfully but the number of rows affected is unknown
-   *  <LI><code>Statement.EXECUTE_FAILED</code> to indicate that the command
-   *     failed to execute successfully
+   * <LI>bn updbtf dount
+   *  <LI><dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> to indidbtf tibt tif dommbnd
+   *     fxfdutfd suddfssfully but tif numbfr of rows bfffdtfd is unknown
+   *  <LI><dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> to indidbtf tibt tif dommbnd
+   *     fbilfd to fxfdutf suddfssfully
    * </OL>
-   * @since 1.8
+   * @sindf 1.8
    */
-  public long[] getLargeUpdateCounts() {
-      return (longUpdateCounts == null) ? null :
-              Arrays.copyOf(longUpdateCounts, longUpdateCounts.length);
+  publid long[] gftLbrgfUpdbtfCounts() {
+      rfturn (longUpdbtfCounts == null) ? null :
+              Arrbys.dopyOf(longUpdbtfCounts, longUpdbtfCounts.lfngti);
   }
 
   /**
-   * The array that describes the outcome of a batch execution.
-   * @serial
-   * @since 1.2
+   * Tif brrby tibt dfsdribfs tif outdomf of b bbtdi fxfdution.
+   * @sfribl
+   * @sindf 1.2
    */
-  private  int[] updateCounts;
+  privbtf  int[] updbtfCounts;
 
   /*
-   * Starting with Java SE 8, JDBC has added support for returning an update
-   * count > Integer.MAX_VALUE.  Because of this the following changes were made
-   * to BatchUpdateException:
+   * Stbrting witi Jbvb SE 8, JDBC ibs bddfd support for rfturning bn updbtf
+   * dount > Intfgfr.MAX_VALUE.  Bfdbusf of tiis tif following dibngfs wfrf mbdf
+   * to BbtdiUpdbtfExdfption:
    * <ul>
-   * <li>Add field longUpdateCounts</li>
-   * <li>Add Constructorr which takes long[] for update counts</li>
-   * <li>Add getLargeUpdateCounts method</li>
+   * <li>Add fifld longUpdbtfCounts</li>
+   * <li>Add Construdtorr wiidi tbkfs long[] for updbtf dounts</li>
+   * <li>Add gftLbrgfUpdbtfCounts mftiod</li>
    * </ul>
-   * When any of the constructors are called, the int[] and long[] updateCount
-   * fields are populated by copying the one array to each other.
+   * Wifn bny of tif donstrudtors brf dbllfd, tif int[] bnd long[] updbtfCount
+   * fiflds brf populbtfd by dopying tif onf brrby to fbdi otifr.
    *
-   * As the JDBC driver passes in the updateCounts, there has always been the
-   * possiblity for overflow and BatchUpdateException does not need to account
-   * for that, it simply copies the arrays.
+   * As tif JDBC drivfr pbssfs in tif updbtfCounts, tifrf ibs blwbys bffn tif
+   * possiblity for ovfrflow bnd BbtdiUpdbtfExdfption dofs not nffd to bddount
+   * for tibt, it simply dopifs tif brrbys.
    *
-   * JDBC drivers should always use the constructor that specifies long[] and
-   * JDBC application developers should call getLargeUpdateCounts.
+   * JDBC drivfrs siould blwbys usf tif donstrudtor tibt spfdififs long[] bnd
+   * JDBC bpplidbtion dfvflopfrs siould dbll gftLbrgfUpdbtfCounts.
    */
 
   /**
-   * The array that describes the outcome of a batch execution.
-   * @serial
-   * @since 1.8
+   * Tif brrby tibt dfsdribfs tif outdomf of b bbtdi fxfdution.
+   * @sfribl
+   * @sindf 1.8
    */
-  private  long[] longUpdateCounts;
+  privbtf  long[] longUpdbtfCounts;
 
-  private static final long serialVersionUID = 5977529877145521757L;
+  privbtf stbtid finbl long sfriblVfrsionUID = 5977529877145521757L;
 
   /*
-   * Utility method to copy int[] updateCount to long[] updateCount
+   * Utility mftiod to dopy int[] updbtfCount to long[] updbtfCount
    */
-  private static long[] copyUpdateCount(int[] uc) {
-      long[] copy = new long[uc.length];
-      for(int i= 0; i< uc.length; i++) {
-          copy[i] = uc[i];
+  privbtf stbtid long[] dopyUpdbtfCount(int[] ud) {
+      long[] dopy = nfw long[ud.lfngti];
+      for(int i= 0; i< ud.lfngti; i++) {
+          dopy[i] = ud[i];
       }
-      return copy;
+      rfturn dopy;
   }
 
   /*
-   * Utility method to copy long[] updateCount to int[] updateCount.
-   * No checks for overflow will be done as it is expected a  user will call
-   * getLargeUpdateCounts.
+   * Utility mftiod to dopy long[] updbtfCount to int[] updbtfCount.
+   * No difdks for ovfrflow will bf donf bs it is fxpfdtfd b  usfr will dbll
+   * gftLbrgfUpdbtfCounts.
    */
-  private static int[] copyUpdateCount(long[] uc) {
-      int[] copy = new int[uc.length];
-      for(int i= 0; i< uc.length; i++) {
-          copy[i] = (int) uc[i];
+  privbtf stbtid int[] dopyUpdbtfCount(long[] ud) {
+      int[] dopy = nfw int[ud.lfngti];
+      for(int i= 0; i< ud.lfngti; i++) {
+          dopy[i] = (int) ud[i];
       }
-      return copy;
+      rfturn dopy;
   }
     /**
-     * readObject is called to restore the state of the
-     * {@code BatchUpdateException} from a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif
+     * {@dodf BbtdiUpdbtfExdfption} from b strfbm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-       ObjectInputStream.GetField fields = s.readFields();
-       int[] tmp = (int[])fields.get("updateCounts", null);
-       long[] tmp2 = (long[])fields.get("longUpdateCounts", null);
-       if(tmp != null && tmp2 != null && tmp.length != tmp2.length)
-           throw new InvalidObjectException("update counts are not the expected size");
+       ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+       int[] tmp = (int[])fiflds.gft("updbtfCounts", null);
+       long[] tmp2 = (long[])fiflds.gft("longUpdbtfCounts", null);
+       if(tmp != null && tmp2 != null && tmp.lfngti != tmp2.lfngti)
+           tirow nfw InvblidObjfdtExdfption("updbtf dounts brf not tif fxpfdtfd sizf");
        if (tmp != null)
-           updateCounts = tmp.clone();
+           updbtfCounts = tmp.dlonf();
        if (tmp2 != null)
-           longUpdateCounts = tmp2.clone();
-       if(updateCounts == null && longUpdateCounts != null)
-           updateCounts = copyUpdateCount(longUpdateCounts);
-       if(longUpdateCounts == null && updateCounts != null)
-           longUpdateCounts = copyUpdateCount(updateCounts);
+           longUpdbtfCounts = tmp2.dlonf();
+       if(updbtfCounts == null && longUpdbtfCounts != null)
+           updbtfCounts = dopyUpdbtfCount(longUpdbtfCounts);
+       if(longUpdbtfCounts == null && updbtfCounts != null)
+           longUpdbtfCounts = dopyUpdbtfCount(updbtfCounts);
 
     }
 
     /**
-     * writeObject is called to save the state of the {@code BatchUpdateException}
-     * to a stream.
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif {@dodf BbtdiUpdbtfExdfption}
+     * to b strfbm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("updateCounts", updateCounts);
-        fields.put("longUpdateCounts", longUpdateCounts);
-        s.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("updbtfCounts", updbtfCounts);
+        fiflds.put("longUpdbtfCounts", longUpdbtfCounts);
+        s.writfFiflds();
     }
 }

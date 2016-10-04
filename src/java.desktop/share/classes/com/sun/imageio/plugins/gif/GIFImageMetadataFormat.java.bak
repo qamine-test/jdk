@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2001, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbdkbgf dom.sun.imbgfio.plugins.gif;
 
-import java.util.Arrays;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
+import jbvb.util.Arrbys;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
 
-public class GIFImageMetadataFormat extends IIOMetadataFormatImpl {
+publid dlbss GIFImbgfMftbdbtbFormbt fxtfnds IIOMftbdbtbFormbtImpl {
 
-    private static IIOMetadataFormat instance = null;
+    privbtf stbtid IIOMftbdbtbFormbt instbndf = null;
 
-    private GIFImageMetadataFormat() {
-        super(GIFImageMetadata.nativeMetadataFormatName,
+    privbtf GIFImbgfMftbdbtbFormbt() {
+        supfr(GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
               CHILD_POLICY_SOME);
 
-        // root -> ImageDescriptor
-        addElement("ImageDescriptor",
-                   GIFImageMetadata.nativeMetadataFormatName,
+        // root -> ImbgfDfsdriptor
+        bddElfmfnt("ImbgfDfsdriptor",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_EMPTY);
-        addAttribute("ImageDescriptor", "imageLeftPosition",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "65535", true, true);
-        addAttribute("ImageDescriptor", "imageTopPosition",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "65535", true, true);
-        addAttribute("ImageDescriptor", "imageWidth",
-                     DATATYPE_INTEGER, true, null,
-                     "1", "65535", true, true);
-        addAttribute("ImageDescriptor", "imageHeight",
-                     DATATYPE_INTEGER, true, null,
-                     "1", "65535", true, true);
-        addBooleanAttribute("ImageDescriptor", "interlaceFlag",
-                            false, false);
+        bddAttributf("ImbgfDfsdriptor", "imbgfLfftPosition",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "65535", truf, truf);
+        bddAttributf("ImbgfDfsdriptor", "imbgfTopPosition",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "65535", truf, truf);
+        bddAttributf("ImbgfDfsdriptor", "imbgfWidti",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddAttributf("ImbgfDfsdriptor", "imbgfHfigit",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddBoolfbnAttributf("ImbgfDfsdriptor", "intfrlbdfFlbg",
+                            fblsf, fblsf);
 
-        // root -> LocalColorTable
-        addElement("LocalColorTable",
-                   GIFImageMetadata.nativeMetadataFormatName,
+        // root -> LodblColorTbblf
+        bddElfmfnt("LodblColorTbblf",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    2, 256);
-        addAttribute("LocalColorTable", "sizeOfLocalColorTable",
-                     DATATYPE_INTEGER, true, null,
-                     Arrays.asList(GIFStreamMetadata.colorTableSizes));
-        addBooleanAttribute("LocalColorTable", "sortFlag",
-                            false, false);
+        bddAttributf("LodblColorTbblf", "sizfOfLodblColorTbblf",
+                     DATATYPE_INTEGER, truf, null,
+                     Arrbys.bsList(GIFStrfbmMftbdbtb.dolorTbblfSizfs));
+        bddBoolfbnAttributf("LodblColorTbblf", "sortFlbg",
+                            fblsf, fblsf);
 
-        // root -> LocalColorTable -> ColorTableEntry
-        addElement("ColorTableEntry", "LocalColorTable",
+        // root -> LodblColorTbblf -> ColorTbblfEntry
+        bddElfmfnt("ColorTbblfEntry", "LodblColorTbblf",
                    CHILD_POLICY_EMPTY);
-        addAttribute("ColorTableEntry", "index",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "255", true, true);
-        addAttribute("ColorTableEntry", "red",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "255", true, true);
-        addAttribute("ColorTableEntry", "green",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "255", true, true);
-        addAttribute("ColorTableEntry", "blue",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "255", true, true);
+        bddAttributf("ColorTbblfEntry", "indfx",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+        bddAttributf("ColorTbblfEntry", "rfd",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+        bddAttributf("ColorTbblfEntry", "grffn",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+        bddAttributf("ColorTbblfEntry", "bluf",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
 
-        // root -> GraphicControlExtension
-        addElement("GraphicControlExtension",
-                   GIFImageMetadata.nativeMetadataFormatName,
+        // root -> GrbpiidControlExtfnsion
+        bddElfmfnt("GrbpiidControlExtfnsion",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_EMPTY);
-        addAttribute("GraphicControlExtension", "disposalMethod",
-                     DATATYPE_STRING, true, null,
-                     Arrays.asList(GIFImageMetadata.disposalMethodNames));
-        addBooleanAttribute("GraphicControlExtension", "userInputFlag",
-                            false, false);
-        addBooleanAttribute("GraphicControlExtension", "transparentColorFlag",
-                            false, false);
-        addAttribute("GraphicControlExtension", "delayTime",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "65535", true, true);
-        addAttribute("GraphicControlExtension", "transparentColorIndex",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "255", true, true);
+        bddAttributf("GrbpiidControlExtfnsion", "disposblMftiod",
+                     DATATYPE_STRING, truf, null,
+                     Arrbys.bsList(GIFImbgfMftbdbtb.disposblMftiodNbmfs));
+        bddBoolfbnAttributf("GrbpiidControlExtfnsion", "usfrInputFlbg",
+                            fblsf, fblsf);
+        bddBoolfbnAttributf("GrbpiidControlExtfnsion", "trbnspbrfntColorFlbg",
+                            fblsf, fblsf);
+        bddAttributf("GrbpiidControlExtfnsion", "dflbyTimf",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "65535", truf, truf);
+        bddAttributf("GrbpiidControlExtfnsion", "trbnspbrfntColorIndfx",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
 
-        // root -> PlainTextExtension
-        addElement("PlainTextExtension",
-                   GIFImageMetadata.nativeMetadataFormatName,
+        // root -> PlbinTfxtExtfnsion
+        bddElfmfnt("PlbinTfxtExtfnsion",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_EMPTY);
-        addAttribute("PlainTextExtension", "textGridLeft",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "65535", true, true);
-        addAttribute("PlainTextExtension", "textGridTop",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "65535", true, true);
-        addAttribute("PlainTextExtension", "textGridWidth",
-                     DATATYPE_INTEGER, true, null,
-                     "1", "65535", true, true);
-        addAttribute("PlainTextExtension", "textGridHeight",
-                     DATATYPE_INTEGER, true, null,
-                     "1", "65535", true, true);
-        addAttribute("PlainTextExtension", "characterCellWidth",
-                     DATATYPE_INTEGER, true, null,
-                     "1", "65535", true, true);
-        addAttribute("PlainTextExtension", "characterCellHeight",
-                     DATATYPE_INTEGER, true, null,
-                     "1", "65535", true, true);
-        addAttribute("PlainTextExtension", "textForegroundColor",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "255", true, true);
-        addAttribute("PlainTextExtension", "textBackgroundColor",
-                     DATATYPE_INTEGER, true, null,
-                     "0", "255", true, true);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtGridLfft",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtGridTop",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtGridWidti",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtGridHfigit",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "dibrbdtfrCfllWidti",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "dibrbdtfrCfllHfigit",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtForfgroundColor",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtBbdkgroundColor",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
 
-        // root -> ApplicationExtensions
-        addElement("ApplicationExtensions",
-                   GIFImageMetadata.nativeMetadataFormatName,
-                   1, Integer.MAX_VALUE);
+        // root -> ApplidbtionExtfnsions
+        bddElfmfnt("ApplidbtionExtfnsions",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   1, Intfgfr.MAX_VALUE);
 
-        // root -> ApplicationExtensions -> ApplicationExtension
-        addElement("ApplicationExtension", "ApplicationExtensions",
+        // root -> ApplidbtionExtfnsions -> ApplidbtionExtfnsion
+        bddElfmfnt("ApplidbtionExtfnsion", "ApplidbtionExtfnsions",
                    CHILD_POLICY_EMPTY);
-        addAttribute("ApplicationExtension", "applicationID",
-                     DATATYPE_STRING, true, null);
-        addAttribute("ApplicationExtension", "authenticationCode",
-                     DATATYPE_STRING, true, null);
-        addObjectValue("ApplicationExtension", byte.class,
-                       0, Integer.MAX_VALUE);
+        bddAttributf("ApplidbtionExtfnsion", "bpplidbtionID",
+                     DATATYPE_STRING, truf, null);
+        bddAttributf("ApplidbtionExtfnsion", "butifntidbtionCodf",
+                     DATATYPE_STRING, truf, null);
+        bddObjfdtVbluf("ApplidbtionExtfnsion", bytf.dlbss,
+                       0, Intfgfr.MAX_VALUE);
 
-        // root -> CommentExtensions
-        addElement("CommentExtensions",
-                   GIFImageMetadata.nativeMetadataFormatName,
-                   1, Integer.MAX_VALUE);
+        // root -> CommfntExtfnsions
+        bddElfmfnt("CommfntExtfnsions",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   1, Intfgfr.MAX_VALUE);
 
-        // root -> CommentExtensions -> CommentExtension
-        addElement("CommentExtension", "CommentExtensions",
+        // root -> CommfntExtfnsions -> CommfntExtfnsion
+        bddElfmfnt("CommfntExtfnsion", "CommfntExtfnsions",
                    CHILD_POLICY_EMPTY);
-        addAttribute("CommentExtension", "value",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("CommfntExtfnsion", "vbluf",
+                     DATATYPE_STRING, truf, null);
     }
 
-    public boolean canNodeAppear(String elementName,
-                                 ImageTypeSpecifier imageType) {
-        return true;
+    publid boolfbn dbnNodfAppfbr(String flfmfntNbmf,
+                                 ImbgfTypfSpfdififr imbgfTypf) {
+        rfturn truf;
     }
 
-    public static synchronized IIOMetadataFormat getInstance() {
-        if (instance == null) {
-            instance = new GIFImageMetadataFormat();
+    publid stbtid syndironizfd IIOMftbdbtbFormbt gftInstbndf() {
+        if (instbndf == null) {
+            instbndf = nfw GIFImbgfMftbdbtbFormbt();
         }
-        return instance;
+        rfturn instbndf;
     }
 }

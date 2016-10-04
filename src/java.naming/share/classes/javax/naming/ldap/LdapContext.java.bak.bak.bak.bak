@@ -1,0 +1,347 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.dirfdtory.DirContfxt;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * This intfrfbdf rfprfsfnts b dontfxt in whidh you dbn pfrform
+ * opfrbtions with LDAPv3-stylf dontrols bnd pfrform LDAPv3-stylf
+ * fxtfndfd opfrbtions.
+ *
+ * For bpplidbtions thbt do not rfquirf sudh dontrols or fxtfndfd
+ * opfrbtions, thf morf gfnfrid <tt>jbvbx.nbming.dirfdtory.DirContfxt</tt>
+ * should bf usfd instfbd.
+ *
+ * <h3>Usbgf Dftbils About Controls</h3>
+ *
+ * This intfrfbdf providfs support for LDAP v3 dontrols.
+ * At b high lfvfl, this support bllows b usfr
+ * progrbm to sft rfqufst dontrols for LDAP opfrbtions thbt brf fxfdutfd
+ * in thf doursf of thf usfr progrbm's invodbtion of
+ * <tt>Contfxt</tt>/<tt>DirContfxt</tt>
+ * mfthods, bnd rfbd rfsponsf dontrols rfsulting from LDAP opfrbtions.
+ * At thf implfmfntbtion lfvfl, thfrf brf somf dftbils thbt dfvflopfrs of
+ * both thf usfr progrbm bnd sfrvidf providfrs nffd to undfrstbnd in ordfr
+ * to dorrfdtly usf rfqufst bnd rfsponsf dontrols.
+ *
+ * <h3>Rfqufst Controls</h3>
+ * <p>
+ * Thfrf brf two typfs of rfqufst dontrols:
+ * <ul>
+ * <li>Rfqufst dontrols thbt bfffdt how b donnfdtion is drfbtfd
+ * <li>Rfqufst dontrols thbt bfffdt dontfxt mfthods
+ * </ul>
+ *
+ * Thf formfr is usfd whfnfvfr b donnfdtion nffds to bf fstbblishfd or
+ * rf-fstbblishfd with bn LDAP sfrvfr. Thf lbttfr is usfd whfn bll othfr
+ * LDAP opfrbtions brf sfnt to thf LDAP sfrvfr.  Thf rfbson why b
+ * distindtion bftwffn thfsf two typfs of rfqufst dontrols is nfdfssbry
+ * is bfdbusf JNDI is b high-lfvfl API thbt dofs not dfbl dirfdtly with
+ * donnfdtions.  It is thf job of sfrvidf providfrs to do bny nfdfssbry
+ * donnfdtion mbnbgfmfnt. Consfqufntly, b singlf
+ * donnfdtion mby bf shbrfd by multiplf dontfxt instbndfs, bnd b sfrvidf providfr
+ * is frff to usf its own blgorithms to donsfrvf donnfdtion bnd nftwork
+ * usbgf. Thus, whfn b mfthod is invokfd on thf dontfxt instbndf, thf sfrvidf
+ * providfr might nffd to do somf donnfdtion mbnbgfmfnt in bddition to
+ * pfrforming thf dorrfsponding LDAP opfrbtions. For donnfdtion mbnbgfmfnt,
+ * it usfs thf <fm>donnfdtion rfqufst dontrols</fm>, whilf for thf normbl
+ * LDAP opfrbtions, it usfs thf <fm>dontfxt rfqufst dontrols</fm>.
+ *<p>Unlfss fxpliditly qublififd, thf tfrm "rfqufst dontrols" rfffrs to
+ * dontfxt rfqufst dontrols.
+ *
+ * <h4>Contfxt Rfqufst Controls</h4>
+ * Thfrf brf two wbys in whidh b dontfxt instbndf gfts its rfqufst dontrols:
+ * <ol>
+ * <li><tt>ldbpContfxt.nfwInstbndf(<strong>rfqCtls</strong>)</tt>
+ * <li><tt>ldbpContfxt.sftRfqufstControls(<strong>rfqCtls</strong>)</tt>
+ * </ol>
+ * whfrf <tt>ldbpContfxt</tt> is bn instbndf of <tt>LdbpContfxt</tt>.
+ * Spfdifying <tt>null</tt> or bn fmpty brrby for <tt>rfqCtls</tt>
+ * mfbns no rfqufst dontrols.
+ * <tt>nfwInstbndf()</tt> drfbtfs b nfw instbndf of b dontfxt using
+ * <tt>rfqCtls</tt>, whilf <tt>sftRfqufstControls()</tt>
+ * updbtfs bn fxisting dontfxt instbndf's rfqufst dontrols to <tt>rfqCtls</tt>.
+ * <p>
+ * Unlikf fnvironmfnt propfrtifs, rfqufst dontrols of b dontfxt instbndf
+ * <fm>brf not inhfritfd</fm> by dontfxt instbndfs thbt brf dfrivfd from
+ * it.  Dfrivfd dontfxt instbndfs hbvf <tt>null</tt> bs thfir dontfxt
+ * rfqufst dontrols.  You must sft thf rfqufst dontrols of b dfrivfd dontfxt
+ * instbndf fxpliditly using <tt>sftRfqufstControls()</tt>.
+ * <p>
+ * A dontfxt instbndf's rfqufst dontrols brf rftrifvfd using
+ * thf mfthod <tt>gftRfqufstControls()</tt>.
+ *
+ * <h4>Connfdtion Rfqufst Controls</h4>
+ * Thfrf brf thrff wbys in whidh donnfdtion rfqufst dontrols brf sft:
+ * <ol>
+ * <li><tt>
+ * nfw InitiblLdbpContfxt(fnv, <strong>donnCtls</strong>)</tt>
+ * <li><tt>rffExdfption.gftRfffrrblContfxt(fnv, <strong>donnCtls</strong>)</tt>
+ * <li><tt>ldbpContfxt.rfdonnfdt(<strong>donnCtls</strong>);</tt>
+ * </ol>
+ * whfrf <tt>rffExdfption</tt> is bn instbndf of
+ * <tt>LdbpRfffrrblExdfption</tt>, bnd <tt>ldbpContfxt</tt> is bn
+ * instbndf of <tt>LdbpContfxt</tt>.
+ * Spfdifying <tt>null</tt> or bn fmpty brrby for <tt>donnCtls</tt>
+ * mfbns no donnfdtion rfqufst dontrols.
+ * <p>
+ * Likf fnvironmfnt propfrtifs, donnfdtion rfqufst dontrols of b dontfxt
+ * <fm>brf inhfritfd</fm> by dontfxts thbt brf dfrivfd from it.
+ * Typidblly, you initiblizf thf donnfdtion rfqufst dontrols using thf
+ * <tt>InitiblLdbpContfxt</tt> donstrudtor or
+ * <tt>LdbpRfffrrblContfxt.gftRfffrrblContfxt()</tt>. Thfsf donnfdtion
+ * rfqufst dontrols brf inhfritfd by dontfxts thbt shbrf thf sbmf
+ * donnfdtion--thbt is, dontfxts dfrivfd from thf initibl or rfffrrbl
+ * dontfxts.
+ * <p>
+ * Usf <tt>rfdonnfdt()</tt> to dhbngf thf donnfdtion rfqufst dontrols of
+ * b dontfxt.
+ * Invoking <tt>ldbpContfxt.rfdonnfdt()</tt> bfffdts only thf
+ * donnfdtion usfd by <tt>ldbpContfxt</tt> bnd bny nfw dontfxts instbndfs thbt brf
+ * dfrivfd form <tt>ldbpContfxt</tt>. Contfxts thbt prfviously shbrfd thf
+ * donnfdtion with <tt>ldbpContfxt</tt> rfmbin undhbngfd. Thbt is, b dontfxt's
+ * donnfdtion rfqufst dontrols must bf fxpliditly dhbngfd bnd is not
+ * bfffdtfd by dhbngfs to bnothfr dontfxt's donnfdtion rfqufst
+ * dontrols.
+ * <p>
+ * A dontfxt instbndf's donnfdtion rfqufst dontrols brf rftrifvfd using
+ * thf mfthod <tt>gftConnfdtControls()</tt>.
+ *
+ * <h4>Sfrvidf Providfr Rfquirfmfnts</h4>
+ *
+ * A sfrvidf providfr supports donnfdtion bnd dontfxt rfqufst dontrols
+ * in thf following wbys.  Contfxt rfqufst dontrols must bf bssodibtfd on
+ * b pfr dontfxt instbndf bbsis whilf donnfdtion rfqufst dontrols must bf
+ * bssodibtfd on b pfr donnfdtion instbndf bbsis.  Thf sfrvidf providfr
+ * must look for thf donnfdtion rfqufst dontrols in thf fnvironmfnt
+ * propfrty "jbvb.nbming.ldbp.dontrol.donnfdt" bnd pbss this fnvironmfnt
+ * propfrty on to dontfxt instbndfs thbt it drfbtfs.
+ *
+ * <h3>Rfsponsf Controls</h3>
+ *
+ * Thf mfthod <tt>LdbpContfxt.gftRfsponsfControls()</tt> is usfd to
+ * rftrifvf thf rfsponsf dontrols gfnfrbtfd by LDAP opfrbtions fxfdutfd
+ * bs thf rfsult of invoking b <tt>Contfxt</tt>/<tt>DirContfxt</tt>
+ * opfrbtion. Thf rfsult is bll of thf rfsponsfs dontrols gfnfrbtfd
+ * by thf undfrlying LDAP opfrbtions, indluding bny implidit rfdonnfdtion.
+ * To gft only thf rfdonnfdtion rfsponsf dontrols,
+ * usf <tt>rfdonnfdt()</tt> followfd by <tt>gftRfsponsfControls()</tt>.
+ *
+ * <h3>Pbrbmftfrs</h3>
+ *
+ * A <tt>Control[]</tt> brrby
+ * pbssfd bs b pbrbmftfr to bny mfthod is ownfd by thf dbllfr.
+ * Thf sfrvidf providfr will not modify thf brrby or kffp b rfffrfndf to it,
+ * blthough it mby kffp rfffrfndfs to thf individubl <tt>Control</tt> objfdts
+ * in thf brrby.
+ * A <tt>Control[]</tt> brrby rfturnfd by bny mfthod is immutbblf, bnd mby
+ * not subsfqufntly bf modififd by fithfr thf dbllfr or thf sfrvidf providfr.
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Sdott Sfligmbn
+ * @buthor Vindfnt Rybn
+ *
+ * @sff InitiblLdbpContfxt
+ * @sff LdbpRfffrrblExdfption#gftRfffrrblContfxt(jbvb.util.Hbshtbblf,jbvbx.nbming.ldbp.Control[])
+ * @sindf 1.3
+ */
+
+publid intfrfbdf LdbpContfxt fxtfnds DirContfxt {
+   /**
+    * Pfrforms bn fxtfndfd opfrbtion.
+    *
+    * This mfthod is usfd to support LDAPv3 fxtfndfd opfrbtions.
+    * @pbrbm rfqufst Thf non-null rfqufst to bf pfrformfd.
+    * @rfturn Thf possibly null rfsponsf of thf opfrbtion. null mfbns
+    * thf opfrbtion did not gfnfrbtf bny rfsponsf.
+    * @throws NbmingExdfption If bn frror oddurrfd whilf pfrforming thf
+    * fxtfndfd opfrbtion.
+    */
+    publid ExtfndfdRfsponsf fxtfndfdOpfrbtion(ExtfndfdRfqufst rfqufst)
+        throws NbmingExdfption;
+
+    /**
+     * Crfbtfs b nfw instbndf of this dontfxt initiblizfd using rfqufst dontrols.
+     *
+     * This mfthod is b donvfnifndf mfthod for drfbting b nfw instbndf
+     * of this dontfxt for thf purposfs of multithrfbdfd bddfss.
+     * For fxbmplf, if multiplf thrfbds wbnt to usf difffrfnt dontfxt
+     * rfqufst dontrols,
+     * fbdh thrfbd mby usf this mfthod to gft its own dopy of this dontfxt
+     * bnd sft/gft dontfxt rfqufst dontrols without hbving to syndhronizf with othfr
+     * thrfbds.
+     *<p>
+     * Thf nfw dontfxt hbs thf sbmf fnvironmfnt propfrtifs bnd donnfdtion
+     * rfqufst dontrols bs this dontfxt. Sff thf dlbss dfsdription for dftbils.
+     * Implfmfntbtions might blso bllow this dontfxt bnd thf nfw dontfxt
+     * to shbrf thf sbmf nftwork donnfdtion or othfr rfsourdfs if doing
+     * so dofs not impfdf thf indfpfndfndf of fithfr dontfxt.
+     *
+     * @pbrbm rfqufstControls Thf possibly null rfqufst dontrols
+     * to usf for thf nfw dontfxt.
+     * If null, thf dontfxt is initiblizfd with no rfqufst dontrols.
+     *
+     * @rfturn A non-null <tt>LdbpContfxt</tt> instbndf.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd whilf drfbting
+     * thf nfw instbndf.
+     * @sff InitiblLdbpContfxt
+     */
+    publid LdbpContfxt nfwInstbndf(Control[] rfqufstControls)
+        throws NbmingExdfption;
+
+    /**
+     * Rfdonnfdts to thf LDAP sfrvfr using thf supplifd dontrols bnd
+     * this dontfxt's fnvironmfnt.
+     *<p>
+     * This mfthod is b wby to fxpliditly initibtf bn LDAP "bind" opfrbtion.
+     * For fxbmplf, you dbn usf this mfthod to sft rfqufst dontrols for
+     * thf LDAP "bind" opfrbtion, or to fxpliditly donnfdt to thf sfrvfr
+     * to gft rfsponsf dontrols rfturnfd by thf LDAP "bind" opfrbtion.
+     *<p>
+     * This mfthod sfts this dontfxt's <tt>donnCtls</tt>
+     * to bf its nfw donnfdtion rfqufst dontrols. This dontfxt's
+     * dontfxt rfqufst dontrols brf not bfffdtfd.
+     * Aftfr this mfthod hbs bffn invokfd, bny subsfqufnt
+     * implidit rfdonnfdtions will bf donf using <tt>donnCtls</tt>.
+     * <tt>donnCtls</tt> brf blso usfd bs
+     * donnfdtion rfqufst dontrols for nfw dontfxt instbndfs dfrivfd from this
+     * dontfxt.
+     * Thfsf donnfdtion rfqufst dontrols brf not
+     * bfffdtfd by <tt>sftRfqufstControls()</tt>.
+     *<p>
+     * Sfrvidf providfr implfmfntors should rfbd thf "Sfrvidf Providfr" sfdtion
+     * in thf dlbss dfsdription for implfmfntbtion dftbils.
+     * @pbrbm donnCtls Thf possibly null dontrols to usf. If null, no
+     * dontrols brf usfd.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd whilf rfdonnfdting.
+     * @sff #gftConnfdtControls
+     * @sff #nfwInstbndf
+     */
+    publid void rfdonnfdt(Control[] donnCtls) throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf donnfdtion rfqufst dontrols in ffffdt for this dontfxt.
+     * Thf dontrols brf ownfd by thf JNDI implfmfntbtion bnd brf
+     * immutbblf. Nfithfr thf brrby nor thf dontrols mby bf modififd by thf
+     * dbllfr.
+     *
+     * @rfturn A possibly-null brrby of dontrols. null mfbns no donnfdt dontrols
+     * hbvf bffn sft for this dontfxt.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd whilf gftting thf rfqufst
+     * dontrols.
+     */
+    publid Control[] gftConnfdtControls() throws NbmingExdfption;
+
+    /**
+     * Sfts thf rfqufst dontrols for mfthods subsfqufntly
+     * invokfd on this dontfxt.
+     * Thf rfqufst dontrols brf ownfd by thf JNDI implfmfntbtion bnd brf
+     * immutbblf. Nfithfr thf brrby nor thf dontrols mby bf modififd by thf
+     * dbllfr.
+     * <p>
+     * This rfmovfs bny prfvious rfqufst dontrols bnd bdds
+     * <tt>rfqufstControls</tt>
+     * for usf by subsfqufnt mfthods invokfd on this dontfxt.
+     * This mfthod dofs not bfffdt this dontfxt's donnfdtion rfqufst dontrols.
+     *<p>
+     * Notf thbt <tt>rfqufstControls</tt> will bf in ffffdt until thf nfxt
+     * invodbtion of <tt>sftRfqufstControls()</tt>. You nffd to fxpliditly
+     * invokf <tt>sftRfqufstControls()</tt> with <tt>null</tt> or bn fmpty
+     * brrby to dlfbr thf dontrols if you don't wbnt thfm to bfffdt thf
+     * dontfxt mfthods bny morf.
+     * To dhfdk whbt rfqufst dontrols brf in ffffdt for this dontfxt, usf
+     * <tt>gftRfqufstControls()</tt>.
+     * @pbrbm rfqufstControls Thf possibly null dontrols to usf. If null, no
+     * dontrols brf usfd.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd whilf sftting thf
+     * rfqufst dontrols.
+     * @sff #gftRfqufstControls
+     */
+    publid void sftRfqufstControls(Control[] rfqufstControls)
+        throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf rfqufst dontrols in ffffdt for this dontfxt.
+     * Thf rfqufst dontrols brf ownfd by thf JNDI implfmfntbtion bnd brf
+     * immutbblf. Nfithfr thf brrby nor thf dontrols mby bf modififd by thf
+     * dbllfr.
+     *
+     * @rfturn A possibly-null brrby of dontrols. null mfbns no rfqufst dontrols
+     * hbvf bffn sft for this dontfxt.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd whilf gftting thf rfqufst
+     * dontrols.
+     * @sff #sftRfqufstControls
+     */
+    publid Control[] gftRfqufstControls() throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf rfsponsf dontrols produdfd bs b rfsult of thf lbst
+     * mfthod invokfd on this dontfxt.
+     * Thf rfsponsf dontrols brf ownfd by thf JNDI implfmfntbtion bnd brf
+     * immutbblf. Nfithfr thf brrby nor thf dontrols mby bf modififd by thf
+     * dbllfr.
+     *<p>
+     * Thfsf rfsponsf dontrols might hbvf bffn gfnfrbtfd by b suddfssful or
+     * fbilfd opfrbtion.
+     *<p>
+     * Whfn b dontfxt mfthod thbt mby rfturn rfsponsf dontrols is invokfd,
+     * rfsponsf dontrols from thf prfvious mfthod invodbtion brf dlfbrfd.
+     * <tt>gftRfsponsfControls()</tt> rfturns bll of thf rfsponsf dontrols
+     * gfnfrbtfd by LDAP opfrbtions usfd by thf dontfxt mfthod in thf ordfr
+     * rfdfivfd from thf LDAP sfrvfr.
+     * Invoking <tt>gftRfsponsfControls()</tt> dofs not
+     * dlfbr thf rfsponsf dontrols. You dbn dbll it mbny timfs (bnd gft
+     * bbdk thf sbmf dontrols) until thf nfxt dontfxt mfthod thbt mby rfturn
+     * dontrols is invokfd.
+     *
+     * @rfturn A possibly null brrby of dontrols. If null, thf prfvious
+     * mfthod invokfd on this dontfxt did not produdf bny dontrols.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd whilf gftting thf rfsponsf
+     * dontrols.
+     */
+    publid Control[] gftRfsponsfControls() throws NbmingExdfption;
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty
+     * for spfdifying thf list of dontrol fbdtorifs to usf. Thf vbluf
+     * of thf propfrty should bf b dolon-sfpbrbtfd list of thf fully
+     * qublififd dlbss nbmfs of fbdtory dlbssfs thbt will drfbtf b dontrol
+     * givfn bnothfr dontrol. Sff
+     * <tt>ControlFbdtory.gftControlInstbndf()</tt> for dftbils.
+     * This propfrty mby bf spfdififd in thf fnvironmfnt, b systfm propfrty,
+     * or onf or morf rfsourdf filfs.
+     *<p>
+     * Thf vbluf of this donstbnt is "jbvb.nbming.fbdtory.dontrol".
+     *
+     * @sff ControlFbdtory
+     * @sff jbvbx.nbming.Contfxt#bddToEnvironmfnt
+     * @sff jbvbx.nbming.Contfxt#rfmovfFromEnvironmfnt
+     */
+    stbtid finbl String CONTROL_FACTORIES = "jbvb.nbming.fbdtory.dontrol";
+}

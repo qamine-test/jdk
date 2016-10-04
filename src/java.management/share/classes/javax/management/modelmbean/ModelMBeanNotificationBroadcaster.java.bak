@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * @author    IBM Corp.
+ * @butior    IBM Corp.
  *
- * Copyright IBM Corp. 1999-2000.  All rights reserved.
+ * Copyrigit IBM Corp. 1999-2000.  All rigits rfsfrvfd.
  */
 
-package javax.management.modelmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
 
-import javax.management.Attribute;
-import javax.management.AttributeChangeNotification;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanException;
-import javax.management.Notification;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationListener;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
 
 /**
- * This interface must be implemented by the ModelMBeans. An implementation of this interface
- * must be shipped with every JMX Agent.
+ * Tiis intfrfbdf must bf implfmfntfd by tif ModflMBfbns. An implfmfntbtion of tiis intfrfbdf
+ * must bf siippfd witi fvfry JMX Agfnt.
  * <P>
- * Java resources wishing to be manageable instantiate the ModelMBean using the MBeanServer's
- * createMBean method.  The resource then sets the ModelMBeanInfo (with Descriptors) for the ModelMBean
- * instance. The attributes and operations exposed via the ModelMBeanInfo for the ModelMBean are accessible
- * from MBeans, connectors/adaptors like other MBeans. Through the ModelMBeanInfo Descriptors, values and methods in
- * the managed application can be defined and mapped to attributes and operations of the ModelMBean.
- * This mapping can be defined during development in an XML formatted file or dynamically and
- * programmatically at runtime.
+ * Jbvb rfsourdfs wisiing to bf mbnbgfbblf instbntibtf tif ModflMBfbn using tif MBfbnSfrvfr's
+ * drfbtfMBfbn mftiod.  Tif rfsourdf tifn sfts tif ModflMBfbnInfo (witi Dfsdriptors) for tif ModflMBfbn
+ * instbndf. Tif bttributfs bnd opfrbtions fxposfd vib tif ModflMBfbnInfo for tif ModflMBfbn brf bddfssiblf
+ * from MBfbns, donnfdtors/bdbptors likf otifr MBfbns. Tirougi tif ModflMBfbnInfo Dfsdriptors, vblufs bnd mftiods in
+ * tif mbnbgfd bpplidbtion dbn bf dffinfd bnd mbppfd to bttributfs bnd opfrbtions of tif ModflMBfbn.
+ * Tiis mbpping dbn bf dffinfd during dfvflopmfnt in bn XML formbttfd filf or dynbmidblly bnd
+ * progrbmmbtidblly bt runtimf.
  * <P>
- * Every ModelMBean which is instantiated in the MBeanServer becomes manageable:
- * its attributes and operations
- * become remotely accessible through the connectors/adaptors connected to that MBeanServer.
- * A Java object cannot be registered in the MBeanServer unless it is a JMX compliant MBean.
- * By instantiating a ModelMBean, resources are guaranteed that the MBean is valid.
+ * Evfry ModflMBfbn wiidi is instbntibtfd in tif MBfbnSfrvfr bfdomfs mbnbgfbblf:
+ * its bttributfs bnd opfrbtions
+ * bfdomf rfmotfly bddfssiblf tirougi tif donnfdtors/bdbptors donnfdtfd to tibt MBfbnSfrvfr.
+ * A Jbvb objfdt dbnnot bf rfgistfrfd in tif MBfbnSfrvfr unlfss it is b JMX domplibnt MBfbn.
+ * By instbntibting b ModflMBfbn, rfsourdfs brf gubrbntffd tibt tif MBfbn is vblid.
  * <P>
- * MBeanException and RuntimeOperationsException must be thrown on every public method.  This allows
- * for wrapping exceptions from distributed communications (RMI, EJB, etc.).  These exceptions do
- * not have to be thrown by the implementation except in the scenarios described in the specification
- * and javadoc.
+ * MBfbnExdfption bnd RuntimfOpfrbtionsExdfption must bf tirown on fvfry publid mftiod.  Tiis bllows
+ * for wrbpping fxdfptions from distributfd dommunidbtions (RMI, EJB, ftd.).  Tifsf fxdfptions do
+ * not ibvf to bf tirown by tif implfmfntbtion fxdfpt in tif sdfnbrios dfsdribfd in tif spfdifidbtion
+ * bnd jbvbdod.
  *
- * @since 1.5
+ * @sindf 1.5
  */
 
-public interface ModelMBeanNotificationBroadcaster extends NotificationBroadcaster
+publid intfrfbdf ModflMBfbnNotifidbtionBrobddbstfr fxtfnds NotifidbtionBrobddbstfr
 {
 
         /**
-         * Sends a Notification which is passed in to the registered
-         * Notification listeners on the ModelMBean as a
-         * jmx.modelmbean.generic notification.
+         * Sfnds b Notifidbtion wiidi is pbssfd in to tif rfgistfrfd
+         * Notifidbtion listfnfrs on tif ModflMBfbn bs b
+         * jmx.modflmbfbn.gfnfrid notifidbtion.
          *
-         * @param ntfyObj The notification which is to be passed to
-         * the 'handleNotification' method of the listener object.
+         * @pbrbm ntfyObj Tif notifidbtion wiidi is to bf pbssfd to
+         * tif 'ibndlfNotifidbtion' mftiod of tif listfnfr objfdt.
          *
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException:
-         *       The Notification object passed in parameter is null.
-         *
-         */
-
-        public void sendNotification(Notification ntfyObj)
-        throws MBeanException, RuntimeOperationsException;
-
-        /**
-         * Sends a Notification which contains the text string that is passed in
-         * to the registered Notification listeners on the ModelMBean.
-         *
-         * @param ntfyText The text which is to be passed in the Notification to the 'handleNotification'
-         * method of the listener object.
-         * the constructed Notification will be:
-         *   type        "jmx.modelmbean.generic"
-         *   source      this ModelMBean instance
-         *   sequence    1
-         *
-         *
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException:
-         *       The Notification text string passed in parameter is null.
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption:
+         *       Tif Notifidbtion objfdt pbssfd in pbrbmftfr is null.
          *
          */
-        public void sendNotification(String ntfyText)
-        throws MBeanException, RuntimeOperationsException;
+
+        publid void sfndNotifidbtion(Notifidbtion ntfyObj)
+        tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
         /**
-         * Sends an attributeChangeNotification which is passed in to
-         * the registered attributeChangeNotification listeners on the
-         * ModelMBean.
+         * Sfnds b Notifidbtion wiidi dontbins tif tfxt string tibt is pbssfd in
+         * to tif rfgistfrfd Notifidbtion listfnfrs on tif ModflMBfbn.
          *
-         * @param notification The notification which is to be passed
-         * to the 'handleNotification' method of the listener object.
+         * @pbrbm ntfyTfxt Tif tfxt wiidi is to bf pbssfd in tif Notifidbtion to tif 'ibndlfNotifidbtion'
+         * mftiod of tif listfnfr objfdt.
+         * tif donstrudtfd Notifidbtion will bf:
+         *   typf        "jmx.modflmbfbn.gfnfrid"
+         *   sourdf      tiis ModflMBfbn instbndf
+         *   sfqufndf    1
          *
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException: The AttributeChangeNotification object passed in parameter is null.
+         *
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption:
+         *       Tif Notifidbtion tfxt string pbssfd in pbrbmftfr is null.
          *
          */
-        public void sendAttributeChangeNotification(AttributeChangeNotification notification)
-        throws MBeanException, RuntimeOperationsException;
+        publid void sfndNotifidbtion(String ntfyTfxt)
+        tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+        /**
+         * Sfnds bn bttributfCibngfNotifidbtion wiidi is pbssfd in to
+         * tif rfgistfrfd bttributfCibngfNotifidbtion listfnfrs on tif
+         * ModflMBfbn.
+         *
+         * @pbrbm notifidbtion Tif notifidbtion wiidi is to bf pbssfd
+         * to tif 'ibndlfNotifidbtion' mftiod of tif listfnfr objfdt.
+         *
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption: Tif AttributfCibngfNotifidbtion objfdt pbssfd in pbrbmftfr is null.
+         *
+         */
+        publid void sfndAttributfCibngfNotifidbtion(AttributfCibngfNotifidbtion notifidbtion)
+        tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
 
         /**
-         * Sends an attributeChangeNotification which contains the old value and new value for the
-         * attribute to the registered AttributeChangeNotification listeners on the ModelMBean.
+         * Sfnds bn bttributfCibngfNotifidbtion wiidi dontbins tif old vbluf bnd nfw vbluf for tif
+         * bttributf to tif rfgistfrfd AttributfCibngfNotifidbtion listfnfrs on tif ModflMBfbn.
          *
-         * @param oldValue The original value for the Attribute
-         * @param newValue The current value for the Attribute
+         * @pbrbm oldVbluf Tif originbl vbluf for tif Attributf
+         * @pbrbm nfwVbluf Tif durrfnt vbluf for tif Attributf
          * <PRE>
-         * The constructed attributeChangeNotification will be:
-         *   type        "jmx.attribute.change"
-         *   source      this ModelMBean instance
-         *   sequence    1
-         *   attributeName oldValue.getName()
-         *   attributeType oldValue's class
-         *   attributeOldValue oldValue.getValue()
-         *   attributeNewValue newValue.getValue()
+         * Tif donstrudtfd bttributfCibngfNotifidbtion will bf:
+         *   typf        "jmx.bttributf.dibngf"
+         *   sourdf      tiis ModflMBfbn instbndf
+         *   sfqufndf    1
+         *   bttributfNbmf oldVbluf.gftNbmf()
+         *   bttributfTypf oldVbluf's dlbss
+         *   bttributfOldVbluf oldVbluf.gftVbluf()
+         *   bttributfNfwVbluf nfwVbluf.gftVbluf()
          * </PRE>
          *
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException: An Attribute object passed in parameter is null
-         * or the names of the two Attribute objects in parameter are not the same.
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption: An Attributf objfdt pbssfd in pbrbmftfr is null
+         * or tif nbmfs of tif two Attributf objfdts in pbrbmftfr brf not tif sbmf.
          */
-        public void sendAttributeChangeNotification(Attribute oldValue, Attribute newValue)
-        throws MBeanException, RuntimeOperationsException;
+        publid void sfndAttributfCibngfNotifidbtion(Attributf oldVbluf, Attributf nfwVbluf)
+        tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
 
         /**
-         * Registers an object which implements the NotificationListener interface as a listener.  This
-         * object's 'handleNotification()' method will be invoked when any attributeChangeNotification is issued through
-         * or by the ModelMBean.  This does not include other Notifications.  They must be registered
-         * for independently. An AttributeChangeNotification will be generated for this attributeName.
+         * Rfgistfrs bn objfdt wiidi implfmfnts tif NotifidbtionListfnfr intfrfbdf bs b listfnfr.  Tiis
+         * objfdt's 'ibndlfNotifidbtion()' mftiod will bf invokfd wifn bny bttributfCibngfNotifidbtion is issufd tirougi
+         * or by tif ModflMBfbn.  Tiis dofs not indludf otifr Notifidbtions.  Tify must bf rfgistfrfd
+         * for indfpfndfntly. An AttributfCibngfNotifidbtion will bf gfnfrbtfd for tiis bttributfNbmf.
          *
-         * @param listener The listener object which will handles notifications emitted by the registered MBean.
-         * @param attributeName The name of the ModelMBean attribute for which to receive change notifications.
-         *      If null, then all attribute changes will cause an attributeChangeNotification to be issued.
-         * @param handback The context to be sent to the listener with the notification when a notification is emitted.
+         * @pbrbm listfnfr Tif listfnfr objfdt wiidi will ibndlfs notifidbtions fmittfd by tif rfgistfrfd MBfbn.
+         * @pbrbm bttributfNbmf Tif nbmf of tif ModflMBfbn bttributf for wiidi to rfdfivf dibngf notifidbtions.
+         *      If null, tifn bll bttributf dibngfs will dbusf bn bttributfCibngfNotifidbtion to bf issufd.
+         * @pbrbm ibndbbdk Tif dontfxt to bf sfnt to tif listfnfr witi tif notifidbtion wifn b notifidbtion is fmittfd.
          *
-         * @exception IllegalArgumentException The listener cannot be null.
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException The attribute name passed in parameter does not exist.
+         * @fxdfption IllfgblArgumfntExdfption Tif listfnfr dbnnot bf null.
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption Tif bttributf nbmf pbssfd in pbrbmftfr dofs not fxist.
          *
-         * @see #removeAttributeChangeNotificationListener
+         * @sff #rfmovfAttributfCibngfNotifidbtionListfnfr
          */
-        public void addAttributeChangeNotificationListener(NotificationListener listener,
-                                                           String attributeName,
-                                                           Object handback)
-        throws MBeanException, RuntimeOperationsException, IllegalArgumentException;
+        publid void bddAttributfCibngfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                                           String bttributfNbmf,
+                                                           Objfdt ibndbbdk)
+        tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption, IllfgblArgumfntExdfption;
 
 
         /**
-         * Removes a listener for attributeChangeNotifications from the RequiredModelMBean.
+         * Rfmovfs b listfnfr for bttributfCibngfNotifidbtions from tif RfquirfdModflMBfbn.
          *
-         * @param listener The listener name which was handling notifications emitted by the registered MBean.
-         * This method will remove all information related to this listener.
-         * @param attributeName The attribute for which the listener no longer wants to receive attributeChangeNotifications.
-         * If null the listener will be removed for all attributeChangeNotifications.
+         * @pbrbm listfnfr Tif listfnfr nbmf wiidi wbs ibndling notifidbtions fmittfd by tif rfgistfrfd MBfbn.
+         * Tiis mftiod will rfmovf bll informbtion rflbtfd to tiis listfnfr.
+         * @pbrbm bttributfNbmf Tif bttributf for wiidi tif listfnfr no longfr wbnts to rfdfivf bttributfCibngfNotifidbtions.
+         * If null tif listfnfr will bf rfmovfd for bll bttributfCibngfNotifidbtions.
          *
-         * @exception ListenerNotFoundException The listener is not registered in the MBean or is null.
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException If the inAttributeName parameter does not
-         * correspond to an attribute name.
+         * @fxdfption ListfnfrNotFoundExdfption Tif listfnfr is not rfgistfrfd in tif MBfbn or is null.
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption If tif inAttributfNbmf pbrbmftfr dofs not
+         * dorrfspond to bn bttributf nbmf.
          *
-         * @see #addAttributeChangeNotificationListener
+         * @sff #bddAttributfCibngfNotifidbtionListfnfr
          */
 
-        public void removeAttributeChangeNotificationListener(NotificationListener listener,
-                                                              String attributeName)
-        throws MBeanException, RuntimeOperationsException, ListenerNotFoundException;
+        publid void rfmovfAttributfCibngfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                                              String bttributfNbmf)
+        tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption, ListfnfrNotFoundExdfption;
 
 }

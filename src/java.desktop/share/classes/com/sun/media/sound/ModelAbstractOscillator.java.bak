@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.IOException;
-import javax.sound.midi.Instrument;
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.Patch;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.SoundbankResource;
-import javax.sound.midi.VoiceStatus;
+import jbvb.io.IOExdfption;
+import jbvbx.sound.midi.Instrumfnt;
+import jbvbx.sound.midi.MidiCibnnfl;
+import jbvbx.sound.midi.Pbtdi;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkRfsourdf;
+import jbvbx.sound.midi.VoidfStbtus;
 
 /**
- * A abstract class used to simplify creating custom ModelOscillator.
+ * A bbstrbdt dlbss usfd to simplify drfbting dustom ModflOsdillbtor.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public abstract class ModelAbstractOscillator
-        implements ModelOscillator, ModelOscillatorStream, Soundbank {
+publid bbstrbdt dlbss ModflAbstrbdtOsdillbtor
+        implfmfnts ModflOsdillbtor, ModflOsdillbtorStrfbm, Soundbbnk {
 
-    protected float pitch = 6000;
-    protected float samplerate;
-    protected MidiChannel channel;
-    protected VoiceStatus voice;
-    protected int noteNumber;
-    protected int velocity;
-    protected boolean on = false;
+    protfdtfd flobt pitdi = 6000;
+    protfdtfd flobt sbmplfrbtf;
+    protfdtfd MidiCibnnfl dibnnfl;
+    protfdtfd VoidfStbtus voidf;
+    protfdtfd int notfNumbfr;
+    protfdtfd int vflodity;
+    protfdtfd boolfbn on = fblsf;
 
-    public void init() {
+    publid void init() {
     }
 
-    public void close() throws IOException {
+    publid void dlosf() tirows IOExdfption {
     }
 
-    public void noteOff(int velocity) {
-        on = false;
+    publid void notfOff(int vflodity) {
+        on = fblsf;
     }
 
-    public void noteOn(MidiChannel channel, VoiceStatus voice, int noteNumber,
-            int velocity) {
-        this.channel = channel;
-        this.voice = voice;
-        this.noteNumber = noteNumber;
-        this.velocity = velocity;
-        on = true;
+    publid void notfOn(MidiCibnnfl dibnnfl, VoidfStbtus voidf, int notfNumbfr,
+            int vflodity) {
+        tiis.dibnnfl = dibnnfl;
+        tiis.voidf = voidf;
+        tiis.notfNumbfr = notfNumbfr;
+        tiis.vflodity = vflodity;
+        on = truf;
     }
 
-    public int read(float[][] buffer, int offset, int len) throws IOException {
-        return -1;
+    publid int rfbd(flobt[][] bufffr, int offsft, int lfn) tirows IOExdfption {
+        rfturn -1;
     }
 
-    public MidiChannel getChannel() {
-        return channel;
+    publid MidiCibnnfl gftCibnnfl() {
+        rfturn dibnnfl;
     }
 
-    public VoiceStatus getVoice() {
-        return voice;
+    publid VoidfStbtus gftVoidf() {
+        rfturn voidf;
     }
 
-    public int getNoteNumber() {
-        return noteNumber;
+    publid int gftNotfNumbfr() {
+        rfturn notfNumbfr;
     }
 
-    public int getVelocity() {
-        return velocity;
+    publid int gftVflodity() {
+        rfturn vflodity;
     }
 
-    public boolean isOn() {
-        return on;
+    publid boolfbn isOn() {
+        rfturn on;
     }
 
-    public void setPitch(float pitch) {
-        this.pitch = pitch;
+    publid void sftPitdi(flobt pitdi) {
+        tiis.pitdi = pitdi;
     }
 
-    public float getPitch() {
-        return pitch;
+    publid flobt gftPitdi() {
+        rfturn pitdi;
     }
 
-    public void setSampleRate(float samplerate) {
-        this.samplerate = samplerate;
+    publid void sftSbmplfRbtf(flobt sbmplfrbtf) {
+        tiis.sbmplfrbtf = sbmplfrbtf;
     }
 
-    public float getSampleRate() {
-        return samplerate;
+    publid flobt gftSbmplfRbtf() {
+        rfturn sbmplfrbtf;
     }
 
-    public float getAttenuation() {
-        return 0;
+    publid flobt gftAttfnubtion() {
+        rfturn 0;
     }
 
-    public int getChannels() {
-        return 1;
+    publid int gftCibnnfls() {
+        rfturn 1;
     }
 
-    public String getName() {
-        return getClass().getName();
+    publid String gftNbmf() {
+        rfturn gftClbss().gftNbmf();
     }
 
-    public Patch getPatch() {
-        return new Patch(0, 0);
+    publid Pbtdi gftPbtdi() {
+        rfturn nfw Pbtdi(0, 0);
     }
 
-    public ModelOscillatorStream open(float samplerate) {
-        ModelAbstractOscillator oscs;
+    publid ModflOsdillbtorStrfbm opfn(flobt sbmplfrbtf) {
+        ModflAbstrbdtOsdillbtor osds;
         try {
-            oscs = this.getClass().newInstance();
-        } catch (InstantiationException e) {
-            throw new IllegalArgumentException(e);
-        } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException(e);
+            osds = tiis.gftClbss().nfwInstbndf();
+        } dbtdi (InstbntibtionExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
+        } dbtdi (IllfgblAddfssExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
         }
-        oscs.setSampleRate(samplerate);
-        oscs.init();
-        return oscs;
+        osds.sftSbmplfRbtf(sbmplfrbtf);
+        osds.init();
+        rfturn osds;
     }
 
-    public ModelPerformer getPerformer() {
-        // Create performer for my custom oscillirator
-        ModelPerformer performer = new ModelPerformer();
-        performer.getOscillators().add(this);
-        return performer;
-
-    }
-
-    public ModelInstrument getInstrument() {
-        // Create Instrument object around my performer
-        SimpleInstrument ins = new SimpleInstrument();
-        ins.setName(getName());
-        ins.add(getPerformer());
-        ins.setPatch(getPatch());
-        return ins;
+    publid ModflPfrformfr gftPfrformfr() {
+        // Crfbtf pfrformfr for my dustom osdillirbtor
+        ModflPfrformfr pfrformfr = nfw ModflPfrformfr();
+        pfrformfr.gftOsdillbtors().bdd(tiis);
+        rfturn pfrformfr;
 
     }
 
-    public Soundbank getSoundBank() {
-        // Create Soundbank object around the instrument
-        SimpleSoundbank sbk = new SimpleSoundbank();
-        sbk.addInstrument(getInstrument());
-        return sbk;
+    publid ModflInstrumfnt gftInstrumfnt() {
+        // Crfbtf Instrumfnt objfdt bround my pfrformfr
+        SimplfInstrumfnt ins = nfw SimplfInstrumfnt();
+        ins.sftNbmf(gftNbmf());
+        ins.bdd(gftPfrformfr());
+        ins.sftPbtdi(gftPbtdi());
+        rfturn ins;
+
     }
 
-    public String getDescription() {
-        return getName();
+    publid Soundbbnk gftSoundBbnk() {
+        // Crfbtf Soundbbnk objfdt bround tif instrumfnt
+        SimplfSoundbbnk sbk = nfw SimplfSoundbbnk();
+        sbk.bddInstrumfnt(gftInstrumfnt());
+        rfturn sbk;
     }
 
-    public Instrument getInstrument(Patch patch) {
-        Instrument ins = getInstrument();
-        Patch p = ins.getPatch();
-        if (p.getBank() != patch.getBank())
-            return null;
-        if (p.getProgram() != patch.getProgram())
-            return null;
-        if (p instanceof ModelPatch && patch instanceof ModelPatch) {
-            if (((ModelPatch)p).isPercussion()
-                    != ((ModelPatch)patch).isPercussion()) {
-                return null;
+    publid String gftDfsdription() {
+        rfturn gftNbmf();
+    }
+
+    publid Instrumfnt gftInstrumfnt(Pbtdi pbtdi) {
+        Instrumfnt ins = gftInstrumfnt();
+        Pbtdi p = ins.gftPbtdi();
+        if (p.gftBbnk() != pbtdi.gftBbnk())
+            rfturn null;
+        if (p.gftProgrbm() != pbtdi.gftProgrbm())
+            rfturn null;
+        if (p instbndfof ModflPbtdi && pbtdi instbndfof ModflPbtdi) {
+            if (((ModflPbtdi)p).isPfrdussion()
+                    != ((ModflPbtdi)pbtdi).isPfrdussion()) {
+                rfturn null;
             }
         }
-        return ins;
+        rfturn ins;
     }
 
-    public Instrument[] getInstruments() {
-        return new Instrument[]{getInstrument()};
+    publid Instrumfnt[] gftInstrumfnts() {
+        rfturn nfw Instrumfnt[]{gftInstrumfnt()};
     }
 
-    public SoundbankResource[] getResources() {
-        return new SoundbankResource[0];
+    publid SoundbbnkRfsourdf[] gftRfsourdfs() {
+        rfturn nfw SoundbbnkRfsourdf[0];
     }
 
-    public String getVendor() {
-        return null;
+    publid String gftVfndor() {
+        rfturn null;
     }
 
-    public String getVersion() {
-        return null;
+    publid String gftVfrsion() {
+        rfturn null;
     }
 }

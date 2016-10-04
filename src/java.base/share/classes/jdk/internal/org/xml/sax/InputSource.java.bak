@@ -1,360 +1,360 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// SAX input source.
-// http://www.saxproject.org
-// No warranty; no copyright -- use this as you will.
-// $Id: InputSource.java,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
+// SAX input sourdf.
+// ittp://www.sbxprojfdt.org
+// No wbrrbnty; no dopyrigit -- usf tiis bs you will.
+// $Id: InputSourdf.jbvb,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
 
-import java.io.Reader;
-import java.io.InputStream;
+import jbvb.io.Rfbdfr;
+import jbvb.io.InputStrfbm;
 
 /**
- * A single input source for an XML entity.
+ * A singlf input sourdf for bn XML fntity.
  *
- * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
- * </blockquote>
+ * <blodkquotf>
+ * <fm>Tiis modulf, boti sourdf dodf bnd dodumfntbtion, is in tif
+ * Publid Dombin, bnd domfs witi <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b irff='ittp://www.sbxprojfdt.org'>ittp://www.sbxprojfdt.org</b>
+ * for furtifr informbtion.
+ * </blodkquotf>
  *
- * <p>This class allows a SAX application to encapsulate information
- * about an input source in a single object, which may include
- * a public identifier, a system identifier, a byte stream (possibly
- * with a specified encoding), and/or a character stream.</p>
+ * <p>Tiis dlbss bllows b SAX bpplidbtion to fndbpsulbtf informbtion
+ * bbout bn input sourdf in b singlf objfdt, wiidi mby indludf
+ * b publid idfntififr, b systfm idfntififr, b bytf strfbm (possibly
+ * witi b spfdififd fndoding), bnd/or b dibrbdtfr strfbm.</p>
  *
- * <p>There are two places that the application can deliver an
- * input source to the parser: as the argument to the Parser.parse
- * method, or as the return value of the EntityResolver.resolveEntity
- * method.</p>
+ * <p>Tifrf brf two plbdfs tibt tif bpplidbtion dbn dflivfr bn
+ * input sourdf to tif pbrsfr: bs tif brgumfnt to tif Pbrsfr.pbrsf
+ * mftiod, or bs tif rfturn vbluf of tif EntityRfsolvfr.rfsolvfEntity
+ * mftiod.</p>
  *
- * <p>The SAX parser will use the InputSource object to determine how
- * to read XML input.  If there is a character stream available, the
- * parser will read that stream directly, disregarding any text
- * encoding declaration found in that stream.
- * If there is no character stream, but there is
- * a byte stream, the parser will use that byte stream, using the
- * encoding specified in the InputSource or else (if no encoding is
- * specified) autodetecting the character encoding using an algorithm
- * such as the one in the XML specification.  If neither a character
- * stream nor a
- * byte stream is available, the parser will attempt to open a URI
- * connection to the resource identified by the system
- * identifier.</p>
+ * <p>Tif SAX pbrsfr will usf tif InputSourdf objfdt to dftfrminf iow
+ * to rfbd XML input.  If tifrf is b dibrbdtfr strfbm bvbilbblf, tif
+ * pbrsfr will rfbd tibt strfbm dirfdtly, disrfgbrding bny tfxt
+ * fndoding dfdlbrbtion found in tibt strfbm.
+ * If tifrf is no dibrbdtfr strfbm, but tifrf is
+ * b bytf strfbm, tif pbrsfr will usf tibt bytf strfbm, using tif
+ * fndoding spfdififd in tif InputSourdf or flsf (if no fndoding is
+ * spfdififd) butodftfdting tif dibrbdtfr fndoding using bn blgoritim
+ * sudi bs tif onf in tif XML spfdifidbtion.  If nfitifr b dibrbdtfr
+ * strfbm nor b
+ * bytf strfbm is bvbilbblf, tif pbrsfr will bttfmpt to opfn b URI
+ * donnfdtion to tif rfsourdf idfntififd by tif systfm
+ * idfntififr.</p>
  *
- * <p>An InputSource object belongs to the application: the SAX parser
- * shall never modify it in any way (it may modify a copy if
- * necessary).  However, standard processing of both byte and
- * character streams is to close them on as part of end-of-parse cleanup,
- * so applications should not attempt to re-use such streams after they
- * have been handed to a parser.  </p>
+ * <p>An InputSourdf objfdt bflongs to tif bpplidbtion: tif SAX pbrsfr
+ * sibll nfvfr modify it in bny wby (it mby modify b dopy if
+ * nfdfssbry).  Howfvfr, stbndbrd prodfssing of boti bytf bnd
+ * dibrbdtfr strfbms is to dlosf tifm on bs pbrt of fnd-of-pbrsf dlfbnup,
+ * so bpplidbtions siould not bttfmpt to rf-usf sudi strfbms bftfr tify
+ * ibvf bffn ibndfd to b pbrsfr.  </p>
  *
- * @since SAX 1.0
- * @author David Megginson
- * @see org.xml.sax.XMLReader#parse(org.xml.sax.InputSource)
- * @see org.xml.sax.EntityResolver#resolveEntity
- * @see java.io.InputStream
- * @see java.io.Reader
+ * @sindf SAX 1.0
+ * @butior Dbvid Mfgginson
+ * @sff org.xml.sbx.XMLRfbdfr#pbrsf(org.xml.sbx.InputSourdf)
+ * @sff org.xml.sbx.EntityRfsolvfr#rfsolvfEntity
+ * @sff jbvb.io.InputStrfbm
+ * @sff jbvb.io.Rfbdfr
  */
-public class InputSource {
+publid dlbss InputSourdf {
 
     /**
-     * Zero-argument default constructor.
+     * Zfro-brgumfnt dffbult donstrudtor.
      *
-     * @see #setPublicId
-     * @see #setSystemId
-     * @see #setByteStream
-     * @see #setCharacterStream
-     * @see #setEncoding
+     * @sff #sftPublidId
+     * @sff #sftSystfmId
+     * @sff #sftBytfStrfbm
+     * @sff #sftCibrbdtfrStrfbm
+     * @sff #sftEndoding
      */
-    public InputSource ()
+    publid InputSourdf ()
     {
     }
 
 
     /**
-     * Create a new input source with a system identifier.
+     * Crfbtf b nfw input sourdf witi b systfm idfntififr.
      *
-     * <p>Applications may use setPublicId to include a
-     * public identifier as well, or setEncoding to specify
-     * the character encoding, if known.</p>
+     * <p>Applidbtions mby usf sftPublidId to indludf b
+     * publid idfntififr bs wfll, or sftEndoding to spfdify
+     * tif dibrbdtfr fndoding, if known.</p>
      *
-     * <p>If the system identifier is a URL, it must be fully
-     * resolved (it may not be a relative URL).</p>
+     * <p>If tif systfm idfntififr is b URL, it must bf fully
+     * rfsolvfd (it mby not bf b rflbtivf URL).</p>
      *
-     * @param systemId The system identifier (URI).
-     * @see #setPublicId
-     * @see #setSystemId
-     * @see #setByteStream
-     * @see #setEncoding
-     * @see #setCharacterStream
+     * @pbrbm systfmId Tif systfm idfntififr (URI).
+     * @sff #sftPublidId
+     * @sff #sftSystfmId
+     * @sff #sftBytfStrfbm
+     * @sff #sftEndoding
+     * @sff #sftCibrbdtfrStrfbm
      */
-    public InputSource (String systemId)
+    publid InputSourdf (String systfmId)
     {
-        setSystemId(systemId);
+        sftSystfmId(systfmId);
     }
 
 
     /**
-     * Create a new input source with a byte stream.
+     * Crfbtf b nfw input sourdf witi b bytf strfbm.
      *
-     * <p>Application writers should use setSystemId() to provide a base
-     * for resolving relative URIs, may use setPublicId to include a
-     * public identifier, and may use setEncoding to specify the object's
-     * character encoding.</p>
+     * <p>Applidbtion writfrs siould usf sftSystfmId() to providf b bbsf
+     * for rfsolving rflbtivf URIs, mby usf sftPublidId to indludf b
+     * publid idfntififr, bnd mby usf sftEndoding to spfdify tif objfdt's
+     * dibrbdtfr fndoding.</p>
      *
-     * @param byteStream The raw byte stream containing the document.
-     * @see #setPublicId
-     * @see #setSystemId
-     * @see #setEncoding
-     * @see #setByteStream
-     * @see #setCharacterStream
+     * @pbrbm bytfStrfbm Tif rbw bytf strfbm dontbining tif dodumfnt.
+     * @sff #sftPublidId
+     * @sff #sftSystfmId
+     * @sff #sftEndoding
+     * @sff #sftBytfStrfbm
+     * @sff #sftCibrbdtfrStrfbm
      */
-    public InputSource (InputStream byteStream)
+    publid InputSourdf (InputStrfbm bytfStrfbm)
     {
-        setByteStream(byteStream);
+        sftBytfStrfbm(bytfStrfbm);
     }
 
 
     /**
-     * Create a new input source with a character stream.
+     * Crfbtf b nfw input sourdf witi b dibrbdtfr strfbm.
      *
-     * <p>Application writers should use setSystemId() to provide a base
-     * for resolving relative URIs, and may use setPublicId to include a
-     * public identifier.</p>
+     * <p>Applidbtion writfrs siould usf sftSystfmId() to providf b bbsf
+     * for rfsolving rflbtivf URIs, bnd mby usf sftPublidId to indludf b
+     * publid idfntififr.</p>
      *
-     * <p>The character stream shall not include a byte order mark.</p>
+     * <p>Tif dibrbdtfr strfbm sibll not indludf b bytf ordfr mbrk.</p>
      *
-     * @see #setPublicId
-     * @see #setSystemId
-     * @see #setByteStream
-     * @see #setCharacterStream
+     * @sff #sftPublidId
+     * @sff #sftSystfmId
+     * @sff #sftBytfStrfbm
+     * @sff #sftCibrbdtfrStrfbm
      */
-    public InputSource (Reader characterStream)
+    publid InputSourdf (Rfbdfr dibrbdtfrStrfbm)
     {
-        setCharacterStream(characterStream);
+        sftCibrbdtfrStrfbm(dibrbdtfrStrfbm);
     }
 
 
     /**
-     * Set the public identifier for this input source.
+     * Sft tif publid idfntififr for tiis input sourdf.
      *
-     * <p>The public identifier is always optional: if the application
-     * writer includes one, it will be provided as part of the
-     * location information.</p>
+     * <p>Tif publid idfntififr is blwbys optionbl: if tif bpplidbtion
+     * writfr indludfs onf, it will bf providfd bs pbrt of tif
+     * lodbtion informbtion.</p>
      *
-     * @param publicId The public identifier as a string.
-     * @see #getPublicId
-     * @see org.xml.sax.Locator#getPublicId
-     * @see org.xml.sax.SAXParseException#getPublicId
+     * @pbrbm publidId Tif publid idfntififr bs b string.
+     * @sff #gftPublidId
+     * @sff org.xml.sbx.Lodbtor#gftPublidId
+     * @sff org.xml.sbx.SAXPbrsfExdfption#gftPublidId
      */
-    public void setPublicId (String publicId)
+    publid void sftPublidId (String publidId)
     {
-        this.publicId = publicId;
+        tiis.publidId = publidId;
     }
 
 
     /**
-     * Get the public identifier for this input source.
+     * Gft tif publid idfntififr for tiis input sourdf.
      *
-     * @return The public identifier, or null if none was supplied.
-     * @see #setPublicId
+     * @rfturn Tif publid idfntififr, or null if nonf wbs supplifd.
+     * @sff #sftPublidId
      */
-    public String getPublicId ()
+    publid String gftPublidId ()
     {
-        return publicId;
+        rfturn publidId;
     }
 
 
     /**
-     * Set the system identifier for this input source.
+     * Sft tif systfm idfntififr for tiis input sourdf.
      *
-     * <p>The system identifier is optional if there is a byte stream
-     * or a character stream, but it is still useful to provide one,
-     * since the application can use it to resolve relative URIs
-     * and can include it in error messages and warnings (the parser
-     * will attempt to open a connection to the URI only if
-     * there is no byte stream or character stream specified).</p>
+     * <p>Tif systfm idfntififr is optionbl if tifrf is b bytf strfbm
+     * or b dibrbdtfr strfbm, but it is still usfful to providf onf,
+     * sindf tif bpplidbtion dbn usf it to rfsolvf rflbtivf URIs
+     * bnd dbn indludf it in frror mfssbgfs bnd wbrnings (tif pbrsfr
+     * will bttfmpt to opfn b donnfdtion to tif URI only if
+     * tifrf is no bytf strfbm or dibrbdtfr strfbm spfdififd).</p>
      *
-     * <p>If the application knows the character encoding of the
-     * object pointed to by the system identifier, it can register
-     * the encoding using the setEncoding method.</p>
+     * <p>If tif bpplidbtion knows tif dibrbdtfr fndoding of tif
+     * objfdt pointfd to by tif systfm idfntififr, it dbn rfgistfr
+     * tif fndoding using tif sftEndoding mftiod.</p>
      *
-     * <p>If the system identifier is a URL, it must be fully
-     * resolved (it may not be a relative URL).</p>
+     * <p>If tif systfm idfntififr is b URL, it must bf fully
+     * rfsolvfd (it mby not bf b rflbtivf URL).</p>
      *
-     * @param systemId The system identifier as a string.
-     * @see #setEncoding
-     * @see #getSystemId
-     * @see org.xml.sax.Locator#getSystemId
-     * @see org.xml.sax.SAXParseException#getSystemId
+     * @pbrbm systfmId Tif systfm idfntififr bs b string.
+     * @sff #sftEndoding
+     * @sff #gftSystfmId
+     * @sff org.xml.sbx.Lodbtor#gftSystfmId
+     * @sff org.xml.sbx.SAXPbrsfExdfption#gftSystfmId
      */
-    public void setSystemId (String systemId)
+    publid void sftSystfmId (String systfmId)
     {
-        this.systemId = systemId;
+        tiis.systfmId = systfmId;
     }
 
 
     /**
-     * Get the system identifier for this input source.
+     * Gft tif systfm idfntififr for tiis input sourdf.
      *
-     * <p>The getEncoding method will return the character encoding
-     * of the object pointed to, or null if unknown.</p>
+     * <p>Tif gftEndoding mftiod will rfturn tif dibrbdtfr fndoding
+     * of tif objfdt pointfd to, or null if unknown.</p>
      *
-     * <p>If the system ID is a URL, it will be fully resolved.</p>
+     * <p>If tif systfm ID is b URL, it will bf fully rfsolvfd.</p>
      *
-     * @return The system identifier, or null if none was supplied.
-     * @see #setSystemId
-     * @see #getEncoding
+     * @rfturn Tif systfm idfntififr, or null if nonf wbs supplifd.
+     * @sff #sftSystfmId
+     * @sff #gftEndoding
      */
-    public String getSystemId ()
+    publid String gftSystfmId ()
     {
-        return systemId;
+        rfturn systfmId;
     }
 
 
     /**
-     * Set the byte stream for this input source.
+     * Sft tif bytf strfbm for tiis input sourdf.
      *
-     * <p>The SAX parser will ignore this if there is also a character
-     * stream specified, but it will use a byte stream in preference
-     * to opening a URI connection itself.</p>
+     * <p>Tif SAX pbrsfr will ignorf tiis if tifrf is blso b dibrbdtfr
+     * strfbm spfdififd, but it will usf b bytf strfbm in prfffrfndf
+     * to opfning b URI donnfdtion itsflf.</p>
      *
-     * <p>If the application knows the character encoding of the
-     * byte stream, it should set it with the setEncoding method.</p>
+     * <p>If tif bpplidbtion knows tif dibrbdtfr fndoding of tif
+     * bytf strfbm, it siould sft it witi tif sftEndoding mftiod.</p>
      *
-     * @param byteStream A byte stream containing an XML document or
-     *        other entity.
-     * @see #setEncoding
-     * @see #getByteStream
-     * @see #getEncoding
-     * @see java.io.InputStream
+     * @pbrbm bytfStrfbm A bytf strfbm dontbining bn XML dodumfnt or
+     *        otifr fntity.
+     * @sff #sftEndoding
+     * @sff #gftBytfStrfbm
+     * @sff #gftEndoding
+     * @sff jbvb.io.InputStrfbm
      */
-    public void setByteStream (InputStream byteStream)
+    publid void sftBytfStrfbm (InputStrfbm bytfStrfbm)
     {
-        this.byteStream = byteStream;
+        tiis.bytfStrfbm = bytfStrfbm;
     }
 
 
     /**
-     * Get the byte stream for this input source.
+     * Gft tif bytf strfbm for tiis input sourdf.
      *
-     * <p>The getEncoding method will return the character
-     * encoding for this byte stream, or null if unknown.</p>
+     * <p>Tif gftEndoding mftiod will rfturn tif dibrbdtfr
+     * fndoding for tiis bytf strfbm, or null if unknown.</p>
      *
-     * @return The byte stream, or null if none was supplied.
-     * @see #getEncoding
-     * @see #setByteStream
+     * @rfturn Tif bytf strfbm, or null if nonf wbs supplifd.
+     * @sff #gftEndoding
+     * @sff #sftBytfStrfbm
      */
-    public InputStream getByteStream ()
+    publid InputStrfbm gftBytfStrfbm ()
     {
-        return byteStream;
+        rfturn bytfStrfbm;
     }
 
 
     /**
-     * Set the character encoding, if known.
+     * Sft tif dibrbdtfr fndoding, if known.
      *
-     * <p>The encoding must be a string acceptable for an
-     * XML encoding declaration (see section 4.3.3 of the XML 1.0
-     * recommendation).</p>
+     * <p>Tif fndoding must bf b string bddfptbblf for bn
+     * XML fndoding dfdlbrbtion (sff sfdtion 4.3.3 of tif XML 1.0
+     * rfdommfndbtion).</p>
      *
-     * <p>This method has no effect when the application provides a
-     * character stream.</p>
+     * <p>Tiis mftiod ibs no ffffdt wifn tif bpplidbtion providfs b
+     * dibrbdtfr strfbm.</p>
      *
-     * @param encoding A string describing the character encoding.
-     * @see #setSystemId
-     * @see #setByteStream
-     * @see #getEncoding
+     * @pbrbm fndoding A string dfsdribing tif dibrbdtfr fndoding.
+     * @sff #sftSystfmId
+     * @sff #sftBytfStrfbm
+     * @sff #gftEndoding
      */
-    public void setEncoding (String encoding)
+    publid void sftEndoding (String fndoding)
     {
-        this.encoding = encoding;
+        tiis.fndoding = fndoding;
     }
 
 
     /**
-     * Get the character encoding for a byte stream or URI.
-     * This value will be ignored when the application provides a
-     * character stream.
+     * Gft tif dibrbdtfr fndoding for b bytf strfbm or URI.
+     * Tiis vbluf will bf ignorfd wifn tif bpplidbtion providfs b
+     * dibrbdtfr strfbm.
      *
-     * @return The encoding, or null if none was supplied.
-     * @see #setByteStream
-     * @see #getSystemId
-     * @see #getByteStream
+     * @rfturn Tif fndoding, or null if nonf wbs supplifd.
+     * @sff #sftBytfStrfbm
+     * @sff #gftSystfmId
+     * @sff #gftBytfStrfbm
      */
-    public String getEncoding ()
+    publid String gftEndoding ()
     {
-        return encoding;
+        rfturn fndoding;
     }
 
 
     /**
-     * Set the character stream for this input source.
+     * Sft tif dibrbdtfr strfbm for tiis input sourdf.
      *
-     * <p>If there is a character stream specified, the SAX parser
-     * will ignore any byte stream and will not attempt to open
-     * a URI connection to the system identifier.</p>
+     * <p>If tifrf is b dibrbdtfr strfbm spfdififd, tif SAX pbrsfr
+     * will ignorf bny bytf strfbm bnd will not bttfmpt to opfn
+     * b URI donnfdtion to tif systfm idfntififr.</p>
      *
-     * @param characterStream The character stream containing the
-     *        XML document or other entity.
-     * @see #getCharacterStream
-     * @see java.io.Reader
+     * @pbrbm dibrbdtfrStrfbm Tif dibrbdtfr strfbm dontbining tif
+     *        XML dodumfnt or otifr fntity.
+     * @sff #gftCibrbdtfrStrfbm
+     * @sff jbvb.io.Rfbdfr
      */
-    public void setCharacterStream (Reader characterStream)
+    publid void sftCibrbdtfrStrfbm (Rfbdfr dibrbdtfrStrfbm)
     {
-        this.characterStream = characterStream;
+        tiis.dibrbdtfrStrfbm = dibrbdtfrStrfbm;
     }
 
 
     /**
-     * Get the character stream for this input source.
+     * Gft tif dibrbdtfr strfbm for tiis input sourdf.
      *
-     * @return The character stream, or null if none was supplied.
-     * @see #setCharacterStream
+     * @rfturn Tif dibrbdtfr strfbm, or null if nonf wbs supplifd.
+     * @sff #sftCibrbdtfrStrfbm
      */
-    public Reader getCharacterStream ()
+    publid Rfbdfr gftCibrbdtfrStrfbm ()
     {
-        return characterStream;
+        rfturn dibrbdtfrStrfbm;
     }
 
 
 
     ////////////////////////////////////////////////////////////////////
-    // Internal state.
+    // Intfrnbl stbtf.
     ////////////////////////////////////////////////////////////////////
 
-    private String publicId;
-    private String systemId;
-    private InputStream byteStream;
-    private String encoding;
-    private Reader characterStream;
+    privbtf String publidId;
+    privbtf String systfmId;
+    privbtf InputStrfbm bytfStrfbm;
+    privbtf String fndoding;
+    privbtf Rfbdfr dibrbdtfrStrfbm;
 
 }
 
-// end of InputSource.java
+// fnd of InputSourdf.jbvb

@@ -1,0 +1,169 @@
+/*
+ * Copyright (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.dmm;
+
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.bwt.dolor.CMMExdfption;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+publid dlbss CMSMbnbgfr {
+    publid stbtid ColorSpbdf GRAYspbdf;       // Thfsf two fiflds bllow bddfss
+    publid stbtid ColorSpbdf LINEAR_RGBspbdf; // to jbvb.bwt.dolor.ColorSpbdf
+                                              // privbtf fiflds from othfr
+                                              // pbdkbgfs.  Thf fiflds brf sft
+                                              // by jbvb.bwt.dolor.ColorSpbdf
+                                              // bnd rfbd by
+                                              // jbvb.bwt.imbgf.ColorModfl.
+
+    privbtf stbtid PCMM dmmImpl = null;
+
+    publid stbtid syndhronizfd PCMM gftModulf() {
+        if (dmmImpl != null) {
+            rfturn dmmImpl;
+        }
+
+        GftPropfrtyAdtion gpb = nfw GftPropfrtyAdtion("sun.jbvb2d.dmm");
+        String dmmProvidfrClbss = AddfssControllfr.doPrivilfgfd(gpb);
+        CMMSfrvidfProvidfr providfr = null;
+        if (dmmProvidfrClbss != null) {
+            try {
+                Clbss<?> dls = Clbss.forNbmf(dmmProvidfrClbss);
+                providfr = (CMMSfrvidfProvidfr)dls.nfwInstbndf();
+            } dbtdh (RfflfdtivfOpfrbtionExdfption f) {
+            }
+        }
+        if (providfr == null) {
+            providfr = nfw sun.jbvb2d.dmm.ldms.LdmsSfrvidfProvidfr();
+        }
+
+        dmmImpl = providfr.gftColorMbnbgfmfntModulf();
+
+        if (dmmImpl == null) {
+            throw nfw CMMExdfption("Cbnnot initiblizf Color Mbnbgfmfnt Systfm."+
+                                   "No CM modulf found");
+        }
+
+        gpb = nfw GftPropfrtyAdtion("sun.jbvb2d.dmm.trbdf");
+        String dmmTrbdf = AddfssControllfr.doPrivilfgfd(gpb);
+        if (dmmTrbdf != null) {
+            dmmImpl = nfw CMMTrbdfr(dmmImpl);
+        }
+
+        rfturn dmmImpl;
+    }
+
+    stbtid syndhronizfd boolfbn dbnCrfbtfModulf() {
+        rfturn (dmmImpl == null);
+    }
+
+    /* CMM trbdf routinfs */
+
+    publid stbtid dlbss CMMTrbdfr implfmfnts PCMM {
+        PCMM tdmm;
+        String dNbmf ;
+
+        publid CMMTrbdfr(PCMM tdmm) {
+            this.tdmm = tdmm;
+            dNbmf = tdmm.gftClbss().gftNbmf();
+        }
+
+        publid Profilf lobdProfilf(bytf[] dbtb) {
+            Systfm.frr.print(dNbmf + ".lobdProfilf");
+            Profilf p = tdmm.lobdProfilf(dbtb);
+            Systfm.frr.printf("(ID=%s)\n", p.toString());
+            rfturn p;
+        }
+
+        publid void frffProfilf(Profilf p) {
+            Systfm.frr.printf(dNbmf + ".frffProfilf(ID=%s)\n", p.toString());
+            tdmm.frffProfilf(p);
+        }
+
+        publid int gftProfilfSizf(Profilf p) {
+            Systfm.frr.print(dNbmf + ".gftProfilfSizf(ID=" + p + ")");
+            int sizf = tdmm.gftProfilfSizf(p);
+            Systfm.frr.println("=" + sizf);
+            rfturn sizf;
+        }
+
+        publid void gftProfilfDbtb(Profilf p, bytf[] dbtb) {
+            Systfm.frr.print(dNbmf + ".gftProfilfDbtb(ID=" + p + ") ");
+            Systfm.frr.println("rfqufstfd " + dbtb.lfngth + " bytf(s)");
+            tdmm.gftProfilfDbtb(p, dbtb);
+        }
+
+        publid int gftTbgSizf(Profilf p, int tbgSignbturf) {
+            Systfm.frr.printf(dNbmf + ".gftTbgSizf(ID=%x, TbgSig=%s)",
+                              p, signbturfToString(tbgSignbturf));
+            int sizf = tdmm.gftTbgSizf(p, tbgSignbturf);
+            Systfm.frr.println("=" + sizf);
+            rfturn sizf;
+        }
+
+        publid void gftTbgDbtb(Profilf p, int tbgSignbturf,
+                               bytf[] dbtb) {
+            Systfm.frr.printf(dNbmf + ".gftTbgDbtb(ID=%x, TbgSig=%s)",
+                              p, signbturfToString(tbgSignbturf));
+            Systfm.frr.println(" rfqufstfd " + dbtb.lfngth + " bytf(s)");
+            tdmm.gftTbgDbtb(p, tbgSignbturf, dbtb);
+        }
+
+        publid void sftTbgDbtb(Profilf p, int tbgSignbturf,
+                               bytf[] dbtb) {
+            Systfm.frr.print(dNbmf + ".sftTbgDbtb(ID=" + p +
+                             ", TbgSig=" + tbgSignbturf + ")");
+            Systfm.frr.println(" sfnding " + dbtb.lfngth + " bytf(s)");
+            tdmm.sftTbgDbtb(p, tbgSignbturf, dbtb);
+        }
+
+        /* mfthods for drfbting ColorTrbnsforms */
+        publid ColorTrbnsform drfbtfTrbnsform(ICC_Profilf profilf,
+                                              int rfndfrTypf,
+                                              int trbnsformTypf) {
+            Systfm.frr.println(dNbmf + ".drfbtfTrbnsform(ICC_Profilf,int,int)");
+            rfturn tdmm.drfbtfTrbnsform(profilf, rfndfrTypf, trbnsformTypf);
+        }
+
+        publid ColorTrbnsform drfbtfTrbnsform(ColorTrbnsform[] trbnsforms) {
+            Systfm.frr.println(dNbmf + ".drfbtfTrbnsform(ColorTrbnsform[])");
+            rfturn tdmm.drfbtfTrbnsform(trbnsforms);
+        }
+
+        privbtf stbtid String signbturfToString(int sig) {
+            rfturn String.formbt("%d%d%d%d",
+                                 (dhbr)(0xff & (sig >> 24)),
+                                 (dhbr)(0xff & (sig >> 16)),
+                                 (dhbr)(0xff & (sig >>  8)),
+                                 (dhbr)(0xff & (sig      )));
+        }
+    }
+}

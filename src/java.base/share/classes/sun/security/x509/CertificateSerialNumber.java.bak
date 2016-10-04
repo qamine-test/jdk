@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Enumfrbtion;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the SerialNumber attribute for the Certificate.
+ * Tiis dlbss dffinfs tif SfriblNumbfr bttributf for tif Cfrtifidbtf.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see CertAttrSet
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff CfrtAttrSft
  */
-public class CertificateSerialNumber implements CertAttrSet<String> {
+publid dlbss CfrtifidbtfSfriblNumbfr implfmfnts CfrtAttrSft<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info.serialNumber";
+    publid stbtid finbl String IDENT = "x509.info.sfriblNumbfr";
 
     /**
-     * Sub attributes name for this CertAttrSet.
+     * Sub bttributfs nbmf for tiis CfrtAttrSft.
      */
-    public static final String NAME = "serialNumber";
-    public static final String NUMBER = "number";
+    publid stbtid finbl String NAME = "sfriblNumbfr";
+    publid stbtid finbl String NUMBER = "numbfr";
 
-    private SerialNumber        serial;
+    privbtf SfriblNumbfr        sfribl;
 
     /**
-     * Default constructor for the certificate attribute.
+     * Dffbult donstrudtor for tif dfrtifidbtf bttributf.
      *
-     * @param serial the serial number for the certificate.
+     * @pbrbm sfribl tif sfribl numbfr for tif dfrtifidbtf.
      */
-    public CertificateSerialNumber(BigInteger num) {
-      this.serial = new SerialNumber(num);
+    publid CfrtifidbtfSfriblNumbfr(BigIntfgfr num) {
+      tiis.sfribl = nfw SfriblNumbfr(num);
     }
 
     /**
-     * Default constructor for the certificate attribute.
+     * Dffbult donstrudtor for tif dfrtifidbtf bttributf.
      *
-     * @param serial the serial number for the certificate.
+     * @pbrbm sfribl tif sfribl numbfr for tif dfrtifidbtf.
      */
-    public CertificateSerialNumber(int num) {
-      this.serial = new SerialNumber(num);
+    publid CfrtifidbtfSfriblNumbfr(int num) {
+      tiis.sfribl = nfw SfriblNumbfr(num);
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DER strfbm.
      *
-     * @param in the DerInputStream to read the serial number from.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif DfrInputStrfbm to rfbd tif sfribl numbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public CertificateSerialNumber(DerInputStream in) throws IOException {
-        serial = new SerialNumber(in);
+    publid CfrtifidbtfSfriblNumbfr(DfrInputStrfbm in) tirows IOExdfption {
+        sfribl = nfw SfriblNumbfr(in);
     }
 
     /**
-     * Create the object, decoding the values from the passed stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd strfbm.
      *
-     * @param in the InputStream to read the serial number from.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif InputStrfbm to rfbd tif sfribl numbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public CertificateSerialNumber(InputStream in) throws IOException {
-        serial = new SerialNumber(in);
+    publid CfrtifidbtfSfriblNumbfr(InputStrfbm in) tirows IOExdfption {
+        sfribl = nfw SfriblNumbfr(in);
     }
 
     /**
-     * Create the object, decoding the values from the passed DerValue.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DfrVbluf.
      *
-     * @param val the DER encoded value.
-     * @exception IOException on decoding errors.
+     * @pbrbm vbl tif DER fndodfd vbluf.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public CertificateSerialNumber(DerValue val) throws IOException {
-        serial = new SerialNumber(val);
+    publid CfrtifidbtfSfriblNumbfr(DfrVbluf vbl) tirows IOExdfption {
+        sfribl = nfw SfriblNumbfr(vbl);
     }
 
     /**
-     * Return the serial number as user readable string.
+     * Rfturn tif sfribl numbfr bs usfr rfbdbblf string.
      */
-    public String toString() {
-        if (serial == null) return "";
-        return (serial.toString());
+    publid String toString() {
+        if (sfribl == null) rfturn "";
+        rfturn (sfribl.toString());
     }
 
     /**
-     * Encode the serial number in DER form to the stream.
+     * Endodf tif sfribl numbfr in DER form to tif strfbm.
      *
-     * @param out the DerOutputStream to marshal the contents to.
-     * @exception IOException on errors.
+     * @pbrbm out tif DfrOutputStrfbm to mbrsibl tif dontfnts to.
+     * @fxdfption IOExdfption on frrors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        serial.encode(tmp);
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        sfribl.fndodf(tmp);
 
-        out.write(tmp.toByteArray());
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof SerialNumber)) {
-            throw new IOException("Attribute must be of type SerialNumber.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (!(obj instbndfof SfriblNumbfr)) {
+            tirow nfw IOExdfption("Attributf must bf of typf SfriblNumbfr.");
         }
-        if (name.equalsIgnoreCase(NUMBER)) {
-            serial = (SerialNumber)obj;
-        } else {
-            throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:CertificateSerialNumber.");
-        }
-    }
-
-    /**
-     * Get the attribute value.
-     */
-    public SerialNumber get(String name) throws IOException {
-        if (name.equalsIgnoreCase(NUMBER)) {
-            return (serial);
-        } else {
-            throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:CertificateSerialNumber.");
+        if (nbmf.fqublsIgnorfCbsf(NUMBER)) {
+            sfribl = (SfriblNumbfr)obj;
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:CfrtifidbtfSfriblNumbfr.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(NUMBER)) {
-            serial = null;
-        } else {
-            throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:CertificateSerialNumber.");
+    publid SfriblNumbfr gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NUMBER)) {
+            rfturn (sfribl);
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:CfrtifidbtfSfriblNumbfr.");
         }
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Dflftf tif bttributf vbluf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(NUMBER);
-
-        return (elements.elements());
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NUMBER)) {
+            sfribl = null;
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:CfrtifidbtfSfriblNumbfr.");
+        }
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public String getName() {
-        return (NAME);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(NUMBER);
+
+        rfturn (flfmfnts.flfmfnts());
+    }
+
+    /**
+     * Rfturn tif nbmf of tiis bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn (NAME);
     }
 }

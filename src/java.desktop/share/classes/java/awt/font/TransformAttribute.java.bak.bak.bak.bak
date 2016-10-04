@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998, All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
+ * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtStrfbmExdfption;
+
+/**
+ * Thf <dodf>TrbnsformAttributf</dodf> dlbss providfs bn immutbblf
+ * wrbppfr for b trbnsform so thbt it is sbff to usf bs bn bttributf.
+ */
+publid finbl dlbss TrbnsformAttributf implfmfnts Sfriblizbblf {
+
+    /**
+     * Thf <dodf>AffinfTrbnsform</dodf> for this
+     * <dodf>TrbnsformAttributf</dodf>, or <dodf>null</dodf>
+     * if <dodf>AffinfTrbnsform</dodf> is thf idfntity trbnsform.
+     */
+    privbtf AffinfTrbnsform trbnsform;
+
+    /**
+     * Wrbps thf spfdififd trbnsform.  Thf trbnsform is dlonfd bnd b
+     * rfffrfndf to thf dlonf is kfpt.  Thf originbl trbnsform is undhbngfd.
+     * If null is pbssfd bs thf brgumfnt, this donstrudtor bfhbvfs bs though
+     * it wfrf thf idfntity trbnsform.  (Notf thbt it is prfffrbblf to usf
+     * {@link #IDENTITY} in this dbsf.)
+     * @pbrbm trbnsform thf spfdififd {@link AffinfTrbnsform} to bf wrbppfd,
+     * or null.
+     */
+    publid TrbnsformAttributf(AffinfTrbnsform trbnsform) {
+        if (trbnsform != null && !trbnsform.isIdfntity()) {
+            this.trbnsform = nfw AffinfTrbnsform(trbnsform);
+        }
+    }
+
+    /**
+     * Rfturns b dopy of thf wrbppfd trbnsform.
+     * @rfturn b <dodf>AffinfTrbnsform</dodf> thbt is b dopy of thf wrbppfd
+     * trbnsform of this <dodf>TrbnsformAttributf</dodf>.
+     */
+    publid AffinfTrbnsform gftTrbnsform() {
+        AffinfTrbnsform bt = trbnsform;
+        rfturn (bt == null) ? nfw AffinfTrbnsform() : nfw AffinfTrbnsform(bt);
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf wrbppfd trbnsform is
+     * bn idfntity trbnsform.
+     * @rfturn <dodf>truf</dodf> if thf wrbppfd trbnsform is
+     * bn idfntity trbnsform; <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.4
+     */
+    publid boolfbn isIdfntity() {
+        rfturn trbnsform == null;
+    }
+
+    /**
+     * A <dodf>TrbnsformAttributf</dodf> rfprfsfnting thf idfntity trbnsform.
+     * @sindf 1.6
+     */
+    publid stbtid finbl TrbnsformAttributf IDENTITY = nfw TrbnsformAttributf(null);
+
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+      throws jbvb.lbng.ClbssNotFoundExdfption,
+             jbvb.io.IOExdfption
+    {
+        // sigh -- 1.3 fxpfdts trbnsform is nfvfr null, so wf nffd to blwbys writf onf out
+        if (this.trbnsform == null) {
+            this.trbnsform = nfw AffinfTrbnsform();
+        }
+        s.dffbultWritfObjfdt();
+    }
+
+    /*
+     * @sindf 1.6
+     */
+    privbtf Objfdt rfbdRfsolvf() throws ObjfdtStrfbmExdfption {
+        if (trbnsform == null || trbnsform.isIdfntity()) {
+            rfturn IDENTITY;
+        }
+        rfturn this;
+    }
+
+    // Addfd for sfribl bbdkwbrds dompbtibility (4348425)
+    stbtid finbl long sfriblVfrsionUID = 3356247357827709530L;
+
+    /**
+     * @sindf 1.6
+     */
+    publid int hbshCodf() {
+        rfturn trbnsform == null ? 0 : trbnsform.hbshCodf();
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if rhs is b <dodf>TrbnsformAttributf</dodf>
+     * whosf trbnsform is fqubl to this <dodf>TrbnsformAttributf</dodf>'s
+     * trbnsform.
+     * @pbrbm rhs thf objfdt to dompbrf to
+     * @rfturn <dodf>truf</dodf> if thf brgumfnt is b <dodf>TrbnsformAttributf</dodf>
+     * whosf trbnsform is fqubl to this <dodf>TrbnsformAttributf</dodf>'s
+     * trbnsform.
+     * @sindf 1.6
+     */
+    publid boolfbn fqubls(Objfdt rhs) {
+        if (rhs != null) {
+            try {
+                TrbnsformAttributf thbt = (TrbnsformAttributf)rhs;
+                if (trbnsform == null) {
+                    rfturn thbt.trbnsform == null;
+                }
+                rfturn trbnsform.fqubls(thbt.trbnsform);
+            }
+            dbtdh (ClbssCbstExdfption f) {
+            }
+        }
+        rfturn fblsf;
+    }
+}

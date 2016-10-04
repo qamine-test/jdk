@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: X509IssuerSerial.java,v 1.4 2005/05/10 16:35:35 mullan Exp $
+ * $Id: X509IssufrSfribl.jbvb,v 1.4 2005/05/10 16:35:35 mullbn Exp $
  */
-package javax.xml.crypto.dsig.keyinfo;
+pbdkbgf jbvbx.xml.drypto.dsig.kfyinfo;
 
-import java.math.BigInteger;
-import java.security.cert.X509Certificate;
-import javax.xml.crypto.XMLStructure;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvbx.xml.drypto.XMLStrudturf;
 
 /**
- * A representation of the XML <code>X509IssuerSerial</code> element as
- * defined in the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * An <code>X509IssuerSerial</code> object contains an X.509 issuer
- * distinguished name (DN) and serial number pair. The XML schema definition is
- * defined as:
+ * A rfprfsfntbtion of tif XML <dodf>X509IssufrSfribl</dodf> flfmfnt bs
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * An <dodf>X509IssufrSfribl</dodf> objfdt dontbins bn X.509 issufr
+ * distinguisifd nbmf (DN) bnd sfribl numbfr pbir. Tif XML sdifmb dffinition is
+ * dffinfd bs:
  *
- * <pre>
- *   &lt;element name="X509IssuerSerial" type="ds:X509IssuerSerialType"/&gt;
- *   &lt;complexType name="X509IssuerSerialType"&gt;
- *     &lt;sequence&gt;
- *       &lt;element name="X509IssuerName" type="string"/&gt;
- *       &lt;element name="X509SerialNumber" type="integer"/&gt;
- *     &lt;/sequence&gt;
- *   &lt;/complexType&gt;
- * </pre>
+ * <prf>
+ *   &lt;flfmfnt nbmf="X509IssufrSfribl" typf="ds:X509IssufrSfriblTypf"/&gt;
+ *   &lt;domplfxTypf nbmf="X509IssufrSfriblTypf"&gt;
+ *     &lt;sfqufndf&gt;
+ *       &lt;flfmfnt nbmf="X509IssufrNbmf" typf="string"/&gt;
+ *       &lt;flfmfnt nbmf="X509SfriblNumbfr" typf="intfgfr"/&gt;
+ *     &lt;/sfqufndf&gt;
+ *   &lt;/domplfxTypf&gt;
+ * </prf>
  *
- * An <code>X509IssuerSerial</code> instance may be created by invoking the
- * {@link KeyInfoFactory#newX509IssuerSerial newX509IssuerSerial} method
- * of the {@link KeyInfoFactory} class, and passing it a
- * <code>String</code> and <code>BigInteger</code> representing the X.500
- * DN and serial number. Here is an example of creating an
- * <code>X509IssuerSerial</code> from the issuer DN and serial number of an
- * existing {@link X509Certificate}:
- * <pre>
- * KeyInfoFactory factory = KeyInfoFactory.getInstance("DOM");
- * X509IssuerSerial issuer = factory.newX509IssuerSerial
- *     (cert.getIssuerX500Principal().getName(), cert.getSerialNumber());
- * </pre>
+ * An <dodf>X509IssufrSfribl</dodf> instbndf mby bf drfbtfd by invoking tif
+ * {@link KfyInfoFbdtory#nfwX509IssufrSfribl nfwX509IssufrSfribl} mftiod
+ * of tif {@link KfyInfoFbdtory} dlbss, bnd pbssing it b
+ * <dodf>String</dodf> bnd <dodf>BigIntfgfr</dodf> rfprfsfnting tif X.500
+ * DN bnd sfribl numbfr. Hfrf is bn fxbmplf of drfbting bn
+ * <dodf>X509IssufrSfribl</dodf> from tif issufr DN bnd sfribl numbfr of bn
+ * fxisting {@link X509Cfrtifidbtf}:
+ * <prf>
+ * KfyInfoFbdtory fbdtory = KfyInfoFbdtory.gftInstbndf("DOM");
+ * X509IssufrSfribl issufr = fbdtory.nfwX509IssufrSfribl
+ *     (dfrt.gftIssufrX500Prindipbl().gftNbmf(), dfrt.gftSfriblNumbfr());
+ * </prf>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see X509Data#getContent
- * @see KeyInfoFactory#newX509IssuerSerial(String, BigInteger)
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff X509Dbtb#gftContfnt
+ * @sff KfyInfoFbdtory#nfwX509IssufrSfribl(String, BigIntfgfr)
  */
-public interface X509IssuerSerial extends XMLStructure {
+publid intfrfbdf X509IssufrSfribl fxtfnds XMLStrudturf {
 
     /**
-     * Returns the X.500 distinguished name of this
-     * <code>X509IssuerSerial</code> in
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a> String format.
+     * Rfturns tif X.500 distinguisifd nbmf of tiis
+     * <dodf>X509IssufrSfribl</dodf> in
+     * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b> String formbt.
      *
-     * @return the X.500 distinguished name in RFC 2253 String format (never
-     *    <code>null</code>)
+     * @rfturn tif X.500 distinguisifd nbmf in RFC 2253 String formbt (nfvfr
+     *    <dodf>null</dodf>)
      */
-    String getIssuerName();
+    String gftIssufrNbmf();
 
     /**
-     * Returns the serial number of this <code>X509IssuerSerial</code>.
+     * Rfturns tif sfribl numbfr of tiis <dodf>X509IssufrSfribl</dodf>.
      *
-     * @return the serial number (never <code>null</code>)
+     * @rfturn tif sfribl numbfr (nfvfr <dodf>null</dodf>)
      */
-    BigInteger getSerialNumber();
+    BigIntfgfr gftSfriblNumbfr();
 }

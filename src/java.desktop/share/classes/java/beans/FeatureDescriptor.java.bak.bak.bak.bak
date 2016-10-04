@@ -1,0 +1,449 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+import dom.sun.bfbns.TypfRfsolvfr;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Mbp.Entry;
+
+/**
+ * Thf FfbturfDfsdriptor dlbss is thf dommon bbsfdlbss for PropfrtyDfsdriptor,
+ * EvfntSftDfsdriptor, bnd MfthodDfsdriptor, ftd.
+ * <p>
+ * It supports somf dommon informbtion thbt dbn bf sft bnd rftrifvfd for
+ * bny of thf introspfdtion dfsdriptors.
+ * <p>
+ * In bddition it providfs bn fxtfnsion mfdhbnism so thbt brbitrbry
+ * bttributf/vbluf pbirs dbn bf bssodibtfd with b dfsign ffbturf.
+ *
+ * @sindf 1.1
+ */
+
+publid dlbss FfbturfDfsdriptor {
+    privbtf stbtid finbl String TRANSIENT = "trbnsifnt";
+
+    privbtf Rfffrfndf<? fxtfnds Clbss<?>> dlbssRff;
+
+    /**
+     * Construdts b <dodf>FfbturfDfsdriptor</dodf>.
+     */
+    publid FfbturfDfsdriptor() {
+    }
+
+    /**
+     * Gfts thf progrbmmbtid nbmf of this ffbturf.
+     *
+     * @rfturn Thf progrbmmbtid nbmf of thf propfrty/mfthod/fvfnt
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Sfts thf progrbmmbtid nbmf of this ffbturf.
+     *
+     * @pbrbm nbmf  Thf progrbmmbtid nbmf of thf propfrty/mfthod/fvfnt
+     */
+    publid void sftNbmf(String nbmf) {
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Gfts thf lodblizfd displby nbmf of this ffbturf.
+     *
+     * @rfturn Thf lodblizfd displby nbmf for thf propfrty/mfthod/fvfnt.
+     *  This dffbults to thf sbmf bs its progrbmmbtid nbmf from gftNbmf.
+     */
+    publid String gftDisplbyNbmf() {
+        if (displbyNbmf == null) {
+            rfturn gftNbmf();
+        }
+        rfturn displbyNbmf;
+    }
+
+    /**
+     * Sfts thf lodblizfd displby nbmf of this ffbturf.
+     *
+     * @pbrbm displbyNbmf  Thf lodblizfd displby nbmf for thf
+     *          propfrty/mfthod/fvfnt.
+     */
+    publid void sftDisplbyNbmf(String displbyNbmf) {
+        this.displbyNbmf = displbyNbmf;
+    }
+
+    /**
+     * Thf "fxpfrt" flbg is usfd to distinguish bftwffn thosf ffbturfs thbt brf
+     * intfndfd for fxpfrt usfrs from thosf thbt brf intfndfd for normbl usfrs.
+     *
+     * @rfturn Truf if this ffbturf is intfndfd for usf by fxpfrts only.
+     */
+    publid boolfbn isExpfrt() {
+        rfturn fxpfrt;
+    }
+
+    /**
+     * Thf "fxpfrt" flbg is usfd to distinguish bftwffn ffbturfs thbt brf
+     * intfndfd for fxpfrt usfrs from thosf thbt brf intfndfd for normbl usfrs.
+     *
+     * @pbrbm fxpfrt Truf if this ffbturf is intfndfd for usf by fxpfrts only.
+     */
+    publid void sftExpfrt(boolfbn fxpfrt) {
+        this.fxpfrt = fxpfrt;
+    }
+
+    /**
+     * Thf "hiddfn" flbg is usfd to idfntify ffbturfs thbt brf intfndfd only
+     * for tool usf, bnd whidh should not bf fxposfd to humbns.
+     *
+     * @rfturn Truf if this ffbturf should bf hiddfn from humbn usfrs.
+     */
+    publid boolfbn isHiddfn() {
+        rfturn hiddfn;
+    }
+
+    /**
+     * Thf "hiddfn" flbg is usfd to idfntify ffbturfs thbt brf intfndfd only
+     * for tool usf, bnd whidh should not bf fxposfd to humbns.
+     *
+     * @pbrbm hiddfn  Truf if this ffbturf should bf hiddfn from humbn usfrs.
+     */
+    publid void sftHiddfn(boolfbn hiddfn) {
+        this.hiddfn = hiddfn;
+    }
+
+    /**
+     * Thf "prfffrrfd" flbg is usfd to idfntify ffbturfs thbt brf pbrtidulbrly
+     * importbnt for prfsfnting to humbns.
+     *
+     * @rfturn Truf if this ffbturf should bf prfffrfntiblly shown to humbn usfrs.
+     * @sindf 1.2
+     */
+    publid boolfbn isPrfffrrfd() {
+        rfturn prfffrrfd;
+    }
+
+    /**
+     * Thf "prfffrrfd" flbg is usfd to idfntify ffbturfs thbt brf pbrtidulbrly
+     * importbnt for prfsfnting to humbns.
+     *
+     * @pbrbm prfffrrfd  Truf if this ffbturf should bf prfffrfntiblly shown
+     *                   to humbn usfrs.
+     * @sindf 1.2
+     */
+    publid void sftPrfffrrfd(boolfbn prfffrrfd) {
+        this.prfffrrfd = prfffrrfd;
+    }
+
+    /**
+     * Gfts thf short dfsdription of this ffbturf.
+     *
+     * @rfturn  A lodblizfd short dfsdription bssodibtfd with this
+     *   propfrty/mfthod/fvfnt.  This dffbults to bf thf displby nbmf.
+     */
+    publid String gftShortDfsdription() {
+        if (shortDfsdription == null) {
+            rfturn gftDisplbyNbmf();
+        }
+        rfturn shortDfsdription;
+    }
+
+    /**
+     * You dbn bssodibtf b short dfsdriptivf string with b ffbturf.  Normblly
+     * thfsf dfsdriptivf strings should bf lfss thbn bbout 40 dhbrbdtfrs.
+     * @pbrbm tfxt  A (lodblizfd) short dfsdription to bf bssodibtfd with
+     * this propfrty/mfthod/fvfnt.
+     */
+    publid void sftShortDfsdription(String tfxt) {
+        shortDfsdription = tfxt;
+    }
+
+    /**
+     * Assodibtf b nbmfd bttributf with this ffbturf.
+     *
+     * @pbrbm bttributfNbmf  Thf lodblf-indfpfndfnt nbmf of thf bttributf
+     * @pbrbm vbluf  Thf vbluf.
+     */
+    publid void sftVbluf(String bttributfNbmf, Objfdt vbluf) {
+        gftTbblf().put(bttributfNbmf, vbluf);
+    }
+
+    /**
+     * Rftrifvf b nbmfd bttributf with this ffbturf.
+     *
+     * @pbrbm bttributfNbmf  Thf lodblf-indfpfndfnt nbmf of thf bttributf
+     * @rfturn  Thf vbluf of thf bttributf.  Mby bf null if
+     *     thf bttributf is unknown.
+     */
+    publid Objfdt gftVbluf(String bttributfNbmf) {
+        rfturn (this.tbblf != null)
+                ? this.tbblf.gft(bttributfNbmf)
+                : null;
+    }
+
+    /**
+     * Gfts bn fnumfrbtion of thf lodblf-indfpfndfnt nbmfs of this
+     * ffbturf.
+     *
+     * @rfturn  An fnumfrbtion of thf lodblf-indfpfndfnt nbmfs of bny
+     *    bttributfs thbt hbvf bffn rfgistfrfd with sftVbluf.
+     */
+    publid Enumfrbtion<String> bttributfNbmfs() {
+        rfturn gftTbblf().kfys();
+    }
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor,
+     * Mfrgf informbtion from two FfbturfDfsdriptors.
+     * Thf mfrgfd hiddfn bnd fxpfrt flbgs brf formfd by or-ing thf vblufs.
+     * In thf fvfnt of othfr donflidts, thf sfdond brgumfnt (y) is
+     * givfn priority ovfr thf first brgumfnt (x).
+     *
+     * @pbrbm x  Thf first (lowfr priority) MfthodDfsdriptor
+     * @pbrbm y  Thf sfdond (highfr priority) MfthodDfsdriptor
+     */
+    FfbturfDfsdriptor(FfbturfDfsdriptor x, FfbturfDfsdriptor y) {
+        fxpfrt = x.fxpfrt | y.fxpfrt;
+        hiddfn = x.hiddfn | y.hiddfn;
+        prfffrrfd = x.prfffrrfd | y.prfffrrfd;
+        nbmf = y.nbmf;
+        shortDfsdription = x.shortDfsdription;
+        if (y.shortDfsdription != null) {
+            shortDfsdription = y.shortDfsdription;
+        }
+        displbyNbmf = x.displbyNbmf;
+        if (y.displbyNbmf != null) {
+            displbyNbmf = y.displbyNbmf;
+        }
+        dlbssRff = x.dlbssRff;
+        if (y.dlbssRff != null) {
+            dlbssRff = y.dlbssRff;
+        }
+        bddTbblf(x.tbblf);
+        bddTbblf(y.tbblf);
+    }
+
+    /*
+     * Pbdkbgf-privbtf dup donstrudtor
+     * This must isolbtf thf nfw objfdt from bny dhbngfs to thf old objfdt.
+     */
+    FfbturfDfsdriptor(FfbturfDfsdriptor old) {
+        fxpfrt = old.fxpfrt;
+        hiddfn = old.hiddfn;
+        prfffrrfd = old.prfffrrfd;
+        nbmf = old.nbmf;
+        shortDfsdription = old.shortDfsdription;
+        displbyNbmf = old.displbyNbmf;
+        dlbssRff = old.dlbssRff;
+
+        bddTbblf(old.tbblf);
+    }
+
+    /**
+     * Copifs bll vblufs from thf spfdififd bttributf tbblf.
+     * If somf bttributf is fxist its vbluf should bf ovfrriddfn.
+     *
+     * @pbrbm tbblf  thf bttributf tbblf with nfw vblufs
+     */
+    privbtf void bddTbblf(Hbshtbblf<String, Objfdt> tbblf) {
+        if ((tbblf != null) && !tbblf.isEmpty()) {
+            gftTbblf().putAll(tbblf);
+        }
+    }
+
+    /**
+     * Rfturns thf initiblizfd bttributf tbblf.
+     *
+     * @rfturn thf initiblizfd bttributf tbblf
+     */
+    privbtf Hbshtbblf<String, Objfdt> gftTbblf() {
+        if (this.tbblf == null) {
+            this.tbblf = nfw Hbshtbblf<>();
+        }
+        rfturn this.tbblf;
+    }
+
+    /**
+     * Sfts thf "trbnsifnt" bttributf bddording to thf bnnotbtion.
+     * If thf "trbnsifnt" bttributf is blrfbdy sft
+     * it should not bf dhbngfd.
+     *
+     * @pbrbm bnnotbtion  thf bnnotbtion of thf flfmfnt of thf ffbturf
+     */
+    void sftTrbnsifnt(Trbnsifnt bnnotbtion) {
+        if ((bnnotbtion != null) && (null == gftVbluf(TRANSIENT))) {
+            sftVbluf(TRANSIENT, bnnotbtion.vbluf());
+        }
+    }
+
+    /**
+     * Indidbtfs whfthfr thf ffbturf is trbnsifnt.
+     *
+     * @rfturn {@dodf truf} if thf ffbturf is trbnsifnt,
+     *         {@dodf fblsf} othfrwisf
+     */
+    boolfbn isTrbnsifnt() {
+        Objfdt vbluf = gftVbluf(TRANSIENT);
+        rfturn (vbluf instbndfof Boolfbn)
+                ? (Boolfbn) vbluf
+                : fblsf;
+    }
+
+    // Pbdkbgf privbtf mfthods for rfdrfbting thf wfbk/soft rfffrfnt
+
+    void sftClbss0(Clbss<?> dls) {
+        this.dlbssRff = gftWfbkRfffrfndf(dls);
+    }
+
+    Clbss<?> gftClbss0() {
+        rfturn (this.dlbssRff != null)
+                ? this.dlbssRff.gft()
+                : null;
+    }
+
+    /**
+     * Crfbtfs b nfw soft rfffrfndf thbt rfffrs to thf givfn objfdt.
+     *
+     * @rfturn b nfw soft rfffrfndf or <dodf>null</dodf> if objfdt is <dodf>null</dodf>
+     *
+     * @sff SoftRfffrfndf
+     */
+    stbtid <T> Rfffrfndf<T> gftSoftRfffrfndf(T objfdt) {
+        rfturn (objfdt != null)
+                ? nfw SoftRfffrfndf<>(objfdt)
+                : null;
+    }
+
+    /**
+     * Crfbtfs b nfw wfbk rfffrfndf thbt rfffrs to thf givfn objfdt.
+     *
+     * @rfturn b nfw wfbk rfffrfndf or <dodf>null</dodf> if objfdt is <dodf>null</dodf>
+     *
+     * @sff WfbkRfffrfndf
+     */
+    stbtid <T> Rfffrfndf<T> gftWfbkRfffrfndf(T objfdt) {
+        rfturn (objfdt != null)
+                ? nfw WfbkRfffrfndf<>(objfdt)
+                : null;
+    }
+
+    /**
+     * Rfsolvfs thf rfturn typf of thf mfthod.
+     *
+     * @pbrbm bbsf    thf dlbss thbt dontbins thf mfthod in thf hifrbrdhy
+     * @pbrbm mfthod  thf objfdt thbt rfprfsfnts thf mfthod
+     * @rfturn b dlbss idfntifying thf rfturn typf of thf mfthod
+     *
+     * @sff Mfthod#gftGfnfridRfturnTypf
+     * @sff Mfthod#gftRfturnTypf
+     */
+    stbtid Clbss<?> gftRfturnTypf(Clbss<?> bbsf, Mfthod mfthod) {
+        if (bbsf == null) {
+            bbsf = mfthod.gftDfdlbringClbss();
+        }
+        rfturn TypfRfsolvfr.frbsf(TypfRfsolvfr.rfsolvfInClbss(bbsf, mfthod.gftGfnfridRfturnTypf()));
+    }
+
+    /**
+     * Rfsolvfs thf pbrbmftfr typfs of thf mfthod.
+     *
+     * @pbrbm bbsf    thf dlbss thbt dontbins thf mfthod in thf hifrbrdhy
+     * @pbrbm mfthod  thf objfdt thbt rfprfsfnts thf mfthod
+     * @rfturn bn brrby of dlbssfs idfntifying thf pbrbmftfr typfs of thf mfthod
+     *
+     * @sff Mfthod#gftGfnfridPbrbmftfrTypfs
+     * @sff Mfthod#gftPbrbmftfrTypfs
+     */
+    stbtid Clbss<?>[] gftPbrbmftfrTypfs(Clbss<?> bbsf, Mfthod mfthod) {
+        if (bbsf == null) {
+            bbsf = mfthod.gftDfdlbringClbss();
+        }
+        rfturn TypfRfsolvfr.frbsf(TypfRfsolvfr.rfsolvfInClbss(bbsf, mfthod.gftGfnfridPbrbmftfrTypfs()));
+    }
+
+    privbtf boolfbn fxpfrt;
+    privbtf boolfbn hiddfn;
+    privbtf boolfbn prfffrrfd;
+    privbtf String shortDfsdription;
+    privbtf String nbmf;
+    privbtf String displbyNbmf;
+    privbtf Hbshtbblf<String, Objfdt> tbblf;
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf objfdt.
+     *
+     * @rfturn b string rfprfsfntbtion of thf objfdt
+     *
+     * @sindf 1.7
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(gftClbss().gftNbmf());
+        sb.bppfnd("[nbmf=").bppfnd(this.nbmf);
+        bppfndTo(sb, "displbyNbmf", this.displbyNbmf);
+        bppfndTo(sb, "shortDfsdription", this.shortDfsdription);
+        bppfndTo(sb, "prfffrrfd", this.prfffrrfd);
+        bppfndTo(sb, "hiddfn", this.hiddfn);
+        bppfndTo(sb, "fxpfrt", this.fxpfrt);
+        if ((this.tbblf != null) && !this.tbblf.isEmpty()) {
+            sb.bppfnd("; vblufs={");
+            for (Entry<String, Objfdt> fntry : this.tbblf.fntrySft()) {
+                sb.bppfnd(fntry.gftKfy()).bppfnd("=").bppfnd(fntry.gftVbluf()).bppfnd("; ");
+            }
+            sb.sftLfngth(sb.lfngth() - 2);
+            sb.bppfnd("}");
+        }
+        bppfndTo(sb);
+        rfturn sb.bppfnd("]").toString();
+    }
+
+    void bppfndTo(StringBuildfr sb) {
+    }
+
+    stbtid void bppfndTo(StringBuildfr sb, String nbmf, Rfffrfndf<?> rfffrfndf) {
+        if (rfffrfndf != null) {
+            bppfndTo(sb, nbmf, rfffrfndf.gft());
+        }
+    }
+
+    stbtid void bppfndTo(StringBuildfr sb, String nbmf, Objfdt vbluf) {
+        if (vbluf != null) {
+            sb.bppfnd("; ").bppfnd(nbmf).bppfnd("=").bppfnd(vbluf);
+        }
+    }
+
+    stbtid void bppfndTo(StringBuildfr sb, String nbmf, boolfbn vbluf) {
+        if (vbluf) {
+            sb.bppfnd("; ").bppfnd(nbmf);
+        }
+    }
+}

@@ -1,96 +1,96 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.util.*;
-import sun.security.krb5.Asn1Exception;
-import java.io.IOException;
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import jbvb.io.IOExdfption;
 
-public class LastReqEntry {
-    private int lrType;
-    private KerberosTime lrValue;
+publid dlbss LbstRfqEntry {
+    privbtf int lrTypf;
+    privbtf KfrbfrosTimf lrVbluf;
 
-    private LastReqEntry() {
+    privbtf LbstRfqEntry() {
     }
 
-    public LastReqEntry(int Type, KerberosTime time){
-        lrType = Type;
-        lrValue = time;
-        // XXX check the type and time.
-    }
-
-    /**
-     * Constructs a LastReqEntry object.
-     * @param encoding a Der-encoded data.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     */
-    public LastReqEntry(DerValue encoding) throws Asn1Exception, IOException {
-        if (encoding.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        }
-        DerValue der;
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & 0x1F) == 0x00){
-            lrType = der.getData().getBigInteger().intValue();
-        }
-        else
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-
-        lrValue = KerberosTime.parse(encoding.getData(), (byte)0x01, false);
-        if (encoding.getData().available() > 0)
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+    publid LbstRfqEntry(int Typf, KfrbfrosTimf timf){
+        lrTypf = Typf;
+        lrVbluf = timf;
+        // XXX difdk tif typf bnd timf.
     }
 
     /**
-     * Encodes an LastReqEntry object.
-     * @return the byte array of encoded LastReqEntry object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Construdts b LbstRfqEntry objfdt.
+     * @pbrbm fndoding b Dfr-fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(lrType);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x00), temp);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x01), lrValue.asn1Encode());
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+    publid LbstRfqEntry(DfrVbluf fndoding) tirows Asn1Exdfption, IOExdfption {
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        DfrVbluf dfr;
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x00){
+            lrTypf = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
+        }
+        flsf
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+
+        lrVbluf = KfrbfrosTimf.pbrsf(fndoding.gftDbtb(), (bytf)0x01, fblsf);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
     }
 
-    public Object clone() {
-        LastReqEntry newEntry = new LastReqEntry();
-        newEntry.lrType = lrType;
-        newEntry.lrValue = lrValue;
-        return newEntry;
+    /**
+     * Endodfs bn LbstRfqEntry objfdt.
+     * @rfturn tif bytf brrby of fndodfd LbstRfqEntry objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     */
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(lrTypf);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x00), tfmp);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x01), lrVbluf.bsn1Endodf());
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
+    }
+
+    publid Objfdt dlonf() {
+        LbstRfqEntry nfwEntry = nfw LbstRfqEntry();
+        nfwEntry.lrTypf = lrTypf;
+        nfwEntry.lrVbluf = lrVbluf;
+        rfturn nfwEntry;
     }
 }

@@ -1,476 +1,476 @@
 /*
- * Copyright (c) 2001, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
-import com.sun.jmx.snmp.SnmpSecurityParameters;
-// java imports
+import dom.sun.jmx.snmp.SnmpSfdurityPbrbmftfrs;
+// jbvb imports
 //
-import java.util.Vector;
-import java.net.InetAddress;
+import jbvb.util.Vfdtor;
+import jbvb.nft.InftAddrfss;
 
 
-import com.sun.jmx.snmp.SnmpStatusException;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 /**
- * A partially decoded representation of an SNMP packet. It contains
- * the information contained in any SNMP message (SNMPv1, SNMPv2 or
+ * A pbrtiblly dfdodfd rfprfsfntbtion of bn SNMP pbdkft. It dontbins
+ * tif informbtion dontbinfd in bny SNMP mfssbgf (SNMPv1, SNMPv2 or
  * SNMPv3).
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
-public abstract class SnmpMsg implements SnmpDefinitions {
+publid bbstrbdt dlbss SnmpMsg implfmfnts SnmpDffinitions {
     /**
-     * The protocol version.
-     * <P><CODE>decodeMessage</CODE> and <CODE>encodeMessage</CODE> do not
-     * perform any check on this value.
-     * <BR><CODE>decodeSnmpPdu</CODE> and <CODE>encodeSnmpPdu</CODE> only
-     * accept  the values 0 (for SNMPv1), 1 (for SNMPv2) and 3 (for SNMPv3).
+     * Tif protodol vfrsion.
+     * <P><CODE>dfdodfMfssbgf</CODE> bnd <CODE>fndodfMfssbgf</CODE> do not
+     * pfrform bny difdk on tiis vbluf.
+     * <BR><CODE>dfdodfSnmpPdu</CODE> bnd <CODE>fndodfSnmpPdu</CODE> only
+     * bddfpt  tif vblufs 0 (for SNMPv1), 1 (for SNMPv2) bnd 3 (for SNMPv3).
      */
-    public int version = 0;
+    publid int vfrsion = 0;
 
     /**
-     * Encoding of the PDU.
-     * <P>This is usually the BER encoding of the PDU's syntax
-     * defined in RFC1157 and RFC1902. However, this can be authenticated
-     * or encrypted data (but you need to implemented your own
-     * <CODE>SnmpPduFactory</CODE> class).
+     * Endoding of tif PDU.
+     * <P>Tiis is usublly tif BER fndoding of tif PDU's syntbx
+     * dffinfd in RFC1157 bnd RFC1902. Howfvfr, tiis dbn bf butifntidbtfd
+     * or fndryptfd dbtb (but you nffd to implfmfntfd your own
+     * <CODE>SnmpPduFbdtory</CODE> dlbss).
      */
-    public byte[] data = null;
+    publid bytf[] dbtb = null;
 
     /**
-     * Number of useful bytes in the <CODE>data</CODE> field.
+     * Numbfr of usfful bytfs in tif <CODE>dbtb</CODE> fifld.
      */
-    public int dataLength = 0;
+    publid int dbtbLfngti = 0;
 
     /**
-     * Source or destination address.
-     * <BR>For an incoming message it's the source.
-     * For an outgoing message it's the destination.
+     * Sourdf or dfstinbtion bddrfss.
+     * <BR>For bn indoming mfssbgf it's tif sourdf.
+     * For bn outgoing mfssbgf it's tif dfstinbtion.
      */
-    public InetAddress address = null;
+    publid InftAddrfss bddrfss = null;
 
     /**
-     * Source or destination port.
-     * <BR>For an incoming message it's the source.
-     * For an outgoing message it's the destination.
+     * Sourdf or dfstinbtion port.
+     * <BR>For bn indoming mfssbgf it's tif sourdf.
+     * For bn outgoing mfssbgf it's tif dfstinbtion.
      */
-    public int port = 0;
+    publid int port = 0;
     /**
-     * Security parameters. Contain informations according to Security Model (Usm, community string based, ...).
+     * Sfdurity pbrbmftfrs. Contbin informbtions bddording to Sfdurity Modfl (Usm, dommunity string bbsfd, ...).
      */
-    public SnmpSecurityParameters securityParameters = null;
+    publid SnmpSfdurityPbrbmftfrs sfdurityPbrbmftfrs = null;
     /**
-     * Returns the encoded SNMP version present in the passed byte array.
-     * @param data The unmarshalled SNMP message.
-     * @return The SNMP version (0, 1 or 3).
+     * Rfturns tif fndodfd SNMP vfrsion prfsfnt in tif pbssfd bytf brrby.
+     * @pbrbm dbtb Tif unmbrsibllfd SNMP mfssbgf.
+     * @rfturn Tif SNMP vfrsion (0, 1 or 3).
      */
-    public static int getProtocolVersion(byte[] data)
-        throws SnmpStatusException {
-        int version = 0;
-        BerDecoder bdec = null;
+    publid stbtid int gftProtodolVfrsion(bytf[] dbtb)
+        tirows SnmpStbtusExdfption {
+        int vfrsion = 0;
+        BfrDfdodfr bdfd = null;
         try {
-            bdec = new BerDecoder(data);
-            bdec.openSequence();
-            version = bdec.fetchInteger();
+            bdfd = nfw BfrDfdodfr(dbtb);
+            bdfd.opfnSfqufndf();
+            vfrsion = bdfd.fftdiIntfgfr();
         }
-        catch(BerException x) {
-            throw new SnmpStatusException("Invalid encoding") ;
+        dbtdi(BfrExdfption x) {
+            tirow nfw SnmpStbtusExdfption("Invblid fndoding") ;
         }
         try {
-            bdec.closeSequence();
+            bdfd.dlosfSfqufndf();
         }
-        catch(BerException x) {
+        dbtdi(BfrExdfption x) {
         }
-        return version;
+        rfturn vfrsion;
     }
 
     /**
-     * Returns the associated request ID.
-     * @param data The flat message.
-     * @return The request ID.
+     * Rfturns tif bssodibtfd rfqufst ID.
+     * @pbrbm dbtb Tif flbt mfssbgf.
+     * @rfturn Tif rfqufst ID.
      */
-    public abstract int getRequestId(byte[] data) throws SnmpStatusException;
+    publid bbstrbdt int gftRfqufstId(bytf[] dbtb) tirows SnmpStbtusExdfption;
 
     /**
-     * Encodes this message and puts the result in the specified byte array.
-     * For internal use only.
+     * Endodfs tiis mfssbgf bnd puts tif rfsult in tif spfdififd bytf brrby.
+     * For intfrnbl usf only.
      *
-     * @param outputBytes An array to receive the resulting encoding.
+     * @pbrbm outputBytfs An brrby to rfdfivf tif rfsulting fndoding.
      *
-     * @exception ArrayIndexOutOfBoundsException If the result does not fit
-     *                                           into the specified array.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If tif rfsult dofs not fit
+     *                                           into tif spfdififd brrby.
      */
-    public abstract int encodeMessage(byte[] outputBytes)
-        throws SnmpTooBigException;
+    publid bbstrbdt int fndodfMfssbgf(bytf[] outputBytfs)
+        tirows SnmpTooBigExdfption;
 
      /**
-     * Decodes the specified bytes and initializes this message.
-     * For internal use only.
+     * Dfdodfs tif spfdififd bytfs bnd initiblizfs tiis mfssbgf.
+     * For intfrnbl usf only.
      *
-     * @param inputBytes The bytes to be decoded.
+     * @pbrbm inputBytfs Tif bytfs to bf dfdodfd.
      *
-     * @exception SnmpStatusException If the specified bytes are not a valid encoding.
+     * @fxdfption SnmpStbtusExdfption If tif spfdififd bytfs brf not b vblid fndoding.
      */
-    public abstract void decodeMessage(byte[] inputBytes, int byteCount)
-        throws SnmpStatusException;
+    publid bbstrbdt void dfdodfMfssbgf(bytf[] inputBytfs, int bytfCount)
+        tirows SnmpStbtusExdfption;
 
      /**
-     * Initializes this message with the specified <CODE>pdu</CODE>.
+     * Initiblizfs tiis mfssbgf witi tif spfdififd <CODE>pdu</CODE>.
      * <P>
-     * This method initializes the data field with an array of
-     * <CODE>maxDataLength</CODE> bytes. It encodes the <CODE>pdu</CODE>.
-     * The resulting encoding is stored in the data field
-     * and the length of the encoding is stored in <CODE>dataLength</CODE>.
+     * Tiis mftiod initiblizfs tif dbtb fifld witi bn brrby of
+     * <CODE>mbxDbtbLfngti</CODE> bytfs. It fndodfs tif <CODE>pdu</CODE>.
+     * Tif rfsulting fndoding is storfd in tif dbtb fifld
+     * bnd tif lfngti of tif fndoding is storfd in <CODE>dbtbLfngti</CODE>.
      * <p>
-     * If the encoding length exceeds <CODE>maxDataLength</CODE>,
-     * the method throws an exception.
+     * If tif fndoding lfngti fxdffds <CODE>mbxDbtbLfngti</CODE>,
+     * tif mftiod tirows bn fxdfption.
      *
-     * @param pdu The PDU to be encoded.
-     * @param maxDataLength The maximum length permitted for the data field.
+     * @pbrbm pdu Tif PDU to bf fndodfd.
+     * @pbrbm mbxDbtbLfngti Tif mbximum lfngti pfrmittfd for tif dbtb fifld.
      *
-     * @exception SnmpStatusException If the specified <CODE>pdu</CODE> is not valid.
-     * @exception SnmpTooBigException If the resulting encoding does not fit
-     * into <CODE>maxDataLength</CODE> bytes.
-     * @exception ArrayIndexOutOfBoundsException If the encoding exceeds <CODE>maxDataLength</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif spfdififd <CODE>pdu</CODE> is not vblid.
+     * @fxdfption SnmpTooBigExdfption If tif rfsulting fndoding dofs not fit
+     * into <CODE>mbxDbtbLfngti</CODE> bytfs.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If tif fndoding fxdffds <CODE>mbxDbtbLfngti</CODE>.
      */
-    public abstract void encodeSnmpPdu(SnmpPdu pdu, int maxDataLength)
-        throws SnmpStatusException, SnmpTooBigException;
+    publid bbstrbdt void fndodfSnmpPdu(SnmpPdu pdu, int mbxDbtbLfngti)
+        tirows SnmpStbtusExdfption, SnmpTooBigExdfption;
 
 
     /**
-     * Gets the PDU encoded in this message.
+     * Gfts tif PDU fndodfd in tiis mfssbgf.
      * <P>
-     * This method decodes the data field and returns the resulting PDU.
+     * Tiis mftiod dfdodfs tif dbtb fifld bnd rfturns tif rfsulting PDU.
      *
-     * @return The resulting PDU.
-     * @exception SnmpStatusException If the encoding is not valid.
+     * @rfturn Tif rfsulting PDU.
+     * @fxdfption SnmpStbtusExdfption If tif fndoding is not vblid.
      */
-    public abstract SnmpPdu decodeSnmpPdu()
-        throws SnmpStatusException;
+    publid bbstrbdt SnmpPdu dfdodfSnmpPdu()
+        tirows SnmpStbtusExdfption;
 
     /**
-     * Dumps the content of a byte buffer using hexadecimal form.
+     * Dumps tif dontfnt of b bytf bufffr using ifxbdfdimbl form.
      *
-     * @param b The buffer to dump.
-     * @param offset The position of the first byte to be dumped.
-     * @param len The number of bytes to be dumped starting from offset.
+     * @pbrbm b Tif bufffr to dump.
+     * @pbrbm offsft Tif position of tif first bytf to bf dumpfd.
+     * @pbrbm lfn Tif numbfr of bytfs to bf dumpfd stbrting from offsft.
      *
-     * @return The string containing the dump.
+     * @rfturn Tif string dontbining tif dump.
      */
-    public static String dumpHexBuffer(byte [] b, int offset, int len) {
-        StringBuilder sb = new StringBuilder(len << 1) ;
+    publid stbtid String dumpHfxBufffr(bytf [] b, int offsft, int lfn) {
+        StringBuildfr sb = nfw StringBuildfr(lfn << 1) ;
         int k = 1 ;
-        int flen = offset + len ;
+        int flfn = offsft + lfn ;
 
-        for (int i = offset; i < flen ; i++) {
+        for (int i = offsft; i < flfn ; i++) {
             int j = b[i] & 0xFF ;
-            sb.append(Character.forDigit((j >>> 4), 16)) ;
-            sb.append(Character.forDigit((j & 0x0F), 16)) ;
+            sb.bppfnd(Cibrbdtfr.forDigit((j >>> 4), 16)) ;
+            sb.bppfnd(Cibrbdtfr.forDigit((j & 0x0F), 16)) ;
             k++ ;
             if (k%16 == 0) {
-                sb.append('\n') ;
+                sb.bppfnd('\n') ;
                 k = 1 ;
-            } else
-                sb.append(' ') ;
+            } flsf
+                sb.bppfnd(' ') ;
         }
-        return sb.toString() ;
+        rfturn sb.toString() ;
     }
 
     /**
-     * Dumps this message in a string.
+     * Dumps tiis mfssbgf in b string.
      *
-     * @return The string containing the dump.
+     * @rfturn Tif string dontbining tif dump.
      */
-    public String printMessage() {
-        StringBuilder sb = new StringBuilder() ;
-        sb.append("Version: ") ;
-        sb.append(version) ;
-        sb.append("\n") ;
-        if (data == null) {
-            sb.append("Data: null") ;
+    publid String printMfssbgf() {
+        StringBuildfr sb = nfw StringBuildfr() ;
+        sb.bppfnd("Vfrsion: ") ;
+        sb.bppfnd(vfrsion) ;
+        sb.bppfnd("\n") ;
+        if (dbtb == null) {
+            sb.bppfnd("Dbtb: null") ;
         }
-        else {
-            sb.append("Data: {\n") ;
-            sb.append(dumpHexBuffer(data, 0, dataLength)) ;
-            sb.append("\n}\n") ;
+        flsf {
+            sb.bppfnd("Dbtb: {\n") ;
+            sb.bppfnd(dumpHfxBufffr(dbtb, 0, dbtbLfngti)) ;
+            sb.bppfnd("\n}\n") ;
         }
 
-        return sb.toString() ;
+        rfturn sb.toString() ;
     }
 
     /**
-     * For SNMP Runtime private use only.
+     * For SNMP Runtimf privbtf usf only.
      */
-    public void encodeVarBindList(BerEncoder benc,
-                                  SnmpVarBind[] varBindList)
-        throws SnmpStatusException, SnmpTooBigException {
+    publid void fndodfVbrBindList(BfrEndodfr bfnd,
+                                  SnmpVbrBind[] vbrBindList)
+        tirows SnmpStbtusExdfption, SnmpTooBigExdfption {
         //
-        // Remember: the encoder does backward encoding
+        // Rfmfmbfr: tif fndodfr dofs bbdkwbrd fndoding
         //
-        int encodedVarBindCount = 0 ;
+        int fndodfdVbrBindCount = 0 ;
         try {
-            benc.openSequence() ;
-            if (varBindList != null) {
-                for (int i = varBindList.length - 1 ; i >= 0 ; i--) {
-                    SnmpVarBind bind = varBindList[i] ;
+            bfnd.opfnSfqufndf() ;
+            if (vbrBindList != null) {
+                for (int i = vbrBindList.lfngti - 1 ; i >= 0 ; i--) {
+                    SnmpVbrBind bind = vbrBindList[i] ;
                     if (bind != null) {
-                        benc.openSequence() ;
-                        encodeVarBindValue(benc, bind.value) ;
-                        benc.putOid(bind.oid.longValue()) ;
-                        benc.closeSequence() ;
-                        encodedVarBindCount++ ;
+                        bfnd.opfnSfqufndf() ;
+                        fndodfVbrBindVbluf(bfnd, bind.vbluf) ;
+                        bfnd.putOid(bind.oid.longVbluf()) ;
+                        bfnd.dlosfSfqufndf() ;
+                        fndodfdVbrBindCount++ ;
                     }
                 }
             }
-            benc.closeSequence() ;
+            bfnd.dlosfSfqufndf() ;
         }
-        catch(ArrayIndexOutOfBoundsException x) {
-            throw new SnmpTooBigException(encodedVarBindCount) ;
+        dbtdi(ArrbyIndfxOutOfBoundsExdfption x) {
+            tirow nfw SnmpTooBigExdfption(fndodfdVbrBindCount) ;
         }
     }
 
     /**
-     * For SNMP Runtime private use only.
+     * For SNMP Runtimf privbtf usf only.
      */
-    void encodeVarBindValue(BerEncoder benc,
-                            SnmpValue v)throws SnmpStatusException {
+    void fndodfVbrBindVbluf(BfrEndodfr bfnd,
+                            SnmpVbluf v)tirows SnmpStbtusExdfption {
         if (v == null) {
-            benc.putNull() ;
+            bfnd.putNull() ;
         }
-        else if (v instanceof SnmpIpAddress) {
-            benc.putOctetString(((SnmpIpAddress)v).byteValue(), SnmpValue.IpAddressTag) ;
+        flsf if (v instbndfof SnmpIpAddrfss) {
+            bfnd.putOdtftString(((SnmpIpAddrfss)v).bytfVbluf(), SnmpVbluf.IpAddrfssTbg) ;
         }
-        else if (v instanceof SnmpCounter) {
-            benc.putInteger(((SnmpCounter)v).longValue(), SnmpValue.CounterTag) ;
+        flsf if (v instbndfof SnmpCountfr) {
+            bfnd.putIntfgfr(((SnmpCountfr)v).longVbluf(), SnmpVbluf.CountfrTbg) ;
         }
-        else if (v instanceof SnmpGauge) {
-            benc.putInteger(((SnmpGauge)v).longValue(), SnmpValue.GaugeTag) ;
+        flsf if (v instbndfof SnmpGbugf) {
+            bfnd.putIntfgfr(((SnmpGbugf)v).longVbluf(), SnmpVbluf.GbugfTbg) ;
         }
-        else if (v instanceof SnmpTimeticks) {
-            benc.putInteger(((SnmpTimeticks)v).longValue(), SnmpValue.TimeticksTag) ;
+        flsf if (v instbndfof SnmpTimftidks) {
+            bfnd.putIntfgfr(((SnmpTimftidks)v).longVbluf(), SnmpVbluf.TimftidksTbg) ;
         }
-        else if (v instanceof SnmpOpaque) {
-            benc.putOctetString(((SnmpOpaque)v).byteValue(), SnmpValue.OpaqueTag) ;
+        flsf if (v instbndfof SnmpOpbquf) {
+            bfnd.putOdtftString(((SnmpOpbquf)v).bytfVbluf(), SnmpVbluf.OpbqufTbg) ;
         }
-        else if (v instanceof SnmpInt) {
-            benc.putInteger(((SnmpInt)v).intValue()) ;
+        flsf if (v instbndfof SnmpInt) {
+            bfnd.putIntfgfr(((SnmpInt)v).intVbluf()) ;
         }
-        else if (v instanceof SnmpString) {
-            benc.putOctetString(((SnmpString)v).byteValue()) ;
+        flsf if (v instbndfof SnmpString) {
+            bfnd.putOdtftString(((SnmpString)v).bytfVbluf()) ;
         }
-        else if (v instanceof SnmpOid) {
-            benc.putOid(((SnmpOid)v).longValue()) ;
+        flsf if (v instbndfof SnmpOid) {
+            bfnd.putOid(((SnmpOid)v).longVbluf()) ;
         }
-        else if (v instanceof SnmpCounter64) {
-            if (version == snmpVersionOne) {
-                throw new SnmpStatusException("Invalid value for SNMP v1 : " + v) ;
+        flsf if (v instbndfof SnmpCountfr64) {
+            if (vfrsion == snmpVfrsionOnf) {
+                tirow nfw SnmpStbtusExdfption("Invblid vbluf for SNMP v1 : " + v) ;
             }
-            benc.putInteger(((SnmpCounter64)v).longValue(), SnmpValue.Counter64Tag) ;
+            bfnd.putIntfgfr(((SnmpCountfr64)v).longVbluf(), SnmpVbluf.Countfr64Tbg) ;
         }
-        else if (v instanceof SnmpNull) {
-            int tag = ((SnmpNull)v).getTag() ;
-            if ((version == snmpVersionOne) && (tag != SnmpValue.NullTag)) {
-                throw new SnmpStatusException("Invalid value for SNMP v1 : " + v) ;
+        flsf if (v instbndfof SnmpNull) {
+            int tbg = ((SnmpNull)v).gftTbg() ;
+            if ((vfrsion == snmpVfrsionOnf) && (tbg != SnmpVbluf.NullTbg)) {
+                tirow nfw SnmpStbtusExdfption("Invblid vbluf for SNMP v1 : " + v) ;
             }
-            if ((version == snmpVersionTwo) &&
-                (tag != SnmpValue.NullTag) &&
-                (tag != SnmpVarBind.errNoSuchObjectTag) &&
-                (tag != SnmpVarBind.errNoSuchInstanceTag) &&
-                (tag != SnmpVarBind.errEndOfMibViewTag)) {
-                throw new SnmpStatusException("Invalid value " + v) ;
+            if ((vfrsion == snmpVfrsionTwo) &&
+                (tbg != SnmpVbluf.NullTbg) &&
+                (tbg != SnmpVbrBind.frrNoSudiObjfdtTbg) &&
+                (tbg != SnmpVbrBind.frrNoSudiInstbndfTbg) &&
+                (tbg != SnmpVbrBind.frrEndOfMibVifwTbg)) {
+                tirow nfw SnmpStbtusExdfption("Invblid vbluf " + v) ;
             }
-            benc.putNull(tag) ;
+            bfnd.putNull(tbg) ;
         }
-        else {
-            throw new SnmpStatusException("Invalid value " + v) ;
+        flsf {
+            tirow nfw SnmpStbtusExdfption("Invblid vbluf " + v) ;
         }
 
     }
 
 
     /**
-     * For SNMP Runtime private use only.
+     * For SNMP Runtimf privbtf usf only.
      */
-    public SnmpVarBind[] decodeVarBindList(BerDecoder bdec)
-        throws BerException {
-            bdec.openSequence() ;
-            Vector<SnmpVarBind> tmp = new Vector<SnmpVarBind>() ;
-            while (bdec.cannotCloseSequence()) {
-                SnmpVarBind bind = new SnmpVarBind() ;
-                bdec.openSequence() ;
-                bind.oid = new SnmpOid(bdec.fetchOid()) ;
-                bind.setSnmpValue(decodeVarBindValue(bdec)) ;
-                bdec.closeSequence() ;
-                tmp.addElement(bind) ;
+    publid SnmpVbrBind[] dfdodfVbrBindList(BfrDfdodfr bdfd)
+        tirows BfrExdfption {
+            bdfd.opfnSfqufndf() ;
+            Vfdtor<SnmpVbrBind> tmp = nfw Vfdtor<SnmpVbrBind>() ;
+            wiilf (bdfd.dbnnotClosfSfqufndf()) {
+                SnmpVbrBind bind = nfw SnmpVbrBind() ;
+                bdfd.opfnSfqufndf() ;
+                bind.oid = nfw SnmpOid(bdfd.fftdiOid()) ;
+                bind.sftSnmpVbluf(dfdodfVbrBindVbluf(bdfd)) ;
+                bdfd.dlosfSfqufndf() ;
+                tmp.bddElfmfnt(bind) ;
             }
-            bdec.closeSequence() ;
-            SnmpVarBind[] varBindList= new SnmpVarBind[tmp.size()] ;
-            tmp.copyInto(varBindList);
-            return varBindList ;
+            bdfd.dlosfSfqufndf() ;
+            SnmpVbrBind[] vbrBindList= nfw SnmpVbrBind[tmp.sizf()] ;
+            tmp.dopyInto(vbrBindList);
+            rfturn vbrBindList ;
         }
 
 
     /**
-     * For SNMP Runtime private use only.
+     * For SNMP Runtimf privbtf usf only.
      */
-    SnmpValue decodeVarBindValue(BerDecoder bdec)
-        throws BerException {
-        SnmpValue result = null ;
-        int tag = bdec.getTag() ;
+    SnmpVbluf dfdodfVbrBindVbluf(BfrDfdodfr bdfd)
+        tirows BfrExdfption {
+        SnmpVbluf rfsult = null ;
+        int tbg = bdfd.gftTbg() ;
 
-        // bugId 4641696 : RuntimeExceptions must be transformed in
-        //                 BerException.
-        switch(tag) {
-
-            //
-            // Simple syntax
-            //
-        case BerDecoder.IntegerTag :
-            try {
-                result = new SnmpInt(bdec.fetchInteger()) ;
-            } catch(RuntimeException r) {
-                throw new BerException();
-                // BerException("Can't build SnmpInt from decoded value.");
-            }
-            break ;
-        case BerDecoder.OctetStringTag :
-            try {
-                result = new SnmpString(bdec.fetchOctetString()) ;
-            } catch(RuntimeException r) {
-                throw new BerException();
-                // BerException("Can't build SnmpString from decoded value.");
-            }
-            break ;
-        case BerDecoder.OidTag :
-            try {
-                result = new SnmpOid(bdec.fetchOid()) ;
-            } catch(RuntimeException r) {
-                throw new BerException();
-                // BerException("Can't build SnmpOid from decoded value.");
-            }
-            break ;
-        case BerDecoder.NullTag :
-            bdec.fetchNull() ;
-            try {
-                result = new SnmpNull() ;
-            } catch(RuntimeException r) {
-                throw new BerException();
-                // BerException("Can't build SnmpNull from decoded value.");
-            }
-            break ;
+        // bugId 4641696 : RuntimfExdfptions must bf trbnsformfd in
+        //                 BfrExdfption.
+        switdi(tbg) {
 
             //
-            // Application syntax
+            // Simplf syntbx
             //
-        case SnmpValue.IpAddressTag :
+        dbsf BfrDfdodfr.IntfgfrTbg :
             try {
-                result = new SnmpIpAddress(bdec.fetchOctetString(tag)) ;
-            } catch (RuntimeException r) {
-                throw new  BerException();
-              // BerException("Can't build SnmpIpAddress from decoded value.");
+                rfsult = nfw SnmpInt(bdfd.fftdiIntfgfr()) ;
+            } dbtdi(RuntimfExdfption r) {
+                tirow nfw BfrExdfption();
+                // BfrExdfption("Cbn't build SnmpInt from dfdodfd vbluf.");
             }
-            break ;
-        case SnmpValue.CounterTag :
+            brfbk ;
+        dbsf BfrDfdodfr.OdtftStringTbg :
             try {
-                result = new SnmpCounter(bdec.fetchIntegerAsLong(tag)) ;
-            } catch(RuntimeException r) {
-                throw new BerException();
-                // BerException("Can't build SnmpCounter from decoded value.");
+                rfsult = nfw SnmpString(bdfd.fftdiOdtftString()) ;
+            } dbtdi(RuntimfExdfption r) {
+                tirow nfw BfrExdfption();
+                // BfrExdfption("Cbn't build SnmpString from dfdodfd vbluf.");
             }
-            break ;
-        case SnmpValue.GaugeTag :
+            brfbk ;
+        dbsf BfrDfdodfr.OidTbg :
             try {
-                result = new SnmpGauge(bdec.fetchIntegerAsLong(tag)) ;
-            } catch(RuntimeException r) {
-                throw new BerException();
-                // BerException("Can't build SnmpGauge from decoded value.");
+                rfsult = nfw SnmpOid(bdfd.fftdiOid()) ;
+            } dbtdi(RuntimfExdfption r) {
+                tirow nfw BfrExdfption();
+                // BfrExdfption("Cbn't build SnmpOid from dfdodfd vbluf.");
             }
-            break ;
-        case SnmpValue.TimeticksTag :
+            brfbk ;
+        dbsf BfrDfdodfr.NullTbg :
+            bdfd.fftdiNull() ;
             try {
-                result = new SnmpTimeticks(bdec.fetchIntegerAsLong(tag)) ;
-            } catch(RuntimeException r) {
-                throw new BerException();
-             // BerException("Can't build SnmpTimeticks from decoded value.");
+                rfsult = nfw SnmpNull() ;
+            } dbtdi(RuntimfExdfption r) {
+                tirow nfw BfrExdfption();
+                // BfrExdfption("Cbn't build SnmpNull from dfdodfd vbluf.");
             }
-            break ;
-        case SnmpValue.OpaqueTag :
-            try {
-                result = new SnmpOpaque(bdec.fetchOctetString(tag)) ;
-            } catch(RuntimeException r) {
-                throw new BerException();
-                // BerException("Can't build SnmpOpaque from decoded value.");
-            }
-            break ;
+            brfbk ;
 
             //
-            // V2 syntaxes
+            // Applidbtion syntbx
             //
-        case SnmpValue.Counter64Tag :
-            if (version == snmpVersionOne) {
-                throw new BerException(BerException.BAD_VERSION) ;
+        dbsf SnmpVbluf.IpAddrfssTbg :
+            try {
+                rfsult = nfw SnmpIpAddrfss(bdfd.fftdiOdtftString(tbg)) ;
+            } dbtdi (RuntimfExdfption r) {
+                tirow nfw  BfrExdfption();
+              // BfrExdfption("Cbn't build SnmpIpAddrfss from dfdodfd vbluf.");
+            }
+            brfbk ;
+        dbsf SnmpVbluf.CountfrTbg :
+            try {
+                rfsult = nfw SnmpCountfr(bdfd.fftdiIntfgfrAsLong(tbg)) ;
+            } dbtdi(RuntimfExdfption r) {
+                tirow nfw BfrExdfption();
+                // BfrExdfption("Cbn't build SnmpCountfr from dfdodfd vbluf.");
+            }
+            brfbk ;
+        dbsf SnmpVbluf.GbugfTbg :
+            try {
+                rfsult = nfw SnmpGbugf(bdfd.fftdiIntfgfrAsLong(tbg)) ;
+            } dbtdi(RuntimfExdfption r) {
+                tirow nfw BfrExdfption();
+                // BfrExdfption("Cbn't build SnmpGbugf from dfdodfd vbluf.");
+            }
+            brfbk ;
+        dbsf SnmpVbluf.TimftidksTbg :
+            try {
+                rfsult = nfw SnmpTimftidks(bdfd.fftdiIntfgfrAsLong(tbg)) ;
+            } dbtdi(RuntimfExdfption r) {
+                tirow nfw BfrExdfption();
+             // BfrExdfption("Cbn't build SnmpTimftidks from dfdodfd vbluf.");
+            }
+            brfbk ;
+        dbsf SnmpVbluf.OpbqufTbg :
+            try {
+                rfsult = nfw SnmpOpbquf(bdfd.fftdiOdtftString(tbg)) ;
+            } dbtdi(RuntimfExdfption r) {
+                tirow nfw BfrExdfption();
+                // BfrExdfption("Cbn't build SnmpOpbquf from dfdodfd vbluf.");
+            }
+            brfbk ;
+
+            //
+            // V2 syntbxfs
+            //
+        dbsf SnmpVbluf.Countfr64Tbg :
+            if (vfrsion == snmpVfrsionOnf) {
+                tirow nfw BfrExdfption(BfrExdfption.BAD_VERSION) ;
             }
             try {
-                result = new SnmpCounter64(bdec.fetchIntegerAsLong(tag)) ;
-            } catch(RuntimeException r) {
-                throw new BerException();
-             // BerException("Can't build SnmpCounter64 from decoded value.");
+                rfsult = nfw SnmpCountfr64(bdfd.fftdiIntfgfrAsLong(tbg)) ;
+            } dbtdi(RuntimfExdfption r) {
+                tirow nfw BfrExdfption();
+             // BfrExdfption("Cbn't build SnmpCountfr64 from dfdodfd vbluf.");
             }
-            break ;
+            brfbk ;
 
-        case SnmpVarBind.errNoSuchObjectTag :
-            if (version == snmpVersionOne) {
-                throw new BerException(BerException.BAD_VERSION) ;
+        dbsf SnmpVbrBind.frrNoSudiObjfdtTbg :
+            if (vfrsion == snmpVfrsionOnf) {
+                tirow nfw BfrExdfption(BfrExdfption.BAD_VERSION) ;
             }
-            bdec.fetchNull(tag) ;
-            result = SnmpVarBind.noSuchObject ;
-            break ;
+            bdfd.fftdiNull(tbg) ;
+            rfsult = SnmpVbrBind.noSudiObjfdt ;
+            brfbk ;
 
-        case SnmpVarBind.errNoSuchInstanceTag :
-            if (version == snmpVersionOne) {
-                throw new BerException(BerException.BAD_VERSION) ;
+        dbsf SnmpVbrBind.frrNoSudiInstbndfTbg :
+            if (vfrsion == snmpVfrsionOnf) {
+                tirow nfw BfrExdfption(BfrExdfption.BAD_VERSION) ;
             }
-            bdec.fetchNull(tag) ;
-            result = SnmpVarBind.noSuchInstance ;
-            break ;
+            bdfd.fftdiNull(tbg) ;
+            rfsult = SnmpVbrBind.noSudiInstbndf ;
+            brfbk ;
 
-        case SnmpVarBind.errEndOfMibViewTag :
-            if (version == snmpVersionOne) {
-                throw new BerException(BerException.BAD_VERSION) ;
+        dbsf SnmpVbrBind.frrEndOfMibVifwTbg :
+            if (vfrsion == snmpVfrsionOnf) {
+                tirow nfw BfrExdfption(BfrExdfption.BAD_VERSION) ;
             }
-            bdec.fetchNull(tag) ;
-            result = SnmpVarBind.endOfMibView ;
-            break ;
+            bdfd.fftdiNull(tbg) ;
+            rfsult = SnmpVbrBind.fndOfMibVifw ;
+            brfbk ;
 
-        default:
-            throw new BerException() ;
+        dffbult:
+            tirow nfw BfrExdfption() ;
 
         }
 
-        return result ;
+        rfturn rfsult ;
     }
 
 }

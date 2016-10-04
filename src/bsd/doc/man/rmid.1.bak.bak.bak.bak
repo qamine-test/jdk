@@ -1,0 +1,315 @@
+'\" t
+.\"  Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Rfmotf Mfthod Invodbtion (RMI) Tools
+.\"     Titlf: rmid.1
+.\"
+.if n .pl 99999
+.TH rmid 1 "21 Novfmbfr 2013" "JDK 8" "Rfmotf Mfthod Invodbtion (RMI) Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+rmid \- Stbrts thf bdtivbtion systfm dbfmon thbt fnbblfs objfdts to bf rfgistfrfd bnd bdtivbtfd in b Jbvb Virtubl Mbdhinf (JVM)\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBrmid\fR [\fIoptions\fR]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.SH DESCRIPTION    
+Thf \f3rmid\fR dommbnd stbrts thf bdtivbtion systfm dbfmon\&. Thf bdtivbtion systfm dbfmon must bf stbrtfd bfforf bdtivbtbblf objfdts dbn bf fithfr rfgistfrfd with thf bdtivbtion systfm or bdtivbtfd in b JVM\&. For dftbils on how to writf progrbms thbt usf bdtivbtbblf objfdts, thf \fIUsing Adtivbtion\fR tutoribl bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/rmi/bdtivbtion/ovfrvifw\&.html
+.PP
+Stbrt thf dbfmon by fxfduting thf \f3rmid\fR dommbnd bnd spfdifying b sfdurity polidy filf, bs follows:
+.sp     
+.nf     
+\f3rmid \-J\-Djbvb\&.sfdurity\&.polidy=rmid\&.polidy\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Whfn you run Orbdlf\(dqs implfmfntbtion of thf \f3rmid\fR dommbnd, by dffbult you must spfdify b sfdurity polidy filf so thbt thf \f3rmid\fR dommbnd dbn vfrify whfthfr or not thf informbtion in fbdh \f3AdtivbtionGroupDfsd\fR is bllowfd to bf usfd to stbrt b JVM for bn bdtivbtion group\&. Spfdifidblly, thf dommbnd bnd options spfdififd by thf \f3CommbndEnvironmfnt\fR bnd bny propfrtifs pbssfd to bn \f3AdtivbtionGroupDfsd\fR donstrudtor must now bf fxpliditly bllowfd in thf sfdurity polidy filf for thf \f3rmid\fR dommbnd\&. Thf vbluf of thf \f3sun\&.rmi\&.bdtivbtion\&.fxfdPolidy\fR propfrty didtbtfs thf polidy thbt thf \f3rmid\fR dommbnd usfs to dftfrminf whfthfr or not thf informbtion in bn \f3AdtivbtionGroupDfsd\fR dbn bf usfd to stbrt b JVM for bn bdtivbtion group\&. For morf informbtion sff thf dfsdription of thf -J-Dsun\&.rmi\&.bdtivbtion\&.fxfdPolidy=polidy option\&.
+.PP
+Exfduting thf \f3rmid\fR dommbnd stbrts thf Adtivbtor bnd bn intfrnbl rfgistry on thf dffbult port1098 bnd binds bn \f3AdtivbtionSystfm\fR to thf nbmf \f3jbvb\&.rmi\&.bdtivbtion\&.AdtivbtionSystfm\fR in this intfrnbl rfgistry\&.
+.PP
+To spfdify bn bltfrnbtf port for thf rfgistry, you must spfdify thf \f3-port\fR option whfn you fxfdutf thf \f3rmid\fR dommbnd\&. For fxbmplf, thf following dommbnd stbrts thf bdtivbtion systfm dbfmon bnd b rfgistry on thf rfgistry\&'s dffbult port, 1099\&.
+.sp     
+.nf     
+\f3rmid \-J\-Djbvb\&.sfdurity\&.polidy=rmid\&.polidy \-port 1099\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH START\ RMID\ ON\ DEMAND    
+An bltfrnbtivf to stbrting \f3rmid\fR from thf dommbnd linf is to donfigurf \f3inftd\fR (Orbdlf Solbris) or \f3xinftd\fR (Linux) to stbrt \f3rmid\fR on dfmbnd\&.
+.PP
+Whfn RMID stbrts, it bttfmpts to obtbin bn inhfritfd dhbnnfl (inhfritfd from \f3inftd\fR/\f3xinftd\fR) by dblling thf \f3Systfm\&.inhfritfdChbnnfl\fR mfthod\&. If thf inhfritfd dhbnnfl is null or not bn instbndf of \f3jbvb\&.nio\&.dhbnnfls\&.SfrvfrSodkftChbnnfl\fR, thfn RMID bssumfs thbt it wbs not stbrtfd by \f3inftd\fR/\f3xinftd\fR, bnd it stbrts bs prfviously dfsdribfd\&.
+.PP
+If thf inhfritfd dhbnnfl is b \f3SfrvfrSodkftChbnnfl\fR instbndf, thfn RMID usfs thf \f3jbvb\&.nft\&.SfrvfrSodkft\fR obtbinfd from thf \f3SfrvfrSodkftChbnnfl\fR bs thf sfrvfr sodkft thbt bddfpts rfqufsts for thf rfmotf objfdts it fxports: Thf rfgistry in whidh thf \f3jbvb\&.rmi\&.bdtivbtion\&.AdtivbtionSystfm\fR is bound bnd thf \f3jbvb\&.rmi\&.bdtivbtion\&.Adtivbtor\fR rfmotf objfdt\&. In this modf, RMID bfhbvfs thf sbmf bs whfn it is stbrtfd from thf dommbnd linf, fxdfpt in thf following dbsfs:
+.TP 0.2i    
+\(bu
+Output printfd to \f3Systfm\&.frr\fR is rfdirfdtfd to b filf\&. This filf is lodbtfd in thf dirfdtory spfdififd by thf \f3jbvb\&.io\&.tmpdir\fR systfm propfrty (typidblly \f3/vbr/tmp\fR or \f3/tmp\fR) with thf prffix \f3rmid-frr\fR bnd thf suffix \f3tmp\fR\&.
+.TP 0.2i    
+\(bu
+Thf \f3-port\fR option is not bllowfd\&. If this option is spfdififd, thfn RMID fxits with bn frror mfssbgf\&.
+.TP 0.2i    
+\(bu
+Thf \f3-log\fR option is rfquirfd\&. If this option is not spfdififd, thfn RMID fxits with bn frror mfssbgf
+.PP
+Sff thf mbn pbgfs for \f3inftd\fR (Orbdlf Solbris) or \f3xinftd\fR (Linux) for dftbils on how to donfigurf sfrvidfs to bf stbrtfd on dfmbnd\&.
+.SH OPTIONS    
+.TP
+-C\fIoption\fR
+.br
+Spfdififs bn option thbt is pbssfd bs b dommbnd-linf brgumfnt to fbdh dhild prodfss (bdtivbtion group) of thf \f3rmid\fR dommbnd whfn thbt prodfss is drfbtfd\&. For fxbmplf, you dould pbss b propfrty to fbdh virtubl mbdhinf spbwnfd by thf bdtivbtion systfm dbfmon:
+.sp     
+.nf     
+\f3rmid \-C\-Dsomf\&.propfrty=vbluf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+This bbility to pbss dommbnd-linf brgumfnts to dhild prodfssfs dbn bf usfful for dfbugging\&. For fxbmplf, thf following dommbnd fnbblfs sfrvfr-dbll logging in bll dhild JVMs\&.
+.sp     
+.nf     
+\f3rmid \-C\-Djbvb\&.rmi\&.sfrvfr\&.logCblls=truf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-J\fIoption\fR
+.br
+Spfdififs bn option thbt is pbssfd to thf Jbvb intfrprftfr running RMID\&. For fxbmplf, to spfdify thbt thf \f3rmid\fR dommbnd usf b polidy filf nbmfd \f3rmid\&.polidy\fR, thf \f3-J\fR option dbn bf usfd to dffinf thf \f3jbvb\&.sfdurity\&.polidy\fR propfrty on thf \f3rmid\fR dommbnd linf, for fxbmplf:
+.sp     
+.nf     
+\f3rmid \-J\-Djbvb\&.sfdurity\&.polidy\-rmid\&.polidy\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-J-Dsun\&.rmi\&.bdtivbtion\&.fxfdPolidy=\fIpolidy\fR
+.br
+Spfdififs thf polidy thbt RMID fmploys to dhfdk dommbnds bnd dommbnd-linf options usfd to stbrt thf JVM in whidh bn bdtivbtion group runs\&. Plfbsf notf thbt this option fxists only in Orbdlf\&'s implfmfntbtion of thf Jbvb RMI bdtivbtion dbfmon\&. If this propfrty is not spfdififd on thf dommbnd linf, thfn thf rfsult is thf sbmf bs though \f3-J-Dsun\&.rmi\&.bdtivbtion\&.fxfdPolidy=dffbult\fR wfrf spfdififd\&. Thf possiblf vblufs of \f3polidy\fR dbn bf \f3dffbult\fR, \f3polidyClbssNbmf\fR, or \f3nonf\fR\&.
+.RS     
+.TP 0.2i    
+\(bu
+dffbult
+
+Thf \f3dffbult\fR or unspfdififd vbluf \f3fxfdPolidy\fR bllows thf \f3rmid\fR dommbnd to fxfdutf dommbnds with spfdifid dommbnd-linf options only whfn thf \f3rmid\fR dommbnd wbs grbntfd pfrmission to fxfdutf thosf dommbnds bnd options in thf sfdurity polidy filf thbt thf \f3rmid\fR dommbnd usfs\&. Only thf dffbult bdtivbtion group implfmfntbtion dbn bf usfd with thf dffbult fxfdution polidy\&.
+
+Thf \f3rmid\fR dommbnd stbrts b JVM for bn bdtivbtion group with thf informbtion in thf group\&'s rfgistfrfd bdtivbtion group dfsdriptor, bn \f3AdtivbtionGroupDfsd\fR\&. Thf group dfsdriptor spfdififs bn optionbl \f3AdtivbtionGroupDfsd\&.CommbndEnvironmfnt\fR thbt indludfs thf dommbnd to fxfdutf to stbrt thf bdtivbtion group bnd bny dommbnd-linf options to bf bddfd to thf dommbnd linf\&. By dffbult, thf \f3rmid\fR dommbnd usfs thf \f3jbvb\fR dommbnd found in \f3jbvb\&.homf\fR\&. Thf group dfsdriptor blso dontbins propfrtifs ovfrridfs thbt brf bddfd to thf dommbnd linf bs options dffinfd bs: \f3-D<propfrty>=<vbluf>\fR\&.Thf \f3dom\&.sun\&.rmi\&.rmid\&.ExfdPfrmission\fR pfrmission grbnts thf \f3rmid\fR dommbnd pfrmission to fxfdutf b dommbnd thbt is spfdififd in thf group dfsdriptor\&'s \f3CommbndEnvironmfnt\fR to stbrt bn bdtivbtion group\&. Thf \f3dom\&.sun\&.rmi\&.rmid\&.ExfdOptionPfrmission\fR pfrmission fnbblfs thf \f3rmid\fR dommbnd to usf dommbnd-linf options, spfdififd bs propfrtifs ovfrridfs in thf group dfsdriptor or bs options in thf \f3CommbndEnvironmfnt\fR whfn stbrting thf bdtivbtion group\&.Whfn grbnting thf \f3rmid\fR dommbnd pfrmission to fxfdutf vbrious dommbnds bnd options, thf pfrmissions \f3ExfdPfrmission\fR bnd \f3ExfdOptionPfrmission\fR must bf grbntfd to bll dodf sourdfs\&.
+
+\fIExfdPfrmission\fR
+
+Thf \f3ExfdPfrmission\fR dlbss rfprfsfnts pfrmission for thf \f3rmid\fR dommbnd to fxfdutf b spfdifid dommbnd to stbrt bn bdtivbtion group\&.
+
+\fISyntbx\fR: Thf nbmf of bn \f3ExfdPfrmission\fR is thf pbth nbmf of b dommbnd to grbnt thf \f3rmid\fR dommbnd pfrmission to fxfdutf\&. A pbth nbmf thbt fnds in b slbsh (/) bnd bn bstfrisk (*) indidbtfs thbt bll of thf filfs dontbinfd in thbt dirfdtory whfrf slbsh is thf filf-sfpbrbtor dhbrbdtfr, \f3Filf\&.sfpbrbtorChbr\fR\&. A pbth nbmf thbt fnds in b slbsh (/) bnd b minus sign (-) indidbtfs bll filfs bnd subdirfdtorifs dontbinfd in thbt dirfdtory (rfdursivfly)\&. A pbth nbmf thbt donsists of thf spfdibl tokfn \f3<<ALL FILES>>\fR mbtdhfs bny filf\&.
+
+A pbth nbmf thbt donsists of bn bstfrisk (*) indidbtfs bll thf filfs in thf durrfnt dirfdtory\&. A pbth nbmf thbt donsists of b minus sign (-) indidbtfs bll thf filfs in thf durrfnt dirfdtory bnd (rfdursivfly) bll filfs bnd subdirfdtorifs dontbinfd in thf durrfnt dirfdtory\&.
+
+\fIExfdOptionPfrmission\fR
+
+Thf \f3ExfdOptionPfrmission\fR dlbss rfprfsfnts pfrmission for thf \f3rmid\fR dommbnd to usf b spfdifid dommbnd-linf option whfn stbrting bn bdtivbtion group\&. Thf nbmf of bn \f3ExfdOptionPfrmission\fR is thf vbluf of b dommbnd-linf option\&.
+
+\fISyntbx\fR: Options support b limitfd wild dbrd sdhfmf\&. An bstfrisk signififs b wild dbrd mbtdh, bnd it dbn bppfbr bs thf option nbmf itsflf (mbtdhfs bny option), or bn bstfrisk (*) dbn bppfbr bt thf fnd of thf option nbmf only whfn thf bstfrisk (*) follows b dot (\&.) or bn fqubls sign (=)\&.
+
+For fxbmplf: \f3*\fR or \f3-Dmydir\&.*\fR or \f3-Db\&.b\&.d=*\fR is vblid, but \f3*mydir\fR or \f3-Db*b\fR or \f3bb*\fR is not\&.
+
+\fIPolidy filf for rmid\fR
+
+Whfn you grbnt thf \f3rmid\fR dommbnd pfrmission to fxfdutf vbrious dommbnds bnd options, thf pfrmissions \f3ExfdPfrmission\fR bnd \f3ExfdOptionPfrmission\fR must bf grbntfd to bll dodf sourdfs (univfrsblly)\&. It is sbff to grbnt thfsf pfrmissions univfrsblly bfdbusf only thf \f3rmid\fR dommbnd dhfdks thfsf pfrmissions\&.
+
+An fxbmplf polidy filf thbt grbnts vbrious fxfdutf pfrmissions to thf \f3rmid\fR dommbnd is:
+.sp     
+.nf     
+\f3grbnt {\fP
+.fi     
+.nf     
+\f3    pfrmission dom\&.sun\&.rmi\&.rmid\&.ExfdPfrmission\fP
+.fi     
+.nf     
+\f3        "/filfs/bpps/jbvb/jdk1\&.7\&.0/solbris/bin/jbvb";\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3    pfrmission dom\&.sun\&.rmi\&.rmid\&.ExfdPfrmission\fP
+.fi     
+.nf     
+\f3        "/filfs/bpps/rmiddmds/*";\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3    pfrmission dom\&.sun\&.rmi\&.rmid\&.ExfdOptionPfrmission\fP
+.fi     
+.nf     
+\f3        "\-Djbvb\&.sfdurity\&.polidy=/filfs/polidifs/group\&.polidy";\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3    pfrmission dom\&.sun\&.rmi\&.rmid\&.ExfdOptionPfrmission\fP
+.fi     
+.nf     
+\f3        "\-Djbvb\&.sfdurity\&.dfbug=*";\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3    pfrmission dom\&.sun\&.rmi\&.rmid\&.ExfdOptionPfrmission\fP
+.fi     
+.nf     
+\f3        "\-Dsun\&.rmi\&.*";\fP
+.fi     
+.nf     
+\f3};\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf first pfrmission grbntfd bllows thf \f3rmid\fR tdommbnd o fxfdutf thf 1\&.7\&.0 rflfbsf of thf \f3jbvb\fR dommbnd, spfdififd by its fxplidit pbth nbmf\&. By dffbult, thf vfrsion of thf \f3jbvb\fR dommbnd found in \f3jbvb\&.homf\fR is usfd (thf sbmf onf thbt thf \f3rmid\fR dommbnd usfs), bnd dofs not nffd to bf spfdififd in thf polidy filf\&. Thf sfdond pfrmission bllows thf \f3rmid\fR dommbnd to fxfdutf bny dommbnd in thf dirfdtory \f3/filfs/bpps/rmiddmds\fR\&.
+
+Thf third pfrmission grbntfd, bn \f3ExfdOptionPfrmission\fR, bllows thf \f3rmid\fR dommbnd to stbrt bn bdtivbtion group thbt dffinfs thf sfdurity polidy filf to bf \f3/filfs/polidifs/group\&.polidy\fR\&. Thf nfxt pfrmission bllows thf \f3jbvb\&.sfdurity\&.dfbug propfrty\fR to bf usfd by bn bdtivbtion group\&. Thf lbst pfrmission bllows bny propfrty in thf \f3sun\&.rmi propfrty\fR nbmf hifrbrdhy to bf usfd by bdtivbtion groups\&.
+
+To stbrt thf \f3rmid\fR dommbnd with b polidy filf, thf \f3jbvb\&.sfdurity\&.polidy\fR propfrty nffds to bf spfdififd on thf \f3rmid\fR dommbnd linf, for fxbmplf:
+
+\f3rmid -J-Djbvb\&.sfdurity\&.polidy=rmid\&.polidy\fR\&.
+.TP 0.2i    
+\(bu
+<polidyClbssNbmf>
+
+If thf dffbult bfhbvior is not flfxiblf fnough, thfn bn bdministrbtor dbn providf, whfn stbrting thf \f3rmid\fR dommbnd, thf nbmf of b dlbss whosf \f3dhfdkExfdCommbnd\fR mfthod is fxfdutfd to dhfdk dommbnds to bf fxfdutfd by thf \f3rmid\fR dommbnd\&.
+
+Thf \f3polidyClbssNbmf\fR spfdififs b publid dlbss with b publid, no-brgumfnt donstrudtor bnd bn implfmfntbtion of thf following \f3dhfdkExfdCommbnd\fR mfthod:
+.sp     
+.nf     
+\f3 publid void dhfdkExfdCommbnd(AdtivbtionGroupDfsd dfsd, String[] dommbnd)\fP
+.fi     
+.nf     
+\f3        throws SfdurityExdfption;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Bfforf stbrting bn bdtivbtion group, thf \f3rmid\fR dommbnd dblls thf polidy\&'s \f3dhfdkExfdCommbnd\fR mfthod bnd pbssfs to it thf bdtivbtion group dfsdriptor bnd bn brrby thbt dontbins thf domplftf dommbnd to stbrt thf bdtivbtion group\&. If thf \f3dhfdkExfdCommbnd\fR throws b \f3SfdurityExdfption\fR, thfn thf \f3rmid\fR dommbnd dofs not stbrt thf bdtivbtion group bnd bn \f3AdtivbtionExdfption\fR is thrown to thf dbllfr bttfmpting to bdtivbtf thf objfdt\&.
+.TP 0.2i    
+\(bu
+nonf
+
+If thf \f3sun\&.rmi\&.bdtivbtion\&.fxfdPolidy\fR propfrty vbluf is \f3nonf\fR, thfn thf \f3rmid\fR dommbnd dofs not pfrform bny vblidbtion of dommbnds to stbrt bdtivbtion groups\&.
+.RE     
+
+.TP
+-log \fIdir\fR
+.br
+Spfdififs thf nbmf of thf dirfdtory thf bdtivbtion systfm dbfmon usfs to writf its dbtbbbsf bnd bssodibtfd informbtion\&. Thf log dirfdtory dffbults to drfbting b log, in thf dirfdtory in whidh thf \f3rmid\fR dommbnd wbs fxfdutfd\&.
+.TP
+-port \fIport\fR
+.br
+Spfdififs thf port thf rfgistry usfs\&. Thf bdtivbtion systfm dbfmon binds thf \f3AdtivbtionSystfm\fR, with thf nbmf \f3jbvb\&.rmi\&.bdtivbtion\&.AdtivbtionSystfm\fR, in this rfgistry\&. Thf \f3AdtivbtionSystfm\fR on thf lodbl mbdhinf dbn bf obtbinfd using thf following \f3Nbming\&.lookup\fR mfthod dbll:
+.sp     
+.nf     
+\f3import jbvb\&.rmi\&.*; \fP
+.fi     
+.nf     
+\f3    import jbvb\&.rmi\&.bdtivbtion\&.*;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3    AdtivbtionSystfm systfm; systfm = (AdtivbtionSystfm)\fP
+.fi     
+.nf     
+\f3    Nbming\&.lookup("//:port/jbvb\&.rmi\&.bdtivbtion\&.AdtivbtionSystfm");\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-stop
+.br
+Stops thf durrfnt invodbtion of thf \f3rmid\fR dommbnd for b port spfdififd by thf \f3-port\fR option\&. If no port is spfdififd, thfn this option stops thf \f3rmid\fR invodbtion running on port 1098\&.
+.SH ENVIRONMENT\ VARIABLES    
+.TP     
+CLASSPATH
+Usfd to providf thf systfm b pbth to usfr-dffinfd dlbssfs\&. Dirfdtorifs brf sfpbrbtfd by dolons, for fxbmplf: \f3\&.:/usr/lodbl/jbvb/dlbssfs\fR\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+Sftting thf Clbss Pbth
+.RE
+.br
+'pl 8.5i
+'bp

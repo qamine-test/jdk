@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "GraphicsPrimitiveMgr.h"
-#include "LoopMacros.h"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "LoopMbdros.i"
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "Any4Byte".
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "Any4Bytf".
  */
 
-typedef jubyte  Any4ByteDataType;
+typfdff jubytf  Any4BytfDbtbTypf;
 
-#define Any4BytePixelStride     4
+#dffinf Any4BytfPixflStridf     4
 
-#define DeclareAny4ByteLoadVars(PREFIX)
-#define DeclareAny4ByteStoreVars(PREFIX)
-#define InitAny4ByteLoadVars(PREFIX, pRasInfo)
-#define InitAny4ByteStoreVarsY(PREFIX, pRasInfo)
-#define InitAny4ByteStoreVarsX(PREFIX, pRasInfo)
-#define NextAny4ByteStoreVarsX(PREFIX)
-#define NextAny4ByteStoreVarsY(PREFIX)
+#dffinf DfdlbrfAny4BytfLobdVbrs(PREFIX)
+#dffinf DfdlbrfAny4BytfStorfVbrs(PREFIX)
+#dffinf InitAny4BytfLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitAny4BytfStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitAny4BytfStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtAny4BytfStorfVbrsX(PREFIX)
+#dffinf NfxtAny4BytfStorfVbrsY(PREFIX)
 
-#define DeclareAny4BytePixelData(PREFIX) \
-    jubyte PREFIX ## 0, PREFIX ## 1, PREFIX ## 2, PREFIX ## 3;
+#dffinf DfdlbrfAny4BytfPixflDbtb(PREFIX) \
+    jubytf PREFIX ## 0, PREFIX ## 1, PREFIX ## 2, PREFIX ## 3;
 
-#define ExtractAny4BytePixelData(PIXEL, PREFIX) \
+#dffinf ExtrbdtAny4BytfPixflDbtb(PIXEL, PREFIX) \
     do { \
-        PREFIX ## 0 = (jubyte) (PIXEL); \
-        PREFIX ## 1 = (jubyte) (PIXEL >> 8); \
-        PREFIX ## 2 = (jubyte) (PIXEL >> 16); \
-        PREFIX ## 3 = (jubyte) (PIXEL >> 24); \
-    } while (0)
+        PREFIX ## 0 = (jubytf) (PIXEL); \
+        PREFIX ## 1 = (jubytf) (PIXEL >> 8); \
+        PREFIX ## 2 = (jubytf) (PIXEL >> 16); \
+        PREFIX ## 3 = (jubytf) (PIXEL >> 24); \
+    } wiilf (0)
 
-#define StoreAny4BytePixelData(pPix, x, pixel, PREFIX) \
+#dffinf StorfAny4BytfPixflDbtb(pPix, x, pixfl, PREFIX) \
     do { \
         (pPix)[4*x+0] = PREFIX ## 0; \
         (pPix)[4*x+1] = PREFIX ## 1; \
         (pPix)[4*x+2] = PREFIX ## 2; \
         (pPix)[4*x+3] = PREFIX ## 3; \
-    } while (0)
+    } wiilf (0)
 
-#define CopyAny4BytePixelData(pSrc, sx, pDst, dx) \
+#dffinf CopyAny4BytfPixflDbtb(pSrd, sx, pDst, dx) \
     do { \
-        (pDst)[4*dx+0] = (pSrc)[4*sx+0]; \
-        (pDst)[4*dx+1] = (pSrc)[4*sx+1]; \
-        (pDst)[4*dx+2] = (pSrc)[4*sx+2]; \
-        (pDst)[4*dx+3] = (pSrc)[4*sx+3]; \
-    } while (0)
+        (pDst)[4*dx+0] = (pSrd)[4*sx+0]; \
+        (pDst)[4*dx+1] = (pSrd)[4*sx+1]; \
+        (pDst)[4*dx+2] = (pSrd)[4*sx+2]; \
+        (pDst)[4*dx+3] = (pSrd)[4*sx+3]; \
+    } wiilf (0)
 
-#define XorCopyAny4BytePixelData(pSrc, pDst, x, xorpixel, XORPREFIX) \
+#dffinf XorCopyAny4BytfPixflDbtb(pSrd, pDst, x, xorpixfl, XORPREFIX) \
     do { \
-        (pDst)[4*x+0] ^= (pSrc)[4*x+0] ^ XORPREFIX ## 0; \
-        (pDst)[4*x+1] ^= (pSrc)[4*x+1] ^ XORPREFIX ## 1; \
-        (pDst)[4*x+2] ^= (pSrc)[4*x+2] ^ XORPREFIX ## 2; \
-        (pDst)[4*x+3] ^= (pSrc)[4*x+3] ^ XORPREFIX ## 3; \
-    } while (0)
+        (pDst)[4*x+0] ^= (pSrd)[4*x+0] ^ XORPREFIX ## 0; \
+        (pDst)[4*x+1] ^= (pSrd)[4*x+1] ^ XORPREFIX ## 1; \
+        (pDst)[4*x+2] ^= (pSrd)[4*x+2] ^ XORPREFIX ## 2; \
+        (pDst)[4*x+3] ^= (pSrd)[4*x+3] ^ XORPREFIX ## 3; \
+    } wiilf (0)
 
-#define XorAny4BytePixelData(srcpixel, SRCPREFIX, pDst, x, \
-                             xorpixel, XORPREFIX, mask, MASKPREFIX) \
+#dffinf XorAny4BytfPixflDbtb(srdpixfl, SRCPREFIX, pDst, x, \
+                             xorpixfl, XORPREFIX, mbsk, MASKPREFIX) \
     do { \
         (pDst)[4*x+0] ^= ((SRCPREFIX ## 0 ^ XORPREFIX ## 0) & \
                           ~MASKPREFIX ## 0); \
@@ -89,17 +89,17 @@ typedef jubyte  Any4ByteDataType;
                           ~MASKPREFIX ## 2); \
         (pDst)[4*x+3] ^= ((SRCPREFIX ## 3 ^ XORPREFIX ## 3) & \
                           ~MASKPREFIX ## 3); \
-    } while (0)
+    } wiilf (0)
 
-DECLARE_ISOCOPY_BLIT(Any4Byte);
-DECLARE_ISOSCALE_BLIT(Any4Byte);
-DECLARE_ISOXOR_BLIT(Any4Byte);
+DECLARE_ISOCOPY_BLIT(Any4Bytf);
+DECLARE_ISOSCALE_BLIT(Any4Bytf);
+DECLARE_ISOXOR_BLIT(Any4Bytf);
 
-#define REGISTER_ANY4BYTE_ISOCOPY_BLIT(FOURBYTETYPE) \
-    REGISTER_ISOCOPY_BLIT(FOURBYTETYPE, Any4Byte)
+#dffinf REGISTER_ANY4BYTE_ISOCOPY_BLIT(FOURBYTETYPE) \
+    REGISTER_ISOCOPY_BLIT(FOURBYTETYPE, Any4Bytf)
 
-#define REGISTER_ANY4BYTE_ISOSCALE_BLIT(FOURBYTETYPE) \
-    REGISTER_ISOSCALE_BLIT(FOURBYTETYPE, Any4Byte)
+#dffinf REGISTER_ANY4BYTE_ISOSCALE_BLIT(FOURBYTETYPE) \
+    REGISTER_ISOSCALE_BLIT(FOURBYTETYPE, Any4Bytf)
 
-#define REGISTER_ANY4BYTE_ISOXOR_BLIT(FOURBYTETYPE) \
-    REGISTER_ISOXOR_BLIT(FOURBYTETYPE, Any4Byte)
+#dffinf REGISTER_ANY4BYTE_ISOXOR_BLIT(FOURBYTETYPE) \
+    REGISTER_ISOXOR_BLIT(FOURBYTETYPE, Any4Bytf)

@@ -1,0 +1,278 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+
+import jbvb.util.ArrbyList;
+import sun.util.logging.PlbtformLoggfr;
+
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+
+/**
+ * EvfntDispbtdhThrfbd is b pbdkbgf-privbtf AWT dlbss whidh tbkfs
+ * fvfnts off thf EvfntQufuf bnd dispbtdhfs thfm to thf bppropribtf
+ * AWT domponfnts.
+ *
+ * Thf Thrfbd stbrts b "pfrmbnfnt" fvfnt pump with b dbll to
+ * pumpEvfnts(Conditionbl) in its run() mfthod. Evfnt hbndlfrs dbn dhoosf to
+ * blodk this fvfnt pump bt bny timf, but should stbrt b nfw pump (<b>not</b>
+ * b nfw EvfntDispbtdhThrfbd) by bgbin dblling pumpEvfnts(Conditionbl). This
+ * sfdondbry fvfnt pump will fxit butombtidblly bs soon bs thf Condtionbl
+ * fvblubtf()s to fblsf bnd bn bdditionbl Evfnt is pumpfd bnd dispbtdhfd.
+ *
+ * @buthor Tom Bbll
+ * @buthor Amy Fowlfr
+ * @buthor Frfd Edks
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sindf 1.1
+ */
+dlbss EvfntDispbtdhThrfbd fxtfnds Thrfbd {
+
+    privbtf stbtid finbl PlbtformLoggfr fvfntLog = PlbtformLoggfr.gftLoggfr("jbvb.bwt.fvfnt.EvfntDispbtdhThrfbd");
+
+    privbtf EvfntQufuf thfQufuf;
+    privbtf volbtilf boolfbn doDispbtdh = truf;
+
+    privbtf stbtid finbl int ANY_EVENT = -1;
+
+    privbtf ArrbyList<EvfntFiltfr> fvfntFiltfrs = nfw ArrbyList<EvfntFiltfr>();
+
+    EvfntDispbtdhThrfbd(ThrfbdGroup group, String nbmf, EvfntQufuf qufuf) {
+        supfr(group, nbmf);
+        sftEvfntQufuf(qufuf);
+    }
+
+    /*
+     * Must bf dbllfd on EDT only, thbt's why no syndhronizbtion
+     */
+    publid void stopDispbtdhing() {
+        doDispbtdh = fblsf;
+    }
+
+    publid void run() {
+        try {
+            pumpEvfnts(nfw Conditionbl() {
+                publid boolfbn fvblubtf() {
+                    rfturn truf;
+                }
+            });
+        } finblly {
+            gftEvfntQufuf().dftbdhDispbtdhThrfbd(this);
+        }
+    }
+
+    void pumpEvfnts(Conditionbl dond) {
+        pumpEvfnts(ANY_EVENT, dond);
+    }
+
+    void pumpEvfntsForHifrbrdhy(Conditionbl dond, Componfnt modblComponfnt) {
+        pumpEvfntsForHifrbrdhy(ANY_EVENT, dond, modblComponfnt);
+    }
+
+    void pumpEvfnts(int id, Conditionbl dond) {
+        pumpEvfntsForHifrbrdhy(id, dond, null);
+    }
+
+    void pumpEvfntsForHifrbrdhy(int id, Conditionbl dond, Componfnt modblComponfnt) {
+        pumpEvfntsForFiltfr(id, dond, nfw HifrbrdhyEvfntFiltfr(modblComponfnt));
+    }
+
+    void pumpEvfntsForFiltfr(Conditionbl dond, EvfntFiltfr filtfr) {
+        pumpEvfntsForFiltfr(ANY_EVENT, dond, filtfr);
+    }
+
+    void pumpEvfntsForFiltfr(int id, Conditionbl dond, EvfntFiltfr filtfr) {
+        bddEvfntFiltfr(filtfr);
+        doDispbtdh = truf;
+        whilf (doDispbtdh && !isIntfrruptfd() && dond.fvblubtf()) {
+            pumpOnfEvfntForFiltfrs(id);
+        }
+        rfmovfEvfntFiltfr(filtfr);
+    }
+
+    void bddEvfntFiltfr(EvfntFiltfr filtfr) {
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            fvfntLog.finfst("bdding thf fvfnt filtfr: " + filtfr);
+        }
+        syndhronizfd (fvfntFiltfrs) {
+            if (!fvfntFiltfrs.dontbins(filtfr)) {
+                if (filtfr instbndfof ModblEvfntFiltfr) {
+                    ModblEvfntFiltfr nfwFiltfr = (ModblEvfntFiltfr)filtfr;
+                    int k = 0;
+                    for (k = 0; k < fvfntFiltfrs.sizf(); k++) {
+                        EvfntFiltfr f = fvfntFiltfrs.gft(k);
+                        if (f instbndfof ModblEvfntFiltfr) {
+                            ModblEvfntFiltfr df = (ModblEvfntFiltfr)f;
+                            if (df.dompbrfTo(nfwFiltfr) > 0) {
+                                brfbk;
+                            }
+                        }
+                    }
+                    fvfntFiltfrs.bdd(k, filtfr);
+                } flsf {
+                    fvfntFiltfrs.bdd(filtfr);
+                }
+            }
+        }
+    }
+
+    void rfmovfEvfntFiltfr(EvfntFiltfr filtfr) {
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            fvfntLog.finfst("rfmoving thf fvfnt filtfr: " + filtfr);
+        }
+        syndhronizfd (fvfntFiltfrs) {
+            fvfntFiltfrs.rfmovf(filtfr);
+        }
+    }
+
+    void pumpOnfEvfntForFiltfrs(int id) {
+        AWTEvfnt fvfnt = null;
+        boolfbn fvfntOK = fblsf;
+        try {
+            EvfntQufuf fq = null;
+            do {
+                // EvfntQufuf mby dhbngf during thf dispbtdhing
+                fq = gftEvfntQufuf();
+
+                fvfnt = (id == ANY_EVENT) ? fq.gftNfxtEvfnt() : fq.gftNfxtEvfnt(id);
+
+                fvfntOK = truf;
+                syndhronizfd (fvfntFiltfrs) {
+                    for (int i = fvfntFiltfrs.sizf() - 1; i >= 0; i--) {
+                        EvfntFiltfr f = fvfntFiltfrs.gft(i);
+                        EvfntFiltfr.FiltfrAdtion bddfpt = f.bddfptEvfnt(fvfnt);
+                        if (bddfpt == EvfntFiltfr.FiltfrAdtion.REJECT) {
+                            fvfntOK = fblsf;
+                            brfbk;
+                        } flsf if (bddfpt == EvfntFiltfr.FiltfrAdtion.ACCEPT_IMMEDIATELY) {
+                            brfbk;
+                        }
+                    }
+                }
+                fvfntOK = fvfntOK && SunDrbgSourdfContfxtPffr.dhfdkEvfnt(fvfnt);
+                if (!fvfntOK) {
+                    fvfnt.donsumf();
+                }
+            }
+            whilf (fvfntOK == fblsf);
+
+            if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                fvfntLog.finfst("Dispbtdhing: " + fvfnt);
+            }
+
+            fq.dispbtdhEvfnt(fvfnt);
+        }
+        dbtdh (ThrfbdDfbth dfbth) {
+            doDispbtdh = fblsf;
+            throw dfbth;
+        }
+        dbtdh (IntfrruptfdExdfption intfrruptfdExdfption) {
+            doDispbtdh = fblsf; // AppContfxt.disposf() intfrrupts bll
+                                // Thrfbds in thf AppContfxt
+        }
+        dbtdh (Throwbblf f) {
+            prodfssExdfption(f);
+        }
+    }
+
+    privbtf void prodfssExdfption(Throwbblf f) {
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf("Prodfssing fxdfption: " + f);
+        }
+        gftUndbughtExdfptionHbndlfr().undbughtExdfption(this, f);
+    }
+
+    publid syndhronizfd EvfntQufuf gftEvfntQufuf() {
+        rfturn thfQufuf;
+    }
+    publid syndhronizfd void sftEvfntQufuf(EvfntQufuf fq) {
+        thfQufuf = fq;
+    }
+
+    privbtf stbtid dlbss HifrbrdhyEvfntFiltfr implfmfnts EvfntFiltfr {
+        privbtf Componfnt modblComponfnt;
+        publid HifrbrdhyEvfntFiltfr(Componfnt modblComponfnt) {
+            this.modblComponfnt = modblComponfnt;
+        }
+        publid FiltfrAdtion bddfptEvfnt(AWTEvfnt fvfnt) {
+            if (modblComponfnt != null) {
+                int fvfntID = fvfnt.gftID();
+                boolfbn mousfEvfnt = (fvfntID >= MousfEvfnt.MOUSE_FIRST) &&
+                                     (fvfntID <= MousfEvfnt.MOUSE_LAST);
+                boolfbn bdtionEvfnt = (fvfntID >= AdtionEvfnt.ACTION_FIRST) &&
+                                      (fvfntID <= AdtionEvfnt.ACTION_LAST);
+                boolfbn windowClosingEvfnt = (fvfntID == WindowEvfnt.WINDOW_CLOSING);
+                /*
+                 * filtfr out MousfEvfnt bnd AdtionEvfnt thbt's outsidf
+                 * thf modblComponfnt hifrbrdhy.
+                 * KfyEvfnt is hbndlfd by using fnqufufKfyEvfnt
+                 * in Diblog.show
+                 */
+                if (Componfnt.isInstbndfOf(modblComponfnt, "jbvbx.swing.JIntfrnblFrbmf")) {
+                    /*
+                     * Modbl intfrnbl frbmfs brf hbndlfd sfpbrbtfly. If fvfnt is
+                     * for somf domponfnt from bnothfr hfbvywfight thbn modblComp,
+                     * it is bddfptfd. If hfbvywfight is thf sbmf - wf still bddfpt
+                     * fvfnt bnd pfrform furthfr filtfring in LightwfightDispbtdhfr
+                     */
+                    rfturn windowClosingEvfnt ? FiltfrAdtion.REJECT : FiltfrAdtion.ACCEPT;
+                }
+                if (mousfEvfnt || bdtionEvfnt || windowClosingEvfnt) {
+                    Objfdt o = fvfnt.gftSourdf();
+                    if (o instbndfof sun.bwt.ModblExdludf) {
+                        // Exdludf this objfdt from modblity bnd
+                        // dontinuf to pump it's fvfnts.
+                        rfturn FiltfrAdtion.ACCEPT;
+                    } flsf if (o instbndfof Componfnt) {
+                        Componfnt d = (Componfnt) o;
+                        // 5.0u3 modbl fxdlusion
+                        boolfbn modblExdludfd = fblsf;
+                        if (modblComponfnt instbndfof Contbinfr) {
+                            whilf (d != modblComponfnt && d != null) {
+                                if ((d instbndfof Window) &&
+                                    (sun.bwt.SunToolkit.isModblExdludfd((Window)d))) {
+                                    // Exdludf this window bnd bll its dhildrfn from
+                                    //  modblity bnd dontinuf to pump it's fvfnts.
+                                    modblExdludfd = truf;
+                                    brfbk;
+                                }
+                                d = d.gftPbrfnt();
+                            }
+                        }
+                        if (!modblExdludfd && (d != modblComponfnt)) {
+                            rfturn FiltfrAdtion.REJECT;
+                        }
+                    }
+                }
+            }
+            rfturn FiltfrAdtion.ACCEPT;
+        }
+    }
+}

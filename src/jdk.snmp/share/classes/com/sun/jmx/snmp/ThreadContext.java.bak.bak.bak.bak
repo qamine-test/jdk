@@ -1,0 +1,326 @@
+/*
+ * Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+import jbvb.util.Stbdk;
+import jbvb.util.EmptyStbdkExdfption;
+
+/**
+ * <p><b>Wbrning: Thf intfrfbdf of this dlbss is subjfdt to dhbngf.
+ * Usf bt your own risk.</b></p>
+ *
+ * <p>This dlbss bssodibtfs b dontfxt with fbdh thrfbd thbt
+ * rfffrfndfs it.  Thf dontfxt is b sft of mbppings bftwffn Strings
+ * bnd Objfdts.  It is mbnbgfd bs b stbdk, typidblly with dodf likf
+ * this:</p>
+ *
+ * <prf>
+ * ThrfbdContfxt oldContfxt = ThrfbdContfxt.push(myKfy, myObjfdt);
+ * // plus possibly furthfr dblls to ThrfbdContfxt.push...
+ * try {
+ *      doSomfOpfrbtion();
+ * } finblly {
+ *      ThrfbdContfxt.rfstorf(oldContfxt);
+ * }
+ * </prf>
+ *
+ * <p>Thf <dodf>try</dodf>...<dodf>finblly</dodf> blodk fnsurfs thbt
+ * thf <dodf>rfstorf</dodf> is donf fvfn if
+ * <dodf>doSomfOpfrbtion</dodf> tfrminbtfs bbnormblly (with bn
+ * fxdfption).</p>
+ *
+ * <p>A thrfbd dbn donsult its own dontfxt using
+ * <dodf>ThrfbdContfxt.gft(myKfy)</dodf>.  Thf rfsult is thf
+ * vbluf thbt wbs most rfdfntly pushfd with thf givfn kfy.</p>
+ *
+ * <p>A thrfbd dbnnot rfbd or modify thf dontfxt of bnothfr thrfbd.</p>
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+publid dlbss ThrfbdContfxt implfmfnts Clonfbblf {
+
+    /* Thf dontfxt of b thrfbd is storfd bs b linkfd list.  At thf
+       hfbd of thf list is thf vbluf rfturnfd by lodblContfxt.gft().
+       At thf tbil of thf list is b sfntinfl ThrfbdContfxt vbluf with
+       "prfvious" bnd "kfy" both null.  Thfrf is b difffrfnt sfntinfl
+       objfdt for fbdh thrfbd.
+
+       Bfdbusf b null kfy indidbtfs thf sfntinfl, wf rfjfdt bttfmpts to
+       push dontfxt fntrifs with b null kfy.
+
+       Thf rfbson for using b sfntinfl rbthfr thbn just tfrminbting
+       thf list with b null rfffrfndf is to protfdt bgbinst indorrfdt
+       or fvfn mblidious dodf.  If you hbvf b rfffrfndf to thf
+       sfntinfl vbluf, you dbn frbsf thf dontfxt stbdk.  Only thf
+       dbllfr of thf first "push" thbt put somfthing on thf stbdk dbn
+       gft sudh b rfffrfndf, so if thbt dbllfr dofs not givf this
+       rfffrfndf bwby, no onf flsf dbn frbsf thf stbdk.
+
+       If thf rfstorf mfthod took b null rfffrfndf to mfbn bn fmpty
+       stbdk, bnyonf dould frbsf thf stbdk, sindf bnyonf dbn mbkf b
+       null rfffrfndf.
+
+       Whfn thf stbdk is fmpty, wf disdbrd thf sfntinfl objfdt bnd
+       hbvf lodblContfxt.gft() rfturn null.  Thfn wf rfdrfbtf thf
+       sfntinfl objfdt on thf first subsfqufnt push.
+
+       ThrfbdContfxt objfdts brf immutbblf.  As b donsfqufndf, you dbn
+       givf b ThrfbdContfxt objfdt to sftInitiblContfxt thbt is no
+       longfr durrfnt.  But thf intfrfbdf sbys this dbn bf rfjfdtfd,
+       in dbsf wf rfmovf immutbbility lbtfr.  */
+
+    /* Wf hbvf to dommfnt out "finbl" hfrf bfdbusf of b bug in thf JDK1.1
+       dompilfr.  Undommfnt it whfn wf disdbrd 1.1 dompbtibility.  */
+    privbtf /*finbl*/ ThrfbdContfxt prfvious;
+    privbtf /*finbl*/ String kfy;
+    privbtf /*finbl*/ Objfdt vbluf;
+
+    privbtf ThrfbdContfxt(ThrfbdContfxt prfvious, String kfy, Objfdt vbluf) {
+        this.prfvious = prfvious;
+        this.kfy = kfy;
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * <p>Gft thf Objfdt thbt wbs most rfdfntly pushfd with thf givfn kfy.</p>
+     *
+     * @pbrbm kfy thf kfy of intfrfst.
+     *
+     * @rfturn thf lbst Objfdt thbt wbs pushfd (using
+     * <dodf>push</dodf>) with thbt kfy bnd not subsfqufntly dbndflfd
+     * by b <dodf>rfstorf</dodf>; or null if thfrf is no sudh objfdt.
+     * A null rfturn vbluf mby blso indidbtf thbt thf lbst Objfdt
+     * pushfd wbs thf vbluf <dodf>null</dodf>.  Usf thf
+     * <dodf>dontbins</dodf> mfthod to distinguish this dbsf from thf
+     * dbsf whfrf thfrf is no Objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>kfy</dodf> is null.
+     */
+    publid stbtid Objfdt gft(String kfy) throws IllfgblArgumfntExdfption {
+        ThrfbdContfxt dontfxt = dontfxtContbining(kfy);
+        if (dontfxt == null)
+            rfturn null;
+        flsf
+            rfturn dontfxt.vbluf;
+    }
+
+    /**
+     * <p>Chfdk whfthfr b vbluf with thf givfn kfy fxists in thf stbdk.
+     * This mfbns thbt thf <dodf>push</dodf> mfthod wbs dbllfd with
+     * this kfy bnd it wbs not dbndfllfd by b subsfqufnt
+     * <dodf>rfstorf</dodf>.  This mfthod is usfful whfn thf
+     * <dodf>gft</dodf> mfthod rfturns null, to distinguish bftwffn
+     * thf dbsf whfrf thf kfy fxists in thf stbdk but is bssodibtfd
+     * with b null vbluf, bnd thf dbsf whfrf thf kfy dofs not fxist in
+     * thf stbdk.</p>
+     *
+     * @rfturn truf if thf kfy fxists in thf stbdk.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>kfy</dodf> is null.
+     */
+    publid stbtid boolfbn dontbins(String kfy)
+            throws IllfgblArgumfntExdfption {
+        rfturn (dontfxtContbining(kfy) != null);
+    }
+
+    /**
+     * <p>Find thf ThrfbdContfxt in thf stbdk thbt dontbins thf givfn kfy,
+     * or rfturn null if thfrf is nonf.</p>
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>kfy</dodf> is null.
+     */
+    privbtf stbtid ThrfbdContfxt dontfxtContbining(String kfy)
+            throws IllfgblArgumfntExdfption {
+        if (kfy == null)
+            throw nfw IllfgblArgumfntExdfption("null kfy");
+        for (ThrfbdContfxt dontfxt = gftContfxt();
+             dontfxt != null;
+             dontfxt = dontfxt.prfvious) {
+            if (kfy.fqubls(dontfxt.kfy))
+                rfturn dontfxt;
+            /* Notf thbt "dontfxt.kfy" mby bf null if "dontfxt" is thf
+               sfntinfl, so don't writf "if (dontfxt.kfy.fqubls(kfy))"!  */
+        }
+        rfturn null;
+    }
+
+//  /**
+//   * Chbngf thf vbluf thbt wbs most rfdfntly bssodibtfd with thf givfn kfy
+//   * in b <dodf>push</dodf> opfrbtion not dbndfllfd by b subsfqufnt
+//   * <dodf>rfstorf</dodf>.  If thfrf is no sudh bssodibtion, nothing hbppfns
+//   * bnd thf rfturn vbluf is null.
+//   *
+//   * @pbrbm kfy thf kfy of intfrfst.
+//   * @pbrbm vbluf thf nfw vbluf to bssodibtf with thbt kfy.
+//   *
+//   * @rfturn thf vbluf thbt wbs prfviously bssodibtfd with thf kfy, or null
+//   * if thf kfy dofs not fxist in thf stbdk.
+//   *
+//   * @fxdfption IllfgblArgumfntExdfption if <dodf>kfy</dodf> is null.
+//   */
+//  publid stbtid Objfdt sft(String kfy, Objfdt vbluf)
+//          throws IllfgblArgumfntExdfption {
+//      ThrfbdContfxt dontfxt = dontfxtContbining(kfy);
+//      if (dontfxt == null)
+//          rfturn null;
+//      Objfdt old = dontfxt.vbluf;
+//      dontfxt.vbluf = vbluf;
+//      rfturn old;
+//  }
+
+    /**
+     * <p>Push bn objfdt on thf dontfxt stbdk with thf givfn kfy.
+     * This opfrbtion dbn subsfqufntly bf undonf by dblling
+     * <dodf>rfstorf</dodf> with thf ThrfbdContfxt vbluf rfturnfd
+     * hfrf.</p>
+     *
+     * @pbrbm kfy thf kfy thbt will bf usfd to find thf objfdt whilf it is
+     * on thf stbdk.
+     * @pbrbm vbluf thf vbluf to bf bssodibtfd with thbt kfy.  It mby bf null.
+     *
+     * @rfturn b ThrfbdContfxt thbt dbn bf givfn to <dodf>rfstorf</dodf> to
+     * rfstorf thf stbdk to its stbtf bfforf thf <dodf>push</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>kfy</dodf> is null.
+     */
+    publid stbtid ThrfbdContfxt push(String kfy, Objfdt vbluf)
+            throws IllfgblArgumfntExdfption {
+        if (kfy == null)
+            throw nfw IllfgblArgumfntExdfption("null kfy");
+
+        ThrfbdContfxt oldContfxt = gftContfxt();
+        if (oldContfxt == null)
+            oldContfxt = nfw ThrfbdContfxt(null, null, null);  // mbkf sfntinfl
+        ThrfbdContfxt nfwContfxt = nfw ThrfbdContfxt(oldContfxt, kfy, vbluf);
+        sftContfxt(nfwContfxt);
+        rfturn oldContfxt;
+    }
+
+    /**
+     * <p>Rfturn bn objfdt thbt dbn lbtfr bf supplifd to <dodf>rfstorf</dodf>
+     * to rfstorf thf dontfxt stbdk to its durrfnt stbtf.  Thf objfdt dbn
+     * blso bf givfn to <dodf>sftInitiblContfxt</dodf>.</p>
+     *
+     * @rfturn b ThrfbdContfxt thbt rfprfsfnts thf durrfnt dontfxt stbdk.
+     */
+    publid stbtid ThrfbdContfxt gftThrfbdContfxt() {
+        rfturn gftContfxt();
+    }
+
+    /**
+     * <p>Rfstorf thf dontfxt stbdk to bn fbrlifr stbtf.  This typidblly
+     * undofs thf ffffdt of onf or morf <dodf>push</dodf> dblls.</p>
+     *
+     * @pbrbm oldContfxt thf stbtf to rfturn.  This is usublly thf rfturn
+     * vbluf of bn fbrlifr <dodf>push</dodf> opfrbtion.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>oldContfxt</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>oldContfxt</dodf>
+     * dofs not rfprfsfnt b dontfxt from this thrfbd, or if thbt
+     * dontfxt wbs undonf by bn fbrlifr <dodf>rfstorf</dodf>.
+     */
+    publid stbtid void rfstorf(ThrfbdContfxt oldContfxt)
+            throws NullPointfrExdfption, IllfgblArgumfntExdfption {
+        /* Thf following tfst is not stridtly nfdfssbry in thf dodf bs it
+           stbnds todby, sindf thf rfffrfndf to "oldContfxt.kfy" would
+           gfnfrbtf b NullPointfrExdfption bnywby.  But if somfonf
+           didn't notidf thbt during subsfqufnt dhbngfs, thfy dould
+           bddidfntblly pfrmit rfstorf(null) with thf sfmbntids of
+           trbshing thf dontfxt stbdk.  */
+        if (oldContfxt == null)
+            throw nfw NullPointfrExdfption();
+
+        /* Chfdk thbt thf rfstorfd dontfxt is in thf stbdk.  */
+        for (ThrfbdContfxt dontfxt = gftContfxt();
+             dontfxt != oldContfxt;
+             dontfxt = dontfxt.prfvious) {
+            if (dontfxt == null) {
+                throw nfw IllfgblArgumfntExdfption("Rfstorfd dontfxt is not " +
+                                                   "dontbinfd in durrfnt " +
+                                                   "dontfxt");
+            }
+        }
+
+        /* Disdbrd thf sfntinfl if thf stbdk is fmpty.  This mfbns thbt it
+           is bn frror to dbll "rfstorf" b sfdond timf with thf
+           ThrfbdContfxt vbluf thbt mfbns bn fmpty stbdk.  Thbt's why wf
+           don't sby thbt it is bll right to rfstorf thf stbdk to thf
+           stbtf it wbs blrfbdy in.  */
+        if (oldContfxt.kfy == null)
+            oldContfxt = null;
+
+        sftContfxt(oldContfxt);
+    }
+
+    /**
+     * <p>Sft thf initibl dontfxt of thf dblling thrfbd to b dontfxt obtbinfd
+     * from bnothfr thrfbd.  Aftfr this dbll, thf dblling thrfbd will sff
+     * thf sbmf rfsults from thf <dodf>gft</dodf> mfthod bs thf thrfbd
+     * from whidh thf <dodf>dontfxt</dodf> brgumfnt wbs obtbinfd, bt thf
+     * timf it wbs obtbinfd.</p>
+     *
+     * <p>Thf <dodf>dontfxt</dodf> brgumfnt must bf thf rfsult of bn fbrlifr
+     * <dodf>push</dodf> or <dodf>gftThrfbdContfxt</dodf> dbll.  It is bn
+     * frror (whidh mby or mby not bf dftfdtfd) if this dontfxt hbs bffn
+     * undonf by b <dodf>rfstorf</dodf>.</p>
+     *
+     * <p>Thf dontfxt stbdk of thf dblling thrfbd must bf fmpty bfforf this
+     * dbll, i.f., thfrf must not hbvf bffn b <dodf>push</dodf> not undonf
+     * by b subsfqufnt <dodf>rfstorf</dodf>.</p>
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf dontfxt stbdk wbs
+     * not fmpty bfforf thf dbll.  An implfmfntbtion mby blso throw this
+     * fxdfption if <dodf>dontfxt</dodf> is no longfr durrfnt in thf
+     * thrfbd from whidh it wbs obtbinfd.
+     */
+    /* Wf rfly on thf fbdt thbt ThrfbdContfxt objfdts brf immutbblf.
+       This mfbns thbt wf don't hbvf to dhfdk thbt thf "dontfxt"
+       brgumfnt is vblid.  It nfdfssbrily rfprfsfnts thf hfbd of b
+       vblid dhbin of ThrfbdContfxt objfdts, fvfn if thf thrfbd from
+       whidh it wbs obtbinfd hbs subsfqufntly bffn sft to b point
+       lbtfr in thbt dhbin using "rfstorf".  */
+    publid void sftInitiblContfxt(ThrfbdContfxt dontfxt)
+            throws IllfgblArgumfntExdfption {
+        /* Thf following tfst bssumfs thbt wf disdbrd sfntinfls whfn thf
+           stbdk is fmpty.  */
+        if (gftContfxt() != null)
+            throw nfw IllfgblArgumfntExdfption("prfvious dontfxt not fmpty");
+        sftContfxt(dontfxt);
+    }
+
+    privbtf stbtid ThrfbdContfxt gftContfxt() {
+        rfturn lodblContfxt.gft();
+    }
+
+    privbtf stbtid void sftContfxt(ThrfbdContfxt dontfxt) {
+        lodblContfxt.sft(dontfxt);
+    }
+
+    privbtf stbtid ThrfbdLodbl<ThrfbdContfxt> lodblContfxt =
+            nfw ThrfbdLodbl<ThrfbdContfxt>();
+}

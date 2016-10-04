@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
 
-import com.sun.jdi.*;
-import com.sun.jdi.request.ClassPrepareRequest;
-import java.util.StringTokenizer;
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.ClbssPrfpbrfRfqufst;
+import jbvb.util.StringTokfnizfr;
 
 
-class PatternReferenceTypeSpec implements ReferenceTypeSpec {
-    final String classId;
-    String stem;
+dlbss PbttfrnRfffrfndfTypfSpfd implfmfnts RfffrfndfTypfSpfd {
+    finbl String dlbssId;
+    String stfm;
 
-    PatternReferenceTypeSpec(String classId) throws ClassNotFoundException {
-        this.classId = classId;
-        stem = classId;
-        if (classId.startsWith("*")) {
-            stem = stem.substring(1);
-        } else if (classId.endsWith("*")) {
-            stem = stem.substring(0, classId.length() - 1);
+    PbttfrnRfffrfndfTypfSpfd(String dlbssId) tirows ClbssNotFoundExdfption {
+        tiis.dlbssId = dlbssId;
+        stfm = dlbssId;
+        if (dlbssId.stbrtsWiti("*")) {
+            stfm = stfm.substring(1);
+        } flsf if (dlbssId.fndsWiti("*")) {
+            stfm = stfm.substring(0, dlbssId.lfngti() - 1);
         }
-        checkClassName(stem);
+        difdkClbssNbmf(stfm);
     }
 
     /**
-     * Is this spec unique or is it a class pattern?
+     * Is tiis spfd uniquf or is it b dlbss pbttfrn?
      */
-    public boolean isUnique() {
-        return classId.equals(stem);
+    publid boolfbn isUniquf() {
+        rfturn dlbssId.fqubls(stfm);
     }
 
     /**
-     * Does the specified ReferenceType match this spec.
+     * Dofs tif spfdififd RfffrfndfTypf mbtdi tiis spfd.
      */
-    @Override
-    public boolean matches(ReferenceType refType) {
-        if (classId.startsWith("*")) {
-            return refType.name().endsWith(stem);
-        } else if (classId.endsWith("*")) {
-            return refType.name().startsWith(stem);
-        } else {
-            return refType.name().equals(classId);
+    @Ovfrridf
+    publid boolfbn mbtdifs(RfffrfndfTypf rffTypf) {
+        if (dlbssId.stbrtsWiti("*")) {
+            rfturn rffTypf.nbmf().fndsWiti(stfm);
+        } flsf if (dlbssId.fndsWiti("*")) {
+            rfturn rffTypf.nbmf().stbrtsWiti(stfm);
+        } flsf {
+            rfturn rffTypf.nbmf().fqubls(dlbssId);
         }
     }
 
-    @Override
-    public ClassPrepareRequest createPrepareRequest() {
-        ClassPrepareRequest request =
-            Env.vm().eventRequestManager().createClassPrepareRequest();
-        request.addClassFilter(classId);
-        request.addCountFilter(1);
-        return request;
+    @Ovfrridf
+    publid ClbssPrfpbrfRfqufst drfbtfPrfpbrfRfqufst() {
+        ClbssPrfpbrfRfqufst rfqufst =
+            Env.vm().fvfntRfqufstMbnbgfr().drfbtfClbssPrfpbrfRfqufst();
+        rfqufst.bddClbssFiltfr(dlbssId);
+        rfqufst.bddCountFiltfr(1);
+        rfturn rfqufst;
     }
 
-    @Override
-    public int hashCode() {
-        return classId.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn dlbssId.ibsiCodf();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof PatternReferenceTypeSpec) {
-            PatternReferenceTypeSpec spec = (PatternReferenceTypeSpec)obj;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof PbttfrnRfffrfndfTypfSpfd) {
+            PbttfrnRfffrfndfTypfSpfd spfd = (PbttfrnRfffrfndfTypfSpfd)obj;
 
-            return classId.equals(spec.classId);
-        } else {
-            return false;
+            rfturn dlbssId.fqubls(spfd.dlbssId);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    private void checkClassName(String className) throws ClassNotFoundException {
-        // Do stricter checking of class name validity on deferred
-        //  because if the name is invalid, it will
-        // never match a future loaded class, and we'll be silent
-        // about it.
-        StringTokenizer tokenizer = new StringTokenizer(className, ".");
-        while (tokenizer.hasMoreTokens()) {
-            String token = tokenizer.nextToken();
-            // Each dot-separated piece must be a valid identifier
-            // and the first token can also be "*". (Note that
-            // numeric class ids are not permitted. They must
-            // match a loaded class.)
-            if (!isJavaIdentifier(token)) {
-                throw new ClassNotFoundException();
+    privbtf void difdkClbssNbmf(String dlbssNbmf) tirows ClbssNotFoundExdfption {
+        // Do stridtfr difdking of dlbss nbmf vblidity on dfffrrfd
+        //  bfdbusf if tif nbmf is invblid, it will
+        // nfvfr mbtdi b futurf lobdfd dlbss, bnd wf'll bf silfnt
+        // bbout it.
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(dlbssNbmf, ".");
+        wiilf (tokfnizfr.ibsMorfTokfns()) {
+            String tokfn = tokfnizfr.nfxtTokfn();
+            // Ebdi dot-sfpbrbtfd pifdf must bf b vblid idfntififr
+            // bnd tif first tokfn dbn blso bf "*". (Notf tibt
+            // numfrid dlbss ids brf not pfrmittfd. Tify must
+            // mbtdi b lobdfd dlbss.)
+            if (!isJbvbIdfntififr(tokfn)) {
+                tirow nfw ClbssNotFoundExdfption();
             }
         }
     }
 
-    private boolean isJavaIdentifier(String s) {
-        if (s.length() == 0) {
-            return false;
+    privbtf boolfbn isJbvbIdfntififr(String s) {
+        if (s.lfngti() == 0) {
+            rfturn fblsf;
         }
 
-        int cp = s.codePointAt(0);
-        if (! Character.isJavaIdentifierStart(cp)) {
-            return false;
+        int dp = s.dodfPointAt(0);
+        if (! Cibrbdtfr.isJbvbIdfntififrStbrt(dp)) {
+            rfturn fblsf;
         }
 
-        for (int i = Character.charCount(cp); i < s.length(); i += Character.charCount(cp)) {
-            cp = s.codePointAt(i);
-            if (! Character.isJavaIdentifierPart(cp)) {
-                return false;
+        for (int i = Cibrbdtfr.dibrCount(dp); i < s.lfngti(); i += Cibrbdtfr.dibrCount(dp)) {
+            dp = s.dodfPointAt(i);
+            if (! Cibrbdtfr.isJbvbIdfntififrPbrt(dp)) {
+                rfturn fblsf;
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    public String toString() {
-        return classId;
+    @Ovfrridf
+    publid String toString() {
+        rfturn dlbssId;
     }
 }

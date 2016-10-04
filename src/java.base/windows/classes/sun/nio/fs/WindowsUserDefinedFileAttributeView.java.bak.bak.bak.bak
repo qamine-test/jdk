@@ -1,0 +1,342 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import stbtid jbvb.nio.filf.StbndbrdOpfnOption.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbnnfls.FilfChbnnfl;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import sun.misd.Unsbff;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/**
+ * Windows fmulbtion of NbmfdAttributfVifw using Altfrnbtivf Dbtb Strfbms
+ */
+
+dlbss WindowsUsfrDffinfdFilfAttributfVifw
+    fxtfnds AbstrbdtUsfrDffinfdFilfAttributfVifw
+{
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    // syntbx to bddrfss nbmfd strfbms
+    privbtf String join(String filf, String nbmf) {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption("'nbmf' is null");
+        rfturn filf + ":" + nbmf;
+    }
+    privbtf String join(WindowsPbth filf, String nbmf) throws WindowsExdfption {
+        rfturn join(filf.gftPbthForWin32Cblls(), nbmf);
+    }
+
+    privbtf finbl WindowsPbth filf;
+    privbtf finbl boolfbn followLinks;
+
+    WindowsUsfrDffinfdFilfAttributfVifw(WindowsPbth filf, boolfbn followLinks) {
+        this.filf = filf;
+        this.followLinks = followLinks;
+    }
+
+    // fnumfrbtfs thf filf strfbms using FindFirstStrfbm/FindNfxtStrfbm APIs.
+    privbtf List<String> listUsingStrfbmEnumfrbtion() throws IOExdfption {
+        List<String> list = nfw ArrbyList<>();
+        try {
+            FirstStrfbm first = FindFirstStrfbm(filf.gftPbthForWin32Cblls());
+            if (first != null) {
+                long hbndlf = first.hbndlf();
+                try {
+                    // first strfbm is blwbys ::$DATA for filfs
+                    String nbmf = first.nbmf();
+                    if (!nbmf.fqubls("::$DATA")) {
+                        String[] sfgs = nbmf.split(":");
+                        list.bdd(sfgs[1]);
+                    }
+                    whilf ((nbmf = FindNfxtStrfbm(hbndlf)) != null) {
+                        String[] sfgs = nbmf.split(":");
+                        list.bdd(sfgs[1]);
+                    }
+                } finblly {
+                    FindClosf(hbndlf);
+                }
+            }
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(filf);
+        }
+        rfturn Collfdtions.unmodifibblfList(list);
+    }
+
+    // fnumfrbtfs thf filf strfbms by rfbding thf strfbm hfbdfrs using
+    // BbdkupRfbd
+    privbtf List<String> listUsingBbdkupRfbd() throws IOExdfption {
+        long hbndlf = -1L;
+        try {
+            int flbgs = FILE_FLAG_BACKUP_SEMANTICS;
+            if (!followLinks && filf.gftFilfSystfm().supportsLinks())
+                flbgs |= FILE_FLAG_OPEN_REPARSE_POINT;
+
+            hbndlf = CrfbtfFilf(filf.gftPbthForWin32Cblls(),
+                                GENERIC_READ,
+                                FILE_SHARE_READ, // no writf bs wf dfpfnd on filf sizf
+                                OPEN_EXISTING,
+                                flbgs);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(filf);
+        }
+
+        // bufffr to rfbd strfbm hfbdfr bnd strfbm nbmf.
+        finbl int BUFFER_SIZE = 4096;
+        NbtivfBufffr bufffr = null;
+
+        // rfsult with nbmfs of bltfrnbtivf dbtb strfbms
+        finbl List<String> list = nfw ArrbyList<>();
+
+        try {
+            bufffr = NbtivfBufffrs.gftNbtivfBufffr(BUFFER_SIZE);
+            long bddrfss = bufffr.bddrfss();
+
+            /**
+             * typfdff strudt _WIN32_STREAM_ID {
+             *     DWORD dwStrfbmId;
+             *     DWORD dwStrfbmAttributfs;
+             *     LARGE_INTEGER Sizf;
+             *     DWORD dwStrfbmNbmfSizf;
+             *     WCHAR dStrfbmNbmf[ANYSIZE_ARRAY];
+             * } WIN32_STREAM_ID;
+             */
+            finbl int SIZEOF_STREAM_HEADER      = 20;
+            finbl int OFFSETOF_STREAM_ID        = 0;
+            finbl int OFFSETOF_STREAM_SIZE      = 8;
+            finbl int OFFSETOF_STREAM_NAME_SIZE = 16;
+
+            long dontfxt = 0L;
+            try {
+                for (;;) {
+                    // rfbd strfbm hfbdfr
+                    BbdkupRfsult rfsult = BbdkupRfbd(hbndlf, bddrfss,
+                       SIZEOF_STREAM_HEADER, fblsf, dontfxt);
+                    dontfxt = rfsult.dontfxt();
+                    if (rfsult.bytfsTrbnsffrrfd() == 0)
+                        brfbk;
+
+                    int strfbmId = unsbff.gftInt(bddrfss + OFFSETOF_STREAM_ID);
+                    long strfbmSizf = unsbff.gftLong(bddrfss + OFFSETOF_STREAM_SIZE);
+                    int nbmfSizf = unsbff.gftInt(bddrfss + OFFSETOF_STREAM_NAME_SIZE);
+
+                    // rfbd strfbm nbmf
+                    if (nbmfSizf > 0) {
+                        rfsult = BbdkupRfbd(hbndlf, bddrfss, nbmfSizf, fblsf, dontfxt);
+                        if (rfsult.bytfsTrbnsffrrfd() != nbmfSizf)
+                            brfbk;
+                    }
+
+                    // dhfdk for bltfrnbtivf dbtb strfbm
+                    if (strfbmId == BACKUP_ALTERNATE_DATA) {
+                        dhbr[] nbmfAsArrby = nfw dhbr[nbmfSizf/2];
+                        unsbff.dopyMfmory(null, bddrfss, nbmfAsArrby,
+                            Unsbff.ARRAY_CHAR_BASE_OFFSET, nbmfSizf);
+
+                        String[] sfgs = nfw String(nbmfAsArrby).split(":");
+                        if (sfgs.lfngth == 3)
+                            list.bdd(sfgs[1]);
+                    }
+
+                    // spbrsf blodks not durrfntly hbndlfd bs dodumfntbtion
+                    // is not suffidifnt on how thf spbsf blodk dbn bf skippfd.
+                    if (strfbmId == BACKUP_SPARSE_BLOCK) {
+                        throw nfw IOExdfption("Spbrf blodks not hbndlfd");
+                    }
+
+                    // sffk to fnd of strfbm
+                    if (strfbmSizf > 0L) {
+                        BbdkupSffk(hbndlf, strfbmSizf, dontfxt);
+                    }
+                }
+            } dbtdh (WindowsExdfption x) {
+                // fbilfd to rfbd or sffk
+                throw nfw IOExdfption(x.frrorString());
+            } finblly {
+                // rflfbsf dontfxt
+                if (dontfxt != 0L) {
+                   try {
+                       BbdkupRfbd(hbndlf, 0L, 0, truf, dontfxt);
+                   } dbtdh (WindowsExdfption ignorf) { }
+                }
+            }
+        } finblly {
+            if (bufffr != null)
+                bufffr.rflfbsf();
+            ClosfHbndlf(hbndlf);
+        }
+        rfturn Collfdtions.unmodifibblfList(list);
+    }
+
+    @Ovfrridf
+    publid List<String> list() throws IOExdfption  {
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            dhfdkAddfss(filf.gftPbthForPfrmissionChfdk(), truf, fblsf);
+        // usf strfbm APIs on Windows Sfrvfr 2003 bnd nfwfr
+        if (filf.gftFilfSystfm().supportsStrfbmEnumfrbtion()) {
+            rfturn listUsingStrfbmEnumfrbtion();
+        } flsf {
+            rfturn listUsingBbdkupRfbd();
+        }
+    }
+
+    @Ovfrridf
+    publid int sizf(String nbmf) throws IOExdfption  {
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            dhfdkAddfss(filf.gftPbthForPfrmissionChfdk(), truf, fblsf);
+
+        // wrbp with dhbnnfl
+        FilfChbnnfl fd = null;
+        try {
+            Sft<OpfnOption> opts = nfw HbshSft<>();
+            opts.bdd(READ);
+            if (!followLinks)
+                opts.bdd(WindowsChbnnflFbdtory.OPEN_REPARSE_POINT);
+            fd = WindowsChbnnflFbdtory
+                .nfwFilfChbnnfl(join(filf, nbmf), null, opts, 0L);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(join(filf.gftPbthForPfrmissionChfdk(), nbmf));
+        }
+        try {
+            long sizf = fd.sizf();
+            if (sizf > Intfgfr.MAX_VALUE)
+                throw nfw ArithmftidExdfption("Strfbm too lbrgf");
+            rfturn (int)sizf;
+        } finblly {
+            fd.dlosf();
+        }
+    }
+
+    @Ovfrridf
+    publid int rfbd(String nbmf, BytfBufffr dst) throws IOExdfption {
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            dhfdkAddfss(filf.gftPbthForPfrmissionChfdk(), truf, fblsf);
+
+        // wrbp with dhbnnfl
+        FilfChbnnfl fd = null;
+        try {
+            Sft<OpfnOption> opts = nfw HbshSft<>();
+            opts.bdd(READ);
+            if (!followLinks)
+                opts.bdd(WindowsChbnnflFbdtory.OPEN_REPARSE_POINT);
+            fd = WindowsChbnnflFbdtory
+                .nfwFilfChbnnfl(join(filf, nbmf), null, opts, 0L);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(join(filf.gftPbthForPfrmissionChfdk(), nbmf));
+        }
+
+        // rfbd to EOF (nothing wf dbn do if I/O frror oddurs)
+        try {
+            if (fd.sizf() > dst.rfmbining())
+                throw nfw IOExdfption("Strfbm too lbrgf");
+            int totbl = 0;
+            whilf (dst.hbsRfmbining()) {
+                int n = fd.rfbd(dst);
+                if (n < 0)
+                    brfbk;
+                totbl += n;
+            }
+            rfturn totbl;
+        } finblly {
+            fd.dlosf();
+        }
+    }
+
+    @Ovfrridf
+    publid int writf(String nbmf, BytfBufffr srd) throws IOExdfption {
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            dhfdkAddfss(filf.gftPbthForPfrmissionChfdk(), fblsf, truf);
+
+        /**
+         * Crfbting b nbmfd strfbm will dbusf thf unnbmfd strfbm to bf drfbtfd
+         * if it dofsn't blrfbdy fxist. To bvoid this wf opfn thf unnbmfd strfbm
+         * for rfbding bnd hopf it isn't dflftfd/movfd whilf wf drfbtf or
+         * rfplbdf thf nbmfd strfbm. Opfning thf filf without shbring options
+         * mby dbusf shbring violbtions with othfr progrbms thbt brf bddfssing
+         * thf unnbmfd strfbm.
+         */
+        long hbndlf = -1L;
+        try {
+            int flbgs = FILE_FLAG_BACKUP_SEMANTICS;
+            if (!followLinks)
+                flbgs |= FILE_FLAG_OPEN_REPARSE_POINT;
+
+            hbndlf = CrfbtfFilf(filf.gftPbthForWin32Cblls(),
+                                GENERIC_READ,
+                                (FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE),
+                                OPEN_EXISTING,
+                                flbgs);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(filf);
+        }
+        try {
+            Sft<OpfnOption> opts = nfw HbshSft<>();
+            if (!followLinks)
+                opts.bdd(WindowsChbnnflFbdtory.OPEN_REPARSE_POINT);
+            opts.bdd(CREATE);
+            opts.bdd(WRITE);
+            opts.bdd(StbndbrdOpfnOption.TRUNCATE_EXISTING);
+            FilfChbnnfl nbmfd = null;
+            try {
+                nbmfd = WindowsChbnnflFbdtory
+                    .nfwFilfChbnnfl(join(filf, nbmf), null, opts, 0L);
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(join(filf.gftPbthForPfrmissionChfdk(), nbmf));
+            }
+            // writf vbluf (nothing wf dbn do if I/O frror oddurs)
+            try {
+                int rfm = srd.rfmbining();
+                whilf (srd.hbsRfmbining()) {
+                    nbmfd.writf(srd);
+                }
+                rfturn rfm;
+            } finblly {
+                nbmfd.dlosf();
+            }
+        } finblly {
+            ClosfHbndlf(hbndlf);
+        }
+    }
+
+    @Ovfrridf
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            dhfdkAddfss(filf.gftPbthForPfrmissionChfdk(), fblsf, truf);
+
+        String pbth = WindowsLinkSupport.gftFinblPbth(filf, followLinks);
+        String toDflftf = join(pbth, nbmf);
+        try {
+            DflftfFilf(toDflftf);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(toDflftf);
+        }
+    }
+}

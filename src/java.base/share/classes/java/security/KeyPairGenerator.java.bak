@@ -1,697 +1,697 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import java.security.Provider.Service;
+import jbvb.sfdurity.Providfr.Sfrvidf;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
 
 /**
- * The KeyPairGenerator class is used to generate pairs of
- * public and private keys. Key pair generators are constructed using the
- * {@code getInstance} factory methods (static methods that
- * return instances of a given class).
+ * Tif KfyPbirGfnfrbtor dlbss is usfd to gfnfrbtf pbirs of
+ * publid bnd privbtf kfys. Kfy pbir gfnfrbtors brf donstrudtfd using tif
+ * {@dodf gftInstbndf} fbdtory mftiods (stbtid mftiods tibt
+ * rfturn instbndfs of b givfn dlbss).
  *
- * <p>A Key pair generator for a particular algorithm creates a public/private
- * key pair that can be used with this algorithm. It also associates
- * algorithm-specific parameters with each of the generated keys.
+ * <p>A Kfy pbir gfnfrbtor for b pbrtidulbr blgoritim drfbtfs b publid/privbtf
+ * kfy pbir tibt dbn bf usfd witi tiis blgoritim. It blso bssodibtfs
+ * blgoritim-spfdifid pbrbmftfrs witi fbdi of tif gfnfrbtfd kfys.
  *
- * <p>There are two ways to generate a key pair: in an algorithm-independent
- * manner, and in an algorithm-specific manner.
- * The only difference between the two is the initialization of the object:
+ * <p>Tifrf brf two wbys to gfnfrbtf b kfy pbir: in bn blgoritim-indfpfndfnt
+ * mbnnfr, bnd in bn blgoritim-spfdifid mbnnfr.
+ * Tif only difffrfndf bftwffn tif two is tif initiblizbtion of tif objfdt:
  *
  * <ul>
- * <li><b>Algorithm-Independent Initialization</b>
- * <p>All key pair generators share the concepts of a keysize and a
- * source of randomness. The keysize is interpreted differently for different
- * algorithms (e.g., in the case of the <i>DSA</i> algorithm, the keysize
- * corresponds to the length of the modulus).
- * There is an
- * {@link #initialize(int, java.security.SecureRandom) initialize}
- * method in this KeyPairGenerator class that takes these two universally
- * shared types of arguments. There is also one that takes just a
- * {@code keysize} argument, and uses the {@code SecureRandom}
- * implementation of the highest-priority installed provider as the source
- * of randomness. (If none of the installed providers supply an implementation
- * of {@code SecureRandom}, a system-provided source of randomness is
- * used.)
+ * <li><b>Algoritim-Indfpfndfnt Initiblizbtion</b>
+ * <p>All kfy pbir gfnfrbtors sibrf tif dondfpts of b kfysizf bnd b
+ * sourdf of rbndomnfss. Tif kfysizf is intfrprftfd difffrfntly for difffrfnt
+ * blgoritims (f.g., in tif dbsf of tif <i>DSA</i> blgoritim, tif kfysizf
+ * dorrfsponds to tif lfngti of tif modulus).
+ * Tifrf is bn
+ * {@link #initiblizf(int, jbvb.sfdurity.SfdurfRbndom) initiblizf}
+ * mftiod in tiis KfyPbirGfnfrbtor dlbss tibt tbkfs tifsf two univfrsblly
+ * sibrfd typfs of brgumfnts. Tifrf is blso onf tibt tbkfs just b
+ * {@dodf kfysizf} brgumfnt, bnd usfs tif {@dodf SfdurfRbndom}
+ * implfmfntbtion of tif iigifst-priority instbllfd providfr bs tif sourdf
+ * of rbndomnfss. (If nonf of tif instbllfd providfrs supply bn implfmfntbtion
+ * of {@dodf SfdurfRbndom}, b systfm-providfd sourdf of rbndomnfss is
+ * usfd.)
  *
- * <p>Since no other parameters are specified when you call the above
- * algorithm-independent {@code initialize} methods, it is up to the
- * provider what to do about the algorithm-specific parameters (if any) to be
- * associated with each of the keys.
+ * <p>Sindf no otifr pbrbmftfrs brf spfdififd wifn you dbll tif bbovf
+ * blgoritim-indfpfndfnt {@dodf initiblizf} mftiods, it is up to tif
+ * providfr wibt to do bbout tif blgoritim-spfdifid pbrbmftfrs (if bny) to bf
+ * bssodibtfd witi fbdi of tif kfys.
  *
- * <p>If the algorithm is the <i>DSA</i> algorithm, and the keysize (modulus
- * size) is 512, 768, or 1024, then the <i>Sun</i> provider uses a set of
- * precomputed values for the {@code p}, {@code q}, and
- * {@code g} parameters. If the modulus size is not one of the above
- * values, the <i>Sun</i> provider creates a new set of parameters. Other
- * providers might have precomputed parameter sets for more than just the
- * three modulus sizes mentioned above. Still others might not have a list of
- * precomputed parameters at all and instead always create new parameter sets.
+ * <p>If tif blgoritim is tif <i>DSA</i> blgoritim, bnd tif kfysizf (modulus
+ * sizf) is 512, 768, or 1024, tifn tif <i>Sun</i> providfr usfs b sft of
+ * prfdomputfd vblufs for tif {@dodf p}, {@dodf q}, bnd
+ * {@dodf g} pbrbmftfrs. If tif modulus sizf is not onf of tif bbovf
+ * vblufs, tif <i>Sun</i> providfr drfbtfs b nfw sft of pbrbmftfrs. Otifr
+ * providfrs migit ibvf prfdomputfd pbrbmftfr sfts for morf tibn just tif
+ * tirff modulus sizfs mfntionfd bbovf. Still otifrs migit not ibvf b list of
+ * prfdomputfd pbrbmftfrs bt bll bnd instfbd blwbys drfbtf nfw pbrbmftfr sfts.
  *
- * <li><b>Algorithm-Specific Initialization</b>
- * <p>For situations where a set of algorithm-specific parameters already
- * exists (e.g., so-called <i>community parameters</i> in DSA), there are two
- * {@link #initialize(java.security.spec.AlgorithmParameterSpec)
- * initialize} methods that have an {@code AlgorithmParameterSpec}
- * argument. One also has a {@code SecureRandom} argument, while the
- * the other uses the {@code SecureRandom}
- * implementation of the highest-priority installed provider as the source
- * of randomness. (If none of the installed providers supply an implementation
- * of {@code SecureRandom}, a system-provided source of randomness is
- * used.)
+ * <li><b>Algoritim-Spfdifid Initiblizbtion</b>
+ * <p>For situbtions wifrf b sft of blgoritim-spfdifid pbrbmftfrs blrfbdy
+ * fxists (f.g., so-dbllfd <i>dommunity pbrbmftfrs</i> in DSA), tifrf brf two
+ * {@link #initiblizf(jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)
+ * initiblizf} mftiods tibt ibvf bn {@dodf AlgoritimPbrbmftfrSpfd}
+ * brgumfnt. Onf blso ibs b {@dodf SfdurfRbndom} brgumfnt, wiilf tif
+ * tif otifr usfs tif {@dodf SfdurfRbndom}
+ * implfmfntbtion of tif iigifst-priority instbllfd providfr bs tif sourdf
+ * of rbndomnfss. (If nonf of tif instbllfd providfrs supply bn implfmfntbtion
+ * of {@dodf SfdurfRbndom}, b systfm-providfd sourdf of rbndomnfss is
+ * usfd.)
  * </ul>
  *
- * <p>In case the client does not explicitly initialize the KeyPairGenerator
- * (via a call to an {@code initialize} method), each provider must
- * supply (and document) a default initialization.
- * For example, the <i>Sun</i> provider uses a default modulus size (keysize)
+ * <p>In dbsf tif dlifnt dofs not fxpliditly initiblizf tif KfyPbirGfnfrbtor
+ * (vib b dbll to bn {@dodf initiblizf} mftiod), fbdi providfr must
+ * supply (bnd dodumfnt) b dffbult initiblizbtion.
+ * For fxbmplf, tif <i>Sun</i> providfr usfs b dffbult modulus sizf (kfysizf)
  * of 1024 bits.
  *
- * <p>Note that this class is abstract and extends from
- * {@code KeyPairGeneratorSpi} for historical reasons.
- * Application developers should only take notice of the methods defined in
- * this {@code KeyPairGenerator} class; all the methods in
- * the superclass are intended for cryptographic service providers who wish to
- * supply their own implementations of key pair generators.
+ * <p>Notf tibt tiis dlbss is bbstrbdt bnd fxtfnds from
+ * {@dodf KfyPbirGfnfrbtorSpi} for iistoridbl rfbsons.
+ * Applidbtion dfvflopfrs siould only tbkf notidf of tif mftiods dffinfd in
+ * tiis {@dodf KfyPbirGfnfrbtor} dlbss; bll tif mftiods in
+ * tif supfrdlbss brf intfndfd for dryptogrbpiid sfrvidf providfrs wio wisi to
+ * supply tifir own implfmfntbtions of kfy pbir gfnfrbtors.
  *
- * <p> Every implementation of the Java platform is required to support the
- * following standard {@code KeyPairGenerator} algorithms and keysizes in
- * parentheses:
+ * <p> Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to support tif
+ * following stbndbrd {@dodf KfyPbirGfnfrbtor} blgoritims bnd kfysizfs in
+ * pbrfntifsfs:
  * <ul>
- * <li>{@code DiffieHellman} (1024)</li>
- * <li>{@code DSA} (1024)</li>
- * <li>{@code RSA} (1024, 2048)</li>
+ * <li>{@dodf DiffifHfllmbn} (1024)</li>
+ * <li>{@dodf DSA} (1024)</li>
+ * <li>{@dodf RSA} (1024, 2048)</li>
  * </ul>
- * These algorithms are described in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyPairGenerator">
- * KeyPairGenerator section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * Tifsf blgoritims brf dfsdribfd in tif <b irff=
+ * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#KfyPbirGfnfrbtor">
+ * KfyPbirGfnfrbtor sfdtion</b> of tif
+ * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion.
+ * Consult tif rflfbsf dodumfntbtion for your implfmfntbtion to sff if bny
+ * otifr blgoritims brf supportfd.
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  *
- * @see java.security.spec.AlgorithmParameterSpec
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
  */
 
-public abstract class KeyPairGenerator extends KeyPairGeneratorSpi {
+publid bbstrbdt dlbss KfyPbirGfnfrbtor fxtfnds KfyPbirGfnfrbtorSpi {
 
-    private final String algorithm;
+    privbtf finbl String blgoritim;
 
-    // The provider
-    Provider provider;
+    // Tif providfr
+    Providfr providfr;
 
     /**
-     * Creates a KeyPairGenerator object for the specified algorithm.
+     * Crfbtfs b KfyPbirGfnfrbtor objfdt for tif spfdififd blgoritim.
      *
-     * @param algorithm the standard string name of the algorithm.
-     * See the KeyPairGenerator section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyPairGenerator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif stbndbrd string nbmf of tif blgoritim.
+     * Sff tif KfyPbirGfnfrbtor sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#KfyPbirGfnfrbtor">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      */
-    protected KeyPairGenerator(String algorithm) {
-        this.algorithm = algorithm;
+    protfdtfd KfyPbirGfnfrbtor(String blgoritim) {
+        tiis.blgoritim = blgoritim;
     }
 
     /**
-     * Returns the standard name of the algorithm for this key pair generator.
-     * See the KeyPairGenerator section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyPairGenerator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * Rfturns tif stbndbrd nbmf of tif blgoritim for tiis kfy pbir gfnfrbtor.
+     * Sff tif KfyPbirGfnfrbtor sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#KfyPbirGfnfrbtor">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @return the standard string name of the algorithm.
+     * @rfturn tif stbndbrd string nbmf of tif blgoritim.
      */
-    public String getAlgorithm() {
-        return this.algorithm;
+    publid String gftAlgoritim() {
+        rfturn tiis.blgoritim;
     }
 
-    private static KeyPairGenerator getInstance(Instance instance,
-            String algorithm) {
-        KeyPairGenerator kpg;
-        if (instance.impl instanceof KeyPairGenerator) {
-            kpg = (KeyPairGenerator)instance.impl;
-        } else {
-            KeyPairGeneratorSpi spi = (KeyPairGeneratorSpi)instance.impl;
-            kpg = new Delegate(spi, algorithm);
+    privbtf stbtid KfyPbirGfnfrbtor gftInstbndf(Instbndf instbndf,
+            String blgoritim) {
+        KfyPbirGfnfrbtor kpg;
+        if (instbndf.impl instbndfof KfyPbirGfnfrbtor) {
+            kpg = (KfyPbirGfnfrbtor)instbndf.impl;
+        } flsf {
+            KfyPbirGfnfrbtorSpi spi = (KfyPbirGfnfrbtorSpi)instbndf.impl;
+            kpg = nfw Dflfgbtf(spi, blgoritim);
         }
-        kpg.provider = instance.provider;
-        return kpg;
+        kpg.providfr = instbndf.providfr;
+        rfturn kpg;
     }
 
     /**
-     * Returns a KeyPairGenerator object that generates public/private
-     * key pairs for the specified algorithm.
+     * Rfturns b KfyPbirGfnfrbtor objfdt tibt gfnfrbtfs publid/privbtf
+     * kfy pbirs for tif spfdififd blgoritim.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new KeyPairGenerator object encapsulating the
-     * KeyPairGeneratorSpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw KfyPbirGfnfrbtor objfdt fndbpsulbting tif
+     * KfyPbirGfnfrbtorSpi implfmfntbtion from tif first
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param algorithm the standard string name of the algorithm.
-     * See the KeyPairGenerator section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyPairGenerator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif stbndbrd string nbmf of tif blgoritim.
+     * Sff tif KfyPbirGfnfrbtor sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#KfyPbirGfnfrbtor">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @return the new KeyPairGenerator object.
+     * @rfturn tif nfw KfyPbirGfnfrbtor objfdt.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          KeyPairGeneratorSpi implementation for the
-     *          specified algorithm.
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     *          KfyPbirGfnfrbtorSpi implfmfntbtion for tif
+     *          spfdififd blgoritim.
      *
-     * @see Provider
+     * @sff Providfr
      */
-    public static KeyPairGenerator getInstance(String algorithm)
-            throws NoSuchAlgorithmException {
-        List<Service> list =
-                GetInstance.getServices("KeyPairGenerator", algorithm);
-        Iterator<Service> t = list.iterator();
-        if (t.hasNext() == false) {
-            throw new NoSuchAlgorithmException
-                (algorithm + " KeyPairGenerator not available");
+    publid stbtid KfyPbirGfnfrbtor gftInstbndf(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        List<Sfrvidf> list =
+                GftInstbndf.gftSfrvidfs("KfyPbirGfnfrbtor", blgoritim);
+        Itfrbtor<Sfrvidf> t = list.itfrbtor();
+        if (t.ibsNfxt() == fblsf) {
+            tirow nfw NoSudiAlgoritimExdfption
+                (blgoritim + " KfyPbirGfnfrbtor not bvbilbblf");
         }
-        // find a working Spi or KeyPairGenerator subclass
-        NoSuchAlgorithmException failure = null;
+        // find b working Spi or KfyPbirGfnfrbtor subdlbss
+        NoSudiAlgoritimExdfption fbilurf = null;
         do {
-            Service s = t.next();
+            Sfrvidf s = t.nfxt();
             try {
-                Instance instance =
-                    GetInstance.getInstance(s, KeyPairGeneratorSpi.class);
-                if (instance.impl instanceof KeyPairGenerator) {
-                    return getInstance(instance, algorithm);
-                } else {
-                    return new Delegate(instance, t, algorithm);
+                Instbndf instbndf =
+                    GftInstbndf.gftInstbndf(s, KfyPbirGfnfrbtorSpi.dlbss);
+                if (instbndf.impl instbndfof KfyPbirGfnfrbtor) {
+                    rfturn gftInstbndf(instbndf, blgoritim);
+                } flsf {
+                    rfturn nfw Dflfgbtf(instbndf, t, blgoritim);
                 }
-            } catch (NoSuchAlgorithmException e) {
-                if (failure == null) {
-                    failure = e;
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                if (fbilurf == null) {
+                    fbilurf = f;
                 }
             }
-        } while (t.hasNext());
-        throw failure;
+        } wiilf (t.ibsNfxt());
+        tirow fbilurf;
     }
 
     /**
-     * Returns a KeyPairGenerator object that generates public/private
-     * key pairs for the specified algorithm.
+     * Rfturns b KfyPbirGfnfrbtor objfdt tibt gfnfrbtfs publid/privbtf
+     * kfy pbirs for tif spfdififd blgoritim.
      *
-     * <p> A new KeyPairGenerator object encapsulating the
-     * KeyPairGeneratorSpi implementation from the specified provider
-     * is returned.  The specified provider must be registered
-     * in the security provider list.
+     * <p> A nfw KfyPbirGfnfrbtor objfdt fndbpsulbting tif
+     * KfyPbirGfnfrbtorSpi implfmfntbtion from tif spfdififd providfr
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * in tif sfdurity providfr list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param algorithm the standard string name of the algorithm.
-     * See the KeyPairGenerator section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyPairGenerator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif stbndbrd string nbmf of tif blgoritim.
+     * Sff tif KfyPbirGfnfrbtor sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#KfyPbirGfnfrbtor">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @param provider the string name of the provider.
+     * @pbrbm providfr tif string nbmf of tif providfr.
      *
-     * @return the new KeyPairGenerator object.
+     * @rfturn tif nfw KfyPbirGfnfrbtor objfdt.
      *
-     * @exception NoSuchAlgorithmException if a KeyPairGeneratorSpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @fxdfption NoSudiAlgoritimExdfption if b KfyPbirGfnfrbtorSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          bvbilbblf from tif spfdififd providfr.
      *
-     * @exception NoSuchProviderException if the specified provider is not
-     *          registered in the security provider list.
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     *          rfgistfrfd in tif sfdurity providfr list.
      *
-     * @exception IllegalArgumentException if the provider name is null
-     *          or empty.
+     * @fxdfption IllfgblArgumfntExdfption if tif providfr nbmf is null
+     *          or fmpty.
      *
-     * @see Provider
+     * @sff Providfr
      */
-    public static KeyPairGenerator getInstance(String algorithm,
-            String provider)
-            throws NoSuchAlgorithmException, NoSuchProviderException {
-        Instance instance = GetInstance.getInstance("KeyPairGenerator",
-                KeyPairGeneratorSpi.class, algorithm, provider);
-        return getInstance(instance, algorithm);
+    publid stbtid KfyPbirGfnfrbtor gftInstbndf(String blgoritim,
+            String providfr)
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("KfyPbirGfnfrbtor",
+                KfyPbirGfnfrbtorSpi.dlbss, blgoritim, providfr);
+        rfturn gftInstbndf(instbndf, blgoritim);
     }
 
     /**
-     * Returns a KeyPairGenerator object that generates public/private
-     * key pairs for the specified algorithm.
+     * Rfturns b KfyPbirGfnfrbtor objfdt tibt gfnfrbtfs publid/privbtf
+     * kfy pbirs for tif spfdififd blgoritim.
      *
-     * <p> A new KeyPairGenerator object encapsulating the
-     * KeyPairGeneratorSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A nfw KfyPbirGfnfrbtor objfdt fndbpsulbting tif
+     * KfyPbirGfnfrbtorSpi implfmfntbtion from tif spfdififd Providfr
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
      *
-     * @param algorithm the standard string name of the algorithm.
-     * See the KeyPairGenerator section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyPairGenerator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif stbndbrd string nbmf of tif blgoritim.
+     * Sff tif KfyPbirGfnfrbtor sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#KfyPbirGfnfrbtor">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @param provider the provider.
+     * @pbrbm providfr tif providfr.
      *
-     * @return the new KeyPairGenerator object.
+     * @rfturn tif nfw KfyPbirGfnfrbtor objfdt.
      *
-     * @exception NoSuchAlgorithmException if a KeyPairGeneratorSpi
-     *          implementation for the specified algorithm is not available
-     *          from the specified Provider object.
+     * @fxdfption NoSudiAlgoritimExdfption if b KfyPbirGfnfrbtorSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          from tif spfdififd Providfr objfdt.
      *
-     * @exception IllegalArgumentException if the specified provider is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd providfr is null.
      *
-     * @see Provider
+     * @sff Providfr
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public static KeyPairGenerator getInstance(String algorithm,
-            Provider provider) throws NoSuchAlgorithmException {
-        Instance instance = GetInstance.getInstance("KeyPairGenerator",
-                KeyPairGeneratorSpi.class, algorithm, provider);
-        return getInstance(instance, algorithm);
+    publid stbtid KfyPbirGfnfrbtor gftInstbndf(String blgoritim,
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("KfyPbirGfnfrbtor",
+                KfyPbirGfnfrbtorSpi.dlbss, blgoritim, providfr);
+        rfturn gftInstbndf(instbndf, blgoritim);
     }
 
     /**
-     * Returns the provider of this key pair generator object.
+     * Rfturns tif providfr of tiis kfy pbir gfnfrbtor objfdt.
      *
-     * @return the provider of this key pair generator object
+     * @rfturn tif providfr of tiis kfy pbir gfnfrbtor objfdt
      */
-    public final Provider getProvider() {
-        disableFailover();
-        return this.provider;
+    publid finbl Providfr gftProvidfr() {
+        disbblfFbilovfr();
+        rfturn tiis.providfr;
     }
 
-    void disableFailover() {
-        // empty, overridden in Delegate
-    }
-
-    /**
-     * Initializes the key pair generator for a certain keysize using
-     * a default parameter set and the {@code SecureRandom}
-     * implementation of the highest-priority installed provider as the source
-     * of randomness.
-     * (If none of the installed providers supply an implementation of
-     * {@code SecureRandom}, a system-provided source of randomness is
-     * used.)
-     *
-     * @param keysize the keysize. This is an
-     * algorithm-specific metric, such as modulus length, specified in
-     * number of bits.
-     *
-     * @exception InvalidParameterException if the {@code keysize} is not
-     * supported by this KeyPairGenerator object.
-     */
-    public void initialize(int keysize) {
-        initialize(keysize, JCAUtil.getSecureRandom());
+    void disbblfFbilovfr() {
+        // fmpty, ovfrriddfn in Dflfgbtf
     }
 
     /**
-     * Initializes the key pair generator for a certain keysize with
-     * the given source of randomness (and a default parameter set).
+     * Initiblizfs tif kfy pbir gfnfrbtor for b dfrtbin kfysizf using
+     * b dffbult pbrbmftfr sft bnd tif {@dodf SfdurfRbndom}
+     * implfmfntbtion of tif iigifst-priority instbllfd providfr bs tif sourdf
+     * of rbndomnfss.
+     * (If nonf of tif instbllfd providfrs supply bn implfmfntbtion of
+     * {@dodf SfdurfRbndom}, b systfm-providfd sourdf of rbndomnfss is
+     * usfd.)
      *
-     * @param keysize the keysize. This is an
-     * algorithm-specific metric, such as modulus length, specified in
-     * number of bits.
-     * @param random the source of randomness.
+     * @pbrbm kfysizf tif kfysizf. Tiis is bn
+     * blgoritim-spfdifid mftrid, sudi bs modulus lfngti, spfdififd in
+     * numbfr of bits.
      *
-     * @exception InvalidParameterException if the {@code keysize} is not
-     * supported by this KeyPairGenerator object.
-     *
-     * @since 1.2
+     * @fxdfption InvblidPbrbmftfrExdfption if tif {@dodf kfysizf} is not
+     * supportfd by tiis KfyPbirGfnfrbtor objfdt.
      */
-    public void initialize(int keysize, SecureRandom random) {
-        // This does nothing, because either
-        // 1. the implementation object returned by getInstance() is an
-        //    instance of KeyPairGenerator which has its own
-        //    initialize(keysize, random) method, so the application would
-        //    be calling that method directly, or
-        // 2. the implementation returned by getInstance() is an instance
-        //    of Delegate, in which case initialize(keysize, random) is
-        //    overridden to call the corresponding SPI method.
-        // (This is a special case, because the API and SPI method have the
-        // same name.)
+    publid void initiblizf(int kfysizf) {
+        initiblizf(kfysizf, JCAUtil.gftSfdurfRbndom());
     }
 
     /**
-     * Initializes the key pair generator using the specified parameter
-     * set and the {@code SecureRandom}
-     * implementation of the highest-priority installed provider as the source
-     * of randomness.
-     * (If none of the installed providers supply an implementation of
-     * {@code SecureRandom}, a system-provided source of randomness is
-     * used.).
+     * Initiblizfs tif kfy pbir gfnfrbtor for b dfrtbin kfysizf witi
+     * tif givfn sourdf of rbndomnfss (bnd b dffbult pbrbmftfr sft).
      *
-     * <p>This concrete method has been added to this previously-defined
-     * abstract class.
-     * This method calls the KeyPairGeneratorSpi
-     * {@link KeyPairGeneratorSpi#initialize(
-     * java.security.spec.AlgorithmParameterSpec,
-     * java.security.SecureRandom) initialize} method,
-     * passing it {@code params} and a source of randomness (obtained
-     * from the highest-priority installed provider or system-provided if none
-     * of the installed providers supply one).
-     * That {@code initialize} method always throws an
-     * UnsupportedOperationException if it is not overridden by the provider.
+     * @pbrbm kfysizf tif kfysizf. Tiis is bn
+     * blgoritim-spfdifid mftrid, sudi bs modulus lfngti, spfdififd in
+     * numbfr of bits.
+     * @pbrbm rbndom tif sourdf of rbndomnfss.
      *
-     * @param params the parameter set used to generate the keys.
+     * @fxdfption InvblidPbrbmftfrExdfption if tif {@dodf kfysizf} is not
+     * supportfd by tiis KfyPbirGfnfrbtor objfdt.
      *
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key pair generator.
-     *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public void initialize(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-        initialize(params, JCAUtil.getSecureRandom());
+    publid void initiblizf(int kfysizf, SfdurfRbndom rbndom) {
+        // Tiis dofs notiing, bfdbusf fitifr
+        // 1. tif implfmfntbtion objfdt rfturnfd by gftInstbndf() is bn
+        //    instbndf of KfyPbirGfnfrbtor wiidi ibs its own
+        //    initiblizf(kfysizf, rbndom) mftiod, so tif bpplidbtion would
+        //    bf dblling tibt mftiod dirfdtly, or
+        // 2. tif implfmfntbtion rfturnfd by gftInstbndf() is bn instbndf
+        //    of Dflfgbtf, in wiidi dbsf initiblizf(kfysizf, rbndom) is
+        //    ovfrriddfn to dbll tif dorrfsponding SPI mftiod.
+        // (Tiis is b spfdibl dbsf, bfdbusf tif API bnd SPI mftiod ibvf tif
+        // sbmf nbmf.)
     }
 
     /**
-     * Initializes the key pair generator with the given parameter
-     * set and source of randomness.
+     * Initiblizfs tif kfy pbir gfnfrbtor using tif spfdififd pbrbmftfr
+     * sft bnd tif {@dodf SfdurfRbndom}
+     * implfmfntbtion of tif iigifst-priority instbllfd providfr bs tif sourdf
+     * of rbndomnfss.
+     * (If nonf of tif instbllfd providfrs supply bn implfmfntbtion of
+     * {@dodf SfdurfRbndom}, b systfm-providfd sourdf of rbndomnfss is
+     * usfd.).
      *
-     * <p>This concrete method has been added to this previously-defined
-     * abstract class.
-     * This method calls the KeyPairGeneratorSpi {@link
-     * KeyPairGeneratorSpi#initialize(
-     * java.security.spec.AlgorithmParameterSpec,
-     * java.security.SecureRandom) initialize} method,
-     * passing it {@code params} and {@code random}.
-     * That {@code initialize}
-     * method always throws an
-     * UnsupportedOperationException if it is not overridden by the provider.
+     * <p>Tiis dondrftf mftiod ibs bffn bddfd to tiis prfviously-dffinfd
+     * bbstrbdt dlbss.
+     * Tiis mftiod dblls tif KfyPbirGfnfrbtorSpi
+     * {@link KfyPbirGfnfrbtorSpi#initiblizf(
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd,
+     * jbvb.sfdurity.SfdurfRbndom) initiblizf} mftiod,
+     * pbssing it {@dodf pbrbms} bnd b sourdf of rbndomnfss (obtbinfd
+     * from tif iigifst-priority instbllfd providfr or systfm-providfd if nonf
+     * of tif instbllfd providfrs supply onf).
+     * Tibt {@dodf initiblizf} mftiod blwbys tirows bn
+     * UnsupportfdOpfrbtionExdfption if it is not ovfrriddfn by tif providfr.
      *
-     * @param params the parameter set used to generate the keys.
-     * @param random the source of randomness.
+     * @pbrbm pbrbms tif pbrbmftfr sft usfd to gfnfrbtf tif kfys.
      *
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key pair generator.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfrs
+     * brf inbppropribtf for tiis kfy pbir gfnfrbtor.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public void initialize(AlgorithmParameterSpec params,
-                           SecureRandom random)
-        throws InvalidAlgorithmParameterException
+    publid void initiblizf(AlgoritimPbrbmftfrSpfd pbrbms)
+            tirows InvblidAlgoritimPbrbmftfrExdfption {
+        initiblizf(pbrbms, JCAUtil.gftSfdurfRbndom());
+    }
+
+    /**
+     * Initiblizfs tif kfy pbir gfnfrbtor witi tif givfn pbrbmftfr
+     * sft bnd sourdf of rbndomnfss.
+     *
+     * <p>Tiis dondrftf mftiod ibs bffn bddfd to tiis prfviously-dffinfd
+     * bbstrbdt dlbss.
+     * Tiis mftiod dblls tif KfyPbirGfnfrbtorSpi {@link
+     * KfyPbirGfnfrbtorSpi#initiblizf(
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd,
+     * jbvb.sfdurity.SfdurfRbndom) initiblizf} mftiod,
+     * pbssing it {@dodf pbrbms} bnd {@dodf rbndom}.
+     * Tibt {@dodf initiblizf}
+     * mftiod blwbys tirows bn
+     * UnsupportfdOpfrbtionExdfption if it is not ovfrriddfn by tif providfr.
+     *
+     * @pbrbm pbrbms tif pbrbmftfr sft usfd to gfnfrbtf tif kfys.
+     * @pbrbm rbndom tif sourdf of rbndomnfss.
+     *
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfrs
+     * brf inbppropribtf for tiis kfy pbir gfnfrbtor.
+     *
+     * @sindf 1.2
+     */
+    publid void initiblizf(AlgoritimPbrbmftfrSpfd pbrbms,
+                           SfdurfRbndom rbndom)
+        tirows InvblidAlgoritimPbrbmftfrExdfption
     {
-        // This does nothing, because either
-        // 1. the implementation object returned by getInstance() is an
-        //    instance of KeyPairGenerator which has its own
-        //    initialize(params, random) method, so the application would
-        //    be calling that method directly, or
-        // 2. the implementation returned by getInstance() is an instance
-        //    of Delegate, in which case initialize(params, random) is
-        //    overridden to call the corresponding SPI method.
-        // (This is a special case, because the API and SPI method have the
-        // same name.)
+        // Tiis dofs notiing, bfdbusf fitifr
+        // 1. tif implfmfntbtion objfdt rfturnfd by gftInstbndf() is bn
+        //    instbndf of KfyPbirGfnfrbtor wiidi ibs its own
+        //    initiblizf(pbrbms, rbndom) mftiod, so tif bpplidbtion would
+        //    bf dblling tibt mftiod dirfdtly, or
+        // 2. tif implfmfntbtion rfturnfd by gftInstbndf() is bn instbndf
+        //    of Dflfgbtf, in wiidi dbsf initiblizf(pbrbms, rbndom) is
+        //    ovfrriddfn to dbll tif dorrfsponding SPI mftiod.
+        // (Tiis is b spfdibl dbsf, bfdbusf tif API bnd SPI mftiod ibvf tif
+        // sbmf nbmf.)
     }
 
     /**
-     * Generates a key pair.
+     * Gfnfrbtfs b kfy pbir.
      *
-     * <p>If this KeyPairGenerator has not been initialized explicitly,
-     * provider-specific defaults will be used for the size and other
-     * (algorithm-specific) values of the generated keys.
+     * <p>If tiis KfyPbirGfnfrbtor ibs not bffn initiblizfd fxpliditly,
+     * providfr-spfdifid dffbults will bf usfd for tif sizf bnd otifr
+     * (blgoritim-spfdifid) vblufs of tif gfnfrbtfd kfys.
      *
-     * <p>This will generate a new key pair every time it is called.
+     * <p>Tiis will gfnfrbtf b nfw kfy pbir fvfry timf it is dbllfd.
      *
-     * <p>This method is functionally equivalent to
-     * {@link #generateKeyPair() generateKeyPair}.
+     * <p>Tiis mftiod is fundtionblly fquivblfnt to
+     * {@link #gfnfrbtfKfyPbir() gfnfrbtfKfyPbir}.
      *
-     * @return the generated key pair
+     * @rfturn tif gfnfrbtfd kfy pbir
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public final KeyPair genKeyPair() {
-        return generateKeyPair();
+    publid finbl KfyPbir gfnKfyPbir() {
+        rfturn gfnfrbtfKfyPbir();
     }
 
     /**
-     * Generates a key pair.
+     * Gfnfrbtfs b kfy pbir.
      *
-     * <p>If this KeyPairGenerator has not been initialized explicitly,
-     * provider-specific defaults will be used for the size and other
-     * (algorithm-specific) values of the generated keys.
+     * <p>If tiis KfyPbirGfnfrbtor ibs not bffn initiblizfd fxpliditly,
+     * providfr-spfdifid dffbults will bf usfd for tif sizf bnd otifr
+     * (blgoritim-spfdifid) vblufs of tif gfnfrbtfd kfys.
      *
-     * <p>This will generate a new key pair every time it is called.
+     * <p>Tiis will gfnfrbtf b nfw kfy pbir fvfry timf it is dbllfd.
      *
-     * <p>This method is functionally equivalent to
-     * {@link #genKeyPair() genKeyPair}.
+     * <p>Tiis mftiod is fundtionblly fquivblfnt to
+     * {@link #gfnKfyPbir() gfnKfyPbir}.
      *
-     * @return the generated key pair
+     * @rfturn tif gfnfrbtfd kfy pbir
      */
-    public KeyPair generateKeyPair() {
-        // This does nothing (except returning null), because either:
+    publid KfyPbir gfnfrbtfKfyPbir() {
+        // Tiis dofs notiing (fxdfpt rfturning null), bfdbusf fitifr:
         //
-        // 1. the implementation object returned by getInstance() is an
-        //    instance of KeyPairGenerator which has its own implementation
-        //    of generateKeyPair (overriding this one), so the application
-        //    would be calling that method directly, or
+        // 1. tif implfmfntbtion objfdt rfturnfd by gftInstbndf() is bn
+        //    instbndf of KfyPbirGfnfrbtor wiidi ibs its own implfmfntbtion
+        //    of gfnfrbtfKfyPbir (ovfrriding tiis onf), so tif bpplidbtion
+        //    would bf dblling tibt mftiod dirfdtly, or
         //
-        // 2. the implementation returned by getInstance() is an instance
-        //    of Delegate, in which case generateKeyPair is
-        //    overridden to invoke the corresponding SPI method.
+        // 2. tif implfmfntbtion rfturnfd by gftInstbndf() is bn instbndf
+        //    of Dflfgbtf, in wiidi dbsf gfnfrbtfKfyPbir is
+        //    ovfrriddfn to invokf tif dorrfsponding SPI mftiod.
         //
-        // (This is a special case, because in JDK 1.1.x the generateKeyPair
-        // method was used both as an API and a SPI method.)
-        return null;
+        // (Tiis is b spfdibl dbsf, bfdbusf in JDK 1.1.x tif gfnfrbtfKfyPbir
+        // mftiod wbs usfd boti bs bn API bnd b SPI mftiod.)
+        rfturn null;
     }
 
 
     /*
-     * The following class allows providers to extend from KeyPairGeneratorSpi
-     * rather than from KeyPairGenerator. It represents a KeyPairGenerator
-     * with an encapsulated, provider-supplied SPI object (of type
-     * KeyPairGeneratorSpi).
-     * If the provider implementation is an instance of KeyPairGeneratorSpi,
-     * the getInstance() methods above return an instance of this class, with
-     * the SPI object encapsulated.
+     * Tif following dlbss bllows providfrs to fxtfnd from KfyPbirGfnfrbtorSpi
+     * rbtifr tibn from KfyPbirGfnfrbtor. It rfprfsfnts b KfyPbirGfnfrbtor
+     * witi bn fndbpsulbtfd, providfr-supplifd SPI objfdt (of typf
+     * KfyPbirGfnfrbtorSpi).
+     * If tif providfr implfmfntbtion is bn instbndf of KfyPbirGfnfrbtorSpi,
+     * tif gftInstbndf() mftiods bbovf rfturn bn instbndf of tiis dlbss, witi
+     * tif SPI objfdt fndbpsulbtfd.
      *
-     * Note: All SPI methods from the original KeyPairGenerator class have been
-     * moved up the hierarchy into a new class (KeyPairGeneratorSpi), which has
-     * been interposed in the hierarchy between the API (KeyPairGenerator)
-     * and its original parent (Object).
+     * Notf: All SPI mftiods from tif originbl KfyPbirGfnfrbtor dlbss ibvf bffn
+     * movfd up tif iifrbrdiy into b nfw dlbss (KfyPbirGfnfrbtorSpi), wiidi ibs
+     * bffn intfrposfd in tif iifrbrdiy bftwffn tif API (KfyPbirGfnfrbtor)
+     * bnd its originbl pbrfnt (Objfdt).
      */
 
     //
-    // error failover notes:
+    // frror fbilovfr notfs:
     //
-    //  . we failover if the implementation throws an error during init
-    //    by retrying the init on other providers
+    //  . wf fbilovfr if tif implfmfntbtion tirows bn frror during init
+    //    by rftrying tif init on otifr providfrs
     //
-    //  . we also failover if the init succeeded but the subsequent call
-    //    to generateKeyPair() fails. In order for this to work, we need
-    //    to remember the parameters to the last successful call to init
-    //    and initialize() the next spi using them.
+    //  . wf blso fbilovfr if tif init suddffdfd but tif subsfqufnt dbll
+    //    to gfnfrbtfKfyPbir() fbils. In ordfr for tiis to work, wf nffd
+    //    to rfmfmbfr tif pbrbmftfrs to tif lbst suddfssful dbll to init
+    //    bnd initiblizf() tif nfxt spi using tifm.
     //
-    //  . although not specified, KeyPairGenerators could be thread safe,
-    //    so we make sure we do not interfere with that
+    //  . bltiougi not spfdififd, KfyPbirGfnfrbtors dould bf tirfbd sbff,
+    //    so wf mbkf surf wf do not intfrffrf witi tibt
     //
-    //  . failover is not available, if:
-    //    . getInstance(algorithm, provider) was used
-    //    . a provider extends KeyPairGenerator rather than
-    //      KeyPairGeneratorSpi (JDK 1.1 style)
-    //    . once getProvider() is called
+    //  . fbilovfr is not bvbilbblf, if:
+    //    . gftInstbndf(blgoritim, providfr) wbs usfd
+    //    . b providfr fxtfnds KfyPbirGfnfrbtor rbtifr tibn
+    //      KfyPbirGfnfrbtorSpi (JDK 1.1 stylf)
+    //    . ondf gftProvidfr() is dbllfd
     //
 
-    private static final class Delegate extends KeyPairGenerator {
+    privbtf stbtid finbl dlbss Dflfgbtf fxtfnds KfyPbirGfnfrbtor {
 
-        // The provider implementation (delegate)
-        private volatile KeyPairGeneratorSpi spi;
+        // Tif providfr implfmfntbtion (dflfgbtf)
+        privbtf volbtilf KfyPbirGfnfrbtorSpi spi;
 
-        private final Object lock = new Object();
+        privbtf finbl Objfdt lodk = nfw Objfdt();
 
-        private Iterator<Service> serviceIterator;
+        privbtf Itfrbtor<Sfrvidf> sfrvidfItfrbtor;
 
-        private final static int I_NONE   = 1;
-        private final static int I_SIZE   = 2;
-        private final static int I_PARAMS = 3;
+        privbtf finbl stbtid int I_NONE   = 1;
+        privbtf finbl stbtid int I_SIZE   = 2;
+        privbtf finbl stbtid int I_PARAMS = 3;
 
-        private int initType;
-        private int initKeySize;
-        private AlgorithmParameterSpec initParams;
-        private SecureRandom initRandom;
+        privbtf int initTypf;
+        privbtf int initKfySizf;
+        privbtf AlgoritimPbrbmftfrSpfd initPbrbms;
+        privbtf SfdurfRbndom initRbndom;
 
-        // constructor
-        Delegate(KeyPairGeneratorSpi spi, String algorithm) {
-            super(algorithm);
-            this.spi = spi;
+        // donstrudtor
+        Dflfgbtf(KfyPbirGfnfrbtorSpi spi, String blgoritim) {
+            supfr(blgoritim);
+            tiis.spi = spi;
         }
 
-        Delegate(Instance instance, Iterator<Service> serviceIterator,
-                String algorithm) {
-            super(algorithm);
-            spi = (KeyPairGeneratorSpi)instance.impl;
-            provider = instance.provider;
-            this.serviceIterator = serviceIterator;
-            initType = I_NONE;
+        Dflfgbtf(Instbndf instbndf, Itfrbtor<Sfrvidf> sfrvidfItfrbtor,
+                String blgoritim) {
+            supfr(blgoritim);
+            spi = (KfyPbirGfnfrbtorSpi)instbndf.impl;
+            providfr = instbndf.providfr;
+            tiis.sfrvidfItfrbtor = sfrvidfItfrbtor;
+            initTypf = I_NONE;
         }
 
         /**
-         * Update the active spi of this class and return the next
-         * implementation for failover. If no more implemenations are
-         * available, this method returns null. However, the active spi of
-         * this class is never set to null.
+         * Updbtf tif bdtivf spi of tiis dlbss bnd rfturn tif nfxt
+         * implfmfntbtion for fbilovfr. If no morf implfmfnbtions brf
+         * bvbilbblf, tiis mftiod rfturns null. Howfvfr, tif bdtivf spi of
+         * tiis dlbss is nfvfr sft to null.
          */
-        private KeyPairGeneratorSpi nextSpi(KeyPairGeneratorSpi oldSpi,
-                boolean reinit) {
-            synchronized (lock) {
-                // somebody else did a failover concurrently
-                // try that spi now
+        privbtf KfyPbirGfnfrbtorSpi nfxtSpi(KfyPbirGfnfrbtorSpi oldSpi,
+                boolfbn rfinit) {
+            syndironizfd (lodk) {
+                // somfbody flsf did b fbilovfr dondurrfntly
+                // try tibt spi now
                 if ((oldSpi != null) && (oldSpi != spi)) {
-                    return spi;
+                    rfturn spi;
                 }
-                if (serviceIterator == null) {
-                    return null;
+                if (sfrvidfItfrbtor == null) {
+                    rfturn null;
                 }
-                while (serviceIterator.hasNext()) {
-                    Service s = serviceIterator.next();
+                wiilf (sfrvidfItfrbtor.ibsNfxt()) {
+                    Sfrvidf s = sfrvidfItfrbtor.nfxt();
                     try {
-                        Object inst = s.newInstance(null);
-                        // ignore non-spis
-                        if (inst instanceof KeyPairGeneratorSpi == false) {
-                            continue;
+                        Objfdt inst = s.nfwInstbndf(null);
+                        // ignorf non-spis
+                        if (inst instbndfof KfyPbirGfnfrbtorSpi == fblsf) {
+                            dontinuf;
                         }
-                        if (inst instanceof KeyPairGenerator) {
-                            continue;
+                        if (inst instbndfof KfyPbirGfnfrbtor) {
+                            dontinuf;
                         }
-                        KeyPairGeneratorSpi spi = (KeyPairGeneratorSpi)inst;
-                        if (reinit) {
-                            if (initType == I_SIZE) {
-                                spi.initialize(initKeySize, initRandom);
-                            } else if (initType == I_PARAMS) {
-                                spi.initialize(initParams, initRandom);
-                            } else if (initType != I_NONE) {
-                                throw new AssertionError
-                                    ("KeyPairGenerator initType: " + initType);
+                        KfyPbirGfnfrbtorSpi spi = (KfyPbirGfnfrbtorSpi)inst;
+                        if (rfinit) {
+                            if (initTypf == I_SIZE) {
+                                spi.initiblizf(initKfySizf, initRbndom);
+                            } flsf if (initTypf == I_PARAMS) {
+                                spi.initiblizf(initPbrbms, initRbndom);
+                            } flsf if (initTypf != I_NONE) {
+                                tirow nfw AssfrtionError
+                                    ("KfyPbirGfnfrbtor initTypf: " + initTypf);
                             }
                         }
-                        provider = s.getProvider();
-                        this.spi = spi;
-                        return spi;
-                    } catch (Exception e) {
-                        // ignore
+                        providfr = s.gftProvidfr();
+                        tiis.spi = spi;
+                        rfturn spi;
+                    } dbtdi (Exdfption f) {
+                        // ignorf
                     }
                 }
-                disableFailover();
-                return null;
+                disbblfFbilovfr();
+                rfturn null;
             }
         }
 
-        void disableFailover() {
-            serviceIterator = null;
-            initType = 0;
-            initParams = null;
-            initRandom = null;
+        void disbblfFbilovfr() {
+            sfrvidfItfrbtor = null;
+            initTypf = 0;
+            initPbrbms = null;
+            initRbndom = null;
         }
 
-        // engine method
-        public void initialize(int keysize, SecureRandom random) {
-            if (serviceIterator == null) {
-                spi.initialize(keysize, random);
-                return;
+        // fnginf mftiod
+        publid void initiblizf(int kfysizf, SfdurfRbndom rbndom) {
+            if (sfrvidfItfrbtor == null) {
+                spi.initiblizf(kfysizf, rbndom);
+                rfturn;
             }
-            RuntimeException failure = null;
-            KeyPairGeneratorSpi mySpi = spi;
+            RuntimfExdfption fbilurf = null;
+            KfyPbirGfnfrbtorSpi mySpi = spi;
             do {
                 try {
-                    mySpi.initialize(keysize, random);
-                    initType = I_SIZE;
-                    initKeySize = keysize;
-                    initParams = null;
-                    initRandom = random;
-                    return;
-                } catch (RuntimeException e) {
-                    if (failure == null) {
-                        failure = e;
+                    mySpi.initiblizf(kfysizf, rbndom);
+                    initTypf = I_SIZE;
+                    initKfySizf = kfysizf;
+                    initPbrbms = null;
+                    initRbndom = rbndom;
+                    rfturn;
+                } dbtdi (RuntimfExdfption f) {
+                    if (fbilurf == null) {
+                        fbilurf = f;
                     }
-                    mySpi = nextSpi(mySpi, false);
+                    mySpi = nfxtSpi(mySpi, fblsf);
                 }
-            } while (mySpi != null);
-            throw failure;
+            } wiilf (mySpi != null);
+            tirow fbilurf;
         }
 
-        // engine method
-        public void initialize(AlgorithmParameterSpec params,
-                SecureRandom random) throws InvalidAlgorithmParameterException {
-            if (serviceIterator == null) {
-                spi.initialize(params, random);
-                return;
+        // fnginf mftiod
+        publid void initiblizf(AlgoritimPbrbmftfrSpfd pbrbms,
+                SfdurfRbndom rbndom) tirows InvblidAlgoritimPbrbmftfrExdfption {
+            if (sfrvidfItfrbtor == null) {
+                spi.initiblizf(pbrbms, rbndom);
+                rfturn;
             }
-            Exception failure = null;
-            KeyPairGeneratorSpi mySpi = spi;
+            Exdfption fbilurf = null;
+            KfyPbirGfnfrbtorSpi mySpi = spi;
             do {
                 try {
-                    mySpi.initialize(params, random);
-                    initType = I_PARAMS;
-                    initKeySize = 0;
-                    initParams = params;
-                    initRandom = random;
-                    return;
-                } catch (Exception e) {
-                    if (failure == null) {
-                        failure = e;
+                    mySpi.initiblizf(pbrbms, rbndom);
+                    initTypf = I_PARAMS;
+                    initKfySizf = 0;
+                    initPbrbms = pbrbms;
+                    initRbndom = rbndom;
+                    rfturn;
+                } dbtdi (Exdfption f) {
+                    if (fbilurf == null) {
+                        fbilurf = f;
                     }
-                    mySpi = nextSpi(mySpi, false);
+                    mySpi = nfxtSpi(mySpi, fblsf);
                 }
-            } while (mySpi != null);
-            if (failure instanceof RuntimeException) {
-                throw (RuntimeException)failure;
+            } wiilf (mySpi != null);
+            if (fbilurf instbndfof RuntimfExdfption) {
+                tirow (RuntimfExdfption)fbilurf;
             }
-            // must be an InvalidAlgorithmParameterException
-            throw (InvalidAlgorithmParameterException)failure;
+            // must bf bn InvblidAlgoritimPbrbmftfrExdfption
+            tirow (InvblidAlgoritimPbrbmftfrExdfption)fbilurf;
         }
 
-        // engine method
-        public KeyPair generateKeyPair() {
-            if (serviceIterator == null) {
-                return spi.generateKeyPair();
+        // fnginf mftiod
+        publid KfyPbir gfnfrbtfKfyPbir() {
+            if (sfrvidfItfrbtor == null) {
+                rfturn spi.gfnfrbtfKfyPbir();
             }
-            RuntimeException failure = null;
-            KeyPairGeneratorSpi mySpi = spi;
+            RuntimfExdfption fbilurf = null;
+            KfyPbirGfnfrbtorSpi mySpi = spi;
             do {
                 try {
-                    return mySpi.generateKeyPair();
-                } catch (RuntimeException e) {
-                    if (failure == null) {
-                        failure = e;
+                    rfturn mySpi.gfnfrbtfKfyPbir();
+                } dbtdi (RuntimfExdfption f) {
+                    if (fbilurf == null) {
+                        fbilurf = f;
                     }
-                    mySpi = nextSpi(mySpi, true);
+                    mySpi = nfxtSpi(mySpi, truf);
                 }
-            } while (mySpi != null);
-            throw failure;
+            } wiilf (mySpi != null);
+            tirow fbilurf;
         }
     }
 

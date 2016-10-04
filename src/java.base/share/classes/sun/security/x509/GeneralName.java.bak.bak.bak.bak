@@ -1,0 +1,249 @@
+/*
+ * Copyright (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss implfmfnts thf ASN.1 GfnfrblNbmf objfdt dlbss.
+ * <p>
+ * Thf ASN.1 syntbx for this is:
+ * <prf>
+ * GfnfrblNbmf ::= CHOICE {
+ *    othfrNbmf                       [0]     OthfrNbmf,
+ *    rfd822Nbmf                      [1]     IA5String,
+ *    dNSNbmf                         [2]     IA5String,
+ *    x400Addrfss                     [3]     ORAddrfss,
+ *    dirfdtoryNbmf                   [4]     Nbmf,
+ *    fdiPbrtyNbmf                    [5]     EDIPbrtyNbmf,
+ *    uniformRfsourdfIdfntififr       [6]     IA5String,
+ *    iPAddrfss                       [7]     OCTET STRING,
+ *    rfgistfrfdID                    [8]     OBJECT IDENTIFIER
+ * }
+ * </prf>
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss GfnfrblNbmf {
+
+    // Privbtf dbtb mfmbfrs
+    privbtf GfnfrblNbmfIntfrfbdf nbmf = null;
+
+    /**
+     * Dffbult donstrudtor for thf dlbss.
+     *
+     * @pbrbm nbmf thf sflfdtfd CHOICE from thf list.
+     * @throws NullPointfrExdfption if nbmf is null
+     */
+    publid GfnfrblNbmf(GfnfrblNbmfIntfrfbdf nbmf) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption("GfnfrblNbmf must not bf null");
+        }
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Crfbtf thf objfdt from its DER fndodfd vbluf.
+     *
+     * @pbrbm fndNbmf thf DER fndodfd GfnfrblNbmf.
+     */
+    publid GfnfrblNbmf(DfrVbluf fndNbmf) throws IOExdfption {
+        this(fndNbmf, fblsf);
+    }
+
+    /**
+     * Crfbtf thf objfdt from its DER fndodfd vbluf.
+     *
+     * @pbrbm fndNbmf thf DER fndodfd GfnfrblNbmf.
+     * @pbrbm nbmfConstrbint truf if gfnfrbl nbmf is b nbmf donstrbint
+     */
+    publid GfnfrblNbmf(DfrVbluf fndNbmf, boolfbn nbmfConstrbint)
+        throws IOExdfption {
+        short tbg = (bytf)(fndNbmf.tbg & 0x1f);
+
+        // All nbmfs fxdfpt for NAME_DIRECTORY should bf fndodfd with thf
+        // IMPLICIT tbg.
+        switdh (tbg) {
+        dbsf GfnfrblNbmfIntfrfbdf.NAME_ANY:
+            if (fndNbmf.isContfxtSpfdifid() && fndNbmf.isConstrudtfd()) {
+                fndNbmf.rfsftTbg(DfrVbluf.tbg_Sfqufndf);
+                nbmf = nfw OthfrNbmf(fndNbmf);
+            } flsf {
+                throw nfw IOExdfption("Invblid fndoding of Othfr-Nbmf");
+            }
+            brfbk;
+
+        dbsf GfnfrblNbmfIntfrfbdf.NAME_RFC822:
+            if (fndNbmf.isContfxtSpfdifid() && !fndNbmf.isConstrudtfd()) {
+                fndNbmf.rfsftTbg(DfrVbluf.tbg_IA5String);
+                nbmf = nfw RFC822Nbmf(fndNbmf);
+            } flsf {
+                throw nfw IOExdfption("Invblid fndoding of RFC822 nbmf");
+            }
+            brfbk;
+
+        dbsf GfnfrblNbmfIntfrfbdf.NAME_DNS:
+            if (fndNbmf.isContfxtSpfdifid() && !fndNbmf.isConstrudtfd()) {
+                fndNbmf.rfsftTbg(DfrVbluf.tbg_IA5String);
+                nbmf = nfw DNSNbmf(fndNbmf);
+            } flsf {
+                throw nfw IOExdfption("Invblid fndoding of DNS nbmf");
+            }
+            brfbk;
+
+        dbsf GfnfrblNbmfIntfrfbdf.NAME_URI:
+            if (fndNbmf.isContfxtSpfdifid() && !fndNbmf.isConstrudtfd()) {
+                fndNbmf.rfsftTbg(DfrVbluf.tbg_IA5String);
+                nbmf = (nbmfConstrbint ? URINbmf.nbmfConstrbint(fndNbmf) :
+                        nfw URINbmf(fndNbmf));
+            } flsf {
+                throw nfw IOExdfption("Invblid fndoding of URI");
+            }
+            brfbk;
+
+        dbsf GfnfrblNbmfIntfrfbdf.NAME_IP:
+            if (fndNbmf.isContfxtSpfdifid() && !fndNbmf.isConstrudtfd()) {
+                fndNbmf.rfsftTbg(DfrVbluf.tbg_OdtftString);
+                nbmf = nfw IPAddrfssNbmf(fndNbmf);
+            } flsf {
+                throw nfw IOExdfption("Invblid fndoding of IP bddrfss");
+            }
+            brfbk;
+
+        dbsf GfnfrblNbmfIntfrfbdf.NAME_OID:
+            if (fndNbmf.isContfxtSpfdifid() && !fndNbmf.isConstrudtfd()) {
+                fndNbmf.rfsftTbg(DfrVbluf.tbg_ObjfdtId);
+                nbmf = nfw OIDNbmf(fndNbmf);
+            } flsf {
+                throw nfw IOExdfption("Invblid fndoding of OID nbmf");
+            }
+            brfbk;
+
+        dbsf GfnfrblNbmfIntfrfbdf.NAME_DIRECTORY:
+            if (fndNbmf.isContfxtSpfdifid() && fndNbmf.isConstrudtfd()) {
+                nbmf = nfw X500Nbmf(fndNbmf.gftDbtb());
+            } flsf {
+                throw nfw IOExdfption("Invblid fndoding of Dirfdtory nbmf");
+            }
+            brfbk;
+
+        dbsf GfnfrblNbmfIntfrfbdf.NAME_EDI:
+            if (fndNbmf.isContfxtSpfdifid() && fndNbmf.isConstrudtfd()) {
+                fndNbmf.rfsftTbg(DfrVbluf.tbg_Sfqufndf);
+                nbmf = nfw EDIPbrtyNbmf(fndNbmf);
+            } flsf {
+                throw nfw IOExdfption("Invblid fndoding of EDI nbmf");
+            }
+            brfbk;
+
+        dffbult:
+            throw nfw IOExdfption("Unrfdognizfd GfnfrblNbmf tbg, ("
+                                  + tbg +")");
+        }
+    }
+
+    /**
+     * Rfturn thf typf of thf gfnfrbl nbmf.
+     */
+    publid int gftTypf() {
+        rfturn nbmf.gftTypf();
+    }
+
+    /**
+     * Rfturn thf GfnfrblNbmfIntfrfbdf nbmf.
+     */
+    publid GfnfrblNbmfIntfrfbdf gftNbmf() {
+        //XXXX Mby wbnt to donsidfr dloning this
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturn thf nbmf bs usfr rfbdbblf string
+     */
+    publid String toString() {
+        rfturn nbmf.toString();
+    }
+
+    /**
+     * Compbrf this GfnfrblNbmf with bnothfr
+     *
+     * @pbrbm othfr GfnfrblNbmf to dompbrf to this
+     * @rfturns truf if mbtdh
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr) {
+            rfturn truf;
+        }
+        if (!(othfr instbndfof GfnfrblNbmf))
+            rfturn fblsf;
+        GfnfrblNbmfIntfrfbdf othfrGNI = ((GfnfrblNbmf)othfr).nbmf;
+        try {
+            rfturn nbmf.donstrbins(othfrGNI) == GfnfrblNbmfIntfrfbdf.NAME_MATCH;
+        } dbtdh (UnsupportfdOpfrbtionExdfption iof) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns thf hbsh dodf for this GfnfrblNbmf.
+     *
+     * @rfturn b hbsh dodf vbluf.
+     */
+    publid int hbshCodf() {
+        rfturn nbmf.hbshCodf();
+    }
+
+    /**
+     * Endodf thf nbmf to thf spfdififd DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to fndodf thf thf GfnfrblNbmf to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        nbmf.fndodf(tmp);
+        int nbmfTypf = nbmf.gftTypf();
+        if (nbmfTypf == GfnfrblNbmfIntfrfbdf.NAME_ANY ||
+            nbmfTypf == GfnfrblNbmfIntfrfbdf.NAME_X400 ||
+            nbmfTypf == GfnfrblNbmfIntfrfbdf.NAME_EDI) {
+
+            // implidit, donstrudtfd form
+            out.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                              truf, (bytf)nbmfTypf), tmp);
+        } flsf if (nbmfTypf == GfnfrblNbmfIntfrfbdf.NAME_DIRECTORY) {
+            // fxplidit, donstrudtfd form sindf undfrlying tbg is CHOICE
+            // (sff X.680 sfdtion 30.6, pbrt d)
+            out.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                         truf, (bytf)nbmfTypf), tmp);
+        } flsf {
+            // implidit, primitivf form
+            out.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                              fblsf, (bytf)nbmfTypf), tmp);
+        }
+    }
+}

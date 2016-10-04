@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windows.h>
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
-#include "sun_net_spi_DefaultProxySelector.h"
+#indludf <windows.i>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "sun_nft_spi_DffbultProxySflfdtor.i"
 
 /**
- * These functions are used by the sun.net.spi.DefaultProxySelector class
- * to access some platform specific settings.
- * This is the Windows code using the registry settings.
+ * Tifsf fundtions brf usfd by tif sun.nft.spi.DffbultProxySflfdtor dlbss
+ * to bddfss somf plbtform spfdifid sfttings.
+ * Tiis is tif Windows dodf using tif rfgistry sfttings.
  */
 
-static jclass proxy_class;
-static jclass isaddr_class;
-static jclass ptype_class;
-static jmethodID isaddr_createUnresolvedID;
-static jmethodID proxy_ctrID;
-static jfieldID pr_no_proxyID;
-static jfieldID ptype_httpID;
-static jfieldID ptype_socksID;
+stbtid jdlbss proxy_dlbss;
+stbtid jdlbss isbddr_dlbss;
+stbtid jdlbss ptypf_dlbss;
+stbtid jmftiodID isbddr_drfbtfUnrfsolvfdID;
+stbtid jmftiodID proxy_dtrID;
+stbtid jfifldID pr_no_proxyID;
+stbtid jfifldID ptypf_ittpID;
+stbtid jfifldID ptypf_sodksID;
 
 /*
- * Class:     sun_net_spi_DefaultProxySelector
- * Method:    init
- * Signature: ()Z
+ * Clbss:     sun_nft_spi_DffbultProxySflfdtor
+ * Mftiod:    init
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_net_spi_DefaultProxySelector_init(JNIEnv *env, jclass clazz) {
-  HKEY hKey;
-  LONG ret;
-  jclass cls;
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nft_spi_DffbultProxySflfdtor_init(JNIEnv *fnv, jdlbss dlbzz) {
+  HKEY iKfy;
+  LONG rft;
+  jdlbss dls;
 
   /**
-   * Get all the method & field IDs for later use.
+   * Gft bll tif mftiod & fifld IDs for lbtfr usf.
    */
-  cls = (*env)->FindClass(env,"java/net/Proxy");
-  CHECK_NULL_RETURN(cls, JNI_FALSE);
-  proxy_class = (*env)->NewGlobalRef(env, cls);
-  CHECK_NULL_RETURN(proxy_class, JNI_FALSE);
-  cls = (*env)->FindClass(env,"java/net/Proxy$Type");
-  CHECK_NULL_RETURN(cls, JNI_FALSE);
-  ptype_class = (*env)->NewGlobalRef(env, cls);
-  CHECK_NULL_RETURN(ptype_class, JNI_FALSE);
-  cls = (*env)->FindClass(env, "java/net/InetSocketAddress");
-  CHECK_NULL_RETURN(cls, JNI_FALSE);
-  isaddr_class = (*env)->NewGlobalRef(env, cls);
-  CHECK_NULL_RETURN(isaddr_class, JNI_FALSE);
-  proxy_ctrID = (*env)->GetMethodID(env, proxy_class, "<init>",
-                                    "(Ljava/net/Proxy$Type;Ljava/net/SocketAddress;)V");
-  CHECK_NULL_RETURN(proxy_ctrID, JNI_FALSE);
-  pr_no_proxyID = (*env)->GetStaticFieldID(env, proxy_class, "NO_PROXY", "Ljava/net/Proxy;");
+  dls = (*fnv)->FindClbss(fnv,"jbvb/nft/Proxy");
+  CHECK_NULL_RETURN(dls, JNI_FALSE);
+  proxy_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+  CHECK_NULL_RETURN(proxy_dlbss, JNI_FALSE);
+  dls = (*fnv)->FindClbss(fnv,"jbvb/nft/Proxy$Typf");
+  CHECK_NULL_RETURN(dls, JNI_FALSE);
+  ptypf_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+  CHECK_NULL_RETURN(ptypf_dlbss, JNI_FALSE);
+  dls = (*fnv)->FindClbss(fnv, "jbvb/nft/InftSodkftAddrfss");
+  CHECK_NULL_RETURN(dls, JNI_FALSE);
+  isbddr_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+  CHECK_NULL_RETURN(isbddr_dlbss, JNI_FALSE);
+  proxy_dtrID = (*fnv)->GftMftiodID(fnv, proxy_dlbss, "<init>",
+                                    "(Ljbvb/nft/Proxy$Typf;Ljbvb/nft/SodkftAddrfss;)V");
+  CHECK_NULL_RETURN(proxy_dtrID, JNI_FALSE);
+  pr_no_proxyID = (*fnv)->GftStbtidFifldID(fnv, proxy_dlbss, "NO_PROXY", "Ljbvb/nft/Proxy;");
   CHECK_NULL_RETURN(pr_no_proxyID, JNI_FALSE);
-  ptype_httpID = (*env)->GetStaticFieldID(env, ptype_class, "HTTP", "Ljava/net/Proxy$Type;");
-  CHECK_NULL_RETURN(ptype_httpID, JNI_FALSE);
-  ptype_socksID = (*env)->GetStaticFieldID(env, ptype_class, "SOCKS", "Ljava/net/Proxy$Type;");
-  CHECK_NULL_RETURN(ptype_socksID, JNI_FALSE);
-  isaddr_createUnresolvedID = (*env)->GetStaticMethodID(env, isaddr_class, "createUnresolved",
-                                                        "(Ljava/lang/String;I)Ljava/net/InetSocketAddress;");
-  CHECK_NULL_RETURN(isaddr_createUnresolvedID, JNI_FALSE);
+  ptypf_ittpID = (*fnv)->GftStbtidFifldID(fnv, ptypf_dlbss, "HTTP", "Ljbvb/nft/Proxy$Typf;");
+  CHECK_NULL_RETURN(ptypf_ittpID, JNI_FALSE);
+  ptypf_sodksID = (*fnv)->GftStbtidFifldID(fnv, ptypf_dlbss, "SOCKS", "Ljbvb/nft/Proxy$Typf;");
+  CHECK_NULL_RETURN(ptypf_sodksID, JNI_FALSE);
+  isbddr_drfbtfUnrfsolvfdID = (*fnv)->GftStbtidMftiodID(fnv, isbddr_dlbss, "drfbtfUnrfsolvfd",
+                                                        "(Ljbvb/lbng/String;I)Ljbvb/nft/InftSodkftAddrfss;");
+  CHECK_NULL_RETURN(isbddr_drfbtfUnrfsolvfdID, JNI_FALSE);
 
   /**
-   * Let's see if we can find the proper Registry entry.
+   * Lft's sff if wf dbn find tif propfr Rfgistry fntry.
    */
-  ret = RegOpenKeyEx(HKEY_CURRENT_USER,
-                     "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings",
-                     0, KEY_READ, (PHKEY)&hKey);
-  if (ret == ERROR_SUCCESS) {
-    RegCloseKey(hKey);
+  rft = RfgOpfnKfyEx(HKEY_CURRENT_USER,
+                     "Softwbrf\\Midrosoft\\Windows\\CurrfntVfrsion\\Intfrnft Sfttings",
+                     0, KEY_READ, (PHKEY)&iKfy);
+  if (rft == ERROR_SUCCESS) {
+    RfgClosfKfy(iKfy);
     /**
-     * It worked, we can probably rely on it then.
+     * It workfd, wf dbn probbbly rfly on it tifn.
      */
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
   }
 
-  return JNI_FALSE;
+  rfturn JNI_FALSE;
 }
 
-#define MAX_STR_LEN 1024
+#dffinf MAX_STR_LEN 1024
 
 /*
- * Class:     sun_net_spi_DefaultProxySelector
- * Method:    getSystemProxy
- * Signature: ([Ljava/lang/String;Ljava/lang/String;)Ljava/net/Proxy;
+ * Clbss:     sun_nft_spi_DffbultProxySflfdtor
+ * Mftiod:    gftSystfmProxy
+ * Signbturf: ([Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/nft/Proxy;
  */
-JNIEXPORT jobject JNICALL
-Java_sun_net_spi_DefaultProxySelector_getSystemProxy(JNIEnv *env,
-                                                     jobject this,
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_nft_spi_DffbultProxySflfdtor_gftSystfmProxy(JNIEnv *fnv,
+                                                     jobjfdt tiis,
                                                      jstring proto,
-                                                     jstring host)
+                                                     jstring iost)
 {
-  jobject isa = NULL;
-  jobject proxy = NULL;
-  jobject type_proxy = NULL;
-  jobject no_proxy = NULL;
-  jboolean isCopy;
-  HKEY hKey;
-  LONG ret;
-  const char* cproto;
-  const char* urlhost;
-  char pproto[MAX_STR_LEN];
-  char regserver[MAX_STR_LEN];
-  char override[MAX_STR_LEN];
-  char *s, *s2;
-  char *ctx = NULL;
+  jobjfdt isb = NULL;
+  jobjfdt proxy = NULL;
+  jobjfdt typf_proxy = NULL;
+  jobjfdt no_proxy = NULL;
+  jboolfbn isCopy;
+  HKEY iKfy;
+  LONG rft;
+  donst dibr* dproto;
+  donst dibr* urliost;
+  dibr pproto[MAX_STR_LEN];
+  dibr rfgsfrvfr[MAX_STR_LEN];
+  dibr ovfrridf[MAX_STR_LEN];
+  dibr *s, *s2;
+  dibr *dtx = NULL;
   int pport = 0;
-  int defport = 0;
-  char *phost;
+  int dffport = 0;
+  dibr *piost;
 
   /**
-   * Let's open the Registry entry. We'll check a few values in it:
+   * Lft's opfn tif Rfgistry fntry. Wf'll difdk b ffw vblufs in it:
    *
-   * - ProxyEnable: 0 means no proxy, 1 means use the proxy
-   * - ProxyServer: a string that can take 2 forms:
-   *    "server[:port]"
+   * - ProxyEnbblf: 0 mfbns no proxy, 1 mfbns usf tif proxy
+   * - ProxySfrvfr: b string tibt dbn tbkf 2 forms:
+   *    "sfrvfr[:port]"
    *    or
-   *    "protocol1=server[:port][;protocol2=server[:port]]..."
-   * - ProxyOverride: a string containing a list of prefixes for hostnames.
-   *   e.g.: hoth;localhost;<local>
+   *    "protodol1=sfrvfr[:port][;protodol2=sfrvfr[:port]]..."
+   * - ProxyOvfrridf: b string dontbining b list of prffixfs for iostnbmfs.
+   *   f.g.: ioti;lodbliost;<lodbl>
    */
-  ret = RegOpenKeyEx(HKEY_CURRENT_USER,
-                     "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings",
-                     0, KEY_READ, (PHKEY)&hKey);
-  if (ret == ERROR_SUCCESS) {
-    DWORD dwLen;
-    DWORD dwProxyEnabled;
-    ULONG ulType;
-    dwLen = sizeof(dwProxyEnabled);
+  rft = RfgOpfnKfyEx(HKEY_CURRENT_USER,
+                     "Softwbrf\\Midrosoft\\Windows\\CurrfntVfrsion\\Intfrnft Sfttings",
+                     0, KEY_READ, (PHKEY)&iKfy);
+  if (rft == ERROR_SUCCESS) {
+    DWORD dwLfn;
+    DWORD dwProxyEnbblfd;
+    ULONG ulTypf;
+    dwLfn = sizfof(dwProxyEnbblfd);
 
     /**
-     * Let's see if the proxy settings are to be used.
+     * Lft's sff if tif proxy sfttings brf to bf usfd.
      */
-    ret = RegQueryValueEx(hKey, "ProxyEnable",  NULL, &ulType,
-                          (LPBYTE)&dwProxyEnabled, &dwLen);
-    if ((ret == ERROR_SUCCESS) && (dwProxyEnabled > 0)) {
+    rft = RfgQufryVblufEx(iKfy, "ProxyEnbblf",  NULL, &ulTypf,
+                          (LPBYTE)&dwProxyEnbblfd, &dwLfn);
+    if ((rft == ERROR_SUCCESS) && (dwProxyEnbblfd > 0)) {
       /*
-       * Yes, ProxyEnable == 1
+       * Yfs, ProxyEnbblf == 1
        */
-      dwLen = sizeof(override);
-      override[0] = 0;
-      ret = RegQueryValueEx(hKey, "ProxyOverride", NULL, &ulType,
-                            (LPBYTE)&override, &dwLen);
-      dwLen = sizeof(regserver);
-      regserver[0] = 0;
-      ret = RegQueryValueEx(hKey, "ProxyServer",  NULL, &ulType,
-                            (LPBYTE)&regserver, &dwLen);
-      RegCloseKey(hKey);
-      if (ret == ERROR_SUCCESS) {
-        if (strlen(override) > 0) {
+      dwLfn = sizfof(ovfrridf);
+      ovfrridf[0] = 0;
+      rft = RfgQufryVblufEx(iKfy, "ProxyOvfrridf", NULL, &ulTypf,
+                            (LPBYTE)&ovfrridf, &dwLfn);
+      dwLfn = sizfof(rfgsfrvfr);
+      rfgsfrvfr[0] = 0;
+      rft = RfgQufryVblufEx(iKfy, "ProxySfrvfr",  NULL, &ulTypf,
+                            (LPBYTE)&rfgsfrvfr, &dwLfn);
+      RfgClosfKfy(iKfy);
+      if (rft == ERROR_SUCCESS) {
+        if (strlfn(ovfrridf) > 0) {
           /**
-           * we did get ProxyServer and may have an override.
-           * So let's check the override list first, by walking down the list
-           * The semicolons (;) separated entries have to be matched with the
-           * the beginning of the hostname.
+           * wf did gft ProxySfrvfr bnd mby ibvf bn ovfrridf.
+           * So lft's difdk tif ovfrridf list first, by wblking down tif list
+           * Tif sfmidolons (;) sfpbrbtfd fntrifs ibvf to bf mbtdifd witi tif
+           * tif bfginning of tif iostnbmf.
            */
-          s = strtok_s(override, "; ", &ctx);
-          urlhost = (*env)->GetStringUTFChars(env, host, &isCopy);
-          if (urlhost == NULL) {
-            if (!(*env)->ExceptionCheck(env))
-              JNU_ThrowOutOfMemoryError(env, NULL);
-            return NULL;
+          s = strtok_s(ovfrridf, "; ", &dtx);
+          urliost = (*fnv)->GftStringUTFCibrs(fnv, iost, &isCopy);
+          if (urliost == NULL) {
+            if (!(*fnv)->ExdfptionCifdk(fnv))
+              JNU_TirowOutOfMfmoryError(fnv, NULL);
+            rfturn NULL;
           }
-          while (s != NULL) {
-            if (strncmp(s, urlhost, strlen(s)) == 0) {
+          wiilf (s != NULL) {
+            if (strndmp(s, urliost, strlfn(s)) == 0) {
               /**
-               * the URL host name matches with one of the prefixes,
-               * therefore we have to use a direct connection.
+               * tif URL iost nbmf mbtdifs witi onf of tif prffixfs,
+               * tifrfforf wf ibvf to usf b dirfdt donnfdtion.
                */
               if (isCopy == JNI_TRUE)
-                (*env)->ReleaseStringUTFChars(env, host, urlhost);
+                (*fnv)->RflfbsfStringUTFCibrs(fnv, iost, urliost);
               goto noproxy;
             }
-            s = strtok_s(NULL, "; ", &ctx);
+            s = strtok_s(NULL, "; ", &dtx);
           }
           if (isCopy == JNI_TRUE)
-            (*env)->ReleaseStringUTFChars(env, host, urlhost);
+            (*fnv)->RflfbsfStringUTFCibrs(fnv, iost, urliost);
         }
 
-        cproto = (*env)->GetStringUTFChars(env, proto, &isCopy);
-        if (cproto == NULL) {
-          if (!(*env)->ExceptionCheck(env))
-            JNU_ThrowOutOfMemoryError(env, NULL);
-          return NULL;
+        dproto = (*fnv)->GftStringUTFCibrs(fnv, proto, &isCopy);
+        if (dproto == NULL) {
+          if (!(*fnv)->ExdfptionCifdk(fnv))
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+          rfturn NULL;
         }
 
         /*
-         * Set default port value & proxy type from protocol.
+         * Sft dffbult port vbluf & proxy typf from protodol.
          */
-        if ((strcmp(cproto, "http") == 0) ||
-            (strcmp(cproto, "ftp") == 0) ||
-            (strcmp(cproto, "gopher") == 0))
-          defport = 80;
-        if (strcmp(cproto, "https") == 0)
-          defport = 443;
-        if (strcmp(cproto, "socks") == 0) {
-          defport = 1080;
-          type_proxy = (*env)->GetStaticObjectField(env, ptype_class, ptype_socksID);
-        } else {
-          type_proxy = (*env)->GetStaticObjectField(env, ptype_class, ptype_httpID);
+        if ((strdmp(dproto, "ittp") == 0) ||
+            (strdmp(dproto, "ftp") == 0) ||
+            (strdmp(dproto, "gopifr") == 0))
+          dffport = 80;
+        if (strdmp(dproto, "ittps") == 0)
+          dffport = 443;
+        if (strdmp(dproto, "sodks") == 0) {
+          dffport = 1080;
+          typf_proxy = (*fnv)->GftStbtidObjfdtFifld(fnv, ptypf_dlbss, ptypf_sodksID);
+        } flsf {
+          typf_proxy = (*fnv)->GftStbtidObjfdtFifld(fnv, ptypf_dlbss, ptypf_ittpID);
         }
 
-        sprintf(pproto,"%s=", cproto);
+        sprintf(pproto,"%s=", dproto);
         if (isCopy == JNI_TRUE)
-          (*env)->ReleaseStringUTFChars(env, proto, cproto);
+          (*fnv)->RflfbsfStringUTFCibrs(fnv, proto, dproto);
         /**
-         * Let's check the protocol specific form first.
+         * Lft's difdk tif protodol spfdifid form first.
          */
-        if ((s = strstr(regserver, pproto)) != NULL) {
-          s += strlen(pproto);
-        } else {
+        if ((s = strstr(rfgsfrvfr, pproto)) != NULL) {
+          s += strlfn(pproto);
+        } flsf {
           /**
-           * If we couldn't find *this* protocol but the string is in the
-           * protocol specific format, then don't use proxy
+           * If wf douldn't find *tiis* protodol but tif string is in tif
+           * protodol spfdifid formbt, tifn don't usf proxy
            */
-          if (strchr(regserver, '=') != NULL)
+          if (strdir(rfgsfrvfr, '=') != NULL)
             goto noproxy;
-          s = regserver;
+          s = rfgsfrvfr;
         }
-        s2 = strchr(s, ';');
+        s2 = strdir(s, ';');
         if (s2 != NULL)
           *s2 = 0;
 
         /**
-         * Is there a port specified?
+         * Is tifrf b port spfdififd?
          */
-        s2 = strchr(s, ':');
+        s2 = strdir(s, ':');
         if (s2 != NULL) {
           *s2 = 0;
           s2++;
-          sscanf(s2, "%d", &pport);
+          ssdbnf(s2, "%d", &pport);
         }
-        phost = s;
+        piost = s;
 
-        if (phost != NULL) {
+        if (piost != NULL) {
           /**
-           * Let's create the appropriate Proxy object then.
+           * Lft's drfbtf tif bppropribtf Proxy objfdt tifn.
            */
-          jstring jhost;
+          jstring jiost;
           if (pport == 0)
-            pport = defport;
-          jhost = (*env)->NewStringUTF(env, phost);
-          CHECK_NULL_RETURN(jhost, NULL);
-          isa = (*env)->CallStaticObjectMethod(env, isaddr_class, isaddr_createUnresolvedID, jhost, pport);
-          CHECK_NULL_RETURN(isa, NULL);
-          proxy = (*env)->NewObject(env, proxy_class, proxy_ctrID, type_proxy, isa);
-          return proxy;
+            pport = dffport;
+          jiost = (*fnv)->NfwStringUTF(fnv, piost);
+          CHECK_NULL_RETURN(jiost, NULL);
+          isb = (*fnv)->CbllStbtidObjfdtMftiod(fnv, isbddr_dlbss, isbddr_drfbtfUnrfsolvfdID, jiost, pport);
+          CHECK_NULL_RETURN(isb, NULL);
+          proxy = (*fnv)->NfwObjfdt(fnv, proxy_dlbss, proxy_dtrID, typf_proxy, isb);
+          rfturn proxy;
         }
       }
-    } else {
-      /* ProxyEnable == 0 or Query failed      */
-      /* close the handle to the registry key  */
-      RegCloseKey(hKey);
+    } flsf {
+      /* ProxyEnbblf == 0 or Qufry fbilfd      */
+      /* dlosf tif ibndlf to tif rfgistry kfy  */
+      RfgClosfKfy(iKfy);
     }
   }
 
 noproxy:
-  no_proxy = (*env)->GetStaticObjectField(env, proxy_class, pr_no_proxyID);
-  return no_proxy;
+  no_proxy = (*fnv)->GftStbtidObjfdtFifld(fnv, proxy_dlbss, pr_no_proxyID);
+  rfturn no_proxy;
 }

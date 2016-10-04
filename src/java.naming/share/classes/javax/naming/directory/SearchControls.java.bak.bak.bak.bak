@@ -1,0 +1,336 @@
+/*
+ * Copyright (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.nbming.dirfdtory;
+
+/**
+  * This dlbss fndbpsulbtfs
+  * fbdtors thbt dftfrminf sdopf of sfbrdh bnd whbt gfts rfturnfd
+  * bs b rfsult of thf sfbrdh.
+  *<p>
+  * A SfbrdhControls instbndf is not syndhronizfd bgbinst dondurrfnt
+  * multithrfbdfd bddfss. Multiplf thrfbds trying to bddfss bnd modify
+  * b singlf SfbrdhControls instbndf should lodk thf objfdt.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  * @sindf 1.3
+  */
+
+publid dlbss SfbrdhControls implfmfnts jbvb.io.Sfriblizbblf {
+    /**
+     * Sfbrdh thf nbmfd objfdt.
+     *<p>
+     * Thf NbmingEnumfrbtion thbt rfsults from sfbrdh()
+     * using OBJECT_SCOPE will dontbin onf or zfro flfmfnt.
+     * Thf fnumfrbtion dontbins onf flfmfnt if thf nbmfd objfdt sbtisfifs
+     * thf sfbrdh filtfr spfdififd in sfbrdh().
+     * Thf flfmfnt will hbvf bs its nbmf thf fmpty string bfdbusf thf nbmfs
+     * of flfmfnts in thf NbmingEnumfrbtion brf rflbtivf to thf
+     * tbrgft dontfxt--in this dbsf, thf tbrgft dontfxt is thf nbmfd objfdt.
+     * It dontbins zfro flfmfnt if thf nbmfd objfdt dofs not sbtisfy
+     * thf sfbrdh filtfr spfdififd in sfbrdh().
+     * <p>
+     * Thf vbluf of this donstbnt is <tt>0</tt>.
+     */
+    publid finbl stbtid int OBJECT_SCOPE = 0;
+
+    /**
+     * Sfbrdh onf lfvfl of thf nbmfd dontfxt.
+     *<p>
+     * Thf NbmingEnumfrbtion thbt rfsults from sfbrdh()
+     * using ONELEVEL_SCOPE dontbins flfmfnts with
+     * objfdts in thf nbmfd dontfxt thbt sbtisfy
+     * thf sfbrdh filtfr spfdififd in sfbrdh().
+     * Thf nbmfs of flfmfnts in thf NbmingEnumfrbtion brf btomid nbmfs
+     * rflbtivf to thf nbmfd dontfxt.
+     * <p>
+     * Thf vbluf of this donstbnt is <tt>1</tt>.
+     */
+    publid finbl stbtid int ONELEVEL_SCOPE = 1;
+    /**
+     * Sfbrdh thf fntirf subtrff rootfd bt thf nbmfd objfdt.
+     *<p>
+     * If thf nbmfd objfdt is not b DirContfxt, sfbrdh only thf objfdt.
+     * If thf nbmfd objfdt is b DirContfxt, sfbrdh thf subtrff
+     * rootfd bt thf nbmfd objfdt, indluding thf nbmfd objfdt itsflf.
+     *<p>
+     * Thf sfbrdh will not dross nbming systfm boundbrifs.
+     *<p>
+     * Thf NbmingEnumfrbtion thbt rfsults from sfbrdh()
+     * using SUBTREE_SCOPE dontbins flfmfnts of objfdts
+     * from thf subtrff (indluding thf nbmfd dontfxt)
+     * thbt sbtisfy thf sfbrdh filtfr spfdififd in sfbrdh().
+     * Thf nbmfs of flfmfnts in thf NbmingEnumfrbtion brf fithfr
+     * rflbtivf to thf nbmfd dontfxt or is b URL string.
+     * If thf nbmfd dontfxt sbtisfifs thf sfbrdh filtfr, it is
+     * indludfd in thf fnumfrbtion with thf fmpty string bs
+     * its nbmf.
+     * <p>
+     * Thf vbluf of this donstbnt is <tt>2</tt>.
+     */
+    publid finbl stbtid int SUBTREE_SCOPE = 2;
+
+    /**
+     * Contbins thf sdopf with whidh to bpply thf sfbrdh. Onf of
+     * <tt>ONELEVEL_SCOPE</tt>, <tt>OBJECT_SCOPE</tt>, or
+     * <tt>SUBTREE_SCOPE</tt>.
+     * @sfribl
+     */
+    privbtf int sfbrdhSdopf;
+
+    /**
+     * Contbins thf millisfdonds to wbit bfforf rfturning
+     * from sfbrdh.
+     * @sfribl
+     */
+    privbtf int timfLimit;
+
+    /**
+     * Indidbtfs whfthfr JNDI links brf dfrfffrfndfd during
+     * sfbrdh.
+     * @sfribl
+     */
+    privbtf boolfbn dfrffLink;
+
+    /**
+     *  Indidbtfs whfthfr objfdt is rfturnfd in <tt>SfbrdhRfsult</tt>.
+     * @sfribl
+     */
+    privbtf boolfbn rfturnObj;
+
+    /**
+     * Contbins thf mbximum numbfr of SfbrdhRfsults to rfturn.
+     * @sfribl
+     */
+    privbtf long dountLimit;
+
+    /**
+     *  Contbins thf list of bttributfs to bf rfturnfd in
+     * <tt>SfbrdhRfsult</tt> for fbdh mbtdhing fntry of sfbrdh. <tt>null</tt>
+     * indidbtfs thbt bll bttributfs brf to bf rfturnfd.
+     * @sfribl
+     */
+    privbtf String[] bttributfsToRfturn;
+
+    /**
+     * Construdts b sfbrdh donstrbints using dffbults.
+     *<p>
+     * Thf dffbults brf:
+     * <ul>
+     * <li>sfbrdh onf lfvfl
+     * <li>no mbximum rfturn limit for sfbrdh rfsults
+     * <li>no timf limit for sfbrdh
+     * <li>rfturn bll bttributfs bssodibtfd with objfdts thbt sbtisfy
+     *   thf sfbrdh filtfr.
+     * <li>do not rfturn nbmfd objfdt  (rfturn only nbmf bnd dlbss)
+     * <li>do not dfrfffrfndf links during sfbrdh
+     *</ul>
+     */
+    publid SfbrdhControls() {
+        sfbrdhSdopf = ONELEVEL_SCOPE;
+        timfLimit = 0; // no limit
+        dountLimit = 0; // no limit
+        dfrffLink = fblsf;
+        rfturnObj = fblsf;
+        bttributfsToRfturn = null; // rfturn bll
+    }
+
+    /**
+     * Construdts b sfbrdh donstrbints using brgumfnts.
+     * @pbrbm sdopf     Thf sfbrdh sdopf.  Onf of:
+     *                  OBJECT_SCOPE, ONELEVEL_SCOPE, SUBTREE_SCOPE.
+     * @pbrbm timflim   Thf numbfr of millisfdonds to wbit bfforf rfturning.
+     *                  If 0, wbit indffinitfly.
+     * @pbrbm dfrff     If truf, dfrfffrfndf links during sfbrdh.
+     * @pbrbm dountlim  Thf mbximum numbfr of fntrifs to rfturn.  If 0, rfturn
+     *                  bll fntrifs thbt sbtisfy filtfr.
+     * @pbrbm rftobj    If truf, rfturn thf objfdt bound to thf nbmf of thf
+     *                  fntry; if fblsf, do not rfturn objfdt.
+     * @pbrbm bttrs     Thf idfntififrs of thf bttributfs to rfturn blong with
+     *                  thf fntry.  If null, rfturn bll bttributfs. If fmpty
+     *                  rfturn no bttributfs.
+     */
+    publid SfbrdhControls(int sdopf,
+                             long dountlim,
+                             int timflim,
+                             String[] bttrs,
+                             boolfbn rftobj,
+                             boolfbn dfrff) {
+        sfbrdhSdopf = sdopf;
+        timfLimit = timflim; // no limit
+        dfrffLink = dfrff;
+        rfturnObj = rftobj;
+        dountLimit = dountlim; // no limit
+        bttributfsToRfturn = bttrs; // rfturn bll
+    }
+
+    /**
+     * Rftrifvfs thf sfbrdh sdopf of thfsf SfbrdhControls.
+     *<p>
+     * Onf of OBJECT_SCOPE, ONELEVEL_SCOPE, SUBTREE_SCOPE.
+     *
+     * @rfturn Thf sfbrdh sdopf of this SfbrdhControls.
+     * @sff #sftSfbrdhSdopf
+     */
+    publid int gftSfbrdhSdopf() {
+        rfturn sfbrdhSdopf;
+    }
+
+    /**
+     * Rftrifvfs thf timf limit of thfsf SfbrdhControls in millisfdonds.
+     *<p>
+     * If thf vbluf is 0, this mfbns to wbit indffinitfly.
+     * @rfturn Thf timf limit of thfsf SfbrdhControls in millisfdonds.
+     * @sff #sftTimfLimit
+     */
+    publid int gftTimfLimit() {
+        rfturn timfLimit;
+    }
+
+    /**
+     * Dftfrminfs whfthfr links will bf dfrfffrfndfd during thf sfbrdh.
+     *
+     * @rfturn truf if links will bf dfrfffrfndfd; fblsf othfrwisf.
+     * @sff #sftDfrffLinkFlbg
+     */
+    publid boolfbn gftDfrffLinkFlbg() {
+        rfturn dfrffLink;
+    }
+
+    /**
+     * Dftfrminfs whfthfr objfdts will bf rfturnfd bs pbrt of thf rfsult.
+     *
+     * @rfturn truf if objfdts will bf rfturnfd; fblsf othfrwisf.
+     * @sff #sftRfturningObjFlbg
+     */
+    publid boolfbn gftRfturningObjFlbg() {
+        rfturn rfturnObj;
+    }
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of fntrifs thbt will bf rfturnfd
+     * bs b rfsult of thf sfbrdh.
+     *<p>
+     * 0 indidbtfs thbt bll fntrifs will bf rfturnfd.
+     * @rfturn Thf mbximum numbfr of fntrifs thbt will bf rfturnfd.
+     * @sff #sftCountLimit
+     */
+    publid long gftCountLimit() {
+        rfturn dountLimit;
+    }
+
+    /**
+     * Rftrifvfs thf bttributfs thbt will bf rfturnfd bs pbrt of thf sfbrdh.
+     *<p>
+     * A vbluf of null indidbtfs thbt bll bttributfs will bf rfturnfd.
+     * An fmpty brrby indidbtfs thbt no bttributfs brf to bf rfturnfd.
+     *
+     * @rfturn An brrby of bttributf ids idfntifying thf bttributfs thbt
+     * will bf rfturnfd. Cbn bf null.
+     * @sff #sftRfturningAttributfs
+     */
+    publid String[] gftRfturningAttributfs() {
+        rfturn bttributfsToRfturn;
+    }
+
+    /**
+     * Sfts thf sfbrdh sdopf to onf of:
+     * OBJECT_SCOPE, ONELEVEL_SCOPE, SUBTREE_SCOPE.
+     * @pbrbm sdopf     Thf sfbrdh sdopf of this SfbrdhControls.
+     * @sff #gftSfbrdhSdopf
+     */
+    publid void sftSfbrdhSdopf(int sdopf) {
+        sfbrdhSdopf = sdopf;
+    }
+
+    /**
+     * Sfts thf timf limit of thfsf SfbrdhControls in millisfdonds.
+     *<p>
+     * If thf vbluf is 0, this mfbns to wbit indffinitfly.
+     * @pbrbm ms        Thf timf limit of thfsf SfbrdhControls in millisfdonds.
+     * @sff #gftTimfLimit
+     */
+    publid void sftTimfLimit(int ms) {
+        timfLimit = ms;
+    }
+
+    /**
+     * Enbblfs/disbblfs link dfrfffrfnding during thf sfbrdh.
+     *
+     * @pbrbm on        if truf links will bf dfrfffrfndfd; if fblsf, not followfd.
+     * @sff #gftDfrffLinkFlbg
+     */
+    publid void sftDfrffLinkFlbg(boolfbn on) {
+        dfrffLink = on;
+    }
+
+    /**
+     * Enbblfs/disbblfs rfturning objfdts rfturnfd bs pbrt of thf rfsult.
+     *<p>
+     * If disbblfd, only thf nbmf bnd dlbss of thf objfdt is rfturnfd.
+     * If fnbblfd, thf objfdt will bf rfturnfd.
+     *
+     * @pbrbm on        if truf, objfdts will bf rfturnfd; if fblsf,
+     *                  objfdts will not bf rfturnfd.
+     * @sff #gftRfturningObjFlbg
+     */
+    publid void sftRfturningObjFlbg(boolfbn on) {
+        rfturnObj = on;
+    }
+
+    /**
+     * Sfts thf mbximum numbfr of fntrifs to bf rfturnfd
+     * bs b rfsult of thf sfbrdh.
+     *<p>
+     * 0 indidbtfs no limit:  bll fntrifs will bf rfturnfd.
+     *
+     * @pbrbm limit Thf mbximum numbfr of fntrifs thbt will bf rfturnfd.
+     * @sff #gftCountLimit
+     */
+    publid void sftCountLimit(long limit) {
+        dountLimit = limit;
+    }
+
+    /**
+     * Spfdififs thf bttributfs thbt will bf rfturnfd bs pbrt of thf sfbrdh.
+     *<p>
+     * null indidbtfs thbt bll bttributfs will bf rfturnfd.
+     * An fmpty brrby indidbtfs no bttributfs brf rfturnfd.
+     *
+     * @pbrbm bttrs An brrby of bttributf ids idfntifying thf bttributfs thbt
+     *              will bf rfturnfd. Cbn bf null.
+     * @sff #gftRfturningAttributfs
+     */
+    publid void sftRfturningAttributfs(String[] bttrs) {
+        bttributfsToRfturn = bttrs;
+    }
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -2480540967773454797L;
+}

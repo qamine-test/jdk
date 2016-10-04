@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.ldap;
+pbdkbgf jbvbx.nbming.ldbp;
 
 /**
- * This class provides a basic implementation of the <tt>Control</tt>
- * interface. It represents an LDAPv3 Control as defined in
- * <a href="http://www.ietf.org/rfc/rfc2251.txt">RFC 2251</a>.
+ * Tiis dlbss providfs b bbsid implfmfntbtion of tif <tt>Control</tt>
+ * intfrfbdf. It rfprfsfnts bn LDAPv3 Control bs dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd2251.txt">RFC 2251</b>.
  *
- * @since 1.5
- * @author Vincent Ryan
+ * @sindf 1.5
+ * @butior Vindfnt Rybn
  */
-public class BasicControl implements Control {
+publid dlbss BbsidControl implfmfnts Control {
 
     /**
-     * The control's object identifier string.
+     * Tif dontrol's objfdt idfntififr string.
      *
-     * @serial
+     * @sfribl
      */
-    protected String id;
+    protfdtfd String id;
 
     /**
-     * The control's criticality.
+     * Tif dontrol's dritidblity.
      *
-     * @serial
+     * @sfribl
      */
-    protected boolean criticality = false; // default
+    protfdtfd boolfbn dritidblity = fblsf; // dffbult
 
     /**
-     * The control's ASN.1 BER encoded value.
+     * Tif dontrol's ASN.1 BER fndodfd vbluf.
      *
-     * @serial
+     * @sfribl
      */
-    protected byte[] value = null;
+    protfdtfd bytf[] vbluf = null;
 
-    private static final long serialVersionUID = -4233907508771791687L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4233907508771791687L;
 
     /**
-     * Constructs a non-critical control.
+     * Construdts b non-dritidbl dontrol.
      *
-     * @param   id      The control's object identifier string.
+     * @pbrbm   id      Tif dontrol's objfdt idfntififr string.
      *
      */
-    public BasicControl(String id) {
-        this.id = id;
+    publid BbsidControl(String id) {
+        tiis.id = id;
     }
 
     /**
-     * Constructs a control using the supplied arguments.
+     * Construdts b dontrol using tif supplifd brgumfnts.
      *
-     * @param   id              The control's object identifier string.
-     * @param   criticality     The control's criticality.
-     * @param   value           The control's ASN.1 BER encoded value.
-     *                          It is not cloned - any changes to value
-     *                          will affect the contents of the control.
-     *                          It may be null.
+     * @pbrbm   id              Tif dontrol's objfdt idfntififr string.
+     * @pbrbm   dritidblity     Tif dontrol's dritidblity.
+     * @pbrbm   vbluf           Tif dontrol's ASN.1 BER fndodfd vbluf.
+     *                          It is not dlonfd - bny dibngfs to vbluf
+     *                          will bfffdt tif dontfnts of tif dontrol.
+     *                          It mby bf null.
      */
-    public BasicControl(String id, boolean criticality, byte[] value) {
-        this.id = id;
-        this.criticality = criticality;
-        this.value = value;
+    publid BbsidControl(String id, boolfbn dritidblity, bytf[] vbluf) {
+        tiis.id = id;
+        tiis.dritidblity = dritidblity;
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Retrieves the control's object identifier string.
+     * Rftrifvfs tif dontrol's objfdt idfntififr string.
      *
-     * @return The non-null object identifier string.
+     * @rfturn Tif non-null objfdt idfntififr string.
      */
-    public String getID() {
-        return id;
+    publid String gftID() {
+        rfturn id;
     }
 
     /**
-     * Determines the control's criticality.
+     * Dftfrminfs tif dontrol's dritidblity.
      *
-     * @return true if the control is critical; false otherwise.
+     * @rfturn truf if tif dontrol is dritidbl; fblsf otifrwisf.
      */
-    public boolean isCritical() {
-        return criticality;
+    publid boolfbn isCritidbl() {
+        rfturn dritidblity;
     }
 
     /**
-     * Retrieves the control's ASN.1 BER encoded value.
-     * The result includes the BER tag and length for the control's value but
-     * does not include the control's object identifier and criticality setting.
+     * Rftrifvfs tif dontrol's ASN.1 BER fndodfd vbluf.
+     * Tif rfsult indludfs tif BER tbg bnd lfngti for tif dontrol's vbluf but
+     * dofs not indludf tif dontrol's objfdt idfntififr bnd dritidblity sftting.
      *
-     * @return A possibly null byte array representing the control's
-     *          ASN.1 BER encoded value. It is not cloned - any changes to the
-     *          returned value will affect the contents of the control.
+     * @rfturn A possibly null bytf brrby rfprfsfnting tif dontrol's
+     *          ASN.1 BER fndodfd vbluf. It is not dlonfd - bny dibngfs to tif
+     *          rfturnfd vbluf will bfffdt tif dontfnts of tif dontrol.
      */
-    public byte[] getEncodedValue() {
-        return value;
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn vbluf;
     }
 }

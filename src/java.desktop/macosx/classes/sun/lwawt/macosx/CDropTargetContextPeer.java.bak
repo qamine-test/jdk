@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.*;
-import java.awt.dnd.DropTarget;
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.DropTbrgft;
 
-import sun.awt.dnd.SunDropTargetContextPeer;
-import sun.awt.dnd.SunDropTargetEvent;
+import sun.bwt.dnd.SunDropTbrgftContfxtPffr;
+import sun.bwt.dnd.SunDropTbrgftEvfnt;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 
-final class CDropTargetContextPeer extends SunDropTargetContextPeer {
+finbl dlbss CDropTbrgftContfxtPffr fxtfnds SunDropTbrgftContfxtPffr {
 
-    private long    fNativeDropTransfer = 0;
-    private long    fNativeDataAvailable = 0;
-    private Object  fNativeData    = null;
-    private DropTarget insideTarget = null;
+    privbtf long    fNbtivfDropTrbnsffr = 0;
+    privbtf long    fNbtivfDbtbAvbilbblf = 0;
+    privbtf Objfdt  fNbtivfDbtb    = null;
+    privbtf DropTbrgft insidfTbrgft = null;
 
-    Object awtLockAccess = new Object();
+    Objfdt bwtLodkAddfss = nfw Objfdt();
 
-    static CDropTargetContextPeer getDropTargetContextPeer() {
-        return new CDropTargetContextPeer();
+    stbtid CDropTbrgftContfxtPffr gftDropTbrgftContfxtPffr() {
+        rfturn nfw CDropTbrgftContfxtPffr();
     }
 
-    private CDropTargetContextPeer() {
-        super();
+    privbtf CDropTbrgftContfxtPffr() {
+        supfr();
     }
 
-    // We block, waiting for an empty event to get posted (CToolkit.invokeAndWait)
-    // This is so we finish dispatching DropTarget events before we dispatch the dragDropFinished event (which is a higher priority).
-    private void flushEvents(Component c) {
+    // Wf blodk, wbiting for bn fmpty fvfnt to gft postfd (CToolkit.invokfAndWbit)
+    // Tiis is so wf finisi dispbtdiing DropTbrgft fvfnts bfforf wf dispbtdi tif drbgDropFinisifd fvfnt (wiidi is b iigifr priority).
+    privbtf void flusiEvfnts(Componfnt d) {
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
-                public synchronized void run() {
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid syndironizfd void run() {
                 }
-            }, c);
+            }, d);
         }
-        catch(Exception e) {
-            e.printStackTrace();
+        dbtdi(Exdfption f) {
+            f.printStbdkTrbdf();
         }
     }
 
-    protected Object getNativeData(long format) {
-        long nativeDropTarget = this.getNativeDragContext();
+    protfdtfd Objfdt gftNbtivfDbtb(long formbt) {
+        long nbtivfDropTbrgft = tiis.gftNbtivfDrbgContfxt();
 
-        synchronized (awtLockAccess) {
-            fNativeDataAvailable = 0;
+        syndironizfd (bwtLodkAddfss) {
+            fNbtivfDbtbAvbilbblf = 0;
 
-            if (fNativeDropTransfer == 0) {
-                fNativeDropTransfer = startTransfer(nativeDropTarget, format);
-            } else {
-                addTransfer(nativeDropTarget, fNativeDropTransfer, format);
+            if (fNbtivfDropTrbnsffr == 0) {
+                fNbtivfDropTrbnsffr = stbrtTrbnsffr(nbtivfDropTbrgft, formbt);
+            } flsf {
+                bddTrbnsffr(nbtivfDropTbrgft, fNbtivfDropTrbnsffr, formbt);
             }
 
-            while (format != fNativeDataAvailable) {
+            wiilf (formbt != fNbtivfDbtbAvbilbblf) {
                 try {
-                    awtLockAccess.wait();
-                } catch (Throwable e) {
-                    e.printStackTrace();
+                    bwtLodkAddfss.wbit();
+                } dbtdi (Tirowbblf f) {
+                    f.printStbdkTrbdf();
                 }
             }
         }
 
-        return fNativeData;
+        rfturn fNbtivfDbtb;
     }
 
-    // We need to take care of dragEnter and dragExit messages because
-    // native system generates them only for heavyweights
-    @Override
-    protected void processMotionMessage(SunDropTargetEvent event, boolean operationChanged) {
-        boolean eventInsideTarget = isEventInsideTarget(event);
-        if (event.getComponent().getDropTarget() == insideTarget) {
-            if (!eventInsideTarget) {
-                processExitMessage(event);
-                return;
+    // Wf nffd to tbkf dbrf of drbgEntfr bnd drbgExit mfssbgfs bfdbusf
+    // nbtivf systfm gfnfrbtfs tifm only for ifbvywfigits
+    @Ovfrridf
+    protfdtfd void prodfssMotionMfssbgf(SunDropTbrgftEvfnt fvfnt, boolfbn opfrbtionCibngfd) {
+        boolfbn fvfntInsidfTbrgft = isEvfntInsidfTbrgft(fvfnt);
+        if (fvfnt.gftComponfnt().gftDropTbrgft() == insidfTbrgft) {
+            if (!fvfntInsidfTbrgft) {
+                prodfssExitMfssbgf(fvfnt);
+                rfturn;
             }
-        } else {
-            if (eventInsideTarget) {
-                processEnterMessage(event);
-            } else {
-                return;
+        } flsf {
+            if (fvfntInsidfTbrgft) {
+                prodfssEntfrMfssbgf(fvfnt);
+            } flsf {
+                rfturn;
             }
         }
-        super.processMotionMessage(event, operationChanged);
+        supfr.prodfssMotionMfssbgf(fvfnt, opfrbtionCibngfd);
     }
 
     /**
-     * Could be called when DnD enters a heavyweight or synthesized in processMotionMessage
+     * Could bf dbllfd wifn DnD fntfrs b ifbvywfigit or syntifsizfd in prodfssMotionMfssbgf
      */
-    @Override
-    protected void processEnterMessage(SunDropTargetEvent event) {
-        Component c = event.getComponent();
-        DropTarget dt = event.getComponent().getDropTarget();
-        if (isEventInsideTarget(event)
-                && dt != insideTarget
-                && c.isShowing()
+    @Ovfrridf
+    protfdtfd void prodfssEntfrMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        Componfnt d = fvfnt.gftComponfnt();
+        DropTbrgft dt = fvfnt.gftComponfnt().gftDropTbrgft();
+        if (isEvfntInsidfTbrgft(fvfnt)
+                && dt != insidfTbrgft
+                && d.isSiowing()
                 && dt != null
-                && dt.isActive()) {
-            insideTarget = dt;
-            super.processEnterMessage(event);
+                && dt.isAdtivf()) {
+            insidfTbrgft = dt;
+            supfr.prodfssEntfrMfssbgf(fvfnt);
         }
     }
 
     /**
-     * Could be called when DnD exits a heavyweight or synthesized in processMotionMessage
+     * Could bf dbllfd wifn DnD fxits b ifbvywfigit or syntifsizfd in prodfssMotionMfssbgf
      */
-    @Override
-    protected void processExitMessage(SunDropTargetEvent event) {
-        if (event.getComponent().getDropTarget() == insideTarget) {
-            insideTarget = null;
-            super.processExitMessage(event);
+    @Ovfrridf
+    protfdtfd void prodfssExitMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        if (fvfnt.gftComponfnt().gftDropTbrgft() == insidfTbrgft) {
+            insidfTbrgft = null;
+            supfr.prodfssExitMfssbgf(fvfnt);
         }
     }
 
-    @Override
-    protected void processDropMessage(SunDropTargetEvent event) {
-        if (isEventInsideTarget(event)) {
-            super.processDropMessage(event);
-            insideTarget = null;
+    @Ovfrridf
+    protfdtfd void prodfssDropMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        if (isEvfntInsidfTbrgft(fvfnt)) {
+            supfr.prodfssDropMfssbgf(fvfnt);
+            insidfTbrgft = null;
         }
     }
 
-    private boolean isEventInsideTarget(SunDropTargetEvent event) {
-        Component eventSource = event.getComponent();
-        Point screenPoint = event.getPoint();
-        SwingUtilities.convertPointToScreen(screenPoint, eventSource);
-        Point locationOnScreen = eventSource.getLocationOnScreen();
-        Rectangle screenBounds = new Rectangle(locationOnScreen.x,
-                                               locationOnScreen.y,
-                                               eventSource.getWidth(),
-                                               eventSource.getHeight());
-        return screenBounds.contains(screenPoint);
+    privbtf boolfbn isEvfntInsidfTbrgft(SunDropTbrgftEvfnt fvfnt) {
+        Componfnt fvfntSourdf = fvfnt.gftComponfnt();
+        Point sdrffnPoint = fvfnt.gftPoint();
+        SwingUtilitifs.donvfrtPointToSdrffn(sdrffnPoint, fvfntSourdf);
+        Point lodbtionOnSdrffn = fvfntSourdf.gftLodbtionOnSdrffn();
+        Rfdtbnglf sdrffnBounds = nfw Rfdtbnglf(lodbtionOnSdrffn.x,
+                                               lodbtionOnSdrffn.y,
+                                               fvfntSourdf.gftWidti(),
+                                               fvfntSourdf.gftHfigit());
+        rfturn sdrffnBounds.dontbins(sdrffnPoint);
     }
 
-    @Override
-    protected int postDropTargetEvent(Component component, int x, int y, int dropAction,
-                                      int actions, long[] formats, long nativeCtxt, int eventID,
-                                      boolean dispatchType) {
-        // On MacOS X all the DnD events should be synchronous
-        return super.postDropTargetEvent(component, x, y, dropAction, actions, formats, nativeCtxt,
-                eventID, SunDropTargetContextPeer.DISPATCH_SYNC);
+    @Ovfrridf
+    protfdtfd int postDropTbrgftEvfnt(Componfnt domponfnt, int x, int y, int dropAdtion,
+                                      int bdtions, long[] formbts, long nbtivfCtxt, int fvfntID,
+                                      boolfbn dispbtdiTypf) {
+        // On MbdOS X bll tif DnD fvfnts siould bf syndironous
+        rfturn supfr.postDropTbrgftEvfnt(domponfnt, x, y, dropAdtion, bdtions, formbts, nbtivfCtxt,
+                fvfntID, SunDropTbrgftContfxtPffr.DISPATCH_SYNC);
     }
 
-    // Signal drop complete:
-    protected void doDropDone(boolean success, int dropAction, boolean isLocal) {
-        long nativeDropTarget = this.getNativeDragContext();
+    // Signbl drop domplftf:
+    protfdtfd void doDropDonf(boolfbn suddfss, int dropAdtion, boolfbn isLodbl) {
+        long nbtivfDropTbrgft = tiis.gftNbtivfDrbgContfxt();
 
-        dropDone(nativeDropTarget, fNativeDropTransfer, isLocal, success, dropAction);
+        dropDonf(nbtivfDropTbrgft, fNbtivfDropTrbnsffr, isLodbl, suddfss, dropAdtion);
     }
 
-    // Notify transfer complete - this is an upcall from getNativeData's native calls:
-    private void newData(long format, byte[] data) {
-        fNativeDataAvailable = format;
-        fNativeData          = data;
+    // Notify trbnsffr domplftf - tiis is bn updbll from gftNbtivfDbtb's nbtivf dblls:
+    privbtf void nfwDbtb(long formbt, bytf[] dbtb) {
+        fNbtivfDbtbAvbilbblf = formbt;
+        fNbtivfDbtb          = dbtb;
 
-        awtLockAccess.notifyAll();
+        bwtLodkAddfss.notifyAll();
     }
 
-    // Notify transfer failed - this is an upcall from getNativeData's native calls:
-    private void transferFailed(long format) {
-        fNativeDataAvailable = format;
-        fNativeData          = null;
+    // Notify trbnsffr fbilfd - tiis is bn updbll from gftNbtivfDbtb's nbtivf dblls:
+    privbtf void trbnsffrFbilfd(long formbt) {
+        fNbtivfDbtbAvbilbblf = formbt;
+        fNbtivfDbtb          = null;
 
-        awtLockAccess.notifyAll();
+        bwtLodkAddfss.notifyAll();
     }
 
-    // Schedule a native dnd transfer:
-    private native long startTransfer(long nativeDropTarget, long format);
+    // Sdifdulf b nbtivf dnd trbnsffr:
+    privbtf nbtivf long stbrtTrbnsffr(long nbtivfDropTbrgft, long formbt);
 
-    // Schedule a native dnd data transfer:
-    private native void addTransfer(long nativeDropTarget, long nativeDropTransfer, long format);
+    // Sdifdulf b nbtivf dnd dbtb trbnsffr:
+    privbtf nbtivf void bddTrbnsffr(long nbtivfDropTbrgft, long nbtivfDropTrbnsffr, long formbt);
 
-    // Notify drop completed:
-    private native void dropDone(long nativeDropTarget, long nativeDropTransfer, boolean isLocal, boolean success, int dropAction);
+    // Notify drop domplftfd:
+    privbtf nbtivf void dropDonf(long nbtivfDropTbrgft, long nbtivfDropTrbnsffr, boolfbn isLodbl, boolfbn suddfss, int dropAdtion);
 }

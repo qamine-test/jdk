@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
-import java.util.Iterator;
-import java.util.Set;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
 
 /**
- * An immutable valid policy tree node as defined by the PKIX certification
- * path validation algorithm.
+ * An immutbblf vblid polidy trff nodf bs dffinfd by tif PKIX dfrtifidbtion
+ * pbti vblidbtion blgoritim.
  *
- * <p>One of the outputs of the PKIX certification path validation
- * algorithm is a valid policy tree, which includes the policies that
- * were determined to be valid, how this determination was reached,
- * and any policy qualifiers encountered. This tree is of depth
- * <i>n</i>, where <i>n</i> is the length of the certification
- * path that has been validated.
+ * <p>Onf of tif outputs of tif PKIX dfrtifidbtion pbti vblidbtion
+ * blgoritim is b vblid polidy trff, wiidi indludfs tif polidifs tibt
+ * wfrf dftfrminfd to bf vblid, iow tiis dftfrminbtion wbs rfbdifd,
+ * bnd bny polidy qublififrs fndountfrfd. Tiis trff is of dfpti
+ * <i>n</i>, wifrf <i>n</i> is tif lfngti of tif dfrtifidbtion
+ * pbti tibt ibs bffn vblidbtfd.
  *
- * <p>Most applications will not need to examine the valid policy tree.
- * They can achieve their policy processing goals by setting the
- * policy-related parameters in {@code PKIXParameters}. However,
- * the valid policy tree is available for more sophisticated applications,
- * especially those that process policy qualifiers.
+ * <p>Most bpplidbtions will not nffd to fxbminf tif vblid polidy trff.
+ * Tify dbn bdiifvf tifir polidy prodfssing gobls by sftting tif
+ * polidy-rflbtfd pbrbmftfrs in {@dodf PKIXPbrbmftfrs}. Howfvfr,
+ * tif vblid polidy trff is bvbilbblf for morf sopiistidbtfd bpplidbtions,
+ * fspfdiblly tiosf tibt prodfss polidy qublififrs.
  *
- * <p>{@link PKIXCertPathValidatorResult#getPolicyTree()
- * PKIXCertPathValidatorResult.getPolicyTree} returns the root node of the
- * valid policy tree. The tree can be traversed using the
- * {@link #getChildren getChildren} and {@link #getParent getParent} methods.
- * Data about a particular node can be retrieved using other methods of
- * {@code PolicyNode}.
+ * <p>{@link PKIXCfrtPbtiVblidbtorRfsult#gftPolidyTrff()
+ * PKIXCfrtPbtiVblidbtorRfsult.gftPolidyTrff} rfturns tif root nodf of tif
+ * vblid polidy trff. Tif trff dbn bf trbvfrsfd using tif
+ * {@link #gftCiildrfn gftCiildrfn} bnd {@link #gftPbrfnt gftPbrfnt} mftiods.
+ * Dbtb bbout b pbrtidulbr nodf dbn bf rftrifvfd using otifr mftiods of
+ * {@dodf PolidyNodf}.
  *
- * <p><b>Concurrent Access</b>
- * <p>All {@code PolicyNode} objects must be immutable and
- * thread-safe. Multiple threads may concurrently invoke the methods defined
- * in this class on a single {@code PolicyNode} object (or more than one)
- * with no ill effects. This stipulation applies to all public fields and
- * methods of this class and any added or overridden by subclasses.
+ * <p><b>Condurrfnt Addfss</b>
+ * <p>All {@dodf PolidyNodf} objfdts must bf immutbblf bnd
+ * tirfbd-sbff. Multiplf tirfbds mby dondurrfntly invokf tif mftiods dffinfd
+ * in tiis dlbss on b singlf {@dodf PolidyNodf} objfdt (or morf tibn onf)
+ * witi no ill ffffdts. Tiis stipulbtion bpplifs to bll publid fiflds bnd
+ * mftiods of tiis dlbss bnd bny bddfd or ovfrriddfn by subdlbssfs.
  *
- * @since       1.4
- * @author      Sean Mullan
+ * @sindf       1.4
+ * @butior      Sfbn Mullbn
  */
-public interface PolicyNode {
+publid intfrfbdf PolidyNodf {
 
     /**
-     * Returns the parent of this node, or {@code null} if this is the
-     * root node.
+     * Rfturns tif pbrfnt of tiis nodf, or {@dodf null} if tiis is tif
+     * root nodf.
      *
-     * @return the parent of this node, or {@code null} if this is the
-     * root node
+     * @rfturn tif pbrfnt of tiis nodf, or {@dodf null} if tiis is tif
+     * root nodf
      */
-    PolicyNode getParent();
+    PolidyNodf gftPbrfnt();
 
     /**
-     * Returns an iterator over the children of this node. Any attempts to
-     * modify the children of this node through the
-     * {@code Iterator}'s remove method must throw an
-     * {@code UnsupportedOperationException}.
+     * Rfturns bn itfrbtor ovfr tif diildrfn of tiis nodf. Any bttfmpts to
+     * modify tif diildrfn of tiis nodf tirougi tif
+     * {@dodf Itfrbtor}'s rfmovf mftiod must tirow bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
      *
-     * @return an iterator over the children of this node
+     * @rfturn bn itfrbtor ovfr tif diildrfn of tiis nodf
      */
-    Iterator<? extends PolicyNode> getChildren();
+    Itfrbtor<? fxtfnds PolidyNodf> gftCiildrfn();
 
     /**
-     * Returns the depth of this node in the valid policy tree.
+     * Rfturns tif dfpti of tiis nodf in tif vblid polidy trff.
      *
-     * @return the depth of this node (0 for the root node, 1 for its
-     * children, and so on)
+     * @rfturn tif dfpti of tiis nodf (0 for tif root nodf, 1 for its
+     * diildrfn, bnd so on)
      */
-    int getDepth();
+    int gftDfpti();
 
     /**
-     * Returns the valid policy represented by this node.
+     * Rfturns tif vblid polidy rfprfsfntfd by tiis nodf.
      *
-     * @return the {@code String} OID of the valid policy
-     * represented by this node. For the root node, this method always returns
-     * the special anyPolicy OID: "2.5.29.32.0".
+     * @rfturn tif {@dodf String} OID of tif vblid polidy
+     * rfprfsfntfd by tiis nodf. For tif root nodf, tiis mftiod blwbys rfturns
+     * tif spfdibl bnyPolidy OID: "2.5.29.32.0".
      */
-    String getValidPolicy();
+    String gftVblidPolidy();
 
     /**
-     * Returns the set of policy qualifiers associated with the
-     * valid policy represented by this node.
+     * Rfturns tif sft of polidy qublififrs bssodibtfd witi tif
+     * vblid polidy rfprfsfntfd by tiis nodf.
      *
-     * @return an immutable {@code Set} of
-     * {@code PolicyQualifierInfo}s. For the root node, this
-     * is always an empty {@code Set}.
+     * @rfturn bn immutbblf {@dodf Sft} of
+     * {@dodf PolidyQublififrInfo}s. For tif root nodf, tiis
+     * is blwbys bn fmpty {@dodf Sft}.
      */
-    Set<? extends PolicyQualifierInfo> getPolicyQualifiers();
+    Sft<? fxtfnds PolidyQublififrInfo> gftPolidyQublififrs();
 
     /**
-     * Returns the set of expected policies that would satisfy this
-     * node's valid policy in the next certificate to be processed.
+     * Rfturns tif sft of fxpfdtfd polidifs tibt would sbtisfy tiis
+     * nodf's vblid polidy in tif nfxt dfrtifidbtf to bf prodfssfd.
      *
-     * @return an immutable {@code Set} of expected policy
-     * {@code String} OIDs. For the root node, this method
-     * always returns a {@code Set} with one element, the
-     * special anyPolicy OID: "2.5.29.32.0".
+     * @rfturn bn immutbblf {@dodf Sft} of fxpfdtfd polidy
+     * {@dodf String} OIDs. For tif root nodf, tiis mftiod
+     * blwbys rfturns b {@dodf Sft} witi onf flfmfnt, tif
+     * spfdibl bnyPolidy OID: "2.5.29.32.0".
      */
-    Set<String> getExpectedPolicies();
+    Sft<String> gftExpfdtfdPolidifs();
 
     /**
-     * Returns the criticality indicator of the certificate policy extension
-     * in the most recently processed certificate.
+     * Rfturns tif dritidblity indidbtor of tif dfrtifidbtf polidy fxtfnsion
+     * in tif most rfdfntly prodfssfd dfrtifidbtf.
      *
-     * @return {@code true} if extension marked critical,
-     * {@code false} otherwise. For the root node, {@code false}
-     * is always returned.
+     * @rfturn {@dodf truf} if fxtfnsion mbrkfd dritidbl,
+     * {@dodf fblsf} otifrwisf. For tif root nodf, {@dodf fblsf}
+     * is blwbys rfturnfd.
      */
-    boolean isCritical();
+    boolfbn isCritidbl();
 }

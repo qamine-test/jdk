@@ -1,462 +1,462 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.awt;
+pbdkbgf dom.sun.bwt;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.SunToolkit;
 
 /**
- * A collection of utility methods for AWT.
+ * A dollfdtion of utility mftiods for AWT.
  *
- * The functionality provided by the static methods of the class includes:
+ * Tif fundtionblity providfd by tif stbtid mftiods of tif dlbss indludfs:
  * <ul>
- * <li>Setting shapes on top-level windows
- * <li>Setting a constant alpha value for each pixel of a top-level window
- * <li>Making a window non-opaque, after that it paints only explicitly
- * painted pixels on the screen, with arbitrary alpha values for every pixel.
- * <li>Setting a 'mixing-cutout' shape for a component.
+ * <li>Sftting sibpfs on top-lfvfl windows
+ * <li>Sftting b donstbnt blpib vbluf for fbdi pixfl of b top-lfvfl window
+ * <li>Mbking b window non-opbquf, bftfr tibt it pbints only fxpliditly
+ * pbintfd pixfls on tif sdrffn, witi brbitrbry blpib vblufs for fvfry pixfl.
+ * <li>Sftting b 'mixing-dutout' sibpf for b domponfnt.
  * </ul>
  * <p>
- * A "top-level window" is an instance of the {@code Window} class (or its
- * descendant, such as {@code JFrame}).
+ * A "top-lfvfl window" is bn instbndf of tif {@dodf Window} dlbss (or its
+ * dfsdfndbnt, sudi bs {@dodf JFrbmf}).
  * <p>
- * Some of the mentioned features may not be supported by the native platform.
- * To determine whether a particular feature is supported, the user must use
- * the {@code isTranslucencySupported()} method of the class passing a desired
- * translucency kind (a member of the {@code Translucency} enum) as an
- * argument.
+ * Somf of tif mfntionfd ffbturfs mby not bf supportfd by tif nbtivf plbtform.
+ * To dftfrminf wiftifr b pbrtidulbr ffbturf is supportfd, tif usfr must usf
+ * tif {@dodf isTrbnsludfndySupportfd()} mftiod of tif dlbss pbssing b dfsirfd
+ * trbnsludfndy kind (b mfmbfr of tif {@dodf Trbnsludfndy} fnum) bs bn
+ * brgumfnt.
  * <p>
- * The per-pixel alpha feature also requires the user to create her/his
- * windows using a translucency-capable graphics configuration.
- * The {@code isTranslucencyCapable()} method must
- * be used to verify whether any given GraphicsConfiguration supports
- * the trasnlcency effects.
+ * Tif pfr-pixfl blpib ffbturf blso rfquirfs tif usfr to drfbtf ifr/iis
+ * windows using b trbnsludfndy-dbpbblf grbpiids donfigurbtion.
+ * Tif {@dodf isTrbnsludfndyCbpbblf()} mftiod must
+ * bf usfd to vfrify wiftifr bny givfn GrbpiidsConfigurbtion supports
+ * tif trbsnldfndy ffffdts.
  * <p>
- * <b>WARNING</b>: This class is an implementation detail and only meant
- * for limited use outside of the core platform. This API may change
- * drastically between update release, and it may even be
- * removed or be moved in some other package(s)/class(es).
+ * <b>WARNING</b>: Tiis dlbss is bn implfmfntbtion dftbil bnd only mfbnt
+ * for limitfd usf outsidf of tif dorf plbtform. Tiis API mby dibngf
+ * drbstidblly bftwffn updbtf rflfbsf, bnd it mby fvfn bf
+ * rfmovfd or bf movfd in somf otifr pbdkbgf(s)/dlbss(fs).
  */
-public final class AWTUtilities {
+publid finbl dlbss AWTUtilitifs {
 
     /**
-     * The AWTUtilities class should not be instantiated
+     * Tif AWTUtilitifs dlbss siould not bf instbntibtfd
      */
-    private AWTUtilities() {
+    privbtf AWTUtilitifs() {
     }
 
-    /** Kinds of translucency supported by the underlying system.
-     *  @see #isTranslucencySupported
+    /** Kinds of trbnsludfndy supportfd by tif undfrlying systfm.
+     *  @sff #isTrbnsludfndySupportfd
      */
-    public static enum Translucency {
+    publid stbtid fnum Trbnsludfndy {
         /**
-         * Represents support in the underlying system for windows each pixel
-         * of which is guaranteed to be either completely opaque, with
-         * an alpha value of 1.0, or completely transparent, with an alpha
-         * value of 0.0.
+         * Rfprfsfnts support in tif undfrlying systfm for windows fbdi pixfl
+         * of wiidi is gubrbntffd to bf fitifr domplftfly opbquf, witi
+         * bn blpib vbluf of 1.0, or domplftfly trbnspbrfnt, witi bn blpib
+         * vbluf of 0.0.
          */
         PERPIXEL_TRANSPARENT,
 
         /**
-         * Represents support in the underlying system for windows all of
-         * the pixels of which have the same alpha value between or including
-         * 0.0 and 1.0.
+         * Rfprfsfnts support in tif undfrlying systfm for windows bll of
+         * tif pixfls of wiidi ibvf tif sbmf blpib vbluf bftwffn or indluding
+         * 0.0 bnd 1.0.
          */
         TRANSLUCENT,
 
         /**
-         * Represents support in the underlying system for windows that
-         * contain or might contain pixels with arbitrary alpha values
-         * between and including 0.0 and 1.0.
+         * Rfprfsfnts support in tif undfrlying systfm for windows tibt
+         * dontbin or migit dontbin pixfls witi brbitrbry blpib vblufs
+         * bftwffn bnd indluding 0.0 bnd 1.0.
          */
         PERPIXEL_TRANSLUCENT;
     }
 
 
     /**
-     * Returns whether the given level of translucency is supported by
-     * the underlying system.
+     * Rfturns wiftifr tif givfn lfvfl of trbnsludfndy is supportfd by
+     * tif undfrlying systfm.
      *
-     * Note that this method may sometimes return the value
-     * indicating that the particular level is supported, but
-     * the native windowing system may still not support the
-     * given level of translucency (due to the bugs in
-     * the windowing system).
+     * Notf tibt tiis mftiod mby somftimfs rfturn tif vbluf
+     * indidbting tibt tif pbrtidulbr lfvfl is supportfd, but
+     * tif nbtivf windowing systfm mby still not support tif
+     * givfn lfvfl of trbnsludfndy (duf to tif bugs in
+     * tif windowing systfm).
      *
-     * @param translucencyKind a kind of translucency support
-     *                         (either PERPIXEL_TRANSPARENT,
+     * @pbrbm trbnsludfndyKind b kind of trbnsludfndy support
+     *                         (fitifr PERPIXEL_TRANSPARENT,
      *                         TRANSLUCENT, or PERPIXEL_TRANSLUCENT)
-     * @return whether the given translucency kind is supported
+     * @rfturn wiftifr tif givfn trbnsludfndy kind is supportfd
      */
-    public static boolean isTranslucencySupported(Translucency translucencyKind) {
-        switch (translucencyKind) {
-            case PERPIXEL_TRANSPARENT:
-                return isWindowShapingSupported();
-            case TRANSLUCENT:
-                return isWindowOpacitySupported();
-            case PERPIXEL_TRANSLUCENT:
-                return isWindowTranslucencySupported();
+    publid stbtid boolfbn isTrbnsludfndySupportfd(Trbnsludfndy trbnsludfndyKind) {
+        switdi (trbnsludfndyKind) {
+            dbsf PERPIXEL_TRANSPARENT:
+                rfturn isWindowSibpingSupportfd();
+            dbsf TRANSLUCENT:
+                rfturn isWindowOpbditySupportfd();
+            dbsf PERPIXEL_TRANSLUCENT:
+                rfturn isWindowTrbnsludfndySupportfd();
         }
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Returns whether the windowing system supports changing the opacity
-     * value of top-level windows.
-     * Note that this method may sometimes return true, but the native
-     * windowing system may still not support the concept of
-     * translucency (due to the bugs in the windowing system).
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif opbdity
+     * vbluf of top-lfvfl windows.
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * windowing systfm mby still not support tif dondfpt of
+     * trbnsludfndy (duf to tif bugs in tif windowing systfm).
      */
-    private static boolean isWindowOpacitySupported() {
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+    privbtf stbtid boolfbn isWindowOpbditySupportfd() {
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
         }
-        return ((SunToolkit)curToolkit).isWindowOpacitySupported();
+        rfturn ((SunToolkit)durToolkit).isWindowOpbditySupportfd();
     }
 
     /**
-     * Set the opacity of the window. The opacity is at the range [0..1].
-     * Note that setting the opacity level of 0 may or may not disable
-     * the mouse event handling on this window. This is
-     * a platform-dependent behavior.
+     * Sft tif opbdity of tif window. Tif opbdity is bt tif rbngf [0..1].
+     * Notf tibt sftting tif opbdity lfvfl of 0 mby or mby not disbblf
+     * tif mousf fvfnt ibndling on tiis window. Tiis is
+     * b plbtform-dfpfndfnt bfibvior.
      *
-     * In order for this method to enable the translucency effect,
-     * the isTranslucencySupported() method should indicate that the
-     * TRANSLUCENT level of translucency is supported.
+     * In ordfr for tiis mftiod to fnbblf tif trbnsludfndy ffffdt,
+     * tif isTrbnsludfndySupportfd() mftiod siould indidbtf tibt tif
+     * TRANSLUCENT lfvfl of trbnsludfndy is supportfd.
      *
-     * <p>Also note that the window must not be in the full-screen mode
-     * when setting the opacity value &lt; 1.0f. Otherwise
-     * the IllegalArgumentException is thrown.
+     * <p>Also notf tibt tif window must not bf in tif full-sdrffn modf
+     * wifn sftting tif opbdity vbluf &lt; 1.0f. Otifrwisf
+     * tif IllfgblArgumfntExdfption is tirown.
      *
-     * @param window the window to set the opacity level to
-     * @param opacity the opacity level to set to the window
-     * @throws NullPointerException if the window argument is null
-     * @throws IllegalArgumentException if the opacity is out of
-     *                                  the range [0..1]
-     * @throws IllegalArgumentException if the window is in full screen mode,
-     *                                  and the opacity is less than 1.0f
-     * @throws UnsupportedOperationException if the TRANSLUCENT translucency
-     *                                       kind is not supported
+     * @pbrbm window tif window to sft tif opbdity lfvfl to
+     * @pbrbm opbdity tif opbdity lfvfl to sft to tif window
+     * @tirows NullPointfrExdfption if tif window brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if tif opbdity is out of
+     *                                  tif rbngf [0..1]
+     * @tirows IllfgblArgumfntExdfption if tif window is in full sdrffn modf,
+     *                                  bnd tif opbdity is lfss tibn 1.0f
+     * @tirows UnsupportfdOpfrbtionExdfption if tif TRANSLUCENT trbnsludfndy
+     *                                       kind is not supportfd
      */
-    public static void setWindowOpacity(Window window, float opacity) {
+    publid stbtid void sftWindowOpbdity(Window window, flobt opbdity) {
         if (window == null) {
-            throw new NullPointerException(
-                    "The window argument should not be null.");
+            tirow nfw NullPointfrExdfption(
+                    "Tif window brgumfnt siould not bf null.");
         }
 
-        AWTAccessor.getWindowAccessor().setOpacity(window, opacity);
+        AWTAddfssor.gftWindowAddfssor().sftOpbdity(window, opbdity);
     }
 
     /**
-     * Get the opacity of the window. If the opacity has not
-     * yet being set, this method returns 1.0.
+     * Gft tif opbdity of tif window. If tif opbdity ibs not
+     * yft bfing sft, tiis mftiod rfturns 1.0.
      *
-     * @param window the window to get the opacity level from
-     * @throws NullPointerException if the window argument is null
+     * @pbrbm window tif window to gft tif opbdity lfvfl from
+     * @tirows NullPointfrExdfption if tif window brgumfnt is null
      */
-    public static float getWindowOpacity(Window window) {
+    publid stbtid flobt gftWindowOpbdity(Window window) {
         if (window == null) {
-            throw new NullPointerException(
-                    "The window argument should not be null.");
+            tirow nfw NullPointfrExdfption(
+                    "Tif window brgumfnt siould not bf null.");
         }
 
-        return AWTAccessor.getWindowAccessor().getOpacity(window);
+        rfturn AWTAddfssor.gftWindowAddfssor().gftOpbdity(window);
     }
 
     /**
-     * Returns whether the windowing system supports changing the shape
-     * of top-level windows.
-     * Note that this method may sometimes return true, but the native
-     * windowing system may still not support the concept of
-     * shaping (due to the bugs in the windowing system).
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif sibpf
+     * of top-lfvfl windows.
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * windowing systfm mby still not support tif dondfpt of
+     * sibping (duf to tif bugs in tif windowing systfm).
      */
-    public static boolean isWindowShapingSupported() {
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+    publid stbtid boolfbn isWindowSibpingSupportfd() {
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
         }
-        return ((SunToolkit)curToolkit).isWindowShapingSupported();
+        rfturn ((SunToolkit)durToolkit).isWindowSibpingSupportfd();
     }
 
     /**
-     * Returns an object that implements the Shape interface and represents
-     * the shape previously set with the call to the setWindowShape() method.
-     * If no shape has been set yet, or the shape has been reset to null,
-     * this method returns null.
+     * Rfturns bn objfdt tibt implfmfnts tif Sibpf intfrfbdf bnd rfprfsfnts
+     * tif sibpf prfviously sft witi tif dbll to tif sftWindowSibpf() mftiod.
+     * If no sibpf ibs bffn sft yft, or tif sibpf ibs bffn rfsft to null,
+     * tiis mftiod rfturns null.
      *
-     * @param window the window to get the shape from
-     * @return the current shape of the window
-     * @throws NullPointerException if the window argument is null
+     * @pbrbm window tif window to gft tif sibpf from
+     * @rfturn tif durrfnt sibpf of tif window
+     * @tirows NullPointfrExdfption if tif window brgumfnt is null
      */
-    public static Shape getWindowShape(Window window) {
+    publid stbtid Sibpf gftWindowSibpf(Window window) {
         if (window == null) {
-            throw new NullPointerException(
-                    "The window argument should not be null.");
+            tirow nfw NullPointfrExdfption(
+                    "Tif window brgumfnt siould not bf null.");
         }
-        return AWTAccessor.getWindowAccessor().getShape(window);
+        rfturn AWTAddfssor.gftWindowAddfssor().gftSibpf(window);
     }
 
     /**
-     * Sets a shape for the given window.
-     * If the shape argument is null, this methods restores
-     * the default shape making the window rectangular.
-     * <p>Note that in order to set a shape, the window must be undecorated.
-     * If the window is decorated, this method ignores the {@code shape}
-     * argument and resets the shape to null.
-     * <p>Also note that the window must not be in the full-screen mode
-     * when setting a non-null shape. Otherwise the IllegalArgumentException
-     * is thrown.
-     * <p>Depending on the platform, the method may return without
-     * effecting the shape of the window if the window has a non-null warning
-     * string ({@link Window#getWarningString()}). In this case the passed
-     * shape object is ignored.
+     * Sfts b sibpf for tif givfn window.
+     * If tif sibpf brgumfnt is null, tiis mftiods rfstorfs
+     * tif dffbult sibpf mbking tif window rfdtbngulbr.
+     * <p>Notf tibt in ordfr to sft b sibpf, tif window must bf undfdorbtfd.
+     * If tif window is dfdorbtfd, tiis mftiod ignorfs tif {@dodf sibpf}
+     * brgumfnt bnd rfsfts tif sibpf to null.
+     * <p>Also notf tibt tif window must not bf in tif full-sdrffn modf
+     * wifn sftting b non-null sibpf. Otifrwisf tif IllfgblArgumfntExdfption
+     * is tirown.
+     * <p>Dfpfnding on tif plbtform, tif mftiod mby rfturn witiout
+     * ffffdting tif sibpf of tif window if tif window ibs b non-null wbrning
+     * string ({@link Window#gftWbrningString()}). In tiis dbsf tif pbssfd
+     * sibpf objfdt is ignorfd.
      *
-     * @param window the window to set the shape to
-     * @param shape the shape to set to the window
-     * @throws NullPointerException if the window argument is null
-     * @throws IllegalArgumentException if the window is in full screen mode,
-     *                                  and the shape is not null
-     * @throws UnsupportedOperationException if the PERPIXEL_TRANSPARENT
-     *                                       translucency kind is not supported
+     * @pbrbm window tif window to sft tif sibpf to
+     * @pbrbm sibpf tif sibpf to sft to tif window
+     * @tirows NullPointfrExdfption if tif window brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if tif window is in full sdrffn modf,
+     *                                  bnd tif sibpf is not null
+     * @tirows UnsupportfdOpfrbtionExdfption if tif PERPIXEL_TRANSPARENT
+     *                                       trbnsludfndy kind is not supportfd
      */
-    public static void setWindowShape(Window window, Shape shape) {
+    publid stbtid void sftWindowSibpf(Window window, Sibpf sibpf) {
         if (window == null) {
-            throw new NullPointerException(
-                    "The window argument should not be null.");
+            tirow nfw NullPointfrExdfption(
+                    "Tif window brgumfnt siould not bf null.");
         }
-        AWTAccessor.getWindowAccessor().setShape(window, shape);
+        AWTAddfssor.gftWindowAddfssor().sftSibpf(window, sibpf);
     }
 
-    private static boolean isWindowTranslucencySupported() {
+    privbtf stbtid boolfbn isWindowTrbnsludfndySupportfd() {
         /*
-         * Per-pixel alpha is supported if all the conditions are TRUE:
-         *    1. The toolkit is a sort of SunToolkit
-         *    2. The toolkit supports translucency in general
-         *        (isWindowTranslucencySupported())
-         *    3. There's at least one translucency-capable
-         *        GraphicsConfiguration
+         * Pfr-pixfl blpib is supportfd if bll tif donditions brf TRUE:
+         *    1. Tif toolkit is b sort of SunToolkit
+         *    2. Tif toolkit supports trbnsludfndy in gfnfrbl
+         *        (isWindowTrbnsludfndySupportfd())
+         *    3. Tifrf's bt lfbst onf trbnsludfndy-dbpbblf
+         *        GrbpiidsConfigurbtion
          */
 
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
         }
 
-        if (!((SunToolkit)curToolkit).isWindowTranslucencySupported()) {
-            return false;
+        if (!((SunToolkit)durToolkit).isWindowTrbnsludfndySupportfd()) {
+            rfturn fblsf;
         }
 
-        GraphicsEnvironment env =
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GrbpiidsEnvironmfnt fnv =
+            GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
 
-        // If the default GC supports translucency return true.
-        // It is important to optimize the verification this way,
-        // see CR 6661196 for more details.
-        if (isTranslucencyCapable(env.getDefaultScreenDevice()
-                    .getDefaultConfiguration()))
+        // If tif dffbult GC supports trbnsludfndy rfturn truf.
+        // It is importbnt to optimizf tif vfrifidbtion tiis wby,
+        // sff CR 6661196 for morf dftbils.
+        if (isTrbnsludfndyCbpbblf(fnv.gftDffbultSdrffnDfvidf()
+                    .gftDffbultConfigurbtion()))
         {
-            return true;
+            rfturn truf;
         }
 
-        // ... otherwise iterate through all the GCs.
-        GraphicsDevice[] devices = env.getScreenDevices();
+        // ... otifrwisf itfrbtf tirougi bll tif GCs.
+        GrbpiidsDfvidf[] dfvidfs = fnv.gftSdrffnDfvidfs();
 
-        for (int i = 0; i < devices.length; i++) {
-            GraphicsConfiguration[] configs = devices[i].getConfigurations();
-            for (int j = 0; j < configs.length; j++) {
-                if (isTranslucencyCapable(configs[j])) {
-                    return true;
+        for (int i = 0; i < dfvidfs.lfngti; i++) {
+            GrbpiidsConfigurbtion[] donfigs = dfvidfs[i].gftConfigurbtions();
+            for (int j = 0; j < donfigs.lfngti; j++) {
+                if (isTrbnsludfndyCbpbblf(donfigs[j])) {
+                    rfturn truf;
                 }
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Enables the per-pixel alpha support for the given window.
-     * Once the window becomes non-opaque (the isOpaque is set to false),
-     * the drawing sub-system is starting to respect the alpha value of each
-     * separate pixel. If a pixel gets painted with alpha color component
-     * equal to zero, it becomes visually transparent, if the alpha of the
-     * pixel is equal to 255, the pixel is fully opaque. Interim values
-     * of the alpha color component make the pixel semi-transparent (i.e.
-     * translucent).
-     * <p>Note that in order for the window to support the per-pixel alpha
-     * mode, the window must be created using the GraphicsConfiguration
-     * for which the {@link #isTranslucencyCapable}
-     * method returns true.
-     * <p>Also note that some native systems enable the per-pixel translucency
-     * mode for any window created using the translucency-compatible
-     * graphics configuration. However, it is highly recommended to always
-     * invoke the setWindowOpaque() method for these windows, at least for
-     * the sake of cross-platform compatibility reasons.
-     * <p>Also note that the window must not be in the full-screen mode
-     * when making it non-opaque. Otherwise the IllegalArgumentException
-     * is thrown.
-     * <p>If the window is a {@code Frame} or a {@code Dialog}, the window must
-     * be undecorated prior to enabling the per-pixel translucency effect (see
-     * {@link Frame#setUndecorated()} and/or {@link Dialog#setUndecorated()}).
-     * If the window becomes decorated through a subsequent call to the
-     * corresponding {@code setUndecorated()} method, the per-pixel
-     * translucency effect will be disabled and the opaque property reset to
-     * {@code true}.
-     * <p>Depending on the platform, the method may return without
-     * effecting the opaque property of the window if the window has a non-null
-     * warning string ({@link Window#getWarningString()}). In this case
-     * the passed 'isOpaque' value is ignored.
+     * Enbblfs tif pfr-pixfl blpib support for tif givfn window.
+     * Ondf tif window bfdomfs non-opbquf (tif isOpbquf is sft to fblsf),
+     * tif drbwing sub-systfm is stbrting to rfspfdt tif blpib vbluf of fbdi
+     * sfpbrbtf pixfl. If b pixfl gfts pbintfd witi blpib dolor domponfnt
+     * fqubl to zfro, it bfdomfs visublly trbnspbrfnt, if tif blpib of tif
+     * pixfl is fqubl to 255, tif pixfl is fully opbquf. Intfrim vblufs
+     * of tif blpib dolor domponfnt mbkf tif pixfl sfmi-trbnspbrfnt (i.f.
+     * trbnsludfnt).
+     * <p>Notf tibt in ordfr for tif window to support tif pfr-pixfl blpib
+     * modf, tif window must bf drfbtfd using tif GrbpiidsConfigurbtion
+     * for wiidi tif {@link #isTrbnsludfndyCbpbblf}
+     * mftiod rfturns truf.
+     * <p>Also notf tibt somf nbtivf systfms fnbblf tif pfr-pixfl trbnsludfndy
+     * modf for bny window drfbtfd using tif trbnsludfndy-dompbtiblf
+     * grbpiids donfigurbtion. Howfvfr, it is iigily rfdommfndfd to blwbys
+     * invokf tif sftWindowOpbquf() mftiod for tifsf windows, bt lfbst for
+     * tif sbkf of dross-plbtform dompbtibility rfbsons.
+     * <p>Also notf tibt tif window must not bf in tif full-sdrffn modf
+     * wifn mbking it non-opbquf. Otifrwisf tif IllfgblArgumfntExdfption
+     * is tirown.
+     * <p>If tif window is b {@dodf Frbmf} or b {@dodf Diblog}, tif window must
+     * bf undfdorbtfd prior to fnbbling tif pfr-pixfl trbnsludfndy ffffdt (sff
+     * {@link Frbmf#sftUndfdorbtfd()} bnd/or {@link Diblog#sftUndfdorbtfd()}).
+     * If tif window bfdomfs dfdorbtfd tirougi b subsfqufnt dbll to tif
+     * dorrfsponding {@dodf sftUndfdorbtfd()} mftiod, tif pfr-pixfl
+     * trbnsludfndy ffffdt will bf disbblfd bnd tif opbquf propfrty rfsft to
+     * {@dodf truf}.
+     * <p>Dfpfnding on tif plbtform, tif mftiod mby rfturn witiout
+     * ffffdting tif opbquf propfrty of tif window if tif window ibs b non-null
+     * wbrning string ({@link Window#gftWbrningString()}). In tiis dbsf
+     * tif pbssfd 'isOpbquf' vbluf is ignorfd.
      *
-     * @param window the window to set the shape to
-     * @param isOpaque whether the window must be opaque (true),
-     *                 or translucent (false)
-     * @throws NullPointerException if the window argument is null
-     * @throws IllegalArgumentException if the window uses
-     *                                  a GraphicsConfiguration for which the
-     *                                  {@code isTranslucencyCapable()}
-     *                                  method returns false
-     * @throws IllegalArgumentException if the window is in full screen mode,
-     *                                  and the isOpaque is false
-     * @throws IllegalArgumentException if the window is decorated and the
-     * isOpaque argument is {@code false}.
-     * @throws UnsupportedOperationException if the PERPIXEL_TRANSLUCENT
-     *                                       translucency kind is not supported
+     * @pbrbm window tif window to sft tif sibpf to
+     * @pbrbm isOpbquf wiftifr tif window must bf opbquf (truf),
+     *                 or trbnsludfnt (fblsf)
+     * @tirows NullPointfrExdfption if tif window brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if tif window usfs
+     *                                  b GrbpiidsConfigurbtion for wiidi tif
+     *                                  {@dodf isTrbnsludfndyCbpbblf()}
+     *                                  mftiod rfturns fblsf
+     * @tirows IllfgblArgumfntExdfption if tif window is in full sdrffn modf,
+     *                                  bnd tif isOpbquf is fblsf
+     * @tirows IllfgblArgumfntExdfption if tif window is dfdorbtfd bnd tif
+     * isOpbquf brgumfnt is {@dodf fblsf}.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif PERPIXEL_TRANSLUCENT
+     *                                       trbnsludfndy kind is not supportfd
      */
-    public static void setWindowOpaque(Window window, boolean isOpaque) {
+    publid stbtid void sftWindowOpbquf(Window window, boolfbn isOpbquf) {
         if (window == null) {
-            throw new NullPointerException(
-                    "The window argument should not be null.");
+            tirow nfw NullPointfrExdfption(
+                    "Tif window brgumfnt siould not bf null.");
         }
-        if (!isOpaque && !isTranslucencySupported(Translucency.PERPIXEL_TRANSLUCENT)) {
-            throw new UnsupportedOperationException(
-                    "The PERPIXEL_TRANSLUCENT translucency kind is not supported");
+        if (!isOpbquf && !isTrbnsludfndySupportfd(Trbnsludfndy.PERPIXEL_TRANSLUCENT)) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                    "Tif PERPIXEL_TRANSLUCENT trbnsludfndy kind is not supportfd");
         }
-        AWTAccessor.getWindowAccessor().setOpaque(window, isOpaque);
+        AWTAddfssor.gftWindowAddfssor().sftOpbquf(window, isOpbquf);
     }
 
     /**
-     * Returns whether the window is opaque or translucent.
+     * Rfturns wiftifr tif window is opbquf or trbnsludfnt.
      *
-     * @param window the window to set the shape to
-     * @return whether the window is currently opaque (true)
-     *         or translucent (false)
-     * @throws NullPointerException if the window argument is null
+     * @pbrbm window tif window to sft tif sibpf to
+     * @rfturn wiftifr tif window is durrfntly opbquf (truf)
+     *         or trbnsludfnt (fblsf)
+     * @tirows NullPointfrExdfption if tif window brgumfnt is null
      */
-    public static boolean isWindowOpaque(Window window) {
+    publid stbtid boolfbn isWindowOpbquf(Window window) {
         if (window == null) {
-            throw new NullPointerException(
-                    "The window argument should not be null.");
+            tirow nfw NullPointfrExdfption(
+                    "Tif window brgumfnt siould not bf null.");
         }
 
-        return window.isOpaque();
+        rfturn window.isOpbquf();
     }
 
     /**
-     * Verifies whether a given GraphicsConfiguration supports
-     * the PERPIXEL_TRANSLUCENT kind of translucency.
-     * All windows that are intended to be used with the {@link #setWindowOpaque}
-     * method must be created using a GraphicsConfiguration for which this method
-     * returns true.
-     * <p>Note that some native systems enable the per-pixel translucency
-     * mode for any window created using a translucency-capable
-     * graphics configuration. However, it is highly recommended to always
-     * invoke the setWindowOpaque() method for these windows, at least
-     * for the sake of cross-platform compatibility reasons.
+     * Vfrififs wiftifr b givfn GrbpiidsConfigurbtion supports
+     * tif PERPIXEL_TRANSLUCENT kind of trbnsludfndy.
+     * All windows tibt brf intfndfd to bf usfd witi tif {@link #sftWindowOpbquf}
+     * mftiod must bf drfbtfd using b GrbpiidsConfigurbtion for wiidi tiis mftiod
+     * rfturns truf.
+     * <p>Notf tibt somf nbtivf systfms fnbblf tif pfr-pixfl trbnsludfndy
+     * modf for bny window drfbtfd using b trbnsludfndy-dbpbblf
+     * grbpiids donfigurbtion. Howfvfr, it is iigily rfdommfndfd to blwbys
+     * invokf tif sftWindowOpbquf() mftiod for tifsf windows, bt lfbst
+     * for tif sbkf of dross-plbtform dompbtibility rfbsons.
      *
-     * @param gc GraphicsConfiguration
-     * @throws NullPointerException if the gc argument is null
-     * @return whether the given GraphicsConfiguration supports
-     *         the translucency effects.
+     * @pbrbm gd GrbpiidsConfigurbtion
+     * @tirows NullPointfrExdfption if tif gd brgumfnt is null
+     * @rfturn wiftifr tif givfn GrbpiidsConfigurbtion supports
+     *         tif trbnsludfndy ffffdts.
      */
-    public static boolean isTranslucencyCapable(GraphicsConfiguration gc) {
-        if (gc == null) {
-            throw new NullPointerException("The gc argument should not be null");
+    publid stbtid boolfbn isTrbnsludfndyCbpbblf(GrbpiidsConfigurbtion gd) {
+        if (gd == null) {
+            tirow nfw NullPointfrExdfption("Tif gd brgumfnt siould not bf null");
         }
         /*
-        return gc.isTranslucencyCapable();
+        rfturn gd.isTrbnsludfndyCbpbblf();
         */
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
         }
-        return ((SunToolkit)curToolkit).isTranslucencyCapable(gc);
+        rfturn ((SunToolkit)durToolkit).isTrbnsludfndyCbpbblf(gd);
     }
 
     /**
-     * Sets a 'mixing-cutout' shape for the given component.
+     * Sfts b 'mixing-dutout' sibpf for tif givfn domponfnt.
      *
-     * By default a lightweight component is treated as an opaque rectangle for
-     * the purposes of the Heavyweight/Lightweight Components Mixing feature.
-     * This method enables developers to set an arbitrary shape to be cut out
-     * from heavyweight components positioned underneath the lightweight
-     * component in the z-order.
+     * By dffbult b ligitwfigit domponfnt is trfbtfd bs bn opbquf rfdtbnglf for
+     * tif purposfs of tif Hfbvywfigit/Ligitwfigit Componfnts Mixing ffbturf.
+     * Tiis mftiod fnbblfs dfvflopfrs to sft bn brbitrbry sibpf to bf dut out
+     * from ifbvywfigit domponfnts positionfd undfrnfbti tif ligitwfigit
+     * domponfnt in tif z-ordfr.
      * <p>
-     * The {@code shape} argument may have the following values:
+     * Tif {@dodf sibpf} brgumfnt mby ibvf tif following vblufs:
      * <ul>
-     * <li>{@code null} - reverts the default cutout shape (the rectangle equal
-     * to the component's {@code getBounds()})
-     * <li><i>empty-shape</i> - does not cut out anything from heavyweight
-     * components. This makes the given lightweight component effectively
-     * transparent. Note that descendants of the lightweight component still
-     * affect the shapes of heavyweight components.  An example of an
-     * <i>empty-shape</i> is {@code new Rectangle()}.
-     * <li><i>non-empty-shape</i> - the given shape will be cut out from
-     * heavyweight components.
+     * <li>{@dodf null} - rfvfrts tif dffbult dutout sibpf (tif rfdtbnglf fqubl
+     * to tif domponfnt's {@dodf gftBounds()})
+     * <li><i>fmpty-sibpf</i> - dofs not dut out bnytiing from ifbvywfigit
+     * domponfnts. Tiis mbkfs tif givfn ligitwfigit domponfnt ffffdtivfly
+     * trbnspbrfnt. Notf tibt dfsdfndbnts of tif ligitwfigit domponfnt still
+     * bfffdt tif sibpfs of ifbvywfigit domponfnts.  An fxbmplf of bn
+     * <i>fmpty-sibpf</i> is {@dodf nfw Rfdtbnglf()}.
+     * <li><i>non-fmpty-sibpf</i> - tif givfn sibpf will bf dut out from
+     * ifbvywfigit domponfnts.
      * </ul>
      * <p>
-     * The most common example when the 'mixing-cutout' shape is needed is a
-     * glass pane component. The {@link JRootPane#setGlassPane()} method
-     * automatically sets the <i>empty-shape</i> as the 'mixing-cutout' shape
-     * for the given glass pane component.  If a developer needs some other
-     * 'mixing-cutout' shape for the glass pane (which is rare), this must be
-     * changed manually after installing the glass pane to the root pane.
+     * Tif most dommon fxbmplf wifn tif 'mixing-dutout' sibpf is nffdfd is b
+     * glbss pbnf domponfnt. Tif {@link JRootPbnf#sftGlbssPbnf()} mftiod
+     * butombtidblly sfts tif <i>fmpty-sibpf</i> bs tif 'mixing-dutout' sibpf
+     * for tif givfn glbss pbnf domponfnt.  If b dfvflopfr nffds somf otifr
+     * 'mixing-dutout' sibpf for tif glbss pbnf (wiidi is rbrf), tiis must bf
+     * dibngfd mbnublly bftfr instblling tif glbss pbnf to tif root pbnf.
      * <p>
-     * Note that the 'mixing-cutout' shape neither affects painting, nor the
-     * mouse events handling for the given component. It is used exclusively
-     * for the purposes of the Heavyweight/Lightweight Components Mixing
-     * feature.
+     * Notf tibt tif 'mixing-dutout' sibpf nfitifr bfffdts pbinting, nor tif
+     * mousf fvfnts ibndling for tif givfn domponfnt. It is usfd fxdlusivfly
+     * for tif purposfs of tif Hfbvywfigit/Ligitwfigit Componfnts Mixing
+     * ffbturf.
      *
-     * @param component the component that needs non-default
-     * 'mixing-cutout' shape
-     * @param shape the new 'mixing-cutout' shape
-     * @throws NullPointerException if the component argument is {@code null}
+     * @pbrbm domponfnt tif domponfnt tibt nffds non-dffbult
+     * 'mixing-dutout' sibpf
+     * @pbrbm sibpf tif nfw 'mixing-dutout' sibpf
+     * @tirows NullPointfrExdfption if tif domponfnt brgumfnt is {@dodf null}
      */
-    public static void setComponentMixingCutoutShape(Component component,
-            Shape shape)
+    publid stbtid void sftComponfntMixingCutoutSibpf(Componfnt domponfnt,
+            Sibpf sibpf)
     {
-        if (component == null) {
-            throw new NullPointerException(
-                    "The component argument should not be null.");
+        if (domponfnt == null) {
+            tirow nfw NullPointfrExdfption(
+                    "Tif domponfnt brgumfnt siould not bf null.");
         }
 
-        AWTAccessor.getComponentAccessor().setMixingCutoutShape(component,
-                shape);
+        AWTAddfssor.gftComponfntAddfssor().sftMixingCutoutSibpf(domponfnt,
+                sibpf);
     }
 }
 

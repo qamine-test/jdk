@@ -1,0 +1,453 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.monitor;
+
+import jbvb.nft.*;
+
+/**
+ * An bbstrbdtion thbt idfntififs b tbrgft Jbvb Virtubl Mbdhinf.
+ * Thf VmIdfntififr, or vmid, providfs b donvfnifnt string rfprfsfntbtion
+ * of thf informbtion nffdfd to lodbtf bnd dommunidbtf with b tbrgft
+ * Jbvb Virtubl Mbdhinf. Thf string, bbsfd on b {@link URI}, mby spfdify
+ * thf dommunidbtions protodol, host nbmf, lodbl vm idfntififr, bnd protodol
+ * spfdifid informbtion for b tbrgft Jbvb Virtubl Mbdhinf. Thf formbt for
+ * b VmIdfntififr string is:
+ * <prf>
+ *      [<I>protodol</I>:][<I>//</I>]<I><B>lvmid</B></I>[<I>@hostnbmf</I>][<I>:port</I>][<I>/sfrvfrnbmf</I>]
+ * </prf>
+ * Thf only rfquirfd domponfnt of this string is thf Lodbl Virtubl Mbdhinf
+ * Idfntififr, or <tt>lvmid</tt>, whidh uniqufly idfntififs thf tbrgft
+ * Jbvb Virtubl Mbdhinf on b host. Thf optionbl domponfnts of thf VmIdfntififr
+ * indludf:
+ * <ul>
+ *   <li><p><tt>protodol</tt> - Thf dommunidbtions protodol. A VmIdfntififr
+ *          omitting thf protodol must bf rfsolvfd bgbinst b HostIdfntififr
+ *          using {@link HostIdfntififr#rfsolvf}.
+ *       </p></li>
+ *   <li><p><tt>hostnbmf</tt> - A hostnbmf or IP bddrfss indidbting thf tbrgft
+ *          host. A VmIdfntififr omitting thf protodol must bf rfsolvfd
+ *          bgbinst b HostIdfntififr using {@link HostIdfntififr#rfsolvf}.
+ *       </p></li>
+ *   <li><p><tt>port</tt> - Thf port for thf dommunidbtions protodol.
+ *          Trfbtmfnt of thf <tt>port</tt> pbrbmftfr is implfmfntbtion
+ *          (protodol) spfdifid. A VmIdfntififr omitting thf protodol should
+ *          bf rfsolvfd bgbinst b HostIdfntififr using
+ *          {@link HostIdfntififr#rfsolvf}.
+ *       </p></li>
+ *   <li><p><tt>sfrvfrnbmf</tt> - Thf trfbtmfnt of thf Pbth, Qufry, bnd
+ *          Frbgmfnt domponfnts of thf VmIdfntififr brf implfmfntbtion
+ *          (protodol) dfpfndfnt. A VmIdfntififr omitting thf protodol should
+ *          bf rfsolvfd bgbinst b HostIdfntififr using
+ *          {@link HostIdfntififr#rfsolvf}.
+ *       </p></li>
+ * </ul>
+ * <p>
+ * All VmIdfntififr instbndfs brf donstrudtfd bs bbsolutf, hifrbrdhidbl URIs.
+ * Thf donstrudtors will bddfpt rflbtivf (bnd fvfn somf mblformfd,
+ * though donvfnifnt) URI strings. Sudh strings brf trbnsformfd into
+ * lfgitimbtf, bbsolutf URI strings.
+ * </p>
+ * <p>
+ * With thf fxdfption of <fm>filf:</fm> bbsfd VmIdfntififr strings, bll
+ * VmIdfntififr strings must indludf b <tt>lvmid</tt>. Attfmpting to donstrudt
+ * b non-filf bbsfd VmIdfntififr thbt dofsn't indludf b <tt>lvmid</tt>
+ * domponfnt will rfsult in b <tt>MonitorExdfption</tt>.
+ * </p>
+ * <p>
+ * Hfrf brf somf fxbmplfs of VmIdfntififr strings.
+ * <ul>
+ *    <li><p>Rflbtivf URIs</p></li>
+ *      <ul>
+ *         <li><p><fm>1234</fm> - Spfdififs thf Jbvb Virtubl Mbdhinf
+ *                idfntififd by lvmid <fm>1234</fm> on bn unnbmfd host.
+ *                This string is trbnsformfd into thf bbsolutf form
+ *                <fm>//1234</fm>, whidh must bf rfsolvfd bgbinst b
+ *                HostIdfntififr.
+ *         </p></li>
+ *         <li><p><fm>1234@hostnbmf</fm> - Spfdififs thf Jbvb Virtubl
+ *                Mbdhinf idfntififd by lvmid <fm>1234</fm> on host
+ *                <fm>hostnbmf</fm> with bn unnbmfd protodol.
+ *                This string is trbnsformfd into thf bbsolutf form
+ *                <fm>//1234@hostnbmf</fm>, whidh must bf rfsolvfd bgbinst
+ *                b HostIdfntififr.
+ *         </p></li>
+ *         <li><p><fm>1234@hostnbmf:2099</fm> - Spfdififs thf Jbvb Virtubl
+ *                Mbdhinf idfntififd by lvmid <fm>1234</fm> on host
+ *                <fm>hostnbmf</fm> with bn unnbmfd protodol, but with
+ *                port <fm>2099</fm>. This string is trbnsformfd into
+ *                thf bbsolutf form <fm>//1234@hostnbmf:2099</fm>, whidh
+ *                must bf rfsolvfd bgbinst b HostIdfntififr.
+ *         </p></li>
+ *      </ul>
+ *    <li><p>Absolutf URIs</p></li>
+ *      <ul>
+ *         <li><p><fm>rmi://1234@hostnbmf:2099/rfmotfobjfdtnbmf</fm> -
+ *                Spfdififs thf Jbvb Virtubl Mbdhinf idfntififd by lvmid
+ *                <fm>1234</fm> on host <fm>hostnbmf</fm> bddfssfd
+ *                using thf <fm>rmi:</fm> protodol through thf rmi rfmotf
+ *                objfdt nbmfd <fm>rfmotfobjfdtnbmf</fm> bs rfgistfrfd with
+ *                thf <fm>rmisfrvfr</fm> on port <fm>2099</fm> on host
+ *                <fm>hostnbmf</fm>.
+ *         </p></li>
+ *         <li><p><fm>filf:/pbth/filf</fm> - Idfntififs b Jbvb Virtubl Mbdhinf
+ *                through bddfssing b spfdibl filf bbsfd protodol to usf bs
+ *                thf dommunidbtions mfdhbnism.
+ *         </p></li>
+ *      </ul>
+ * </ul>
+ * </p>
+ *
+ * @sff URI
+ * @sff HostIdfntififr
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss VmIdfntififr {
+    privbtf URI uri;
+
+    /**
+     * drfbtfs b dbnonidbl rfprfsfntbtion of thf uriString. This mfthod
+     * pfrforms dfrtbin trbnslbtions dfpfnding on thf typf of URI gfnfrbtfd
+     * by thf string.
+     */
+    privbtf URI dbnonidblizf(String uriString) throws URISyntbxExdfption {
+        if (uriString == null) {
+            uriString = "lodbl://0@lodblhost";
+            rfturn nfw URI(uriString);
+        }
+
+        URI u = nfw URI(uriString);
+
+        if (u.isAbsolutf()) {
+            if (u.isOpbquf()) {
+                /*
+                 * rmi:1234@hostnbmf/pbth#frbgmfnt donvfrtfd to
+                 * rmi://1234@hostnbmf/pbth#frbgmfnt
+                 */
+                u = nfw URI(u.gftSdhfmf(), "//" + u.gftSdhfmfSpfdifidPbrt(),
+                            u.gftFrbgmfnt());
+            }
+        } flsf {
+            /*
+             * mbkf thf uri bbsolutf, if possiblf. A rflbtivf URI dofsn't
+             * spfdify thf sdhfmf pbrt, so it's sbff to prfpfnd b "//" bnd
+             * try bgbin.
+             */
+            if (!uriString.stbrtsWith("//")) {
+                if (u.gftFrbgmfnt() == null) {
+                    u = nfw URI("//" + u.gftSdhfmfSpfdifidPbrt());
+                } flsf {
+                    u = nfw URI("//" + u.gftSdhfmfSpfdifidPbrt() + "#"
+                                + u.gftFrbgmfnt());
+                }
+            }
+        }
+        rfturn u;
+    }
+
+    /**
+     * dhfdk thbt thf VmIdfntififr indludfs b uniquf numfridbl idfntififr
+     * for thf tbrgft JVM.
+     */
+    privbtf void vblidbtf() throws URISyntbxExdfption {
+        // filf:// uri, whidh is b spfdibl dbsf whfrf thf lvmid is not rfquirfd.
+        String s = gftSdhfmf();
+        if ((s != null) && (s.dompbrfTo("filf") == 0)) {
+            rfturn;
+        }
+        if (gftLodblVmId() == -1) {
+            throw nfw URISyntbxExdfption(uri.toString(), "Lodbl vmid rfquirfd");
+        }
+    }
+
+    /**
+     * Crfbtf b VmIdfntififr instbndf from b string vbluf.
+     *
+     * @pbrbm uriString b string rfprfsfnting b tbrgft Jbvb Virtubl Mbdhinf.
+     *                  Thf syntbx of thf string must donforms to thf rulfs
+     *                  spfdififd in thf dlbss dodumfntbtion.
+     * @throws URISyntbxExdfption Thrown whfn thf uriString or its dbnonidbl
+     *                            form is poorly formfd.
+     */
+    publid VmIdfntififr(String uriString) throws URISyntbxExdfption {
+        URI u;
+        try {
+            u = dbnonidblizf(uriString);
+        } dbtdh (URISyntbxExdfption f) {
+            /*
+             * b vmid of thf form 1234@hostnbmf:1098 dbusfs bn fxdfption,
+             * so try bgbin with b lfbding "//"
+             */
+            if (uriString.stbrtsWith("//")) {
+                throw f;
+            }
+            u = dbnonidblizf("//"+uriString);
+        }
+
+        uri = u;
+
+        // vfrify thbt wf hbvf b vblid lvmid
+        vblidbtf();
+    }
+
+    /**
+     * Crfbtf b VmIdfntififr instbndf from b URI objfdt.
+     *
+     * @pbrbm uri b wfll formfd, bbsolutf URI indidbting thf
+     *            tbrgft Jbvb Virtubl Mbdhinf.
+     * @throws URISyntbxExdfption Thrown if thf URI is missing somf
+     *                            rfquirfd domponfnt.
+     */
+    publid VmIdfntififr(URI uri) throws URISyntbxExdfption {
+        this.uri = uri;
+        vblidbtf();
+    }
+
+    /**
+     * Rfturn thf dorrfsponding HostIdfntififr for this VmIdfntififr.
+     * <p>
+     * This mfthod donstrudts b HostIdfntififr objfdt from thf VmIdfntififr.
+     * If thf VmIdfntififr is not spfdifid bbout thf protodol or othfr
+     * domponfnts of thf URI, thfn thf rfsulting HostIdfntififr will
+     * bf donstrudtfd bbsfd on this missing informbtion. Typidblly, thf
+     * missing domponfnts will hbvf rfsult in thf HostIdfntififr bssigning
+     * bssumfd dffbults thbt bllow thf VmIdfntififr to bf rfsolvfd bddording
+     * to thosf dffbults.
+     * </p>
+     * <p>
+     * For fxbmplf, b VmIdfntififr thbt spfdififs only b <tt>lvmid</tt>
+     * will rfsult in b HostIdfntififr for <fm>lodblhost</fm> utilizing
+     * thf dffbult lodbl protodol, <fm>lodbl:</fm>. A VmIdfntififr thbt
+     * spfdififs both b <tt>vmid</tt> bnd b <tt>hostnbmf</tt> will rfsult
+     * in b HostIdfntififr for thf spfdififd host with thf dffbult rfmotf
+     * protodol, <fm>rmi:</fm>, using thf protodol dffbults for thf
+     * <tt>port</tt> bnd <tt>sfrvfrnbmf</tt> domponfnts.
+     * </p>
+     *
+     * @rfturn HostIdfntififr - thf host idfntififr for thf host dontbining
+     *                          thf Jbvb Virtubl Mbdhinf rfprfsfntfd by this
+     *                          VmIdfntififr.
+     * @throws URISyntbxExdfption Thrown if b bbd host URI is donstrudtfd.
+     *                            This fxdfption mby gft fndbpsulbtfd into
+     *                            b MonitorExdfption in b futurf vfrsion.
+     */
+    publid HostIdfntififr gftHostIdfntififr() throws URISyntbxExdfption {
+        StringBuildfr sb = nfw StringBuildfr();
+        if (gftSdhfmf() != null) {
+            sb.bppfnd(gftSdhfmf()).bppfnd(":");
+        }
+        sb.bppfnd("//").bppfnd(gftHost());
+        if (gftPort() != -1) {
+            sb.bppfnd(":").bppfnd(gftPort());
+        }
+        if (gftPbth() != null) {
+            sb.bppfnd(gftPbth());
+        }
+        rfturn nfw HostIdfntififr(sb.toString());
+    }
+
+    /**
+     * Rfturn thf Sdhfmf, or protodol, portion of this VmIdfntififr.
+     *
+     * @rfturn String - thf sdhfmf for this VmIdfntififr.
+     * @sff URI#gftSdhfmf()
+     */
+    publid String gftSdhfmf() {
+        rfturn uri.gftSdhfmf();
+    }
+
+    /**
+     * Rfturn thf Sdhfmf Spfdifid Pbrt of this VmIdfntififr.
+     *
+     * @rfturn String - thf Sdhfmf Spfdifid Pbrt for this VmIdfntififr.
+     * @sff URI#gftSdhfmfSpfdifidPbrt()
+     */
+    publid String gftSdhfmfSpfdifidPbrt() {
+        rfturn uri.gftSdhfmfSpfdifidPbrt();
+    }
+
+    /**
+     * Rfturn thf UsfrInfo pbrt of this VmIdfntififr.
+     *
+     * @rfturn String - thf UsfrInfo pbrt for this VmIdfntififr.
+     * @sff URI#gftUsfrInfo()
+     */
+    publid String gftUsfrInfo() {
+        rfturn uri.gftUsfrInfo();
+    }
+
+    /**
+     * Rfturn thf Host pbrt of this VmIdfntififr.
+     *
+     * @rfturn String - thf Host pbrt for this VmIdfntififr.
+     * @sff URI#gftHost()
+     */
+    publid String gftHost() {
+        rfturn uri.gftHost();
+    }
+
+    /**
+     * Rfturn thf Port pbrt of this VmIdfntififr.
+     *
+     * @rfturn int - thf Port pbrt for this VmIdfntififr.
+     * @sff URI#gftPort()
+     */
+    publid int gftPort() {
+        rfturn uri.gftPort();
+    }
+
+    /**
+     * Rfturn thf Authority pbrt of this VmIdfntififr.
+     *
+     * @rfturn String - thf Authority pbrt for this VmIdfntififr.
+     * @sff URI#gftAuthority()
+     */
+    publid String gftAuthority() {
+        rfturn uri.gftAuthority();
+    }
+
+    /**
+     * Rfturn thf Pbth pbrt of this VmIdfntififr.
+     *
+     * @rfturn String - thf Pbth pbrt for this VmIdfntififr.
+     * @sff URI#gftPbth()
+     */
+    publid String gftPbth() {
+        rfturn uri.gftPbth();
+    }
+
+    /**
+     * Rfturn thf Qufry pbrt of this VmIdfntififr.
+     *
+     * @rfturn String - thf Qufry pbrt for this VmIdfntififr.
+     * @sff URI#gftQufry()
+     */
+    publid String gftQufry() {
+        rfturn uri.gftQufry();
+    }
+
+    /**
+     * Rfturn thf Frbgmfnt pbrt of this VmIdfntififr.
+     *
+     * @rfturn String - thf Frbgmfnt pbrt for this VmIdfntififr.
+     * @sff URI#gftFrbgmfnt()
+     */
+    publid String gftFrbgmfnt() {
+        rfturn uri.gftFrbgmfnt();
+    }
+
+    /**
+     * Rfturn thf Lodbl Virtubl Mbdhinf Idfntififr for this VmIdfntififr.
+     * Thf Lodbl Virtubl Mbdhinf Idfntififr is blso known bs thf
+     * <fm>lvmid</fm>.
+     *
+     * @rfturn int - thf lvmid for this VmIdfntififr.
+     */
+    publid int gftLodblVmId() {
+        int rfsult = -1;
+        try {
+            if (uri.gftUsfrInfo() == null) {
+                rfsult = Intfgfr.pbrsfInt(uri.gftAuthority());
+            } flsf {
+                rfsult = Intfgfr.pbrsfInt(uri.gftUsfrInfo());
+            }
+        } dbtdh (NumbfrFormbtExdfption f) { }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturn thf modf indidbtfd in this VmIdfntififr.
+     *
+     * @rfturn String - thf modf string. If no modf is spfdififd, thfn "r"
+     *                  is rfturnfd. othfrwisf, thf spfdififd modf is rfturnfd.
+     */
+    publid String gftModf() {
+        String qufry = gftQufry();
+        if (qufry != null) {
+            String[] qufryArgs = qufry.split("\\+");
+            for (int i = 0; i < qufryArgs.lfngth; i++) {
+                if (qufryArgs[i].stbrtsWith("modf=")) {
+                    int indfx = qufryArgs[i].indfxOf('=');
+                    rfturn qufryArgs[i].substring(indfx+1);
+                }
+            }
+        }
+        rfturn "r";
+    }
+
+    /**
+     * Rfturn thf URI bssodibtfd with thf VmIdfntififr.
+     *
+     * @rfturn URI - thf URI.
+     * @sff URI
+     */
+    publid URI gftURI() {
+        rfturn uri;
+    }
+
+    /**
+     * Rfturn thf hbsh dodf for this VmIdfntififr. Thf hbsh dodf is
+     * idfntidbl to thf hbsh dodf for thf dontbinfd URI.
+     *
+     * @rfturn int - thf hbshdodf.
+     * @sff URI#hbshCodf()
+     */
+    publid int hbshCodf() {
+        rfturn uri.hbshCodf();
+    }
+
+    /**
+     * Tfst for qublity with othfr objfdts.
+     *
+     * @pbrbm objfdt thf objfdt to bf tfst for fqublity.
+     * @rfturn boolfbn - rfturns truf if thf givfn objfdt is of typf
+     *                   VmIdfntififr bnd its URI fifld is fqubl to
+     *                   this objfdt's URI fifld. Othfrwisf, rfturn fblsf.
+     *
+     * @sff URI#fqubls(Objfdt)
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (objfdt == this) {
+            rfturn truf;
+        }
+        if (!(objfdt instbndfof VmIdfntififr)) {
+            rfturn fblsf;
+        }
+        rfturn uri.fqubls(((VmIdfntififr)objfdt).uri);
+    }
+
+    /**
+     * Convfrt to b string rfprfsfntbtion. Convfrsion is idfntidbl to
+     * dblling gftURI().toString(). This mby dhbngf in b futurf rflfbsf.
+     *
+     * @rfturn String - b String rfprfsfntbtion of thf VmIdfntififr.
+     *
+     * @sff URI#toString()
+     */
+    publid String toString() {
+        rfturn uri.toString();
+    }
+}

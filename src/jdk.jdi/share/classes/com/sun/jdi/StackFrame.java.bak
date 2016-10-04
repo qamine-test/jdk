@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * The state of one method invocation on a thread's call stack.
- * As a thread executes, stack frames are pushed and popped from
- * its call stack as methods are invoked and then return. A StackFrame
- * mirrors one such frame from a target VM at some point in its
- * thread's execution. The call stack is, then, simply a List of
- * StackFrame objects. The call stack can be obtained any time a thread
- * is suspended through a call to {@link ThreadReference#frames}
+ * Tif stbtf of onf mftiod invodbtion on b tirfbd's dbll stbdk.
+ * As b tirfbd fxfdutfs, stbdk frbmfs brf pusifd bnd poppfd from
+ * its dbll stbdk bs mftiods brf invokfd bnd tifn rfturn. A StbdkFrbmf
+ * mirrors onf sudi frbmf from b tbrgft VM bt somf point in its
+ * tirfbd's fxfdution. Tif dbll stbdk is, tifn, simply b List of
+ * StbdkFrbmf objfdts. Tif dbll stbdk dbn bf obtbinfd bny timf b tirfbd
+ * is suspfndfd tirougi b dbll to {@link TirfbdRfffrfndf#frbmfs}
  * <p>
- * StackFrames provide access to a method's local variables and their
- * current values.
+ * StbdkFrbmfs providf bddfss to b mftiod's lodbl vbribblfs bnd tifir
+ * durrfnt vblufs.
  * <p>
- * The lifetime of a StackFrame is very limited. It is available only
- * for suspended threads and becomes invalid once its thread is resumed.
+ * Tif lifftimf of b StbdkFrbmf is vfry limitfd. It is bvbilbblf only
+ * for suspfndfd tirfbds bnd bfdomfs invblid ondf its tirfbd is rfsumfd.
  * <p>
- * Any method on <code>StackFrame</code> which
- * takes <code>StackFrame</code> as an parameter may throw
- * {@link com.sun.jdi.VMDisconnectedException} if the target VM is
- * disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is
- * available to be read from the {@link com.sun.jdi.event.EventQueue}.
+ * Any mftiod on <dodf>StbdkFrbmf</dodf> wiidi
+ * tbkfs <dodf>StbdkFrbmf</dodf> bs bn pbrbmftfr mby tirow
+ * {@link dom.sun.jdi.VMDisdonnfdtfdExdfption} if tif tbrgft VM is
+ * disdonnfdtfd bnd tif {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} ibs bffn or is
+ * bvbilbblf to bf rfbd from tif {@link dom.sun.jdi.fvfnt.EvfntQufuf}.
  * <p>
- * Any method on <code>StackFrame</code> which
- * takes <code>StackFrame</code> as an parameter may throw
- * {@link com.sun.jdi.VMOutOfMemoryException} if the target VM has run out of memory.
+ * Any mftiod on <dodf>StbdkFrbmf</dodf> wiidi
+ * tbkfs <dodf>StbdkFrbmf</dodf> bs bn pbrbmftfr mby tirow
+ * {@link dom.sun.jdi.VMOutOfMfmoryExdfption} if tif tbrgft VM ibs run out of mfmory.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface StackFrame extends Mirror, Locatable {
+@jdk.Exportfd
+publid intfrfbdf StbdkFrbmf fxtfnds Mirror, Lodbtbblf {
 
     /**
-     * Returns the {@link Location} of the current instruction in the frame.
-     * The method for which this frame was created can also be accessed
-     * through the returned location.
-     * For the top frame in the stack, this location identifies the
-     * next instruction to be executed. For all other frames, this
-     * location identifies the instruction that caused the next frame's
-     * method to be invoked.
-     * If the frame represents a native method invocation, the returned
-     * location indicates the class and method, but the code index will
-     * not be valid (-1).
+     * Rfturns tif {@link Lodbtion} of tif durrfnt instrudtion in tif frbmf.
+     * Tif mftiod for wiidi tiis frbmf wbs drfbtfd dbn blso bf bddfssfd
+     * tirougi tif rfturnfd lodbtion.
+     * For tif top frbmf in tif stbdk, tiis lodbtion idfntififs tif
+     * nfxt instrudtion to bf fxfdutfd. For bll otifr frbmfs, tiis
+     * lodbtion idfntififs tif instrudtion tibt dbusfd tif nfxt frbmf's
+     * mftiod to bf invokfd.
+     * If tif frbmf rfprfsfnts b nbtivf mftiod invodbtion, tif rfturnfd
+     * lodbtion indidbtfs tif dlbss bnd mftiod, but tif dodf indfx will
+     * not bf vblid (-1).
      *
-     * @return the {@link Location} of the current instruction.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @rfturn tif {@link Lodbtion} of tif durrfnt instrudtion.
+     * @tirows InvblidStbdkFrbmfExdfption if tiis stbdk frbmf ibs bfdomf
+     * invblid. Ondf tif frbmf's tirfbd is rfsumfd, tif stbdk frbmf is
+     * no longfr vblid.
      */
-    Location location();
+    Lodbtion lodbtion();
 
     /**
-     * Returns the thread under which this frame's method is running.
+     * Rfturns tif tirfbd undfr wiidi tiis frbmf's mftiod is running.
      *
-     * @return a {@link ThreadReference} which mirrors the frame's thread.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @rfturn b {@link TirfbdRfffrfndf} wiidi mirrors tif frbmf's tirfbd.
+     * @tirows InvblidStbdkFrbmfExdfption if tiis stbdk frbmf ibs bfdomf
+     * invblid. Ondf tif frbmf's tirfbd is rfsumfd, tif stbdk frbmf is
+     * no longfr vblid.
      */
-    ThreadReference thread();
+    TirfbdRfffrfndf tirfbd();
 
     /**
-     * Returns the value of 'this' for the current frame.
-     * The {@link ObjectReference} for 'this' is only available for
-     * non-native instance methods.
+     * Rfturns tif vbluf of 'tiis' for tif durrfnt frbmf.
+     * Tif {@link ObjfdtRfffrfndf} for 'tiis' is only bvbilbblf for
+     * non-nbtivf instbndf mftiods.
      *
-     * @return an {@link ObjectReference}, or null if the frame represents
-     * a native or static method.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @rfturn bn {@link ObjfdtRfffrfndf}, or null if tif frbmf rfprfsfnts
+     * b nbtivf or stbtid mftiod.
+     * @tirows InvblidStbdkFrbmfExdfption if tiis stbdk frbmf ibs bfdomf
+     * invblid. Ondf tif frbmf's tirfbd is rfsumfd, tif stbdk frbmf is
+     * no longfr vblid.
      */
-    ObjectReference thisObject();
+    ObjfdtRfffrfndf tiisObjfdt();
 
     /**
-     * Returns a list containing each {@link LocalVariable}
-     * that can be accessed from this frame's location.
+     * Rfturns b list dontbining fbdi {@link LodblVbribblf}
+     * tibt dbn bf bddfssfd from tiis frbmf's lodbtion.
      * <p>
-     * Visibility is based on the code index of the current instruction of
-     * this StackFrame. Each variable has a range of byte code indices in which
-     * it is accessible.
-     * If this stack frame's method
-     * matches this variable's method and if the code index of this
-     * StackFrame is within the variable's byte code range, the variable is
-     * visible.
+     * Visibility is bbsfd on tif dodf indfx of tif durrfnt instrudtion of
+     * tiis StbdkFrbmf. Ebdi vbribblf ibs b rbngf of bytf dodf indidfs in wiidi
+     * it is bddfssiblf.
+     * If tiis stbdk frbmf's mftiod
+     * mbtdifs tiis vbribblf's mftiod bnd if tif dodf indfx of tiis
+     * StbdkFrbmf is witiin tif vbribblf's bytf dodf rbngf, tif vbribblf is
+     * visiblf.
      * <p>
-     * A variable's byte code range is at least as large as the scope of
-     * that variable, but can continue beyond the end of the scope under
-     * certain circumstances:
+     * A vbribblf's bytf dodf rbngf is bt lfbst bs lbrgf bs tif sdopf of
+     * tibt vbribblf, but dbn dontinuf bfyond tif fnd of tif sdopf undfr
+     * dfrtbin dirdumstbndfs:
      * <ul>
-     * <li>the compiler/VM does not immediately reuse the variable's slot.
-     * <li>the compiler/VM is implemented to report the extended range that
-     * would result from the item above.
+     * <li>tif dompilfr/VM dofs not immfdibtfly rfusf tif vbribblf's slot.
+     * <li>tif dompilfr/VM is implfmfntfd to rfport tif fxtfndfd rbngf tibt
+     * would rfsult from tif itfm bbovf.
      * </ul>
-     * The advantage of an extended range is that variables from recently
-     * exited scopes may remain available for examination (this is especially
-     * useful for loop indices). If, as a result of the extensions above,
-     * the current frame location is contained within the range
-     * of multiple local variables of the same name, the variable with the
-     * highest-starting range is chosen for the returned list.
+     * Tif bdvbntbgf of bn fxtfndfd rbngf is tibt vbribblfs from rfdfntly
+     * fxitfd sdopfs mby rfmbin bvbilbblf for fxbminbtion (tiis is fspfdiblly
+     * usfful for loop indidfs). If, bs b rfsult of tif fxtfnsions bbovf,
+     * tif durrfnt frbmf lodbtion is dontbinfd witiin tif rbngf
+     * of multiplf lodbl vbribblfs of tif sbmf nbmf, tif vbribblf witi tif
+     * iigifst-stbrting rbngf is diosfn for tif rfturnfd list.
      *
-     * @return the list of {@link LocalVariable} objects currently visible;
-     * the list will be empty if there are no visible variables;
-     * specifically, frames in native methods will always return a
-     * zero-length list.
-     * @throws AbsentInformationException if there is no local variable
-     * information for this method.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
-     * @throws NativeMethodException if the current method is native.
+     * @rfturn tif list of {@link LodblVbribblf} objfdts durrfntly visiblf;
+     * tif list will bf fmpty if tifrf brf no visiblf vbribblfs;
+     * spfdifidblly, frbmfs in nbtivf mftiods will blwbys rfturn b
+     * zfro-lfngti list.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no lodbl vbribblf
+     * informbtion for tiis mftiod.
+     * @tirows InvblidStbdkFrbmfExdfption if tiis stbdk frbmf ibs bfdomf
+     * invblid. Ondf tif frbmf's tirfbd is rfsumfd, tif stbdk frbmf is
+     * no longfr vblid.
+     * @tirows NbtivfMftiodExdfption if tif durrfnt mftiod is nbtivf.
      */
-    List<LocalVariable> visibleVariables() throws AbsentInformationException;
+    List<LodblVbribblf> visiblfVbribblfs() tirows AbsfntInformbtionExdfption;
 
     /**
-     * Finds a {@link LocalVariable} that matches the given name and is
-     * visible at the current frame location.
-     * See {@link #visibleVariables} for more information on visibility.
+     * Finds b {@link LodblVbribblf} tibt mbtdifs tif givfn nbmf bnd is
+     * visiblf bt tif durrfnt frbmf lodbtion.
+     * Sff {@link #visiblfVbribblfs} for morf informbtion on visibility.
      *
-     * @param name the variable name to find
-     * @return the matching {@link LocalVariable}, or null if there is no
-     * visible variable with the given name; frames in native methods
-     * will always return null.
-     * @throws AbsentInformationException if there is no local variable
-     * information for this method.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
-     * @throws NativeMethodException if the current method is native.
+     * @pbrbm nbmf tif vbribblf nbmf to find
+     * @rfturn tif mbtdiing {@link LodblVbribblf}, or null if tifrf is no
+     * visiblf vbribblf witi tif givfn nbmf; frbmfs in nbtivf mftiods
+     * will blwbys rfturn null.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no lodbl vbribblf
+     * informbtion for tiis mftiod.
+     * @tirows InvblidStbdkFrbmfExdfption if tiis stbdk frbmf ibs bfdomf
+     * invblid. Ondf tif frbmf's tirfbd is rfsumfd, tif stbdk frbmf is
+     * no longfr vblid.
+     * @tirows NbtivfMftiodExdfption if tif durrfnt mftiod is nbtivf.
      */
-    LocalVariable visibleVariableByName(String name) throws AbsentInformationException;
+    LodblVbribblf visiblfVbribblfByNbmf(String nbmf) tirows AbsfntInformbtionExdfption;
 
     /**
-     * Gets the {@link Value} of a {@link LocalVariable} in this frame.
-     * The variable must be valid for this frame's method and visible
-     * according to the rules described in {@link #visibleVariables}.
+     * Gfts tif {@link Vbluf} of b {@link LodblVbribblf} in tiis frbmf.
+     * Tif vbribblf must bf vblid for tiis frbmf's mftiod bnd visiblf
+     * bddording to tif rulfs dfsdribfd in {@link #visiblfVbribblfs}.
      *
-     * @param variable the {@link LocalVariable} to be accessed
-     * @return the {@link Value} of the instance field.
-     * @throws java.lang.IllegalArgumentException if the variable is
-     * either invalid for this frame's method or not visible.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @pbrbm vbribblf tif {@link LodblVbribblf} to bf bddfssfd
+     * @rfturn tif {@link Vbluf} of tif instbndf fifld.
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if tif vbribblf is
+     * fitifr invblid for tiis frbmf's mftiod or not visiblf.
+     * @tirows InvblidStbdkFrbmfExdfption if tiis stbdk frbmf ibs bfdomf
+     * invblid. Ondf tif frbmf's tirfbd is rfsumfd, tif stbdk frbmf is
+     * no longfr vblid.
      */
-    Value getValue(LocalVariable variable);
+    Vbluf gftVbluf(LodblVbribblf vbribblf);
 
     /**
-     * Returns the values of multiple local variables in this frame.
-     * Each variable must be valid for this frame's method and visible
-     * according to the rules described in {@link #visibleVariables}.
+     * Rfturns tif vblufs of multiplf lodbl vbribblfs in tiis frbmf.
+     * Ebdi vbribblf must bf vblid for tiis frbmf's mftiod bnd visiblf
+     * bddording to tif rulfs dfsdribfd in {@link #visiblfVbribblfs}.
      *
-     * @param variables a list of {@link LocalVariable} objects to be accessed
-     * @return a map associating each {@link LocalVariable} with
-     * its {@link Value}
-     * @throws java.lang.IllegalArgumentException if any variable is
-     * either invalid for this frame's method or not visible.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @pbrbm vbribblfs b list of {@link LodblVbribblf} objfdts to bf bddfssfd
+     * @rfturn b mbp bssodibting fbdi {@link LodblVbribblf} witi
+     * its {@link Vbluf}
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if bny vbribblf is
+     * fitifr invblid for tiis frbmf's mftiod or not visiblf.
+     * @tirows InvblidStbdkFrbmfExdfption if tiis stbdk frbmf ibs bfdomf
+     * invblid. Ondf tif frbmf's tirfbd is rfsumfd, tif stbdk frbmf is
+     * no longfr vblid.
      */
-    Map<LocalVariable,Value> getValues(List<? extends LocalVariable> variables);
+    Mbp<LodblVbribblf,Vbluf> gftVblufs(List<? fxtfnds LodblVbribblf> vbribblfs);
 
     /**
-     * Sets the {@link Value} of a {@link LocalVariable} in this frame.
-     * The variable must be valid for this frame's method and visible
-     * according to the rules described in {@link #visibleVariables}.
+     * Sfts tif {@link Vbluf} of b {@link LodblVbribblf} in tiis frbmf.
+     * Tif vbribblf must bf vblid for tiis frbmf's mftiod bnd visiblf
+     * bddording to tif rulfs dfsdribfd in {@link #visiblfVbribblfs}.
      * <p>
-     * Object values must be assignment compatible with the variable type
-     * (This implies that the variable type must be loaded through the
-     * enclosing class's class loader). Primitive values must be
-     * either assignment compatible with the variable type or must be
-     * convertible to the variable type without loss of information.
-     * See JLS section 5.2 for more information on assignment
-     * compatibility.
+     * Objfdt vblufs must bf bssignmfnt dompbtiblf witi tif vbribblf typf
+     * (Tiis implifs tibt tif vbribblf typf must bf lobdfd tirougi tif
+     * fndlosing dlbss's dlbss lobdfr). Primitivf vblufs must bf
+     * fitifr bssignmfnt dompbtiblf witi tif vbribblf typf or must bf
+     * donvfrtiblf to tif vbribblf typf witiout loss of informbtion.
+     * Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     * dompbtibility.
      *
-     * @param variable the field containing the requested value
-     * @param value the new value to assign
-     * @throws java.lang.IllegalArgumentException if the field is not valid for
-     * this object's class.
-     * @throws InvalidTypeException if the value's type does not match
-     * the variable's type.
-     * @throws ClassNotLoadedException if the variable type has not yet been loaded
-     * through the appropriate class loader.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @pbrbm vbribblf tif fifld dontbining tif rfqufstfd vbluf
+     * @pbrbm vbluf tif nfw vbluf to bssign
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if tif fifld is not vblid for
+     * tiis objfdt's dlbss.
+     * @tirows InvblidTypfExdfption if tif vbluf's typf dofs not mbtdi
+     * tif vbribblf's typf.
+     * @tirows ClbssNotLobdfdExdfption if tif vbribblf typf ibs not yft bffn lobdfd
+     * tirougi tif bppropribtf dlbss lobdfr.
+     * @tirows InvblidStbdkFrbmfExdfption if tiis stbdk frbmf ibs bfdomf
+     * invblid. Ondf tif frbmf's tirfbd is rfsumfd, tif stbdk frbmf is
+     * no longfr vblid.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    void setValue(LocalVariable variable, Value value)
-        throws InvalidTypeException, ClassNotLoadedException;
+    void sftVbluf(LodblVbribblf vbribblf, Vbluf vbluf)
+        tirows InvblidTypfExdfption, ClbssNotLobdfdExdfption;
 
     /**
-     * Returns the values of all arguments in this frame.  Values are
-     * returned even if no local variable information is present.
+     * Rfturns tif vblufs of bll brgumfnts in tiis frbmf.  Vblufs brf
+     * rfturnfd fvfn if no lodbl vbribblf informbtion is prfsfnt.
      *
-     * @return a list containing a {@link Value} object for each argument
-     * to this frame, in the order in which the arguments were
-     * declared.  If the method corresponding to this frame has
-     * no arguments, an empty list is returned.
+     * @rfturn b list dontbining b {@link Vbluf} objfdt for fbdi brgumfnt
+     * to tiis frbmf, in tif ordfr in wiidi tif brgumfnts wfrf
+     * dfdlbrfd.  If tif mftiod dorrfsponding to tiis frbmf ibs
+     * no brgumfnts, bn fmpty list is rfturnfd.
      *
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
-     * @since 1.6
+     * @tirows InvblidStbdkFrbmfExdfption if tiis stbdk frbmf ibs bfdomf
+     * invblid. Ondf tif frbmf's tirfbd is rfsumfd, tif stbdk frbmf is
+     * no longfr vblid.
+     * @sindf 1.6
      */
-    List<Value> getArgumentValues();
+    List<Vbluf> gftArgumfntVblufs();
 
 }

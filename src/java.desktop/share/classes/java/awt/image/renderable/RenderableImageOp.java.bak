@@ -1,350 +1,350 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* ********************************************************************
  **********************************************************************
  **********************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997                      ***
- *** As  an unpublished  work pursuant to Title 17 of the United    ***
- *** States Code.  All rights reserved.                             ***
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublisifd  work pursubnt to Titlf 17 of tif Unitfd    ***
+ *** Stbtfs Codf.  All rigits rfsfrvfd.                             ***
  **********************************************************************
  **********************************************************************
  **********************************************************************/
 
-package java.awt.image.renderable;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.RenderedImage;
-import java.awt.RenderingHints;
-import java.util.Hashtable;
-import java.util.Vector;
+pbdkbgf jbvb.bwt.imbgf.rfndfrbblf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
 
 /**
- * This class handles the renderable aspects of an operation with help
- * from its associated instance of a ContextualRenderedImageFactory.
+ * Tiis dlbss ibndlfs tif rfndfrbblf bspfdts of bn opfrbtion witi iflp
+ * from its bssodibtfd instbndf of b ContfxtublRfndfrfdImbgfFbdtory.
  */
-public class RenderableImageOp implements RenderableImage {
+publid dlbss RfndfrbblfImbgfOp implfmfnts RfndfrbblfImbgf {
 
-    /** A ParameterBlock containing source and parameters. */
-    ParameterBlock paramBlock;
+    /** A PbrbmftfrBlodk dontbining sourdf bnd pbrbmftfrs. */
+    PbrbmftfrBlodk pbrbmBlodk;
 
-    /** The associated ContextualRenderedImageFactory. */
-    ContextualRenderedImageFactory myCRIF;
+    /** Tif bssodibtfd ContfxtublRfndfrfdImbgfFbdtory. */
+    ContfxtublRfndfrfdImbgfFbdtory myCRIF;
 
-    /** The bounding box of the results of this RenderableImageOp. */
-    Rectangle2D boundingBox;
+    /** Tif bounding box of tif rfsults of tiis RfndfrbblfImbgfOp. */
+    Rfdtbnglf2D boundingBox;
 
 
     /**
-     * Constructs a RenderedImageOp given a
-     * ContextualRenderedImageFactory object, and
-     * a ParameterBlock containing RenderableImage sources and other
-     * parameters.  Any RenderedImage sources referenced by the
-     * ParameterBlock will be ignored.
+     * Construdts b RfndfrfdImbgfOp givfn b
+     * ContfxtublRfndfrfdImbgfFbdtory objfdt, bnd
+     * b PbrbmftfrBlodk dontbining RfndfrbblfImbgf sourdfs bnd otifr
+     * pbrbmftfrs.  Any RfndfrfdImbgf sourdfs rfffrfndfd by tif
+     * PbrbmftfrBlodk will bf ignorfd.
      *
-     * @param CRIF a ContextualRenderedImageFactory object
-     * @param paramBlock a ParameterBlock containing this operation's source
-     *        images and other parameters necessary for the operation
+     * @pbrbm CRIF b ContfxtublRfndfrfdImbgfFbdtory objfdt
+     * @pbrbm pbrbmBlodk b PbrbmftfrBlodk dontbining tiis opfrbtion's sourdf
+     *        imbgfs bnd otifr pbrbmftfrs nfdfssbry for tif opfrbtion
      *        to run.
      */
-    public RenderableImageOp(ContextualRenderedImageFactory CRIF,
-                             ParameterBlock paramBlock) {
-        this.myCRIF = CRIF;
-        this.paramBlock = (ParameterBlock) paramBlock.clone();
+    publid RfndfrbblfImbgfOp(ContfxtublRfndfrfdImbgfFbdtory CRIF,
+                             PbrbmftfrBlodk pbrbmBlodk) {
+        tiis.myCRIF = CRIF;
+        tiis.pbrbmBlodk = (PbrbmftfrBlodk) pbrbmBlodk.dlonf();
     }
 
     /**
-     * Returns a vector of RenderableImages that are the sources of
-     * image data for this RenderableImage. Note that this method may
-     * return an empty vector, to indicate that the image has no sources,
-     * or null, to indicate that no information is available.
+     * Rfturns b vfdtor of RfndfrbblfImbgfs tibt brf tif sourdfs of
+     * imbgf dbtb for tiis RfndfrbblfImbgf. Notf tibt tiis mftiod mby
+     * rfturn bn fmpty vfdtor, to indidbtf tibt tif imbgf ibs no sourdfs,
+     * or null, to indidbtf tibt no informbtion is bvbilbblf.
      *
-     * @return a (possibly empty) Vector of RenderableImages, or null.
+     * @rfturn b (possibly fmpty) Vfdtor of RfndfrbblfImbgfs, or null.
      */
-    public Vector<RenderableImage> getSources() {
-        return getRenderableSources();
+    publid Vfdtor<RfndfrbblfImbgf> gftSourdfs() {
+        rfturn gftRfndfrbblfSourdfs();
     }
 
-    private Vector<RenderableImage> getRenderableSources() {
-        Vector<RenderableImage> sources = null;
+    privbtf Vfdtor<RfndfrbblfImbgf> gftRfndfrbblfSourdfs() {
+        Vfdtor<RfndfrbblfImbgf> sourdfs = null;
 
-        if (paramBlock.getNumSources() > 0) {
-            sources = new Vector<>();
+        if (pbrbmBlodk.gftNumSourdfs() > 0) {
+            sourdfs = nfw Vfdtor<>();
             int i = 0;
-            while (i < paramBlock.getNumSources()) {
-                Object o = paramBlock.getSource(i);
-                if (o instanceof RenderableImage) {
-                    sources.add((RenderableImage)o);
+            wiilf (i < pbrbmBlodk.gftNumSourdfs()) {
+                Objfdt o = pbrbmBlodk.gftSourdf(i);
+                if (o instbndfof RfndfrbblfImbgf) {
+                    sourdfs.bdd((RfndfrbblfImbgf)o);
                     i++;
-                } else {
-                    break;
+                } flsf {
+                    brfbk;
                 }
             }
         }
-        return sources;
+        rfturn sourdfs;
     }
 
     /**
-     * Gets a property from the property set of this image.
-     * If the property name is not recognized, java.awt.Image.UndefinedProperty
-     * will be returned.
+     * Gfts b propfrty from tif propfrty sft of tiis imbgf.
+     * If tif propfrty nbmf is not rfdognizfd, jbvb.bwt.Imbgf.UndffinfdPropfrty
+     * will bf rfturnfd.
      *
-     * @param name the name of the property to get, as a String.
-     * @return a reference to the property Object, or the value
-     *         java.awt.Image.UndefinedProperty.
+     * @pbrbm nbmf tif nbmf of tif propfrty to gft, bs b String.
+     * @rfturn b rfffrfndf to tif propfrty Objfdt, or tif vbluf
+     *         jbvb.bwt.Imbgf.UndffinfdPropfrty.
      */
-    public Object getProperty(String name) {
-        return myCRIF.getProperty(paramBlock, name);
+    publid Objfdt gftPropfrty(String nbmf) {
+        rfturn myCRIF.gftPropfrty(pbrbmBlodk, nbmf);
     }
 
     /**
-     * Return a list of names recognized by getProperty.
-     * @return a list of property names.
+     * Rfturn b list of nbmfs rfdognizfd by gftPropfrty.
+     * @rfturn b list of propfrty nbmfs.
      */
-    public String[] getPropertyNames() {
-        return myCRIF.getPropertyNames();
+    publid String[] gftPropfrtyNbmfs() {
+        rfturn myCRIF.gftPropfrtyNbmfs();
     }
 
     /**
-     * Returns true if successive renderings (that is, calls to
-     * createRendering() or createScaledRendering()) with the same arguments
-     * may produce different results.  This method may be used to
-     * determine whether an existing rendering may be cached and
-     * reused.  The CRIF's isDynamic method will be called.
-     * @return <code>true</code> if successive renderings with the
-     *         same arguments might produce different results;
-     *         <code>false</code> otherwise.
+     * Rfturns truf if suddfssivf rfndfrings (tibt is, dblls to
+     * drfbtfRfndfring() or drfbtfSdblfdRfndfring()) witi tif sbmf brgumfnts
+     * mby produdf difffrfnt rfsults.  Tiis mftiod mby bf usfd to
+     * dftfrminf wiftifr bn fxisting rfndfring mby bf dbdifd bnd
+     * rfusfd.  Tif CRIF's isDynbmid mftiod will bf dbllfd.
+     * @rfturn <dodf>truf</dodf> if suddfssivf rfndfrings witi tif
+     *         sbmf brgumfnts migit produdf difffrfnt rfsults;
+     *         <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isDynamic() {
-        return myCRIF.isDynamic();
+    publid boolfbn isDynbmid() {
+        rfturn myCRIF.isDynbmid();
     }
 
     /**
-     * Gets the width in user coordinate space.  By convention, the
-     * usual width of a RenderableImage is equal to the image's aspect
-     * ratio (width divided by height).
+     * Gfts tif widti in usfr doordinbtf spbdf.  By donvfntion, tif
+     * usubl widti of b RfndfrbblfImbgf is fqubl to tif imbgf's bspfdt
+     * rbtio (widti dividfd by ifigit).
      *
-     * @return the width of the image in user coordinates.
+     * @rfturn tif widti of tif imbgf in usfr doordinbtfs.
      */
-    public float getWidth() {
+    publid flobt gftWidti() {
         if (boundingBox == null) {
-            boundingBox = myCRIF.getBounds2D(paramBlock);
+            boundingBox = myCRIF.gftBounds2D(pbrbmBlodk);
         }
-        return (float)boundingBox.getWidth();
+        rfturn (flobt)boundingBox.gftWidti();
     }
 
     /**
-     * Gets the height in user coordinate space.  By convention, the
-     * usual height of a RenderedImage is equal to 1.0F.
+     * Gfts tif ifigit in usfr doordinbtf spbdf.  By donvfntion, tif
+     * usubl ifigit of b RfndfrfdImbgf is fqubl to 1.0F.
      *
-     * @return the height of the image in user coordinates.
+     * @rfturn tif ifigit of tif imbgf in usfr doordinbtfs.
      */
-    public float getHeight() {
+    publid flobt gftHfigit() {
         if (boundingBox == null) {
-            boundingBox = myCRIF.getBounds2D(paramBlock);
+            boundingBox = myCRIF.gftBounds2D(pbrbmBlodk);
         }
-        return (float)boundingBox.getHeight();
+        rfturn (flobt)boundingBox.gftHfigit();
     }
 
     /**
-     * Gets the minimum X coordinate of the rendering-independent image data.
+     * Gfts tif minimum X doordinbtf of tif rfndfring-indfpfndfnt imbgf dbtb.
      */
-    public float getMinX() {
+    publid flobt gftMinX() {
         if (boundingBox == null) {
-            boundingBox = myCRIF.getBounds2D(paramBlock);
+            boundingBox = myCRIF.gftBounds2D(pbrbmBlodk);
         }
-        return (float)boundingBox.getMinX();
+        rfturn (flobt)boundingBox.gftMinX();
     }
 
     /**
-     * Gets the minimum Y coordinate of the rendering-independent image data.
+     * Gfts tif minimum Y doordinbtf of tif rfndfring-indfpfndfnt imbgf dbtb.
      */
-    public float getMinY() {
+    publid flobt gftMinY() {
         if (boundingBox == null) {
-            boundingBox = myCRIF.getBounds2D(paramBlock);
+            boundingBox = myCRIF.gftBounds2D(pbrbmBlodk);
         }
-        return (float)boundingBox.getMinY();
+        rfturn (flobt)boundingBox.gftMinY();
     }
 
     /**
-     * Change the current ParameterBlock of the operation, allowing
-     * editing of image rendering chains.  The effects of such a
-     * change will be visible when a new rendering is created from
-     * this RenderableImageOp or any dependent RenderableImageOp.
+     * Cibngf tif durrfnt PbrbmftfrBlodk of tif opfrbtion, bllowing
+     * fditing of imbgf rfndfring dibins.  Tif ffffdts of sudi b
+     * dibngf will bf visiblf wifn b nfw rfndfring is drfbtfd from
+     * tiis RfndfrbblfImbgfOp or bny dfpfndfnt RfndfrbblfImbgfOp.
      *
-     * @param paramBlock the new ParameterBlock.
-     * @return the old ParameterBlock.
-     * @see #getParameterBlock
+     * @pbrbm pbrbmBlodk tif nfw PbrbmftfrBlodk.
+     * @rfturn tif old PbrbmftfrBlodk.
+     * @sff #gftPbrbmftfrBlodk
      */
-    public ParameterBlock setParameterBlock(ParameterBlock paramBlock) {
-        ParameterBlock oldParamBlock = this.paramBlock;
-        this.paramBlock = (ParameterBlock)paramBlock.clone();
-        return oldParamBlock;
+    publid PbrbmftfrBlodk sftPbrbmftfrBlodk(PbrbmftfrBlodk pbrbmBlodk) {
+        PbrbmftfrBlodk oldPbrbmBlodk = tiis.pbrbmBlodk;
+        tiis.pbrbmBlodk = (PbrbmftfrBlodk)pbrbmBlodk.dlonf();
+        rfturn oldPbrbmBlodk;
     }
 
     /**
-     * Returns a reference to the current parameter block.
-     * @return the <code>ParameterBlock</code> of this
-     *         <code>RenderableImageOp</code>.
-     * @see #setParameterBlock(ParameterBlock)
+     * Rfturns b rfffrfndf to tif durrfnt pbrbmftfr blodk.
+     * @rfturn tif <dodf>PbrbmftfrBlodk</dodf> of tiis
+     *         <dodf>RfndfrbblfImbgfOp</dodf>.
+     * @sff #sftPbrbmftfrBlodk(PbrbmftfrBlodk)
      */
-    public ParameterBlock getParameterBlock() {
-        return paramBlock;
+    publid PbrbmftfrBlodk gftPbrbmftfrBlodk() {
+        rfturn pbrbmBlodk;
     }
 
     /**
-     * Creates a RenderedImage instance of this image with width w, and
-     * height h in pixels.  The RenderContext is built automatically
-     * with an appropriate usr2dev transform and an area of interest
-     * of the full image.  All the rendering hints come from hints
-     * passed in.
+     * Crfbtfs b RfndfrfdImbgf instbndf of tiis imbgf witi widti w, bnd
+     * ifigit i in pixfls.  Tif RfndfrContfxt is built butombtidblly
+     * witi bn bppropribtf usr2dfv trbnsform bnd bn brfb of intfrfst
+     * of tif full imbgf.  All tif rfndfring iints domf from iints
+     * pbssfd in.
      *
-     * <p> If w == 0, it will be taken to equal
-     * Math.round(h*(getWidth()/getHeight())).
-     * Similarly, if h == 0, it will be taken to equal
-     * Math.round(w*(getHeight()/getWidth())).  One of
-     * w or h must be non-zero or else an IllegalArgumentException
-     * will be thrown.
+     * <p> If w == 0, it will bf tbkfn to fqubl
+     * Mbti.round(i*(gftWidti()/gftHfigit())).
+     * Similbrly, if i == 0, it will bf tbkfn to fqubl
+     * Mbti.round(w*(gftHfigit()/gftWidti())).  Onf of
+     * w or i must bf non-zfro or flsf bn IllfgblArgumfntExdfption
+     * will bf tirown.
      *
-     * <p> The created RenderedImage may have a property identified
-     * by the String HINTS_OBSERVED to indicate which RenderingHints
-     * were used to create the image.  In addition any RenderedImages
-     * that are obtained via the getSources() method on the created
-     * RenderedImage may have such a property.
+     * <p> Tif drfbtfd RfndfrfdImbgf mby ibvf b propfrty idfntififd
+     * by tif String HINTS_OBSERVED to indidbtf wiidi RfndfringHints
+     * wfrf usfd to drfbtf tif imbgf.  In bddition bny RfndfrfdImbgfs
+     * tibt brf obtbinfd vib tif gftSourdfs() mftiod on tif drfbtfd
+     * RfndfrfdImbgf mby ibvf sudi b propfrty.
      *
-     * @param w the width of rendered image in pixels, or 0.
-     * @param h the height of rendered image in pixels, or 0.
-     * @param hints a RenderingHints object containing hints.
-     * @return a RenderedImage containing the rendered data.
+     * @pbrbm w tif widti of rfndfrfd imbgf in pixfls, or 0.
+     * @pbrbm i tif ifigit of rfndfrfd imbgf in pixfls, or 0.
+     * @pbrbm iints b RfndfringHints objfdt dontbining iints.
+     * @rfturn b RfndfrfdImbgf dontbining tif rfndfrfd dbtb.
      */
-    public RenderedImage createScaledRendering(int w, int h,
-                                               RenderingHints hints) {
-        // DSR -- code to try to get a unit scale
-        double sx = (double)w/getWidth();
-        double sy = (double)h/getHeight();
-        if (Math.abs(sx/sy - 1.0) < 0.01) {
+    publid RfndfrfdImbgf drfbtfSdblfdRfndfring(int w, int i,
+                                               RfndfringHints iints) {
+        // DSR -- dodf to try to gft b unit sdblf
+        doublf sx = (doublf)w/gftWidti();
+        doublf sy = (doublf)i/gftHfigit();
+        if (Mbti.bbs(sx/sy - 1.0) < 0.01) {
             sx = sy;
         }
-        AffineTransform usr2dev = AffineTransform.getScaleInstance(sx, sy);
-        RenderContext newRC = new RenderContext(usr2dev, hints);
-        return createRendering(newRC);
+        AffinfTrbnsform usr2dfv = AffinfTrbnsform.gftSdblfInstbndf(sx, sy);
+        RfndfrContfxt nfwRC = nfw RfndfrContfxt(usr2dfv, iints);
+        rfturn drfbtfRfndfring(nfwRC);
     }
 
     /**
-     * Gets a RenderedImage instance of this image with a default
-     * width and height in pixels.  The RenderContext is built
-     * automatically with an appropriate usr2dev transform and an area
-     * of interest of the full image.  All the rendering hints come
-     * from hints passed in.  Implementors of this interface must be
-     * sure that there is a defined default width and height.
+     * Gfts b RfndfrfdImbgf instbndf of tiis imbgf witi b dffbult
+     * widti bnd ifigit in pixfls.  Tif RfndfrContfxt is built
+     * butombtidblly witi bn bppropribtf usr2dfv trbnsform bnd bn brfb
+     * of intfrfst of tif full imbgf.  All tif rfndfring iints domf
+     * from iints pbssfd in.  Implfmfntors of tiis intfrfbdf must bf
+     * surf tibt tifrf is b dffinfd dffbult widti bnd ifigit.
      *
-     * @return a RenderedImage containing the rendered data.
+     * @rfturn b RfndfrfdImbgf dontbining tif rfndfrfd dbtb.
      */
-    public RenderedImage createDefaultRendering() {
-        AffineTransform usr2dev = new AffineTransform(); // Identity
-        RenderContext newRC = new RenderContext(usr2dev);
-        return createRendering(newRC);
+    publid RfndfrfdImbgf drfbtfDffbultRfndfring() {
+        AffinfTrbnsform usr2dfv = nfw AffinfTrbnsform(); // Idfntity
+        RfndfrContfxt nfwRC = nfw RfndfrContfxt(usr2dfv);
+        rfturn drfbtfRfndfring(nfwRC);
     }
 
     /**
-     * Creates a RenderedImage which represents this
-     * RenderableImageOp (including its Renderable sources) rendered
-     * according to the given RenderContext.
+     * Crfbtfs b RfndfrfdImbgf wiidi rfprfsfnts tiis
+     * RfndfrbblfImbgfOp (indluding its Rfndfrbblf sourdfs) rfndfrfd
+     * bddording to tif givfn RfndfrContfxt.
      *
-     * <p> This method supports chaining of either Renderable or
-     * RenderedImage operations.  If sources in
-     * the ParameterBlock used to construct the RenderableImageOp are
-     * RenderableImages, then a three step process is followed:
+     * <p> Tiis mftiod supports dibining of fitifr Rfndfrbblf or
+     * RfndfrfdImbgf opfrbtions.  If sourdfs in
+     * tif PbrbmftfrBlodk usfd to donstrudt tif RfndfrbblfImbgfOp brf
+     * RfndfrbblfImbgfs, tifn b tirff stfp prodfss is followfd:
      *
      * <ol>
-     * <li> mapRenderContext() is called on the associated CRIF for
-     * each RenderableImage source;
-     * <li> createRendering() is called on each of the RenderableImage sources
-     * using the backwards-mapped RenderContexts obtained in step 1,
-     * resulting in a rendering of each source;
-     * <li> ContextualRenderedImageFactory.create() is called
-     * with a new ParameterBlock containing the parameters of
-     * the RenderableImageOp and the RenderedImages that were created by the
-     * createRendering() calls.
+     * <li> mbpRfndfrContfxt() is dbllfd on tif bssodibtfd CRIF for
+     * fbdi RfndfrbblfImbgf sourdf;
+     * <li> drfbtfRfndfring() is dbllfd on fbdi of tif RfndfrbblfImbgf sourdfs
+     * using tif bbdkwbrds-mbppfd RfndfrContfxts obtbinfd in stfp 1,
+     * rfsulting in b rfndfring of fbdi sourdf;
+     * <li> ContfxtublRfndfrfdImbgfFbdtory.drfbtf() is dbllfd
+     * witi b nfw PbrbmftfrBlodk dontbining tif pbrbmftfrs of
+     * tif RfndfrbblfImbgfOp bnd tif RfndfrfdImbgfs tibt wfrf drfbtfd by tif
+     * drfbtfRfndfring() dblls.
      * </ol>
      *
-     * <p> If the elements of the source Vector of
-     * the ParameterBlock used to construct the RenderableImageOp are
-     * instances of RenderedImage, then the CRIF.create() method is
-     * called immediately using the original ParameterBlock.
-     * This provides a basis case for the recursion.
+     * <p> If tif flfmfnts of tif sourdf Vfdtor of
+     * tif PbrbmftfrBlodk usfd to donstrudt tif RfndfrbblfImbgfOp brf
+     * instbndfs of RfndfrfdImbgf, tifn tif CRIF.drfbtf() mftiod is
+     * dbllfd immfdibtfly using tif originbl PbrbmftfrBlodk.
+     * Tiis providfs b bbsis dbsf for tif rfdursion.
      *
-     * <p> The created RenderedImage may have a property identified
-     * by the String HINTS_OBSERVED to indicate which RenderingHints
-     * (from the RenderContext) were used to create the image.
-     * In addition any RenderedImages
-     * that are obtained via the getSources() method on the created
-     * RenderedImage may have such a property.
+     * <p> Tif drfbtfd RfndfrfdImbgf mby ibvf b propfrty idfntififd
+     * by tif String HINTS_OBSERVED to indidbtf wiidi RfndfringHints
+     * (from tif RfndfrContfxt) wfrf usfd to drfbtf tif imbgf.
+     * In bddition bny RfndfrfdImbgfs
+     * tibt brf obtbinfd vib tif gftSourdfs() mftiod on tif drfbtfd
+     * RfndfrfdImbgf mby ibvf sudi b propfrty.
      *
-     * @param renderContext The RenderContext to use to perform the rendering.
-     * @return a RenderedImage containing the desired output image.
+     * @pbrbm rfndfrContfxt Tif RfndfrContfxt to usf to pfrform tif rfndfring.
+     * @rfturn b RfndfrfdImbgf dontbining tif dfsirfd output imbgf.
      */
-    public RenderedImage createRendering(RenderContext renderContext) {
-        RenderedImage image = null;
-        RenderContext rcOut = null;
+    publid RfndfrfdImbgf drfbtfRfndfring(RfndfrContfxt rfndfrContfxt) {
+        RfndfrfdImbgf imbgf = null;
+        RfndfrContfxt rdOut = null;
 
-        // Clone the original ParameterBlock; if the ParameterBlock
-        // contains RenderableImage sources, they will be replaced by
-        // RenderedImages.
-        ParameterBlock renderedParamBlock = (ParameterBlock)paramBlock.clone();
-        Vector<? extends Object> sources = getRenderableSources();
+        // Clonf tif originbl PbrbmftfrBlodk; if tif PbrbmftfrBlodk
+        // dontbins RfndfrbblfImbgf sourdfs, tify will bf rfplbdfd by
+        // RfndfrfdImbgfs.
+        PbrbmftfrBlodk rfndfrfdPbrbmBlodk = (PbrbmftfrBlodk)pbrbmBlodk.dlonf();
+        Vfdtor<? fxtfnds Objfdt> sourdfs = gftRfndfrbblfSourdfs();
 
         try {
-            // This assumes that if there is no renderable source, that there
-            // is a rendered source in paramBlock
+            // Tiis bssumfs tibt if tifrf is no rfndfrbblf sourdf, tibt tifrf
+            // is b rfndfrfd sourdf in pbrbmBlodk
 
-            if (sources != null) {
-                Vector<Object> renderedSources = new Vector<>();
-                for (int i = 0; i < sources.size(); i++) {
-                    rcOut = myCRIF.mapRenderContext(i, renderContext,
-                                                    paramBlock, this);
-                    RenderedImage rdrdImage =
-                        ((RenderableImage)sources.elementAt(i)).createRendering(rcOut);
-                    if (rdrdImage == null) {
-                        return null;
+            if (sourdfs != null) {
+                Vfdtor<Objfdt> rfndfrfdSourdfs = nfw Vfdtor<>();
+                for (int i = 0; i < sourdfs.sizf(); i++) {
+                    rdOut = myCRIF.mbpRfndfrContfxt(i, rfndfrContfxt,
+                                                    pbrbmBlodk, tiis);
+                    RfndfrfdImbgf rdrdImbgf =
+                        ((RfndfrbblfImbgf)sourdfs.flfmfntAt(i)).drfbtfRfndfring(rdOut);
+                    if (rdrdImbgf == null) {
+                        rfturn null;
                     }
 
-                    // Add this rendered image to the ParameterBlock's
-                    // list of RenderedImages.
-                    renderedSources.addElement(rdrdImage);
+                    // Add tiis rfndfrfd imbgf to tif PbrbmftfrBlodk's
+                    // list of RfndfrfdImbgfs.
+                    rfndfrfdSourdfs.bddElfmfnt(rdrdImbgf);
                 }
 
-                if (renderedSources.size() > 0) {
-                    renderedParamBlock.setSources(renderedSources);
+                if (rfndfrfdSourdfs.sizf() > 0) {
+                    rfndfrfdPbrbmBlodk.sftSourdfs(rfndfrfdSourdfs);
                 }
             }
 
-            return myCRIF.create(renderContext, renderedParamBlock);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            // This should never happen
-            return null;
+            rfturn myCRIF.drfbtf(rfndfrContfxt, rfndfrfdPbrbmBlodk);
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) {
+            // Tiis siould nfvfr ibppfn
+            rfturn null;
         }
     }
 }

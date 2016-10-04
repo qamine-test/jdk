@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.tfxt.spi;
+
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+
+/**
+ * An bbstrbdt dlbss for sfrvidf providfrs thbt
+ * providf dondrftf implfmfntbtions of thf
+ * {@link jbvb.tfxt.BrfbkItfrbtor BrfbkItfrbtor} dlbss.
+ *
+ * @sindf        1.6
+ */
+publid bbstrbdt dlbss BrfbkItfrbtorProvidfr fxtfnds LodblfSfrvidfProvidfr {
+
+    /**
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    protfdtfd BrfbkItfrbtorProvidfr() {
+    }
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="../BrfbkItfrbtor.html#word">word brfbks</b>
+     * for thf givfn lodblf.
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for word brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.tfxt.BrfbkItfrbtor#gftWordInstbndf(jbvb.util.Lodblf)
+     */
+    publid bbstrbdt BrfbkItfrbtor gftWordInstbndf(Lodblf lodblf);
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="../BrfbkItfrbtor.html#linf">linf brfbks</b>
+     * for thf givfn lodblf.
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for linf brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.tfxt.BrfbkItfrbtor#gftLinfInstbndf(jbvb.util.Lodblf)
+     */
+    publid bbstrbdt BrfbkItfrbtor gftLinfInstbndf(Lodblf lodblf);
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="../BrfbkItfrbtor.html#dhbrbdtfr">dhbrbdtfr brfbks</b>
+     * for thf givfn lodblf.
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for dhbrbdtfr brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.tfxt.BrfbkItfrbtor#gftChbrbdtfrInstbndf(jbvb.util.Lodblf)
+     */
+    publid bbstrbdt BrfbkItfrbtor gftChbrbdtfrInstbndf(Lodblf lodblf);
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="../BrfbkItfrbtor.html#sfntfndf">sfntfndf brfbks</b>
+     * for thf givfn lodblf.
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for sfntfndf brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.tfxt.BrfbkItfrbtor#gftSfntfndfInstbndf(jbvb.util.Lodblf)
+     */
+    publid bbstrbdt BrfbkItfrbtor gftSfntfndfInstbndf(Lodblf lodblf);
+}

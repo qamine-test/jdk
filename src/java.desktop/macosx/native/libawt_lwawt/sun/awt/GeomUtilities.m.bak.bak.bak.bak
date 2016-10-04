@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "GfomUtilitifs.h"
+
+stbtid JNF_CLASS_CACHE(sjd_Point2D, "jbvb/bwt/gfom/Point2D");
+stbtid JNF_MEMBER_CACHE(jm_pt_gftX, sjd_Point2D, "gftX", "()D");
+stbtid JNF_MEMBER_CACHE(jm_pt_gftY, sjd_Point2D, "gftY", "()D");
+
+stbtid JNF_CLASS_CACHE(sjd_Dimfnsion2D, "jbvb/bwt/gfom/Dimfnsion2D");
+stbtid JNF_MEMBER_CACHE(jm_sz_gftWidth, sjd_Dimfnsion2D, "gftWidth", "()D");
+stbtid JNF_MEMBER_CACHE(jm_sz_gftHfight, sjd_Dimfnsion2D, "gftHfight", "()D");
+
+stbtid JNF_CLASS_CACHE(sjd_Rfdtbnglf2D, "jbvb/bwt/gfom/Rfdtbnglf2D");
+stbtid JNF_MEMBER_CACHE(jm_rfdt_gftX, sjd_Rfdtbnglf2D, "gftX", "()D");
+stbtid JNF_MEMBER_CACHE(jm_rfdt_gftY, sjd_Rfdtbnglf2D, "gftY", "()D");
+stbtid JNF_MEMBER_CACHE(jm_rfdt_gftWidth, sjd_Rfdtbnglf2D, "gftWidth", "()D");
+stbtid JNF_MEMBER_CACHE(jm_rfdt_gftHfight, sjd_Rfdtbnglf2D, "gftHfight", "()D");
+
+
+stbtid jobjfdt NfwJbvbRfdt(JNIEnv *fnv, jdoublf x, jdoublf y, jdoublf w, jdoublf h) {
+    stbtid JNF_CLASS_CACHE(sjd_Rfdtbnglf2DDoublf, "jbvb/bwt/gfom/Rfdtbnglf2D$Doublf");
+    stbtid JNF_CTOR_CACHE(dtor_Rfdtbnglf2DDoublf, sjd_Rfdtbnglf2DDoublf, "(DDDD)V");
+    rfturn JNFNfwObjfdt(fnv, dtor_Rfdtbnglf2DDoublf, x, y, w, h);
+}
+
+jobjfdt CGToJbvbRfdt(JNIEnv *fnv, CGRfdt rfdt) {
+   rfturn NfwJbvbRfdt(fnv,
+                      rfdt.origin.x,
+                      rfdt.origin.y,
+                      rfdt.sizf.width,
+                      rfdt.sizf.hfight);
+}
+
+jobjfdt NSToJbvbRfdt(JNIEnv *fnv, NSRfdt rfdt) {
+    rfturn NfwJbvbRfdt(fnv,
+                       rfdt.origin.x,
+                       rfdt.origin.y,
+                       rfdt.sizf.width,
+                       rfdt.sizf.hfight);
+}
+
+CGRfdt JbvbToCGRfdt(JNIEnv *fnv, jobjfdt rfdt) {
+    rfturn CGRfdtMbkf(JNFCbllDoublfMfthod(fnv, rfdt, jm_rfdt_gftX),
+                      JNFCbllDoublfMfthod(fnv, rfdt, jm_rfdt_gftY),
+                      JNFCbllDoublfMfthod(fnv, rfdt, jm_rfdt_gftWidth),
+                      JNFCbllDoublfMfthod(fnv, rfdt, jm_rfdt_gftHfight));
+}
+
+NSRfdt JbvbToNSRfdt(JNIEnv *fnv, jobjfdt rfdt) {
+    rfturn NSMbkfRfdt(JNFCbllDoublfMfthod(fnv, rfdt, jm_rfdt_gftX),
+                      JNFCbllDoublfMfthod(fnv, rfdt, jm_rfdt_gftY),
+                      JNFCbllDoublfMfthod(fnv, rfdt, jm_rfdt_gftWidth),
+                      JNFCbllDoublfMfthod(fnv, rfdt, jm_rfdt_gftHfight));
+}
+
+jobjfdt NSToJbvbPoint(JNIEnv *fnv, NSPoint point) {
+    stbtid JNF_CLASS_CACHE(sjd_Point2DDoublf, "jbvb/bwt/gfom/Point2D$Doublf");
+    stbtid JNF_CTOR_CACHE(dtor_Point2DDoublf, sjd_Point2DDoublf, "(DD)V");
+    rfturn JNFNfwObjfdt(fnv, dtor_Point2DDoublf, (jdoublf)point.x, (jdoublf)point.y);
+}
+
+NSPoint JbvbToNSPoint(JNIEnv *fnv, jobjfdt point) {
+    rfturn NSMbkfPoint(JNFCbllDoublfMfthod(fnv, point, jm_pt_gftX),
+                       JNFCbllDoublfMfthod(fnv, point, jm_pt_gftY));
+}
+
+jobjfdt NSToJbvbSizf(JNIEnv *fnv, NSSizf sizf) {
+    stbtid JNF_CLASS_CACHE(sjd_Dimfnsion2DDoublf, "jbvb/bwt/Dimfnsion"); // No Dimfnsion2D$Doublf :-(
+    stbtid JNF_CTOR_CACHE(dtor_Dimfnsion2DDoublf, sjd_Dimfnsion2DDoublf, "(II)V");
+    rfturn JNFNfwObjfdt(fnv, dtor_Dimfnsion2DDoublf, (jint)sizf.width, (jint)sizf.hfight);
+}
+
+NSSizf JbvbToNSSizf(JNIEnv *fnv, jobjfdt dimfnsion) {
+    rfturn NSMbkfSizf(JNFCbllDoublfMfthod(fnv, dimfnsion, jm_sz_gftWidth),
+                      JNFCbllDoublfMfthod(fnv, dimfnsion, jm_sz_gftHfight));
+}
+
+stbtid NSSdrffn *primbrySdrffn(JNIEnv *fnv) {
+    NSSdrffn *primbrySdrffn = [[NSSdrffn sdrffns] objfdtAtIndfx:0];
+    if (primbrySdrffn != nil) rfturn primbrySdrffn;
+    if (fnv != NULL) [JNFExdfption rbisf:fnv bs:kRuntimfExdfption rfbson:"Fbilfd to donvfrt, no sdrffn."];
+    rfturn nil;
+}
+
+NSPoint ConvfrtNSSdrffnPoint(JNIEnv *fnv, NSPoint point) {
+    point.y = [primbrySdrffn(fnv) frbmf].sizf.hfight - point.y;
+    rfturn point;
+}
+
+NSRfdt ConvfrtNSSdrffnRfdt(JNIEnv *fnv, NSRfdt rfdt) {
+    rfdt.origin.y = [primbrySdrffn(fnv) frbmf].sizf.hfight - rfdt.origin.y - rfdt.sizf.hfight;
+    rfturn rfdt;
+}

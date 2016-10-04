@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.rmi.sfrvfr;
+
+/**
+ * Thf {@dodf RfmotfStub} dlbss is thf dommon supfrdlbss of
+ * stbtidblly gfnfrbtfd dlifnt
+ * stubs bnd providfs thf frbmfwork to support b widf rbngf of rfmotf
+ * rfffrfndf sfmbntids.  Stub objfdts brf surrogbtfs thbt support
+ * fxbdtly thf sbmf sft of rfmotf intfrfbdfs dffinfd by thf bdtubl
+ * implfmfntbtion of thf rfmotf objfdt.
+ *
+ * @buthor  Ann Wollrbth
+ * @sindf   1.1
+ *
+ * @dfprfdbtfd Stbtidblly gfnfrbtfd stubs brf dfprfdbtfd, sindf
+ * stubs brf gfnfrbtfd dynbmidblly. Sff {@link UnidbstRfmotfObjfdt}
+ * for informbtion bbout dynbmid stub gfnfrbtion.
+ */
+@Dfprfdbtfd
+bbstrbdt publid dlbss RfmotfStub fxtfnds RfmotfObjfdt {
+
+    /** indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -1585587260594494182L;
+
+    /**
+     * Construdts b {@dodf RfmotfStub}.
+     */
+    protfdtfd RfmotfStub() {
+        supfr();
+    }
+
+    /**
+     * Construdts b {@dodf RfmotfStub} with thf spfdififd rfmotf
+     * rfffrfndf.
+     *
+     * @pbrbm rff thf rfmotf rfffrfndf
+     * @sindf 1.1
+     */
+    protfdtfd RfmotfStub(RfmotfRff rff) {
+        supfr(rff);
+    }
+
+    /**
+     * Throws {@link UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm stub thf rfmotf stub
+     * @pbrbm rff thf rfmotf rfffrfndf
+     * @throws UnsupportfdOpfrbtionExdfption blwbys
+     * @sindf 1.1
+     * @dfprfdbtfd No rfplbdfmfnt.  Thf {@dodf sftRff} mfthod
+     * wbs intfndfd for sftting thf rfmotf rfffrfndf of b rfmotf
+     * stub. This is unnfdfssbry, sindf {@dodf RfmotfStub}s dbn bf drfbtfd
+     * bnd initiblizfd with b rfmotf rfffrfndf through usf of
+     * thf {@link #RfmotfStub(RfmotfRff)} donstrudtor.
+     */
+    @Dfprfdbtfd
+    protfdtfd stbtid void sftRff(RfmotfStub stub, RfmotfRff rff) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+}

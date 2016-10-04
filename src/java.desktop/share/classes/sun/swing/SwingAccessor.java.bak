@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.swing;
+pbdkbgf sun.swing;
 
-import sun.misc.Unsafe;
+import sun.misd.Unsbff;
 
-import java.awt.*;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
 
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
 /**
- * The SwingAccessor utility class.
- * The main purpose of this class is to enable accessing
- * private and package-private fields of classes from
- * different classes/packages. See sun.misc.SharedSecretes
- * for another example.
+ * Tif SwingAddfssor utility dlbss.
+ * Tif mbin purposf of tiis dlbss is to fnbblf bddfssing
+ * privbtf bnd pbdkbgf-privbtf fiflds of dlbssfs from
+ * difffrfnt dlbssfs/pbdkbgfs. Sff sun.misd.SibrfdSfdrftfs
+ * for bnotifr fxbmplf.
  */
-public final class SwingAccessor {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+publid finbl dlbss SwingAddfssor {
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
     /**
-     * We don't need any objects of this class.
-     * It's rather a collection of static methods
-     * and interfaces.
+     * Wf don't nffd bny objfdts of tiis dlbss.
+     * It's rbtifr b dollfdtion of stbtid mftiods
+     * bnd intfrfbdfs.
      */
-    private SwingAccessor() {
+    privbtf SwingAddfssor() {
     }
 
     /**
-     * An accessor for the JTextComponent class.
-     * Note that we intentionally introduce the JTextComponentAccessor,
-     * and not the JComponentAccessor because the needed methods
-     * aren't override methods.
+     * An bddfssor for tif JTfxtComponfnt dlbss.
+     * Notf tibt wf intfntionblly introdudf tif JTfxtComponfntAddfssor,
+     * bnd not tif JComponfntAddfssor bfdbusf tif nffdfd mftiods
+     * brfn't ovfrridf mftiods.
      */
-    public interface JTextComponentAccessor {
+    publid intfrfbdf JTfxtComponfntAddfssor {
 
         /**
-         * Calculates a custom drop location for the text component,
-         * representing where a drop at the given point should insert data.
+         * Cbldulbtfs b dustom drop lodbtion for tif tfxt domponfnt,
+         * rfprfsfnting wifrf b drop bt tif givfn point siould insfrt dbtb.
          */
-        TransferHandler.DropLocation dropLocationForPoint(JTextComponent textComp, Point p);
+        TrbnsffrHbndlfr.DropLodbtion dropLodbtionForPoint(JTfxtComponfnt tfxtComp, Point p);
 
         /**
-         * Called to set or clear the drop location during a DnD operation.
+         * Cbllfd to sft or dlfbr tif drop lodbtion during b DnD opfrbtion.
          */
-        Object setDropLocation(JTextComponent textComp, TransferHandler.DropLocation location,
-                               Object state, boolean forDrop);
+        Objfdt sftDropLodbtion(JTfxtComponfnt tfxtComp, TrbnsffrHbndlfr.DropLodbtion lodbtion,
+                               Objfdt stbtf, boolfbn forDrop);
     }
 
     /**
-     * An accessor for the JLightweightFrame class.
+     * An bddfssor for tif JLigitwfigitFrbmf dlbss.
      */
-    public interface JLightweightFrameAccessor {
+    publid intfrfbdf JLigitwfigitFrbmfAddfssor {
         /**
-         * Notifies the JLightweight frame that it needs to update a cursor
+         * Notififs tif JLigitwfigit frbmf tibt it nffds to updbtf b dursor
          */
-        void updateCursor(JLightweightFrame frame);
+        void updbtfCursor(JLigitwfigitFrbmf frbmf);
     }
 
     /**
-     * An accessor for the RepaintManager class.
+     * An bddfssor for tif RfpbintMbnbgfr dlbss.
      */
-    public interface RepaintManagerAccessor {
-        void addRepaintListener(RepaintManager rm, SwingUtilities2.RepaintListener l);
-        void removeRepaintListener(RepaintManager rm, SwingUtilities2.RepaintListener l);
+    publid intfrfbdf RfpbintMbnbgfrAddfssor {
+        void bddRfpbintListfnfr(RfpbintMbnbgfr rm, SwingUtilitifs2.RfpbintListfnfr l);
+        void rfmovfRfpbintListfnfr(RfpbintMbnbgfr rm, SwingUtilitifs2.RfpbintListfnfr l);
     }
 
     /**
-     * An accessor for PopupFactory class.
+     * An bddfssor for PopupFbdtory dlbss.
      */
-    public interface PopupFactoryAccessor {
-        Popup getHeavyWeightPopup(PopupFactory factory, Component owner, Component contents,
-                                  int ownerX, int ownerY);
+    publid intfrfbdf PopupFbdtoryAddfssor {
+        Popup gftHfbvyWfigitPopup(PopupFbdtory fbdtory, Componfnt ownfr, Componfnt dontfnts,
+                                  int ownfrX, int ownfrY);
     }
 
     /**
-     * The javax.swing.text.JTextComponent class accessor object.
+     * Tif jbvbx.swing.tfxt.JTfxtComponfnt dlbss bddfssor objfdt.
      */
-    private static JTextComponentAccessor jtextComponentAccessor;
+    privbtf stbtid JTfxtComponfntAddfssor jtfxtComponfntAddfssor;
 
     /**
-     * Set an accessor object for the javax.swing.text.JTextComponent class.
+     * Sft bn bddfssor objfdt for tif jbvbx.swing.tfxt.JTfxtComponfnt dlbss.
      */
-    public static void setJTextComponentAccessor(JTextComponentAccessor jtca) {
-         jtextComponentAccessor = jtca;
+    publid stbtid void sftJTfxtComponfntAddfssor(JTfxtComponfntAddfssor jtdb) {
+         jtfxtComponfntAddfssor = jtdb;
     }
 
     /**
-     * Retrieve the accessor object for the javax.swing.text.JTextComponent class.
+     * Rftrifvf tif bddfssor objfdt for tif jbvbx.swing.tfxt.JTfxtComponfnt dlbss.
      */
-    public static JTextComponentAccessor getJTextComponentAccessor() {
-        if (jtextComponentAccessor == null) {
-            unsafe.ensureClassInitialized(JTextComponent.class);
+    publid stbtid JTfxtComponfntAddfssor gftJTfxtComponfntAddfssor() {
+        if (jtfxtComponfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(JTfxtComponfnt.dlbss);
         }
 
-        return jtextComponentAccessor;
+        rfturn jtfxtComponfntAddfssor;
     }
 
     /**
-     * The JLightweightFrame class accessor object
+     * Tif JLigitwfigitFrbmf dlbss bddfssor objfdt
      */
-    private static JLightweightFrameAccessor jLightweightFrameAccessor;
+    privbtf stbtid JLigitwfigitFrbmfAddfssor jLigitwfigitFrbmfAddfssor;
 
     /**
-     * Set an accessor object for the JLightweightFrame class.
+     * Sft bn bddfssor objfdt for tif JLigitwfigitFrbmf dlbss.
      */
-    public static void setJLightweightFrameAccessor(JLightweightFrameAccessor accessor) {
-        jLightweightFrameAccessor = accessor;
+    publid stbtid void sftJLigitwfigitFrbmfAddfssor(JLigitwfigitFrbmfAddfssor bddfssor) {
+        jLigitwfigitFrbmfAddfssor = bddfssor;
     }
 
     /**
-     * Retrieve the accessor object for the JLightweightFrame class
+     * Rftrifvf tif bddfssor objfdt for tif JLigitwfigitFrbmf dlbss
      */
-    public static JLightweightFrameAccessor getJLightweightFrameAccessor() {
-        if (jLightweightFrameAccessor == null) {
-            unsafe.ensureClassInitialized(JLightweightFrame.class);
+    publid stbtid JLigitwfigitFrbmfAddfssor gftJLigitwfigitFrbmfAddfssor() {
+        if (jLigitwfigitFrbmfAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(JLigitwfigitFrbmf.dlbss);
         }
-        return jLightweightFrameAccessor;
+        rfturn jLigitwfigitFrbmfAddfssor;
     }
 
     /**
-     * The RepaintManager class accessor object.
+     * Tif RfpbintMbnbgfr dlbss bddfssor objfdt.
      */
-    private static RepaintManagerAccessor repaintManagerAccessor;
+    privbtf stbtid RfpbintMbnbgfrAddfssor rfpbintMbnbgfrAddfssor;
 
     /**
-     * Set an accessor object for the RepaintManager class.
+     * Sft bn bddfssor objfdt for tif RfpbintMbnbgfr dlbss.
      */
-    public static void setRepaintManagerAccessor(RepaintManagerAccessor accessor) {
-        repaintManagerAccessor = accessor;
+    publid stbtid void sftRfpbintMbnbgfrAddfssor(RfpbintMbnbgfrAddfssor bddfssor) {
+        rfpbintMbnbgfrAddfssor = bddfssor;
     }
 
     /**
-     * Retrieve the accessor object for the RepaintManager class.
+     * Rftrifvf tif bddfssor objfdt for tif RfpbintMbnbgfr dlbss.
      */
-    public static RepaintManagerAccessor getRepaintManagerAccessor() {
-        if (repaintManagerAccessor == null) {
-            unsafe.ensureClassInitialized(RepaintManager.class);
+    publid stbtid RfpbintMbnbgfrAddfssor gftRfpbintMbnbgfrAddfssor() {
+        if (rfpbintMbnbgfrAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(RfpbintMbnbgfr.dlbss);
         }
-        return repaintManagerAccessor;
+        rfturn rfpbintMbnbgfrAddfssor;
     }
 
     /**
-     * The PopupFactory class accessor object.
+     * Tif PopupFbdtory dlbss bddfssor objfdt.
      */
-    private static PopupFactoryAccessor popupFactoryAccessor;
+    privbtf stbtid PopupFbdtoryAddfssor popupFbdtoryAddfssor;
 
     /**
-     * Retrieve the accessor object for the PopupFactory class.
+     * Rftrifvf tif bddfssor objfdt for tif PopupFbdtory dlbss.
      */
-    public static PopupFactoryAccessor getPopupFactoryAccessor() {
-        if (popupFactoryAccessor == null) {
-            unsafe.ensureClassInitialized(PopupFactory.class);
+    publid stbtid PopupFbdtoryAddfssor gftPopupFbdtoryAddfssor() {
+        if (popupFbdtoryAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(PopupFbdtory.dlbss);
         }
-        return popupFactoryAccessor;
+        rfturn popupFbdtoryAddfssor;
     }
 
     /**
-     * Set an Accessor object for the PopupFactory class.
+     * Sft bn Addfssor objfdt for tif PopupFbdtory dlbss.
      */
-    public static void setPopupFactoryAccessor(PopupFactoryAccessor popupFactoryAccessor) {
-        SwingAccessor.popupFactoryAccessor = popupFactoryAccessor;
+    publid stbtid void sftPopupFbdtoryAddfssor(PopupFbdtoryAddfssor popupFbdtoryAddfssor) {
+        SwingAddfssor.popupFbdtoryAddfssor = popupFbdtoryAddfssor;
     }
 }

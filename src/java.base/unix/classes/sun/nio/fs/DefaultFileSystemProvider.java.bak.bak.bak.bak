@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.spi.FilfSystfmProvidfr;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Crfbtfs this plbtform's dffbult FilfSystfmProvidfr.
+ */
+
+publid dlbss DffbultFilfSystfmProvidfr {
+    privbtf DffbultFilfSystfmProvidfr() { }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid FilfSystfmProvidfr drfbtfProvidfr(String dn) {
+        Clbss<FilfSystfmProvidfr> d;
+        try {
+            d = (Clbss<FilfSystfmProvidfr>)Clbss.forNbmf(dn);
+        } dbtdh (ClbssNotFoundExdfption x) {
+            throw nfw AssfrtionError(x);
+        }
+        try {
+            rfturn d.nfwInstbndf();
+        } dbtdh (IllfgblAddfssExdfption | InstbntibtionExdfption x) {
+            throw nfw AssfrtionError(x);
+        }
+    }
+
+    /**
+     * Rfturns thf dffbult FilfSystfmProvidfr.
+     */
+    publid stbtid FilfSystfmProvidfr drfbtf() {
+        String osnbmf = AddfssControllfr
+            .doPrivilfgfd(nfw GftPropfrtyAdtion("os.nbmf"));
+        if (osnbmf.fqubls("SunOS"))
+            rfturn drfbtfProvidfr("sun.nio.fs.SolbrisFilfSystfmProvidfr");
+        if (osnbmf.fqubls("Linux"))
+            rfturn drfbtfProvidfr("sun.nio.fs.LinuxFilfSystfmProvidfr");
+        if (osnbmf.dontbins("OS X"))
+            rfturn drfbtfProvidfr("sun.nio.fs.MbdOSXFilfSystfmProvidfr");
+        if (osnbmf.fqubls("AIX"))
+            rfturn drfbtfProvidfr("sun.nio.fs.AixFilfSystfmProvidfr");
+        throw nfw AssfrtionError("Plbtform not rfdognizfd");
+    }
+}

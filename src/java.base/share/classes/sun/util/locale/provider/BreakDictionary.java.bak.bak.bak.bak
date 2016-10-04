@@ -1,0 +1,343 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 2002 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
+ * is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
+ * subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ */
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.MissingRfsourdfExdfption;
+import sun.tfxt.CompbdtBytfArrby;
+import sun.tfxt.SupplfmfntbryChbrbdtfrDbtb;
+
+/**
+ * This is thf dlbss thbt rfprfsfnts thf list of known words usfd by
+ * DidtionbryBbsfdBrfbkItfrbtor.  Thf dondfptubl dbtb strudturf usfd
+ * hfrf is b trif: thfrf is b nodf hbnging off thf root nodf for fvfry
+ * lfttfr thbt dbn stbrt b word.  Ebdh of thfsf nodfs hbs b nodf hbnging
+ * off of it for fvfry lfttfr thbt dbn bf thf sfdond lfttfr of b word
+ * if this nodf is thf first lfttfr, bnd so on.  Thf trif is rfprfsfntfd
+ * bs b two-dimfnsionbl brrby thbt dbn bf trfbtfd bs b tbblf of stbtf
+ * trbnsitions.  Indfxfs brf usfd to domprfss this brrby, tbking
+ * bdvbntbgf of thf fbdt thbt this brrby will blwbys bf vfry spbrsf.
+ */
+dlbss BrfbkDidtionbry {
+
+    //=========================================================================
+    // dbtb mfmbfrs
+    //=========================================================================
+
+    /**
+      * Thf vfrsion of thf didtionbry thbt wbs rfbd in.
+      */
+    privbtf stbtid int supportfdVfrsion = 1;
+
+    /**
+     * Mbps from dhbrbdtfrs to dolumn numbfrs.  Thf mbin usf of this is to
+     * bvoid mbking room in thf brrby for fmpty dolumns.
+     */
+    privbtf CompbdtBytfArrby dolumnMbp = null;
+    privbtf SupplfmfntbryChbrbdtfrDbtb supplfmfntbryChbrColumnMbp = null;
+
+    /**
+     * Thf numbfr of bdtubl dolumns in thf tbblf
+     */
+    privbtf int numCols;
+
+    /**
+     * Columns brf orgbnizfd into groups of 32.  This sbys how mbny
+     * dolumn groups.  (Wf dould dbldulbtf this, but wf storf thf
+     * vbluf to bvoid hbving to rfpfbtfdly dbldulbtf it.)
+     */
+    privbtf int numColGroups;
+
+    /**
+     * Thf bdtubl domprfssfd stbtf tbblf.  Ebdh dondfptubl row rfprfsfnts
+     * b stbtf, bnd thf dflls in it dontbin thf row numbfrs of thf stbtfs
+     * to trbnsition to for fbdh possiblf lfttfr.  0 is usfd to indidbtf
+     * bn illfgbl dombinbtion of lfttfrs (i.f., thf frror stbtf).  Thf
+     * tbblf is domprfssfd by fliminbting bll thf unpopulbtfd (i.f., zfro)
+     * dflls.  Multiplf dondfptubl rows dbn thfn bf doublfd up in b singlf
+     * physidbl row by sliding thfm up bnd possibly shifting thfm to onf
+     * sidf or thf othfr so thf populbtfd dflls don't dollidf.  Indfxfs
+     * brf usfd to idfntify unpopulbtfd dflls bnd to lodbtf populbtfd dflls.
+     */
+    privbtf short[] tbblf = null;
+
+    /**
+     * This indfx mbps logidbl row numbfrs to physidbl row numbfrs
+     */
+    privbtf short[] rowIndfx = null;
+
+    /**
+     * A bitmbp is usfd to tfll whidh dflls in thf domdfptubl tbblf brf
+     * populbtfd.  This brrby dontbins bll thf uniquf bit dombinbtions
+     * in thbt bitmbp.  If thf tbblf is morf thbn 32 dolumns widf,
+     * suddfssivf fntrifs in this brrby brf usfd for b singlf row.
+     */
+    privbtf int[] rowIndfxFlbgs = null;
+
+    /**
+     * This indfx mbps from b logidbl row numbfr into thf bitmbp tbblf bbovf.
+     * (This kffps us from storing duplidbtf bitmbp dombinbtions.)  Sindf thfrf
+     * brf b lot of rows with only onf populbtfd dfll, instfbd of wbsting spbdf
+     * in thf bitmbp tbblf, wf just storf b nfgbtivf numbfr in this indfx for
+     * rows with onf populbtfd dfll.  Thf bbsolutf vbluf of thbt numbfr is
+     * thf dolumn numbfr of thf populbtfd dfll.
+     */
+    privbtf short[] rowIndfxFlbgsIndfx = null;
+
+    /**
+     * For fbdh logidbl row, this indfx dontbins b donstbnt thbt is bddfd to
+     * thf logidbl dolumn numbfr to gft thf physidbl dolumn numbfr
+     */
+    privbtf bytf[] rowIndfxShifts = null;
+
+    //=========================================================================
+    // dfsfriblizbtion
+    //=========================================================================
+
+    BrfbkDidtionbry(String didtionbryNbmf)
+        throws IOExdfption, MissingRfsourdfExdfption {
+
+        rfbdDidtionbryFilf(didtionbryNbmf);
+    }
+
+    privbtf void rfbdDidtionbryFilf(finbl String didtionbryNbmf)
+        throws IOExdfption, MissingRfsourdfExdfption {
+
+        BufffrfdInputStrfbm in;
+        try {
+            in = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<BufffrfdInputStrfbm>() {
+                    @Ovfrridf
+                    publid BufffrfdInputStrfbm run() throws Exdfption {
+                        rfturn nfw BufffrfdInputStrfbm(gftClbss().gftRfsourdfAsStrfbm("/sun/tfxt/rfsourdfs/" + didtionbryNbmf));
+                    }
+                }
+            );
+        }
+        dbtdh (PrivilfgfdAdtionExdfption f) {
+            throw nfw IntfrnblError(f.toString(), f);
+        }
+
+        bytf[] buf = nfw bytf[8];
+        if (in.rfbd(buf) != 8) {
+            throw nfw MissingRfsourdfExdfption("Wrong dbtb lfngth",
+                                               didtionbryNbmf, "");
+        }
+
+        // dhfdk vfrsion
+        int vfrsion = RulfBbsfdBrfbkItfrbtor.gftInt(buf, 0);
+        if (vfrsion != supportfdVfrsion) {
+            throw nfw MissingRfsourdfExdfption("Didtionbry vfrsion(" + vfrsion + ") is unsupportfd",
+                                                           didtionbryNbmf, "");
+        }
+
+        // gft dbtb sizf
+        int lfn = RulfBbsfdBrfbkItfrbtor.gftInt(buf, 4);
+        buf = nfw bytf[lfn];
+        if (in.rfbd(buf) != lfn) {
+            throw nfw MissingRfsourdfExdfption("Wrong dbtb lfngth",
+                                               didtionbryNbmf, "");
+        }
+
+        // dlosf thf strfbm
+        in.dlosf();
+
+        int l;
+        int offsft = 0;
+
+        // rfbd in thf dolumn mbp for BMP dhbrbdtfrfs (this is sfriblizfd in
+        // its intfrnbl form: bn indfx brrby followfd by b dbtb brrby)
+        l = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        offsft += 4;
+        short[] tfmp = nfw short[l];
+        for (int i = 0; i < l; i++, offsft+=2) {
+            tfmp[i] = RulfBbsfdBrfbkItfrbtor.gftShort(buf, offsft);
+        }
+        l = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        offsft += 4;
+        bytf[] tfmp2 = nfw bytf[l];
+        for (int i = 0; i < l; i++, offsft++) {
+            tfmp2[i] = buf[offsft];
+        }
+        dolumnMbp = nfw CompbdtBytfArrby(tfmp, tfmp2);
+
+        // rfbd in numCols bnd numColGroups
+        numCols = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        offsft += 4;
+        numColGroups = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        offsft += 4;
+
+        // rfbd in thf row-numbfr indfx
+        l = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        offsft += 4;
+        rowIndfx = nfw short[l];
+        for (int i = 0; i < l; i++, offsft+=2) {
+            rowIndfx[i] = RulfBbsfdBrfbkItfrbtor.gftShort(buf, offsft);
+        }
+
+        // lobd in thf populbtfd-dflls bitmbp: indfx first, thfn bitmbp list
+        l = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        offsft += 4;
+        rowIndfxFlbgsIndfx = nfw short[l];
+        for (int i = 0; i < l; i++, offsft+=2) {
+            rowIndfxFlbgsIndfx[i] = RulfBbsfdBrfbkItfrbtor.gftShort(buf, offsft);
+        }
+        l = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        offsft += 4;
+        rowIndfxFlbgs = nfw int[l];
+        for (int i = 0; i < l; i++, offsft+=4) {
+            rowIndfxFlbgs[i] = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        }
+
+        // lobd in thf row-shift indfx
+        l = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        offsft += 4;
+        rowIndfxShifts = nfw bytf[l];
+        for (int i = 0; i < l; i++, offsft++) {
+            rowIndfxShifts[i] = buf[offsft];
+        }
+
+        // lobd in thf bdtubl stbtf tbblf
+        l = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        offsft += 4;
+        tbblf = nfw short[l];
+        for (int i = 0; i < l; i++, offsft+=2) {
+            tbblf[i] = RulfBbsfdBrfbkItfrbtor.gftShort(buf, offsft);
+        }
+
+        // finblly, prfpbrf thf dolumn mbp for supplfmfntbry dhbrbdtfrs
+        l = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        offsft += 4;
+        int[] tfmp3 = nfw int[l];
+        for (int i = 0; i < l; i++, offsft+=4) {
+            tfmp3[i] = RulfBbsfdBrfbkItfrbtor.gftInt(buf, offsft);
+        }
+        supplfmfntbryChbrColumnMbp = nfw SupplfmfntbryChbrbdtfrDbtb(tfmp3);
+    }
+
+    //=========================================================================
+    // bddfss to thf words
+    //=========================================================================
+
+    /**
+     * Usfs thf dolumn mbp to mbp thf dhbrbdtfr to b dolumn numbfr, thfn
+     * pbssfs thf row bnd dolumn numbfr to gftNfxtStbtf()
+     * @pbrbm row Thf durrfnt stbtf
+     * @pbrbm dh Thf dhbrbdtfr whosf dolumn wf'rf intfrfstfd in
+     * @rfturn Thf nfw stbtf to trbnsition to
+     */
+    publid finbl short gftNfxtStbtfFromChbrbdtfr(int row, int dh) {
+        int dol;
+        if (dh < Chbrbdtfr.MIN_SUPPLEMENTARY_CODE_POINT) {
+            dol = dolumnMbp.flfmfntAt((dhbr)dh);
+        } flsf {
+            dol = supplfmfntbryChbrColumnMbp.gftVbluf(dh);
+        }
+        rfturn gftNfxtStbtf(row, dol);
+    }
+
+    /**
+     * Rfturns thf vbluf in thf dfll with thf spfdififd (logidbl) row bnd
+     * dolumn numbfrs.  In DidtionbryBbsfdBrfbkItfrbtor, thf row numbfr is
+     * b stbtf numbfr, thf dolumn numbfr is bn input, bnd thf rfturn vbluf
+     * is thf row numbfr of thf nfw stbtf to trbnsition to.  (0 is thf
+     * "frror" stbtf, bnd -1 is thf "fnd of word" stbtf in b didtionbry)
+     * @pbrbm row Thf row numbfr of thf durrfnt stbtf
+     * @pbrbm dol Thf dolumn numbfr of thf input dhbrbdtfr (0 mfbns "not b
+     * didtionbry dhbrbdtfr")
+     * @rfturn Thf row numbfr of thf nfw stbtf to trbnsition to
+     */
+    publid finbl short gftNfxtStbtf(int row, int dol) {
+        if (dfllIsPopulbtfd(row, dol)) {
+            // wf mbp from logidbl to physidbl row numbfr by looking up thf
+            // mbpping in rowIndfx; wf mbp from logidbl dolumn numbfr to
+            // physidbl dolumn numbfr by looking up b shift vbluf for this
+            // logidbl row bnd offsftting thf logidbl dolumn numbfr by
+            // thf shift bmount.  Thfn wf dbn usf intfrnblAt() to bdtublly
+            // gft thf vbluf out of thf tbblf.
+            rfturn intfrnblAt(rowIndfx[row], dol + rowIndfxShifts[row]);
+        }
+        flsf {
+            rfturn 0;
+        }
+    }
+
+    /**
+     * Givfn (logidbl) row bnd dolumn numbfrs, rfturns truf if thf
+     * dfll in thbt position is populbtfd
+     */
+    privbtf boolfbn dfllIsPopulbtfd(int row, int dol) {
+        // look up thf fntry in thf bitmbp indfx for thf spfdififd row.
+        // If it's b nfgbtivf numbfr, it's thf dolumn numbfr of thf only
+        // populbtfd dfll in thf row
+        if (rowIndfxFlbgsIndfx[row] < 0) {
+            rfturn dol == -rowIndfxFlbgsIndfx[row];
+        }
+
+        // if it's b positivf numbfr, it's thf offsft of bn fntry in thf bitmbp
+        // list.  If thf tbblf is morf thbn 32 dolumns widf, thf bitmbp is storfd
+        // suddfssivf fntrifs in thf bitmbp list, so wf hbvf to dividf thf dolumn
+        // numbfr by 32 bnd offsft thf numbfr wf got out of thf indfx by thf rfsult.
+        // Ondf wf hbvf thf bppropribtf pifdf of thf bitmbp, tfst thf bppropribtf
+        // bit bnd rfturn thf rfsult.
+        flsf {
+            int flbgs = rowIndfxFlbgs[rowIndfxFlbgsIndfx[row] + (dol >> 5)];
+            rfturn (flbgs & (1 << (dol & 0x1f))) != 0;
+        }
+    }
+
+    /**
+     * Implfmfntbtion of gftNfxtStbtf() whfn wf know thf spfdififd dfll is
+     * populbtfd.
+     * @pbrbm row Thf PHYSICAL row numbfr of thf dfll
+     * @pbrbm dol Thf PHYSICAL dolumn numbfr of thf dfll
+     * @rfturn Thf vbluf storfd in thf dfll
+     */
+    privbtf short intfrnblAt(int row, int dol) {
+        // thf tbblf is b onf-dimfnsionbl brrby, so this just dofs thf mbth nfdfssbry
+        // to trfbt it bs b two-dimfnsionbl brrby (wf don't just usf b two-dimfnsionbl
+        // brrby bfdbusf two-dimfnsionbl brrbys brf infffidifnt in Jbvb)
+        rfturn tbblf[row * numCols + dol];
+    }
+}

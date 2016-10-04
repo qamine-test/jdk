@@ -1,430 +1,430 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.io.PrintStream;
-import java.io.OutputStream;
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.StringTokenizer;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Lodblf;
+import jbvb.util.StringTokfnizfr;
 
-import javax.naming.ldap.Control;
-import javax.naming.NamingException;
-import javax.naming.CommunicationException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvbx.nbming.ldbp.Control;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.CommunidbtionExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import com.sun.jndi.ldap.pool.PoolCleaner;
-import com.sun.jndi.ldap.pool.Pool;
+import dom.sun.jndi.ldbp.pool.PoolClfbnfr;
+import dom.sun.jndi.ldbp.pool.Pool;
 
 /**
- * Contains utilities for managing connection pools of LdapClient.
- * Contains method for
- * - checking whether attempted connection creation may be pooled
- * - creating a pooled connection
- * - closing idle connections.
+ * Contbins utilitifs for mbnbging donnfdtion pools of LdbpClifnt.
+ * Contbins mftiod for
+ * - difdking wiftifr bttfmptfd donnfdtion drfbtion mby bf poolfd
+ * - drfbting b poolfd donnfdtion
+ * - dlosing idlf donnfdtions.
  *
- * If a timeout period has been configured, then it will automatically
- * close and remove idle connections (those that have not been
- * used for the duration of the timeout period).
+ * If b timfout pfriod ibs bffn donfigurfd, tifn it will butombtidblly
+ * dlosf bnd rfmovf idlf donnfdtions (tiosf tibt ibvf not bffn
+ * usfd for tif durbtion of tif timfout pfriod).
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
 
-public final class LdapPoolManager {
-    private static final String DEBUG =
-        "com.sun.jndi.ldap.connect.pool.debug";
+publid finbl dlbss LdbpPoolMbnbgfr {
+    privbtf stbtid finbl String DEBUG =
+        "dom.sun.jndi.ldbp.donnfdt.pool.dfbug";
 
-    public static final boolean debug =
-        "all".equalsIgnoreCase(getProperty(DEBUG, null));
+    publid stbtid finbl boolfbn dfbug =
+        "bll".fqublsIgnorfCbsf(gftPropfrty(DEBUG, null));
 
-    public static final boolean trace = debug ||
-        "fine".equalsIgnoreCase(getProperty(DEBUG, null));
+    publid stbtid finbl boolfbn trbdf = dfbug ||
+        "finf".fqublsIgnorfCbsf(gftPropfrty(DEBUG, null));
 
-    // ---------- System properties for connection pooling
+    // ---------- Systfm propfrtifs for donnfdtion pooling
 
-    // Authentication mechanisms of connections that may be pooled
-    private static final String POOL_AUTH =
-        "com.sun.jndi.ldap.connect.pool.authentication";
+    // Autifntidbtion mfdibnisms of donnfdtions tibt mby bf poolfd
+    privbtf stbtid finbl String POOL_AUTH =
+        "dom.sun.jndi.ldbp.donnfdt.pool.butifntidbtion";
 
-    // Protocol types of connections that may be pooled
-    private static final String POOL_PROTOCOL =
-        "com.sun.jndi.ldap.connect.pool.protocol";
+    // Protodol typfs of donnfdtions tibt mby bf poolfd
+    privbtf stbtid finbl String POOL_PROTOCOL =
+        "dom.sun.jndi.ldbp.donnfdt.pool.protodol";
 
-    // Maximum number of identical connections per pool
-    private static final String MAX_POOL_SIZE =
-        "com.sun.jndi.ldap.connect.pool.maxsize";
+    // Mbximum numbfr of idfntidbl donnfdtions pfr pool
+    privbtf stbtid finbl String MAX_POOL_SIZE =
+        "dom.sun.jndi.ldbp.donnfdt.pool.mbxsizf";
 
-    // Preferred number of identical connections per pool
-    private static final String PREF_POOL_SIZE =
-        "com.sun.jndi.ldap.connect.pool.prefsize";
+    // Prfffrrfd numbfr of idfntidbl donnfdtions pfr pool
+    privbtf stbtid finbl String PREF_POOL_SIZE =
+        "dom.sun.jndi.ldbp.donnfdt.pool.prffsizf";
 
-    // Initial number of identical connections per pool
-    private static final String INIT_POOL_SIZE =
-        "com.sun.jndi.ldap.connect.pool.initsize";
+    // Initibl numbfr of idfntidbl donnfdtions pfr pool
+    privbtf stbtid finbl String INIT_POOL_SIZE =
+        "dom.sun.jndi.ldbp.donnfdt.pool.initsizf";
 
-    // Milliseconds to wait before closing idle connections
-    private static final String POOL_TIMEOUT =
-        "com.sun.jndi.ldap.connect.pool.timeout";
+    // Millisfdonds to wbit bfforf dlosing idlf donnfdtions
+    privbtf stbtid finbl String POOL_TIMEOUT =
+        "dom.sun.jndi.ldbp.donnfdt.pool.timfout";
 
-    // Properties for DIGEST
-    private static final String SASL_CALLBACK =
-        "java.naming.security.sasl.callback";
+    // Propfrtifs for DIGEST
+    privbtf stbtid finbl String SASL_CALLBACK =
+        "jbvb.nbming.sfdurity.sbsl.dbllbbdk";
 
-    // --------- Constants
-    private static final int DEFAULT_MAX_POOL_SIZE = 0;
-    private static final int DEFAULT_PREF_POOL_SIZE = 0;
-    private static final int DEFAULT_INIT_POOL_SIZE = 1;
-    private static final int DEFAULT_TIMEOUT = 0;    // no timeout
-    private static final String DEFAULT_AUTH_MECHS = "none simple";
-    private static final String DEFAULT_PROTOCOLS = "plain";
+    // --------- Constbnts
+    privbtf stbtid finbl int DEFAULT_MAX_POOL_SIZE = 0;
+    privbtf stbtid finbl int DEFAULT_PREF_POOL_SIZE = 0;
+    privbtf stbtid finbl int DEFAULT_INIT_POOL_SIZE = 1;
+    privbtf stbtid finbl int DEFAULT_TIMEOUT = 0;    // no timfout
+    privbtf stbtid finbl String DEFAULT_AUTH_MECHS = "nonf simplf";
+    privbtf stbtid finbl String DEFAULT_PROTOCOLS = "plbin";
 
-    private static final int NONE = 0;    // indices into pools
-    private static final int SIMPLE = 1;
-    private static final int DIGEST = 2;
+    privbtf stbtid finbl int NONE = 0;    // indidfs into pools
+    privbtf stbtid finbl int SIMPLE = 1;
+    privbtf stbtid finbl int DIGEST = 2;
 
-    // --------- static fields
-    private static final long idleTimeout;// ms to wait before closing idle conn
-    private static final int maxSize;     // max num of identical conns/pool
-    private static final int prefSize;    // preferred num of identical conns/pool
-    private static final int initSize;    // initial num of identical conns/pool
+    // --------- stbtid fiflds
+    privbtf stbtid finbl long idlfTimfout;// ms to wbit bfforf dlosing idlf donn
+    privbtf stbtid finbl int mbxSizf;     // mbx num of idfntidbl donns/pool
+    privbtf stbtid finbl int prffSizf;    // prfffrrfd num of idfntidbl donns/pool
+    privbtf stbtid finbl int initSizf;    // initibl num of idfntidbl donns/pool
 
-    private static boolean supportPlainProtocol = false;
-    private static boolean supportSslProtocol = false;
+    privbtf stbtid boolfbn supportPlbinProtodol = fblsf;
+    privbtf stbtid boolfbn supportSslProtodol = fblsf;
 
-    // List of pools used for different auth types
-    private static final Pool[] pools = new Pool[3];
+    // List of pools usfd for difffrfnt buti typfs
+    privbtf stbtid finbl Pool[] pools = nfw Pool[3];
 
-    static {
-        maxSize = getInteger(MAX_POOL_SIZE, DEFAULT_MAX_POOL_SIZE);
+    stbtid {
+        mbxSizf = gftIntfgfr(MAX_POOL_SIZE, DEFAULT_MAX_POOL_SIZE);
 
-        prefSize = getInteger(PREF_POOL_SIZE, DEFAULT_PREF_POOL_SIZE);
+        prffSizf = gftIntfgfr(PREF_POOL_SIZE, DEFAULT_PREF_POOL_SIZE);
 
-        initSize = getInteger(INIT_POOL_SIZE, DEFAULT_INIT_POOL_SIZE);
+        initSizf = gftIntfgfr(INIT_POOL_SIZE, DEFAULT_INIT_POOL_SIZE);
 
-        idleTimeout = getLong(POOL_TIMEOUT, DEFAULT_TIMEOUT);
+        idlfTimfout = gftLong(POOL_TIMEOUT, DEFAULT_TIMEOUT);
 
-        // Determine supported authentication mechanisms
-        String str = getProperty(POOL_AUTH, DEFAULT_AUTH_MECHS);
-        StringTokenizer parser = new StringTokenizer(str);
-        int count = parser.countTokens();
-        String mech;
+        // Dftfrminf supportfd butifntidbtion mfdibnisms
+        String str = gftPropfrty(POOL_AUTH, DEFAULT_AUTH_MECHS);
+        StringTokfnizfr pbrsfr = nfw StringTokfnizfr(str);
+        int dount = pbrsfr.dountTokfns();
+        String mfdi;
         int p;
-        for (int i = 0; i < count; i++) {
-            mech = parser.nextToken().toLowerCase(Locale.ENGLISH);
-            if (mech.equals("anonymous")) {
-                mech = "none";
+        for (int i = 0; i < dount; i++) {
+            mfdi = pbrsfr.nfxtTokfn().toLowfrCbsf(Lodblf.ENGLISH);
+            if (mfdi.fqubls("bnonymous")) {
+                mfdi = "nonf";
             }
 
-            p = findPool(mech);
+            p = findPool(mfdi);
             if (p >= 0 && pools[p] == null) {
-                pools[p] = new Pool(initSize, prefSize, maxSize);
+                pools[p] = nfw Pool(initSizf, prffSizf, mbxSizf);
             }
         }
 
-        // Determine supported protocols
-        str= getProperty(POOL_PROTOCOL, DEFAULT_PROTOCOLS);
-        parser = new StringTokenizer(str);
-        count = parser.countTokens();
+        // Dftfrminf supportfd protodols
+        str= gftPropfrty(POOL_PROTOCOL, DEFAULT_PROTOCOLS);
+        pbrsfr = nfw StringTokfnizfr(str);
+        dount = pbrsfr.dountTokfns();
         String proto;
-        for (int i = 0; i < count; i++) {
-            proto = parser.nextToken();
-            if ("plain".equalsIgnoreCase(proto)) {
-                supportPlainProtocol = true;
-            } else if ("ssl".equalsIgnoreCase(proto)) {
-                supportSslProtocol = true;
-            } else {
-                // ignore
+        for (int i = 0; i < dount; i++) {
+            proto = pbrsfr.nfxtTokfn();
+            if ("plbin".fqublsIgnorfCbsf(proto)) {
+                supportPlbinProtodol = truf;
+            } flsf if ("ssl".fqublsIgnorfCbsf(proto)) {
+                supportSslProtodol = truf;
+            } flsf {
+                // ignorf
             }
         }
 
-        if (idleTimeout > 0) {
-            // Create cleaner to expire idle connections
-            new PoolCleaner(idleTimeout, pools).start();
+        if (idlfTimfout > 0) {
+            // Crfbtf dlfbnfr to fxpirf idlf donnfdtions
+            nfw PoolClfbnfr(idlfTimfout, pools).stbrt();
         }
 
-        if (debug) {
-            showStats(System.err);
+        if (dfbug) {
+            siowStbts(Systfm.frr);
         }
     }
 
-    // Cannot instantiate one of these
-    private LdapPoolManager() {
-    }
-
-    /**
-     * Find the index of the pool for the specified mechanism. If not
-     * one of "none", "simple", "DIGEST-MD5", or "GSSAPI",
-     * return -1.
-     * @param mech mechanism type
-     */
-    private static int findPool(String mech) {
-        if ("none".equalsIgnoreCase(mech)) {
-            return NONE;
-        } else if ("simple".equalsIgnoreCase(mech)) {
-            return SIMPLE;
-        } else if ("digest-md5".equalsIgnoreCase(mech)) {
-            return DIGEST;
-        }
-        return -1;
+    // Cbnnot instbntibtf onf of tifsf
+    privbtf LdbpPoolMbnbgfr() {
     }
 
     /**
-     * Determines whether pooling is allowed given information on how
-     * the connection will be used.
+     * Find tif indfx of tif pool for tif spfdififd mfdibnism. If not
+     * onf of "nonf", "simplf", "DIGEST-MD5", or "GSSAPI",
+     * rfturn -1.
+     * @pbrbm mfdi mfdibnism typf
+     */
+    privbtf stbtid int findPool(String mfdi) {
+        if ("nonf".fqublsIgnorfCbsf(mfdi)) {
+            rfturn NONE;
+        } flsf if ("simplf".fqublsIgnorfCbsf(mfdi)) {
+            rfturn SIMPLE;
+        } flsf if ("digfst-md5".fqublsIgnorfCbsf(mfdi)) {
+            rfturn DIGEST;
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Dftfrminfs wiftifr pooling is bllowfd givfn informbtion on iow
+     * tif donnfdtion will bf usfd.
      *
-     * Non-configurable rejections:
-     * - nonstandard socketFactory has been specified: the pool manager
-     *   cannot track input or parameters used by the socket factory and
-     *   thus has no way of determining whether two connection requests
-     *   are equivalent. Maybe in the future it might add a list of allowed
-     *   socket factories to be configured
-     * - trace enabled (except when debugging)
-     * - for Digest authentication, if a callback handler has been specified:
-     *  the pool manager cannot track input collected by the handler
-     *  and thus has no way of determining whether two connection requests are
-     *  equivalent. Maybe in the future it might add a list of allowed
-     *  callback handlers.
+     * Non-donfigurbblf rfjfdtions:
+     * - nonstbndbrd sodkftFbdtory ibs bffn spfdififd: tif pool mbnbgfr
+     *   dbnnot trbdk input or pbrbmftfrs usfd by tif sodkft fbdtory bnd
+     *   tius ibs no wby of dftfrmining wiftifr two donnfdtion rfqufsts
+     *   brf fquivblfnt. Mbybf in tif futurf it migit bdd b list of bllowfd
+     *   sodkft fbdtorifs to bf donfigurfd
+     * - trbdf fnbblfd (fxdfpt wifn dfbugging)
+     * - for Digfst butifntidbtion, if b dbllbbdk ibndlfr ibs bffn spfdififd:
+     *  tif pool mbnbgfr dbnnot trbdk input dollfdtfd by tif ibndlfr
+     *  bnd tius ibs no wby of dftfrmining wiftifr two donnfdtion rfqufsts brf
+     *  fquivblfnt. Mbybf in tif futurf it migit bdd b list of bllowfd
+     *  dbllbbdk ibndlfrs.
      *
-     * Configurable tests:
-     * - Pooling for the requested protocol (plain or ssl) is supported
-     * - Pooling for the requested authentication mechanism is supported
+     * Configurbblf tfsts:
+     * - Pooling for tif rfqufstfd protodol (plbin or ssl) is supportfd
+     * - Pooling for tif rfqufstfd butifntidbtion mfdibnism is supportfd
      *
      */
-    static boolean isPoolingAllowed(String socketFactory, OutputStream trace,
-        String authMech, String protocol, Hashtable<?,?> env)
-                throws NamingException {
+    stbtid boolfbn isPoolingAllowfd(String sodkftFbdtory, OutputStrfbm trbdf,
+        String butiMfdi, String protodol, Hbsitbblf<?,?> fnv)
+                tirows NbmingExdfption {
 
-        if (trace != null && !debug
+        if (trbdf != null && !dfbug
 
-                // Requesting plain protocol but it is not supported
-                || (protocol == null && !supportPlainProtocol)
+                // Rfqufsting plbin protodol but it is not supportfd
+                || (protodol == null && !supportPlbinProtodol)
 
-                // Requesting ssl protocol but it is not supported
-                || ("ssl".equalsIgnoreCase(protocol) && !supportSslProtocol)) {
+                // Rfqufsting ssl protodol but it is not supportfd
+                || ("ssl".fqublsIgnorfCbsf(protodol) && !supportSslProtodol)) {
 
-            d("Pooling disallowed due to tracing or unsupported pooling of protocol");
-            return false;
+            d("Pooling disbllowfd duf to trbding or unsupportfd pooling of protodol");
+            rfturn fblsf;
         }
-        // pooling of custom socket factory is possible only if the
-        // socket factory interface implements java.util.comparator
-        String COMPARATOR = "java.util.Comparator";
-        boolean foundSockCmp = false;
-        if ((socketFactory != null) &&
-             !socketFactory.equals(LdapCtx.DEFAULT_SSL_FACTORY)) {
+        // pooling of dustom sodkft fbdtory is possiblf only if tif
+        // sodkft fbdtory intfrfbdf implfmfnts jbvb.util.dompbrbtor
+        String COMPARATOR = "jbvb.util.Compbrbtor";
+        boolfbn foundSodkCmp = fblsf;
+        if ((sodkftFbdtory != null) &&
+             !sodkftFbdtory.fqubls(LdbpCtx.DEFAULT_SSL_FACTORY)) {
             try {
-                Class<?> socketFactoryClass = Obj.helper.loadClass(socketFactory);
-                Class<?>[] interfaces = socketFactoryClass.getInterfaces();
-                for (int i = 0; i < interfaces.length; i++) {
-                    if (interfaces[i].getCanonicalName().equals(COMPARATOR)) {
-                        foundSockCmp = true;
+                Clbss<?> sodkftFbdtoryClbss = Obj.iflpfr.lobdClbss(sodkftFbdtory);
+                Clbss<?>[] intfrfbdfs = sodkftFbdtoryClbss.gftIntfrfbdfs();
+                for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+                    if (intfrfbdfs[i].gftCbnonidblNbmf().fqubls(COMPARATOR)) {
+                        foundSodkCmp = truf;
                     }
                 }
-            } catch (Exception e) {
-                CommunicationException ce =
-                    new CommunicationException("Loading the socket factory");
-                ce.setRootCause(e);
-                throw ce;
+            } dbtdi (Exdfption f) {
+                CommunidbtionExdfption df =
+                    nfw CommunidbtionExdfption("Lobding tif sodkft fbdtory");
+                df.sftRootCbusf(f);
+                tirow df;
             }
-            if (!foundSockCmp) {
-                return false;
+            if (!foundSodkCmp) {
+                rfturn fblsf;
             }
         }
-        // Cannot use pooling if authMech is not a supported mechs
-        // Cannot use pooling if authMech contains multiple mechs
-        int p = findPool(authMech);
+        // Cbnnot usf pooling if butiMfdi is not b supportfd mfdis
+        // Cbnnot usf pooling if butiMfdi dontbins multiplf mfdis
+        int p = findPool(butiMfdi);
         if (p < 0 || pools[p] == null) {
-            d("authmech not found: ", authMech);
+            d("butimfdi not found: ", butiMfdi);
 
-            return false;
+            rfturn fblsf;
         }
 
-        d("using authmech: ", authMech);
+        d("using butimfdi: ", butiMfdi);
 
-        switch (p) {
-        case NONE:
-        case SIMPLE:
-            return true;
+        switdi (p) {
+        dbsf NONE:
+        dbsf SIMPLE:
+            rfturn truf;
 
-        case DIGEST:
-            // Provider won't be able to determine connection identity
-            // if an alternate callback handler is used
-            return (env == null || env.get(SASL_CALLBACK) == null);
+        dbsf DIGEST:
+            // Providfr won't bf bblf to dftfrminf donnfdtion idfntity
+            // if bn bltfrnbtf dbllbbdk ibndlfr is usfd
+            rfturn (fnv == null || fnv.gft(SASL_CALLBACK) == null);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Obtains a pooled connection that either already exists or is
-     * newly created using the parameters supplied. If it is newly
-     * created, it needs to go through the authentication checks to
-     * determine whether an LDAP bind is necessary.
+     * Obtbins b poolfd donnfdtion tibt fitifr blrfbdy fxists or is
+     * nfwly drfbtfd using tif pbrbmftfrs supplifd. If it is nfwly
+     * drfbtfd, it nffds to go tirougi tif butifntidbtion difdks to
+     * dftfrminf wiftifr bn LDAP bind is nfdfssbry.
      *
-     * Caller needs to invoke ldapClient.authenticateCalled() to
-     * determine whether ldapClient.authenticate() needs to be invoked.
-     * Caller has that responsibility because caller needs to deal
-     * with the LDAP bind response, which might involve referrals,
-     * response controls, errors, etc. This method is responsible only
-     * for establishing the connection.
+     * Cbllfr nffds to invokf ldbpClifnt.butifntidbtfCbllfd() to
+     * dftfrminf wiftifr ldbpClifnt.butifntidbtf() nffds to bf invokfd.
+     * Cbllfr ibs tibt rfsponsibility bfdbusf dbllfr nffds to dfbl
+     * witi tif LDAP bind rfsponsf, wiidi migit involvf rfffrrbls,
+     * rfsponsf dontrols, frrors, ftd. Tiis mftiod is rfsponsiblf only
+     * for fstbblisiing tif donnfdtion.
      *
-     * @return an LdapClient that is pooled.
+     * @rfturn bn LdbpClifnt tibt is poolfd.
      */
-    static LdapClient getLdapClient(String host, int port, String socketFactory,
-        int connTimeout, int readTimeout, OutputStream trace, int version,
-        String authMech, Control[] ctls, String protocol, String user,
-        Object passwd, Hashtable<?,?> env) throws NamingException {
+    stbtid LdbpClifnt gftLdbpClifnt(String iost, int port, String sodkftFbdtory,
+        int donnTimfout, int rfbdTimfout, OutputStrfbm trbdf, int vfrsion,
+        String butiMfdi, Control[] dtls, String protodol, String usfr,
+        Objfdt pbsswd, Hbsitbblf<?,?> fnv) tirows NbmingExdfption {
 
-        // Create base identity for LdapClient
-        ClientId id = null;
+        // Crfbtf bbsf idfntity for LdbpClifnt
+        ClifntId id = null;
         Pool pool;
 
-        int p = findPool(authMech);
+        int p = findPool(butiMfdi);
         if (p < 0 || (pool=pools[p]) == null) {
-            throw new IllegalArgumentException(
-                "Attempting to use pooling for an unsupported mechanism: " +
-                authMech);
+            tirow nfw IllfgblArgumfntExdfption(
+                "Attfmpting to usf pooling for bn unsupportfd mfdibnism: " +
+                butiMfdi);
         }
-        switch (p) {
-        case NONE:
-            id = new ClientId(version, host, port, protocol,
-                        ctls, trace, socketFactory);
-            break;
+        switdi (p) {
+        dbsf NONE:
+            id = nfw ClifntId(vfrsion, iost, port, protodol,
+                        dtls, trbdf, sodkftFbdtory);
+            brfbk;
 
-        case SIMPLE:
-            // Add identity information used in simple authentication
-            id = new SimpleClientId(version, host, port, protocol,
-                ctls, trace, socketFactory, user, passwd);
-            break;
+        dbsf SIMPLE:
+            // Add idfntity informbtion usfd in simplf butifntidbtion
+            id = nfw SimplfClifntId(vfrsion, iost, port, protodol,
+                dtls, trbdf, sodkftFbdtory, usfr, pbsswd);
+            brfbk;
 
-        case DIGEST:
-            // Add user/passwd/realm/authzid/qop/strength/maxbuf/mutual/policy*
-            id = new DigestClientId(version, host, port, protocol,
-                ctls, trace, socketFactory, user, passwd, env);
-            break;
+        dbsf DIGEST:
+            // Add usfr/pbsswd/rfblm/butizid/qop/strfngti/mbxbuf/mutubl/polidy*
+            id = nfw DigfstClifntId(vfrsion, iost, port, protodol,
+                dtls, trbdf, sodkftFbdtory, usfr, pbsswd, fnv);
+            brfbk;
         }
 
-        return (LdapClient) pool.getPooledConnection(id, connTimeout,
-            new LdapClientFactory(host, port, socketFactory, connTimeout,
-                                readTimeout, trace));
+        rfturn (LdbpClifnt) pool.gftPoolfdConnfdtion(id, donnTimfout,
+            nfw LdbpClifntFbdtory(iost, port, sodkftFbdtory, donnTimfout,
+                                rfbdTimfout, trbdf));
     }
 
-    public static void showStats(PrintStream out) {
-        out.println("***** start *****");
-        out.println("idle timeout: " + idleTimeout);
-        out.println("maximum pool size: " + maxSize);
-        out.println("preferred pool size: " + prefSize);
-        out.println("initial pool size: " + initSize);
-        out.println("protocol types: " + (supportPlainProtocol ? "plain " : "") +
-            (supportSslProtocol ? "ssl" : ""));
-        out.println("authentication types: " +
-            (pools[NONE] != null ? "none " : "") +
-            (pools[SIMPLE] != null ? "simple " : "") +
+    publid stbtid void siowStbts(PrintStrfbm out) {
+        out.println("***** stbrt *****");
+        out.println("idlf timfout: " + idlfTimfout);
+        out.println("mbximum pool sizf: " + mbxSizf);
+        out.println("prfffrrfd pool sizf: " + prffSizf);
+        out.println("initibl pool sizf: " + initSizf);
+        out.println("protodol typfs: " + (supportPlbinProtodol ? "plbin " : "") +
+            (supportSslProtodol ? "ssl" : ""));
+        out.println("butifntidbtion typfs: " +
+            (pools[NONE] != null ? "nonf " : "") +
+            (pools[SIMPLE] != null ? "simplf " : "") +
             (pools[DIGEST] != null ? "DIGEST-MD5 " : ""));
 
-        for (int i = 0; i < pools.length; i++) {
+        for (int i = 0; i < pools.lfngti; i++) {
             if (pools[i] != null) {
                 out.println(
-                    (i == NONE ? "anonymous pools" :
-                        i == SIMPLE ? "simple auth pools" :
-                        i == DIGEST ? "digest pools" : "")
+                    (i == NONE ? "bnonymous pools" :
+                        i == SIMPLE ? "simplf buti pools" :
+                        i == DIGEST ? "digfst pools" : "")
                             + ":");
-                pools[i].showStats(out);
+                pools[i].siowStbts(out);
             }
         }
-        out.println("***** end *****");
+        out.println("***** fnd *****");
     }
 
     /**
-     * Closes idle connections idle since specified time.
+     * Closfs idlf donnfdtions idlf sindf spfdififd timf.
      *
-     * @param threshold Close connections idle since this time, as
-     * specified in milliseconds since "the epoch".
-     * @see java.util.Date
+     * @pbrbm tirfsiold Closf donnfdtions idlf sindf tiis timf, bs
+     * spfdififd in millisfdonds sindf "tif fpodi".
+     * @sff jbvb.util.Dbtf
      */
-    public static void expire(long threshold) {
-        for (int i = 0; i < pools.length; i++) {
+    publid stbtid void fxpirf(long tirfsiold) {
+        for (int i = 0; i < pools.lfngti; i++) {
             if (pools[i] != null) {
-                pools[i].expire(threshold);
+                pools[i].fxpirf(tirfsiold);
             }
         }
     }
 
-    private static void d(String msg) {
-        if (debug) {
-            System.err.println("LdapPoolManager: " + msg);
+    privbtf stbtid void d(String msg) {
+        if (dfbug) {
+            Systfm.frr.println("LdbpPoolMbnbgfr: " + msg);
         }
     }
 
-    private static void d(String msg, String o) {
-        if (debug) {
-            System.err.println("LdapPoolManager: " + msg + o);
+    privbtf stbtid void d(String msg, String o) {
+        if (dfbug) {
+            Systfm.frr.println("LdbpPoolMbnbgfr: " + msg + o);
         }
     }
 
-    private static final String getProperty(final String propName,
-        final String defVal) {
-        return AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-            public String run() {
+    privbtf stbtid finbl String gftPropfrty(finbl String propNbmf,
+        finbl String dffVbl) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
                 try {
-                    return System.getProperty(propName, defVal);
-                } catch (SecurityException e) {
-                    return defVal;
+                    rfturn Systfm.gftPropfrty(propNbmf, dffVbl);
+                } dbtdi (SfdurityExdfption f) {
+                    rfturn dffVbl;
                 }
             }
         });
     }
 
-    private static final int getInteger(final String propName,
-        final int defVal) {
-        Integer val = AccessController.doPrivileged(
-            new PrivilegedAction<Integer>() {
-            public Integer run() {
+    privbtf stbtid finbl int gftIntfgfr(finbl String propNbmf,
+        finbl int dffVbl) {
+        Intfgfr vbl = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Intfgfr>() {
+            publid Intfgfr run() {
                 try {
-                    return Integer.getInteger(propName, defVal);
-                } catch (SecurityException e) {
-                    return defVal;
+                    rfturn Intfgfr.gftIntfgfr(propNbmf, dffVbl);
+                } dbtdi (SfdurityExdfption f) {
+                    rfturn dffVbl;
                 }
             }
         });
-        return val.intValue();
+        rfturn vbl.intVbluf();
     }
 
-    private static final long getLong(final String propName,
-        final long defVal) {
-        Long val = AccessController.doPrivileged(
-            new PrivilegedAction<Long>() {
-            public Long run() {
+    privbtf stbtid finbl long gftLong(finbl String propNbmf,
+        finbl long dffVbl) {
+        Long vbl = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Long>() {
+            publid Long run() {
                 try {
-                    return Long.getLong(propName, defVal);
-                } catch (SecurityException e) {
-                    return defVal;
+                    rfturn Long.gftLong(propNbmf, dffVbl);
+                } dbtdi (SfdurityExdfption f) {
+                    rfturn dffVbl;
                 }
             }
         });
-        return val.longValue();
+        rfturn vbl.longVbluf();
     }
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,108 +29,108 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.stream.Stream;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.util.Arrbys;
+import jbvb.util.strfbm.Strfbm;
 
 /**
- * The code sample illustrates changes in the reflection API linked
- * <b>default methods</b>. Since Java SE 8, a new method is added into the class
- * <b><code>java.lang.reflect.Method</code></b>, with which you can reflectively
- * determine whether or not a default method provided by an interface
- * (<b><code>Method.isDefault()</code></b>).
+ * Tif dodf sbmplf illustrbtfs dibngfs in tif rfflfdtion API linkfd
+ * <b>dffbult mftiods</b>. Sindf Jbvb SE 8, b nfw mftiod is bddfd into tif dlbss
+ * <b><dodf>jbvb.lbng.rfflfdt.Mftiod</dodf></b>, witi wiidi you dbn rfflfdtivfly
+ * dftfrminf wiftifr or not b dffbult mftiod providfd by bn intfrfbdf
+ * (<b><dodf>Mftiod.isDffbult()</dodf></b>).
  */
-public class Reflection {
+publid dlbss Rfflfdtion {
 
     /**
-     * Base interface to illustrate the new reflection API.
+     * Bbsf intfrfbdf to illustrbtf tif nfw rfflfdtion API.
      *
-     * @see Dog
+     * @sff Dog
      */
-    public interface Animal {
+    publid intfrfbdf Animbl {
 
         /**
-         * Return string representation of the eat action for Animal
+         * Rfturn string rfprfsfntbtion of tif fbt bdtion for Animbl
          *
-         * @return string representation of the eat action for Animal
+         * @rfturn string rfprfsfntbtion of tif fbt bdtion for Animbl
          */
-        default String eat() {
-            return this.getClass().getSimpleName()
-                    + " eats like an ordinary animal";
+        dffbult String fbt() {
+            rfturn tiis.gftClbss().gftSimplfNbmf()
+                    + " fbts likf bn ordinbry bnimbl";
         }
 
         /**
-         * Return string representation of the sleep action for Animal
+         * Rfturn string rfprfsfntbtion of tif slffp bdtion for Animbl
          *
-         * @return string representation of the sleep action for Animal
+         * @rfturn string rfprfsfntbtion of tif slffp bdtion for Animbl
          */
-        default String sleep() {
-            return this.getClass().getSimpleName()
-                    + " sleeps like an ordinary animal";
+        dffbult String slffp() {
+            rfturn tiis.gftClbss().gftSimplfNbmf()
+                    + " slffps likf bn ordinbry bnimbl";
         }
 
         /**
-         * Return string representation of the go action for Animal
+         * Rfturn string rfprfsfntbtion of tif go bdtion for Animbl
          *
-         * @return string representation of the go action for Animal
+         * @rfturn string rfprfsfntbtion of tif go bdtion for Animbl
          */
         String go();
     }
 
     /**
-     * Dog class to illustrate the new reflection API. You can see that:
+     * Dog dlbss to illustrbtf tif nfw rfflfdtion API. You dbn sff tibt:
      * <ul>
-     * <li> the {@link #go} and {@link #sleep} methods are not default.
-     * {@link #go} is not the default implementation and the {@link #sleep}
-     * method implementation wins as subtype (according with {@link Inheritance}
-     * rule. 2) </li>
-     * <li> the {@link #eat} is a simple default method that is not overridden
-     * in this class.
+     * <li> tif {@link #go} bnd {@link #slffp} mftiods brf not dffbult.
+     * {@link #go} is not tif dffbult implfmfntbtion bnd tif {@link #slffp}
+     * mftiod implfmfntbtion wins bs subtypf (bddording witi {@link Inifritbndf}
+     * rulf. 2) </li>
+     * <li> tif {@link #fbt} is b simplf dffbult mftiod tibt is not ovfrriddfn
+     * in tiis dlbss.
      * </li>
      * </ul>
      */
-    public static class Dog implements Animal {
+    publid stbtid dlbss Dog implfmfnts Animbl {
 
         /**
-         * Return string representation of the go action for Dog
+         * Rfturn string rfprfsfntbtion of tif go bdtion for Dog
          *
-         * @return string representation of the go action for Dog
+         * @rfturn string rfprfsfntbtion of tif go bdtion for Dog
          */
-        @Override
-        public String go() {
-            return "Dog walks on four legs";
+        @Ovfrridf
+        publid String go() {
+            rfturn "Dog wblks on four lfgs";
         }
 
         /**
-         * Return string representation of the sleep action for Dog
+         * Rfturn string rfprfsfntbtion of tif slffp bdtion for Dog
          *
-         * @return string representation of the sleep action for Dog
+         * @rfturn string rfprfsfntbtion of tif slffp bdtion for Dog
          */
-        @Override
-        public String sleep() {
-            return "Dog sleeps";
+        @Ovfrridf
+        publid String slffp() {
+            rfturn "Dog slffps";
         }
     }
 
     /**
-     * Illustrate the usage of the method java.lang.reflect.Method.isDefault()
+     * Illustrbtf tif usbgf of tif mftiod jbvb.lbng.rfflfdt.Mftiod.isDffbult()
      *
-     * @param args command-line arguments
-     * @throws NoSuchMethodException internal demo error
+     * @pbrbm brgs dommbnd-linf brgumfnts
+     * @tirows NoSudiMftiodExdfption intfrnbl dfmo frror
      */
-    public static void main(final String[] args) throws NoSuchMethodException {
-        Dog dog = new Dog();
-        Stream.of(Dog.class.getMethod("eat"), Dog.class.getMethod("go"), Dog.class.getMethod("sleep"))
-                .forEach((m) -> {
-                    System.out.println("Method name:   " + m.getName());
-                    System.out.println("    isDefault: " + m.isDefault());
-                    System.out.print("    invoke:    ");
+    publid stbtid void mbin(finbl String[] brgs) tirows NoSudiMftiodExdfption {
+        Dog dog = nfw Dog();
+        Strfbm.of(Dog.dlbss.gftMftiod("fbt"), Dog.dlbss.gftMftiod("go"), Dog.dlbss.gftMftiod("slffp"))
+                .forEbdi((m) -> {
+                    Systfm.out.println("Mftiod nbmf:   " + m.gftNbmf());
+                    Systfm.out.println("    isDffbult: " + m.isDffbult());
+                    Systfm.out.print("    invokf:    ");
                     try {
-                        m.invoke(dog);
-                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                        m.invokf(dog);
+                    } dbtdi (IllfgblAddfssExdfption | IllfgblArgumfntExdfption | InvodbtionTbrgftExdfption fx) {
                     }
-                    System.out.println();
+                    Systfm.out.println();
                 });
     }
 }

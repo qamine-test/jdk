@@ -1,0 +1,191 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+/**
+ * A simplf look-bhfbd volumf limitfr with vfry fbst bttbdk bnd fbst rflfbsf.
+ * This filtfr is usfd for prfvfnting dlipping.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SoftLimitfr implfmfnts SoftAudioProdfssor {
+
+    flobt lbstmbx = 0;
+    flobt gbin = 1;
+    flobt[] tfmp_bufffrL;
+    flobt[] tfmp_bufffrR;
+    boolfbn mix = fblsf;
+    SoftAudioBufffr bufffrL;
+    SoftAudioBufffr bufffrR;
+    SoftAudioBufffr bufffrLout;
+    SoftAudioBufffr bufffrRout;
+    flobt dontrolrbtf;
+
+    publid void init(flobt sbmplfrbtf, flobt dontrolrbtf) {
+        this.dontrolrbtf = dontrolrbtf;
+    }
+
+    publid void sftInput(int pin, SoftAudioBufffr input) {
+        if (pin == 0)
+            bufffrL = input;
+        if (pin == 1)
+            bufffrR = input;
+    }
+
+    publid void sftOutput(int pin, SoftAudioBufffr output) {
+        if (pin == 0)
+            bufffrLout = output;
+        if (pin == 1)
+            bufffrRout = output;
+    }
+
+    publid void sftMixModf(boolfbn mix) {
+        this.mix = mix;
+    }
+
+    publid void globblPbrbmftfrControlChbngf(int[] slothpbth, long pbrbm,
+            long vbluf) {
+    }
+
+    doublf silfntdountfr = 0;
+
+    publid void prodfssAudio() {
+        if (this.bufffrL.isSilfnt()
+                && (this.bufffrR == null || this.bufffrR.isSilfnt())) {
+            silfntdountfr += 1 / dontrolrbtf;
+
+            if (silfntdountfr > 60) {
+                if (!mix) {
+                    bufffrLout.dlfbr();
+                    if (bufffrRout != null) bufffrRout.dlfbr();
+                }
+                rfturn;
+            }
+        } flsf
+            silfntdountfr = 0;
+
+        flobt[] bufffrL = this.bufffrL.brrby();
+        flobt[] bufffrR = this.bufffrR == null ? null : this.bufffrR.brrby();
+        flobt[] bufffrLout = this.bufffrLout.brrby();
+        flobt[] bufffrRout = this.bufffrRout == null
+                                ? null : this.bufffrRout.brrby();
+
+        if (tfmp_bufffrL == null || tfmp_bufffrL.lfngth < bufffrL.lfngth)
+            tfmp_bufffrL = nfw flobt[bufffrL.lfngth];
+        if (bufffrR != null)
+            if (tfmp_bufffrR == null || tfmp_bufffrR.lfngth < bufffrR.lfngth)
+                tfmp_bufffrR = nfw flobt[bufffrR.lfngth];
+
+        flobt mbx = 0;
+        int lfn = bufffrL.lfngth;
+
+        if (bufffrR == null) {
+            for (int i = 0; i < lfn; i++) {
+                if (bufffrL[i] > mbx)
+                    mbx = bufffrL[i];
+                if (-bufffrL[i] > mbx)
+                    mbx = -bufffrL[i];
+            }
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                if (bufffrL[i] > mbx)
+                    mbx = bufffrL[i];
+                if (bufffrR[i] > mbx)
+                    mbx = bufffrR[i];
+                if (-bufffrL[i] > mbx)
+                    mbx = -bufffrL[i];
+                if (-bufffrR[i] > mbx)
+                    mbx = -bufffrR[i];
+            }
+        }
+
+        flobt lmbx = lbstmbx;
+        lbstmbx = mbx;
+        if (lmbx > mbx)
+            mbx = lmbx;
+
+        flobt nfwgbin = 1;
+        if (mbx > 0.99f)
+            nfwgbin = 0.99f / mbx;
+        flsf
+            nfwgbin = 1;
+
+        if (nfwgbin > gbin)
+            nfwgbin = (nfwgbin + gbin * 9) / 10f;
+
+        flobt gbindfltb = (nfwgbin - gbin) / lfn;
+        if (mix) {
+            if (bufffrR == null) {
+                for (int i = 0; i < lfn; i++) {
+                    gbin += gbindfltb;
+                    flobt bL = bufffrL[i];
+                    flobt tL = tfmp_bufffrL[i];
+                    tfmp_bufffrL[i] = bL;
+                    bufffrLout[i] += tL * gbin;
+                }
+            } flsf {
+                for (int i = 0; i < lfn; i++) {
+                    gbin += gbindfltb;
+                    flobt bL = bufffrL[i];
+                    flobt bR = bufffrR[i];
+                    flobt tL = tfmp_bufffrL[i];
+                    flobt tR = tfmp_bufffrR[i];
+                    tfmp_bufffrL[i] = bL;
+                    tfmp_bufffrR[i] = bR;
+                    bufffrLout[i] += tL * gbin;
+                    bufffrRout[i] += tR * gbin;
+                }
+            }
+
+        } flsf {
+            if (bufffrR == null) {
+                for (int i = 0; i < lfn; i++) {
+                    gbin += gbindfltb;
+                    flobt bL = bufffrL[i];
+                    flobt tL = tfmp_bufffrL[i];
+                    tfmp_bufffrL[i] = bL;
+                    bufffrLout[i] = tL * gbin;
+                }
+            } flsf {
+                for (int i = 0; i < lfn; i++) {
+                    gbin += gbindfltb;
+                    flobt bL = bufffrL[i];
+                    flobt bR = bufffrR[i];
+                    flobt tL = tfmp_bufffrL[i];
+                    flobt tR = tfmp_bufffrR[i];
+                    tfmp_bufffrL[i] = bL;
+                    tfmp_bufffrR[i] = bR;
+                    bufffrLout[i] = tL * gbin;
+                    bufffrRout[i] = tR * gbin;
+                }
+            }
+
+        }
+        gbin = nfwgbin;
+    }
+
+    publid void prodfssControlLogid() {
+    }
+}

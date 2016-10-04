@@ -1,0 +1,44 @@
+Thf four fxbmplfs in this dirfdtory show how to usf somf of thf
+ffbturfs of thf JTbblf domponfnt.
+
+TbblfExbmplf:
+   This bpplidbtion indludfs b GUI for donfiguring thf
+   dbtbbbsf donnfdtion bnd spfdifying thf qufry.
+TbblfExbmplf2:
+   Thf qufry bnd dbtbbbsf donnfdtion brf spfdififd bt thf dommbnd
+   linf.  Thf rfsults brf displbyfd in b JTbblf.
+TbblfExbmplf3:
+   Is b minimbl fxbmplf showing how to plug b gfnfrid sortfr into thf
+   JTbblf.
+TbblfExbmplf4:
+   Usfs spfdiblizfd rfndfrfrs bnd fditors.
+
+TbblfExbmplf3 bnd TbblfExbmplf4 do not dfpfnd on dbtbbbsf donnfdtivity
+bnd dbn bf dompilfd bnd run in thf normbl wby.
+
+Thf most intfrfsting fxbmplf is probbbly TbblfExbmplf, whidh hbs b
+TfxtArfb thbt dbn bf usfd bs bn fditor for bn SQL fxprfssion.  Prfssing
+thf Fftdh button sfnds thf fxprfssion to thf dbtbbbsf.  Thf rfsults brf
+displbyfd in thf JTbblf undfrnfbth thf tfxt brfb.
+
+To run TbblfExbmplf bnd TbblfExbmplf2, you nffd to find b drivfr for
+your dbtbbbsf bnd sft thf fnvironmfnt vbribblf JDBCHOME to b dirfdtory
+whfrf thf drivfr is instbllfd.  Sff thf following URL for b list of
+JDBC drivfrs providfd by third pbrty vfndors:
+
+  http://jbvb.sun.dom/produdts/jdbd/drivfrs.html
+
+Ondf you find thf drivfr, you dbn run onf of thf dbtbbbsf fxbmplfs by
+spfdifying b dlbss pbth thbt indludfs thf JDBC dlbssfs bnd thf fxbmplf
+dlbssfs.
+
+For fxbmplf:
+
+  jbvb -dlbsspbth $(JDBCHOME):TbblfExbmplf.jbr TbblfExbmplf
+
+Thfsf instrudtions bssumf thbt this instbllbtion's vfrsion of thf jbvb
+dommbnd is in your pbth.  If it isn't, thfn you should fithfr
+spfdify thf domplftf pbth to thf jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in thf instbllbtion
+instrudtions for thf Jbvb(TM) SE Dfvflopmfnt Kit.
+

@@ -1,360 +1,360 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import javax.sound.midi.*;
-import java.util.ArrayList;
+import jbvbx.sound.midi.*;
+import jbvb.util.ArrbyList;
 
 // TODO:
-// - define and use a global symbolic constant for 60000000 (see convertTempo)
+// - dffinf bnd usf b globbl symbolid donstbnt for 60000000 (sff donvfrtTfmpo)
 
 /**
- * Some utilities for MIDI (some stuff is used from javax.sound.midi)
+ * Somf utilitifs for MIDI (somf stuff is usfd from jbvbx.sound.midi)
  *
- * @author Florian Bomers
+ * @butior Floribn Bomfrs
  */
-public final class MidiUtils {
+publid finbl dlbss MidiUtils {
 
-    public final static int DEFAULT_TEMPO_MPQ = 500000; // 120bpm
-    public final static int META_END_OF_TRACK_TYPE = 0x2F;
-    public final static int META_TEMPO_TYPE = 0x51;
+    publid finbl stbtid int DEFAULT_TEMPO_MPQ = 500000; // 120bpm
+    publid finbl stbtid int META_END_OF_TRACK_TYPE = 0x2F;
+    publid finbl stbtid int META_TEMPO_TYPE = 0x51;
 
     /**
-     * Suppresses default constructor, ensuring non-instantiability.
+     * Supprfssfs dffbult donstrudtor, fnsuring non-instbntibbility.
      */
-    private MidiUtils() {
+    privbtf MidiUtils() {
     }
 
-    /** return true if the passed message is Meta End Of Track */
-    public static boolean isMetaEndOfTrack(MidiMessage midiMsg) {
-        // first check if it is a META message at all
-        if (midiMsg.getLength() != 3
-            || midiMsg.getStatus() != MetaMessage.META) {
-            return false;
+    /** rfturn truf if tif pbssfd mfssbgf is Mftb End Of Trbdk */
+    publid stbtid boolfbn isMftbEndOfTrbdk(MidiMfssbgf midiMsg) {
+        // first difdk if it is b META mfssbgf bt bll
+        if (midiMsg.gftLfngti() != 3
+            || midiMsg.gftStbtus() != MftbMfssbgf.META) {
+            rfturn fblsf;
         }
-        // now get message and check for end of track
-        byte[] msg = midiMsg.getMessage();
-        return ((msg[1] & 0xFF) == META_END_OF_TRACK_TYPE) && (msg[2] == 0);
+        // now gft mfssbgf bnd difdk for fnd of trbdk
+        bytf[] msg = midiMsg.gftMfssbgf();
+        rfturn ((msg[1] & 0xFF) == META_END_OF_TRACK_TYPE) && (msg[2] == 0);
     }
 
 
-    /** return if the given message is a meta tempo message */
-    public static boolean isMetaTempo(MidiMessage midiMsg) {
-        // first check if it is a META message at all
-        if (midiMsg.getLength() != 6
-            || midiMsg.getStatus() != MetaMessage.META) {
-            return false;
+    /** rfturn if tif givfn mfssbgf is b mftb tfmpo mfssbgf */
+    publid stbtid boolfbn isMftbTfmpo(MidiMfssbgf midiMsg) {
+        // first difdk if it is b META mfssbgf bt bll
+        if (midiMsg.gftLfngti() != 6
+            || midiMsg.gftStbtus() != MftbMfssbgf.META) {
+            rfturn fblsf;
         }
-        // now get message and check for tempo
-        byte[] msg = midiMsg.getMessage();
-        // meta type must be 0x51, and data length must be 3
-        return ((msg[1] & 0xFF) == META_TEMPO_TYPE) && (msg[2] == 3);
+        // now gft mfssbgf bnd difdk for tfmpo
+        bytf[] msg = midiMsg.gftMfssbgf();
+        // mftb typf must bf 0x51, bnd dbtb lfngti must bf 3
+        rfturn ((msg[1] & 0xFF) == META_TEMPO_TYPE) && (msg[2] == 3);
     }
 
 
-    /** parses this message for a META tempo message and returns
-     * the tempo in MPQ, or -1 if this isn't a tempo message
+    /** pbrsfs tiis mfssbgf for b META tfmpo mfssbgf bnd rfturns
+     * tif tfmpo in MPQ, or -1 if tiis isn't b tfmpo mfssbgf
      */
-    public static int getTempoMPQ(MidiMessage midiMsg) {
-        // first check if it is a META message at all
-        if (midiMsg.getLength() != 6
-            || midiMsg.getStatus() != MetaMessage.META) {
-            return -1;
+    publid stbtid int gftTfmpoMPQ(MidiMfssbgf midiMsg) {
+        // first difdk if it is b META mfssbgf bt bll
+        if (midiMsg.gftLfngti() != 6
+            || midiMsg.gftStbtus() != MftbMfssbgf.META) {
+            rfturn -1;
         }
-        byte[] msg = midiMsg.getMessage();
+        bytf[] msg = midiMsg.gftMfssbgf();
         if (((msg[1] & 0xFF) != META_TEMPO_TYPE) || (msg[2] != 3)) {
-            return -1;
+            rfturn -1;
         }
-        int tempo =    (msg[5] & 0xFF)
+        int tfmpo =    (msg[5] & 0xFF)
                     | ((msg[4] & 0xFF) << 8)
                     | ((msg[3] & 0xFF) << 16);
-        return tempo;
+        rfturn tfmpo;
     }
 
 
     /**
-     * converts<br>
-     * 1 - MPQ-Tempo to BPM tempo<br>
-     * 2 - BPM tempo to MPQ tempo<br>
+     * donvfrts<br>
+     * 1 - MPQ-Tfmpo to BPM tfmpo<br>
+     * 2 - BPM tfmpo to MPQ tfmpo<br>
      */
-    public static double convertTempo(double tempo) {
-        if (tempo <= 0) {
-            tempo = 1;
+    publid stbtid doublf donvfrtTfmpo(doublf tfmpo) {
+        if (tfmpo <= 0) {
+            tfmpo = 1;
         }
-        return ((double) 60000000l) / tempo;
+        rfturn ((doublf) 60000000l) / tfmpo;
     }
 
 
     /**
-     * convert tick to microsecond with given tempo.
-     * Does not take tempo changes into account.
-     * Does not work for SMPTE timing!
+     * donvfrt tidk to midrosfdond witi givfn tfmpo.
+     * Dofs not tbkf tfmpo dibngfs into bddount.
+     * Dofs not work for SMPTE timing!
      */
-    public static long ticks2microsec(long tick, double tempoMPQ, int resolution) {
-        return (long) (((double) tick) * tempoMPQ / resolution);
+    publid stbtid long tidks2midrosfd(long tidk, doublf tfmpoMPQ, int rfsolution) {
+        rfturn (long) (((doublf) tidk) * tfmpoMPQ / rfsolution);
     }
 
     /**
-     * convert tempo to microsecond with given tempo
-     * Does not take tempo changes into account.
-     * Does not work for SMPTE timing!
+     * donvfrt tfmpo to midrosfdond witi givfn tfmpo
+     * Dofs not tbkf tfmpo dibngfs into bddount.
+     * Dofs not work for SMPTE timing!
      */
-    public static long microsec2ticks(long us, double tempoMPQ, int resolution) {
-        // do not round to nearest tick
-        //return (long) Math.round((((double)us) * resolution) / tempoMPQ);
-        return (long) ((((double)us) * resolution) / tempoMPQ);
+    publid stbtid long midrosfd2tidks(long us, doublf tfmpoMPQ, int rfsolution) {
+        // do not round to nfbrfst tidk
+        //rfturn (long) Mbti.round((((doublf)us) * rfsolution) / tfmpoMPQ);
+        rfturn (long) ((((doublf)us) * rfsolution) / tfmpoMPQ);
     }
 
 
     /**
-     * Given a tick, convert to microsecond
-     * @param cache tempo info and current tempo
+     * Givfn b tidk, donvfrt to midrosfdond
+     * @pbrbm dbdif tfmpo info bnd durrfnt tfmpo
      */
-    public static long tick2microsecond(Sequence seq, long tick, TempoCache cache) {
-        if (seq.getDivisionType() != Sequence.PPQ ) {
-            double seconds = ((double)tick / (double)(seq.getDivisionType() * seq.getResolution()));
-            return (long) (1000000 * seconds);
+    publid stbtid long tidk2midrosfdond(Sfqufndf sfq, long tidk, TfmpoCbdif dbdif) {
+        if (sfq.gftDivisionTypf() != Sfqufndf.PPQ ) {
+            doublf sfdonds = ((doublf)tidk / (doublf)(sfq.gftDivisionTypf() * sfq.gftRfsolution()));
+            rfturn (long) (1000000 * sfdonds);
         }
 
-        if (cache == null) {
-            cache = new TempoCache(seq);
+        if (dbdif == null) {
+            dbdif = nfw TfmpoCbdif(sfq);
         }
 
-        int resolution = seq.getResolution();
+        int rfsolution = sfq.gftRfsolution();
 
-        long[] ticks = cache.ticks;
-        int[] tempos = cache.tempos; // in MPQ
-        int cacheCount = tempos.length;
+        long[] tidks = dbdif.tidks;
+        int[] tfmpos = dbdif.tfmpos; // in MPQ
+        int dbdifCount = tfmpos.lfngti;
 
-        // optimization to not always go through entire list of tempo events
-        int snapshotIndex = cache.snapshotIndex;
-        int snapshotMicro = cache.snapshotMicro;
+        // optimizbtion to not blwbys go tirougi fntirf list of tfmpo fvfnts
+        int snbpsiotIndfx = dbdif.snbpsiotIndfx;
+        int snbpsiotMidro = dbdif.snbpsiotMidro;
 
-        // walk through all tempo changes and add time for the respective blocks
-        long us = 0; // microsecond
+        // wblk tirougi bll tfmpo dibngfs bnd bdd timf for tif rfspfdtivf blodks
+        long us = 0; // midrosfdond
 
-        if (snapshotIndex <= 0
-            || snapshotIndex >= cacheCount
-            || ticks[snapshotIndex] > tick) {
-            snapshotMicro = 0;
-            snapshotIndex = 0;
+        if (snbpsiotIndfx <= 0
+            || snbpsiotIndfx >= dbdifCount
+            || tidks[snbpsiotIndfx] > tidk) {
+            snbpsiotMidro = 0;
+            snbpsiotIndfx = 0;
         }
-        if (cacheCount > 0) {
-            // this implementation needs a tempo event at tick 0!
-            int i = snapshotIndex + 1;
-            while (i < cacheCount && ticks[i] <= tick) {
-                snapshotMicro += ticks2microsec(ticks[i] - ticks[i - 1], tempos[i - 1], resolution);
-                snapshotIndex = i;
+        if (dbdifCount > 0) {
+            // tiis implfmfntbtion nffds b tfmpo fvfnt bt tidk 0!
+            int i = snbpsiotIndfx + 1;
+            wiilf (i < dbdifCount && tidks[i] <= tidk) {
+                snbpsiotMidro += tidks2midrosfd(tidks[i] - tidks[i - 1], tfmpos[i - 1], rfsolution);
+                snbpsiotIndfx = i;
                 i++;
             }
-            us = snapshotMicro
-                + ticks2microsec(tick - ticks[snapshotIndex],
-                                 tempos[snapshotIndex],
-                                 resolution);
+            us = snbpsiotMidro
+                + tidks2midrosfd(tidk - tidks[snbpsiotIndfx],
+                                 tfmpos[snbpsiotIndfx],
+                                 rfsolution);
         }
-        cache.snapshotIndex = snapshotIndex;
-        cache.snapshotMicro = snapshotMicro;
-        return us;
+        dbdif.snbpsiotIndfx = snbpsiotIndfx;
+        dbdif.snbpsiotMidro = snbpsiotMidro;
+        rfturn us;
     }
 
     /**
-     * Given a microsecond time, convert to tick.
-     * returns tempo at the given time in cache.getCurrTempoMPQ
+     * Givfn b midrosfdond timf, donvfrt to tidk.
+     * rfturns tfmpo bt tif givfn timf in dbdif.gftCurrTfmpoMPQ
      */
-    public static long microsecond2tick(Sequence seq, long micros, TempoCache cache) {
-        if (seq.getDivisionType() != Sequence.PPQ ) {
-            double dTick = ( ((double) micros)
-                           * ((double) seq.getDivisionType())
-                           * ((double) seq.getResolution()))
-                           / ((double) 1000000);
-            long tick = (long) dTick;
-            if (cache != null) {
-                cache.currTempo = (int) cache.getTempoMPQAt(tick);
+    publid stbtid long midrosfdond2tidk(Sfqufndf sfq, long midros, TfmpoCbdif dbdif) {
+        if (sfq.gftDivisionTypf() != Sfqufndf.PPQ ) {
+            doublf dTidk = ( ((doublf) midros)
+                           * ((doublf) sfq.gftDivisionTypf())
+                           * ((doublf) sfq.gftRfsolution()))
+                           / ((doublf) 1000000);
+            long tidk = (long) dTidk;
+            if (dbdif != null) {
+                dbdif.durrTfmpo = (int) dbdif.gftTfmpoMPQAt(tidk);
             }
-            return tick;
+            rfturn tidk;
         }
 
-        if (cache == null) {
-            cache = new TempoCache(seq);
+        if (dbdif == null) {
+            dbdif = nfw TfmpoCbdif(sfq);
         }
-        long[] ticks = cache.ticks;
-        int[] tempos = cache.tempos; // in MPQ
-        int cacheCount = tempos.length;
+        long[] tidks = dbdif.tidks;
+        int[] tfmpos = dbdif.tfmpos; // in MPQ
+        int dbdifCount = tfmpos.lfngti;
 
-        int resolution = seq.getResolution();
+        int rfsolution = sfq.gftRfsolution();
 
-        long us = 0; long tick = 0; int newReadPos = 0; int i = 1;
+        long us = 0; long tidk = 0; int nfwRfbdPos = 0; int i = 1;
 
-        // walk through all tempo changes and add time for the respective blocks
-        // to find the right tick
-        if (micros > 0 && cacheCount > 0) {
-            // this loop requires that the first tempo Event is at time 0
-            while (i < cacheCount) {
-                long nextTime = us + ticks2microsec(ticks[i] - ticks[i - 1],
-                                                    tempos[i - 1], resolution);
-                if (nextTime > micros) {
-                    break;
+        // wblk tirougi bll tfmpo dibngfs bnd bdd timf for tif rfspfdtivf blodks
+        // to find tif rigit tidk
+        if (midros > 0 && dbdifCount > 0) {
+            // tiis loop rfquirfs tibt tif first tfmpo Evfnt is bt timf 0
+            wiilf (i < dbdifCount) {
+                long nfxtTimf = us + tidks2midrosfd(tidks[i] - tidks[i - 1],
+                                                    tfmpos[i - 1], rfsolution);
+                if (nfxtTimf > midros) {
+                    brfbk;
                 }
-                us = nextTime;
+                us = nfxtTimf;
                 i++;
             }
-            tick = ticks[i - 1] + microsec2ticks(micros - us, tempos[i - 1], resolution);
-            if (Printer.debug) Printer.debug("microsecond2tick(" + (micros / 1000)+") = "+tick+" ticks.");
-            //if (Printer.debug) Printer.debug("   -> convert back = " + (tick2microsecond(seq, tick, null) / 1000)+" microseconds");
+            tidk = tidks[i - 1] + midrosfd2tidks(midros - us, tfmpos[i - 1], rfsolution);
+            if (Printfr.dfbug) Printfr.dfbug("midrosfdond2tidk(" + (midros / 1000)+") = "+tidk+" tidks.");
+            //if (Printfr.dfbug) Printfr.dfbug("   -> donvfrt bbdk = " + (tidk2midrosfdond(sfq, tidk, null) / 1000)+" midrosfdonds");
         }
-        cache.currTempo = tempos[i - 1];
-        return tick;
+        dbdif.durrTfmpo = tfmpos[i - 1];
+        rfturn tidk;
     }
 
 
     /**
-     * Binary search for the event indexes of the track
+     * Binbry sfbrdi for tif fvfnt indfxfs of tif trbdk
      *
-     * @param tick - tick number of index to be found in array
-     * @return index in track which is on or after "tick".
-     *   if no entries are found that follow after tick, track.size() is returned
+     * @pbrbm tidk - tidk numbfr of indfx to bf found in brrby
+     * @rfturn indfx in trbdk wiidi is on or bftfr "tidk".
+     *   if no fntrifs brf found tibt follow bftfr tidk, trbdk.sizf() is rfturnfd
      */
-    public static int tick2index(Track track, long tick) {
-        int ret = 0;
-        if (tick > 0) {
+    publid stbtid int tidk2indfx(Trbdk trbdk, long tidk) {
+        int rft = 0;
+        if (tidk > 0) {
             int low = 0;
-            int high = track.size() - 1;
-            while (low < high) {
-                // take the middle event as estimate
-                ret = (low + high) >> 1;
-                // tick of estimate
-                long t = track.get(ret).getTick();
-                if (t == tick) {
-                    break;
-                } else if (t < tick) {
-                    // estimate too low
-                    if (low == high - 1) {
-                        // "or after tick"
-                        ret++;
-                        break;
+            int iigi = trbdk.sizf() - 1;
+            wiilf (low < iigi) {
+                // tbkf tif middlf fvfnt bs fstimbtf
+                rft = (low + iigi) >> 1;
+                // tidk of fstimbtf
+                long t = trbdk.gft(rft).gftTidk();
+                if (t == tidk) {
+                    brfbk;
+                } flsf if (t < tidk) {
+                    // fstimbtf too low
+                    if (low == iigi - 1) {
+                        // "or bftfr tidk"
+                        rft++;
+                        brfbk;
                     }
-                    low = ret;
-                } else { // if (t>tick)
-                    // estimate too high
-                    high = ret;
+                    low = rft;
+                } flsf { // if (t>tidk)
+                    // fstimbtf too iigi
+                    iigi = rft;
                 }
             }
         }
-        return ret;
+        rfturn rft;
     }
 
 
-    public static final class TempoCache {
-        long[] ticks;
-        int[] tempos; // in MPQ
-        // index in ticks/tempos at the snapshot
-        int snapshotIndex = 0;
-        // microsecond at the snapshot
-        int snapshotMicro = 0;
+    publid stbtid finbl dlbss TfmpoCbdif {
+        long[] tidks;
+        int[] tfmpos; // in MPQ
+        // indfx in tidks/tfmpos bt tif snbpsiot
+        int snbpsiotIndfx = 0;
+        // midrosfdond bt tif snbpsiot
+        int snbpsiotMidro = 0;
 
-        int currTempo; // MPQ, used as return value for microsecond2tick
+        int durrTfmpo; // MPQ, usfd bs rfturn vbluf for midrosfdond2tidk
 
-        private boolean firstTempoIsFake = false;
+        privbtf boolfbn firstTfmpoIsFbkf = fblsf;
 
-        public TempoCache() {
-            // just some defaults, to prevents weird stuff
-            ticks = new long[1];
-            tempos = new int[1];
-            tempos[0] = DEFAULT_TEMPO_MPQ;
-            snapshotIndex = 0;
-            snapshotMicro = 0;
+        publid TfmpoCbdif() {
+            // just somf dffbults, to prfvfnts wfird stuff
+            tidks = nfw long[1];
+            tfmpos = nfw int[1];
+            tfmpos[0] = DEFAULT_TEMPO_MPQ;
+            snbpsiotIndfx = 0;
+            snbpsiotMidro = 0;
         }
 
-        public TempoCache(Sequence seq) {
-            this();
-            refresh(seq);
+        publid TfmpoCbdif(Sfqufndf sfq) {
+            tiis();
+            rffrfsi(sfq);
         }
 
 
-        public synchronized void refresh(Sequence seq) {
-            ArrayList<MidiEvent> list = new ArrayList<>();
-            Track[] tracks = seq.getTracks();
-            if (tracks.length > 0) {
-                // tempo events only occur in track 0
-                Track track = tracks[0];
-                int c = track.size();
-                for (int i = 0; i < c; i++) {
-                    MidiEvent ev = track.get(i);
-                    MidiMessage msg = ev.getMessage();
-                    if (isMetaTempo(msg)) {
-                        // found a tempo event. Add it to the list
-                        list.add(ev);
+        publid syndironizfd void rffrfsi(Sfqufndf sfq) {
+            ArrbyList<MidiEvfnt> list = nfw ArrbyList<>();
+            Trbdk[] trbdks = sfq.gftTrbdks();
+            if (trbdks.lfngti > 0) {
+                // tfmpo fvfnts only oddur in trbdk 0
+                Trbdk trbdk = trbdks[0];
+                int d = trbdk.sizf();
+                for (int i = 0; i < d; i++) {
+                    MidiEvfnt fv = trbdk.gft(i);
+                    MidiMfssbgf msg = fv.gftMfssbgf();
+                    if (isMftbTfmpo(msg)) {
+                        // found b tfmpo fvfnt. Add it to tif list
+                        list.bdd(fv);
                     }
                 }
             }
-            int size = list.size() + 1;
-            firstTempoIsFake = true;
-            if ((size > 1)
-                && (list.get(0).getTick() == 0)) {
-                // do not need to add an initial tempo event at the beginning
-                size--;
-                firstTempoIsFake = false;
+            int sizf = list.sizf() + 1;
+            firstTfmpoIsFbkf = truf;
+            if ((sizf > 1)
+                && (list.gft(0).gftTidk() == 0)) {
+                // do not nffd to bdd bn initibl tfmpo fvfnt bt tif bfginning
+                sizf--;
+                firstTfmpoIsFbkf = fblsf;
             }
-            ticks  = new long[size];
-            tempos = new int[size];
-            int e = 0;
-            if (firstTempoIsFake) {
-                // add tempo 120 at beginning
-                ticks[0] = 0;
-                tempos[0] = DEFAULT_TEMPO_MPQ;
-                e++;
+            tidks  = nfw long[sizf];
+            tfmpos = nfw int[sizf];
+            int f = 0;
+            if (firstTfmpoIsFbkf) {
+                // bdd tfmpo 120 bt bfginning
+                tidks[0] = 0;
+                tfmpos[0] = DEFAULT_TEMPO_MPQ;
+                f++;
             }
-            for (int i = 0; i < list.size(); i++, e++) {
-                MidiEvent evt = list.get(i);
-                ticks[e] = evt.getTick();
-                tempos[e] = getTempoMPQ(evt.getMessage());
+            for (int i = 0; i < list.sizf(); i++, f++) {
+                MidiEvfnt fvt = list.gft(i);
+                tidks[f] = fvt.gftTidk();
+                tfmpos[f] = gftTfmpoMPQ(fvt.gftMfssbgf());
             }
-            snapshotIndex = 0;
-            snapshotMicro = 0;
+            snbpsiotIndfx = 0;
+            snbpsiotMidro = 0;
         }
 
-        public int getCurrTempoMPQ() {
-            return currTempo;
+        publid int gftCurrTfmpoMPQ() {
+            rfturn durrTfmpo;
         }
 
-        float getTempoMPQAt(long tick) {
-            return getTempoMPQAt(tick, -1.0f);
+        flobt gftTfmpoMPQAt(long tidk) {
+            rfturn gftTfmpoMPQAt(tidk, -1.0f);
         }
 
-        synchronized float getTempoMPQAt(long tick, float startTempoMPQ) {
-            for (int i = 0; i < ticks.length; i++) {
-                if (ticks[i] > tick) {
+        syndironizfd flobt gftTfmpoMPQAt(long tidk, flobt stbrtTfmpoMPQ) {
+            for (int i = 0; i < tidks.lfngti; i++) {
+                if (tidks[i] > tidk) {
                     if (i > 0) i--;
-                    if (startTempoMPQ > 0 && i == 0 && firstTempoIsFake) {
-                        return startTempoMPQ;
+                    if (stbrtTfmpoMPQ > 0 && i == 0 && firstTfmpoIsFbkf) {
+                        rfturn stbrtTfmpoMPQ;
                     }
-                    return (float) tempos[i];
+                    rfturn (flobt) tfmpos[i];
                 }
             }
-            return tempos[tempos.length - 1];
+            rfturn tfmpos[tfmpos.lfngti - 1];
         }
 
     }

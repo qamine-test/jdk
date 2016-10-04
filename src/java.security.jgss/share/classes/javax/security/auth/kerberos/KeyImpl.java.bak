@@ -1,248 +1,248 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.kerberos;
+pbdkbgf jbvbx.sfdurity.buti.kfrbfros;
 
-import java.io.*;
-import java.util.Arrays;
-import javax.crypto.SecretKey;
-import javax.security.auth.Destroyable;
-import javax.security.auth.DestroyFailedException;
-import sun.misc.HexDumpEncoder;
-import sun.security.krb5.Asn1Exception;
-import sun.security.krb5.PrincipalName;
-import sun.security.krb5.EncryptionKey;
-import sun.security.krb5.EncryptedData;
-import sun.security.krb5.KrbException;
-import sun.security.util.DerValue;
+import jbvb.io.*;
+import jbvb.util.Arrbys;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buti.Dfstroybblf;
+import jbvbx.sfdurity.buti.DfstroyFbilfdExdfption;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.krb5.PrindipblNbmf;
+import sun.sfdurity.krb5.EndryptionKfy;
+import sun.sfdurity.krb5.EndryptfdDbtb;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.util.DfrVbluf;
 
 /**
- * This class encapsulates a Kerberos encryption key. It is not associated
- * with a principal and may represent an ephemeral session key.
+ * Tiis dlbss fndbpsulbtfs b Kfrbfros fndryption kfy. It is not bssodibtfd
+ * witi b prindipbl bnd mby rfprfsfnt bn fpifmfrbl sfssion kfy.
  *
- * @author Mayank Upadhyay
- * @since 1.4
+ * @butior Mbybnk Upbdiyby
+ * @sindf 1.4
  *
- * @serial include
+ * @sfribl indludf
  */
-class KeyImpl implements SecretKey, Destroyable, Serializable {
+dlbss KfyImpl implfmfnts SfdrftKfy, Dfstroybblf, Sfriblizbblf {
 
-    private static final long serialVersionUID = -7889313790214321193L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7889313790214321193L;
 
-    private transient byte[] keyBytes;
-    private transient int keyType;
-    private transient volatile boolean destroyed = false;
+    privbtf trbnsifnt bytf[] kfyBytfs;
+    privbtf trbnsifnt int kfyTypf;
+    privbtf trbnsifnt volbtilf boolfbn dfstroyfd = fblsf;
 
 
     /**
-     * Constructs a KeyImpl from the given bytes.
+     * Construdts b KfyImpl from tif givfn bytfs.
      *
-     * @param keyBytes the raw bytes for the secret key
-     * @param keyType the key type for the secret key as defined by the
-     * Kerberos protocol specification.
+     * @pbrbm kfyBytfs tif rbw bytfs for tif sfdrft kfy
+     * @pbrbm kfyTypf tif kfy typf for tif sfdrft kfy bs dffinfd by tif
+     * Kfrbfros protodol spfdifidbtion.
      */
-    public KeyImpl(byte[] keyBytes,
-                       int keyType) {
-        this.keyBytes = keyBytes.clone();
-        this.keyType = keyType;
+    publid KfyImpl(bytf[] kfyBytfs,
+                       int kfyTypf) {
+        tiis.kfyBytfs = kfyBytfs.dlonf();
+        tiis.kfyTypf = kfyTypf;
     }
 
     /**
-     * Constructs a KeyImpl from a password.
+     * Construdts b KfyImpl from b pbssword.
      *
-     * @param principal the principal from which to derive the salt
-     * @param password the password that should be used to compute the
-     * key.
-     * @param algorithm the name for the algorithm that this key wil be
-     * used for. This parameter may be null in which case "DES" will be
-     * assumed.
+     * @pbrbm prindipbl tif prindipbl from wiidi to dfrivf tif sblt
+     * @pbrbm pbssword tif pbssword tibt siould bf usfd to domputf tif
+     * kfy.
+     * @pbrbm blgoritim tif nbmf for tif blgoritim tibt tiis kfy wil bf
+     * usfd for. Tiis pbrbmftfr mby bf null in wiidi dbsf "DES" will bf
+     * bssumfd.
      */
-    public KeyImpl(KerberosPrincipal principal,
-                   char[] password,
-                   String algorithm) {
+    publid KfyImpl(KfrbfrosPrindipbl prindipbl,
+                   dibr[] pbssword,
+                   String blgoritim) {
 
         try {
-            PrincipalName princ = new PrincipalName(principal.getName());
-            EncryptionKey key;
-            if ("none".equalsIgnoreCase(algorithm)) {
-                key = EncryptionKey.NULL_KEY;
-            } else {
-                key = new EncryptionKey(password, princ.getSalt(), algorithm);
+            PrindipblNbmf prind = nfw PrindipblNbmf(prindipbl.gftNbmf());
+            EndryptionKfy kfy;
+            if ("nonf".fqublsIgnorfCbsf(blgoritim)) {
+                kfy = EndryptionKfy.NULL_KEY;
+            } flsf {
+                kfy = nfw EndryptionKfy(pbssword, prind.gftSblt(), blgoritim);
             }
-            this.keyBytes = key.getBytes();
-            this.keyType = key.getEType();
-        } catch (KrbException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            tiis.kfyBytfs = kfy.gftBytfs();
+            tiis.kfyTypf = kfy.gftETypf();
+        } dbtdi (KrbExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
         }
     }
 
     /**
-     * Returns the keyType for this key as defined in the Kerberos Spec.
+     * Rfturns tif kfyTypf for tiis kfy bs dffinfd in tif Kfrbfros Spfd.
      */
-    public final int getKeyType() {
-        if (destroyed)
-            throw new IllegalStateException("This key is no longer valid");
-        return keyType;
+    publid finbl int gftKfyTypf() {
+        if (dfstroyfd)
+            tirow nfw IllfgblStbtfExdfption("Tiis kfy is no longfr vblid");
+        rfturn kfyTypf;
     }
 
     /*
-     * Methods from java.security.Key
+     * Mftiods from jbvb.sfdurity.Kfy
      */
 
-    public final String getAlgorithm() {
-        return getAlgorithmName(keyType);
+    publid finbl String gftAlgoritim() {
+        rfturn gftAlgoritimNbmf(kfyTypf);
     }
 
-    private String getAlgorithmName(int eType) {
-        if (destroyed)
-            throw new IllegalStateException("This key is no longer valid");
+    privbtf String gftAlgoritimNbmf(int fTypf) {
+        if (dfstroyfd)
+            tirow nfw IllfgblStbtfExdfption("Tiis kfy is no longfr vblid");
 
-        switch (eType) {
-        case EncryptedData.ETYPE_DES_CBC_CRC:
-            return "des-cbc-crc";
+        switdi (fTypf) {
+        dbsf EndryptfdDbtb.ETYPE_DES_CBC_CRC:
+            rfturn "dfs-dbd-drd";
 
-        case EncryptedData.ETYPE_DES_CBC_MD5:
-            return "des-cbc-md5";
+        dbsf EndryptfdDbtb.ETYPE_DES_CBC_MD5:
+            rfturn "dfs-dbd-md5";
 
-        case EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD:
-            return "des3-cbc-sha1-kd";
+        dbsf EndryptfdDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD:
+            rfturn "dfs3-dbd-sib1-kd";
 
-        case EncryptedData.ETYPE_ARCFOUR_HMAC:
-            return "rc4-hmac";
+        dbsf EndryptfdDbtb.ETYPE_ARCFOUR_HMAC:
+            rfturn "rd4-imbd";
 
-        case EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96:
-            return "aes128-cts-hmac-sha1-96";
+        dbsf EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+            rfturn "bfs128-dts-imbd-sib1-96";
 
-        case EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96:
-            return "aes256-cts-hmac-sha1-96";
+        dbsf EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+            rfturn "bfs256-dts-imbd-sib1-96";
 
-        case EncryptedData.ETYPE_NULL:
-            return "none";
+        dbsf EndryptfdDbtb.ETYPE_NULL:
+            rfturn "nonf";
 
-        default:
-            return eType > 0 ? "unknown" : "private";
+        dffbult:
+            rfturn fTypf > 0 ? "unknown" : "privbtf";
         }
     }
 
-    public final String getFormat() {
-        if (destroyed)
-            throw new IllegalStateException("This key is no longer valid");
-        return "RAW";
+    publid finbl String gftFormbt() {
+        if (dfstroyfd)
+            tirow nfw IllfgblStbtfExdfption("Tiis kfy is no longfr vblid");
+        rfturn "RAW";
     }
 
-    public final byte[] getEncoded() {
-        if (destroyed)
-            throw new IllegalStateException("This key is no longer valid");
-        return keyBytes.clone();
+    publid finbl bytf[] gftEndodfd() {
+        if (dfstroyfd)
+            tirow nfw IllfgblStbtfExdfption("Tiis kfy is no longfr vblid");
+        rfturn kfyBytfs.dlonf();
     }
 
-    public void destroy() throws DestroyFailedException {
-        if (!destroyed) {
-            destroyed = true;
-            Arrays.fill(keyBytes, (byte) 0);
+    publid void dfstroy() tirows DfstroyFbilfdExdfption {
+        if (!dfstroyfd) {
+            dfstroyfd = truf;
+            Arrbys.fill(kfyBytfs, (bytf) 0);
         }
     }
 
-    public boolean isDestroyed() {
-        return destroyed;
+    publid boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
     }
 
     /**
-     * @serialData this {@code KeyImpl} is serialized by
-     * writing out the ASN1 Encoded bytes of the encryption key.
-     * The ASN1 encoding is defined in RFC4120 and as  follows:
-     * EncryptionKey   ::= SEQUENCE {
-     *          keytype    [0] Int32 -- actually encryption type --,
-     *          keyvalue   [1] OCTET STRING
+     * @sfriblDbtb tiis {@dodf KfyImpl} is sfriblizfd by
+     * writing out tif ASN1 Endodfd bytfs of tif fndryption kfy.
+     * Tif ASN1 fndoding is dffinfd in RFC4120 bnd bs  follows:
+     * EndryptionKfy   ::= SEQUENCE {
+     *          kfytypf    [0] Int32 -- bdtublly fndryption typf --,
+     *          kfyvbluf   [1] OCTET STRING
      * }
      */
-    private void writeObject(ObjectOutputStream ois)
-                throws IOException {
-        if (destroyed) {
-           throw new IOException("This key is no longer valid");
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm ois)
+                tirows IOExdfption {
+        if (dfstroyfd) {
+           tirow nfw IOExdfption("Tiis kfy is no longfr vblid");
         }
 
         try {
-           ois.writeObject((new EncryptionKey(keyType, keyBytes)).asn1Encode());
-        } catch (Asn1Exception ae) {
-           throw new IOException(ae.getMessage());
+           ois.writfObjfdt((nfw EndryptionKfy(kfyTypf, kfyBytfs)).bsn1Endodf());
+        } dbtdi (Asn1Exdfption bf) {
+           tirow nfw IOExdfption(bf.gftMfssbgf());
         }
     }
 
-    private void readObject(ObjectInputStream ois)
-                throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+                tirows IOExdfption, ClbssNotFoundExdfption {
         try {
-            EncryptionKey encKey = new EncryptionKey(new
-                                     DerValue((byte[])ois.readObject()));
-            keyType = encKey.getEType();
-            keyBytes = encKey.getBytes();
-        } catch (Asn1Exception ae) {
-            throw new IOException(ae.getMessage());
+            EndryptionKfy fndKfy = nfw EndryptionKfy(nfw
+                                     DfrVbluf((bytf[])ois.rfbdObjfdt()));
+            kfyTypf = fndKfy.gftETypf();
+            kfyBytfs = fndKfy.gftBytfs();
+        } dbtdi (Asn1Exdfption bf) {
+            tirow nfw IOExdfption(bf.gftMfssbgf());
         }
     }
 
-    public String toString() {
-        HexDumpEncoder hd = new HexDumpEncoder();
-        return "EncryptionKey: keyType=" + keyType
-                          + " keyBytes (hex dump)="
-                          + (keyBytes == null || keyBytes.length == 0 ?
-                             " Empty Key" :
-                             '\n' + hd.encodeBuffer(keyBytes)
+    publid String toString() {
+        HfxDumpEndodfr id = nfw HfxDumpEndodfr();
+        rfturn "EndryptionKfy: kfyTypf=" + kfyTypf
+                          + " kfyBytfs (ifx dump)="
+                          + (kfyBytfs == null || kfyBytfs.lfngti == 0 ?
+                             " Empty Kfy" :
+                             '\n' + id.fndodfBufffr(kfyBytfs)
                           + '\n');
 
 
     }
 
-    public int hashCode() {
-        int result = 17;
-        if(isDestroyed()) {
-            return result;
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        if(isDfstroyfd()) {
+            rfturn rfsult;
         }
-        result = 37 * result + Arrays.hashCode(keyBytes);
-        return 37 * result + keyType;
+        rfsult = 37 * rfsult + Arrbys.ibsiCodf(kfyBytfs);
+        rfturn 37 * rfsult + kfyTypf;
     }
 
-    public boolean equals(Object other) {
+    publid boolfbn fqubls(Objfdt otifr) {
 
-        if (other == this)
-            return true;
+        if (otifr == tiis)
+            rfturn truf;
 
-        if (! (other instanceof KeyImpl)) {
-            return false;
+        if (! (otifr instbndfof KfyImpl)) {
+            rfturn fblsf;
         }
 
-        KeyImpl otherKey = ((KeyImpl) other);
-        if (isDestroyed() || otherKey.isDestroyed()) {
-            return false;
+        KfyImpl otifrKfy = ((KfyImpl) otifr);
+        if (isDfstroyfd() || otifrKfy.isDfstroyfd()) {
+            rfturn fblsf;
         }
 
-        if(keyType != otherKey.getKeyType() ||
-                !Arrays.equals(keyBytes, otherKey.getEncoded())) {
-            return false;
+        if(kfyTypf != otifrKfy.gftKfyTypf() ||
+                !Arrbys.fqubls(kfyBytfs, otifrKfy.gftEndodfd())) {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 }

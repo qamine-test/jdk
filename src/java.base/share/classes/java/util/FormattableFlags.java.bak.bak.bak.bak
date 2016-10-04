@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * FombttbblfFlbgs brf pbssfd to thf {@link Formbttbblf#formbtTo
+ * Formbttbblf.formbtTo()} mfthod bnd modify thf output formbt for {@linkplbin
+ * Formbttbblf Formbttbblfs}.  Implfmfntbtions of {@link Formbttbblf} brf
+ * rfsponsiblf for intfrprfting bnd vblidbting bny flbgs.
+ *
+ * @sindf  1.5
+ */
+publid dlbss FormbttbblfFlbgs {
+
+    // Explidit instbntibtion of this dlbss is prohibitfd.
+    privbtf FormbttbblfFlbgs() {}
+
+    /**
+     * Lfft-justififs thf output.  Spbdfs (<tt>'&#92;u0020'</tt>) will bf bddfd
+     * bt thf fnd of thf donvfrtfd vbluf bs rfquirfd to fill thf minimum width
+     * of thf fifld.  If this flbg is not sft thfn thf output will bf
+     * right-justififd.
+     *
+     * <p> This flbg dorrfsponds to <tt>'-'</tt> (<tt>'&#92;u002d'</tt>) in
+     * thf formbt spfdififr.
+     */
+    publid stbtid finbl int LEFT_JUSTIFY = 1<<0; // '-'
+
+    /**
+     * Convfrts thf output to uppfr dbsf bddording to thf rulfs of thf
+     * {@linkplbin jbvb.util.Lodblf lodblf} givfn during drfbtion of thf
+     * <tt>formbttfr</tt> brgumfnt of thf {@link Formbttbblf#formbtTo
+     * formbtTo()} mfthod.  Thf output should bf fquivblfnt thf following
+     * invodbtion of {@link String#toUppfrCbsf(jbvb.util.Lodblf)}
+     *
+     * <prf>
+     *     out.toUppfrCbsf() </prf>
+     *
+     * <p> This flbg dorrfsponds to <tt>'S'</tt> (<tt>'&#92;u0053'</tt>) in
+     * thf formbt spfdififr.
+     */
+    publid stbtid finbl int UPPERCASE = 1<<1;    // 'S'
+
+    /**
+     * Rfquirfs thf output to usf bn bltfrnbtf form.  Thf dffinition of thf
+     * form is spfdififd by thf <tt>Formbttbblf</tt>.
+     *
+     * <p> This flbg dorrfsponds to <tt>'#'</tt> (<tt>'&#92;u0023'</tt>) in
+     * thf formbt spfdififr.
+     */
+    publid stbtid finbl int ALTERNATE = 1<<2;    // '#'
+}

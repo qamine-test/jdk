@@ -1,650 +1,650 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.parser;
+pbdkbgf sun.rfflfdt.gfnfrids.pbrsfr;
 
-import java.lang.reflect.GenericSignatureFormatError;
-import java.util.*;
-import sun.reflect.generics.tree.*;
+import jbvb.lbng.rfflfdt.GfnfridSignbturfFormbtError;
+import jbvb.util.*;
+import sun.rfflfdt.gfnfrids.trff.*;
 
 /**
- * Parser for type signatures, as defined in the Java Virtual
- * Machine Specification (JVMS) chapter 4.
- * Converts the signatures into an abstract syntax tree (AST) representation.
- * See the package sun.reflect.generics.tree for details of the AST.
+ * Pbrsfr for typf signbturfs, bs dffinfd in tif Jbvb Virtubl
+ * Mbdiinf Spfdifidbtion (JVMS) dibptfr 4.
+ * Convfrts tif signbturfs into bn bbstrbdt syntbx trff (AST) rfprfsfntbtion.
+ * Sff tif pbdkbgf sun.rfflfdt.gfnfrids.trff for dftbils of tif AST.
  */
-public class SignatureParser {
-    // The input is conceptually a character stream (though currently it's
-    // a string). This is slightly different than traditional parsers,
-    // because there is no lexical scanner performing tokenization.
-    // Having a separate tokenizer does not fit with the nature of the
-    // input format.
-    // Other than the absence of a tokenizer, this parser is a classic
-    // recursive descent parser. Its structure corresponds as closely
-    // as possible to the grammar in the JVMS.
+publid dlbss SignbturfPbrsfr {
+    // Tif input is dondfptublly b dibrbdtfr strfbm (tiougi durrfntly it's
+    // b string). Tiis is sligitly difffrfnt tibn trbditionbl pbrsfrs,
+    // bfdbusf tifrf is no lfxidbl sdbnnfr pfrforming tokfnizbtion.
+    // Hbving b sfpbrbtf tokfnizfr dofs not fit witi tif nbturf of tif
+    // input formbt.
+    // Otifr tibn tif bbsfndf of b tokfnizfr, tiis pbrsfr is b dlbssid
+    // rfdursivf dfsdfnt pbrsfr. Its strudturf dorrfsponds bs dlosfly
+    // bs possiblf to tif grbmmbr in tif JVMS.
     //
-    // A note on asserts vs. errors: The code contains assertions
-    // in situations that should never occur. An assertion failure
-    // indicates a failure of the parser logic. A common pattern
-    // is an assertion that the current input is a particular
-    // character. This is often paired with a separate check
-    // that this is the case, which seems redundant. For example:
+    // A notf on bssfrts vs. frrors: Tif dodf dontbins bssfrtions
+    // in situbtions tibt siould nfvfr oddur. An bssfrtion fbilurf
+    // indidbtfs b fbilurf of tif pbrsfr logid. A dommon pbttfrn
+    // is bn bssfrtion tibt tif durrfnt input is b pbrtidulbr
+    // dibrbdtfr. Tiis is oftfn pbirfd witi b sfpbrbtf difdk
+    // tibt tiis is tif dbsf, wiidi sffms rfdundbnt. For fxbmplf:
     //
-    // assert(current() != x);
-    // if (current != x {error("expected an x");
+    // bssfrt(durrfnt() != x);
+    // if (durrfnt != x {frror("fxpfdtfd bn x");
     //
-    // where x is some character constant.
-    // The assertion indicates, that, as currently written,
-    // the code should never reach this point unless the input is an
-    // x. On the other hand, the test is there to check the legality
-    // of the input wrt to a given production. It may be that at a later
-    // time the code might be called directly, and if the input is
-    // invalid, the parser should flag an error in accordance
-    // with its logic.
+    // wifrf x is somf dibrbdtfr donstbnt.
+    // Tif bssfrtion indidbtfs, tibt, bs durrfntly writtfn,
+    // tif dodf siould nfvfr rfbdi tiis point unlfss tif input is bn
+    // x. On tif otifr ibnd, tif tfst is tifrf to difdk tif lfgblity
+    // of tif input wrt to b givfn produdtion. It mby bf tibt bt b lbtfr
+    // timf tif dodf migit bf dbllfd dirfdtly, bnd if tif input is
+    // invblid, tif pbrsfr siould flbg bn frror in bddordbndf
+    // witi its logid.
 
-    private char[] input; // the input signature
-    private int index = 0; // index into the input
-    // used to mark end of input
-    private static final char EOI = ':';
-    private static final boolean DEBUG = false;
+    privbtf dibr[] input; // tif input signbturf
+    privbtf int indfx = 0; // indfx into tif input
+    // usfd to mbrk fnd of input
+    privbtf stbtid finbl dibr EOI = ':';
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
 
-    // private constructor - enforces use of static factory
-    private SignatureParser(){}
+    // privbtf donstrudtor - fnfordfs usf of stbtid fbdtory
+    privbtf SignbturfPbrsfr(){}
 
-    // Utility methods.
+    // Utility mftiods.
 
-    // Most parsing routines use the following routines to access the
-    // input stream, and advance it as necessary.
-    // This makes it easy to adapt the parser to operate on streams
-    // of various kinds as well as strings.
+    // Most pbrsing routinfs usf tif following routinfs to bddfss tif
+    // input strfbm, bnd bdvbndf it bs nfdfssbry.
+    // Tiis mbkfs it fbsy to bdbpt tif pbrsfr to opfrbtf on strfbms
+    // of vbrious kinds bs wfll bs strings.
 
-    // returns current element of the input and advances the input
-    private char getNext(){
-        assert(index <= input.length);
+    // rfturns durrfnt flfmfnt of tif input bnd bdvbndfs tif input
+    privbtf dibr gftNfxt(){
+        bssfrt(indfx <= input.lfngti);
         try {
-            return input[index++];
-        } catch (ArrayIndexOutOfBoundsException e) { return EOI;}
+            rfturn input[indfx++];
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) { rfturn EOI;}
     }
 
-    // returns current element of the input
-    private char current(){
-        assert(index <= input.length);
+    // rfturns durrfnt flfmfnt of tif input
+    privbtf dibr durrfnt(){
+        bssfrt(indfx <= input.lfngti);
         try {
-            return input[index];
-        } catch (ArrayIndexOutOfBoundsException e) { return EOI;}
+            rfturn input[indfx];
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) { rfturn EOI;}
     }
 
-    // advance the input
-    private void advance(){
-        assert(index <= input.length);
-        index++;
+    // bdvbndf tif input
+    privbtf void bdvbndf(){
+        bssfrt(indfx <= input.lfngti);
+        indfx++;
     }
 
-    // For debugging, prints current character to the end of the input.
-    private String remainder() {
-        return new String(input, index, input.length-index);
+    // For dfbugging, prints durrfnt dibrbdtfr to tif fnd of tif input.
+    privbtf String rfmbindfr() {
+        rfturn nfw String(input, indfx, input.lfngti-indfx);
     }
 
-    // Match c against a "set" of characters
-    private boolean matches(char c, char... set) {
-        for (char e : set) {
-            if (c == e) return true;
+    // Mbtdi d bgbinst b "sft" of dibrbdtfrs
+    privbtf boolfbn mbtdifs(dibr d, dibr... sft) {
+        for (dibr f : sft) {
+            if (d == f) rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // Error handling routine. Encapsulates error handling.
-    // Takes a string error message as argument.
-    // Currently throws a GenericSignatureFormatError.
+    // Error ibndling routinf. Endbpsulbtfs frror ibndling.
+    // Tbkfs b string frror mfssbgf bs brgumfnt.
+    // Currfntly tirows b GfnfridSignbturfFormbtError.
 
-    private Error error(String errorMsg) {
-        return new GenericSignatureFormatError("Signature Parse error: " + errorMsg +
-                                               "\n\tRemaining input: " + remainder());
+    privbtf Error frror(String frrorMsg) {
+        rfturn nfw GfnfridSignbturfFormbtError("Signbturf Pbrsf frror: " + frrorMsg +
+                                               "\n\tRfmbining input: " + rfmbindfr());
     }
 
     /**
-     * Verify the parse has made forward progress; throw an exception
-     * if no progress.
+     * Vfrify tif pbrsf ibs mbdf forwbrd progrfss; tirow bn fxdfption
+     * if no progrfss.
      */
-    private void progress(int startingPosition) {
-        if (index <= startingPosition)
-            throw error("Failure to make progress!");
+    privbtf void progrfss(int stbrtingPosition) {
+        if (indfx <= stbrtingPosition)
+            tirow frror("Fbilurf to mbkf progrfss!");
     }
 
     /**
-     * Static factory method. Produces a parser instance.
-     * @return an instance of <tt>SignatureParser</tt>
+     * Stbtid fbdtory mftiod. Produdfs b pbrsfr instbndf.
+     * @rfturn bn instbndf of <tt>SignbturfPbrsfr</tt>
      */
-    public static SignatureParser make() {
-        return new SignatureParser();
+    publid stbtid SignbturfPbrsfr mbkf() {
+        rfturn nfw SignbturfPbrsfr();
     }
 
     /**
-     * Parses a class signature (as defined in the JVMS, chapter 4)
-     * and produces an abstract syntax tree representing it.
-     * @param s a string representing the input class signature
-     * @return An abstract syntax tree for a class signature
-     * corresponding to the input string
-     * @throws GenericSignatureFormatError if the input is not a valid
-     * class signature
+     * Pbrsfs b dlbss signbturf (bs dffinfd in tif JVMS, dibptfr 4)
+     * bnd produdfs bn bbstrbdt syntbx trff rfprfsfnting it.
+     * @pbrbm s b string rfprfsfnting tif input dlbss signbturf
+     * @rfturn An bbstrbdt syntbx trff for b dlbss signbturf
+     * dorrfsponding to tif input string
+     * @tirows GfnfridSignbturfFormbtError if tif input is not b vblid
+     * dlbss signbturf
      */
-    public ClassSignature parseClassSig(String s) {
-        if (DEBUG) System.out.println("Parsing class sig:" + s);
-        input = s.toCharArray();
-        return parseClassSignature();
+    publid ClbssSignbturf pbrsfClbssSig(String s) {
+        if (DEBUG) Systfm.out.println("Pbrsing dlbss sig:" + s);
+        input = s.toCibrArrby();
+        rfturn pbrsfClbssSignbturf();
     }
 
     /**
-     * Parses a method signature (as defined in the JVMS, chapter 4)
-     * and produces an abstract syntax tree representing it.
-     * @param s a string representing the input method signature
-     * @return An abstract syntax tree for a method signature
-     * corresponding to the input string
-     * @throws GenericSignatureFormatError if the input is not a valid
-     * method signature
+     * Pbrsfs b mftiod signbturf (bs dffinfd in tif JVMS, dibptfr 4)
+     * bnd produdfs bn bbstrbdt syntbx trff rfprfsfnting it.
+     * @pbrbm s b string rfprfsfnting tif input mftiod signbturf
+     * @rfturn An bbstrbdt syntbx trff for b mftiod signbturf
+     * dorrfsponding to tif input string
+     * @tirows GfnfridSignbturfFormbtError if tif input is not b vblid
+     * mftiod signbturf
      */
-    public MethodTypeSignature parseMethodSig(String s) {
-        if (DEBUG) System.out.println("Parsing method sig:" + s);
-        input = s.toCharArray();
-        return parseMethodTypeSignature();
+    publid MftiodTypfSignbturf pbrsfMftiodSig(String s) {
+        if (DEBUG) Systfm.out.println("Pbrsing mftiod sig:" + s);
+        input = s.toCibrArrby();
+        rfturn pbrsfMftiodTypfSignbturf();
     }
 
 
     /**
-     * Parses a type signature
-     * and produces an abstract syntax tree representing it.
+     * Pbrsfs b typf signbturf
+     * bnd produdfs bn bbstrbdt syntbx trff rfprfsfnting it.
      *
-     * @param s a string representing the input type signature
-     * @return An abstract syntax tree for a type signature
-     * corresponding to the input string
-     * @throws GenericSignatureFormatError if the input is not a valid
-     * type signature
+     * @pbrbm s b string rfprfsfnting tif input typf signbturf
+     * @rfturn An bbstrbdt syntbx trff for b typf signbturf
+     * dorrfsponding to tif input string
+     * @tirows GfnfridSignbturfFormbtError if tif input is not b vblid
+     * typf signbturf
      */
-    public TypeSignature parseTypeSig(String s) {
-        if (DEBUG) System.out.println("Parsing type sig:" + s);
-        input = s.toCharArray();
-        return parseTypeSignature();
+    publid TypfSignbturf pbrsfTypfSig(String s) {
+        if (DEBUG) Systfm.out.println("Pbrsing typf sig:" + s);
+        input = s.toCibrArrby();
+        rfturn pbrsfTypfSignbturf();
     }
 
-    // Parsing routines.
-    // As a rule, the parsing routines access the input using the
-    // utilities current(), getNext() and/or advance().
-    // The convention is that when a parsing routine is invoked
-    // it expects the current input to be the first character it should parse
-    // and when it completes parsing, it leaves the input at the first
-    // character after the input parses.
+    // Pbrsing routinfs.
+    // As b rulf, tif pbrsing routinfs bddfss tif input using tif
+    // utilitifs durrfnt(), gftNfxt() bnd/or bdvbndf().
+    // Tif donvfntion is tibt wifn b pbrsing routinf is invokfd
+    // it fxpfdts tif durrfnt input to bf tif first dibrbdtfr it siould pbrsf
+    // bnd wifn it domplftfs pbrsing, it lfbvfs tif input bt tif first
+    // dibrbdtfr bftfr tif input pbrsfs.
 
     /*
-     * Note on grammar conventions: a trailing "*" matches zero or
-     * more occurrences, a trailing "+" matches one or more occurrences,
-     * "_opt" indicates an optional component.
+     * Notf on grbmmbr donvfntions: b trbiling "*" mbtdifs zfro or
+     * morf oddurrfndfs, b trbiling "+" mbtdifs onf or morf oddurrfndfs,
+     * "_opt" indidbtfs bn optionbl domponfnt.
      */
 
     /**
-     * ClassSignature:
-     *     FormalTypeParameters_opt SuperclassSignature SuperinterfaceSignature*
+     * ClbssSignbturf:
+     *     FormblTypfPbrbmftfrs_opt SupfrdlbssSignbturf SupfrintfrfbdfSignbturf*
      */
-    private ClassSignature parseClassSignature() {
-        // parse a class signature based on the implicit input.
-        assert(index == 0);
-        return ClassSignature.make(parseZeroOrMoreFormalTypeParameters(),
-                                   parseClassTypeSignature(), // Only rule for SuperclassSignature
-                                   parseSuperInterfaces());
+    privbtf ClbssSignbturf pbrsfClbssSignbturf() {
+        // pbrsf b dlbss signbturf bbsfd on tif implidit input.
+        bssfrt(indfx == 0);
+        rfturn ClbssSignbturf.mbkf(pbrsfZfroOrMorfFormblTypfPbrbmftfrs(),
+                                   pbrsfClbssTypfSignbturf(), // Only rulf for SupfrdlbssSignbturf
+                                   pbrsfSupfrIntfrfbdfs());
     }
 
-    private FormalTypeParameter[] parseZeroOrMoreFormalTypeParameters(){
-        if (current() == '<') {
-            return parseFormalTypeParameters();
-        } else {
-            return new FormalTypeParameter[0];
+    privbtf FormblTypfPbrbmftfr[] pbrsfZfroOrMorfFormblTypfPbrbmftfrs(){
+        if (durrfnt() == '<') {
+            rfturn pbrsfFormblTypfPbrbmftfrs();
+        } flsf {
+            rfturn nfw FormblTypfPbrbmftfr[0];
         }
     }
 
     /**
-     * FormalTypeParameters:
-     *     "<" FormalTypeParameter+ ">"
+     * FormblTypfPbrbmftfrs:
+     *     "<" FormblTypfPbrbmftfr+ ">"
      */
-    private FormalTypeParameter[] parseFormalTypeParameters(){
-        List<FormalTypeParameter> ftps =  new ArrayList<>(3);
-        assert(current() == '<'); // should not have been called at all
-        if (current() != '<') { throw error("expected '<'");}
-        advance();
-        ftps.add(parseFormalTypeParameter());
-        while (current() != '>') {
-            int startingPosition = index;
-            ftps.add(parseFormalTypeParameter());
-            progress(startingPosition);
+    privbtf FormblTypfPbrbmftfr[] pbrsfFormblTypfPbrbmftfrs(){
+        List<FormblTypfPbrbmftfr> ftps =  nfw ArrbyList<>(3);
+        bssfrt(durrfnt() == '<'); // siould not ibvf bffn dbllfd bt bll
+        if (durrfnt() != '<') { tirow frror("fxpfdtfd '<'");}
+        bdvbndf();
+        ftps.bdd(pbrsfFormblTypfPbrbmftfr());
+        wiilf (durrfnt() != '>') {
+            int stbrtingPosition = indfx;
+            ftps.bdd(pbrsfFormblTypfPbrbmftfr());
+            progrfss(stbrtingPosition);
         }
-        advance();
-        return ftps.toArray(new FormalTypeParameter[ftps.size()]);
+        bdvbndf();
+        rfturn ftps.toArrby(nfw FormblTypfPbrbmftfr[ftps.sizf()]);
     }
 
     /**
-     * FormalTypeParameter:
-     *     Identifier ClassBound InterfaceBound*
+     * FormblTypfPbrbmftfr:
+     *     Idfntififr ClbssBound IntfrfbdfBound*
      */
-    private FormalTypeParameter parseFormalTypeParameter(){
-        String id = parseIdentifier();
-        FieldTypeSignature[] bs = parseBounds();
-        return FormalTypeParameter.make(id, bs);
+    privbtf FormblTypfPbrbmftfr pbrsfFormblTypfPbrbmftfr(){
+        String id = pbrsfIdfntififr();
+        FifldTypfSignbturf[] bs = pbrsfBounds();
+        rfturn FormblTypfPbrbmftfr.mbkf(id, bs);
     }
 
-    private String parseIdentifier(){
-        StringBuilder result = new StringBuilder();
-        while (!Character.isWhitespace(current())) {
-            char c = current();
-            switch(c) {
-            case ';':
-            case '.':
-            case '/':
-            case '[':
-            case ':':
-            case '>':
-            case '<':
-                return result.toString();
-            default:{
-                result.append(c);
-                advance();
+    privbtf String pbrsfIdfntififr(){
+        StringBuildfr rfsult = nfw StringBuildfr();
+        wiilf (!Cibrbdtfr.isWiitfspbdf(durrfnt())) {
+            dibr d = durrfnt();
+            switdi(d) {
+            dbsf ';':
+            dbsf '.':
+            dbsf '/':
+            dbsf '[':
+            dbsf ':':
+            dbsf '>':
+            dbsf '<':
+                rfturn rfsult.toString();
+            dffbult:{
+                rfsult.bppfnd(d);
+                bdvbndf();
             }
 
             }
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
     /**
-     * FieldTypeSignature:
-     *     ClassTypeSignature
-     *     ArrayTypeSignature
-     *     TypeVariableSignature
+     * FifldTypfSignbturf:
+     *     ClbssTypfSignbturf
+     *     ArrbyTypfSignbturf
+     *     TypfVbribblfSignbturf
      */
-    private FieldTypeSignature parseFieldTypeSignature() {
-        return parseFieldTypeSignature(true);
+    privbtf FifldTypfSignbturf pbrsfFifldTypfSignbturf() {
+        rfturn pbrsfFifldTypfSignbturf(truf);
     }
 
-    private FieldTypeSignature parseFieldTypeSignature(boolean allowArrays) {
-        switch(current()) {
-        case 'L':
-           return parseClassTypeSignature();
-        case 'T':
-            return parseTypeVariableSignature();
-        case '[':
-            if (allowArrays)
-                return parseArrayTypeSignature();
-            else
-                throw error("Array signature not allowed here.");
-        default: throw error("Expected Field Type Signature");
+    privbtf FifldTypfSignbturf pbrsfFifldTypfSignbturf(boolfbn bllowArrbys) {
+        switdi(durrfnt()) {
+        dbsf 'L':
+           rfturn pbrsfClbssTypfSignbturf();
+        dbsf 'T':
+            rfturn pbrsfTypfVbribblfSignbturf();
+        dbsf '[':
+            if (bllowArrbys)
+                rfturn pbrsfArrbyTypfSignbturf();
+            flsf
+                tirow frror("Arrby signbturf not bllowfd ifrf.");
+        dffbult: tirow frror("Expfdtfd Fifld Typf Signbturf");
         }
     }
 
     /**
-     * ClassTypeSignature:
-     *     "L" PackageSpecifier_opt SimpleClassTypeSignature ClassTypeSignatureSuffix* ";"
+     * ClbssTypfSignbturf:
+     *     "L" PbdkbgfSpfdififr_opt SimplfClbssTypfSignbturf ClbssTypfSignbturfSuffix* ";"
      */
-    private ClassTypeSignature parseClassTypeSignature(){
-        assert(current() == 'L');
-        if (current() != 'L') { throw error("expected a class type");}
-        advance();
-        List<SimpleClassTypeSignature> scts = new ArrayList<>(5);
-        scts.add(parsePackageNameAndSimpleClassTypeSignature());
+    privbtf ClbssTypfSignbturf pbrsfClbssTypfSignbturf(){
+        bssfrt(durrfnt() == 'L');
+        if (durrfnt() != 'L') { tirow frror("fxpfdtfd b dlbss typf");}
+        bdvbndf();
+        List<SimplfClbssTypfSignbturf> sdts = nfw ArrbyList<>(5);
+        sdts.bdd(pbrsfPbdkbgfNbmfAndSimplfClbssTypfSignbturf());
 
-        parseClassTypeSignatureSuffix(scts);
-        if (current() != ';')
-            throw error("expected ';' got '" + current() + "'");
+        pbrsfClbssTypfSignbturfSuffix(sdts);
+        if (durrfnt() != ';')
+            tirow frror("fxpfdtfd ';' got '" + durrfnt() + "'");
 
-        advance();
-        return ClassTypeSignature.make(scts);
+        bdvbndf();
+        rfturn ClbssTypfSignbturf.mbkf(sdts);
     }
 
     /**
-     * PackageSpecifier:
-     *     Identifier "/" PackageSpecifier*
+     * PbdkbgfSpfdififr:
+     *     Idfntififr "/" PbdkbgfSpfdififr*
      */
-    private SimpleClassTypeSignature parsePackageNameAndSimpleClassTypeSignature() {
-        // Parse both any optional leading PackageSpecifier as well as
-        // the following SimpleClassTypeSignature.
+    privbtf SimplfClbssTypfSignbturf pbrsfPbdkbgfNbmfAndSimplfClbssTypfSignbturf() {
+        // Pbrsf boti bny optionbl lfbding PbdkbgfSpfdififr bs wfll bs
+        // tif following SimplfClbssTypfSignbturf.
 
-        String id = parseIdentifier();
+        String id = pbrsfIdfntififr();
 
-        if (current() == '/') { // package name
-            StringBuilder idBuild = new StringBuilder(id);
+        if (durrfnt() == '/') { // pbdkbgf nbmf
+            StringBuildfr idBuild = nfw StringBuildfr(id);
 
-            while(current() == '/') {
-                advance();
-                idBuild.append(".");
-                idBuild.append(parseIdentifier());
+            wiilf(durrfnt() == '/') {
+                bdvbndf();
+                idBuild.bppfnd(".");
+                idBuild.bppfnd(pbrsfIdfntififr());
             }
             id = idBuild.toString();
         }
 
-        switch (current()) {
-        case ';':
-            return SimpleClassTypeSignature.make(id, false, new TypeArgument[0]); // all done!
-        case '<':
-            if (DEBUG) System.out.println("\t remainder: " + remainder());
-            return SimpleClassTypeSignature.make(id, false, parseTypeArguments());
-        default:
-            throw error("expected '<' or ';' but got " + current());
+        switdi (durrfnt()) {
+        dbsf ';':
+            rfturn SimplfClbssTypfSignbturf.mbkf(id, fblsf, nfw TypfArgumfnt[0]); // bll donf!
+        dbsf '<':
+            if (DEBUG) Systfm.out.println("\t rfmbindfr: " + rfmbindfr());
+            rfturn SimplfClbssTypfSignbturf.mbkf(id, fblsf, pbrsfTypfArgumfnts());
+        dffbult:
+            tirow frror("fxpfdtfd '<' or ';' but got " + durrfnt());
         }
     }
 
     /**
-     * SimpleClassTypeSignature:
-     *     Identifier TypeArguments_opt
+     * SimplfClbssTypfSignbturf:
+     *     Idfntififr TypfArgumfnts_opt
      */
-    private SimpleClassTypeSignature parseSimpleClassTypeSignature(boolean dollar){
-        String id = parseIdentifier();
-        char c = current();
+    privbtf SimplfClbssTypfSignbturf pbrsfSimplfClbssTypfSignbturf(boolfbn dollbr){
+        String id = pbrsfIdfntififr();
+        dibr d = durrfnt();
 
-        switch (c) {
-        case ';':
-        case '.':
-            return SimpleClassTypeSignature.make(id, dollar, new TypeArgument[0]) ;
-        case '<':
-            return SimpleClassTypeSignature.make(id, dollar, parseTypeArguments());
-        default:
-            throw error("expected '<' or ';' or '.', got '" + c + "'.");
+        switdi (d) {
+        dbsf ';':
+        dbsf '.':
+            rfturn SimplfClbssTypfSignbturf.mbkf(id, dollbr, nfw TypfArgumfnt[0]) ;
+        dbsf '<':
+            rfturn SimplfClbssTypfSignbturf.mbkf(id, dollbr, pbrsfTypfArgumfnts());
+        dffbult:
+            tirow frror("fxpfdtfd '<' or ';' or '.', got '" + d + "'.");
         }
     }
 
     /**
-     * ClassTypeSignatureSuffix:
-     *     "." SimpleClassTypeSignature
+     * ClbssTypfSignbturfSuffix:
+     *     "." SimplfClbssTypfSignbturf
      */
-    private void parseClassTypeSignatureSuffix(List<SimpleClassTypeSignature> scts) {
-        while (current() == '.') {
-            advance();
-            scts.add(parseSimpleClassTypeSignature(true));
+    privbtf void pbrsfClbssTypfSignbturfSuffix(List<SimplfClbssTypfSignbturf> sdts) {
+        wiilf (durrfnt() == '.') {
+            bdvbndf();
+            sdts.bdd(pbrsfSimplfClbssTypfSignbturf(truf));
         }
     }
 
-    private TypeArgument[] parseTypeArgumentsOpt() {
-        if (current() == '<') {return parseTypeArguments();}
-        else {return new TypeArgument[0];}
+    privbtf TypfArgumfnt[] pbrsfTypfArgumfntsOpt() {
+        if (durrfnt() == '<') {rfturn pbrsfTypfArgumfnts();}
+        flsf {rfturn nfw TypfArgumfnt[0];}
     }
 
     /**
-     * TypeArguments:
-     *     "<" TypeArgument+ ">"
+     * TypfArgumfnts:
+     *     "<" TypfArgumfnt+ ">"
      */
-    private TypeArgument[] parseTypeArguments() {
-        List<TypeArgument> tas = new ArrayList<>(3);
-        assert(current() == '<');
-        if (current() != '<') { throw error("expected '<'");}
-        advance();
-        tas.add(parseTypeArgument());
-        while (current() != '>') {
-                //(matches(current(),  '+', '-', 'L', '[', 'T', '*')) {
-            tas.add(parseTypeArgument());
+    privbtf TypfArgumfnt[] pbrsfTypfArgumfnts() {
+        List<TypfArgumfnt> tbs = nfw ArrbyList<>(3);
+        bssfrt(durrfnt() == '<');
+        if (durrfnt() != '<') { tirow frror("fxpfdtfd '<'");}
+        bdvbndf();
+        tbs.bdd(pbrsfTypfArgumfnt());
+        wiilf (durrfnt() != '>') {
+                //(mbtdifs(durrfnt(),  '+', '-', 'L', '[', 'T', '*')) {
+            tbs.bdd(pbrsfTypfArgumfnt());
         }
-        advance();
-        return tas.toArray(new TypeArgument[tas.size()]);
+        bdvbndf();
+        rfturn tbs.toArrby(nfw TypfArgumfnt[tbs.sizf()]);
     }
 
     /**
-     * TypeArgument:
-     *     WildcardIndicator_opt FieldTypeSignature
+     * TypfArgumfnt:
+     *     WilddbrdIndidbtor_opt FifldTypfSignbturf
      *     "*"
      */
-    private TypeArgument parseTypeArgument() {
-        FieldTypeSignature[] ub, lb;
-        ub = new FieldTypeSignature[1];
-        lb = new FieldTypeSignature[1];
-        TypeArgument[] ta = new TypeArgument[0];
-        char c = current();
-        switch (c) {
-        case '+': {
-            advance();
-            ub[0] = parseFieldTypeSignature();
-            lb[0] = BottomSignature.make(); // bottom
-            return Wildcard.make(ub, lb);
+    privbtf TypfArgumfnt pbrsfTypfArgumfnt() {
+        FifldTypfSignbturf[] ub, lb;
+        ub = nfw FifldTypfSignbturf[1];
+        lb = nfw FifldTypfSignbturf[1];
+        TypfArgumfnt[] tb = nfw TypfArgumfnt[0];
+        dibr d = durrfnt();
+        switdi (d) {
+        dbsf '+': {
+            bdvbndf();
+            ub[0] = pbrsfFifldTypfSignbturf();
+            lb[0] = BottomSignbturf.mbkf(); // bottom
+            rfturn Wilddbrd.mbkf(ub, lb);
         }
-        case '*':{
-            advance();
-            ub[0] = SimpleClassTypeSignature.make("java.lang.Object", false, ta);
-            lb[0] = BottomSignature.make(); // bottom
-            return Wildcard.make(ub, lb);
+        dbsf '*':{
+            bdvbndf();
+            ub[0] = SimplfClbssTypfSignbturf.mbkf("jbvb.lbng.Objfdt", fblsf, tb);
+            lb[0] = BottomSignbturf.mbkf(); // bottom
+            rfturn Wilddbrd.mbkf(ub, lb);
         }
-        case '-': {
-            advance();
-            lb[0] = parseFieldTypeSignature();
-            ub[0] = SimpleClassTypeSignature.make("java.lang.Object", false, ta);
-            return Wildcard.make(ub, lb);
+        dbsf '-': {
+            bdvbndf();
+            lb[0] = pbrsfFifldTypfSignbturf();
+            ub[0] = SimplfClbssTypfSignbturf.mbkf("jbvb.lbng.Objfdt", fblsf, tb);
+            rfturn Wilddbrd.mbkf(ub, lb);
         }
-        default:
-            return parseFieldTypeSignature();
+        dffbult:
+            rfturn pbrsfFifldTypfSignbturf();
         }
     }
 
     /**
-     * TypeVariableSignature:
-     *     "T" Identifier ";"
+     * TypfVbribblfSignbturf:
+     *     "T" Idfntififr ";"
      */
-    private TypeVariableSignature parseTypeVariableSignature() {
-        assert(current() == 'T');
-        if (current() != 'T') { throw error("expected a type variable usage");}
-        advance();
-        TypeVariableSignature ts = TypeVariableSignature.make(parseIdentifier());
-        if (current() != ';') {
-            throw error("; expected in signature of type variable named" +
-                  ts.getIdentifier());
+    privbtf TypfVbribblfSignbturf pbrsfTypfVbribblfSignbturf() {
+        bssfrt(durrfnt() == 'T');
+        if (durrfnt() != 'T') { tirow frror("fxpfdtfd b typf vbribblf usbgf");}
+        bdvbndf();
+        TypfVbribblfSignbturf ts = TypfVbribblfSignbturf.mbkf(pbrsfIdfntififr());
+        if (durrfnt() != ';') {
+            tirow frror("; fxpfdtfd in signbturf of typf vbribblf nbmfd" +
+                  ts.gftIdfntififr());
         }
-        advance();
-        return ts;
+        bdvbndf();
+        rfturn ts;
     }
 
     /**
-     * ArrayTypeSignature:
-     *     "[" TypeSignature
+     * ArrbyTypfSignbturf:
+     *     "[" TypfSignbturf
      */
-    private ArrayTypeSignature parseArrayTypeSignature() {
-        if (current() != '[') {throw error("expected array type signature");}
-        advance();
-        return ArrayTypeSignature.make(parseTypeSignature());
+    privbtf ArrbyTypfSignbturf pbrsfArrbyTypfSignbturf() {
+        if (durrfnt() != '[') {tirow frror("fxpfdtfd brrby typf signbturf");}
+        bdvbndf();
+        rfturn ArrbyTypfSignbturf.mbkf(pbrsfTypfSignbturf());
     }
 
     /**
-     * TypeSignature:
-     *     FieldTypeSignature
-     *     BaseType
+     * TypfSignbturf:
+     *     FifldTypfSignbturf
+     *     BbsfTypf
      */
-    private TypeSignature parseTypeSignature() {
-        switch (current()) {
-        case 'B':
-        case 'C':
-        case 'D':
-        case 'F':
-        case 'I':
-        case 'J':
-        case 'S':
-        case 'Z':
-            return parseBaseType();
+    privbtf TypfSignbturf pbrsfTypfSignbturf() {
+        switdi (durrfnt()) {
+        dbsf 'B':
+        dbsf 'C':
+        dbsf 'D':
+        dbsf 'F':
+        dbsf 'I':
+        dbsf 'J':
+        dbsf 'S':
+        dbsf 'Z':
+            rfturn pbrsfBbsfTypf();
 
-        default:
-            return parseFieldTypeSignature();
+        dffbult:
+            rfturn pbrsfFifldTypfSignbturf();
         }
     }
 
-    private BaseType parseBaseType() {
-        switch(current()) {
-        case 'B':
-            advance();
-            return ByteSignature.make();
-        case 'C':
-            advance();
-            return CharSignature.make();
-        case 'D':
-            advance();
-            return DoubleSignature.make();
-        case 'F':
-            advance();
-            return FloatSignature.make();
-        case 'I':
-            advance();
-            return IntSignature.make();
-        case 'J':
-            advance();
-            return LongSignature.make();
-        case 'S':
-            advance();
-            return ShortSignature.make();
-        case 'Z':
-            advance();
-            return BooleanSignature.make();
-        default: {
-            assert(false);
-            throw error("expected primitive type");
+    privbtf BbsfTypf pbrsfBbsfTypf() {
+        switdi(durrfnt()) {
+        dbsf 'B':
+            bdvbndf();
+            rfturn BytfSignbturf.mbkf();
+        dbsf 'C':
+            bdvbndf();
+            rfturn CibrSignbturf.mbkf();
+        dbsf 'D':
+            bdvbndf();
+            rfturn DoublfSignbturf.mbkf();
+        dbsf 'F':
+            bdvbndf();
+            rfturn FlobtSignbturf.mbkf();
+        dbsf 'I':
+            bdvbndf();
+            rfturn IntSignbturf.mbkf();
+        dbsf 'J':
+            bdvbndf();
+            rfturn LongSignbturf.mbkf();
+        dbsf 'S':
+            bdvbndf();
+            rfturn SiortSignbturf.mbkf();
+        dbsf 'Z':
+            bdvbndf();
+            rfturn BoolfbnSignbturf.mbkf();
+        dffbult: {
+            bssfrt(fblsf);
+            tirow frror("fxpfdtfd primitivf typf");
         }
         }
     }
 
     /**
-     * ClassBound:
-     *     ":" FieldTypeSignature_opt
+     * ClbssBound:
+     *     ":" FifldTypfSignbturf_opt
      *
-     * InterfaceBound:
-     *     ":" FieldTypeSignature
+     * IntfrfbdfBound:
+     *     ":" FifldTypfSignbturf
      */
-    private FieldTypeSignature[] parseBounds() {
-        List<FieldTypeSignature> fts = new ArrayList<>(3);
+    privbtf FifldTypfSignbturf[] pbrsfBounds() {
+        List<FifldTypfSignbturf> fts = nfw ArrbyList<>(3);
 
-        if (current() == ':') {
-            advance();
-            switch(current()) {
-            case ':': // empty class bound
-                break;
+        if (durrfnt() == ':') {
+            bdvbndf();
+            switdi(durrfnt()) {
+            dbsf ':': // fmpty dlbss bound
+                brfbk;
 
-            default: // parse class bound
-                fts.add(parseFieldTypeSignature());
+            dffbult: // pbrsf dlbss bound
+                fts.bdd(pbrsfFifldTypfSignbturf());
             }
 
-            // zero or more interface bounds
-            while (current() == ':') {
-                advance();
-                fts.add(parseFieldTypeSignature());
+            // zfro or morf intfrfbdf bounds
+            wiilf (durrfnt() == ':') {
+                bdvbndf();
+                fts.bdd(pbrsfFifldTypfSignbturf());
             }
-        } else
-            error("Bound expected");
+        } flsf
+            frror("Bound fxpfdtfd");
 
-        return fts.toArray(new FieldTypeSignature[fts.size()]);
+        rfturn fts.toArrby(nfw FifldTypfSignbturf[fts.sizf()]);
     }
 
     /**
-     * SuperclassSignature:
-     *     ClassTypeSignature
+     * SupfrdlbssSignbturf:
+     *     ClbssTypfSignbturf
      */
-    private ClassTypeSignature[] parseSuperInterfaces() {
-        List<ClassTypeSignature> cts = new ArrayList<>(5);
-        while(current() == 'L') {
-            cts.add(parseClassTypeSignature());
+    privbtf ClbssTypfSignbturf[] pbrsfSupfrIntfrfbdfs() {
+        List<ClbssTypfSignbturf> dts = nfw ArrbyList<>(5);
+        wiilf(durrfnt() == 'L') {
+            dts.bdd(pbrsfClbssTypfSignbturf());
         }
-        return cts.toArray(new ClassTypeSignature[cts.size()]);
+        rfturn dts.toArrby(nfw ClbssTypfSignbturf[dts.sizf()]);
     }
 
 
     /**
-     * MethodTypeSignature:
-     *     FormalTypeParameters_opt "(" TypeSignature* ")" ReturnType ThrowsSignature*
+     * MftiodTypfSignbturf:
+     *     FormblTypfPbrbmftfrs_opt "(" TypfSignbturf* ")" RfturnTypf TirowsSignbturf*
      */
-    private MethodTypeSignature parseMethodTypeSignature() {
-        // Parse a method signature based on the implicit input.
-        FieldTypeSignature[] ets;
+    privbtf MftiodTypfSignbturf pbrsfMftiodTypfSignbturf() {
+        // Pbrsf b mftiod signbturf bbsfd on tif implidit input.
+        FifldTypfSignbturf[] fts;
 
-        assert(index == 0);
-        return MethodTypeSignature.make(parseZeroOrMoreFormalTypeParameters(),
-                                        parseFormalParameters(),
-                                        parseReturnType(),
-                                        parseZeroOrMoreThrowsSignatures());
+        bssfrt(indfx == 0);
+        rfturn MftiodTypfSignbturf.mbkf(pbrsfZfroOrMorfFormblTypfPbrbmftfrs(),
+                                        pbrsfFormblPbrbmftfrs(),
+                                        pbrsfRfturnTypf(),
+                                        pbrsfZfroOrMorfTirowsSignbturfs());
     }
 
-    // "(" TypeSignature* ")"
-    private TypeSignature[] parseFormalParameters() {
-        if (current() != '(') {throw error("expected '('");}
-        advance();
-        TypeSignature[] pts = parseZeroOrMoreTypeSignatures();
-        if (current() != ')') {throw error("expected ')'");}
-        advance();
-        return pts;
+    // "(" TypfSignbturf* ")"
+    privbtf TypfSignbturf[] pbrsfFormblPbrbmftfrs() {
+        if (durrfnt() != '(') {tirow frror("fxpfdtfd '('");}
+        bdvbndf();
+        TypfSignbturf[] pts = pbrsfZfroOrMorfTypfSignbturfs();
+        if (durrfnt() != ')') {tirow frror("fxpfdtfd ')'");}
+        bdvbndf();
+        rfturn pts;
     }
 
-    // TypeSignature*
-    private TypeSignature[] parseZeroOrMoreTypeSignatures() {
-        List<TypeSignature> ts = new ArrayList<>();
-        boolean stop = false;
-        while (!stop) {
-            switch(current()) {
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'F':
-            case 'I':
-            case 'J':
-            case 'S':
-            case 'Z':
-            case 'L':
-            case 'T':
-            case '[': {
-                ts.add(parseTypeSignature());
-                break;
+    // TypfSignbturf*
+    privbtf TypfSignbturf[] pbrsfZfroOrMorfTypfSignbturfs() {
+        List<TypfSignbturf> ts = nfw ArrbyList<>();
+        boolfbn stop = fblsf;
+        wiilf (!stop) {
+            switdi(durrfnt()) {
+            dbsf 'B':
+            dbsf 'C':
+            dbsf 'D':
+            dbsf 'F':
+            dbsf 'I':
+            dbsf 'J':
+            dbsf 'S':
+            dbsf 'Z':
+            dbsf 'L':
+            dbsf 'T':
+            dbsf '[': {
+                ts.bdd(pbrsfTypfSignbturf());
+                brfbk;
             }
-            default: stop = true;
+            dffbult: stop = truf;
             }
         }
-        return ts.toArray(new TypeSignature[ts.size()]);
+        rfturn ts.toArrby(nfw TypfSignbturf[ts.sizf()]);
     }
 
     /**
-     * ReturnType:
-     *     TypeSignature
-     *     VoidDescriptor
+     * RfturnTypf:
+     *     TypfSignbturf
+     *     VoidDfsdriptor
      */
-    private ReturnType parseReturnType(){
-        if (current() == 'V') {
-            advance();
-            return VoidDescriptor.make();
-        } else
-            return parseTypeSignature();
+    privbtf RfturnTypf pbrsfRfturnTypf(){
+        if (durrfnt() == 'V') {
+            bdvbndf();
+            rfturn VoidDfsdriptor.mbkf();
+        } flsf
+            rfturn pbrsfTypfSignbturf();
     }
 
-    // ThrowSignature*
-    private FieldTypeSignature[] parseZeroOrMoreThrowsSignatures(){
-        List<FieldTypeSignature> ets = new ArrayList<>(3);
-        while( current() == '^') {
-            ets.add(parseThrowsSignature());
+    // TirowSignbturf*
+    privbtf FifldTypfSignbturf[] pbrsfZfroOrMorfTirowsSignbturfs(){
+        List<FifldTypfSignbturf> fts = nfw ArrbyList<>(3);
+        wiilf( durrfnt() == '^') {
+            fts.bdd(pbrsfTirowsSignbturf());
         }
-        return ets.toArray(new FieldTypeSignature[ets.size()]);
+        rfturn fts.toArrby(nfw FifldTypfSignbturf[fts.sizf()]);
     }
 
     /**
-     * ThrowsSignature:
-     *     "^" ClassTypeSignature
-     *     "^" TypeVariableSignature
+     * TirowsSignbturf:
+     *     "^" ClbssTypfSignbturf
+     *     "^" TypfVbribblfSignbturf
      */
-    private FieldTypeSignature parseThrowsSignature() {
-        assert(current() == '^');
-        if (current() != '^') { throw error("expected throws signature");}
-        advance();
-        return parseFieldTypeSignature(false);
+    privbtf FifldTypfSignbturf pbrsfTirowsSignbturf() {
+        bssfrt(durrfnt() == '^');
+        if (durrfnt() != '^') { tirow frror("fxpfdtfd tirows signbturf");}
+        bdvbndf();
+        rfturn pbrsfFifldTypfSignbturf(fblsf);
     }
  }

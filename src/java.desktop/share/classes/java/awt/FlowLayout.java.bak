@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * A flow layout arranges components in a directional flow, much
- * like lines of text in a paragraph. The flow direction is
- * determined by the container's <code>componentOrientation</code>
- * property and may be one of two values:
+ * A flow lbyout brrbngfs domponfnts in b dirfdtionbl flow, mudi
+ * likf linfs of tfxt in b pbrbgrbpi. Tif flow dirfdtion is
+ * dftfrminfd by tif dontbinfr's <dodf>domponfntOrifntbtion</dodf>
+ * propfrty bnd mby bf onf of two vblufs:
  * <ul>
- * <li><code>ComponentOrientation.LEFT_TO_RIGHT</code>
- * <li><code>ComponentOrientation.RIGHT_TO_LEFT</code>
+ * <li><dodf>ComponfntOrifntbtion.LEFT_TO_RIGHT</dodf>
+ * <li><dodf>ComponfntOrifntbtion.RIGHT_TO_LEFT</dodf>
  * </ul>
- * Flow layouts are typically used
- * to arrange buttons in a panel. It arranges buttons
- * horizontally until no more buttons fit on the same line.
- * The line alignment is determined by the <code>align</code>
- * property. The possible values are:
+ * Flow lbyouts brf typidblly usfd
+ * to brrbngf buttons in b pbnfl. It brrbngfs buttons
+ * iorizontblly until no morf buttons fit on tif sbmf linf.
+ * Tif linf blignmfnt is dftfrminfd by tif <dodf>blign</dodf>
+ * propfrty. Tif possiblf vblufs brf:
  * <ul>
  * <li>{@link #LEFT LEFT}
  * <li>{@link #RIGHT RIGHT}
@@ -49,444 +49,444 @@ import java.io.IOException;
  * <li>{@link #TRAILING TRAILING}
  * </ul>
  * <p>
- * For example, the following picture shows an applet using the flow
- * layout manager (its default layout manager) to position three buttons:
+ * For fxbmplf, tif following pidturf siows bn bpplft using tif flow
+ * lbyout mbnbgfr (its dffbult lbyout mbnbgfr) to position tirff buttons:
  * <p>
- * <img src="doc-files/FlowLayout-1.gif"
- * ALT="Graphic of Layout for Three Buttons"
- * style="float:center; margin: 7px 10px;">
+ * <img srd="dod-filfs/FlowLbyout-1.gif"
+ * ALT="Grbpiid of Lbyout for Tirff Buttons"
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
  * <p>
- * Here is the code for this applet:
+ * Hfrf is tif dodf for tiis bpplft:
  *
- * <hr><blockquote><pre>
- * import java.awt.*;
- * import java.applet.Applet;
+ * <ir><blodkquotf><prf>
+ * import jbvb.bwt.*;
+ * import jbvb.bpplft.Applft;
  *
- * public class myButtons extends Applet {
+ * publid dlbss myButtons fxtfnds Applft {
  *     Button button1, button2, button3;
- *     public void init() {
- *         button1 = new Button("Ok");
- *         button2 = new Button("Open");
- *         button3 = new Button("Close");
- *         add(button1);
- *         add(button2);
- *         add(button3);
+ *     publid void init() {
+ *         button1 = nfw Button("Ok");
+ *         button2 = nfw Button("Opfn");
+ *         button3 = nfw Button("Closf");
+ *         bdd(button1);
+ *         bdd(button2);
+ *         bdd(button3);
  *     }
  * }
- * </pre></blockquote><hr>
+ * </prf></blodkquotf><ir>
  * <p>
- * A flow layout lets each component assume its natural (preferred) size.
+ * A flow lbyout lfts fbdi domponfnt bssumf its nbturbl (prfffrrfd) sizf.
  *
- * @author      Arthur van Hoff
- * @author      Sami Shaio
- * @since       1.0
- * @see ComponentOrientation
+ * @butior      Artiur vbn Hoff
+ * @butior      Sbmi Sibio
+ * @sindf       1.0
+ * @sff ComponfntOrifntbtion
  */
-public class FlowLayout implements LayoutManager, java.io.Serializable {
+publid dlbss FlowLbyout implfmfnts LbyoutMbnbgfr, jbvb.io.Sfriblizbblf {
 
     /**
-     * This value indicates that each row of components
-     * should be left-justified.
+     * Tiis vbluf indidbtfs tibt fbdi row of domponfnts
+     * siould bf lfft-justififd.
      */
-    public static final int LEFT        = 0;
+    publid stbtid finbl int LEFT        = 0;
 
     /**
-     * This value indicates that each row of components
-     * should be centered.
+     * Tiis vbluf indidbtfs tibt fbdi row of domponfnts
+     * siould bf dfntfrfd.
      */
-    public static final int CENTER      = 1;
+    publid stbtid finbl int CENTER      = 1;
 
     /**
-     * This value indicates that each row of components
-     * should be right-justified.
+     * Tiis vbluf indidbtfs tibt fbdi row of domponfnts
+     * siould bf rigit-justififd.
      */
-    public static final int RIGHT       = 2;
+    publid stbtid finbl int RIGHT       = 2;
 
     /**
-     * This value indicates that each row of components
-     * should be justified to the leading edge of the container's
-     * orientation, for example, to the left in left-to-right orientations.
+     * Tiis vbluf indidbtfs tibt fbdi row of domponfnts
+     * siould bf justififd to tif lfbding fdgf of tif dontbinfr's
+     * orifntbtion, for fxbmplf, to tif lfft in lfft-to-rigit orifntbtions.
      *
-     * @see     java.awt.Component#getComponentOrientation
-     * @see     java.awt.ComponentOrientation
-     * @since   1.2
+     * @sff     jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sff     jbvb.bwt.ComponfntOrifntbtion
+     * @sindf   1.2
      */
-    public static final int LEADING     = 3;
+    publid stbtid finbl int LEADING     = 3;
 
     /**
-     * This value indicates that each row of components
-     * should be justified to the trailing edge of the container's
-     * orientation, for example, to the right in left-to-right orientations.
+     * Tiis vbluf indidbtfs tibt fbdi row of domponfnts
+     * siould bf justififd to tif trbiling fdgf of tif dontbinfr's
+     * orifntbtion, for fxbmplf, to tif rigit in lfft-to-rigit orifntbtions.
      *
-     * @see     java.awt.Component#getComponentOrientation
-     * @see     java.awt.ComponentOrientation
-     * @since   1.2
+     * @sff     jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sff     jbvb.bwt.ComponfntOrifntbtion
+     * @sindf   1.2
      */
-    public static final int TRAILING = 4;
+    publid stbtid finbl int TRAILING = 4;
 
     /**
-     * <code>align</code> is the property that determines
-     * how each row distributes empty space.
-     * It can be one of the following values:
+     * <dodf>blign</dodf> is tif propfrty tibt dftfrminfs
+     * iow fbdi row distributfs fmpty spbdf.
+     * It dbn bf onf of tif following vblufs:
      * <ul>
-     * <li><code>LEFT</code>
-     * <li><code>RIGHT</code>
-     * <li><code>CENTER</code>
+     * <li><dodf>LEFT</dodf>
+     * <li><dodf>RIGHT</dodf>
+     * <li><dodf>CENTER</dodf>
      * </ul>
      *
-     * @serial
-     * @see #getAlignment
-     * @see #setAlignment
+     * @sfribl
+     * @sff #gftAlignmfnt
+     * @sff #sftAlignmfnt
      */
-    int align;          // This is for 1.1 serialization compatibility
+    int blign;          // Tiis is for 1.1 sfriblizbtion dompbtibility
 
     /**
-     * <code>newAlign</code> is the property that determines
-     * how each row distributes empty space for the Java 2 platform,
-     * v1.2 and greater.
-     * It can be one of the following three values:
+     * <dodf>nfwAlign</dodf> is tif propfrty tibt dftfrminfs
+     * iow fbdi row distributfs fmpty spbdf for tif Jbvb 2 plbtform,
+     * v1.2 bnd grfbtfr.
+     * It dbn bf onf of tif following tirff vblufs:
      * <ul>
-     * <li><code>LEFT</code>
-     * <li><code>RIGHT</code>
-     * <li><code>CENTER</code>
-     * <li><code>LEADING</code>
-     * <li><code>TRAILING</code>
+     * <li><dodf>LEFT</dodf>
+     * <li><dodf>RIGHT</dodf>
+     * <li><dodf>CENTER</dodf>
+     * <li><dodf>LEADING</dodf>
+     * <li><dodf>TRAILING</dodf>
      * </ul>
      *
-     * @serial
-     * @since 1.2
-     * @see #getAlignment
-     * @see #setAlignment
+     * @sfribl
+     * @sindf 1.2
+     * @sff #gftAlignmfnt
+     * @sff #sftAlignmfnt
      */
-    int newAlign;       // This is the one we actually use
+    int nfwAlign;       // Tiis is tif onf wf bdtublly usf
 
     /**
-     * The flow layout manager allows a seperation of
-     * components with gaps.  The horizontal gap will
-     * specify the space between components and between
-     * the components and the borders of the
-     * <code>Container</code>.
+     * Tif flow lbyout mbnbgfr bllows b sfpfrbtion of
+     * domponfnts witi gbps.  Tif iorizontbl gbp will
+     * spfdify tif spbdf bftwffn domponfnts bnd bftwffn
+     * tif domponfnts bnd tif bordfrs of tif
+     * <dodf>Contbinfr</dodf>.
      *
-     * @serial
-     * @see #getHgap()
-     * @see #setHgap(int)
+     * @sfribl
+     * @sff #gftHgbp()
+     * @sff #sftHgbp(int)
      */
-    int hgap;
+    int igbp;
 
     /**
-     * The flow layout manager allows a seperation of
-     * components with gaps.  The vertical gap will
-     * specify the space between rows and between the
-     * the rows and the borders of the <code>Container</code>.
+     * Tif flow lbyout mbnbgfr bllows b sfpfrbtion of
+     * domponfnts witi gbps.  Tif vfrtidbl gbp will
+     * spfdify tif spbdf bftwffn rows bnd bftwffn tif
+     * tif rows bnd tif bordfrs of tif <dodf>Contbinfr</dodf>.
      *
-     * @serial
-     * @see #getHgap()
-     * @see #setHgap(int)
+     * @sfribl
+     * @sff #gftHgbp()
+     * @sff #sftHgbp(int)
      */
-    int vgap;
+    int vgbp;
 
     /**
-     * If true, components will be aligned on their baseline.
+     * If truf, domponfnts will bf blignfd on tifir bbsflinf.
      */
-    private boolean alignOnBaseline;
+    privbtf boolfbn blignOnBbsflinf;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-     private static final long serialVersionUID = -7262534875583282631L;
+     privbtf stbtid finbl long sfriblVfrsionUID = -7262534875583282631L;
 
     /**
-     * Constructs a new <code>FlowLayout</code> with a centered alignment and a
-     * default 5-unit horizontal and vertical gap.
+     * Construdts b nfw <dodf>FlowLbyout</dodf> witi b dfntfrfd blignmfnt bnd b
+     * dffbult 5-unit iorizontbl bnd vfrtidbl gbp.
      */
-    public FlowLayout() {
-        this(CENTER, 5, 5);
+    publid FlowLbyout() {
+        tiis(CENTER, 5, 5);
     }
 
     /**
-     * Constructs a new <code>FlowLayout</code> with the specified
-     * alignment and a default 5-unit horizontal and vertical gap.
-     * The value of the alignment argument must be one of
-     * <code>FlowLayout.LEFT</code>, <code>FlowLayout.RIGHT</code>,
-     * <code>FlowLayout.CENTER</code>, <code>FlowLayout.LEADING</code>,
-     * or <code>FlowLayout.TRAILING</code>.
-     * @param align the alignment value
+     * Construdts b nfw <dodf>FlowLbyout</dodf> witi tif spfdififd
+     * blignmfnt bnd b dffbult 5-unit iorizontbl bnd vfrtidbl gbp.
+     * Tif vbluf of tif blignmfnt brgumfnt must bf onf of
+     * <dodf>FlowLbyout.LEFT</dodf>, <dodf>FlowLbyout.RIGHT</dodf>,
+     * <dodf>FlowLbyout.CENTER</dodf>, <dodf>FlowLbyout.LEADING</dodf>,
+     * or <dodf>FlowLbyout.TRAILING</dodf>.
+     * @pbrbm blign tif blignmfnt vbluf
      */
-    public FlowLayout(int align) {
-        this(align, 5, 5);
+    publid FlowLbyout(int blign) {
+        tiis(blign, 5, 5);
     }
 
     /**
-     * Creates a new flow layout manager with the indicated alignment
-     * and the indicated horizontal and vertical gaps.
+     * Crfbtfs b nfw flow lbyout mbnbgfr witi tif indidbtfd blignmfnt
+     * bnd tif indidbtfd iorizontbl bnd vfrtidbl gbps.
      * <p>
-     * The value of the alignment argument must be one of
-     * <code>FlowLayout.LEFT</code>, <code>FlowLayout.RIGHT</code>,
-     * <code>FlowLayout.CENTER</code>, <code>FlowLayout.LEADING</code>,
-     * or <code>FlowLayout.TRAILING</code>.
-     * @param      align   the alignment value
-     * @param      hgap    the horizontal gap between components
-     *                     and between the components and the
-     *                     borders of the <code>Container</code>
-     * @param      vgap    the vertical gap between components
-     *                     and between the components and the
-     *                     borders of the <code>Container</code>
+     * Tif vbluf of tif blignmfnt brgumfnt must bf onf of
+     * <dodf>FlowLbyout.LEFT</dodf>, <dodf>FlowLbyout.RIGHT</dodf>,
+     * <dodf>FlowLbyout.CENTER</dodf>, <dodf>FlowLbyout.LEADING</dodf>,
+     * or <dodf>FlowLbyout.TRAILING</dodf>.
+     * @pbrbm      blign   tif blignmfnt vbluf
+     * @pbrbm      igbp    tif iorizontbl gbp bftwffn domponfnts
+     *                     bnd bftwffn tif domponfnts bnd tif
+     *                     bordfrs of tif <dodf>Contbinfr</dodf>
+     * @pbrbm      vgbp    tif vfrtidbl gbp bftwffn domponfnts
+     *                     bnd bftwffn tif domponfnts bnd tif
+     *                     bordfrs of tif <dodf>Contbinfr</dodf>
      */
-    public FlowLayout(int align, int hgap, int vgap) {
-        this.hgap = hgap;
-        this.vgap = vgap;
-        setAlignment(align);
+    publid FlowLbyout(int blign, int igbp, int vgbp) {
+        tiis.igbp = igbp;
+        tiis.vgbp = vgbp;
+        sftAlignmfnt(blign);
     }
 
     /**
-     * Gets the alignment for this layout.
-     * Possible values are <code>FlowLayout.LEFT</code>,
-     * <code>FlowLayout.RIGHT</code>, <code>FlowLayout.CENTER</code>,
-     * <code>FlowLayout.LEADING</code>,
-     * or <code>FlowLayout.TRAILING</code>.
-     * @return     the alignment value for this layout
-     * @see        java.awt.FlowLayout#setAlignment
-     * @since      1.1
+     * Gfts tif blignmfnt for tiis lbyout.
+     * Possiblf vblufs brf <dodf>FlowLbyout.LEFT</dodf>,
+     * <dodf>FlowLbyout.RIGHT</dodf>, <dodf>FlowLbyout.CENTER</dodf>,
+     * <dodf>FlowLbyout.LEADING</dodf>,
+     * or <dodf>FlowLbyout.TRAILING</dodf>.
+     * @rfturn     tif blignmfnt vbluf for tiis lbyout
+     * @sff        jbvb.bwt.FlowLbyout#sftAlignmfnt
+     * @sindf      1.1
      */
-    public int getAlignment() {
-        return newAlign;
+    publid int gftAlignmfnt() {
+        rfturn nfwAlign;
     }
 
     /**
-     * Sets the alignment for this layout.
-     * Possible values are
+     * Sfts tif blignmfnt for tiis lbyout.
+     * Possiblf vblufs brf
      * <ul>
-     * <li><code>FlowLayout.LEFT</code>
-     * <li><code>FlowLayout.RIGHT</code>
-     * <li><code>FlowLayout.CENTER</code>
-     * <li><code>FlowLayout.LEADING</code>
-     * <li><code>FlowLayout.TRAILING</code>
+     * <li><dodf>FlowLbyout.LEFT</dodf>
+     * <li><dodf>FlowLbyout.RIGHT</dodf>
+     * <li><dodf>FlowLbyout.CENTER</dodf>
+     * <li><dodf>FlowLbyout.LEADING</dodf>
+     * <li><dodf>FlowLbyout.TRAILING</dodf>
      * </ul>
-     * @param      align one of the alignment values shown above
-     * @see        #getAlignment()
-     * @since      1.1
+     * @pbrbm      blign onf of tif blignmfnt vblufs siown bbovf
+     * @sff        #gftAlignmfnt()
+     * @sindf      1.1
      */
-    public void setAlignment(int align) {
-        this.newAlign = align;
+    publid void sftAlignmfnt(int blign) {
+        tiis.nfwAlign = blign;
 
-        // this.align is used only for serialization compatibility,
-        // so set it to a value compatible with the 1.1 version
-        // of the class
+        // tiis.blign is usfd only for sfriblizbtion dompbtibility,
+        // so sft it to b vbluf dompbtiblf witi tif 1.1 vfrsion
+        // of tif dlbss
 
-        switch (align) {
-        case LEADING:
-            this.align = LEFT;
-            break;
-        case TRAILING:
-            this.align = RIGHT;
-            break;
-        default:
-            this.align = align;
-            break;
+        switdi (blign) {
+        dbsf LEADING:
+            tiis.blign = LEFT;
+            brfbk;
+        dbsf TRAILING:
+            tiis.blign = RIGHT;
+            brfbk;
+        dffbult:
+            tiis.blign = blign;
+            brfbk;
         }
     }
 
     /**
-     * Gets the horizontal gap between components
-     * and between the components and the borders
-     * of the <code>Container</code>
+     * Gfts tif iorizontbl gbp bftwffn domponfnts
+     * bnd bftwffn tif domponfnts bnd tif bordfrs
+     * of tif <dodf>Contbinfr</dodf>
      *
-     * @return     the horizontal gap between components
-     *             and between the components and the borders
-     *             of the <code>Container</code>
-     * @see        java.awt.FlowLayout#setHgap
-     * @since      1.1
+     * @rfturn     tif iorizontbl gbp bftwffn domponfnts
+     *             bnd bftwffn tif domponfnts bnd tif bordfrs
+     *             of tif <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#sftHgbp
+     * @sindf      1.1
      */
-    public int getHgap() {
-        return hgap;
+    publid int gftHgbp() {
+        rfturn igbp;
     }
 
     /**
-     * Sets the horizontal gap between components and
-     * between the components and the borders of the
-     * <code>Container</code>.
+     * Sfts tif iorizontbl gbp bftwffn domponfnts bnd
+     * bftwffn tif domponfnts bnd tif bordfrs of tif
+     * <dodf>Contbinfr</dodf>.
      *
-     * @param hgap the horizontal gap between components
-     *             and between the components and the borders
-     *             of the <code>Container</code>
-     * @see        java.awt.FlowLayout#getHgap
-     * @since      1.1
+     * @pbrbm igbp tif iorizontbl gbp bftwffn domponfnts
+     *             bnd bftwffn tif domponfnts bnd tif bordfrs
+     *             of tif <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#gftHgbp
+     * @sindf      1.1
      */
-    public void setHgap(int hgap) {
-        this.hgap = hgap;
+    publid void sftHgbp(int igbp) {
+        tiis.igbp = igbp;
     }
 
     /**
-     * Gets the vertical gap between components and
-     * between the components and the borders of the
-     * <code>Container</code>.
+     * Gfts tif vfrtidbl gbp bftwffn domponfnts bnd
+     * bftwffn tif domponfnts bnd tif bordfrs of tif
+     * <dodf>Contbinfr</dodf>.
      *
-     * @return     the vertical gap between components
-     *             and between the components and the borders
-     *             of the <code>Container</code>
-     * @see        java.awt.FlowLayout#setVgap
-     * @since      1.1
+     * @rfturn     tif vfrtidbl gbp bftwffn domponfnts
+     *             bnd bftwffn tif domponfnts bnd tif bordfrs
+     *             of tif <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#sftVgbp
+     * @sindf      1.1
      */
-    public int getVgap() {
-        return vgap;
+    publid int gftVgbp() {
+        rfturn vgbp;
     }
 
     /**
-     * Sets the vertical gap between components and between
-     * the components and the borders of the <code>Container</code>.
+     * Sfts tif vfrtidbl gbp bftwffn domponfnts bnd bftwffn
+     * tif domponfnts bnd tif bordfrs of tif <dodf>Contbinfr</dodf>.
      *
-     * @param vgap the vertical gap between components
-     *             and between the components and the borders
-     *             of the <code>Container</code>
-     * @see        java.awt.FlowLayout#getVgap
-     * @since      1.1
+     * @pbrbm vgbp tif vfrtidbl gbp bftwffn domponfnts
+     *             bnd bftwffn tif domponfnts bnd tif bordfrs
+     *             of tif <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#gftVgbp
+     * @sindf      1.1
      */
-    public void setVgap(int vgap) {
-        this.vgap = vgap;
+    publid void sftVgbp(int vgbp) {
+        tiis.vgbp = vgbp;
     }
 
     /**
-     * Sets whether or not components should be vertically aligned along their
-     * baseline.  Components that do not have a baseline will be centered.
-     * The default is false.
+     * Sfts wiftifr or not domponfnts siould bf vfrtidblly blignfd blong tifir
+     * bbsflinf.  Componfnts tibt do not ibvf b bbsflinf will bf dfntfrfd.
+     * Tif dffbult is fblsf.
      *
-     * @param alignOnBaseline whether or not components should be
-     *                        vertically aligned on their baseline
-     * @since 1.6
+     * @pbrbm blignOnBbsflinf wiftifr or not domponfnts siould bf
+     *                        vfrtidblly blignfd on tifir bbsflinf
+     * @sindf 1.6
      */
-    public void setAlignOnBaseline(boolean alignOnBaseline) {
-        this.alignOnBaseline = alignOnBaseline;
+    publid void sftAlignOnBbsflinf(boolfbn blignOnBbsflinf) {
+        tiis.blignOnBbsflinf = blignOnBbsflinf;
     }
 
     /**
-     * Returns true if components are to be vertically aligned along
-     * their baseline.  The default is false.
+     * Rfturns truf if domponfnts brf to bf vfrtidblly blignfd blong
+     * tifir bbsflinf.  Tif dffbult is fblsf.
      *
-     * @return true if components are to be vertically aligned along
-     *              their baseline
-     * @since 1.6
+     * @rfturn truf if domponfnts brf to bf vfrtidblly blignfd blong
+     *              tifir bbsflinf
+     * @sindf 1.6
      */
-    public boolean getAlignOnBaseline() {
-        return alignOnBaseline;
+    publid boolfbn gftAlignOnBbsflinf() {
+        rfturn blignOnBbsflinf;
     }
 
     /**
-     * Adds the specified component to the layout.
-     * Not used by this class.
-     * @param name the name of the component
-     * @param comp the component to be added
+     * Adds tif spfdififd domponfnt to tif lbyout.
+     * Not usfd by tiis dlbss.
+     * @pbrbm nbmf tif nbmf of tif domponfnt
+     * @pbrbm domp tif domponfnt to bf bddfd
      */
-    public void addLayoutComponent(String name, Component comp) {
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
     }
 
     /**
-     * Removes the specified component from the layout.
-     * Not used by this class.
-     * @param comp the component to remove
-     * @see       java.awt.Container#removeAll
+     * Rfmovfs tif spfdififd domponfnt from tif lbyout.
+     * Not usfd by tiis dlbss.
+     * @pbrbm domp tif domponfnt to rfmovf
+     * @sff       jbvb.bwt.Contbinfr#rfmovfAll
      */
-    public void removeLayoutComponent(Component comp) {
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
     }
 
     /**
-     * Returns the preferred dimensions for this layout given the
-     * <i>visible</i> components in the specified target container.
+     * Rfturns tif prfffrrfd dimfnsions for tiis lbyout givfn tif
+     * <i>visiblf</i> domponfnts in tif spfdififd tbrgft dontbinfr.
      *
-     * @param target the container that needs to be laid out
-     * @return    the preferred dimensions to lay out the
-     *            subcomponents of the specified container
-     * @see Container
-     * @see #minimumLayoutSize
-     * @see       java.awt.Container#getPreferredSize
+     * @pbrbm tbrgft tif dontbinfr tibt nffds to bf lbid out
+     * @rfturn    tif prfffrrfd dimfnsions to lby out tif
+     *            subdomponfnts of tif spfdififd dontbinfr
+     * @sff Contbinfr
+     * @sff #minimumLbyoutSizf
+     * @sff       jbvb.bwt.Contbinfr#gftPrfffrrfdSizf
      */
-    public Dimension preferredLayoutSize(Container target) {
-      synchronized (target.getTreeLock()) {
-        Dimension dim = new Dimension(0, 0);
-        int nmembers = target.getComponentCount();
-        boolean firstVisibleComponent = true;
-        boolean useBaseline = getAlignOnBaseline();
-        int maxAscent = 0;
-        int maxDescent = 0;
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+      syndironizfd (tbrgft.gftTrffLodk()) {
+        Dimfnsion dim = nfw Dimfnsion(0, 0);
+        int nmfmbfrs = tbrgft.gftComponfntCount();
+        boolfbn firstVisiblfComponfnt = truf;
+        boolfbn usfBbsflinf = gftAlignOnBbsflinf();
+        int mbxAsdfnt = 0;
+        int mbxDfsdfnt = 0;
 
-        for (int i = 0 ; i < nmembers ; i++) {
-            Component m = target.getComponent(i);
-            if (m.isVisible()) {
-                Dimension d = m.getPreferredSize();
-                dim.height = Math.max(dim.height, d.height);
-                if (firstVisibleComponent) {
-                    firstVisibleComponent = false;
-                } else {
-                    dim.width += hgap;
+        for (int i = 0 ; i < nmfmbfrs ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.isVisiblf()) {
+                Dimfnsion d = m.gftPrfffrrfdSizf();
+                dim.ifigit = Mbti.mbx(dim.ifigit, d.ifigit);
+                if (firstVisiblfComponfnt) {
+                    firstVisiblfComponfnt = fblsf;
+                } flsf {
+                    dim.widti += igbp;
                 }
-                dim.width += d.width;
-                if (useBaseline) {
-                    int baseline = m.getBaseline(d.width, d.height);
-                    if (baseline >= 0) {
-                        maxAscent = Math.max(maxAscent, baseline);
-                        maxDescent = Math.max(maxDescent, d.height - baseline);
+                dim.widti += d.widti;
+                if (usfBbsflinf) {
+                    int bbsflinf = m.gftBbsflinf(d.widti, d.ifigit);
+                    if (bbsflinf >= 0) {
+                        mbxAsdfnt = Mbti.mbx(mbxAsdfnt, bbsflinf);
+                        mbxDfsdfnt = Mbti.mbx(mbxDfsdfnt, d.ifigit - bbsflinf);
                     }
                 }
             }
         }
-        if (useBaseline) {
-            dim.height = Math.max(maxAscent + maxDescent, dim.height);
+        if (usfBbsflinf) {
+            dim.ifigit = Mbti.mbx(mbxAsdfnt + mbxDfsdfnt, dim.ifigit);
         }
-        Insets insets = target.getInsets();
-        dim.width += insets.left + insets.right + hgap*2;
-        dim.height += insets.top + insets.bottom + vgap*2;
-        return dim;
+        Insfts insfts = tbrgft.gftInsfts();
+        dim.widti += insfts.lfft + insfts.rigit + igbp*2;
+        dim.ifigit += insfts.top + insfts.bottom + vgbp*2;
+        rfturn dim;
       }
     }
 
     /**
-     * Returns the minimum dimensions needed to layout the <i>visible</i>
-     * components contained in the specified target container.
-     * @param target the container that needs to be laid out
-     * @return    the minimum dimensions to lay out the
-     *            subcomponents of the specified container
-     * @see #preferredLayoutSize
-     * @see       java.awt.Container
-     * @see       java.awt.Container#doLayout
+     * Rfturns tif minimum dimfnsions nffdfd to lbyout tif <i>visiblf</i>
+     * domponfnts dontbinfd in tif spfdififd tbrgft dontbinfr.
+     * @pbrbm tbrgft tif dontbinfr tibt nffds to bf lbid out
+     * @rfturn    tif minimum dimfnsions to lby out tif
+     *            subdomponfnts of tif spfdififd dontbinfr
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff       jbvb.bwt.Contbinfr
+     * @sff       jbvb.bwt.Contbinfr#doLbyout
      */
-    public Dimension minimumLayoutSize(Container target) {
-      synchronized (target.getTreeLock()) {
-        boolean useBaseline = getAlignOnBaseline();
-        Dimension dim = new Dimension(0, 0);
-        int nmembers = target.getComponentCount();
-        int maxAscent = 0;
-        int maxDescent = 0;
-        boolean firstVisibleComponent = true;
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+      syndironizfd (tbrgft.gftTrffLodk()) {
+        boolfbn usfBbsflinf = gftAlignOnBbsflinf();
+        Dimfnsion dim = nfw Dimfnsion(0, 0);
+        int nmfmbfrs = tbrgft.gftComponfntCount();
+        int mbxAsdfnt = 0;
+        int mbxDfsdfnt = 0;
+        boolfbn firstVisiblfComponfnt = truf;
 
-        for (int i = 0 ; i < nmembers ; i++) {
-            Component m = target.getComponent(i);
-            if (m.visible) {
-                Dimension d = m.getMinimumSize();
-                dim.height = Math.max(dim.height, d.height);
-                if (firstVisibleComponent) {
-                    firstVisibleComponent = false;
-                } else {
-                    dim.width += hgap;
+        for (int i = 0 ; i < nmfmbfrs ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.visiblf) {
+                Dimfnsion d = m.gftMinimumSizf();
+                dim.ifigit = Mbti.mbx(dim.ifigit, d.ifigit);
+                if (firstVisiblfComponfnt) {
+                    firstVisiblfComponfnt = fblsf;
+                } flsf {
+                    dim.widti += igbp;
                 }
-                dim.width += d.width;
-                if (useBaseline) {
-                    int baseline = m.getBaseline(d.width, d.height);
-                    if (baseline >= 0) {
-                        maxAscent = Math.max(maxAscent, baseline);
-                        maxDescent = Math.max(maxDescent,
-                                              dim.height - baseline);
+                dim.widti += d.widti;
+                if (usfBbsflinf) {
+                    int bbsflinf = m.gftBbsflinf(d.widti, d.ifigit);
+                    if (bbsflinf >= 0) {
+                        mbxAsdfnt = Mbti.mbx(mbxAsdfnt, bbsflinf);
+                        mbxDfsdfnt = Mbti.mbx(mbxDfsdfnt,
+                                              dim.ifigit - bbsflinf);
                     }
                 }
 }
 }
 
-        if (useBaseline) {
-            dim.height = Math.max(maxAscent + maxDescent, dim.height);
+        if (usfBbsflinf) {
+            dim.ifigit = Mbti.mbx(mbxAsdfnt + mbxDfsdfnt, dim.ifigit);
         }
 
-        Insets insets = target.getInsets();
-        dim.width += insets.left + insets.right + hgap*2;
-        dim.height += insets.top + insets.bottom + vgap*2;
-        return dim;
+        Insfts insfts = tbrgft.gftInsfts();
+        dim.widti += insfts.lfft + insfts.rigit + igbp*2;
+        dim.ifigit += insfts.top + insfts.bottom + vgbp*2;
+        rfturn dim;
 
 
 
@@ -496,200 +496,200 @@ public class FlowLayout implements LayoutManager, java.io.Serializable {
     }
 
     /**
-     * Centers the elements in the specified row, if there is any slack.
-     * @param target the component which needs to be moved
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param width the width dimensions
-     * @param height the height dimensions
-     * @param rowStart the beginning of the row
-     * @param rowEnd the the ending of the row
-     * @param useBaseline Whether or not to align on baseline.
-     * @param ascent Ascent for the components. This is only valid if
-     *               useBaseline is true.
-     * @param descent Ascent for the components. This is only valid if
-     *               useBaseline is true.
-     * @return actual row height
+     * Cfntfrs tif flfmfnts in tif spfdififd row, if tifrf is bny slbdk.
+     * @pbrbm tbrgft tif domponfnt wiidi nffds to bf movfd
+     * @pbrbm x tif x doordinbtf
+     * @pbrbm y tif y doordinbtf
+     * @pbrbm widti tif widti dimfnsions
+     * @pbrbm ifigit tif ifigit dimfnsions
+     * @pbrbm rowStbrt tif bfginning of tif row
+     * @pbrbm rowEnd tif tif fnding of tif row
+     * @pbrbm usfBbsflinf Wiftifr or not to blign on bbsflinf.
+     * @pbrbm bsdfnt Asdfnt for tif domponfnts. Tiis is only vblid if
+     *               usfBbsflinf is truf.
+     * @pbrbm dfsdfnt Asdfnt for tif domponfnts. Tiis is only vblid if
+     *               usfBbsflinf is truf.
+     * @rfturn bdtubl row ifigit
      */
-    private int moveComponents(Container target, int x, int y, int width, int height,
-                                int rowStart, int rowEnd, boolean ltr,
-                                boolean useBaseline, int[] ascent,
-                                int[] descent) {
-        switch (newAlign) {
-        case LEFT:
-            x += ltr ? 0 : width;
-            break;
-        case CENTER:
-            x += width / 2;
-            break;
-        case RIGHT:
-            x += ltr ? width : 0;
-            break;
-        case LEADING:
-            break;
-        case TRAILING:
-            x += width;
-            break;
+    privbtf int movfComponfnts(Contbinfr tbrgft, int x, int y, int widti, int ifigit,
+                                int rowStbrt, int rowEnd, boolfbn ltr,
+                                boolfbn usfBbsflinf, int[] bsdfnt,
+                                int[] dfsdfnt) {
+        switdi (nfwAlign) {
+        dbsf LEFT:
+            x += ltr ? 0 : widti;
+            brfbk;
+        dbsf CENTER:
+            x += widti / 2;
+            brfbk;
+        dbsf RIGHT:
+            x += ltr ? widti : 0;
+            brfbk;
+        dbsf LEADING:
+            brfbk;
+        dbsf TRAILING:
+            x += widti;
+            brfbk;
         }
-        int maxAscent = 0;
-        int nonbaselineHeight = 0;
-        int baselineOffset = 0;
-        if (useBaseline) {
-            int maxDescent = 0;
-            for (int i = rowStart ; i < rowEnd ; i++) {
-                Component m = target.getComponent(i);
-                if (m.visible) {
-                    if (ascent[i] >= 0) {
-                        maxAscent = Math.max(maxAscent, ascent[i]);
-                        maxDescent = Math.max(maxDescent, descent[i]);
+        int mbxAsdfnt = 0;
+        int nonbbsflinfHfigit = 0;
+        int bbsflinfOffsft = 0;
+        if (usfBbsflinf) {
+            int mbxDfsdfnt = 0;
+            for (int i = rowStbrt ; i < rowEnd ; i++) {
+                Componfnt m = tbrgft.gftComponfnt(i);
+                if (m.visiblf) {
+                    if (bsdfnt[i] >= 0) {
+                        mbxAsdfnt = Mbti.mbx(mbxAsdfnt, bsdfnt[i]);
+                        mbxDfsdfnt = Mbti.mbx(mbxDfsdfnt, dfsdfnt[i]);
                     }
-                    else {
-                        nonbaselineHeight = Math.max(m.getHeight(),
-                                                     nonbaselineHeight);
+                    flsf {
+                        nonbbsflinfHfigit = Mbti.mbx(m.gftHfigit(),
+                                                     nonbbsflinfHfigit);
                     }
                 }
             }
-            height = Math.max(maxAscent + maxDescent, nonbaselineHeight);
-            baselineOffset = (height - maxAscent - maxDescent) / 2;
+            ifigit = Mbti.mbx(mbxAsdfnt + mbxDfsdfnt, nonbbsflinfHfigit);
+            bbsflinfOffsft = (ifigit - mbxAsdfnt - mbxDfsdfnt) / 2;
         }
-        for (int i = rowStart ; i < rowEnd ; i++) {
-            Component m = target.getComponent(i);
-            if (m.isVisible()) {
-                int cy;
-                if (useBaseline && ascent[i] >= 0) {
-                    cy = y + baselineOffset + maxAscent - ascent[i];
+        for (int i = rowStbrt ; i < rowEnd ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.isVisiblf()) {
+                int dy;
+                if (usfBbsflinf && bsdfnt[i] >= 0) {
+                    dy = y + bbsflinfOffsft + mbxAsdfnt - bsdfnt[i];
                 }
-                else {
-                    cy = y + (height - m.height) / 2;
+                flsf {
+                    dy = y + (ifigit - m.ifigit) / 2;
                 }
                 if (ltr) {
-                    m.setLocation(x, cy);
-                } else {
-                    m.setLocation(target.width - x - m.width, cy);
+                    m.sftLodbtion(x, dy);
+                } flsf {
+                    m.sftLodbtion(tbrgft.widti - x - m.widti, dy);
                 }
-                x += m.width + hgap;
+                x += m.widti + igbp;
             }
         }
-        return height;
+        rfturn ifigit;
     }
 
     /**
-     * Lays out the container. This method lets each
-     * <i>visible</i> component take
-     * its preferred size by reshaping the components in the
-     * target container in order to satisfy the alignment of
-     * this <code>FlowLayout</code> object.
+     * Lbys out tif dontbinfr. Tiis mftiod lfts fbdi
+     * <i>visiblf</i> domponfnt tbkf
+     * its prfffrrfd sizf by rfsibping tif domponfnts in tif
+     * tbrgft dontbinfr in ordfr to sbtisfy tif blignmfnt of
+     * tiis <dodf>FlowLbyout</dodf> objfdt.
      *
-     * @param target the specified component being laid out
-     * @see Container
-     * @see       java.awt.Container#doLayout
+     * @pbrbm tbrgft tif spfdififd domponfnt bfing lbid out
+     * @sff Contbinfr
+     * @sff       jbvb.bwt.Contbinfr#doLbyout
      */
-    public void layoutContainer(Container target) {
-      synchronized (target.getTreeLock()) {
-        Insets insets = target.getInsets();
-        int maxwidth = target.width - (insets.left + insets.right + hgap*2);
-        int nmembers = target.getComponentCount();
-        int x = 0, y = insets.top + vgap;
-        int rowh = 0, start = 0;
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+      syndironizfd (tbrgft.gftTrffLodk()) {
+        Insfts insfts = tbrgft.gftInsfts();
+        int mbxwidti = tbrgft.widti - (insfts.lfft + insfts.rigit + igbp*2);
+        int nmfmbfrs = tbrgft.gftComponfntCount();
+        int x = 0, y = insfts.top + vgbp;
+        int rowi = 0, stbrt = 0;
 
-        boolean ltr = target.getComponentOrientation().isLeftToRight();
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRigit();
 
-        boolean useBaseline = getAlignOnBaseline();
-        int[] ascent = null;
-        int[] descent = null;
+        boolfbn usfBbsflinf = gftAlignOnBbsflinf();
+        int[] bsdfnt = null;
+        int[] dfsdfnt = null;
 
-        if (useBaseline) {
-            ascent = new int[nmembers];
-            descent = new int[nmembers];
+        if (usfBbsflinf) {
+            bsdfnt = nfw int[nmfmbfrs];
+            dfsdfnt = nfw int[nmfmbfrs];
         }
 
-        for (int i = 0 ; i < nmembers ; i++) {
-            Component m = target.getComponent(i);
-            if (m.isVisible()) {
-                Dimension d = m.getPreferredSize();
-                m.setSize(d.width, d.height);
+        for (int i = 0 ; i < nmfmbfrs ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.isVisiblf()) {
+                Dimfnsion d = m.gftPrfffrrfdSizf();
+                m.sftSizf(d.widti, d.ifigit);
 
-                if (useBaseline) {
-                    int baseline = m.getBaseline(d.width, d.height);
-                    if (baseline >= 0) {
-                        ascent[i] = baseline;
-                        descent[i] = d.height - baseline;
+                if (usfBbsflinf) {
+                    int bbsflinf = m.gftBbsflinf(d.widti, d.ifigit);
+                    if (bbsflinf >= 0) {
+                        bsdfnt[i] = bbsflinf;
+                        dfsdfnt[i] = d.ifigit - bbsflinf;
                     }
-                    else {
-                        ascent[i] = -1;
+                    flsf {
+                        bsdfnt[i] = -1;
                     }
                 }
-                if ((x == 0) || ((x + d.width) <= maxwidth)) {
+                if ((x == 0) || ((x + d.widti) <= mbxwidti)) {
                     if (x > 0) {
-                        x += hgap;
+                        x += igbp;
                     }
-                    x += d.width;
-                    rowh = Math.max(rowh, d.height);
-                } else {
-                    rowh = moveComponents(target, insets.left + hgap, y,
-                                   maxwidth - x, rowh, start, i, ltr,
-                                   useBaseline, ascent, descent);
-                    x = d.width;
-                    y += vgap + rowh;
-                    rowh = d.height;
-                    start = i;
+                    x += d.widti;
+                    rowi = Mbti.mbx(rowi, d.ifigit);
+                } flsf {
+                    rowi = movfComponfnts(tbrgft, insfts.lfft + igbp, y,
+                                   mbxwidti - x, rowi, stbrt, i, ltr,
+                                   usfBbsflinf, bsdfnt, dfsdfnt);
+                    x = d.widti;
+                    y += vgbp + rowi;
+                    rowi = d.ifigit;
+                    stbrt = i;
                 }
             }
         }
-        moveComponents(target, insets.left + hgap, y, maxwidth - x, rowh,
-                       start, nmembers, ltr, useBaseline, ascent, descent);
+        movfComponfnts(tbrgft, insfts.lfft + igbp, y, mbxwidti - x, rowi,
+                       stbrt, nmfmbfrs, ltr, usfBbsflinf, bsdfnt, dfsdfnt);
       }
     }
 
     //
-    // the internal serial version which says which version was written
-    // - 0 (default) for versions before the Java 2 platform, v1.2
-    // - 1 for version >= Java 2 platform v1.2, which includes "newAlign" field
+    // tif intfrnbl sfribl vfrsion wiidi sbys wiidi vfrsion wbs writtfn
+    // - 0 (dffbult) for vfrsions bfforf tif Jbvb 2 plbtform, v1.2
+    // - 1 for vfrsion >= Jbvb 2 plbtform v1.2, wiidi indludfs "nfwAlign" fifld
     //
-    private static final int currentSerialVersion = 1;
+    privbtf stbtid finbl int durrfntSfriblVfrsion = 1;
     /**
-     * This represent the <code>currentSerialVersion</code>
-     * which is bein used.  It will be one of two values :
-     * <code>0</code> versions before Java 2 platform v1.2..
-     * <code>1</code> versions after  Java 2 platform v1.2..
+     * Tiis rfprfsfnt tif <dodf>durrfntSfriblVfrsion</dodf>
+     * wiidi is bfin usfd.  It will bf onf of two vblufs :
+     * <dodf>0</dodf> vfrsions bfforf Jbvb 2 plbtform v1.2..
+     * <dodf>1</dodf> vfrsions bftfr  Jbvb 2 plbtform v1.2..
      *
-     * @serial
-     * @since 1.2
+     * @sfribl
+     * @sindf 1.2
      */
-    private int serialVersionOnStream = currentSerialVersion;
+    privbtf int sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
 
     /**
-     * Reads this object out of a serialization stream, handling
-     * objects written by older versions of the class that didn't contain all
-     * of the fields we use now..
+     * Rfbds tiis objfdt out of b sfriblizbtion strfbm, ibndling
+     * objfdts writtfn by oldfr vfrsions of tif dlbss tibt didn't dontbin bll
+     * of tif fiflds wf usf now..
      */
-    private void readObject(ObjectInputStream stream)
-         throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+         tirows IOExdfption, ClbssNotFoundExdfption
     {
-        stream.defaultReadObject();
+        strfbm.dffbultRfbdObjfdt();
 
-        if (serialVersionOnStream < 1) {
-            // "newAlign" field wasn't present, so use the old "align" field.
-            setAlignment(this.align);
+        if (sfriblVfrsionOnStrfbm < 1) {
+            // "nfwAlign" fifld wbsn't prfsfnt, so usf tif old "blign" fifld.
+            sftAlignmfnt(tiis.blign);
         }
-        serialVersionOnStream = currentSerialVersion;
+        sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
     }
 
     /**
-     * Returns a string representation of this <code>FlowLayout</code>
-     * object and its values.
-     * @return     a string representation of this layout
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>FlowLbyout</dodf>
+     * objfdt bnd its vblufs.
+     * @rfturn     b string rfprfsfntbtion of tiis lbyout
      */
-    public String toString() {
+    publid String toString() {
         String str = "";
-        switch (align) {
-          case LEFT:        str = ",align=left"; break;
-          case CENTER:      str = ",align=center"; break;
-          case RIGHT:       str = ",align=right"; break;
-          case LEADING:     str = ",align=leading"; break;
-          case TRAILING:    str = ",align=trailing"; break;
+        switdi (blign) {
+          dbsf LEFT:        str = ",blign=lfft"; brfbk;
+          dbsf CENTER:      str = ",blign=dfntfr"; brfbk;
+          dbsf RIGHT:       str = ",blign=rigit"; brfbk;
+          dbsf LEADING:     str = ",blign=lfbding"; brfbk;
+          dbsf TRAILING:    str = ",blign=trbiling"; brfbk;
         }
-        return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap + str + "]";
+        rfturn gftClbss().gftNbmf() + "[igbp=" + igbp + ",vgbp=" + vgbp + str + "]";
     }
 
 

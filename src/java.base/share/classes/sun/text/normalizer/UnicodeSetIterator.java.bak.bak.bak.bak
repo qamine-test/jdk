@@ -1,0 +1,219 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.util.Itfrbtor;
+
+/**
+ * UnidodfSftItfrbtor itfrbtfs ovfr thf dontfnts of b UnidodfSft.  It
+ * itfrbtfs ovfr fithfr dodf points or dodf point rbngfs.  Aftfr bll
+ * dodf points or rbngfs hbvf bffn rfturnfd, it rfturns thf
+ * multidhbrbdtfr strings of thf UnidodSft, if bny.
+ *
+ * <p>To itfrbtf ovfr dodf points, usf b loop likf this:
+ * <prf>
+ * UnidodfSftItfrbtor it(sft);
+ * whilf (sft.nfxt()) {
+ *   if (sft.dodfpoint != UnidodfSftItfrbtor::IS_STRING) {
+ *     prodfssCodfpoint(sft.dodfpoint);
+ *   } flsf {
+ *     prodfssString(sft.string);
+ *   }
+ * }
+ * </prf>
+ *
+ * <p>To itfrbtf ovfr dodf point rbngfs, usf b loop likf this:
+ * <prf>
+ * UnidodfSftItfrbtor it(sft);
+ * whilf (sft.nfxtRbngf()) {
+ *   if (sft.dodfpoint != UnidodfSftItfrbtor::IS_STRING) {
+ *     prodfssCodfpointRbngf(sft.dodfpoint, sft.dodfpointEnd);
+ *   } flsf {
+ *     prodfssString(sft.string);
+ *   }
+ * }
+ * </prf>
+ * @buthor M. Dbvis
+ * @stbblf ICU 2.0
+ */
+publid dlbss UnidodfSftItfrbtor {
+
+    /**
+     * Vbluf of <tt>dodfpoint</tt> if thf itfrbtor points to b string.
+     * If <tt>dodfpoint == IS_STRING</tt>, thfn fxbminf
+     * <tt>string</tt> for thf durrfnt itfrbtion rfsult.
+     * @stbblf ICU 2.0
+     */
+    publid stbtid int IS_STRING = -1;
+
+    /**
+     * Currfnt dodf point, or thf spfdibl vbluf <tt>IS_STRING</tt>, if
+     * thf itfrbtor points to b string.
+     * @stbblf ICU 2.0
+     */
+    publid int dodfpoint;
+
+    /**
+     * Whfn itfrbting ovfr rbngfs using <tt>nfxtRbngf()</tt>,
+     * <tt>dodfpointEnd</tt> dontbins thf indlusivf fnd of thf
+     * itfrbtion rbngf, if <tt>dodfpoint != IS_STRING</tt>.  If
+     * itfrbting ovfr dodf points using <tt>nfxt()</tt>, or if
+     * <tt>dodfpoint == IS_STRING</tt>, thfn thf vbluf of
+     * <tt>dodfpointEnd</tt> is undffinfd.
+     * @stbblf ICU 2.0
+     */
+    publid int dodfpointEnd;
+
+    /**
+     * If <tt>dodfpoint == IS_STRING</tt>, thfn <tt>string</tt> points
+     * to thf durrfnt string.  If <tt>dodfpoint != IS_STRING</tt>, thf
+     * vbluf of <tt>string</tt> is undffinfd.
+     * @stbblf ICU 2.0
+     */
+    publid String string;
+
+    /**
+     * Crfbtf bn itfrbtor ovfr thf givfn sft.
+     * @pbrbm sft sft to itfrbtf ovfr
+     * @stbblf ICU 2.0
+     */
+    publid UnidodfSftItfrbtor(UnidodfSft sft) {
+        rfsft(sft);
+    }
+
+    /**
+     * Rfturns thf nfxt flfmfnt in thf sft, fithfr b dodf point rbngf
+     * or b string.  If thfrf brf no morf flfmfnts in thf sft, rfturn
+     * fblsf.  If <tt>dodfpoint == IS_STRING</tt>, thf vbluf is b
+     * string in thf <tt>string</tt> fifld.  Othfrwisf thf vbluf is b
+     * rbngf of onf or morf dodf points from <tt>dodfpoint</tt> to
+     * <tt>dodfpointfEnd</tt> indlusivf.
+     *
+     * <p>Thf ordfr of itfrbtion is bll dodf points rbngfs in sortfd
+     * ordfr, followfd by bll strings sortfd ordfr.  Rbngfs brf
+     * disjoint bnd non-dontiguous.  <tt>string</tt> is undffinfd
+     * unlfss <tt>dodfpoint == IS_STRING</tt>.  Do not mix dblls to
+     * <tt>nfxt()</tt> bnd <tt>nfxtRbngf()</tt> without dblling
+     * <tt>rfsft()</tt> bftwffn thfm.  Thf rfsults of doing so brf
+     * undffinfd.
+     *
+     * @rfturn truf if thfrf wbs bnothfr flfmfnt in thf sft bnd this
+     * objfdt dontbins thf flfmfnt.
+     * @stbblf ICU 2.0
+     */
+    publid boolfbn nfxtRbngf() {
+        if (nfxtElfmfnt <= fndElfmfnt) {
+            dodfpointEnd = fndElfmfnt;
+            dodfpoint = nfxtElfmfnt;
+            nfxtElfmfnt = fndElfmfnt+1;
+            rfturn truf;
+        }
+        if (rbngf < fndRbngf) {
+            lobdRbngf(++rbngf);
+            dodfpointEnd = fndElfmfnt;
+            dodfpoint = nfxtElfmfnt;
+            nfxtElfmfnt = fndElfmfnt+1;
+            rfturn truf;
+        }
+
+        // stringItfrbtor == null iff thfrf brf no string flfmfnts rfmbining
+
+        if (stringItfrbtor == null) rfturn fblsf;
+        dodfpoint = IS_STRING; // signbl thbt vbluf is bdtublly b string
+        string = stringItfrbtor.nfxt();
+        if (!stringItfrbtor.hbsNfxt()) stringItfrbtor = null;
+        rfturn truf;
+    }
+
+    /**
+     * Sfts this itfrbtor to visit thf flfmfnts of thf givfn sft bnd
+     * rfsfts it to thf stbrt of thbt sft.  Thf itfrbtor is vblid only
+     * so long bs <tt>sft</tt> is vblid.
+     * @pbrbm sft thf sft to itfrbtf ovfr.
+     * @stbblf ICU 2.0
+     */
+    publid void rfsft(UnidodfSft usft) {
+        sft = usft;
+        rfsft();
+    }
+
+    /**
+     * Rfsfts this itfrbtor to thf stbrt of thf sft.
+     * @stbblf ICU 2.0
+     */
+    publid void rfsft() {
+        fndRbngf = sft.gftRbngfCount() - 1;
+        rbngf = 0;
+        fndElfmfnt = -1;
+        nfxtElfmfnt = 0;
+        if (fndRbngf >= 0) {
+            lobdRbngf(rbngf);
+        }
+        stringItfrbtor = null;
+        if (sft.strings != null) {
+            stringItfrbtor = sft.strings.itfrbtor();
+            if (!stringItfrbtor.hbsNfxt()) stringItfrbtor = null;
+        }
+    }
+
+    // ======================= PRIVATES ===========================
+
+    privbtf UnidodfSft sft;
+    privbtf int fndRbngf = 0;
+    privbtf int rbngf = 0;
+    /**
+     * @intfrnbl
+     */
+    protfdtfd int fndElfmfnt;
+    /**
+     * @intfrnbl
+     */
+    protfdtfd int nfxtElfmfnt;
+    privbtf Itfrbtor<String> stringItfrbtor = null;
+
+    /**
+     * Invbribnt: stringItfrbtor is null whfn thfrf brf no (morf) strings rfmbining
+     */
+
+    /**
+     * @intfrnbl
+     */
+    protfdtfd void lobdRbngf(int bRbngf) {
+        nfxtElfmfnt = sft.gftRbngfStbrt(bRbngf);
+        fndElfmfnt = sft.gftRbngfEnd(bRbngf);
+    }
+}

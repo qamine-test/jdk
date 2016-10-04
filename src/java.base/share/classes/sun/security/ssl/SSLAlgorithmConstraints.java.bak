@@ -1,474 +1,474 @@
 /*
- * Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.security.AlgorithmConstraints;
-import java.security.CryptoPrimitive;
-import java.security.AlgorithmParameters;
+import jbvb.sfdurity.AlgoritimConstrbints;
+import jbvb.sfdurity.CryptoPrimitivf;
+import jbvb.sfdurity.AlgoritimPbrbmftfrs;
 
-import javax.net.ssl.*;
+import jbvbx.nft.ssl.*;
 
-import java.security.Key;
+import jbvb.sfdurity.Kfy;
 
-import java.util.Set;
-import java.util.HashSet;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
 
-import sun.security.util.DisabledAlgorithmConstraints;
-import sun.security.ssl.CipherSuite.*;
+import sun.sfdurity.util.DisbblfdAlgoritimConstrbints;
+import sun.sfdurity.ssl.CipifrSuitf.*;
 
 /**
- * Algorithm constraints for disabled algorithms property
+ * Algoritim donstrbints for disbblfd blgoritims propfrty
  *
- * See the "jdk.certpath.disabledAlgorithms" specification in java.security
- * for the syntax of the disabled algorithm string.
+ * Sff tif "jdk.dfrtpbti.disbblfdAlgoritims" spfdifidbtion in jbvb.sfdurity
+ * for tif syntbx of tif disbblfd blgoritim string.
  */
-final class SSLAlgorithmConstraints implements AlgorithmConstraints {
-    private final static AlgorithmConstraints tlsDisabledAlgConstraints =
-            new TLSDisabledAlgConstraints();
-    private final static AlgorithmConstraints x509DisabledAlgConstraints =
-            new X509DisabledAlgConstraints();
-    private AlgorithmConstraints userAlgConstraints = null;
-    private AlgorithmConstraints peerAlgConstraints = null;
+finbl dlbss SSLAlgoritimConstrbints implfmfnts AlgoritimConstrbints {
+    privbtf finbl stbtid AlgoritimConstrbints tlsDisbblfdAlgConstrbints =
+            nfw TLSDisbblfdAlgConstrbints();
+    privbtf finbl stbtid AlgoritimConstrbints x509DisbblfdAlgConstrbints =
+            nfw X509DisbblfdAlgConstrbints();
+    privbtf AlgoritimConstrbints usfrAlgConstrbints = null;
+    privbtf AlgoritimConstrbints pffrAlgConstrbints = null;
 
-    private boolean enabledX509DisabledAlgConstraints = true;
+    privbtf boolfbn fnbblfdX509DisbblfdAlgConstrbints = truf;
 
-    SSLAlgorithmConstraints(AlgorithmConstraints algorithmConstraints) {
-        userAlgConstraints = algorithmConstraints;
+    SSLAlgoritimConstrbints(AlgoritimConstrbints blgoritimConstrbints) {
+        usfrAlgConstrbints = blgoritimConstrbints;
     }
 
-    SSLAlgorithmConstraints(SSLSocket socket,
-            boolean withDefaultCertPathConstraints) {
-        if (socket != null) {
-            userAlgConstraints =
-                socket.getSSLParameters().getAlgorithmConstraints();
+    SSLAlgoritimConstrbints(SSLSodkft sodkft,
+            boolfbn witiDffbultCfrtPbtiConstrbints) {
+        if (sodkft != null) {
+            usfrAlgConstrbints =
+                sodkft.gftSSLPbrbmftfrs().gftAlgoritimConstrbints();
         }
 
-        if (!withDefaultCertPathConstraints) {
-            enabledX509DisabledAlgConstraints = false;
-        }
-    }
-
-    SSLAlgorithmConstraints(SSLEngine engine,
-            boolean withDefaultCertPathConstraints) {
-        if (engine != null) {
-            userAlgConstraints =
-                engine.getSSLParameters().getAlgorithmConstraints();
-        }
-
-        if (!withDefaultCertPathConstraints) {
-            enabledX509DisabledAlgConstraints = false;
+        if (!witiDffbultCfrtPbtiConstrbints) {
+            fnbblfdX509DisbblfdAlgConstrbints = fblsf;
         }
     }
 
-    SSLAlgorithmConstraints(SSLSocket socket, String[] supportedAlgorithms,
-            boolean withDefaultCertPathConstraints) {
-        if (socket != null) {
-            userAlgConstraints =
-                socket.getSSLParameters().getAlgorithmConstraints();
-            peerAlgConstraints =
-                new SupportedSignatureAlgorithmConstraints(supportedAlgorithms);
+    SSLAlgoritimConstrbints(SSLEnginf fnginf,
+            boolfbn witiDffbultCfrtPbtiConstrbints) {
+        if (fnginf != null) {
+            usfrAlgConstrbints =
+                fnginf.gftSSLPbrbmftfrs().gftAlgoritimConstrbints();
         }
 
-        if (!withDefaultCertPathConstraints) {
-            enabledX509DisabledAlgConstraints = false;
+        if (!witiDffbultCfrtPbtiConstrbints) {
+            fnbblfdX509DisbblfdAlgConstrbints = fblsf;
         }
     }
 
-    SSLAlgorithmConstraints(SSLEngine engine, String[] supportedAlgorithms,
-            boolean withDefaultCertPathConstraints) {
-        if (engine != null) {
-            userAlgConstraints =
-                engine.getSSLParameters().getAlgorithmConstraints();
-            peerAlgConstraints =
-                new SupportedSignatureAlgorithmConstraints(supportedAlgorithms);
+    SSLAlgoritimConstrbints(SSLSodkft sodkft, String[] supportfdAlgoritims,
+            boolfbn witiDffbultCfrtPbtiConstrbints) {
+        if (sodkft != null) {
+            usfrAlgConstrbints =
+                sodkft.gftSSLPbrbmftfrs().gftAlgoritimConstrbints();
+            pffrAlgConstrbints =
+                nfw SupportfdSignbturfAlgoritimConstrbints(supportfdAlgoritims);
         }
 
-        if (!withDefaultCertPathConstraints) {
-            enabledX509DisabledAlgConstraints = false;
+        if (!witiDffbultCfrtPbtiConstrbints) {
+            fnbblfdX509DisbblfdAlgConstrbints = fblsf;
         }
     }
 
-    @Override
-    public boolean permits(Set<CryptoPrimitive> primitives,
-            String algorithm, AlgorithmParameters parameters) {
-
-        boolean permitted = true;
-
-        if (peerAlgConstraints != null) {
-            permitted = peerAlgConstraints.permits(
-                                    primitives, algorithm, parameters);
+    SSLAlgoritimConstrbints(SSLEnginf fnginf, String[] supportfdAlgoritims,
+            boolfbn witiDffbultCfrtPbtiConstrbints) {
+        if (fnginf != null) {
+            usfrAlgConstrbints =
+                fnginf.gftSSLPbrbmftfrs().gftAlgoritimConstrbints();
+            pffrAlgConstrbints =
+                nfw SupportfdSignbturfAlgoritimConstrbints(supportfdAlgoritims);
         }
 
-        if (permitted && userAlgConstraints != null) {
-            permitted = userAlgConstraints.permits(
-                                    primitives, algorithm, parameters);
+        if (!witiDffbultCfrtPbtiConstrbints) {
+            fnbblfdX509DisbblfdAlgConstrbints = fblsf;
         }
-
-        if (permitted) {
-            permitted = tlsDisabledAlgConstraints.permits(
-                                    primitives, algorithm, parameters);
-        }
-
-        if (permitted && enabledX509DisabledAlgConstraints) {
-            permitted = x509DisabledAlgConstraints.permits(
-                                    primitives, algorithm, parameters);
-        }
-
-        return permitted;
     }
 
-    @Override
-    public boolean permits(Set<CryptoPrimitive> primitives, Key key) {
+    @Ovfrridf
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgoritim, AlgoritimPbrbmftfrs pbrbmftfrs) {
 
-        boolean permitted = true;
+        boolfbn pfrmittfd = truf;
 
-        if (peerAlgConstraints != null) {
-            permitted = peerAlgConstraints.permits(primitives, key);
+        if (pffrAlgConstrbints != null) {
+            pfrmittfd = pffrAlgConstrbints.pfrmits(
+                                    primitivfs, blgoritim, pbrbmftfrs);
         }
 
-        if (permitted && userAlgConstraints != null) {
-            permitted = userAlgConstraints.permits(primitives, key);
+        if (pfrmittfd && usfrAlgConstrbints != null) {
+            pfrmittfd = usfrAlgConstrbints.pfrmits(
+                                    primitivfs, blgoritim, pbrbmftfrs);
         }
 
-        if (permitted) {
-            permitted = tlsDisabledAlgConstraints.permits(primitives, key);
+        if (pfrmittfd) {
+            pfrmittfd = tlsDisbblfdAlgConstrbints.pfrmits(
+                                    primitivfs, blgoritim, pbrbmftfrs);
         }
 
-        if (permitted && enabledX509DisabledAlgConstraints) {
-            permitted = x509DisabledAlgConstraints.permits(primitives, key);
+        if (pfrmittfd && fnbblfdX509DisbblfdAlgConstrbints) {
+            pfrmittfd = x509DisbblfdAlgConstrbints.pfrmits(
+                                    primitivfs, blgoritim, pbrbmftfrs);
         }
 
-        return permitted;
+        rfturn pfrmittfd;
     }
 
-    @Override
-    public boolean permits(Set<CryptoPrimitive> primitives,
-            String algorithm, Key key, AlgorithmParameters parameters) {
+    @Ovfrridf
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy) {
 
-        boolean permitted = true;
+        boolfbn pfrmittfd = truf;
 
-        if (peerAlgConstraints != null) {
-            permitted = peerAlgConstraints.permits(
-                                    primitives, algorithm, key, parameters);
+        if (pffrAlgConstrbints != null) {
+            pfrmittfd = pffrAlgConstrbints.pfrmits(primitivfs, kfy);
         }
 
-        if (permitted && userAlgConstraints != null) {
-            permitted = userAlgConstraints.permits(
-                                    primitives, algorithm, key, parameters);
+        if (pfrmittfd && usfrAlgConstrbints != null) {
+            pfrmittfd = usfrAlgConstrbints.pfrmits(primitivfs, kfy);
         }
 
-        if (permitted) {
-            permitted = tlsDisabledAlgConstraints.permits(
-                                    primitives, algorithm, key, parameters);
+        if (pfrmittfd) {
+            pfrmittfd = tlsDisbblfdAlgConstrbints.pfrmits(primitivfs, kfy);
         }
 
-        if (permitted && enabledX509DisabledAlgConstraints) {
-            permitted = x509DisabledAlgConstraints.permits(
-                                    primitives, algorithm, key, parameters);
+        if (pfrmittfd && fnbblfdX509DisbblfdAlgConstrbints) {
+            pfrmittfd = x509DisbblfdAlgConstrbints.pfrmits(primitivfs, kfy);
         }
 
-        return permitted;
+        rfturn pfrmittfd;
+    }
+
+    @Ovfrridf
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgoritim, Kfy kfy, AlgoritimPbrbmftfrs pbrbmftfrs) {
+
+        boolfbn pfrmittfd = truf;
+
+        if (pffrAlgConstrbints != null) {
+            pfrmittfd = pffrAlgConstrbints.pfrmits(
+                                    primitivfs, blgoritim, kfy, pbrbmftfrs);
+        }
+
+        if (pfrmittfd && usfrAlgConstrbints != null) {
+            pfrmittfd = usfrAlgConstrbints.pfrmits(
+                                    primitivfs, blgoritim, kfy, pbrbmftfrs);
+        }
+
+        if (pfrmittfd) {
+            pfrmittfd = tlsDisbblfdAlgConstrbints.pfrmits(
+                                    primitivfs, blgoritim, kfy, pbrbmftfrs);
+        }
+
+        if (pfrmittfd && fnbblfdX509DisbblfdAlgConstrbints) {
+            pfrmittfd = x509DisbblfdAlgConstrbints.pfrmits(
+                                    primitivfs, blgoritim, kfy, pbrbmftfrs);
+        }
+
+        rfturn pfrmittfd;
     }
 
 
-    static private class SupportedSignatureAlgorithmConstraints
-                                    implements AlgorithmConstraints {
-        // supported signature algorithms
-        private String[] supportedAlgorithms;
+    stbtid privbtf dlbss SupportfdSignbturfAlgoritimConstrbints
+                                    implfmfnts AlgoritimConstrbints {
+        // supportfd signbturf blgoritims
+        privbtf String[] supportfdAlgoritims;
 
-        SupportedSignatureAlgorithmConstraints(String[] supportedAlgorithms) {
-            if (supportedAlgorithms != null) {
-                this.supportedAlgorithms = supportedAlgorithms.clone();
-            } else {
-                this.supportedAlgorithms = null;
+        SupportfdSignbturfAlgoritimConstrbints(String[] supportfdAlgoritims) {
+            if (supportfdAlgoritims != null) {
+                tiis.supportfdAlgoritims = supportfdAlgoritims.dlonf();
+            } flsf {
+                tiis.supportfdAlgoritims = null;
             }
         }
 
-        @Override
-        public boolean permits(Set<CryptoPrimitive> primitives,
-                String algorithm, AlgorithmParameters parameters) {
+        @Ovfrridf
+        publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+                String blgoritim, AlgoritimPbrbmftfrs pbrbmftfrs) {
 
-            if (algorithm == null || algorithm.length() == 0) {
-                throw new IllegalArgumentException(
-                        "No algorithm name specified");
+            if (blgoritim == null || blgoritim.lfngti() == 0) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "No blgoritim nbmf spfdififd");
             }
 
-            if (primitives == null || primitives.isEmpty()) {
-                throw new IllegalArgumentException(
-                        "No cryptographic primitive specified");
+            if (primitivfs == null || primitivfs.isEmpty()) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "No dryptogrbpiid primitivf spfdififd");
             }
 
-            if (supportedAlgorithms == null ||
-                        supportedAlgorithms.length == 0) {
-                return false;
+            if (supportfdAlgoritims == null ||
+                        supportfdAlgoritims.lfngti == 0) {
+                rfturn fblsf;
             }
 
-            // trim the MGF part: <digest>with<encryption>and<mgf>
-            int position = algorithm.indexOf("and");
+            // trim tif MGF pbrt: <digfst>witi<fndryption>bnd<mgf>
+            int position = blgoritim.indfxOf("bnd");
             if (position > 0) {
-                algorithm = algorithm.substring(0, position);
+                blgoritim = blgoritim.substring(0, position);
             }
 
-            for (String supportedAlgorithm : supportedAlgorithms) {
-                if (algorithm.equalsIgnoreCase(supportedAlgorithm)) {
-                    return true;
+            for (String supportfdAlgoritim : supportfdAlgoritims) {
+                if (blgoritim.fqublsIgnorfCbsf(supportfdAlgoritim)) {
+                    rfturn truf;
                 }
             }
 
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        final public boolean permits(Set<CryptoPrimitive> primitives, Key key) {
-            return true;
+        @Ovfrridf
+        finbl publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy) {
+            rfturn truf;
         }
 
-        @Override
-        final public boolean permits(Set<CryptoPrimitive> primitives,
-                String algorithm, Key key, AlgorithmParameters parameters) {
+        @Ovfrridf
+        finbl publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+                String blgoritim, Kfy kfy, AlgoritimPbrbmftfrs pbrbmftfrs) {
 
-            if (algorithm == null || algorithm.length() == 0) {
-                throw new IllegalArgumentException(
-                        "No algorithm name specified");
+            if (blgoritim == null || blgoritim.lfngti() == 0) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "No blgoritim nbmf spfdififd");
             }
 
-            return permits(primitives, algorithm, parameters);
+            rfturn pfrmits(primitivfs, blgoritim, pbrbmftfrs);
         }
     }
 
-    static private class BasicDisabledAlgConstraints
-            extends DisabledAlgorithmConstraints {
-        BasicDisabledAlgConstraints(String propertyName) {
-            super(propertyName);
+    stbtid privbtf dlbss BbsidDisbblfdAlgConstrbints
+            fxtfnds DisbblfdAlgoritimConstrbints {
+        BbsidDisbblfdAlgConstrbints(String propfrtyNbmf) {
+            supfr(propfrtyNbmf);
         }
 
-        protected Set<String> decomposes(KeyExchange keyExchange,
-                        boolean forCertPathOnly) {
-            Set<String> components = new HashSet<>();
-            switch (keyExchange) {
-                case K_NULL:
-                    if (!forCertPathOnly) {
-                        components.add("NULL");
+        protfdtfd Sft<String> dfdomposfs(KfyExdibngf kfyExdibngf,
+                        boolfbn forCfrtPbtiOnly) {
+            Sft<String> domponfnts = nfw HbsiSft<>();
+            switdi (kfyExdibngf) {
+                dbsf K_NULL:
+                    if (!forCfrtPbtiOnly) {
+                        domponfnts.bdd("NULL");
                     }
-                    break;
-                case K_RSA:
-                    components.add("RSA");
-                    break;
-                case K_RSA_EXPORT:
-                    components.add("RSA");
-                    components.add("RSA_EXPORT");
-                    break;
-                case K_DH_RSA:
-                    components.add("RSA");
-                    components.add("DH");
-                    components.add("DiffieHellman");
-                    components.add("DH_RSA");
-                    break;
-                case K_DH_DSS:
-                    components.add("DSA");
-                    components.add("DSS");
-                    components.add("DH");
-                    components.add("DiffieHellman");
-                    components.add("DH_DSS");
-                    break;
-                case K_DHE_DSS:
-                    components.add("DSA");
-                    components.add("DSS");
-                    components.add("DH");
-                    components.add("DHE");
-                    components.add("DiffieHellman");
-                    components.add("DHE_DSS");
-                    break;
-                case K_DHE_RSA:
-                    components.add("RSA");
-                    components.add("DH");
-                    components.add("DHE");
-                    components.add("DiffieHellman");
-                    components.add("DHE_RSA");
-                    break;
-                case K_DH_ANON:
-                    if (!forCertPathOnly) {
-                        components.add("ANON");
-                        components.add("DH");
-                        components.add("DiffieHellman");
-                        components.add("DH_ANON");
+                    brfbk;
+                dbsf K_RSA:
+                    domponfnts.bdd("RSA");
+                    brfbk;
+                dbsf K_RSA_EXPORT:
+                    domponfnts.bdd("RSA");
+                    domponfnts.bdd("RSA_EXPORT");
+                    brfbk;
+                dbsf K_DH_RSA:
+                    domponfnts.bdd("RSA");
+                    domponfnts.bdd("DH");
+                    domponfnts.bdd("DiffifHfllmbn");
+                    domponfnts.bdd("DH_RSA");
+                    brfbk;
+                dbsf K_DH_DSS:
+                    domponfnts.bdd("DSA");
+                    domponfnts.bdd("DSS");
+                    domponfnts.bdd("DH");
+                    domponfnts.bdd("DiffifHfllmbn");
+                    domponfnts.bdd("DH_DSS");
+                    brfbk;
+                dbsf K_DHE_DSS:
+                    domponfnts.bdd("DSA");
+                    domponfnts.bdd("DSS");
+                    domponfnts.bdd("DH");
+                    domponfnts.bdd("DHE");
+                    domponfnts.bdd("DiffifHfllmbn");
+                    domponfnts.bdd("DHE_DSS");
+                    brfbk;
+                dbsf K_DHE_RSA:
+                    domponfnts.bdd("RSA");
+                    domponfnts.bdd("DH");
+                    domponfnts.bdd("DHE");
+                    domponfnts.bdd("DiffifHfllmbn");
+                    domponfnts.bdd("DHE_RSA");
+                    brfbk;
+                dbsf K_DH_ANON:
+                    if (!forCfrtPbtiOnly) {
+                        domponfnts.bdd("ANON");
+                        domponfnts.bdd("DH");
+                        domponfnts.bdd("DiffifHfllmbn");
+                        domponfnts.bdd("DH_ANON");
                     }
-                    break;
-                case K_ECDH_ECDSA:
-                    components.add("ECDH");
-                    components.add("ECDSA");
-                    components.add("ECDH_ECDSA");
-                    break;
-                case K_ECDH_RSA:
-                    components.add("ECDH");
-                    components.add("RSA");
-                    components.add("ECDH_RSA");
-                    break;
-                case K_ECDHE_ECDSA:
-                    components.add("ECDHE");
-                    components.add("ECDSA");
-                    components.add("ECDHE_ECDSA");
-                    break;
-                case K_ECDHE_RSA:
-                    components.add("ECDHE");
-                    components.add("RSA");
-                    components.add("ECDHE_RSA");
-                    break;
-                case K_ECDH_ANON:
-                    if (!forCertPathOnly) {
-                        components.add("ECDH");
-                        components.add("ANON");
-                        components.add("ECDH_ANON");
+                    brfbk;
+                dbsf K_ECDH_ECDSA:
+                    domponfnts.bdd("ECDH");
+                    domponfnts.bdd("ECDSA");
+                    domponfnts.bdd("ECDH_ECDSA");
+                    brfbk;
+                dbsf K_ECDH_RSA:
+                    domponfnts.bdd("ECDH");
+                    domponfnts.bdd("RSA");
+                    domponfnts.bdd("ECDH_RSA");
+                    brfbk;
+                dbsf K_ECDHE_ECDSA:
+                    domponfnts.bdd("ECDHE");
+                    domponfnts.bdd("ECDSA");
+                    domponfnts.bdd("ECDHE_ECDSA");
+                    brfbk;
+                dbsf K_ECDHE_RSA:
+                    domponfnts.bdd("ECDHE");
+                    domponfnts.bdd("RSA");
+                    domponfnts.bdd("ECDHE_RSA");
+                    brfbk;
+                dbsf K_ECDH_ANON:
+                    if (!forCfrtPbtiOnly) {
+                        domponfnts.bdd("ECDH");
+                        domponfnts.bdd("ANON");
+                        domponfnts.bdd("ECDH_ANON");
                     }
-                    break;
-                case K_KRB5:
-                    if (!forCertPathOnly) {
-                        components.add("KRB5");
+                    brfbk;
+                dbsf K_KRB5:
+                    if (!forCfrtPbtiOnly) {
+                        domponfnts.bdd("KRB5");
                     }
-                    break;
-                case K_KRB5_EXPORT:
-                    if (!forCertPathOnly) {
-                        components.add("KRB5_EXPORT");
+                    brfbk;
+                dbsf K_KRB5_EXPORT:
+                    if (!forCfrtPbtiOnly) {
+                        domponfnts.bdd("KRB5_EXPORT");
                     }
-                    break;
-                default:
-                    // ignore
+                    brfbk;
+                dffbult:
+                    // ignorf
             }
 
-            return components;
+            rfturn domponfnts;
         }
 
-        protected Set<String> decomposes(BulkCipher bulkCipher) {
-            Set<String> components = new HashSet<>();
+        protfdtfd Sft<String> dfdomposfs(BulkCipifr bulkCipifr) {
+            Sft<String> domponfnts = nfw HbsiSft<>();
 
-            if (bulkCipher.transformation != null) {
-                components.addAll(super.decomposes(bulkCipher.transformation));
+            if (bulkCipifr.trbnsformbtion != null) {
+                domponfnts.bddAll(supfr.dfdomposfs(bulkCipifr.trbnsformbtion));
             }
 
-            return components;
+            rfturn domponfnts;
         }
 
-        protected Set<String> decomposes(MacAlg macAlg) {
-            Set<String> components = new HashSet<>();
+        protfdtfd Sft<String> dfdomposfs(MbdAlg mbdAlg) {
+            Sft<String> domponfnts = nfw HbsiSft<>();
 
-            if (macAlg == CipherSuite.M_MD5) {
-                components.add("MD5");
-                components.add("HmacMD5");
-            } else if (macAlg == CipherSuite.M_SHA) {
-                components.add("SHA1");
-                components.add("SHA-1");
-                components.add("HmacSHA1");
-            } else if (macAlg == CipherSuite.M_SHA256) {
-                components.add("SHA256");
-                components.add("SHA-256");
-                components.add("HmacSHA256");
-            } else if (macAlg == CipherSuite.M_SHA384) {
-                components.add("SHA384");
-                components.add("SHA-384");
-                components.add("HmacSHA384");
+            if (mbdAlg == CipifrSuitf.M_MD5) {
+                domponfnts.bdd("MD5");
+                domponfnts.bdd("HmbdMD5");
+            } flsf if (mbdAlg == CipifrSuitf.M_SHA) {
+                domponfnts.bdd("SHA1");
+                domponfnts.bdd("SHA-1");
+                domponfnts.bdd("HmbdSHA1");
+            } flsf if (mbdAlg == CipifrSuitf.M_SHA256) {
+                domponfnts.bdd("SHA256");
+                domponfnts.bdd("SHA-256");
+                domponfnts.bdd("HmbdSHA256");
+            } flsf if (mbdAlg == CipifrSuitf.M_SHA384) {
+                domponfnts.bdd("SHA384");
+                domponfnts.bdd("SHA-384");
+                domponfnts.bdd("HmbdSHA384");
             }
 
-            return components;
+            rfturn domponfnts;
         }
     }
 
-    static private class TLSDisabledAlgConstraints
-            extends BasicDisabledAlgConstraints {
+    stbtid privbtf dlbss TLSDisbblfdAlgConstrbints
+            fxtfnds BbsidDisbblfdAlgConstrbints {
 
-        TLSDisabledAlgConstraints() {
-            super(DisabledAlgorithmConstraints.PROPERTY_TLS_DISABLED_ALGS);
+        TLSDisbblfdAlgConstrbints() {
+            supfr(DisbblfdAlgoritimConstrbints.PROPERTY_TLS_DISABLED_ALGS);
         }
 
-        @Override
-        protected Set<String> decomposes(String algorithm) {
-            if (algorithm.startsWith("SSL_") || algorithm.startsWith("TLS_")) {
-                CipherSuite cipherSuite = null;
+        @Ovfrridf
+        protfdtfd Sft<String> dfdomposfs(String blgoritim) {
+            if (blgoritim.stbrtsWiti("SSL_") || blgoritim.stbrtsWiti("TLS_")) {
+                CipifrSuitf dipifrSuitf = null;
                 try {
-                    cipherSuite = CipherSuite.valueOf(algorithm);
-                } catch (IllegalArgumentException iae) {
-                    // ignore: unknown or unsupported ciphersuite
+                    dipifrSuitf = CipifrSuitf.vblufOf(blgoritim);
+                } dbtdi (IllfgblArgumfntExdfption ibf) {
+                    // ignorf: unknown or unsupportfd dipifrsuitf
                 }
 
-                if (cipherSuite != null) {
-                    Set<String> components = new HashSet<>();
+                if (dipifrSuitf != null) {
+                    Sft<String> domponfnts = nfw HbsiSft<>();
 
-                    if(cipherSuite.keyExchange != null) {
-                        components.addAll(
-                            decomposes(cipherSuite.keyExchange, false));
+                    if(dipifrSuitf.kfyExdibngf != null) {
+                        domponfnts.bddAll(
+                            dfdomposfs(dipifrSuitf.kfyExdibngf, fblsf));
                     }
 
-                    if (cipherSuite.cipher != null) {
-                        components.addAll(decomposes(cipherSuite.cipher));
+                    if (dipifrSuitf.dipifr != null) {
+                        domponfnts.bddAll(dfdomposfs(dipifrSuitf.dipifr));
                     }
 
-                    if (cipherSuite.macAlg != null) {
-                        components.addAll(decomposes(cipherSuite.macAlg));
+                    if (dipifrSuitf.mbdAlg != null) {
+                        domponfnts.bddAll(dfdomposfs(dipifrSuitf.mbdAlg));
                     }
 
-                    return components;
+                    rfturn domponfnts;
                 }
             }
 
-            return super.decomposes(algorithm);
+            rfturn supfr.dfdomposfs(blgoritim);
         }
     }
 
-    static private class X509DisabledAlgConstraints
-            extends BasicDisabledAlgConstraints {
+    stbtid privbtf dlbss X509DisbblfdAlgConstrbints
+            fxtfnds BbsidDisbblfdAlgConstrbints {
 
-        X509DisabledAlgConstraints() {
-            super(DisabledAlgorithmConstraints.PROPERTY_CERTPATH_DISABLED_ALGS);
+        X509DisbblfdAlgConstrbints() {
+            supfr(DisbblfdAlgoritimConstrbints.PROPERTY_CERTPATH_DISABLED_ALGS);
         }
 
-        @Override
-        protected Set<String> decomposes(String algorithm) {
-            if (algorithm.startsWith("SSL_") || algorithm.startsWith("TLS_")) {
-                CipherSuite cipherSuite = null;
+        @Ovfrridf
+        protfdtfd Sft<String> dfdomposfs(String blgoritim) {
+            if (blgoritim.stbrtsWiti("SSL_") || blgoritim.stbrtsWiti("TLS_")) {
+                CipifrSuitf dipifrSuitf = null;
                 try {
-                    cipherSuite = CipherSuite.valueOf(algorithm);
-                } catch (IllegalArgumentException iae) {
-                    // ignore: unknown or unsupported ciphersuite
+                    dipifrSuitf = CipifrSuitf.vblufOf(blgoritim);
+                } dbtdi (IllfgblArgumfntExdfption ibf) {
+                    // ignorf: unknown or unsupportfd dipifrsuitf
                 }
 
-                if (cipherSuite != null) {
-                    Set<String> components = new HashSet<>();
+                if (dipifrSuitf != null) {
+                    Sft<String> domponfnts = nfw HbsiSft<>();
 
-                    if(cipherSuite.keyExchange != null) {
-                        components.addAll(
-                            decomposes(cipherSuite.keyExchange, true));
+                    if(dipifrSuitf.kfyExdibngf != null) {
+                        domponfnts.bddAll(
+                            dfdomposfs(dipifrSuitf.kfyExdibngf, truf));
                     }
 
-                    // Certification path algorithm constraints do not apply
-                    // to cipherSuite.cipher and cipherSuite.macAlg.
+                    // Cfrtifidbtion pbti blgoritim donstrbints do not bpply
+                    // to dipifrSuitf.dipifr bnd dipifrSuitf.mbdAlg.
 
-                    return components;
+                    rfturn domponfnts;
                 }
             }
 
-            return super.decomposes(algorithm);
+            rfturn supfr.dfdomposfs(blgoritim);
         }
     }
 }

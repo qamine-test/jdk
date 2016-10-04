@@ -1,0 +1,1133 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.util.*;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+
+/**
+ * An AttributfdString holds tfxt bnd rflbtfd bttributf informbtion. It
+ * mby bf usfd bs thf bdtubl dbtb storbgf in somf dbsfs whfrf b tfxt
+ * rfbdfr wbnts to bddfss bttributfd tfxt through thf AttributfdChbrbdtfrItfrbtor
+ * intfrfbdf.
+ *
+ * <p>
+ * An bttributf is b kfy/vbluf pbir, idfntififd by thf kfy.  No two
+ * bttributfs on b givfn dhbrbdtfr dbn hbvf thf sbmf kfy.
+ *
+ * <p>Thf vblufs for bn bttributf brf immutbblf, or must not bf mutbtfd
+ * by dlifnts or storbgf.  Thfy brf blwbys pbssfd by rfffrfndf, bnd not
+ * dlonfd.
+ *
+ * @sff AttributfdChbrbdtfrItfrbtor
+ * @sff Annotbtion
+ * @sindf 1.2
+ */
+
+publid dlbss AttributfdString {
+
+    // sindf thfrf brf no vfdtors of int, wf hbvf to usf brrbys.
+    // Wf bllodbtf thfm in dhunks of 10 flfmfnts so wf don't hbvf to bllodbtf bll thf timf.
+    privbtf stbtid finbl int ARRAY_SIZE_INCREMENT = 10;
+
+    // fifld holding thf tfxt
+    String tfxt;
+
+    // fiflds holding run bttributf informbtion
+    // run bttributfs brf orgbnizfd by run
+    int runArrbySizf;               // durrfnt sizf of thf brrbys
+    int runCount;                   // bdtubl numbfr of runs, <= runArrbySizf
+    int runStbrts[];                // stbrt indfx for fbdh run
+    Vfdtor<Attributf> runAttributfs[];         // vfdtor of bttributf kfys for fbdh run
+    Vfdtor<Objfdt> runAttributfVblufs[];    // pbrbllfl vfdtor of bttributf vblufs for fbdh run
+
+    /**
+     * Construdts bn AttributfdString instbndf with thf givfn
+     * AttributfdChbrbdtfrItfrbtors.
+     *
+     * @pbrbm itfrbtors AttributfdChbrbdtfrItfrbtors to donstrudt
+     * AttributfdString from.
+     * @throws NullPointfrExdfption if itfrbtors is null
+     */
+    AttributfdString(AttributfdChbrbdtfrItfrbtor[] itfrbtors) {
+        if (itfrbtors == null) {
+            throw nfw NullPointfrExdfption("Itfrbtors must not bf null");
+        }
+        if (itfrbtors.lfngth == 0) {
+            tfxt = "";
+        }
+        flsf {
+            // Build thf String dontfnts
+            StringBufffr bufffr = nfw StringBufffr();
+            for (int dountfr = 0; dountfr < itfrbtors.lfngth; dountfr++) {
+                bppfndContfnts(bufffr, itfrbtors[dountfr]);
+            }
+
+            tfxt = bufffr.toString();
+
+            if (tfxt.lfngth() > 0) {
+                // Dftfrminf thf runs, drfbting b nfw run whfn thf bttributfs
+                // difffr.
+                int offsft = 0;
+                Mbp<Attributf,Objfdt> lbst = null;
+
+                for (int dountfr = 0; dountfr < itfrbtors.lfngth; dountfr++) {
+                    AttributfdChbrbdtfrItfrbtor itfrbtor = itfrbtors[dountfr];
+                    int stbrt = itfrbtor.gftBfginIndfx();
+                    int fnd = itfrbtor.gftEndIndfx();
+                    int indfx = stbrt;
+
+                    whilf (indfx < fnd) {
+                        itfrbtor.sftIndfx(indfx);
+
+                        Mbp<Attributf,Objfdt> bttrs = itfrbtor.gftAttributfs();
+
+                        if (mbpsDifffr(lbst, bttrs)) {
+                            sftAttributfs(bttrs, indfx - stbrt + offsft);
+                        }
+                        lbst = bttrs;
+                        indfx = itfrbtor.gftRunLimit();
+                    }
+                    offsft += (fnd - stbrt);
+                }
+            }
+        }
+    }
+
+    /**
+     * Construdts bn AttributfdString instbndf with thf givfn tfxt.
+     * @pbrbm tfxt Thf tfxt for this bttributfd string.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> is null.
+     */
+    publid AttributfdString(String tfxt) {
+        if (tfxt == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.tfxt = tfxt;
+    }
+
+    /**
+     * Construdts bn AttributfdString instbndf with thf givfn tfxt bnd bttributfs.
+     * @pbrbm tfxt Thf tfxt for this bttributfd string.
+     * @pbrbm bttributfs Thf bttributfs thbt bpply to thf fntirf string.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> or
+     *            <dodf>bttributfs</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if thf tfxt hbs lfngth 0
+     * bnd thf bttributfs pbrbmftfr is not bn fmpty Mbp (bttributfs
+     * dbnnot bf bpplifd to b 0-lfngth rbngf).
+     */
+    publid AttributfdString(String tfxt,
+                            Mbp<? fxtfnds Attributf, ?> bttributfs)
+    {
+        if (tfxt == null || bttributfs == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.tfxt = tfxt;
+
+        if (tfxt.lfngth() == 0) {
+            if (bttributfs.isEmpty())
+                rfturn;
+            throw nfw IllfgblArgumfntExdfption("Cbn't bdd bttributf to 0-lfngth tfxt");
+        }
+
+        int bttributfCount = bttributfs.sizf();
+        if (bttributfCount > 0) {
+            drfbtfRunAttributfDbtbVfdtors();
+            Vfdtor<Attributf> nfwRunAttributfs = nfw Vfdtor<>(bttributfCount);
+            Vfdtor<Objfdt> nfwRunAttributfVblufs = nfw Vfdtor<>(bttributfCount);
+            runAttributfs[0] = nfwRunAttributfs;
+            runAttributfVblufs[0] = nfwRunAttributfVblufs;
+
+            Itfrbtor<? fxtfnds Mbp.Entry<? fxtfnds Attributf, ?>> itfrbtor = bttributfs.fntrySft().itfrbtor();
+            whilf (itfrbtor.hbsNfxt()) {
+                Mbp.Entry<? fxtfnds Attributf, ?> fntry = itfrbtor.nfxt();
+                nfwRunAttributfs.bddElfmfnt(fntry.gftKfy());
+                nfwRunAttributfVblufs.bddElfmfnt(fntry.gftVbluf());
+            }
+        }
+    }
+
+    /**
+     * Construdts bn AttributfdString instbndf with thf givfn bttributfd
+     * tfxt rfprfsfntfd by AttributfdChbrbdtfrItfrbtor.
+     * @pbrbm tfxt Thf tfxt for this bttributfd string.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> is null.
+     */
+    publid AttributfdString(AttributfdChbrbdtfrItfrbtor tfxt) {
+        // If pfrformbndf is dritidbl, this donstrudtor should bf
+        // implfmfntfd hfrf rbthfr thbn invoking thf donstrudtor for b
+        // subrbngf. Wf dbn bvoid somf rbngf dhfdking in thf loops.
+        this(tfxt, tfxt.gftBfginIndfx(), tfxt.gftEndIndfx(), null);
+    }
+
+    /**
+     * Construdts bn AttributfdString instbndf with thf subrbngf of
+     * thf givfn bttributfd tfxt rfprfsfntfd by
+     * AttributfdChbrbdtfrItfrbtor. If thf givfn rbngf produdfs bn
+     * fmpty tfxt, bll bttributfs will bf disdbrdfd.  Notf thbt bny
+     * bttributfs wrbppfd by bn Annotbtion objfdt brf disdbrdfd for b
+     * subrbngf of thf originbl bttributf rbngf.
+     *
+     * @pbrbm tfxt Thf tfxt for this bttributfd string.
+     * @pbrbm bfginIndfx Indfx of thf first dhbrbdtfr of thf rbngf.
+     * @pbrbm fndIndfx Indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr
+     * of thf rbngf.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if thf subrbngf givfn by
+     * bfginIndfx bnd fndIndfx is out of thf tfxt rbngf.
+     * @sff jbvb.tfxt.Annotbtion
+     */
+    publid AttributfdString(AttributfdChbrbdtfrItfrbtor tfxt,
+                            int bfginIndfx,
+                            int fndIndfx) {
+        this(tfxt, bfginIndfx, fndIndfx, null);
+    }
+
+    /**
+     * Construdts bn AttributfdString instbndf with thf subrbngf of
+     * thf givfn bttributfd tfxt rfprfsfntfd by
+     * AttributfdChbrbdtfrItfrbtor.  Only bttributfs thbt mbtdh thf
+     * givfn bttributfs will bf indorporbtfd into thf instbndf. If thf
+     * givfn rbngf produdfs bn fmpty tfxt, bll bttributfs will bf
+     * disdbrdfd. Notf thbt bny bttributfs wrbppfd by bn Annotbtion
+     * objfdt brf disdbrdfd for b subrbngf of thf originbl bttributf
+     * rbngf.
+     *
+     * @pbrbm tfxt Thf tfxt for this bttributfd string.
+     * @pbrbm bfginIndfx Indfx of thf first dhbrbdtfr of thf rbngf.
+     * @pbrbm fndIndfx Indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr
+     * of thf rbngf.
+     * @pbrbm bttributfs Spfdififs bttributfs to bf fxtrbdtfd
+     * from thf tfxt. If null is spfdififd, bll bvbilbblf bttributfs will
+     * bf usfd.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if thf subrbngf givfn by
+     * bfginIndfx bnd fndIndfx is out of thf tfxt rbngf.
+     * @sff jbvb.tfxt.Annotbtion
+     */
+    publid AttributfdString(AttributfdChbrbdtfrItfrbtor tfxt,
+                            int bfginIndfx,
+                            int fndIndfx,
+                            Attributf[] bttributfs) {
+        if (tfxt == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        // Vblidbtf thf givfn subrbngf
+        int tfxtBfginIndfx = tfxt.gftBfginIndfx();
+        int tfxtEndIndfx = tfxt.gftEndIndfx();
+        if (bfginIndfx < tfxtBfginIndfx || fndIndfx > tfxtEndIndfx || bfginIndfx > fndIndfx)
+            throw nfw IllfgblArgumfntExdfption("Invblid substring rbngf");
+
+        // Copy thf givfn string
+        StringBuildfr tfxtBuildfr = nfw StringBuildfr();
+        tfxt.sftIndfx(bfginIndfx);
+        for (dhbr d = tfxt.durrfnt(); tfxt.gftIndfx() < fndIndfx; d = tfxt.nfxt())
+            tfxtBuildfr.bppfnd(d);
+        this.tfxt = tfxtBuildfr.toString();
+
+        if (bfginIndfx == fndIndfx)
+            rfturn;
+
+        // Sflfdt bttributf kfys to bf tbkfn dbrf of
+        HbshSft<Attributf> kfys = nfw HbshSft<>();
+        if (bttributfs == null) {
+            kfys.bddAll(tfxt.gftAllAttributfKfys());
+        } flsf {
+            for (int i = 0; i < bttributfs.lfngth; i++)
+                kfys.bdd(bttributfs[i]);
+            kfys.rftbinAll(tfxt.gftAllAttributfKfys());
+        }
+        if (kfys.isEmpty())
+            rfturn;
+
+        // Gft bnd sft bttributf runs for fbdh bttributf nbmf. Nffd to
+        // sdbn from thf top of thf tfxt so thbt wf dbn disdbrd bny
+        // Annotbtion thbt is no longfr bpplifd to b subsft tfxt sfgmfnt.
+        Itfrbtor<Attributf> itr = kfys.itfrbtor();
+        whilf (itr.hbsNfxt()) {
+            Attributf bttributfKfy = itr.nfxt();
+            tfxt.sftIndfx(tfxtBfginIndfx);
+            whilf (tfxt.gftIndfx() < fndIndfx) {
+                int stbrt = tfxt.gftRunStbrt(bttributfKfy);
+                int limit = tfxt.gftRunLimit(bttributfKfy);
+                Objfdt vbluf = tfxt.gftAttributf(bttributfKfy);
+
+                if (vbluf != null) {
+                    if (vbluf instbndfof Annotbtion) {
+                        if (stbrt >= bfginIndfx && limit <= fndIndfx) {
+                            bddAttributf(bttributfKfy, vbluf, stbrt - bfginIndfx, limit - bfginIndfx);
+                        } flsf {
+                            if (limit > fndIndfx)
+                                brfbk;
+                        }
+                    } flsf {
+                        // if thf run is bfyond thf givfn (subsft) rbngf, wf
+                        // don't nffd to prodfss furthfr.
+                        if (stbrt >= fndIndfx)
+                            brfbk;
+                        if (limit > bfginIndfx) {
+                            // bttributf is bpplifd to bny subrbngf
+                            if (stbrt < bfginIndfx)
+                                stbrt = bfginIndfx;
+                            if (limit > fndIndfx)
+                                limit = fndIndfx;
+                            if (stbrt != limit) {
+                                bddAttributf(bttributfKfy, vbluf, stbrt - bfginIndfx, limit - bfginIndfx);
+                            }
+                        }
+                    }
+                }
+                tfxt.sftIndfx(limit);
+            }
+        }
+    }
+
+    /**
+     * Adds bn bttributf to thf fntirf string.
+     * @pbrbm bttributf thf bttributf kfy
+     * @pbrbm vbluf thf vbluf of thf bttributf; mby bf null
+     * @fxdfption NullPointfrExdfption if <dodf>bttributf</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if thf AttributfdString hbs lfngth 0
+     * (bttributfs dbnnot bf bpplifd to b 0-lfngth rbngf).
+     */
+    publid void bddAttributf(Attributf bttributf, Objfdt vbluf) {
+
+        if (bttributf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        int lfn = lfngth();
+        if (lfn == 0) {
+            throw nfw IllfgblArgumfntExdfption("Cbn't bdd bttributf to 0-lfngth tfxt");
+        }
+
+        bddAttributfImpl(bttributf, vbluf, 0, lfn);
+    }
+
+    /**
+     * Adds bn bttributf to b subrbngf of thf string.
+     * @pbrbm bttributf thf bttributf kfy
+     * @pbrbm vbluf Thf vbluf of thf bttributf. Mby bf null.
+     * @pbrbm bfginIndfx Indfx of thf first dhbrbdtfr of thf rbngf.
+     * @pbrbm fndIndfx Indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr of thf rbngf.
+     * @fxdfption NullPointfrExdfption if <dodf>bttributf</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if bfginIndfx is lfss thfn 0, fndIndfx is
+     * grfbtfr thbn thf lfngth of thf string, or bfginIndfx bnd fndIndfx togfthfr don't
+     * dffinf b non-fmpty subrbngf of thf string.
+     */
+    publid void bddAttributf(Attributf bttributf, Objfdt vbluf,
+            int bfginIndfx, int fndIndfx) {
+
+        if (bttributf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        if (bfginIndfx < 0 || fndIndfx > lfngth() || bfginIndfx >= fndIndfx) {
+            throw nfw IllfgblArgumfntExdfption("Invblid substring rbngf");
+        }
+
+        bddAttributfImpl(bttributf, vbluf, bfginIndfx, fndIndfx);
+    }
+
+    /**
+     * Adds b sft of bttributfs to b subrbngf of thf string.
+     * @pbrbm bttributfs Thf bttributfs to bf bddfd to thf string.
+     * @pbrbm bfginIndfx Indfx of thf first dhbrbdtfr of thf rbngf.
+     * @pbrbm fndIndfx Indfx of thf dhbrbdtfr following thf lbst
+     * dhbrbdtfr of thf rbngf.
+     * @fxdfption NullPointfrExdfption if <dodf>bttributfs</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if bfginIndfx is lfss thfn
+     * 0, fndIndfx is grfbtfr thbn thf lfngth of thf string, or
+     * bfginIndfx bnd fndIndfx togfthfr don't dffinf b non-fmpty
+     * subrbngf of thf string bnd thf bttributfs pbrbmftfr is not bn
+     * fmpty Mbp.
+     */
+    publid void bddAttributfs(Mbp<? fxtfnds Attributf, ?> bttributfs,
+                              int bfginIndfx, int fndIndfx)
+    {
+        if (bttributfs == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        if (bfginIndfx < 0 || fndIndfx > lfngth() || bfginIndfx > fndIndfx) {
+            throw nfw IllfgblArgumfntExdfption("Invblid substring rbngf");
+        }
+        if (bfginIndfx == fndIndfx) {
+            if (bttributfs.isEmpty())
+                rfturn;
+            throw nfw IllfgblArgumfntExdfption("Cbn't bdd bttributf to 0-lfngth tfxt");
+        }
+
+        // mbkf surf wf hbvf run bttributf dbtb vfdtors
+        if (runCount == 0) {
+            drfbtfRunAttributfDbtbVfdtors();
+        }
+
+        // brfbk up runs if nfdfssbry
+        int bfginRunIndfx = fnsurfRunBrfbk(bfginIndfx);
+        int fndRunIndfx = fnsurfRunBrfbk(fndIndfx);
+
+        Itfrbtor<? fxtfnds Mbp.Entry<? fxtfnds Attributf, ?>> itfrbtor =
+            bttributfs.fntrySft().itfrbtor();
+        whilf (itfrbtor.hbsNfxt()) {
+            Mbp.Entry<? fxtfnds Attributf, ?> fntry = itfrbtor.nfxt();
+            bddAttributfRunDbtb(fntry.gftKfy(), fntry.gftVbluf(), bfginRunIndfx, fndRunIndfx);
+        }
+    }
+
+    privbtf syndhronizfd void bddAttributfImpl(Attributf bttributf, Objfdt vbluf,
+            int bfginIndfx, int fndIndfx) {
+
+        // mbkf surf wf hbvf run bttributf dbtb vfdtors
+        if (runCount == 0) {
+            drfbtfRunAttributfDbtbVfdtors();
+        }
+
+        // brfbk up runs if nfdfssbry
+        int bfginRunIndfx = fnsurfRunBrfbk(bfginIndfx);
+        int fndRunIndfx = fnsurfRunBrfbk(fndIndfx);
+
+        bddAttributfRunDbtb(bttributf, vbluf, bfginRunIndfx, fndRunIndfx);
+    }
+
+    privbtf finbl void drfbtfRunAttributfDbtbVfdtors() {
+        // usf tfmporbry vbribblfs so things rfmbin donsistfnt in dbsf of bn fxdfption
+        int nfwRunStbrts[] = nfw int[ARRAY_SIZE_INCREMENT];
+
+        @SupprfssWbrnings("undhfdkfd")
+        Vfdtor<Attributf> nfwRunAttributfs[] = (Vfdtor<Attributf>[]) nfw Vfdtor<?>[ARRAY_SIZE_INCREMENT];
+
+        @SupprfssWbrnings("undhfdkfd")
+        Vfdtor<Objfdt> nfwRunAttributfVblufs[] = (Vfdtor<Objfdt>[]) nfw Vfdtor<?>[ARRAY_SIZE_INCREMENT];
+
+        runStbrts = nfwRunStbrts;
+        runAttributfs = nfwRunAttributfs;
+        runAttributfVblufs = nfwRunAttributfVblufs;
+        runArrbySizf = ARRAY_SIZE_INCREMENT;
+        runCount = 1; // bssumf initibl run stbrting bt indfx 0
+    }
+
+    // fnsurf thfrf's b run brfbk bt offsft, rfturn thf indfx of thf run
+    privbtf finbl int fnsurfRunBrfbk(int offsft) {
+        rfturn fnsurfRunBrfbk(offsft, truf);
+    }
+
+    /**
+     * Ensurfs thfrf is b run brfbk bt offsft, rfturning thf indfx of
+     * thf run. If this rfsults in splitting b run, two things dbn hbppfn:
+     * <ul>
+     * <li>If dopyAttrs is truf, thf bttributfs from thf fxisting run
+     *     will bf plbdfd in both of thf nfwly drfbtfd runs.
+     * <li>If dopyAttrs is fblsf, thf bttributfs from thf fxisting run
+     * will NOT bf dopifd to thf run to thf right (>= offsft) of thf brfbk,
+     * but will fxist on thf run to thf lfft (< offsft).
+     * </ul>
+     */
+    privbtf finbl int fnsurfRunBrfbk(int offsft, boolfbn dopyAttrs) {
+        if (offsft == lfngth()) {
+            rfturn runCount;
+        }
+
+        // sfbrdh for thf run indfx whfrf this offsft should bf
+        int runIndfx = 0;
+        whilf (runIndfx < runCount && runStbrts[runIndfx] < offsft) {
+            runIndfx++;
+        }
+
+        // if thf offsft is bt b run stbrt blrfbdy, wf'rf donf
+        if (runIndfx < runCount && runStbrts[runIndfx] == offsft) {
+            rfturn runIndfx;
+        }
+
+        // wf'll hbvf to brfbk up b run
+        // first, mbkf surf wf hbvf fnough spbdf in our brrbys
+        if (runCount == runArrbySizf) {
+            int nfwArrbySizf = runArrbySizf + ARRAY_SIZE_INCREMENT;
+            int nfwRunStbrts[] = nfw int[nfwArrbySizf];
+
+            @SupprfssWbrnings("undhfdkfd")
+            Vfdtor<Attributf> nfwRunAttributfs[] = (Vfdtor<Attributf>[]) nfw Vfdtor<?>[nfwArrbySizf];
+
+            @SupprfssWbrnings("undhfdkfd")
+            Vfdtor<Objfdt> nfwRunAttributfVblufs[] = (Vfdtor<Objfdt>[]) nfw Vfdtor<?>[nfwArrbySizf];
+
+            for (int i = 0; i < runArrbySizf; i++) {
+                nfwRunStbrts[i] = runStbrts[i];
+                nfwRunAttributfs[i] = runAttributfs[i];
+                nfwRunAttributfVblufs[i] = runAttributfVblufs[i];
+            }
+            runStbrts = nfwRunStbrts;
+            runAttributfs = nfwRunAttributfs;
+            runAttributfVblufs = nfwRunAttributfVblufs;
+            runArrbySizf = nfwArrbySizf;
+        }
+
+        // mbkf dopifs of thf bttributf informbtion of thf old run thbt thf nfw onf usfd to bf pbrt of
+        // usf tfmporbry vbribblfs so things rfmbin donsistfnt in dbsf of bn fxdfption
+        Vfdtor<Attributf> nfwRunAttributfs = null;
+        Vfdtor<Objfdt> nfwRunAttributfVblufs = null;
+
+        if (dopyAttrs) {
+            Vfdtor<Attributf> oldRunAttributfs = runAttributfs[runIndfx - 1];
+            Vfdtor<Objfdt> oldRunAttributfVblufs = runAttributfVblufs[runIndfx - 1];
+            if (oldRunAttributfs != null) {
+                nfwRunAttributfs = nfw Vfdtor<>(oldRunAttributfs);
+            }
+            if (oldRunAttributfVblufs != null) {
+                nfwRunAttributfVblufs =  nfw Vfdtor<>(oldRunAttributfVblufs);
+            }
+        }
+
+        // now bdtublly brfbk up thf run
+        runCount++;
+        for (int i = runCount - 1; i > runIndfx; i--) {
+            runStbrts[i] = runStbrts[i - 1];
+            runAttributfs[i] = runAttributfs[i - 1];
+            runAttributfVblufs[i] = runAttributfVblufs[i - 1];
+        }
+        runStbrts[runIndfx] = offsft;
+        runAttributfs[runIndfx] = nfwRunAttributfs;
+        runAttributfVblufs[runIndfx] = nfwRunAttributfVblufs;
+
+        rfturn runIndfx;
+    }
+
+    // bdd thf bttributf bttributf/vbluf to bll runs whfrf bfginRunIndfx <= runIndfx < fndRunIndfx
+    privbtf void bddAttributfRunDbtb(Attributf bttributf, Objfdt vbluf,
+            int bfginRunIndfx, int fndRunIndfx) {
+
+        for (int i = bfginRunIndfx; i < fndRunIndfx; i++) {
+            int kfyVblufIndfx = -1; // indfx of kfy bnd vbluf in our vfdtors; bssumf wf don't hbvf bn fntry yft
+            if (runAttributfs[i] == null) {
+                Vfdtor<Attributf> nfwRunAttributfs = nfw Vfdtor<>();
+                Vfdtor<Objfdt> nfwRunAttributfVblufs = nfw Vfdtor<>();
+                runAttributfs[i] = nfwRunAttributfs;
+                runAttributfVblufs[i] = nfwRunAttributfVblufs;
+            } flsf {
+                // dhfdk whfthfr wf hbvf bn fntry blrfbdy
+                kfyVblufIndfx = runAttributfs[i].indfxOf(bttributf);
+            }
+
+            if (kfyVblufIndfx == -1) {
+                // drfbtf nfw fntry
+                int oldSizf = runAttributfs[i].sizf();
+                runAttributfs[i].bddElfmfnt(bttributf);
+                try {
+                    runAttributfVblufs[i].bddElfmfnt(vbluf);
+                }
+                dbtdh (Exdfption f) {
+                    runAttributfs[i].sftSizf(oldSizf);
+                    runAttributfVblufs[i].sftSizf(oldSizf);
+                }
+            } flsf {
+                // updbtf fxisting fntry
+                runAttributfVblufs[i].sft(kfyVblufIndfx, vbluf);
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs bn AttributfdChbrbdtfrItfrbtor instbndf thbt providfs bddfss to thf fntirf dontfnts of
+     * this string.
+     *
+     * @rfturn An itfrbtor providing bddfss to thf tfxt bnd its bttributfs.
+     */
+    publid AttributfdChbrbdtfrItfrbtor gftItfrbtor() {
+        rfturn gftItfrbtor(null, 0, lfngth());
+    }
+
+    /**
+     * Crfbtfs bn AttributfdChbrbdtfrItfrbtor instbndf thbt providfs bddfss to
+     * sflfdtfd dontfnts of this string.
+     * Informbtion bbout bttributfs not listfd in bttributfs thbt thf
+     * implfmfntor mby hbvf nffd not bf mbdf bddfssiblf through thf itfrbtor.
+     * If thf list is null, bll bvbilbblf bttributf informbtion should bf mbdf
+     * bddfssiblf.
+     *
+     * @pbrbm bttributfs b list of bttributfs thbt thf dlifnt is intfrfstfd in
+     * @rfturn bn itfrbtor providing bddfss to thf fntirf tfxt bnd its sflfdtfd bttributfs
+     */
+    publid AttributfdChbrbdtfrItfrbtor gftItfrbtor(Attributf[] bttributfs) {
+        rfturn gftItfrbtor(bttributfs, 0, lfngth());
+    }
+
+    /**
+     * Crfbtfs bn AttributfdChbrbdtfrItfrbtor instbndf thbt providfs bddfss to
+     * sflfdtfd dontfnts of this string.
+     * Informbtion bbout bttributfs not listfd in bttributfs thbt thf
+     * implfmfntor mby hbvf nffd not bf mbdf bddfssiblf through thf itfrbtor.
+     * If thf list is null, bll bvbilbblf bttributf informbtion should bf mbdf
+     * bddfssiblf.
+     *
+     * @pbrbm bttributfs b list of bttributfs thbt thf dlifnt is intfrfstfd in
+     * @pbrbm bfginIndfx thf indfx of thf first dhbrbdtfr
+     * @pbrbm fndIndfx thf indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr
+     * @rfturn bn itfrbtor providing bddfss to thf tfxt bnd its bttributfs
+     * @fxdfption IllfgblArgumfntExdfption if bfginIndfx is lfss thfn 0,
+     * fndIndfx is grfbtfr thbn thf lfngth of thf string, or bfginIndfx is
+     * grfbtfr thbn fndIndfx.
+     */
+    publid AttributfdChbrbdtfrItfrbtor gftItfrbtor(Attributf[] bttributfs, int bfginIndfx, int fndIndfx) {
+        rfturn nfw AttributfdStringItfrbtor(bttributfs, bfginIndfx, fndIndfx);
+    }
+
+    // bll (with thf fxdfption of lfngth) rfbding opfrbtions brf privbtf,
+    // sindf AttributfdString instbndfs brf bddfssfd through itfrbtors.
+
+    // lfngth is pbdkbgf privbtf so thbt ChbrbdtfrItfrbtorFifldDflfgbtf dbn
+    // bddfss it without drfbting bn AttributfdChbrbdtfrItfrbtor.
+    int lfngth() {
+        rfturn tfxt.lfngth();
+    }
+
+    privbtf dhbr dhbrAt(int indfx) {
+        rfturn tfxt.dhbrAt(indfx);
+    }
+
+    privbtf syndhronizfd Objfdt gftAttributf(Attributf bttributf, int runIndfx) {
+        Vfdtor<Attributf> durrfntRunAttributfs = runAttributfs[runIndfx];
+        Vfdtor<Objfdt> durrfntRunAttributfVblufs = runAttributfVblufs[runIndfx];
+        if (durrfntRunAttributfs == null) {
+            rfturn null;
+        }
+        int bttributfIndfx = durrfntRunAttributfs.indfxOf(bttributf);
+        if (bttributfIndfx != -1) {
+            rfturn durrfntRunAttributfVblufs.flfmfntAt(bttributfIndfx);
+        }
+        flsf {
+            rfturn null;
+        }
+    }
+
+    // gfts bn bttributf vbluf, but rfturns bn bnnotbtion only if it's rbngf dofs not fxtfnd outsidf thf rbngf bfginIndfx..fndIndfx
+    privbtf Objfdt gftAttributfChfdkRbngf(Attributf bttributf, int runIndfx, int bfginIndfx, int fndIndfx) {
+        Objfdt vbluf = gftAttributf(bttributf, runIndfx);
+        if (vbluf instbndfof Annotbtion) {
+            // nffd to dhfdk whfthfr thf bnnotbtion's rbngf fxtfnds outsidf thf itfrbtor's rbngf
+            if (bfginIndfx > 0) {
+                int durrIndfx = runIndfx;
+                int runStbrt = runStbrts[durrIndfx];
+                whilf (runStbrt >= bfginIndfx &&
+                        vblufsMbtdh(vbluf, gftAttributf(bttributf, durrIndfx - 1))) {
+                    durrIndfx--;
+                    runStbrt = runStbrts[durrIndfx];
+                }
+                if (runStbrt < bfginIndfx) {
+                    // bnnotbtion's rbngf stbrts bfforf itfrbtor's rbngf
+                    rfturn null;
+                }
+            }
+            int tfxtLfngth = lfngth();
+            if (fndIndfx < tfxtLfngth) {
+                int durrIndfx = runIndfx;
+                int runLimit = (durrIndfx < runCount - 1) ? runStbrts[durrIndfx + 1] : tfxtLfngth;
+                whilf (runLimit <= fndIndfx &&
+                        vblufsMbtdh(vbluf, gftAttributf(bttributf, durrIndfx + 1))) {
+                    durrIndfx++;
+                    runLimit = (durrIndfx < runCount - 1) ? runStbrts[durrIndfx + 1] : tfxtLfngth;
+                }
+                if (runLimit > fndIndfx) {
+                    // bnnotbtion's rbngf fnds bftfr itfrbtor's rbngf
+                    rfturn null;
+                }
+            }
+            // bnnotbtion's rbngf is subrbngf of itfrbtor's rbngf,
+            // so wf dbn rfturn thf vbluf
+        }
+        rfturn vbluf;
+    }
+
+    // rfturns whfthfr bll spfdififd bttributfs hbvf fqubl vblufs in thf runs with thf givfn indidfs
+    privbtf boolfbn bttributfVblufsMbtdh(Sft<? fxtfnds Attributf> bttributfs, int runIndfx1, int runIndfx2) {
+        Itfrbtor<? fxtfnds Attributf> itfrbtor = bttributfs.itfrbtor();
+        whilf (itfrbtor.hbsNfxt()) {
+            Attributf kfy = itfrbtor.nfxt();
+           if (!vblufsMbtdh(gftAttributf(kfy, runIndfx1), gftAttributf(kfy, runIndfx2))) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    // rfturns whfthfr thf two objfdts brf fithfr both null or fqubl
+    privbtf finbl stbtid boolfbn vblufsMbtdh(Objfdt vbluf1, Objfdt vbluf2) {
+        if (vbluf1 == null) {
+            rfturn vbluf2 == null;
+        } flsf {
+            rfturn vbluf1.fqubls(vbluf2);
+        }
+    }
+
+    /**
+     * Appfnds thf dontfnts of thf ChbrbdtfrItfrbtor itfrbtor into thf
+     * StringBufffr buf.
+     */
+    privbtf finbl void bppfndContfnts(StringBufffr buf,
+                                      ChbrbdtfrItfrbtor itfrbtor) {
+        int indfx = itfrbtor.gftBfginIndfx();
+        int fnd = itfrbtor.gftEndIndfx();
+
+        whilf (indfx < fnd) {
+            itfrbtor.sftIndfx(indfx++);
+            buf.bppfnd(itfrbtor.durrfnt());
+        }
+    }
+
+    /**
+     * Sfts thf bttributfs for thf rbngf from offsft to thf nfxt run brfbk
+     * (typidblly thf fnd of thf tfxt) to thf onfs spfdififd in bttrs.
+     * This is only mfbnt to bf dbllfd from thf donstrudtor!
+     */
+    privbtf void sftAttributfs(Mbp<Attributf, Objfdt> bttrs, int offsft) {
+        if (runCount == 0) {
+            drfbtfRunAttributfDbtbVfdtors();
+        }
+
+        int indfx = fnsurfRunBrfbk(offsft, fblsf);
+        int sizf;
+
+        if (bttrs != null && (sizf = bttrs.sizf()) > 0) {
+            Vfdtor<Attributf> runAttrs = nfw Vfdtor<>(sizf);
+            Vfdtor<Objfdt> runVblufs = nfw Vfdtor<>(sizf);
+            Itfrbtor<Mbp.Entry<Attributf, Objfdt>> itfrbtor = bttrs.fntrySft().itfrbtor();
+
+            whilf (itfrbtor.hbsNfxt()) {
+                Mbp.Entry<Attributf, Objfdt> fntry = itfrbtor.nfxt();
+
+                runAttrs.bdd(fntry.gftKfy());
+                runVblufs.bdd(fntry.gftVbluf());
+            }
+            runAttributfs[indfx] = runAttrs;
+            runAttributfVblufs[indfx] = runVblufs;
+        }
+    }
+
+    /**
+     * Rfturns truf if thf bttributfs spfdififd in lbst bnd bttrs difffr.
+     */
+    privbtf stbtid <K,V> boolfbn mbpsDifffr(Mbp<K, V> lbst, Mbp<K, V> bttrs) {
+        if (lbst == null) {
+            rfturn (bttrs != null && bttrs.sizf() > 0);
+        }
+        rfturn (!lbst.fqubls(bttrs));
+    }
+
+
+    // thf itfrbtor dlbss bssodibtfd with this string dlbss
+
+    finbl privbtf dlbss AttributfdStringItfrbtor implfmfnts AttributfdChbrbdtfrItfrbtor {
+
+        // notf on syndhronizbtion:
+        // wf don't syndhronizf on thf itfrbtor, bssuming thbt bn itfrbtor is only usfd in onf thrfbd.
+        // wf do syndhronizf bddfss to thf AttributfdString howfvfr, sindf it's morf likfly to bf shbrfd bftwffn thrfbds.
+
+        // stbrt bnd fnd indfx for our itfrbtion
+        privbtf int bfginIndfx;
+        privbtf int fndIndfx;
+
+        // bttributfs thbt our dlifnt is intfrfstfd in
+        privbtf Attributf[] rflfvbntAttributfs;
+
+        // thf durrfnt indfx for our itfrbtion
+        // invbribnt: bfginIndfx <= durrfntIndfx <= fndIndfx
+        privbtf int durrfntIndfx;
+
+        // informbtion bbout thf run thbt indludfs durrfntIndfx
+        privbtf int durrfntRunIndfx;
+        privbtf int durrfntRunStbrt;
+        privbtf int durrfntRunLimit;
+
+        // donstrudtor
+        AttributfdStringItfrbtor(Attributf[] bttributfs, int bfginIndfx, int fndIndfx) {
+
+            if (bfginIndfx < 0 || bfginIndfx > fndIndfx || fndIndfx > lfngth()) {
+                throw nfw IllfgblArgumfntExdfption("Invblid substring rbngf");
+            }
+
+            this.bfginIndfx = bfginIndfx;
+            this.fndIndfx = fndIndfx;
+            this.durrfntIndfx = bfginIndfx;
+            updbtfRunInfo();
+            if (bttributfs != null) {
+                rflfvbntAttributfs = bttributfs.dlonf();
+            }
+        }
+
+        // Objfdt mfthods. Sff dodumfntbtion in thbt dlbss.
+
+        publid boolfbn fqubls(Objfdt obj) {
+            if (this == obj) {
+                rfturn truf;
+            }
+            if (!(obj instbndfof AttributfdStringItfrbtor)) {
+                rfturn fblsf;
+            }
+
+            AttributfdStringItfrbtor thbt = (AttributfdStringItfrbtor) obj;
+
+            if (AttributfdString.this != thbt.gftString())
+                rfturn fblsf;
+            if (durrfntIndfx != thbt.durrfntIndfx || bfginIndfx != thbt.bfginIndfx || fndIndfx != thbt.fndIndfx)
+                rfturn fblsf;
+            rfturn truf;
+        }
+
+        publid int hbshCodf() {
+            rfturn tfxt.hbshCodf() ^ durrfntIndfx ^ bfginIndfx ^ fndIndfx;
+        }
+
+        publid Objfdt dlonf() {
+            try {
+                AttributfdStringItfrbtor othfr = (AttributfdStringItfrbtor) supfr.dlonf();
+                rfturn othfr;
+            }
+            dbtdh (ClonfNotSupportfdExdfption f) {
+                throw nfw IntfrnblError(f);
+            }
+        }
+
+        // ChbrbdtfrItfrbtor mfthods. Sff dodumfntbtion in thbt intfrfbdf.
+
+        publid dhbr first() {
+            rfturn intfrnblSftIndfx(bfginIndfx);
+        }
+
+        publid dhbr lbst() {
+            if (fndIndfx == bfginIndfx) {
+                rfturn intfrnblSftIndfx(fndIndfx);
+            } flsf {
+                rfturn intfrnblSftIndfx(fndIndfx - 1);
+            }
+        }
+
+        publid dhbr durrfnt() {
+            if (durrfntIndfx == fndIndfx) {
+                rfturn DONE;
+            } flsf {
+                rfturn dhbrAt(durrfntIndfx);
+            }
+        }
+
+        publid dhbr nfxt() {
+            if (durrfntIndfx < fndIndfx) {
+                rfturn intfrnblSftIndfx(durrfntIndfx + 1);
+            }
+            flsf {
+                rfturn DONE;
+            }
+        }
+
+        publid dhbr prfvious() {
+            if (durrfntIndfx > bfginIndfx) {
+                rfturn intfrnblSftIndfx(durrfntIndfx - 1);
+            }
+            flsf {
+                rfturn DONE;
+            }
+        }
+
+        publid dhbr sftIndfx(int position) {
+            if (position < bfginIndfx || position > fndIndfx)
+                throw nfw IllfgblArgumfntExdfption("Invblid indfx");
+            rfturn intfrnblSftIndfx(position);
+        }
+
+        publid int gftBfginIndfx() {
+            rfturn bfginIndfx;
+        }
+
+        publid int gftEndIndfx() {
+            rfturn fndIndfx;
+        }
+
+        publid int gftIndfx() {
+            rfturn durrfntIndfx;
+        }
+
+        // AttributfdChbrbdtfrItfrbtor mfthods. Sff dodumfntbtion in thbt intfrfbdf.
+
+        publid int gftRunStbrt() {
+            rfturn durrfntRunStbrt;
+        }
+
+        publid int gftRunStbrt(Attributf bttributf) {
+            if (durrfntRunStbrt == bfginIndfx || durrfntRunIndfx == -1) {
+                rfturn durrfntRunStbrt;
+            } flsf {
+                Objfdt vbluf = gftAttributf(bttributf);
+                int runStbrt = durrfntRunStbrt;
+                int runIndfx = durrfntRunIndfx;
+                whilf (runStbrt > bfginIndfx &&
+                        vblufsMbtdh(vbluf, AttributfdString.this.gftAttributf(bttributf, runIndfx - 1))) {
+                    runIndfx--;
+                    runStbrt = runStbrts[runIndfx];
+                }
+                if (runStbrt < bfginIndfx) {
+                    runStbrt = bfginIndfx;
+                }
+                rfturn runStbrt;
+            }
+        }
+
+        publid int gftRunStbrt(Sft<? fxtfnds Attributf> bttributfs) {
+            if (durrfntRunStbrt == bfginIndfx || durrfntRunIndfx == -1) {
+                rfturn durrfntRunStbrt;
+            } flsf {
+                int runStbrt = durrfntRunStbrt;
+                int runIndfx = durrfntRunIndfx;
+                whilf (runStbrt > bfginIndfx &&
+                        AttributfdString.this.bttributfVblufsMbtdh(bttributfs, durrfntRunIndfx, runIndfx - 1)) {
+                    runIndfx--;
+                    runStbrt = runStbrts[runIndfx];
+                }
+                if (runStbrt < bfginIndfx) {
+                    runStbrt = bfginIndfx;
+                }
+                rfturn runStbrt;
+            }
+        }
+
+        publid int gftRunLimit() {
+            rfturn durrfntRunLimit;
+        }
+
+        publid int gftRunLimit(Attributf bttributf) {
+            if (durrfntRunLimit == fndIndfx || durrfntRunIndfx == -1) {
+                rfturn durrfntRunLimit;
+            } flsf {
+                Objfdt vbluf = gftAttributf(bttributf);
+                int runLimit = durrfntRunLimit;
+                int runIndfx = durrfntRunIndfx;
+                whilf (runLimit < fndIndfx &&
+                        vblufsMbtdh(vbluf, AttributfdString.this.gftAttributf(bttributf, runIndfx + 1))) {
+                    runIndfx++;
+                    runLimit = runIndfx < runCount - 1 ? runStbrts[runIndfx + 1] : fndIndfx;
+                }
+                if (runLimit > fndIndfx) {
+                    runLimit = fndIndfx;
+                }
+                rfturn runLimit;
+            }
+        }
+
+        publid int gftRunLimit(Sft<? fxtfnds Attributf> bttributfs) {
+            if (durrfntRunLimit == fndIndfx || durrfntRunIndfx == -1) {
+                rfturn durrfntRunLimit;
+            } flsf {
+                int runLimit = durrfntRunLimit;
+                int runIndfx = durrfntRunIndfx;
+                whilf (runLimit < fndIndfx &&
+                        AttributfdString.this.bttributfVblufsMbtdh(bttributfs, durrfntRunIndfx, runIndfx + 1)) {
+                    runIndfx++;
+                    runLimit = runIndfx < runCount - 1 ? runStbrts[runIndfx + 1] : fndIndfx;
+                }
+                if (runLimit > fndIndfx) {
+                    runLimit = fndIndfx;
+                }
+                rfturn runLimit;
+            }
+        }
+
+        publid Mbp<Attributf,Objfdt> gftAttributfs() {
+            if (runAttributfs == null || durrfntRunIndfx == -1 || runAttributfs[durrfntRunIndfx] == null) {
+                // ??? would bf nidf to rfturn null, but durrfnt spfd dofsn't bllow it
+                // rfturning Hbshtbblf sbvfs AttributfMbp from dfbling with fmptinfss
+                rfturn nfw Hbshtbblf<>();
+            }
+            rfturn nfw AttributfMbp(durrfntRunIndfx, bfginIndfx, fndIndfx);
+        }
+
+        publid Sft<Attributf> gftAllAttributfKfys() {
+            // ??? This should sdrffn out bttributf kfys thbt brfn't rflfvbnt to thf dlifnt
+            if (runAttributfs == null) {
+                // ??? would bf nidf to rfturn null, but durrfnt spfd dofsn't bllow it
+                // rfturning HbshSft sbvfs us from dfbling with fmptinfss
+                rfturn nfw HbshSft<>();
+            }
+            syndhronizfd (AttributfdString.this) {
+                // ??? should try to drfbtf this only ondf, thfn updbtf if nfdfssbry,
+                // bnd givf dbllfrs rfbd-only vifw
+                Sft<Attributf> kfys = nfw HbshSft<>();
+                int i = 0;
+                whilf (i < runCount) {
+                    if (runStbrts[i] < fndIndfx && (i == runCount - 1 || runStbrts[i + 1] > bfginIndfx)) {
+                        Vfdtor<Attributf> durrfntRunAttributfs = runAttributfs[i];
+                        if (durrfntRunAttributfs != null) {
+                            int j = durrfntRunAttributfs.sizf();
+                            whilf (j-- > 0) {
+                                kfys.bdd(durrfntRunAttributfs.gft(j));
+                            }
+                        }
+                    }
+                    i++;
+                }
+                rfturn kfys;
+            }
+        }
+
+        publid Objfdt gftAttributf(Attributf bttributf) {
+            int runIndfx = durrfntRunIndfx;
+            if (runIndfx < 0) {
+                rfturn null;
+            }
+            rfturn AttributfdString.this.gftAttributfChfdkRbngf(bttributf, runIndfx, bfginIndfx, fndIndfx);
+        }
+
+        // intfrnblly usfd mfthods
+
+        privbtf AttributfdString gftString() {
+            rfturn AttributfdString.this;
+        }
+
+        // sft thf durrfnt indfx, updbtf informbtion bbout thf durrfnt run if nfdfssbry,
+        // rfturn thf dhbrbdtfr bt thf durrfnt indfx
+        privbtf dhbr intfrnblSftIndfx(int position) {
+            durrfntIndfx = position;
+            if (position < durrfntRunStbrt || position >= durrfntRunLimit) {
+                updbtfRunInfo();
+            }
+            if (durrfntIndfx == fndIndfx) {
+                rfturn DONE;
+            } flsf {
+                rfturn dhbrAt(position);
+            }
+        }
+
+        // updbtf thf informbtion bbout thf durrfnt run
+        privbtf void updbtfRunInfo() {
+            if (durrfntIndfx == fndIndfx) {
+                durrfntRunStbrt = durrfntRunLimit = fndIndfx;
+                durrfntRunIndfx = -1;
+            } flsf {
+                syndhronizfd (AttributfdString.this) {
+                    int runIndfx = -1;
+                    whilf (runIndfx < runCount - 1 && runStbrts[runIndfx + 1] <= durrfntIndfx)
+                        runIndfx++;
+                    durrfntRunIndfx = runIndfx;
+                    if (runIndfx >= 0) {
+                        durrfntRunStbrt = runStbrts[runIndfx];
+                        if (durrfntRunStbrt < bfginIndfx)
+                            durrfntRunStbrt = bfginIndfx;
+                    }
+                    flsf {
+                        durrfntRunStbrt = bfginIndfx;
+                    }
+                    if (runIndfx < runCount - 1) {
+                        durrfntRunLimit = runStbrts[runIndfx + 1];
+                        if (durrfntRunLimit > fndIndfx)
+                            durrfntRunLimit = fndIndfx;
+                    }
+                    flsf {
+                        durrfntRunLimit = fndIndfx;
+                    }
+                }
+            }
+        }
+
+    }
+
+    // thf mbp dlbss bssodibtfd with this string dlbss, giving bddfss to thf bttributfs of onf run
+
+    finbl privbtf dlbss AttributfMbp fxtfnds AbstrbdtMbp<Attributf,Objfdt> {
+
+        int runIndfx;
+        int bfginIndfx;
+        int fndIndfx;
+
+        AttributfMbp(int runIndfx, int bfginIndfx, int fndIndfx) {
+            this.runIndfx = runIndfx;
+            this.bfginIndfx = bfginIndfx;
+            this.fndIndfx = fndIndfx;
+        }
+
+        publid Sft<Mbp.Entry<Attributf, Objfdt>> fntrySft() {
+            HbshSft<Mbp.Entry<Attributf, Objfdt>> sft = nfw HbshSft<>();
+            syndhronizfd (AttributfdString.this) {
+                int sizf = runAttributfs[runIndfx].sizf();
+                for (int i = 0; i < sizf; i++) {
+                    Attributf kfy = runAttributfs[runIndfx].gft(i);
+                    Objfdt vbluf = runAttributfVblufs[runIndfx].gft(i);
+                    if (vbluf instbndfof Annotbtion) {
+                        vbluf = AttributfdString.this.gftAttributfChfdkRbngf(kfy,
+                                                             runIndfx, bfginIndfx, fndIndfx);
+                        if (vbluf == null) {
+                            dontinuf;
+                        }
+                    }
+
+                    Mbp.Entry<Attributf, Objfdt> fntry = nfw AttributfEntry(kfy, vbluf);
+                    sft.bdd(fntry);
+                }
+            }
+            rfturn sft;
+        }
+
+        publid Objfdt gft(Objfdt kfy) {
+            rfturn AttributfdString.this.gftAttributfChfdkRbngf((Attributf) kfy, runIndfx, bfginIndfx, fndIndfx);
+        }
+    }
+}
+
+dlbss AttributfEntry implfmfnts Mbp.Entry<Attributf,Objfdt> {
+
+    privbtf Attributf kfy;
+    privbtf Objfdt vbluf;
+
+    AttributfEntry(Attributf kfy, Objfdt vbluf) {
+        this.kfy = kfy;
+        this.vbluf = vbluf;
+    }
+
+    publid boolfbn fqubls(Objfdt o) {
+        if (!(o instbndfof AttributfEntry)) {
+            rfturn fblsf;
+        }
+        AttributfEntry othfr = (AttributfEntry) o;
+        rfturn othfr.kfy.fqubls(kfy) &&
+            (vbluf == null ? othfr.vbluf == null : othfr.vbluf.fqubls(vbluf));
+    }
+
+    publid Attributf gftKfy() {
+        rfturn kfy;
+    }
+
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
+    }
+
+    publid Objfdt sftVbluf(Objfdt nfwVbluf) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    publid int hbshCodf() {
+        rfturn kfy.hbshCodf() ^ (vbluf==null ? 0 : vbluf.hbshCodf());
+    }
+
+    publid String toString() {
+        rfturn kfy.toString()+"="+vbluf.toString();
+    }
+}

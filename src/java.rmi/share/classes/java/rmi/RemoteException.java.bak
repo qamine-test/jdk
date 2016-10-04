@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi;
+pbdkbgf jbvb.rmi;
 
 /**
- * A <code>RemoteException</code> is the common superclass for a number of
- * communication-related exceptions that may occur during the execution of a
- * remote method call.  Each method of a remote interface, an interface that
- * extends <code>java.rmi.Remote</code>, must list
- * <code>RemoteException</code> in its throws clause.
+ * A <dodf>RfmotfExdfption</dodf> is tif dommon supfrdlbss for b numbfr of
+ * dommunidbtion-rflbtfd fxdfptions tibt mby oddur during tif fxfdution of b
+ * rfmotf mftiod dbll.  Ebdi mftiod of b rfmotf intfrfbdf, bn intfrfbdf tibt
+ * fxtfnds <dodf>jbvb.rmi.Rfmotf</dodf>, must list
+ * <dodf>RfmotfExdfption</dodf> in its tirows dlbusf.
  *
- * <p>As of release 1.4, this exception has been retrofitted to conform to
- * the general purpose exception-chaining mechanism.  The "wrapped remote
- * exception" that may be provided at construction time and accessed via
- * the public {@link #detail} field is now known as the <i>cause</i>, and
- * may be accessed via the {@link Throwable#getCause()} method, as well as
- * the aforementioned "legacy field."
+ * <p>As of rflfbsf 1.4, tiis fxdfption ibs bffn rftrofittfd to donform to
+ * tif gfnfrbl purposf fxdfption-dibining mfdibnism.  Tif "wrbppfd rfmotf
+ * fxdfption" tibt mby bf providfd bt donstrudtion timf bnd bddfssfd vib
+ * tif publid {@link #dftbil} fifld is now known bs tif <i>dbusf</i>, bnd
+ * mby bf bddfssfd vib tif {@link Tirowbblf#gftCbusf()} mftiod, bs wfll bs
+ * tif bforfmfntionfd "lfgbdy fifld."
  *
- * <p>Invoking the method {@link Throwable#initCause(Throwable)} on an
- * instance of <code>RemoteException</code> always throws {@link
- * IllegalStateException}.
+ * <p>Invoking tif mftiod {@link Tirowbblf#initCbusf(Tirowbblf)} on bn
+ * instbndf of <dodf>RfmotfExdfption</dodf> blwbys tirows {@link
+ * IllfgblStbtfExdfption}.
  *
- * @author  Ann Wollrath
- * @since   1.1
+ * @butior  Ann Wollrbti
+ * @sindf   1.1
  */
-public class RemoteException extends java.io.IOException {
+publid dlbss RfmotfExdfption fxtfnds jbvb.io.IOExdfption {
 
-    /* indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = -5148567311918794206L;
-
-    /**
-     * The cause of the remote exception.
-     *
-     * <p>This field predates the general-purpose exception chaining facility.
-     * The {@link Throwable#getCause()} method is now the preferred means of
-     * obtaining this information.
-     *
-     * @serial
-     */
-    public Throwable detail;
+    /* indidbtf dompbtibility witi JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5148567311918794206L;
 
     /**
-     * Constructs a <code>RemoteException</code>.
+     * Tif dbusf of tif rfmotf fxdfption.
+     *
+     * <p>Tiis fifld prfdbtfs tif gfnfrbl-purposf fxdfption dibining fbdility.
+     * Tif {@link Tirowbblf#gftCbusf()} mftiod is now tif prfffrrfd mfbns of
+     * obtbining tiis informbtion.
+     *
+     * @sfribl
      */
-    public RemoteException() {
-        initCause(null);  // Disallow subsequent initCause
+    publid Tirowbblf dftbil;
+
+    /**
+     * Construdts b <dodf>RfmotfExdfption</dodf>.
+     */
+    publid RfmotfExdfption() {
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
     }
 
     /**
-     * Constructs a <code>RemoteException</code> with the specified
-     * detail message.
+     * Construdts b <dodf>RfmotfExdfption</dodf> witi tif spfdififd
+     * dftbil mfssbgf.
      *
-     * @param s the detail message
+     * @pbrbm s tif dftbil mfssbgf
      */
-    public RemoteException(String s) {
-        super(s);
-        initCause(null);  // Disallow subsequent initCause
+    publid RfmotfExdfption(String s) {
+        supfr(s);
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
     }
 
     /**
-     * Constructs a <code>RemoteException</code> with the specified detail
-     * message and cause.  This constructor sets the {@link #detail}
-     * field to the specified <code>Throwable</code>.
+     * Construdts b <dodf>RfmotfExdfption</dodf> witi tif spfdififd dftbil
+     * mfssbgf bnd dbusf.  Tiis donstrudtor sfts tif {@link #dftbil}
+     * fifld to tif spfdififd <dodf>Tirowbblf</dodf>.
      *
-     * @param s the detail message
-     * @param cause the cause
+     * @pbrbm s tif dftbil mfssbgf
+     * @pbrbm dbusf tif dbusf
      */
-    public RemoteException(String s, Throwable cause) {
-        super(s);
-        initCause(null);  // Disallow subsequent initCause
-        detail = cause;
+    publid RfmotfExdfption(String s, Tirowbblf dbusf) {
+        supfr(s);
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        dftbil = dbusf;
     }
 
     /**
-     * Returns the detail message, including the message from the cause, if
-     * any, of this exception.
+     * Rfturns tif dftbil mfssbgf, indluding tif mfssbgf from tif dbusf, if
+     * bny, of tiis fxdfption.
      *
-     * @return the detail message
+     * @rfturn tif dftbil mfssbgf
      */
-    public String getMessage() {
-        if (detail == null) {
-            return super.getMessage();
-        } else {
-            return super.getMessage() + "; nested exception is: \n\t" +
-                detail.toString();
+    publid String gftMfssbgf() {
+        if (dftbil == null) {
+            rfturn supfr.gftMfssbgf();
+        } flsf {
+            rfturn supfr.gftMfssbgf() + "; nfstfd fxdfption is: \n\t" +
+                dftbil.toString();
         }
     }
 
     /**
-     * Returns the cause of this exception.  This method returns the value
-     * of the {@link #detail} field.
+     * Rfturns tif dbusf of tiis fxdfption.  Tiis mftiod rfturns tif vbluf
+     * of tif {@link #dftbil} fifld.
      *
-     * @return  the cause, which may be <tt>null</tt>.
-     * @since   1.4
+     * @rfturn  tif dbusf, wiidi mby bf <tt>null</tt>.
+     * @sindf   1.4
      */
-    public Throwable getCause() {
-        return detail;
+    publid Tirowbblf gftCbusf() {
+        rfturn dftbil;
     }
 }

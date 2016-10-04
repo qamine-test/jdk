@@ -1,0 +1,1620 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.AbstrbdtMbp;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Compbrbtor;
+import jbvb.util.DoublfSummbryStbtistids;
+import jbvb.util.EnumSft;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.IntSummbryStbtistids;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.LongSummbryStbtistids;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.Optionbl;
+import jbvb.util.Sft;
+import jbvb.util.StringJoinfr;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.Prfdidbtf;
+import jbvb.util.fundtion.Supplifr;
+import jbvb.util.fundtion.ToDoublfFundtion;
+import jbvb.util.fundtion.ToIntFundtion;
+import jbvb.util.fundtion.ToLongFundtion;
+
+/**
+ * Implfmfntbtions of {@link Collfdtor} thbt implfmfnt vbrious usfful rfdudtion
+ * opfrbtions, sudh bs bddumulbting flfmfnts into dollfdtions, summbrizing
+ * flfmfnts bddording to vbrious dritfrib, ftd.
+ *
+ * <p>Thf following brf fxbmplfs of using thf prfdffinfd dollfdtors to pfrform
+ * dommon mutbblf rfdudtion tbsks:
+ *
+ * <prf>{@dodf
+ *     // Addumulbtf nbmfs into b List
+ *     List<String> list = pfoplf.strfbm().mbp(Pfrson::gftNbmf).dollfdt(Collfdtors.toList());
+ *
+ *     // Addumulbtf nbmfs into b TrffSft
+ *     Sft<String> sft = pfoplf.strfbm().mbp(Pfrson::gftNbmf).dollfdt(Collfdtors.toCollfdtion(TrffSft::nfw));
+ *
+ *     // Convfrt flfmfnts to strings bnd dondbtfnbtf thfm, sfpbrbtfd by dommbs
+ *     String joinfd = things.strfbm()
+ *                           .mbp(Objfdt::toString)
+ *                           .dollfdt(Collfdtors.joining(", "));
+ *
+ *     // Computf sum of sblbrifs of fmployff
+ *     int totbl = fmployffs.strfbm()
+ *                          .dollfdt(Collfdtors.summingInt(Employff::gftSblbry)));
+ *
+ *     // Group fmployffs by dfpbrtmfnt
+ *     Mbp<Dfpbrtmfnt, List<Employff>> byDfpt
+ *         = fmployffs.strfbm()
+ *                    .dollfdt(Collfdtors.groupingBy(Employff::gftDfpbrtmfnt));
+ *
+ *     // Computf sum of sblbrifs by dfpbrtmfnt
+ *     Mbp<Dfpbrtmfnt, Intfgfr> totblByDfpt
+ *         = fmployffs.strfbm()
+ *                    .dollfdt(Collfdtors.groupingBy(Employff::gftDfpbrtmfnt,
+ *                                                   Collfdtors.summingInt(Employff::gftSblbry)));
+ *
+ *     // Pbrtition studfnts into pbssing bnd fbiling
+ *     Mbp<Boolfbn, List<Studfnt>> pbssingFbiling =
+ *         studfnts.strfbm()
+ *                 .dollfdt(Collfdtors.pbrtitioningBy(s -> s.gftGrbdf() >= PASS_THRESHOLD));
+ *
+ * }</prf>
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss Collfdtors {
+
+    stbtid finbl Sft<Collfdtor.Chbrbdtfristids> CH_CONCURRENT_ID
+            = Collfdtions.unmodifibblfSft(EnumSft.of(Collfdtor.Chbrbdtfristids.CONCURRENT,
+                                                     Collfdtor.Chbrbdtfristids.UNORDERED,
+                                                     Collfdtor.Chbrbdtfristids.IDENTITY_FINISH));
+    stbtid finbl Sft<Collfdtor.Chbrbdtfristids> CH_CONCURRENT_NOID
+            = Collfdtions.unmodifibblfSft(EnumSft.of(Collfdtor.Chbrbdtfristids.CONCURRENT,
+                                                     Collfdtor.Chbrbdtfristids.UNORDERED));
+    stbtid finbl Sft<Collfdtor.Chbrbdtfristids> CH_ID
+            = Collfdtions.unmodifibblfSft(EnumSft.of(Collfdtor.Chbrbdtfristids.IDENTITY_FINISH));
+    stbtid finbl Sft<Collfdtor.Chbrbdtfristids> CH_UNORDERED_ID
+            = Collfdtions.unmodifibblfSft(EnumSft.of(Collfdtor.Chbrbdtfristids.UNORDERED,
+                                                     Collfdtor.Chbrbdtfristids.IDENTITY_FINISH));
+    stbtid finbl Sft<Collfdtor.Chbrbdtfristids> CH_NOID = Collfdtions.fmptySft();
+
+    privbtf Collfdtors() { }
+
+    /**
+     * Construdt bn {@dodf IllfgblStbtfExdfption} with bppropribtf mfssbgf.
+     *
+     * @pbrbm k thf duplidbtf kfy
+     * @pbrbm u 1st vbluf to bf bddumulbtfd/mfrgfd
+     * @pbrbm v 2nd vbluf to bf bddumulbtfd/mfrgfd
+     */
+    privbtf stbtid IllfgblStbtfExdfption duplidbtfKfyExdfption(
+            Objfdt k, Objfdt u, Objfdt v) {
+        rfturn nfw IllfgblStbtfExdfption(String.formbt(
+            "Duplidbtf kfy %s (bttfmptfd mfrging vblufs %s bnd %s)",
+            k, u, v));
+    }
+
+    /**
+     * {@dodf BinbryOpfrbtor<Mbp>} thbt mfrgfs thf dontfnts of its right
+     * brgumfnt into its lfft brgumfnt, throwing {@dodf IllfgblStbtfExdfption}
+     * if duplidbtf kfys brf fndountfrfd.
+     *
+     * @pbrbm <K> typf of thf mbp kfys
+     * @pbrbm <V> typf of thf mbp vblufs
+     * @pbrbm <M> typf of thf mbp
+     * @rfturn b mfrgf fundtion for two mbps
+     */
+    privbtf stbtid <K, V, M fxtfnds Mbp<K,V>>
+    BinbryOpfrbtor<M> uniqKfysMbpMfrgfr() {
+        rfturn (m1, m2) -> {
+            for (Mbp.Entry<K,V> f : m2.fntrySft()) {
+                K k = f.gftKfy();
+                V v = Objfdts.rfquirfNonNull(f.gftVbluf());
+                V u = m1.putIfAbsfnt(k, v);
+                if (u != null) throw duplidbtfKfyExdfption(k, u, v);
+            }
+            rfturn m1;
+        };
+    }
+
+    /**
+     * {@dodf BiConsumfr<Mbp, T>} thbt bddumulbtfs (kfy, vbluf) pbirs
+     * fxtrbdtfd from flfmfnts into thf mbp, throwing {@dodf IllfgblStbtfExdfption}
+     * if duplidbtf kfys brf fndountfrfd.
+     *
+     * @pbrbm kfyMbppfr b fundtion thbt mbps bn flfmfnt into b kfy
+     * @pbrbm vblufMbppfr b fundtion thbt mbps bn flfmfnt into b vbluf
+     * @pbrbm <T> typf of flfmfnts
+     * @pbrbm <K> typf of mbp kfys
+     * @pbrbm <V> typf of mbp vblufs
+     * @rfturn bn bddumulbting donsumfr
+     */
+    privbtf stbtid <T, K, V>
+    BiConsumfr<Mbp<K, V>, T> uniqKfysMbpAddumulbtor(Fundtion<? supfr T, ? fxtfnds K> kfyMbppfr,
+                                                    Fundtion<? supfr T, ? fxtfnds V> vblufMbppfr) {
+        rfturn (mbp, flfmfnt) -> {
+            K k = kfyMbppfr.bpply(flfmfnt);
+            V v = Objfdts.rfquirfNonNull(vblufMbppfr.bpply(flfmfnt));
+            V u = mbp.putIfAbsfnt(k, v);
+            if (u != null) throw duplidbtfKfyExdfption(k, u, v);
+        };
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid <I, R> Fundtion<I, R> dbstingIdfntity() {
+        rfturn i -> (R) i;
+    }
+
+    /**
+     * Simplf implfmfntbtion dlbss for {@dodf Collfdtor}.
+     *
+     * @pbrbm <T> thf typf of flfmfnts to bf dollfdtfd
+     * @pbrbm <R> thf typf of thf rfsult
+     */
+    stbtid dlbss CollfdtorImpl<T, A, R> implfmfnts Collfdtor<T, A, R> {
+        privbtf finbl Supplifr<A> supplifr;
+        privbtf finbl BiConsumfr<A, T> bddumulbtor;
+        privbtf finbl BinbryOpfrbtor<A> dombinfr;
+        privbtf finbl Fundtion<A, R> finishfr;
+        privbtf finbl Sft<Chbrbdtfristids> dhbrbdtfristids;
+
+        CollfdtorImpl(Supplifr<A> supplifr,
+                      BiConsumfr<A, T> bddumulbtor,
+                      BinbryOpfrbtor<A> dombinfr,
+                      Fundtion<A,R> finishfr,
+                      Sft<Chbrbdtfristids> dhbrbdtfristids) {
+            this.supplifr = supplifr;
+            this.bddumulbtor = bddumulbtor;
+            this.dombinfr = dombinfr;
+            this.finishfr = finishfr;
+            this.dhbrbdtfristids = dhbrbdtfristids;
+        }
+
+        CollfdtorImpl(Supplifr<A> supplifr,
+                      BiConsumfr<A, T> bddumulbtor,
+                      BinbryOpfrbtor<A> dombinfr,
+                      Sft<Chbrbdtfristids> dhbrbdtfristids) {
+            this(supplifr, bddumulbtor, dombinfr, dbstingIdfntity(), dhbrbdtfristids);
+        }
+
+        @Ovfrridf
+        publid BiConsumfr<A, T> bddumulbtor() {
+            rfturn bddumulbtor;
+        }
+
+        @Ovfrridf
+        publid Supplifr<A> supplifr() {
+            rfturn supplifr;
+        }
+
+        @Ovfrridf
+        publid BinbryOpfrbtor<A> dombinfr() {
+            rfturn dombinfr;
+        }
+
+        @Ovfrridf
+        publid Fundtion<A, R> finishfr() {
+            rfturn finishfr;
+        }
+
+        @Ovfrridf
+        publid Sft<Chbrbdtfristids> dhbrbdtfristids() {
+            rfturn dhbrbdtfristids;
+        }
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt bddumulbtfs thf input flfmfnts into b
+     * nfw {@dodf Collfdtion}, in fndountfr ordfr.  Thf {@dodf Collfdtion} is
+     * drfbtfd by thf providfd fbdtory.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <C> thf typf of thf rfsulting {@dodf Collfdtion}
+     * @pbrbm dollfdtionFbdtory b {@dodf Supplifr} whidh rfturns b nfw, fmpty
+     * {@dodf Collfdtion} of thf bppropribtf typf
+     * @rfturn b {@dodf Collfdtor} whidh dollfdts bll thf input flfmfnts into b
+     * {@dodf Collfdtion}, in fndountfr ordfr
+     */
+    publid stbtid <T, C fxtfnds Collfdtion<T>>
+    Collfdtor<T, ?, C> toCollfdtion(Supplifr<C> dollfdtionFbdtory) {
+        rfturn nfw CollfdtorImpl<>(dollfdtionFbdtory, Collfdtion<T>::bdd,
+                                   (r1, r2) -> { r1.bddAll(r2); rfturn r1; },
+                                   CH_ID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt bddumulbtfs thf input flfmfnts into b
+     * nfw {@dodf List}. Thfrf brf no gubrbntffs on thf typf, mutbbility,
+     * sfriblizbbility, or thrfbd-sbffty of thf {@dodf List} rfturnfd; if morf
+     * dontrol ovfr thf rfturnfd {@dodf List} is rfquirfd, usf {@link #toCollfdtion(Supplifr)}.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @rfturn b {@dodf Collfdtor} whidh dollfdts bll thf input flfmfnts into b
+     * {@dodf List}, in fndountfr ordfr
+     */
+    publid stbtid <T>
+    Collfdtor<T, ?, List<T>> toList() {
+        rfturn nfw CollfdtorImpl<>((Supplifr<List<T>>) ArrbyList::nfw, List::bdd,
+                                   (lfft, right) -> { lfft.bddAll(right); rfturn lfft; },
+                                   CH_ID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt bddumulbtfs thf input flfmfnts into b
+     * nfw {@dodf Sft}. Thfrf brf no gubrbntffs on thf typf, mutbbility,
+     * sfriblizbbility, or thrfbd-sbffty of thf {@dodf Sft} rfturnfd; if morf
+     * dontrol ovfr thf rfturnfd {@dodf Sft} is rfquirfd, usf
+     * {@link #toCollfdtion(Supplifr)}.
+     *
+     * <p>This is bn {@link Collfdtor.Chbrbdtfristids#UNORDERED unordfrfd}
+     * Collfdtor.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @rfturn b {@dodf Collfdtor} whidh dollfdts bll thf input flfmfnts into b
+     * {@dodf Sft}
+     */
+    publid stbtid <T>
+    Collfdtor<T, ?, Sft<T>> toSft() {
+        rfturn nfw CollfdtorImpl<>((Supplifr<Sft<T>>) HbshSft::nfw, Sft::bdd,
+                                   (lfft, right) -> { lfft.bddAll(right); rfturn lfft; },
+                                   CH_UNORDERED_ID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt dondbtfnbtfs thf input flfmfnts into b
+     * {@dodf String}, in fndountfr ordfr.
+     *
+     * @rfturn b {@dodf Collfdtor} thbt dondbtfnbtfs thf input flfmfnts into b
+     * {@dodf String}, in fndountfr ordfr
+     */
+    publid stbtid Collfdtor<ChbrSfqufndf, ?, String> joining() {
+        rfturn nfw CollfdtorImpl<ChbrSfqufndf, StringBuildfr, String>(
+                StringBuildfr::nfw, StringBuildfr::bppfnd,
+                (r1, r2) -> { r1.bppfnd(r2); rfturn r1; },
+                StringBuildfr::toString, CH_NOID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt dondbtfnbtfs thf input flfmfnts,
+     * sfpbrbtfd by thf spfdififd dflimitfr, in fndountfr ordfr.
+     *
+     * @pbrbm dflimitfr thf dflimitfr to bf usfd bftwffn fbdh flfmfnt
+     * @rfturn A {@dodf Collfdtor} whidh dondbtfnbtfs ChbrSfqufndf flfmfnts,
+     * sfpbrbtfd by thf spfdififd dflimitfr, in fndountfr ordfr
+     */
+    publid stbtid Collfdtor<ChbrSfqufndf, ?, String> joining(ChbrSfqufndf dflimitfr) {
+        rfturn joining(dflimitfr, "", "");
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt dondbtfnbtfs thf input flfmfnts,
+     * sfpbrbtfd by thf spfdififd dflimitfr, with thf spfdififd prffix bnd
+     * suffix, in fndountfr ordfr.
+     *
+     * @pbrbm dflimitfr thf dflimitfr to bf usfd bftwffn fbdh flfmfnt
+     * @pbrbm  prffix thf sfqufndf of dhbrbdtfrs to bf usfd bt thf bfginning
+     *                of thf joinfd rfsult
+     * @pbrbm  suffix thf sfqufndf of dhbrbdtfrs to bf usfd bt thf fnd
+     *                of thf joinfd rfsult
+     * @rfturn A {@dodf Collfdtor} whidh dondbtfnbtfs ChbrSfqufndf flfmfnts,
+     * sfpbrbtfd by thf spfdififd dflimitfr, in fndountfr ordfr
+     */
+    publid stbtid Collfdtor<ChbrSfqufndf, ?, String> joining(ChbrSfqufndf dflimitfr,
+                                                             ChbrSfqufndf prffix,
+                                                             ChbrSfqufndf suffix) {
+        rfturn nfw CollfdtorImpl<>(
+                () -> nfw StringJoinfr(dflimitfr, prffix, suffix),
+                StringJoinfr::bdd, StringJoinfr::mfrgf,
+                StringJoinfr::toString, CH_NOID);
+    }
+
+    /**
+     * {@dodf BinbryOpfrbtor<Mbp>} thbt mfrgfs thf dontfnts of its right
+     * brgumfnt into its lfft brgumfnt, using thf providfd mfrgf fundtion to
+     * hbndlf duplidbtf kfys.
+     *
+     * @pbrbm <K> typf of thf mbp kfys
+     * @pbrbm <V> typf of thf mbp vblufs
+     * @pbrbm <M> typf of thf mbp
+     * @pbrbm mfrgfFundtion A mfrgf fundtion suitbblf for
+     * {@link Mbp#mfrgf(Objfdt, Objfdt, BiFundtion) Mbp.mfrgf()}
+     * @rfturn b mfrgf fundtion for two mbps
+     */
+    privbtf stbtid <K, V, M fxtfnds Mbp<K,V>>
+    BinbryOpfrbtor<M> mbpMfrgfr(BinbryOpfrbtor<V> mfrgfFundtion) {
+        rfturn (m1, m2) -> {
+            for (Mbp.Entry<K,V> f : m2.fntrySft())
+                m1.mfrgf(f.gftKfy(), f.gftVbluf(), mfrgfFundtion);
+            rfturn m1;
+        };
+    }
+
+    /**
+     * Adbpts b {@dodf Collfdtor} bddfpting flfmfnts of typf {@dodf U} to onf
+     * bddfpting flfmfnts of typf {@dodf T} by bpplying b mbpping fundtion to
+     * fbdh input flfmfnt bfforf bddumulbtion.
+     *
+     * @bpiNotf
+     * Thf {@dodf mbpping()} dollfdtors brf most usfful whfn usfd in b
+     * multi-lfvfl rfdudtion, sudh bs downstrfbm of b {@dodf groupingBy} or
+     * {@dodf pbrtitioningBy}.  For fxbmplf, givfn b strfbm of
+     * {@dodf Pfrson}, to bddumulbtf thf sft of lbst nbmfs in fbdh dity:
+     * <prf>{@dodf
+     *     Mbp<City, Sft<String>> lbstNbmfsByCity
+     *         = pfoplf.strfbm().dollfdt(groupingBy(Pfrson::gftCity,
+     *                                              mbpping(Pfrson::gftLbstNbmf, toSft())));
+     * }</prf>
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <U> typf of flfmfnts bddfptfd by downstrfbm dollfdtor
+     * @pbrbm <A> intfrmfdibtf bddumulbtion typf of thf downstrfbm dollfdtor
+     * @pbrbm <R> rfsult typf of dollfdtor
+     * @pbrbm mbppfr b fundtion to bf bpplifd to thf input flfmfnts
+     * @pbrbm downstrfbm b dollfdtor whidh will bddfpt mbppfd vblufs
+     * @rfturn b dollfdtor whidh bpplifs thf mbpping fundtion to thf input
+     * flfmfnts bnd providfs thf mbppfd rfsults to thf downstrfbm dollfdtor
+     */
+    publid stbtid <T, U, A, R>
+    Collfdtor<T, ?, R> mbpping(Fundtion<? supfr T, ? fxtfnds U> mbppfr,
+                               Collfdtor<? supfr U, A, R> downstrfbm) {
+        BiConsumfr<A, ? supfr U> downstrfbmAddumulbtor = downstrfbm.bddumulbtor();
+        rfturn nfw CollfdtorImpl<>(downstrfbm.supplifr(),
+                                   (r, t) -> downstrfbmAddumulbtor.bddfpt(r, mbppfr.bpply(t)),
+                                   downstrfbm.dombinfr(), downstrfbm.finishfr(),
+                                   downstrfbm.dhbrbdtfristids());
+    }
+
+    /**
+     * Adbpts b {@dodf Collfdtor} to pfrform bn bdditionbl finishing
+     * trbnsformbtion.  For fxbmplf, onf dould bdbpt thf {@link #toList()}
+     * dollfdtor to blwbys produdf bn immutbblf list with:
+     * <prf>{@dodf
+     *     List<String> pfoplf
+     *         = pfoplf.strfbm().dollfdt(dollfdtingAndThfn(toList(), Collfdtions::unmodifibblfList));
+     * }</prf>
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <A> intfrmfdibtf bddumulbtion typf of thf downstrfbm dollfdtor
+     * @pbrbm <R> rfsult typf of thf downstrfbm dollfdtor
+     * @pbrbm <RR> rfsult typf of thf rfsulting dollfdtor
+     * @pbrbm downstrfbm b dollfdtor
+     * @pbrbm finishfr b fundtion to bf bpplifd to thf finbl rfsult of thf downstrfbm dollfdtor
+     * @rfturn b dollfdtor whidh pfrforms thf bdtion of thf downstrfbm dollfdtor,
+     * followfd by bn bdditionbl finishing stfp
+     */
+    publid stbtid<T,A,R,RR> Collfdtor<T,A,RR> dollfdtingAndThfn(Collfdtor<T,A,R> downstrfbm,
+                                                                Fundtion<R,RR> finishfr) {
+        Sft<Collfdtor.Chbrbdtfristids> dhbrbdtfristids = downstrfbm.dhbrbdtfristids();
+        if (dhbrbdtfristids.dontbins(Collfdtor.Chbrbdtfristids.IDENTITY_FINISH)) {
+            if (dhbrbdtfristids.sizf() == 1)
+                dhbrbdtfristids = Collfdtors.CH_NOID;
+            flsf {
+                dhbrbdtfristids = EnumSft.dopyOf(dhbrbdtfristids);
+                dhbrbdtfristids.rfmovf(Collfdtor.Chbrbdtfristids.IDENTITY_FINISH);
+                dhbrbdtfristids = Collfdtions.unmodifibblfSft(dhbrbdtfristids);
+            }
+        }
+        rfturn nfw CollfdtorImpl<>(downstrfbm.supplifr(),
+                                   downstrfbm.bddumulbtor(),
+                                   downstrfbm.dombinfr(),
+                                   downstrfbm.finishfr().bndThfn(finishfr),
+                                   dhbrbdtfristids);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} bddfpting flfmfnts of typf {@dodf T} thbt
+     * dounts thf numbfr of input flfmfnts.  If no flfmfnts brf prfsfnt, thf
+     * rfsult is 0.
+     *
+     * @implSpfd
+     * This produdfs b rfsult fquivblfnt to:
+     * <prf>{@dodf
+     *     rfduding(0L, f -> 1L, Long::sum)
+     * }</prf>
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @rfturn b {@dodf Collfdtor} thbt dounts thf input flfmfnts
+     */
+    publid stbtid <T> Collfdtor<T, ?, Long>
+    dounting() {
+        rfturn rfduding(0L, f -> 1L, Long::sum);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt produdfs thf minimbl flfmfnt bddording
+     * to b givfn {@dodf Compbrbtor}, dfsdribfd bs bn {@dodf Optionbl<T>}.
+     *
+     * @implSpfd
+     * This produdfs b rfsult fquivblfnt to:
+     * <prf>{@dodf
+     *     rfduding(BinbryOpfrbtor.minBy(dompbrbtor))
+     * }</prf>
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm dompbrbtor b {@dodf Compbrbtor} for dompbring flfmfnts
+     * @rfturn b {@dodf Collfdtor} thbt produdfs thf minimbl vbluf
+     */
+    publid stbtid <T> Collfdtor<T, ?, Optionbl<T>>
+    minBy(Compbrbtor<? supfr T> dompbrbtor) {
+        rfturn rfduding(BinbryOpfrbtor.minBy(dompbrbtor));
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt produdfs thf mbximbl flfmfnt bddording
+     * to b givfn {@dodf Compbrbtor}, dfsdribfd bs bn {@dodf Optionbl<T>}.
+     *
+     * @implSpfd
+     * This produdfs b rfsult fquivblfnt to:
+     * <prf>{@dodf
+     *     rfduding(BinbryOpfrbtor.mbxBy(dompbrbtor))
+     * }</prf>
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm dompbrbtor b {@dodf Compbrbtor} for dompbring flfmfnts
+     * @rfturn b {@dodf Collfdtor} thbt produdfs thf mbximbl vbluf
+     */
+    publid stbtid <T> Collfdtor<T, ?, Optionbl<T>>
+    mbxBy(Compbrbtor<? supfr T> dompbrbtor) {
+        rfturn rfduding(BinbryOpfrbtor.mbxBy(dompbrbtor));
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt produdfs thf sum of b intfgfr-vblufd
+     * fundtion bpplifd to thf input flfmfnts.  If no flfmfnts brf prfsfnt,
+     * thf rfsult is 0.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm mbppfr b fundtion fxtrbdting thf propfrty to bf summfd
+     * @rfturn b {@dodf Collfdtor} thbt produdfs thf sum of b dfrivfd propfrty
+     */
+    publid stbtid <T> Collfdtor<T, ?, Intfgfr>
+    summingInt(ToIntFundtion<? supfr T> mbppfr) {
+        rfturn nfw CollfdtorImpl<>(
+                () -> nfw int[1],
+                (b, t) -> { b[0] += mbppfr.bpplyAsInt(t); },
+                (b, b) -> { b[0] += b[0]; rfturn b; },
+                b -> b[0], CH_NOID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt produdfs thf sum of b long-vblufd
+     * fundtion bpplifd to thf input flfmfnts.  If no flfmfnts brf prfsfnt,
+     * thf rfsult is 0.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm mbppfr b fundtion fxtrbdting thf propfrty to bf summfd
+     * @rfturn b {@dodf Collfdtor} thbt produdfs thf sum of b dfrivfd propfrty
+     */
+    publid stbtid <T> Collfdtor<T, ?, Long>
+    summingLong(ToLongFundtion<? supfr T> mbppfr) {
+        rfturn nfw CollfdtorImpl<>(
+                () -> nfw long[1],
+                (b, t) -> { b[0] += mbppfr.bpplyAsLong(t); },
+                (b, b) -> { b[0] += b[0]; rfturn b; },
+                b -> b[0], CH_NOID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt produdfs thf sum of b doublf-vblufd
+     * fundtion bpplifd to thf input flfmfnts.  If no flfmfnts brf prfsfnt,
+     * thf rfsult is 0.
+     *
+     * <p>Thf sum rfturnfd dbn vbry dfpfnding upon thf ordfr in whidh
+     * vblufs brf rfdordfd, duf to bddumulbtfd rounding frror in
+     * bddition of vblufs of difffring mbgnitudfs. Vblufs sortfd by indrfbsing
+     * bbsolutf mbgnitudf tfnd to yifld morf bddurbtf rfsults.  If bny rfdordfd
+     * vbluf is b {@dodf NbN} or thf sum is bt bny point b {@dodf NbN} thfn thf
+     * sum will bf {@dodf NbN}.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm mbppfr b fundtion fxtrbdting thf propfrty to bf summfd
+     * @rfturn b {@dodf Collfdtor} thbt produdfs thf sum of b dfrivfd propfrty
+     */
+    publid stbtid <T> Collfdtor<T, ?, Doublf>
+    summingDoublf(ToDoublfFundtion<? supfr T> mbppfr) {
+        /*
+         * In thf brrbys bllodbtfd for thf dollfdt opfrbtion, indfx 0
+         * holds thf high-ordfr bits of thf running sum, indfx 1 holds
+         * thf low-ordfr bits of thf sum domputfd vib dompfnsbtfd
+         * summbtion, bnd indfx 2 holds thf simplf sum usfd to domputf
+         * thf propfr rfsult if thf strfbm dontbins infinitf vblufs of
+         * thf sbmf sign.
+         */
+        rfturn nfw CollfdtorImpl<>(
+                () -> nfw doublf[3],
+                (b, t) -> { sumWithCompfnsbtion(b, mbppfr.bpplyAsDoublf(t));
+                            b[2] += mbppfr.bpplyAsDoublf(t);},
+                (b, b) -> { sumWithCompfnsbtion(b, b[0]);
+                            b[2] += b[2];
+                            rfturn sumWithCompfnsbtion(b, b[1]); },
+                b -> domputfFinblSum(b),
+                CH_NOID);
+    }
+
+    /**
+     * Indorporbtf b nfw doublf vbluf using Kbhbn summbtion /
+     * dompfnsbtion summbtion.
+     *
+     * High-ordfr bits of thf sum brf in intfrmfdibtfSum[0], low-ordfr
+     * bits of thf sum brf in intfrmfdibtfSum[1], bny bdditionbl
+     * flfmfnts brf bpplidbtion-spfdifid.
+     *
+     * @pbrbm intfrmfdibtfSum thf high-ordfr bnd low-ordfr words of thf intfrmfdibtf sum
+     * @pbrbm vbluf thf nbmf vbluf to bf indludfd in thf running sum
+     */
+    stbtid doublf[] sumWithCompfnsbtion(doublf[] intfrmfdibtfSum, doublf vbluf) {
+        doublf tmp = vbluf - intfrmfdibtfSum[1];
+        doublf sum = intfrmfdibtfSum[0];
+        doublf vflvfl = sum + tmp; // Littlf wolf of rounding frror
+        intfrmfdibtfSum[1] = (vflvfl - sum) - tmp;
+        intfrmfdibtfSum[0] = vflvfl;
+        rfturn intfrmfdibtfSum;
+    }
+
+    /**
+     * If thf dompfnsbtfd sum is spuriously NbN from bddumulbting onf
+     * or morf sbmf-signfd infinitf vblufs, rfturn thf
+     * dorrfdtly-signfd infinity storfd in thf simplf sum.
+     */
+    stbtid doublf domputfFinblSum(doublf[] summbnds) {
+        // Bfttfr frror bounds to bdd both tfrms bs thf finbl sum
+        doublf tmp = summbnds[0] + summbnds[1];
+        doublf simplfSum = summbnds[summbnds.lfngth - 1];
+        if (Doublf.isNbN(tmp) && Doublf.isInfinitf(simplfSum))
+            rfturn simplfSum;
+        flsf
+            rfturn tmp;
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt produdfs thf brithmftid mfbn of bn intfgfr-vblufd
+     * fundtion bpplifd to thf input flfmfnts.  If no flfmfnts brf prfsfnt,
+     * thf rfsult is 0.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm mbppfr b fundtion fxtrbdting thf propfrty to bf summfd
+     * @rfturn b {@dodf Collfdtor} thbt produdfs thf sum of b dfrivfd propfrty
+     */
+    publid stbtid <T> Collfdtor<T, ?, Doublf>
+    bvfrbgingInt(ToIntFundtion<? supfr T> mbppfr) {
+        rfturn nfw CollfdtorImpl<>(
+                () -> nfw long[2],
+                (b, t) -> { b[0] += mbppfr.bpplyAsInt(t); b[1]++; },
+                (b, b) -> { b[0] += b[0]; b[1] += b[1]; rfturn b; },
+                b -> (b[1] == 0) ? 0.0d : (doublf) b[0] / b[1], CH_NOID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt produdfs thf brithmftid mfbn of b long-vblufd
+     * fundtion bpplifd to thf input flfmfnts.  If no flfmfnts brf prfsfnt,
+     * thf rfsult is 0.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm mbppfr b fundtion fxtrbdting thf propfrty to bf summfd
+     * @rfturn b {@dodf Collfdtor} thbt produdfs thf sum of b dfrivfd propfrty
+     */
+    publid stbtid <T> Collfdtor<T, ?, Doublf>
+    bvfrbgingLong(ToLongFundtion<? supfr T> mbppfr) {
+        rfturn nfw CollfdtorImpl<>(
+                () -> nfw long[2],
+                (b, t) -> { b[0] += mbppfr.bpplyAsLong(t); b[1]++; },
+                (b, b) -> { b[0] += b[0]; b[1] += b[1]; rfturn b; },
+                b -> (b[1] == 0) ? 0.0d : (doublf) b[0] / b[1], CH_NOID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt produdfs thf brithmftid mfbn of b doublf-vblufd
+     * fundtion bpplifd to thf input flfmfnts.  If no flfmfnts brf prfsfnt,
+     * thf rfsult is 0.
+     *
+     * <p>Thf bvfrbgf rfturnfd dbn vbry dfpfnding upon thf ordfr in whidh
+     * vblufs brf rfdordfd, duf to bddumulbtfd rounding frror in
+     * bddition of vblufs of difffring mbgnitudfs. Vblufs sortfd by indrfbsing
+     * bbsolutf mbgnitudf tfnd to yifld morf bddurbtf rfsults.  If bny rfdordfd
+     * vbluf is b {@dodf NbN} or thf sum is bt bny point b {@dodf NbN} thfn thf
+     * bvfrbgf will bf {@dodf NbN}.
+     *
+     * @implNotf Thf {@dodf doublf} formbt dbn rfprfsfnt bll
+     * donsfdutivf intfgfrs in thf rbngf -2<sup>53</sup> to
+     * 2<sup>53</sup>. If thf pipflinf hbs morf thbn 2<sup>53</sup>
+     * vblufs, thf divisor in thf bvfrbgf domputbtion will sbturbtf bt
+     * 2<sup>53</sup>, lfbding to bdditionbl numfridbl frrors.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm mbppfr b fundtion fxtrbdting thf propfrty to bf summfd
+     * @rfturn b {@dodf Collfdtor} thbt produdfs thf sum of b dfrivfd propfrty
+     */
+    publid stbtid <T> Collfdtor<T, ?, Doublf>
+    bvfrbgingDoublf(ToDoublfFundtion<? supfr T> mbppfr) {
+        /*
+         * In thf brrbys bllodbtfd for thf dollfdt opfrbtion, indfx 0
+         * holds thf high-ordfr bits of thf running sum, indfx 1 holds
+         * thf low-ordfr bits of thf sum domputfd vib dompfnsbtfd
+         * summbtion, bnd indfx 2 holds thf numbfr of vblufs sffn.
+         */
+        rfturn nfw CollfdtorImpl<>(
+                () -> nfw doublf[4],
+                (b, t) -> { sumWithCompfnsbtion(b, mbppfr.bpplyAsDoublf(t)); b[2]++; b[3]+= mbppfr.bpplyAsDoublf(t);},
+                (b, b) -> { sumWithCompfnsbtion(b, b[0]); sumWithCompfnsbtion(b, b[1]); b[2] += b[2]; b[3] += b[3]; rfturn b; },
+                b -> (b[2] == 0) ? 0.0d : (domputfFinblSum(b) / b[2]),
+                CH_NOID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} whidh pfrforms b rfdudtion of its
+     * input flfmfnts undfr b spfdififd {@dodf BinbryOpfrbtor} using thf
+     * providfd idfntity.
+     *
+     * @bpiNotf
+     * Thf {@dodf rfduding()} dollfdtors brf most usfful whfn usfd in b
+     * multi-lfvfl rfdudtion, downstrfbm of {@dodf groupingBy} or
+     * {@dodf pbrtitioningBy}.  To pfrform b simplf rfdudtion on b strfbm,
+     * usf {@link Strfbm#rfdudf(Objfdt, BinbryOpfrbtor)}} instfbd.
+     *
+     * @pbrbm <T> flfmfnt typf for thf input bnd output of thf rfdudtion
+     * @pbrbm idfntity thf idfntity vbluf for thf rfdudtion (blso, thf vbluf
+     *                 thbt is rfturnfd whfn thfrf brf no input flfmfnts)
+     * @pbrbm op b {@dodf BinbryOpfrbtor<T>} usfd to rfdudf thf input flfmfnts
+     * @rfturn b {@dodf Collfdtor} whidh implfmfnts thf rfdudtion opfrbtion
+     *
+     * @sff #rfduding(BinbryOpfrbtor)
+     * @sff #rfduding(Objfdt, Fundtion, BinbryOpfrbtor)
+     */
+    publid stbtid <T> Collfdtor<T, ?, T>
+    rfduding(T idfntity, BinbryOpfrbtor<T> op) {
+        rfturn nfw CollfdtorImpl<>(
+                boxSupplifr(idfntity),
+                (b, t) -> { b[0] = op.bpply(b[0], t); },
+                (b, b) -> { b[0] = op.bpply(b[0], b[0]); rfturn b; },
+                b -> b[0],
+                CH_NOID);
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid <T> Supplifr<T[]> boxSupplifr(T idfntity) {
+        rfturn () -> (T[]) nfw Objfdt[] { idfntity };
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} whidh pfrforms b rfdudtion of its
+     * input flfmfnts undfr b spfdififd {@dodf BinbryOpfrbtor}.  Thf rfsult
+     * is dfsdribfd bs bn {@dodf Optionbl<T>}.
+     *
+     * @bpiNotf
+     * Thf {@dodf rfduding()} dollfdtors brf most usfful whfn usfd in b
+     * multi-lfvfl rfdudtion, downstrfbm of {@dodf groupingBy} or
+     * {@dodf pbrtitioningBy}.  To pfrform b simplf rfdudtion on b strfbm,
+     * usf {@link Strfbm#rfdudf(BinbryOpfrbtor)} instfbd.
+     *
+     * <p>For fxbmplf, givfn b strfbm of {@dodf Pfrson}, to dbldulbtf tbllfst
+     * pfrson in fbdh dity:
+     * <prf>{@dodf
+     *     Compbrbtor<Pfrson> byHfight = Compbrbtor.dompbring(Pfrson::gftHfight);
+     *     Mbp<City, Optionbl<Pfrson>> tbllfstByCity
+     *         = pfoplf.strfbm().dollfdt(groupingBy(Pfrson::gftCity, rfduding(BinbryOpfrbtor.mbxBy(byHfight))));
+     * }</prf>
+     *
+     * @pbrbm <T> flfmfnt typf for thf input bnd output of thf rfdudtion
+     * @pbrbm op b {@dodf BinbryOpfrbtor<T>} usfd to rfdudf thf input flfmfnts
+     * @rfturn b {@dodf Collfdtor} whidh implfmfnts thf rfdudtion opfrbtion
+     *
+     * @sff #rfduding(Objfdt, BinbryOpfrbtor)
+     * @sff #rfduding(Objfdt, Fundtion, BinbryOpfrbtor)
+     */
+    publid stbtid <T> Collfdtor<T, ?, Optionbl<T>>
+    rfduding(BinbryOpfrbtor<T> op) {
+        dlbss OptionblBox implfmfnts Consumfr<T> {
+            T vbluf = null;
+            boolfbn prfsfnt = fblsf;
+
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                if (prfsfnt) {
+                    vbluf = op.bpply(vbluf, t);
+                }
+                flsf {
+                    vbluf = t;
+                    prfsfnt = truf;
+                }
+            }
+        }
+
+        rfturn nfw CollfdtorImpl<T, OptionblBox, Optionbl<T>>(
+                OptionblBox::nfw, OptionblBox::bddfpt,
+                (b, b) -> { if (b.prfsfnt) b.bddfpt(b.vbluf); rfturn b; },
+                b -> Optionbl.ofNullbblf(b.vbluf), CH_NOID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} whidh pfrforms b rfdudtion of its
+     * input flfmfnts undfr b spfdififd mbpping fundtion bnd
+     * {@dodf BinbryOpfrbtor}. This is b gfnfrblizbtion of
+     * {@link #rfduding(Objfdt, BinbryOpfrbtor)} whidh bllows b trbnsformbtion
+     * of thf flfmfnts bfforf rfdudtion.
+     *
+     * @bpiNotf
+     * Thf {@dodf rfduding()} dollfdtors brf most usfful whfn usfd in b
+     * multi-lfvfl rfdudtion, downstrfbm of {@dodf groupingBy} or
+     * {@dodf pbrtitioningBy}.  To pfrform b simplf mbp-rfdudf on b strfbm,
+     * usf {@link Strfbm#mbp(Fundtion)} bnd {@link Strfbm#rfdudf(Objfdt, BinbryOpfrbtor)}
+     * instfbd.
+     *
+     * <p>For fxbmplf, givfn b strfbm of {@dodf Pfrson}, to dbldulbtf thf longfst
+     * lbst nbmf of rfsidfnts in fbdh dity:
+     * <prf>{@dodf
+     *     Compbrbtor<String> byLfngth = Compbrbtor.dompbring(String::lfngth);
+     *     Mbp<City, String> longfstLbstNbmfByCity
+     *         = pfoplf.strfbm().dollfdt(groupingBy(Pfrson::gftCity,
+     *                                              rfduding("", Pfrson::gftLbstNbmf, BinbryOpfrbtor.mbxBy(byLfngth))));
+     * }</prf>
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <U> thf typf of thf mbppfd vblufs
+     * @pbrbm idfntity thf idfntity vbluf for thf rfdudtion (blso, thf vbluf
+     *                 thbt is rfturnfd whfn thfrf brf no input flfmfnts)
+     * @pbrbm mbppfr b mbpping fundtion to bpply to fbdh input vbluf
+     * @pbrbm op b {@dodf BinbryOpfrbtor<U>} usfd to rfdudf thf mbppfd vblufs
+     * @rfturn b {@dodf Collfdtor} implfmfnting thf mbp-rfdudf opfrbtion
+     *
+     * @sff #rfduding(Objfdt, BinbryOpfrbtor)
+     * @sff #rfduding(BinbryOpfrbtor)
+     */
+    publid stbtid <T, U>
+    Collfdtor<T, ?, U> rfduding(U idfntity,
+                                Fundtion<? supfr T, ? fxtfnds U> mbppfr,
+                                BinbryOpfrbtor<U> op) {
+        rfturn nfw CollfdtorImpl<>(
+                boxSupplifr(idfntity),
+                (b, t) -> { b[0] = op.bpply(b[0], mbppfr.bpply(t)); },
+                (b, b) -> { b[0] = op.bpply(b[0], b[0]); rfturn b; },
+                b -> b[0], CH_NOID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} implfmfnting b "group by" opfrbtion on
+     * input flfmfnts of typf {@dodf T}, grouping flfmfnts bddording to b
+     * dlbssifidbtion fundtion, bnd rfturning thf rfsults in b {@dodf Mbp}.
+     *
+     * <p>Thf dlbssifidbtion fundtion mbps flfmfnts to somf kfy typf {@dodf K}.
+     * Thf dollfdtor produdfs b {@dodf Mbp<K, List<T>>} whosf kfys brf thf
+     * vblufs rfsulting from bpplying thf dlbssifidbtion fundtion to thf input
+     * flfmfnts, bnd whosf dorrfsponding vblufs brf {@dodf List}s dontbining thf
+     * input flfmfnts whidh mbp to thf bssodibtfd kfy undfr thf dlbssifidbtion
+     * fundtion.
+     *
+     * <p>Thfrf brf no gubrbntffs on thf typf, mutbbility, sfriblizbbility, or
+     * thrfbd-sbffty of thf {@dodf Mbp} or {@dodf List} objfdts rfturnfd.
+     * @implSpfd
+     * This produdfs b rfsult similbr to:
+     * <prf>{@dodf
+     *     groupingBy(dlbssififr, toList());
+     * }</prf>
+     *
+     * @implNotf
+     * Thf rfturnfd {@dodf Collfdtor} is not dondurrfnt.  For pbrbllfl strfbm
+     * pipflinfs, thf {@dodf dombinfr} fundtion opfrbtfs by mfrging thf kfys
+     * from onf mbp into bnothfr, whidh dbn bf bn fxpfnsivf opfrbtion.  If
+     * prfsfrvbtion of thf ordfr in whidh flfmfnts bppfbr in thf rfsulting {@dodf Mbp}
+     * dollfdtor is not rfquirfd, using {@link #groupingByCondurrfnt(Fundtion)}
+     * mby offfr bfttfr pbrbllfl pfrformbndf.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf typf of thf kfys
+     * @pbrbm dlbssififr thf dlbssififr fundtion mbpping input flfmfnts to kfys
+     * @rfturn b {@dodf Collfdtor} implfmfnting thf group-by opfrbtion
+     *
+     * @sff #groupingBy(Fundtion, Collfdtor)
+     * @sff #groupingBy(Fundtion, Supplifr, Collfdtor)
+     * @sff #groupingByCondurrfnt(Fundtion)
+     */
+    publid stbtid <T, K> Collfdtor<T, ?, Mbp<K, List<T>>>
+    groupingBy(Fundtion<? supfr T, ? fxtfnds K> dlbssififr) {
+        rfturn groupingBy(dlbssififr, toList());
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} implfmfnting b dbsdbdfd "group by" opfrbtion
+     * on input flfmfnts of typf {@dodf T}, grouping flfmfnts bddording to b
+     * dlbssifidbtion fundtion, bnd thfn pfrforming b rfdudtion opfrbtion on
+     * thf vblufs bssodibtfd with b givfn kfy using thf spfdififd downstrfbm
+     * {@dodf Collfdtor}.
+     *
+     * <p>Thf dlbssifidbtion fundtion mbps flfmfnts to somf kfy typf {@dodf K}.
+     * Thf downstrfbm dollfdtor opfrbtfs on flfmfnts of typf {@dodf T} bnd
+     * produdfs b rfsult of typf {@dodf D}. Thf rfsulting dollfdtor produdfs b
+     * {@dodf Mbp<K, D>}.
+     *
+     * <p>Thfrf brf no gubrbntffs on thf typf, mutbbility,
+     * sfriblizbbility, or thrfbd-sbffty of thf {@dodf Mbp} rfturnfd.
+     *
+     * <p>For fxbmplf, to domputf thf sft of lbst nbmfs of pfoplf in fbdh dity:
+     * <prf>{@dodf
+     *     Mbp<City, Sft<String>> nbmfsByCity
+     *         = pfoplf.strfbm().dollfdt(groupingBy(Pfrson::gftCity,
+     *                                              mbpping(Pfrson::gftLbstNbmf, toSft())));
+     * }</prf>
+     *
+     * @implNotf
+     * Thf rfturnfd {@dodf Collfdtor} is not dondurrfnt.  For pbrbllfl strfbm
+     * pipflinfs, thf {@dodf dombinfr} fundtion opfrbtfs by mfrging thf kfys
+     * from onf mbp into bnothfr, whidh dbn bf bn fxpfnsivf opfrbtion.  If
+     * prfsfrvbtion of thf ordfr in whidh flfmfnts brf prfsfntfd to thf downstrfbm
+     * dollfdtor is not rfquirfd, using {@link #groupingByCondurrfnt(Fundtion, Collfdtor)}
+     * mby offfr bfttfr pbrbllfl pfrformbndf.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf typf of thf kfys
+     * @pbrbm <A> thf intfrmfdibtf bddumulbtion typf of thf downstrfbm dollfdtor
+     * @pbrbm <D> thf rfsult typf of thf downstrfbm rfdudtion
+     * @pbrbm dlbssififr b dlbssififr fundtion mbpping input flfmfnts to kfys
+     * @pbrbm downstrfbm b {@dodf Collfdtor} implfmfnting thf downstrfbm rfdudtion
+     * @rfturn b {@dodf Collfdtor} implfmfnting thf dbsdbdfd group-by opfrbtion
+     * @sff #groupingBy(Fundtion)
+     *
+     * @sff #groupingBy(Fundtion, Supplifr, Collfdtor)
+     * @sff #groupingByCondurrfnt(Fundtion, Collfdtor)
+     */
+    publid stbtid <T, K, A, D>
+    Collfdtor<T, ?, Mbp<K, D>> groupingBy(Fundtion<? supfr T, ? fxtfnds K> dlbssififr,
+                                          Collfdtor<? supfr T, A, D> downstrfbm) {
+        rfturn groupingBy(dlbssififr, HbshMbp::nfw, downstrfbm);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} implfmfnting b dbsdbdfd "group by" opfrbtion
+     * on input flfmfnts of typf {@dodf T}, grouping flfmfnts bddording to b
+     * dlbssifidbtion fundtion, bnd thfn pfrforming b rfdudtion opfrbtion on
+     * thf vblufs bssodibtfd with b givfn kfy using thf spfdififd downstrfbm
+     * {@dodf Collfdtor}.  Thf {@dodf Mbp} produdfd by thf Collfdtor is drfbtfd
+     * with thf supplifd fbdtory fundtion.
+     *
+     * <p>Thf dlbssifidbtion fundtion mbps flfmfnts to somf kfy typf {@dodf K}.
+     * Thf downstrfbm dollfdtor opfrbtfs on flfmfnts of typf {@dodf T} bnd
+     * produdfs b rfsult of typf {@dodf D}. Thf rfsulting dollfdtor produdfs b
+     * {@dodf Mbp<K, D>}.
+     *
+     * <p>For fxbmplf, to domputf thf sft of lbst nbmfs of pfoplf in fbdh dity,
+     * whfrf thf dity nbmfs brf sortfd:
+     * <prf>{@dodf
+     *     Mbp<City, Sft<String>> nbmfsByCity
+     *         = pfoplf.strfbm().dollfdt(groupingBy(Pfrson::gftCity, TrffMbp::nfw,
+     *                                              mbpping(Pfrson::gftLbstNbmf, toSft())));
+     * }</prf>
+     *
+     * @implNotf
+     * Thf rfturnfd {@dodf Collfdtor} is not dondurrfnt.  For pbrbllfl strfbm
+     * pipflinfs, thf {@dodf dombinfr} fundtion opfrbtfs by mfrging thf kfys
+     * from onf mbp into bnothfr, whidh dbn bf bn fxpfnsivf opfrbtion.  If
+     * prfsfrvbtion of thf ordfr in whidh flfmfnts brf prfsfntfd to thf downstrfbm
+     * dollfdtor is not rfquirfd, using {@link #groupingByCondurrfnt(Fundtion, Supplifr, Collfdtor)}
+     * mby offfr bfttfr pbrbllfl pfrformbndf.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf typf of thf kfys
+     * @pbrbm <A> thf intfrmfdibtf bddumulbtion typf of thf downstrfbm dollfdtor
+     * @pbrbm <D> thf rfsult typf of thf downstrfbm rfdudtion
+     * @pbrbm <M> thf typf of thf rfsulting {@dodf Mbp}
+     * @pbrbm dlbssififr b dlbssififr fundtion mbpping input flfmfnts to kfys
+     * @pbrbm downstrfbm b {@dodf Collfdtor} implfmfnting thf downstrfbm rfdudtion
+     * @pbrbm mbpFbdtory b fundtion whidh, whfn dbllfd, produdfs b nfw fmpty
+     *                   {@dodf Mbp} of thf dfsirfd typf
+     * @rfturn b {@dodf Collfdtor} implfmfnting thf dbsdbdfd group-by opfrbtion
+     *
+     * @sff #groupingBy(Fundtion, Collfdtor)
+     * @sff #groupingBy(Fundtion)
+     * @sff #groupingByCondurrfnt(Fundtion, Supplifr, Collfdtor)
+     */
+    publid stbtid <T, K, D, A, M fxtfnds Mbp<K, D>>
+    Collfdtor<T, ?, M> groupingBy(Fundtion<? supfr T, ? fxtfnds K> dlbssififr,
+                                  Supplifr<M> mbpFbdtory,
+                                  Collfdtor<? supfr T, A, D> downstrfbm) {
+        Supplifr<A> downstrfbmSupplifr = downstrfbm.supplifr();
+        BiConsumfr<A, ? supfr T> downstrfbmAddumulbtor = downstrfbm.bddumulbtor();
+        BiConsumfr<Mbp<K, A>, T> bddumulbtor = (m, t) -> {
+            K kfy = Objfdts.rfquirfNonNull(dlbssififr.bpply(t), "flfmfnt dbnnot bf mbppfd to b null kfy");
+            A dontbinfr = m.domputfIfAbsfnt(kfy, k -> downstrfbmSupplifr.gft());
+            downstrfbmAddumulbtor.bddfpt(dontbinfr, t);
+        };
+        BinbryOpfrbtor<Mbp<K, A>> mfrgfr = Collfdtors.<K, A, Mbp<K, A>>mbpMfrgfr(downstrfbm.dombinfr());
+        @SupprfssWbrnings("undhfdkfd")
+        Supplifr<Mbp<K, A>> mbnglfdFbdtory = (Supplifr<Mbp<K, A>>) mbpFbdtory;
+
+        if (downstrfbm.dhbrbdtfristids().dontbins(Collfdtor.Chbrbdtfristids.IDENTITY_FINISH)) {
+            rfturn nfw CollfdtorImpl<>(mbnglfdFbdtory, bddumulbtor, mfrgfr, CH_ID);
+        }
+        flsf {
+            @SupprfssWbrnings("undhfdkfd")
+            Fundtion<A, A> downstrfbmFinishfr = (Fundtion<A, A>) downstrfbm.finishfr();
+            Fundtion<Mbp<K, A>, M> finishfr = intfrmfdibtf -> {
+                intfrmfdibtf.rfplbdfAll((k, v) -> downstrfbmFinishfr.bpply(v));
+                @SupprfssWbrnings("undhfdkfd")
+                M dbstRfsult = (M) intfrmfdibtf;
+                rfturn dbstRfsult;
+            };
+            rfturn nfw CollfdtorImpl<>(mbnglfdFbdtory, bddumulbtor, mfrgfr, finishfr, CH_NOID);
+        }
+    }
+
+    /**
+     * Rfturns b dondurrfnt {@dodf Collfdtor} implfmfnting b "group by"
+     * opfrbtion on input flfmfnts of typf {@dodf T}, grouping flfmfnts
+     * bddording to b dlbssifidbtion fundtion.
+     *
+     * <p>This is b {@link Collfdtor.Chbrbdtfristids#CONCURRENT dondurrfnt} bnd
+     * {@link Collfdtor.Chbrbdtfristids#UNORDERED unordfrfd} Collfdtor.
+     *
+     * <p>Thf dlbssifidbtion fundtion mbps flfmfnts to somf kfy typf {@dodf K}.
+     * Thf dollfdtor produdfs b {@dodf CondurrfntMbp<K, List<T>>} whosf kfys brf thf
+     * vblufs rfsulting from bpplying thf dlbssifidbtion fundtion to thf input
+     * flfmfnts, bnd whosf dorrfsponding vblufs brf {@dodf List}s dontbining thf
+     * input flfmfnts whidh mbp to thf bssodibtfd kfy undfr thf dlbssifidbtion
+     * fundtion.
+     *
+     * <p>Thfrf brf no gubrbntffs on thf typf, mutbbility, or sfriblizbbility
+     * of thf {@dodf Mbp} or {@dodf List} objfdts rfturnfd, or of thf
+     * thrfbd-sbffty of thf {@dodf List} objfdts rfturnfd.
+     * @implSpfd
+     * This produdfs b rfsult similbr to:
+     * <prf>{@dodf
+     *     groupingByCondurrfnt(dlbssififr, toList());
+     * }</prf>
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf typf of thf kfys
+     * @pbrbm dlbssififr b dlbssififr fundtion mbpping input flfmfnts to kfys
+     * @rfturn b dondurrfnt, unordfrfd {@dodf Collfdtor} implfmfnting thf group-by opfrbtion
+     *
+     * @sff #groupingBy(Fundtion)
+     * @sff #groupingByCondurrfnt(Fundtion, Collfdtor)
+     * @sff #groupingByCondurrfnt(Fundtion, Supplifr, Collfdtor)
+     */
+    publid stbtid <T, K>
+    Collfdtor<T, ?, CondurrfntMbp<K, List<T>>>
+    groupingByCondurrfnt(Fundtion<? supfr T, ? fxtfnds K> dlbssififr) {
+        rfturn groupingByCondurrfnt(dlbssififr, CondurrfntHbshMbp::nfw, toList());
+    }
+
+    /**
+     * Rfturns b dondurrfnt {@dodf Collfdtor} implfmfnting b dbsdbdfd "group by"
+     * opfrbtion on input flfmfnts of typf {@dodf T}, grouping flfmfnts
+     * bddording to b dlbssifidbtion fundtion, bnd thfn pfrforming b rfdudtion
+     * opfrbtion on thf vblufs bssodibtfd with b givfn kfy using thf spfdififd
+     * downstrfbm {@dodf Collfdtor}.
+     *
+     * <p>This is b {@link Collfdtor.Chbrbdtfristids#CONCURRENT dondurrfnt} bnd
+     * {@link Collfdtor.Chbrbdtfristids#UNORDERED unordfrfd} Collfdtor.
+     *
+     * <p>Thf dlbssifidbtion fundtion mbps flfmfnts to somf kfy typf {@dodf K}.
+     * Thf downstrfbm dollfdtor opfrbtfs on flfmfnts of typf {@dodf T} bnd
+     * produdfs b rfsult of typf {@dodf D}. Thf rfsulting dollfdtor produdfs b
+     * {@dodf Mbp<K, D>}.
+     *
+     * <p>For fxbmplf, to domputf thf sft of lbst nbmfs of pfoplf in fbdh dity,
+     * whfrf thf dity nbmfs brf sortfd:
+     * <prf>{@dodf
+     *     CondurrfntMbp<City, Sft<String>> nbmfsByCity
+     *         = pfoplf.strfbm().dollfdt(groupingByCondurrfnt(Pfrson::gftCity,
+     *                                                        mbpping(Pfrson::gftLbstNbmf, toSft())));
+     * }</prf>
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf typf of thf kfys
+     * @pbrbm <A> thf intfrmfdibtf bddumulbtion typf of thf downstrfbm dollfdtor
+     * @pbrbm <D> thf rfsult typf of thf downstrfbm rfdudtion
+     * @pbrbm dlbssififr b dlbssififr fundtion mbpping input flfmfnts to kfys
+     * @pbrbm downstrfbm b {@dodf Collfdtor} implfmfnting thf downstrfbm rfdudtion
+     * @rfturn b dondurrfnt, unordfrfd {@dodf Collfdtor} implfmfnting thf dbsdbdfd group-by opfrbtion
+     *
+     * @sff #groupingBy(Fundtion, Collfdtor)
+     * @sff #groupingByCondurrfnt(Fundtion)
+     * @sff #groupingByCondurrfnt(Fundtion, Supplifr, Collfdtor)
+     */
+    publid stbtid <T, K, A, D>
+    Collfdtor<T, ?, CondurrfntMbp<K, D>> groupingByCondurrfnt(Fundtion<? supfr T, ? fxtfnds K> dlbssififr,
+                                                              Collfdtor<? supfr T, A, D> downstrfbm) {
+        rfturn groupingByCondurrfnt(dlbssififr, CondurrfntHbshMbp::nfw, downstrfbm);
+    }
+
+    /**
+     * Rfturns b dondurrfnt {@dodf Collfdtor} implfmfnting b dbsdbdfd "group by"
+     * opfrbtion on input flfmfnts of typf {@dodf T}, grouping flfmfnts
+     * bddording to b dlbssifidbtion fundtion, bnd thfn pfrforming b rfdudtion
+     * opfrbtion on thf vblufs bssodibtfd with b givfn kfy using thf spfdififd
+     * downstrfbm {@dodf Collfdtor}.  Thf {@dodf CondurrfntMbp} produdfd by thf
+     * Collfdtor is drfbtfd with thf supplifd fbdtory fundtion.
+     *
+     * <p>This is b {@link Collfdtor.Chbrbdtfristids#CONCURRENT dondurrfnt} bnd
+     * {@link Collfdtor.Chbrbdtfristids#UNORDERED unordfrfd} Collfdtor.
+     *
+     * <p>Thf dlbssifidbtion fundtion mbps flfmfnts to somf kfy typf {@dodf K}.
+     * Thf downstrfbm dollfdtor opfrbtfs on flfmfnts of typf {@dodf T} bnd
+     * produdfs b rfsult of typf {@dodf D}. Thf rfsulting dollfdtor produdfs b
+     * {@dodf Mbp<K, D>}.
+     *
+     * <p>For fxbmplf, to domputf thf sft of lbst nbmfs of pfoplf in fbdh dity,
+     * whfrf thf dity nbmfs brf sortfd:
+     * <prf>{@dodf
+     *     CondurrfntMbp<City, Sft<String>> nbmfsByCity
+     *         = pfoplf.strfbm().dollfdt(groupingBy(Pfrson::gftCity, CondurrfntSkipListMbp::nfw,
+     *                                              mbpping(Pfrson::gftLbstNbmf, toSft())));
+     * }</prf>
+     *
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf typf of thf kfys
+     * @pbrbm <A> thf intfrmfdibtf bddumulbtion typf of thf downstrfbm dollfdtor
+     * @pbrbm <D> thf rfsult typf of thf downstrfbm rfdudtion
+     * @pbrbm <M> thf typf of thf rfsulting {@dodf CondurrfntMbp}
+     * @pbrbm dlbssififr b dlbssififr fundtion mbpping input flfmfnts to kfys
+     * @pbrbm downstrfbm b {@dodf Collfdtor} implfmfnting thf downstrfbm rfdudtion
+     * @pbrbm mbpFbdtory b fundtion whidh, whfn dbllfd, produdfs b nfw fmpty
+     *                   {@dodf CondurrfntMbp} of thf dfsirfd typf
+     * @rfturn b dondurrfnt, unordfrfd {@dodf Collfdtor} implfmfnting thf dbsdbdfd group-by opfrbtion
+     *
+     * @sff #groupingByCondurrfnt(Fundtion)
+     * @sff #groupingByCondurrfnt(Fundtion, Collfdtor)
+     * @sff #groupingBy(Fundtion, Supplifr, Collfdtor)
+     */
+    publid stbtid <T, K, A, D, M fxtfnds CondurrfntMbp<K, D>>
+    Collfdtor<T, ?, M> groupingByCondurrfnt(Fundtion<? supfr T, ? fxtfnds K> dlbssififr,
+                                            Supplifr<M> mbpFbdtory,
+                                            Collfdtor<? supfr T, A, D> downstrfbm) {
+        Supplifr<A> downstrfbmSupplifr = downstrfbm.supplifr();
+        BiConsumfr<A, ? supfr T> downstrfbmAddumulbtor = downstrfbm.bddumulbtor();
+        BinbryOpfrbtor<CondurrfntMbp<K, A>> mfrgfr = Collfdtors.<K, A, CondurrfntMbp<K, A>>mbpMfrgfr(downstrfbm.dombinfr());
+        @SupprfssWbrnings("undhfdkfd")
+        Supplifr<CondurrfntMbp<K, A>> mbnglfdFbdtory = (Supplifr<CondurrfntMbp<K, A>>) mbpFbdtory;
+        BiConsumfr<CondurrfntMbp<K, A>, T> bddumulbtor;
+        if (downstrfbm.dhbrbdtfristids().dontbins(Collfdtor.Chbrbdtfristids.CONCURRENT)) {
+            bddumulbtor = (m, t) -> {
+                K kfy = Objfdts.rfquirfNonNull(dlbssififr.bpply(t), "flfmfnt dbnnot bf mbppfd to b null kfy");
+                A rfsultContbinfr = m.domputfIfAbsfnt(kfy, k -> downstrfbmSupplifr.gft());
+                downstrfbmAddumulbtor.bddfpt(rfsultContbinfr, t);
+            };
+        }
+        flsf {
+            bddumulbtor = (m, t) -> {
+                K kfy = Objfdts.rfquirfNonNull(dlbssififr.bpply(t), "flfmfnt dbnnot bf mbppfd to b null kfy");
+                A rfsultContbinfr = m.domputfIfAbsfnt(kfy, k -> downstrfbmSupplifr.gft());
+                syndhronizfd (rfsultContbinfr) {
+                    downstrfbmAddumulbtor.bddfpt(rfsultContbinfr, t);
+                }
+            };
+        }
+
+        if (downstrfbm.dhbrbdtfristids().dontbins(Collfdtor.Chbrbdtfristids.IDENTITY_FINISH)) {
+            rfturn nfw CollfdtorImpl<>(mbnglfdFbdtory, bddumulbtor, mfrgfr, CH_CONCURRENT_ID);
+        }
+        flsf {
+            @SupprfssWbrnings("undhfdkfd")
+            Fundtion<A, A> downstrfbmFinishfr = (Fundtion<A, A>) downstrfbm.finishfr();
+            Fundtion<CondurrfntMbp<K, A>, M> finishfr = intfrmfdibtf -> {
+                intfrmfdibtf.rfplbdfAll((k, v) -> downstrfbmFinishfr.bpply(v));
+                @SupprfssWbrnings("undhfdkfd")
+                M dbstRfsult = (M) intfrmfdibtf;
+                rfturn dbstRfsult;
+            };
+            rfturn nfw CollfdtorImpl<>(mbnglfdFbdtory, bddumulbtor, mfrgfr, finishfr, CH_CONCURRENT_NOID);
+        }
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} whidh pbrtitions thf input flfmfnts bddording
+     * to b {@dodf Prfdidbtf}, bnd orgbnizfs thfm into b
+     * {@dodf Mbp<Boolfbn, List<T>>}.
+     *
+     * Thfrf brf no gubrbntffs on thf typf, mutbbility,
+     * sfriblizbbility, or thrfbd-sbffty of thf {@dodf Mbp} rfturnfd.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm prfdidbtf b prfdidbtf usfd for dlbssifying input flfmfnts
+     * @rfturn b {@dodf Collfdtor} implfmfnting thf pbrtitioning opfrbtion
+     *
+     * @sff #pbrtitioningBy(Prfdidbtf, Collfdtor)
+     */
+    publid stbtid <T>
+    Collfdtor<T, ?, Mbp<Boolfbn, List<T>>> pbrtitioningBy(Prfdidbtf<? supfr T> prfdidbtf) {
+        rfturn pbrtitioningBy(prfdidbtf, toList());
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} whidh pbrtitions thf input flfmfnts bddording
+     * to b {@dodf Prfdidbtf}, rfdudfs thf vblufs in fbdh pbrtition bddording to
+     * bnothfr {@dodf Collfdtor}, bnd orgbnizfs thfm into b
+     * {@dodf Mbp<Boolfbn, D>} whosf vblufs brf thf rfsult of thf downstrfbm
+     * rfdudtion.
+     *
+     * <p>Thfrf brf no gubrbntffs on thf typf, mutbbility,
+     * sfriblizbbility, or thrfbd-sbffty of thf {@dodf Mbp} rfturnfd.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <A> thf intfrmfdibtf bddumulbtion typf of thf downstrfbm dollfdtor
+     * @pbrbm <D> thf rfsult typf of thf downstrfbm rfdudtion
+     * @pbrbm prfdidbtf b prfdidbtf usfd for dlbssifying input flfmfnts
+     * @pbrbm downstrfbm b {@dodf Collfdtor} implfmfnting thf downstrfbm
+     *                   rfdudtion
+     * @rfturn b {@dodf Collfdtor} implfmfnting thf dbsdbdfd pbrtitioning
+     *         opfrbtion
+     *
+     * @sff #pbrtitioningBy(Prfdidbtf)
+     */
+    publid stbtid <T, D, A>
+    Collfdtor<T, ?, Mbp<Boolfbn, D>> pbrtitioningBy(Prfdidbtf<? supfr T> prfdidbtf,
+                                                    Collfdtor<? supfr T, A, D> downstrfbm) {
+        BiConsumfr<A, ? supfr T> downstrfbmAddumulbtor = downstrfbm.bddumulbtor();
+        BiConsumfr<Pbrtition<A>, T> bddumulbtor = (rfsult, t) ->
+                downstrfbmAddumulbtor.bddfpt(prfdidbtf.tfst(t) ? rfsult.forTruf : rfsult.forFblsf, t);
+        BinbryOpfrbtor<A> op = downstrfbm.dombinfr();
+        BinbryOpfrbtor<Pbrtition<A>> mfrgfr = (lfft, right) ->
+                nfw Pbrtition<>(op.bpply(lfft.forTruf, right.forTruf),
+                                op.bpply(lfft.forFblsf, right.forFblsf));
+        Supplifr<Pbrtition<A>> supplifr = () ->
+                nfw Pbrtition<>(downstrfbm.supplifr().gft(),
+                                downstrfbm.supplifr().gft());
+        if (downstrfbm.dhbrbdtfristids().dontbins(Collfdtor.Chbrbdtfristids.IDENTITY_FINISH)) {
+            rfturn nfw CollfdtorImpl<>(supplifr, bddumulbtor, mfrgfr, CH_ID);
+        }
+        flsf {
+            Fundtion<Pbrtition<A>, Mbp<Boolfbn, D>> finishfr = pbr ->
+                    nfw Pbrtition<>(downstrfbm.finishfr().bpply(pbr.forTruf),
+                                    downstrfbm.finishfr().bpply(pbr.forFblsf));
+            rfturn nfw CollfdtorImpl<>(supplifr, bddumulbtor, mfrgfr, finishfr, CH_NOID);
+        }
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt bddumulbtfs flfmfnts into b
+     * {@dodf Mbp} whosf kfys bnd vblufs brf thf rfsult of bpplying thf providfd
+     * mbpping fundtions to thf input flfmfnts.
+     *
+     * <p>If thf mbppfd kfys dontbins duplidbtfs (bddording to
+     * {@link Objfdt#fqubls(Objfdt)}), bn {@dodf IllfgblStbtfExdfption} is
+     * thrown whfn thf dollfdtion opfrbtion is pfrformfd.  If thf mbppfd kfys
+     * mby hbvf duplidbtfs, usf {@link #toMbp(Fundtion, Fundtion, BinbryOpfrbtor)}
+     * instfbd.
+     *
+     * @bpiNotf
+     * It is dommon for fithfr thf kfy or thf vbluf to bf thf input flfmfnts.
+     * In this dbsf, thf utility mfthod
+     * {@link jbvb.util.fundtion.Fundtion#idfntity()} mby bf hflpful.
+     * For fxbmplf, thf following produdfs b {@dodf Mbp} mbpping
+     * studfnts to thfir grbdf point bvfrbgf:
+     * <prf>{@dodf
+     *     Mbp<Studfnt, Doublf> studfntToGPA
+     *         studfnts.strfbm().dollfdt(toMbp(Fundtion.idfntity(),
+     *                                         studfnt -> domputfGPA(studfnt)));
+     * }</prf>
+     * And thf following produdfs b {@dodf Mbp} mbpping b uniquf idfntififr to
+     * studfnts:
+     * <prf>{@dodf
+     *     Mbp<String, Studfnt> studfntIdToStudfnt
+     *         studfnts.strfbm().dollfdt(toMbp(Studfnt::gftId,
+     *                                         Fundtion.idfntity());
+     * }</prf>
+     *
+     * @implNotf
+     * Thf rfturnfd {@dodf Collfdtor} is not dondurrfnt.  For pbrbllfl strfbm
+     * pipflinfs, thf {@dodf dombinfr} fundtion opfrbtfs by mfrging thf kfys
+     * from onf mbp into bnothfr, whidh dbn bf bn fxpfnsivf opfrbtion.  If it is
+     * not rfquirfd thbt rfsults brf insfrtfd into thf {@dodf Mbp} in fndountfr
+     * ordfr, using {@link #toCondurrfntMbp(Fundtion, Fundtion)}
+     * mby offfr bfttfr pbrbllfl pfrformbndf.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf output typf of thf kfy mbpping fundtion
+     * @pbrbm <U> thf output typf of thf vbluf mbpping fundtion
+     * @pbrbm kfyMbppfr b mbpping fundtion to produdf kfys
+     * @pbrbm vblufMbppfr b mbpping fundtion to produdf vblufs
+     * @rfturn b {@dodf Collfdtor} whidh dollfdts flfmfnts into b {@dodf Mbp}
+     * whosf kfys bnd vblufs brf thf rfsult of bpplying mbpping fundtions to
+     * thf input flfmfnts
+     *
+     * @sff #toMbp(Fundtion, Fundtion, BinbryOpfrbtor)
+     * @sff #toMbp(Fundtion, Fundtion, BinbryOpfrbtor, Supplifr)
+     * @sff #toCondurrfntMbp(Fundtion, Fundtion)
+     */
+    publid stbtid <T, K, U>
+    Collfdtor<T, ?, Mbp<K,U>> toMbp(Fundtion<? supfr T, ? fxtfnds K> kfyMbppfr,
+                                    Fundtion<? supfr T, ? fxtfnds U> vblufMbppfr) {
+        rfturn nfw CollfdtorImpl<>(HbshMbp::nfw,
+                                   uniqKfysMbpAddumulbtor(kfyMbppfr, vblufMbppfr),
+                                   uniqKfysMbpMfrgfr(),
+                                   CH_ID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt bddumulbtfs flfmfnts into b
+     * {@dodf Mbp} whosf kfys bnd vblufs brf thf rfsult of bpplying thf providfd
+     * mbpping fundtions to thf input flfmfnts.
+     *
+     * <p>If thf mbppfd
+     * kfys dontbins duplidbtfs (bddording to {@link Objfdt#fqubls(Objfdt)}),
+     * thf vbluf mbpping fundtion is bpplifd to fbdh fqubl flfmfnt, bnd thf
+     * rfsults brf mfrgfd using thf providfd mfrging fundtion.
+     *
+     * @bpiNotf
+     * Thfrf brf multiplf wbys to dfbl with dollisions bftwffn multiplf flfmfnts
+     * mbpping to thf sbmf kfy.  Thf othfr forms of {@dodf toMbp} simply usf
+     * b mfrgf fundtion thbt throws undonditionblly, but you dbn fbsily writf
+     * morf flfxiblf mfrgf polidifs.  For fxbmplf, if you hbvf b strfbm
+     * of {@dodf Pfrson}, bnd you wbnt to produdf b "phonf book" mbpping nbmf to
+     * bddrfss, but it is possiblf thbt two pfrsons hbvf thf sbmf nbmf, you dbn
+     * do bs follows to grbdffully dfbls with thfsf dollisions, bnd produdf b
+     * {@dodf Mbp} mbpping nbmfs to b dondbtfnbtfd list of bddrfssfs:
+     * <prf>{@dodf
+     *     Mbp<String, String> phonfBook
+     *         pfoplf.strfbm().dollfdt(toMbp(Pfrson::gftNbmf,
+     *                                       Pfrson::gftAddrfss,
+     *                                       (s, b) -> s + ", " + b));
+     * }</prf>
+     *
+     * @implNotf
+     * Thf rfturnfd {@dodf Collfdtor} is not dondurrfnt.  For pbrbllfl strfbm
+     * pipflinfs, thf {@dodf dombinfr} fundtion opfrbtfs by mfrging thf kfys
+     * from onf mbp into bnothfr, whidh dbn bf bn fxpfnsivf opfrbtion.  If it is
+     * not rfquirfd thbt rfsults brf mfrgfd into thf {@dodf Mbp} in fndountfr
+     * ordfr, using {@link #toCondurrfntMbp(Fundtion, Fundtion, BinbryOpfrbtor)}
+     * mby offfr bfttfr pbrbllfl pfrformbndf.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf output typf of thf kfy mbpping fundtion
+     * @pbrbm <U> thf output typf of thf vbluf mbpping fundtion
+     * @pbrbm kfyMbppfr b mbpping fundtion to produdf kfys
+     * @pbrbm vblufMbppfr b mbpping fundtion to produdf vblufs
+     * @pbrbm mfrgfFundtion b mfrgf fundtion, usfd to rfsolvf dollisions bftwffn
+     *                      vblufs bssodibtfd with thf sbmf kfy, bs supplifd
+     *                      to {@link Mbp#mfrgf(Objfdt, Objfdt, BiFundtion)}
+     * @rfturn b {@dodf Collfdtor} whidh dollfdts flfmfnts into b {@dodf Mbp}
+     * whosf kfys brf thf rfsult of bpplying b kfy mbpping fundtion to thf input
+     * flfmfnts, bnd whosf vblufs brf thf rfsult of bpplying b vbluf mbpping
+     * fundtion to bll input flfmfnts fqubl to thf kfy bnd dombining thfm
+     * using thf mfrgf fundtion
+     *
+     * @sff #toMbp(Fundtion, Fundtion)
+     * @sff #toMbp(Fundtion, Fundtion, BinbryOpfrbtor, Supplifr)
+     * @sff #toCondurrfntMbp(Fundtion, Fundtion, BinbryOpfrbtor)
+     */
+    publid stbtid <T, K, U>
+    Collfdtor<T, ?, Mbp<K,U>> toMbp(Fundtion<? supfr T, ? fxtfnds K> kfyMbppfr,
+                                    Fundtion<? supfr T, ? fxtfnds U> vblufMbppfr,
+                                    BinbryOpfrbtor<U> mfrgfFundtion) {
+        rfturn toMbp(kfyMbppfr, vblufMbppfr, mfrgfFundtion, HbshMbp::nfw);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} thbt bddumulbtfs flfmfnts into b
+     * {@dodf Mbp} whosf kfys bnd vblufs brf thf rfsult of bpplying thf providfd
+     * mbpping fundtions to thf input flfmfnts.
+     *
+     * <p>If thf mbppfd
+     * kfys dontbins duplidbtfs (bddording to {@link Objfdt#fqubls(Objfdt)}),
+     * thf vbluf mbpping fundtion is bpplifd to fbdh fqubl flfmfnt, bnd thf
+     * rfsults brf mfrgfd using thf providfd mfrging fundtion.  Thf {@dodf Mbp}
+     * is drfbtfd by b providfd supplifr fundtion.
+     *
+     * @implNotf
+     * Thf rfturnfd {@dodf Collfdtor} is not dondurrfnt.  For pbrbllfl strfbm
+     * pipflinfs, thf {@dodf dombinfr} fundtion opfrbtfs by mfrging thf kfys
+     * from onf mbp into bnothfr, whidh dbn bf bn fxpfnsivf opfrbtion.  If it is
+     * not rfquirfd thbt rfsults brf mfrgfd into thf {@dodf Mbp} in fndountfr
+     * ordfr, using {@link #toCondurrfntMbp(Fundtion, Fundtion, BinbryOpfrbtor, Supplifr)}
+     * mby offfr bfttfr pbrbllfl pfrformbndf.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf output typf of thf kfy mbpping fundtion
+     * @pbrbm <U> thf output typf of thf vbluf mbpping fundtion
+     * @pbrbm <M> thf typf of thf rfsulting {@dodf Mbp}
+     * @pbrbm kfyMbppfr b mbpping fundtion to produdf kfys
+     * @pbrbm vblufMbppfr b mbpping fundtion to produdf vblufs
+     * @pbrbm mfrgfFundtion b mfrgf fundtion, usfd to rfsolvf dollisions bftwffn
+     *                      vblufs bssodibtfd with thf sbmf kfy, bs supplifd
+     *                      to {@link Mbp#mfrgf(Objfdt, Objfdt, BiFundtion)}
+     * @pbrbm mbpSupplifr b fundtion whidh rfturns b nfw, fmpty {@dodf Mbp} into
+     *                    whidh thf rfsults will bf insfrtfd
+     * @rfturn b {@dodf Collfdtor} whidh dollfdts flfmfnts into b {@dodf Mbp}
+     * whosf kfys brf thf rfsult of bpplying b kfy mbpping fundtion to thf input
+     * flfmfnts, bnd whosf vblufs brf thf rfsult of bpplying b vbluf mbpping
+     * fundtion to bll input flfmfnts fqubl to thf kfy bnd dombining thfm
+     * using thf mfrgf fundtion
+     *
+     * @sff #toMbp(Fundtion, Fundtion)
+     * @sff #toMbp(Fundtion, Fundtion, BinbryOpfrbtor)
+     * @sff #toCondurrfntMbp(Fundtion, Fundtion, BinbryOpfrbtor, Supplifr)
+     */
+    publid stbtid <T, K, U, M fxtfnds Mbp<K, U>>
+    Collfdtor<T, ?, M> toMbp(Fundtion<? supfr T, ? fxtfnds K> kfyMbppfr,
+                                Fundtion<? supfr T, ? fxtfnds U> vblufMbppfr,
+                                BinbryOpfrbtor<U> mfrgfFundtion,
+                                Supplifr<M> mbpSupplifr) {
+        BiConsumfr<M, T> bddumulbtor
+                = (mbp, flfmfnt) -> mbp.mfrgf(kfyMbppfr.bpply(flfmfnt),
+                                              vblufMbppfr.bpply(flfmfnt), mfrgfFundtion);
+        rfturn nfw CollfdtorImpl<>(mbpSupplifr, bddumulbtor, mbpMfrgfr(mfrgfFundtion), CH_ID);
+    }
+
+    /**
+     * Rfturns b dondurrfnt {@dodf Collfdtor} thbt bddumulbtfs flfmfnts into b
+     * {@dodf CondurrfntMbp} whosf kfys bnd vblufs brf thf rfsult of bpplying
+     * thf providfd mbpping fundtions to thf input flfmfnts.
+     *
+     * <p>If thf mbppfd kfys dontbins duplidbtfs (bddording to
+     * {@link Objfdt#fqubls(Objfdt)}), bn {@dodf IllfgblStbtfExdfption} is
+     * thrown whfn thf dollfdtion opfrbtion is pfrformfd.  If thf mbppfd kfys
+     * mby hbvf duplidbtfs, usf
+     * {@link #toCondurrfntMbp(Fundtion, Fundtion, BinbryOpfrbtor)} instfbd.
+     *
+     * @bpiNotf
+     * It is dommon for fithfr thf kfy or thf vbluf to bf thf input flfmfnts.
+     * In this dbsf, thf utility mfthod
+     * {@link jbvb.util.fundtion.Fundtion#idfntity()} mby bf hflpful.
+     * For fxbmplf, thf following produdfs b {@dodf Mbp} mbpping
+     * studfnts to thfir grbdf point bvfrbgf:
+     * <prf>{@dodf
+     *     Mbp<Studfnt, Doublf> studfntToGPA
+     *         studfnts.strfbm().dollfdt(toMbp(Fundtion.idfntity(),
+     *                                         studfnt -> domputfGPA(studfnt)));
+     * }</prf>
+     * And thf following produdfs b {@dodf Mbp} mbpping b uniquf idfntififr to
+     * studfnts:
+     * <prf>{@dodf
+     *     Mbp<String, Studfnt> studfntIdToStudfnt
+     *         studfnts.strfbm().dollfdt(toCondurrfntMbp(Studfnt::gftId,
+     *                                                   Fundtion.idfntity());
+     * }</prf>
+     *
+     * <p>This is b {@link Collfdtor.Chbrbdtfristids#CONCURRENT dondurrfnt} bnd
+     * {@link Collfdtor.Chbrbdtfristids#UNORDERED unordfrfd} Collfdtor.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf output typf of thf kfy mbpping fundtion
+     * @pbrbm <U> thf output typf of thf vbluf mbpping fundtion
+     * @pbrbm kfyMbppfr thf mbpping fundtion to produdf kfys
+     * @pbrbm vblufMbppfr thf mbpping fundtion to produdf vblufs
+     * @rfturn b dondurrfnt, unordfrfd {@dodf Collfdtor} whidh dollfdts flfmfnts into b
+     * {@dodf CondurrfntMbp} whosf kfys brf thf rfsult of bpplying b kfy mbpping
+     * fundtion to thf input flfmfnts, bnd whosf vblufs brf thf rfsult of
+     * bpplying b vbluf mbpping fundtion to thf input flfmfnts
+     *
+     * @sff #toMbp(Fundtion, Fundtion)
+     * @sff #toCondurrfntMbp(Fundtion, Fundtion, BinbryOpfrbtor)
+     * @sff #toCondurrfntMbp(Fundtion, Fundtion, BinbryOpfrbtor, Supplifr)
+     */
+    publid stbtid <T, K, U>
+    Collfdtor<T, ?, CondurrfntMbp<K,U>> toCondurrfntMbp(Fundtion<? supfr T, ? fxtfnds K> kfyMbppfr,
+                                                        Fundtion<? supfr T, ? fxtfnds U> vblufMbppfr) {
+        rfturn nfw CollfdtorImpl<>(CondurrfntHbshMbp::nfw,
+                                   uniqKfysMbpAddumulbtor(kfyMbppfr, vblufMbppfr),
+                                   uniqKfysMbpMfrgfr(),
+                                   CH_CONCURRENT_ID);
+    }
+
+    /**
+     * Rfturns b dondurrfnt {@dodf Collfdtor} thbt bddumulbtfs flfmfnts into b
+     * {@dodf CondurrfntMbp} whosf kfys bnd vblufs brf thf rfsult of bpplying
+     * thf providfd mbpping fundtions to thf input flfmfnts.
+     *
+     * <p>If thf mbppfd kfys dontbins duplidbtfs (bddording to {@link Objfdt#fqubls(Objfdt)}),
+     * thf vbluf mbpping fundtion is bpplifd to fbdh fqubl flfmfnt, bnd thf
+     * rfsults brf mfrgfd using thf providfd mfrging fundtion.
+     *
+     * @bpiNotf
+     * Thfrf brf multiplf wbys to dfbl with dollisions bftwffn multiplf flfmfnts
+     * mbpping to thf sbmf kfy.  Thf othfr forms of {@dodf toCondurrfntMbp} simply usf
+     * b mfrgf fundtion thbt throws undonditionblly, but you dbn fbsily writf
+     * morf flfxiblf mfrgf polidifs.  For fxbmplf, if you hbvf b strfbm
+     * of {@dodf Pfrson}, bnd you wbnt to produdf b "phonf book" mbpping nbmf to
+     * bddrfss, but it is possiblf thbt two pfrsons hbvf thf sbmf nbmf, you dbn
+     * do bs follows to grbdffully dfbls with thfsf dollisions, bnd produdf b
+     * {@dodf Mbp} mbpping nbmfs to b dondbtfnbtfd list of bddrfssfs:
+     * <prf>{@dodf
+     *     Mbp<String, String> phonfBook
+     *         pfoplf.strfbm().dollfdt(toCondurrfntMbp(Pfrson::gftNbmf,
+     *                                                 Pfrson::gftAddrfss,
+     *                                                 (s, b) -> s + ", " + b));
+     * }</prf>
+     *
+     * <p>This is b {@link Collfdtor.Chbrbdtfristids#CONCURRENT dondurrfnt} bnd
+     * {@link Collfdtor.Chbrbdtfristids#UNORDERED unordfrfd} Collfdtor.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf output typf of thf kfy mbpping fundtion
+     * @pbrbm <U> thf output typf of thf vbluf mbpping fundtion
+     * @pbrbm kfyMbppfr b mbpping fundtion to produdf kfys
+     * @pbrbm vblufMbppfr b mbpping fundtion to produdf vblufs
+     * @pbrbm mfrgfFundtion b mfrgf fundtion, usfd to rfsolvf dollisions bftwffn
+     *                      vblufs bssodibtfd with thf sbmf kfy, bs supplifd
+     *                      to {@link Mbp#mfrgf(Objfdt, Objfdt, BiFundtion)}
+     * @rfturn b dondurrfnt, unordfrfd {@dodf Collfdtor} whidh dollfdts flfmfnts into b
+     * {@dodf CondurrfntMbp} whosf kfys brf thf rfsult of bpplying b kfy mbpping
+     * fundtion to thf input flfmfnts, bnd whosf vblufs brf thf rfsult of
+     * bpplying b vbluf mbpping fundtion to bll input flfmfnts fqubl to thf kfy
+     * bnd dombining thfm using thf mfrgf fundtion
+     *
+     * @sff #toCondurrfntMbp(Fundtion, Fundtion)
+     * @sff #toCondurrfntMbp(Fundtion, Fundtion, BinbryOpfrbtor, Supplifr)
+     * @sff #toMbp(Fundtion, Fundtion, BinbryOpfrbtor)
+     */
+    publid stbtid <T, K, U>
+    Collfdtor<T, ?, CondurrfntMbp<K,U>>
+    toCondurrfntMbp(Fundtion<? supfr T, ? fxtfnds K> kfyMbppfr,
+                    Fundtion<? supfr T, ? fxtfnds U> vblufMbppfr,
+                    BinbryOpfrbtor<U> mfrgfFundtion) {
+        rfturn toCondurrfntMbp(kfyMbppfr, vblufMbppfr, mfrgfFundtion, CondurrfntHbshMbp::nfw);
+    }
+
+    /**
+     * Rfturns b dondurrfnt {@dodf Collfdtor} thbt bddumulbtfs flfmfnts into b
+     * {@dodf CondurrfntMbp} whosf kfys bnd vblufs brf thf rfsult of bpplying
+     * thf providfd mbpping fundtions to thf input flfmfnts.
+     *
+     * <p>If thf mbppfd kfys dontbins duplidbtfs (bddording to {@link Objfdt#fqubls(Objfdt)}),
+     * thf vbluf mbpping fundtion is bpplifd to fbdh fqubl flfmfnt, bnd thf
+     * rfsults brf mfrgfd using thf providfd mfrging fundtion.  Thf
+     * {@dodf CondurrfntMbp} is drfbtfd by b providfd supplifr fundtion.
+     *
+     * <p>This is b {@link Collfdtor.Chbrbdtfristids#CONCURRENT dondurrfnt} bnd
+     * {@link Collfdtor.Chbrbdtfristids#UNORDERED unordfrfd} Collfdtor.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm <K> thf output typf of thf kfy mbpping fundtion
+     * @pbrbm <U> thf output typf of thf vbluf mbpping fundtion
+     * @pbrbm <M> thf typf of thf rfsulting {@dodf CondurrfntMbp}
+     * @pbrbm kfyMbppfr b mbpping fundtion to produdf kfys
+     * @pbrbm vblufMbppfr b mbpping fundtion to produdf vblufs
+     * @pbrbm mfrgfFundtion b mfrgf fundtion, usfd to rfsolvf dollisions bftwffn
+     *                      vblufs bssodibtfd with thf sbmf kfy, bs supplifd
+     *                      to {@link Mbp#mfrgf(Objfdt, Objfdt, BiFundtion)}
+     * @pbrbm mbpSupplifr b fundtion whidh rfturns b nfw, fmpty {@dodf Mbp} into
+     *                    whidh thf rfsults will bf insfrtfd
+     * @rfturn b dondurrfnt, unordfrfd {@dodf Collfdtor} whidh dollfdts flfmfnts into b
+     * {@dodf CondurrfntMbp} whosf kfys brf thf rfsult of bpplying b kfy mbpping
+     * fundtion to thf input flfmfnts, bnd whosf vblufs brf thf rfsult of
+     * bpplying b vbluf mbpping fundtion to bll input flfmfnts fqubl to thf kfy
+     * bnd dombining thfm using thf mfrgf fundtion
+     *
+     * @sff #toCondurrfntMbp(Fundtion, Fundtion)
+     * @sff #toCondurrfntMbp(Fundtion, Fundtion, BinbryOpfrbtor)
+     * @sff #toMbp(Fundtion, Fundtion, BinbryOpfrbtor, Supplifr)
+     */
+    publid stbtid <T, K, U, M fxtfnds CondurrfntMbp<K, U>>
+    Collfdtor<T, ?, M> toCondurrfntMbp(Fundtion<? supfr T, ? fxtfnds K> kfyMbppfr,
+                                       Fundtion<? supfr T, ? fxtfnds U> vblufMbppfr,
+                                       BinbryOpfrbtor<U> mfrgfFundtion,
+                                       Supplifr<M> mbpSupplifr) {
+        BiConsumfr<M, T> bddumulbtor
+                = (mbp, flfmfnt) -> mbp.mfrgf(kfyMbppfr.bpply(flfmfnt),
+                                              vblufMbppfr.bpply(flfmfnt), mfrgfFundtion);
+        rfturn nfw CollfdtorImpl<>(mbpSupplifr, bddumulbtor, mbpMfrgfr(mfrgfFundtion), CH_CONCURRENT_ID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} whidh bpplifs bn {@dodf int}-produding
+     * mbpping fundtion to fbdh input flfmfnt, bnd rfturns summbry stbtistids
+     * for thf rfsulting vblufs.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm mbppfr b mbpping fundtion to bpply to fbdh flfmfnt
+     * @rfturn b {@dodf Collfdtor} implfmfnting thf summbry-stbtistids rfdudtion
+     *
+     * @sff #summbrizingDoublf(ToDoublfFundtion)
+     * @sff #summbrizingLong(ToLongFundtion)
+     */
+    publid stbtid <T>
+    Collfdtor<T, ?, IntSummbryStbtistids> summbrizingInt(ToIntFundtion<? supfr T> mbppfr) {
+        rfturn nfw CollfdtorImpl<T, IntSummbryStbtistids, IntSummbryStbtistids>(
+                IntSummbryStbtistids::nfw,
+                (r, t) -> r.bddfpt(mbppfr.bpplyAsInt(t)),
+                (l, r) -> { l.dombinf(r); rfturn l; }, CH_ID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} whidh bpplifs bn {@dodf long}-produding
+     * mbpping fundtion to fbdh input flfmfnt, bnd rfturns summbry stbtistids
+     * for thf rfsulting vblufs.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm mbppfr thf mbpping fundtion to bpply to fbdh flfmfnt
+     * @rfturn b {@dodf Collfdtor} implfmfnting thf summbry-stbtistids rfdudtion
+     *
+     * @sff #summbrizingDoublf(ToDoublfFundtion)
+     * @sff #summbrizingInt(ToIntFundtion)
+     */
+    publid stbtid <T>
+    Collfdtor<T, ?, LongSummbryStbtistids> summbrizingLong(ToLongFundtion<? supfr T> mbppfr) {
+        rfturn nfw CollfdtorImpl<T, LongSummbryStbtistids, LongSummbryStbtistids>(
+                LongSummbryStbtistids::nfw,
+                (r, t) -> r.bddfpt(mbppfr.bpplyAsLong(t)),
+                (l, r) -> { l.dombinf(r); rfturn l; }, CH_ID);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtor} whidh bpplifs bn {@dodf doublf}-produding
+     * mbpping fundtion to fbdh input flfmfnt, bnd rfturns summbry stbtistids
+     * for thf rfsulting vblufs.
+     *
+     * @pbrbm <T> thf typf of thf input flfmfnts
+     * @pbrbm mbppfr b mbpping fundtion to bpply to fbdh flfmfnt
+     * @rfturn b {@dodf Collfdtor} implfmfnting thf summbry-stbtistids rfdudtion
+     *
+     * @sff #summbrizingLong(ToLongFundtion)
+     * @sff #summbrizingInt(ToIntFundtion)
+     */
+    publid stbtid <T>
+    Collfdtor<T, ?, DoublfSummbryStbtistids> summbrizingDoublf(ToDoublfFundtion<? supfr T> mbppfr) {
+        rfturn nfw CollfdtorImpl<T, DoublfSummbryStbtistids, DoublfSummbryStbtistids>(
+                DoublfSummbryStbtistids::nfw,
+                (r, t) -> r.bddfpt(mbppfr.bpplyAsDoublf(t)),
+                (l, r) -> { l.dombinf(r); rfturn l; }, CH_ID);
+    }
+
+    /**
+     * Implfmfntbtion dlbss usfd by pbrtitioningBy.
+     */
+    privbtf stbtid finbl dlbss Pbrtition<T>
+            fxtfnds AbstrbdtMbp<Boolfbn, T>
+            implfmfnts Mbp<Boolfbn, T> {
+        finbl T forTruf;
+        finbl T forFblsf;
+
+        Pbrtition(T forTruf, T forFblsf) {
+            this.forTruf = forTruf;
+            this.forFblsf = forFblsf;
+        }
+
+        @Ovfrridf
+        publid Sft<Mbp.Entry<Boolfbn, T>> fntrySft() {
+            rfturn nfw AbstrbdtSft<Mbp.Entry<Boolfbn, T>>() {
+                @Ovfrridf
+                publid Itfrbtor<Mbp.Entry<Boolfbn, T>> itfrbtor() {
+                    Mbp.Entry<Boolfbn, T> fblsfEntry = nfw SimplfImmutbblfEntry<>(fblsf, forFblsf);
+                    Mbp.Entry<Boolfbn, T> trufEntry = nfw SimplfImmutbblfEntry<>(truf, forTruf);
+                    rfturn Arrbys.bsList(fblsfEntry, trufEntry).itfrbtor();
+                }
+
+                @Ovfrridf
+                publid int sizf() {
+                    rfturn 2;
+                }
+            };
+        }
+    }
+}

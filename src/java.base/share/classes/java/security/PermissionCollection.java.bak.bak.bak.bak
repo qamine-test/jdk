@@ -1,0 +1,195 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.util.*;
+
+/**
+ * Abstrbdt dlbss rfprfsfnting b dollfdtion of Pfrmission objfdts.
+ *
+ * <p>With b PfrmissionCollfdtion, you dbn:
+ * <UL>
+ * <LI> bdd b pfrmission to thf dollfdtion using thf {@dodf bdd} mfthod.
+ * <LI> dhfdk to sff if b pbrtidulbr pfrmission is implifd in thf
+ *      dollfdtion, using thf {@dodf implifs} mfthod.
+ * <LI> fnumfrbtf bll thf pfrmissions, using thf {@dodf flfmfnts} mfthod.
+ * </UL>
+ *
+ * <p>Whfn it is dfsirbblf to group togfthfr b numbfr of Pfrmission objfdts
+ * of thf sbmf typf, thf {@dodf nfwPfrmissionCollfdtion} mfthod on thbt
+ * pbrtidulbr typf of Pfrmission objfdt should first bf dbllfd. Thf dffbult
+ * bfhbvior (from thf Pfrmission dlbss) is to simply rfturn null.
+ * Subdlbssfs of dlbss Pfrmission ovfrridf thf mfthod if thfy nffd to storf
+ * thfir pfrmissions in b pbrtidulbr PfrmissionCollfdtion objfdt in ordfr
+ * to providf thf dorrfdt sfmbntids whfn thf
+ * {@dodf PfrmissionCollfdtion.implifs} mfthod is dbllfd.
+ * If b non-null vbluf is rfturnfd, thbt PfrmissionCollfdtion must bf usfd.
+ * If null is rfturnfd, thfn thf dbllfr of {@dodf nfwPfrmissionCollfdtion}
+ * is frff to storf pfrmissions of thf
+ * givfn typf in bny PfrmissionCollfdtion thfy dhoosf
+ * (onf thbt usfs b Hbshtbblf, onf thbt usfs b Vfdtor, ftd).
+ *
+ * <p>Thf PfrmissionCollfdtion rfturnfd by thf
+ * {@dodf Pfrmission.nfwPfrmissionCollfdtion}
+ * mfthod is b homogfnfous dollfdtion, whidh storfs only Pfrmission objfdts
+ * for b givfn Pfrmission typf.  A PfrmissionCollfdtion mby blso bf
+ * hftfrogfnfous.  For fxbmplf, Pfrmissions is b PfrmissionCollfdtion
+ * subdlbss thbt rfprfsfnts b dollfdtion of PfrmissionCollfdtions.
+ * Thbt is, its mfmbfrs brf fbdh b homogfnfous PfrmissionCollfdtion.
+ * For fxbmplf, b Pfrmissions objfdt might hbvf b FilfPfrmissionCollfdtion
+ * for bll thf FilfPfrmission objfdts, b SodkftPfrmissionCollfdtion for bll thf
+ * SodkftPfrmission objfdts, bnd so on. Its {@dodf bdd} mfthod bdds b
+ * pfrmission to thf bppropribtf dollfdtion.
+ *
+ * <p>Whfnfvfr b pfrmission is bddfd to b hftfrogfnfous PfrmissionCollfdtion
+ * sudh bs Pfrmissions, bnd thf PfrmissionCollfdtion dofsn't yft dontbin b
+ * PfrmissionCollfdtion of thf spfdififd pfrmission's typf, thf
+ * PfrmissionCollfdtion should dbll
+ * thf {@dodf nfwPfrmissionCollfdtion} mfthod on thf pfrmission's dlbss
+ * to sff if it rfquirfs b spfdibl PfrmissionCollfdtion. If
+ * {@dodf nfwPfrmissionCollfdtion}
+ * rfturns null, thf PfrmissionCollfdtion
+ * is frff to storf thf pfrmission in bny typf of PfrmissionCollfdtion it
+ * dfsirfs (onf using b Hbshtbblf, onf using b Vfdtor, ftd.). For fxbmplf,
+ * thf Pfrmissions objfdt usfs b dffbult PfrmissionCollfdtion implfmfntbtion
+ * thbt storfs thf pfrmission objfdts in b Hbshtbblf.
+ *
+ * <p> Subdlbss implfmfntbtions of PfrmissionCollfdtion should bssumf
+ * thbt thfy mby bf dbllfd simultbnfously from multiplf thrfbds,
+ * bnd thfrfforf should bf syndhronizfd propfrly.  Furthfrmorf,
+ * Enumfrbtions rfturnfd vib thf {@dodf flfmfnts} mfthod brf
+ * not <fm>fbil-fbst</fm>.  Modifidbtions to b dollfdtion should not bf
+ * pfrformfd whilf fnumfrbting ovfr thbt dollfdtion.
+ *
+ * @sff Pfrmission
+ * @sff Pfrmissions
+ *
+ *
+ * @buthor Rolbnd Sdhfmfrs
+ */
+
+publid bbstrbdt dlbss PfrmissionCollfdtion implfmfnts jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -6727011328946861783L;
+
+    // whfn sft, bdd will throw bn fxdfption.
+    privbtf volbtilf boolfbn rfbdOnly;
+
+    /**
+     * Adds b pfrmission objfdt to thf durrfnt dollfdtion of pfrmission objfdts.
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to bdd.
+     *
+     * @fxdfption SfdurityExdfption -  if this PfrmissionCollfdtion objfdt
+     *                                 hbs bffn mbrkfd rfbdonly
+     * @fxdfption IllfgblArgumfntExdfption - if this PfrmissionCollfdtion
+     *                objfdt is b homogfnfous dollfdtion bnd thf pfrmission
+     *                is not of thf dorrfdt typf.
+     */
+    publid bbstrbdt void bdd(Pfrmission pfrmission);
+
+    /**
+     * Chfdks to sff if thf spfdififd pfrmission is implifd by
+     * thf dollfdtion of Pfrmission objfdts hfld in this PfrmissionCollfdtion.
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to dompbrf.
+     *
+     * @rfturn truf if "pfrmission" is implifd by thf  pfrmissions in
+     * thf dollfdtion, fblsf if not.
+     */
+    publid bbstrbdt boolfbn implifs(Pfrmission pfrmission);
+
+    /**
+     * Rfturns bn fnumfrbtion of bll thf Pfrmission objfdts in thf dollfdtion.
+     *
+     * @rfturn bn fnumfrbtion of bll thf Pfrmissions.
+     */
+    publid bbstrbdt Enumfrbtion<Pfrmission> flfmfnts();
+
+    /**
+     * Mbrks this PfrmissionCollfdtion objfdt bs "rfbdonly". Aftfr
+     * b PfrmissionCollfdtion objfdt
+     * is mbrkfd bs rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
+     * using {@dodf bdd}.
+     */
+    publid void sftRfbdOnly() {
+        rfbdOnly = truf;
+    }
+
+    /**
+     * Rfturns truf if this PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly.
+     * If it is rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
+     * using {@dodf bdd}.
+     *
+     * <p>By dffbult, thf objfdt is <i>not</i> rfbdonly. It dbn bf sft to
+     * rfbdonly by b dbll to {@dodf sftRfbdOnly}.
+     *
+     * @rfturn truf if this PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly,
+     * fblsf othfrwisf.
+     */
+    publid boolfbn isRfbdOnly() {
+        rfturn rfbdOnly;
+    }
+
+    /**
+     * Rfturns b string dfsdribing this PfrmissionCollfdtion objfdt,
+     * providing informbtion bbout bll thf pfrmissions it dontbins.
+     * Thf formbt is:
+     * <prf>
+     * supfr.toString() (
+     *   // fnumfrbtf bll thf Pfrmission
+     *   // objfdts bnd dbll toString() on thfm,
+     *   // onf pfr linf..
+     * )</prf>
+     *
+     * {@dodf supfr.toString} is b dbll to thf {@dodf toString}
+     * mfthod of this
+     * objfdt's supfrdlbss, whidh is Objfdt. Thf rfsult is
+     * this PfrmissionCollfdtion's typf nbmf followfd by this objfdt's
+     * hbshdodf, thus fnbbling dlifnts to difffrfntibtf difffrfnt
+     * PfrmissionCollfdtions objfdt, fvfn if thfy dontbin thf sbmf pfrmissions.
+     *
+     * @rfturn informbtion bbout this PfrmissionCollfdtion objfdt,
+     *         bs dfsdribfd bbovf.
+     *
+     */
+    publid String toString() {
+        Enumfrbtion<Pfrmission> fnum_ = flfmfnts();
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(supfr.toString()+" (\n");
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            try {
+                sb.bppfnd(" ");
+                sb.bppfnd(fnum_.nfxtElfmfnt().toString());
+                sb.bppfnd("\n");
+            } dbtdh (NoSudhElfmfntExdfption f){
+                // ignorf
+            }
+        }
+        sb.bppfnd(")\n");
+        rfturn sb.toString();
+    }
+}

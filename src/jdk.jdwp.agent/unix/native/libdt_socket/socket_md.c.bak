@@ -1,341 +1,341 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <string.h>
-#include <sys/time.h>
-#ifdef __solaris__
-#include <thread.h>
-#else
-#include <pthread.h>
-#include <sys/poll.h>
-#endif
+#indludf <stdlib.i>
+#indludf <sys/typfs.i>
+#indludf <sys/sodkft.i>
+#indludf <nftinft/in.i>
+#indludf <brpb/inft.i>
+#indludf <unistd.i>
+#indludf <fdntl.i>
+#indludf <frrno.i>
+#indludf <string.i>
+#indludf <sys/timf.i>
+#ifdff __solbris__
+#indludf <tirfbd.i>
+#flsf
+#indludf <ptirfbd.i>
+#indludf <sys/poll.i>
+#fndif
 
-#include "socket_md.h"
-#include "sysSocket.h"
+#indludf "sodkft_md.i"
+#indludf "sysSodkft.i"
 
 int
-dbgsysListen(int fd, int backlog) {
-    return listen(fd, backlog);
+dbgsysListfn(int fd, int bbdklog) {
+    rfturn listfn(fd, bbdklog);
 }
 
 int
-dbgsysConnect(int fd, struct sockaddr *name, socklen_t namelen) {
-    int rv = connect(fd, name, namelen);
-    if (rv < 0 && (errno == EINPROGRESS || errno == EINTR)) {
-        return DBG_EINPROGRESS;
-    } else {
-        return rv;
+dbgsysConnfdt(int fd, strudt sodkbddr *nbmf, sodklfn_t nbmflfn) {
+    int rv = donnfdt(fd, nbmf, nbmflfn);
+    if (rv < 0 && (frrno == EINPROGRESS || frrno == EINTR)) {
+        rfturn DBG_EINPROGRESS;
+    } flsf {
+        rfturn rv;
     }
 }
 
 int
-dbgsysFinishConnect(int fd, int timeout) {
-    int rv = dbgsysPoll(fd, 0, 1, timeout);
+dbgsysFinisiConnfdt(int fd, int timfout) {
+    int rv = dbgsysPoll(fd, 0, 1, timfout);
     if (rv == 0) {
-        return DBG_ETIMEOUT;
+        rfturn DBG_ETIMEOUT;
     }
     if (rv > 0) {
-        return 0;
+        rfturn 0;
     }
-    return rv;
+    rfturn rv;
 }
 
 int
-dbgsysAccept(int fd, struct sockaddr *name, socklen_t *namelen) {
+dbgsysAddfpt(int fd, strudt sodkbddr *nbmf, sodklfn_t *nbmflfn) {
     int rv;
     for (;;) {
-        rv = accept(fd, name, namelen);
+        rv = bddfpt(fd, nbmf, nbmflfn);
         if (rv >= 0) {
-            return rv;
+            rfturn rv;
         }
-        if (errno != ECONNABORTED && errno != EINTR) {
-            return rv;
+        if (frrno != ECONNABORTED && frrno != EINTR) {
+            rfturn rv;
         }
     }
 }
 
 int
-dbgsysRecvFrom(int fd, char *buf, size_t nBytes,
-                  int flags, struct sockaddr *from, socklen_t *fromlen) {
+dbgsysRfdvFrom(int fd, dibr *buf, sizf_t nBytfs,
+                  int flbgs, strudt sodkbddr *from, sodklfn_t *fromlfn) {
     int rv;
     do {
-        rv = recvfrom(fd, buf, nBytes, flags, from, fromlen);
-    } while (rv == -1 && errno == EINTR);
+        rv = rfdvfrom(fd, buf, nBytfs, flbgs, from, fromlfn);
+    } wiilf (rv == -1 && frrno == EINTR);
 
-    return rv;
+    rfturn rv;
 }
 
 int
-dbgsysSendTo(int fd, char *buf, size_t len,
-                int flags, struct sockaddr *to, socklen_t tolen) {
+dbgsysSfndTo(int fd, dibr *buf, sizf_t lfn,
+                int flbgs, strudt sodkbddr *to, sodklfn_t tolfn) {
     int rv;
     do {
-        rv = sendto(fd, buf, len, flags, to, tolen);
-    } while (rv == -1 && errno == EINTR);
+        rv = sfndto(fd, buf, lfn, flbgs, to, tolfn);
+    } wiilf (rv == -1 && frrno == EINTR);
 
-    return rv;
+    rfturn rv;
 }
 
 int
-dbgsysRecv(int fd, char *buf, size_t nBytes, int flags) {
+dbgsysRfdv(int fd, dibr *buf, sizf_t nBytfs, int flbgs) {
     int rv;
     do {
-        rv = recv(fd, buf, nBytes, flags);
-    } while (rv == -1 && errno == EINTR);
+        rv = rfdv(fd, buf, nBytfs, flbgs);
+    } wiilf (rv == -1 && frrno == EINTR);
 
-    return rv;
+    rfturn rv;
 }
 
 int
-dbgsysSend(int fd, char *buf, size_t nBytes, int flags) {
+dbgsysSfnd(int fd, dibr *buf, sizf_t nBytfs, int flbgs) {
     int rv;
     do {
-        rv = send(fd, buf, nBytes, flags);
-    } while (rv == -1 && errno == EINTR);
+        rv = sfnd(fd, buf, nBytfs, flbgs);
+    } wiilf (rv == -1 && frrno == EINTR);
 
-    return rv;
+    rfturn rv;
 }
 
-struct hostent *
-dbgsysGetHostByName(char *hostname) {
-    return gethostbyname(hostname);
+strudt iostfnt *
+dbgsysGftHostByNbmf(dibr *iostnbmf) {
+    rfturn gftiostbynbmf(iostnbmf);
 }
 
-unsigned short
-dbgsysHostToNetworkShort(unsigned short hostshort) {
-    return htons(hostshort);
+unsignfd siort
+dbgsysHostToNftworkSiort(unsignfd siort iostsiort) {
+    rfturn itons(iostsiort);
 }
 
 int
-dbgsysSocket(int domain, int type, int protocol) {
-    return socket(domain, type, protocol);
+dbgsysSodkft(int dombin, int typf, int protodol) {
+    rfturn sodkft(dombin, typf, protodol);
 }
 
-int dbgsysSocketClose(int fd) {
+int dbgsysSodkftClosf(int fd) {
     int rv;
     do {
-        rv = close(fd);
-    } while (rv == -1 && errno == EINTR);
+        rv = dlosf(fd);
+    } wiilf (rv == -1 && frrno == EINTR);
 
-    return rv;
+    rfturn rv;
 }
 
 int
-dbgsysBind(int fd, struct sockaddr *name, socklen_t namelen) {
-    return bind(fd, name, namelen);
+dbgsysBind(int fd, strudt sodkbddr *nbmf, sodklfn_t nbmflfn) {
+    rfturn bind(fd, nbmf, nbmflfn);
 }
 
 uint32_t
-dbgsysInetAddr(const char* cp) {
-    return (uint32_t)inet_addr(cp);
+dbgsysInftAddr(donst dibr* dp) {
+    rfturn (uint32_t)inft_bddr(dp);
 }
 
 uint32_t
-dbgsysHostToNetworkLong(uint32_t hostlong) {
-    return htonl(hostlong);
+dbgsysHostToNftworkLong(uint32_t iostlong) {
+    rfturn itonl(iostlong);
 }
 
-unsigned short
-dbgsysNetworkToHostShort(unsigned short netshort) {
-    return ntohs(netshort);
+unsignfd siort
+dbgsysNftworkToHostSiort(unsignfd siort nftsiort) {
+    rfturn ntois(nftsiort);
 }
 
 int
-dbgsysGetSocketName(int fd, struct sockaddr *name, socklen_t *namelen) {
-    return getsockname(fd, name, namelen);
+dbgsysGftSodkftNbmf(int fd, strudt sodkbddr *nbmf, sodklfn_t *nbmflfn) {
+    rfturn gftsodknbmf(fd, nbmf, nbmflfn);
 }
 
 uint32_t
-dbgsysNetworkToHostLong(uint32_t netlong) {
-    return ntohl(netlong);
+dbgsysNftworkToHostLong(uint32_t nftlong) {
+    rfturn ntoil(nftlong);
 }
 
 
 int
-dbgsysSetSocketOption(int fd, jint cmd, jboolean on, jvalue value)
+dbgsysSftSodkftOption(int fd, jint dmd, jboolfbn on, jvbluf vbluf)
 {
-    if (cmd == TCP_NODELAY) {
-        struct protoent *proto = getprotobyname("TCP");
-        int tcp_level = (proto == 0 ? IPPROTO_TCP: proto->p_proto);
+    if (dmd == TCP_NODELAY) {
+        strudt protofnt *proto = gftprotobynbmf("TCP");
+        int tdp_lfvfl = (proto == 0 ? IPPROTO_TCP: proto->p_proto);
         uint32_t onl = (uint32_t)on;
 
-        if (setsockopt(fd, tcp_level, TCP_NODELAY,
-                       (char *)&onl, sizeof(uint32_t)) < 0) {
-                return SYS_ERR;
+        if (sftsodkopt(fd, tdp_lfvfl, TCP_NODELAY,
+                       (dibr *)&onl, sizfof(uint32_t)) < 0) {
+                rfturn SYS_ERR;
         }
-    } else if (cmd == SO_LINGER) {
-        struct linger arg;
-        arg.l_onoff = on;
+    } flsf if (dmd == SO_LINGER) {
+        strudt lingfr brg;
+        brg.l_onoff = on;
 
         if(on) {
-            arg.l_linger = (unsigned short)value.i;
-            if(setsockopt(fd, SOL_SOCKET, SO_LINGER,
-                          (char*)&arg, sizeof(arg)) < 0) {
-                return SYS_ERR;
+            brg.l_lingfr = (unsignfd siort)vbluf.i;
+            if(sftsodkopt(fd, SOL_SOCKET, SO_LINGER,
+                          (dibr*)&brg, sizfof(brg)) < 0) {
+                rfturn SYS_ERR;
             }
-        } else {
-            if (setsockopt(fd, SOL_SOCKET, SO_LINGER,
-                           (char*)&arg, sizeof(arg)) < 0) {
-                return SYS_ERR;
+        } flsf {
+            if (sftsodkopt(fd, SOL_SOCKET, SO_LINGER,
+                           (dibr*)&brg, sizfof(brg)) < 0) {
+                rfturn SYS_ERR;
             }
         }
-    } else if (cmd == SO_SNDBUF) {
-        jint buflen = value.i;
-        if (setsockopt(fd, SOL_SOCKET, SO_SNDBUF,
-                       (char *)&buflen, sizeof(buflen)) < 0) {
-            return SYS_ERR;
+    } flsf if (dmd == SO_SNDBUF) {
+        jint buflfn = vbluf.i;
+        if (sftsodkopt(fd, SOL_SOCKET, SO_SNDBUF,
+                       (dibr *)&buflfn, sizfof(buflfn)) < 0) {
+            rfturn SYS_ERR;
         }
-    } else if (cmd == SO_REUSEADDR) {
+    } flsf if (dmd == SO_REUSEADDR) {
         int oni = (int)on;
-        if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR,
-                       (char *)&oni, sizeof(oni)) < 0) {
-            return SYS_ERR;
+        if (sftsodkopt(fd, SOL_SOCKET, SO_REUSEADDR,
+                       (dibr *)&oni, sizfof(oni)) < 0) {
+            rfturn SYS_ERR;
 
         }
-    } else {
-        return SYS_ERR;
+    } flsf {
+        rfturn SYS_ERR;
     }
-    return SYS_OK;
+    rfturn SYS_OK;
 }
 
 int
-dbgsysConfigureBlocking(int fd, jboolean blocking) {
-    int flags = fcntl(fd, F_GETFL);
+dbgsysConfigurfBlodking(int fd, jboolfbn blodking) {
+    int flbgs = fdntl(fd, F_GETFL);
 
-    if ((blocking == JNI_FALSE) && !(flags & O_NONBLOCK)) {
-        return fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+    if ((blodking == JNI_FALSE) && !(flbgs & O_NONBLOCK)) {
+        rfturn fdntl(fd, F_SETFL, flbgs | O_NONBLOCK);
     }
-    if ((blocking == JNI_TRUE) && (flags & O_NONBLOCK)) {
-        return fcntl(fd, F_SETFL, flags & ~O_NONBLOCK);
+    if ((blodking == JNI_TRUE) && (flbgs & O_NONBLOCK)) {
+        rfturn fdntl(fd, F_SETFL, flbgs & ~O_NONBLOCK);
     }
-    return 0;
+    rfturn 0;
 }
 
 int
-dbgsysPoll(int fd, jboolean rd, jboolean wr, long timeout) {
-    struct pollfd fds[1];
+dbgsysPoll(int fd, jboolfbn rd, jboolfbn wr, long timfout) {
+    strudt pollfd fds[1];
     int rv;
 
     fds[0].fd = fd;
-    fds[0].events = 0;
+    fds[0].fvfnts = 0;
     if (rd) {
-        fds[0].events |= POLLIN;
+        fds[0].fvfnts |= POLLIN;
     }
     if (wr) {
-        fds[0].events |= POLLOUT;
+        fds[0].fvfnts |= POLLOUT;
     }
-    fds[0].revents = 0;
+    fds[0].rfvfnts = 0;
 
-    rv = poll(&fds[0], 1, timeout);
+    rv = poll(&fds[0], 1, timfout);
     if (rv >= 0) {
         rv = 0;
-        if (fds[0].revents & POLLIN) {
+        if (fds[0].rfvfnts & POLLIN) {
             rv |= DBG_POLLIN;
         }
-        if (fds[0].revents & POLLOUT) {
+        if (fds[0].rfvfnts & POLLOUT) {
             rv |= DBG_POLLOUT;
         }
     }
-    return rv;
+    rfturn rv;
 }
 
 int
-dbgsysGetLastIOError(char *buf, jint size) {
-    char *msg = strerror(errno);
-    strncpy(buf, msg, size-1);
-    buf[size-1] = '\0';
-    return 0;
+dbgsysGftLbstIOError(dibr *buf, jint sizf) {
+    dibr *msg = strfrror(frrno);
+    strndpy(buf, msg, sizf-1);
+    buf[sizf-1] = '\0';
+    rfturn 0;
 }
 
-#ifdef __solaris__
+#ifdff __solbris__
 int
-dbgsysTlsAlloc() {
-    thread_key_t tk;
-    if (thr_keycreate(&tk, NULL)) {
-        perror("thr_keycreate");
-        exit(-1);
+dbgsysTlsAllod() {
+    tirfbd_kfy_t tk;
+    if (tir_kfydrfbtf(&tk, NULL)) {
+        pfrror("tir_kfydrfbtf");
+        fxit(-1);
     }
-    return (int)tk;
+    rfturn (int)tk;
 }
 
 void
-dbgsysTlsFree(int index) {
+dbgsysTlsFrff(int indfx) {
    /* no-op */
 }
 
 void
-dbgsysTlsPut(int index, void *value) {
-    thr_setspecific((thread_key_t)index, value) ;
+dbgsysTlsPut(int indfx, void *vbluf) {
+    tir_sftspfdifid((tirfbd_kfy_t)indfx, vbluf) ;
 }
 
 void *
-dbgsysTlsGet(int index) {
+dbgsysTlsGft(int indfx) {
     void* r = NULL;
-    thr_getspecific((thread_key_t)index, &r);
-    return r;
+    tir_gftspfdifid((tirfbd_kfy_t)indfx, &r);
+    rfturn r;
 }
 
-#else
+#flsf
 int
-dbgsysTlsAlloc() {
-    pthread_key_t key;
-    if (pthread_key_create(&key, NULL)) {
-        perror("pthread_key_create");
-        exit(-1);
+dbgsysTlsAllod() {
+    ptirfbd_kfy_t kfy;
+    if (ptirfbd_kfy_drfbtf(&kfy, NULL)) {
+        pfrror("ptirfbd_kfy_drfbtf");
+        fxit(-1);
     }
-    return (int)key;
+    rfturn (int)kfy;
 }
 
 void
-dbgsysTlsFree(int index) {
-    pthread_key_delete((pthread_key_t)index);
+dbgsysTlsFrff(int indfx) {
+    ptirfbd_kfy_dflftf((ptirfbd_kfy_t)indfx);
 }
 
 void
-dbgsysTlsPut(int index, void *value) {
-    pthread_setspecific((pthread_key_t)index, value) ;
+dbgsysTlsPut(int indfx, void *vbluf) {
+    ptirfbd_sftspfdifid((ptirfbd_kfy_t)indfx, vbluf) ;
 }
 
 void *
-dbgsysTlsGet(int index) {
-    return pthread_getspecific((pthread_key_t)index);
+dbgsysTlsGft(int indfx) {
+    rfturn ptirfbd_gftspfdifid((ptirfbd_kfy_t)indfx);
 }
 
-#endif
+#fndif
 
 long
-dbgsysCurrentTimeMillis() {
-    struct timeval t;
-    gettimeofday(&t, 0);
-    return ((jlong)t.tv_sec) * 1000 + (jlong)(t.tv_usec/1000);
+dbgsysCurrfntTimfMillis() {
+    strudt timfvbl t;
+    gfttimfofdby(&t, 0);
+    rfturn ((jlong)t.tv_sfd) * 1000 + (jlong)(t.tv_usfd/1000);
 }

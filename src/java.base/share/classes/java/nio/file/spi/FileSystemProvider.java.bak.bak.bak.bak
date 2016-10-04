@@ -1,0 +1,1103 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.spi;
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nft.URI;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * Sfrvidf-providfr dlbss for filf systfms. Thf mfthods dffinfd by thf {@link
+ * jbvb.nio.filf.Filfs} dlbss will typidblly dflfgbtf to bn instbndf of this
+ * dlbss.
+ *
+ * <p> A filf systfm providfr is b dondrftf implfmfntbtion of this dlbss thbt
+ * implfmfnts thf bbstrbdt mfthods dffinfd by this dlbss. A providfr is
+ * idfntififd by b {@dodf URI} {@link #gftSdhfmf() sdhfmf}. Thf dffbult providfr
+ * is idfntififd by thf URI sdhfmf "filf". It drfbtfs thf {@link FilfSystfm} thbt
+ * providfs bddfss to thf filf systfms bddfssiblf to thf Jbvb virtubl mbdhinf.
+ * Thf {@link FilfSystfms} dlbss dffinfs how filf systfm providfrs brf lodbtfd
+ * bnd lobdfd. Thf dffbult providfr is typidblly b systfm-dffbult providfr but
+ * mby bf ovfrriddfn if thf systfm propfrty {@dodf
+ * jbvb.nio.filf.spi.DffbultFilfSystfmProvidfr} is sft. In thbt dbsf, thf
+ * providfr hbs b onf brgumfnt donstrudtor whosf formbl pbrbmftfr typf is {@dodf
+ * FilfSystfmProvidfr}. All othfr providfrs hbvf b zfro brgumfnt donstrudtor
+ * thbt initiblizfs thf providfr.
+ *
+ * <p> A providfr is b fbdtory for onf or morf {@link FilfSystfm} instbndfs. Ebdh
+ * filf systfm is idfntififd by b {@dodf URI} whfrf thf URI's sdhfmf mbtdhfs
+ * thf providfr's {@link #gftSdhfmf sdhfmf}. Thf dffbult filf systfm, for fxbmplf,
+ * is idfntififd by thf URI {@dodf "filf:///"}. A mfmory-bbsfd filf systfm,
+ * for fxbmplf, mby bf idfntififd by b URI sudh bs {@dodf "mfmory:///?nbmf=logfs"}.
+ * Thf {@link #nfwFilfSystfm nfwFilfSystfm} mfthod mby bf usfd to drfbtf b filf
+ * systfm, bnd thf {@link #gftFilfSystfm gftFilfSystfm} mfthod mby bf usfd to
+ * obtbin b rfffrfndf to bn fxisting filf systfm drfbtfd by thf providfr. Whfrf
+ * b providfr is thf fbdtory for b singlf filf systfm thfn it is providfr dfpfndfnt
+ * if thf filf systfm is drfbtfd whfn thf providfr is initiblizfd, or lbtfr whfn
+ * thf {@dodf nfwFilfSystfm} mfthod is invokfd. In thf dbsf of thf dffbult
+ * providfr, thf {@dodf FilfSystfm} is drfbtfd whfn thf providfr is initiblizfd.
+ *
+ * <p> All of thf mfthods in this dlbss brf sbff for usf by multiplf dondurrfnt
+ * thrfbds.
+ *
+ * @sindf 1.7
+ */
+
+publid bbstrbdt dlbss FilfSystfmProvidfr {
+    // lodk using whfn lobding providfrs
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+
+    // instbllfd providfrs
+    privbtf stbtid volbtilf List<FilfSystfmProvidfr> instbllfdProvidfrs;
+
+    // usfd to bvoid rfdursivf lobding of instbllfd providfrs
+    privbtf stbtid boolfbn lobdingProvidfrs  = fblsf;
+
+    privbtf stbtid Void dhfdkPfrmission() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null)
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("filfSystfmProvidfr"));
+        rfturn null;
+    }
+    privbtf FilfSystfmProvidfr(Void ignorf) { }
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     *
+     * <p> During donstrudtion b providfr mby sbffly bddfss filfs bssodibtfd
+     * with thf dffbult providfr but dbrf nffds to bf tbkfn to bvoid dirdulbr
+     * lobding of othfr instbllfd providfrs. If dirdulbr lobding of instbllfd
+     * providfrs is dftfdtfd thfn bn unspfdififd frror is thrown.
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("filfSystfmProvidfr")</tt>
+     */
+    protfdtfd FilfSystfmProvidfr() {
+        this(dhfdkPfrmission());
+    }
+
+    // lobds bll instbllfd providfrs
+    privbtf stbtid List<FilfSystfmProvidfr> lobdInstbllfdProvidfrs() {
+        List<FilfSystfmProvidfr> list = nfw ArrbyList<FilfSystfmProvidfr>();
+
+        SfrvidfLobdfr<FilfSystfmProvidfr> sl = SfrvidfLobdfr
+            .lobd(FilfSystfmProvidfr.dlbss, ClbssLobdfr.gftSystfmClbssLobdfr());
+
+        // SfrvidfConfigurbtionError mby bf throw hfrf
+        for (FilfSystfmProvidfr providfr: sl) {
+            String sdhfmf = providfr.gftSdhfmf();
+
+            // bdd to list if thf providfr is not "filf" bnd isn't b duplidbtf
+            if (!sdhfmf.fqublsIgnorfCbsf("filf")) {
+                boolfbn found = fblsf;
+                for (FilfSystfmProvidfr p: list) {
+                    if (p.gftSdhfmf().fqublsIgnorfCbsf(sdhfmf)) {
+                        found = truf;
+                        brfbk;
+                    }
+                }
+                if (!found) {
+                    list.bdd(providfr);
+                }
+            }
+        }
+        rfturn list;
+    }
+
+    /**
+     * Rfturns b list of thf instbllfd filf systfm providfrs.
+     *
+     * <p> Thf first invodbtion of this mfthod dbusfs thf dffbult providfr to bf
+     * initiblizfd (if not blrfbdy initiblizfd) bnd lobds bny othfr instbllfd
+     * providfrs bs dfsdribfd by thf {@link FilfSystfms} dlbss.
+     *
+     * @rfturn  An unmodifibblf list of thf instbllfd filf systfm providfrs. Thf
+     *          list dontbins bt lfbst onf flfmfnt, thbt is thf dffbult filf
+     *          systfm providfr
+     *
+     * @throws  SfrvidfConfigurbtionError
+     *          Whfn bn frror oddurs whilf lobding b sfrvidf providfr
+     */
+    publid stbtid List<FilfSystfmProvidfr> instbllfdProvidfrs() {
+        if (instbllfdProvidfrs == null) {
+            // fnsurf dffbult providfr is initiblizfd
+            FilfSystfmProvidfr dffbultProvidfr = FilfSystfms.gftDffbult().providfr();
+
+            syndhronizfd (lodk) {
+                if (instbllfdProvidfrs == null) {
+                    if (lobdingProvidfrs) {
+                        throw nfw Error("Cirdulbr lobding of instbllfd providfrs dftfdtfd");
+                    }
+                    lobdingProvidfrs = truf;
+
+                    List<FilfSystfmProvidfr> list = AddfssControllfr
+                        .doPrivilfgfd(nfw PrivilfgfdAdtion<List<FilfSystfmProvidfr>>() {
+                            @Ovfrridf
+                            publid List<FilfSystfmProvidfr> run() {
+                                rfturn lobdInstbllfdProvidfrs();
+                        }});
+
+                    // insfrt thf dffbult providfr bt thf stbrt of thf list
+                    list.bdd(0, dffbultProvidfr);
+
+                    instbllfdProvidfrs = Collfdtions.unmodifibblfList(list);
+                }
+            }
+        }
+        rfturn instbllfdProvidfrs;
+    }
+
+    /**
+     * Rfturns thf URI sdhfmf thbt idfntififs this providfr.
+     *
+     * @rfturn  Thf URI sdhfmf
+     */
+    publid bbstrbdt String gftSdhfmf();
+
+    /**
+     * Construdts b nfw {@dodf FilfSystfm} objfdt idfntififd by b URI. This
+     * mfthod is invokfd by thf {@link FilfSystfms#nfwFilfSystfm(URI,Mbp)}
+     * mfthod to opfn b nfw filf systfm idfntififd by b URI.
+     *
+     * <p> Thf {@dodf uri} pbrbmftfr is bn bbsolutf, hifrbrdhidbl URI, with b
+     * sdhfmf fqubl (without rfgbrd to dbsf) to thf sdhfmf supportfd by this
+     * providfr. Thf fxbdt form of thf URI is highly providfr dfpfndfnt. Thf
+     * {@dodf fnv} pbrbmftfr is b mbp of providfr spfdifid propfrtifs to donfigurf
+     * thf filf systfm.
+     *
+     * <p> This mfthod throws {@link FilfSystfmAlrfbdyExistsExdfption} if thf
+     * filf systfm blrfbdy fxists bfdbusf it wbs prfviously drfbtfd by bn
+     * invodbtion of this mfthod. Ondf b filf systfm is {@link
+     * jbvb.nio.filf.FilfSystfm#dlosf dlosfd} it is providfr-dfpfndfnt if thf
+     * providfr bllows b nfw filf systfm to bf drfbtfd with thf sbmf URI bs b
+     * filf systfm it prfviously drfbtfd.
+     *
+     * @pbrbm   uri
+     *          URI rfffrfndf
+     * @pbrbm   fnv
+     *          A mbp of providfr spfdifid propfrtifs to donfigurf thf filf systfm;
+     *          mby bf fmpty
+     *
+     * @rfturn  A nfw filf systfm
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf prf-donditions for thf {@dodf uri} pbrbmftfr brfn't mft,
+     *          or thf {@dodf fnv} pbrbmftfr dofs not dontbin propfrtifs rfquirfd
+     *          by thf providfr, or b propfrty vbluf is invblid
+     * @throws  IOExdfption
+     *          An I/O frror oddurs drfbting thf filf systfm
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd by thf filf systfm providfr implfmfntbtion
+     * @throws  FilfSystfmAlrfbdyExistsExdfption
+     *          If thf filf systfm hbs blrfbdy bffn drfbtfd
+     */
+    publid bbstrbdt FilfSystfm nfwFilfSystfm(URI uri, Mbp<String,?> fnv)
+        throws IOExdfption;
+
+    /**
+     * Rfturns bn fxisting {@dodf FilfSystfm} drfbtfd by this providfr.
+     *
+     * <p> This mfthod rfturns b rfffrfndf to b {@dodf FilfSystfm} thbt wbs
+     * drfbtfd by invoking thf {@link #nfwFilfSystfm(URI,Mbp) nfwFilfSystfm(URI,Mbp)}
+     * mfthod. Filf systfms drfbtfd thf {@link #nfwFilfSystfm(Pbth,Mbp)
+     * nfwFilfSystfm(Pbth,Mbp)} mfthod brf not rfturnfd by this mfthod.
+     * Thf filf systfm is idfntififd by its {@dodf URI}. Its fxbdt form
+     * is highly providfr dfpfndfnt. In thf dbsf of thf dffbult providfr thf URI's
+     * pbth domponfnt is {@dodf "/"} bnd thf buthority, qufry bnd frbgmfnt domponfnts
+     * brf undffinfd (Undffinfd domponfnts brf rfprfsfntfd by {@dodf null}).
+     *
+     * <p> Ondf b filf systfm drfbtfd by this providfr is {@link
+     * jbvb.nio.filf.FilfSystfm#dlosf dlosfd} it is providfr-dfpfndfnt if this
+     * mfthod rfturns b rfffrfndf to thf dlosfd filf systfm or throws {@link
+     * FilfSystfmNotFoundExdfption}. If thf providfr bllows b nfw filf systfm to
+     * bf drfbtfd with thf sbmf URI bs b filf systfm it prfviously drfbtfd thfn
+     * this mfthod throws thf fxdfption if invokfd bftfr thf filf systfm is
+     * dlosfd (bnd bfforf b nfw instbndf is drfbtfd by thf {@link #nfwFilfSystfm
+     * nfwFilfSystfm} mfthod).
+     *
+     * <p> If b sfdurity mbnbgfr is instbllfd thfn b providfr implfmfntbtion
+     * mby rfquirf to dhfdk b pfrmission bfforf rfturning b rfffrfndf to bn
+     * fxisting filf systfm. In thf dbsf of thf {@link FilfSystfms#gftDffbult
+     * dffbult} filf systfm, no pfrmission dhfdk is rfquirfd.
+     *
+     * @pbrbm   uri
+     *          URI rfffrfndf
+     *
+     * @rfturn  Thf filf systfm
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf prf-donditions for thf {@dodf uri} pbrbmftfr brfn't mft
+     * @throws  FilfSystfmNotFoundExdfption
+     *          If thf filf systfm dofs not fxist
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission.
+     */
+    publid bbstrbdt FilfSystfm gftFilfSystfm(URI uri);
+
+    /**
+     * Rfturn b {@dodf Pbth} objfdt by donvfrting thf givfn {@link URI}. Thf
+     * rfsulting {@dodf Pbth} is bssodibtfd with b {@link FilfSystfm} thbt
+     * blrfbdy fxists or is donstrudtfd butombtidblly.
+     *
+     * <p> Thf fxbdt form of thf URI is filf systfm providfr dfpfndfnt. In thf
+     * dbsf of thf dffbult providfr, thf URI sdhfmf is {@dodf "filf"} bnd thf
+     * givfn URI hbs b non-fmpty pbth domponfnt, bnd undffinfd qufry, bnd
+     * frbgmfnt domponfnts. Thf rfsulting {@dodf Pbth} is bssodibtfd with thf
+     * dffbult {@link FilfSystfms#gftDffbult dffbult} {@dodf FilfSystfm}.
+     *
+     * <p> If b sfdurity mbnbgfr is instbllfd thfn b providfr implfmfntbtion
+     * mby rfquirf to dhfdk b pfrmission. In thf dbsf of thf {@link
+     * FilfSystfms#gftDffbult dffbult} filf systfm, no pfrmission dhfdk is
+     * rfquirfd.
+     *
+     * @pbrbm   uri
+     *          Thf URI to donvfrt
+     *
+     * @rfturn  Thf rfsulting {@dodf Pbth}
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf URI sdhfmf dofs not idfntify this providfr or othfr
+     *          prfdonditions on thf uri pbrbmftfr do not hold
+     * @throws  FilfSystfmNotFoundExdfption
+     *          Thf filf systfm, idfntififd by thf URI, dofs not fxist bnd
+     *          dbnnot bf drfbtfd butombtidblly
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission.
+     */
+    publid bbstrbdt Pbth gftPbth(URI uri);
+
+    /**
+     * Construdts b nfw {@dodf FilfSystfm} to bddfss thf dontfnts of b filf bs b
+     * filf systfm.
+     *
+     * <p> This mfthod is intfndfd for spfdiblizfd providfrs of psfudo filf
+     * systfms whfrf thf dontfnts of onf or morf filfs is trfbtfd bs b filf
+     * systfm. Thf {@dodf fnv} pbrbmftfr is b mbp of providfr spfdifid propfrtifs
+     * to donfigurf thf filf systfm.
+     *
+     * <p> If this providfr dofs not support thf drfbtion of sudh filf systfms
+     * or if thf providfr dofs not rfdognizf thf filf typf of thf givfn filf thfn
+     * it throws {@dodf UnsupportfdOpfrbtionExdfption}. Thf dffbult implfmfntbtion
+     * of this mfthod throws {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm   pbth
+     *          Thf pbth to thf filf
+     * @pbrbm   fnv
+     *          A mbp of providfr spfdifid propfrtifs to donfigurf thf filf systfm;
+     *          mby bf fmpty
+     *
+     * @rfturn  A nfw filf systfm
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this providfr dofs not support bddfss to thf dontfnts bs b
+     *          filf systfm or it dofs not rfdognizf thf filf typf of thf
+     *          givfn filf
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf {@dodf fnv} pbrbmftfr dofs not dontbin propfrtifs rfquirfd
+     *          by thf providfr, or b propfrty vbluf is invblid
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission.
+     */
+    publid FilfSystfm nfwFilfSystfm(Pbth pbth, Mbp<String,?> fnv)
+        throws IOExdfption
+    {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Opfns b filf, rfturning bn input strfbm to rfbd from thf filf. This
+     * mfthod works in fxbdtly thf mbnnfr spfdififd by thf {@link
+     * Filfs#nfwInputStrfbm} mfthod.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod opfns b dhbnnfl to thf filf
+     * bs if by invoking thf {@link #nfwBytfChbnnfl} mfthod bnd donstrudts b
+     * strfbm thbt rfbds bytfs from thf dhbnnfl. This mfthod should bf ovfrriddfn
+     * whfrf bppropribtf.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf to opfn
+     * @pbrbm   options
+     *          options spfdifying how thf filf is opfnfd
+     *
+     * @rfturn  b nfw input strfbm
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if bn invblid dombinbtion of options is spfdififd
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if bn unsupportfd option is spfdififd
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf filf.
+     */
+    publid InputStrfbm nfwInputStrfbm(Pbth pbth, OpfnOption... options)
+        throws IOExdfption
+    {
+        if (options.lfngth > 0) {
+            for (OpfnOption opt: options) {
+                // All OpfnOption vblufs fxdfpt for APPEND bnd WRITE brf bllowfd
+                if (opt == StbndbrdOpfnOption.APPEND ||
+                    opt == StbndbrdOpfnOption.WRITE)
+                    throw nfw UnsupportfdOpfrbtionExdfption("'" + opt + "' not bllowfd");
+            }
+        }
+        rfturn Chbnnfls.nfwInputStrfbm(Filfs.nfwBytfChbnnfl(pbth, options));
+    }
+
+    /**
+     * Opfns or drfbtfs b filf, rfturning bn output strfbm thbt mby bf usfd to
+     * writf bytfs to thf filf. This mfthod works in fxbdtly thf mbnnfr
+     * spfdififd by thf {@link Filfs#nfwOutputStrfbm} mfthod.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod opfns b dhbnnfl to thf filf
+     * bs if by invoking thf {@link #nfwBytfChbnnfl} mfthod bnd donstrudts b
+     * strfbm thbt writfs bytfs to thf dhbnnfl. This mfthod should bf ovfrriddfn
+     * whfrf bppropribtf.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf to opfn or drfbtf
+     * @pbrbm   options
+     *          options spfdifying how thf filf is opfnfd
+     *
+     * @rfturn  b nfw output strfbm
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if {@dodf options} dontbins bn invblid dombinbtion of options
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if bn unsupportfd option is spfdififd
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod is invokfd to dhfdk writf bddfss to thf filf. Thf {@link
+     *          SfdurityMbnbgfr#dhfdkDflftf(String) dhfdkDflftf} mfthod is
+     *          invokfd to dhfdk dflftf bddfss if thf filf is opfnfd with thf
+     *          {@dodf DELETE_ON_CLOSE} option.
+     */
+    publid OutputStrfbm nfwOutputStrfbm(Pbth pbth, OpfnOption... options)
+        throws IOExdfption
+    {
+        int lfn = options.lfngth;
+        Sft<OpfnOption> opts = nfw HbshSft<OpfnOption>(lfn + 3);
+        if (lfn == 0) {
+            opts.bdd(StbndbrdOpfnOption.CREATE);
+            opts.bdd(StbndbrdOpfnOption.TRUNCATE_EXISTING);
+        } flsf {
+            for (OpfnOption opt: options) {
+                if (opt == StbndbrdOpfnOption.READ)
+                    throw nfw IllfgblArgumfntExdfption("READ not bllowfd");
+                opts.bdd(opt);
+            }
+        }
+        opts.bdd(StbndbrdOpfnOption.WRITE);
+        rfturn Chbnnfls.nfwOutputStrfbm(nfwBytfChbnnfl(pbth, opts));
+    }
+
+    /**
+     * Opfns or drfbtfs b filf for rfbding bnd/or writing, rfturning b filf
+     * dhbnnfl to bddfss thf filf. This mfthod works in fxbdtly thf mbnnfr
+     * spfdififd by thf {@link FilfChbnnfl#opfn(Pbth,Sft,FilfAttributf[])
+     * FilfChbnnfl.opfn} mfthod. A providfr thbt dofs not support bll thf
+     * ffbturfs rfquirfd to donstrudt b filf dhbnnfl throws {@dodf
+     * UnsupportfdOpfrbtionExdfption}. Thf dffbult providfr is rfquirfd to
+     * support thf drfbtion of filf dhbnnfls. Whfn not ovfrriddfn, thf dffbult
+     * implfmfntbtion throws {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm   pbth
+     *          thf pbth of thf filf to opfn or drfbtf
+     * @pbrbm   options
+     *          options spfdifying how thf filf is opfnfd
+     * @pbrbm   bttrs
+     *          bn optionbl list of filf bttributfs to sft btomidblly whfn
+     *          drfbting thf filf
+     *
+     * @rfturn  b nfw filf dhbnnfl
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf sft dontbins bn invblid dombinbtion of options
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this providfr thbt dofs not support drfbting filf dhbnnfls,
+     *          or bn unsupportfd opfn option or filf bttributf is spfdififd
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult filf systfm, thf {@link
+     *          SfdurityMbnbgfr#dhfdkRfbd(String)} mfthod is invokfd to dhfdk
+     *          rfbd bddfss if thf filf is opfnfd for rfbding. Thf {@link
+     *          SfdurityMbnbgfr#dhfdkWritf(String)} mfthod is invokfd to dhfdk
+     *          writf bddfss if thf filf is opfnfd for writing
+     */
+    publid FilfChbnnfl nfwFilfChbnnfl(Pbth pbth,
+                                      Sft<? fxtfnds OpfnOption> options,
+                                      FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Opfns or drfbtfs b filf for rfbding bnd/or writing, rfturning bn
+     * bsyndhronous filf dhbnnfl to bddfss thf filf. This mfthod works in
+     * fxbdtly thf mbnnfr spfdififd by thf {@link
+     * AsyndhronousFilfChbnnfl#opfn(Pbth,Sft,ExfdutorSfrvidf,FilfAttributf[])
+     * AsyndhronousFilfChbnnfl.opfn} mfthod.
+     * A providfr thbt dofs not support bll thf ffbturfs rfquirfd to donstrudt
+     * bn bsyndhronous filf dhbnnfl throws {@dodf UnsupportfdOpfrbtionExdfption}.
+     * Thf dffbult providfr is rfquirfd to support thf drfbtion of bsyndhronous
+     * filf dhbnnfls. Whfn not ovfrriddfn, thf dffbult implfmfntbtion of this
+     * mfthod throws {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm   pbth
+     *          thf pbth of thf filf to opfn or drfbtf
+     * @pbrbm   options
+     *          options spfdifying how thf filf is opfnfd
+     * @pbrbm   fxfdutor
+     *          thf thrfbd pool or {@dodf null} to bssodibtf thf dhbnnfl with
+     *          thf dffbult thrfbd pool
+     * @pbrbm   bttrs
+     *          bn optionbl list of filf bttributfs to sft btomidblly whfn
+     *          drfbting thf filf
+     *
+     * @rfturn  b nfw bsyndhronous filf dhbnnfl
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf sft dontbins bn invblid dombinbtion of options
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this providfr thbt dofs not support drfbting bsyndhronous filf
+     *          dhbnnfls, or bn unsupportfd opfn option or filf bttributf is
+     *          spfdififd
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult filf systfm, thf {@link
+     *          SfdurityMbnbgfr#dhfdkRfbd(String)} mfthod is invokfd to dhfdk
+     *          rfbd bddfss if thf filf is opfnfd for rfbding. Thf {@link
+     *          SfdurityMbnbgfr#dhfdkWritf(String)} mfthod is invokfd to dhfdk
+     *          writf bddfss if thf filf is opfnfd for writing
+     */
+    publid AsyndhronousFilfChbnnfl nfwAsyndhronousFilfChbnnfl(Pbth pbth,
+                                                              Sft<? fxtfnds OpfnOption> options,
+                                                              ExfdutorSfrvidf fxfdutor,
+                                                              FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Opfns or drfbtfs b filf, rfturning b sffkbblf bytf dhbnnfl to bddfss thf
+     * filf. This mfthod works in fxbdtly thf mbnnfr spfdififd by thf {@link
+     * Filfs#nfwBytfChbnnfl(Pbth,Sft,FilfAttributf[])} mfthod.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf to opfn or drfbtf
+     * @pbrbm   options
+     *          options spfdifying how thf filf is opfnfd
+     * @pbrbm   bttrs
+     *          bn optionbl list of filf bttributfs to sft btomidblly whfn
+     *          drfbting thf filf
+     *
+     * @rfturn  b nfw sffkbblf bytf dhbnnfl
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf sft dontbins bn invblid dombinbtion of options
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if bn unsupportfd opfn option is spfdififd or thf brrby dontbins
+     *          bttributfs thbt dbnnot bf sft btomidblly whfn drfbting thf filf
+     * @throws  FilfAlrfbdyExistsExdfption
+     *          if b filf of thbt nbmf blrfbdy fxists bnd thf {@link
+     *          StbndbrdOpfnOption#CREATE_NEW CREATE_NEW} option is spfdififd
+     *          <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf pbth if thf filf is
+     *          opfnfd for rfbding. Thf {@link SfdurityMbnbgfr#dhfdkWritf(String)
+     *          dhfdkWritf} mfthod is invokfd to dhfdk writf bddfss to thf pbth
+     *          if thf filf is opfnfd for writing. Thf {@link
+     *          SfdurityMbnbgfr#dhfdkDflftf(String) dhfdkDflftf} mfthod is
+     *          invokfd to dhfdk dflftf bddfss if thf filf is opfnfd with thf
+     *          {@dodf DELETE_ON_CLOSE} option.
+     */
+    publid bbstrbdt SffkbblfBytfChbnnfl nfwBytfChbnnfl(Pbth pbth,
+        Sft<? fxtfnds OpfnOption> options, FilfAttributf<?>... bttrs) throws IOExdfption;
+
+    /**
+     * Opfns b dirfdtory, rfturning b {@dodf DirfdtoryStrfbm} to itfrbtf ovfr
+     * thf fntrifs in thf dirfdtory. This mfthod works in fxbdtly thf mbnnfr
+     * spfdififd by thf {@link
+     * Filfs#nfwDirfdtoryStrfbm(jbvb.nio.filf.Pbth, jbvb.nio.filf.DirfdtoryStrfbm.Filtfr)}
+     * mfthod.
+     *
+     * @pbrbm   dir
+     *          thf pbth to thf dirfdtory
+     * @pbrbm   filtfr
+     *          thf dirfdtory strfbm filtfr
+     *
+     * @rfturn  b nfw bnd opfn {@dodf DirfdtoryStrfbm} objfdt
+     *
+     * @throws  NotDirfdtoryExdfption
+     *          if thf filf dould not othfrwisf bf opfnfd bfdbusf it is not
+     *          b dirfdtory <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf dirfdtory.
+     */
+    publid bbstrbdt DirfdtoryStrfbm<Pbth> nfwDirfdtoryStrfbm(Pbth dir,
+         DirfdtoryStrfbm.Filtfr<? supfr Pbth> filtfr) throws IOExdfption;
+
+    /**
+     * Crfbtfs b nfw dirfdtory. This mfthod works in fxbdtly thf mbnnfr
+     * spfdififd by thf {@link Filfs#drfbtfDirfdtory} mfthod.
+     *
+     * @pbrbm   dir
+     *          thf dirfdtory to drfbtf
+     * @pbrbm   bttrs
+     *          bn optionbl list of filf bttributfs to sft btomidblly whfn
+     *          drfbting thf dirfdtory
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if thf brrby dontbins bn bttributf thbt dbnnot bf sft btomidblly
+     *          whfn drfbting thf dirfdtory
+     * @throws  FilfAlrfbdyExistsExdfption
+     *          if b dirfdtory dould not othfrwisf bf drfbtfd bfdbusf b filf of
+     *          thbt nbmf blrfbdy fxists <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs or thf pbrfnt dirfdtory dofs not fxist
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod is invokfd to dhfdk writf bddfss to thf nfw dirfdtory.
+     */
+    publid bbstrbdt void drfbtfDirfdtory(Pbth dir, FilfAttributf<?>... bttrs)
+        throws IOExdfption;
+
+    /**
+     * Crfbtfs b symbolid link to b tbrgft. This mfthod works in fxbdtly thf
+     * mbnnfr spfdififd by thf {@link Filfs#drfbtfSymbolidLink} mfthod.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod throws {@dodf
+     * UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm   link
+     *          thf pbth of thf symbolid link to drfbtf
+     * @pbrbm   tbrgft
+     *          thf tbrgft of thf symbolid link
+     * @pbrbm   bttrs
+     *          thf brrby of bttributfs to sft btomidblly whfn drfbting thf
+     *          symbolid link
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if thf implfmfntbtion dofs not support symbolid links or thf
+     *          brrby dontbins bn bttributf thbt dbnnot bf sft btomidblly whfn
+     *          drfbting thf symbolid link
+     * @throws  FilfAlrfbdyExistsExdfption
+     *          if b filf with thf nbmf blrfbdy fxists <i>(optionbl spfdifid
+     *          fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr
+     *          is instbllfd, it dfnifs {@link LinkPfrmission}<tt>("symbolid")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod dfnifs writf bddfss to thf pbth of thf symbolid link.
+     */
+    publid void drfbtfSymbolidLink(Pbth link, Pbth tbrgft, FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Crfbtfs b nfw link (dirfdtory fntry) for bn fxisting filf. This mfthod
+     * works in fxbdtly thf mbnnfr spfdififd by thf {@link Filfs#drfbtfLink}
+     * mfthod.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod throws {@dodf
+     * UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm   link
+     *          thf link (dirfdtory fntry) to drfbtf
+     * @pbrbm   fxisting
+     *          b pbth to bn fxisting filf
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if thf implfmfntbtion dofs not support bdding bn fxisting filf
+     *          to b dirfdtory
+     * @throws  FilfAlrfbdyExistsExdfption
+     *          if thf fntry dould not othfrwisf bf drfbtfd bfdbusf b filf of
+     *          thbt nbmf blrfbdy fxists <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr
+     *          is instbllfd, it dfnifs {@link LinkPfrmission}<tt>("hbrd")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod dfnifs writf bddfss to fithfr thf  link or thf
+     *          fxisting filf.
+     */
+    publid void drfbtfLink(Pbth link, Pbth fxisting) throws IOExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Dflftfs b filf. This mfthod works in fxbdtly thf  mbnnfr spfdififd by thf
+     * {@link Filfs#dflftf} mfthod.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf to dflftf
+     *
+     * @throws  NoSudhFilfExdfption
+     *          if thf filf dofs not fxist <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  DirfdtoryNotEmptyExdfption
+     *          if thf filf is b dirfdtory bnd dould not othfrwisf bf dflftfd
+     *          bfdbusf thf dirfdtory is not fmpty <i>(optionbl spfdifid
+     *          fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkDflftf(String)} mfthod
+     *          is invokfd to dhfdk dflftf bddfss to thf filf
+     */
+    publid bbstrbdt void dflftf(Pbth pbth) throws IOExdfption;
+
+    /**
+     * Dflftfs b filf if it fxists. This mfthod works in fxbdtly thf mbnnfr
+     * spfdififd by thf {@link Filfs#dflftfIfExists} mfthod.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod simply invokfs {@link
+     * #dflftf} ignoring thf {@dodf NoSudhFilfExdfption} whfn thf filf dofs not
+     * fxist. It mby bf ovfrriddfn whfrf bppropribtf.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf to dflftf
+     *
+     * @rfturn  {@dodf truf} if thf filf wbs dflftfd by this mfthod; {@dodf
+     *          fblsf} if thf filf dould not bf dflftfd bfdbusf it did not
+     *          fxist
+     *
+     * @throws  DirfdtoryNotEmptyExdfption
+     *          if thf filf is b dirfdtory bnd dould not othfrwisf bf dflftfd
+     *          bfdbusf thf dirfdtory is not fmpty <i>(optionbl spfdifid
+     *          fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkDflftf(String)} mfthod
+     *          is invokfd to dhfdk dflftf bddfss to thf filf
+     */
+    publid boolfbn dflftfIfExists(Pbth pbth) throws IOExdfption {
+        try {
+            dflftf(pbth);
+            rfturn truf;
+        } dbtdh (NoSudhFilfExdfption ignorf) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfbds thf tbrgft of b symbolid link. This mfthod works in fxbdtly thf
+     * mbnnfr spfdififd by thf {@link Filfs#rfbdSymbolidLink} mfthod.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod throws {@dodf
+     * UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm   link
+     *          thf pbth to thf symbolid link
+     *
+     * @rfturn  Thf tbrgft of thf symbolid link
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if thf implfmfntbtion dofs not support symbolid links
+     * @throws  NotLinkExdfption
+     *          if thf tbrgft dould othfrwisf not bf rfbd bfdbusf thf filf
+     *          is not b symbolid link <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr
+     *          is instbllfd, it dhfdks thbt {@dodf FilfPfrmission} hbs bffn
+     *          grbntfd with thf "{@dodf rfbdlink}" bdtion to rfbd thf link.
+     */
+    publid Pbth rfbdSymbolidLink(Pbth link) throws IOExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Copy b filf to b tbrgft filf. This mfthod works in fxbdtly thf mbnnfr
+     * spfdififd by thf {@link Filfs#dopy(Pbth,Pbth,CopyOption[])} mfthod
+     * fxdfpt thbt both thf sourdf bnd tbrgft pbths must bf bssodibtfd with
+     * this providfr.
+     *
+     * @pbrbm   sourdf
+     *          thf pbth to thf filf to dopy
+     * @pbrbm   tbrgft
+     *          thf pbth to thf tbrgft filf
+     * @pbrbm   options
+     *          options spfdifying how thf dopy should bf donf
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if thf brrby dontbins b dopy option thbt is not supportfd
+     * @throws  FilfAlrfbdyExistsExdfption
+     *          if thf tbrgft filf fxists but dbnnot bf rfplbdfd bfdbusf thf
+     *          {@dodf REPLACE_EXISTING} option is not spfdififd <i>(optionbl
+     *          spfdifid fxdfption)</i>
+     * @throws  DirfdtoryNotEmptyExdfption
+     *          thf {@dodf REPLACE_EXISTING} option is spfdififd but thf filf
+     *          dbnnot bf rfplbdfd bfdbusf it is b non-fmpty dirfdtory
+     *          <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf sourdf filf, thf
+     *          {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf} is invokfd
+     *          to dhfdk writf bddfss to thf tbrgft filf. If b symbolid link is
+     *          dopifd thf sfdurity mbnbgfr is invokfd to dhfdk {@link
+     *          LinkPfrmission}{@dodf ("symbolid")}.
+     */
+    publid bbstrbdt void dopy(Pbth sourdf, Pbth tbrgft, CopyOption... options)
+        throws IOExdfption;
+
+    /**
+     * Movf or rfnbmf b filf to b tbrgft filf. This mfthod works in fxbdtly thf
+     * mbnnfr spfdififd by thf {@link Filfs#movf} mfthod fxdfpt thbt both thf
+     * sourdf bnd tbrgft pbths must bf bssodibtfd with this providfr.
+     *
+     * @pbrbm   sourdf
+     *          thf pbth to thf filf to movf
+     * @pbrbm   tbrgft
+     *          thf pbth to thf tbrgft filf
+     * @pbrbm   options
+     *          options spfdifying how thf movf should bf donf
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if thf brrby dontbins b dopy option thbt is not supportfd
+     * @throws  FilfAlrfbdyExistsExdfption
+     *          if thf tbrgft filf fxists but dbnnot bf rfplbdfd bfdbusf thf
+     *          {@dodf REPLACE_EXISTING} option is not spfdififd <i>(optionbl
+     *          spfdifid fxdfption)</i>
+     * @throws  DirfdtoryNotEmptyExdfption
+     *          thf {@dodf REPLACE_EXISTING} option is spfdififd but thf filf
+     *          dbnnot bf rfplbdfd bfdbusf it is b non-fmpty dirfdtory
+     *          <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  AtomidMovfNotSupportfdExdfption
+     *          if thf options brrby dontbins thf {@dodf ATOMIC_MOVE} option but
+     *          thf filf dbnnot bf movfd bs bn btomid filf systfm opfrbtion.
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod is invokfd to dhfdk writf bddfss to both thf sourdf bnd
+     *          tbrgft filf.
+     */
+    publid bbstrbdt void movf(Pbth sourdf, Pbth tbrgft, CopyOption... options)
+        throws IOExdfption;
+
+    /**
+     * Tfsts if two pbths lodbtf thf sbmf filf. This mfthod works in fxbdtly thf
+     * mbnnfr spfdififd by thf {@link Filfs#isSbmfFilf} mfthod.
+     *
+     * @pbrbm   pbth
+     *          onf pbth to thf filf
+     * @pbrbm   pbth2
+     *          thf othfr pbth
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, thf two pbths lodbtf thf sbmf filf
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to both filfs.
+     */
+    publid bbstrbdt boolfbn isSbmfFilf(Pbth pbth, Pbth pbth2)
+        throws IOExdfption;
+
+    /**
+     * Tflls whfthfr or not b filf is donsidfrfd <fm>hiddfn</fm>. This mfthod
+     * works in fxbdtly thf mbnnfr spfdififd by thf {@link Filfs#isHiddfn}
+     * mfthod.
+     *
+     * <p> This mfthod is invokfd by thf {@link Filfs#isHiddfn isHiddfn} mfthod.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf to tfst
+     *
+     * @rfturn  {@dodf truf} if thf filf is donsidfrfd hiddfn
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf filf.
+     */
+    publid bbstrbdt boolfbn isHiddfn(Pbth pbth) throws IOExdfption;
+
+    /**
+     * Rfturns thf {@link FilfStorf} rfprfsfnting thf filf storf whfrf b filf
+     * is lodbtfd. This mfthod works in fxbdtly thf mbnnfr spfdififd by thf
+     * {@link Filfs#gftFilfStorf} mfthod.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf
+     *
+     * @rfturn  thf filf storf whfrf thf filf is storfd
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf filf, bnd in
+     *          bddition it dhfdks {@link RuntimfPfrmission}<tt>
+     *          ("gftFilfStorfAttributfs")</tt>
+     */
+    publid bbstrbdt FilfStorf gftFilfStorf(Pbth pbth) throws IOExdfption;
+
+    /**
+     * Chfdks thf fxistfndf, bnd optionblly thf bddfssibility, of b filf.
+     *
+     * <p> This mfthod mby bf usfd by thf {@link Filfs#isRfbdbblf isRfbdbblf},
+     * {@link Filfs#isWritbblf isWritbblf} bnd {@link Filfs#isExfdutbblf
+     * isExfdutbblf} mfthods to dhfdk thf bddfssibility of b filf.
+     *
+     * <p> This mfthod dhfdks thf fxistfndf of b filf bnd thbt this Jbvb virtubl
+     * mbdhinf hbs bppropribtf privilfgfs thbt would bllow it bddfss thf filf
+     * bddording to bll of bddfss modfs spfdififd in thf {@dodf modfs} pbrbmftfr
+     * bs follows:
+     *
+     * <tbblf bordfr=1 dfllpbdding=5 summbry="">
+     * <tr> <th>Vbluf</th> <th>Dfsdription</th> </tr>
+     * <tr>
+     *   <td> {@link AddfssModf#READ READ} </td>
+     *   <td> Chfdks thbt thf filf fxists bnd thbt thf Jbvb virtubl mbdhinf hbs
+     *     pfrmission to rfbd thf filf. </td>
+     * </tr>
+     * <tr>
+     *   <td> {@link AddfssModf#WRITE WRITE} </td>
+     *   <td> Chfdks thbt thf filf fxists bnd thbt thf Jbvb virtubl mbdhinf hbs
+     *     pfrmission to writf to thf filf, </td>
+     * </tr>
+     * <tr>
+     *   <td> {@link AddfssModf#EXECUTE EXECUTE} </td>
+     *   <td> Chfdks thbt thf filf fxists bnd thbt thf Jbvb virtubl mbdhinf hbs
+     *     pfrmission to {@link Runtimf#fxfd fxfdutf} thf filf. Thf sfmbntids
+     *     mby difffr whfn dhfdking bddfss to b dirfdtory. For fxbmplf, on UNIX
+     *     systfms, dhfdking for {@dodf EXECUTE} bddfss dhfdks thbt thf Jbvb
+     *     virtubl mbdhinf hbs pfrmission to sfbrdh thf dirfdtory in ordfr to
+     *     bddfss filf or subdirfdtorifs. </td>
+     * </tr>
+     * </tbblf>
+     *
+     * <p> If thf {@dodf modfs} pbrbmftfr is of lfngth zfro, thfn thf fxistfndf
+     * of thf filf is dhfdkfd.
+     *
+     * <p> This mfthod follows symbolid links if thf filf rfffrfndfd by this
+     * objfdt is b symbolid link. Dfpfnding on thf implfmfntbtion, this mfthod
+     * mby rfquirf to rfbd filf pfrmissions, bddfss dontrol lists, or othfr
+     * filf bttributfs in ordfr to dhfdk thf ffffdtivf bddfss to thf filf. To
+     * dftfrminf thf ffffdtivf bddfss to b filf mby rfquirf bddfss to sfvfrbl
+     * bttributfs bnd so in somf implfmfntbtions this mfthod mby not bf btomid
+     * with rfspfdt to othfr filf systfm opfrbtions.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf to dhfdk
+     * @pbrbm   modfs
+     *          Thf bddfss modfs to dhfdk; mby hbvf zfro flfmfnts
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          bn implfmfntbtion is rfquirfd to support dhfdking for
+     *          {@dodf READ}, {@dodf WRITE}, bnd {@dodf EXECUTE} bddfss. This
+     *          fxdfption is spfdififd to bllow for thf {@dodf Addfss} fnum to
+     *          bf fxtfndfd in futurf rflfbsfs.
+     * @throws  NoSudhFilfExdfption
+     *          if b filf dofs not fxist <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  AddfssDfnifdExdfption
+     *          thf rfqufstfd bddfss would bf dfnifd or thf bddfss dbnnot bf
+     *          dftfrminfd bfdbusf thf Jbvb virtubl mbdhinf hbs insuffidifnt
+     *          privilfgfs or othfr rfbsons. <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          is invokfd whfn dhfdking rfbd bddfss to thf filf or only thf
+     *          fxistfndf of thf filf, thf {@link SfdurityMbnbgfr#dhfdkWritf(String)
+     *          dhfdkWritf} is invokfd whfn dhfdking writf bddfss to thf filf,
+     *          bnd {@link SfdurityMbnbgfr#dhfdkExfd(String) dhfdkExfd} is invokfd
+     *          whfn dhfdking fxfdutf bddfss.
+     */
+    publid bbstrbdt void dhfdkAddfss(Pbth pbth, AddfssModf... modfs)
+        throws IOExdfption;
+
+    /**
+     * Rfturns b filf bttributf vifw of b givfn typf. This mfthod works in
+     * fxbdtly thf mbnnfr spfdififd by thf {@link Filfs#gftFilfAttributfVifw}
+     * mfthod.
+     *
+     * @pbrbm   <V>
+     *          Thf {@dodf FilfAttributfVifw} typf
+     * @pbrbm   pbth
+     *          thf pbth to thf filf
+     * @pbrbm   typf
+     *          thf {@dodf Clbss} objfdt dorrfsponding to thf filf bttributf vifw
+     * @pbrbm   options
+     *          options indidbting how symbolid links brf hbndlfd
+     *
+     * @rfturn  b filf bttributf vifw of thf spfdififd typf, or {@dodf null} if
+     *          thf bttributf vifw typf is not bvbilbblf
+     */
+    publid bbstrbdt <V fxtfnds FilfAttributfVifw> V
+        gftFilfAttributfVifw(Pbth pbth, Clbss<V> typf, LinkOption... options);
+
+    /**
+     * Rfbds b filf's bttributfs bs b bulk opfrbtion. This mfthod works in
+     * fxbdtly thf mbnnfr spfdififd by thf {@link
+     * Filfs#rfbdAttributfs(Pbth,Clbss,LinkOption[])} mfthod.
+     *
+     * @pbrbm   <A>
+     *          Thf {@dodf BbsidFilfAttributfs} typf
+     * @pbrbm   pbth
+     *          thf pbth to thf filf
+     * @pbrbm   typf
+     *          thf {@dodf Clbss} of thf filf bttributfs rfquirfd
+     *          to rfbd
+     * @pbrbm   options
+     *          options indidbting how symbolid links brf hbndlfd
+     *
+     * @rfturn  thf filf bttributfs
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if bn bttributfs of thf givfn typf brf not supportfd
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, its {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf filf
+     */
+    publid bbstrbdt <A fxtfnds BbsidFilfAttributfs> A
+        rfbdAttributfs(Pbth pbth, Clbss<A> typf, LinkOption... options) throws IOExdfption;
+
+    /**
+     * Rfbds b sft of filf bttributfs bs b bulk opfrbtion. This mfthod works in
+     * fxbdtly thf mbnnfr spfdififd by thf {@link
+     * Filfs#rfbdAttributfs(Pbth,String,LinkOption[])} mfthod.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf
+     * @pbrbm   bttributfs
+     *          thf bttributfs to rfbd
+     * @pbrbm   options
+     *          options indidbting how symbolid links brf hbndlfd
+     *
+     * @rfturn  b mbp of thf bttributfs rfturnfd; mby bf fmpty. Thf mbp's kfys
+     *          brf thf bttributf nbmfs, its vblufs brf thf bttributf vblufs
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if thf bttributf vifw is not bvbilbblf
+     * @throws  IllfgblArgumfntExdfption
+     *          if no bttributfs brf spfdififd or bn unrfdognizfd bttributfs is
+     *          spfdififd
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, its {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod dfnifs rfbd bddfss to thf filf. If this mfthod is invokfd
+     *          to rfbd sfdurity sfnsitivf bttributfs thfn thf sfdurity mbnbgfr
+     *          mby bf invokf to dhfdk for bdditionbl pfrmissions.
+     */
+    publid bbstrbdt Mbp<String,Objfdt> rfbdAttributfs(Pbth pbth, String bttributfs,
+                                                      LinkOption... options)
+        throws IOExdfption;
+
+    /**
+     * Sfts thf vbluf of b filf bttributf. This mfthod works in fxbdtly thf
+     * mbnnfr spfdififd by thf {@link Filfs#sftAttributf} mfthod.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf
+     * @pbrbm   bttributf
+     *          thf bttributf to sft
+     * @pbrbm   vbluf
+     *          thf bttributf vbluf
+     * @pbrbm   options
+     *          options indidbting how symbolid links brf hbndlfd
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if thf bttributf vifw is not bvbilbblf
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf bttributf nbmf is not spfdififd, or is not rfdognizfd, or
+     *          thf bttributf vbluf is of thf dorrfdt typf but hbs bn
+     *          inbppropribtf vbluf
+     * @throws  ClbssCbstExdfption
+     *          If thf bttributf vbluf is not of thf fxpfdtfd typf or is b
+     *          dollfdtion dontbining flfmfnts thbt brf not of thf fxpfdtfd
+     *          typf
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, its {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod dfnifs writf bddfss to thf filf. If this mfthod is invokfd
+     *          to sft sfdurity sfnsitivf bttributfs thfn thf sfdurity mbnbgfr
+     *          mby bf invokfd to dhfdk for bdditionbl pfrmissions.
+     */
+    publid bbstrbdt void sftAttributf(Pbth pbth, String bttributf,
+                                      Objfdt vbluf, LinkOption... options)
+        throws IOExdfption;
+}

@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2001, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp.internal;
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
 
-import java.net.InetAddress;
+import jbvb.nft.InftAddrfss;
 
-import com.sun.jmx.snmp.SnmpSecurityException;
-import com.sun.jmx.snmp.SnmpTooBigException;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpMsg;
+import dom.sun.jmx.snmp.SnmpSfdurityExdfption;
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpMsg;
 
-import com.sun.jmx.snmp.internal.SnmpSecurityCache;
-import com.sun.jmx.snmp.SnmpUnknownSecModelException;
-import com.sun.jmx.snmp.SnmpBadSecurityLevelException;
+import dom.sun.jmx.snmp.intfrnbl.SnmpSfdurityCbdif;
+import dom.sun.jmx.snmp.SnmpUnknownSfdModflExdfption;
+import dom.sun.jmx.snmp.SnmpBbdSfdurityLfvflExdfption;
 /**
- * <P> An <CODE>SnmpOutgoingRequest</CODE> handles the marshalling of the message to send.</P>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * <P> An <CODE>SnmpOutgoingRfqufst</CODE> ibndlfs tif mbrsiblling of tif mfssbgf to sfnd.</P>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
 
-public interface SnmpOutgoingRequest {
+publid intfrfbdf SnmpOutgoingRfqufst {
     /**
-     * Returns the cached security data used when marshalling the call as a secure one.
-     * @return The cached data.
+     * Rfturns tif dbdifd sfdurity dbtb usfd wifn mbrsiblling tif dbll bs b sfdurf onf.
+     * @rfturn Tif dbdifd dbtb.
      */
-    public SnmpSecurityCache getSecurityCache();
+    publid SnmpSfdurityCbdif gftSfdurityCbdif();
     /**
-     * Encodes the message to send and puts the result in the specified byte array.
+     * Endodfs tif mfssbgf to sfnd bnd puts tif rfsult in tif spfdififd bytf brrby.
      *
-     * @param outputBytes An array to receive the resulting encoding.
+     * @pbrbm outputBytfs An brrby to rfdfivf tif rfsulting fndoding.
      *
-     * @exception ArrayIndexOutOfBoundsException If the result does not fit
-     *                                           into the specified array.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If tif rfsult dofs not fit
+     *                                           into tif spfdififd brrby.
      */
-    public int encodeMessage(byte[] outputBytes)
-        throws SnmpStatusException,
-               SnmpTooBigException, SnmpSecurityException,
-               SnmpUnknownSecModelException, SnmpBadSecurityLevelException;
+    publid int fndodfMfssbgf(bytf[] outputBytfs)
+        tirows SnmpStbtusExdfption,
+               SnmpTooBigExdfption, SnmpSfdurityExdfption,
+               SnmpUnknownSfdModflExdfption, SnmpBbdSfdurityLfvflExdfption;
   /**
-     * Initializes the message to send with the passed Pdu.
+     * Initiblizfs tif mfssbgf to sfnd witi tif pbssfd Pdu.
      * <P>
-     * If the encoding length exceeds <CODE>maxDataLength</CODE>,
-     * the method throws an exception.</P>
+     * If tif fndoding lfngti fxdffds <CODE>mbxDbtbLfngti</CODE>,
+     * tif mftiod tirows bn fxdfption.</P>
      *
-     * @param p The PDU to be encoded.
-     * @param maxDataLength The maximum length permitted for the data field.
+     * @pbrbm p Tif PDU to bf fndodfd.
+     * @pbrbm mbxDbtbLfngti Tif mbximum lfngti pfrmittfd for tif dbtb fifld.
      *
-     * @exception SnmpStatusException If the specified PDU <CODE>p</CODE> is
-     *    not valid.
-     * @exception SnmpTooBigException If the resulting encoding does not fit
-     *    into <CODE>maxDataLength</CODE> bytes.
-     * @exception ArrayIndexOutOfBoundsException If the encoding exceeds
-     *    <CODE>maxDataLength</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif spfdififd PDU <CODE>p</CODE> is
+     *    not vblid.
+     * @fxdfption SnmpTooBigExdfption If tif rfsulting fndoding dofs not fit
+     *    into <CODE>mbxDbtbLfngti</CODE> bytfs.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If tif fndoding fxdffds
+     *    <CODE>mbxDbtbLfngti</CODE>.
      */
-    public SnmpMsg encodeSnmpPdu(SnmpPdu p,
-                                 int maxDataLength)
-        throws SnmpStatusException, SnmpTooBigException;
+    publid SnmpMsg fndodfSnmpPdu(SnmpPdu p,
+                                 int mbxDbtbLfngti)
+        tirows SnmpStbtusExdfption, SnmpTooBigExdfption;
     /**
-     * Returns a stringified form of the message to send.
-     * @return The message state string.
+     * Rfturns b stringififd form of tif mfssbgf to sfnd.
+     * @rfturn Tif mfssbgf stbtf string.
      */
-    public String printMessage();
+    publid String printMfssbgf();
 }

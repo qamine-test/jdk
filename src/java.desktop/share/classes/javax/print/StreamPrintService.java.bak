@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
-import java.io.OutputStream;
+import jbvb.io.OutputStrfbm;
 
 /**
- * This class extends {@link PrintService} and represents a
- * print service that prints data in different formats to a
- * client-provided output stream.
- * This is principally intended for services where
- * the output format is a document type suitable for viewing
- * or archiving.
- * The output format must be declared as a mime type.
- * This is equivalent to an output document flavor where the
- * representation class is always "java.io.OutputStream"
- * An instance of the <code>StreamPrintService</code> class is
- * obtained from a {@link StreamPrintServiceFactory} instance.
+ * Tiis dlbss fxtfnds {@link PrintSfrvidf} bnd rfprfsfnts b
+ * print sfrvidf tibt prints dbtb in difffrfnt formbts to b
+ * dlifnt-providfd output strfbm.
+ * Tiis is prindipblly intfndfd for sfrvidfs wifrf
+ * tif output formbt is b dodumfnt typf suitbblf for vifwing
+ * or brdiiving.
+ * Tif output formbt must bf dfdlbrfd bs b mimf typf.
+ * Tiis is fquivblfnt to bn output dodumfnt flbvor wifrf tif
+ * rfprfsfntbtion dlbss is blwbys "jbvb.io.OutputStrfbm"
+ * An instbndf of tif <dodf>StrfbmPrintSfrvidf</dodf> dlbss is
+ * obtbinfd from b {@link StrfbmPrintSfrvidfFbdtory} instbndf.
  * <p>
- * Note that a <code>StreamPrintService</code> is different from a
- * <code>PrintService</code>, which supports a
- * {@link javax.print.attribute.standard.Destination Destination}
- * attribute.  A <code>StreamPrintService</code> always requires an output
- * stream, whereas a <code>PrintService</code> optionally accepts a
- * <code>Destination</code>. A <code>StreamPrintService</code>
- * has no default destination for its formatted output.
- * Additionally a <code>StreamPrintService</code> is expected to generate
+ * Notf tibt b <dodf>StrfbmPrintSfrvidf</dodf> is difffrfnt from b
+ * <dodf>PrintSfrvidf</dodf>, wiidi supports b
+ * {@link jbvbx.print.bttributf.stbndbrd.Dfstinbtion Dfstinbtion}
+ * bttributf.  A <dodf>StrfbmPrintSfrvidf</dodf> blwbys rfquirfs bn output
+ * strfbm, wifrfbs b <dodf>PrintSfrvidf</dodf> optionblly bddfpts b
+ * <dodf>Dfstinbtion</dodf>. A <dodf>StrfbmPrintSfrvidf</dodf>
+ * ibs no dffbult dfstinbtion for its formbttfd output.
+ * Additionblly b <dodf>StrfbmPrintSfrvidf</dodf> is fxpfdtfd to gfnfrbtf
 output in
- * a format useful in other contexts.
- * StreamPrintService's are not expected to support the Destination attribute.
+ * b formbt usfful in otifr dontfxts.
+ * StrfbmPrintSfrvidf's brf not fxpfdtfd to support tif Dfstinbtion bttributf.
  */
 
-public abstract class StreamPrintService implements PrintService {
+publid bbstrbdt dlbss StrfbmPrintSfrvidf implfmfnts PrintSfrvidf {
 
-    private OutputStream outStream;
-    private boolean disposed = false;
+    privbtf OutputStrfbm outStrfbm;
+    privbtf boolfbn disposfd = fblsf;
 
-    private StreamPrintService() {
+    privbtf StrfbmPrintSfrvidf() {
     };
 
     /**
-     * Constructs a StreamPrintService object.
+     * Construdts b StrfbmPrintSfrvidf objfdt.
      *
-     * @param out  stream to which to send formatted print data.
+     * @pbrbm out  strfbm to wiidi to sfnd formbttfd print dbtb.
      */
-    protected StreamPrintService(OutputStream out) {
-        this.outStream = out;
+    protfdtfd StrfbmPrintSfrvidf(OutputStrfbm out) {
+        tiis.outStrfbm = out;
     }
 
     /**
-     * Gets the output stream.
+     * Gfts tif output strfbm.
      *
-     * @return the stream to which this service will send formatted print data.
+     * @rfturn tif strfbm to wiidi tiis sfrvidf will sfnd formbttfd print dbtb.
      */
-    public OutputStream getOutputStream() {
-        return outStream;
+    publid OutputStrfbm gftOutputStrfbm() {
+        rfturn outStrfbm;
     }
 
     /**
-     * Returns the document format emitted by this print service.
-     * Must be in mimetype format, compatible with the mime type
-     * components of DocFlavors @see DocFlavor.
-     * @return mime type identifying the output format.
+     * Rfturns tif dodumfnt formbt fmittfd by tiis print sfrvidf.
+     * Must bf in mimftypf formbt, dompbtiblf witi tif mimf typf
+     * domponfnts of DodFlbvors @sff DodFlbvor.
+     * @rfturn mimf typf idfntifying tif output formbt.
      */
-    public abstract String getOutputFormat();
+    publid bbstrbdt String gftOutputFormbt();
 
     /**
-     * Disposes this <code>StreamPrintService</code>.
-     * If a stream service cannot be re-used, it must be disposed
-     * to indicate this. Typically the client will call this method.
-     * Services which write data which cannot meaningfully be appended to
-     * may also dispose the stream. This does not close the stream. It
-     * just marks it as not for further use by this service.
+     * Disposfs tiis <dodf>StrfbmPrintSfrvidf</dodf>.
+     * If b strfbm sfrvidf dbnnot bf rf-usfd, it must bf disposfd
+     * to indidbtf tiis. Typidblly tif dlifnt will dbll tiis mftiod.
+     * Sfrvidfs wiidi writf dbtb wiidi dbnnot mfbningfully bf bppfndfd to
+     * mby blso disposf tif strfbm. Tiis dofs not dlosf tif strfbm. It
+     * just mbrks it bs not for furtifr usf by tiis sfrvidf.
      */
-    public void dispose() {
-        disposed = true;
+    publid void disposf() {
+        disposfd = truf;
     }
 
     /**
-     * Returns a <code>boolean</code> indicating whether or not
-     * this <code>StreamPrintService</code> has been disposed.
-     * If this object has been disposed, will return true.
-     * Used by services and client applications to recognize streams
-     * to which no further data should be written.
-     * @return if this <code>StreamPrintService</code> has been disposed
+     * Rfturns b <dodf>boolfbn</dodf> indidbting wiftifr or not
+     * tiis <dodf>StrfbmPrintSfrvidf</dodf> ibs bffn disposfd.
+     * If tiis objfdt ibs bffn disposfd, will rfturn truf.
+     * Usfd by sfrvidfs bnd dlifnt bpplidbtions to rfdognizf strfbms
+     * to wiidi no furtifr dbtb siould bf writtfn.
+     * @rfturn if tiis <dodf>StrfbmPrintSfrvidf</dodf> ibs bffn disposfd
      */
-    public boolean isDisposed() {
-        return disposed;
+    publid boolfbn isDisposfd() {
+        rfturn disposfd;
     }
 
 }

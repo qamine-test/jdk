@@ -1,330 +1,330 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * A token representing a lock on a region of a file.
+ * A tokfn rfprfsfnting b lodk on b rfgion of b filf.
  *
- * <p> A file-lock object is created each time a lock is acquired on a file via
- * one of the {@link FileChannel#lock(long,long,boolean) lock} or {@link
- * FileChannel#tryLock(long,long,boolean) tryLock} methods of the
- * {@link FileChannel} class, or the {@link
- * AsynchronousFileChannel#lock(long,long,boolean,Object,CompletionHandler) lock}
- * or {@link AsynchronousFileChannel#tryLock(long,long,boolean) tryLock}
- * methods of the {@link AsynchronousFileChannel} class.
+ * <p> A filf-lodk objfdt is drfbtfd fbdi timf b lodk is bdquirfd on b filf vib
+ * onf of tif {@link FilfCibnnfl#lodk(long,long,boolfbn) lodk} or {@link
+ * FilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk} mftiods of tif
+ * {@link FilfCibnnfl} dlbss, or tif {@link
+ * AsyndironousFilfCibnnfl#lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr) lodk}
+ * or {@link AsyndironousFilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk}
+ * mftiods of tif {@link AsyndironousFilfCibnnfl} dlbss.
  *
- * <p> A file-lock object is initially valid.  It remains valid until the lock
- * is released by invoking the {@link #release release} method, by closing the
- * channel that was used to acquire it, or by the termination of the Java
- * virtual machine, whichever comes first.  The validity of a lock may be
- * tested by invoking its {@link #isValid isValid} method.
+ * <p> A filf-lodk objfdt is initiblly vblid.  It rfmbins vblid until tif lodk
+ * is rflfbsfd by invoking tif {@link #rflfbsf rflfbsf} mftiod, by dlosing tif
+ * dibnnfl tibt wbs usfd to bdquirf it, or by tif tfrminbtion of tif Jbvb
+ * virtubl mbdiinf, wiidifvfr domfs first.  Tif vblidity of b lodk mby bf
+ * tfstfd by invoking its {@link #isVblid isVblid} mftiod.
  *
- * <p> A file lock is either <i>exclusive</i> or <i>shared</i>.  A shared lock
- * prevents other concurrently-running programs from acquiring an overlapping
- * exclusive lock, but does allow them to acquire overlapping shared locks.  An
- * exclusive lock prevents other programs from acquiring an overlapping lock of
- * either type.  Once it is released, a lock has no further effect on the locks
- * that may be acquired by other programs.
+ * <p> A filf lodk is fitifr <i>fxdlusivf</i> or <i>sibrfd</i>.  A sibrfd lodk
+ * prfvfnts otifr dondurrfntly-running progrbms from bdquiring bn ovfrlbpping
+ * fxdlusivf lodk, but dofs bllow tifm to bdquirf ovfrlbpping sibrfd lodks.  An
+ * fxdlusivf lodk prfvfnts otifr progrbms from bdquiring bn ovfrlbpping lodk of
+ * fitifr typf.  Ondf it is rflfbsfd, b lodk ibs no furtifr ffffdt on tif lodks
+ * tibt mby bf bdquirfd by otifr progrbms.
  *
- * <p> Whether a lock is exclusive or shared may be determined by invoking its
- * {@link #isShared isShared} method.  Some platforms do not support shared
- * locks, in which case a request for a shared lock is automatically converted
- * into a request for an exclusive lock.
+ * <p> Wiftifr b lodk is fxdlusivf or sibrfd mby bf dftfrminfd by invoking its
+ * {@link #isSibrfd isSibrfd} mftiod.  Somf plbtforms do not support sibrfd
+ * lodks, in wiidi dbsf b rfqufst for b sibrfd lodk is butombtidblly donvfrtfd
+ * into b rfqufst for bn fxdlusivf lodk.
  *
- * <p> The locks held on a particular file by a single Java virtual machine do
- * not overlap.  The {@link #overlaps overlaps} method may be used to test
- * whether a candidate lock range overlaps an existing lock.
+ * <p> Tif lodks ifld on b pbrtidulbr filf by b singlf Jbvb virtubl mbdiinf do
+ * not ovfrlbp.  Tif {@link #ovfrlbps ovfrlbps} mftiod mby bf usfd to tfst
+ * wiftifr b dbndidbtf lodk rbngf ovfrlbps bn fxisting lodk.
  *
- * <p> A file-lock object records the file channel upon whose file the lock is
- * held, the type and validity of the lock, and the position and size of the
- * locked region.  Only the validity of a lock is subject to change over time;
- * all other aspects of a lock's state are immutable.
+ * <p> A filf-lodk objfdt rfdords tif filf dibnnfl upon wiosf filf tif lodk is
+ * ifld, tif typf bnd vblidity of tif lodk, bnd tif position bnd sizf of tif
+ * lodkfd rfgion.  Only tif vblidity of b lodk is subjfdt to dibngf ovfr timf;
+ * bll otifr bspfdts of b lodk's stbtf brf immutbblf.
  *
- * <p> File locks are held on behalf of the entire Java virtual machine.
- * They are not suitable for controlling access to a file by multiple
- * threads within the same virtual machine.
+ * <p> Filf lodks brf ifld on bfiblf of tif fntirf Jbvb virtubl mbdiinf.
+ * Tify brf not suitbblf for dontrolling bddfss to b filf by multiplf
+ * tirfbds witiin tif sbmf virtubl mbdiinf.
  *
- * <p> File-lock objects are safe for use by multiple concurrent threads.
- *
- *
- * <a name="pdep"></a><h2> Platform dependencies </h2>
- *
- * <p> This file-locking API is intended to map directly to the native locking
- * facility of the underlying operating system.  Thus the locks held on a file
- * should be visible to all programs that have access to the file, regardless
- * of the language in which those programs are written.
- *
- * <p> Whether or not a lock actually prevents another program from accessing
- * the content of the locked region is system-dependent and therefore
- * unspecified.  The native file-locking facilities of some systems are merely
- * <i>advisory</i>, meaning that programs must cooperatively observe a known
- * locking protocol in order to guarantee data integrity.  On other systems
- * native file locks are <i>mandatory</i>, meaning that if one program locks a
- * region of a file then other programs are actually prevented from accessing
- * that region in a way that would violate the lock.  On yet other systems,
- * whether native file locks are advisory or mandatory is configurable on a
- * per-file basis.  To ensure consistent and correct behavior across platforms,
- * it is strongly recommended that the locks provided by this API be used as if
- * they were advisory locks.
- *
- * <p> On some systems, acquiring a mandatory lock on a region of a file
- * prevents that region from being {@link java.nio.channels.FileChannel#map
- * <i>mapped into memory</i>}, and vice versa.  Programs that combine
- * locking and mapping should be prepared for this combination to fail.
- *
- * <p> On some systems, closing a channel releases all locks held by the Java
- * virtual machine on the underlying file regardless of whether the locks were
- * acquired via that channel or via another channel open on the same file.  It
- * is strongly recommended that, within a program, a unique channel be used to
- * acquire all locks on any given file.
- *
- * <p> Some network filesystems permit file locking to be used with
- * memory-mapped files only when the locked regions are page-aligned and a
- * whole multiple of the underlying hardware's page size.  Some network
- * filesystems do not implement file locks on regions that extend past a
- * certain position, often 2<sup>30</sup> or 2<sup>31</sup>.  In general, great
- * care should be taken when locking files that reside on network filesystems.
+ * <p> Filf-lodk objfdts brf sbff for usf by multiplf dondurrfnt tirfbds.
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * <b nbmf="pdfp"></b><i2> Plbtform dfpfndfndifs </i2>
+ *
+ * <p> Tiis filf-lodking API is intfndfd to mbp dirfdtly to tif nbtivf lodking
+ * fbdility of tif undfrlying opfrbting systfm.  Tius tif lodks ifld on b filf
+ * siould bf visiblf to bll progrbms tibt ibvf bddfss to tif filf, rfgbrdlfss
+ * of tif lbngubgf in wiidi tiosf progrbms brf writtfn.
+ *
+ * <p> Wiftifr or not b lodk bdtublly prfvfnts bnotifr progrbm from bddfssing
+ * tif dontfnt of tif lodkfd rfgion is systfm-dfpfndfnt bnd tifrfforf
+ * unspfdififd.  Tif nbtivf filf-lodking fbdilitifs of somf systfms brf mfrfly
+ * <i>bdvisory</i>, mfbning tibt progrbms must doopfrbtivfly obsfrvf b known
+ * lodking protodol in ordfr to gubrbntff dbtb intfgrity.  On otifr systfms
+ * nbtivf filf lodks brf <i>mbndbtory</i>, mfbning tibt if onf progrbm lodks b
+ * rfgion of b filf tifn otifr progrbms brf bdtublly prfvfntfd from bddfssing
+ * tibt rfgion in b wby tibt would violbtf tif lodk.  On yft otifr systfms,
+ * wiftifr nbtivf filf lodks brf bdvisory or mbndbtory is donfigurbblf on b
+ * pfr-filf bbsis.  To fnsurf donsistfnt bnd dorrfdt bfibvior bdross plbtforms,
+ * it is strongly rfdommfndfd tibt tif lodks providfd by tiis API bf usfd bs if
+ * tify wfrf bdvisory lodks.
+ *
+ * <p> On somf systfms, bdquiring b mbndbtory lodk on b rfgion of b filf
+ * prfvfnts tibt rfgion from bfing {@link jbvb.nio.dibnnfls.FilfCibnnfl#mbp
+ * <i>mbppfd into mfmory</i>}, bnd vidf vfrsb.  Progrbms tibt dombinf
+ * lodking bnd mbpping siould bf prfpbrfd for tiis dombinbtion to fbil.
+ *
+ * <p> On somf systfms, dlosing b dibnnfl rflfbsfs bll lodks ifld by tif Jbvb
+ * virtubl mbdiinf on tif undfrlying filf rfgbrdlfss of wiftifr tif lodks wfrf
+ * bdquirfd vib tibt dibnnfl or vib bnotifr dibnnfl opfn on tif sbmf filf.  It
+ * is strongly rfdommfndfd tibt, witiin b progrbm, b uniquf dibnnfl bf usfd to
+ * bdquirf bll lodks on bny givfn filf.
+ *
+ * <p> Somf nftwork filfsystfms pfrmit filf lodking to bf usfd witi
+ * mfmory-mbppfd filfs only wifn tif lodkfd rfgions brf pbgf-blignfd bnd b
+ * wiolf multiplf of tif undfrlying ibrdwbrf's pbgf sizf.  Somf nftwork
+ * filfsystfms do not implfmfnt filf lodks on rfgions tibt fxtfnd pbst b
+ * dfrtbin position, oftfn 2<sup>30</sup> or 2<sup>31</sup>.  In gfnfrbl, grfbt
+ * dbrf siould bf tbkfn wifn lodking filfs tibt rfsidf on nftwork filfsystfms.
+ *
+ *
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public abstract class FileLock implements AutoCloseable {
+publid bbstrbdt dlbss FilfLodk implfmfnts AutoClosfbblf {
 
-    private final Channel channel;
-    private final long position;
-    private final long size;
-    private final boolean shared;
+    privbtf finbl Cibnnfl dibnnfl;
+    privbtf finbl long position;
+    privbtf finbl long sizf;
+    privbtf finbl boolfbn sibrfd;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @param  channel
-     *         The file channel upon whose file this lock is held
+     * @pbrbm  dibnnfl
+     *         Tif filf dibnnfl upon wiosf filf tiis lodk is ifld
      *
-     * @param  position
-     *         The position within the file at which the locked region starts;
-     *         must be non-negative
+     * @pbrbm  position
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         must bf non-nfgbtivf
      *
-     * @param  size
-     *         The size of the locked region; must be non-negative, and the sum
-     *         <tt>position</tt>&nbsp;+&nbsp;<tt>size</tt> must be non-negative
+     * @pbrbm  sizf
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
      *
-     * @param  shared
-     *         <tt>true</tt> if this lock is shared,
-     *         <tt>false</tt> if it is exclusive
+     * @pbrbm  sibrfd
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>fblsf</tt> if it is fxdlusivf
      *
-     * @throws IllegalArgumentException
-     *         If the preconditions on the parameters do not hold
+     * @tirows IllfgblArgumfntExdfption
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
      */
-    protected FileLock(FileChannel channel,
-                       long position, long size, boolean shared)
+    protfdtfd FilfLodk(FilfCibnnfl dibnnfl,
+                       long position, long sizf, boolfbn sibrfd)
     {
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
-        if (size < 0)
-            throw new IllegalArgumentException("Negative size");
-        if (position + size < 0)
-            throw new IllegalArgumentException("Negative position + size");
-        this.channel = channel;
-        this.position = position;
-        this.size = size;
-        this.shared = shared;
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+        if (sizf < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+        if (position + sizf < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+        tiis.dibnnfl = dibnnfl;
+        tiis.position = position;
+        tiis.sizf = sizf;
+        tiis.sibrfd = sibrfd;
     }
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @param  channel
-     *         The channel upon whose file this lock is held
+     * @pbrbm  dibnnfl
+     *         Tif dibnnfl upon wiosf filf tiis lodk is ifld
      *
-     * @param  position
-     *         The position within the file at which the locked region starts;
-     *         must be non-negative
+     * @pbrbm  position
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         must bf non-nfgbtivf
      *
-     * @param  size
-     *         The size of the locked region; must be non-negative, and the sum
-     *         <tt>position</tt>&nbsp;+&nbsp;<tt>size</tt> must be non-negative
+     * @pbrbm  sizf
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
      *
-     * @param  shared
-     *         <tt>true</tt> if this lock is shared,
-     *         <tt>false</tt> if it is exclusive
+     * @pbrbm  sibrfd
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>fblsf</tt> if it is fxdlusivf
      *
-     * @throws IllegalArgumentException
-     *         If the preconditions on the parameters do not hold
+     * @tirows IllfgblArgumfntExdfption
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    protected FileLock(AsynchronousFileChannel channel,
-                       long position, long size, boolean shared)
+    protfdtfd FilfLodk(AsyndironousFilfCibnnfl dibnnfl,
+                       long position, long sizf, boolfbn sibrfd)
     {
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
-        if (size < 0)
-            throw new IllegalArgumentException("Negative size");
-        if (position + size < 0)
-            throw new IllegalArgumentException("Negative position + size");
-        this.channel = channel;
-        this.position = position;
-        this.size = size;
-        this.shared = shared;
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+        if (sizf < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+        if (position + sizf < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+        tiis.dibnnfl = dibnnfl;
+        tiis.position = position;
+        tiis.sizf = sizf;
+        tiis.sibrfd = sibrfd;
     }
 
     /**
-     * Returns the file channel upon whose file this lock was acquired.
+     * Rfturns tif filf dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
      *
-     * <p> This method has been superseded by the {@link #acquiredBy acquiredBy}
-     * method.
+     * <p> Tiis mftiod ibs bffn supfrsfdfd by tif {@link #bdquirfdBy bdquirfdBy}
+     * mftiod.
      *
-     * @return  The file channel, or {@code null} if the file lock was not
-     *          acquired by a file channel.
+     * @rfturn  Tif filf dibnnfl, or {@dodf null} if tif filf lodk wbs not
+     *          bdquirfd by b filf dibnnfl.
      */
-    public final FileChannel channel() {
-        return (channel instanceof FileChannel) ? (FileChannel)channel : null;
+    publid finbl FilfCibnnfl dibnnfl() {
+        rfturn (dibnnfl instbndfof FilfCibnnfl) ? (FilfCibnnfl)dibnnfl : null;
     }
 
     /**
-     * Returns the channel upon whose file this lock was acquired.
+     * Rfturns tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
      *
-     * @return  The channel upon whose file this lock was acquired.
+     * @rfturn  Tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public Channel acquiredBy() {
-        return channel;
+    publid Cibnnfl bdquirfdBy() {
+        rfturn dibnnfl;
     }
 
     /**
-     * Returns the position within the file of the first byte of the locked
-     * region.
+     * Rfturns tif position witiin tif filf of tif first bytf of tif lodkfd
+     * rfgion.
      *
-     * <p> A locked region need not be contained within, or even overlap, the
-     * actual underlying file, so the value returned by this method may exceed
-     * the file's current size.  </p>
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * tif filf's durrfnt sizf.  </p>
      *
-     * @return  The position
+     * @rfturn  Tif position
      */
-    public final long position() {
-        return position;
+    publid finbl long position() {
+        rfturn position;
     }
 
     /**
-     * Returns the size of the locked region in bytes.
+     * Rfturns tif sizf of tif lodkfd rfgion in bytfs.
      *
-     * <p> A locked region need not be contained within, or even overlap, the
-     * actual underlying file, so the value returned by this method may exceed
-     * the file's current size.  </p>
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * tif filf's durrfnt sizf.  </p>
      *
-     * @return  The size of the locked region
+     * @rfturn  Tif sizf of tif lodkfd rfgion
      */
-    public final long size() {
-        return size;
+    publid finbl long sizf() {
+        rfturn sizf;
     }
 
     /**
-     * Tells whether this lock is shared.
+     * Tflls wiftifr tiis lodk is sibrfd.
      *
-     * @return <tt>true</tt> if lock is shared,
-     *         <tt>false</tt> if it is exclusive
+     * @rfturn <tt>truf</tt> if lodk is sibrfd,
+     *         <tt>fblsf</tt> if it is fxdlusivf
      */
-    public final boolean isShared() {
-        return shared;
+    publid finbl boolfbn isSibrfd() {
+        rfturn sibrfd;
     }
 
     /**
-     * Tells whether or not this lock overlaps the given lock range.
+     * Tflls wiftifr or not tiis lodk ovfrlbps tif givfn lodk rbngf.
      *
-     * @param   position
-     *          The starting position of the lock range
-     * @param   size
-     *          The size of the lock range
+     * @pbrbm   position
+     *          Tif stbrting position of tif lodk rbngf
+     * @pbrbm   sizf
+     *          Tif sizf of tif lodk rbngf
      *
-     * @return  <tt>true</tt> if, and only if, this lock and the given lock
-     *          range overlap by at least one byte
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk bnd tif givfn lodk
+     *          rbngf ovfrlbp by bt lfbst onf bytf
      */
-    public final boolean overlaps(long position, long size) {
-        if (position + size <= this.position)
-            return false;               // That is below this
-        if (this.position + this.size <= position)
-            return false;               // This is below that
-        return true;
+    publid finbl boolfbn ovfrlbps(long position, long sizf) {
+        if (position + sizf <= tiis.position)
+            rfturn fblsf;               // Tibt is bflow tiis
+        if (tiis.position + tiis.sizf <= position)
+            rfturn fblsf;               // Tiis is bflow tibt
+        rfturn truf;
     }
 
     /**
-     * Tells whether or not this lock is valid.
+     * Tflls wiftifr or not tiis lodk is vblid.
      *
-     * <p> A lock object remains valid until it is released or the associated
-     * file channel is closed, whichever comes first.  </p>
+     * <p> A lodk objfdt rfmbins vblid until it is rflfbsfd or tif bssodibtfd
+     * filf dibnnfl is dlosfd, wiidifvfr domfs first.  </p>
      *
-     * @return  <tt>true</tt> if, and only if, this lock is valid
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk is vblid
      */
-    public abstract boolean isValid();
+    publid bbstrbdt boolfbn isVblid();
 
     /**
-     * Releases this lock.
+     * Rflfbsfs tiis lodk.
      *
-     * <p> If this lock object is valid then invoking this method releases the
-     * lock and renders the object invalid.  If this lock object is invalid
-     * then invoking this method has no effect.  </p>
+     * <p> If tiis lodk objfdt is vblid tifn invoking tiis mftiod rflfbsfs tif
+     * lodk bnd rfndfrs tif objfdt invblid.  If tiis lodk objfdt is invblid
+     * tifn invoking tiis mftiod ibs no ffffdt.  </p>
      *
-     * @throws  ClosedChannelException
-     *          If the channel that was used to acquire this lock
-     *          is no longer open
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tif dibnnfl tibt wbs usfd to bdquirf tiis lodk
+     *          is no longfr opfn
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public abstract void release() throws IOException;
+    publid bbstrbdt void rflfbsf() tirows IOExdfption;
 
     /**
-     * This method invokes the {@link #release} method. It was added
-     * to the class so that it could be used in conjunction with the
-     * automatic resource management block construct.
+     * Tiis mftiod invokfs tif {@link #rflfbsf} mftiod. It wbs bddfd
+     * to tif dlbss so tibt it dould bf usfd in donjundtion witi tif
+     * butombtid rfsourdf mbnbgfmfnt blodk donstrudt.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public final void close() throws IOException {
-        release();
+    publid finbl void dlosf() tirows IOExdfption {
+        rflfbsf();
     }
 
     /**
-     * Returns a string describing the range, type, and validity of this lock.
+     * Rfturns b string dfsdribing tif rbngf, typf, bnd vblidity of tiis lodk.
      *
-     * @return  A descriptive string
+     * @rfturn  A dfsdriptivf string
      */
-    public final String toString() {
-        return (this.getClass().getName()
+    publid finbl String toString() {
+        rfturn (tiis.gftClbss().gftNbmf()
                 + "[" + position
-                + ":" + size
-                + " " + (shared ? "shared" : "exclusive")
-                + " " + (isValid() ? "valid" : "invalid")
+                + ":" + sizf
+                + " " + (sibrfd ? "sibrfd" : "fxdlusivf")
+                + " " + (isVblid() ? "vblid" : "invblid")
                 + "]");
     }
 

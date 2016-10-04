@@ -1,0 +1,169 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: Rfffrfndf.jbvb,v 1.9 2005/05/10 16:03:46 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig;
+
+import jbvbx.xml.drypto.Dbtb;
+import jbvbx.xml.drypto.URIRfffrfndf;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvb.io.InputStrfbm;
+import jbvb.util.List;
+
+/**
+ * A rfprfsfntbtion of thf <dodf>Rfffrfndf</dodf> flfmfnt bs dffinfd in thf
+ * <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Thf XML sdhfmb is dffinfd bs:
+ * <prf>
+ * &lt;flfmfnt nbmf="Rfffrfndf" typf="ds:RfffrfndfTypf"/&gt;
+ * &lt;domplfxTypf nbmf="RfffrfndfTypf"&gt;
+ *   &lt;sfqufndf&gt;
+ *     &lt;flfmfnt rff="ds:Trbnsforms" minOddurs="0"/&gt;
+ *     &lt;flfmfnt rff="ds:DigfstMfthod"/&gt;
+ *     &lt;flfmfnt rff="ds:DigfstVbluf"/&gt;
+ *   &lt;/sfqufndf&gt;
+ *   &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+ *   &lt;bttributf nbmf="URI" typf="bnyURI" usf="optionbl"/&gt;
+ *   &lt;bttributf nbmf="Typf" typf="bnyURI" usf="optionbl"/&gt;
+ * &lt;/domplfxTypf&gt;
+ *
+ * &lt;flfmfnt nbmf="DigfstVbluf" typf="ds:DigfstVblufTypf"/&gt;
+ * &lt;simplfTypf nbmf="DigfstVblufTypf"&gt;
+ *   &lt;rfstridtion bbsf="bbsf64Binbry"/&gt;
+ * &lt;/simplfTypf&gt;
+ * </prf>
+ *
+ * <p>A <dodf>Rfffrfndf</dodf> instbndf mby bf drfbtfd by invoking onf of thf
+ * {@link XMLSignbturfFbdtory#nfwRfffrfndf nfwRfffrfndf} mfthods of thf
+ * {@link XMLSignbturfFbdtory} dlbss; for fxbmplf:
+ *
+ * <prf>
+ *   XMLSignbturfFbdtory fbdtory = XMLSignbturfFbdtory.gftInstbndf("DOM");
+ *   Rfffrfndf rff = fbdtory.nfwRfffrfndf
+ *     ("http://www.iftf.org/rfd/rfd3275.txt",
+ *      fbdtory.nfwDigfstMfthod(DigfstMfthod.SHA1, null));
+ * </prf>
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor Erwin vbn dfr Koogh
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#nfwRfffrfndf(String, DigfstMfthod)
+ * @sff XMLSignbturfFbdtory#nfwRfffrfndf(String, DigfstMfthod, List, String, String)
+ */
+publid intfrfbdf Rfffrfndf fxtfnds URIRfffrfndf, XMLStrudturf {
+
+    /**
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * list} of {@link Trbnsform}s thbt brf dontbinfd in this
+     * <dodf>Rfffrfndf</dodf>.
+     *
+     * @rfturn bn unmodifibblf list of <dodf>Trbnsform</dodf>s
+     *    (mby bf fmpty but nfvfr <dodf>null</dodf>)
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    List gftTrbnsforms();
+
+    /**
+     * Rfturns thf digfst mfthod of this <dodf>Rfffrfndf</dodf>.
+     *
+     * @rfturn thf digfst mfthod
+     */
+    DigfstMfthod gftDigfstMfthod();
+
+    /**
+     * Rfturns thf optionbl <dodf>Id</dodf> bttributf of this
+     * <dodf>Rfffrfndf</dodf>, whidh pfrmits this rfffrfndf to bf
+     * rfffrfndfd from flsfwhfrf.
+     *
+     * @rfturn thf <dodf>Id</dodf> bttributf (mby bf <dodf>null</dodf> if not
+     *    spfdififd)
+     */
+    String gftId();
+
+    /**
+     * Rfturns thf digfst vbluf of this <dodf>Rfffrfndf</dodf>.
+     *
+     * @rfturn thf rbw digfst vbluf, or <dodf>null</dodf> if this rfffrfndf hbs
+     *    not bffn digfstfd yft. Ebdh invodbtion of this mfthod rfturns b nfw
+     *    dlonf to protfdt bgbinst subsfqufnt modifidbtion.
+     */
+    bytf[] gftDigfstVbluf();
+
+    /**
+     * Rfturns thf dbldulbtfd digfst vbluf of this <dodf>Rfffrfndf</dodf>
+     * bftfr b vblidbtion opfrbtion. This mfthod is usfful for dfbugging if
+     * thf rfffrfndf fbils to vblidbtf.
+     *
+     * @rfturn thf dbldulbtfd digfst vbluf, or <dodf>null</dodf> if this
+     *    rfffrfndf hbs not bffn vblidbtfd yft. Ebdh invodbtion of this mfthod
+     *    rfturns b nfw dlonf to protfdt bgbinst subsfqufnt modifidbtion.
+     */
+    bytf[] gftCbldulbtfdDigfstVbluf();
+
+    /**
+     * Vblidbtfs this rfffrfndf. This mfthod vfrififs thf digfst of this
+     * rfffrfndf.
+     *
+     * <p>This mfthod only vblidbtfs thf rfffrfndf thf first timf it is
+     * invokfd. On subsfqufnt invodbtions, it rfturns b dbdhfd rfsult.
+     *
+     * @rfturn <dodf>truf</dodf> if this rfffrfndf wbs vblidbtfd suddfssfully;
+     *    <dodf>fblsf</dodf> othfrwisf
+     * @pbrbm vblidbtfContfxt thf vblidbting dontfxt
+     * @throws NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+     *    <dodf>null</dodf>
+     * @throws XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs whilf
+     *    vblidbting thf rfffrfndf
+     */
+    boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+        throws XMLSignbturfExdfption;
+
+    /**
+     * Rfturns thf dfrfffrfndfd dbtb, if
+     * <b hrff="XMLSignContfxt.html#Supportfd%20Propfrtifs">rfffrfndf dbdhing</b>
+     * is fnbblfd. This is thf rfsult of dfrfffrfnding thf URI of this
+     * rfffrfndf during b vblidbtion or gfnfrbtion opfrbtion.
+     *
+     * @rfturn thf dfrfffrfndfd dbtb, or <dodf>null</dodf> if rfffrfndf
+     *    dbdhing is not fnbblfd or this rfffrfndf hbs not bffn gfnfrbtfd or
+     *    vblidbtfd
+     */
+    Dbtb gftDfrfffrfndfdDbtb();
+
+    /**
+     * Rfturns thf prf-digfstfd input strfbm, if
+     * <b hrff="XMLSignContfxt.html#Supportfd%20Propfrtifs">rfffrfndf dbdhing</b>
+     * is fnbblfd. This is thf input to thf digfst opfrbtion during b
+     * vblidbtion or signing opfrbtion.
+     *
+     * @rfturn bn input strfbm dontbining thf prf-digfstfd input, or
+     *    <dodf>null</dodf> if rfffrfndf dbdhing is not fnbblfd or this
+     *    rfffrfndf hbs not bffn gfnfrbtfd or vblidbtfd
+     */
+    InputStrfbm gftDigfstInputStrfbm();
+}

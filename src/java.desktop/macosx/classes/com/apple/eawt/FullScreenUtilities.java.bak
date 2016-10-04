@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.eawt;
+pbdkbgf dom.bpplf.fbwt;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.RootPaneContainer;
+import jbvbx.swing.RootPbnfContbinfr;
 
-import sun.lwawt.macosx.*;
+import sun.lwbwt.mbdosx.*;
 
-import com.apple.eawt.event.GestureUtilities;
+import dom.bpplf.fbwt.fvfnt.GfsturfUtilitifs;
 
 /**
- * Utility class perform animated full screen actions to top-level {@link Window}s.
+ * Utility dlbss pfrform bnimbtfd full sdrffn bdtions to top-lfvfl {@link Window}s.
  *
- * This class manages the relationship between {@link Windows}s and the {@link FullScreenListener}s
- * attached to them. It's design is similar to the Java SE 6u10 {@link com.sun.awt.AWTUtilities}
- * class which adds additional functionality to AWT Windows, without adding new API to the
- * {@link java.awt.Window} class.
+ * Tiis dlbss mbnbgfs tif rflbtionsiip bftwffn {@link Windows}s bnd tif {@link FullSdrffnListfnfr}s
+ * bttbdifd to tifm. It's dfsign is similbr to tif Jbvb SE 6u10 {@link dom.sun.bwt.AWTUtilitifs}
+ * dlbss wiidi bdds bdditionbl fundtionblity to AWT Windows, witiout bdding nfw API to tif
+ * {@link jbvb.bwt.Window} dlbss.
  *
- * Full screen operations can only be performed on top-level {@link Window}s that are also {@link RootPaneContainer}s.
+ * Full sdrffn opfrbtions dbn only bf pfrformfd on top-lfvfl {@link Window}s tibt brf blso {@link RootPbnfContbinfr}s.
  *
- * @see FullScreenAdapter
- * @see GestureUtilities
- * @see com.sun.awt.AWTUtilities
+ * @sff FullSdrffnAdbptfr
+ * @sff GfsturfUtilitifs
+ * @sff dom.sun.bwt.AWTUtilitifs
  *
- * @since Java for Mac OS X 10.7 Update 1
+ * @sindf Jbvb for Mbd OS X 10.7 Updbtf 1
  */
-public final class FullScreenUtilities {
-    FullScreenUtilities() {
-        // package private
+publid finbl dlbss FullSdrffnUtilitifs {
+    FullSdrffnUtilitifs() {
+        // pbdkbgf privbtf
     }
 
     /**
-     * Marks a {@link Window} as able to animate into or out of full screen mode.
+     * Mbrks b {@link Window} bs bblf to bnimbtf into or out of full sdrffn modf.
      *
-     * Only top-level {@link Window}s which are {@link RootPaneContainer}s are able to be animated into and out of full screen mode.
-     * The {@link Window} must be marked as full screen-able before the native peer is created with {@link Component#addNotify()}.
+     * Only top-lfvfl {@link Window}s wiidi brf {@link RootPbnfContbinfr}s brf bblf to bf bnimbtfd into bnd out of full sdrffn modf.
+     * Tif {@link Window} must bf mbrkfd bs full sdrffn-bblf bfforf tif nbtivf pffr is drfbtfd witi {@link Componfnt#bddNotify()}.
      *
-     * @param window
-     * @param canFullScreen
-     * @throws IllegalArgumentException if window is not a {@link RootPaneContainer}
+     * @pbrbm window
+     * @pbrbm dbnFullSdrffn
+     * @tirows IllfgblArgumfntExdfption if window is not b {@link RootPbnfContbinfr}
      */
-    public static void setWindowCanFullScreen(final Window window, final boolean canFullScreen) {
-        if (!(window instanceof RootPaneContainer)) throw new IllegalArgumentException("Can't mark a non-RootPaneContainer as full screen-able");
-        final RootPaneContainer rpc = (RootPaneContainer)window;
-        rpc.getRootPane().putClientProperty(CPlatformWindow.WINDOW_FULLSCREENABLE, Boolean.valueOf(canFullScreen));
+    publid stbtid void sftWindowCbnFullSdrffn(finbl Window window, finbl boolfbn dbnFullSdrffn) {
+        if (!(window instbndfof RootPbnfContbinfr)) tirow nfw IllfgblArgumfntExdfption("Cbn't mbrk b non-RootPbnfContbinfr bs full sdrffn-bblf");
+        finbl RootPbnfContbinfr rpd = (RootPbnfContbinfr)window;
+        rpd.gftRootPbnf().putClifntPropfrty(CPlbtformWindow.WINDOW_FULLSCREENABLE, Boolfbn.vblufOf(dbnFullSdrffn));
     }
 
     /**
-     * Attaches a {@link FullScreenListener} to the specified top-level {@link Window}.
-     * @param window to attach the {@link FullScreenListener} to
-     * @param listener to be notified when a full screen event occurs
-     * @throws IllegalArgumentException if window is not a {@link RootPaneContainer}
+     * Attbdifs b {@link FullSdrffnListfnfr} to tif spfdififd top-lfvfl {@link Window}.
+     * @pbrbm window to bttbdi tif {@link FullSdrffnListfnfr} to
+     * @pbrbm listfnfr to bf notififd wifn b full sdrffn fvfnt oddurs
+     * @tirows IllfgblArgumfntExdfption if window is not b {@link RootPbnfContbinfr}
      */
-    public static void addFullScreenListenerTo(final Window window, final FullScreenListener listener) {
-        if (!(window instanceof RootPaneContainer)) throw new IllegalArgumentException("Can't attach FullScreenListener to a non-RootPaneContainer");
-        if (listener == null) throw new NullPointerException();
-        FullScreenHandler.addFullScreenListenerTo((RootPaneContainer)window, listener);
+    publid stbtid void bddFullSdrffnListfnfrTo(finbl Window window, finbl FullSdrffnListfnfr listfnfr) {
+        if (!(window instbndfof RootPbnfContbinfr)) tirow nfw IllfgblArgumfntExdfption("Cbn't bttbdi FullSdrffnListfnfr to b non-RootPbnfContbinfr");
+        if (listfnfr == null) tirow nfw NullPointfrExdfption();
+        FullSdrffnHbndlfr.bddFullSdrffnListfnfrTo((RootPbnfContbinfr)window, listfnfr);
     }
 
     /**
-     * Removes a {@link FullScreenListener} from the specified top-level {@link Window}.
-     * @param window to remove the {@link FullScreenListener} from
-     * @param listener to be removed
-     * @throws IllegalArgumentException if window is not a {@link RootPaneContainer}
+     * Rfmovfs b {@link FullSdrffnListfnfr} from tif spfdififd top-lfvfl {@link Window}.
+     * @pbrbm window to rfmovf tif {@link FullSdrffnListfnfr} from
+     * @pbrbm listfnfr to bf rfmovfd
+     * @tirows IllfgblArgumfntExdfption if window is not b {@link RootPbnfContbinfr}
      */
-    public static void removeFullScreenListenerFrom(final Window window, final FullScreenListener listener) {
-        if (!(window instanceof RootPaneContainer)) throw new IllegalArgumentException("Can't remove FullScreenListener from non-RootPaneContainer");
-        if (listener == null) throw new NullPointerException();
-        FullScreenHandler.removeFullScreenListenerFrom((RootPaneContainer)window, listener);
+    publid stbtid void rfmovfFullSdrffnListfnfrFrom(finbl Window window, finbl FullSdrffnListfnfr listfnfr) {
+        if (!(window instbndfof RootPbnfContbinfr)) tirow nfw IllfgblArgumfntExdfption("Cbn't rfmovf FullSdrffnListfnfr from non-RootPbnfContbinfr");
+        if (listfnfr == null) tirow nfw NullPointfrExdfption();
+        FullSdrffnHbndlfr.rfmovfFullSdrffnListfnfrFrom((RootPbnfContbinfr)window, listfnfr);
     }
 }

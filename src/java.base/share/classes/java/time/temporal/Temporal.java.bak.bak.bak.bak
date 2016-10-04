@@ -1,0 +1,449 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import jbvb.timf.DbtfTimfExdfption;
+
+/**
+ * Frbmfwork-lfvfl intfrfbdf dffining rfbd-writf bddfss to b tfmporbl objfdt,
+ * sudh bs b dbtf, timf, offsft or somf dombinbtion of thfsf.
+ * <p>
+ * This is thf bbsf intfrfbdf typf for dbtf, timf bnd offsft objfdts thbt
+ * brf domplftf fnough to bf mbnipulbtfd using plus bnd minus.
+ * It is implfmfntfd by thosf dlbssfs thbt dbn providf bnd mbnipulbtf informbtion
+ * bs {@linkplbin TfmporblFifld fiflds} or {@linkplbin TfmporblQufry qufrifs}.
+ * Sff {@link TfmporblAddfssor} for thf rfbd-only vfrsion of this intfrfbdf.
+ * <p>
+ * Most dbtf bnd timf informbtion dbn bf rfprfsfntfd bs b numbfr.
+ * Thfsf brf modflfd using {@dodf TfmporblFifld} with thf numbfr hfld using
+ * b {@dodf long} to hbndlf lbrgf vblufs. Yfbr, month bnd dby-of-month brf
+ * simplf fxbmplfs of fiflds, but thfy blso indludf instbnt bnd offsfts.
+ * Sff {@link ChronoFifld} for thf stbndbrd sft of fiflds.
+ * <p>
+ * Two pifdfs of dbtf/timf informbtion dbnnot bf rfprfsfntfd by numbfrs,
+ * thf {@linkplbin jbvb.timf.dhrono.Chronology dhronology} bnd thf
+ * {@linkplbin jbvb.timf.ZonfId timf-zonf}.
+ * Thfsf dbn bf bddfssfd vib {@link #qufry(TfmporblQufry) qufrifs} using
+ * thf stbtid mfthods dffinfd on {@link TfmporblQufry}.
+ * <p>
+ * This intfrfbdf is b frbmfwork-lfvfl intfrfbdf thbt should not bf widfly
+ * usfd in bpplidbtion dodf. Instfbd, bpplidbtions should drfbtf bnd pbss
+ * bround instbndfs of dondrftf typfs, sudh bs {@dodf LodblDbtf}.
+ * Thfrf brf mbny rfbsons for this, pbrt of whidh is thbt implfmfntbtions
+ * of this intfrfbdf mby bf in dblfndbr systfms othfr thbn ISO.
+ * Sff {@link jbvb.timf.dhrono.ChronoLodblDbtf} for b fullfr disdussion of thf issufs.
+ *
+ * <h3>Whfn to implfmfnt</h3>
+ * <p>
+ * A dlbss should implfmfnt this intfrfbdf if it mffts thrff dritfrib:
+ * <ul>
+ * <li>it providfs bddfss to dbtf/timf/offsft informbtion, bs pfr {@dodf TfmporblAddfssor}
+ * <li>thf sft of fiflds brf dontiguous from thf lbrgfst to thf smbllfst
+ * <li>thf sft of fiflds brf domplftf, sudh thbt no othfr fifld is nffdfd to dffinf thf
+ *  vblid rbngf of vblufs for thf fiflds thbt brf rfprfsfntfd
+ * </ul>
+ * <p>
+ * Four fxbmplfs mbkf this dlfbr:
+ * <ul>
+ * <li>{@dodf LodblDbtf} implfmfnts this intfrfbdf bs it rfprfsfnts b sft of fiflds
+ *  thbt brf dontiguous from dbys to forfvfr bnd rfquirf no fxtfrnbl informbtion to dftfrminf
+ *  thf vblidity of fbdh dbtf. It is thfrfforf bblf to implfmfnt plus/minus dorrfdtly.
+ * <li>{@dodf LodblTimf} implfmfnts this intfrfbdf bs it rfprfsfnts b sft of fiflds
+ *  thbt brf dontiguous from nbnos to within dbys bnd rfquirf no fxtfrnbl informbtion to dftfrminf
+ *  vblidity. It is bblf to implfmfnt plus/minus dorrfdtly, by wrbpping bround thf dby.
+ * <li>{@dodf MonthDby}, thf dombinbtion of month-of-yfbr bnd dby-of-month, dofs not implfmfnt
+ *  this intfrfbdf.  Whilf thf dombinbtion is dontiguous, from dbys to months within yfbrs,
+ *  thf dombinbtion dofs not hbvf suffidifnt informbtion to dffinf thf vblid rbngf of vblufs
+ *  for dby-of-month.  As sudh, it is unbblf to implfmfnt plus/minus dorrfdtly.
+ * <li>Thf dombinbtion dby-of-wffk bnd dby-of-month ("Fridby thf 13th") should not implfmfnt
+ *  this intfrfbdf. It dofs not rfprfsfnt b dontiguous sft of fiflds, bs dbys to wffks ovfrlbps
+ *  dbys to months.
+ * </ul>
+ *
+ * @implSpfd
+ * This intfrfbdf plbdfs no rfstridtions on thf mutbbility of implfmfntbtions,
+ * howfvfr immutbbility is strongly rfdommfndfd.
+ * All implfmfntbtions must bf {@link Compbrbblf}.
+ *
+ * @sindf 1.8
+ */
+publid intfrfbdf Tfmporbl fxtfnds TfmporblAddfssor {
+
+    /**
+     * Chfdks if thf spfdififd unit is supportfd.
+     * <p>
+     * This dhfdks if thf spfdififd unit dbn bf bddfd to, or subtrbdtfd from, this dbtf-timf.
+     * If fblsf, thfn dblling thf {@link #plus(long, TfmporblUnit)} bnd
+     * {@link #minus(long, TfmporblUnit) minus} mfthods will throw bn fxdfption.
+     *
+     * @implSpfd
+     * Implfmfntbtions must dhfdk bnd hbndlf bll units dffinfd in {@link ChronoUnit}.
+     * If thf unit is supportfd, thfn truf must bf rfturnfd, othfrwisf fblsf must bf rfturnfd.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoUnit}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.isSupportfdBy(Tfmporbl)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * <p>
+     * Implfmfntbtions must fnsurf thbt no obsfrvbblf stbtf is bltfrfd whfn this
+     * rfbd-only mfthod is invokfd.
+     *
+     * @pbrbm unit  thf unit to dhfdk, null rfturns fblsf
+     * @rfturn truf if thf unit dbn bf bddfd/subtrbdtfd, fblsf if not
+     */
+    boolfbn isSupportfd(TfmporblUnit unit);
+
+    /**
+     * Rfturns bn bdjustfd objfdt of thf sbmf typf bs this objfdt with thf bdjustmfnt mbdf.
+     * <p>
+     * This bdjusts this dbtf-timf bddording to thf rulfs of thf spfdififd bdjustfr.
+     * A simplf bdjustfr might simply sft thf onf of thf fiflds, sudh bs thf yfbr fifld.
+     * A morf domplfx bdjustfr might sft thf dbtf to thf lbst dby of thf month.
+     * A sflfdtion of dommon bdjustmfnts is providfd in
+     * {@link jbvb.timf.tfmporbl.TfmporblAdjustfrs TfmporblAdjustfrs}.
+     * Thfsf indludf finding thf "lbst dby of thf month" bnd "nfxt Wfdnfsdby".
+     * Thf bdjustfr is rfsponsiblf for hbndling spfdibl dbsfs, sudh bs thf vbrying
+     * lfngths of month bnd lfbp yfbrs.
+     * <p>
+     * Somf fxbmplf dodf indidbting how bnd why this mfthod is usfd:
+     * <prf>
+     *  dbtf = dbtf.with(Month.JULY);        // most kfy dlbssfs implfmfnt TfmporblAdjustfr
+     *  dbtf = dbtf.with(lbstDbyOfMonth());  // stbtid import from Adjustfrs
+     *  dbtf = dbtf.with(nfxt(WEDNESDAY));   // stbtid import from Adjustfrs bnd DbyOfWffk
+     * </prf>
+     *
+     * @implSpfd
+     * <p>
+     * Implfmfntbtions must not bltfr fithfr this objfdt or thf spfdififd tfmporbl objfdt.
+     * Instfbd, bn bdjustfd dopy of thf originbl must bf rfturnfd.
+     * This providfs fquivblfnt, sbff bfhbvior for immutbblf bnd mutbblf implfmfntbtions.
+     * <p>
+     * Thf dffbult implfmfntbtion must bfhbvf fquivblfnt to this dodf:
+     * <prf>
+     *  rfturn bdjustfr.bdjustInto(this);
+     * </prf>
+     *
+     * @pbrbm bdjustfr  thf bdjustfr to usf, not null
+     * @rfturn bn objfdt of thf sbmf typf with thf spfdififd bdjustmfnt mbdf, not null
+     * @throws DbtfTimfExdfption if unbblf to mbkf thf bdjustmfnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    dffbult Tfmporbl with(TfmporblAdjustfr bdjustfr) {
+        rfturn bdjustfr.bdjustInto(this);
+    }
+
+    /**
+     * Rfturns bn objfdt of thf sbmf typf bs this objfdt with thf spfdififd fifld bltfrfd.
+     * <p>
+     * This rfturns b nfw objfdt bbsfd on this onf with thf vbluf for thf spfdififd fifld dhbngfd.
+     * For fxbmplf, on b {@dodf LodblDbtf}, this dould bf usfd to sft thf yfbr, month or dby-of-month.
+     * Thf rfturnfd objfdt will hbvf thf sbmf obsfrvbblf typf bs this objfdt.
+     * <p>
+     * In somf dbsfs, dhbnging b fifld is not fully dffinfd. For fxbmplf, if thf tbrgft objfdt is
+     * b dbtf rfprfsfnting thf 31st Jbnubry, thfn dhbnging thf month to Ffbrubry would bf undlfbr.
+     * In dbsfs likf this, thf fifld is rfsponsiblf for rfsolving thf rfsult. Typidblly it will dhoosf
+     * thf prfvious vblid dbtf, whidh would bf thf lbst vblid dby of Ffbrubry in this fxbmplf.
+     *
+     * @implSpfd
+     * Implfmfntbtions must dhfdk bnd hbndlf bll fiflds dffinfd in {@link ChronoFifld}.
+     * If thf fifld is supportfd, thfn thf bdjustmfnt must bf pfrformfd.
+     * If unsupportfd, thfn bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf thrown.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.bdjustInto(Tfmporbl, long)}
+     * pbssing {@dodf this} bs thf first brgumfnt.
+     * <p>
+     * Implfmfntbtions must not bltfr this objfdt.
+     * Instfbd, bn bdjustfd dopy of thf originbl must bf rfturnfd.
+     * This providfs fquivblfnt, sbff bfhbvior for immutbblf bnd mutbblf implfmfntbtions.
+     *
+     * @pbrbm fifld  thf fifld to sft in thf rfsult, not null
+     * @pbrbm nfwVbluf  thf nfw vbluf of thf fifld in thf rfsult
+     * @rfturn bn objfdt of thf sbmf typf with thf spfdififd fifld sft, not null
+     * @throws DbtfTimfExdfption if thf fifld dbnnot bf sft
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    Tfmporbl with(TfmporblFifld fifld, long nfwVbluf);
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns bn objfdt of thf sbmf typf bs this objfdt with bn bmount bddfd.
+     * <p>
+     * This bdjusts this tfmporbl, bdding bddording to thf rulfs of thf spfdififd bmount.
+     * Thf bmount is typidblly b {@link jbvb.timf.Pfriod} but mby bf bny othfr typf implfmfnting
+     * thf {@link TfmporblAmount} intfrfbdf, sudh bs {@link jbvb.timf.Durbtion}.
+     * <p>
+     * Somf fxbmplf dodf indidbting how bnd why this mfthod is usfd:
+     * <prf>
+     *  dbtf = dbtf.plus(pfriod);                // bdd b Pfriod instbndf
+     *  dbtf = dbtf.plus(durbtion);              // bdd b Durbtion instbndf
+     *  dbtf = dbtf.plus(workingDbys(6));        // fxbmplf usfr-writtfn workingDbys mfthod
+     * </prf>
+     * <p>
+     * Notf thbt dblling {@dodf plus} followfd by {@dodf minus} is not gubrbntffd to
+     * rfturn thf sbmf dbtf-timf.
+     *
+     * @implSpfd
+     * <p>
+     * Implfmfntbtions must not bltfr fithfr this objfdt or thf spfdififd tfmporbl objfdt.
+     * Instfbd, bn bdjustfd dopy of thf originbl must bf rfturnfd.
+     * This providfs fquivblfnt, sbff bfhbvior for immutbblf bnd mutbblf implfmfntbtions.
+     * <p>
+     * Thf dffbult implfmfntbtion must bfhbvf fquivblfnt to this dodf:
+     * <prf>
+     *  rfturn bmount.bddTo(this);
+     * </prf>
+     *
+     * @pbrbm bmount  thf bmount to bdd, not null
+     * @rfturn bn objfdt of thf sbmf typf with thf spfdififd bdjustmfnt mbdf, not null
+     * @throws DbtfTimfExdfption if thf bddition dbnnot bf mbdf
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    dffbult Tfmporbl plus(TfmporblAmount bmount) {
+        rfturn bmount.bddTo(this);
+    }
+
+    /**
+     * Rfturns bn objfdt of thf sbmf typf bs this objfdt with thf spfdififd pfriod bddfd.
+     * <p>
+     * This mfthod rfturns b nfw objfdt bbsfd on this onf with thf spfdififd pfriod bddfd.
+     * For fxbmplf, on b {@dodf LodblDbtf}, this dould bf usfd to bdd b numbfr of yfbrs, months or dbys.
+     * Thf rfturnfd objfdt will hbvf thf sbmf obsfrvbblf typf bs this objfdt.
+     * <p>
+     * In somf dbsfs, dhbnging b fifld is not fully dffinfd. For fxbmplf, if thf tbrgft objfdt is
+     * b dbtf rfprfsfnting thf 31st Jbnubry, thfn bdding onf month would bf undlfbr.
+     * In dbsfs likf this, thf fifld is rfsponsiblf for rfsolving thf rfsult. Typidblly it will dhoosf
+     * thf prfvious vblid dbtf, whidh would bf thf lbst vblid dby of Ffbrubry in this fxbmplf.
+     *
+     * @implSpfd
+     * Implfmfntbtions must dhfdk bnd hbndlf bll units dffinfd in {@link ChronoUnit}.
+     * If thf unit is supportfd, thfn thf bddition must bf pfrformfd.
+     * If unsupportfd, thfn bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf thrown.
+     * <p>
+     * If thf unit is not b {@dodf ChronoUnit}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.bddTo(Tfmporbl, long)}
+     * pbssing {@dodf this} bs thf first brgumfnt.
+     * <p>
+     * Implfmfntbtions must not bltfr this objfdt.
+     * Instfbd, bn bdjustfd dopy of thf originbl must bf rfturnfd.
+     * This providfs fquivblfnt, sbff bfhbvior for immutbblf bnd mutbblf implfmfntbtions.
+     *
+     * @pbrbm bmountToAdd  thf bmount of thf spfdififd unit to bdd, mby bf nfgbtivf
+     * @pbrbm unit  thf unit of thf bmount to bdd, not null
+     * @rfturn bn objfdt of thf sbmf typf with thf spfdififd pfriod bddfd, not null
+     * @throws DbtfTimfExdfption if thf unit dbnnot bf bddfd
+     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    Tfmporbl plus(long bmountToAdd, TfmporblUnit unit);
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns bn objfdt of thf sbmf typf bs this objfdt with bn bmount subtrbdtfd.
+     * <p>
+     * This bdjusts this tfmporbl, subtrbdting bddording to thf rulfs of thf spfdififd bmount.
+     * Thf bmount is typidblly b {@link jbvb.timf.Pfriod} but mby bf bny othfr typf implfmfnting
+     * thf {@link TfmporblAmount} intfrfbdf, sudh bs {@link jbvb.timf.Durbtion}.
+     * <p>
+     * Somf fxbmplf dodf indidbting how bnd why this mfthod is usfd:
+     * <prf>
+     *  dbtf = dbtf.minus(pfriod);               // subtrbdt b Pfriod instbndf
+     *  dbtf = dbtf.minus(durbtion);             // subtrbdt b Durbtion instbndf
+     *  dbtf = dbtf.minus(workingDbys(6));       // fxbmplf usfr-writtfn workingDbys mfthod
+     * </prf>
+     * <p>
+     * Notf thbt dblling {@dodf plus} followfd by {@dodf minus} is not gubrbntffd to
+     * rfturn thf sbmf dbtf-timf.
+     *
+     * @implSpfd
+     * <p>
+     * Implfmfntbtions must not bltfr fithfr this objfdt or thf spfdififd tfmporbl objfdt.
+     * Instfbd, bn bdjustfd dopy of thf originbl must bf rfturnfd.
+     * This providfs fquivblfnt, sbff bfhbvior for immutbblf bnd mutbblf implfmfntbtions.
+     * <p>
+     * Thf dffbult implfmfntbtion must bfhbvf fquivblfnt to this dodf:
+     * <prf>
+     *  rfturn bmount.subtrbdtFrom(this);
+     * </prf>
+     *
+     * @pbrbm bmount  thf bmount to subtrbdt, not null
+     * @rfturn bn objfdt of thf sbmf typf with thf spfdififd bdjustmfnt mbdf, not null
+     * @throws DbtfTimfExdfption if thf subtrbdtion dbnnot bf mbdf
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    dffbult Tfmporbl minus(TfmporblAmount bmount) {
+        rfturn bmount.subtrbdtFrom(this);
+    }
+
+    /**
+     * Rfturns bn objfdt of thf sbmf typf bs this objfdt with thf spfdififd pfriod subtrbdtfd.
+     * <p>
+     * This mfthod rfturns b nfw objfdt bbsfd on this onf with thf spfdififd pfriod subtrbdtfd.
+     * For fxbmplf, on b {@dodf LodblDbtf}, this dould bf usfd to subtrbdt b numbfr of yfbrs, months or dbys.
+     * Thf rfturnfd objfdt will hbvf thf sbmf obsfrvbblf typf bs this objfdt.
+     * <p>
+     * In somf dbsfs, dhbnging b fifld is not fully dffinfd. For fxbmplf, if thf tbrgft objfdt is
+     * b dbtf rfprfsfnting thf 31st Mbrdh, thfn subtrbdting onf month would bf undlfbr.
+     * In dbsfs likf this, thf fifld is rfsponsiblf for rfsolving thf rfsult. Typidblly it will dhoosf
+     * thf prfvious vblid dbtf, whidh would bf thf lbst vblid dby of Ffbrubry in this fxbmplf.
+     *
+     * @implSpfd
+     * Implfmfntbtions must bfhbvf in b mbnor fquivblfnt to thf dffbult mfthod bfhbvior.
+     * <p>
+     * Implfmfntbtions must not bltfr this objfdt.
+     * Instfbd, bn bdjustfd dopy of thf originbl must bf rfturnfd.
+     * This providfs fquivblfnt, sbff bfhbvior for immutbblf bnd mutbblf implfmfntbtions.
+     * <p>
+     * Thf dffbult implfmfntbtion must bfhbvf fquivblfnt to this dodf:
+     * <prf>
+     *  rfturn (bmountToSubtrbdt == Long.MIN_VALUE ?
+     *      plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbdt, unit));
+     * </prf>
+     *
+     * @pbrbm bmountToSubtrbdt  thf bmount of thf spfdififd unit to subtrbdt, mby bf nfgbtivf
+     * @pbrbm unit  thf unit of thf bmount to subtrbdt, not null
+     * @rfturn bn objfdt of thf sbmf typf with thf spfdififd pfriod subtrbdtfd, not null
+     * @throws DbtfTimfExdfption if thf unit dbnnot bf subtrbdtfd
+     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    dffbult Tfmporbl minus(long bmountToSubtrbdt, TfmporblUnit unit) {
+        rfturn (bmountToSubtrbdt == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbdt, unit));
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cbldulbtfs thf bmount of timf until bnothfr tfmporbl in tfrms of thf spfdififd unit.
+     * <p>
+     * This dbldulbtfs thf bmount of timf bftwffn two tfmporbl objfdts
+     * in tfrms of b singlf {@dodf TfmporblUnit}.
+     * Thf stbrt bnd fnd points brf {@dodf this} bnd thf spfdififd tfmporbl.
+     * Thf fnd point is donvfrtfd to bf of thf sbmf typf bs thf stbrt point if difffrfnt.
+     * Thf rfsult will bf nfgbtivf if thf fnd is bfforf thf stbrt.
+     * For fxbmplf, thf bmount in hours bftwffn two tfmporbl objfdts dbn bf
+     * dbldulbtfd using {@dodf stbrtTimf.until(fndTimf, HOURS)}.
+     * <p>
+     * Thf dbldulbtion rfturns b wholf numbfr, rfprfsfnting thf numbfr of
+     * domplftf units bftwffn thf two tfmporbls.
+     * For fxbmplf, thf bmount in hours bftwffn thf timfs 11:30 bnd 13:29
+     * will only bf onf hour bs it is onf minutf short of two hours.
+     * <p>
+     * Thfrf brf two fquivblfnt wbys of using this mfthod.
+     * Thf first is to invokf this mfthod dirfdtly.
+     * Thf sfdond is to usf {@link TfmporblUnit#bftwffn(Tfmporbl, Tfmporbl)}:
+     * <prf>
+     *   // thfsf two linfs brf fquivblfnt
+     *   tfmporbl = stbrt.until(fnd, unit);
+     *   tfmporbl = unit.bftwffn(stbrt, fnd);
+     * </prf>
+     * Thf dhoidf should bf mbdf bbsfd on whidh mbkfs thf dodf morf rfbdbblf.
+     * <p>
+     * For fxbmplf, this mfthod bllows thf numbfr of dbys bftwffn two dbtfs to
+     * bf dbldulbtfd:
+     * <prf>
+     *  long dbysBftwffn = stbrt.until(fnd, DAYS);
+     *  // or bltfrnbtivfly
+     *  long dbysBftwffn = DAYS.bftwffn(stbrt, fnd);
+     * </prf>
+     *
+     * @implSpfd
+     * Implfmfntbtions must bfgin by dhfdking to fnsurf thbt thf input tfmporbl
+     * objfdt is of thf sbmf obsfrvbblf typf bs thf implfmfntbtion.
+     * Thfy must thfn pfrform thf dbldulbtion for bll instbndfs of {@link ChronoUnit}.
+     * An {@dodf UnsupportfdTfmporblTypfExdfption} must bf thrown for {@dodf ChronoUnit}
+     * instbndfs thbt brf unsupportfd.
+     * <p>
+     * If thf unit is not b {@dodf ChronoUnit}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.bftwffn(Tfmporbl, Tfmporbl)}
+     * pbssing {@dodf this} bs thf first brgumfnt bnd thf donvfrtfd input tfmporbl bs
+     * thf sfdond brgumfnt.
+     * <p>
+     * In summbry, implfmfntbtions must bfhbvf in b mbnnfr fquivblfnt to this psfudo-dodf:
+     * <prf>
+     *  // donvfrt thf fnd tfmporbl to thf sbmf typf bs this dlbss
+     *  if (unit instbndfof ChronoUnit) {
+     *    // if unit is supportfd, thfn dbldulbtf bnd rfturn rfsult
+     *    // flsf throw UnsupportfdTfmporblTypfExdfption for unsupportfd units
+     *  }
+     *  rfturn unit.bftwffn(this, donvfrtfdEndTfmporbl);
+     * </prf>
+     * <p>
+     * Notf thbt thf unit's {@dodf bftwffn} mfthod must only bf invokfd if thf
+     * two tfmporbl objfdts hbvf fxbdtly thf sbmf typf fvblubtfd by {@dodf gftClbss()}.
+     * <p>
+     * Implfmfntbtions must fnsurf thbt no obsfrvbblf stbtf is bltfrfd whfn this
+     * rfbd-only mfthod is invokfd.
+     *
+     * @pbrbm fndExdlusivf  thf fnd tfmporbl, fxdlusivf, donvfrtfd to bf of thf
+     *  sbmf typf bs this objfdt, not null
+     * @pbrbm unit  thf unit to mfbsurf thf bmount in, not null
+     * @rfturn thf bmount of timf bftwffn this tfmporbl objfdt bnd thf spfdififd onf
+     *  in tfrms of thf unit; positivf if thf spfdififd objfdt is lbtfr thbn this onf,
+     *  nfgbtivf if it is fbrlifr thbn this onf
+     * @throws DbtfTimfExdfption if thf bmount dbnnot bf dbldulbtfd, or thf fnd
+     *  tfmporbl dbnnot bf donvfrtfd to thf sbmf typf bs this tfmporbl
+     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    long until(Tfmporbl fndExdlusivf, TfmporblUnit unit);
+
+}

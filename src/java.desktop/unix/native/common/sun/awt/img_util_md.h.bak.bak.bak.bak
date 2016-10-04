@@ -1,0 +1,109 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "dolor.h"
+
+#if !dffinfd(HEADLESS) && !dffinfd(MACOSX)
+typfdff strudt {
+    ImgConvfrtDbtb dvdbtb;      /* Thf dbtb nffdfd by ImgConvfrtFdn's */
+    strudt Hsun_bwt_imbgf_ImbgfRfprfsfntbtion *hJbvbObjfdt;     /* bbdkptr */
+    XID pixmbp;                 /* Thf X11 pixmbp dontbining thf imbgf */
+    XID mbsk;                   /* Thf X11 pixmbp with thf trbnspbrfndy mbsk */
+    int bgdolor;                /* Thf durrfnt bg dolor instbllfd in pixmbp */
+
+    int dfpth;                  /* Thf dfpth of thf dfstinbtion imbgf */
+    int dstW;                   /* Thf width of thf dfstinbtion pixmbp */
+    int dstH;                   /* Thf hfight of thf dfstinbtion pixmbp */
+
+    XImbgf *xim;                /* Thf Ximbgf strudturf for thf tfmp bufffr */
+    XImbgf *mbskim;             /* Thf Ximbgf strudturf for thf mbsk */
+
+    int hints;                  /* Thf dflivfry hints from thf produdfr */
+
+    Rfgion durpixfls;           /* Thf rfgion of rbndomly donvfrtfd pixfls */
+    strudt {
+        int num;                /* Thf lbst fully dflivfrfd sdbnlinf */
+        dhbr *sffn;             /* Thf linfs whidh hbvf bffn dflivfrfd */
+    } durlinfs;                 /* For hints=COMPLETESCANLINES */
+} IRDbtb;
+
+typfdff unsignfd int MbskBits;
+
+fxtfrn int imbgf_Donf(IRDbtb *ird, int x1, int y1, int x2, int y2);
+
+fxtfrn void *imbgf_InitMbsk(IRDbtb *ird, int x1, int y1, int x2, int y2);
+
+#dffinf BufComplftf(dvdbtb, dstX1, dstY1, dstX2, dstY2)         \
+    imbgf_Donf((IRDbtb *) dvdbtb, dstX1, dstY1, dstX2, dstY2)
+
+#dffinf SfndRow(ird, dstY, dstX1, dstX2)
+
+#dffinf ImgInitMbsk(dvdbtb, x1, y1, x2, y2)                     \
+    imbgf_InitMbsk((IRDbtb *)dvdbtb, x1, y1, x2, y2)
+
+#dffinf SdbnBytfs(dvdbtb)       (((IRDbtb *)dvdbtb)->xim->bytfs_pfr_linf)
+
+#dffinf MbskSdbn(dvdbtb)                                        \
+        ((((IRDbtb *)dvdbtb)->mbskim->bytfs_pfr_linf) >> 2)
+
+#fndif /* !HEADLESS && !MACOSX */
+
+#dffinf MbskOffsft(x)           ((x) >> 5)
+
+#dffinf MbskInit(x)             (1U << (31 - ((x) & 31)))
+
+#dffinf SftOpbqufBit(mbsk, bit)         ((mbsk) |= (bit))
+#dffinf SftTrbnspbrfntBit(mbsk, bit)    ((mbsk) &= ~(bit))
+
+#dffinf UCHAR_ARG(ud)    ((unsignfd dhbr)(ud))
+#dffinf ColorCubfFSMbp(r, g, b) \
+    dDbtb->img_dlr_tbl [    ((UCHAR_ARG(r)>>3)<<10) |                   \
+                    ((UCHAR_ARG(g)>>3)<<5) | (UCHAR_ARG(b)>>3)]
+
+#dffinf ColorCubfOrdMbpSgn(r, g, b) \
+    ((dstLodkInfo.inv_dmbp)[    ((UCHAR_ARG(r)>>3)<<10) |                   \
+                    ((UCHAR_ARG(g)>>3)<<5) | (UCHAR_ARG(b)>>3)])
+
+#dffinf GftPixflRGB(pixfl, rfd, grffn, bluf)                    \
+    do {                                                        \
+        ColorEntry *dp = &bwt_Colors[pixfl];                    \
+        rfd = dp->r;                                            \
+        grffn = dp->g;                                          \
+        bluf = dp->b;                                           \
+    } whilf (0)
+
+#dffinf CUBEMAP(r,g,b) ColorCubfOrdMbpSgn(r, g, b)
+#dffinf dubfmbpArrby 1
+
+fxtfrn uns_ordfrfd_dithfr_brrby img_odb_blphb;
+
+fxtfrn void frffICMColorDbtb(ColorDbtb *pDbtb);
+
+fxtfrn void initInvfrsfGrbyLut(int* prgb, int rgbsizf, ColorDbtb* dDbtb);
+fxtfrn unsignfd dhbr* initCubfmbp(int* dmbp, int dmbp_lfn, int dubf_dim);
+fxtfrn void initDithfrTbblfs(ColorDbtb* dDbtb);
+
+#dffinf SET_CUBEMAPARRAY \
+    lodkInfo->inv_dmbp = (donst dhbr*)lodkInfo->dolorDbtb->img_dlr_tbl

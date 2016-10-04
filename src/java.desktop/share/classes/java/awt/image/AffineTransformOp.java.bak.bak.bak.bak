@@ -1,0 +1,563 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import sun.bwt.imbgf.ImbgingLib;
+
+/**
+ * This dlbss usfs bn bffinf trbnsform to pfrform b linfbr mbpping from
+ * 2D doordinbtfs in thf sourdf imbgf or <CODE>Rbstfr</CODE> to 2D doordinbtfs
+ * in thf dfstinbtion imbgf or <CODE>Rbstfr</CODE>.
+ * Thf typf of intfrpolbtion thbt is usfd is spfdififd through b donstrudtor,
+ * fithfr by b <CODE>RfndfringHints</CODE> objfdt or by onf of thf intfgfr
+ * intfrpolbtion typfs dffinfd in this dlbss.
+ * <p>
+ * If b <CODE>RfndfringHints</CODE> objfdt is spfdififd in thf donstrudtor, thf
+ * intfrpolbtion hint bnd thf rfndfring qublity hint brf usfd to sft
+ * thf intfrpolbtion typf for this opfrbtion.  Thf dolor rfndfring hint
+ * bnd thf dithfring hint dbn bf usfd whfn dolor donvfrsion is rfquirfd.
+ * <p>
+ * Notf thbt thf following donstrbints hbvf to bf mft:
+ * <ul>
+ * <li>Thf sourdf bnd dfstinbtion must bf difffrfnt.
+ * <li>For <CODE>Rbstfr</CODE> objfdts, thf numbfr of bbnds in thf sourdf must
+ * bf fqubl to thf numbfr of bbnds in thf dfstinbtion.
+ * </ul>
+ * @sff AffinfTrbnsform
+ * @sff BufffrfdImbgfFiltfr
+ * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+ * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
+ */
+publid dlbss AffinfTrbnsformOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
+    privbtf AffinfTrbnsform xform;
+    RfndfringHints hints;
+
+    /**
+     * Nfbrfst-nfighbor intfrpolbtion typf.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_NEAREST_NEIGHBOR = 1;
+
+    /**
+     * Bilinfbr intfrpolbtion typf.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_BILINEAR = 2;
+
+    /**
+     * Bidubid intfrpolbtion typf.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_BICUBIC = 3;
+
+    int intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+
+    /**
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform.
+     * Thf intfrpolbtion typf is dftfrminfd from thf
+     * <CODE>RfndfringHints</CODE> objfdt.  If thf intfrpolbtion hint is
+     * dffinfd, it will bf usfd. Othfrwisf, if thf rfndfring qublity hint is
+     * dffinfd, thf intfrpolbtion typf is dftfrminfd from its vbluf.  If no
+     * hints brf spfdififd (<CODE>hints</CODE> is null),
+     * thf intfrpolbtion typf is {@link #TYPE_NEAREST_NEIGHBOR
+     * TYPE_NEAREST_NEIGHBOR}.
+     *
+     * @pbrbm xform Thf <CODE>AffinfTrbnsform</CODE> to usf for thf
+     * opfrbtion.
+     *
+     * @pbrbm hints Thf <CODE>RfndfringHints</CODE> objfdt usfd to spfdify
+     * thf intfrpolbtion typf for thf opfrbtion.
+     *
+     * @throws ImbgingOpExdfption if thf trbnsform is non-invfrtiblf.
+     * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+     * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
+     */
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, RfndfringHints hints){
+        vblidbtfTrbnsform(xform);
+        this.xform = (AffinfTrbnsform) xform.dlonf();
+        this.hints = hints;
+
+        if (hints != null) {
+            Objfdt vbluf = hints.gft(RfndfringHints.KEY_INTERPOLATION);
+            if (vbluf == null) {
+                vbluf = hints.gft(RfndfringHints.KEY_RENDERING);
+                if (vbluf == RfndfringHints.VALUE_RENDER_SPEED) {
+                    intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+                }
+                flsf if (vbluf == RfndfringHints.VALUE_RENDER_QUALITY) {
+                    intfrpolbtionTypf = TYPE_BILINEAR;
+                }
+            }
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR) {
+                intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+            }
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BILINEAR) {
+                intfrpolbtionTypf = TYPE_BILINEAR;
+            }
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BICUBIC) {
+                intfrpolbtionTypf = TYPE_BICUBIC;
+            }
+        }
+        flsf {
+            intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+        }
+    }
+
+    /**
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform
+     * bnd thf intfrpolbtion typf.
+     *
+     * @pbrbm xform Thf <CODE>AffinfTrbnsform</CODE> to usf for thf opfrbtion.
+     * @pbrbm intfrpolbtionTypf Onf of thf intfgfr
+     * intfrpolbtion typf donstbnts dffinfd by this dlbss:
+     * {@link #TYPE_NEAREST_NEIGHBOR TYPE_NEAREST_NEIGHBOR},
+     * {@link #TYPE_BILINEAR TYPE_BILINEAR},
+     * {@link #TYPE_BICUBIC TYPE_BICUBIC}.
+     * @throws ImbgingOpExdfption if thf trbnsform is non-invfrtiblf.
+     */
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, int intfrpolbtionTypf) {
+        vblidbtfTrbnsform(xform);
+        this.xform = (AffinfTrbnsform)xform.dlonf();
+        switdh(intfrpolbtionTypf) {
+            dbsf TYPE_NEAREST_NEIGHBOR:
+            dbsf TYPE_BILINEAR:
+            dbsf TYPE_BICUBIC:
+                brfbk;
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("Unknown intfrpolbtion typf: "+
+                                               intfrpolbtionTypf);
+        }
+        this.intfrpolbtionTypf = intfrpolbtionTypf;
+    }
+
+    /**
+     * Rfturns thf intfrpolbtion typf usfd by this op.
+     * @rfturn thf intfrpolbtion typf.
+     * @sff #TYPE_NEAREST_NEIGHBOR
+     * @sff #TYPE_BILINEAR
+     * @sff #TYPE_BICUBIC
+     */
+    publid finbl int gftIntfrpolbtionTypf() {
+        rfturn intfrpolbtionTypf;
+    }
+
+    /**
+     * Trbnsforms thf sourdf <CODE>BufffrfdImbgf</CODE> bnd storfs thf rfsults
+     * in thf dfstinbtion <CODE>BufffrfdImbgf</CODE>.
+     * If thf dolor modfls for thf two imbgfs do not mbtdh, b dolor
+     * donvfrsion into thf dfstinbtion dolor modfl is pfrformfd.
+     * If thf dfstinbtion imbgf is null,
+     * b <CODE>BufffrfdImbgf</CODE> is drfbtfd with thf sourdf
+     * <CODE>ColorModfl</CODE>.
+     * <p>
+     * Thf doordinbtfs of thf rfdtbnglf rfturnfd by
+     * <dodf>gftBounds2D(BufffrfdImbgf)</dodf>
+     * brf not nfdfssbrily thf sbmf bs thf doordinbtfs of thf
+     * <dodf>BufffrfdImbgf</dodf> rfturnfd by this mfthod.  If thf
+     * uppfr-lfft dornfr doordinbtfs of thf rfdtbnglf brf
+     * nfgbtivf thfn this pbrt of thf rfdtbnglf is not drbwn.  If thf
+     * uppfr-lfft dornfr doordinbtfs of thf  rfdtbnglf brf positivf
+     * thfn thf filtfrfd imbgf is drbwn bt thbt position in thf
+     * dfstinbtion <dodf>BufffrfdImbgf</dodf>.
+     * <p>
+     * An <CODE>IllfgblArgumfntExdfption</CODE> is thrown if thf sourdf is
+     * thf sbmf bs thf dfstinbtion.
+     *
+     * @pbrbm srd Thf <CODE>BufffrfdImbgf</CODE> to trbnsform.
+     * @pbrbm dst Thf <CODE>BufffrfdImbgf</CODE> in whidh to storf thf rfsults
+     * of thf trbnsformbtion.
+     *
+     * @rfturn Thf filtfrfd <CODE>BufffrfdImbgf</CODE>.
+     * @throws IllfgblArgumfntExdfption if <dodf>srd</dodf> bnd
+     *         <dodf>dst</dodf> brf thf sbmf
+     * @throws ImbgingOpExdfption if thf imbgf dbnnot bf trbnsformfd
+     *         bfdbusf of b dbtb-prodfssing frror thbt might bf
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         imbgf-prodfssing opfrbtion, or bny othfr unsupportfd
+     *         opfrbtion.
+     */
+    publid finbl BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dst) {
+
+        if (srd == null) {
+            throw nfw NullPointfrExdfption("srd imbgf is null");
+        }
+        if (srd == dst) {
+            throw nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf thf "+
+                                               "sbmf bs thf dst imbgf");
+        }
+
+        boolfbn nffdToConvfrt = fblsf;
+        ColorModfl srdCM = srd.gftColorModfl();
+        ColorModfl dstCM;
+        BufffrfdImbgf origDst = dst;
+
+        if (dst == null) {
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dstCM = srdCM;
+            origDst = dst;
+        }
+        flsf {
+            dstCM = dst.gftColorModfl();
+            if (srdCM.gftColorSpbdf().gftTypf() !=
+                dstCM.gftColorSpbdf().gftTypf())
+            {
+                int typf = xform.gftTypf();
+                boolfbn nffdTrbns = ((typf&
+                                      (AffinfTrbnsform.TYPE_MASK_ROTATION|
+                                       AffinfTrbnsform.TYPE_GENERAL_TRANSFORM))
+                                     != 0);
+                if (! nffdTrbns &&
+                    typf != AffinfTrbnsform.TYPE_TRANSLATION &&
+                    typf != AffinfTrbnsform.TYPE_IDENTITY)
+                {
+                    doublf[] mtx = nfw doublf[4];
+                    xform.gftMbtrix(mtx);
+                    // Chfdk out thf mbtrix.  A non-intfgrbl sdblf will fordf ARGB
+                    // sindf thf fdgf donditions dbn't bf gubrbntffd.
+                    nffdTrbns = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
+                }
+
+                if (nffdTrbns &&
+                    srdCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE)
+                {
+                    // Nffd to donvfrt first
+                    ColorConvfrtOp ddop = nfw ColorConvfrtOp(hints);
+                    BufffrfdImbgf tmpSrd = null;
+                    int sw = srd.gftWidth();
+                    int sh = srd.gftHfight();
+                    if (dstCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
+                        tmpSrd = nfw BufffrfdImbgf(sw, sh,
+                                                  BufffrfdImbgf.TYPE_INT_ARGB);
+                    }
+                    flsf {
+                        WritbblfRbstfr r =
+                            dstCM.drfbtfCompbtiblfWritbblfRbstfr(sw, sh);
+                        tmpSrd = nfw BufffrfdImbgf(dstCM, r,
+                                                  dstCM.isAlphbPrfmultiplifd(),
+                                                  null);
+                    }
+                    srd = ddop.filtfr(srd, tmpSrd);
+                }
+                flsf {
+                    nffdToConvfrt = truf;
+                    dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+                }
+            }
+
+        }
+
+        if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+            dst.gftColorModfl() instbndfof IndfxColorModfl) {
+            dst = nfw BufffrfdImbgf(dst.gftWidth(), dst.gftHfight(),
+                                    BufffrfdImbgf.TYPE_INT_ARGB);
+        }
+        if (ImbgingLib.filtfr(this, srd, dst) == null) {
+            throw nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+        }
+
+        if (nffdToConvfrt) {
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(hints);
+            ddop.filtfr(dst, origDst);
+        }
+        flsf if (origDst != dst) {
+            jbvb.bwt.Grbphids2D g = origDst.drfbtfGrbphids();
+            try {
+                g.sftCompositf(AlphbCompositf.Srd);
+                g.drbwImbgf(dst, 0, 0, null);
+            } finblly {
+                g.disposf();
+            }
+        }
+
+        rfturn origDst;
+    }
+
+    /**
+     * Trbnsforms thf sourdf <CODE>Rbstfr</CODE> bnd storfs thf rfsults in
+     * thf dfstinbtion <CODE>Rbstfr</CODE>.  This opfrbtion pfrforms thf
+     * trbnsform bbnd by bbnd.
+     * <p>
+     * If thf dfstinbtion <CODE>Rbstfr</CODE> is null, b nfw
+     * <CODE>Rbstfr</CODE> is drfbtfd.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf thrown if thf sourdf is
+     * thf sbmf bs thf dfstinbtion or if thf numbfr of bbnds in
+     * thf sourdf is not fqubl to thf numbfr of bbnds in thf
+     * dfstinbtion.
+     * <p>
+     * Thf doordinbtfs of thf rfdtbnglf rfturnfd by
+     * <dodf>gftBounds2D(Rbstfr)</dodf>
+     * brf not nfdfssbrily thf sbmf bs thf doordinbtfs of thf
+     * <dodf>WritbblfRbstfr</dodf> rfturnfd by this mfthod.  If thf
+     * uppfr-lfft dornfr doordinbtfs of rfdtbnglf brf nfgbtivf thfn
+     * this pbrt of thf rfdtbnglf is not drbwn.  If thf doordinbtfs
+     * of thf rfdtbnglf brf positivf thfn thf filtfrfd imbgf is drbwn bt
+     * thbt position in thf dfstinbtion <dodf>Rbstfr</dodf>.
+     *
+     * @pbrbm srd Thf <CODE>Rbstfr</CODE> to trbnsform.
+     * @pbrbm dst Thf <CODE>Rbstfr</CODE> in whidh to storf thf rfsults of thf
+     * trbnsformbtion.
+     *
+     * @rfturn Thf trbnsformfd <CODE>Rbstfr</CODE>.
+     *
+     * @throws ImbgingOpExdfption if thf rbstfr dbnnot bf trbnsformfd
+     *         bfdbusf of b dbtb-prodfssing frror thbt might bf
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         imbgf-prodfssing opfrbtion, or bny othfr unsupportfd
+     *         opfrbtion.
+     */
+    publid finbl WritbblfRbstfr filtfr(Rbstfr srd, WritbblfRbstfr dst) {
+        if (srd == null) {
+            throw nfw NullPointfrExdfption("srd imbgf is null");
+        }
+        if (dst == null) {
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
+        }
+        if (srd == dst) {
+            throw nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf thf "+
+                                               "sbmf bs thf dst imbgf");
+        }
+        if (srd.gftNumBbnds() != dst.gftNumBbnds()) {
+            throw nfw IllfgblArgumfntExdfption("Numbfr of srd bbnds ("+
+                                               srd.gftNumBbnds()+
+                                               ") dofs not mbtdh numbfr of "+
+                                               " dst bbnds ("+
+                                               dst.gftNumBbnds()+")");
+        }
+
+        if (ImbgingLib.filtfr(this, srd, dst) == null) {
+            throw nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+        }
+        rfturn dst;
+    }
+
+    /**
+     * Rfturns thf bounding box of thf trbnsformfd dfstinbtion.  Thf
+     * rfdtbnglf rfturnfd is thf bdtubl bounding box of thf
+     * trbnsformfd points.  Thf doordinbtfs of thf uppfr-lfft dornfr
+     * of thf rfturnfd rfdtbnglf might not bf (0,&nbsp;0).
+     *
+     * @pbrbm srd Thf <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     *
+     * @rfturn Thf <CODE>Rfdtbnglf2D</CODE> rfprfsfnting thf dfstinbtion's
+     * bounding box.
+     */
+    publid finbl Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd) {
+        rfturn gftBounds2D(srd.gftRbstfr());
+    }
+
+    /**
+     * Rfturns thf bounding box of thf trbnsformfd dfstinbtion.  Thf
+     * rfdtbnglf rfturnfd will bf thf bdtubl bounding box of thf
+     * trbnsformfd points.  Thf doordinbtfs of thf uppfr-lfft dornfr
+     * of thf rfturnfd rfdtbnglf might not bf (0,&nbsp;0).
+     *
+     * @pbrbm srd Thf <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     *
+     * @rfturn Thf <CODE>Rfdtbnglf2D</CODE> rfprfsfnting thf dfstinbtion's
+     * bounding box.
+     */
+    publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
+        int w = srd.gftWidth();
+        int h = srd.gftHfight();
+
+        // Gft thf bounding box of thf srd bnd trbnsform thf dornfrs
+        flobt[] pts = {0, 0, w, 0, w, h, 0, h};
+        xform.trbnsform(pts, 0, pts, 0, 4);
+
+        // Gft thf min, mbx of thf dst
+        flobt fmbxX = pts[0];
+        flobt fmbxY = pts[1];
+        flobt fminX = pts[0];
+        flobt fminY = pts[1];
+        for (int i=2; i < 8; i+=2) {
+            if (pts[i] > fmbxX) {
+                fmbxX = pts[i];
+            }
+            flsf if (pts[i] < fminX) {
+                fminX = pts[i];
+            }
+            if (pts[i+1] > fmbxY) {
+                fmbxY = pts[i+1];
+            }
+            flsf if (pts[i+1] < fminY) {
+                fminY = pts[i+1];
+            }
+        }
+
+        rfturn nfw Rfdtbnglf2D.Flobt(fminX, fminY, fmbxX-fminX, fmbxY-fminY);
+    }
+
+    /**
+     * Crfbtfs b zfrofd dfstinbtion imbgf with thf dorrfdt sizf bnd numbfr of
+     * bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf thrown if thf
+     * trbnsformfd width or hfight is fqubl to 0.
+     * <p>
+     * If <CODE>dfstCM</CODE> is null,
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd; this
+     * <CODE>ColorModfl</CODE> mby hbvf
+     * bn blphb dhbnnfl fvfn if thf sourdf <CODE>ColorModfl</CODE> is opbquf.
+     *
+     * @pbrbm srd  Thf <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm dfstCM  <CODE>ColorModfl</CODE> of thf dfstinbtion.  If null,
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd.
+     *
+     * @rfturn Thf zfrofd dfstinbtion imbgf.
+     */
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+                                                    ColorModfl dfstCM) {
+        BufffrfdImbgf imbgf;
+        Rfdtbnglf r = gftBounds2D(srd).gftBounds();
+
+        // If r.x (or r.y) is < 0, thfn wf wbnt to only drfbtf bn imbgf
+        // thbt is in thf positivf rbngf.
+        // If r.x (or r.y) is > 0, thfn wf nffd to drfbtf bn imbgf thbt
+        // indludfs thf trbnslbtion.
+        int w = r.x + r.width;
+        int h = r.y + r.hfight;
+        if (w <= 0) {
+            throw nfw RbstfrFormbtExdfption("Trbnsformfd width ("+w+
+                                            ") is lfss thbn or fqubl to 0.");
+        }
+        if (h <= 0) {
+            throw nfw RbstfrFormbtExdfption("Trbnsformfd hfight ("+h+
+                                            ") is lfss thbn or fqubl to 0.");
+        }
+
+        if (dfstCM == null) {
+            ColorModfl dm = srd.gftColorModfl();
+            if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+                (dm instbndfof IndfxColorModfl ||
+                 dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE))
+            {
+                imbgf = nfw BufffrfdImbgf(w, h,
+                                          BufffrfdImbgf.TYPE_INT_ARGB);
+            }
+            flsf {
+                imbgf = nfw BufffrfdImbgf(dm,
+                          srd.gftRbstfr().drfbtfCompbtiblfWritbblfRbstfr(w,h),
+                          dm.isAlphbPrfmultiplifd(), null);
+            }
+        }
+        flsf {
+            imbgf = nfw BufffrfdImbgf(dfstCM,
+                                    dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w,h),
+                                    dfstCM.isAlphbPrfmultiplifd(), null);
+        }
+
+        rfturn imbgf;
+    }
+
+    /**
+     * Crfbtfs b zfrofd dfstinbtion <CODE>Rbstfr</CODE> with thf dorrfdt sizf
+     * bnd numbfr of bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf thrown
+     * if thf trbnsformfd width or hfight is fqubl to 0.
+     *
+     * @pbrbm srd Thf <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     *
+     * @rfturn Thf zfrofd dfstinbtion <CODE>Rbstfr</CODE>.
+     */
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+        Rfdtbnglf2D r = gftBounds2D(srd);
+
+        rfturn srd.drfbtfCompbtiblfWritbblfRbstfr((int)r.gftX(),
+                                                  (int)r.gftY(),
+                                                  (int)r.gftWidth(),
+                                                  (int)r.gftHfight());
+    }
+
+    /**
+     * Rfturns thf lodbtion of thf dorrfsponding dfstinbtion point givfn b
+     * point in thf sourdf.  If <CODE>dstPt</CODE> is spfdififd, it
+     * is usfd to hold thf rfturn vbluf.
+     *
+     * @pbrbm srdPt Thf <dodf>Point2D</dodf> thbt rfprfsfnts thf sourdf
+     *              point.
+     * @pbrbm dstPt Thf <CODE>Point2D</CODE> in whidh to storf thf rfsult.
+     *
+     * @rfturn Thf <CODE>Point2D</CODE> in thf dfstinbtion thbt dorrfsponds to
+     * thf spfdififd point in thf sourdf.
+     */
+    publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
+        rfturn xform.trbnsform (srdPt, dstPt);
+    }
+
+    /**
+     * Rfturns thf bffinf trbnsform usfd by this trbnsform opfrbtion.
+     *
+     * @rfturn Thf <CODE>AffinfTrbnsform</CODE> bssodibtfd with this op.
+     */
+    publid finbl AffinfTrbnsform gftTrbnsform() {
+        rfturn (AffinfTrbnsform) xform.dlonf();
+    }
+
+    /**
+     * Rfturns thf rfndfring hints usfd by this trbnsform opfrbtion.
+     *
+     * @rfturn Thf <CODE>RfndfringHints</CODE> objfdt bssodibtfd with this op.
+     */
+    publid finbl RfndfringHints gftRfndfringHints() {
+        if (hints == null) {
+            Objfdt vbl;
+            switdh(intfrpolbtionTypf) {
+            dbsf TYPE_NEAREST_NEIGHBOR:
+                vbl = RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+                brfbk;
+            dbsf TYPE_BILINEAR:
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BILINEAR;
+                brfbk;
+            dbsf TYPE_BICUBIC:
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BICUBIC;
+                brfbk;
+            dffbult:
+                // Should nfvfr gft hfrf
+                throw nfw IntfrnblError("Unknown intfrpolbtion typf "+
+                                         intfrpolbtionTypf);
+
+            }
+            hints = nfw RfndfringHints(RfndfringHints.KEY_INTERPOLATION, vbl);
+        }
+
+        rfturn hints;
+    }
+
+    // Wf nffd to bf bblf to invfrt thf trbnsform if wf wbnt to
+    // trbnsform thf imbgf.  If thf dftfrminbnt of thf mbtrix is 0,
+    // thfn wf dbn't invfrt thf trbnsform.
+    void vblidbtfTrbnsform(AffinfTrbnsform xform) {
+        if (Mbth.bbs(xform.gftDftfrminbnt()) <= Doublf.MIN_VALUE) {
+            throw nfw ImbgingOpExdfption("Unbblf to invfrt trbnsform "+xform);
+        }
+    }
+}

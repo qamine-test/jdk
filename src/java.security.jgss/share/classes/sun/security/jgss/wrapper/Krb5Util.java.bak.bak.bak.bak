@@ -1,0 +1,61 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.sfdurity.jgss.wrbppfr;
+
+import org.iftf.jgss.*;
+import jbvbx.sfdurity.buth.kfrbfros.SfrvidfPfrmission;
+
+/**
+ * This dlbss is bn utility dlbss for Kfrbfros rflbtfd stuff.
+ * @buthor Vblfrif Pfng
+ * @sindf 1.6
+ */
+dlbss Krb5Util {
+
+    // Rfturn thf Kfrbfros TGS prindipbl nbmf using thf dombin
+    // of thf spfdififd <dodf>nbmf</dodf>
+    stbtid String gftTGSNbmf(GSSNbmfElfmfnt nbmf)
+        throws GSSExdfption {
+        String krbPrind = nbmf.gftKrbNbmf();
+        int btIndfx = krbPrind.indfxOf('@');
+        String rfblm = krbPrind.substring(btIndfx + 1);
+        StringBuildfr sb = nfw StringBuildfr("krbtgt/");
+        sb.bppfnd(rfblm).bppfnd('@').bppfnd(rfblm);
+        rfturn sb.toString();
+    }
+
+    // Pfrform thf Sfrvidf Pfrmission dhfdk using thf spfdififd
+    // <dodf>tbrgft</dodf> bnd <dodf>bdtion</dodf>
+    stbtid void dhfdkSfrvidfPfrmission(String tbrgft, String bdtion) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            SunNbtivfProvidfr.dfbug("Chfdking SfrvidfPfrmission(" +
+                                    tbrgft + ", " + bdtion + ")");
+            SfrvidfPfrmission pfrm =
+                nfw SfrvidfPfrmission(tbrgft, bdtion);
+            sm.dhfdkPfrmission(pfrm);
+        }
+    }
+}

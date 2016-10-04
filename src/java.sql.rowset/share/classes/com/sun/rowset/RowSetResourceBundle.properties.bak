@@ -1,170 +1,170 @@
 #
-# Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# CacheRowSetImpl exceptions
-cachedrowsetimpl.populate = Invalid ResultSet object supplied to populate method
-cachedrowsetimpl.invalidp = Invalid persistence provider generated
-cachedrowsetimpl.nullhash = Cannot instantiate CachedRowSetImpl instance. Null Hashtable supplied to constructor
-cachedrowsetimpl.invalidop = Invalid operation while on insert row
-cachedrowsetimpl.accfailed = acceptChanges Failed
-cachedrowsetimpl.invalidcp = Invalid cursor position
-cachedrowsetimpl.illegalop = Illegal operation on non-inserted row
-cachedrowsetimpl.clonefail = Clone failed: {0}
-cachedrowsetimpl.invalidcol = Invalid column index
-cachedrowsetimpl.invalcolnm = Invalid column name
-cachedrowsetimpl.boolfail = getBoolen Failed on value ( {0} ) in column {1}
-cachedrowsetimpl.bytefail = getByte Failed on value ( {0} ) in column {1}
-cachedrowsetimpl.shortfail = getShort Failed on value ( {0} ) in column {1}
-cachedrowsetimpl.intfail = getInt Failed on value ( {0} ) in column {1}
-cachedrowsetimpl.longfail = getLong Failed on value ( {0} ) in column {1}
-cachedrowsetimpl.floatfail = getFloat failed on value ( {0} ) in column {1}
-cachedrowsetimpl.doublefail = getDouble failed on value ( {0} ) in column {1}
-cachedrowsetimpl.dtypemismt = Data Type Mismatch 
-cachedrowsetimpl.datefail = getDate Failed on value ( {0} ) in column {1} no conversion available
-cachedrowsetimpl.timefail = getTime failed on value ( {0} ) in column {1} no conversion available
-cachedrowsetimpl.posupdate = Positioned updates not supported
-cachedrowsetimpl.unableins = Unable to instantiate : {0}
-cachedrowsetimpl.beforefirst = beforeFirst : Invalid cursor operation
-cachedrowsetimpl.first = First : Invalid cursor operation
-cachedrowsetimpl.last = last : TYPE_FORWARD_ONLY
-cachedrowsetimpl.absolute = absolute : Invalid cursor position
-cachedrowsetimpl.relative = relative : Invalid cursor position
-cachedrowsetimpl.asciistream = read failed for ascii stream
-cachedrowsetimpl.binstream = read failed on binary stream
-cachedrowsetimpl.failedins = Failed on insert row
-cachedrowsetimpl.updateins = updateRow called while on insert row
-cachedrowsetimpl.movetoins = moveToInsertRow : CONCUR_READ_ONLY
-cachedrowsetimpl.movetoins1 = moveToInsertRow : no meta data
-cachedrowsetimpl.movetoins2 = moveToInsertRow : invalid number of columns
-cachedrowsetimpl.tablename = Table name cannot be null
-cachedrowsetimpl.keycols = Invalid key columns
-cachedrowsetimpl.invalidcol = Invalid column index
-cachedrowsetimpl.opnotsupp = Operation not supported by Database
-cachedrowsetimpl.matchcols = Match columns are not the same as those set
-cachedrowsetimpl.setmatchcols = Set Match columns before getting them
-cachedrowsetimpl.matchcols1 = Match columns should be greater than 0
-cachedrowsetimpl.matchcols2 = Match columns should be empty or null string
-cachedrowsetimpl.unsetmatch = Columns being unset are not the same as set
-cachedrowsetimpl.unsetmatch1 = Use column name as argument to unsetMatchColumn
-cachedrowsetimpl.unsetmatch2 = Use column ID as argument to unsetMatchColumn
-cachedrowsetimpl.numrows = Number of rows is less than zero or less than fetch size
-cachedrowsetimpl.startpos = Start position cannot be negative
-cachedrowsetimpl.nextpage = Populate data before calling 
-cachedrowsetimpl.pagesize = Page size cannot be less than zero
-cachedrowsetimpl.pagesize1 = Page size cannot be greater than maxRows
-cachedrowsetimpl.fwdonly = ResultSet is forward only
-cachedrowsetimpl.type = Type is : {0}
-cachedrowsetimpl.opnotysupp = Operation not yet supported
-cachedrowsetimpl.featnotsupp = Feature not supported
+# CbdifRowSftImpl fxdfptions
+dbdifdrowsftimpl.populbtf = Invblid RfsultSft objfdt supplifd to populbtf mftiod
+dbdifdrowsftimpl.invblidp = Invblid pfrsistfndf providfr gfnfrbtfd
+dbdifdrowsftimpl.nullibsi = Cbnnot instbntibtf CbdifdRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+dbdifdrowsftimpl.invblidop = Invblid opfrbtion wiilf on insfrt row
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs Fbilfd
+dbdifdrowsftimpl.invbliddp = Invblid dursor position
+dbdifdrowsftimpl.illfgblop = Illfgbl opfrbtion on non-insfrtfd row
+dbdifdrowsftimpl.dlonffbil = Clonf fbilfd: {0}
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.invbldolnm = Invblid dolumn nbmf
+dbdifdrowsftimpl.boolfbil = gftBoolfn Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.bytffbil = gftBytf Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.siortfbil = gftSiort Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.intfbil = gftInt Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.longfbil = gftLong Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.flobtfbil = gftFlobt fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.doublffbil = gftDoublf fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.dtypfmismt = Dbtb Typf Mismbtdi 
+dbdifdrowsftimpl.dbtffbil = gftDbtf Fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.timffbil = gftTimf fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.posupdbtf = Positionfd updbtfs not supportfd
+dbdifdrowsftimpl.unbblfins = Unbblf to instbntibtf : {0}
+dbdifdrowsftimpl.bfforffirst = bfforfFirst : Invblid dursor opfrbtion
+dbdifdrowsftimpl.first = First : Invblid dursor opfrbtion
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor position
+dbdifdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor position
+dbdifdrowsftimpl.bsdiistrfbm = rfbd fbilfd for bsdii strfbm
+dbdifdrowsftimpl.binstrfbm = rfbd fbilfd on binbry strfbm
+dbdifdrowsftimpl.fbilfdins = Fbilfd on insfrt row
+dbdifdrowsftimpl.updbtfins = updbtfRow dbllfd wiilf on insfrt row
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow : CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow : no mftb dbtb
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow : invblid numbfr of dolumns
+dbdifdrowsftimpl.tbblfnbmf = Tbblf nbmf dbnnot bf null
+dbdifdrowsftimpl.kfydols = Invblid kfy dolumns
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.opnotsupp = Opfrbtion not supportfd by Dbtbbbsf
+dbdifdrowsftimpl.mbtdidols = Mbtdi dolumns brf not tif sbmf bs tiosf sft
+dbdifdrowsftimpl.sftmbtdidols = Sft Mbtdi dolumns bfforf gftting tifm
+dbdifdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+dbdifdrowsftimpl.mbtdidols2 = Mbtdi dolumns siould bf fmpty or null string
+dbdifdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs sft
+dbdifdrowsftimpl.unsftmbtdi1 = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi2 = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.numrows = Numbfr of rows is lfss tibn zfro or lfss tibn fftdi sizf
+dbdifdrowsftimpl.stbrtpos = Stbrt position dbnnot bf nfgbtivf
+dbdifdrowsftimpl.nfxtpbgf = Populbtf dbtb bfforf dblling 
+dbdifdrowsftimpl.pbgfsizf = Pbgf sizf dbnnot bf lfss tibn zfro
+dbdifdrowsftimpl.pbgfsizf1 = Pbgf sizf dbnnot bf grfbtfr tibn mbxRows
+dbdifdrowsftimpl.fwdonly = RfsultSft is forwbrd only
+dbdifdrowsftimpl.typf = Typf is : {0}
+dbdifdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+dbdifdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
 
-# WebRowSetImpl exceptions
-webrowsetimpl.nullhash = Cannot instantiate WebRowSetImpl instance. Null Hashtable supplied to constructor
-webrowsetimpl.invalidwr = Invalid writer
-webrowsetimpl.invalidrd = Invalid reader
+# WfbRowSftImpl fxdfptions
+wfbrowsftimpl.nullibsi = Cbnnot instbntibtf WfbRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+wfbrowsftimpl.invblidwr = Invblid writfr
+wfbrowsftimpl.invblidrd = Invblid rfbdfr
 
-#FilteredRowSetImpl exceptions
-filteredrowsetimpl.relative = relative : Invalid cursor operation 
-filteredrowsetimpl.absolute = absolute : Invalid cursor operation
-filteredrowsetimpl.notallowed = This value is not allowed through the filter
+#FiltfrfdRowSftImpl fxdfptions
+filtfrfdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor opfrbtion 
+filtfrfdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor opfrbtion
+filtfrfdrowsftimpl.notbllowfd = Tiis vbluf is not bllowfd tirougi tif filtfr
 
-#JoinRowSetImpl exceptions
-joinrowsetimpl.notinstance = Not an instance of rowset
-joinrowsetimpl.matchnotset = Match Column not set for join
-joinrowsetimpl.numnotequal = Number of elements in rowset not equal to match column
-joinrowsetimpl.notdefined = This is not a defined type of join
-joinrowsetimpl.notsupported = This type of join is not supported
-joinrowsetimpl.initerror = JoinRowSet initialization error
-joinrowsetimpl.genericerr = Genric joinrowset intial error
-joinrowsetimpl.emptyrowset = Empty rowset cannot be added to this JoinRowSet
+#JoinRowSftImpl fxdfptions
+joinrowsftimpl.notinstbndf = Not bn instbndf of rowsft
+joinrowsftimpl.mbtdinotsft = Mbtdi Column not sft for join
+joinrowsftimpl.numnotfqubl = Numbfr of flfmfnts in rowsft not fqubl to mbtdi dolumn
+joinrowsftimpl.notdffinfd = Tiis is not b dffinfd typf of join
+joinrowsftimpl.notsupportfd = Tiis typf of join is not supportfd
+joinrowsftimpl.initfrror = JoinRowSft initiblizbtion frror
+joinrowsftimpl.gfnfridfrr = Gfnrid joinrowsft intibl frror
+joinrowsftimpl.fmptyrowsft = Empty rowsft dbnnot bf bddfd to tiis JoinRowSft
 
-#JdbcRowSetImpl exceptions
-jdbcrowsetimpl.invalstate = Invalid state
-jdbcrowsetimpl.connect = JdbcRowSet (connect) JNDI unable to connect
-jdbcrowsetimpl.paramtype = Unable to deduce param type
-jdbcrowsetimpl.matchcols = Match Columns are not the same as those set
-jdbcrowsetimpl.setmatchcols = Set the match columns before getting them
-jdbcrowsetimpl.matchcols1 = Match columns should be greater than 0
-jdbcrowsetimpl.matchcols2 = Match columns cannot be null or empty string
-jdbcrowsetimpl.unsetmatch = Columns being unset are not the same as those set
-jdbcrowsetimpl.usecolname = Use column name as argument to unsetMatchColumn
-jdbcrowsetimpl.usecolid = Use column ID as argument to unsetMatchColumn
-jdbcrowsetimpl.resnotupd = ResultSet is not updatable
-jdbcrowsetimpl.opnotysupp = Operation not yet supported
-jdbcrowsetimpl.featnotsupp = Feature not supported
+#JdbdRowSftImpl fxdfptions
+jdbdrowsftimpl.invblstbtf = Invblid stbtf
+jdbdrowsftimpl.donnfdt = JdbdRowSft (donnfdt) JNDI unbblf to donnfdt
+jdbdrowsftimpl.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+jdbdrowsftimpl.mbtdidols = Mbtdi Columns brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.sftmbtdidols = Sft tif mbtdi dolumns bfforf gftting tifm
+jdbdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+jdbdrowsftimpl.mbtdidols2 = Mbtdi dolumns dbnnot bf null or fmpty string
+jdbdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.usfdolnbmf = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.usfdolid = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.rfsnotupd = RfsultSft is not updbtbblf
+jdbdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+jdbdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
 
-#CachedRowSetReader exceptions
-crsreader.connect = (JNDI) Unable to connect
-crsreader.paramtype = Unable to deduce param type
-crsreader.connecterr = Internal Error in RowSetReader: no connection or command
-crsreader.datedetected = Detected a Date
-crsreader.caldetected = Detected a Calendar
+#CbdifdRowSftRfbdfr fxdfptions
+drsrfbdfr.donnfdt = (JNDI) Unbblf to donnfdt
+drsrfbdfr.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+drsrfbdfr.donnfdtfrr = Intfrnbl Error in RowSftRfbdfr: no donnfdtion or dommbnd
+drsrfbdfr.dbtfdftfdtfd = Dftfdtfd b Dbtf
+drsrfbdfr.dbldftfdtfd = Dftfdtfd b Cblfndbr
 
-#CachedRowSetWriter exceptions
-crswriter.connect = Unable to get connection
-crswriter.tname = writeData cannot determine table name
-crswriter.params1 = Value of params1 : {0} 
-crswriter.params2 = Value of params2 : {0} 
-crswriter.conflictsno =  conflicts while synchronizing 
+#CbdifdRowSftWritfr fxdfptions
+drswritfr.donnfdt = Unbblf to gft donnfdtion
+drswritfr.tnbmf = writfDbtb dbnnot dftfrminf tbblf nbmf
+drswritfr.pbrbms1 = Vbluf of pbrbms1 : {0} 
+drswritfr.pbrbms2 = Vbluf of pbrbms2 : {0} 
+drswritfr.donflidtsno =  donflidts wiilf syndironizing 
 
-#InsertRow exceptions
-insertrow.novalue = No value has been inserted
+#InsfrtRow fxdfptions
+insfrtrow.novbluf = No vbluf ibs bffn insfrtfd
 
-#SyncResolverImpl exceptions
-syncrsimpl.indexval = Index value out of range  
-syncrsimpl.noconflict = This column not in conflict
-syncrsimpl.syncnotpos = Synchronization is not possible
-syncrsimpl.valtores = Value to be resolved can either be in the database or in cachedrowset
+#SyndRfsolvfrImpl fxdfptions
+syndrsimpl.indfxvbl = Indfx vbluf out of rbngf  
+syndrsimpl.nodonflidt = Tiis dolumn not in donflidt
+syndrsimpl.syndnotpos = Syndironizbtion is not possiblf
+syndrsimpl.vbltorfs = Vbluf to bf rfsolvfd dbn fitifr bf in tif dbtbbbsf or in dbdifdrowsft
 
-#WebRowSetXmlReader exception
-wrsxmlreader.invalidcp = End of RowSet reached. Invalid cursor position
-wrsxmlreader.readxml = readXML : {0}
-wrsxmlreader.parseerr = ** Parsing Error : {0} , line : {1} , uri : {2}
+#WfbRowSftXmlRfbdfr fxdfption
+wrsxmlrfbdfr.invbliddp = End of RowSft rfbdifd. Invblid dursor position
+wrsxmlrfbdfr.rfbdxml = rfbdXML : {0}
+wrsxmlrfbdfr.pbrsffrr = ** Pbrsing Error : {0} , linf : {1} , uri : {2}
 
-#WebRowSetXmlWriter exceptions
-wrsxmlwriter.ioex = IOException : {0}
-wrsxmlwriter.sqlex = SQLException : {0}
-wrsxmlwriter.failedwrite = Failed to write value
-wsrxmlwriter.notproper = Not a proper type
+#WfbRowSftXmlWritfr fxdfptions
+wrsxmlwritfr.iofx = IOExdfption : {0}
+wrsxmlwritfr.sqlfx = SQLExdfption : {0}
+wrsxmlwritfr.fbilfdwritf = Fbilfd to writf vbluf
+wsrxmlwritfr.notpropfr = Not b propfr typf
 
-#XmlReaderContentHandler exceptions
-xmlrch.errmap = Error setting Map : {0}
-xmlrch.errmetadata = Error setting metadata : {0}
-xmlrch.errinsertval = Error inserting values : {0}
-xmlrch.errconstr = Error constructing row : {0}
-xmlrch.errdel = Error deleting row : {0}
-xmlrch.errinsert = Error constructing insert row : {0}
-xmlrch.errinsdel = Error constructing insdel row : {0}
-xmlrch.errupdate = Error constructing update row : {0}
-xmlrch.errupdrow = Error updating row : {0}
-xmlrch.chars = characters :
-xmlrch.badvalue = Bad value ; non-nullable property
-xmlrch.badvalue1 = Bad value ; non-nullable metadata
-xmlrch.warning =  ** Warning : {0} , line : {1} , uri : {2}
+#XmlRfbdfrContfntHbndlfr fxdfptions
+xmlrdi.frrmbp = Error sftting Mbp : {0}
+xmlrdi.frrmftbdbtb = Error sftting mftbdbtb : {0}
+xmlrdi.frrinsfrtvbl = Error insfrting vblufs : {0}
+xmlrdi.frrdonstr = Error donstrudting row : {0}
+xmlrdi.frrdfl = Error dflfting row : {0}
+xmlrdi.frrinsfrt = Error donstrudting insfrt row : {0}
+xmlrdi.frrinsdfl = Error donstrudting insdfl row : {0}
+xmlrdi.frrupdbtf = Error donstrudting updbtf row : {0}
+xmlrdi.frrupdrow = Error updbting row : {0}
+xmlrdi.dibrs = dibrbdtfrs :
+xmlrdi.bbdvbluf = Bbd vbluf ; non-nullbblf propfrty
+xmlrdi.bbdvbluf1 = Bbd vbluf ; non-nullbblf mftbdbtb
+xmlrdi.wbrning =  ** Wbrning : {0} , linf : {1} , uri : {2}
 
-#RIOptimisticProvider Exceptions
-riop.locking = Locking classification is not supported
+#RIOptimistidProvidfr Exdfptions
+riop.lodking = Lodking dlbssifidbtion is not supportfd
 
-#RIXMLProvider exceptions
-rixml.unsupp = Unsupported with RIXMLProvider
+#RIXMLProvidfr fxdfptions
+rixml.unsupp = Unsupportfd witi RIXMLProvidfr

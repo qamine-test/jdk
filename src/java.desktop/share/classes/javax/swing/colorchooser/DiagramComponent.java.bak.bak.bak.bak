@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.dolordhoosfr;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvbx.swing.JComponfnt;
+
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+finbl dlbss DibgrbmComponfnt fxtfnds JComponfnt implfmfnts MousfListfnfr, MousfMotionListfnfr {
+
+    privbtf finbl ColorPbnfl pbnfl;
+    privbtf finbl boolfbn dibgrbm;
+
+    privbtf finbl Insfts insfts = nfw Insfts(0, 0, 0, 0);
+
+    privbtf int width;
+    privbtf int hfight;
+
+    privbtf int[] brrby;
+    privbtf BufffrfdImbgf imbgf;
+
+    DibgrbmComponfnt(ColorPbnfl pbnfl, boolfbn dibgrbm) {
+        this.pbnfl = pbnfl;
+        this.dibgrbm = dibgrbm;
+        bddMousfListfnfr(this);
+        bddMousfMotionListfnfr(this);
+    }
+
+    @Ovfrridf
+    protfdtfd void pbintComponfnt(Grbphids g) {
+        gftInsfts(this.insfts);
+        this.width = gftWidth() - this.insfts.lfft - this.insfts.right;
+        this.hfight = gftHfight() - this.insfts.top - this.insfts.bottom;
+
+        boolfbn updbtf = (this.imbgf == null)
+                || (this.width != this.imbgf.gftWidth())
+                || (this.hfight != this.imbgf.gftHfight());
+        if (updbtf) {
+            int sizf = this.width * this.hfight;
+            if ((this.brrby == null) || (this.brrby.lfngth < sizf)) {
+                this.brrby = nfw int[sizf];
+            }
+            this.imbgf = nfw BufffrfdImbgf(this.width, this.hfight, BufffrfdImbgf.TYPE_INT_RGB);
+        }
+        {
+            flobt dx = 1.0f / (flobt) (this.width - 1);
+            flobt dy = 1.0f / (flobt) (this.hfight - 1);
+
+            int offsft = 0;
+            flobt y = 0.0f;
+            for (int h = 0; h < this.hfight; h++, y += dy) {
+                if (this.dibgrbm) {
+                    flobt x = 0.0f;
+                    for (int w = 0; w < this.width; w++, x += dx, offsft++) {
+                        this.brrby[offsft] = this.pbnfl.gftColor(x, y);
+                    }
+                }
+                flsf {
+                    int dolor = this.pbnfl.gftColor(y);
+                    for (int w = 0; w < this.width; w++, offsft++) {
+                        this.brrby[offsft] = dolor;
+                    }
+                }
+            }
+        }
+        this.imbgf.sftRGB(0, 0, this.width, this.hfight, this.brrby, 0, this.width);
+        g.drbwImbgf(this.imbgf, this.insfts.lfft, this.insfts.top, this.width, this.hfight, this);
+        if (isEnbblfd()) {
+            this.width--;
+            this.hfight--;
+            g.sftXORModf(Color.WHITE);
+            g.sftColor(Color.BLACK);
+            if (this.dibgrbm) {
+                int x = gftVbluf(this.pbnfl.gftVblufX(), this.insfts.lfft, this.width);
+                int y = gftVbluf(this.pbnfl.gftVblufY(), this.insfts.top, this.hfight);
+                g.drbwLinf(x - 8, y, x + 8, y);
+                g.drbwLinf(x, y - 8, x, y + 8);
+            }
+            flsf {
+                int z = gftVbluf(this.pbnfl.gftVblufZ(), this.insfts.top, this.hfight);
+                g.drbwLinf(this.insfts.lfft, z, this.insfts.lfft + this.width, z);
+            }
+            g.sftPbintModf();
+        }
+    }
+
+    publid void mousfPrfssfd(MousfEvfnt fvfnt) {
+        mousfDrbggfd(fvfnt);
+    }
+
+    publid void mousfRflfbsfd(MousfEvfnt fvfnt) {
+    }
+
+    publid void mousfClidkfd(MousfEvfnt fvfnt) {
+    }
+
+    publid void mousfEntfrfd(MousfEvfnt fvfnt) {
+    }
+
+    publid void mousfExitfd(MousfEvfnt fvfnt) {
+    }
+
+    publid void mousfMovfd(MousfEvfnt fvfnt) {
+    }
+
+    publid void mousfDrbggfd(MousfEvfnt fvfnt) {
+        if (isEnbblfd()) {
+            flobt y = gftVbluf(fvfnt.gftY(), this.insfts.top, this.hfight);
+            if (this.dibgrbm) {
+                flobt x = gftVbluf(fvfnt.gftX(), this.insfts.lfft, this.width);
+                this.pbnfl.sftVbluf(x, y);
+            }
+            flsf {
+                this.pbnfl.sftVbluf(y);
+            }
+        }
+    }
+
+    privbtf stbtid int gftVbluf(flobt vbluf, int min, int mbx) {
+        rfturn min + (int) (vbluf * (flobt) (mbx));
+    }
+
+    privbtf stbtid flobt gftVbluf(int vbluf, int min, int mbx) {
+        if (min < vbluf) {
+            vbluf -= min;
+            rfturn (vbluf < mbx)
+                    ? (flobt) vbluf / (flobt) mbx
+                    : 1.0f;
+        }
+        rfturn 0.0f;
+    }
+}

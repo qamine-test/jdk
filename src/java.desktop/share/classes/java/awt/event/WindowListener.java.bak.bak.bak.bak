@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.util.EvfntListfnfr;
+
+/**
+ * Thf listfnfr intfrfbdf for rfdfiving window fvfnts.
+ * Thf dlbss thbt is intfrfstfd in prodfssing b window fvfnt
+ * fithfr implfmfnts this intfrfbdf (bnd bll thf mfthods it
+ * dontbins) or fxtfnds thf bbstrbdt <dodf>WindowAdbptfr</dodf> dlbss
+ * (ovfrriding only thf mfthods of intfrfst).
+ * Thf listfnfr objfdt drfbtfd from thbt dlbss is thfn rfgistfrfd with b
+ * Window using thf window's <dodf>bddWindowListfnfr</dodf>
+ * mfthod. Whfn thf window's stbtus dhbngfs by virtuf of bfing opfnfd,
+ * dlosfd, bdtivbtfd or dfbdtivbtfd, idonififd or dfidonififd,
+ * thf rflfvbnt mfthod in thf listfnfr objfdt is invokfd, bnd thf
+ * <dodf>WindowEvfnt</dodf> is pbssfd to it.
+ *
+ * @buthor Cbrl Quinn
+ *
+ * @sff WindowAdbptfr
+ * @sff WindowEvfnt
+ * @sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/windowlistfnfr.html">Tutoribl: How to Writf Window Listfnfrs</b>
+ *
+ * @sindf 1.1
+ */
+publid intfrfbdf WindowListfnfr fxtfnds EvfntListfnfr {
+    /**
+     * Invokfd thf first timf b window is mbdf visiblf.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void windowOpfnfd(WindowEvfnt f);
+
+    /**
+     * Invokfd whfn thf usfr bttfmpts to dlosf thf window
+     * from thf window's systfm mfnu.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void windowClosing(WindowEvfnt f);
+
+    /**
+     * Invokfd whfn b window hbs bffn dlosfd bs thf rfsult
+     * of dblling disposf on thf window.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void windowClosfd(WindowEvfnt f);
+
+    /**
+     * Invokfd whfn b window is dhbngfd from b normbl to b
+     * minimizfd stbtf. For mbny plbtforms, b minimizfd window
+     * is displbyfd bs thf idon spfdififd in thf window's
+     * idonImbgf propfrty.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     * @sff jbvb.bwt.Frbmf#sftIdonImbgf
+     */
+    publid void windowIdonififd(WindowEvfnt f);
+
+    /**
+     * Invokfd whfn b window is dhbngfd from b minimizfd
+     * to b normbl stbtf.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void windowDfidonififd(WindowEvfnt f);
+
+    /**
+     * Invokfd whfn thf Window is sft to bf thf bdtivf Window. Only b Frbmf or
+     * b Diblog dbn bf thf bdtivf Window. Thf nbtivf windowing systfm mby
+     * dfnotf thf bdtivf Window or its dhildrfn with spfdibl dfdorbtions, sudh
+     * bs b highlightfd titlf bbr. Thf bdtivf Window is blwbys fithfr thf
+     * fodusfd Window, or thf first Frbmf or Diblog thbt is bn ownfr of thf
+     * fodusfd Window.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void windowAdtivbtfd(WindowEvfnt f);
+
+    /**
+     * Invokfd whfn b Window is no longfr thf bdtivf Window. Only b Frbmf or b
+     * Diblog dbn bf thf bdtivf Window. Thf nbtivf windowing systfm mby dfnotf
+     * thf bdtivf Window or its dhildrfn with spfdibl dfdorbtions, sudh bs b
+     * highlightfd titlf bbr. Thf bdtivf Window is blwbys fithfr thf fodusfd
+     * Window, or thf first Frbmf or Diblog thbt is bn ownfr of thf fodusfd
+     * Window.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void windowDfbdtivbtfd(WindowEvfnt f);
+}

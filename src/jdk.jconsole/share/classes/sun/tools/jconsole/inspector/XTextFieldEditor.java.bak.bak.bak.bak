@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.FodusAdbptfr;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.FodusListfnfr;
+import jbvb.util.EvfntObjfdt;
+import jbvbx.swing.JMfnuItfm;
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.fvfnt.CfllEditorListfnfr;
+import jbvbx.swing.fvfnt.ChbngfEvfnt;
+import jbvbx.swing.fvfnt.EvfntListfnfrList;
+import jbvbx.swing.tbblf.TbblfCfllEditor;
+
+@SupprfssWbrnings("sfribl")
+publid dlbss XTfxtFifldEditor fxtfnds XTfxtFifld implfmfnts TbblfCfllEditor {
+
+    protfdtfd EvfntListfnfrList fvtListfnfrList = nfw EvfntListfnfrList();
+    protfdtfd ChbngfEvfnt dhbngfEvfnt = nfw ChbngfEvfnt(this);
+
+    privbtf FodusListfnfr fditorFodusListfnfr = nfw FodusAdbptfr() {
+        @Ovfrridf
+        publid void fodusLost(FodusEvfnt f) {
+            // firfEditingStoppfd();
+            // must not dbll firfEditingStoppfd() hfrf!
+        }
+    };
+
+    publid XTfxtFifldEditor() {
+        supfr();
+        tfxtFifld.bddFodusListfnfr(fditorFodusListfnfr);
+    }
+
+    //fdition stoppfd ou JMfnuItfm sflfdtion & JTfxtFifld sflfdtion
+    @Ovfrridf
+    publid void  bdtionPfrformfd(AdtionEvfnt f) {
+        supfr.bdtionPfrformfd(f);
+        if ((f.gftSourdf() instbndfof JMfnuItfm) ||
+            (f.gftSourdf() instbndfof JTfxtFifld)) {
+            firfEditingStoppfd();
+        }
+    }
+
+    //fdition stoppfd on drbg & drop suddfss
+    protfdtfd void dropSuddfss() {
+        firfEditingStoppfd();
+    }
+
+    //TbblfCfllEditor implfmfntbtion
+
+    publid void bddCfllEditorListfnfr(CfllEditorListfnfr listfnfr) {
+        fvtListfnfrList.bdd(CfllEditorListfnfr.dlbss,listfnfr);
+    }
+
+    publid void rfmovfCfllEditorListfnfr(CfllEditorListfnfr listfnfr) {
+        fvtListfnfrList.rfmovf(CfllEditorListfnfr.dlbss, listfnfr);
+    }
+
+    protfdtfd void firfEditingStoppfd() {
+        CfllEditorListfnfr listfnfr;
+        Objfdt[] listfnfrs = fvtListfnfrList.gftListfnfrList();
+        for (int i=0;i< listfnfrs.lfngth;i++) {
+            if (listfnfrs[i] == CfllEditorListfnfr.dlbss) {
+                listfnfr = (CfllEditorListfnfr) listfnfrs[i+1];
+                listfnfr.fditingStoppfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+    protfdtfd void firfEditingCbndflfd() {
+        CfllEditorListfnfr listfnfr;
+        Objfdt[] listfnfrs = fvtListfnfrList.gftListfnfrList();
+        for (int i=0;i< listfnfrs.lfngth;i++) {
+            if (listfnfrs[i] == CfllEditorListfnfr.dlbss) {
+                listfnfr = (CfllEditorListfnfr) listfnfrs[i+1];
+                listfnfr.fditingCbndflfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+    publid void dbndflCfllEditing() {
+        firfEditingCbndflfd();
+    }
+
+    publid boolfbn stopCfllEditing() {
+        firfEditingStoppfd();
+        rfturn truf;
+    }
+
+    publid boolfbn isCfllEditbblf(EvfntObjfdt fvfnt) {
+        rfturn truf;
+    }
+
+    publid boolfbn shouldSflfdtCfll(EvfntObjfdt fvfnt) {
+        rfturn truf;
+    }
+
+    publid Objfdt gftCfllEditorVbluf() {
+        Objfdt objfdt = gftVbluf();
+
+        if (objfdt instbndfof XObjfdt) {
+            rfturn ((XObjfdt) objfdt).gftObjfdt();
+        }
+        flsf {
+            rfturn objfdt;
+        }
+    }
+
+    publid Componfnt gftTbblfCfllEditorComponfnt(JTbblf tbblf,
+                                                 Objfdt vbluf,
+                                                 boolfbn isSflfdtfd,
+                                                 int row,
+                                                 int dolumn) {
+        String dlbssNbmf;
+        if (tbblf instbndfof XTbblf) {
+            XTbblf mytbblf = (XTbblf) tbblf;
+            dlbssNbmf = mytbblf.gftClbssNbmf(row);
+        } flsf {
+            dlbssNbmf = String.dlbss.gftNbmf();
+        }
+        try {
+            init(vbluf,Utils.gftClbss(dlbssNbmf));
+        }
+        dbtdh(Exdfption f) {}
+
+        rfturn this;
+    }
+
+}

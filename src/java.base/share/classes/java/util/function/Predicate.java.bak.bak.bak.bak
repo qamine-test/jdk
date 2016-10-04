@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.fundtion;
+
+import jbvb.util.Objfdts;
+
+/**
+ * Rfprfsfnts b prfdidbtf (boolfbn-vblufd fundtion) of onf brgumfnt.
+ *
+ * <p>This is b <b hrff="pbdkbgf-summbry.html">fundtionbl intfrfbdf</b>
+ * whosf fundtionbl mfthod is {@link #tfst(Objfdt)}.
+ *
+ * @pbrbm <T> thf typf of thf input to thf prfdidbtf
+ *
+ * @sindf 1.8
+ */
+@FundtionblIntfrfbdf
+publid intfrfbdf Prfdidbtf<T> {
+
+    /**
+     * Evblubtfs this prfdidbtf on thf givfn brgumfnt.
+     *
+     * @pbrbm t thf input brgumfnt
+     * @rfturn {@dodf truf} if thf input brgumfnt mbtdhfs thf prfdidbtf,
+     * othfrwisf {@dodf fblsf}
+     */
+    boolfbn tfst(T t);
+
+    /**
+     * Rfturns b domposfd prfdidbtf thbt rfprfsfnts b short-dirduiting logidbl
+     * AND of this prfdidbtf bnd bnothfr.  Whfn fvblubting thf domposfd
+     * prfdidbtf, if this prfdidbtf is {@dodf fblsf}, thfn thf {@dodf othfr}
+     * prfdidbtf is not fvblubtfd.
+     *
+     * <p>Any fxdfptions thrown during fvblubtion of fithfr prfdidbtf brf rflbyfd
+     * to thf dbllfr; if fvblubtion of this prfdidbtf throws bn fxdfption, thf
+     * {@dodf othfr} prfdidbtf will not bf fvblubtfd.
+     *
+     * @pbrbm othfr b prfdidbtf thbt will bf logidblly-ANDfd with this
+     *              prfdidbtf
+     * @rfturn b domposfd prfdidbtf thbt rfprfsfnts thf short-dirduiting logidbl
+     * AND of this prfdidbtf bnd thf {@dodf othfr} prfdidbtf
+     * @throws NullPointfrExdfption if othfr is null
+     */
+    dffbult Prfdidbtf<T> bnd(Prfdidbtf<? supfr T> othfr) {
+        Objfdts.rfquirfNonNull(othfr);
+        rfturn (t) -> tfst(t) && othfr.tfst(t);
+    }
+
+    /**
+     * Rfturns b prfdidbtf thbt rfprfsfnts thf logidbl nfgbtion of this
+     * prfdidbtf.
+     *
+     * @rfturn b prfdidbtf thbt rfprfsfnts thf logidbl nfgbtion of this
+     * prfdidbtf
+     */
+    dffbult Prfdidbtf<T> nfgbtf() {
+        rfturn (t) -> !tfst(t);
+    }
+
+    /**
+     * Rfturns b domposfd prfdidbtf thbt rfprfsfnts b short-dirduiting logidbl
+     * OR of this prfdidbtf bnd bnothfr.  Whfn fvblubting thf domposfd
+     * prfdidbtf, if this prfdidbtf is {@dodf truf}, thfn thf {@dodf othfr}
+     * prfdidbtf is not fvblubtfd.
+     *
+     * <p>Any fxdfptions thrown during fvblubtion of fithfr prfdidbtf brf rflbyfd
+     * to thf dbllfr; if fvblubtion of this prfdidbtf throws bn fxdfption, thf
+     * {@dodf othfr} prfdidbtf will not bf fvblubtfd.
+     *
+     * @pbrbm othfr b prfdidbtf thbt will bf logidblly-ORfd with this
+     *              prfdidbtf
+     * @rfturn b domposfd prfdidbtf thbt rfprfsfnts thf short-dirduiting logidbl
+     * OR of this prfdidbtf bnd thf {@dodf othfr} prfdidbtf
+     * @throws NullPointfrExdfption if othfr is null
+     */
+    dffbult Prfdidbtf<T> or(Prfdidbtf<? supfr T> othfr) {
+        Objfdts.rfquirfNonNull(othfr);
+        rfturn (t) -> tfst(t) || othfr.tfst(t);
+    }
+
+    /**
+     * Rfturns b prfdidbtf thbt tfsts if two brgumfnts brf fqubl bddording
+     * to {@link Objfdts#fqubls(Objfdt, Objfdt)}.
+     *
+     * @pbrbm <T> thf typf of brgumfnts to thf prfdidbtf
+     * @pbrbm tbrgftRff thf objfdt rfffrfndf with whidh to dompbrf for fqublity,
+     *               whidh mby bf {@dodf null}
+     * @rfturn b prfdidbtf thbt tfsts if two brgumfnts brf fqubl bddording
+     * to {@link Objfdts#fqubls(Objfdt, Objfdt)}
+     */
+    stbtid <T> Prfdidbtf<T> isEqubl(Objfdt tbrgftRff) {
+        rfturn (null == tbrgftRff)
+                ? Objfdts::isNull
+                : objfdt -> tbrgftRff.fqubls(objfdt);
+    }
+}

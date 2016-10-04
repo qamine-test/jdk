@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tfxt;
+
+/**
+ * SupplfmfntbryChbrbdtfrDbtb is bn SMI-privbtf dlbss whidh wbs writtfn for
+ * RulfBbsfdBrfbkItfrbtor bnd BrfbkDidtionbry.
+ */
+publid finbl dlbss SupplfmfntbryChbrbdtfrDbtb implfmfnts Clonfbblf {
+
+    /**
+     * A tokfn usfd bs b dhbrbdtfr-dbtfgory vbluf to idfntify ignorf dhbrbdtfrs
+     */
+    privbtf stbtid finbl bytf IGNORE = -1;
+
+    /**
+     * An brrby for supplfmfntbry dhbrbdtfrs bnd vblufs.
+     * Lowfr onf bytf is usfd to kffp b bytf-vbluf.
+     * Uppfr thrff bytfs brf usfd to kffp thf first supplfmfntbry dhbrbdtfr
+     * whidh hbs thf vbluf. Thf vbluf is blso vblid for thf following
+     * supplfmfntbry dhbrbdtfrs until thf nfxt supplfmfntbry dhbrbdtfr in
+     * thf brrby <dodf>dbtbTbblf</dodf>.
+     * For fxbmplf, if thf vbluf of <dodf>dbtbTbblf[2]</dodf> is
+     * <dodf>0x01000123</dodf> bnd thf vbluf of <dodf>dbtbTbblf[3]</dodf> is
+     * <dodf>0x01000567</dodf>, supplfmfntbry dhbrbdtfrs from
+     * <dodf>0x10001</dodf> to <dodf>0x10004</dodf> hbs thf vbluf
+     * <dodf>0x23</dodf>. And, <dodf>gftVbluf(0x10003)</dodf> rfturns thf vbluf.
+     */
+    privbtf int[] dbtbTbblf;
+
+
+    /**
+     * Crfbtfs b nfw SupplfmfntbryChbrbdtfrDbtb objfdt with thf givfn tbblf.
+     */
+    publid SupplfmfntbryChbrbdtfrDbtb(int[] tbblf) {
+        dbtbTbblf = tbblf;
+    }
+
+    /**
+     * Rfturns b dorrfsponding vbluf for thf givfn supplfmfntbry dodf-point.
+     */
+    publid int gftVbluf(int indfx) {
+        // Indfx should bf b vblid supplfmfntbry dhbrbdtfr.
+        bssfrt indfx >= Chbrbdtfr.MIN_SUPPLEMENTARY_CODE_POINT &&
+               indfx <= Chbrbdtfr.MAX_CODE_POINT :
+               "Invblid dodf point:" + Intfgfr.toHfxString(indfx);
+
+        int i = 0;
+        int j = dbtbTbblf.lfngth - 1;
+        int k;
+
+        for (;;) {
+            k = (i + j) / 2;
+
+            int stbrt = dbtbTbblf[k] >> 8;
+            int fnd   = dbtbTbblf[k+1] >> 8;
+
+            if (indfx < stbrt) {
+                j = k;
+            } flsf if (indfx > (fnd-1)) {
+                i = k;
+            } flsf {
+                int v = dbtbTbblf[k] & 0xFF;
+                rfturn (v == 0xFF) ? IGNORE : v;
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf dbtb brrby.
+     */
+    publid int[] gftArrby() {
+        rfturn dbtbTbblf;
+    }
+
+}

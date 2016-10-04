@@ -1,707 +1,707 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import java.util.Collection;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.Collfdtion;
+import jbvb.util.dondurrfnt.lodks.AbstrbdtQufufdSyndironizfr;
 
 /**
- * A counting semaphore.  Conceptually, a semaphore maintains a set of
- * permits.  Each {@link #acquire} blocks if necessary until a permit is
- * available, and then takes it.  Each {@link #release} adds a permit,
- * potentially releasing a blocking acquirer.
- * However, no actual permit objects are used; the {@code Semaphore} just
- * keeps a count of the number available and acts accordingly.
+ * A dounting sfmbpiorf.  Condfptublly, b sfmbpiorf mbintbins b sft of
+ * pfrmits.  Ebdi {@link #bdquirf} blodks if nfdfssbry until b pfrmit is
+ * bvbilbblf, bnd tifn tbkfs it.  Ebdi {@link #rflfbsf} bdds b pfrmit,
+ * potfntiblly rflfbsing b blodking bdquirfr.
+ * Howfvfr, no bdtubl pfrmit objfdts brf usfd; tif {@dodf Sfmbpiorf} just
+ * kffps b dount of tif numbfr bvbilbblf bnd bdts bddordingly.
  *
- * <p>Semaphores are often used to restrict the number of threads than can
- * access some (physical or logical) resource. For example, here is
- * a class that uses a semaphore to control access to a pool of items:
- *  <pre> {@code
- * class Pool {
- *   private static final int MAX_AVAILABLE = 100;
- *   private final Semaphore available = new Semaphore(MAX_AVAILABLE, true);
+ * <p>Sfmbpiorfs brf oftfn usfd to rfstridt tif numbfr of tirfbds tibn dbn
+ * bddfss somf (piysidbl or logidbl) rfsourdf. For fxbmplf, ifrf is
+ * b dlbss tibt usfs b sfmbpiorf to dontrol bddfss to b pool of itfms:
+ *  <prf> {@dodf
+ * dlbss Pool {
+ *   privbtf stbtid finbl int MAX_AVAILABLE = 100;
+ *   privbtf finbl Sfmbpiorf bvbilbblf = nfw Sfmbpiorf(MAX_AVAILABLE, truf);
  *
- *   public Object getItem() throws InterruptedException {
- *     available.acquire();
- *     return getNextAvailableItem();
+ *   publid Objfdt gftItfm() tirows IntfrruptfdExdfption {
+ *     bvbilbblf.bdquirf();
+ *     rfturn gftNfxtAvbilbblfItfm();
  *   }
  *
- *   public void putItem(Object x) {
- *     if (markAsUnused(x))
- *       available.release();
+ *   publid void putItfm(Objfdt x) {
+ *     if (mbrkAsUnusfd(x))
+ *       bvbilbblf.rflfbsf();
  *   }
  *
- *   // Not a particularly efficient data structure; just for demo
+ *   // Not b pbrtidulbrly fffidifnt dbtb strudturf; just for dfmo
  *
- *   protected Object[] items = ... whatever kinds of items being managed
- *   protected boolean[] used = new boolean[MAX_AVAILABLE];
+ *   protfdtfd Objfdt[] itfms = ... wibtfvfr kinds of itfms bfing mbnbgfd
+ *   protfdtfd boolfbn[] usfd = nfw boolfbn[MAX_AVAILABLE];
  *
- *   protected synchronized Object getNextAvailableItem() {
+ *   protfdtfd syndironizfd Objfdt gftNfxtAvbilbblfItfm() {
  *     for (int i = 0; i < MAX_AVAILABLE; ++i) {
- *       if (!used[i]) {
- *          used[i] = true;
- *          return items[i];
+ *       if (!usfd[i]) {
+ *          usfd[i] = truf;
+ *          rfturn itfms[i];
  *       }
  *     }
- *     return null; // not reached
+ *     rfturn null; // not rfbdifd
  *   }
  *
- *   protected synchronized boolean markAsUnused(Object item) {
+ *   protfdtfd syndironizfd boolfbn mbrkAsUnusfd(Objfdt itfm) {
  *     for (int i = 0; i < MAX_AVAILABLE; ++i) {
- *       if (item == items[i]) {
- *          if (used[i]) {
- *            used[i] = false;
- *            return true;
- *          } else
- *            return false;
+ *       if (itfm == itfms[i]) {
+ *          if (usfd[i]) {
+ *            usfd[i] = fblsf;
+ *            rfturn truf;
+ *          } flsf
+ *            rfturn fblsf;
  *       }
  *     }
- *     return false;
+ *     rfturn fblsf;
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * <p>Before obtaining an item each thread must acquire a permit from
- * the semaphore, guaranteeing that an item is available for use. When
- * the thread has finished with the item it is returned back to the
- * pool and a permit is returned to the semaphore, allowing another
- * thread to acquire that item.  Note that no synchronization lock is
- * held when {@link #acquire} is called as that would prevent an item
- * from being returned to the pool.  The semaphore encapsulates the
- * synchronization needed to restrict access to the pool, separately
- * from any synchronization needed to maintain the consistency of the
- * pool itself.
+ * <p>Bfforf obtbining bn itfm fbdi tirfbd must bdquirf b pfrmit from
+ * tif sfmbpiorf, gubrbntffing tibt bn itfm is bvbilbblf for usf. Wifn
+ * tif tirfbd ibs finisifd witi tif itfm it is rfturnfd bbdk to tif
+ * pool bnd b pfrmit is rfturnfd to tif sfmbpiorf, bllowing bnotifr
+ * tirfbd to bdquirf tibt itfm.  Notf tibt no syndironizbtion lodk is
+ * ifld wifn {@link #bdquirf} is dbllfd bs tibt would prfvfnt bn itfm
+ * from bfing rfturnfd to tif pool.  Tif sfmbpiorf fndbpsulbtfs tif
+ * syndironizbtion nffdfd to rfstridt bddfss to tif pool, sfpbrbtfly
+ * from bny syndironizbtion nffdfd to mbintbin tif donsistfndy of tif
+ * pool itsflf.
  *
- * <p>A semaphore initialized to one, and which is used such that it
- * only has at most one permit available, can serve as a mutual
- * exclusion lock.  This is more commonly known as a <em>binary
- * semaphore</em>, because it only has two states: one permit
- * available, or zero permits available.  When used in this way, the
- * binary semaphore has the property (unlike many {@link java.util.concurrent.locks.Lock}
- * implementations), that the &quot;lock&quot; can be released by a
- * thread other than the owner (as semaphores have no notion of
- * ownership).  This can be useful in some specialized contexts, such
- * as deadlock recovery.
+ * <p>A sfmbpiorf initiblizfd to onf, bnd wiidi is usfd sudi tibt it
+ * only ibs bt most onf pfrmit bvbilbblf, dbn sfrvf bs b mutubl
+ * fxdlusion lodk.  Tiis is morf dommonly known bs b <fm>binbry
+ * sfmbpiorf</fm>, bfdbusf it only ibs two stbtfs: onf pfrmit
+ * bvbilbblf, or zfro pfrmits bvbilbblf.  Wifn usfd in tiis wby, tif
+ * binbry sfmbpiorf ibs tif propfrty (unlikf mbny {@link jbvb.util.dondurrfnt.lodks.Lodk}
+ * implfmfntbtions), tibt tif &quot;lodk&quot; dbn bf rflfbsfd by b
+ * tirfbd otifr tibn tif ownfr (bs sfmbpiorfs ibvf no notion of
+ * ownfrsiip).  Tiis dbn bf usfful in somf spfdiblizfd dontfxts, sudi
+ * bs dfbdlodk rfdovfry.
  *
- * <p> The constructor for this class optionally accepts a
- * <em>fairness</em> parameter. When set false, this class makes no
- * guarantees about the order in which threads acquire permits. In
- * particular, <em>barging</em> is permitted, that is, a thread
- * invoking {@link #acquire} can be allocated a permit ahead of a
- * thread that has been waiting - logically the new thread places itself at
- * the head of the queue of waiting threads. When fairness is set true, the
- * semaphore guarantees that threads invoking any of the {@link
- * #acquire() acquire} methods are selected to obtain permits in the order in
- * which their invocation of those methods was processed
- * (first-in-first-out; FIFO). Note that FIFO ordering necessarily
- * applies to specific internal points of execution within these
- * methods.  So, it is possible for one thread to invoke
- * {@code acquire} before another, but reach the ordering point after
- * the other, and similarly upon return from the method.
- * Also note that the untimed {@link #tryAcquire() tryAcquire} methods do not
- * honor the fairness setting, but will take any permits that are
- * available.
+ * <p> Tif donstrudtor for tiis dlbss optionblly bddfpts b
+ * <fm>fbirnfss</fm> pbrbmftfr. Wifn sft fblsf, tiis dlbss mbkfs no
+ * gubrbntffs bbout tif ordfr in wiidi tirfbds bdquirf pfrmits. In
+ * pbrtidulbr, <fm>bbrging</fm> is pfrmittfd, tibt is, b tirfbd
+ * invoking {@link #bdquirf} dbn bf bllodbtfd b pfrmit bifbd of b
+ * tirfbd tibt ibs bffn wbiting - logidblly tif nfw tirfbd plbdfs itsflf bt
+ * tif ifbd of tif qufuf of wbiting tirfbds. Wifn fbirnfss is sft truf, tif
+ * sfmbpiorf gubrbntffs tibt tirfbds invoking bny of tif {@link
+ * #bdquirf() bdquirf} mftiods brf sflfdtfd to obtbin pfrmits in tif ordfr in
+ * wiidi tifir invodbtion of tiosf mftiods wbs prodfssfd
+ * (first-in-first-out; FIFO). Notf tibt FIFO ordfring nfdfssbrily
+ * bpplifs to spfdifid intfrnbl points of fxfdution witiin tifsf
+ * mftiods.  So, it is possiblf for onf tirfbd to invokf
+ * {@dodf bdquirf} bfforf bnotifr, but rfbdi tif ordfring point bftfr
+ * tif otifr, bnd similbrly upon rfturn from tif mftiod.
+ * Also notf tibt tif untimfd {@link #tryAdquirf() tryAdquirf} mftiods do not
+ * ionor tif fbirnfss sftting, but will tbkf bny pfrmits tibt brf
+ * bvbilbblf.
  *
- * <p>Generally, semaphores used to control resource access should be
- * initialized as fair, to ensure that no thread is starved out from
- * accessing a resource. When using semaphores for other kinds of
- * synchronization control, the throughput advantages of non-fair
- * ordering often outweigh fairness considerations.
+ * <p>Gfnfrblly, sfmbpiorfs usfd to dontrol rfsourdf bddfss siould bf
+ * initiblizfd bs fbir, to fnsurf tibt no tirfbd is stbrvfd out from
+ * bddfssing b rfsourdf. Wifn using sfmbpiorfs for otifr kinds of
+ * syndironizbtion dontrol, tif tirougiput bdvbntbgfs of non-fbir
+ * ordfring oftfn outwfigi fbirnfss donsidfrbtions.
  *
- * <p>This class also provides convenience methods to {@link
- * #acquire(int) acquire} and {@link #release(int) release} multiple
- * permits at a time.  Beware of the increased risk of indefinite
- * postponement when these methods are used without fairness set true.
+ * <p>Tiis dlbss blso providfs donvfnifndf mftiods to {@link
+ * #bdquirf(int) bdquirf} bnd {@link #rflfbsf(int) rflfbsf} multiplf
+ * pfrmits bt b timf.  Bfwbrf of tif indrfbsfd risk of indffinitf
+ * postponfmfnt wifn tifsf mftiods brf usfd witiout fbirnfss sft truf.
  *
- * <p>Memory consistency effects: Actions in a thread prior to calling
- * a "release" method such as {@code release()}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions following a successful "acquire" method such as {@code acquire()}
- * in another thread.
+ * <p>Mfmory donsistfndy ffffdts: Adtions in b tirfbd prior to dblling
+ * b "rflfbsf" mftiod sudi bs {@dodf rflfbsf()}
+ * <b irff="pbdkbgf-summbry.itml#MfmoryVisibility"><i>ibppfn-bfforf</i></b>
+ * bdtions following b suddfssful "bdquirf" mftiod sudi bs {@dodf bdquirf()}
+ * in bnotifr tirfbd.
  *
- * @since 1.5
- * @author Doug Lea
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public class Semaphore implements java.io.Serializable {
-    private static final long serialVersionUID = -3222578661600680210L;
-    /** All mechanics via AbstractQueuedSynchronizer subclass */
-    private final Sync sync;
+publid dlbss Sfmbpiorf implfmfnts jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -3222578661600680210L;
+    /** All mfdibnids vib AbstrbdtQufufdSyndironizfr subdlbss */
+    privbtf finbl Synd synd;
 
     /**
-     * Synchronization implementation for semaphore.  Uses AQS state
-     * to represent permits. Subclassed into fair and nonfair
-     * versions.
+     * Syndironizbtion implfmfntbtion for sfmbpiorf.  Usfs AQS stbtf
+     * to rfprfsfnt pfrmits. Subdlbssfd into fbir bnd nonfbir
+     * vfrsions.
      */
-    abstract static class Sync extends AbstractQueuedSynchronizer {
-        private static final long serialVersionUID = 1192457210091910933L;
+    bbstrbdt stbtid dlbss Synd fxtfnds AbstrbdtQufufdSyndironizfr {
+        privbtf stbtid finbl long sfriblVfrsionUID = 1192457210091910933L;
 
-        Sync(int permits) {
-            setState(permits);
+        Synd(int pfrmits) {
+            sftStbtf(pfrmits);
         }
 
-        final int getPermits() {
-            return getState();
+        finbl int gftPfrmits() {
+            rfturn gftStbtf();
         }
 
-        final int nonfairTryAcquireShared(int acquires) {
+        finbl int nonfbirTryAdquirfSibrfd(int bdquirfs) {
             for (;;) {
-                int available = getState();
-                int remaining = available - acquires;
-                if (remaining < 0 ||
-                    compareAndSetState(available, remaining))
-                    return remaining;
+                int bvbilbblf = gftStbtf();
+                int rfmbining = bvbilbblf - bdquirfs;
+                if (rfmbining < 0 ||
+                    dompbrfAndSftStbtf(bvbilbblf, rfmbining))
+                    rfturn rfmbining;
             }
         }
 
-        protected final boolean tryReleaseShared(int releases) {
+        protfdtfd finbl boolfbn tryRflfbsfSibrfd(int rflfbsfs) {
             for (;;) {
-                int current = getState();
-                int next = current + releases;
-                if (next < current) // overflow
-                    throw new Error("Maximum permit count exceeded");
-                if (compareAndSetState(current, next))
-                    return true;
+                int durrfnt = gftStbtf();
+                int nfxt = durrfnt + rflfbsfs;
+                if (nfxt < durrfnt) // ovfrflow
+                    tirow nfw Error("Mbximum pfrmit dount fxdffdfd");
+                if (dompbrfAndSftStbtf(durrfnt, nfxt))
+                    rfturn truf;
             }
         }
 
-        final void reducePermits(int reductions) {
+        finbl void rfdudfPfrmits(int rfdudtions) {
             for (;;) {
-                int current = getState();
-                int next = current - reductions;
-                if (next > current) // underflow
-                    throw new Error("Permit count underflow");
-                if (compareAndSetState(current, next))
-                    return;
+                int durrfnt = gftStbtf();
+                int nfxt = durrfnt - rfdudtions;
+                if (nfxt > durrfnt) // undfrflow
+                    tirow nfw Error("Pfrmit dount undfrflow");
+                if (dompbrfAndSftStbtf(durrfnt, nfxt))
+                    rfturn;
             }
         }
 
-        final int drainPermits() {
+        finbl int drbinPfrmits() {
             for (;;) {
-                int current = getState();
-                if (current == 0 || compareAndSetState(current, 0))
-                    return current;
-            }
-        }
-    }
-
-    /**
-     * NonFair version
-     */
-    static final class NonfairSync extends Sync {
-        private static final long serialVersionUID = -2694183684443567898L;
-
-        NonfairSync(int permits) {
-            super(permits);
-        }
-
-        protected int tryAcquireShared(int acquires) {
-            return nonfairTryAcquireShared(acquires);
-        }
-    }
-
-    /**
-     * Fair version
-     */
-    static final class FairSync extends Sync {
-        private static final long serialVersionUID = 2014338818796000944L;
-
-        FairSync(int permits) {
-            super(permits);
-        }
-
-        protected int tryAcquireShared(int acquires) {
-            for (;;) {
-                if (hasQueuedPredecessors())
-                    return -1;
-                int available = getState();
-                int remaining = available - acquires;
-                if (remaining < 0 ||
-                    compareAndSetState(available, remaining))
-                    return remaining;
+                int durrfnt = gftStbtf();
+                if (durrfnt == 0 || dompbrfAndSftStbtf(durrfnt, 0))
+                    rfturn durrfnt;
             }
         }
     }
 
     /**
-     * Creates a {@code Semaphore} with the given number of
-     * permits and nonfair fairness setting.
-     *
-     * @param permits the initial number of permits available.
-     *        This value may be negative, in which case releases
-     *        must occur before any acquires will be granted.
+     * NonFbir vfrsion
      */
-    public Semaphore(int permits) {
-        sync = new NonfairSync(permits);
+    stbtid finbl dlbss NonfbirSynd fxtfnds Synd {
+        privbtf stbtid finbl long sfriblVfrsionUID = -2694183684443567898L;
+
+        NonfbirSynd(int pfrmits) {
+            supfr(pfrmits);
+        }
+
+        protfdtfd int tryAdquirfSibrfd(int bdquirfs) {
+            rfturn nonfbirTryAdquirfSibrfd(bdquirfs);
+        }
     }
 
     /**
-     * Creates a {@code Semaphore} with the given number of
-     * permits and the given fairness setting.
-     *
-     * @param permits the initial number of permits available.
-     *        This value may be negative, in which case releases
-     *        must occur before any acquires will be granted.
-     * @param fair {@code true} if this semaphore will guarantee
-     *        first-in first-out granting of permits under contention,
-     *        else {@code false}
+     * Fbir vfrsion
      */
-    public Semaphore(int permits, boolean fair) {
-        sync = fair ? new FairSync(permits) : new NonfairSync(permits);
+    stbtid finbl dlbss FbirSynd fxtfnds Synd {
+        privbtf stbtid finbl long sfriblVfrsionUID = 2014338818796000944L;
+
+        FbirSynd(int pfrmits) {
+            supfr(pfrmits);
+        }
+
+        protfdtfd int tryAdquirfSibrfd(int bdquirfs) {
+            for (;;) {
+                if (ibsQufufdPrfdfdfssors())
+                    rfturn -1;
+                int bvbilbblf = gftStbtf();
+                int rfmbining = bvbilbblf - bdquirfs;
+                if (rfmbining < 0 ||
+                    dompbrfAndSftStbtf(bvbilbblf, rfmbining))
+                    rfturn rfmbining;
+            }
+        }
     }
 
     /**
-     * Acquires a permit from this semaphore, blocking until one is
-     * available, or the thread is {@linkplain Thread#interrupt interrupted}.
+     * Crfbtfs b {@dodf Sfmbpiorf} witi tif givfn numbfr of
+     * pfrmits bnd nonfbir fbirnfss sftting.
      *
-     * <p>Acquires a permit, if one is available and returns immediately,
-     * reducing the number of available permits by one.
+     * @pbrbm pfrmits tif initibl numbfr of pfrmits bvbilbblf.
+     *        Tiis vbluf mby bf nfgbtivf, in wiidi dbsf rflfbsfs
+     *        must oddur bfforf bny bdquirfs will bf grbntfd.
+     */
+    publid Sfmbpiorf(int pfrmits) {
+        synd = nfw NonfbirSynd(pfrmits);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Sfmbpiorf} witi tif givfn numbfr of
+     * pfrmits bnd tif givfn fbirnfss sftting.
      *
-     * <p>If no permit is available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * one of two things happens:
+     * @pbrbm pfrmits tif initibl numbfr of pfrmits bvbilbblf.
+     *        Tiis vbluf mby bf nfgbtivf, in wiidi dbsf rflfbsfs
+     *        must oddur bfforf bny bdquirfs will bf grbntfd.
+     * @pbrbm fbir {@dodf truf} if tiis sfmbpiorf will gubrbntff
+     *        first-in first-out grbnting of pfrmits undfr dontfntion,
+     *        flsf {@dodf fblsf}
+     */
+    publid Sfmbpiorf(int pfrmits, boolfbn fbir) {
+        synd = fbir ? nfw FbirSynd(pfrmits) : nfw NonfbirSynd(pfrmits);
+    }
+
+    /**
+     * Adquirfs b pfrmit from tiis sfmbpiorf, blodking until onf is
+     * bvbilbblf, or tif tirfbd is {@linkplbin Tirfbd#intfrrupt intfrruptfd}.
+     *
+     * <p>Adquirfs b pfrmit, if onf is bvbilbblf bnd rfturns immfdibtfly,
+     * rfduding tif numbfr of bvbilbblf pfrmits by onf.
+     *
+     * <p>If no pfrmit is bvbilbblf tifn tif durrfnt tirfbd bfdomfs
+     * disbblfd for tirfbd sdifduling purposfs bnd lifs dormbnt until
+     * onf of two tiings ibppfns:
      * <ul>
-     * <li>Some other thread invokes the {@link #release} method for this
-     * semaphore and the current thread is next to be assigned a permit; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread.
+     * <li>Somf otifr tirfbd invokfs tif {@link #rflfbsf} mftiod for tiis
+     * sfmbpiorf bnd tif durrfnt tirfbd is nfxt to bf bssignfd b pfrmit; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd.
      * </ul>
      *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * for a permit,
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting
+     * for b pfrmit,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd.
      *
-     * @throws InterruptedException if the current thread is interrupted
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
      */
-    public void acquire() throws InterruptedException {
-        sync.acquireSharedInterruptibly(1);
+    publid void bdquirf() tirows IntfrruptfdExdfption {
+        synd.bdquirfSibrfdIntfrruptibly(1);
     }
 
     /**
-     * Acquires a permit from this semaphore, blocking until one is
-     * available.
+     * Adquirfs b pfrmit from tiis sfmbpiorf, blodking until onf is
+     * bvbilbblf.
      *
-     * <p>Acquires a permit, if one is available and returns immediately,
-     * reducing the number of available permits by one.
+     * <p>Adquirfs b pfrmit, if onf is bvbilbblf bnd rfturns immfdibtfly,
+     * rfduding tif numbfr of bvbilbblf pfrmits by onf.
      *
-     * <p>If no permit is available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * some other thread invokes the {@link #release} method for this
-     * semaphore and the current thread is next to be assigned a permit.
+     * <p>If no pfrmit is bvbilbblf tifn tif durrfnt tirfbd bfdomfs
+     * disbblfd for tirfbd sdifduling purposfs bnd lifs dormbnt until
+     * somf otifr tirfbd invokfs tif {@link #rflfbsf} mftiod for tiis
+     * sfmbpiorf bnd tif durrfnt tirfbd is nfxt to bf bssignfd b pfrmit.
      *
-     * <p>If the current thread is {@linkplain Thread#interrupt interrupted}
-     * while waiting for a permit then it will continue to wait, but the
-     * time at which the thread is assigned a permit may change compared to
-     * the time it would have received the permit had no interruption
-     * occurred.  When the thread does return from this method its interrupt
-     * status will be set.
+     * <p>If tif durrfnt tirfbd is {@linkplbin Tirfbd#intfrrupt intfrruptfd}
+     * wiilf wbiting for b pfrmit tifn it will dontinuf to wbit, but tif
+     * timf bt wiidi tif tirfbd is bssignfd b pfrmit mby dibngf dompbrfd to
+     * tif timf it would ibvf rfdfivfd tif pfrmit ibd no intfrruption
+     * oddurrfd.  Wifn tif tirfbd dofs rfturn from tiis mftiod its intfrrupt
+     * stbtus will bf sft.
      */
-    public void acquireUninterruptibly() {
-        sync.acquireShared(1);
+    publid void bdquirfUnintfrruptibly() {
+        synd.bdquirfSibrfd(1);
     }
 
     /**
-     * Acquires a permit from this semaphore, only if one is available at the
-     * time of invocation.
+     * Adquirfs b pfrmit from tiis sfmbpiorf, only if onf is bvbilbblf bt tif
+     * timf of invodbtion.
      *
-     * <p>Acquires a permit, if one is available and returns immediately,
-     * with the value {@code true},
-     * reducing the number of available permits by one.
+     * <p>Adquirfs b pfrmit, if onf is bvbilbblf bnd rfturns immfdibtfly,
+     * witi tif vbluf {@dodf truf},
+     * rfduding tif numbfr of bvbilbblf pfrmits by onf.
      *
-     * <p>If no permit is available then this method will return
-     * immediately with the value {@code false}.
+     * <p>If no pfrmit is bvbilbblf tifn tiis mftiod will rfturn
+     * immfdibtfly witi tif vbluf {@dodf fblsf}.
      *
-     * <p>Even when this semaphore has been set to use a
-     * fair ordering policy, a call to {@code tryAcquire()} <em>will</em>
-     * immediately acquire a permit if one is available, whether or not
-     * other threads are currently waiting.
-     * This &quot;barging&quot; behavior can be useful in certain
-     * circumstances, even though it breaks fairness. If you want to honor
-     * the fairness setting, then use
-     * {@link #tryAcquire(long, TimeUnit) tryAcquire(0, TimeUnit.SECONDS) }
-     * which is almost equivalent (it also detects interruption).
+     * <p>Evfn wifn tiis sfmbpiorf ibs bffn sft to usf b
+     * fbir ordfring polidy, b dbll to {@dodf tryAdquirf()} <fm>will</fm>
+     * immfdibtfly bdquirf b pfrmit if onf is bvbilbblf, wiftifr or not
+     * otifr tirfbds brf durrfntly wbiting.
+     * Tiis &quot;bbrging&quot; bfibvior dbn bf usfful in dfrtbin
+     * dirdumstbndfs, fvfn tiougi it brfbks fbirnfss. If you wbnt to ionor
+     * tif fbirnfss sftting, tifn usf
+     * {@link #tryAdquirf(long, TimfUnit) tryAdquirf(0, TimfUnit.SECONDS) }
+     * wiidi is blmost fquivblfnt (it blso dftfdts intfrruption).
      *
-     * @return {@code true} if a permit was acquired and {@code false}
-     *         otherwise
+     * @rfturn {@dodf truf} if b pfrmit wbs bdquirfd bnd {@dodf fblsf}
+     *         otifrwisf
      */
-    public boolean tryAcquire() {
-        return sync.nonfairTryAcquireShared(1) >= 0;
+    publid boolfbn tryAdquirf() {
+        rfturn synd.nonfbirTryAdquirfSibrfd(1) >= 0;
     }
 
     /**
-     * Acquires a permit from this semaphore, if one becomes available
-     * within the given waiting time and the current thread has not
-     * been {@linkplain Thread#interrupt interrupted}.
+     * Adquirfs b pfrmit from tiis sfmbpiorf, if onf bfdomfs bvbilbblf
+     * witiin tif givfn wbiting timf bnd tif durrfnt tirfbd ibs not
+     * bffn {@linkplbin Tirfbd#intfrrupt intfrruptfd}.
      *
-     * <p>Acquires a permit, if one is available and returns immediately,
-     * with the value {@code true},
-     * reducing the number of available permits by one.
+     * <p>Adquirfs b pfrmit, if onf is bvbilbblf bnd rfturns immfdibtfly,
+     * witi tif vbluf {@dodf truf},
+     * rfduding tif numbfr of bvbilbblf pfrmits by onf.
      *
-     * <p>If no permit is available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * one of three things happens:
+     * <p>If no pfrmit is bvbilbblf tifn tif durrfnt tirfbd bfdomfs
+     * disbblfd for tirfbd sdifduling purposfs bnd lifs dormbnt until
+     * onf of tirff tiings ibppfns:
      * <ul>
-     * <li>Some other thread invokes the {@link #release} method for this
-     * semaphore and the current thread is next to be assigned a permit; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
-     * <li>The specified waiting time elapses.
-     * </ul>
-     *
-     * <p>If a permit is acquired then the value {@code true} is returned.
-     *
-     * <p>If the current thread:
-     * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * to acquire a permit,
-     * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
-     *
-     * <p>If the specified waiting time elapses then the value {@code false}
-     * is returned.  If the time is less than or equal to zero, the method
-     * will not wait at all.
-     *
-     * @param timeout the maximum time to wait for a permit
-     * @param unit the time unit of the {@code timeout} argument
-     * @return {@code true} if a permit was acquired and {@code false}
-     *         if the waiting time elapsed before a permit was acquired
-     * @throws InterruptedException if the current thread is interrupted
-     */
-    public boolean tryAcquire(long timeout, TimeUnit unit)
-        throws InterruptedException {
-        return sync.tryAcquireSharedNanos(1, unit.toNanos(timeout));
-    }
-
-    /**
-     * Releases a permit, returning it to the semaphore.
-     *
-     * <p>Releases a permit, increasing the number of available permits by
-     * one.  If any threads are trying to acquire a permit, then one is
-     * selected and given the permit that was just released.  That thread
-     * is (re)enabled for thread scheduling purposes.
-     *
-     * <p>There is no requirement that a thread that releases a permit must
-     * have acquired that permit by calling {@link #acquire}.
-     * Correct usage of a semaphore is established by programming convention
-     * in the application.
-     */
-    public void release() {
-        sync.releaseShared(1);
-    }
-
-    /**
-     * Acquires the given number of permits from this semaphore,
-     * blocking until all are available,
-     * or the thread is {@linkplain Thread#interrupt interrupted}.
-     *
-     * <p>Acquires the given number of permits, if they are available,
-     * and returns immediately, reducing the number of available permits
-     * by the given amount.
-     *
-     * <p>If insufficient permits are available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * one of two things happens:
-     * <ul>
-     * <li>Some other thread invokes one of the {@link #release() release}
-     * methods for this semaphore, the current thread is next to be assigned
-     * permits and the number of available permits satisfies this request; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread.
+     * <li>Somf otifr tirfbd invokfs tif {@link #rflfbsf} mftiod for tiis
+     * sfmbpiorf bnd tif durrfnt tirfbd is nfxt to bf bssignfd b pfrmit; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd; or
+     * <li>Tif spfdififd wbiting timf flbpsfs.
      * </ul>
      *
-     * <p>If the current thread:
+     * <p>If b pfrmit is bdquirfd tifn tif vbluf {@dodf truf} is rfturnfd.
+     *
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * for a permit,
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting
+     * to bdquirf b pfrmit,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
-     * Any permits that were to be assigned to this thread are instead
-     * assigned to other threads trying to acquire permits, as if
-     * permits had been made available by a call to {@link #release()}.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd.
      *
-     * @param permits the number of permits to acquire
-     * @throws InterruptedException if the current thread is interrupted
-     * @throws IllegalArgumentException if {@code permits} is negative
+     * <p>If tif spfdififd wbiting timf flbpsfs tifn tif vbluf {@dodf fblsf}
+     * is rfturnfd.  If tif timf is lfss tibn or fqubl to zfro, tif mftiod
+     * will not wbit bt bll.
+     *
+     * @pbrbm timfout tif mbximum timf to wbit for b pfrmit
+     * @pbrbm unit tif timf unit of tif {@dodf timfout} brgumfnt
+     * @rfturn {@dodf truf} if b pfrmit wbs bdquirfd bnd {@dodf fblsf}
+     *         if tif wbiting timf flbpsfd bfforf b pfrmit wbs bdquirfd
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
      */
-    public void acquire(int permits) throws InterruptedException {
-        if (permits < 0) throw new IllegalArgumentException();
-        sync.acquireSharedInterruptibly(permits);
+    publid boolfbn tryAdquirf(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption {
+        rfturn synd.tryAdquirfSibrfdNbnos(1, unit.toNbnos(timfout));
     }
 
     /**
-     * Acquires the given number of permits from this semaphore,
-     * blocking until all are available.
+     * Rflfbsfs b pfrmit, rfturning it to tif sfmbpiorf.
      *
-     * <p>Acquires the given number of permits, if they are available,
-     * and returns immediately, reducing the number of available permits
-     * by the given amount.
+     * <p>Rflfbsfs b pfrmit, indrfbsing tif numbfr of bvbilbblf pfrmits by
+     * onf.  If bny tirfbds brf trying to bdquirf b pfrmit, tifn onf is
+     * sflfdtfd bnd givfn tif pfrmit tibt wbs just rflfbsfd.  Tibt tirfbd
+     * is (rf)fnbblfd for tirfbd sdifduling purposfs.
      *
-     * <p>If insufficient permits are available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * some other thread invokes one of the {@link #release() release}
-     * methods for this semaphore, the current thread is next to be assigned
-     * permits and the number of available permits satisfies this request.
-     *
-     * <p>If the current thread is {@linkplain Thread#interrupt interrupted}
-     * while waiting for permits then it will continue to wait and its
-     * position in the queue is not affected.  When the thread does return
-     * from this method its interrupt status will be set.
-     *
-     * @param permits the number of permits to acquire
-     * @throws IllegalArgumentException if {@code permits} is negative
+     * <p>Tifrf is no rfquirfmfnt tibt b tirfbd tibt rflfbsfs b pfrmit must
+     * ibvf bdquirfd tibt pfrmit by dblling {@link #bdquirf}.
+     * Corrfdt usbgf of b sfmbpiorf is fstbblisifd by progrbmming donvfntion
+     * in tif bpplidbtion.
      */
-    public void acquireUninterruptibly(int permits) {
-        if (permits < 0) throw new IllegalArgumentException();
-        sync.acquireShared(permits);
+    publid void rflfbsf() {
+        synd.rflfbsfSibrfd(1);
     }
 
     /**
-     * Acquires the given number of permits from this semaphore, only
-     * if all are available at the time of invocation.
+     * Adquirfs tif givfn numbfr of pfrmits from tiis sfmbpiorf,
+     * blodking until bll brf bvbilbblf,
+     * or tif tirfbd is {@linkplbin Tirfbd#intfrrupt intfrruptfd}.
      *
-     * <p>Acquires the given number of permits, if they are available, and
-     * returns immediately, with the value {@code true},
-     * reducing the number of available permits by the given amount.
+     * <p>Adquirfs tif givfn numbfr of pfrmits, if tify brf bvbilbblf,
+     * bnd rfturns immfdibtfly, rfduding tif numbfr of bvbilbblf pfrmits
+     * by tif givfn bmount.
      *
-     * <p>If insufficient permits are available then this method will return
-     * immediately with the value {@code false} and the number of available
-     * permits is unchanged.
-     *
-     * <p>Even when this semaphore has been set to use a fair ordering
-     * policy, a call to {@code tryAcquire} <em>will</em>
-     * immediately acquire a permit if one is available, whether or
-     * not other threads are currently waiting.  This
-     * &quot;barging&quot; behavior can be useful in certain
-     * circumstances, even though it breaks fairness. If you want to
-     * honor the fairness setting, then use {@link #tryAcquire(int,
-     * long, TimeUnit) tryAcquire(permits, 0, TimeUnit.SECONDS) }
-     * which is almost equivalent (it also detects interruption).
-     *
-     * @param permits the number of permits to acquire
-     * @return {@code true} if the permits were acquired and
-     *         {@code false} otherwise
-     * @throws IllegalArgumentException if {@code permits} is negative
-     */
-    public boolean tryAcquire(int permits) {
-        if (permits < 0) throw new IllegalArgumentException();
-        return sync.nonfairTryAcquireShared(permits) >= 0;
-    }
-
-    /**
-     * Acquires the given number of permits from this semaphore, if all
-     * become available within the given waiting time and the current
-     * thread has not been {@linkplain Thread#interrupt interrupted}.
-     *
-     * <p>Acquires the given number of permits, if they are available and
-     * returns immediately, with the value {@code true},
-     * reducing the number of available permits by the given amount.
-     *
-     * <p>If insufficient permits are available then
-     * the current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until one of three things happens:
+     * <p>If insuffidifnt pfrmits brf bvbilbblf tifn tif durrfnt tirfbd bfdomfs
+     * disbblfd for tirfbd sdifduling purposfs bnd lifs dormbnt until
+     * onf of two tiings ibppfns:
      * <ul>
-     * <li>Some other thread invokes one of the {@link #release() release}
-     * methods for this semaphore, the current thread is next to be assigned
-     * permits and the number of available permits satisfies this request; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
-     * <li>The specified waiting time elapses.
+     * <li>Somf otifr tirfbd invokfs onf of tif {@link #rflfbsf() rflfbsf}
+     * mftiods for tiis sfmbpiorf, tif durrfnt tirfbd is nfxt to bf bssignfd
+     * pfrmits bnd tif numbfr of bvbilbblf pfrmits sbtisfifs tiis rfqufst; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd.
      * </ul>
      *
-     * <p>If the permits are acquired then the value {@code true} is returned.
-     *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * to acquire the permits,
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting
+     * for b pfrmit,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
-     * Any permits that were to be assigned to this thread, are instead
-     * assigned to other threads trying to acquire permits, as if
-     * the permits had been made available by a call to {@link #release()}.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd.
+     * Any pfrmits tibt wfrf to bf bssignfd to tiis tirfbd brf instfbd
+     * bssignfd to otifr tirfbds trying to bdquirf pfrmits, bs if
+     * pfrmits ibd bffn mbdf bvbilbblf by b dbll to {@link #rflfbsf()}.
      *
-     * <p>If the specified waiting time elapses then the value {@code false}
-     * is returned.  If the time is less than or equal to zero, the method
-     * will not wait at all.  Any permits that were to be assigned to this
-     * thread, are instead assigned to other threads trying to acquire
-     * permits, as if the permits had been made available by a call to
-     * {@link #release()}.
-     *
-     * @param permits the number of permits to acquire
-     * @param timeout the maximum time to wait for the permits
-     * @param unit the time unit of the {@code timeout} argument
-     * @return {@code true} if all permits were acquired and {@code false}
-     *         if the waiting time elapsed before all permits were acquired
-     * @throws InterruptedException if the current thread is interrupted
-     * @throws IllegalArgumentException if {@code permits} is negative
+     * @pbrbm pfrmits tif numbfr of pfrmits to bdquirf
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     * @tirows IllfgblArgumfntExdfption if {@dodf pfrmits} is nfgbtivf
      */
-    public boolean tryAcquire(int permits, long timeout, TimeUnit unit)
-        throws InterruptedException {
-        if (permits < 0) throw new IllegalArgumentException();
-        return sync.tryAcquireSharedNanos(permits, unit.toNanos(timeout));
+    publid void bdquirf(int pfrmits) tirows IntfrruptfdExdfption {
+        if (pfrmits < 0) tirow nfw IllfgblArgumfntExdfption();
+        synd.bdquirfSibrfdIntfrruptibly(pfrmits);
     }
 
     /**
-     * Releases the given number of permits, returning them to the semaphore.
+     * Adquirfs tif givfn numbfr of pfrmits from tiis sfmbpiorf,
+     * blodking until bll brf bvbilbblf.
      *
-     * <p>Releases the given number of permits, increasing the number of
-     * available permits by that amount.
-     * If any threads are trying to acquire permits, then one
-     * is selected and given the permits that were just released.
-     * If the number of available permits satisfies that thread's request
-     * then that thread is (re)enabled for thread scheduling purposes;
-     * otherwise the thread will wait until sufficient permits are available.
-     * If there are still permits available
-     * after this thread's request has been satisfied, then those permits
-     * are assigned in turn to other threads trying to acquire permits.
+     * <p>Adquirfs tif givfn numbfr of pfrmits, if tify brf bvbilbblf,
+     * bnd rfturns immfdibtfly, rfduding tif numbfr of bvbilbblf pfrmits
+     * by tif givfn bmount.
      *
-     * <p>There is no requirement that a thread that releases a permit must
-     * have acquired that permit by calling {@link Semaphore#acquire acquire}.
-     * Correct usage of a semaphore is established by programming convention
-     * in the application.
+     * <p>If insuffidifnt pfrmits brf bvbilbblf tifn tif durrfnt tirfbd bfdomfs
+     * disbblfd for tirfbd sdifduling purposfs bnd lifs dormbnt until
+     * somf otifr tirfbd invokfs onf of tif {@link #rflfbsf() rflfbsf}
+     * mftiods for tiis sfmbpiorf, tif durrfnt tirfbd is nfxt to bf bssignfd
+     * pfrmits bnd tif numbfr of bvbilbblf pfrmits sbtisfifs tiis rfqufst.
      *
-     * @param permits the number of permits to release
-     * @throws IllegalArgumentException if {@code permits} is negative
+     * <p>If tif durrfnt tirfbd is {@linkplbin Tirfbd#intfrrupt intfrruptfd}
+     * wiilf wbiting for pfrmits tifn it will dontinuf to wbit bnd its
+     * position in tif qufuf is not bfffdtfd.  Wifn tif tirfbd dofs rfturn
+     * from tiis mftiod its intfrrupt stbtus will bf sft.
+     *
+     * @pbrbm pfrmits tif numbfr of pfrmits to bdquirf
+     * @tirows IllfgblArgumfntExdfption if {@dodf pfrmits} is nfgbtivf
      */
-    public void release(int permits) {
-        if (permits < 0) throw new IllegalArgumentException();
-        sync.releaseShared(permits);
+    publid void bdquirfUnintfrruptibly(int pfrmits) {
+        if (pfrmits < 0) tirow nfw IllfgblArgumfntExdfption();
+        synd.bdquirfSibrfd(pfrmits);
     }
 
     /**
-     * Returns the current number of permits available in this semaphore.
+     * Adquirfs tif givfn numbfr of pfrmits from tiis sfmbpiorf, only
+     * if bll brf bvbilbblf bt tif timf of invodbtion.
      *
-     * <p>This method is typically used for debugging and testing purposes.
+     * <p>Adquirfs tif givfn numbfr of pfrmits, if tify brf bvbilbblf, bnd
+     * rfturns immfdibtfly, witi tif vbluf {@dodf truf},
+     * rfduding tif numbfr of bvbilbblf pfrmits by tif givfn bmount.
      *
-     * @return the number of permits available in this semaphore
+     * <p>If insuffidifnt pfrmits brf bvbilbblf tifn tiis mftiod will rfturn
+     * immfdibtfly witi tif vbluf {@dodf fblsf} bnd tif numbfr of bvbilbblf
+     * pfrmits is undibngfd.
+     *
+     * <p>Evfn wifn tiis sfmbpiorf ibs bffn sft to usf b fbir ordfring
+     * polidy, b dbll to {@dodf tryAdquirf} <fm>will</fm>
+     * immfdibtfly bdquirf b pfrmit if onf is bvbilbblf, wiftifr or
+     * not otifr tirfbds brf durrfntly wbiting.  Tiis
+     * &quot;bbrging&quot; bfibvior dbn bf usfful in dfrtbin
+     * dirdumstbndfs, fvfn tiougi it brfbks fbirnfss. If you wbnt to
+     * ionor tif fbirnfss sftting, tifn usf {@link #tryAdquirf(int,
+     * long, TimfUnit) tryAdquirf(pfrmits, 0, TimfUnit.SECONDS) }
+     * wiidi is blmost fquivblfnt (it blso dftfdts intfrruption).
+     *
+     * @pbrbm pfrmits tif numbfr of pfrmits to bdquirf
+     * @rfturn {@dodf truf} if tif pfrmits wfrf bdquirfd bnd
+     *         {@dodf fblsf} otifrwisf
+     * @tirows IllfgblArgumfntExdfption if {@dodf pfrmits} is nfgbtivf
      */
-    public int availablePermits() {
-        return sync.getPermits();
+    publid boolfbn tryAdquirf(int pfrmits) {
+        if (pfrmits < 0) tirow nfw IllfgblArgumfntExdfption();
+        rfturn synd.nonfbirTryAdquirfSibrfd(pfrmits) >= 0;
     }
 
     /**
-     * Acquires and returns all permits that are immediately available.
+     * Adquirfs tif givfn numbfr of pfrmits from tiis sfmbpiorf, if bll
+     * bfdomf bvbilbblf witiin tif givfn wbiting timf bnd tif durrfnt
+     * tirfbd ibs not bffn {@linkplbin Tirfbd#intfrrupt intfrruptfd}.
      *
-     * @return the number of permits acquired
+     * <p>Adquirfs tif givfn numbfr of pfrmits, if tify brf bvbilbblf bnd
+     * rfturns immfdibtfly, witi tif vbluf {@dodf truf},
+     * rfduding tif numbfr of bvbilbblf pfrmits by tif givfn bmount.
+     *
+     * <p>If insuffidifnt pfrmits brf bvbilbblf tifn
+     * tif durrfnt tirfbd bfdomfs disbblfd for tirfbd sdifduling
+     * purposfs bnd lifs dormbnt until onf of tirff tiings ibppfns:
+     * <ul>
+     * <li>Somf otifr tirfbd invokfs onf of tif {@link #rflfbsf() rflfbsf}
+     * mftiods for tiis sfmbpiorf, tif durrfnt tirfbd is nfxt to bf bssignfd
+     * pfrmits bnd tif numbfr of bvbilbblf pfrmits sbtisfifs tiis rfqufst; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd; or
+     * <li>Tif spfdififd wbiting timf flbpsfs.
+     * </ul>
+     *
+     * <p>If tif pfrmits brf bdquirfd tifn tif vbluf {@dodf truf} is rfturnfd.
+     *
+     * <p>If tif durrfnt tirfbd:
+     * <ul>
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting
+     * to bdquirf tif pfrmits,
+     * </ul>
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd.
+     * Any pfrmits tibt wfrf to bf bssignfd to tiis tirfbd, brf instfbd
+     * bssignfd to otifr tirfbds trying to bdquirf pfrmits, bs if
+     * tif pfrmits ibd bffn mbdf bvbilbblf by b dbll to {@link #rflfbsf()}.
+     *
+     * <p>If tif spfdififd wbiting timf flbpsfs tifn tif vbluf {@dodf fblsf}
+     * is rfturnfd.  If tif timf is lfss tibn or fqubl to zfro, tif mftiod
+     * will not wbit bt bll.  Any pfrmits tibt wfrf to bf bssignfd to tiis
+     * tirfbd, brf instfbd bssignfd to otifr tirfbds trying to bdquirf
+     * pfrmits, bs if tif pfrmits ibd bffn mbdf bvbilbblf by b dbll to
+     * {@link #rflfbsf()}.
+     *
+     * @pbrbm pfrmits tif numbfr of pfrmits to bdquirf
+     * @pbrbm timfout tif mbximum timf to wbit for tif pfrmits
+     * @pbrbm unit tif timf unit of tif {@dodf timfout} brgumfnt
+     * @rfturn {@dodf truf} if bll pfrmits wfrf bdquirfd bnd {@dodf fblsf}
+     *         if tif wbiting timf flbpsfd bfforf bll pfrmits wfrf bdquirfd
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     * @tirows IllfgblArgumfntExdfption if {@dodf pfrmits} is nfgbtivf
      */
-    public int drainPermits() {
-        return sync.drainPermits();
+    publid boolfbn tryAdquirf(int pfrmits, long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption {
+        if (pfrmits < 0) tirow nfw IllfgblArgumfntExdfption();
+        rfturn synd.tryAdquirfSibrfdNbnos(pfrmits, unit.toNbnos(timfout));
     }
 
     /**
-     * Shrinks the number of available permits by the indicated
-     * reduction. This method can be useful in subclasses that use
-     * semaphores to track resources that become unavailable. This
-     * method differs from {@code acquire} in that it does not block
-     * waiting for permits to become available.
+     * Rflfbsfs tif givfn numbfr of pfrmits, rfturning tifm to tif sfmbpiorf.
      *
-     * @param reduction the number of permits to remove
-     * @throws IllegalArgumentException if {@code reduction} is negative
+     * <p>Rflfbsfs tif givfn numbfr of pfrmits, indrfbsing tif numbfr of
+     * bvbilbblf pfrmits by tibt bmount.
+     * If bny tirfbds brf trying to bdquirf pfrmits, tifn onf
+     * is sflfdtfd bnd givfn tif pfrmits tibt wfrf just rflfbsfd.
+     * If tif numbfr of bvbilbblf pfrmits sbtisfifs tibt tirfbd's rfqufst
+     * tifn tibt tirfbd is (rf)fnbblfd for tirfbd sdifduling purposfs;
+     * otifrwisf tif tirfbd will wbit until suffidifnt pfrmits brf bvbilbblf.
+     * If tifrf brf still pfrmits bvbilbblf
+     * bftfr tiis tirfbd's rfqufst ibs bffn sbtisfifd, tifn tiosf pfrmits
+     * brf bssignfd in turn to otifr tirfbds trying to bdquirf pfrmits.
+     *
+     * <p>Tifrf is no rfquirfmfnt tibt b tirfbd tibt rflfbsfs b pfrmit must
+     * ibvf bdquirfd tibt pfrmit by dblling {@link Sfmbpiorf#bdquirf bdquirf}.
+     * Corrfdt usbgf of b sfmbpiorf is fstbblisifd by progrbmming donvfntion
+     * in tif bpplidbtion.
+     *
+     * @pbrbm pfrmits tif numbfr of pfrmits to rflfbsf
+     * @tirows IllfgblArgumfntExdfption if {@dodf pfrmits} is nfgbtivf
      */
-    protected void reducePermits(int reduction) {
-        if (reduction < 0) throw new IllegalArgumentException();
-        sync.reducePermits(reduction);
+    publid void rflfbsf(int pfrmits) {
+        if (pfrmits < 0) tirow nfw IllfgblArgumfntExdfption();
+        synd.rflfbsfSibrfd(pfrmits);
     }
 
     /**
-     * Returns {@code true} if this semaphore has fairness set true.
+     * Rfturns tif durrfnt numbfr of pfrmits bvbilbblf in tiis sfmbpiorf.
      *
-     * @return {@code true} if this semaphore has fairness set true
+     * <p>Tiis mftiod is typidblly usfd for dfbugging bnd tfsting purposfs.
+     *
+     * @rfturn tif numbfr of pfrmits bvbilbblf in tiis sfmbpiorf
      */
-    public boolean isFair() {
-        return sync instanceof FairSync;
+    publid int bvbilbblfPfrmits() {
+        rfturn synd.gftPfrmits();
     }
 
     /**
-     * Queries whether any threads are waiting to acquire. Note that
-     * because cancellations may occur at any time, a {@code true}
-     * return does not guarantee that any other thread will ever
-     * acquire.  This method is designed primarily for use in
-     * monitoring of the system state.
+     * Adquirfs bnd rfturns bll pfrmits tibt brf immfdibtfly bvbilbblf.
      *
-     * @return {@code true} if there may be other threads waiting to
-     *         acquire the lock
+     * @rfturn tif numbfr of pfrmits bdquirfd
      */
-    public final boolean hasQueuedThreads() {
-        return sync.hasQueuedThreads();
+    publid int drbinPfrmits() {
+        rfturn synd.drbinPfrmits();
     }
 
     /**
-     * Returns an estimate of the number of threads waiting to acquire.
-     * The value is only an estimate because the number of threads may
-     * change dynamically while this method traverses internal data
-     * structures.  This method is designed for use in monitoring of the
-     * system state, not for synchronization control.
+     * Sirinks tif numbfr of bvbilbblf pfrmits by tif indidbtfd
+     * rfdudtion. Tiis mftiod dbn bf usfful in subdlbssfs tibt usf
+     * sfmbpiorfs to trbdk rfsourdfs tibt bfdomf unbvbilbblf. Tiis
+     * mftiod difffrs from {@dodf bdquirf} in tibt it dofs not blodk
+     * wbiting for pfrmits to bfdomf bvbilbblf.
      *
-     * @return the estimated number of threads waiting for this lock
+     * @pbrbm rfdudtion tif numbfr of pfrmits to rfmovf
+     * @tirows IllfgblArgumfntExdfption if {@dodf rfdudtion} is nfgbtivf
      */
-    public final int getQueueLength() {
-        return sync.getQueueLength();
+    protfdtfd void rfdudfPfrmits(int rfdudtion) {
+        if (rfdudtion < 0) tirow nfw IllfgblArgumfntExdfption();
+        synd.rfdudfPfrmits(rfdudtion);
     }
 
     /**
-     * Returns a collection containing threads that may be waiting to acquire.
-     * Because the actual set of threads may change dynamically while
-     * constructing this result, the returned collection is only a best-effort
-     * estimate.  The elements of the returned collection are in no particular
-     * order.  This method is designed to facilitate construction of
-     * subclasses that provide more extensive monitoring facilities.
+     * Rfturns {@dodf truf} if tiis sfmbpiorf ibs fbirnfss sft truf.
      *
-     * @return the collection of threads
+     * @rfturn {@dodf truf} if tiis sfmbpiorf ibs fbirnfss sft truf
      */
-    protected Collection<Thread> getQueuedThreads() {
-        return sync.getQueuedThreads();
+    publid boolfbn isFbir() {
+        rfturn synd instbndfof FbirSynd;
     }
 
     /**
-     * Returns a string identifying this semaphore, as well as its state.
-     * The state, in brackets, includes the String {@code "Permits ="}
-     * followed by the number of permits.
+     * Qufrifs wiftifr bny tirfbds brf wbiting to bdquirf. Notf tibt
+     * bfdbusf dbndfllbtions mby oddur bt bny timf, b {@dodf truf}
+     * rfturn dofs not gubrbntff tibt bny otifr tirfbd will fvfr
+     * bdquirf.  Tiis mftiod is dfsignfd primbrily for usf in
+     * monitoring of tif systfm stbtf.
      *
-     * @return a string identifying this semaphore, as well as its state
+     * @rfturn {@dodf truf} if tifrf mby bf otifr tirfbds wbiting to
+     *         bdquirf tif lodk
      */
-    public String toString() {
-        return super.toString() + "[Permits = " + sync.getPermits() + "]";
+    publid finbl boolfbn ibsQufufdTirfbds() {
+        rfturn synd.ibsQufufdTirfbds();
+    }
+
+    /**
+     * Rfturns bn fstimbtf of tif numbfr of tirfbds wbiting to bdquirf.
+     * Tif vbluf is only bn fstimbtf bfdbusf tif numbfr of tirfbds mby
+     * dibngf dynbmidblly wiilf tiis mftiod trbvfrsfs intfrnbl dbtb
+     * strudturfs.  Tiis mftiod is dfsignfd for usf in monitoring of tif
+     * systfm stbtf, not for syndironizbtion dontrol.
+     *
+     * @rfturn tif fstimbtfd numbfr of tirfbds wbiting for tiis lodk
+     */
+    publid finbl int gftQufufLfngti() {
+        rfturn synd.gftQufufLfngti();
+    }
+
+    /**
+     * Rfturns b dollfdtion dontbining tirfbds tibt mby bf wbiting to bdquirf.
+     * Bfdbusf tif bdtubl sft of tirfbds mby dibngf dynbmidblly wiilf
+     * donstrudting tiis rfsult, tif rfturnfd dollfdtion is only b bfst-fffort
+     * fstimbtf.  Tif flfmfnts of tif rfturnfd dollfdtion brf in no pbrtidulbr
+     * ordfr.  Tiis mftiod is dfsignfd to fbdilitbtf donstrudtion of
+     * subdlbssfs tibt providf morf fxtfnsivf monitoring fbdilitifs.
+     *
+     * @rfturn tif dollfdtion of tirfbds
+     */
+    protfdtfd Collfdtion<Tirfbd> gftQufufdTirfbds() {
+        rfturn synd.gftQufufdTirfbds();
+    }
+
+    /**
+     * Rfturns b string idfntifying tiis sfmbpiorf, bs wfll bs its stbtf.
+     * Tif stbtf, in brbdkfts, indludfs tif String {@dodf "Pfrmits ="}
+     * followfd by tif numbfr of pfrmits.
+     *
+     * @rfturn b string idfntifying tiis sfmbpiorf, bs wfll bs its stbtf
+     */
+    publid String toString() {
+        rfturn supfr.toString() + "[Pfrmits = " + synd.gftPfrmits() + "]";
     }
 }

@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.bordfr;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Componfnt;
+
+/**
+ * Intfrfbdf dfsdribing bn objfdt dbpbblf of rfndfring b bordfr
+ * bround thf fdgfs of b swing domponfnt.
+ * For fxbmplfs of using bordfrs sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/bordfr.htmll">How to Usf Bordfrs</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ * <p>
+ * In thf Swing domponfnt sft, bordfrs supfrdfdf Insfts bs thf
+ * mfdhbnism for drfbting b (dfdorbtfd or plbin) brfb bround thf
+ * fdgf of b domponfnt.
+ * <p>
+ * Usbgf Notfs:
+ * <ul>
+ * <li>Usf EmptyBordfr to drfbtf b plbin bordfr (this mfdhbnism
+ *     rfplbdfs its prfdfdfssor, <dodf>sftInsfts</dodf>).
+ * <li>Usf CompoundBordfr to nfst multiplf bordfr objfdts, drfbting
+ *     b singlf, dombinfd bordfr.
+ * <li>Bordfr instbndfs brf dfsignfd to bf shbrfd. Rbthfr thbn drfbting
+ *     b nfw bordfr objfdt using onf of bordfr dlbssfs, usf thf
+ *     BordfrFbdtory mfthods, whidh produdfs b shbrfd instbndf of thf
+ *     dommon bordfr typfs.
+ * <li>Additionbl bordfr stylfs indludf BfvflBordfr, SoftBfvflBordfr,
+ *     EtdhfdBordfr, LinfBordfr, TitlfdBordfr, bnd MbttfBordfr.
+ * <li>To drfbtf b nfw bordfr dlbss, subdlbss AbstrbdtBordfr.
+ * </ul>
+ *
+ * @buthor Dbvid Klobb
+ * @buthor Amy Fowlfr
+ * @sff jbvbx.swing.BordfrFbdtory
+ * @sff EmptyBordfr
+ * @sff CompoundBordfr
+ */
+publid intfrfbdf Bordfr
+{
+    /**
+     * Pbints thf bordfr for thf spfdififd domponfnt with thf spfdififd
+     * position bnd sizf.
+     *
+     * @pbrbm d thf domponfnt for whidh this bordfr is bfing pbintfd
+     * @pbrbm g thf pbint grbphids
+     * @pbrbm x thf x position of thf pbintfd bordfr
+     * @pbrbm y thf y position of thf pbintfd bordfr
+     * @pbrbm width thf width of thf pbintfd bordfr
+     * @pbrbm hfight thf hfight of thf pbintfd bordfr
+     */
+    void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int width, int hfight);
+
+    /**
+     * Rfturns thf insfts of thf bordfr.
+     *
+     * @pbrbm d thf domponfnt for whidh this bordfr insfts vbluf bpplifs
+     * @rfturn bn {@dodf Insfts} objfdt dontbining thf insfts from top, lfft,
+     *         bottom bnd right of this {@dodf Bordfr}
+     */
+    Insfts gftBordfrInsfts(Componfnt d);
+
+    /**
+     * Rfturns whfthfr or not thf bordfr is opbquf.  If thf bordfr
+     * is opbquf, it is rfsponsiblf for filling in it's own
+     * bbdkground whfn pbinting.
+     *
+     * @rfturn truf if this {@dodf Bordfr} is opbquf
+     */
+    boolfbn isBordfrOpbquf();
+}

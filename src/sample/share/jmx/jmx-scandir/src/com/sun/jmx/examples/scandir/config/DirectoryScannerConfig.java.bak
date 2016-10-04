@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,362 +30,362 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir.config;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Logger;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlList;
-import javax.xml.bind.annotation.XmlRootElement;
+import jbvb.io.Filf;
+import jbvb.io.FilfFiltfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.logging.Loggfr;
+import jbvbx.xml.bind.bnnotbtion.XmlAttributf;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfnt;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfntRff;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfntWrbppfr;
+import jbvbx.xml.bind.bnnotbtion.XmlList;
+import jbvbx.xml.bind.bnnotbtion.XmlRootElfmfnt;
 
 /**
- * The <code>DirectoryScannerConfig</code> Java Bean is used to model
- * the configuration of a {@link
- * com.sun.jmx.examples.scandir.DirectoryScannerMXBean}.
+ * Tif <dodf>DirfdtorySdbnnfrConfig</dodf> Jbvb Bfbn is usfd to modfl
+ * tif donfigurbtion of b {@link
+ * dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfrMXBfbn}.
  * <p>
- * This class is annotated for XML binding.
+ * Tiis dlbss is bnnotbtfd for XML binding.
  * </p>
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-@XmlRootElement(name="DirectoryScanner",
-        namespace=XmlConfigUtils.NAMESPACE)
-public class DirectoryScannerConfig {
+@XmlRootElfmfnt(nbmf="DirfdtorySdbnnfr",
+        nbmfspbdf=XmlConfigUtils.NAMESPACE)
+publid dlbss DirfdtorySdbnnfrConfig {
 
     //
-    // A logger for this class.
+    // A loggfr for tiis dlbss.
     //
-    // private static final Logger LOG =
-    //        Logger.getLogger(DirectoryScannerConfig.class.getName());
+    // privbtf stbtid finbl Loggfr LOG =
+    //        Loggfr.gftLoggfr(DirfdtorySdbnnfrConfig.dlbss.gftNbmf());
 
     /**
-     * This enumeration is used to model the actions that a {@link
-     * com.sun.jmx.examples.scandir.DirectoryScannerMXBean
-     * DirectoryScannerMXBean} should take when a file matches its set
-     * of matching criteria.
+     * Tiis fnumfrbtion is usfd to modfl tif bdtions tibt b {@link
+     * dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfrMXBfbn
+     * DirfdtorySdbnnfrMXBfbn} siould tbkf wifn b filf mbtdifs its sft
+     * of mbtdiing dritfrib.
      **/
-    public enum Action {
+    publid fnum Adtion {
         /**
-         * Indicates that the {@code DirectoryScannerMXBean} should
-         * emit a {@code Notification} when a matching file is found.
+         * Indidbtfs tibt tif {@dodf DirfdtorySdbnnfrMXBfbn} siould
+         * fmit b {@dodf Notifidbtion} wifn b mbtdiing filf is found.
          */
         NOTIFY,
         /**
-         * Indicates that the {@code DirectoryScannerMXBean} should
-         * delete the matching files.
+         * Indidbtfs tibt tif {@dodf DirfdtorySdbnnfrMXBfbn} siould
+         * dflftf tif mbtdiing filfs.
          */
         DELETE,
         /**
-         * Indicates that the {@code DirectoryScannerMXBean} should
-         * log the actions that were taken on the matching files.
+         * Indidbtfs tibt tif {@dodf DirfdtorySdbnnfrMXBfbn} siould
+         * log tif bdtions tibt wfrf tbkfn on tif mbtdiing filfs.
          */
         LOGRESULT };
 
-    // A short name for the Directory Scanner
-    // This name is used for the value of the {@code name=} key in the
-    // {@code DirectoryScannerMXBean} ObjectName.
-    private String name;
+    // A siort nbmf for tif Dirfdtory Sdbnnfr
+    // Tiis nbmf is usfd for tif vbluf of tif {@dodf nbmf=} kfy in tif
+    // {@dodf DirfdtorySdbnnfrMXBfbn} ObjfdtNbmf.
+    privbtf String nbmf;
 
-    // The root directory of the Directory Scanner
-    private String rootDirectory;
+    // Tif root dirfdtory of tif Dirfdtory Sdbnnfr
+    privbtf String rootDirfdtory;
 
-    // List of filters identifying files that should be selected.
-    // A file is selected if at least one filter matches.
+    // List of filtfrs idfntifying filfs tibt siould bf sflfdtfd.
+    // A filf is sflfdtfd if bt lfbst onf filtfr mbtdifs.
     //
-    private final List<FileMatch> includeFiles =
-            new ArrayList<FileMatch>();
+    privbtf finbl List<FilfMbtdi> indludfFilfs =
+            nfw ArrbyList<FilfMbtdi>();
 
-    // List of filters identifying files that should be excluded.
-    // A file is excluded if at least one filter matches.
+    // List of filtfrs idfntifying filfs tibt siould bf fxdludfd.
+    // A filf is fxdludfd if bt lfbst onf filtfr mbtdifs.
     //
-    private final List<FileMatch> excludeFiles =
-            new ArrayList<FileMatch>();
+    privbtf finbl List<FilfMbtdi> fxdludfFilfs =
+            nfw ArrbyList<FilfMbtdi>();
 
 
-    // The actions that this Directory Scanner should carry out when a
-    // file is selected. Default is NOTIFY and LOGRESULT.
+    // Tif bdtions tibt tiis Dirfdtory Sdbnnfr siould dbrry out wifn b
+    // filf is sflfdtfd. Dffbult is NOTIFY bnd LOGRESULT.
     //
-    private Action[] actions = { Action.NOTIFY, Action.LOGRESULT };
+    privbtf Adtion[] bdtions = { Adtion.NOTIFY, Adtion.LOGRESULT };
 
     /**
-     * Creates a new instance of {@code DirectoryScannerConfig}.
-     * We keep this empty constructor to make XML binding easier.
-     * You shouldn't use this constructor directly:
-     * use {@link #DirectoryScannerConfig(String)
-     * DirectoryScannerConfig(String name)} instead.
-     * @deprecated <p>Tagged deprecated so that a compiler warning is issued.
-     *             Use {@link #DirectoryScannerConfig(String)
-     *                  DirectoryScannerConfig(String name)} instead.
+     * Crfbtfs b nfw instbndf of {@dodf DirfdtorySdbnnfrConfig}.
+     * Wf kffp tiis fmpty donstrudtor to mbkf XML binding fbsifr.
+     * You siouldn't usf tiis donstrudtor dirfdtly:
+     * usf {@link #DirfdtorySdbnnfrConfig(String)
+     * DirfdtorySdbnnfrConfig(String nbmf)} instfbd.
+     * @dfprfdbtfd <p>Tbggfd dfprfdbtfd so tibt b dompilfr wbrning is issufd.
+     *             Usf {@link #DirfdtorySdbnnfrConfig(String)
+     *                  DirfdtorySdbnnfrConfig(String nbmf)} instfbd.
      *             </p>
      **/
-    public DirectoryScannerConfig() {
-        this(null);
+    publid DirfdtorySdbnnfrConfig() {
+        tiis(null);
     }
 
     /**
-     * Creates a new instance of {@code DirectoryScannerConfig}.
-     * @param name A short name for the Directory Scanner. This name is used for
-     *        the value of the {@code name=} key in the
-     *        {@code DirectoryScannerMXBean} ObjectName.
+     * Crfbtfs b nfw instbndf of {@dodf DirfdtorySdbnnfrConfig}.
+     * @pbrbm nbmf A siort nbmf for tif Dirfdtory Sdbnnfr. Tiis nbmf is usfd for
+     *        tif vbluf of tif {@dodf nbmf=} kfy in tif
+     *        {@dodf DirfdtorySdbnnfrMXBfbn} ObjfdtNbmf.
      **/
-    public DirectoryScannerConfig(String name) {
-        this.name = name;
-        rootDirectory = null;
+    publid DirfdtorySdbnnfrConfig(String nbmf) {
+        tiis.nbmf = nbmf;
+        rootDirfdtory = null;
     }
 
     /**
-     * Gets the root directory configured for that Directory Scanner.
-     * @return the root directory at which the directory scanner should start
-     *         scanning.
+     * Gfts tif root dirfdtory donfigurfd for tibt Dirfdtory Sdbnnfr.
+     * @rfturn tif root dirfdtory bt wiidi tif dirfdtory sdbnnfr siould stbrt
+     *         sdbnning.
      **/
-    @XmlElement(name="RootDirectory",namespace=XmlConfigUtils.NAMESPACE)
-    public String getRootDirectory() {
-        return rootDirectory;
+    @XmlElfmfnt(nbmf="RootDirfdtory",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid String gftRootDirfdtory() {
+        rfturn rootDirfdtory;
     }
 
     /**
-     * Configures a root directory for that Directory Scanner.
-     * @param root The root directory at which the directory scanner should
-     *        start scanning.
+     * Configurfs b root dirfdtory for tibt Dirfdtory Sdbnnfr.
+     * @pbrbm root Tif root dirfdtory bt wiidi tif dirfdtory sdbnnfr siould
+     *        stbrt sdbnning.
      **/
-    public void setRootDirectory(String root) {
-        rootDirectory=root;
+    publid void sftRootDirfdtory(String root) {
+        rootDirfdtory=root;
     }
 
 
     /**
-     * Gets the short name of this directory scanner.
+     * Gfts tif siort nbmf of tiis dirfdtory sdbnnfr.
      *
      * <p>
-     * This name is used for the value of the {@code name=} key in the
-     * {@code DirectoryScannerMXBean} ObjectName.
+     * Tiis nbmf is usfd for tif vbluf of tif {@dodf nbmf=} kfy in tif
+     * {@dodf DirfdtorySdbnnfrMXBfbn} ObjfdtNbmf.
      * </p>
      *
-     * @return the short name of this directory scanner.
+     * @rfturn tif siort nbmf of tiis dirfdtory sdbnnfr.
      **/
-    @XmlAttribute(name="name",required=true)
-    public String getName() {
-        return this.name;
+    @XmlAttributf(nbmf="nbmf",rfquirfd=truf)
+    publid String gftNbmf() {
+        rfturn tiis.nbmf;
     }
 
     /**
-     * Setter for property {@link #getName() name}.
-     * Once set its value cannot change.
-     * @param name New value of property name.
-     * @throws IllegalArgumentException if {@code name} is already set to a
-     *         different non null value.
+     * Sfttfr for propfrty {@link #gftNbmf() nbmf}.
+     * Ondf sft its vbluf dbnnot dibngf.
+     * @pbrbm nbmf Nfw vbluf of propfrty nbmf.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is blrfbdy sft to b
+     *         difffrfnt non null vbluf.
      */
-    public void setName(String name) {
-        if (this.name == null)
-            this.name = name;
-        else if (name == null)
-            throw new IllegalArgumentException("name=null");
-        else if (!name.equals(this.name))
-            throw new IllegalArgumentException("name="+name);
+    publid void sftNbmf(String nbmf) {
+        if (tiis.nbmf == null)
+            tiis.nbmf = nbmf;
+        flsf if (nbmf == null)
+            tirow nfw IllfgblArgumfntExdfption("nbmf=null");
+        flsf if (!nbmf.fqubls(tiis.nbmf))
+            tirow nfw IllfgblArgumfntExdfption("nbmf="+nbmf);
     }
 
     /**
-     * Getter for property includeFiles.
-     * This is an array of filters identifying files that should be selected.
-     * A file is selected if at least one filter matches.
-     * @return Value of property includeFiles.
+     * Gfttfr for propfrty indludfFilfs.
+     * Tiis is bn brrby of filtfrs idfntifying filfs tibt siould bf sflfdtfd.
+     * A filf is sflfdtfd if bt lfbst onf filtfr mbtdifs.
+     * @rfturn Vbluf of propfrty indludfFilfs.
      */
-    @XmlElementWrapper(name="IncludeFiles",
-            namespace=XmlConfigUtils.NAMESPACE)
-    @XmlElementRef
-    public FileMatch[] getIncludeFiles() {
-        synchronized(includeFiles) {
-            return includeFiles.toArray(new FileMatch[0]);
+    @XmlElfmfntWrbppfr(nbmf="IndludfFilfs",
+            nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    @XmlElfmfntRff
+    publid FilfMbtdi[] gftIndludfFilfs() {
+        syndironizfd(indludfFilfs) {
+            rfturn indludfFilfs.toArrby(nfw FilfMbtdi[0]);
         }
     }
 
     /**
-     * Adds a filter to the includeFiles property.
-     * A file is selected if at least one filter matches.
-     * @param include A filter identifying files that should be selected.
+     * Adds b filtfr to tif indludfFilfs propfrty.
+     * A filf is sflfdtfd if bt lfbst onf filtfr mbtdifs.
+     * @pbrbm indludf A filtfr idfntifying filfs tibt siould bf sflfdtfd.
      */
-    public void addIncludeFiles(FileMatch include) {
-        if (include == null)
-            throw new IllegalArgumentException("null");
-        synchronized (includeFiles) {
-            includeFiles.add(include);
+    publid void bddIndludfFilfs(FilfMbtdi indludf) {
+        if (indludf == null)
+            tirow nfw IllfgblArgumfntExdfption("null");
+        syndironizfd (indludfFilfs) {
+            indludfFilfs.bdd(indludf);
         }
     }
 
     /**
-     * Setter for property includeFiles.
-     * @param includeFiles New value of property includeFiles.
-     *        This is an array of filters identifying files
-     *        that should be selected. A file is selected if at least
-     *        one filter matches.
+     * Sfttfr for propfrty indludfFilfs.
+     * @pbrbm indludfFilfs Nfw vbluf of propfrty indludfFilfs.
+     *        Tiis is bn brrby of filtfrs idfntifying filfs
+     *        tibt siould bf sflfdtfd. A filf is sflfdtfd if bt lfbst
+     *        onf filtfr mbtdifs.
      */
-    public void setIncludeFiles(FileMatch[] includeFiles) {
-        synchronized (this.includeFiles) {
-            this.includeFiles.clear();
-            if (includeFiles == null) return;
-            this.includeFiles.addAll(Arrays.asList(includeFiles));
+    publid void sftIndludfFilfs(FilfMbtdi[] indludfFilfs) {
+        syndironizfd (tiis.indludfFilfs) {
+            tiis.indludfFilfs.dlfbr();
+            if (indludfFilfs == null) rfturn;
+            tiis.indludfFilfs.bddAll(Arrbys.bsList(indludfFilfs));
         }
     }
 
     /**
-     * Getter for property excludeFiles.
-     * This is an array of filters identifying files that should be excluded.
-     * A file is excluded if at least one filter matches.
-     * @return Value of property excludeFiles.
+     * Gfttfr for propfrty fxdludfFilfs.
+     * Tiis is bn brrby of filtfrs idfntifying filfs tibt siould bf fxdludfd.
+     * A filf is fxdludfd if bt lfbst onf filtfr mbtdifs.
+     * @rfturn Vbluf of propfrty fxdludfFilfs.
      */
-    @XmlElementWrapper(name="ExcludeFiles",
-            namespace=XmlConfigUtils.NAMESPACE)
-    @XmlElementRef
-    public FileMatch[] getExcludeFiles() {
-        synchronized(excludeFiles) {
-            return excludeFiles.toArray(new FileMatch[0]);
+    @XmlElfmfntWrbppfr(nbmf="ExdludfFilfs",
+            nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    @XmlElfmfntRff
+    publid FilfMbtdi[] gftExdludfFilfs() {
+        syndironizfd(fxdludfFilfs) {
+            rfturn fxdludfFilfs.toArrby(nfw FilfMbtdi[0]);
         }
     }
 
     /**
-     * Setter for property excludeFiles.
-     * @param excludeFiles New value of property excludeFiles.
-     *        This is an array of filters identifying files
-     *        that should be excluded. A file is excluded if at least
-     *        one filter matches.
+     * Sfttfr for propfrty fxdludfFilfs.
+     * @pbrbm fxdludfFilfs Nfw vbluf of propfrty fxdludfFilfs.
+     *        Tiis is bn brrby of filtfrs idfntifying filfs
+     *        tibt siould bf fxdludfd. A filf is fxdludfd if bt lfbst
+     *        onf filtfr mbtdifs.
      */
-    public void setExcludeFiles(FileMatch[] excludeFiles) {
-        synchronized (this.excludeFiles) {
-            this.excludeFiles.clear();
-            if (excludeFiles == null) return;
-            this.excludeFiles.addAll(Arrays.asList(excludeFiles));
+    publid void sftExdludfFilfs(FilfMbtdi[] fxdludfFilfs) {
+        syndironizfd (tiis.fxdludfFilfs) {
+            tiis.fxdludfFilfs.dlfbr();
+            if (fxdludfFilfs == null) rfturn;
+            tiis.fxdludfFilfs.bddAll(Arrbys.bsList(fxdludfFilfs));
         }
     }
 
     /**
-     * Adds a filter to the excludeFiles property.
-     * A file is excluded if at least one filter matches.
-     * @param exclude A filter identifying files that should be excluded.
+     * Adds b filtfr to tif fxdludfFilfs propfrty.
+     * A filf is fxdludfd if bt lfbst onf filtfr mbtdifs.
+     * @pbrbm fxdludf A filtfr idfntifying filfs tibt siould bf fxdludfd.
      */
-    public void addExcludeFiles(FileMatch exclude) {
-        if (exclude == null)
-            throw new IllegalArgumentException("null");
-        synchronized (excludeFiles) {
-            this.excludeFiles.add(exclude);
+    publid void bddExdludfFilfs(FilfMbtdi fxdludf) {
+        if (fxdludf == null)
+            tirow nfw IllfgblArgumfntExdfption("null");
+        syndironizfd (fxdludfFilfs) {
+            tiis.fxdludfFilfs.bdd(fxdludf);
         }
     }
 
     /**
-     * Gets the list of actions that this Directory Scanner should carry
-     * out when a file is selected. Default is NOTIFY and LOGRESULT.
+     * Gfts tif list of bdtions tibt tiis Dirfdtory Sdbnnfr siould dbrry
+     * out wifn b filf is sflfdtfd. Dffbult is NOTIFY bnd LOGRESULT.
 
-     * @return The list of actions that this Directory Scanner should carry
-     * out when a file is selected.
+     * @rfturn Tif list of bdtions tibt tiis Dirfdtory Sdbnnfr siould dbrry
+     * out wifn b filf is sflfdtfd.
      */
-    @XmlElement(name="Actions",namespace=XmlConfigUtils.NAMESPACE)
+    @XmlElfmfnt(nbmf="Adtions",nbmfspbdf=XmlConfigUtils.NAMESPACE)
     @XmlList
-    public Action[] getActions() {
-       return  (actions == null)?null:actions.clone();
+    publid Adtion[] gftAdtions() {
+       rfturn  (bdtions == null)?null:bdtions.dlonf();
     }
 
     /**
-     * Sets the list of actions that this Directory Scanner should carry
-     * out when a file is selected. Default is NOTIFY and LOGRESULT.
+     * Sfts tif list of bdtions tibt tiis Dirfdtory Sdbnnfr siould dbrry
+     * out wifn b filf is sflfdtfd. Dffbult is NOTIFY bnd LOGRESULT.
 
-     * @param actions The list of actions that this Directory Scanner should
-     * carry out when a file is selected.
+     * @pbrbm bdtions Tif list of bdtions tibt tiis Dirfdtory Sdbnnfr siould
+     * dbrry out wifn b filf is sflfdtfd.
      */
-    public void setActions(Action[] actions) {
-        this.actions = (actions == null)?null:actions.clone();
+    publid void sftAdtions(Adtion[] bdtions) {
+        tiis.bdtions = (bdtions == null)?null:bdtions.dlonf();
     }
 
     /**
-     * Builds a {@code FileFilter} from the {@link #getIncludeFiles
-     * includeFiles} and {@link #getExcludeFiles excludeFiles} lists.
-     * A file will be accepted if it is selected by at least one of
-     * the filters in {@link #getIncludeFiles includeFiles}, and is
-     * not excluded by any of the filters in {@link
-     * #getExcludeFiles excludeFiles}. If there's no filter in
-     * {@link #getIncludeFiles includeFiles}, then a file is accepted
-     * simply if it is not excluded by any of the filters in {@link
-     * #getExcludeFiles excludeFiles}.
+     * Builds b {@dodf FilfFiltfr} from tif {@link #gftIndludfFilfs
+     * indludfFilfs} bnd {@link #gftExdludfFilfs fxdludfFilfs} lists.
+     * A filf will bf bddfptfd if it is sflfdtfd by bt lfbst onf of
+     * tif filtfrs in {@link #gftIndludfFilfs indludfFilfs}, bnd is
+     * not fxdludfd by bny of tif filtfrs in {@link
+     * #gftExdludfFilfs fxdludfFilfs}. If tifrf's no filtfr in
+     * {@link #gftIndludfFilfs indludfFilfs}, tifn b filf is bddfptfd
+     * simply if it is not fxdludfd by bny of tif filtfrs in {@link
+     * #gftExdludfFilfs fxdludfFilfs}.
      *
-     * @return A new {@code FileFilter}  created from the current snapshot
-     *         of the {@link #getIncludeFiles
-     * includeFiles} and {@link #getExcludeFiles excludeFiles} lists.
-     *         Later modification of these lists will not affect the
-     *         returned {@code FileFilter}.
+     * @rfturn A nfw {@dodf FilfFiltfr}  drfbtfd from tif durrfnt snbpsiot
+     *         of tif {@link #gftIndludfFilfs
+     * indludfFilfs} bnd {@link #gftExdludfFilfs fxdludfFilfs} lists.
+     *         Lbtfr modifidbtion of tifsf lists will not bfffdt tif
+     *         rfturnfd {@dodf FilfFiltfr}.
      **/
-    public FileFilter buildFileFilter() {
-        final FileFilter[] ins = getIncludeFiles();
-        final FileFilter[] outs = getExcludeFiles();
-        final FileFilter filter = new FileFilter() {
-            public boolean accept(File f) {
-                boolean result = false;
-                // If no include filter, all files are included.
+    publid FilfFiltfr buildFilfFiltfr() {
+        finbl FilfFiltfr[] ins = gftIndludfFilfs();
+        finbl FilfFiltfr[] outs = gftExdludfFilfs();
+        finbl FilfFiltfr filtfr = nfw FilfFiltfr() {
+            publid boolfbn bddfpt(Filf f) {
+                boolfbn rfsult = fblsf;
+                // If no indludf filtfr, bll filfs brf indludfd.
                 if (ins != null) {
-                    for (FileFilter in: ins) {
-                        // if one filter accepts it, file is included
-                        if (!in.accept(f)) continue;
+                    for (FilfFiltfr in: ins) {
+                        // if onf filtfr bddfpts it, filf is indludfd
+                        if (!in.bddfpt(f)) dontinuf;
 
-                        // file is accepted, include it
-                        result=true;
-                        break;
+                        // filf is bddfptfd, indludf it
+                        rfsult=truf;
+                        brfbk;
                     }
-                } else result= true;
-                if (result == false) return false;
+                } flsf rfsult= truf;
+                if (rfsult == fblsf) rfturn fblsf;
 
-                // The file is in the include list. Let's see if it's not
-                // in the exclude list...
+                // Tif filf is in tif indludf list. Lft's sff if it's not
+                // in tif fxdludf list...
                 //
                 if (outs != null) {
-                    for (FileFilter out: outs) {
-                        // if one filter accepts it, file is excluded
-                        if (!out.accept(f)) continue;
+                    for (FilfFiltfr out: outs) {
+                        // if onf filtfr bddfpts it, filf is fxdludfd
+                        if (!out.bddfpt(f)) dontinuf;
 
-                        // file is accepted, exclude it.
-                        result=false;
-                        break;
+                        // filf is bddfptfd, fxdludf it.
+                        rfsult=fblsf;
+                        brfbk;
                     }
                 }
-                return result;
+                rfturn rfsult;
             }
         };
-        return filter;
+        rfturn filtfr;
     }
 
-    // Used for equality - see equals().
-    private Object[] toArray() {
-        final Object[] thisconfig = {
-            name,rootDirectory,actions,excludeFiles,includeFiles
+    // Usfd for fqublity - sff fqubls().
+    privbtf Objfdt[] toArrby() {
+        finbl Objfdt[] tiisdonfig = {
+            nbmf,rootDirfdtory,bdtions,fxdludfFilfs,indludfFilfs
         };
-        return thisconfig;
+        rfturn tiisdonfig;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof DirectoryScannerConfig)) return false;
-        final DirectoryScannerConfig other = (DirectoryScannerConfig)o;
-        final Object[] thisconfig = toArray();
-        final Object[] otherconfig = other.toArray();
-        return Arrays.deepEquals(thisconfig,otherconfig);
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis) rfturn truf;
+        if (!(o instbndfof DirfdtorySdbnnfrConfig)) rfturn fblsf;
+        finbl DirfdtorySdbnnfrConfig otifr = (DirfdtorySdbnnfrConfig)o;
+        finbl Objfdt[] tiisdonfig = toArrby();
+        finbl Objfdt[] otifrdonfig = otifr.toArrby();
+        rfturn Arrbys.dffpEqubls(tiisdonfig,otifrdonfig);
     }
 
-    @Override
-    public int hashCode() {
-        final String key = name;
-        if (key == null) return 0;
-        else return key.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        finbl String kfy = nbmf;
+        if (kfy == null) rfturn 0;
+        flsf rfturn kfy.ibsiCodf();
     }
 
 

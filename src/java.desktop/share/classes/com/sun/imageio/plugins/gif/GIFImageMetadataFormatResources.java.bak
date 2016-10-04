@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbdkbgf dom.sun.imbgfio.plugins.gif;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListRfsourdfBundlf;
 
-public class GIFImageMetadataFormatResources extends ListResourceBundle {
+publid dlbss GIFImbgfMftbdbtbFormbtRfsourdfs fxtfnds ListRfsourdfBundlf {
 
-    public GIFImageMetadataFormatResources() {}
+    publid GIFImbgfMftbdbtbFormbtRfsourdfs() {}
 
-    protected Object[][] getContents() {
-        return new Object[][] {
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
 
-        // Node name, followed by description
-        { "ImageDescriptor", "The image descriptor" },
-        { "LocalColorTable", "The local color table" },
-        { "ColorTableEntry", "A local color table entry" },
-        { "GraphicControlExtension", "A graphic control extension" },
-        { "PlainTextExtension", "A plain text (text grid) extension" },
-        { "ApplicationExtensions", "A set of application extensions" },
-        { "ApplicationExtension", "An application extension" },
-        { "CommentExtensions", "A set of comments" },
-        { "CommentExtension", "A comment" },
+        // Nodf nbmf, followfd by dfsdription
+        { "ImbgfDfsdriptor", "Tif imbgf dfsdriptor" },
+        { "LodblColorTbblf", "Tif lodbl dolor tbblf" },
+        { "ColorTbblfEntry", "A lodbl dolor tbblf fntry" },
+        { "GrbpiidControlExtfnsion", "A grbpiid dontrol fxtfnsion" },
+        { "PlbinTfxtExtfnsion", "A plbin tfxt (tfxt grid) fxtfnsion" },
+        { "ApplidbtionExtfnsions", "A sft of bpplidbtion fxtfnsions" },
+        { "ApplidbtionExtfnsion", "An bpplidbtion fxtfnsion" },
+        { "CommfntExtfnsions", "A sft of dommfnts" },
+        { "CommfntExtfnsion", "A dommfnt" },
 
-        // Node name + "/" + AttributeName, followed by description
-        { "ImageDescriptor/imageLeftPosition",
-          "The X offset of the image relative to the screen origin" },
-        { "ImageDescriptor/imageTopPosition",
-          "The Y offset of the image relative to the screen origin" },
-        { "ImageDescriptor/imageWidth",
-          "The width of the image" },
-        { "ImageDescriptor/imageHeight",
-          "The height of the image" },
-        { "ImageDescriptor/interlaceFlag",
-          "True if the image is stored using interlacing" },
-        { "LocalColorTable/sizeOfLocalColorTable",
-          "The number of entries in the local color table" },
-        { "LocalColorTable/sortFlag",
-          "True if the local color table is sorted by frequency" },
-        { "ColorTableEntry/index", "The index of the color table entry" },
-        { "ColorTableEntry/red",
-          "The red value for the color table entry" },
-        { "ColorTableEntry/green",
-          "The green value for the color table entry" },
-        { "ColorTableEntry/blue",
-          "The blue value for the color table entry" },
-        { "GraphicControlExtension/disposalMethod",
-          "The disposal method for this frame" },
-        { "GraphicControlExtension/userInputFlag",
-          "True if the frame should be advanced based on user input" },
-        { "GraphicControlExtension/transparentColorFlag",
-          "True if a transparent color exists" },
-        { "GraphicControlExtension/delayTime",
-          "The time to delay between frames, in hundredths of a second" },
-        { "GraphicControlExtension/transparentColorIndex",
-          "The transparent color, if transparentColorFlag is true" },
-        { "PlainTextExtension/textGridLeft",
-          "The X offset of the text grid" },
-        { "PlainTextExtension/textGridTop",
-          "The Y offset of the text grid" },
-        { "PlainTextExtension/textGridWidth",
-          "The number of columns in the text grid" },
-        { "PlainTextExtension/textGridHeight",
-          "The number of rows in the text grid" },
-        { "PlainTextExtension/characterCellWidth",
-          "The width of a character cell" },
-        { "PlainTextExtension/characterCellHeight",
-          "The height of a character cell" },
-        { "PlainTextExtension/textForegroundColor",
-          "The text foreground color index" },
-        { "PlainTextExtension/textBackgroundColor",
-          "The text background color index" },
-        { "ApplicationExtension/applicationID",
-          "The application ID" },
-        { "ApplicationExtension/authenticationCode",
-          "The authentication code" },
-        { "CommentExtension/value", "The comment" },
+        // Nodf nbmf + "/" + AttributfNbmf, followfd by dfsdription
+        { "ImbgfDfsdriptor/imbgfLfftPosition",
+          "Tif X offsft of tif imbgf rflbtivf to tif sdrffn origin" },
+        { "ImbgfDfsdriptor/imbgfTopPosition",
+          "Tif Y offsft of tif imbgf rflbtivf to tif sdrffn origin" },
+        { "ImbgfDfsdriptor/imbgfWidti",
+          "Tif widti of tif imbgf" },
+        { "ImbgfDfsdriptor/imbgfHfigit",
+          "Tif ifigit of tif imbgf" },
+        { "ImbgfDfsdriptor/intfrlbdfFlbg",
+          "Truf if tif imbgf is storfd using intfrlbding" },
+        { "LodblColorTbblf/sizfOfLodblColorTbblf",
+          "Tif numbfr of fntrifs in tif lodbl dolor tbblf" },
+        { "LodblColorTbblf/sortFlbg",
+          "Truf if tif lodbl dolor tbblf is sortfd by frfqufndy" },
+        { "ColorTbblfEntry/indfx", "Tif indfx of tif dolor tbblf fntry" },
+        { "ColorTbblfEntry/rfd",
+          "Tif rfd vbluf for tif dolor tbblf fntry" },
+        { "ColorTbblfEntry/grffn",
+          "Tif grffn vbluf for tif dolor tbblf fntry" },
+        { "ColorTbblfEntry/bluf",
+          "Tif bluf vbluf for tif dolor tbblf fntry" },
+        { "GrbpiidControlExtfnsion/disposblMftiod",
+          "Tif disposbl mftiod for tiis frbmf" },
+        { "GrbpiidControlExtfnsion/usfrInputFlbg",
+          "Truf if tif frbmf siould bf bdvbndfd bbsfd on usfr input" },
+        { "GrbpiidControlExtfnsion/trbnspbrfntColorFlbg",
+          "Truf if b trbnspbrfnt dolor fxists" },
+        { "GrbpiidControlExtfnsion/dflbyTimf",
+          "Tif timf to dflby bftwffn frbmfs, in iundrfdtis of b sfdond" },
+        { "GrbpiidControlExtfnsion/trbnspbrfntColorIndfx",
+          "Tif trbnspbrfnt dolor, if trbnspbrfntColorFlbg is truf" },
+        { "PlbinTfxtExtfnsion/tfxtGridLfft",
+          "Tif X offsft of tif tfxt grid" },
+        { "PlbinTfxtExtfnsion/tfxtGridTop",
+          "Tif Y offsft of tif tfxt grid" },
+        { "PlbinTfxtExtfnsion/tfxtGridWidti",
+          "Tif numbfr of dolumns in tif tfxt grid" },
+        { "PlbinTfxtExtfnsion/tfxtGridHfigit",
+          "Tif numbfr of rows in tif tfxt grid" },
+        { "PlbinTfxtExtfnsion/dibrbdtfrCfllWidti",
+          "Tif widti of b dibrbdtfr dfll" },
+        { "PlbinTfxtExtfnsion/dibrbdtfrCfllHfigit",
+          "Tif ifigit of b dibrbdtfr dfll" },
+        { "PlbinTfxtExtfnsion/tfxtForfgroundColor",
+          "Tif tfxt forfground dolor indfx" },
+        { "PlbinTfxtExtfnsion/tfxtBbdkgroundColor",
+          "Tif tfxt bbdkground dolor indfx" },
+        { "ApplidbtionExtfnsion/bpplidbtionID",
+          "Tif bpplidbtion ID" },
+        { "ApplidbtionExtfnsion/butifntidbtionCodf",
+          "Tif butifntidbtion dodf" },
+        { "CommfntExtfnsion/vbluf", "Tif dommfnt" },
 
         };
     }

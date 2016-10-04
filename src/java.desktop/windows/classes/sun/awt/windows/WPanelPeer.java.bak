@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
 
-import sun.awt.SunGraphicsCallback;
+import sun.bwt.SunGrbpiidsCbllbbdk;
 
-class WPanelPeer extends WCanvasPeer implements PanelPeer {
+dlbss WPbnflPffr fxtfnds WCbnvbsPffr implfmfnts PbnflPffr {
 
-    // ComponentPeer overrides
+    // ComponfntPffr ovfrridfs
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        SunGraphicsCallback.PaintHeavyweightComponentsCallback.getInstance().
-            runComponents(((Container)target).getComponents(), g,
-                          SunGraphicsCallback.LIGHTWEIGHTS |
-                          SunGraphicsCallback.HEAVYWEIGHTS);
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
+        supfr.pbint(g);
+        SunGrbpiidsCbllbbdk.PbintHfbvywfigitComponfntsCbllbbdk.gftInstbndf().
+            runComponfnts(((Contbinfr)tbrgft).gftComponfnts(), g,
+                          SunGrbpiidsCbllbbdk.LIGHTWEIGHTS |
+                          SunGrbpiidsCbllbbdk.HEAVYWEIGHTS);
     }
-    @Override
-    public void print(Graphics g) {
-        super.print(g);
-        SunGraphicsCallback.PrintHeavyweightComponentsCallback.getInstance().
-            runComponents(((Container)target).getComponents(), g,
-                          SunGraphicsCallback.LIGHTWEIGHTS |
-                          SunGraphicsCallback.HEAVYWEIGHTS);
-    }
-
-    // ContainerPeer (via PanelPeer) implementation
-
-    @Override
-    public Insets getInsets() {
-        return insets_;
+    @Ovfrridf
+    publid void print(Grbpiids g) {
+        supfr.print(g);
+        SunGrbpiidsCbllbbdk.PrintHfbvywfigitComponfntsCbllbbdk.gftInstbndf().
+            runComponfnts(((Contbinfr)tbrgft).gftComponfnts(), g,
+                          SunGrbpiidsCbllbbdk.LIGHTWEIGHTS |
+                          SunGrbpiidsCbllbbdk.HEAVYWEIGHTS);
     }
 
-    // Toolkit & peer internals
+    // ContbinfrPffr (vib PbnflPffr) implfmfntbtion
 
-    Insets insets_;
+    @Ovfrridf
+    publid Insfts gftInsfts() {
+        rfturn insfts_;
+    }
 
-    static {
+    // Toolkit & pffr intfrnbls
+
+    Insfts insfts_;
+
+    stbtid {
         initIDs();
     }
 
     /**
-     * Initialize JNI field IDs
+     * Initiblizf JNI fifld IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    WPanelPeer(Component target) {
-        super(target);
+    WPbnflPffr(Componfnt tbrgft) {
+        supfr(tbrgft);
     }
 
-    @Override
-    void initialize() {
-        super.initialize();
-        insets_ = new Insets(0,0,0,0);
+    @Ovfrridf
+    void initiblizf() {
+        supfr.initiblizf();
+        insfts_ = nfw Insfts(0,0,0,0);
 
-        Color c = ((Component)target).getBackground();
-        if (c == null) {
-            c = WColor.getDefaultColor(WColor.WINDOW_BKGND);
-            ((Component)target).setBackground(c);
-            setBackground(c);
+        Color d = ((Componfnt)tbrgft).gftBbdkground();
+        if (d == null) {
+            d = WColor.gftDffbultColor(WColor.WINDOW_BKGND);
+            ((Componfnt)tbrgft).sftBbdkground(d);
+            sftBbdkground(d);
         }
-        c = ((Component)target).getForeground();
-        if (c == null) {
-            c = WColor.getDefaultColor(WColor.WINDOW_TEXT);
-            ((Component)target).setForeground(c);
-            setForeground(c);
+        d = ((Componfnt)tbrgft).gftForfground();
+        if (d == null) {
+            d = WColor.gftDffbultColor(WColor.WINDOW_TEXT);
+            ((Componfnt)tbrgft).sftForfground(d);
+            sftForfground(d);
         }
     }
 
     /**
-     * DEPRECATED:  Replaced by getInsets().
+     * DEPRECATED:  Rfplbdfd by gftInsfts().
      */
-    public Insets insets() {
-        return getInsets();
+    publid Insfts insfts() {
+        rfturn gftInsfts();
     }
 }

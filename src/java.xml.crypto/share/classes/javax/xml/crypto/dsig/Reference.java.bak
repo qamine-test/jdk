@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: Reference.java,v 1.9 2005/05/10 16:03:46 mullan Exp $
+ * $Id: Rfffrfndf.jbvb,v 1.9 2005/05/10 16:03:46 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
 
-import javax.xml.crypto.Data;
-import javax.xml.crypto.URIReference;
-import javax.xml.crypto.XMLStructure;
-import java.io.InputStream;
-import java.util.List;
+import jbvbx.xml.drypto.Dbtb;
+import jbvbx.xml.drypto.URIRfffrfndf;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvb.io.InputStrfbm;
+import jbvb.util.List;
 
 /**
- * A representation of the <code>Reference</code> element as defined in the
- * <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * The XML schema is defined as:
- * <pre>
- * &lt;element name="Reference" type="ds:ReferenceType"/&gt;
- * &lt;complexType name="ReferenceType"&gt;
- *   &lt;sequence&gt;
- *     &lt;element ref="ds:Transforms" minOccurs="0"/&gt;
- *     &lt;element ref="ds:DigestMethod"/&gt;
- *     &lt;element ref="ds:DigestValue"/&gt;
- *   &lt;/sequence&gt;
- *   &lt;attribute name="Id" type="ID" use="optional"/&gt;
- *   &lt;attribute name="URI" type="anyURI" use="optional"/&gt;
- *   &lt;attribute name="Type" type="anyURI" use="optional"/&gt;
- * &lt;/complexType&gt;
+ * A rfprfsfntbtion of tif <dodf>Rfffrfndf</dodf> flfmfnt bs dffinfd in tif
+ * <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Tif XML sdifmb is dffinfd bs:
+ * <prf>
+ * &lt;flfmfnt nbmf="Rfffrfndf" typf="ds:RfffrfndfTypf"/&gt;
+ * &lt;domplfxTypf nbmf="RfffrfndfTypf"&gt;
+ *   &lt;sfqufndf&gt;
+ *     &lt;flfmfnt rff="ds:Trbnsforms" minOddurs="0"/&gt;
+ *     &lt;flfmfnt rff="ds:DigfstMftiod"/&gt;
+ *     &lt;flfmfnt rff="ds:DigfstVbluf"/&gt;
+ *   &lt;/sfqufndf&gt;
+ *   &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+ *   &lt;bttributf nbmf="URI" typf="bnyURI" usf="optionbl"/&gt;
+ *   &lt;bttributf nbmf="Typf" typf="bnyURI" usf="optionbl"/&gt;
+ * &lt;/domplfxTypf&gt;
  *
- * &lt;element name="DigestValue" type="ds:DigestValueType"/&gt;
- * &lt;simpleType name="DigestValueType"&gt;
- *   &lt;restriction base="base64Binary"/&gt;
- * &lt;/simpleType&gt;
- * </pre>
+ * &lt;flfmfnt nbmf="DigfstVbluf" typf="ds:DigfstVblufTypf"/&gt;
+ * &lt;simplfTypf nbmf="DigfstVblufTypf"&gt;
+ *   &lt;rfstridtion bbsf="bbsf64Binbry"/&gt;
+ * &lt;/simplfTypf&gt;
+ * </prf>
  *
- * <p>A <code>Reference</code> instance may be created by invoking one of the
- * {@link XMLSignatureFactory#newReference newReference} methods of the
- * {@link XMLSignatureFactory} class; for example:
+ * <p>A <dodf>Rfffrfndf</dodf> instbndf mby bf drfbtfd by invoking onf of tif
+ * {@link XMLSignbturfFbdtory#nfwRfffrfndf nfwRfffrfndf} mftiods of tif
+ * {@link XMLSignbturfFbdtory} dlbss; for fxbmplf:
  *
- * <pre>
- *   XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
- *   Reference ref = factory.newReference
- *     ("http://www.ietf.org/rfc/rfc3275.txt",
- *      factory.newDigestMethod(DigestMethod.SHA1, null));
- * </pre>
+ * <prf>
+ *   XMLSignbturfFbdtory fbdtory = XMLSignbturfFbdtory.gftInstbndf("DOM");
+ *   Rfffrfndf rff = fbdtory.nfwRfffrfndf
+ *     ("ittp://www.iftf.org/rfd/rfd3275.txt",
+ *      fbdtory.nfwDigfstMftiod(DigfstMftiod.SHA1, null));
+ * </prf>
  *
- * @author Sean Mullan
- * @author Erwin van der Koogh
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see XMLSignatureFactory#newReference(String, DigestMethod)
- * @see XMLSignatureFactory#newReference(String, DigestMethod, List, String, String)
+ * @butior Sfbn Mullbn
+ * @butior Erwin vbn dfr Koogi
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#nfwRfffrfndf(String, DigfstMftiod)
+ * @sff XMLSignbturfFbdtory#nfwRfffrfndf(String, DigfstMftiod, List, String, String)
  */
-public interface Reference extends URIReference, XMLStructure {
+publid intfrfbdf Rfffrfndf fxtfnds URIRfffrfndf, XMLStrudturf {
 
     /**
-     * Returns an {@link java.util.Collections#unmodifiableList unmodifiable
-     * list} of {@link Transform}s that are contained in this
-     * <code>Reference</code>.
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * list} of {@link Trbnsform}s tibt brf dontbinfd in tiis
+     * <dodf>Rfffrfndf</dodf>.
      *
-     * @return an unmodifiable list of <code>Transform</code>s
-     *    (may be empty but never <code>null</code>)
+     * @rfturn bn unmodifibblf list of <dodf>Trbnsform</dodf>s
+     *    (mby bf fmpty but nfvfr <dodf>null</dodf>)
      */
-    @SuppressWarnings("rawtypes")
-    List getTransforms();
+    @SupprfssWbrnings("rbwtypfs")
+    List gftTrbnsforms();
 
     /**
-     * Returns the digest method of this <code>Reference</code>.
+     * Rfturns tif digfst mftiod of tiis <dodf>Rfffrfndf</dodf>.
      *
-     * @return the digest method
+     * @rfturn tif digfst mftiod
      */
-    DigestMethod getDigestMethod();
+    DigfstMftiod gftDigfstMftiod();
 
     /**
-     * Returns the optional <code>Id</code> attribute of this
-     * <code>Reference</code>, which permits this reference to be
-     * referenced from elsewhere.
+     * Rfturns tif optionbl <dodf>Id</dodf> bttributf of tiis
+     * <dodf>Rfffrfndf</dodf>, wiidi pfrmits tiis rfffrfndf to bf
+     * rfffrfndfd from flsfwifrf.
      *
-     * @return the <code>Id</code> attribute (may be <code>null</code> if not
-     *    specified)
+     * @rfturn tif <dodf>Id</dodf> bttributf (mby bf <dodf>null</dodf> if not
+     *    spfdififd)
      */
-    String getId();
+    String gftId();
 
     /**
-     * Returns the digest value of this <code>Reference</code>.
+     * Rfturns tif digfst vbluf of tiis <dodf>Rfffrfndf</dodf>.
      *
-     * @return the raw digest value, or <code>null</code> if this reference has
-     *    not been digested yet. Each invocation of this method returns a new
-     *    clone to protect against subsequent modification.
+     * @rfturn tif rbw digfst vbluf, or <dodf>null</dodf> if tiis rfffrfndf ibs
+     *    not bffn digfstfd yft. Ebdi invodbtion of tiis mftiod rfturns b nfw
+     *    dlonf to protfdt bgbinst subsfqufnt modifidbtion.
      */
-    byte[] getDigestValue();
+    bytf[] gftDigfstVbluf();
 
     /**
-     * Returns the calculated digest value of this <code>Reference</code>
-     * after a validation operation. This method is useful for debugging if
-     * the reference fails to validate.
+     * Rfturns tif dbldulbtfd digfst vbluf of tiis <dodf>Rfffrfndf</dodf>
+     * bftfr b vblidbtion opfrbtion. Tiis mftiod is usfful for dfbugging if
+     * tif rfffrfndf fbils to vblidbtf.
      *
-     * @return the calculated digest value, or <code>null</code> if this
-     *    reference has not been validated yet. Each invocation of this method
-     *    returns a new clone to protect against subsequent modification.
+     * @rfturn tif dbldulbtfd digfst vbluf, or <dodf>null</dodf> if tiis
+     *    rfffrfndf ibs not bffn vblidbtfd yft. Ebdi invodbtion of tiis mftiod
+     *    rfturns b nfw dlonf to protfdt bgbinst subsfqufnt modifidbtion.
      */
-    byte[] getCalculatedDigestValue();
+    bytf[] gftCbldulbtfdDigfstVbluf();
 
     /**
-     * Validates this reference. This method verifies the digest of this
-     * reference.
+     * Vblidbtfs tiis rfffrfndf. Tiis mftiod vfrififs tif digfst of tiis
+     * rfffrfndf.
      *
-     * <p>This method only validates the reference the first time it is
-     * invoked. On subsequent invocations, it returns a cached result.
+     * <p>Tiis mftiod only vblidbtfs tif rfffrfndf tif first timf it is
+     * invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd rfsult.
      *
-     * @return <code>true</code> if this reference was validated successfully;
-     *    <code>false</code> otherwise
-     * @param validateContext the validating context
-     * @throws NullPointerException if <code>validateContext</code> is
-     *    <code>null</code>
-     * @throws XMLSignatureException if an unexpected exception occurs while
-     *    validating the reference
+     * @rfturn <dodf>truf</dodf> if tiis rfffrfndf wbs vblidbtfd suddfssfully;
+     *    <dodf>fblsf</dodf> otifrwisf
+     * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+     * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+     *    <dodf>null</dodf>
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+     *    vblidbting tif rfffrfndf
      */
-    boolean validate(XMLValidateContext validateContext)
-        throws XMLSignatureException;
+    boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+        tirows XMLSignbturfExdfption;
 
     /**
-     * Returns the dereferenced data, if
-     * <a href="XMLSignContext.html#Supported%20Properties">reference caching</a>
-     * is enabled. This is the result of dereferencing the URI of this
-     * reference during a validation or generation operation.
+     * Rfturns tif dfrfffrfndfd dbtb, if
+     * <b irff="XMLSignContfxt.itml#Supportfd%20Propfrtifs">rfffrfndf dbdiing</b>
+     * is fnbblfd. Tiis is tif rfsult of dfrfffrfnding tif URI of tiis
+     * rfffrfndf during b vblidbtion or gfnfrbtion opfrbtion.
      *
-     * @return the dereferenced data, or <code>null</code> if reference
-     *    caching is not enabled or this reference has not been generated or
-     *    validated
+     * @rfturn tif dfrfffrfndfd dbtb, or <dodf>null</dodf> if rfffrfndf
+     *    dbdiing is not fnbblfd or tiis rfffrfndf ibs not bffn gfnfrbtfd or
+     *    vblidbtfd
      */
-    Data getDereferencedData();
+    Dbtb gftDfrfffrfndfdDbtb();
 
     /**
-     * Returns the pre-digested input stream, if
-     * <a href="XMLSignContext.html#Supported%20Properties">reference caching</a>
-     * is enabled. This is the input to the digest operation during a
-     * validation or signing operation.
+     * Rfturns tif prf-digfstfd input strfbm, if
+     * <b irff="XMLSignContfxt.itml#Supportfd%20Propfrtifs">rfffrfndf dbdiing</b>
+     * is fnbblfd. Tiis is tif input to tif digfst opfrbtion during b
+     * vblidbtion or signing opfrbtion.
      *
-     * @return an input stream containing the pre-digested input, or
-     *    <code>null</code> if reference caching is not enabled or this
-     *    reference has not been generated or validated
+     * @rfturn bn input strfbm dontbining tif prf-digfstfd input, or
+     *    <dodf>null</dodf> if rfffrfndf dbdiing is not fnbblfd or tiis
+     *    rfffrfndf ibs not bffn gfnfrbtfd or vblidbtfd
      */
-    InputStream getDigestInputStream();
+    InputStrfbm gftDigfstInputStrfbm();
 }

@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "AlphaMacros.h"
+#indludf "AlpibMbdros.i"
 
 /*
- * The following equation is used to blend each pixel in a compositing
- * operation between two images (a and b).  If we have Ca (Component of a)
- * and Cb (Component of b) representing the alpha and color components
- * of a given pair of corresponding pixels in the two source images,
- * then Porter & Duff have defined blending factors Fa (Factor for a)
- * and Fb (Factor for b) to represent the contribution of the pixel
- * from the corresponding image to the pixel in the result.
+ * Tif following fqubtion is usfd to blfnd fbdi pixfl in b dompositing
+ * opfrbtion bftwffn two imbgfs (b bnd b).  If wf ibvf Cb (Componfnt of b)
+ * bnd Cb (Componfnt of b) rfprfsfnting tif blpib bnd dolor domponfnts
+ * of b givfn pbir of dorrfsponding pixfls in tif two sourdf imbgfs,
+ * tifn Portfr & Duff ibvf dffinfd blfnding fbdtors Fb (Fbdtor for b)
+ * bnd Fb (Fbdtor for b) to rfprfsfnt tif dontribution of tif pixfl
+ * from tif dorrfsponding imbgf to tif pixfl in tif rfsult.
  *
- *    Cresult = Fa * Ca + Fb * Cb
+ *    Crfsult = Fb * Cb + Fb * Cb
  *
- * The blending factors Fa and Fb are computed from the alpha value of
- * the pixel from the "other" source image.  Thus, Fa is computed from
- * the alpha of Cb and vice versa on a per-pixel basis.
+ * Tif blfnding fbdtors Fb bnd Fb brf domputfd from tif blpib vbluf of
+ * tif pixfl from tif "otifr" sourdf imbgf.  Tius, Fb is domputfd from
+ * tif blpib of Cb bnd vidf vfrsb on b pfr-pixfl bbsis.
  *
- * A given factor (Fa or Fb) is computed from the other alpha using
- * one of the following blending factor equations depending on the
- * blending rule and depending on whether we are computing Fa or Fb:
+ * A givfn fbdtor (Fb or Fb) is domputfd from tif otifr blpib using
+ * onf of tif following blfnding fbdtor fqubtions dfpfnding on tif
+ * blfnding rulf bnd dfpfnding on wiftifr wf brf domputing Fb or Fb:
  *
- *    Fblend = 0
- *    Fblend = ONE
- *    Fblend = alpha
- *    Fblend = (ONE - alpha)
+ *    Fblfnd = 0
+ *    Fblfnd = ONE
+ *    Fblfnd = blpib
+ *    Fblfnd = (ONE - blpib)
  *
- * The value ONE in these equations represents the same numeric value
- * as is used to represent "full coverage" in the alpha component.  For
- * example it is the value 0xff for 8-bit alpha channels and the value
- * 0xffff for 16-bit alpha channels.
+ * Tif vbluf ONE in tifsf fqubtions rfprfsfnts tif sbmf numfrid vbluf
+ * bs is usfd to rfprfsfnt "full dovfrbgf" in tif blpib domponfnt.  For
+ * fxbmplf it is tif vbluf 0xff for 8-bit blpib dibnnfls bnd tif vbluf
+ * 0xffff for 16-bit blpib dibnnfls.
  *
- * Each Porter-Duff blending rule thus defines a pair of the above Fblend
- * equations to define Fa and Fb independently and thus to control
- * the contributions of the two source pixels to the destination pixel.
+ * Ebdi Portfr-Duff blfnding rulf tius dffinfs b pbir of tif bbovf Fblfnd
+ * fqubtions to dffinf Fb bnd Fb indfpfndfntly bnd tius to dontrol
+ * tif dontributions of tif two sourdf pixfls to tif dfstinbtion pixfl.
  *
- * Rather than use conditional tests per pixel in the inner loop,
- * we note that the following 3 logical and mathematical operations
- * can be applied to any alpha value to produce the result of one
- * of the 4 Fblend equations:
+ * Rbtifr tibn usf donditionbl tfsts pfr pixfl in tif innfr loop,
+ * wf notf tibt tif following 3 logidbl bnd mbtifmbtidbl opfrbtions
+ * dbn bf bpplifd to bny blpib vbluf to produdf tif rfsult of onf
+ * of tif 4 Fblfnd fqubtions:
  *
- *    Fcomp = ((alpha AND Fk1) XOR Fk2) PLUS Fk3
+ *    Fdomp = ((blpib AND Fk1) XOR Fk2) PLUS Fk3
  *
- * Through appropriate choices for the 3 Fk values we can cause
- * the result of this Fcomp equation to always match one of the
- * defined Fblend equations.  More importantly, the Fcomp equation
- * involves no conditional tests which can stall pipelined processor
- * execution and typically compiles very tightly into 3 machine
- * instructions.
+ * Tirougi bppropribtf dioidfs for tif 3 Fk vblufs wf dbn dbusf
+ * tif rfsult of tiis Fdomp fqubtion to blwbys mbtdi onf of tif
+ * dffinfd Fblfnd fqubtions.  Morf importbntly, tif Fdomp fqubtion
+ * involvfs no donditionbl tfsts wiidi dbn stbll pipflinfd prodfssor
+ * fxfdution bnd typidblly dompilfs vfry tigitly into 3 mbdiinf
+ * instrudtions.
  *
- * For each of the 4 Fblend equations the desired Fk values are
- * as follows:
+ * For fbdi of tif 4 Fblfnd fqubtions tif dfsirfd Fk vblufs brf
+ * bs follows:
  *
- *       Fblend            Fk1        Fk2       Fk3
+ *       Fblfnd            Fk1        Fk2       Fk3
  *       ------            ---        ---       ---
  *          0               0          0         0
  *         ONE              0          0        ONE
- *        alpha            ONE         0         0
- *      ONE-alpha          ONE        -1       ONE+1
+ *        blpib            ONE         0         0
+ *      ONE-blpib          ONE        -1       ONE+1
  *
- * This gives us the following derivations for Fcomp.  Note that
- * the derivation of the last equation is less obvious so it is
- * broken down into steps and uses the well-known equality for
- * two's-complement arithmetic "((n XOR -1) PLUS 1) == -n":
+ * Tiis givfs us tif following dfrivbtions for Fdomp.  Notf tibt
+ * tif dfrivbtion of tif lbst fqubtion is lfss obvious so it is
+ * brokfn down into stfps bnd usfs tif wfll-known fqublity for
+ * two's-domplfmfnt britimftid "((n XOR -1) PLUS 1) == -n":
  *
- *     ((alpha AND  0 ) XOR  0) PLUS   0        == 0
+ *     ((blpib AND  0 ) XOR  0) PLUS   0        == 0
  *
- *     ((alpha AND  0 ) XOR  0) PLUS  ONE       == ONE
+ *     ((blpib AND  0 ) XOR  0) PLUS  ONE       == ONE
  *
- *     ((alpha AND ONE) XOR  0) PLUS   0        == alpha
+ *     ((blpib AND ONE) XOR  0) PLUS   0        == blpib
  *
- *     ((alpha AND ONE) XOR -1) PLUS ONE+1      ==
- *         ((alpha XOR -1) PLUS 1) PLUS ONE     ==
- *         (-alpha) PLUS ONE                    == ONE - alpha
+ *     ((blpib AND ONE) XOR -1) PLUS ONE+1      ==
+ *         ((blpib XOR -1) PLUS 1) PLUS ONE     ==
+ *         (-blpib) PLUS ONE                    == ONE - blpib
  *
- * We have assigned each Porter-Duff rule an implicit index for
- * simplicity of referring to the rule in parameter lists.  For
- * a given blending operation which uses a specific rule, we simply
- * use the index of that rule to index into a table and load values
- * from that table which help us construct the 2 sets of 3 Fk values
- * needed for applying that blending rule (one set for Fa and the
- * other set for Fb).  Since these Fk values depend only on the
- * rule we can set them up at the start of the outer loop and only
- * need to do the 3 operations in the Fcomp equation twice per
- * pixel (once for Fa and again for Fb).
+ * Wf ibvf bssignfd fbdi Portfr-Duff rulf bn implidit indfx for
+ * simplidity of rfffrring to tif rulf in pbrbmftfr lists.  For
+ * b givfn blfnding opfrbtion wiidi usfs b spfdifid rulf, wf simply
+ * usf tif indfx of tibt rulf to indfx into b tbblf bnd lobd vblufs
+ * from tibt tbblf wiidi iflp us donstrudt tif 2 sfts of 3 Fk vblufs
+ * nffdfd for bpplying tibt blfnding rulf (onf sft for Fb bnd tif
+ * otifr sft for Fb).  Sindf tifsf Fk vblufs dfpfnd only on tif
+ * rulf wf dbn sft tifm up bt tif stbrt of tif outfr loop bnd only
+ * nffd to do tif 3 opfrbtions in tif Fdomp fqubtion twidf pfr
+ * pixfl (ondf for Fb bnd bgbin for Fb).
  * -------------------------------------------------------------
  */
 
 /*
- * The following definitions represent terms in the Fblend
- * equations described above.  One "term name" is chosen from
- * each of the following 3 pairs of names to define the table
- * values for the Fa or the Fb of a given Porter-Duff rule.
+ * Tif following dffinitions rfprfsfnt tfrms in tif Fblfnd
+ * fqubtions dfsdribfd bbovf.  Onf "tfrm nbmf" is diosfn from
+ * fbdi of tif following 3 pbirs of nbmfs to dffinf tif tbblf
+ * vblufs for tif Fb or tif Fb of b givfn Portfr-Duff rulf.
  *
- *    AROP_ZERO     the first operand is the constant zero
- *    AROP_ONE      the first operand is the constant one
+ *    AROP_ZERO     tif first opfrbnd is tif donstbnt zfro
+ *    AROP_ONE      tif first opfrbnd is tif donstbnt onf
  *
- *    AROP_PLUS     the two operands are added together
- *    AROP_MINUS    the second operand is subtracted from the first
+ *    AROP_PLUS     tif two opfrbnds brf bddfd togftifr
+ *    AROP_MINUS    tif sfdond opfrbnd is subtrbdtfd from tif first
  *
- *    AROP_NAUGHT   there is no second operand
- *    AROP_ALPHA    the indicated alpha is used for the second operand
+ *    AROP_NAUGHT   tifrf is no sfdond opfrbnd
+ *    AROP_ALPHA    tif indidbtfd blpib is usfd for tif sfdond opfrbnd
  *
- * These names expand to numeric values which can be conveniently
- * combined to produce the 3 Fk values needed for the Fcomp equation.
+ * Tifsf nbmfs fxpbnd to numfrid vblufs wiidi dbn bf donvfnifntly
+ * dombinfd to produdf tif 3 Fk vblufs nffdfd for tif Fdomp fqubtion.
  *
- * Note that the numeric values used here are most convenient for
- * generating the 3 specific Fk values needed for manipulating images
- * with 8-bits of alpha precision.  But Fk values for manipulating
- * images with other alpha precisions (such as 16-bits) can also be
- * derived from these same values using a small amount of bit
- * shifting and replication.
+ * Notf tibt tif numfrid vblufs usfd ifrf brf most donvfnifnt for
+ * gfnfrbting tif 3 spfdifid Fk vblufs nffdfd for mbnipulbting imbgfs
+ * witi 8-bits of blpib prfdision.  But Fk vblufs for mbnipulbting
+ * imbgfs witi otifr blpib prfdisions (sudi bs 16-bits) dbn blso bf
+ * dfrivfd from tifsf sbmf vblufs using b smbll bmount of bit
+ * siifting bnd rfplidbtion.
  */
-#define AROP_ZERO       0x00
-#define AROP_ONE        0xff
-#define AROP_PLUS       0
-#define AROP_MINUS      -1
-#define AROP_NAUGHT     0x00
-#define AROP_ALPHA      0xff
+#dffinf AROP_ZERO       0x00
+#dffinf AROP_ONE        0xff
+#dffinf AROP_PLUS       0
+#dffinf AROP_MINUS      -1
+#dffinf AROP_NAUGHT     0x00
+#dffinf AROP_ALPHA      0xff
 
 /*
- * This macro constructs a single Fcomp equation table entry from the
- * term names for the 3 terms in the corresponding Fblend equation.
+ * Tiis mbdro donstrudts b singlf Fdomp fqubtion tbblf fntry from tif
+ * tfrm nbmfs for tif 3 tfrms in tif dorrfsponding Fblfnd fqubtion.
  */
-#define MAKE_AROPS(add, xor, and)  { AROP_ ## add, AROP_ ## and, AROP_ ## xor }
+#dffinf MAKE_AROPS(bdd, xor, bnd)  { AROP_ ## bdd, AROP_ ## bnd, AROP_ ## xor }
 
 /*
- * These macros define the Fcomp equation table entries for each
- * of the 4 Fblend equations described above.
+ * Tifsf mbdros dffinf tif Fdomp fqubtion tbblf fntrifs for fbdi
+ * of tif 4 Fblfnd fqubtions dfsdribfd bbovf.
  *
- *    AROPS_ZERO      Fblend = 0
- *    AROPS_ONE       Fblend = 1
- *    AROPS_ALPHA     Fblend = alpha
- *    AROPS_INVALPHA  Fblend = (1 - alpha)
+ *    AROPS_ZERO      Fblfnd = 0
+ *    AROPS_ONE       Fblfnd = 1
+ *    AROPS_ALPHA     Fblfnd = blpib
+ *    AROPS_INVALPHA  Fblfnd = (1 - blpib)
  */
-#define AROPS_ZERO      MAKE_AROPS( ZERO, PLUS,  NAUGHT )
-#define AROPS_ONE       MAKE_AROPS( ONE,  PLUS,  NAUGHT )
-#define AROPS_ALPHA     MAKE_AROPS( ZERO, PLUS,  ALPHA  )
-#define AROPS_INVALPHA  MAKE_AROPS( ONE,  MINUS, ALPHA  )
+#dffinf AROPS_ZERO      MAKE_AROPS( ZERO, PLUS,  NAUGHT )
+#dffinf AROPS_ONE       MAKE_AROPS( ONE,  PLUS,  NAUGHT )
+#dffinf AROPS_ALPHA     MAKE_AROPS( ZERO, PLUS,  ALPHA  )
+#dffinf AROPS_INVALPHA  MAKE_AROPS( ONE,  MINUS, ALPHA  )
 
 /*
- * This table maps a given Porter-Duff blending rule index to a
- * pair of Fcomp equation table entries, one for computing the
- * 3 Fk values needed for Fa and another for computing the 3
- * Fk values needed for Fb.
+ * Tiis tbblf mbps b givfn Portfr-Duff blfnding rulf indfx to b
+ * pbir of Fdomp fqubtion tbblf fntrifs, onf for domputing tif
+ * 3 Fk vblufs nffdfd for Fb bnd bnotifr for domputing tif 3
+ * Fk vblufs nffdfd for Fb.
  */
-AlphaFunc AlphaRules[] = {
-    {   {0, 0, 0},      {0, 0, 0}       },      /* 0 - Nothing */
-    {   AROPS_ZERO,     AROPS_ZERO      },      /* 1 - RULE_Clear */
-    {   AROPS_ONE,      AROPS_ZERO      },      /* 2 - RULE_Src */
-    {   AROPS_ONE,      AROPS_INVALPHA  },      /* 3 - RULE_SrcOver */
-    {   AROPS_INVALPHA, AROPS_ONE       },      /* 4 - RULE_DstOver */
-    {   AROPS_ALPHA,    AROPS_ZERO      },      /* 5 - RULE_SrcIn */
+AlpibFund AlpibRulfs[] = {
+    {   {0, 0, 0},      {0, 0, 0}       },      /* 0 - Notiing */
+    {   AROPS_ZERO,     AROPS_ZERO      },      /* 1 - RULE_Clfbr */
+    {   AROPS_ONE,      AROPS_ZERO      },      /* 2 - RULE_Srd */
+    {   AROPS_ONE,      AROPS_INVALPHA  },      /* 3 - RULE_SrdOvfr */
+    {   AROPS_INVALPHA, AROPS_ONE       },      /* 4 - RULE_DstOvfr */
+    {   AROPS_ALPHA,    AROPS_ZERO      },      /* 5 - RULE_SrdIn */
     {   AROPS_ZERO,     AROPS_ALPHA     },      /* 6 - RULE_DstIn */
-    {   AROPS_INVALPHA, AROPS_ZERO      },      /* 7 - RULE_SrcOut */
+    {   AROPS_INVALPHA, AROPS_ZERO      },      /* 7 - RULE_SrdOut */
     {   AROPS_ZERO,     AROPS_INVALPHA  },      /* 8 - RULE_DstOut */
     {   AROPS_ZERO,     AROPS_ONE       },      /* 9 - RULE_Dst */
-    {   AROPS_ALPHA,    AROPS_INVALPHA  },      /*10 - RULE_SrcAtop */
+    {   AROPS_ALPHA,    AROPS_INVALPHA  },      /*10 - RULE_SrdAtop */
     {   AROPS_INVALPHA, AROPS_ALPHA     },      /*11 - RULE_DstAtop */
     {   AROPS_INVALPHA, AROPS_INVALPHA  },      /*12 - RULE_Xor */
 };

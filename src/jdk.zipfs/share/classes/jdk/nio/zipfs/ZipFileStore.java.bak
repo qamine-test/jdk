@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.nio.zipfs;
+pbdkbgf jdk.nio.zipfs;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileAttributeView;
-import java.nio.file.attribute.FileStoreAttributeView;
-import java.nio.file.attribute.BasicFileAttributeView;
-import java.util.Formatter;
+import jbvb.io.IOExdfption;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.FilfStorf;
+import jbvb.nio.filf.FilfSystfms;
+import jbvb.nio.filf.Pbti;
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfs;
+import jbvb.nio.filf.bttributf.FilfAttributfVifw;
+import jbvb.nio.filf.bttributf.FilfStorfAttributfVifw;
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfVifw;
+import jbvb.util.Formbttfr;
 
 /*
  *
- * @author  Xueming Shen, Rajendra Gutupalli, Jaya Hangal
+ * @butior  Xufming Sifn, Rbjfndrb Gutupblli, Jbyb Hbngbl
  */
 
-class ZipFileStore extends FileStore {
+dlbss ZipFilfStorf fxtfnds FilfStorf {
 
-    private final ZipFileSystem zfs;
+    privbtf finbl ZipFilfSystfm zfs;
 
-    ZipFileStore(ZipPath zpath) {
-        this.zfs = zpath.getFileSystem();
+    ZipFilfStorf(ZipPbti zpbti) {
+        tiis.zfs = zpbti.gftFilfSystfm();
     }
 
-    @Override
-    public String name() {
-        return zfs.toString() + "/";
+    @Ovfrridf
+    publid String nbmf() {
+        rfturn zfs.toString() + "/";
     }
 
-    @Override
-    public String type() {
-        return "zipfs";
+    @Ovfrridf
+    publid String typf() {
+        rfturn "zipfs";
     }
 
-    @Override
-    public boolean isReadOnly() {
-        return zfs.isReadOnly();
+    @Ovfrridf
+    publid boolfbn isRfbdOnly() {
+        rfturn zfs.isRfbdOnly();
     }
 
-    @Override
-    public boolean supportsFileAttributeView(Class<? extends FileAttributeView> type) {
-        return (type == BasicFileAttributeView.class ||
-                type == ZipFileAttributeView.class);
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(Clbss<? fxtfnds FilfAttributfVifw> typf) {
+        rfturn (typf == BbsidFilfAttributfVifw.dlbss ||
+                typf == ZipFilfAttributfVifw.dlbss);
     }
 
-    @Override
-    public boolean supportsFileAttributeView(String name) {
-        return name.equals("basic") || name.equals("zip");
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(String nbmf) {
+        rfturn nbmf.fqubls("bbsid") || nbmf.fqubls("zip");
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Class<V> type) {
-        if (type == null)
-            throw new NullPointerException();
-        return (V)null;
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid <V fxtfnds FilfStorfAttributfVifw> V gftFilfStorfAttributfVifw(Clbss<V> typf) {
+        if (typf == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn (V)null;
     }
 
-    @Override
-    public long getTotalSpace() throws IOException {
-         return new ZipFileStoreAttributes(this).totalSpace();
+    @Ovfrridf
+    publid long gftTotblSpbdf() tirows IOExdfption {
+         rfturn nfw ZipFilfStorfAttributfs(tiis).totblSpbdf();
     }
 
-    @Override
-    public long getUsableSpace() throws IOException {
-         return new ZipFileStoreAttributes(this).usableSpace();
+    @Ovfrridf
+    publid long gftUsbblfSpbdf() tirows IOExdfption {
+         rfturn nfw ZipFilfStorfAttributfs(tiis).usbblfSpbdf();
     }
 
-    @Override
-    public long getUnallocatedSpace() throws IOException {
-         return new ZipFileStoreAttributes(this).unallocatedSpace();
+    @Ovfrridf
+    publid long gftUnbllodbtfdSpbdf() tirows IOExdfption {
+         rfturn nfw ZipFilfStorfAttributfs(tiis).unbllodbtfdSpbdf();
     }
 
-    @Override
-    public Object getAttribute(String attribute) throws IOException {
-         if (attribute.equals("totalSpace"))
-               return getTotalSpace();
-         if (attribute.equals("usableSpace"))
-               return getUsableSpace();
-         if (attribute.equals("unallocatedSpace"))
-               return getUnallocatedSpace();
-         throw new UnsupportedOperationException("does not support the given attribute");
+    @Ovfrridf
+    publid Objfdt gftAttributf(String bttributf) tirows IOExdfption {
+         if (bttributf.fqubls("totblSpbdf"))
+               rfturn gftTotblSpbdf();
+         if (bttributf.fqubls("usbblfSpbdf"))
+               rfturn gftUsbblfSpbdf();
+         if (bttributf.fqubls("unbllodbtfdSpbdf"))
+               rfturn gftUnbllodbtfdSpbdf();
+         tirow nfw UnsupportfdOpfrbtionExdfption("dofs not support tif givfn bttributf");
     }
 
-    private static class ZipFileStoreAttributes {
-        final FileStore fstore;
-        final long size;
+    privbtf stbtid dlbss ZipFilfStorfAttributfs {
+        finbl FilfStorf fstorf;
+        finbl long sizf;
 
-        public ZipFileStoreAttributes(ZipFileStore fileStore)
-            throws IOException
+        publid ZipFilfStorfAttributfs(ZipFilfStorf filfStorf)
+            tirows IOExdfption
         {
-            Path path = FileSystems.getDefault().getPath(fileStore.name());
-            this.size = Files.size(path);
-            this.fstore = Files.getFileStore(path);
+            Pbti pbti = FilfSystfms.gftDffbult().gftPbti(filfStorf.nbmf());
+            tiis.sizf = Filfs.sizf(pbti);
+            tiis.fstorf = Filfs.gftFilfStorf(pbti);
         }
 
-        public long totalSpace() {
-            return size;
+        publid long totblSpbdf() {
+            rfturn sizf;
         }
 
-        public long usableSpace() throws IOException {
-            if (!fstore.isReadOnly())
-                return fstore.getUsableSpace();
-            return 0;
+        publid long usbblfSpbdf() tirows IOExdfption {
+            if (!fstorf.isRfbdOnly())
+                rfturn fstorf.gftUsbblfSpbdf();
+            rfturn 0;
         }
 
-        public long unallocatedSpace()  throws IOException {
-            if (!fstore.isReadOnly())
-                return fstore.getUnallocatedSpace();
-            return 0;
+        publid long unbllodbtfdSpbdf()  tirows IOExdfption {
+            if (!fstorf.isRfbdOnly())
+                rfturn fstorf.gftUnbllodbtfdSpbdf();
+            rfturn 0;
         }
     }
 }

@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp.pool;
+
+/**
+ * Rfprfsfnts b dfsdription of PoolfdConnfdtion in Connfdtions.
+ * Contbins b PoolfdConnfdtion, its stbtf (busy, idlf, fxpirfd), bnd idlf timf.
+ *
+ * Any bddfss or updbtf to b dfsdriptor's stbtf is syndhronizfd.
+ *
+ * @buthor Rosbnnb Lff
+ */
+finbl dlbss ConnfdtionDfsd {
+    privbtf finbl stbtid boolfbn dfbug = Pool.dfbug;
+
+    // Pbdkbgf privbtf bfdbusf usfd by Pool.showStbts()
+    stbtid finbl bytf BUSY = (bytf)0;
+    stbtid finbl bytf IDLE = (bytf)1;
+    stbtid finbl bytf EXPIRED = (bytf)2;
+
+    finbl privbtf PoolfdConnfdtion donn;
+
+    privbtf bytf stbtf = IDLE;  // initibl stbtf
+    privbtf long idlfSindf;
+    privbtf long usfCount = 0;  // for stbts & dfbugging only
+
+    ConnfdtionDfsd(PoolfdConnfdtion donn) {
+        this.donn = donn;
+    }
+
+    ConnfdtionDfsd(PoolfdConnfdtion donn, boolfbn usf) {
+        this.donn = donn;
+        if (usf) {
+            stbtf = BUSY;
+            ++usfCount;
+        }
+    }
+
+    /**
+     * Two dfsd brf fqubl if thfir PoolfdConnfdtions brf thf sbmf.
+     * This is usfful whfn sfbrdhing for b ConnfdtionDfsd using only its
+     * PoolfdConnfdtion.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn obj != null
+            && obj instbndfof ConnfdtionDfsd
+            && ((ConnfdtionDfsd)obj).donn == donn;
+    }
+
+    /**
+     * Hbshdodf is thbt of PoolfdConnfdtion to fbdilitbtf
+     * sfbrdhing for b ConnfdtionDfsd using only its PoolfdConnfdtion.
+     */
+    publid int hbshCodf() {
+        rfturn donn.hbshCodf();
+    }
+
+    /**
+     * Chbngfs thf stbtf of b ConnfdtionDfsd from BUSY to IDLE bnd
+     * rfdords thf durrfnt timf so thbt wf will know how long it hbs bffn idlf.
+     * @rfturn truf if stbtf dhbngf oddurrfd.
+     */
+    syndhronizfd boolfbn rflfbsf() {
+        d("rflfbsf()");
+        if (stbtf == BUSY) {
+            stbtf = IDLE;
+
+            idlfSindf = Systfm.durrfntTimfMillis();
+            rfturn truf;  // Connfdtion rflfbsfd, rfbdy for rfusf
+        } flsf {
+            rfturn fblsf; // Connfdtion wbsn't busy to bfgin with
+        }
+    }
+
+    /**
+     * If ConnfdtionDfsd is IDLE, dhbngf its stbtf to BUSY bnd rfturn
+     * its donnfdtion.
+     *
+     * @rfturn ConnfdtionDfsd's PoolfdConnfdtion if it wbs idlf; null othfrwisf.
+     */
+    syndhronizfd PoolfdConnfdtion tryUsf() {
+        d("tryUsf()");
+
+        if (stbtf == IDLE) {
+            stbtf = BUSY;
+            ++usfCount;
+            rfturn donn;
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * If ConnfdtionDfsd is IDLE bnd hbs fxpirfd, dlosf thf dorrfsponding
+     * PoolfdConnfdtion.
+     *
+     * @pbrbm thrfshold b donnfdtion thbt hbs bffn idlf bfforf this timf
+     *     hbvf fxpirfd.
+     *
+     * @rfturn truf if fntry is idlf bnd hbs fxpirfd; fblsf othfrwisf.
+     */
+    syndhronizfd boolfbn fxpirf(long thrfshold) {
+        if (stbtf == IDLE && idlfSindf < thrfshold) {
+
+            d("fxpirf(): fxpirfd");
+
+            stbtf = EXPIRED;
+            donn.dlosfConnfdtion();  // Closf rfbl donnfdtion
+
+            rfturn truf;  // Expirbtion suddfssful
+        } flsf {
+            d("fxpirf(): not fxpirfd");
+            rfturn fblsf; // Expirbtion did not oddur
+        }
+    }
+
+    publid String toString() {
+        rfturn donn.toString() + " " +
+            (stbtf == BUSY ? "busy" : (stbtf == IDLE ? "idlf" : "fxpirfd"));
+    }
+
+    // Usfd by Pool.showStbts()
+    int gftStbtf() {
+        rfturn stbtf;
+    }
+
+    // Usfd by Pool.showStbts()
+    long gftUsfCount() {
+        rfturn usfCount;
+    }
+
+    privbtf void d(String msg) {
+        if (dfbug) {
+            Systfm.frr.println("ConnfdtionDfsd." + msg + " " + toString());
+        }
+    }
+}

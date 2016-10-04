@@ -1,2315 +1,2315 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.locks;
-import java.util.concurrent.TimeUnit;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import sun.misc.Unsafe;
+pbdkbgf jbvb.util.dondurrfnt.lodks;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Dbtf;
+import sun.misd.Unsbff;
 
 /**
- * Provides a framework for implementing blocking locks and related
- * synchronizers (semaphores, events, etc) that rely on
- * first-in-first-out (FIFO) wait queues.  This class is designed to
- * be a useful basis for most kinds of synchronizers that rely on a
- * single atomic {@code int} value to represent state. Subclasses
- * must define the protected methods that change this state, and which
- * define what that state means in terms of this object being acquired
- * or released.  Given these, the other methods in this class carry
- * out all queuing and blocking mechanics. Subclasses can maintain
- * other state fields, but only the atomically updated {@code int}
- * value manipulated using methods {@link #getState}, {@link
- * #setState} and {@link #compareAndSetState} is tracked with respect
- * to synchronization.
+ * Providfs b frbmfwork for implfmfnting blodking lodks bnd rflbtfd
+ * syndironizfrs (sfmbpiorfs, fvfnts, ftd) tibt rfly on
+ * first-in-first-out (FIFO) wbit qufufs.  Tiis dlbss is dfsignfd to
+ * bf b usfful bbsis for most kinds of syndironizfrs tibt rfly on b
+ * singlf btomid {@dodf int} vbluf to rfprfsfnt stbtf. Subdlbssfs
+ * must dffinf tif protfdtfd mftiods tibt dibngf tiis stbtf, bnd wiidi
+ * dffinf wibt tibt stbtf mfbns in tfrms of tiis objfdt bfing bdquirfd
+ * or rflfbsfd.  Givfn tifsf, tif otifr mftiods in tiis dlbss dbrry
+ * out bll qufuing bnd blodking mfdibnids. Subdlbssfs dbn mbintbin
+ * otifr stbtf fiflds, but only tif btomidblly updbtfd {@dodf int}
+ * vbluf mbnipulbtfd using mftiods {@link #gftStbtf}, {@link
+ * #sftStbtf} bnd {@link #dompbrfAndSftStbtf} is trbdkfd witi rfspfdt
+ * to syndironizbtion.
  *
- * <p>Subclasses should be defined as non-public internal helper
- * classes that are used to implement the synchronization properties
- * of their enclosing class.  Class
- * {@code AbstractQueuedSynchronizer} does not implement any
- * synchronization interface.  Instead it defines methods such as
- * {@link #acquireInterruptibly} that can be invoked as
- * appropriate by concrete locks and related synchronizers to
- * implement their public methods.
+ * <p>Subdlbssfs siould bf dffinfd bs non-publid intfrnbl iflpfr
+ * dlbssfs tibt brf usfd to implfmfnt tif syndironizbtion propfrtifs
+ * of tifir fndlosing dlbss.  Clbss
+ * {@dodf AbstrbdtQufufdSyndironizfr} dofs not implfmfnt bny
+ * syndironizbtion intfrfbdf.  Instfbd it dffinfs mftiods sudi bs
+ * {@link #bdquirfIntfrruptibly} tibt dbn bf invokfd bs
+ * bppropribtf by dondrftf lodks bnd rflbtfd syndironizfrs to
+ * implfmfnt tifir publid mftiods.
  *
- * <p>This class supports either or both a default <em>exclusive</em>
- * mode and a <em>shared</em> mode. When acquired in exclusive mode,
- * attempted acquires by other threads cannot succeed. Shared mode
- * acquires by multiple threads may (but need not) succeed. This class
- * does not &quot;understand&quot; these differences except in the
- * mechanical sense that when a shared mode acquire succeeds, the next
- * waiting thread (if one exists) must also determine whether it can
- * acquire as well. Threads waiting in the different modes share the
- * same FIFO queue. Usually, implementation subclasses support only
- * one of these modes, but both can come into play for example in a
- * {@link ReadWriteLock}. Subclasses that support only exclusive or
- * only shared modes need not define the methods supporting the unused mode.
+ * <p>Tiis dlbss supports fitifr or boti b dffbult <fm>fxdlusivf</fm>
+ * modf bnd b <fm>sibrfd</fm> modf. Wifn bdquirfd in fxdlusivf modf,
+ * bttfmptfd bdquirfs by otifr tirfbds dbnnot suddffd. Sibrfd modf
+ * bdquirfs by multiplf tirfbds mby (but nffd not) suddffd. Tiis dlbss
+ * dofs not &quot;undfrstbnd&quot; tifsf difffrfndfs fxdfpt in tif
+ * mfdibnidbl sfnsf tibt wifn b sibrfd modf bdquirf suddffds, tif nfxt
+ * wbiting tirfbd (if onf fxists) must blso dftfrminf wiftifr it dbn
+ * bdquirf bs wfll. Tirfbds wbiting in tif difffrfnt modfs sibrf tif
+ * sbmf FIFO qufuf. Usublly, implfmfntbtion subdlbssfs support only
+ * onf of tifsf modfs, but boti dbn domf into plby for fxbmplf in b
+ * {@link RfbdWritfLodk}. Subdlbssfs tibt support only fxdlusivf or
+ * only sibrfd modfs nffd not dffinf tif mftiods supporting tif unusfd modf.
  *
- * <p>This class defines a nested {@link ConditionObject} class that
- * can be used as a {@link Condition} implementation by subclasses
- * supporting exclusive mode for which method {@link
- * #isHeldExclusively} reports whether synchronization is exclusively
- * held with respect to the current thread, method {@link #release}
- * invoked with the current {@link #getState} value fully releases
- * this object, and {@link #acquire}, given this saved state value,
- * eventually restores this object to its previous acquired state.  No
- * {@code AbstractQueuedSynchronizer} method otherwise creates such a
- * condition, so if this constraint cannot be met, do not use it.  The
- * behavior of {@link ConditionObject} depends of course on the
- * semantics of its synchronizer implementation.
+ * <p>Tiis dlbss dffinfs b nfstfd {@link ConditionObjfdt} dlbss tibt
+ * dbn bf usfd bs b {@link Condition} implfmfntbtion by subdlbssfs
+ * supporting fxdlusivf modf for wiidi mftiod {@link
+ * #isHfldExdlusivfly} rfports wiftifr syndironizbtion is fxdlusivfly
+ * ifld witi rfspfdt to tif durrfnt tirfbd, mftiod {@link #rflfbsf}
+ * invokfd witi tif durrfnt {@link #gftStbtf} vbluf fully rflfbsfs
+ * tiis objfdt, bnd {@link #bdquirf}, givfn tiis sbvfd stbtf vbluf,
+ * fvfntublly rfstorfs tiis objfdt to its prfvious bdquirfd stbtf.  No
+ * {@dodf AbstrbdtQufufdSyndironizfr} mftiod otifrwisf drfbtfs sudi b
+ * dondition, so if tiis donstrbint dbnnot bf mft, do not usf it.  Tif
+ * bfibvior of {@link ConditionObjfdt} dfpfnds of doursf on tif
+ * sfmbntids of its syndironizfr implfmfntbtion.
  *
- * <p>This class provides inspection, instrumentation, and monitoring
- * methods for the internal queue, as well as similar methods for
- * condition objects. These can be exported as desired into classes
- * using an {@code AbstractQueuedSynchronizer} for their
- * synchronization mechanics.
+ * <p>Tiis dlbss providfs inspfdtion, instrumfntbtion, bnd monitoring
+ * mftiods for tif intfrnbl qufuf, bs wfll bs similbr mftiods for
+ * dondition objfdts. Tifsf dbn bf fxportfd bs dfsirfd into dlbssfs
+ * using bn {@dodf AbstrbdtQufufdSyndironizfr} for tifir
+ * syndironizbtion mfdibnids.
  *
- * <p>Serialization of this class stores only the underlying atomic
- * integer maintaining state, so deserialized objects have empty
- * thread queues. Typical subclasses requiring serializability will
- * define a {@code readObject} method that restores this to a known
- * initial state upon deserialization.
+ * <p>Sfriblizbtion of tiis dlbss storfs only tif undfrlying btomid
+ * intfgfr mbintbining stbtf, so dfsfriblizfd objfdts ibvf fmpty
+ * tirfbd qufufs. Typidbl subdlbssfs rfquiring sfriblizbbility will
+ * dffinf b {@dodf rfbdObjfdt} mftiod tibt rfstorfs tiis to b known
+ * initibl stbtf upon dfsfriblizbtion.
  *
- * <h3>Usage</h3>
+ * <i3>Usbgf</i3>
  *
- * <p>To use this class as the basis of a synchronizer, redefine the
- * following methods, as applicable, by inspecting and/or modifying
- * the synchronization state using {@link #getState}, {@link
- * #setState} and/or {@link #compareAndSetState}:
+ * <p>To usf tiis dlbss bs tif bbsis of b syndironizfr, rfdffinf tif
+ * following mftiods, bs bpplidbblf, by inspfdting bnd/or modifying
+ * tif syndironizbtion stbtf using {@link #gftStbtf}, {@link
+ * #sftStbtf} bnd/or {@link #dompbrfAndSftStbtf}:
  *
  * <ul>
- * <li> {@link #tryAcquire}
- * <li> {@link #tryRelease}
- * <li> {@link #tryAcquireShared}
- * <li> {@link #tryReleaseShared}
- * <li> {@link #isHeldExclusively}
+ * <li> {@link #tryAdquirf}
+ * <li> {@link #tryRflfbsf}
+ * <li> {@link #tryAdquirfSibrfd}
+ * <li> {@link #tryRflfbsfSibrfd}
+ * <li> {@link #isHfldExdlusivfly}
  * </ul>
  *
- * Each of these methods by default throws {@link
- * UnsupportedOperationException}.  Implementations of these methods
- * must be internally thread-safe, and should in general be short and
- * not block. Defining these methods is the <em>only</em> supported
- * means of using this class. All other methods are declared
- * {@code final} because they cannot be independently varied.
+ * Ebdi of tifsf mftiods by dffbult tirows {@link
+ * UnsupportfdOpfrbtionExdfption}.  Implfmfntbtions of tifsf mftiods
+ * must bf intfrnblly tirfbd-sbff, bnd siould in gfnfrbl bf siort bnd
+ * not blodk. Dffining tifsf mftiods is tif <fm>only</fm> supportfd
+ * mfbns of using tiis dlbss. All otifr mftiods brf dfdlbrfd
+ * {@dodf finbl} bfdbusf tify dbnnot bf indfpfndfntly vbrifd.
  *
- * <p>You may also find the inherited methods from {@link
- * AbstractOwnableSynchronizer} useful to keep track of the thread
- * owning an exclusive synchronizer.  You are encouraged to use them
- * -- this enables monitoring and diagnostic tools to assist users in
- * determining which threads hold locks.
+ * <p>You mby blso find tif inifritfd mftiods from {@link
+ * AbstrbdtOwnbblfSyndironizfr} usfful to kffp trbdk of tif tirfbd
+ * owning bn fxdlusivf syndironizfr.  You brf fndourbgfd to usf tifm
+ * -- tiis fnbblfs monitoring bnd dibgnostid tools to bssist usfrs in
+ * dftfrmining wiidi tirfbds iold lodks.
  *
- * <p>Even though this class is based on an internal FIFO queue, it
- * does not automatically enforce FIFO acquisition policies.  The core
- * of exclusive synchronization takes the form:
+ * <p>Evfn tiougi tiis dlbss is bbsfd on bn intfrnbl FIFO qufuf, it
+ * dofs not butombtidblly fnfordf FIFO bdquisition polidifs.  Tif dorf
+ * of fxdlusivf syndironizbtion tbkfs tif form:
  *
- * <pre>
- * Acquire:
- *     while (!tryAcquire(arg)) {
- *        <em>enqueue thread if it is not already queued</em>;
- *        <em>possibly block current thread</em>;
+ * <prf>
+ * Adquirf:
+ *     wiilf (!tryAdquirf(brg)) {
+ *        <fm>fnqufuf tirfbd if it is not blrfbdy qufufd</fm>;
+ *        <fm>possibly blodk durrfnt tirfbd</fm>;
  *     }
  *
- * Release:
- *     if (tryRelease(arg))
- *        <em>unblock the first queued thread</em>;
- * </pre>
+ * Rflfbsf:
+ *     if (tryRflfbsf(brg))
+ *        <fm>unblodk tif first qufufd tirfbd</fm>;
+ * </prf>
  *
- * (Shared mode is similar but may involve cascading signals.)
+ * (Sibrfd modf is similbr but mby involvf dbsdbding signbls.)
  *
- * <p id="barging">Because checks in acquire are invoked before
- * enqueuing, a newly acquiring thread may <em>barge</em> ahead of
- * others that are blocked and queued.  However, you can, if desired,
- * define {@code tryAcquire} and/or {@code tryAcquireShared} to
- * disable barging by internally invoking one or more of the inspection
- * methods, thereby providing a <em>fair</em> FIFO acquisition order.
- * In particular, most fair synchronizers can define {@code tryAcquire}
- * to return {@code false} if {@link #hasQueuedPredecessors} (a method
- * specifically designed to be used by fair synchronizers) returns
- * {@code true}.  Other variations are possible.
+ * <p id="bbrging">Bfdbusf difdks in bdquirf brf invokfd bfforf
+ * fnqufuing, b nfwly bdquiring tirfbd mby <fm>bbrgf</fm> bifbd of
+ * otifrs tibt brf blodkfd bnd qufufd.  Howfvfr, you dbn, if dfsirfd,
+ * dffinf {@dodf tryAdquirf} bnd/or {@dodf tryAdquirfSibrfd} to
+ * disbblf bbrging by intfrnblly invoking onf or morf of tif inspfdtion
+ * mftiods, tifrfby providing b <fm>fbir</fm> FIFO bdquisition ordfr.
+ * In pbrtidulbr, most fbir syndironizfrs dbn dffinf {@dodf tryAdquirf}
+ * to rfturn {@dodf fblsf} if {@link #ibsQufufdPrfdfdfssors} (b mftiod
+ * spfdifidblly dfsignfd to bf usfd by fbir syndironizfrs) rfturns
+ * {@dodf truf}.  Otifr vbribtions brf possiblf.
  *
- * <p>Throughput and scalability are generally highest for the
- * default barging (also known as <em>greedy</em>,
- * <em>renouncement</em>, and <em>convoy-avoidance</em>) strategy.
- * While this is not guaranteed to be fair or starvation-free, earlier
- * queued threads are allowed to recontend before later queued
- * threads, and each recontention has an unbiased chance to succeed
- * against incoming threads.  Also, while acquires do not
- * &quot;spin&quot; in the usual sense, they may perform multiple
- * invocations of {@code tryAcquire} interspersed with other
- * computations before blocking.  This gives most of the benefits of
- * spins when exclusive synchronization is only briefly held, without
- * most of the liabilities when it isn't. If so desired, you can
- * augment this by preceding calls to acquire methods with
- * "fast-path" checks, possibly prechecking {@link #hasContended}
- * and/or {@link #hasQueuedThreads} to only do so if the synchronizer
- * is likely not to be contended.
+ * <p>Tirougiput bnd sdblbbility brf gfnfrblly iigifst for tif
+ * dffbult bbrging (blso known bs <fm>grffdy</fm>,
+ * <fm>rfnoundfmfnt</fm>, bnd <fm>donvoy-bvoidbndf</fm>) strbtfgy.
+ * Wiilf tiis is not gubrbntffd to bf fbir or stbrvbtion-frff, fbrlifr
+ * qufufd tirfbds brf bllowfd to rfdontfnd bfforf lbtfr qufufd
+ * tirfbds, bnd fbdi rfdontfntion ibs bn unbibsfd dibndf to suddffd
+ * bgbinst indoming tirfbds.  Also, wiilf bdquirfs do not
+ * &quot;spin&quot; in tif usubl sfnsf, tify mby pfrform multiplf
+ * invodbtions of {@dodf tryAdquirf} intfrspfrsfd witi otifr
+ * domputbtions bfforf blodking.  Tiis givfs most of tif bfnffits of
+ * spins wifn fxdlusivf syndironizbtion is only briffly ifld, witiout
+ * most of tif libbilitifs wifn it isn't. If so dfsirfd, you dbn
+ * bugmfnt tiis by prfdfding dblls to bdquirf mftiods witi
+ * "fbst-pbti" difdks, possibly prfdifdking {@link #ibsContfndfd}
+ * bnd/or {@link #ibsQufufdTirfbds} to only do so if tif syndironizfr
+ * is likfly not to bf dontfndfd.
  *
- * <p>This class provides an efficient and scalable basis for
- * synchronization in part by specializing its range of use to
- * synchronizers that can rely on {@code int} state, acquire, and
- * release parameters, and an internal FIFO wait queue. When this does
- * not suffice, you can build synchronizers from a lower level using
- * {@link java.util.concurrent.atomic atomic} classes, your own custom
- * {@link java.util.Queue} classes, and {@link LockSupport} blocking
+ * <p>Tiis dlbss providfs bn fffidifnt bnd sdblbblf bbsis for
+ * syndironizbtion in pbrt by spfdiblizing its rbngf of usf to
+ * syndironizfrs tibt dbn rfly on {@dodf int} stbtf, bdquirf, bnd
+ * rflfbsf pbrbmftfrs, bnd bn intfrnbl FIFO wbit qufuf. Wifn tiis dofs
+ * not suffidf, you dbn build syndironizfrs from b lowfr lfvfl using
+ * {@link jbvb.util.dondurrfnt.btomid btomid} dlbssfs, your own dustom
+ * {@link jbvb.util.Qufuf} dlbssfs, bnd {@link LodkSupport} blodking
  * support.
  *
- * <h3>Usage Examples</h3>
+ * <i3>Usbgf Exbmplfs</i3>
  *
- * <p>Here is a non-reentrant mutual exclusion lock class that uses
- * the value zero to represent the unlocked state, and one to
- * represent the locked state. While a non-reentrant lock
- * does not strictly require recording of the current owner
- * thread, this class does so anyway to make usage easier to monitor.
- * It also supports conditions and exposes
- * one of the instrumentation methods:
+ * <p>Hfrf is b non-rffntrbnt mutubl fxdlusion lodk dlbss tibt usfs
+ * tif vbluf zfro to rfprfsfnt tif unlodkfd stbtf, bnd onf to
+ * rfprfsfnt tif lodkfd stbtf. Wiilf b non-rffntrbnt lodk
+ * dofs not stridtly rfquirf rfdording of tif durrfnt ownfr
+ * tirfbd, tiis dlbss dofs so bnywby to mbkf usbgf fbsifr to monitor.
+ * It blso supports donditions bnd fxposfs
+ * onf of tif instrumfntbtion mftiods:
  *
- *  <pre> {@code
- * class Mutex implements Lock, java.io.Serializable {
+ *  <prf> {@dodf
+ * dlbss Mutfx implfmfnts Lodk, jbvb.io.Sfriblizbblf {
  *
- *   // Our internal helper class
- *   private static class Sync extends AbstractQueuedSynchronizer {
- *     // Reports whether in locked state
- *     protected boolean isHeldExclusively() {
- *       return getState() == 1;
+ *   // Our intfrnbl iflpfr dlbss
+ *   privbtf stbtid dlbss Synd fxtfnds AbstrbdtQufufdSyndironizfr {
+ *     // Rfports wiftifr in lodkfd stbtf
+ *     protfdtfd boolfbn isHfldExdlusivfly() {
+ *       rfturn gftStbtf() == 1;
  *     }
  *
- *     // Acquires the lock if state is zero
- *     public boolean tryAcquire(int acquires) {
- *       assert acquires == 1; // Otherwise unused
- *       if (compareAndSetState(0, 1)) {
- *         setExclusiveOwnerThread(Thread.currentThread());
- *         return true;
+ *     // Adquirfs tif lodk if stbtf is zfro
+ *     publid boolfbn tryAdquirf(int bdquirfs) {
+ *       bssfrt bdquirfs == 1; // Otifrwisf unusfd
+ *       if (dompbrfAndSftStbtf(0, 1)) {
+ *         sftExdlusivfOwnfrTirfbd(Tirfbd.durrfntTirfbd());
+ *         rfturn truf;
  *       }
- *       return false;
+ *       rfturn fblsf;
  *     }
  *
- *     // Releases the lock by setting state to zero
- *     protected boolean tryRelease(int releases) {
- *       assert releases == 1; // Otherwise unused
- *       if (getState() == 0) throw new IllegalMonitorStateException();
- *       setExclusiveOwnerThread(null);
- *       setState(0);
- *       return true;
+ *     // Rflfbsfs tif lodk by sftting stbtf to zfro
+ *     protfdtfd boolfbn tryRflfbsf(int rflfbsfs) {
+ *       bssfrt rflfbsfs == 1; // Otifrwisf unusfd
+ *       if (gftStbtf() == 0) tirow nfw IllfgblMonitorStbtfExdfption();
+ *       sftExdlusivfOwnfrTirfbd(null);
+ *       sftStbtf(0);
+ *       rfturn truf;
  *     }
  *
- *     // Provides a Condition
- *     Condition newCondition() { return new ConditionObject(); }
+ *     // Providfs b Condition
+ *     Condition nfwCondition() { rfturn nfw ConditionObjfdt(); }
  *
- *     // Deserializes properly
- *     private void readObject(ObjectInputStream s)
- *         throws IOException, ClassNotFoundException {
- *       s.defaultReadObject();
- *       setState(0); // reset to unlocked state
- *     }
- *   }
- *
- *   // The sync object does all the hard work. We just forward to it.
- *   private final Sync sync = new Sync();
- *
- *   public void lock()                { sync.acquire(1); }
- *   public boolean tryLock()          { return sync.tryAcquire(1); }
- *   public void unlock()              { sync.release(1); }
- *   public Condition newCondition()   { return sync.newCondition(); }
- *   public boolean isLocked()         { return sync.isHeldExclusively(); }
- *   public boolean hasQueuedThreads() { return sync.hasQueuedThreads(); }
- *   public void lockInterruptibly() throws InterruptedException {
- *     sync.acquireInterruptibly(1);
- *   }
- *   public boolean tryLock(long timeout, TimeUnit unit)
- *       throws InterruptedException {
- *     return sync.tryAcquireNanos(1, unit.toNanos(timeout));
- *   }
- * }}</pre>
- *
- * <p>Here is a latch class that is like a
- * {@link java.util.concurrent.CountDownLatch CountDownLatch}
- * except that it only requires a single {@code signal} to
- * fire. Because a latch is non-exclusive, it uses the {@code shared}
- * acquire and release methods.
- *
- *  <pre> {@code
- * class BooleanLatch {
- *
- *   private static class Sync extends AbstractQueuedSynchronizer {
- *     boolean isSignalled() { return getState() != 0; }
- *
- *     protected int tryAcquireShared(int ignore) {
- *       return isSignalled() ? 1 : -1;
- *     }
- *
- *     protected boolean tryReleaseShared(int ignore) {
- *       setState(1);
- *       return true;
+ *     // Dfsfriblizfs propfrly
+ *     privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+ *         tirows IOExdfption, ClbssNotFoundExdfption {
+ *       s.dffbultRfbdObjfdt();
+ *       sftStbtf(0); // rfsft to unlodkfd stbtf
  *     }
  *   }
  *
- *   private final Sync sync = new Sync();
- *   public boolean isSignalled() { return sync.isSignalled(); }
- *   public void signal()         { sync.releaseShared(1); }
- *   public void await() throws InterruptedException {
- *     sync.acquireSharedInterruptibly(1);
- *   }
- * }}</pre>
+ *   // Tif synd objfdt dofs bll tif ibrd work. Wf just forwbrd to it.
+ *   privbtf finbl Synd synd = nfw Synd();
  *
- * @since 1.5
- * @author Doug Lea
+ *   publid void lodk()                { synd.bdquirf(1); }
+ *   publid boolfbn tryLodk()          { rfturn synd.tryAdquirf(1); }
+ *   publid void unlodk()              { synd.rflfbsf(1); }
+ *   publid Condition nfwCondition()   { rfturn synd.nfwCondition(); }
+ *   publid boolfbn isLodkfd()         { rfturn synd.isHfldExdlusivfly(); }
+ *   publid boolfbn ibsQufufdTirfbds() { rfturn synd.ibsQufufdTirfbds(); }
+ *   publid void lodkIntfrruptibly() tirows IntfrruptfdExdfption {
+ *     synd.bdquirfIntfrruptibly(1);
+ *   }
+ *   publid boolfbn tryLodk(long timfout, TimfUnit unit)
+ *       tirows IntfrruptfdExdfption {
+ *     rfturn synd.tryAdquirfNbnos(1, unit.toNbnos(timfout));
+ *   }
+ * }}</prf>
+ *
+ * <p>Hfrf is b lbtdi dlbss tibt is likf b
+ * {@link jbvb.util.dondurrfnt.CountDownLbtdi CountDownLbtdi}
+ * fxdfpt tibt it only rfquirfs b singlf {@dodf signbl} to
+ * firf. Bfdbusf b lbtdi is non-fxdlusivf, it usfs tif {@dodf sibrfd}
+ * bdquirf bnd rflfbsf mftiods.
+ *
+ *  <prf> {@dodf
+ * dlbss BoolfbnLbtdi {
+ *
+ *   privbtf stbtid dlbss Synd fxtfnds AbstrbdtQufufdSyndironizfr {
+ *     boolfbn isSignbllfd() { rfturn gftStbtf() != 0; }
+ *
+ *     protfdtfd int tryAdquirfSibrfd(int ignorf) {
+ *       rfturn isSignbllfd() ? 1 : -1;
+ *     }
+ *
+ *     protfdtfd boolfbn tryRflfbsfSibrfd(int ignorf) {
+ *       sftStbtf(1);
+ *       rfturn truf;
+ *     }
+ *   }
+ *
+ *   privbtf finbl Synd synd = nfw Synd();
+ *   publid boolfbn isSignbllfd() { rfturn synd.isSignbllfd(); }
+ *   publid void signbl()         { synd.rflfbsfSibrfd(1); }
+ *   publid void bwbit() tirows IntfrruptfdExdfption {
+ *     synd.bdquirfSibrfdIntfrruptibly(1);
+ *   }
+ * }}</prf>
+ *
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public abstract class AbstractQueuedSynchronizer
-    extends AbstractOwnableSynchronizer
-    implements java.io.Serializable {
+publid bbstrbdt dlbss AbstrbdtQufufdSyndironizfr
+    fxtfnds AbstrbdtOwnbblfSyndironizfr
+    implfmfnts jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = 7373984972572414691L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7373984972572414691L;
 
     /**
-     * Creates a new {@code AbstractQueuedSynchronizer} instance
-     * with initial synchronization state of zero.
+     * Crfbtfs b nfw {@dodf AbstrbdtQufufdSyndironizfr} instbndf
+     * witi initibl syndironizbtion stbtf of zfro.
      */
-    protected AbstractQueuedSynchronizer() { }
+    protfdtfd AbstrbdtQufufdSyndironizfr() { }
 
     /**
-     * Wait queue node class.
+     * Wbit qufuf nodf dlbss.
      *
-     * <p>The wait queue is a variant of a "CLH" (Craig, Landin, and
-     * Hagersten) lock queue. CLH locks are normally used for
-     * spinlocks.  We instead use them for blocking synchronizers, but
-     * use the same basic tactic of holding some of the control
-     * information about a thread in the predecessor of its node.  A
-     * "status" field in each node keeps track of whether a thread
-     * should block.  A node is signalled when its predecessor
-     * releases.  Each node of the queue otherwise serves as a
-     * specific-notification-style monitor holding a single waiting
-     * thread. The status field does NOT control whether threads are
-     * granted locks etc though.  A thread may try to acquire if it is
-     * first in the queue. But being first does not guarantee success;
-     * it only gives the right to contend.  So the currently released
-     * contender thread may need to rewait.
+     * <p>Tif wbit qufuf is b vbribnt of b "CLH" (Crbig, Lbndin, bnd
+     * Hbgfrstfn) lodk qufuf. CLH lodks brf normblly usfd for
+     * spinlodks.  Wf instfbd usf tifm for blodking syndironizfrs, but
+     * usf tif sbmf bbsid tbdtid of iolding somf of tif dontrol
+     * informbtion bbout b tirfbd in tif prfdfdfssor of its nodf.  A
+     * "stbtus" fifld in fbdi nodf kffps trbdk of wiftifr b tirfbd
+     * siould blodk.  A nodf is signbllfd wifn its prfdfdfssor
+     * rflfbsfs.  Ebdi nodf of tif qufuf otifrwisf sfrvfs bs b
+     * spfdifid-notifidbtion-stylf monitor iolding b singlf wbiting
+     * tirfbd. Tif stbtus fifld dofs NOT dontrol wiftifr tirfbds brf
+     * grbntfd lodks ftd tiougi.  A tirfbd mby try to bdquirf if it is
+     * first in tif qufuf. But bfing first dofs not gubrbntff suddfss;
+     * it only givfs tif rigit to dontfnd.  So tif durrfntly rflfbsfd
+     * dontfndfr tirfbd mby nffd to rfwbit.
      *
-     * <p>To enqueue into a CLH lock, you atomically splice it in as new
-     * tail. To dequeue, you just set the head field.
-     * <pre>
-     *      +------+  prev +-----+       +-----+
-     * head |      | <---- |     | <---- |     |  tail
+     * <p>To fnqufuf into b CLH lodk, you btomidblly splidf it in bs nfw
+     * tbil. To dfqufuf, you just sft tif ifbd fifld.
+     * <prf>
+     *      +------+  prfv +-----+       +-----+
+     * ifbd |      | <---- |     | <---- |     |  tbil
      *      +------+       +-----+       +-----+
-     * </pre>
+     * </prf>
      *
-     * <p>Insertion into a CLH queue requires only a single atomic
-     * operation on "tail", so there is a simple atomic point of
-     * demarcation from unqueued to queued. Similarly, dequeuing
-     * involves only updating the "head". However, it takes a bit
-     * more work for nodes to determine who their successors are,
-     * in part to deal with possible cancellation due to timeouts
-     * and interrupts.
+     * <p>Insfrtion into b CLH qufuf rfquirfs only b singlf btomid
+     * opfrbtion on "tbil", so tifrf is b simplf btomid point of
+     * dfmbrdbtion from unqufufd to qufufd. Similbrly, dfqufuing
+     * involvfs only updbting tif "ifbd". Howfvfr, it tbkfs b bit
+     * morf work for nodfs to dftfrminf wio tifir suddfssors brf,
+     * in pbrt to dfbl witi possiblf dbndfllbtion duf to timfouts
+     * bnd intfrrupts.
      *
-     * <p>The "prev" links (not used in original CLH locks), are mainly
-     * needed to handle cancellation. If a node is cancelled, its
-     * successor is (normally) relinked to a non-cancelled
-     * predecessor. For explanation of similar mechanics in the case
-     * of spin locks, see the papers by Scott and Scherer at
-     * http://www.cs.rochester.edu/u/scott/synchronization/
+     * <p>Tif "prfv" links (not usfd in originbl CLH lodks), brf mbinly
+     * nffdfd to ibndlf dbndfllbtion. If b nodf is dbndfllfd, its
+     * suddfssor is (normblly) rflinkfd to b non-dbndfllfd
+     * prfdfdfssor. For fxplbnbtion of similbr mfdibnids in tif dbsf
+     * of spin lodks, sff tif pbpfrs by Sdott bnd Sdifrfr bt
+     * ittp://www.ds.rodifstfr.fdu/u/sdott/syndironizbtion/
      *
-     * <p>We also use "next" links to implement blocking mechanics.
-     * The thread id for each node is kept in its own node, so a
-     * predecessor signals the next node to wake up by traversing
-     * next link to determine which thread it is.  Determination of
-     * successor must avoid races with newly queued nodes to set
-     * the "next" fields of their predecessors.  This is solved
-     * when necessary by checking backwards from the atomically
-     * updated "tail" when a node's successor appears to be null.
-     * (Or, said differently, the next-links are an optimization
-     * so that we don't usually need a backward scan.)
+     * <p>Wf blso usf "nfxt" links to implfmfnt blodking mfdibnids.
+     * Tif tirfbd id for fbdi nodf is kfpt in its own nodf, so b
+     * prfdfdfssor signbls tif nfxt nodf to wbkf up by trbvfrsing
+     * nfxt link to dftfrminf wiidi tirfbd it is.  Dftfrminbtion of
+     * suddfssor must bvoid rbdfs witi nfwly qufufd nodfs to sft
+     * tif "nfxt" fiflds of tifir prfdfdfssors.  Tiis is solvfd
+     * wifn nfdfssbry by difdking bbdkwbrds from tif btomidblly
+     * updbtfd "tbil" wifn b nodf's suddfssor bppfbrs to bf null.
+     * (Or, sbid difffrfntly, tif nfxt-links brf bn optimizbtion
+     * so tibt wf don't usublly nffd b bbdkwbrd sdbn.)
      *
-     * <p>Cancellation introduces some conservatism to the basic
-     * algorithms.  Since we must poll for cancellation of other
-     * nodes, we can miss noticing whether a cancelled node is
-     * ahead or behind us. This is dealt with by always unparking
-     * successors upon cancellation, allowing them to stabilize on
-     * a new predecessor, unless we can identify an uncancelled
-     * predecessor who will carry this responsibility.
+     * <p>Cbndfllbtion introdudfs somf donsfrvbtism to tif bbsid
+     * blgoritims.  Sindf wf must poll for dbndfllbtion of otifr
+     * nodfs, wf dbn miss notiding wiftifr b dbndfllfd nodf is
+     * bifbd or bfiind us. Tiis is dfblt witi by blwbys unpbrking
+     * suddfssors upon dbndfllbtion, bllowing tifm to stbbilizf on
+     * b nfw prfdfdfssor, unlfss wf dbn idfntify bn undbndfllfd
+     * prfdfdfssor wio will dbrry tiis rfsponsibility.
      *
-     * <p>CLH queues need a dummy header node to get started. But
-     * we don't create them on construction, because it would be wasted
-     * effort if there is never contention. Instead, the node
-     * is constructed and head and tail pointers are set upon first
-     * contention.
+     * <p>CLH qufufs nffd b dummy ifbdfr nodf to gft stbrtfd. But
+     * wf don't drfbtf tifm on donstrudtion, bfdbusf it would bf wbstfd
+     * fffort if tifrf is nfvfr dontfntion. Instfbd, tif nodf
+     * is donstrudtfd bnd ifbd bnd tbil pointfrs brf sft upon first
+     * dontfntion.
      *
-     * <p>Threads waiting on Conditions use the same nodes, but
-     * use an additional link. Conditions only need to link nodes
-     * in simple (non-concurrent) linked queues because they are
-     * only accessed when exclusively held.  Upon await, a node is
-     * inserted into a condition queue.  Upon signal, the node is
-     * transferred to the main queue.  A special value of status
-     * field is used to mark which queue a node is on.
+     * <p>Tirfbds wbiting on Conditions usf tif sbmf nodfs, but
+     * usf bn bdditionbl link. Conditions only nffd to link nodfs
+     * in simplf (non-dondurrfnt) linkfd qufufs bfdbusf tify brf
+     * only bddfssfd wifn fxdlusivfly ifld.  Upon bwbit, b nodf is
+     * insfrtfd into b dondition qufuf.  Upon signbl, tif nodf is
+     * trbnsffrrfd to tif mbin qufuf.  A spfdibl vbluf of stbtus
+     * fifld is usfd to mbrk wiidi qufuf b nodf is on.
      *
-     * <p>Thanks go to Dave Dice, Mark Moir, Victor Luchangco, Bill
-     * Scherer and Michael Scott, along with members of JSR-166
-     * expert group, for helpful ideas, discussions, and critiques
-     * on the design of this class.
+     * <p>Tibnks go to Dbvf Didf, Mbrk Moir, Vidtor Ludibngdo, Bill
+     * Sdifrfr bnd Midibfl Sdott, blong witi mfmbfrs of JSR-166
+     * fxpfrt group, for iflpful idfbs, disdussions, bnd dritiqufs
+     * on tif dfsign of tiis dlbss.
      */
-    static final class Node {
-        /** Marker to indicate a node is waiting in shared mode */
-        static final Node SHARED = new Node();
-        /** Marker to indicate a node is waiting in exclusive mode */
-        static final Node EXCLUSIVE = null;
+    stbtid finbl dlbss Nodf {
+        /** Mbrkfr to indidbtf b nodf is wbiting in sibrfd modf */
+        stbtid finbl Nodf SHARED = nfw Nodf();
+        /** Mbrkfr to indidbtf b nodf is wbiting in fxdlusivf modf */
+        stbtid finbl Nodf EXCLUSIVE = null;
 
-        /** waitStatus value to indicate thread has cancelled */
-        static final int CANCELLED =  1;
-        /** waitStatus value to indicate successor's thread needs unparking */
-        static final int SIGNAL    = -1;
-        /** waitStatus value to indicate thread is waiting on condition */
-        static final int CONDITION = -2;
+        /** wbitStbtus vbluf to indidbtf tirfbd ibs dbndfllfd */
+        stbtid finbl int CANCELLED =  1;
+        /** wbitStbtus vbluf to indidbtf suddfssor's tirfbd nffds unpbrking */
+        stbtid finbl int SIGNAL    = -1;
+        /** wbitStbtus vbluf to indidbtf tirfbd is wbiting on dondition */
+        stbtid finbl int CONDITION = -2;
         /**
-         * waitStatus value to indicate the next acquireShared should
-         * unconditionally propagate
+         * wbitStbtus vbluf to indidbtf tif nfxt bdquirfSibrfd siould
+         * undonditionblly propbgbtf
          */
-        static final int PROPAGATE = -3;
+        stbtid finbl int PROPAGATE = -3;
 
         /**
-         * Status field, taking on only the values:
-         *   SIGNAL:     The successor of this node is (or will soon be)
-         *               blocked (via park), so the current node must
-         *               unpark its successor when it releases or
-         *               cancels. To avoid races, acquire methods must
-         *               first indicate they need a signal,
-         *               then retry the atomic acquire, and then,
-         *               on failure, block.
-         *   CANCELLED:  This node is cancelled due to timeout or interrupt.
-         *               Nodes never leave this state. In particular,
-         *               a thread with cancelled node never again blocks.
-         *   CONDITION:  This node is currently on a condition queue.
-         *               It will not be used as a sync queue node
-         *               until transferred, at which time the status
-         *               will be set to 0. (Use of this value here has
-         *               nothing to do with the other uses of the
-         *               field, but simplifies mechanics.)
-         *   PROPAGATE:  A releaseShared should be propagated to other
-         *               nodes. This is set (for head node only) in
-         *               doReleaseShared to ensure propagation
-         *               continues, even if other operations have
-         *               since intervened.
-         *   0:          None of the above
+         * Stbtus fifld, tbking on only tif vblufs:
+         *   SIGNAL:     Tif suddfssor of tiis nodf is (or will soon bf)
+         *               blodkfd (vib pbrk), so tif durrfnt nodf must
+         *               unpbrk its suddfssor wifn it rflfbsfs or
+         *               dbndfls. To bvoid rbdfs, bdquirf mftiods must
+         *               first indidbtf tify nffd b signbl,
+         *               tifn rftry tif btomid bdquirf, bnd tifn,
+         *               on fbilurf, blodk.
+         *   CANCELLED:  Tiis nodf is dbndfllfd duf to timfout or intfrrupt.
+         *               Nodfs nfvfr lfbvf tiis stbtf. In pbrtidulbr,
+         *               b tirfbd witi dbndfllfd nodf nfvfr bgbin blodks.
+         *   CONDITION:  Tiis nodf is durrfntly on b dondition qufuf.
+         *               It will not bf usfd bs b synd qufuf nodf
+         *               until trbnsffrrfd, bt wiidi timf tif stbtus
+         *               will bf sft to 0. (Usf of tiis vbluf ifrf ibs
+         *               notiing to do witi tif otifr usfs of tif
+         *               fifld, but simplififs mfdibnids.)
+         *   PROPAGATE:  A rflfbsfSibrfd siould bf propbgbtfd to otifr
+         *               nodfs. Tiis is sft (for ifbd nodf only) in
+         *               doRflfbsfSibrfd to fnsurf propbgbtion
+         *               dontinufs, fvfn if otifr opfrbtions ibvf
+         *               sindf intfrvfnfd.
+         *   0:          Nonf of tif bbovf
          *
-         * The values are arranged numerically to simplify use.
-         * Non-negative values mean that a node doesn't need to
-         * signal. So, most code doesn't need to check for particular
-         * values, just for sign.
+         * Tif vblufs brf brrbngfd numfridblly to simplify usf.
+         * Non-nfgbtivf vblufs mfbn tibt b nodf dofsn't nffd to
+         * signbl. So, most dodf dofsn't nffd to difdk for pbrtidulbr
+         * vblufs, just for sign.
          *
-         * The field is initialized to 0 for normal sync nodes, and
-         * CONDITION for condition nodes.  It is modified using CAS
-         * (or when possible, unconditional volatile writes).
+         * Tif fifld is initiblizfd to 0 for normbl synd nodfs, bnd
+         * CONDITION for dondition nodfs.  It is modififd using CAS
+         * (or wifn possiblf, undonditionbl volbtilf writfs).
          */
-        volatile int waitStatus;
+        volbtilf int wbitStbtus;
 
         /**
-         * Link to predecessor node that current node/thread relies on
-         * for checking waitStatus. Assigned during enqueuing, and nulled
-         * out (for sake of GC) only upon dequeuing.  Also, upon
-         * cancellation of a predecessor, we short-circuit while
-         * finding a non-cancelled one, which will always exist
-         * because the head node is never cancelled: A node becomes
-         * head only as a result of successful acquire. A
-         * cancelled thread never succeeds in acquiring, and a thread only
-         * cancels itself, not any other node.
+         * Link to prfdfdfssor nodf tibt durrfnt nodf/tirfbd rflifs on
+         * for difdking wbitStbtus. Assignfd during fnqufuing, bnd nullfd
+         * out (for sbkf of GC) only upon dfqufuing.  Also, upon
+         * dbndfllbtion of b prfdfdfssor, wf siort-dirduit wiilf
+         * finding b non-dbndfllfd onf, wiidi will blwbys fxist
+         * bfdbusf tif ifbd nodf is nfvfr dbndfllfd: A nodf bfdomfs
+         * ifbd only bs b rfsult of suddfssful bdquirf. A
+         * dbndfllfd tirfbd nfvfr suddffds in bdquiring, bnd b tirfbd only
+         * dbndfls itsflf, not bny otifr nodf.
          */
-        volatile Node prev;
+        volbtilf Nodf prfv;
 
         /**
-         * Link to the successor node that the current node/thread
-         * unparks upon release. Assigned during enqueuing, adjusted
-         * when bypassing cancelled predecessors, and nulled out (for
-         * sake of GC) when dequeued.  The enq operation does not
-         * assign next field of a predecessor until after attachment,
-         * so seeing a null next field does not necessarily mean that
-         * node is at end of queue. However, if a next field appears
-         * to be null, we can scan prev's from the tail to
-         * double-check.  The next field of cancelled nodes is set to
-         * point to the node itself instead of null, to make life
-         * easier for isOnSyncQueue.
+         * Link to tif suddfssor nodf tibt tif durrfnt nodf/tirfbd
+         * unpbrks upon rflfbsf. Assignfd during fnqufuing, bdjustfd
+         * wifn bypbssing dbndfllfd prfdfdfssors, bnd nullfd out (for
+         * sbkf of GC) wifn dfqufufd.  Tif fnq opfrbtion dofs not
+         * bssign nfxt fifld of b prfdfdfssor until bftfr bttbdimfnt,
+         * so sffing b null nfxt fifld dofs not nfdfssbrily mfbn tibt
+         * nodf is bt fnd of qufuf. Howfvfr, if b nfxt fifld bppfbrs
+         * to bf null, wf dbn sdbn prfv's from tif tbil to
+         * doublf-difdk.  Tif nfxt fifld of dbndfllfd nodfs is sft to
+         * point to tif nodf itsflf instfbd of null, to mbkf liff
+         * fbsifr for isOnSyndQufuf.
          */
-        volatile Node next;
+        volbtilf Nodf nfxt;
 
         /**
-         * The thread that enqueued this node.  Initialized on
-         * construction and nulled out after use.
+         * Tif tirfbd tibt fnqufufd tiis nodf.  Initiblizfd on
+         * donstrudtion bnd nullfd out bftfr usf.
          */
-        volatile Thread thread;
+        volbtilf Tirfbd tirfbd;
 
         /**
-         * Link to next node waiting on condition, or the special
-         * value SHARED.  Because condition queues are accessed only
-         * when holding in exclusive mode, we just need a simple
-         * linked queue to hold nodes while they are waiting on
-         * conditions. They are then transferred to the queue to
-         * re-acquire. And because conditions can only be exclusive,
-         * we save a field by using special value to indicate shared
-         * mode.
+         * Link to nfxt nodf wbiting on dondition, or tif spfdibl
+         * vbluf SHARED.  Bfdbusf dondition qufufs brf bddfssfd only
+         * wifn iolding in fxdlusivf modf, wf just nffd b simplf
+         * linkfd qufuf to iold nodfs wiilf tify brf wbiting on
+         * donditions. Tify brf tifn trbnsffrrfd to tif qufuf to
+         * rf-bdquirf. And bfdbusf donditions dbn only bf fxdlusivf,
+         * wf sbvf b fifld by using spfdibl vbluf to indidbtf sibrfd
+         * modf.
          */
-        Node nextWaiter;
+        Nodf nfxtWbitfr;
 
         /**
-         * Returns true if node is waiting in shared mode.
+         * Rfturns truf if nodf is wbiting in sibrfd modf.
          */
-        final boolean isShared() {
-            return nextWaiter == SHARED;
+        finbl boolfbn isSibrfd() {
+            rfturn nfxtWbitfr == SHARED;
         }
 
         /**
-         * Returns previous node, or throws NullPointerException if null.
-         * Use when predecessor cannot be null.  The null check could
-         * be elided, but is present to help the VM.
+         * Rfturns prfvious nodf, or tirows NullPointfrExdfption if null.
+         * Usf wifn prfdfdfssor dbnnot bf null.  Tif null difdk dould
+         * bf flidfd, but is prfsfnt to iflp tif VM.
          *
-         * @return the predecessor of this node
+         * @rfturn tif prfdfdfssor of tiis nodf
          */
-        final Node predecessor() throws NullPointerException {
-            Node p = prev;
+        finbl Nodf prfdfdfssor() tirows NullPointfrExdfption {
+            Nodf p = prfv;
             if (p == null)
-                throw new NullPointerException();
-            else
-                return p;
+                tirow nfw NullPointfrExdfption();
+            flsf
+                rfturn p;
         }
 
-        Node() {    // Used to establish initial head or SHARED marker
+        Nodf() {    // Usfd to fstbblisi initibl ifbd or SHARED mbrkfr
         }
 
-        Node(Thread thread, Node mode) {     // Used by addWaiter
-            this.nextWaiter = mode;
-            this.thread = thread;
+        Nodf(Tirfbd tirfbd, Nodf modf) {     // Usfd by bddWbitfr
+            tiis.nfxtWbitfr = modf;
+            tiis.tirfbd = tirfbd;
         }
 
-        Node(Thread thread, int waitStatus) { // Used by Condition
-            this.waitStatus = waitStatus;
-            this.thread = thread;
+        Nodf(Tirfbd tirfbd, int wbitStbtus) { // Usfd by Condition
+            tiis.wbitStbtus = wbitStbtus;
+            tiis.tirfbd = tirfbd;
         }
     }
 
     /**
-     * Head of the wait queue, lazily initialized.  Except for
-     * initialization, it is modified only via method setHead.  Note:
-     * If head exists, its waitStatus is guaranteed not to be
+     * Hfbd of tif wbit qufuf, lbzily initiblizfd.  Exdfpt for
+     * initiblizbtion, it is modififd only vib mftiod sftHfbd.  Notf:
+     * If ifbd fxists, its wbitStbtus is gubrbntffd not to bf
      * CANCELLED.
      */
-    private transient volatile Node head;
+    privbtf trbnsifnt volbtilf Nodf ifbd;
 
     /**
-     * Tail of the wait queue, lazily initialized.  Modified only via
-     * method enq to add new wait node.
+     * Tbil of tif wbit qufuf, lbzily initiblizfd.  Modififd only vib
+     * mftiod fnq to bdd nfw wbit nodf.
      */
-    private transient volatile Node tail;
+    privbtf trbnsifnt volbtilf Nodf tbil;
 
     /**
-     * The synchronization state.
+     * Tif syndironizbtion stbtf.
      */
-    private volatile int state;
+    privbtf volbtilf int stbtf;
 
     /**
-     * Returns the current value of synchronization state.
-     * This operation has memory semantics of a {@code volatile} read.
-     * @return current state value
+     * Rfturns tif durrfnt vbluf of syndironizbtion stbtf.
+     * Tiis opfrbtion ibs mfmory sfmbntids of b {@dodf volbtilf} rfbd.
+     * @rfturn durrfnt stbtf vbluf
      */
-    protected final int getState() {
-        return state;
+    protfdtfd finbl int gftStbtf() {
+        rfturn stbtf;
     }
 
     /**
-     * Sets the value of synchronization state.
-     * This operation has memory semantics of a {@code volatile} write.
-     * @param newState the new state value
+     * Sfts tif vbluf of syndironizbtion stbtf.
+     * Tiis opfrbtion ibs mfmory sfmbntids of b {@dodf volbtilf} writf.
+     * @pbrbm nfwStbtf tif nfw stbtf vbluf
      */
-    protected final void setState(int newState) {
-        state = newState;
+    protfdtfd finbl void sftStbtf(int nfwStbtf) {
+        stbtf = nfwStbtf;
     }
 
     /**
-     * Atomically sets synchronization state to the given updated
-     * value if the current state value equals the expected value.
-     * This operation has memory semantics of a {@code volatile} read
-     * and write.
+     * Atomidblly sfts syndironizbtion stbtf to tif givfn updbtfd
+     * vbluf if tif durrfnt stbtf vbluf fqubls tif fxpfdtfd vbluf.
+     * Tiis opfrbtion ibs mfmory sfmbntids of b {@dodf volbtilf} rfbd
+     * bnd writf.
      *
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful. False return indicates that the actual
-     *         value was not equal to the expected value.
+     * @pbrbm fxpfdt tif fxpfdtfd vbluf
+     * @pbrbm updbtf tif nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful. Fblsf rfturn indidbtfs tibt tif bdtubl
+     *         vbluf wbs not fqubl to tif fxpfdtfd vbluf.
      */
-    protected final boolean compareAndSetState(int expect, int update) {
-        // See below for intrinsics setup to support this
-        return unsafe.compareAndSwapInt(this, stateOffset, expect, update);
+    protfdtfd finbl boolfbn dompbrfAndSftStbtf(int fxpfdt, int updbtf) {
+        // Sff bflow for intrinsids sftup to support tiis
+        rfturn unsbff.dompbrfAndSwbpInt(tiis, stbtfOffsft, fxpfdt, updbtf);
     }
 
-    // Queuing utilities
+    // Qufuing utilitifs
 
     /**
-     * The number of nanoseconds for which it is faster to spin
-     * rather than to use timed park. A rough estimate suffices
-     * to improve responsiveness with very short timeouts.
+     * Tif numbfr of nbnosfdonds for wiidi it is fbstfr to spin
+     * rbtifr tibn to usf timfd pbrk. A rougi fstimbtf suffidfs
+     * to improvf rfsponsivfnfss witi vfry siort timfouts.
      */
-    static final long spinForTimeoutThreshold = 1000L;
+    stbtid finbl long spinForTimfoutTirfsiold = 1000L;
 
     /**
-     * Inserts node into queue, initializing if necessary. See picture above.
-     * @param node the node to insert
-     * @return node's predecessor
+     * Insfrts nodf into qufuf, initiblizing if nfdfssbry. Sff pidturf bbovf.
+     * @pbrbm nodf tif nodf to insfrt
+     * @rfturn nodf's prfdfdfssor
      */
-    private Node enq(final Node node) {
+    privbtf Nodf fnq(finbl Nodf nodf) {
         for (;;) {
-            Node t = tail;
-            if (t == null) { // Must initialize
-                if (compareAndSetHead(new Node()))
-                    tail = head;
-            } else {
-                node.prev = t;
-                if (compareAndSetTail(t, node)) {
-                    t.next = node;
-                    return t;
+            Nodf t = tbil;
+            if (t == null) { // Must initiblizf
+                if (dompbrfAndSftHfbd(nfw Nodf()))
+                    tbil = ifbd;
+            } flsf {
+                nodf.prfv = t;
+                if (dompbrfAndSftTbil(t, nodf)) {
+                    t.nfxt = nodf;
+                    rfturn t;
                 }
             }
         }
     }
 
     /**
-     * Creates and enqueues node for current thread and given mode.
+     * Crfbtfs bnd fnqufufs nodf for durrfnt tirfbd bnd givfn modf.
      *
-     * @param mode Node.EXCLUSIVE for exclusive, Node.SHARED for shared
-     * @return the new node
+     * @pbrbm modf Nodf.EXCLUSIVE for fxdlusivf, Nodf.SHARED for sibrfd
+     * @rfturn tif nfw nodf
      */
-    private Node addWaiter(Node mode) {
-        Node node = new Node(Thread.currentThread(), mode);
-        // Try the fast path of enq; backup to full enq on failure
-        Node pred = tail;
-        if (pred != null) {
-            node.prev = pred;
-            if (compareAndSetTail(pred, node)) {
-                pred.next = node;
-                return node;
+    privbtf Nodf bddWbitfr(Nodf modf) {
+        Nodf nodf = nfw Nodf(Tirfbd.durrfntTirfbd(), modf);
+        // Try tif fbst pbti of fnq; bbdkup to full fnq on fbilurf
+        Nodf prfd = tbil;
+        if (prfd != null) {
+            nodf.prfv = prfd;
+            if (dompbrfAndSftTbil(prfd, nodf)) {
+                prfd.nfxt = nodf;
+                rfturn nodf;
             }
         }
-        enq(node);
-        return node;
+        fnq(nodf);
+        rfturn nodf;
     }
 
     /**
-     * Sets head of queue to be node, thus dequeuing. Called only by
-     * acquire methods.  Also nulls out unused fields for sake of GC
-     * and to suppress unnecessary signals and traversals.
+     * Sfts ifbd of qufuf to bf nodf, tius dfqufuing. Cbllfd only by
+     * bdquirf mftiods.  Also nulls out unusfd fiflds for sbkf of GC
+     * bnd to supprfss unnfdfssbry signbls bnd trbvfrsbls.
      *
-     * @param node the node
+     * @pbrbm nodf tif nodf
      */
-    private void setHead(Node node) {
-        head = node;
-        node.thread = null;
-        node.prev = null;
+    privbtf void sftHfbd(Nodf nodf) {
+        ifbd = nodf;
+        nodf.tirfbd = null;
+        nodf.prfv = null;
     }
 
     /**
-     * Wakes up node's successor, if one exists.
+     * Wbkfs up nodf's suddfssor, if onf fxists.
      *
-     * @param node the node
+     * @pbrbm nodf tif nodf
      */
-    private void unparkSuccessor(Node node) {
+    privbtf void unpbrkSuddfssor(Nodf nodf) {
         /*
-         * If status is negative (i.e., possibly needing signal) try
-         * to clear in anticipation of signalling.  It is OK if this
-         * fails or if status is changed by waiting thread.
+         * If stbtus is nfgbtivf (i.f., possibly nffding signbl) try
+         * to dlfbr in bntidipbtion of signblling.  It is OK if tiis
+         * fbils or if stbtus is dibngfd by wbiting tirfbd.
          */
-        int ws = node.waitStatus;
+        int ws = nodf.wbitStbtus;
         if (ws < 0)
-            compareAndSetWaitStatus(node, ws, 0);
+            dompbrfAndSftWbitStbtus(nodf, ws, 0);
 
         /*
-         * Thread to unpark is held in successor, which is normally
-         * just the next node.  But if cancelled or apparently null,
-         * traverse backwards from tail to find the actual
-         * non-cancelled successor.
+         * Tirfbd to unpbrk is ifld in suddfssor, wiidi is normblly
+         * just tif nfxt nodf.  But if dbndfllfd or bppbrfntly null,
+         * trbvfrsf bbdkwbrds from tbil to find tif bdtubl
+         * non-dbndfllfd suddfssor.
          */
-        Node s = node.next;
-        if (s == null || s.waitStatus > 0) {
+        Nodf s = nodf.nfxt;
+        if (s == null || s.wbitStbtus > 0) {
             s = null;
-            for (Node t = tail; t != null && t != node; t = t.prev)
-                if (t.waitStatus <= 0)
+            for (Nodf t = tbil; t != null && t != nodf; t = t.prfv)
+                if (t.wbitStbtus <= 0)
                     s = t;
         }
         if (s != null)
-            LockSupport.unpark(s.thread);
+            LodkSupport.unpbrk(s.tirfbd);
     }
 
     /**
-     * Release action for shared mode -- signals successor and ensures
-     * propagation. (Note: For exclusive mode, release just amounts
-     * to calling unparkSuccessor of head if it needs signal.)
+     * Rflfbsf bdtion for sibrfd modf -- signbls suddfssor bnd fnsurfs
+     * propbgbtion. (Notf: For fxdlusivf modf, rflfbsf just bmounts
+     * to dblling unpbrkSuddfssor of ifbd if it nffds signbl.)
      */
-    private void doReleaseShared() {
+    privbtf void doRflfbsfSibrfd() {
         /*
-         * Ensure that a release propagates, even if there are other
-         * in-progress acquires/releases.  This proceeds in the usual
-         * way of trying to unparkSuccessor of head if it needs
-         * signal. But if it does not, status is set to PROPAGATE to
-         * ensure that upon release, propagation continues.
-         * Additionally, we must loop in case a new node is added
-         * while we are doing this. Also, unlike other uses of
-         * unparkSuccessor, we need to know if CAS to reset status
-         * fails, if so rechecking.
+         * Ensurf tibt b rflfbsf propbgbtfs, fvfn if tifrf brf otifr
+         * in-progrfss bdquirfs/rflfbsfs.  Tiis prodffds in tif usubl
+         * wby of trying to unpbrkSuddfssor of ifbd if it nffds
+         * signbl. But if it dofs not, stbtus is sft to PROPAGATE to
+         * fnsurf tibt upon rflfbsf, propbgbtion dontinufs.
+         * Additionblly, wf must loop in dbsf b nfw nodf is bddfd
+         * wiilf wf brf doing tiis. Also, unlikf otifr usfs of
+         * unpbrkSuddfssor, wf nffd to know if CAS to rfsft stbtus
+         * fbils, if so rfdifdking.
          */
         for (;;) {
-            Node h = head;
-            if (h != null && h != tail) {
-                int ws = h.waitStatus;
-                if (ws == Node.SIGNAL) {
-                    if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))
-                        continue;            // loop to recheck cases
-                    unparkSuccessor(h);
+            Nodf i = ifbd;
+            if (i != null && i != tbil) {
+                int ws = i.wbitStbtus;
+                if (ws == Nodf.SIGNAL) {
+                    if (!dompbrfAndSftWbitStbtus(i, Nodf.SIGNAL, 0))
+                        dontinuf;            // loop to rfdifdk dbsfs
+                    unpbrkSuddfssor(i);
                 }
-                else if (ws == 0 &&
-                         !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
-                    continue;                // loop on failed CAS
+                flsf if (ws == 0 &&
+                         !dompbrfAndSftWbitStbtus(i, 0, Nodf.PROPAGATE))
+                    dontinuf;                // loop on fbilfd CAS
             }
-            if (h == head)                   // loop if head changed
-                break;
+            if (i == ifbd)                   // loop if ifbd dibngfd
+                brfbk;
         }
     }
 
     /**
-     * Sets head of queue, and checks if successor may be waiting
-     * in shared mode, if so propagating if either propagate > 0 or
-     * PROPAGATE status was set.
+     * Sfts ifbd of qufuf, bnd difdks if suddfssor mby bf wbiting
+     * in sibrfd modf, if so propbgbting if fitifr propbgbtf > 0 or
+     * PROPAGATE stbtus wbs sft.
      *
-     * @param node the node
-     * @param propagate the return value from a tryAcquireShared
+     * @pbrbm nodf tif nodf
+     * @pbrbm propbgbtf tif rfturn vbluf from b tryAdquirfSibrfd
      */
-    private void setHeadAndPropagate(Node node, int propagate) {
-        Node h = head; // Record old head for check below
-        setHead(node);
+    privbtf void sftHfbdAndPropbgbtf(Nodf nodf, int propbgbtf) {
+        Nodf i = ifbd; // Rfdord old ifbd for difdk bflow
+        sftHfbd(nodf);
         /*
-         * Try to signal next queued node if:
-         *   Propagation was indicated by caller,
-         *     or was recorded (as h.waitStatus either before
-         *     or after setHead) by a previous operation
-         *     (note: this uses sign-check of waitStatus because
-         *      PROPAGATE status may transition to SIGNAL.)
-         * and
-         *   The next node is waiting in shared mode,
-         *     or we don't know, because it appears null
+         * Try to signbl nfxt qufufd nodf if:
+         *   Propbgbtion wbs indidbtfd by dbllfr,
+         *     or wbs rfdordfd (bs i.wbitStbtus fitifr bfforf
+         *     or bftfr sftHfbd) by b prfvious opfrbtion
+         *     (notf: tiis usfs sign-difdk of wbitStbtus bfdbusf
+         *      PROPAGATE stbtus mby trbnsition to SIGNAL.)
+         * bnd
+         *   Tif nfxt nodf is wbiting in sibrfd modf,
+         *     or wf don't know, bfdbusf it bppfbrs null
          *
-         * The conservatism in both of these checks may cause
-         * unnecessary wake-ups, but only when there are multiple
-         * racing acquires/releases, so most need signals now or soon
-         * anyway.
+         * Tif donsfrvbtism in boti of tifsf difdks mby dbusf
+         * unnfdfssbry wbkf-ups, but only wifn tifrf brf multiplf
+         * rbding bdquirfs/rflfbsfs, so most nffd signbls now or soon
+         * bnywby.
          */
-        if (propagate > 0 || h == null || h.waitStatus < 0 ||
-            (h = head) == null || h.waitStatus < 0) {
-            Node s = node.next;
-            if (s == null || s.isShared())
-                doReleaseShared();
+        if (propbgbtf > 0 || i == null || i.wbitStbtus < 0 ||
+            (i = ifbd) == null || i.wbitStbtus < 0) {
+            Nodf s = nodf.nfxt;
+            if (s == null || s.isSibrfd())
+                doRflfbsfSibrfd();
         }
     }
 
-    // Utilities for various versions of acquire
+    // Utilitifs for vbrious vfrsions of bdquirf
 
     /**
-     * Cancels an ongoing attempt to acquire.
+     * Cbndfls bn ongoing bttfmpt to bdquirf.
      *
-     * @param node the node
+     * @pbrbm nodf tif nodf
      */
-    private void cancelAcquire(Node node) {
-        // Ignore if node doesn't exist
-        if (node == null)
-            return;
+    privbtf void dbndflAdquirf(Nodf nodf) {
+        // Ignorf if nodf dofsn't fxist
+        if (nodf == null)
+            rfturn;
 
-        node.thread = null;
+        nodf.tirfbd = null;
 
-        // Skip cancelled predecessors
-        Node pred = node.prev;
-        while (pred.waitStatus > 0)
-            node.prev = pred = pred.prev;
+        // Skip dbndfllfd prfdfdfssors
+        Nodf prfd = nodf.prfv;
+        wiilf (prfd.wbitStbtus > 0)
+            nodf.prfv = prfd = prfd.prfv;
 
-        // predNext is the apparent node to unsplice. CASes below will
-        // fail if not, in which case, we lost race vs another cancel
-        // or signal, so no further action is necessary.
-        Node predNext = pred.next;
+        // prfdNfxt is tif bppbrfnt nodf to unsplidf. CASfs bflow will
+        // fbil if not, in wiidi dbsf, wf lost rbdf vs bnotifr dbndfl
+        // or signbl, so no furtifr bdtion is nfdfssbry.
+        Nodf prfdNfxt = prfd.nfxt;
 
-        // Can use unconditional write instead of CAS here.
-        // After this atomic step, other Nodes can skip past us.
-        // Before, we are free of interference from other threads.
-        node.waitStatus = Node.CANCELLED;
+        // Cbn usf undonditionbl writf instfbd of CAS ifrf.
+        // Aftfr tiis btomid stfp, otifr Nodfs dbn skip pbst us.
+        // Bfforf, wf brf frff of intfrffrfndf from otifr tirfbds.
+        nodf.wbitStbtus = Nodf.CANCELLED;
 
-        // If we are the tail, remove ourselves.
-        if (node == tail && compareAndSetTail(node, pred)) {
-            compareAndSetNext(pred, predNext, null);
-        } else {
-            // If successor needs signal, try to set pred's next-link
-            // so it will get one. Otherwise wake it up to propagate.
+        // If wf brf tif tbil, rfmovf oursflvfs.
+        if (nodf == tbil && dompbrfAndSftTbil(nodf, prfd)) {
+            dompbrfAndSftNfxt(prfd, prfdNfxt, null);
+        } flsf {
+            // If suddfssor nffds signbl, try to sft prfd's nfxt-link
+            // so it will gft onf. Otifrwisf wbkf it up to propbgbtf.
             int ws;
-            if (pred != head &&
-                ((ws = pred.waitStatus) == Node.SIGNAL ||
-                 (ws <= 0 && compareAndSetWaitStatus(pred, ws, Node.SIGNAL))) &&
-                pred.thread != null) {
-                Node next = node.next;
-                if (next != null && next.waitStatus <= 0)
-                    compareAndSetNext(pred, predNext, next);
-            } else {
-                unparkSuccessor(node);
+            if (prfd != ifbd &&
+                ((ws = prfd.wbitStbtus) == Nodf.SIGNAL ||
+                 (ws <= 0 && dompbrfAndSftWbitStbtus(prfd, ws, Nodf.SIGNAL))) &&
+                prfd.tirfbd != null) {
+                Nodf nfxt = nodf.nfxt;
+                if (nfxt != null && nfxt.wbitStbtus <= 0)
+                    dompbrfAndSftNfxt(prfd, prfdNfxt, nfxt);
+            } flsf {
+                unpbrkSuddfssor(nodf);
             }
 
-            node.next = node; // help GC
+            nodf.nfxt = nodf; // iflp GC
         }
     }
 
     /**
-     * Checks and updates status for a node that failed to acquire.
-     * Returns true if thread should block. This is the main signal
-     * control in all acquire loops.  Requires that pred == node.prev.
+     * Cifdks bnd updbtfs stbtus for b nodf tibt fbilfd to bdquirf.
+     * Rfturns truf if tirfbd siould blodk. Tiis is tif mbin signbl
+     * dontrol in bll bdquirf loops.  Rfquirfs tibt prfd == nodf.prfv.
      *
-     * @param pred node's predecessor holding status
-     * @param node the node
-     * @return {@code true} if thread should block
+     * @pbrbm prfd nodf's prfdfdfssor iolding stbtus
+     * @pbrbm nodf tif nodf
+     * @rfturn {@dodf truf} if tirfbd siould blodk
      */
-    private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
-        int ws = pred.waitStatus;
-        if (ws == Node.SIGNAL)
+    privbtf stbtid boolfbn siouldPbrkAftfrFbilfdAdquirf(Nodf prfd, Nodf nodf) {
+        int ws = prfd.wbitStbtus;
+        if (ws == Nodf.SIGNAL)
             /*
-             * This node has already set status asking a release
-             * to signal it, so it can safely park.
+             * Tiis nodf ibs blrfbdy sft stbtus bsking b rflfbsf
+             * to signbl it, so it dbn sbffly pbrk.
              */
-            return true;
+            rfturn truf;
         if (ws > 0) {
             /*
-             * Predecessor was cancelled. Skip over predecessors and
-             * indicate retry.
+             * Prfdfdfssor wbs dbndfllfd. Skip ovfr prfdfdfssors bnd
+             * indidbtf rftry.
              */
             do {
-                node.prev = pred = pred.prev;
-            } while (pred.waitStatus > 0);
-            pred.next = node;
-        } else {
+                nodf.prfv = prfd = prfd.prfv;
+            } wiilf (prfd.wbitStbtus > 0);
+            prfd.nfxt = nodf;
+        } flsf {
             /*
-             * waitStatus must be 0 or PROPAGATE.  Indicate that we
-             * need a signal, but don't park yet.  Caller will need to
-             * retry to make sure it cannot acquire before parking.
+             * wbitStbtus must bf 0 or PROPAGATE.  Indidbtf tibt wf
+             * nffd b signbl, but don't pbrk yft.  Cbllfr will nffd to
+             * rftry to mbkf surf it dbnnot bdquirf bfforf pbrking.
              */
-            compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+            dompbrfAndSftWbitStbtus(prfd, ws, Nodf.SIGNAL);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Convenience method to interrupt current thread.
+     * Convfnifndf mftiod to intfrrupt durrfnt tirfbd.
      */
-    static void selfInterrupt() {
-        Thread.currentThread().interrupt();
+    stbtid void sflfIntfrrupt() {
+        Tirfbd.durrfntTirfbd().intfrrupt();
     }
 
     /**
-     * Convenience method to park and then check if interrupted
+     * Convfnifndf mftiod to pbrk bnd tifn difdk if intfrruptfd
      *
-     * @return {@code true} if interrupted
+     * @rfturn {@dodf truf} if intfrruptfd
      */
-    private final boolean parkAndCheckInterrupt() {
-        LockSupport.park(this);
-        return Thread.interrupted();
+    privbtf finbl boolfbn pbrkAndCifdkIntfrrupt() {
+        LodkSupport.pbrk(tiis);
+        rfturn Tirfbd.intfrruptfd();
     }
 
     /*
-     * Various flavors of acquire, varying in exclusive/shared and
-     * control modes.  Each is mostly the same, but annoyingly
-     * different.  Only a little bit of factoring is possible due to
-     * interactions of exception mechanics (including ensuring that we
-     * cancel if tryAcquire throws exception) and other control, at
-     * least not without hurting performance too much.
+     * Vbrious flbvors of bdquirf, vbrying in fxdlusivf/sibrfd bnd
+     * dontrol modfs.  Ebdi is mostly tif sbmf, but bnnoyingly
+     * difffrfnt.  Only b littlf bit of fbdtoring is possiblf duf to
+     * intfrbdtions of fxdfption mfdibnids (indluding fnsuring tibt wf
+     * dbndfl if tryAdquirf tirows fxdfption) bnd otifr dontrol, bt
+     * lfbst not witiout iurting pfrformbndf too mudi.
      */
 
     /**
-     * Acquires in exclusive uninterruptible mode for thread already in
-     * queue. Used by condition wait methods as well as acquire.
+     * Adquirfs in fxdlusivf unintfrruptiblf modf for tirfbd blrfbdy in
+     * qufuf. Usfd by dondition wbit mftiods bs wfll bs bdquirf.
      *
-     * @param node the node
-     * @param arg the acquire argument
-     * @return {@code true} if interrupted while waiting
+     * @pbrbm nodf tif nodf
+     * @pbrbm brg tif bdquirf brgumfnt
+     * @rfturn {@dodf truf} if intfrruptfd wiilf wbiting
      */
-    final boolean acquireQueued(final Node node, int arg) {
-        boolean failed = true;
+    finbl boolfbn bdquirfQufufd(finbl Nodf nodf, int brg) {
+        boolfbn fbilfd = truf;
         try {
-            boolean interrupted = false;
+            boolfbn intfrruptfd = fblsf;
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head && tryAcquire(arg)) {
-                    setHead(node);
-                    p.next = null; // help GC
-                    failed = false;
-                    return interrupted;
+                finbl Nodf p = nodf.prfdfdfssor();
+                if (p == ifbd && tryAdquirf(brg)) {
+                    sftHfbd(nodf);
+                    p.nfxt = null; // iflp GC
+                    fbilfd = fblsf;
+                    rfturn intfrruptfd;
                 }
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
-                    interrupted = true;
+                if (siouldPbrkAftfrFbilfdAdquirf(p, nodf) &&
+                    pbrkAndCifdkIntfrrupt())
+                    intfrruptfd = truf;
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbilfd)
+                dbndflAdquirf(nodf);
         }
     }
 
     /**
-     * Acquires in exclusive interruptible mode.
-     * @param arg the acquire argument
+     * Adquirfs in fxdlusivf intfrruptiblf modf.
+     * @pbrbm brg tif bdquirf brgumfnt
      */
-    private void doAcquireInterruptibly(int arg)
-        throws InterruptedException {
-        final Node node = addWaiter(Node.EXCLUSIVE);
-        boolean failed = true;
+    privbtf void doAdquirfIntfrruptibly(int brg)
+        tirows IntfrruptfdExdfption {
+        finbl Nodf nodf = bddWbitfr(Nodf.EXCLUSIVE);
+        boolfbn fbilfd = truf;
         try {
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head && tryAcquire(arg)) {
-                    setHead(node);
-                    p.next = null; // help GC
-                    failed = false;
-                    return;
+                finbl Nodf p = nodf.prfdfdfssor();
+                if (p == ifbd && tryAdquirf(brg)) {
+                    sftHfbd(nodf);
+                    p.nfxt = null; // iflp GC
+                    fbilfd = fblsf;
+                    rfturn;
                 }
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
-                    throw new InterruptedException();
+                if (siouldPbrkAftfrFbilfdAdquirf(p, nodf) &&
+                    pbrkAndCifdkIntfrrupt())
+                    tirow nfw IntfrruptfdExdfption();
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbilfd)
+                dbndflAdquirf(nodf);
         }
     }
 
     /**
-     * Acquires in exclusive timed mode.
+     * Adquirfs in fxdlusivf timfd modf.
      *
-     * @param arg the acquire argument
-     * @param nanosTimeout max wait time
-     * @return {@code true} if acquired
+     * @pbrbm brg tif bdquirf brgumfnt
+     * @pbrbm nbnosTimfout mbx wbit timf
+     * @rfturn {@dodf truf} if bdquirfd
      */
-    private boolean doAcquireNanos(int arg, long nanosTimeout)
-            throws InterruptedException {
-        if (nanosTimeout <= 0L)
-            return false;
-        final long deadline = System.nanoTime() + nanosTimeout;
-        final Node node = addWaiter(Node.EXCLUSIVE);
-        boolean failed = true;
+    privbtf boolfbn doAdquirfNbnos(int brg, long nbnosTimfout)
+            tirows IntfrruptfdExdfption {
+        if (nbnosTimfout <= 0L)
+            rfturn fblsf;
+        finbl long dfbdlinf = Systfm.nbnoTimf() + nbnosTimfout;
+        finbl Nodf nodf = bddWbitfr(Nodf.EXCLUSIVE);
+        boolfbn fbilfd = truf;
         try {
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head && tryAcquire(arg)) {
-                    setHead(node);
-                    p.next = null; // help GC
-                    failed = false;
-                    return true;
+                finbl Nodf p = nodf.prfdfdfssor();
+                if (p == ifbd && tryAdquirf(brg)) {
+                    sftHfbd(nodf);
+                    p.nfxt = null; // iflp GC
+                    fbilfd = fblsf;
+                    rfturn truf;
                 }
-                nanosTimeout = deadline - System.nanoTime();
-                if (nanosTimeout <= 0L)
-                    return false;
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    nanosTimeout > spinForTimeoutThreshold)
-                    LockSupport.parkNanos(this, nanosTimeout);
-                if (Thread.interrupted())
-                    throw new InterruptedException();
+                nbnosTimfout = dfbdlinf - Systfm.nbnoTimf();
+                if (nbnosTimfout <= 0L)
+                    rfturn fblsf;
+                if (siouldPbrkAftfrFbilfdAdquirf(p, nodf) &&
+                    nbnosTimfout > spinForTimfoutTirfsiold)
+                    LodkSupport.pbrkNbnos(tiis, nbnosTimfout);
+                if (Tirfbd.intfrruptfd())
+                    tirow nfw IntfrruptfdExdfption();
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbilfd)
+                dbndflAdquirf(nodf);
         }
     }
 
     /**
-     * Acquires in shared uninterruptible mode.
-     * @param arg the acquire argument
+     * Adquirfs in sibrfd unintfrruptiblf modf.
+     * @pbrbm brg tif bdquirf brgumfnt
      */
-    private void doAcquireShared(int arg) {
-        final Node node = addWaiter(Node.SHARED);
-        boolean failed = true;
+    privbtf void doAdquirfSibrfd(int brg) {
+        finbl Nodf nodf = bddWbitfr(Nodf.SHARED);
+        boolfbn fbilfd = truf;
         try {
-            boolean interrupted = false;
+            boolfbn intfrruptfd = fblsf;
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head) {
-                    int r = tryAcquireShared(arg);
+                finbl Nodf p = nodf.prfdfdfssor();
+                if (p == ifbd) {
+                    int r = tryAdquirfSibrfd(brg);
                     if (r >= 0) {
-                        setHeadAndPropagate(node, r);
-                        p.next = null; // help GC
-                        if (interrupted)
-                            selfInterrupt();
-                        failed = false;
-                        return;
+                        sftHfbdAndPropbgbtf(nodf, r);
+                        p.nfxt = null; // iflp GC
+                        if (intfrruptfd)
+                            sflfIntfrrupt();
+                        fbilfd = fblsf;
+                        rfturn;
                     }
                 }
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
-                    interrupted = true;
+                if (siouldPbrkAftfrFbilfdAdquirf(p, nodf) &&
+                    pbrkAndCifdkIntfrrupt())
+                    intfrruptfd = truf;
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbilfd)
+                dbndflAdquirf(nodf);
         }
     }
 
     /**
-     * Acquires in shared interruptible mode.
-     * @param arg the acquire argument
+     * Adquirfs in sibrfd intfrruptiblf modf.
+     * @pbrbm brg tif bdquirf brgumfnt
      */
-    private void doAcquireSharedInterruptibly(int arg)
-        throws InterruptedException {
-        final Node node = addWaiter(Node.SHARED);
-        boolean failed = true;
+    privbtf void doAdquirfSibrfdIntfrruptibly(int brg)
+        tirows IntfrruptfdExdfption {
+        finbl Nodf nodf = bddWbitfr(Nodf.SHARED);
+        boolfbn fbilfd = truf;
         try {
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head) {
-                    int r = tryAcquireShared(arg);
+                finbl Nodf p = nodf.prfdfdfssor();
+                if (p == ifbd) {
+                    int r = tryAdquirfSibrfd(brg);
                     if (r >= 0) {
-                        setHeadAndPropagate(node, r);
-                        p.next = null; // help GC
-                        failed = false;
-                        return;
+                        sftHfbdAndPropbgbtf(nodf, r);
+                        p.nfxt = null; // iflp GC
+                        fbilfd = fblsf;
+                        rfturn;
                     }
                 }
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
-                    throw new InterruptedException();
+                if (siouldPbrkAftfrFbilfdAdquirf(p, nodf) &&
+                    pbrkAndCifdkIntfrrupt())
+                    tirow nfw IntfrruptfdExdfption();
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbilfd)
+                dbndflAdquirf(nodf);
         }
     }
 
     /**
-     * Acquires in shared timed mode.
+     * Adquirfs in sibrfd timfd modf.
      *
-     * @param arg the acquire argument
-     * @param nanosTimeout max wait time
-     * @return {@code true} if acquired
+     * @pbrbm brg tif bdquirf brgumfnt
+     * @pbrbm nbnosTimfout mbx wbit timf
+     * @rfturn {@dodf truf} if bdquirfd
      */
-    private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
-            throws InterruptedException {
-        if (nanosTimeout <= 0L)
-            return false;
-        final long deadline = System.nanoTime() + nanosTimeout;
-        final Node node = addWaiter(Node.SHARED);
-        boolean failed = true;
+    privbtf boolfbn doAdquirfSibrfdNbnos(int brg, long nbnosTimfout)
+            tirows IntfrruptfdExdfption {
+        if (nbnosTimfout <= 0L)
+            rfturn fblsf;
+        finbl long dfbdlinf = Systfm.nbnoTimf() + nbnosTimfout;
+        finbl Nodf nodf = bddWbitfr(Nodf.SHARED);
+        boolfbn fbilfd = truf;
         try {
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head) {
-                    int r = tryAcquireShared(arg);
+                finbl Nodf p = nodf.prfdfdfssor();
+                if (p == ifbd) {
+                    int r = tryAdquirfSibrfd(brg);
                     if (r >= 0) {
-                        setHeadAndPropagate(node, r);
-                        p.next = null; // help GC
-                        failed = false;
-                        return true;
+                        sftHfbdAndPropbgbtf(nodf, r);
+                        p.nfxt = null; // iflp GC
+                        fbilfd = fblsf;
+                        rfturn truf;
                     }
                 }
-                nanosTimeout = deadline - System.nanoTime();
-                if (nanosTimeout <= 0L)
-                    return false;
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    nanosTimeout > spinForTimeoutThreshold)
-                    LockSupport.parkNanos(this, nanosTimeout);
-                if (Thread.interrupted())
-                    throw new InterruptedException();
+                nbnosTimfout = dfbdlinf - Systfm.nbnoTimf();
+                if (nbnosTimfout <= 0L)
+                    rfturn fblsf;
+                if (siouldPbrkAftfrFbilfdAdquirf(p, nodf) &&
+                    nbnosTimfout > spinForTimfoutTirfsiold)
+                    LodkSupport.pbrkNbnos(tiis, nbnosTimfout);
+                if (Tirfbd.intfrruptfd())
+                    tirow nfw IntfrruptfdExdfption();
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbilfd)
+                dbndflAdquirf(nodf);
         }
     }
 
-    // Main exported methods
+    // Mbin fxportfd mftiods
 
     /**
-     * Attempts to acquire in exclusive mode. This method should query
-     * if the state of the object permits it to be acquired in the
-     * exclusive mode, and if so to acquire it.
+     * Attfmpts to bdquirf in fxdlusivf modf. Tiis mftiod siould qufry
+     * if tif stbtf of tif objfdt pfrmits it to bf bdquirfd in tif
+     * fxdlusivf modf, bnd if so to bdquirf it.
      *
-     * <p>This method is always invoked by the thread performing
-     * acquire.  If this method reports failure, the acquire method
-     * may queue the thread, if it is not already queued, until it is
-     * signalled by a release from some other thread. This can be used
-     * to implement method {@link Lock#tryLock()}.
+     * <p>Tiis mftiod is blwbys invokfd by tif tirfbd pfrforming
+     * bdquirf.  If tiis mftiod rfports fbilurf, tif bdquirf mftiod
+     * mby qufuf tif tirfbd, if it is not blrfbdy qufufd, until it is
+     * signbllfd by b rflfbsf from somf otifr tirfbd. Tiis dbn bf usfd
+     * to implfmfnt mftiod {@link Lodk#tryLodk()}.
      *
-     * <p>The default
-     * implementation throws {@link UnsupportedOperationException}.
+     * <p>Tif dffbult
+     * implfmfntbtion tirows {@link UnsupportfdOpfrbtionExdfption}.
      *
-     * @param arg the acquire argument. This value is always the one
-     *        passed to an acquire method, or is the value saved on entry
-     *        to a condition wait.  The value is otherwise uninterpreted
-     *        and can represent anything you like.
-     * @return {@code true} if successful. Upon success, this object has
-     *         been acquired.
-     * @throws IllegalMonitorStateException if acquiring would place this
-     *         synchronizer in an illegal state. This exception must be
-     *         thrown in a consistent fashion for synchronization to work
-     *         correctly.
-     * @throws UnsupportedOperationException if exclusive mode is not supported
+     * @pbrbm brg tif bdquirf brgumfnt. Tiis vbluf is blwbys tif onf
+     *        pbssfd to bn bdquirf mftiod, or is tif vbluf sbvfd on fntry
+     *        to b dondition wbit.  Tif vbluf is otifrwisf unintfrprftfd
+     *        bnd dbn rfprfsfnt bnytiing you likf.
+     * @rfturn {@dodf truf} if suddfssful. Upon suddfss, tiis objfdt ibs
+     *         bffn bdquirfd.
+     * @tirows IllfgblMonitorStbtfExdfption if bdquiring would plbdf tiis
+     *         syndironizfr in bn illfgbl stbtf. Tiis fxdfption must bf
+     *         tirown in b donsistfnt fbsiion for syndironizbtion to work
+     *         dorrfdtly.
+     * @tirows UnsupportfdOpfrbtionExdfption if fxdlusivf modf is not supportfd
      */
-    protected boolean tryAcquire(int arg) {
-        throw new UnsupportedOperationException();
+    protfdtfd boolfbn tryAdquirf(int brg) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Attempts to set the state to reflect a release in exclusive
-     * mode.
+     * Attfmpts to sft tif stbtf to rfflfdt b rflfbsf in fxdlusivf
+     * modf.
      *
-     * <p>This method is always invoked by the thread performing release.
+     * <p>Tiis mftiod is blwbys invokfd by tif tirfbd pfrforming rflfbsf.
      *
-     * <p>The default implementation throws
-     * {@link UnsupportedOperationException}.
+     * <p>Tif dffbult implfmfntbtion tirows
+     * {@link UnsupportfdOpfrbtionExdfption}.
      *
-     * @param arg the release argument. This value is always the one
-     *        passed to a release method, or the current state value upon
-     *        entry to a condition wait.  The value is otherwise
-     *        uninterpreted and can represent anything you like.
-     * @return {@code true} if this object is now in a fully released
-     *         state, so that any waiting threads may attempt to acquire;
-     *         and {@code false} otherwise.
-     * @throws IllegalMonitorStateException if releasing would place this
-     *         synchronizer in an illegal state. This exception must be
-     *         thrown in a consistent fashion for synchronization to work
-     *         correctly.
-     * @throws UnsupportedOperationException if exclusive mode is not supported
+     * @pbrbm brg tif rflfbsf brgumfnt. Tiis vbluf is blwbys tif onf
+     *        pbssfd to b rflfbsf mftiod, or tif durrfnt stbtf vbluf upon
+     *        fntry to b dondition wbit.  Tif vbluf is otifrwisf
+     *        unintfrprftfd bnd dbn rfprfsfnt bnytiing you likf.
+     * @rfturn {@dodf truf} if tiis objfdt is now in b fully rflfbsfd
+     *         stbtf, so tibt bny wbiting tirfbds mby bttfmpt to bdquirf;
+     *         bnd {@dodf fblsf} otifrwisf.
+     * @tirows IllfgblMonitorStbtfExdfption if rflfbsing would plbdf tiis
+     *         syndironizfr in bn illfgbl stbtf. Tiis fxdfption must bf
+     *         tirown in b donsistfnt fbsiion for syndironizbtion to work
+     *         dorrfdtly.
+     * @tirows UnsupportfdOpfrbtionExdfption if fxdlusivf modf is not supportfd
      */
-    protected boolean tryRelease(int arg) {
-        throw new UnsupportedOperationException();
+    protfdtfd boolfbn tryRflfbsf(int brg) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Attempts to acquire in shared mode. This method should query if
-     * the state of the object permits it to be acquired in the shared
-     * mode, and if so to acquire it.
+     * Attfmpts to bdquirf in sibrfd modf. Tiis mftiod siould qufry if
+     * tif stbtf of tif objfdt pfrmits it to bf bdquirfd in tif sibrfd
+     * modf, bnd if so to bdquirf it.
      *
-     * <p>This method is always invoked by the thread performing
-     * acquire.  If this method reports failure, the acquire method
-     * may queue the thread, if it is not already queued, until it is
-     * signalled by a release from some other thread.
+     * <p>Tiis mftiod is blwbys invokfd by tif tirfbd pfrforming
+     * bdquirf.  If tiis mftiod rfports fbilurf, tif bdquirf mftiod
+     * mby qufuf tif tirfbd, if it is not blrfbdy qufufd, until it is
+     * signbllfd by b rflfbsf from somf otifr tirfbd.
      *
-     * <p>The default implementation throws {@link
-     * UnsupportedOperationException}.
+     * <p>Tif dffbult implfmfntbtion tirows {@link
+     * UnsupportfdOpfrbtionExdfption}.
      *
-     * @param arg the acquire argument. This value is always the one
-     *        passed to an acquire method, or is the value saved on entry
-     *        to a condition wait.  The value is otherwise uninterpreted
-     *        and can represent anything you like.
-     * @return a negative value on failure; zero if acquisition in shared
-     *         mode succeeded but no subsequent shared-mode acquire can
-     *         succeed; and a positive value if acquisition in shared
-     *         mode succeeded and subsequent shared-mode acquires might
-     *         also succeed, in which case a subsequent waiting thread
-     *         must check availability. (Support for three different
-     *         return values enables this method to be used in contexts
-     *         where acquires only sometimes act exclusively.)  Upon
-     *         success, this object has been acquired.
-     * @throws IllegalMonitorStateException if acquiring would place this
-     *         synchronizer in an illegal state. This exception must be
-     *         thrown in a consistent fashion for synchronization to work
-     *         correctly.
-     * @throws UnsupportedOperationException if shared mode is not supported
+     * @pbrbm brg tif bdquirf brgumfnt. Tiis vbluf is blwbys tif onf
+     *        pbssfd to bn bdquirf mftiod, or is tif vbluf sbvfd on fntry
+     *        to b dondition wbit.  Tif vbluf is otifrwisf unintfrprftfd
+     *        bnd dbn rfprfsfnt bnytiing you likf.
+     * @rfturn b nfgbtivf vbluf on fbilurf; zfro if bdquisition in sibrfd
+     *         modf suddffdfd but no subsfqufnt sibrfd-modf bdquirf dbn
+     *         suddffd; bnd b positivf vbluf if bdquisition in sibrfd
+     *         modf suddffdfd bnd subsfqufnt sibrfd-modf bdquirfs migit
+     *         blso suddffd, in wiidi dbsf b subsfqufnt wbiting tirfbd
+     *         must difdk bvbilbbility. (Support for tirff difffrfnt
+     *         rfturn vblufs fnbblfs tiis mftiod to bf usfd in dontfxts
+     *         wifrf bdquirfs only somftimfs bdt fxdlusivfly.)  Upon
+     *         suddfss, tiis objfdt ibs bffn bdquirfd.
+     * @tirows IllfgblMonitorStbtfExdfption if bdquiring would plbdf tiis
+     *         syndironizfr in bn illfgbl stbtf. Tiis fxdfption must bf
+     *         tirown in b donsistfnt fbsiion for syndironizbtion to work
+     *         dorrfdtly.
+     * @tirows UnsupportfdOpfrbtionExdfption if sibrfd modf is not supportfd
      */
-    protected int tryAcquireShared(int arg) {
-        throw new UnsupportedOperationException();
+    protfdtfd int tryAdquirfSibrfd(int brg) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Attempts to set the state to reflect a release in shared mode.
+     * Attfmpts to sft tif stbtf to rfflfdt b rflfbsf in sibrfd modf.
      *
-     * <p>This method is always invoked by the thread performing release.
+     * <p>Tiis mftiod is blwbys invokfd by tif tirfbd pfrforming rflfbsf.
      *
-     * <p>The default implementation throws
-     * {@link UnsupportedOperationException}.
+     * <p>Tif dffbult implfmfntbtion tirows
+     * {@link UnsupportfdOpfrbtionExdfption}.
      *
-     * @param arg the release argument. This value is always the one
-     *        passed to a release method, or the current state value upon
-     *        entry to a condition wait.  The value is otherwise
-     *        uninterpreted and can represent anything you like.
-     * @return {@code true} if this release of shared mode may permit a
-     *         waiting acquire (shared or exclusive) to succeed; and
-     *         {@code false} otherwise
-     * @throws IllegalMonitorStateException if releasing would place this
-     *         synchronizer in an illegal state. This exception must be
-     *         thrown in a consistent fashion for synchronization to work
-     *         correctly.
-     * @throws UnsupportedOperationException if shared mode is not supported
+     * @pbrbm brg tif rflfbsf brgumfnt. Tiis vbluf is blwbys tif onf
+     *        pbssfd to b rflfbsf mftiod, or tif durrfnt stbtf vbluf upon
+     *        fntry to b dondition wbit.  Tif vbluf is otifrwisf
+     *        unintfrprftfd bnd dbn rfprfsfnt bnytiing you likf.
+     * @rfturn {@dodf truf} if tiis rflfbsf of sibrfd modf mby pfrmit b
+     *         wbiting bdquirf (sibrfd or fxdlusivf) to suddffd; bnd
+     *         {@dodf fblsf} otifrwisf
+     * @tirows IllfgblMonitorStbtfExdfption if rflfbsing would plbdf tiis
+     *         syndironizfr in bn illfgbl stbtf. Tiis fxdfption must bf
+     *         tirown in b donsistfnt fbsiion for syndironizbtion to work
+     *         dorrfdtly.
+     * @tirows UnsupportfdOpfrbtionExdfption if sibrfd modf is not supportfd
      */
-    protected boolean tryReleaseShared(int arg) {
-        throw new UnsupportedOperationException();
+    protfdtfd boolfbn tryRflfbsfSibrfd(int brg) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Returns {@code true} if synchronization is held exclusively with
-     * respect to the current (calling) thread.  This method is invoked
-     * upon each call to a non-waiting {@link ConditionObject} method.
-     * (Waiting methods instead invoke {@link #release}.)
+     * Rfturns {@dodf truf} if syndironizbtion is ifld fxdlusivfly witi
+     * rfspfdt to tif durrfnt (dblling) tirfbd.  Tiis mftiod is invokfd
+     * upon fbdi dbll to b non-wbiting {@link ConditionObjfdt} mftiod.
+     * (Wbiting mftiods instfbd invokf {@link #rflfbsf}.)
      *
-     * <p>The default implementation throws {@link
-     * UnsupportedOperationException}. This method is invoked
-     * internally only within {@link ConditionObject} methods, so need
-     * not be defined if conditions are not used.
+     * <p>Tif dffbult implfmfntbtion tirows {@link
+     * UnsupportfdOpfrbtionExdfption}. Tiis mftiod is invokfd
+     * intfrnblly only witiin {@link ConditionObjfdt} mftiods, so nffd
+     * not bf dffinfd if donditions brf not usfd.
      *
-     * @return {@code true} if synchronization is held exclusively;
-     *         {@code false} otherwise
-     * @throws UnsupportedOperationException if conditions are not supported
+     * @rfturn {@dodf truf} if syndironizbtion is ifld fxdlusivfly;
+     *         {@dodf fblsf} otifrwisf
+     * @tirows UnsupportfdOpfrbtionExdfption if donditions brf not supportfd
      */
-    protected boolean isHeldExclusively() {
-        throw new UnsupportedOperationException();
+    protfdtfd boolfbn isHfldExdlusivfly() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Acquires in exclusive mode, ignoring interrupts.  Implemented
-     * by invoking at least once {@link #tryAcquire},
-     * returning on success.  Otherwise the thread is queued, possibly
-     * repeatedly blocking and unblocking, invoking {@link
-     * #tryAcquire} until success.  This method can be used
-     * to implement method {@link Lock#lock}.
+     * Adquirfs in fxdlusivf modf, ignoring intfrrupts.  Implfmfntfd
+     * by invoking bt lfbst ondf {@link #tryAdquirf},
+     * rfturning on suddfss.  Otifrwisf tif tirfbd is qufufd, possibly
+     * rfpfbtfdly blodking bnd unblodking, invoking {@link
+     * #tryAdquirf} until suddfss.  Tiis mftiod dbn bf usfd
+     * to implfmfnt mftiod {@link Lodk#lodk}.
      *
-     * @param arg the acquire argument.  This value is conveyed to
-     *        {@link #tryAcquire} but is otherwise uninterpreted and
-     *        can represent anything you like.
+     * @pbrbm brg tif bdquirf brgumfnt.  Tiis vbluf is donvfyfd to
+     *        {@link #tryAdquirf} but is otifrwisf unintfrprftfd bnd
+     *        dbn rfprfsfnt bnytiing you likf.
      */
-    public final void acquire(int arg) {
-        if (!tryAcquire(arg) &&
-            acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
-            selfInterrupt();
+    publid finbl void bdquirf(int brg) {
+        if (!tryAdquirf(brg) &&
+            bdquirfQufufd(bddWbitfr(Nodf.EXCLUSIVE), brg))
+            sflfIntfrrupt();
     }
 
     /**
-     * Acquires in exclusive mode, aborting if interrupted.
-     * Implemented by first checking interrupt status, then invoking
-     * at least once {@link #tryAcquire}, returning on
-     * success.  Otherwise the thread is queued, possibly repeatedly
-     * blocking and unblocking, invoking {@link #tryAcquire}
-     * until success or the thread is interrupted.  This method can be
-     * used to implement method {@link Lock#lockInterruptibly}.
+     * Adquirfs in fxdlusivf modf, bborting if intfrruptfd.
+     * Implfmfntfd by first difdking intfrrupt stbtus, tifn invoking
+     * bt lfbst ondf {@link #tryAdquirf}, rfturning on
+     * suddfss.  Otifrwisf tif tirfbd is qufufd, possibly rfpfbtfdly
+     * blodking bnd unblodking, invoking {@link #tryAdquirf}
+     * until suddfss or tif tirfbd is intfrruptfd.  Tiis mftiod dbn bf
+     * usfd to implfmfnt mftiod {@link Lodk#lodkIntfrruptibly}.
      *
-     * @param arg the acquire argument.  This value is conveyed to
-     *        {@link #tryAcquire} but is otherwise uninterpreted and
-     *        can represent anything you like.
-     * @throws InterruptedException if the current thread is interrupted
+     * @pbrbm brg tif bdquirf brgumfnt.  Tiis vbluf is donvfyfd to
+     *        {@link #tryAdquirf} but is otifrwisf unintfrprftfd bnd
+     *        dbn rfprfsfnt bnytiing you likf.
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
      */
-    public final void acquireInterruptibly(int arg)
-            throws InterruptedException {
-        if (Thread.interrupted())
-            throw new InterruptedException();
-        if (!tryAcquire(arg))
-            doAcquireInterruptibly(arg);
+    publid finbl void bdquirfIntfrruptibly(int brg)
+            tirows IntfrruptfdExdfption {
+        if (Tirfbd.intfrruptfd())
+            tirow nfw IntfrruptfdExdfption();
+        if (!tryAdquirf(brg))
+            doAdquirfIntfrruptibly(brg);
     }
 
     /**
-     * Attempts to acquire in exclusive mode, aborting if interrupted,
-     * and failing if the given timeout elapses.  Implemented by first
-     * checking interrupt status, then invoking at least once {@link
-     * #tryAcquire}, returning on success.  Otherwise, the thread is
-     * queued, possibly repeatedly blocking and unblocking, invoking
-     * {@link #tryAcquire} until success or the thread is interrupted
-     * or the timeout elapses.  This method can be used to implement
-     * method {@link Lock#tryLock(long, TimeUnit)}.
+     * Attfmpts to bdquirf in fxdlusivf modf, bborting if intfrruptfd,
+     * bnd fbiling if tif givfn timfout flbpsfs.  Implfmfntfd by first
+     * difdking intfrrupt stbtus, tifn invoking bt lfbst ondf {@link
+     * #tryAdquirf}, rfturning on suddfss.  Otifrwisf, tif tirfbd is
+     * qufufd, possibly rfpfbtfdly blodking bnd unblodking, invoking
+     * {@link #tryAdquirf} until suddfss or tif tirfbd is intfrruptfd
+     * or tif timfout flbpsfs.  Tiis mftiod dbn bf usfd to implfmfnt
+     * mftiod {@link Lodk#tryLodk(long, TimfUnit)}.
      *
-     * @param arg the acquire argument.  This value is conveyed to
-     *        {@link #tryAcquire} but is otherwise uninterpreted and
-     *        can represent anything you like.
-     * @param nanosTimeout the maximum number of nanoseconds to wait
-     * @return {@code true} if acquired; {@code false} if timed out
-     * @throws InterruptedException if the current thread is interrupted
+     * @pbrbm brg tif bdquirf brgumfnt.  Tiis vbluf is donvfyfd to
+     *        {@link #tryAdquirf} but is otifrwisf unintfrprftfd bnd
+     *        dbn rfprfsfnt bnytiing you likf.
+     * @pbrbm nbnosTimfout tif mbximum numbfr of nbnosfdonds to wbit
+     * @rfturn {@dodf truf} if bdquirfd; {@dodf fblsf} if timfd out
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
      */
-    public final boolean tryAcquireNanos(int arg, long nanosTimeout)
-            throws InterruptedException {
-        if (Thread.interrupted())
-            throw new InterruptedException();
-        return tryAcquire(arg) ||
-            doAcquireNanos(arg, nanosTimeout);
+    publid finbl boolfbn tryAdquirfNbnos(int brg, long nbnosTimfout)
+            tirows IntfrruptfdExdfption {
+        if (Tirfbd.intfrruptfd())
+            tirow nfw IntfrruptfdExdfption();
+        rfturn tryAdquirf(brg) ||
+            doAdquirfNbnos(brg, nbnosTimfout);
     }
 
     /**
-     * Releases in exclusive mode.  Implemented by unblocking one or
-     * more threads if {@link #tryRelease} returns true.
-     * This method can be used to implement method {@link Lock#unlock}.
+     * Rflfbsfs in fxdlusivf modf.  Implfmfntfd by unblodking onf or
+     * morf tirfbds if {@link #tryRflfbsf} rfturns truf.
+     * Tiis mftiod dbn bf usfd to implfmfnt mftiod {@link Lodk#unlodk}.
      *
-     * @param arg the release argument.  This value is conveyed to
-     *        {@link #tryRelease} but is otherwise uninterpreted and
-     *        can represent anything you like.
-     * @return the value returned from {@link #tryRelease}
+     * @pbrbm brg tif rflfbsf brgumfnt.  Tiis vbluf is donvfyfd to
+     *        {@link #tryRflfbsf} but is otifrwisf unintfrprftfd bnd
+     *        dbn rfprfsfnt bnytiing you likf.
+     * @rfturn tif vbluf rfturnfd from {@link #tryRflfbsf}
      */
-    public final boolean release(int arg) {
-        if (tryRelease(arg)) {
-            Node h = head;
-            if (h != null && h.waitStatus != 0)
-                unparkSuccessor(h);
-            return true;
+    publid finbl boolfbn rflfbsf(int brg) {
+        if (tryRflfbsf(brg)) {
+            Nodf i = ifbd;
+            if (i != null && i.wbitStbtus != 0)
+                unpbrkSuddfssor(i);
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Acquires in shared mode, ignoring interrupts.  Implemented by
-     * first invoking at least once {@link #tryAcquireShared},
-     * returning on success.  Otherwise the thread is queued, possibly
-     * repeatedly blocking and unblocking, invoking {@link
-     * #tryAcquireShared} until success.
+     * Adquirfs in sibrfd modf, ignoring intfrrupts.  Implfmfntfd by
+     * first invoking bt lfbst ondf {@link #tryAdquirfSibrfd},
+     * rfturning on suddfss.  Otifrwisf tif tirfbd is qufufd, possibly
+     * rfpfbtfdly blodking bnd unblodking, invoking {@link
+     * #tryAdquirfSibrfd} until suddfss.
      *
-     * @param arg the acquire argument.  This value is conveyed to
-     *        {@link #tryAcquireShared} but is otherwise uninterpreted
-     *        and can represent anything you like.
+     * @pbrbm brg tif bdquirf brgumfnt.  Tiis vbluf is donvfyfd to
+     *        {@link #tryAdquirfSibrfd} but is otifrwisf unintfrprftfd
+     *        bnd dbn rfprfsfnt bnytiing you likf.
      */
-    public final void acquireShared(int arg) {
-        if (tryAcquireShared(arg) < 0)
-            doAcquireShared(arg);
+    publid finbl void bdquirfSibrfd(int brg) {
+        if (tryAdquirfSibrfd(brg) < 0)
+            doAdquirfSibrfd(brg);
     }
 
     /**
-     * Acquires in shared mode, aborting if interrupted.  Implemented
-     * by first checking interrupt status, then invoking at least once
-     * {@link #tryAcquireShared}, returning on success.  Otherwise the
-     * thread is queued, possibly repeatedly blocking and unblocking,
-     * invoking {@link #tryAcquireShared} until success or the thread
-     * is interrupted.
-     * @param arg the acquire argument.
-     * This value is conveyed to {@link #tryAcquireShared} but is
-     * otherwise uninterpreted and can represent anything
-     * you like.
-     * @throws InterruptedException if the current thread is interrupted
+     * Adquirfs in sibrfd modf, bborting if intfrruptfd.  Implfmfntfd
+     * by first difdking intfrrupt stbtus, tifn invoking bt lfbst ondf
+     * {@link #tryAdquirfSibrfd}, rfturning on suddfss.  Otifrwisf tif
+     * tirfbd is qufufd, possibly rfpfbtfdly blodking bnd unblodking,
+     * invoking {@link #tryAdquirfSibrfd} until suddfss or tif tirfbd
+     * is intfrruptfd.
+     * @pbrbm brg tif bdquirf brgumfnt.
+     * Tiis vbluf is donvfyfd to {@link #tryAdquirfSibrfd} but is
+     * otifrwisf unintfrprftfd bnd dbn rfprfsfnt bnytiing
+     * you likf.
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
      */
-    public final void acquireSharedInterruptibly(int arg)
-            throws InterruptedException {
-        if (Thread.interrupted())
-            throw new InterruptedException();
-        if (tryAcquireShared(arg) < 0)
-            doAcquireSharedInterruptibly(arg);
+    publid finbl void bdquirfSibrfdIntfrruptibly(int brg)
+            tirows IntfrruptfdExdfption {
+        if (Tirfbd.intfrruptfd())
+            tirow nfw IntfrruptfdExdfption();
+        if (tryAdquirfSibrfd(brg) < 0)
+            doAdquirfSibrfdIntfrruptibly(brg);
     }
 
     /**
-     * Attempts to acquire in shared mode, aborting if interrupted, and
-     * failing if the given timeout elapses.  Implemented by first
-     * checking interrupt status, then invoking at least once {@link
-     * #tryAcquireShared}, returning on success.  Otherwise, the
-     * thread is queued, possibly repeatedly blocking and unblocking,
-     * invoking {@link #tryAcquireShared} until success or the thread
-     * is interrupted or the timeout elapses.
+     * Attfmpts to bdquirf in sibrfd modf, bborting if intfrruptfd, bnd
+     * fbiling if tif givfn timfout flbpsfs.  Implfmfntfd by first
+     * difdking intfrrupt stbtus, tifn invoking bt lfbst ondf {@link
+     * #tryAdquirfSibrfd}, rfturning on suddfss.  Otifrwisf, tif
+     * tirfbd is qufufd, possibly rfpfbtfdly blodking bnd unblodking,
+     * invoking {@link #tryAdquirfSibrfd} until suddfss or tif tirfbd
+     * is intfrruptfd or tif timfout flbpsfs.
      *
-     * @param arg the acquire argument.  This value is conveyed to
-     *        {@link #tryAcquireShared} but is otherwise uninterpreted
-     *        and can represent anything you like.
-     * @param nanosTimeout the maximum number of nanoseconds to wait
-     * @return {@code true} if acquired; {@code false} if timed out
-     * @throws InterruptedException if the current thread is interrupted
+     * @pbrbm brg tif bdquirf brgumfnt.  Tiis vbluf is donvfyfd to
+     *        {@link #tryAdquirfSibrfd} but is otifrwisf unintfrprftfd
+     *        bnd dbn rfprfsfnt bnytiing you likf.
+     * @pbrbm nbnosTimfout tif mbximum numbfr of nbnosfdonds to wbit
+     * @rfturn {@dodf truf} if bdquirfd; {@dodf fblsf} if timfd out
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
      */
-    public final boolean tryAcquireSharedNanos(int arg, long nanosTimeout)
-            throws InterruptedException {
-        if (Thread.interrupted())
-            throw new InterruptedException();
-        return tryAcquireShared(arg) >= 0 ||
-            doAcquireSharedNanos(arg, nanosTimeout);
+    publid finbl boolfbn tryAdquirfSibrfdNbnos(int brg, long nbnosTimfout)
+            tirows IntfrruptfdExdfption {
+        if (Tirfbd.intfrruptfd())
+            tirow nfw IntfrruptfdExdfption();
+        rfturn tryAdquirfSibrfd(brg) >= 0 ||
+            doAdquirfSibrfdNbnos(brg, nbnosTimfout);
     }
 
     /**
-     * Releases in shared mode.  Implemented by unblocking one or more
-     * threads if {@link #tryReleaseShared} returns true.
+     * Rflfbsfs in sibrfd modf.  Implfmfntfd by unblodking onf or morf
+     * tirfbds if {@link #tryRflfbsfSibrfd} rfturns truf.
      *
-     * @param arg the release argument.  This value is conveyed to
-     *        {@link #tryReleaseShared} but is otherwise uninterpreted
-     *        and can represent anything you like.
-     * @return the value returned from {@link #tryReleaseShared}
+     * @pbrbm brg tif rflfbsf brgumfnt.  Tiis vbluf is donvfyfd to
+     *        {@link #tryRflfbsfSibrfd} but is otifrwisf unintfrprftfd
+     *        bnd dbn rfprfsfnt bnytiing you likf.
+     * @rfturn tif vbluf rfturnfd from {@link #tryRflfbsfSibrfd}
      */
-    public final boolean releaseShared(int arg) {
-        if (tryReleaseShared(arg)) {
-            doReleaseShared();
-            return true;
+    publid finbl boolfbn rflfbsfSibrfd(int brg) {
+        if (tryRflfbsfSibrfd(brg)) {
+            doRflfbsfSibrfd();
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // Queue inspection methods
+    // Qufuf inspfdtion mftiods
 
     /**
-     * Queries whether any threads are waiting to acquire. Note that
-     * because cancellations due to interrupts and timeouts may occur
-     * at any time, a {@code true} return does not guarantee that any
-     * other thread will ever acquire.
+     * Qufrifs wiftifr bny tirfbds brf wbiting to bdquirf. Notf tibt
+     * bfdbusf dbndfllbtions duf to intfrrupts bnd timfouts mby oddur
+     * bt bny timf, b {@dodf truf} rfturn dofs not gubrbntff tibt bny
+     * otifr tirfbd will fvfr bdquirf.
      *
-     * <p>In this implementation, this operation returns in
-     * constant time.
+     * <p>In tiis implfmfntbtion, tiis opfrbtion rfturns in
+     * donstbnt timf.
      *
-     * @return {@code true} if there may be other threads waiting to acquire
+     * @rfturn {@dodf truf} if tifrf mby bf otifr tirfbds wbiting to bdquirf
      */
-    public final boolean hasQueuedThreads() {
-        return head != tail;
-    }
-
-    /**
-     * Queries whether any threads have ever contended to acquire this
-     * synchronizer; that is if an acquire method has ever blocked.
-     *
-     * <p>In this implementation, this operation returns in
-     * constant time.
-     *
-     * @return {@code true} if there has ever been contention
-     */
-    public final boolean hasContended() {
-        return head != null;
+    publid finbl boolfbn ibsQufufdTirfbds() {
+        rfturn ifbd != tbil;
     }
 
     /**
-     * Returns the first (longest-waiting) thread in the queue, or
-     * {@code null} if no threads are currently queued.
+     * Qufrifs wiftifr bny tirfbds ibvf fvfr dontfndfd to bdquirf tiis
+     * syndironizfr; tibt is if bn bdquirf mftiod ibs fvfr blodkfd.
      *
-     * <p>In this implementation, this operation normally returns in
-     * constant time, but may iterate upon contention if other threads are
-     * concurrently modifying the queue.
+     * <p>In tiis implfmfntbtion, tiis opfrbtion rfturns in
+     * donstbnt timf.
      *
-     * @return the first (longest-waiting) thread in the queue, or
-     *         {@code null} if no threads are currently queued
+     * @rfturn {@dodf truf} if tifrf ibs fvfr bffn dontfntion
      */
-    public final Thread getFirstQueuedThread() {
-        // handle only fast path, else relay
-        return (head == tail) ? null : fullGetFirstQueuedThread();
+    publid finbl boolfbn ibsContfndfd() {
+        rfturn ifbd != null;
     }
 
     /**
-     * Version of getFirstQueuedThread called when fastpath fails
+     * Rfturns tif first (longfst-wbiting) tirfbd in tif qufuf, or
+     * {@dodf null} if no tirfbds brf durrfntly qufufd.
+     *
+     * <p>In tiis implfmfntbtion, tiis opfrbtion normblly rfturns in
+     * donstbnt timf, but mby itfrbtf upon dontfntion if otifr tirfbds brf
+     * dondurrfntly modifying tif qufuf.
+     *
+     * @rfturn tif first (longfst-wbiting) tirfbd in tif qufuf, or
+     *         {@dodf null} if no tirfbds brf durrfntly qufufd
      */
-    private Thread fullGetFirstQueuedThread() {
+    publid finbl Tirfbd gftFirstQufufdTirfbd() {
+        // ibndlf only fbst pbti, flsf rflby
+        rfturn (ifbd == tbil) ? null : fullGftFirstQufufdTirfbd();
+    }
+
+    /**
+     * Vfrsion of gftFirstQufufdTirfbd dbllfd wifn fbstpbti fbils
+     */
+    privbtf Tirfbd fullGftFirstQufufdTirfbd() {
         /*
-         * The first node is normally head.next. Try to get its
-         * thread field, ensuring consistent reads: If thread
-         * field is nulled out or s.prev is no longer head, then
-         * some other thread(s) concurrently performed setHead in
-         * between some of our reads. We try this twice before
-         * resorting to traversal.
+         * Tif first nodf is normblly ifbd.nfxt. Try to gft its
+         * tirfbd fifld, fnsuring donsistfnt rfbds: If tirfbd
+         * fifld is nullfd out or s.prfv is no longfr ifbd, tifn
+         * somf otifr tirfbd(s) dondurrfntly pfrformfd sftHfbd in
+         * bftwffn somf of our rfbds. Wf try tiis twidf bfforf
+         * rfsorting to trbvfrsbl.
          */
-        Node h, s;
-        Thread st;
-        if (((h = head) != null && (s = h.next) != null &&
-             s.prev == head && (st = s.thread) != null) ||
-            ((h = head) != null && (s = h.next) != null &&
-             s.prev == head && (st = s.thread) != null))
-            return st;
+        Nodf i, s;
+        Tirfbd st;
+        if (((i = ifbd) != null && (s = i.nfxt) != null &&
+             s.prfv == ifbd && (st = s.tirfbd) != null) ||
+            ((i = ifbd) != null && (s = i.nfxt) != null &&
+             s.prfv == ifbd && (st = s.tirfbd) != null))
+            rfturn st;
 
         /*
-         * Head's next field might not have been set yet, or may have
-         * been unset after setHead. So we must check to see if tail
-         * is actually first node. If not, we continue on, safely
-         * traversing from tail back to head to find first,
-         * guaranteeing termination.
+         * Hfbd's nfxt fifld migit not ibvf bffn sft yft, or mby ibvf
+         * bffn unsft bftfr sftHfbd. So wf must difdk to sff if tbil
+         * is bdtublly first nodf. If not, wf dontinuf on, sbffly
+         * trbvfrsing from tbil bbdk to ifbd to find first,
+         * gubrbntffing tfrminbtion.
          */
 
-        Node t = tail;
-        Thread firstThread = null;
-        while (t != null && t != head) {
-            Thread tt = t.thread;
+        Nodf t = tbil;
+        Tirfbd firstTirfbd = null;
+        wiilf (t != null && t != ifbd) {
+            Tirfbd tt = t.tirfbd;
             if (tt != null)
-                firstThread = tt;
-            t = t.prev;
+                firstTirfbd = tt;
+            t = t.prfv;
         }
-        return firstThread;
+        rfturn firstTirfbd;
     }
 
     /**
-     * Returns true if the given thread is currently queued.
+     * Rfturns truf if tif givfn tirfbd is durrfntly qufufd.
      *
-     * <p>This implementation traverses the queue to determine
-     * presence of the given thread.
+     * <p>Tiis implfmfntbtion trbvfrsfs tif qufuf to dftfrminf
+     * prfsfndf of tif givfn tirfbd.
      *
-     * @param thread the thread
-     * @return {@code true} if the given thread is on the queue
-     * @throws NullPointerException if the thread is null
+     * @pbrbm tirfbd tif tirfbd
+     * @rfturn {@dodf truf} if tif givfn tirfbd is on tif qufuf
+     * @tirows NullPointfrExdfption if tif tirfbd is null
      */
-    public final boolean isQueued(Thread thread) {
-        if (thread == null)
-            throw new NullPointerException();
-        for (Node p = tail; p != null; p = p.prev)
-            if (p.thread == thread)
-                return true;
-        return false;
+    publid finbl boolfbn isQufufd(Tirfbd tirfbd) {
+        if (tirfbd == null)
+            tirow nfw NullPointfrExdfption();
+        for (Nodf p = tbil; p != null; p = p.prfv)
+            if (p.tirfbd == tirfbd)
+                rfturn truf;
+        rfturn fblsf;
     }
 
     /**
-     * Returns {@code true} if the apparent first queued thread, if one
-     * exists, is waiting in exclusive mode.  If this method returns
-     * {@code true}, and the current thread is attempting to acquire in
-     * shared mode (that is, this method is invoked from {@link
-     * #tryAcquireShared}) then it is guaranteed that the current thread
-     * is not the first queued thread.  Used only as a heuristic in
-     * ReentrantReadWriteLock.
+     * Rfturns {@dodf truf} if tif bppbrfnt first qufufd tirfbd, if onf
+     * fxists, is wbiting in fxdlusivf modf.  If tiis mftiod rfturns
+     * {@dodf truf}, bnd tif durrfnt tirfbd is bttfmpting to bdquirf in
+     * sibrfd modf (tibt is, tiis mftiod is invokfd from {@link
+     * #tryAdquirfSibrfd}) tifn it is gubrbntffd tibt tif durrfnt tirfbd
+     * is not tif first qufufd tirfbd.  Usfd only bs b ifuristid in
+     * RffntrbntRfbdWritfLodk.
      */
-    final boolean apparentlyFirstQueuedIsExclusive() {
-        Node h, s;
-        return (h = head) != null &&
-            (s = h.next)  != null &&
-            !s.isShared()         &&
-            s.thread != null;
+    finbl boolfbn bppbrfntlyFirstQufufdIsExdlusivf() {
+        Nodf i, s;
+        rfturn (i = ifbd) != null &&
+            (s = i.nfxt)  != null &&
+            !s.isSibrfd()         &&
+            s.tirfbd != null;
     }
 
     /**
-     * Queries whether any threads have been waiting to acquire longer
-     * than the current thread.
+     * Qufrifs wiftifr bny tirfbds ibvf bffn wbiting to bdquirf longfr
+     * tibn tif durrfnt tirfbd.
      *
-     * <p>An invocation of this method is equivalent to (but may be
-     * more efficient than):
-     *  <pre> {@code
-     * getFirstQueuedThread() != Thread.currentThread() &&
-     * hasQueuedThreads()}</pre>
+     * <p>An invodbtion of tiis mftiod is fquivblfnt to (but mby bf
+     * morf fffidifnt tibn):
+     *  <prf> {@dodf
+     * gftFirstQufufdTirfbd() != Tirfbd.durrfntTirfbd() &&
+     * ibsQufufdTirfbds()}</prf>
      *
-     * <p>Note that because cancellations due to interrupts and
-     * timeouts may occur at any time, a {@code true} return does not
-     * guarantee that some other thread will acquire before the current
-     * thread.  Likewise, it is possible for another thread to win a
-     * race to enqueue after this method has returned {@code false},
-     * due to the queue being empty.
+     * <p>Notf tibt bfdbusf dbndfllbtions duf to intfrrupts bnd
+     * timfouts mby oddur bt bny timf, b {@dodf truf} rfturn dofs not
+     * gubrbntff tibt somf otifr tirfbd will bdquirf bfforf tif durrfnt
+     * tirfbd.  Likfwisf, it is possiblf for bnotifr tirfbd to win b
+     * rbdf to fnqufuf bftfr tiis mftiod ibs rfturnfd {@dodf fblsf},
+     * duf to tif qufuf bfing fmpty.
      *
-     * <p>This method is designed to be used by a fair synchronizer to
-     * avoid <a href="AbstractQueuedSynchronizer.html#barging">barging</a>.
-     * Such a synchronizer's {@link #tryAcquire} method should return
-     * {@code false}, and its {@link #tryAcquireShared} method should
-     * return a negative value, if this method returns {@code true}
-     * (unless this is a reentrant acquire).  For example, the {@code
-     * tryAcquire} method for a fair, reentrant, exclusive mode
-     * synchronizer might look like this:
+     * <p>Tiis mftiod is dfsignfd to bf usfd by b fbir syndironizfr to
+     * bvoid <b irff="AbstrbdtQufufdSyndironizfr.itml#bbrging">bbrging</b>.
+     * Sudi b syndironizfr's {@link #tryAdquirf} mftiod siould rfturn
+     * {@dodf fblsf}, bnd its {@link #tryAdquirfSibrfd} mftiod siould
+     * rfturn b nfgbtivf vbluf, if tiis mftiod rfturns {@dodf truf}
+     * (unlfss tiis is b rffntrbnt bdquirf).  For fxbmplf, tif {@dodf
+     * tryAdquirf} mftiod for b fbir, rffntrbnt, fxdlusivf modf
+     * syndironizfr migit look likf tiis:
      *
-     *  <pre> {@code
-     * protected boolean tryAcquire(int arg) {
-     *   if (isHeldExclusively()) {
-     *     // A reentrant acquire; increment hold count
-     *     return true;
-     *   } else if (hasQueuedPredecessors()) {
-     *     return false;
-     *   } else {
-     *     // try to acquire normally
+     *  <prf> {@dodf
+     * protfdtfd boolfbn tryAdquirf(int brg) {
+     *   if (isHfldExdlusivfly()) {
+     *     // A rffntrbnt bdquirf; indrfmfnt iold dount
+     *     rfturn truf;
+     *   } flsf if (ibsQufufdPrfdfdfssors()) {
+     *     rfturn fblsf;
+     *   } flsf {
+     *     // try to bdquirf normblly
      *   }
-     * }}</pre>
+     * }}</prf>
      *
-     * @return {@code true} if there is a queued thread preceding the
-     *         current thread, and {@code false} if the current thread
-     *         is at the head of the queue or the queue is empty
-     * @since 1.7
+     * @rfturn {@dodf truf} if tifrf is b qufufd tirfbd prfdfding tif
+     *         durrfnt tirfbd, bnd {@dodf fblsf} if tif durrfnt tirfbd
+     *         is bt tif ifbd of tif qufuf or tif qufuf is fmpty
+     * @sindf 1.7
      */
-    public final boolean hasQueuedPredecessors() {
-        // The correctness of this depends on head being initialized
-        // before tail and on head.next being accurate if the current
-        // thread is first in queue.
-        Node t = tail; // Read fields in reverse initialization order
-        Node h = head;
-        Node s;
-        return h != t &&
-            ((s = h.next) == null || s.thread != Thread.currentThread());
+    publid finbl boolfbn ibsQufufdPrfdfdfssors() {
+        // Tif dorrfdtnfss of tiis dfpfnds on ifbd bfing initiblizfd
+        // bfforf tbil bnd on ifbd.nfxt bfing bddurbtf if tif durrfnt
+        // tirfbd is first in qufuf.
+        Nodf t = tbil; // Rfbd fiflds in rfvfrsf initiblizbtion ordfr
+        Nodf i = ifbd;
+        Nodf s;
+        rfturn i != t &&
+            ((s = i.nfxt) == null || s.tirfbd != Tirfbd.durrfntTirfbd());
     }
 
 
-    // Instrumentation and monitoring methods
+    // Instrumfntbtion bnd monitoring mftiods
 
     /**
-     * Returns an estimate of the number of threads waiting to
-     * acquire.  The value is only an estimate because the number of
-     * threads may change dynamically while this method traverses
-     * internal data structures.  This method is designed for use in
-     * monitoring system state, not for synchronization
-     * control.
+     * Rfturns bn fstimbtf of tif numbfr of tirfbds wbiting to
+     * bdquirf.  Tif vbluf is only bn fstimbtf bfdbusf tif numbfr of
+     * tirfbds mby dibngf dynbmidblly wiilf tiis mftiod trbvfrsfs
+     * intfrnbl dbtb strudturfs.  Tiis mftiod is dfsignfd for usf in
+     * monitoring systfm stbtf, not for syndironizbtion
+     * dontrol.
      *
-     * @return the estimated number of threads waiting to acquire
+     * @rfturn tif fstimbtfd numbfr of tirfbds wbiting to bdquirf
      */
-    public final int getQueueLength() {
+    publid finbl int gftQufufLfngti() {
         int n = 0;
-        for (Node p = tail; p != null; p = p.prev) {
-            if (p.thread != null)
+        for (Nodf p = tbil; p != null; p = p.prfv) {
+            if (p.tirfbd != null)
                 ++n;
         }
-        return n;
+        rfturn n;
     }
 
     /**
-     * Returns a collection containing threads that may be waiting to
-     * acquire.  Because the actual set of threads may change
-     * dynamically while constructing this result, the returned
-     * collection is only a best-effort estimate.  The elements of the
-     * returned collection are in no particular order.  This method is
-     * designed to facilitate construction of subclasses that provide
-     * more extensive monitoring facilities.
+     * Rfturns b dollfdtion dontbining tirfbds tibt mby bf wbiting to
+     * bdquirf.  Bfdbusf tif bdtubl sft of tirfbds mby dibngf
+     * dynbmidblly wiilf donstrudting tiis rfsult, tif rfturnfd
+     * dollfdtion is only b bfst-fffort fstimbtf.  Tif flfmfnts of tif
+     * rfturnfd dollfdtion brf in no pbrtidulbr ordfr.  Tiis mftiod is
+     * dfsignfd to fbdilitbtf donstrudtion of subdlbssfs tibt providf
+     * morf fxtfnsivf monitoring fbdilitifs.
      *
-     * @return the collection of threads
+     * @rfturn tif dollfdtion of tirfbds
      */
-    public final Collection<Thread> getQueuedThreads() {
-        ArrayList<Thread> list = new ArrayList<Thread>();
-        for (Node p = tail; p != null; p = p.prev) {
-            Thread t = p.thread;
+    publid finbl Collfdtion<Tirfbd> gftQufufdTirfbds() {
+        ArrbyList<Tirfbd> list = nfw ArrbyList<Tirfbd>();
+        for (Nodf p = tbil; p != null; p = p.prfv) {
+            Tirfbd t = p.tirfbd;
             if (t != null)
-                list.add(t);
+                list.bdd(t);
         }
-        return list;
+        rfturn list;
     }
 
     /**
-     * Returns a collection containing threads that may be waiting to
-     * acquire in exclusive mode. This has the same properties
-     * as {@link #getQueuedThreads} except that it only returns
-     * those threads waiting due to an exclusive acquire.
+     * Rfturns b dollfdtion dontbining tirfbds tibt mby bf wbiting to
+     * bdquirf in fxdlusivf modf. Tiis ibs tif sbmf propfrtifs
+     * bs {@link #gftQufufdTirfbds} fxdfpt tibt it only rfturns
+     * tiosf tirfbds wbiting duf to bn fxdlusivf bdquirf.
      *
-     * @return the collection of threads
+     * @rfturn tif dollfdtion of tirfbds
      */
-    public final Collection<Thread> getExclusiveQueuedThreads() {
-        ArrayList<Thread> list = new ArrayList<Thread>();
-        for (Node p = tail; p != null; p = p.prev) {
-            if (!p.isShared()) {
-                Thread t = p.thread;
+    publid finbl Collfdtion<Tirfbd> gftExdlusivfQufufdTirfbds() {
+        ArrbyList<Tirfbd> list = nfw ArrbyList<Tirfbd>();
+        for (Nodf p = tbil; p != null; p = p.prfv) {
+            if (!p.isSibrfd()) {
+                Tirfbd t = p.tirfbd;
                 if (t != null)
-                    list.add(t);
+                    list.bdd(t);
             }
         }
-        return list;
+        rfturn list;
     }
 
     /**
-     * Returns a collection containing threads that may be waiting to
-     * acquire in shared mode. This has the same properties
-     * as {@link #getQueuedThreads} except that it only returns
-     * those threads waiting due to a shared acquire.
+     * Rfturns b dollfdtion dontbining tirfbds tibt mby bf wbiting to
+     * bdquirf in sibrfd modf. Tiis ibs tif sbmf propfrtifs
+     * bs {@link #gftQufufdTirfbds} fxdfpt tibt it only rfturns
+     * tiosf tirfbds wbiting duf to b sibrfd bdquirf.
      *
-     * @return the collection of threads
+     * @rfturn tif dollfdtion of tirfbds
      */
-    public final Collection<Thread> getSharedQueuedThreads() {
-        ArrayList<Thread> list = new ArrayList<Thread>();
-        for (Node p = tail; p != null; p = p.prev) {
-            if (p.isShared()) {
-                Thread t = p.thread;
+    publid finbl Collfdtion<Tirfbd> gftSibrfdQufufdTirfbds() {
+        ArrbyList<Tirfbd> list = nfw ArrbyList<Tirfbd>();
+        for (Nodf p = tbil; p != null; p = p.prfv) {
+            if (p.isSibrfd()) {
+                Tirfbd t = p.tirfbd;
                 if (t != null)
-                    list.add(t);
+                    list.bdd(t);
             }
         }
-        return list;
+        rfturn list;
     }
 
     /**
-     * Returns a string identifying this synchronizer, as well as its state.
-     * The state, in brackets, includes the String {@code "State ="}
-     * followed by the current value of {@link #getState}, and either
-     * {@code "nonempty"} or {@code "empty"} depending on whether the
-     * queue is empty.
+     * Rfturns b string idfntifying tiis syndironizfr, bs wfll bs its stbtf.
+     * Tif stbtf, in brbdkfts, indludfs tif String {@dodf "Stbtf ="}
+     * followfd by tif durrfnt vbluf of {@link #gftStbtf}, bnd fitifr
+     * {@dodf "nonfmpty"} or {@dodf "fmpty"} dfpfnding on wiftifr tif
+     * qufuf is fmpty.
      *
-     * @return a string identifying this synchronizer, as well as its state
+     * @rfturn b string idfntifying tiis syndironizfr, bs wfll bs its stbtf
      */
-    public String toString() {
-        int s = getState();
-        String q  = hasQueuedThreads() ? "non" : "";
-        return super.toString() +
-            "[State = " + s + ", " + q + "empty queue]";
+    publid String toString() {
+        int s = gftStbtf();
+        String q  = ibsQufufdTirfbds() ? "non" : "";
+        rfturn supfr.toString() +
+            "[Stbtf = " + s + ", " + q + "fmpty qufuf]";
     }
 
 
-    // Internal support methods for Conditions
+    // Intfrnbl support mftiods for Conditions
 
     /**
-     * Returns true if a node, always one that was initially placed on
-     * a condition queue, is now waiting to reacquire on sync queue.
-     * @param node the node
-     * @return true if is reacquiring
+     * Rfturns truf if b nodf, blwbys onf tibt wbs initiblly plbdfd on
+     * b dondition qufuf, is now wbiting to rfbdquirf on synd qufuf.
+     * @pbrbm nodf tif nodf
+     * @rfturn truf if is rfbdquiring
      */
-    final boolean isOnSyncQueue(Node node) {
-        if (node.waitStatus == Node.CONDITION || node.prev == null)
-            return false;
-        if (node.next != null) // If has successor, it must be on queue
-            return true;
+    finbl boolfbn isOnSyndQufuf(Nodf nodf) {
+        if (nodf.wbitStbtus == Nodf.CONDITION || nodf.prfv == null)
+            rfturn fblsf;
+        if (nodf.nfxt != null) // If ibs suddfssor, it must bf on qufuf
+            rfturn truf;
         /*
-         * node.prev can be non-null, but not yet on queue because
-         * the CAS to place it on queue can fail. So we have to
-         * traverse from tail to make sure it actually made it.  It
-         * will always be near the tail in calls to this method, and
-         * unless the CAS failed (which is unlikely), it will be
-         * there, so we hardly ever traverse much.
+         * nodf.prfv dbn bf non-null, but not yft on qufuf bfdbusf
+         * tif CAS to plbdf it on qufuf dbn fbil. So wf ibvf to
+         * trbvfrsf from tbil to mbkf surf it bdtublly mbdf it.  It
+         * will blwbys bf nfbr tif tbil in dblls to tiis mftiod, bnd
+         * unlfss tif CAS fbilfd (wiidi is unlikfly), it will bf
+         * tifrf, so wf ibrdly fvfr trbvfrsf mudi.
          */
-        return findNodeFromTail(node);
+        rfturn findNodfFromTbil(nodf);
     }
 
     /**
-     * Returns true if node is on sync queue by searching backwards from tail.
-     * Called only when needed by isOnSyncQueue.
-     * @return true if present
+     * Rfturns truf if nodf is on synd qufuf by sfbrdiing bbdkwbrds from tbil.
+     * Cbllfd only wifn nffdfd by isOnSyndQufuf.
+     * @rfturn truf if prfsfnt
      */
-    private boolean findNodeFromTail(Node node) {
-        Node t = tail;
+    privbtf boolfbn findNodfFromTbil(Nodf nodf) {
+        Nodf t = tbil;
         for (;;) {
-            if (t == node)
-                return true;
+            if (t == nodf)
+                rfturn truf;
             if (t == null)
-                return false;
-            t = t.prev;
+                rfturn fblsf;
+            t = t.prfv;
         }
     }
 
     /**
-     * Transfers a node from a condition queue onto sync queue.
-     * Returns true if successful.
-     * @param node the node
-     * @return true if successfully transferred (else the node was
-     * cancelled before signal)
+     * Trbnsffrs b nodf from b dondition qufuf onto synd qufuf.
+     * Rfturns truf if suddfssful.
+     * @pbrbm nodf tif nodf
+     * @rfturn truf if suddfssfully trbnsffrrfd (flsf tif nodf wbs
+     * dbndfllfd bfforf signbl)
      */
-    final boolean transferForSignal(Node node) {
+    finbl boolfbn trbnsffrForSignbl(Nodf nodf) {
         /*
-         * If cannot change waitStatus, the node has been cancelled.
+         * If dbnnot dibngf wbitStbtus, tif nodf ibs bffn dbndfllfd.
          */
-        if (!compareAndSetWaitStatus(node, Node.CONDITION, 0))
-            return false;
+        if (!dompbrfAndSftWbitStbtus(nodf, Nodf.CONDITION, 0))
+            rfturn fblsf;
 
         /*
-         * Splice onto queue and try to set waitStatus of predecessor to
-         * indicate that thread is (probably) waiting. If cancelled or
-         * attempt to set waitStatus fails, wake up to resync (in which
-         * case the waitStatus can be transiently and harmlessly wrong).
+         * Splidf onto qufuf bnd try to sft wbitStbtus of prfdfdfssor to
+         * indidbtf tibt tirfbd is (probbbly) wbiting. If dbndfllfd or
+         * bttfmpt to sft wbitStbtus fbils, wbkf up to rfsynd (in wiidi
+         * dbsf tif wbitStbtus dbn bf trbnsifntly bnd ibrmlfssly wrong).
          */
-        Node p = enq(node);
-        int ws = p.waitStatus;
-        if (ws > 0 || !compareAndSetWaitStatus(p, ws, Node.SIGNAL))
-            LockSupport.unpark(node.thread);
-        return true;
+        Nodf p = fnq(nodf);
+        int ws = p.wbitStbtus;
+        if (ws > 0 || !dompbrfAndSftWbitStbtus(p, ws, Nodf.SIGNAL))
+            LodkSupport.unpbrk(nodf.tirfbd);
+        rfturn truf;
     }
 
     /**
-     * Transfers node, if necessary, to sync queue after a cancelled wait.
-     * Returns true if thread was cancelled before being signalled.
+     * Trbnsffrs nodf, if nfdfssbry, to synd qufuf bftfr b dbndfllfd wbit.
+     * Rfturns truf if tirfbd wbs dbndfllfd bfforf bfing signbllfd.
      *
-     * @param node the node
-     * @return true if cancelled before the node was signalled
+     * @pbrbm nodf tif nodf
+     * @rfturn truf if dbndfllfd bfforf tif nodf wbs signbllfd
      */
-    final boolean transferAfterCancelledWait(Node node) {
-        if (compareAndSetWaitStatus(node, Node.CONDITION, 0)) {
-            enq(node);
-            return true;
+    finbl boolfbn trbnsffrAftfrCbndfllfdWbit(Nodf nodf) {
+        if (dompbrfAndSftWbitStbtus(nodf, Nodf.CONDITION, 0)) {
+            fnq(nodf);
+            rfturn truf;
         }
         /*
-         * If we lost out to a signal(), then we can't proceed
-         * until it finishes its enq().  Cancelling during an
-         * incomplete transfer is both rare and transient, so just
+         * If wf lost out to b signbl(), tifn wf dbn't prodffd
+         * until it finisifs its fnq().  Cbndflling during bn
+         * indomplftf trbnsffr is boti rbrf bnd trbnsifnt, so just
          * spin.
          */
-        while (!isOnSyncQueue(node))
-            Thread.yield();
-        return false;
+        wiilf (!isOnSyndQufuf(nodf))
+            Tirfbd.yifld();
+        rfturn fblsf;
     }
 
     /**
-     * Invokes release with current state value; returns saved state.
-     * Cancels node and throws exception on failure.
-     * @param node the condition node for this wait
-     * @return previous sync state
+     * Invokfs rflfbsf witi durrfnt stbtf vbluf; rfturns sbvfd stbtf.
+     * Cbndfls nodf bnd tirows fxdfption on fbilurf.
+     * @pbrbm nodf tif dondition nodf for tiis wbit
+     * @rfturn prfvious synd stbtf
      */
-    final int fullyRelease(Node node) {
-        boolean failed = true;
+    finbl int fullyRflfbsf(Nodf nodf) {
+        boolfbn fbilfd = truf;
         try {
-            int savedState = getState();
-            if (release(savedState)) {
-                failed = false;
-                return savedState;
-            } else {
-                throw new IllegalMonitorStateException();
+            int sbvfdStbtf = gftStbtf();
+            if (rflfbsf(sbvfdStbtf)) {
+                fbilfd = fblsf;
+                rfturn sbvfdStbtf;
+            } flsf {
+                tirow nfw IllfgblMonitorStbtfExdfption();
             }
-        } finally {
-            if (failed)
-                node.waitStatus = Node.CANCELLED;
+        } finblly {
+            if (fbilfd)
+                nodf.wbitStbtus = Nodf.CANCELLED;
         }
     }
 
-    // Instrumentation methods for conditions
+    // Instrumfntbtion mftiods for donditions
 
     /**
-     * Queries whether the given ConditionObject
-     * uses this synchronizer as its lock.
+     * Qufrifs wiftifr tif givfn ConditionObjfdt
+     * usfs tiis syndironizfr bs its lodk.
      *
-     * @param condition the condition
-     * @return {@code true} if owned
-     * @throws NullPointerException if the condition is null
+     * @pbrbm dondition tif dondition
+     * @rfturn {@dodf truf} if ownfd
+     * @tirows NullPointfrExdfption if tif dondition is null
      */
-    public final boolean owns(ConditionObject condition) {
-        return condition.isOwnedBy(this);
+    publid finbl boolfbn owns(ConditionObjfdt dondition) {
+        rfturn dondition.isOwnfdBy(tiis);
     }
 
     /**
-     * Queries whether any threads are waiting on the given condition
-     * associated with this synchronizer. Note that because timeouts
-     * and interrupts may occur at any time, a {@code true} return
-     * does not guarantee that a future {@code signal} will awaken
-     * any threads.  This method is designed primarily for use in
-     * monitoring of the system state.
+     * Qufrifs wiftifr bny tirfbds brf wbiting on tif givfn dondition
+     * bssodibtfd witi tiis syndironizfr. Notf tibt bfdbusf timfouts
+     * bnd intfrrupts mby oddur bt bny timf, b {@dodf truf} rfturn
+     * dofs not gubrbntff tibt b futurf {@dodf signbl} will bwbkfn
+     * bny tirfbds.  Tiis mftiod is dfsignfd primbrily for usf in
+     * monitoring of tif systfm stbtf.
      *
-     * @param condition the condition
-     * @return {@code true} if there are any waiting threads
-     * @throws IllegalMonitorStateException if exclusive synchronization
-     *         is not held
-     * @throws IllegalArgumentException if the given condition is
-     *         not associated with this synchronizer
-     * @throws NullPointerException if the condition is null
+     * @pbrbm dondition tif dondition
+     * @rfturn {@dodf truf} if tifrf brf bny wbiting tirfbds
+     * @tirows IllfgblMonitorStbtfExdfption if fxdlusivf syndironizbtion
+     *         is not ifld
+     * @tirows IllfgblArgumfntExdfption if tif givfn dondition is
+     *         not bssodibtfd witi tiis syndironizfr
+     * @tirows NullPointfrExdfption if tif dondition is null
      */
-    public final boolean hasWaiters(ConditionObject condition) {
-        if (!owns(condition))
-            throw new IllegalArgumentException("Not owner");
-        return condition.hasWaiters();
+    publid finbl boolfbn ibsWbitfrs(ConditionObjfdt dondition) {
+        if (!owns(dondition))
+            tirow nfw IllfgblArgumfntExdfption("Not ownfr");
+        rfturn dondition.ibsWbitfrs();
     }
 
     /**
-     * Returns an estimate of the number of threads waiting on the
-     * given condition associated with this synchronizer. Note that
-     * because timeouts and interrupts may occur at any time, the
-     * estimate serves only as an upper bound on the actual number of
-     * waiters.  This method is designed for use in monitoring of the
-     * system state, not for synchronization control.
+     * Rfturns bn fstimbtf of tif numbfr of tirfbds wbiting on tif
+     * givfn dondition bssodibtfd witi tiis syndironizfr. Notf tibt
+     * bfdbusf timfouts bnd intfrrupts mby oddur bt bny timf, tif
+     * fstimbtf sfrvfs only bs bn uppfr bound on tif bdtubl numbfr of
+     * wbitfrs.  Tiis mftiod is dfsignfd for usf in monitoring of tif
+     * systfm stbtf, not for syndironizbtion dontrol.
      *
-     * @param condition the condition
-     * @return the estimated number of waiting threads
-     * @throws IllegalMonitorStateException if exclusive synchronization
-     *         is not held
-     * @throws IllegalArgumentException if the given condition is
-     *         not associated with this synchronizer
-     * @throws NullPointerException if the condition is null
+     * @pbrbm dondition tif dondition
+     * @rfturn tif fstimbtfd numbfr of wbiting tirfbds
+     * @tirows IllfgblMonitorStbtfExdfption if fxdlusivf syndironizbtion
+     *         is not ifld
+     * @tirows IllfgblArgumfntExdfption if tif givfn dondition is
+     *         not bssodibtfd witi tiis syndironizfr
+     * @tirows NullPointfrExdfption if tif dondition is null
      */
-    public final int getWaitQueueLength(ConditionObject condition) {
-        if (!owns(condition))
-            throw new IllegalArgumentException("Not owner");
-        return condition.getWaitQueueLength();
+    publid finbl int gftWbitQufufLfngti(ConditionObjfdt dondition) {
+        if (!owns(dondition))
+            tirow nfw IllfgblArgumfntExdfption("Not ownfr");
+        rfturn dondition.gftWbitQufufLfngti();
     }
 
     /**
-     * Returns a collection containing those threads that may be
-     * waiting on the given condition associated with this
-     * synchronizer.  Because the actual set of threads may change
-     * dynamically while constructing this result, the returned
-     * collection is only a best-effort estimate. The elements of the
-     * returned collection are in no particular order.
+     * Rfturns b dollfdtion dontbining tiosf tirfbds tibt mby bf
+     * wbiting on tif givfn dondition bssodibtfd witi tiis
+     * syndironizfr.  Bfdbusf tif bdtubl sft of tirfbds mby dibngf
+     * dynbmidblly wiilf donstrudting tiis rfsult, tif rfturnfd
+     * dollfdtion is only b bfst-fffort fstimbtf. Tif flfmfnts of tif
+     * rfturnfd dollfdtion brf in no pbrtidulbr ordfr.
      *
-     * @param condition the condition
-     * @return the collection of threads
-     * @throws IllegalMonitorStateException if exclusive synchronization
-     *         is not held
-     * @throws IllegalArgumentException if the given condition is
-     *         not associated with this synchronizer
-     * @throws NullPointerException if the condition is null
+     * @pbrbm dondition tif dondition
+     * @rfturn tif dollfdtion of tirfbds
+     * @tirows IllfgblMonitorStbtfExdfption if fxdlusivf syndironizbtion
+     *         is not ifld
+     * @tirows IllfgblArgumfntExdfption if tif givfn dondition is
+     *         not bssodibtfd witi tiis syndironizfr
+     * @tirows NullPointfrExdfption if tif dondition is null
      */
-    public final Collection<Thread> getWaitingThreads(ConditionObject condition) {
-        if (!owns(condition))
-            throw new IllegalArgumentException("Not owner");
-        return condition.getWaitingThreads();
+    publid finbl Collfdtion<Tirfbd> gftWbitingTirfbds(ConditionObjfdt dondition) {
+        if (!owns(dondition))
+            tirow nfw IllfgblArgumfntExdfption("Not ownfr");
+        rfturn dondition.gftWbitingTirfbds();
     }
 
     /**
-     * Condition implementation for a {@link
-     * AbstractQueuedSynchronizer} serving as the basis of a {@link
-     * Lock} implementation.
+     * Condition implfmfntbtion for b {@link
+     * AbstrbdtQufufdSyndironizfr} sfrving bs tif bbsis of b {@link
+     * Lodk} implfmfntbtion.
      *
-     * <p>Method documentation for this class describes mechanics,
-     * not behavioral specifications from the point of view of Lock
-     * and Condition users. Exported versions of this class will in
-     * general need to be accompanied by documentation describing
-     * condition semantics that rely on those of the associated
-     * {@code AbstractQueuedSynchronizer}.
+     * <p>Mftiod dodumfntbtion for tiis dlbss dfsdribfs mfdibnids,
+     * not bfibviorbl spfdifidbtions from tif point of vifw of Lodk
+     * bnd Condition usfrs. Exportfd vfrsions of tiis dlbss will in
+     * gfnfrbl nffd to bf bddompbnifd by dodumfntbtion dfsdribing
+     * dondition sfmbntids tibt rfly on tiosf of tif bssodibtfd
+     * {@dodf AbstrbdtQufufdSyndironizfr}.
      *
-     * <p>This class is Serializable, but all fields are transient,
-     * so deserialized conditions have no waiters.
+     * <p>Tiis dlbss is Sfriblizbblf, but bll fiflds brf trbnsifnt,
+     * so dfsfriblizfd donditions ibvf no wbitfrs.
      */
-    public class ConditionObject implements Condition, java.io.Serializable {
-        private static final long serialVersionUID = 1173984872572414699L;
-        /** First node of condition queue. */
-        private transient Node firstWaiter;
-        /** Last node of condition queue. */
-        private transient Node lastWaiter;
+    publid dlbss ConditionObjfdt implfmfnts Condition, jbvb.io.Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 1173984872572414699L;
+        /** First nodf of dondition qufuf. */
+        privbtf trbnsifnt Nodf firstWbitfr;
+        /** Lbst nodf of dondition qufuf. */
+        privbtf trbnsifnt Nodf lbstWbitfr;
 
         /**
-         * Creates a new {@code ConditionObject} instance.
+         * Crfbtfs b nfw {@dodf ConditionObjfdt} instbndf.
          */
-        public ConditionObject() { }
+        publid ConditionObjfdt() { }
 
-        // Internal methods
+        // Intfrnbl mftiods
 
         /**
-         * Adds a new waiter to wait queue.
-         * @return its new wait node
+         * Adds b nfw wbitfr to wbit qufuf.
+         * @rfturn its nfw wbit nodf
          */
-        private Node addConditionWaiter() {
-            Node t = lastWaiter;
-            // If lastWaiter is cancelled, clean out.
-            if (t != null && t.waitStatus != Node.CONDITION) {
-                unlinkCancelledWaiters();
-                t = lastWaiter;
+        privbtf Nodf bddConditionWbitfr() {
+            Nodf t = lbstWbitfr;
+            // If lbstWbitfr is dbndfllfd, dlfbn out.
+            if (t != null && t.wbitStbtus != Nodf.CONDITION) {
+                unlinkCbndfllfdWbitfrs();
+                t = lbstWbitfr;
             }
-            Node node = new Node(Thread.currentThread(), Node.CONDITION);
+            Nodf nodf = nfw Nodf(Tirfbd.durrfntTirfbd(), Nodf.CONDITION);
             if (t == null)
-                firstWaiter = node;
-            else
-                t.nextWaiter = node;
-            lastWaiter = node;
-            return node;
+                firstWbitfr = nodf;
+            flsf
+                t.nfxtWbitfr = nodf;
+            lbstWbitfr = nodf;
+            rfturn nodf;
         }
 
         /**
-         * Removes and transfers nodes until hit non-cancelled one or
-         * null. Split out from signal in part to encourage compilers
-         * to inline the case of no waiters.
-         * @param first (non-null) the first node on condition queue
+         * Rfmovfs bnd trbnsffrs nodfs until iit non-dbndfllfd onf or
+         * null. Split out from signbl in pbrt to fndourbgf dompilfrs
+         * to inlinf tif dbsf of no wbitfrs.
+         * @pbrbm first (non-null) tif first nodf on dondition qufuf
          */
-        private void doSignal(Node first) {
+        privbtf void doSignbl(Nodf first) {
             do {
-                if ( (firstWaiter = first.nextWaiter) == null)
-                    lastWaiter = null;
-                first.nextWaiter = null;
-            } while (!transferForSignal(first) &&
-                     (first = firstWaiter) != null);
+                if ( (firstWbitfr = first.nfxtWbitfr) == null)
+                    lbstWbitfr = null;
+                first.nfxtWbitfr = null;
+            } wiilf (!trbnsffrForSignbl(first) &&
+                     (first = firstWbitfr) != null);
         }
 
         /**
-         * Removes and transfers all nodes.
-         * @param first (non-null) the first node on condition queue
+         * Rfmovfs bnd trbnsffrs bll nodfs.
+         * @pbrbm first (non-null) tif first nodf on dondition qufuf
          */
-        private void doSignalAll(Node first) {
-            lastWaiter = firstWaiter = null;
+        privbtf void doSignblAll(Nodf first) {
+            lbstWbitfr = firstWbitfr = null;
             do {
-                Node next = first.nextWaiter;
-                first.nextWaiter = null;
-                transferForSignal(first);
-                first = next;
-            } while (first != null);
+                Nodf nfxt = first.nfxtWbitfr;
+                first.nfxtWbitfr = null;
+                trbnsffrForSignbl(first);
+                first = nfxt;
+            } wiilf (first != null);
         }
 
         /**
-         * Unlinks cancelled waiter nodes from condition queue.
-         * Called only while holding lock. This is called when
-         * cancellation occurred during condition wait, and upon
-         * insertion of a new waiter when lastWaiter is seen to have
-         * been cancelled. This method is needed to avoid garbage
-         * retention in the absence of signals. So even though it may
-         * require a full traversal, it comes into play only when
-         * timeouts or cancellations occur in the absence of
-         * signals. It traverses all nodes rather than stopping at a
-         * particular target to unlink all pointers to garbage nodes
-         * without requiring many re-traversals during cancellation
+         * Unlinks dbndfllfd wbitfr nodfs from dondition qufuf.
+         * Cbllfd only wiilf iolding lodk. Tiis is dbllfd wifn
+         * dbndfllbtion oddurrfd during dondition wbit, bnd upon
+         * insfrtion of b nfw wbitfr wifn lbstWbitfr is sffn to ibvf
+         * bffn dbndfllfd. Tiis mftiod is nffdfd to bvoid gbrbbgf
+         * rftfntion in tif bbsfndf of signbls. So fvfn tiougi it mby
+         * rfquirf b full trbvfrsbl, it domfs into plby only wifn
+         * timfouts or dbndfllbtions oddur in tif bbsfndf of
+         * signbls. It trbvfrsfs bll nodfs rbtifr tibn stopping bt b
+         * pbrtidulbr tbrgft to unlink bll pointfrs to gbrbbgf nodfs
+         * witiout rfquiring mbny rf-trbvfrsbls during dbndfllbtion
          * storms.
          */
-        private void unlinkCancelledWaiters() {
-            Node t = firstWaiter;
-            Node trail = null;
-            while (t != null) {
-                Node next = t.nextWaiter;
-                if (t.waitStatus != Node.CONDITION) {
-                    t.nextWaiter = null;
-                    if (trail == null)
-                        firstWaiter = next;
-                    else
-                        trail.nextWaiter = next;
-                    if (next == null)
-                        lastWaiter = trail;
+        privbtf void unlinkCbndfllfdWbitfrs() {
+            Nodf t = firstWbitfr;
+            Nodf trbil = null;
+            wiilf (t != null) {
+                Nodf nfxt = t.nfxtWbitfr;
+                if (t.wbitStbtus != Nodf.CONDITION) {
+                    t.nfxtWbitfr = null;
+                    if (trbil == null)
+                        firstWbitfr = nfxt;
+                    flsf
+                        trbil.nfxtWbitfr = nfxt;
+                    if (nfxt == null)
+                        lbstWbitfr = trbil;
                 }
-                else
-                    trail = t;
-                t = next;
+                flsf
+                    trbil = t;
+                t = nfxt;
             }
         }
 
-        // public methods
+        // publid mftiods
 
         /**
-         * Moves the longest-waiting thread, if one exists, from the
-         * wait queue for this condition to the wait queue for the
-         * owning lock.
+         * Movfs tif longfst-wbiting tirfbd, if onf fxists, from tif
+         * wbit qufuf for tiis dondition to tif wbit qufuf for tif
+         * owning lodk.
          *
-         * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
-         *         returns {@code false}
+         * @tirows IllfgblMonitorStbtfExdfption if {@link #isHfldExdlusivfly}
+         *         rfturns {@dodf fblsf}
          */
-        public final void signal() {
-            if (!isHeldExclusively())
-                throw new IllegalMonitorStateException();
-            Node first = firstWaiter;
+        publid finbl void signbl() {
+            if (!isHfldExdlusivfly())
+                tirow nfw IllfgblMonitorStbtfExdfption();
+            Nodf first = firstWbitfr;
             if (first != null)
-                doSignal(first);
+                doSignbl(first);
         }
 
         /**
-         * Moves all threads from the wait queue for this condition to
-         * the wait queue for the owning lock.
+         * Movfs bll tirfbds from tif wbit qufuf for tiis dondition to
+         * tif wbit qufuf for tif owning lodk.
          *
-         * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
-         *         returns {@code false}
+         * @tirows IllfgblMonitorStbtfExdfption if {@link #isHfldExdlusivfly}
+         *         rfturns {@dodf fblsf}
          */
-        public final void signalAll() {
-            if (!isHeldExclusively())
-                throw new IllegalMonitorStateException();
-            Node first = firstWaiter;
+        publid finbl void signblAll() {
+            if (!isHfldExdlusivfly())
+                tirow nfw IllfgblMonitorStbtfExdfption();
+            Nodf first = firstWbitfr;
             if (first != null)
-                doSignalAll(first);
+                doSignblAll(first);
         }
 
         /**
-         * Implements uninterruptible condition wait.
+         * Implfmfnts unintfrruptiblf dondition wbit.
          * <ol>
-         * <li> Save lock state returned by {@link #getState}.
-         * <li> Invoke {@link #release} with saved state as argument,
-         *      throwing IllegalMonitorStateException if it fails.
-         * <li> Block until signalled.
-         * <li> Reacquire by invoking specialized version of
-         *      {@link #acquire} with saved state as argument.
+         * <li> Sbvf lodk stbtf rfturnfd by {@link #gftStbtf}.
+         * <li> Invokf {@link #rflfbsf} witi sbvfd stbtf bs brgumfnt,
+         *      tirowing IllfgblMonitorStbtfExdfption if it fbils.
+         * <li> Blodk until signbllfd.
+         * <li> Rfbdquirf by invoking spfdiblizfd vfrsion of
+         *      {@link #bdquirf} witi sbvfd stbtf bs brgumfnt.
          * </ol>
          */
-        public final void awaitUninterruptibly() {
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
-            boolean interrupted = false;
-            while (!isOnSyncQueue(node)) {
-                LockSupport.park(this);
-                if (Thread.interrupted())
-                    interrupted = true;
+        publid finbl void bwbitUnintfrruptibly() {
+            Nodf nodf = bddConditionWbitfr();
+            int sbvfdStbtf = fullyRflfbsf(nodf);
+            boolfbn intfrruptfd = fblsf;
+            wiilf (!isOnSyndQufuf(nodf)) {
+                LodkSupport.pbrk(tiis);
+                if (Tirfbd.intfrruptfd())
+                    intfrruptfd = truf;
             }
-            if (acquireQueued(node, savedState) || interrupted)
-                selfInterrupt();
+            if (bdquirfQufufd(nodf, sbvfdStbtf) || intfrruptfd)
+                sflfIntfrrupt();
         }
 
         /*
-         * For interruptible waits, we need to track whether to throw
-         * InterruptedException, if interrupted while blocked on
-         * condition, versus reinterrupt current thread, if
-         * interrupted while blocked waiting to re-acquire.
+         * For intfrruptiblf wbits, wf nffd to trbdk wiftifr to tirow
+         * IntfrruptfdExdfption, if intfrruptfd wiilf blodkfd on
+         * dondition, vfrsus rfintfrrupt durrfnt tirfbd, if
+         * intfrruptfd wiilf blodkfd wbiting to rf-bdquirf.
          */
 
-        /** Mode meaning to reinterrupt on exit from wait */
-        private static final int REINTERRUPT =  1;
-        /** Mode meaning to throw InterruptedException on exit from wait */
-        private static final int THROW_IE    = -1;
+        /** Modf mfbning to rfintfrrupt on fxit from wbit */
+        privbtf stbtid finbl int REINTERRUPT =  1;
+        /** Modf mfbning to tirow IntfrruptfdExdfption on fxit from wbit */
+        privbtf stbtid finbl int THROW_IE    = -1;
 
         /**
-         * Checks for interrupt, returning THROW_IE if interrupted
-         * before signalled, REINTERRUPT if after signalled, or
-         * 0 if not interrupted.
+         * Cifdks for intfrrupt, rfturning THROW_IE if intfrruptfd
+         * bfforf signbllfd, REINTERRUPT if bftfr signbllfd, or
+         * 0 if not intfrruptfd.
          */
-        private int checkInterruptWhileWaiting(Node node) {
-            return Thread.interrupted() ?
-                (transferAfterCancelledWait(node) ? THROW_IE : REINTERRUPT) :
+        privbtf int difdkIntfrruptWiilfWbiting(Nodf nodf) {
+            rfturn Tirfbd.intfrruptfd() ?
+                (trbnsffrAftfrCbndfllfdWbit(nodf) ? THROW_IE : REINTERRUPT) :
                 0;
         }
 
         /**
-         * Throws InterruptedException, reinterrupts current thread, or
-         * does nothing, depending on mode.
+         * Tirows IntfrruptfdExdfption, rfintfrrupts durrfnt tirfbd, or
+         * dofs notiing, dfpfnding on modf.
          */
-        private void reportInterruptAfterWait(int interruptMode)
-            throws InterruptedException {
-            if (interruptMode == THROW_IE)
-                throw new InterruptedException();
-            else if (interruptMode == REINTERRUPT)
-                selfInterrupt();
+        privbtf void rfportIntfrruptAftfrWbit(int intfrruptModf)
+            tirows IntfrruptfdExdfption {
+            if (intfrruptModf == THROW_IE)
+                tirow nfw IntfrruptfdExdfption();
+            flsf if (intfrruptModf == REINTERRUPT)
+                sflfIntfrrupt();
         }
 
         /**
-         * Implements interruptible condition wait.
+         * Implfmfnts intfrruptiblf dondition wbit.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
-         * <li> Save lock state returned by {@link #getState}.
-         * <li> Invoke {@link #release} with saved state as argument,
-         *      throwing IllegalMonitorStateException if it fails.
-         * <li> Block until signalled or interrupted.
-         * <li> Reacquire by invoking specialized version of
-         *      {@link #acquire} with saved state as argument.
-         * <li> If interrupted while blocked in step 4, throw InterruptedException.
+         * <li> If durrfnt tirfbd is intfrruptfd, tirow IntfrruptfdExdfption.
+         * <li> Sbvf lodk stbtf rfturnfd by {@link #gftStbtf}.
+         * <li> Invokf {@link #rflfbsf} witi sbvfd stbtf bs brgumfnt,
+         *      tirowing IllfgblMonitorStbtfExdfption if it fbils.
+         * <li> Blodk until signbllfd or intfrruptfd.
+         * <li> Rfbdquirf by invoking spfdiblizfd vfrsion of
+         *      {@link #bdquirf} witi sbvfd stbtf bs brgumfnt.
+         * <li> If intfrruptfd wiilf blodkfd in stfp 4, tirow IntfrruptfdExdfption.
          * </ol>
          */
-        public final void await() throws InterruptedException {
-            if (Thread.interrupted())
-                throw new InterruptedException();
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
-            int interruptMode = 0;
-            while (!isOnSyncQueue(node)) {
-                LockSupport.park(this);
-                if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
-                    break;
+        publid finbl void bwbit() tirows IntfrruptfdExdfption {
+            if (Tirfbd.intfrruptfd())
+                tirow nfw IntfrruptfdExdfption();
+            Nodf nodf = bddConditionWbitfr();
+            int sbvfdStbtf = fullyRflfbsf(nodf);
+            int intfrruptModf = 0;
+            wiilf (!isOnSyndQufuf(nodf)) {
+                LodkSupport.pbrk(tiis);
+                if ((intfrruptModf = difdkIntfrruptWiilfWbiting(nodf)) != 0)
+                    brfbk;
             }
-            if (acquireQueued(node, savedState) && interruptMode != THROW_IE)
-                interruptMode = REINTERRUPT;
-            if (node.nextWaiter != null) // clean up if cancelled
-                unlinkCancelledWaiters();
-            if (interruptMode != 0)
-                reportInterruptAfterWait(interruptMode);
+            if (bdquirfQufufd(nodf, sbvfdStbtf) && intfrruptModf != THROW_IE)
+                intfrruptModf = REINTERRUPT;
+            if (nodf.nfxtWbitfr != null) // dlfbn up if dbndfllfd
+                unlinkCbndfllfdWbitfrs();
+            if (intfrruptModf != 0)
+                rfportIntfrruptAftfrWbit(intfrruptModf);
         }
 
         /**
-         * Implements timed condition wait.
+         * Implfmfnts timfd dondition wbit.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
-         * <li> Save lock state returned by {@link #getState}.
-         * <li> Invoke {@link #release} with saved state as argument,
-         *      throwing IllegalMonitorStateException if it fails.
-         * <li> Block until signalled, interrupted, or timed out.
-         * <li> Reacquire by invoking specialized version of
-         *      {@link #acquire} with saved state as argument.
-         * <li> If interrupted while blocked in step 4, throw InterruptedException.
+         * <li> If durrfnt tirfbd is intfrruptfd, tirow IntfrruptfdExdfption.
+         * <li> Sbvf lodk stbtf rfturnfd by {@link #gftStbtf}.
+         * <li> Invokf {@link #rflfbsf} witi sbvfd stbtf bs brgumfnt,
+         *      tirowing IllfgblMonitorStbtfExdfption if it fbils.
+         * <li> Blodk until signbllfd, intfrruptfd, or timfd out.
+         * <li> Rfbdquirf by invoking spfdiblizfd vfrsion of
+         *      {@link #bdquirf} witi sbvfd stbtf bs brgumfnt.
+         * <li> If intfrruptfd wiilf blodkfd in stfp 4, tirow IntfrruptfdExdfption.
          * </ol>
          */
-        public final long awaitNanos(long nanosTimeout)
-                throws InterruptedException {
-            if (Thread.interrupted())
-                throw new InterruptedException();
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
-            final long deadline = System.nanoTime() + nanosTimeout;
-            int interruptMode = 0;
-            while (!isOnSyncQueue(node)) {
-                if (nanosTimeout <= 0L) {
-                    transferAfterCancelledWait(node);
-                    break;
+        publid finbl long bwbitNbnos(long nbnosTimfout)
+                tirows IntfrruptfdExdfption {
+            if (Tirfbd.intfrruptfd())
+                tirow nfw IntfrruptfdExdfption();
+            Nodf nodf = bddConditionWbitfr();
+            int sbvfdStbtf = fullyRflfbsf(nodf);
+            finbl long dfbdlinf = Systfm.nbnoTimf() + nbnosTimfout;
+            int intfrruptModf = 0;
+            wiilf (!isOnSyndQufuf(nodf)) {
+                if (nbnosTimfout <= 0L) {
+                    trbnsffrAftfrCbndfllfdWbit(nodf);
+                    brfbk;
                 }
-                if (nanosTimeout >= spinForTimeoutThreshold)
-                    LockSupport.parkNanos(this, nanosTimeout);
-                if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
-                    break;
-                nanosTimeout = deadline - System.nanoTime();
+                if (nbnosTimfout >= spinForTimfoutTirfsiold)
+                    LodkSupport.pbrkNbnos(tiis, nbnosTimfout);
+                if ((intfrruptModf = difdkIntfrruptWiilfWbiting(nodf)) != 0)
+                    brfbk;
+                nbnosTimfout = dfbdlinf - Systfm.nbnoTimf();
             }
-            if (acquireQueued(node, savedState) && interruptMode != THROW_IE)
-                interruptMode = REINTERRUPT;
-            if (node.nextWaiter != null)
-                unlinkCancelledWaiters();
-            if (interruptMode != 0)
-                reportInterruptAfterWait(interruptMode);
-            return deadline - System.nanoTime();
+            if (bdquirfQufufd(nodf, sbvfdStbtf) && intfrruptModf != THROW_IE)
+                intfrruptModf = REINTERRUPT;
+            if (nodf.nfxtWbitfr != null)
+                unlinkCbndfllfdWbitfrs();
+            if (intfrruptModf != 0)
+                rfportIntfrruptAftfrWbit(intfrruptModf);
+            rfturn dfbdlinf - Systfm.nbnoTimf();
         }
 
         /**
-         * Implements absolute timed condition wait.
+         * Implfmfnts bbsolutf timfd dondition wbit.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
-         * <li> Save lock state returned by {@link #getState}.
-         * <li> Invoke {@link #release} with saved state as argument,
-         *      throwing IllegalMonitorStateException if it fails.
-         * <li> Block until signalled, interrupted, or timed out.
-         * <li> Reacquire by invoking specialized version of
-         *      {@link #acquire} with saved state as argument.
-         * <li> If interrupted while blocked in step 4, throw InterruptedException.
-         * <li> If timed out while blocked in step 4, return false, else true.
+         * <li> If durrfnt tirfbd is intfrruptfd, tirow IntfrruptfdExdfption.
+         * <li> Sbvf lodk stbtf rfturnfd by {@link #gftStbtf}.
+         * <li> Invokf {@link #rflfbsf} witi sbvfd stbtf bs brgumfnt,
+         *      tirowing IllfgblMonitorStbtfExdfption if it fbils.
+         * <li> Blodk until signbllfd, intfrruptfd, or timfd out.
+         * <li> Rfbdquirf by invoking spfdiblizfd vfrsion of
+         *      {@link #bdquirf} witi sbvfd stbtf bs brgumfnt.
+         * <li> If intfrruptfd wiilf blodkfd in stfp 4, tirow IntfrruptfdExdfption.
+         * <li> If timfd out wiilf blodkfd in stfp 4, rfturn fblsf, flsf truf.
          * </ol>
          */
-        public final boolean awaitUntil(Date deadline)
-                throws InterruptedException {
-            long abstime = deadline.getTime();
-            if (Thread.interrupted())
-                throw new InterruptedException();
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
-            boolean timedout = false;
-            int interruptMode = 0;
-            while (!isOnSyncQueue(node)) {
-                if (System.currentTimeMillis() > abstime) {
-                    timedout = transferAfterCancelledWait(node);
-                    break;
+        publid finbl boolfbn bwbitUntil(Dbtf dfbdlinf)
+                tirows IntfrruptfdExdfption {
+            long bbstimf = dfbdlinf.gftTimf();
+            if (Tirfbd.intfrruptfd())
+                tirow nfw IntfrruptfdExdfption();
+            Nodf nodf = bddConditionWbitfr();
+            int sbvfdStbtf = fullyRflfbsf(nodf);
+            boolfbn timfdout = fblsf;
+            int intfrruptModf = 0;
+            wiilf (!isOnSyndQufuf(nodf)) {
+                if (Systfm.durrfntTimfMillis() > bbstimf) {
+                    timfdout = trbnsffrAftfrCbndfllfdWbit(nodf);
+                    brfbk;
                 }
-                LockSupport.parkUntil(this, abstime);
-                if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
-                    break;
+                LodkSupport.pbrkUntil(tiis, bbstimf);
+                if ((intfrruptModf = difdkIntfrruptWiilfWbiting(nodf)) != 0)
+                    brfbk;
             }
-            if (acquireQueued(node, savedState) && interruptMode != THROW_IE)
-                interruptMode = REINTERRUPT;
-            if (node.nextWaiter != null)
-                unlinkCancelledWaiters();
-            if (interruptMode != 0)
-                reportInterruptAfterWait(interruptMode);
-            return !timedout;
+            if (bdquirfQufufd(nodf, sbvfdStbtf) && intfrruptModf != THROW_IE)
+                intfrruptModf = REINTERRUPT;
+            if (nodf.nfxtWbitfr != null)
+                unlinkCbndfllfdWbitfrs();
+            if (intfrruptModf != 0)
+                rfportIntfrruptAftfrWbit(intfrruptModf);
+            rfturn !timfdout;
         }
 
         /**
-         * Implements timed condition wait.
+         * Implfmfnts timfd dondition wbit.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
-         * <li> Save lock state returned by {@link #getState}.
-         * <li> Invoke {@link #release} with saved state as argument,
-         *      throwing IllegalMonitorStateException if it fails.
-         * <li> Block until signalled, interrupted, or timed out.
-         * <li> Reacquire by invoking specialized version of
-         *      {@link #acquire} with saved state as argument.
-         * <li> If interrupted while blocked in step 4, throw InterruptedException.
-         * <li> If timed out while blocked in step 4, return false, else true.
+         * <li> If durrfnt tirfbd is intfrruptfd, tirow IntfrruptfdExdfption.
+         * <li> Sbvf lodk stbtf rfturnfd by {@link #gftStbtf}.
+         * <li> Invokf {@link #rflfbsf} witi sbvfd stbtf bs brgumfnt,
+         *      tirowing IllfgblMonitorStbtfExdfption if it fbils.
+         * <li> Blodk until signbllfd, intfrruptfd, or timfd out.
+         * <li> Rfbdquirf by invoking spfdiblizfd vfrsion of
+         *      {@link #bdquirf} witi sbvfd stbtf bs brgumfnt.
+         * <li> If intfrruptfd wiilf blodkfd in stfp 4, tirow IntfrruptfdExdfption.
+         * <li> If timfd out wiilf blodkfd in stfp 4, rfturn fblsf, flsf truf.
          * </ol>
          */
-        public final boolean await(long time, TimeUnit unit)
-                throws InterruptedException {
-            long nanosTimeout = unit.toNanos(time);
-            if (Thread.interrupted())
-                throw new InterruptedException();
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
-            final long deadline = System.nanoTime() + nanosTimeout;
-            boolean timedout = false;
-            int interruptMode = 0;
-            while (!isOnSyncQueue(node)) {
-                if (nanosTimeout <= 0L) {
-                    timedout = transferAfterCancelledWait(node);
-                    break;
+        publid finbl boolfbn bwbit(long timf, TimfUnit unit)
+                tirows IntfrruptfdExdfption {
+            long nbnosTimfout = unit.toNbnos(timf);
+            if (Tirfbd.intfrruptfd())
+                tirow nfw IntfrruptfdExdfption();
+            Nodf nodf = bddConditionWbitfr();
+            int sbvfdStbtf = fullyRflfbsf(nodf);
+            finbl long dfbdlinf = Systfm.nbnoTimf() + nbnosTimfout;
+            boolfbn timfdout = fblsf;
+            int intfrruptModf = 0;
+            wiilf (!isOnSyndQufuf(nodf)) {
+                if (nbnosTimfout <= 0L) {
+                    timfdout = trbnsffrAftfrCbndfllfdWbit(nodf);
+                    brfbk;
                 }
-                if (nanosTimeout >= spinForTimeoutThreshold)
-                    LockSupport.parkNanos(this, nanosTimeout);
-                if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
-                    break;
-                nanosTimeout = deadline - System.nanoTime();
+                if (nbnosTimfout >= spinForTimfoutTirfsiold)
+                    LodkSupport.pbrkNbnos(tiis, nbnosTimfout);
+                if ((intfrruptModf = difdkIntfrruptWiilfWbiting(nodf)) != 0)
+                    brfbk;
+                nbnosTimfout = dfbdlinf - Systfm.nbnoTimf();
             }
-            if (acquireQueued(node, savedState) && interruptMode != THROW_IE)
-                interruptMode = REINTERRUPT;
-            if (node.nextWaiter != null)
-                unlinkCancelledWaiters();
-            if (interruptMode != 0)
-                reportInterruptAfterWait(interruptMode);
-            return !timedout;
+            if (bdquirfQufufd(nodf, sbvfdStbtf) && intfrruptModf != THROW_IE)
+                intfrruptModf = REINTERRUPT;
+            if (nodf.nfxtWbitfr != null)
+                unlinkCbndfllfdWbitfrs();
+            if (intfrruptModf != 0)
+                rfportIntfrruptAftfrWbit(intfrruptModf);
+            rfturn !timfdout;
         }
 
-        //  support for instrumentation
+        //  support for instrumfntbtion
 
         /**
-         * Returns true if this condition was created by the given
-         * synchronization object.
+         * Rfturns truf if tiis dondition wbs drfbtfd by tif givfn
+         * syndironizbtion objfdt.
          *
-         * @return {@code true} if owned
+         * @rfturn {@dodf truf} if ownfd
          */
-        final boolean isOwnedBy(AbstractQueuedSynchronizer sync) {
-            return sync == AbstractQueuedSynchronizer.this;
+        finbl boolfbn isOwnfdBy(AbstrbdtQufufdSyndironizfr synd) {
+            rfturn synd == AbstrbdtQufufdSyndironizfr.tiis;
         }
 
         /**
-         * Queries whether any threads are waiting on this condition.
-         * Implements {@link AbstractQueuedSynchronizer#hasWaiters(ConditionObject)}.
+         * Qufrifs wiftifr bny tirfbds brf wbiting on tiis dondition.
+         * Implfmfnts {@link AbstrbdtQufufdSyndironizfr#ibsWbitfrs(ConditionObjfdt)}.
          *
-         * @return {@code true} if there are any waiting threads
-         * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
-         *         returns {@code false}
+         * @rfturn {@dodf truf} if tifrf brf bny wbiting tirfbds
+         * @tirows IllfgblMonitorStbtfExdfption if {@link #isHfldExdlusivfly}
+         *         rfturns {@dodf fblsf}
          */
-        protected final boolean hasWaiters() {
-            if (!isHeldExclusively())
-                throw new IllegalMonitorStateException();
-            for (Node w = firstWaiter; w != null; w = w.nextWaiter) {
-                if (w.waitStatus == Node.CONDITION)
-                    return true;
+        protfdtfd finbl boolfbn ibsWbitfrs() {
+            if (!isHfldExdlusivfly())
+                tirow nfw IllfgblMonitorStbtfExdfption();
+            for (Nodf w = firstWbitfr; w != null; w = w.nfxtWbitfr) {
+                if (w.wbitStbtus == Nodf.CONDITION)
+                    rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Returns an estimate of the number of threads waiting on
-         * this condition.
-         * Implements {@link AbstractQueuedSynchronizer#getWaitQueueLength(ConditionObject)}.
+         * Rfturns bn fstimbtf of tif numbfr of tirfbds wbiting on
+         * tiis dondition.
+         * Implfmfnts {@link AbstrbdtQufufdSyndironizfr#gftWbitQufufLfngti(ConditionObjfdt)}.
          *
-         * @return the estimated number of waiting threads
-         * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
-         *         returns {@code false}
+         * @rfturn tif fstimbtfd numbfr of wbiting tirfbds
+         * @tirows IllfgblMonitorStbtfExdfption if {@link #isHfldExdlusivfly}
+         *         rfturns {@dodf fblsf}
          */
-        protected final int getWaitQueueLength() {
-            if (!isHeldExclusively())
-                throw new IllegalMonitorStateException();
+        protfdtfd finbl int gftWbitQufufLfngti() {
+            if (!isHfldExdlusivfly())
+                tirow nfw IllfgblMonitorStbtfExdfption();
             int n = 0;
-            for (Node w = firstWaiter; w != null; w = w.nextWaiter) {
-                if (w.waitStatus == Node.CONDITION)
+            for (Nodf w = firstWbitfr; w != null; w = w.nfxtWbitfr) {
+                if (w.wbitStbtus == Nodf.CONDITION)
                     ++n;
             }
-            return n;
+            rfturn n;
         }
 
         /**
-         * Returns a collection containing those threads that may be
-         * waiting on this Condition.
-         * Implements {@link AbstractQueuedSynchronizer#getWaitingThreads(ConditionObject)}.
+         * Rfturns b dollfdtion dontbining tiosf tirfbds tibt mby bf
+         * wbiting on tiis Condition.
+         * Implfmfnts {@link AbstrbdtQufufdSyndironizfr#gftWbitingTirfbds(ConditionObjfdt)}.
          *
-         * @return the collection of threads
-         * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
-         *         returns {@code false}
+         * @rfturn tif dollfdtion of tirfbds
+         * @tirows IllfgblMonitorStbtfExdfption if {@link #isHfldExdlusivfly}
+         *         rfturns {@dodf fblsf}
          */
-        protected final Collection<Thread> getWaitingThreads() {
-            if (!isHeldExclusively())
-                throw new IllegalMonitorStateException();
-            ArrayList<Thread> list = new ArrayList<Thread>();
-            for (Node w = firstWaiter; w != null; w = w.nextWaiter) {
-                if (w.waitStatus == Node.CONDITION) {
-                    Thread t = w.thread;
+        protfdtfd finbl Collfdtion<Tirfbd> gftWbitingTirfbds() {
+            if (!isHfldExdlusivfly())
+                tirow nfw IllfgblMonitorStbtfExdfption();
+            ArrbyList<Tirfbd> list = nfw ArrbyList<Tirfbd>();
+            for (Nodf w = firstWbitfr; w != null; w = w.nfxtWbitfr) {
+                if (w.wbitStbtus == Nodf.CONDITION) {
+                    Tirfbd t = w.tirfbd;
                     if (t != null)
-                        list.add(t);
+                        list.bdd(t);
                 }
             }
-            return list;
+            rfturn list;
         }
     }
 
     /**
-     * Setup to support compareAndSet. We need to natively implement
-     * this here: For the sake of permitting future enhancements, we
-     * cannot explicitly subclass AtomicInteger, which would be
-     * efficient and useful otherwise. So, as the lesser of evils, we
-     * natively implement using hotspot intrinsics API. And while we
-     * are at it, we do the same for other CASable fields (which could
-     * otherwise be done with atomic field updaters).
+     * Sftup to support dompbrfAndSft. Wf nffd to nbtivfly implfmfnt
+     * tiis ifrf: For tif sbkf of pfrmitting futurf fnibndfmfnts, wf
+     * dbnnot fxpliditly subdlbss AtomidIntfgfr, wiidi would bf
+     * fffidifnt bnd usfful otifrwisf. So, bs tif lfssfr of fvils, wf
+     * nbtivfly implfmfnt using iotspot intrinsids API. And wiilf wf
+     * brf bt it, wf do tif sbmf for otifr CASbblf fiflds (wiidi dould
+     * otifrwisf bf donf witi btomid fifld updbtfrs).
      */
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final long stateOffset;
-    private static final long headOffset;
-    private static final long tailOffset;
-    private static final long waitStatusOffset;
-    private static final long nextOffset;
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid finbl long stbtfOffsft;
+    privbtf stbtid finbl long ifbdOffsft;
+    privbtf stbtid finbl long tbilOffsft;
+    privbtf stbtid finbl long wbitStbtusOffsft;
+    privbtf stbtid finbl long nfxtOffsft;
 
-    static {
+    stbtid {
         try {
-            stateOffset = unsafe.objectFieldOffset
-                (AbstractQueuedSynchronizer.class.getDeclaredField("state"));
-            headOffset = unsafe.objectFieldOffset
-                (AbstractQueuedSynchronizer.class.getDeclaredField("head"));
-            tailOffset = unsafe.objectFieldOffset
-                (AbstractQueuedSynchronizer.class.getDeclaredField("tail"));
-            waitStatusOffset = unsafe.objectFieldOffset
-                (Node.class.getDeclaredField("waitStatus"));
-            nextOffset = unsafe.objectFieldOffset
-                (Node.class.getDeclaredField("next"));
+            stbtfOffsft = unsbff.objfdtFifldOffsft
+                (AbstrbdtQufufdSyndironizfr.dlbss.gftDfdlbrfdFifld("stbtf"));
+            ifbdOffsft = unsbff.objfdtFifldOffsft
+                (AbstrbdtQufufdSyndironizfr.dlbss.gftDfdlbrfdFifld("ifbd"));
+            tbilOffsft = unsbff.objfdtFifldOffsft
+                (AbstrbdtQufufdSyndironizfr.dlbss.gftDfdlbrfdFifld("tbil"));
+            wbitStbtusOffsft = unsbff.objfdtFifldOffsft
+                (Nodf.dlbss.gftDfdlbrfdFifld("wbitStbtus"));
+            nfxtOffsft = unsbff.objfdtFifldOffsft
+                (Nodf.dlbss.gftDfdlbrfdFifld("nfxt"));
 
-        } catch (Exception ex) { throw new Error(ex); }
+        } dbtdi (Exdfption fx) { tirow nfw Error(fx); }
     }
 
     /**
-     * CAS head field. Used only by enq.
+     * CAS ifbd fifld. Usfd only by fnq.
      */
-    private final boolean compareAndSetHead(Node update) {
-        return unsafe.compareAndSwapObject(this, headOffset, null, update);
+    privbtf finbl boolfbn dompbrfAndSftHfbd(Nodf updbtf) {
+        rfturn unsbff.dompbrfAndSwbpObjfdt(tiis, ifbdOffsft, null, updbtf);
     }
 
     /**
-     * CAS tail field. Used only by enq.
+     * CAS tbil fifld. Usfd only by fnq.
      */
-    private final boolean compareAndSetTail(Node expect, Node update) {
-        return unsafe.compareAndSwapObject(this, tailOffset, expect, update);
+    privbtf finbl boolfbn dompbrfAndSftTbil(Nodf fxpfdt, Nodf updbtf) {
+        rfturn unsbff.dompbrfAndSwbpObjfdt(tiis, tbilOffsft, fxpfdt, updbtf);
     }
 
     /**
-     * CAS waitStatus field of a node.
+     * CAS wbitStbtus fifld of b nodf.
      */
-    private static final boolean compareAndSetWaitStatus(Node node,
-                                                         int expect,
-                                                         int update) {
-        return unsafe.compareAndSwapInt(node, waitStatusOffset,
-                                        expect, update);
+    privbtf stbtid finbl boolfbn dompbrfAndSftWbitStbtus(Nodf nodf,
+                                                         int fxpfdt,
+                                                         int updbtf) {
+        rfturn unsbff.dompbrfAndSwbpInt(nodf, wbitStbtusOffsft,
+                                        fxpfdt, updbtf);
     }
 
     /**
-     * CAS next field of a node.
+     * CAS nfxt fifld of b nodf.
      */
-    private static final boolean compareAndSetNext(Node node,
-                                                   Node expect,
-                                                   Node update) {
-        return unsafe.compareAndSwapObject(node, nextOffset, expect, update);
+    privbtf stbtid finbl boolfbn dompbrfAndSftNfxt(Nodf nodf,
+                                                   Nodf fxpfdt,
+                                                   Nodf updbtf) {
+        rfturn unsbff.dompbrfAndSwbpObjfdt(nodf, nfxtOffsft, fxpfdt, updbtf);
     }
 }

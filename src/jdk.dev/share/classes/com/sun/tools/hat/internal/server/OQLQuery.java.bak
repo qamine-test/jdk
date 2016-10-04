@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
 
-import com.sun.tools.hat.internal.oql.*;
+import dom.sun.tools.ibt.intfrnbl.oql.*;
 
 /**
- * This handles Object Query Language (OQL) queries.
+ * Tiis ibndlfs Objfdt Qufry Lbngubgf (OQL) qufrifs.
  *
- * @author A. Sundararajan
+ * @butior A. Sundbrbrbjbn
  */
 
-class OQLQuery extends QueryHandler {
+dlbss OQLQufry fxtfnds QufryHbndlfr {
 
-    public OQLQuery(OQLEngine engine) {
-        this.engine = engine;
+    publid OQLQufry(OQLEnginf fnginf) {
+        tiis.fnginf = fnginf;
     }
 
-    public void run() {
-        startHtml("Object Query Language (OQL) query");
+    publid void run() {
+        stbrtHtml("Objfdt Qufry Lbngubgf (OQL) qufry");
         String oql = null;
-        if (query != null && !query.equals("")) {
-            int index = query.indexOf("?query=");
-            if (index != -1 && query.length() > 7) {
-                oql = query.substring(index + 7);
+        if (qufry != null && !qufry.fqubls("")) {
+            int indfx = qufry.indfxOf("?qufry=");
+            if (indfx != -1 && qufry.lfngti() > 7) {
+                oql = qufry.substring(indfx + 7);
             }
         }
-        out.println("<p align='center'><table>");
+        out.println("<p blign='dfntfr'><tbblf>");
         out.println("<tr><td><b>");
-        out.println("<a href='/'>All Classes (excluding platform)</a>");
+        out.println("<b irff='/'>All Clbssfs (fxdluding plbtform)</b>");
         out.println("</b></td>");
-        out.println("<td><b><a href='/oqlhelp/'>OQL Help</a></b></td></tr>");
-        out.println("</table></p>");
-        out.println("<form action='/oql/' method='get'>");
-        out.println("<p align='center'>");
-        out.println("<textarea name='query' cols=80 rows=10>");
+        out.println("<td><b><b irff='/oqliflp/'>OQL Hflp</b></b></td></tr>");
+        out.println("</tbblf></p>");
+        out.println("<form bdtion='/oql/' mftiod='gft'>");
+        out.println("<p blign='dfntfr'>");
+        out.println("<tfxtbrfb nbmf='qufry' dols=80 rows=10>");
         if (oql != null) {
             println(oql);
         }
-        out.println("</textarea>");
+        out.println("</tfxtbrfb>");
         out.println("</p>");
-        out.println("<p align='center'>");
-        out.println("<input type='submit' value='Execute'></input>");
+        out.println("<p blign='dfntfr'>");
+        out.println("<input typf='submit' vbluf='Exfdutf'></input>");
         out.println("</p>");
         out.println("</form>");
         if (oql != null) {
-            executeQuery(oql);
+            fxfdutfQufry(oql);
         }
-        endHtml();
+        fndHtml();
     }
 
-    private void executeQuery(String q) {
+    privbtf void fxfdutfQufry(String q) {
         try {
-            out.println("<table border='1'>");
-            engine.executeQuery(q, new ObjectVisitor() {
-                     public boolean visit(Object o) {
+            out.println("<tbblf bordfr='1'>");
+            fnginf.fxfdutfQufry(q, nfw ObjfdtVisitor() {
+                     publid boolfbn visit(Objfdt o) {
                          out.println("<tr><td>");
                          try {
-                             out.println(engine.toHtml(o));
-                         } catch (Exception e) {
-                             printException(e);
+                             out.println(fnginf.toHtml(o));
+                         } dbtdi (Exdfption f) {
+                             printExdfption(f);
                          }
                          out.println("</td></tr>");
-                         return false;
+                         rfturn fblsf;
                      }
                  });
-            out.println("</table>");
-        } catch (OQLException exp) {
-            printException(exp);
+            out.println("</tbblf>");
+        } dbtdi (OQLExdfption fxp) {
+            printExdfption(fxp);
         }
     }
 
-    private OQLEngine engine;
+    privbtf OQLEnginf fnginf;
 }

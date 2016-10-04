@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.server;
+pbdkbgf sun.rmi.sfrvfr;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.ServerSocket;
-import java.rmi.MarshalledObject;
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.activation.Activatable;
-import java.rmi.activation.ActivationDesc;
-import java.rmi.activation.ActivationException;
-import java.rmi.activation.ActivationGroup;
-import java.rmi.activation.ActivationGroupID;
-import java.rmi.activation.ActivationID;
-import java.rmi.activation.UnknownObjectException;
-import java.rmi.server.RMIClassLoader;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.RMISocketFactory;
-import java.rmi.server.UnicastRemoteObject;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import sun.rmi.registry.RegistryImpl;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.rmi.MbrsibllfdObjfdt;
+import jbvb.rmi.NoSudiObjfdtExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.Adtivbtbblf;
+import jbvb.rmi.bdtivbtion.AdtivbtionDfsd;
+import jbvb.rmi.bdtivbtion.AdtivbtionExdfption;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroup;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroupID;
+import jbvb.rmi.bdtivbtion.AdtivbtionID;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+import jbvb.rmi.sfrvfr.RMIClbssLobdfr;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISodkftFbdtory;
+import jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.List;
+import sun.rmi.rfgistry.RfgistryImpl;
 
 /**
- * The default activation group implementation.
+ * Tif dffbult bdtivbtion group implfmfntbtion.
  *
- * @author      Ann Wollrath
- * @since       1.2
- * @see         java.rmi.activation.ActivationGroup
+ * @butior      Ann Wollrbti
+ * @sindf       1.2
+ * @sff         jbvb.rmi.bdtivbtion.AdtivbtionGroup
  */
-public class ActivationGroupImpl extends ActivationGroup {
+publid dlbss AdtivbtionGroupImpl fxtfnds AdtivbtionGroup {
 
-    // use serialVersionUID from JDK 1.2.2 for interoperability
-    private static final long serialVersionUID = 5758693559430427303L;
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = 5758693559430427303L;
 
-    /** maps persistent IDs to activated remote objects */
-    private final Hashtable<ActivationID,ActiveEntry> active =
-        new Hashtable<>();
-    private boolean groupInactive = false;
-    private final ActivationGroupID groupID;
-    private final List<ActivationID> lockedIDs = new ArrayList<>();
+    /** mbps pfrsistfnt IDs to bdtivbtfd rfmotf objfdts */
+    privbtf finbl Hbsitbblf<AdtivbtionID,AdtivfEntry> bdtivf =
+        nfw Hbsitbblf<>();
+    privbtf boolfbn groupInbdtivf = fblsf;
+    privbtf finbl AdtivbtionGroupID groupID;
+    privbtf finbl List<AdtivbtionID> lodkfdIDs = nfw ArrbyList<>();
 
     /**
-     * Creates a default activation group implementation.
+     * Crfbtfs b dffbult bdtivbtion group implfmfntbtion.
      *
-     * @param id the group's identifier
-     * @param data ignored
+     * @pbrbm id tif group's idfntififr
+     * @pbrbm dbtb ignorfd
      */
-    public ActivationGroupImpl(ActivationGroupID id, MarshalledObject<?> data)
-        throws RemoteException
+    publid AdtivbtionGroupImpl(AdtivbtionGroupID id, MbrsibllfdObjfdt<?> dbtb)
+        tirows RfmotfExdfption
     {
-        super(id);
+        supfr(id);
         groupID = id;
 
         /*
-         * Unexport activation group impl and attempt to export it on
-         * an unshared anonymous port.  See 4692286.
+         * Unfxport bdtivbtion group impl bnd bttfmpt to fxport it on
+         * bn unsibrfd bnonymous port.  Sff 4692286.
          */
-        unexportObject(this, true);
-        RMIServerSocketFactory ssf = new ServerSocketFactoryImpl();
-        UnicastRemoteObject.exportObject(this, 0, null, ssf);
+        unfxportObjfdt(tiis, truf);
+        RMISfrvfrSodkftFbdtory ssf = nfw SfrvfrSodkftFbdtoryImpl();
+        UnidbstRfmotfObjfdt.fxportObjfdt(tiis, 0, null, ssf);
 
-        if (System.getSecurityManager() == null) {
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
             try {
-                // Provide a default security manager.
-                System.setSecurityManager(new SecurityManager());
+                // Providf b dffbult sfdurity mbnbgfr.
+                Systfm.sftSfdurityMbnbgfr(nfw SfdurityMbnbgfr());
 
-            } catch (Exception e) {
-                throw new RemoteException("unable to set security manager", e);
+            } dbtdi (Exdfption f) {
+                tirow nfw RfmotfExdfption("unbblf to sft sfdurity mbnbgfr", f);
             }
         }
     }
 
     /**
-     * Trivial server socket factory used to export the activation group
-     * impl on an unshared port.
+     * Trivibl sfrvfr sodkft fbdtory usfd to fxport tif bdtivbtion group
+     * impl on bn unsibrfd port.
      */
-    private static class ServerSocketFactoryImpl
-        implements RMIServerSocketFactory
+    privbtf stbtid dlbss SfrvfrSodkftFbdtoryImpl
+        implfmfnts RMISfrvfrSodkftFbdtory
     {
-        public ServerSocket createServerSocket(int port) throws IOException
+        publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port) tirows IOExdfption
         {
-            RMISocketFactory sf = RMISocketFactory.getSocketFactory();
+            RMISodkftFbdtory sf = RMISodkftFbdtory.gftSodkftFbdtory();
             if (sf == null) {
-                sf = RMISocketFactory.getDefaultSocketFactory();
+                sf = RMISodkftFbdtory.gftDffbultSodkftFbdtory();
             }
-            return sf.createServerSocket(port);
+            rfturn sf.drfbtfSfrvfrSodkft(port);
         }
     }
 
     /*
-     * Obtains a lock on the ActivationID id before returning. Allows only one
-     * thread at a time to hold a lock on a particular id.  If the lock for id
-     * is in use, all requests for an equivalent (in the Object.equals sense)
-     * id will wait for the id to be notified and use the supplied id as the
-     * next lock. The caller of "acquireLock" must execute the "releaseLock"
-     * method" to release the lock and "notifyAll" waiters for the id lock
-     * obtained from this method.  The typical usage pattern is as follows:
+     * Obtbins b lodk on tif AdtivbtionID id bfforf rfturning. Allows only onf
+     * tirfbd bt b timf to iold b lodk on b pbrtidulbr id.  If tif lodk for id
+     * is in usf, bll rfqufsts for bn fquivblfnt (in tif Objfdt.fqubls sfnsf)
+     * id will wbit for tif id to bf notififd bnd usf tif supplifd id bs tif
+     * nfxt lodk. Tif dbllfr of "bdquirfLodk" must fxfdutf tif "rflfbsfLodk"
+     * mftiod" to rflfbsf tif lodk bnd "notifyAll" wbitfrs for tif id lodk
+     * obtbinfd from tiis mftiod.  Tif typidbl usbgf pbttfrn is bs follows:
      *
      * try {
-     *    acquireLock(id);
-     *    // do stuff pertaining to id...
-     * } finally {
-     *    releaseLock(id);
-     *    checkInactiveGroup();
+     *    bdquirfLodk(id);
+     *    // do stuff pfrtbining to id...
+     * } finblly {
+     *    rflfbsfLodk(id);
+     *    difdkInbdtivfGroup();
      * }
      */
-    private void acquireLock(ActivationID id) {
+    privbtf void bdquirfLodk(AdtivbtionID id) {
 
-        ActivationID waitForID;
+        AdtivbtionID wbitForID;
 
         for (;;) {
 
-            synchronized (lockedIDs) {
-                int index = lockedIDs.indexOf(id);
-                if (index < 0) {
-                    lockedIDs.add(id);
-                    return;
-                } else {
-                    waitForID = lockedIDs.get(index);
+            syndironizfd (lodkfdIDs) {
+                int indfx = lodkfdIDs.indfxOf(id);
+                if (indfx < 0) {
+                    lodkfdIDs.bdd(id);
+                    rfturn;
+                } flsf {
+                    wbitForID = lodkfdIDs.gft(indfx);
                 }
             }
 
-            synchronized (waitForID) {
-                synchronized (lockedIDs) {
-                    int index = lockedIDs.indexOf(waitForID);
-                    if (index < 0) continue;
-                    ActivationID actualID = lockedIDs.get(index);
-                    if (actualID != waitForID)
+            syndironizfd (wbitForID) {
+                syndironizfd (lodkfdIDs) {
+                    int indfx = lodkfdIDs.indfxOf(wbitForID);
+                    if (indfx < 0) dontinuf;
+                    AdtivbtionID bdtublID = lodkfdIDs.gft(indfx);
+                    if (bdtublID != wbitForID)
                         /*
-                         * don't wait on an id that won't be notified.
+                         * don't wbit on bn id tibt won't bf notififd.
                          */
-                        continue;
+                        dontinuf;
                 }
 
                 try {
-                    waitForID.wait();
-                } catch (InterruptedException ignore) {
+                    wbitForID.wbit();
+                } dbtdi (IntfrruptfdExdfption ignorf) {
                 }
             }
         }
@@ -174,327 +174,327 @@ public class ActivationGroupImpl extends ActivationGroup {
     }
 
     /*
-     * Releases the id lock obtained via the "acquireLock" method and then
-     * notifies all threads waiting on the lock.
+     * Rflfbsfs tif id lodk obtbinfd vib tif "bdquirfLodk" mftiod bnd tifn
+     * notififs bll tirfbds wbiting on tif lodk.
      */
-    private void releaseLock(ActivationID id) {
-        synchronized (lockedIDs) {
-            id = lockedIDs.remove(lockedIDs.indexOf(id));
+    privbtf void rflfbsfLodk(AdtivbtionID id) {
+        syndironizfd (lodkfdIDs) {
+            id = lodkfdIDs.rfmovf(lodkfdIDs.indfxOf(id));
         }
 
-        synchronized (id) {
+        syndironizfd (id) {
             id.notifyAll();
         }
     }
 
     /**
-     * Creates a new instance of an activatable remote object. The
-     * <code>Activator</code> calls this method to create an activatable
-     * object in this group. This method should be idempotent; a call to
-     * activate an already active object should return the previously
-     * activated object.
+     * Crfbtfs b nfw instbndf of bn bdtivbtbblf rfmotf objfdt. Tif
+     * <dodf>Adtivbtor</dodf> dblls tiis mftiod to drfbtf bn bdtivbtbblf
+     * objfdt in tiis group. Tiis mftiod siould bf idfmpotfnt; b dbll to
+     * bdtivbtf bn blrfbdy bdtivf objfdt siould rfturn tif prfviously
+     * bdtivbtfd objfdt.
      *
-     * Note: this method assumes that the Activator will only invoke
-     * newInstance for the same object in a serial fashion (i.e.,
-     * the activator will not allow the group to see concurrent requests
-     * to activate the same object.
+     * Notf: tiis mftiod bssumfs tibt tif Adtivbtor will only invokf
+     * nfwInstbndf for tif sbmf objfdt in b sfribl fbsiion (i.f.,
+     * tif bdtivbtor will not bllow tif group to sff dondurrfnt rfqufsts
+     * to bdtivbtf tif sbmf objfdt.
      *
-     * @param id the object's activation identifier
-     * @param desc the object's activation descriptor
-     * @return a marshalled object containing the activated object's stub
+     * @pbrbm id tif objfdt's bdtivbtion idfntififr
+     * @pbrbm dfsd tif objfdt's bdtivbtion dfsdriptor
+     * @rfturn b mbrsibllfd objfdt dontbining tif bdtivbtfd objfdt's stub
      */
-    public MarshalledObject<? extends Remote>
-                                      newInstance(final ActivationID id,
-                                                  final ActivationDesc desc)
-        throws ActivationException, RemoteException
+    publid MbrsibllfdObjfdt<? fxtfnds Rfmotf>
+                                      nfwInstbndf(finbl AdtivbtionID id,
+                                                  finbl AdtivbtionDfsd dfsd)
+        tirows AdtivbtionExdfption, RfmotfExdfption
     {
-        RegistryImpl.checkAccess("ActivationInstantiator.newInstance");
+        RfgistryImpl.difdkAddfss("AdtivbtionInstbntibtor.nfwInstbndf");
 
-        if (!groupID.equals(desc.getGroupID()))
-            throw new ActivationException("newInstance in wrong group");
+        if (!groupID.fqubls(dfsd.gftGroupID()))
+            tirow nfw AdtivbtionExdfption("nfwInstbndf in wrong group");
 
         try {
-            acquireLock(id);
-            synchronized (this) {
-                if (groupInactive == true)
-                    throw new InactiveGroupException("group is inactive");
+            bdquirfLodk(id);
+            syndironizfd (tiis) {
+                if (groupInbdtivf == truf)
+                    tirow nfw InbdtivfGroupExdfption("group is inbdtivf");
             }
 
-            ActiveEntry entry = active.get(id);
-            if (entry != null)
-                return entry.mobj;
+            AdtivfEntry fntry = bdtivf.gft(id);
+            if (fntry != null)
+                rfturn fntry.mobj;
 
-            String className = desc.getClassName();
+            String dlbssNbmf = dfsd.gftClbssNbmf();
 
-            final Class<? extends Remote> cl =
-                RMIClassLoader.loadClass(desc.getLocation(), className)
-                .asSubclass(Remote.class);
-            Remote impl = null;
+            finbl Clbss<? fxtfnds Rfmotf> dl =
+                RMIClbssLobdfr.lobdClbss(dfsd.gftLodbtion(), dlbssNbmf)
+                .bsSubdlbss(Rfmotf.dlbss);
+            Rfmotf impl = null;
 
-            final Thread t = Thread.currentThread();
-            final ClassLoader savedCcl = t.getContextClassLoader();
-            ClassLoader objcl = cl.getClassLoader();
-            final ClassLoader ccl = covers(objcl, savedCcl) ? objcl : savedCcl;
+            finbl Tirfbd t = Tirfbd.durrfntTirfbd();
+            finbl ClbssLobdfr sbvfdCdl = t.gftContfxtClbssLobdfr();
+            ClbssLobdfr objdl = dl.gftClbssLobdfr();
+            finbl ClbssLobdfr ddl = dovfrs(objdl, sbvfdCdl) ? objdl : sbvfdCdl;
 
             /*
-             * Fix for 4164971: allow non-public activatable class
-             * and/or constructor, create the activatable object in a
-             * privileged block
+             * Fix for 4164971: bllow non-publid bdtivbtbblf dlbss
+             * bnd/or donstrudtor, drfbtf tif bdtivbtbblf objfdt in b
+             * privilfgfd blodk
              */
             try {
                 /*
-                 * The code below is in a doPrivileged block to
-                 * protect against user code which code might have set
-                 * a global socket factory (in which case application
-                 * code would be on the stack).
+                 * Tif dodf bflow is in b doPrivilfgfd blodk to
+                 * protfdt bgbinst usfr dodf wiidi dodf migit ibvf sft
+                 * b globbl sodkft fbdtory (in wiidi dbsf bpplidbtion
+                 * dodf would bf on tif stbdk).
                  */
-                impl = AccessController.doPrivileged(
-                      new PrivilegedExceptionAction<Remote>() {
-                      public Remote run() throws InstantiationException,
-                          NoSuchMethodException, IllegalAccessException,
-                          InvocationTargetException
+                impl = AddfssControllfr.doPrivilfgfd(
+                      nfw PrivilfgfdExdfptionAdtion<Rfmotf>() {
+                      publid Rfmotf run() tirows InstbntibtionExdfption,
+                          NoSudiMftiodExdfption, IllfgblAddfssExdfption,
+                          InvodbtionTbrgftExdfption
                       {
-                          Constructor<? extends Remote> constructor =
-                              cl.getDeclaredConstructor(
-                                  ActivationID.class, MarshalledObject.class);
-                          constructor.setAccessible(true);
+                          Construdtor<? fxtfnds Rfmotf> donstrudtor =
+                              dl.gftDfdlbrfdConstrudtor(
+                                  AdtivbtionID.dlbss, MbrsibllfdObjfdt.dlbss);
+                          donstrudtor.sftAddfssiblf(truf);
                           try {
                               /*
-                               * Fix for 4289544: make sure to set the
-                               * context class loader to be the class
-                               * loader of the impl class before
-                               * constructing that class.
+                               * Fix for 4289544: mbkf surf to sft tif
+                               * dontfxt dlbss lobdfr to bf tif dlbss
+                               * lobdfr of tif impl dlbss bfforf
+                               * donstrudting tibt dlbss.
                                */
-                              t.setContextClassLoader(ccl);
-                              return constructor.newInstance(id,
-                                                             desc.getData());
-                          } finally {
-                              t.setContextClassLoader(savedCcl);
+                              t.sftContfxtClbssLobdfr(ddl);
+                              rfturn donstrudtor.nfwInstbndf(id,
+                                                             dfsd.gftDbtb());
+                          } finblly {
+                              t.sftContfxtClbssLobdfr(sbvfdCdl);
                           }
                       }
                   });
-            } catch (PrivilegedActionException pae) {
-                Throwable e = pae.getException();
+            } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+                Tirowbblf f = pbf.gftExdfption();
 
-                // narrow the exception's type and rethrow it
-                if (e instanceof InstantiationException) {
-                    throw (InstantiationException) e;
-                } else if (e instanceof NoSuchMethodException) {
-                    throw (NoSuchMethodException) e;
-                } else if (e instanceof IllegalAccessException) {
-                    throw (IllegalAccessException) e;
-                } else if (e instanceof InvocationTargetException) {
-                    throw (InvocationTargetException) e;
-                } else if (e instanceof RuntimeException) {
-                    throw (RuntimeException) e;
-                } else if (e instanceof Error) {
-                    throw (Error) e;
+                // nbrrow tif fxdfption's typf bnd rftirow it
+                if (f instbndfof InstbntibtionExdfption) {
+                    tirow (InstbntibtionExdfption) f;
+                } flsf if (f instbndfof NoSudiMftiodExdfption) {
+                    tirow (NoSudiMftiodExdfption) f;
+                } flsf if (f instbndfof IllfgblAddfssExdfption) {
+                    tirow (IllfgblAddfssExdfption) f;
+                } flsf if (f instbndfof InvodbtionTbrgftExdfption) {
+                    tirow (InvodbtionTbrgftExdfption) f;
+                } flsf if (f instbndfof RuntimfExdfption) {
+                    tirow (RuntimfExdfption) f;
+                } flsf if (f instbndfof Error) {
+                    tirow (Error) f;
                 }
             }
 
-            entry = new ActiveEntry(impl);
-            active.put(id, entry);
-            return entry.mobj;
+            fntry = nfw AdtivfEntry(impl);
+            bdtivf.put(id, fntry);
+            rfturn fntry.mobj;
 
-        } catch (NoSuchMethodException | NoSuchMethodError e) {
-            /* user forgot to provide activatable constructor?
-             * or code recompiled and user forgot to provide
-             *  activatable constructor?
+        } dbtdi (NoSudiMftiodExdfption | NoSudiMftiodError f) {
+            /* usfr forgot to providf bdtivbtbblf donstrudtor?
+             * or dodf rfdompilfd bnd usfr forgot to providf
+             *  bdtivbtbblf donstrudtor?
              */
-            throw new ActivationException
-                ("Activatable object must provide an activation"+
-                 " constructor", e );
+            tirow nfw AdtivbtionExdfption
+                ("Adtivbtbblf objfdt must providf bn bdtivbtion"+
+                 " donstrudtor", f );
 
-        } catch (InvocationTargetException e) {
-            throw new ActivationException("exception in object constructor",
-                                          e.getTargetException());
+        } dbtdi (InvodbtionTbrgftExdfption f) {
+            tirow nfw AdtivbtionExdfption("fxdfption in objfdt donstrudtor",
+                                          f.gftTbrgftExdfption());
 
-        } catch (Exception e) {
-            throw new ActivationException("unable to activate object", e);
-        } finally {
-            releaseLock(id);
-            checkInactiveGroup();
+        } dbtdi (Exdfption f) {
+            tirow nfw AdtivbtionExdfption("unbblf to bdtivbtf objfdt", f);
+        } finblly {
+            rflfbsfLodk(id);
+            difdkInbdtivfGroup();
         }
     }
 
 
    /**
-    * The group's <code>inactiveObject</code> method is called
-    * indirectly via a call to the <code>Activatable.inactive</code>
-    * method. A remote object implementation must call
-    * <code>Activatable</code>'s <code>inactive</code> method when
-    * that object deactivates (the object deems that it is no longer
-    * active). If the object does not call
-    * <code>Activatable.inactive</code> when it deactivates, the
-    * object will never be garbage collected since the group keeps
-    * strong references to the objects it creates. <p>
+    * Tif group's <dodf>inbdtivfObjfdt</dodf> mftiod is dbllfd
+    * indirfdtly vib b dbll to tif <dodf>Adtivbtbblf.inbdtivf</dodf>
+    * mftiod. A rfmotf objfdt implfmfntbtion must dbll
+    * <dodf>Adtivbtbblf</dodf>'s <dodf>inbdtivf</dodf> mftiod wifn
+    * tibt objfdt dfbdtivbtfs (tif objfdt dffms tibt it is no longfr
+    * bdtivf). If tif objfdt dofs not dbll
+    * <dodf>Adtivbtbblf.inbdtivf</dodf> wifn it dfbdtivbtfs, tif
+    * objfdt will nfvfr bf gbrbbgf dollfdtfd sindf tif group kffps
+    * strong rfffrfndfs to tif objfdts it drfbtfs. <p>
     *
-    * The group's <code>inactiveObject</code> method
-    * unexports the remote object from the RMI runtime so that the
-    * object can no longer receive incoming RMI calls. This call will
-    * only succeed if the object has no pending/executing calls. If
-    * the object does have pending/executing RMI calls, then false
-    * will be returned.
+    * Tif group's <dodf>inbdtivfObjfdt</dodf> mftiod
+    * unfxports tif rfmotf objfdt from tif RMI runtimf so tibt tif
+    * objfdt dbn no longfr rfdfivf indoming RMI dblls. Tiis dbll will
+    * only suddffd if tif objfdt ibs no pfnding/fxfduting dblls. If
+    * tif objfdt dofs ibvf pfnding/fxfduting RMI dblls, tifn fblsf
+    * will bf rfturnfd.
     *
-    * If the object has no pending/executing calls, the object is
-    * removed from the RMI runtime and the group informs its
-    * <code>ActivationMonitor</code> (via the monitor's
-    * <code>inactiveObject</code> method) that the remote object is
-    * not currently active so that the remote object will be
-    * re-activated by the activator upon a subsequent activation
-    * request.
+    * If tif objfdt ibs no pfnding/fxfduting dblls, tif objfdt is
+    * rfmovfd from tif RMI runtimf bnd tif group informs its
+    * <dodf>AdtivbtionMonitor</dodf> (vib tif monitor's
+    * <dodf>inbdtivfObjfdt</dodf> mftiod) tibt tif rfmotf objfdt is
+    * not durrfntly bdtivf so tibt tif rfmotf objfdt will bf
+    * rf-bdtivbtfd by tif bdtivbtor upon b subsfqufnt bdtivbtion
+    * rfqufst.
     *
-    * @param id the object's activation identifier
-    * @returns true if the operation succeeds (the operation will
-    * succeed if the object in currently known to be active and is
-    * either already unexported or is currently exported and has no
-    * pending/executing calls); false is returned if the object has
-    * pending/executing calls in which case it cannot be deactivated
-    * @exception UnknownObjectException if object is unknown (may already
-    * be inactive)
-    * @exception RemoteException if call informing monitor fails
+    * @pbrbm id tif objfdt's bdtivbtion idfntififr
+    * @rfturns truf if tif opfrbtion suddffds (tif opfrbtion will
+    * suddffd if tif objfdt in durrfntly known to bf bdtivf bnd is
+    * fitifr blrfbdy unfxportfd or is durrfntly fxportfd bnd ibs no
+    * pfnding/fxfduting dblls); fblsf is rfturnfd if tif objfdt ibs
+    * pfnding/fxfduting dblls in wiidi dbsf it dbnnot bf dfbdtivbtfd
+    * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (mby blrfbdy
+    * bf inbdtivf)
+    * @fxdfption RfmotfExdfption if dbll informing monitor fbils
     */
-    public boolean inactiveObject(ActivationID id)
-        throws ActivationException, UnknownObjectException, RemoteException
+    publid boolfbn inbdtivfObjfdt(AdtivbtionID id)
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
     {
 
         try {
-            acquireLock(id);
-            synchronized (this) {
-                if (groupInactive == true)
-                    throw new ActivationException("group is inactive");
+            bdquirfLodk(id);
+            syndironizfd (tiis) {
+                if (groupInbdtivf == truf)
+                    tirow nfw AdtivbtionExdfption("group is inbdtivf");
             }
 
-            ActiveEntry entry = active.get(id);
-            if (entry == null) {
-                // REMIND: should this be silent?
-                throw new UnknownObjectException("object not active");
-            }
-
-            try {
-                if (Activatable.unexportObject(entry.impl, false) == false)
-                    return false;
-            } catch (NoSuchObjectException allowUnexportedObjects) {
+            AdtivfEntry fntry = bdtivf.gft(id);
+            if (fntry == null) {
+                // REMIND: siould tiis bf silfnt?
+                tirow nfw UnknownObjfdtExdfption("objfdt not bdtivf");
             }
 
             try {
-                super.inactiveObject(id);
-            } catch (UnknownObjectException allowUnregisteredObjects) {
+                if (Adtivbtbblf.unfxportObjfdt(fntry.impl, fblsf) == fblsf)
+                    rfturn fblsf;
+            } dbtdi (NoSudiObjfdtExdfption bllowUnfxportfdObjfdts) {
             }
 
-            active.remove(id);
+            try {
+                supfr.inbdtivfObjfdt(id);
+            } dbtdi (UnknownObjfdtExdfption bllowUnrfgistfrfdObjfdts) {
+            }
 
-        } finally {
-            releaseLock(id);
-            checkInactiveGroup();
+            bdtivf.rfmovf(id);
+
+        } finblly {
+            rflfbsfLodk(id);
+            difdkInbdtivfGroup();
         }
 
-        return true;
+        rfturn truf;
     }
 
     /*
-     * Determines if the group has become inactive and
-     * marks it as such.
+     * Dftfrminfs if tif group ibs bfdomf inbdtivf bnd
+     * mbrks it bs sudi.
      */
-    private void checkInactiveGroup() {
-        boolean groupMarkedInactive = false;
-        synchronized (this) {
-            if (active.size() == 0 && lockedIDs.size() == 0 &&
-                groupInactive == false)
+    privbtf void difdkInbdtivfGroup() {
+        boolfbn groupMbrkfdInbdtivf = fblsf;
+        syndironizfd (tiis) {
+            if (bdtivf.sizf() == 0 && lodkfdIDs.sizf() == 0 &&
+                groupInbdtivf == fblsf)
             {
-                groupInactive = true;
-                groupMarkedInactive = true;
+                groupInbdtivf = truf;
+                groupMbrkfdInbdtivf = truf;
             }
         }
 
-        if (groupMarkedInactive) {
+        if (groupMbrkfdInbdtivf) {
             try {
-                super.inactiveGroup();
-            } catch (Exception ignoreDeactivateFailure) {
+                supfr.inbdtivfGroup();
+            } dbtdi (Exdfption ignorfDfbdtivbtfFbilurf) {
             }
 
             try {
-                UnicastRemoteObject.unexportObject(this, true);
-            } catch (NoSuchObjectException allowUnexportedGroup) {
+                UnidbstRfmotfObjfdt.unfxportObjfdt(tiis, truf);
+            } dbtdi (NoSudiObjfdtExdfption bllowUnfxportfdGroup) {
             }
         }
     }
 
     /**
-     * The group's <code>activeObject</code> method is called when an
-     * object is exported (either by <code>Activatable</code> object
-     * construction or an explicit call to
-     * <code>Activatable.exportObject</code>. The group must inform its
-     * <code>ActivationMonitor</code> that the object is active (via
-     * the monitor's <code>activeObject</code> method) if the group
-     * hasn't already done so.
+     * Tif group's <dodf>bdtivfObjfdt</dodf> mftiod is dbllfd wifn bn
+     * objfdt is fxportfd (fitifr by <dodf>Adtivbtbblf</dodf> objfdt
+     * donstrudtion or bn fxplidit dbll to
+     * <dodf>Adtivbtbblf.fxportObjfdt</dodf>. Tif group must inform its
+     * <dodf>AdtivbtionMonitor</dodf> tibt tif objfdt is bdtivf (vib
+     * tif monitor's <dodf>bdtivfObjfdt</dodf> mftiod) if tif group
+     * ibsn't blrfbdy donf so.
      *
-     * @param id the object's identifier
-     * @param obj the remote object implementation
-     * @exception UnknownObjectException if object is not registered
-     * @exception RemoteException if call informing monitor fails
+     * @pbrbm id tif objfdt's idfntififr
+     * @pbrbm obj tif rfmotf objfdt implfmfntbtion
+     * @fxdfption UnknownObjfdtExdfption if objfdt is not rfgistfrfd
+     * @fxdfption RfmotfExdfption if dbll informing monitor fbils
      */
-    public void activeObject(ActivationID id, Remote impl)
-        throws ActivationException, UnknownObjectException, RemoteException
+    publid void bdtivfObjfdt(AdtivbtionID id, Rfmotf impl)
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
     {
 
         try {
-            acquireLock(id);
-            synchronized (this) {
-                if (groupInactive == true)
-                    throw new ActivationException("group is inactive");
+            bdquirfLodk(id);
+            syndironizfd (tiis) {
+                if (groupInbdtivf == truf)
+                    tirow nfw AdtivbtionExdfption("group is inbdtivf");
             }
-            if (!active.contains(id)) {
-                ActiveEntry entry = new ActiveEntry(impl);
-                active.put(id, entry);
-                // created new entry, so inform monitor of active object
+            if (!bdtivf.dontbins(id)) {
+                AdtivfEntry fntry = nfw AdtivfEntry(impl);
+                bdtivf.put(id, fntry);
+                // drfbtfd nfw fntry, so inform monitor of bdtivf objfdt
                 try {
-                    super.activeObject(id, entry.mobj);
-                } catch (RemoteException e) {
-                    // daemon can still find it by calling newInstance
+                    supfr.bdtivfObjfdt(id, fntry.mobj);
+                } dbtdi (RfmotfExdfption f) {
+                    // dbfmon dbn still find it by dblling nfwInstbndf
                 }
             }
-        } finally {
-            releaseLock(id);
-            checkInactiveGroup();
+        } finblly {
+            rflfbsfLodk(id);
+            difdkInbdtivfGroup();
         }
     }
 
     /**
-     * Entry in table for active object.
+     * Entry in tbblf for bdtivf objfdt.
      */
-    private static class ActiveEntry {
-        Remote impl;
-        MarshalledObject<Remote> mobj;
+    privbtf stbtid dlbss AdtivfEntry {
+        Rfmotf impl;
+        MbrsibllfdObjfdt<Rfmotf> mobj;
 
-        ActiveEntry(Remote impl) throws ActivationException {
-            this.impl =  impl;
+        AdtivfEntry(Rfmotf impl) tirows AdtivbtionExdfption {
+            tiis.impl =  impl;
             try {
-                this.mobj = new MarshalledObject<Remote>(impl);
-            } catch (IOException e) {
-                throw new
-                    ActivationException("failed to marshal remote object", e);
+                tiis.mobj = nfw MbrsibllfdObjfdt<Rfmotf>(impl);
+            } dbtdi (IOExdfption f) {
+                tirow nfw
+                    AdtivbtionExdfption("fbilfd to mbrsibl rfmotf objfdt", f);
             }
         }
     }
 
     /**
-     * Returns true if the first argument is either equal to, or is a
-     * descendant of, the second argument.  Null is treated as the root of
-     * the tree.
+     * Rfturns truf if tif first brgumfnt is fitifr fqubl to, or is b
+     * dfsdfndbnt of, tif sfdond brgumfnt.  Null is trfbtfd bs tif root of
+     * tif trff.
      */
-    private static boolean covers(ClassLoader sub, ClassLoader sup) {
+    privbtf stbtid boolfbn dovfrs(ClbssLobdfr sub, ClbssLobdfr sup) {
         if (sup == null) {
-            return true;
-        } else if (sub == null) {
-            return false;
+            rfturn truf;
+        } flsf if (sub == null) {
+            rfturn fblsf;
         }
         do {
             if (sub == sup) {
-                return true;
+                rfturn truf;
             }
-            sub = sub.getParent();
-        } while (sub != null);
-        return false;
+            sub = sub.gftPbrfnt();
+        } wiilf (sub != null);
+        rfturn fblsf;
     }
 }

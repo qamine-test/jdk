@@ -1,0 +1,140 @@
+/*
+ * Copyright (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.nio.zipfs;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.FilfStorf;
+import jbvb.nio.filf.FilfSystfms;
+import jbvb.nio.filf.Pbth;
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfs;
+import jbvb.nio.filf.bttributf.FilfAttributfVifw;
+import jbvb.nio.filf.bttributf.FilfStorfAttributfVifw;
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfVifw;
+import jbvb.util.Formbttfr;
+
+/*
+ *
+ * @buthor  Xufming Shfn, Rbjfndrb Gutupblli, Jbyb Hbngbl
+ */
+
+dlbss ZipFilfStorf fxtfnds FilfStorf {
+
+    privbtf finbl ZipFilfSystfm zfs;
+
+    ZipFilfStorf(ZipPbth zpbth) {
+        this.zfs = zpbth.gftFilfSystfm();
+    }
+
+    @Ovfrridf
+    publid String nbmf() {
+        rfturn zfs.toString() + "/";
+    }
+
+    @Ovfrridf
+    publid String typf() {
+        rfturn "zipfs";
+    }
+
+    @Ovfrridf
+    publid boolfbn isRfbdOnly() {
+        rfturn zfs.isRfbdOnly();
+    }
+
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(Clbss<? fxtfnds FilfAttributfVifw> typf) {
+        rfturn (typf == BbsidFilfAttributfVifw.dlbss ||
+                typf == ZipFilfAttributfVifw.dlbss);
+    }
+
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(String nbmf) {
+        rfturn nbmf.fqubls("bbsid") || nbmf.fqubls("zip");
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    publid <V fxtfnds FilfStorfAttributfVifw> V gftFilfStorfAttributfVifw(Clbss<V> typf) {
+        if (typf == null)
+            throw nfw NullPointfrExdfption();
+        rfturn (V)null;
+    }
+
+    @Ovfrridf
+    publid long gftTotblSpbdf() throws IOExdfption {
+         rfturn nfw ZipFilfStorfAttributfs(this).totblSpbdf();
+    }
+
+    @Ovfrridf
+    publid long gftUsbblfSpbdf() throws IOExdfption {
+         rfturn nfw ZipFilfStorfAttributfs(this).usbblfSpbdf();
+    }
+
+    @Ovfrridf
+    publid long gftUnbllodbtfdSpbdf() throws IOExdfption {
+         rfturn nfw ZipFilfStorfAttributfs(this).unbllodbtfdSpbdf();
+    }
+
+    @Ovfrridf
+    publid Objfdt gftAttributf(String bttributf) throws IOExdfption {
+         if (bttributf.fqubls("totblSpbdf"))
+               rfturn gftTotblSpbdf();
+         if (bttributf.fqubls("usbblfSpbdf"))
+               rfturn gftUsbblfSpbdf();
+         if (bttributf.fqubls("unbllodbtfdSpbdf"))
+               rfturn gftUnbllodbtfdSpbdf();
+         throw nfw UnsupportfdOpfrbtionExdfption("dofs not support thf givfn bttributf");
+    }
+
+    privbtf stbtid dlbss ZipFilfStorfAttributfs {
+        finbl FilfStorf fstorf;
+        finbl long sizf;
+
+        publid ZipFilfStorfAttributfs(ZipFilfStorf filfStorf)
+            throws IOExdfption
+        {
+            Pbth pbth = FilfSystfms.gftDffbult().gftPbth(filfStorf.nbmf());
+            this.sizf = Filfs.sizf(pbth);
+            this.fstorf = Filfs.gftFilfStorf(pbth);
+        }
+
+        publid long totblSpbdf() {
+            rfturn sizf;
+        }
+
+        publid long usbblfSpbdf() throws IOExdfption {
+            if (!fstorf.isRfbdOnly())
+                rfturn fstorf.gftUsbblfSpbdf();
+            rfturn 0;
+        }
+
+        publid long unbllodbtfdSpbdf()  throws IOExdfption {
+            if (!fstorf.isRfbdOnly())
+                rfturn fstorf.gftUnbllodbtfdSpbdf();
+            rfturn 0;
+        }
+    }
+}

@@ -1,826 +1,826 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.io.*;
-import static java.io.StreamTokenizer.*;
-import java.math.BigInteger;
-import java.util.*;
+import jbvb.io.*;
+import stbtid jbvb.io.StrfbmTokfnizfr.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.*;
 
-import java.security.*;
+import jbvb.sfdurity.*;
 
-import sun.security.action.GetPropertyAction;
-import sun.security.util.PropertyExpander;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.util.PropfrtyExpbndfr;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
-import static sun.security.pkcs11.wrapper.CK_ATTRIBUTE.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.CK_ATTRIBUTE.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
 
 /**
- * Configuration container and file parsing.
+ * Configurbtion dontbinfr bnd filf pbrsing.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-final class Config {
+finbl dlbss Config {
 
-    static final int ERR_HALT       = 1;
-    static final int ERR_IGNORE_ALL = 2;
-    static final int ERR_IGNORE_LIB = 3;
+    stbtid finbl int ERR_HALT       = 1;
+    stbtid finbl int ERR_IGNORE_ALL = 2;
+    stbtid finbl int ERR_IGNORE_LIB = 3;
 
-    // same as allowSingleThreadedModules but controlled via a system property
-    // and applied to all providers. if set to false, no SunPKCS11 instances
-    // will accept single threaded modules regardless of the setting in their
-    // config files.
-    private static final boolean staticAllowSingleThreadedModules;
+    // sbmf bs bllowSinglfTirfbdfdModulfs but dontrollfd vib b systfm propfrty
+    // bnd bpplifd to bll providfrs. if sft to fblsf, no SunPKCS11 instbndfs
+    // will bddfpt singlf tirfbdfd modulfs rfgbrdlfss of tif sftting in tifir
+    // donfig filfs.
+    privbtf stbtid finbl boolfbn stbtidAllowSinglfTirfbdfdModulfs;
 
-    static {
-        String p = "sun.security.pkcs11.allowSingleThreadedModules";
-        String s = AccessController.doPrivileged(new GetPropertyAction(p));
-        if ("false".equalsIgnoreCase(s)) {
-            staticAllowSingleThreadedModules = false;
-        } else {
-            staticAllowSingleThreadedModules = true;
+    stbtid {
+        String p = "sun.sfdurity.pkds11.bllowSinglfTirfbdfdModulfs";
+        String s = AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion(p));
+        if ("fblsf".fqublsIgnorfCbsf(s)) {
+            stbtidAllowSinglfTirfbdfdModulfs = fblsf;
+        } flsf {
+            stbtidAllowSinglfTirfbdfdModulfs = truf;
         }
     }
 
-    // temporary storage for configurations
-    // needed because the SunPKCS11 needs to call the superclass constructor
-    // in provider before accessing any instance variables
-    private final static Map<String,Config> configMap =
-                                        new HashMap<String,Config>();
+    // tfmporbry storbgf for donfigurbtions
+    // nffdfd bfdbusf tif SunPKCS11 nffds to dbll tif supfrdlbss donstrudtor
+    // in providfr bfforf bddfssing bny instbndf vbribblfs
+    privbtf finbl stbtid Mbp<String,Config> donfigMbp =
+                                        nfw HbsiMbp<String,Config>();
 
-    static Config getConfig(final String name, final InputStream stream) {
-        Config config = configMap.get(name);
-        if (config != null) {
-            return config;
+    stbtid Config gftConfig(finbl String nbmf, finbl InputStrfbm strfbm) {
+        Config donfig = donfigMbp.gft(nbmf);
+        if (donfig != null) {
+            rfturn donfig;
         }
         try {
-            config = new Config(name, stream);
-            configMap.put(name, config);
-            return config;
-        } catch (Exception e) {
-            throw new ProviderException("Error parsing configuration", e);
+            donfig = nfw Config(nbmf, strfbm);
+            donfigMbp.put(nbmf, donfig);
+            rfturn donfig;
+        } dbtdi (Exdfption f) {
+            tirow nfw ProvidfrExdfption("Error pbrsing donfigurbtion", f);
         }
     }
 
-    static Config removeConfig(String name) {
-        return configMap.remove(name);
+    stbtid Config rfmovfConfig(String nbmf) {
+        rfturn donfigMbp.rfmovf(nbmf);
     }
 
-    private final static boolean DEBUG = false;
+    privbtf finbl stbtid boolfbn DEBUG = fblsf;
 
-    private static void debug(Object o) {
+    privbtf stbtid void dfbug(Objfdt o) {
         if (DEBUG) {
-            System.out.println(o);
+            Systfm.out.println(o);
         }
     }
 
-    // Reader and StringTokenizer used during parsing
-    private Reader reader;
+    // Rfbdfr bnd StringTokfnizfr usfd during pbrsing
+    privbtf Rfbdfr rfbdfr;
 
-    private StreamTokenizer st;
+    privbtf StrfbmTokfnizfr st;
 
-    private Set<String> parsedKeywords;
+    privbtf Sft<String> pbrsfdKfywords;
 
-    // name suffix of the provider
-    private String name;
+    // nbmf suffix of tif providfr
+    privbtf String nbmf;
 
-    // name of the PKCS#11 library
-    private String library;
+    // nbmf of tif PKCS#11 librbry
+    privbtf String librbry;
 
-    // description to pass to the provider class
-    private String description;
+    // dfsdription to pbss to tif providfr dlbss
+    privbtf String dfsdription;
 
-    // slotID of the slot to use
-    private int slotID = -1;
+    // slotID of tif slot to usf
+    privbtf int slotID = -1;
 
-    // slot to use, specified as index in the slotlist
-    private int slotListIndex = -1;
+    // slot to usf, spfdififd bs indfx in tif slotlist
+    privbtf int slotListIndfx = -1;
 
-    // set of enabled mechanisms (or null to use default)
-    private Set<Long> enabledMechanisms;
+    // sft of fnbblfd mfdibnisms (or null to usf dffbult)
+    privbtf Sft<Long> fnbblfdMfdibnisms;
 
-    // set of disabled mechanisms
-    private Set<Long> disabledMechanisms;
+    // sft of disbblfd mfdibnisms
+    privbtf Sft<Long> disbblfdMfdibnisms;
 
-    // whether to print debug info during startup
-    private boolean showInfo = false;
+    // wiftifr to print dfbug info during stbrtup
+    privbtf boolfbn siowInfo = fblsf;
 
-    // template manager, initialized from parsed attributes
-    private TemplateManager templateManager;
+    // tfmplbtf mbnbgfr, initiblizfd from pbrsfd bttributfs
+    privbtf TfmplbtfMbnbgfr tfmplbtfMbnbgfr;
 
-    // how to handle error during startup, one of ERR_
-    private int handleStartupErrors = ERR_HALT;
+    // iow to ibndlf frror during stbrtup, onf of ERR_
+    privbtf int ibndlfStbrtupErrors = ERR_HALT;
 
-    // flag indicating whether the P11KeyStore should
-    // be more tolerant of input parameters
-    private boolean keyStoreCompatibilityMode = true;
+    // flbg indidbting wiftifr tif P11KfyStorf siould
+    // bf morf tolfrbnt of input pbrbmftfrs
+    privbtf boolfbn kfyStorfCompbtibilityModf = truf;
 
-    // flag indicating whether we need to explicitly cancel operations
-    // see Token
-    private boolean explicitCancel = true;
+    // flbg indidbting wiftifr wf nffd to fxpliditly dbndfl opfrbtions
+    // sff Tokfn
+    privbtf boolfbn fxpliditCbndfl = truf;
 
-    // how often to test for token insertion, if no token is present
-    private int insertionCheckInterval = 2000;
+    // iow oftfn to tfst for tokfn insfrtion, if no tokfn is prfsfnt
+    privbtf int insfrtionCifdkIntfrvbl = 2000;
 
-    // flag inidicating whether to omit the call to C_Initialize()
-    // should be used only if we are running within a process that
-    // has already called it (e.g. Plugin inside of Mozilla/NSS)
-    private boolean omitInitialize = false;
+    // flbg inididbting wiftifr to omit tif dbll to C_Initiblizf()
+    // siould bf usfd only if wf brf running witiin b prodfss tibt
+    // ibs blrfbdy dbllfd it (f.g. Plugin insidf of Mozillb/NSS)
+    privbtf boolfbn omitInitiblizf = fblsf;
 
-    // whether to allow modules that only support single threaded access.
-    // they cannot be used safely from multiple PKCS#11 consumers in the
-    // same process, for example NSS and SunPKCS11
-    private boolean allowSingleThreadedModules = true;
+    // wiftifr to bllow modulfs tibt only support singlf tirfbdfd bddfss.
+    // tify dbnnot bf usfd sbffly from multiplf PKCS#11 donsumfrs in tif
+    // sbmf prodfss, for fxbmplf NSS bnd SunPKCS11
+    privbtf boolfbn bllowSinglfTirfbdfdModulfs = truf;
 
-    // name of the C function that returns the PKCS#11 functionlist
-    // This option primarily exists for the deprecated
-    // Secmod.Module.getProvider() method.
-    private String functionList = "C_GetFunctionList";
+    // nbmf of tif C fundtion tibt rfturns tif PKCS#11 fundtionlist
+    // Tiis option primbrily fxists for tif dfprfdbtfd
+    // Sfdmod.Modulf.gftProvidfr() mftiod.
+    privbtf String fundtionList = "C_GftFundtionList";
 
-    // whether to use NSS secmod mode. Implicitly set if nssLibraryDirectory,
-    // nssSecmodDirectory, or nssModule is specified.
-    private boolean nssUseSecmod;
+    // wiftifr to usf NSS sfdmod modf. Impliditly sft if nssLibrbryDirfdtory,
+    // nssSfdmodDirfdtory, or nssModulf is spfdififd.
+    privbtf boolfbn nssUsfSfdmod;
 
-    // location of the NSS library files (libnss3.so, etc.)
-    private String nssLibraryDirectory;
+    // lodbtion of tif NSS librbry filfs (libnss3.so, ftd.)
+    privbtf String nssLibrbryDirfdtory;
 
-    // location of secmod.db
-    private String nssSecmodDirectory;
+    // lodbtion of sfdmod.db
+    privbtf String nssSfdmodDirfdtory;
 
-    // which NSS module to use
-    private String nssModule;
+    // wiidi NSS modulf to usf
+    privbtf String nssModulf;
 
-    private Secmod.DbMode nssDbMode = Secmod.DbMode.READ_WRITE;
+    privbtf Sfdmod.DbModf nssDbModf = Sfdmod.DbModf.READ_WRITE;
 
-    // Whether the P11KeyStore should specify the CKA_NETSCAPE_DB attribute
-    // when creating private keys. Only valid if nssUseSecmod is true.
-    private boolean nssNetscapeDbWorkaround = true;
+    // Wiftifr tif P11KfyStorf siould spfdify tif CKA_NETSCAPE_DB bttributf
+    // wifn drfbting privbtf kfys. Only vblid if nssUsfSfdmod is truf.
+    privbtf boolfbn nssNftsdbpfDbWorkbround = truf;
 
-    // Special init argument string for the NSS softtoken.
-    // This is used when using the NSS softtoken directly without secmod mode.
-    private String nssArgs;
+    // Spfdibl init brgumfnt string for tif NSS softtokfn.
+    // Tiis is usfd wifn using tif NSS softtokfn dirfdtly witiout sfdmod modf.
+    privbtf String nssArgs;
 
-    // whether to use NSS trust attributes for the KeyStore of this provider
-    // this option is for internal use by the SunPKCS11 code only and
-    // works only for NSS providers created via the Secmod API
-    private boolean nssUseSecmodTrust = false;
+    // wiftifr to usf NSS trust bttributfs for tif KfyStorf of tiis providfr
+    // tiis option is for intfrnbl usf by tif SunPKCS11 dodf only bnd
+    // works only for NSS providfrs drfbtfd vib tif Sfdmod API
+    privbtf boolfbn nssUsfSfdmodTrust = fblsf;
 
-    // Flag to indicate whether the X9.63 encoding for EC points shall be used
-    // (true) or whether that encoding shall be wrapped in an ASN.1 OctetString
-    // (false).
-    private boolean useEcX963Encoding = false;
+    // Flbg to indidbtf wiftifr tif X9.63 fndoding for EC points sibll bf usfd
+    // (truf) or wiftifr tibt fndoding sibll bf wrbppfd in bn ASN.1 OdtftString
+    // (fblsf).
+    privbtf boolfbn usfEdX963Endoding = fblsf;
 
-    // Flag to indicate whether NSS should favour performance (false) or
-    // memory footprint (true).
-    private boolean nssOptimizeSpace = false;
+    // Flbg to indidbtf wiftifr NSS siould fbvour pfrformbndf (fblsf) or
+    // mfmory footprint (truf).
+    privbtf boolfbn nssOptimizfSpbdf = fblsf;
 
-    private Config(String filename, InputStream in) throws IOException {
+    privbtf Config(String filfnbmf, InputStrfbm in) tirows IOExdfption {
         if (in == null) {
-            if (filename.startsWith("--")) {
-                // inline config
-                String config = filename.substring(2).replace("\\n", "\n");
-                reader = new StringReader(config);
-            } else {
-                in = new FileInputStream(expand(filename));
+            if (filfnbmf.stbrtsWiti("--")) {
+                // inlinf donfig
+                String donfig = filfnbmf.substring(2).rfplbdf("\\n", "\n");
+                rfbdfr = nfw StringRfbdfr(donfig);
+            } flsf {
+                in = nfw FilfInputStrfbm(fxpbnd(filfnbmf));
             }
         }
-        if (reader == null) {
-            reader = new BufferedReader(new InputStreamReader(in));
+        if (rfbdfr == null) {
+            rfbdfr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in));
         }
-        parsedKeywords = new HashSet<String>();
-        st = new StreamTokenizer(reader);
-        setupTokenizer();
-        parse();
+        pbrsfdKfywords = nfw HbsiSft<String>();
+        st = nfw StrfbmTokfnizfr(rfbdfr);
+        sftupTokfnizfr();
+        pbrsf();
     }
 
-    String getName() {
-        return name;
+    String gftNbmf() {
+        rfturn nbmf;
     }
 
-    String getLibrary() {
-        return library;
+    String gftLibrbry() {
+        rfturn librbry;
     }
 
-    String getDescription() {
-        if (description != null) {
-            return description;
+    String gftDfsdription() {
+        if (dfsdription != null) {
+            rfturn dfsdription;
         }
-        return "SunPKCS11-" + name + " using library " + library;
+        rfturn "SunPKCS11-" + nbmf + " using librbry " + librbry;
     }
 
-    int getSlotID() {
-        return slotID;
+    int gftSlotID() {
+        rfturn slotID;
     }
 
-    int getSlotListIndex() {
-        if ((slotID == -1) && (slotListIndex == -1)) {
-            // if neither is set, default to first slot
-            return 0;
-        } else {
-            return slotListIndex;
+    int gftSlotListIndfx() {
+        if ((slotID == -1) && (slotListIndfx == -1)) {
+            // if nfitifr is sft, dffbult to first slot
+            rfturn 0;
+        } flsf {
+            rfturn slotListIndfx;
         }
     }
 
-    boolean getShowInfo() {
-        return (SunPKCS11.debug != null) || showInfo;
+    boolfbn gftSiowInfo() {
+        rfturn (SunPKCS11.dfbug != null) || siowInfo;
     }
 
-    TemplateManager getTemplateManager() {
-        if (templateManager == null) {
-            templateManager = new TemplateManager();
+    TfmplbtfMbnbgfr gftTfmplbtfMbnbgfr() {
+        if (tfmplbtfMbnbgfr == null) {
+            tfmplbtfMbnbgfr = nfw TfmplbtfMbnbgfr();
         }
-        return templateManager;
+        rfturn tfmplbtfMbnbgfr;
     }
 
-    boolean isEnabled(long m) {
-        if (enabledMechanisms != null) {
-            return enabledMechanisms.contains(Long.valueOf(m));
+    boolfbn isEnbblfd(long m) {
+        if (fnbblfdMfdibnisms != null) {
+            rfturn fnbblfdMfdibnisms.dontbins(Long.vblufOf(m));
         }
-        if (disabledMechanisms != null) {
-            return !disabledMechanisms.contains(Long.valueOf(m));
+        if (disbblfdMfdibnisms != null) {
+            rfturn !disbblfdMfdibnisms.dontbins(Long.vblufOf(m));
         }
-        return true;
+        rfturn truf;
     }
 
-    int getHandleStartupErrors() {
-        return handleStartupErrors;
+    int gftHbndlfStbrtupErrors() {
+        rfturn ibndlfStbrtupErrors;
     }
 
-    boolean getKeyStoreCompatibilityMode() {
-        return keyStoreCompatibilityMode;
+    boolfbn gftKfyStorfCompbtibilityModf() {
+        rfturn kfyStorfCompbtibilityModf;
     }
 
-    boolean getExplicitCancel() {
-        return explicitCancel;
+    boolfbn gftExpliditCbndfl() {
+        rfturn fxpliditCbndfl;
     }
 
-    int getInsertionCheckInterval() {
-        return insertionCheckInterval;
+    int gftInsfrtionCifdkIntfrvbl() {
+        rfturn insfrtionCifdkIntfrvbl;
     }
 
-    boolean getOmitInitialize() {
-        return omitInitialize;
+    boolfbn gftOmitInitiblizf() {
+        rfturn omitInitiblizf;
     }
 
-    boolean getAllowSingleThreadedModules() {
-        return staticAllowSingleThreadedModules && allowSingleThreadedModules;
+    boolfbn gftAllowSinglfTirfbdfdModulfs() {
+        rfturn stbtidAllowSinglfTirfbdfdModulfs && bllowSinglfTirfbdfdModulfs;
     }
 
-    String getFunctionList() {
-        return functionList;
+    String gftFundtionList() {
+        rfturn fundtionList;
     }
 
-    boolean getNssUseSecmod() {
-        return nssUseSecmod;
+    boolfbn gftNssUsfSfdmod() {
+        rfturn nssUsfSfdmod;
     }
 
-    String getNssLibraryDirectory() {
-        return nssLibraryDirectory;
+    String gftNssLibrbryDirfdtory() {
+        rfturn nssLibrbryDirfdtory;
     }
 
-    String getNssSecmodDirectory() {
-        return nssSecmodDirectory;
+    String gftNssSfdmodDirfdtory() {
+        rfturn nssSfdmodDirfdtory;
     }
 
-    String getNssModule() {
-        return nssModule;
+    String gftNssModulf() {
+        rfturn nssModulf;
     }
 
-    Secmod.DbMode getNssDbMode() {
-        return nssDbMode;
+    Sfdmod.DbModf gftNssDbModf() {
+        rfturn nssDbModf;
     }
 
-    public boolean getNssNetscapeDbWorkaround() {
-        return nssUseSecmod && nssNetscapeDbWorkaround;
+    publid boolfbn gftNssNftsdbpfDbWorkbround() {
+        rfturn nssUsfSfdmod && nssNftsdbpfDbWorkbround;
     }
 
-    String getNssArgs() {
-        return nssArgs;
+    String gftNssArgs() {
+        rfturn nssArgs;
     }
 
-    boolean getNssUseSecmodTrust() {
-        return nssUseSecmodTrust;
+    boolfbn gftNssUsfSfdmodTrust() {
+        rfturn nssUsfSfdmodTrust;
     }
 
-    boolean getUseEcX963Encoding() {
-        return useEcX963Encoding;
+    boolfbn gftUsfEdX963Endoding() {
+        rfturn usfEdX963Endoding;
     }
 
-    boolean getNssOptimizeSpace() {
-        return nssOptimizeSpace;
+    boolfbn gftNssOptimizfSpbdf() {
+        rfturn nssOptimizfSpbdf;
     }
 
-    private static String expand(final String s) throws IOException {
+    privbtf stbtid String fxpbnd(finbl String s) tirows IOExdfption {
         try {
-            return PropertyExpander.expand(s);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            rfturn PropfrtyExpbndfr.fxpbnd(s);
+        } dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
         }
     }
 
-    private void setupTokenizer() {
-        st.resetSyntax();
-        st.wordChars('a', 'z');
-        st.wordChars('A', 'Z');
-        st.wordChars('0', '9');
-        st.wordChars(':', ':');
-        st.wordChars('.', '.');
-        st.wordChars('_', '_');
-        st.wordChars('-', '-');
-        st.wordChars('/', '/');
-        st.wordChars('\\', '\\');
-        st.wordChars('$', '$');
-        st.wordChars('{', '{'); // need {} for property subst
-        st.wordChars('}', '}');
-        st.wordChars('*', '*');
-        st.wordChars('+', '+');
-        st.wordChars('~', '~');
-        // XXX check ASCII table and add all other characters except special
+    privbtf void sftupTokfnizfr() {
+        st.rfsftSyntbx();
+        st.wordCibrs('b', 'z');
+        st.wordCibrs('A', 'Z');
+        st.wordCibrs('0', '9');
+        st.wordCibrs(':', ':');
+        st.wordCibrs('.', '.');
+        st.wordCibrs('_', '_');
+        st.wordCibrs('-', '-');
+        st.wordCibrs('/', '/');
+        st.wordCibrs('\\', '\\');
+        st.wordCibrs('$', '$');
+        st.wordCibrs('{', '{'); // nffd {} for propfrty subst
+        st.wordCibrs('}', '}');
+        st.wordCibrs('*', '*');
+        st.wordCibrs('+', '+');
+        st.wordCibrs('~', '~');
+        // XXX difdk ASCII tbblf bnd bdd bll otifr dibrbdtfrs fxdfpt spfdibl
 
-        // special: #="(),
-        st.whitespaceChars(0, ' ');
-        st.commentChar('#');
-        st.eolIsSignificant(true);
-        st.quoteChar('\"');
+        // spfdibl: #="(),
+        st.wiitfspbdfCibrs(0, ' ');
+        st.dommfntCibr('#');
+        st.folIsSignifidbnt(truf);
+        st.quotfCibr('\"');
     }
 
-    private ConfigurationException excToken(String msg) {
-        return new ConfigurationException(msg + " " + st);
+    privbtf ConfigurbtionExdfption fxdTokfn(String msg) {
+        rfturn nfw ConfigurbtionExdfption(msg + " " + st);
     }
 
-    private ConfigurationException excLine(String msg) {
-        return new ConfigurationException(msg + ", line " + st.lineno());
+    privbtf ConfigurbtionExdfption fxdLinf(String msg) {
+        rfturn nfw ConfigurbtionExdfption(msg + ", linf " + st.linfno());
     }
 
-    private void parse() throws IOException {
-        while (true) {
-            int token = nextToken();
-            if (token == TT_EOF) {
-                break;
+    privbtf void pbrsf() tirows IOExdfption {
+        wiilf (truf) {
+            int tokfn = nfxtTokfn();
+            if (tokfn == TT_EOF) {
+                brfbk;
             }
-            if (token == TT_EOL) {
-                continue;
+            if (tokfn == TT_EOL) {
+                dontinuf;
             }
-            if (token != TT_WORD) {
-                throw excToken("Unexpected token:");
+            if (tokfn != TT_WORD) {
+                tirow fxdTokfn("Unfxpfdtfd tokfn:");
             }
-            String word = st.sval;
-            if (word.equals("name")) {
-                name = parseStringEntry(word);
-            } else if (word.equals("library")) {
-                library = parseLibrary(word);
-            } else if (word.equals("description")) {
-                parseDescription(word);
-            } else if (word.equals("slot")) {
-                parseSlotID(word);
-            } else if (word.equals("slotListIndex")) {
-                parseSlotListIndex(word);
-            } else if (word.equals("enabledMechanisms")) {
-                parseEnabledMechanisms(word);
-            } else if (word.equals("disabledMechanisms")) {
-                parseDisabledMechanisms(word);
-            } else if (word.equals("attributes")) {
-                parseAttributes(word);
-            } else if (word.equals("handleStartupErrors")) {
-                parseHandleStartupErrors(word);
-            } else if (word.endsWith("insertionCheckInterval")) {
-                insertionCheckInterval = parseIntegerEntry(word);
-                if (insertionCheckInterval < 100) {
-                    throw excLine(word + " must be at least 100 ms");
+            String word = st.svbl;
+            if (word.fqubls("nbmf")) {
+                nbmf = pbrsfStringEntry(word);
+            } flsf if (word.fqubls("librbry")) {
+                librbry = pbrsfLibrbry(word);
+            } flsf if (word.fqubls("dfsdription")) {
+                pbrsfDfsdription(word);
+            } flsf if (word.fqubls("slot")) {
+                pbrsfSlotID(word);
+            } flsf if (word.fqubls("slotListIndfx")) {
+                pbrsfSlotListIndfx(word);
+            } flsf if (word.fqubls("fnbblfdMfdibnisms")) {
+                pbrsfEnbblfdMfdibnisms(word);
+            } flsf if (word.fqubls("disbblfdMfdibnisms")) {
+                pbrsfDisbblfdMfdibnisms(word);
+            } flsf if (word.fqubls("bttributfs")) {
+                pbrsfAttributfs(word);
+            } flsf if (word.fqubls("ibndlfStbrtupErrors")) {
+                pbrsfHbndlfStbrtupErrors(word);
+            } flsf if (word.fndsWiti("insfrtionCifdkIntfrvbl")) {
+                insfrtionCifdkIntfrvbl = pbrsfIntfgfrEntry(word);
+                if (insfrtionCifdkIntfrvbl < 100) {
+                    tirow fxdLinf(word + " must bf bt lfbst 100 ms");
                 }
-            } else if (word.equals("showInfo")) {
-                showInfo = parseBooleanEntry(word);
-            } else if (word.equals("keyStoreCompatibilityMode")) {
-                keyStoreCompatibilityMode = parseBooleanEntry(word);
-            } else if (word.equals("explicitCancel")) {
-                explicitCancel = parseBooleanEntry(word);
-            } else if (word.equals("omitInitialize")) {
-                omitInitialize = parseBooleanEntry(word);
-            } else if (word.equals("allowSingleThreadedModules")) {
-                allowSingleThreadedModules = parseBooleanEntry(word);
-            } else if (word.equals("functionList")) {
-                functionList = parseStringEntry(word);
-            } else if (word.equals("nssUseSecmod")) {
-                nssUseSecmod = parseBooleanEntry(word);
-            } else if (word.equals("nssLibraryDirectory")) {
-                nssLibraryDirectory = parseLibrary(word);
-                nssUseSecmod = true;
-            } else if (word.equals("nssSecmodDirectory")) {
-                nssSecmodDirectory = expand(parseStringEntry(word));
-                nssUseSecmod = true;
-            } else if (word.equals("nssModule")) {
-                nssModule = parseStringEntry(word);
-                nssUseSecmod = true;
-            } else if (word.equals("nssDbMode")) {
-                String mode = parseStringEntry(word);
-                if (mode.equals("readWrite")) {
-                    nssDbMode = Secmod.DbMode.READ_WRITE;
-                } else if (mode.equals("readOnly")) {
-                    nssDbMode = Secmod.DbMode.READ_ONLY;
-                } else if (mode.equals("noDb")) {
-                    nssDbMode = Secmod.DbMode.NO_DB;
-                } else {
-                    throw excToken("nssDbMode must be one of readWrite, readOnly, and noDb:");
+            } flsf if (word.fqubls("siowInfo")) {
+                siowInfo = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("kfyStorfCompbtibilityModf")) {
+                kfyStorfCompbtibilityModf = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("fxpliditCbndfl")) {
+                fxpliditCbndfl = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("omitInitiblizf")) {
+                omitInitiblizf = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("bllowSinglfTirfbdfdModulfs")) {
+                bllowSinglfTirfbdfdModulfs = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("fundtionList")) {
+                fundtionList = pbrsfStringEntry(word);
+            } flsf if (word.fqubls("nssUsfSfdmod")) {
+                nssUsfSfdmod = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("nssLibrbryDirfdtory")) {
+                nssLibrbryDirfdtory = pbrsfLibrbry(word);
+                nssUsfSfdmod = truf;
+            } flsf if (word.fqubls("nssSfdmodDirfdtory")) {
+                nssSfdmodDirfdtory = fxpbnd(pbrsfStringEntry(word));
+                nssUsfSfdmod = truf;
+            } flsf if (word.fqubls("nssModulf")) {
+                nssModulf = pbrsfStringEntry(word);
+                nssUsfSfdmod = truf;
+            } flsf if (word.fqubls("nssDbModf")) {
+                String modf = pbrsfStringEntry(word);
+                if (modf.fqubls("rfbdWritf")) {
+                    nssDbModf = Sfdmod.DbModf.READ_WRITE;
+                } flsf if (modf.fqubls("rfbdOnly")) {
+                    nssDbModf = Sfdmod.DbModf.READ_ONLY;
+                } flsf if (modf.fqubls("noDb")) {
+                    nssDbModf = Sfdmod.DbModf.NO_DB;
+                } flsf {
+                    tirow fxdTokfn("nssDbModf must bf onf of rfbdWritf, rfbdOnly, bnd noDb:");
                 }
-                nssUseSecmod = true;
-            } else if (word.equals("nssNetscapeDbWorkaround")) {
-                nssNetscapeDbWorkaround = parseBooleanEntry(word);
-                nssUseSecmod = true;
-            } else if (word.equals("nssArgs")) {
-                parseNSSArgs(word);
-            } else if (word.equals("nssUseSecmodTrust")) {
-                nssUseSecmodTrust = parseBooleanEntry(word);
-            } else if (word.equals("useEcX963Encoding")) {
-                useEcX963Encoding = parseBooleanEntry(word);
-            } else if (word.equals("nssOptimizeSpace")) {
-                nssOptimizeSpace = parseBooleanEntry(word);
-            } else {
-                throw new ConfigurationException
-                        ("Unknown keyword '" + word + "', line " + st.lineno());
+                nssUsfSfdmod = truf;
+            } flsf if (word.fqubls("nssNftsdbpfDbWorkbround")) {
+                nssNftsdbpfDbWorkbround = pbrsfBoolfbnEntry(word);
+                nssUsfSfdmod = truf;
+            } flsf if (word.fqubls("nssArgs")) {
+                pbrsfNSSArgs(word);
+            } flsf if (word.fqubls("nssUsfSfdmodTrust")) {
+                nssUsfSfdmodTrust = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("usfEdX963Endoding")) {
+                usfEdX963Endoding = pbrsfBoolfbnEntry(word);
+            } flsf if (word.fqubls("nssOptimizfSpbdf")) {
+                nssOptimizfSpbdf = pbrsfBoolfbnEntry(word);
+            } flsf {
+                tirow nfw ConfigurbtionExdfption
+                        ("Unknown kfyword '" + word + "', linf " + st.linfno());
             }
-            parsedKeywords.add(word);
+            pbrsfdKfywords.bdd(word);
         }
-        reader.close();
-        reader = null;
+        rfbdfr.dlosf();
+        rfbdfr = null;
         st = null;
-        parsedKeywords = null;
-        if (name == null) {
-            throw new ConfigurationException("name must be specified");
+        pbrsfdKfywords = null;
+        if (nbmf == null) {
+            tirow nfw ConfigurbtionExdfption("nbmf must bf spfdififd");
         }
-        if (nssUseSecmod == false) {
-            if (library == null) {
-                throw new ConfigurationException("library must be specified");
+        if (nssUsfSfdmod == fblsf) {
+            if (librbry == null) {
+                tirow nfw ConfigurbtionExdfption("librbry must bf spfdififd");
             }
-        } else {
-            if (library != null) {
-                throw new ConfigurationException
-                    ("library must not be specified in NSS mode");
+        } flsf {
+            if (librbry != null) {
+                tirow nfw ConfigurbtionExdfption
+                    ("librbry must not bf spfdififd in NSS modf");
             }
-            if ((slotID != -1) || (slotListIndex != -1)) {
-                throw new ConfigurationException
-                    ("slot and slotListIndex must not be specified in NSS mode");
+            if ((slotID != -1) || (slotListIndfx != -1)) {
+                tirow nfw ConfigurbtionExdfption
+                    ("slot bnd slotListIndfx must not bf spfdififd in NSS modf");
             }
             if (nssArgs != null) {
-                throw new ConfigurationException
-                    ("nssArgs must not be specified in NSS mode");
+                tirow nfw ConfigurbtionExdfption
+                    ("nssArgs must not bf spfdififd in NSS modf");
             }
-            if (nssUseSecmodTrust != false) {
-                throw new ConfigurationException("nssUseSecmodTrust is an "
-                    + "internal option and must not be specified in NSS mode");
+            if (nssUsfSfdmodTrust != fblsf) {
+                tirow nfw ConfigurbtionExdfption("nssUsfSfdmodTrust is bn "
+                    + "intfrnbl option bnd must not bf spfdififd in NSS modf");
             }
         }
     }
 
     //
-    // Parsing helper methods
+    // Pbrsing iflpfr mftiods
     //
 
-    private int nextToken() throws IOException {
-        int token = st.nextToken();
-        debug(st);
-        return token;
+    privbtf int nfxtTokfn() tirows IOExdfption {
+        int tokfn = st.nfxtTokfn();
+        dfbug(st);
+        rfturn tokfn;
     }
 
-    private void parseEquals() throws IOException {
-        int token = nextToken();
-        if (token != '=') {
-            throw excToken("Expected '=', read");
+    privbtf void pbrsfEqubls() tirows IOExdfption {
+        int tokfn = nfxtTokfn();
+        if (tokfn != '=') {
+            tirow fxdTokfn("Expfdtfd '=', rfbd");
         }
     }
 
-    private void parseOpenBraces() throws IOException {
-        while (true) {
-            int token = nextToken();
-            if (token == TT_EOL) {
-                continue;
+    privbtf void pbrsfOpfnBrbdfs() tirows IOExdfption {
+        wiilf (truf) {
+            int tokfn = nfxtTokfn();
+            if (tokfn == TT_EOL) {
+                dontinuf;
             }
-            if ((token == TT_WORD) && st.sval.equals("{")) {
-                return;
+            if ((tokfn == TT_WORD) && st.svbl.fqubls("{")) {
+                rfturn;
             }
-            throw excToken("Expected '{', read");
+            tirow fxdTokfn("Expfdtfd '{', rfbd");
         }
     }
 
-    private boolean isCloseBraces(int token) {
-        return (token == TT_WORD) && st.sval.equals("}");
+    privbtf boolfbn isClosfBrbdfs(int tokfn) {
+        rfturn (tokfn == TT_WORD) && st.svbl.fqubls("}");
     }
 
-    private String parseWord() throws IOException {
-        int token = nextToken();
-        if (token != TT_WORD) {
-            throw excToken("Unexpected value:");
+    privbtf String pbrsfWord() tirows IOExdfption {
+        int tokfn = nfxtTokfn();
+        if (tokfn != TT_WORD) {
+            tirow fxdTokfn("Unfxpfdtfd vbluf:");
         }
-        return st.sval;
+        rfturn st.svbl;
     }
 
-    private String parseStringEntry(String keyword) throws IOException {
-        checkDup(keyword);
-        parseEquals();
+    privbtf String pbrsfStringEntry(String kfyword) tirows IOExdfption {
+        difdkDup(kfyword);
+        pbrsfEqubls();
 
-        int token = nextToken();
-        if (token != TT_WORD && token != '\"') {
-            // not a word token nor a string enclosed by double quotes
-            throw excToken("Unexpected value:");
+        int tokfn = nfxtTokfn();
+        if (tokfn != TT_WORD && tokfn != '\"') {
+            // not b word tokfn nor b string fndlosfd by doublf quotfs
+            tirow fxdTokfn("Unfxpfdtfd vbluf:");
         }
-        String value = st.sval;
+        String vbluf = st.svbl;
 
-        debug(keyword + ": " + value);
-        return value;
+        dfbug(kfyword + ": " + vbluf);
+        rfturn vbluf;
     }
 
-    private boolean parseBooleanEntry(String keyword) throws IOException {
-        checkDup(keyword);
-        parseEquals();
-        boolean value = parseBoolean();
-        debug(keyword + ": " + value);
-        return value;
+    privbtf boolfbn pbrsfBoolfbnEntry(String kfyword) tirows IOExdfption {
+        difdkDup(kfyword);
+        pbrsfEqubls();
+        boolfbn vbluf = pbrsfBoolfbn();
+        dfbug(kfyword + ": " + vbluf);
+        rfturn vbluf;
     }
 
-    private int parseIntegerEntry(String keyword) throws IOException {
-        checkDup(keyword);
-        parseEquals();
-        int value = decodeNumber(parseWord());
-        debug(keyword + ": " + value);
-        return value;
+    privbtf int pbrsfIntfgfrEntry(String kfyword) tirows IOExdfption {
+        difdkDup(kfyword);
+        pbrsfEqubls();
+        int vbluf = dfdodfNumbfr(pbrsfWord());
+        dfbug(kfyword + ": " + vbluf);
+        rfturn vbluf;
     }
 
-    private boolean parseBoolean() throws IOException {
-        String val = parseWord();
-        switch (val) {
-            case "true":
-                return true;
-            case "false":
-                return false;
-            default:
-                throw excToken("Expected boolean value, read:");
+    privbtf boolfbn pbrsfBoolfbn() tirows IOExdfption {
+        String vbl = pbrsfWord();
+        switdi (vbl) {
+            dbsf "truf":
+                rfturn truf;
+            dbsf "fblsf":
+                rfturn fblsf;
+            dffbult:
+                tirow fxdTokfn("Expfdtfd boolfbn vbluf, rfbd:");
         }
     }
 
-    private String parseLine() throws IOException {
-        String s = parseWord();
-        while (true) {
-            int token = nextToken();
-            if ((token == TT_EOL) || (token == TT_EOF)) {
-                break;
+    privbtf String pbrsfLinf() tirows IOExdfption {
+        String s = pbrsfWord();
+        wiilf (truf) {
+            int tokfn = nfxtTokfn();
+            if ((tokfn == TT_EOL) || (tokfn == TT_EOF)) {
+                brfbk;
             }
-            if (token != TT_WORD) {
-                throw excToken("Unexpected value");
+            if (tokfn != TT_WORD) {
+                tirow fxdTokfn("Unfxpfdtfd vbluf");
             }
-            s = s + " " + st.sval;
+            s = s + " " + st.svbl;
         }
-        return s;
+        rfturn s;
     }
 
-    private int decodeNumber(String str) throws IOException {
+    privbtf int dfdodfNumbfr(String str) tirows IOExdfption {
         try {
-            if (str.startsWith("0x") || str.startsWith("0X")) {
-                return Integer.parseInt(str.substring(2), 16);
-            } else {
-                return Integer.parseInt(str);
+            if (str.stbrtsWiti("0x") || str.stbrtsWiti("0X")) {
+                rfturn Intfgfr.pbrsfInt(str.substring(2), 16);
+            } flsf {
+                rfturn Intfgfr.pbrsfInt(str);
             }
-        } catch (NumberFormatException e) {
-            throw excToken("Expected number, read");
+        } dbtdi (NumbfrFormbtExdfption f) {
+            tirow fxdTokfn("Expfdtfd numbfr, rfbd");
         }
     }
 
-    private static boolean isNumber(String s) {
-        if (s.length() == 0) {
-            return false;
+    privbtf stbtid boolfbn isNumbfr(String s) {
+        if (s.lfngti() == 0) {
+            rfturn fblsf;
         }
-        char ch = s.charAt(0);
-        return ((ch >= '0') && (ch <= '9'));
+        dibr di = s.dibrAt(0);
+        rfturn ((di >= '0') && (di <= '9'));
     }
 
-    private void parseComma() throws IOException {
-        int token = nextToken();
-        if (token != ',') {
-            throw excToken("Expected ',', read");
+    privbtf void pbrsfCommb() tirows IOExdfption {
+        int tokfn = nfxtTokfn();
+        if (tokfn != ',') {
+            tirow fxdTokfn("Expfdtfd ',', rfbd");
         }
     }
 
-    private static boolean isByteArray(String val) {
-        return val.startsWith("0h");
+    privbtf stbtid boolfbn isBytfArrby(String vbl) {
+        rfturn vbl.stbrtsWiti("0i");
     }
 
-    private byte[] decodeByteArray(String str) throws IOException {
-        if (str.startsWith("0h") == false) {
-            throw excToken("Expected byte array value, read");
+    privbtf bytf[] dfdodfBytfArrby(String str) tirows IOExdfption {
+        if (str.stbrtsWiti("0i") == fblsf) {
+            tirow fxdTokfn("Expfdtfd bytf brrby vbluf, rfbd");
         }
         str = str.substring(2);
-        // XXX proper hex parsing
+        // XXX propfr ifx pbrsing
         try {
-            return new BigInteger(str, 16).toByteArray();
-        } catch (NumberFormatException e) {
-            throw excToken("Expected byte array value, read");
+            rfturn nfw BigIntfgfr(str, 16).toBytfArrby();
+        } dbtdi (NumbfrFormbtExdfption f) {
+            tirow fxdTokfn("Expfdtfd bytf brrby vbluf, rfbd");
         }
     }
 
-    private void checkDup(String keyword) throws IOException {
-        if (parsedKeywords.contains(keyword)) {
-            throw excLine(keyword + " must only be specified once");
+    privbtf void difdkDup(String kfyword) tirows IOExdfption {
+        if (pbrsfdKfywords.dontbins(kfyword)) {
+            tirow fxdLinf(kfyword + " must only bf spfdififd ondf");
         }
     }
 
     //
-    // individual entry parsing methods
+    // individubl fntry pbrsing mftiods
     //
 
-    private String parseLibrary(String keyword) throws IOException {
-        String lib = parseStringEntry(keyword);
-        lib = expand(lib);
-        int i = lib.indexOf("/$ISA/");
+    privbtf String pbrsfLibrbry(String kfyword) tirows IOExdfption {
+        String lib = pbrsfStringEntry(kfyword);
+        lib = fxpbnd(lib);
+        int i = lib.indfxOf("/$ISA/");
         if (i != -1) {
-            // replace "/$ISA/" with "/sparcv9/" on 64-bit Solaris SPARC
-            // and with "/amd64/" on Solaris AMD64.
-            // On all other platforms, just turn it into a "/"
-            String osName = System.getProperty("os.name", "");
-            String osArch = System.getProperty("os.arch", "");
-            String prefix = lib.substring(0, i);
+            // rfplbdf "/$ISA/" witi "/spbrdv9/" on 64-bit Solbris SPARC
+            // bnd witi "/bmd64/" on Solbris AMD64.
+            // On bll otifr plbtforms, just turn it into b "/"
+            String osNbmf = Systfm.gftPropfrty("os.nbmf", "");
+            String osArdi = Systfm.gftPropfrty("os.brdi", "");
+            String prffix = lib.substring(0, i);
             String suffix = lib.substring(i + 5);
-            if (osName.equals("SunOS") && osArch.equals("sparcv9")) {
-                lib = prefix + "/sparcv9" + suffix;
-            } else if (osName.equals("SunOS") && osArch.equals("amd64")) {
-                lib = prefix + "/amd64" + suffix;
-            } else {
-                lib = prefix + suffix;
+            if (osNbmf.fqubls("SunOS") && osArdi.fqubls("spbrdv9")) {
+                lib = prffix + "/spbrdv9" + suffix;
+            } flsf if (osNbmf.fqubls("SunOS") && osArdi.fqubls("bmd64")) {
+                lib = prffix + "/bmd64" + suffix;
+            } flsf {
+                lib = prffix + suffix;
             }
         }
-        debug(keyword + ": " + lib);
+        dfbug(kfyword + ": " + lib);
 
-        // Check to see if full path is specified to prevent the DLL
-        // preloading attack
-        if (!(new File(lib)).isAbsolute()) {
-            throw new ConfigurationException(
-                "Absolute path required for library value: " + lib);
+        // Cifdk to sff if full pbti is spfdififd to prfvfnt tif DLL
+        // prflobding bttbdk
+        if (!(nfw Filf(lib)).isAbsolutf()) {
+            tirow nfw ConfigurbtionExdfption(
+                "Absolutf pbti rfquirfd for librbry vbluf: " + lib);
         }
-        return lib;
+        rfturn lib;
     }
 
-    private void parseDescription(String keyword) throws IOException {
-        checkDup(keyword);
-        parseEquals();
-        description = parseLine();
-        debug("description: " + description);
+    privbtf void pbrsfDfsdription(String kfyword) tirows IOExdfption {
+        difdkDup(kfyword);
+        pbrsfEqubls();
+        dfsdription = pbrsfLinf();
+        dfbug("dfsdription: " + dfsdription);
     }
 
-    private void parseSlotID(String keyword) throws IOException {
+    privbtf void pbrsfSlotID(String kfyword) tirows IOExdfption {
         if (slotID >= 0) {
-            throw excLine("Duplicate slot definition");
+            tirow fxdLinf("Duplidbtf slot dffinition");
         }
-        if (slotListIndex >= 0) {
-            throw excLine
-                ("Only one of slot and slotListIndex must be specified");
+        if (slotListIndfx >= 0) {
+            tirow fxdLinf
+                ("Only onf of slot bnd slotListIndfx must bf spfdififd");
         }
-        parseEquals();
-        String slotString = parseWord();
-        slotID = decodeNumber(slotString);
-        debug("slot: " + slotID);
+        pbrsfEqubls();
+        String slotString = pbrsfWord();
+        slotID = dfdodfNumbfr(slotString);
+        dfbug("slot: " + slotID);
     }
 
-    private void parseSlotListIndex(String keyword) throws IOException {
-        if (slotListIndex >= 0) {
-            throw excLine("Duplicate slotListIndex definition");
+    privbtf void pbrsfSlotListIndfx(String kfyword) tirows IOExdfption {
+        if (slotListIndfx >= 0) {
+            tirow fxdLinf("Duplidbtf slotListIndfx dffinition");
         }
         if (slotID >= 0) {
-            throw excLine
-                ("Only one of slot and slotListIndex must be specified");
+            tirow fxdLinf
+                ("Only onf of slot bnd slotListIndfx must bf spfdififd");
         }
-        parseEquals();
-        String slotString = parseWord();
-        slotListIndex = decodeNumber(slotString);
-        debug("slotListIndex: " + slotListIndex);
+        pbrsfEqubls();
+        String slotString = pbrsfWord();
+        slotListIndfx = dfdodfNumbfr(slotString);
+        dfbug("slotListIndfx: " + slotListIndfx);
     }
 
-    private void parseEnabledMechanisms(String keyword) throws IOException {
-        enabledMechanisms = parseMechanisms(keyword);
+    privbtf void pbrsfEnbblfdMfdibnisms(String kfyword) tirows IOExdfption {
+        fnbblfdMfdibnisms = pbrsfMfdibnisms(kfyword);
     }
 
-    private void parseDisabledMechanisms(String keyword) throws IOException {
-        disabledMechanisms = parseMechanisms(keyword);
+    privbtf void pbrsfDisbblfdMfdibnisms(String kfyword) tirows IOExdfption {
+        disbblfdMfdibnisms = pbrsfMfdibnisms(kfyword);
     }
 
-    private Set<Long> parseMechanisms(String keyword) throws IOException {
-        checkDup(keyword);
-        Set<Long> mechs = new HashSet<Long>();
-        parseEquals();
-        parseOpenBraces();
-        while (true) {
-            int token = nextToken();
-            if (isCloseBraces(token)) {
-                break;
+    privbtf Sft<Long> pbrsfMfdibnisms(String kfyword) tirows IOExdfption {
+        difdkDup(kfyword);
+        Sft<Long> mfdis = nfw HbsiSft<Long>();
+        pbrsfEqubls();
+        pbrsfOpfnBrbdfs();
+        wiilf (truf) {
+            int tokfn = nfxtTokfn();
+            if (isClosfBrbdfs(tokfn)) {
+                brfbk;
             }
-            if (token == TT_EOL) {
-                continue;
+            if (tokfn == TT_EOL) {
+                dontinuf;
             }
-            if (token != TT_WORD) {
-                throw excToken("Expected mechanism, read");
+            if (tokfn != TT_WORD) {
+                tirow fxdTokfn("Expfdtfd mfdibnism, rfbd");
             }
-            long mech = parseMechanism(st.sval);
-            mechs.add(Long.valueOf(mech));
+            long mfdi = pbrsfMfdibnism(st.svbl);
+            mfdis.bdd(Long.vblufOf(mfdi));
         }
         if (DEBUG) {
-            System.out.print("mechanisms: [");
-            for (Long mech : mechs) {
-                System.out.print(Functions.getMechanismName(mech));
-                System.out.print(", ");
+            Systfm.out.print("mfdibnisms: [");
+            for (Long mfdi : mfdis) {
+                Systfm.out.print(Fundtions.gftMfdibnismNbmf(mfdi));
+                Systfm.out.print(", ");
             }
-            System.out.println("]");
+            Systfm.out.println("]");
         }
-        return mechs;
+        rfturn mfdis;
     }
 
-    private long parseMechanism(String mech) throws IOException {
-        if (isNumber(mech)) {
-            return decodeNumber(mech);
-        } else {
+    privbtf long pbrsfMfdibnism(String mfdi) tirows IOExdfption {
+        if (isNumbfr(mfdi)) {
+            rfturn dfdodfNumbfr(mfdi);
+        } flsf {
             try {
-                return Functions.getMechanismId(mech);
-            } catch (IllegalArgumentException e) {
-                throw excLine("Unknown mechanism: " + mech);
+                rfturn Fundtions.gftMfdibnismId(mfdi);
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                tirow fxdLinf("Unknown mfdibnism: " + mfdi);
             }
         }
     }
 
-    private void parseAttributes(String keyword) throws IOException {
-        if (templateManager == null) {
-            templateManager = new TemplateManager();
+    privbtf void pbrsfAttributfs(String kfyword) tirows IOExdfption {
+        if (tfmplbtfMbnbgfr == null) {
+            tfmplbtfMbnbgfr = nfw TfmplbtfMbnbgfr();
         }
-        int token = nextToken();
-        if (token == '=') {
-            String s = parseWord();
-            if (s.equals("compatibility") == false) {
-                throw excLine("Expected 'compatibility', read " + s);
+        int tokfn = nfxtTokfn();
+        if (tokfn == '=') {
+            String s = pbrsfWord();
+            if (s.fqubls("dompbtibility") == fblsf) {
+                tirow fxdLinf("Expfdtfd 'dompbtibility', rfbd " + s);
             }
-            setCompatibilityAttributes();
-            return;
+            sftCompbtibilityAttributfs();
+            rfturn;
         }
-        if (token != '(') {
-            throw excToken("Expected '(' or '=', read");
+        if (tokfn != '(') {
+            tirow fxdTokfn("Expfdtfd '(' or '=', rfbd");
         }
-        String op = parseOperation();
-        parseComma();
-        long objectClass = parseObjectClass();
-        parseComma();
-        long keyAlg = parseKeyAlgorithm();
-        token = nextToken();
-        if (token != ')') {
-            throw excToken("Expected ')', read");
+        String op = pbrsfOpfrbtion();
+        pbrsfCommb();
+        long objfdtClbss = pbrsfObjfdtClbss();
+        pbrsfCommb();
+        long kfyAlg = pbrsfKfyAlgoritim();
+        tokfn = nfxtTokfn();
+        if (tokfn != ')') {
+            tirow fxdTokfn("Expfdtfd ')', rfbd");
         }
-        parseEquals();
-        parseOpenBraces();
-        List<CK_ATTRIBUTE> attributes = new ArrayList<CK_ATTRIBUTE>();
-        while (true) {
-            token = nextToken();
-            if (isCloseBraces(token)) {
-                break;
+        pbrsfEqubls();
+        pbrsfOpfnBrbdfs();
+        List<CK_ATTRIBUTE> bttributfs = nfw ArrbyList<CK_ATTRIBUTE>();
+        wiilf (truf) {
+            tokfn = nfxtTokfn();
+            if (isClosfBrbdfs(tokfn)) {
+                brfbk;
             }
-            if (token == TT_EOL) {
-                continue;
+            if (tokfn == TT_EOL) {
+                dontinuf;
             }
-            if (token != TT_WORD) {
-                throw excToken("Expected mechanism, read");
+            if (tokfn != TT_WORD) {
+                tirow fxdTokfn("Expfdtfd mfdibnism, rfbd");
             }
-            String attributeName = st.sval;
-            long attributeId = decodeAttributeName(attributeName);
-            parseEquals();
-            String attributeValue = parseWord();
-            attributes.add(decodeAttributeValue(attributeId, attributeValue));
+            String bttributfNbmf = st.svbl;
+            long bttributfId = dfdodfAttributfNbmf(bttributfNbmf);
+            pbrsfEqubls();
+            String bttributfVbluf = pbrsfWord();
+            bttributfs.bdd(dfdodfAttributfVbluf(bttributfId, bttributfVbluf));
         }
-        templateManager.addTemplate
-                (op, objectClass, keyAlg, attributes.toArray(CK_A0));
+        tfmplbtfMbnbgfr.bddTfmplbtf
+                (op, objfdtClbss, kfyAlg, bttributfs.toArrby(CK_A0));
     }
 
-    private void setCompatibilityAttributes() {
-        // all secret keys
-        templateManager.addTemplate(O_ANY, CKO_SECRET_KEY, PCKK_ANY,
-        new CK_ATTRIBUTE[] {
+    privbtf void sftCompbtibilityAttributfs() {
+        // bll sfdrft kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_SECRET_KEY, PCKK_ANY,
+        nfw CK_ATTRIBUTE[] {
             TOKEN_FALSE,
             SENSITIVE_FALSE,
             EXTRACTABLE_TRUE,
@@ -830,10 +830,10 @@ final class Config {
             UNWRAP_TRUE,
         });
 
-        // generic secret keys are special
-        // They are used as MAC keys plus for the SSL/TLS (pre)master secrets
-        templateManager.addTemplate(O_ANY, CKO_SECRET_KEY, CKK_GENERIC_SECRET,
-        new CK_ATTRIBUTE[] {
+        // gfnfrid sfdrft kfys brf spfdibl
+        // Tify brf usfd bs MAC kfys plus for tif SSL/TLS (prf)mbstfr sfdrfts
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_SECRET_KEY, CKK_GENERIC_SECRET,
+        nfw CK_ATTRIBUTE[] {
             SIGN_TRUE,
             VERIFY_TRUE,
             ENCRYPT_NULL,
@@ -843,164 +843,164 @@ final class Config {
             DERIVE_TRUE,
         });
 
-        // all private and public keys
-        templateManager.addTemplate(O_ANY, CKO_PRIVATE_KEY, PCKK_ANY,
-        new CK_ATTRIBUTE[] {
+        // bll privbtf bnd publid kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PRIVATE_KEY, PCKK_ANY,
+        nfw CK_ATTRIBUTE[] {
             TOKEN_FALSE,
             SENSITIVE_FALSE,
             EXTRACTABLE_TRUE,
         });
-        templateManager.addTemplate(O_ANY, CKO_PUBLIC_KEY, PCKK_ANY,
-        new CK_ATTRIBUTE[] {
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PUBLIC_KEY, PCKK_ANY,
+        nfw CK_ATTRIBUTE[] {
             TOKEN_FALSE,
         });
 
-        // additional attributes for RSA private keys
-        templateManager.addTemplate(O_ANY, CKO_PRIVATE_KEY, CKK_RSA,
-        new CK_ATTRIBUTE[] {
+        // bdditionbl bttributfs for RSA privbtf kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PRIVATE_KEY, CKK_RSA,
+        nfw CK_ATTRIBUTE[] {
             DECRYPT_TRUE,
             SIGN_TRUE,
             SIGN_RECOVER_TRUE,
             UNWRAP_TRUE,
         });
-        // additional attributes for RSA public keys
-        templateManager.addTemplate(O_ANY, CKO_PUBLIC_KEY, CKK_RSA,
-        new CK_ATTRIBUTE[] {
+        // bdditionbl bttributfs for RSA publid kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PUBLIC_KEY, CKK_RSA,
+        nfw CK_ATTRIBUTE[] {
             ENCRYPT_TRUE,
             VERIFY_TRUE,
             VERIFY_RECOVER_TRUE,
             WRAP_TRUE,
         });
 
-        // additional attributes for DSA private keys
-        templateManager.addTemplate(O_ANY, CKO_PRIVATE_KEY, CKK_DSA,
-        new CK_ATTRIBUTE[] {
+        // bdditionbl bttributfs for DSA privbtf kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PRIVATE_KEY, CKK_DSA,
+        nfw CK_ATTRIBUTE[] {
             SIGN_TRUE,
         });
-        // additional attributes for DSA public keys
-        templateManager.addTemplate(O_ANY, CKO_PUBLIC_KEY, CKK_DSA,
-        new CK_ATTRIBUTE[] {
+        // bdditionbl bttributfs for DSA publid kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PUBLIC_KEY, CKK_DSA,
+        nfw CK_ATTRIBUTE[] {
             VERIFY_TRUE,
         });
 
-        // additional attributes for DH private keys
-        templateManager.addTemplate(O_ANY, CKO_PRIVATE_KEY, CKK_DH,
-        new CK_ATTRIBUTE[] {
+        // bdditionbl bttributfs for DH privbtf kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PRIVATE_KEY, CKK_DH,
+        nfw CK_ATTRIBUTE[] {
             DERIVE_TRUE,
         });
 
-        // additional attributes for EC private keys
-        templateManager.addTemplate(O_ANY, CKO_PRIVATE_KEY, CKK_EC,
-        new CK_ATTRIBUTE[] {
+        // bdditionbl bttributfs for EC privbtf kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PRIVATE_KEY, CKK_EC,
+        nfw CK_ATTRIBUTE[] {
             SIGN_TRUE,
             DERIVE_TRUE,
         });
-        // additional attributes for EC public keys
-        templateManager.addTemplate(O_ANY, CKO_PUBLIC_KEY, CKK_EC,
-        new CK_ATTRIBUTE[] {
+        // bdditionbl bttributfs for EC publid kfys
+        tfmplbtfMbnbgfr.bddTfmplbtf(O_ANY, CKO_PUBLIC_KEY, CKK_EC,
+        nfw CK_ATTRIBUTE[] {
             VERIFY_TRUE,
         });
     }
 
-    private final static CK_ATTRIBUTE[] CK_A0 = new CK_ATTRIBUTE[0];
+    privbtf finbl stbtid CK_ATTRIBUTE[] CK_A0 = nfw CK_ATTRIBUTE[0];
 
-    private String parseOperation() throws IOException {
-        String op = parseWord();
-        switch (op) {
-            case "*":
-                return TemplateManager.O_ANY;
-            case "generate":
-                return TemplateManager.O_GENERATE;
-            case "import":
-                return TemplateManager.O_IMPORT;
-            default:
-                throw excLine("Unknown operation " + op);
+    privbtf String pbrsfOpfrbtion() tirows IOExdfption {
+        String op = pbrsfWord();
+        switdi (op) {
+            dbsf "*":
+                rfturn TfmplbtfMbnbgfr.O_ANY;
+            dbsf "gfnfrbtf":
+                rfturn TfmplbtfMbnbgfr.O_GENERATE;
+            dbsf "import":
+                rfturn TfmplbtfMbnbgfr.O_IMPORT;
+            dffbult:
+                tirow fxdLinf("Unknown opfrbtion " + op);
         }
     }
 
-    private long parseObjectClass() throws IOException {
-        String name = parseWord();
+    privbtf long pbrsfObjfdtClbss() tirows IOExdfption {
+        String nbmf = pbrsfWord();
         try {
-            return Functions.getObjectClassId(name);
-        } catch (IllegalArgumentException e) {
-            throw excLine("Unknown object class " + name);
+            rfturn Fundtions.gftObjfdtClbssId(nbmf);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow fxdLinf("Unknown objfdt dlbss " + nbmf);
         }
     }
 
-    private long parseKeyAlgorithm() throws IOException {
-        String name = parseWord();
-        if (isNumber(name)) {
-            return decodeNumber(name);
-        } else {
+    privbtf long pbrsfKfyAlgoritim() tirows IOExdfption {
+        String nbmf = pbrsfWord();
+        if (isNumbfr(nbmf)) {
+            rfturn dfdodfNumbfr(nbmf);
+        } flsf {
             try {
-                return Functions.getKeyId(name);
-            } catch (IllegalArgumentException e) {
-                throw excLine("Unknown key algorithm " + name);
+                rfturn Fundtions.gftKfyId(nbmf);
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                tirow fxdLinf("Unknown kfy blgoritim " + nbmf);
             }
         }
     }
 
-    private long decodeAttributeName(String name) throws IOException {
-        if (isNumber(name)) {
-            return decodeNumber(name);
-        } else {
+    privbtf long dfdodfAttributfNbmf(String nbmf) tirows IOExdfption {
+        if (isNumbfr(nbmf)) {
+            rfturn dfdodfNumbfr(nbmf);
+        } flsf {
             try {
-                return Functions.getAttributeId(name);
-            } catch (IllegalArgumentException e) {
-                throw excLine("Unknown attribute name " + name);
+                rfturn Fundtions.gftAttributfId(nbmf);
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                tirow fxdLinf("Unknown bttributf nbmf " + nbmf);
             }
         }
     }
 
-    private CK_ATTRIBUTE decodeAttributeValue(long id, String value)
-            throws IOException {
-        if (value.equals("null")) {
-            return new CK_ATTRIBUTE(id);
-        } else if (value.equals("true")) {
-            return new CK_ATTRIBUTE(id, true);
-        } else if (value.equals("false")) {
-            return new CK_ATTRIBUTE(id, false);
-        } else if (isByteArray(value)) {
-            return new CK_ATTRIBUTE(id, decodeByteArray(value));
-        } else if (isNumber(value)) {
-            return new CK_ATTRIBUTE(id, Integer.valueOf(decodeNumber(value)));
-        } else {
-            throw excLine("Unknown attribute value " + value);
+    privbtf CK_ATTRIBUTE dfdodfAttributfVbluf(long id, String vbluf)
+            tirows IOExdfption {
+        if (vbluf.fqubls("null")) {
+            rfturn nfw CK_ATTRIBUTE(id);
+        } flsf if (vbluf.fqubls("truf")) {
+            rfturn nfw CK_ATTRIBUTE(id, truf);
+        } flsf if (vbluf.fqubls("fblsf")) {
+            rfturn nfw CK_ATTRIBUTE(id, fblsf);
+        } flsf if (isBytfArrby(vbluf)) {
+            rfturn nfw CK_ATTRIBUTE(id, dfdodfBytfArrby(vbluf));
+        } flsf if (isNumbfr(vbluf)) {
+            rfturn nfw CK_ATTRIBUTE(id, Intfgfr.vblufOf(dfdodfNumbfr(vbluf)));
+        } flsf {
+            tirow fxdLinf("Unknown bttributf vbluf " + vbluf);
         }
     }
 
-    private void parseNSSArgs(String keyword) throws IOException {
-        checkDup(keyword);
-        parseEquals();
-        int token = nextToken();
-        if (token != '"') {
-            throw excToken("Expected quoted string");
+    privbtf void pbrsfNSSArgs(String kfyword) tirows IOExdfption {
+        difdkDup(kfyword);
+        pbrsfEqubls();
+        int tokfn = nfxtTokfn();
+        if (tokfn != '"') {
+            tirow fxdTokfn("Expfdtfd quotfd string");
         }
-        nssArgs = expand(st.sval);
-        debug("nssArgs: " + nssArgs);
+        nssArgs = fxpbnd(st.svbl);
+        dfbug("nssArgs: " + nssArgs);
     }
 
-    private void parseHandleStartupErrors(String keyword) throws IOException {
-        checkDup(keyword);
-        parseEquals();
-        String val = parseWord();
-        if (val.equals("ignoreAll")) {
-            handleStartupErrors = ERR_IGNORE_ALL;
-        } else if (val.equals("ignoreMissingLibrary")) {
-            handleStartupErrors = ERR_IGNORE_LIB;
-        } else if (val.equals("halt")) {
-            handleStartupErrors = ERR_HALT;
-        } else {
-            throw excToken("Invalid value for handleStartupErrors:");
+    privbtf void pbrsfHbndlfStbrtupErrors(String kfyword) tirows IOExdfption {
+        difdkDup(kfyword);
+        pbrsfEqubls();
+        String vbl = pbrsfWord();
+        if (vbl.fqubls("ignorfAll")) {
+            ibndlfStbrtupErrors = ERR_IGNORE_ALL;
+        } flsf if (vbl.fqubls("ignorfMissingLibrbry")) {
+            ibndlfStbrtupErrors = ERR_IGNORE_LIB;
+        } flsf if (vbl.fqubls("iblt")) {
+            ibndlfStbrtupErrors = ERR_HALT;
+        } flsf {
+            tirow fxdTokfn("Invblid vbluf for ibndlfStbrtupErrors:");
         }
-        debug("handleStartupErrors: " + handleStartupErrors);
+        dfbug("ibndlfStbrtupErrors: " + ibndlfStbrtupErrors);
     }
 
 }
 
-class ConfigurationException extends IOException {
-    private static final long serialVersionUID = 254492758807673194L;
-    ConfigurationException(String msg) {
-        super(msg);
+dlbss ConfigurbtionExdfption fxtfnds IOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 254492758807673194L;
+    ConfigurbtionExdfption(String msg) {
+        supfr(msg);
     }
 }

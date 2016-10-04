@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.tfxt.*;
+
+/**
+ * Vbluf for thf ListModfl usfd to rfprfsfnt
+ * &lt;option&gt; flfmfnts.  This is thf objfdt
+ * instbllfd bs itfms of thf DffbultComboBoxModfl
+ * usfd to rfprfsfnt thf &lt;sflfdt&gt; flfmfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor  Timothy Prinzing
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss Option implfmfnts Sfriblizbblf {
+
+    /**
+     * Crfbtfs b nfw Option objfdt.
+     *
+     * @pbrbm bttr thf bttributfs bssodibtfd with thf
+     *  option flfmfnt.  Thf bttributfs brf dopifd to
+     *  fnsurf thfy won't dhbngf.
+     */
+    publid Option(AttributfSft bttr) {
+        this.bttr = bttr.dopyAttributfs();
+        sflfdtfd = (bttr.gftAttributf(HTML.Attributf.SELECTED) != null);
+    }
+
+    /**
+     * Sfts thf lbbfl to bf usfd for thf option.
+     *
+     * @pbrbm lbbfl b lbbfl.
+     */
+    publid void sftLbbfl(String lbbfl) {
+        this.lbbfl = lbbfl;
+    }
+
+    /**
+     * Fftdh thf lbbfl bssodibtfd with thf option.
+     *
+     * @rfturn thf lbbfl bssodibtfd with thf option.
+     */
+    publid String gftLbbfl() {
+        rfturn lbbfl;
+    }
+
+    /**
+     * Fftdh thf bttributfs bssodibtfd with this option.
+     *
+     * @rfturn thf bttributfs bssodibtfd with this option.
+     */
+    publid AttributfSft gftAttributfs() {
+        rfturn bttr;
+    }
+
+    /**
+     * String rfprfsfntbtion is thf lbbfl.
+     */
+    publid String toString() {
+        rfturn lbbfl;
+    }
+
+    /**
+     * Sfts thf sflfdtfd stbtf.
+     *
+     * @pbrbm stbtf b sflfdtion stbtf
+     */
+    protfdtfd void sftSflfdtion(boolfbn stbtf) {
+        sflfdtfd = stbtf;
+    }
+
+    /**
+     * Fftdhfs thf sflfdtion stbtf bssodibtfd with this option.
+     *
+     * @rfturn thf sflfdtion stbtf.
+     */
+    publid boolfbn isSflfdtfd() {
+        rfturn sflfdtfd;
+    }
+
+    /**
+     * Convfnifnt mfthod to rfturn thf string bssodibtfd
+     * with thf {@dodf vbluf} bttributf. If thf
+     * {@dodf vbluf} hbs not bffn spfdififd, thf {@dodf lbbfl} will bf
+     * rfturnfd.
+     *
+     * @rfturn thf string bssodibtfd with thf {@dodf vbluf} bttributf,
+     * or {@dodf lbbfl} if thf vbluf hbs bffn not spfdififd.
+     */
+    publid String gftVbluf() {
+        String vbluf = (String) bttr.gftAttributf(HTML.Attributf.VALUE);
+        if (vbluf == null) {
+            vbluf = lbbfl;
+        }
+        rfturn vbluf;
+    }
+
+    privbtf boolfbn sflfdtfd;
+    privbtf String lbbfl;
+    privbtf AttributfSft bttr;
+}

@@ -1,362 +1,362 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 
 /**
- * Piped character-input streams.
+ * Pipfd dibrbdtfr-input strfbms.
  *
- * @author      Mark Reinhold
- * @since       1.1
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
  */
 
-public class PipedReader extends Reader {
-    boolean closedByWriter = false;
-    boolean closedByReader = false;
-    boolean connected = false;
+publid dlbss PipfdRfbdfr fxtfnds Rfbdfr {
+    boolfbn dlosfdByWritfr = fblsf;
+    boolfbn dlosfdByRfbdfr = fblsf;
+    boolfbn donnfdtfd = fblsf;
 
-    /* REMIND: identification of the read and write sides needs to be
-       more sophisticated.  Either using thread groups (but what about
-       pipes within a thread?) or using finalization (but it may be a
-       long time until the next GC). */
-    Thread readSide;
-    Thread writeSide;
+    /* REMIND: idfntifidbtion of tif rfbd bnd writf sidfs nffds to bf
+       morf sopiistidbtfd.  Eitifr using tirfbd groups (but wibt bbout
+       pipfs witiin b tirfbd?) or using finblizbtion (but it mby bf b
+       long timf until tif nfxt GC). */
+    Tirfbd rfbdSidf;
+    Tirfbd writfSidf;
 
    /**
-    * The size of the pipe's circular input buffer.
+    * Tif sizf of tif pipf's dirdulbr input bufffr.
     */
-    private static final int DEFAULT_PIPE_SIZE = 1024;
+    privbtf stbtid finbl int DEFAULT_PIPE_SIZE = 1024;
 
     /**
-     * The circular buffer into which incoming data is placed.
+     * Tif dirdulbr bufffr into wiidi indoming dbtb is plbdfd.
      */
-    char buffer[];
+    dibr bufffr[];
 
     /**
-     * The index of the position in the circular buffer at which the
-     * next character of data will be stored when received from the connected
-     * piped writer. <code>in&lt;0</code> implies the buffer is empty,
-     * <code>in==out</code> implies the buffer is full
+     * Tif indfx of tif position in tif dirdulbr bufffr bt wiidi tif
+     * nfxt dibrbdtfr of dbtb will bf storfd wifn rfdfivfd from tif donnfdtfd
+     * pipfd writfr. <dodf>in&lt;0</dodf> implifs tif bufffr is fmpty,
+     * <dodf>in==out</dodf> implifs tif bufffr is full
      */
     int in = -1;
 
     /**
-     * The index of the position in the circular buffer at which the next
-     * character of data will be read by this piped reader.
+     * Tif indfx of tif position in tif dirdulbr bufffr bt wiidi tif nfxt
+     * dibrbdtfr of dbtb will bf rfbd by tiis pipfd rfbdfr.
      */
     int out = 0;
 
     /**
-     * Creates a <code>PipedReader</code> so
-     * that it is connected to the piped writer
-     * <code>src</code>. Data written to <code>src</code>
-     * will then be available as input from this stream.
+     * Crfbtfs b <dodf>PipfdRfbdfr</dodf> so
+     * tibt it is donnfdtfd to tif pipfd writfr
+     * <dodf>srd</dodf>. Dbtb writtfn to <dodf>srd</dodf>
+     * will tifn bf bvbilbblf bs input from tiis strfbm.
      *
-     * @param      src   the stream to connect to.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      srd   tif strfbm to donnfdt to.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public PipedReader(PipedWriter src) throws IOException {
-        this(src, DEFAULT_PIPE_SIZE);
+    publid PipfdRfbdfr(PipfdWritfr srd) tirows IOExdfption {
+        tiis(srd, DEFAULT_PIPE_SIZE);
     }
 
     /**
-     * Creates a <code>PipedReader</code> so that it is connected
-     * to the piped writer <code>src</code> and uses the specified
-     * pipe size for the pipe's buffer. Data written to <code>src</code>
-     * will then be  available as input from this stream.
+     * Crfbtfs b <dodf>PipfdRfbdfr</dodf> so tibt it is donnfdtfd
+     * to tif pipfd writfr <dodf>srd</dodf> bnd usfs tif spfdififd
+     * pipf sizf for tif pipf's bufffr. Dbtb writtfn to <dodf>srd</dodf>
+     * will tifn bf  bvbilbblf bs input from tiis strfbm.
 
-     * @param      src       the stream to connect to.
-     * @param      pipeSize  the size of the pipe's buffer.
-     * @exception  IOException  if an I/O error occurs.
-     * @exception  IllegalArgumentException if {@code pipeSize <= 0}.
-     * @since      1.6
+     * @pbrbm      srd       tif strfbm to donnfdt to.
+     * @pbrbm      pipfSizf  tif sizf of tif pipf's bufffr.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IllfgblArgumfntExdfption if {@dodf pipfSizf <= 0}.
+     * @sindf      1.6
      */
-    public PipedReader(PipedWriter src, int pipeSize) throws IOException {
-        initPipe(pipeSize);
-        connect(src);
+    publid PipfdRfbdfr(PipfdWritfr srd, int pipfSizf) tirows IOExdfption {
+        initPipf(pipfSizf);
+        donnfdt(srd);
     }
 
 
     /**
-     * Creates a <code>PipedReader</code> so
-     * that it is not yet {@linkplain #connect(java.io.PipedWriter)
-     * connected}. It must be {@linkplain java.io.PipedWriter#connect(
-     * java.io.PipedReader) connected} to a <code>PipedWriter</code>
-     * before being used.
+     * Crfbtfs b <dodf>PipfdRfbdfr</dodf> so
+     * tibt it is not yft {@linkplbin #donnfdt(jbvb.io.PipfdWritfr)
+     * donnfdtfd}. It must bf {@linkplbin jbvb.io.PipfdWritfr#donnfdt(
+     * jbvb.io.PipfdRfbdfr) donnfdtfd} to b <dodf>PipfdWritfr</dodf>
+     * bfforf bfing usfd.
      */
-    public PipedReader() {
-        initPipe(DEFAULT_PIPE_SIZE);
+    publid PipfdRfbdfr() {
+        initPipf(DEFAULT_PIPE_SIZE);
     }
 
     /**
-     * Creates a <code>PipedReader</code> so that it is not yet
-     * {@link #connect(java.io.PipedWriter) connected} and uses
-     * the specified pipe size for the pipe's buffer.
-     * It must be  {@linkplain java.io.PipedWriter#connect(
-     * java.io.PipedReader) connected} to a <code>PipedWriter</code>
-     * before being used.
+     * Crfbtfs b <dodf>PipfdRfbdfr</dodf> so tibt it is not yft
+     * {@link #donnfdt(jbvb.io.PipfdWritfr) donnfdtfd} bnd usfs
+     * tif spfdififd pipf sizf for tif pipf's bufffr.
+     * It must bf  {@linkplbin jbvb.io.PipfdWritfr#donnfdt(
+     * jbvb.io.PipfdRfbdfr) donnfdtfd} to b <dodf>PipfdWritfr</dodf>
+     * bfforf bfing usfd.
      *
-     * @param   pipeSize the size of the pipe's buffer.
-     * @exception  IllegalArgumentException if {@code pipeSize <= 0}.
-     * @since      1.6
+     * @pbrbm   pipfSizf tif sizf of tif pipf's bufffr.
+     * @fxdfption  IllfgblArgumfntExdfption if {@dodf pipfSizf <= 0}.
+     * @sindf      1.6
      */
-    public PipedReader(int pipeSize) {
-        initPipe(pipeSize);
+    publid PipfdRfbdfr(int pipfSizf) {
+        initPipf(pipfSizf);
     }
 
-    private void initPipe(int pipeSize) {
-        if (pipeSize <= 0) {
-            throw new IllegalArgumentException("Pipe size <= 0");
+    privbtf void initPipf(int pipfSizf) {
+        if (pipfSizf <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Pipf sizf <= 0");
         }
-        buffer = new char[pipeSize];
+        bufffr = nfw dibr[pipfSizf];
     }
 
     /**
-     * Causes this piped reader to be connected
-     * to the piped  writer <code>src</code>.
-     * If this object is already connected to some
-     * other piped writer, an <code>IOException</code>
-     * is thrown.
+     * Cbusfs tiis pipfd rfbdfr to bf donnfdtfd
+     * to tif pipfd  writfr <dodf>srd</dodf>.
+     * If tiis objfdt is blrfbdy donnfdtfd to somf
+     * otifr pipfd writfr, bn <dodf>IOExdfption</dodf>
+     * is tirown.
      * <p>
-     * If <code>src</code> is an
-     * unconnected piped writer and <code>snk</code>
-     * is an unconnected piped reader, they
-     * may be connected by either the call:
+     * If <dodf>srd</dodf> is bn
+     * undonnfdtfd pipfd writfr bnd <dodf>snk</dodf>
+     * is bn undonnfdtfd pipfd rfbdfr, tify
+     * mby bf donnfdtfd by fitifr tif dbll:
      *
-     * <pre><code>snk.connect(src)</code> </pre>
+     * <prf><dodf>snk.donnfdt(srd)</dodf> </prf>
      * <p>
-     * or the call:
+     * or tif dbll:
      *
-     * <pre><code>src.connect(snk)</code> </pre>
+     * <prf><dodf>srd.donnfdt(snk)</dodf> </prf>
      * <p>
-     * The two calls have the same effect.
+     * Tif two dblls ibvf tif sbmf ffffdt.
      *
-     * @param      src   The piped writer to connect to.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      srd   Tif pipfd writfr to donnfdt to.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void connect(PipedWriter src) throws IOException {
-        src.connect(this);
+    publid void donnfdt(PipfdWritfr srd) tirows IOExdfption {
+        srd.donnfdt(tiis);
     }
 
     /**
-     * Receives a char of data. This method will block if no input is
-     * available.
+     * Rfdfivfs b dibr of dbtb. Tiis mftiod will blodk if no input is
+     * bvbilbblf.
      */
-    synchronized void receive(int c) throws IOException {
-        if (!connected) {
-            throw new IOException("Pipe not connected");
-        } else if (closedByWriter || closedByReader) {
-            throw new IOException("Pipe closed");
-        } else if (readSide != null && !readSide.isAlive()) {
-            throw new IOException("Read end dead");
+    syndironizfd void rfdfivf(int d) tirows IOExdfption {
+        if (!donnfdtfd) {
+            tirow nfw IOExdfption("Pipf not donnfdtfd");
+        } flsf if (dlosfdByWritfr || dlosfdByRfbdfr) {
+            tirow nfw IOExdfption("Pipf dlosfd");
+        } flsf if (rfbdSidf != null && !rfbdSidf.isAlivf()) {
+            tirow nfw IOExdfption("Rfbd fnd dfbd");
         }
 
-        writeSide = Thread.currentThread();
-        while (in == out) {
-            if ((readSide != null) && !readSide.isAlive()) {
-                throw new IOException("Pipe broken");
+        writfSidf = Tirfbd.durrfntTirfbd();
+        wiilf (in == out) {
+            if ((rfbdSidf != null) && !rfbdSidf.isAlivf()) {
+                tirow nfw IOExdfption("Pipf brokfn");
             }
-            /* full: kick any waiting readers */
+            /* full: kidk bny wbiting rfbdfrs */
             notifyAll();
             try {
-                wait(1000);
-            } catch (InterruptedException ex) {
-                throw new java.io.InterruptedIOException();
+                wbit(1000);
+            } dbtdi (IntfrruptfdExdfption fx) {
+                tirow nfw jbvb.io.IntfrruptfdIOExdfption();
             }
         }
         if (in < 0) {
             in = 0;
             out = 0;
         }
-        buffer[in++] = (char) c;
-        if (in >= buffer.length) {
+        bufffr[in++] = (dibr) d;
+        if (in >= bufffr.lfngti) {
             in = 0;
         }
     }
 
     /**
-     * Receives data into an array of characters.  This method will
-     * block until some input is available.
+     * Rfdfivfs dbtb into bn brrby of dibrbdtfrs.  Tiis mftiod will
+     * blodk until somf input is bvbilbblf.
      */
-    synchronized void receive(char c[], int off, int len)  throws IOException {
-        while (--len >= 0) {
-            receive(c[off++]);
+    syndironizfd void rfdfivf(dibr d[], int off, int lfn)  tirows IOExdfption {
+        wiilf (--lfn >= 0) {
+            rfdfivf(d[off++]);
         }
     }
 
     /**
-     * Notifies all waiting threads that the last character of data has been
-     * received.
+     * Notififs bll wbiting tirfbds tibt tif lbst dibrbdtfr of dbtb ibs bffn
+     * rfdfivfd.
      */
-    synchronized void receivedLast() {
-        closedByWriter = true;
+    syndironizfd void rfdfivfdLbst() {
+        dlosfdByWritfr = truf;
         notifyAll();
     }
 
     /**
-     * Reads the next character of data from this piped stream.
-     * If no character is available because the end of the stream
-     * has been reached, the value <code>-1</code> is returned.
-     * This method blocks until input data is available, the end of
-     * the stream is detected, or an exception is thrown.
+     * Rfbds tif nfxt dibrbdtfr of dbtb from tiis pipfd strfbm.
+     * If no dibrbdtfr is bvbilbblf bfdbusf tif fnd of tif strfbm
+     * ibs bffn rfbdifd, tif vbluf <dodf>-1</dodf> is rfturnfd.
+     * Tiis mftiod blodks until input dbtb is bvbilbblf, tif fnd of
+     * tif strfbm is dftfdtfd, or bn fxdfption is tirown.
      *
-     * @return     the next character of data, or <code>-1</code> if the end of the
-     *             stream is reached.
-     * @exception  IOException  if the pipe is
-     *          <a href=PipedInputStream.html#BROKEN> <code>broken</code></a>,
-     *          {@link #connect(java.io.PipedWriter) unconnected}, closed,
-     *          or an I/O error occurs.
+     * @rfturn     tif nfxt dibrbdtfr of dbtb, or <dodf>-1</dodf> if tif fnd of tif
+     *             strfbm is rfbdifd.
+     * @fxdfption  IOExdfption  if tif pipf is
+     *          <b irff=PipfdInputStrfbm.itml#BROKEN> <dodf>brokfn</dodf></b>,
+     *          {@link #donnfdt(jbvb.io.PipfdWritfr) undonnfdtfd}, dlosfd,
+     *          or bn I/O frror oddurs.
      */
-    public synchronized int read()  throws IOException {
-        if (!connected) {
-            throw new IOException("Pipe not connected");
-        } else if (closedByReader) {
-            throw new IOException("Pipe closed");
-        } else if (writeSide != null && !writeSide.isAlive()
-                   && !closedByWriter && (in < 0)) {
-            throw new IOException("Write end dead");
+    publid syndironizfd int rfbd()  tirows IOExdfption {
+        if (!donnfdtfd) {
+            tirow nfw IOExdfption("Pipf not donnfdtfd");
+        } flsf if (dlosfdByRfbdfr) {
+            tirow nfw IOExdfption("Pipf dlosfd");
+        } flsf if (writfSidf != null && !writfSidf.isAlivf()
+                   && !dlosfdByWritfr && (in < 0)) {
+            tirow nfw IOExdfption("Writf fnd dfbd");
         }
 
-        readSide = Thread.currentThread();
-        int trials = 2;
-        while (in < 0) {
-            if (closedByWriter) {
-                /* closed by writer, return EOF */
-                return -1;
+        rfbdSidf = Tirfbd.durrfntTirfbd();
+        int tribls = 2;
+        wiilf (in < 0) {
+            if (dlosfdByWritfr) {
+                /* dlosfd by writfr, rfturn EOF */
+                rfturn -1;
             }
-            if ((writeSide != null) && (!writeSide.isAlive()) && (--trials < 0)) {
-                throw new IOException("Pipe broken");
+            if ((writfSidf != null) && (!writfSidf.isAlivf()) && (--tribls < 0)) {
+                tirow nfw IOExdfption("Pipf brokfn");
             }
-            /* might be a writer waiting */
+            /* migit bf b writfr wbiting */
             notifyAll();
             try {
-                wait(1000);
-            } catch (InterruptedException ex) {
-                throw new java.io.InterruptedIOException();
+                wbit(1000);
+            } dbtdi (IntfrruptfdExdfption fx) {
+                tirow nfw jbvb.io.IntfrruptfdIOExdfption();
             }
         }
-        int ret = buffer[out++];
-        if (out >= buffer.length) {
+        int rft = bufffr[out++];
+        if (out >= bufffr.lfngti) {
             out = 0;
         }
         if (in == out) {
-            /* now empty */
+            /* now fmpty */
             in = -1;
         }
-        return ret;
+        rfturn rft;
     }
 
     /**
-     * Reads up to <code>len</code> characters of data from this piped
-     * stream into an array of characters. Less than <code>len</code> characters
-     * will be read if the end of the data stream is reached or if
-     * <code>len</code> exceeds the pipe's buffer size. This method
-     * blocks until at least one character of input is available.
+     * Rfbds up to <dodf>lfn</dodf> dibrbdtfrs of dbtb from tiis pipfd
+     * strfbm into bn brrby of dibrbdtfrs. Lfss tibn <dodf>lfn</dodf> dibrbdtfrs
+     * will bf rfbd if tif fnd of tif dbtb strfbm is rfbdifd or if
+     * <dodf>lfn</dodf> fxdffds tif pipf's bufffr sizf. Tiis mftiod
+     * blodks until bt lfbst onf dibrbdtfr of input is bvbilbblf.
      *
-     * @param      cbuf     the buffer into which the data is read.
-     * @param      off   the start offset of the data.
-     * @param      len   the maximum number of characters read.
-     * @return     the total number of characters read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end of
-     *             the stream has been reached.
-     * @exception  IOException  if the pipe is
-     *                  <a href=PipedInputStream.html#BROKEN> <code>broken</code></a>,
-     *                  {@link #connect(java.io.PipedWriter) unconnected}, closed,
-     *                  or an I/O error occurs.
+     * @pbrbm      dbuf     tif bufffr into wiidi tif dbtb is rfbd.
+     * @pbrbm      off   tif stbrt offsft of tif dbtb.
+     * @pbrbm      lfn   tif mbximum numbfr of dibrbdtfrs rfbd.
+     * @rfturn     tif totbl numbfr of dibrbdtfrs rfbd into tif bufffr, or
+     *             <dodf>-1</dodf> if tifrf is no morf dbtb bfdbusf tif fnd of
+     *             tif strfbm ibs bffn rfbdifd.
+     * @fxdfption  IOExdfption  if tif pipf is
+     *                  <b irff=PipfdInputStrfbm.itml#BROKEN> <dodf>brokfn</dodf></b>,
+     *                  {@link #donnfdt(jbvb.io.PipfdWritfr) undonnfdtfd}, dlosfd,
+     *                  or bn I/O frror oddurs.
      */
-    public synchronized int read(char cbuf[], int off, int len)  throws IOException {
-        if (!connected) {
-            throw new IOException("Pipe not connected");
-        } else if (closedByReader) {
-            throw new IOException("Pipe closed");
-        } else if (writeSide != null && !writeSide.isAlive()
-                   && !closedByWriter && (in < 0)) {
-            throw new IOException("Write end dead");
+    publid syndironizfd int rfbd(dibr dbuf[], int off, int lfn)  tirows IOExdfption {
+        if (!donnfdtfd) {
+            tirow nfw IOExdfption("Pipf not donnfdtfd");
+        } flsf if (dlosfdByRfbdfr) {
+            tirow nfw IOExdfption("Pipf dlosfd");
+        } flsf if (writfSidf != null && !writfSidf.isAlivf()
+                   && !dlosfdByWritfr && (in < 0)) {
+            tirow nfw IOExdfption("Writf fnd dfbd");
         }
 
-        if ((off < 0) || (off > cbuf.length) || (len < 0) ||
-            ((off + len) > cbuf.length) || ((off + len) < 0)) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return 0;
+        if ((off < 0) || (off > dbuf.lfngti) || (lfn < 0) ||
+            ((off + lfn) > dbuf.lfngti) || ((off + lfn) < 0)) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn 0;
         }
 
-        /* possibly wait on the first character */
-        int c = read();
-        if (c < 0) {
-            return -1;
+        /* possibly wbit on tif first dibrbdtfr */
+        int d = rfbd();
+        if (d < 0) {
+            rfturn -1;
         }
-        cbuf[off] =  (char)c;
-        int rlen = 1;
-        while ((in >= 0) && (--len > 0)) {
-            cbuf[off + rlen] = buffer[out++];
-            rlen++;
-            if (out >= buffer.length) {
+        dbuf[off] =  (dibr)d;
+        int rlfn = 1;
+        wiilf ((in >= 0) && (--lfn > 0)) {
+            dbuf[off + rlfn] = bufffr[out++];
+            rlfn++;
+            if (out >= bufffr.lfngti) {
                 out = 0;
             }
             if (in == out) {
-                /* now empty */
+                /* now fmpty */
                 in = -1;
             }
         }
-        return rlen;
+        rfturn rlfn;
     }
 
     /**
-     * Tell whether this stream is ready to be read.  A piped character
-     * stream is ready if the circular buffer is not empty.
+     * Tfll wiftifr tiis strfbm is rfbdy to bf rfbd.  A pipfd dibrbdtfr
+     * strfbm is rfbdy if tif dirdulbr bufffr is not fmpty.
      *
-     * @exception  IOException  if the pipe is
-     *                  <a href=PipedInputStream.html#BROKEN> <code>broken</code></a>,
-     *                  {@link #connect(java.io.PipedWriter) unconnected}, or closed.
+     * @fxdfption  IOExdfption  if tif pipf is
+     *                  <b irff=PipfdInputStrfbm.itml#BROKEN> <dodf>brokfn</dodf></b>,
+     *                  {@link #donnfdt(jbvb.io.PipfdWritfr) undonnfdtfd}, or dlosfd.
      */
-    public synchronized boolean ready() throws IOException {
-        if (!connected) {
-            throw new IOException("Pipe not connected");
-        } else if (closedByReader) {
-            throw new IOException("Pipe closed");
-        } else if (writeSide != null && !writeSide.isAlive()
-                   && !closedByWriter && (in < 0)) {
-            throw new IOException("Write end dead");
+    publid syndironizfd boolfbn rfbdy() tirows IOExdfption {
+        if (!donnfdtfd) {
+            tirow nfw IOExdfption("Pipf not donnfdtfd");
+        } flsf if (dlosfdByRfbdfr) {
+            tirow nfw IOExdfption("Pipf dlosfd");
+        } flsf if (writfSidf != null && !writfSidf.isAlivf()
+                   && !dlosfdByWritfr && (in < 0)) {
+            tirow nfw IOExdfption("Writf fnd dfbd");
         }
         if (in < 0) {
-            return false;
-        } else {
-            return true;
+            rfturn fblsf;
+        } flsf {
+            rfturn truf;
         }
     }
 
     /**
-     * Closes this piped stream and releases any system resources
-     * associated with the stream.
+     * Closfs tiis pipfd strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd witi tif strfbm.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void close()  throws IOException {
+    publid void dlosf()  tirows IOExdfption {
         in = -1;
-        closedByReader = true;
+        dlosfdByRfbdfr = truf;
     }
 }

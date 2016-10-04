@@ -1,0 +1,154 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.ProvidfrExdfption;
+import jbvb.sfdurity.AlgorithmPbrbmftfrs;
+import jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvb.sfdurity.intfrfbdfs.DSAPbrbms;
+
+import sun.sfdurity.x509.X509Kfy;
+import sun.sfdurity.x509.AlgIdDSA;
+import sun.sfdurity.util.BitArrby;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+
+/**
+ * An X.509 publid kfy for thf Digitbl Signbturf Algorithm.
+ *
+ * @buthor Bfnjbmin Rfnbud
+ *
+ *
+ * @sff DSAPrivbtfKfy
+ * @sff AlgIdDSA
+ * @sff DSA
+ */
+
+publid dlbss DSAPublidKfy fxtfnds X509Kfy
+implfmfnts jbvb.sfdurity.intfrfbdfs.DSAPublidKfy, Sfriblizbblf {
+
+    /** usf sfriblVfrsionUID from JDK 1.1. for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -2994193307391104133L;
+
+    /* thf publid kfy */
+    privbtf BigIntfgfr y;
+
+    /*
+     * Kffp this donstrudtor for bbdkwbrds dompbtibility with JDK1.1.
+     */
+    publid DSAPublidKfy() {
+    }
+
+    /**
+     * Mbkf b DSA publid kfy out of b publid kfy bnd thrff pbrbmftfrs.
+     * Thf p, q, bnd g pbrbmftfrs mby bf null, but if so, pbrbmftfrs will nffd
+     * to bf supplifd from somf othfr sourdf bfforf this kfy dbn bf usfd in
+     * dryptogrbphid opfrbtions.  PKIX RFC2459bis fxpliditly bllows DSA publid
+     * kfys without pbrbmftfrs, whfrf thf pbrbmftfrs brf providfd in thf
+     * issufr's DSA publid kfy.
+     *
+     * @pbrbm y thf bdtubl kfy bits
+     * @pbrbm p DSA pbrbmftfr p, mby bf null if bll of p, q, bnd g brf null.
+     * @pbrbm q DSA pbrbmftfr q, mby bf null if bll of p, q, bnd g brf null.
+     * @pbrbm g DSA pbrbmftfr g, mby bf null if bll of p, q, bnd g brf null.
+     */
+    publid DSAPublidKfy(BigIntfgfr y, BigIntfgfr p, BigIntfgfr q,
+                        BigIntfgfr g)
+    throws InvblidKfyExdfption {
+        this.y = y;
+        blgid = nfw AlgIdDSA(p, q, g);
+
+        try {
+            bytf[] kfyArrby = nfw DfrVbluf(DfrVbluf.tbg_Intfgfr,
+                               y.toBytfArrby()).toBytfArrby();
+            sftKfy(nfw BitArrby(kfyArrby.lfngth*8, kfyArrby));
+            fndodf();
+        } dbtdh (IOExdfption f) {
+            throw nfw InvblidKfyExdfption("dould not DER fndodf y: " +
+                                          f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Mbkf b DSA publid kfy from its DER fndoding (X.509).
+     */
+    publid DSAPublidKfy(bytf[] fndodfd) throws InvblidKfyExdfption {
+        dfdodf(fndodfd);
+    }
+
+    /**
+     * Rfturns thf DSA pbrbmftfrs bssodibtfd with this kfy, or null if thf
+     * pbrbmftfrs dould not bf pbrsfd.
+     */
+    publid DSAPbrbms gftPbrbms() {
+        try {
+            if (blgid instbndfof DSAPbrbms) {
+                rfturn (DSAPbrbms)blgid;
+            } flsf {
+                DSAPbrbmftfrSpfd pbrbmSpfd;
+                AlgorithmPbrbmftfrs blgPbrbms = blgid.gftPbrbmftfrs();
+                if (blgPbrbms == null) {
+                    rfturn null;
+                }
+                pbrbmSpfd = blgPbrbms.gftPbrbmftfrSpfd(DSAPbrbmftfrSpfd.dlbss);
+                rfturn (DSAPbrbms)pbrbmSpfd;
+            }
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption f) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gft thf rbw publid vbluf, y, without thf pbrbmftfrs.
+     *
+     * @sff gftPbrbmftfrs
+     */
+    publid BigIntfgfr gftY() {
+        rfturn y;
+    }
+
+    publid String toString() {
+        rfturn "Sun DSA Publid Kfy\n    Pbrbmftfrs:" + blgid
+            + "\n  y:\n" + Dfbug.toHfxString(y) + "\n";
+    }
+
+    protfdtfd void pbrsfKfyBits() throws InvblidKfyExdfption {
+        try {
+            DfrInputStrfbm in = nfw DfrInputStrfbm(gftKfy().toBytfArrby());
+            y = in.gftBigIntfgfr();
+        } dbtdh (IOExdfption f) {
+            throw nfw InvblidKfyExdfption("Invblid kfy: y vbluf\n" +
+                                          f.gftMfssbgf());
+        }
+    }
+}

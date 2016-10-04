@@ -1,0 +1,559 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphDffinitionTbblfs.h"
+#indludf "GlyphPositionAdjustmfnts.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "Lookups.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+GlyphItfrbtor::GlyphItfrbtor(LEGlyphStorbgf &thfGlyphStorbgf, GlyphPositionAdjustmfnts *thfGlyphPositionAdjustmfnts, lf_bool rightToLfft, lf_uint16 thfLookupFlbgs,
+                             FfbturfMbsk thfFfbturfMbsk, donst LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr> &thfGlyphDffinitionTbblfHfbdfr, LEErrorCodf &suddfss)
+  : dirfdtion(1), position(-1), nfxtLimit(-1), prfvLimit(-1),
+    glyphStorbgf(thfGlyphStorbgf), glyphPositionAdjustmfnts(thfGlyphPositionAdjustmfnts),
+    srdIndfx(-1), dfstIndfx(-1), lookupFlbgs(thfLookupFlbgs), ffbturfMbsk(thfFfbturfMbsk), glyphGroup(0),
+    glyphClbssDffinitionTbblf(), mbrkAttbdhClbssDffinitionTbblf()
+
+{
+    lf_int32 glyphCount = glyphStorbgf.gftGlyphCount();
+
+    if (thfGlyphDffinitionTbblfHfbdfr.isVblid()) {
+      glyphClbssDffinitionTbblf = thfGlyphDffinitionTbblfHfbdfr
+        -> gftGlyphClbssDffinitionTbblf(thfGlyphDffinitionTbblfHfbdfr, suddfss);
+      mbrkAttbdhClbssDffinitionTbblf = thfGlyphDffinitionTbblfHfbdfr
+        ->gftMbrkAttbdhClbssDffinitionTbblf(thfGlyphDffinitionTbblfHfbdfr, suddfss);
+    }
+
+    nfxtLimit = glyphCount;
+
+    if (rightToLfft) {
+        dirfdtion = -1;
+        position = glyphCount;
+        nfxtLimit = -1;
+        prfvLimit = glyphCount;
+    }
+    filtfrRfsftCbdhf();
+}
+
+GlyphItfrbtor::GlyphItfrbtor(GlyphItfrbtor &thbt)
+  : glyphStorbgf(thbt.glyphStorbgf)
+{
+    dirfdtion    = thbt.dirfdtion;
+    position     = thbt.position;
+    nfxtLimit    = thbt.nfxtLimit;
+    prfvLimit    = thbt.prfvLimit;
+
+    glyphPositionAdjustmfnts = thbt.glyphPositionAdjustmfnts;
+    srdIndfx = thbt.srdIndfx;
+    dfstIndfx = thbt.dfstIndfx;
+    lookupFlbgs = thbt.lookupFlbgs;
+    ffbturfMbsk = thbt.ffbturfMbsk;
+    glyphGroup  = thbt.glyphGroup;
+    glyphClbssDffinitionTbblf = thbt.glyphClbssDffinitionTbblf;
+    mbrkAttbdhClbssDffinitionTbblf = thbt.mbrkAttbdhClbssDffinitionTbblf;
+    filtfrRfsftCbdhf();
+}
+
+GlyphItfrbtor::GlyphItfrbtor(GlyphItfrbtor &thbt, FfbturfMbsk nfwFfbturfMbsk)
+  : glyphStorbgf(thbt.glyphStorbgf)
+{
+    dirfdtion    = thbt.dirfdtion;
+    position     = thbt.position;
+    nfxtLimit    = thbt.nfxtLimit;
+    prfvLimit    = thbt.prfvLimit;
+
+    glyphPositionAdjustmfnts = thbt.glyphPositionAdjustmfnts;
+    srdIndfx = thbt.srdIndfx;
+    dfstIndfx = thbt.dfstIndfx;
+    lookupFlbgs = thbt.lookupFlbgs;
+    ffbturfMbsk = nfwFfbturfMbsk;
+    glyphGroup  = 0;
+    glyphClbssDffinitionTbblf = thbt.glyphClbssDffinitionTbblf;
+    mbrkAttbdhClbssDffinitionTbblf = thbt.mbrkAttbdhClbssDffinitionTbblf;
+    filtfrRfsftCbdhf();
+}
+
+GlyphItfrbtor::GlyphItfrbtor(GlyphItfrbtor &thbt, lf_uint16 nfwLookupFlbgs)
+  : glyphStorbgf(thbt.glyphStorbgf)
+{
+    dirfdtion    = thbt.dirfdtion;
+    position     = thbt.position;
+    nfxtLimit    = thbt.nfxtLimit;
+    prfvLimit    = thbt.prfvLimit;
+
+    glyphPositionAdjustmfnts = thbt.glyphPositionAdjustmfnts;
+    srdIndfx = thbt.srdIndfx;
+    dfstIndfx = thbt.dfstIndfx;
+    lookupFlbgs = nfwLookupFlbgs;
+    ffbturfMbsk = thbt.ffbturfMbsk;
+    glyphGroup  = thbt.glyphGroup;
+    glyphClbssDffinitionTbblf = thbt.glyphClbssDffinitionTbblf;
+    mbrkAttbdhClbssDffinitionTbblf = thbt.mbrkAttbdhClbssDffinitionTbblf;
+    filtfrRfsftCbdhf();
+}
+
+GlyphItfrbtor::~GlyphItfrbtor()
+{
+    // nothing to do, right?
+}
+
+void GlyphItfrbtor::rfsft(lf_uint16 nfwLookupFlbgs, FfbturfMbsk nfwFfbturfMbsk)
+{
+    position     = prfvLimit;
+    ffbturfMbsk  = nfwFfbturfMbsk;
+    glyphGroup   = 0;
+    lookupFlbgs  = nfwLookupFlbgs;
+    filtfrRfsftCbdhf();
+}
+
+LEGlyphID *GlyphItfrbtor::insfrtGlyphs(lf_int32 dount, LEErrorCodf& suddfss)
+{
+    rfturn glyphStorbgf.insfrtGlyphs(position, dount, suddfss);
+}
+
+lf_int32 GlyphItfrbtor::bpplyInsfrtions()
+{
+    lf_int32 nfwGlyphCount = glyphStorbgf.bpplyInsfrtions();
+
+    if (dirfdtion < 0) {
+        prfvLimit = nfwGlyphCount;
+    } flsf {
+        nfxtLimit = nfwGlyphCount;
+    }
+
+    rfturn nfwGlyphCount;
+}
+
+lf_int32 GlyphItfrbtor::gftCurrStrfbmPosition() donst
+{
+    rfturn position;
+}
+
+lf_bool GlyphItfrbtor::isRightToLfft() donst
+{
+    rfturn dirfdtion < 0;
+}
+
+lf_bool GlyphItfrbtor::ignorfsMbrks() donst
+{
+    rfturn (lookupFlbgs & lfIgnorfMbrks) != 0;
+}
+
+lf_bool GlyphItfrbtor::bbsflinfIsLogidblEnd() donst
+{
+    rfturn (lookupFlbgs & lfBbsflinfIsLogidblEnd) != 0;
+}
+
+LEGlyphID GlyphItfrbtor::gftCurrGlyphID() donst
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn 0xFFFF;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn 0xFFFF;
+        }
+    }
+
+    rfturn glyphStorbgf[position];
+}
+
+void GlyphItfrbtor::gftCursivfEntryPoint(LEPoint &fntryPoint) donst
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
+
+    glyphPositionAdjustmfnts->gftEntryPoint(position, fntryPoint);
+}
+
+void GlyphItfrbtor::gftCursivfExitPoint(LEPoint &fxitPoint) donst
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
+
+    glyphPositionAdjustmfnts->gftExitPoint(position, fxitPoint);
+}
+
+void GlyphItfrbtor::sftCurrGlyphID(TTGlyphID glyphID)
+{
+    LEGlyphID glyph = glyphStorbgf[position];
+
+    glyphStorbgf[position] = LE_SET_GLYPH(glyph, glyphID);
+}
+
+void GlyphItfrbtor::sftCurrStrfbmPosition(lf_int32 nfwPosition)
+{
+    if (dirfdtion < 0) {
+        if (nfwPosition >= prfvLimit) {
+            position = prfvLimit;
+            rfturn;
+        }
+
+        if (nfwPosition <= nfxtLimit) {
+            position = nfxtLimit;
+            rfturn;
+        }
+    } flsf {
+        if (nfwPosition <= prfvLimit) {
+            position = prfvLimit;
+            rfturn;
+        }
+
+        if (nfwPosition >= nfxtLimit) {
+            position = nfxtLimit;
+            rfturn;
+        }
+    }
+
+    position = nfwPosition - dirfdtion;
+    nfxt();
+}
+
+void GlyphItfrbtor::sftCurrGlyphBbsfOffsft(lf_int32 bbsfOffsft)
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
+
+    glyphPositionAdjustmfnts->sftBbsfOffsft(position, bbsfOffsft);
+}
+
+void GlyphItfrbtor::bdjustCurrGlyphPositionAdjustmfnt(flobt xPlbdfmfntAdjust, flobt yPlbdfmfntAdjust,
+                                                      flobt xAdvbndfAdjust, flobt yAdvbndfAdjust)
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
+
+    glyphPositionAdjustmfnts->bdjustXPlbdfmfnt(position, xPlbdfmfntAdjust);
+    glyphPositionAdjustmfnts->bdjustYPlbdfmfnt(position, yPlbdfmfntAdjust);
+    glyphPositionAdjustmfnts->bdjustXAdvbndf(position, xAdvbndfAdjust);
+    glyphPositionAdjustmfnts->bdjustYAdvbndf(position, yAdvbndfAdjust);
+}
+
+void GlyphItfrbtor::sftCurrGlyphPositionAdjustmfnt(flobt xPlbdfmfntAdjust, flobt yPlbdfmfntAdjust,
+                                                      flobt xAdvbndfAdjust, flobt yAdvbndfAdjust)
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
+
+    glyphPositionAdjustmfnts->sftXPlbdfmfnt(position, xPlbdfmfntAdjust);
+    glyphPositionAdjustmfnts->sftYPlbdfmfnt(position, yPlbdfmfntAdjust);
+    glyphPositionAdjustmfnts->sftXAdvbndf(position, xAdvbndfAdjust);
+    glyphPositionAdjustmfnts->sftYAdvbndf(position, yAdvbndfAdjust);
+}
+
+void GlyphItfrbtor::dlfbrCursivfEntryPoint()
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
+
+    glyphPositionAdjustmfnts->dlfbrEntryPoint(position);
+}
+
+void GlyphItfrbtor::dlfbrCursivfExitPoint()
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
+
+    glyphPositionAdjustmfnts->dlfbrExitPoint(position);
+}
+
+void GlyphItfrbtor::sftCursivfEntryPoint(LEPoint &fntryPoint)
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
+
+    glyphPositionAdjustmfnts->sftEntryPoint(position, fntryPoint, bbsflinfIsLogidblEnd());
+}
+
+void GlyphItfrbtor::sftCursivfExitPoint(LEPoint &fxitPoint)
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
+
+    glyphPositionAdjustmfnts->sftExitPoint(position, fxitPoint, bbsflinfIsLogidblEnd());
+}
+
+void GlyphItfrbtor::sftCursivfGlyph()
+{
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
+        }
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
+
+    glyphPositionAdjustmfnts->sftCursivfGlyph(position, bbsflinfIsLogidblEnd());
+}
+
+void GlyphItfrbtor::filtfrRfsftCbdhf(void) {
+  filtfrCbdhfVblid = FALSE;
+}
+
+lf_bool GlyphItfrbtor::filtfrGlyph(lf_uint32 indfx)
+{
+    LEGlyphID glyphID = glyphStorbgf[indfx];
+
+    if (!filtfrCbdhfVblid || filtfrCbdhf.id != glyphID) {
+      filtfrCbdhf.id = glyphID;
+
+      lf_bool &filtfrRfsult = filtfrCbdhf.rfsult;  // NB: Mbking this b rfffrfndf to bddfpt thf updbtfd vbluf, in dbsf
+                                               // wf wbnt morf fbndy dbdhfing in thf futurf.
+      if (LE_GET_GLYPH(glyphID) >= 0xFFFE) {
+        filtfrRfsult = TRUE;
+      } flsf {
+        LEErrorCodf suddfss = LE_NO_ERROR;
+        lf_int32 glyphClbss = gddNoGlyphClbss;
+        if (glyphClbssDffinitionTbblf.isVblid()) {
+          glyphClbss = glyphClbssDffinitionTbblf->gftGlyphClbss(glyphClbssDffinitionTbblf, glyphID, suddfss);
+        }
+        switdh (glyphClbss) {
+        dbsf gddNoGlyphClbss:
+          filtfrRfsult = FALSE;
+          brfbk;
+
+        dbsf gddSimplfGlyph:
+          filtfrRfsult = (lookupFlbgs & lfIgnorfBbsfGlyphs) != 0;
+          brfbk;
+
+        dbsf gddLigbturfGlyph:
+          filtfrRfsult = (lookupFlbgs & lfIgnorfLigbturfs) != 0;
+          brfbk;
+
+        dbsf gddMbrkGlyph:
+          if ((lookupFlbgs & lfIgnorfMbrks) != 0) {
+            filtfrRfsult = TRUE;
+          } flsf {
+            lf_uint16 mbrkAttbdhTypf = (lookupFlbgs & lfMbrkAttbdhTypfMbsk) >> lfMbrkAttbdhTypfShift;
+
+            if ((mbrkAttbdhTypf != 0) && (mbrkAttbdhClbssDffinitionTbblf.isVblid())) {
+              filtfrRfsult = (mbrkAttbdhClbssDffinitionTbblf
+                          -> gftGlyphClbss(mbrkAttbdhClbssDffinitionTbblf, glyphID, suddfss) != mbrkAttbdhTypf);
+            } flsf {
+              filtfrRfsult = FALSE;
+            }
+          }
+          brfbk;
+
+        dbsf gddComponfntGlyph:
+          filtfrRfsult = ((lookupFlbgs & lfIgnorfBbsfGlyphs) != 0);
+          brfbk;
+
+        dffbult:
+          filtfrRfsult = FALSE;
+          brfbk;
+        }
+      }
+      filtfrCbdhfVblid = TRUE;
+    }
+
+    rfturn filtfrCbdhf.rfsult;
+}
+
+lf_bool GlyphItfrbtor::hbsFfbturfTbg(lf_bool mbtdhGroup) donst
+{
+    if (ffbturfMbsk == 0) {
+        rfturn TRUE;
+    }
+
+    LEErrorCodf suddfss = LE_NO_ERROR;
+    FfbturfMbsk fm = glyphStorbgf.gftAuxDbtb(position, suddfss);
+
+    rfturn ((fm & ffbturfMbsk) == ffbturfMbsk) && (!mbtdhGroup || (lf_int32)(fm & LE_GLYPH_GROUP_MASK) == glyphGroup);
+}
+
+lf_bool GlyphItfrbtor::findFfbturfTbg()
+{
+  //glyphGroup = 0;
+
+    whilf (nfxtIntfrnbl()) {
+        if (hbsFfbturfTbg(FALSE)) {
+            LEErrorCodf suddfss = LE_NO_ERROR;
+
+            glyphGroup = (glyphStorbgf.gftAuxDbtb(position, suddfss) & LE_GLYPH_GROUP_MASK);
+            rfturn TRUE;
+        }
+    }
+
+    rfturn FALSE;
+}
+
+
+lf_bool GlyphItfrbtor::nfxtIntfrnbl(lf_uint32 dfltb)
+{
+    lf_int32 nfwPosition = position;
+
+    whilf (nfwPosition != nfxtLimit && dfltb > 0) {
+        do {
+            nfwPosition += dirfdtion;
+            //fprintf(stdfrr,"%s:%d:%s: nfwPosition = %d, dfltb = %d\n", __FILE__, __LINE__, __FUNCTION__, nfwPosition, dfltb);
+        } whilf (nfwPosition != nfxtLimit && filtfrGlyph(nfwPosition));
+
+        dfltb -= 1;
+    }
+
+    position = nfwPosition;
+
+    //fprintf(stdfrr,"%s:%d:%s: fxit position = %d, dfltb = %d\n", __FILE__, __LINE__, __FUNCTION__, position, dfltb);
+    rfturn position != nfxtLimit;
+}
+
+lf_bool GlyphItfrbtor::nfxt(lf_uint32 dfltb)
+{
+    rfturn nfxtIntfrnbl(dfltb) && hbsFfbturfTbg(TRUE);
+}
+
+lf_bool GlyphItfrbtor::prfvIntfrnbl(lf_uint32 dfltb)
+{
+    lf_int32 nfwPosition = position;
+
+    whilf (nfwPosition != prfvLimit && dfltb > 0) {
+        do {
+            nfwPosition -= dirfdtion;
+            //fprintf(stdfrr,"%s:%d:%s: nfwPosition = %d, dfltb = %d\n", __FILE__, __LINE__, __FUNCTION__, nfwPosition, dfltb);
+        } whilf (nfwPosition != prfvLimit && filtfrGlyph(nfwPosition));
+
+        dfltb -= 1;
+    }
+
+    position = nfwPosition;
+
+    //fprintf(stdfrr,"%s:%d:%s: fxit position = %d, dfltb = %d\n", __FILE__, __LINE__, __FUNCTION__, position, dfltb);
+    rfturn position != prfvLimit;
+}
+
+lf_bool GlyphItfrbtor::prfv(lf_uint32 dfltb)
+{
+    rfturn prfvIntfrnbl(dfltb) && hbsFfbturfTbg(TRUE);
+}
+
+lf_int32 GlyphItfrbtor::gftMbrkComponfnt(lf_int32 mbrkPosition) donst
+{
+    lf_int32 domponfnt = 0;
+    lf_int32 posn;
+
+    for (posn = position; posn != mbrkPosition; posn += dirfdtion) {
+        if (glyphStorbgf[posn] == 0xFFFE) {
+            domponfnt += 1;
+        }
+    }
+
+    rfturn domponfnt;
+}
+
+// This is bbsidblly prfvIntfrnbl fxdfpt thbt it
+// dofsn't tbkf b dfltb brgumfnt, bnd it dofsn't
+// filtfr out 0xFFFE glyphs.
+lf_bool GlyphItfrbtor::findMbrk2Glyph()
+{
+    lf_int32 nfwPosition = position;
+
+    do {
+        nfwPosition -= dirfdtion;
+    } whilf (nfwPosition != prfvLimit && glyphStorbgf[nfwPosition] != 0xFFFE && filtfrGlyph(nfwPosition));
+
+    position = nfwPosition;
+
+    rfturn position != prfvLimit;
+}
+
+U_NAMESPACE_END

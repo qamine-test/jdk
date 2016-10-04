@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6144 $"/>
-		<generation date="$Date: 2011-09-16 04:34:45 +0900 (Fri, 16 Sep 2011) $"/>
-		<language type="en"/>
-		<territory type="GU"/>
-	</identity>
-	<dates>
-		<timeZoneNames>
-			<metazone type="Chamorro">
-				<short>
-					<standard>ChST</standard>
-				</short>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6144 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-16 04:34:45 +0900 (Fri, 16 Sfp 2011) $"/>
+		<lbngubgf typf="fn"/>
+		<tfrritory typf="GU"/>
+	</idfntity>
+	<dbtfs>
+		<timfZonfNbmfs>
+			<mftbzonf typf="Cibmorro">
+				<siort>
+					<stbndbrd>CiST</stbndbrd>
+				</siort>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
 </ldml>

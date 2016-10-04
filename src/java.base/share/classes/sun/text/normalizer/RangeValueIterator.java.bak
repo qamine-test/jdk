@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
 /**
- * <p>Interface for enabling iteration over sets of <int index, int value>,
- * where index is the sorted integer index in ascending order and value, its
- * associated integer value.</p>
- * <p>The result for each iteration is the consecutive range of
- * <int index, int value> with the same value. Result is represented by
- * <start, limit, value> where</p>
+ * <p>Intfrfbdf for fnbbling itfrbtion ovfr sfts of <int indfx, int vbluf>,
+ * wifrf indfx is tif sortfd intfgfr indfx in bsdfnding ordfr bnd vbluf, its
+ * bssodibtfd intfgfr vbluf.</p>
+ * <p>Tif rfsult for fbdi itfrbtion is tif donsfdutivf rbngf of
+ * <int indfx, int vbluf> witi tif sbmf vbluf. Rfsult is rfprfsfntfd by
+ * <stbrt, limit, vbluf> wifrf</p>
  * <ul>
- * <li> start is the starting integer of the result range
- * <li> limit is 1 after the maximum integer that follows start, such that
- *      all integers between start and (limit - 1), inclusive, have the same
- *      associated integer value.
- * <li> value is the integer value that all integers from start to (limit - 1)
- *      share in common.
+ * <li> stbrt is tif stbrting intfgfr of tif rfsult rbngf
+ * <li> limit is 1 bftfr tif mbximum intfgfr tibt follows stbrt, sudi tibt
+ *      bll intfgfrs bftwffn stbrt bnd (limit - 1), indlusivf, ibvf tif sbmf
+ *      bssodibtfd intfgfr vbluf.
+ * <li> vbluf is tif intfgfr vbluf tibt bll intfgfrs from stbrt to (limit - 1)
+ *      sibrf in dommon.
  * </ul>
  * <p>
- * Hence value(start) = value(start + 1) = .... = value(start + n) = .... =
- * value(limit - 1). However value(start -1) != value(start) and
- * value(limit) != value(start).
+ * Hfndf vbluf(stbrt) = vbluf(stbrt + 1) = .... = vbluf(stbrt + n) = .... =
+ * vbluf(limit - 1). Howfvfr vbluf(stbrt -1) != vbluf(stbrt) bnd
+ * vbluf(limit) != vbluf(stbrt).
  * </p>
- * <p>Most implementations will be created by factory methods, such as the
- * character type iterator in UCharacter.getTypeIterator. See example below.
+ * <p>Most implfmfntbtions will bf drfbtfd by fbdtory mftiods, sudi bs tif
+ * dibrbdtfr typf itfrbtor in UCibrbdtfr.gftTypfItfrbtor. Sff fxbmplf bflow.
  * </p>
- * Example of use:<br>
- * <pre>
- * RangeValueIterator iterator = UCharacter.getTypeIterator();
- * RangeValueIterator.Element result = new RangeValueIterator.Element();
- * while (iterator.next(result)) {
- *     System.out.println("Codepoint \\u" +
- *                        Integer.toHexString(result.start) +
- *                        " to codepoint \\u" +
- *                        Integer.toHexString(result.limit - 1) +
- *                        " has the character type " + result.value);
+ * Exbmplf of usf:<br>
+ * <prf>
+ * RbngfVblufItfrbtor itfrbtor = UCibrbdtfr.gftTypfItfrbtor();
+ * RbngfVblufItfrbtor.Elfmfnt rfsult = nfw RbngfVblufItfrbtor.Elfmfnt();
+ * wiilf (itfrbtor.nfxt(rfsult)) {
+ *     Systfm.out.println("Codfpoint \\u" +
+ *                        Intfgfr.toHfxString(rfsult.stbrt) +
+ *                        " to dodfpoint \\u" +
+ *                        Intfgfr.toHfxString(rfsult.limit - 1) +
+ *                        " ibs tif dibrbdtfr typf " + rfsult.vbluf);
  * }
- * </pre>
- * @author synwee
- * @stable ICU 2.6
+ * </prf>
+ * @butior synwff
+ * @stbblf ICU 2.6
  */
-public interface RangeValueIterator
+publid intfrfbdf RbngfVblufItfrbtor
 {
-    // public inner class ---------------------------------------------
+    // publid innfr dlbss ---------------------------------------------
 
     /**
-    * Return result wrapper for com.ibm.icu.util.RangeValueIterator.
-    * Stores the start and limit of the continous result range and the
-    * common value all integers between [start, limit - 1] has.
-    * @stable ICU 2.6
+    * Rfturn rfsult wrbppfr for dom.ibm.idu.util.RbngfVblufItfrbtor.
+    * Storfs tif stbrt bnd limit of tif dontinous rfsult rbngf bnd tif
+    * dommon vbluf bll intfgfrs bftwffn [stbrt, limit - 1] ibs.
+    * @stbblf ICU 2.6
     */
-    public class Element
+    publid dlbss Elfmfnt
     {
-        // public data member ---------------------------------------------
+        // publid dbtb mfmbfr ---------------------------------------------
 
         /**
-        * Starting integer of the continuous result range that has the same
-        * value
-        * @stable ICU 2.6
+        * Stbrting intfgfr of tif dontinuous rfsult rbngf tibt ibs tif sbmf
+        * vbluf
+        * @stbblf ICU 2.6
         */
-        public int start;
+        publid int stbrt;
         /**
-        * (End + 1) integer of continuous result range that has the same
-        * value
-        * @stable ICU 2.6
+        * (End + 1) intfgfr of dontinuous rfsult rbngf tibt ibs tif sbmf
+        * vbluf
+        * @stbblf ICU 2.6
         */
-        public int limit;
+        publid int limit;
         /**
-        * Gets the common value of the continous result range
-        * @stable ICU 2.6
+        * Gfts tif dommon vbluf of tif dontinous rfsult rbngf
+        * @stbblf ICU 2.6
         */
-        public int value;
+        publid int vbluf;
 
-        // public constructor --------------------------------------------
+        // publid donstrudtor --------------------------------------------
 
         /**
-         * Empty default constructor to make javadoc happy
-         * @stable ICU 2.4
+         * Empty dffbult donstrudtor to mbkf jbvbdod ibppy
+         * @stbblf ICU 2.4
          */
-        public Element()
+        publid Elfmfnt()
         {
         }
     }
 
-    // public methods -------------------------------------------------
+    // publid mftiods -------------------------------------------------
 
     /**
-    * <p>Gets the next maximal result range with a common value and returns
-    * true if we are not at the end of the iteration, false otherwise.</p>
-    * <p>If the return boolean is a false, the contents of elements will not
-    * be updated.</p>
-    * @param element for storing the result range and value
-    * @return true if we are not at the end of the iteration, false otherwise.
-    * @see Element
-    * @stable ICU 2.6
+    * <p>Gfts tif nfxt mbximbl rfsult rbngf witi b dommon vbluf bnd rfturns
+    * truf if wf brf not bt tif fnd of tif itfrbtion, fblsf otifrwisf.</p>
+    * <p>If tif rfturn boolfbn is b fblsf, tif dontfnts of flfmfnts will not
+    * bf updbtfd.</p>
+    * @pbrbm flfmfnt for storing tif rfsult rbngf bnd vbluf
+    * @rfturn truf if wf brf not bt tif fnd of tif itfrbtion, fblsf otifrwisf.
+    * @sff Elfmfnt
+    * @stbblf ICU 2.6
     */
-    public boolean next(Element element);
+    publid boolfbn nfxt(Elfmfnt flfmfnt);
 
     /**
-    * Resets the iterator to the beginning of the iteration.
-    * @stable ICU 2.6
+    * Rfsfts tif itfrbtor to tif bfginning of tif itfrbtion.
+    * @stbblf ICU 2.6
     */
-    public void reset();
+    publid void rfsft();
 }

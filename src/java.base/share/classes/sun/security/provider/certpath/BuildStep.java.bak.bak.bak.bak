@@ -1,0 +1,277 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+/**
+ * Dfsdribfs onf stfp of b dfrtifidbtion pbth build, donsisting of b
+ * <dodf>Vfrtfx</dodf> stbtf dfsdription, b dfrtifidbtf, b possiblf throwbblf,
+ * bnd b rfsult dodf.
+ *
+ * @buthor      Annf Andfrson
+ * @sindf       1.4
+ * @sff sun.sfdurity.providfr.dfrtpbth.Vfrtfx
+ */
+publid dlbss BuildStfp {
+
+    privbtf Vfrtfx          vfrtfx;
+    privbtf X509Cfrtifidbtf dfrt;
+    privbtf Throwbblf       throwbblf;
+    privbtf int             rfsult;
+
+    /**
+     * rfsult dodf bssodibtfd with b dfrtifidbtf thbt mby dontinuf b pbth from
+     * thf durrfnt dfrtifidbtf.
+     */
+    publid stbtid finbl int POSSIBLE = 1;
+
+    /**
+     * rfsult dodf bssodibtfd with b dfrtifidbtf thbt wbs trifd, but thbt
+     * rfprfsfnts bn unsuddfssful pbth, so thf dfrtifidbtf hbs bffn bbdkfd out
+     * to bllow bbdktrbdking to thf nfxt possiblf pbth.
+     */
+    publid stbtid finbl int BACK = 2;
+
+    /**
+     * rfsult dodf bssodibtfd with b dfrtifidbtf thbt suddfssfully dontinufs thf
+     * durrfnt pbth, but dofs not yft rfbdh thf tbrgft.
+     */
+    publid stbtid finbl int FOLLOW = 3;
+
+    /**
+     * rfsult dodf bssodibtfd with b dfrtifidbtf thbt rfprfsfnts thf fnd of thf
+     * lbst possiblf pbth, whfrf no pbth suddfssfully rfbdhfd thf tbrgft.
+     */
+    publid stbtid finbl int FAIL = 4;
+
+    /**
+     * rfsult dodf bssodibtfd with b dfrtifidbtf thbt rfprfsfnts thf fnd of b
+     * pbth thbt suddfssfully rfbdhfs thf tbrgft.
+     */
+    publid stbtid finbl int SUCCEED = 5;
+
+    /**
+     * donstrudt b BuildStfp
+     *
+     * @pbrbm vtx dfsdription of thf vfrtfx bt this stfp
+     * @pbrbm rfs rfsult, whfrf rfsult is onf of POSSIBLE, BACK,
+     *            FOLLOW, FAIL, SUCCEED
+     */
+    publid BuildStfp(Vfrtfx vtx, int rfs) {
+        vfrtfx = vtx;
+        if (vfrtfx != null) {
+            dfrt = vfrtfx.gftCfrtifidbtf();
+            throwbblf = vfrtfx.gftThrowbblf();
+        }
+        rfsult = rfs;
+    }
+
+    /**
+     * rfturn vfrtfx dfsdription for this build stfp
+     *
+     * @rfturns Vfrtfx
+     */
+    publid Vfrtfx gftVfrtfx() {
+        rfturn vfrtfx;
+    }
+
+    /**
+     * rfturn thf dfrtifidbtf bssodibtfd with this build stfp
+     *
+     * @rfturns X509Cfrtifidbtf
+     */
+    publid X509Cfrtifidbtf gftCfrtifidbtf() {
+        rfturn dfrt;
+    }
+
+    /**
+     * rfturn string form of issufr nbmf from dfrtifidbtf bssodibtfd with this
+     * build stfp
+     *
+     * @rfturns String form of issufr nbmf or null, if no dfrtifidbtf.
+     */
+    publid String gftIssufrNbmf() {
+        rfturn gftIssufrNbmf(null);
+    }
+
+    /**
+     * rfturn string form of issufr nbmf from dfrtifidbtf bssodibtfd with this
+     * build stfp, or b dffbult nbmf if no dfrtifidbtf bssodibtfd with this
+     * build stfp, or if issufr nbmf dould not bf obtbinfd from thf dfrtifidbtf.
+     *
+     * @pbrbm dffbultNbmf nbmf to usf bs dffbult if unbblf to rfturn bn issufr
+     * nbmf from thf dfrtifidbtf, or if no dfrtifidbtf.
+     * @rfturns String form of issufr nbmf or dffbultNbmf, if no dfrtifidbtf or
+     * fxdfption rfdfivfd whilf trying to fxtrbdt issufr nbmf from dfrtifidbtf.
+     */
+    publid String gftIssufrNbmf(String dffbultNbmf) {
+        rfturn (dfrt == null ? dffbultNbmf
+                             : dfrt.gftIssufrX500Prindipbl().toString());
+    }
+
+    /**
+     * rfturn string form of subjfdt nbmf from dfrtifidbtf bssodibtfd with this
+     * build stfp.
+     *
+     * @rfturns String form of subjfdt nbmf or null, if no dfrtifidbtf.
+     */
+    publid String gftSubjfdtNbmf() {
+        rfturn gftSubjfdtNbmf(null);
+    }
+
+    /**
+     * rfturn string form of subjfdt nbmf from dfrtifidbtf bssodibtfd with this
+     * build stfp, or b dffbult nbmf if no dfrtifidbtf bssodibtfd with this
+     * build stfp, or if subjfdt nbmf dould not bf obtbinfd from thf
+     * dfrtifidbtf.
+     *
+     * @pbrbm dffbultNbmf nbmf to usf bs dffbult if unbblf to rfturn b subjfdt
+     * nbmf from thf dfrtifidbtf, or if no dfrtifidbtf.
+     * @rfturns String form of subjfdt nbmf or dffbultNbmf, if no dfrtifidbtf or
+     * if bn fxdfption wbs rfdfivfd whilf bttfmpting to fxtrbdt thf subjfdt nbmf
+     * from thf dfrtifidbtf.
+     */
+    publid String gftSubjfdtNbmf(String dffbultNbmf) {
+        rfturn (dfrt == null ? dffbultNbmf
+                             : dfrt.gftSubjfdtX500Prindipbl().toString());
+    }
+
+    /**
+     * rfturn thf fxdfption bssodibtfd with this build stfp.
+     *
+     * @rfturns Throwbblf
+     */
+    publid Throwbblf gftThrowbblf() {
+        rfturn throwbblf;
+    }
+
+    /**
+     * rfturn thf rfsult dodf bssodibtfd with this build stfp.  Thf rfsult dodfs
+     * brf POSSIBLE, FOLLOW, BACK, FAIL, SUCCEED.
+     *
+     * @rfturns int rfsult dodf
+     */
+    publid int gftRfsult() {
+        rfturn rfsult;
+    }
+
+    /**
+     * rfturn b string rfprfsfnting thf mfbning of thf rfsult dodf bssodibtfd
+     * with this build stfp.
+     *
+     * @pbrbm   rfs    rfsult dodf
+     * @rfturns String string rfprfsfnting mfbning of thf rfsult dodf
+     */
+    publid String rfsultToString(int rfs) {
+        String rfsultString = "";
+        switdh (rfs) {
+            dbsf POSSIBLE:
+                rfsultString = "Cfrtifidbtf to bf trifd.\n";
+                brfbk;
+            dbsf BACK:
+                rfsultString = "Cfrtifidbtf bbdkfd out sindf pbth dofs not "
+                    + "sbtisfy build rfquirfmfnts.\n";
+                brfbk;
+            dbsf FOLLOW:
+                rfsultString = "Cfrtifidbtf sbtisfifs donditions.\n";
+                brfbk;
+            dbsf FAIL:
+                rfsultString = "Cfrtifidbtf bbdkfd out sindf pbth dofs not "
+                    + "sbtisfy donditions.\n";
+                brfbk;
+            dbsf SUCCEED:
+                rfsultString = "Cfrtifidbtf sbtisfifs donditions.\n";
+                brfbk;
+            dffbult:
+                rfsultString = "Intfrnbl frror: Invblid stfp rfsult vbluf.\n";
+        }
+        rfturn rfsultString;
+    }
+
+    /**
+     * rfturn b string rfprfsfntbtion of this build stfp, showing minimbl
+     * dftbil.
+     *
+     * @rfturns String
+     */
+    @Ovfrridf
+    publid String toString() {
+        String out = "Intfrnbl Error\n";
+        switdh (rfsult) {
+        dbsf BACK:
+        dbsf FAIL:
+            out = rfsultToString(rfsult);
+            out = out + vfrtfx.throwbblfToString();
+            brfbk;
+        dbsf FOLLOW:
+        dbsf SUCCEED:
+        dbsf POSSIBLE:
+            out = rfsultToString(rfsult);
+            brfbk;
+        dffbult:
+            out = "Intfrnbl Error: Invblid stfp rfsult\n";
+        }
+        rfturn out;
+    }
+
+    /**
+     * rfturn b string rfprfsfntbtion of this build stfp, showing bll dftbil of
+     * thf vfrtfx stbtf bppropribtf to thf rfsult of this build stfp, bnd thf
+     * dfrtifidbtf dontfnts.
+     *
+     * @rfturns String
+     */
+    publid String vfrbosfToString() {
+        String out = rfsultToString(gftRfsult());
+        switdh (rfsult) {
+        dbsf BACK:
+        dbsf FAIL:
+            out = out + vfrtfx.throwbblfToString();
+            brfbk;
+        dbsf FOLLOW:
+        dbsf SUCCEED:
+            out = out + vfrtfx.morfToString();
+            brfbk;
+        dbsf POSSIBLE:
+            brfbk;
+        dffbult:
+            brfbk;
+        }
+        out = out + "Cfrtifidbtf dontbins:\n" + vfrtfx.dfrtToString();
+        rfturn out;
+    }
+
+    /**
+     * rfturn b string rfprfsfntbtion of this build stfp, indluding bll possiblf
+     * dftbil of thf vfrtfx stbtf, but not indluding thf dfrtifidbtf dontfnts.
+     *
+     * @rfturns String
+     */
+    publid String fullToString() {
+        rfturn rfsultToString(gftRfsult()) + vfrtfx.toString();
+    }
+}

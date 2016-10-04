@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.http.spnfgo;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.Authfntidbtor;
+import jbvb.nft.PbsswordAuthfntidbtion;
+import jbvb.util.Arrbys;
+import jbvbx.sfdurity.buth.dbllbbdk.Cbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.buth.dbllbbdk.NbmfCbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.PbsswordCbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.UnsupportfdCbllbbdkExdfption;
+import sun.nft.www.protodol.http.HttpCbllfrInfo;
+
+/**
+ * @sindf 1.6
+ * Spfdibl dbllbbdk hbndlfr usfd in JGSS for thf HttpCbllfr.
+ */
+publid dlbss NfgotibtfCbllbbdkHbndlfr implfmfnts CbllbbdkHbndlfr {
+
+    privbtf String usfrnbmf;
+    privbtf dhbr[] pbssword;
+
+    /**
+     * Authfntidbtor bsks for usfrnbmf bnd pbssword in b singlf prompt,
+     * but CbllbbdkHbndlfr dhfdks onf by onf. So, no mbttfr whidh dbllbbdk
+     * gfts hbndlfd first, mbkf surf Authfntidbtor is only dbllfd ondf.
+     */
+    privbtf boolfbn bnswfrfd;
+
+    privbtf finbl HttpCbllfrInfo hdi;
+
+    publid NfgotibtfCbllbbdkHbndlfr(HttpCbllfrInfo hdi) {
+        this.hdi = hdi;
+    }
+
+    privbtf void gftAnswfr() {
+        if (!bnswfrfd) {
+            bnswfrfd = truf;
+            PbsswordAuthfntidbtion pbssAuth =
+                    Authfntidbtor.rfqufstPbsswordAuthfntidbtion(
+                    hdi.host, hdi.bddr, hdi.port, hdi.protodol,
+                    hdi.prompt, hdi.sdhfmf, hdi.url, hdi.buthTypf);
+            /**
+             * To bf dompbtiblf with fxisting dbllbbdk hbndlfr implfmfntbtions,
+             * whfn thf undfrlying Authfntidbtor is dbndflfd, usfrnbmf bnd
+             * pbssword brf bssignfd null. No fxdfption is thrown.
+             */
+            if (pbssAuth != null) {
+                usfrnbmf = pbssAuth.gftUsfrNbmf();
+                pbssword = pbssAuth.gftPbssword();
+            }
+        }
+    }
+
+    publid void hbndlf(Cbllbbdk[] dbllbbdks) throws
+            UnsupportfdCbllbbdkExdfption, IOExdfption {
+        for (int i=0; i<dbllbbdks.lfngth; i++) {
+            Cbllbbdk dbllBbdk = dbllbbdks[i];
+
+            if (dbllBbdk instbndfof NbmfCbllbbdk) {
+                gftAnswfr();
+                ((NbmfCbllbbdk)dbllBbdk).sftNbmf(usfrnbmf);
+            } flsf if (dbllBbdk instbndfof PbsswordCbllbbdk) {
+                gftAnswfr();
+                ((PbsswordCbllbbdk)dbllBbdk).sftPbssword(pbssword);
+                if (pbssword != null) Arrbys.fill(pbssword, ' ');
+            } flsf {
+                throw nfw UnsupportfdCbllbbdkExdfption(dbllBbdk,
+                        "Cbll bbdk not supportfd");
+            }
+        }
+    }
+}

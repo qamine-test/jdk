@@ -1,477 +1,477 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.*;
+import jbvb.lbng.mbnbgfmfnt.*;
 
-import javax.management.DynamicMBean;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanServer;
-import javax.management.MBeanRegistrationException;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
-import javax.management.RuntimeOperationsException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
 
 import sun.util.logging.LoggingSupport;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import com.sun.management.DiagnosticCommandMBean;
-import com.sun.management.HotSpotDiagnosticMXBean;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import dom.sun.mbnbgfmfnt.DibgnostidCommbndMBfbn;
+import dom.sun.mbnbgfmfnt.HotSpotDibgnostidMXBfbn;
 
-import static java.lang.management.ManagementFactory.*;
+import stbtid jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory.*;
 
 /**
- * ManagementFactoryHelper provides static factory methods to create
- * instances of the management interface.
+ * MbnbgfmfntFbdtoryHflpfr providfs stbtid fbdtory mftiods to drfbtf
+ * instbndfs of tif mbnbgfmfnt intfrfbdf.
  */
-public class ManagementFactoryHelper {
-    private ManagementFactoryHelper() {};
+publid dlbss MbnbgfmfntFbdtoryHflpfr {
+    privbtf MbnbgfmfntFbdtoryHflpfr() {};
 
-    private static VMManagement jvm;
+    privbtf stbtid VMMbnbgfmfnt jvm;
 
-    private static ClassLoadingImpl    classMBean = null;
-    private static MemoryImpl          memoryMBean = null;
-    private static ThreadImpl          threadMBean = null;
-    private static RuntimeImpl         runtimeMBean = null;
-    private static CompilationImpl     compileMBean = null;
-    private static OperatingSystemImpl osMBean = null;
+    privbtf stbtid ClbssLobdingImpl    dlbssMBfbn = null;
+    privbtf stbtid MfmoryImpl          mfmoryMBfbn = null;
+    privbtf stbtid TirfbdImpl          tirfbdMBfbn = null;
+    privbtf stbtid RuntimfImpl         runtimfMBfbn = null;
+    privbtf stbtid CompilbtionImpl     dompilfMBfbn = null;
+    privbtf stbtid OpfrbtingSystfmImpl osMBfbn = null;
 
-    public static synchronized ClassLoadingMXBean getClassLoadingMXBean() {
-        if (classMBean == null) {
-            classMBean = new ClassLoadingImpl(jvm);
+    publid stbtid syndironizfd ClbssLobdingMXBfbn gftClbssLobdingMXBfbn() {
+        if (dlbssMBfbn == null) {
+            dlbssMBfbn = nfw ClbssLobdingImpl(jvm);
         }
-        return classMBean;
+        rfturn dlbssMBfbn;
     }
 
-    public static synchronized MemoryMXBean getMemoryMXBean() {
-        if (memoryMBean == null) {
-            memoryMBean = new MemoryImpl(jvm);
+    publid stbtid syndironizfd MfmoryMXBfbn gftMfmoryMXBfbn() {
+        if (mfmoryMBfbn == null) {
+            mfmoryMBfbn = nfw MfmoryImpl(jvm);
         }
-        return memoryMBean;
+        rfturn mfmoryMBfbn;
     }
 
-    public static synchronized ThreadMXBean getThreadMXBean() {
-        if (threadMBean == null) {
-            threadMBean = new ThreadImpl(jvm);
+    publid stbtid syndironizfd TirfbdMXBfbn gftTirfbdMXBfbn() {
+        if (tirfbdMBfbn == null) {
+            tirfbdMBfbn = nfw TirfbdImpl(jvm);
         }
-        return threadMBean;
+        rfturn tirfbdMBfbn;
     }
 
-    public static synchronized RuntimeMXBean getRuntimeMXBean() {
-        if (runtimeMBean == null) {
-            runtimeMBean = new RuntimeImpl(jvm);
+    publid stbtid syndironizfd RuntimfMXBfbn gftRuntimfMXBfbn() {
+        if (runtimfMBfbn == null) {
+            runtimfMBfbn = nfw RuntimfImpl(jvm);
         }
-        return runtimeMBean;
+        rfturn runtimfMBfbn;
     }
 
-    public static synchronized CompilationMXBean getCompilationMXBean() {
-        if (compileMBean == null && jvm.getCompilerName() != null) {
-            compileMBean = new CompilationImpl(jvm);
+    publid stbtid syndironizfd CompilbtionMXBfbn gftCompilbtionMXBfbn() {
+        if (dompilfMBfbn == null && jvm.gftCompilfrNbmf() != null) {
+            dompilfMBfbn = nfw CompilbtionImpl(jvm);
         }
-        return compileMBean;
+        rfturn dompilfMBfbn;
     }
 
-    public static synchronized OperatingSystemMXBean getOperatingSystemMXBean() {
-        if (osMBean == null) {
-            osMBean = new OperatingSystemImpl(jvm);
+    publid stbtid syndironizfd OpfrbtingSystfmMXBfbn gftOpfrbtingSystfmMXBfbn() {
+        if (osMBfbn == null) {
+            osMBfbn = nfw OpfrbtingSystfmImpl(jvm);
         }
-        return osMBean;
+        rfturn osMBfbn;
     }
 
-    public static List<MemoryPoolMXBean> getMemoryPoolMXBeans() {
-        MemoryPoolMXBean[] pools = MemoryImpl.getMemoryPools();
-        List<MemoryPoolMXBean> list = new ArrayList<>(pools.length);
-        for (MemoryPoolMXBean p : pools) {
-            list.add(p);
+    publid stbtid List<MfmoryPoolMXBfbn> gftMfmoryPoolMXBfbns() {
+        MfmoryPoolMXBfbn[] pools = MfmoryImpl.gftMfmoryPools();
+        List<MfmoryPoolMXBfbn> list = nfw ArrbyList<>(pools.lfngti);
+        for (MfmoryPoolMXBfbn p : pools) {
+            list.bdd(p);
         }
-        return list;
+        rfturn list;
     }
 
-    public static List<MemoryManagerMXBean> getMemoryManagerMXBeans() {
-        MemoryManagerMXBean[]  mgrs = MemoryImpl.getMemoryManagers();
-        List<MemoryManagerMXBean> result = new ArrayList<>(mgrs.length);
-        for (MemoryManagerMXBean m : mgrs) {
-            result.add(m);
+    publid stbtid List<MfmoryMbnbgfrMXBfbn> gftMfmoryMbnbgfrMXBfbns() {
+        MfmoryMbnbgfrMXBfbn[]  mgrs = MfmoryImpl.gftMfmoryMbnbgfrs();
+        List<MfmoryMbnbgfrMXBfbn> rfsult = nfw ArrbyList<>(mgrs.lfngti);
+        for (MfmoryMbnbgfrMXBfbn m : mgrs) {
+            rfsult.bdd(m);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public static List<GarbageCollectorMXBean> getGarbageCollectorMXBeans() {
-        MemoryManagerMXBean[]  mgrs = MemoryImpl.getMemoryManagers();
-        List<GarbageCollectorMXBean> result = new ArrayList<>(mgrs.length);
-        for (MemoryManagerMXBean m : mgrs) {
-            if (GarbageCollectorMXBean.class.isInstance(m)) {
-                 result.add(GarbageCollectorMXBean.class.cast(m));
+    publid stbtid List<GbrbbgfCollfdtorMXBfbn> gftGbrbbgfCollfdtorMXBfbns() {
+        MfmoryMbnbgfrMXBfbn[]  mgrs = MfmoryImpl.gftMfmoryMbnbgfrs();
+        List<GbrbbgfCollfdtorMXBfbn> rfsult = nfw ArrbyList<>(mgrs.lfngti);
+        for (MfmoryMbnbgfrMXBfbn m : mgrs) {
+            if (GbrbbgfCollfdtorMXBfbn.dlbss.isInstbndf(m)) {
+                 rfsult.bdd(GbrbbgfCollfdtorMXBfbn.dlbss.dbst(m));
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public static PlatformLoggingMXBean getPlatformLoggingMXBean() {
-        if (LoggingSupport.isAvailable()) {
-            return PlatformLoggingImpl.instance;
-        } else {
-            return null;
+    publid stbtid PlbtformLoggingMXBfbn gftPlbtformLoggingMXBfbn() {
+        if (LoggingSupport.isAvbilbblf()) {
+            rfturn PlbtformLoggingImpl.instbndf;
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * The logging MXBean object is an instance of
-     * PlatformLoggingMXBean and java.util.logging.LoggingMXBean
-     * but it can't directly implement two MXBean interfaces
-     * as a compliant MXBean implements exactly one MXBean interface,
-     * or if it implements one interface that is a subinterface of
-     * all the others; otherwise, it is a non-compliant MXBean
-     * and MBeanServer will throw NotCompliantMBeanException.
-     * See the Definition of an MXBean section in javax.management.MXBean spec.
+     * Tif logging MXBfbn objfdt is bn instbndf of
+     * PlbtformLoggingMXBfbn bnd jbvb.util.logging.LoggingMXBfbn
+     * but it dbn't dirfdtly implfmfnt two MXBfbn intfrfbdfs
+     * bs b domplibnt MXBfbn implfmfnts fxbdtly onf MXBfbn intfrfbdf,
+     * or if it implfmfnts onf intfrfbdf tibt is b subintfrfbdf of
+     * bll tif otifrs; otifrwisf, it is b non-domplibnt MXBfbn
+     * bnd MBfbnSfrvfr will tirow NotComplibntMBfbnExdfption.
+     * Sff tif Dffinition of bn MXBfbn sfdtion in jbvbx.mbnbgfmfnt.MXBfbn spfd.
      *
-     * To create a compliant logging MXBean, define a LoggingMXBean interface
-     * that extend PlatformLoggingMXBean and j.u.l.LoggingMXBean
+     * To drfbtf b domplibnt logging MXBfbn, dffinf b LoggingMXBfbn intfrfbdf
+     * tibt fxtfnd PlbtformLoggingMXBfbn bnd j.u.l.LoggingMXBfbn
     */
-    public interface LoggingMXBean
-        extends PlatformLoggingMXBean, java.util.logging.LoggingMXBean {
+    publid intfrfbdf LoggingMXBfbn
+        fxtfnds PlbtformLoggingMXBfbn, jbvb.util.logging.LoggingMXBfbn {
     }
 
-    static class PlatformLoggingImpl implements LoggingMXBean
+    stbtid dlbss PlbtformLoggingImpl implfmfnts LoggingMXBfbn
     {
-        final static PlatformLoggingMXBean instance = new PlatformLoggingImpl();
-        final static String LOGGING_MXBEAN_NAME = "java.util.logging:type=Logging";
+        finbl stbtid PlbtformLoggingMXBfbn instbndf = nfw PlbtformLoggingImpl();
+        finbl stbtid String LOGGING_MXBEAN_NAME = "jbvb.util.logging:typf=Logging";
 
-        private volatile ObjectName objname;  // created lazily
-        @Override
-        public ObjectName getObjectName() {
-            ObjectName result = objname;
-            if (result == null) {
-                synchronized (this) {
-                    result = objname;
-                    if (result == null) {
-                        result = Util.newObjectName(LOGGING_MXBEAN_NAME);
-                        objname = result;
+        privbtf volbtilf ObjfdtNbmf objnbmf;  // drfbtfd lbzily
+        @Ovfrridf
+        publid ObjfdtNbmf gftObjfdtNbmf() {
+            ObjfdtNbmf rfsult = objnbmf;
+            if (rfsult == null) {
+                syndironizfd (tiis) {
+                    rfsult = objnbmf;
+                    if (rfsult == null) {
+                        rfsult = Util.nfwObjfdtNbmf(LOGGING_MXBEAN_NAME);
+                        objnbmf = rfsult;
                     }
                 }
             }
-            return result;
+            rfturn rfsult;
         }
 
-        @Override
-        public java.util.List<String> getLoggerNames() {
-            return LoggingSupport.getLoggerNames();
+        @Ovfrridf
+        publid jbvb.util.List<String> gftLoggfrNbmfs() {
+            rfturn LoggingSupport.gftLoggfrNbmfs();
         }
 
-        @Override
-        public String getLoggerLevel(String loggerName) {
-            return LoggingSupport.getLoggerLevel(loggerName);
+        @Ovfrridf
+        publid String gftLoggfrLfvfl(String loggfrNbmf) {
+            rfturn LoggingSupport.gftLoggfrLfvfl(loggfrNbmf);
         }
 
-        @Override
-        public void setLoggerLevel(String loggerName, String levelName) {
-            LoggingSupport.setLoggerLevel(loggerName, levelName);
+        @Ovfrridf
+        publid void sftLoggfrLfvfl(String loggfrNbmf, String lfvflNbmf) {
+            LoggingSupport.sftLoggfrLfvfl(loggfrNbmf, lfvflNbmf);
         }
 
-        @Override
-        public String getParentLoggerName(String loggerName) {
-            return LoggingSupport.getParentLoggerName(loggerName);
+        @Ovfrridf
+        publid String gftPbrfntLoggfrNbmf(String loggfrNbmf) {
+            rfturn LoggingSupport.gftPbrfntLoggfrNbmf(loggfrNbmf);
         }
     }
 
-    private static List<BufferPoolMXBean> bufferPools = null;
-    public static synchronized List<BufferPoolMXBean> getBufferPoolMXBeans() {
-        if (bufferPools == null) {
-            bufferPools = new ArrayList<>(2);
-            bufferPools.add(createBufferPoolMXBean(sun.misc.SharedSecrets.getJavaNioAccess()
-                .getDirectBufferPool()));
-            bufferPools.add(createBufferPoolMXBean(sun.nio.ch.FileChannelImpl
-                .getMappedBufferPool()));
+    privbtf stbtid List<BufffrPoolMXBfbn> bufffrPools = null;
+    publid stbtid syndironizfd List<BufffrPoolMXBfbn> gftBufffrPoolMXBfbns() {
+        if (bufffrPools == null) {
+            bufffrPools = nfw ArrbyList<>(2);
+            bufffrPools.bdd(drfbtfBufffrPoolMXBfbn(sun.misd.SibrfdSfdrfts.gftJbvbNioAddfss()
+                .gftDirfdtBufffrPool()));
+            bufffrPools.bdd(drfbtfBufffrPoolMXBfbn(sun.nio.di.FilfCibnnflImpl
+                .gftMbppfdBufffrPool()));
         }
-        return bufferPools;
+        rfturn bufffrPools;
     }
 
-    private final static String BUFFER_POOL_MXBEAN_NAME = "java.nio:type=BufferPool";
+    privbtf finbl stbtid String BUFFER_POOL_MXBEAN_NAME = "jbvb.nio:typf=BufffrPool";
 
     /**
-     * Creates management interface for the given buffer pool.
+     * Crfbtfs mbnbgfmfnt intfrfbdf for tif givfn bufffr pool.
      */
-    private static BufferPoolMXBean
-        createBufferPoolMXBean(final sun.misc.JavaNioAccess.BufferPool pool)
+    privbtf stbtid BufffrPoolMXBfbn
+        drfbtfBufffrPoolMXBfbn(finbl sun.misd.JbvbNioAddfss.BufffrPool pool)
     {
-        return new BufferPoolMXBean() {
-            private volatile ObjectName objname;  // created lazily
-            @Override
-            public ObjectName getObjectName() {
-                ObjectName result = objname;
-                if (result == null) {
-                    synchronized (this) {
-                        result = objname;
-                        if (result == null) {
-                            result = Util.newObjectName(BUFFER_POOL_MXBEAN_NAME +
-                                ",name=" + pool.getName());
-                            objname = result;
+        rfturn nfw BufffrPoolMXBfbn() {
+            privbtf volbtilf ObjfdtNbmf objnbmf;  // drfbtfd lbzily
+            @Ovfrridf
+            publid ObjfdtNbmf gftObjfdtNbmf() {
+                ObjfdtNbmf rfsult = objnbmf;
+                if (rfsult == null) {
+                    syndironizfd (tiis) {
+                        rfsult = objnbmf;
+                        if (rfsult == null) {
+                            rfsult = Util.nfwObjfdtNbmf(BUFFER_POOL_MXBEAN_NAME +
+                                ",nbmf=" + pool.gftNbmf());
+                            objnbmf = rfsult;
                         }
                     }
                 }
-                return result;
+                rfturn rfsult;
             }
-            @Override
-            public String getName() {
-                return pool.getName();
+            @Ovfrridf
+            publid String gftNbmf() {
+                rfturn pool.gftNbmf();
             }
-            @Override
-            public long getCount() {
-                return pool.getCount();
+            @Ovfrridf
+            publid long gftCount() {
+                rfturn pool.gftCount();
             }
-            @Override
-            public long getTotalCapacity() {
-                return pool.getTotalCapacity();
+            @Ovfrridf
+            publid long gftTotblCbpbdity() {
+                rfturn pool.gftTotblCbpbdity();
             }
-            @Override
-            public long getMemoryUsed() {
-                return pool.getMemoryUsed();
+            @Ovfrridf
+            publid long gftMfmoryUsfd() {
+                rfturn pool.gftMfmoryUsfd();
             }
         };
     }
 
-    private static HotSpotDiagnostic hsDiagMBean = null;
-    private static HotspotRuntime hsRuntimeMBean = null;
-    private static HotspotClassLoading hsClassMBean = null;
-    private static HotspotThread hsThreadMBean = null;
-    private static HotspotCompilation hsCompileMBean = null;
-    private static HotspotMemory hsMemoryMBean = null;
-    private static DiagnosticCommandImpl hsDiagCommandMBean = null;
+    privbtf stbtid HotSpotDibgnostid isDibgMBfbn = null;
+    privbtf stbtid HotspotRuntimf isRuntimfMBfbn = null;
+    privbtf stbtid HotspotClbssLobding isClbssMBfbn = null;
+    privbtf stbtid HotspotTirfbd isTirfbdMBfbn = null;
+    privbtf stbtid HotspotCompilbtion isCompilfMBfbn = null;
+    privbtf stbtid HotspotMfmory isMfmoryMBfbn = null;
+    privbtf stbtid DibgnostidCommbndImpl isDibgCommbndMBfbn = null;
 
-    public static synchronized HotSpotDiagnosticMXBean getDiagnosticMXBean() {
-        if (hsDiagMBean == null) {
-            hsDiagMBean = new HotSpotDiagnostic();
+    publid stbtid syndironizfd HotSpotDibgnostidMXBfbn gftDibgnostidMXBfbn() {
+        if (isDibgMBfbn == null) {
+            isDibgMBfbn = nfw HotSpotDibgnostid();
         }
-        return hsDiagMBean;
+        rfturn isDibgMBfbn;
     }
 
     /**
-     * This method is for testing only.
+     * Tiis mftiod is for tfsting only.
      */
-    public static synchronized HotspotRuntimeMBean getHotspotRuntimeMBean() {
-        if (hsRuntimeMBean == null) {
-            hsRuntimeMBean = new HotspotRuntime(jvm);
+    publid stbtid syndironizfd HotspotRuntimfMBfbn gftHotspotRuntimfMBfbn() {
+        if (isRuntimfMBfbn == null) {
+            isRuntimfMBfbn = nfw HotspotRuntimf(jvm);
         }
-        return hsRuntimeMBean;
+        rfturn isRuntimfMBfbn;
     }
 
     /**
-     * This method is for testing only.
+     * Tiis mftiod is for tfsting only.
      */
-    public static synchronized HotspotClassLoadingMBean getHotspotClassLoadingMBean() {
-        if (hsClassMBean == null) {
-            hsClassMBean = new HotspotClassLoading(jvm);
+    publid stbtid syndironizfd HotspotClbssLobdingMBfbn gftHotspotClbssLobdingMBfbn() {
+        if (isClbssMBfbn == null) {
+            isClbssMBfbn = nfw HotspotClbssLobding(jvm);
         }
-        return hsClassMBean;
+        rfturn isClbssMBfbn;
     }
 
     /**
-     * This method is for testing only.
+     * Tiis mftiod is for tfsting only.
      */
-    public static synchronized HotspotThreadMBean getHotspotThreadMBean() {
-        if (hsThreadMBean == null) {
-            hsThreadMBean = new HotspotThread(jvm);
+    publid stbtid syndironizfd HotspotTirfbdMBfbn gftHotspotTirfbdMBfbn() {
+        if (isTirfbdMBfbn == null) {
+            isTirfbdMBfbn = nfw HotspotTirfbd(jvm);
         }
-        return hsThreadMBean;
+        rfturn isTirfbdMBfbn;
     }
 
     /**
-     * This method is for testing only.
+     * Tiis mftiod is for tfsting only.
      */
-    public static synchronized HotspotMemoryMBean getHotspotMemoryMBean() {
-        if (hsMemoryMBean == null) {
-            hsMemoryMBean = new HotspotMemory(jvm);
+    publid stbtid syndironizfd HotspotMfmoryMBfbn gftHotspotMfmoryMBfbn() {
+        if (isMfmoryMBfbn == null) {
+            isMfmoryMBfbn = nfw HotspotMfmory(jvm);
         }
-        return hsMemoryMBean;
+        rfturn isMfmoryMBfbn;
     }
 
-    public static synchronized DiagnosticCommandMBean getDiagnosticCommandMBean() {
-        // Remote Diagnostic Commands may not be supported
-        if (hsDiagCommandMBean == null && jvm.isRemoteDiagnosticCommandsSupported()) {
-            hsDiagCommandMBean = new DiagnosticCommandImpl(jvm);
+    publid stbtid syndironizfd DibgnostidCommbndMBfbn gftDibgnostidCommbndMBfbn() {
+        // Rfmotf Dibgnostid Commbnds mby not bf supportfd
+        if (isDibgCommbndMBfbn == null && jvm.isRfmotfDibgnostidCommbndsSupportfd()) {
+            isDibgCommbndMBfbn = nfw DibgnostidCommbndImpl(jvm);
         }
-        return hsDiagCommandMBean;
-    }
-
-    /**
-     * This method is for testing only.
-     */
-    public static synchronized HotspotCompilationMBean getHotspotCompilationMBean() {
-        if (hsCompileMBean == null) {
-            hsCompileMBean = new HotspotCompilation(jvm);
-        }
-        return hsCompileMBean;
+        rfturn isDibgCommbndMBfbn;
     }
 
     /**
-     * Registers a given MBean if not registered in the MBeanServer;
-     * otherwise, just return.
+     * Tiis mftiod is for tfsting only.
      */
-    private static void addMBean(MBeanServer mbs, Object mbean, String mbeanName) {
+    publid stbtid syndironizfd HotspotCompilbtionMBfbn gftHotspotCompilbtionMBfbn() {
+        if (isCompilfMBfbn == null) {
+            isCompilfMBfbn = nfw HotspotCompilbtion(jvm);
+        }
+        rfturn isCompilfMBfbn;
+    }
+
+    /**
+     * Rfgistfrs b givfn MBfbn if not rfgistfrfd in tif MBfbnSfrvfr;
+     * otifrwisf, just rfturn.
+     */
+    privbtf stbtid void bddMBfbn(MBfbnSfrvfr mbs, Objfdt mbfbn, String mbfbnNbmf) {
         try {
-            final ObjectName objName = Util.newObjectName(mbeanName);
+            finbl ObjfdtNbmf objNbmf = Util.nfwObjfdtNbmf(mbfbnNbmf);
 
-            // inner class requires these fields to be final
-            final MBeanServer mbs0 = mbs;
-            final Object mbean0 = mbean;
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
-                public Void run() throws MBeanRegistrationException,
-                                         NotCompliantMBeanException {
+            // innfr dlbss rfquirfs tifsf fiflds to bf finbl
+            finbl MBfbnSfrvfr mbs0 = mbs;
+            finbl Objfdt mbfbn0 = mbfbn;
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() tirows MBfbnRfgistrbtionExdfption,
+                                         NotComplibntMBfbnExdfption {
                     try {
-                        mbs0.registerMBean(mbean0, objName);
-                        return null;
-                    } catch (InstanceAlreadyExistsException e) {
-                        // if an instance with the object name exists in
-                        // the MBeanServer ignore the exception
+                        mbs0.rfgistfrMBfbn(mbfbn0, objNbmf);
+                        rfturn null;
+                    } dbtdi (InstbndfAlrfbdyExistsExdfption f) {
+                        // if bn instbndf witi tif objfdt nbmf fxists in
+                        // tif MBfbnSfrvfr ignorf tif fxdfption
                     }
-                    return null;
+                    rfturn null;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            throw Util.newException(e.getException());
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow Util.nfwExdfption(f.gftExdfption());
         }
     }
 
-    private final static String HOTSPOT_CLASS_LOADING_MBEAN_NAME =
-        "sun.management:type=HotspotClassLoading";
+    privbtf finbl stbtid String HOTSPOT_CLASS_LOADING_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotClbssLobding";
 
-    private final static String HOTSPOT_COMPILATION_MBEAN_NAME =
-        "sun.management:type=HotspotCompilation";
+    privbtf finbl stbtid String HOTSPOT_COMPILATION_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotCompilbtion";
 
-    private final static String HOTSPOT_MEMORY_MBEAN_NAME =
-        "sun.management:type=HotspotMemory";
+    privbtf finbl stbtid String HOTSPOT_MEMORY_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotMfmory";
 
-    private static final String HOTSPOT_RUNTIME_MBEAN_NAME =
-        "sun.management:type=HotspotRuntime";
+    privbtf stbtid finbl String HOTSPOT_RUNTIME_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotRuntimf";
 
-    private final static String HOTSPOT_THREAD_MBEAN_NAME =
-        "sun.management:type=HotspotThreading";
+    privbtf finbl stbtid String HOTSPOT_THREAD_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotTirfbding";
 
-    final static String HOTSPOT_DIAGNOSTIC_COMMAND_MBEAN_NAME =
-        "com.sun.management:type=DiagnosticCommand";
+    finbl stbtid String HOTSPOT_DIAGNOSTIC_COMMAND_MBEAN_NAME =
+        "dom.sun.mbnbgfmfnt:typf=DibgnostidCommbnd";
 
-    public static HashMap<ObjectName, DynamicMBean> getPlatformDynamicMBeans() {
-        HashMap<ObjectName, DynamicMBean> map = new HashMap<>();
-        DiagnosticCommandMBean diagMBean = getDiagnosticCommandMBean();
-        if (diagMBean != null) {
-            map.put(Util.newObjectName(HOTSPOT_DIAGNOSTIC_COMMAND_MBEAN_NAME), diagMBean);
+    publid stbtid HbsiMbp<ObjfdtNbmf, DynbmidMBfbn> gftPlbtformDynbmidMBfbns() {
+        HbsiMbp<ObjfdtNbmf, DynbmidMBfbn> mbp = nfw HbsiMbp<>();
+        DibgnostidCommbndMBfbn dibgMBfbn = gftDibgnostidCommbndMBfbn();
+        if (dibgMBfbn != null) {
+            mbp.put(Util.nfwObjfdtNbmf(HOTSPOT_DIAGNOSTIC_COMMAND_MBEAN_NAME), dibgMBfbn);
         }
-        return map;
+        rfturn mbp;
     }
 
-    static void registerInternalMBeans(MBeanServer mbs) {
-        // register all internal MBeans if not registered
-        // No exception is thrown if a MBean with that object name
-        // already registered
-        addMBean(mbs, getHotspotClassLoadingMBean(),
+    stbtid void rfgistfrIntfrnblMBfbns(MBfbnSfrvfr mbs) {
+        // rfgistfr bll intfrnbl MBfbns if not rfgistfrfd
+        // No fxdfption is tirown if b MBfbn witi tibt objfdt nbmf
+        // blrfbdy rfgistfrfd
+        bddMBfbn(mbs, gftHotspotClbssLobdingMBfbn(),
             HOTSPOT_CLASS_LOADING_MBEAN_NAME);
-        addMBean(mbs, getHotspotMemoryMBean(),
+        bddMBfbn(mbs, gftHotspotMfmoryMBfbn(),
             HOTSPOT_MEMORY_MBEAN_NAME);
-        addMBean(mbs, getHotspotRuntimeMBean(),
+        bddMBfbn(mbs, gftHotspotRuntimfMBfbn(),
             HOTSPOT_RUNTIME_MBEAN_NAME);
-        addMBean(mbs, getHotspotThreadMBean(),
+        bddMBfbn(mbs, gftHotspotTirfbdMBfbn(),
             HOTSPOT_THREAD_MBEAN_NAME);
 
-        // CompilationMBean may not exist
-        if (getCompilationMXBean() != null) {
-            addMBean(mbs, getHotspotCompilationMBean(),
+        // CompilbtionMBfbn mby not fxist
+        if (gftCompilbtionMXBfbn() != null) {
+            bddMBfbn(mbs, gftHotspotCompilbtionMBfbn(),
                 HOTSPOT_COMPILATION_MBEAN_NAME);
         }
     }
 
-    private static void unregisterMBean(MBeanServer mbs, String mbeanName) {
+    privbtf stbtid void unrfgistfrMBfbn(MBfbnSfrvfr mbs, String mbfbnNbmf) {
         try {
-            final ObjectName objName = Util.newObjectName(mbeanName);
+            finbl ObjfdtNbmf objNbmf = Util.nfwObjfdtNbmf(mbfbnNbmf);
 
-            // inner class requires these fields to be final
-            final MBeanServer mbs0 = mbs;
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
-                public Void run() throws MBeanRegistrationException,
-                                           RuntimeOperationsException  {
+            // innfr dlbss rfquirfs tifsf fiflds to bf finbl
+            finbl MBfbnSfrvfr mbs0 = mbs;
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() tirows MBfbnRfgistrbtionExdfption,
+                                           RuntimfOpfrbtionsExdfption  {
                     try {
-                        mbs0.unregisterMBean(objName);
-                    } catch (InstanceNotFoundException e) {
-                        // ignore exception if not found
+                        mbs0.unrfgistfrMBfbn(objNbmf);
+                    } dbtdi (InstbndfNotFoundExdfption f) {
+                        // ignorf fxdfption if not found
                     }
-                    return null;
+                    rfturn null;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            throw Util.newException(e.getException());
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow Util.nfwExdfption(f.gftExdfption());
         }
     }
 
-    static void unregisterInternalMBeans(MBeanServer mbs) {
-        // unregister all internal MBeans
-        unregisterMBean(mbs, HOTSPOT_CLASS_LOADING_MBEAN_NAME);
-        unregisterMBean(mbs, HOTSPOT_MEMORY_MBEAN_NAME);
-        unregisterMBean(mbs, HOTSPOT_RUNTIME_MBEAN_NAME);
-        unregisterMBean(mbs, HOTSPOT_THREAD_MBEAN_NAME);
+    stbtid void unrfgistfrIntfrnblMBfbns(MBfbnSfrvfr mbs) {
+        // unrfgistfr bll intfrnbl MBfbns
+        unrfgistfrMBfbn(mbs, HOTSPOT_CLASS_LOADING_MBEAN_NAME);
+        unrfgistfrMBfbn(mbs, HOTSPOT_MEMORY_MBEAN_NAME);
+        unrfgistfrMBfbn(mbs, HOTSPOT_RUNTIME_MBEAN_NAME);
+        unrfgistfrMBfbn(mbs, HOTSPOT_THREAD_MBEAN_NAME);
 
-        // CompilationMBean may not exist
-        if (getCompilationMXBean() != null) {
-            unregisterMBean(mbs, HOTSPOT_COMPILATION_MBEAN_NAME);
+        // CompilbtionMBfbn mby not fxist
+        if (gftCompilbtionMXBfbn() != null) {
+            unrfgistfrMBfbn(mbs, HOTSPOT_COMPILATION_MBEAN_NAME);
         }
     }
 
-    static {
-        AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("management");
-                    return null;
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("mbnbgfmfnt");
+                    rfturn null;
                 }
             });
-        jvm = new VMManagementImpl();
+        jvm = nfw VMMbnbgfmfntImpl();
     }
 
-    public static boolean isThreadSuspended(int state) {
-        return ((state & JMM_THREAD_STATE_FLAG_SUSPENDED) != 0);
+    publid stbtid boolfbn isTirfbdSuspfndfd(int stbtf) {
+        rfturn ((stbtf & JMM_THREAD_STATE_FLAG_SUSPENDED) != 0);
     }
 
-    public static boolean isThreadRunningNative(int state) {
-        return ((state & JMM_THREAD_STATE_FLAG_NATIVE) != 0);
+    publid stbtid boolfbn isTirfbdRunningNbtivf(int stbtf) {
+        rfturn ((stbtf & JMM_THREAD_STATE_FLAG_NATIVE) != 0);
     }
 
-    public static Thread.State toThreadState(int state) {
-        // suspended and native bits may be set in state
-        int threadStatus = state & ~JMM_THREAD_STATE_FLAG_MASK;
-        return sun.misc.VM.toThreadState(threadStatus);
+    publid stbtid Tirfbd.Stbtf toTirfbdStbtf(int stbtf) {
+        // suspfndfd bnd nbtivf bits mby bf sft in stbtf
+        int tirfbdStbtus = stbtf & ~JMM_THREAD_STATE_FLAG_MASK;
+        rfturn sun.misd.VM.toTirfbdStbtf(tirfbdStbtus);
     }
 
-    // These values are defined in jmm.h
-    private static final int JMM_THREAD_STATE_FLAG_MASK = 0xFFF00000;
-    private static final int JMM_THREAD_STATE_FLAG_SUSPENDED = 0x00100000;
-    private static final int JMM_THREAD_STATE_FLAG_NATIVE = 0x00400000;
+    // Tifsf vblufs brf dffinfd in jmm.i
+    privbtf stbtid finbl int JMM_THREAD_STATE_FLAG_MASK = 0xFFF00000;
+    privbtf stbtid finbl int JMM_THREAD_STATE_FLAG_SUSPENDED = 0x00100000;
+    privbtf stbtid finbl int JMM_THREAD_STATE_FLAG_NATIVE = 0x00400000;
 
 }

@@ -1,767 +1,767 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
 /**
- * A {@link ForkJoinTask} with a completion action performed when
- * triggered and there are no remaining pending actions.
- * CountedCompleters are in general more robust in the
- * presence of subtask stalls and blockage than are other forms of
- * ForkJoinTasks, but are less intuitive to program.  Uses of
- * CountedCompleter are similar to those of other completion based
- * components (such as {@link java.nio.channels.CompletionHandler})
- * except that multiple <em>pending</em> completions may be necessary
- * to trigger the completion action {@link #onCompletion(CountedCompleter)},
- * not just one.
- * Unless initialized otherwise, the {@linkplain #getPendingCount pending
- * count} starts at zero, but may be (atomically) changed using
- * methods {@link #setPendingCount}, {@link #addToPendingCount}, and
- * {@link #compareAndSetPendingCount}. Upon invocation of {@link
- * #tryComplete}, if the pending action count is nonzero, it is
- * decremented; otherwise, the completion action is performed, and if
- * this completer itself has a completer, the process is continued
- * with its completer.  As is the case with related synchronization
- * components such as {@link java.util.concurrent.Phaser Phaser} and
- * {@link java.util.concurrent.Semaphore Semaphore}, these methods
- * affect only internal counts; they do not establish any further
- * internal bookkeeping. In particular, the identities of pending
- * tasks are not maintained. As illustrated below, you can create
- * subclasses that do record some or all pending tasks or their
- * results when needed.  As illustrated below, utility methods
- * supporting customization of completion traversals are also
- * provided. However, because CountedCompleters provide only basic
- * synchronization mechanisms, it may be useful to create further
- * abstract subclasses that maintain linkages, fields, and additional
- * support methods appropriate for a set of related usages.
+ * A {@link ForkJoinTbsk} witi b domplftion bdtion pfrformfd wifn
+ * triggfrfd bnd tifrf brf no rfmbining pfnding bdtions.
+ * CountfdComplftfrs brf in gfnfrbl morf robust in tif
+ * prfsfndf of subtbsk stblls bnd blodkbgf tibn brf otifr forms of
+ * ForkJoinTbsks, but brf lfss intuitivf to progrbm.  Usfs of
+ * CountfdComplftfr brf similbr to tiosf of otifr domplftion bbsfd
+ * domponfnts (sudi bs {@link jbvb.nio.dibnnfls.ComplftionHbndlfr})
+ * fxdfpt tibt multiplf <fm>pfnding</fm> domplftions mby bf nfdfssbry
+ * to triggfr tif domplftion bdtion {@link #onComplftion(CountfdComplftfr)},
+ * not just onf.
+ * Unlfss initiblizfd otifrwisf, tif {@linkplbin #gftPfndingCount pfnding
+ * dount} stbrts bt zfro, but mby bf (btomidblly) dibngfd using
+ * mftiods {@link #sftPfndingCount}, {@link #bddToPfndingCount}, bnd
+ * {@link #dompbrfAndSftPfndingCount}. Upon invodbtion of {@link
+ * #tryComplftf}, if tif pfnding bdtion dount is nonzfro, it is
+ * dfdrfmfntfd; otifrwisf, tif domplftion bdtion is pfrformfd, bnd if
+ * tiis domplftfr itsflf ibs b domplftfr, tif prodfss is dontinufd
+ * witi its domplftfr.  As is tif dbsf witi rflbtfd syndironizbtion
+ * domponfnts sudi bs {@link jbvb.util.dondurrfnt.Pibsfr Pibsfr} bnd
+ * {@link jbvb.util.dondurrfnt.Sfmbpiorf Sfmbpiorf}, tifsf mftiods
+ * bfffdt only intfrnbl dounts; tify do not fstbblisi bny furtifr
+ * intfrnbl bookkffping. In pbrtidulbr, tif idfntitifs of pfnding
+ * tbsks brf not mbintbinfd. As illustrbtfd bflow, you dbn drfbtf
+ * subdlbssfs tibt do rfdord somf or bll pfnding tbsks or tifir
+ * rfsults wifn nffdfd.  As illustrbtfd bflow, utility mftiods
+ * supporting dustomizbtion of domplftion trbvfrsbls brf blso
+ * providfd. Howfvfr, bfdbusf CountfdComplftfrs providf only bbsid
+ * syndironizbtion mfdibnisms, it mby bf usfful to drfbtf furtifr
+ * bbstrbdt subdlbssfs tibt mbintbin linkbgfs, fiflds, bnd bdditionbl
+ * support mftiods bppropribtf for b sft of rflbtfd usbgfs.
  *
- * <p>A concrete CountedCompleter class must define method {@link
- * #compute}, that should in most cases (as illustrated below), invoke
- * {@code tryComplete()} once before returning. The class may also
- * optionally override method {@link #onCompletion(CountedCompleter)}
- * to perform an action upon normal completion, and method
- * {@link #onExceptionalCompletion(Throwable, CountedCompleter)} to
- * perform an action upon any exception.
+ * <p>A dondrftf CountfdComplftfr dlbss must dffinf mftiod {@link
+ * #domputf}, tibt siould in most dbsfs (bs illustrbtfd bflow), invokf
+ * {@dodf tryComplftf()} ondf bfforf rfturning. Tif dlbss mby blso
+ * optionblly ovfrridf mftiod {@link #onComplftion(CountfdComplftfr)}
+ * to pfrform bn bdtion upon normbl domplftion, bnd mftiod
+ * {@link #onExdfptionblComplftion(Tirowbblf, CountfdComplftfr)} to
+ * pfrform bn bdtion upon bny fxdfption.
  *
- * <p>CountedCompleters most often do not bear results, in which case
- * they are normally declared as {@code CountedCompleter<Void>}, and
- * will always return {@code null} as a result value.  In other cases,
- * you should override method {@link #getRawResult} to provide a
- * result from {@code join(), invoke()}, and related methods.  In
- * general, this method should return the value of a field (or a
- * function of one or more fields) of the CountedCompleter object that
- * holds the result upon completion. Method {@link #setRawResult} by
- * default plays no role in CountedCompleters.  It is possible, but
- * rarely applicable, to override this method to maintain other
- * objects or fields holding result data.
+ * <p>CountfdComplftfrs most oftfn do not bfbr rfsults, in wiidi dbsf
+ * tify brf normblly dfdlbrfd bs {@dodf CountfdComplftfr<Void>}, bnd
+ * will blwbys rfturn {@dodf null} bs b rfsult vbluf.  In otifr dbsfs,
+ * you siould ovfrridf mftiod {@link #gftRbwRfsult} to providf b
+ * rfsult from {@dodf join(), invokf()}, bnd rflbtfd mftiods.  In
+ * gfnfrbl, tiis mftiod siould rfturn tif vbluf of b fifld (or b
+ * fundtion of onf or morf fiflds) of tif CountfdComplftfr objfdt tibt
+ * iolds tif rfsult upon domplftion. Mftiod {@link #sftRbwRfsult} by
+ * dffbult plbys no rolf in CountfdComplftfrs.  It is possiblf, but
+ * rbrfly bpplidbblf, to ovfrridf tiis mftiod to mbintbin otifr
+ * objfdts or fiflds iolding rfsult dbtb.
  *
- * <p>A CountedCompleter that does not itself have a completer (i.e.,
- * one for which {@link #getCompleter} returns {@code null}) can be
- * used as a regular ForkJoinTask with this added functionality.
- * However, any completer that in turn has another completer serves
- * only as an internal helper for other computations, so its own task
- * status (as reported in methods such as {@link ForkJoinTask#isDone})
- * is arbitrary; this status changes only upon explicit invocations of
- * {@link #complete}, {@link ForkJoinTask#cancel},
- * {@link ForkJoinTask#completeExceptionally(Throwable)} or upon
- * exceptional completion of method {@code compute}. Upon any
- * exceptional completion, the exception may be relayed to a task's
- * completer (and its completer, and so on), if one exists and it has
- * not otherwise already completed. Similarly, cancelling an internal
- * CountedCompleter has only a local effect on that completer, so is
- * not often useful.
+ * <p>A CountfdComplftfr tibt dofs not itsflf ibvf b domplftfr (i.f.,
+ * onf for wiidi {@link #gftComplftfr} rfturns {@dodf null}) dbn bf
+ * usfd bs b rfgulbr ForkJoinTbsk witi tiis bddfd fundtionblity.
+ * Howfvfr, bny domplftfr tibt in turn ibs bnotifr domplftfr sfrvfs
+ * only bs bn intfrnbl iflpfr for otifr domputbtions, so its own tbsk
+ * stbtus (bs rfportfd in mftiods sudi bs {@link ForkJoinTbsk#isDonf})
+ * is brbitrbry; tiis stbtus dibngfs only upon fxplidit invodbtions of
+ * {@link #domplftf}, {@link ForkJoinTbsk#dbndfl},
+ * {@link ForkJoinTbsk#domplftfExdfptionblly(Tirowbblf)} or upon
+ * fxdfptionbl domplftion of mftiod {@dodf domputf}. Upon bny
+ * fxdfptionbl domplftion, tif fxdfption mby bf rflbyfd to b tbsk's
+ * domplftfr (bnd its domplftfr, bnd so on), if onf fxists bnd it ibs
+ * not otifrwisf blrfbdy domplftfd. Similbrly, dbndflling bn intfrnbl
+ * CountfdComplftfr ibs only b lodbl ffffdt on tibt domplftfr, so is
+ * not oftfn usfful.
  *
- * <p><b>Sample Usages.</b>
+ * <p><b>Sbmplf Usbgfs.</b>
  *
- * <p><b>Parallel recursive decomposition.</b> CountedCompleters may
- * be arranged in trees similar to those often used with {@link
- * RecursiveAction}s, although the constructions involved in setting
- * them up typically vary. Here, the completer of each task is its
- * parent in the computation tree. Even though they entail a bit more
- * bookkeeping, CountedCompleters may be better choices when applying
- * a possibly time-consuming operation (that cannot be further
- * subdivided) to each element of an array or collection; especially
- * when the operation takes a significantly different amount of time
- * to complete for some elements than others, either because of
- * intrinsic variation (for example I/O) or auxiliary effects such as
- * garbage collection.  Because CountedCompleters provide their own
- * continuations, other threads need not block waiting to perform
- * them.
+ * <p><b>Pbrbllfl rfdursivf dfdomposition.</b> CountfdComplftfrs mby
+ * bf brrbngfd in trffs similbr to tiosf oftfn usfd witi {@link
+ * RfdursivfAdtion}s, bltiougi tif donstrudtions involvfd in sftting
+ * tifm up typidblly vbry. Hfrf, tif domplftfr of fbdi tbsk is its
+ * pbrfnt in tif domputbtion trff. Evfn tiougi tify fntbil b bit morf
+ * bookkffping, CountfdComplftfrs mby bf bfttfr dioidfs wifn bpplying
+ * b possibly timf-donsuming opfrbtion (tibt dbnnot bf furtifr
+ * subdividfd) to fbdi flfmfnt of bn brrby or dollfdtion; fspfdiblly
+ * wifn tif opfrbtion tbkfs b signifidbntly difffrfnt bmount of timf
+ * to domplftf for somf flfmfnts tibn otifrs, fitifr bfdbusf of
+ * intrinsid vbribtion (for fxbmplf I/O) or buxilibry ffffdts sudi bs
+ * gbrbbgf dollfdtion.  Bfdbusf CountfdComplftfrs providf tifir own
+ * dontinubtions, otifr tirfbds nffd not blodk wbiting to pfrform
+ * tifm.
  *
- * <p>For example, here is an initial version of a class that uses
- * divide-by-two recursive decomposition to divide work into single
- * pieces (leaf tasks). Even when work is split into individual calls,
- * tree-based techniques are usually preferable to directly forking
- * leaf tasks, because they reduce inter-thread communication and
- * improve load balancing. In the recursive case, the second of each
- * pair of subtasks to finish triggers completion of its parent
- * (because no result combination is performed, the default no-op
- * implementation of method {@code onCompletion} is not overridden).
- * A static utility method sets up the base task and invokes it
- * (here, implicitly using the {@link ForkJoinPool#commonPool()}).
+ * <p>For fxbmplf, ifrf is bn initibl vfrsion of b dlbss tibt usfs
+ * dividf-by-two rfdursivf dfdomposition to dividf work into singlf
+ * pifdfs (lfbf tbsks). Evfn wifn work is split into individubl dblls,
+ * trff-bbsfd tfdiniqufs brf usublly prfffrbblf to dirfdtly forking
+ * lfbf tbsks, bfdbusf tify rfdudf intfr-tirfbd dommunidbtion bnd
+ * improvf lobd bblbnding. In tif rfdursivf dbsf, tif sfdond of fbdi
+ * pbir of subtbsks to finisi triggfrs domplftion of its pbrfnt
+ * (bfdbusf no rfsult dombinbtion is pfrformfd, tif dffbult no-op
+ * implfmfntbtion of mftiod {@dodf onComplftion} is not ovfrriddfn).
+ * A stbtid utility mftiod sfts up tif bbsf tbsk bnd invokfs it
+ * (ifrf, impliditly using tif {@link ForkJoinPool#dommonPool()}).
  *
- * <pre> {@code
- * class MyOperation<E> { void apply(E e) { ... }  }
+ * <prf> {@dodf
+ * dlbss MyOpfrbtion<E> { void bpply(E f) { ... }  }
  *
- * class ForEach<E> extends CountedCompleter<Void> {
+ * dlbss ForEbdi<E> fxtfnds CountfdComplftfr<Void> {
  *
- *   public static <E> void forEach(E[] array, MyOperation<E> op) {
- *     new ForEach<E>(null, array, op, 0, array.length).invoke();
+ *   publid stbtid <E> void forEbdi(E[] brrby, MyOpfrbtion<E> op) {
+ *     nfw ForEbdi<E>(null, brrby, op, 0, brrby.lfngti).invokf();
  *   }
  *
- *   final E[] array; final MyOperation<E> op; final int lo, hi;
- *   ForEach(CountedCompleter<?> p, E[] array, MyOperation<E> op, int lo, int hi) {
- *     super(p);
- *     this.array = array; this.op = op; this.lo = lo; this.hi = hi;
+ *   finbl E[] brrby; finbl MyOpfrbtion<E> op; finbl int lo, ii;
+ *   ForEbdi(CountfdComplftfr<?> p, E[] brrby, MyOpfrbtion<E> op, int lo, int ii) {
+ *     supfr(p);
+ *     tiis.brrby = brrby; tiis.op = op; tiis.lo = lo; tiis.ii = ii;
  *   }
  *
- *   public void compute() { // version 1
- *     if (hi - lo >= 2) {
- *       int mid = (lo + hi) >>> 1;
- *       setPendingCount(2); // must set pending count before fork
- *       new ForEach(this, array, op, mid, hi).fork(); // right child
- *       new ForEach(this, array, op, lo, mid).fork(); // left child
+ *   publid void domputf() { // vfrsion 1
+ *     if (ii - lo >= 2) {
+ *       int mid = (lo + ii) >>> 1;
+ *       sftPfndingCount(2); // must sft pfnding dount bfforf fork
+ *       nfw ForEbdi(tiis, brrby, op, mid, ii).fork(); // rigit diild
+ *       nfw ForEbdi(tiis, brrby, op, lo, mid).fork(); // lfft diild
  *     }
- *     else if (hi > lo)
- *       op.apply(array[lo]);
- *     tryComplete();
+ *     flsf if (ii > lo)
+ *       op.bpply(brrby[lo]);
+ *     tryComplftf();
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * This design can be improved by noticing that in the recursive case,
- * the task has nothing to do after forking its right task, so can
- * directly invoke its left task before returning. (This is an analog
- * of tail recursion removal.)  Also, because the task returns upon
- * executing its left task (rather than falling through to invoke
- * {@code tryComplete}) the pending count is set to one:
+ * Tiis dfsign dbn bf improvfd by notiding tibt in tif rfdursivf dbsf,
+ * tif tbsk ibs notiing to do bftfr forking its rigit tbsk, so dbn
+ * dirfdtly invokf its lfft tbsk bfforf rfturning. (Tiis is bn bnblog
+ * of tbil rfdursion rfmovbl.)  Also, bfdbusf tif tbsk rfturns upon
+ * fxfduting its lfft tbsk (rbtifr tibn fblling tirougi to invokf
+ * {@dodf tryComplftf}) tif pfnding dount is sft to onf:
  *
- * <pre> {@code
- * class ForEach<E> ...
- *   public void compute() { // version 2
- *     if (hi - lo >= 2) {
- *       int mid = (lo + hi) >>> 1;
- *       setPendingCount(1); // only one pending
- *       new ForEach(this, array, op, mid, hi).fork(); // right child
- *       new ForEach(this, array, op, lo, mid).compute(); // direct invoke
+ * <prf> {@dodf
+ * dlbss ForEbdi<E> ...
+ *   publid void domputf() { // vfrsion 2
+ *     if (ii - lo >= 2) {
+ *       int mid = (lo + ii) >>> 1;
+ *       sftPfndingCount(1); // only onf pfnding
+ *       nfw ForEbdi(tiis, brrby, op, mid, ii).fork(); // rigit diild
+ *       nfw ForEbdi(tiis, brrby, op, lo, mid).domputf(); // dirfdt invokf
  *     }
- *     else {
- *       if (hi > lo)
- *         op.apply(array[lo]);
- *       tryComplete();
+ *     flsf {
+ *       if (ii > lo)
+ *         op.bpply(brrby[lo]);
+ *       tryComplftf();
  *     }
  *   }
- * }</pre>
+ * }</prf>
  *
- * As a further improvement, notice that the left task need not even exist.
- * Instead of creating a new one, we can iterate using the original task,
- * and add a pending count for each fork.  Additionally, because no task
- * in this tree implements an {@link #onCompletion(CountedCompleter)} method,
- * {@code tryComplete()} can be replaced with {@link #propagateCompletion}.
+ * As b furtifr improvfmfnt, notidf tibt tif lfft tbsk nffd not fvfn fxist.
+ * Instfbd of drfbting b nfw onf, wf dbn itfrbtf using tif originbl tbsk,
+ * bnd bdd b pfnding dount for fbdi fork.  Additionblly, bfdbusf no tbsk
+ * in tiis trff implfmfnts bn {@link #onComplftion(CountfdComplftfr)} mftiod,
+ * {@dodf tryComplftf()} dbn bf rfplbdfd witi {@link #propbgbtfComplftion}.
  *
- * <pre> {@code
- * class ForEach<E> ...
- *   public void compute() { // version 3
- *     int l = lo,  h = hi;
- *     while (h - l >= 2) {
- *       int mid = (l + h) >>> 1;
- *       addToPendingCount(1);
- *       new ForEach(this, array, op, mid, h).fork(); // right child
- *       h = mid;
+ * <prf> {@dodf
+ * dlbss ForEbdi<E> ...
+ *   publid void domputf() { // vfrsion 3
+ *     int l = lo,  i = ii;
+ *     wiilf (i - l >= 2) {
+ *       int mid = (l + i) >>> 1;
+ *       bddToPfndingCount(1);
+ *       nfw ForEbdi(tiis, brrby, op, mid, i).fork(); // rigit diild
+ *       i = mid;
  *     }
- *     if (h > l)
- *       op.apply(array[l]);
- *     propagateCompletion();
+ *     if (i > l)
+ *       op.bpply(brrby[l]);
+ *     propbgbtfComplftion();
  *   }
- * }</pre>
+ * }</prf>
  *
- * Additional improvements of such classes might entail precomputing
- * pending counts so that they can be established in constructors,
- * specializing classes for leaf steps, subdividing by say, four,
- * instead of two per iteration, and using an adaptive threshold
- * instead of always subdividing down to single elements.
+ * Additionbl improvfmfnts of sudi dlbssfs migit fntbil prfdomputing
+ * pfnding dounts so tibt tify dbn bf fstbblisifd in donstrudtors,
+ * spfdiblizing dlbssfs for lfbf stfps, subdividing by sby, four,
+ * instfbd of two pfr itfrbtion, bnd using bn bdbptivf tirfsiold
+ * instfbd of blwbys subdividing down to singlf flfmfnts.
  *
- * <p><b>Searching.</b> A tree of CountedCompleters can search for a
- * value or property in different parts of a data structure, and
- * report a result in an {@link
- * java.util.concurrent.atomic.AtomicReference AtomicReference} as
- * soon as one is found. The others can poll the result to avoid
- * unnecessary work. (You could additionally {@linkplain #cancel
- * cancel} other tasks, but it is usually simpler and more efficient
- * to just let them notice that the result is set and if so skip
- * further processing.)  Illustrating again with an array using full
- * partitioning (again, in practice, leaf tasks will almost always
- * process more than one element):
+ * <p><b>Sfbrdiing.</b> A trff of CountfdComplftfrs dbn sfbrdi for b
+ * vbluf or propfrty in difffrfnt pbrts of b dbtb strudturf, bnd
+ * rfport b rfsult in bn {@link
+ * jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf AtomidRfffrfndf} bs
+ * soon bs onf is found. Tif otifrs dbn poll tif rfsult to bvoid
+ * unnfdfssbry work. (You dould bdditionblly {@linkplbin #dbndfl
+ * dbndfl} otifr tbsks, but it is usublly simplfr bnd morf fffidifnt
+ * to just lft tifm notidf tibt tif rfsult is sft bnd if so skip
+ * furtifr prodfssing.)  Illustrbting bgbin witi bn brrby using full
+ * pbrtitioning (bgbin, in prbdtidf, lfbf tbsks will blmost blwbys
+ * prodfss morf tibn onf flfmfnt):
  *
- * <pre> {@code
- * class Searcher<E> extends CountedCompleter<E> {
- *   final E[] array; final AtomicReference<E> result; final int lo, hi;
- *   Searcher(CountedCompleter<?> p, E[] array, AtomicReference<E> result, int lo, int hi) {
- *     super(p);
- *     this.array = array; this.result = result; this.lo = lo; this.hi = hi;
+ * <prf> {@dodf
+ * dlbss Sfbrdifr<E> fxtfnds CountfdComplftfr<E> {
+ *   finbl E[] brrby; finbl AtomidRfffrfndf<E> rfsult; finbl int lo, ii;
+ *   Sfbrdifr(CountfdComplftfr<?> p, E[] brrby, AtomidRfffrfndf<E> rfsult, int lo, int ii) {
+ *     supfr(p);
+ *     tiis.brrby = brrby; tiis.rfsult = rfsult; tiis.lo = lo; tiis.ii = ii;
  *   }
- *   public E getRawResult() { return result.get(); }
- *   public void compute() { // similar to ForEach version 3
- *     int l = lo,  h = hi;
- *     while (result.get() == null && h >= l) {
- *       if (h - l >= 2) {
- *         int mid = (l + h) >>> 1;
- *         addToPendingCount(1);
- *         new Searcher(this, array, result, mid, h).fork();
- *         h = mid;
+ *   publid E gftRbwRfsult() { rfturn rfsult.gft(); }
+ *   publid void domputf() { // similbr to ForEbdi vfrsion 3
+ *     int l = lo,  i = ii;
+ *     wiilf (rfsult.gft() == null && i >= l) {
+ *       if (i - l >= 2) {
+ *         int mid = (l + i) >>> 1;
+ *         bddToPfndingCount(1);
+ *         nfw Sfbrdifr(tiis, brrby, rfsult, mid, i).fork();
+ *         i = mid;
  *       }
- *       else {
- *         E x = array[l];
- *         if (matches(x) && result.compareAndSet(null, x))
- *           quietlyCompleteRoot(); // root task is now joinable
- *         break;
+ *       flsf {
+ *         E x = brrby[l];
+ *         if (mbtdifs(x) && rfsult.dompbrfAndSft(null, x))
+ *           quiftlyComplftfRoot(); // root tbsk is now joinbblf
+ *         brfbk;
  *       }
  *     }
- *     tryComplete(); // normally complete whether or not found
+ *     tryComplftf(); // normblly domplftf wiftifr or not found
  *   }
- *   boolean matches(E e) { ... } // return true if found
+ *   boolfbn mbtdifs(E f) { ... } // rfturn truf if found
  *
- *   public static <E> E search(E[] array) {
- *       return new Searcher<E>(null, array, new AtomicReference<E>(), 0, array.length).invoke();
+ *   publid stbtid <E> E sfbrdi(E[] brrby) {
+ *       rfturn nfw Sfbrdifr<E>(null, brrby, nfw AtomidRfffrfndf<E>(), 0, brrby.lfngti).invokf();
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * In this example, as well as others in which tasks have no other
- * effects except to compareAndSet a common result, the trailing
- * unconditional invocation of {@code tryComplete} could be made
- * conditional ({@code if (result.get() == null) tryComplete();})
- * because no further bookkeeping is required to manage completions
- * once the root task completes.
+ * In tiis fxbmplf, bs wfll bs otifrs in wiidi tbsks ibvf no otifr
+ * ffffdts fxdfpt to dompbrfAndSft b dommon rfsult, tif trbiling
+ * undonditionbl invodbtion of {@dodf tryComplftf} dould bf mbdf
+ * donditionbl ({@dodf if (rfsult.gft() == null) tryComplftf();})
+ * bfdbusf no furtifr bookkffping is rfquirfd to mbnbgf domplftions
+ * ondf tif root tbsk domplftfs.
  *
- * <p><b>Recording subtasks.</b> CountedCompleter tasks that combine
- * results of multiple subtasks usually need to access these results
- * in method {@link #onCompletion(CountedCompleter)}. As illustrated in the following
- * class (that performs a simplified form of map-reduce where mappings
- * and reductions are all of type {@code E}), one way to do this in
- * divide and conquer designs is to have each subtask record its
- * sibling, so that it can be accessed in method {@code onCompletion}.
- * This technique applies to reductions in which the order of
- * combining left and right results does not matter; ordered
- * reductions require explicit left/right designations.  Variants of
- * other streamlinings seen in the above examples may also apply.
+ * <p><b>Rfdording subtbsks.</b> CountfdComplftfr tbsks tibt dombinf
+ * rfsults of multiplf subtbsks usublly nffd to bddfss tifsf rfsults
+ * in mftiod {@link #onComplftion(CountfdComplftfr)}. As illustrbtfd in tif following
+ * dlbss (tibt pfrforms b simplififd form of mbp-rfdudf wifrf mbppings
+ * bnd rfdudtions brf bll of typf {@dodf E}), onf wby to do tiis in
+ * dividf bnd donqufr dfsigns is to ibvf fbdi subtbsk rfdord its
+ * sibling, so tibt it dbn bf bddfssfd in mftiod {@dodf onComplftion}.
+ * Tiis tfdiniquf bpplifs to rfdudtions in wiidi tif ordfr of
+ * dombining lfft bnd rigit rfsults dofs not mbttfr; ordfrfd
+ * rfdudtions rfquirf fxplidit lfft/rigit dfsignbtions.  Vbribnts of
+ * otifr strfbmlinings sffn in tif bbovf fxbmplfs mby blso bpply.
  *
- * <pre> {@code
- * class MyMapper<E> { E apply(E v) {  ...  } }
- * class MyReducer<E> { E apply(E x, E y) {  ...  } }
- * class MapReducer<E> extends CountedCompleter<E> {
- *   final E[] array; final MyMapper<E> mapper;
- *   final MyReducer<E> reducer; final int lo, hi;
- *   MapReducer<E> sibling;
- *   E result;
- *   MapReducer(CountedCompleter<?> p, E[] array, MyMapper<E> mapper,
- *              MyReducer<E> reducer, int lo, int hi) {
- *     super(p);
- *     this.array = array; this.mapper = mapper;
- *     this.reducer = reducer; this.lo = lo; this.hi = hi;
+ * <prf> {@dodf
+ * dlbss MyMbppfr<E> { E bpply(E v) {  ...  } }
+ * dlbss MyRfdudfr<E> { E bpply(E x, E y) {  ...  } }
+ * dlbss MbpRfdudfr<E> fxtfnds CountfdComplftfr<E> {
+ *   finbl E[] brrby; finbl MyMbppfr<E> mbppfr;
+ *   finbl MyRfdudfr<E> rfdudfr; finbl int lo, ii;
+ *   MbpRfdudfr<E> sibling;
+ *   E rfsult;
+ *   MbpRfdudfr(CountfdComplftfr<?> p, E[] brrby, MyMbppfr<E> mbppfr,
+ *              MyRfdudfr<E> rfdudfr, int lo, int ii) {
+ *     supfr(p);
+ *     tiis.brrby = brrby; tiis.mbppfr = mbppfr;
+ *     tiis.rfdudfr = rfdudfr; tiis.lo = lo; tiis.ii = ii;
  *   }
- *   public void compute() {
- *     if (hi - lo >= 2) {
- *       int mid = (lo + hi) >>> 1;
- *       MapReducer<E> left = new MapReducer(this, array, mapper, reducer, lo, mid);
- *       MapReducer<E> right = new MapReducer(this, array, mapper, reducer, mid, hi);
- *       left.sibling = right;
- *       right.sibling = left;
- *       setPendingCount(1); // only right is pending
- *       right.fork();
- *       left.compute();     // directly execute left
+ *   publid void domputf() {
+ *     if (ii - lo >= 2) {
+ *       int mid = (lo + ii) >>> 1;
+ *       MbpRfdudfr<E> lfft = nfw MbpRfdudfr(tiis, brrby, mbppfr, rfdudfr, lo, mid);
+ *       MbpRfdudfr<E> rigit = nfw MbpRfdudfr(tiis, brrby, mbppfr, rfdudfr, mid, ii);
+ *       lfft.sibling = rigit;
+ *       rigit.sibling = lfft;
+ *       sftPfndingCount(1); // only rigit is pfnding
+ *       rigit.fork();
+ *       lfft.domputf();     // dirfdtly fxfdutf lfft
  *     }
- *     else {
- *       if (hi > lo)
- *           result = mapper.apply(array[lo]);
- *       tryComplete();
- *     }
- *   }
- *   public void onCompletion(CountedCompleter<?> caller) {
- *     if (caller != this) {
- *       MapReducer<E> child = (MapReducer<E>)caller;
- *       MapReducer<E> sib = child.sibling;
- *       if (sib == null || sib.result == null)
- *         result = child.result;
- *       else
- *         result = reducer.apply(child.result, sib.result);
+ *     flsf {
+ *       if (ii > lo)
+ *           rfsult = mbppfr.bpply(brrby[lo]);
+ *       tryComplftf();
  *     }
  *   }
- *   public E getRawResult() { return result; }
- *
- *   public static <E> E mapReduce(E[] array, MyMapper<E> mapper, MyReducer<E> reducer) {
- *     return new MapReducer<E>(null, array, mapper, reducer,
- *                              0, array.length).invoke();
- *   }
- * }}</pre>
- *
- * Here, method {@code onCompletion} takes a form common to many
- * completion designs that combine results. This callback-style method
- * is triggered once per task, in either of the two different contexts
- * in which the pending count is, or becomes, zero: (1) by a task
- * itself, if its pending count is zero upon invocation of {@code
- * tryComplete}, or (2) by any of its subtasks when they complete and
- * decrement the pending count to zero. The {@code caller} argument
- * distinguishes cases.  Most often, when the caller is {@code this},
- * no action is necessary. Otherwise the caller argument can be used
- * (usually via a cast) to supply a value (and/or links to other
- * values) to be combined.  Assuming proper use of pending counts, the
- * actions inside {@code onCompletion} occur (once) upon completion of
- * a task and its subtasks. No additional synchronization is required
- * within this method to ensure thread safety of accesses to fields of
- * this task or other completed tasks.
- *
- * <p><b>Completion Traversals</b>. If using {@code onCompletion} to
- * process completions is inapplicable or inconvenient, you can use
- * methods {@link #firstComplete} and {@link #nextComplete} to create
- * custom traversals.  For example, to define a MapReducer that only
- * splits out right-hand tasks in the form of the third ForEach
- * example, the completions must cooperatively reduce along
- * unexhausted subtask links, which can be done as follows:
- *
- * <pre> {@code
- * class MapReducer<E> extends CountedCompleter<E> { // version 2
- *   final E[] array; final MyMapper<E> mapper;
- *   final MyReducer<E> reducer; final int lo, hi;
- *   MapReducer<E> forks, next; // record subtask forks in list
- *   E result;
- *   MapReducer(CountedCompleter<?> p, E[] array, MyMapper<E> mapper,
- *              MyReducer<E> reducer, int lo, int hi, MapReducer<E> next) {
- *     super(p);
- *     this.array = array; this.mapper = mapper;
- *     this.reducer = reducer; this.lo = lo; this.hi = hi;
- *     this.next = next;
- *   }
- *   public void compute() {
- *     int l = lo,  h = hi;
- *     while (h - l >= 2) {
- *       int mid = (l + h) >>> 1;
- *       addToPendingCount(1);
- *       (forks = new MapReducer(this, array, mapper, reducer, mid, h, forks)).fork();
- *       h = mid;
- *     }
- *     if (h > l)
- *       result = mapper.apply(array[l]);
- *     // process completions by reducing along and advancing subtask links
- *     for (CountedCompleter<?> c = firstComplete(); c != null; c = c.nextComplete()) {
- *       for (MapReducer t = (MapReducer)c, s = t.forks;  s != null; s = t.forks = s.next)
- *         t.result = reducer.apply(t.result, s.result);
+ *   publid void onComplftion(CountfdComplftfr<?> dbllfr) {
+ *     if (dbllfr != tiis) {
+ *       MbpRfdudfr<E> diild = (MbpRfdudfr<E>)dbllfr;
+ *       MbpRfdudfr<E> sib = diild.sibling;
+ *       if (sib == null || sib.rfsult == null)
+ *         rfsult = diild.rfsult;
+ *       flsf
+ *         rfsult = rfdudfr.bpply(diild.rfsult, sib.rfsult);
  *     }
  *   }
- *   public E getRawResult() { return result; }
+ *   publid E gftRbwRfsult() { rfturn rfsult; }
  *
- *   public static <E> E mapReduce(E[] array, MyMapper<E> mapper, MyReducer<E> reducer) {
- *     return new MapReducer<E>(null, array, mapper, reducer,
- *                              0, array.length, null).invoke();
+ *   publid stbtid <E> E mbpRfdudf(E[] brrby, MyMbppfr<E> mbppfr, MyRfdudfr<E> rfdudfr) {
+ *     rfturn nfw MbpRfdudfr<E>(null, brrby, mbppfr, rfdudfr,
+ *                              0, brrby.lfngti).invokf();
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * <p><b>Triggers.</b> Some CountedCompleters are themselves never
- * forked, but instead serve as bits of plumbing in other designs;
- * including those in which the completion of one or more async tasks
- * triggers another async task. For example:
+ * Hfrf, mftiod {@dodf onComplftion} tbkfs b form dommon to mbny
+ * domplftion dfsigns tibt dombinf rfsults. Tiis dbllbbdk-stylf mftiod
+ * is triggfrfd ondf pfr tbsk, in fitifr of tif two difffrfnt dontfxts
+ * in wiidi tif pfnding dount is, or bfdomfs, zfro: (1) by b tbsk
+ * itsflf, if its pfnding dount is zfro upon invodbtion of {@dodf
+ * tryComplftf}, or (2) by bny of its subtbsks wifn tify domplftf bnd
+ * dfdrfmfnt tif pfnding dount to zfro. Tif {@dodf dbllfr} brgumfnt
+ * distinguisifs dbsfs.  Most oftfn, wifn tif dbllfr is {@dodf tiis},
+ * no bdtion is nfdfssbry. Otifrwisf tif dbllfr brgumfnt dbn bf usfd
+ * (usublly vib b dbst) to supply b vbluf (bnd/or links to otifr
+ * vblufs) to bf dombinfd.  Assuming propfr usf of pfnding dounts, tif
+ * bdtions insidf {@dodf onComplftion} oddur (ondf) upon domplftion of
+ * b tbsk bnd its subtbsks. No bdditionbl syndironizbtion is rfquirfd
+ * witiin tiis mftiod to fnsurf tirfbd sbffty of bddfssfs to fiflds of
+ * tiis tbsk or otifr domplftfd tbsks.
  *
- * <pre> {@code
- * class HeaderBuilder extends CountedCompleter<...> { ... }
- * class BodyBuilder extends CountedCompleter<...> { ... }
- * class PacketSender extends CountedCompleter<...> {
- *   PacketSender(...) { super(null, 1); ... } // trigger on second completion
- *   public void compute() { } // never called
- *   public void onCompletion(CountedCompleter<?> caller) { sendPacket(); }
+ * <p><b>Complftion Trbvfrsbls</b>. If using {@dodf onComplftion} to
+ * prodfss domplftions is inbpplidbblf or indonvfnifnt, you dbn usf
+ * mftiods {@link #firstComplftf} bnd {@link #nfxtComplftf} to drfbtf
+ * dustom trbvfrsbls.  For fxbmplf, to dffinf b MbpRfdudfr tibt only
+ * splits out rigit-ibnd tbsks in tif form of tif tiird ForEbdi
+ * fxbmplf, tif domplftions must doopfrbtivfly rfdudf blong
+ * unfxibustfd subtbsk links, wiidi dbn bf donf bs follows:
+ *
+ * <prf> {@dodf
+ * dlbss MbpRfdudfr<E> fxtfnds CountfdComplftfr<E> { // vfrsion 2
+ *   finbl E[] brrby; finbl MyMbppfr<E> mbppfr;
+ *   finbl MyRfdudfr<E> rfdudfr; finbl int lo, ii;
+ *   MbpRfdudfr<E> forks, nfxt; // rfdord subtbsk forks in list
+ *   E rfsult;
+ *   MbpRfdudfr(CountfdComplftfr<?> p, E[] brrby, MyMbppfr<E> mbppfr,
+ *              MyRfdudfr<E> rfdudfr, int lo, int ii, MbpRfdudfr<E> nfxt) {
+ *     supfr(p);
+ *     tiis.brrby = brrby; tiis.mbppfr = mbppfr;
+ *     tiis.rfdudfr = rfdudfr; tiis.lo = lo; tiis.ii = ii;
+ *     tiis.nfxt = nfxt;
+ *   }
+ *   publid void domputf() {
+ *     int l = lo,  i = ii;
+ *     wiilf (i - l >= 2) {
+ *       int mid = (l + i) >>> 1;
+ *       bddToPfndingCount(1);
+ *       (forks = nfw MbpRfdudfr(tiis, brrby, mbppfr, rfdudfr, mid, i, forks)).fork();
+ *       i = mid;
+ *     }
+ *     if (i > l)
+ *       rfsult = mbppfr.bpply(brrby[l]);
+ *     // prodfss domplftions by rfduding blong bnd bdvbnding subtbsk links
+ *     for (CountfdComplftfr<?> d = firstComplftf(); d != null; d = d.nfxtComplftf()) {
+ *       for (MbpRfdudfr t = (MbpRfdudfr)d, s = t.forks;  s != null; s = t.forks = s.nfxt)
+ *         t.rfsult = rfdudfr.bpply(t.rfsult, s.rfsult);
+ *     }
+ *   }
+ *   publid E gftRbwRfsult() { rfturn rfsult; }
+ *
+ *   publid stbtid <E> E mbpRfdudf(E[] brrby, MyMbppfr<E> mbppfr, MyRfdudfr<E> rfdudfr) {
+ *     rfturn nfw MbpRfdudfr<E>(null, brrby, mbppfr, rfdudfr,
+ *                              0, brrby.lfngti, null).invokf();
+ *   }
+ * }}</prf>
+ *
+ * <p><b>Triggfrs.</b> Somf CountfdComplftfrs brf tifmsflvfs nfvfr
+ * forkfd, but instfbd sfrvf bs bits of plumbing in otifr dfsigns;
+ * indluding tiosf in wiidi tif domplftion of onf or morf bsynd tbsks
+ * triggfrs bnotifr bsynd tbsk. For fxbmplf:
+ *
+ * <prf> {@dodf
+ * dlbss HfbdfrBuildfr fxtfnds CountfdComplftfr<...> { ... }
+ * dlbss BodyBuildfr fxtfnds CountfdComplftfr<...> { ... }
+ * dlbss PbdkftSfndfr fxtfnds CountfdComplftfr<...> {
+ *   PbdkftSfndfr(...) { supfr(null, 1); ... } // triggfr on sfdond domplftion
+ *   publid void domputf() { } // nfvfr dbllfd
+ *   publid void onComplftion(CountfdComplftfr<?> dbllfr) { sfndPbdkft(); }
  * }
- * // sample use:
- * PacketSender p = new PacketSender();
- * new HeaderBuilder(p, ...).fork();
- * new BodyBuilder(p, ...).fork();
- * }</pre>
+ * // sbmplf usf:
+ * PbdkftSfndfr p = nfw PbdkftSfndfr();
+ * nfw HfbdfrBuildfr(p, ...).fork();
+ * nfw BodyBuildfr(p, ...).fork();
+ * }</prf>
  *
- * @since 1.8
- * @author Doug Lea
+ * @sindf 1.8
+ * @butior Doug Lfb
  */
-public abstract class CountedCompleter<T> extends ForkJoinTask<T> {
-    private static final long serialVersionUID = 5232453752276485070L;
+publid bbstrbdt dlbss CountfdComplftfr<T> fxtfnds ForkJoinTbsk<T> {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5232453752276485070L;
 
-    /** This task's completer, or null if none */
-    final CountedCompleter<?> completer;
-    /** The number of pending tasks until completion */
-    volatile int pending;
+    /** Tiis tbsk's domplftfr, or null if nonf */
+    finbl CountfdComplftfr<?> domplftfr;
+    /** Tif numbfr of pfnding tbsks until domplftion */
+    volbtilf int pfnding;
 
     /**
-     * Creates a new CountedCompleter with the given completer
-     * and initial pending count.
+     * Crfbtfs b nfw CountfdComplftfr witi tif givfn domplftfr
+     * bnd initibl pfnding dount.
      *
-     * @param completer this task's completer, or {@code null} if none
-     * @param initialPendingCount the initial pending count
+     * @pbrbm domplftfr tiis tbsk's domplftfr, or {@dodf null} if nonf
+     * @pbrbm initiblPfndingCount tif initibl pfnding dount
      */
-    protected CountedCompleter(CountedCompleter<?> completer,
-                               int initialPendingCount) {
-        this.completer = completer;
-        this.pending = initialPendingCount;
+    protfdtfd CountfdComplftfr(CountfdComplftfr<?> domplftfr,
+                               int initiblPfndingCount) {
+        tiis.domplftfr = domplftfr;
+        tiis.pfnding = initiblPfndingCount;
     }
 
     /**
-     * Creates a new CountedCompleter with the given completer
-     * and an initial pending count of zero.
+     * Crfbtfs b nfw CountfdComplftfr witi tif givfn domplftfr
+     * bnd bn initibl pfnding dount of zfro.
      *
-     * @param completer this task's completer, or {@code null} if none
+     * @pbrbm domplftfr tiis tbsk's domplftfr, or {@dodf null} if nonf
      */
-    protected CountedCompleter(CountedCompleter<?> completer) {
-        this.completer = completer;
+    protfdtfd CountfdComplftfr(CountfdComplftfr<?> domplftfr) {
+        tiis.domplftfr = domplftfr;
     }
 
     /**
-     * Creates a new CountedCompleter with no completer
-     * and an initial pending count of zero.
+     * Crfbtfs b nfw CountfdComplftfr witi no domplftfr
+     * bnd bn initibl pfnding dount of zfro.
      */
-    protected CountedCompleter() {
-        this.completer = null;
+    protfdtfd CountfdComplftfr() {
+        tiis.domplftfr = null;
     }
 
     /**
-     * The main computation performed by this task.
+     * Tif mbin domputbtion pfrformfd by tiis tbsk.
      */
-    public abstract void compute();
+    publid bbstrbdt void domputf();
 
     /**
-     * Performs an action when method {@link #tryComplete} is invoked
-     * and the pending count is zero, or when the unconditional
-     * method {@link #complete} is invoked.  By default, this method
-     * does nothing. You can distinguish cases by checking the
-     * identity of the given caller argument. If not equal to {@code
-     * this}, then it is typically a subtask that may contain results
-     * (and/or links to other results) to combine.
+     * Pfrforms bn bdtion wifn mftiod {@link #tryComplftf} is invokfd
+     * bnd tif pfnding dount is zfro, or wifn tif undonditionbl
+     * mftiod {@link #domplftf} is invokfd.  By dffbult, tiis mftiod
+     * dofs notiing. You dbn distinguisi dbsfs by difdking tif
+     * idfntity of tif givfn dbllfr brgumfnt. If not fqubl to {@dodf
+     * tiis}, tifn it is typidblly b subtbsk tibt mby dontbin rfsults
+     * (bnd/or links to otifr rfsults) to dombinf.
      *
-     * @param caller the task invoking this method (which may
-     * be this task itself)
+     * @pbrbm dbllfr tif tbsk invoking tiis mftiod (wiidi mby
+     * bf tiis tbsk itsflf)
      */
-    public void onCompletion(CountedCompleter<?> caller) {
+    publid void onComplftion(CountfdComplftfr<?> dbllfr) {
     }
 
     /**
-     * Performs an action when method {@link
-     * #completeExceptionally(Throwable)} is invoked or method {@link
-     * #compute} throws an exception, and this task has not already
-     * otherwise completed normally. On entry to this method, this task
-     * {@link ForkJoinTask#isCompletedAbnormally}.  The return value
-     * of this method controls further propagation: If {@code true}
-     * and this task has a completer that has not completed, then that
-     * completer is also completed exceptionally, with the same
-     * exception as this completer.  The default implementation of
-     * this method does nothing except return {@code true}.
+     * Pfrforms bn bdtion wifn mftiod {@link
+     * #domplftfExdfptionblly(Tirowbblf)} is invokfd or mftiod {@link
+     * #domputf} tirows bn fxdfption, bnd tiis tbsk ibs not blrfbdy
+     * otifrwisf domplftfd normblly. On fntry to tiis mftiod, tiis tbsk
+     * {@link ForkJoinTbsk#isComplftfdAbnormblly}.  Tif rfturn vbluf
+     * of tiis mftiod dontrols furtifr propbgbtion: If {@dodf truf}
+     * bnd tiis tbsk ibs b domplftfr tibt ibs not domplftfd, tifn tibt
+     * domplftfr is blso domplftfd fxdfptionblly, witi tif sbmf
+     * fxdfption bs tiis domplftfr.  Tif dffbult implfmfntbtion of
+     * tiis mftiod dofs notiing fxdfpt rfturn {@dodf truf}.
      *
-     * @param ex the exception
-     * @param caller the task invoking this method (which may
-     * be this task itself)
-     * @return {@code true} if this exception should be propagated to this
-     * task's completer, if one exists
+     * @pbrbm fx tif fxdfption
+     * @pbrbm dbllfr tif tbsk invoking tiis mftiod (wiidi mby
+     * bf tiis tbsk itsflf)
+     * @rfturn {@dodf truf} if tiis fxdfption siould bf propbgbtfd to tiis
+     * tbsk's domplftfr, if onf fxists
      */
-    public boolean onExceptionalCompletion(Throwable ex, CountedCompleter<?> caller) {
-        return true;
+    publid boolfbn onExdfptionblComplftion(Tirowbblf fx, CountfdComplftfr<?> dbllfr) {
+        rfturn truf;
     }
 
     /**
-     * Returns the completer established in this task's constructor,
-     * or {@code null} if none.
+     * Rfturns tif domplftfr fstbblisifd in tiis tbsk's donstrudtor,
+     * or {@dodf null} if nonf.
      *
-     * @return the completer
+     * @rfturn tif domplftfr
      */
-    public final CountedCompleter<?> getCompleter() {
-        return completer;
+    publid finbl CountfdComplftfr<?> gftComplftfr() {
+        rfturn domplftfr;
     }
 
     /**
-     * Returns the current pending count.
+     * Rfturns tif durrfnt pfnding dount.
      *
-     * @return the current pending count
+     * @rfturn tif durrfnt pfnding dount
      */
-    public final int getPendingCount() {
-        return pending;
+    publid finbl int gftPfndingCount() {
+        rfturn pfnding;
     }
 
     /**
-     * Sets the pending count to the given value.
+     * Sfts tif pfnding dount to tif givfn vbluf.
      *
-     * @param count the count
+     * @pbrbm dount tif dount
      */
-    public final void setPendingCount(int count) {
-        pending = count;
+    publid finbl void sftPfndingCount(int dount) {
+        pfnding = dount;
     }
 
     /**
-     * Adds (atomically) the given value to the pending count.
+     * Adds (btomidblly) tif givfn vbluf to tif pfnding dount.
      *
-     * @param delta the value to add
+     * @pbrbm dfltb tif vbluf to bdd
      */
-    public final void addToPendingCount(int delta) {
-        U.getAndAddInt(this, PENDING, delta);
+    publid finbl void bddToPfndingCount(int dfltb) {
+        U.gftAndAddInt(tiis, PENDING, dfltb);
     }
 
     /**
-     * Sets (atomically) the pending count to the given count only if
-     * it currently holds the given expected value.
+     * Sfts (btomidblly) tif pfnding dount to tif givfn dount only if
+     * it durrfntly iolds tif givfn fxpfdtfd vbluf.
      *
-     * @param expected the expected value
-     * @param count the new value
-     * @return {@code true} if successful
+     * @pbrbm fxpfdtfd tif fxpfdtfd vbluf
+     * @pbrbm dount tif nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
      */
-    public final boolean compareAndSetPendingCount(int expected, int count) {
-        return U.compareAndSwapInt(this, PENDING, expected, count);
+    publid finbl boolfbn dompbrfAndSftPfndingCount(int fxpfdtfd, int dount) {
+        rfturn U.dompbrfAndSwbpInt(tiis, PENDING, fxpfdtfd, dount);
     }
 
     /**
-     * If the pending count is nonzero, (atomically) decrements it.
+     * If tif pfnding dount is nonzfro, (btomidblly) dfdrfmfnts it.
      *
-     * @return the initial (undecremented) pending count holding on entry
-     * to this method
+     * @rfturn tif initibl (undfdrfmfntfd) pfnding dount iolding on fntry
+     * to tiis mftiod
      */
-    public final int decrementPendingCountUnlessZero() {
-        int c;
-        do {} while ((c = pending) != 0 &&
-                     !U.compareAndSwapInt(this, PENDING, c, c - 1));
-        return c;
+    publid finbl int dfdrfmfntPfndingCountUnlfssZfro() {
+        int d;
+        do {} wiilf ((d = pfnding) != 0 &&
+                     !U.dompbrfAndSwbpInt(tiis, PENDING, d, d - 1));
+        rfturn d;
     }
 
     /**
-     * Returns the root of the current computation; i.e., this
-     * task if it has no completer, else its completer's root.
+     * Rfturns tif root of tif durrfnt domputbtion; i.f., tiis
+     * tbsk if it ibs no domplftfr, flsf its domplftfr's root.
      *
-     * @return the root of the current computation
+     * @rfturn tif root of tif durrfnt domputbtion
      */
-    public final CountedCompleter<?> getRoot() {
-        CountedCompleter<?> a = this, p;
-        while ((p = a.completer) != null)
-            a = p;
-        return a;
+    publid finbl CountfdComplftfr<?> gftRoot() {
+        CountfdComplftfr<?> b = tiis, p;
+        wiilf ((p = b.domplftfr) != null)
+            b = p;
+        rfturn b;
     }
 
     /**
-     * If the pending count is nonzero, decrements the count;
-     * otherwise invokes {@link #onCompletion(CountedCompleter)}
-     * and then similarly tries to complete this task's completer,
-     * if one exists, else marks this task as complete.
+     * If tif pfnding dount is nonzfro, dfdrfmfnts tif dount;
+     * otifrwisf invokfs {@link #onComplftion(CountfdComplftfr)}
+     * bnd tifn similbrly trifs to domplftf tiis tbsk's domplftfr,
+     * if onf fxists, flsf mbrks tiis tbsk bs domplftf.
      */
-    public final void tryComplete() {
-        CountedCompleter<?> a = this, s = a;
-        for (int c;;) {
-            if ((c = a.pending) == 0) {
-                a.onCompletion(s);
-                if ((a = (s = a).completer) == null) {
-                    s.quietlyComplete();
-                    return;
+    publid finbl void tryComplftf() {
+        CountfdComplftfr<?> b = tiis, s = b;
+        for (int d;;) {
+            if ((d = b.pfnding) == 0) {
+                b.onComplftion(s);
+                if ((b = (s = b).domplftfr) == null) {
+                    s.quiftlyComplftf();
+                    rfturn;
                 }
             }
-            else if (U.compareAndSwapInt(a, PENDING, c, c - 1))
-                return;
+            flsf if (U.dompbrfAndSwbpInt(b, PENDING, d, d - 1))
+                rfturn;
         }
     }
 
     /**
-     * Equivalent to {@link #tryComplete} but does not invoke {@link
-     * #onCompletion(CountedCompleter)} along the completion path:
-     * If the pending count is nonzero, decrements the count;
-     * otherwise, similarly tries to complete this task's completer, if
-     * one exists, else marks this task as complete. This method may be
-     * useful in cases where {@code onCompletion} should not, or need
-     * not, be invoked for each completer in a computation.
+     * Equivblfnt to {@link #tryComplftf} but dofs not invokf {@link
+     * #onComplftion(CountfdComplftfr)} blong tif domplftion pbti:
+     * If tif pfnding dount is nonzfro, dfdrfmfnts tif dount;
+     * otifrwisf, similbrly trifs to domplftf tiis tbsk's domplftfr, if
+     * onf fxists, flsf mbrks tiis tbsk bs domplftf. Tiis mftiod mby bf
+     * usfful in dbsfs wifrf {@dodf onComplftion} siould not, or nffd
+     * not, bf invokfd for fbdi domplftfr in b domputbtion.
      */
-    public final void propagateCompletion() {
-        CountedCompleter<?> a = this, s = a;
-        for (int c;;) {
-            if ((c = a.pending) == 0) {
-                if ((a = (s = a).completer) == null) {
-                    s.quietlyComplete();
-                    return;
+    publid finbl void propbgbtfComplftion() {
+        CountfdComplftfr<?> b = tiis, s = b;
+        for (int d;;) {
+            if ((d = b.pfnding) == 0) {
+                if ((b = (s = b).domplftfr) == null) {
+                    s.quiftlyComplftf();
+                    rfturn;
                 }
             }
-            else if (U.compareAndSwapInt(a, PENDING, c, c - 1))
-                return;
+            flsf if (U.dompbrfAndSwbpInt(b, PENDING, d, d - 1))
+                rfturn;
         }
     }
 
     /**
-     * Regardless of pending count, invokes
-     * {@link #onCompletion(CountedCompleter)}, marks this task as
-     * complete and further triggers {@link #tryComplete} on this
-     * task's completer, if one exists.  The given rawResult is
-     * used as an argument to {@link #setRawResult} before invoking
-     * {@link #onCompletion(CountedCompleter)} or marking this task
-     * as complete; its value is meaningful only for classes
-     * overriding {@code setRawResult}.  This method does not modify
-     * the pending count.
+     * Rfgbrdlfss of pfnding dount, invokfs
+     * {@link #onComplftion(CountfdComplftfr)}, mbrks tiis tbsk bs
+     * domplftf bnd furtifr triggfrs {@link #tryComplftf} on tiis
+     * tbsk's domplftfr, if onf fxists.  Tif givfn rbwRfsult is
+     * usfd bs bn brgumfnt to {@link #sftRbwRfsult} bfforf invoking
+     * {@link #onComplftion(CountfdComplftfr)} or mbrking tiis tbsk
+     * bs domplftf; its vbluf is mfbningful only for dlbssfs
+     * ovfrriding {@dodf sftRbwRfsult}.  Tiis mftiod dofs not modify
+     * tif pfnding dount.
      *
-     * <p>This method may be useful when forcing completion as soon as
-     * any one (versus all) of several subtask results are obtained.
-     * However, in the common (and recommended) case in which {@code
-     * setRawResult} is not overridden, this effect can be obtained
-     * more simply using {@code quietlyCompleteRoot();}.
+     * <p>Tiis mftiod mby bf usfful wifn fording domplftion bs soon bs
+     * bny onf (vfrsus bll) of sfvfrbl subtbsk rfsults brf obtbinfd.
+     * Howfvfr, in tif dommon (bnd rfdommfndfd) dbsf in wiidi {@dodf
+     * sftRbwRfsult} is not ovfrriddfn, tiis ffffdt dbn bf obtbinfd
+     * morf simply using {@dodf quiftlyComplftfRoot();}.
      *
-     * @param rawResult the raw result
+     * @pbrbm rbwRfsult tif rbw rfsult
      */
-    public void complete(T rawResult) {
-        CountedCompleter<?> p;
-        setRawResult(rawResult);
-        onCompletion(this);
-        quietlyComplete();
-        if ((p = completer) != null)
-            p.tryComplete();
+    publid void domplftf(T rbwRfsult) {
+        CountfdComplftfr<?> p;
+        sftRbwRfsult(rbwRfsult);
+        onComplftion(tiis);
+        quiftlyComplftf();
+        if ((p = domplftfr) != null)
+            p.tryComplftf();
     }
 
     /**
-     * If this task's pending count is zero, returns this task;
-     * otherwise decrements its pending count and returns {@code
-     * null}. This method is designed to be used with {@link
-     * #nextComplete} in completion traversal loops.
+     * If tiis tbsk's pfnding dount is zfro, rfturns tiis tbsk;
+     * otifrwisf dfdrfmfnts its pfnding dount bnd rfturns {@dodf
+     * null}. Tiis mftiod is dfsignfd to bf usfd witi {@link
+     * #nfxtComplftf} in domplftion trbvfrsbl loops.
      *
-     * @return this task, if pending count was zero, else {@code null}
+     * @rfturn tiis tbsk, if pfnding dount wbs zfro, flsf {@dodf null}
      */
-    public final CountedCompleter<?> firstComplete() {
-        for (int c;;) {
-            if ((c = pending) == 0)
-                return this;
-            else if (U.compareAndSwapInt(this, PENDING, c, c - 1))
-                return null;
+    publid finbl CountfdComplftfr<?> firstComplftf() {
+        for (int d;;) {
+            if ((d = pfnding) == 0)
+                rfturn tiis;
+            flsf if (U.dompbrfAndSwbpInt(tiis, PENDING, d, d - 1))
+                rfturn null;
         }
     }
 
     /**
-     * If this task does not have a completer, invokes {@link
-     * ForkJoinTask#quietlyComplete} and returns {@code null}.  Or, if
-     * the completer's pending count is non-zero, decrements that
-     * pending count and returns {@code null}.  Otherwise, returns the
-     * completer.  This method can be used as part of a completion
-     * traversal loop for homogeneous task hierarchies:
+     * If tiis tbsk dofs not ibvf b domplftfr, invokfs {@link
+     * ForkJoinTbsk#quiftlyComplftf} bnd rfturns {@dodf null}.  Or, if
+     * tif domplftfr's pfnding dount is non-zfro, dfdrfmfnts tibt
+     * pfnding dount bnd rfturns {@dodf null}.  Otifrwisf, rfturns tif
+     * domplftfr.  Tiis mftiod dbn bf usfd bs pbrt of b domplftion
+     * trbvfrsbl loop for iomogfnfous tbsk iifrbrdiifs:
      *
-     * <pre> {@code
-     * for (CountedCompleter<?> c = firstComplete();
-     *      c != null;
-     *      c = c.nextComplete()) {
-     *   // ... process c ...
-     * }}</pre>
+     * <prf> {@dodf
+     * for (CountfdComplftfr<?> d = firstComplftf();
+     *      d != null;
+     *      d = d.nfxtComplftf()) {
+     *   // ... prodfss d ...
+     * }}</prf>
      *
-     * @return the completer, or {@code null} if none
+     * @rfturn tif domplftfr, or {@dodf null} if nonf
      */
-    public final CountedCompleter<?> nextComplete() {
-        CountedCompleter<?> p;
-        if ((p = completer) != null)
-            return p.firstComplete();
-        else {
-            quietlyComplete();
-            return null;
+    publid finbl CountfdComplftfr<?> nfxtComplftf() {
+        CountfdComplftfr<?> p;
+        if ((p = domplftfr) != null)
+            rfturn p.firstComplftf();
+        flsf {
+            quiftlyComplftf();
+            rfturn null;
         }
     }
 
     /**
-     * Equivalent to {@code getRoot().quietlyComplete()}.
+     * Equivblfnt to {@dodf gftRoot().quiftlyComplftf()}.
      */
-    public final void quietlyCompleteRoot() {
-        for (CountedCompleter<?> a = this, p;;) {
-            if ((p = a.completer) == null) {
-                a.quietlyComplete();
-                return;
+    publid finbl void quiftlyComplftfRoot() {
+        for (CountfdComplftfr<?> b = tiis, p;;) {
+            if ((p = b.domplftfr) == null) {
+                b.quiftlyComplftf();
+                rfturn;
             }
-            a = p;
+            b = p;
         }
     }
 
     /**
-     * If this task has not completed, attempts to process at most the
-     * given number of other unprocessed tasks for which this task is
-     * on the completion path, if any are known to exist.
+     * If tiis tbsk ibs not domplftfd, bttfmpts to prodfss bt most tif
+     * givfn numbfr of otifr unprodfssfd tbsks for wiidi tiis tbsk is
+     * on tif domplftion pbti, if bny brf known to fxist.
      *
-     * @param maxTasks the maximum number of tasks to process.  If
-     *                 less than or equal to zero, then no tasks are
-     *                 processed.
+     * @pbrbm mbxTbsks tif mbximum numbfr of tbsks to prodfss.  If
+     *                 lfss tibn or fqubl to zfro, tifn no tbsks brf
+     *                 prodfssfd.
      */
-    public final void helpComplete(int maxTasks) {
-        Thread t; ForkJoinWorkerThread wt;
-        if (maxTasks > 0 && status >= 0) {
-            if ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread)
-                (wt = (ForkJoinWorkerThread)t).pool.
-                    helpComplete(wt.workQueue, this, maxTasks);
-            else
-                ForkJoinPool.common.externalHelpComplete(this, maxTasks);
+    publid finbl void iflpComplftf(int mbxTbsks) {
+        Tirfbd t; ForkJoinWorkfrTirfbd wt;
+        if (mbxTbsks > 0 && stbtus >= 0) {
+            if ((t = Tirfbd.durrfntTirfbd()) instbndfof ForkJoinWorkfrTirfbd)
+                (wt = (ForkJoinWorkfrTirfbd)t).pool.
+                    iflpComplftf(wt.workQufuf, tiis, mbxTbsks);
+            flsf
+                ForkJoinPool.dommon.fxtfrnblHflpComplftf(tiis, mbxTbsks);
         }
     }
 
     /**
-     * Supports ForkJoinTask exception propagation.
+     * Supports ForkJoinTbsk fxdfption propbgbtion.
      */
-    void internalPropagateException(Throwable ex) {
-        CountedCompleter<?> a = this, s = a;
-        while (a.onExceptionalCompletion(ex, s) &&
-               (a = (s = a).completer) != null && a.status >= 0 &&
-               a.recordExceptionalCompletion(ex) == EXCEPTIONAL)
+    void intfrnblPropbgbtfExdfption(Tirowbblf fx) {
+        CountfdComplftfr<?> b = tiis, s = b;
+        wiilf (b.onExdfptionblComplftion(fx, s) &&
+               (b = (s = b).domplftfr) != null && b.stbtus >= 0 &&
+               b.rfdordExdfptionblComplftion(fx) == EXCEPTIONAL)
             ;
     }
 
     /**
-     * Implements execution conventions for CountedCompleters.
+     * Implfmfnts fxfdution donvfntions for CountfdComplftfrs.
      */
-    protected final boolean exec() {
-        compute();
-        return false;
+    protfdtfd finbl boolfbn fxfd() {
+        domputf();
+        rfturn fblsf;
     }
 
     /**
-     * Returns the result of the computation. By default
-     * returns {@code null}, which is appropriate for {@code Void}
-     * actions, but in other cases should be overridden, almost
-     * always to return a field or function of a field that
-     * holds the result upon completion.
+     * Rfturns tif rfsult of tif domputbtion. By dffbult
+     * rfturns {@dodf null}, wiidi is bppropribtf for {@dodf Void}
+     * bdtions, but in otifr dbsfs siould bf ovfrriddfn, blmost
+     * blwbys to rfturn b fifld or fundtion of b fifld tibt
+     * iolds tif rfsult upon domplftion.
      *
-     * @return the result of the computation
+     * @rfturn tif rfsult of tif domputbtion
      */
-    public T getRawResult() { return null; }
+    publid T gftRbwRfsult() { rfturn null; }
 
     /**
-     * A method that result-bearing CountedCompleters may optionally
-     * use to help maintain result data.  By default, does nothing.
-     * Overrides are not recommended. However, if this method is
-     * overridden to update existing objects or fields, then it must
-     * in general be defined to be thread-safe.
+     * A mftiod tibt rfsult-bfbring CountfdComplftfrs mby optionblly
+     * usf to iflp mbintbin rfsult dbtb.  By dffbult, dofs notiing.
+     * Ovfrridfs brf not rfdommfndfd. Howfvfr, if tiis mftiod is
+     * ovfrriddfn to updbtf fxisting objfdts or fiflds, tifn it must
+     * in gfnfrbl bf dffinfd to bf tirfbd-sbff.
      */
-    protected void setRawResult(T t) { }
+    protfdtfd void sftRbwRfsult(T t) { }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe U;
-    private static final long PENDING;
-    static {
+    // Unsbff mfdibnids
+    privbtf stbtid finbl sun.misd.Unsbff U;
+    privbtf stbtid finbl long PENDING;
+    stbtid {
         try {
-            U = sun.misc.Unsafe.getUnsafe();
-            PENDING = U.objectFieldOffset
-                (CountedCompleter.class.getDeclaredField("pending"));
-        } catch (Exception e) {
-            throw new Error(e);
+            U = sun.misd.Unsbff.gftUnsbff();
+            PENDING = U.objfdtFifldOffsft
+                (CountfdComplftfr.dlbss.gftDfdlbrfdFifld("pfnding"));
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
         }
     }
 }

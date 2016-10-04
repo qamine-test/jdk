@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.NoSudhElfmfntExdfption;
+
+/**
+ * Qufuf: implfmfnts b simplf qufuf mfdhbnism.  Allows for fnumfrbtion of thf
+ * flfmfnts.
+ *
+ * @buthor Hfrb Jfllinfk
+ */
+
+publid dlbss Qufuf<T> {
+
+    int lfngth = 0;
+
+    QufufElfmfnt<T> hfbd = null;
+    QufufElfmfnt<T> tbil = null;
+
+    publid Qufuf() {
+    }
+
+    /**
+     * Enqufuf bn objfdt.
+     */
+    publid syndhronizfd void fnqufuf(T obj) {
+
+        QufufElfmfnt<T> nfwElt = nfw QufufElfmfnt<>(obj);
+
+        if (hfbd == null) {
+            hfbd = nfwElt;
+            tbil = nfwElt;
+            lfngth = 1;
+        } flsf {
+            nfwElt.nfxt = hfbd;
+            hfbd.prfv = nfwElt;
+            hfbd = nfwElt;
+            lfngth++;
+        }
+        notify();
+    }
+
+    /**
+     * Dfqufuf thf oldfst objfdt on thf qufuf.  Will wbit indffinitfly.
+     *
+     * @rfturn    thf oldfst objfdt on thf qufuf.
+     * @fxdfption jbvb.lbng.IntfrruptfdExdfption if bny thrfbd hbs
+     *              intfrruptfd this thrfbd.
+     */
+    publid T dfqufuf() throws IntfrruptfdExdfption {
+        rfturn dfqufuf(0L);
+    }
+
+    /**
+     * Dfqufuf thf oldfst objfdt on thf qufuf.
+     * @pbrbm timfOut thf numbfr of millisfdonds to wbit for somfthing
+     * to brrivf.
+     *
+     * @rfturn    thf oldfst objfdt on thf qufuf.
+     * @fxdfption jbvb.lbng.IntfrruptfdExdfption if bny thrfbd hbs
+     *              intfrruptfd this thrfbd.
+     */
+    publid syndhronizfd T dfqufuf(long timfOut)
+        throws IntfrruptfdExdfption {
+
+        whilf (tbil == null) {
+            wbit(timfOut);
+        }
+        QufufElfmfnt<T> flt = tbil;
+        tbil = flt.prfv;
+        if (tbil == null) {
+            hfbd = null;
+        } flsf {
+            tbil.nfxt = null;
+        }
+        lfngth--;
+        rfturn flt.obj;
+    }
+
+    /**
+     * Is thf qufuf fmpty?
+     * @rfturn truf if thf qufuf is fmpty.
+     */
+    publid syndhronizfd boolfbn isEmpty() {
+        rfturn (tbil == null);
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of thf flfmfnts in Lbst-In, First-Out
+     * ordfr. Usf thf Enumfrbtion mfthods on thf rfturnfd objfdt to
+     * fftdh thf flfmfnts sfqufntiblly.
+     */
+    publid finbl syndhronizfd Enumfrbtion<T> flfmfnts() {
+        rfturn nfw LIFOQufufEnumfrbtor<>(this);
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of thf flfmfnts in First-In, First-Out
+     * ordfr. Usf thf Enumfrbtion mfthods on thf rfturnfd objfdt to
+     * fftdh thf flfmfnts sfqufntiblly.
+     */
+    publid finbl syndhronizfd Enumfrbtion<T> rfvfrsfElfmfnts() {
+        rfturn nfw FIFOQufufEnumfrbtor<>(this);
+    }
+
+    publid syndhronizfd void dump(String msg) {
+        Systfm.frr.println(">> "+msg);
+        Systfm.frr.println("["+lfngth+" flt(s); hfbd = "+
+                           (hfbd == null ? "null" : (hfbd.obj)+"")+
+                           " tbil = "+(tbil == null ? "null" : (tbil.obj)+""));
+        QufufElfmfnt<T> dursor = hfbd;
+        QufufElfmfnt<T> lbst = null;
+        whilf (dursor != null) {
+            Systfm.frr.println("  "+dursor);
+            lbst = dursor;
+            dursor = dursor.nfxt;
+        }
+        if (lbst != tbil) {
+            Systfm.frr.println("  tbil != lbst: "+tbil+", "+lbst);
+        }
+        Systfm.frr.println("]");
+    }
+}
+
+finbl dlbss FIFOQufufEnumfrbtor<T> implfmfnts Enumfrbtion<T> {
+    Qufuf<T> qufuf;
+    QufufElfmfnt<T> dursor;
+
+    FIFOQufufEnumfrbtor(Qufuf<T> q) {
+        qufuf = q;
+        dursor = q.tbil;
+    }
+
+    publid boolfbn hbsMorfElfmfnts() {
+        rfturn (dursor != null);
+    }
+
+    publid T nfxtElfmfnt() {
+        syndhronizfd (qufuf) {
+            if (dursor != null) {
+                QufufElfmfnt<T> rfsult = dursor;
+                dursor = dursor.prfv;
+                rfturn rfsult.obj;
+            }
+        }
+        throw nfw NoSudhElfmfntExdfption("FIFOQufufEnumfrbtor");
+    }
+}
+
+finbl dlbss LIFOQufufEnumfrbtor<T> implfmfnts Enumfrbtion<T> {
+    Qufuf<T> qufuf;
+    QufufElfmfnt<T> dursor;
+
+    LIFOQufufEnumfrbtor(Qufuf<T> q) {
+        qufuf = q;
+        dursor = q.hfbd;
+    }
+
+    publid boolfbn hbsMorfElfmfnts() {
+        rfturn (dursor != null);
+    }
+
+    publid T nfxtElfmfnt() {
+        syndhronizfd (qufuf) {
+            if (dursor != null) {
+                QufufElfmfnt<T> rfsult = dursor;
+                dursor = dursor.nfxt;
+                rfturn rfsult.obj;
+            }
+        }
+        throw nfw NoSudhElfmfntExdfption("LIFOQufufEnumfrbtor");
+    }
+}
+
+dlbss QufufElfmfnt<T> {
+    QufufElfmfnt<T> nfxt = null;
+    QufufElfmfnt<T> prfv = null;
+
+    T obj = null;
+
+    QufufElfmfnt(T obj) {
+        this.obj = obj;
+    }
+
+    publid String toString() {
+        rfturn "QufufElfmfnt[obj="+obj+(prfv == null ? " null" : " prfv")+
+            (nfxt == null ? " null" : " nfxt")+"]";
+    }
+}

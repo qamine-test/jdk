@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.Font;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.*;
+import jbvb.bwt.Font;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.io.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * A simple console window to display messages sent to System.out and
- * System.err.
+ * A simplf donsolf window to displby mfssbgfs sfnt to Systfm.out bnd
+ * Systfm.frr.
  *
- * A stop-gap solution until an error dialog is implemented.
+ * A stop-gbp solution until bn frror diblog is implfmfntfd.
  */
-public class OutputViewer {
-    private static JFrame frame;
-    private static JTextArea ta;
+publid dlbss OutputVifwfr {
+    privbtf stbtid JFrbmf frbmf;
+    privbtf stbtid JTfxtArfb tb;
 
-    static {
-        System.setOut(PipeListener.create("System.out"));
-        System.setErr(PipeListener.create("System.err"));
+    stbtid {
+        Systfm.sftOut(PipfListfnfr.drfbtf("Systfm.out"));
+        Systfm.sftErr(PipfListfnfr.drfbtf("Systfm.frr"));
     }
 
-    // Dummy to cause class to be loaded
-    public static void init() { }
+    // Dummy to dbusf dlbss to bf lobdfd
+    publid stbtid void init() { }
 
-    private static void append(String s) {
-        if (frame == null) {
-            // FIXME: The frame title should be a localized string.
-            frame = new JFrame("JConsole: Output");
-            ta = new JTextArea();
-            ta.setEditable(false);
-            frame.getContentPane().add(new JScrollPane(ta));
-            ta.setFont(new Font("Monospaced", Font.BOLD, 14));
-            frame.setSize(500, 600);
-            frame.setLocation(1024-500, 768-600);
-            // Exit JConsole if no window remains.
-            // e.g. jconsole -version only creates the OutputViewer
-            // but no other window.
-            frame.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    if (JFrame.getFrames().length == 1) {
-                        System.exit(0);
+    privbtf stbtid void bppfnd(String s) {
+        if (frbmf == null) {
+            // FIXME: Tif frbmf titlf siould bf b lodblizfd string.
+            frbmf = nfw JFrbmf("JConsolf: Output");
+            tb = nfw JTfxtArfb();
+            tb.sftEditbblf(fblsf);
+            frbmf.gftContfntPbnf().bdd(nfw JSdrollPbnf(tb));
+            tb.sftFont(nfw Font("Monospbdfd", Font.BOLD, 14));
+            frbmf.sftSizf(500, 600);
+            frbmf.sftLodbtion(1024-500, 768-600);
+            // Exit JConsolf if no window rfmbins.
+            // f.g. jdonsolf -vfrsion only drfbtfs tif OutputVifwfr
+            // but no otifr window.
+            frbmf.bddWindowListfnfr(nfw WindowAdbptfr() {
+                publid void windowClosing(WindowEvfnt f) {
+                    if (JFrbmf.gftFrbmfs().lfngti == 1) {
+                        Systfm.fxit(0);
                     }
                 }
             });
         }
-        ta.append(s);
-        ta.setCaretPosition(ta.getText().length());
-        frame.setVisible(true);
+        tb.bppfnd(s);
+        tb.sftCbrftPosition(tb.gftTfxt().lfngti());
+        frbmf.sftVisiblf(truf);
     }
 
-    private static void appendln(String s) {
-        append(s+"\n");
+    privbtf stbtid void bppfndln(String s) {
+        bppfnd(s+"\n");
     }
 
-    private static class PipeListener extends Thread {
-        public PrintStream ps;
-        private String name;
-        private PipedInputStream inPipe;
-        private BufferedReader br;
+    privbtf stbtid dlbss PipfListfnfr fxtfnds Tirfbd {
+        publid PrintStrfbm ps;
+        privbtf String nbmf;
+        privbtf PipfdInputStrfbm inPipf;
+        privbtf BufffrfdRfbdfr br;
 
-        public static PrintStream create(String name) {
-            return new PipeListener(name).ps;
+        publid stbtid PrintStrfbm drfbtf(String nbmf) {
+            rfturn nfw PipfListfnfr(nbmf).ps;
         }
 
-        private PipeListener(String name) {
-            this.name = name;
+        privbtf PipfListfnfr(String nbmf) {
+            tiis.nbmf = nbmf;
 
             try {
-                inPipe = new PipedInputStream();
-                ps = new PrintStream(new PipedOutputStream(inPipe));
-                br = new BufferedReader(new InputStreamReader(inPipe));
-            } catch (IOException e) {
-                appendln("PipeListener<init>("+name+"): " + e);
+                inPipf = nfw PipfdInputStrfbm();
+                ps = nfw PrintStrfbm(nfw PipfdOutputStrfbm(inPipf));
+                br = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(inPipf));
+            } dbtdi (IOExdfption f) {
+                bppfndln("PipfListfnfr<init>("+nbmf+"): " + f);
             }
-            start();
+            stbrt();
         }
 
-        public void run() {
+        publid void run() {
             try {
                 String str;
-                while ((str = br.readLine()) != null) {
-                    appendln(str);
+                wiilf ((str = br.rfbdLinf()) != null) {
+                    bppfndln(str);
 
-                    // Hack: Turn off thread check in PipedInputStream.
-                    // Any thread should be allowed to write except this one
-                    // but we just use this one to keep the pipe alive.
+                    // Hbdk: Turn off tirfbd difdk in PipfdInputStrfbm.
+                    // Any tirfbd siould bf bllowfd to writf fxdfpt tiis onf
+                    // but wf just usf tiis onf to kffp tif pipf blivf.
                     try {
-                        java.lang.reflect.Field f =
-                            PipedInputStream.class.getDeclaredField("writeSide");
-                        f.setAccessible(true);
-                        f.set(inPipe, this);
-                    } catch (Exception e) {
-                        appendln("PipeListener("+name+").run: "+e);
+                        jbvb.lbng.rfflfdt.Fifld f =
+                            PipfdInputStrfbm.dlbss.gftDfdlbrfdFifld("writfSidf");
+                        f.sftAddfssiblf(truf);
+                        f.sft(inPipf, tiis);
+                    } dbtdi (Exdfption f) {
+                        bppfndln("PipfListfnfr("+nbmf+").run: "+f);
                     }
                 }
-                appendln("-- "+name+" closed --");
-                br.close();
-            } catch (IOException e) {
-                appendln("PipeListener("+name+").run: "+e);
+                bppfndln("-- "+nbmf+" dlosfd --");
+                br.dlosf();
+            } dbtdi (IOExdfption f) {
+                bppfndln("PipfListfnfr("+nbmf+").run: "+f);
             }
         }
     }

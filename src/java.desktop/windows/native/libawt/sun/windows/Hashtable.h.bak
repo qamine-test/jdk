@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 1996, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef HASHTABLE_H
-#define HASHTABLE_H
+#ifndff HASHTABLE_H
+#dffinf HASHTABLE_H
 
-#include "awt.h"
-#include "awt_Toolkit.h"
+#indludf "bwt.i"
+#indludf "bwt_Toolkit.i"
 
-struct HashtableEntry {
-    INT_PTR hash;
-    void* key;
-    void* value;
-    HashtableEntry* next;
+strudt HbsitbblfEntry {
+    INT_PTR ibsi;
+    void* kfy;
+    void* vbluf;
+    HbsitbblfEntry* nfxt;
 };
 
-class HashtableEnumerator {
-private:
-    BOOL keys;
-    int index;
-    HashtableEntry** table;
-    HashtableEntry* entry;
+dlbss HbsitbblfEnumfrbtor {
+privbtf:
+    BOOL kfys;
+    int indfx;
+    HbsitbblfEntry** tbblf;
+    HbsitbblfEntry* fntry;
 
-public:
-    HashtableEnumerator(HashtableEntry* table[], int size, BOOL keys);
-    BOOL hasMoreElements();
-    void* nextElement();
+publid:
+    HbsitbblfEnumfrbtor(HbsitbblfEntry* tbblf[], int sizf, BOOL kfys);
+    BOOL ibsMorfElfmfnts();
+    void* nfxtElfmfnt();
 };
 
 /**
- * Hashtable class. Maps keys to values. Any object can be used as
- * a key and/or value.  As you might guess, this was brazenly stolen
- * from java.util.Hashtable.
+ * Hbsitbblf dlbss. Mbps kfys to vblufs. Any objfdt dbn bf usfd bs
+ * b kfy bnd/or vbluf.  As you migit gufss, tiis wbs brbzfnly stolfn
+ * from jbvb.util.Hbsitbblf.
  */
-class Hashtable {
-protected:
+dlbss Hbsitbblf {
+protfdtfd:
     /*
-     * The hash table data.
+     * Tif ibsi tbblf dbtb.
      */
-    HashtableEntry** table;
-
-    /*
-     * The size of table
-     */
-    int capacity;
+    HbsitbblfEntry** tbblf;
 
     /*
-     * The total number of entries in the hash table.
+     * Tif sizf of tbblf
      */
-    int count;
+    int dbpbdity;
+
+    /*
+     * Tif totbl numbfr of fntrifs in tif ibsi tbblf.
+     */
+    int dount;
 
     /**
-     * Rehashes the table when count exceeds this threshold.
+     * Rfibsifs tif tbblf wifn dount fxdffds tiis tirfsiold.
      */
-    int threshold;
+    int tirfsiold;
 
     /**
-     * The load factor for the hashtable.
+     * Tif lobd fbdtor for tif ibsitbblf.
      */
-    float loadFactor;
+    flobt lobdFbdtor;
 
     /**
-     * Our C++ synchronizer.
+     * Our C++ syndironizfr.
      */
-    CriticalSection lock;
+    CritidblSfdtion lodk;
 
     /**
-     * Element deletion routine, if any.
+     * Elfmfnt dflftion routinf, if bny.
      */
-    void (*m_deleteProc)(void*);
+    void (*m_dflftfProd)(void*);
 
-#ifdef DEBUG
-    char* m_name;
-    int m_max;
-    int m_collisions;
-#endif
+#ifdff DEBUG
+    dibr* m_nbmf;
+    int m_mbx;
+    int m_dollisions;
+#fndif
 
-public:
+publid:
     /**
-     * Constructs a new, empty hashtable with the specified initial
-     * capacity and the specified load factor.
+     * Construdts b nfw, fmpty ibsitbblf witi tif spfdififd initibl
+     * dbpbdity bnd tif spfdififd lobd fbdtor.
      */
-    Hashtable(const char* name, void (*deleteProc)(void*) = NULL,
-              int initialCapacity = 29, float loadFactor = 0.75);
+    Hbsitbblf(donst dibr* nbmf, void (*dflftfProd)(void*) = NULL,
+              int initiblCbpbdity = 29, flobt lobdFbdtor = 0.75);
 
-    virtual ~Hashtable();
+    virtubl ~Hbsitbblf();
 
     /**
-     * Returns the number of elements contained in the hashtable.
+     * Rfturns tif numbfr of flfmfnts dontbinfd in tif ibsitbblf.
      */
-    INLINE int size() {
-        return count;
+    INLINE int sizf() {
+        rfturn dount;
     }
 
     /**
-     * Returns true if the hashtable contains no elements.
+     * Rfturns truf if tif ibsitbblf dontbins no flfmfnts.
      */
     INLINE BOOL isEmpty() {
-        return count == 0;
+        rfturn dount == 0;
     }
 
     /**
-     * Returns an enumeration of the hashtable's keys.
+     * Rfturns bn fnumfrbtion of tif ibsitbblf's kfys.
      */
-    INLINE HashtableEnumerator* keys() {
-        CriticalSection::Lock l(lock);
-        return new HashtableEnumerator(table, capacity, TRUE);
+    INLINE HbsitbblfEnumfrbtor* kfys() {
+        CritidblSfdtion::Lodk l(lodk);
+        rfturn nfw HbsitbblfEnumfrbtor(tbblf, dbpbdity, TRUE);
     }
 
     /**
-     * Returns an enumeration of the elements. Use the Enumeration methods
-     * on the returned object to fetch the elements sequentially.
+     * Rfturns bn fnumfrbtion of tif flfmfnts. Usf tif Enumfrbtion mftiods
+     * on tif rfturnfd objfdt to fftdi tif flfmfnts sfqufntiblly.
      */
-    INLINE HashtableEnumerator* elements() {
-        CriticalSection::Lock l(lock);
-        return new HashtableEnumerator(table, capacity, FALSE);
+    INLINE HbsitbblfEnumfrbtor* flfmfnts() {
+        CritidblSfdtion::Lodk l(lodk);
+        rfturn nfw HbsitbblfEnumfrbtor(tbblf, dbpbdity, FALSE);
     }
 
     /**
-     * Returns true if the specified object is an element of the hashtable.
-     * This operation is more expensive than the containsKey() method.
+     * Rfturns truf if tif spfdififd objfdt is bn flfmfnt of tif ibsitbblf.
+     * Tiis opfrbtion is morf fxpfnsivf tibn tif dontbinsKfy() mftiod.
      */
-    BOOL contains(void* value);
+    BOOL dontbins(void* vbluf);
 
     /**
-     * Returns true if the collection contains an element for the key.
+     * Rfturns truf if tif dollfdtion dontbins bn flfmfnt for tif kfy.
      */
-    BOOL containsKey(void* key);
+    BOOL dontbinsKfy(void* kfy);
 
     /**
-     * Gets the object associated with the specified key in the
-     * hashtable.
+     * Gfts tif objfdt bssodibtfd witi tif spfdififd kfy in tif
+     * ibsitbblf.
      */
-    void* get(void* key);
+    void* gft(void* kfy);
 
     /**
-     * Puts the specified element into the hashtable, using the specified
-     * key.  The element may be retrieved by doing a get() with the same key.
-     * The key and the element cannot be null.
+     * Puts tif spfdififd flfmfnt into tif ibsitbblf, using tif spfdififd
+     * kfy.  Tif flfmfnt mby bf rftrifvfd by doing b gft() witi tif sbmf kfy.
+     * Tif kfy bnd tif flfmfnt dbnnot bf null.
      */
-    virtual void* put(void* key, void* value);
+    virtubl void* put(void* kfy, void* vbluf);
 
     /**
-     * Removes the element corresponding to the key. Does nothing if the
-     * key is not present.
+     * Rfmovfs tif flfmfnt dorrfsponding to tif kfy. Dofs notiing if tif
+     * kfy is not prfsfnt.
      */
-    void* remove(void* key);
+    void* rfmovf(void* kfy);
 
     /**
-     * Clears the hash table so that it has no more elements in it.
+     * Clfbrs tif ibsi tbblf so tibt it ibs no morf flfmfnts in it.
      */
-    void clear();
+    void dlfbr();
 
-protected:
+protfdtfd:
     /**
-     * Rehashes the content of the table into a bigger table.
-     * This method is called automatically when the hashtable's
-     * size exceeds the threshold.
+     * Rfibsifs tif dontfnt of tif tbblf into b biggfr tbblf.
+     * Tiis mftiod is dbllfd butombtidblly wifn tif ibsitbblf's
+     * sizf fxdffds tif tirfsiold.
      */
-    void rehash();
+    void rfibsi();
 };
 
-#endif // HASHTABLE_H
+#fndif // HASHTABLE_H

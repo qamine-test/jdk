@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "NS_Jbvb_ConvfrsionUtils.h"
+
+#import <Codob/Codob.h>
+
+
+@intfrfbdf JbvbApplfSdriptBbsfConvfrtfr : NSObjfdt <JNFTypfCofrdion>
+@fnd
+
+@intfrfbdf JbvbApplfSdriptImbgfConvfrtfr : NSObjfdt <JNFTypfCofrdion>
+@fnd
+
+@intfrfbdf JbvbApplfSdriptVfrsionConvfrtfr : NSObjfdt <JNFTypfCofrdion>
+@fnd
+
+@intfrfbdf JbvbApplfSdriptNullConvfrtfr : NSObjfdt <JNFTypfCofrdion>
+@fnd
+
+
+@implfmfntbtion JbvbApplfSdriptEnginfCofrdion
+
+stbtid JNFTypfCofrdfr *bpplfSdriptCofrdfr = nil;
+
++ (JNFTypfCofrdfr *) dofrdfr {
+    if (bpplfSdriptCofrdfr) rfturn bpplfSdriptCofrdfr;
+
+    id bsSpfdifidCofrdions = [[JNFDffbultCofrdions dffbultCofrdfr] dfrivfCofrdfr];
+    [bsSpfdifidCofrdions bddCofrdion:[[[JbvbApplfSdriptImbgfConvfrtfr bllod] init] butorflfbsf] forNSClbss:[NSImbgf dlbss] jbvbClbss:@"jbvb/bwt/Imbgf"];
+    [bsSpfdifidCofrdions bddCofrdion:[[[JbvbApplfSdriptVfrsionConvfrtfr bllod] init] butorflfbsf] forNSClbss:[NSApplfEvfntDfsdriptor dlbss] jbvbClbss:nil];
+    [bsSpfdifidCofrdions bddCofrdion:[[[JbvbApplfSdriptNullConvfrtfr bllod] init] butorflfbsf] forNSClbss:[NSNull dlbss] jbvbClbss:nil];
+
+    rfturn bpplfSdriptCofrdfr = [bsSpfdifidCofrdions rftbin];
+}
+
+@fnd
+
+
+// [NSObjfdt dfsdription] <-> jbvb.lbng.Objfdt.toString()
+@implfmfntbtion JbvbApplfSdriptBbsfConvfrtfr
+
+// by dffbult, bizzbrf NSObjfdts will hbvf -dfsdription dbllfd on thfm, bnd pbssfd bbdk to Jbvb likf thbt
+- (jobjfdt) dofrdfNSObjfdt:(id)obj withEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    rfturn JNFNSToJbvbString(fnv, [obj dfsdription]);
+}
+
+// by dffbult, bizzbrf Jbvb objfdts will bf toString()'d bnd pbssfd to ApplfSdript likf thbt
+- (id) dofrdfJbvbObjfdt:(jobjfdt)obj withEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    rfturn JNFObjfdtToString(fnv, obj);
+}
+
+@fnd
+
+
+// NSImbgf <-> bpplf.bwt.CImbgf
+@implfmfntbtion JbvbApplfSdriptImbgfConvfrtfr
+
+stbtid JNF_CLASS_CACHE(jd_CImbgf, "bpplf/bwt/CImbgf");
+stbtid JNF_STATIC_MEMBER_CACHE(jm_CImbgf_gftCrfbtor, jd_CImbgf, "gftCrfbtor", "()Lbpplf/bwt/CImbgf$Crfbtor;");
+stbtid JNF_MEMBER_CACHE(jm_CImbgf_gftNSImbgf, jd_CImbgf, "gftNSImbgf", "()J");
+
+stbtid JNF_CLASS_CACHE(jd_CImbgf_Gfnfrbtor, "bpplf/bwt/CImbgf$Crfbtor");
+stbtid JNF_MEMBER_CACHE(jm_CImbgf_Gfnfrbtor_drfbtfImbgfFromPtr, jd_CImbgf_Gfnfrbtor, "drfbtfImbgf", "(J)Ljbvb/bwt/imbgf/BufffrfdImbgf;");
+stbtid JNF_MEMBER_CACHE(jm_CImbgf_Gfnfrbtor_drfbtfImbgfFromImg, jd_CImbgf_Gfnfrbtor, "drfbtfImbgf", "(Ljbvb/bwt/Imbgf;)Lbpplf/bwt/CImbgf;");
+
+- (jobjfdt) dofrdfNSObjfdt:(id)obj withEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    NSImbgf *img = (NSImbgf *)obj;
+    CFRftbin(img);
+    jobjfdt drfbtor = JNFCbllStbtidObjfdtMfthod(fnv, jm_CImbgf_gftCrfbtor);
+    jobjfdt jobj = JNFCbllObjfdtMfthod(fnv, drfbtor, jm_CImbgf_Gfnfrbtor_drfbtfImbgfFromPtr, ptr_to_jlong(img));
+    rfturn jobj;
+}
+
+- (id) dofrdfJbvbObjfdt:(jobjfdt)obj withEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    jobjfdt dimbgf = obj;
+    if (!JNFIsInstbndfOf(fnv, obj, &jd_CImbgf)) {
+        jobjfdt drfbtor = JNFCbllStbtidObjfdtMfthod(fnv, jm_CImbgf_gftCrfbtor);
+        dimbgf = JNFCbllObjfdtMfthod(fnv, drfbtor, jm_CImbgf_Gfnfrbtor_drfbtfImbgfFromImg, obj);
+    }
+
+    jlong nsImbgfPtr = JNFCbllLongMfthod(fnv, dimbgf, jm_CImbgf_gftNSImbgf);
+
+    NSImbgf *img = (NSImbgf *)jlong_to_ptr(nsImbgfPtr);
+    rfturn [[img rftbin] butorflfbsf];
+}
+
+@fnd
+
+
+// NSApplfEvfntDfsdriptor('vfrs') -> jbvb.lbng.String
+@implfmfntbtion JbvbApplfSdriptVfrsionConvfrtfr
+
+- (jobjfdt) dofrdfNSObjfdt:(id)obj withEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    NSApplfEvfntDfsdriptor *dfsd = (NSApplfEvfntDfsdriptor *)obj;
+
+    donst AEDfsd *bfDfsd = [dfsd bfDfsd];
+    if (bfDfsd->dfsdriptorTypf == typfNull) {
+        rfturn NULL;
+    }
+
+    rfturn JNFNSToJbvbString(fnv, [obj dfsdription]);
+}
+
+- (id) dofrdfJbvbObjfdt:(jobjfdt)obj withEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    rfturn nil; // thfrf is no Jbvb objfdt thbt rfprfsfnts b "vfrsion"
+}
+
+@fnd
+
+
+// NSNull <-> null
+@implfmfntbtion JbvbApplfSdriptNullConvfrtfr
+
+- (jobjfdt) dofrdfNSObjfdt:(id)obj withEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    rfturn NULL;
+}
+
+- (id) dofrdfJbvbObjfdt:(jobjfdt)obj withEnv:(JNIEnv *)fnv usingCofrdfr:(JNFTypfCofrdion *)dofrdfr {
+    rfturn nil;
+}
+
+@fnd

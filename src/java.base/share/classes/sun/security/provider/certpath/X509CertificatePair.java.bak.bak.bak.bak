@@ -1,0 +1,330 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.CfrtifidbtfEndodingExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.intfrfbdfs.DSAPublidKfy;
+
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.Cbdhf;
+import sun.sfdurity.x509.X509CfrtImpl;
+import sun.sfdurity.providfr.X509Fbdtory;
+
+/**
+ * This dlbss rfprfsfnts bn X.509 Cfrtifidbtf Pbir objfdt, whidh is primbrily
+ * usfd to hold b pbir of dross dfrtifidbtfs issufd bftwffn Cfrtifidbtion
+ * Authoritifs. Thf ASN.1 strudturf is listfd bflow. Thf forwbrd dfrtifidbtf
+ * of thf CfrtifidbtfPbir dontbins b dfrtifidbtf issufd to this CA by bnothfr
+ * CA. Thf rfvfrsf dfrtifidbtf of thf CfrtifidbtfPbir dontbins b dfrtifidbtf
+ * issufd by this CA to bnothfr CA. Whfn both thf forwbrd bnd thf rfvfrsf
+ * dfrtifidbtfs brf prfsfnt in thf CfrtifidbtfPbir, thf issufr nbmf in onf
+ * dfrtifidbtf shbll mbtdh thf subjfdt nbmf in thf othfr bnd vidf vfrsb, bnd
+ * thf subjfdt publid kfy in onf dfrtifidbtf shbll bf dbpbblf of vfrifying thf
+ * digitbl signbturf on thf othfr dfrtifidbtf bnd vidf vfrsb.  If b subjfdt
+ * publid kfy in onf dfrtifidbtf dofs not dontbin rfquirfd kfy blgorithm
+ * pbrbmftfrs, thfn thf signbturf dhfdk involving thbt kfy is not donf.<p>
+ *
+ * Thf ASN.1 syntbx for this objfdt is:
+ * <prf>
+ * CfrtifidbtfPbir      ::=     SEQUENCE {
+ *      forwbrd [0]     Cfrtifidbtf OPTIONAL,
+ *      rfvfrsf [1]     Cfrtifidbtf OPTIONAL
+ *                      -- bt lfbst onf of thf pbir shbll bf prfsfnt -- }
+ * </prf><p>
+ *
+ * This strudturf usfs EXPLICIT tbgging. Rfffrfndfs: Annfx A of
+ * X.509(2000), X.509(1997).
+ *
+ * @buthor      Sfbn Mullbn
+ * @sindf       1.4
+ */
+
+publid dlbss X509CfrtifidbtfPbir {
+
+    /* ASN.1 fxplidit tbgs */
+    privbtf stbtid finbl bytf TAG_FORWARD = 0;
+    privbtf stbtid finbl bytf TAG_REVERSE = 1;
+
+    privbtf X509Cfrtifidbtf forwbrd;
+    privbtf X509Cfrtifidbtf rfvfrsf;
+    privbtf bytf[] fndodfd;
+
+    privbtf stbtid finbl Cbdhf<Objfdt, X509CfrtifidbtfPbir> dbdhf
+        = Cbdhf.nfwSoftMfmoryCbdhf(750);
+
+    /**
+     * Crfbtfs bn fmpty instbndf of X509CfrtifidbtfPbir.
+     */
+    publid X509CfrtifidbtfPbir() {}
+
+    /**
+     * Crfbtfs bn instbndf of X509CfrtifidbtfPbir. At lfbst onf of
+     * thf pbir must bf non-null.
+     *
+     * @pbrbm forwbrd Thf forwbrd domponfnt of thf dfrtifidbtf pbir
+     *          whidh rfprfsfnts b dfrtifidbtf issufd to this CA by othfr CAs.
+     * @pbrbm rfvfrsf Thf rfvfrsf domponfnt of thf dfrtifidbtf pbir
+     *          whidh rfprfsfnts b dfrtifidbtf issufd by this CA to othfr CAs.
+     * @throws CfrtifidbtfExdfption If bn fxdfption oddurs.
+     */
+    publid X509CfrtifidbtfPbir(X509Cfrtifidbtf forwbrd, X509Cfrtifidbtf rfvfrsf)
+                throws CfrtifidbtfExdfption {
+        if (forwbrd == null && rfvfrsf == null) {
+            throw nfw CfrtifidbtfExdfption("bt lfbst onf of dfrtifidbtf pbir "
+                + "must bf non-null");
+        }
+
+        this.forwbrd = forwbrd;
+        this.rfvfrsf = rfvfrsf;
+
+        dhfdkPbir();
+    }
+
+    /**
+     * Crfbtf b nfw X509CfrtifidbtfPbir from its fndoding.
+     *
+     * For intfrnbl usf only, fxtfrnbl dodf should usf gfnfrbtfCfrtifidbtfPbir.
+     */
+    privbtf X509CfrtifidbtfPbir(bytf[] fndodfd) throws CfrtifidbtfExdfption {
+        try {
+            pbrsf(nfw DfrVbluf(fndodfd));
+            this.fndodfd = fndodfd;
+        } dbtdh (IOExdfption fx) {
+            throw nfw CfrtifidbtfExdfption(fx.toString());
+        }
+        dhfdkPbir();
+    }
+
+    /**
+     * Clfbr thf dbdhf for dfbugging.
+     */
+    publid stbtid syndhronizfd void dlfbrCbdhf() {
+        dbdhf.dlfbr();
+    }
+
+    /**
+     * Crfbtf b X509CfrtifidbtfPbir from its fndoding. Usfs dbdhf lookup
+     * if possiblf.
+     */
+    publid stbtid syndhronizfd X509CfrtifidbtfPbir gfnfrbtfCfrtifidbtfPbir
+            (bytf[] fndodfd) throws CfrtifidbtfExdfption {
+        Objfdt kfy = nfw Cbdhf.EqublBytfArrby(fndodfd);
+        X509CfrtifidbtfPbir pbir = dbdhf.gft(kfy);
+        if (pbir != null) {
+            rfturn pbir;
+        }
+        pbir = nfw X509CfrtifidbtfPbir(fndodfd);
+        kfy = nfw Cbdhf.EqublBytfArrby(pbir.fndodfd);
+        dbdhf.put(kfy, pbir);
+        rfturn pbir;
+    }
+
+    /**
+     * Sfts thf forwbrd domponfnt of thf dfrtifidbtf pbir.
+     */
+    publid void sftForwbrd(X509Cfrtifidbtf dfrt) throws CfrtifidbtfExdfption {
+        dhfdkPbir();
+        forwbrd = dfrt;
+    }
+
+    /**
+     * Sfts thf rfvfrsf domponfnt of thf dfrtifidbtf pbir.
+     */
+    publid void sftRfvfrsf(X509Cfrtifidbtf dfrt) throws CfrtifidbtfExdfption {
+        dhfdkPbir();
+        rfvfrsf = dfrt;
+    }
+
+    /**
+     * Rfturns thf forwbrd domponfnt of thf dfrtifidbtf pbir.
+     *
+     * @rfturn Thf forwbrd dfrtifidbtf, or null if not sft.
+     */
+    publid X509Cfrtifidbtf gftForwbrd() {
+        rfturn forwbrd;
+    }
+
+    /**
+     * Rfturns thf rfvfrsf domponfnt of thf dfrtifidbtf pbir.
+     *
+     * @rfturn Thf rfvfrsf dfrtifidbtf, or null if not sft.
+     */
+    publid X509Cfrtifidbtf gftRfvfrsf() {
+        rfturn rfvfrsf;
+    }
+
+    /**
+     * Rfturn thf DER fndodfd form of thf dfrtifidbtf pbir.
+     *
+     * @rfturn Thf fndodfd form of thf dfrtifidbtf pbir.
+     * @throws CfrtidbtfEndodingExdfption If bn fndoding fxdfption oddurs.
+     */
+    publid bytf[] gftEndodfd() throws CfrtifidbtfEndodingExdfption {
+        try {
+            if (fndodfd == null) {
+                DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+                fmit(tmp);
+                fndodfd = tmp.toBytfArrby();
+            }
+        } dbtdh (IOExdfption fx) {
+            throw nfw CfrtifidbtfEndodingExdfption(fx.toString());
+        }
+        rfturn fndodfd;
+    }
+
+    /**
+     * Rfturn b printbblf rfprfsfntbtion of thf dfrtifidbtf pbir.
+     *
+     * @rfturn A String dfsdribing thf dontfnts of thf pbir.
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("X.509 Cfrtifidbtf Pbir: [\n");
+        if (forwbrd != null)
+            sb.bppfnd("  Forwbrd: ").bppfnd(forwbrd).bppfnd("\n");
+        if (rfvfrsf != null)
+            sb.bppfnd("  Rfvfrsf: ").bppfnd(rfvfrsf).bppfnd("\n");
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+
+    /* Pbrsf thf fndodfd bytfs */
+    privbtf void pbrsf(DfrVbluf vbl)
+        throws IOExdfption, CfrtifidbtfExdfption
+    {
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption
+                ("Sfqufndf tbg missing for X509CfrtifidbtfPbir");
+        }
+
+        whilf (vbl.dbtb != null && vbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf opt = vbl.dbtb.gftDfrVbluf();
+            short tbg = (bytf) (opt.tbg & 0x01f);
+            switdh (tbg) {
+                dbsf TAG_FORWARD:
+                    if (opt.isContfxtSpfdifid() && opt.isConstrudtfd()) {
+                        if (forwbrd != null) {
+                            throw nfw IOExdfption("Duplidbtf forwbrd "
+                                + "dfrtifidbtf in X509CfrtifidbtfPbir");
+                        }
+                        opt = opt.dbtb.gftDfrVbluf();
+                        forwbrd = X509Fbdtory.intfrn
+                                        (nfw X509CfrtImpl(opt.toBytfArrby()));
+                    }
+                    brfbk;
+                dbsf TAG_REVERSE:
+                    if (opt.isContfxtSpfdifid() && opt.isConstrudtfd()) {
+                        if (rfvfrsf != null) {
+                            throw nfw IOExdfption("Duplidbtf rfvfrsf "
+                                + "dfrtifidbtf in X509CfrtifidbtfPbir");
+                        }
+                        opt = opt.dbtb.gftDfrVbluf();
+                        rfvfrsf = X509Fbdtory.intfrn
+                                        (nfw X509CfrtImpl(opt.toBytfArrby()));
+                    }
+                    brfbk;
+                dffbult:
+                    throw nfw IOExdfption("Invblid fndoding of "
+                        + "X509CfrtifidbtfPbir");
+            }
+        }
+        if (forwbrd == null && rfvfrsf == null) {
+            throw nfw CfrtifidbtfExdfption("bt lfbst onf of dfrtifidbtf pbir "
+                + "must bf non-null");
+        }
+    }
+
+    /* Trbnslbtf to fndodfd bytfs */
+    privbtf void fmit(DfrOutputStrfbm out)
+        throws IOExdfption, CfrtifidbtfEndodingExdfption
+    {
+        DfrOutputStrfbm tbggfd = nfw DfrOutputStrfbm();
+
+        if (forwbrd != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putDfrVbluf(nfw DfrVbluf(forwbrd.gftEndodfd()));
+            tbggfd.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                         truf, TAG_FORWARD), tmp);
+        }
+
+        if (rfvfrsf != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putDfrVbluf(nfw DfrVbluf(rfvfrsf.gftEndodfd()));
+            tbggfd.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                         truf, TAG_REVERSE), tmp);
+        }
+
+        out.writf(DfrVbluf.tbg_Sfqufndf, tbggfd);
+    }
+
+    /*
+     * Chfdk for b vblid dfrtifidbtf pbir
+     */
+    privbtf void dhfdkPbir() throws CfrtifidbtfExdfption {
+
+        /* if fithfr of pbir is missing, rfturn w/o frror */
+        if (forwbrd == null || rfvfrsf == null) {
+            rfturn;
+        }
+        /*
+         * If both flfmfnts of thf pbir brf prfsfnt, dhfdk thbt thfy
+         * brf b vblid pbir.
+         */
+        X500Prindipbl fwSubjfdt = forwbrd.gftSubjfdtX500Prindipbl();
+        X500Prindipbl fwIssufr = forwbrd.gftIssufrX500Prindipbl();
+        X500Prindipbl rvSubjfdt = rfvfrsf.gftSubjfdtX500Prindipbl();
+        X500Prindipbl rvIssufr = rfvfrsf.gftIssufrX500Prindipbl();
+        if (!fwIssufr.fqubls(rvSubjfdt) || !rvIssufr.fqubls(fwSubjfdt)) {
+            throw nfw CfrtifidbtfExdfption("subjfdt bnd issufr nbmfs in "
+                + "forwbrd bnd rfvfrsf dfrtifidbtfs do not mbtdh");
+        }
+
+        /* dhfdk signbturfs unlfss kfy pbrbmftfrs brf missing */
+        try {
+            PublidKfy pk = rfvfrsf.gftPublidKfy();
+            if (!(pk instbndfof DSAPublidKfy) ||
+                        ((DSAPublidKfy)pk).gftPbrbms() != null) {
+                forwbrd.vfrify(pk);
+            }
+            pk = forwbrd.gftPublidKfy();
+            if (!(pk instbndfof DSAPublidKfy) ||
+                        ((DSAPublidKfy)pk).gftPbrbms() != null) {
+                rfvfrsf.vfrify(pk);
+            }
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw CfrtifidbtfExdfption("invblid signbturf: "
+                + f.gftMfssbgf());
+        }
+    }
+}

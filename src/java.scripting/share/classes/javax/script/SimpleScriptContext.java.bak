@@ -1,324 +1,324 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.script;
+pbdkbgf jbvbx.sdript;
 
-import java.util.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.io.*;
 
 /**
- * Simple implementation of ScriptContext.
+ * Simplf implfmfntbtion of SdriptContfxt.
  *
- * @author Mike Grogan
- * @since 1.6
+ * @butior Mikf Grogbn
+ * @sindf 1.6
  */
-public class SimpleScriptContext  implements ScriptContext {
+publid dlbss SimplfSdriptContfxt  implfmfnts SdriptContfxt {
 
     /**
-     * This is the writer to be used to output from scripts.
-     * By default, a <code>PrintWriter</code> based on <code>System.out</code>
-     * is used. Accessor methods getWriter, setWriter are used to manage
-     * this field.
-     * @see java.lang.System#out
-     * @see java.io.PrintWriter
+     * Tiis is tif writfr to bf usfd to output from sdripts.
+     * By dffbult, b <dodf>PrintWritfr</dodf> bbsfd on <dodf>Systfm.out</dodf>
+     * is usfd. Addfssor mftiods gftWritfr, sftWritfr brf usfd to mbnbgf
+     * tiis fifld.
+     * @sff jbvb.lbng.Systfm#out
+     * @sff jbvb.io.PrintWritfr
      */
-    protected Writer writer;
+    protfdtfd Writfr writfr;
 
     /**
-     * This is the writer to be used to output errors from scripts.
-     * By default, a <code>PrintWriter</code> based on <code>System.err</code> is
-     * used. Accessor methods getErrorWriter, setErrorWriter are used to manage
-     * this field.
-     * @see java.lang.System#err
-     * @see java.io.PrintWriter
+     * Tiis is tif writfr to bf usfd to output frrors from sdripts.
+     * By dffbult, b <dodf>PrintWritfr</dodf> bbsfd on <dodf>Systfm.frr</dodf> is
+     * usfd. Addfssor mftiods gftErrorWritfr, sftErrorWritfr brf usfd to mbnbgf
+     * tiis fifld.
+     * @sff jbvb.lbng.Systfm#frr
+     * @sff jbvb.io.PrintWritfr
      */
-    protected Writer errorWriter;
+    protfdtfd Writfr frrorWritfr;
 
     /**
-     * This is the reader to be used for input from scripts.
-     * By default, a <code>InputStreamReader</code> based on <code>System.in</code>
-     * is used and default charset is used by this reader. Accessor methods
-     * getReader, setReader are used to manage this field.
-     * @see java.lang.System#in
-     * @see java.io.InputStreamReader
+     * Tiis is tif rfbdfr to bf usfd for input from sdripts.
+     * By dffbult, b <dodf>InputStrfbmRfbdfr</dodf> bbsfd on <dodf>Systfm.in</dodf>
+     * is usfd bnd dffbult dibrsft is usfd by tiis rfbdfr. Addfssor mftiods
+     * gftRfbdfr, sftRfbdfr brf usfd to mbnbgf tiis fifld.
+     * @sff jbvb.lbng.Systfm#in
+     * @sff jbvb.io.InputStrfbmRfbdfr
      */
-    protected Reader reader;
+    protfdtfd Rfbdfr rfbdfr;
 
 
     /**
-     * This is the engine scope bindings.
-     * By default, a <code>SimpleBindings</code> is used. Accessor
-     * methods setBindings, getBindings are used to manage this field.
-     * @see SimpleBindings
+     * Tiis is tif fnginf sdopf bindings.
+     * By dffbult, b <dodf>SimplfBindings</dodf> is usfd. Addfssor
+     * mftiods sftBindings, gftBindings brf usfd to mbnbgf tiis fifld.
+     * @sff SimplfBindings
      */
-    protected Bindings engineScope;
+    protfdtfd Bindings fnginfSdopf;
 
     /**
-     * This is the global scope bindings.
-     * By default, a null value (which means no global scope) is used. Accessor
-     * methods setBindings, getBindings are used to manage this field.
+     * Tiis is tif globbl sdopf bindings.
+     * By dffbult, b null vbluf (wiidi mfbns no globbl sdopf) is usfd. Addfssor
+     * mftiods sftBindings, gftBindings brf usfd to mbnbgf tiis fifld.
      */
-    protected Bindings globalScope;
+    protfdtfd Bindings globblSdopf;
 
     /**
-     * Create a {@code SimpleScriptContext}.
+     * Crfbtf b {@dodf SimplfSdriptContfxt}.
      */
-    public SimpleScriptContext() {
-        engineScope = new SimpleBindings();
-        globalScope = null;
-        reader = new InputStreamReader(System.in);
-        writer = new PrintWriter(System.out , true);
-        errorWriter = new PrintWriter(System.err, true);
+    publid SimplfSdriptContfxt() {
+        fnginfSdopf = nfw SimplfBindings();
+        globblSdopf = null;
+        rfbdfr = nfw InputStrfbmRfbdfr(Systfm.in);
+        writfr = nfw PrintWritfr(Systfm.out , truf);
+        frrorWritfr = nfw PrintWritfr(Systfm.frr, truf);
     }
 
     /**
-     * Sets a <code>Bindings</code> of attributes for the given scope.  If the value
-     * of scope is <code>ENGINE_SCOPE</code> the given <code>Bindings</code> replaces the
-     * <code>engineScope</code> field.  If the value
-     * of scope is <code>GLOBAL_SCOPE</code> the given <code>Bindings</code> replaces the
-     * <code>globalScope</code> field.
+     * Sfts b <dodf>Bindings</dodf> of bttributfs for tif givfn sdopf.  If tif vbluf
+     * of sdopf is <dodf>ENGINE_SCOPE</dodf> tif givfn <dodf>Bindings</dodf> rfplbdfs tif
+     * <dodf>fnginfSdopf</dodf> fifld.  If tif vbluf
+     * of sdopf is <dodf>GLOBAL_SCOPE</dodf> tif givfn <dodf>Bindings</dodf> rfplbdfs tif
+     * <dodf>globblSdopf</dodf> fifld.
      *
-     * @param bindings The <code>Bindings</code> of attributes to set.
-     * @param scope The value of the scope in which the attributes are set.
+     * @pbrbm bindings Tif <dodf>Bindings</dodf> of bttributfs to sft.
+     * @pbrbm sdopf Tif vbluf of tif sdopf in wiidi tif bttributfs brf sft.
      *
-     * @throws IllegalArgumentException if scope is invalid.
-     * @throws NullPointerException if the value of scope is <code>ENGINE_SCOPE</code> and
-     * the specified <code>Bindings</code> is null.
+     * @tirows IllfgblArgumfntExdfption if sdopf is invblid.
+     * @tirows NullPointfrExdfption if tif vbluf of sdopf is <dodf>ENGINE_SCOPE</dodf> bnd
+     * tif spfdififd <dodf>Bindings</dodf> is null.
      */
-    public void setBindings(Bindings bindings, int scope) {
+    publid void sftBindings(Bindings bindings, int sdopf) {
 
-        switch (scope) {
+        switdi (sdopf) {
 
-            case ENGINE_SCOPE:
+            dbsf ENGINE_SCOPE:
                 if (bindings == null) {
-                    throw new NullPointerException("Engine scope cannot be null.");
+                    tirow nfw NullPointfrExdfption("Enginf sdopf dbnnot bf null.");
                 }
-                engineScope = bindings;
-                break;
-            case GLOBAL_SCOPE:
-                globalScope = bindings;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid scope value.");
+                fnginfSdopf = bindings;
+                brfbk;
+            dbsf GLOBAL_SCOPE:
+                globblSdopf = bindings;
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Invblid sdopf vbluf.");
         }
     }
 
 
     /**
-     * Retrieves the value of the attribute with the given name in
-     * the scope occurring earliest in the search order.  The order
-     * is determined by the numeric value of the scope parameter (lowest
-     * scope values first.)
+     * Rftrifvfs tif vbluf of tif bttributf witi tif givfn nbmf in
+     * tif sdopf oddurring fbrlifst in tif sfbrdi ordfr.  Tif ordfr
+     * is dftfrminfd by tif numfrid vbluf of tif sdopf pbrbmftfr (lowfst
+     * sdopf vblufs first.)
      *
-     * @param name The name of the the attribute to retrieve.
-     * @return The value of the attribute in the lowest scope for
-     * which an attribute with the given name is defined.  Returns
-     * null if no attribute with the name exists in any scope.
-     * @throws NullPointerException if the name is null.
-     * @throws IllegalArgumentException if the name is empty.
+     * @pbrbm nbmf Tif nbmf of tif tif bttributf to rftrifvf.
+     * @rfturn Tif vbluf of tif bttributf in tif lowfst sdopf for
+     * wiidi bn bttributf witi tif givfn nbmf is dffinfd.  Rfturns
+     * null if no bttributf witi tif nbmf fxists in bny sdopf.
+     * @tirows NullPointfrExdfption if tif nbmf is null.
+     * @tirows IllfgblArgumfntExdfption if tif nbmf is fmpty.
      */
-    public Object getAttribute(String name) {
-        if (engineScope.containsKey(name)) {
-            return getAttribute(name, ENGINE_SCOPE);
-        } else if (globalScope != null && globalScope.containsKey(name)) {
-            return getAttribute(name, GLOBAL_SCOPE);
+    publid Objfdt gftAttributf(String nbmf) {
+        if (fnginfSdopf.dontbinsKfy(nbmf)) {
+            rfturn gftAttributf(nbmf, ENGINE_SCOPE);
+        } flsf if (globblSdopf != null && globblSdopf.dontbinsKfy(nbmf)) {
+            rfturn gftAttributf(nbmf, GLOBAL_SCOPE);
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Gets the value of an attribute in a given scope.
+     * Gfts tif vbluf of bn bttributf in b givfn sdopf.
      *
-     * @param name The name of the attribute to retrieve.
-     * @param scope The scope in which to retrieve the attribute.
-     * @return The value of the attribute. Returns <code>null</code> is the name
-     * does not exist in the given scope.
+     * @pbrbm nbmf Tif nbmf of tif bttributf to rftrifvf.
+     * @pbrbm sdopf Tif sdopf in wiidi to rftrifvf tif bttributf.
+     * @rfturn Tif vbluf of tif bttributf. Rfturns <dodf>null</dodf> is tif nbmf
+     * dofs not fxist in tif givfn sdopf.
      *
-     * @throws IllegalArgumentException
-     *         if the name is empty or if the value of scope is invalid.
-     * @throws NullPointerException if the name is null.
+     * @tirows IllfgblArgumfntExdfption
+     *         if tif nbmf is fmpty or if tif vbluf of sdopf is invblid.
+     * @tirows NullPointfrExdfption if tif nbmf is null.
      */
-    public Object getAttribute(String name, int scope) {
+    publid Objfdt gftAttributf(String nbmf, int sdopf) {
 
-        switch (scope) {
+        switdi (sdopf) {
 
-            case ENGINE_SCOPE:
-                return engineScope.get(name);
+            dbsf ENGINE_SCOPE:
+                rfturn fnginfSdopf.gft(nbmf);
 
-            case GLOBAL_SCOPE:
-                if (globalScope != null) {
-                    return globalScope.get(name);
+            dbsf GLOBAL_SCOPE:
+                if (globblSdopf != null) {
+                    rfturn globblSdopf.gft(nbmf);
                 }
-                return null;
+                rfturn null;
 
-            default:
-                throw new IllegalArgumentException("Illegal scope value.");
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Illfgbl sdopf vbluf.");
         }
     }
 
     /**
-     * Remove an attribute in a given scope.
+     * Rfmovf bn bttributf in b givfn sdopf.
      *
-     * @param name The name of the attribute to remove
-     * @param scope The scope in which to remove the attribute
+     * @pbrbm nbmf Tif nbmf of tif bttributf to rfmovf
+     * @pbrbm sdopf Tif sdopf in wiidi to rfmovf tif bttributf
      *
-     * @return The removed value.
-     * @throws IllegalArgumentException
-     *         if the name is empty or if the scope is invalid.
-     * @throws NullPointerException if the name is null.
+     * @rfturn Tif rfmovfd vbluf.
+     * @tirows IllfgblArgumfntExdfption
+     *         if tif nbmf is fmpty or if tif sdopf is invblid.
+     * @tirows NullPointfrExdfption if tif nbmf is null.
      */
-    public Object removeAttribute(String name, int scope) {
+    publid Objfdt rfmovfAttributf(String nbmf, int sdopf) {
 
-        switch (scope) {
+        switdi (sdopf) {
 
-            case ENGINE_SCOPE:
-                if (getBindings(ENGINE_SCOPE) != null) {
-                    return getBindings(ENGINE_SCOPE).remove(name);
+            dbsf ENGINE_SCOPE:
+                if (gftBindings(ENGINE_SCOPE) != null) {
+                    rfturn gftBindings(ENGINE_SCOPE).rfmovf(nbmf);
                 }
-                return null;
+                rfturn null;
 
-            case GLOBAL_SCOPE:
-                if (getBindings(GLOBAL_SCOPE) != null) {
-                    return getBindings(GLOBAL_SCOPE).remove(name);
+            dbsf GLOBAL_SCOPE:
+                if (gftBindings(GLOBAL_SCOPE) != null) {
+                    rfturn gftBindings(GLOBAL_SCOPE).rfmovf(nbmf);
                 }
-                return null;
+                rfturn null;
 
-            default:
-                throw new IllegalArgumentException("Illegal scope value.");
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Illfgbl sdopf vbluf.");
         }
     }
 
     /**
-     * Sets the value of an attribute in a given scope.
+     * Sfts tif vbluf of bn bttributf in b givfn sdopf.
      *
-     * @param name The name of the attribute to set
-     * @param value The value of the attribute
-     * @param scope The scope in which to set the attribute
+     * @pbrbm nbmf Tif nbmf of tif bttributf to sft
+     * @pbrbm vbluf Tif vbluf of tif bttributf
+     * @pbrbm sdopf Tif sdopf in wiidi to sft tif bttributf
      *
-     * @throws IllegalArgumentException
-     *         if the name is empty or if the scope is invalid.
-     * @throws NullPointerException if the name is null.
+     * @tirows IllfgblArgumfntExdfption
+     *         if tif nbmf is fmpty or if tif sdopf is invblid.
+     * @tirows NullPointfrExdfption if tif nbmf is null.
      */
-    public void setAttribute(String name, Object value, int scope) {
+    publid void sftAttributf(String nbmf, Objfdt vbluf, int sdopf) {
 
-        switch (scope) {
+        switdi (sdopf) {
 
-            case ENGINE_SCOPE:
-                engineScope.put(name, value);
-                return;
+            dbsf ENGINE_SCOPE:
+                fnginfSdopf.put(nbmf, vbluf);
+                rfturn;
 
-            case GLOBAL_SCOPE:
-                if (globalScope != null) {
-                    globalScope.put(name, value);
+            dbsf GLOBAL_SCOPE:
+                if (globblSdopf != null) {
+                    globblSdopf.put(nbmf, vbluf);
                 }
-                return;
+                rfturn;
 
-            default:
-                throw new IllegalArgumentException("Illegal scope value.");
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Illfgbl sdopf vbluf.");
         }
     }
 
-    /** {@inheritDoc} */
-    public Writer getWriter() {
-        return writer;
+    /** {@inifritDod} */
+    publid Writfr gftWritfr() {
+        rfturn writfr;
     }
 
-    /** {@inheritDoc} */
-    public Reader getReader() {
-        return reader;
+    /** {@inifritDod} */
+    publid Rfbdfr gftRfbdfr() {
+        rfturn rfbdfr;
     }
 
-    /** {@inheritDoc} */
-    public void setReader(Reader reader) {
-        this.reader = reader;
+    /** {@inifritDod} */
+    publid void sftRfbdfr(Rfbdfr rfbdfr) {
+        tiis.rfbdfr = rfbdfr;
     }
 
-    /** {@inheritDoc} */
-    public void setWriter(Writer writer) {
-        this.writer = writer;
+    /** {@inifritDod} */
+    publid void sftWritfr(Writfr writfr) {
+        tiis.writfr = writfr;
     }
 
-    /** {@inheritDoc} */
-    public Writer getErrorWriter() {
-        return errorWriter;
+    /** {@inifritDod} */
+    publid Writfr gftErrorWritfr() {
+        rfturn frrorWritfr;
     }
 
-    /** {@inheritDoc} */
-    public void setErrorWriter(Writer writer) {
-        this.errorWriter = writer;
+    /** {@inifritDod} */
+    publid void sftErrorWritfr(Writfr writfr) {
+        tiis.frrorWritfr = writfr;
     }
 
     /**
-     * Get the lowest scope in which an attribute is defined.
-     * @param name Name of the attribute
+     * Gft tif lowfst sdopf in wiidi bn bttributf is dffinfd.
+     * @pbrbm nbmf Nbmf of tif bttributf
      * .
-     * @return The lowest scope.  Returns -1 if no attribute with the given
-     * name is defined in any scope.
-     * @throws NullPointerException if name is null.
-     * @throws IllegalArgumentException if name is empty.
+     * @rfturn Tif lowfst sdopf.  Rfturns -1 if no bttributf witi tif givfn
+     * nbmf is dffinfd in bny sdopf.
+     * @tirows NullPointfrExdfption if nbmf is null.
+     * @tirows IllfgblArgumfntExdfption if nbmf is fmpty.
      */
-    public int getAttributesScope(String name) {
-        if (engineScope.containsKey(name)) {
-            return ENGINE_SCOPE;
-        } else if (globalScope != null && globalScope.containsKey(name)) {
-            return GLOBAL_SCOPE;
-        } else {
-            return -1;
+    publid int gftAttributfsSdopf(String nbmf) {
+        if (fnginfSdopf.dontbinsKfy(nbmf)) {
+            rfturn ENGINE_SCOPE;
+        } flsf if (globblSdopf != null && globblSdopf.dontbinsKfy(nbmf)) {
+            rfturn GLOBAL_SCOPE;
+        } flsf {
+            rfturn -1;
         }
     }
 
     /**
-     * Returns the value of the <code>engineScope</code> field if specified scope is
-     * <code>ENGINE_SCOPE</code>.  Returns the value of the <code>globalScope</code> field if the specified scope is
-     * <code>GLOBAL_SCOPE</code>.
+     * Rfturns tif vbluf of tif <dodf>fnginfSdopf</dodf> fifld if spfdififd sdopf is
+     * <dodf>ENGINE_SCOPE</dodf>.  Rfturns tif vbluf of tif <dodf>globblSdopf</dodf> fifld if tif spfdififd sdopf is
+     * <dodf>GLOBAL_SCOPE</dodf>.
      *
-     * @param scope The specified scope
-     * @return The value of either the  <code>engineScope</code> or <code>globalScope</code> field.
-     * @throws IllegalArgumentException if the value of scope is invalid.
+     * @pbrbm sdopf Tif spfdififd sdopf
+     * @rfturn Tif vbluf of fitifr tif  <dodf>fnginfSdopf</dodf> or <dodf>globblSdopf</dodf> fifld.
+     * @tirows IllfgblArgumfntExdfption if tif vbluf of sdopf is invblid.
      */
-    public Bindings getBindings(int scope) {
-        if (scope == ENGINE_SCOPE) {
-            return engineScope;
-        } else if (scope == GLOBAL_SCOPE) {
-            return globalScope;
-        } else {
-            throw new IllegalArgumentException("Illegal scope value.");
+    publid Bindings gftBindings(int sdopf) {
+        if (sdopf == ENGINE_SCOPE) {
+            rfturn fnginfSdopf;
+        } flsf if (sdopf == GLOBAL_SCOPE) {
+            rfturn globblSdopf;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl sdopf vbluf.");
         }
     }
 
-    /** {@inheritDoc} */
-    public List<Integer> getScopes() {
-        return scopes;
+    /** {@inifritDod} */
+    publid List<Intfgfr> gftSdopfs() {
+        rfturn sdopfs;
     }
 
-    private static List<Integer> scopes;
-    static {
-        scopes = new ArrayList<Integer>(2);
-        scopes.add(ENGINE_SCOPE);
-        scopes.add(GLOBAL_SCOPE);
-        scopes = Collections.unmodifiableList(scopes);
+    privbtf stbtid List<Intfgfr> sdopfs;
+    stbtid {
+        sdopfs = nfw ArrbyList<Intfgfr>(2);
+        sdopfs.bdd(ENGINE_SCOPE);
+        sdopfs.bdd(GLOBAL_SCOPE);
+        sdopfs = Collfdtions.unmodifibblfList(sdopfs);
     }
 }
